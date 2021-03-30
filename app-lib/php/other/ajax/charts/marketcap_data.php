@@ -3,7 +3,7 @@
  * Copyright 2014-2021 GPLv3, Open Crypto Portfolio Tracker by Mike Kilday: http://DragonFrugal.com
  */
 
-foreach ( $app_config['portfolio_assets'] as $key => $unused ) {
+foreach ( $ocpt_conf['assets'] as $key => $unused ) {
 
 // Consolidate function calls for runtime speed improvement
 $marketcap_data = marketcap_data($key, 'usd'); // For marketcap bar chart, we ALWAYS force using USD
@@ -11,14 +11,14 @@ $marketcap_data = marketcap_data($key, 'usd'); // For marketcap bar chart, we AL
 //var_dump($marketcap_data);
 		
 	if ( $_GET['marketcap_type'] == 'circulating' && $marketcap_data['market_cap'] ) {
-	$runtime_data['marketcap_data'][$key] = $pt_vars->rem_num_format($marketcap_data['market_cap']);
+	$runtime_data['marketcap_data'][$key] = $ocpt_var->rem_num_format($marketcap_data['market_cap']);
 	}
 	elseif ( $_GET['marketcap_type'] == 'total' && $marketcap_data['market_cap_total'] ) {
-	$runtime_data['marketcap_data'][$key] = ( $pt_vars->rem_num_format($marketcap_data['market_cap_total']) ); 
+	$runtime_data['marketcap_data'][$key] = ( $ocpt_var->rem_num_format($marketcap_data['market_cap_total']) ); 
 	}
 	// If circulating / total are same
 	elseif ( $_GET['marketcap_type'] == 'total' && $marketcap_data['market_cap'] ) {
-	$runtime_data['marketcap_data'][$key] = ( $pt_vars->rem_num_format($marketcap_data['market_cap']) ); 
+	$runtime_data['marketcap_data'][$key] = ( $ocpt_var->rem_num_format($marketcap_data['market_cap']) ); 
 	}
 
 }
@@ -98,7 +98,7 @@ exit;
 $loop = 0;
 foreach ( $runtime_data['marketcap_data'] as $marketcap_key => $marketcap_value ) {
   			
-$marketcap_value = $pt_vars->rem_num_format($marketcap_value);
+$marketcap_value = $ocpt_var->rem_num_format($marketcap_value);
 
 	// If percent value matches, and another (increasing) number to the end, to avoid overwriting keys (this data is only used as an array key anyway)
 	if ( !array_key_exists($marketcap_value, $sorted_by_marketcap_data) ) {
@@ -151,7 +151,7 @@ $plot_config = explode('|', $_GET['plot_config']);
 		
 			
 
-header('Content-type: text/html; charset=' . $app_config['developer']['charset_default']);
+header('Content-type: text/html; charset=' . $ocpt_conf['developer']['charset_default']);
 		
 			?>
 			

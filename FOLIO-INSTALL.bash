@@ -190,16 +190,29 @@ echo " "
 echo "You will need to manually move any CUSTOMIZED DEFAULT settings in this backup file to the NEW config.php file with a text editor,"
 echo "otherwise you can just ignore or delete this backup file."
 echo " "
+
+echo "VERY IMPORTANT UPGRADE NOTES:"
+echo " "
+
+echo "v4.27.0 and higher of this app RESETS ALL PLUGIN CACHES (A DIRECTORY STRUCTURE UPGRADE), "
+echo "SO ANY PLUGIN ALERTS / TRACKING WILL BE RESET. THE !FIRST! PLUGIN RUNTIMES AFTER UPGRADING"
+echo "WILL AUTOMATICALLY PREFORM THE RESET (ALERTS / TRACKING WILL BE ACCURATE AFTERWARDS)."
+echo " "
+
+echo "v4.30.0 and higher of this app HAS COMPLETELY REFACTORED CONFIGURATION VARIABLE NAMES,"
+echo "SO YOU'LL NEED TO MIGRATE ANY CUSTOM CONFIGS OVER TO THE PROPER NAMES WHERE APPLICABLE!"
+echo " "
+
 fi
   				
 
-echo "IMPORTANT SECURITY NOTES:"
+echo "VERY IMPORTANT SECURITY NOTES:"
 echo "YOU WILL BE PROMPTED TO CREATE AN ADMIN LOGIN (FOR SECURITY OF THE ADMIN AREA),"
 echo "#WHEN YOU FIRST RUN THIS APP AFTER INSTALLATION#. IT'S #HIGHLY RECOMMENDED TO DO THIS IMMEDIATELY#,"
 echo "ESPECIALLY ON PUBLIC FACING / KNOWN SERVERS, #OR SOMEBODY ELSE MAY BEAT YOU TO IT#."
 echo " "
 
-echo "!!IMPORTANT INSTALL NOTICE!!: This auto-install script is ONLY FOR SELF-HOSTED ENVIRONMENTS, THAT #DO NOT#"
+echo "!!VERY IMPORTANT INSTALL NOTICE!!: This auto-install script is ONLY FOR SELF-HOSTED ENVIRONMENTS, THAT #DO NOT#"
 echo "ALREADY HAVE A WEB SERVER OR CONTROL PANEL INSTALLED ON THE SYSTEM. If this is a managed hosting"
 echo "environment that a service provider has already provisioned, please quit this auto-install session,"
 echo "and refer to the \"Manual Install\" section of the README.txt file documentation."
@@ -813,55 +826,60 @@ select opt in $OPTIONS; do
 				
   				# Delete old directory / file structures (overhauled in v4.06.0 higher), for a clean upgrade
   				# Directories
-  				rm -rf $DOC_ROOT/app-lib
-  				rm -rf $DOC_ROOT/backups
-  				rm -rf $DOC_ROOT/cache/apis
-  				rm -rf $DOC_ROOT/cache/charts/spot_price_24hr_volume/lite/1_day
-  				rm -rf $DOC_ROOT/cache/charts/spot_price_24hr_volume/lite/3_day
-  				rm -rf $DOC_ROOT/cache/charts/spot_price_24hr_volume/lite/7_day
-  				rm -rf $DOC_ROOT/cache/charts/spot_price_24hr_volume/lite/30_day
-  				rm -rf $DOC_ROOT/cache/charts/spot_price_24hr_volume/lite/90_day
-  				rm -rf $DOC_ROOT/cache/charts/spot_price_24hr_volume/lite/180_day
-  				rm -rf $DOC_ROOT/cache/charts/spot_price_24hr_volume/lite/365_day
-  				rm -rf $DOC_ROOT/cache/charts/spot_price_24hr_volume/lite/730_day
-  				rm -rf $DOC_ROOT/cache/charts/spot_price_24hr_volume/lite/1460_day
-  				rm -rf $DOC_ROOT/cache/charts/spot_price_24hr_volume/lite/all_day
-  				rm -rf $DOC_ROOT/cache/charts/spot_price_24hr_volume/lite/1_week
-  				rm -rf $DOC_ROOT/cache/charts/spot_price_24hr_volume/lite/1_month
-  				rm -rf $DOC_ROOT/cache/charts/spot_price_24hr_volume/lite/3_months
-  				rm -rf $DOC_ROOT/cache/charts/spot_price_24hr_volume/lite/6_months
-  				rm -rf $DOC_ROOT/cache/charts/spot_price_24hr_volume/lite/1_year
-  				rm -rf $DOC_ROOT/cache/charts/spot_price_24hr_volume/lite/2_years
-  				rm -rf $DOC_ROOT/cache/charts/spot_price_24hr_volume/lite/4_years
-  				rm -rf $DOC_ROOT/cache/charts/spot_price_24hr_volume/lite/all
-  				rm -rf $DOC_ROOT/cache/logs/debugging/api
-  				rm -rf $DOC_ROOT/cache/logs/errors/api
-  				rm -rf $DOC_ROOT/cache/queue
-  				rm -rf $DOC_ROOT/cache/rest-api
-  				rm -rf $DOC_ROOT/cache/secured/apis
-  				rm -rf $DOC_ROOT/misc-docs-etc
-  				rm -rf $DOC_ROOT/templates
-  				rm -rf $DOC_ROOT/ui-templates
-  				rm -rf $DOC_ROOT/cron-plugins
+  				rm -rf $DOC_ROOT/app-lib > /dev/null 2>&1
+  				rm -rf $DOC_ROOT/backups > /dev/null 2>&1
+  				rm -rf $DOC_ROOT/cache/apis > /dev/null 2>&1
+  				rm -rf $DOC_ROOT/cache/charts/spot_price_24hr_volume/lite/1_day > /dev/null 2>&1
+  				rm -rf $DOC_ROOT/cache/charts/spot_price_24hr_volume/lite/3_day > /dev/null 2>&1
+  				rm -rf $DOC_ROOT/cache/charts/spot_price_24hr_volume/lite/7_day > /dev/null 2>&1
+  				rm -rf $DOC_ROOT/cache/charts/spot_price_24hr_volume/lite/30_day > /dev/null 2>&1
+  				rm -rf $DOC_ROOT/cache/charts/spot_price_24hr_volume/lite/90_day > /dev/null 2>&1
+  				rm -rf $DOC_ROOT/cache/charts/spot_price_24hr_volume/lite/180_day > /dev/null 2>&1
+  				rm -rf $DOC_ROOT/cache/charts/spot_price_24hr_volume/lite/365_day > /dev/null 2>&1
+  				rm -rf $DOC_ROOT/cache/charts/spot_price_24hr_volume/lite/730_day > /dev/null 2>&1
+  				rm -rf $DOC_ROOT/cache/charts/spot_price_24hr_volume/lite/1460_day > /dev/null 2>&1
+  				rm -rf $DOC_ROOT/cache/charts/spot_price_24hr_volume/lite/all_day > /dev/null 2>&1
+  				rm -rf $DOC_ROOT/cache/charts/spot_price_24hr_volume/lite/1_week > /dev/null 2>&1
+  				rm -rf $DOC_ROOT/cache/charts/spot_price_24hr_volume/lite/1_month > /dev/null 2>&1
+  				rm -rf $DOC_ROOT/cache/charts/spot_price_24hr_volume/lite/3_months > /dev/null 2>&1
+  				rm -rf $DOC_ROOT/cache/charts/spot_price_24hr_volume/lite/6_months > /dev/null 2>&1
+  				rm -rf $DOC_ROOT/cache/charts/spot_price_24hr_volume/lite/1_year > /dev/null 2>&1
+  				rm -rf $DOC_ROOT/cache/charts/spot_price_24hr_volume/lite/2_years > /dev/null 2>&1
+  				rm -rf $DOC_ROOT/cache/charts/spot_price_24hr_volume/lite/4_years > /dev/null 2>&1
+  				rm -rf $DOC_ROOT/cache/charts/spot_price_24hr_volume/lite/all > /dev/null 2>&1
+  				rm -rf $DOC_ROOT/cache/logs/debugging/api > /dev/null 2>&1
+  				rm -rf $DOC_ROOT/cache/logs/errors/api > /dev/null 2>&1
+  				rm -rf $DOC_ROOT/cache/queue > /dev/null 2>&1
+  				rm -rf $DOC_ROOT/cache/rest-api > /dev/null 2>&1
+  				rm -rf $DOC_ROOT/cache/secured/apis > /dev/null 2>&1
+  				rm -rf $DOC_ROOT/misc-docs-etc > /dev/null 2>&1
+  				rm -rf $DOC_ROOT/templates > /dev/null 2>&1
+  				rm -rf $DOC_ROOT/ui-templates > /dev/null 2>&1
+  				rm -rf $DOC_ROOT/cron-plugins > /dev/null 2>&1
 
 				sleep 3
 				
   				# Files
-				rm $DOC_ROOT/DOCUMENTATION-ETC/CONFIG.EXAMPLE.txt # (Renamed /DOCUMENTATION-ETC/CONFIG-EXAMPLE.txt)
-				rm $DOC_ROOT/DOCUMENTATION-ETC/CRON_PLUGINS_README.txt # (Renamed /DOCUMENTATION-ETC/CRON-PLUGINS-README.txt)
-				rm $DOC_ROOT/DOCUMENTATION-ETC/CRON-PLUGINS-README.txt # (Renamed /DOCUMENTATION-ETC/PLUGINS-README.txt)
-				rm $DOC_ROOT/DOCUMENTATION-ETC/RASPBERRY-PI-HEADLESS-WIFI-SSH.txt # (moved to /DOCUMENTATION-ETC/RASPBERRY-PI/)
-				rm $DOC_ROOT/DOCUMENTATION-ETC/RASPBERRY-PI-SECURITY.txt # (moved to /DOCUMENTATION-ETC/RASPBERRY-PI/)
-				rm $DOC_ROOT/CONFIG.EXAMPLE.txt
-				rm $DOC_ROOT/HELP-FAQ.txt
-				rm $DOC_ROOT/cache/vars/app_config_md5.dat
-				rm $DOC_ROOT/PORTFOLIO-IMPORT-EXAMPLE-SPREADSHEET.csv
-				rm $DOC_ROOT/oauth.php
-				rm $DOC_ROOT/webhook.php
-				rm $DOC_ROOT/rest-api.php
-				rm $DOC_ROOT/logs.php
-				rm $DOC_ROOT/.htaccess # Force-resets script timeout from config.php (automatically / dynamically re-created by app)
-				rm $DOC_ROOT/.user.ini # Force-resets script timeout from config.php (automatically / dynamically re-created by app)
+				rm $DOC_ROOT/DOCUMENTATION-ETC/CONFIG.EXAMPLE.txt > /dev/null 2>&1
+				rm $DOC_ROOT/DOCUMENTATION-ETC/CRON_PLUGINS_README.txt > /dev/null 2>&1
+				rm $DOC_ROOT/DOCUMENTATION-ETC/CRON-PLUGINS-README.txt > /dev/null 2>&1
+				rm $DOC_ROOT/DOCUMENTATION-ETC/RASPBERRY-PI-HEADLESS-WIFI-SSH.txt > /dev/null 2>&1
+				rm $DOC_ROOT/DOCUMENTATION-ETC/RASPBERRY-PI-SECURITY.txt > /dev/null 2>&1
+				rm $DOC_ROOT/CONFIG.EXAMPLE.txt > /dev/null 2>&1
+				rm $DOC_ROOT/HELP-FAQ.txt > /dev/null 2>&1
+				rm $DOC_ROOT/PORTFOLIO-IMPORT-EXAMPLE-SPREADSHEET.csv > /dev/null 2>&1
+				rm $DOC_ROOT/oauth.php > /dev/null 2>&1
+				rm $DOC_ROOT/webhook.php > /dev/null 2>&1
+				rm $DOC_ROOT/rest-api.php > /dev/null 2>&1
+				rm $DOC_ROOT/logs.php > /dev/null 2>&1
+				rm $DOC_ROOT/cache/vars/app_config_md5.dat > /dev/null 2>&1
+				rm $DOC_ROOT/cache/vars/default_app_config_md5.dat > /dev/null 2>&1
+				rm $DOC_ROOT/cache/vars/default_btc_primary_currency_pairing.dat > /dev/null 2>&1
+				
+				# Force-resets script timeout from config.php (automatically / dynamically re-created by app)
+				rm $DOC_ROOT/.htaccess > /dev/null 2>&1 
+				rm $DOC_ROOT/.user.ini > /dev/null 2>&1
+				#
 
 				sleep 3
 				
@@ -871,15 +889,15 @@ select opt in $OPTIONS; do
   				# Copy over the upgrade install files to the install directory, after cleaning up dev files
 				# No trailing forward slash here
 				
-				rm -rf .github
-				rm -rf .git
+				rm -rf .github > /dev/null 2>&1
+				rm -rf .git > /dev/null 2>&1
 
 				sleep 3
 				
-				rm .gitattributes
-				rm .gitignore
-				rm .travis.yml
-				rm CODEOWNERS
+				rm .gitattributes > /dev/null 2>&1
+				rm .gitignore > /dev/null 2>&1
+				rm .travis.yml > /dev/null 2>&1
+				rm CODEOWNERS > /dev/null 2>&1
 				
 				\cp -r ./ $DOC_ROOT
 

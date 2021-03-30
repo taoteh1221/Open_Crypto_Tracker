@@ -53,7 +53,7 @@ elseif ( $webhook_hash[0] == pt_nonce_digest('test-only', $webhook_key) ) {
 
 $test_params = array('api_key' => $api_key);
 						
-$test_data = @$pt_cache->ext_apis('params', $test_params, 0, $base_url . 'api/market_conversion/eur/kraken-btc-usd,coinbase-dai-usdc,coinbase-eth-usd', 2);
+$test_data = @$ocpt_cache->ext_data('params', $test_params, 0, $base_url . 'api/market_conversion/eur/kraken-btc-usd,coinbase-dai-usdc,coinbase-eth-usd', 2);
 
 // Already json-encoded
 echo $test_data;

@@ -221,10 +221,10 @@ USAGE (ADDING / UPDATING COINS):
                     // UPPERCASE_COIN_ABRV_HERE
                     'UPPERCASE_COIN_ABRV_HERE' => array(
                         
-                        'asset_name' => 'COIN_NAME_HERE',
+                        'name' => 'COIN_NAME_HERE',
                         // Website slug (URL data) on coinmarketcap / coingecko, leave blank if not listed there
-                        'marketcap_website_slug' => 'WEBSITE_SLUG_HERE', 
-                        'market_pairing' => array(
+                        'mcap_slug' => 'WEBSITE_SLUG_HERE', 
+                        'pairing' => array(
                                     
                                     // MARKET IDS ARE CASE-SENSITIVE!
                                     

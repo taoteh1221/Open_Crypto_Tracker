@@ -12,24 +12,24 @@ $exchange_count = 0;
 $currency_count = 0;
 
 	// Print out all market configurations
-	if ( $app_config['developer']['debug_mode'] == 'all' || $app_config['developer']['debug_mode'] == 'markets_config' ) {
+	if ( $ocpt_conf['developer']['debug_mode'] == 'all' || $ocpt_conf['developer']['debug_mode'] == 'markets_config' ) {
 		
 		
-		foreach ( $app_config['power_user']['bitcoin_currency_markets'] as $key => $unused ) {
+		foreach ( $ocpt_conf['power_user']['btc_currency_markets'] as $key => $unused ) {
 			
 			// Detects better with right side space included
-			if ( stristr($supported_primary_currency_list, $key . ' ') == false ) {
+			if ( stristr($supported_prim_curr_list, $key . ' ') == false ) {
 			$currency_count = $currency_count + 1;
-			$supported_primary_currency_list .= $key . ' / ';
+			$supported_prim_curr_list .= $key . ' / ';
 			}
 			
 		
 		}
 		
 		$pairings_count = $currency_count;
-		$all_supported_pairings_list = $supported_primary_currency_list;
+		$all_supported_pairings_list = $supported_prim_curr_list;
 		
-		foreach ( $app_config['power_user']['crypto_pairing'] as $key => $unused ) {
+		foreach ( $ocpt_conf['power_user']['crypto_pairing'] as $key => $unused ) {
 			
 			// Detects better with right side space included
 			if ( stristr($all_supported_pairings_list, $key . ' ') == false ) {
@@ -42,13 +42,13 @@ $currency_count = 0;
 		
 		
 		// Alphabetical sorting
-		$supported_primary_currency_list = $pt_vars->list_sort($supported_primary_currency_list, '/', 'sort', true);
-		$all_supported_pairings_list = $pt_vars->list_sort($all_supported_pairings_list, '/', 'sort', true);
+		$supported_prim_curr_list = $ocpt_var->list_sort($supported_prim_curr_list, '/', 'sort', true);
+		$all_supported_pairings_list = $ocpt_var->list_sort($all_supported_pairings_list, '/', 'sort', true);
 		
 		
-		foreach ( $app_config['portfolio_assets']['BTC']['market_pairing'] as $pairing_key => $unused ) {
+		foreach ( $ocpt_conf['assets']['BTC']['pairing'] as $pairing_key => $unused ) {
 			
-				foreach ( $app_config['portfolio_assets']['BTC']['market_pairing'][$pairing_key] as $exchange_key => $unused ) {
+				foreach ( $ocpt_conf['assets']['BTC']['pairing'][$pairing_key] as $exchange_key => $unused ) {
 					
 					// Detects better with right side space included
 					if ( stristr($supported_btc_exchange_list, $exchange_key . ' ') == false && stristr($exchange_key, 'bitmex_') == false ) { // Futures markets not allowed
@@ -64,11 +64,11 @@ $currency_count = 0;
 		$all_exchange_count = $exchange_count;
 		$all_exchanges_list = $supported_btc_exchange_list;
 		
-		foreach ( $app_config['portfolio_assets'] as $asset_key => $unused ) {
+		foreach ( $ocpt_conf['assets'] as $asset_key => $unused ) {
 			
-				foreach ( $app_config['portfolio_assets'][$asset_key]['market_pairing'] as $pairing_key => $unused ) {
+				foreach ( $ocpt_conf['assets'][$asset_key]['pairing'] as $pairing_key => $unused ) {
 					
-					foreach ( $app_config['portfolio_assets'][$asset_key]['market_pairing'][$pairing_key] as $exchange_key => $unused ) {
+					foreach ( $ocpt_conf['assets'][$asset_key]['pairing'][$pairing_key] as $exchange_key => $unused ) {
 					
 						// Detects better with right side space included
 						if ( stristr($all_exchanges_list, $exchange_key . ' ') == false && $exchange_key != 'misc_assets' ) {
@@ -84,11 +84,11 @@ $currency_count = 0;
 		
 		
 		// Alphabetical sorting
-		$supported_btc_exchange_list = $pt_vars->list_sort($supported_btc_exchange_list, '/', 'sort', true);
-		$all_exchanges_list = $pt_vars->list_sort($all_exchanges_list, '/', 'sort', true);
+		$supported_btc_exchange_list = $ocpt_var->list_sort($supported_btc_exchange_list, '/', 'sort', true);
+		$all_exchanges_list = $ocpt_var->list_sort($all_exchanges_list, '/', 'sort', true);
 	
 	
-	app_logging('config_debugging', "\n\n" . 'Bitcoin markets configuration information (for Admin Config current documentation) supported_btc_primary_currencies_list['.$currency_count.']: ' . $supported_primary_currency_list . '; ' . "\n\n" . 'supported_btc_exchanges_list['.$exchange_count.']: ' . $supported_btc_exchange_list . "\n\n" );
+	app_logging('config_debugging', "\n\n" . 'Bitcoin markets configuration information (for Admin Config current documentation) supported_btc_prim_currencies_list['.$currency_count.']: ' . $supported_prim_curr_list . '; ' . "\n\n" . 'supported_btc_exchanges_list['.$exchange_count.']: ' . $supported_btc_exchange_list . "\n\n" );
 	
 	
 	

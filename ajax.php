@@ -33,14 +33,14 @@ $batched_feed_hashes_array = explode(',', $_GET['feeds']);
 $all_feeds_array = array();
     
     
-    	foreach($app_config['power_user']['news_feeds'] as $feed) {
+    	foreach($ocpt_conf['power_user']['news_feed'] as $feed) {
     	$feed_id = pt_digest($feed["title"], 10); // We avoid using array keys for end user config editing UX, BUT STILL UNIQUELY IDENTIFY EACH FEED
     	$all_feeds_array[$feed_id] = $feed;
     	}
 
 
 	// Mitigate DOS attack leverage, since we recieve extrenal calls in ajax.php
-	if ( sizeof($batched_feed_hashes_array) <= $app_config['developer']['news_feeds_batched_max'] ) {
+	if ( sizeof($batched_feed_hashes_array) <= $ocpt_conf['developer']['news_feed_batched_max'] ) {
     	
 	// Reset feed fetch telemetry 
 	$_SESSION[$fetched_feeds] = false;
@@ -48,7 +48,7 @@ $all_feeds_array = array();
     	// We already alphabetically ordered / pruned before sending to ajax.php
     	foreach($batched_feed_hashes_array as $chosen_feed_hash) {
     	echo "<fieldset class='subsection_fieldset'><legend class='subsection_legend'> " .$all_feeds_array[$chosen_feed_hash]["title"]." </legend>";
-    	echo $pt_apis->rss($all_feeds_array[$chosen_feed_hash]["url"], $_GET['theme'], $app_config['power_user']['news_feeds_entries_show']);
+    	echo $ocpt_api->rss($all_feeds_array[$chosen_feed_hash]["url"], $_GET['theme'], $ocpt_conf['power_user']['news_feed_entries_show']);
     	echo "</fieldset>"; 
     	}
 	

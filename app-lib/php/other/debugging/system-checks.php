@@ -26,7 +26,7 @@ $force_exit = 1;
 
 
 // Make sure we are using FastCGI
-if ( $runtime_mode != 'cron' && !stristr( php_sapi_name() , 'fcgi') && $app_config['developer']['ignore_php_fpm_warning'] != 'yes' ) {
+if ( $runtime_mode != 'cron' && !stristr( php_sapi_name() , 'fcgi') && $ocpt_conf['developer']['ignore_php_fpm_warning'] != 'yes' ) {
 $system_error = "{Set 'ignore_php_fpm_warning' to 'yes' in Admin Config DEVELOPER section to disable this warning} <br /><br /> PHP is currently running as '" . php_sapi_name() . "', PHP-FPM (fcgi) mode is not running. PHP-FPM v7.2 or higher is HIGHLY RECOMMENDED to avoid low power devices OR high traffic installs from crashing. If you auto-installed, you can auto-upgrade if you FULLY re-install EVERYTHING with the latest auto-install script: https://git.io/JqCvQ <br /><br />";
 app_logging('system_error', $system_error);
 echo $system_error;
@@ -133,7 +133,7 @@ if ( $runtime_mode != 'cron' ) {
 
 
 // Check htaccess security (checked once every 60 minutes maximum)
-if ( update_cache_file($base_dir . '/cache/events/scan-htaccess-security.dat', 60) == true ) {
+if ( update_cache($base_dir . '/cache/events/scan-htaccess-security.dat', 60) == true ) {
 	
 	
 	// Only run the check if the base url is set (runs every ~10 minutes, so we'll be checking again anyway, and it should set AFTER first UI run)
@@ -144,12 +144,12 @@ if ( update_cache_file($base_dir . '/cache/events/scan-htaccess-security.dat', 6
 	// cache check
 	$htaccess_cache_test_url = $base_url . 'cache/htaccess_security_check.dat';
 
-	$htaccess_cache_test = trim( @$pt_cache->ext_apis('url', $htaccess_cache_test_url, 0) ); 
+	$htaccess_cache_test = trim( @$ocpt_cache->ext_data('url', $htaccess_cache_test_url, 0) ); 
 	
 	// plugins check
 	$htaccess_plugins_test_url = $base_url . 'plugins/htaccess_security_check.dat';
 
-	$htaccess_plugins_test = trim( @$pt_cache->ext_apis('url', $htaccess_plugins_test_url, 0) ); 
+	$htaccess_plugins_test = trim( @$ocpt_cache->ext_data('url', $htaccess_plugins_test_url, 0) ); 
 	
 	
 		if ( preg_match("/TEST_HTACCESS_SECURITY_123_TEST/i", $htaccess_cache_test)
@@ -165,7 +165,7 @@ if ( update_cache_file($base_dir . '/cache/events/scan-htaccess-security.dat', 6
 	
 	
 // Update the htaccess security scan event tracking
-store_file_contents($base_dir . '/cache/events/scan-htaccess-security.dat', time_date_format(false, 'pretty_date_time') );
+$ocpt_cache->save_file($base_dir . '/cache/events/scan-htaccess-security.dat', time_date_format(false, 'pretty_date_time') );
 
 }
 

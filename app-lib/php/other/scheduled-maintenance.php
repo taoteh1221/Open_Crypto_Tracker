@@ -7,8 +7,8 @@
 //////////////////////////////////////////////////////////////////
 // Scheduled maintenance (run every ~3 hours if NOT cron runtime, OR if runtime is cron every ~1 hours)
 //////////////////////////////////////////////////////////////////
-if ( $runtime_mode != 'cron' && update_cache_file($base_dir . '/cache/events/scheduled-maintenance.dat', (60 * 3) ) == true 
-|| $runtime_mode == 'cron' && update_cache_file($base_dir . '/cache/events/scheduled-maintenance.dat', (60 * 1) ) == true  ) {
+if ( $runtime_mode != 'cron' && update_cache($base_dir . '/cache/events/scheduled-maintenance.dat', (60 * 3) ) == true 
+|| $runtime_mode == 'cron' && update_cache($base_dir . '/cache/events/scheduled-maintenance.dat', (60 * 1) ) == true  ) {
 //////////////////////////////////////////////////////////////////
 
 
@@ -19,8 +19,8 @@ if ( $runtime_mode != 'cron' && update_cache_file($base_dir . '/cache/events/sch
 	if ( $runtime_mode == 'cron' ) {
 	
 		// Chart backups...run before any price checks to avoid any potential file lock issues
-		if ( $app_config['general']['asset_charts_toggle'] == 'on' && $app_config['power_user']['charts_backup_freq'] > 0 ) {
-		backup_archive('charts-data', $base_dir . '/cache/charts/', $app_config['power_user']['charts_backup_freq']); // No $backup_archive_password extra param here (waste of time / energy to encrypt charts data backups)
+		if ( $ocpt_conf['general']['asset_charts_toggle'] == 'on' && $ocpt_conf['power_user']['charts_backup_freq'] > 0 ) {
+		backup_archive('charts-data', $base_dir . '/cache/charts/', $ocpt_conf['power_user']['charts_backup_freq']); // No $backup_arch_pass extra param here (waste of time / energy to encrypt charts data backups)
 		}
    
 	}
@@ -36,21 +36,21 @@ require($base_dir . '/app-lib/php/other/upgrade-check.php');
 // Update cached vars...
 
 // Current default primary currency stored to flat file (for checking if we need to reconfigure things for a changed value here)
-store_file_contents($base_dir . '/cache/vars/default_btc_primary_currency_pairing.dat', $default_btc_primary_currency_pairing);
+$ocpt_cache->save_file($base_dir . '/cache/vars/default_btc_prim_curr_pairing.dat', $default_btc_prim_curr_pairing);
 	
 
 // Current app version stored to flat file (for the bash auto-install/upgrade script to easily determine the currently-installed version)
-store_file_contents($base_dir . '/cache/vars/app_version.dat', $app_version);
+$ocpt_cache->save_file($base_dir . '/cache/vars/app_version.dat', $app_version);
 
 
 // Determine / store portfolio cache size
-store_file_contents($base_dir . '/cache/vars/cache_size.dat', convert_bytes( directory_size($base_dir . '/cache/') , 3) );
+$ocpt_cache->save_file($base_dir . '/cache/vars/cache_size.dat', convert_bytes( directory_size($base_dir . '/cache/') , 3) );
 
 
 // Cache files cleanup...
 
 // Delete ANY old zip archive backups scheduled to be purged
-delete_old_files($base_dir . '/cache/secured/backups', $app_config['power_user']['backup_archive_delete_old'], 'zip');
+delete_old_files($base_dir . '/cache/secured/backups', $ocpt_conf['power_user']['backup_arch_delete_old'], 'zip');
 
 
 // Stale cache files cleanup...
@@ -72,11 +72,11 @@ $logs_cache_cleanup = array(
 									$base_dir . '/cache/logs/errors/external_api',
 									);
 									
-delete_old_files($logs_cache_cleanup, $app_config['power_user']['logs_purge'], 'dat'); // Delete LOGS API cache files older than $app_config['power_user']['logs_purge'] day(s)
+delete_old_files($logs_cache_cleanup, $ocpt_conf['power_user']['logs_purge'], 'dat'); // Delete LOGS API cache files older than $ocpt_conf['power_user']['logs_purge'] day(s)
 
 
 // Update the maintenance event tracking
-store_file_contents($base_dir . '/cache/events/scheduled-maintenance.dat', time_date_format(false, 'pretty_date_time') );
+$ocpt_cache->save_file($base_dir . '/cache/events/scheduled-maintenance.dat', time_date_format(false, 'pretty_date_time') );
 
 
 }

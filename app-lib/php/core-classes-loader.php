@@ -5,21 +5,22 @@
 
 
 require_once("app-lib/php/classes/core/general.php");
-$pt_gen = new pt_gen();
+$ocpt_gen = new ocpt_gen();
 
 require_once("app-lib/php/classes/core/vars.php");
-$pt_vars = new pt_vars();
+$ocpt_var = new ocpt_var();
 
 require_once("app-lib/php/classes/core/cache.php");
-$pt_cache = new pt_cache();
+$ocpt_cache = new ocpt_cache();
 
 require_once("app-lib/php/classes/core/apis.php");
-$pt_apis = new pt_apis();
+$ocpt_api = new ocpt_api();
 
 require_once("app-lib/php/classes/core/assets.php");
-$pt_assets = new pt_assets();
+$ocpt_asset = new ocpt_asset();
 
-//$pt_other_apis = new pt_other_apis();
+require_once("app-lib/php/classes/core/plugins.php");
+$ocpt_plug = new ocpt_plug();
 
  
  ?>

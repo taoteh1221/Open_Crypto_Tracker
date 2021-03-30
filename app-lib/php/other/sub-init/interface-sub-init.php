@@ -12,7 +12,7 @@ if ( $runtime_mode != 'cron' ) {
 
 $alert_percent = explode("|", ( $_POST['use_alert_percent'] != '' ? $_POST['use_alert_percent'] : $_COOKIE['alert_percent'] ) );
 
-$app_config['general']['primary_marketcap_site'] = ( $alert_percent[0] != '' ? $alert_percent[0] : $app_config['general']['primary_marketcap_site'] );
+$ocpt_conf['general']['prim_mcap_site'] = ( $alert_percent[0] != '' ? $alert_percent[0] : $ocpt_conf['general']['prim_mcap_site'] );
 
 
 ///////////////////////////////////////////////////////////////////////
@@ -24,10 +24,10 @@ $show_crypto_value = explode(',', rtrim( ( $_POST['show_crypto_value'] != '' ? $
 		// Remove any stale crypto value
 		$temp_show_crypto_value = array();
 		$scan_crypto_value = $show_crypto_value;
-		$scan_crypto_value = array_map( array($pt_vars, 'strip_brackets') , $scan_crypto_value); // Strip brackets
+		$scan_crypto_value = array_map( array($ocpt_var, 'strip_brackets') , $scan_crypto_value); // Strip brackets
 		$loop = 0;
 		foreach ($scan_crypto_value as $key) {
-			if ( array_key_exists($key, $app_config['power_user']['crypto_pairing']) ) {
+			if ( array_key_exists($key, $ocpt_conf['power_user']['crypto_pairing']) ) {
 			$temp_show_crypto_value[$loop] = $show_crypto_value[$loop];
 			}
 		$loop = $loop + 1;
@@ -41,7 +41,7 @@ $show_crypto_value = explode(',', rtrim( ( $_POST['show_crypto_value'] != '' ? $
 		}
 	
 		if( $_COOKIE['show_crypto_value'] ) {
-		$pt_gen->store_cookie("show_crypto_value", $implode_crypto_value, mktime()+31536000);
+		$ocpt_gen->store_cookie("show_crypto_value", $implode_crypto_value, mktime()+31536000);
 		}
 
 ///////////////////////////////////////////////////////////////////////
@@ -50,10 +50,10 @@ $show_crypto_value = explode(',', rtrim( ( $_POST['show_crypto_value'] != '' ? $
 $show_secondary_trade_value = ( $_POST['show_secondary_trade_value'] != '' ? $_POST['show_secondary_trade_value'] : $_COOKIE['show_secondary_trade_value'] );
 
 	// Remove any stale secondary trade value
-	if ( !array_key_exists($show_secondary_trade_value, $app_config['power_user']['crypto_pairing']) ) {
+	if ( !array_key_exists($show_secondary_trade_value, $ocpt_conf['power_user']['crypto_pairing']) ) {
 	$show_secondary_trade_value = null;
 	$_POST['show_secondary_trade_value'] = null;  
-	$pt_gen->store_cookie("show_secondary_trade_value", "", time()-3600);  
+	$ocpt_gen->store_cookie("show_secondary_trade_value", "", time()-3600);  
 	unset($_COOKIE['show_secondary_trade_value']);  
 	}
 
@@ -64,11 +64,11 @@ $show_secondary_trade_value = ( $_POST['show_secondary_trade_value'] != '' ? $_P
 $show_feeds = explode(',', rtrim( ( $_POST['show_feeds'] != '' ? $_POST['show_feeds'] : $_COOKIE['show_feeds'] ) , ',') );
 
 	// Alphabetically order AND remove stale feeds
-	// (since we already alphabetically ordered $app_config['power_user']['news_feeds'] in app-config-management.php BEFOREHAND)
+	// (since we already alphabetically ordered $ocpt_conf['power_user']['news_feed'] in app-config-management.php BEFOREHAND)
 	$temp_show_feeds = array();
 	$scan_feeds = $show_feeds;
-	$scan_feeds = array_map( array($pt_vars, 'strip_brackets') , $scan_feeds); // Strip brackets
-	foreach ($app_config['power_user']['news_feeds'] as $feed) {
+	$scan_feeds = array_map( array($ocpt_var, 'strip_brackets') , $scan_feeds); // Strip brackets
+	foreach ($ocpt_conf['power_user']['news_feed'] as $feed) {
 	$feed_id = pt_digest($feed["title"], 10);
 		if ( in_array($feed_id, $scan_feeds) ) {
 		$temp_show_feeds[] = '[' . $feed_id . ']';
@@ -83,7 +83,7 @@ $show_feeds = explode(',', rtrim( ( $_POST['show_feeds'] != '' ? $_POST['show_fe
 	}
 	
 	if( $_COOKIE['show_feeds'] ) {
-	$pt_gen->store_cookie("show_feeds", $implode_feeds, mktime()+31536000);
+	$ocpt_gen->store_cookie("show_feeds", $implode_feeds, mktime()+31536000);
 	}
 
 
@@ -91,27 +91,27 @@ $show_feeds = explode(',', rtrim( ( $_POST['show_feeds'] != '' ? $_POST['show_fe
 
 
 	// Only set from cookie / post values if charts are enabled
-	if ( $app_config['general']['asset_charts_toggle'] == 'on' ) {
+	if ( $ocpt_conf['general']['asset_charts_toggle'] == 'on' ) {
 		
 	$show_charts = explode(',', rtrim( ( $_POST['show_charts'] != '' ? $_POST['show_charts'] : $_COOKIE['show_charts'] ) , ',') );
 		
 		// Remove stale charts
 		$temp_show_charts = array();
 		$scan_charts = $show_charts;
-		$scan_charts = array_map( array($pt_vars, 'strip_brackets') , $scan_charts); // Strip brackets
-		$scan_charts = array_map( array($pt_vars, 'strip_underscore_and_after') , $scan_charts); // Strip underscore, and everything after
+		$scan_charts = array_map( array($ocpt_var, 'strip_brackets') , $scan_charts); // Strip brackets
+		$scan_charts = array_map( array($ocpt_var, 'strip_underscore_and_after') , $scan_charts); // Strip underscore, and everything after
 		$loop = 0;
 		foreach ($scan_charts as $market_key) {
 			
 			// IF asset exists in charts app config, AND $show_charts UI key format is latest iteration (fiat conversion charts USED TO have no underscore)
-			if ( array_key_exists($market_key, $app_config['charts_alerts']['tracked_markets']) && stristr($show_charts[$loop], '_') ) {
+			if ( array_key_exists($market_key, $ocpt_conf['charts_alerts']['tracked_markets']) && stristr($show_charts[$loop], '_') ) {
 				
-			$chart_params = explode('_', $pt_vars->strip_brackets($show_charts[$loop]) );
+			$chart_params = explode('_', $ocpt_var->strip_brackets($show_charts[$loop]) );
 			
-			$chart_config_check = explode('||', $app_config['charts_alerts']['tracked_markets'][$market_key]);
+			$chart_config_check = explode('||', $ocpt_conf['charts_alerts']['tracked_markets'][$market_key]);
 				
 				// If pairing properly matches OR it's a conversion chart, we're good to keep this $show_charts array value 
-				if ( $chart_params[1] == $chart_config_check[1] || $chart_params[1] == $app_config['general']['btc_primary_currency_pairing'] ) {
+				if ( $chart_params[1] == $chart_config_check[1] || $chart_params[1] == $ocpt_conf['general']['btc_prim_curr_pairing'] ) {
 				$temp_show_charts[$loop] = $show_charts[$loop];
 				}
 				
@@ -129,7 +129,7 @@ $show_feeds = explode(',', rtrim( ( $_POST['show_feeds'] != '' ? $_POST['show_fe
 		}
 	
 		if( $_COOKIE['show_charts'] ) {
-		$pt_gen->store_cookie("show_charts", $implode_charts, mktime()+31536000);
+		$ocpt_gen->store_cookie("show_charts", $implode_charts, mktime()+31536000);
 		}
 	
 	}
@@ -169,7 +169,7 @@ $sorted_by_asc_desc = $sort_settings[1];
 	$theme_selected = $_POST['theme_selected'];
 	}
 	else {
-	$theme_selected = $app_config['general']['default_theme'];
+	$theme_selected = $ocpt_conf['general']['default_theme'];
 	}
 	// Sanitizing $theme_selected is very important, as we are calling external files with the value
 	if ( $theme_selected != 'light' && $theme_selected != 'dark' ) {

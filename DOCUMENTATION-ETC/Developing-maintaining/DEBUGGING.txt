@@ -1,6 +1,6 @@
 
 
-Add to /templates/interface/rendering/desktop/php/footer.php when testing unicode mobile text support:
+Add to /templates/interface/desktop/php/footer.php when testing unicode mobile text support:
 
 
       ////START DEBUGGING ///////////////////////////////////////////////////////////////
@@ -26,7 +26,7 @@ Add to /templates/interface/rendering/desktop/php/footer.php when testing unicod
   				// Message parameter added for desired comm methods (leave any comm method blank to skip sending via that method)
   				
   				// Minimize function calls
-  				//$encoded_text_message = content_data_encoding($test_phrase); // Unicode support included for text messages (emojis / asian characters / etc )
+  				//$encoded_text_message = $ocpt_gen->charset_encode($test_phrase); // Unicode support included for text messages (emojis / asian characters / etc )
   				
   				/*
           	$send_params = array(
@@ -47,7 +47,7 @@ Add to /templates/interface/rendering/desktop/php/footer.php when testing unicod
           	
           	
           	// Send notifications
-          	@queue_notifications($send_params);
+          	@$ocpt_cache->queue_notify($send_params);
           	*/
     	
     	//var_dump($encoded_text_message);

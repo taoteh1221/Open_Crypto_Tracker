@@ -8,44 +8,44 @@
 // PLUGINS CONFIG
 //////////////////////////////////////////////////////////////////
 
-// Configs for any plugins activated in app_config
-foreach ( $app_config['power_user']['activate_plugins'] as $key => $value ) {
+// Configs for any plugins activated in pt_conf
+foreach ( $ocpt_conf['power_user']['activate_plugins'] as $key => $value ) {
 	
 	if ( $value == 'on' ) {
 		
 	$key = trim($key);
-	$plugin_config_file = $base_dir . '/plugins/' . $key . '/plugin-config.php'; // Loaded NOW to have ready for any cached app config resets (for ANY runtime)
+	$plug_conf_file = $base_dir . '/plugins/' . $key . '/plug-conf.php'; // Loaded NOW to have ready for any cached app config resets (for ANY runtime)
 
 
-		if ( file_exists($plugin_config_file) ) {
+		if ( file_exists($plug_conf_file) ) {
 			
-		$this_plugin = $key;
+		$this_plug = $key;
 		
-		$plugin_config[$this_plugin] = array();
+		$plug_conf[$this_plug] = array();
 			
-		require_once($plugin_config_file);
+		require_once($plug_conf_file);
 		
 			// Each plugin is allowed to run in more than one runtime, if configured for that (some plugins may run in the UI and cron runtimes, etc)
 		
 			// Add to activated cron plugins 
-			if ( $plugin_config[$this_plugin]['runtime_mode'] == 'cron' || $plugin_config[$this_plugin]['runtime_mode'] == 'all' ) {
-			$activated_plugins['cron'][$key] = $base_dir . '/plugins/' . $key . '/plugin-lib/plugin-init.php'; // Loaded LATER at bottom of cron.php (if cron runtime)
+			if ( $plug_conf[$this_plug]['runtime_mode'] == 'cron' || $plug_conf[$this_plug]['runtime_mode'] == 'all' ) {
+			$activated_plugins['cron'][$key] = $base_dir . '/plugins/' . $key . '/plug-lib/plug-init.php'; // Loaded LATER at bottom of cron.php (if cron runtime)
 			}
 			
 			// Add to activated UI plugins
-			if ( $plugin_config[$this_plugin]['runtime_mode'] == 'ui' || $plugin_config[$this_plugin]['runtime_mode'] == 'all' ) {
-			$activated_plugins['ui'][$key] = $base_dir . '/plugins/' . $key . '/plugin-lib/plugin-init.php'; // Loaded LATER at bottom of cron.php (if cron runtime)
+			if ( $plug_conf[$this_plug]['runtime_mode'] == 'ui' || $plug_conf[$this_plug]['runtime_mode'] == 'all' ) {
+			$activated_plugins['ui'][$key] = $base_dir . '/plugins/' . $key . '/plug-lib/plug-init.php'; // NOT IMPLEMENTED YET!
 			}
 		
 		
-		$app_config['plugin_config'][$this_plugin] = $plugin_config[$this_plugin]; // Add each plugin's config into the global app config
+		$ocpt_conf['plugin_config'][$this_plug] = $plug_conf[$this_plug]; // Add each plugin's config into the GLOBAL app config
 		
-		$this_plugin = null; // Reset
+		$this_plug = null; // Reset
 		
 		}
 	
 	
-	$plugin_config_file = null; // Reset
+	$plug_conf_file = null; // Reset
 	
 	}
 

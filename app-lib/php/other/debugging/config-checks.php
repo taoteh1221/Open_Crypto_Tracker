@@ -7,22 +7,22 @@
 
 // Run some basic configuration file checks
 
-$validate_from_email = validate_email($app_config['comms']['from_email']);
+$validate_from_email = validate_email($ocpt_conf['comms']['from_email']);
       
-$validate_to_email = validate_email($app_config['comms']['to_email']);
+$validate_to_email = validate_email($ocpt_conf['comms']['to_email']);
 
 
 // Proxy configuration check
-if ( sizeof($app_config['proxy']['proxy_list']) > 0 ) {
+if ( sizeof($ocpt_conf['proxy']['proxy_list']) > 0 ) {
 	
 
 	$proxy_parse_errors = 0;
 	
 	
 	// Email for proxy alerts
-	if ( $app_config['comms']['proxy_alerts'] == 'email' || $app_config['comms']['proxy_alerts'] == 'all' ) {
+	if ( $ocpt_conf['comms']['proxy_alert'] == 'email' || $ocpt_conf['comms']['proxy_alert'] == 'all' ) {
 		
-      if ( trim($app_config['comms']['from_email']) != '' && trim($app_config['comms']['to_email']) != '' ) {
+      if ( trim($ocpt_conf['comms']['from_email']) != '' && trim($ocpt_conf['comms']['to_email']) != '' ) {
       	
 					
 			// Config error check(s)
@@ -42,12 +42,12 @@ if ( sizeof($app_config['proxy']['proxy_list']) > 0 ) {
           
 	
 	// Text for proxy alerts
-	if ( $app_config['comms']['proxy_alerts'] == 'text' || $app_config['comms']['proxy_alerts'] == 'all' ) {
+	if ( $ocpt_conf['comms']['proxy_alert'] == 'text' || $ocpt_conf['comms']['proxy_alert'] == 'all' ) {
 		
 		// To be safe, don't use trim() on certain strings with arbitrary non-alphanumeric characters here
       if ( trim($text_parse[0]) != '' && trim($text_parse[1]) != 'skip_network_name'
-      || trim($app_config['comms']['textbelt_apikey']) != '' && $app_config['comms']['textlocal_account'] == ''
-      || trim($app_config['comms']['textbelt_apikey']) == '' && $app_config['comms']['textlocal_account'] != '' ) {
+      || trim($ocpt_conf['comms']['textbelt_apikey']) != '' && $ocpt_conf['comms']['textlocal_account'] == ''
+      || trim($ocpt_conf['comms']['textbelt_apikey']) == '' && $ocpt_conf['comms']['textlocal_account'] != '' ) {
       	
 				
 			// Config error check(s)
@@ -61,7 +61,7 @@ if ( sizeof($app_config['proxy']['proxy_list']) > 0 ) {
       	$proxy_parse_errors = $proxy_parse_errors + 1;
          }
           		
-         if ( $text_parse[1] != 'skip_network_name' && validate_email( text_email($app_config['comms']['to_mobile_text']) ) != 'valid' ) {
+         if ( $text_parse[1] != 'skip_network_name' && validate_email( text_email($ocpt_conf['comms']['to_mobile_text']) ) != 'valid' ) {
          $config_parse_error[] = 'Mobile text services carrier name (for email-to-text) not configured properly for proxy alerts.';
       	$proxy_parse_errors = $proxy_parse_errors + 1;
          }
@@ -74,9 +74,9 @@ if ( sizeof($app_config['proxy']['proxy_list']) > 0 ) {
 	// proxy login configuration check
 	
 	// To be safe, don't use trim() on certain strings with arbitrary non-alphanumeric characters here
-	if ( $app_config['proxy']['proxy_login'] != '' ) {
+	if ( $ocpt_conf['proxy']['proxy_login'] != '' ) {
 		
-	$proxy_login_parse = explode("||", $app_config['proxy']['proxy_login'] );
+	$proxy_login_parse = explode("||", $ocpt_conf['proxy']['proxy_login'] );
          
 		if ( sizeof($proxy_login_parse) < 2 || trim($proxy_login_parse[0]) == '' || $proxy_login_parse[1] == '' ) {
    	$config_parse_error[] = 'Proxy username / password not formatted properly.';
@@ -87,7 +87,7 @@ if ( sizeof($app_config['proxy']['proxy_list']) > 0 ) {
 	
           	
 	// Check proxy config
-	foreach ( $app_config['proxy']['proxy_list'] as $proxy ) {
+	foreach ( $ocpt_conf['proxy']['proxy_list'] as $proxy ) {
           		
 	$proxy_string = explode(":",$proxy);
           	
@@ -129,43 +129,43 @@ $config_parse_error = NULL; // Blank it out for any other config checks
 
 
 // Check default Bitcoin market/pairing configs (used by charts/alerts)
-if ( !isset( $app_config['portfolio_assets']['BTC']['market_pairing'][$default_btc_primary_currency_pairing] ) ) {
+if ( !isset( $ocpt_conf['assets']['BTC']['pairing'][$default_btc_prim_curr_pairing] ) ) {
 
-	foreach ( $app_config['portfolio_assets']['BTC']['market_pairing'] as $pairing_key => $unused ) {
+	foreach ( $ocpt_conf['assets']['BTC']['pairing'] as $pairing_key => $unused ) {
 	$avialable_btc_pairings .= strtolower($pairing_key) . ', ';
 	}
 	$avialable_btc_pairings = trim($avialable_btc_pairings);
 	$avialable_btc_pairings = rtrim($avialable_btc_pairings,',');
 	
-$config_parse_error[] = 'Charts and price alerts cannot run properly, because the "btc_primary_currency_pairing" (default Bitcoin currency pairing) value \''.$app_config['general']['btc_primary_currency_pairing'].'\' (in Admin Config GENERAL section) is not a valid Bitcoin pairing option (valid Bitcoin pairing options are: '.$avialable_btc_pairings.')';
+$config_parse_error[] = 'Charts and price alerts cannot run properly, because the "btc_prim_curr_pairing" (default Bitcoin currency pairing) value \''.$ocpt_conf['general']['btc_prim_curr_pairing'].'\' (in Admin Config GENERAL section) is not a valid Bitcoin pairing option (valid Bitcoin pairing options are: '.$avialable_btc_pairings.')';
 
 }
-elseif ( !isset( $app_config['portfolio_assets']['BTC']['market_pairing'][$default_btc_primary_currency_pairing][$default_btc_primary_exchange] ) ) {
+elseif ( !isset( $ocpt_conf['assets']['BTC']['pairing'][$default_btc_prim_curr_pairing][$default_btc_prim_exchange] ) ) {
 
-	foreach ( $app_config['portfolio_assets']['BTC']['market_pairing'][$default_btc_primary_currency_pairing] as $pairing_key => $unused ) {
+	foreach ( $ocpt_conf['assets']['BTC']['pairing'][$default_btc_prim_curr_pairing] as $pairing_key => $unused ) {
 		
 		if( stristr($pairing_key, 'bitmex_') == false ) { // Futures markets not allowed
-		$avialable_btc_primary_exchanges .= strtolower($pairing_key) . ', ';
+		$avialable_btc_prim_exchanges .= strtolower($pairing_key) . ', ';
 		}
 		
 	}
-	$avialable_btc_primary_exchanges = trim($avialable_btc_primary_exchanges);
-	$avialable_btc_primary_exchanges = rtrim($avialable_btc_primary_exchanges,',');
+	$avialable_btc_prim_exchanges = trim($avialable_btc_prim_exchanges);
+	$avialable_btc_prim_exchanges = rtrim($avialable_btc_prim_exchanges,',');
 	
-$config_parse_error[] = 'Charts and price alerts cannot run properly, because the "btc_primary_exchange" (default Bitcoin exchange) value \''.$default_btc_primary_exchange.'\' (in Admin Config GENERAL section) is not a valid option for \''.$default_btc_primary_currency_pairing.'\' Bitcoin pairings (valid \''.$default_btc_primary_currency_pairing.'\' Bitcoin pairing options are: '.$avialable_btc_primary_exchanges.')';
+$config_parse_error[] = 'Charts and price alerts cannot run properly, because the "btc_prim_exchange" (default Bitcoin exchange) value \''.$default_btc_prim_exchange.'\' (in Admin Config GENERAL section) is not a valid option for \''.$default_btc_prim_curr_pairing.'\' Bitcoin pairings (valid \''.$default_btc_prim_curr_pairing.'\' Bitcoin pairing options are: '.$avialable_btc_prim_exchanges.')';
 
 }
 
 
-$text_parse = explode("||", trim($app_config['comms']['to_mobile_text']) );
+$text_parse = explode("||", trim($ocpt_conf['comms']['to_mobile_text']) );
           
           
 // Check other charts/price alerts configs
-if ( trim($app_config['comms']['from_email']) != '' || trim($app_config['comms']['to_email']) != '' || sizeof($text_parse) > 0 || trim($app_config['comms']['notifyme_accesscode']) != '' ) {
+if ( trim($ocpt_conf['comms']['from_email']) != '' || trim($ocpt_conf['comms']['to_email']) != '' || sizeof($text_parse) > 0 || trim($ocpt_conf['comms']['notifyme_accesscode']) != '' ) {
           
           
 		// Email
-      if ( trim($app_config['comms']['from_email']) != '' || trim($app_config['comms']['to_email']) != '' ) {
+      if ( trim($ocpt_conf['comms']['from_email']) != '' || trim($ocpt_conf['comms']['to_email']) != '' ) {
       	
       $alerts_enabled_types[] = 'Email';
 					
@@ -184,8 +184,8 @@ if ( trim($app_config['comms']['from_email']) != '' || trim($app_config['comms']
 		// Text
 		// To be safe, don't use trim() on certain strings with arbitrary non-alphanumeric characters here
       if ( trim($text_parse[0]) != '' && trim($text_parse[1]) != 'skip_network_name'
-      || trim($app_config['comms']['textbelt_apikey']) != '' && $app_config['comms']['textlocal_account'] == ''
-      || trim($app_config['comms']['textbelt_apikey']) == '' && $app_config['comms']['textlocal_account'] != '' ) {
+      || trim($ocpt_conf['comms']['textbelt_apikey']) != '' && $ocpt_conf['comms']['textlocal_account'] == ''
+      || trim($ocpt_conf['comms']['textbelt_apikey']) == '' && $ocpt_conf['comms']['textlocal_account'] != '' ) {
       	
       $alerts_enabled_types[] = 'Text';
 				
@@ -198,7 +198,7 @@ if ( trim($app_config['comms']['from_email']) != '' || trim($app_config['comms']
          $config_parse_error[] = 'Number for text email not configured properly for price alerts.';
          }
           		
-         if ( $text_parse[1] != 'skip_network_name' && validate_email( text_email($app_config['comms']['to_mobile_text']) ) != 'valid' ) {
+         if ( $text_parse[1] != 'skip_network_name' && validate_email( text_email($ocpt_conf['comms']['to_mobile_text']) ) != 'valid' ) {
          $config_parse_error[] = 'Mobile text services carrier name (for email-to-text) not configured properly for price alerts.';
          }
           	
@@ -206,14 +206,14 @@ if ( trim($app_config['comms']['from_email']) != '' || trim($app_config['comms']
           	
           	
       // Notifyme (alexa)
-      if ( trim($app_config['comms']['notifyme_accesscode']) != '' ) {
+      if ( trim($ocpt_conf['comms']['notifyme_accesscode']) != '' ) {
       $alerts_enabled_types[] = 'Alexa';
       }
           	
           	
       // Google Home
 		// To be safe, don't use trim() on certain strings with arbitrary non-alphanumeric characters here
-      if ( trim($app_config['comms']['google_application_name']) != '' && trim($app_config['comms']['google_client_id']) != '' && $app_config['comms']['google_client_secret'] != '' ) {
+      if ( trim($ocpt_conf['comms']['google_application_name']) != '' && trim($ocpt_conf['comms']['google_client_id']) != '' && $ocpt_conf['comms']['google_client_secret'] != '' ) {
       $alerts_enabled_types[] = 'Google Home';
       }
           	
@@ -235,13 +235,13 @@ if ( trim($app_config['comms']['from_email']) != '' || trim($app_config['comms']
           		
           		
 
-			// Check $app_config['charts_alerts']['tracked_markets'] config
-			if ( !is_array($app_config['charts_alerts']['tracked_markets']) ) {
+			// Check $ocpt_conf['charts_alerts']['tracked_markets'] config
+			if ( !is_array($ocpt_conf['charts_alerts']['tracked_markets']) ) {
 			$config_parse_error[] = 'The asset / exchange / pairing price alert formatting is corrupt, or not configured yet.';
 			}
 			
 			
-			foreach ( $app_config['charts_alerts']['tracked_markets'] as $key => $value ) {
+			foreach ( $ocpt_conf['charts_alerts']['tracked_markets'] as $key => $value ) {
    		       		
 			$alerts_string = explode("||",$value);
    		       	
@@ -286,12 +286,12 @@ if ( trim($app_config['comms']['from_email']) != '' || trim($app_config['comms']
 
 // Check SMTP configs
 // To be safe, don't use trim() on certain strings with arbitrary non-alphanumeric characters here
-if ( $app_config['comms']['smtp_login'] != '' && $app_config['comms']['smtp_server'] != '' ) {
+if ( $ocpt_conf['comms']['smtp_login'] != '' && $ocpt_conf['comms']['smtp_server'] != '' ) {
 	
 	
 // SMTP configuration check
-$smtp_email_login_parse = explode("||", $app_config['comms']['smtp_login'] );
-$smtp_email_server_parse = explode(":", $app_config['comms']['smtp_server'] );
+$smtp_email_login_parse = explode("||", $ocpt_conf['comms']['smtp_login'] );
+$smtp_email_server_parse = explode(":", $ocpt_conf['comms']['smtp_server'] );
 
 	if ( sizeof($smtp_email_login_parse) < 2 || trim($smtp_email_login_parse[0]) == '' || $smtp_email_login_parse[1] == '' ) {
    $config_parse_error[] = 'SMTP username / password not formatted properly.';
@@ -333,7 +333,7 @@ $smtp_email_server_parse = explode(":", $app_config['comms']['smtp_server'] );
 
 
 // Email logs configs
-if ( $app_config['power_user']['logs_email'] > 0 && trim($app_config['comms']['from_email']) != '' && trim($app_config['comms']['to_email']) != '' ) {
+if ( $ocpt_conf['power_user']['logs_email'] > 0 && trim($ocpt_conf['comms']['from_email']) != '' && trim($ocpt_conf['comms']['to_email']) != '' ) {
 					
 	// Config error check(s)
    if ( $validate_from_email != 'valid' ) {
@@ -374,7 +374,7 @@ if ( $app_config['power_user']['logs_email'] > 0 && trim($app_config['comms']['f
 
 
 // Email backup archives configs
-if ( $app_config['general']['asset_charts_toggle'] == 'on' && $app_config['power_user']['charts_backup_freq'] > 0 && trim($app_config['comms']['from_email']) != '' && trim($app_config['comms']['to_email']) != '' ) {
+if ( $ocpt_conf['general']['asset_charts_toggle'] == 'on' && $ocpt_conf['power_user']['charts_backup_freq'] > 0 && trim($ocpt_conf['comms']['from_email']) != '' && trim($ocpt_conf['comms']['to_email']) != '' ) {
 					
 	// Config error check(s)
    if ( $validate_from_email != 'valid' ) {
@@ -414,36 +414,36 @@ if ( $app_config['general']['asset_charts_toggle'] == 'on' && $app_config['power
 
 
 
-// Check $app_config['portfolio_assets'] config
-if ( !is_array($app_config['portfolio_assets']) ) {
+// Check $ocpt_conf['assets'] config
+if ( !is_array($ocpt_conf['assets']) ) {
 app_logging('config_error', 'The portfolio assets formatting is corrupt, or not configured yet');
 }
 
 // Check default / dynamic Bitcoin market/pairing configs
-if ( !isset( $app_config['portfolio_assets']['BTC']['market_pairing'][$app_config['general']['btc_primary_currency_pairing']] ) ) {
+if ( !isset( $ocpt_conf['assets']['BTC']['pairing'][$ocpt_conf['general']['btc_prim_curr_pairing']] ) ) {
 
-	foreach ( $app_config['portfolio_assets']['BTC']['market_pairing'] as $pairing_key => $unused ) {
+	foreach ( $ocpt_conf['assets']['BTC']['pairing'] as $pairing_key => $unused ) {
 	$avialable_btc_pairings .= strtolower($pairing_key) . ', ';
 	}
 	$avialable_btc_pairings = trim($avialable_btc_pairings);
 	$avialable_btc_pairings = rtrim($avialable_btc_pairings,',');
 
-app_logging('config_error', 'Portfolio cannot run properly, because the "btc_primary_currency_pairing" (Bitcoin primary currency pairing) value \''.$app_config['general']['btc_primary_currency_pairing'].'\' is not a valid Bitcoin pairing option (valid Bitcoin pairing options are: '.$avialable_btc_pairings.')');
+app_logging('config_error', 'Portfolio cannot run properly, because the "btc_prim_curr_pairing" (Bitcoin primary currency pairing) value \''.$ocpt_conf['general']['btc_prim_curr_pairing'].'\' is not a valid Bitcoin pairing option (valid Bitcoin pairing options are: '.$avialable_btc_pairings.')');
 
 }
-elseif ( !isset( $app_config['portfolio_assets']['BTC']['market_pairing'][$app_config['general']['btc_primary_currency_pairing']][$app_config['general']['btc_primary_exchange']] ) ) {
+elseif ( !isset( $ocpt_conf['assets']['BTC']['pairing'][$ocpt_conf['general']['btc_prim_curr_pairing']][$ocpt_conf['general']['btc_prim_exchange']] ) ) {
 
-	foreach ( $app_config['portfolio_assets']['BTC']['market_pairing'][$app_config['general']['btc_primary_currency_pairing']] as $pairing_key => $unused ) {
+	foreach ( $ocpt_conf['assets']['BTC']['pairing'][$ocpt_conf['general']['btc_prim_curr_pairing']] as $pairing_key => $unused ) {
 		
 		if( stristr($pairing_key, 'bitmex_') == false ) { // Futures markets not allowed
-		$avialable_btc_primary_exchanges .= strtolower($pairing_key) . ', ';
+		$avialable_btc_prim_exchanges .= strtolower($pairing_key) . ', ';
 		}
 		
 	}
-	$avialable_btc_primary_exchanges = trim($avialable_btc_primary_exchanges);
-	$avialable_btc_primary_exchanges = rtrim($avialable_btc_primary_exchanges,',');
+	$avialable_btc_prim_exchanges = trim($avialable_btc_prim_exchanges);
+	$avialable_btc_prim_exchanges = rtrim($avialable_btc_prim_exchanges,',');
 
-app_logging('config_error', 'Portfolio cannot run properly, because the "btc_primary_exchange" (Bitcoin exchange) value \''.$app_config['general']['btc_primary_exchange'].'\' is not a valid option for \''.$app_config['general']['btc_primary_currency_pairing'].'\' Bitcoin pairings (valid \''.$app_config['general']['btc_primary_currency_pairing'].'\' Bitcoin pairing options are: '.$avialable_btc_primary_exchanges.')');
+app_logging('config_error', 'Portfolio cannot run properly, because the "btc_prim_exchange" (Bitcoin exchange) value \''.$ocpt_conf['general']['btc_prim_exchange'].'\' is not a valid option for \''.$ocpt_conf['general']['btc_prim_curr_pairing'].'\' Bitcoin pairings (valid \''.$ocpt_conf['general']['btc_prim_curr_pairing'].'\' Bitcoin pairing options are: '.$avialable_btc_prim_exchanges.')');
 
 }
 

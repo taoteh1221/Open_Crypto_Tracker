@@ -14,36 +14,36 @@ if ( $runtime_mode == 'cron' ) {
 $_SESSION[$fetched_feeds] = false;
 
 	// Re-cache RSS feeds for faster UI runtimes later
-	foreach($app_config['power_user']['news_feeds'] as $cached_feed_key => $feed_unused) {
+	foreach($ocpt_conf['power_user']['news_feed'] as $cached_feed_key => $feed_unused) {
 		if ( trim($news_feeds[$cached_feed_key]["url"]) != '' ) {
-	 	$pt_apis->rss($news_feeds[$feed_key]["url"], 'no_theme', 0, 1);
+	 	$ocpt_api->rss($news_feeds[$feed_key]["url"], 'no_theme', 0, 1);
 	 	}
 	}
 
 
 	// If coinmarketcap API key is added, cache data for faster UI runtimes later
-	if ( trim($app_config['general']['coinmarketcapcom_api_key']) != null ) {
-	$coinmarketcap_api = $pt_apis->coinmarketcap();
+	if ( trim($ocpt_conf['general']['cmc_key']) != null ) {
+	$coinmarketcap_api = $ocpt_api->coinmarketcap();
 	}
 	 
 
 // Re-cache marketcap data for faster UI runtimes later
-$coingecko_api = $pt_apis->coingecko();
+$coingecko_api = $ocpt_api->coingecko();
 	 
 	 
 // Re-cache chain data for faster UI runtimes later
 
 // Bitcoin
-$pt_apis->bitcoin('height');
-$pt_apis->bitcoin('difficulty');
+$ocpt_api->bitcoin('height');
+$ocpt_api->bitcoin('difficulty');
 
 // Ethereum
-$pt_apis->etherscan('number');
-$pt_apis->etherscan('difficulty');
-$pt_apis->etherscan('gasLimit');
+$ocpt_api->etherscan('number');
+$ocpt_api->etherscan('difficulty');
+$ocpt_api->etherscan('gasLimit');
 
 // Hive
-$pt_apis->market('HIVE', 'bittrex', 'BTC-HIVE');
+$ocpt_api->market('HIVE', 'bittrex', 'BTC-HIVE');
 
 // Chain data END
 

@@ -37,9 +37,9 @@ $activation_files = sort_files($base_dir . '/cache/secured/activation', 'dat', '
 	
 	// If reset security key checks pass and a valid admin 'to' email exists, flag as an activated reset in progress (to trigger logic later in runtime)
 	
-	$app_config['comms']['to_email'] = $pt_vars->auto_correct_str($app_config['comms']['to_email'], 'lower'); // Clean / auto-correct
+	$ocpt_conf['comms']['to_email'] = $ocpt_var->auto_correct_str($ocpt_conf['comms']['to_email'], 'lower'); // Clean / auto-correct
 	
-	if ( $_GET['new_reset_key'] == $stored_reset_key && validate_email($app_config['comms']['to_email']) == 'valid' ) {
+	if ( $_GET['new_reset_key'] == $stored_reset_key && validate_email($ocpt_conf['comms']['to_email']) == 'valid' ) {
 	$password_reset_approved = 1;
 	}
 	else {
@@ -56,39 +56,39 @@ $activation_files = sort_files($base_dir . '/cache/secured/activation', 'dat', '
 // Secured cache files global variables
 $secured_cache_files = sort_files($base_dir . '/cache/secured', 'dat', 'desc');
 
-$check_default_app_config = trim( file_get_contents($base_dir . '/cache/vars/default_app_config_md5.dat') );
+$check_default_ocpt_conf = trim( file_get_contents($base_dir . '/cache/vars/default_ocpt_conf_md5.dat') );
 
 
 foreach( $secured_cache_files as $secured_file ) {
 
 	// App config
-	if ( preg_match("/app_config_/i", $secured_file) ) {
+	if ( preg_match("/ocpt_conf_/i", $secured_file) ) {
 		
 		
 		// If we already loaded the newest modified file, delete any stale ones
-		if ( $newest_cached_app_config == 1 ) {
+		if ( $newest_cached_ocpt_conf == 1 ) {
 		unlink($base_dir . '/cache/secured/' . $secured_file);
 		}
 		else {
 		
-		$newest_cached_app_config = 1;
+		$newest_cached_ocpt_conf = 1;
 			
-		$cached_app_config = json_decode( trim( file_get_contents($base_dir . '/cache/secured/' . $secured_file) ) , TRUE);
+		$cached_ocpt_conf = json_decode( trim( file_get_contents($base_dir . '/cache/secured/' . $secured_file) ) , TRUE);
 			
 		
-			if ( $check_default_app_config == md5(serialize($default_app_config)) && $cached_app_config == true ) {
-			$app_config = $cached_app_config; // Use cached app_config if it exists, seems intact, and DEFAULT Admin Config (in config.php) hasn't been revised since last check
-			$is_cached_app_config = 1;
+			if ( $check_default_ocpt_conf == md5(serialize($default_ocpt_conf)) && $cached_ocpt_conf == true ) {
+			$ocpt_conf = $cached_ocpt_conf; // Use cached pt_conf if it exists, seems intact, and DEFAULT Admin Config (in config.php) hasn't been revised since last check
+			$is_cached_ocpt_conf = 1;
 			}
-			elseif ( $check_default_app_config != md5(serialize($default_app_config)) ) {
-			app_logging('config_error', 'CACHED app_config outdated (DEFAULT app_config updated), refreshing from DEFAULT app_config');
+			elseif ( $check_default_ocpt_conf != md5(serialize($default_ocpt_conf)) ) {
+			app_logging('config_error', 'CACHED pt_conf outdated (DEFAULT pt_conf updated), refreshing from DEFAULT pt_conf');
 			unlink($base_dir . '/cache/secured/' . $secured_file);
-			$refresh_cached_app_config = 1;
+			$refresh_cached_ocpt_conf = 1;
 			}
-			elseif ( $cached_app_config != true ) {
-			app_logging('config_error', 'CACHED app_config appears corrupt, refreshing from DEFAULT app_config');
+			elseif ( $cached_ocpt_conf != true ) {
+			app_logging('config_error', 'CACHED pt_conf appears corrupt, refreshing from DEFAULT pt_conf');
 			unlink($base_dir . '/cache/secured/' . $secured_file);
-			$refresh_cached_app_config = 1;
+			$refresh_cached_ocpt_conf = 1;
 			}
 			
 			
@@ -186,7 +186,7 @@ foreach( $secured_cache_files as $secured_file ) {
 	
 	
 	// API key (for secure API communications)
-	elseif ( preg_match("/api_key_/i", $secured_file) ) {
+	elseif ( preg_match("/int_api_key_/i", $secured_file) ) {
 		
 		
 		// If we already loaded the newest modified file, delete any stale ones
@@ -246,40 +246,40 @@ foreach( $secured_cache_files as $secured_file ) {
 //////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
-// If no valid cached_app_config, or if DEFAULT Admin Config (in config.php) variables have been changed
-if ( $refresh_cached_app_config == 1 || $is_cached_app_config != 1 ) {
+// If no valid cached_ocpt_conf, or if DEFAULT Admin Config (in config.php) variables have been changed
+if ( $refresh_cached_ocpt_conf == 1 || $is_cached_ocpt_conf != 1 ) {
 	
 $secure_128bit_hash = random_hash(16); // 128-bit (16-byte) hash converted to hexadecimal, used for suffix
 	
 	
 	// Halt the process if an issue is detected safely creating a random hash
 	if ( $secure_128bit_hash == false ) {
-	app_logging('security_error', 'Cryptographically secure pseudo-random bytes could not be generated for cached app_config array (secured cache storage) suffix, cached app_config array creation aborted to preserve security');
+	app_logging('security_error', 'Cryptographically secure pseudo-random bytes could not be generated for cached pt_conf array (secured cache storage) suffix, cached pt_conf array creation aborted to preserve security');
 	}
 	else {
 	
 	
 	// Check to see if we need to upgrade the CACHED app config (NEW / DEPRECIATED CORE VARIABLES ONLY, NOT OVERWRITING EXISTING CORE VARIABLES)
 	// WORK IN-PROGRESS, KEEP DISABLED FOR RELEASES, UNTIL ADMIN UI IS FULLY BUILT OUT / FEATURE IS FULLY TESTED AND DEBUGGED
-	//$upgraded_cached_app_config = upgraded_cached_app_config();
+	//$upgraded_cached_ocpt_conf = upgraded_cached_ocpt_conf();
 	
 	// UNTIL APP CONFIG UPGRADE FEATURE / ADMIN UI ARE FULLY BUILT OUT AND TORTURE-TESTED, USE THIS INSTEAD OF ABOVE UPGRADE LOGIC
 	// (REFRESHES CACHED APP CONFIG TO EXACTLY MIRROR THE HARD-CODED VARIABLES IN CONFIG.PHP, IF CONFIG.PHP IS CHANGED IN EVEN THE SLIGHTEST WAY)
-	$upgraded_cached_app_config = $app_config;
+	$upgraded_cached_ocpt_conf = $ocpt_conf;
 	
 	
 	// Check that the app config is valid / not corrupt
-	$store_cached_app_config = json_encode($upgraded_cached_app_config, JSON_PRETTY_PRINT);
+	$store_cached_ocpt_conf = json_encode($upgraded_cached_ocpt_conf, JSON_PRETTY_PRINT);
 	
 		// If there was an issue updating the cached app config
-		if ( $store_cached_app_config == false ) {
-		app_logging('config_error', 'app_config data could not be saved (to secured cache storage) in json format');
+		if ( $store_cached_ocpt_conf == false ) {
+		app_logging('config_error', 'ocpt_conf data could not be saved (to secured cache storage) in json format');
 		}
 		// If cached app config updated successfully
 		else {
-		$app_config = $upgraded_cached_app_config;
-		store_file_contents($base_dir . '/cache/secured/app_config_'.$secure_128bit_hash.'.dat', $store_cached_app_config);
-		store_file_contents($base_dir . '/cache/vars/default_app_config_md5.dat', md5(serialize($default_app_config))); // For checking later, if DEFAULT Admin Config (in config.php) values are updated we save to json again
+		$ocpt_conf = $upgraded_cached_ocpt_conf;
+		$ocpt_cache->save_file($base_dir . '/cache/secured/ocpt_conf_'.$secure_128bit_hash.'.dat', $store_cached_ocpt_conf);
+		$ocpt_cache->save_file($base_dir . '/cache/vars/default_ocpt_conf_md5.dat', md5(serialize($default_ocpt_conf))); // For checking later, if DEFAULT Admin Config (in config.php) values are updated we save to json again
 		}
 		
 	
@@ -293,11 +293,11 @@ $secure_128bit_hash = random_hash(16); // 128-bit (16-byte) hash converted to he
 
 
 // If telegram messaging is activated, and there is no valid cached_telegram_user_data
-// OR if cached app_config was flagged to be updated
+// OR if cached pt_conf was flagged to be updated
 if ( $telegram_activated == 1 && $refresh_cached_telegram_user_data == 1 
 || $telegram_activated == 1 && $is_cached_telegram_user_data != 1
-|| $telegram_activated == 1 && $refresh_cached_app_config == 1 
-|| $telegram_activated == 1 && $is_cached_app_config != 1 ) {
+|| $telegram_activated == 1 && $refresh_cached_ocpt_conf == 1 
+|| $telegram_activated == 1 && $is_cached_ocpt_conf != 1 ) {
 	
 $secure_128bit_hash = random_hash(16); // 128-bit (16-byte) hash converted to hexadecimal, used for suffix
 	
@@ -308,7 +308,7 @@ $secure_128bit_hash = random_hash(16); // 128-bit (16-byte) hash converted to he
 	}
 	else {
 	
-	$telegram_user_data = $pt_apis->telegram('updates');
+	$telegram_user_data = $ocpt_api->telegram('updates');
 		
 	$store_cached_telegram_user_data = json_encode($telegram_user_data, JSON_PRETTY_PRINT);
 		
@@ -317,7 +317,7 @@ $secure_128bit_hash = random_hash(16); // 128-bit (16-byte) hash converted to he
 		app_logging('config_error', 'UPDATED telegram_user_data could not be saved, PLEASE RE-ENTER "/start" IN THE BOT CHATROOM, IN THE TELEGRAM APP');
 		}
 		else {
-		store_file_contents($base_dir . '/cache/secured/telegram_user_data_'.$secure_128bit_hash.'.dat', $store_cached_telegram_user_data);
+		$ocpt_cache->save_file($base_dir . '/cache/secured/telegram_user_data_'.$secure_128bit_hash.'.dat', $store_cached_telegram_user_data);
 		}
 	
 	}
@@ -341,7 +341,7 @@ $secure_256bit_hash = random_hash(32); // 256-bit (32-byte) hash converted to he
 	app_logging('security_error', 'Cryptographically secure pseudo-random bytes could not be generated for pepper var (in secured cache storage), pepper var creation aborted to preserve security');
 	}
 	else {
-	store_file_contents($base_dir . '/cache/secured/pepper_var_'.$secure_128bit_hash.'.dat', $secure_256bit_hash);
+	$ocpt_cache->save_file($base_dir . '/cache/secured/pepper_var_'.$secure_128bit_hash.'.dat', $secure_256bit_hash);
 	$password_pepper = $secure_256bit_hash;
 	}
 
@@ -364,7 +364,7 @@ $secure_256bit_hash = random_hash(32); // 256-bit (32-byte) hash converted to he
 	app_logging('security_error', 'Cryptographically secure pseudo-random bytes could not be generated for webhook key (in secured cache storage), webhook key creation aborted to preserve security');
 	}
 	else {
-	store_file_contents($base_dir . '/cache/secured/webhook_key_'.$secure_128bit_hash.'.dat', $secure_256bit_hash);
+	$ocpt_cache->save_file($base_dir . '/cache/secured/webhook_key_'.$secure_128bit_hash.'.dat', $secure_256bit_hash);
 	$webhook_key = $secure_256bit_hash;
 	}
 
@@ -387,7 +387,7 @@ $secure_256bit_hash = random_hash(32); // 256-bit (32-byte) hash converted to he
 	app_logging('security_error', 'Cryptographically secure pseudo-random bytes could not be generated for API key (in secured cache storage), API key creation aborted to preserve security');
 	}
 	else {
-	store_file_contents($base_dir . '/cache/secured/api_key_'.$secure_128bit_hash.'.dat', $secure_256bit_hash);
+	$ocpt_cache->save_file($base_dir . '/cache/secured/int_api_key_'.$secure_128bit_hash.'.dat', $secure_256bit_hash);
 	$api_key = $secure_256bit_hash;
 	}
 
@@ -421,7 +421,7 @@ if ( $password_reset_approved || sizeof($stored_admin_login) != 2 ) {
 		app_logging('security_error', 'A peppered password hash could not be generated for admin login, admin login creation aborted to preserve security');
 		}
 		else {
-		store_file_contents($base_dir . '/cache/secured/admin_login_'.$secure_128bit_hash.'.dat', trim($_POST['set_username']) . '||' . $secure_password_hash);
+		$ocpt_cache->save_file($base_dir . '/cache/secured/admin_login_'.$secure_128bit_hash.'.dat', trim($_POST['set_username']) . '||' . $secure_password_hash);
 		$stored_admin_login = array( trim($_POST['set_username']), $secure_password_hash);
 		$admin_login_updated = 1;
 		}
@@ -448,7 +448,7 @@ if ( $password_reset_approved || sizeof($stored_admin_login) != 2 ) {
 				
 		$cookie_nonce = random_hash(32); // 32 byte
 		
-		$pt_gen->store_cookie('admin_auth_' . pt_app_id(), $cookie_nonce, mktime() + ($app_config['power_user']['admin_cookie_expire'] * 3600) );
+		$ocpt_gen->store_cookie('admin_auth_' . pt_app_id(), $cookie_nonce, mktime() + ($ocpt_conf['power_user']['admin_cookie_expire'] * 3600) );
 				
 		$_SESSION['admin_logged_in']['auth_hash'] = admin_hashed_nonce($cookie_nonce, 'force'); // Force set, as we're not logged in fully yet
 				

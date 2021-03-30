@@ -20,7 +20,7 @@ function remove_directory($dir) {
 ////////////////////////////////////////////////////////
 
 
-function update_cache_file($cache_file, $minutes) {
+function update_cache($cache_file, $minutes) {
 
 	if (  file_exists($cache_file) && filemtime($cache_file) > ( time() - ( 60 * $minutes ) )  ) {
 	   return false; 
@@ -39,16 +39,16 @@ function update_cache_file($cache_file, $minutes) {
 
 function user_ini_defaults() {
 	
-global $base_dir, $app_config;
+global $base_dir, $ocpt_conf;
 
-$ui_execution_time = $app_config['developer']['ui_max_execution_time']; // Don't overwrite globals
+$ui_exec_time = $ocpt_conf['developer']['ui_max_exec_time']; // Don't overwrite globals
 
 	// If the UI timeout var wasn't set properly / is not a whole number 3600 or less
-	if ( !ctype_digit($ui_execution_time) || $ui_execution_time > 3600 ) {
-	$ui_execution_time = 120; // Default
+	if ( !ctype_digit($ui_exec_time) || $ui_exec_time > 3600 ) {
+	$ui_exec_time = 120; // Default
 	}
 
-return preg_replace("/\[PHP_TIMEOUT\]/i", $ui_execution_time, file_get_contents($base_dir . '/templates/back-end/root-app-directory-user-ini.template') );
+return preg_replace("/\[PHP_TIMEOUT\]/i", $ui_exec_time, file_get_contents($base_dir . '/templates/back-end/root-app-directory-user-ini.template') );
 
 }
 
@@ -59,16 +59,16 @@ return preg_replace("/\[PHP_TIMEOUT\]/i", $ui_execution_time, file_get_contents(
 
 function htaccess_directory_defaults() {
 	
-global $base_dir, $app_config;
+global $base_dir, $ocpt_conf;
 
-$ui_execution_time = $app_config['developer']['ui_max_execution_time']; // Don't overwrite globals
+$ui_exec_time = $ocpt_conf['developer']['ui_max_exec_time']; // Don't overwrite globals
 
 	// If the UI timeout var wasn't set properly / is not a whole number 3600 or less
-	if ( !ctype_digit($ui_execution_time) || $ui_execution_time > 3600 ) {
-	$ui_execution_time = 120; // Default
+	if ( !ctype_digit($ui_exec_time) || $ui_exec_time > 3600 ) {
+	$ui_exec_time = 120; // Default
 	}
 
-return preg_replace("/\[PHP_TIMEOUT\]/i", $ui_execution_time, file_get_contents($base_dir . '/templates/back-end/root-app-directory-htaccess.template') );
+return preg_replace("/\[PHP_TIMEOUT\]/i", $ui_exec_time, file_get_contents($base_dir . '/templates/back-end/root-app-directory-htaccess.template') );
 
 }
 
@@ -127,7 +127,7 @@ function delete_old_files($directory_data, $days, $ext) {
 
 function htaccess_directory_protection() {
 
-global $base_dir, $app_config, $htaccess_username, $htaccess_password;
+global $base_dir, $ocpt_cache, $ocpt_conf, $htaccess_username, $htaccess_password;
 
 $valid_username = valid_username($htaccess_username);
 
@@ -139,25 +139,25 @@ $password_strength = password_strength($htaccess_password, 8, 8);
     return false;
     }
     elseif ( $valid_username != 'valid' ) {
-    app_logging('security_error', 'app_config\'s "interface_login" username value does not meet minimum valid username requirements' , $valid_username);
+    app_logging('security_error', 'ocpt_conf\'s "interface_login" username value does not meet minimum valid username requirements' , $valid_username);
     return false;
     }
     elseif ( $password_strength != 'valid' ) {
-    app_logging('security_error', 'app_config\'s "interface_login" password value does not meet minimum password strength requirements' , $password_strength);
+    app_logging('security_error', 'ocpt_conf\'s "interface_login" password value does not meet minimum password strength requirements' , $password_strength);
     return false;
     }
     else {
     
     $htaccess_password = crypt( $htaccess_password, base64_encode($htaccess_password) );
     
-    $password_set = store_file_contents($base_dir . '/cache/secured/.app_htpasswd', $htaccess_username . ':' . $htaccess_password);
+    $password_set = $ocpt_cache->save_file($base_dir . '/cache/secured/.app_htpasswd', $htaccess_username . ':' . $htaccess_password);
     
     	if ( $password_set == true ) {
     	
     	$htaccess_contents = htaccess_directory_defaults() . 
 		preg_replace("/\[BASE_DIR\]/i", $base_dir, file_get_contents($base_dir . '/templates/back-end/enable-password-htaccess.template') );
     
-    	$htaccess_set = store_file_contents($base_dir . '/.htaccess', $htaccess_contents);
+    	$htaccess_set = $ocpt_cache->save_file($base_dir . '/.htaccess', $htaccess_contents);
     
     	return $htaccess_set;
     	
@@ -252,10 +252,10 @@ return trim($output);
 
 function backup_archive($backup_prefix, $backup_target, $interval, $password=false) {
 
-global $app_config, $base_dir, $base_url;
+global $ocpt_conf, $base_dir, $base_url, $ocpt_cache;
 
 
-	if ( update_cache_file('cache/events/backup-'.$backup_prefix.'.dat', ( $interval * 1440 ) ) == true ) {
+	if ( update_cache('cache/events/backup-'.$backup_prefix.'.dat', ( $interval * 1440 ) ) == true ) {
 
 	$secure_128bit_hash = random_hash(16); // 128-bit (16-byte) hash converted to hexadecimal, used for suffix
 	
@@ -276,11 +276,11 @@ global $app_config, $base_dir, $base_url;
 			
 				if ( $backup_results == 1 ) {
 					
-				store_file_contents($base_dir . '/cache/events/backup-'.$backup_prefix.'.dat', time_date_format(false, 'pretty_date_time') );
+				$ocpt_cache->save_file($base_dir . '/cache/events/backup-'.$backup_prefix.'.dat', time_date_format(false, 'pretty_date_time') );
 					
 				$backup_url = $base_url . 'download.php?backup=' . $backup_file;
 				
-				$message = "A backup archive has been created for: ".$backup_prefix."\n\nHere is a link to download the backup to your computer: " . $backup_url . "\n\n(backup archives are purged after " . $app_config['power_user']['backup_archive_delete_old'] . " days)";
+				$message = "A backup archive has been created for: ".$backup_prefix."\n\nHere is a link to download the backup to your computer: " . $backup_url . "\n\n(backup archives are purged after " . $ocpt_conf['power_user']['backup_arch_delete_old'] . " days)";
 				
 				// Message parameter added for desired comm methods (leave any comm method blank to skip sending via that method)
 				$send_params = array(
@@ -291,7 +291,7 @@ global $app_config, $base_dir, $base_url;
 										);
 							
 				// Send notifications
-				@queue_notifications($send_params);
+				@$ocpt_cache->queue_notify($send_params);
 				
 				}
 				else {
@@ -312,91 +312,11 @@ global $app_config, $base_dir, $base_url;
 ////////////////////////////////////////////////////////
 
 
-function queue_notifications($send_params) {
-
-global $base_dir, $app_config, $telegram_activated;
-
-
-	// Queue messages
-	
-	// RANDOM HASH SHOULD BE CALLED PER-STATEMENT, OTHERWISE FOR SOME REASON SEEMS TO REUSE SAME HASH FOR THE WHOLE RUNTIME INSTANCE (if set as a variable beforehand)
-	
-	// Notifyme
-   if ( $send_params['notifyme'] != '' && trim($app_config['comms']['notifyme_accesscode']) != '' ) {
-	store_file_contents($base_dir . '/cache/secured/messages/notifyme-' . random_hash(8) . '.queue', $send_params['notifyme']);
-   }
-  
-   // Textbelt
-	// To be safe, don't use trim() on certain strings with arbitrary non-alphanumeric characters here
-   if ( $send_params['text']['message'] != '' && trim($app_config['comms']['textbelt_apikey']) != '' && $app_config['comms']['textlocal_account'] == '' ) { // Only run if textlocal API isn't being used to avoid double texts
-	store_file_contents($base_dir . '/cache/secured/messages/textbelt-' . random_hash(8) . '.queue', $send_params['text']['message']);
-   }
-  
-   // Textlocal
-	// To be safe, don't use trim() on certain strings with arbitrary non-alphanumeric characters here
-   if ( $send_params['text']['message'] != '' && $app_config['comms']['textlocal_account'] != '' && trim($app_config['comms']['textbelt_apikey']) == '' ) { // Only run if textbelt API isn't being used to avoid double texts
-	store_file_contents($base_dir . '/cache/secured/messages/textlocal-' . random_hash(8) . '.queue', $send_params['text']['message']);
-   }
-	
-	// Telegram
-   if ( $send_params['telegram'] != '' && $telegram_activated == 1 ) {
-	store_file_contents($base_dir . '/cache/secured/messages/telegram-' . random_hash(8) . '.queue', $send_params['telegram']);
-   }
-   
-           
-   // Text email
-	// To be safe, don't use trim() on certain strings with arbitrary non-alphanumeric characters here
-	// Only use text-to-email if other text services aren't configured
-   if ( $send_params['text']['message'] != '' && validate_email( text_email($app_config['comms']['to_mobile_text']) ) == 'valid' && trim($app_config['comms']['textbelt_apikey']) == '' && $app_config['comms']['textlocal_account'] == '' ) { 
-   
-   // $send_params['text_charset'] SHOULD ALWAYS BE SET FROM THE CALL TO HERE (for emojis, or other unicode characters to send via text message properly)
-   // SUBJECT !!MUST BE SET!! OR SOME TEXT SERVICES WILL NOT ACCEPT THE MESSAGE!
-   $textemail_array = array('subject' => 'Text Notify', 'message' => $send_params['text']['message'], 'content_type' => 'text', 'charset' => $send_params['text']['charset'] );
-   
-   	// json_encode() only accepts UTF-8, SO TEMPORARILY CONVERT TO THAT FOR MESSAGE QUEUE STORAGE
-   	if ( strtolower($send_params['text']['charset']) != 'utf-8' ) {
-   		
-   		foreach( $textemail_array as $textemail_key => $textemail_value ) {
-   		$textemail_array[$textemail_key] = mb_convert_encoding($textemail_value, 'UTF-8', mb_detect_encoding($textemail_value, "auto") );
-   		}
-   	
-   	}
-   
-	store_file_contents($base_dir . '/cache/secured/messages/textemail-' . random_hash(8) . '.queue', json_encode($textemail_array) );
-	
-   }
-          
-   // Normal email
-   if ( $send_params['email']['message'] != '' && validate_email($app_config['comms']['to_email']) == 'valid' ) {
-   
-   $email_array = array('subject' => $send_params['email']['subject'], 'message' => $send_params['email']['message'], 'content_type' => ( $send_params['email']['content_type'] ? $send_params['email']['content_type'] : 'text' ), 'charset' => ( $send_params['email']['charset'] ? $send_params['email']['charset'] : $app_config['developer']['charset_default'] ) );
-   
-   	// json_encode() only accepts UTF-8, SO TEMPORARILY CONVERT TO THAT FOR MESSAGE QUEUE STORAGE
-   	if ( strtolower($send_params['email']['charset']) != 'utf-8' ) {
-   		
-   		foreach( $email_array as $email_key => $email_value ) {
-   		$email_array[$email_key] = mb_convert_encoding($email_value, 'UTF-8', mb_detect_encoding($email_value, "auto") );
-   		}
-   	
-   	}
-   
-	store_file_contents($base_dir . '/cache/secured/messages/normalemail-' . random_hash(8) . '.queue', json_encode($email_array) );
-	
-   }
-  
-
-}
-
-
-////////////////////////////////////////////////////////
-////////////////////////////////////////////////////////
-
-
 function debugging_logs() {
 
-global $app_config, $base_dir, $logs_array;
+global $ocpt_conf, $base_dir, $ocpt_cache, $logs_array;
 
-	if ( $app_config['developer']['debug_mode'] == 'off' ) {
+	if ( $ocpt_conf['developer']['debug_mode'] == 'off' ) {
 	return false;
 	}
 
@@ -426,7 +346,7 @@ $debugging_logs .= strip_tags($logs_array['other_debugging']); // Remove any HTM
 
 
 	// If it's time to email debugging logs...
-	if ( $app_config['power_user']['logs_email'] > 0 && update_cache_file('cache/events/email-debugging-logs.dat', ( $app_config['power_user']['logs_email'] * 1440 ) ) == true ) {
+	if ( $ocpt_conf['power_user']['logs_email'] > 0 && update_cache('cache/events/email-debugging-logs.dat', ( $ocpt_conf['power_user']['logs_email'] * 1440 ) ) == true ) {
 		
 	$emailed_logs = "\n\n ------------------debugging.log------------------ \n\n" . file_get_contents('cache/logs/debugging.log') . "\n\n ------------------smtp_debugging.log------------------ \n\n" . file_get_contents('cache/logs/smtp_debugging.log');
 		
@@ -441,20 +361,20 @@ $debugging_logs .= strip_tags($logs_array['other_debugging']); // Remove any HTM
           					);
           	
    // Send notifications
-   @queue_notifications($send_params);
+   @$ocpt_cache->queue_notify($send_params);
           	
-	store_file_contents($base_dir . '/cache/events/email-debugging-logs.dat', date('Y-m-d H:i:s')); // Track this emailing event, to determine next time to email logs again.
+	$ocpt_cache->save_file($base_dir . '/cache/events/email-debugging-logs.dat', date('Y-m-d H:i:s')); // Track this emailing event, to determine next time to email logs again.
 	
 	}
 	
 	
 	// Log debugging...Purge old logs before storing new logs, if it's time to...otherwise just append.
-	if ( update_cache_file('cache/events/purge-debugging-logs.dat', ( $app_config['power_user']['logs_purge'] * 1440 ) ) == true ) {
+	if ( update_cache('cache/events/purge-debugging-logs.dat', ( $ocpt_conf['power_user']['logs_purge'] * 1440 ) ) == true ) {
 	
 	unlink($base_dir . '/cache/logs/smtp_debugging.log');
 	unlink($base_dir . '/cache/logs/debugging.log');
 	
-	store_file_contents('cache/events/purge-debugging-logs.dat', date('Y-m-d H:i:s'));
+	$ocpt_cache->save_file('cache/events/purge-debugging-logs.dat', date('Y-m-d H:i:s'));
 	
 	sleep(1);
 	
@@ -463,13 +383,13 @@ $debugging_logs .= strip_tags($logs_array['other_debugging']); // Remove any HTM
 	
 	if ( $debugging_logs != null ) {
 		
-	$store_file_contents = store_file_contents($base_dir . '/cache/logs/debugging.log', $debugging_logs, "append");
+	$store_file_contents = $ocpt_cache->save_file($base_dir . '/cache/logs/debugging.log', $debugging_logs, "append");
 		
 			if ( $store_file_contents != true ) {
 			return 'Debugging logs write error for "' . $base_dir . '/cache/logs/debugging.log" (MAKE SURE YOUR DISK ISN\'T FULL), data_size_bytes: ' . strlen($debugging_logs) . ' bytes';
 			}
 			// DEBUGGING ONLY (rules out issues other than full disk)
-			elseif ( $app_config['developer']['debug_mode'] == 'all' || $app_config['developer']['debug_mode'] == 'all_telemetry' ) {
+			elseif ( $ocpt_conf['developer']['debug_mode'] == 'all' || $ocpt_conf['developer']['debug_mode'] == 'all_telemetry' ) {
 			return 'Debugging logs write success for "' . $base_dir . '/cache/logs/debugging.log", data_size_bytes: ' . strlen($debugging_logs) . ' bytes';
 			}
 		
@@ -487,7 +407,7 @@ return true;
 
 function error_logs() {
 
-global $app_config, $base_dir, $logs_array;
+global $ocpt_conf, $base_dir, $ocpt_cache, $logs_array;
 
 // Combine all errors logged
 $error_logs .= strip_tags($logs_array['system_error']); // Remove any HTML formatting used in UI alerts
@@ -515,7 +435,7 @@ $error_logs .= strip_tags($logs_array['other_error']); // Remove any HTML format
 
 
 	// If it's time to email error logs...
-	if ( $app_config['power_user']['logs_email'] > 0 && update_cache_file('cache/events/email-error-logs.dat', ( $app_config['power_user']['logs_email'] * 1440 ) ) == true ) {
+	if ( $ocpt_conf['power_user']['logs_email'] > 0 && update_cache('cache/events/email-error-logs.dat', ( $ocpt_conf['power_user']['logs_email'] * 1440 ) ) == true ) {
 		
 	$emailed_logs = "\n\n ------------------errors.log------------------ \n\n" . file_get_contents('cache/logs/errors.log') . "\n\n ------------------smtp_errors.log------------------ \n\n" . file_get_contents('cache/logs/smtp_errors.log');
 		
@@ -530,20 +450,20 @@ $error_logs .= strip_tags($logs_array['other_error']); // Remove any HTML format
           					);
           	
    // Send notifications
-   @queue_notifications($send_params);
+   @$ocpt_cache->queue_notify($send_params);
           	
-	store_file_contents($base_dir . '/cache/events/email-error-logs.dat', date('Y-m-d H:i:s')); // Track this emailing event, to determine next time to email logs again.
+	$ocpt_cache->save_file($base_dir . '/cache/events/email-error-logs.dat', date('Y-m-d H:i:s')); // Track this emailing event, to determine next time to email logs again.
 	
 	}
 	
 	
 	// Log errors...Purge old logs before storing new logs, if it's time to...otherwise just append.
-	if ( update_cache_file('cache/events/purge-error-logs.dat', ( $app_config['power_user']['logs_purge'] * 1440 ) ) == true ) {
+	if ( update_cache('cache/events/purge-error-logs.dat', ( $ocpt_conf['power_user']['logs_purge'] * 1440 ) ) == true ) {
 	
 	unlink($base_dir . '/cache/logs/smtp_errors.log');
 	unlink($base_dir . '/cache/logs/errors.log');
 	
-	store_file_contents('cache/events/purge-error-logs.dat', date('Y-m-d H:i:s'));
+	$ocpt_cache->save_file('cache/events/purge-error-logs.dat', date('Y-m-d H:i:s'));
 	
 	sleep(1);
 	
@@ -552,13 +472,13 @@ $error_logs .= strip_tags($logs_array['other_error']); // Remove any HTML format
 	
 	if ( $error_logs != null ) {
 		
-	$store_file_contents = store_file_contents($base_dir . '/cache/logs/errors.log', $error_logs, "append");
+	$store_file_contents = $ocpt_cache->save_file($base_dir . '/cache/logs/errors.log', $error_logs, "append");
 		
 			if ( $store_file_contents != true ) {
 			return 'Error logs write error for "' . $base_dir . '/cache/logs/errors.log" (MAKE SURE YOUR DISK ISN\'T FULL), data_size_bytes: ' . strlen($error_logs) . ' bytes';
 			}
 			// DEBUGGING ONLY (rules out issues other than full disk)
-			elseif ( $app_config['developer']['debug_mode'] == 'all' || $app_config['developer']['debug_mode'] == 'all_telemetry' ) {
+			elseif ( $ocpt_conf['developer']['debug_mode'] == 'all' || $ocpt_conf['developer']['debug_mode'] == 'all_telemetry' ) {
 			return 'Error logs write success for "' . $base_dir . '/cache/logs/errors.log", data_size_bytes: ' . strlen($error_logs) . ' bytes';
 			}
 	
@@ -574,123 +494,9 @@ return true;
 ////////////////////////////////////////////////////////
 
 
-function store_file_contents($file, $data, $mode=false, $lock=true) {
-
-global $app_config, $pt_vars, $current_runtime_user, $possible_http_users, $http_runtime_user;
-
-
-	// If no data was passed on to write to file, log it and return false early for runtime speed sake
-	if ( strlen($data) == 0 ) {
-		
-	app_logging('system_error', 'No bytes of data received to write to file "' . obfuscated_path_data($file) . '" (aborting useless file write)');
-	
-		// API timeouts are a confirmed cause for write errors of 0 bytes, so we want to alert end users that they may need to adjust their API timeout settings to get associated API data
-		if ( preg_match("/cache\/secured\/apis/i", $file) ) {
-		app_logging('ext_api_error', 'POSSIBLE api timeout' . ( $app_config['developer']['remote_api_strict_ssl'] == 'on' ? ' or strict_ssl' : '' ) . ' issue for cache file "' . obfuscated_path_data($file) . '" (IF ISSUE PERSISTS, TRY INCREASING "remote_api_timeout" IN Admin Config POWER USER SECTION' . ( $app_config['developer']['remote_api_strict_ssl'] == 'on' ? ', OR SETTING "remote_api_strict_ssl" to "off" IN Admin Config DEVELOPER SECTION' : '' ) . ')', 'remote_api_timeout: '.$app_config['power_user']['remote_api_timeout'].' seconds; remote_api_strict_ssl: ' . $app_config['developer']['remote_api_strict_ssl'] . ';');
-		}
-	
-	return false;
-	
-	}
-
-
-$path_parts = pathinfo($file);
-
-$file_owner_info = posix_getpwuid(fileowner($file));
-
-
-	// Does the current runtime user own this file (or will they own it after creating a non-existent file)?
-	if ( file_exists($file) == false || isset($current_runtime_user) && $current_runtime_user == $file_owner_info['name'] ) {
-	$is_file_owner = 1;
-	}
-	
-	
-	// We ALWAYS set .htaccess files to a more secure $app_config['developer']['chmod_index_security'] permission AFTER EDITING, 
-	// so we TEMPORARILY set .htaccess to $app_config['developer']['chmod_cache_files'] for NEW EDITING...
-	if ( strstr($file, '.htaccess') != false || strstr($file, '.user.ini') != false || strstr($file, 'index.php') != false ) {
-		
-	$chmod_setting = octdec($app_config['developer']['chmod_cache_files']);
-	
-	
-		// Run chmod compatibility on certain PHP setups (if we can because we are running as the file owner)
-		// In this case only if the file exists, as we are chmod BEFORE editing it (.htaccess files)
-		if ( file_exists($file) == true && $is_file_owner == 1 && !$http_runtime_user 
-		|| file_exists($file) == true && $is_file_owner == 1 && isset($http_runtime_user) && in_array($http_runtime_user, $possible_http_users) ) {
-			
-		$oldmask = umask(0);
-		
-		$did_chmod = chmod($file, $chmod_setting);
-		
-			if ( !$did_chmod ) {
-			app_logging('system_error', 'Chmod failed for file "' . obfuscated_path_data($file) . '" (check permissions for the path "' . obfuscated_path_data($path_parts['dirname']) . '", and the file "' . $pt_vars->obfuscate_str($path_parts['basename'], 5) . '")', 'chmod_setting: ' . $chmod_setting . '; current_runtime_user: ' . $current_runtime_user . '; file_owner: ' . $file_owner_info['name'] . ';');
-			}
-		
-		umask($oldmask);
-		
-		}
-	
-	}
-	
-
-
-	// Write to the file
-	if ( $mode == 'append' && $lock ) {
-	$result = file_put_contents($file, $data, FILE_APPEND | LOCK_EX);
-	}
-	elseif ( $mode == 'append' && !$lock ) {
-	$result = file_put_contents($file, $data, FILE_APPEND);
-	}
-	elseif ( !$mode && $lock ) {
-	$result = file_put_contents($file, $data, LOCK_EX);
-	}
-	else {
-	$result = file_put_contents($file, $data);
-	}
-	
-	// Log any write error
-	if ( $result == false ) {
-	app_logging('system_error', 'File write failed storing '.strlen($data).' bytes of data to file "' . obfuscated_path_data($file) . '" (MAKE SURE YOUR DISK ISN\'T FULL. Check permissions for the path "' . obfuscated_path_data($path_parts['dirname']) . '", and the file "' . $pt_vars->obfuscate_str($path_parts['basename'], 5) . '")');
-	}
-	
-	
-	
-	// For security, NEVER make an .htaccess file writable by any user not in the group
-	if ( strstr($file, '.htaccess') != false || strstr($file, '.user.ini') != false || strstr($file, 'index.php') != false ) {
-	$chmod_setting = octdec($app_config['developer']['chmod_index_security']);
-	}
-	// All other files
-	else {
-	$chmod_setting = octdec($app_config['developer']['chmod_cache_files']);
-	}
-	
-	// Run chmod compatibility on certain PHP setups (if we can because we are running as the file owner)
-	if ( $is_file_owner == 1 && !$http_runtime_user || $is_file_owner == 1 && isset($http_runtime_user) && in_array($http_runtime_user, $possible_http_users) ) {
-		
-	$oldmask = umask(0);
-	
-	$did_chmod = chmod($file, $chmod_setting);
-		
-		if ( !$did_chmod ) {
-		app_logging('system_error', 'Chmod failed for file "' . obfuscated_path_data($file) . '" (check permissions for the path "' . obfuscated_path_data($path_parts['dirname']) . '", and the file "' . $pt_vars->obfuscate_str($path_parts['basename'], 5) . '")', 'chmod_setting: ' . $chmod_setting . '; current_runtime_user: ' . $current_runtime_user . '; file_owner: ' . $file_owner_info['name'] . ';');
-		}
-		
-	umask($oldmask);
-	
-	}
-	
-	
-return $result;
-
-}
-
-
-////////////////////////////////////////////////////////
-////////////////////////////////////////////////////////
-
-
 function test_proxy($problem_proxy_array) {
 
-global $base_dir, $app_config, $pt_cache, $runtime_mode, $proxies_checked;
+global $base_dir, $ocpt_conf, $ocpt_cache, $runtime_mode, $proxies_checked;
 
 
 // Endpoint to test proxy connectivity: https://www.myip.com/api-docs/
@@ -719,27 +525,27 @@ $cache_filename = $problem_proxy;
 $cache_filename = preg_replace("/\./", "-", $cache_filename);
 $cache_filename = preg_replace("/:/", "_", $cache_filename);
 
-	if ( $app_config['comms']['proxy_alerts_runtime'] == 'all' ) {
+	if ( $ocpt_conf['comms']['proxy_alert_runtime'] == 'all' ) {
 	$run_alerts = 1;
 	}
-	elseif ( $app_config['comms']['proxy_alerts_runtime'] == 'cron' && $runtime_mode == 'cron' ) {
+	elseif ( $ocpt_conf['comms']['proxy_alert_runtime'] == 'cron' && $runtime_mode == 'cron' ) {
 	$run_alerts = 1;
 	}
-	elseif ( $app_config['comms']['proxy_alerts_runtime'] == 'ui' && $runtime_mode == 'ui' ) {
+	elseif ( $ocpt_conf['comms']['proxy_alert_runtime'] == 'ui' && $runtime_mode == 'ui' ) {
 	$run_alerts = 1;
 	}
 	else {
 	$run_alerts = null;
 	}
 
-	if ( $run_alerts == 1 && update_cache_file('cache/alerts/proxy-check-'.$cache_filename.'.dat', ( $app_config['comms']['proxy_alerts_freq_max'] * 60 ) ) == true
+	if ( $run_alerts == 1 && update_cache('cache/alerts/proxy-check-'.$cache_filename.'.dat', ( $ocpt_conf['comms']['proxy_alert_freq_max'] * 60 ) ) == true
 	&& in_array($cache_filename, $proxies_checked) == false ) {
 	
 		
 	// SESSION VAR first, to avoid duplicate alerts at runtime (and longer term cache file locked for writing further down, after logs creation)
 	$proxies_checked[] = $cache_filename;
 		
-	$jsondata = @$pt_cache->ext_apis('proxy-check', $proxy_test_url, 0, '', '', $problem_proxy);
+	$jsondata = @$ocpt_cache->ext_data('proxy-check', $proxy_test_url, 0, '', '', $problem_proxy);
 	
 	$data = json_decode($jsondata, true);
 	
@@ -782,21 +588,21 @@ $cache_filename = preg_replace("/:/", "_", $cache_filename);
 	
 
 		// Update alerts cache for this proxy (to prevent running alerts for this proxy too often)
-		store_file_contents($base_dir . '/cache/alerts/proxy-check-'.$cache_filename.'.dat', $cached_logs);
+		$ocpt_cache->save_file($base_dir . '/cache/alerts/proxy-check-'.$cache_filename.'.dat', $cached_logs);
 			
       
       $email_alert = " The proxy " . $problem_proxy . " recently did not receive data when accessing this endpoint: \n " . $obfuscated_url_data . " \n \n A check on this proxy was performed at " . $proxy_test_url . ", and results logged: \n ============================================================== \n " . $cached_logs . " \n ============================================================== \n \n ";
                     
 		
 		// Send out alerts
-		if ( $misconfigured == 1 || $app_config['comms']['proxy_alerts_checkup_ok'] == 'include' ) {
+		if ( $misconfigured == 1 || $ocpt_conf['comms']['proxy_alert_checkup_ok'] == 'include' ) {
                     
                     
   				// Message parameter added for desired comm methods (leave any comm method blank to skip sending via that method)
-  				if ( $app_config['comms']['proxy_alerts'] == 'all' ) {
+  				if ( $ocpt_conf['comms']['proxy_alert'] == 'all' ) {
   				
   				// Minimize function calls
-  				$encoded_text_alert = content_data_encoding($text_alert); // Unicode support included for text messages (emojis / asian characters / etc )
+  				$encoded_text_alert = $ocpt_gen->charset_encode($text_alert); // Unicode support included for text messages (emojis / asian characters / etc )
   					
           	$send_params = array(
           								'notifyme' => $notifyme_alert,
@@ -812,7 +618,7 @@ $cache_filename = preg_replace("/:/", "_", $cache_filename);
           								);
           	
           	}
-  				elseif ( $app_config['comms']['proxy_alerts'] == 'email' ) {
+  				elseif ( $ocpt_conf['comms']['proxy_alert'] == 'email' ) {
   					
           	$send_params['email'] = array(
           											'subject' => 'A Proxy Was Unresponsive',
@@ -820,10 +626,10 @@ $cache_filename = preg_replace("/:/", "_", $cache_filename);
           											);
           	
           	}
-  				elseif ( $app_config['comms']['proxy_alerts'] == 'text' ) {
+  				elseif ( $ocpt_conf['comms']['proxy_alert'] == 'text' ) {
   				
   				// Minimize function calls
-  				$encoded_text_alert = content_data_encoding($text_alert); // Unicode support included for text messages (emojis / asian characters / etc )
+  				$encoded_text_alert = $ocpt_gen->charset_encode($text_alert); // Unicode support included for text messages (emojis / asian characters / etc )
   				
           	$send_params['text'] = array(
           											'message' => $encoded_text_alert['content_output'],
@@ -831,16 +637,16 @@ $cache_filename = preg_replace("/:/", "_", $cache_filename);
           											);
           	
           	}
-  				elseif ( $app_config['comms']['proxy_alerts'] == 'notifyme' ) {
+  				elseif ( $ocpt_conf['comms']['proxy_alert'] == 'notifyme' ) {
           	$send_params['notifyme'] = $notifyme_alert;
           	}
-  				elseif ( $app_config['comms']['proxy_alerts'] == 'telegram' ) {
+  				elseif ( $ocpt_conf['comms']['proxy_alert'] == 'telegram' ) {
           	$send_params['telegram'] = $email_alert;
           	}
           	
           	
           	// Send notifications
-          	@queue_notifications($send_params);
+          	@$ocpt_cache->queue_notify($send_params);
           	
            
        }
@@ -860,7 +666,7 @@ $cache_filename = preg_replace("/:/", "_", $cache_filename);
 
 function update_lite_chart($archive_path, $newest_archival_data=false, $days_span=1) {
 
-global $app_config, $base_dir, $pt_vars;
+global $ocpt_conf, $base_dir, $ocpt_var, $ocpt_cache;
 
 $archival_data = array();
 $queued_archival_lines = array();
@@ -872,7 +678,7 @@ $lite_path = preg_replace("/archival/i", 'lite/' . $days_span . '_days', $archiv
 	// Hash of lite path, AND random X hours update threshold, to spread out and event-track 'all' chart rebuilding
 	if ( $days_span == 'all' ) {
 	$lite_path_hash = md5($lite_path);
-	$threshold_range = explode(',', $app_config['developer']['all_chart_rebuild_min_max']);
+	$threshold_range = explode(',', $ocpt_conf['developer']['all_chart_rebuild_min_max']);
 	$all_chart_rebuild_threshold = rand($threshold_range[0], $threshold_range[1]); // Randomly within the min/max range, to spead the load across multiple runtimes
 	}
 
@@ -881,7 +687,7 @@ $lite_path = preg_replace("/archival/i", 'lite/' . $days_span . '_days', $archiv
 	if ( file_exists($lite_path) ) {
 	$last_lite_line = tail_custom($lite_path);
 	$last_lite_array = explode("||", $last_lite_line);
-	$newest_lite_timestamp = ( isset($last_lite_array[0]) ? $pt_vars->num_to_str($last_lite_array[0]) : false );
+	$newest_lite_timestamp = ( isset($last_lite_array[0]) ? $ocpt_var->num_to_str($last_lite_array[0]) : false );
 	}
 	else {
 	$newest_lite_timestamp = false;
@@ -892,7 +698,7 @@ $lite_path = preg_replace("/archival/i", 'lite/' . $days_span . '_days', $archiv
 // (determines newest archival timestamp)
 $last_archival_line = ( $newest_archival_data != false ? $newest_archival_data : tail_custom($archive_path) );
 $last_archival_array = explode("||", $last_archival_line);
-$newest_archival_timestamp = $pt_vars->num_to_str($last_archival_array[0]);
+$newest_archival_timestamp = $ocpt_var->num_to_str($last_archival_array[0]);
 			
 			
 // Get FIRST line of archival chart data (determines oldest archival timestamp)
@@ -905,12 +711,12 @@ $fopen_archive = fopen($archive_path, 'r');
 	}
 	
 $first_archival_array = explode("||", $first_archival_line);
-$oldest_archival_timestamp = $pt_vars->num_to_str($first_archival_array[0]);
+$oldest_archival_timestamp = $ocpt_var->num_to_str($first_archival_array[0]);
 	
 			
 	// Oldest base timestamp we can use (only applies for x days charts, not 'all')
 	if ( $days_span != 'all' ) {
-	$base_min_timestamp = $pt_vars->num_to_str( strtotime('-'.$days_span.' day', $newest_archival_timestamp) );
+	$base_min_timestamp = $ocpt_var->num_to_str( strtotime('-'.$days_span.' day', $newest_archival_timestamp) );
 	}
 	
 	// If it's the 'all' lite chart, OR the oldest archival timestamp is newer than oldest base timestamp we can use
@@ -925,10 +731,10 @@ $oldest_archival_timestamp = $pt_vars->num_to_str($first_archival_array[0]);
 	
 	// Minimum time interval between data points in lite chart
 	if ( $days_span == 'all' ) {
-	$min_data_interval = round( ($newest_archival_timestamp - $oldest_archival_timestamp) / $app_config['power_user']['lite_chart_data_points_max'] ); // Dynamic
+	$min_data_interval = round( ($newest_archival_timestamp - $oldest_archival_timestamp) / $ocpt_conf['power_user']['lite_chart_data_points_max'] ); // Dynamic
 	}
 	else {
-	$min_data_interval = round( ($days_span * 86400) / $app_config['power_user']['lite_chart_data_points_max'] ); // Fixed X days (86400 seconds per day)
+	$min_data_interval = round( ($days_span * 86400) / $ocpt_conf['power_user']['lite_chart_data_points_max'] ); // Fixed X days (86400 seconds per day)
 	}
 
 
@@ -944,8 +750,8 @@ $oldest_archival_timestamp = $pt_vars->num_to_str($first_archival_array[0]);
 
 
 // Large number support (NOT scientific format), since we manipulated these
-$min_data_interval = $pt_vars->num_to_str($min_data_interval); 
-$lite_data_update_threshold = $pt_vars->num_to_str($lite_data_update_threshold); 
+$min_data_interval = $ocpt_var->num_to_str($min_data_interval); 
+$lite_data_update_threshold = $ocpt_var->num_to_str($lite_data_update_threshold); 
 
 
    // If we are queued to update an existing lite chart, get the data points we want to add 
@@ -956,7 +762,7 @@ $lite_data_update_threshold = $pt_vars->num_to_str($lite_data_update_threshold);
     	// #we save BIGTIME on resource usage# (used EVERYTIME, other than very rare FALLBACKS)
     	// CHECKS IF UPDATE THRESHOLD IS GREATER THAN NEWEST ARCHIVAL DATA POINT TIMESTAMP, 
     	// #WHEN ADDING AN EXTRA# $min_data_interval (so we know to only add one data point)
-    	if ( $pt_vars->num_to_str($lite_data_update_threshold + $min_data_interval) > $newest_archival_timestamp ) {
+    	if ( $ocpt_var->num_to_str($lite_data_update_threshold + $min_data_interval) > $newest_archival_timestamp ) {
     	$queued_archival_lines[] = $last_archival_line;
     	}
    	// If multiple lite chart data points missing (from any very rare FALLBACK instances, like network / load / disk / runtime issues, etc)
@@ -969,10 +775,10 @@ $lite_data_update_threshold = $pt_vars->num_to_str($lite_data_update_threshold);
    	 	
    	 	foreach( $tail_archival_lines_array as $archival_line ) {
    	 	$archival_line_array = explode('||', $archival_line);
-   	 	$archival_line_array[0] = $pt_vars->num_to_str($archival_line_array[0]);
+   	 	$archival_line_array[0] = $ocpt_var->num_to_str($archival_line_array[0]);
    	 	 
    	 	 	if ( !$added_archival_timestamp && $lite_data_update_threshold <= $archival_line_array[0]
-   	 	 	|| isset($added_archival_timestamp) && $pt_vars->num_to_str($added_archival_timestamp + $min_data_interval) <= $archival_line_array[0] ) {
+   	 	 	|| isset($added_archival_timestamp) && $ocpt_var->num_to_str($added_archival_timestamp + $min_data_interval) <= $archival_line_array[0] ) {
    	 	 	$queued_archival_lines[] = $archival_line;
    	 	 	$added_archival_timestamp = $archival_line_array[0];
    	 	 	}
@@ -1001,7 +807,7 @@ $lite_data_update_threshold = $pt_vars->num_to_str($lite_data_update_threshold);
 	// (we STILL check $queued_archival_lines for new data, to see if we should SKIP an 'all' charts full rebuild now)
 	////////////////////////////////////////////////////////////////////////////////////////////////
 	elseif ( !$newest_lite_timestamp 
-	|| $days_span == 'all' && sizeof($queued_archival_lines) > 0 && update_cache_file($base_dir . '/cache/events/lite_chart_rebuilds/all_days_chart_'.$lite_path_hash.'.dat', (60 * $all_chart_rebuild_threshold) ) == true ) {
+	|| $days_span == 'all' && sizeof($queued_archival_lines) > 0 && update_cache($base_dir . '/cache/events/lite_chart_rebuilds/all_days_chart_'.$lite_path_hash.'.dat', (60 * $all_chart_rebuild_threshold) ) == true ) {
 
 	$archive_file_data = file($archive_path);
 	$archive_file_data = array_reverse($archive_file_data); // Save time, only loop / read last lines needed
@@ -1010,7 +816,7 @@ $lite_data_update_threshold = $pt_vars->num_to_str($lite_data_update_threshold);
 		foreach($archive_file_data as $line) {
 			
 		$line_array = explode("||", $line);
-		$line_array[0] = $pt_vars->num_to_str($line_array[0]);
+		$line_array[0] = $ocpt_var->num_to_str($line_array[0]);
 		
 			if ( $line_array[0] >= $oldest_allowed_timestamp ) {
 			$archival_data[] = $line;
@@ -1023,10 +829,10 @@ $lite_data_update_threshold = $pt_vars->num_to_str($lite_data_update_threshold);
 		$loop = 0;
 		$data_points = 0;
 		// $data_points <= is INTENTIONAL, as we can have max data points slightly under without it
-		while ( isset($archival_data[$loop]) && $data_points <= $app_config['power_user']['lite_chart_data_points_max'] ) {
+		while ( isset($archival_data[$loop]) && $data_points <= $ocpt_conf['power_user']['lite_chart_data_points_max'] ) {
 			
 		$data_point_array = explode("||", $archival_data[$loop]);
-		$data_point_array[0] = $pt_vars->num_to_str($data_point_array[0]);
+		$data_point_array[0] = $ocpt_var->num_to_str($data_point_array[0]);
 				
 			if ( !$next_timestamp || isset($next_timestamp) && $data_point_array[0] <= $next_timestamp ) {
 			$new_lite_data = $archival_data[$loop] . $new_lite_data;// WITHOUT newline, since file() maintains those by default
@@ -1039,12 +845,12 @@ $lite_data_update_threshold = $pt_vars->num_to_str($lite_data_update_threshold);
 		
 	
 	// Store the lite chart data (rebuild)
-	$result = store_file_contents($lite_path, $new_lite_data);  // WITHOUT newline, since file() maintains those by default (file write)
+	$result = $ocpt_cache->save_file($lite_path, $new_lite_data);  // WITHOUT newline, since file() maintains those by default (file write)
 	$lite_mode_logging = 'REBUILD';
 	
 		// Update the 'all' lite chart rebuild event tracking, IF THE LITE CHART UPDATED SUCESSFULLY
 		if ( $days_span == 'all' && $result == true ) {
-		store_file_contents($base_dir . '/cache/events/lite_chart_rebuilds/all_days_chart_'.$lite_path_hash.'.dat', time_date_format(false, 'pretty_date_time') );
+		$ocpt_cache->save_file($base_dir . '/cache/events/lite_chart_rebuilds/all_days_chart_'.$lite_path_hash.'.dat', time_date_format(false, 'pretty_date_time') );
 		}
 		
 
@@ -1071,19 +877,19 @@ $lite_data_update_threshold = $pt_vars->num_to_str($lite_data_update_threshold);
 		}
 				
 	$first_lite_array = explode("||", $first_lite_line);
-	$oldest_lite_timestamp = $pt_vars->num_to_str($first_lite_array[0]);
+	$oldest_lite_timestamp = $ocpt_var->num_to_str($first_lite_array[0]);
 		
 		// If our oldest lite timestamp is older than allowed, remove the stale data points
 		if ( $oldest_lite_timestamp < $oldest_allowed_timestamp ) {
 		$lite_data_removed_outdated_lines = prune_first_lines($lite_path, 0, $oldest_allowed_timestamp);
 		
 		// ONLY APPEND A LINE BREAK TO THE NEW ARCHIVAL DATA, since prune_first_lines() maintains the existing line breaks
-		$result = store_file_contents($lite_path, $lite_data_removed_outdated_lines['data'] . $queued_archival_data . "\n");  // WITH newline for NEW data (file write)
+		$result = $ocpt_cache->save_file($lite_path, $lite_data_removed_outdated_lines['data'] . $queued_archival_data . "\n");  // WITH newline for NEW data (file write)
 		$lite_mode_logging = 'OVERWRITE_' . $lite_data_removed_outdated_lines['lines_removed'] . '_OUTDATED_PRUNED_' . $added_archival_mode;
 		}
 		// If we're clear to just append the latest data
 		else {
-		$result = store_file_contents($lite_path, $queued_archival_data . "\n", "append");  // WITH newline (file write)
+		$result = $ocpt_cache->save_file($lite_path, $queued_archival_data . "\n", "append");  // WITH newline (file write)
 		$lite_mode_logging = 'APPEND_' . $added_archival_mode;
 		}
 		
@@ -1101,11 +907,11 @@ $lite_data_update_threshold = $pt_vars->num_to_str($lite_data_update_threshold);
 		
 	$_SESSION['lite_charts_updated'] = $_SESSION['lite_charts_updated'] + 1;
 			
-		if ( $app_config['developer']['debug_mode'] == 'all' || $app_config['developer']['debug_mode'] == 'all_telemetry' || $app_config['developer']['debug_mode'] == 'lite_chart_telemetry' ) {
+		if ( $ocpt_conf['developer']['debug_mode'] == 'all' || $ocpt_conf['developer']['debug_mode'] == 'all_telemetry' || $ocpt_conf['developer']['debug_mode'] == 'lite_chart_telemetry' ) {
 		app_logging( 'cache_debugging', 'Lite chart ' . $lite_mode_logging . ' COMPLETED ('.$_SESSION['lite_charts_updated'].') for ' . $lite_path);
 		}
 			
-		if ( $app_config['developer']['debug_mode'] == 'all' || $app_config['developer']['debug_mode'] == 'all_telemetry' || $app_config['developer']['debug_mode'] == 'memory_usage_telemetry' ) {
+		if ( $ocpt_conf['developer']['debug_mode'] == 'all' || $ocpt_conf['developer']['debug_mode'] == 'all_telemetry' || $ocpt_conf['developer']['debug_mode'] == 'memory_usage_telemetry' ) {
 		app_logging('system_debugging', $_SESSION['lite_charts_updated'] . ' lite charts updated, CURRENT script memory usage is ' . convert_bytes(memory_get_usage(), 1) . ', PEAK script memory usage is ' . convert_bytes(memory_get_peak_usage(), 1) . ', php_sapi_name is "' . php_sapi_name() . '"' );
 		}
 			
@@ -1128,7 +934,7 @@ return $result;
 
 function send_notifications() {
 
-global $base_dir, $app_config, $pt_vars, $pt_cache, $processed_messages, $possible_http_users, $http_runtime_user, $current_runtime_user, $telegram_user_data, $telegram_activated;
+global $base_dir, $ocpt_conf, $ocpt_var, $ocpt_cache, $processed_messages, $possible_http_users, $http_runtime_user, $current_runtime_user, $telegram_user_data, $telegram_activated;
 
 
 // Array of currently queued messages in the cache
@@ -1154,13 +960,13 @@ $messages_queue = sort_files($base_dir . '/cache/secured/messages', 'queue', 'as
 		// and no session count is set, set session count to zero
 		// Don't update the file-cached count here, that will happen automatically from resetting the session count to zero 
 		// (if there are notifyme messages queued to send)
-		if ( !isset($processed_messages['notifyme_count']) && update_cache_file($base_dir . '/cache/events/throttling/notifyme-alerts-sent.dat', 6) == true ) {
+		if ( !isset($processed_messages['notifyme_count']) && update_cache($base_dir . '/cache/events/throttling/notifyme-alerts-sent.dat', 6) == true ) {
 		$processed_messages['notifyme_count'] = 0;
 		}
 		// If it hasn't been well over 5 minutes since the last notifyme send
 		// (we use 6 minutes, safely over the 5 minute limit for the maximum 5 requests), and there is no session count, 
 		// use the file-cached count for the session count starting point
-		elseif ( !isset($processed_messages['notifyme_count']) && update_cache_file($base_dir . '/cache/events/throttling/notifyme-alerts-sent.dat', 6) == false ) {
+		elseif ( !isset($processed_messages['notifyme_count']) && update_cache($base_dir . '/cache/events/throttling/notifyme-alerts-sent.dat', 6) == false ) {
 		$processed_messages['notifyme_count'] = trim( file_get_contents($base_dir . '/cache/events/throttling/notifyme-alerts-sent.dat') );
 		}
 		
@@ -1205,22 +1011,22 @@ $messages_queue = sort_files($base_dir . '/cache/secured/messages', 'queue', 'as
 		
 		$notifyme_params = array(
 									 'notification' => null, // Setting this right before sending
-									 'accessCode' => $app_config['comms']['notifyme_accesscode']
+									 'accessCode' => $ocpt_conf['comms']['notifyme_accesscode']
 									   );
 						
 						
 		$textbelt_params = array(
 									 'message' => null, // Setting this right before sending
-									 'phone' => text_number($app_config['comms']['to_mobile_text']),
-									 'key' => $app_config['comms']['textbelt_apikey']
+									 'phone' => text_number($ocpt_conf['comms']['to_mobile_text']),
+									 'key' => $ocpt_conf['comms']['textbelt_apikey']
 									);
 						
 						
 		$textlocal_params = array(
 									  'message' => null, // Setting this right before sending
-									  'username' => $pt_vars->str_to_array($app_config['comms']['textlocal_account'])[0],
-									  'hash' => $pt_vars->str_to_array($app_config['comms']['textlocal_account'])[1],
-									  'numbers' => text_number($app_config['comms']['to_mobile_text'])
+									  'username' => $ocpt_var->str_to_array($ocpt_conf['comms']['textlocal_account'])[0],
+									  'hash' => $ocpt_var->str_to_array($ocpt_conf['comms']['textlocal_account'])[1],
+									  'numbers' => text_number($ocpt_conf['comms']['to_mobile_text'])
 									   );
 		
 		
@@ -1240,7 +1046,7 @@ $messages_queue = sort_files($base_dir . '/cache/secured/messages', 'queue', 'as
 				unlink($base_dir . '/cache/secured/messages/' . $queued_cache_file);
 				}
 				// Notifyme
-			   elseif ( $message_data != '' && trim($app_config['comms']['notifyme_accesscode']) != '' && preg_match("/notifyme/i", $queued_cache_file) ) { 
+			   elseif ( $message_data != '' && trim($ocpt_conf['comms']['notifyme_accesscode']) != '' && preg_match("/notifyme/i", $queued_cache_file) ) { 
 			   
 			   $notifyme_params['notification'] = $message_data;
 			   
@@ -1252,16 +1058,16 @@ $messages_queue = sort_files($base_dir . '/cache/secured/messages', 'queue', 'as
 					// Only 5 notifyme messages allowed per minute
 					if ( $processed_messages['notifyme_count'] < 5 ) {
 					
-					$notifyme_response = @$pt_cache->ext_apis('params', $notifyme_params, 0, 'https://api.notifymyecho.com/v1/NotifyMe');
+					$notifyme_response = @$ocpt_cache->ext_data('params', $notifyme_params, 0, 'https://api.notifymyecho.com/v1/NotifyMe');
 				
 					$processed_messages['notifyme_count'] = $processed_messages['notifyme_count'] + 1;
 					
 					$message_sent = 1;
 					
-					store_file_contents($base_dir . '/cache/events/throttling/notifyme-alerts-sent.dat', $processed_messages['notifyme_count']); 
+					$ocpt_cache->save_file($base_dir . '/cache/events/throttling/notifyme-alerts-sent.dat', $processed_messages['notifyme_count']); 
 					
-						if ( $app_config['developer']['debug_mode'] == 'all' || $app_config['developer']['debug_mode'] == 'all_telemetry' || $app_config['developer']['debug_mode'] == 'api_comms_telemetry' ) {
-						store_file_contents($base_dir . '/cache/logs/debugging/external_api/last-response-notifyme.log', $notifyme_response);
+						if ( $ocpt_conf['developer']['debug_mode'] == 'all' || $ocpt_conf['developer']['debug_mode'] == 'all_telemetry' || $ocpt_conf['developer']['debug_mode'] == 'api_comms_telemetry' ) {
+						$ocpt_cache->save_file($base_dir . '/cache/logs/debugging/external_api/last-response-notifyme.log', $notifyme_response);
 						}
 					
 					unlink($base_dir . '/cache/secured/messages/' . $queued_cache_file);
@@ -1277,7 +1083,7 @@ $messages_queue = sort_files($base_dir . '/cache/secured/messages', 'queue', 'as
 			   // Textbelt
 				// To be safe, don't use trim() on certain strings with arbitrary non-alphanumeric characters here
 				// Only run if textlocal API isn't being used to avoid double texts
-			   if ( $message_data != '' && trim($app_config['comms']['textbelt_apikey']) != '' && $app_config['comms']['textlocal_account'] == '' && preg_match("/textbelt/i", $queued_cache_file) ) {  
+			   if ( $message_data != '' && trim($ocpt_conf['comms']['textbelt_apikey']) != '' && $ocpt_conf['comms']['textlocal_account'] == '' && preg_match("/textbelt/i", $queued_cache_file) ) {  
 			   
 			   $textbelt_params['message'] = $message_data;
 			   
@@ -1285,14 +1091,14 @@ $messages_queue = sort_files($base_dir . '/cache/secured/messages', 'queue', 'as
 				$text_sleep = 1 * $processed_messages['text_count'];
 				sleep($text_sleep);
 			   
-			   $textbelt_response = @$pt_cache->ext_apis('params', $textbelt_params, 0, 'https://textbelt.com/text', 2);
+			   $textbelt_response = @$ocpt_cache->ext_data('params', $textbelt_params, 0, 'https://textbelt.com/text', 2);
 			   
 			   $processed_messages['text_count'] = $processed_messages['text_count'] + 1;
 				
 				$message_sent = 1;
 			   
-			   	if ( $app_config['developer']['debug_mode'] == 'all' || $app_config['developer']['debug_mode'] == 'all_telemetry' || $app_config['developer']['debug_mode'] == 'api_comms_telemetry' ) {
-					store_file_contents($base_dir . '/cache/logs/debugging/external_api/last-response-textbelt.log', $textbelt_response);
+			   	if ( $ocpt_conf['developer']['debug_mode'] == 'all' || $ocpt_conf['developer']['debug_mode'] == 'all_telemetry' || $ocpt_conf['developer']['debug_mode'] == 'api_comms_telemetry' ) {
+					$ocpt_cache->save_file($base_dir . '/cache/logs/debugging/external_api/last-response-textbelt.log', $textbelt_response);
 					}
 				
 				unlink($base_dir . '/cache/secured/messages/' . $queued_cache_file);
@@ -1304,7 +1110,7 @@ $messages_queue = sort_files($base_dir . '/cache/secured/messages', 'queue', 'as
 			   // Textlocal
 				// To be safe, don't use trim() on certain strings with arbitrary non-alphanumeric characters here
 				// Only run if textbelt API isn't being used to avoid double texts
-			   if ( $message_data != '' && $app_config['comms']['textlocal_account'] != '' && trim($app_config['comms']['textbelt_apikey']) == '' && preg_match("/textlocal/i", $queued_cache_file) ) {  
+			   if ( $message_data != '' && $ocpt_conf['comms']['textlocal_account'] != '' && trim($ocpt_conf['comms']['textbelt_apikey']) == '' && preg_match("/textlocal/i", $queued_cache_file) ) {  
 			   
 			   $textlocal_params['message'] = $message_data;
 			   
@@ -1312,14 +1118,14 @@ $messages_queue = sort_files($base_dir . '/cache/secured/messages', 'queue', 'as
 				$text_sleep = 1 * $processed_messages['text_count'];
 				sleep($text_sleep);
 			   
-			   $textlocal_response = @$pt_cache->ext_apis('params', $textlocal_params, 0, 'https://api.txtlocal.com/send/', 1);
+			   $textlocal_response = @$ocpt_cache->ext_data('params', $textlocal_params, 0, 'https://api.txtlocal.com/send/', 1);
 			   
 			   $processed_messages['text_count'] = $processed_messages['text_count'] + 1;
 				
 				$message_sent = 1;
 			   
-			   	if ( $app_config['developer']['debug_mode'] == 'all' || $app_config['developer']['debug_mode'] == 'all_telemetry' || $app_config['developer']['debug_mode'] == 'api_comms_telemetry' ) {
-					store_file_contents($base_dir . '/cache/logs/debugging/external_api/last-response-textlocal.log', $textlocal_response);
+			   	if ( $ocpt_conf['developer']['debug_mode'] == 'all' || $ocpt_conf['developer']['debug_mode'] == 'all_telemetry' || $ocpt_conf['developer']['debug_mode'] == 'api_comms_telemetry' ) {
+					$ocpt_cache->save_file($base_dir . '/cache/logs/debugging/external_api/last-response-textlocal.log', $textlocal_response);
 					}
 				
 				unlink($base_dir . '/cache/secured/messages/' . $queued_cache_file);
@@ -1353,8 +1159,8 @@ $messages_queue = sort_files($base_dir . '/cache/secured/messages', 'queue', 'as
 			   	}
 			   		
 			   
-			   	if ( $app_config['developer']['debug_mode'] == 'all' || $app_config['developer']['debug_mode'] == 'all_telemetry' || $app_config['developer']['debug_mode'] == 'api_comms_telemetry' ) {
-					store_file_contents($base_dir . '/cache/logs/debugging/external_api/last-response-telegram.log', $telegram_response);
+			   	if ( $ocpt_conf['developer']['debug_mode'] == 'all' || $ocpt_conf['developer']['debug_mode'] == 'all_telemetry' || $ocpt_conf['developer']['debug_mode'] == 'api_comms_telemetry' ) {
+					$ocpt_cache->save_file($base_dir . '/cache/logs/debugging/external_api/last-response-telegram.log', $telegram_response);
 					}
 				
 			   }
@@ -1368,7 +1174,7 @@ $messages_queue = sort_files($base_dir . '/cache/secured/messages', 'queue', 'as
 			   // Text email
 				// To be safe, don't use trim() on certain strings with arbitrary non-alphanumeric characters here
 				// Only use text-to-email if other text services aren't configured
-			   if ( validate_email( text_email($app_config['comms']['to_mobile_text']) ) == 'valid' && trim($app_config['comms']['textbelt_apikey']) == '' && $app_config['comms']['textlocal_account'] == '' && preg_match("/textemail/i", $queued_cache_file) ) { 
+			   if ( validate_email( text_email($ocpt_conf['comms']['to_mobile_text']) ) == 'valid' && trim($ocpt_conf['comms']['textbelt_apikey']) == '' && $ocpt_conf['comms']['textlocal_account'] == '' && preg_match("/textemail/i", $queued_cache_file) ) { 
 			   
 			   $textemail_array = json_decode($message_data, true);
 			   
@@ -1391,7 +1197,7 @@ $messages_queue = sort_files($base_dir . '/cache/secured/messages', 'queue', 'as
 					$text_sleep = 1 * $processed_messages['text_count'];
 					sleep($text_sleep);
 			   
-					$result = @safe_mail( text_email($app_config['comms']['to_mobile_text']) , $textemail_array['subject'], $textemail_array['message'], $textemail_array['content_type'], $textemail_array['charset']);
+					$result = @safe_mail( text_email($ocpt_conf['comms']['to_mobile_text']) , $textemail_array['subject'], $textemail_array['message'], $textemail_array['content_type'], $textemail_array['charset']);
 			   
 			   		if ( $result == true ) {
 			   		
@@ -1403,7 +1209,7 @@ $messages_queue = sort_files($base_dir . '/cache/secured/messages', 'queue', 'as
 			   		
 			   		}
 			   		else {
-			   		app_logging( 'system_error', 'Email-to-mobile-text sending failed', 'to_text_email: ' . text_email($app_config['comms']['to_mobile_text']) . '; from: ' . $app_config['comms']['from_email'] . '; subject: ' . $textemail_array['subject'] . '; function_response: ' . $result . ';');
+			   		app_logging( 'system_error', 'Email-to-mobile-text sending failed', 'to_text_email: ' . text_email($ocpt_conf['comms']['to_mobile_text']) . '; from: ' . $ocpt_conf['comms']['from_email'] . '; subject: ' . $textemail_array['subject'] . '; function_response: ' . $result . ';');
 			   		}
 					
 					
@@ -1415,7 +1221,7 @@ $messages_queue = sort_files($base_dir . '/cache/secured/messages', 'queue', 'as
 					  
 					  
 			   // Normal email
-			   if ( validate_email($app_config['comms']['to_email']) == 'valid' && preg_match("/normalemail/i", $queued_cache_file) ) {
+			   if ( validate_email($ocpt_conf['comms']['to_email']) == 'valid' && preg_match("/normalemail/i", $queued_cache_file) ) {
 			   
 			   $email_array = json_decode($message_data, true);
 			   
@@ -1438,7 +1244,7 @@ $messages_queue = sort_files($base_dir . '/cache/secured/messages', 'queue', 'as
 					$email_sleep = 1 * $processed_messages['email_count'];
 					sleep($email_sleep);
 			   
-					$result = @safe_mail($app_config['comms']['to_email'], $email_array['subject'], $email_array['message'], $email_array['content_type'], $email_array['charset']);
+					$result = @safe_mail($ocpt_conf['comms']['to_email'], $email_array['subject'], $email_array['message'], $email_array['content_type'], $email_array['charset']);
 			   
 			   		if ( $result == true ) {
 			   		
@@ -1450,7 +1256,7 @@ $messages_queue = sort_files($base_dir . '/cache/secured/messages', 'queue', 'as
 			   		
 			   		}
 			   		else {
-			   		app_logging( 'system_error', 'Email sending failed', 'to_email: ' . $app_config['comms']['to_email'] . '; from: ' . $app_config['comms']['from_email'] . '; subject: ' . $email_array['subject'] . '; function_response: ' . $result . ';');
+			   		app_logging( 'system_error', 'Email sending failed', 'to_email: ' . $ocpt_conf['comms']['to_email'] . '; from: ' . $ocpt_conf['comms']['from_email'] . '; subject: ' . $email_array['subject'] . '; function_response: ' . $result . ';');
 			   		}
 			   		
 					
@@ -1499,7 +1305,7 @@ $messages_queue = sort_files($base_dir . '/cache/secured/messages', 'queue', 'as
 	   // Does the current runtime user own this file?
 		if ( isset($current_runtime_user) && $current_runtime_user == $file_owner_info['name'] ) {
 		
-		$chmod_setting = octdec($app_config['developer']['chmod_cache_files']);
+		$chmod_setting = octdec($ocpt_conf['developer']['chmod_cache_file']);
 		
 			// Run chmod compatibility on certain PHP setups
 			if ( !$http_runtime_user || isset($http_runtime_user) && in_array($http_runtime_user, $possible_http_users) ) {

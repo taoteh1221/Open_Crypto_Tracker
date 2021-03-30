@@ -13,15 +13,15 @@ $secured_cache_files = sort_files($base_dir . '/cache/secured', 'dat', 'desc');
 foreach( $secured_cache_files as $secured_file ) {
 
 	// App config
-	if ( preg_match("/app_config_/i", $secured_file) ) {
+	if ( preg_match("/ocpt_conf_/i", $secured_file) ) {
 		
-		$cached_app_config = json_decode( trim( file_get_contents($base_dir . '/cache/secured/' . $secured_file) ) , TRUE);
+		$cached_ocpt_conf = json_decode( trim( file_get_contents($base_dir . '/cache/secured/' . $secured_file) ) , TRUE);
 			
-			if ( $cached_app_config == true ) {
-			$app_config = $cached_app_config; // Use cached app_config if it exists, seems intact, and DEFAULT Admin Config (in config.php) hasn't been revised since last check
+			if ( $cached_ocpt_conf == true ) {
+			$ocpt_conf = $cached_ocpt_conf; // Use cached pt_conf if it exists, seems intact, and DEFAULT Admin Config (in config.php) hasn't been revised since last check
 			}
 			else {
-			app_logging('config_error', 'Cached app_config data appears corrupted (fetching within minimized-sub-init.php)');
+			app_logging('config_error', 'Cached pt_conf data appears corrupted (fetching within minimized-sub-init.php)');
 			}
 			
 	}

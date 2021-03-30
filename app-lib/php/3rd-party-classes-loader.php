@@ -8,7 +8,7 @@
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // SMTP email setup (if needed...MUST RUN AFTER dynamic app config management)
 // To be safe, don't use trim() on certain strings with arbitrary non-alphanumeric characters here
-if ( $app_config['comms']['smtp_login'] != '' && $app_config['comms']['smtp_server'] != '' ) {
+if ( $ocpt_conf['comms']['smtp_login'] != '' && $ocpt_conf['comms']['smtp_server'] != '' ) {
 
 require_once($base_dir . '/app-lib/php/classes/3rd-party/smtp-mailer/SMTPMailer.php');
 
@@ -44,7 +44,7 @@ if ( $telegram_activated == 1 ) {
 require_once($base_dir . '/app-lib/php/classes/3rd-party/telegram-php/src/Autoloader.php');
 
 // Initiate the bot for this chatroom
-$telegram_bot = new Telegram\Bot($app_config['comms']['telegram_bot_token'], $app_config['comms']['telegram_bot_username'], $app_config['comms']['telegram_bot_name']);
+$telegram_bot = new Telegram\Bot($ocpt_conf['comms']['telegram_bot_token'], $ocpt_conf['comms']['telegram_bot_username'], $ocpt_conf['comms']['telegram_bot_name']);
 $telegram_messaging = new Telegram\Receiver($telegram_bot);
 
 }
@@ -54,7 +54,7 @@ $telegram_messaging = new Telegram\Receiver($telegram_bot);
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // Google API (google home / translate APIs)
-if ( $app_config['comms']['google_application_name'] != '' && $app_config['comms']['google_client_id'] != '' && $app_config['comms']['google_client_secret'] != '' && $webhook_key != '' ) {
+if ( $ocpt_conf['comms']['google_application_name'] != '' && $ocpt_conf['comms']['google_client_id'] != '' && $ocpt_conf['comms']['google_client_secret'] != '' && $webhook_key != '' ) {
 
 // Based off: https://www.phpflow.com/php/php-web-application-authentication-using-google-oauth-2-0/
 
@@ -74,9 +74,9 @@ require_once($base_dir . '/app-lib/php/classes/3rd-party/google-api/vendor/autol
 $google_client = new Google_Client();
 
 // Google app details (https://developers.google.com/assistant/engagement/notifications)
-$google_client->setApplicationName($app_config['comms']['google_application_name']);
-$google_client->setClientId($app_config['comms']['google_client_id']);
-$google_client->setClientSecret($app_config['comms']['google_client_secret']);
+$google_client->setApplicationName($ocpt_conf['comms']['google_application_name']);
+$google_client->setClientId($ocpt_conf['comms']['google_client_id']);
+$google_client->setClientSecret($ocpt_conf['comms']['google_client_secret']);
 $google_client->setRedirectUri($base_url . 'webhook/' . $webhook_key);
 
 // Google 0auth instance

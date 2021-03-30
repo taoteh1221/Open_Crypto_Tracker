@@ -25,11 +25,11 @@ require("config.php");
 
 // If an activated password reset is in progress or no admin login has been set yet, prompt user to create an admin user / pass
 if ( $password_reset_approved || sizeof($stored_admin_login) != 2 ) {
-require($base_dir . '/templates/interface/rendering/desktop/php/admin/admin-login/register.php');
+require($base_dir . '/templates/interface/desktop/php/admin/admin-login/register.php');
 exit;
 }
 else {
-require($base_dir . '/templates/interface/rendering/desktop/php/admin/admin-login/reset.php'); 
+require($base_dir . '/templates/interface/desktop/php/admin/admin-login/reset.php'); 
 exit;
 }
 

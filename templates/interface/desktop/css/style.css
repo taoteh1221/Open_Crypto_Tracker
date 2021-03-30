@@ -1,0 +1,811 @@
+/*
+ * Copyright 2014-2021 GPLv3, Open Crypto Portfolio Tracker by Mike Kilday: http://DragonFrugal.com
+ */
+
+
+/* //////////////////////////////
+ELEMENTS
+////////////////////////////// */
+
+
+html {
+width: auto;
+margin: auto;
+padding: 0px;
+}
+
+
+body {
+margin: 0px;
+width: auto;
+}
+
+
+img { 
+border: 0; 
+}
+
+
+table {
+border-collapse: separate;
+}
+
+
+td {
+margin: 0px;
+padding: 4px;
+white-space: nowrap;
+vertical-align: middle !important;
+line-height: 1.15 !important;
+}
+
+th {
+padding-right: 28px;
+}
+
+
+p, h3 { 
+word-break: normal;
+margin-bottom: 15px;
+}
+
+
+textarea {
+box-sizing: border-box;
+resize: none;
+border: 1px solid #808080;
+}
+
+
+select {
+line-height: 15px !important;
+height: 25px !important;
+width: auto !important;
+padding: .07rem 1.4rem .07rem .5rem !important;
+}
+
+
+textarea[data-autoresize] {
+	border: 1px solid #808080;
+	width:100%;
+	box-sizing:border-box;
+	display:block;
+	max-width:100%;
+	line-height: 1;
+	padding: 10px 10px 10px;
+	border-radius: 8px;
+	font-size: 15px;
+	transition:box-shadow 0.5s ease;
+	box-shadow:0 4px 6px rgba(0,0,0,0.1);
+	font-smoothing:subpixel-antialiased;
+	background:linear-gradient(#e5e3e3, #f2f2f2);
+	background:-o-linear-gradient(#e5e3e3, #f2f2f2);
+	background:-ms-linear-gradient(#e5e3e3, #f2f2f2);
+	background:-moz-linear-gradient(#e5e3e3, #f2f2f2);
+	background:-webkit-linear-gradient(#e5e3e3, #f2f2f2);
+	overflow: auto;
+	overflow-y: scroll;
+}
+
+
+html, p, td.data, td.data span.data, td select, td.data span, input, select, textarea, input[type=submit], input[type=button], .force_button_style, .btn-link, .btn-link a, .btn-link:hover {	
+font-family: sans-serif !important;
+font-size: 15px !important;
+}
+
+
+input, select, textarea {
+border: 1px solid #808080 !important;
+}
+
+
+input[type=text], input[type=select] {
+border-radius: .25rem !important;
+}
+
+
+input[type=checkbox], input[type=radio] {
+position: relative;
+top: 3px;
+width: 15px !important;
+height: 15px !important;    
+}
+
+
+input[type=submit], input[type=button], .force_button_style {
+  color: white;
+  padding: 5px 10px;
+  text-align: center;
+  font-weight: bold;
+  text-decoration: none;
+  display: inline-block;
+  cursor: pointer;
+  border-radius: 6px;
+}
+
+
+a {
+text-decoration: underline;
+}
+
+
+fieldset {
+    width: auto;
+    padding: 25px; /* To give a bit of padding on the left and right */
+  border-radius: 8px;
+}
+
+legend {
+    width:auto;
+    padding:6px 6px; /* To give a bit of padding on the left and right */
+    border-bottom:none;
+    margin-bottom: 0px;
+}
+
+
+/* MAKE PRE TAGS WRAP */
+pre {
+ white-space: pre-wrap;       /* css-3 */
+ white-space: -moz-pre-wrap;  /* Mozilla, since 1999 */
+ white-space: -pre-wrap;      /* Opera 4-6 */
+ white-space: -o-pre-wrap;    /* Opera 7 */
+ word-wrap: break-word;       /* Internet Explorer 5.5+ */
+background-color: #f0f0f0;
+margin: 0px;
+padding: .5em !important;
+}
+
+
+code {
+padding: 0em !important;
+margin: 0px;
+}
+
+
+/* //////////////////////////////
+CLASSES
+////////////////////////////// */
+
+
+.chart_reload_message {
+display: inline;
+}
+
+
+.disclaimer {
+margin-top: 25px;
+margin-bottom: 25px;
+}
+
+
+.hide-x-scroll {
+overflow-x: hidden !important; /* Hide horizontal scrollbar */
+}
+
+
+.random_tip a {
+color: #dd7c0d !important;
+text-decoration-style: dotted;
+}
+
+
+.captcha_container {
+margin-top: 25px;
+margin-top: 25px;
+    text-align: left;
+    display: inline-block;
+}
+
+
+.captcha_container label {
+padding-top: 15px;
+}
+
+
+.captcha_container img {    
+display: inline-block;
+    margin: 7px;
+}
+
+
+.card {
+    border: 1px solid #808080 !important;
+}
+
+
+.chart_wrapper {
+position: relative;
+border-radius: 8px;
+}
+
+
+.chart_wrapper span.chart_loading {
+font-weight: bold;
+font-size: 18px;
+line-height: 26px;
+}
+
+
+.clear_both {
+clear: both;
+}
+
+
+.align_left {
+text-align: left;
+}
+
+
+.align_center {
+text-align: center;
+}
+
+
+.align_right {
+text-align: right;
+}
+
+
+.rounded {
+border-radius: 8px;
+}
+
+
+.image_border {
+border-radius: 15px;
+}
+
+
+.al_right {
+text-align: right;
+}
+
+
+.al_right span {
+padding-right: 5px;
+}
+
+
+.extra_margins {
+padding: 5px;
+}
+
+
+.result {
+margin: 7px; 
+padding: 7px;
+}
+    
+    
+.normal {
+font-weight: normal;
+}
+
+
+.coin_info {
+margin: 13px;
+white-space: nowrap;
+}
+
+
+.balloon_notation {
+white-space: normal; 
+font-size: 13px !important; 
+margin-top: 15px;
+}
+
+
+.show_coin_values {
+display: none;
+position: relative;
+float: left;
+}
+
+.border_t {
+padding-right: 25px;
+}
+
+
+.bold_1 {
+font-weight: bold;
+padding: 5px;
+line-height: 25px;
+}
+
+
+.start_page_menu {
+padding: 5px;
+}
+
+
+.start_page_menu_red {
+padding: 8px;
+}
+
+
+.subsection_fieldset {
+border: 1px solid #808080;
+margin: 25px;
+margin-bottom: 50px;
+}
+
+
+.help_section {
+border: 1px solid #808080;
+padding: 15px;
+margin: 10px;
+margin-bottom: 50px;
+}
+
+
+.links_list {
+font-weight: bold;
+margin: 20px;
+}
+
+
+.links_list span {
+font-weight: normal;
+}
+
+
+.long_linebreak { 
+display: inline-block;
+max-width: 350px;
+white-space: normal;
+word-wrap: break-word;
+text-align: center;
+}
+
+
+.settings_sections {
+margin: 25px;
+}
+
+
+.long_list {
+padding: 15px;
+margin: 0px;
+}
+
+
+.long_list_taller {
+padding: 20px;
+margin: 0px;
+}
+
+
+.long_list_start {
+margin-top: 10px;
+}
+
+
+.long_list_end {
+margin-bottom: 10px;
+}
+
+
+.green_bright, .balloon-tooltips .green {
+color: #10d602 !important;
+}
+
+
+.red_bright, .balloon-tooltips .red {
+color: #ff4747 !important;
+}
+
+
+.yellow {
+color: #ffb83f !important;
+}
+
+
+.bitcoin, .btc {
+color: #dd7c0d !important;
+}
+
+
+.bitcoin_dotted {
+padding: 10px;
+border: 2px dotted #dd7c0d !important;
+}
+
+
+.eth {
+color: #939cbc !important;
+}
+
+
+.tooltip_title {
+position: relative; 
+white-space: nowrap; 
+text-align:center;
+}
+
+
+.portfolio_summary {
+margin-top: 2px;
+margin-bottom: 2px;
+}
+
+
+.tabs {
+display: inline-block; 
+width: 100%; 
+text-align: center;
+padding: 0px; 
+margin: 0px;
+}
+
+
+div.tabdiv {
+padding: 15px;
+min-width: 1200px;
+max-width: 1700px;
+min-height: 150px;
+display: inline-block;
+border: 2px solid #808080;
+}
+
+
+.tabli a {
+border-top-left-radius: 10px;
+border-top-right-radius: 10px;
+font-size: 21px;
+}
+
+
+.tabdiv {
+border-top-left-radius: 15px !important;
+border-top-right-radius: 15px !important;
+border-bottom-left-radius: 15px !important;
+border-bottom-right-radius: 15px !important;
+border-collapse: separate !important;
+}
+
+
+.tabs li {
+list-style: none;
+display: inline;
+margin-right: 2px;
+}
+
+
+.tabs a {
+padding: 8px;
+padding-left: 18px;
+padding-right: 18px;
+display: inline-block;
+text-decoration: none;
+font-weight: bold;
+}
+
+
+.tabs a.active {
+top: 2px;
+position: relative;
+border-top: 2px solid #808080;
+border-left: 2px solid #808080;
+border-right: 2px solid #808080;
+}
+
+
+td.data span {
+white-space: nowrap;
+}
+
+
+.extra_data, td.data span.extra_data, td.data div.extra_data span, .extra_data span, td.data div.extra_data span {
+margin: 0px;
+padding: 0px;
+font-size: 13px;
+border: 0px;
+background: none;
+white-space: nowrap;
+}
+
+
+.gain, td.data span.gain, td.data div.gain span, .crypto_worth, .crypto_worth span, td.data div.crypto_worth span {
+margin: 0px;
+padding: 0px;
+font-size: 11px !important;
+border: 0px;
+background: none;
+white-space: nowrap;
+}
+
+
+.loss, td.data span.loss, td.data div.loss span, .short, td.data span.short, td.data div.short span {
+margin: 0px;
+padding: 0px;
+color: #af1700; /* slightly darker red than normal */
+font-size: 13px;
+border: 0px;
+background: none;
+white-space: nowrap;
+}
+
+
+.btn-link, .btn-link a, .btn-link:hover {
+font-weight: 800;
+text-decoration: none;
+}
+
+
+.max_full_width_wrapper {
+position: relative;
+max-width: 100%;
+}
+
+
+.full_width_wrapper {
+position: relative;
+width: 100%;
+}
+
+
+.countdown_notice {
+display: inline;
+float: right;
+position: absolute; /* To set top / right below, AND backwards compatibility (if browser doesn't support 'sticky') */
+top: 20px;
+right: 0px;
+z-index: 5;
+position: sticky;
+position: -webkit-sticky;
+border-radius: 5px;
+padding: 2px;
+}
+
+
+.start_page_menu {
+padding: 8px;
+}
+
+
+.loading {
+width: 100%; 
+max-width: 1200px;
+font-weight: bold;
+background-color: #5b5b5b;
+opacity: 0.75;
+border: 3px dotted #dd7c0d;
+border-radius: 30px;
+padding: 5px;
+margin: auto;
+margin-top: 21px;
+margin-bottom: 21px;
+}
+
+
+.absolute_centered {
+position: absolute;
+left: 0;
+right: 0;
+margin-left: auto;
+margin-right: auto;
+}
+
+
+.chart_reload {
+top: 150px;
+}
+
+
+.hidden {
+display: none;
+}
+
+
+.underline_pointer {
+text-decoration: underline;
+cursor: pointer;
+}
+
+
+.pointer {
+cursor: pointer;
+}
+
+
+.sys_stats {
+margin-top: 5px;
+}
+
+
+div.modaal-wrapper.modaal-fullscreen div.modaal-content-container fieldset.subsection_fieldset {
+min-width: 1150px !important;
+}
+
+
+/* //////////////////////////////
+IDs
+////////////////////////////// */
+
+
+#loading_subsections, .chart_reload {
+display: none;
+width: 100%;
+max-width: 1200px; 
+margin-top: 0px;
+font-size: 19px;
+min-height: 23px; 
+}
+
+
+#app_loading {
+display: block;
+width: 100%; 
+max-width: 1200px; 
+white-space: nowrap;
+font-size: 59px;
+margin: auto;
+margin-top: 60px;
+margin-bottom: 60px;
+}
+
+
+#body_wrapper {
+width: 100%; 
+min-width: 1200px; 
+margin: auto;
+padding: 15px;
+padding-top: 0px;
+}
+
+
+#admin_wrapper, .max_1200px_wrapper {
+position: relative;
+max-width: 1200px;
+}
+
+
+#body_top_nav {
+position: relative;
+display: block;
+width: 100%; 
+min-width: 1200px; 
+white-space: nowrap;
+margin: auto;
+padding-top: 8px;
+}
+
+
+#content_wrapper {
+display: none;
+margin: 0px; 
+min-width: 1200px;
+}
+
+
+#admin_config_quick_links {
+display: none;
+position: relative;
+float: right;
+max-width: 30%;
+margin: 0px;
+margin-right: 5px;
+font-size: 13px;
+}
+
+
+#admin_config_quick_links fieldset {
+padding-top: 0px;
+padding-bottom: 12px;
+padding-left: 18px;
+padding-right: 18px;
+font-size: 13px;
+border: 1px solid #dd7c0d; 
+}
+
+
+#admin_config_quick_links fieldset legend {
+padding: 4px;
+font-size: 13px;
+}
+
+
+#charts_error, #system_charts_error {
+display: none;
+font-weight: bold;
+padding: 9px;
+margin: 20px;
+}
+
+
+#charts.tabdiv {
+max-width: 100%;
+}
+
+
+#file_upload {
+color: black;
+}
+
+
+#coins_table {
+position: relative;
+}
+
+
+#coins_table td:last-child {
+}
+
+
+#app_error_alert {
+font-weight: bold; 
+padding: 6px;
+}
+
+
+#topnav {
+display: inline-block;
+margin: auto;
+min-width: 1200px;
+max-width: 1200px;
+}
+
+
+#topnav .navbar-nav .dropdown-menu a:link, #body_top_nav .navbar-nav .dropdown-menu a:visited {
+padding: 10px;
+font-size: 21px;
+text-decoration: none;
+}
+
+
+#topnav .navbar-nav {
+position: relative;
+bottom: 5px;
+}
+
+
+#topnav .dropdown-item {
+	text-align: center;
+padding: 7px;
+}
+
+
+#navbarSupportedContent {
+display: inline-flex !important;
+}
+
+
+#alert_bell_area {
+position:relative;
+left: 0px;
+min-width: 1150px; /* -50px of usual min/max width, for FF compatibility */
+max-width: 1150px; /* -50px of usual min/max width, for FF compatibility */
+min-height: 45px; 
+padding: 15px;
+font-weight: bold; 
+line-height: 35px;
+white-space: normal;
+word-wrap: break-word;
+background: #ededa6 !important;
+border: 2px solid #dd7c0d !important; 
+}
+
+
+#prim_curr_markets_alert, #percent_change_alert_type_alert {
+display: none;
+font-weight: bold;
+margin: 20px;
+}
+
+
+#coins_table{
+table-layout:fixed;
+}
+
+
+#coins_table thead, #coins_table tbody, div.modaal-wrapper.modaal-fullscreen div.modaal-content-container {
+min-width: 1200px !important;
+}
+
+
+#alert_source, #percent_change_amount, #percent_change_filter, #percent_change_time, #percent_change_alert_type, #show_chart_settings, #show_feed_settings, #show_portfolio_stats, #show_system_stats, #show_access_stats, #show_logs, #coins_table, #system_stats_quick_link_info, #system_stats_admin_link_info {
+display: none;
+}
+
+
+

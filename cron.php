@@ -33,7 +33,7 @@ require("config.php");
 // Charts and price alerts
 $_SESSION['lite_charts_updated'] = 0;
 
-foreach ( $app_config['charts_alerts']['tracked_markets'] as $key => $value ) {
+foreach ( $ocpt_conf['charts_alerts']['tracked_markets'] as $key => $value ) {
 	
 // Remove any duplicate asset array key formatting, which allows multiple alerts per asset with different exchanges / trading pairs (keyed like SYMB, SYMB-1, SYMB-2, etc)
 $asset = ( stristr($key, "-") == false ? $key : substr( $key, 0, mb_strpos($key, "-", 0, 'utf-8') ) );
@@ -46,7 +46,7 @@ $pairing = $value[1];
 $mode = $value[2];
 
 	if ( $mode != 'none' ) {
-	$pt_assets->charts_price_alerts($key, $exchange, $pairing, $mode);
+	$ocpt_asset->charts_price_alerts($key, $exchange, $pairing, $mode);
 	}
 
 }
@@ -54,7 +54,7 @@ $mode = $value[2];
 
 
 // Checkup on each failed proxy
-if ( $app_config['comms']['proxy_alerts'] != 'off' ) {
+if ( $ocpt_conf['comms']['proxy_alert'] != 'off' ) {
 	
 	foreach ( $proxy_checkup as $problem_proxy ) {
 	test_proxy($problem_proxy);
@@ -66,7 +66,7 @@ if ( $app_config['comms']['proxy_alerts'] != 'off' ) {
 
 
 // Queue notifications if there were any price alert resets, BEFORE send_notifications() runs
-reset_price_alerts_notice();
+reset_price_alert_notice();
 
 
 
@@ -161,13 +161,13 @@ if ( $now > 0 ) {
 $system_stats_path = $base_dir . '/cache/charts/system/archival/system_stats.dat';
 $system_stats_data = $now . $chart_data_set;
 
-store_file_contents($system_stats_path, $system_stats_data . "\n", "append", false); // WITH newline (UNLOCKED file write)
+$ocpt_cache->save_file($system_stats_path, $system_stats_data . "\n", "append", false); // WITH newline (UNLOCKED file write)
     		
 // Lite charts (update time dynamically determined in update_lite_chart() logic)
 // Try to assure file locking from archival chart updating has been released, wait 0.12 seconds before updating lite charts
 usleep(120000); // Wait 0.12 seconds
 		
-	foreach ( $app_config['power_user']['lite_chart_day_intervals'] as $light_chart_days ) {
+	foreach ( $ocpt_conf['power_user']['lite_chart_day_intervals'] as $light_chart_days ) {
 	update_lite_chart($system_stats_path, $system_stats_data, $light_chart_days); // WITHOUT newline (var passing)
 	}
 		
@@ -182,7 +182,7 @@ app_logging('system_error', 'time() returned a corrupt value (from power outage 
 
 // If debug mode is on
 // RUN BEFORE plugins (in case custom plugin crashes)
-if ( $app_config['developer']['debug_mode'] == 'all' || $app_config['developer']['debug_mode'] == 'all_telemetry' || $app_config['developer']['debug_mode'] == 'stats' ) {
+if ( $ocpt_conf['developer']['debug_mode'] == 'all' || $ocpt_conf['developer']['debug_mode'] == 'all_telemetry' || $ocpt_conf['developer']['debug_mode'] == 'stats' ) {
 		
 	foreach ( $system_info as $key => $value ) {
 	$system_telemetry .= $key . ': ' . $value . '; ';
@@ -211,28 +211,34 @@ $logs_array = array();
 }
 
 
-// Run any cron-designated plugins activated in app_config
+// Run any cron-designated plugins activated in pt_conf
 // ALWAYS KEEP PLUGIN RUNTIME LOGIC INLINE (NOT ISOLATED WITHIN A FUNCTION), 
 // SO WE DON'T NEED TO WORRY ABOUT IMPORTING GLOBALS!
-foreach ( $activated_plugins['cron'] as $key => $value ) {
+foreach ( $activated_plugins['cron'] as $plugin_key => $plugin_value ) {
 	
-	if ( file_exists($value) ) {
+	if ( file_exists($plugin_value) ) {
 		
-	$this_plugin = $key;
+	$this_plug = $plugin_key;
 	
 		// This plugin's functions (only if the file exists)
-		if ( file_exists($base_dir . '/plugins/'.$this_plugin.'/plugin-lib/plugin-functions.php') ) {
-		require_once($base_dir . '/plugins/'.$this_plugin.'/plugin-lib/plugin-functions.php');
+		if ( file_exists($base_dir . '/plugins/'.$this_plug.'/plug-lib/plug-class.php') ) {
+			
+			// CREATE THIS PLUGIN'S CLASS OBJECT DYNAMICALLY AS: $plug_class[$this_plug]
+			// https://www.php.net/manual/en/language.oop5.anonymous.php
+			$plug_class[$this_plug] = new class() {
+			require_once($base_dir . '/plugins/'.$this_plug.'/plug-lib/plug-class.php');
+			};
+		
 		}
 	
 	// This plugin's config (from the global app config)
-	$plugin_config[$this_plugin] = $app_config['plugin_config'][$this_plugin]; 
+	$plug_conf[$this_plug] = $ocpt_conf['plugin_config'][$this_plug]; 
 	
-	// This plugin's plugin-init.php file (runs the plugin)
-	require_once($value);
+	// This plugin's plug-init.php file (runs the plugin)
+	require_once($plugin_value);
 	
-	// Reset $this_plugin at end of loop
-	$this_plugin = null; 
+	// Reset $this_plug at end of loop
+	$this_plug = null; 
 	
 	}
 	

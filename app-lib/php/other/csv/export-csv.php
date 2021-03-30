@@ -22,7 +22,7 @@ $csv_download_array[] = array(
 	        							);
 	    
 	    
-	foreach ( $app_config['portfolio_assets'] as $coin_array_key => $coin_array_value ) {
+	foreach ( $ocpt_conf['assets'] as $coin_array_key => $coin_array_value ) {
 		
 	    
 	    $field_var_pairing = strtolower($coin_array_key) . '_pairing';
@@ -47,13 +47,13 @@ $csv_download_array[] = array(
 	    $selected_pairing = ( $coin_pairing_id ? $coin_pairing_id : NULL );
 	    
 	    
-			foreach ( $app_config['portfolio_assets'][strtoupper($coin_array_key)]['market_pairing'] as $pairing_key => $unused ) {
+			foreach ( $ocpt_conf['assets'][strtoupper($coin_array_key)]['pairing'] as $pairing_key => $unused ) {
 			$ploop = 0;
 					 						
 				// Use first pairing key from coins config for this asset, if no pairing value was set properly
 				if ( $ploop == 0 ) {
 				
-					if ( $selected_pairing == NULL || !$app_config['portfolio_assets'][strtoupper($coin_array_key)]['market_pairing'][$selected_pairing] ) {
+					if ( $selected_pairing == NULL || !$ocpt_conf['assets'][strtoupper($coin_array_key)]['pairing'][$selected_pairing] ) {
 					$selected_pairing = $pairing_key;
 					}
 				
@@ -64,19 +64,19 @@ $csv_download_array[] = array(
 											
 	    
 	    	if ( strtoupper($coin_array_key) == 'MISCASSETS' ) {
-	    	$asset_amount_decimals = 2;
+	    	$asset_amount_dec = 2;
 	    	}
 	    	else {
-	    	$asset_amount_decimals = 8;
+	    	$asset_amount_dec = 8;
 	    	}
 	    
-	  	 $asset_amount_value = $pt_vars->num_pretty($asset_amount_value, $asset_amount_decimals);
+	  	 $asset_amount_value = $ocpt_var->num_pretty($asset_amount_value, $asset_amount_dec);
 	    
-	    $coin_paid_value = ( $pt_vars->num_to_str($coin_paid_value) >= $app_config['general']['primary_currency_decimals_max_threshold'] ? $pt_vars->num_pretty($coin_paid_value, 2) : $pt_vars->num_pretty($coin_paid_value, $app_config['general']['primary_currency_decimals_max']) );
+	    $coin_paid_value = ( $ocpt_var->num_to_str($coin_paid_value) >= $ocpt_conf['general']['prim_curr_dec_max_thres'] ? $ocpt_var->num_pretty($coin_paid_value, 2) : $ocpt_var->num_pretty($coin_paid_value, $ocpt_conf['general']['prim_curr_dec_max']) );
 	  	 
 	    
 	   	// Asset data to array for CSV export
-	      if ( trim($coin_array_key) != '' && $pt_vars->rem_num_format($asset_amount_value) >= 0.00000001 ) {
+	      if ( trim($coin_array_key) != '' && $ocpt_var->rem_num_format($asset_amount_value) >= 0.00000001 ) {
 	        	
 	        $csv_download_array[] = array(
 	        											strtoupper($coin_array_key),

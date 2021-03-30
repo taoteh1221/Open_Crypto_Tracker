@@ -6,7 +6,7 @@
 
 
 // ALL CHARTS FOR SPOT PRICE / 24 HOUR VOLUME
-foreach ( $app_config['charts_alerts']['tracked_markets'] as $key => $value ) {
+foreach ( $ocpt_conf['charts_alerts']['tracked_markets'] as $key => $value ) {
 
 	// Remove any duplicate asset array key formatting, which allows multiple alerts per asset with different exchanges / trading pairs (keyed like SYMB, SYMB-1, SYMB-2, etc)
 	$asset_dir = ( stristr($key, "-") == false ? $key : substr( $key, 0, mb_strpos($key, "-", 0, 'utf-8') ) );
@@ -22,7 +22,7 @@ foreach ( $app_config['charts_alerts']['tracked_markets'] as $key => $value ) {
 		}
 		
 		// Lite charts
-		foreach( $app_config['power_user']['lite_chart_day_intervals'] as $lite_chart_days ) {
+		foreach( $ocpt_conf['power_user']['lite_chart_day_intervals'] as $lite_chart_days ) {
 			
 			if ( dir_structure($base_dir . '/cache/charts/spot_price_24hr_volume/lite/'.$lite_chart_days.'_days/'.$asset_dir.'/') != TRUE ) { // Attempt to create directory if it doesn't exist
 			$disabled_caching = 1;
@@ -35,7 +35,7 @@ foreach ( $app_config['charts_alerts']['tracked_markets'] as $key => $value ) {
 }
 
 // LITE CHARTS FOR SYSTEM STATS
-foreach( $app_config['power_user']['lite_chart_day_intervals'] as $lite_chart_days ) {
+foreach( $ocpt_conf['power_user']['lite_chart_day_intervals'] as $lite_chart_days ) {
 			
 	if ( dir_structure($base_dir . '/cache/charts/system/lite/'.$lite_chart_days.'_days/') != TRUE ) { // Attempt to create directory if it doesn't exist
 	$disabled_caching = 1;

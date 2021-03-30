@@ -5,13 +5,13 @@
 
 
 
-class pt_vars {
+class ocpt_var {
 	
 // Class variables / arrays
-var $pt_var1;
-var $pt_var2;
-var $pt_var3;
-var $pt_array1 = array();
+var $ocpt_var1;
+var $ocpt_var2;
+var $ocpt_var3;
+var $ocpt_array1 = array();
 
    
    ////////////////////////////////////////////////////////
@@ -205,6 +205,32 @@ var $pt_array1 = array();
    ////////////////////////////////////////////////////////
    
    
+   // See if $val is a whole number without decimals
+   function whole_int($val) {
+      
+   $val = strval($val);
+   $val = str_replace('-', '', $val);
+   
+       if (ctype_digit($val)) {
+         
+           if ( $val === (string)0 ) {
+           return true;
+           }
+           elseif( ltrim($val, '0') === $val ) {
+           return true;
+           }
+               
+       }
+   
+   return false;
+       
+   }
+   
+   
+   ////////////////////////////////////////////////////////
+   ////////////////////////////////////////////////////////
+   
+   
    function list_sort($list_string, $delimiter, $mode, $delimiter_space=false) {
    
    $list_array = explode('/', $list_string);
@@ -259,12 +285,12 @@ var $pt_array1 = array();
        
       // MUST ALLOW MAXIMUM OF 9 DECIMALS, TO COUNT WATCH-ONLY ASSETS
       // (ANYTHING OVER 9 DECIMALS SHOULD BE AVOIDED FOR UX)
-      $detect_decimals = (string)$val;
-      if ( preg_match('~\.(\d+)E([+-])?(\d+)~', $detect_decimals, $matches) ) {
+      $detect_dec = (string)$val;
+      if ( preg_match('~\.(\d+)E([+-])?(\d+)~', $detect_dec, $matches) ) {
       $decimals = $matches[2] === '-' ? strlen($matches[1]) + $matches[3] : 0;
       }
       else {
-      $decimals = mb_strpos( strrev($detect_decimals) , '.', 0, 'utf-8');
+      $decimals = mb_strpos( strrev($detect_dec) , '.', 0, 'utf-8');
       }
        
       if ( $decimals > 9 ) {
@@ -314,9 +340,9 @@ var $pt_array1 = array();
    ////////////////////////////////////////////////////////
    
    
-   function num_pretty($value_to_pretty, $num_decimals, $small_unlimited=false) {
+   function num_pretty($value_to_pretty, $num_dec, $small_unlimited=false) {
    
-   global $app_config;
+   global $ocpt_conf;
    
    // Pretty number formatting, while maintaining decimals
    
@@ -326,7 +352,7 @@ var $pt_array1 = array();
    
    // Do any rounding that may be needed now (skip WATCH-ONLY 9 decimal values)
    if ( $this->num_to_str($raw_value_to_pretty) > 0.00000000 && $small_unlimited != TRUE ) { 
-   $raw_value_to_pretty = number_format($raw_value_to_pretty, $num_decimals, '.', '');
+   $raw_value_to_pretty = number_format($raw_value_to_pretty, $num_dec, '.', '');
    }
    
    // AFTER ROUNDING, RE-PROCESS removing leading / trailing zeros
@@ -348,16 +374,16 @@ var $pt_array1 = array();
             }
             
             
-          // Limit $decimal_amount to $num_decimals (unless it's a watch-only asset)
+          // Limit $decimal_amount to $num_dec (unless it's a watch-only asset)
           if ( $raw_value_to_pretty != 0.000000001 ) {
-          $decimal_amount = ( iconv_strlen($decimal_amount, 'utf-8') > $num_decimals ? substr($decimal_amount, 0, $num_decimals) : $decimal_amount );
+          $decimal_amount = ( iconv_strlen($decimal_amount, 'utf-8') > $num_dec ? substr($decimal_amount, 0, $num_dec) : $decimal_amount );
           }
           
             
             // Show EVEN IF LOW VALUE IS OFF THE MAP, just for UX purposes (tracking token price only, etc)
             if ( $this->num_to_str($raw_value_to_pretty) > 0.00000000 && $small_unlimited == true ) {  
                
-               if ( $num_decimals == 2 ) {
+               if ( $num_dec == 2 ) {
                $value_to_pretty = number_format($raw_value_to_pretty, 2, '.', ',');
                }
                else {
@@ -369,7 +395,7 @@ var $pt_array1 = array();
             // Show low value only with $decimal_amount minimum
             elseif ( $this->num_to_str($raw_value_to_pretty) >= 0.00000001 && $small_unlimited == false ) {  
                
-               if ( $num_decimals == 2 ) {
+               if ( $num_dec == 2 ) {
                $value_to_pretty = number_format($raw_value_to_pretty, 2, '.', ',');
                }
                else {

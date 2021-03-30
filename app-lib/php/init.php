@@ -26,7 +26,7 @@ date_default_timezone_set('UTC');
 
 
 // If debugging is enabled, turn on all PHP error reporting (BEFORE ANYTHING ELSE RUNS)
-if ( $app_config['developer']['debug_mode'] != 'off' ) {
+if ( $ocpt_conf['developer']['debug_mode'] != 'off' ) {
 error_reporting(1); 
 }
 else {
@@ -35,34 +35,34 @@ error_reporting(0);
 
 
 // Set a max execution time (if the system lets us), TO AVOID RUNAWAY PROCESSES FREEZING THE SERVER
-if ( $app_config['developer']['debug_mode'] != 'off' ) {
-$max_execution_time = 600; // 10 minutes in debug mode
+if ( $ocpt_conf['developer']['debug_mode'] != 'off' ) {
+$max_exec_time = 600; // 10 minutes in debug mode
 }
 elseif ( $runtime_mode == 'ui' ) {
-$max_execution_time = $app_config['developer']['ui_max_execution_time'];
+$max_exec_time = $ocpt_conf['developer']['ui_max_exec_time'];
 }
 elseif ( $runtime_mode == 'ajax' ) {
-$max_execution_time = $app_config['developer']['ajax_max_execution_time'];
+$max_exec_time = $ocpt_conf['developer']['ajax_max_exec_time'];
 }
 elseif ( $runtime_mode == 'cron' ) {
-$max_execution_time = $app_config['developer']['cron_max_execution_time'];
+$max_exec_time = $ocpt_conf['developer']['cron_max_exec_time'];
 }
 elseif ( $runtime_mode == 'int_api' ) {
-$max_execution_time = $app_config['developer']['int_api_max_execution_time'];
+$max_exec_time = $ocpt_conf['developer']['int_api_max_exec_time'];
 }
 elseif ( $runtime_mode == 'webhook' ) {
-$max_execution_time = $app_config['developer']['webhook_max_execution_time'];
+$max_exec_time = $ocpt_conf['developer']['webhook_max_exec_time'];
 }
 
 
 // If the script timeout var wasn't set properly / is not a whole number 3600 or less
-if ( !ctype_digit($max_execution_time) || $max_execution_time > 3600 ) {
-$max_execution_time = 120; // 120 seconds default
+if ( !ctype_digit($max_exec_time) || $max_exec_time > 3600 ) {
+$max_exec_time = 120; // 120 seconds default
 }
 
 
 // Maximum time script can run (may OR may not be overridden by operating system values, BUT we want this if the system allows it)
-ini_set('max_execution_time', $max_execution_time);
+ini_set('max_exec_time', $max_exec_time);
 
 
 // Mac compatibility with CSV spreadsheet importing / exporting
@@ -146,15 +146,15 @@ $base_url = base_url();
 }
 
 
-// Set $pt_app_id as a global (MUST BE SET AFTER $base_url / $base_dir)
+// Set $ocpt_app_id as a global (MUST BE SET AFTER $base_url / $base_dir)
 // (a 10 character install ID hash, created from the base URL or base dir [if cron])
-// AFTER THIS IS SET, WE CAN USE EITHER $pt_app_id OR pt_app_id() RELIABLY / EFFICIENTLY ANYWHERE
-// pt_app_id() can then be used in functions WITHOUT NEEDING ANY $pt_app_id GLOBAL DECLARED.
-$pt_app_id = pt_app_id();
+// AFTER THIS IS SET, WE CAN USE EITHER $ocpt_app_id OR pt_app_id() RELIABLY / EFFICIENTLY ANYWHERE
+// pt_app_id() can then be used in functions WITHOUT NEEDING ANY $ocpt_app_id GLOBAL DECLARED.
+$ocpt_app_id = pt_app_id();
 
 
 // Give our session a unique name 
-// MUST BE SET AFTER $pt_app_id / first pt_app_id() call
+// MUST BE SET AFTER $ocpt_app_id / first pt_app_id() call
 session_name( pt_app_id() );
 
 
@@ -164,7 +164,7 @@ $current_runtime_user = posix_getpwuid(posix_geteuid())['name'];
 
 // Get WEBSERVER runtime user (from cache if currently running from CLI)
 // MUST BE SET BEFORE CACHE STRUCTURE CREATION, TO RUN IN COMPATIBILITY MODE (IF NEEDED) FOR THIS PARTICULAR SERVER'S SETUP
-// WE HAVE FALLBACKS IF THIS IS NULL IN store_file_contents() WHEN WE STORE CACHE FILES, SO A BRAND NEW INTALL RUN FIRST VIA CRON IS #OK#
+// WE HAVE FALLBACKS IF THIS IS NULL IN $ocpt_cache->save_file() WHEN WE STORE CACHE FILES, SO A BRAND NEW INTALL RUN FIRST VIA CRON IS #OK#
 $http_runtime_user = ( $runtime_mode != 'cron' ? $current_runtime_user : trim( file_get_contents('cache/vars/http_runtime_user.dat') ) );
 
 
@@ -214,18 +214,18 @@ if ( $_POST['admin_submit_register'] || $_POST['admin_submit_login'] || $_POST['
 	
 	
 		if ( $_POST['admin_submit_register'] ) {
-		$theme_selected = ( $_COOKIE['theme_selected'] ? $_COOKIE['theme_selected'] : $app_config['general']['default_theme'] );
-		require("templates/interface/rendering/desktop/php/admin/admin-login/register.php");
+		$theme_selected = ( $_COOKIE['theme_selected'] ? $_COOKIE['theme_selected'] : $ocpt_conf['general']['default_theme'] );
+		require("templates/interface/desktop/php/admin/admin-login/register.php");
 		exit;
 		}
 		elseif ( $_POST['admin_submit_login'] ) {
-		$theme_selected = ( $_COOKIE['theme_selected'] ? $_COOKIE['theme_selected'] : $app_config['general']['default_theme'] );
-		require("templates/interface/rendering/desktop/php/admin/admin-login/login.php");
+		$theme_selected = ( $_COOKIE['theme_selected'] ? $_COOKIE['theme_selected'] : $ocpt_conf['general']['default_theme'] );
+		require("templates/interface/desktop/php/admin/admin-login/login.php");
 		exit;
 		}
 		elseif ( $_POST['admin_submit_reset'] ) {
-		$theme_selected = ( $_COOKIE['theme_selected'] ? $_COOKIE['theme_selected'] : $app_config['general']['default_theme'] );
-		require("templates/interface/rendering/desktop/php/admin/admin-login/reset.php");
+		$theme_selected = ( $_COOKIE['theme_selected'] ? $_COOKIE['theme_selected'] : $ocpt_conf['general']['default_theme'] );
+		require("templates/interface/desktop/php/admin/admin-login/reset.php");
 		exit;
 		}
 	
@@ -241,53 +241,55 @@ if ( $_POST['admin_submit_register'] || $_POST['admin_submit_login'] || $_POST['
 // Initial arrays
 $runtime_data = array();
 
+$runtime_data['performance_stats'] = array();
+
+$system_alerts = array();
+
 $logs_array = array();
 
-$proxy_checkup = array();
+$rand_color_ranged =  array();
 
-$proxies_checked = array();
-
-$btc_worth_array = array();
-
-$coin_stats_array = array();
+$processed_messages = array();
 
 $api_connections = array();
-
-$coingecko_api = array();
-
-$coinmarketcap_api = array();
 
 $api_runtime_cache = array();
 
 $limited_api_calls = array();
 
-$processed_messages = array();
+$coingecko_api = array();
 
-$btc_pairing_markets = array();
+$coinmarketcap_api = array();
 
-$plugin_config =  array();
-
-$activated_plugins =  array();
+$coin_stats_array = array();
 
 $asset_tracking =  array();
 
-$rand_color_ranged =  array();
+$btc_worth_array = array();
 
-$price_alerts_fixed_reset_array = array();
+$btc_pairing_markets = array();
 
 $btc_pairing_markets_excluded = array();
 
-$runtime_data['performance_stats'] = array();
+$price_alert_fixed_reset_array = array();
 
-$system_alerts = array();
+$proxy_checkup = array();
+
+$proxies_checked = array();
+
+$plug_conf =  array();
+
+$plug_class = array();
+
+$activated_plugins =  array();
 
 // Coinmarketcap supported currencies array
 require_once('app-lib/php/other/coinmarketcap-currencies.php');
 
 // Set as global, to update in / out of functions as needed
-$upgraded_app_config = array();
+$upgraded_ocpt_conf = array();
 
-$interface_login_array = explode("||", $app_config['general']['interface_login']);
+$interface_login_array = explode("||", $ocpt_conf['general']['interface_login']);
 					
 // HTTP SERVER setup detection variables (for cache compatibility auto-configuration)
 // MUST BE SET BEFORE CACHE STRUCTURE CREATION, TO RUN IN COMPATIBILITY MODE FOR THIS PARTICULAR SERVER'S SETUP
@@ -338,15 +340,15 @@ $is_raspi = 1;
 }
 
 // To be safe, don't use trim() on certain strings with arbitrary non-alphanumeric characters here
-if ( trim($app_config['comms']['telegram_your_username']) != '' && trim($app_config['comms']['telegram_bot_name']) != '' && trim($app_config['comms']['telegram_bot_username']) != '' && $app_config['comms']['telegram_bot_token'] != '' ) {
+if ( trim($ocpt_conf['comms']['telegram_your_username']) != '' && trim($ocpt_conf['comms']['telegram_bot_name']) != '' && trim($ocpt_conf['comms']['telegram_bot_username']) != '' && $ocpt_conf['comms']['telegram_bot_token'] != '' ) {
 $telegram_activated = 1;
 }
 
 // User agent (MUST BE SET EARLY [BUT AFTER SYSTEM INFO VAR], FOR ANY API CALLS WHERE USER AGENT IS REQUIRED BY THE API SERVER)
-if ( trim($app_config['developer']['override_user_agent']) != '' ) {
-$user_agent = $app_config['developer']['override_user_agent'];  // Custom user agent
+if ( trim($ocpt_conf['developer']['override_user_agent']) != '' ) {
+$user_agent = $ocpt_conf['developer']['override_user_agent'];  // Custom user agent
 }
-elseif ( sizeof($app_config['proxy']['proxy_list']) > 0 ) {
+elseif ( sizeof($ocpt_conf['proxy']['proxy_list']) > 0 ) {
 $user_agent = 'Curl/' .$curl_setup["version"]. ' ('.PHP_OS.'; compatible;)';  // If proxies in use, preserve some privacy
 }
 else {
@@ -380,7 +382,7 @@ elseif ( $is_csv_export ) {
 	require_once('app-lib/php/other/csv/example-csv.php');
 	}
 	// Portfolio export download
-	elseif ( $_POST['submit_check'] == 1 && is_array($app_config['portfolio_assets']) ) {
+	elseif ( $_POST['submit_check'] == 1 && is_array($ocpt_conf['assets']) ) {
 	require_once('app-lib/php/other/csv/export-csv.php');
 	}
 
@@ -407,15 +409,15 @@ require_once('app-lib/php/other/security/directory-security.php');
 if ( $runtime_mode == 'ui' ) {
 	
 	// Have UI / HTTP runtime mode RE-CACHE the runtime_user data every 24 hours, since CLI runtime cannot determine the UI / HTTP runtime_user 
-	if ( update_cache_file('cache/vars/http_runtime_user.dat', (60 * 24) ) == true ) {
-	store_file_contents('cache/vars/http_runtime_user.dat', $http_runtime_user); // ALREADY SET FURTHER UP IN INIT.PHP
+	if ( update_cache('cache/vars/http_runtime_user.dat', (60 * 24) ) == true ) {
+	$ocpt_cache->save_file('cache/vars/http_runtime_user.dat', $http_runtime_user); // ALREADY SET FURTHER UP IN INIT.PHP
 	}
 
 
 	// Have UI runtime mode RE-CACHE the app URL data every 24 hours, since CLI runtime cannot determine the app URL (for sending backup link emails during backups, etc)
-	if ( update_cache_file('cache/vars/base_url.dat', (60 * 24) ) == true ) {
+	if ( update_cache('cache/vars/base_url.dat', (60 * 24) ) == true ) {
 	$base_url = base_url();
-	store_file_contents('cache/vars/base_url.dat', $base_url);
+	$ocpt_cache->save_file('cache/vars/base_url.dat', $base_url);
 	}
 	else {
 	$base_url = trim( file_get_contents('cache/vars/base_url.dat') );
@@ -433,13 +435,13 @@ require_once('app-lib/php/other/debugging/system-checks.php');
 // Plugins config (MUST RUN AFTER system checks and BEFORE secure cache files)
 require_once('app-lib/php/other/plugins-config.php');
 
-// SET original app_config array AFTER plugins config, BEFORE secure cache files, and BEFORE dynamic app config management
-$default_app_config = $app_config; 
+// SET original pt_conf array AFTER plugins config, BEFORE secure cache files, and BEFORE dynamic app config management
+$default_ocpt_conf = $ocpt_conf; 
 
 // SECURED cache files management (MUST RUN AFTER system checks and AFTER plugins config)
 require_once('app-lib/php/other/security/secure-cache-files.php');
 
-// Dynamic app config management (MUST RUN AFTER secure cache files FOR CACHED / config.php app_config comparison)
+// Dynamic app config management (MUST RUN AFTER secure cache files FOR CACHED / config.php pt_conf comparison)
 require_once('app-lib/php/other/app-config-management.php');
 
 // Load any activated 3RD PARTY classes (MUST RUN AS EARLY AS POSSIBLE #AFTER SECURE CACHE FILES / APP CONFIG MANAGEMENT#)
@@ -468,7 +470,7 @@ require_once('app-lib/php/other/scheduled-maintenance.php');
 
 
 // Unit tests to run in debug mode (MUST RUN AT THE VERY END OF INIT.PHP)
-if ( $app_config['developer']['debug_mode'] != 'off' ) {
+if ( $ocpt_conf['developer']['debug_mode'] != 'off' ) {
 require_once('app-lib/php/other/debugging/tests.php');
 require_once('app-lib/php/other/debugging/exchange-and-pairing-info.php');
 }

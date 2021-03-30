@@ -5,20 +5,20 @@
 
 $analyzed_assets = array();
 
-foreach ( $app_config['charts_alerts']['tracked_markets'] as $key => $value ) {
+foreach ( $ocpt_conf['charts_alerts']['tracked_markets'] as $key => $value ) {
 
 $asset = preg_replace("/-(.*)/i", "", $key);
 
 $attributes = explode("||", $value);
 
-	// We also want to make sure this asset hasn't been removed from the 'portfolio_assets' app config, for UX
-	if ( !array_key_exists($asset, $analyzed_assets) && isset($app_config['portfolio_assets'][strtoupper($asset)]) ) {
+	// We also want to make sure this asset hasn't been removed from the 'assets' app config, for UX
+	if ( !array_key_exists($asset, $analyzed_assets) && isset($ocpt_conf['assets'][strtoupper($asset)]) ) {
 	
 		if ( $attributes[2] == 'chart' || $attributes[2] == 'both' ) {
 			
 		$analyzed_assets[$asset] = $key;
 		
-		$chart_file = $base_dir . '/cache/charts/spot_price_24hr_volume/lite/' . $_GET['time_period'] . '_days/'.strtoupper($asset).'/'.$key.'_chart_'.$default_btc_primary_currency_pairing.'.dat';
+		$chart_file = $base_dir . '/cache/charts/spot_price_24hr_volume/lite/' . $_GET['time_period'] . '_days/'.strtoupper($asset).'/'.$key.'_chart_'.$default_btc_prim_curr_pairing.'.dat';
 						
 			if ( file_exists($chart_file) ) {
 			$runtime_data['performance_stats'][strtoupper($asset)]['data'] = chart_data($chart_file, 'performance', $_GET['start_time']); // NO EARLIER THAN A CERTAIN TIMESTAMP
@@ -82,7 +82,7 @@ gui: {
   	x: 0, 
   	y: 0,
   	title: {
-        text: "Asset Performance Comparison (<?=strtoupper($default_btc_primary_currency_pairing)?>)",
+        text: "Asset Performance Comparison (<?=strtoupper($default_btc_prim_curr_pairing)?>)",
         adjustLayout: true,
     	  align: 'center',
     	  offsetX: 0,
@@ -105,7 +105,7 @@ exit;
 $loop = 0;
 foreach ( $runtime_data['performance_stats'] as $chart_key => $chart_value ) {
   			
-$percent_sample_newest = $pt_vars->num_to_str( $pt_vars->delimited_str_sample($chart_value['data']['percent'], ',', 'last') );
+$percent_sample_newest = $ocpt_var->num_to_str( $ocpt_var->delimited_str_sample($chart_value['data']['percent'], ',', 'last') );
 
 	// If percent value matches, and another (increasing) number to the end, to avoid overwriting keys (this data is only used as an array key anyway)
 	if ( !array_key_exists($percent_sample_newest, $sorted_by_last_chart_data) ) {
@@ -160,7 +160,7 @@ $plot_config = explode('|', $_GET['plot_config']);
 		
 			
 
-header('Content-type: text/html; charset=' . $app_config['developer']['charset_default']);
+header('Content-type: text/html; charset=' . $ocpt_conf['developer']['charset_default']);
 		
 			?>
 			
@@ -202,7 +202,7 @@ gui: {
       borderRadius: '8px',
       borderWidth: '2px',
       title: {
-        text: "Asset Performance Comparison (<?=strtoupper($default_btc_primary_currency_pairing)?>)",
+        text: "Asset Performance Comparison (<?=strtoupper($default_btc_prim_curr_pairing)?>)",
         adjustLayout: true,
     	  align: 'center',
     	  offsetX: 0,
@@ -272,7 +272,7 @@ gui: {
       	lineColor: "#444444"
         },
         label: {
-          text: "<?=strtoupper($default_btc_primary_currency_pairing)?> Value Percentage Change"
+          text: "<?=strtoupper($default_btc_prim_curr_pairing)?> Value Percentage Change"
         },
     	zooming: true
       },

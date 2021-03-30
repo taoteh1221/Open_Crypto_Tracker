@@ -63,7 +63,7 @@ $(".chart_wrapper").css({ "background-color": window.charts_background });
 $(".chart_wrapper").css({ "border": '2px solid ' + window.charts_border });
 
 // Dynamic table header updating
-$("span.btc_primary_currency_pairing").html(window.btc_primary_currency_pairing); 
+$("span.btc_prim_curr_pairing").html(window.btc_prim_curr_pairing); 
 
 
 //////////////////////////////////////////////////////////////////////////////

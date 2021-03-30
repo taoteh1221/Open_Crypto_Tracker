@@ -18,10 +18,10 @@ $ip_access = trim( file_get_contents($base_dir . '/cache/events/throttling/local
 
 
 
-// Throttle ip addresses reconnecting before $app_config['developer']['local_api_rate_limit'] interval passes
-if ( update_cache_file($base_dir . '/cache/events/throttling/local_api_incoming_ip_' . $store_ip . '.dat', ($app_config['developer']['local_api_rate_limit'] / 60) ) == false ) {
+// Throttle ip addresses reconnecting before $ocpt_conf['developer']['local_api_rate_limit'] interval passes
+if ( update_cache($base_dir . '/cache/events/throttling/local_api_incoming_ip_' . $store_ip . '.dat', ($ocpt_conf['developer']['local_api_rate_limit'] / 60) ) == false ) {
 
-$result = array('error' => "Rate limit (maximum of once every " . $app_config['developer']['local_api_rate_limit'] . " seconds) reached for ip address: " . $remote_ip);
+$result = array('error' => "Rate limit (maximum of once every " . $ocpt_conf['developer']['local_api_rate_limit'] . " seconds) reached for ip address: " . $remote_ip);
 
 app_logging('int_api_error', 'From ' . $remote_ip . ' (Rate limit reached)', 'uri: ' . $_SERVER['REQUEST_URI'] . ';');
 
@@ -56,12 +56,12 @@ $hash_check = md5($_GET['data_set']);
 
 
 	// If a cache exists for this request that's NOT OUTDATED, use cache to speed things up
-	if ( update_cache_file($base_dir . '/cache/internal-api/'.$hash_check.'.dat', $app_config['developer']['local_api_cache_time']) == false ) {
+	if ( update_cache($base_dir . '/cache/internal-api/'.$hash_check.'.dat', $ocpt_conf['developer']['local_api_cache_time']) == false ) {
 		
 	$json_result = trim( file_get_contents($base_dir . '/cache/internal-api/'.$hash_check.'.dat') );
 
 	// Log access event for this ip address (for throttling)
-	store_file_contents($base_dir . '/cache/events/throttling/local_api_incoming_ip_' . $store_ip . '.dat', time_date_format(false, 'pretty_date_time') );
+	$ocpt_cache->save_file($base_dir . '/cache/events/throttling/local_api_incoming_ip_' . $store_ip . '.dat', time_date_format(false, 'pretty_date_time') );
 	
 	}
 	// No cache / expired cache
@@ -109,17 +109,17 @@ $hash_check = md5($_GET['data_set']);
 		}
 
 
-	$result['minutes_cached'] = $app_config['developer']['local_api_cache_time'];
+	$result['minutes_cached'] = $ocpt_conf['developer']['local_api_cache_time'];
 	
 	
 	// JSON-encode results
 	$json_result = json_encode($result, JSON_PRETTY_PRINT);
 	
 	// Cache the result
-	store_file_contents($base_dir . '/cache/internal-api/'.$hash_check.'.dat', $json_result);
+	$ocpt_cache->save_file($base_dir . '/cache/internal-api/'.$hash_check.'.dat', $json_result);
 
 	// Log access event for this ip address (for throttling)
-	store_file_contents($base_dir . '/cache/events/throttling/local_api_incoming_ip_' . $store_ip . '.dat', time_date_format(false, 'pretty_date_time') );
+	$ocpt_cache->save_file($base_dir . '/cache/events/throttling/local_api_incoming_ip_' . $store_ip . '.dat', time_date_format(false, 'pretty_date_time') );
 
 
 	}
