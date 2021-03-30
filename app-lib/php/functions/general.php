@@ -164,7 +164,7 @@ $total = count($chunks);
 ////////////////////////////////////////////////////////
 
 
-function pt_digest($string, $max_length=false) {
+function ocpt_digest($string, $max_length=false) {
 
 	if ( $max_length > 0 ) {
 	$result = substr( hash('ripemd160', $string) , 0, $max_length);
@@ -182,13 +182,13 @@ return $result;
 ////////////////////////////////////////////////////////
 
 
-function pt_nonce_digest($data, $custom_nonce=false) {
+function ocpt_nonce_digest($data, $custom_nonce=false) {
 	
 	if ( isset($data) && $custom_nonce != false ) {
-	return pt_digest( $data . $custom_nonce );
+	return ocpt_digest( $data . $custom_nonce );
 	}
 	elseif ( isset($data) && isset($_SESSION['nonce']) ) {
-	return pt_digest( $data . $_SESSION['nonce'] );
+	return ocpt_digest( $data . $_SESSION['nonce'] );
 	}
 	else {
 	return false;
@@ -204,13 +204,13 @@ function pt_nonce_digest($data, $custom_nonce=false) {
 function admin_logged_in() {
 	
 	// IF REQUIRED DATA NOT SET, REFUSE ADMIN AUTHORIZATION
-	if ( !isset( $_COOKIE['admin_auth_' . pt_app_id()] )
+	if ( !isset( $_COOKIE['admin_auth_' . ocpt_app_id()] )
 	|| !isset( $_SESSION['nonce'] )
 	|| !isset( $_SESSION['admin_logged_in']['auth_hash'] ) ) {
 	return false;
 	}
 	// WE SPLIT THE LOGIN AUTH BETWEEN COOKIE AND SESSION DATA (TO BETTER SECURE LOGIN AUTHORIZATION)
-	elseif ( pt_nonce_digest( $_COOKIE['admin_auth_' . pt_app_id()] ) == $_SESSION['admin_logged_in']['auth_hash'] ) {
+	elseif ( ocpt_nonce_digest( $_COOKIE['admin_auth_' . ocpt_app_id()] ) == $_SESSION['admin_logged_in']['auth_hash'] ) {
 	return true;
 	}
 
@@ -261,10 +261,10 @@ return("".round($bytes, $round)." ".$type[$index]."bytes");
 // To keep admin nonce key a secret, and make CSRF attacks harder with a different key per submission item
 function admin_hashed_nonce($key, $force=false) {
 	
-	// WE NEED A SEPERATE FUNCTION pt_nonce_digest(), SO WE DON'T #ENDLESSLY LOOP# FROM OUR
-	// admin_logged_in() CALL (WHICH ALSO USES pt_nonce_digest() INSTEAD OF admin_hashed_nonce())
+	// WE NEED A SEPERATE FUNCTION ocpt_nonce_digest(), SO WE DON'T #ENDLESSLY LOOP# FROM OUR
+	// admin_logged_in() CALL (WHICH ALSO USES ocpt_nonce_digest() INSTEAD OF admin_hashed_nonce())
 	if ( admin_logged_in() || $force ) {
-	return pt_nonce_digest($key);
+	return ocpt_nonce_digest($key);
 	}
 	else {
 	return false;
@@ -328,12 +328,12 @@ function hardy_session_clearing() {
 // Deleting all session data can fail on occasion, and wreak havoc.
 // This helps according to one programmer on php.net
 session_start();
-session_name( pt_app_id() );
+session_name( ocpt_app_id() );
 $_SESSION = array();
 session_unset();
 session_destroy();
 session_write_close();
-setcookie(session_name( pt_app_id() ),'',0,'/');
+setcookie(session_name( ocpt_app_id() ),'',0,'/');
 session_regenerate_id(true);
 
 }
@@ -523,7 +523,7 @@ return $result;
 
 
 // Install id (10 character hash, based off base url)
-function pt_app_id() {
+function ocpt_app_id() {
 	
 global $base_url, $base_dir, $ocpt_app_id;
 
@@ -593,12 +593,12 @@ global $ocpt_conf, $possible_http_users, $http_runtime_user;
 		// Run cache compatibility on certain PHP setups
 		if ( !$http_runtime_user || in_array($http_runtime_user, $possible_http_users) ) {
 		$oldmask = umask(0);
-		$result = mkdir($path, octdec($ocpt_conf['developer']['chmod_cache_dir']), true); // Recursively create whatever path depth desired if non-existent
+		$result = mkdir($path, octdec($ocpt_conf['dev']['chmod_cache_dir']), true); // Recursively create whatever path depth desired if non-existent
 		umask($oldmask);
 		return $result;
 		}
 		else {
-		return  mkdir($path, octdec($ocpt_conf['developer']['chmod_cache_dir']), true); // Recursively create whatever path depth desired if non-existent
+		return  mkdir($path, octdec($ocpt_conf['dev']['chmod_cache_dir']), true); // Recursively create whatever path depth desired if non-existent
 		}
 	
 	}
@@ -685,7 +685,7 @@ $url = preg_replace("/:\/\//i", ") ", $url);
 
 	// Etherscan
 	if ( preg_match("/etherscan/i", $url) ) {
-	$url = str_replace($ocpt_conf['general']['etherscan_key'], $ocpt_var->obfuscate_str($ocpt_conf['general']['etherscan_key'], 2), $url);
+	$url = str_replace($ocpt_conf['gen']['etherscan_key'], $ocpt_var->obfuscate_str($ocpt_conf['gen']['etherscan_key'], 2), $url);
 	}
 	// Telegram
 	elseif ( preg_match("/telegram/i", $url) ) {
@@ -693,7 +693,7 @@ $url = preg_replace("/:\/\//i", ") ", $url);
 	}
 	// Defipulse
 	elseif ( preg_match("/defipulse/i", $url) ) {
-	$url = str_replace($ocpt_conf['general']['defipulse_key'], $ocpt_var->obfuscate_str($ocpt_conf['general']['defipulse_key'], 2), $url); 
+	$url = str_replace($ocpt_conf['gen']['defipulse_key'], $ocpt_var->obfuscate_str($ocpt_conf['gen']['defipulse_key'], 2), $url); 
 	}
 
 // Keep our color-coded logs in the admin UI pretty, remove '//' and put in parenthesis
@@ -722,10 +722,10 @@ $hostData = explode('.', $urlData['host']);
 $hostData = array_reverse($hostData);
 
 
-	if ( array_search($hostData[1] . '.' . $hostData[0], $ocpt_conf['developer']['top_level_domain_map']) !== false ) {
+	if ( array_search($hostData[1] . '.' . $hostData[0], $ocpt_conf['dev']['top_level_domain_map']) !== false ) {
    $host = $hostData[2] . '.' . $hostData[1] . '.' . $hostData[0];
 	} 
-	elseif ( array_search($hostData[0], $ocpt_conf['developer']['top_level_domain_map']) !== false ) {
+	elseif ( array_search($hostData[0], $ocpt_conf['dev']['top_level_domain_map']) !== false ) {
    $host = $hostData[1] . '.' . $hostData[0];
  	}
 
@@ -776,11 +776,11 @@ function valid_username($username) {
 
 global $ocpt_conf;
 
-    if ( mb_strlen($username, $ocpt_conf['developer']['charset_default']) < 4 ) {
+    if ( mb_strlen($username, $ocpt_conf['dev']['charset_default']) < 4 ) {
     $error .= "requires 4 minimum characters; ";
     }
     
-    if ( mb_strlen($username, $ocpt_conf['developer']['charset_default']) > 30 ) {
+    if ( mb_strlen($username, $ocpt_conf['dev']['charset_default']) > 30 ) {
     $error .= "requires 30 maximum characters; ";
     }
     
@@ -892,7 +892,7 @@ function smtp_mail($to, $subject, $message, $content_type='text', $charset=null)
 global $ocpt_conf, $smtp;
 
 	if ( $charset == null ) {
-	$charset = $ocpt_conf['developer']['charset_default'];
+	$charset = $ocpt_conf['dev']['charset_default'];
 	}
 	
 	
@@ -941,7 +941,7 @@ $category = preg_replace("/_debugging/i", "", $category);
 
 
 	// Disable logging any included verbose tracing, if log verbosity level config is set to normal
-	if ( $ocpt_conf['developer']['log_verbosity'] == 'normal' ) {
+	if ( $ocpt_conf['dev']['log_verb'] == 'normal' ) {
 	$verbose_tracing = false;
 	}
 
@@ -1133,7 +1133,7 @@ global $ocpt_conf;
 $type = pathinfo($save_as, PATHINFO_EXTENSION);
 
 	if ( $type == 'csv' ) {
-	$content_type = 'Content-type: text/csv; charset=' . $ocpt_conf['developer']['charset_default'];
+	$content_type = 'Content-type: text/csv; charset=' . $ocpt_conf['dev']['charset_default'];
 	}
 	else {
 	$content_type = 'Content-type: application/octet-stream';
@@ -1365,8 +1365,8 @@ $vars['cfg_port']     =  $smtp_port;
 $vars['cfg_secure']   = $smtp_secure;
 $vars['cfg_username'] = $smtp_user;
 $vars['cfg_password'] = $smtp_password;
-$vars['cfg_debug_mode'] = $ocpt_conf['developer']['debug_mode']; // Open Crypto Portfolio Tracker debug mode setting
-$vars['cfg_strict_ssl'] = $ocpt_conf['developer']['smtp_strict_ssl']; // Open Crypto Portfolio Tracker strict SSL setting
+$vars['cfg_debug_mode'] = $ocpt_conf['dev']['debug']; // Open Crypto Portfolio Tracker debug mode setting
+$vars['cfg_strict_ssl'] = $ocpt_conf['dev']['smtp_strict_ssl']; // Open Crypto Portfolio Tracker strict SSL setting
 $vars['cfg_app_version'] = $app_version; // Open Crypto Portfolio Tracker version
 
 return $vars;
@@ -1397,7 +1397,7 @@ $csv_row[2] = ( $ocpt_var->rem_num_format($csv_row[2]) >= 0 ? $ocpt_var->rem_num
 $csv_row[3] = ( $ocpt_var->whole_int($csv_row[3]) != false && $csv_row[3] >= 0 ? $csv_row[3] : 0 ); 
 	
 // If leverage is ABOVE 'margin_leverage_max', default to 'margin_leverage_max'
-$csv_row[3] = ( $csv_row[3] <= $ocpt_conf['power_user']['margin_leverage_max'] ? $csv_row[3] : $ocpt_conf['power_user']['margin_leverage_max'] ); 
+$csv_row[3] = ( $csv_row[3] <= $ocpt_conf['power']['margin_leverage_max'] ? $csv_row[3] : $ocpt_conf['power']['margin_leverage_max'] ); 
 
 // Default to 'long', if not 'short' (set to lowercase...simple auto-correct, if set to anything other than 'short')
 $csv_row[4] = ( strtolower($csv_row[4]) == 'short' ? strtolower($csv_row[4]) : 'long' ); 
@@ -1535,13 +1535,13 @@ function password_strength($password, $min_length, $max_length) {
 
 global $ocpt_conf;
 
-    if ( $min_length == $max_length && mb_strlen($password, $ocpt_conf['developer']['charset_default']) != $min_length ) {
+    if ( $min_length == $max_length && mb_strlen($password, $ocpt_conf['dev']['charset_default']) != $min_length ) {
     $error .= "MUST BE EXACTLY ".$min_length." characters; ";
     }
-    elseif ( mb_strlen($password, $ocpt_conf['developer']['charset_default']) < $min_length ) {
+    elseif ( mb_strlen($password, $ocpt_conf['dev']['charset_default']) < $min_length ) {
     $error .= "requires AT LEAST ".$min_length." characters; ";
     }
-    elseif ( mb_strlen($password, $ocpt_conf['developer']['charset_default']) > $max_length ) {
+    elseif ( mb_strlen($password, $ocpt_conf['dev']['charset_default']) > $max_length ) {
     $error .= "requires NO MORE THAN ".$max_length." characters; ";
     }
     
@@ -1591,7 +1591,7 @@ global $ocpt_conf;
 
 function reset_price_alert_notice() {
 
-global $ocpt_conf, $ocpt_cache, $price_alert_fixed_reset_array, $default_btc_prim_curr_pairing;
+global $ocpt_conf, $ocpt_cache, $ocpt_gen, $price_alert_fixed_reset_array, $default_btc_prim_curr_pairing;
 
 
 // Alphabetical asset sort, for message UX 
@@ -1626,7 +1626,7 @@ $text_message = $count . ' ' . strtoupper($default_btc_prim_curr_pairing) . ' Pr
 
 $email_message = 'The following ' . $count . ' ' . strtoupper($default_btc_prim_curr_pairing) . ' price alert fixed resets (run every ' . $ocpt_conf['charts_alerts']['price_alert_fixed_reset'] . ' days) have been processed, with the latest spot price data: ' . $reset_list;
 
-$notifyme_message = $email_message . ' Timestamp is ' . time_date_format($ocpt_conf['general']['local_time_offset'], 'pretty_time') . '.';
+$notifyme_message = $email_message . ' Timestamp is ' . time_date_format($ocpt_conf['gen']['local_time_offset'], 'pretty_time') . '.';
 
 
 // Message parameter added for desired comm methods (leave any comm method blank to skip sending via that method)
@@ -1772,8 +1772,8 @@ $skip_upgrading = array(
 								'tracked_markets',
 								'crypto_pairing',
 								'crypto_pairing_pref_markets',
-								'btc_currency_markets',
-								'btc_pref_currency_markets',
+								'btc_curr_markets',
+								'btc_pref_curr_markets',
 								'ethereum_subtoken_ico_values',
 								'mob_net_txt_gateways',
 								'assets',
@@ -1970,7 +1970,7 @@ global $ocpt_conf, $ocpt_var, $default_btc_prim_curr_pairing, $runtime_nonce, $r
 
 
 	// #FOR CLEAN CODE#, RUN CHECK TO MAKE SURE IT'S NOT A CRYPTO AS WELL...WE HAVE A COUPLE SUPPORTED, BUT WE ONLY WANT DESIGNATED FIAT-EQIV HERE
-	if ( array_key_exists($chart_format, $ocpt_conf['power_user']['btc_currency_markets']) && !array_key_exists($chart_format, $ocpt_conf['power_user']['crypto_pairing']) ) {
+	if ( array_key_exists($chart_format, $ocpt_conf['power']['btc_curr_markets']) && !array_key_exists($chart_format, $ocpt_conf['power']['crypto_pairing']) ) {
 	$fiat_formatting = true;
 	}
 	elseif ( $chart_format == 'system' ) {
@@ -2032,13 +2032,13 @@ $fn = fopen($file,"r");
          
             // Format or round primary currency price depending on value (non-stablecoin crypto values are already stored in the format we want for the interface)
             if ( $fiat_formatting ) {
-            $data['spot'] .= ( $ocpt_var->num_to_str($result[1]) >= $ocpt_conf['general']['prim_curr_dec_max_thres'] ? number_format((float)$result[1], 2, '.', '')  :  round($result[1], $ocpt_conf['general']['prim_curr_dec_max'])  ) . ',';
+            $data['spot'] .= ( $ocpt_var->num_to_str($result[1]) >= $ocpt_conf['gen']['prim_curr_dec_max_thres'] ? number_format((float)$result[1], 2, '.', '')  :  round($result[1], $ocpt_conf['gen']['prim_curr_dec_max'])  ) . ',';
             $data['volume'] .= round($result[2]) . ',';
             }
             // Non-stablecoin crypto
             else {
             $data['spot'] .= $result[1] . ',';
-            $data['volume'] .= round($result[2], $ocpt_conf['power_user']['charts_crypto_volume_dec']) . ',';
+            $data['volume'] .= round($result[2], $ocpt_conf['power']['chart_crypto_vol_dec']) . ',';
             }
          
          }
@@ -2228,7 +2228,7 @@ function safe_mail($to, $subject, $message, $content_type='text', $charset=null)
 global $app_version, $ocpt_conf;
 
 	if ( $charset == null ) {
-	$charset = $ocpt_conf['developer']['charset_default'];
+	$charset = $ocpt_conf['dev']['charset_default'];
 	}
 
 // Stop injection vulnerability

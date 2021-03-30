@@ -170,7 +170,7 @@
 	
 	
 	<?php
-	$all_chart_rebuild_min_max = explode(',', $ocpt_conf['developer']['all_chart_rebuild_min_max']);
+	$all_chart_rebuild_min_max = explode(',', $ocpt_conf['dev']['all_chart_rebuild_min_max']);
 	?>
 	
 	<p class='sys_stats red' style='font-weight: bold;'>*The most recent days in the 'ALL' chart MAY ALWAYS show a spike on the cron runtime seconds (ON SLOWER MACHINES, from re-building the 'ALL' chart every <?=$all_chart_rebuild_min_max[0]?> to <?=$all_chart_rebuild_min_max[1]?> hours), until the 'ALL' chart re-builds slowly average out only showing their own runtime data for older days.</p>		
@@ -181,7 +181,7 @@
 	
 	<div style='display: flex; flex-flow: column wrap; overflow: hidden;' class='chart_wrapper' id='system_stats_chart_1'>
 	
-	<span class='chart_loading' style='color: <?=$ocpt_conf['power_user']['charts_text']?>;'> &nbsp; Loading chart #1 for system data...</span>
+	<span class='chart_loading' style='color: <?=$ocpt_conf['power']['charts_text']?>;'> &nbsp; Loading chart #1 for system data...</span>
 	
 	<div style='z-index: 99999; margin-top: 7px;' class='chart_reload align_center absolute_centered loading bitcoin'><img src="templates/interface/media/images/auto-preloaded/loader.gif" height='17' alt="" style='vertical-align: middle;' /> <div class='chart_reload_message'></div></div>
 	
@@ -202,7 +202,7 @@
 	
 	<div style='display: flex; flex-flow: column wrap; overflow: hidden;' class='chart_wrapper' id='system_stats_chart_2'>
 	
-	<span class='chart_loading' style='color: <?=$ocpt_conf['power_user']['charts_text']?>;'> &nbsp; Loading chart #2 for system data...</span>
+	<span class='chart_loading' style='color: <?=$ocpt_conf['power']['charts_text']?>;'> &nbsp; Loading chart #2 for system data...</span>
 	
 	<div style='z-index: 99999; margin-top: 7px;' class='chart_reload align_center absolute_centered loading bitcoin'><img src="templates/interface/media/images/auto-preloaded/loader.gif" height='17' alt="" style='vertical-align: middle;' /> <div class='chart_reload_message'></div></div>
 	

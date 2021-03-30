@@ -8,8 +8,8 @@
 // PLUGINS CONFIG
 //////////////////////////////////////////////////////////////////
 
-// Configs for any plugins activated in pt_conf
-foreach ( $ocpt_conf['power_user']['activate_plugins'] as $key => $value ) {
+// Configs for any plugins activated in ocpt_conf
+foreach ( $ocpt_conf['power']['activate_plugins'] as $key => $value ) {
 	
 	if ( $value == 'on' ) {
 		

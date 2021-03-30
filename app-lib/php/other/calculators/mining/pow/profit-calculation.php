@@ -7,7 +7,7 @@ $mined_coin_value = $ocpt_api->market(strtoupper($pow_coin_data['symbol']), $pow
 				
 $btc_daily_average_raw = ( $pow_coin_data['symbol'] == 'btc' ? $daily_average : $daily_average * $mined_coin_value );
 
-$prim_curr_daily_average_raw = $btc_daily_average_raw * $selected_btc_prim_curr_value;
+$prim_curr_daily_average_raw = $btc_daily_average_raw * $sel_btc_prim_curr_value;
 				
 $kwh_cost_daily = ( ( trim($_POST['watts_used']) / 1000 ) * 24 ) * trim($_POST['watts_rate']);
 				

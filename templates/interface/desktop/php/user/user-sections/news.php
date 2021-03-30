@@ -14,7 +14,7 @@
 
 			<p style='margin-top: 15px; margin-bottom: 15px;'><?=start_page_html('news')?></p>			
 			<?php
-			$news_feed_cache_min_max = explode(',', $ocpt_conf['developer']['news_feed_cache_min_max']);
+			$news_feed_cache_min_max = explode(',', $ocpt_conf['dev']['news_feed_cache_min_max']);
 			?>
 	
     		
@@ -116,10 +116,10 @@
 	<?php
 	
 	$zebra_stripe = 'long_list_odd';
-	foreach ( $ocpt_conf['power_user']['news_feed'] as $feed ) {
+	foreach ( $ocpt_conf['power']['news_feed'] as $feed ) {
 	
 	// We avoid using array keys for end user config editing UX, BUT STILL UNIQUELY IDENTIFY EACH FEED
-	$feed_id = pt_digest($feed['title'], 10);
+	$feed_id = ocpt_digest($feed['title'], 10);
 				
 	?>
 	
@@ -170,7 +170,7 @@
 	 
 	 $chosen_feeds = array_map( array($ocpt_var, 'strip_brackets') , $show_feeds);
 	 
-	 $batched_feeds_loops_max = ceil( sizeof($chosen_feeds) / $ocpt_conf['developer']['news_feed_batched_max'] );
+	 $batched_feeds_loops_max = ceil( sizeof($chosen_feeds) / $ocpt_conf['dev']['news_feed_batched_max'] );
 	 
 	 // Defaults before looping
 	 $all_feeds_added = 0;
@@ -188,7 +188,7 @@
 			$batched_feeds_keys .= $chosen_feed_hash . ',';
 			$all_feeds_added = $all_feeds_added + 1;
 			
-				if ( $batched_feeds_added >= $ocpt_conf['developer']['news_feed_batched_max'] || $all_feeds_added >= sizeof($chosen_feeds) ) {
+				if ( $batched_feeds_added >= $ocpt_conf['dev']['news_feed_batched_max'] || $all_feeds_added >= sizeof($chosen_feeds) ) {
 				$batched_feeds_keys = rtrim($batched_feeds_keys,',');
 				?>
 		

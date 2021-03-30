@@ -32,7 +32,7 @@
 	$bundle_error_logs .= $logs_array['other_error'];
 	
 	
-	if ( $ocpt_conf['developer']['debug_mode'] != 'off' ) {
+	if ( $ocpt_conf['dev']['debug'] != 'off' ) {
 	
 	
 		foreach ( $logs_array['cache_debugging'] as $error ) {
@@ -268,7 +268,7 @@
 
 
 		// If debug mode is 'all' / 'all_telemetry' / 'stats'
-		if ( $ocpt_conf['developer']['debug_mode'] == 'all' || $ocpt_conf['developer']['debug_mode'] == 'all_telemetry' || $ocpt_conf['developer']['debug_mode'] == 'stats' ) {
+		if ( $ocpt_conf['dev']['debug'] == 'all' || $ocpt_conf['dev']['debug'] == 'all_telemetry' || $ocpt_conf['dev']['debug'] == 'stats' ) {
 		
 			foreach ( $system_info as $key => $value ) {
 			$system_telemetry .= $key . ': ' . $value . '; ';
@@ -289,7 +289,7 @@
 		// Process debugging logs AFTER runtime stats
 		$debugging_logs = debugging_logs();
     		
-		if ( $ocpt_conf['developer']['debug_mode'] != 'off' && $debugging_logs != true ) {
+		if ( $ocpt_conf['dev']['debug'] != 'off' && $debugging_logs != true ) {
 		?>
 		<div class="red" style='font-weight: bold;'><?=$debugging_logs?></div>
 		<?php

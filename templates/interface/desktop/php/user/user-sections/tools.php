@@ -79,9 +79,9 @@
     				
     			</p>
     			
-    			<p class='green' style='font-weight: bold;'>Per-Token (<?=strtoupper($ocpt_conf['general']['btc_prim_curr_pairing'])?>): <?=$ocpt_conf['power_user']['btc_currency_markets'][$ocpt_conf['general']['btc_prim_curr_pairing']]?><span id='target_prim_curr'>0.00</span> (<span id='target_btc'>0.00</span> BTC) </p>
+    			<p class='green' style='font-weight: bold;'>Per-Token (<?=strtoupper($ocpt_conf['gen']['btc_prim_curr_pairing'])?>): <?=$ocpt_conf['power']['btc_curr_markets'][$ocpt_conf['gen']['btc_prim_curr_pairing']]?><span id='target_prim_curr'>0.00</span> (<span id='target_btc'>0.00</span> BTC) </p>
     			
-    			<p class='green' style='font-weight: bold;'>Total: <?=$ocpt_conf['power_user']['btc_currency_markets'][$ocpt_conf['general']['btc_prim_curr_pairing']]?><span id='target_total_prim_curr'>0.00</span> (<span id='target_total_btc'>0.00</span> BTC) </p>
+    			<p class='green' style='font-weight: bold;'>Total: <?=$ocpt_conf['power']['btc_curr_markets'][$ocpt_conf['gen']['btc_prim_curr_pairing']]?><span id='target_total_prim_curr'>0.00</span> (<span id='target_total_btc'>0.00</span> BTC) </p>
     			
     			<script>
     			

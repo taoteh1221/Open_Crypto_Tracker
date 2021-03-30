@@ -13,16 +13,16 @@
 // START CONFIG CLEANUP (auto-correct any basic end user data entry errors in possibly user-customized DEFAULTS in config.php)
 
 // Cleaning lowercase alphanumeric string values, and auto-correct minor errors
-$ocpt_conf['developer']['debug_mode'] = $ocpt_var->auto_correct_str($ocpt_conf['developer']['debug_mode'], 'lower');
+$ocpt_conf['dev']['debug'] = $ocpt_var->auto_correct_str($ocpt_conf['dev']['debug'], 'lower');
 $ocpt_conf['comms']['upgrade_alert'] = $ocpt_var->auto_correct_str($ocpt_conf['comms']['upgrade_alert'], 'lower');
-$ocpt_conf['general']['btc_prim_curr_pairing'] = $ocpt_var->auto_correct_str($ocpt_conf['general']['btc_prim_curr_pairing'], 'lower');
-$ocpt_conf['general']['btc_prim_exchange'] = $ocpt_var->auto_correct_str($ocpt_conf['general']['btc_prim_exchange'], 'lower');
-$ocpt_conf['developer']['log_verbosity'] = $ocpt_var->auto_correct_str($ocpt_conf['developer']['log_verbosity'], 'lower');
-$ocpt_conf['general']['default_theme'] = $ocpt_var->auto_correct_str($ocpt_conf['general']['default_theme'], 'lower');
-$ocpt_conf['general']['prim_mcap_site'] = $ocpt_var->auto_correct_str($ocpt_conf['general']['prim_mcap_site'], 'lower');
+$ocpt_conf['gen']['btc_prim_curr_pairing'] = $ocpt_var->auto_correct_str($ocpt_conf['gen']['btc_prim_curr_pairing'], 'lower');
+$ocpt_conf['gen']['btc_prim_exchange'] = $ocpt_var->auto_correct_str($ocpt_conf['gen']['btc_prim_exchange'], 'lower');
+$ocpt_conf['dev']['log_verb'] = $ocpt_var->auto_correct_str($ocpt_conf['dev']['log_verb'], 'lower');
+$ocpt_conf['gen']['default_theme'] = $ocpt_var->auto_correct_str($ocpt_conf['gen']['default_theme'], 'lower');
+$ocpt_conf['gen']['prim_mcap_site'] = $ocpt_var->auto_correct_str($ocpt_conf['gen']['prim_mcap_site'], 'lower');
 $ocpt_conf['comms']['price_alert_block_vol_error'] = $ocpt_var->auto_correct_str($ocpt_conf['comms']['price_alert_block_vol_error'], 'lower');
-$ocpt_conf['developer']['remote_api_strict_ssl'] = $ocpt_var->auto_correct_str($ocpt_conf['developer']['remote_api_strict_ssl'], 'lower');
-$ocpt_conf['general']['asset_charts_toggle'] = $ocpt_var->auto_correct_str($ocpt_conf['general']['asset_charts_toggle'], 'lower');
+$ocpt_conf['dev']['remote_api_strict_ssl'] = $ocpt_var->auto_correct_str($ocpt_conf['dev']['remote_api_strict_ssl'], 'lower');
+$ocpt_conf['gen']['asset_charts_toggle'] = $ocpt_var->auto_correct_str($ocpt_conf['gen']['asset_charts_toggle'], 'lower');
 $ocpt_conf['comms']['proxy_alert'] = $ocpt_var->auto_correct_str($ocpt_conf['comms']['proxy_alert'], 'lower');
 $ocpt_conf['comms']['proxy_alert_runtime'] = $ocpt_var->auto_correct_str($ocpt_conf['comms']['proxy_alert_runtime'], 'lower');
 $ocpt_conf['comms']['proxy_alert_checkup_ok'] = $ocpt_var->auto_correct_str($ocpt_conf['comms']['proxy_alert_checkup_ok'], 'lower');
@@ -56,24 +56,24 @@ $ocpt_conf['mob_net_txt_gateways'] = $cleaned_mobile_networks;
 
 // Default BTC CRYPTO/CRYPTO market pairing support, BEFORE GENERATING MISCASSETS ARRAY
 // (so we activate it here instead of in Admin Config, for good UX adding ONLY altcoin markets dynamically there)
-$ocpt_conf['power_user']['crypto_pairing'] = array('btc' => 'Ƀ ') + $ocpt_conf['power_user']['crypto_pairing']; // ADD TO #BEGINNING# OF ARRAY, FOR UX
+$ocpt_conf['power']['crypto_pairing'] = array('btc' => 'Ƀ ') + $ocpt_conf['power']['crypto_pairing']; // ADD TO #BEGINNING# OF ARRAY, FOR UX
 
 // Numericly sort lite chart intervals (in case end user didn't do them in order)
 // DO BEFORE ADDING 'all' BELOW
-sort($ocpt_conf['power_user']['lite_chart_day_intervals']);
+sort($ocpt_conf['power']['lite_chart_day_intervals']);
 
 // Default lite chart mode 'all' (we activate it here instead of in Admin Config, for good UX adding ONLY day intervals there)
-$ocpt_conf['power_user']['lite_chart_day_intervals'][] = 'all';
+$ocpt_conf['power']['lite_chart_day_intervals'][] = 'all';
 
 
 // Idiot-proof maximum of +-35 on captcha text contrast
-if ( abs($ocpt_conf['power_user']['captcha_text_contrast']) > 35 ) {
-$ocpt_conf['power_user']['captcha_text_contrast'] = 35;
+if ( abs($ocpt_conf['power']['captcha_text_contrast']) > 35 ) {
+$ocpt_conf['power']['captcha_text_contrast'] = 35;
 }
 
 // Idiot-proof maximum of 35 degrees on captcha text angle-offset
-if ( abs($ocpt_conf['power_user']['captcha_text_angle']) > 35 || $ocpt_conf['power_user']['captcha_text_angle'] < 0 ) {
-$ocpt_conf['power_user']['captcha_text_angle'] = 35;
+if ( abs($ocpt_conf['power']['captcha_text_angle']) > 35 || $ocpt_conf['power']['captcha_text_angle'] < 0 ) {
+$ocpt_conf['power']['captcha_text_angle'] = 35;
 }
 
 
@@ -83,20 +83,20 @@ $ocpt_conf['power_user']['captcha_text_angle'] = 35;
 if ( is_array($ocpt_conf['assets']) ) {
     
     $ocpt_conf['assets']['MISCASSETS'] = array(
-                                        'name' => 'Misc. '.strtoupper($ocpt_conf['general']['btc_prim_curr_pairing']).' Value',
+                                        'name' => 'Misc. '.strtoupper($ocpt_conf['gen']['btc_prim_curr_pairing']).' Value',
                                         'mcap_slug' => '',
                                         'pairing' => array()
                                         );
             
             
-            foreach ( $ocpt_conf['power_user']['crypto_pairing'] as $pairing_key => $pairing_unused ) {
+            foreach ( $ocpt_conf['power']['crypto_pairing'] as $pairing_key => $pairing_unused ) {
             $ocpt_conf['assets']['MISCASSETS']['pairing'][$pairing_key] = array('misc_assets' => $pairing_key);
             }
             
-            foreach ( $ocpt_conf['power_user']['btc_currency_markets'] as $pairing_key => $pairing_unused ) {
+            foreach ( $ocpt_conf['power']['btc_curr_markets'] as $pairing_key => $pairing_unused ) {
             	
             	// WE HAVE A COUPLE CRYPTOS SUPPORTED HERE, BUT WE ONLY WANT DESIGNATED FIAT-EQIV HERE (cryptos are added via 'crypto_to_crypto_pairing')
-            	if ( !array_key_exists($pairing_key, $ocpt_conf['power_user']['crypto_pairing']) ) {
+            	if ( !array_key_exists($pairing_key, $ocpt_conf['power']['crypto_pairing']) ) {
             	$ocpt_conf['assets']['MISCASSETS']['pairing'][$pairing_key] = array('misc_assets' => $pairing_key);
             	}
             
@@ -107,18 +107,18 @@ if ( is_array($ocpt_conf['assets']) ) {
 
 
 // Update dynamic mining data (DURING 'ui' ONLY), since we are using the json config in the secured cache
-if ( $runtime_mode == 'ui' && is_array($ocpt_conf['power_user']['mining_calculators']) ) {
+if ( $runtime_mode == 'ui' && is_array($ocpt_conf['power']['mining_calculators']) ) {
 	
 
 // BTC
-$ocpt_conf['power_user']['mining_calculators']['pow']['btc']['height'] = $ocpt_api->bitcoin('height');
-$ocpt_conf['power_user']['mining_calculators']['pow']['btc']['difficulty'] = $ocpt_api->bitcoin('difficulty');
+$ocpt_conf['power']['mining_calculators']['pow']['btc']['height'] = $ocpt_api->bitcoin('height');
+$ocpt_conf['power']['mining_calculators']['pow']['btc']['difficulty'] = $ocpt_api->bitcoin('difficulty');
 
 
 // ETH
-$ocpt_conf['power_user']['mining_calculators']['pow']['eth']['height'] = hexdec( $ocpt_api->etherscan('number') );      
-$ocpt_conf['power_user']['mining_calculators']['pow']['eth']['difficulty'] = hexdec( $ocpt_api->etherscan('difficulty') );
-$ocpt_conf['power_user']['mining_calculators']['pow']['eth']['other_network_data'] = '<p><b>Gas limit:</b> ' . number_format( hexdec( $ocpt_api->etherscan('gasLimit') ) ) . '</p>' . ( $ocpt_api->etherscan('number') == false ? '<p><a class="red" href="https://etherscan.io/apis/" target="_blank"><b>EtherScan.io (free) API key is required.</b></a></p>' : '' );
+$ocpt_conf['power']['mining_calculators']['pow']['eth']['height'] = hexdec( $ocpt_api->etherscan('number') );      
+$ocpt_conf['power']['mining_calculators']['pow']['eth']['difficulty'] = hexdec( $ocpt_api->etherscan('difficulty') );
+$ocpt_conf['power']['mining_calculators']['pow']['eth']['other_network_data'] = '<p><b>Gas limit:</b> ' . number_format( hexdec( $ocpt_api->etherscan('gasLimit') ) ) . '</p>' . ( $ocpt_api->etherscan('number') == false ? '<p><a class="red" href="https://etherscan.io/apis/" target="_blank"><b>EtherScan.io (free) API key is required.</b></a></p>' : '' );
 
 	
 	// If a mining calculator is being used this runtime, include mining time formula calculations for that chain
@@ -133,10 +133,10 @@ $ocpt_conf['power_user']['mining_calculators']['pow']['eth']['other_network_data
 		// Mining time formulas can be different per network, unless they copy Bitcoin's formula
 		if ( $_POST['pow_calc'] == 'btc' ) {
 		// https://en.bitcoin.it/wiki/Difficulty (How soon might I expect to generate a block?)
-		$ocpt_conf['power_user']['mining_calculators']['pow']['btc']['mining_time_formula'] = trim($_POST['network_measure']) * pow(2, 32) / $miner_hashrate;
+		$ocpt_conf['power']['mining_calculators']['pow']['btc']['mining_time_formula'] = trim($_POST['network_measure']) * pow(2, 32) / $miner_hashrate;
 		}
 		elseif ( $_POST['pow_calc'] == 'eth' ) {
-		$ocpt_conf['power_user']['mining_calculators']['pow']['eth']['mining_time_formula'] = trim($_POST['network_measure']) / $miner_hashrate;
+		$ocpt_conf['power']['mining_calculators']['pow']['eth']['mining_time_formula'] = trim($_POST['network_measure']) / $miner_hashrate;
 		}
 	
 	}
@@ -169,7 +169,7 @@ if ( is_array($ocpt_conf['assets']) ) {
 
 
 // Alphabetically sort news feeds
-$usort_feeds_results = usort($ocpt_conf['power_user']['news_feed'], __NAMESPACE__ . '\titles_usort_alpha');
+$usort_feeds_results = usort($ocpt_conf['power']['news_feed'], __NAMESPACE__ . '\titles_usort_alpha');
    	
 if ( !$usort_feeds_results ) {
 app_logging( 'other_error', 'RSS feeds failed to sort alphabetically');
@@ -177,15 +177,15 @@ app_logging( 'other_error', 'RSS feeds failed to sort alphabetically');
 
 
 // Better decimal support for these vars...
-$ocpt_conf['power_user']['system_stats_first_chart_highest_value'] = $ocpt_var->num_to_str($ocpt_conf['power_user']['system_stats_first_chart_highest_value']); 
-$ocpt_conf['general']['prim_curr_dec_max_thres'] = $ocpt_var->num_to_str($ocpt_conf['general']['prim_curr_dec_max_thres']); 
+$ocpt_conf['power']['system_stats_first_chart_highest_value'] = $ocpt_var->num_to_str($ocpt_conf['power']['system_stats_first_chart_highest_value']); 
+$ocpt_conf['gen']['prim_curr_dec_max_thres'] = $ocpt_var->num_to_str($ocpt_conf['gen']['prim_curr_dec_max_thres']); 
 $ocpt_conf['comms']['price_alert_thres'] = $ocpt_var->num_to_str($ocpt_conf['comms']['price_alert_thres']); 
-$ocpt_conf['power_user']['hivepower_yearly_interest'] = $ocpt_var->num_to_str($ocpt_conf['power_user']['hivepower_yearly_interest']); 
+$ocpt_conf['power']['hivepower_yearly_interest'] = $ocpt_var->num_to_str($ocpt_conf['power']['hivepower_yearly_interest']); 
 
 
 // Backup archive password protection / encryption
-if ( $ocpt_conf['general']['backup_arch_pass'] != '' ) {
-$backup_arch_pass = $ocpt_conf['general']['backup_arch_pass'];
+if ( $ocpt_conf['gen']['backup_arch_pass'] != '' ) {
+$backup_arch_pass = $ocpt_conf['gen']['backup_arch_pass'];
 }
 else {
 $backup_arch_pass = false;
@@ -193,7 +193,7 @@ $backup_arch_pass = false;
 
 
 // Light chart config tracking / updating (checking for changes to lite chart app config, to trigger lite chart rebuilds)
-$config_lite_chart_structure = md5( serialize($ocpt_conf['power_user']['lite_chart_day_intervals']) . $ocpt_conf['power_user']['lite_chart_data_points_max'] );
+$config_lite_chart_structure = md5( serialize($ocpt_conf['power']['lite_chart_day_intervals']) . $ocpt_conf['power']['lite_chart_data_points_max'] );
 
 if ( !file_exists($base_dir . '/cache/vars/lite_chart_structure.dat') ) {
 $ocpt_cache->save_file($base_dir . '/cache/vars/lite_chart_structure.dat', $config_lite_chart_structure);

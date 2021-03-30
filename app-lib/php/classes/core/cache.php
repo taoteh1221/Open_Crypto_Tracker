@@ -52,7 +52,7 @@ var $ocpt_array1 = array();
    
   global $base_dir, $ocpt_conf;
   
-  $ui_exec_time = $ocpt_conf['developer']['ui_max_exec_time']; // Don't overwrite globals
+  $ui_exec_time = $ocpt_conf['dev']['ui_max_exec_time']; // Don't overwrite globals
   
    // If the UI timeout var wasn't set properly / is not a whole number 3600 or less
    if ( !ctype_digit($ui_exec_time) || $ui_exec_time > 3600 ) {
@@ -72,7 +72,7 @@ var $ocpt_array1 = array();
    
   global $base_dir, $ocpt_conf;
   
-  $ui_exec_time = $ocpt_conf['developer']['ui_max_exec_time']; // Don't overwrite globals
+  $ui_exec_time = $ocpt_conf['dev']['ui_max_exec_time']; // Don't overwrite globals
   
    // If the UI timeout var wasn't set properly / is not a whole number 3600 or less
    if ( !ctype_digit($ui_exec_time) || $ui_exec_time > 3600 ) {
@@ -291,7 +291,7 @@ var $ocpt_array1 = array();
        
       $backup_url = $base_url . 'download.php?backup=' . $backup_file;
       
-      $message = "A backup archive has been created for: ".$backup_prefix."\n\nHere is a link to download the backup to your computer: " . $backup_url . "\n\n(backup archives are purged after " . $ocpt_conf['power_user']['backup_arch_delete_old'] . " days)";
+      $message = "A backup archive has been created for: ".$backup_prefix."\n\nHere is a link to download the backup to your computer: " . $backup_url . "\n\n(backup archives are purged after " . $ocpt_conf['power']['backup_arch_del_old'] . " days)";
       
       // Message parameter added for desired comm methods (leave any comm method blank to skip sending via that method)
       $send_params = array(
@@ -380,7 +380,7 @@ var $ocpt_array1 = array();
      // Normal email
      if ( $send_params['email']['message'] != '' && validate_email($ocpt_conf['comms']['to_email']) == 'valid' ) {
      
-     $email_array = array('subject' => $send_params['email']['subject'], 'message' => $send_params['email']['message'], 'content_type' => ( $send_params['email']['content_type'] ? $send_params['email']['content_type'] : 'text' ), 'charset' => ( $send_params['email']['charset'] ? $send_params['email']['charset'] : $ocpt_conf['developer']['charset_default'] ) );
+     $email_array = array('subject' => $send_params['email']['subject'], 'message' => $send_params['email']['message'], 'content_type' => ( $send_params['email']['content_type'] ? $send_params['email']['content_type'] : 'text' ), 'charset' => ( $send_params['email']['charset'] ? $send_params['email']['charset'] : $ocpt_conf['dev']['charset_default'] ) );
      
       // json_encode() only accepts UTF-8, SO TEMPORARILY CONVERT TO THAT FOR MESSAGE QUEUE STORAGE
       if ( strtolower($send_params['email']['charset']) != 'utf-8' ) {
@@ -407,7 +407,7 @@ var $ocpt_array1 = array();
   
   global $ocpt_conf, $base_dir, $logs_array;
   
-   if ( $ocpt_conf['developer']['debug_mode'] == 'off' ) {
+   if ( $ocpt_conf['dev']['debug'] == 'off' ) {
    return false;
    }
   
@@ -437,7 +437,7 @@ var $ocpt_array1 = array();
   
   
    // If it's time to email debugging logs...
-   if ( $ocpt_conf['power_user']['logs_email'] > 0 && update_cache('cache/events/email-debugging-logs.dat', ( $ocpt_conf['power_user']['logs_email'] * 1440 ) ) == true ) {
+   if ( $ocpt_conf['power']['logs_email'] > 0 && update_cache('cache/events/email-debugging-logs.dat', ( $ocpt_conf['power']['logs_email'] * 1440 ) ) == true ) {
     
    $emailed_logs = "\n\n ------------------debugging.log------------------ \n\n" . file_get_contents('cache/logs/debugging.log') . "\n\n ------------------smtp_debugging.log------------------ \n\n" . file_get_contents('cache/logs/smtp_debugging.log');
     
@@ -460,7 +460,7 @@ var $ocpt_array1 = array();
    
    
 	// Log debugging...Purge old logs before storing new logs, if it's time to...otherwise just append.
-	if ( update_cache('cache/events/purge-debugging-logs.dat', ( $ocpt_conf['power_user']['logs_purge'] * 1440 ) ) == true ) {
+	if ( update_cache('cache/events/purge-debugging-logs.dat', ( $ocpt_conf['power']['logs_purge'] * 1440 ) ) == true ) {
 	
 	unlink($base_dir . '/cache/logs/smtp_debugging.log');
 	unlink($base_dir . '/cache/logs/debugging.log');
@@ -480,7 +480,7 @@ var $ocpt_array1 = array();
 			return 'Debugging logs write error for "' . $base_dir . '/cache/logs/debugging.log" (MAKE SURE YOUR DISK ISN\'T FULL), data_size_bytes: ' . strlen($debugging_logs) . ' bytes';
 			}
 			// DEBUGGING ONLY (rules out issues other than full disk)
-			elseif ( $ocpt_conf['developer']['debug_mode'] == 'all' || $ocpt_conf['developer']['debug_mode'] == 'all_telemetry' ) {
+			elseif ( $ocpt_conf['dev']['debug'] == 'all' || $ocpt_conf['dev']['debug'] == 'all_telemetry' ) {
 			return 'Debugging logs write success for "' . $base_dir . '/cache/logs/debugging.log", data_size_bytes: ' . strlen($debugging_logs) . ' bytes';
 			}
 		
@@ -526,7 +526,7 @@ var $ocpt_array1 = array();
   
   
    // If it's time to email error logs...
-   if ( $ocpt_conf['power_user']['logs_email'] > 0 && update_cache('cache/events/email-error-logs.dat', ( $ocpt_conf['power_user']['logs_email'] * 1440 ) ) == true ) {
+   if ( $ocpt_conf['power']['logs_email'] > 0 && update_cache('cache/events/email-error-logs.dat', ( $ocpt_conf['power']['logs_email'] * 1440 ) ) == true ) {
     
    $emailed_logs = "\n\n ------------------errors.log------------------ \n\n" . file_get_contents('cache/logs/errors.log') . "\n\n ------------------smtp_errors.log------------------ \n\n" . file_get_contents('cache/logs/smtp_errors.log');
     
@@ -549,7 +549,7 @@ var $ocpt_array1 = array();
    
    
 	// Log errors...Purge old logs before storing new logs, if it's time to...otherwise just append.
-	if ( update_cache('cache/events/purge-error-logs.dat', ( $ocpt_conf['power_user']['logs_purge'] * 1440 ) ) == true ) {
+	if ( update_cache('cache/events/purge-error-logs.dat', ( $ocpt_conf['power']['logs_purge'] * 1440 ) ) == true ) {
 	
 	unlink($base_dir . '/cache/logs/smtp_errors.log');
 	unlink($base_dir . '/cache/logs/errors.log');
@@ -569,7 +569,7 @@ var $ocpt_array1 = array();
 			return 'Error logs write error for "' . $base_dir . '/cache/logs/errors.log" (MAKE SURE YOUR DISK ISN\'T FULL), data_size_bytes: ' . strlen($error_logs) . ' bytes';
 			}
 			// DEBUGGING ONLY (rules out issues other than full disk)
-			elseif ( $ocpt_conf['developer']['debug_mode'] == 'all' || $ocpt_conf['developer']['debug_mode'] == 'all_telemetry' ) {
+			elseif ( $ocpt_conf['dev']['debug'] == 'all' || $ocpt_conf['dev']['debug'] == 'all_telemetry' ) {
 			return 'Error logs write success for "' . $base_dir . '/cache/logs/errors.log", data_size_bytes: ' . strlen($error_logs) . ' bytes';
 			}
 	
@@ -597,7 +597,7 @@ var $ocpt_array1 = array();
    
     // API timeouts are a confirmed cause for write errors of 0 bytes, so we want to alert end users that they may need to adjust their API timeout settings to get associated API data
     if ( preg_match("/cache\/secured\/apis/i", $file) ) {
-    app_logging('ext_api_error', 'POSSIBLE api timeout' . ( $ocpt_conf['developer']['remote_api_strict_ssl'] == 'on' ? ' or strict_ssl' : '' ) . ' issue for cache file "' . obfuscated_path_data($file) . '" (IF ISSUE PERSISTS, TRY INCREASING "remote_api_timeout" IN Admin Config POWER USER SECTION' . ( $ocpt_conf['developer']['remote_api_strict_ssl'] == 'on' ? ', OR SETTING "remote_api_strict_ssl" to "off" IN Admin Config DEVELOPER SECTION' : '' ) . ')', 'remote_api_timeout: '.$ocpt_conf['power_user']['remote_api_timeout'].' seconds; remote_api_strict_ssl: ' . $ocpt_conf['developer']['remote_api_strict_ssl'] . ';');
+    app_logging('ext_api_error', 'POSSIBLE api timeout' . ( $ocpt_conf['dev']['remote_api_strict_ssl'] == 'on' ? ' or strict_ssl' : '' ) . ' issue for cache file "' . obfuscated_path_data($file) . '" (IF ISSUE PERSISTS, TRY INCREASING "remote_api_timeout" IN Admin Config POWER USER SECTION' . ( $ocpt_conf['dev']['remote_api_strict_ssl'] == 'on' ? ', OR SETTING "remote_api_strict_ssl" to "off" IN Admin Config DEVELOPER SECTION' : '' ) . ')', 'remote_api_timeout: '.$ocpt_conf['power']['remote_api_timeout'].' seconds; remote_api_strict_ssl: ' . $ocpt_conf['dev']['remote_api_strict_ssl'] . ';');
     }
    
    return false;
@@ -616,11 +616,11 @@ var $ocpt_array1 = array();
    }
    
    
-   // We ALWAYS set .htaccess files to a more secure $ocpt_conf['developer']['chmod_index_sec'] permission AFTER EDITING, 
-   // so we TEMPORARILY set .htaccess to $ocpt_conf['developer']['chmod_cache_file'] for NEW EDITING...
+   // We ALWAYS set .htaccess files to a more secure $ocpt_conf['dev']['chmod_index_sec'] permission AFTER EDITING, 
+   // so we TEMPORARILY set .htaccess to $ocpt_conf['dev']['chmod_cache_file'] for NEW EDITING...
    if ( strstr($file, '.htaccess') != false || strstr($file, '.user.ini') != false || strstr($file, 'index.php') != false ) {
     
-   $chmod_setting = octdec($ocpt_conf['developer']['chmod_cache_file']);
+   $chmod_setting = octdec($ocpt_conf['dev']['chmod_cache_file']);
    
    
     // Run chmod compatibility on certain PHP setups (if we can because we are running as the file owner)
@@ -667,11 +667,11 @@ var $ocpt_array1 = array();
    
    // For security, NEVER make an .htaccess file writable by any user not in the group
    if ( strstr($file, '.htaccess') != false || strstr($file, '.user.ini') != false || strstr($file, 'index.php') != false ) {
-   $chmod_setting = octdec($ocpt_conf['developer']['chmod_index_sec']);
+   $chmod_setting = octdec($ocpt_conf['dev']['chmod_index_sec']);
    }
    // All other files
    else {
-   $chmod_setting = octdec($ocpt_conf['developer']['chmod_cache_file']);
+   $chmod_setting = octdec($ocpt_conf['dev']['chmod_cache_file']);
    }
    
    // Run chmod compatibility on certain PHP setups (if we can because we are running as the file owner)
@@ -883,7 +883,7 @@ var $ocpt_array1 = array();
    // Hash of lite path, AND random X hours update threshold, to spread out and event-track 'all' chart rebuilding
    if ( $days_span == 'all' ) {
    $lite_path_hash = md5($lite_path);
-   $threshold_range = explode(',', $ocpt_conf['developer']['all_chart_rebuild_min_max']);
+   $threshold_range = explode(',', $ocpt_conf['dev']['all_chart_rebuild_min_max']);
    $all_chart_rebuild_threshold = rand($threshold_range[0], $threshold_range[1]); // Randomly within the min/max range, to spead the load across multiple runtimes
    }
   
@@ -936,10 +936,10 @@ var $ocpt_array1 = array();
    
    // Minimum time interval between data points in lite chart
    if ( $days_span == 'all' ) {
-   $min_data_interval = round( ($newest_archival_timestamp - $oldest_archival_timestamp) / $ocpt_conf['power_user']['lite_chart_data_points_max'] ); // Dynamic
+   $min_data_interval = round( ($newest_archival_timestamp - $oldest_archival_timestamp) / $ocpt_conf['power']['lite_chart_data_points_max'] ); // Dynamic
    }
    else {
-   $min_data_interval = round( ($days_span * 86400) / $ocpt_conf['power_user']['lite_chart_data_points_max'] ); // Fixed X days (86400 seconds per day)
+   $min_data_interval = round( ($days_span * 86400) / $ocpt_conf['power']['lite_chart_data_points_max'] ); // Fixed X days (86400 seconds per day)
    }
   
   
@@ -1034,7 +1034,7 @@ var $ocpt_array1 = array();
     $loop = 0;
     $data_points = 0;
     // $data_points <= is INTENTIONAL, as we can have max data points slightly under without it
-    while ( isset($archival_data[$loop]) && $data_points <= $ocpt_conf['power_user']['lite_chart_data_points_max'] ) {
+    while ( isset($archival_data[$loop]) && $data_points <= $ocpt_conf['power']['lite_chart_data_points_max'] ) {
      
     $data_point_array = explode("||", $archival_data[$loop]);
     $data_point_array[0] = $ocpt_var->num_to_str($data_point_array[0]);
@@ -1112,11 +1112,11 @@ var $ocpt_array1 = array();
     
    $_SESSION['lite_charts_updated'] = $_SESSION['lite_charts_updated'] + 1;
      
-    if ( $ocpt_conf['developer']['debug_mode'] == 'all' || $ocpt_conf['developer']['debug_mode'] == 'all_telemetry' || $ocpt_conf['developer']['debug_mode'] == 'lite_chart_telemetry' ) {
+    if ( $ocpt_conf['dev']['debug'] == 'all' || $ocpt_conf['dev']['debug'] == 'all_telemetry' || $ocpt_conf['dev']['debug'] == 'lite_chart_telemetry' ) {
     app_logging( 'cache_debugging', 'Lite chart ' . $lite_mode_logging . ' COMPLETED ('.$_SESSION['lite_charts_updated'].') for ' . $lite_path);
     }
      
-    if ( $ocpt_conf['developer']['debug_mode'] == 'all' || $ocpt_conf['developer']['debug_mode'] == 'all_telemetry' || $ocpt_conf['developer']['debug_mode'] == 'memory_usage_telemetry' ) {
+    if ( $ocpt_conf['dev']['debug'] == 'all' || $ocpt_conf['dev']['debug'] == 'all_telemetry' || $ocpt_conf['dev']['debug'] == 'memory_usage_telemetry' ) {
     app_logging('system_debugging', $_SESSION['lite_charts_updated'] . ' lite charts updated, CURRENT script memory usage is ' . convert_bytes(memory_get_usage(), 1) . ', PEAK script memory usage is ' . convert_bytes(memory_get_peak_usage(), 1) . ', php_sapi_name is "' . php_sapi_name() . '"' );
     }
      
@@ -1271,7 +1271,7 @@ var $ocpt_array1 = array();
        
        $this->save_file($base_dir . '/cache/events/throttling/notifyme-alerts-sent.dat', $processed_messages['notifyme_count']); 
        
-        if ( $ocpt_conf['developer']['debug_mode'] == 'all' || $ocpt_conf['developer']['debug_mode'] == 'all_telemetry' || $ocpt_conf['developer']['debug_mode'] == 'api_comms_telemetry' ) {
+        if ( $ocpt_conf['dev']['debug'] == 'all' || $ocpt_conf['dev']['debug'] == 'all_telemetry' || $ocpt_conf['dev']['debug'] == 'api_comms_telemetry' ) {
         $this->save_file($base_dir . '/cache/logs/debugging/external_api/last-response-notifyme.log', $notifyme_response);
         }
        
@@ -1302,7 +1302,7 @@ var $ocpt_array1 = array();
       
       $message_sent = 1;
         
-         if ( $ocpt_conf['developer']['debug_mode'] == 'all' || $ocpt_conf['developer']['debug_mode'] == 'all_telemetry' || $ocpt_conf['developer']['debug_mode'] == 'api_comms_telemetry' ) {
+         if ( $ocpt_conf['dev']['debug'] == 'all' || $ocpt_conf['dev']['debug'] == 'all_telemetry' || $ocpt_conf['dev']['debug'] == 'api_comms_telemetry' ) {
        $this->save_file($base_dir . '/cache/logs/debugging/external_api/last-response-textbelt.log', $textbelt_response);
        }
       
@@ -1329,7 +1329,7 @@ var $ocpt_array1 = array();
       
       $message_sent = 1;
         
-         if ( $ocpt_conf['developer']['debug_mode'] == 'all' || $ocpt_conf['developer']['debug_mode'] == 'all_telemetry' || $ocpt_conf['developer']['debug_mode'] == 'api_comms_telemetry' ) {
+         if ( $ocpt_conf['dev']['debug'] == 'all' || $ocpt_conf['dev']['debug'] == 'all_telemetry' || $ocpt_conf['dev']['debug'] == 'api_comms_telemetry' ) {
        $this->save_file($base_dir . '/cache/logs/debugging/external_api/last-response-textlocal.log', $textlocal_response);
        }
       
@@ -1364,7 +1364,7 @@ var $ocpt_array1 = array();
          }
           
         
-         if ( $ocpt_conf['developer']['debug_mode'] == 'all' || $ocpt_conf['developer']['debug_mode'] == 'all_telemetry' || $ocpt_conf['developer']['debug_mode'] == 'api_comms_telemetry' ) {
+         if ( $ocpt_conf['dev']['debug'] == 'all' || $ocpt_conf['dev']['debug'] == 'all_telemetry' || $ocpt_conf['dev']['debug'] == 'api_comms_telemetry' ) {
        $this->save_file($base_dir . '/cache/logs/debugging/external_api/last-response-telegram.log', $telegram_response);
        }
       
@@ -1510,7 +1510,7 @@ var $ocpt_array1 = array();
       // Does the current runtime user own this file?
     if ( isset($current_runtime_user) && $current_runtime_user == $file_owner_info['name'] ) {
     
-    $chmod_setting = octdec($ocpt_conf['developer']['chmod_cache_file']);
+    $chmod_setting = octdec($ocpt_conf['dev']['chmod_cache_file']);
     
      // Run chmod compatibility on certain PHP setups
      if ( !$http_runtime_user || isset($http_runtime_user) && in_array($http_runtime_user, $possible_http_users) ) {
@@ -1547,8 +1547,8 @@ var $ocpt_array1 = array();
   
   function ext_data($mode, $request_params, $ttl, $api_server=null, $post_encoding=3, $test_proxy=null, $headers=null) { // Default to JSON encoding post requests (most used)
   
-  // $ocpt_conf['general']['btc_prim_curr_pairing'] / $ocpt_conf['general']['btc_prim_exchange'] / $selected_btc_prim_curr_value USED FOR TRACE DEBUGGING (TRACING)
-  global $base_dir, $ocpt_var, $proxy_checkup, $logs_array, $limited_api_calls, $ocpt_conf, $api_runtime_cache, $selected_btc_prim_curr_value, $user_agent, $base_url, $api_connections, $defipulse_api_limit, $htaccess_username, $htaccess_password;
+  // $ocpt_conf['gen']['btc_prim_curr_pairing'] / $ocpt_conf['gen']['btc_prim_exchange'] / $sel_btc_prim_curr_value USED FOR TRACE DEBUGGING (TRACING)
+  global $base_dir, $ocpt_var, $proxy_checkup, $logs_array, $limited_api_calls, $ocpt_conf, $api_runtime_cache, $sel_btc_prim_curr_value, $user_agent, $base_url, $api_connections, $defipulse_api_limit, $htaccess_username, $htaccess_password;
   
   
   $cookie_jar = tempnam('/tmp','cookie');
@@ -1615,7 +1615,7 @@ var $ocpt_array1 = array();
     app_logging( 'cache_error', 'no RUNTIME CACHE data from failure with ' . ( $mode == 'params' ? 'server at ' : 'endpoint at ' ) . obfuscated_url_data($api_endpoint), 'requested_from: cache ('.$logs_array['error_duplicates'][$hash_check].' runtime instances); mode: ' . $mode . '; received: ' . $data_bytes_ux . '; proxy: ' .( $current_proxy ? $current_proxy : 'none' ) . '; hash_check: ' . $ocpt_var->obfuscate_str($hash_check, 4) . ';', $hash_check );
      
     }
-    elseif ( $ocpt_conf['developer']['debug_mode'] == 'all' || $ocpt_conf['developer']['debug_mode'] == 'all_telemetry' || $ocpt_conf['developer']['debug_mode'] == 'ext_api_cache_telemetry' ) {
+    elseif ( $ocpt_conf['dev']['debug'] == 'all' || $ocpt_conf['dev']['debug'] == 'all_telemetry' || $ocpt_conf['dev']['debug'] == 'ext_api_cache_telemetry' ) {
     
      if ( !$logs_array['debugging_duplicates'][$hash_check] ) {
      $logs_array['debugging_duplicates'][$hash_check] = 1; 
@@ -1659,10 +1659,10 @@ var $ocpt_array1 = array();
     }
    
    
-    // Throttled endpoints in $ocpt_conf['developer']['limited_apis']
+    // Throttled endpoints in $ocpt_conf['dev']['limited_apis']
     // If this is an API service that requires multiple calls (for each market), 
     // and a request to it has been made consecutively, we throttle it to avoid being blocked / throttled by external server
-    if ( in_array($endpoint_tld_or_ip, $ocpt_conf['developer']['limited_apis']) ) {
+    if ( in_array($endpoint_tld_or_ip, $ocpt_conf['dev']['limited_apis']) ) {
     
      if ( !$limited_api_calls[$tld_session_prefix . '_calls'] ) {
      $limited_api_calls[$tld_session_prefix . '_calls'] = 1;
@@ -1743,8 +1743,8 @@ var $ocpt_array1 = array();
    curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
    curl_setopt($ch, CURLOPT_MAXREDIRS, 5);
-   curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, $ocpt_conf['power_user']['remote_api_timeout']);
-   curl_setopt($ch, CURLOPT_TIMEOUT, $ocpt_conf['power_user']['remote_api_timeout']);
+   curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, $ocpt_conf['power']['remote_api_timeout']);
+   curl_setopt($ch, CURLOPT_TIMEOUT, $ocpt_conf['power']['remote_api_timeout']);
    
     
     // Medium / Reddit (and maybe whatbitcoindid) are a bit funky with allowed user agents, so we need to let them know this is a real feed parser (not just a spammy bot)
@@ -1788,7 +1788,7 @@ var $ocpt_array1 = array();
      
      }
      else {
-     $remote_api_strict_ssl = $ocpt_conf['developer']['remote_api_strict_ssl'];
+     $remote_api_strict_ssl = $ocpt_conf['dev']['remote_api_strict_ssl'];
      }
      
     
@@ -1887,7 +1887,7 @@ var $ocpt_array1 = array();
    
     
     // LOG-SAFE VERSION (no post data with API keys etc)
-    app_logging('ext_api_error', 'connection failed ('.$data_bytes_ux.' received) for ' . ( $mode == 'params' ? 'server at ' : 'endpoint at ' ) . obfuscated_url_data($api_endpoint) . $log_append, 'requested_from: server (' . $ocpt_conf['power_user']['remote_api_timeout'] . ' second timeout); live_request_time: ' . $api_total_time . ' seconds; mode: ' . $mode . '; received: ' . $data_bytes_ux . '; proxy: ' .( $current_proxy ? $current_proxy : 'none' ) . '; hash_check: ' . $ocpt_var->obfuscate_str($hash_check, 4) . ';' );
+    app_logging('ext_api_error', 'connection failed ('.$data_bytes_ux.' received) for ' . ( $mode == 'params' ? 'server at ' : 'endpoint at ' ) . obfuscated_url_data($api_endpoint) . $log_append, 'requested_from: server (' . $ocpt_conf['power']['remote_api_timeout'] . ' second timeout); live_request_time: ' . $api_total_time . ' seconds; mode: ' . $mode . '; received: ' . $data_bytes_ux . '; proxy: ' .( $current_proxy ? $current_proxy : 'none' ) . '; hash_check: ' . $ocpt_var->obfuscate_str($hash_check, 4) . ';' );
     
     
      if ( sizeof($ocpt_conf['proxy']['proxy_list']) > 0 && $current_proxy != '' && $mode != 'proxy-check' ) { // Avoid infinite loops doing proxy checks
@@ -1931,7 +1931,7 @@ var $ocpt_array1 = array();
       $error_response_log = '/cache/logs/errors/external_api/error-response-'.preg_replace("/\./", "_", $endpoint_tld_or_ip).'-hash-'.$hash_check.'-timestamp-'.time().'.log';
       
       // LOG-SAFE VERSION (no post data with API keys etc)
-       app_logging('ext_api_error', 'POSSIBLE error for ' . ( $mode == 'params' ? 'server at ' : 'endpoint at ' ) . obfuscated_url_data($api_endpoint), 'requested_from: server (' . $ocpt_conf['power_user']['remote_api_timeout'] . ' second timeout); live_request_time: ' . $api_total_time . ' seconds; mode: ' . $mode . '; received: ' . $data_bytes_ux . '; proxy: ' .( $current_proxy ? $current_proxy : 'none' ) . '; debug_file: ' . $error_response_log . '; btc_prim_curr_pairing: ' . $ocpt_conf['general']['btc_prim_curr_pairing'] . '; btc_prim_exchange: ' . $ocpt_conf['general']['btc_prim_exchange'] . '; btc_prim_curr_value: ' . $ocpt_var->num_to_str($selected_btc_prim_curr_value) . '; hash_check: ' . $ocpt_var->obfuscate_str($hash_check, 4) . ';' );
+       app_logging('ext_api_error', 'POSSIBLE error for ' . ( $mode == 'params' ? 'server at ' : 'endpoint at ' ) . obfuscated_url_data($api_endpoint), 'requested_from: server (' . $ocpt_conf['power']['remote_api_timeout'] . ' second timeout); live_request_time: ' . $api_total_time . ' seconds; mode: ' . $mode . '; received: ' . $data_bytes_ux . '; proxy: ' .( $current_proxy ? $current_proxy : 'none' ) . '; debug_file: ' . $error_response_log . '; btc_prim_curr_pairing: ' . $ocpt_conf['gen']['btc_prim_curr_pairing'] . '; btc_prim_exchange: ' . $ocpt_conf['gen']['btc_prim_exchange'] . '; btc_prim_curr_value: ' . $ocpt_var->num_to_str($sel_btc_prim_curr_value) . '; hash_check: ' . $ocpt_var->obfuscate_str($hash_check, 4) . ';' );
       
       // Log this error response from this data request
       $this->save_file($base_dir . $error_response_log, $data);
@@ -1995,7 +1995,7 @@ var $ocpt_array1 = array();
        
        
       // LOG-SAFE VERSION (no post data with API keys etc)
-      app_logging('ext_api_error', 'CONFIRMED error for ' . ( $mode == 'params' ? 'server at ' : 'endpoint at ' ) . obfuscated_url_data($api_endpoint) . $log_append, 'requested_from: server (' . $ocpt_conf['power_user']['remote_api_timeout'] . ' second timeout); live_request_time: ' . $api_total_time . ' seconds; mode: ' . $mode . '; received: ' . $data_bytes_ux . '; proxy: ' .( $current_proxy ? $current_proxy : 'none' ) . '; btc_prim_curr_pairing: ' . $ocpt_conf['general']['btc_prim_curr_pairing'] . '; btc_prim_exchange: ' . $ocpt_conf['general']['btc_prim_exchange'] . '; btc_prim_curr_value: ' . $ocpt_var->num_to_str($selected_btc_prim_curr_value) . '; hash_check: ' . $ocpt_var->obfuscate_str($hash_check, 4) . ';' );
+      app_logging('ext_api_error', 'CONFIRMED error for ' . ( $mode == 'params' ? 'server at ' : 'endpoint at ' ) . obfuscated_url_data($api_endpoint) . $log_append, 'requested_from: server (' . $ocpt_conf['power']['remote_api_timeout'] . ' second timeout); live_request_time: ' . $api_total_time . ' seconds; mode: ' . $mode . '; received: ' . $data_bytes_ux . '; proxy: ' .( $current_proxy ? $current_proxy : 'none' ) . '; btc_prim_curr_pairing: ' . $ocpt_conf['gen']['btc_prim_curr_pairing'] . '; btc_prim_exchange: ' . $ocpt_conf['gen']['btc_prim_exchange'] . '; btc_prim_curr_value: ' . $ocpt_var->num_to_str($sel_btc_prim_curr_value) . '; hash_check: ' . $ocpt_var->obfuscate_str($hash_check, 4) . ';' );
        
      
       }
@@ -2008,10 +2008,10 @@ var $ocpt_array1 = array();
     
     
      // Data debugging telemetry
-     if ( $ocpt_conf['developer']['debug_mode'] == 'all' || $ocpt_conf['developer']['debug_mode'] == 'all_telemetry' || $ocpt_conf['developer']['debug_mode'] == 'ext_api_live_telemetry' ) {
+     if ( $ocpt_conf['dev']['debug'] == 'all' || $ocpt_conf['dev']['debug'] == 'all_telemetry' || $ocpt_conf['dev']['debug'] == 'ext_api_live_telemetry' ) {
       
      // LOG-SAFE VERSION (no post data with API keys etc)
-     app_logging('ext_api_debugging', 'LIVE request for ' . ( $mode == 'params' ? 'server at ' : 'endpoint at ' ) . obfuscated_url_data($api_endpoint), 'requested_from: server (' . $ocpt_conf['power_user']['remote_api_timeout'] . ' second timeout); live_request_time: ' . $api_total_time . ' seconds; mode: ' . $mode . '; received: ' . $data_bytes_ux . '; proxy: ' .( $current_proxy ? $current_proxy : 'none' ) . '; hash_check: ' . $ocpt_var->obfuscate_str($hash_check, 4) . ';' );
+     app_logging('ext_api_debugging', 'LIVE request for ' . ( $mode == 'params' ? 'server at ' : 'endpoint at ' ) . obfuscated_url_data($api_endpoint), 'requested_from: server (' . $ocpt_conf['power']['remote_api_timeout'] . ' second timeout); live_request_time: ' . $api_total_time . ' seconds; mode: ' . $mode . '; received: ' . $data_bytes_ux . '; proxy: ' .( $current_proxy ? $current_proxy : 'none' ) . '; hash_check: ' . $ocpt_var->obfuscate_str($hash_check, 4) . ';' );
      
      // Log this as the latest response from this data request
      $this->save_file($base_dir . '/cache/logs/debugging/external_api/last-response-'.preg_replace("/\./", "_", $endpoint_tld_or_ip).'-'.$hash_check.'.log', $data);
@@ -2055,8 +2055,8 @@ var $ocpt_array1 = array();
     
   
     // API timeout limit near / exceeded warning (ONLY IF THIS ISN'T A DATA FAILURE)
-    if ( $data_bytes > 0 && $ocpt_var->num_to_str($ocpt_conf['power_user']['remote_api_timeout'] - 1) <= $ocpt_var->num_to_str($api_total_time) ) {
-    app_logging('notify_error', 'Remote API timeout near OR exceeded for ' . ( $mode == 'params' ? 'server at ' : 'endpoint at ' ) . obfuscated_url_data($api_endpoint) . ' (' . $api_total_time . ' seconds / received ' . $data_bytes_ux . '), set "remote_api_timeout" higher in POWER USER config if this persists', 'remote_api_timeout: ' . $ocpt_conf['power_user']['remote_api_timeout'] . ' seconds; live_request_time: ' . $api_total_time . ' seconds; mode: ' . $mode . '; received: ' . $data_bytes_ux . ';', $hash_check );
+    if ( $data_bytes > 0 && $ocpt_var->num_to_str($ocpt_conf['power']['remote_api_timeout'] - 1) <= $ocpt_var->num_to_str($api_total_time) ) {
+    app_logging('notify_error', 'Remote API timeout near OR exceeded for ' . ( $mode == 'params' ? 'server at ' : 'endpoint at ' ) . obfuscated_url_data($api_endpoint) . ' (' . $api_total_time . ' seconds / received ' . $data_bytes_ux . '), set "remote_api_timeout" higher in POWER USER config if this persists', 'remote_api_timeout: ' . $ocpt_conf['power']['remote_api_timeout'] . ' seconds; live_request_time: ' . $api_total_time . ' seconds; mode: ' . $mode . '; received: ' . $data_bytes_ux . ';', $hash_check );
     }
    
    
@@ -2103,7 +2103,7 @@ var $ocpt_array1 = array();
     app_logging('cache_error', 'no FILE CACHE data from failure with ' . ( $mode == 'params' ? 'server at ' : 'endpoint at ' ) . obfuscated_url_data($api_endpoint), 'requested_from: cache ('.$logs_array['error_duplicates'][$hash_check].' runtime instances); mode: ' . $mode . '; received: ' . $data_bytes_ux . '; proxy: ' .( $current_proxy ? $current_proxy : 'none' ) . '; hash_check: ' . $ocpt_var->obfuscate_str($hash_check, 4) . ';', $hash_check );
      
     }
-    elseif ( $ocpt_conf['developer']['debug_mode'] == 'all' || $ocpt_conf['developer']['debug_mode'] == 'all_telemetry' || $ocpt_conf['developer']['debug_mode'] == 'ext_api_cache_telemetry' ) {
+    elseif ( $ocpt_conf['dev']['debug'] == 'all' || $ocpt_conf['dev']['debug'] == 'all_telemetry' || $ocpt_conf['dev']['debug'] == 'ext_api_cache_telemetry' ) {
     
      if ( !$logs_array['debugging_duplicates'][$hash_check] ) {
      $logs_array['debugging_duplicates'][$hash_check] = 1; 
@@ -2124,7 +2124,7 @@ var $ocpt_array1 = array();
   
    
    // Defipulse API limit exceeded detection (FAILSAFE AT END OF FUNCTION before returning, whether live OR cache)
-   if ( $endpoint_tld_or_ip == 'defipulse.com' && trim($ocpt_conf['general']['defipulse_key']) != null && preg_match("/API limit exceeded/i", $data) ) {
+   if ( $endpoint_tld_or_ip == 'defipulse.com' && trim($ocpt_conf['gen']['defipulse_key']) != null && preg_match("/API limit exceeded/i", $data) ) {
      app_logging('notify_error', 'DeFiPulse.com monthly API limit exceeded (check your account there)', false, 'defipulsecom_api_limit');
      $defipulse_api_limit = true;
    }

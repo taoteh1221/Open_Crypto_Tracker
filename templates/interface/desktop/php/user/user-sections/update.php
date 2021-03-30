@@ -15,16 +15,16 @@
 
 
 
-		var average_paid_notes = '<h5 class="align_center yellow tooltip_title">Calculating Average <?=strtoupper($ocpt_conf['general']['btc_prim_curr_pairing'])?> Price Paid Per Token</h5>'
+		var average_paid_notes = '<h5 class="align_center yellow tooltip_title">Calculating Average <?=strtoupper($ocpt_conf['gen']['btc_prim_curr_pairing'])?> Price Paid Per Token</h5>'
 			
 			
-			+'<p class="coin_info extra_margins" style="white-space: normal; max-width: 600px;"><span class="green">Total <?=strtoupper($ocpt_conf['general']['btc_prim_curr_pairing'])?> Paid For All Tokens</span> <span class="blue">&#247;</span> <span class="yellow">Total Tokens Purchased</span> <span class="blue">=</span> <span class="bitcoin">Average <?=strtoupper($ocpt_conf['general']['btc_prim_curr_pairing'])?> Price Paid Per Token</span></p>'
+			+'<p class="coin_info extra_margins" style="white-space: normal; max-width: 600px;"><span class="green">Total <?=strtoupper($ocpt_conf['gen']['btc_prim_curr_pairing'])?> Paid For All Tokens</span> <span class="blue">&#247;</span> <span class="yellow">Total Tokens Purchased</span> <span class="blue">=</span> <span class="bitcoin">Average <?=strtoupper($ocpt_conf['gen']['btc_prim_curr_pairing'])?> Price Paid Per Token</span></p>'
 			
-			+'<p class="coin_info extra_margins" style="white-space: normal; max-width: 600px;">The RESULT of the above calculation <i>remains the same even AFTER you sell ANY amount, ONLY if you don\'t buy more between sells</i>. Everytime you buy more <i>after selling some</i>, re-calculate your Average <?=strtoupper($ocpt_conf['general']['btc_prim_curr_pairing'])?> Price Paid Per Token with this formula:</p>'
+			+'<p class="coin_info extra_margins" style="white-space: normal; max-width: 600px;">The RESULT of the above calculation <i>remains the same even AFTER you sell ANY amount, ONLY if you don\'t buy more between sells</i>. Everytime you buy more <i>after selling some</i>, re-calculate your Average <?=strtoupper($ocpt_conf['gen']['btc_prim_curr_pairing'])?> Price Paid Per Token with this formula:</p>'
 			
-			+'<p class="coin_info extra_margins" style="white-space: normal; max-width: 600px;">(<span class="green">Total <?=strtoupper($ocpt_conf['general']['btc_prim_curr_pairing'])?> Paid For All Tokens</span> <span class="blue">-</span> <span class="red">Total <?=strtoupper($ocpt_conf['general']['btc_prim_curr_pairing'])?> Received From All Sold Tokens</span>) <span class="blue">&#247;</span> <span class="yellow">Total Remaining Tokens Still Held</span> <span class="blue">=</span> <span class="bitcoin">Average <?=strtoupper($ocpt_conf['general']['btc_prim_curr_pairing'])?> Price Paid Per Token</span></p>'
+			+'<p class="coin_info extra_margins" style="white-space: normal; max-width: 600px;">(<span class="green">Total <?=strtoupper($ocpt_conf['gen']['btc_prim_curr_pairing'])?> Paid For All Tokens</span> <span class="blue">-</span> <span class="red">Total <?=strtoupper($ocpt_conf['gen']['btc_prim_curr_pairing'])?> Received From All Sold Tokens</span>) <span class="blue">&#247;</span> <span class="yellow">Total Remaining Tokens Still Held</span> <span class="blue">=</span> <span class="bitcoin">Average <?=strtoupper($ocpt_conf['gen']['btc_prim_curr_pairing'])?> Price Paid Per Token</span></p>'
 			
-			+'<p class="coin_info extra_margins" style="white-space: normal; max-width: 600px;"><span class="yellow">PRO TIP:</span> <br /> When buying / selling, keep quick and dirty (yet clear) textual records of... <br />a) How much you bought / sold of what<br />b) What you paid / received in <?=strtoupper($ocpt_conf['general']['btc_prim_curr_pairing'])?> value<br />c) What / where you traded <br />d) Backup to USB Stick / NAS / DropBox / GoogleDrive / OneDrive / AmazonBucket <br />e) Now you\'re ready for tax season, to create spreadsheets from this data</p>'
+			+'<p class="coin_info extra_margins" style="white-space: normal; max-width: 600px;"><span class="yellow">PRO TIP:</span> <br /> When buying / selling, keep quick and dirty (yet clear) textual records of... <br />a) How much you bought / sold of what<br />b) What you paid / received in <?=strtoupper($ocpt_conf['gen']['btc_prim_curr_pairing'])?> value<br />c) What / where you traded <br />d) Backup to USB Stick / NAS / DropBox / GoogleDrive / OneDrive / AmazonBucket <br />e) Now you\'re ready for tax season, to create spreadsheets from this data</p>'
 			
 			+'<p class="coin_info extra_margins yellow" style="white-space: normal; max-width: 600px;">There is also an <i>open source / free</i> app called <a href="https://rotki.com" target="_blank">Rotki</a> that can help you <i>PRIVATELY</i> track your tax data.</p>'
 			
@@ -39,11 +39,11 @@
 			
 			+'<p class="coin_info extra_margins" style="white-space: normal; max-width: 600px;">Set the "Asset / Pairing @ Exchange" drop-down menus for the asset to any markets you prefer. It doesn\'t matter which ones you choose, as long as the price discovery closely matches the exchange where you are margin trading this asset.</p>'
 			
-			+'<p class="coin_info extra_margins" style="white-space: normal; max-width: 600px;">Set the "Holdings" field to match your margin leverage deposit (example: buying 1 BTC @ 5x leverage would be 0.2 BTC in the "Holdings" field in this app). You\'ll also need to fill in the "Average Paid (per-token)" field with the average price paid in <?=strtoupper($ocpt_conf['general']['btc_prim_curr_pairing'])?> per-token. Finally, set the "Margin Leverage" fields to match your leverage and whether you are long or short. When you are done, click "Save Updated Portfolio".</p>'
+			+'<p class="coin_info extra_margins" style="white-space: normal; max-width: 600px;">Set the "Holdings" field to match your margin leverage deposit (example: buying 1 BTC @ 5x leverage would be 0.2 BTC in the "Holdings" field in this app). You\'ll also need to fill in the "Average Paid (per-token)" field with the average price paid in <?=strtoupper($ocpt_conf['gen']['btc_prim_curr_pairing'])?> per-token. Finally, set the "Margin Leverage" fields to match your leverage and whether you are long or short. When you are done, click "Save Updated Portfolio".</p>'
 			
 			+'<p class="coin_info extra_margins" style="white-space: normal; max-width: 600px;">To see your margin leverage stats after updating your portfolio, go to the bottom of the Portfolio page, where you\'ll find a summary section. Hovering over the "I" icon next to the Gain / Loss summary will display any margin leverage stats per-asset. There is also an "I" icon in the far right-side data table column (Subtotal) per-asset, which you can also hover over for margin leverage stats.</p>'
 			
-			+'<p class="coin_info balloon_notation extra_margins yellow" style="white-space: normal; max-width: 600px;">*Current maximum margin leverage setting of <?=$ocpt_conf['power_user']['margin_leverage_max']?>x can be adjusted in the Admin Config POWER USER section.</p>'
+			+'<p class="coin_info balloon_notation extra_margins yellow" style="white-space: normal; max-width: 600px;">*Current maximum margin leverage setting of <?=$ocpt_conf['power']['margin_leverage_max']?>x can be adjusted in the Admin Config POWER USER section.</p>'
 			
 			+'<p> </p>';
 
@@ -602,7 +602,7 @@
 	    
 	    }
 	    else {
-	    $coin_paid_value = ( $ocpt_var->num_to_str($coin_paid_value) >= $ocpt_conf['general']['prim_curr_dec_max_thres'] ? $ocpt_var->num_pretty($coin_paid_value, 2) : $ocpt_var->num_pretty($coin_paid_value, $ocpt_conf['general']['prim_curr_dec_max']) );
+	    $coin_paid_value = ( $ocpt_var->num_to_str($coin_paid_value) >= $ocpt_conf['gen']['prim_curr_dec_max_thres'] ? $ocpt_var->num_pretty($coin_paid_value, 2) : $ocpt_var->num_pretty($coin_paid_value, $ocpt_conf['gen']['prim_curr_dec_max']) );
 	    }
 	    
 	    
@@ -631,22 +631,22 @@
 					
 					// Get default BITCOIN pairing key for further down in the logic, if no $coin_pairing_id value was set FOR BITCOIN
 					if ( strtolower($coin_array_value['name']) == 'bitcoin' ) {
-					$selected_pairing = ( isset($coin_pairing_id) ? $coin_pairing_id : $ocpt_conf['general']['btc_prim_curr_pairing'] );
+					$sel_pairing = ( isset($coin_pairing_id) ? $coin_pairing_id : $ocpt_conf['gen']['btc_prim_curr_pairing'] );
 					}
 					else {
-					$selected_pairing = $coin_pairing_id;
+					$sel_pairing = $coin_pairing_id;
 					}
 					
 					
 					foreach ( $coin_array_value['pairing'] as $pairing_key => $pairing_id ) {
 					 	
 					 	// Set pairing key if not set yet (values not yet populated etc)
-					 	if ( !isset($selected_pairing) ) {
-					 	$selected_pairing = $pairing_key;
+					 	if ( !isset($sel_pairing) ) {
+					 	$sel_pairing = $pairing_key;
 					 	}
 						
 					?>
-					<option value='<?=$pairing_key?>' <?=( $selected_pairing == $pairing_key ? ' selected ' : '' )?>> <?=strtoupper(preg_replace("/_/i", " ", $pairing_key))?> </option>
+					<option value='<?=$pairing_key?>' <?=( $sel_pairing == $pairing_key ? ' selected ' : '' )?>> <?=strtoupper(preg_replace("/_/i", " ", $pairing_key))?> </option>
 					<?php
 					
 									foreach ( $coin_array_value['pairing'][$pairing_key] as $market_key => $market_id ) {
@@ -654,7 +654,7 @@
 							
 									$html_market_list[$pairing_key] .= "\n<option value='".$loop2."'" . ( 
 									isset($coin_market_id) && ($coin_market_id) == $loop2 
-									|| !isset($coin_market_id) && strtolower($coin_array_value['name']) == 'bitcoin' && $loop2 == btc_market($ocpt_conf['general']['btc_prim_exchange']) ? ' selected ' : '' ) . ">" . snake_case_to_name($market_key) . " </option>\n";
+									|| !isset($coin_market_id) && strtolower($coin_array_value['name']) == 'bitcoin' && $loop2 == btc_market($ocpt_conf['gen']['btc_prim_exchange']) ? ' selected ' : '' ) . ">" . snake_case_to_name($market_key) . " </option>\n";
 								
 									}
 									$loop2 = NULL;
@@ -674,7 +674,7 @@
 				     echo $coin_market_id;
 				     }
 				     elseif ( !isset($coin_market_id) && strtolower($coin_array_value['name']) == 'bitcoin' ) {
-				     echo btc_market($ocpt_conf['general']['btc_prim_exchange']);
+				     echo btc_market($ocpt_conf['gen']['btc_prim_exchange']);
 				     }
 				     else {
 						echo '1';
@@ -684,7 +684,7 @@
 				     
 				     
 				     <span id='<?=$field_var_market?>_lists' style='display: inline;'>
-				     <!-- Selected (or first if none selected) pairing: <?=$selected_pairing?> -->
+				     <!-- Selected (or first if none selected) pairing: <?=$sel_pairing?> -->
 				    <?php
 				    
 				    foreach ( $html_market_list as $key => $value ) {
@@ -694,7 +694,7 @@
 				    
 				    $("#<?=$field_var_market?>").val( this.value );
 				    
-				    ' id='<?=$key.$coin_array_key?>_pairs' style='display: <?=( $selected_pairing == $key ? 'inline' : 'none' )?>;'><?=$html_market_list[$key]?>
+				    ' id='<?=$key.$coin_array_key?>_pairs' style='display: <?=( $sel_pairing == $key ? 'inline' : 'none' )?>;'><?=$html_market_list[$key]?>
 				    
 				    </select>
 				    
@@ -718,7 +718,7 @@
 	     ' <?=( $ocpt_var->rem_num_format($asset_amount_value) > 0 && $ocpt_var->rem_num_format($asset_amount_value) <= '0.000000001' ? 'readonly' : '' )?> /> <span class='blue'><?=strtoupper($coin_array_key)?></span>  &nbsp;  &nbsp; 
 			    
 			
-	     <b>Average Paid (per-token):</b> <?=$ocpt_conf['power_user']['btc_currency_markets'][$ocpt_conf['general']['btc_prim_curr_pairing']]?><input type='text' size='10' id='<?=$field_var_paid?>' name='<?=$field_var_paid?>' value='<?=$coin_paid_value?>' <?=$disable_fields?> /> 
+	     <b>Average Paid (per-token):</b> <?=$ocpt_conf['power']['btc_curr_markets'][$ocpt_conf['gen']['btc_prim_curr_pairing']]?><input type='text' size='10' id='<?=$field_var_paid?>' name='<?=$field_var_paid?>' value='<?=$coin_paid_value?>' <?=$disable_fields?> /> 
 	     
 	     
 		<img id='average_paid_notes_<?=$rand_id?>' src='templates/interface/media/images/info.png' alt='' width='30' style='position: relative; left: -5px;' /> 
@@ -777,7 +777,7 @@
 	     <option value='0' <?=( $coin_leverage_value == 0 || $ocpt_var->rem_num_format($coin_paid_value) < 0.00000001 ? 'selected' : '' )?>> None </option>
 	     <?php
 	     $leverage_count = 2;
-	     while ( $ocpt_conf['power_user']['margin_leverage_max'] > 1 && $leverage_count <= $ocpt_conf['power_user']['margin_leverage_max'] ) {
+	     while ( $ocpt_conf['power']['margin_leverage_max'] > 1 && $leverage_count <= $ocpt_conf['power']['margin_leverage_max'] ) {
 	     ?>	     
 	     <option value='<?=$leverage_count?>' <?=( $coin_leverage_value == $leverage_count && $ocpt_var->rem_num_format($coin_paid_value) >= 0.00000001 ? 'selected' : '' )?>> <?=$leverage_count?>x </option>
 	     <?php

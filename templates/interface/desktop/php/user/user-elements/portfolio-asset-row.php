@@ -39,33 +39,33 @@
 	if ( $mkcap_render_data != '' ) {
  	
  
- 		if ( $ocpt_conf['general']['prim_mcap_site'] == 'coinmarketcap' ) {
+ 		if ( $ocpt_conf['gen']['prim_mcap_site'] == 'coinmarketcap' ) {
  		$asset_pagebase = 'coinmarketcap.com/currencies/';
  		}
- 		elseif ( $ocpt_conf['general']['prim_mcap_site'] == 'coingecko' ) {
+ 		elseif ( $ocpt_conf['gen']['prim_mcap_site'] == 'coingecko' ) {
  		$asset_pagebase = 'coingecko.com/en/coins/';
  		}
  	
  	
  		?>
  		
- <a href='https://<?=$asset_pagebase?><?=$mkcap_render_data?>/' target='_blank' class='blue app_sort_filter' title='View <?=ucfirst($ocpt_conf['general']['prim_mcap_site'])?> Information Page For <?=$asset_symbol?>'><?=$asset_name?></a> <img id='<?=$mkcap_render_data?>' src='templates/interface/media/images/<?=$info_icon?>' alt='' style='position: relative; vertical-align:middle; height: 30px; width: 30px;' /> 
+ <a href='https://<?=$asset_pagebase?><?=$mkcap_render_data?>/' target='_blank' class='blue app_sort_filter' title='View <?=ucfirst($ocpt_conf['gen']['prim_mcap_site'])?> Information Page For <?=$asset_symbol?>'><?=$asset_name?></a> <img id='<?=$mkcap_render_data?>' src='templates/interface/media/images/<?=$info_icon?>' alt='' style='position: relative; vertical-align:middle; height: 30px; width: 30px;' /> 
  <script>
 
 		<?php
 		if ( !$marketcap_data['rank'] ) {
 			
-			if ( $ocpt_conf['general']['prim_mcap_site'] == 'coinmarketcap' && trim($ocpt_conf['general']['cmc_key']) == null ) {
+			if ( $ocpt_conf['gen']['prim_mcap_site'] == 'coinmarketcap' && trim($ocpt_conf['gen']['cmc_key']) == null ) {
 			?>
 
-			var cmc_content = '<p class="coin_info"><span class="red"><?=ucfirst($ocpt_conf['general']['prim_mcap_site'])?> API key is required. <br />Configuration adjustments can be made in the Admin Config GENERAL section.</span></p>';
+			var cmc_content = '<p class="coin_info"><span class="red"><?=ucfirst($ocpt_conf['gen']['prim_mcap_site'])?> API key is required. <br />Configuration adjustments can be made in the Admin Config GENERAL section.</span></p>';
 	
 			<?php
 			}
 			else {
 			?>
 
-			var cmc_content = '<p class="coin_info"><span class="red"><?=ucfirst($ocpt_conf['general']['prim_mcap_site'])?> API may be offline / under heavy load, <br />marketcap range not set high enough (current range is top <?=$ocpt_conf['power_user']['mcap_ranks_max']?> marketcaps), <br />or API timeout set too low (current timeout is <?=$ocpt_conf['power_user']['remote_api_timeout']?> seconds). <br /><br />Configuration adjustments can be made in the Admin Config POWER USER section.</span></p>';
+			var cmc_content = '<p class="coin_info"><span class="red"><?=ucfirst($ocpt_conf['gen']['prim_mcap_site'])?> API may be offline / under heavy load, <br />marketcap range not set high enough (current range is top <?=$ocpt_conf['power']['mcap_ranks_max']?> marketcaps), <br />or API timeout set too low (current timeout is <?=$ocpt_conf['power']['remote_api_timeout']?> seconds). <br /><br />Configuration adjustments can be made in the Admin Config POWER USER section.</span></p>';
 	
 			<?php
 			}
@@ -88,13 +88,13 @@
         		$cmc_prim_curr_ticker = 'USD';
         		}
         		else {
-        		$cmc_prim_curr_symbol = $ocpt_conf['power_user']['btc_currency_markets'][$ocpt_conf['general']['btc_prim_curr_pairing']];
-        		$cmc_prim_curr_ticker = strtoupper($ocpt_conf['general']['btc_prim_curr_pairing']);
+        		$cmc_prim_curr_symbol = $ocpt_conf['power']['btc_curr_markets'][$ocpt_conf['gen']['btc_prim_curr_pairing']];
+        		$cmc_prim_curr_ticker = strtoupper($ocpt_conf['gen']['btc_prim_curr_pairing']);
         		}
         		
         ?> 
     
-        var cmc_content = '<h5 class="yellow tooltip_title"><?=ucfirst($ocpt_conf['general']['prim_mcap_site'])?>.com Summary For <?=$asset_name?> (<?=$asset_symbol?>)</h5>'
+        var cmc_content = '<h5 class="yellow tooltip_title"><?=ucfirst($ocpt_conf['gen']['prim_mcap_site'])?>.com Summary For <?=$asset_name?> (<?=$asset_symbol?>)</h5>'
         
         		<?php
             if ( $marketcap_data['app_notice'] != '' ) {
@@ -173,12 +173,12 @@
             if ( $marketcap_data['last_updated'] != '' ) {
             ?>
         +'<p class="coin_info"><span class="yellow">Data Timestamp (UTC):</span> <?=gmdate("Y-M-d\ \\a\\t g:ia", $marketcap_data['last_updated'])?></p>'
-        +'<p class="coin_info"><span class="yellow">App Cache Time:</span> <?=$ocpt_conf['power_user']['mcap_cache_time']?> minute(s)</p>'
+        +'<p class="coin_info"><span class="yellow">App Cache Time:</span> <?=$ocpt_conf['power']['mcap_cache_time']?> minute(s)</p>'
         <?php
             }
             ?>
     
-        +'<p class="coin_info balloon_notation yellow">*Current config setting retrieves the top <?=$ocpt_conf['power_user']['mcap_ranks_max']?> rankings.</p>';
+        +'<p class="coin_info balloon_notation yellow">*Current config setting retrieves the top <?=$ocpt_conf['power']['mcap_ranks_max']?> rankings.</p>';
     
         <?php
         
@@ -268,16 +268,16 @@
 
 			var cmc_content = '<h5 class="yellow align_center tooltip_title"><?=$asset_name?> (<?=$asset_symbol?>)</h5>'
     
-        +'<p class="coin_info" style="white-space: normal; max-width: 600px;"><span class="yellow">Miscellaneous <?=strtoupper($ocpt_conf['general']['btc_prim_curr_pairing'])?> value can be included in you portfolio stats, by entering it under the "MISCASSETS" asset on the "Update" page.</span></p>'
+        +'<p class="coin_info" style="white-space: normal; max-width: 600px;"><span class="yellow">Miscellaneous <?=strtoupper($ocpt_conf['gen']['btc_prim_curr_pairing'])?> value can be included in you portfolio stats, by entering it under the "MISCASSETS" asset on the "Update" page.</span></p>'
         
-        +'<p class="coin_info" style="white-space: normal; max-width: 600px;"><span class="yellow">Additionally, you can see it\'s potential market value in another asset by changing the "Market" value on the "Portfolio" page to an asset other than <?=strtoupper($ocpt_conf['general']['btc_prim_curr_pairing'])?>.</span></p>';
+        +'<p class="coin_info" style="white-space: normal; max-width: 600px;"><span class="yellow">Additionally, you can see it\'s potential market value in another asset by changing the "Market" value on the "Portfolio" page to an asset other than <?=strtoupper($ocpt_conf['gen']['btc_prim_curr_pairing'])?>.</span></p>';
 	
 			<?php
 			}
 			else {
 			?>
 			
-			var cmc_content = '<p class="coin_info"><span class="red">No <?=ucfirst($ocpt_conf['general']['prim_mcap_site'])?>.com data for <?=$asset_name?> (<?=$asset_symbol?>) has been configured yet.</span></p>';
+			var cmc_content = '<p class="coin_info"><span class="red">No <?=ucfirst($ocpt_conf['gen']['prim_mcap_site'])?>.com data for <?=$asset_name?> (<?=$asset_symbol?>) has been configured yet.</span></p>';
 	
 			<?php
 			}
@@ -333,12 +333,12 @@
 
 <?php
   
-  $coin_prim_curr_value = ( $selected_btc_prim_curr_value * $btc_trade_eqiv_raw );
+  $coin_prim_curr_value = ( $sel_btc_prim_curr_value * $btc_trade_eqiv_raw );
 
   // UX on FIAT EQUIV number values
-  $coin_prim_curr_value = ( $ocpt_var->num_to_str($coin_prim_curr_value) >= $ocpt_conf['general']['prim_curr_dec_max_thres'] ? $ocpt_var->num_pretty($coin_prim_curr_value, 2) : $ocpt_var->num_pretty($coin_prim_curr_value, $ocpt_conf['general']['prim_curr_dec_max']) );
+  $coin_prim_curr_value = ( $ocpt_var->num_to_str($coin_prim_curr_value) >= $ocpt_conf['gen']['prim_curr_dec_max_thres'] ? $ocpt_var->num_pretty($coin_prim_curr_value, 2) : $ocpt_var->num_pretty($coin_prim_curr_value, $ocpt_conf['gen']['prim_curr_dec_max']) );
 	
-  echo "<span class='white'>" . $ocpt_conf['power_user']['btc_currency_markets'][$ocpt_conf['general']['btc_prim_curr_pairing']] . "</span>" . "<span class='app_sort_filter'>" . $coin_prim_curr_value . "</span>";
+  echo "<span class='white'>" . $ocpt_conf['power']['btc_curr_markets'][$ocpt_conf['gen']['btc_prim_curr_pairing']] . "</span>" . "<span class='app_sort_filter'>" . $coin_prim_curr_value . "</span>";
 
 ?>
 
@@ -390,11 +390,11 @@ $coin_value_raw = $ocpt_var->num_to_str($coin_value_raw);
 
 	// UX on FIAT EQUIV number values
 	if ( $fiat_eqiv == 1 ) {
-	$coin_value_dec = ( $coin_value_raw >= $ocpt_conf['general']['prim_curr_dec_max_thres'] ? 2 : $ocpt_conf['general']['prim_curr_dec_max'] );
+	$coin_value_dec = ( $coin_value_raw >= $ocpt_conf['gen']['prim_curr_dec_max_thres'] ? 2 : $ocpt_conf['gen']['prim_curr_dec_max'] );
 	}
 	else {
 	
-		if ( $selected_pairing == 'btc' ) {
+		if ( $sel_pairing == 'btc' ) {
 		$coin_value_dec = ( $coin_value_raw >= 0.01 ? 6 : 8 );
 		$coin_value_dec = ( $coin_value_raw >= 1 ? 4 : $coin_value_dec );
 		}
@@ -415,7 +415,7 @@ echo $ocpt_var->num_pretty($coin_value_raw, $coin_value_dec);
 
 <?php
 
-  if ( $show_secondary_trade_value != null && $selected_pairing != $show_secondary_trade_value && strtolower($asset_symbol) != $show_secondary_trade_value ) {
+  if ( $show_secondary_trade_value != null && $sel_pairing != $show_secondary_trade_value && strtolower($asset_symbol) != $show_secondary_trade_value ) {
   
 		if ( $show_secondary_trade_value == 'btc' ) {
 		$secondary_trade_value_result = $ocpt_var->num_to_str($btc_trade_eqiv_raw);
@@ -457,11 +457,11 @@ echo $ocpt_var->num_pretty($coin_value_raw, $coin_value_dec);
 
 	        foreach ( $all_pairings as $pairing_key => $pairing_name ) {
 	         $loop = $loop + 1;
-	         	if ( $selected_pairing == $pairing_key ) {
+	         	if ( $sel_pairing == $pairing_key ) {
 	         	$ui_selected_pairing = $pairing_key;
 	         	}
 	        ?>
-	        <option value='<?=$pairing_key?>' <?=( $selected_pairing == $pairing_key ? ' selected ' : '' )?>> <?=strtoupper($pairing_key)?> </option>
+	        <option value='<?=$pairing_key?>' <?=( $sel_pairing == $pairing_key ? ' selected ' : '' )?>> <?=strtoupper($pairing_key)?> </option>
 	        <?php
 	        }
         
@@ -481,14 +481,14 @@ echo $ocpt_var->num_pretty($coin_value_raw, $coin_value_dec);
 
 <td class='data border_b'>
 
-<span class='white'><?=$ocpt_conf['power_user']['btc_currency_markets'][$ocpt_conf['general']['btc_prim_curr_pairing']]?></span><span class='app_sort_filter'><?php 
+<span class='white'><?=$ocpt_conf['power']['btc_curr_markets'][$ocpt_conf['gen']['btc_prim_curr_pairing']]?></span><span class='app_sort_filter'><?php 
 
   // NULL if not setup to get volume, negative number returned if no data received from API
-  if ( $trade_volume == NULL || $trade_volume == -1 ) {
+  if ( $trade_vol == NULL || $trade_vol == -1 ) {
   echo '0';
   }
-  elseif ( $trade_volume >= 0 ) {
-  echo number_format($trade_volume, 0, '.', ',');
+  elseif ( $trade_vol >= 0 ) {
+  echo number_format($trade_vol, 0, '.', ',');
   }
 
 ?></span>
@@ -537,11 +537,11 @@ $coin_value_total_raw = $ocpt_var->num_to_str($coin_value_total_raw);
 
 	// UX on FIAT EQUIV number values
 	if ( $fiat_eqiv == 1 ) {
-	$coin_value_total_dec = ( $coin_value_total_raw >= $ocpt_conf['general']['prim_curr_dec_max_thres'] ? 2 : $ocpt_conf['general']['prim_curr_dec_max'] );
+	$coin_value_total_dec = ( $coin_value_total_raw >= $ocpt_conf['gen']['prim_curr_dec_max_thres'] ? 2 : $ocpt_conf['gen']['prim_curr_dec_max'] );
 	}
 	else {
 	
-		if ( $selected_pairing == 'btc' ) {
+		if ( $sel_pairing == 'btc' ) {
 		$coin_value_total_dec = ( $coin_value_total_raw >= 0.01 ? 6 : 8 );
 		$coin_value_total_dec = ( $coin_value_total_raw >= 1 ? 4 : $coin_value_total_dec );
 		}
@@ -556,10 +556,10 @@ $coin_value_total_raw = $ocpt_var->num_to_str($coin_value_total_raw);
 $pretty_coin_value_total_raw = $ocpt_var->num_pretty($coin_value_total_raw, $coin_value_total_dec); 
 
 
-echo ' <span class="blue"><span class="data app_sort_filter blue">' . $pretty_coin_value_total_raw . '</span> ' . strtoupper($selected_pairing) . '</span>';
+echo ' <span class="blue"><span class="data app_sort_filter blue">' . $pretty_coin_value_total_raw . '</span> ' . strtoupper($sel_pairing) . '</span>';
 
   
-  if ( $show_secondary_trade_value != null && $selected_pairing != $show_secondary_trade_value && strtolower($asset_symbol) != $show_secondary_trade_value ) {
+  if ( $show_secondary_trade_value != null && $sel_pairing != $show_secondary_trade_value && strtolower($asset_symbol) != $show_secondary_trade_value ) {
   
 		if ( $show_secondary_trade_value == 'btc' ) {
 		$secondary_holdings_value_result = $ocpt_var->num_to_str($coin_value_total_raw * $pairing_btc_value);
@@ -593,20 +593,20 @@ echo ' <span class="blue"><span class="data app_sort_filter blue">' . $pretty_co
 <?php
 
 
-echo '<span class="' . ( $purchase_price >= 0.00000001 && $leverage_level >= 2 && $selected_margintype == 'short' ? 'short">★ ' : 'blue">' ) . '<span class="blue">' . $ocpt_conf['power_user']['btc_currency_markets'][$ocpt_conf['general']['btc_prim_curr_pairing']] . '</span><span class="app_sort_filter blue">' . number_format($coin_prim_curr_worth_raw, 2, '.', ',') . '</span></span>';
+echo '<span class="' . ( $purchase_price >= 0.00000001 && $leverage_level >= 2 && $sel_margintype == 'short' ? 'short">★ ' : 'blue">' ) . '<span class="blue">' . $ocpt_conf['power']['btc_curr_markets'][$ocpt_conf['gen']['btc_prim_curr_pairing']] . '</span><span class="app_sort_filter blue">' . number_format($coin_prim_curr_worth_raw, 2, '.', ',') . '</span></span>';
 
   if ( $purchase_price >= 0.00000001 && $leverage_level >= 2 ) {
 
   $coin_worth_inc_leverage = $coin_prim_curr_worth_raw + $only_leverage_gain_loss;
   
-  echo ' <span class="extra_data">(' . $leverage_level . 'x ' . $selected_margintype . ')</span>';
+  echo ' <span class="extra_data">(' . $leverage_level . 'x ' . $sel_margintype . ')</span>';
 
   // Here we parse out negative symbols
-  $parsed_gain_loss = preg_replace("/-/", "-" . $ocpt_conf['power_user']['btc_currency_markets'][$ocpt_conf['general']['btc_prim_curr_pairing']], number_format( $gain_loss, 2, '.', ',' ) );
+  $parsed_gain_loss = preg_replace("/-/", "-" . $ocpt_conf['power']['btc_curr_markets'][$ocpt_conf['gen']['btc_prim_curr_pairing']], number_format( $gain_loss, 2, '.', ',' ) );
   
-  $parsed_inc_leverage_gain_loss = preg_replace("/-/", "-" . $ocpt_conf['power_user']['btc_currency_markets'][$ocpt_conf['general']['btc_prim_curr_pairing']], number_format( $inc_leverage_gain_loss, 2, '.', ',' ) );
+  $parsed_inc_leverage_gain_loss = preg_replace("/-/", "-" . $ocpt_conf['power']['btc_curr_markets'][$ocpt_conf['gen']['btc_prim_curr_pairing']], number_format( $inc_leverage_gain_loss, 2, '.', ',' ) );
   
-  $parsed_only_leverage_gain_loss = preg_replace("/-/", "-" . $ocpt_conf['power_user']['btc_currency_markets'][$ocpt_conf['general']['btc_prim_curr_pairing']], number_format($only_leverage_gain_loss, 2, '.', ',' ) );
+  $parsed_only_leverage_gain_loss = preg_replace("/-/", "-" . $ocpt_conf['power']['btc_curr_markets'][$ocpt_conf['gen']['btc_prim_curr_pairing']], number_format($only_leverage_gain_loss, 2, '.', ',' ) );
   
   // Here we can go negative 'total worth' with the margin leverage (unlike with the margin deposit)
   // We only want a negative sign here in the UI for 'total worth' clarity (if applicable), NEVER a plus sign
@@ -621,19 +621,19 @@ echo '<span class="' . ( $purchase_price >= 0.00000001 && $leverage_level >= 2 &
   
   		// Formatting
   		$gain_loss_span_color = ( $gain_loss >= 0 ? 'green' : 'red' );
-  		$gain_loss_prim_curr = ( $gain_loss >= 0 ? '+' . $ocpt_conf['power_user']['btc_currency_markets'][$ocpt_conf['general']['btc_prim_curr_pairing']] : '' );
+  		$gain_loss_prim_curr = ( $gain_loss >= 0 ? '+' . $ocpt_conf['power']['btc_curr_markets'][$ocpt_conf['gen']['btc_prim_curr_pairing']] : '' );
   		
 		?> 
 		<img id='<?=$rand_id?>_leverage' src='templates/interface/media/images/info.png' alt='' width='30' style='position: relative; left: -5px;' />
 	 <script>
 	
-			var leverage_content = '<h5 class="yellow tooltip_title"><?=$leverage_level?>x <?=ucfirst($selected_margintype)?> For <?=$asset_name?> (<?=$asset_symbol?>)</h5>'
+			var leverage_content = '<h5 class="yellow tooltip_title"><?=$leverage_level?>x <?=ucfirst($sel_margintype)?> For <?=$asset_name?> (<?=$asset_symbol?>)</h5>'
 			
-			+'<p class="coin_info"><span class="yellow">Deposit (1x):</span> <span class="<?=$gain_loss_span_color?>"><?=$gain_loss_prim_curr?><?=$parsed_gain_loss?></span> (<?=$ocpt_conf['power_user']['btc_currency_markets'][$ocpt_conf['general']['btc_prim_curr_pairing']]?><?=$pretty_coin_prim_curr_worth_raw?>)</p>'
+			+'<p class="coin_info"><span class="yellow">Deposit (1x):</span> <span class="<?=$gain_loss_span_color?>"><?=$gain_loss_prim_curr?><?=$parsed_gain_loss?></span> (<?=$ocpt_conf['power']['btc_curr_markets'][$ocpt_conf['gen']['btc_prim_curr_pairing']]?><?=$pretty_coin_prim_curr_worth_raw?>)</p>'
 			
 			+'<p class="coin_info"><span class="yellow">Margin (<?=($leverage_level - 1)?>x):</span> <span class="<?=$gain_loss_span_color?>"><?=$gain_loss_prim_curr?><?=$parsed_only_leverage_gain_loss?></span></p>'
 			
-			+'<p class="coin_info"><span class="yellow">Total (<?=($leverage_level)?>x):</span> <span class="<?=$gain_loss_span_color?>"><?=$gain_loss_prim_curr?><?=$parsed_inc_leverage_gain_loss?> / <?=( $gain_loss >= 0 ? '+' : '' )?><?=$pretty_leverage_gain_loss_percent?>%</span> (<?=( $coin_worth_inc_leverage >= 0 ? '' : '-' )?><?=$ocpt_conf['power_user']['btc_currency_markets'][$ocpt_conf['general']['btc_prim_curr_pairing']]?><?=$parsed_coin_worth_inc_leverage?>)</p>'
+			+'<p class="coin_info"><span class="yellow">Total (<?=($leverage_level)?>x):</span> <span class="<?=$gain_loss_span_color?>"><?=$gain_loss_prim_curr?><?=$parsed_inc_leverage_gain_loss?> / <?=( $gain_loss >= 0 ? '+' : '' )?><?=$pretty_leverage_gain_loss_percent?>%</span> (<?=( $coin_worth_inc_leverage >= 0 ? '' : '-' )?><?=$ocpt_conf['power']['btc_curr_markets'][$ocpt_conf['gen']['btc_prim_curr_pairing']]?><?=$parsed_coin_worth_inc_leverage?>)</p>'
 			
 				
 			+'<p class="coin_info"><span class="yellow"> </span></p>';

@@ -14,7 +14,7 @@ if ( $runtime_mode == 'cron' ) {
 $_SESSION[$fetched_feeds] = false;
 
 	// Re-cache RSS feeds for faster UI runtimes later
-	foreach($ocpt_conf['power_user']['news_feed'] as $cached_feed_key => $feed_unused) {
+	foreach($ocpt_conf['power']['news_feed'] as $cached_feed_key => $feed_unused) {
 		if ( trim($news_feeds[$cached_feed_key]["url"]) != '' ) {
 	 	$ocpt_api->rss($news_feeds[$feed_key]["url"], 'no_theme', 0, 1);
 	 	}
@@ -22,7 +22,7 @@ $_SESSION[$fetched_feeds] = false;
 
 
 	// If coinmarketcap API key is added, cache data for faster UI runtimes later
-	if ( trim($ocpt_conf['general']['cmc_key']) != null ) {
+	if ( trim($ocpt_conf['gen']['cmc_key']) != null ) {
 	$coinmarketcap_api = $ocpt_api->coinmarketcap();
 	}
 	 

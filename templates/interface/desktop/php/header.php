@@ -1,5 +1,5 @@
 <?php
-header('Content-type: text/html; charset=' . $ocpt_conf['developer']['charset_default']);
+header('Content-type: text/html; charset=' . $ocpt_conf['dev']['charset_default']);
 ?><!DOCTYPE html>
 <html lang="en">
 
@@ -13,7 +13,7 @@ header('Content-type: text/html; charset=' . $ocpt_conf['developer']['charset_de
 	<title>Open Crypto Portfolio Tracker<?=( $is_admin ? ' - Admin Config' : '' )?></title>
     
 
-   <meta charset="<?=$ocpt_conf['developer']['charset_default']?>">
+   <meta charset="<?=$ocpt_conf['dev']['charset_default']?>">
    
    <meta name="viewport" content="width=device-width"> <!-- Mobile compatibility -->
    
@@ -158,18 +158,18 @@ header('Content-type: text/html; charset=' . $ocpt_conf['developer']['charset_de
 	var sorted_by_col = <?=$sorted_by_col?>;
 	var sorted_by_asc_desc = <?=$sorted_by_asc_desc?>;
 	
-	var charts_background = '<?=$ocpt_conf['power_user']['charts_background']?>';
-	var charts_border = '<?=$ocpt_conf['power_user']['charts_border']?>';
+	var charts_background = '<?=$ocpt_conf['power']['charts_background']?>';
+	var charts_border = '<?=$ocpt_conf['power']['charts_border']?>';
 	
-	var btc_prim_curr_value = '<?=number_format( $selected_btc_prim_curr_value, 2, '.', '' )?>';
-	var btc_prim_curr_pairing = '<?=strtoupper($ocpt_conf['general']['btc_prim_curr_pairing'])?>';
+	var btc_prim_curr_value = '<?=number_format( $sel_btc_prim_curr_value, 2, '.', '' )?>';
+	var btc_prim_curr_pairing = '<?=strtoupper($ocpt_conf['gen']['btc_prim_curr_pairing'])?>';
 	
 	// 'Loading X...' UI notices
 	feeds_loading_check(window.feeds_loaded);
 	charts_loading_check(window.charts_loaded);
 	
 	<?php
-	foreach ( $ocpt_conf['developer']['limited_apis'] as $api ) {
+	foreach ( $ocpt_conf['dev']['limited_apis'] as $api ) {
 	$js_limited_apis .= '"'.strtolower( preg_replace("/\.(.*)/i", "", $api) ).'", ';
 	}
 	$js_limited_apis = trim($js_limited_apis);
@@ -182,7 +182,7 @@ header('Content-type: text/html; charset=' . $ocpt_conf['developer']['charset_de
 	
 	var pref_bitcoin_markets = []; // Set the array
 	<?php
-	foreach ( $ocpt_conf['power_user']['btc_pref_currency_markets'] as $pref_bitcoin_markets_key => $pref_bitcoin_markets_value ) {
+	foreach ( $ocpt_conf['power']['btc_pref_curr_markets'] as $pref_bitcoin_markets_key => $pref_bitcoin_markets_value ) {
 	?>
 	pref_bitcoin_markets["<?=strtolower( $pref_bitcoin_markets_key )?>"] = "<?=strtolower( $pref_bitcoin_markets_value )?>";
 	<?php

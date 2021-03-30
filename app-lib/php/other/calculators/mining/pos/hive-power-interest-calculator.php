@@ -19,9 +19,9 @@ $hive_market = $ocpt_api->market('HIVE', 'bittrex', 'HIVE-BTC')['last_trade'];
 <div>
     <form action='<?=start_page('mining')?>' method='post'>
         
-        <p><b>Power Down Period:</b> <?=$ocpt_conf['power_user']['hive_powerdown_time']?> weeks</p>
+        <p><b>Power Down Period:</b> <?=$ocpt_conf['power']['hive_powerdown_time']?> weeks</p>
 	
-        <p><b>HIVE Power Interest Rate:</b> <?=($ocpt_conf['power_user']['hivepower_yearly_interest'])?> percent annually (see Power User Config for yearly adjustments)</p>
+        <p><b>HIVE Power Interest Rate:</b> <?=($ocpt_conf['power']['hivepower_yearly_interest'])?> percent annually (see Power User Config for yearly adjustments)</p>
 	
         <p><b>HIVE Power Purchased:</b> <input type='text' name='hp_purchased' value='<?=$_POST['hp_purchased']?>' placeholder="(from Bittrex trading etc)" size='45' /></p>
         
@@ -40,9 +40,9 @@ $hive_market = $ocpt_api->market('HIVE', 'bittrex', 'HIVE-BTC')['last_trade'];
 if ( $_POST['hive_submitted'] ) {
 ?>
 
-<p class='red' style='font-weight: bold;'>Your <i>current</i> HIVE Power interest rate results (<i><u><?=strtoupper($ocpt_conf['general']['btc_prim_curr_pairing'])?> values may change significantly over long periods of time</u></i>):</p>
+<p class='red' style='font-weight: bold;'>Your <i>current</i> HIVE Power interest rate results (<i><u><?=strtoupper($ocpt_conf['gen']['btc_prim_curr_pairing'])?> values may change significantly over long periods of time</u></i>):</p>
 
-<p class='green' style='font-weight: bold;'>1 HIVE = <?=$ocpt_var->num_to_str($hive_market)?> BTC (<?=$ocpt_conf['power_user']['btc_currency_markets'][$ocpt_conf['general']['btc_prim_curr_pairing']]?><?php echo number_format( $ocpt_var->num_to_str( $hive_market * $selected_btc_prim_curr_value ), 8, '.', ','); ?>)</p>
+<p class='green' style='font-weight: bold;'>1 HIVE = <?=$ocpt_var->num_to_str($hive_market)?> BTC (<?=$ocpt_conf['power']['btc_curr_markets'][$ocpt_conf['gen']['btc_prim_curr_pairing']]?><?php echo number_format( $ocpt_var->num_to_str( $hive_market * $sel_btc_prim_curr_value ), 8, '.', ','); ?>)</p>
 
 
 <?php

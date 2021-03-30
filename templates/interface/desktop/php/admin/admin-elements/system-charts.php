@@ -9,8 +9,8 @@ if ( admin_logged_in() ) {
 
 
 
-// For system charts, we want the first $ocpt_conf['power_user']['lite_chart_day_intervals'] value, not 'all'
-$first_lite_chart = $ocpt_conf['power_user']['lite_chart_day_intervals'][0];
+// For system charts, we want the first $ocpt_conf['power']['lite_chart_day_intervals'] value, not 'all'
+$first_lite_chart = $ocpt_conf['power']['lite_chart_day_intervals'][0];
 		
 		
 	// Have this script send the UI alert messages, and not load any chart code (to not leave the page endlessly loading) if cache data is not present
@@ -73,7 +73,7 @@ zingchart.bind('system_stats_chart_<?=$chart_mode?>', 'label_click', function(e)
   switch(e.labelid) {
   	
   	<?php
-	foreach ($ocpt_conf['power_user']['lite_chart_day_intervals'] as $lite_chart_days) {
+	foreach ($ocpt_conf['power']['lite_chart_day_intervals'] as $lite_chart_days) {
 	?>	
 	
     case '<?=$lite_chart_days?>':

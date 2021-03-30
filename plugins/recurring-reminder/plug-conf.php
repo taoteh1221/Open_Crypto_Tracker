@@ -29,7 +29,7 @@ $plug_conf[$this_plug]['reminders'] = array(
 																	// PORTFOLIO RE-BALANCE REVIEW REMINDER
 																	array(
 																			'days' => 30.4167, // Decimals supported (30.4167 days is average length of 1 month)
-																			'message' => "Review whether you should re-balance your portfolio (have individual assets take up a different precentage of your portfolio's total " . strtoupper($ocpt_conf['general']['btc_prim_curr_pairing']) . " value)." // Reminder message
+																			'message' => "Review whether you should re-balance your portfolio (have individual assets take up a different precentage of your portfolio's total " . strtoupper($ocpt_conf['gen']['btc_prim_curr_pairing']) . " value)." // Reminder message
 																			),
 																			
 																			
@@ -44,7 +44,6 @@ $plug_conf[$this_plug]['reminders'] = array(
 
 
 
+// DON'T LEAVE ANY WHITESPACE AFTER THE CLOSING PHP TAG, SINCE WE INCLUDE THIS IN INIT PHP!
 
 ?>
-
-

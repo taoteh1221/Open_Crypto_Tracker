@@ -21,7 +21,7 @@
 		
 		<?php
 		$supported_prim_curr_count = 0;
-		foreach ( $ocpt_conf['power_user']['btc_currency_markets'] as $key => $unused ) {
+		foreach ( $ocpt_conf['power']['btc_curr_markets'] as $key => $unused ) {
 		$supported_prim_curr_list .= strtoupper($key) . ' / ';
 		$supported_prim_curr_count = $supported_prim_curr_count + 1;
 		}
@@ -248,7 +248,7 @@
 	
 	<div style='display: flex; flex-flow: column wrap; overflow: hidden;' class='chart_wrapper' id='<?=$key?>_<?=$alerts_market_parse[1]?>_chart'>
 	
-	<span class='chart_loading' style='color: <?=$ocpt_conf['power_user']['charts_text']?>;'> &nbsp; Loading chart for <?=strtoupper($chart_asset)?> / <?=strtoupper($alerts_market_parse[1])?> @ <?=snake_case_to_name($alerts_market_parse[0])?>...</span>
+	<span class='chart_loading' style='color: <?=$ocpt_conf['power']['charts_text']?>;'> &nbsp; Loading chart for <?=strtoupper($chart_asset)?> / <?=strtoupper($alerts_market_parse[1])?> @ <?=snake_case_to_name($alerts_market_parse[0])?>...</span>
 	
 	<div style='z-index: 99999; margin-top: 7px;' class='chart_reload align_center absolute_centered loading bitcoin'><img src="templates/interface/media/images/auto-preloaded/loader.gif" height='17' alt="" style='vertical-align: middle;' /> <div class='chart_reload_message'></div></div>
 		
@@ -282,7 +282,7 @@
 	
 	<div style='display: flex; flex-flow: column wrap; overflow: hidden;' class='chart_wrapper' id='<?=$key?>_<?=strtolower($default_btc_prim_curr_pairing)?>_chart'>
 	
-	<span class='chart_loading' style='color: <?=$ocpt_conf['power_user']['charts_text']?>;'> &nbsp; Loading chart for <?=strtoupper($chart_asset)?> / <?=strtoupper($alerts_market_parse[1])?> @ <?=snake_case_to_name($alerts_market_parse[0])?> (<?=strtoupper($default_btc_prim_curr_pairing)?> Value)...</span>
+	<span class='chart_loading' style='color: <?=$ocpt_conf['power']['charts_text']?>;'> &nbsp; Loading chart for <?=strtoupper($chart_asset)?> / <?=strtoupper($alerts_market_parse[1])?> @ <?=snake_case_to_name($alerts_market_parse[0])?> (<?=strtoupper($default_btc_prim_curr_pairing)?> Value)...</span>
 	
 	<div style='z-index: 99999; margin-top: 7px;' class='chart_reload align_center absolute_centered loading bitcoin'><img src="templates/interface/media/images/auto-preloaded/loader.gif" height='17' alt="" style='vertical-align: middle;' /> <div class='chart_reload_message'></div></div>
 		

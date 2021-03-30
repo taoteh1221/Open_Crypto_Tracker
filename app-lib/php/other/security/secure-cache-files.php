@@ -77,16 +77,16 @@ foreach( $secured_cache_files as $secured_file ) {
 			
 		
 			if ( $check_default_ocpt_conf == md5(serialize($default_ocpt_conf)) && $cached_ocpt_conf == true ) {
-			$ocpt_conf = $cached_ocpt_conf; // Use cached pt_conf if it exists, seems intact, and DEFAULT Admin Config (in config.php) hasn't been revised since last check
+			$ocpt_conf = $cached_ocpt_conf; // Use cached ocpt_conf if it exists, seems intact, and DEFAULT Admin Config (in config.php) hasn't been revised since last check
 			$is_cached_ocpt_conf = 1;
 			}
 			elseif ( $check_default_ocpt_conf != md5(serialize($default_ocpt_conf)) ) {
-			app_logging('config_error', 'CACHED pt_conf outdated (DEFAULT pt_conf updated), refreshing from DEFAULT pt_conf');
+			app_logging('config_error', 'CACHED ocpt_conf outdated (DEFAULT ocpt_conf updated), refreshing from DEFAULT ocpt_conf');
 			unlink($base_dir . '/cache/secured/' . $secured_file);
 			$refresh_cached_ocpt_conf = 1;
 			}
 			elseif ( $cached_ocpt_conf != true ) {
-			app_logging('config_error', 'CACHED pt_conf appears corrupt, refreshing from DEFAULT pt_conf');
+			app_logging('config_error', 'CACHED ocpt_conf appears corrupt, refreshing from DEFAULT ocpt_conf');
 			unlink($base_dir . '/cache/secured/' . $secured_file);
 			$refresh_cached_ocpt_conf = 1;
 			}
@@ -254,7 +254,7 @@ $secure_128bit_hash = random_hash(16); // 128-bit (16-byte) hash converted to he
 	
 	// Halt the process if an issue is detected safely creating a random hash
 	if ( $secure_128bit_hash == false ) {
-	app_logging('security_error', 'Cryptographically secure pseudo-random bytes could not be generated for cached pt_conf array (secured cache storage) suffix, cached pt_conf array creation aborted to preserve security');
+	app_logging('security_error', 'Cryptographically secure pseudo-random bytes could not be generated for cached ocpt_conf array (secured cache storage) suffix, cached ocpt_conf array creation aborted to preserve security');
 	}
 	else {
 	
@@ -293,7 +293,7 @@ $secure_128bit_hash = random_hash(16); // 128-bit (16-byte) hash converted to he
 
 
 // If telegram messaging is activated, and there is no valid cached_telegram_user_data
-// OR if cached pt_conf was flagged to be updated
+// OR if cached ocpt_conf was flagged to be updated
 if ( $telegram_activated == 1 && $refresh_cached_telegram_user_data == 1 
 || $telegram_activated == 1 && $is_cached_telegram_user_data != 1
 || $telegram_activated == 1 && $refresh_cached_ocpt_conf == 1 
@@ -429,7 +429,7 @@ if ( $password_reset_approved || sizeof($stored_admin_login) != 2 ) {
 		
 		
 		// If the admin login update was a success, delete old data file / login / redirect
-		if ( pt_app_id() != false && isset($_SESSION['nonce']) && $admin_login_updated ) {
+		if ( ocpt_app_id() != false && isset($_SESSION['nonce']) && $admin_login_updated ) {
 		
 			// Delete any previous active admin login data file
 			if ( $active_admin_login_path ) {
@@ -448,7 +448,7 @@ if ( $password_reset_approved || sizeof($stored_admin_login) != 2 ) {
 				
 		$cookie_nonce = random_hash(32); // 32 byte
 		
-		$ocpt_gen->store_cookie('admin_auth_' . pt_app_id(), $cookie_nonce, mktime() + ($ocpt_conf['power_user']['admin_cookie_expire'] * 3600) );
+		$ocpt_gen->store_cookie('admin_auth_' . ocpt_app_id(), $cookie_nonce, mktime() + ($ocpt_conf['power']['admin_cookie_expire'] * 3600) );
 				
 		$_SESSION['admin_logged_in']['auth_hash'] = admin_hashed_nonce($cookie_nonce, 'force'); // Force set, as we're not logged in fully yet
 				

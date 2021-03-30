@@ -9,27 +9,27 @@
 if ( $runtime_mode == 'ui' ) {
 
 $exchange_count = 0;
-$currency_count = 0;
+$curr_count = 0;
 
 	// Print out all market configurations
-	if ( $ocpt_conf['developer']['debug_mode'] == 'all' || $ocpt_conf['developer']['debug_mode'] == 'markets_config' ) {
+	if ( $ocpt_conf['dev']['debug'] == 'all' || $ocpt_conf['dev']['debug'] == 'markets_config' ) {
 		
 		
-		foreach ( $ocpt_conf['power_user']['btc_currency_markets'] as $key => $unused ) {
+		foreach ( $ocpt_conf['power']['btc_curr_markets'] as $key => $unused ) {
 			
 			// Detects better with right side space included
 			if ( stristr($supported_prim_curr_list, $key . ' ') == false ) {
-			$currency_count = $currency_count + 1;
+			$curr_count = $curr_count + 1;
 			$supported_prim_curr_list .= $key . ' / ';
 			}
 			
 		
 		}
 		
-		$pairings_count = $currency_count;
+		$pairings_count = $curr_count;
 		$all_supported_pairings_list = $supported_prim_curr_list;
 		
-		foreach ( $ocpt_conf['power_user']['crypto_pairing'] as $key => $unused ) {
+		foreach ( $ocpt_conf['power']['crypto_pairing'] as $key => $unused ) {
 			
 			// Detects better with right side space included
 			if ( stristr($all_supported_pairings_list, $key . ' ') == false ) {
@@ -88,7 +88,7 @@ $currency_count = 0;
 		$all_exchanges_list = $ocpt_var->list_sort($all_exchanges_list, '/', 'sort', true);
 	
 	
-	app_logging('config_debugging', "\n\n" . 'Bitcoin markets configuration information (for Admin Config current documentation) supported_btc_prim_currencies_list['.$currency_count.']: ' . $supported_prim_curr_list . '; ' . "\n\n" . 'supported_btc_exchanges_list['.$exchange_count.']: ' . $supported_btc_exchange_list . "\n\n" );
+	app_logging('config_debugging', "\n\n" . 'Bitcoin markets configuration information (for Admin Config current documentation) supported_btc_prim_currencies_list['.$curr_count.']: ' . $supported_prim_curr_list . '; ' . "\n\n" . 'supported_btc_exchanges_list['.$exchange_count.']: ' . $supported_btc_exchange_list . "\n\n" );
 	
 	
 	

@@ -137,7 +137,7 @@ if ( !isset( $ocpt_conf['assets']['BTC']['pairing'][$default_btc_prim_curr_pairi
 	$avialable_btc_pairings = trim($avialable_btc_pairings);
 	$avialable_btc_pairings = rtrim($avialable_btc_pairings,',');
 	
-$config_parse_error[] = 'Charts and price alerts cannot run properly, because the "btc_prim_curr_pairing" (default Bitcoin currency pairing) value \''.$ocpt_conf['general']['btc_prim_curr_pairing'].'\' (in Admin Config GENERAL section) is not a valid Bitcoin pairing option (valid Bitcoin pairing options are: '.$avialable_btc_pairings.')';
+$config_parse_error[] = 'Charts and price alerts cannot run properly, because the "btc_prim_curr_pairing" (default Bitcoin currency pairing) value \''.$ocpt_conf['gen']['btc_prim_curr_pairing'].'\' (in Admin Config GENERAL section) is not a valid Bitcoin pairing option (valid Bitcoin pairing options are: '.$avialable_btc_pairings.')';
 
 }
 elseif ( !isset( $ocpt_conf['assets']['BTC']['pairing'][$default_btc_prim_curr_pairing][$default_btc_prim_exchange] ) ) {
@@ -333,7 +333,7 @@ $smtp_email_server_parse = explode(":", $ocpt_conf['comms']['smtp_server'] );
 
 
 // Email logs configs
-if ( $ocpt_conf['power_user']['logs_email'] > 0 && trim($ocpt_conf['comms']['from_email']) != '' && trim($ocpt_conf['comms']['to_email']) != '' ) {
+if ( $ocpt_conf['power']['logs_email'] > 0 && trim($ocpt_conf['comms']['from_email']) != '' && trim($ocpt_conf['comms']['to_email']) != '' ) {
 					
 	// Config error check(s)
    if ( $validate_from_email != 'valid' ) {
@@ -374,7 +374,7 @@ if ( $ocpt_conf['power_user']['logs_email'] > 0 && trim($ocpt_conf['comms']['fro
 
 
 // Email backup archives configs
-if ( $ocpt_conf['general']['asset_charts_toggle'] == 'on' && $ocpt_conf['power_user']['charts_backup_freq'] > 0 && trim($ocpt_conf['comms']['from_email']) != '' && trim($ocpt_conf['comms']['to_email']) != '' ) {
+if ( $ocpt_conf['gen']['asset_charts_toggle'] == 'on' && $ocpt_conf['power']['charts_backup_freq'] > 0 && trim($ocpt_conf['comms']['from_email']) != '' && trim($ocpt_conf['comms']['to_email']) != '' ) {
 					
 	// Config error check(s)
    if ( $validate_from_email != 'valid' ) {
@@ -420,7 +420,7 @@ app_logging('config_error', 'The portfolio assets formatting is corrupt, or not 
 }
 
 // Check default / dynamic Bitcoin market/pairing configs
-if ( !isset( $ocpt_conf['assets']['BTC']['pairing'][$ocpt_conf['general']['btc_prim_curr_pairing']] ) ) {
+if ( !isset( $ocpt_conf['assets']['BTC']['pairing'][$ocpt_conf['gen']['btc_prim_curr_pairing']] ) ) {
 
 	foreach ( $ocpt_conf['assets']['BTC']['pairing'] as $pairing_key => $unused ) {
 	$avialable_btc_pairings .= strtolower($pairing_key) . ', ';
@@ -428,12 +428,12 @@ if ( !isset( $ocpt_conf['assets']['BTC']['pairing'][$ocpt_conf['general']['btc_p
 	$avialable_btc_pairings = trim($avialable_btc_pairings);
 	$avialable_btc_pairings = rtrim($avialable_btc_pairings,',');
 
-app_logging('config_error', 'Portfolio cannot run properly, because the "btc_prim_curr_pairing" (Bitcoin primary currency pairing) value \''.$ocpt_conf['general']['btc_prim_curr_pairing'].'\' is not a valid Bitcoin pairing option (valid Bitcoin pairing options are: '.$avialable_btc_pairings.')');
+app_logging('config_error', 'Portfolio cannot run properly, because the "btc_prim_curr_pairing" (Bitcoin primary currency pairing) value \''.$ocpt_conf['gen']['btc_prim_curr_pairing'].'\' is not a valid Bitcoin pairing option (valid Bitcoin pairing options are: '.$avialable_btc_pairings.')');
 
 }
-elseif ( !isset( $ocpt_conf['assets']['BTC']['pairing'][$ocpt_conf['general']['btc_prim_curr_pairing']][$ocpt_conf['general']['btc_prim_exchange']] ) ) {
+elseif ( !isset( $ocpt_conf['assets']['BTC']['pairing'][$ocpt_conf['gen']['btc_prim_curr_pairing']][$ocpt_conf['gen']['btc_prim_exchange']] ) ) {
 
-	foreach ( $ocpt_conf['assets']['BTC']['pairing'][$ocpt_conf['general']['btc_prim_curr_pairing']] as $pairing_key => $unused ) {
+	foreach ( $ocpt_conf['assets']['BTC']['pairing'][$ocpt_conf['gen']['btc_prim_curr_pairing']] as $pairing_key => $unused ) {
 		
 		if( stristr($pairing_key, 'bitmex_') == false ) { // Futures markets not allowed
 		$avialable_btc_prim_exchanges .= strtolower($pairing_key) . ', ';
@@ -443,7 +443,7 @@ elseif ( !isset( $ocpt_conf['assets']['BTC']['pairing'][$ocpt_conf['general']['b
 	$avialable_btc_prim_exchanges = trim($avialable_btc_prim_exchanges);
 	$avialable_btc_prim_exchanges = rtrim($avialable_btc_prim_exchanges,',');
 
-app_logging('config_error', 'Portfolio cannot run properly, because the "btc_prim_exchange" (Bitcoin exchange) value \''.$ocpt_conf['general']['btc_prim_exchange'].'\' is not a valid option for \''.$ocpt_conf['general']['btc_prim_curr_pairing'].'\' Bitcoin pairings (valid \''.$ocpt_conf['general']['btc_prim_curr_pairing'].'\' Bitcoin pairing options are: '.$avialable_btc_prim_exchanges.')');
+app_logging('config_error', 'Portfolio cannot run properly, because the "btc_prim_exchange" (Bitcoin exchange) value \''.$ocpt_conf['gen']['btc_prim_exchange'].'\' is not a valid option for \''.$ocpt_conf['gen']['btc_prim_curr_pairing'].'\' Bitcoin pairings (valid \''.$ocpt_conf['gen']['btc_prim_curr_pairing'].'\' Bitcoin pairing options are: '.$avialable_btc_prim_exchanges.')');
 
 }
 

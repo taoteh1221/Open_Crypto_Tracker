@@ -167,7 +167,7 @@ $ocpt_cache->save_file($system_stats_path, $system_stats_data . "\n", "append", 
 // Try to assure file locking from archival chart updating has been released, wait 0.12 seconds before updating lite charts
 usleep(120000); // Wait 0.12 seconds
 		
-	foreach ( $ocpt_conf['power_user']['lite_chart_day_intervals'] as $light_chart_days ) {
+	foreach ( $ocpt_conf['power']['lite_chart_day_intervals'] as $light_chart_days ) {
 	update_lite_chart($system_stats_path, $system_stats_data, $light_chart_days); // WITHOUT newline (var passing)
 	}
 		
@@ -182,7 +182,7 @@ app_logging('system_error', 'time() returned a corrupt value (from power outage 
 
 // If debug mode is on
 // RUN BEFORE plugins (in case custom plugin crashes)
-if ( $ocpt_conf['developer']['debug_mode'] == 'all' || $ocpt_conf['developer']['debug_mode'] == 'all_telemetry' || $ocpt_conf['developer']['debug_mode'] == 'stats' ) {
+if ( $ocpt_conf['dev']['debug'] == 'all' || $ocpt_conf['dev']['debug'] == 'all_telemetry' || $ocpt_conf['dev']['debug'] == 'stats' ) {
 		
 	foreach ( $system_info as $key => $value ) {
 	$system_telemetry .= $key . ': ' . $value . '; ';
@@ -211,7 +211,7 @@ $logs_array = array();
 }
 
 
-// Run any cron-designated plugins activated in pt_conf
+// Run any cron-designated plugins activated in ocpt_conf
 // ALWAYS KEEP PLUGIN RUNTIME LOGIC INLINE (NOT ISOLATED WITHIN A FUNCTION), 
 // SO WE DON'T NEED TO WORRY ABOUT IMPORTING GLOBALS!
 foreach ( $activated_plugins['cron'] as $plugin_key => $plugin_value ) {
@@ -219,6 +219,9 @@ foreach ( $activated_plugins['cron'] as $plugin_key => $plugin_value ) {
 	if ( file_exists($plugin_value) ) {
 		
 	$this_plug = $plugin_key;
+	
+	// This plugin's config (from the global app config)
+	$plug_conf[$this_plug] = $ocpt_conf['plugin_config'][$this_plug]; 
 	
 		// This plugin's functions (only if the file exists)
 		if ( file_exists($base_dir . '/plugins/'.$this_plug.'/plug-lib/plug-class.php') ) {
@@ -230,9 +233,6 @@ foreach ( $activated_plugins['cron'] as $plugin_key => $plugin_value ) {
 			};
 		
 		}
-	
-	// This plugin's config (from the global app config)
-	$plug_conf[$this_plug] = $ocpt_conf['plugin_config'][$this_plug]; 
 	
 	// This plugin's plug-init.php file (runs the plugin)
 	require_once($plugin_value);

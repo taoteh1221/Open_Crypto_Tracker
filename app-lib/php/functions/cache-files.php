@@ -41,7 +41,7 @@ function user_ini_defaults() {
 	
 global $base_dir, $ocpt_conf;
 
-$ui_exec_time = $ocpt_conf['developer']['ui_max_exec_time']; // Don't overwrite globals
+$ui_exec_time = $ocpt_conf['dev']['ui_max_exec_time']; // Don't overwrite globals
 
 	// If the UI timeout var wasn't set properly / is not a whole number 3600 or less
 	if ( !ctype_digit($ui_exec_time) || $ui_exec_time > 3600 ) {
@@ -61,7 +61,7 @@ function htaccess_directory_defaults() {
 	
 global $base_dir, $ocpt_conf;
 
-$ui_exec_time = $ocpt_conf['developer']['ui_max_exec_time']; // Don't overwrite globals
+$ui_exec_time = $ocpt_conf['dev']['ui_max_exec_time']; // Don't overwrite globals
 
 	// If the UI timeout var wasn't set properly / is not a whole number 3600 or less
 	if ( !ctype_digit($ui_exec_time) || $ui_exec_time > 3600 ) {
@@ -280,7 +280,7 @@ global $ocpt_conf, $base_dir, $base_url, $ocpt_cache;
 					
 				$backup_url = $base_url . 'download.php?backup=' . $backup_file;
 				
-				$message = "A backup archive has been created for: ".$backup_prefix."\n\nHere is a link to download the backup to your computer: " . $backup_url . "\n\n(backup archives are purged after " . $ocpt_conf['power_user']['backup_arch_delete_old'] . " days)";
+				$message = "A backup archive has been created for: ".$backup_prefix."\n\nHere is a link to download the backup to your computer: " . $backup_url . "\n\n(backup archives are purged after " . $ocpt_conf['power']['backup_arch_del_old'] . " days)";
 				
 				// Message parameter added for desired comm methods (leave any comm method blank to skip sending via that method)
 				$send_params = array(
@@ -316,7 +316,7 @@ function debugging_logs() {
 
 global $ocpt_conf, $base_dir, $ocpt_cache, $logs_array;
 
-	if ( $ocpt_conf['developer']['debug_mode'] == 'off' ) {
+	if ( $ocpt_conf['dev']['debug'] == 'off' ) {
 	return false;
 	}
 
@@ -346,7 +346,7 @@ $debugging_logs .= strip_tags($logs_array['other_debugging']); // Remove any HTM
 
 
 	// If it's time to email debugging logs...
-	if ( $ocpt_conf['power_user']['logs_email'] > 0 && update_cache('cache/events/email-debugging-logs.dat', ( $ocpt_conf['power_user']['logs_email'] * 1440 ) ) == true ) {
+	if ( $ocpt_conf['power']['logs_email'] > 0 && update_cache('cache/events/email-debugging-logs.dat', ( $ocpt_conf['power']['logs_email'] * 1440 ) ) == true ) {
 		
 	$emailed_logs = "\n\n ------------------debugging.log------------------ \n\n" . file_get_contents('cache/logs/debugging.log') . "\n\n ------------------smtp_debugging.log------------------ \n\n" . file_get_contents('cache/logs/smtp_debugging.log');
 		
@@ -369,7 +369,7 @@ $debugging_logs .= strip_tags($logs_array['other_debugging']); // Remove any HTM
 	
 	
 	// Log debugging...Purge old logs before storing new logs, if it's time to...otherwise just append.
-	if ( update_cache('cache/events/purge-debugging-logs.dat', ( $ocpt_conf['power_user']['logs_purge'] * 1440 ) ) == true ) {
+	if ( update_cache('cache/events/purge-debugging-logs.dat', ( $ocpt_conf['power']['logs_purge'] * 1440 ) ) == true ) {
 	
 	unlink($base_dir . '/cache/logs/smtp_debugging.log');
 	unlink($base_dir . '/cache/logs/debugging.log');
@@ -389,7 +389,7 @@ $debugging_logs .= strip_tags($logs_array['other_debugging']); // Remove any HTM
 			return 'Debugging logs write error for "' . $base_dir . '/cache/logs/debugging.log" (MAKE SURE YOUR DISK ISN\'T FULL), data_size_bytes: ' . strlen($debugging_logs) . ' bytes';
 			}
 			// DEBUGGING ONLY (rules out issues other than full disk)
-			elseif ( $ocpt_conf['developer']['debug_mode'] == 'all' || $ocpt_conf['developer']['debug_mode'] == 'all_telemetry' ) {
+			elseif ( $ocpt_conf['dev']['debug'] == 'all' || $ocpt_conf['dev']['debug'] == 'all_telemetry' ) {
 			return 'Debugging logs write success for "' . $base_dir . '/cache/logs/debugging.log", data_size_bytes: ' . strlen($debugging_logs) . ' bytes';
 			}
 		
@@ -435,7 +435,7 @@ $error_logs .= strip_tags($logs_array['other_error']); // Remove any HTML format
 
 
 	// If it's time to email error logs...
-	if ( $ocpt_conf['power_user']['logs_email'] > 0 && update_cache('cache/events/email-error-logs.dat', ( $ocpt_conf['power_user']['logs_email'] * 1440 ) ) == true ) {
+	if ( $ocpt_conf['power']['logs_email'] > 0 && update_cache('cache/events/email-error-logs.dat', ( $ocpt_conf['power']['logs_email'] * 1440 ) ) == true ) {
 		
 	$emailed_logs = "\n\n ------------------errors.log------------------ \n\n" . file_get_contents('cache/logs/errors.log') . "\n\n ------------------smtp_errors.log------------------ \n\n" . file_get_contents('cache/logs/smtp_errors.log');
 		
@@ -458,7 +458,7 @@ $error_logs .= strip_tags($logs_array['other_error']); // Remove any HTML format
 	
 	
 	// Log errors...Purge old logs before storing new logs, if it's time to...otherwise just append.
-	if ( update_cache('cache/events/purge-error-logs.dat', ( $ocpt_conf['power_user']['logs_purge'] * 1440 ) ) == true ) {
+	if ( update_cache('cache/events/purge-error-logs.dat', ( $ocpt_conf['power']['logs_purge'] * 1440 ) ) == true ) {
 	
 	unlink($base_dir . '/cache/logs/smtp_errors.log');
 	unlink($base_dir . '/cache/logs/errors.log');
@@ -478,7 +478,7 @@ $error_logs .= strip_tags($logs_array['other_error']); // Remove any HTML format
 			return 'Error logs write error for "' . $base_dir . '/cache/logs/errors.log" (MAKE SURE YOUR DISK ISN\'T FULL), data_size_bytes: ' . strlen($error_logs) . ' bytes';
 			}
 			// DEBUGGING ONLY (rules out issues other than full disk)
-			elseif ( $ocpt_conf['developer']['debug_mode'] == 'all' || $ocpt_conf['developer']['debug_mode'] == 'all_telemetry' ) {
+			elseif ( $ocpt_conf['dev']['debug'] == 'all' || $ocpt_conf['dev']['debug'] == 'all_telemetry' ) {
 			return 'Error logs write success for "' . $base_dir . '/cache/logs/errors.log", data_size_bytes: ' . strlen($error_logs) . ' bytes';
 			}
 	
@@ -678,7 +678,7 @@ $lite_path = preg_replace("/archival/i", 'lite/' . $days_span . '_days', $archiv
 	// Hash of lite path, AND random X hours update threshold, to spread out and event-track 'all' chart rebuilding
 	if ( $days_span == 'all' ) {
 	$lite_path_hash = md5($lite_path);
-	$threshold_range = explode(',', $ocpt_conf['developer']['all_chart_rebuild_min_max']);
+	$threshold_range = explode(',', $ocpt_conf['dev']['all_chart_rebuild_min_max']);
 	$all_chart_rebuild_threshold = rand($threshold_range[0], $threshold_range[1]); // Randomly within the min/max range, to spead the load across multiple runtimes
 	}
 
@@ -731,10 +731,10 @@ $oldest_archival_timestamp = $ocpt_var->num_to_str($first_archival_array[0]);
 	
 	// Minimum time interval between data points in lite chart
 	if ( $days_span == 'all' ) {
-	$min_data_interval = round( ($newest_archival_timestamp - $oldest_archival_timestamp) / $ocpt_conf['power_user']['lite_chart_data_points_max'] ); // Dynamic
+	$min_data_interval = round( ($newest_archival_timestamp - $oldest_archival_timestamp) / $ocpt_conf['power']['lite_chart_data_points_max'] ); // Dynamic
 	}
 	else {
-	$min_data_interval = round( ($days_span * 86400) / $ocpt_conf['power_user']['lite_chart_data_points_max'] ); // Fixed X days (86400 seconds per day)
+	$min_data_interval = round( ($days_span * 86400) / $ocpt_conf['power']['lite_chart_data_points_max'] ); // Fixed X days (86400 seconds per day)
 	}
 
 
@@ -829,7 +829,7 @@ $lite_data_update_threshold = $ocpt_var->num_to_str($lite_data_update_threshold)
 		$loop = 0;
 		$data_points = 0;
 		// $data_points <= is INTENTIONAL, as we can have max data points slightly under without it
-		while ( isset($archival_data[$loop]) && $data_points <= $ocpt_conf['power_user']['lite_chart_data_points_max'] ) {
+		while ( isset($archival_data[$loop]) && $data_points <= $ocpt_conf['power']['lite_chart_data_points_max'] ) {
 			
 		$data_point_array = explode("||", $archival_data[$loop]);
 		$data_point_array[0] = $ocpt_var->num_to_str($data_point_array[0]);
@@ -907,11 +907,11 @@ $lite_data_update_threshold = $ocpt_var->num_to_str($lite_data_update_threshold)
 		
 	$_SESSION['lite_charts_updated'] = $_SESSION['lite_charts_updated'] + 1;
 			
-		if ( $ocpt_conf['developer']['debug_mode'] == 'all' || $ocpt_conf['developer']['debug_mode'] == 'all_telemetry' || $ocpt_conf['developer']['debug_mode'] == 'lite_chart_telemetry' ) {
+		if ( $ocpt_conf['dev']['debug'] == 'all' || $ocpt_conf['dev']['debug'] == 'all_telemetry' || $ocpt_conf['dev']['debug'] == 'lite_chart_telemetry' ) {
 		app_logging( 'cache_debugging', 'Lite chart ' . $lite_mode_logging . ' COMPLETED ('.$_SESSION['lite_charts_updated'].') for ' . $lite_path);
 		}
 			
-		if ( $ocpt_conf['developer']['debug_mode'] == 'all' || $ocpt_conf['developer']['debug_mode'] == 'all_telemetry' || $ocpt_conf['developer']['debug_mode'] == 'memory_usage_telemetry' ) {
+		if ( $ocpt_conf['dev']['debug'] == 'all' || $ocpt_conf['dev']['debug'] == 'all_telemetry' || $ocpt_conf['dev']['debug'] == 'memory_usage_telemetry' ) {
 		app_logging('system_debugging', $_SESSION['lite_charts_updated'] . ' lite charts updated, CURRENT script memory usage is ' . convert_bytes(memory_get_usage(), 1) . ', PEAK script memory usage is ' . convert_bytes(memory_get_peak_usage(), 1) . ', php_sapi_name is "' . php_sapi_name() . '"' );
 		}
 			
@@ -1066,7 +1066,7 @@ $messages_queue = sort_files($base_dir . '/cache/secured/messages', 'queue', 'as
 					
 					$ocpt_cache->save_file($base_dir . '/cache/events/throttling/notifyme-alerts-sent.dat', $processed_messages['notifyme_count']); 
 					
-						if ( $ocpt_conf['developer']['debug_mode'] == 'all' || $ocpt_conf['developer']['debug_mode'] == 'all_telemetry' || $ocpt_conf['developer']['debug_mode'] == 'api_comms_telemetry' ) {
+						if ( $ocpt_conf['dev']['debug'] == 'all' || $ocpt_conf['dev']['debug'] == 'all_telemetry' || $ocpt_conf['dev']['debug'] == 'api_comms_telemetry' ) {
 						$ocpt_cache->save_file($base_dir . '/cache/logs/debugging/external_api/last-response-notifyme.log', $notifyme_response);
 						}
 					
@@ -1097,7 +1097,7 @@ $messages_queue = sort_files($base_dir . '/cache/secured/messages', 'queue', 'as
 				
 				$message_sent = 1;
 			   
-			   	if ( $ocpt_conf['developer']['debug_mode'] == 'all' || $ocpt_conf['developer']['debug_mode'] == 'all_telemetry' || $ocpt_conf['developer']['debug_mode'] == 'api_comms_telemetry' ) {
+			   	if ( $ocpt_conf['dev']['debug'] == 'all' || $ocpt_conf['dev']['debug'] == 'all_telemetry' || $ocpt_conf['dev']['debug'] == 'api_comms_telemetry' ) {
 					$ocpt_cache->save_file($base_dir . '/cache/logs/debugging/external_api/last-response-textbelt.log', $textbelt_response);
 					}
 				
@@ -1124,7 +1124,7 @@ $messages_queue = sort_files($base_dir . '/cache/secured/messages', 'queue', 'as
 				
 				$message_sent = 1;
 			   
-			   	if ( $ocpt_conf['developer']['debug_mode'] == 'all' || $ocpt_conf['developer']['debug_mode'] == 'all_telemetry' || $ocpt_conf['developer']['debug_mode'] == 'api_comms_telemetry' ) {
+			   	if ( $ocpt_conf['dev']['debug'] == 'all' || $ocpt_conf['dev']['debug'] == 'all_telemetry' || $ocpt_conf['dev']['debug'] == 'api_comms_telemetry' ) {
 					$ocpt_cache->save_file($base_dir . '/cache/logs/debugging/external_api/last-response-textlocal.log', $textlocal_response);
 					}
 				
@@ -1159,7 +1159,7 @@ $messages_queue = sort_files($base_dir . '/cache/secured/messages', 'queue', 'as
 			   	}
 			   		
 			   
-			   	if ( $ocpt_conf['developer']['debug_mode'] == 'all' || $ocpt_conf['developer']['debug_mode'] == 'all_telemetry' || $ocpt_conf['developer']['debug_mode'] == 'api_comms_telemetry' ) {
+			   	if ( $ocpt_conf['dev']['debug'] == 'all' || $ocpt_conf['dev']['debug'] == 'all_telemetry' || $ocpt_conf['dev']['debug'] == 'api_comms_telemetry' ) {
 					$ocpt_cache->save_file($base_dir . '/cache/logs/debugging/external_api/last-response-telegram.log', $telegram_response);
 					}
 				
@@ -1305,7 +1305,7 @@ $messages_queue = sort_files($base_dir . '/cache/secured/messages', 'queue', 'as
 	   // Does the current runtime user own this file?
 		if ( isset($current_runtime_user) && $current_runtime_user == $file_owner_info['name'] ) {
 		
-		$chmod_setting = octdec($ocpt_conf['developer']['chmod_cache_file']);
+		$chmod_setting = octdec($ocpt_conf['dev']['chmod_cache_file']);
 		
 			// Run chmod compatibility on certain PHP setups
 			if ( !$http_runtime_user || isset($http_runtime_user) && in_array($http_runtime_user, $possible_http_users) ) {

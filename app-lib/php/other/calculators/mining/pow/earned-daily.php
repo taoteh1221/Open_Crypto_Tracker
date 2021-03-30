@@ -10,11 +10,11 @@
 				<b>Current <?=$pow_coin_data['name']?> Value Per Coin:</b> 
 				
 				<?php
-				$value_per_coin = round( $mined_coin_value * $selected_btc_prim_curr_value , 8);
+				$value_per_coin = round( $mined_coin_value * $sel_btc_prim_curr_value , 8);
 				
-				$value_per_coin = ( $ocpt_var->num_to_str($value_per_coin) >= $ocpt_conf['general']['prim_curr_dec_max_thres'] ? round($value_per_coin, 2) : round($value_per_coin, $ocpt_conf['general']['prim_curr_dec_max']) );
+				$value_per_coin = ( $ocpt_var->num_to_str($value_per_coin) >= $ocpt_conf['gen']['prim_curr_dec_max_thres'] ? round($value_per_coin, 2) : round($value_per_coin, $ocpt_conf['gen']['prim_curr_dec_max']) );
 				
-				echo ( $pow_coin_data['symbol'] == 'btc' ? number_format($selected_btc_prim_curr_value, 2) . ' ' . strtoupper($ocpt_conf['general']['btc_prim_curr_pairing']) : number_format($mined_coin_value, 8) . ' BTC (' . $ocpt_conf['power_user']['btc_currency_markets'][$ocpt_conf['general']['btc_prim_curr_pairing']] . $value_per_coin . ' '.strtoupper($ocpt_conf['general']['btc_prim_curr_pairing']).')' );
+				echo ( $pow_coin_data['symbol'] == 'btc' ? number_format($sel_btc_prim_curr_value, 2) . ' ' . strtoupper($ocpt_conf['gen']['btc_prim_curr_pairing']) : number_format($mined_coin_value, 8) . ' BTC (' . $ocpt_conf['power']['btc_curr_markets'][$ocpt_conf['gen']['btc_prim_curr_pairing']] . $value_per_coin . ' '.strtoupper($ocpt_conf['gen']['btc_prim_curr_pairing']).')' );
 				?>
 				
 				<br />
@@ -42,9 +42,9 @@
 				<b>Average BTC Value Earned Daily:</b> 
 				
 				<?php
-				$prim_curr_daily_average_raw = ( $ocpt_var->num_to_str($prim_curr_daily_average_raw) >= $ocpt_conf['general']['prim_curr_dec_max_thres'] ? round($prim_curr_daily_average_raw, 2) : round($prim_curr_daily_average_raw, $ocpt_conf['general']['prim_curr_dec_max']) );
+				$prim_curr_daily_average_raw = ( $ocpt_var->num_to_str($prim_curr_daily_average_raw) >= $ocpt_conf['gen']['prim_curr_dec_max_thres'] ? round($prim_curr_daily_average_raw, 2) : round($prim_curr_daily_average_raw, $ocpt_conf['gen']['prim_curr_dec_max']) );
 				
-				echo number_format( $btc_daily_average_raw, 8 ) . ' BTC (' . $ocpt_conf['power_user']['btc_currency_markets'][$ocpt_conf['general']['btc_prim_curr_pairing']] . $prim_curr_daily_average_raw . ' '.strtoupper($ocpt_conf['general']['btc_prim_curr_pairing']).')';
+				echo number_format( $btc_daily_average_raw, 8 ) . ' BTC (' . $ocpt_conf['power']['btc_curr_markets'][$ocpt_conf['gen']['btc_prim_curr_pairing']] . $prim_curr_daily_average_raw . ' '.strtoupper($ocpt_conf['gen']['btc_prim_curr_pairing']).')';
 				?>
 				
 				<br />
@@ -53,7 +53,7 @@
 				<span class='red'><b>Power Cost Daily:</b> 
 				
 				<?php
-				echo $ocpt_conf['power_user']['btc_currency_markets'][$ocpt_conf['general']['btc_prim_curr_pairing']] . number_format($kwh_cost_daily, 2);
+				echo $ocpt_conf['power']['btc_curr_markets'][$ocpt_conf['gen']['btc_prim_curr_pairing']] . number_format($kwh_cost_daily, 2);
 				?>
 				
 				</span> 
@@ -64,7 +64,7 @@
 				<span class='red'><b>Pool Fee Daily:</b> 
 				
 				<?php
-				echo $ocpt_conf['power_user']['btc_currency_markets'][$ocpt_conf['general']['btc_prim_curr_pairing']] . number_format($pool_fee_daily, 2);
+				echo $ocpt_conf['power']['btc_curr_markets'][$ocpt_conf['gen']['btc_prim_curr_pairing']] . number_format($pool_fee_daily, 2);
 				?>
 				
 				</span> 
@@ -88,7 +88,7 @@
 				<b><span class="<?=$mining_daily_profit_span?>">Daily Profit:</span></b> 
 				
 				<?php
-				echo '<span class="'.$mining_daily_profit_span.'">' . $ocpt_conf['power_user']['btc_currency_markets'][$ocpt_conf['general']['btc_prim_curr_pairing']] . number_format($mining_daily_profit, 2) . '</span>';
+				echo '<span class="'.$mining_daily_profit_span.'">' . $ocpt_conf['power']['btc_curr_markets'][$ocpt_conf['gen']['btc_prim_curr_pairing']] . number_format($mining_daily_profit, 2) . '</span>';
 				?>
 				
 				<br />
@@ -116,7 +116,7 @@
 				<b>Average BTC Value Earned Weekly:</b> 
 				
 				<?php
-				echo number_format( $btc_daily_average_raw * 7 , 8) . ' BTC (' . $ocpt_conf['power_user']['btc_currency_markets'][$ocpt_conf['general']['btc_prim_curr_pairing']] . number_format( $prim_curr_daily_average_raw * 7 , 2) . ' '.strtoupper($ocpt_conf['general']['btc_prim_curr_pairing']).')';
+				echo number_format( $btc_daily_average_raw * 7 , 8) . ' BTC (' . $ocpt_conf['power']['btc_curr_markets'][$ocpt_conf['gen']['btc_prim_curr_pairing']] . number_format( $prim_curr_daily_average_raw * 7 , 2) . ' '.strtoupper($ocpt_conf['gen']['btc_prim_curr_pairing']).')';
 				?>
 				
 				<br />
@@ -125,7 +125,7 @@
 				<span class='red'><b>Power Cost Weekly:</b> 
 				
 				<?php
-				echo $ocpt_conf['power_user']['btc_currency_markets'][$ocpt_conf['general']['btc_prim_curr_pairing']] . number_format($kwh_cost_daily * 7, 2);
+				echo $ocpt_conf['power']['btc_curr_markets'][$ocpt_conf['gen']['btc_prim_curr_pairing']] . number_format($kwh_cost_daily * 7, 2);
 				?>
 				
 				</span>
@@ -136,7 +136,7 @@
 				<span class='red'><b>Pool Fee Weekly:</b> 
 				
 				<?php
-				echo $ocpt_conf['power_user']['btc_currency_markets'][$ocpt_conf['general']['btc_prim_curr_pairing']] . number_format($pool_fee_daily * 7, 2);
+				echo $ocpt_conf['power']['btc_curr_markets'][$ocpt_conf['gen']['btc_prim_curr_pairing']] . number_format($pool_fee_daily * 7, 2);
 				?>
 				
 				</span>
@@ -147,7 +147,7 @@
 				<b><span class="<?=$mining_daily_profit_span?>">Weekly Profit:</span></b> 
 				
 				<?php
-				echo '<span class="'.$mining_daily_profit_span.'">' . $ocpt_conf['power_user']['btc_currency_markets'][$ocpt_conf['general']['btc_prim_curr_pairing']] . number_format( ($mining_daily_profit * 7) , 2) . '</span>';
+				echo '<span class="'.$mining_daily_profit_span.'">' . $ocpt_conf['power']['btc_curr_markets'][$ocpt_conf['gen']['btc_prim_curr_pairing']] . number_format( ($mining_daily_profit * 7) , 2) . '</span>';
 				?>
 				
 				<br />

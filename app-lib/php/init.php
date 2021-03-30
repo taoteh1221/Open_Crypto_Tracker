@@ -26,7 +26,7 @@ date_default_timezone_set('UTC');
 
 
 // If debugging is enabled, turn on all PHP error reporting (BEFORE ANYTHING ELSE RUNS)
-if ( $ocpt_conf['developer']['debug_mode'] != 'off' ) {
+if ( $ocpt_conf['dev']['debug'] != 'off' ) {
 error_reporting(1); 
 }
 else {
@@ -35,23 +35,23 @@ error_reporting(0);
 
 
 // Set a max execution time (if the system lets us), TO AVOID RUNAWAY PROCESSES FREEZING THE SERVER
-if ( $ocpt_conf['developer']['debug_mode'] != 'off' ) {
+if ( $ocpt_conf['dev']['debug'] != 'off' ) {
 $max_exec_time = 600; // 10 minutes in debug mode
 }
 elseif ( $runtime_mode == 'ui' ) {
-$max_exec_time = $ocpt_conf['developer']['ui_max_exec_time'];
+$max_exec_time = $ocpt_conf['dev']['ui_max_exec_time'];
 }
 elseif ( $runtime_mode == 'ajax' ) {
-$max_exec_time = $ocpt_conf['developer']['ajax_max_exec_time'];
+$max_exec_time = $ocpt_conf['dev']['ajax_max_exec_time'];
 }
 elseif ( $runtime_mode == 'cron' ) {
-$max_exec_time = $ocpt_conf['developer']['cron_max_exec_time'];
+$max_exec_time = $ocpt_conf['dev']['cron_max_exec_time'];
 }
 elseif ( $runtime_mode == 'int_api' ) {
-$max_exec_time = $ocpt_conf['developer']['int_api_max_exec_time'];
+$max_exec_time = $ocpt_conf['dev']['int_api_max_exec_time'];
 }
 elseif ( $runtime_mode == 'webhook' ) {
-$max_exec_time = $ocpt_conf['developer']['webhook_max_exec_time'];
+$max_exec_time = $ocpt_conf['dev']['webhook_max_exec_time'];
 }
 
 
@@ -148,14 +148,14 @@ $base_url = base_url();
 
 // Set $ocpt_app_id as a global (MUST BE SET AFTER $base_url / $base_dir)
 // (a 10 character install ID hash, created from the base URL or base dir [if cron])
-// AFTER THIS IS SET, WE CAN USE EITHER $ocpt_app_id OR pt_app_id() RELIABLY / EFFICIENTLY ANYWHERE
-// pt_app_id() can then be used in functions WITHOUT NEEDING ANY $ocpt_app_id GLOBAL DECLARED.
-$ocpt_app_id = pt_app_id();
+// AFTER THIS IS SET, WE CAN USE EITHER $ocpt_app_id OR ocpt_app_id() RELIABLY / EFFICIENTLY ANYWHERE
+// ocpt_app_id() can then be used in functions WITHOUT NEEDING ANY $ocpt_app_id GLOBAL DECLARED.
+$ocpt_app_id = ocpt_app_id();
 
 
 // Give our session a unique name 
-// MUST BE SET AFTER $ocpt_app_id / first pt_app_id() call
-session_name( pt_app_id() );
+// MUST BE SET AFTER $ocpt_app_id / first ocpt_app_id() call
+session_name( ocpt_app_id() );
 
 
 // Current runtime user
@@ -166,6 +166,7 @@ $current_runtime_user = posix_getpwuid(posix_geteuid())['name'];
 // MUST BE SET BEFORE CACHE STRUCTURE CREATION, TO RUN IN COMPATIBILITY MODE (IF NEEDED) FOR THIS PARTICULAR SERVER'S SETUP
 // WE HAVE FALLBACKS IF THIS IS NULL IN $ocpt_cache->save_file() WHEN WE STORE CACHE FILES, SO A BRAND NEW INTALL RUN FIRST VIA CRON IS #OK#
 $http_runtime_user = ( $runtime_mode != 'cron' ? $current_runtime_user : trim( file_get_contents('cache/vars/http_runtime_user.dat') ) );
+
 
 
 //////////////////////////////////////////////////////////////
@@ -196,7 +197,7 @@ if ( $_GET['logout'] == 1 && admin_hashed_nonce('logout') != false && $_GET['adm
 hardy_session_clearing(); 
 
 // Delete admin login cookie
-unset($_COOKIE['admin_auth_' . pt_app_id()]); 
+unset($_COOKIE['admin_auth_' . ocpt_app_id()]); 
 
 header("Location: index.php");
 exit;
@@ -214,17 +215,17 @@ if ( $_POST['admin_submit_register'] || $_POST['admin_submit_login'] || $_POST['
 	
 	
 		if ( $_POST['admin_submit_register'] ) {
-		$theme_selected = ( $_COOKIE['theme_selected'] ? $_COOKIE['theme_selected'] : $ocpt_conf['general']['default_theme'] );
+		$theme_selected = ( $_COOKIE['theme_selected'] ? $_COOKIE['theme_selected'] : $ocpt_conf['gen']['default_theme'] );
 		require("templates/interface/desktop/php/admin/admin-login/register.php");
 		exit;
 		}
 		elseif ( $_POST['admin_submit_login'] ) {
-		$theme_selected = ( $_COOKIE['theme_selected'] ? $_COOKIE['theme_selected'] : $ocpt_conf['general']['default_theme'] );
+		$theme_selected = ( $_COOKIE['theme_selected'] ? $_COOKIE['theme_selected'] : $ocpt_conf['gen']['default_theme'] );
 		require("templates/interface/desktop/php/admin/admin-login/login.php");
 		exit;
 		}
 		elseif ( $_POST['admin_submit_reset'] ) {
-		$theme_selected = ( $_COOKIE['theme_selected'] ? $_COOKIE['theme_selected'] : $ocpt_conf['general']['default_theme'] );
+		$theme_selected = ( $_COOKIE['theme_selected'] ? $_COOKIE['theme_selected'] : $ocpt_conf['gen']['default_theme'] );
 		require("templates/interface/desktop/php/admin/admin-login/reset.php");
 		exit;
 		}
@@ -289,7 +290,7 @@ require_once('app-lib/php/other/coinmarketcap-currencies.php');
 // Set as global, to update in / out of functions as needed
 $upgraded_ocpt_conf = array();
 
-$interface_login_array = explode("||", $ocpt_conf['general']['interface_login']);
+$interface_login_array = explode("||", $ocpt_conf['gen']['interface_login']);
 					
 // HTTP SERVER setup detection variables (for cache compatibility auto-configuration)
 // MUST BE SET BEFORE CACHE STRUCTURE CREATION, TO RUN IN COMPATIBILITY MODE FOR THIS PARTICULAR SERVER'S SETUP
@@ -345,8 +346,8 @@ $telegram_activated = 1;
 }
 
 // User agent (MUST BE SET EARLY [BUT AFTER SYSTEM INFO VAR], FOR ANY API CALLS WHERE USER AGENT IS REQUIRED BY THE API SERVER)
-if ( trim($ocpt_conf['developer']['override_user_agent']) != '' ) {
-$user_agent = $ocpt_conf['developer']['override_user_agent'];  // Custom user agent
+if ( trim($ocpt_conf['dev']['override_user_agent']) != '' ) {
+$user_agent = $ocpt_conf['dev']['override_user_agent'];  // Custom user agent
 }
 elseif ( sizeof($ocpt_conf['proxy']['proxy_list']) > 0 ) {
 $user_agent = 'Curl/' .$curl_setup["version"]. ' ('.PHP_OS.'; compatible;)';  // If proxies in use, preserve some privacy
@@ -429,19 +430,20 @@ $base_url = trim( file_get_contents('cache/vars/base_url.dat') );
 }
 
 
+
 // Basic system checks (before allowing app to run ANY FURTHER, MUST RUN AFTER directory creation check / http server user vars / user agent var)
 require_once('app-lib/php/other/debugging/system-checks.php');
 
 // Plugins config (MUST RUN AFTER system checks and BEFORE secure cache files)
 require_once('app-lib/php/other/plugins-config.php');
 
-// SET original pt_conf array AFTER plugins config, BEFORE secure cache files, and BEFORE dynamic app config management
+// SET original ocpt_conf array AFTER plugins config, BEFORE secure cache files, and BEFORE dynamic app config management
 $default_ocpt_conf = $ocpt_conf; 
 
 // SECURED cache files management (MUST RUN AFTER system checks and AFTER plugins config)
 require_once('app-lib/php/other/security/secure-cache-files.php');
 
-// Dynamic app config management (MUST RUN AFTER secure cache files FOR CACHED / config.php pt_conf comparison)
+// Dynamic app config management (MUST RUN AFTER secure cache files FOR CACHED / config.php ocpt_conf comparison)
 require_once('app-lib/php/other/app-config-management.php');
 
 // Load any activated 3RD PARTY classes (MUST RUN AS EARLY AS POSSIBLE #AFTER SECURE CACHE FILES / APP CONFIG MANAGEMENT#)
@@ -469,8 +471,9 @@ require_once('app-lib/php/other/debugging/config-checks.php');
 require_once('app-lib/php/other/scheduled-maintenance.php');
 
 
+
 // Unit tests to run in debug mode (MUST RUN AT THE VERY END OF INIT.PHP)
-if ( $ocpt_conf['developer']['debug_mode'] != 'off' ) {
+if ( $ocpt_conf['dev']['debug'] != 'off' ) {
 require_once('app-lib/php/other/debugging/tests.php');
 require_once('app-lib/php/other/debugging/exchange-and-pairing-info.php');
 }

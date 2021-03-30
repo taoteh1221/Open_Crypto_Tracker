@@ -84,10 +84,10 @@ api_request.setRequestHeader("Content-type", "application/x-www-form-urlencoded"
 <?php
 if ( $htaccess_username != '' && $htaccess_password != '' ) {
 ?>
-// Our API has a rate limit of once every <?=$ocpt_conf['developer']['local_api_rate_limit']?> seconds,
-// so we must wait to reconnect after the htaccess authentication (<?=$ocpt_conf['developer']['local_api_rate_limit']?> + 1 seconds)
+// Our API has a rate limit of once every <?=$ocpt_conf['dev']['local_api_rate_limit']?> seconds,
+// so we must wait to reconnect after the htaccess authentication (<?=$ocpt_conf['dev']['local_api_rate_limit']?> + 1 seconds)
 // ANY CONSECUTIVE CALLS #DON'T NEED# THE TIMEOUT (since htaccess is already logged in): api_request.send(params);
-setTimeout(function(){ api_request.send(params); }, <?=( ($ocpt_conf['developer']['local_api_rate_limit'] + 1) * 1000)?>);
+setTimeout(function(){ api_request.send(params); }, <?=( ($ocpt_conf['dev']['local_api_rate_limit'] + 1) * 1000)?>);
 <?php
 }
 else {
@@ -182,13 +182,13 @@ var_dump($api_data_array);
             "market": {
                 "usd": {
                     "spot_price": 9310,
-                    "24hr_volume": 92767266
+                    "24hr_vol": 92767266
                 }
             },
             "conversion": {
                 "eur": {
                     "spot_price": 8611.49,
-                    "24hr_volume": 85807151
+                    "24hr_vol": 85807151
                 }
             }
         },
@@ -196,13 +196,13 @@ var_dump($api_data_array);
             "market": {
                 "usdc": {
                     "spot_price": 1.01,
-                    "24hr_volume": 194164
+                    "24hr_vol": 194164
                 }
             },
             "conversion": {
                 "eur": {
                     "spot_price": 0.93,
-                    "24hr_volume": 179463
+                    "24hr_vol": 179463
                 }
             }
         },
@@ -210,13 +210,13 @@ var_dump($api_data_array);
             "market": {
                 "usd": {
                     "spot_price": 208.95,
-                    "24hr_volume": 25066317
+                    "24hr_vol": 25066317
                 }
             },
             "conversion": {
                 "eur": {
                     "spot_price": 193.27,
-                    "24hr_volume": 23185648
+                    "24hr_vol": 23185648
                 }
             }
         }
@@ -235,7 +235,7 @@ var_dump($api_data_array);
             "market": {
                 "usd": {
                     "spot_price": 9279.4,
-                    "24hr_volume": 92642284
+                    "24hr_vol": 92642284
                 }
             }
         },
@@ -243,7 +243,7 @@ var_dump($api_data_array);
             "market": {
                 "usdc": {
                     "spot_price": 1.01,
-                    "24hr_volume": 199527
+                    "24hr_vol": 199527
                 }
             }
         },
@@ -251,7 +251,7 @@ var_dump($api_data_array);
             "market": {
                 "usd": {
                     "spot_price": 207.85,
-                    "24hr_volume": 25135615
+                    "24hr_vol": 25135615
                 }
             }
         }

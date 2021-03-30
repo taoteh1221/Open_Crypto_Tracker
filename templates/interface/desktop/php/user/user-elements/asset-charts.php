@@ -6,7 +6,7 @@
 
 	
 // Have this script not load any code if asset charts are not turned on
-if ( $ocpt_conf['general']['asset_charts_toggle'] == 'on' ) {
+if ( $ocpt_conf['gen']['asset_charts_toggle'] == 'on' ) {
 
 $charted_value = ( $chart_mode == 'pairing' ? $alerts_market_parse[1] : $default_btc_prim_curr_pairing );
 		
@@ -95,7 +95,7 @@ zingchart.bind('<?=strtolower($key)?>_<?=$charted_value?>_chart', 'label_click',
   switch(e.labelid) {
   	
   	<?php
-	foreach ($ocpt_conf['power_user']['lite_chart_day_intervals'] as $lite_chart_days) {
+	foreach ($ocpt_conf['power']['lite_chart_day_intervals'] as $lite_chart_days) {
 	?>	
 	
     case '<?=$lite_chart_days?>':

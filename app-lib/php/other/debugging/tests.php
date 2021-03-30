@@ -16,7 +16,7 @@ if ( $runtime_mode == 'ui' ) {
 
 
 	// Check configured charts and price alerts
-	if ( $ocpt_conf['developer']['debug_mode'] == 'all' || $ocpt_conf['developer']['debug_mode'] == 'alerts_charts' ) {
+	if ( $ocpt_conf['dev']['debug'] == 'all' || $ocpt_conf['dev']['debug'] == 'alerts_charts' ) {
 		
 		foreach ( $ocpt_conf['charts_alerts']['tracked_markets'] as $key => $value ) {
 				
@@ -35,7 +35,7 @@ if ( $runtime_mode == 'ui' ) {
 			app_logging('market_error', 'No chart / alert price data available', 'chart_key: ' . $key . '; market: ' . $check_asset . ' / ' . strtoupper($check_asset_params[1]) . ' @ ' . ucfirst($check_asset_params[0]) );
 			}
 			
-			if ( $charts_test_data['24hr_prim_curr_volume'] == NULL || $charts_test_data['24hr_prim_curr_volume'] < 1 ) {
+			if ( $charts_test_data['24hr_prim_curr_vol'] == NULL || $charts_test_data['24hr_prim_curr_vol'] < 1 ) {
 			app_logging('market_error', 'No chart / alert volume data available', 'chart_key: ' . $key . '; market: ' . $check_asset . ' / ' . strtoupper($check_asset_params[1]) . ' @ ' . ucfirst($check_asset_params[0]) );
 			}
 				
@@ -48,7 +48,7 @@ if ( $runtime_mode == 'ui' ) {
 	
 	
 	// Check configured email to mobile text gateways
-	if ( $ocpt_conf['developer']['debug_mode'] == 'all' || $ocpt_conf['developer']['debug_mode'] == 'texts' ) {
+	if ( $ocpt_conf['dev']['debug'] == 'all' || $ocpt_conf['dev']['debug'] == 'texts' ) {
 	
 		foreach ( $ocpt_conf['mob_net_txt_gateways'] as $key => $value ) {
 			
@@ -70,7 +70,7 @@ if ( $runtime_mode == 'ui' ) {
 	
 	
 	// Check configured coin markets
-	if ( $ocpt_conf['developer']['debug_mode'] == 'all' || $ocpt_conf['developer']['debug_mode'] == 'markets' ) {
+	if ( $ocpt_conf['dev']['debug'] == 'all' || $ocpt_conf['dev']['debug'] == 'markets' ) {
 		
 		foreach ( $ocpt_conf['assets'] as $coin_key => $coin_value ) {
 		
@@ -89,7 +89,7 @@ if ( $runtime_mode == 'ui' ) {
 						app_logging('market_error', 'No market price data available for ' . strtoupper($coin_key) . ' / ' . strtoupper($pairing_key) . ' @ ' . snake_case_to_name($key) );
 						}
 					
-						if ( $markets_test_data['24hr_prim_curr_volume'] == NULL || $markets_test_data['24hr_prim_curr_volume'] < 1 ) {
+						if ( $markets_test_data['24hr_prim_curr_vol'] == NULL || $markets_test_data['24hr_prim_curr_vol'] < 1 ) {
 						app_logging('market_error', 'No market volume data available for ' . strtoupper($coin_key) . ' / ' . strtoupper($pairing_key) . ' @ ' . snake_case_to_name($key) );
 						}
 					

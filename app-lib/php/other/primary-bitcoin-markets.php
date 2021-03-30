@@ -13,17 +13,17 @@
 
 // If end user tries to use a FUTURES MARKET as the primary bitcoin exchange name,
 // we disable and trigger a warning (SINCE VALUES OFTEN DON'T REFLECT NORMAL MARKETS)
-if ( stristr($ocpt_conf['general']['btc_prim_exchange'], 'bitmex_') != false ) {
-app_logging('config_error', 'btc_prim_exchange variable not properly set (futures markets are not allowed)', 'btc_prim_exchange: ' . $ocpt_conf['general']['btc_prim_exchange'] . ';' );
-$ocpt_conf['general']['btc_prim_exchange'] = 'futures_markets_not_allowed';
+if ( stristr($ocpt_conf['gen']['btc_prim_exchange'], 'bitmex_') != false ) {
+app_logging('config_error', 'btc_prim_exchange variable not properly set (futures markets are not allowed)', 'btc_prim_exchange: ' . $ocpt_conf['gen']['btc_prim_exchange'] . ';' );
+$ocpt_conf['gen']['btc_prim_exchange'] = 'futures_markets_not_allowed';
 }
 
 
 // Re-set default primary currency 'pref_bitcoin_markets' value, ONLY IF THIS VALUE #EXISTS ALREADY#
 // (for UX, to override the pre-existing value...if we have set this as the global default currency market, we obviously prefer it)
 // SHOULD ONLY BE STATIC, NOT MANIPULATEBLE DYNAMICALLY IN THE INTERFACE...SO WE JUST RUN EARLY HERE ONLY IN INIT.
-if ( isset($ocpt_conf['power_user']['btc_pref_currency_markets'][$ocpt_conf['general']['btc_prim_curr_pairing']]) ) {
-$ocpt_conf['power_user']['btc_pref_currency_markets'][$ocpt_conf['general']['btc_prim_curr_pairing']] = $ocpt_conf['general']['btc_prim_exchange'];
+if ( isset($ocpt_conf['power']['btc_pref_currency_markets'][$ocpt_conf['gen']['btc_prim_curr_pairing']]) ) {
+$ocpt_conf['power']['btc_pref_currency_markets'][$ocpt_conf['gen']['btc_prim_curr_pairing']] = $ocpt_conf['gen']['btc_prim_exchange'];
 }
 
 
@@ -31,10 +31,10 @@ $ocpt_conf['power_user']['btc_pref_currency_markets'][$ocpt_conf['general']['btc
 // Set chart/alert default Bitcoin markets
 // BEFORE DEFAULT BITCOIN MARKET IS DYNAMICALLY MANIPULATED (during UI runtime)
 // We NEVER change BTC / currency_market value FOR CHARTS/ALERTS (during cron runtime), 
-// so move the default $ocpt_conf['general']['btc_prim_curr_pairing'] / $ocpt_conf['general']['btc_prim_exchange'] values into their own chart/alerts related variables,
-// before dynamic updating of $ocpt_conf['general']['btc_prim_curr_pairing'] / $ocpt_conf['general']['btc_prim_exchange']
-$default_btc_prim_curr_pairing = $ocpt_conf['general']['btc_prim_curr_pairing']; 
-$default_btc_prim_exchange = $ocpt_conf['general']['btc_prim_exchange'];
+// so move the default $ocpt_conf['gen']['btc_prim_curr_pairing'] / $ocpt_conf['gen']['btc_prim_exchange'] values into their own chart/alerts related variables,
+// before dynamic updating of $ocpt_conf['gen']['btc_prim_curr_pairing'] / $ocpt_conf['gen']['btc_prim_exchange']
+$default_btc_prim_curr_pairing = $ocpt_conf['gen']['btc_prim_curr_pairing']; 
+$default_btc_prim_exchange = $ocpt_conf['gen']['btc_prim_exchange'];
 
 
 
@@ -66,6 +66,7 @@ $ocpt_cache->save_file($base_dir . '/cache/vars/default_btc_prim_curr_pairing.da
 
 
 
+
 // Charts / alerts / etc
 if ( $runtime_mode == 'cron' || $runtime_mode == 'int_api' || $runtime_mode == 'webhook' ) {
 
@@ -91,8 +92,8 @@ if ( $runtime_mode == 'cron' || $runtime_mode == 'int_api' || $runtime_mode == '
 // Set bitcoin market configs THAT ARE USUALLY DYNAMIC IN THE INTERFACE, to be the static default values during cron runtimes
 // (may change these to be dynamic in cron runtimes someday for a currently unforseen reason,
 // so let's keep dynamic and default bitcoin market variables as separate entities for now)
-$selected_btc_pairing_id = $default_btc_pairing_id;
-$selected_btc_prim_curr_value = $default_btc_prim_curr_value;
+$sel_btc_pairing_id = $default_btc_pairing_id;
+$sel_btc_prim_curr_value = $default_btc_prim_curr_value;
 
 
 }
@@ -103,11 +104,11 @@ else {
     // If Stand-Alone Currency Market has been enabled (Settings page), REPLACE/OVERWRITE Bitcoin market config defaults
     if ( $_POST['prim_curr_market_standalone'] || $_COOKIE['prim_curr_market_standalone'] ) {
     $prim_curr_market_standalone = explode("|", ( $_POST['prim_curr_market_standalone'] != '' ? $_POST['prim_curr_market_standalone'] : $_COOKIE['prim_curr_market_standalone'] ) );
-    $ocpt_conf['general']['btc_prim_curr_pairing'] = $prim_curr_market_standalone[0]; // MUST RUN !BEFORE! btc_market() CALL BELOW, OR INCORRECT VALUE DETERMINED FOR btc_market() CALL
-    $ocpt_conf['general']['btc_prim_exchange'] = btc_market($prim_curr_market_standalone[1] - 1);
+    $ocpt_conf['gen']['btc_prim_curr_pairing'] = $prim_curr_market_standalone[0]; // MUST RUN !BEFORE! btc_market() CALL BELOW, OR INCORRECT VALUE DETERMINED FOR btc_market() CALL
+    $ocpt_conf['gen']['btc_prim_exchange'] = btc_market($prim_curr_market_standalone[1] - 1);
     
-        if ( is_array($ocpt_conf['assets']) ) {
-       $ocpt_conf['assets']['MISCASSETS']['name'] = 'Misc. '.strtoupper($ocpt_conf['general']['btc_prim_curr_pairing']).' Value';
+       if ( is_array($ocpt_conf['assets']) ) {
+       $ocpt_conf['assets']['MISCASSETS']['name'] = 'Misc. '.strtoupper($ocpt_conf['gen']['btc_prim_curr_pairing']).' Value';
        }
                 
     }
@@ -115,20 +116,20 @@ else {
     
     
     // MUST be called FIRST at runtime by the default bitcoin market, to set this var for reuse later in runtime
-    $selected_btc_pairing_id = $ocpt_conf['assets']['BTC']['pairing'][$ocpt_conf['general']['btc_prim_curr_pairing']][$ocpt_conf['general']['btc_prim_exchange']];
-    $selected_btc_prim_curr_value = $ocpt_api->market('BTC', $ocpt_conf['general']['btc_prim_exchange'], $selected_btc_pairing_id)['last_trade'];
-    
+    $sel_btc_pairing_id = $ocpt_conf['assets']['BTC']['pairing'][$ocpt_conf['gen']['btc_prim_curr_pairing']][$ocpt_conf['gen']['btc_prim_exchange']];
+    $sel_btc_prim_curr_value = $ocpt_api->market('BTC', $ocpt_conf['gen']['btc_prim_exchange'], $sel_btc_pairing_id)['last_trade'];
+
     
     // Log any Bitcoin market errors
-    if ( !$ocpt_conf['assets']['BTC']['pairing'][$ocpt_conf['general']['btc_prim_curr_pairing']] ) {
-    app_logging('config_error', 'primary-bitcoin-markets.php btc_prim_curr_pairing variable not properly set', 'btc_prim_curr_pairing: ' . $ocpt_conf['general']['btc_prim_curr_pairing'] . ';' );
+    if ( !$ocpt_conf['assets']['BTC']['pairing'][$ocpt_conf['gen']['btc_prim_curr_pairing']] ) {
+    app_logging('config_error', 'primary-bitcoin-markets.php btc_prim_curr_pairing variable not properly set', 'btc_prim_curr_pairing: ' . $ocpt_conf['gen']['btc_prim_curr_pairing'] . ';' );
     }
-    elseif ( !$ocpt_conf['assets']['BTC']['pairing'][$ocpt_conf['general']['btc_prim_curr_pairing']][$ocpt_conf['general']['btc_prim_exchange']] ) {
-    app_logging('config_error', 'primary-bitcoin-markets.php btc_prim_exchange variable not properly set', 'btc_prim_exchange: ' . $ocpt_conf['general']['btc_prim_exchange'] . ';' );
+    elseif ( !$ocpt_conf['assets']['BTC']['pairing'][$ocpt_conf['gen']['btc_prim_curr_pairing']][$ocpt_conf['gen']['btc_prim_exchange']] ) {
+    app_logging('config_error', 'primary-bitcoin-markets.php btc_prim_exchange variable not properly set', 'btc_prim_exchange: ' . $ocpt_conf['gen']['btc_prim_exchange'] . ';' );
     }
     
-    if ( !isset($selected_btc_prim_curr_value) || $selected_btc_prim_curr_value == 0 ) {
-    app_logging('market_error', 'init.php Bitcoin primary currency market value not properly set', 'btc_prim_curr_pairing: ' . $ocpt_conf['general']['btc_prim_curr_pairing'] . '; exchange: ' . $ocpt_conf['general']['btc_prim_exchange'] . '; pairing_id: ' . $selected_btc_pairing_id . '; value: ' . $selected_btc_prim_curr_value );
+    if ( !isset($sel_btc_prim_curr_value) || $sel_btc_prim_curr_value == 0 ) {
+    app_logging('market_error', 'init.php Bitcoin primary currency market value not properly set', 'btc_prim_curr_pairing: ' . $ocpt_conf['gen']['btc_prim_curr_pairing'] . '; exchange: ' . $ocpt_conf['gen']['btc_prim_exchange'] . '; pairing_id: ' . $sel_btc_pairing_id . '; value: ' . $sel_btc_prim_curr_value );
     }
 
 

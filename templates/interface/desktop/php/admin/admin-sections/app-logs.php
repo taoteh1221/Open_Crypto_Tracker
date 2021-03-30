@@ -53,7 +53,7 @@
 	    </fieldset>
 				
 	<?php
-	if ( $ocpt_conf['developer']['debug_mode'] != 'off' || is_readable($base_dir . '/cache/logs/debugging.log') ) {
+	if ( $ocpt_conf['dev']['debug'] != 'off' || is_readable($base_dir . '/cache/logs/debugging.log') ) {
 	?>
 	    <fieldset class='subsection_fieldset'><legend class='subsection_legend'> Debugging Log </legend>
 	        

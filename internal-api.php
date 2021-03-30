@@ -18,10 +18,10 @@ $ip_access = trim( file_get_contents($base_dir . '/cache/events/throttling/local
 
 
 
-// Throttle ip addresses reconnecting before $ocpt_conf['developer']['local_api_rate_limit'] interval passes
-if ( update_cache($base_dir . '/cache/events/throttling/local_api_incoming_ip_' . $store_ip . '.dat', ($ocpt_conf['developer']['local_api_rate_limit'] / 60) ) == false ) {
+// Throttle ip addresses reconnecting before $ocpt_conf['dev']['local_api_rate_limit'] interval passes
+if ( update_cache($base_dir . '/cache/events/throttling/local_api_incoming_ip_' . $store_ip . '.dat', ($ocpt_conf['dev']['local_api_rate_limit'] / 60) ) == false ) {
 
-$result = array('error' => "Rate limit (maximum of once every " . $ocpt_conf['developer']['local_api_rate_limit'] . " seconds) reached for ip address: " . $remote_ip);
+$result = array('error' => "Rate limit (maximum of once every " . $ocpt_conf['dev']['local_api_rate_limit'] . " seconds) reached for ip address: " . $remote_ip);
 
 app_logging('int_api_error', 'From ' . $remote_ip . ' (Rate limit reached)', 'uri: ' . $_SERVER['REQUEST_URI'] . ';');
 
@@ -56,7 +56,7 @@ $hash_check = md5($_GET['data_set']);
 
 
 	// If a cache exists for this request that's NOT OUTDATED, use cache to speed things up
-	if ( update_cache($base_dir . '/cache/internal-api/'.$hash_check.'.dat', $ocpt_conf['developer']['local_api_cache_time']) == false ) {
+	if ( update_cache($base_dir . '/cache/internal-api/'.$hash_check.'.dat', $ocpt_conf['dev']['local_api_cache_time']) == false ) {
 		
 	$json_result = trim( file_get_contents($base_dir . '/cache/internal-api/'.$hash_check.'.dat') );
 
@@ -109,7 +109,7 @@ $hash_check = md5($_GET['data_set']);
 		}
 
 
-	$result['minutes_cached'] = $ocpt_conf['developer']['local_api_cache_time'];
+	$result['minutes_cached'] = $ocpt_conf['dev']['local_api_cache_time'];
 	
 	
 	// JSON-encode results

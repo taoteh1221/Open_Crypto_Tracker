@@ -151,7 +151,7 @@ $plot_config = explode('|', $_GET['plot_config']);
 		
 			
 
-header('Content-type: text/html; charset=' . $ocpt_conf['developer']['charset_default']);
+header('Content-type: text/html; charset=' . $ocpt_conf['dev']['charset_default']);
 		
 			?>
 			

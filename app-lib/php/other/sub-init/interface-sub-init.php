@@ -12,7 +12,7 @@ if ( $runtime_mode != 'cron' ) {
 
 $alert_percent = explode("|", ( $_POST['use_alert_percent'] != '' ? $_POST['use_alert_percent'] : $_COOKIE['alert_percent'] ) );
 
-$ocpt_conf['general']['prim_mcap_site'] = ( $alert_percent[0] != '' ? $alert_percent[0] : $ocpt_conf['general']['prim_mcap_site'] );
+$ocpt_conf['gen']['prim_mcap_site'] = ( $alert_percent[0] != '' ? $alert_percent[0] : $ocpt_conf['gen']['prim_mcap_site'] );
 
 
 ///////////////////////////////////////////////////////////////////////
@@ -27,7 +27,7 @@ $show_crypto_value = explode(',', rtrim( ( $_POST['show_crypto_value'] != '' ? $
 		$scan_crypto_value = array_map( array($ocpt_var, 'strip_brackets') , $scan_crypto_value); // Strip brackets
 		$loop = 0;
 		foreach ($scan_crypto_value as $key) {
-			if ( array_key_exists($key, $ocpt_conf['power_user']['crypto_pairing']) ) {
+			if ( array_key_exists($key, $ocpt_conf['power']['crypto_pairing']) ) {
 			$temp_show_crypto_value[$loop] = $show_crypto_value[$loop];
 			}
 		$loop = $loop + 1;
@@ -50,7 +50,7 @@ $show_crypto_value = explode(',', rtrim( ( $_POST['show_crypto_value'] != '' ? $
 $show_secondary_trade_value = ( $_POST['show_secondary_trade_value'] != '' ? $_POST['show_secondary_trade_value'] : $_COOKIE['show_secondary_trade_value'] );
 
 	// Remove any stale secondary trade value
-	if ( !array_key_exists($show_secondary_trade_value, $ocpt_conf['power_user']['crypto_pairing']) ) {
+	if ( !array_key_exists($show_secondary_trade_value, $ocpt_conf['power']['crypto_pairing']) ) {
 	$show_secondary_trade_value = null;
 	$_POST['show_secondary_trade_value'] = null;  
 	$ocpt_gen->store_cookie("show_secondary_trade_value", "", time()-3600);  
@@ -64,12 +64,12 @@ $show_secondary_trade_value = ( $_POST['show_secondary_trade_value'] != '' ? $_P
 $show_feeds = explode(',', rtrim( ( $_POST['show_feeds'] != '' ? $_POST['show_feeds'] : $_COOKIE['show_feeds'] ) , ',') );
 
 	// Alphabetically order AND remove stale feeds
-	// (since we already alphabetically ordered $ocpt_conf['power_user']['news_feed'] in app-config-management.php BEFOREHAND)
+	// (since we already alphabetically ordered $ocpt_conf['power']['news_feed'] in app-config-management.php BEFOREHAND)
 	$temp_show_feeds = array();
 	$scan_feeds = $show_feeds;
 	$scan_feeds = array_map( array($ocpt_var, 'strip_brackets') , $scan_feeds); // Strip brackets
-	foreach ($ocpt_conf['power_user']['news_feed'] as $feed) {
-	$feed_id = pt_digest($feed["title"], 10);
+	foreach ($ocpt_conf['power']['news_feed'] as $feed) {
+	$feed_id = ocpt_digest($feed["title"], 10);
 		if ( in_array($feed_id, $scan_feeds) ) {
 		$temp_show_feeds[] = '[' . $feed_id . ']';
 		}
@@ -91,7 +91,7 @@ $show_feeds = explode(',', rtrim( ( $_POST['show_feeds'] != '' ? $_POST['show_fe
 
 
 	// Only set from cookie / post values if charts are enabled
-	if ( $ocpt_conf['general']['asset_charts_toggle'] == 'on' ) {
+	if ( $ocpt_conf['gen']['asset_charts_toggle'] == 'on' ) {
 		
 	$show_charts = explode(',', rtrim( ( $_POST['show_charts'] != '' ? $_POST['show_charts'] : $_COOKIE['show_charts'] ) , ',') );
 		
@@ -111,7 +111,7 @@ $show_feeds = explode(',', rtrim( ( $_POST['show_feeds'] != '' ? $_POST['show_fe
 			$chart_config_check = explode('||', $ocpt_conf['charts_alerts']['tracked_markets'][$market_key]);
 				
 				// If pairing properly matches OR it's a conversion chart, we're good to keep this $show_charts array value 
-				if ( $chart_params[1] == $chart_config_check[1] || $chart_params[1] == $ocpt_conf['general']['btc_prim_curr_pairing'] ) {
+				if ( $chart_params[1] == $chart_config_check[1] || $chart_params[1] == $ocpt_conf['gen']['btc_prim_curr_pairing'] ) {
 				$temp_show_charts[$loop] = $show_charts[$loop];
 				}
 				
@@ -169,7 +169,7 @@ $sorted_by_asc_desc = $sort_settings[1];
 	$theme_selected = $_POST['theme_selected'];
 	}
 	else {
-	$theme_selected = $ocpt_conf['general']['default_theme'];
+	$theme_selected = $ocpt_conf['gen']['default_theme'];
 	}
 	// Sanitizing $theme_selected is very important, as we are calling external files with the value
 	if ( $theme_selected != 'light' && $theme_selected != 'dark' ) {

@@ -44,7 +44,7 @@ $csv_download_array[] = array(
 	    $coin_margintype_value = $_POST[$field_var_margintype];
 	        	
 	        
-	    $selected_pairing = ( $coin_pairing_id ? $coin_pairing_id : NULL );
+	    $sel_pairing = ( $coin_pairing_id ? $coin_pairing_id : NULL );
 	    
 	    
 			foreach ( $ocpt_conf['assets'][strtoupper($coin_array_key)]['pairing'] as $pairing_key => $unused ) {
@@ -53,8 +53,8 @@ $csv_download_array[] = array(
 				// Use first pairing key from coins config for this asset, if no pairing value was set properly
 				if ( $ploop == 0 ) {
 				
-					if ( $selected_pairing == NULL || !$ocpt_conf['assets'][strtoupper($coin_array_key)]['pairing'][$selected_pairing] ) {
-					$selected_pairing = $pairing_key;
+					if ( $sel_pairing == NULL || !$ocpt_conf['assets'][strtoupper($coin_array_key)]['pairing'][$sel_pairing] ) {
+					$sel_pairing = $pairing_key;
 					}
 				
 				}
@@ -72,7 +72,7 @@ $csv_download_array[] = array(
 	    
 	  	 $asset_amount_value = $ocpt_var->num_pretty($asset_amount_value, $asset_amount_dec);
 	    
-	    $coin_paid_value = ( $ocpt_var->num_to_str($coin_paid_value) >= $ocpt_conf['general']['prim_curr_dec_max_thres'] ? $ocpt_var->num_pretty($coin_paid_value, 2) : $ocpt_var->num_pretty($coin_paid_value, $ocpt_conf['general']['prim_curr_dec_max']) );
+	    $coin_paid_value = ( $ocpt_var->num_to_str($coin_paid_value) >= $ocpt_conf['gen']['prim_curr_dec_max_thres'] ? $ocpt_var->num_pretty($coin_paid_value, 2) : $ocpt_var->num_pretty($coin_paid_value, $ocpt_conf['gen']['prim_curr_dec_max']) );
 	  	 
 	    
 	   	// Asset data to array for CSV export
@@ -85,7 +85,7 @@ $csv_download_array[] = array(
 	        											$coin_leverage_value,
 	        											$coin_margintype_value,
 	        											$coin_market_id,
-	        											$selected_pairing
+	        											$sel_pairing
 	        											);
 	        											
 	      }

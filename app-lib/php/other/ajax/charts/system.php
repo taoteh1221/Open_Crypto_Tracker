@@ -72,7 +72,7 @@ gui: {
    }],
 	labels: [
 	<?php
-	foreach ($ocpt_conf['power_user']['lite_chart_day_intervals'] as $lite_chart_days) {
+	foreach ($ocpt_conf['power']['lite_chart_day_intervals'] as $lite_chart_days) {
 	$lite_chart_text = light_chart_time_period($lite_chart_days, 'short');
 	?>
 		{
@@ -138,7 +138,7 @@ $check_chart_value = $ocpt_var->num_to_str( $ocpt_var->delimited_str_sample($cha
 		$loop = $loop + 1;
 		}
 		
-		if ( $check_chart_value <= $ocpt_var->num_to_str($ocpt_conf['power_user']['system_stats_first_chart_highest_value']) ) {
+		if ( $check_chart_value <= $ocpt_var->num_to_str($ocpt_conf['power']['system_stats_first_chart_highest_value']) ) {
 		$num_in_first_chart = $num_in_first_chart + 1;
 		//echo $check_chart_value . ' --- '; // DEBUGGING ONLY
 		}
@@ -252,7 +252,7 @@ elseif ( $key == 2 ) {
 $chart_config = trim($chart_config);
 $chart_config = rtrim($chart_config,',');
 
-header('Content-type: text/html; charset=' . $ocpt_conf['developer']['charset_default']);
+header('Content-type: text/html; charset=' . $ocpt_conf['dev']['charset_default']);
 
 ?>
 
@@ -357,7 +357,7 @@ gui: {
         zooming: true
       },
       scaleY: {
-      maxValue: <?=( $key == 1 ? $ocpt_conf['power_user']['system_stats_first_chart_highest_value'] : $ocpt_conf['power_user']['system_stats_second_chart_max_scale'] )?>,
+      maxValue: <?=( $key == 1 ? $ocpt_conf['power']['system_stats_first_chart_highest_value'] : $ocpt_conf['power']['system_stats_second_chart_max_scale'] )?>,
         guide: {
       	visible: true,
      		lineStyle: 'solid',
@@ -416,7 +416,7 @@ gui: {
       ],
 		labels: [
 	<?php
-	foreach ($ocpt_conf['power_user']['lite_chart_day_intervals'] as $lite_chart_days) {
+	foreach ($ocpt_conf['power']['lite_chart_day_intervals'] as $lite_chart_days) {
 	$lite_chart_text = light_chart_time_period($lite_chart_days, 'short');
 	?>
 		{

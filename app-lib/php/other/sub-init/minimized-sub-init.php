@@ -18,10 +18,10 @@ foreach( $secured_cache_files as $secured_file ) {
 		$cached_ocpt_conf = json_decode( trim( file_get_contents($base_dir . '/cache/secured/' . $secured_file) ) , TRUE);
 			
 			if ( $cached_ocpt_conf == true ) {
-			$ocpt_conf = $cached_ocpt_conf; // Use cached pt_conf if it exists, seems intact, and DEFAULT Admin Config (in config.php) hasn't been revised since last check
+			$ocpt_conf = $cached_ocpt_conf; // Use cached ocpt_conf if it exists, seems intact, and DEFAULT Admin Config (in config.php) hasn't been revised since last check
 			}
 			else {
-			app_logging('config_error', 'Cached pt_conf data appears corrupted (fetching within minimized-sub-init.php)');
+			app_logging('config_error', 'Cached ocpt_conf data appears corrupted (fetching within minimized-sub-init.php)');
 			}
 			
 	}

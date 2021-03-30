@@ -2245,7 +2245,7 @@ PERCENTAGES (BUT WILL BE ACCURATE AFTERWARDS).
 
 -Password storage and check functions (for upcoming easy-to-use Admin Config page)
 
--Secured password pepper (high security password encryption) caching / pt_conf caching support (for upcoming easy-to-use Admin Config page)
+-Secured password pepper (high security password encryption) caching / ocpt_conf caching support (for upcoming easy-to-use Admin Config page)
 
 -Unicode support for the mobile text message system (ONLY ACTIVATED WHEN emojis / asian characters / any other unicode characters are detected in text message data)
 

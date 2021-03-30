@@ -5,7 +5,7 @@
 
 
 	// Have this script not load any code if asset charts are not turned on
-	if ( $ocpt_conf['general']['asset_charts_toggle'] != 'on' ) {
+	if ( $ocpt_conf['gen']['asset_charts_toggle'] != 'on' ) {
 	exit;
 	}
 	
@@ -41,18 +41,18 @@ $x_coord = 120; // Start position (absolute) for lite chart links
 			
 			// Unicode asset symbols
 			// Crypto
-			if ( array_key_exists($charted_value, $ocpt_conf['power_user']['crypto_pairing']) ) {
-			$currency_symbol = $ocpt_conf['power_user']['crypto_pairing'][$charted_value];
+			if ( array_key_exists($charted_value, $ocpt_conf['power']['crypto_pairing']) ) {
+			$curr_symbol = $ocpt_conf['power']['crypto_pairing'][$charted_value];
 			}
 			// Fiat-equiv
 			// RUN AFTER CRYPTO MARKETS...WE HAVE A COUPLE CRYPTOS SUPPORTED HERE, BUT WE ONLY WANT DESIGNATED FIAT-EQIV HERE
-			elseif ( array_key_exists($charted_value, $ocpt_conf['power_user']['btc_currency_markets']) && !array_key_exists($charted_value, $ocpt_conf['power_user']['crypto_pairing']) ) {
-			$currency_symbol = $ocpt_conf['power_user']['btc_currency_markets'][$charted_value];
+			elseif ( array_key_exists($charted_value, $ocpt_conf['power']['btc_curr_markets']) && !array_key_exists($charted_value, $ocpt_conf['power']['crypto_pairing']) ) {
+			$curr_symbol = $ocpt_conf['power']['btc_curr_markets'][$charted_value];
 			$fiat_equiv = 1;
 			}
 			// Fallback for currency symbol config errors
 			else {
-			$currency_symbol = strtoupper($charted_value) . ' ';
+			$curr_symbol = strtoupper($charted_value) . ' ';
 			}
 			
 		
@@ -91,20 +91,20 @@ gui: {
    type: "area",
    noData: {
      text: "No data for the '<?=ucfirst($_GET['days'])?> day(s)' lite chart yet, please check back in awhile.",
-  	  fontColor: "<?=$ocpt_conf['power_user']['charts_text']?>",
+  	  fontColor: "<?=$ocpt_conf['power']['charts_text']?>",
      backgroundColor: "#808080",
      fontSize: 20,
      textAlpha: .9,
      alpha: .6,
      bold: true
    },
-  	backgroundColor: "<?=$ocpt_conf['power_user']['charts_background']?>",
+  	backgroundColor: "<?=$ocpt_conf['power']['charts_background']?>",
   	height: 420,
   	x: 0, 
   	y: 0,
   	title: {
   	  text: "<?=$chart_asset?> / <?=strtoupper($market_parse[1])?> @ <?=snake_case_to_name($market_parse[0])?> <?=( $_GET['charted_value'] != 'pairing' ? '(' . strtoupper($charted_value) . ' Value)' : '' )?>",
-  	  fontColor: "<?=$ocpt_conf['power_user']['charts_text']?>",
+  	  fontColor: "<?=$ocpt_conf['power']['charts_text']?>",
   	  fontFamily: 'Open Sans',
   	  fontSize: 25,
   	  align: 'right',
@@ -116,14 +116,14 @@ gui: {
    }],
 	labels: [
 	<?php
-	foreach ($ocpt_conf['power_user']['lite_chart_day_intervals'] as $lite_chart_days) {
+	foreach ($ocpt_conf['power']['lite_chart_day_intervals'] as $lite_chart_days) {
 	$lite_chart_text = light_chart_time_period($lite_chart_days, 'short');
 	?>
 		{
 	    x: <?=$x_coord?>,
 	    y: 11,
 	    id: '<?=$lite_chart_days?>',
-	    fontColor: "<?=($_GET['days'] == $lite_chart_days ? $ocpt_conf['power_user']['charts_text'] : $ocpt_conf['power_user']['charts_link'] )?>",
+	    fontColor: "<?=($_GET['days'] == $lite_chart_days ? $ocpt_conf['power']['charts_text'] : $ocpt_conf['power']['charts_link'] )?>",
 	    fontSize: "22",
 	    fontFamily: "Open Sans",
 	    cursor: "hand",
@@ -164,19 +164,19 @@ gui: {
 		$price_sample_average = ( $price_sample_oldest + $price_sample_newest ) / 2;
 		
 		
-		$spot_price_dec = ( $fiat_equiv == 1 ? $ocpt_conf['general']['prim_curr_dec_max'] : 8 );
+		$spot_price_dec = ( $fiat_equiv == 1 ? $ocpt_conf['gen']['prim_curr_dec_max'] : 8 );
 		
 			
 			// Force decimals under certain conditions
-			if ( $ocpt_var->num_to_str($price_sample_average) >= $ocpt_conf['general']['prim_curr_dec_max_thres'] ) {
+			if ( $ocpt_var->num_to_str($price_sample_average) >= $ocpt_conf['gen']['prim_curr_dec_max_thres'] ) {
 			$force_dec = 'decimals: ' . 2 . ',';
 			}
-			elseif ( $ocpt_var->num_to_str($price_sample_average) < $ocpt_conf['general']['prim_curr_dec_max_thres'] ) {
+			elseif ( $ocpt_var->num_to_str($price_sample_average) < $ocpt_conf['gen']['prim_curr_dec_max_thres'] ) {
 			$force_dec = 'decimals: ' . $spot_price_dec . ',';
 			}
 		
 
-header('Content-type: text/html; charset=' . $ocpt_conf['developer']['charset_default']);
+header('Content-type: text/html; charset=' . $ocpt_conf['dev']['charset_default']);
 
 			if ( $chart_asset ) {
 ?>
@@ -218,31 +218,31 @@ graphset:[
   type: 'area',
   "preview":{
   		label: {
-      color: '<?=$ocpt_conf['power_user']['charts_text']?>',
+      color: '<?=$ocpt_conf['power']['charts_text']?>',
       fontSize: '10px',
       lineWidth: '1px',
-      lineColor: '<?=$ocpt_conf['power_user']['charts_line']?>',
+      lineColor: '<?=$ocpt_conf['power']['charts_line']?>',
      	},
  	  live: true,
  	  "adjust-layout": true,
  	  "alpha-area": 0.5,
  	  	height: 30
   },
-  backgroundColor: "<?=$ocpt_conf['power_user']['charts_background']?>",
+  backgroundColor: "<?=$ocpt_conf['power']['charts_background']?>",
   height: 420,
   x: 0, 
   y: 0,
   globals: {
   	fontSize: 20,
-  	fontColor: "<?=$ocpt_conf['power_user']['charts_text']?>"
+  	fontColor: "<?=$ocpt_conf['power']['charts_text']?>"
   },
   crosshairX:{
     shared: true,
     exact: true,
     plotLabel:{
-      backgroundColor: "<?=$ocpt_conf['power_user']['charts_tooltip_background']?>",
-      fontColor: "<?=$ocpt_conf['power_user']['charts_tooltip_text']?>",
-      text: "Spot Price: <?=$currency_symbol?>%v",
+      backgroundColor: "<?=$ocpt_conf['power']['charts_tooltip_background']?>",
+      fontColor: "<?=$ocpt_conf['power']['charts_tooltip_text']?>",
+      text: "Spot Price: <?=$curr_symbol?>%v",
 	 	fontSize: "20",
       fontFamily: "Open Sans",
     	"thousands-separator":",",
@@ -253,10 +253,10 @@ graphset:[
     },
     scaleLabel:{
     	alpha: 1.0,
-      fontColor: "<?=$ocpt_conf['power_user']['charts_tooltip_text']?>",
+      fontColor: "<?=$ocpt_conf['power']['charts_tooltip_text']?>",
       fontSize: 20,
       fontFamily: "Open Sans",
-      backgroundColor: "<?=$ocpt_conf['power_user']['charts_tooltip_background']?>",
+      backgroundColor: "<?=$ocpt_conf['power']['charts_tooltip_background']?>",
     }
   },
   crosshairY:{
@@ -264,7 +264,7 @@ graphset:[
   },
   title: {
     text: "<?=$chart_asset?> / <?=strtoupper($market_parse[1])?> @ <?=snake_case_to_name($market_parse[0])?> <?=( $_GET['charted_value'] != 'pairing' ? '(' . strtoupper($charted_value) . ' Value)' : '' )?>",
-    fontColor: "<?=$ocpt_conf['power_user']['charts_text']?>",
+    fontColor: "<?=$ocpt_conf['power']['charts_text']?>",
     fontFamily: 'Open Sans',
     fontSize: 25,
     align: 'right',
@@ -273,7 +273,7 @@ graphset:[
   },
   source: {
     text: "Select area to zoom in chart, or use zoom grab bars in preview area (only horizontal axis zooming supported).",
-    fontColor:"<?=$ocpt_conf['power_user']['charts_text']?>",
+    fontColor:"<?=$ocpt_conf['power']['charts_text']?>",
 	 fontSize: "13",
     fontFamily: "Open Sans",
     offsetX: 110,
@@ -298,15 +298,15 @@ graphset:[
         visible:false
   },
   scaleY: {
-    "format":"<?=$currency_symbol?>%v",
+    "format":"<?=$curr_symbol?>%v",
     "thousands-separator":",",
     guide: {
       visible: true,
       lineStyle: 'solid',
-      lineColor: "<?=$ocpt_conf['power_user']['charts_line']?>"
+      lineColor: "<?=$ocpt_conf['power']['charts_line']?>"
     },
     item: {
-      fontColor: "<?=$ocpt_conf['power_user']['charts_text']?>",
+      fontColor: "<?=$ocpt_conf['power']['charts_text']?>",
       fontFamily: "Open Sans",
       fontSize: "14",
     }
@@ -315,7 +315,7 @@ graphset:[
     guide: {
       visible: true,
       lineStyle: 'solid',
-      lineColor: "<?=$ocpt_conf['power_user']['charts_line']?>"
+      lineColor: "<?=$ocpt_conf['power']['charts_line']?>"
     },
     values: [<?=$chart_data['time']?>],
  	  transform: {
@@ -327,32 +327,32 @@ graphset:[
     },
     item: {
 	 fontSize: "14",
-      fontColor: "<?=$ocpt_conf['power_user']['charts_text']?>",
+      fontColor: "<?=$ocpt_conf['power']['charts_text']?>",
       fontFamily: "Open Sans"
     }
   },
 	series : [
 		{
 			values: [<?=$chart_data['spot']?>],
-			lineColor: "<?=$ocpt_conf['power_user']['charts_text']?>",
+			lineColor: "<?=$ocpt_conf['power']['charts_text']?>",
 			lineWidth: 1,
-			backgroundColor:"<?=$ocpt_conf['power_user']['charts_text']?> <?=$ocpt_conf['power_user']['charts_price_gradient']?>", /* background gradient on graphed price area in main chart (NOT the chart background) */
+			backgroundColor:"<?=$ocpt_conf['power']['charts_text']?> <?=$ocpt_conf['power']['charts_price_gradient']?>", /* background gradient on graphed price area in main chart (NOT the chart background) */
 			alpha: 0.5,
 				previewState: {
-      		backgroundColor: "<?=$ocpt_conf['power_user']['charts_price_gradient']?>" /* background color on graphed price area in preview below chart (NOT the preview area background) */
+      		backgroundColor: "<?=$ocpt_conf['power']['charts_price_gradient']?>" /* background color on graphed price area in preview below chart (NOT the preview area background) */
 				}
 		}
 	],
 	labels: [
 	<?php
-	foreach ($ocpt_conf['power_user']['lite_chart_day_intervals'] as $lite_chart_days) {
+	foreach ($ocpt_conf['power']['lite_chart_day_intervals'] as $lite_chart_days) {
 	$lite_chart_text = light_chart_time_period($lite_chart_days, 'short');
 	?>
 		{
 	    x: <?=$x_coord?>,
 	    y: 11,
 	    id: '<?=$lite_chart_days?>',
-	    fontColor: "<?=($_GET['days'] == $lite_chart_days ? $ocpt_conf['power_user']['charts_text'] : $ocpt_conf['power_user']['charts_link'] )?>",
+	    fontColor: "<?=($_GET['days'] == $lite_chart_days ? $ocpt_conf['power']['charts_text'] : $ocpt_conf['power']['charts_link'] )?>",
 	    fontSize: "22",
 	    fontFamily: "Open Sans",
 	    cursor: "hand",
@@ -384,7 +384,7 @@ graphset:[
   height: 75,
   x: 0, 
   y: 400,
-  backgroundColor: "<?=$ocpt_conf['power_user']['charts_background']?>",
+  backgroundColor: "<?=$ocpt_conf['power']['charts_background']?>",
   plotarea: {
     margin: "11 63 20 112"
   },
@@ -395,7 +395,7 @@ graphset:[
   },
   source: {
     text: "24 Hour Volume",
-    fontColor:"<?=$ocpt_conf['power_user']['charts_text']?>",
+    fontColor:"<?=$ocpt_conf['power']['charts_text']?>",
 	 fontSize: "13",
     fontFamily: "Open Sans",
     offsetX: 106,
@@ -404,10 +404,10 @@ graphset:[
   },
   tooltip:{
     visible: false,
-    text: "24 Hour Volume: <?=$currency_symbol?>%v",
-    fontColor: "<?=$ocpt_conf['power_user']['charts_tooltip_text']?>",
+    text: "24 Hour Volume: <?=$curr_symbol?>%v",
+    fontColor: "<?=$ocpt_conf['power']['charts_tooltip_text']?>",
 	 fontSize: "20",
-    backgroundColor: "<?=$ocpt_conf['power_user']['charts_tooltip_background']?>",
+    backgroundColor: "<?=$ocpt_conf['power']['charts_tooltip_background']?>",
     fontFamily: "Open Sans",
     "thousands-separator":","
   },
@@ -421,10 +421,10 @@ graphset:[
       visible: false
     },
     plotLabel:{
-      backgroundColor: "<?=$ocpt_conf['power_user']['charts_tooltip_background']?>",
-      fontColor: "<?=$ocpt_conf['power_user']['charts_tooltip_text']?>",
+      backgroundColor: "<?=$ocpt_conf['power']['charts_tooltip_background']?>",
+      fontColor: "<?=$ocpt_conf['power']['charts_tooltip_text']?>",
       fontFamily: "Open Sans",
-      text: "24 Hour Volume: <?=$currency_symbol?>%v",
+      text: "24 Hour Volume: <?=$curr_symbol?>%v",
 	 	fontSize: "20",
       y:0,
       "thousands-separator":","
@@ -438,15 +438,15 @@ graphset:[
     zooming: true
   },
   scaleY: {
-    "format":"<?=$currency_symbol?>%v",
+    "format":"<?=$curr_symbol?>%v",
     "thousands-separator":",",
     guide: {
       visible: true,
       lineStyle: 'solid',
-      lineColor: "<?=$ocpt_conf['power_user']['charts_line']?>"
+      lineColor: "<?=$ocpt_conf['power']['charts_line']?>"
     },
     item: {
-      fontColor: "<?=$ocpt_conf['power_user']['charts_text']?>",
+      fontColor: "<?=$ocpt_conf['power']['charts_text']?>",
       fontFamily: "Open Sans",
       fontSize: "12",
     }
@@ -455,7 +455,7 @@ graphset:[
 		{
 			values: [<?=$chart_data['volume']?>],
 			text: "24hr Volume",
-			backgroundColor: "<?=$ocpt_conf['power_user']['charts_text']?>",
+			backgroundColor: "<?=$ocpt_conf['power']['charts_text']?>",
     		offsetX: 0
 		}
 	]

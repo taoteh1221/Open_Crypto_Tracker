@@ -44,10 +44,6 @@ Add "do not disturb - start" and "do not disturb - end" configuration settings t
 Change the api key format to GET instead of POST on my portfolio app's internal REST API, so browser-based javascript implementations can work cross-site retrieving data.
 
 
-Rename functions to 'safe' function names USING A PREFIX, so they won't collide with any upcoming PHP version built-in functions (like wordpress does, with the 'wp_' prefix). 
-CONSIDER USING THE PREFIX: 'ocpt_' (for [p]ortfolio [t]racker)
-
-
 Make sure ALL MARKETS are added FOR ALL SUPPORTED EXCHANGES (EVERY EXCHANGE IN exchange-ticker-apis.php), then re-run the exchange summaries printout (in debug mode), for updating documentation on the web page / README / in config.php.
 
 
@@ -195,7 +191,7 @@ Auto-update feature like WordPress has (downloads a zip file upgrade from github
 2-way JAVASCRIPT encryption option (unlocked with 6 digit PIN) for showing holdings amounts IN THE GUI (IN COOKIES ONLY, NO DATABASE STORAGE !EVER!), with "quick lock" to quickly re-hide portfolio data (staying hidden persists on page load / reload as well with a cookie).
 
 
-Option to use new zip file encryption password feature to encrypt portfolio spreadsheet exports when downloading exported portfolio data (with password entered in the UI, #NOT# $ocpt_conf['general']['backup_arch_pass']).
+Option to use new zip file encryption password feature to encrypt portfolio spreadsheet exports when downloading exported portfolio data (with password entered in the UI, #NOT# $ocpt_conf['gen']['backup_arch_pass']).
 
 
 For each category_key => category_value loop app config, to automate categorizing new admin settings tabs...selects for arrays, text fields for strings. Maybe certain key names get checkbox / radio button fields.
@@ -210,7 +206,7 @@ Once an admin interface is fully built out, permanently switch out the app confi
 Add force reset logic for app config, if cached app version number is non-existent or below a certain version, so we force a complete reset for non-backwards-compatible upgrades.
 
 
-On admin config reset tab, have "reset app config to default settings" button (with js confirm alert when pushed) that refreshes ALL the cached pt_conf from config.php settings.
+On admin config reset tab, have "reset app config to default settings" button (with js confirm alert when pushed) that refreshes ALL the cached ocpt_conf from config.php settings.
 
 
 Admin import / export of settings (consider security implications CAREFULLY...include an optional / mandatory checkbox to encrypt to zip file with our new zip encryption feature).
