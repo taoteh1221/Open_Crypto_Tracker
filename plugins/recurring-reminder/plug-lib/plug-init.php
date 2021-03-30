@@ -55,6 +55,6 @@ $in_minutes_offset = ( $in_minutes >= 20 ? ($in_minutes - 1) : $in_minutes );
 }
 
 
+// DON'T LEAVE ANY WHITESPACE AFTER THE CLOSING PHP TAG!
+
 ?>
-
-

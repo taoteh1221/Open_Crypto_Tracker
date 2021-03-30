@@ -642,17 +642,17 @@ $possible_dos_attack = 0;
         $coin_value_raw = $ocpt_var->num_to_str($coin_value_raw);
         
         // If no pair volume is available for this market, emulate it within reason with: asset value * asset volume
-        $volume_pairing_raw = $ocpt_var->num_to_str($asset_market_data['24hr_pairing_vol']);
+        $pairing_vol_raw = $ocpt_var->num_to_str($asset_market_data['24hr_pairing_vol']);
         
         
         
               // More pretty numbers formatting
               if ( array_key_exists($market_pairing, $ocpt_conf['power']['btc_curr_markets']) ) {
               $coin_value_raw = ( $ocpt_var->num_to_str($coin_value_raw) >= $ocpt_conf['gen']['prim_curr_dec_max_thres'] ? round($coin_value_raw, 2) : round($coin_value_raw, $ocpt_conf['gen']['prim_curr_dec_max']) );
-              $volume_pairing_rounded = round($volume_pairing_raw);
+              $volume_pairing_rounded = round($pairing_vol_raw);
               }
               else {
-              $volume_pairing_rounded = round($volume_pairing_raw, 3);
+              $volume_pairing_rounded = round($pairing_vol_raw, 3);
               }
               
               

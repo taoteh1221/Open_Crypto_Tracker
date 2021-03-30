@@ -35,6 +35,9 @@ OPTIMIZATIONS / BUGS / TESTS / UX / QA / OTHER SECTION
 ///////////////////////////////////////////////////////
 
 
+Double-check that the internal API (AND EVERYTHING ELSE) still works, after all the refactoring we did.
+
+
 FIAT-EQUIVELENT price charts displaying / being checked off as selected seems to be acting up again? KEEP AN EYE ON IT.
 
 

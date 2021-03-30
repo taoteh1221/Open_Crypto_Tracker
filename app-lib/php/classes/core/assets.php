@@ -652,17 +652,17 @@ var $ocpt_array1 = array();
            $coin_value_raw = $ocpt_var->num_to_str($coin_value_raw);
            
            // If no pair volume is available for this market, emulate it within reason with: asset value * asset volume
-           $volume_pairing_raw = $ocpt_var->num_to_str($asset_market_data['24hr_pairing_vol']);
+           $pairing_vol_raw = $ocpt_var->num_to_str($asset_market_data['24hr_pairing_vol']);
            
            
            
                  // More pretty numbers formatting
                  if ( array_key_exists($market_pairing, $ocpt_conf['power']['btc_curr_markets']) ) {
                  $coin_value_raw = ( $ocpt_var->num_to_str($coin_value_raw) >= $ocpt_conf['gen']['prim_curr_dec_max_thres'] ? round($coin_value_raw, 2) : round($coin_value_raw, $ocpt_conf['gen']['prim_curr_dec_max']) );
-                 $volume_pairing_rounded = round($volume_pairing_raw);
+                 $volume_pairing_rounded = round($pairing_vol_raw);
                  }
                  else {
-                 $volume_pairing_rounded = round($volume_pairing_raw, 3);
+                 $volume_pairing_rounded = round($pairing_vol_raw, 3);
                  }
                  
                  
@@ -1367,7 +1367,7 @@ var $ocpt_array1 = array();
      
        
    /////////////////////////////////////////////////////////////////
-   $volume_pairing_raw = $ocpt_var->num_to_str($asset_market_data['24hr_pairing_vol']); // If available, we'll use this for chart volume UX
+   $pairing_vol_raw = $ocpt_var->num_to_str($asset_market_data['24hr_pairing_vol']); // If available, we'll use this for chart volume UX
    $volume_prim_curr_raw = $asset_market_data['24hr_prim_curr_vol'];
        
    $asset_pairing_value_raw = number_format( $asset_market_data['last_trade'] , 8, '.', '');
@@ -1407,7 +1407,7 @@ var $ocpt_array1 = array();
    $volume_prim_curr_raw = ( isset($volume_prim_curr_raw) ? round($volume_prim_curr_raw) : null );		
      
    // Round PAIRING volume to only keep $ocpt_conf['power']['chart_crypto_vol_dec'] decimals max (for crypto volume etc), to save on data set / storage size
-   $volume_pairing_raw = ( isset($volume_pairing_raw) ? round($volume_pairing_raw, ( $fiat_eqiv == 1 ? 0 : $ocpt_conf['power']['chart_crypto_vol_dec'] ) ) : null );	
+   $pairing_vol_raw = ( isset($pairing_vol_raw) ? round($pairing_vol_raw, ( $fiat_eqiv == 1 ? 0 : $ocpt_conf['power']['chart_crypto_vol_dec'] ) ) : null );	
      
      
    // Round PRIMARY CURRENCY CONFIG asset price to only keep $ocpt_conf['gen']['prim_curr_dec_max'] decimals maximum 
@@ -1427,7 +1427,7 @@ var $ocpt_array1 = array();
    $asset_pairing_value_raw = $ocpt_var->num_to_str($asset_pairing_value_raw);
    
    // Remove any leading / trailing zeros from PAIRING VOLUME, to save on data set / storage size
-   $volume_pairing_raw = $ocpt_var->num_to_str($volume_pairing_raw);
+   $pairing_vol_raw = $ocpt_var->num_to_str($pairing_vol_raw);
    /////////////////////////////////////////////////////////////////
    
      
@@ -1462,7 +1462,7 @@ var $ocpt_array1 = array();
        // Crypto / secondary currency pairing ARCHIVAL charts, volume as pairing (for UX)
        if ( $pairing != strtolower($default_btc_prim_curr_pairing) ) {
        $crypto_secondary_curr_chart_path = $base_dir . '/cache/charts/spot_price_24hr_volume/archival/'.$asset.'/'.$asset_data.'_chart_'.$pairing.'.dat';
-       $crypto_secondary_curr_chart_data = $now . '||' . $asset_pairing_value_raw . '||' . $volume_pairing_raw;
+       $crypto_secondary_curr_chart_data = $now . '||' . $asset_pairing_value_raw . '||' . $pairing_vol_raw;
        $ocpt_cache->save_file($crypto_secondary_curr_chart_path, $crypto_secondary_curr_chart_data . "\n", "append", false); // WITH newline (UNLOCKED file write)
        }
        
@@ -1496,7 +1496,7 @@ var $ocpt_array1 = array();
    
            
       // WE USE PAIRING VOLUME FOR VOLUME PERCENTAGE CHANGES, FOR BETTER PERCENT CHANGE ACCURACY THAN FIAT EQUIV
-      $alert_cache_contents = $asset_prim_curr_value_raw . '||' . $volume_prim_curr_raw . '||' . $volume_pairing_raw;
+      $alert_cache_contents = $asset_prim_curr_value_raw . '||' . $volume_prim_curr_raw . '||' . $pairing_vol_raw;
        
      // Grab any cached price alert data
       $data_file = trim( file_get_contents('cache/alerts/'.$asset_data.'.dat') );
@@ -1588,7 +1588,7 @@ var $ocpt_array1 = array();
          // Crypto volume checks
                  
          // Crypto volume percent change (!MUST BE! absolute value)
-         $volume_percent_change = abs( ($volume_pairing_raw - $cached_pairing_vol) / abs($cached_pairing_vol) * 100 );        
+         $volume_percent_change = abs( ($pairing_vol_raw - $cached_pairing_vol) / abs($cached_pairing_vol) * 100 );        
          $volume_percent_change = $ocpt_var->num_to_str($volume_percent_change); // Better decimal support
          
                  
@@ -1598,14 +1598,14 @@ var $ocpt_array1 = array();
                  $volume_percent_change = 0; // Skip calculating percent change if cached / live PRIMARY CURRENCY CONFIG volume are both zero or -1 (exchange API error)
                  $volume_change_symbol = '+';
                  }
-                 elseif ( $cached_prim_curr_vol <= 0 && $volume_pairing_raw >= $cached_pairing_vol ) { // ONLY PRIMARY CURRENCY CONFIG VOLUME CALCULATION RETURNS -1 ON EXCHANGE VOLUME ERROR
+                 elseif ( $cached_prim_curr_vol <= 0 && $pairing_vol_raw >= $cached_pairing_vol ) { // ONLY PRIMARY CURRENCY CONFIG VOLUME CALCULATION RETURNS -1 ON EXCHANGE VOLUME ERROR
                  $volume_percent_change = $volume_prim_curr_raw; // Use PRIMARY CURRENCY CONFIG volume value for percent up, for UX sake, if volume is up from zero or -1 (exchange API error)
                  $volume_change_symbol = '+';
                  }
-                 elseif ( $cached_prim_curr_vol > 0 && $volume_pairing_raw < $cached_pairing_vol ) {
+                 elseif ( $cached_prim_curr_vol > 0 && $pairing_vol_raw < $cached_pairing_vol ) {
                  $volume_change_symbol = '-';
                  }
-                 elseif ( $cached_prim_curr_vol > 0 && $volume_pairing_raw > $cached_pairing_vol ) {
+                 elseif ( $cached_prim_curr_vol > 0 && $pairing_vol_raw > $cached_pairing_vol ) {
                  $volume_change_symbol = '+';
                  }
                  

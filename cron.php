@@ -225,17 +225,11 @@ foreach ( $activated_plugins['cron'] as $plugin_key => $plugin_value ) {
 	
 		// This plugin's functions (only if the file exists)
 		if ( file_exists($base_dir . '/plugins/'.$this_plug.'/plug-lib/plug-class.php') ) {
-			
-			// CREATE THIS PLUGIN'S CLASS OBJECT DYNAMICALLY AS: $plug_class[$this_plug]
-			// https://www.php.net/manual/en/language.oop5.anonymous.php
-			$plug_class[$this_plug] = new class() {
-			require_once($base_dir . '/plugins/'.$this_plug.'/plug-lib/plug-class.php');
-			};
-		
+      require($base_dir . 'plugins/'.$this_plug.'/plug-lib/plug-class.php');
 		}
 	
 	// This plugin's plug-init.php file (runs the plugin)
-	require_once($plugin_value);
+	require($plugin_value);
 	
 	// Reset $this_plug at end of loop
 	$this_plug = null; 

@@ -154,6 +154,6 @@ $pretty_coin_amount = $ocpt_var->num_pretty($address_balance, 8);
 }
 
 
+// DON'T LEAVE ANY WHITESPACE AFTER THE CLOSING PHP TAG!
+
 ?>
-
-

@@ -171,6 +171,6 @@ $market_value = $ocpt_var->num_to_str( $ocpt_api->market($market_asset, $market_
 }
 
 
+// DON'T LEAVE ANY WHITESPACE AFTER THE CLOSING PHP TAG!
+
 ?>
-
-

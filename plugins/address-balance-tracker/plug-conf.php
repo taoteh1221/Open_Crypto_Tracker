@@ -49,6 +49,8 @@ $plug_conf[$this_plug]['tracking'] = array(
 																	); // END tracking array
 
 
-// DON'T LEAVE ANY WHITESPACE AFTER THE CLOSING PHP TAG, SINCE WE INCLUDE THIS IN INIT PHP!
+
+
+// DON'T LEAVE ANY WHITESPACE AFTER THE CLOSING PHP TAG!
 
 ?>

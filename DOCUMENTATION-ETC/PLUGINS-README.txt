@@ -16,66 +16,75 @@ STEPS TO CREATE YOUR OWN PLUGIN...
 
 1) Create a new subdirectory inside the main /plugins/ directory of this app, and name it after your plugin name.
 
-example: "/plugins/my-app-plugin/" (must be lowercase)
+Example: "/plugins/my-app-plugin/" (must be lowercase)
 
 
 
 2) Create a new subdirectory inside the new plugin directory created in step #1, named "plug-lib".
 
-example: "/plugins/my-app-plugin/plug-lib/" (must be lowercase)
+Example: "/plugins/my-app-plugin/plug-lib/" (must be lowercase)
 
 
 
 3) Create a blank INIT file (plugin runtime starts here) inside the new "plug-lib" directory created in step #2, with the name "plug-init.php".
 
-example: "/plugins/my-app-plugin/plug-lib/plug-init.php" (must be lowercase)
+Example: "/plugins/my-app-plugin/plug-lib/plug-init.php" (must be lowercase)
 
 
 
-4) OPTIONALLY create a blank CLASS file (custom class logic goes here for auto-inclusion in a new automatically-created class), inside the new "plug-lib" directory created in step #2, with the name "plug-class.php".
+4) OPTIONALLY create a blank CLASS file (custom class logic goes here), inside the new "plug-lib" directory created in step #2, with the name "plug-class.php".
 
-example: "/plugins/my-app-plugin/plug-lib/plug-class.php" (must be lowercase)
-
-
-
-5) All ADDED LOGIC in the "plug-class.php" file will now be AUTO-INCLUDED IN A NEW CLASS NAMED "$plug_class[$this_plug]" (NO NEED to create the class yourself).
+Example: "/plugins/my-app-plugin/plug-lib/plug-class.php" (must be lowercase)
 
 
-class object examples: 
 
-var my_var_1;
+5) All ADDED LOGIC in the "plug-class.php" file can be AUTO-INCLUDED IN A NEW CLASS NAMED "$plug_class[$this_plug]" USING THIS FORMAT BELOW:
 
-function my_function_1() {
-echo 'Hello world!';
-}
+
+// CREATE THIS PLUGIN'S CLASS OBJECT DYNAMICALLY AS: $plug_class[$this_plug]
+
+$plug_class[$this_plug] = new class() {
+
+var my_var_1 = 'Testing 123';
+var my_var_2 = 'World';
+
+	function my_function_1($var) {
+	return ' Hello ' . $var . '! ';
+	}
+				
+};
+
+// END class
 
 --
 
-calling the class object examples (ANYWHERE FROM init.php ONWARDS):
+Examples of calling plugin class objects (ANYWHERE FROM WITHIN init.php ONWARDS):
 
-$test_1 = $plug_class[$this_plug]->my_var_1;
+echo $plug_class[$this_plug]->my_var_1;
 
-$test_2 = $plug_class[$this_plug]->my_function_1();
+echo $plug_class[$this_plug]->my_function_1( $plug_class[$this_plug]->my_var_2 );
+
+echo $plug_class[$this_plug]->my_function_1('Kitty');
 
 
 
 6) Create a blank CONFIG file (plugin configs go here) inside the new plugin directory created in step #1, with the name "plug-conf.php".
 
-example: "/plugins/my-app-plugin/plug-conf.php" (must be lowercase)
+Example: "/plugins/my-app-plugin/plug-conf.php" (must be lowercase)
 
 
 
 7) All "plug-conf.php" PLUGIN CONFIG settings MUST BE INSIDE THE ARRAY "$plug_conf[$this_plug]" (sub-arrays are allowed).
 
-example: $plug_conf[$this_plug]['SETTING_NAME_HERE'] = 'mysetting';
+Example: $plug_conf[$this_plug]['SETTING_NAME_HERE'] = 'mysetting';
 
-example: $plug_conf[$this_plug]['SETTING_NAME_HERE'] = array('mysetting1', 'mysetting2');
+Example: $plug_conf[$this_plug]['SETTING_NAME_HERE'] = array('mysetting1', 'mysetting2');
 
 
 
 8) The "plug-conf.php" PLUGIN CONFIG SETTING 'runtime_mode' IS MANDATORY, to determine WHEN the plugin should run (during cron jobs / user interface loading / all runtimes / etc).
 
-example: $plug_conf[$this_plug]['runtime_mode'] = 'cron'; // 'cron', 'ui', 'all' (only 'cron' supported as of 2020-10-29)
+Example: $plug_conf[$this_plug]['runtime_mode'] = 'cron'; // 'cron', 'ui', 'all' (only 'cron' supported as of 2020-10-29)
 
 
 9) We are now done setting up plugin files, now we need to activate the new plugin. IN THE MAIN APP "Admin Config" POWER USER section. Locate the configuration variable named: 'activate_plugins'
@@ -83,7 +92,7 @@ example: $plug_conf[$this_plug]['runtime_mode'] = 'cron'; // 'cron', 'ui', 'all'
 
 10) To add / activate your new plugin, add your plugin name (example: 'my-app-plugin') as a new value within 'activate_plugins', and set to 'on'.
 
-example: 'my-app-plugin' => 'on' 
+Example: 'my-app-plugin' => 'on' 
 
 
 
