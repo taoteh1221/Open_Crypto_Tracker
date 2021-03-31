@@ -32,7 +32,7 @@
 		foreach ( $ocpt_conf['assets']['BTC']['pairing'][$default_btc_prim_curr_pairing] as $key => $unused ) {
 		
 			if( stristr($key, 'bitmex_') == false ) { // Futures markets not allowed
-			$supported_exchange_list .= snake_case_to_name($key) . ' / ';
+			$supported_exchange_list .= $ocpt_gen->snake_case_to_name($key) . ' / ';
 			}
 			
 		}
@@ -41,7 +41,7 @@
 		$supported_exchange_list = trim($supported_exchange_list);
 		?>
 					
-		<p class='red' style='font-weight: bold;'>The administrator has set the <i>charts primary currency market</i> (in the Admin Config GENERAL section) to: <span class='bitcoin'><?=strtoupper($default_btc_prim_curr_pairing)?> @ <?=snake_case_to_name($default_btc_prim_exchange)?></span> &nbsp;(enables <i>additional</i> "<?=strtoupper($default_btc_prim_curr_pairing)?> Value" charts)</p>
+		<p class='red' style='font-weight: bold;'>The administrator has set the <i>price charts primary currency market</i> (in the Admin Config GENERAL section) to: <span class='bitcoin'><?=strtoupper($default_btc_prim_curr_pairing)?> @ <?=$ocpt_gen->snake_case_to_name($default_btc_prim_exchange)?></span> &nbsp;(enables <i>additional</i> "<?=strtoupper($default_btc_prim_curr_pairing)?> Value" charts)</p>
 		
 		<p class='red' style='font-weight: bold;'><?=strtoupper($default_btc_prim_curr_pairing)?>-paired BTC exchanges supported in this app are: <?=$supported_exchange_list?>.</p>
 		
@@ -170,7 +170,7 @@
 	
 		<div class='<?=$zebra_stripe?> long_list <?=( $last_rendered != $show_asset ? 'activate_chart_sections' : '' )?>'>
 				
-				<input type='checkbox' value='<?=$key?>_<?=$show_asset_params[1]?>' onchange='chart_toggle(this);' <?=( in_array("[".$key . '_' . $show_asset_params[1]."]", $show_charts) ? 'checked' : '' )?> /> <span class='blue'><?=$show_asset?></span> / <?=strtoupper($show_asset_params[1])?> @ <?=snake_case_to_name($show_asset_params[0])?>
+				<input type='checkbox' value='<?=$key?>_<?=$show_asset_params[1]?>' onchange='chart_toggle(this);' <?=( in_array("[".$key . '_' . $show_asset_params[1]."]", $show_charts) ? 'checked' : '' )?> /> <span class='blue'><?=$show_asset?></span> / <?=strtoupper($show_asset_params[1])?> @ <?=$ocpt_gen->snake_case_to_name($show_asset_params[0])?>
 			
 				<?php
 				// Markets that are NOT the same as PRIMARY CURRENCY CONFIG get a secondary chart for PRIMARY CURRENCY CONFIG
@@ -248,7 +248,7 @@
 	
 	<div style='display: flex; flex-flow: column wrap; overflow: hidden;' class='chart_wrapper' id='<?=$key?>_<?=$alerts_market_parse[1]?>_chart'>
 	
-	<span class='chart_loading' style='color: <?=$ocpt_conf['power']['charts_text']?>;'> &nbsp; Loading chart for <?=strtoupper($chart_asset)?> / <?=strtoupper($alerts_market_parse[1])?> @ <?=snake_case_to_name($alerts_market_parse[0])?>...</span>
+	<span class='chart_loading' style='color: <?=$ocpt_conf['power']['charts_text']?>;'> &nbsp; Loading chart for <?=strtoupper($chart_asset)?> / <?=strtoupper($alerts_market_parse[1])?> @ <?=$ocpt_gen->snake_case_to_name($alerts_market_parse[0])?>...</span>
 	
 	<div style='z-index: 99999; margin-top: 7px;' class='chart_reload align_center absolute_centered loading bitcoin'><img src="templates/interface/media/images/auto-preloaded/loader.gif" height='17' alt="" style='vertical-align: middle;' /> <div class='chart_reload_message'></div></div>
 		
@@ -282,7 +282,7 @@
 	
 	<div style='display: flex; flex-flow: column wrap; overflow: hidden;' class='chart_wrapper' id='<?=$key?>_<?=strtolower($default_btc_prim_curr_pairing)?>_chart'>
 	
-	<span class='chart_loading' style='color: <?=$ocpt_conf['power']['charts_text']?>;'> &nbsp; Loading chart for <?=strtoupper($chart_asset)?> / <?=strtoupper($alerts_market_parse[1])?> @ <?=snake_case_to_name($alerts_market_parse[0])?> (<?=strtoupper($default_btc_prim_curr_pairing)?> Value)...</span>
+	<span class='chart_loading' style='color: <?=$ocpt_conf['power']['charts_text']?>;'> &nbsp; Loading chart for <?=strtoupper($chart_asset)?> / <?=strtoupper($alerts_market_parse[1])?> @ <?=$ocpt_gen->snake_case_to_name($alerts_market_parse[0])?> (<?=strtoupper($default_btc_prim_curr_pairing)?> Value)...</span>
 	
 	<div style='z-index: 99999; margin-top: 7px;' class='chart_reload align_center absolute_centered loading bitcoin'><img src="templates/interface/media/images/auto-preloaded/loader.gif" height='17' alt="" style='vertical-align: middle;' /> <div class='chart_reload_message'></div></div>
 		

@@ -72,13 +72,13 @@ if ( $runtime_mode == 'ui' ) {
 	// Check configured coin markets
 	if ( $ocpt_conf['dev']['debug'] == 'all' || $ocpt_conf['dev']['debug'] == 'markets' ) {
 		
-		foreach ( $ocpt_conf['assets'] as $coin_key => $coin_value ) {
+		foreach ( $ocpt_conf['assets'] as $coin_key => $coin_val ) {
 		
 		
-			foreach ( $coin_value['pairing'] as $pairing_key => $pairing_value ) {
+			foreach ( $coin_val['pairing'] as $pairing_key => $pairing_val ) {
 			
 			
-				foreach ( $pairing_value as $key => $value ) {
+				foreach ( $pairing_val as $key => $value ) {
 				
 					if ( $key != 'misc_assets' ) {
 					
@@ -86,11 +86,11 @@ if ( $runtime_mode == 'ui' ) {
 					$markets_test_data = $ocpt_api->market( strtoupper($coin_key) , $key, $value, $pairing_key);
 				
 						if ( $markets_test_data['last_trade'] == NULL ) {
-						app_logging('market_error', 'No market price data available for ' . strtoupper($coin_key) . ' / ' . strtoupper($pairing_key) . ' @ ' . snake_case_to_name($key) );
+						app_logging('market_error', 'No market price data available for ' . strtoupper($coin_key) . ' / ' . strtoupper($pairing_key) . ' @ ' . $ocpt_gen->snake_case_to_name($key) );
 						}
 					
 						if ( $markets_test_data['24hr_prim_curr_vol'] == NULL || $markets_test_data['24hr_prim_curr_vol'] < 1 ) {
-						app_logging('market_error', 'No market volume data available for ' . strtoupper($coin_key) . ' / ' . strtoupper($pairing_key) . ' @ ' . snake_case_to_name($key) );
+						app_logging('market_error', 'No market volume data available for ' . strtoupper($coin_key) . ' / ' . strtoupper($pairing_key) . ' @ ' . $ocpt_gen->snake_case_to_name($key) );
 						}
 					
 					}

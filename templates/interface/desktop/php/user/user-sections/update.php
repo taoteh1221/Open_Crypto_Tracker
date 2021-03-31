@@ -379,7 +379,7 @@
 
 	    
 	    $zebra_stripe = 'long_list_odd';
-	    foreach ( $ocpt_conf['assets'] as $coin_array_key => $coin_array_value ) {
+	    foreach ( $ocpt_conf['assets'] as $coin_array_key => $coin_array_val ) {
 		
 		 $rand_id = rand(10000000,100000000);
 	    
@@ -396,10 +396,10 @@
 	        if ( $_POST['submit_check'] == 1 ) {
 	        $coin_pairing_id = $_POST[$field_var_pairing];
 	        $coin_market_id = $_POST[$field_var_market];
-	        $asset_amount_value = $ocpt_var->rem_num_format($_POST[$field_var_amount]);
-	        $coin_paid_value = $ocpt_var->rem_num_format($_POST[$field_var_paid]);
-	        $coin_leverage_value = $_POST[$field_var_leverage];
-	        $coin_margintype_value = $_POST[$field_var_margintype];
+	        $asset_amount_val = $ocpt_var->rem_num_format($_POST[$field_var_amount]);
+	        $coin_paid_val = $ocpt_var->rem_num_format($_POST[$field_var_paid]);
+	        $coin_leverage_val = $_POST[$field_var_leverage];
+	        $coin_margintype_val = $_POST[$field_var_margintype];
 	        }
 	        elseif ( $run_csv_import == 1 ) {
 	        	
@@ -409,10 +409,10 @@
 	        			if ( strtoupper($coin_array_key) == strtoupper($key) ) {
 	        			
 	        			// We already validated / auto-corrected $csv_file_array
-	        		 	$asset_amount_value = $value[1];
-	       		 	$coin_paid_value = $value[2];
-	       		 	$coin_leverage_value = $value[3];
-	        			$coin_margintype_value = $value[4];
+	        		 	$asset_amount_val = $value[1];
+	       		 	$coin_paid_val = $value[2];
+	       		 	$coin_leverage_val = $value[3];
+	        			$coin_margintype_val = $value[4];
 	        			$coin_market_id = $value[5];
 	        		 	$coin_pairing_id = $value[6];
 	        			
@@ -492,7 +492,7 @@
 		    
 		    		// We don't need $ocpt_var->rem_num_format() for cookie data, because it was already done creating the cookies
 					if ( $coin_symbol == strtoupper($coin_array_key) ) {
-					$asset_amount_value = $ocpt_var->num_to_str($single_coin_amounts_cookie_array[1]);
+					$asset_amount_val = $ocpt_var->num_to_str($single_coin_amounts_cookie_array[1]);
 					}
 		    
 		    
@@ -518,7 +518,7 @@
 		    		
 		    		// We don't need $ocpt_var->rem_num_format() for cookie data, because it was already done creating the cookies
 					if ( $coin_symbol == strtoupper($coin_array_key) ) {
-					$coin_paid_value = $ocpt_var->num_to_str($single_coin_paid_cookie_array[1]);
+					$coin_paid_val = $ocpt_var->num_to_str($single_coin_paid_cookie_array[1]);
 					}
 		    
 		    
@@ -543,7 +543,7 @@
 		    $coin_symbol = strtoupper(preg_replace("/_leverage/i", "", $single_coin_leverage_cookie_array[0]));  
 		    
 					if ( $coin_symbol == strtoupper($coin_array_key) ) {
-					$coin_leverage_value = $single_coin_leverage_cookie_array[1];
+					$coin_leverage_val = $single_coin_leverage_cookie_array[1];
 					}
 		    
 		    
@@ -568,7 +568,7 @@
 		    $coin_symbol = strtoupper(preg_replace("/_margintype/i", "", $single_coin_margintype_cookie_array[0]));  
 		    
 					if ( $coin_symbol == strtoupper($coin_array_key) ) {
-					$coin_margintype_value = $single_coin_margintype_cookie_array[1];
+					$coin_margintype_val = $single_coin_margintype_cookie_array[1];
 					}
 		    
 		    
@@ -592,17 +592,17 @@
 	    	}
 	    
 	    
-	  	 $asset_amount_value = $ocpt_var->num_pretty($asset_amount_value, $asset_amount_dec, TRUE); // TRUE = Show even if low value is off the map, just for UX purposes tracking token price only, etc
+	  	 $asset_amount_val = $ocpt_var->num_pretty($asset_amount_val, $asset_amount_dec, TRUE); // TRUE = Show even if low value is off the map, just for UX purposes tracking token price only, etc
 	    
 	    // Set any previously-used additional feilds to default, if 'watch only' now (no amount held)
-	    if ( $ocpt_var->rem_num_format($asset_amount_value) < 0.00000001 ) {
-	    $coin_paid_value = 0;
-	    $coin_leverage_value = 0;
-	    $coin_margintype_value = 'long';
+	    if ( $ocpt_var->rem_num_format($asset_amount_val) < 0.00000001 ) {
+	    $coin_paid_val = 0;
+	    $coin_leverage_val = 0;
+	    $coin_margintype_val = 'long';
 	    
 	    }
 	    else {
-	    $coin_paid_value = ( $ocpt_var->num_to_str($coin_paid_value) >= $ocpt_conf['gen']['prim_curr_dec_max_thres'] ? $ocpt_var->num_pretty($coin_paid_value, 2) : $ocpt_var->num_pretty($coin_paid_value, $ocpt_conf['gen']['prim_curr_dec_max']) );
+	    $coin_paid_val = ( $ocpt_var->num_to_str($coin_paid_val) >= $ocpt_conf['gen']['prim_curr_dec_max_thres'] ? $ocpt_var->num_pretty($coin_paid_val, 2) : $ocpt_var->num_pretty($coin_paid_val, $ocpt_conf['gen']['prim_curr_dec_max']) );
 	    }
 	    
 	    
@@ -613,10 +613,10 @@
 	    <div class='<?=$zebra_stripe?> long_list_taller' style='white-space: nowrap;'> 
 	       
 	       
-	       <input type='checkbox' value='<?=strtolower($coin_array_key)?>' id='<?=$field_var_watchonly?>' onchange='watch_toggle(this);' <?=( $ocpt_var->rem_num_format($asset_amount_value) > 0 && $ocpt_var->rem_num_format($asset_amount_value) <= '0.000000001' ? 'checked' : '' )?> /> &nbsp;
+	       <input type='checkbox' value='<?=strtolower($coin_array_key)?>' id='<?=$field_var_watchonly?>' onchange='watch_toggle(this);' <?=( $ocpt_var->rem_num_format($asset_amount_val) > 0 && $ocpt_var->rem_num_format($asset_amount_val) <= '0.000000001' ? 'checked' : '' )?> /> &nbsp;
 				    
 				    
-			<b class='blue'><?=$coin_array_value['name']?> (<?=strtoupper($coin_array_key)?>)</b> /  
+			<b class='blue'><?=$coin_array_val['name']?> (<?=strtoupper($coin_array_key)?>)</b> /  
 	       
 	       
 				    <select class='browser-default custom-select' onchange='
@@ -630,7 +630,7 @@
 					<?php
 					
 					// Get default BITCOIN pairing key for further down in the logic, if no $coin_pairing_id value was set FOR BITCOIN
-					if ( strtolower($coin_array_value['name']) == 'bitcoin' ) {
+					if ( strtolower($coin_array_val['name']) == 'bitcoin' ) {
 					$sel_pairing = ( isset($coin_pairing_id) ? $coin_pairing_id : $ocpt_conf['gen']['btc_prim_curr_pairing'] );
 					}
 					else {
@@ -638,7 +638,7 @@
 					}
 					
 					
-					foreach ( $coin_array_value['pairing'] as $pairing_key => $pairing_id ) {
+					foreach ( $coin_array_val['pairing'] as $pairing_key => $pairing_id ) {
 					 	
 					 	// Set pairing key if not set yet (values not yet populated etc)
 					 	if ( !isset($sel_pairing) ) {
@@ -649,12 +649,12 @@
 					<option value='<?=$pairing_key?>' <?=( $sel_pairing == $pairing_key ? ' selected ' : '' )?>> <?=strtoupper(preg_replace("/_/i", " ", $pairing_key))?> </option>
 					<?php
 					
-									foreach ( $coin_array_value['pairing'][$pairing_key] as $market_key => $market_id ) {
+									foreach ( $coin_array_val['pairing'][$pairing_key] as $market_key => $market_id ) {
 									$loop2 = $loop2 + 1;
 							
 									$html_market_list[$pairing_key] .= "\n<option value='".$loop2."'" . ( 
 									isset($coin_market_id) && ($coin_market_id) == $loop2 
-									|| !isset($coin_market_id) && strtolower($coin_array_value['name']) == 'bitcoin' && $loop2 == btc_market($ocpt_conf['gen']['btc_prim_exchange']) ? ' selected ' : '' ) . ">" . snake_case_to_name($market_key) . " </option>\n";
+									|| !isset($coin_market_id) && strtolower($coin_array_val['name']) == 'bitcoin' && $loop2 == btc_market($ocpt_conf['gen']['btc_prim_exchange']) ? ' selected ' : '' ) . ">" . $ocpt_gen->snake_case_to_name($market_key) . " </option>\n";
 								
 									}
 									$loop2 = NULL;
@@ -673,7 +673,7 @@
 				     elseif ( isset($coin_market_id) ) {
 				     echo $coin_market_id;
 				     }
-				     elseif ( !isset($coin_market_id) && strtolower($coin_array_value['name']) == 'bitcoin' ) {
+				     elseif ( !isset($coin_market_id) && strtolower($coin_array_val['name']) == 'bitcoin' ) {
 				     echo btc_market($ocpt_conf['gen']['btc_prim_exchange']);
 				     }
 				     else {
@@ -707,7 +707,7 @@
 				    
 				    
 			
-	     			 <b>Holdings:</b> <input type='text' size='11' id='<?=$field_var_amount?>' name='<?=$field_var_amount?>' value='<?=$asset_amount_value?>' onkeyup='
+	     			 <b>Holdings:</b> <input type='text' size='11' id='<?=$field_var_amount?>' name='<?=$field_var_amount?>' value='<?=$asset_amount_val?>' onkeyup='
 	     
 	     $("#<?=strtolower($coin_array_key)?>_restore").val( $("#<?=strtolower($coin_array_key)?>_amount").val() );
 	     
@@ -715,10 +715,10 @@
 	     
 	     $("#<?=strtolower($coin_array_key)?>_restore").val( $("#<?=strtolower($coin_array_key)?>_amount").val() );
 	     
-	     ' <?=( $ocpt_var->rem_num_format($asset_amount_value) > 0 && $ocpt_var->rem_num_format($asset_amount_value) <= '0.000000001' ? 'readonly' : '' )?> /> <span class='blue'><?=strtoupper($coin_array_key)?></span>  &nbsp;  &nbsp; 
+	     ' <?=( $ocpt_var->rem_num_format($asset_amount_val) > 0 && $ocpt_var->rem_num_format($asset_amount_val) <= '0.000000001' ? 'readonly' : '' )?> /> <span class='blue'><?=strtoupper($coin_array_key)?></span>  &nbsp;  &nbsp; 
 			    
 			
-	     <b>Average Paid (per-token):</b> <?=$ocpt_conf['power']['btc_curr_markets'][$ocpt_conf['gen']['btc_prim_curr_pairing']]?><input type='text' size='10' id='<?=$field_var_paid?>' name='<?=$field_var_paid?>' value='<?=$coin_paid_value?>' <?=$disable_fields?> /> 
+	     <b>Average Paid (per-token):</b> <?=$ocpt_conf['power']['btc_curr_markets'][$ocpt_conf['gen']['btc_prim_curr_pairing']]?><input type='text' size='10' id='<?=$field_var_paid?>' name='<?=$field_var_paid?>' value='<?=$coin_paid_val?>' <?=$disable_fields?> /> 
 	     
 	     
 		<img id='average_paid_notes_<?=$rand_id?>' src='templates/interface/media/images/info.png' alt='' width='30' style='position: relative; left: -5px;' /> 
@@ -774,12 +774,12 @@
 	     }
 	     alert(" " + this.value + "x (" + mode + " Mode) \n Leverage trading in crypto assets is \n EXTREMELY RISKY. NEVER put more \n than ~5% of your crypto investments \n in leveraged trades EVER, OR YOU \n ###COULD LOSE EVERYTHING###. ");
 	     ' <?=$disable_fields?> >
-	     <option value='0' <?=( $coin_leverage_value == 0 || $ocpt_var->rem_num_format($coin_paid_value) < 0.00000001 ? 'selected' : '' )?>> None </option>
+	     <option value='0' <?=( $coin_leverage_val == 0 || $ocpt_var->rem_num_format($coin_paid_val) < 0.00000001 ? 'selected' : '' )?>> None </option>
 	     <?php
 	     $leverage_count = 2;
 	     while ( $ocpt_conf['power']['margin_leverage_max'] > 1 && $leverage_count <= $ocpt_conf['power']['margin_leverage_max'] ) {
 	     ?>	     
-	     <option value='<?=$leverage_count?>' <?=( $coin_leverage_value == $leverage_count && $ocpt_var->rem_num_format($coin_paid_value) >= 0.00000001 ? 'selected' : '' )?>> <?=$leverage_count?>x </option>
+	     <option value='<?=$leverage_count?>' <?=( $coin_leverage_val == $leverage_count && $ocpt_var->rem_num_format($coin_paid_val) >= 0.00000001 ? 'selected' : '' )?>> <?=$leverage_count?>x </option>
 	     <?php
 	     $leverage_count = $leverage_count + 1;
 	     }
@@ -788,8 +788,8 @@
 	     
 	     
 	     <select class='browser-default custom-select' name='<?=$field_var_margintype?>' id='<?=$field_var_margintype?>' <?=$disable_fields?> >
-	     <option value='long' <?=( $coin_margintype_value == 'long' ? 'selected' : '' )?>> Long </option>
-	     <option value='short' <?=( $coin_leverage_value >= 2 && $coin_margintype_value == 'short' ? 'selected' : '' )?>> Short </option>
+	     <option value='long' <?=( $coin_margintype_val == 'long' ? 'selected' : '' )?>> Long </option>
+	     <option value='short' <?=( $coin_leverage_val >= 2 && $coin_margintype_val == 'short' ? 'selected' : '' )?>> Short </option>
 	     </select> 
 	     
 	     
@@ -820,7 +820,7 @@
 		 
 	     
 	     
-	     <input type='hidden' id='<?=$field_var_restore?>' name='<?=$field_var_restore?>' value='<?=( $ocpt_var->rem_num_format($asset_amount_value) > 0 && $ocpt_var->rem_num_format($asset_amount_value) <= '0.000000001' ? '' : $asset_amount_value )?>' />
+	     <input type='hidden' id='<?=$field_var_restore?>' name='<?=$field_var_restore?>' value='<?=( $ocpt_var->rem_num_format($asset_amount_val) > 0 && $ocpt_var->rem_num_format($asset_amount_val) <= '0.000000001' ? '' : $asset_amount_val )?>' />
 				
 				
 	    </div>
@@ -839,8 +839,8 @@
 	    
 	    $coin_pairing_id = NULL;
 	    $coin_market_id = NULL;
-	    $asset_amount_value = NULL;
- 		 $coin_paid_value = NULL;
+	    $asset_amount_val = NULL;
+ 		 $coin_paid_val = NULL;
 	    
 	    }
 	    
@@ -865,9 +865,9 @@
 	
 	<input type='hidden' id='show_charts' name='show_charts' value='<?=( $_POST['show_charts'] != '' ? $_POST['show_charts'] : $_COOKIE['show_charts'] )?>' />
 	
-	<input type='hidden' id='show_crypto_value' name='show_crypto_value' value='<?=( $_POST['show_crypto_value'] != '' ? $_POST['show_crypto_value'] : $_COOKIE['show_crypto_value'] )?>' />
+	<input type='hidden' id='show_crypto_val' name='show_crypto_val' value='<?=( $_POST['show_crypto_val'] != '' ? $_POST['show_crypto_val'] : $_COOKIE['show_crypto_val'] )?>' />
 	
-	<input type='hidden' id='show_secondary_trade_value' name='show_secondary_trade_value' value='<?=( $_POST['show_secondary_trade_value'] != '' ? $_POST['show_secondary_trade_value'] : $_COOKIE['show_secondary_trade_value'] )?>' />
+	<input type='hidden' id='show_secondary_trade_val' name='show_secondary_trade_val' value='<?=( $_POST['show_secondary_trade_val'] != '' ? $_POST['show_secondary_trade_val'] : $_COOKIE['show_secondary_trade_val'] )?>' />
 	
 	<input type='hidden' id='show_feeds' name='show_feeds' value='<?=( $_POST['show_feeds'] != '' ? $_POST['show_feeds'] : $_COOKIE['show_feeds'] )?>' />
 	

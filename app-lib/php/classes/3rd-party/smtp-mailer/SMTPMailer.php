@@ -302,8 +302,8 @@ Class SMTPMailer {
 				
 				$this->debug[] = "\n\n META DATA: \n";
 				
-					foreach ( $this->meta as $info_key => $info_value ) {
-					$this->debug[] = $info_key . ' => ' . $info_value;
+					foreach ( $this->meta as $info_key => $info_val ) {
+					$this->debug[] = $info_key . ' => ' . $info_val;
 					}
 					
 				
@@ -397,8 +397,8 @@ Class SMTPMailer {
         
         $this->log[] = "\n\n META DATA: \n";
         
-        	foreach ( $this->meta as $info_key => $info_value ) {
-        	$this->log[] = $info_key . ' => ' . $info_value;
+        	foreach ( $this->meta as $info_key => $info_val ) {
+        	$this->log[] = $info_key . ' => ' . $info_val;
         	}
         
         $this->log[] = "\n\n HEADER DATA: \n";

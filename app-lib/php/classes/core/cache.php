@@ -19,9 +19,9 @@ var $ocpt_array1 = array();
   ////////////////////////////////////////////////////////
   
   
-  function remove_directory($dir) { 
+  function remove_dir($dir) { 
     foreach(glob($dir . '/*') as $file) {
-      if(is_dir($file)) remove_directory($file); else unlink($file); 
+      if(is_dir($file)) remove_dir($file); else unlink($file); 
     }
     rmdir($dir);
   }
@@ -68,7 +68,7 @@ var $ocpt_array1 = array();
   ////////////////////////////////////////////////////////
   
   
-  function htaccess_directory_defaults() {
+  function htaccess_dir_defaults() {
    
   global $base_dir, $ocpt_conf;
   
@@ -88,17 +88,17 @@ var $ocpt_array1 = array();
   ////////////////////////////////////////////////////////
   
   
-  function delete_old_files($directory_data, $days, $ext) {
+  function delete_old_files($dir_data, $days, $ext) {
    
    
    // Support for string OR array in the calls, for directory data
-   if ( !is_array($directory_data) ) {
-   $directory_data = array($directory_data);
+   if ( !is_array($dir_data) ) {
+   $dir_data = array($dir_data);
    }
    
    
    // Process each directory
-   foreach ( $directory_data as $dir ) {
+   foreach ( $dir_data as $dir ) {
    
     
    $files = glob($dir."/*.".$ext);
@@ -136,7 +136,7 @@ var $ocpt_array1 = array();
   ////////////////////////////////////////////////////////
   
   
-  function htaccess_directory_protection() {
+  function htaccess_dir_protection() {
   
   global $base_dir, $ocpt_conf, $htaccess_username, $htaccess_password;
   
@@ -165,7 +165,7 @@ var $ocpt_array1 = array();
       
        if ( $password_set == true ) {
        
-       $htaccess_contents = htaccess_directory_defaults() . 
+       $htaccess_contents = htaccess_dir_defaults() . 
     preg_replace("/\[BASE_DIR\]/i", $base_dir, file_get_contents($base_dir . '/templates/back-end/enable-password-htaccess.template') );
       
        $htaccess_set = $this->save_file($base_dir . '/.htaccess', $htaccess_contents);
@@ -367,8 +367,8 @@ var $ocpt_array1 = array();
       // json_encode() only accepts UTF-8, SO TEMPORARILY CONVERT TO THAT FOR MESSAGE QUEUE STORAGE
       if ( strtolower($send_params['text']['charset']) != 'utf-8' ) {
        
-       foreach( $textemail_array as $textemail_key => $textemail_value ) {
-       $textemail_array[$textemail_key] = mb_convert_encoding($textemail_value, 'UTF-8', mb_detect_encoding($textemail_value, "auto") );
+       foreach( $textemail_array as $textemail_key => $textemail_val ) {
+       $textemail_array[$textemail_key] = mb_convert_encoding($textemail_val, 'UTF-8', mb_detect_encoding($textemail_val, "auto") );
        }
       
       }
@@ -385,8 +385,8 @@ var $ocpt_array1 = array();
       // json_encode() only accepts UTF-8, SO TEMPORARILY CONVERT TO THAT FOR MESSAGE QUEUE STORAGE
       if ( strtolower($send_params['email']['charset']) != 'utf-8' ) {
        
-       foreach( $email_array as $email_key => $email_value ) {
-       $email_array[$email_key] = mb_convert_encoding($email_value, 'UTF-8', mb_detect_encoding($email_value, "auto") );
+       foreach( $email_array as $email_key => $email_val ) {
+       $email_array[$email_key] = mb_convert_encoding($email_val, 'UTF-8', mb_detect_encoding($email_val, "auto") );
        }
       
       }
@@ -1388,9 +1388,9 @@ var $ocpt_array1 = array();
          // json_encode() only accepts UTF-8, SO CONVERT BACK TO ORIGINAL CHARSET
          if ( strtolower($restore_text_charset) != 'utf-8' ) {
           
-          foreach( $textemail_array as $textemail_key => $textemail_value ) {
+          foreach( $textemail_array as $textemail_key => $textemail_val ) {
           // Leave charset / content_type vars UTF-8
-          $textemail_array[$textemail_key] = ( $textemail_key == 'charset' || $textemail_key == 'content_type' ? $textemail_value : mb_convert_encoding($textemail_value, $restore_text_charset, 'UTF-8') );
+          $textemail_array[$textemail_key] = ( $textemail_key == 'charset' || $textemail_key == 'content_type' ? $textemail_val : mb_convert_encoding($textemail_val, $restore_text_charset, 'UTF-8') );
           }
       
          }
@@ -1435,9 +1435,9 @@ var $ocpt_array1 = array();
          // json_encode() only accepts UTF-8, SO CONVERT BACK TO ORIGINAL CHARSET
          if ( strtolower($restore_email_charset) != 'utf-8' ) {
           
-          foreach( $email_array as $email_key => $email_value ) {
+          foreach( $email_array as $email_key => $email_val ) {
           // Leave charset / content_type vars UTF-8
-          $email_array[$email_key] = ( $email_key == 'charset' || $email_key == 'content_type' ? $email_value : mb_convert_encoding($email_value, $restore_email_charset, 'UTF-8') );
+          $email_array[$email_key] = ( $email_key == 'charset' || $email_key == 'content_type' ? $email_val : mb_convert_encoding($email_val, $restore_email_charset, 'UTF-8') );
           }
       
          }
@@ -1547,8 +1547,8 @@ var $ocpt_array1 = array();
   
   function ext_data($mode, $request_params, $ttl, $api_server=null, $post_encoding=3, $test_proxy=null, $headers=null) { // Default to JSON encoding post requests (most used)
   
-  // $ocpt_conf['gen']['btc_prim_curr_pairing'] / $ocpt_conf['gen']['btc_prim_exchange'] / $sel_btc_prim_curr_value USED FOR TRACE DEBUGGING (TRACING)
-  global $base_dir, $ocpt_var, $proxy_checkup, $logs_array, $limited_api_calls, $ocpt_conf, $api_runtime_cache, $sel_btc_prim_curr_value, $user_agent, $base_url, $api_connections, $defipulse_api_limit, $htaccess_username, $htaccess_password;
+  // $ocpt_conf['gen']['btc_prim_curr_pairing'] / $ocpt_conf['gen']['btc_prim_exchange'] / $sel_btc_prim_curr_val USED FOR TRACE DEBUGGING (TRACING)
+  global $base_dir, $ocpt_var, $proxy_checkup, $logs_array, $limited_api_calls, $ocpt_conf, $api_runtime_cache, $sel_btc_prim_curr_val, $user_agent, $base_url, $api_connections, $defipulse_api_limit, $htaccess_username, $htaccess_password;
   
   
   $cookie_jar = tempnam('/tmp','cookie');
@@ -1931,7 +1931,7 @@ var $ocpt_array1 = array();
       $error_response_log = '/cache/logs/errors/external_api/error-response-'.preg_replace("/\./", "_", $endpoint_tld_or_ip).'-hash-'.$hash_check.'-timestamp-'.time().'.log';
       
       // LOG-SAFE VERSION (no post data with API keys etc)
-       app_logging('ext_data_error', 'POSSIBLE error for ' . ( $mode == 'params' ? 'server at ' : 'endpoint at ' ) . obfuscated_url_data($api_endpoint), 'requested_from: server (' . $ocpt_conf['power']['remote_api_timeout'] . ' second timeout); live_request_time: ' . $api_total_time . ' seconds; mode: ' . $mode . '; received: ' . $data_bytes_ux . '; proxy: ' .( $current_proxy ? $current_proxy : 'none' ) . '; debug_file: ' . $error_response_log . '; btc_prim_curr_pairing: ' . $ocpt_conf['gen']['btc_prim_curr_pairing'] . '; btc_prim_exchange: ' . $ocpt_conf['gen']['btc_prim_exchange'] . '; btc_prim_curr_value: ' . $ocpt_var->num_to_str($sel_btc_prim_curr_value) . '; hash_check: ' . $ocpt_var->obfuscate_str($hash_check, 4) . ';' );
+       app_logging('ext_data_error', 'POSSIBLE error for ' . ( $mode == 'params' ? 'server at ' : 'endpoint at ' ) . obfuscated_url_data($api_endpoint), 'requested_from: server (' . $ocpt_conf['power']['remote_api_timeout'] . ' second timeout); live_request_time: ' . $api_total_time . ' seconds; mode: ' . $mode . '; received: ' . $data_bytes_ux . '; proxy: ' .( $current_proxy ? $current_proxy : 'none' ) . '; debug_file: ' . $error_response_log . '; btc_prim_curr_pairing: ' . $ocpt_conf['gen']['btc_prim_curr_pairing'] . '; btc_prim_exchange: ' . $ocpt_conf['gen']['btc_prim_exchange'] . '; btc_prim_curr_val: ' . $ocpt_var->num_to_str($sel_btc_prim_curr_val) . '; hash_check: ' . $ocpt_var->obfuscate_str($hash_check, 4) . ';' );
       
       // Log this error response from this data request
       $this->save_file($base_dir . $error_response_log, $data);
@@ -1995,7 +1995,7 @@ var $ocpt_array1 = array();
        
        
       // LOG-SAFE VERSION (no post data with API keys etc)
-      app_logging('ext_data_error', 'CONFIRMED error for ' . ( $mode == 'params' ? 'server at ' : 'endpoint at ' ) . obfuscated_url_data($api_endpoint) . $log_append, 'requested_from: server (' . $ocpt_conf['power']['remote_api_timeout'] . ' second timeout); live_request_time: ' . $api_total_time . ' seconds; mode: ' . $mode . '; received: ' . $data_bytes_ux . '; proxy: ' .( $current_proxy ? $current_proxy : 'none' ) . '; btc_prim_curr_pairing: ' . $ocpt_conf['gen']['btc_prim_curr_pairing'] . '; btc_prim_exchange: ' . $ocpt_conf['gen']['btc_prim_exchange'] . '; btc_prim_curr_value: ' . $ocpt_var->num_to_str($sel_btc_prim_curr_value) . '; hash_check: ' . $ocpt_var->obfuscate_str($hash_check, 4) . ';' );
+      app_logging('ext_data_error', 'CONFIRMED error for ' . ( $mode == 'params' ? 'server at ' : 'endpoint at ' ) . obfuscated_url_data($api_endpoint) . $log_append, 'requested_from: server (' . $ocpt_conf['power']['remote_api_timeout'] . ' second timeout); live_request_time: ' . $api_total_time . ' seconds; mode: ' . $mode . '; received: ' . $data_bytes_ux . '; proxy: ' .( $current_proxy ? $current_proxy : 'none' ) . '; btc_prim_curr_pairing: ' . $ocpt_conf['gen']['btc_prim_curr_pairing'] . '; btc_prim_exchange: ' . $ocpt_conf['gen']['btc_prim_exchange'] . '; btc_prim_curr_val: ' . $ocpt_var->num_to_str($sel_btc_prim_curr_val) . '; hash_check: ' . $ocpt_var->obfuscate_str($hash_check, 4) . ';' );
        
      
       }

@@ -534,7 +534,7 @@ $ocpt_conf['power']['asset_mcap_chart_defaults'] = '600||14'; // 'chart_height||
 
 // Highest numeric value sensor data to include, in the FIRST system information chart (out of two)
 // (higher sensor data is moved into the second chart, to keep ranges easily readable between both charts...only used IF CRON JOB IS SETUP)
-$ocpt_conf['power']['system_stats_first_chart_highest_value'] = 1; // (default = 1) 
+$ocpt_conf['power']['system_stats_first_chart_highest_val'] = 1; // (default = 1) 
 ////
 // Highest allowed sensor value to scale vertical axis for, in the SECOND system information chart (out of two)
 // (to prevent anomaly results from scaling vertical axis too high to read LESSER-VALUE sensor data...only used IF CRON JOB IS SETUP)
@@ -752,7 +752,7 @@ $ocpt_conf['power']['btc_pref_curr_markets'] = array(
 
 
 // Static values in ETH for Ethereum subtokens, like during crowdsale periods etc (before exchange listings)
-$ocpt_conf['power']['ethereum_subtoken_ico_values'] = array(
+$ocpt_conf['power']['eth_erc20_icos'] = array(
                         'ETHSUBTOKENNAME' => '0.15',
                         'GOLEM' => '0.001',
                         'ARAGON' => '0.01',
@@ -1379,7 +1379,7 @@ $ocpt_conf['power']['news_feed'] = array(
 // ### SUMMARIES ###
 ////
 // 'stats' (hardware / software / runtime summary),
-// 'markets_config' (outputs a markets configuration summary),
+// 'markets_conf' (outputs a markets configuration summary),
 ////
 ////////////////////////////////////////////////////////////////////////////////////////////
 // UNIT TESTS ('CHECKS' SECTION) WILL ONLY RUN DURING WEB PAGE LOAD. MAY REQUIRE SETTING MAXIMUM ALLOWED 

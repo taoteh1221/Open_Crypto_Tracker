@@ -103,16 +103,16 @@ exit;
 // If chart data exists...
 
 $loop = 0;
-foreach ( $runtime_data['performance_stats'] as $chart_key => $chart_value ) {
+foreach ( $runtime_data['performance_stats'] as $chart_key => $chart_val ) {
   			
-$percent_sample_newest = $ocpt_var->num_to_str( $ocpt_var->delimited_str_sample($chart_value['data']['percent'], ',', 'last') );
+$percent_sample_newest = $ocpt_var->num_to_str( $ocpt_var->delimited_str_sample($chart_val['data']['percent'], ',', 'last') );
 
 	// If percent value matches, and another (increasing) number to the end, to avoid overwriting keys (this data is only used as an array key anyway)
 	if ( !array_key_exists($percent_sample_newest, $sorted_by_last_chart_data) ) {
-	$sorted_by_last_chart_data[$percent_sample_newest] = array($chart_key, $chart_value);
+	$sorted_by_last_chart_data[$percent_sample_newest] = array($chart_key, $chart_val);
 	}
 	else {
-	$sorted_by_last_chart_data[$percent_sample_newest . $loop] = array($chart_key, $chart_value);
+	$sorted_by_last_chart_data[$percent_sample_newest . $loop] = array($chart_key, $chart_val);
 	$loop = $loop + 1;
 	}
 
@@ -122,11 +122,11 @@ $percent_sample_newest = $ocpt_var->num_to_str( $ocpt_var->delimited_str_sample(
 // (newest/last chart sensors data sorts lowest value to highest, for populating the 2 shared charts)
 ksort($sorted_by_last_chart_data);
 
-$plot_config = explode('|', $_GET['plot_config']);
+$plot_conf = explode('|', $_GET['plot_conf']);
   
 	foreach ( $sorted_by_last_chart_data as $chart_array ) {
 		
-		if ( in_array($chart_array[0], $plot_config) ) {
+		if ( in_array($chart_array[0], $plot_conf) ) {
 		$show_plot = 'visible: true,';
 		}
 		else {
@@ -136,7 +136,7 @@ $plot_config = explode('|', $_GET['plot_config']);
 	$rand_color = '#' . randomColor( sizeof($sorted_by_last_chart_data) )['hex'];
 		
 					
-				$chart_config = "{
+				$chart_conf = "{
 			  text: '".$chart_array[0]."',
 			  values: [".$chart_array[1]['data']['combined']."],
 			  ".$show_plot."
@@ -153,7 +153,7 @@ $plot_config = explode('|', $_GET['plot_config']);
 					borderRadius: '2px'
 			  }
 			},
-			" . $chart_config;
+			" . $chart_conf;
 			
 		
 	}
@@ -321,7 +321,7 @@ gui: {
  		},
   		backgroundColor: "#f2f2f2",
       series: [
-        <?php echo $chart_config . "\n" ?>
+        <?php echo $chart_conf . "\n" ?>
       ],
 	labels: [
 			{

@@ -35,10 +35,15 @@ OPTIMIZATIONS / BUGS / TESTS / UX / QA / OTHER SECTION
 ///////////////////////////////////////////////////////
 
 
+CAREFULLY finish converting these var names, for better readability in heavy algos (a good practice, regardless of heavy code):
+$value => $val
+$string => $str
+$number => $num
+$config => $conf
+_marketcap => _mcap
+
+
 Double-check that the internal API (AND EVERYTHING ELSE) still works, after all the refactoring we did.
-
-
-FIAT-EQUIVELENT price charts displaying / being checked off as selected seems to be acting up again? KEEP AN EYE ON IT.
 
 
 See if there are anymore decent open source / lightweight (small file size) .ttf font files out there, to add a bit more entropy to the captcha image letters / numbers, for higher security.
@@ -200,7 +205,7 @@ Auto-update feature like WordPress has (downloads a zip file upgrade from github
 Option to use new zip file encryption password feature to encrypt portfolio spreadsheet exports when downloading exported portfolio data (with password entered in the UI, #NOT# $ocpt_conf['gen']['backup_arch_pass']).
 
 
-For each category_key => category_value loop app config, to automate categorizing new admin settings tabs...selects for arrays, text fields for strings. Maybe certain key names get checkbox / radio button fields.
+For each cat_key => cat_val loop app config, to automate categorizing new admin settings tabs...selects for arrays, text fields for strings. Maybe certain key names get checkbox / radio button fields.
 
 
 On admin config tabs, add logic to have onchange update a tracking value FOR THAT TAB ONLY, so if a user changes a setting and DOESN'T SAVE IT AND CLICKS ANOTHER SECTION / TAB / LINK they get an alert to confirm leaving the tab without saving their changes. Include on exiting admin config area (returning to portfolio page / closing tab).

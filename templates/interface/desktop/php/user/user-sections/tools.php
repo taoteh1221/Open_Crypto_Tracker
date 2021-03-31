@@ -58,24 +58,24 @@
     			
     			<p><button class='force_button_style' onclick='
     				document.getElementById("sat_target").value = (0.00000001).toFixed(8);
-    				satoshi_value("refresh");
+    				sats_val("refresh");
     				'>Reset Satoshi Value</button> 
     			
-    				<button class='force_button_style' onclick='satoshi_value(0.00000001);'>+1</button> 
+    				<button class='force_button_style' onclick='sats_val(0.00000001);'>+1</button> 
     				
-    				<button class='force_button_style' onclick='satoshi_value(0.00000010);'>+10</button> 
+    				<button class='force_button_style' onclick='sats_val(0.00000010);'>+10</button> 
     				
-    				<button class='force_button_style' onclick='satoshi_value(0.00000100);'>+100</button> 
+    				<button class='force_button_style' onclick='sats_val(0.00000100);'>+100</button> 
     				
-    				<button class='force_button_style' onclick='satoshi_value(0.00001000);'>+1,000</button> 
+    				<button class='force_button_style' onclick='sats_val(0.00001000);'>+1,000</button> 
     				
-    				<button class='force_button_style' onclick='satoshi_value(0.00010000);'>+10,000</button> 
+    				<button class='force_button_style' onclick='sats_val(0.00010000);'>+10,000</button> 
     				
-    				<button class='force_button_style' onclick='satoshi_value(0.00100000);'>+100,000</button> 
+    				<button class='force_button_style' onclick='sats_val(0.00100000);'>+100,000</button> 
     				
-    				<button class='force_button_style' onclick='satoshi_value(0.01000000);'>+1,000,000</button> 
+    				<button class='force_button_style' onclick='sats_val(0.01000000);'>+1,000,000</button> 
     				
-    				<button class='force_button_style' onclick='satoshi_value(0.10000000);'>+10,000,000</button> 
+    				<button class='force_button_style' onclick='sats_val(0.10000000);'>+10,000,000</button> 
     				
     			</p>
     			
@@ -86,11 +86,11 @@
     			<script>
     			
     			document.getElementById("to_trade_amount").addEventListener("input", function(){
-  				satoshi_value("refresh");
+  				sats_val("refresh");
 				});
 				
     			document.getElementById("sat_target").addEventListener("input", function(){
-  				satoshi_value("refresh");
+  				sats_val("refresh");
 				});
     			
     			

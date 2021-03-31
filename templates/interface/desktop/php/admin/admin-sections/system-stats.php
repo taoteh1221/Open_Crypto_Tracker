@@ -70,9 +70,9 @@
 			var system_stats_admin_link_info_content = '<h5 class="red tooltip_title">System Stats Alerts</h5>'
 			
 			<?php
-			foreach ( $system_alerts as $alert_key => $alert_value ) {
+			foreach ( $system_alerts as $alert_key => $alert_val ) {
 			?>
-			+'<p class="coin_info extra_margins" style="max-width: 600px; white-space: normal;"><span class="red"><?=snake_case_to_name($alert_key)?>:</span> <?=$alert_value?></p>'
+			+'<p class="coin_info extra_margins" style="max-width: 600px; white-space: normal;"><span class="red"><?=$ocpt_gen->snake_case_to_name($alert_key)?>:</span> <?=$alert_val?></p>'
 			<?php
 			}
 			?>

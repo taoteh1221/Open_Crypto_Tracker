@@ -18,43 +18,43 @@ $ocpt_conf['gen']['prim_mcap_site'] = ( $alert_percent[0] != '' ? $alert_percent
 ///////////////////////////////////////////////////////////////////////
 
 
-$show_crypto_value = explode(',', rtrim( ( $_POST['show_crypto_value'] != '' ? $_POST['show_crypto_value'] : $_COOKIE['show_crypto_value'] ) , ',') );
+$show_crypto_val = explode(',', rtrim( ( $_POST['show_crypto_val'] != '' ? $_POST['show_crypto_val'] : $_COOKIE['show_crypto_val'] ) , ',') );
 
 		
 		// Remove any stale crypto value
-		$temp_show_crypto_value = array();
-		$scan_crypto_value = $show_crypto_value;
-		$scan_crypto_value = array_map( array($ocpt_var, 'strip_brackets') , $scan_crypto_value); // Strip brackets
+		$temp_show_crypto_val = array();
+		$scan_crypto_val = $show_crypto_val;
+		$scan_crypto_val = array_map( array($ocpt_var, 'strip_brackets') , $scan_crypto_val); // Strip brackets
 		$loop = 0;
-		foreach ($scan_crypto_value as $key) {
+		foreach ($scan_crypto_val as $key) {
 			if ( array_key_exists($key, $ocpt_conf['power']['crypto_pairing']) ) {
-			$temp_show_crypto_value[$loop] = $show_crypto_value[$loop];
+			$temp_show_crypto_val[$loop] = $show_crypto_val[$loop];
 			}
 		$loop = $loop + 1;
 		}
-		$show_crypto_value = $temp_show_crypto_value;
-		$implode_crypto_value = implode(',', $show_crypto_value) . ',';
+		$show_crypto_val = $temp_show_crypto_val;
+		$implode_crypto_val = implode(',', $show_crypto_val) . ',';
 	
 		// Update POST and / or COOKIE data too
-		if( $_POST['show_crypto_value'] ) {
-		$_POST['show_crypto_value'] = $implode_crypto_value;
+		if( $_POST['show_crypto_val'] ) {
+		$_POST['show_crypto_val'] = $implode_crypto_val;
 		}
 	
-		if( $_COOKIE['show_crypto_value'] ) {
-		$ocpt_gen->store_cookie("show_crypto_value", $implode_crypto_value, mktime()+31536000);
+		if( $_COOKIE['show_crypto_val'] ) {
+		$ocpt_gen->store_cookie("show_crypto_val", $implode_crypto_val, mktime()+31536000);
 		}
 
 ///////////////////////////////////////////////////////////////////////
 
 
-$show_secondary_trade_value = ( $_POST['show_secondary_trade_value'] != '' ? $_POST['show_secondary_trade_value'] : $_COOKIE['show_secondary_trade_value'] );
+$show_secondary_trade_val = ( $_POST['show_secondary_trade_val'] != '' ? $_POST['show_secondary_trade_val'] : $_COOKIE['show_secondary_trade_val'] );
 
 	// Remove any stale secondary trade value
-	if ( !array_key_exists($show_secondary_trade_value, $ocpt_conf['power']['crypto_pairing']) ) {
-	$show_secondary_trade_value = null;
-	$_POST['show_secondary_trade_value'] = null;  
-	$ocpt_gen->store_cookie("show_secondary_trade_value", "", time()-3600);  
-	unset($_COOKIE['show_secondary_trade_value']);  
+	if ( !array_key_exists($show_secondary_trade_val, $ocpt_conf['power']['crypto_pairing']) ) {
+	$show_secondary_trade_val = null;
+	$_POST['show_secondary_trade_val'] = null;  
+	$ocpt_gen->store_cookie("show_secondary_trade_val", "", time()-3600);  
+	unset($_COOKIE['show_secondary_trade_val']);  
 	}
 
 
@@ -108,10 +108,10 @@ $show_feeds = explode(',', rtrim( ( $_POST['show_feeds'] != '' ? $_POST['show_fe
 				
 			$chart_params = explode('_', $ocpt_var->strip_brackets($show_charts[$loop]) );
 			
-			$chart_config_check = explode('||', $ocpt_conf['charts_alerts']['tracked_markets'][$market_key]);
+			$chart_conf_check = explode('||', $ocpt_conf['charts_alerts']['tracked_markets'][$market_key]);
 				
 				// If pairing properly matches OR it's a conversion chart, we're good to keep this $show_charts array value 
-				if ( $chart_params[1] == $chart_config_check[1] || $chart_params[1] == $ocpt_conf['gen']['btc_prim_curr_pairing'] ) {
+				if ( $chart_params[1] == $chart_conf_check[1] || $chart_params[1] == $default_btc_prim_curr_pairing ) {
 				$temp_show_charts[$loop] = $show_charts[$loop];
 				}
 				

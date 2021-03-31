@@ -10,11 +10,11 @@
 				<b>Current <?=$pow_coin_data['name']?> Value Per Coin:</b> 
 				
 				<?php
-				$value_per_coin = round( $mined_coin_value * $sel_btc_prim_curr_value , 8);
+				$value_per_coin = round( $mined_coin_val * $sel_btc_prim_curr_val , 8);
 				
 				$value_per_coin = ( $ocpt_var->num_to_str($value_per_coin) >= $ocpt_conf['gen']['prim_curr_dec_max_thres'] ? round($value_per_coin, 2) : round($value_per_coin, $ocpt_conf['gen']['prim_curr_dec_max']) );
 				
-				echo ( $pow_coin_data['symbol'] == 'btc' ? number_format($sel_btc_prim_curr_value, 2) . ' ' . strtoupper($ocpt_conf['gen']['btc_prim_curr_pairing']) : number_format($mined_coin_value, 8) . ' BTC (' . $ocpt_conf['power']['btc_curr_markets'][$ocpt_conf['gen']['btc_prim_curr_pairing']] . $value_per_coin . ' '.strtoupper($ocpt_conf['gen']['btc_prim_curr_pairing']).')' );
+				echo ( $pow_coin_data['symbol'] == 'btc' ? number_format($sel_btc_prim_curr_val, 2) . ' ' . strtoupper($ocpt_conf['gen']['btc_prim_curr_pairing']) : number_format($mined_coin_val, 8) . ' BTC (' . $ocpt_conf['power']['btc_curr_markets'][$ocpt_conf['gen']['btc_prim_curr_pairing']] . $value_per_coin . ' '.strtoupper($ocpt_conf['gen']['btc_prim_curr_pairing']).')' );
 				?>
 				
 				<br />

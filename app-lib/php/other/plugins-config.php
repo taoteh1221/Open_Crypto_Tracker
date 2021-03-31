@@ -14,6 +14,7 @@ foreach ( $ocpt_conf['power']['activate_plugins'] as $key => $value ) {
 	if ( $value == 'on' ) {
 		
 	$key = trim($key);
+	
 	$plug_conf_file = $base_dir . '/plugins/' . $key . '/plug-conf.php'; // Loaded NOW to have ready for any cached app config resets (for ANY runtime)
 
 
@@ -29,16 +30,16 @@ foreach ( $ocpt_conf['power']['activate_plugins'] as $key => $value ) {
 		
 			// Add to activated cron plugins 
 			if ( $plug_conf[$this_plug]['runtime_mode'] == 'cron' || $plug_conf[$this_plug]['runtime_mode'] == 'all' ) {
-			$activated_plugins['cron'][$key] = $base_dir . '/plugins/' . $key . '/plug-lib/plug-init.php'; // Loaded LATER at bottom of cron.php (if cron runtime)
+			$activated_plugins['cron'][$this_plug] = $base_dir . '/plugins/' . $this_plug . '/plug-lib/plug-init.php'; // Loaded LATER at bottom of cron.php (if cron runtime)
 			}
 			
 			// Add to activated UI plugins
 			if ( $plug_conf[$this_plug]['runtime_mode'] == 'ui' || $plug_conf[$this_plug]['runtime_mode'] == 'all' ) {
-			$activated_plugins['ui'][$key] = $base_dir . '/plugins/' . $key . '/plug-lib/plug-init.php'; // NOT IMPLEMENTED YET!
+			$activated_plugins['ui'][$this_plug] = $base_dir . '/plugins/' . $this_plug . '/plug-lib/plug-init.php'; // NOT IMPLEMENTED YET!
 			}
 		
 		
-		$ocpt_conf['plugin_config'][$this_plug] = $plug_conf[$this_plug]; // Add each plugin's config into the GLOBAL app config
+		$ocpt_conf['plug_conf'][$this_plug] = $plug_conf[$this_plug]; // Add each plugin's config into the GLOBAL app config
 		
 		$this_plug = null; // Reset
 		

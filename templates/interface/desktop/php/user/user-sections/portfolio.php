@@ -446,7 +446,7 @@ $altcoin_dominance = $ocpt_var->max_100($altcoin_dominance);
 	
 		
 ?>
-<div class="show_coin_values bold_1 blue"><!-- Summary START -->
+<div class="show_coin_vals bold_1 blue"><!-- Summary START -->
 <?php
 		
 		// Run BEFORE output of BTC / PAIRING portfolio values, to include any margin / leverage summaries in parentheses NEXT TO THEM (NOT in the actual BTC / PAIRING amounts, for UX's sake)
@@ -483,7 +483,7 @@ $altcoin_dominance = $ocpt_var->max_100($altcoin_dominance);
 
 
 			// Crypto value(s) of portfolio
-			if ( $show_crypto_value[0] ) {
+			if ( $show_crypto_val[0] ) {
 			?>
 			
 			<div class="portfolio_summary">
@@ -492,13 +492,13 @@ $altcoin_dominance = $ocpt_var->max_100($altcoin_dominance);
 			
 			<?php
 					
-			$scan_crypto_value = array_map( array($ocpt_var, 'strip_brackets') , $show_crypto_value); // Strip brackets
+			$scan_crypto_val = array_map( array($ocpt_var, 'strip_brackets') , $show_crypto_val); // Strip brackets
 				
 				// Control the ordering with corrisponding app config array (which is already ordered properly), for UX
 				$loop = 0;
 				foreach ( $ocpt_conf['power']['crypto_pairing'] as $key => $value ) {
 						
-						if ( in_array($key, $scan_crypto_value) ) {
+						if ( in_array($key, $scan_crypto_val) ) {
 						
 						echo ( $loop > 0 ? ' &nbsp;/&nbsp; ' : '' );
 					
@@ -506,7 +506,7 @@ $altcoin_dominance = $ocpt_var->max_100($altcoin_dominance);
 							echo '<span class="'.$key.'" title="'.strtoupper($key).'">'.$value.' ' . $total_btc_worth . '</span>';
 							}
 							else {
-							echo '<span class="'.$key.'" title="'.strtoupper($key).'">'.$value.' ' . number_format( ( $total_btc_worth_raw / pairing_btc_value($key) ) , 4) . '</span>';
+							echo '<span class="'.$key.'" title="'.strtoupper($key).'">'.$value.' ' . number_format( ( $total_btc_worth_raw / pairing_btc_val($key) ) , 4) . '</span>';
 							}
 				
 						$loop = $loop + 1;
@@ -519,29 +519,29 @@ $altcoin_dominance = $ocpt_var->max_100($altcoin_dominance);
 				if ( $loop < 1 ) {
 				?>
 				<script>
-				$("#show_crypto_value").val('');
-				delete_cookie("show_crypto_value");
+				$("#show_crypto_val").val('');
+				delete_cookie("show_crypto_val");
 				</script>
 				<?php
 				}
 				?>
 				
-			<img id="crypto_value" src="templates/interface/media/images/info.png" alt="" width="30" style="position: relative;" />
+			<img id="crypto_val" src="templates/interface/media/images/info.png" alt="" width="30" style="position: relative;" />
 			
 <script>
 		
-			var crypto_value_content = '<h5 class="yellow tooltip_title">Crypto Value</h5>'
+			var crypto_val_content = '<h5 class="yellow tooltip_title">Crypto Value</h5>'
 			
 			+'<p class="coin_info" style="max-width: 600px; white-space: normal;">The value of your ENTIRE portfolio, in the cryptocurrencies you selected in the "Show Crypto Value Of ENTIRE Portfolio In" setting, on the Settings page.</p>'
 		
 			+'<?=$leverage_text1?>';
 		
 		
-			$('#crypto_value').balloon({
+			$('#crypto_val').balloon({
 			html: true,
 			position: "top",
   			classname: 'balloon-tooltips',
-			contents: crypto_value_content,
+			contents: crypto_val_content,
 			css: {
 					fontSize: ".8rem",
 					minWidth: "450px",
@@ -577,26 +577,26 @@ $altcoin_dominance = $ocpt_var->max_100($altcoin_dominance);
 		
 		?>
 		
-			<img id="fiat_value" src="templates/interface/media/images/info.png" alt="" width="30" style="position: relative; left: -5px;" /> 
+			<img id="fiat_val" src="templates/interface/media/images/info.png" alt="" width="30" style="position: relative; left: -5px;" /> 
 
 <script>
 
 
-var fiat_value_content = '<h5 class="yellow tooltip_title">Primary Currency (<?=strtoupper($ocpt_conf['gen']['btc_prim_curr_pairing'])?>) Value</h5>'
+var fiat_val_content = '<h5 class="yellow tooltip_title">Primary Currency (<?=strtoupper($ocpt_conf['gen']['btc_prim_curr_pairing'])?>) Value</h5>'
 			
 			+'<p class="coin_info" style="max-width: 600px; white-space: normal;">The value of your ENTIRE portfolio, based off your selected primary currency (<?=strtoupper($ocpt_conf['gen']['btc_prim_curr_pairing'])?>), in the "Primary Currency Market" setting, on the Settings page.</p>'
 			
-			+'<p class="coin_info" style="max-width: 600px; white-space: normal;">Selected Primary Currency Market: <span class="yellow">BTC / <?=strtoupper($ocpt_conf['gen']['btc_prim_curr_pairing'])?> @ <?=snake_case_to_name($ocpt_conf['gen']['btc_prim_exchange'])?> (<?=$ocpt_conf['power']['btc_curr_markets'][$ocpt_conf['gen']['btc_prim_curr_pairing']]?><?=number_format( $sel_btc_prim_curr_value, 2, '.', ',')?>)</span></p>'
+			+'<p class="coin_info" style="max-width: 600px; white-space: normal;">Selected Primary Currency Market: <span class="yellow">BTC / <?=strtoupper($ocpt_conf['gen']['btc_prim_curr_pairing'])?> @ <?=$ocpt_gen->snake_case_to_name($ocpt_conf['gen']['btc_prim_exchange'])?> (<?=$ocpt_conf['power']['btc_curr_markets'][$ocpt_conf['gen']['btc_prim_curr_pairing']]?><?=number_format( $sel_btc_prim_curr_val, 2, '.', ',')?>)</span></p>'
 		
 			+'<?=$leverage_text2?>';
 		
 		
 		
-			$('#fiat_value').balloon({
+			$('#fiat_val').balloon({
 			html: true,
 			position: "right",
   			classname: 'balloon-tooltips',
-			contents: fiat_value_content,
+			contents: fiat_val_content,
 			css: {
 					fontSize: ".8rem",
 					minWidth: "450px",
@@ -823,10 +823,10 @@ var fiat_value_content = '<h5 class="yellow tooltip_title">Primary Currency (<?=
 	<?php
 	
 	foreach ( $asset_tracking as $activated_plot ) {
-	$plot_config .= $activated_plot . '|';
+	$plot_conf .= $activated_plot . '|';
 	}
 	
-	$plot_config = urlencode( rtrim($plot_config,'|') );
+	$plot_conf = urlencode( rtrim($plot_conf,'|') );
 	
 	?>
 		
@@ -975,7 +975,7 @@ var fiat_value_content = '<h5 class="yellow tooltip_title">Primary Currency (<?=
   
   // 'load'
   zingchart.exec('performance_chart', 'load', {
-  	dataurl: 'ajax.php?type=chart&mode=asset_performance&time_period=' + document.getElementById('performance_chart_period').value + '&start_time=' + date_timestamp + '&chart_width=' + performance_chart_width + '&chart_height=' + document.getElementById('performance_chart_height').value + '&menu_size=' + document.getElementById('performance_menu_size').value + '&plot_config=<?=$plot_config?>',
+  	dataurl: 'ajax.php?type=chart&mode=asset_performance&time_period=' + document.getElementById('performance_chart_period').value + '&start_time=' + date_timestamp + '&chart_width=' + performance_chart_width + '&chart_height=' + document.getElementById('performance_chart_height').value + '&menu_size=' + document.getElementById('performance_menu_size').value + '&plot_conf=<?=$plot_conf?>',
     cache: {
         data: true
     }
@@ -1067,7 +1067,7 @@ $("#performance_chart span.chart_loading").hide(); // Hide "Loading chart X..." 
 
 zingchart.TOUCHZOOM = 'pinch'; /* mobile compatibility */
 
-$.get( "ajax.php?type=chart&mode=asset_performance&time_period=all&start_time=0&chart_height=<?=$asset_performance_chart_defaults[0]?>&menu_size=<?=$asset_performance_chart_defaults[1]?>&plot_config=<?=$plot_config?>", function( json_data ) {
+$.get( "ajax.php?type=chart&mode=asset_performance&time_period=all&start_time=0&chart_height=<?=$asset_performance_chart_defaults[0]?>&menu_size=<?=$asset_performance_chart_defaults[1]?>&plot_conf=<?=$plot_conf?>", function( json_data ) {
  
 
 	// Mark chart as loaded after it has rendered
@@ -1201,7 +1201,7 @@ zingchart.bind('performance_chart', 'label_click', function(e){
   
   // 'load'
   zingchart.exec('marketcap_chart', 'load', {
-  	dataurl: 'ajax.php?type=chart&mode=marketcap_data&marketcap_type=' + document.getElementById('marketcap_type').value + '&chart_width=' + marketcap_chart_width + '&chart_height=' + document.getElementById('marketcap_data_height').value + '&menu_size=' + document.getElementById('marketcap_menu_size').value + '&marketcap_site=<?=$ocpt_conf['gen']['prim_mcap_site']?>&plot_config=<?=$plot_config?>',
+  	dataurl: 'ajax.php?type=chart&mode=marketcap_data&marketcap_type=' + document.getElementById('marketcap_type').value + '&chart_width=' + marketcap_chart_width + '&chart_height=' + document.getElementById('marketcap_data_height').value + '&menu_size=' + document.getElementById('marketcap_menu_size').value + '&marketcap_site=<?=$ocpt_conf['gen']['prim_mcap_site']?>&plot_conf=<?=$plot_conf?>',
     cache: {
         data: true
     }
@@ -1274,7 +1274,7 @@ $("#marketcap_chart span.chart_loading").hide(); // Hide "Loading chart X..." af
 
 zingchart.TOUCHZOOM = 'pinch'; /* mobile compatibility */
 
-$.get( "ajax.php?type=chart&mode=marketcap_data&marketcap_type=circulating&chart_height=<?=$asset_mcap_chart_defaults[0]?>&menu_size=<?=$asset_mcap_chart_defaults[1]?>&marketcap_site=<?=$ocpt_conf['gen']['prim_mcap_site']?>&plot_config=<?=$plot_config?>", function( json_data ) {
+$.get( "ajax.php?type=chart&mode=marketcap_data&marketcap_type=circulating&chart_height=<?=$asset_mcap_chart_defaults[0]?>&menu_size=<?=$asset_mcap_chart_defaults[1]?>&marketcap_site=<?=$ocpt_conf['gen']['prim_mcap_site']?>&plot_conf=<?=$plot_conf?>", function( json_data ) {
  
 
 	// Mark chart as loaded after it has rendered
@@ -1356,7 +1356,7 @@ zingchart.bind('marketcap_chart', 'label_click', function(e){
 
 		
 	<!-- Admin Config - Quick Links (if we are admin logged in) -->
-	<div id='admin_config_quick_links' class='align_left'>
+	<div id='admin_conf_quick_links' class='align_left'>
 	
 	<?php
 			// If hardware / software stats are enabled, display the os / hardware / load avg / temperature / free partition space / free memory [mb/percent] / portfolio cache size / software stats
@@ -1394,7 +1394,7 @@ zingchart.bind('marketcap_chart', 'label_click', function(e){
 	?>
 	
 	<style>
-	.show_coin_values, #admin_config_quick_links, #coins_table {
+	.show_coin_vals, #admin_conf_quick_links, #coins_table {
 	display: block;
 	}
 	</style>
@@ -1514,9 +1514,9 @@ zingchart.bind('marketcap_chart', 'label_click', function(e){
 			var system_stats_quick_link_info_content = '<h5 class="red tooltip_title">System Stats Alerts</h5>'
 			
 			<?php
-			foreach ( $system_alerts as $alert_key => $alert_value ) {
+			foreach ( $system_alerts as $alert_key => $alert_val ) {
 			?>
-			+'<p class="coin_info extra_margins" style="max-width: 600px; white-space: normal;"><span class="red"><?=snake_case_to_name($alert_key)?>:</span> <?=$alert_value?></p>'
+			+'<p class="coin_info extra_margins" style="max-width: 600px; white-space: normal;"><span class="red"><?=$ocpt_gen->snake_case_to_name($alert_key)?>:</span> <?=$alert_val?></p>'
 			<?php
 			}
 			?>

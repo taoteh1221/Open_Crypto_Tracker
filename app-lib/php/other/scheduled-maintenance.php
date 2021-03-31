@@ -44,7 +44,7 @@ $ocpt_cache->save_file($base_dir . '/cache/vars/app_version.dat', $app_version);
 
 
 // Determine / store portfolio cache size
-$ocpt_cache->save_file($base_dir . '/cache/vars/cache_size.dat', convert_bytes( directory_size($base_dir . '/cache/') , 3) );
+$ocpt_cache->save_file($base_dir . '/cache/vars/cache_size.dat', convert_bytes( dir_size($base_dir . '/cache/') , 3) );
 
 
 // Cache files cleanup...

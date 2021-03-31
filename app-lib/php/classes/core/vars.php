@@ -231,9 +231,9 @@ var $ocpt_array1 = array();
    ////////////////////////////////////////////////////////
    
    
-   function list_sort($list_string, $delimiter, $mode, $delimiter_space=false) {
+   function list_sort($list_str, $delimiter, $mode, $delimiter_space=false) {
    
-   $list_array = explode('/', $list_string);
+   $list_array = explode('/', $list_str);
    
    // Trim
    $list_array = array_map('trim', $list_array);
@@ -348,43 +348,43 @@ var $ocpt_array1 = array();
    
    
    // Strip formatting, convert from scientific format, and remove leading / trailing zeros
-   $raw_value_to_pretty = $this->rem_num_format($value_to_pretty);
+   $raw_val_to_pretty = $this->rem_num_format($value_to_pretty);
    
    // Do any rounding that may be needed now (skip WATCH-ONLY 9 decimal values)
-   if ( $this->num_to_str($raw_value_to_pretty) > 0.00000000 && $small_unlimited != TRUE ) { 
-   $raw_value_to_pretty = number_format($raw_value_to_pretty, $num_dec, '.', '');
+   if ( $this->num_to_str($raw_val_to_pretty) > 0.00000000 && $small_unlimited != TRUE ) { 
+   $raw_val_to_pretty = number_format($raw_val_to_pretty, $num_dec, '.', '');
    }
    
    // AFTER ROUNDING, RE-PROCESS removing leading / trailing zeros
-   $raw_value_to_pretty = $this->num_to_str($raw_value_to_pretty);
+   $raw_val_to_pretty = $this->num_to_str($raw_val_to_pretty);
           
           
           // Pretty things up...
           
           
-            if ( preg_match("/\./", $raw_value_to_pretty) ) {
-            $value_no_decimal = preg_replace("/\.(.*)/", "", $raw_value_to_pretty);
-            $decimal_amount = preg_replace("/(.*)\./", "", $raw_value_to_pretty);
+            if ( preg_match("/\./", $raw_val_to_pretty) ) {
+            $value_no_decimal = preg_replace("/\.(.*)/", "", $raw_val_to_pretty);
+            $decimal_amount = preg_replace("/(.*)\./", "", $raw_val_to_pretty);
             $check_decimal_amount = '0.' . $decimal_amount;
             }
             else {
-            $value_no_decimal = $raw_value_to_pretty;
+            $value_no_decimal = $raw_val_to_pretty;
             $decimal_amount = null;
             $check_decimal_amount = null;
             }
             
             
           // Limit $decimal_amount to $num_dec (unless it's a watch-only asset)
-          if ( $raw_value_to_pretty != 0.000000001 ) {
+          if ( $raw_val_to_pretty != 0.000000001 ) {
           $decimal_amount = ( iconv_strlen($decimal_amount, 'utf-8') > $num_dec ? substr($decimal_amount, 0, $num_dec) : $decimal_amount );
           }
           
             
             // Show EVEN IF LOW VALUE IS OFF THE MAP, just for UX purposes (tracking token price only, etc)
-            if ( $this->num_to_str($raw_value_to_pretty) > 0.00000000 && $small_unlimited == true ) {  
+            if ( $this->num_to_str($raw_val_to_pretty) > 0.00000000 && $small_unlimited == true ) {  
                
                if ( $num_dec == 2 ) {
-               $value_to_pretty = number_format($raw_value_to_pretty, 2, '.', ',');
+               $value_to_pretty = number_format($raw_val_to_pretty, 2, '.', ',');
                }
                else {
                // $value_no_decimal stops rounding, while number_format gives us pretty numbers left of decimal
@@ -393,10 +393,10 @@ var $ocpt_array1 = array();
             
             }
             // Show low value only with $decimal_amount minimum
-            elseif ( $this->num_to_str($raw_value_to_pretty) >= 0.00000001 && $small_unlimited == false ) {  
+            elseif ( $this->num_to_str($raw_val_to_pretty) >= 0.00000001 && $small_unlimited == false ) {  
                
                if ( $num_dec == 2 ) {
-               $value_to_pretty = number_format($raw_value_to_pretty, 2, '.', ',');
+               $value_to_pretty = number_format($raw_val_to_pretty, 2, '.', ',');
                }
                else {
                // $value_no_decimal stops rounding, while number_format gives us pretty numbers left of decimal

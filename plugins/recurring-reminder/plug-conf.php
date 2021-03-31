@@ -26,21 +26,21 @@ $plug_conf[$this_plug]['runtime_mode'] = 'cron'; // 'cron', 'ui', 'all' (only 'c
 $plug_conf[$this_plug]['reminders'] = array(
 																	
 																	
-																	// PORTFOLIO RE-BALANCE REVIEW REMINDER
-																	array(
-																			'days' => 30.4167, // Decimals supported (30.4167 days is average length of 1 month)
-																			'message' => "Review whether you should re-balance your portfolio (have individual assets take up a different precentage of your portfolio's total " . strtoupper($ocpt_conf['gen']['btc_prim_curr_pairing']) . " value)." // Reminder message
-																			),
+																// PORTFOLIO RE-BALANCE REVIEW REMINDER
+																array(
+																		'days' => 30.4167, // Decimals supported (30.4167 days is AVERAGE LENGTH of 1 month)
+																		'message' => "Review whether you should re-balance your portfolio (have individual assets take up a different precentage of your portfolio's total " . strtoupper($ocpt_conf['gen']['btc_prim_curr_pairing']) . " value)." // Reminder message
+																		),
 																			
 																			
-																	// VITAMIN D / COVID-19 PREVENTION REMINDER
-																	array(
-																			'days' => 4, // Decimals supported
-																			'message' => "Take 2000 IU of Vitamin D and 500 MG of Vitamin C every 4 days with food, to help prevent Covid-19 and other viral infections." // Reminder message
-																			),
+																// VITAMIN D / COVID-19 PREVENTION REMINDER
+																array(
+																		'days' => 4, // Decimals supported
+																		'message' => "Take 2000 IU of Vitamin D and 500 MG of Vitamin C every 4 days with food, to help prevent Covid-19 and other viral infections." // Reminder message
+																		),
 																	
 																	
-																	); // END reminders array
+																); // END reminders array
 
 
 

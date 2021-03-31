@@ -4,7 +4,6 @@
  */
 
 
-
 class ocpt_gen {
 	
 // Class variables / arrays
@@ -106,12 +105,12 @@ var $ocpt_array1 = array();
    ////////////////////////////////////////////////////////
    
    
-   function directory_size($dir) {
+   function dir_size($dir) {
    
    $size = 0;
    
       foreach ( glob(rtrim($dir, '/').'/*', GLOB_NOSORT) as $each ) {
-      $size += ( is_file($each) ? filesize($each) : $this->directory_size($each) );
+      $size += ( is_file($each) ? filesize($each) : $this->dir_size($each) );
       }
        
    return $size;
@@ -731,8 +730,8 @@ var $ocpt_array1 = array();
      unset($_COOKIE['coin_reload']);  
      unset($_COOKIE['notes']);
      unset($_COOKIE['show_charts']);  
-     unset($_COOKIE['show_crypto_value']);  
-     unset($_COOKIE['show_secondary_trade_value']);  
+     unset($_COOKIE['show_crypto_val']);  
+     unset($_COOKIE['show_secondary_trade_val']);  
      unset($_COOKIE['show_feeds']);  
      unset($_COOKIE['theme_selected']);  
      unset($_COOKIE['sort_by']);  
@@ -886,10 +885,10 @@ var $ocpt_array1 = array();
     
     // For captcha image
     // Credit to: https://code.tutsplus.com/tutorials/build-your-own-captcha-and-contact-form-in-php--net-5362
-   function captcha_string($input, $strength=10) {
+   function captcha_str($input, $strength=10) {
       
        $input_length = strlen($input);
-       $random_string = '';
+       $random_str = '';
        
          
            
@@ -899,23 +898,23 @@ var $ocpt_array1 = array();
                   $rand_case = rand(1, 2);
                   if( $rand_case % 2 == 0 ){ 
                   // Even number  
-                  $random_character = strtoupper( $input[mt_rand(0, $input_length - 1)] );
+                  $random_char = strtoupper( $input[mt_rand(0, $input_length - 1)] );
                   } 
                   else { 
                   // Odd number
-                  $random_character = strtolower( $input[mt_rand(0, $input_length - 1)] );
+                  $random_char = strtolower( $input[mt_rand(0, $input_length - 1)] );
                   } 
             
-               if ( stristr($random_string, $random_character) == false ) {
-               //echo $random_character . ' -- ';
-               $random_string .= $random_character;
+               if ( stristr($random_str, $random_char) == false ) {
+               //echo $random_char . ' -- ';
+               $random_str .= $random_char;
                $count = $count + 1;
                }
             
             }
            
      
-       return $random_string;
+       return $random_str;
    }
        
    
@@ -923,33 +922,33 @@ var $ocpt_array1 = array();
    ////////////////////////////////////////////////////////
    
    
-   function subarray_ocpt_conf_upgrade($category_key, $config_key, $skip_upgrading) {
+   function subarray_ocpt_conf_upgrade($cat_key, $config_key, $skip_upgrading) {
    
    global $upgraded_ocpt_conf, $cached_ocpt_conf, $check_default_ocpt_conf, $default_ocpt_conf;
    
       // Check for new variables, and add them
-      foreach ( $default_ocpt_conf[$category_key][$config_key] as $setting_key => $setting_value ) {
+      foreach ( $default_ocpt_conf[$cat_key][$config_key] as $setting_key => $setting_val ) {
       
-         if ( is_array($setting_value) ) {
+         if ( is_array($setting_val) ) {
          $this->app_logging('config_error', 'Sub-array depth to deep for app config upgrade parser');
          }
-         elseif ( !in_array($setting_key, $skip_upgrading) && !isset($upgraded_ocpt_conf[$category_key][$config_key][$setting_key]) ) {
-         $upgraded_ocpt_conf[$category_key][$config_key][$setting_key] = $default_ocpt_conf[$category_key][$config_key][$setting_key];
-         $this->app_logging('config_error', 'New app config parameter $ocpt_conf[' . $category_key . '][' . $config_key . '][' . $setting_key . '] imported (default value: ' . $default_ocpt_conf[$category_key][$config_key][$setting_key] . ')');
+         elseif ( !in_array($setting_key, $skip_upgrading) && !isset($upgraded_ocpt_conf[$cat_key][$config_key][$setting_key]) ) {
+         $upgraded_ocpt_conf[$cat_key][$config_key][$setting_key] = $default_ocpt_conf[$cat_key][$config_key][$setting_key];
+         $this->app_logging('config_error', 'New app config parameter $ocpt_conf[' . $cat_key . '][' . $config_key . '][' . $setting_key . '] imported (default value: ' . $default_ocpt_conf[$cat_key][$config_key][$setting_key] . ')');
          $config_upgraded = 1;
          }
             
       }
       
       // Check for depreciated variables, and remove them
-      foreach ( $cached_ocpt_conf[$category_key][$config_key] as $setting_key => $setting_value ) {
+      foreach ( $cached_ocpt_conf[$cat_key][$config_key] as $setting_key => $setting_val ) {
       
-         if ( is_array($setting_value) ) {
+         if ( is_array($setting_val) ) {
          $this->app_logging('config_error', 'Sub-array depth to deep for app config upgrade parser');
          }
-         elseif ( !in_array($setting_key, $skip_upgrading) && !isset($default_ocpt_conf[$category_key][$config_key][$setting_key]) ) {
-         unset($upgraded_ocpt_conf[$category_key][$config_key][$setting_key]);
-         $this->app_logging('config_error', 'Depreciated app config parameter $ocpt_conf[' . $category_key . '][' . $config_key . '][' . $setting_key . '] removed');
+         elseif ( !in_array($setting_key, $skip_upgrading) && !isset($default_ocpt_conf[$cat_key][$config_key][$setting_key]) ) {
+         unset($upgraded_ocpt_conf[$cat_key][$config_key][$setting_key]);
+         $this->app_logging('config_error', 'Depreciated app config parameter $ocpt_conf[' . $cat_key . '][' . $config_key . '][' . $setting_key . '] removed');
          $config_upgraded = 1;
          }
             
@@ -1060,29 +1059,31 @@ var $ocpt_array1 = array();
          $words[$key] = strtoupper($value); // All uppercase US
          }
       
-      $pretty_string .= $words[$key] . ' ';
+      $pretty_str .= $words[$key] . ' ';
       }
    
-   $pretty_string = preg_replace("/btc/i", 'BTC', $pretty_string);
-   $pretty_string = preg_replace("/coin/i", 'Coin', $pretty_string);
-   $pretty_string = preg_replace("/bitcoin/i", 'Bitcoin', $pretty_string);
-   $pretty_string = preg_replace("/exchange/i", 'Exchange', $pretty_string);
-   $pretty_string = preg_replace("/market/i", 'Market', $pretty_string);
-   $pretty_string = preg_replace("/base/i", 'Base', $pretty_string);
-   $pretty_string = preg_replace("/forex/i", 'Forex', $pretty_string);
-   $pretty_string = preg_replace("/finex/i", 'Finex', $pretty_string);
-   $pretty_string = preg_replace("/stamp/i", 'Stamp', $pretty_string);
-   $pretty_string = preg_replace("/flyer/i", 'Flyer', $pretty_string);
-   $pretty_string = preg_replace("/panda/i", 'Panda', $pretty_string);
-   $pretty_string = preg_replace("/pay/i", 'Pay', $pretty_string);
-   $pretty_string = preg_replace("/swap/i", 'Swap', $pretty_string);
-   $pretty_string = preg_replace("/iearn/i", 'iEarn', $pretty_string);
-   $pretty_string = preg_replace("/pulse/i", 'Pulse', $pretty_string);
-   $pretty_string = preg_replace("/defi/i", 'DeFi', $pretty_string);
-   $pretty_string = preg_replace("/ring/i", 'Ring', $pretty_string);
-   $pretty_string = preg_replace("/amm/i", 'AMM', $pretty_string);
+   $pretty_str = preg_replace("/btc/i", 'BTC', $pretty_str);
+   $pretty_str = preg_replace("/coin/i", 'Coin', $pretty_str);
+   $pretty_str = preg_replace("/bitcoin/i", 'Bitcoin', $pretty_str);
+   $pretty_str = preg_replace("/exchange/i", 'Exchange', $pretty_str);
+   $pretty_str = preg_replace("/market/i", 'Market', $pretty_str);
+   $pretty_str = preg_replace("/base/i", 'Base', $pretty_str);
+   $pretty_str = preg_replace("/forex/i", 'Forex', $pretty_str);
+   $pretty_str = preg_replace("/finex/i", 'Finex', $pretty_str);
+   $pretty_str = preg_replace("/stamp/i", 'Stamp', $pretty_str);
+   $pretty_str = preg_replace("/flyer/i", 'Flyer', $pretty_str);
+   $pretty_str = preg_replace("/panda/i", 'Panda', $pretty_str);
+   $pretty_str = preg_replace("/pay/i", 'Pay', $pretty_str);
+   $pretty_str = preg_replace("/swap/i", 'Swap', $pretty_str);
+   $pretty_str = preg_replace("/iearn/i", 'iEarn', $pretty_str);
+   $pretty_str = preg_replace("/pulse/i", 'Pulse', $pretty_str);
+   $pretty_str = preg_replace("/defi/i", 'DeFi', $pretty_str);
+   $pretty_str = preg_replace("/ring/i", 'Ring', $pretty_str);
+   $pretty_str = preg_replace("/amm/i", 'AMM', $pretty_str);
+	$pretty_str = preg_replace("/ico/i", 'ICO', $pretty_str);
+	$pretty_str = preg_replace("/erc20/i", 'ERC-20', $pretty_str);
    
-   return trim($pretty_string);
+   return trim($pretty_str);
    
    
    }
@@ -1294,43 +1295,43 @@ var $ocpt_array1 = array();
    
    function in_megabytes($string) {
    
-   $string_value = preg_replace("/ (.*)/i", "", $string);
+   $string_val = preg_replace("/ (.*)/i", "", $string);
    
       // Always in megabytes
       if ( preg_match("/kilo/i", $string) || preg_match("/kb/i", $string) ) {
-      $in_megs = $string_value * 0.001;
+      $in_megs = $string_val * 0.001;
       $type = 'Kilobytes';
       }
       elseif ( preg_match("/mega/i", $string) || preg_match("/mb/i", $string) ) {
-      $in_megs = $string_value * 1;
+      $in_megs = $string_val * 1;
       $type = 'Megabytes';
       }
       elseif ( preg_match("/giga/i", $string) || preg_match("/gb/i", $string) ) {
-      $in_megs = $string_value * 1000;
+      $in_megs = $string_val * 1000;
       $type = 'Gigabytes';
       }
       elseif ( preg_match("/tera/i", $string) || preg_match("/tb/i", $string) ) {
-      $in_megs = $string_value * 1000000;
+      $in_megs = $string_val * 1000000;
       $type = 'Terabytes';
       }
       elseif ( preg_match("/peta/i", $string) || preg_match("/pb/i", $string) ) {
-      $in_megs = $string_value * 1000000000;
+      $in_megs = $string_val * 1000000000;
       $type = 'Petabytes';
       }
       elseif ( preg_match("/exa/i", $string) || preg_match("/eb/i", $string) ) {
-      $in_megs = $string_value * 1000000000000;
+      $in_megs = $string_val * 1000000000000;
       $type = 'Exabytes';
       }
       elseif ( preg_match("/zetta/i", $string) || preg_match("/zb/i", $string) ) {
-      $in_megs = $string_value * 1000000000000000;
+      $in_megs = $string_val * 1000000000000000;
       $type = 'Zettabytes';
       }
       elseif ( preg_match("/yotta/i", $string) || preg_match("/yb/i", $string) ) {
-      $in_megs = $string_value * 1000000000000000000;
+      $in_megs = $string_val * 1000000000000000000;
       $type = 'Yottabytes';
       }
    
-   $result['num_val'] = $string_value;
+   $result['num_val'] = $string_val;
    $result['type'] = $type;
    $result['in_megs'] = round($in_megs, 3);
    
@@ -1819,7 +1820,7 @@ var $ocpt_array1 = array();
                            'crypto_pairing_pref_markets',
                            'btc_currency_markets',
                            'btc_pref_currency_markets',
-                           'ethereum_subtoken_ico_values',
+                           'eth_erc20_icos',
                            'mob_net_txt_gateways',
                            'assets',
                            'news_feed',
@@ -1835,18 +1836,18 @@ var $ocpt_array1 = array();
          
          
          // Check for new variables, and add them
-         foreach ( $default_ocpt_conf as $category_key => $category_value ) {
+         foreach ( $default_ocpt_conf as $cat_key => $cat_val ) {
             
-            foreach ( $category_value as $config_key => $config_value ) {
+            foreach ( $cat_val as $config_key => $config_val ) {
          
-               if ( !in_array($category_key, $skip_upgrading) && !in_array($config_key, $skip_upgrading) ) {
+               if ( !in_array($cat_key, $skip_upgrading) && !in_array($config_key, $skip_upgrading) ) {
                   
-                  if ( is_array($config_value) ) {
-                  $this->subarray_ocpt_conf_upgrade($category_key, $config_key, $skip_upgrading);
+                  if ( is_array($config_val) ) {
+                  $this->subarray_ocpt_conf_upgrade($cat_key, $config_key, $skip_upgrading);
                   }
-                  elseif ( !isset($upgraded_ocpt_conf[$category_key][$config_key]) ) {
-                  $upgraded_ocpt_conf[$category_key][$config_key] = $default_ocpt_conf[$category_key][$config_key];
-                  $this->app_logging('config_error', 'New app config parameter $ocpt_conf[' . $category_key . '][' . $config_key . '] imported (default value: ' . $default_ocpt_conf[$category_key][$config_key] . ')');
+                  elseif ( !isset($upgraded_ocpt_conf[$cat_key][$config_key]) ) {
+                  $upgraded_ocpt_conf[$cat_key][$config_key] = $default_ocpt_conf[$cat_key][$config_key];
+                  $this->app_logging('config_error', 'New app config parameter $ocpt_conf[' . $cat_key . '][' . $config_key . '] imported (default value: ' . $default_ocpt_conf[$cat_key][$config_key] . ')');
                   $config_upgraded = 1;
                   }
             
@@ -1858,18 +1859,18 @@ var $ocpt_array1 = array();
          
          
          // Check for depreciated variables, and remove them
-         foreach ( $cached_ocpt_conf as $cached_category_key => $cached_category_value ) {
+         foreach ( $cached_ocpt_conf as $cached_cat_key => $cached_cat_val ) {
             
-            foreach ( $cached_category_value as $cached_config_key => $cached_config_value ) {
+            foreach ( $cached_cat_val as $cached_conf_key => $cached_conf_val ) {
          
-               if ( !in_array($cached_category_key, $skip_upgrading) && !in_array($cached_config_key, $skip_upgrading) ) {
+               if ( !in_array($cached_cat_key, $skip_upgrading) && !in_array($cached_conf_key, $skip_upgrading) ) {
                
-                  if ( is_array($cached_config_value) ) {
-                  $this->subarray_ocpt_conf_upgrade($cached_category_key, $cached_config_key, $skip_upgrading);
+                  if ( is_array($cached_conf_val) ) {
+                  $this->subarray_ocpt_conf_upgrade($cached_cat_key, $cached_conf_key, $skip_upgrading);
                   }
-                  elseif ( !isset($default_ocpt_conf[$cached_category_key][$cached_config_key]) ) {
-                  unset($upgraded_ocpt_conf[$cached_category_key][$cached_config_key]);
-                  $this->app_logging('config_error', 'Depreciated app config parameter $ocpt_conf[' . $cached_category_key . '][' . $cached_config_key . '] removed');
+                  elseif ( !isset($default_ocpt_conf[$cached_cat_key][$cached_conf_key]) ) {
+                  unset($upgraded_ocpt_conf[$cached_cat_key][$cached_conf_key]);
+                  $this->app_logging('config_error', 'Depreciated app config parameter $ocpt_conf[' . $cached_cat_key . '][' . $cached_conf_key . '] removed');
                   $config_upgraded = 1;
                   }
                   
@@ -1915,11 +1916,11 @@ var $ocpt_array1 = array();
    $words = explode(" ", $content);
       
       
-      foreach ( $words as $scan_key => $scan_value ) {
+      foreach ( $words as $scan_key => $scan_val ) {
          
-      $scan_value = trim($scan_value);
+      $scan_val = trim($scan_val);
       
-      $scan_charset = ( mb_detect_encoding($scan_value, 'auto') != false ? mb_detect_encoding($scan_value, 'auto') : null );
+      $scan_charset = ( mb_detect_encoding($scan_val, 'auto') != false ? mb_detect_encoding($scan_val, 'auto') : null );
       
          if ( isset($scan_charset) && !preg_match("/" . $ocpt_conf['dev']['charset_default'] . "/i", $scan_charset) && !preg_match("/ASCII/i", $scan_charset) ) {
          $set_charset = $ocpt_conf['dev']['charset_unicode'];
@@ -1928,22 +1929,22 @@ var $ocpt_array1 = array();
       }
    
       
-      foreach ( $words as $word_key => $word_value ) {
+      foreach ( $words as $word_key => $word_val ) {
          
-      $word_value = trim($word_value);
+      $word_val = trim($word_val);
       
-      $word_charset = ( mb_detect_encoding($word_value, 'auto') != false ? mb_detect_encoding($word_value, 'auto') : null );
+      $word_charset = ( mb_detect_encoding($word_val, 'auto') != false ? mb_detect_encoding($word_val, 'auto') : null );
       
       $result['debug_original_charset'] .= ( isset($word_charset) ? $word_charset . ' ' : 'unknown_charset ' );
       
          if ( isset($word_charset) && strtolower($word_charset) == strtolower($set_charset) ) {
-         $temp = $word_value . ' ';
+         $temp = $word_val . ' ';
          }
          elseif ( isset($word_charset) && strtolower($set_charset) != strtolower($word_charset) ) {
-         $temp = mb_convert_encoding($word_value . ' ', $set_charset, $word_charset);
+         $temp = mb_convert_encoding($word_val . ' ', $set_charset, $word_charset);
          }
          elseif ( !isset($word_charset) ) {
-         $temp = mb_convert_encoding($word_value . ' ', $set_charset);
+         $temp = mb_convert_encoding($word_val . ' ', $set_charset);
          }
          
          $temp_converted .= $temp;
@@ -2148,8 +2149,8 @@ var $ocpt_array1 = array();
             }
             elseif ( $asset_performance_chart ) {
       
-               if ( !$runtime_data['performance_stats'][$asset]['start_value'] ) {
-               $runtime_data['performance_stats'][$asset]['start_value'] = $result[1];
+               if ( !$runtime_data['performance_stats'][$asset]['start_val'] ) {
+               $runtime_data['performance_stats'][$asset]['start_val'] = $result[1];
                
                $data['percent'] .= '0.00,';
                $data['combined'] .= '[' . trim($result[0]) . '000, 0.00],';  // Zingchart wants 3 more zeros with unix time (milliseconds)
@@ -2157,7 +2158,7 @@ var $ocpt_array1 = array();
                else {
                   
                // PRIMARY CURRENCY CONFIG price percent change (CAN BE NEGATIVE OR POSITIVE IN THIS INSTANCE)
-               $percent_change = ($result[1] - $runtime_data['performance_stats'][$asset]['start_value']) / abs($runtime_data['performance_stats'][$asset]['start_value']) * 100;
+               $percent_change = ($result[1] - $runtime_data['performance_stats'][$asset]['start_val']) / abs($runtime_data['performance_stats'][$asset]['start_val']) * 100;
                // Better decimal support
                $percent_change = $ocpt_var->num_to_str($percent_change); 
                
@@ -2221,18 +2222,18 @@ var $ocpt_array1 = array();
    ////////////////////////////////////////////////////////
    
    
-   function update_cookies($set_coin_values, $set_pairing_values, $set_market_values, $set_paid_values, $set_leverage_values, $set_margintype_values) {
+   function update_cookies($set_coin_vals, $set_pairing_vals, $set_market_vals, $set_paid_vals, $set_leverage_vals, $set_margintype_vals) {
    
               
               // Cookies expire in 1 year (31536000 seconds)
               
               // Portfolio data
-              $this->store_cookie("coin_amounts", $set_coin_values, mktime()+31536000);
-              $this->store_cookie("coin_pairings", $set_pairing_values, mktime()+31536000);
-              $this->store_cookie("coin_markets", $set_market_values, mktime()+31536000);
-              $this->store_cookie("coin_paid", $set_paid_values, mktime()+31536000);
-              $this->store_cookie("coin_leverage", $set_leverage_values, mktime()+31536000);
-              $this->store_cookie("coin_margintype", $set_margintype_values, mktime()+31536000);
+              $this->store_cookie("coin_amounts", $set_coin_vals, mktime()+31536000);
+              $this->store_cookie("coin_pairings", $set_pairing_vals, mktime()+31536000);
+              $this->store_cookie("coin_markets", $set_market_vals, mktime()+31536000);
+              $this->store_cookie("coin_paid", $set_paid_vals, mktime()+31536000);
+              $this->store_cookie("coin_leverage", $set_leverage_vals, mktime()+31536000);
+              $this->store_cookie("coin_margintype", $set_margintype_vals, mktime()+31536000);
               
               
    
@@ -2247,18 +2248,18 @@ var $ocpt_array1 = array();
                   unset($_COOKIE['show_charts']);  // Delete any existing cookies
                   }
                   
-                  if ( isset($_POST['show_crypto_value']) ) {
-                  $this->store_cookie("show_crypto_value", $_POST['show_crypto_value'], mktime()+31536000);
+                  if ( isset($_POST['show_crypto_val']) ) {
+                  $this->store_cookie("show_crypto_val", $_POST['show_crypto_val'], mktime()+31536000);
                   }
                   else {
-                  unset($_COOKIE['show_crypto_value']);  // Delete any existing cookies
+                  unset($_COOKIE['show_crypto_val']);  // Delete any existing cookies
                   }
                   
-                  if ( isset($_POST['show_secondary_trade_value']) ) {
-                  $this->store_cookie("show_secondary_trade_value", $_POST['show_secondary_trade_value'], mktime()+31536000);
+                  if ( isset($_POST['show_secondary_trade_val']) ) {
+                  $this->store_cookie("show_secondary_trade_val", $_POST['show_secondary_trade_val'], mktime()+31536000);
                   }
                   else {
-                  unset($_COOKIE['show_secondary_trade_value']);  // Delete any existing cookies
+                  unset($_COOKIE['show_secondary_trade_val']);  // Delete any existing cookies
                   }
                   
                   if ( isset($_POST['show_feeds']) ) {
@@ -2650,9 +2651,9 @@ var $ocpt_array1 = array();
             
                $loop = 0;
                foreach ( $temp_array as $key => $value ) {
-               $trimmed_value = ( $loop < 1 ? strtolower(trim($value)) : trim($value) );
-               $trimmed_value = ( $loop < 1 ? preg_replace('/\s/', '_', $trimmed_value) : $trimmed_value );
-               $temp_array_cleaned[$key] = $trimmed_value;
+               $trimmed_val = ( $loop < 1 ? strtolower(trim($value)) : trim($value) );
+               $trimmed_val = ( $loop < 1 ? preg_replace('/\s/', '_', $trimmed_val) : $trimmed_val );
+               $temp_array_cleaned[$key] = $trimmed_val;
                $loop = $loop + 1;
                }
             
@@ -2814,9 +2815,9 @@ var $ocpt_array1 = array();
                
                $loop = 0;
                foreach ( $temp_array as $key => $value ) {
-               $trimmed_value = ( $loop < 1 ? strtolower(trim($value)) : trim($value) );
-               $trimmed_value = ( $loop < 1 ? preg_replace('/\s/', '_', $trimmed_value) : $trimmed_value );
-               $temp_array_cleaned[$key] = $trimmed_value;
+               $trimmed_val = ( $loop < 1 ? strtolower(trim($value)) : trim($value) );
+               $trimmed_val = ( $loop < 1 ? preg_replace('/\s/', '_', $trimmed_val) : $trimmed_val );
+               $temp_array_cleaned[$key] = $trimmed_val;
                $loop = $loop + 1;
                }
             

@@ -21,7 +21,7 @@
           	
           	<br /><i>Enable <a href='README.txt' target='_blank'>a cron job on your web server</a>, or this feature will not work AT ALL.</i> 
           	
-          		<?=( $price_change_config_alert != '' ? '<br />' . $price_change_config_alert : '' )?>
+          		<?=( $price_change_conf_alert != '' ? '<br />' . $price_change_conf_alert : '' )?>
           		
           		<?php
           		if ( preg_match("/text/i", $price_alert_type_text) && $ocpt_conf['comms']['smtp_login'] == '' && $ocpt_conf['comms']['smtp_server'] == '' && $ocpt_conf['comms']['textbelt_apikey'] == '' && $ocpt_conf['comms']['textlocal_account'] == '' ) {
@@ -40,7 +40,7 @@
 			?>
           <p class='settings_sections'><b><?=( trim($ocpt_conf['proxy']['proxy_login']) != '' ? 'Password-based' : 'IP-athenticated' )?> proxy mode</b> is <i>enabled</i> in the configuration file for API connections (<?=sizeof($ocpt_conf['proxy']['proxy_list'])?> proxies randomly used<?=( $ocpt_conf['comms']['proxy_alert'] != 'off' ? ' / proxy alerts enabled for ' . $ocpt_conf['comms']['proxy_alert'] . ' alert method(s), every ' . $ocpt_conf['comms']['proxy_alert_freq_max'] . ' hours max per-proxy at ' . $ocpt_conf['comms']['proxy_alert_runtime'] . ' runtimes / ' .$ocpt_conf['comms']['proxy_alert_checkup_ok']. ' sending proxy alerts on proxy checks that tested OK after acting up' : '' )?>). 
           	
-          		<?=( $proxy_config_alert != '' ? '<br />' . $proxy_config_alert : '' )?>
+          		<?=( $proxy_conf_alert != '' ? '<br />' . $proxy_conf_alert : '' )?>
           	
           	</p>      
           <?php
@@ -51,7 +51,7 @@
           	
           	<br /><i>Enable <a href='README.txt' target='_blank'>a cron job on your web server</a>, or this feature will not work RELIABLY.</i> 
           	
-          		<?=( $logs_config_alert != '' ? '<br />' . $logs_config_alert : '' )?>
+          		<?=( $logs_conf_alert != '' ? '<br />' . $logs_conf_alert : '' )?>
           	
           	</p>  
                         
@@ -63,7 +63,7 @@
           	
           	<br /><i>Enable <a href='README.txt' target='_blank'>a cron job on your web server</a>, or this feature will not work AT ALL.</i> 
           	
-          		<?=( $backuparchive_config_alert != '' ? '<br />' . $backuparchive_config_alert : '' )?>
+          		<?=( $backuparchive_conf_alert != '' ? '<br />' . $backuparchive_conf_alert : '' )?>
           	
           	</p>  
                         
@@ -74,7 +74,7 @@
           ?>
           	<p class='settings_sections'><b>SMTP email sending</b> (by account login) is <i>enabled</i> in the configuration file.
           	
-          		<?=( $smtp_config_alert != '' ? '<br />' . $smtp_config_alert : '' )?>
+          		<?=( $smtp_conf_alert != '' ? '<br />' . $smtp_conf_alert : '' )?>
           	
           	</p>  
                         
@@ -216,7 +216,7 @@
 									
 									foreach ( $ocpt_conf['assets']['BTC']['pairing'][$pairing_key] as $market_key => $market_id ) {
 									$loop2 = $loop2 + 1;
-									$btc_market_list[$pairing_key] .= "\n<option value='".$loop2."'" . ( $exchange_field_id == $loop2 ? ' selected ' : '' ) . ">" . snake_case_to_name($market_key) . "</option>\n";
+									$btc_market_list[$pairing_key] .= "\n<option value='".$loop2."'" . ( $exchange_field_id == $loop2 ? ' selected ' : '' ) . ">" . $ocpt_gen->snake_case_to_name($market_key) . "</option>\n";
 									}
 									$loop2 = NULL;
 							
@@ -499,12 +499,12 @@
 			foreach ( $ocpt_conf['power']['crypto_pairing'] as $key => $unused ) {
 			?>
 			<?=( $loop > 0 ? ' &nbsp;/&nbsp; ' : '' )?> 
-			<input type='checkbox' value='<?=$key?>' onchange='crypto_value_toggle(this);' <?=( in_array("[".$key."]", $show_crypto_value) ? 'checked' : '' )?> /> <?=strtoupper($key)?> 
+			<input type='checkbox' value='<?=$key?>' onchange='crypto_val_toggle(this);' <?=( in_array("[".$key."]", $show_crypto_val) ? 'checked' : '' )?> /> <?=strtoupper($key)?> 
 			<?php
 			$loop = $loop + 1;
 			}
 			?> 
-			     <img id="setting_crypto_value" src="templates/interface/media/images/info.png" alt="" width="30" style="position: relative; left: -5px;" />
+			     <img id="setting_crypto_val" src="templates/interface/media/images/info.png" alt="" width="30" style="position: relative; left: -5px;" />
          </p>
 			
 
@@ -512,18 +512,18 @@
 
 
 		
-			var setting_crypto_value_content = '<h5 class="yellow tooltip_title">Show Crypto Value Of ENTIRE Portfolio In</h5>'
+			var setting_crypto_val_content = '<h5 class="yellow tooltip_title">Show Crypto Value Of ENTIRE Portfolio In</h5>'
 			
 			+'<p class="coin_info" style="max-width: 600px; white-space: normal;">Shows the value of your ENTIRE portfolio, in cryptocurrencies selected here, at the bottom of the Portfolio page.</p>'
 			
 			+'<p class="coin_info" style="max-width: 600px; white-space: normal;">You can edit this list (except for BTC) with the "crypto_pairing" setting, in the Admin Config POWER USER section.</p>';
 			
 		
-			$('#setting_crypto_value').balloon({
+			$('#setting_crypto_val').balloon({
 			html: true,
 			position: "top",
   			classname: 'balloon-tooltips',
-			contents: setting_crypto_value_content,
+			contents: setting_crypto_val_content,
 			css: {
 					fontSize: ".8rem",
 					minWidth: "450px",
@@ -553,20 +553,20 @@
 			
 			<select class='browser-default custom-select' onchange='
 			
-			 document.getElementById("show_secondary_trade_value").value = this.value;
+			 document.getElementById("show_secondary_trade_val").value = this.value;
 			
 			'>
 			<option value=''> None </option>
 			<?php
 			foreach ( $ocpt_conf['power']['crypto_pairing'] as $key => $unused ) {
 			?>
-			<option value='<?=$key?>' <?=( $show_secondary_trade_value == $key ? 'selected' : '' )?>> <?=strtoupper($key)?> </option>
+			<option value='<?=$key?>' <?=( $show_secondary_trade_val == $key ? 'selected' : '' )?>> <?=strtoupper($key)?> </option>
 			<?php
 			}
 			?> 
 			</select>
 			
-			     <img id="setting_secondary_trade_value" src="templates/interface/media/images/info.png" alt="" width="30" style="position: relative; left: -5px;" />
+			     <img id="setting_secondary_trade_val" src="templates/interface/media/images/info.png" alt="" width="30" style="position: relative; left: -5px;" />
 			     
          </p>
 			
@@ -575,7 +575,7 @@
 
 
 		
-			var setting_secondary_trade_value_content = '<h5 class="yellow tooltip_title">Show Secondary Trade / Holdings Values In</h5>'
+			var setting_secondary_trade_val_content = '<h5 class="yellow tooltip_title">Show Secondary Trade / Holdings Values In</h5>'
 			
 			+'<p class="coin_info" style="max-width: 600px; white-space: normal;">Choose showing secondary trade / holdings values in another asset, see example screenshot below:</p>'
 			
@@ -584,11 +584,11 @@
 			+'<p class="coin_info" style="max-width: 600px; white-space: normal;">You can edit this list (except for BTC) with the "crypto_pairing" setting, in the Admin Config POWER USER section.</p>';
 			
 		
-			$('#setting_secondary_trade_value').balloon({
+			$('#setting_secondary_trade_val').balloon({
 			html: true,
 			position: "right",
   			classname: 'balloon-tooltips',
-			contents: setting_secondary_trade_value_content,
+			contents: setting_secondary_trade_val_content,
 			css: {
 					fontSize: ".8rem",
 					minWidth: "450px",

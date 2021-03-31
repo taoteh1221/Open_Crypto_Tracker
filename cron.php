@@ -214,22 +214,22 @@ $logs_array = array();
 // Run any cron-designated plugins activated in ocpt_conf
 // ALWAYS KEEP PLUGIN RUNTIME LOGIC INLINE (NOT ISOLATED WITHIN A FUNCTION), 
 // SO WE DON'T NEED TO WORRY ABOUT IMPORTING GLOBALS!
-foreach ( $activated_plugins['cron'] as $plugin_key => $plugin_value ) {
+foreach ( $activated_plugins['cron'] as $plugin_key => $plugin_val ) {
 	
-	if ( file_exists($plugin_value) ) {
+	if ( file_exists($plugin_val) ) {
 		
 	$this_plug = $plugin_key;
 	
-		// This plugin's functions (only if the file exists)
+	// This plugin's config (from the global app config)
+	$plug_conf[$this_plug] = $ocpt_conf['plug_conf'][$this_plug]; 
+	
+		// This plugin's default class (only if the file exists)
 		if ( file_exists($base_dir . '/plugins/'.$this_plug.'/plug-lib/plug-class.php') ) {
-      include($base_dir . 'plugins/'.$this_plug.'/plug-lib/plug-class.php');
+      include($base_dir . '/plugins/'.$this_plug.'/plug-lib/plug-class.php');
 		}
 	
-	// This plugin's config (from the global app config)
-	$plug_conf[$this_plug] = $ocpt_conf['plugin_config'][$this_plug]; 
-	
 	// This plugin's plug-init.php file (runs the plugin)
-	include($plugin_value);
+	include($plugin_val);
 	
 	// Reset $this_plug at end of loop
 	$this_plug = null; 

@@ -8,9 +8,9 @@
 ////////////////////////////////////////////////////////
 
 
-function remove_directory($dir) { 
+function remove_dir($dir) { 
   foreach(glob($dir . '/*') as $file) {
-    if(is_dir($file)) remove_directory($file); else unlink($file); 
+    if(is_dir($file)) remove_dir($file); else unlink($file); 
   }
   rmdir($dir);
 }
@@ -57,7 +57,7 @@ return preg_replace("/\[PHP_TIMEOUT\]/i", $ui_exec_time, file_get_contents($base
 ////////////////////////////////////////////////////////
 
 
-function htaccess_directory_defaults() {
+function htaccess_dir_defaults() {
 	
 global $base_dir, $ocpt_conf;
 
@@ -77,17 +77,17 @@ return preg_replace("/\[PHP_TIMEOUT\]/i", $ui_exec_time, file_get_contents($base
 ////////////////////////////////////////////////////////
 
 
-function delete_old_files($directory_data, $days, $ext) {
+function delete_old_files($dir_data, $days, $ext) {
 	
 	
 	// Support for string OR array in the calls, for directory data
-	if ( !is_array($directory_data) ) {
-	$directory_data = array($directory_data);
+	if ( !is_array($dir_data) ) {
+	$dir_data = array($dir_data);
 	}
 	
 	
 	// Process each directory
-	foreach ( $directory_data as $dir ) {
+	foreach ( $dir_data as $dir ) {
 	
 		
 	$files = glob($dir."/*.".$ext);
@@ -125,7 +125,7 @@ function delete_old_files($directory_data, $days, $ext) {
 ////////////////////////////////////////////////////////
 
 
-function htaccess_directory_protection() {
+function htaccess_dir_protection() {
 
 global $base_dir, $ocpt_cache, $ocpt_conf, $htaccess_username, $htaccess_password;
 
@@ -154,7 +154,7 @@ $password_strength = password_strength($htaccess_password, 8, 8);
     
     	if ( $password_set == true ) {
     	
-    	$htaccess_contents = htaccess_directory_defaults() . 
+    	$htaccess_contents = htaccess_dir_defaults() . 
 		preg_replace("/\[BASE_DIR\]/i", $base_dir, file_get_contents($base_dir . '/templates/back-end/enable-password-htaccess.template') );
     
     	$htaccess_set = $ocpt_cache->save_file($base_dir . '/.htaccess', $htaccess_contents);
@@ -1183,9 +1183,9 @@ $messages_queue = sort_files($base_dir . '/cache/secured/messages', 'queue', 'as
    				// json_encode() only accepts UTF-8, SO CONVERT BACK TO ORIGINAL CHARSET
    				if ( strtolower($restore_text_charset) != 'utf-8' ) {
    					
-   					foreach( $textemail_array as $textemail_key => $textemail_value ) {
+   					foreach( $textemail_array as $textemail_key => $textemail_val ) {
    					// Leave charset / content_type vars UTF-8
-   					$textemail_array[$textemail_key] = ( $textemail_key == 'charset' || $textemail_key == 'content_type' ? $textemail_value : mb_convert_encoding($textemail_value, $restore_text_charset, 'UTF-8') );
+   					$textemail_array[$textemail_key] = ( $textemail_key == 'charset' || $textemail_key == 'content_type' ? $textemail_val : mb_convert_encoding($textemail_val, $restore_text_charset, 'UTF-8') );
    					}
    	
    				}
@@ -1230,9 +1230,9 @@ $messages_queue = sort_files($base_dir . '/cache/secured/messages', 'queue', 'as
    				// json_encode() only accepts UTF-8, SO CONVERT BACK TO ORIGINAL CHARSET
    				if ( strtolower($restore_email_charset) != 'utf-8' ) {
    					
-   					foreach( $email_array as $email_key => $email_value ) {
+   					foreach( $email_array as $email_key => $email_val ) {
    					// Leave charset / content_type vars UTF-8
-   					$email_array[$email_key] = ( $email_key == 'charset' || $email_key == 'content_type' ? $email_value : mb_convert_encoding($email_value, $restore_email_charset, 'UTF-8') );
+   					$email_array[$email_key] = ( $email_key == 'charset' || $email_key == 'content_type' ? $email_val : mb_convert_encoding($email_val, $restore_email_charset, 'UTF-8') );
    					}
    	
    				}

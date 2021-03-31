@@ -89,9 +89,9 @@ if ( sizeof($ocpt_conf['proxy']['proxy_list']) > 0 ) {
 	// Check proxy config
 	foreach ( $ocpt_conf['proxy']['proxy_list'] as $proxy ) {
           		
-	$proxy_string = explode(":",$proxy);
+	$proxy_str = explode(":",$proxy);
           	
-		if ( !filter_var($proxy_string[0], FILTER_VALIDATE_IP) || !is_numeric($proxy_string[1]) ) {
+		if ( !filter_var($proxy_str[0], FILTER_VALIDATE_IP) || !is_numeric($proxy_str[1]) ) {
 		$config_parse_error[] = $proxy;
       $proxy_parse_errors = $proxy_parse_errors + 1;
       }
@@ -101,21 +101,21 @@ if ( sizeof($ocpt_conf['proxy']['proxy_list']) > 0 ) {
 
 	// Displaying that errors were found
 	if ( $config_parse_error >= 1 ) {
-   $proxy_config_alert .= '<span class="red">' . $proxy_parse_errors . ' proxy configuration error(s):</span>' . "<br /> \n";
+   $proxy_conf_alert .= '<span class="red">' . $proxy_parse_errors . ' proxy configuration error(s):</span>' . "<br /> \n";
    }
           		
 	// Displaying any config errors
 	foreach ( $config_parse_error as $error ) {
-   $proxy_config_alert .= '<span class="red">Misconfigured proxy: ' . $error . '</span>' . "<br /> \n";
+   $proxy_conf_alert .= '<span class="red">Misconfigured proxy: ' . $error . '</span>' . "<br /> \n";
    }
 
-	if ( $proxy_config_alert ) {
-	app_logging('config_error', $proxy_config_alert);
+	if ( $proxy_conf_alert ) {
+	app_logging('config_error', $proxy_conf_alert);
 	}
           		
 	// Displaying if checks passed
 	if ( sizeof($config_parse_error) < 1 ) {
-   $proxy_config_alert .= '<span class="green">Config formatting seems ok.</span>';
+   $proxy_conf_alert .= '<span class="green">Config formatting seems ok.</span>';
    }
           		
 $config_parse_error = NULL; // Blank it out for any other config checks
@@ -243,9 +243,9 @@ if ( trim($ocpt_conf['comms']['from_email']) != '' || trim($ocpt_conf['comms']['
 			
 			foreach ( $ocpt_conf['charts_alerts']['tracked_markets'] as $key => $value ) {
    		       		
-			$alerts_string = explode("||",$value);
+			$alerts_str = explode("||",$value);
    		       	
-				if ( sizeof($alerts_string) < 3 ) {
+				if ( sizeof($alerts_str) < 3 ) {
 				$config_parse_error[] = "'" . $key . "' price alert exchange / market not formatted properly: '" . $value . "'";
       		}
      	
@@ -255,22 +255,22 @@ if ( trim($ocpt_conf['comms']['from_email']) != '' || trim($ocpt_conf['comms']['
 
          // Displaying that errors were found
          if ( $config_parse_error >= 1 ) {
-         $price_change_config_alert .=  '<span class="red">' . $price_alert_type_text . ' alert configuration error(s):</span>' . "<br /> \n";
+         $price_change_conf_alert .=  '<span class="red">' . $price_alert_type_text . ' alert configuration error(s):</span>' . "<br /> \n";
          }
           		
          // Displaying any config errors
          foreach ( $config_parse_error as $error ) {
-         $price_change_config_alert .= '<span class="red">' . $error . '</span>' . "<br /> \n";
+         $price_change_conf_alert .= '<span class="red">' . $error . '</span>' . "<br /> \n";
          }
           		
 
-			if ( $price_change_config_alert ) {
-			app_logging('config_error', $price_change_config_alert);
+			if ( $price_change_conf_alert ) {
+			app_logging('config_error', $price_change_conf_alert);
 			}
           		
          // Displaying if checks passed
          if ( sizeof($config_parse_error) < 1 ) {
-         $price_change_config_alert .= '<span class="green">Config formatting seems ok.</span>';
+         $price_change_conf_alert .= '<span class="green">Config formatting seems ok.</span>';
          }
           		
       $config_parse_error = NULL; // Blank it out for any other config checks
@@ -304,23 +304,23 @@ $smtp_email_server_parse = explode(":", $ocpt_conf['comms']['smtp_server'] );
 	
    // Displaying that errors were found
    if ( $config_parse_error >= 1 ) {
-   $smtp_config_alert .=  '<span class="red">SMTP configuration error(s):</span>' . "<br /> \n";
+   $smtp_conf_alert .=  '<span class="red">SMTP configuration error(s):</span>' . "<br /> \n";
    }
           		
    // Displaying any config errors
    foreach ( $config_parse_error as $error ) {
-   $smtp_config_alert .= '<span class="red">' . $error . '</span>' . "<br /> \n";
+   $smtp_conf_alert .= '<span class="red">' . $error . '</span>' . "<br /> \n";
    }
           		
 
-	if ( $smtp_config_alert ) {
-	app_logging('config_error', $smtp_config_alert);
+	if ( $smtp_conf_alert ) {
+	app_logging('config_error', $smtp_conf_alert);
 	}
 
         
    // Displaying if checks passed
    if ( sizeof($config_parse_error) < 1 ) {
-   $smtp_config_alert .= '<span class="green">Config formatting seems ok.</span>';
+   $smtp_conf_alert .= '<span class="green">Config formatting seems ok.</span>';
    }
           		
    $config_parse_error = NULL; // Blank it out for any other config checks
@@ -347,23 +347,23 @@ if ( $ocpt_conf['power']['logs_email'] > 0 && trim($ocpt_conf['comms']['from_ema
 
    // Displaying that errors were found
    if ( $config_parse_error >= 1 ) {
-   $logs_config_alert .=  '<span class="red">Email error logs configuration error(s):</span>' . "<br /> \n";
+   $logs_conf_alert .=  '<span class="red">Email error logs configuration error(s):</span>' . "<br /> \n";
    }
           		
    // Displaying any config errors
    foreach ( $config_parse_error as $error ) {
-   $logs_config_alert .= '<span class="red">' . $error . '</span>' . "<br /> \n";
+   $logs_conf_alert .= '<span class="red">' . $error . '</span>' . "<br /> \n";
    }
           		
 
-	if ( $logs_config_alert ) {
-	app_logging('config_error', $logs_config_alert);
+	if ( $logs_conf_alert ) {
+	app_logging('config_error', $logs_conf_alert);
 	}
 
         
    // Displaying if checks passed
    if ( sizeof($config_parse_error) < 1 ) {
-   $logs_config_alert .= '<span class="green">Config formatting seems ok.</span>';
+   $logs_conf_alert .= '<span class="green">Config formatting seems ok.</span>';
    }
           		
    $config_parse_error = NULL; // Blank it out for any other config checks
@@ -388,23 +388,23 @@ if ( $ocpt_conf['gen']['asset_charts_toggle'] == 'on' && $ocpt_conf['power']['ch
 
    // Displaying that errors were found
    if ( $config_parse_error >= 1 ) {
-   $backuparchive_config_alert .=  '<span class="red">Backup archiving configuration error(s):</span>' . "<br /> \n";
+   $backuparchive_conf_alert .=  '<span class="red">Backup archiving configuration error(s):</span>' . "<br /> \n";
    }
           		
    // Displaying any config errors
    foreach ( $config_parse_error as $error ) {
-   $backuparchive_config_alert .= '<span class="red">' . $error . '</span>' . "<br /> \n";
+   $backuparchive_conf_alert .= '<span class="red">' . $error . '</span>' . "<br /> \n";
    }
           		
 
-	if ( $backuparchive_config_alert ) {
-	app_logging('config_error', $backuparchive_config_alert);
+	if ( $backuparchive_conf_alert ) {
+	app_logging('config_error', $backuparchive_conf_alert);
 	}
 
         
    // Displaying if checks passed
    if ( sizeof($config_parse_error) < 1 ) {
-   $backuparchive_config_alert .= '<span class="green">Config formatting seems ok.</span>';
+   $backuparchive_conf_alert .= '<span class="green">Config formatting seems ok.</span>';
    }
           		
    $config_parse_error = NULL; // Blank it out for any other config checks

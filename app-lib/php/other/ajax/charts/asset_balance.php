@@ -12,7 +12,7 @@
   <div id='balance_chart' class='chart_wrapper' style='min-width: 700px; background: white; border: 2px solid #918e8e;'></div>
   
   <script>
-    var balance_chart_config = {
+    var balance_chart_conf = {
     "gui": {
     	"behaviors": [
     	],
@@ -78,7 +78,7 @@
       },
       "series": [
       <?php
-      foreach ( $_GET as $asset_key => $asset_value ) {
+      foreach ( $_GET as $asset_key => $asset_val ) {
       	
       	if ( stristr($asset_key, 'MISC__') != false ) {
       	$asset_key = strtolower($asset_key);
@@ -86,10 +86,10 @@
       	$asset_key = $misc_array[1];
       	}
       
-      	if ( $asset_key != 'type' && $asset_key != 'leverage_added' && $asset_key != 'short_added' && $asset_value >= 0.01 ) {
+      	if ( $asset_key != 'type' && $asset_key != 'leverage_added' && $asset_key != 'short_added' && $asset_val >= 0.01 ) {
       ?>
         {
-          "values": [<?=strtoupper($asset_value)?>],
+          "values": [<?=strtoupper($asset_val)?>],
           "text": "<?=strtoupper($asset_key)?>"
         },
       <?php
@@ -102,7 +102,7 @@
  
     zingchart.render({
       id: 'balance_chart',
-      data: balance_chart_config,
+      data: balance_chart_conf,
       height: 400,
       width: "100%"
     });

@@ -42,7 +42,7 @@ if ( $_POST['hive_submitted'] ) {
 
 <p class='red' style='font-weight: bold;'>Your <i>current</i> HIVE Power interest rate results (<i><u><?=strtoupper($ocpt_conf['gen']['btc_prim_curr_pairing'])?> values may change significantly over long periods of time</u></i>):</p>
 
-<p class='green' style='font-weight: bold;'>1 HIVE = <?=$ocpt_var->num_to_str($hive_market)?> BTC (<?=$ocpt_conf['power']['btc_curr_markets'][$ocpt_conf['gen']['btc_prim_curr_pairing']]?><?php echo number_format( $ocpt_var->num_to_str( $hive_market * $sel_btc_prim_curr_value ), 8, '.', ','); ?>)</p>
+<p class='green' style='font-weight: bold;'>1 HIVE = <?=$ocpt_var->num_to_str($hive_market)?> BTC (<?=$ocpt_conf['power']['btc_curr_markets'][$ocpt_conf['gen']['btc_prim_curr_pairing']]?><?php echo number_format( $ocpt_var->num_to_str( $hive_market * $sel_btc_prim_curr_val ), 8, '.', ','); ?>)</p>
 
 
 <?php

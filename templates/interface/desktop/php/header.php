@@ -161,7 +161,7 @@ header('Content-type: text/html; charset=' . $ocpt_conf['dev']['charset_default'
 	var charts_background = '<?=$ocpt_conf['power']['charts_background']?>';
 	var charts_border = '<?=$ocpt_conf['power']['charts_border']?>';
 	
-	var btc_prim_curr_value = '<?=number_format( $sel_btc_prim_curr_value, 2, '.', '' )?>';
+	var btc_prim_curr_val = '<?=number_format( $sel_btc_prim_curr_val, 2, '.', '' )?>';
 	var btc_prim_curr_pairing = '<?=strtoupper($ocpt_conf['gen']['btc_prim_curr_pairing'])?>';
 	
 	// 'Loading X...' UI notices
@@ -182,9 +182,9 @@ header('Content-type: text/html; charset=' . $ocpt_conf['dev']['charset_default'
 	
 	var pref_bitcoin_markets = []; // Set the array
 	<?php
-	foreach ( $ocpt_conf['power']['btc_pref_curr_markets'] as $pref_bitcoin_markets_key => $pref_bitcoin_markets_value ) {
+	foreach ( $ocpt_conf['power']['btc_pref_curr_markets'] as $pref_bitcoin_markets_key => $pref_bitcoin_markets_val ) {
 	?>
-	pref_bitcoin_markets["<?=strtolower( $pref_bitcoin_markets_key )?>"] = "<?=strtolower( $pref_bitcoin_markets_value )?>";
+	pref_bitcoin_markets["<?=strtolower( $pref_bitcoin_markets_key )?>"] = "<?=strtolower( $pref_bitcoin_markets_val )?>";
 	<?php
 	}
 	?>

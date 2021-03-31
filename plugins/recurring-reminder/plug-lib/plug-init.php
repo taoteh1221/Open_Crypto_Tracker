@@ -11,15 +11,18 @@
 
 foreach ( $plug_conf[$this_plug]['reminders'] as $key => $value ) {
 
+
 // Recurring reminder time in minutes
 $in_minutes = round( $ocpt_var->num_to_str(1440 * $value['days']) );
+
 
 // Offset -1 anything 20 minutes or higher, so recurring reminder is triggered at same EXACT cron job interval consistently 
 // (example: every 2 days at 12:00pm...NOT same cron job interval + 1, like 12:20pm / 12:40pm / etc)
 $in_minutes_offset = ( $in_minutes >= 20 ? ($in_minutes - 1) : $in_minutes );
 
-
-	if ( update_cache( $ocpt_plug->event_cache('alert-' . $key . '.dat') , $in_minutes_offset) == true ) {
+	
+	// If it's time to send a reminder...
+	if ( update_cache( $ocpt_plug->event_cache('alert-' . $key . '.dat') , $in_minutes_offset ) == true ) {
 
 	$format_message = "This is a recurring ~" . round($value['days']) . " day reminder: " . $value['message'];
 
@@ -50,6 +53,7 @@ $in_minutes_offset = ( $in_minutes >= 20 ? ($in_minutes - 1) : $in_minutes );
 	$ocpt_cache->save_file( $ocpt_plug->event_cache('alert-' . $key . '.dat') , time_date_format(false, 'pretty_date_time') );
 
 	}
+	// END sending reminder
 
 
 }

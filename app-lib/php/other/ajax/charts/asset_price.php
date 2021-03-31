@@ -31,33 +31,33 @@ $x_coord = 120; // Start position (absolute) for lite chart links
 		$market_parse = explode("||", $value );
 
 
-		$charted_value = ( $_GET['charted_value'] == 'pairing' ? $market_parse[1] : $default_btc_prim_curr_pairing );
+		$charted_val = ( $_GET['charted_val'] == 'pairing' ? $market_parse[1] : $default_btc_prim_curr_pairing );
 		
 		
 		// Strip non-alphanumeric characters to use in js vars, to isolate logic for each separate chart
-		$js_key = preg_replace("/-/", "", $key) . '_' . $charted_value;
+		$js_key = preg_replace("/-/", "", $key) . '_' . $charted_val;
 		
 
 			
 			// Unicode asset symbols
 			// Crypto
-			if ( array_key_exists($charted_value, $ocpt_conf['power']['crypto_pairing']) ) {
-			$curr_symbol = $ocpt_conf['power']['crypto_pairing'][$charted_value];
+			if ( array_key_exists($charted_val, $ocpt_conf['power']['crypto_pairing']) ) {
+			$curr_symbol = $ocpt_conf['power']['crypto_pairing'][$charted_val];
 			}
 			// Fiat-equiv
 			// RUN AFTER CRYPTO MARKETS...WE HAVE A COUPLE CRYPTOS SUPPORTED HERE, BUT WE ONLY WANT DESIGNATED FIAT-EQIV HERE
-			elseif ( array_key_exists($charted_value, $ocpt_conf['power']['btc_curr_markets']) && !array_key_exists($charted_value, $ocpt_conf['power']['crypto_pairing']) ) {
-			$curr_symbol = $ocpt_conf['power']['btc_curr_markets'][$charted_value];
+			elseif ( array_key_exists($charted_val, $ocpt_conf['power']['btc_curr_markets']) && !array_key_exists($charted_val, $ocpt_conf['power']['crypto_pairing']) ) {
+			$curr_symbol = $ocpt_conf['power']['btc_curr_markets'][$charted_val];
 			$fiat_equiv = 1;
 			}
 			// Fallback for currency symbol config errors
 			else {
-			$curr_symbol = strtoupper($charted_value) . ' ';
+			$curr_symbol = strtoupper($charted_val) . ' ';
 			}
 			
 		
 			// Have this script send the UI alert messages, and not load any chart code (to not leave the page endlessly loading) if cache data is not present
-			if ( !file_exists('cache/charts/spot_price_24hr_volume/lite/' . $_GET['days'] . '_days/'.$chart_asset.'/'.$key.'_chart_'.$charted_value.'.dat') ) {
+			if ( !file_exists('cache/charts/spot_price_24hr_volume/lite/' . $_GET['days'] . '_days/'.$chart_asset.'/'.$key.'_chart_'.$charted_val.'.dat') ) {
 			?>
 			
 {
@@ -103,7 +103,7 @@ gui: {
   	x: 0, 
   	y: 0,
   	title: {
-  	  text: "<?=$chart_asset?> / <?=strtoupper($market_parse[1])?> @ <?=snake_case_to_name($market_parse[0])?> <?=( $_GET['charted_value'] != 'pairing' ? '(' . strtoupper($charted_value) . ' Value)' : '' )?>",
+  	  text: "<?=$chart_asset?> / <?=strtoupper($market_parse[1])?> @ <?=$ocpt_gen->snake_case_to_name($market_parse[0])?> <?=( $_GET['charted_val'] != 'pairing' ? '(' . strtoupper($charted_val) . ' Value)' : '' )?>",
   	  fontColor: "<?=$ocpt_conf['power']['charts_text']?>",
   	  fontFamily: 'Open Sans',
   	  fontSize: 25,
@@ -154,7 +154,7 @@ gui: {
 			}
 			
 		
-		$chart_data = chart_data('cache/charts/spot_price_24hr_volume/lite/' . $_GET['days'] . '_days/'.$chart_asset.'/'.$key.'_chart_'.$charted_value.'.dat', $market_parse[1]);
+		$chart_data = chart_data('cache/charts/spot_price_24hr_volume/lite/' . $_GET['days'] . '_days/'.$chart_asset.'/'.$key.'_chart_'.$charted_val.'.dat', $market_parse[1]);
 		
 		
 		$price_sample_oldest = $ocpt_var->num_to_str( $ocpt_var->delimited_str_sample($chart_data['spot'], ',', 'first') );
@@ -263,7 +263,7 @@ graphset:[
     exact: true
   },
   title: {
-    text: "<?=$chart_asset?> / <?=strtoupper($market_parse[1])?> @ <?=snake_case_to_name($market_parse[0])?> <?=( $_GET['charted_value'] != 'pairing' ? '(' . strtoupper($charted_value) . ' Value)' : '' )?>",
+    text: "<?=$chart_asset?> / <?=strtoupper($market_parse[1])?> @ <?=$ocpt_gen->snake_case_to_name($market_parse[0])?> <?=( $_GET['charted_val'] != 'pairing' ? '(' . strtoupper($charted_val) . ' Value)' : '' )?>",
     fontColor: "<?=$ocpt_conf['power']['charts_text']?>",
     fontFamily: 'Open Sans',
     fontSize: 25,

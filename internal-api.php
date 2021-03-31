@@ -81,7 +81,7 @@ $hash_check = md5($_GET['data_set']);
 
 		// /api/price endpoint
 		if ( $data_set_array[0] == 'market_conversion' ) {
-		$result = market_conversion_internal_api($data_set_array[1], $all_markets_data_array);
+		$result = market_conv_int_api($data_set_array[1], $all_markets_data_array);
 		}
 		elseif ( $data_set_array[0] == 'asset_list' ) {
 		$result = asset_list_internal_api();

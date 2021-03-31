@@ -9,7 +9,7 @@
 // ###########################################################################################
 
 
-foreach ( $plug_conf[$this_plug]['price_targets'] as $target_key => $target_value ) {
+foreach ( $plug_conf[$this_plug]['price_targets'] as $target_key => $target_val ) {
 
 
 $price_target_cache_file = $ocpt_plug->var_cache($target_key . '.dat');
@@ -21,19 +21,19 @@ $price_target_cache_file = $ocpt_plug->var_cache($target_key . '.dat');
 	}
 	
 
-$target_value = $ocpt_var->num_to_str($target_value);
+$target_val = $ocpt_var->num_to_str($target_val);
 
-$market_config = explode('-', $target_key);
+$market_conf = explode('-', $target_key);
 
-$market_asset = strtoupper($market_config[0]);
+$market_asset = strtoupper($market_conf[0]);
 
-$market_pairing = strtolower($market_config[1]);
+$market_pairing = strtolower($market_conf[1]);
 
-$market_exchange = strtolower($market_config[2]);
+$market_exchange = strtolower($market_conf[2]);
 
 $market_id = $ocpt_conf['assets'][$market_asset]['pairing'][$market_pairing][$market_exchange];
 
-$market_value = $ocpt_var->num_to_str( $ocpt_api->market($market_asset, $market_exchange, $market_id)['last_trade'] );
+$market_val = $ocpt_var->num_to_str( $ocpt_api->market($market_asset, $market_exchange, $market_id)['last_trade'] );
 
 	
 	// Get cache data, and / or flag a cache reset
@@ -43,12 +43,12 @@ $market_value = $ocpt_var->num_to_str( $ocpt_api->market($market_asset, $market_
 	
 	$target_direction = $price_target_cache_data[0];
 	
-	$cached_target_value = $ocpt_var->num_to_str($price_target_cache_data[1]);
+	$cached_target_val = $ocpt_var->num_to_str($price_target_cache_data[1]);
 	
-	$cached_market_value = $ocpt_var->num_to_str($price_target_cache_data[2]);
+	$cached_market_val = $ocpt_var->num_to_str($price_target_cache_data[2]);
 	
 		// If user changed the target value in the config, flag a reset
-		if ( $target_value != $cached_target_value ) {
+		if ( $target_val != $cached_target_val ) {
 		$cache_reset = true;
 		}
 	
@@ -61,14 +61,14 @@ $market_value = $ocpt_var->num_to_str( $ocpt_api->market($market_asset, $market_
 	// If a cache reset was flagged
 	if ( $cache_reset ) {
 	
-		if ( $target_value >= $market_value ) {
+		if ( $target_val >= $market_val ) {
 		$target_direction = 'increase';
 		}
 		else {
 		$target_direction = 'decrease';
 		}
 		
-	$new_cache_data = $target_direction . '|' . $target_value . '|' . $market_value;
+	$new_cache_data = $target_direction . '|' . $target_val . '|' . $market_val;
 	
 	$ocpt_cache->save_file($price_target_cache_file, $new_cache_data);
 	
@@ -78,11 +78,11 @@ $market_value = $ocpt_var->num_to_str( $ocpt_api->market($market_asset, $market_
 	}
 	
 	
-	// If price target met
-	if ( $market_value <= $target_value && $target_direction == 'decrease' || $market_value >= $target_value && $target_direction == 'increase' ) {
+	// If price target met, send a notification...
+	if ( $market_val <= $target_val && $target_direction == 'decrease' || $market_val >= $target_val && $target_direction == 'increase' ) {
         
 
-   $percent_change = ($market_value - $cached_market_value) / abs($cached_market_value) * 100;
+   $percent_change = ($market_val - $cached_market_val) / abs($cached_market_val) * 100;
    $percent_change = number_format( $ocpt_var->num_to_str($percent_change) , 2, '.', ','); // Better decimal support
 		
 		
@@ -108,21 +108,23 @@ $market_value = $ocpt_var->num_to_str( $ocpt_api->market($market_asset, $market_
    	// Fiat-eqiv
    	if ( array_key_exists($market_pairing, $ocpt_conf['power']['btc_curr_markets']) && !array_key_exists($market_pairing, $ocpt_conf['power']['crypto_pairing']) ) {
    		
-		$target_value_text = ( $target_value >= $ocpt_conf['gen']['prim_curr_dec_max_thres'] ? $ocpt_var->num_pretty($target_value, 2) : $ocpt_var->num_pretty($target_value, $ocpt_conf['gen']['prim_curr_dec_max']) );
+		$target_val_text = ( $target_val >= $ocpt_conf['gen']['prim_curr_dec_max_thres'] ? $ocpt_var->num_pretty($target_val, 2) : $ocpt_var->num_pretty($target_val, $ocpt_conf['gen']['prim_curr_dec_max']) );
 		
-		$market_value_text = ( $market_value >= $ocpt_conf['gen']['prim_curr_dec_max_thres'] ? $ocpt_var->num_pretty($market_value, 2) : $ocpt_var->num_pretty($market_value, $ocpt_conf['gen']['prim_curr_dec_max']) );
+		$market_val_text = ( $market_val >= $ocpt_conf['gen']['prim_curr_dec_max_thres'] ? $ocpt_var->num_pretty($market_val, 2) : $ocpt_var->num_pretty($market_val, $ocpt_conf['gen']['prim_curr_dec_max']) );
 		
 		}
 		// Crypto
 		else {
-		$target_value_text = $ocpt_var->num_pretty($target_value, 8);
-		$market_value_text = $ocpt_var->num_pretty($market_value, 8);
+		$target_val_text = $ocpt_var->num_pretty($target_val, 8);
+		$market_val_text = $ocpt_var->num_pretty($market_val, 8);
 		}
    
 
-	$email_message = "The " . $market_asset . " price target of " . $target_value_text . " " . strtoupper($market_pairing) . " has been met at the " . snake_case_to_name($market_exchange) . " exchange, with a " . $percent_change . "% " . $target_direction . " over the past " . $last_cached_time . " in market value to " . $market_value_text . " " . strtoupper($market_pairing) . ".";
+	$email_message = "The " . $market_asset . " price target of " . $target_val_text . " " . strtoupper($market_pairing) . " has been met at the " . $ocpt_gen->snake_case_to_name($market_exchange) . " exchange, with a " . $percent_change . "% " . $target_direction . " over the past " . $last_cached_time . " in market value to " . $market_val_text . " " . strtoupper($market_pairing) . ".";
 
-	$text_message = $market_asset . " price target of " . $target_value_text . " " . strtoupper($market_pairing) . " met @ " . snake_case_to_name($market_exchange) . " (" . $percent_change . "% " . $target_direction . " over " . $last_cached_time . "): " . $market_value_text . " " . strtoupper($market_pairing);
+
+	$text_message = $market_asset . " price target of " . $target_val_text . " " . strtoupper($market_pairing) . " met @ " . $ocpt_gen->snake_case_to_name($market_exchange) . " (" . $percent_change . "% " . $target_direction . " over " . $last_cached_time . "): " . $market_val_text . " " . strtoupper($market_pairing);
+              
               
    // Were're just adding a human-readable timestamp to smart home (audio) alerts
    $notifyme_message = $email_message . ' Timestamp: ' . time_date_format($ocpt_conf['gen']['local_time_offset'], 'pretty_time') . '.';
@@ -152,7 +154,7 @@ $market_value = $ocpt_var->num_to_str( $ocpt_api->market($market_asset, $market_
 	@$ocpt_cache->queue_notify($send_params);
 
 
-		if ( $target_value >= $market_value ) {
+		if ( $target_val >= $market_val ) {
 		$target_direction = 'increase';
 		}
 		else {
@@ -161,11 +163,12 @@ $market_value = $ocpt_var->num_to_str( $ocpt_api->market($market_asset, $market_
 	
 	
 	// Cache new data
-	$new_cache_data = $target_direction . '|' . $target_value . '|' . $market_value;
+	$new_cache_data = $target_direction . '|' . $target_val . '|' . $market_val;
 		
 	$ocpt_cache->save_file($price_target_cache_file, $new_cache_data);
 
 	}
+	// END sending notification
 
 
 }

@@ -338,15 +338,15 @@ show_charts = $("#show_charts").val();
 /////////////////////////////////////////////////////////////
 
 
-function crypto_value_toggle(obj_var) {
+function crypto_val_toggle(obj_var) {
   
-show_crypto_value = $("#show_crypto_value").val();
+show_crypto_val = $("#show_crypto_val").val();
 	
 	if ( obj_var.checked == true ) {
-	$("#show_crypto_value").val("[" + obj_var.value + "]" + "," + show_crypto_value);
+	$("#show_crypto_val").val("[" + obj_var.value + "]" + "," + show_crypto_val);
 	}
 	else {
-	$("#show_crypto_value").val( show_crypto_value.replace("[" + obj_var.value + "],", "") );
+	$("#show_crypto_val").val( show_crypto_val.replace("[" + obj_var.value + "],", "") );
 	}
 	
 }
@@ -480,13 +480,13 @@ function copy_text(elm_id, alert_id) {
 
 function watch_toggle(obj_var) {
 	
-num_value = $("#"+obj_var.value+"_amount").val();
-num_value = num_value.replace(/,/g, '');
+num_val = $("#"+obj_var.value+"_amount").val();
+num_val = num_val.replace(/,/g, '');
 		
 		if ( obj_var.checked == true ) {
 			
 			// If there is a valid coin amount OR this is MISCASSETS, uncheck it
-			if ( num_value >= 0.00000001 || obj_var.value == 'miscassets' ) {
+			if ( num_val >= 0.00000001 || obj_var.value == 'miscassets' ) {
 			obj_var.checked = false;
 			}
 			else {
@@ -497,7 +497,7 @@ num_value = num_value.replace(/,/g, '');
 		}
 		else {
 			
-			if ( num_value < 0.00000001 ) {
+			if ( num_val < 0.00000001 ) {
 			$("#"+obj_var.value+"_amount").val("");
 			}
 			
@@ -768,7 +768,7 @@ badColor = "#ff4747";
 /////////////////////////////////////////////////////////////
 
 
-function satoshi_value(sat_increase) {
+function sats_val(sat_increase) {
 
 to_trade_amount = Number(document.getElementById("to_trade_amount").value);
 
@@ -787,9 +787,9 @@ sat_target = Number(document.getElementById("sat_target").value);
 	}
 
 
-target_prim_curr = ( num_total * btc_prim_curr_value );
+target_prim_curr = ( num_total * btc_prim_curr_val );
 
-target_total_prim_curr = ( (to_trade_amount * num_total) * btc_prim_curr_value );
+target_total_prim_curr = ( (to_trade_amount * num_total) * btc_prim_curr_val );
 
 
 	document.getElementById("target_prim_curr").innerHTML = target_prim_curr.toLocaleString(undefined, {

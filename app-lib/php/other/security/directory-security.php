@@ -12,7 +12,7 @@ usleep(1000); // Wait 0.001 seconds after possible directory creation
     
     // Recreate /.htaccess for optional password access restriction / mod rewrite etc
     if ( !file_exists($base_dir . '/.htaccess') ) {
-    $ocpt_cache->save_file($base_dir . '/.htaccess', htaccess_directory_defaults() ); 
+    $ocpt_cache->save_file($base_dir . '/.htaccess', htaccess_dir_defaults() ); 
     }
     
     // Recreate /.user.ini for optional php-fpm php.ini control

@@ -5,20 +5,18 @@
  
  
 // CREATE THIS PLUGIN'S CLASS OBJECT DYNAMICALLY AS: $plug_class[$this_plug]
-
 $plug_class[$this_plug] = new class() {
 				
 	
 // Class variables / arrays
 
-var $ocpt_var1;
-var $ocpt_var2;
-var $ocpt_var3;
-var $ocpt_array1 = array();
+var $var1;
+var $var2;
+var $var3;
+var $array1 = array();
 
 	
 	// Class functions
-	
 		
 	////////////////////////////////////////////////////////////////////////////////////////////////
 	////////////////////////////////////////////////////////////////////////////////////////////////
@@ -31,9 +29,9 @@ var $ocpt_array1 = array();
 	// Take into account previous runtime (over start of runtime), and give 3 minutes wiggle room
 	$recache = ( $plug_conf[$this_plug]['alerts_freq_max'] >= 3 ? ($plug_conf[$this_plug]['alerts_freq_max'] - 3) : $plug_conf[$this_plug]['alerts_freq_max'] );
 		
-	$json_string = 'https://blockchain.info/rawaddr/' . $address;
+	$endpnt_url = 'https://blockchain.info/rawaddr/' . $address;
 			 
-	$jsondata = @$ocpt_cache->ext_data('url', $json_string, $recache);
+	$jsondata = @$ocpt_cache->ext_data('url', $endpnt_url, $recache);
 			 
 	$data = json_decode($jsondata, true);
 		   
@@ -60,9 +58,9 @@ var $ocpt_array1 = array();
 	// Take into account previous runtime (over start of runtime), and give 3 minutes wiggle room
 	$recache = ( $plug_conf[$this_plug]['alerts_freq_max'] >= 3 ? ($plug_conf[$this_plug]['alerts_freq_max'] - 3) : $plug_conf[$this_plug]['alerts_freq_max'] );
 		
-	$json_string = 'https://api.etherscan.io/api?module=account&action=balance&address='.$address.'&tag=latest&apikey=' . $ocpt_conf['gen']['etherscan_key'];
+	$endpnt_url = 'https://api.etherscan.io/api?module=account&action=balance&address='.$address.'&tag=latest&apikey=' . $ocpt_conf['gen']['etherscan_key'];
 			 
-	$jsondata = @$ocpt_cache->ext_data('url', $json_string, $recache);
+	$jsondata = @$ocpt_cache->ext_data('url', $endpnt_url, $recache);
 			 
 	$data = json_decode($jsondata, true);
 		   
@@ -81,10 +79,8 @@ var $ocpt_array1 = array();
 	////////////////////////////////////////////////////////////////////////////////////////////////
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
-
 				
 };
-
 // END class
 		
 

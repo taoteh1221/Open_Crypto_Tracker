@@ -96,16 +96,16 @@ exit;
 // If chart data exists...
 
 $loop = 0;
-foreach ( $runtime_data['marketcap_data'] as $marketcap_key => $marketcap_value ) {
+foreach ( $runtime_data['marketcap_data'] as $marketcap_key => $marketcap_val ) {
   			
-$marketcap_value = $ocpt_var->rem_num_format($marketcap_value);
+$marketcap_val = $ocpt_var->rem_num_format($marketcap_val);
 
 	// If percent value matches, and another (increasing) number to the end, to avoid overwriting keys (this data is only used as an array key anyway)
-	if ( !array_key_exists($marketcap_value, $sorted_by_marketcap_data) ) {
-	$sorted_by_marketcap_data[$marketcap_value] = array($marketcap_key, $marketcap_value);
+	if ( !array_key_exists($marketcap_val, $sorted_by_marketcap_data) ) {
+	$sorted_by_marketcap_data[$marketcap_val] = array($marketcap_key, $marketcap_val);
 	}
 	else {
-	$sorted_by_marketcap_data[$marketcap_value . $loop] = array($marketcap_key, $marketcap_value);
+	$sorted_by_marketcap_data[$marketcap_val . $loop] = array($marketcap_key, $marketcap_val);
 	$loop = $loop + 1;
 	}
 
@@ -115,13 +115,13 @@ $marketcap_value = $ocpt_var->rem_num_format($marketcap_value);
 // (newest/last chart sensors data sorts lowest value to highest, for populating the 2 shared charts)
 ksort($sorted_by_marketcap_data);
 
-$plot_config = explode('|', $_GET['plot_config']);
+$plot_conf = explode('|', $_GET['plot_conf']);
 
 //var_dump($sorted_by_marketcap_data);
   
 	foreach ( $sorted_by_marketcap_data as $marketcap_array ) {
 		
-		if ( in_array($marketcap_array[0], $plot_config) ) {
+		if ( in_array($marketcap_array[0], $plot_conf) ) {
 		$show_plot = 'visible: true,';
 		}
 		else {
@@ -131,7 +131,7 @@ $plot_config = explode('|', $_GET['plot_config']);
 	$rand_color = '#' . randomColor( sizeof($sorted_by_marketcap_data) )['hex'];
 		
 					
-				$marketcap_config = "{
+				$marketcap_conf = "{
 			  text: '".$marketcap_array[0]."',
 			  backgroundColor: '".$rand_color."',
 			  values: [".$marketcap_array[1]."],
@@ -144,7 +144,7 @@ $plot_config = explode('|', $_GET['plot_config']);
 					borderRadius: '2px'
 			  }
 			},
-			" . $marketcap_config;
+			" . $marketcap_conf;
 			
 		
 	}
@@ -287,7 +287,7 @@ gui: {
       },
   		backgroundColor: "#f2f2f2",
       series: [
-        <?php echo $marketcap_config . "\n" ?>
+        <?php echo $marketcap_conf . "\n" ?>
       ],
 	labels: [
 			{

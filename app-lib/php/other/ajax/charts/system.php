@@ -116,31 +116,31 @@ $chart_data = chart_data('cache/charts/system/lite/' . $_GET['days'] . '_days/sy
 // Determine how many data sensors to include in first chart
 $num_in_first_chart = 0;
 $loop = 0;
-foreach ( $chart_data as $chart_key => $chart_value ) {
+foreach ( $chart_data as $chart_key => $chart_val ) {
 
 // Average for first / last value
-//$check_chart_value = $ocpt_var->num_to_str( $ocpt_var->delimited_str_sample($chart_value, ',', 'first') + $ocpt_var->delimited_str_sample($chart_value, ',', 'last') / 2 );
+//$check_chart_val = $ocpt_var->num_to_str( $ocpt_var->delimited_str_sample($chart_val, ',', 'first') + $ocpt_var->delimited_str_sample($chart_val, ',', 'last') / 2 );
 // Just last value
-$check_chart_value = $ocpt_var->num_to_str( $ocpt_var->delimited_str_sample($chart_value, ',', 'last') );
+$check_chart_val = $ocpt_var->num_to_str( $ocpt_var->delimited_str_sample($chart_val, ',', 'last') );
 	
 	// Include load average no matter what (it can be zero on a low-load setup, and should be supported by nearly every linux system?)
 	// Also always include free disk space (WE WANT TO KNOW IF IT'S ZERO)
-	if ( $chart_key != 'time' && $check_chart_value != 'NO_DATA' && $check_chart_value > 0.000000 || $chart_key == 'load_average_15_minutes' || $chart_key == 'free_disk_space_terabtyes' ) {
+	if ( $chart_key != 'time' && $check_chart_val != 'NO_DATA' && $check_chart_val > 0.000000 || $chart_key == 'load_average_15_minutes' || $chart_key == 'free_disk_space_terabtyes' ) {
 		
-	$check_chart_value_key = $ocpt_var->num_to_str($check_chart_value * 100000000); // To RELIABLY sort integers AND decimals, via ksort()
+	$check_chart_val_key = $ocpt_var->num_to_str($check_chart_val * 100000000); // To RELIABLY sort integers AND decimals, via ksort()
 	
 		// If value matches, and another (increasing) number to the end, to avoid overwriting keys (this data is only used as an array key anyway)
-		if ( !array_key_exists($check_chart_value_key, $sorted_by_last_chart_data) ) {
-		$sorted_by_last_chart_data[$check_chart_value_key] = array($chart_key => $chart_value);
+		if ( !array_key_exists($check_chart_val_key, $sorted_by_last_chart_data) ) {
+		$sorted_by_last_chart_data[$check_chart_val_key] = array($chart_key => $chart_val);
 		}
 		else {
-		$sorted_by_last_chart_data[$check_chart_value_key . $loop] = array($chart_key => $chart_value);
+		$sorted_by_last_chart_data[$check_chart_val_key . $loop] = array($chart_key => $chart_val);
 		$loop = $loop + 1;
 		}
 		
-		if ( $check_chart_value <= $ocpt_var->num_to_str($ocpt_conf['power']['system_stats_first_chart_highest_value']) ) {
+		if ( $check_chart_val <= $ocpt_var->num_to_str($ocpt_conf['power']['system_stats_first_chart_highest_val']) ) {
 		$num_in_first_chart = $num_in_first_chart + 1;
-		//echo $check_chart_value . ' --- '; // DEBUGGING ONLY
+		//echo $check_chart_val . ' --- '; // DEBUGGING ONLY
 		}
 	
 	}
@@ -161,20 +161,20 @@ if ( $key == 1 ) {
 	$counted = 0;
 	foreach ( $sorted_by_last_chart_data as $chart_array ) {
 		
-		foreach ( $chart_array as $chart_key => $chart_value ) {
+		foreach ( $chart_array as $chart_key => $chart_val ) {
 		
 			if ( $counted < $num_in_first_chart && $chart_key != 'time' ) {
 			$counted = $counted + 1;
 			
 				// If there are no data retrieval errors
 				// WE STILL COUNT THIS, SO LET COUNT RUN ABOVE
-				if ( !preg_match("/NO_DATA/i", $chart_value, $matches) ) {
+				if ( !preg_match("/NO_DATA/i", $chart_val, $matches) ) {
 			
 				$rand_color = '#' . randomColor( sizeof($sorted_by_last_chart_data) )['hex'];
 					
-				$chart_config = "{
-			  text: '".snake_case_to_name($chart_key)."',
-			  values: [".$chart_value."],
+				$chart_conf = "{
+			  text: '".$ocpt_gen->snake_case_to_name($chart_key)."',
+			  values: [".$chart_val."],
 			  lineColor: '".$rand_color."',
 				 marker: {
 			 backgroundColor: '".$rand_color."',
@@ -188,7 +188,7 @@ if ( $key == 1 ) {
 				borderRadius: '2px'
 			  }
 			},
-			" . $chart_config;
+			" . $chart_conf;
 			
 				}
 			
@@ -206,20 +206,20 @@ elseif ( $key == 2 ) {
 	$counted = 0;
 	foreach ( $sorted_by_last_chart_data as $chart_array ) {
 		
-		foreach ( $chart_array as $chart_key => $chart_value ) {
+		foreach ( $chart_array as $chart_key => $chart_val ) {
 		
 			if ( $counted >= $num_in_first_chart && $chart_key != 'time' ) {
 			$counted = $counted + 1;
 			
 				// If there are no data retrieval errors
 				// WE STILL COUNT THIS, SO LET COUNT RUN ABOVE
-				if ( !preg_match("/NO_DATA/i", $chart_value, $matches) ) {
+				if ( !preg_match("/NO_DATA/i", $chart_val, $matches) ) {
 			
 			$rand_color = '#' . randomColor( sizeof($sorted_by_last_chart_data) )['hex'];
 	
-			$chart_config = "{
-			  text: '".snake_case_to_name($chart_key)."',
-			  values: [".$chart_value."],
+			$chart_conf = "{
+			  text: '".$ocpt_gen->snake_case_to_name($chart_key)."',
+			  values: [".$chart_val."],
 			  lineColor: '".$rand_color."',
 				 marker: {
 			 backgroundColor: '".$rand_color."',
@@ -233,7 +233,7 @@ elseif ( $key == 2 ) {
 				borderRadius: '2px'
 			  }
 			},
-			" . $chart_config;
+			" . $chart_conf;
 				
 				}
 		  
@@ -249,8 +249,8 @@ elseif ( $key == 2 ) {
 
 }
 
-$chart_config = trim($chart_config);
-$chart_config = rtrim($chart_config,',');
+$chart_conf = trim($chart_conf);
+$chart_conf = rtrim($chart_conf,',');
 
 header('Content-type: text/html; charset=' . $ocpt_conf['dev']['charset_default']);
 
@@ -357,7 +357,7 @@ gui: {
         zooming: true
       },
       scaleY: {
-      maxValue: <?=( $key == 1 ? $ocpt_conf['power']['system_stats_first_chart_highest_value'] : $ocpt_conf['power']['system_stats_second_chart_max_scale'] )?>,
+      maxValue: <?=( $key == 1 ? $ocpt_conf['power']['system_stats_first_chart_highest_val'] : $ocpt_conf['power']['system_stats_second_chart_max_scale'] )?>,
         guide: {
       	visible: true,
      		lineStyle: 'solid',
@@ -412,7 +412,7 @@ gui: {
  		},
   		backgroundColor: "#f2f2f2",
       series: [
-        <?php echo $chart_config . "\n" ?>
+        <?php echo $chart_conf . "\n" ?>
       ],
 		labels: [
 	<?php

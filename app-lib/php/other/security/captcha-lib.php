@@ -49,9 +49,9 @@ $fonts[] = $font_dir . $ttf_file;
 }
 
 
-$captcha_string = captcha_string($ocpt_conf['dev']['captcha_permitted_chars'], $ocpt_conf['dev']['captcha_chars_length']);
+$captcha_str = captcha_str($ocpt_conf['dev']['captcha_permitted_chars'], $ocpt_conf['dev']['captcha_chars_length']);
  
-$_SESSION['captcha_code'] = strtolower($captcha_string);
+$_SESSION['captcha_code'] = strtolower($captcha_str);
  
  
 for($i = 0; $i < $ocpt_conf['dev']['captcha_chars_length']; $i++) {
@@ -75,7 +75,7 @@ $initial = rand($ocpt_conf['dev']['captcha_text_margin'], ($ocpt_conf['dev']['ca
 
 $angle = random_int( (0 - $ocpt_conf['power']['captcha_text_angle']) , $ocpt_conf['power']['captcha_text_angle']);
    
-imagettftext($image, $ocpt_conf['dev']['captcha_text_size'], $angle, $initial + round($i * $letter_space), rand( ($ocpt_conf['dev']['captcha_text_size'] + ($ocpt_conf['dev']['captcha_text_margin'] * 4) ), ($ocpt_conf['dev']['captcha_image_height'] - ($ocpt_conf['dev']['captcha_text_margin'] * 5) ) ), $textcolors[rand(0, 1)], $fonts[array_rand($fonts)], $captcha_string[$i]);
+imagettftext($image, $ocpt_conf['dev']['captcha_text_size'], $angle, $initial + round($i * $letter_space), rand( ($ocpt_conf['dev']['captcha_text_size'] + ($ocpt_conf['dev']['captcha_text_margin'] * 4) ), ($ocpt_conf['dev']['captcha_image_height'] - ($ocpt_conf['dev']['captcha_text_margin'] * 5) ) ), $textcolors[rand(0, 1)], $fonts[array_rand($fonts)], $captcha_str[$i]);
 
 }
 

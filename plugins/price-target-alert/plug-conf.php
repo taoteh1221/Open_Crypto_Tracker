@@ -21,17 +21,19 @@
 // What runtime modes this plugin should run during (MANDATORY)
 $plug_conf[$this_plug]['runtime_mode'] = 'cron'; // 'cron', 'ui', 'all' (only 'cron' supported as of 2020-10-29)
 
+
 // Re-allow SAME asset price target alert(s) messages after X hours (per alert config)
 $plug_conf[$this_plug]['alerts_freq_max'] = 6; // Can be 0, to have no limits
+
 
 // Price targets array (add unlimited price targets as new array objects)
 $plug_conf[$this_plug]['price_targets'] = array(
 																	
-																	// 'asset-pairing-exchange' => '123.4567', // NO COMMAS ALLOWED IN PRICE, ONLY DECIMALS
-																	'btc-usd-coinbase' => '51000',
-																	'eth-btc-binance' => '0.034',
+																// 'asset-pairing-exchange' => '123.4567', // NO COMMAS ALLOWED IN PRICE, ONLY DECIMALS
+																'btc-usd-coinbase' => '51000',
+																'eth-btc-binance' => '0.034',
 																	
-																	); // END price targets array
+																); // END price targets array
 
 
 

@@ -9,7 +9,7 @@
 // ###########################################################################################
 
 
-foreach ( $plug_conf[$this_plug]['tracking'] as $target_key => $target_value ) {
+foreach ( $plug_conf[$this_plug]['tracking'] as $target_key => $target_val ) {
 	
 	
 $balance_tracking_cache_file = $ocpt_plug->var_cache($target_key . '.dat');
@@ -21,17 +21,18 @@ $balance_tracking_cache_file = $ocpt_plug->var_cache($target_key . '.dat');
 	}
 
 
-$asset = strtolower($target_value['asset']);
-$address = $target_value['address'];
-$label = $target_value['label'];
+$asset = strtolower($target_val['asset']);
+$address = $target_val['address'];
+$label = $target_val['label'];
+
 
 // Only getting BTC value for non-bitcoin assets is supported
-// SUPPORTED even for BTC ( pairing_btc_value('btc') ALWAYS = 1 )
-$pairing_btc_value = pairing_btc_value($asset); 
+// SUPPORTED even for BTC ( pairing_btc_val('btc') ALWAYS = 1 )
+$pairing_btc_val = pairing_btc_val($asset); 
   	 
   	 
-	if ( $pairing_btc_value == null ) {
-	app_logging('market_error', 'pairing_btc_value(\''.$asset.'\') returned null in the \''.$this_plug.'\' plugin, likely from exchange API request failure');
+	if ( $pairing_btc_val == null ) {
+	app_logging('market_error', 'pairing_btc_val(\''.$asset.'\') returned null in the \''.$this_plug.'\' plugin, likely from exchange API request failure');
 	}
 
 	
@@ -50,7 +51,7 @@ $pairing_btc_value = pairing_btc_value($asset);
 	
 
 // Get primary currency value of the current address balance
-$coin_prim_curr_worth_raw = $ocpt_var->num_to_str( ($address_balance * $pairing_btc_value) * $sel_btc_prim_curr_value );
+$coin_prim_curr_worth_raw = $ocpt_var->num_to_str( ($address_balance * $pairing_btc_val) * $sel_btc_prim_curr_val );
 
 $pretty_prim_curr_worth = $ocpt_var->num_pretty($coin_prim_curr_worth_raw, ( $coin_prim_curr_worth_raw >= 1.00 ? 2 : 5 ) );
 
@@ -90,7 +91,7 @@ $pretty_coin_amount = $ocpt_var->num_pretty($address_balance, 8);
 	}
 	
 	
-	// If address balance has changed
+	// If address balance has changed, send a notification...
 	if ( $address_balance != $cached_address_balance ) {
 		
 	// Balance change amount
@@ -154,6 +155,7 @@ $pretty_coin_amount = $ocpt_var->num_pretty($address_balance, 8);
 	$ocpt_cache->save_file($balance_tracking_cache_file, $new_cache_data);
 
 	}
+	// END notification
 
 
 }

@@ -2875,7 +2875,7 @@ MAJOR IMPROVEMENTS TO THE USER EXPERIENCE HAVE BEEN MADE, WHICH ARE !NOT! BACKWA
 -------------------------------------------------------------------
 4.08.9:
 
--!CRITICAL! bug fix in the pairing_btc_value() function (web server get overloaded and crashes)
+-!CRITICAL! bug fix in the pairing_btc_val() function (web server get overloaded and crashes)
 
 -Execution time config settings
 
@@ -2915,7 +2915,7 @@ MAJOR IMPROVEMENTS TO THE USER EXPERIENCE HAVE BEEN MADE, WHICH ARE !NOT! BACKWA
 -------------------------------------------------------------------
 4.08.10:
 
--Additional !CRITICAL! bug fix for pairing_btc_value() function overloading the server (SHOULD BE GOOD NOW, SORRY!)
+-Additional !CRITICAL! bug fix for pairing_btc_val() function overloading the server (SHOULD BE GOOD NOW, SORRY!)
 
 -Raspberry Pi Security documentation
 
@@ -4403,22 +4403,40 @@ WILL AUTOMATICALLY PREFORM THE RESET (ALERTS / TRACKING WILL BE ACCURATE AFTERWA
 
 
 -------------------------------------------------------------------
-4.30.0:
+4.29.3:
 
--Converted all app functions over to classes (for unit testing ability / future PHP compatibility)
 
--Shortened MANY variable names for scalability
+-BUG FIX for fiat conversion price charts being filtered out as 'stale', if a user had the 
+primary currency market in the interface set to a currency different from the (admin chosen) 
+price charts primary currency market (I forgot they were two different settings when coding the filter).
+
+
+-Wrapped all app functions into classes (for unit testing / better PHP compatibility)
+
+
+-Shortened MANY variable names for (developer) scalability (SEE CONFIG NOTES BELOW!)
+
 
 -Revised documentation / content
 
+
 -Misc UX revisions
+
+
+v4.29.3 and higher of this app HAS COMPLETELY REFACTORED CONFIGURATION VARIABLE NAMES,
+SO YOU'LL NEED TO MIGRATE ANY CUSTOM CONFIGS OVER TO THE PROPER NAMES WHERE APPLICABLE!
+
+
+v4.29.3 and higher of this app HAS COMPLETELY RESTRUCTERED THE PLUGIN FILE NAMES! PLEASE
+MIGRATE ANY CUSTOM PLUGIN CONFIGS / FILES INTO THE NEW NAMES: 'plug-conf.php', 'plug-init.php',
+'plug-class.php'. THE AUTO-INSTALL SCRIPT WILL #AUTOMATICALLY MIGRATE# BUNDLED PLUGIN FILES 
+OVER TO THE NEW FILE NAMES (AND WILL BACKUP YOUR PREVIOUS BUNDLED PLUGIN CONFIGS).
+
 
 v4.27.0 and higher of this app RESETS ALL PLUGIN CACHES (A DIRECTORY STRUCTURE UPGRADE), 
 SO ANY PLUGIN ALERTS / TRACKING WILL BE RESET. THE !FIRST! PLUGIN RUNTIMES AFTER UPGRADING
 WILL AUTOMATICALLY PREFORM THE RESET (ALERTS / TRACKING WILL BE ACCURATE AFTERWARDS).
 
-v4.30.0 and higher of this app HAS COMPLETELY REFACTORED CONFIGURATION VARIABLE NAMES,
-SO YOU'LL NEED TO MIGRATE ANY CUSTOM CONFIGS OVER TO THE PROPER NAMES WHERE APPLICABLE!
 
 -------------------------------------------------------------------
 

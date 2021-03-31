@@ -130,7 +130,7 @@
             }
             ?>
         +'<p class="coin_info"><span class="yellow">Unit Value (global average):</span> <?=$cmc_prim_curr_symbol?><?=$marketcap_data['price']?></p>'
-        +'<p class="coin_info"><span class="yellow">24 Hour Volume (global):</span> <?=$cmc_prim_curr_symbol?><?=number_format($marketcap_data['volume_24h'],0,".",",")?></p>'
+        +'<p class="coin_info"><span class="yellow">24 Hour Volume (global):</span> <?=$cmc_prim_curr_symbol?><?=number_format($marketcap_data['vol_24h'],0,".",",")?></p>'
         <?php
             if ( $marketcap_data['percent_change_1h'] != null ) {
             ?>
@@ -333,12 +333,12 @@
 
 <?php
   
-  $coin_prim_curr_value = ( $sel_btc_prim_curr_value * $btc_trade_eqiv_raw );
+  $coin_prim_curr_val = ( $sel_btc_prim_curr_val * $btc_trade_eqiv_raw );
 
   // UX on FIAT EQUIV number values
-  $coin_prim_curr_value = ( $ocpt_var->num_to_str($coin_prim_curr_value) >= $ocpt_conf['gen']['prim_curr_dec_max_thres'] ? $ocpt_var->num_pretty($coin_prim_curr_value, 2) : $ocpt_var->num_pretty($coin_prim_curr_value, $ocpt_conf['gen']['prim_curr_dec_max']) );
+  $coin_prim_curr_val = ( $ocpt_var->num_to_str($coin_prim_curr_val) >= $ocpt_conf['gen']['prim_curr_dec_max_thres'] ? $ocpt_var->num_pretty($coin_prim_curr_val, 2) : $ocpt_var->num_pretty($coin_prim_curr_val, $ocpt_conf['gen']['prim_curr_dec_max']) );
 	
-  echo "<span class='white'>" . $ocpt_conf['power']['btc_curr_markets'][$ocpt_conf['gen']['btc_prim_curr_pairing']] . "</span>" . "<span class='app_sort_filter'>" . $coin_prim_curr_value . "</span>";
+  echo "<span class='white'>" . $ocpt_conf['power']['btc_curr_markets'][$ocpt_conf['gen']['btc_prim_curr_pairing']] . "</span>" . "<span class='app_sort_filter'>" . $coin_prim_curr_val . "</span>";
 
 ?>
 
@@ -363,10 +363,10 @@
         foreach ( $all_pairing_markets as $market_key => $market_name ) {
          $loop = $loop + 1;
          	if ( $original_market == ($loop -1) ) {
-         	$ui_selected_market = snake_case_to_name($market_key);
+         	$ui_selected_market = $ocpt_gen->snake_case_to_name($market_key);
          	}
         ?>
-        <option value='<?=($loop)?>' <?=( $original_market == ($loop -1) ? ' selected ' : '' )?>> <?=snake_case_to_name($market_key)?> </option>
+        <option value='<?=($loop)?>' <?=( $original_market == ($loop -1) ? ' selected ' : '' )?>> <?=$ocpt_gen->snake_case_to_name($market_key)?> </option>
         <?php
         }
         $loop = null;
@@ -386,27 +386,27 @@
 
 <?php 
 
-$coin_value_raw = $ocpt_var->num_to_str($coin_value_raw);
+$coin_val_raw = $ocpt_var->num_to_str($coin_val_raw);
 
 	// UX on FIAT EQUIV number values
 	if ( $fiat_eqiv == 1 ) {
-	$coin_value_dec = ( $coin_value_raw >= $ocpt_conf['gen']['prim_curr_dec_max_thres'] ? 2 : $ocpt_conf['gen']['prim_curr_dec_max'] );
+	$coin_val_dec = ( $coin_val_raw >= $ocpt_conf['gen']['prim_curr_dec_max_thres'] ? 2 : $ocpt_conf['gen']['prim_curr_dec_max'] );
 	}
 	else {
 	
 		if ( $sel_pairing == 'btc' ) {
-		$coin_value_dec = ( $coin_value_raw >= 0.01 ? 6 : 8 );
-		$coin_value_dec = ( $coin_value_raw >= 1 ? 4 : $coin_value_dec );
+		$coin_val_dec = ( $coin_val_raw >= 0.01 ? 6 : 8 );
+		$coin_val_dec = ( $coin_val_raw >= 1 ? 4 : $coin_val_dec );
 		}
 		else {
-		$coin_value_dec = ( $coin_value_raw >= 0.01 ? 4 : 8 );
-		$coin_value_dec = ( $coin_value_raw >= 1 ? 2 : $coin_value_dec );
+		$coin_val_dec = ( $coin_val_raw >= 0.01 ? 4 : 8 );
+		$coin_val_dec = ( $coin_val_raw >= 1 ? 2 : $coin_val_dec );
 		}
 		
 	}
   
   
-echo $ocpt_var->num_pretty($coin_value_raw, $coin_value_dec); 
+echo $ocpt_var->num_pretty($coin_val_raw, $coin_val_dec); 
 
 
 ?>
@@ -415,21 +415,21 @@ echo $ocpt_var->num_pretty($coin_value_raw, $coin_value_dec);
 
 <?php
 
-  if ( $show_secondary_trade_value != null && $sel_pairing != $show_secondary_trade_value && strtolower($asset_symbol) != $show_secondary_trade_value ) {
+  if ( $show_secondary_trade_val != null && $sel_pairing != $show_secondary_trade_val && strtolower($asset_symbol) != $show_secondary_trade_val ) {
   
-		if ( $show_secondary_trade_value == 'btc' ) {
-		$secondary_trade_value_result = $ocpt_var->num_to_str($btc_trade_eqiv_raw);
-		$secondary_trade_value_dec = ( $secondary_trade_value_result >= 0.01 ? 6 : 8 );
-		$secondary_trade_value_dec = ( $secondary_trade_value_result >= 1 ? 4 : $secondary_trade_value_dec );
+		if ( $show_secondary_trade_val == 'btc' ) {
+		$secondary_trade_val_result = $ocpt_var->num_to_str($btc_trade_eqiv_raw);
+		$secondary_trade_val_dec = ( $secondary_trade_val_result >= 0.01 ? 6 : 8 );
+		$secondary_trade_val_dec = ( $secondary_trade_val_result >= 1 ? 4 : $secondary_trade_val_dec );
 		}
 		else {
-		$secondary_trade_value_result = $ocpt_var->num_to_str( $btc_trade_eqiv_raw / pairing_btc_value($show_secondary_trade_value) );
-		$secondary_trade_value_dec = ( $secondary_trade_value_result >= 0.01 ? 4 : 8 );
-		$secondary_trade_value_dec = ( $secondary_trade_value_result >= 1 ? 2 : $secondary_trade_value_dec );
+		$secondary_trade_val_result = $ocpt_var->num_to_str( $btc_trade_eqiv_raw / pairing_btc_val($show_secondary_trade_val) );
+		$secondary_trade_val_dec = ( $secondary_trade_val_result >= 0.01 ? 4 : 8 );
+		$secondary_trade_val_dec = ( $secondary_trade_val_result >= 1 ? 2 : $secondary_trade_val_dec );
 		}
 		
-		if ( $secondary_trade_value_result >= 0.00000001 ) {
-  		echo '<div class="crypto_worth">(' . $ocpt_var->num_pretty($secondary_trade_value_result, $secondary_trade_value_dec) . ' '.strtoupper($show_secondary_trade_value).')</div>';
+		if ( $secondary_trade_val_result >= 0.00000001 ) {
+  		echo '<div class="crypto_worth">(' . $ocpt_var->num_pretty($secondary_trade_val_result, $secondary_trade_val_dec) . ' '.strtoupper($show_secondary_trade_val).')</div>';
 		}
   
   }
@@ -533,47 +533,47 @@ echo "<span class='app_sort_filter blue'>" . ( $pretty_coin_amount != null ? $pr
 
 <?php
 
-$coin_value_total_raw = $ocpt_var->num_to_str($coin_value_total_raw);
+$coin_val_total_raw = $ocpt_var->num_to_str($coin_val_total_raw);
 
 	// UX on FIAT EQUIV number values
 	if ( $fiat_eqiv == 1 ) {
-	$coin_value_total_dec = ( $coin_value_total_raw >= $ocpt_conf['gen']['prim_curr_dec_max_thres'] ? 2 : $ocpt_conf['gen']['prim_curr_dec_max'] );
+	$coin_val_total_dec = ( $coin_val_total_raw >= $ocpt_conf['gen']['prim_curr_dec_max_thres'] ? 2 : $ocpt_conf['gen']['prim_curr_dec_max'] );
 	}
 	else {
 	
 		if ( $sel_pairing == 'btc' ) {
-		$coin_value_total_dec = ( $coin_value_total_raw >= 0.01 ? 6 : 8 );
-		$coin_value_total_dec = ( $coin_value_total_raw >= 1 ? 4 : $coin_value_total_dec );
+		$coin_val_total_dec = ( $coin_val_total_raw >= 0.01 ? 6 : 8 );
+		$coin_val_total_dec = ( $coin_val_total_raw >= 1 ? 4 : $coin_val_total_dec );
 		}
 		else {
-		$coin_value_total_dec = ( $coin_value_total_raw >= 0.01 ? 4 : 8 );
-		$coin_value_total_dec = ( $coin_value_total_raw >= 1 ? 2 : $coin_value_total_dec );
+		$coin_val_total_dec = ( $coin_val_total_raw >= 0.01 ? 4 : 8 );
+		$coin_val_total_dec = ( $coin_val_total_raw >= 1 ? 2 : $coin_val_total_dec );
 		}
 		
 	}
   
   
-$pretty_coin_value_total_raw = $ocpt_var->num_pretty($coin_value_total_raw, $coin_value_total_dec); 
+$pretty_coin_val_total_raw = $ocpt_var->num_pretty($coin_val_total_raw, $coin_val_total_dec); 
 
 
-echo ' <span class="blue"><span class="data app_sort_filter blue">' . $pretty_coin_value_total_raw . '</span> ' . strtoupper($sel_pairing) . '</span>';
+echo ' <span class="blue"><span class="data app_sort_filter blue">' . $pretty_coin_val_total_raw . '</span> ' . strtoupper($sel_pairing) . '</span>';
 
   
-  if ( $show_secondary_trade_value != null && $sel_pairing != $show_secondary_trade_value && strtolower($asset_symbol) != $show_secondary_trade_value ) {
+  if ( $show_secondary_trade_val != null && $sel_pairing != $show_secondary_trade_val && strtolower($asset_symbol) != $show_secondary_trade_val ) {
   
-		if ( $show_secondary_trade_value == 'btc' ) {
-		$secondary_holdings_value_result = $ocpt_var->num_to_str($coin_value_total_raw * $pairing_btc_value);
-		$secondary_holdings_value_dec = ( $secondary_holdings_value_result >= 0.01 ? 6 : 8 );
-		$secondary_holdings_value_dec = ( $secondary_holdings_value_result >= 1 ? 4 : $secondary_holdings_value_dec );
+		if ( $show_secondary_trade_val == 'btc' ) {
+		$secondary_holdings_val_result = $ocpt_var->num_to_str($coin_val_total_raw * $pairing_btc_val);
+		$secondary_holdings_val_dec = ( $secondary_holdings_val_result >= 0.01 ? 6 : 8 );
+		$secondary_holdings_val_dec = ( $secondary_holdings_val_result >= 1 ? 4 : $secondary_holdings_val_dec );
 		}
 		else {
-		$secondary_holdings_value_result = $ocpt_var->num_to_str( ($coin_value_total_raw * $pairing_btc_value) / pairing_btc_value($show_secondary_trade_value) );
-		$secondary_holdings_value_dec = ( $secondary_holdings_value_result >= 0.01 ? 4 : 8 );
-		$secondary_holdings_value_dec = ( $secondary_holdings_value_result >= 1 ? 2 : $secondary_holdings_value_dec );
+		$secondary_holdings_val_result = $ocpt_var->num_to_str( ($coin_val_total_raw * $pairing_btc_val) / pairing_btc_val($show_secondary_trade_val) );
+		$secondary_holdings_val_dec = ( $secondary_holdings_val_result >= 0.01 ? 4 : 8 );
+		$secondary_holdings_val_dec = ( $secondary_holdings_val_result >= 1 ? 2 : $secondary_holdings_val_dec );
 		}
 		
-		if ( $secondary_holdings_value_result >= 0.00000001 ) {
-  		echo '<div class="crypto_worth"><span>(' . $ocpt_var->num_pretty($secondary_holdings_value_result, $secondary_holdings_value_dec) . ' '.strtoupper($show_secondary_trade_value).')</span></div>';
+		if ( $secondary_holdings_val_result >= 0.00000001 ) {
+  		echo '<div class="crypto_worth"><span>(' . $ocpt_var->num_pretty($secondary_holdings_val_result, $secondary_holdings_val_dec) . ' '.strtoupper($show_secondary_trade_val).')</span></div>';
   		}
   		
   }

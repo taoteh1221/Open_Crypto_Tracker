@@ -12,7 +12,7 @@ $exchange_count = 0;
 $curr_count = 0;
 
 	// Print out all market configurations
-	if ( $ocpt_conf['dev']['debug'] == 'all' || $ocpt_conf['dev']['debug'] == 'markets_config' ) {
+	if ( $ocpt_conf['dev']['debug'] == 'all' || $ocpt_conf['dev']['debug'] == 'markets_conf' ) {
 		
 		
 		foreach ( $ocpt_conf['power']['btc_curr_markets'] as $key => $unused ) {

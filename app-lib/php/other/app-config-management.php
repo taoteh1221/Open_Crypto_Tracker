@@ -30,20 +30,20 @@ $ocpt_conf['comms']['proxy_alert_checkup_ok'] = $ocpt_var->auto_correct_str($ocp
 
 // Cleaning charts/alerts array
 $cleaned_charts_and_price_alerts = array();
-foreach ( $ocpt_conf['charts_alerts']['tracked_markets'] as $key => $value ) {
+foreach ( $ocpt_conf['charts_alerts']['tracked_markets'] as $key => $val ) {
 $cleaned_key = $ocpt_var->auto_correct_str($key, 'lower');
-$cleaned_value = $ocpt_var->auto_correct_str($value, 'lower');
-$cleaned_charts_and_price_alerts[$cleaned_key] = $cleaned_value;
+$cleaned_val = $ocpt_var->auto_correct_str($val, 'lower');
+$cleaned_charts_and_price_alerts[$cleaned_key] = $cleaned_val;
 }
 $ocpt_conf['charts_alerts']['tracked_markets'] = $cleaned_charts_and_price_alerts;
 
 
 // Cleaning mobile networks array
 $cleaned_mobile_networks = array();
-foreach ( $ocpt_conf['mob_net_txt_gateways'] as $key => $value ) {
+foreach ( $ocpt_conf['mob_net_txt_gateways'] as $key => $val ) {
 $cleaned_key = $ocpt_var->auto_correct_str($key, 'lower');
-$cleaned_value = $ocpt_var->auto_correct_str($value, 'lower');
-$cleaned_mobile_networks[$cleaned_key] = $cleaned_value;
+$cleaned_val = $ocpt_var->auto_correct_str($val, 'lower');
+$cleaned_mobile_networks[$cleaned_key] = $cleaned_val;
 }
 $ocpt_conf['mob_net_txt_gateways'] = $cleaned_mobile_networks;
 
@@ -169,7 +169,7 @@ if ( is_array($ocpt_conf['assets']) ) {
 
 
 // Alphabetically sort news feeds
-$usort_feeds_results = usort($ocpt_conf['power']['news_feed'], __NAMESPACE__ . '\titles_usort_alpha');
+$usort_feeds_results = usort($ocpt_conf['power']['news_feed'], array('ocpt_gen', 'titles_usort_alpha') );
    	
 if ( !$usort_feeds_results ) {
 app_logging( 'other_error', 'RSS feeds failed to sort alphabetically');
@@ -177,7 +177,7 @@ app_logging( 'other_error', 'RSS feeds failed to sort alphabetically');
 
 
 // Better decimal support for these vars...
-$ocpt_conf['power']['system_stats_first_chart_highest_value'] = $ocpt_var->num_to_str($ocpt_conf['power']['system_stats_first_chart_highest_value']); 
+$ocpt_conf['power']['system_stats_first_chart_highest_val'] = $ocpt_var->num_to_str($ocpt_conf['power']['system_stats_first_chart_highest_val']); 
 $ocpt_conf['gen']['prim_curr_dec_max_thres'] = $ocpt_var->num_to_str($ocpt_conf['gen']['prim_curr_dec_max_thres']); 
 $ocpt_conf['comms']['price_alert_thres'] = $ocpt_var->num_to_str($ocpt_conf['comms']['price_alert_thres']); 
 $ocpt_conf['power']['hivepower_yearly_interest'] = $ocpt_var->num_to_str($ocpt_conf['power']['hivepower_yearly_interest']); 
@@ -206,8 +206,8 @@ $cached_lite_chart_structure = trim( file_get_contents($base_dir . '/cache/vars/
 
 // Check if we need to rebuild lite charts from changes to their structure
 if ( $config_lite_chart_structure != $cached_lite_chart_structure ) {
-remove_directory($base_dir . '/cache/charts/spot_price_24hr_volume/lite');
-remove_directory($base_dir . '/cache/charts/system/lite');
+remove_dir($base_dir . '/cache/charts/spot_price_24hr_volume/lite');
+remove_dir($base_dir . '/cache/charts/system/lite');
 $ocpt_cache->save_file($base_dir . '/cache/vars/lite_chart_structure.dat', $config_lite_chart_structure);
 }
 

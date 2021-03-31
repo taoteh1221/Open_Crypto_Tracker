@@ -42,7 +42,6 @@ Example: "/plugins/my-app-plugin/plug-lib/plug-class.php" (must be lowercase)
 
 
 // CREATE THIS PLUGIN'S CLASS OBJECT DYNAMICALLY AS: $plug_class[$this_plug]
-
 $plug_class[$this_plug] = new class() {
 
 var my_var_1 = 'Testing 123';
@@ -53,12 +52,11 @@ var my_var_2 = 'World';
 	}
 				
 };
-
 // END class
 
 --
 
-Examples of calling plugin class objects (ANYWHERE FROM WITHIN init.php ONWARDS):
+Examples of calling plugin class objects (ANYWHERE FROM WITHIN "plug-init.php" ONWARDS):
 
 echo $plug_class[$this_plug]->my_var_1;
 

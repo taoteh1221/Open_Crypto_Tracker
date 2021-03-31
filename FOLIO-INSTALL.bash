@@ -187,35 +187,49 @@ echo "$DOC_ROOT/config.php.BACKUP.$DATE.[random string]"
 echo " "
 echo "This will save any custom settings within it."
 echo " "
-echo "You will need to manually move any CUSTOMIZED DEFAULT settings in this backup file to the NEW config.php file with a text editor,"
-echo "otherwise you can just ignore or delete this backup file."
+echo "The bundled plugin's configuration files will also be backed up in the same manner."
+echo " "
+echo "You will need to manually move any CUSTOMIZED DEFAULT settings from backup files to the NEW configuration files with a text editor,"
+echo "otherwise you can just ignore or delete the backup files."
 echo " "
 
 echo "VERY IMPORTANT UPGRADE NOTES:"
+echo " "
+echo " "
+
+echo "v4.29.3 and higher of this app HAS COMPLETELY REFACTORED CONFIGURATION VARIABLE NAMES,"
+echo "SO YOU'LL NEED TO MIGRATE ANY CUSTOM CONFIGS OVER TO THE PROPER NAMES WHERE APPLICABLE!"
+echo " "
+echo " "
+
+echo "v4.29.3 and higher of this app HAS COMPLETELY RESTRUCTERED THE PLUGIN FILE NAMES!"
+echo "THE AUTO-INSTALL SCRIPT WILL #AUTOMATICALLY MIGRATE# BUNDLED PLUGIN FILES OVER TO"
+echo "THE NEW FILE NAMES (AND WILL BACKUP YOUR PREVIOUS BUNDLED PLUGIN CONFIGS)."
+echo " "
 echo " "
 
 echo "v4.27.0 and higher of this app RESETS ALL PLUGIN CACHES (A DIRECTORY STRUCTURE UPGRADE), "
 echo "SO ANY PLUGIN ALERTS / TRACKING WILL BE RESET. THE !FIRST! PLUGIN RUNTIMES AFTER UPGRADING"
 echo "WILL AUTOMATICALLY PREFORM THE RESET (ALERTS / TRACKING WILL BE ACCURATE AFTERWARDS)."
 echo " "
-
-echo "v4.30.0 and higher of this app HAS COMPLETELY REFACTORED CONFIGURATION VARIABLE NAMES,"
-echo "SO YOU'LL NEED TO MIGRATE ANY CUSTOM CONFIGS OVER TO THE PROPER NAMES WHERE APPLICABLE!"
 echo " "
 
 fi
   				
 
 echo "VERY IMPORTANT SECURITY NOTES:"
+echo " "
 echo "YOU WILL BE PROMPTED TO CREATE AN ADMIN LOGIN (FOR SECURITY OF THE ADMIN AREA),"
 echo "#WHEN YOU FIRST RUN THIS APP AFTER INSTALLATION#. IT'S #HIGHLY RECOMMENDED TO DO THIS IMMEDIATELY#,"
 echo "ESPECIALLY ON PUBLIC FACING / KNOWN SERVERS, #OR SOMEBODY ELSE MAY BEAT YOU TO IT#."
 echo " "
 
-echo "!!VERY IMPORTANT INSTALL NOTICE!!: This auto-install script is ONLY FOR SELF-HOSTED ENVIRONMENTS, THAT #DO NOT#"
-echo "ALREADY HAVE A WEB SERVER OR CONTROL PANEL INSTALLED ON THE SYSTEM. If this is a managed hosting"
-echo "environment that a service provider has already provisioned, please quit this auto-install session,"
-echo "and refer to the \"Manual Install\" section of the README.txt file documentation."
+echo "!!VERY IMPORTANT INSTALL NOTICE!!:"
+echo " "
+echo "This auto-install script is ONLY FOR SELF-HOSTED ENVIRONMENTS, THAT #DO NOT# ALREADY"
+echo "HAVE A WEB SERVER OR CONTROL PANEL INSTALLED ON THE SYSTEM. If this is a managed hosting"
+echo "environment that a service provider has already provisioned, please quit this auto-install"
+echo "session, and refer to the \"Manual Install\" section of the README.txt file documentation."
 echo " "
 
 echo "PLEASE REPORT ANY ISSUES HERE: https://github.com/taoteh1221/Open_Crypto_Portfolio_Tracker/issues"
@@ -793,9 +807,10 @@ select opt in $OPTIONS; do
 						# If openssl fails, create manually
 						if [ -z "$RAND_STRING" ]; then
 						echo " "
-						echo "Automatic random hash creation has failed,"
-						echo "please enter a random alphanumeric string of text (no spaces / symbols) at least 10 characters long."
-						echo "If you skip this, no backup of the previous install's $DOC_ROOT/config.php file will be created (for security reasons),"
+						echo "Automatic random hash creation has failed, please enter a random alphanumeric string"
+						echo "of text (no spaces / symbols) at least 10 characters long."
+						echo " "
+						echo "IF YOU SKIP THIS, no backup of the previous install's configuration files will be created (for security reasons),"
 						echo "and YOU WILL LOSE ALL PREVIOUSLY-CONFIGURED SETTINGS."
 						echo " "
   						read RAND_STRING
@@ -803,15 +818,63 @@ select opt in $OPTIONS; do
 				
 						# If $RAND_STRING has a value, backup config.php, otherwise don't create backup file (for security reasons)
 						if [ ! -z "$RAND_STRING" ]; then
-  							
-						cp $DOC_ROOT/config.php $DOC_ROOT/config.php.BACKUP.$DATE.$RAND_STRING
+  						
+				
+						echo " "
+						echo "Backing up old configuration file(s) before upgrading, please wait..."
+						echo " "
 						
-						chown $APP_USER:$APP_USER $DOC_ROOT/config.php.BACKUP.$DATE.$RAND_STRING
+  						
+  						# MIGRATE OLD FILE NAMING BEFORE BACKING UP...
+
+						
+  						# 'address-balance-tracker' plugin config MIGRATION (NEW FILE NAME)
+  						MOVE_CONFIG="/plugins/recurring-reminder"
+						mv $DOC_ROOT$MOVE_CONFIG/plugin-config.php $DOC_ROOT$MOVE_CONFIG/plug-conf.php > /dev/null 2>&1
+						chown $APP_USER:$APP_USER $DOC_ROOT$MOVE_CONFIG/plug-conf.php > /dev/null 2>&1
+						
+  						# 'price-target-alert' plugin config MIGRATION (NEW FILE NAME)
+  						MOVE_CONFIG="/plugins/price-target-alert"
+						mv $DOC_ROOT$MOVE_CONFIG/plugin-config.php $DOC_ROOT$MOVE_CONFIG/plug-conf.php > /dev/null 2>&1
+						chown $APP_USER:$APP_USER $DOC_ROOT$MOVE_CONFIG/plug-conf.php > /dev/null 2>&1
+						
+  						# 'recurring-reminder' plugin config MIGRATION (NEW FILE NAME)
+  						MOVE_CONFIG="/plugins/recurring-reminder"
+						mv $DOC_ROOT$MOVE_CONFIG/plugin-config.php $DOC_ROOT$MOVE_CONFIG/plug-conf.php > /dev/null 2>&1
+						chown $APP_USER:$APP_USER $DOC_ROOT$MOVE_CONFIG/plug-conf.php > /dev/null 2>&1
+				
+				
+						# NOW THAT WE'VE MIGRATED FROM OLDER FILE NAMES, PROCEED WITH BACKUPS...
+						
+						
+  						# Main config
+  						BACKUP_CONFIG="/config.php"
+						cp $DOC_ROOT$BACKUP_CONFIG $DOC_ROOT$BACKUP_CONFIG.BACKUP.$DATE.$RAND_STRING
+						chown $APP_USER:$APP_USER $DOC_ROOT$BACKUP_CONFIG.BACKUP.$DATE.$RAND_STRING
+						
+  						# 'address-balance-tracker' plugin config
+  						BACKUP_CONFIG="/plugins/recurring-reminder/plug-conf.php"
+						cp $DOC_ROOT$BACKUP_CONFIG $DOC_ROOT$BACKUP_CONFIG.BACKUP.$DATE.$RAND_STRING
+						chown $APP_USER:$APP_USER $DOC_ROOT$BACKUP_CONFIG.BACKUP.$DATE.$RAND_STRING
+						
+  						# 'price-target-alert' plugin config
+  						BACKUP_CONFIG="/plugins/price-target-alert/plug-conf.php"
+						cp $DOC_ROOT$BACKUP_CONFIG $DOC_ROOT$BACKUP_CONFIG.BACKUP.$DATE.$RAND_STRING
+						chown $APP_USER:$APP_USER $DOC_ROOT$BACKUP_CONFIG.BACKUP.$DATE.$RAND_STRING
+						
+  						# 'recurring-reminder' plugin config
+  						BACKUP_CONFIG="/plugins/recurring-reminder/plug-conf.php"
+						cp $DOC_ROOT$BACKUP_CONFIG $DOC_ROOT$BACKUP_CONFIG.BACKUP.$DATE.$RAND_STRING
+						chown $APP_USER:$APP_USER $DOC_ROOT$BACKUP_CONFIG.BACKUP.$DATE.$RAND_STRING
 						
 						CONFIG_BACKUP=1
 						
+						sleep 3
+				
+						
   						else
-  						echo "No backup of the previous install's $DOC_ROOT/config.php file was created (for security reasons)."
+  						echo " "
+  						echo "No backup of the previous install's configuration files was created (for security reasons)."
   						echo "The new install WILL NOW OVERWRITE ALL PREVIOUSLY-CONFIGURED SETTINGS in $DOC_ROOT/config.php..."
   						echo " "
 						fi
@@ -821,10 +884,10 @@ select opt in $OPTIONS; do
   				
   				
 				echo " "
-				echo "Making sure any previous install's DEPRECIATED directory structure is cleaned up, please wait..."
-				echo " "
+				echo "Making sure any previous install's DEPRECIATED directories / files are cleaned up, please wait..."
 				
-  				# Delete old directory / file structures (overhauled in v4.06.0 higher), for a clean upgrade
+  				# Delete old directory / file structures
+  				
   				# Directories
   				rm -rf $DOC_ROOT/app-lib > /dev/null 2>&1
   				rm -rf $DOC_ROOT/backups > /dev/null 2>&1
@@ -856,6 +919,9 @@ select opt in $OPTIONS; do
   				rm -rf $DOC_ROOT/templates > /dev/null 2>&1
   				rm -rf $DOC_ROOT/ui-templates > /dev/null 2>&1
   				rm -rf $DOC_ROOT/cron-plugins > /dev/null 2>&1
+  				rm -rf $DOC_ROOT/plugins/address-balance-tracker/plugin-lib > /dev/null 2>&1
+  				rm -rf $DOC_ROOT/plugins/price-target-alert/plugin-lib > /dev/null 2>&1
+  				rm -rf $DOC_ROOT/plugins/recurring-reminder/plugin-lib > /dev/null 2>&1
 
 				sleep 3
 				

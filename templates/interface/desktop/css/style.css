@@ -295,7 +295,7 @@ margin-top: 15px;
 }
 
 
-.show_coin_values {
+.show_coin_vals {
 display: none;
 position: relative;
 float: left;
@@ -678,7 +678,7 @@ min-width: 1200px;
 }
 
 
-#admin_config_quick_links {
+#admin_conf_quick_links {
 display: none;
 position: relative;
 float: right;
@@ -689,7 +689,7 @@ font-size: 13px;
 }
 
 
-#admin_config_quick_links fieldset {
+#admin_conf_quick_links fieldset {
 padding-top: 0px;
 padding-bottom: 12px;
 padding-left: 18px;
@@ -699,7 +699,7 @@ border: 1px solid #dd7c0d;
 }
 
 
-#admin_config_quick_links fieldset legend {
+#admin_conf_quick_links fieldset legend {
 padding: 4px;
 font-size: 13px;
 }

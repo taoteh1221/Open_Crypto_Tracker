@@ -22,7 +22,7 @@ $csv_download_array[] = array(
 	        							);
 	    
 	    
-	foreach ( $ocpt_conf['assets'] as $coin_array_key => $coin_array_value ) {
+	foreach ( $ocpt_conf['assets'] as $coin_array_key => $coin_array_val ) {
 		
 	    
 	    $field_var_pairing = strtolower($coin_array_key) . '_pairing';
@@ -38,10 +38,10 @@ $csv_download_array[] = array(
 	    
 	    $coin_pairing_id = $_POST[$field_var_pairing];
 	    $coin_market_id = $_POST[$field_var_market];
-	    $asset_amount_value = $_POST[$field_var_amount];
-	    $coin_paid_value = $_POST[$field_var_paid];
-	    $coin_leverage_value = $_POST[$field_var_leverage];
-	    $coin_margintype_value = $_POST[$field_var_margintype];
+	    $asset_amount_val = $_POST[$field_var_amount];
+	    $coin_paid_val = $_POST[$field_var_paid];
+	    $coin_leverage_val = $_POST[$field_var_leverage];
+	    $coin_margintype_val = $_POST[$field_var_margintype];
 	        	
 	        
 	    $sel_pairing = ( $coin_pairing_id ? $coin_pairing_id : NULL );
@@ -70,20 +70,20 @@ $csv_download_array[] = array(
 	    	$asset_amount_dec = 8;
 	    	}
 	    
-	  	 $asset_amount_value = $ocpt_var->num_pretty($asset_amount_value, $asset_amount_dec);
+	  	 $asset_amount_val = $ocpt_var->num_pretty($asset_amount_val, $asset_amount_dec);
 	    
-	    $coin_paid_value = ( $ocpt_var->num_to_str($coin_paid_value) >= $ocpt_conf['gen']['prim_curr_dec_max_thres'] ? $ocpt_var->num_pretty($coin_paid_value, 2) : $ocpt_var->num_pretty($coin_paid_value, $ocpt_conf['gen']['prim_curr_dec_max']) );
+	    $coin_paid_val = ( $ocpt_var->num_to_str($coin_paid_val) >= $ocpt_conf['gen']['prim_curr_dec_max_thres'] ? $ocpt_var->num_pretty($coin_paid_val, 2) : $ocpt_var->num_pretty($coin_paid_val, $ocpt_conf['gen']['prim_curr_dec_max']) );
 	  	 
 	    
 	   	// Asset data to array for CSV export
-	      if ( trim($coin_array_key) != '' && $ocpt_var->rem_num_format($asset_amount_value) >= 0.00000001 ) {
+	      if ( trim($coin_array_key) != '' && $ocpt_var->rem_num_format($asset_amount_val) >= 0.00000001 ) {
 	        	
 	        $csv_download_array[] = array(
 	        											strtoupper($coin_array_key),
-	        											$asset_amount_value,
-	        											$coin_paid_value,
-	        											$coin_leverage_value,
-	        											$coin_margintype_value,
+	        											$asset_amount_val,
+	        											$coin_paid_val,
+	        											$coin_leverage_val,
+	        											$coin_margintype_val,
 	        											$coin_market_id,
 	        											$sel_pairing
 	        											);

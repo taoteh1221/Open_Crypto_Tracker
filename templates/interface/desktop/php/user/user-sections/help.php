@@ -336,8 +336,8 @@ Ethereum ICO subtoken support (pre-exchange listing) has been built in (values a
                                   'lowercase_exchange3' => 'ASSET-ETH',
                                   'lowercase_exchange4' => 'ASSET_ETH',
                                   'lowercase_exchange5' => 'ASSETETH',
-                                  // ETH ICOs...MUST be defined in 'ethereum_subtoken_ico_values', in Admin Config POWER USER section
-                                  'eth_subtokens_ico' => 'ETHSUBTOKENNAME', 
+                                  // ETH ICOs...MUST be defined in 'eth_erc20_icos', in Admin Config POWER USER section
+                                  'ico_erc20_value' => 'ETHSUBTOKENNAME', 
                                   // INCLUDING #OPTIONAL# LIQUIDITY POOL ADDRESS, ASSURING #EXACT# MARKET DESIRED
                                   'defipulse' => 'ASSET/PAIRING||OPTIONAL_LIQUIDITY_POOL_ADDRESS', // DeFi Generic
                                             ),
