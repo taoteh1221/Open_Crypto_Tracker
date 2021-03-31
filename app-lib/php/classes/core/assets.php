@@ -1752,7 +1752,7 @@ var $ocpt_array1 = array();
                  $email_message = ( $whale_alert == 1 ? 'WHALE ALERT: ' : '' ) . 'The ' . $asset . ' trade value in the ' . strtoupper($pairing) . ' market at the ' . $exchange_text . ' exchange has ' . $increase_decrease . ' ' . $change_symbol . $percent_change_text . '% in ' . strtoupper($default_btc_prim_curr_pairing) . ' value to ' . $ocpt_conf['power']['btc_curr_markets'][$default_btc_prim_curr_pairing] . $asset_prim_curr_text . ' over the past ' . $last_cached_time . ' since the last price ' . $desc_alert_type . '. ' . $email_vol_summary;
                        
                  // Were're just adding a human-readable timestamp to smart home (audio) alerts
-                 $notifyme_message = $email_message . ' Timestamp: ' . time_date_format($ocpt_conf['gen']['local_time_offset'], 'pretty_time') . '.';
+                 $notifyme_message = $email_message . ' Timestamp: ' . $ocpt_gen->time_date_format($ocpt_conf['gen']['loc_time_offset'], 'pretty_time') . '.';
                        
                  $text_message = ( $whale_alert == 1 ? '🐳 ' : '' ) . $asset . ' / ' . strtoupper($pairing) . ' @ ' . $exchange_text . ' ' . $increase_decrease . ' ' . $change_symbol . $percent_change_text . '% in ' . strtoupper($default_btc_prim_curr_pairing) . ' value to ' . $ocpt_conf['power']['btc_curr_markets'][$default_btc_prim_curr_pairing] . $asset_prim_curr_text . ' over ' . $last_cached_time . '. 24 Hour ' . strtoupper($default_btc_prim_curr_pairing) . ' Volume: ' . $vol_prim_curr_text . ' ' . $vol_change_text_mobile;
                        

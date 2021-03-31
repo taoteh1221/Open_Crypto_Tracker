@@ -76,7 +76,7 @@ delete_old_files($logs_cache_cleanup, $ocpt_conf['power']['logs_purge'], 'dat');
 
 
 // Update the maintenance event tracking
-$ocpt_cache->save_file($base_dir . '/cache/events/scheduled-maintenance.dat', time_date_format(false, 'pretty_date_time') );
+$ocpt_cache->save_file($base_dir . '/cache/events/scheduled-maintenance.dat', $ocpt_gen->time_date_format(false, 'pretty_date_time') );
 
 
 }

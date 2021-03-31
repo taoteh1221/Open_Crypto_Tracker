@@ -849,23 +849,23 @@ select opt in $OPTIONS; do
 						
   						# Main config
   						BACKUP_CONFIG="/config.php"
-						cp $DOC_ROOT$BACKUP_CONFIG $DOC_ROOT$BACKUP_CONFIG.BACKUP.$DATE.$RAND_STRING
-						chown $APP_USER:$APP_USER $DOC_ROOT$BACKUP_CONFIG.BACKUP.$DATE.$RAND_STRING
+						cp $DOC_ROOT$BACKUP_CONFIG $DOC_ROOT$BACKUP_CONFIG.BACKUP.$DATE.$RAND_STRING > /dev/null 2>&1
+						chown $APP_USER:$APP_USER $DOC_ROOT$BACKUP_CONFIG.BACKUP.$DATE.$RAND_STRING > /dev/null 2>&1
 						
   						# 'address-balance-tracker' plugin config
   						BACKUP_CONFIG="/plugins/recurring-reminder/plug-conf.php"
-						cp $DOC_ROOT$BACKUP_CONFIG $DOC_ROOT$BACKUP_CONFIG.BACKUP.$DATE.$RAND_STRING
-						chown $APP_USER:$APP_USER $DOC_ROOT$BACKUP_CONFIG.BACKUP.$DATE.$RAND_STRING
+						cp $DOC_ROOT$BACKUP_CONFIG $DOC_ROOT$BACKUP_CONFIG.BACKUP.$DATE.$RAND_STRING > /dev/null 2>&1
+						chown $APP_USER:$APP_USER $DOC_ROOT$BACKUP_CONFIG.BACKUP.$DATE.$RAND_STRING > /dev/null 2>&1
 						
   						# 'price-target-alert' plugin config
   						BACKUP_CONFIG="/plugins/price-target-alert/plug-conf.php"
-						cp $DOC_ROOT$BACKUP_CONFIG $DOC_ROOT$BACKUP_CONFIG.BACKUP.$DATE.$RAND_STRING
-						chown $APP_USER:$APP_USER $DOC_ROOT$BACKUP_CONFIG.BACKUP.$DATE.$RAND_STRING
+						cp $DOC_ROOT$BACKUP_CONFIG $DOC_ROOT$BACKUP_CONFIG.BACKUP.$DATE.$RAND_STRING > /dev/null 2>&1
+						chown $APP_USER:$APP_USER $DOC_ROOT$BACKUP_CONFIG.BACKUP.$DATE.$RAND_STRING > /dev/null 2>&1
 						
   						# 'recurring-reminder' plugin config
   						BACKUP_CONFIG="/plugins/recurring-reminder/plug-conf.php"
-						cp $DOC_ROOT$BACKUP_CONFIG $DOC_ROOT$BACKUP_CONFIG.BACKUP.$DATE.$RAND_STRING
-						chown $APP_USER:$APP_USER $DOC_ROOT$BACKUP_CONFIG.BACKUP.$DATE.$RAND_STRING
+						cp $DOC_ROOT$BACKUP_CONFIG $DOC_ROOT$BACKUP_CONFIG.BACKUP.$DATE.$RAND_STRING > /dev/null 2>&1
+						chown $APP_USER:$APP_USER $DOC_ROOT$BACKUP_CONFIG.BACKUP.$DATE.$RAND_STRING > /dev/null 2>&1
 						
 						CONFIG_BACKUP=1
 						
@@ -1230,8 +1230,10 @@ echo " "
 	 echo " "
     echo "$DOC_ROOT/config.php.BACKUP.$DATE.$RAND_STRING"
 	 echo " "
-	 echo "You will need to manually move any CUSTOMIZED DEFAULT settings in this backup file to the NEW config.php"
-	 echo "file with a text editor, otherwise you can just ignore or delete this backup file."
+	 echo "The bundled plugin's configuration files were also be backed up in the same manner."
+	 echo " "
+	 echo "You will need to manually move any CUSTOMIZED DEFAULT settings from backup files to the NEW configuration files with a text editor,"
+	 echo "otherwise you can just ignore or delete the backup files."
     echo " "
     
     fi

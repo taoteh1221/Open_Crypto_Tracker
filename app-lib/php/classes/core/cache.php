@@ -263,7 +263,7 @@ var $ocpt_array1 = array();
   
   function backup_archive($backup_prefix, $backup_target, $interval, $password=false) {
   
-  global $ocpt_conf, $base_dir, $base_url;
+  global $ocpt_conf, $ocpt_gen, $base_dir, $base_url;
   
   
    if ( update_cache('cache/events/backup-'.$backup_prefix.'.dat', ( $interval * 1440 ) ) == true ) {
@@ -287,7 +287,7 @@ var $ocpt_array1 = array();
      
       if ( $backup_results == 1 ) {
        
-      $this->save_file($base_dir . '/cache/events/backup-'.$backup_prefix.'.dat', time_date_format(false, 'pretty_date_time') );
+      $this->save_file($base_dir . '/cache/events/backup-'.$backup_prefix.'.dat', $ocpt_gen->time_date_format(false, 'pretty_date_time') );
        
       $backup_url = $base_url . 'download.php?backup=' . $backup_file;
       
@@ -871,7 +871,7 @@ var $ocpt_array1 = array();
   
   function update_lite_chart($archive_path, $newest_archival_data=false, $days_span=1) {
   
-  global $ocpt_conf, $base_dir, $ocpt_var;
+  global $ocpt_conf, $base_dir, $ocpt_var, $ocpt_gen;
   
   $archival_data = array();
   $queued_archival_lines = array();
@@ -1055,7 +1055,7 @@ var $ocpt_array1 = array();
    
     // Update the 'all' lite chart rebuild event tracking, IF THE LITE CHART UPDATED SUCESSFULLY
     if ( $days_span == 'all' && $result == true ) {
-    $this->save_file($base_dir . '/cache/events/lite_chart_rebuilds/all_days_chart_'.$lite_path_hash.'.dat', time_date_format(false, 'pretty_date_time') );
+    $this->save_file($base_dir . '/cache/events/lite_chart_rebuilds/all_days_chart_'.$lite_path_hash.'.dat', $ocpt_gen->time_date_format(false, 'pretty_date_time') );
     }
     
   
@@ -1139,7 +1139,7 @@ var $ocpt_array1 = array();
   
   function send_notifications() {
   
-  global $base_dir, $ocpt_conf, $ocpt_var, $processed_messages, $possible_http_users, $http_runtime_user, $current_runtime_user, $telegram_user_data, $telegram_activated;
+  global $base_dir, $ocpt_conf, $ocpt_var, $ocpt_gen, $processed_messages, $possible_http_users, $http_runtime_user, $current_runtime_user, $telegram_user_data, $telegram_activated;
   
   
   // Array of currently queued messages in the cache
@@ -1488,13 +1488,13 @@ var $ocpt_array1 = array();
     
     
     // We are done processing the queue, so we can release the lock
-      fwrite($fp, time_date_format(false, 'pretty_date_time'). " UTC (with file lock)\n");
+      fwrite($fp, $ocpt_gen->time_date_format(false, 'pretty_date_time'). " UTC (with file lock)\n");
       fflush($fp);            // flush output before releasing the lock
       flock($fp, LOCK_UN);    // release the lock
     $result = true;
     } 
     else {
-      fwrite($fp, time_date_format(false, 'pretty_date_time'). " UTC (no file lock)\n");
+      fwrite($fp, $ocpt_gen->time_date_format(false, 'pretty_date_time'). " UTC (no file lock)\n");
       $result = false; // Another runtime instance was already processing the queue, so skip processing and return false
     }
     

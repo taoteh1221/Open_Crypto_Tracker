@@ -61,7 +61,7 @@ $hash_check = md5($_GET['data_set']);
 	$json_result = trim( file_get_contents($base_dir . '/cache/internal-api/'.$hash_check.'.dat') );
 
 	// Log access event for this ip address (for throttling)
-	$ocpt_cache->save_file($base_dir . '/cache/events/throttling/local_api_incoming_ip_' . $store_ip . '.dat', time_date_format(false, 'pretty_date_time') );
+	$ocpt_cache->save_file($base_dir . '/cache/events/throttling/local_api_incoming_ip_' . $store_ip . '.dat', $ocpt_gen->time_date_format(false, 'pretty_date_time') );
 	
 	}
 	// No cache / expired cache
@@ -119,7 +119,7 @@ $hash_check = md5($_GET['data_set']);
 	$ocpt_cache->save_file($base_dir . '/cache/internal-api/'.$hash_check.'.dat', $json_result);
 
 	// Log access event for this ip address (for throttling)
-	$ocpt_cache->save_file($base_dir . '/cache/events/throttling/local_api_incoming_ip_' . $store_ip . '.dat', time_date_format(false, 'pretty_date_time') );
+	$ocpt_cache->save_file($base_dir . '/cache/events/throttling/local_api_incoming_ip_' . $store_ip . '.dat', $ocpt_gen->time_date_format(false, 'pretty_date_time') );
 
 
 	}

@@ -127,7 +127,7 @@ $market_val = $ocpt_var->num_to_str( $ocpt_api->market($market_asset, $market_ex
               
               
    // Were're just adding a human-readable timestamp to smart home (audio) alerts
-   $notifyme_message = $email_message . ' Timestamp: ' . time_date_format($ocpt_conf['gen']['local_time_offset'], 'pretty_time') . '.';
+   $notifyme_message = $email_message . ' Timestamp: ' . $ocpt_gen->time_date_format($ocpt_conf['gen']['loc_time_offset'], 'pretty_time') . '.';
 
 
   	// Message parameter added for desired comm methods (leave any comm method blank to skip sending via that method)

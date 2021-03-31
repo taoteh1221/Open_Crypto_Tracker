@@ -138,7 +138,7 @@
 			@$ocpt_cache->queue_notify($upgrade_check_send_params);
 			
 			// Track upgrade check reminder event occurrence			
-			$ocpt_cache->save_file($base_dir . '/cache/events/upgrade_check_reminder.dat', time_date_format(false, 'pretty_date_time') );
+			$ocpt_cache->save_file($base_dir . '/cache/events/upgrade_check_reminder.dat', $ocpt_gen->time_date_format(false, 'pretty_date_time') );
 			
 			} // END sending reminder (NEVER DELETE REMINDER EVENT, FOR UX NOT BUGGING ABOUT UPGRADES MORE THAN DESIRED IN THE SETTINGS)
 			

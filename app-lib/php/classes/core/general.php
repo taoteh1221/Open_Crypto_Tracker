@@ -1182,6 +1182,9 @@ var $ocpt_array1 = array();
       if ( $mode == false ) {
       $date = date("Y-m-d H:i:s", $time); // Format: 2001-03-10 17:16:18 (the MySQL DATETIME format)
       }
+      elseif ( $mode == 'standard_date' ) {
+      $date = date("Y-m-d", $time); // Format: 2001-03-10
+      }
       elseif ( $mode == 'pretty_date_time' ) {
       $date = date("F jS, @ g:ia", $time); // Format: March 10th, @ 5:16pm
       }
@@ -1637,7 +1640,7 @@ var $ocpt_array1 = array();
    
    function reset_price_alert_notice() {
    
-   global $ocpt_conf, $ocpt_cache, $price_alert_fixed_reset_array, $default_btc_prim_curr_pairing;
+   global $ocpt_conf, $ocpt_gen, $ocpt_cache, $price_alert_fixed_reset_array, $default_btc_prim_curr_pairing;
    
    
    // Alphabetical asset sort, for message UX 
@@ -1672,7 +1675,7 @@ var $ocpt_array1 = array();
    
    $email_message = 'The following ' . $count . ' ' . strtoupper($default_btc_prim_curr_pairing) . ' price alert fixed resets (run every ' . $ocpt_conf['charts_alerts']['price_alert_fixed_reset'] . ' days) have been processed, with the latest spot price data: ' . $reset_list;
    
-   $notifyme_message = $email_message . ' Timestamp is ' . $this->time_date_format($ocpt_conf['gen']['local_time_offset'], 'pretty_time') . '.';
+   $notifyme_message = $email_message . ' Timestamp is ' . $this->$ocpt_gen->time_date_format($ocpt_conf['gen']['loc_time_offset'], 'pretty_time') . '.';
    
    
    // Message parameter added for desired comm methods (leave any comm method blank to skip sending via that method)

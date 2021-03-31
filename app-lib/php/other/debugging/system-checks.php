@@ -165,7 +165,7 @@ if ( update_cache($base_dir . '/cache/events/scan-htaccess-security.dat', 60) ==
 	
 	
 // Update the htaccess security scan event tracking
-$ocpt_cache->save_file($base_dir . '/cache/events/scan-htaccess-security.dat', time_date_format(false, 'pretty_date_time') );
+$ocpt_cache->save_file($base_dir . '/cache/events/scan-htaccess-security.dat', $ocpt_gen->time_date_format(false, 'pretty_date_time') );
 
 }
 

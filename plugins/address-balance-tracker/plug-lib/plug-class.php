@@ -39,7 +39,8 @@ var $array1 = array();
 		if ( isset($data['final_balance']) ) {
 		return $ocpt_var->num_to_str( $data['final_balance'] / 100000000 ); // Convert sats to BTC
 		}
-		else {
+		else if ( !isset($data['address']) ) {
+    	app_logging('ext_data_error', 'BTC address balance retrieval failed in the "' . $this_plug . '" plugin, no API data received');
 		return false;
 		}
 		
@@ -68,7 +69,8 @@ var $array1 = array();
 		if ( isset($data['result']) ) {
 		return $ocpt_var->num_to_str( $data['result'] / 1000000000000000000 ); // Convert wei to ETH
 		}
-		else {
+		else if ( !isset($data['message']) ) {
+    	app_logging('ext_data_error', 'ETH address balance retrieval failed in the "' . $this_plug . '" plugin, no API data received');
 		return false;
 		}
 		

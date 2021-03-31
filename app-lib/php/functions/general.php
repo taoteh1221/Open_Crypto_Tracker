@@ -1010,41 +1010,6 @@ return $base_url;
 ////////////////////////////////////////////////////////
 
 
-function time_date_format($offset=false, $mode=false) {
-
-
-	if ( $offset == false ) {
-	$time = time();
-	}
-	else {
-	$time = time() + ( $offset * (60 * 60) );  // Offset is in hours
-	}
-
-
-	if ( $mode == false ) {
-	$date = date("Y-m-d H:i:s", $time); // Format: 2001-03-10 17:16:18 (the MySQL DATETIME format)
-	}
-	elseif ( $mode == 'pretty_date_time' ) {
-	$date = date("F jS, @ g:ia", $time); // Format: March 10th, @ 5:16pm
-	}
-	elseif ( $mode == 'pretty_date' ) {
-	$date = date("F jS", $time); // Format: March 10th
-	}
-	elseif ( $mode == 'pretty_time' ) {
-	$date = date("g:ia", $time); // Format: 5:16pm
-	}
-
-$date = preg_replace("/@/", "at", $date); // 'at' is a stubborn word to escape into the date() function, so we cheat a little
-
-return $date;
-
-}
-
-
-////////////////////////////////////////////////////////
-////////////////////////////////////////////////////////
-
-
 function file_download($file, $save_as, $delete=true) {
 	
 global $ocpt_conf;
@@ -1545,7 +1510,7 @@ $text_message = $count . ' ' . strtoupper($default_btc_prim_curr_pairing) . ' Pr
 
 $email_message = 'The following ' . $count . ' ' . strtoupper($default_btc_prim_curr_pairing) . ' price alert fixed resets (run every ' . $ocpt_conf['charts_alerts']['price_alert_fixed_reset'] . ' days) have been processed, with the latest spot price data: ' . $reset_list;
 
-$notifyme_message = $email_message . ' Timestamp is ' . time_date_format($ocpt_conf['gen']['local_time_offset'], 'pretty_time') . '.';
+$notifyme_message = $email_message . ' Timestamp is ' . $ocpt_gen->time_date_format($ocpt_conf['gen']['loc_time_offset'], 'pretty_time') . '.';
 
 
 // Message parameter added for desired comm methods (leave any comm method blank to skip sending via that method)

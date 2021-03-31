@@ -45,8 +45,10 @@ $pairing_btc_val = pairing_btc_val($asset);
 	}
 	
 	
-	if ( !$address_balance ) {
-    app_logging('ext_data_error', strtoupper($asset) . ' address balance retrieval failed in the "' . $this_plug . '" plugin, no API data received');
+	// If we returned === false (3 NOT 2, to check the type too) from an API error, skip this one for now
+	// https://stackoverflow.com/questions/137487/null-vs-false-vs-0-in-php
+	if ( $address_balance === false ) {
+	continue;
 	}
 	
 
@@ -122,7 +124,7 @@ $pretty_coin_amount = $ocpt_var->num_pretty($address_balance, 8);
 	$text_message = $label . " address balance " . $direction . " (" . $plus_minus . $difference_amount . " " . strtoupper($asset) . "): " . $pretty_coin_amount . " " . strtoupper($asset) . " (". $ocpt_conf['power']['btc_curr_markets'][$ocpt_conf['gen']['btc_prim_curr_pairing']] . $pretty_prim_curr_worth . ").";
               
    // Were're just adding a human-readable timestamp to smart home (audio) alerts
-   $notifyme_message = $base_message . ' Timestamp: ' . time_date_format($ocpt_conf['gen']['local_time_offset'], 'pretty_time') . '.';
+   $notifyme_message = $base_message . ' Timestamp: ' . $ocpt_gen->time_date_format($ocpt_conf['gen']['loc_time_offset'], 'pretty_time') . '.';
 
 
   	// Message parameter added for desired comm methods (leave any comm method blank to skip sending via that method)
