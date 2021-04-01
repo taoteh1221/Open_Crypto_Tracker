@@ -62,12 +62,12 @@ var $ocpt_array1 = array();
    
    
    function text_number($string) {
+   	
+   global $ocpt_var;
    
    $string = explode("||",$string);
    
-   $number = trim($string[0]);
-   
-   return $number;
+   return $ocpt_var->strip_non_alpha($string[0]);
    
    }
    
@@ -396,11 +396,11 @@ var $ocpt_array1 = array();
    
    function text_email($string) {
    
-   global $ocpt_conf;
+   global $ocpt_conf, $ocpt_var;
    
    $string = explode("||",$string);
    
-   $phone_number = substr($string[0], -10); 
+   $phone_number = $ocpt_var->strip_non_alpha($string[0]);
    $network_name = trim( strtolower($string[1]) ); // Force lowercase lookups for reliability / consistency
    
       // Set text domain
@@ -916,6 +916,46 @@ var $ocpt_array1 = array();
      
        return $random_str;
    }
+   
+   
+   ////////////////////////////////////////////////////////
+   ////////////////////////////////////////////////////////
+   
+   
+   function time_dec_hours($var, $mode) {
+   	
+   global $ocpt_var;
+   
+   
+   	if ( $mode == 'to' ) {
+   	
+   	$hours_minutes = explode(':', $var);
+   
+   	$hours = $hours_minutes[0];
+   
+   	$minutes = $hours_minutes[1];
+   
+  		return $ocpt_var->num_to_str( $hours + round( ($minutes / 60) , 2 ) );
+   	
+   	}
+   	else if ( $mode == 'from' ) {
+   
+   	$var = abs($var);
+   	
+   	$dec = explode('.', $ocpt_var->num_to_str($var) );
+   
+   	$hours = ( strlen($dec[0]) < 2 ? '0' . $dec[0] : $dec[0] );
+   
+   	$minutes = round( ('0.' . $dec[1]) * 60);
+   	
+   	$minutes = ( strlen($minutes) < 2 ? '0' . $minutes : $minutes );
+   
+  		return $hours . ':' . $minutes;
+   	
+   	}
+   	
+   
+   }
        
    
    ////////////////////////////////////////////////////////
@@ -1175,7 +1215,7 @@ var $ocpt_array1 = array();
       $time = time();
       }
       else {
-      $time = time() + ( $offset * (60 * 60) );  // Offset is in hours
+      $time = time() + round( $offset * (60 * 60) );  // Offset is in hours (ROUNDED, so it can be decimals)
       }
    
    
@@ -1184,6 +1224,9 @@ var $ocpt_array1 = array();
       }
       elseif ( $mode == 'standard_date' ) {
       $date = date("Y-m-d", $time); // Format: 2001-03-10
+      }
+      elseif ( $mode == 'standard_time' ) {
+      $date = date("H:i", $time); // Format: 22:45
       }
       elseif ( $mode == 'pretty_date_time' ) {
       $date = date("F jS, @ g:ia", $time); // Format: March 10th, @ 5:16pm

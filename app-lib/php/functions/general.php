@@ -353,31 +353,6 @@ return $files;
 ////////////////////////////////////////////////////////
 
 
-function text_email($string) {
-
-global $ocpt_conf;
-
-$string = explode("||",$string);
-
-$phone_number = substr($string[0], -10); 
-$network_name = trim( strtolower($string[1]) ); // Force lowercase lookups for reliability / consistency
-
-	// Set text domain
-	if ( trim($phone_number) != '' && isset($ocpt_conf['mob_net_txt_gateways'][$network_name]) ) {
-	return trim($phone_number) . '@' . trim($ocpt_conf['mob_net_txt_gateways'][$network_name]); // Return formatted texting email address
-	}
-	else {
-	return false;
-	}
-
-
-}
-
-
-////////////////////////////////////////////////////////
-////////////////////////////////////////////////////////
-
-
 function start_page($page, $href_link=false) {
 
 	// We want to force a page reload for href links, so technically we change the URL but location remains the same

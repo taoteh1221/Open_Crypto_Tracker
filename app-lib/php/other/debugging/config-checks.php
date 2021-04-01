@@ -61,7 +61,7 @@ if ( sizeof($ocpt_conf['proxy']['proxy_list']) > 0 ) {
       	$proxy_parse_errors = $proxy_parse_errors + 1;
          }
           		
-         if ( $text_parse[1] != 'skip_network_name' && validate_email( text_email($ocpt_conf['comms']['to_mobile_text']) ) != 'valid' ) {
+         if ( $text_parse[1] != 'skip_network_name' && validate_email( $ocpt_gen->text_email($ocpt_conf['comms']['to_mobile_text']) ) != 'valid' ) {
          $config_parse_error[] = 'Mobile text services carrier name (for email-to-text) not configured properly for proxy alerts.';
       	$proxy_parse_errors = $proxy_parse_errors + 1;
          }
@@ -198,7 +198,7 @@ if ( trim($ocpt_conf['comms']['from_email']) != '' || trim($ocpt_conf['comms']['
          $config_parse_error[] = 'Number for text email not configured properly for price alerts.';
          }
           		
-         if ( $text_parse[1] != 'skip_network_name' && validate_email( text_email($ocpt_conf['comms']['to_mobile_text']) ) != 'valid' ) {
+         if ( $text_parse[1] != 'skip_network_name' && validate_email( $ocpt_gen->text_email($ocpt_conf['comms']['to_mobile_text']) ) != 'valid' ) {
          $config_parse_error[] = 'Mobile text services carrier name (for email-to-text) not configured properly for price alerts.';
          }
           	

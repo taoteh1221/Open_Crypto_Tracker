@@ -34,20 +34,40 @@ $in_minutes_offset = ( $in_minutes >= 20 ? ($in_minutes - 1) : $in_minutes );
 		// If 'do not disturb' enabled
 		if ( $do_not_dist ) {
 		
-		// Human-readable year-month-date for today (includes user conf 'loc_time_offset')
-		$date_now = $ocpt_gen->time_date_format($ocpt_conf['gen']['loc_time_offset'], 'standard_date');
+		// Human-readable year-month-date for today, ADJUSTED FOR USER'S TIME ZONE OFFSET FROM APP CONFIG
+		$offset_date = $ocpt_gen->time_date_format($ocpt_conf['gen']['loc_time_offset'], 'standard_date');
 		
-		// Timestamps for now, and 'do not disturb' on / off for today
-		$now = time();
-		$today_dnd_on = strtotime($date_now . ' ' . $plug_conf[$this_plug]['do_not_dist']['on']); 
-		$today_dnd_off = strtotime($date_now . ' ' . $plug_conf[$this_plug]['do_not_dist']['off']); 
+		// Time of day in decimals (as hours) for dnd on/off config settings
+		$dnd_on_dec = $ocpt_gen->time_dec_hours($plug_conf[$this_plug]['do_not_dist']['on'], 'to');
+		$dnd_off_dec = $ocpt_gen->time_dec_hours($plug_conf[$this_plug]['do_not_dist']['off'], 'to');
 		
-			if ( $now >= $today_dnd_off && $now < $today_dnd_on ) {
+			
+			// Time of day in hours:minutes for dnd on/off (IN UTC TIME), ADJUSTED FOR USER'S TIME ZONE OFFSET FROM APP CONFIG
+			if ( $ocpt_conf['gen']['loc_time_offset'] < 0 ) {
+			$offset_dnd_on = $ocpt_gen->time_dec_hours( ( $dnd_on_dec + abs($ocpt_conf['gen']['loc_time_offset']) ) , 'from');
+			$offset_dnd_off = $ocpt_gen->time_dec_hours( ( $dnd_off_dec + abs($ocpt_conf['gen']['loc_time_offset']) ) , 'from');
+			}
+			else {
+			$offset_dnd_on = $ocpt_gen->time_dec_hours( ( $dnd_on_dec - $ocpt_conf['gen']['loc_time_offset'] ) , 'from');
+			$offset_dnd_off = $ocpt_gen->time_dec_hours( ( $dnd_off_dec - $ocpt_conf['gen']['loc_time_offset'] ) , 'from');
+			}
+		
+		
+		// UTC timestamps for dnd on/off values, ADJUSTED FOR USER'S TIME ZONE OFFSET FROM APP CONFIG
+		$dnd_on = strtotime($offset_date . ' ' . $offset_dnd_on); 
+		$dnd_off = strtotime($offset_date . ' ' . $offset_dnd_off); 
+		
+		// UTC timestamp of current time right now
+		$now_timestamp = time();
+		
+		
+			if ( $now_timestamp >= $dnd_off && $now_timestamp < $dnd_on ) {
 			$send_message = true;
 			}
 			else {
 			$send_message = false;
 			}
+		
 		
 		}
 		else {

@@ -4411,6 +4411,12 @@ primary currency market in the interface set to a currency different from the (a
 price charts primary currency market (I forgot they were two different settings when coding the filter).
 
 
+-BUG FIX for phone numbers over 10 digits (for email-to-mobile-text gateways)
+
+
+-Better support for 30 / 45 minute time zones (in interface time offset config)
+
+
 -Auto-install now backs up old bundled plugin configs before upgrading
 
 

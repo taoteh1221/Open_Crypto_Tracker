@@ -49,9 +49,6 @@ Double-check that the internal API (AND EVERYTHING ELSE) still works, after all 
 See if there are anymore decent open source / lightweight (small file size) .ttf font files out there, to add a bit more entropy to the captcha image letters / numbers, for higher security.
 
 
-Add "do not disturb - start" and "do not disturb - end" configuration settings to the recurring reminder plugin.
-
-
 Change the api key format to GET instead of POST on my portfolio app's internal REST API, so browser-based javascript implementations can work cross-site retrieving data.
 
 

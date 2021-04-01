@@ -325,7 +325,7 @@ var $ocpt_array1 = array();
   
   function queue_notify($send_params) {
   
-  global $base_dir, $ocpt_conf, $telegram_activated;
+  global $base_dir, $ocpt_conf, $ocpt_gen, $telegram_activated;
   
   
    // Queue messages
@@ -358,7 +358,7 @@ var $ocpt_array1 = array();
      // Text email
    // To be safe, don't use trim() on certain strings with arbitrary non-alphanumeric characters here
    // Only use text-to-email if other text services aren't configured
-     if ( $send_params['text']['message'] != '' && validate_email( text_email($ocpt_conf['comms']['to_mobile_text']) ) == 'valid' && trim($ocpt_conf['comms']['textbelt_apikey']) == '' && $ocpt_conf['comms']['textlocal_account'] == '' ) { 
+     if ( $send_params['text']['message'] != '' && validate_email( $ocpt_gen->text_email($ocpt_conf['comms']['to_mobile_text']) ) == 'valid' && trim($ocpt_conf['comms']['textbelt_apikey']) == '' && $ocpt_conf['comms']['textlocal_account'] == '' ) { 
      
      // $send_params['text_charset'] SHOULD ALWAYS BE SET FROM THE CALL TO HERE (for emojis, or other unicode characters to send via text message properly)
      // SUBJECT !!MUST BE SET!! OR SOME TEXT SERVICES WILL NOT ACCEPT THE MESSAGE!
@@ -1379,7 +1379,7 @@ var $ocpt_array1 = array();
         // Text email
       // To be safe, don't use trim() on certain strings with arbitrary non-alphanumeric characters here
       // Only use text-to-email if other text services aren't configured
-        if ( validate_email( text_email($ocpt_conf['comms']['to_mobile_text']) ) == 'valid' && trim($ocpt_conf['comms']['textbelt_apikey']) == '' && $ocpt_conf['comms']['textlocal_account'] == '' && preg_match("/textemail/i", $queued_cache_file) ) { 
+        if ( validate_email( $ocpt_gen->text_email($ocpt_conf['comms']['to_mobile_text']) ) == 'valid' && trim($ocpt_conf['comms']['textbelt_apikey']) == '' && $ocpt_conf['comms']['textlocal_account'] == '' && preg_match("/textemail/i", $queued_cache_file) ) { 
         
         $textemail_array = json_decode($message_data, true);
         
@@ -1402,7 +1402,7 @@ var $ocpt_array1 = array();
        $text_sleep = 1 * $processed_messages['text_count'];
        sleep($text_sleep);
         
-       $result = @safe_mail( text_email($ocpt_conf['comms']['to_mobile_text']) , $textemail_array['subject'], $textemail_array['message'], $textemail_array['content_type'], $textemail_array['charset']);
+       $result = @safe_mail( $ocpt_gen->text_email($ocpt_conf['comms']['to_mobile_text']) , $textemail_array['subject'], $textemail_array['message'], $textemail_array['content_type'], $textemail_array['charset']);
         
           if ( $result == true ) {
           
@@ -1414,7 +1414,7 @@ var $ocpt_array1 = array();
           
           }
           else {
-          app_logging( 'system_error', 'Email-to-mobile-text sending failed', 'to_text_email: ' . text_email($ocpt_conf['comms']['to_mobile_text']) . '; from: ' . $ocpt_conf['comms']['from_email'] . '; subject: ' . $textemail_array['subject'] . '; function_response: ' . $result . ';');
+          app_logging( 'system_error', 'Email-to-mobile-text sending failed', 'to_text_email: ' . $ocpt_gen->text_email($ocpt_conf['comms']['to_mobile_text']) . '; from: ' . $ocpt_conf['comms']['from_email'] . '; subject: ' . $textemail_array['subject'] . '; function_response: ' . $result . ';');
           }
        
        

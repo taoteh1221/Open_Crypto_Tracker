@@ -128,13 +128,16 @@ var $ocpt_array1 = array();
 	function strip_non_alpha($string, $case=false) {
 	
 		if ( $case == 'lower' ) {
-		$result = strtolower(preg_replace('/[^\w\d]+/','', $string));
+		$result = strtolower( preg_replace('/[^\w\d]+/','', $string) );
+		}
+		else if ( $case == 'upper' ) {
+		$result = strtoupper( preg_replace('/[^\w\d]+/','', $string) );
 		}
 		else {
 		$result = preg_replace('/[^\w\d]+/','', $string);
 		}
 		
-	return $result;
+	return trim($result);
 	
 	}
    
