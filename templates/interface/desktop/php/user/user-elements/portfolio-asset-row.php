@@ -31,7 +31,7 @@
  $mkcap_render_data = trim($ocpt_conf['assets'][$asset_symbol]['mcap_slug']);
  
 // Consolidate function calls for runtime speed improvement
- $marketcap_data = marketcap_data($asset_symbol);
+ $marketcap_data = $this->marketcap_data($asset_symbol);
  
  $info_icon = ( !$marketcap_data['rank'] && $asset_symbol != 'MISCASSETS' ? 'info-red.png' : 'info.png' );
  
@@ -423,7 +423,7 @@ echo $ocpt_var->num_pretty($coin_val_raw, $coin_val_dec);
 		$secondary_trade_val_dec = ( $secondary_trade_val_result >= 1 ? 4 : $secondary_trade_val_dec );
 		}
 		else {
-		$secondary_trade_val_result = $ocpt_var->num_to_str( $btc_trade_eqiv_raw / pairing_btc_val($show_secondary_trade_val) );
+		$secondary_trade_val_result = $ocpt_var->num_to_str( $btc_trade_eqiv_raw / $this->pairing_btc_val($show_secondary_trade_val) );
 		$secondary_trade_val_dec = ( $secondary_trade_val_result >= 0.01 ? 4 : 8 );
 		$secondary_trade_val_dec = ( $secondary_trade_val_result >= 1 ? 2 : $secondary_trade_val_dec );
 		}
@@ -567,7 +567,7 @@ echo ' <span class="blue"><span class="data app_sort_filter blue">' . $pretty_co
 		$secondary_holdings_val_dec = ( $secondary_holdings_val_result >= 1 ? 4 : $secondary_holdings_val_dec );
 		}
 		else {
-		$secondary_holdings_val_result = $ocpt_var->num_to_str( ($coin_val_total_raw * $pairing_btc_val) / pairing_btc_val($show_secondary_trade_val) );
+		$secondary_holdings_val_result = $ocpt_var->num_to_str( ($coin_val_total_raw * $pairing_btc_val) / $this->pairing_btc_val($show_secondary_trade_val) );
 		$secondary_holdings_val_dec = ( $secondary_holdings_val_result >= 0.01 ? 4 : 8 );
 		$secondary_holdings_val_dec = ( $secondary_holdings_val_result >= 1 ? 2 : $secondary_holdings_val_dec );
 		}

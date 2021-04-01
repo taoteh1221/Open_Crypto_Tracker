@@ -104,8 +104,8 @@ else {
     // If Stand-Alone Currency Market has been enabled (Settings page), REPLACE/OVERWRITE Bitcoin market config defaults
     if ( $_POST['prim_curr_market_standalone'] || $_COOKIE['prim_curr_market_standalone'] ) {
     $prim_curr_market_standalone = explode("|", ( $_POST['prim_curr_market_standalone'] != '' ? $_POST['prim_curr_market_standalone'] : $_COOKIE['prim_curr_market_standalone'] ) );
-    $ocpt_conf['gen']['btc_prim_curr_pairing'] = $prim_curr_market_standalone[0]; // MUST RUN !BEFORE! btc_market() CALL BELOW, OR INCORRECT VALUE DETERMINED FOR btc_market() CALL
-    $ocpt_conf['gen']['btc_prim_exchange'] = btc_market($prim_curr_market_standalone[1] - 1);
+    $ocpt_conf['gen']['btc_prim_curr_pairing'] = $prim_curr_market_standalone[0]; // MUST RUN !BEFORE! $ocpt_asset->btc_market() CALL BELOW, OR INCORRECT VALUE DETERMINED FOR $ocpt_asset->btc_market() CALL
+    $ocpt_conf['gen']['btc_prim_exchange'] = $ocpt_asset->btc_market($prim_curr_market_standalone[1] - 1);
     
        if ( is_array($ocpt_conf['assets']) ) {
        $ocpt_conf['assets']['MISCASSETS']['name'] = 'Misc. '.strtoupper($ocpt_conf['gen']['btc_prim_curr_pairing']).' Value';

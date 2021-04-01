@@ -6,7 +6,7 @@
 foreach ( $ocpt_conf['assets'] as $key => $unused ) {
 
 // Consolidate function calls for runtime speed improvement
-$marketcap_data = marketcap_data($key, 'usd'); // For marketcap bar chart, we ALWAYS force using USD
+$marketcap_data = $ocpt_asset->marketcap_data($key, 'usd'); // For marketcap bar chart, we ALWAYS force using USD
 
 //var_dump($marketcap_data);
 		

@@ -2875,7 +2875,7 @@ MAJOR IMPROVEMENTS TO THE USER EXPERIENCE HAVE BEEN MADE, WHICH ARE !NOT! BACKWA
 -------------------------------------------------------------------
 4.08.9:
 
--!CRITICAL! bug fix in the pairing_btc_val() function (web server get overloaded and crashes)
+-!CRITICAL! bug fix in the $ocpt_asset->pairing_btc_val() function (web server get overloaded and crashes)
 
 -Execution time config settings
 
@@ -2915,7 +2915,7 @@ MAJOR IMPROVEMENTS TO THE USER EXPERIENCE HAVE BEEN MADE, WHICH ARE !NOT! BACKWA
 -------------------------------------------------------------------
 4.08.10:
 
--Additional !CRITICAL! bug fix for pairing_btc_val() function overloading the server (SHOULD BE GOOD NOW, SORRY!)
+-Additional !CRITICAL! bug fix for $ocpt_asset->pairing_btc_val() function overloading the server (SHOULD BE GOOD NOW, SORRY!)
 
 -Raspberry Pi Security documentation
 

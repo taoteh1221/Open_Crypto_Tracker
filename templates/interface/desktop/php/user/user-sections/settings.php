@@ -206,7 +206,7 @@
 					
 					<?php
 					
-					$exchange_field_id = btc_market($ocpt_conf['gen']['btc_prim_exchange']);
+					$exchange_field_id = $ocpt_asset->btc_market($ocpt_conf['gen']['btc_prim_exchange']);
 					
 					foreach (  $ocpt_conf['assets']['BTC']['pairing'] as $pairing_key => $pairing_id ) {
 					?>
@@ -293,7 +293,7 @@
 				    </span> <img id='currency_info' src='templates/interface/media/images/info.png' alt='' width='30' style='position: relative; left: -5px;' /> <input type='checkbox' id='standalone_prim_curr_enabled' name='standalone_prim_curr_enabled' value='1' onchange='
 				    
 				    btc_prim_curr = $("#btc_prim_curr").val() ? $("#btc_prim_curr").val() : "<?=$ocpt_conf['gen']['btc_prim_curr_pairing']?>";
-				    prim_curr_market = $("#prim_curr_market_id").val() ? $("#prim_curr_market_id").val() : <?=btc_market($ocpt_conf['gen']['btc_prim_exchange'])?>;
+				    prim_curr_market = $("#prim_curr_market_id").val() ? $("#prim_curr_market_id").val() : <?=$ocpt_asset->btc_market($ocpt_conf['gen']['btc_prim_exchange'])?>;
 				    
 				    /////////////////////////////////////////////////////////
 				    

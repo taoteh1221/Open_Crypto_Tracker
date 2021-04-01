@@ -27,12 +27,12 @@ $label = $target_val['label'];
 
 
 // Only getting BTC value for non-bitcoin assets is supported
-// SUPPORTED even for BTC ( pairing_btc_val('btc') ALWAYS = 1 )
-$pairing_btc_val = pairing_btc_val($asset); 
+// SUPPORTED even for BTC ( $ocpt_asset->pairing_btc_val('btc') ALWAYS = 1 )
+$pairing_btc_val = $ocpt_asset->pairing_btc_val($asset); 
   	 
   	 
 	if ( $pairing_btc_val == null ) {
-	app_logging('market_error', 'pairing_btc_val(\''.$asset.'\') returned null in the \''.$this_plug.'\' plugin, likely from exchange API request failure');
+	app_logging('market_error', 'ocpt_asset->pairing_btc_val(\''.$asset.'\') returned null in the \''.$this_plug.'\' plugin, likely from exchange API request failure');
 	}
 
 	

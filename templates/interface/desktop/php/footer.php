@@ -239,7 +239,7 @@
 		if ( $ocpt_conf['comms']['proxy_alert'] != 'off' ) {
 	
 			foreach ( $proxy_checkup as $problem_proxy ) {
-			test_proxy($problem_proxy);
+			$ocpt_gen->test_proxy($problem_proxy);
 			sleep(1);
 			}
 
@@ -249,7 +249,7 @@
           	
 		// Log errors, send notifications BEFORE runtime stats
 		$error_logs = error_logs();
-		send_notifications();
+		$ocpt_cache->send_notifications();
 		
 		if ( $error_logs != true ) {
 		?>

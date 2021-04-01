@@ -81,19 +81,19 @@ $hash_check = md5($_GET['data_set']);
 
 		// /api/price endpoint
 		if ( $data_set_array[0] == 'market_conversion' ) {
-		$result = market_conv_int_api($data_set_array[1], $all_markets_data_array);
+		$result = $ocpt_asset->market_conv_int_api($data_set_array[1], $all_markets_data_array);
 		}
 		elseif ( $data_set_array[0] == 'asset_list' ) {
-		$result = asset_list_internal_api();
+		$result = $ocpt_asset->asset_list_int_api();
 		}
 		elseif ( $data_set_array[0] == 'exchange_list' ) {
-		$result = exchange_list_internal_api();
+		$result = $ocpt_asset->exchange_list_int_api();
 		}
 		elseif ( $data_set_array[0] == 'market_list' ) {
-		$result = market_list_internal_api($data_set_array[1]);
+		$result = $ocpt_asset->market_list_int_api($data_set_array[1]);
 		}
 		elseif ( $data_set_array[0] == 'conversion_list' ) {
-		$result = conversion_list_internal_api();
+		$result = $ocpt_asset->conversion_list_int_api();
 		}
 		// Non-existent endpoint error message
 		else {
@@ -133,7 +133,7 @@ echo $json_result;
 // Log errors / debugging, send notifications
 error_logs();
 debugging_logs();
-send_notifications();
+$ocpt_cache->send_notifications();
 
 flush(); // Clean memory output buffer for echo
 gc_collect_cycles(); // Clean memory cache

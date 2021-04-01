@@ -59,7 +59,7 @@ $all_feeds_array = array();
 // Log errors / debugging, send notifications
 error_logs();
 debugging_logs();
-send_notifications();
+$ocpt_cache->send_notifications();
 
 flush(); // Clean memory output buffer for echo
 gc_collect_cycles(); // Clean memory cache

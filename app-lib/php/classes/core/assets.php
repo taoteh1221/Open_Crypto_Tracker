@@ -31,7 +31,7 @@ var $ocpt_array1 = array();
    ////////////////////////////////////////////////////////
    
    
-   function get_sub_token_price($chosen_market, $market_pairing) {
+   function static_erc20_price($chosen_market, $market_pairing) {
    
    global $ocpt_conf;
    
@@ -80,7 +80,7 @@ var $ocpt_array1 = array();
    ////////////////////////////////////////////////////////
    
    
-   function asset_list_internal_api() {
+   function asset_list_int_api() {
    
    global $ocpt_conf;
    
@@ -104,7 +104,7 @@ var $ocpt_array1 = array();
    ////////////////////////////////////////////////////////
    
    
-   function conversion_list_internal_api() {
+   function conversion_list_int_api() {
    
    global $ocpt_conf;
    
@@ -149,7 +149,7 @@ var $ocpt_array1 = array();
    ////////////////////////////////////////////////////////
    
    
-   function exchange_list_internal_api() {
+   function exchange_list_int_api() {
    
    global $ocpt_conf;
    
@@ -182,7 +182,7 @@ var $ocpt_array1 = array();
    ////////////////////////////////////////////////////////
    
    
-   function market_list_internal_api($exchange) {
+   function market_list_int_api($exchange) {
    
    global $ocpt_conf, $remote_ip;
    
@@ -224,6 +224,63 @@ var $ocpt_array1 = array();
              );
      
      }
+   
+   }
+   
+   
+   ////////////////////////////////////////////////////////
+   ////////////////////////////////////////////////////////
+   
+   
+   function prim_curr_trade_vol($asset_symbol, $pairing, $last_trade, $vol_in_pairing) {
+   
+   global $ocpt_conf, $sel_btc_prim_curr_val;
+     
+     
+     // Return negative number, if no volume data detected (so we know when data errors happen)
+     if ( is_numeric($vol_in_pairing) != true ) {
+     return -1;
+     }
+     // If no pairing data, skip calculating trade volume to save on uneeded overhead
+     elseif ( !$asset_symbol || !$pairing || !isset($last_trade) || $last_trade == 0 ) {
+     return false;
+     }
+   
+   
+     // WE NEED TO SET THIS (ONLY IF NOT SET ALREADY) for $ocpt_api->market() calls, 
+     // because it is not set as a global THE FIRST RUNTIME CALL TO $ocpt_api->market()
+     if ( strtoupper($asset_symbol) == 'BTC' && !$sel_btc_prim_curr_val ) {
+     $temp_btc_prim_curr_val = $last_trade; // Don't overwrite global
+     }
+     else {
+     $temp_btc_prim_curr_val = $sel_btc_prim_curr_val; // Don't overwrite global
+     }
+   
+   
+     // Get primary currency volume value	
+     // Currency volume from Bitcoin's DEFAULT PAIRING volume
+     if ( $pairing == $ocpt_conf['gen']['btc_prim_curr_pairing'] ) {
+     $vol_prim_curr_raw = number_format( $vol_in_pairing , 0, '.', '');
+     }
+     // Currency volume from btc PAIRING volume
+     elseif ( $pairing == 'btc' ) {
+     $vol_prim_curr_raw = number_format( $temp_btc_prim_curr_val * $vol_in_pairing , 0, '.', '');
+     }
+     // Currency volume from other PAIRING volume
+     else { 
+     
+     $pairing_btc_val = $this->pairing_btc_val($pairing);
+   
+       if ( $pairing_btc_val == null ) {
+       app_logging('market_error', 'this->pairing_btc_val() returned null in ocpt_asset->prim_curr_trade_vol()', 'pairing: ' . $pairing);
+       }
+     
+     $vol_prim_curr_raw = number_format( $temp_btc_prim_curr_val * ( $vol_in_pairing * $pairing_btc_val ) , 0, '.', '');
+     
+     }
+     
+     
+   return $vol_prim_curr_raw;
    
    }
    
@@ -311,6 +368,178 @@ var $ocpt_array1 = array();
    
     
    return $result;
+     
+   }
+   
+   
+   ////////////////////////////////////////////////////////
+   ////////////////////////////////////////////////////////
+   
+   
+   function hivepower_time($time) {
+       
+   global $_POST, $hive_market, $ocpt_conf, $sel_btc_prim_curr_val;
+   
+   $powertime = null;
+   $powertime = null;
+   $hive_total = null;
+   $prim_curr_total = null;
+   
+   $decimal_yearly_interest = $ocpt_conf['power']['hivepower_yearly_interest'] / 100;  // Convert APR in config to decimal representation
+   
+   $speed = ($_POST['hp_total'] * $decimal_yearly_interest) / 525600;  // Interest per minute
+   
+       if ( $time == 'day' ) {
+       $powertime = ($speed * 60 * 24);
+       }
+       elseif ( $time == 'week' ) {
+       $powertime = ($speed * 60 * 24 * 7);
+       }
+       elseif ( $time == 'month' ) {
+       $powertime = ($speed * 60 * 24 * 30);
+       }
+       elseif ( $time == '2month' ) {
+       $powertime = ($speed * 60 * 24 * 60);
+       }
+       elseif ( $time == '3month' ) {
+       $powertime = ($speed * 60 * 24 * 90);
+       }
+       elseif ( $time == '6month' ) {
+       $powertime = ($speed * 60 * 24 * 180);
+       }
+       elseif ( $time == '9month' ) {
+       $powertime = ($speed * 60 * 24 * 270);
+       }
+       elseif ( $time == '12month' ) {
+       $powertime = ($speed * 60 * 24 * 365);
+       }
+       
+       $powertime_prim_curr = ( $powertime * $hive_market * $sel_btc_prim_curr_val );
+       
+       $hive_total = ( $powertime + $_POST['hp_total'] );
+       $prim_curr_total = ( $hive_total * $hive_market * $sel_btc_prim_curr_val );
+       
+       $power_purchased = ( $_POST['hp_purchased'] / $hive_total );
+       $power_earned = ( $_POST['hp_earned'] / $hive_total );
+       $power_interest = 1 - ( $power_purchased + $power_earned );
+       
+       $powerdown_total = ( $hive_total / $ocpt_conf['power']['hive_powerdown_time'] );
+       $powerdown_purchased = ( $powerdown_total * $power_purchased );
+       $powerdown_earned = ( $powerdown_total * $power_earned );
+       $powerdown_interest = ( $powerdown_total * $power_interest );
+       
+       ?>
+       
+   <div class='result'>
+       <h2> Interest Per <?=ucfirst($time)?> </h2>
+       <ul>
+           
+           <li><b><?=number_format( $powertime, 3, '.', ',')?> HIVE</b> <i>in interest</i> (after a <?=$time?> time period) = <b><?=$ocpt_conf['power']['btc_curr_markets'][$ocpt_conf['gen']['btc_prim_curr_pairing']]?><?=number_format( $powertime_prim_curr, 2, '.', ',')?></b></li>
+           
+           <li><b><?=number_format( $hive_total, 3, '.', ',')?> HIVE</b> <i>in total</i> (including original vested amount) = <b><?=$ocpt_conf['power']['btc_curr_markets'][$ocpt_conf['gen']['btc_prim_curr_pairing']]?><?=number_format( $prim_curr_total, 2, '.', ',')?></b></li>
+       
+       </ul>
+   
+     <p><b>A Power Down Weekly Payout <i>Started At This Time</i> Would Be (rounded to nearest cent):</b></p>
+           <table border='1' cellpadding='10' cellspacing='0'>
+               <tr>
+           <th class='normal'> Purchased </th>
+           <th class='normal'> Earned </th>
+           <th class='normal'> Interest </th>
+           <th> Total </th>
+               </tr>
+                   <tr>
+   
+                   <td> <?=number_format( $powerdown_purchased, 3, '.', ',')?> HIVE = <?=$ocpt_conf['power']['btc_curr_markets'][$ocpt_conf['gen']['btc_prim_curr_pairing']]?><?=number_format( $this->powerdown_prim_curr($powerdown_purchased), 2, '.', ',')?> </td>
+                   <td> <?=number_format( $powerdown_earned, 3, '.', ',')?> HIVE = <?=$ocpt_conf['power']['btc_curr_markets'][$ocpt_conf['gen']['btc_prim_curr_pairing']]?><?=number_format( $this->powerdown_prim_curr($powerdown_earned), 2, '.', ',')?> </td>
+                   <td> <?=number_format( $powerdown_interest, 3, '.', ',')?> HIVE = <?=$ocpt_conf['power']['btc_curr_markets'][$ocpt_conf['gen']['btc_prim_curr_pairing']]?><?=number_format( $this->powerdown_prim_curr($powerdown_interest), 2, '.', ',')?> </td>
+                   <td> <b><?=number_format( $powerdown_total, 3, '.', ',')?> HIVE</b> = <b><?=$ocpt_conf['power']['btc_curr_markets'][$ocpt_conf['gen']['btc_prim_curr_pairing']]?><?=number_format( $this->powerdown_prim_curr($powerdown_total), 2, '.', ',')?></b> </td>
+   
+                   </tr>
+              
+           </table>     
+           
+   </div>
+   
+       <?php
+       
+   }
+   
+   
+   ////////////////////////////////////////////////////////
+   ////////////////////////////////////////////////////////
+   
+   
+   function mining_calc_form($calculation_form_data, $network_measure, $hash_unit='hash') {
+   
+   global $_POST, $ocpt_conf;
+   
+   ?>
+   
+           <form name='<?=$calculation_form_data['symbol']?>' action='<?=start_page('mining')?>' method='post'>
+           
+           
+           <p><b><?=ucfirst($network_measure)?>:</b> 
+           <?php
+           if ( $hash_unit == 'hash' ) {
+           ?>
+           
+           <input type='text' value='<?=( $_POST['network_measure'] && $_POST[$calculation_form_data['symbol'].'_submitted'] == 1 ? number_format($_POST['network_measure']) : number_format($calculation_form_data['difficulty']) )?>' name='network_measure' /> 
+           
+           <?php
+           }
+           ?>
+           </p>
+           
+           
+           <p><b>Your Hashrate:</b>  
+           <input type='text' value='<?=( $_POST[$calculation_form_data['symbol'].'_submitted'] == 1 ? $_POST['your_hashrate'] : '' )?>' name='your_hashrate' /> 
+           
+           
+           
+           <?php
+           if ( $hash_unit == 'hash' ) {
+           ?>
+           <select class='browser-default custom-select' name='hash_level'>
+           <option value='1' <?=( $_POST['hash_level'] == '1' && $_POST[$calculation_form_data['symbol'].'_submitted'] == 1 ? 'selected' : '' )?>> Hs (hashes per second) </option>
+           <option value='1000' <?=( $_POST['hash_level'] == '1000' && $_POST[$calculation_form_data['symbol'].'_submitted'] == 1 ? 'selected' : '' )?>> Khs (thousand hashes per second) </option>
+           <option value='1000000' <?=( $_POST['hash_level'] == '1000000' && $_POST[$calculation_form_data['symbol'].'_submitted'] == 1 ? 'selected' : '' )?>> Mhs (million hashes per second) </option>
+           <option value='1000000000' <?=( $_POST['hash_level'] == '1000000000' && $_POST[$calculation_form_data['symbol'].'_submitted'] == 1 ? 'selected' : '' )?>> Ghs (billion hashes per second) </option>
+           <option value='1000000000000' <?=( $_POST['hash_level'] == '1000000000000' && $_POST[$calculation_form_data['symbol'].'_submitted'] == 1 ? 'selected' : '' )?>> Ths (trillion hashes per second) </option>
+           <option value='1000000000000000' <?=( $_POST['hash_level'] == '1000000000000000' && $_POST[$calculation_form_data['symbol'].'_submitted'] == 1 ? 'selected' : '' )?>> Phs (quadrillion hashes per second) </option>
+           <option value='1000000000000000000' <?=( $_POST['hash_level'] == '1000000000000000000' && $_POST[$calculation_form_data['symbol'].'_submitted'] == 1 ? 'selected' : '' )?>> Ehs (quintillion hashes per second) </option>
+           </select>
+           
+           <?php
+           }
+           ?>
+           
+           
+           </p>
+           
+           
+           <p><b>Block Reward:</b> <input type='text' value='<?=( $_POST['block_reward'] && $_POST[$calculation_form_data['symbol'].'_submitted'] == 1 ? $_POST['block_reward'] : $calculation_form_data['block_reward'] )?>' name='block_reward' /> (MAY be static from Power User Config, verify manually)</p>
+           
+           
+           <p><b>Watts Used:</b> <input type='text' value='<?=( isset($_POST['watts_used']) && $_POST[$calculation_form_data['symbol'].'_submitted'] == 1 ? $_POST['watts_used'] : '300' )?>' name='watts_used' /></p>
+           
+           
+           <p><b>kWh Rate (<?=$ocpt_conf['power']['btc_curr_markets'][$ocpt_conf['gen']['btc_prim_curr_pairing']]?>/kWh):</b> <input type='text' value='<?=( isset($_POST['watts_rate']) && $_POST[$calculation_form_data['symbol'].'_submitted'] == 1 ? $_POST['watts_rate'] : '0.1000' )?>' name='watts_rate' /></p>
+           
+           
+           <p><b>Pool Fee:</b> <input type='text' value='<?=( isset($_POST['pool_fee']) && $_POST[$calculation_form_data['symbol'].'_submitted'] == 1 ? $_POST['pool_fee'] : '1' )?>' size='4' name='pool_fee' />%</p>
+               
+               
+            <input type='hidden' value='1' name='<?=$calculation_form_data['symbol']?>_submitted' />
+               
+            <input type='hidden' value='<?=$calculation_form_data['symbol']?>' name='pow_calc' />
+           
+           <input type='submit' value='Calculate <?=strtoupper($calculation_form_data['symbol'])?> Mining Profit' />
+     
+           </form>
+           
+   
+   <?php
      
    }
    
@@ -454,63 +683,6 @@ var $ocpt_array1 = array();
    
    // Return null if we don't even detect a rank
    return ( $data['rank'] != NULL ? $data : NULL );
-   
-   }
-   
-   
-   ////////////////////////////////////////////////////////
-   ////////////////////////////////////////////////////////
-   
-   
-   function prim_curr_trade_vol($asset_symbol, $pairing, $last_trade, $vol_in_pairing) {
-   
-   global $ocpt_conf, $sel_btc_prim_curr_val;
-     
-     
-     // Return negative number, if no volume data detected (so we know when data errors happen)
-     if ( is_numeric($vol_in_pairing) != true ) {
-     return -1;
-     }
-     // If no pairing data, skip calculating trade volume to save on uneeded overhead
-     elseif ( !$asset_symbol || !$pairing || !isset($last_trade) || $last_trade == 0 ) {
-     return false;
-     }
-   
-   
-     // WE NEED TO SET THIS (ONLY IF NOT SET ALREADY) for $ocpt_api->market() calls, 
-     // because it is not set as a global THE FIRST RUNTIME CALL TO $ocpt_api->market()
-     if ( strtoupper($asset_symbol) == 'BTC' && !$sel_btc_prim_curr_val ) {
-     $temp_btc_prim_curr_val = $last_trade; // Don't overwrite global
-     }
-     else {
-     $temp_btc_prim_curr_val = $sel_btc_prim_curr_val; // Don't overwrite global
-     }
-   
-   
-     // Get primary currency volume value	
-     // Currency volume from Bitcoin's DEFAULT PAIRING volume
-     if ( $pairing == $ocpt_conf['gen']['btc_prim_curr_pairing'] ) {
-     $vol_prim_curr_raw = number_format( $vol_in_pairing , 0, '.', '');
-     }
-     // Currency volume from btc PAIRING volume
-     elseif ( $pairing == 'btc' ) {
-     $vol_prim_curr_raw = number_format( $temp_btc_prim_curr_val * $vol_in_pairing , 0, '.', '');
-     }
-     // Currency volume from other PAIRING volume
-     else { 
-     
-     $pairing_btc_val = pairing_btc_val($pairing);
-   
-       if ( $pairing_btc_val == null ) {
-       app_logging('market_error', 'pairing_btc_val() returned null in prim_curr_trade_vol()', 'pairing: ' . $pairing);
-       }
-     
-     $vol_prim_curr_raw = number_format( $temp_btc_prim_curr_val * ( $vol_in_pairing * $pairing_btc_val ) , 0, '.', '');
-     
-     }
-     
-     
-   return $vol_prim_curr_raw;
    
    }
    
@@ -675,9 +847,9 @@ var $ocpt_array1 = array();
                        $coin_prim_market_worth_raw = $coin_val_raw * $market_conv_btc_val;
                        }
                        else {
-                       $pairing_btc_val = pairing_btc_val($market_pairing);
+                       $pairing_btc_val = $this->pairing_btc_val($market_pairing);
                            if ( $pairing_btc_val == null ) {
-                           app_logging('market_error', 'pairing_btc_val() returned null in market_conv_int_api()', 'pairing: ' . $market_pairing);
+                           app_logging('market_error', 'this->pairing_btc_val() returned null in ocpt_asset->market_conv_int_api()', 'pairing: ' . $market_pairing);
                            }
                        $coin_prim_market_worth_raw = ($coin_val_raw * $pairing_btc_val) * $market_conv_btc_val;
                        }
@@ -775,7 +947,7 @@ var $ocpt_array1 = array();
        
        // Include a basic array check, since we want valid data to avoid an endless loop in our fallback support
        if ( !is_array($ocpt_conf['assets'][strtoupper($pairing)]['pairing']['btc']) ) {
-       app_logging('market_error', 'pairing_btc_val() - market failure (unknown pairing) for ' . $pairing);
+       app_logging('market_error', 'this->pairing_btc_val() - market failure (unknown pairing) for ' . $pairing);
        return null;
        }
        // Preferred BITCOIN market(s) for getting a certain currency's value, if in config and more than one market exists
@@ -799,7 +971,7 @@ var $ocpt_array1 = array();
              
              // Data debugging telemetry
              if ( $ocpt_conf['dev']['debug'] == 'all' || $ocpt_conf['dev']['debug'] == 'all_telemetry' ) {
-             app_logging('market_debugging', 'pairing_btc_val() market request succeeded for ' . $pairing, 'exchange: ' . $market_key);
+             app_logging('market_debugging', 'this->pairing_btc_val() market request succeeded for ' . $pairing, 'exchange: ' . $market_key);
              }		
                
            return $ocpt_var->num_to_str($btc_pairing_markets[$pairing.'_btc']);
@@ -808,13 +980,13 @@ var $ocpt_array1 = array();
            // ONLY LOG AN ERROR IF ALL AVAILABLE MARKETS FAIL (AND RETURN NULL)
            // We only want to loop a fallback for the amount of available markets
            elseif ( sizeof($btc_pairing_markets_excluded[$pairing]) == sizeof($ocpt_conf['assets'][strtoupper($pairing)]['pairing']['btc']) ) {
-           app_logging('market_error', 'pairing_btc_val() - market request failure (all '.sizeof($btc_pairing_markets_excluded[$pairing]).' markets failed) for ' . $pairing . ' / btc (' . $market_key . ')', $pairing . '_markets_excluded_count: ' . sizeof($btc_pairing_markets_excluded[$pairing]) );
+           app_logging('market_error', 'this->pairing_btc_val() - market request failure (all '.sizeof($btc_pairing_markets_excluded[$pairing]).' markets failed) for ' . $pairing . ' / btc (' . $market_key . ')', $pairing . '_markets_excluded_count: ' . sizeof($btc_pairing_markets_excluded[$pairing]) );
            return null;
            }
            else {
            $btc_pairing_markets[$pairing.'_btc'] = null; // Reset
            $btc_pairing_markets_excluded[$pairing][] = $market_key; // Market exclusion list, getting pairing data from this exchange IN ANY PAIRING, for this runtime only
-           return pairing_btc_val($pairing);
+           return $this->pairing_btc_val($pairing);
            }
          
          }
@@ -831,7 +1003,7 @@ var $ocpt_array1 = array();
      
        // Include a basic array check, since we want valid data to avoid an endless loop in our fallback support
        if ( !is_array($ocpt_conf['assets']['BTC']['pairing'][$pairing]) ) {
-       app_logging('market_error', 'pairing_btc_val() - market failure (unknown pairing) for ' . $pairing);
+       app_logging('market_error', 'this->pairing_btc_val() - market failure (unknown pairing) for ' . $pairing);
        return null;
        }
        // Preferred BITCOIN market(s) for getting a certain currency's value, if in config and more than one market exists
@@ -855,7 +1027,7 @@ var $ocpt_array1 = array();
                  
              // Data debugging telemetry
              if ( $ocpt_conf['dev']['debug'] == 'all' || $ocpt_conf['dev']['debug'] == 'all_telemetry' ) {
-             app_logging('market_debugging', 'pairing_btc_val() market request succeeded for ' . $pairing, 'exchange: ' . $market_key);
+             app_logging('market_debugging', 'this->pairing_btc_val() market request succeeded for ' . $pairing, 'exchange: ' . $market_key);
              }
                  
            return $ocpt_var->num_to_str($btc_pairing_markets[$pairing.'_btc']);
@@ -864,13 +1036,13 @@ var $ocpt_array1 = array();
            // ONLY LOG AN ERROR IF ALL AVAILABLE MARKETS FAIL (AND RETURN NULL)
            // We only want to loop a fallback for the amount of available markets
            elseif ( sizeof($btc_pairing_markets_excluded[$pairing]) >= sizeof($ocpt_conf['assets']['BTC']['pairing'][$pairing]) ) {
-           app_logging('market_error', 'pairing_btc_val() - market request failure (all '.sizeof($btc_pairing_markets_excluded[$pairing]).' markets failed) for btc / ' . $pairing . ' (' . $market_key . ')', $pairing . '_markets_excluded_count: ' . sizeof($btc_pairing_markets_excluded[$pairing]) );
+           app_logging('market_error', 'this->pairing_btc_val() - market request failure (all '.sizeof($btc_pairing_markets_excluded[$pairing]).' markets failed) for btc / ' . $pairing . ' (' . $market_key . ')', $pairing . '_markets_excluded_count: ' . sizeof($btc_pairing_markets_excluded[$pairing]) );
            return null;
            }
            else {
            $btc_pairing_markets[$pairing.'_btc'] = null; // Reset	
            $btc_pairing_markets_excluded[$pairing][] = $market_key; // Market exclusion list, getting pairing data from this exchange IN ANY PAIRING, for this runtime only
-           return pairing_btc_val($pairing);
+           return $this->pairing_btc_val($pairing);
            }
          
              
@@ -887,178 +1059,6 @@ var $ocpt_array1 = array();
       }
       
       
-   }
-   
-   
-   ////////////////////////////////////////////////////////
-   ////////////////////////////////////////////////////////
-   
-   
-   function hivepower_time($time) {
-       
-   global $_POST, $hive_market, $ocpt_conf, $sel_btc_prim_curr_val;
-   
-   $powertime = null;
-   $powertime = null;
-   $hive_total = null;
-   $prim_curr_total = null;
-   
-   $decimal_yearly_interest = $ocpt_conf['power']['hivepower_yearly_interest'] / 100;  // Convert APR in config to decimal representation
-   
-   $speed = ($_POST['hp_total'] * $decimal_yearly_interest) / 525600;  // Interest per minute
-   
-       if ( $time == 'day' ) {
-       $powertime = ($speed * 60 * 24);
-       }
-       elseif ( $time == 'week' ) {
-       $powertime = ($speed * 60 * 24 * 7);
-       }
-       elseif ( $time == 'month' ) {
-       $powertime = ($speed * 60 * 24 * 30);
-       }
-       elseif ( $time == '2month' ) {
-       $powertime = ($speed * 60 * 24 * 60);
-       }
-       elseif ( $time == '3month' ) {
-       $powertime = ($speed * 60 * 24 * 90);
-       }
-       elseif ( $time == '6month' ) {
-       $powertime = ($speed * 60 * 24 * 180);
-       }
-       elseif ( $time == '9month' ) {
-       $powertime = ($speed * 60 * 24 * 270);
-       }
-       elseif ( $time == '12month' ) {
-       $powertime = ($speed * 60 * 24 * 365);
-       }
-       
-       $powertime_prim_curr = ( $powertime * $hive_market * $sel_btc_prim_curr_val );
-       
-       $hive_total = ( $powertime + $_POST['hp_total'] );
-       $prim_curr_total = ( $hive_total * $hive_market * $sel_btc_prim_curr_val );
-       
-       $power_purchased = ( $_POST['hp_purchased'] / $hive_total );
-       $power_earned = ( $_POST['hp_earned'] / $hive_total );
-       $power_interest = 1 - ( $power_purchased + $power_earned );
-       
-       $powerdown_total = ( $hive_total / $ocpt_conf['power']['hive_powerdown_time'] );
-       $powerdown_purchased = ( $powerdown_total * $power_purchased );
-       $powerdown_earned = ( $powerdown_total * $power_earned );
-       $powerdown_interest = ( $powerdown_total * $power_interest );
-       
-       ?>
-       
-   <div class='result'>
-       <h2> Interest Per <?=ucfirst($time)?> </h2>
-       <ul>
-           
-           <li><b><?=number_format( $powertime, 3, '.', ',')?> HIVE</b> <i>in interest</i> (after a <?=$time?> time period) = <b><?=$ocpt_conf['power']['btc_curr_markets'][$ocpt_conf['gen']['btc_prim_curr_pairing']]?><?=number_format( $powertime_prim_curr, 2, '.', ',')?></b></li>
-           
-           <li><b><?=number_format( $hive_total, 3, '.', ',')?> HIVE</b> <i>in total</i> (including original vested amount) = <b><?=$ocpt_conf['power']['btc_curr_markets'][$ocpt_conf['gen']['btc_prim_curr_pairing']]?><?=number_format( $prim_curr_total, 2, '.', ',')?></b></li>
-       
-       </ul>
-   
-     <p><b>A Power Down Weekly Payout <i>Started At This Time</i> Would Be (rounded to nearest cent):</b></p>
-           <table border='1' cellpadding='10' cellspacing='0'>
-               <tr>
-           <th class='normal'> Purchased </th>
-           <th class='normal'> Earned </th>
-           <th class='normal'> Interest </th>
-           <th> Total </th>
-               </tr>
-                   <tr>
-   
-                   <td> <?=number_format( $powerdown_purchased, 3, '.', ',')?> HIVE = <?=$ocpt_conf['power']['btc_curr_markets'][$ocpt_conf['gen']['btc_prim_curr_pairing']]?><?=number_format( powerdown_prim_curr($powerdown_purchased), 2, '.', ',')?> </td>
-                   <td> <?=number_format( $powerdown_earned, 3, '.', ',')?> HIVE = <?=$ocpt_conf['power']['btc_curr_markets'][$ocpt_conf['gen']['btc_prim_curr_pairing']]?><?=number_format( powerdown_prim_curr($powerdown_earned), 2, '.', ',')?> </td>
-                   <td> <?=number_format( $powerdown_interest, 3, '.', ',')?> HIVE = <?=$ocpt_conf['power']['btc_curr_markets'][$ocpt_conf['gen']['btc_prim_curr_pairing']]?><?=number_format( powerdown_prim_curr($powerdown_interest), 2, '.', ',')?> </td>
-                   <td> <b><?=number_format( $powerdown_total, 3, '.', ',')?> HIVE</b> = <b><?=$ocpt_conf['power']['btc_curr_markets'][$ocpt_conf['gen']['btc_prim_curr_pairing']]?><?=number_format( powerdown_prim_curr($powerdown_total), 2, '.', ',')?></b> </td>
-   
-                   </tr>
-              
-           </table>     
-           
-   </div>
-   
-       <?php
-       
-   }
-   
-   
-   ////////////////////////////////////////////////////////
-   ////////////////////////////////////////////////////////
-   
-   
-   function mining_calc_form($calculation_form_data, $network_measure, $hash_unit='hash') {
-   
-   global $_POST, $ocpt_conf;
-   
-   ?>
-   
-           <form name='<?=$calculation_form_data['symbol']?>' action='<?=start_page('mining')?>' method='post'>
-           
-           
-           <p><b><?=ucfirst($network_measure)?>:</b> 
-           <?php
-           if ( $hash_unit == 'hash' ) {
-           ?>
-           
-           <input type='text' value='<?=( $_POST['network_measure'] && $_POST[$calculation_form_data['symbol'].'_submitted'] == 1 ? number_format($_POST['network_measure']) : number_format($calculation_form_data['difficulty']) )?>' name='network_measure' /> 
-           
-           <?php
-           }
-           ?>
-           </p>
-           
-           
-           <p><b>Your Hashrate:</b>  
-           <input type='text' value='<?=( $_POST[$calculation_form_data['symbol'].'_submitted'] == 1 ? $_POST['your_hashrate'] : '' )?>' name='your_hashrate' /> 
-           
-           
-           
-           <?php
-           if ( $hash_unit == 'hash' ) {
-           ?>
-           <select class='browser-default custom-select' name='hash_level'>
-           <option value='1' <?=( $_POST['hash_level'] == '1' && $_POST[$calculation_form_data['symbol'].'_submitted'] == 1 ? 'selected' : '' )?>> Hs (hashes per second) </option>
-           <option value='1000' <?=( $_POST['hash_level'] == '1000' && $_POST[$calculation_form_data['symbol'].'_submitted'] == 1 ? 'selected' : '' )?>> Khs (thousand hashes per second) </option>
-           <option value='1000000' <?=( $_POST['hash_level'] == '1000000' && $_POST[$calculation_form_data['symbol'].'_submitted'] == 1 ? 'selected' : '' )?>> Mhs (million hashes per second) </option>
-           <option value='1000000000' <?=( $_POST['hash_level'] == '1000000000' && $_POST[$calculation_form_data['symbol'].'_submitted'] == 1 ? 'selected' : '' )?>> Ghs (billion hashes per second) </option>
-           <option value='1000000000000' <?=( $_POST['hash_level'] == '1000000000000' && $_POST[$calculation_form_data['symbol'].'_submitted'] == 1 ? 'selected' : '' )?>> Ths (trillion hashes per second) </option>
-           <option value='1000000000000000' <?=( $_POST['hash_level'] == '1000000000000000' && $_POST[$calculation_form_data['symbol'].'_submitted'] == 1 ? 'selected' : '' )?>> Phs (quadrillion hashes per second) </option>
-           <option value='1000000000000000000' <?=( $_POST['hash_level'] == '1000000000000000000' && $_POST[$calculation_form_data['symbol'].'_submitted'] == 1 ? 'selected' : '' )?>> Ehs (quintillion hashes per second) </option>
-           </select>
-           
-           <?php
-           }
-           ?>
-           
-           
-           </p>
-           
-           
-           <p><b>Block Reward:</b> <input type='text' value='<?=( $_POST['block_reward'] && $_POST[$calculation_form_data['symbol'].'_submitted'] == 1 ? $_POST['block_reward'] : $calculation_form_data['block_reward'] )?>' name='block_reward' /> (MAY be static from Power User Config, verify manually)</p>
-           
-           
-           <p><b>Watts Used:</b> <input type='text' value='<?=( isset($_POST['watts_used']) && $_POST[$calculation_form_data['symbol'].'_submitted'] == 1 ? $_POST['watts_used'] : '300' )?>' name='watts_used' /></p>
-           
-           
-           <p><b>kWh Rate (<?=$ocpt_conf['power']['btc_curr_markets'][$ocpt_conf['gen']['btc_prim_curr_pairing']]?>/kWh):</b> <input type='text' value='<?=( isset($_POST['watts_rate']) && $_POST[$calculation_form_data['symbol'].'_submitted'] == 1 ? $_POST['watts_rate'] : '0.1000' )?>' name='watts_rate' /></p>
-           
-           
-           <p><b>Pool Fee:</b> <input type='text' value='<?=( isset($_POST['pool_fee']) && $_POST[$calculation_form_data['symbol'].'_submitted'] == 1 ? $_POST['pool_fee'] : '1' )?>' size='4' name='pool_fee' />%</p>
-               
-               
-            <input type='hidden' value='1' name='<?=$calculation_form_data['symbol']?>_submitted' />
-               
-            <input type='hidden' value='<?=$calculation_form_data['symbol']?>' name='pow_calc' />
-           
-           <input type='submit' value='Calculate <?=strtoupper($calculation_form_data['symbol'])?> Mining Profit' />
-     
-           </form>
-           
-   
-   <?php
-     
    }
    
    
@@ -1185,7 +1185,7 @@ var $ocpt_array1 = array();
    
        // ETH ICOS (OVERWRITE W/ DIFF LOGIC)
        if ( $sel_exchange == 'ico_erc20_value' ) {
-       $coin_val_raw = get_sub_token_price($sel_exchange, $market_id);
+       $coin_val_raw = $this->static_erc20_price($sel_exchange, $market_id);
        }
        else {
         $coin_val_raw = $asset_market_data['last_trade'];
@@ -1194,13 +1194,13 @@ var $ocpt_array1 = array();
    
      $coin_val_total_raw = $ocpt_var->num_to_str($asset_amount * $coin_val_raw);
      
-     // SUPPORTED even for BTC ( pairing_btc_val('btc') ALWAYS = 1 ), 
+     // SUPPORTED even for BTC ( $this->pairing_btc_val('btc') ALWAYS = 1 ), 
      // since we use this var for secondary trade / holdings values logic further down
-     $pairing_btc_val = pairing_btc_val($sel_pairing); 
+     $pairing_btc_val = $this->pairing_btc_val($sel_pairing); 
         
         
       if ( $pairing_btc_val == null ) {
-      app_logging('market_error', 'pairing_btc_val(\''.$sel_pairing.'\') returned null in ocpt_asset->ui_coin_row(), likely from exchange API request failure');
+      app_logging('market_error', 'this->pairing_btc_val(\''.$sel_pairing.'\') returned null in ocpt_asset->ui_coin_row(), likely from exchange API request failure');
       }
      
      
@@ -1353,10 +1353,10 @@ var $ocpt_array1 = array();
      // OTHER PAIRINGS CONVERTED TO PRIMARY CURRENCY CONFIG (EQUIV) CHARTS
      else {
        
-     $pairing_btc_val = pairing_btc_val($pairing); 
+     $pairing_btc_val = $this->pairing_btc_val($pairing); 
      
        if ( $pairing_btc_val == null ) {
-       app_logging('market_error', 'pairing_btc_val() returned null in ocpt_asset->charts_price_alerts()', 'pairing: ' . $pairing);
+       app_logging('market_error', 'this->pairing_btc_val() returned null in ocpt_asset->charts_price_alerts()', 'pairing: ' . $pairing);
        }
      
      $asset_prim_curr_val_raw = number_format( $default_btc_prim_curr_val * ( $asset_market_data['last_trade'] * $pairing_btc_val ) , 8, '.', '');
@@ -1467,18 +1467,18 @@ var $ocpt_array1 = array();
        }
        
        
-       // Lite charts (update time dynamically determined in update_lite_chart() logic)
+       // Lite charts (update time dynamically determined in $ocpt_cache->update_lite_chart() logic)
        // Wait 0.05 seconds before updating lite charts (which reads archival data)
        usleep(50000); // Wait 0.05 seconds
        
        foreach ( $ocpt_conf['power']['lite_chart_day_intervals'] as $light_chart_days ) {
          
        // Primary currency lite charts
-       update_lite_chart($prim_curr_chart_path, $prim_curr_chart_data, $light_chart_days); // WITHOUT newline (var passing)
+       $ocpt_cache->update_lite_chart($prim_curr_chart_path, $prim_curr_chart_data, $light_chart_days); // WITHOUT newline (var passing)
            
          // Crypto / secondary currency pairing lite charts
          if ( $pairing != strtolower($default_btc_prim_curr_pairing) ) {
-         update_lite_chart($crypto_secondary_curr_chart_path, $crypto_secondary_curr_chart_data, $light_chart_days); // WITHOUT newline (var passing)
+         $ocpt_cache->update_lite_chart($crypto_secondary_curr_chart_path, $crypto_secondary_curr_chart_data, $light_chart_days); // WITHOUT newline (var passing)
          }
        
        }

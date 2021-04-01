@@ -57,7 +57,7 @@ $mode = $value[2];
 if ( $ocpt_conf['comms']['proxy_alert'] != 'off' ) {
 	
 	foreach ( $proxy_checkup as $problem_proxy ) {
-	test_proxy($problem_proxy);
+	$ocpt_gen->test_proxy($problem_proxy);
 	sleep(1);
 	}
 
@@ -65,7 +65,7 @@ if ( $ocpt_conf['comms']['proxy_alert'] != 'off' ) {
 
 
 
-// Queue notifications if there were any price alert resets, BEFORE send_notifications() runs
+// Queue notifications if there were any price alert resets, BEFORE $ocpt_cache->send_notifications() runs
 reset_price_alert_notice();
 
 
@@ -163,12 +163,12 @@ $system_stats_data = $now . $chart_data_set;
 
 $ocpt_cache->save_file($system_stats_path, $system_stats_data . "\n", "append", false); // WITH newline (UNLOCKED file write)
     		
-// Lite charts (update time dynamically determined in update_lite_chart() logic)
+// Lite charts (update time dynamically determined in $ocpt_cache->update_lite_chart() logic)
 // Try to assure file locking from archival chart updating has been released, wait 0.12 seconds before updating lite charts
 usleep(120000); // Wait 0.12 seconds
 		
 	foreach ( $ocpt_conf['power']['lite_chart_day_intervals'] as $light_chart_days ) {
-	update_lite_chart($system_stats_path, $system_stats_data, $light_chart_days); // WITHOUT newline (var passing)
+	$ocpt_cache->update_lite_chart($system_stats_path, $system_stats_data, $light_chart_days); // WITHOUT newline (var passing)
 	}
 		
 }
@@ -202,7 +202,7 @@ app_logging('system_debugging', strtoupper($runtime_mode).' runtime was ' . $tot
 // RUN BEFORE any activated plugins (in case a custom plugin crashes)
 error_logs();
 debugging_logs();
-send_notifications();
+$ocpt_cache->send_notifications();
 
 
 // If any plugins are activated, RESET $logs_array for plugin logging, SO WE DON'T GET DUPLICATE LOGGING
@@ -244,7 +244,7 @@ foreach ( $activated_plugins['cron'] as $plugin_key => $plugin_val ) {
 if ( sizeof($activated_plugins['cron']) > 0 ) {
 error_logs();
 debugging_logs();
-send_notifications();
+$ocpt_cache->send_notifications();
 }
 
 

@@ -422,13 +422,13 @@ if ( $_POST['submit_check'] == 1 || !$csv_import_fail && $_POST['csv_check'] == 
 // Get portfolio summaries
 
 
-$total_btc_worth_raw = number_format(bitcoin_total(), 8, '.', '');
+$total_btc_worth_raw = number_format($ocpt_asset->bitcoin_total(), 8, '.', '');
 
 // FOR UX-SAKE, WE CUT OFF EXTRA RIGHT SIDE ZERO DECIMALS IF VALUE IS AT LEAST A SATOSHI OR HIGHER (O.00000001),
 // #BUT# IF VALUE IS LITERALLY ZERO (WATCH-ONLY, ETC), WE WANT TO SHOW THAT #CLEARLY# TO THE END USER WITH 0.00000000
 $total_btc_worth = ( $total_btc_worth_raw >= 0.00000001 ? $ocpt_var->num_pretty($total_btc_worth_raw, 8) : '0.00000000' );
 
-$total_prim_curr_worth = coin_stats_data('coin_worth_total');
+$total_prim_curr_worth = $ocpt_asset->coin_stats_data('coin_worth_total');
 
 $bitcoin_dominance = $ocpt_var->num_to_str( ( $btc_worth_array['BTC'] / $total_btc_worth_raw ) * 100 );
 
@@ -452,13 +452,13 @@ $altcoin_dominance = $ocpt_var->max_100($altcoin_dominance);
 		// Run BEFORE output of BTC / PAIRING portfolio values, to include any margin / leverage summaries in parentheses NEXT TO THEM (NOT in the actual BTC / PAIRING amounts, for UX's sake)
 		if ( $purchase_price_added == 1 ) {
 			
-		$gain_loss_total = coin_stats_data('gain_loss_total');
+		$gain_loss_total = $ocpt_asset->coin_stats_data('gain_loss_total');
 		
 		$parsed_gain_loss_total = preg_replace("/-/", "-" . $ocpt_conf['power']['btc_curr_markets'][$ocpt_conf['gen']['btc_prim_curr_pairing']], number_format( $gain_loss_total, 2, '.', ',' ) );
 		
-		$original_worth = coin_stats_data('coin_paid_total');
+		$original_worth = $ocpt_asset->coin_stats_data('coin_paid_total');
 		
-		$leverage_only_gain_loss = coin_stats_data('gain_loss_only_leverage');
+		$leverage_only_gain_loss = $ocpt_asset->coin_stats_data('gain_loss_only_leverage');
   		
 		$total_prim_curr_worth_inc_leverage = $total_prim_curr_worth + $leverage_only_gain_loss;
 		
@@ -467,7 +467,7 @@ $altcoin_dominance = $ocpt_var->max_100($altcoin_dominance);
   		// (plus sign would indicate a gain, NOT 'total worth')
 		$parsed_total_prim_curr_worth_inc_leverage = preg_replace("/-/", "", number_format( $total_prim_curr_worth_inc_leverage, 2, '.', ',' ) );
   		
-		$total_prim_curr_worth_if_purchase_price = coin_stats_data('coin_total_worth_if_purchase_price') + $leverage_only_gain_loss;
+		$total_prim_curr_worth_if_purchase_price = $ocpt_asset->coin_stats_data('coin_total_worth_if_purchase_price') + $leverage_only_gain_loss;
 		
 		$gain_loss_text = ( $gain_loss_total >= 0 ? 'gains' : 'losses' );
 		
@@ -506,7 +506,7 @@ $altcoin_dominance = $ocpt_var->max_100($altcoin_dominance);
 							echo '<span class="'.$key.'" title="'.strtoupper($key).'">'.$value.' ' . $total_btc_worth . '</span>';
 							}
 							else {
-							echo '<span class="'.$key.'" title="'.strtoupper($key).'">'.$value.' ' . number_format( ( $total_btc_worth_raw / pairing_btc_val($key) ) , 4) . '</span>';
+							echo '<span class="'.$key.'" title="'.strtoupper($key).'">'.$value.' ' . number_format( ( $total_btc_worth_raw / $ocpt_asset->pairing_btc_val($key) ) , 4) . '</span>';
 							}
 				
 						$loop = $loop + 1;

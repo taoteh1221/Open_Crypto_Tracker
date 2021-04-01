@@ -28,7 +28,7 @@ include('app-lib/php/other/calculators/mining/pow/earned-daily.php');
 			
 				
 // Render mining calc HTML form, with network measure name parameter
-mining_calc_form($pow_coin_data, $pow_coin_data['measure_semantic']); 
+$ocpt_asset->mining_calc_form($pow_coin_data, $pow_coin_data['measure_semantic']); 
 				
 				
 ?>

@@ -325,7 +325,7 @@ $remote_ip = ( isset($_SERVER['REMOTE_ADDR']) ? $_SERVER['REMOTE_ADDR'] : 'local
 
 
 // Get system info for debugging / stats
-$system_info = system_info(); // MUST RUN AFTER SETTING $base_dir
+$system_info = $ocpt_gen->system_info(); // MUST RUN AFTER SETTING $base_dir
 
 
 // If upgrade check enabled / cached var set, set the runtime var for any configured alerts

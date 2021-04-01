@@ -47,14 +47,14 @@ if ( $_POST['hive_submitted'] ) {
 
 <?php
 
-hivepower_time('day');
-hivepower_time('week');
-hivepower_time('month');
-hivepower_time('2month');
-hivepower_time('3month');
-hivepower_time('6month');
-hivepower_time('9month');
-hivepower_time('12month');
+$ocpt_asset->hivepower_time('day');
+$ocpt_asset->hivepower_time('week');
+$ocpt_asset->hivepower_time('month');
+$ocpt_asset->hivepower_time('2month');
+$ocpt_asset->hivepower_time('3month');
+$ocpt_asset->hivepower_time('6month');
+$ocpt_asset->hivepower_time('9month');
+$ocpt_asset->hivepower_time('12month');
 
 
 }

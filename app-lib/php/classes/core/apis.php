@@ -564,7 +564,7 @@ var $ocpt_array1 = array();
    function market($asset_symbol, $chosen_exchange, $market_id, $pairing=false) { 
    
    
-   global $ocpt_conf, $ocpt_var, $ocpt_cache, $sel_btc_prim_curr_val, $defipulse_api_limit;
+   global $ocpt_conf, $ocpt_var, $ocpt_cache, $ocpt_asset, $sel_btc_prim_curr_val, $defipulse_api_limit;
      
     
     
@@ -1333,7 +1333,7 @@ var $ocpt_array1 = array();
         
         $pool_data = $market_data[1];
         
-        $defi_pools_info = defi_pools_info($pairing_data, $pool_data);
+        $defi_pools_info = $ocpt_asset->defi_pools_info($pairing_data, $pool_data);
           
           
           if ( $defipulse_api_limit == true ) {
@@ -2298,10 +2298,10 @@ var $ocpt_array1 = array();
          // All other pairing
         else {
         
-        $pairing_btc_val = pairing_btc_val($market_id);
+        $pairing_btc_val = $ocpt_asset->pairing_btc_val($market_id);
       
           if ( $pairing_btc_val == null ) {
-          app_logging('market_error', 'pairing_btc_val() returned null', 'market_id: ' . $market_id);
+          app_logging('market_error', 'ocpt_asset->pairing_btc_val() returned null', 'market_id: ' . $market_id);
           }
       
          $result = array(
@@ -2339,18 +2339,18 @@ var $ocpt_array1 = array();
           $fiat_eqiv = 1;
           }
         
-        $pairing_btc_val = pairing_btc_val($pairing);
-        $usd_btc_val = pairing_btc_val('usd');
+        $pairing_btc_val = $ocpt_asset->pairing_btc_val($pairing);
+        $usd_btc_val = $ocpt_asset->pairing_btc_val('usd');
         
         $vol_in_btc = $result['24hr_usd_vol'] * $usd_btc_val;
         $vol_in_pairing = round( ($vol_in_btc / $pairing_btc_val) , ( $fiat_eqiv == 1 ? 0 : $ocpt_conf['power']['chart_crypto_vol_dec'] ) );
         
         $result['24hr_pairing_vol'] = $ocpt_var->num_to_str($vol_in_pairing);
-        $result['24hr_prim_curr_vol'] = $ocpt_var->num_to_str( prim_curr_trade_vol('BTC', 'usd', 1, $result['24hr_usd_vol']) );
+        $result['24hr_prim_curr_vol'] = $ocpt_var->num_to_str( $ocpt_asset->prim_curr_trade_vol('BTC', 'usd', 1, $result['24hr_usd_vol']) );
         
         }
         else {
-        $result['24hr_prim_curr_vol'] = $ocpt_var->num_to_str( prim_curr_trade_vol($asset_symbol, $pairing, $result['last_trade'], $result['24hr_pairing_vol']) );
+        $result['24hr_prim_curr_vol'] = $ocpt_var->num_to_str( $ocpt_asset->prim_curr_trade_vol($asset_symbol, $pairing, $result['last_trade'], $result['24hr_pairing_vol']) );
         }
         
       

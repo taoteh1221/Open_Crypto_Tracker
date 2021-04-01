@@ -654,7 +654,7 @@
 							
 									$html_market_list[$pairing_key] .= "\n<option value='".$loop2."'" . ( 
 									isset($coin_market_id) && ($coin_market_id) == $loop2 
-									|| !isset($coin_market_id) && strtolower($coin_array_val['name']) == 'bitcoin' && $loop2 == btc_market($ocpt_conf['gen']['btc_prim_exchange']) ? ' selected ' : '' ) . ">" . $ocpt_gen->snake_case_to_name($market_key) . " </option>\n";
+									|| !isset($coin_market_id) && strtolower($coin_array_val['name']) == 'bitcoin' && $loop2 == $ocpt_asset->btc_market($ocpt_conf['gen']['btc_prim_exchange']) ? ' selected ' : '' ) . ">" . $ocpt_gen->snake_case_to_name($market_key) . " </option>\n";
 								
 									}
 									$loop2 = NULL;
@@ -674,7 +674,7 @@
 				     echo $coin_market_id;
 				     }
 				     elseif ( !isset($coin_market_id) && strtolower($coin_array_val['name']) == 'bitcoin' ) {
-				     echo btc_market($ocpt_conf['gen']['btc_prim_exchange']);
+				     echo $ocpt_asset->btc_market($ocpt_conf['gen']['btc_prim_exchange']);
 				     }
 				     else {
 						echo '1';
