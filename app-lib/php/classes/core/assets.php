@@ -1663,7 +1663,7 @@ var $ocpt_array1 = array();
                  
                  
                  // Sending the alerts
-                 if ( update_cache('cache/alerts/'.$asset_data.'.dat', ( $ocpt_conf['comms']['price_alert_freq_max'] * 60 ) ) == true && $send_alert == 1 ) {
+                 if ( $ocpt_cache->update_cache('cache/alerts/'.$asset_data.'.dat', ( $ocpt_conf['comms']['price_alert_freq_max'] * 60 ) ) == true && $send_alert == 1 ) {
                  
                                
                  // Message formatting for display to end user
@@ -1803,7 +1803,7 @@ var $ocpt_array1 = array();
        $ocpt_cache->save_file($base_dir . '/cache/alerts/'.$asset_data.'.dat', $alert_cache_contents); 
        }
        elseif ( $send_alert != 1 && $ocpt_conf['charts_alerts']['price_alert_fixed_reset'] >= 1 && $ocpt_var->num_to_str($asset_prim_curr_val_raw) >= 0.00000001 
-       && update_cache('cache/alerts/'.$asset_data.'.dat', ( $ocpt_conf['charts_alerts']['price_alert_fixed_reset'] * 1440 ) ) == true ) {
+       && $ocpt_cache->update_cache('cache/alerts/'.$asset_data.'.dat', ( $ocpt_conf['charts_alerts']['price_alert_fixed_reset'] * 1440 ) ) == true ) {
          
        $ocpt_cache->save_file($base_dir . '/cache/alerts/'.$asset_data.'.dat', $alert_cache_contents); 
        

@@ -81,8 +81,8 @@ echo json_encode($result, JSON_PRETTY_PRINT);
 
 
 // Log errors / debugging, send notifications
-error_logs();
-debugging_logs();
+$ocpt_cache->error_logs();
+$ocpt_cache->debugging_logs();
 $ocpt_cache->send_notifications();
 
 flush(); // Clean memory output buffer for echo

@@ -21,7 +21,7 @@ var $ocpt_array1 = array();
   
   function remove_dir($dir) { 
     foreach(glob($dir . '/*') as $file) {
-      if(is_dir($file)) remove_dir($file); else unlink($file); 
+      if(is_dir($file)) $this->remove_dir($file); else unlink($file); 
     }
     rmdir($dir);
   }
@@ -165,7 +165,7 @@ var $ocpt_array1 = array();
       
        if ( $password_set == true ) {
        
-       $htaccess_contents = htaccess_dir_defaults() . 
+       $htaccess_contents = $this->htaccess_dir_defaults() . 
     preg_replace("/\[BASE_DIR\]/i", $base_dir, file_get_contents($base_dir . '/templates/back-end/enable-password-htaccess.template') );
       
        $htaccess_set = $this->save_file($base_dir . '/.htaccess', $htaccess_contents);
@@ -193,7 +193,7 @@ var $ocpt_array1 = array();
     * @author Torleif Berger, Lorenzo Stanco
     * @link http://stackoverflow.com/a/15025877/995958
     * @license http://creativecommons.org/licenses/by/3.0/
-    Usage: $last_line = tail_custom($file_path);
+    Usage: $last_line = $ocpt_cache->tail_custom($file_path);
   */
   
   function tail_custom($filepath, $lines = 1, $adaptive = true) {
@@ -266,7 +266,7 @@ var $ocpt_array1 = array();
   global $ocpt_conf, $ocpt_gen, $base_dir, $base_url;
   
   
-   if ( update_cache('cache/events/backup-'.$backup_prefix.'.dat', ( $interval * 1440 ) ) == true ) {
+   if ( $this->update_cache('cache/events/backup-'.$backup_prefix.'.dat', ( $interval * 1440 ) ) == true ) {
   
    $secure_128bit_hash = random_hash(16); // 128-bit (16-byte) hash converted to hexadecimal, used for suffix
    
@@ -437,7 +437,7 @@ var $ocpt_array1 = array();
   
   
    // If it's time to email debugging logs...
-   if ( $ocpt_conf['power']['logs_email'] > 0 && update_cache('cache/events/email-debugging-logs.dat', ( $ocpt_conf['power']['logs_email'] * 1440 ) ) == true ) {
+   if ( $ocpt_conf['power']['logs_email'] > 0 && $this->update_cache('cache/events/email-debugging-logs.dat', ( $ocpt_conf['power']['logs_email'] * 1440 ) ) == true ) {
     
    $emailed_logs = "\n\n ------------------debugging.log------------------ \n\n" . file_get_contents('cache/logs/debugging.log') . "\n\n ------------------smtp_debugging.log------------------ \n\n" . file_get_contents('cache/logs/smtp_debugging.log');
     
@@ -460,7 +460,7 @@ var $ocpt_array1 = array();
    
    
 	// Log debugging...Purge old logs before storing new logs, if it's time to...otherwise just append.
-	if ( update_cache('cache/events/purge-debugging-logs.dat', ( $ocpt_conf['power']['logs_purge'] * 1440 ) ) == true ) {
+	if ( $this->update_cache('cache/events/purge-debugging-logs.dat', ( $ocpt_conf['power']['logs_purge'] * 1440 ) ) == true ) {
 	
 	unlink($base_dir . '/cache/logs/smtp_debugging.log');
 	unlink($base_dir . '/cache/logs/debugging.log');
@@ -526,7 +526,7 @@ var $ocpt_array1 = array();
   
   
    // If it's time to email error logs...
-   if ( $ocpt_conf['power']['logs_email'] > 0 && update_cache('cache/events/email-error-logs.dat', ( $ocpt_conf['power']['logs_email'] * 1440 ) ) == true ) {
+   if ( $ocpt_conf['power']['logs_email'] > 0 && $this->update_cache('cache/events/email-error-logs.dat', ( $ocpt_conf['power']['logs_email'] * 1440 ) ) == true ) {
     
    $emailed_logs = "\n\n ------------------errors.log------------------ \n\n" . file_get_contents('cache/logs/errors.log') . "\n\n ------------------smtp_errors.log------------------ \n\n" . file_get_contents('cache/logs/smtp_errors.log');
     
@@ -549,7 +549,7 @@ var $ocpt_array1 = array();
    
    
 	// Log errors...Purge old logs before storing new logs, if it's time to...otherwise just append.
-	if ( update_cache('cache/events/purge-error-logs.dat', ( $ocpt_conf['power']['logs_purge'] * 1440 ) ) == true ) {
+	if ( $this->update_cache('cache/events/purge-error-logs.dat', ( $ocpt_conf['power']['logs_purge'] * 1440 ) ) == true ) {
 	
 	unlink($base_dir . '/cache/logs/smtp_errors.log');
 	unlink($base_dir . '/cache/logs/errors.log');
@@ -720,7 +720,7 @@ var $ocpt_array1 = array();
   
    // Get LAST line of lite chart data (determines newest lite timestamp)
    if ( file_exists($lite_path) ) {
-   $last_lite_line = tail_custom($lite_path);
+   $last_lite_line = $this->tail_custom($lite_path);
    $last_lite_array = explode("||", $last_lite_line);
    $newest_lite_timestamp = ( isset($last_lite_array[0]) ? $ocpt_var->num_to_str($last_lite_array[0]) : false );
    }
@@ -731,7 +731,7 @@ var $ocpt_array1 = array();
   
   // Get LAST line of archival chart data (we save SIGNIFICANTLY on runtime / resource usage, if this var is passed into this function already)
   // (determines newest archival timestamp)
-  $last_archival_line = ( $newest_archival_data != false ? $newest_archival_data : tail_custom($archive_path) );
+  $last_archival_line = ( $newest_archival_data != false ? $newest_archival_data : $this->tail_custom($archive_path) );
   $last_archival_array = explode("||", $last_archival_line);
   $newest_archival_timestamp = $ocpt_var->num_to_str($last_archival_array[0]);
      
@@ -803,7 +803,7 @@ var $ocpt_array1 = array();
       // If multiple lite chart data points missing (from any very rare FALLBACK instances, like network / load / disk / runtime issues, etc)
        else {
        
-      $tail_archival_lines = tail_custom($archive_path, 20); // Grab last 20 lines, to be safe
+      $tail_archival_lines = $this->tail_custom($archive_path, 20); // Grab last 20 lines, to be safe
       $tail_archival_lines_array = explode("\n", $tail_archival_lines);
       // Remove all null / false / empty strings, and reindex
       $tail_archival_lines_array = array_values( array_filter( $tail_archival_lines_array, 'strlen' ) ); 
@@ -842,7 +842,7 @@ var $ocpt_array1 = array();
    // (we STILL check $queued_archival_lines for new data, to see if we should SKIP an 'all' charts full rebuild now)
    ////////////////////////////////////////////////////////////////////////////////////////////////
    elseif ( !$newest_lite_timestamp 
-   || $days_span == 'all' && sizeof($queued_archival_lines) > 0 && update_cache($base_dir . '/cache/events/lite_chart_rebuilds/all_days_chart_'.$lite_path_hash.'.dat', (60 * $all_chart_rebuild_threshold) ) == true ) {
+   || $days_span == 'all' && sizeof($queued_archival_lines) > 0 && $this->update_cache($base_dir . '/cache/events/lite_chart_rebuilds/all_days_chart_'.$lite_path_hash.'.dat', (60 * $all_chart_rebuild_threshold) ) == true ) {
   
    $archive_file_data = file($archive_path);
    $archive_file_data = array_reverse($archive_file_data); // Save time, only loop / read last lines needed
@@ -995,13 +995,13 @@ var $ocpt_array1 = array();
     // and no session count is set, set session count to zero
     // Don't update the file-cached count here, that will happen automatically from resetting the session count to zero 
     // (if there are notifyme messages queued to send)
-    if ( !isset($processed_messages['notifyme_count']) && update_cache($base_dir . '/cache/events/throttling/notifyme-alerts-sent.dat', 6) == true ) {
+    if ( !isset($processed_messages['notifyme_count']) && $this->update_cache($base_dir . '/cache/events/throttling/notifyme-alerts-sent.dat', 6) == true ) {
     $processed_messages['notifyme_count'] = 0;
     }
     // If it hasn't been well over 5 minutes since the last notifyme send
     // (we use 6 minutes, safely over the 5 minute limit for the maximum 5 requests), and there is no session count, 
     // use the file-cached count for the session count starting point
-    elseif ( !isset($processed_messages['notifyme_count']) && update_cache($base_dir . '/cache/events/throttling/notifyme-alerts-sent.dat', 6) == false ) {
+    elseif ( !isset($processed_messages['notifyme_count']) && $this->update_cache($base_dir . '/cache/events/throttling/notifyme-alerts-sent.dat', 6) == false ) {
     $processed_messages['notifyme_count'] = trim( file_get_contents($base_dir . '/cache/events/throttling/notifyme-alerts-sent.dat') );
     }
     
@@ -1467,7 +1467,7 @@ var $ocpt_array1 = array();
    // Live data retrieval (if no runtime cache exists yet)
    //////////////////////////////////////////////////////////////////////
    //////////////////////////////////////////////////////////////////////
-   elseif ( !isset($api_runtime_cache[$hash_check]) && update_cache($base_dir . '/cache/secured/external_api/'.$hash_check.'.dat', $ttl) == true || $ttl == 0 ) {
+   elseif ( !isset($api_runtime_cache[$hash_check]) && $this->update_cache($base_dir . '/cache/secured/external_api/'.$hash_check.'.dat', $ttl) == true || $ttl == 0 ) {
    
    // Time the request
    $api_time = microtime();

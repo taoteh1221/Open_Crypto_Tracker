@@ -200,8 +200,8 @@ app_logging('system_debugging', strtoupper($runtime_mode).' runtime was ' . $tot
 
 // Log errors / debugging, send notifications
 // RUN BEFORE any activated plugins (in case a custom plugin crashes)
-error_logs();
-debugging_logs();
+$ocpt_cache->error_logs();
+$ocpt_cache->debugging_logs();
 $ocpt_cache->send_notifications();
 
 
@@ -242,8 +242,8 @@ foreach ( $activated_plugins['cron'] as $plugin_key => $plugin_val ) {
 // Log errors / debugging, send notifications
 // (IF ANY PLUGINS ARE ACTIVATED, RAN AGAIN SEPERATELY FOR PLUGIN LOGGING / ALERTS ONLY)
 if ( sizeof($activated_plugins['cron']) > 0 ) {
-error_logs();
-debugging_logs();
+$ocpt_cache->error_logs();
+$ocpt_cache->debugging_logs();
 $ocpt_cache->send_notifications();
 }
 

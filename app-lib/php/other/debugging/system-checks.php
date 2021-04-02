@@ -133,7 +133,7 @@ if ( $runtime_mode != 'cron' ) {
 
 
 // Check htaccess security (checked once every 60 minutes maximum)
-if ( update_cache($base_dir . '/cache/events/scan-htaccess-security.dat', 60) == true ) {
+if ( $ocpt_cache->update_cache($base_dir . '/cache/events/scan-htaccess-security.dat', 60) == true ) {
 	
 	
 	// Only run the check if the base url is set (runs every ~10 minutes, so we'll be checking again anyway, and it should set AFTER first UI run)
@@ -177,7 +177,7 @@ $system_error = 'Server / app setup requirements not met (SEE LOGGED SETUP DEFIC
 app_logging('system_error', $system_error);
 echo $system_error;
 // Log errors before exiting
-error_logs();
+$ocpt_cache->error_logs();
 exit;
 }
 

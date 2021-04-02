@@ -174,7 +174,7 @@ $sorted_by_asc_desc = $sort_settings[1];
 	// Sanitizing $theme_selected is very important, as we are calling external files with the value
 	if ( $theme_selected != 'light' && $theme_selected != 'dark' ) {
 	app_logging('security_error', 'Injected theme path value attack', 'Requested theme value: "' . $theme_selected . '";');
-	error_logs();
+	$ocpt_cache->error_logs();
 	exit;
 	}
 	

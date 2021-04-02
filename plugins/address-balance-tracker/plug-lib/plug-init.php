@@ -16,7 +16,7 @@ $balance_tracking_cache_file = $ocpt_plug->var_cache($target_key . '.dat');
 
 
 	// If it's too early to re-send an alert again, skip this entry
-	if ( update_cache($balance_tracking_cache_file, $plug_conf[$this_plug]['alerts_freq_max']) == false ) {
+	if ( $ocpt_cache->update_cache($balance_tracking_cache_file, $plug_conf[$this_plug]['alerts_freq_max']) == false ) {
 	continue;
 	}
 

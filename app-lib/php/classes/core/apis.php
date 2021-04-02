@@ -72,7 +72,7 @@ var $ocpt_array1 = array();
          
          $url = 'https://api.coingecko.com/api/v3/coins/markets?per_page=' . $ocpt_conf['dev']['coingecko_api_batched_max'] . '&page=' . ($loop + 1) . '&vs_currency=' . $coingecko_prim_curr . '&price_change_percentage=1h,24h,7d,14d,30d,200d,1y';
             
-            if ( $loop > 0 && update_cache($base_dir . '/cache/secured/external_api/' . md5($url) . '.dat', $ocpt_conf['power']['mcap_cache_time']) == true ) {
+            if ( $loop > 0 && $ocpt_cache->update_cache($base_dir . '/cache/secured/external_api/' . md5($url) . '.dat', $ocpt_conf['power']['mcap_cache_time']) == true ) {
             usleep(150000); // Wait 0.15 seconds between consecutive calls, to avoid being blocked / throttled by external server
             }
          
@@ -199,7 +199,7 @@ var $ocpt_array1 = array();
          else {
             
             // Non-dynamic cache file name, because filename would change every recache and create cache bloat
-            if ( update_cache('cache/secured/external_api/eth-stats.dat', $ocpt_conf['power']['chainstats_cache_time'] ) == true ) {
+            if ( $ocpt_cache->update_cache('cache/secured/external_api/eth-stats.dat', $ocpt_conf['power']['chainstats_cache_time'] ) == true ) {
             
             $endpnt_url = 'https://api.etherscan.io/api?module=proxy&action=eth_getBlockByNumber&tag='.$block_number.'&boolean=true&apikey=' . $ocpt_conf['gen']['etherscan_key'];
             $jsondata = @$ocpt_cache->ext_data('url', $endpnt_url, 0); // ZERO TO NOT CACHE DATA (WOULD CREATE CACHE BLOAT)
@@ -334,7 +334,7 @@ var $ocpt_array1 = array();
                                     
          
       // If we will be updating the feed
-      if ( update_cache($base_dir . '/cache/secured/external_api/' . md5($url) . '.dat', $rss_feed_cache_time) == true ) {
+      if ( $ocpt_cache->update_cache($base_dir . '/cache/secured/external_api/' . md5($url) . '.dat', $rss_feed_cache_time) == true ) {
       
       
       $_SESSION[$fetched_feeds]['all'] = $_SESSION[$fetched_feeds]['all'] + 1; // Mark as a fetched feed, since it's going to update

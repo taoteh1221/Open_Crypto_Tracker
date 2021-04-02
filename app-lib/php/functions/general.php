@@ -584,6 +584,37 @@ global $password_pepper;
 ////////////////////////////////////////////////////////
 
 
+function delete_all_cookies() {
+  
+  // Portfolio
+  unset($_COOKIE['coin_amounts']); 
+  unset($_COOKIE['coin_pairings']); 
+  unset($_COOKIE['coin_markets']); 
+  unset($_COOKIE['coin_paid']); 
+  unset($_COOKIE['coin_leverage']); 
+  unset($_COOKIE['coin_margintype']); 
+  
+  
+  // Settings
+  unset($_COOKIE['coin_reload']);  
+  unset($_COOKIE['notes']);
+  unset($_COOKIE['show_charts']);  
+  unset($_COOKIE['show_crypto_val']);  
+  unset($_COOKIE['show_secondary_trade_val']);  
+  unset($_COOKIE['show_feeds']);  
+  unset($_COOKIE['theme_selected']);  
+  unset($_COOKIE['sort_by']);  
+  unset($_COOKIE['alert_percent']);  
+  unset($_COOKIE['prim_curr_market_standalone']);  
+ 
+ 
+}
+
+
+////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////
+
+
 function obfuscated_path_data($path) {
 	
 global $ocpt_conf, $ocpt_var;
@@ -1352,37 +1383,6 @@ $result['data'] = implode("", $file); // WITHOUT newline delimiting, since file(
 
 return $result;
 
-}
-
-
-////////////////////////////////////////////////////////
-////////////////////////////////////////////////////////
-
-
-function delete_all_cookies() {
-  
-  // Portfolio
-  unset($_COOKIE['coin_amounts']); 
-  unset($_COOKIE['coin_pairings']); 
-  unset($_COOKIE['coin_markets']); 
-  unset($_COOKIE['coin_paid']); 
-  unset($_COOKIE['coin_leverage']); 
-  unset($_COOKIE['coin_margintype']); 
-  
-  
-  // Settings
-  unset($_COOKIE['coin_reload']);  
-  unset($_COOKIE['notes']);
-  unset($_COOKIE['show_charts']);  
-  unset($_COOKIE['show_crypto_val']);  
-  unset($_COOKIE['show_secondary_trade_val']);  
-  unset($_COOKIE['show_feeds']);  
-  unset($_COOKIE['theme_selected']);  
-  unset($_COOKIE['sort_by']);  
-  unset($_COOKIE['alert_percent']);  
-  unset($_COOKIE['prim_curr_market_standalone']);  
- 
- 
 }
 
 

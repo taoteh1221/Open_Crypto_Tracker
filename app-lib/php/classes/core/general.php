@@ -650,6 +650,38 @@ var $ocpt_array1 = array();
    ////////////////////////////////////////////////////////
    
    
+   function delete_all_cookies() {
+   
+     
+     // Portfolio
+     unset($_COOKIE['coin_amounts']); 
+     unset($_COOKIE['coin_pairings']); 
+     unset($_COOKIE['coin_markets']); 
+     unset($_COOKIE['coin_paid']); 
+     unset($_COOKIE['coin_leverage']); 
+     unset($_COOKIE['coin_margintype']); 
+     
+     
+     // Settings
+     unset($_COOKIE['coin_reload']);  
+     unset($_COOKIE['notes']);
+     unset($_COOKIE['show_charts']);  
+     unset($_COOKIE['show_crypto_val']);  
+     unset($_COOKIE['show_secondary_trade_val']);  
+     unset($_COOKIE['show_feeds']);  
+     unset($_COOKIE['theme_selected']);  
+     unset($_COOKIE['sort_by']);  
+     unset($_COOKIE['alert_percent']);  
+     unset($_COOKIE['prim_curr_market_standalone']);  
+    
+    
+   }
+   
+   
+   ////////////////////////////////////////////////////////
+   ////////////////////////////////////////////////////////
+   
+   
    function obfuscated_path_data($path) {
       
    global $ocpt_conf, $ocpt_var;
@@ -707,38 +739,6 @@ var $ocpt_array1 = array();
    // Keep our color-coded logs in the admin UI pretty, remove '//' and put in parenthesis
    return '('.$url;
    
-   }
-   
-   
-   ////////////////////////////////////////////////////////
-   ////////////////////////////////////////////////////////
-   
-   
-   function delete_all_cookies() {
-   
-     
-     // Portfolio
-     unset($_COOKIE['coin_amounts']); 
-     unset($_COOKIE['coin_pairings']); 
-     unset($_COOKIE['coin_markets']); 
-     unset($_COOKIE['coin_paid']); 
-     unset($_COOKIE['coin_leverage']); 
-     unset($_COOKIE['coin_margintype']); 
-     
-     
-     // Settings
-     unset($_COOKIE['coin_reload']);  
-     unset($_COOKIE['notes']);
-     unset($_COOKIE['show_charts']);  
-     unset($_COOKIE['show_crypto_val']);  
-     unset($_COOKIE['show_secondary_trade_val']);  
-     unset($_COOKIE['show_feeds']);  
-     unset($_COOKIE['theme_selected']);  
-     unset($_COOKIE['sort_by']);  
-     unset($_COOKIE['alert_percent']);  
-     unset($_COOKIE['prim_curr_market_standalone']);  
-    
-    
    }
    
    
@@ -915,46 +915,6 @@ var $ocpt_array1 = array();
            
      
        return $random_str;
-   }
-   
-   
-   ////////////////////////////////////////////////////////
-   ////////////////////////////////////////////////////////
-   
-   
-   function time_dec_hours($var, $mode) {
-   	
-   global $ocpt_var;
-   
-   
-   	if ( $mode == 'to' ) {
-   	
-   	$hours_minutes = explode(':', $var);
-   
-   	$hours = $hours_minutes[0];
-   
-   	$minutes = $hours_minutes[1];
-   
-  		return $ocpt_var->num_to_str( $hours + round( ($minutes / 60) , 2 ) );
-   	
-   	}
-   	else if ( $mode == 'from' ) {
-   
-   	$var = abs($var);
-   	
-   	$dec = explode('.', $ocpt_var->num_to_str($var) );
-   
-   	$hours = ( strlen($dec[0]) < 2 ? '0' . $dec[0] : $dec[0] );
-   
-   	$minutes = round( ('0.' . $dec[1]) * 60);
-   	
-   	$minutes = ( strlen($minutes) < 2 ? '0' . $minutes : $minutes );
-   
-  		return $hours . ':' . $minutes;
-   	
-   	}
-   	
-   
    }
        
    
@@ -2674,7 +2634,7 @@ var $ocpt_array1 = array();
   
   function test_proxy($problem_proxy_array) {
   
-  global $base_dir, $ocpt_conf, $runtime_mode, $proxies_checked;
+  global $base_dir, $ocpt_conf, $ocpt_cache, $runtime_mode, $proxies_checked;
   
   
   // Endpoint to test proxy connectivity: https://www.myip.com/api-docs/
@@ -2716,7 +2676,7 @@ var $ocpt_array1 = array();
    $run_alerts = null;
    }
   
-   if ( $run_alerts == 1 && update_cache('cache/alerts/proxy-check-'.$cache_filename.'.dat', ( $ocpt_conf['comms']['proxy_alert_freq_max'] * 60 ) ) == true
+   if ( $run_alerts == 1 && $ocpt_cache->update_cache('cache/alerts/proxy-check-'.$cache_filename.'.dat', ( $ocpt_conf['comms']['proxy_alert_freq_max'] * 60 ) ) == true
    && in_array($cache_filename, $proxies_checked) == false ) {
    
     

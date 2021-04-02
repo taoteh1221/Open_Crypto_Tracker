@@ -61,8 +61,8 @@ if ($fd = fopen ($fullPath, "r")) {
 
 
 // Log errors / debugging, send notifications
-error_logs();
-debugging_logs();
+$ocpt_cache->error_logs();
+$ocpt_cache->debugging_logs();
 $ocpt_cache->send_notifications();
 
 fclose ($fd);

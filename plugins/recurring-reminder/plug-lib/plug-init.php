@@ -28,7 +28,7 @@ $in_minutes_offset = ( $in_minutes >= 20 ? ($in_minutes - 1) : $in_minutes );
 
 	
 	// If it's time to send a reminder...
-	if ( update_cache( $ocpt_plug->event_cache('alert-' . $key . '.dat') , $in_minutes_offset ) == true ) {
+	if ( $ocpt_cache->update_cache( $ocpt_plug->event_cache('alert-' . $key . '.dat') , $in_minutes_offset ) == true ) {
 		
 		
 		// If 'do not disturb' enabled
@@ -38,18 +38,18 @@ $in_minutes_offset = ( $in_minutes >= 20 ? ($in_minutes - 1) : $in_minutes );
 		$offset_date = $ocpt_gen->time_date_format($ocpt_conf['gen']['loc_time_offset'], 'standard_date');
 		
 		// Time of day in decimals (as hours) for dnd on/off config settings
-		$dnd_on_dec = $ocpt_gen->time_dec_hours($plug_conf[$this_plug]['do_not_dist']['on'], 'to');
-		$dnd_off_dec = $ocpt_gen->time_dec_hours($plug_conf[$this_plug]['do_not_dist']['off'], 'to');
+		$dnd_on_dec = $plug_class[$this_plug]->time_dec_hours($plug_conf[$this_plug]['do_not_dist']['on'], 'to');
+		$dnd_off_dec = $plug_class[$this_plug]->time_dec_hours($plug_conf[$this_plug]['do_not_dist']['off'], 'to');
 		
 			
 			// Time of day in hours:minutes for dnd on/off (IN UTC TIME), ADJUSTED FOR USER'S TIME ZONE OFFSET FROM APP CONFIG
 			if ( $ocpt_conf['gen']['loc_time_offset'] < 0 ) {
-			$offset_dnd_on = $ocpt_gen->time_dec_hours( ( $dnd_on_dec + abs($ocpt_conf['gen']['loc_time_offset']) ) , 'from');
-			$offset_dnd_off = $ocpt_gen->time_dec_hours( ( $dnd_off_dec + abs($ocpt_conf['gen']['loc_time_offset']) ) , 'from');
+			$offset_dnd_on = $plug_class[$this_plug]->time_dec_hours( ( $dnd_on_dec + abs($ocpt_conf['gen']['loc_time_offset']) ) , 'from');
+			$offset_dnd_off = $plug_class[$this_plug]->time_dec_hours( ( $dnd_off_dec + abs($ocpt_conf['gen']['loc_time_offset']) ) , 'from');
 			}
 			else {
-			$offset_dnd_on = $ocpt_gen->time_dec_hours( ( $dnd_on_dec - $ocpt_conf['gen']['loc_time_offset'] ) , 'from');
-			$offset_dnd_off = $ocpt_gen->time_dec_hours( ( $dnd_off_dec - $ocpt_conf['gen']['loc_time_offset'] ) , 'from');
+			$offset_dnd_on = $plug_class[$this_plug]->time_dec_hours( ( $dnd_on_dec - $ocpt_conf['gen']['loc_time_offset'] ) , 'from');
+			$offset_dnd_off = $plug_class[$this_plug]->time_dec_hours( ( $dnd_off_dec - $ocpt_conf['gen']['loc_time_offset'] ) , 'from');
 			}
 		
 		

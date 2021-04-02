@@ -248,7 +248,7 @@
           	
           	
 		// Log errors, send notifications BEFORE runtime stats
-		$error_logs = error_logs();
+		$error_logs = $ocpt_cache->error_logs();
 		$ocpt_cache->send_notifications();
 		
 		if ( $error_logs != true ) {
@@ -287,7 +287,7 @@
 		
 		
 		// Process debugging logs AFTER runtime stats
-		$debugging_logs = debugging_logs();
+		$debugging_logs = $ocpt_cache->debugging_logs();
     		
 		if ( $ocpt_conf['dev']['debug'] != 'off' && $debugging_logs != true ) {
 		?>

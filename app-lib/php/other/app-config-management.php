@@ -206,8 +206,8 @@ $cached_lite_chart_structure = trim( file_get_contents($base_dir . '/cache/vars/
 
 // Check if we need to rebuild lite charts from changes to their structure
 if ( $config_lite_chart_structure != $cached_lite_chart_structure ) {
-remove_dir($base_dir . '/cache/charts/spot_price_24hr_volume/lite');
-remove_dir($base_dir . '/cache/charts/system/lite');
+$ocpt_cache->remove_dir($base_dir . '/cache/charts/spot_price_24hr_volume/lite');
+$ocpt_cache->remove_dir($base_dir . '/cache/charts/system/lite');
 $ocpt_cache->save_file($base_dir . '/cache/vars/lite_chart_structure.dat', $config_lite_chart_structure);
 }
 

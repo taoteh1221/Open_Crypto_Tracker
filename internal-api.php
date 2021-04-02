@@ -19,7 +19,7 @@ $ip_access = trim( file_get_contents($base_dir . '/cache/events/throttling/local
 
 
 // Throttle ip addresses reconnecting before $ocpt_conf['dev']['local_api_rate_limit'] interval passes
-if ( update_cache($base_dir . '/cache/events/throttling/local_api_incoming_ip_' . $store_ip . '.dat', ($ocpt_conf['dev']['local_api_rate_limit'] / 60) ) == false ) {
+if ( $ocpt_cache->update_cache($base_dir . '/cache/events/throttling/local_api_incoming_ip_' . $store_ip . '.dat', ($ocpt_conf['dev']['local_api_rate_limit'] / 60) ) == false ) {
 
 $result = array('error' => "Rate limit (maximum of once every " . $ocpt_conf['dev']['local_api_rate_limit'] . " seconds) reached for ip address: " . $remote_ip);
 
@@ -56,7 +56,7 @@ $hash_check = md5($_GET['data_set']);
 
 
 	// If a cache exists for this request that's NOT OUTDATED, use cache to speed things up
-	if ( update_cache($base_dir . '/cache/internal-api/'.$hash_check.'.dat', $ocpt_conf['dev']['local_api_cache_time']) == false ) {
+	if ( $ocpt_cache->update_cache($base_dir . '/cache/internal-api/'.$hash_check.'.dat', $ocpt_conf['dev']['local_api_cache_time']) == false ) {
 		
 	$json_result = trim( file_get_contents($base_dir . '/cache/internal-api/'.$hash_check.'.dat') );
 
@@ -131,8 +131,8 @@ $hash_check = md5($_GET['data_set']);
 echo $json_result;
 
 // Log errors / debugging, send notifications
-error_logs();
-debugging_logs();
+$ocpt_cache->error_logs();
+$ocpt_cache->debugging_logs();
 $ocpt_cache->send_notifications();
 
 flush(); // Clean memory output buffer for echo

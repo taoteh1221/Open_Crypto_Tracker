@@ -1606,11 +1606,13 @@ zingchart.bind('marketcap_chart', 'label_click', function(e){
     		
    <ul>
 	
-	<li class='bitcoin' style='font-weight: bold;'>System load is always (roughly) MULTIPLIED by the number of threads.</li>	
+	<li class='bitcoin' style='font-weight: bold;'>Charts may take awhile to update with the latest data.</li>	
 	
 	<li class='bitcoin' style='font-weight: bold;'>See Admin Config POWER USER section, to adjust vertical axis scales.</li>	
 	
-	<li class='bitcoin' style='font-weight: bold;'>Charts may take awhile to update with the latest data.</li>	
+	<li class='bitcoin' style='font-weight: bold;'>System load is always (roughly) MULTIPLIED by the number of threads.</li>	
+	
+	<li class='bitcoin' style='font-weight: bold;'>Cron Runtime Seconds DOES NOT INCLUDE plugin runtime (for stability of CORE runtime, in case <i>custom</i> plugins are buggy).</li>	
    
    </ul>
    

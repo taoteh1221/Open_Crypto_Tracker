@@ -12,12 +12,12 @@ usleep(1000); // Wait 0.001 seconds after possible directory creation
     
     // Recreate /.htaccess for optional password access restriction / mod rewrite etc
     if ( !file_exists($base_dir . '/.htaccess') ) {
-    $ocpt_cache->save_file($base_dir . '/.htaccess', htaccess_dir_defaults() ); 
+    $ocpt_cache->save_file($base_dir . '/.htaccess', $ocpt_cache->htaccess_dir_defaults() ); 
     }
     
     // Recreate /.user.ini for optional php-fpm php.ini control
     if ( !file_exists($base_dir . '/.user.ini') ) {
-    $ocpt_cache->save_file($base_dir . '/.user.ini', user_ini_defaults() ); 
+    $ocpt_cache->save_file($base_dir . '/.user.ini', $ocpt_cache->user_ini_defaults() ); 
     }
     
     

@@ -8,7 +8,7 @@
 	////////////////////////////////////////////////////////////
 	// If upgrade check is enabled, check daily for upgrades
 	////////////////////////////////////////////////////////////
-	if ( isset($ocpt_conf['comms']['upgrade_alert']) && $ocpt_conf['comms']['upgrade_alert'] != 'off' && update_cache($base_dir . '/cache/vars/upgrade_check_latest_version.dat', 1440) == true ) {
+	if ( isset($ocpt_conf['comms']['upgrade_alert']) && $ocpt_conf['comms']['upgrade_alert'] != 'off' && $ocpt_cache->update_cache($base_dir . '/cache/vars/upgrade_check_latest_version.dat', 1440) == true ) {
 	
 	
 	$upgrade_check_jsondata = @$ocpt_cache->ext_data('url', 'https://api.github.com/repos/taoteh1221/Open_Crypto_Portfolio_Tracker/releases/latest', 0); // Don't cache API data
@@ -53,7 +53,7 @@
 
 		
 			// Email / text / alexa notification reminders (if it's been $ocpt_conf['comms']['upgrade_alert_reminder'] days since any previous reminder)
-			if ( update_cache($base_dir . '/cache/events/upgrade_check_reminder.dat', ( $ocpt_conf['comms']['upgrade_alert_reminder'] * 1440 ) ) == true ) {
+			if ( $ocpt_cache->update_cache($base_dir . '/cache/events/upgrade_check_reminder.dat', ( $ocpt_conf['comms']['upgrade_alert_reminder'] * 1440 ) ) == true ) {
 			
 			
 				if ( file_exists($base_dir . '/cache/events/upgrade_check_reminder.dat') ) {
