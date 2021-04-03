@@ -1178,7 +1178,7 @@ var $ocpt_array1 = array();
       sleep($telegram_sleep);
         
         
-        $telegram_response = $ocpt_gen->telegram_messg($message_data, $telegram_user_data['message']['chat']['id']);
+        $telegram_response = $ocpt_gen->telegram_msg($message_data, $telegram_user_data['message']['chat']['id']);
       
       
          if ( $telegram_response != false ) {

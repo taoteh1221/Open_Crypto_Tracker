@@ -47,7 +47,7 @@ var $ocpt_array1 = array();
    ////////////////////////////////////////////////////////
    
    
-   function telegram_messg($message, $chat_id) {
+   function telegram_msg($message, $chat_id) {
    
    // Using 3rd party Telegram class, initiated already as global var $telegram_messaging
    global $telegram_messaging;
