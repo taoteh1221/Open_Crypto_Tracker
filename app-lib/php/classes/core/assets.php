@@ -184,7 +184,7 @@ var $ocpt_array1 = array();
    
    function market_list_int_api($exchange) {
    
-   global $ocpt_conf, $remote_ip;
+   global $ocpt_conf, $ocpt_gen, $remote_ip;
    
    $exchange = strtolower($exchange);
    
@@ -210,11 +210,11 @@ var $ocpt_array1 = array();
      
      
      if ( !$exchange ) {
-     app_logging('int_api_error', 'From ' . $remote_ip . ' (Missing parameter: exchange)', 'uri: ' . $_SERVER['REQUEST_URI'] . ';');
+     $ocpt_gen->app_logging('int_api_error', 'From ' . $remote_ip . ' (Missing parameter: exchange)', 'uri: ' . $_SERVER['REQUEST_URI'] . ';');
      return array('error' => 'Missing parameter: [exchange]; ');
      }
      if ( sizeof($result) < 1 ) {
-     app_logging('int_api_error', 'From ' . $remote_ip . ' (No markets found for exchange: ' . $exchange . ')', 'uri: ' . $_SERVER['REQUEST_URI'] . ';');
+     $ocpt_gen->app_logging('int_api_error', 'From ' . $remote_ip . ' (No markets found for exchange: ' . $exchange . ')', 'uri: ' . $_SERVER['REQUEST_URI'] . ';');
      return array('error' => 'No markets found for exchange: ' . $exchange);
      }
      else {
@@ -234,7 +234,7 @@ var $ocpt_array1 = array();
    
    function prim_curr_trade_vol($asset_symbol, $pairing, $last_trade, $vol_in_pairing) {
    
-   global $ocpt_conf, $sel_btc_prim_curr_val;
+   global $ocpt_conf, $ocpt_gen, $sel_btc_prim_curr_val;
      
      
      // Return negative number, if no volume data detected (so we know when data errors happen)
@@ -272,7 +272,7 @@ var $ocpt_array1 = array();
      $pairing_btc_val = $this->pairing_btc_val($pairing);
    
        if ( $pairing_btc_val == null ) {
-       app_logging('market_error', 'this->pairing_btc_val() returned null in ocpt_asset->prim_curr_trade_vol()', 'pairing: ' . $pairing);
+       $ocpt_gen->app_logging('market_error', 'this->pairing_btc_val() returned null in ocpt_asset->prim_curr_trade_vol()', 'pairing: ' . $pairing);
        }
      
      $vol_prim_curr_raw = number_format( $temp_btc_prim_curr_val * ( $vol_in_pairing * $pairing_btc_val ) , 0, '.', '');
@@ -291,7 +291,7 @@ var $ocpt_array1 = array();
    
    function defi_pools_info($pairing_array, $pool_address=null) {
    
-   global $ocpt_conf, $ocpt_cache;
+   global $ocpt_conf, $ocpt_cache, $ocpt_gen;
    
    
      if ( $ocpt_conf['power']['defi_liquidity_pools_sort_by'] == 'volume' ) {
@@ -352,7 +352,7 @@ var $ocpt_array1 = array();
                  $result['pool_usd_vol'] = $value['usdVolume'];
                  
                    if ( $result['pool_usd_vol'] < 1 ) {
-                   app_logging('market_error', 'No 24 hour trade volume for DeFi liquidity pool at address ' . $result['pool_address'] . ' (' . $pairing_array[0] . '/' . $pairing_array[1] . ')');
+                   $ocpt_gen->app_logging('market_error', 'No 24 hour trade volume for DeFi liquidity pool at address ' . $result['pool_address'] . ' (' . $pairing_array[0] . '/' . $pairing_array[1] . ')');
                    }
                
                  }
@@ -378,7 +378,7 @@ var $ocpt_array1 = array();
    
    function hivepower_time($time) {
        
-   global $_POST, $hive_market, $ocpt_conf, $sel_btc_prim_curr_val;
+   global $hive_market, $ocpt_conf, $sel_btc_prim_curr_val;
    
    $powertime = null;
    $powertime = null;
@@ -472,11 +472,11 @@ var $ocpt_array1 = array();
    
    function mining_calc_form($calculation_form_data, $network_measure, $hash_unit='hash') {
    
-   global $_POST, $ocpt_conf;
+   global $ocpt_conf, $ocpt_gen;
    
    ?>
    
-           <form name='<?=$calculation_form_data['symbol']?>' action='<?=start_page('mining')?>' method='post'>
+           <form name='<?=$calculation_form_data['symbol']?>' action='<?=$ocpt_gen->start_page('mining')?>' method='post'>
            
            
            <p><b><?=ucfirst($network_measure)?>:</b> 
@@ -693,7 +693,7 @@ var $ocpt_array1 = array();
    
    function market_conv_int_api($market_conversion, $all_markets_data_array) {
    
-   global $ocpt_conf, $ocpt_var, $ocpt_api, $remote_ip, $sel_btc_prim_curr_val;
+   global $ocpt_conf, $ocpt_var, $ocpt_gen, $ocpt_api, $remote_ip, $sel_btc_prim_curr_val;
    
    $result = array();
    
@@ -710,16 +710,16 @@ var $ocpt_array1 = array();
          
          if ( $market_conversion == '' ) {
          $result['error'] .= 'Missing parameter: [currency_symbol|market_only]; ';
-         app_logging('int_api_error', 'From ' . $remote_ip . ' (Missing parameter: currency_symbol|market_only)', 'uri: ' . $_SERVER['REQUEST_URI'] . ';');
+         $ocpt_gen->app_logging('int_api_error', 'From ' . $remote_ip . ' (Missing parameter: currency_symbol|market_only)', 'uri: ' . $_SERVER['REQUEST_URI'] . ';');
          }
          elseif ( $market_conversion != 'market_only' && !$ocpt_conf['power']['btc_curr_markets'][$market_conversion] ) {
          $result['error'] .= 'Conversion market does not exist: '.$market_conversion.'; ';
-         app_logging('int_api_error', 'From ' . $remote_ip . ' (Conversion market does not exist: '.$market_conversion.')', 'uri: ' . $_SERVER['REQUEST_URI'] . ';');
+         $ocpt_gen->app_logging('int_api_error', 'From ' . $remote_ip . ' (Conversion market does not exist: '.$market_conversion.')', 'uri: ' . $_SERVER['REQUEST_URI'] . ';');
          }
          
          if ( $all_markets_data_array[0] == '' ) {
          $result['error'] .= 'Missing parameter: [exchange-asset-pairing]; ';
-         app_logging('int_api_error', 'From ' . $remote_ip . ' (Missing parameter: exchange-asset-pairing)', 'uri: ' . $_SERVER['REQUEST_URI'] . ';');
+         $ocpt_gen->app_logging('int_api_error', 'From ' . $remote_ip . ' (Missing parameter: exchange-asset-pairing)', 'uri: ' . $_SERVER['REQUEST_URI'] . ';');
          }
        
       return $result;
@@ -730,7 +730,7 @@ var $ocpt_array1 = array();
       // Return error message if the markets lists is more markets than allowed by $ocpt_conf['dev']['local_api_market_limit']
       if ( sizeof($all_markets_data_array) > $ocpt_conf['dev']['local_api_market_limit'] ) {
       $result['error'] = 'Exceeded maximum of ' . $ocpt_conf['dev']['local_api_market_limit'] . ' markets allowed per request (' . sizeof($all_markets_data_array) . ').';
-      app_logging('int_api_error', 'From ' . $remote_ip . ' (Exceeded maximum markets allowed per request)', 'markets_requested: ' . sizeof($all_markets_data_array) . '; uri: ' . $_SERVER['REQUEST_URI'] . ';');
+      $ocpt_gen->app_logging('int_api_error', 'From ' . $remote_ip . ' (Exceeded maximum markets allowed per request)', 'markets_requested: ' . sizeof($all_markets_data_array) . '; uri: ' . $_SERVER['REQUEST_URI'] . ';');
       return $result;
       }
    
@@ -743,7 +743,7 @@ var $ocpt_array1 = array();
            if ( $possible_dos_attack > 5 ) {
            $result = array(); // reset for no output other than error notice
            $result['error'] = 'Too many non-existent markets requested.';
-         app_logging('int_api_error', 'From ' . $remote_ip . ' (Too many non-existent markets requested)', 'uri: ' . $_SERVER['REQUEST_URI'] . ';');
+         $ocpt_gen->app_logging('int_api_error', 'From ' . $remote_ip . ' (Too many non-existent markets requested)', 'uri: ' . $_SERVER['REQUEST_URI'] . ';');
            return $result;
            }
            
@@ -849,7 +849,7 @@ var $ocpt_array1 = array();
                        else {
                        $pairing_btc_val = $this->pairing_btc_val($market_pairing);
                            if ( $pairing_btc_val == null ) {
-                           app_logging('market_error', 'this->pairing_btc_val() returned null in ocpt_asset->market_conv_int_api()', 'pairing: ' . $market_pairing);
+                           $ocpt_gen->app_logging('market_error', 'this->pairing_btc_val() returned null in ocpt_asset->market_conv_int_api()', 'pairing: ' . $market_pairing);
                            }
                        $coin_prim_market_worth_raw = ($coin_val_raw * $pairing_btc_val) * $market_conv_btc_val;
                        }
@@ -886,12 +886,12 @@ var $ocpt_array1 = array();
            }
            elseif ( sizeof($market_data_array) < 3 ) {
            $result['market_conversion'][$market_data] = array('error' => "Missing all 3 REQUIRED sub-parameters: [exchange-asset-pairing]");
-         app_logging('int_api_error', 'From ' . $remote_ip . ' (Missing all 3 REQUIRED sub-parameters: exchange-asset-pairing)', 'uri: ' . $_SERVER['REQUEST_URI'] . ';');
+           $ocpt_gen->app_logging('int_api_error', 'From ' . $remote_ip . ' (Missing all 3 REQUIRED sub-parameters: exchange-asset-pairing)', 'uri: ' . $_SERVER['REQUEST_URI'] . ';');
            $possible_dos_attack = $possible_dos_attack + 1;
            }
            elseif ( $pairing_id == '' ) {
            $result['market_conversion'][$market_data] = array('error' => "Market does not exist: [" . $exchange . "-" . $asset . "-" . $market_pairing . "]");
-         app_logging('int_api_error', 'From ' . $remote_ip . ' (Market does not exist: ' . $exchange . "-" . $asset . "-" . $market_pairing . ')', 'uri: ' . $_SERVER['REQUEST_URI'] . ';');
+           $ocpt_gen->app_logging('int_api_error', 'From ' . $remote_ip . ' (Market does not exist: ' . $exchange . "-" . $asset . "-" . $market_pairing . ')', 'uri: ' . $_SERVER['REQUEST_URI'] . ';');
            $possible_dos_attack = $possible_dos_attack + 1;
            }
        
@@ -911,9 +911,7 @@ var $ocpt_array1 = array();
       }
    
    
-   
    return $result;
-   
    
    }
    
@@ -924,7 +922,7 @@ var $ocpt_array1 = array();
    
    function pairing_btc_val($pairing) {
    
-   global $ocpt_conf, $ocpt_var, $ocpt_api, $btc_pairing_markets, $btc_pairing_markets_excluded;
+   global $ocpt_conf, $ocpt_var, $ocpt_gen, $ocpt_api, $btc_pairing_markets, $btc_pairing_markets_excluded;
    
    $pairing = strtolower($pairing);
    
@@ -947,7 +945,7 @@ var $ocpt_array1 = array();
        
        // Include a basic array check, since we want valid data to avoid an endless loop in our fallback support
        if ( !is_array($ocpt_conf['assets'][strtoupper($pairing)]['pairing']['btc']) ) {
-       app_logging('market_error', 'this->pairing_btc_val() - market failure (unknown pairing) for ' . $pairing);
+       $ocpt_gen->app_logging('market_error', 'this->pairing_btc_val() - market failure (unknown pairing) for ' . $pairing);
        return null;
        }
        // Preferred BITCOIN market(s) for getting a certain currency's value, if in config and more than one market exists
@@ -971,7 +969,7 @@ var $ocpt_array1 = array();
              
              // Data debugging telemetry
              if ( $ocpt_conf['dev']['debug'] == 'all' || $ocpt_conf['dev']['debug'] == 'all_telemetry' ) {
-             app_logging('market_debugging', 'this->pairing_btc_val() market request succeeded for ' . $pairing, 'exchange: ' . $market_key);
+             $ocpt_gen->app_logging('market_debugging', 'this->pairing_btc_val() market request succeeded for ' . $pairing, 'exchange: ' . $market_key);
              }		
                
            return $ocpt_var->num_to_str($btc_pairing_markets[$pairing.'_btc']);
@@ -980,7 +978,7 @@ var $ocpt_array1 = array();
            // ONLY LOG AN ERROR IF ALL AVAILABLE MARKETS FAIL (AND RETURN NULL)
            // We only want to loop a fallback for the amount of available markets
            elseif ( sizeof($btc_pairing_markets_excluded[$pairing]) == sizeof($ocpt_conf['assets'][strtoupper($pairing)]['pairing']['btc']) ) {
-           app_logging('market_error', 'this->pairing_btc_val() - market request failure (all '.sizeof($btc_pairing_markets_excluded[$pairing]).' markets failed) for ' . $pairing . ' / btc (' . $market_key . ')', $pairing . '_markets_excluded_count: ' . sizeof($btc_pairing_markets_excluded[$pairing]) );
+           $ocpt_gen->app_logging('market_error', 'this->pairing_btc_val() - market request failure (all '.sizeof($btc_pairing_markets_excluded[$pairing]).' markets failed) for ' . $pairing . ' / btc (' . $market_key . ')', $pairing . '_markets_excluded_count: ' . sizeof($btc_pairing_markets_excluded[$pairing]) );
            return null;
            }
            else {
@@ -1003,7 +1001,7 @@ var $ocpt_array1 = array();
      
        // Include a basic array check, since we want valid data to avoid an endless loop in our fallback support
        if ( !is_array($ocpt_conf['assets']['BTC']['pairing'][$pairing]) ) {
-       app_logging('market_error', 'this->pairing_btc_val() - market failure (unknown pairing) for ' . $pairing);
+       $ocpt_gen->app_logging('market_error', 'this->pairing_btc_val() - market failure (unknown pairing) for ' . $pairing);
        return null;
        }
        // Preferred BITCOIN market(s) for getting a certain currency's value, if in config and more than one market exists
@@ -1027,7 +1025,7 @@ var $ocpt_array1 = array();
                  
              // Data debugging telemetry
              if ( $ocpt_conf['dev']['debug'] == 'all' || $ocpt_conf['dev']['debug'] == 'all_telemetry' ) {
-             app_logging('market_debugging', 'this->pairing_btc_val() market request succeeded for ' . $pairing, 'exchange: ' . $market_key);
+             $ocpt_gen->app_logging('market_debugging', 'this->pairing_btc_val() market request succeeded for ' . $pairing, 'exchange: ' . $market_key);
              }
                  
            return $ocpt_var->num_to_str($btc_pairing_markets[$pairing.'_btc']);
@@ -1036,7 +1034,7 @@ var $ocpt_array1 = array();
            // ONLY LOG AN ERROR IF ALL AVAILABLE MARKETS FAIL (AND RETURN NULL)
            // We only want to loop a fallback for the amount of available markets
            elseif ( sizeof($btc_pairing_markets_excluded[$pairing]) >= sizeof($ocpt_conf['assets']['BTC']['pairing'][$pairing]) ) {
-           app_logging('market_error', 'this->pairing_btc_val() - market request failure (all '.sizeof($btc_pairing_markets_excluded[$pairing]).' markets failed) for btc / ' . $pairing . ' (' . $market_key . ')', $pairing . '_markets_excluded_count: ' . sizeof($btc_pairing_markets_excluded[$pairing]) );
+           $ocpt_gen->app_logging('market_error', 'this->pairing_btc_val() - market request failure (all '.sizeof($btc_pairing_markets_excluded[$pairing]).' markets failed) for btc / ' . $pairing . ' (' . $market_key . ')', $pairing . '_markets_excluded_count: ' . sizeof($btc_pairing_markets_excluded[$pairing]) );
            return null;
            }
            else {
@@ -1068,9 +1066,8 @@ var $ocpt_array1 = array();
    
    function ui_coin_row($asset_name, $asset_symbol, $asset_amount, $all_pairing_markets, $sel_pairing, $sel_exchange, $purchase_price=NULL, $leverage_level, $sel_margintype) {
    
-   
    // Globals
-   global $_POST, $base_dir, $ocpt_gen, $ocpt_var, $ocpt_api, $btc_worth_array, $coin_stats_array, $td_color_zebra, $cap_data_force_usd, $theme_selected, $prim_curr_market_standalone, $ocpt_conf, $sel_btc_prim_curr_val, $alert_percent, $show_secondary_trade_val, $coingecko_api, $coinmarketcap_api;
+   global $base_dir, $ocpt_gen, $ocpt_var, $ocpt_api, $btc_worth_array, $coin_stats_array, $td_color_zebra, $cap_data_force_usd, $theme_selected, $prim_curr_market_standalone, $ocpt_conf, $sel_btc_prim_curr_val, $alert_percent, $show_secondary_trade_val, $coingecko_api, $coinmarketcap_api;
    
        
    $original_market = $sel_exchange;
@@ -1133,7 +1130,7 @@ var $ocpt_array1 = array();
        
        // Log any Bitcoin market errors
        if ( !isset($sel_btc_prim_curr_val) || $sel_btc_prim_curr_val == 0 ) {
-       app_logging('market_error', 'ocpt_asset->ui_coin_row() Bitcoin primary currency value not properly set', 'exchange: ' . $ocpt_conf['gen']['btc_prim_exchange'] . '; pairing_id: ' . $sel_btc_pairing_id . '; value: ' . $sel_btc_prim_curr_val );
+       $ocpt_gen->app_logging('market_error', 'ocpt_asset->ui_coin_row() Bitcoin primary currency value not properly set', 'exchange: ' . $ocpt_conf['gen']['btc_prim_exchange'] . '; pairing_id: ' . $sel_btc_pairing_id . '; value: ' . $sel_btc_prim_curr_val );
        }
        
    
@@ -1200,7 +1197,7 @@ var $ocpt_array1 = array();
         
         
       if ( $pairing_btc_val == null ) {
-      app_logging('market_error', 'this->pairing_btc_val(\''.$sel_pairing.'\') returned null in ocpt_asset->ui_coin_row(), likely from exchange API request failure');
+      $ocpt_gen->app_logging('market_error', 'this->pairing_btc_val(\''.$sel_pairing.'\') returned null in ocpt_asset->ui_coin_row(), likely from exchange API request failure');
       }
      
      
@@ -1285,18 +1282,14 @@ var $ocpt_array1 = array();
                            
    
    
-   
      // Get trade volume
      $trade_vol = $asset_market_data['24hr_prim_curr_vol'];
-     
      
      // Rendering webpage UI output
      // DON'T USE require_once(), as we are looping here!
      require($base_dir . '/templates/interface/desktop/php/user/user-elements/portfolio-asset-row.php');
      
-     
      }
-   
    
    
    }
@@ -1356,7 +1349,7 @@ var $ocpt_array1 = array();
      $pairing_btc_val = $this->pairing_btc_val($pairing); 
      
        if ( $pairing_btc_val == null ) {
-       app_logging('market_error', 'this->pairing_btc_val() returned null in ocpt_asset->charts_price_alerts()', 'pairing: ' . $pairing);
+       $ocpt_gen->app_logging('market_error', 'this->pairing_btc_val() returned null in ocpt_asset->charts_price_alerts()', 'pairing: ' . $pairing);
        }
      
      $asset_prim_curr_val_raw = number_format( $default_btc_prim_curr_val * ( $asset_market_data['last_trade'] * $pairing_btc_val ) , 8, '.', '');
@@ -1379,7 +1372,7 @@ var $ocpt_array1 = array();
      // Make sure we have basic values, otherwise log errors / return false
      // Return false if we have no $default_btc_prim_curr_val
      if ( !isset($default_btc_prim_curr_val) || $default_btc_prim_curr_val == 0 ) {
-     app_logging('market_error', 'ocpt_asset->charts_price_alerts() - No Bitcoin '.strtoupper($default_btc_prim_curr_pairing).' value ('.strtoupper($pairing).' pairing) for "' . $asset_data . '"', $asset_data . ': ' . $asset . ' / ' . strtoupper($pairing) . ' @ ' . $exchange . ';' );
+     $ocpt_gen->app_logging('market_error', 'ocpt_asset->charts_price_alerts() - No Bitcoin '.strtoupper($default_btc_prim_curr_pairing).' value ('.strtoupper($pairing).' pairing) for "' . $asset_data . '"', $asset_data . ': ' . $asset . ' / ' . strtoupper($pairing) . ' @ ' . $exchange . ';' );
      $set_return = 1;
      }
      
@@ -1389,7 +1382,7 @@ var $ocpt_array1 = array();
      // Continue
      }
      else {
-     app_logging('market_error', 'ocpt_asset->charts_price_alerts() - No '.strtoupper($default_btc_prim_curr_pairing).' conversion value ('.strtoupper($pairing).' pairing) for "' . $asset_data . '"', $asset_data . ': ' . $asset . ' / ' . strtoupper($pairing) . ' @ ' . $exchange . '; pairing_id: ' . $ocpt_conf['assets'][$asset]['pairing'][$pairing][$exchange] . ';' );
+     $ocpt_gen->app_logging('market_error', 'ocpt_asset->charts_price_alerts() - No '.strtoupper($default_btc_prim_curr_pairing).' conversion value ('.strtoupper($pairing).' pairing) for "' . $asset_data . '"', $asset_data . ': ' . $asset . ' / ' . strtoupper($pairing) . ' @ ' . $exchange . '; pairing_id: ' . $ocpt_conf['assets'][$asset]['pairing'][$pairing][$exchange] . ';' );
      $set_return = 1;
      }
      
@@ -1447,7 +1440,7 @@ var $ocpt_array1 = array();
        }
        else {
        // Return
-       app_logging('system_error', 'time() returned a corrupt value (from power outage / corrupt memory / etc), chart updating canceled', 'chart_type: asset market');
+       $ocpt_gen->app_logging('system_error', 'time() returned a corrupt value (from power outage / corrupt memory / etc), chart updating canceled', 'chart_type: asset market');
        return false;
        }
        
@@ -1788,10 +1781,8 @@ var $ocpt_array1 = array();
                    
                  // Send notifications
                  @$ocpt_cache->queue_notify($send_params);
-         
                     
                  }
-                 
                  
          
          }

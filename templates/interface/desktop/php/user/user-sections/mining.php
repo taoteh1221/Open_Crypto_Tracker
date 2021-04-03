@@ -13,7 +13,7 @@
 				<span class='red countdown_notice'></span>
 			
 
-			<p style='margin-top: 15px; margin-bottom: 15px;'><?=start_page_html('mining')?></p>	
+			<p style='margin-top: 15px; margin-bottom: 15px;'><?=$ocpt_gen->start_page_html('mining')?></p>	
 	
     		
    <ul style='margin-top: 25px; font-weight: bold;'>

@@ -47,7 +47,7 @@ var $ocpt_array1 = array();
    ////////////////////////////////////////////////////////
    
    
-   function telegram_message($message, $chat_id) {
+   function telegram_messg($message, $chat_id) {
    
    // Using 3rd party Telegram class, initiated already as global var $telegram_messaging
    global $telegram_messaging;
@@ -61,7 +61,7 @@ var $ocpt_array1 = array();
    ////////////////////////////////////////////////////////
    
    
-   function text_number($string) {
+   function mob_number($string) {
    	
    global $ocpt_var;
    
@@ -139,23 +139,6 @@ var $ocpt_array1 = array();
    ////////////////////////////////////////////////////////
    
    
-   function convert_to_utf8($string) {
-   
-   // May be needed for charsets from different spreadsheet apps across the world, so leave in case needed
-   
-   $result = iconv("ISO-8859-1", "UTF-8", $string); // ISO-8859-1 to UTF8
-   
-   //$result = iconv(mb_detect_encoding($string, mb_detect_order(), true), "UTF-8", $string); // Auto-detect
-   
-   return $result;
-   
-   }
-   
-   
-   ////////////////////////////////////////////////////////
-   ////////////////////////////////////////////////////////
-   
-   
    function split_text_message($text, $char_length) {
    
    $chunks = explode("||||", wordwrap($message, $char_length, "||||", false) );
@@ -172,7 +155,7 @@ var $ocpt_array1 = array();
    ////////////////////////////////////////////////////////
    
    
-   function ocpt_digest($string, $max_length=false) {
+   function digest($string, $max_length=false) {
    
       if ( $max_length > 0 ) {
       $result = substr( hash('ripemd160', $string) , 0, $max_length);
@@ -190,13 +173,13 @@ var $ocpt_array1 = array();
    ////////////////////////////////////////////////////////
    
    
-   function ocpt_nonce_digest($data, $custom_nonce=false) {
+   function nonce_digest($data, $custom_nonce=false) {
       
       if ( isset($data) && $custom_nonce != false ) {
-      return $this->ocpt_digest( $data . $custom_nonce );
+      return $this->digest( $data . $custom_nonce );
       }
       elseif ( isset($data) && isset($_SESSION['nonce']) ) {
-      return $this->ocpt_digest( $data . $_SESSION['nonce'] );
+      return $this->digest( $data . $_SESSION['nonce'] );
       }
       else {
       return false;
@@ -212,13 +195,13 @@ var $ocpt_array1 = array();
    function admin_logged_in() {
       
       // IF REQUIRED DATA NOT SET, REFUSE ADMIN AUTHORIZATION
-      if ( !isset( $_COOKIE['admin_auth_' . $this->ocpt_app_id()] )
+      if ( !isset( $_COOKIE['admin_auth_' . $this->app_id()] )
       || !isset( $_SESSION['nonce'] )
       || !isset( $_SESSION['admin_logged_in']['auth_hash'] ) ) {
       return false;
       }
       // WE SPLIT THE LOGIN AUTH BETWEEN COOKIE AND SESSION DATA (TO BETTER SECURE LOGIN AUTHORIZATION)
-      elseif ( $this->ocpt_nonce_digest( $_COOKIE['admin_auth_' . $this->ocpt_app_id()] ) == $_SESSION['admin_logged_in']['auth_hash'] ) {
+      elseif ( $this->nonce_digest( $_COOKIE['admin_auth_' . $this->app_id()] ) == $_SESSION['admin_logged_in']['auth_hash'] ) {
       return true;
       }
    
@@ -229,7 +212,7 @@ var $ocpt_array1 = array();
    ////////////////////////////////////////////////////////
    
    
-   function delete_all_files($dir) {
+   function del_all_files($dir) {
    
    $files = glob($dir . '/*'); // get all file names
    
@@ -248,7 +231,7 @@ var $ocpt_array1 = array();
    ////////////////////////////////////////////////////////
    
    
-   function convert_bytes($bytes, $round) {
+   function conv_bytes($bytes, $round) {
    
    $type = array("", "Kilo", "Mega", "Giga", "Tera", "Peta", "Exa", "Zetta", "Yotta");
    
@@ -269,10 +252,10 @@ var $ocpt_array1 = array();
    // To keep admin nonce key a secret, and make CSRF attacks harder with a different key per submission item
    function admin_hashed_nonce($key, $force=false) {
       
-      // WE NEED A SEPERATE FUNCTION $this->ocpt_nonce_digest(), SO WE DON'T #ENDLESSLY LOOP# FROM OUR
-      // $this->admin_logged_in() CALL (WHICH ALSO USES $this->ocpt_nonce_digest() INSTEAD OF $this->admin_hashed_nonce())
+      // WE NEED A SEPERATE FUNCTION $this->nonce_digest(), SO WE DON'T #ENDLESSLY LOOP# FROM OUR
+      // $this->admin_logged_in() CALL (WHICH ALSO USES $this->nonce_digest() INSTEAD OF $this->admin_hashed_nonce())
       if ( $this->admin_logged_in() || $force ) {
-      return $this->ocpt_nonce_digest($key);
+      return $this->nonce_digest($key);
       }
       else {
       return false;
@@ -331,17 +314,17 @@ var $ocpt_array1 = array();
    ////////////////////////////////////////////////////////
    
    
-   function hardy_session_clearing() {
+   function hardy_sess_clear() {
    
    // Deleting all session data can fail on occasion, and wreak havoc.
    // This helps according to one programmer on php.net
    session_start();
-   session_name( $this->ocpt_app_id() );
+   session_name( $this->app_id() );
    $_SESSION = array();
    session_unset();
    session_destroy();
    session_write_close();
-   setcookie(session_name( $this->ocpt_app_id() ),'',0,'/');
+   setcookie(session_name( $this->app_id() ),'',0,'/');
    session_regenerate_id(true);
    
    }
@@ -351,7 +334,7 @@ var $ocpt_array1 = array();
    ////////////////////////////////////////////////////////
    
    
-   function create_csv_file($file, $save_as, $array) {
+   function create_csv($file, $save_as, $array) {
    
       if ( $file == 'temp' ) {
       $file = tempnam(sys_get_temp_dir(), 'temp');
@@ -446,7 +429,7 @@ var $ocpt_array1 = array();
    ////////////////////////////////////////////////////////
    
    
-   function random_hash($num_bytes) {
+   function rand_hash($num_bytes) {
    
    global $base_dir;
    
@@ -473,7 +456,7 @@ var $ocpt_array1 = array();
    ////////////////////////////////////////////////////////
    
    
-   function validate_email($email) {
+   function valid_email($email) {
    
    global $ocpt_var;
    
@@ -503,7 +486,7 @@ var $ocpt_array1 = array();
    ////////////////////////////////////////////////////////
    
    
-   function character_unicode_to_utf8($char, $format) {
+   function unicode_to_utf8($char, $format) {
       
        if ( $format == 'decimal' ) {
        $pre = '';
@@ -531,7 +514,7 @@ var $ocpt_array1 = array();
    
    
    // Install id (10 character hash, based off base url)
-   function ocpt_app_id() {
+   function app_id() {
       
    global $base_url, $base_dir, $ocpt_app_id;
    
@@ -592,7 +575,7 @@ var $ocpt_array1 = array();
    ////////////////////////////////////////////////////////
    
    
-   function dir_structure($path) {
+   function dir_struct($path) {
    
    global $ocpt_conf, $possible_http_users, $http_runtime_user;
    
@@ -621,7 +604,7 @@ var $ocpt_array1 = array();
    ////////////////////////////////////////////////////////
    
    
-   function pepper_hashed_password($password) {
+   function pepper_hashed_pass($password) {
    
    global $password_pepper;
    
@@ -634,7 +617,7 @@ var $ocpt_array1 = array();
       $password_pepper_hashed = hash_hmac("sha256", $password, $password_pepper);
       
          if ( $password_pepper_hashed == false ) {
-         $this->app_logging('config_error', 'hash_hmac() returned false in the $ocpt_gen->pepper_hashed_password() function');
+         $this->app_logging('config_error', 'hash_hmac() returned false in the ocpt_gen->pepper_hashed_pass() function');
          return false;
          }
          else {
@@ -779,7 +762,7 @@ var $ocpt_array1 = array();
    ////////////////////////////////////////////////////////
    
    
-   function check_pepper_hashed_password($input_password, $stored_hashed_password) {
+   function check_pepper_hashed_pass($input_password, $stored_hashed_password) {
    
    global $password_pepper, $stored_admin_login;
    
@@ -796,7 +779,7 @@ var $ocpt_array1 = array();
       $input_password_pepper_hashed = hash_hmac("sha256", $input_password, $password_pepper);
       
          if ( $input_password_pepper_hashed == false ) {
-         $this->app_logging('config_error', 'hash_hmac() returned false in the ocpt_gen->check_pepper_hashed_password() function');
+         $this->app_logging('config_error', 'hash_hmac() returned false in the ocpt_gen->check_pepper_hashed_pass() function');
          return false;
          }
          else {
@@ -972,7 +955,7 @@ var $ocpt_array1 = array();
       
       
       // Fallback, if no From email set in app config
-      if ( $this->validate_email($ocpt_conf['comms']['from_email']) == 'valid' ) {
+      if ( $this->valid_email($ocpt_conf['comms']['from_email']) == 'valid' ) {
       $from_email = $ocpt_conf['comms']['from_email'];
       }
       else {
@@ -1093,7 +1076,7 @@ var $ocpt_array1 = array();
    ////////////////////////////////////////////////////////
    
     
-   function character_utf8_to_unicode($char, $format) {
+   function utf8_to_unicode($char, $format) {
       
        if (ord($char{0}) >=0 && ord($char{0}) <= 127)
            $result = ord($char{0});
@@ -1271,7 +1254,7 @@ var $ocpt_array1 = array();
                }
                
                // Validate / auto-correct the import data
-               $validated_csv_import_row = $this->validated_csv_import_row($check_csv_rows[$asset]);
+               $validated_csv_import_row = $this->valid_csv_import_row($check_csv_rows[$asset]);
                
                if ( $validated_csv_import_row ) {
                $csv_rows[$asset] = $validated_csv_import_row;
@@ -1353,14 +1336,14 @@ var $ocpt_array1 = array();
    /* Usage: 
    
    // HTML
-   $content = getTextBetweenTags('a', $html);
+   $content = $ocpt_gen->txt_between_tags('a', $html);
    
    foreach( $content as $item ) {
        echo $item.'<br />';
    }
    
    // XML
-   $content2 = getTextBetweenTags('description', $xml, 1);
+   $content2 = $ocpt_gen->txt_between_tags('description', $xml, 1);
    
    foreach( $content2 as $item ) {
        echo $item.'<br />';
@@ -1369,7 +1352,7 @@ var $ocpt_array1 = array();
    */
    
    // Credit: https://phpro.org/examples/Get-Text-Between-Tags.html
-   function getTextBetweenTags($tag, $html, $strict=0) {
+   function txt_between_tags($tag, $html, $strict=0) {
        /*** a new dom object ***/
        $dom = new domDocument;
    
@@ -1461,7 +1444,7 @@ var $ocpt_array1 = array();
    ////////////////////////////////////////////////////////
    
    
-   function validated_csv_import_row($csv_row) {
+   function valid_csv_import_row($csv_row) {
       
    global $ocpt_conf, $ocpt_var;
    
@@ -1583,7 +1566,7 @@ var $ocpt_array1 = array();
    ////////////////////////////////////////////////////////
    
    
-   function password_strength($password, $min_length, $max_length) {
+   function pass_strength($password, $min_length, $max_length) {
    
    global $ocpt_conf;
    
@@ -1643,7 +1626,7 @@ var $ocpt_array1 = array();
    
    function reset_price_alert_notice() {
    
-   global $ocpt_conf, $ocpt_gen, $ocpt_cache, $price_alert_fixed_reset_array, $default_btc_prim_curr_pairing;
+   global $ocpt_conf, $ocpt_cache, $price_alert_fixed_reset_array, $default_btc_prim_curr_pairing;
    
    
    // Alphabetical asset sort, for message UX 
@@ -1678,7 +1661,7 @@ var $ocpt_array1 = array();
    
    $email_message = 'The following ' . $count . ' ' . strtoupper($default_btc_prim_curr_pairing) . ' price alert fixed resets (run every ' . $ocpt_conf['charts_alerts']['price_alert_fixed_reset'] . ' days) have been processed, with the latest spot price data: ' . $reset_list;
    
-   $notifyme_message = $email_message . ' Timestamp is ' . $this->$ocpt_gen->time_date_format($ocpt_conf['gen']['loc_time_offset'], 'pretty_time') . '.';
+   $notifyme_message = $email_message . ' Timestamp is ' . $this->time_date_format($ocpt_conf['gen']['loc_time_offset'], 'pretty_time') . '.';
    
    
    // Message parameter added for desired comm methods (leave any comm method blank to skip sending via that method)
@@ -1719,7 +1702,7 @@ var $ocpt_array1 = array();
     // ESPECIALLY once a list of random-colored items get above a certain size in number (as this decreases your availiable range minimum)
     // That said, auto-adjusting range minimums based off available RGB palette / list size IS feasible AND seems about as good as it can get,
     // AS LONG AS YOU DON'T OVER-MINIMIZE THE RANDOM OPTIONS / EXAUST ALL RANDOM OPTIONS (AND ENDLESSLY LOOP)
-   function randomColor($list_size) {
+   function rand_color($list_size) {
       
    global $rand_color_ranged;
    
@@ -1810,7 +1793,7 @@ var $ocpt_array1 = array();
    
    
    // Check to see if we need to upgrade the app config (add new primary vars / remove depreciated primary vars)
-   function upgraded_cached_ocpt_conf() {
+   function upgrade_cache_ocpt_conf() {
    
    global $upgraded_ocpt_conf, $cached_ocpt_conf, $check_default_ocpt_conf, $default_ocpt_conf;
    
@@ -2482,7 +2465,7 @@ var $ocpt_array1 = array();
          
          
       // Validate TO email
-      $email_check = $this->validate_email($to);
+      $email_check = $this->valid_email($to);
       if ( $email_check != 'valid' ) {
       return $email_check;
       }
@@ -2498,7 +2481,7 @@ var $ocpt_array1 = array();
          if ( PHP_VERSION_ID >= 70200 ) {
             
             // Fallback, if no From email set in app config
-            if ( $this->validate_email($ocpt_conf['comms']['from_email']) == 'valid' ) {
+            if ( $this->valid_email($ocpt_conf['comms']['from_email']) == 'valid' ) {
             
             $headers = array(
                         'From' => $ocpt_conf['comms']['from_email'],
@@ -2520,7 +2503,7 @@ var $ocpt_array1 = array();
          else {
             
             // Fallback, if no From email set in app config
-            if ( $this->validate_email($ocpt_conf['comms']['from_email']) == 'valid' ) {
+            if ( $this->valid_email($ocpt_conf['comms']['from_email']) == 'valid' ) {
             
             $headers = 'From: ' . $ocpt_conf['comms']['from_email'] . "\r\n" .
          'X-Mailer: Open_Crypto_Portfolio_Tracker/' . $app_version . ' - PHP/' . phpversion() . "\r\n" .
@@ -2643,7 +2626,7 @@ var $ocpt_array1 = array();
   
   $problem_endpoint = $problem_proxy_array['endpoint'];
   
-  $obfuscated_url_data = obfuscated_url_data($problem_endpoint); // Automatically removes sensitive URL data
+  $obfuscated_url_data = $this->obfuscated_url_data($problem_endpoint); // Automatically removes sensitive URL data
   
   $problem_proxy = $problem_proxy_array['proxy'];
   
@@ -2654,7 +2637,7 @@ var $ocpt_array1 = array();
   
    // If no ip/port detected in data string, cancel and continue runtime
    if ( !$ip || !$port ) {
-   app_logging('ext_data_error', 'proxy '.$problem_proxy.' is not a valid format');
+   $this->app_logging('ext_data_error', 'proxy '.$problem_proxy.' is not a valid format');
    return false;
    }
   
@@ -2721,7 +2704,7 @@ var $ocpt_array1 = array();
     
     // Log to error logs
     if ( $misconfigured == 1 ) {
-    app_logging('ext_data_error', 'proxy '.$problem_proxy.' connection failed', $cached_logs);
+    $this->app_logging('ext_data_error', 'proxy '.$problem_proxy.' connection failed', $cached_logs);
     }
    
   
@@ -2740,7 +2723,7 @@ var $ocpt_array1 = array();
         if ( $ocpt_conf['comms']['proxy_alert'] == 'all' ) {
         
         // Minimize function calls
-        $encoded_text_alert = $ocpt_gen->charset_encode($text_alert); // Unicode support included for text messages (emojis / asian characters / etc )
+        $encoded_text_alert = $this->charset_encode($text_alert); // Unicode support included for text messages (emojis / asian characters / etc )
          
              $send_params = array(
                     'notifyme' => $notifyme_alert,
@@ -2767,7 +2750,7 @@ var $ocpt_array1 = array();
         elseif ( $ocpt_conf['comms']['proxy_alert'] == 'text' ) {
         
         // Minimize function calls
-        $encoded_text_alert = $ocpt_gen->charset_encode($text_alert); // Unicode support included for text messages (emojis / asian characters / etc )
+        $encoded_text_alert = $this->charset_encode($text_alert); // Unicode support included for text messages (emojis / asian characters / etc )
         
              $send_params['text'] = array(
                        'message' => $encoded_text_alert['content_output'],
@@ -2960,7 +2943,7 @@ var $ocpt_array1 = array();
    
    
    // Free space on this partition
-   $system['free_partition_space'] = $this->convert_bytes( disk_free_space($base_dir) , 3);
+   $system['free_partition_space'] = $this->conv_bytes( disk_free_space($base_dir) , 3);
    
    
    

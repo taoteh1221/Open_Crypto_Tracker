@@ -66,7 +66,7 @@ if ( $ocpt_conf['comms']['proxy_alert'] != 'off' ) {
 
 
 // Queue notifications if there were any price alert resets, BEFORE $ocpt_cache->send_notifications() runs
-reset_price_alert_notice();
+$ocpt_gen->reset_price_alert_notice();
 
 
 
@@ -89,9 +89,9 @@ $system_load = preg_replace("/(.*)\(5 min avg\) /i", "", $system_load); // Use 1
     		
 $system_temp = preg_replace("/° Celsius/i", "", $system_info['system_temp']);
 
-$system_free_space_mb = in_megabytes($system_info['free_partition_space'])['in_megs'];
+$system_free_space_mb = $ocpt_gen->in_megabytes($system_info['free_partition_space'])['in_megs'];
          
-$portfolio_cache_size_mb = in_megabytes($system_info['portfolio_cache'])['in_megs'];
+$portfolio_cache_size_mb = $ocpt_gen->in_megabytes($system_info['portfolio_cache'])['in_megs'];
 
 
 	if ( trim($system_load) >= 0 ) {
@@ -173,7 +173,7 @@ usleep(120000); // Wait 0.12 seconds
 		
 }
 else {
-app_logging('system_error', 'time() returned a corrupt value (from power outage / corrupt memory / etc), chart updating canceled', 'chart_type: system stats');
+$ocpt_gen->app_logging('system_error', 'time() returned a corrupt value (from power outage / corrupt memory / etc), chart updating canceled', 'chart_type: system stats');
 }
 		
 // SYSTEM STATS END
@@ -189,10 +189,10 @@ if ( $ocpt_conf['dev']['debug'] == 'all' || $ocpt_conf['dev']['debug'] == 'all_t
 	}
 			
 // Log system stats
-app_logging('system_debugging', 'Hardware / software stats (requires log_verbosity set to verbose)', $system_telemetry);
+$ocpt_gen->app_logging('system_debugging', 'Hardware / software stats (requires log_verbosity set to verbose)', $system_telemetry);
 			
 // Log runtime stats
-app_logging('system_debugging', strtoupper($runtime_mode).' runtime was ' . $total_runtime . ' seconds');
+$ocpt_gen->app_logging('system_debugging', strtoupper($runtime_mode).' runtime was ' . $total_runtime . ' seconds');
 
 }
 

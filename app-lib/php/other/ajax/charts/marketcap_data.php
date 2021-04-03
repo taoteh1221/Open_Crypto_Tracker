@@ -128,7 +128,7 @@ $plot_conf = explode('|', $_GET['plot_conf']);
 		$show_plot = 'visible: false,';
 		}
 			
-	$rand_color = '#' . randomColor( sizeof($sorted_by_marketcap_data) )['hex'];
+	$rand_color = '#' . $ocpt_gen->rand_color( sizeof($sorted_by_marketcap_data) )['hex'];
 		
 					
 				$marketcap_conf = "{

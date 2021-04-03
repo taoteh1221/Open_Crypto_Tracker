@@ -49,7 +49,7 @@ $fonts[] = $font_dir . $ttf_file;
 }
 
 
-$captcha_str = captcha_str($ocpt_conf['dev']['captcha_permitted_chars'], $ocpt_conf['dev']['captcha_chars_length']);
+$captcha_str = $ocpt_gen->captcha_str($ocpt_conf['dev']['captcha_permitted_chars'], $ocpt_conf['dev']['captcha_chars_length']);
  
 $_SESSION['captcha_code'] = strtolower($captcha_str);
  

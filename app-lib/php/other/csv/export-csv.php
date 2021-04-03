@@ -99,7 +99,7 @@ $csv_download_array[] = array(
 
 
 // Run last, as it exits when completed
-create_csv_file('temp', 'Crypto_Portfolio.csv', $csv_download_array); 
+$ocpt_gen->create_csv('temp', 'Crypto_Portfolio.csv', $csv_download_array); 
 
 
 ?>

@@ -19,13 +19,13 @@
     		
     		$system_temp = preg_replace("/° Celsius/i", "", $system_info['system_temp']);
          
-			$system_free_space_mb = in_megabytes($system_info['free_partition_space'])['in_megs'];
+			$system_free_space_mb = $ocpt_gen->in_megabytes($system_info['free_partition_space'])['in_megs'];
          
-			$portfolio_cache_size_mb = in_megabytes($system_info['portfolio_cache'])['in_megs'];
+			$portfolio_cache_size_mb = $ocpt_gen->in_megabytes($system_info['portfolio_cache'])['in_megs'];
     		
-    		$system_memory_total_mb = in_megabytes($system_info['memory_total'])['in_megs'];
+    		$system_memory_total_mb = $ocpt_gen->in_megabytes($system_info['memory_total'])['in_megs'];
     		
-    		$system_memory_free_mb = in_megabytes($system_info['memory_free'])['in_megs'];
+    		$system_memory_free_mb = $ocpt_gen->in_megabytes($system_info['memory_free'])['in_megs'];
     		
   			// Percent difference (!MUST BE! absolute value)
          $memory_percent_free = abs( ($system_memory_free_mb - $system_memory_total_mb) / abs($system_memory_total_mb) * 100 );

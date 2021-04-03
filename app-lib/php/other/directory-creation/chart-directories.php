@@ -17,14 +17,14 @@ foreach ( $ocpt_conf['charts_alerts']['tracked_markets'] as $key => $value ) {
 	if ( $asset_cache_params[2] == 'chart' || $asset_cache_params[2] == 'both' ) {
 		
 		// Archival charts
-		if ( dir_structure($base_dir . '/cache/charts/spot_price_24hr_volume/archival/'.$asset_dir.'/') != TRUE ) { // Attempt to create directory if it doesn't exist
+		if ( $ocpt_gen->dir_struct($base_dir . '/cache/charts/spot_price_24hr_volume/archival/'.$asset_dir.'/') != TRUE ) { // Attempt to create directory if it doesn't exist
 		$disabled_caching = 1;
 		}
 		
 		// Lite charts
 		foreach( $ocpt_conf['power']['lite_chart_day_intervals'] as $lite_chart_days ) {
 			
-			if ( dir_structure($base_dir . '/cache/charts/spot_price_24hr_volume/lite/'.$lite_chart_days.'_days/'.$asset_dir.'/') != TRUE ) { // Attempt to create directory if it doesn't exist
+			if ( $ocpt_gen->dir_struct($base_dir . '/cache/charts/spot_price_24hr_volume/lite/'.$lite_chart_days.'_days/'.$asset_dir.'/') != TRUE ) { // Attempt to create directory if it doesn't exist
 			$disabled_caching = 1;
 			}
 			
@@ -37,7 +37,7 @@ foreach ( $ocpt_conf['charts_alerts']['tracked_markets'] as $key => $value ) {
 // LITE CHARTS FOR SYSTEM STATS
 foreach( $ocpt_conf['power']['lite_chart_day_intervals'] as $lite_chart_days ) {
 			
-	if ( dir_structure($base_dir . '/cache/charts/system/lite/'.$lite_chart_days.'_days/') != TRUE ) { // Attempt to create directory if it doesn't exist
+	if ( $ocpt_gen->dir_struct($base_dir . '/cache/charts/system/lite/'.$lite_chart_days.'_days/') != TRUE ) { // Attempt to create directory if it doesn't exist
 	$disabled_caching = 1;
 	}
 			

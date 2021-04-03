@@ -32,7 +32,7 @@ $pairing_btc_val = $ocpt_asset->pairing_btc_val($asset);
   	 
   	 
 	if ( $pairing_btc_val == null ) {
-	app_logging('market_error', 'ocpt_asset->pairing_btc_val(\''.$asset.'\') returned null in the \''.$this_plug.'\' plugin, likely from exchange API request failure');
+	$ocpt_gen->app_logging('market_error', 'ocpt_asset->pairing_btc_val(\''.$asset.'\') returned null in the \''.$this_plug.'\' plugin, likely from exchange API request failure');
 	}
 
 	

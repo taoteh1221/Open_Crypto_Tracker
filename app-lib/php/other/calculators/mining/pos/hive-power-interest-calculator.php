@@ -17,7 +17,7 @@ $hive_market = $ocpt_api->market('HIVE', 'bittrex', 'HIVE-BTC')['last_trade'];
     
 
 <div>
-    <form action='<?=start_page('mining')?>' method='post'>
+    <form action='<?=$ocpt_gen->start_page('mining')?>' method='post'>
         
         <p><b>Power Down Period:</b> <?=$ocpt_conf['power']['hive_powerdown_time']?> weeks</p>
 	

@@ -23,7 +23,7 @@ var $ocpt_array1 = array();
    global $base_dir, $ocpt_gen, $this_plug;
    
       // This plugin's vars cache directory
-      if ( $ocpt_gen->dir_structure($base_dir . '/cache/vars/plugin_vars/'.$this_plug.'/') != true ) {
+      if ( $ocpt_gen->dir_struct($base_dir . '/cache/vars/plugin_vars/'.$this_plug.'/') != true ) {
       $ocpt_gen->app_logging('system_error', 'Could not create directory: /cache/vars/plugin_vars/'.$this_plug.'/');
       }
       
@@ -41,7 +41,7 @@ var $ocpt_array1 = array();
    global $base_dir, $ocpt_gen, $this_plug;
          
          // This plugin's events cache directory
-         if ( $ocpt_gen->dir_structure($base_dir . '/cache/events/plugin_events/'.$this_plug.'/') != true ) {
+         if ( $ocpt_gen->dir_struct($base_dir . '/cache/events/plugin_events/'.$this_plug.'/') != true ) {
          $ocpt_gen->app_logging('system_error', 'Could not create directory: /cache/events/plugin_events/'.$this_plug.'/');
          }
       

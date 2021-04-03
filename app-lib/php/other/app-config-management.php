@@ -172,7 +172,7 @@ if ( is_array($ocpt_conf['assets']) ) {
 $usort_feeds_results = usort($ocpt_conf['power']['news_feed'], array('ocpt_gen', 'titles_usort_alpha') );
    	
 if ( !$usort_feeds_results ) {
-app_logging( 'other_error', 'RSS feeds failed to sort alphabetically');
+$ocpt_gen->app_logging( 'other_error', 'RSS feeds failed to sort alphabetically');
 }
 
 

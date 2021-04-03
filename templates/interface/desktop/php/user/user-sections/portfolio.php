@@ -889,7 +889,7 @@ var fiat_val_content = '<h5 class="yellow tooltip_title">Primary Currency (<?=st
 	<?php
 	foreach ($ocpt_conf['power']['lite_chart_day_intervals'] as $lite_chart_days) {
 	?>
-    <option value='<?=$lite_chart_days?>' <?=( $lite_chart_days == 'all' ? 'selected' : '' )?>> <?=light_chart_time_period($lite_chart_days, 'long')?> </option>
+    <option value='<?=$lite_chart_days?>' <?=( $lite_chart_days == 'all' ? 'selected' : '' )?>> <?=$ocpt_gen->light_chart_time_period($lite_chart_days, 'long')?> </option>
 	<?php
 	}
 	?>
@@ -1360,7 +1360,7 @@ zingchart.bind('marketcap_chart', 'label_click', function(e){
 	
 	<?php
 			// If hardware / software stats are enabled, display the os / hardware / load avg / temperature / free partition space / free memory [mb/percent] / portfolio cache size / software stats
-    		if ( admin_logged_in() ) {
+    		if ( $ocpt_gen->admin_logged_in() ) {
     ?>
 	
 		<fieldset><legend> <strong class="bitcoin">Admin Config - Quick Links</strong> </legend>
@@ -1419,7 +1419,7 @@ zingchart.bind('marketcap_chart', 'label_click', function(e){
 	
 	<div style='margin-top: 10px; height: auto;'>
 	
-		<form action='<?=start_page($_GET['start_page'])?>' method='post'>
+		<form action='<?=$ocpt_gen->start_page($_GET['start_page'])?>' method='post'>
 	
 		<b class='black'>&nbsp;Trading Notes:</b><br />
 	
@@ -1439,7 +1439,7 @@ zingchart.bind('marketcap_chart', 'label_click', function(e){
    
 	<?php
 		// If hardware / software stats are enabled, display the charts when designated link is clicked (in a modal)
-    	if ( admin_logged_in() ) {
+    	if ( $ocpt_gen->admin_logged_in() ) {
     ?>
 	
 	<div id="show_system_stats">
@@ -1463,13 +1463,13 @@ zingchart.bind('marketcap_chart', 'label_click', function(e){
     		
     		$system_temp = preg_replace("/° Celsius/i", "", $system_info['system_temp']);
          
-			$system_free_space_mb = in_megabytes($system_info['free_partition_space'])['in_megs'];
+			$system_free_space_mb = $ocpt_gen->in_megabytes($system_info['free_partition_space'])['in_megs'];
          
-			$portfolio_cache_size_mb = in_megabytes($system_info['portfolio_cache'])['in_megs'];
+			$portfolio_cache_size_mb = $ocpt_gen->in_megabytes($system_info['portfolio_cache'])['in_megs'];
     		
-    		$system_memory_total_mb = in_megabytes($system_info['memory_total'])['in_megs'];
+    		$system_memory_total_mb = $ocpt_gen->in_megabytes($system_info['memory_total'])['in_megs'];
     		
-    		$system_memory_free_mb = in_megabytes($system_info['memory_free'])['in_megs'];
+    		$system_memory_free_mb = $ocpt_gen->in_megabytes($system_info['memory_free'])['in_megs'];
     		
   			// Percent difference (!MUST BE! absolute value)
          $memory_percent_free = abs( ($system_memory_free_mb - $system_memory_total_mb) / abs($system_memory_total_mb) * 100 );
@@ -1765,7 +1765,7 @@ zingchart.bind('marketcap_chart', 'label_click', function(e){
 		<p class='red' style='font-weight: bold;'>*Log format: </p>
 		
 	   <!-- Looks good highlighted as: less, yaml  -->
-	   <pre class='rounded' style='display: inline-block;<?=( is_msie() == false ? ' padding-top: 1em !important;' : '' )?>'><code class='hide-x-scroll less' style='white-space: nowrap; width: auto; display: inline-block;'>[UTC timestamp] runtime_mode => error_type: error_message; [ (tracing if log verbosity set to verbose) ]</code></pre>
+	   <pre class='rounded' style='display: inline-block;<?=( $ocpt_gen->is_msie() == false ? ' padding-top: 1em !important;' : '' )?>'><code class='hide-x-scroll less' style='white-space: nowrap; width: auto; display: inline-block;'>[UTC timestamp] runtime_mode => error_type: error_message; [ (tracing if log verbosity set to verbose) ]</code></pre>
 	
 	
 	    <fieldset class='subsection_fieldset'><legend class='subsection_legend'> Error Log </legend>

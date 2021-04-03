@@ -7,7 +7,7 @@
 $register_result = array();
 
 	
-if ( !$_GET['new_reset_key'] && !$_POST['admin_submit_register'] && sizeof($stored_admin_login) == 2 && validate_email($ocpt_conf['comms']['to_email']) == 'valid' ) {
+if ( !$_GET['new_reset_key'] && !$_POST['admin_submit_register'] && sizeof($stored_admin_login) == 2 && $ocpt_gen->valid_email($ocpt_conf['comms']['to_email']) == 'valid' ) {
 $register_result['error'][] = "An admin login already exists, and you HAVE properly added a VALID 'To' email in the communications configuration. Try <a href='password-reset.php' class='red'>resetting your password</a> instead.";
 }
 	
@@ -16,8 +16,8 @@ if ( $_POST['admin_submit_register'] ) {
 
 	// Run checks...
 	
-	if ( valid_username( trim($_POST['set_username']) ) != 'valid' ) {
-	$register_result['error'][] = valid_username( trim($_POST['set_username']) );
+	if ( $ocpt_gen->valid_username( trim($_POST['set_username']) ) != 'valid' ) {
+	$register_result['error'][] = $ocpt_gen->valid_username( trim($_POST['set_username']) );
 	$username_field_color = '#ff4747';
 	}
 	
@@ -26,8 +26,8 @@ if ( $_POST['admin_submit_register'] ) {
 	////////////////
 	
 	
-	if ( password_strength($_POST['set_password'], 12, 40) != 'valid'  ) {
-	$register_result['error'][] = password_strength($_POST['set_password'], 12, 40);
+	if ( $ocpt_gen->pass_strength($_POST['set_password'], 12, 40) != 'valid'  ) {
+	$register_result['error'][] = $ocpt_gen->pass_strength($_POST['set_password'], 12, 40);
 	$password_field_color = '#ff4747';
 	}
 	

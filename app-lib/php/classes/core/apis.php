@@ -232,13 +232,13 @@ var $ocpt_array1 = array();
    
    function coinmarketcap($force_prim_curr=null) {
       
-   global $ocpt_conf, $ocpt_cache, $coinmarketcap_currencies, $cap_data_force_usd, $cmc_notes;
+   global $ocpt_conf, $ocpt_cache, $ocpt_gen, $coinmarketcap_currencies, $cap_data_force_usd, $cmc_notes;
    
    $result = array();
    
    
       if ( trim($ocpt_conf['gen']['cmc_key']) == null ) { 
-      app_logging('notify_error', '"cmc_key" (free API key) is not configured in Admin Config GENERAL section', false, 'cmc_key');
+      $ocpt_gen->app_logging('notify_error', '"cmc_key" (free API key) is not configured in Admin Config GENERAL section', false, 'cmc_key');
       return false;
       }
       
@@ -313,7 +313,7 @@ var $ocpt_array1 = array();
    // Credit: https://www.alexkras.com/simple-rss-reader-in-85-lines-of-php/
    function rss($url, $theme_selected, $feed_size, $cache_only=false){
       
-   global $ocpt_conf, $base_dir, $ocpt_var, $ocpt_cache, $fetched_feeds;
+   global $ocpt_conf, $base_dir, $ocpt_var, $ocpt_cache, $ocpt_gen, $fetched_feeds;
    
    
       if ( !isset($_SESSION[$fetched_feeds]['all']) ) {
@@ -339,11 +339,11 @@ var $ocpt_array1 = array();
       
       $_SESSION[$fetched_feeds]['all'] = $_SESSION[$fetched_feeds]['all'] + 1; // Mark as a fetched feed, since it's going to update
       
-      $endpoint_tld_or_ip = get_tld_or_ip($url);
+      $endpoint_tld_or_ip = $ocpt_gen->get_tld_or_ip($url);
    
          
          if ( $ocpt_conf['dev']['debug'] == 'all' || $ocpt_conf['dev']['debug'] == 'all_telemetry' || $ocpt_conf['dev']['debug'] == 'memory_usage_telemetry' ) {
-         app_logging('system_debugging', $endpoint_tld_or_ip . ' news feed updating ('.$_SESSION[$fetched_feeds]['all'].'), CURRENT script memory usage is ' . convert_bytes(memory_get_usage(), 1) . ', PEAK script memory usage is ' . convert_bytes(memory_get_peak_usage(), 1) . ', php_sapi_name is "' . php_sapi_name() . '"' );
+         $ocpt_gen->app_logging('system_debugging', $endpoint_tld_or_ip . ' news feed updating ('.$_SESSION[$fetched_feeds]['all'].'), CURRENT script memory usage is ' . $ocpt_gen->conv_bytes(memory_get_usage(), 1) . ', PEAK script memory usage is ' . $ocpt_gen->conv_bytes(memory_get_peak_usage(), 1) . ', php_sapi_name is "' . php_sapi_name() . '"' );
          }
       
       
@@ -413,7 +413,7 @@ var $ocpt_array1 = array();
             $usort_results = usort($sortable_feed,  array('ocpt_gen', 'timestamps_usort_newest') );
                
             if ( !$usort_results ) {
-            app_logging( 'other_error', 'RSS feed failed to sort by newest items (' . $url . ')');
+            $ocpt_gen->app_logging( 'other_error', 'RSS feed failed to sort by newest items (' . $url . ')');
             }
              
             
@@ -444,7 +444,7 @@ var $ocpt_array1 = array();
                   
                $month_name = date("F", mktime(0, 0, 0, $date_array['month'], 10));
                   
-               $date_ui = $month_name . ' ' . ordinal($date_array['day']) . ', ' . $date_array['year'] . ' @ ' . substr("0{$date_array['hour']}", -2) . ':' . substr("0{$date_array['minute']}", -2);
+               $date_ui = $month_name . ' ' . $ocpt_gen->ordinal($date_array['day']) . ', ' . $date_array['year'] . ' @ ' . substr("0{$date_array['hour']}", -2) . ':' . substr("0{$date_array['minute']}", -2);
                   
                   // If publish date is OVER 'news_feed_entries_new' days old, DONT mark as new
                   if ( $ocpt_var->num_to_str($now_timestamp) > $ocpt_var->num_to_str( strtotime($item_date) + ($ocpt_conf['power']['news_feed_entries_new'] * 86400) ) ) { // 86400 seconds == 1 day
@@ -477,7 +477,7 @@ var $ocpt_array1 = array();
          $usort_results = usort($sortable_feed, array('ocpt_gen', 'timestamps_usort_newest') );
                
             if ( !$usort_results ) {
-            app_logging( 'other_error', 'RSS feed failed to sort by newest items (' . $url . ')');
+            $ocpt_gen->app_logging( 'other_error', 'RSS feed failed to sort by newest items (' . $url . ')');
             }
             
              
@@ -508,7 +508,7 @@ var $ocpt_array1 = array();
                   
                $month_name = date("F", mktime(0, 0, 0, $date_array['month'], 10));
                   
-               $date_ui = $month_name . ' ' . ordinal($date_array['day']) . ', ' . $date_array['year'] . ' @ ' . substr("0{$date_array['hour']}", -2) . ':' . substr("0{$date_array['minute']}", -2);
+               $date_ui = $month_name . ' ' . $ocpt_gen->ordinal($date_array['day']) . ', ' . $date_array['year'] . ' @ ' . substr("0{$date_array['hour']}", -2) . ':' . substr("0{$date_array['minute']}", -2);
                   
                $item_link = preg_replace("/web\.bittrex\.com/i", "bittrex.com", $item_link); // Fix for bittrex blog links
                   
@@ -564,7 +564,7 @@ var $ocpt_array1 = array();
    function market($asset_symbol, $chosen_exchange, $market_id, $pairing=false) { 
    
    
-   global $ocpt_conf, $ocpt_var, $ocpt_cache, $ocpt_asset, $sel_btc_prim_curr_val, $defipulse_api_limit;
+   global $ocpt_conf, $ocpt_var, $ocpt_cache, $ocpt_gen, $ocpt_asset, $sel_btc_prim_curr_val, $defipulse_api_limit;
      
     
     
@@ -1322,7 +1322,7 @@ var $ocpt_array1 = array();
         
           
           if ( trim($ocpt_conf['gen']['defipulse_key']) == null ) {
-          app_logging('notify_error', '"defipulse_key" (free API key) is not configured in Admin Config GENERAL section', false, 'defipulse_key');
+          $ocpt_gen->app_logging('notify_error', '"defipulse_key" (free API key) is not configured in Admin Config GENERAL section', false, 'defipulse_key');
           return false;
           }
           
@@ -1337,11 +1337,11 @@ var $ocpt_array1 = array();
           
           
           if ( $defipulse_api_limit == true ) {
-          app_logging('notify_error', 'DeFiPulse.com monthly API limit exceeded (check your account there)', false, 'defipulsecom_api_limit');
+          $ocpt_gen->app_logging('notify_error', 'DeFiPulse.com monthly API limit exceeded (check your account there)', false, 'defipulsecom_api_limit');
           return false;
           }
           elseif ( !$defi_pools_info['pool_address'] ) {
-          app_logging('market_error', 'No DeFi liquidity pool found for ' . $market_id . ', try setting "defi_liquidity_pools_max" HIGHER in the POWER USER config (current setting is '.$ocpt_conf['power']['defi_liquidity_pools_max'].', results are sorted by highest trade volume pools first)');
+          $ocpt_gen->app_logging('market_error', 'No DeFi liquidity pool found for ' . $market_id . ', try setting "defi_liquidity_pools_max" HIGHER in the POWER USER config (current setting is '.$ocpt_conf['power']['defi_liquidity_pools_max'].', results are sorted by highest trade volume pools first)');
           return false;
           }
          
@@ -1401,7 +1401,7 @@ var $ocpt_array1 = array();
           
           
             if ( !$result ) {
-            app_logging('market_error', 'No trades found for ' . $market_id . ', try setting "defi_pools_max_trades" HIGHER in the POWER USER config (current setting is '.$ocpt_conf['power']['defi_pools_max_trades'].', results are sorted by most recent trades first)');
+            $ocpt_gen->app_logging('market_error', 'No trades found for ' . $market_id . ', try setting "defi_pools_max_trades" HIGHER in the POWER USER config (current setting is '.$ocpt_conf['power']['defi_pools_max_trades'].', results are sorted by most recent trades first)');
             }
           
           }
@@ -2301,7 +2301,7 @@ var $ocpt_array1 = array();
         $pairing_btc_val = $ocpt_asset->pairing_btc_val($market_id);
       
           if ( $pairing_btc_val == null ) {
-          app_logging('market_error', 'ocpt_asset->pairing_btc_val() returned null', 'market_id: ' . $market_id);
+          $ocpt_gen->app_logging('market_error', 'ocpt_asset->pairing_btc_val() returned null', 'market_id: ' . $market_id);
           }
       
          $result = array(

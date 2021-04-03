@@ -5,7 +5,7 @@
 
 
 	// Have this script not load any code if system stats are not turned on, or key GET request corrupt
-	if ( !admin_logged_in() || !is_numeric($_GET['key']) ) {
+	if ( !$ocpt_gen->admin_logged_in() || !is_numeric($_GET['key']) ) {
 	exit;
 	}
 
@@ -73,7 +73,7 @@ gui: {
 	labels: [
 	<?php
 	foreach ($ocpt_conf['power']['lite_chart_day_intervals'] as $lite_chart_days) {
-	$lite_chart_text = light_chart_time_period($lite_chart_days, 'short');
+	$lite_chart_text = $ocpt_gen->light_chart_time_period($lite_chart_days, 'short');
 	?>
 		{
 	    x: <?=$x_coord?>,
@@ -110,7 +110,7 @@ exit;
 }
 			
 		
-$chart_data = chart_data('cache/charts/system/lite/' . $_GET['days'] . '_days/system_stats.dat', 'system');
+$chart_data = $ocpt_gen->chart_data('cache/charts/system/lite/' . $_GET['days'] . '_days/system_stats.dat', 'system');
 
 
 // Determine how many data sensors to include in first chart
@@ -170,7 +170,7 @@ if ( $key == 1 ) {
 				// WE STILL COUNT THIS, SO LET COUNT RUN ABOVE
 				if ( !preg_match("/NO_DATA/i", $chart_val, $matches) ) {
 			
-				$rand_color = '#' . randomColor( sizeof($sorted_by_last_chart_data) )['hex'];
+				$rand_color = '#' . $ocpt_gen->rand_color( sizeof($sorted_by_last_chart_data) )['hex'];
 					
 				$chart_conf = "{
 			  text: '".$ocpt_gen->snake_case_to_name($chart_key)."',
@@ -215,7 +215,7 @@ elseif ( $key == 2 ) {
 				// WE STILL COUNT THIS, SO LET COUNT RUN ABOVE
 				if ( !preg_match("/NO_DATA/i", $chart_val, $matches) ) {
 			
-			$rand_color = '#' . randomColor( sizeof($sorted_by_last_chart_data) )['hex'];
+			$rand_color = '#' . $ocpt_gen->rand_color( sizeof($sorted_by_last_chart_data) )['hex'];
 	
 			$chart_conf = "{
 			  text: '".$ocpt_gen->snake_case_to_name($chart_key)."',
@@ -417,7 +417,7 @@ gui: {
 		labels: [
 	<?php
 	foreach ($ocpt_conf['power']['lite_chart_day_intervals'] as $lite_chart_days) {
-	$lite_chart_text = light_chart_time_period($lite_chart_days, 'short');
+	$lite_chart_text = $ocpt_gen->light_chart_time_period($lite_chart_days, 'short');
 	?>
 		{
 	    x: <?=$x_coord?>,

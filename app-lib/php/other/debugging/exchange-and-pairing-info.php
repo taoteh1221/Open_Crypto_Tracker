@@ -88,11 +88,11 @@ $curr_count = 0;
 		$all_exchanges_list = $ocpt_var->list_sort($all_exchanges_list, '/', 'sort', true);
 	
 	
-	app_logging('config_debugging', "\n\n" . 'Bitcoin markets configuration information (for Admin Config current documentation) supported_btc_prim_currencies_list['.$curr_count.']: ' . $supported_prim_curr_list . '; ' . "\n\n" . 'supported_btc_exchanges_list['.$exchange_count.']: ' . $supported_btc_exchange_list . "\n\n" );
+	$ocpt_gen->app_logging('config_debugging', "\n\n" . 'Bitcoin markets configuration information (for Admin Config current documentation) supported_btc_prim_currencies_list['.$curr_count.']: ' . $supported_prim_curr_list . '; ' . "\n\n" . 'supported_btc_exchanges_list['.$exchange_count.']: ' . $supported_btc_exchange_list . "\n\n" );
 	
 	
 	
-	app_logging('config_debugging', "\n\n" . 'ALL markets configuration information (for README.txt documentation) supported_all_pairings_list['.$pairings_count.']: ' . strtoupper($all_supported_pairings_list) . '; ' . "\n\n" . 'supported_all_exchanges_list['.$all_exchange_count.']: ' . strtolower($all_exchanges_list) . "\n\n" );
+	$ocpt_gen->app_logging('config_debugging', "\n\n" . 'ALL markets configuration information (for README.txt documentation) supported_all_pairings_list['.$pairings_count.']: ' . strtoupper($all_supported_pairings_list) . '; ' . "\n\n" . 'supported_all_exchanges_list['.$all_exchange_count.']: ' . strtolower($all_exchanges_list) . "\n\n" );
 	
 	
 	}

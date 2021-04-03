@@ -117,7 +117,7 @@ gui: {
 	labels: [
 	<?php
 	foreach ($ocpt_conf['power']['lite_chart_day_intervals'] as $lite_chart_days) {
-	$lite_chart_text = light_chart_time_period($lite_chart_days, 'short');
+	$lite_chart_text = $ocpt_gen->light_chart_time_period($lite_chart_days, 'short');
 	?>
 		{
 	    x: <?=$x_coord?>,
@@ -154,7 +154,7 @@ gui: {
 			}
 			
 		
-		$chart_data = chart_data('cache/charts/spot_price_24hr_volume/lite/' . $_GET['days'] . '_days/'.$chart_asset.'/'.$key.'_chart_'.$charted_val.'.dat', $market_parse[1]);
+		$chart_data = $ocpt_gen->chart_data('cache/charts/spot_price_24hr_volume/lite/' . $_GET['days'] . '_days/'.$chart_asset.'/'.$key.'_chart_'.$charted_val.'.dat', $market_parse[1]);
 		
 		
 		$price_sample_oldest = $ocpt_var->num_to_str( $ocpt_var->delimited_str_sample($chart_data['spot'], ',', 'first') );
@@ -346,7 +346,7 @@ graphset:[
 	labels: [
 	<?php
 	foreach ($ocpt_conf['power']['lite_chart_day_intervals'] as $lite_chart_days) {
-	$lite_chart_text = light_chart_time_period($lite_chart_days, 'short');
+	$lite_chart_text = $ocpt_gen->light_chart_time_period($lite_chart_days, 'short');
 	?>
 		{
 	    x: <?=$x_coord?>,

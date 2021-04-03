@@ -12,7 +12,7 @@
 				<span class='red countdown_notice'></span>
 			
 
-			<p style='margin-top: 15px; margin-bottom: 15px;'><?=start_page_html('news')?></p>			
+			<p style='margin-top: 15px; margin-bottom: 15px;'><?=$ocpt_gen->start_page_html('news')?></p>			
 			<?php
 			$news_feed_cache_min_max = explode(',', $ocpt_conf['dev']['news_feed_cache_min_max']);
 			?>
@@ -119,7 +119,7 @@
 	foreach ( $ocpt_conf['power']['news_feed'] as $feed ) {
 	
 	// We avoid using array keys for end user config editing UX, BUT STILL UNIQUELY IDENTIFY EACH FEED
-	$feed_id = ocpt_digest($feed['title'], 10);
+	$feed_id = $ocpt_gen->digest($feed['title'], 10);
 				
 	?>
 	

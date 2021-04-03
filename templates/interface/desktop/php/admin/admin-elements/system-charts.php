@@ -5,7 +5,7 @@
 
 
 // Don't load any data if admin isn't logged in
-if ( admin_logged_in() ) {
+if ( $ocpt_gen->admin_logged_in() ) {
 
 
 

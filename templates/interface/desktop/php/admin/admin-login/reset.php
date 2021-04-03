@@ -10,7 +10,7 @@ $reset_result = array();
 // If we are not activating an existing reset session, run checks before rendering anything...
 if ( !$_GET['new_reset_key'] && !$_POST['admin_submit_reset'] ) {
 	
-	if ( validate_email($ocpt_conf['comms']['to_email']) != 'valid'  ) {
+	if ( $ocpt_gen->valid_email($ocpt_conf['comms']['to_email']) != 'valid'  ) {
 	$reset_result['error'][] = "A VALID admin's 'To' Email has NOT been properly set in the Admin Config yet, therefore the password CANNOT be reset by interface form submission. Alternatively, you can MANUALLY delete the file '/cache/secured/admin_login_XXXXXXXXXXXXX.dat' in the app directory. This will prompt you to create a new admin login, the next time you use the app.";
 	$no_password_reset = 1;
 	}
@@ -52,7 +52,7 @@ if ( $_POST['admin_submit_reset'] ) {
 	// If checks clear, send email ////////
 	if ( sizeof($reset_result['error']) < 1 && trim($_POST['reset_username']) != '' && trim($_POST['reset_username']) == $stored_admin_login[0] ) {
 
-	$new_reset_key = random_hash(32);
+	$new_reset_key = $ocpt_gen->rand_hash(32);
 	
 	$message = "
 
@@ -78,7 +78,7 @@ If you did NOT request this password reset (originating from ip address ".$remot
    // Send notifications
    @$ocpt_cache->queue_notify($send_params);
           	
-	$ocpt_cache->save_file($base_dir . '/cache/secured/activation/password_reset_' . random_hash(16) . '.dat', $new_reset_key); // Store password reset activation code, to confirm via clicked email link later
+	$ocpt_cache->save_file($base_dir . '/cache/secured/activation/password_reset_' . $ocpt_gen->rand_hash(16) . '.dat', $new_reset_key); // Store password reset activation code, to confirm via clicked email link later
 
 	
 	}

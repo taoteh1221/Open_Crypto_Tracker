@@ -9,11 +9,11 @@ Add to /templates/interface/desktop/php/footer.php when testing unicode mobile t
     	
     	//echo '<br /> ------ <br />';
     	
-    	//echo character_unicode_to_utf8('x1f433', 'hexadecimal');
+    	//echo $ocpt_gen->unicode_to_utf8('x1f433', 'hexadecimal');
     	
     	//echo '<br /> ------ <br />';
     	
-    	//echo character_utf8_to_unicode('🐳', 'hexadecimal');
+    	//echo $ocpt_gen->utf8_to_unicode('🐳', 'hexadecimal');
     	
     	//echo '<br /> ------ <br />';
     	

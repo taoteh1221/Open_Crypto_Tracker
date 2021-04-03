@@ -20,7 +20,7 @@ $webhook_hash = explode('/', $_GET['webhook_hash']); // Remove any data after th
 
 ///////////////////////////////////////////////////////////////////////////////
 // Google 0auth
-if ( $webhook_hash[0] == ocpt_nonce_digest('google-0auth', $webhook_key) ) {
+if ( $webhook_hash[0] == $ocpt_gen->nonce_digest('google-0auth', $webhook_key) ) {
 require_once($base_dir . '/app-lib/php/other/security/google-0auth.php');
 }
 ///////////////////////////////////////////////////////////////////////////////
@@ -29,7 +29,7 @@ require_once($base_dir . '/app-lib/php/other/security/google-0auth.php');
 
 ///////////////////////////////////////////////////////////////////////////////
 // Telegram
-elseif ( $webhook_hash[0] == ocpt_nonce_digest('telegram', $webhook_key) ) {
+elseif ( $webhook_hash[0] == $ocpt_gen->nonce_digest('telegram', $webhook_key) ) {
 
 // https://core.telegram.org/bots/api
 
@@ -49,7 +49,7 @@ elseif ( $webhook_hash[0] == ocpt_nonce_digest('telegram', $webhook_key) ) {
 
 ///////////////////////////////////////////////////////////////////////////////
 // Test only
-elseif ( $webhook_hash[0] == ocpt_nonce_digest('test-only', $webhook_key) ) {
+elseif ( $webhook_hash[0] == $ocpt_gen->nonce_digest('test-only', $webhook_key) ) {
 
 $test_params = array('api_key' => $api_key);
 						
@@ -77,7 +77,7 @@ if ( isset($result) ) {
 echo json_encode($result, JSON_PRETTY_PRINT);
 }
 
-//echo ocpt_nonce_digest('test-only', $webhook_key) . ' -- ';
+//echo $ocpt_gen->nonce_digest('test-only', $webhook_key) . ' -- ';
 
 
 // Log errors / debugging, send notifications

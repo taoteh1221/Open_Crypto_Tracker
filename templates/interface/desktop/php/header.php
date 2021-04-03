@@ -37,7 +37,7 @@ header('Content-type: text/html; charset=' . $ocpt_conf['dev']['charset_default'
 	
 	<?php
 	$preloaded_files_dir = 'templates/interface/media/images/auto-preloaded';
-	$preloaded_files = list_files($preloaded_files_dir);
+	$preloaded_files = $ocpt_gen->list_files($preloaded_files_dir);
 	
 	$loop = 0;
 	foreach ( $preloaded_files as $preload_file ) {
@@ -109,7 +109,7 @@ header('Content-type: text/html; charset=' . $ocpt_conf['dev']['charset_default'
 	
 	<?php
 	// MSIE doesn't like highlightjs (LOL)
-	if ( is_msie() == false ) {
+	if ( $ocpt_gen->is_msie() == false ) {
 	?>
 	
 	<link rel="stylesheet" href="templates/interface/desktop/css/highlightjs.min.css" type="text/css" />
@@ -238,9 +238,9 @@ header('Content-type: text/html; charset=' . $ocpt_conf['dev']['charset_default'
 					  			<a class="dropdown-item<?=( $script_file_info['basename'] == 'index.php' ? ' active' : '' )?>" href="index.php">Portfolio</a>
 					  			
 					  			<?php
-					  			if ( admin_logged_in() ) {
+					  			if ( $ocpt_gen->admin_logged_in() ) {
 					  			?>
-					  			<a class="dropdown-item" href="?logout=1&admin_hashed_nonce=<?=admin_hashed_nonce('logout')?>">Logout</a>
+					  			<a class="dropdown-item" href="?logout=1&admin_hashed_nonce=<?=$ocpt_gen->admin_hashed_nonce('logout')?>">Logout</a>
 					  			<?php
 					  			}
 					 			?>

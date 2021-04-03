@@ -69,7 +69,7 @@ $show_feeds = explode(',', rtrim( ( $_POST['show_feeds'] != '' ? $_POST['show_fe
 	$scan_feeds = $show_feeds;
 	$scan_feeds = array_map( array($ocpt_var, 'strip_brackets') , $scan_feeds); // Strip brackets
 	foreach ($ocpt_conf['power']['news_feed'] as $feed) {
-	$feed_id = ocpt_digest($feed["title"], 10);
+	$feed_id = $ocpt_gen->digest($feed["title"], 10);
 		if ( in_array($feed_id, $scan_feeds) ) {
 		$temp_show_feeds[] = '[' . $feed_id . ']';
 		}
@@ -158,7 +158,7 @@ $sorted_by_asc_desc = $sort_settings[1];
 
 	// We can safely dismiss alerts with cookies enabled, without losing data
 	if ( $_COOKIE['coin_amounts'] != '' ) {
-	$dismiss_alert = ' <br /><br /><a href="'.start_page($_GET['start_page'], 'href').'">Dismiss Alert</a>';
+	$dismiss_alert = ' <br /><br /><a href="'.$ocpt_gen->start_page($_GET['start_page'], 'href').'">Dismiss Alert</a>';
 	}
 	
 
@@ -173,7 +173,7 @@ $sorted_by_asc_desc = $sort_settings[1];
 	}
 	// Sanitizing $theme_selected is very important, as we are calling external files with the value
 	if ( $theme_selected != 'light' && $theme_selected != 'dark' ) {
-	app_logging('security_error', 'Injected theme path value attack', 'Requested theme value: "' . $theme_selected . '";');
+	$ocpt_gen->app_logging('security_error', 'Injected theme path value attack', 'Requested theme value: "' . $theme_selected . '";');
 	$ocpt_cache->error_logs();
 	exit;
 	}
@@ -185,7 +185,7 @@ $sorted_by_asc_desc = $sort_settings[1];
 		
 		// Checks and importing
 		if ( $_FILES['csv_file']['tmp_name'] != NULL ) {
-		$csv_file_array = csv_import_array($_FILES['csv_file']['tmp_name']);
+		$csv_file_array = $ocpt_gen->csv_import_array($_FILES['csv_file']['tmp_name']);
    	}
    	else {
    	$csv_import_fail = 'You forgot to select your CSV import file.' . $dismiss_alert;

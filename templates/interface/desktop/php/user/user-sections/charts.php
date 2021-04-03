@@ -11,7 +11,7 @@
 				<span class='red countdown_notice'></span>
 			
 	
-	<p style='margin-top: 15px; margin-bottom: 15px;'><?=start_page_html('charts')?></p>		
+	<p style='margin-top: 15px; margin-bottom: 15px;'><?=$ocpt_gen->start_page_html('charts')?></p>		
 			
 	  
 	<p style='margin-top: 25px;'><a style='font-weight: bold;' class='red' href='javascript: show_more("chartsnotice");' title='Click to show charts notice.'><b>Charts Notice / Information</b></a></p>

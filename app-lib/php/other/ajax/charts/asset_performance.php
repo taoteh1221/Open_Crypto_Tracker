@@ -21,7 +21,7 @@ $attributes = explode("||", $value);
 		$chart_file = $base_dir . '/cache/charts/spot_price_24hr_volume/lite/' . $_GET['time_period'] . '_days/'.strtoupper($asset).'/'.$key.'_chart_'.$default_btc_prim_curr_pairing.'.dat';
 						
 			if ( file_exists($chart_file) ) {
-			$runtime_data['performance_stats'][strtoupper($asset)]['data'] = chart_data($chart_file, 'performance', $_GET['start_time']); // NO EARLIER THAN A CERTAIN TIMESTAMP
+			$runtime_data['performance_stats'][strtoupper($asset)]['data'] = $ocpt_gen->chart_data($chart_file, 'performance', $_GET['start_time']); // NO EARLIER THAN A CERTAIN TIMESTAMP
 			}
 		
 		}
@@ -133,7 +133,7 @@ $plot_conf = explode('|', $_GET['plot_conf']);
 		$show_plot = 'visible: false,';
 		}
 			
-	$rand_color = '#' . randomColor( sizeof($sorted_by_last_chart_data) )['hex'];
+	$rand_color = '#' . $ocpt_gen->rand_color( sizeof($sorted_by_last_chart_data) )['hex'];
 		
 					
 				$chart_conf = "{

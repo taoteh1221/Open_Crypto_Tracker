@@ -7,12 +7,12 @@
 // Updating trading notes is separate from updating all other data
 if ( $_POST['update_notes'] == 1 && trim($_POST['notes']) != '' && $_COOKIE['notes'] ) {
 $ocpt_gen->store_cookie("notes", $_POST['notes'], mktime()+31536000);
-header("Location: " . start_page($_GET['start_page']));
+header("Location: " . $ocpt_gen->start_page($_GET['start_page']));
 exit;
 }
 elseif ( $_POST['update_notes'] == 1 && trim($_POST['notes']) == '' && $_COOKIE['notes'] ) {
 $ocpt_gen->store_cookie("notes", " ", mktime()+31536000); // Initialized with some whitespace when blank
-header("Location: " . start_page($_GET['start_page']));
+header("Location: " . $ocpt_gen->start_page($_GET['start_page']));
 exit;
 }
 
@@ -23,7 +23,7 @@ exit;
 
 // If cookies are enabled or not, update accordingly
 if ( $_POST['submit_check'] == 1 && $_POST['use_cookies'] != 1 ) {
-delete_all_cookies(); // Delete any existing cookies, if cookies have been disabled
+$ocpt_gen->delete_all_cookies(); // Delete any existing cookies, if cookies have been disabled
 }
 elseif ( $_POST['submit_check'] == 1 && $_POST['use_cookies'] == 1 || $run_csv_import == 1 && $_COOKIE['coin_amounts'] != '' ) {
  
@@ -140,7 +140,7 @@ elseif ( $_POST['submit_check'] == 1 && $_POST['use_cookies'] == 1 || $run_csv_i
 // Store all cookies and redirect to app URL, to clear any POST data from any future page refreshing
 $set_coin_vals = ( $set_coin_vals != NULL ? $set_coin_vals : ' ' ); // Initialized with some whitespace when blank
 $ocpt_gen->update_cookies($set_coin_vals, $set_pairing_vals, $set_market_vals, $set_paid_vals, $set_leverage_vals, $set_margintype_vals);
-header("Location: " . start_page($_GET['start_page'])); // Preserve any start page data
+header("Location: " . $ocpt_gen->start_page($_GET['start_page'])); // Preserve any start page data
 exit;
  	
  

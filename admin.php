@@ -25,7 +25,7 @@ require("templates/interface/desktop/php/admin/admin-login/register.php");
 exit;
 }
 // If logged in
-elseif ( admin_logged_in() ) {
+elseif ( $ocpt_gen->admin_logged_in() ) {
 require("templates/interface/desktop/php/header.php");
 }
 // If NOT logged in

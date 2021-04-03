@@ -7,9 +7,9 @@
 
 // Run some basic configuration file checks
 
-$validate_from_email = validate_email($ocpt_conf['comms']['from_email']);
+$validate_from_email = $ocpt_gen->valid_email($ocpt_conf['comms']['from_email']);
       
-$validate_to_email = validate_email($ocpt_conf['comms']['to_email']);
+$validate_to_email = $ocpt_gen->valid_email($ocpt_conf['comms']['to_email']);
 
 
 // Proxy configuration check
@@ -61,7 +61,7 @@ if ( sizeof($ocpt_conf['proxy']['proxy_list']) > 0 ) {
       	$proxy_parse_errors = $proxy_parse_errors + 1;
          }
           		
-         if ( $text_parse[1] != 'skip_network_name' && validate_email( $ocpt_gen->text_email($ocpt_conf['comms']['to_mobile_text']) ) != 'valid' ) {
+         if ( $text_parse[1] != 'skip_network_name' && $ocpt_gen->valid_email( $ocpt_gen->text_email($ocpt_conf['comms']['to_mobile_text']) ) != 'valid' ) {
          $config_parse_error[] = 'Mobile text services carrier name (for email-to-text) not configured properly for proxy alerts.';
       	$proxy_parse_errors = $proxy_parse_errors + 1;
          }
@@ -110,7 +110,7 @@ if ( sizeof($ocpt_conf['proxy']['proxy_list']) > 0 ) {
    }
 
 	if ( $proxy_conf_alert ) {
-	app_logging('config_error', $proxy_conf_alert);
+	$ocpt_gen->app_logging('config_error', $proxy_conf_alert);
 	}
           		
 	// Displaying if checks passed
@@ -198,7 +198,7 @@ if ( trim($ocpt_conf['comms']['from_email']) != '' || trim($ocpt_conf['comms']['
          $config_parse_error[] = 'Number for text email not configured properly for price alerts.';
          }
           		
-         if ( $text_parse[1] != 'skip_network_name' && validate_email( $ocpt_gen->text_email($ocpt_conf['comms']['to_mobile_text']) ) != 'valid' ) {
+         if ( $text_parse[1] != 'skip_network_name' && $ocpt_gen->valid_email( $ocpt_gen->text_email($ocpt_conf['comms']['to_mobile_text']) ) != 'valid' ) {
          $config_parse_error[] = 'Mobile text services carrier name (for email-to-text) not configured properly for price alerts.';
          }
           	
@@ -265,7 +265,7 @@ if ( trim($ocpt_conf['comms']['from_email']) != '' || trim($ocpt_conf['comms']['
           		
 
 			if ( $price_change_conf_alert ) {
-			app_logging('config_error', $price_change_conf_alert);
+			$ocpt_gen->app_logging('config_error', $price_change_conf_alert);
 			}
           		
          // Displaying if checks passed
@@ -314,7 +314,7 @@ $smtp_email_server_parse = explode(":", $ocpt_conf['comms']['smtp_server'] );
           		
 
 	if ( $smtp_conf_alert ) {
-	app_logging('config_error', $smtp_conf_alert);
+	$ocpt_gen->app_logging('config_error', $smtp_conf_alert);
 	}
 
         
@@ -357,7 +357,7 @@ if ( $ocpt_conf['power']['logs_email'] > 0 && trim($ocpt_conf['comms']['from_ema
           		
 
 	if ( $logs_conf_alert ) {
-	app_logging('config_error', $logs_conf_alert);
+	$ocpt_gen->app_logging('config_error', $logs_conf_alert);
 	}
 
         
@@ -398,7 +398,7 @@ if ( $ocpt_conf['gen']['asset_charts_toggle'] == 'on' && $ocpt_conf['power']['ch
           		
 
 	if ( $backuparchive_conf_alert ) {
-	app_logging('config_error', $backuparchive_conf_alert);
+	$ocpt_gen->app_logging('config_error', $backuparchive_conf_alert);
 	}
 
         
@@ -416,7 +416,7 @@ if ( $ocpt_conf['gen']['asset_charts_toggle'] == 'on' && $ocpt_conf['power']['ch
 
 // Check $ocpt_conf['assets'] config
 if ( !is_array($ocpt_conf['assets']) ) {
-app_logging('config_error', 'The portfolio assets formatting is corrupt, or not configured yet');
+$ocpt_gen->app_logging('config_error', 'The portfolio assets formatting is corrupt, or not configured yet');
 }
 
 // Check default / dynamic Bitcoin market/pairing configs
@@ -428,7 +428,7 @@ if ( !isset( $ocpt_conf['assets']['BTC']['pairing'][$ocpt_conf['gen']['btc_prim_
 	$avialable_btc_pairings = trim($avialable_btc_pairings);
 	$avialable_btc_pairings = rtrim($avialable_btc_pairings,',');
 
-app_logging('config_error', 'Portfolio cannot run properly, because the "btc_prim_curr_pairing" (Bitcoin primary currency pairing) value \''.$ocpt_conf['gen']['btc_prim_curr_pairing'].'\' is not a valid Bitcoin pairing option (valid Bitcoin pairing options are: '.$avialable_btc_pairings.')');
+$ocpt_gen->app_logging('config_error', 'Portfolio cannot run properly, because the "btc_prim_curr_pairing" (Bitcoin primary currency pairing) value \''.$ocpt_conf['gen']['btc_prim_curr_pairing'].'\' is not a valid Bitcoin pairing option (valid Bitcoin pairing options are: '.$avialable_btc_pairings.')');
 
 }
 elseif ( !isset( $ocpt_conf['assets']['BTC']['pairing'][$ocpt_conf['gen']['btc_prim_curr_pairing']][$ocpt_conf['gen']['btc_prim_exchange']] ) ) {
@@ -443,7 +443,7 @@ elseif ( !isset( $ocpt_conf['assets']['BTC']['pairing'][$ocpt_conf['gen']['btc_p
 	$avialable_btc_prim_exchanges = trim($avialable_btc_prim_exchanges);
 	$avialable_btc_prim_exchanges = rtrim($avialable_btc_prim_exchanges,',');
 
-app_logging('config_error', 'Portfolio cannot run properly, because the "btc_prim_exchange" (Bitcoin exchange) value \''.$ocpt_conf['gen']['btc_prim_exchange'].'\' is not a valid option for \''.$ocpt_conf['gen']['btc_prim_curr_pairing'].'\' Bitcoin pairings (valid \''.$ocpt_conf['gen']['btc_prim_curr_pairing'].'\' Bitcoin pairing options are: '.$avialable_btc_prim_exchanges.')');
+$ocpt_gen->app_logging('config_error', 'Portfolio cannot run properly, because the "btc_prim_exchange" (Bitcoin exchange) value \''.$ocpt_conf['gen']['btc_prim_exchange'].'\' is not a valid option for \''.$ocpt_conf['gen']['btc_prim_curr_pairing'].'\' Bitcoin pairings (valid \''.$ocpt_conf['gen']['btc_prim_curr_pairing'].'\' Bitcoin pairing options are: '.$avialable_btc_prim_exchanges.')');
 
 }
 

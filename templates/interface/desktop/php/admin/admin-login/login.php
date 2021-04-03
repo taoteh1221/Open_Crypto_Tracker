@@ -15,18 +15,18 @@ if ( $_POST['admin_submit_login'] ) {
 	else {
 				
 				// To be safe, don't use trim() on certain strings with arbitrary non-alphanumeric characters here
-				if ( ocpt_app_id() != false && isset($_SESSION['nonce']) && trim($_POST['admin_username']) != '' && $_POST['admin_password'] != '' 
-				&& $_POST['admin_username'] == $stored_admin_login[0] && check_pepper_hashed_password($_POST['admin_password'], $stored_admin_login[1]) == true ) {
+				if ( $ocpt_gen->app_id() != false && isset($_SESSION['nonce']) && trim($_POST['admin_username']) != '' && $_POST['admin_password'] != '' 
+				&& $_POST['admin_username'] == $stored_admin_login[0] && $ocpt_gen->check_pepper_hashed_pass($_POST['admin_password'], $stored_admin_login[1]) == true ) {
 					
 				// Login now (set admin security cookie / 'auth_hash' session var), before redirect
 				
 				// WE SPLIT THE LOGIN AUTH BETWEEN COOKIE AND SESSION DATA (TO BETTER SECURE LOGIN AUTHORIZATION)
 				
-				$cookie_nonce = random_hash(32); // 32 byte
+				$cookie_nonce = $ocpt_gen->rand_hash(32); // 32 byte
 		
-				$ocpt_gen->store_cookie('admin_auth_' . ocpt_app_id(), $cookie_nonce, mktime() + ($ocpt_conf['power']['admin_cookie_expire'] * 3600) );
+				$ocpt_gen->store_cookie('admin_auth_' . $ocpt_gen->app_id(), $cookie_nonce, mktime() + ($ocpt_conf['power']['admin_cookie_expire'] * 3600) );
 				
-				$_SESSION['admin_logged_in']['auth_hash'] = admin_hashed_nonce($cookie_nonce, 'force'); // Force set, as we're not logged in fully yet
+				$_SESSION['admin_logged_in']['auth_hash'] = $ocpt_gen->admin_hashed_nonce($cookie_nonce, 'force'); // Force set, as we're not logged in fully yet
 				
 				header("Location: admin.php");
 				exit;

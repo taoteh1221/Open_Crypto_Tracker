@@ -128,8 +128,7 @@ session_start(); // New session start
 ///////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
-// Load app functions / classes
-require_once('app-lib/php/functions-loader.php');
+// Load app classes
 require_once('app-lib/php/core-classes-loader.php');
 
 
@@ -142,20 +141,20 @@ $base_dir = preg_replace("/\/app-lib(.*)/i", "", dirname(__FILE__) );
 // EVEN THOUGH WE RUN LOGIC AGAIN FURTHER DOWN IN INIT TO SET THIS UNDER
 // ALL CONDITIONS (EVEN CRON RUNTIMES), AND REFRESH VAR CACHE FOR CRON LOGIC
 if ( $runtime_mode != 'cron' ) {
-$base_url = base_url();
+$base_url = $ocpt_gen->base_url();
 }
 
 
 // Set $ocpt_app_id as a global (MUST BE SET AFTER $base_url / $base_dir)
 // (a 10 character install ID hash, created from the base URL or base dir [if cron])
-// AFTER THIS IS SET, WE CAN USE EITHER $ocpt_app_id OR ocpt_app_id() RELIABLY / EFFICIENTLY ANYWHERE
-// ocpt_app_id() can then be used in functions WITHOUT NEEDING ANY $ocpt_app_id GLOBAL DECLARED.
-$ocpt_app_id = ocpt_app_id();
+// AFTER THIS IS SET, WE CAN USE EITHER $ocpt_app_id OR $ocpt_gen->app_id() RELIABLY / EFFICIENTLY ANYWHERE
+// $ocpt_gen->app_id() can then be used in functions WITHOUT NEEDING ANY $ocpt_app_id GLOBAL DECLARED.
+$ocpt_app_id = $ocpt_gen->app_id();
 
 
 // Give our session a unique name 
-// MUST BE SET AFTER $ocpt_app_id / first ocpt_app_id() call
-session_name( ocpt_app_id() );
+// MUST BE SET AFTER $ocpt_app_id / first $ocpt_gen->app_id() call
+session_name( $ocpt_gen->app_id() );
 
 
 // Current runtime user
@@ -175,7 +174,7 @@ $http_runtime_user = ( $runtime_mode != 'cron' ? $current_runtime_user : trim( f
 
 
 // Nonce for unique runtime logic
-$runtime_nonce = random_hash(16); // 16 byte
+$runtime_nonce = $ocpt_gen->rand_hash(16); // 16 byte
 
 
 // Session array
@@ -186,18 +185,18 @@ $_SESSION = array();
 
 // Nonce for secured login session logic WHEN NOT RUNNING AS CRON
 if ( $runtime_mode != 'cron' && !isset( $_SESSION['nonce'] ) ) {
-$_SESSION['nonce'] = random_hash(32); // 32 byte
+$_SESSION['nonce'] = $ocpt_gen->rand_hash(32); // 32 byte
 }
 
 
 // If user is logging out (run immediately after setting session vars, for quick runtime)
-if ( $_GET['logout'] == 1 && admin_hashed_nonce('logout') != false && $_GET['admin_hashed_nonce'] == admin_hashed_nonce('logout') ) {
+if ( $_GET['logout'] == 1 && $ocpt_gen->admin_hashed_nonce('logout') != false && $_GET['admin_hashed_nonce'] == $ocpt_gen->admin_hashed_nonce('logout') ) {
 	
 // Try to avoid edge-case bug where sessions don't delete, using our hardened function logic
-hardy_session_clearing(); 
+$ocpt_gen->hardy_sess_clear(); 
 
 // Delete admin login cookie
-unset($_COOKIE['admin_auth_' . ocpt_app_id()]); 
+unset($_COOKIE['admin_auth_' . $ocpt_gen->app_id()]); 
 
 header("Location: index.php");
 exit;
@@ -417,7 +416,7 @@ if ( $runtime_mode == 'ui' ) {
 
 	// Have UI runtime mode RE-CACHE the app URL data every 24 hours, since CLI runtime cannot determine the app URL (for sending backup link emails during backups, etc)
 	if ( $ocpt_cache->update_cache('cache/vars/base_url.dat', (60 * 24) ) == true ) {
-	$base_url = base_url();
+	$base_url = $ocpt_gen->base_url();
 	$ocpt_cache->save_file('cache/vars/base_url.dat', $base_url);
 	}
 	else {

@@ -282,7 +282,7 @@
 		$("#coin_amounts").submit();
 		'>Save Updated Portfolio</button>
 	
-		<form style='display: inline;' name='csv_import' id='csv_import' enctype="multipart/form-data" action="<?=start_page($_GET['start_page'])?>" method="post">
+		<form style='display: inline;' name='csv_import' id='csv_import' enctype="multipart/form-data" action="<?=$ocpt_gen->start_page($_GET['start_page'])?>" method="post">
 		
 	    <input type="hidden" name="csv_check" value="1" />
 	    
@@ -296,7 +296,7 @@
 		<button style='margin-left: 40px;' class='force_button_style' onclick='
 		set_target_action("coin_amounts", "_blank", "download.php?csv_export=1");
 		document.coin_amounts.submit(); // USE NON-JQUERY METHOD SO "APP LOADING..." DOES #NOT# SHOW
-		set_target_action("coin_amounts", "_self", "<?=start_page($_GET['start_page'])?>");
+		set_target_action("coin_amounts", "_self", "<?=$ocpt_gen->start_page($_GET['start_page'])?>");
 		'>Export Portfolio To CSV File</button>
 		
 		
@@ -368,7 +368,7 @@
 	
 	
 	
-	<form id='coin_amounts' name='coin_amounts' action='<?=start_page($_GET['start_page'])?>' method='post'>
+	<form id='coin_amounts' name='coin_amounts' action='<?=$ocpt_gen->start_page($_GET['start_page'])?>' method='post'>
 	
 		
 	<div class='long_list_start list_start_black'> &nbsp; </div>

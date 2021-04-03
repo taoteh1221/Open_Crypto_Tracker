@@ -1527,7 +1527,7 @@ $ocpt_conf['dev']['limited_apis'] = array(
 							);
 
 
-// TLD-extensions-only mapping (Top Level Domain extensions only, supported in the get_tld_or_ip() function, which removes subdomains for tld checks)
+// TLD-extensions-only mapping (Top Level Domain extensions only, supported in the $ocpt_gen->get_tld_or_ip() function, which removes subdomains for tld checks)
 // IF YOU ADD A NEW API, !MAKE SURE IT'S DOMAIN EXTENSION EXISTS HERE!
 // (NO LEADING DOTS, !MUST BE LOWERCASE!)
 $ocpt_conf['dev']['top_level_domain_map'] = array(

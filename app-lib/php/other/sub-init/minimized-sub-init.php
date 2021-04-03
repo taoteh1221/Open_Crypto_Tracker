@@ -7,7 +7,7 @@
 // FOR WHEN WE WANT RELATIVELY QUICK RUNTIMES, WITH MINIMAL INIT LOGIC (captcha / charts / etc)
 
 // Secured cache files global variable for app config (getting captcha settings)
-$secured_cache_files = sort_files($base_dir . '/cache/secured', 'dat', 'desc');
+$secured_cache_files = $ocpt_gen->sort_files($base_dir . '/cache/secured', 'dat', 'desc');
 
 
 foreach( $secured_cache_files as $secured_file ) {
@@ -21,7 +21,7 @@ foreach( $secured_cache_files as $secured_file ) {
 			$ocpt_conf = $cached_ocpt_conf; // Use cached ocpt_conf if it exists, seems intact, and DEFAULT Admin Config (in config.php) hasn't been revised since last check
 			}
 			else {
-			app_logging('config_error', 'Cached ocpt_conf data appears corrupted (fetching within minimized-sub-init.php)');
+			$ocpt_gen->app_logging('config_error', 'Cached ocpt_conf data appears corrupted (fetching within minimized-sub-init.php)');
 			}
 			
 	}
