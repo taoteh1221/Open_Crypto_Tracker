@@ -35,6 +35,12 @@ OPTIMIZATIONS / BUGS / TESTS / UX / QA / OTHER SECTION
 ///////////////////////////////////////////////////////
 
 
+May come in handy for writing PHP unit tests: https://stackoverflow.com/questions/861254/iterate-over-properties-of-a-php-class
+
+
+Add same logic we have for internal API request throttling to the admin login / reset attempts, make setting configurable.
+
+
 CAREFULLY finish converting these var names, for better readability in heavy algos (a good practice, regardless of heavy code):
 $value => $val
 $string => $str
