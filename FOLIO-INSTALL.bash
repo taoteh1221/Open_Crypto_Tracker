@@ -842,7 +842,9 @@ select opt in $OPTIONS; do
   						MOVE_CONFIG="/plugins/recurring-reminder"
 						mv $DOC_ROOT$MOVE_CONFIG/plugin-config.php $DOC_ROOT$MOVE_CONFIG/plug-conf.php > /dev/null 2>&1
 						chown $APP_USER:$APP_USER $DOC_ROOT$MOVE_CONFIG/plug-conf.php > /dev/null 2>&1
-				
+						
+						sleep 3
+						
 				
 						# NOW THAT WE'VE MIGRATED FROM OLDER FILE NAMES, PROCEED WITH BACKUPS...
 						
@@ -867,9 +869,9 @@ select opt in $OPTIONS; do
 						cp $DOC_ROOT$BACKUP_CONFIG $DOC_ROOT$BACKUP_CONFIG.BACKUP.$DATE.$RAND_STRING > /dev/null 2>&1
 						chown $APP_USER:$APP_USER $DOC_ROOT$BACKUP_CONFIG.BACKUP.$DATE.$RAND_STRING > /dev/null 2>&1
 						
-						CONFIG_BACKUP=1
-						
 						sleep 3
+						
+						CONFIG_BACKUP=1
 				
 						
   						else
@@ -1075,6 +1077,9 @@ select opt in $OPTIONS; do
                     echo " "
                     echo "$CRONJOB"
                     echo " "
+				
+						  echo " "
+						  echo "Open Crypto Portfolio Tracker (Server Edition) has been configured."
                     
                     CRON_SETUP=1
                     
@@ -1091,12 +1096,10 @@ select opt in $OPTIONS; do
             
             
             ######################################
-
-				
-				echo " "
-				echo "Open Crypto Portfolio Tracker (Server Edition) has been configured."
+            
 				
 	        	APP_SETUP=1
+	        	
    	     	
   				fi
 
