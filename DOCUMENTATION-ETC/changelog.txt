@@ -4417,6 +4417,9 @@ price charts primary currency market (I forgot they were two different settings 
 -Better support for 30 / 45 minute time zones (in interface time offset config)
 
 
+-More CAPTCHA fonts / default setting tweaks (for higher login security)
+
+
 -Auto-install now backs up old bundled plugin configs before upgrading
 
 

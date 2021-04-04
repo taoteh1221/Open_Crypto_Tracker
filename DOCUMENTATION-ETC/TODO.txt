@@ -46,9 +46,6 @@ _marketcap => _mcap
 Double-check that the internal API (AND EVERYTHING ELSE) still works, after all the refactoring we did.
 
 
-See if there are anymore decent open source / lightweight (small file size) .ttf font files out there, to add a bit more entropy to the captcha image letters / numbers, for higher security.
-
-
 Change the api key format to GET instead of POST on my portfolio app's internal REST API, so browser-based javascript implementations can work cross-site retrieving data.
 
 

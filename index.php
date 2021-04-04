@@ -34,8 +34,6 @@ require("templates/interface/desktop/php/header.php");
 			<li class='tabli'><a href='#portfolio'>Portfolio</a></li>
 			<li class='tabli'><a href='#update'>Update</a></li>
 			<li class='tabli'><a href='#settings'>Settings</a></li>
-			<li class='tabli'><a href='#news'>News</a></li>
-			<li class='tabli'><a href='#resources'>Resources</a></li>
 			<?php
 			if ( $ocpt_conf['gen']['asset_charts_toggle'] == 'on' ) {
 			?>
@@ -43,8 +41,10 @@ require("templates/interface/desktop/php/header.php");
 			<?php
 			}
 			?>
+			<li class='tabli'><a href='#news'>News</a></li>
 			<li class='tabli'><a href='#tools'>Tools</a></li>
 			<li class='tabli'><a href='#mining'>Mining</a></li>
+			<li class='tabli'><a href='#resources'>Resources</a></li>
 			<li class='tabli'><a href='#help'>Help?</a></li>
 		</ul>
 		
@@ -53,41 +53,13 @@ require("templates/interface/desktop/php/header.php");
 			<?php require("templates/interface/desktop/php/user/user-sections/portfolio.php"); ?>
 		</div>
 		
-		<script>
-		//console.log("Portfolio tab loaded."); // DEBUGGING
-		</script>
-		
 		<div id='update' class='tabdiv'>
 			<?php require("templates/interface/desktop/php/user/user-sections/update.php"); ?>
 		</div>
 		
-		<script>
-		//console.log("Update tab loaded."); // DEBUGGING
-		</script>
-		
 		<div id='settings' class='tabdiv'>
 			<?php require("templates/interface/desktop/php/user/user-sections/settings.php"); ?>
 		</div>
-		
-		<script>
-		//console.log("Settings tab loaded."); // DEBUGGING
-		</script>
-		
-		<div id='news' class='tabdiv'>
-			<?php require("templates/interface/desktop/php/user/user-sections/news.php"); ?>
-		</div>
-		
-		<script>
-		//console.log("News tab loaded."); // DEBUGGING
-		</script>
-		
-		<div id='resources' class='tabdiv'>
-			<?php require("templates/interface/desktop/php/user/user-sections/resources.php"); ?>
-		</div>
-		
-		<script>
-		//console.log("Resources tab loaded."); // DEBUGGING
-		</script>
 		
 			<?php
 			if ( $ocpt_conf['gen']['asset_charts_toggle'] == 'on' ) {
@@ -95,37 +67,29 @@ require("templates/interface/desktop/php/header.php");
 		<div id='charts' class='tabdiv container-fluid'>
 			<?php require("templates/interface/desktop/php/user/user-sections/charts.php"); ?>
 		</div>
-		
-		<script>
-		//console.log("Charts tab loaded."); // DEBUGGING
-		</script>
 			<?php
 			}
 			?>
+		
+		<div id='news' class='tabdiv'>
+			<?php require("templates/interface/desktop/php/user/user-sections/news.php"); ?>
+		</div>
 			
 		<div id='tools' class='tabdiv'>
 			<?php require("templates/interface/desktop/php/user/user-sections/tools.php"); ?>
 		</div>
 		
-		<script>
-		//console.log("Tools tab loaded."); // DEBUGGING
-		</script>
-		
 		<div id='mining' class='tabdiv'>
 			<?php require("templates/interface/desktop/php/user/user-sections/mining.php"); ?>
 		</div>
 		
-		<script>
-		//console.log("Mining tab loaded."); // DEBUGGING
-		</script>
+		<div id='resources' class='tabdiv'>
+			<?php require("templates/interface/desktop/php/user/user-sections/resources.php"); ?>
+		</div>
 		
 		<div id='help' class='tabdiv'>
 			<?php require("templates/interface/desktop/php/user/user-sections/help.php"); ?>
 		</div>
-		
-		<script>
-		//console.log("Help tab loaded."); // DEBUGGING
-		</script>
 
 
 <?php

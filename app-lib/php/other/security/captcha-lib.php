@@ -45,7 +45,9 @@ $font_files = array_diff(scandir($font_dir), array('.', '..'));
 
 $fonts = array();
 foreach( $font_files as $ttf_file ) {
-$fonts[] = $font_dir . $ttf_file;
+	if ( strpos($ttf_file, '.ttf') !== false ) {
+	$fonts[] = $font_dir . $ttf_file;
+	}
 }
 
 

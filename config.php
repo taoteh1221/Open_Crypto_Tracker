@@ -39,11 +39,11 @@ $ocpt_conf = array(); // REQUIRED, DON'T DELETE BY ACCIDENT
 ////////////////////////////////////////
 
 
-// Enable / disable daily upgrade checks / alerts (DEFAULT: WEB INTERFACE ONLY)
+// Enable / disable daily upgrade checks / alerts (DEFAULT: ALL USER-ACTIVATED COMM CHANNELS)
 // (Checks latest release version via github.com API endpoint value "tag_name" 
 // @ https://api.github.com/repos/taoteh1221/Open_Crypto_Portfolio_Tracker/releases/latest)
 // Choosing 'all' will send to all properly-configured communication channels, and automatically skip any not properly setup
-$ocpt_conf['comms']['upgrade_alert'] = 'ui'; // 'off' (disabled) / 'all' / 'ui' (web interface) / 'email' / 'text' / 'notifyme' / 'telegram'
+$ocpt_conf['comms']['upgrade_alert'] = 'all'; // 'off' (disabled) / 'all' / 'ui' (web interface) / 'email' / 'text' / 'notifyme' / 'telegram'
 ////
 // Wait X days between upgrade reminders
 $ocpt_conf['comms']['upgrade_alert_reminder'] = 7; // (only used if upgrade check is enabled above)
@@ -567,10 +567,10 @@ $ocpt_conf['power']['logs_purge'] = 10;
 
 // CONTRAST of CAPTCHA IMAGE text against background (on login pages)
 // 0 for neutral contrast, positive for more contrast, negative for less contrast (MAXIMUM OF +-35)
-$ocpt_conf['power']['captcha_text_contrast'] = -9; // example: -5 or 5 (default = -9)
+$ocpt_conf['power']['captcha_text_contrast'] = -5; // example: -5 or 5 (default = -5)
 ////
 // MAX OFF-ANGLE DEGREES (tilted backward / forward) of CAPTCHA IMAGE text characters (MAXIMUM OF 35)
-$ocpt_conf['power']['captcha_text_angle'] = 35; // (default = 35)
+$ocpt_conf['power']['captcha_text_angle'] = 30; // (default = 30)
 
 
 // Days until old backup archives should be deleted (chart data archives, etc)
@@ -1440,7 +1440,7 @@ $ocpt_conf['dev']['captcha_text_size'] = 50; // Text size (default = 50)
 $ocpt_conf['dev']['captcha_chars_length'] = 6; // Number of characters in captcha image (default = 6)
 ////
 // ONLY MOST READABLE characters allowed for use in captcha image 
-$ocpt_conf['dev']['captcha_permitted_chars'] = 'ACEFHMNPRTUWXY234567'; // (default = 'ACEFHMNPRTUWXY234567')
+$ocpt_conf['dev']['captcha_permitted_chars'] = 'ACEFHMNPQRSTUVWXYZ2345679'; // (default = 'ACEFHMNPQRSTUVWXYZ2345679')
 
 
 // Local / internal API rate limit (maximum of once every X seconds, per ip address) for accepting remote requests

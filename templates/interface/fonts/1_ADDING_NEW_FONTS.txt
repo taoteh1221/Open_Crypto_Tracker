@@ -1,0 +1,3 @@
+
+
+If you want to add more fonts here for better security protection from bot login attempts, just make sure they are TTF FONTS (with the .ttf file extension). After you add new fonts to this directory, they are AUTOMATICALLY INCLUDED in the fonts used for the CAPTCHA image (used on the login page).
