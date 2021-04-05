@@ -20,6 +20,8 @@
     		
    <ul style='margin-top: 25px; font-weight: bold;'>
 	
+	<li class='bitcoin' style='font-weight: bold;'>Setting this page as the 'start page' (top left) will save your vertical scroll position during reloads.</li>	
+	
 	<li class='bitcoin' style='font-weight: bold;'>RSS feed data is cached (randomly) between <?=$news_feed_cache_min_max[0]?> / <?=$news_feed_cache_min_max[1]?> minutes for quicker load times.</li>	
 	
 	<li class='bitcoin' style='font-weight: bold;'>To see the date an entry was published, hover over it.</li>	

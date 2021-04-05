@@ -58,6 +58,8 @@
     		
    <ul style='margin-top: 25px; font-weight: bold;'>
 	
+	<li class='bitcoin' style='font-weight: bold;'>Setting this page as the 'start page' (top left) will save your vertical scroll position during reloads.</li>	
+	
 	<li class='bitcoin' style='font-weight: bold;'>If your web browser freezes on this page for a long time, try selecting fewer charts.</li>	
 	
 	<li class='bitcoin' style='font-weight: bold;'>Charts may take awhile to update with the latest data.</li>	
