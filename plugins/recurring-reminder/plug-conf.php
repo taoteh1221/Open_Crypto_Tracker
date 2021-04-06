@@ -25,7 +25,7 @@ $plug_conf[$this_plug]['runtime_mode'] = 'cron'; // 'cron', 'ui', 'all' (only 'c
 // Enable / disable "do not disturb" time (24 HOUR FORMAT, HOURS / MINUTES ONLY, SET EITHER TO BLANK '' TO DISABLE)
 $plug_conf[$this_plug]['do_not_dist'] = array(
 															// ALWAYS USE THIS FORMAT: '00:00', OR THIS FEATURE WON'T BE ENABLED!
-															'on' => '17:15', // Defualt = '17:15' (5:15pm)
+															'on' => '17:15', // Default = '17:15' (5:15pm)
 															'off' => '10:30' // Default = '10:30' (10:30am)
 															);
 

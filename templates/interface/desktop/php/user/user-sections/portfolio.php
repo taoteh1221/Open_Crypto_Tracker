@@ -76,7 +76,7 @@ if ( $_POST['submit_check'] == 1 || !$csv_import_fail && $_POST['csv_check'] == 
 <table border='0' cellpadding='10' cellspacing='0' id="coins_table">
  <thead>
     <tr>
-<th class='border_lt'>Sort</th>
+<th class='border_lt'>Rank</th>
 <th class='border_lt blue al_right'><span>Asset Name</span></th>
 <th class='border_t'>Unit Value</th>
 <th class='border_lt blue'>Exchange</th>

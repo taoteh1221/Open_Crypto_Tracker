@@ -6,6 +6,10 @@
 
 // REMEMBER WE HAVE #GLOBALS# TO WORRY ABOUT ADDING IN $ocpt_asset->ui_coin_row(), AS THAT'S WHERE THIS CODE IS RAN!
 
+ 
+// Consolidate function calls for runtime speed improvement
+ $marketcap_data = $this->marketcap_data($asset_symbol);
+ 
  ?>
  
 
@@ -17,7 +21,22 @@
 
 <td class='data border_lb'>
 
-<span class='app_sort_filter'><?php echo $sort_order; ?></span>
+<span class='app_sort_filter'>
+
+<?php 
+
+//echo $sort_order;
+
+if ( isset($marketcap_data['rank']) ) {
+echo '#' . $marketcap_data['rank'];
+}
+else {
+echo '?';
+}
+
+?>
+
+</span>
 
 </td>
 
@@ -29,9 +48,6 @@
  <?php
  
  $mkcap_render_data = trim($ocpt_conf['assets'][$asset_symbol]['mcap_slug']);
- 
-// Consolidate function calls for runtime speed improvement
- $marketcap_data = $this->marketcap_data($asset_symbol);
  
  $info_icon = ( !$marketcap_data['rank'] && $asset_symbol != 'MISCASSETS' ? 'info-red.png' : 'info.png' );
  
