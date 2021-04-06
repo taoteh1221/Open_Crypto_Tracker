@@ -9,7 +9,7 @@
 // ###########################################################################################
 
 
-foreach ( $plug_conf[$this_plug]['reminders'] as $key => $value ) {
+foreach ( $plug_conf[$this_plug]['reminders'] as $key => $val ) {
 	
 	
 	if ( preg_match("/^([0-1][0-9]|2[0-3]):([0-5][0-9])$/", $plug_conf[$this_plug]['do_not_dist']['on'])
@@ -19,7 +19,7 @@ foreach ( $plug_conf[$this_plug]['reminders'] as $key => $value ) {
 
 
 // Recurring reminder time in minutes
-$in_minutes = round( $ocpt_var->num_to_str(1440 * $value['days']) );
+$in_minutes = round( $pt_var->num_to_str(1440 * $val['days']) );
 
 
 // Offset -1 anything 20 minutes or higher, so recurring reminder is triggered at same EXACT cron job interval consistently 
@@ -28,14 +28,14 @@ $in_minutes_offset = ( $in_minutes >= 20 ? ($in_minutes - 1) : $in_minutes );
 
 	
 	// If it's time to send a reminder...
-	if ( $ocpt_cache->update_cache( $ocpt_plug->event_cache('alert-' . $key . '.dat') , $in_minutes_offset ) == true ) {
+	if ( $pt_cache->update_cache( $pt_plug->event_cache('alert-' . $key . '.dat') , $in_minutes_offset ) == true ) {
 		
 		
 		// If 'do not disturb' enabled
 		if ( $do_not_dist ) {
 		
 		// Human-readable year-month-date for today, ADJUSTED FOR USER'S TIME ZONE OFFSET FROM APP CONFIG
-		$offset_date = $ocpt_gen->time_date_format($ocpt_conf['gen']['loc_time_offset'], 'standard_date');
+		$offset_date = $pt_gen->time_date_format($pt_conf['gen']['loc_time_offset'], 'standard_date');
 		
 		// Time of day in decimals (as hours) for dnd on/off config settings
 		$dnd_on_dec = $plug_class[$this_plug]->time_dec_hours($plug_conf[$this_plug]['do_not_dist']['on'], 'to');
@@ -43,13 +43,13 @@ $in_minutes_offset = ( $in_minutes >= 20 ? ($in_minutes - 1) : $in_minutes );
 		
 			
 			// Time of day in hours:minutes for dnd on/off (IN UTC TIME), ADJUSTED FOR USER'S TIME ZONE OFFSET FROM APP CONFIG
-			if ( $ocpt_conf['gen']['loc_time_offset'] < 0 ) {
-			$offset_dnd_on = $plug_class[$this_plug]->time_dec_hours( ( $dnd_on_dec + abs($ocpt_conf['gen']['loc_time_offset']) ) , 'from');
-			$offset_dnd_off = $plug_class[$this_plug]->time_dec_hours( ( $dnd_off_dec + abs($ocpt_conf['gen']['loc_time_offset']) ) , 'from');
+			if ( $pt_conf['gen']['loc_time_offset'] < 0 ) {
+			$offset_dnd_on = $plug_class[$this_plug]->time_dec_hours( ( $dnd_on_dec + abs($pt_conf['gen']['loc_time_offset']) ) , 'from');
+			$offset_dnd_off = $plug_class[$this_plug]->time_dec_hours( ( $dnd_off_dec + abs($pt_conf['gen']['loc_time_offset']) ) , 'from');
 			}
 			else {
-			$offset_dnd_on = $plug_class[$this_plug]->time_dec_hours( ( $dnd_on_dec - $ocpt_conf['gen']['loc_time_offset'] ) , 'from');
-			$offset_dnd_off = $plug_class[$this_plug]->time_dec_hours( ( $dnd_off_dec - $ocpt_conf['gen']['loc_time_offset'] ) , 'from');
+			$offset_dnd_on = $plug_class[$this_plug]->time_dec_hours( ( $dnd_on_dec - $pt_conf['gen']['loc_time_offset'] ) , 'from');
+			$offset_dnd_off = $plug_class[$this_plug]->time_dec_hours( ( $dnd_off_dec - $pt_conf['gen']['loc_time_offset'] ) , 'from');
 			}
 		
 		
@@ -78,12 +78,12 @@ $in_minutes_offset = ( $in_minutes >= 20 ? ($in_minutes - 1) : $in_minutes );
 		// Send message, if checks pass
 		if ( $send_message ) {
 		
-		$format_message = "This is a recurring ~" . round($value['days']) . " day reminder: " . $value['message'];
+		$format_message = "This is a recurring ~" . round($val['days']) . " day reminder: " . $val['message'];
 
   		// Message parameter added for desired comm methods (leave any comm method blank to skip sending via that method)
   					
   		// Minimize function calls
-  		$encoded_text_message = $ocpt_gen->charset_encode($format_message); // Unicode support included for text messages (emojis / asian characters / etc )
+  		$encoded_text_message = $pt_gen->charset_encode($format_message); // Unicode support included for text messages (emojis / asian characters / etc )
   					
   	 	$send_params = array(
   	        						'notifyme' => $format_message,
@@ -93,17 +93,17 @@ $in_minutes_offset = ( $in_minutes >= 20 ? ($in_minutes - 1) : $in_minutes );
   	        											'charset' => $encoded_text_message['charset']
   	        												),
   	        						'email' => array(
-  	        												'subject' => 'Your Recurring Reminder Message (sent every ~' . round($value['days']) . ' days)',
+  	        												'subject' => 'Your Recurring Reminder Message (sent every ~' . round($val['days']) . ' days)',
   	        												'message' => $format_message
   	        												)
   	        						);
   	        						
    	       	
 		// Send notifications
-		@$ocpt_cache->queue_notify($send_params);
+		@$pt_cache->queue_notify($send_params);
 	
 		// Update the event tracking for this alert
-		$ocpt_cache->save_file( $ocpt_plug->event_cache('alert-' . $key . '.dat') , $ocpt_gen->time_date_format(false, 'pretty_date_time') );
+		$pt_cache->save_file( $pt_plug->event_cache('alert-' . $key . '.dat') , $pt_gen->time_date_format(false, 'pretty_date_time') );
 		
 		$send_message = false; // Reset
 		

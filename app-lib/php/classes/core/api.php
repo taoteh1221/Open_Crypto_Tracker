@@ -10,13 +10,13 @@
 
 
 
-class ocpt_api {
+class pt_api {
 	
 // Class variables / arrays
-var $ocpt_var1;
-var $ocpt_var2;
-var $ocpt_var3;
-var $ocpt_array1 = array();
+var $pt_var1;
+var $pt_var2;
+var $pt_var3;
+var $pt_array1 = array();
 
       
 
@@ -27,19 +27,19 @@ var $ocpt_array1 = array();
    
    function bitcoin($request) {
     
-   global $ocpt_conf, $ocpt_cache;
+   global $pt_conf, $pt_cache;
          
        
       if ( $request == 'height' ) {
-      $string = 'https://blockchain.info/q/getblockcount';
+      $url = 'https://blockchain.info/q/getblockcount';
       }
       elseif ( $request == 'difficulty' ) {
-      $string = 'https://blockchain.info/q/getdifficulty';
+      $url = 'https://blockchain.info/q/getdifficulty';
       }
          
-   $data = @$ocpt_cache->ext_data('url', $string, $ocpt_conf['power']['chainstats_cache_time']);
+   $response = @$pt_cache->ext_data('url', $url, $pt_conf['power']['chainstats_cache_time']);
        
-   return (float)$data;
+   return (float)$response;
      
    }
    
@@ -50,42 +50,48 @@ var $ocpt_array1 = array();
    
    function coingecko($force_prim_curr=null) {
       
-   global $base_dir, $ocpt_conf, $ocpt_cache;
+   global $base_dir, $pt_conf, $pt_cache;
    
    $data = array();
    $sub_arrays = array();
    $result = array();
    
    // Don't overwrite global
-   $coingecko_prim_curr = ( $force_prim_curr != null ? strtolower($force_prim_curr) : strtolower($ocpt_conf['gen']['btc_prim_curr_pairing']) );
+   $coingecko_prim_curr = ( $force_prim_curr != null ? strtolower($force_prim_curr) : strtolower($pt_conf['gen']['btc_prim_curr_pairing']) );
    
          
    // DON'T ADD ANY ERROR CHECKS HERE, OR RUNTIME MAY SLOW SIGNIFICANTLY!!
       
    
       // Batched / multiple API calls, if 'mcap_ranks_max' is greater than 'coingecko_api_batched_max'
-      if ( $ocpt_conf['power']['mcap_ranks_max'] > $ocpt_conf['dev']['coingecko_api_batched_max'] ) {
+      if ( $pt_conf['power']['mcap_ranks_max'] > $pt_conf['dev']['coingecko_api_batched_max'] ) {
       
          $loop = 0;
-         $calls = ceil($ocpt_conf['power']['mcap_ranks_max'] / $ocpt_conf['dev']['coingecko_api_batched_max']);
+         $calls = ceil($pt_conf['power']['mcap_ranks_max'] / $pt_conf['dev']['coingecko_api_batched_max']);
+         
          while ( $loop < $calls ) {
          
-         $url = 'https://api.coingecko.com/api/v3/coins/markets?per_page=' . $ocpt_conf['dev']['coingecko_api_batched_max'] . '&page=' . ($loop + 1) . '&vs_currency=' . $coingecko_prim_curr . '&price_change_percentage=1h,24h,7d,14d,30d,200d,1y';
+         $url = 'https://api.coingecko.com/api/v3/coins/markets?per_page=' . $pt_conf['dev']['coingecko_api_batched_max'] . '&page=' . ($loop + 1) . '&vs_currency=' . $coingecko_prim_curr . '&price_change_percentage=1h,24h,7d,14d,30d,200d,1y';
             
-            if ( $loop > 0 && $ocpt_cache->update_cache($base_dir . '/cache/secured/external_api/' . md5($url) . '.dat', $ocpt_conf['power']['mcap_cache_time']) == true ) {
+            if ( $loop > 0 && $pt_cache->update_cache($base_dir . '/cache/secured/external_api/' . md5($url) . '.dat', $pt_conf['power']['mcap_cache_time']) == true ) {
             usleep(150000); // Wait 0.15 seconds between consecutive calls, to avoid being blocked / throttled by external server
             }
          
-         $jsondata = @$ocpt_cache->ext_data('url', $url, $ocpt_conf['power']['mcap_cache_time']);
+         $response = @$pt_cache->ext_data('url', $url, $pt_conf['power']['mcap_cache_time']);
    
-         $sub_arrays[] = json_decode($jsondata, true);
+         $sub_arrays[] = json_decode($response, true);
+         
          $loop = $loop + 1;
+         
          }
       
       }
       else {
-      $jsondata = @$ocpt_cache->ext_data('url', 'https://api.coingecko.com/api/v3/coins/markets?per_page='.$ocpt_conf['power']['mcap_ranks_max'].'&page=1&vs_currency='.$coingecko_prim_curr.'&price_change_percentage=1h,24h,7d,14d,30d,200d,1y', $ocpt_conf['power']['mcap_cache_time']);
-      $sub_arrays[] = json_decode($jsondata, true);
+      	
+      $response = @$pt_cache->ext_data('url', 'https://api.coingecko.com/api/v3/coins/markets?per_page='.$pt_conf['power']['mcap_ranks_max'].'&page=1&vs_currency='.$coingecko_prim_curr.'&price_change_percentage=1h,24h,7d,14d,30d,200d,1y', $pt_conf['power']['mcap_cache_time']);
+      
+      $sub_arrays[] = json_decode($response, true);
+      
       }
          
          
@@ -100,7 +106,7 @@ var $ocpt_array1 = array();
    
       if ( is_array($data) ) {
          
-         foreach ($data as $key => $value) {
+         foreach ($data as $key => $val) {
             
             if ( $data[$key]['symbol'] != '' ) {
             $result[strtolower($data[$key]['symbol'])] = $data[$key];
@@ -134,21 +140,21 @@ var $ocpt_array1 = array();
    
    function telegram($mode) {
       
-   global $ocpt_conf, $ocpt_cache;
+   global $pt_conf, $pt_cache;
    
       if ( $mode == 'updates' ) {
       
       // Don't cache data, we are storing it as a specific (secured) cache var instead
-      $get_telegram_chatroom_data = @$ocpt_cache->ext_data('url', 'https://api.telegram.org/bot'.$ocpt_conf['comms']['telegram_bot_token'].'/getUpdates', 0);
+      $response = @$pt_cache->ext_data('url', 'https://api.telegram.org/bot'.$pt_conf['comms']['telegram_bot_token'].'/getUpdates', 0);
          
-      $telegram_chatroom = json_decode($get_telegram_chatroom_data, true);
+      $telegram_chatroom = json_decode($response, true);
    
       $telegram_chatroom = $telegram_chatroom['result']; 
    
          foreach( $telegram_chatroom as $chat_key => $chat_unused ) {
       
             // Overwrites any earlier value while looping, so we have the latest data
-            if ( $telegram_chatroom[$chat_key]['message']['chat']['username'] == trim($ocpt_conf['comms']['telegram_your_username']) ) {
+            if ( $telegram_chatroom[$chat_key]['message']['chat']['username'] == trim($pt_conf['comms']['telegram_your_username']) ) {
             $telegram_user_data = $telegram_chatroom[$chat_key];
             }
       
@@ -160,7 +166,7 @@ var $ocpt_array1 = array();
       elseif ( $mode == 'webhook' ) {
          
       // Don't cache data, we are storing it as a specific (secured) cache var instead
-      $get_telegram_webhook_data = @$ocpt_cache->ext_data('url', 'https://api.telegram.org/bot'.$ocpt_conf['comms']['telegram_bot_token'].'/getWebhookInfo', 0);
+      $get_telegram_webhook_data = @$pt_cache->ext_data('url', 'https://api.telegram.org/bot'.$pt_conf['comms']['telegram_bot_token'].'/getWebhookInfo', 0);
          
       $telegram_webhook = json_decode($get_telegram_webhook_data, true);
       
@@ -178,18 +184,19 @@ var $ocpt_array1 = array();
    
    function etherscan($block_info) {
     
-   global $base_dir, $ocpt_conf, $ocpt_cache;
+   global $base_dir, $pt_conf, $pt_cache;
    
    
-      if ( $ocpt_conf['gen']['etherscan_key'] == '' ) {
+      if ( trim($pt_conf['gen']['etherscan_key']) == '' ) {
       return false;
       }
    
    
-     $endpnt_url = 'https://api.etherscan.io/api?module=proxy&action=eth_blockNumber&apikey=' . $ocpt_conf['gen']['etherscan_key'];
-     $jsondata = @$ocpt_cache->ext_data('url', $endpnt_url, $ocpt_conf['power']['chainstats_cache_time']);
+     $url = 'https://api.etherscan.io/api?module=proxy&action=eth_blockNumber&apikey=' . $pt_conf['gen']['etherscan_key'];
+     
+     $response = @$pt_cache->ext_data('url', $url, $pt_conf['power']['chainstats_cache_time']);
        
-     $data = json_decode($jsondata, true);
+     $data = json_decode($response, true);
      
      $block_number = $data['result'];
        
@@ -199,14 +206,14 @@ var $ocpt_array1 = array();
          else {
             
             // Non-dynamic cache file name, because filename would change every recache and create cache bloat
-            if ( $ocpt_cache->update_cache('cache/secured/external_api/eth-stats.dat', $ocpt_conf['power']['chainstats_cache_time'] ) == true ) {
+            if ( $pt_cache->update_cache('cache/secured/external_api/eth-stats.dat', $pt_conf['power']['chainstats_cache_time'] ) == true ) {
             
-            $endpnt_url = 'https://api.etherscan.io/api?module=proxy&action=eth_getBlockByNumber&tag='.$block_number.'&boolean=true&apikey=' . $ocpt_conf['gen']['etherscan_key'];
-            $jsondata = @$ocpt_cache->ext_data('url', $endpnt_url, 0); // ZERO TO NOT CACHE DATA (WOULD CREATE CACHE BLOAT)
+            $url = 'https://api.etherscan.io/api?module=proxy&action=eth_getBlockByNumber&tag='.$block_number.'&boolean=true&apikey=' . $pt_conf['gen']['etherscan_key'];
+            $response = @$pt_cache->ext_data('url', $url, 0); // ZERO TO NOT CACHE DATA (WOULD CREATE CACHE BLOAT)
             
-            $ocpt_cache->save_file($base_dir . '/cache/secured/external_api/eth-stats.dat', $jsondata);
+            $pt_cache->save_file($base_dir . '/cache/secured/external_api/eth-stats.dat', $response);
             
-            $data = json_decode($jsondata, true);
+            $data = json_decode($response, true);
             
             return $data['result'][$block_info];
             
@@ -232,19 +239,19 @@ var $ocpt_array1 = array();
    
    function coinmarketcap($force_prim_curr=null) {
       
-   global $ocpt_conf, $ocpt_cache, $ocpt_gen, $coinmarketcap_currencies, $cap_data_force_usd, $cmc_notes;
+   global $pt_conf, $pt_cache, $pt_gen, $coinmarketcap_currencies, $cap_data_force_usd, $cmc_notes;
    
    $result = array();
    
    
-      if ( trim($ocpt_conf['gen']['cmc_key']) == null ) { 
-      $ocpt_gen->app_logging('notify_error', '"cmc_key" (free API key) is not configured in Admin Config GENERAL section', false, 'cmc_key');
+      if ( trim($pt_conf['gen']['cmc_key']) == null ) { 
+      $pt_gen->app_logging('notify_error', '"cmc_key" (free API key) is not configured in Admin Config GENERAL section', false, 'cmc_key');
       return false;
       }
       
    
       // Don't overwrite global
-      $coinmarketcap_prim_curr = strtoupper($ocpt_conf['gen']['btc_prim_curr_pairing']);
+      $coinmarketcap_prim_curr = strtoupper($pt_conf['gen']['btc_prim_curr_pairing']);
       
          
          if ( $force_prim_curr != null ) {
@@ -265,12 +272,12 @@ var $ocpt_array1 = array();
       
       $headers = [
      'Accepts: application/json',
-     'X-CMC_PRO_API_KEY: ' . $ocpt_conf['gen']['cmc_key']
+     'X-CMC_PRO_API_KEY: ' . $pt_conf['gen']['cmc_key']
       ];
    
       $cmc_params = array(
                            'start' => '1',
-                           'limit' => $ocpt_conf['power']['mcap_ranks_max'],
+                           'limit' => $pt_conf['power']['mcap_ranks_max'],
                            'convert' => $convert
                            );
    
@@ -280,9 +287,9 @@ var $ocpt_array1 = array();
       
       $request = "{$url}?{$qs}"; // create the request URL
    
-      $jsondata = @$ocpt_cache->ext_data('url', $request, $ocpt_conf['power']['remote_api_timeout'], null, null, null, $headers);
+      $response = @$pt_cache->ext_data('url', $request, $pt_conf['power']['remote_api_timeout'], null, null, null, $headers);
       
-      $data = json_decode($jsondata, true);
+      $data = json_decode($response, true);
            
       $data = $data['data'];
            
@@ -290,7 +297,7 @@ var $ocpt_array1 = array();
    
        if ( is_array($data) ) {
          
-            foreach ($data as $key => $value) {
+            foreach ($data as $key => $val) {
             
                if ( $data[$key]['symbol'] != '' ) {
                $result[strtolower($data[$key]['symbol'])] = $data[$key];
@@ -313,7 +320,7 @@ var $ocpt_array1 = array();
    // Credit: https://www.alexkras.com/simple-rss-reader-in-85-lines-of-php/
    function rss($url, $theme_selected, $feed_size, $cache_only=false){
       
-   global $ocpt_conf, $base_dir, $ocpt_var, $ocpt_cache, $ocpt_gen, $fetched_feeds;
+   global $base_dir, $pt_conf, $pt_var, $pt_cache, $pt_gen, $fetched_feeds;
    
    
       if ( !isset($_SESSION[$fetched_feeds]['all']) ) {
@@ -321,12 +328,12 @@ var $ocpt_array1 = array();
       }
       // Never re-cache FROM LIVE more than 'news_feed_batched_max' (EXCEPT for cron runtimes pre-caching), 
       // to avoid overloading low resource devices (raspi / pine64 / etc) and creating long feed load times
-      elseif ( $_SESSION[$fetched_feeds]['all'] >= $ocpt_conf['dev']['news_feed_batched_max'] && $cache_only == false ) {
+      elseif ( $_SESSION[$fetched_feeds]['all'] >= $pt_conf['dev']['news_feed_batched_max'] && $cache_only == false ) {
       return '<span class="red">Live data fetching limit reached (' . $_SESSION[$fetched_feeds]['all'] . ').</span>';
       }
       
    
-   $news_feed_cache_min_max = explode(',', $ocpt_conf['dev']['news_feed_cache_min_max']);
+   $news_feed_cache_min_max = explode(',', $pt_conf['dev']['news_feed_cache_min_max']);
    // Cleanup
    $news_feed_cache_min_max = array_map('trim', $news_feed_cache_min_max);
       
@@ -334,16 +341,18 @@ var $ocpt_array1 = array();
                                     
          
       // If we will be updating the feed
-      if ( $ocpt_cache->update_cache($base_dir . '/cache/secured/external_api/' . md5($url) . '.dat', $rss_feed_cache_time) == true ) {
+      if ( $pt_cache->update_cache($base_dir . '/cache/secured/external_api/' . md5($url) . '.dat', $rss_feed_cache_time) == true ) {
       
       
       $_SESSION[$fetched_feeds]['all'] = $_SESSION[$fetched_feeds]['all'] + 1; // Mark as a fetched feed, since it's going to update
       
-      $endpoint_tld_or_ip = $ocpt_gen->get_tld_or_ip($url);
+      $endpoint_tld_or_ip = $pt_gen->get_tld_or_ip($url);
    
          
-         if ( $ocpt_conf['dev']['debug'] == 'all' || $ocpt_conf['dev']['debug'] == 'all_telemetry' || $ocpt_conf['dev']['debug'] == 'memory_usage_telemetry' ) {
-         $ocpt_gen->app_logging('system_debugging', $endpoint_tld_or_ip . ' news feed updating ('.$_SESSION[$fetched_feeds]['all'].'), CURRENT script memory usage is ' . $ocpt_gen->conv_bytes(memory_get_usage(), 1) . ', PEAK script memory usage is ' . $ocpt_gen->conv_bytes(memory_get_peak_usage(), 1) . ', php_sapi_name is "' . php_sapi_name() . '"' );
+         if ( $pt_conf['dev']['debug'] == 'all' || $pt_conf['dev']['debug'] == 'all_telemetry' || $pt_conf['dev']['debug'] == 'memory_usage_telemetry' ) {
+         	
+         $pt_gen->app_logging('system_debugging', $endpoint_tld_or_ip . ' news feed updating ('.$_SESSION[$fetched_feeds]['all'].'), CURRENT script memory usage is ' . $pt_gen->conv_bytes(memory_get_usage(), 1) . ', PEAK script memory usage is ' . $pt_gen->conv_bytes(memory_get_peak_usage(), 1) . ', php_sapi_name is "' . php_sapi_name() . '"' );
+         
          }
       
       
@@ -374,20 +383,19 @@ var $ocpt_array1 = array();
          
                
    // Get feed data (whether cached or re-caching live data)
-   $xmldata = @$ocpt_cache->ext_data('url', $url, $rss_feed_cache_time); 
+   $response = @$pt_cache->ext_data('url', $url, $rss_feed_cache_time); 
          
       
       // Format output (UNLESS WE ARE ONLY CACHING DATA)
       if ( !$cache_only ) {
       
          
-      $rss = simplexml_load_string($xmldata);
+      $rss = simplexml_load_string($response);
       
       
          if ( $rss == false ) {
          gc_collect_cycles(); // Clean memory cache
          return '<span class="red">Error retrieving feed data.</span>';
-         //return $xmldata; // DEBUGGING
          }
                      
                      
@@ -395,7 +403,7 @@ var $ocpt_array1 = array();
       
       $html_hidden .= '<ul class="hidden" id="'.md5($url).'">';
       
-      $mark_new = ' &nbsp; <img alt="" src="templates/interface/media/images/auto-preloaded/twotone_fiber_new_'.$theme_selected.'_theme_48dp.png" height="25" title="New Article (under '.$ocpt_conf['power']['news_feed_entries_new'].' days old)" />';
+      $mark_new = ' &nbsp; <img alt="" src="templates/interface/media/images/auto-preloaded/twotone_fiber_new_'.$theme_selected.'_theme_48dp.png" height="25" title="New Article (under '.$pt_conf['power']['news_feed_entries_new'].' days old)" />';
              
       $now_timestamp = time();
              
@@ -410,10 +418,10 @@ var $ocpt_array1 = array();
             $sortable_feed[] = $item;
             }
                
-            $usort_results = usort($sortable_feed,  array('ocpt_gen', 'timestamps_usort_newest') );
+            $usort_results = usort($sortable_feed,  array('pt_gen', 'timestamps_usort_newest') );
                
             if ( !$usort_results ) {
-            $ocpt_gen->app_logging( 'other_error', 'RSS feed failed to sort by newest items (' . $url . ')');
+            $pt_gen->app_logging( 'other_error', 'RSS feed failed to sort by newest items (' . $url . ')');
             }
              
             
@@ -444,10 +452,10 @@ var $ocpt_array1 = array();
                   
                $month_name = date("F", mktime(0, 0, 0, $date_array['month'], 10));
                   
-               $date_ui = $month_name . ' ' . $ocpt_gen->ordinal($date_array['day']) . ', ' . $date_array['year'] . ' @ ' . substr("0{$date_array['hour']}", -2) . ':' . substr("0{$date_array['minute']}", -2);
+               $date_ui = $month_name . ' ' . $pt_gen->ordinal($date_array['day']) . ', ' . $date_array['year'] . ' @ ' . substr("0{$date_array['hour']}", -2) . ':' . substr("0{$date_array['minute']}", -2);
                   
                   // If publish date is OVER 'news_feed_entries_new' days old, DONT mark as new
-                  if ( $ocpt_var->num_to_str($now_timestamp) > $ocpt_var->num_to_str( strtotime($item_date) + ($ocpt_conf['power']['news_feed_entries_new'] * 86400) ) ) { // 86400 seconds == 1 day
+                  if ( $pt_var->num_to_str($now_timestamp) > $pt_var->num_to_str( strtotime($item_date) + ($pt_conf['power']['news_feed_entries_new'] * 86400) ) ) { // 86400 seconds == 1 day
                   $mark_new = null;
                   }
                   
@@ -459,6 +467,7 @@ var $ocpt_array1 = array();
                   }
                         
                $count++;     
+               
                }
                
             }
@@ -474,10 +483,10 @@ var $ocpt_array1 = array();
             $sortable_feed[] = $item;
             }
                
-         $usort_results = usort($sortable_feed, array('ocpt_gen', 'timestamps_usort_newest') );
+         $usort_results = usort($sortable_feed, array('pt_gen', 'timestamps_usort_newest') );
                
             if ( !$usort_results ) {
-            $ocpt_gen->app_logging( 'other_error', 'RSS feed failed to sort by newest items (' . $url . ')');
+            $pt_gen->app_logging( 'other_error', 'RSS feed failed to sort by newest items (' . $url . ')');
             }
             
              
@@ -508,12 +517,12 @@ var $ocpt_array1 = array();
                   
                $month_name = date("F", mktime(0, 0, 0, $date_array['month'], 10));
                   
-               $date_ui = $month_name . ' ' . $ocpt_gen->ordinal($date_array['day']) . ', ' . $date_array['year'] . ' @ ' . substr("0{$date_array['hour']}", -2) . ':' . substr("0{$date_array['minute']}", -2);
+               $date_ui = $month_name . ' ' . $pt_gen->ordinal($date_array['day']) . ', ' . $date_array['year'] . ' @ ' . substr("0{$date_array['hour']}", -2) . ':' . substr("0{$date_array['minute']}", -2);
                   
                $item_link = preg_replace("/web\.bittrex\.com/i", "bittrex.com", $item_link); // Fix for bittrex blog links
                   
                   // If publish date is OVER 'news_feed_entries_new' days old, DONT mark as new
-                  if ( $ocpt_var->num_to_str($now_timestamp) > $ocpt_var->num_to_str( strtotime($item_date) + ($ocpt_conf['power']['news_feed_entries_new'] * 86400) ) ) { // 86400 seconds == 1 day
+                  if ( $pt_var->num_to_str($now_timestamp) > $pt_var->num_to_str( strtotime($item_date) + ($pt_conf['power']['news_feed_entries_new'] * 86400) ) ) { // 86400 seconds == 1 day
                   $mark_new = null;
                   }
                   
@@ -525,6 +534,7 @@ var $ocpt_array1 = array();
                   }
                         
                $count++;     
+               
                }
                
                
@@ -561,10 +571,10 @@ var $ocpt_array1 = array();
    
    
    // We only need $pairing data if our function call needs 24hr trade volumes, so it's optional overhead
-   function market($asset_symbol, $chosen_exchange, $market_id, $pairing=false) { 
+   function market($asset_symb, $sel_exchange, $market_id, $pairing=false) { 
    
    
-   global $ocpt_conf, $ocpt_var, $ocpt_cache, $ocpt_gen, $ocpt_asset, $sel_btc_prim_curr_val, $defipulse_api_limit;
+   global $pt_conf, $pt_var, $pt_cache, $pt_gen, $pt_asset, $sel_btc_prim_curr_val, $defipulse_api_limit;
      
     
     
@@ -572,26 +582,26 @@ var $ocpt_array1 = array();
     
       
       
-      if ( strtolower($chosen_exchange) == 'bigone' ) {
+      if ( strtolower($sel_exchange) == 'bigone' ) {
          
          
-         $endpnt_url = 'https://big.one/api/v3/asset_pairs/tickers';
+         $url = 'https://big.one/api/v3/asset_pairs/tickers';
          
-         $jsondata = @$ocpt_cache->ext_data('url', $endpnt_url, $ocpt_conf['power']['last_trade_cache_time']);
+         $response = @$pt_cache->ext_data('url', $url, $pt_conf['power']['last_trade_cache_time']);
          
-         $data = json_decode($jsondata, true);
+         $data = json_decode($response, true);
        
           $data = $data['data'];
       
           if ( is_array($data) ) {
       
-           foreach ($data as $key => $value) {
+           foreach ($data as $key => $val) {
              
-             if ( $value["asset_pair_name"] == $market_id ) {
+             if ( $val["asset_pair_name"] == $market_id ) {
               
              $result = array(
-                      'last_trade' => $value["close"],
-                      '24hr_asset_vol' => $value["volume"],
+                      'last_trade' => $val["close"],
+                      '24hr_asset_vol' => $val["volume"],
                       '24hr_pairing_vol' => null // No pairing volume data for this API
                     );
               
@@ -611,27 +621,27 @@ var $ocpt_array1 = array();
       
     
     
-      elseif ( strtolower($chosen_exchange) == 'binance' ) {
+      elseif ( strtolower($sel_exchange) == 'binance' ) {
          
          
-         $endpnt_url = 'https://www.binance.com/api/v3/ticker/24hr';
+         $url = 'https://www.binance.com/api/v3/ticker/24hr';
          
-         $jsondata = @$ocpt_cache->ext_data('url', $endpnt_url, $ocpt_conf['power']['last_trade_cache_time']);
+         $response = @$pt_cache->ext_data('url', $url, $pt_conf['power']['last_trade_cache_time']);
          
-         $data = json_decode($jsondata, true);
+         $data = json_decode($response, true);
        
       
           if ( is_array($data) ) {
       
-           foreach ($data as $key => $value) {
+           foreach ($data as $key => $val) {
              
              
-             if ( $value['symbol'] == $market_id ) {
+             if ( $val['symbol'] == $market_id ) {
               
              $result = array(
-                    'last_trade' => $value["lastPrice"],
-                    '24hr_asset_vol' => $value["volume"],
-                    '24hr_pairing_vol' => $value["quoteVolume"]
+                    'last_trade' => $val["lastPrice"],
+                    '24hr_asset_vol' => $val["volume"],
+                    '24hr_pairing_vol' => $val["quoteVolume"]
                     );
     
              }
@@ -650,27 +660,27 @@ var $ocpt_array1 = array();
     
     
     
-      elseif ( strtolower($chosen_exchange) == 'binance_us' ) {
+      elseif ( strtolower($sel_exchange) == 'binance_us' ) {
          
          
-         $endpnt_url = 'https://api.binance.us/api/v3/ticker/24hr';
+         $url = 'https://api.binance.us/api/v3/ticker/24hr';
          
-         $jsondata = @$ocpt_cache->ext_data('url', $endpnt_url, $ocpt_conf['power']['last_trade_cache_time']);
+         $response = @$pt_cache->ext_data('url', $url, $pt_conf['power']['last_trade_cache_time']);
          
-         $data = json_decode($jsondata, true);
+         $data = json_decode($response, true);
        
       
           if ( is_array($data) ) {
       
-           foreach ($data as $key => $value) {
+           foreach ($data as $key => $val) {
              
              
-             if ( $value['symbol'] == $market_id ) {
+             if ( $val['symbol'] == $market_id ) {
               
              $result = array(
-                    'last_trade' => $value["lastPrice"],
-                    '24hr_asset_vol' => $value["volume"],
-                    '24hr_pairing_vol' => $value["quoteVolume"]
+                    'last_trade' => $val["lastPrice"],
+                    '24hr_asset_vol' => $val["volume"],
+                    '24hr_pairing_vol' => $val["quoteVolume"]
                     );
     
              }
@@ -689,14 +699,14 @@ var $ocpt_array1 = array();
       
       
     
-      elseif ( strtolower($chosen_exchange) == 'bit2c' ) {
+      elseif ( strtolower($sel_exchange) == 'bit2c' ) {
       
       
-      $endpnt_url = 'https://bit2c.co.il/Exchanges/'.$market_id.'/Ticker.json';
+      $url = 'https://bit2c.co.il/Exchanges/'.$market_id.'/Ticker.json';
       
-      $jsondata = @$ocpt_cache->ext_data('url', $endpnt_url, $ocpt_conf['power']['last_trade_cache_time']);
+      $response = @$pt_cache->ext_data('url', $url, $pt_conf['power']['last_trade_cache_time']);
       
-      $data = json_decode($jsondata, true);
+      $data = json_decode($response, true);
       
       $result = array(
                   'last_trade' => $data["ll"],
@@ -712,26 +722,26 @@ var $ocpt_array1 = array();
       
       
     
-      elseif ( strtolower($chosen_exchange) == 'bitbns' ) {
+      elseif ( strtolower($sel_exchange) == 'bitbns' ) {
         
          
-         $endpnt_url = 'https://bitbns.com/order/getTickerWithVolume/';
+         $url = 'https://bitbns.com/order/getTickerWithVolume/';
          
-         $jsondata = @$ocpt_cache->ext_data('url', $endpnt_url, $ocpt_conf['power']['last_trade_cache_time']);
+         $response = @$pt_cache->ext_data('url', $url, $pt_conf['power']['last_trade_cache_time']);
          
-         $data = json_decode($jsondata, true);
+         $data = json_decode($response, true);
          
       
           if ( is_array($data) ) {
       
-           foreach ($data as $key => $value) {
+           foreach ($data as $key => $val) {
              
              
              if ( $key == $market_id ) {
               
              $result = array(
-                    'last_trade' => $value["last_traded_price"],
-                    '24hr_asset_vol' => $value["volume"]["volume"],
+                    'last_trade' => $val["last_traded_price"],
+                    '24hr_asset_vol' => $val["volume"]["volume"],
                     '24hr_pairing_vol' => null // No pairing volume data for this API
                     );
     
@@ -751,14 +761,14 @@ var $ocpt_array1 = array();
     
     
     
-      elseif ( strtolower($chosen_exchange) == 'bitfinex' || strtolower($chosen_exchange) == 'ethfinex' ) {
+      elseif ( strtolower($sel_exchange) == 'bitfinex' || strtolower($sel_exchange) == 'ethfinex' ) {
         
          
-         $endpnt_url = 'https://api-pub.bitfinex.com/v2/tickers?symbols=ALL';
+         $url = 'https://api-pub.bitfinex.com/v2/tickers?symbols=ALL';
          
-         $jsondata = @$ocpt_cache->ext_data('url', $endpnt_url, $ocpt_conf['power']['last_trade_cache_time']);
+         $response = @$pt_cache->ext_data('url', $url, $pt_conf['power']['last_trade_cache_time']);
          
-         $data = json_decode($jsondata, true);
+         $data = json_decode($response, true);
       
           if ( is_array($data) ) {
       
@@ -788,14 +798,14 @@ var $ocpt_array1 = array();
       
       
     
-      elseif ( strtolower($chosen_exchange) == 'bitforex' ) {
+      elseif ( strtolower($sel_exchange) == 'bitforex' ) {
       
       
-      $endpnt_url = 'https://api.bitforex.com/api/v1/market/ticker?symbol=' . $market_id;
+      $url = 'https://api.bitforex.com/api/v1/market/ticker?symbol=' . $market_id;
       
-      $jsondata = @$ocpt_cache->ext_data('url', $endpnt_url, $ocpt_conf['power']['last_trade_cache_time']);
+      $response = @$pt_cache->ext_data('url', $url, $pt_conf['power']['last_trade_cache_time']);
       
-      $data = json_decode($jsondata, true);
+      $data = json_decode($response, true);
       
       $result = array(
                   'last_trade' => $data["data"]["last"],
@@ -811,14 +821,14 @@ var $ocpt_array1 = array();
       
       
     
-      elseif ( strtolower($chosen_exchange) == 'bitflyer' ) {
+      elseif ( strtolower($sel_exchange) == 'bitflyer' ) {
       
       
-      $endpnt_url = 'https://api.bitflyer.com/v1/getticker?product_code=' . $market_id;
+      $url = 'https://api.bitflyer.com/v1/getticker?product_code=' . $market_id;
       
-      $jsondata = @$ocpt_cache->ext_data('url', $endpnt_url, $ocpt_conf['power']['last_trade_cache_time']);
+      $response = @$pt_cache->ext_data('url', $url, $pt_conf['power']['last_trade_cache_time']);
       
-      $data = json_decode($jsondata, true);
+      $data = json_decode($response, true);
       
       $result = array(
                   'last_trade' => $data["ltp"],
@@ -834,37 +844,37 @@ var $ocpt_array1 = array();
     
     
     
-      elseif ( strtolower($chosen_exchange) == 'bitmex' || strtolower($chosen_exchange) == 'bitmex_u20' || strtolower($chosen_exchange) == 'bitmex_z20' ) {
+      elseif ( strtolower($sel_exchange) == 'bitmex' || strtolower($sel_exchange) == 'bitmex_u20' || strtolower($sel_exchange) == 'bitmex_z20' ) {
       
       // GET NEWEST DATA SETS (25 one hour buckets, SINCE WE #NEED# THE CURRENT PARTIAL DATA SET, 
       // OTHERWISE WE DON'T GET THE LATEST TRADE VALUE AND CAN'T CALCULATE REAL-TIME VOLUME)
-      $endpnt_url = 'https://www.bitmex.com/api/v1/trade/bucketed?binSize=1h&partial=true&count=25&symbol='.$market_id.'&reverse=true'; // Sort NEWEST first
+      $url = 'https://www.bitmex.com/api/v1/trade/bucketed?binSize=1h&partial=true&count=25&symbol='.$market_id.'&reverse=true'; // Sort NEWEST first
          
-      $jsondata = @$ocpt_cache->ext_data('url', $endpnt_url, $ocpt_conf['power']['last_trade_cache_time']);
+      $response = @$pt_cache->ext_data('url', $url, $pt_conf['power']['last_trade_cache_time']);
          
-      $data = json_decode($jsondata, true);
+      $data = json_decode($response, true);
        
       
           if ( is_array($data) ) {
       
-            foreach ($data as $key => $value) {
+            foreach ($data as $key => $val) {
              
               // We only want the FIRST data set for trade value
-              if ( !$last_trade && $value['symbol'] == $market_id ) {
-              $last_trade = $value['close'];
-              $asset_vol = $value['homeNotional'];
-              $pairing_vol = $value['foreignNotional'];
+              if ( !$last_trade && $val['symbol'] == $market_id ) {
+              $last_trade = $val['close'];
+              $asset_vol = $val['homeNotional'];
+              $pairing_vol = $val['foreignNotional'];
               }
-              elseif ( $value['symbol'] == $market_id ) {
+              elseif ( $val['symbol'] == $market_id ) {
                 
-              $asset_vol = $ocpt_var->num_to_str($asset_vol + $value['homeNotional']);
-              $pairing_vol = $ocpt_var->num_to_str($pairing_vol + $value['foreignNotional']);
+              $asset_vol = $pt_var->num_to_str($asset_vol + $val['homeNotional']);
+              $pairing_vol = $pt_var->num_to_str($pairing_vol + $val['foreignNotional']);
               
               // Average of 24 hours, since we are always between 23.5 and 24.5
               // (least resource-intensive way to get close enough to actual 24 hour volume)
               // Overwrites until it's the last values
-              $half_oldest_hour_asset_vol = round($value['homeNotional'] / 2);
-              $half_oldest_hour_pairing_vol = round($value['foreignNotional'] / 2);
+              $half_oldest_hour_asset_vol = round($val['homeNotional'] / 2);
+              $half_oldest_hour_pairing_vol = round($val['foreignNotional'] / 2);
               
               }
            
@@ -874,8 +884,8 @@ var $ocpt_array1 = array();
                     'last_trade' => $last_trade,
                     // Average of 24 hours, since we are always between 23.5 and 24.5
                     // (least resource-intensive way to get close enough to actual 24 hour volume)
-                    '24hr_asset_vol' => $ocpt_var->num_to_str($asset_vol - $half_oldest_hour_asset_vol),
-                    '24hr_pairing_vol' =>  $ocpt_var->num_to_str($pairing_vol - $half_oldest_hour_pairing_vol)
+                    '24hr_asset_vol' => $pt_var->num_to_str($asset_vol - $half_oldest_hour_asset_vol),
+                    '24hr_pairing_vol' =>  $pt_var->num_to_str($pairing_vol - $half_oldest_hour_pairing_vol)
                     );
       
           }
@@ -889,27 +899,27 @@ var $ocpt_array1 = array();
     
     
     
-      elseif ( strtolower($chosen_exchange) == 'bitpanda' ) {
+      elseif ( strtolower($sel_exchange) == 'bitpanda' ) {
      
          
-         $endpnt_url = 'https://api.exchange.bitpanda.com/public/v1/market-ticker';
+         $url = 'https://api.exchange.bitpanda.com/public/v1/market-ticker';
          
-         $jsondata = @$ocpt_cache->ext_data('url', $endpnt_url, $ocpt_conf['power']['last_trade_cache_time']);
+         $response = @$pt_cache->ext_data('url', $url, $pt_conf['power']['last_trade_cache_time']);
          
-         $data = json_decode($jsondata, true);
+         $data = json_decode($response, true);
        
       
           if ( is_array($data) ) {
       
-           foreach ($data as $key => $value) {
+           foreach ($data as $key => $val) {
              
              
-             if ( $value['instrument_code'] == $market_id ) {
+             if ( $val['instrument_code'] == $market_id ) {
               
              $result = array(
-                    'last_trade' => $value["last_price"],
-                    '24hr_asset_vol' => $value["base_volume"],
-                    '24hr_pairing_vol' => $value["quote_volume"]
+                    'last_trade' => $val["last_price"],
+                    '24hr_asset_vol' => $val["base_volume"],
+                    '24hr_pairing_vol' => $val["quote_volume"]
                     );
     
              }
@@ -928,14 +938,14 @@ var $ocpt_array1 = array();
       
       
     
-      elseif ( strtolower($chosen_exchange) == 'bitso' ) {
+      elseif ( strtolower($sel_exchange) == 'bitso' ) {
       
       
-      $endpnt_url = 'https://api.bitso.com/v3/ticker/?book='.$market_id;
+      $url = 'https://api.bitso.com/v3/ticker/?book='.$market_id;
       
-      $jsondata = @$ocpt_cache->ext_data('url', $endpnt_url, $ocpt_conf['power']['last_trade_cache_time']);
+      $response = @$pt_cache->ext_data('url', $url, $pt_conf['power']['last_trade_cache_time']);
       
-      $data = json_decode($jsondata, true);
+      $data = json_decode($response, true);
       
       $data = $data['payload'];
       
@@ -953,14 +963,14 @@ var $ocpt_array1 = array();
     
     
     
-      elseif ( strtolower($chosen_exchange) == 'bitstamp' ) {
+      elseif ( strtolower($sel_exchange) == 'bitstamp' ) {
         
       
-      $endpnt_url = 'https://www.bitstamp.net/api/v2/ticker/' . $market_id;
+      $url = 'https://www.bitstamp.net/api/v2/ticker/' . $market_id;
       
-        $jsondata = @$ocpt_cache->ext_data('url', $endpnt_url, $ocpt_conf['power']['last_trade_cache_time']);
+        $response = @$pt_cache->ext_data('url', $url, $pt_conf['power']['last_trade_cache_time']);
         
-        $data = json_decode($jsondata, true);
+        $data = json_decode($response, true);
         
         $result = array(
                   'last_trade' => number_format( $data['last'], 8, '.', ''),
@@ -976,24 +986,24 @@ var $ocpt_array1 = array();
     
     
     
-      elseif ( strtolower($chosen_exchange) == 'bittrex' || strtolower($chosen_exchange) == 'bittrex_global' ) {
+      elseif ( strtolower($sel_exchange) == 'bittrex' || strtolower($sel_exchange) == 'bittrex_global' ) {
       
       $result = array();
          
          // LAST TRADE VALUE
-         $endpnt_url = 'https://api.bittrex.com/v3/markets/tickers';
+         $url = 'https://api.bittrex.com/v3/markets/tickers';
          
-         $jsondata = @$ocpt_cache->ext_data('url', $endpnt_url, $ocpt_conf['power']['last_trade_cache_time']);
+         $response = @$pt_cache->ext_data('url', $url, $pt_conf['power']['last_trade_cache_time']);
          
-         $data = json_decode($jsondata, true);
+         $data = json_decode($response, true);
       
           if ( is_array($data) ) {
       
-           foreach ($data as $key => $value) {
+           foreach ($data as $key => $val) {
              
-             if ( $value['symbol'] == $market_id ) {
+             if ( $val['symbol'] == $market_id ) {
               
-             $result['last_trade'] = $value["lastTradeRate"];
+             $result['last_trade'] = $val["lastTradeRate"];
               
              }
          
@@ -1006,20 +1016,20 @@ var $ocpt_array1 = array();
          
          
          // 24 HOUR VOLUME
-         $endpnt_url = 'https://api.bittrex.com/v3/markets/summaries';
+         $url = 'https://api.bittrex.com/v3/markets/summaries';
          
-         $jsondata = @$ocpt_cache->ext_data('url', $endpnt_url, $ocpt_conf['power']['last_trade_cache_time']);
+         $response = @$pt_cache->ext_data('url', $url, $pt_conf['power']['last_trade_cache_time']);
          
-         $data = json_decode($jsondata, true);
+         $data = json_decode($response, true);
       
           if ( is_array($data) ) {
       
-           foreach ($data as $key => $value) {
+           foreach ($data as $key => $val) {
              
-             if ( $value['symbol'] == $market_id ) {
+             if ( $val['symbol'] == $market_id ) {
               
-             $result['24hr_asset_vol'] = $value["volume"];
-             $result['24hr_pairing_vol'] = $value["quoteVolume"];
+             $result['24hr_asset_vol'] = $val["volume"];
+             $result['24hr_pairing_vol'] = $val["quoteVolume"];
               
              }
          
@@ -1036,26 +1046,26 @@ var $ocpt_array1 = array();
     
     
     
-      elseif ( strtolower($chosen_exchange) == 'braziliex' ) {
+      elseif ( strtolower($sel_exchange) == 'braziliex' ) {
          
          
-         $endpnt_url = 'https://braziliex.com/api/v1/public/ticker';
+         $url = 'https://braziliex.com/api/v1/public/ticker';
          
-         $jsondata = @$ocpt_cache->ext_data('url', $endpnt_url, $ocpt_conf['power']['last_trade_cache_time']);
+         $response = @$pt_cache->ext_data('url', $url, $pt_conf['power']['last_trade_cache_time']);
          
-         $data = json_decode($jsondata, true);
+         $data = json_decode($response, true);
          
       
           if ( is_array($data) ) {
       
-           foreach ($data as $key => $value) {
+           foreach ($data as $key => $val) {
              
-             if ( $value['market'] == $market_id ) {
+             if ( $val['market'] == $market_id ) {
               
              $result = array(
-                      'last_trade' => $value["last"],
-                      '24hr_asset_vol' => $value["baseVolume24"],
-                      '24hr_pairing_vol' => $value["quoteVolume24"]
+                      'last_trade' => $val["last"],
+                      '24hr_asset_vol' => $val["baseVolume24"],
+                      '24hr_pairing_vol' => $val["quoteVolume24"]
                     );
               
              }
@@ -1073,14 +1083,14 @@ var $ocpt_array1 = array();
     
     
     
-      elseif ( strtolower($chosen_exchange) == 'btcmarkets' ) {
+      elseif ( strtolower($sel_exchange) == 'btcmarkets' ) {
          
       
-         $endpnt_url = 'https://api.btcmarkets.net/market/'.$market_id.'/tick';
+         $url = 'https://api.btcmarkets.net/market/'.$market_id.'/tick';
          
-         $jsondata = @$ocpt_cache->ext_data('url', $endpnt_url, $ocpt_conf['power']['last_trade_cache_time']);
+         $response = @$pt_cache->ext_data('url', $url, $pt_conf['power']['last_trade_cache_time']);
          
-         $data = json_decode($jsondata, true);
+         $data = json_decode($response, true);
     
          $result = array(
                   'last_trade' => $data['lastPrice'],
@@ -1096,27 +1106,27 @@ var $ocpt_array1 = array();
     
     
     
-      elseif ( strtolower($chosen_exchange) == 'btcturk' ) {
+      elseif ( strtolower($sel_exchange) == 'btcturk' ) {
          
          
-         $endpnt_url = 'https://api.btcturk.com/api/v2/ticker';
+         $url = 'https://api.btcturk.com/api/v2/ticker';
          
-         $jsondata = @$ocpt_cache->ext_data('url', $endpnt_url, $ocpt_conf['power']['last_trade_cache_time']);
+         $response = @$pt_cache->ext_data('url', $url, $pt_conf['power']['last_trade_cache_time']);
          
-         $data = json_decode($jsondata, true);
+         $data = json_decode($response, true);
          
          $data = $data['data'];
          
       
           if ( is_array($data) ) {
       
-           foreach ($data as $key => $value) {
+           foreach ($data as $key => $val) {
              
-             if ( $value['pair'] == $market_id ) {
+             if ( $val['pair'] == $market_id ) {
               
              $result = array(
-                      'last_trade' => $value["last"],
-                      '24hr_asset_vol' => $value["volume"],
+                      'last_trade' => $val["last"],
+                      '24hr_asset_vol' => $val["volume"],
                       '24hr_pairing_vol' => null // No pairing volume data for this API
                     );
               
@@ -1135,28 +1145,28 @@ var $ocpt_array1 = array();
     
     
     
-      elseif ( strtolower($chosen_exchange) == 'buyucoin' ) {
+      elseif ( strtolower($sel_exchange) == 'buyucoin' ) {
          
          
-         $endpnt_url = 'https://api.buyucoin.com/ticker/v1.0/liveData';
+         $url = 'https://api.buyucoin.com/ticker/v1.0/liveData';
          
-         $jsondata = @$ocpt_cache->ext_data('url', $endpnt_url, $ocpt_conf['power']['last_trade_cache_time']);
+         $response = @$pt_cache->ext_data('url', $url, $pt_conf['power']['last_trade_cache_time']);
          
-         $data = json_decode($jsondata, true);
+         $data = json_decode($response, true);
          
          $data = $data['data'];
          
       
           if ( is_array($data) ) {
       
-           foreach ($data as $key => $value) {
+           foreach ($data as $key => $val) {
              
-             if ( $value["marketName"] == $market_id ) {
+             if ( $val["marketName"] == $market_id ) {
               
              $result = array(
-                      'last_trade' => $value["LTRate"],
-                      '24hr_asset_vol' => $value["v24"], 
-                      '24hr_pairing_vol' => $value["tp24"] 
+                      'last_trade' => $val["LTRate"],
+                      '24hr_asset_vol' => $val["v24"], 
+                      '24hr_pairing_vol' => $val["tp24"] 
                     );
               
              }
@@ -1174,28 +1184,28 @@ var $ocpt_array1 = array();
     
     
     
-      elseif ( strtolower($chosen_exchange) == 'cex' ) {
+      elseif ( strtolower($sel_exchange) == 'cex' ) {
      
          
-         $endpnt_url = 'https://cex.io/api/tickers/BTC/USD/USDT/RUB/EUR/GBP';
+         $url = 'https://cex.io/api/tickers/BTC/USD/USDT/RUB/EUR/GBP';
          
-         $jsondata = @$ocpt_cache->ext_data('url', $endpnt_url, $ocpt_conf['power']['last_trade_cache_time']);
+         $response = @$pt_cache->ext_data('url', $url, $pt_conf['power']['last_trade_cache_time']);
          
-         $data = json_decode($jsondata, true);
+         $data = json_decode($response, true);
          
          $data = $data['data'];
          
       
           if ( is_array($data) ) {
       
-           foreach ($data as $key => $value) {
+           foreach ($data as $key => $val) {
              
              
-             if ( $value["pair"] == $market_id ) {
+             if ( $val["pair"] == $market_id ) {
               
              $result = array(
-                    'last_trade' => $value["last"],
-                    '24hr_asset_vol' => $value["volume"],
+                    'last_trade' => $val["last"],
+                    '24hr_asset_vol' => $val["volume"],
                     '24hr_pairing_vol' => null // No pairing volume data for this API
                     );
     
@@ -1215,14 +1225,14 @@ var $ocpt_array1 = array();
       
       
     
-      elseif ( strtolower($chosen_exchange) == 'coinbase' ) {
+      elseif ( strtolower($sel_exchange) == 'coinbase' ) {
       
       
-         $endpnt_url = 'https://api.pro.coinbase.com/products/'.$market_id.'/ticker';
+         $url = 'https://api.pro.coinbase.com/products/'.$market_id.'/ticker';
          
-         $jsondata = @$ocpt_cache->ext_data('url', $endpnt_url, $ocpt_conf['power']['last_trade_cache_time']);
+         $response = @$pt_cache->ext_data('url', $url, $pt_conf['power']['last_trade_cache_time']);
          
-         $data = json_decode($jsondata, true);
+         $data = json_decode($response, true);
     
          $result = array(
                   'last_trade' => $data['price'],
@@ -1239,29 +1249,29 @@ var $ocpt_array1 = array();
     
     
     
-      elseif ( strtolower($chosen_exchange) == 'coinex' ) {
+      elseif ( strtolower($sel_exchange) == 'coinex' ) {
      
          
-         $endpnt_url = 'https://api.coinex.com/v1/market/ticker/all';
+         $url = 'https://api.coinex.com/v1/market/ticker/all';
          
-         $jsondata = @$ocpt_cache->ext_data('url', $endpnt_url, $ocpt_conf['power']['last_trade_cache_time']);
+         $response = @$pt_cache->ext_data('url', $url, $pt_conf['power']['last_trade_cache_time']);
          
-         $data = json_decode($jsondata, true);
+         $data = json_decode($response, true);
          
          $data = $data['data']['ticker'];
          
       
           if ( is_array($data) ) {
       
-           foreach ($data as $key => $value) {
-        // var_dump($value);
+           foreach ($data as $key => $val) {
+        // var_dump($val);
              
              
              if ( $key == $market_id ) {
               
              $result = array(
-                    'last_trade' => $value["last"],
-                    '24hr_asset_vol' => $value["vol"],
+                    'last_trade' => $val["last"],
+                    '24hr_asset_vol' => $val["vol"],
                     '24hr_pairing_vol' => null // No pairing volume data for this API
                     );
     
@@ -1281,14 +1291,14 @@ var $ocpt_array1 = array();
       
     
     
-      elseif ( strtolower($chosen_exchange) == 'cryptofresh' ) {
+      elseif ( strtolower($sel_exchange) == 'cryptofresh' ) {
       
       
-      $endpnt_url = 'https://cryptofresh.com/api/asset/markets?asset=' . $market_id;
+      $url = 'https://cryptofresh.com/api/asset/markets?asset=' . $market_id;
       
-        $jsondata = @$ocpt_cache->ext_data('url', $endpnt_url, $ocpt_conf['power']['last_trade_cache_time']);
+        $response = @$pt_cache->ext_data('url', $url, $pt_conf['power']['last_trade_cache_time']);
         
-        $data = json_decode($jsondata, true);
+        $data = json_decode($response, true);
       
         if ( preg_match("/BRIDGE/", $market_id) ) {
           
@@ -1318,11 +1328,11 @@ var $ocpt_array1 = array();
     
     
       // https://docs.defipulse.com/api-docs-by-provider/pools.fyi/exchange
-      elseif ( strtolower($chosen_exchange) == 'defipulse' ) {
+      elseif ( strtolower($sel_exchange) == 'defipulse' ) {
         
           
-          if ( trim($ocpt_conf['gen']['defipulse_key']) == null ) {
-          $ocpt_gen->app_logging('notify_error', '"defipulse_key" (free API key) is not configured in Admin Config GENERAL section', false, 'defipulse_key');
+          if ( trim($pt_conf['gen']['defipulse_key']) == null ) {
+          $pt_gen->app_logging('notify_error', '"defipulse_key" (free API key) is not configured in Admin Config GENERAL section', false, 'defipulse_key');
           return false;
           }
           
@@ -1333,24 +1343,24 @@ var $ocpt_array1 = array();
         
         $pool_data = $market_data[1];
         
-        $defi_pools_info = $ocpt_asset->defi_pools_info($pairing_data, $pool_data);
+        $defi_pools_info = $pt_asset->defi_pools_info($pairing_data, $pool_data);
           
           
           if ( $defipulse_api_limit == true ) {
-          $ocpt_gen->app_logging('notify_error', 'DeFiPulse.com monthly API limit exceeded (check your account there)', false, 'defipulsecom_api_limit');
+          $pt_gen->app_logging('notify_error', 'DeFiPulse.com monthly API limit exceeded (check your account there)', false, 'defipulsecom_api_limit');
           return false;
           }
           elseif ( !$defi_pools_info['pool_address'] ) {
-          $ocpt_gen->app_logging('market_error', 'No DeFi liquidity pool found for ' . $market_id . ', try setting "defi_liquidity_pools_max" HIGHER in the POWER USER config (current setting is '.$ocpt_conf['power']['defi_liquidity_pools_max'].', results are sorted by highest trade volume pools first)');
+          $pt_gen->app_logging('market_error', 'No DeFi liquidity pool found for ' . $market_id . ', try setting "defi_liquidity_pools_max" HIGHER in the POWER USER config (current setting is '.$pt_conf['power']['defi_liquidity_pools_max'].', results are sorted by highest trade volume pools first)');
           return false;
           }
          
          
-         $endpnt_url = 'https://data-api.defipulse.com/api/v1/blocklytics/pools/v1/trades/' . $defi_pools_info['pool_address'] . '?limit=' . $ocpt_conf['power']['defi_pools_max_trades'] . '&orderBy=timestamp&direction=desc&api-key=' . $ocpt_conf['gen']['defipulse_key'];
+         $url = 'https://data-api.defipulse.com/api/v1/blocklytics/pools/v1/trades/' . $defi_pools_info['pool_address'] . '?limit=' . $pt_conf['power']['defi_pools_max_trades'] . '&orderBy=timestamp&direction=desc&api-key=' . $pt_conf['gen']['defipulse_key'];
          
-         $jsondata = @$ocpt_cache->ext_data('url', $endpnt_url, $ocpt_conf['power']['last_trade_cache_time']);
+         $response = @$pt_cache->ext_data('url', $url, $pt_conf['power']['last_trade_cache_time']);
          
-         $data = json_decode($jsondata, true);
+         $data = json_decode($response, true);
          
          $data = $data['results'];
          
@@ -1367,15 +1377,15 @@ var $ocpt_array1 = array();
            }
            
       
-           foreach ($data as $key => $value) {
+           foreach ($data as $key => $val) {
             
              // Check for main asset
-             if ( $value["fromSymbol"] == $fromSymbol || preg_match("/([a-z]{1})".$fromSymbol."/", $value["fromSymbol"]) ) {
+             if ( $val["fromSymbol"] == $fromSymbol || preg_match("/([a-z]{1})".$fromSymbol."/", $val["fromSymbol"]) ) {
              $trade_asset = true;
              }
                   
              // Check for pairing asset
-             if ( $value["toSymbol"] == $toSymbol || preg_match("/([a-z]{1})".$toSymbol."/", $value["toSymbol"]) ) {
+             if ( $val["toSymbol"] == $toSymbol || preg_match("/([a-z]{1})".$toSymbol."/", $val["toSymbol"]) ) {
              $trade_pairing = true;
              }
                   
@@ -1385,7 +1395,7 @@ var $ocpt_array1 = array();
              $result = array(
                     'defi_pool_name' => $defi_pools_info['pool_name'],
                     'defi_platform' => $defi_pools_info['platform'],
-                    'last_trade' => $value["price"],
+                    'last_trade' => $val["price"],
                     '24hr_asset_vol' => null, // No asset volume data for this API
                     '24hr_pairing_vol' => null, // No pairing volume data for this API
                     '24hr_usd_vol' => $defi_pools_info['pool_usd_volume']
@@ -1401,7 +1411,7 @@ var $ocpt_array1 = array();
           
           
             if ( !$result ) {
-            $ocpt_gen->app_logging('market_error', 'No trades found for ' . $market_id . ', try setting "defi_pools_max_trades" HIGHER in the POWER USER config (current setting is '.$ocpt_conf['power']['defi_pools_max_trades'].', results are sorted by most recent trades first)');
+            $pt_gen->app_logging('market_error', 'No trades found for ' . $market_id . ', try setting "defi_pools_max_trades" HIGHER in the POWER USER config (current setting is '.$pt_conf['power']['defi_pools_max_trades'].', results are sorted by most recent trades first)');
             }
           
           }
@@ -1415,25 +1425,25 @@ var $ocpt_array1 = array();
     
     
     
-      elseif ( strtolower($chosen_exchange) == 'gateio' ) {
+      elseif ( strtolower($sel_exchange) == 'gateio' ) {
     
     
-         $endpnt_url = 'https://api.gateio.ws/api/v4/spot/tickers';
+         $url = 'https://api.gateio.ws/api/v4/spot/tickers';
          
-         $jsondata = @$ocpt_cache->ext_data('url', $endpnt_url, $ocpt_conf['power']['last_trade_cache_time']);
+         $response = @$pt_cache->ext_data('url', $url, $pt_conf['power']['last_trade_cache_time']);
          
-         $data = json_decode($jsondata, true);
+         $data = json_decode($response, true);
       
           if ( is_array($data) ) {
       
-           foreach ($data as $key => $value) {
+           foreach ($data as $key => $val) {
              
-             if ( $value["currency_pair"] == $market_id ) {
+             if ( $val["currency_pair"] == $market_id ) {
               
              $result = array(
-                      'last_trade' => $value["last"],
-                      '24hr_asset_vol' => $value["base_volume"],
-                      '24hr_pairing_vol' => $value["quote_volume"]
+                      'last_trade' => $val["last"],
+                      '24hr_asset_vol' => $val["base_volume"],
+                      '24hr_pairing_vol' => $val["quote_volume"]
                     );
               
              }
@@ -1451,18 +1461,18 @@ var $ocpt_array1 = array();
       
     
     
-      elseif ( strtolower($chosen_exchange) == 'gemini' ) {
+      elseif ( strtolower($sel_exchange) == 'gemini' ) {
       
       
-      $endpnt_url = 'https://api.gemini.com/v1/pubticker/' . $market_id;
+      $url = 'https://api.gemini.com/v1/pubticker/' . $market_id;
       
-        $jsondata = @$ocpt_cache->ext_data('url', $endpnt_url, $ocpt_conf['power']['last_trade_cache_time']);
+        $response = @$pt_cache->ext_data('url', $url, $pt_conf['power']['last_trade_cache_time']);
         
-        $data = json_decode($jsondata, true);
+        $data = json_decode($response, true);
         
         $result = array(
                   'last_trade' => $data['last'],
-                  '24hr_asset_vol' => $data['volume'][strtoupper($asset_symbol)],
+                  '24hr_asset_vol' => $data['volume'][strtoupper($asset_symb)],
                   '24hr_pairing_vol' => $data['volume'][strtoupper($pairing)]
                   );
       
@@ -1475,18 +1485,18 @@ var $ocpt_array1 = array();
       
       
       
-      elseif ( strtolower($chosen_exchange) == 'graviex' ) {
+      elseif ( strtolower($sel_exchange) == 'graviex' ) {
     
     
-         $endpnt_url = 'https://graviex.net//api/v2/tickers.json';
+         $url = 'https://graviex.net//api/v2/tickers.json';
          
-         $jsondata = @$ocpt_cache->ext_data('url', $endpnt_url, $ocpt_conf['power']['last_trade_cache_time']);
+         $response = @$pt_cache->ext_data('url', $url, $pt_conf['power']['last_trade_cache_time']);
          
-         $data = json_decode($jsondata, true);
+         $data = json_decode($response, true);
       
           if ( is_array($data) ) {
       
-           foreach ($data as $key => $value) {
+           foreach ($data as $key => $val) {
              
              
              if ( $data[$market_id] != '' ) {
@@ -1512,25 +1522,25 @@ var $ocpt_array1 = array();
     
     
     
-      elseif ( strtolower($chosen_exchange) == 'hitbtc' ) {
+      elseif ( strtolower($sel_exchange) == 'hitbtc' ) {
     
     
-         $endpnt_url = 'https://api.hitbtc.com/api/2/public/ticker';
+         $url = 'https://api.hitbtc.com/api/2/public/ticker';
          
-         $jsondata = @$ocpt_cache->ext_data('url', $endpnt_url, $ocpt_conf['power']['last_trade_cache_time']);
+         $response = @$pt_cache->ext_data('url', $url, $pt_conf['power']['last_trade_cache_time']);
          
-         $data = json_decode($jsondata, true);
+         $data = json_decode($response, true);
       
           if ( is_array($data) ) {
       
-           foreach ($data as $key => $value) {
+           foreach ($data as $key => $val) {
              
-             if ( $value["symbol"] == $market_id ) {
+             if ( $val["symbol"] == $market_id ) {
               
              $result = array(
-                      'last_trade' => $value["last"],
-                      '24hr_asset_vol' => $value["volume"],
-                      '24hr_pairing_vol' => $value["volumeQuote"]
+                      'last_trade' => $val["last"],
+                      '24hr_asset_vol' => $val["volume"],
+                      '24hr_pairing_vol' => $val["volumeQuote"]
                     );
               
              }
@@ -1548,26 +1558,26 @@ var $ocpt_array1 = array();
     
     
     
-      elseif ( strtolower($chosen_exchange) == 'hotbit' ) {
+      elseif ( strtolower($sel_exchange) == 'hotbit' ) {
     
     
-         $endpnt_url = 'https://api.hotbit.io/api/v1/allticker';
+         $url = 'https://api.hotbit.io/api/v1/allticker';
          
-         $jsondata = @$ocpt_cache->ext_data('url', $endpnt_url, $ocpt_conf['power']['last_trade_cache_time']);
+         $response = @$pt_cache->ext_data('url', $url, $pt_conf['power']['last_trade_cache_time']);
          
-         $data = json_decode($jsondata, true);
+         $data = json_decode($response, true);
        
           $data = $data['ticker'];
       
           if ( is_array($data) ) {
       
-           foreach ($data as $key => $value) {
+           foreach ($data as $key => $val) {
              
-             if ( $value["symbol"] == $market_id ) {
+             if ( $val["symbol"] == $market_id ) {
               
              $result = array(
-                      'last_trade' => $value["last"],
-                      '24hr_asset_vol' => $value["vol"],
+                      'last_trade' => $val["last"],
+                      '24hr_asset_vol' => $val["vol"],
                       '24hr_pairing_vol' => null // No pairing volume data for this API
                     );
               
@@ -1586,29 +1596,29 @@ var $ocpt_array1 = array();
     
     
     
-      elseif ( strtolower($chosen_exchange) == 'huobi' ) {
+      elseif ( strtolower($sel_exchange) == 'huobi' ) {
      
          
-         $endpnt_url = 'https://api.huobi.pro/market/tickers';
+         $url = 'https://api.huobi.pro/market/tickers';
          
-         $jsondata = @$ocpt_cache->ext_data('url', $endpnt_url, $ocpt_conf['power']['last_trade_cache_time']);
+         $response = @$pt_cache->ext_data('url', $url, $pt_conf['power']['last_trade_cache_time']);
          
-         $data = json_decode($jsondata, true);
+         $data = json_decode($response, true);
          
          $data = $data['data'];
          
       
           if ( is_array($data) ) {
       
-           foreach ($data as $key => $value) {
+           foreach ($data as $key => $val) {
              
              
-             if ( $value["symbol"] == $market_id ) {
+             if ( $val["symbol"] == $market_id ) {
               
              $result = array(
-                    'last_trade' => $value["close"],
-                    '24hr_asset_vol' => $value["amount"],
-                    '24hr_pairing_vol' => $value["vol"]
+                    'last_trade' => $val["close"],
+                    '24hr_asset_vol' => $val["amount"],
+                    '24hr_pairing_vol' => $val["vol"]
                     );
     
              }
@@ -1628,27 +1638,27 @@ var $ocpt_array1 = array();
     
     
     
-      elseif ( strtolower($chosen_exchange) == 'idex' ) {
+      elseif ( strtolower($sel_exchange) == 'idex' ) {
          
          
-         $endpnt_url = 'https://api.idex.market/returnTicker';
+         $url = 'https://api.idex.market/returnTicker';
          
-         $jsondata = @$ocpt_cache->ext_data('url', $endpnt_url, $ocpt_conf['power']['last_trade_cache_time']);
+         $response = @$pt_cache->ext_data('url', $url, $pt_conf['power']['last_trade_cache_time']);
          
-         $data = json_decode($jsondata, true);
+         $data = json_decode($response, true);
       
       
           if ( is_array($data) ) {
       
-           foreach ($data as $key => $value) {
+           foreach ($data as $key => $val) {
              
              if ( $key == $market_id ) {
               
              $result = array(
-                      'last_trade' => $value["last"],
+                      'last_trade' => $val["last"],
                       // ARRAY KEY SEMANTICS BACKWARDS COMPARED TO OTHER EXCHANGES
-                      '24hr_asset_vol' => $value["quoteVolume"],
-                      '24hr_pairing_vol' => $value["baseVolume"]
+                      '24hr_asset_vol' => $val["quoteVolume"],
+                      '24hr_pairing_vol' => $val["baseVolume"]
                     );
               
              }
@@ -1668,25 +1678,25 @@ var $ocpt_array1 = array();
     
     
     
-      elseif ( strtolower($chosen_exchange) == 'korbit' ) {
+      elseif ( strtolower($sel_exchange) == 'korbit' ) {
          
          
-         $endpnt_url = 'https://api.korbit.co.kr/v1/ticker/detailed/all';
+         $url = 'https://api.korbit.co.kr/v1/ticker/detailed/all';
          
-         $jsondata = @$ocpt_cache->ext_data('url', $endpnt_url, $ocpt_conf['power']['last_trade_cache_time']);
+         $response = @$pt_cache->ext_data('url', $url, $pt_conf['power']['last_trade_cache_time']);
          
-         $data = json_decode($jsondata, true);
+         $data = json_decode($response, true);
       
       
           if ( is_array($data) ) {
       
-           foreach ($data as $key => $value) {
+           foreach ($data as $key => $val) {
              
              if ( $key == $market_id ) {
               
              $result = array(
-                      'last_trade' => $value["last"],
-                      '24hr_asset_vol' => $value["volume"],
+                      'last_trade' => $val["last"],
+                      '24hr_asset_vol' => $val["volume"],
                       '24hr_pairing_vol' => null // No pairing volume data for this API
                     );
               
@@ -1706,11 +1716,11 @@ var $ocpt_array1 = array();
       
     
     
-      elseif ( strtolower($chosen_exchange) == 'kraken' ) {
+      elseif ( strtolower($sel_exchange) == 'kraken' ) {
         
         
         $kraken_pairs = null; // In case user messes up Admin Config, this helps
-          foreach ( $ocpt_conf['assets'] as $markets ) {
+          foreach ( $pt_conf['assets'] as $markets ) {
           
             foreach ( $markets['pairing'] as $exchange_pairs ) {
             
@@ -1727,25 +1737,25 @@ var $ocpt_array1 = array();
         $kraken_pairs = substr($kraken_pairs, 0, -1);
         
        
-      $endpnt_url = 'https://api.kraken.com/0/public/Ticker?pair=' . $kraken_pairs;
+      $url = 'https://api.kraken.com/0/public/Ticker?pair=' . $kraken_pairs;
       
-      $jsondata = @$ocpt_cache->ext_data('url', $endpnt_url, $ocpt_conf['power']['last_trade_cache_time']);
+      $response = @$pt_cache->ext_data('url', $url, $pt_conf['power']['last_trade_cache_time']);
       
-      $data = json_decode($jsondata, true);
+      $data = json_decode($response, true);
       
           if ( is_array($data) ) {
       
-           foreach ($data as $key => $value) {
+           foreach ($data as $key => $val) {
              
              if ( $key == 'result' ) {
              
-              foreach ($value as $key2 => $value2) {
+              foreach ($val as $key2 => $val2) {
                 
                 if ( $key2 == $market_id ) {
                  
                 $result = array(
-                        'last_trade' => $value[$key2]["c"][0],
-                        '24hr_asset_vol' => $value[$key2]["v"][1],
+                        'last_trade' => $val[$key2]["c"][0],
+                        '24hr_asset_vol' => $val[$key2]["v"][1],
                         '24hr_pairing_vol' => null // No pairing volume data for this API
                       );
                  
@@ -1768,27 +1778,27 @@ var $ocpt_array1 = array();
     
     
     
-      elseif ( strtolower($chosen_exchange) == 'kucoin' ) {
+      elseif ( strtolower($sel_exchange) == 'kucoin' ) {
     
     
-         $endpnt_url = 'https://api.kucoin.com/api/v1/market/allTickers';
+         $url = 'https://api.kucoin.com/api/v1/market/allTickers';
          
-         $jsondata = @$ocpt_cache->ext_data('url', $endpnt_url, $ocpt_conf['power']['last_trade_cache_time']);
+         $response = @$pt_cache->ext_data('url', $url, $pt_conf['power']['last_trade_cache_time']);
          
-         $data = json_decode($jsondata, true);
+         $data = json_decode($response, true);
       
           $data = $data['data']['ticker'];
       
           if ( is_array($data) ) {
       
-           foreach ($data as $key => $value) {
+           foreach ($data as $key => $val) {
              
-             if ($value['symbol'] == $market_id ) {
+             if ($val['symbol'] == $market_id ) {
               
              $result = array(
-                      'last_trade' => $value["last"],
-                      '24hr_asset_vol' => $value["vol"],
-                      '24hr_pairing_vol' => $value["volValue"]
+                      'last_trade' => $val["last"],
+                      '24hr_asset_vol' => $val["vol"],
+                      '24hr_pairing_vol' => $val["volValue"]
                     );
               
              }
@@ -1806,26 +1816,26 @@ var $ocpt_array1 = array();
     
     
     
-      elseif ( strtolower($chosen_exchange) == 'liquid' ) {
+      elseif ( strtolower($sel_exchange) == 'liquid' ) {
      
          
-         $endpnt_url = 'https://api.liquid.com/products';
+         $url = 'https://api.liquid.com/products';
          
-         $jsondata = @$ocpt_cache->ext_data('url', $endpnt_url, $ocpt_conf['power']['last_trade_cache_time']);
+         $response = @$pt_cache->ext_data('url', $url, $pt_conf['power']['last_trade_cache_time']);
          
-         $data = json_decode($jsondata, true);
+         $data = json_decode($response, true);
          
       
           if ( is_array($data) ) {
       
-           foreach ($data as $key => $value) {
+           foreach ($data as $key => $val) {
              
              
-             if ( $value["currency_pair_code"] == $market_id ) {
+             if ( $val["currency_pair_code"] == $market_id ) {
               
              $result = array(
-                    'last_trade' => $value["last_traded_price"],
-                    '24hr_asset_vol' => $value["volume_24h"],
+                    'last_trade' => $val["last_traded_price"],
+                    '24hr_asset_vol' => $val["volume_24h"],
                     '24hr_pairing_vol' => null // No pairing volume data for this API
                     );
     
@@ -1845,26 +1855,26 @@ var $ocpt_array1 = array();
     
     
     
-      elseif ( strtolower($chosen_exchange) == 'localbitcoins' ) {
+      elseif ( strtolower($sel_exchange) == 'localbitcoins' ) {
          
          
-         $endpnt_url = 'https://localbitcoins.com/bitcoinaverage/ticker-all-currencies/';
+         $url = 'https://localbitcoins.com/bitcoinaverage/ticker-all-currencies/';
          
-         $jsondata = @$ocpt_cache->ext_data('url', $endpnt_url, $ocpt_conf['power']['last_trade_cache_time']);
+         $response = @$pt_cache->ext_data('url', $url, $pt_conf['power']['last_trade_cache_time']);
          
-         $data = json_decode($jsondata, true);
+         $data = json_decode($response, true);
          
       
           if ( is_array($data) ) {
       
-           foreach ($data as $key => $value) {
+           foreach ($data as $key => $val) {
              
              
              if ( $key == $market_id ) {
               
              $result = array(
-                    'last_trade' => $ocpt_var->num_to_str($value["rates"]["last"]), // Handle large / small values better with $ocpt_var->num_to_str()
-                    '24hr_asset_vol' => $value["volume_btc"],
+                    'last_trade' => $pt_var->num_to_str($val["rates"]["last"]), // Handle large / small values better with $pt_var->num_to_str()
+                    '24hr_asset_vol' => $val["volume_btc"],
                     '24hr_pairing_vol' => null // No pairing volume data for this API
                     );
     
@@ -1885,14 +1895,14 @@ var $ocpt_array1 = array();
     
      // https://github.com/Loopring/protocols/wiki/Loopring-Exchange-Data-API
      
-      elseif ( strtolower($chosen_exchange) == 'loopring' || strtolower($chosen_exchange) == 'loopring_amm' ) {
+      elseif ( strtolower($sel_exchange) == 'loopring' || strtolower($sel_exchange) == 'loopring_amm' ) {
      
          
-         $endpnt_url = 'https://api3.loopring.io/api/v3/allTickers';
+         $url = 'https://api3.loopring.io/api/v3/allTickers';
          
-         $jsondata = @$ocpt_cache->ext_data('url', $endpnt_url, $ocpt_conf['power']['last_trade_cache_time']);
+         $response = @$pt_cache->ext_data('url', $url, $pt_conf['power']['last_trade_cache_time']);
          
-         $data = json_decode($jsondata, true);
+         $data = json_decode($response, true);
          
          
             if ( substr($market_id, 0, 4) == "AMM-" ) {
@@ -1905,14 +1915,14 @@ var $ocpt_array1 = array();
       
           if ( is_array($data) ) {
       
-           foreach ($data as $key => $value) {
+           foreach ($data as $key => $val) {
             
              if ( $key == $market_id ) {
               
              $result = array(
-                    'last_trade' => $value["last_price"],
-                    '24hr_asset_vol' => $value["base_volume"],
-                    '24hr_pairing_vol' => $value["quote_volume"]
+                    'last_trade' => $val["last_price"],
+                    '24hr_asset_vol' => $val["base_volume"],
+                    '24hr_pairing_vol' => $val["quote_volume"]
                     );
     
              }
@@ -1931,27 +1941,27 @@ var $ocpt_array1 = array();
     
     
     
-      elseif ( strtolower($chosen_exchange) == 'luno' ) {
+      elseif ( strtolower($sel_exchange) == 'luno' ) {
          
          
-         $endpnt_url = 'https://api.mybitx.com/api/1/tickers';
+         $url = 'https://api.mybitx.com/api/1/tickers';
          
-         $jsondata = @$ocpt_cache->ext_data('url', $endpnt_url, $ocpt_conf['power']['last_trade_cache_time']);
+         $response = @$pt_cache->ext_data('url', $url, $pt_conf['power']['last_trade_cache_time']);
          
-         $data = json_decode($jsondata, true);
+         $data = json_decode($response, true);
          
          $data = $data['tickers'];
       
           if ( is_array($data) ) {
       
-           foreach ($data as $key => $value) {
+           foreach ($data as $key => $val) {
              
              
-             if ( $value["pair"] == $market_id ) {
+             if ( $val["pair"] == $market_id ) {
               
              $result = array(
-                    'last_trade' => $ocpt_var->num_to_str($value["last_trade"]), // Handle large / small values better with $ocpt_var->num_to_str()
-                    '24hr_asset_vol' => $value["rolling_24_hour_volume"],
+                    'last_trade' => $pt_var->num_to_str($val["last_trade"]), // Handle large / small values better with $pt_var->num_to_str()
+                    '24hr_asset_vol' => $val["rolling_24_hour_volume"],
                     '24hr_pairing_vol' => null // No pairing volume data for this API
                     );
     
@@ -1971,26 +1981,26 @@ var $ocpt_array1 = array();
     
     
     
-      elseif ( strtolower($chosen_exchange) == 'okcoin' ) {
+      elseif ( strtolower($sel_exchange) == 'okcoin' ) {
       
       
-        $endpnt_url = 'https://www.okcoin.com/api/spot/v3/instruments/ticker';
+        $url = 'https://www.okcoin.com/api/spot/v3/instruments/ticker';
         
-        $jsondata = @$ocpt_cache->ext_data('url', $endpnt_url, $ocpt_conf['power']['last_trade_cache_time']);
+        $response = @$pt_cache->ext_data('url', $url, $pt_conf['power']['last_trade_cache_time']);
         
-        $data = json_decode($jsondata, true);
+        $data = json_decode($response, true);
       
           if ( is_array($data) ) {
       
-           foreach ($data as $key => $value) {
+           foreach ($data as $key => $val) {
             
              
-             if ( $value['instrument_id'] == $market_id ) {
+             if ( $val['instrument_id'] == $market_id ) {
               
              $result = array(
-                    'last_trade' => $value['last'],
-                    '24hr_asset_vol' => $value['base_volume_24h'],
-                    '24hr_pairing_vol' => $value['quote_volume_24h']
+                    'last_trade' => $val['last'],
+                    '24hr_asset_vol' => $val['base_volume_24h'],
+                    '24hr_pairing_vol' => $val['quote_volume_24h']
                     );
     
              }
@@ -2009,27 +2019,27 @@ var $ocpt_array1 = array();
       
     
     
-      elseif ( strtolower($chosen_exchange) == 'okex' ) {
+      elseif ( strtolower($sel_exchange) == 'okex' ) {
         
       
-      $endpnt_url = 'https://www.okex.com/api/spot/v3/instruments/ticker';
+      $url = 'https://www.okex.com/api/spot/v3/instruments/ticker';
       
-      $jsondata = @$ocpt_cache->ext_data('url', $endpnt_url, $ocpt_conf['power']['last_trade_cache_time']);
+      $response = @$pt_cache->ext_data('url', $url, $pt_conf['power']['last_trade_cache_time']);
         
-      $data = json_decode($jsondata, true);
+      $data = json_decode($response, true);
        
       
           if ( is_array($data) ) {
       
-           foreach ($data as $key => $value) {
+           foreach ($data as $key => $val) {
             
              
-             if ( $value['instrument_id'] == $market_id ) {
+             if ( $val['instrument_id'] == $market_id ) {
               
              $result = array(
-                    'last_trade' => $value["last"],
-                    '24hr_asset_vol' => $value["base_volume_24h"],
-                    '24hr_pairing_vol' => $value['quote_volume_24h']
+                    'last_trade' => $val["last"],
+                    '24hr_asset_vol' => $val["base_volume_24h"],
+                    '24hr_pairing_vol' => $val['quote_volume_24h']
                     );
     
              }
@@ -2048,26 +2058,26 @@ var $ocpt_array1 = array();
       
     
     
-      elseif ( strtolower($chosen_exchange) == 'poloniex' ) {
+      elseif ( strtolower($sel_exchange) == 'poloniex' ) {
     
     
-         $endpnt_url = 'https://poloniex.com/public?command=returnTicker';
+         $url = 'https://poloniex.com/public?command=returnTicker';
          
-         $jsondata = @$ocpt_cache->ext_data('url', $endpnt_url, $ocpt_conf['power']['last_trade_cache_time']);
+         $response = @$pt_cache->ext_data('url', $url, $pt_conf['power']['last_trade_cache_time']);
          
-         $data = json_decode($jsondata, true);
+         $data = json_decode($response, true);
       
           if ( is_array($data) ) {
       
-           foreach ($data as $key => $value) {
+           foreach ($data as $key => $val) {
              
              if ( $key == $market_id ) {
               
              $result = array(
-                      'last_trade' =>$value["last"],
+                      'last_trade' =>$val["last"],
                       // ARRAY KEY SEMANTICS BACKWARDS COMPARED TO OTHER EXCHANGES
-                      '24hr_asset_vol' => $value["quoteVolume"],
-                      '24hr_pairing_vol' => $value["baseVolume"]
+                      '24hr_asset_vol' => $val["quoteVolume"],
+                      '24hr_pairing_vol' => $val["baseVolume"]
                     );
               
              }
@@ -2085,24 +2095,24 @@ var $ocpt_array1 = array();
       
     
     
-      elseif ( strtolower($chosen_exchange) == 'southxchange' ) {
+      elseif ( strtolower($sel_exchange) == 'southxchange' ) {
     
     
-         $endpnt_url = 'https://www.southxchange.com/api/prices';
+         $url = 'https://www.southxchange.com/api/prices';
          
-         $jsondata = @$ocpt_cache->ext_data('url', $endpnt_url, $ocpt_conf['power']['last_trade_cache_time']);
+         $response = @$pt_cache->ext_data('url', $url, $pt_conf['power']['last_trade_cache_time']);
          
-         $data = json_decode($jsondata, true);
+         $data = json_decode($response, true);
       
           if ( is_array($data) ) {
       
-           foreach ($data as $key => $value) {
+           foreach ($data as $key => $val) {
              
-             if ( $value["Market"] == $market_id ) {
+             if ( $val["Market"] == $market_id ) {
               
              $result = array(
-                      'last_trade' => $value["Last"],
-                      '24hr_asset_vol' => $value["Volume24Hr"],
+                      'last_trade' => $val["Last"],
+                      '24hr_asset_vol' => $val["Volume24Hr"],
                       '24hr_pairing_vol' => null // No pairing volume data for this API
                     );
               
@@ -2121,25 +2131,25 @@ var $ocpt_array1 = array();
       
       
       
-      elseif ( strtolower($chosen_exchange) == 'tradeogre' ) {
+      elseif ( strtolower($sel_exchange) == 'tradeogre' ) {
     
     
-         $endpnt_url = 'https://tradeogre.com/api/v1/markets';
+         $url = 'https://tradeogre.com/api/v1/markets';
          
-         $jsondata = @$ocpt_cache->ext_data('url', $endpnt_url, $ocpt_conf['power']['last_trade_cache_time']);
+         $response = @$pt_cache->ext_data('url', $url, $pt_conf['power']['last_trade_cache_time']);
          
-         $data = json_decode($jsondata, true);
+         $data = json_decode($response, true);
       
           if ( is_array($data) ) {
       
-           foreach ($data as $key => $value) {
+           foreach ($data as $key => $val) {
              
-             if ( $value[$market_id] != '' ) {
+             if ( $val[$market_id] != '' ) {
               
              $result = array(
-                      'last_trade' => $value[$market_id]["price"],
+                      'last_trade' => $val[$market_id]["price"],
                       '24hr_asset_vol' => null, // No asset volume data for this API
-                      '24hr_pairing_vol' => $value[$market_id]["volume"]
+                      '24hr_pairing_vol' => $val[$market_id]["volume"]
                     );
               
              }
@@ -2157,11 +2167,11 @@ var $ocpt_array1 = array();
     
     
     
-      elseif ( strtolower($chosen_exchange) == 'upbit' ) {
+      elseif ( strtolower($sel_exchange) == 'upbit' ) {
         
         
           $upbit_pairs = null; // In case user messes up Admin Config, this helps
-          foreach ( $ocpt_conf['assets'] as $markets ) {
+          foreach ( $pt_conf['assets'] as $markets ) {
           
             foreach ( $markets['pairing'] as $exchange_pairs ) {
             
@@ -2178,21 +2188,21 @@ var $ocpt_array1 = array();
         $upbit_pairs = substr($upbit_pairs, 0, -1);
     
     
-         $endpnt_url = 'https://api.upbit.com/v1/ticker?markets=' . $upbit_pairs;
+         $url = 'https://api.upbit.com/v1/ticker?markets=' . $upbit_pairs;
          
-         $jsondata = @$ocpt_cache->ext_data('url', $endpnt_url, $ocpt_conf['power']['last_trade_cache_time']);
+         $response = @$pt_cache->ext_data('url', $url, $pt_conf['power']['last_trade_cache_time']);
          
-         $data = json_decode($jsondata, true);
+         $data = json_decode($response, true);
       
           if ( is_array($data) ) {
       
-           foreach ( $data as $key => $value ) {
+           foreach ( $data as $key => $val ) {
              
-             if ( $value["market"] == $market_id ) {
+             if ( $val["market"] == $market_id ) {
               
              $result = array(
-                      'last_trade' => $value["trade_price"],
-                      '24hr_asset_vol' => $value["acc_trade_volume_24h"],
+                      'last_trade' => $val["trade_price"],
+                      '24hr_asset_vol' => $val["acc_trade_volume_24h"],
                       '24hr_pairing_vol' => null // No 24 hour trade volume going by array keynames, skipping
                     );
               
@@ -2211,24 +2221,24 @@ var $ocpt_array1 = array();
     
     
     
-      elseif ( strtolower($chosen_exchange) == 'wazirx' ) {
+      elseif ( strtolower($sel_exchange) == 'wazirx' ) {
     
     
-         $endpnt_url = 'https://api.wazirx.com/api/v2/tickers';
+         $url = 'https://api.wazirx.com/api/v2/tickers';
          
-         $jsondata = @$ocpt_cache->ext_data('url', $endpnt_url, $ocpt_conf['power']['last_trade_cache_time']);
+         $response = @$pt_cache->ext_data('url', $url, $pt_conf['power']['last_trade_cache_time']);
          
-         $data = json_decode($jsondata, true);
+         $data = json_decode($response, true);
       
           if ( is_array($data) ) {
       
-           foreach ($data as $key => $value) {
+           foreach ($data as $key => $val) {
              
              if ( $key == $market_id ) {
               
              $result = array(
-                      'last_trade' => $value["last"],
-                      '24hr_asset_vol' => $value["volume"],
+                      'last_trade' => $val["last"],
+                      '24hr_asset_vol' => $val["volume"],
                       '24hr_pairing_vol' => null // No pairing volume data for this API
                     );
               
@@ -2247,24 +2257,24 @@ var $ocpt_array1 = array();
     
     
     
-      elseif ( strtolower($chosen_exchange) == 'zebpay' ) {
+      elseif ( strtolower($sel_exchange) == 'zebpay' ) {
     
     
-         $endpnt_url = 'https://www.zebapi.com/pro/v1/market/';
+         $url = 'https://www.zebapi.com/pro/v1/market/';
          
-         $jsondata = @$ocpt_cache->ext_data('url', $endpnt_url, $ocpt_conf['power']['last_trade_cache_time']);
+         $response = @$pt_cache->ext_data('url', $url, $pt_conf['power']['last_trade_cache_time']);
          
-         $data = json_decode($jsondata, true);
+         $data = json_decode($response, true);
       
           if ( is_array($data) ) {
       
-           foreach ($data as $key => $value) {
+           foreach ($data as $key => $val) {
              
-             if ( $value['pair'] == $market_id ) {
+             if ( $val['pair'] == $market_id ) {
               
              $result = array(
-                      'last_trade' => $value["market"],
-                      '24hr_asset_vol' => $value["volume"],
+                      'last_trade' => $val["market"],
+                      '24hr_asset_vol' => $val["volume"],
                       '24hr_pairing_vol' => null // No pairing volume data for this API
                     );
               
@@ -2283,11 +2293,11 @@ var $ocpt_array1 = array();
     
     
     
-      elseif ( strtolower($chosen_exchange) == 'misc_assets' ) {
+      elseif ( strtolower($sel_exchange) == 'misc_assets' ) {
       
       
       // BTC value of 1 unit of the default primary currency
-      $curr_to_btc = $ocpt_var->num_to_str(1 / $sel_btc_prim_curr_val);	
+      $curr_to_btc = $pt_var->num_to_str(1 / $sel_btc_prim_curr_val);	
       
         // BTC pairing
         if ( $market_id == 'btc' ) {
@@ -2298,14 +2308,14 @@ var $ocpt_array1 = array();
          // All other pairing
         else {
         
-        $pairing_btc_val = $ocpt_asset->pairing_btc_val($market_id);
+        $pairing_btc_val = $pt_asset->pairing_btc_val($market_id);
       
           if ( $pairing_btc_val == null ) {
-          $ocpt_gen->app_logging('market_error', 'ocpt_asset->pairing_btc_val() returned null', 'market_id: ' . $market_id);
+          $pt_gen->app_logging('market_error', 'pt_asset->pairing_btc_val() returned null', 'market_id: ' . $market_id);
           }
       
          $result = array(
-                  'last_trade' => ( 1 / $ocpt_var->num_to_str($pairing_btc_val / $curr_to_btc) )
+                  'last_trade' => ( 1 / $pt_var->num_to_str($pairing_btc_val / $curr_to_btc) )
                   );
          }
       
@@ -2317,40 +2327,40 @@ var $ocpt_array1 = array();
      ////////////////////////////////////////////////////////////////////////////////////////////////
     
     
-      if ( strtolower($chosen_exchange) != 'misc_assets' ) {
+      if ( strtolower($sel_exchange) != 'misc_assets' ) {
         
       // Better large / small number support
-      $result['last_trade'] = $ocpt_var->num_to_str($result['last_trade']);
+      $result['last_trade'] = $pt_var->num_to_str($result['last_trade']);
         
         // SET FIRST...emulate pairing volume if non-existent
         if ( is_numeric($result['24hr_pairing_vol']) != true ) {
-        $result['24hr_pairing_vol'] = $ocpt_var->num_to_str($result['last_trade'] * $result['24hr_asset_vol']);
+        $result['24hr_pairing_vol'] = $pt_var->num_to_str($result['last_trade'] * $result['24hr_asset_vol']);
         }
       
         // Set primary currency volume value
-        if ( $pairing == $ocpt_conf['gen']['btc_prim_curr_pairing'] ) {
-        $result['24hr_prim_curr_vol'] = $ocpt_var->num_to_str($result['24hr_pairing_vol']); // Save on runtime, if we don't need to compute the fiat value
+        if ( $pairing == $pt_conf['gen']['btc_prim_curr_pairing'] ) {
+        $result['24hr_prim_curr_vol'] = $pt_var->num_to_str($result['24hr_pairing_vol']); // Save on runtime, if we don't need to compute the fiat value
         }
         elseif ( !$result['24hr_pairing_vol'] && $result['24hr_usd_vol'] ) {
           
           // Fiat or equivalent pairing?
           // #FOR CLEAN CODE#, RUN CHECK TO MAKE SURE IT'S NOT A CRYPTO AS WELL...WE HAVE A COUPLE SUPPORTED, BUT WE ONLY WANT DESIGNATED FIAT-EQIV HERE
-          if ( array_key_exists($pairing, $ocpt_conf['power']['btc_curr_markets']) && !array_key_exists($pairing, $ocpt_conf['power']['crypto_pairing']) ) {
+          if ( array_key_exists($pairing, $pt_conf['power']['btc_curr_markets']) && !array_key_exists($pairing, $pt_conf['power']['crypto_pairing']) ) {
           $fiat_eqiv = 1;
           }
         
-        $pairing_btc_val = $ocpt_asset->pairing_btc_val($pairing);
-        $usd_btc_val = $ocpt_asset->pairing_btc_val('usd');
+        $pairing_btc_val = $pt_asset->pairing_btc_val($pairing);
+        $usd_btc_val = $pt_asset->pairing_btc_val('usd');
         
         $vol_in_btc = $result['24hr_usd_vol'] * $usd_btc_val;
-        $vol_in_pairing = round( ($vol_in_btc / $pairing_btc_val) , ( $fiat_eqiv == 1 ? 0 : $ocpt_conf['power']['chart_crypto_vol_dec'] ) );
+        $vol_in_pairing = round( ($vol_in_btc / $pairing_btc_val) , ( $fiat_eqiv == 1 ? 0 : $pt_conf['power']['chart_crypto_vol_dec'] ) );
         
-        $result['24hr_pairing_vol'] = $ocpt_var->num_to_str($vol_in_pairing);
-        $result['24hr_prim_curr_vol'] = $ocpt_var->num_to_str( $ocpt_asset->prim_curr_trade_vol('BTC', 'usd', 1, $result['24hr_usd_vol']) );
+        $result['24hr_pairing_vol'] = $pt_var->num_to_str($vol_in_pairing);
+        $result['24hr_prim_curr_vol'] = $pt_var->num_to_str( $pt_asset->prim_curr_trade_vol('BTC', 'usd', 1, $result['24hr_usd_vol']) );
         
         }
         else {
-        $result['24hr_prim_curr_vol'] = $ocpt_var->num_to_str( $ocpt_asset->prim_curr_trade_vol($asset_symbol, $pairing, $result['last_trade'], $result['24hr_pairing_vol']) );
+        $result['24hr_prim_curr_vol'] = $pt_var->num_to_str( $pt_asset->prim_curr_trade_vol($asset_symb, $pairing, $result['last_trade'], $result['24hr_pairing_vol']) );
         }
         
       

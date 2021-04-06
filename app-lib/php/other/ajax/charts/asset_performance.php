@@ -5,14 +5,14 @@
 
 $analyzed_assets = array();
 
-foreach ( $ocpt_conf['charts_alerts']['tracked_markets'] as $key => $value ) {
+foreach ( $pt_conf['charts_alerts']['tracked_markets'] as $key => $val ) {
 
 $asset = preg_replace("/-(.*)/i", "", $key);
 
-$attributes = explode("||", $value);
+$attributes = explode("||", $val);
 
 	// We also want to make sure this asset hasn't been removed from the 'assets' app config, for UX
-	if ( !array_key_exists($asset, $analyzed_assets) && isset($ocpt_conf['assets'][strtoupper($asset)]) ) {
+	if ( !array_key_exists($asset, $analyzed_assets) && isset($pt_conf['assets'][strtoupper($asset)]) ) {
 	
 		if ( $attributes[2] == 'chart' || $attributes[2] == 'both' ) {
 			
@@ -21,7 +21,7 @@ $attributes = explode("||", $value);
 		$chart_file = $base_dir . '/cache/charts/spot_price_24hr_volume/lite/' . $_GET['time_period'] . '_days/'.strtoupper($asset).'/'.$key.'_chart_'.$default_btc_prim_curr_pairing.'.dat';
 						
 			if ( file_exists($chart_file) ) {
-			$runtime_data['performance_stats'][strtoupper($asset)]['data'] = $ocpt_gen->chart_data($chart_file, 'performance', $_GET['start_time']); // NO EARLIER THAN A CERTAIN TIMESTAMP
+			$runtime_data['performance_stats'][strtoupper($asset)]['data'] = $pt_gen->chart_data($chart_file, 'performance', $_GET['start_time']); // NO EARLIER THAN A CERTAIN TIMESTAMP
 			}
 		
 		}
@@ -105,7 +105,7 @@ exit;
 $loop = 0;
 foreach ( $runtime_data['performance_stats'] as $chart_key => $chart_val ) {
   			
-$percent_sample_newest = $ocpt_var->num_to_str( $ocpt_var->delimited_str_sample($chart_val['data']['percent'], ',', 'last') );
+$percent_sample_newest = $pt_var->num_to_str( $pt_var->delimited_str_sample($chart_val['data']['percent'], ',', 'last') );
 
 	// If percent value matches, and another (increasing) number to the end, to avoid overwriting keys (this data is only used as an array key anyway)
 	if ( !array_key_exists($percent_sample_newest, $sorted_by_last_chart_data) ) {
@@ -133,7 +133,7 @@ $plot_conf = explode('|', $_GET['plot_conf']);
 		$show_plot = 'visible: false,';
 		}
 			
-	$rand_color = '#' . $ocpt_gen->rand_color( sizeof($sorted_by_last_chart_data) )['hex'];
+	$rand_color = '#' . $pt_gen->rand_color( sizeof($sorted_by_last_chart_data) )['hex'];
 		
 					
 				$chart_conf = "{
@@ -160,7 +160,7 @@ $plot_conf = explode('|', $_GET['plot_conf']);
 		
 			
 
-header('Content-type: text/html; charset=' . $ocpt_conf['dev']['charset_default']);
+header('Content-type: text/html; charset=' . $pt_conf['dev']['charset_default']);
 		
 			?>
 			

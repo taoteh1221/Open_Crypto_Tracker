@@ -1,5 +1,5 @@
 <?php
-header('Content-type: text/html; charset=' . $ocpt_conf['dev']['charset_default']);
+header('Content-type: text/html; charset=' . $pt_conf['dev']['charset_default']);
 ?><!DOCTYPE html>
 <html lang="en">
 
@@ -13,7 +13,7 @@ header('Content-type: text/html; charset=' . $ocpt_conf['dev']['charset_default'
 	<title>Open Crypto Portfolio Tracker<?=( $is_admin ? ' - Admin Config' : '' )?></title>
     
 
-   <meta charset="<?=$ocpt_conf['dev']['charset_default']?>">
+   <meta charset="<?=$pt_conf['dev']['charset_default']?>">
    
    <meta name="viewport" content="width=device-width"> <!-- Mobile compatibility -->
    
@@ -37,7 +37,7 @@ header('Content-type: text/html; charset=' . $ocpt_conf['dev']['charset_default'
 	
 	<?php
 	$preloaded_files_dir = 'templates/interface/media/images/auto-preloaded';
-	$preloaded_files = $ocpt_gen->list_files($preloaded_files_dir);
+	$preloaded_files = $pt_gen->list_files($preloaded_files_dir);
 	
 	$loop = 0;
 	foreach ( $preloaded_files as $preload_file ) {
@@ -109,7 +109,7 @@ header('Content-type: text/html; charset=' . $ocpt_conf['dev']['charset_default'
 	
 	<?php
 	// MSIE doesn't like highlightjs (LOL)
-	if ( $ocpt_gen->is_msie() == false ) {
+	if ( $pt_gen->is_msie() == false ) {
 	?>
 	
 	<link rel="stylesheet" href="templates/interface/desktop/css/highlightjs.min.css" type="text/css" />
@@ -158,18 +158,18 @@ header('Content-type: text/html; charset=' . $ocpt_conf['dev']['charset_default'
 	var sorted_by_col = <?=$sorted_by_col?>;
 	var sorted_by_asc_desc = <?=$sorted_by_asc_desc?>;
 	
-	var charts_background = '<?=$ocpt_conf['power']['charts_background']?>';
-	var charts_border = '<?=$ocpt_conf['power']['charts_border']?>';
+	var charts_background = '<?=$pt_conf['power']['charts_background']?>';
+	var charts_border = '<?=$pt_conf['power']['charts_border']?>';
 	
 	var btc_prim_curr_val = '<?=number_format( $sel_btc_prim_curr_val, 2, '.', '' )?>';
-	var btc_prim_curr_pairing = '<?=strtoupper($ocpt_conf['gen']['btc_prim_curr_pairing'])?>';
+	var btc_prim_curr_pairing = '<?=strtoupper($pt_conf['gen']['btc_prim_curr_pairing'])?>';
 	
 	// 'Loading X...' UI notices
 	feeds_loading_check(window.feeds_loaded);
 	charts_loading_check(window.charts_loaded);
 	
 	<?php
-	foreach ( $ocpt_conf['dev']['limited_apis'] as $api ) {
+	foreach ( $pt_conf['dev']['limited_apis'] as $api ) {
 	$js_limited_apis .= '"'.strtolower( preg_replace("/\.(.*)/i", "", $api) ).'", ';
 	}
 	$js_limited_apis = trim($js_limited_apis);
@@ -182,7 +182,7 @@ header('Content-type: text/html; charset=' . $ocpt_conf['dev']['charset_default'
 	
 	var pref_bitcoin_markets = []; // Set the array
 	<?php
-	foreach ( $ocpt_conf['power']['btc_pref_curr_markets'] as $pref_bitcoin_markets_key => $pref_bitcoin_markets_val ) {
+	foreach ( $pt_conf['power']['btc_pref_curr_markets'] as $pref_bitcoin_markets_key => $pref_bitcoin_markets_val ) {
 	?>
 	pref_bitcoin_markets["<?=strtolower( $pref_bitcoin_markets_key )?>"] = "<?=strtolower( $pref_bitcoin_markets_val )?>";
 	<?php
@@ -238,9 +238,9 @@ header('Content-type: text/html; charset=' . $ocpt_conf['dev']['charset_default'
 					  			<a class="dropdown-item<?=( $script_file_info['basename'] == 'index.php' ? ' active' : '' )?>" href="index.php">Portfolio</a>
 					  			
 					  			<?php
-					  			if ( $ocpt_gen->admin_logged_in() ) {
+					  			if ( $pt_gen->admin_logged_in() ) {
 					  			?>
-					  			<a class="dropdown-item" href="?logout=1&admin_hashed_nonce=<?=$ocpt_gen->admin_hashed_nonce('logout')?>">Logout</a>
+					  			<a class="dropdown-item" href="?logout=1&admin_hashed_nonce=<?=$pt_gen->admin_hashed_nonce('logout')?>">Logout</a>
 					  			<?php
 					  			}
 					 			?>
@@ -324,7 +324,7 @@ header('Content-type: text/html; charset=' . $ocpt_conf['dev']['charset_default'
 														'message' => null
 														);
 						
-				$ocpt_cache->save_file($base_dir . '/cache/events/ui_upgrade_alert.dat', json_encode($ui_upgrade_alert, JSON_PRETTY_PRINT) );
+				$pt_cache->save_file($base_dir . '/cache/events/ui_upgrade_alert.dat', json_encode($ui_upgrade_alert, JSON_PRETTY_PRINT) );
 				
 					}
 					

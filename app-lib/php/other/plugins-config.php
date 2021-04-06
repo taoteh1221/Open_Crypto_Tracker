@@ -8,10 +8,10 @@
 // PLUGINS CONFIG
 //////////////////////////////////////////////////////////////////
 
-// Configs for any plugins activated in ocpt_conf
-foreach ( $ocpt_conf['power']['activate_plugins'] as $key => $value ) {
+// Configs for any plugins activated in pt_conf
+foreach ( $pt_conf['power']['activate_plugins'] as $key => $val ) {
 	
-	if ( $value == 'on' ) {
+	if ( $val == 'on' ) {
 		
 	$key = trim($key);
 	
@@ -39,7 +39,7 @@ foreach ( $ocpt_conf['power']['activate_plugins'] as $key => $value ) {
 			}
 		
 		
-		$ocpt_conf['plug_conf'][$this_plug] = $plug_conf[$this_plug]; // Add each plugin's config into the GLOBAL app config
+		$pt_conf['plug_conf'][$this_plug] = $plug_conf[$this_plug]; // Add each plugin's config into the GLOBAL app config
 		
 		$this_plug = null; // Reset
 		

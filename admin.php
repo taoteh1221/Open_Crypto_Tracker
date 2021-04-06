@@ -25,7 +25,7 @@ require("templates/interface/desktop/php/admin/admin-login/register.php");
 exit;
 }
 // If logged in
-elseif ( $ocpt_gen->admin_logged_in() ) {
+elseif ( $pt_gen->admin_logged_in() ) {
 require("templates/interface/desktop/php/header.php");
 }
 // If NOT logged in
@@ -53,7 +53,7 @@ exit;
 			<a class="nav-link admin_change_width" data-toggle="tab" data-width="fixed_max" href="#admin_portfolio_assets" role="tab" aria-controls="admin_portfolio_assets">Portfolio Assets</a>
 		  </li>
 		  <li class="nav-item">
-			<a class="nav-link admin_change_width" data-toggle="tab" data-width="fixed_max" href="#admin_charts_alerts" role="tab" aria-controls="admin_charts_alerts"><?=( $ocpt_conf['gen']['asset_charts_toggle'] == 'on' ? 'Charts and ' : 'Price ' )?>Alerts</a>
+			<a class="nav-link admin_change_width" data-toggle="tab" data-width="fixed_max" href="#admin_charts_alerts" role="tab" aria-controls="admin_charts_alerts"><?=( $pt_conf['gen']['asset_charts_toggle'] == 'on' ? 'Charts and ' : 'Price ' )?>Alerts</a>
 		  </li>
 		  <li class="nav-item">
 			<a class="nav-link admin_change_width" data-toggle="tab" data-width="fixed_max" href="#admin_power_user" role="tab" aria-controls="admin_power_user">Power User</a>

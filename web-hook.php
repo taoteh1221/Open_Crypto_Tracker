@@ -20,7 +20,7 @@ $webhook_hash = explode('/', $_GET['webhook_hash']); // Remove any data after th
 
 ///////////////////////////////////////////////////////////////////////////////
 // Google 0auth
-if ( $webhook_hash[0] == $ocpt_gen->nonce_digest('google-0auth', $webhook_key) ) {
+if ( $webhook_hash[0] == $pt_gen->nonce_digest('google-0auth', $webhook_key) ) {
 require_once($base_dir . '/app-lib/php/other/security/google-0auth.php');
 }
 ///////////////////////////////////////////////////////////////////////////////
@@ -29,7 +29,7 @@ require_once($base_dir . '/app-lib/php/other/security/google-0auth.php');
 
 ///////////////////////////////////////////////////////////////////////////////
 // Telegram
-elseif ( $webhook_hash[0] == $ocpt_gen->nonce_digest('telegram', $webhook_key) ) {
+elseif ( $webhook_hash[0] == $pt_gen->nonce_digest('telegram', $webhook_key) ) {
 
 // https://core.telegram.org/bots/api
 
@@ -49,11 +49,11 @@ elseif ( $webhook_hash[0] == $ocpt_gen->nonce_digest('telegram', $webhook_key) )
 
 ///////////////////////////////////////////////////////////////////////////////
 // Test only
-elseif ( $webhook_hash[0] == $ocpt_gen->nonce_digest('test-only', $webhook_key) ) {
+elseif ( $webhook_hash[0] == $pt_gen->nonce_digest('test-only', $webhook_key) ) {
 
 $test_params = array('api_key' => $api_key);
 						
-$test_data = @$ocpt_cache->ext_data('params', $test_params, 0, $base_url . 'api/market_conversion/eur/kraken-btc-usd,coinbase-dai-usdc,coinbase-eth-usd', 2);
+$test_data = @$pt_cache->ext_data('params', $test_params, 0, $base_url . 'api/market_conversion/eur/kraken-btc-usd,coinbase-dai-usdc,coinbase-eth-usd', 2);
 
 // Already json-encoded
 echo $test_data;
@@ -77,13 +77,13 @@ if ( isset($result) ) {
 echo json_encode($result, JSON_PRETTY_PRINT);
 }
 
-//echo $ocpt_gen->nonce_digest('test-only', $webhook_key) . ' -- ';
+//echo $pt_gen->nonce_digest('test-only', $webhook_key) . ' -- ';
 
 
 // Log errors / debugging, send notifications
-$ocpt_cache->error_logs();
-$ocpt_cache->debugging_logs();
-$ocpt_cache->send_notifications();
+$pt_cache->error_logs();
+$pt_cache->debugging_logs();
+$pt_cache->send_notifications();
 
 flush(); // Clean memory output buffer for echo
 gc_collect_cycles(); // Clean memory cache

@@ -16,7 +16,7 @@
 	
 	<form name='reset_api' id='reset_api' action='' method='post'>
 	
-	<input type='hidden' name='admin_hashed_nonce' value='<?=$ocpt_gen->admin_hashed_nonce('reset_api_key')?>' />
+	<input type='hidden' name='admin_hashed_nonce' value='<?=$pt_gen->admin_hashed_nonce('reset_api_key')?>' />
 	
 	<input type='hidden' name='reset_api_key' value='1' />
 	
@@ -46,7 +46,7 @@
 	
 	<form name='reset_webhook' id='reset_webhook' action='' method='post'>
 	
-	<input type='hidden' name='admin_hashed_nonce' value='<?=$ocpt_gen->admin_hashed_nonce('reset_webhook_key')?>' />
+	<input type='hidden' name='admin_hashed_nonce' value='<?=$pt_gen->admin_hashed_nonce('reset_webhook_key')?>' />
 	
 	<input type='hidden' name='reset_webhook_key' value='1' />
 	

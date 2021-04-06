@@ -5,13 +5,13 @@
 
 
 
-class ocpt_var {
+class pt_var {
 	
 // Class variables / arrays
-var $ocpt_var1;
-var $ocpt_var2;
-var $ocpt_var3;
-var $ocpt_array1 = array();
+var $pt_var1;
+var $pt_var2;
+var $pt_var3;
+var $pt_array1 = array();
 
    
    ////////////////////////////////////////////////////////
@@ -27,8 +27,8 @@ var $ocpt_array1 = array();
    ////////////////////////////////////////////////////////
    
    
-   function strip_brackets($string) {
-   return str_replace(array('[',']'),'',$string);
+   function strip_brackets($str) {
+   return str_replace(array('[',']'),'',$str);
    }
 
 
@@ -36,8 +36,8 @@ var $ocpt_array1 = array();
 	////////////////////////////////////////////////////////
 
 
-	function strip_underscore_and_after($string) {
-	return substr($string, 0, strpos($string, "_"));
+	function strip_underscore_and_after($str) {
+	return substr($str, 0, strpos($str, "_"));
 	}
    
    
@@ -46,7 +46,7 @@ var $ocpt_array1 = array();
    
    
    function substri_count($haystack, $needle) {
-       return substr_count(strtoupper($haystack), strtoupper($needle));
+   return substr_count(strtoupper($haystack), strtoupper($needle));
    }
    
    
@@ -54,12 +54,8 @@ var $ocpt_array1 = array();
    ////////////////////////////////////////////////////////
    
    
-   function str_to_array($string) {
-   
-   $string = explode("||",$string);
-   
-   return $string;
-   
+   function str_to_array($str) {
+   return explode("||",$str);
    }
    
    
@@ -67,13 +63,13 @@ var $ocpt_array1 = array();
    ////////////////////////////////////////////////////////
    
    
-   function strip_formatting($string) {
+   function strip_formatting($str) {
    
-   $string = preg_replace("/ /", "", $string); // Space
-   $string = preg_replace("/,/", "", $string); // Comma
-   $string = preg_replace("/  /", "", $string); // Tab
+   $str = preg_replace("/ /", "", $str); // Space
+   $str = preg_replace("/,/", "", $str); // Comma
+   $str = preg_replace("/  /", "", $str); // Tab
    
-   return $string;
+   return $str;
    
    }
    
@@ -84,8 +80,8 @@ var $ocpt_array1 = array();
    
    function clean_array($data) {
    
-      foreach ( $data as $key => $value ) {
-      $data[$key] = trim($this->strip_formatting($value));
+      foreach ( $data as $key => $val ) {
+      $data[$key] = trim($this->strip_formatting($val));
       }
            
    return $data;
@@ -109,14 +105,14 @@ var $ocpt_array1 = array();
    ////////////////////////////////////////////////////////
    
    
-   function rem_num_format($string) {
+   function rem_num_format($str) {
    
-   $string = str_replace("    ", '', $string);
-   $string = str_replace(" ", '', $string);
-   $string = str_replace(",", "", $string);
-   $string = trim($string);
+   $str = str_replace("    ", '', $str);
+   $str = str_replace(" ", '', $str);
+   $str = str_replace(",", "", $str);
+   $str = trim($str);
    
-   return $this->num_to_str($string);
+   return $this->num_to_str($str);
    
    }
 
@@ -125,16 +121,16 @@ var $ocpt_array1 = array();
 	////////////////////////////////////////////////////////
 	
 	
-	function strip_non_alpha($string, $case=false) {
+	function strip_non_alpha($str, $case=false) {
 	
 		if ( $case == 'lower' ) {
-		$result = strtolower( preg_replace('/[^\w\d]+/','', $string) );
+		$result = strtolower( preg_replace('/[^\w\d]+/','', $str) );
 		}
 		else if ( $case == 'upper' ) {
-		$result = strtoupper( preg_replace('/[^\w\d]+/','', $string) );
+		$result = strtoupper( preg_replace('/[^\w\d]+/','', $str) );
 		}
 		else {
-		$result = preg_replace('/[^\w\d]+/','', $string);
+		$result = preg_replace('/[^\w\d]+/','', $str);
 		}
 		
 	return trim($result);
@@ -146,13 +142,13 @@ var $ocpt_array1 = array();
    ////////////////////////////////////////////////////////
    
    
-   function delimited_str_sample($string, $delimiter, $position, $charset='utf-8') {
+   function delimited_str_sample($str, $delimiter, $position, $charset='utf-8') {
       
       if ( $position == 'first' ) {
-      $result = substr($string, 0, mb_strpos($string, $delimiter, 0, $charset) );
+      $result = substr($str, 0, mb_strpos($str, $delimiter, 0, $charset) );
       }
       elseif ( $position == 'last' ) {
-      $result = array_pop( explode(',', $string) );
+      $result = array_pop( explode(',', $str) );
       }
    
    return $result;
@@ -164,20 +160,20 @@ var $ocpt_array1 = array();
    ////////////////////////////////////////////////////////
    
    
-   function auto_correct_str($string, $mode) {
+   function auto_correct_str($str, $mode) {
    
       // Upper or lower case
       if ( $mode == 'lower' ) {
-      $string = strtolower($string);
+      $str = strtolower($str);
       }
       elseif ( $mode == 'upper' ) {
-      $string = strtoupper($string);
+      $str = strtoupper($str);
       }
    
    // Remove all whitespace
-   $string = preg_replace('/\s/', '', $string);
+   $str = preg_replace('/\s/', '', $str);
    
-   return $string;
+   return $str;
    
    }
    
@@ -251,13 +247,13 @@ var $ocpt_array1 = array();
       ksort($list_array);
       }
    
-      foreach( $list_array as $value ) {
+      foreach( $list_array as $val ) {
          
          if ( $delimiter_space == true ) {
-         $result .= $value . ' '.$delimiter.' ';
+         $result .= $val . ' '.$delimiter.' ';
          }
          else {
-         $result .= $value . $delimiter;
+         $result .= $val . $delimiter;
          }
       
       }
@@ -343,15 +339,15 @@ var $ocpt_array1 = array();
    ////////////////////////////////////////////////////////
    
    
-   function num_pretty($value_to_pretty, $num_dec, $small_unlimited=false) {
+   function num_pretty($val_to_pretty, $num_dec, $small_unlimited=false) {
    
-   global $ocpt_conf;
+   global $pt_conf;
    
    // Pretty number formatting, while maintaining decimals
    
    
    // Strip formatting, convert from scientific format, and remove leading / trailing zeros
-   $raw_val_to_pretty = $this->rem_num_format($value_to_pretty);
+   $raw_val_to_pretty = $this->rem_num_format($val_to_pretty);
    
    // Do any rounding that may be needed now (skip WATCH-ONLY 9 decimal values)
    if ( $this->num_to_str($raw_val_to_pretty) > 0.00000000 && $small_unlimited != TRUE ) { 
@@ -366,12 +362,12 @@ var $ocpt_array1 = array();
           
           
             if ( preg_match("/\./", $raw_val_to_pretty) ) {
-            $value_no_decimal = preg_replace("/\.(.*)/", "", $raw_val_to_pretty);
+            $val_no_decimal = preg_replace("/\.(.*)/", "", $raw_val_to_pretty);
             $decimal_amount = preg_replace("/(.*)\./", "", $raw_val_to_pretty);
             $check_decimal_amount = '0.' . $decimal_amount;
             }
             else {
-            $value_no_decimal = $raw_val_to_pretty;
+            $val_no_decimal = $raw_val_to_pretty;
             $decimal_amount = null;
             $check_decimal_amount = null;
             }
@@ -387,11 +383,11 @@ var $ocpt_array1 = array();
             if ( $this->num_to_str($raw_val_to_pretty) > 0.00000000 && $small_unlimited == true ) {  
                
                if ( $num_dec == 2 ) {
-               $value_to_pretty = number_format($raw_val_to_pretty, 2, '.', ',');
+               $val_to_pretty = number_format($raw_val_to_pretty, 2, '.', ',');
                }
                else {
-               // $value_no_decimal stops rounding, while number_format gives us pretty numbers left of decimal
-               $value_to_pretty = number_format($value_no_decimal, 0, '.', ',') . ( $this->num_to_str($check_decimal_amount) > 0.00000000 ? '.' . $decimal_amount : '' );
+               // $val_no_decimal stops rounding, while number_format gives us pretty numbers left of decimal
+               $val_to_pretty = number_format($val_no_decimal, 0, '.', ',') . ( $this->num_to_str($check_decimal_amount) > 0.00000000 ? '.' . $decimal_amount : '' );
                }
             
             }
@@ -399,21 +395,20 @@ var $ocpt_array1 = array();
             elseif ( $this->num_to_str($raw_val_to_pretty) >= 0.00000001 && $small_unlimited == false ) {  
                
                if ( $num_dec == 2 ) {
-               $value_to_pretty = number_format($raw_val_to_pretty, 2, '.', ',');
+               $val_to_pretty = number_format($raw_val_to_pretty, 2, '.', ',');
                }
                else {
-               // $value_no_decimal stops rounding, while number_format gives us pretty numbers left of decimal
-               $value_to_pretty = number_format($value_no_decimal, 0, '.', ',') . ( $this->num_to_str($check_decimal_amount) > 0.00000000 ? '.' . $decimal_amount : '' );
+               // $val_no_decimal stops rounding, while number_format gives us pretty numbers left of decimal
+               $val_to_pretty = number_format($val_no_decimal, 0, '.', ',') . ( $this->num_to_str($check_decimal_amount) > 0.00000000 ? '.' . $decimal_amount : '' );
                }
             
             }
             else {
-            $value_to_pretty = 0;
+            $val_to_pretty = 0;
             }
             
-            
           
-   return $value_to_pretty;
+   return $val_to_pretty;
    
    }
    

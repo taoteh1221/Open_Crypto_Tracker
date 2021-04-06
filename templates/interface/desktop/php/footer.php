@@ -32,7 +32,7 @@
 	$bundle_error_logs .= $logs_array['other_error'];
 	
 	
-	if ( $ocpt_conf['dev']['debug'] != 'off' ) {
+	if ( $pt_conf['dev']['debug'] != 'off' ) {
 	
 	
 		foreach ( $logs_array['cache_debugging'] as $error ) {
@@ -236,10 +236,10 @@
           
     	
     	// Proxy alerts (if setup by user, and any of them failed, test the failed proxies and log/alert if they seem offline)
-		if ( $ocpt_conf['comms']['proxy_alert'] != 'off' ) {
+		if ( $pt_conf['comms']['proxy_alert'] != 'off' ) {
 	
 			foreach ( $proxy_checkup as $problem_proxy ) {
-			$ocpt_gen->test_proxy($problem_proxy);
+			$pt_gen->test_proxy($problem_proxy);
 			sleep(1);
 			}
 
@@ -248,8 +248,8 @@
           	
           	
 		// Log errors, send notifications BEFORE runtime stats
-		$error_logs = $ocpt_cache->error_logs();
-		$ocpt_cache->send_notifications();
+		$error_logs = $pt_cache->error_logs();
+		$pt_cache->send_notifications();
 		
 		if ( $error_logs != true ) {
 		?>
@@ -268,28 +268,28 @@
 
 
 		// If debug mode is 'all' / 'all_telemetry' / 'stats'
-		if ( $ocpt_conf['dev']['debug'] == 'all' || $ocpt_conf['dev']['debug'] == 'all_telemetry' || $ocpt_conf['dev']['debug'] == 'stats' ) {
+		if ( $pt_conf['dev']['debug'] == 'all' || $pt_conf['dev']['debug'] == 'all_telemetry' || $pt_conf['dev']['debug'] == 'stats' ) {
 		
-			foreach ( $system_info as $key => $value ) {
-			$system_telemetry .= $key . ': ' . $value . '; ';
+			foreach ( $system_info as $key => $val ) {
+			$system_telemetry .= $key . ': ' . $val . '; ';
 			}
 			
 		// Log system stats
-		$ocpt_gen->app_logging('system_debugging', 'Hardware / software stats (requires log_verbosity set to verbose)', $system_telemetry);
+		$pt_gen->app_logging('system_debugging', 'Hardware / software stats (requires log_verbosity set to verbose)', $system_telemetry);
 			
 		// Log user agent
-		$ocpt_gen->app_logging('system_debugging', 'USER AGENT is "' . $_SERVER['HTTP_USER_AGENT'] . '"');
+		$pt_gen->app_logging('system_debugging', 'USER AGENT is "' . $_SERVER['HTTP_USER_AGENT'] . '"');
 			
 		// Log runtime stats
-		$ocpt_gen->app_logging('system_debugging', strtoupper($runtime_mode).' runtime was ' . $total_runtime . ' seconds');
+		$pt_gen->app_logging('system_debugging', strtoupper($runtime_mode).' runtime was ' . $total_runtime . ' seconds');
 		
 		}
 		
 		
 		// Process debugging logs AFTER runtime stats
-		$debugging_logs = $ocpt_cache->debugging_logs();
+		$debugging_logs = $pt_cache->debugging_logs();
     		
-		if ( $ocpt_conf['dev']['debug'] != 'off' && $debugging_logs != true ) {
+		if ( $pt_conf['dev']['debug'] != 'off' && $debugging_logs != true ) {
 		?>
 		<div class="red" style='font-weight: bold;'><?=$debugging_logs?></div>
 		<?php

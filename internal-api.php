@@ -18,12 +18,12 @@ $ip_access = trim( file_get_contents($base_dir . '/cache/events/throttling/local
 
 
 
-// Throttle ip addresses reconnecting before $ocpt_conf['dev']['local_api_rate_limit'] interval passes
-if ( $ocpt_cache->update_cache($base_dir . '/cache/events/throttling/local_api_incoming_ip_' . $store_ip . '.dat', ($ocpt_conf['dev']['local_api_rate_limit'] / 60) ) == false ) {
+// Throttle ip addresses reconnecting before $pt_conf['dev']['local_api_rate_limit'] interval passes
+if ( $pt_cache->update_cache($base_dir . '/cache/events/throttling/local_api_incoming_ip_' . $store_ip . '.dat', ($pt_conf['dev']['local_api_rate_limit'] / 60) ) == false ) {
 
-$result = array('error' => "Rate limit (maximum of once every " . $ocpt_conf['dev']['local_api_rate_limit'] . " seconds) reached for ip address: " . $remote_ip);
+$result = array('error' => "Rate limit (maximum of once every " . $pt_conf['dev']['local_api_rate_limit'] . " seconds) reached for ip address: " . $remote_ip);
 
-$ocpt_gen->app_logging('int_api_error', 'From ' . $remote_ip . ' (Rate limit reached)', 'uri: ' . $_SERVER['REQUEST_URI'] . ';');
+$pt_gen->app_logging('int_api_error', 'From ' . $remote_ip . ' (Rate limit reached)', 'uri: ' . $_SERVER['REQUEST_URI'] . ';');
 
 // JSON-encode results
 $json_result = json_encode($result, JSON_PRETTY_PRINT);
@@ -35,11 +35,11 @@ elseif ( !isset($_POST['api_key']) || isset($_POST['api_key']) && $_POST['api_ke
 	
 	if ( isset($_POST['api_key']) ) {
 	$result = array('error' => "Incorrect API key: " . $_POST['api_key']);
-	$ocpt_gen->app_logging('int_api_error', 'From ' . $remote_ip . ' (Incorrect API key)', 'api_key: ' . $_POST['api_key'] . '; uri: ' . $_SERVER['REQUEST_URI'] . ';');
+	$pt_gen->app_logging('int_api_error', 'From ' . $remote_ip . ' (Incorrect API key)', 'api_key: ' . $_POST['api_key'] . '; uri: ' . $_SERVER['REQUEST_URI'] . ';');
 	}
 	else {
 	$result = array('error' => "Missing API key.");
-	$ocpt_gen->app_logging('int_api_error', 'From ' . $remote_ip . ' (Missing API key)', 'uri: ' . $_SERVER['REQUEST_URI'] . ';');
+	$pt_gen->app_logging('int_api_error', 'From ' . $remote_ip . ' (Missing API key)', 'uri: ' . $_SERVER['REQUEST_URI'] . ';');
 	}
 
 // JSON-encode results
@@ -56,12 +56,12 @@ $hash_check = md5($_GET['data_set']);
 
 
 	// If a cache exists for this request that's NOT OUTDATED, use cache to speed things up
-	if ( $ocpt_cache->update_cache($base_dir . '/cache/internal-api/'.$hash_check.'.dat', $ocpt_conf['dev']['local_api_cache_time']) == false ) {
+	if ( $pt_cache->update_cache($base_dir . '/cache/internal-api/'.$hash_check.'.dat', $pt_conf['dev']['local_api_cache_time']) == false ) {
 		
 	$json_result = trim( file_get_contents($base_dir . '/cache/internal-api/'.$hash_check.'.dat') );
 
 	// Log access event for this ip address (for throttling)
-	$ocpt_cache->save_file($base_dir . '/cache/events/throttling/local_api_incoming_ip_' . $store_ip . '.dat', $ocpt_gen->time_date_format(false, 'pretty_date_time') );
+	$pt_cache->save_file($base_dir . '/cache/events/throttling/local_api_incoming_ip_' . $store_ip . '.dat', $pt_gen->time_date_format(false, 'pretty_date_time') );
 	
 	}
 	// No cache / expired cache
@@ -81,45 +81,45 @@ $hash_check = md5($_GET['data_set']);
 
 		// /api/price endpoint
 		if ( $data_set_array[0] == 'market_conversion' ) {
-		$result = $ocpt_asset->market_conv_int_api($data_set_array[1], $all_markets_data_array);
+		$result = $pt_asset->market_conv_int_api($data_set_array[1], $all_markets_data_array);
 		}
 		elseif ( $data_set_array[0] == 'asset_list' ) {
-		$result = $ocpt_asset->asset_list_int_api();
+		$result = $pt_asset->asset_list_int_api();
 		}
 		elseif ( $data_set_array[0] == 'exchange_list' ) {
-		$result = $ocpt_asset->exchange_list_int_api();
+		$result = $pt_asset->exchange_list_int_api();
 		}
 		elseif ( $data_set_array[0] == 'market_list' ) {
-		$result = $ocpt_asset->market_list_int_api($data_set_array[1]);
+		$result = $pt_asset->market_list_int_api($data_set_array[1]);
 		}
 		elseif ( $data_set_array[0] == 'conversion_list' ) {
-		$result = $ocpt_asset->conversion_list_int_api();
+		$result = $pt_asset->conversion_list_int_api();
 		}
 		// Non-existent endpoint error message
 		else {
 		$result = array('error' => 'Endpoint does not exist: ' . $data_set_array[0]);
-		$ocpt_gen->app_logging('int_api_error', 'From ' . $remote_ip . ' (Endpoint does not exist: ' . $data_set_array[0] . ')', 'uri: ' . $_SERVER['REQUEST_URI'] . ';');
+		$pt_gen->app_logging('int_api_error', 'From ' . $remote_ip . ' (Endpoint does not exist: ' . $data_set_array[0] . ')', 'uri: ' . $_SERVER['REQUEST_URI'] . ';');
 		}
 	
 	
 		// No matches error message
 		if ( !isset($result) ) {
 		$result = array('error' => 'No matches / results found.');
-		$ocpt_gen->app_logging('int_api_error', 'From ' . $remote_ip . ' (No matches / results found)', 'uri: ' . $_SERVER['REQUEST_URI'] . ';');
+		$pt_gen->app_logging('int_api_error', 'From ' . $remote_ip . ' (No matches / results found)', 'uri: ' . $_SERVER['REQUEST_URI'] . ';');
 		}
 
 
-	$result['minutes_cached'] = $ocpt_conf['dev']['local_api_cache_time'];
+	$result['minutes_cached'] = $pt_conf['dev']['local_api_cache_time'];
 	
 	
 	// JSON-encode results
 	$json_result = json_encode($result, JSON_PRETTY_PRINT);
 	
 	// Cache the result
-	$ocpt_cache->save_file($base_dir . '/cache/internal-api/'.$hash_check.'.dat', $json_result);
+	$pt_cache->save_file($base_dir . '/cache/internal-api/'.$hash_check.'.dat', $json_result);
 
 	// Log access event for this ip address (for throttling)
-	$ocpt_cache->save_file($base_dir . '/cache/events/throttling/local_api_incoming_ip_' . $store_ip . '.dat', $ocpt_gen->time_date_format(false, 'pretty_date_time') );
+	$pt_cache->save_file($base_dir . '/cache/events/throttling/local_api_incoming_ip_' . $store_ip . '.dat', $pt_gen->time_date_format(false, 'pretty_date_time') );
 
 
 	}
@@ -131,9 +131,9 @@ $hash_check = md5($_GET['data_set']);
 echo $json_result;
 
 // Log errors / debugging, send notifications
-$ocpt_cache->error_logs();
-$ocpt_cache->debugging_logs();
-$ocpt_cache->send_notifications();
+$pt_cache->error_logs();
+$pt_cache->debugging_logs();
+$pt_cache->send_notifications();
 
 flush(); // Clean memory output buffer for echo
 gc_collect_cycles(); // Clean memory cache

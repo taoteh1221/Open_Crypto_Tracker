@@ -22,38 +22,38 @@ $csv_download_array[] = array(
 	        							);
 	    
 	    
-	foreach ( $ocpt_conf['assets'] as $coin_array_key => $coin_array_val ) {
+	foreach ( $pt_conf['assets'] as $asset_array_key => $asset_array_val ) {
 		
 	    
-	    $field_var_pairing = strtolower($coin_array_key) . '_pairing';
-	    $field_var_market = strtolower($coin_array_key) . '_market';
-	    $field_var_amount = strtolower($coin_array_key) . '_amount';
-	    $field_var_paid = strtolower($coin_array_key) . '_paid';
-	    $field_var_leverage = strtolower($coin_array_key) . '_leverage';
-	    $field_var_margintype = strtolower($coin_array_key) . '_margintype';
-	    $field_var_watchonly = strtolower($coin_array_key) . '_watchonly';
-	    $field_var_restore = strtolower($coin_array_key) . '_restore';
+	    $field_var_pairing = strtolower($asset_array_key) . '_pairing';
+	    $field_var_market = strtolower($asset_array_key) . '_market';
+	    $field_var_amount = strtolower($asset_array_key) . '_amount';
+	    $field_var_paid = strtolower($asset_array_key) . '_paid';
+	    $field_var_leverage = strtolower($asset_array_key) . '_leverage';
+	    $field_var_margintype = strtolower($asset_array_key) . '_margintype';
+	    $field_var_watchonly = strtolower($asset_array_key) . '_watchonly';
+	    $field_var_restore = strtolower($asset_array_key) . '_restore';
 	    
 	    
 	    
-	    $coin_pairing_id = $_POST[$field_var_pairing];
-	    $coin_market_id = $_POST[$field_var_market];
+	    $asset_pairing_id = $_POST[$field_var_pairing];
+	    $asset_market_id = $_POST[$field_var_market];
 	    $asset_amount_val = $_POST[$field_var_amount];
-	    $coin_paid_val = $_POST[$field_var_paid];
-	    $coin_leverage_val = $_POST[$field_var_leverage];
-	    $coin_margintype_val = $_POST[$field_var_margintype];
+	    $asset_paid_val = $_POST[$field_var_paid];
+	    $asset_leverage_val = $_POST[$field_var_leverage];
+	    $asset_margintype_val = $_POST[$field_var_margintype];
 	        	
 	        
-	    $sel_pairing = ( $coin_pairing_id ? $coin_pairing_id : NULL );
+	    $sel_pairing = ( $asset_pairing_id ? $asset_pairing_id : NULL );
 	    
 	    
-			foreach ( $ocpt_conf['assets'][strtoupper($coin_array_key)]['pairing'] as $pairing_key => $unused ) {
+			foreach ( $pt_conf['assets'][strtoupper($asset_array_key)]['pairing'] as $pairing_key => $unused ) {
 			$ploop = 0;
 					 						
 				// Use first pairing key from coins config for this asset, if no pairing value was set properly
 				if ( $ploop == 0 ) {
 				
-					if ( $sel_pairing == NULL || !$ocpt_conf['assets'][strtoupper($coin_array_key)]['pairing'][$sel_pairing] ) {
+					if ( $sel_pairing == NULL || !$pt_conf['assets'][strtoupper($asset_array_key)]['pairing'][$sel_pairing] ) {
 					$sel_pairing = $pairing_key;
 					}
 				
@@ -63,28 +63,28 @@ $csv_download_array[] = array(
 			}
 											
 	    
-	    	if ( strtoupper($coin_array_key) == 'MISCASSETS' ) {
+	    	if ( strtoupper($asset_array_key) == 'MISCASSETS' ) {
 	    	$asset_amount_dec = 2;
 	    	}
 	    	else {
 	    	$asset_amount_dec = 8;
 	    	}
 	    
-	  	 $asset_amount_val = $ocpt_var->num_pretty($asset_amount_val, $asset_amount_dec);
+	  	 $asset_amount_val = $pt_var->num_pretty($asset_amount_val, $asset_amount_dec);
 	    
-	    $coin_paid_val = ( $ocpt_var->num_to_str($coin_paid_val) >= $ocpt_conf['gen']['prim_curr_dec_max_thres'] ? $ocpt_var->num_pretty($coin_paid_val, 2) : $ocpt_var->num_pretty($coin_paid_val, $ocpt_conf['gen']['prim_curr_dec_max']) );
+	    $asset_paid_val = ( $pt_var->num_to_str($asset_paid_val) >= $pt_conf['gen']['prim_curr_dec_max_thres'] ? $pt_var->num_pretty($asset_paid_val, 2) : $pt_var->num_pretty($asset_paid_val, $pt_conf['gen']['prim_curr_dec_max']) );
 	  	 
 	    
 	   	// Asset data to array for CSV export
-	      if ( trim($coin_array_key) != '' && $ocpt_var->rem_num_format($asset_amount_val) >= 0.00000001 ) {
+	      if ( trim($asset_array_key) != '' && $pt_var->rem_num_format($asset_amount_val) >= 0.00000001 ) {
 	        	
 	        $csv_download_array[] = array(
-	        											strtoupper($coin_array_key),
+	        											strtoupper($asset_array_key),
 	        											$asset_amount_val,
-	        											$coin_paid_val,
-	        											$coin_leverage_val,
-	        											$coin_margintype_val,
-	        											$coin_market_id,
+	        											$asset_paid_val,
+	        											$asset_leverage_val,
+	        											$asset_margintype_val,
+	        											$asset_market_id,
 	        											$sel_pairing
 	        											);
 	        											
@@ -99,7 +99,7 @@ $csv_download_array[] = array(
 
 
 // Run last, as it exits when completed
-$ocpt_gen->create_csv('temp', 'Crypto_Portfolio.csv', $csv_download_array); 
+$pt_gen->create_csv('temp', 'Crypto_Portfolio.csv', $csv_download_array); 
 
 
 ?>

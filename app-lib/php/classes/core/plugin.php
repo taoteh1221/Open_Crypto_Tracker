@@ -5,13 +5,13 @@
 
 
 
-class ocpt_plug {
+class pt_plug {
 	
 // Class variables / arrays
-var $ocpt_var1;
-var $ocpt_var2;
-var $ocpt_var3;
-var $ocpt_array1 = array();
+var $pt_var1;
+var $pt_var2;
+var $pt_var3;
+var $pt_array1 = array();
    
    
    ////////////////////////////////////////////////////////
@@ -20,11 +20,11 @@ var $ocpt_array1 = array();
    
    function var_cache($file) {
       
-   global $base_dir, $ocpt_gen, $this_plug;
+   global $base_dir, $pt_gen, $this_plug;
    
       // This plugin's vars cache directory
-      if ( $ocpt_gen->dir_struct($base_dir . '/cache/vars/plugin_vars/'.$this_plug.'/') != true ) {
-      $ocpt_gen->app_logging('system_error', 'Could not create directory: /cache/vars/plugin_vars/'.$this_plug.'/');
+      if ( $pt_gen->dir_struct($base_dir . '/cache/vars/plugin_vars/'.$this_plug.'/') != true ) {
+      $pt_gen->app_logging('system_error', 'Could not create directory: /cache/vars/plugin_vars/'.$this_plug.'/');
       }
       
    return $base_dir . '/cache/vars/plugin_vars/'.$this_plug.'/' . $file;
@@ -38,11 +38,11 @@ var $ocpt_array1 = array();
    
    function event_cache($file) {
       
-   global $base_dir, $ocpt_gen, $this_plug;
+   global $base_dir, $pt_gen, $this_plug;
          
          // This plugin's events cache directory
-         if ( $ocpt_gen->dir_struct($base_dir . '/cache/events/plugin_events/'.$this_plug.'/') != true ) {
-         $ocpt_gen->app_logging('system_error', 'Could not create directory: /cache/events/plugin_events/'.$this_plug.'/');
+         if ( $pt_gen->dir_struct($base_dir . '/cache/events/plugin_events/'.$this_plug.'/') != true ) {
+         $pt_gen->app_logging('system_error', 'Could not create directory: /cache/events/plugin_events/'.$this_plug.'/');
          }
       
    return $base_dir . '/cache/events/plugin_events/'.$this_plug.'/' . $file;

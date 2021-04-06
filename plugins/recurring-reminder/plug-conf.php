@@ -37,7 +37,7 @@ $plug_conf[$this_plug]['reminders'] = array(
 																// PORTFOLIO RE-BALANCE REVIEW REMINDER
 																array(
 																		'days' => 30.4167, // Decimals supported (30.4167 days is AVERAGE LENGTH of 1 month)
-																		'message' => "Review whether you should re-balance your portfolio (have individual assets take up a different precentage of your portfolio's total " . strtoupper($ocpt_conf['gen']['btc_prim_curr_pairing']) . " value)." // Reminder message
+																		'message' => "Review whether you should re-balance your portfolio (have individual assets take up a different precentage of your portfolio's total " . strtoupper($pt_conf['gen']['btc_prim_curr_pairing']) . " value)." // Reminder message
 																		),
 																			
 																			

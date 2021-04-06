@@ -650,7 +650,7 @@ regex_has_space = /\s/;
 regex_has_number = /\d+/;
 regex_has_lowercase = /[a-z]/;
 regex_has_uppercase = /[A-Z]/;
-regex_has_symbol = /[!@#$%^&*]/;
+regex_has_symb = /[!@#$%^&*]/;
     
     
 goodColor = "#10d602";
@@ -693,7 +693,7 @@ badColor = "#ff4747";
         message.innerHTML = "Password MUST contain at least 1 UPPERCASE letter."
         return false;
     }
-   else if ( !pass1.value.match(regex_has_symbol) ) {
+   else if ( !pass1.value.match(regex_has_symb) ) {
         pass1.style.backgroundColor = badColor;
         message.style.color = badColor;
         message.innerHTML = "Password MUST contain at least 1 symbol."

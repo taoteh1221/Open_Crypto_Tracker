@@ -35,7 +35,7 @@ require("templates/interface/desktop/php/header.php");
 			<li class='tabli'><a href='#update'>Update</a></li>
 			<li class='tabli'><a href='#settings'>Settings</a></li>
 			<?php
-			if ( $ocpt_conf['gen']['asset_charts_toggle'] == 'on' ) {
+			if ( $pt_conf['gen']['asset_charts_toggle'] == 'on' ) {
 			?>
 			<li class='tabli'><a href='#charts'>Charts</a></li>
 			<?php
@@ -62,7 +62,7 @@ require("templates/interface/desktop/php/header.php");
 		</div>
 		
 			<?php
-			if ( $ocpt_conf['gen']['asset_charts_toggle'] == 'on' ) {
+			if ( $pt_conf['gen']['asset_charts_toggle'] == 'on' ) {
 			?>
 		<div id='charts' class='tabdiv container-fluid'>
 			<?php require("templates/interface/desktop/php/user/user-sections/charts.php"); ?>

@@ -116,7 +116,7 @@
 					// Sort by most dominant first
 					arsort($_GET);
 					
-				foreach ( $_GET as $key => $value ) {
+				foreach ( $_GET as $key => $val ) {
 					
       			if ( stristr($key, 'MISC__') != false ) {
       			$key = strtolower($key);
@@ -125,9 +125,9 @@
       			}
       			
       
-						if ( $key != 'type' && $key != 'leverage_added' && $key != 'short_added' && $value >= 0.01 ) {
+						if ( $key != 'type' && $key != 'leverage_added' && $key != 'short_added' && $val >= 0.01 ) {
 				?>
-			<p class="coin_info"><span class="yellow"><?=strtoupper($key)?>:</span> <?=$value?>%</p>
+			<p class="coin_info"><span class="yellow"><?=strtoupper($key)?>:</span> <?=$val?>%</p>
 			
 			<?php
 						}

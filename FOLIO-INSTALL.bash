@@ -377,10 +377,10 @@ select opt in $OPTIONS; do
 			
 			sleep 1
 			
-        	CONFIG_FPM_VER="php${PHP_FPM_VER}-fpm"
+        	CONF_FPM_VER="php${PHP_FPM_VER}-fpm"
         	
 			# Config PHP FPM (fcgi) version $PHP_FPM_VER
-        	a2enconf $CONFIG_FPM_VER
+        	a2enconf $CONF_FPM_VER
 			
 			sleep 1
 			
@@ -410,30 +410,30 @@ select opt in $OPTIONS; do
          # Enable HTTP (port 80) htaccess
          #a2ensite 000-default
           
-         HTTP_CONFIG="/etc/apache2/sites-available/000-default.conf"
+         HTTP_CONF="/etc/apache2/sites-available/000-default.conf"
             
-            if [ ! -f $HTTP_CONFIG ]; then
+            if [ ! -f $HTTP_CONF ]; then
             
-            echo "$HTTP_CONFIG could NOT be found on your system."
+            echo "$HTTP_CONF could NOT be found on your system."
             echo "Please enter the FULL Apache config file path for HTTP (port 80):"
             echo " "
             
-            read HTTP_CONFIG
+            read HTTP_CONF
                     
-                if [ ! -f $HTTP_CONFIG ] || [ -z "$HTTP_CONFIG" ]; then
+                if [ ! -f $HTTP_CONF ] || [ -z "$HTTP_CONF" ]; then
                 echo "No HTTP config file detected, skipping Apache htaccess setup for port 80, please wait..."
                 SKIP_HTTP_HTACCESS=1
                 else
                 echo "Using Apache HTTP config file:"
-                echo "$HTTP_CONFIG"
-                CHECK_HTTP=$(<$HTTP_CONFIG)
+                echo "$HTTP_CONF"
+                CHECK_HTTP=$(<$HTTP_CONF)
                 fi
             
             echo " "
             
             else
             
-            CHECK_HTTP=$(<$HTTP_CONFIG)
+            CHECK_HTTP=$(<$HTTP_CONF)
             
             fi
             
@@ -461,15 +461,15 @@ EOF
             
             
             # Backup the HTTP config before editing, to be safe
-            \cp $HTTP_CONFIG $HTTP_CONFIG.BACKUP.$DATE
+            \cp $HTTP_CONF $HTTP_CONF.BACKUP.$DATE
             
             
             # Create the new HTTP config
-            NEW_HTTP_CONFIG=$(echo -e "$HTACCESS_HTTP" | sed '/:80>/r /dev/stdin' $HTTP_CONFIG)
+            NEW_HTTP_CONF=$(echo -e "$HTACCESS_HTTP" | sed '/:80>/r /dev/stdin' $HTTP_CONF)
             
             
             # Install the new HTTP config
-            echo -e "$NEW_HTTP_CONFIG" > $HTTP_CONFIG
+            echo -e "$NEW_HTTP_CONF" > $HTTP_CONF
 
 				sleep 1
                             
@@ -505,30 +505,30 @@ EOF
          #a2ensite default-ssl
          
          
-         HTTPS_CONFIG="/etc/apache2/sites-available/default-ssl.conf"
+         HTTPS_CONF="/etc/apache2/sites-available/default-ssl.conf"
             
-            if [ ! -f $HTTPS_CONFIG ]; then
+            if [ ! -f $HTTPS_CONF ]; then
             
-            echo "$HTTPS_CONFIG could NOT be found on your system."
+            echo "$HTTPS_CONF could NOT be found on your system."
             echo "Please enter the FULL Apache config file path for HTTPS (port 443):"
             echo " "
             
-            read HTTPS_CONFIG
+            read HTTPS_CONF
                     
-                if [ ! -f $HTTPS_CONFIG ] || [ -z "$HTTPS_CONFIG" ]; then
+                if [ ! -f $HTTPS_CONF ] || [ -z "$HTTPS_CONF" ]; then
                 echo "No HTTPS config file detected, skipping Apache htaccess setup for port 443, please wait..."
                 SKIP_HTTPS_HTACCESS=1
                 else
                 echo "Using Apache HTTPS config file:"
-                echo "$HTTPS_CONFIG"
-                CHECK_HTTPS=$(<$HTTPS_CONFIG)
+                echo "$HTTPS_CONF"
+                CHECK_HTTPS=$(<$HTTPS_CONF)
                 fi
             
             echo " "
             
             else
             
-            CHECK_HTTPS=$(<$HTTPS_CONFIG)
+            CHECK_HTTPS=$(<$HTTPS_CONF)
             
             fi
             
@@ -556,15 +556,15 @@ EOF
             
             
             # Backup the HTTPS config before editing, to be safe
-            \cp $HTTPS_CONFIG $HTTPS_CONFIG.BACKUP.$DATE
+            \cp $HTTPS_CONF $HTTPS_CONF.BACKUP.$DATE
             
             
             # Create the new HTTPS config
-            NEW_HTTPS_CONFIG=$(echo -e "$HTACCESS_HTTPS" | sed '/:443>/r /dev/stdin' $HTTPS_CONFIG)
+            NEW_HTTPS_CONF=$(echo -e "$HTACCESS_HTTPS" | sed '/:443>/r /dev/stdin' $HTTPS_CONF)
             
             
             # Install the new HTTPS config
-            echo -e "$NEW_HTTPS_CONFIG" > $HTTPS_CONFIG
+            echo -e "$NEW_HTTPS_CONF" > $HTTPS_CONF
 
 				sleep 1
                             
@@ -829,19 +829,19 @@ select opt in $OPTIONS; do
 
 						
   						# 'address-balance-tracker' plugin config MIGRATION (NEW FILE NAME)
-  						MOVE_CONFIG="/plugins/recurring-reminder"
-						mv $DOC_ROOT$MOVE_CONFIG/plugin-config.php $DOC_ROOT$MOVE_CONFIG/plug-conf.php > /dev/null 2>&1
-						chown $APP_USER:$APP_USER $DOC_ROOT$MOVE_CONFIG/plug-conf.php > /dev/null 2>&1
+  						MOVE_CONF="/plugins/recurring-reminder"
+						mv $DOC_ROOT$MOVE_CONF/plugin-config.php $DOC_ROOT$MOVE_CONF/plug-conf.php > /dev/null 2>&1
+						chown $APP_USER:$APP_USER $DOC_ROOT$MOVE_CONF/plug-conf.php > /dev/null 2>&1
 						
   						# 'price-target-alert' plugin config MIGRATION (NEW FILE NAME)
-  						MOVE_CONFIG="/plugins/price-target-alert"
-						mv $DOC_ROOT$MOVE_CONFIG/plugin-config.php $DOC_ROOT$MOVE_CONFIG/plug-conf.php > /dev/null 2>&1
-						chown $APP_USER:$APP_USER $DOC_ROOT$MOVE_CONFIG/plug-conf.php > /dev/null 2>&1
+  						MOVE_CONF="/plugins/price-target-alert"
+						mv $DOC_ROOT$MOVE_CONF/plugin-config.php $DOC_ROOT$MOVE_CONF/plug-conf.php > /dev/null 2>&1
+						chown $APP_USER:$APP_USER $DOC_ROOT$MOVE_CONF/plug-conf.php > /dev/null 2>&1
 						
   						# 'recurring-reminder' plugin config MIGRATION (NEW FILE NAME)
-  						MOVE_CONFIG="/plugins/recurring-reminder"
-						mv $DOC_ROOT$MOVE_CONFIG/plugin-config.php $DOC_ROOT$MOVE_CONFIG/plug-conf.php > /dev/null 2>&1
-						chown $APP_USER:$APP_USER $DOC_ROOT$MOVE_CONFIG/plug-conf.php > /dev/null 2>&1
+  						MOVE_CONF="/plugins/recurring-reminder"
+						mv $DOC_ROOT$MOVE_CONF/plugin-config.php $DOC_ROOT$MOVE_CONF/plug-conf.php > /dev/null 2>&1
+						chown $APP_USER:$APP_USER $DOC_ROOT$MOVE_CONF/plug-conf.php > /dev/null 2>&1
 						
 						sleep 3
 						
@@ -850,24 +850,24 @@ select opt in $OPTIONS; do
 						
 						
   						# Main config
-  						BACKUP_CONFIG="/config.php"
-						cp $DOC_ROOT$BACKUP_CONFIG $DOC_ROOT$BACKUP_CONFIG.BACKUP.$DATE.$RAND_STRING > /dev/null 2>&1
-						chown $APP_USER:$APP_USER $DOC_ROOT$BACKUP_CONFIG.BACKUP.$DATE.$RAND_STRING > /dev/null 2>&1
+  						BACKUP_CONF="/config.php"
+						cp $DOC_ROOT$BACKUP_CONF $DOC_ROOT$BACKUP_CONF.BACKUP.$DATE.$RAND_STRING > /dev/null 2>&1
+						chown $APP_USER:$APP_USER $DOC_ROOT$BACKUP_CONF.BACKUP.$DATE.$RAND_STRING > /dev/null 2>&1
 						
   						# 'address-balance-tracker' plugin config
-  						BACKUP_CONFIG="/plugins/recurring-reminder/plug-conf.php"
-						cp $DOC_ROOT$BACKUP_CONFIG $DOC_ROOT$BACKUP_CONFIG.BACKUP.$DATE.$RAND_STRING > /dev/null 2>&1
-						chown $APP_USER:$APP_USER $DOC_ROOT$BACKUP_CONFIG.BACKUP.$DATE.$RAND_STRING > /dev/null 2>&1
+  						BACKUP_CONF="/plugins/recurring-reminder/plug-conf.php"
+						cp $DOC_ROOT$BACKUP_CONF $DOC_ROOT$BACKUP_CONF.BACKUP.$DATE.$RAND_STRING > /dev/null 2>&1
+						chown $APP_USER:$APP_USER $DOC_ROOT$BACKUP_CONF.BACKUP.$DATE.$RAND_STRING > /dev/null 2>&1
 						
   						# 'price-target-alert' plugin config
-  						BACKUP_CONFIG="/plugins/price-target-alert/plug-conf.php"
-						cp $DOC_ROOT$BACKUP_CONFIG $DOC_ROOT$BACKUP_CONFIG.BACKUP.$DATE.$RAND_STRING > /dev/null 2>&1
-						chown $APP_USER:$APP_USER $DOC_ROOT$BACKUP_CONFIG.BACKUP.$DATE.$RAND_STRING > /dev/null 2>&1
+  						BACKUP_CONF="/plugins/price-target-alert/plug-conf.php"
+						cp $DOC_ROOT$BACKUP_CONF $DOC_ROOT$BACKUP_CONF.BACKUP.$DATE.$RAND_STRING > /dev/null 2>&1
+						chown $APP_USER:$APP_USER $DOC_ROOT$BACKUP_CONF.BACKUP.$DATE.$RAND_STRING > /dev/null 2>&1
 						
   						# 'recurring-reminder' plugin config
-  						BACKUP_CONFIG="/plugins/recurring-reminder/plug-conf.php"
-						cp $DOC_ROOT$BACKUP_CONFIG $DOC_ROOT$BACKUP_CONFIG.BACKUP.$DATE.$RAND_STRING > /dev/null 2>&1
-						chown $APP_USER:$APP_USER $DOC_ROOT$BACKUP_CONFIG.BACKUP.$DATE.$RAND_STRING > /dev/null 2>&1
+  						BACKUP_CONF="/plugins/recurring-reminder/plug-conf.php"
+						cp $DOC_ROOT$BACKUP_CONF $DOC_ROOT$BACKUP_CONF.BACKUP.$DATE.$RAND_STRING > /dev/null 2>&1
+						chown $APP_USER:$APP_USER $DOC_ROOT$BACKUP_CONF.BACKUP.$DATE.$RAND_STRING > /dev/null 2>&1
 						
 						sleep 3
 						

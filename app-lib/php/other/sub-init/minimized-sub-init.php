@@ -7,21 +7,21 @@
 // FOR WHEN WE WANT RELATIVELY QUICK RUNTIMES, WITH MINIMAL INIT LOGIC (captcha / charts / etc)
 
 // Secured cache files global variable for app config (getting captcha settings)
-$secured_cache_files = $ocpt_gen->sort_files($base_dir . '/cache/secured', 'dat', 'desc');
+$secured_cache_files = $pt_gen->sort_files($base_dir . '/cache/secured', 'dat', 'desc');
 
 
 foreach( $secured_cache_files as $secured_file ) {
 
 	// App config
-	if ( preg_match("/ocpt_conf_/i", $secured_file) ) {
+	if ( preg_match("/pt_conf_/i", $secured_file) ) {
 		
-		$cached_ocpt_conf = json_decode( trim( file_get_contents($base_dir . '/cache/secured/' . $secured_file) ) , TRUE);
+		$cached_pt_conf = json_decode( trim( file_get_contents($base_dir . '/cache/secured/' . $secured_file) ) , TRUE);
 			
-			if ( $cached_ocpt_conf == true ) {
-			$ocpt_conf = $cached_ocpt_conf; // Use cached ocpt_conf if it exists, seems intact, and DEFAULT Admin Config (in config.php) hasn't been revised since last check
+			if ( $cached_pt_conf == true ) {
+			$pt_conf = $cached_pt_conf; // Use cached pt_conf if it exists, seems intact, and DEFAULT Admin Config (in config.php) hasn't been revised since last check
 			}
 			else {
-			$ocpt_gen->app_logging('config_error', 'Cached ocpt_conf data appears corrupted (fetching within minimized-sub-init.php)');
+			$pt_gen->app_logging('config_error', 'Cached pt_conf data appears corrupted (fetching within minimized-sub-init.php)');
 			}
 			
 	}

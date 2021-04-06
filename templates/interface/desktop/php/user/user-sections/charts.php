@@ -11,7 +11,7 @@
 				<span class='red countdown_notice'></span>
 			
 	
-	<p style='margin-top: 15px; margin-bottom: 15px;'><?=$ocpt_gen->start_page_html('charts')?></p>		
+	<p style='margin-top: 15px; margin-bottom: 15px;'><?=$pt_gen->start_page_html('charts')?></p>		
 			
 	  
 	<p style='margin-top: 25px;'><a style='font-weight: bold;' class='red' href='javascript: show_more("chartsnotice");' title='Click to show charts notice.'><b>Charts Notice / Information</b></a></p>
@@ -21,7 +21,7 @@
 		
 		<?php
 		$supported_prim_curr_count = 0;
-		foreach ( $ocpt_conf['power']['btc_curr_markets'] as $key => $unused ) {
+		foreach ( $pt_conf['power']['btc_curr_markets'] as $key => $unused ) {
 		$supported_prim_curr_list .= strtoupper($key) . ' / ';
 		$supported_prim_curr_count = $supported_prim_curr_count + 1;
 		}
@@ -29,10 +29,10 @@
 		$supported_prim_curr_list = rtrim($supported_prim_curr_list,'/');
 		$supported_prim_curr_list = trim($supported_prim_curr_list);
 		
-		foreach ( $ocpt_conf['assets']['BTC']['pairing'][$default_btc_prim_curr_pairing] as $key => $unused ) {
+		foreach ( $pt_conf['assets']['BTC']['pairing'][$default_btc_prim_curr_pairing] as $key => $unused ) {
 		
 			if( stristr($key, 'bitmex_') == false ) { // Futures markets not allowed
-			$supported_exchange_list .= $ocpt_gen->snake_case_to_name($key) . ' / ';
+			$supported_exchange_list .= $pt_gen->snake_case_to_name($key) . ' / ';
 			}
 			
 		}
@@ -41,7 +41,7 @@
 		$supported_exchange_list = trim($supported_exchange_list);
 		?>
 					
-		<p class='red' style='font-weight: bold;'>The administrator has set the <i>price charts primary currency market</i> (in the Admin Config GENERAL section) to: <span class='bitcoin'><?=strtoupper($default_btc_prim_curr_pairing)?> @ <?=$ocpt_gen->snake_case_to_name($default_btc_prim_exchange)?></span> &nbsp;(enables <i>additional</i> "<?=strtoupper($default_btc_prim_curr_pairing)?> Value" charts)</p>
+		<p class='red' style='font-weight: bold;'>The administrator has set the <i>price charts primary currency market</i> (in the Admin Config GENERAL section) to: <span class='bitcoin'><?=strtoupper($default_btc_prim_curr_pairing)?> @ <?=$pt_gen->snake_case_to_name($default_btc_prim_exchange)?></span> &nbsp;(enables <i>additional</i> "<?=strtoupper($default_btc_prim_curr_pairing)?> Value" charts)</p>
 		
 		<p class='red' style='font-weight: bold;'><?=strtoupper($default_btc_prim_curr_pairing)?>-paired BTC exchanges supported in this app are: <?=$supported_exchange_list?>.</p>
 		
@@ -156,23 +156,23 @@
 	<?php
 	
 	$zebra_stripe = 'long_list_odd';
-	foreach ( $ocpt_conf['charts_alerts']['tracked_markets'] as $key => $value ) {
+	foreach ( $pt_conf['charts_alerts']['tracked_markets'] as $key => $val ) {
 		
 		// Remove any duplicate asset array key formatting, which allows multiple alerts per asset with different exchanges / trading pairs (keyed like SYMB, SYMB-1, SYMB-2, etc)
 		$show_asset = ( stristr($key, "-") == false ? $key : substr( $key, 0, mb_strpos($key, "-", 0, 'utf-8') ) );
 		$show_asset = strtoupper($show_asset);
 		
-		$show_asset_params = explode("||", $value);
+		$show_asset_params = explode("||", $val);
 		
 				
 			// We also want to make sure this asset hasn't been removed from the 'assets' app config, for UX
-			if ( $show_asset_params[2] == 'chart' && isset($ocpt_conf['assets'][strtoupper($show_asset)]) 
-			|| $show_asset_params[2] == 'both' && isset($ocpt_conf['assets'][strtoupper($show_asset)]) ) {
+			if ( $show_asset_params[2] == 'chart' && isset($pt_conf['assets'][strtoupper($show_asset)]) 
+			|| $show_asset_params[2] == 'both' && isset($pt_conf['assets'][strtoupper($show_asset)]) ) {
 	?>
 	
 		<div class='<?=$zebra_stripe?> long_list <?=( $last_rendered != $show_asset ? 'activate_chart_sections' : '' )?>'>
 				
-				<input type='checkbox' value='<?=$key?>_<?=$show_asset_params[1]?>' onchange='chart_toggle(this);' <?=( in_array("[".$key . '_' . $show_asset_params[1]."]", $show_charts) ? 'checked' : '' )?> /> <span class='blue'><?=$show_asset?></span> / <?=strtoupper($show_asset_params[1])?> @ <?=$ocpt_gen->snake_case_to_name($show_asset_params[0])?>
+				<input type='checkbox' value='<?=$key?>_<?=$show_asset_params[1]?>' onchange='chart_toggle(this);' <?=( in_array("[".$key . '_' . $show_asset_params[1]."]", $show_charts) ? 'checked' : '' )?> /> <span class='blue'><?=$show_asset?></span> / <?=strtoupper($show_asset_params[1])?> @ <?=$pt_gen->snake_case_to_name($show_asset_params[0])?>
 			
 				<?php
 				// Markets that are NOT the same as PRIMARY CURRENCY CONFIG get a secondary chart for PRIMARY CURRENCY CONFIG
@@ -229,17 +229,17 @@
 	<?php
 	
 	// Render the charts
-	foreach ( $ocpt_conf['charts_alerts']['tracked_markets'] as $key => $value ) {
+	foreach ( $pt_conf['charts_alerts']['tracked_markets'] as $key => $val ) {
     
 	// Remove any duplicate asset array key formatting, which allows multiple alerts per asset with different exchanges / trading pairs (keyed like SYMB, SYMB-1, SYMB-2, etc)
 	$chart_asset = ( stristr($key, "-") == false ? $key : substr( $key, 0, mb_strpos($key, "-", 0, 'utf-8') ) );
 	$chart_asset = strtoupper($chart_asset);
 		
 	$charts_available = 1;
-	$alerts_market_parse = explode("||", $value );	
+	$alerts_market_parse = explode("||", $val );	
 		
 		// We also want to make sure this asset hasn't been removed from the 'assets' app config, for UX
-		if ( !isset($ocpt_conf['assets'][strtoupper($chart_asset)]) ) {
+		if ( !isset($pt_conf['assets'][strtoupper($chart_asset)]) ) {
       continue;
     	}
 		
@@ -250,7 +250,7 @@
 	
 	<div style='display: flex; flex-flow: column wrap; overflow: hidden;' class='chart_wrapper' id='<?=$key?>_<?=$alerts_market_parse[1]?>_chart'>
 	
-	<span class='chart_loading' style='color: <?=$ocpt_conf['power']['charts_text']?>;'> &nbsp; Loading chart for <?=strtoupper($chart_asset)?> / <?=strtoupper($alerts_market_parse[1])?> @ <?=$ocpt_gen->snake_case_to_name($alerts_market_parse[0])?>...</span>
+	<span class='chart_loading' style='color: <?=$pt_conf['power']['charts_text']?>;'> &nbsp; Loading chart for <?=strtoupper($chart_asset)?> / <?=strtoupper($alerts_market_parse[1])?> @ <?=$pt_gen->snake_case_to_name($alerts_market_parse[0])?>...</span>
 	
 	<div style='z-index: 99999; margin-top: 7px;' class='chart_reload align_center absolute_centered loading bitcoin'><img src="templates/interface/media/images/auto-preloaded/loader.gif" height='17' alt="" style='vertical-align: middle;' /> <div class='chart_reload_message'></div></div>
 		
@@ -284,7 +284,7 @@
 	
 	<div style='display: flex; flex-flow: column wrap; overflow: hidden;' class='chart_wrapper' id='<?=$key?>_<?=strtolower($default_btc_prim_curr_pairing)?>_chart'>
 	
-	<span class='chart_loading' style='color: <?=$ocpt_conf['power']['charts_text']?>;'> &nbsp; Loading chart for <?=strtoupper($chart_asset)?> / <?=strtoupper($alerts_market_parse[1])?> @ <?=$ocpt_gen->snake_case_to_name($alerts_market_parse[0])?> (<?=strtoupper($default_btc_prim_curr_pairing)?> Value)...</span>
+	<span class='chart_loading' style='color: <?=$pt_conf['power']['charts_text']?>;'> &nbsp; Loading chart for <?=strtoupper($chart_asset)?> / <?=strtoupper($alerts_market_parse[1])?> @ <?=$pt_gen->snake_case_to_name($alerts_market_parse[0])?> (<?=strtoupper($default_btc_prim_curr_pairing)?> Value)...</span>
 	
 	<div style='z-index: 99999; margin-top: 7px;' class='chart_reload align_center absolute_centered loading bitcoin'><img src="templates/interface/media/images/auto-preloaded/loader.gif" height='17' alt="" style='vertical-align: middle;' /> <div class='chart_reload_message'></div></div>
 		

@@ -6,7 +6,7 @@
 
 	
 // Have this script not load any code if asset charts are not turned on
-if ( $ocpt_conf['gen']['asset_charts_toggle'] == 'on' ) {
+if ( $pt_conf['gen']['asset_charts_toggle'] == 'on' ) {
 
 $charted_val = ( $chart_mode == 'pairing' ? $alerts_market_parse[1] : $default_btc_prim_curr_pairing );
 		
@@ -28,7 +28,7 @@ $js_key = preg_replace("/-/", "", $key) . '_' . $charted_val;
 	
 	?>
 			
-			$("#<?=$key?>_<?=$charted_val?>_chart span.chart_loading").html(' &nbsp; <?=$chart_error_notice?> <?=$chart_asset?> / <?=strtoupper($alerts_market_parse[1])?> @ <?=$ocpt_gen->snake_case_to_name($alerts_market_parse[0])?><?=( $chart_mode != 'pairing' ? ' \(' . strtoupper($charted_val) . ' Value\)' : '' )?>');
+			$("#<?=$key?>_<?=$charted_val?>_chart span.chart_loading").html(' &nbsp; <?=$chart_error_notice?> <?=$chart_asset?> / <?=strtoupper($alerts_market_parse[1])?> @ <?=$pt_gen->snake_case_to_name($alerts_market_parse[0])?><?=( $chart_mode != 'pairing' ? ' \(' . strtoupper($charted_val) . ' Value\)' : '' )?>');
 			
 			$("#<?=$key?>_<?=$charted_val?>_chart span.chart_loading").css({ "background-color": "#9b4b26" });
 			
@@ -50,7 +50,7 @@ var lite_state_<?=$js_key?> = {
 };
  
 
-$("#<?=$key?>_<?=$charted_val?>_chart span.chart_loading").html(' &nbsp; <img src="templates/interface/media/images/auto-preloaded/loader.gif" height="16" alt="" style="vertical-align: middle;" /> Loading ALL chart for <?=$chart_asset?> / <?=strtoupper($alerts_market_parse[1])?> @ <?=$ocpt_gen->snake_case_to_name($alerts_market_parse[0])?><?=( $chart_mode != 'pairing' ? ' \(' . strtoupper($charted_val) . ' Value\)' : '' )?>...');
+$("#<?=$key?>_<?=$charted_val?>_chart span.chart_loading").html(' &nbsp; <img src="templates/interface/media/images/auto-preloaded/loader.gif" height="16" alt="" style="vertical-align: middle;" /> Loading ALL chart for <?=$chart_asset?> / <?=strtoupper($alerts_market_parse[1])?> @ <?=$pt_gen->snake_case_to_name($alerts_market_parse[0])?><?=( $chart_mode != 'pairing' ? ' \(' . strtoupper($charted_val) . ' Value\)' : '' )?>...');
 	
   
 zingchart.bind('<?=strtolower($key)?>_<?=$charted_val?>_chart', 'load', function() {
@@ -95,7 +95,7 @@ zingchart.bind('<?=strtolower($key)?>_<?=$charted_val?>_chart', 'label_click', f
   switch(e.labelid) {
   	
   	<?php
-	foreach ($ocpt_conf['power']['lite_chart_day_intervals'] as $lite_chart_days) {
+	foreach ($pt_conf['power']['lite_chart_day_intervals'] as $lite_chart_days) {
 	?>	
 	
     case '<?=$lite_chart_days?>':
@@ -162,7 +162,7 @@ zingchart.bind('<?=strtolower($key)?>_<?=$charted_val?>_chart', 'label_click', f
 		}
 		
   
-  $("#<?=strtolower($key)?>_<?=$charted_val?>_chart div.chart_reload div.chart_reload_message").html("Loading " + lite_chart_text + " chart for <?=$chart_asset?> / <?=strtoupper($alerts_market_parse[1])?> @ <?=$ocpt_gen->snake_case_to_name($alerts_market_parse[0])?><?=( $chart_mode != 'pairing' ? ' \(' . strtoupper($charted_val) . ' Value\)' : '' )?>...");
+  $("#<?=strtolower($key)?>_<?=$charted_val?>_chart div.chart_reload div.chart_reload_message").html("Loading " + lite_chart_text + " chart for <?=$chart_asset?> / <?=strtoupper($alerts_market_parse[1])?> @ <?=$pt_gen->snake_case_to_name($alerts_market_parse[0])?><?=( $chart_mode != 'pairing' ? ' \(' . strtoupper($charted_val) . ' Value\)' : '' )?>...");
   
 	$("#<?=strtolower($key)?>_<?=$charted_val?>_chart div.chart_reload").fadeIn(100); // 0.1 seconds
 	

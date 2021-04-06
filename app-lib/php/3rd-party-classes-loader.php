@@ -8,13 +8,13 @@
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // SMTP email setup (if needed...MUST RUN AFTER dynamic app config management)
 // To be safe, don't use trim() on certain strings with arbitrary non-alphanumeric characters here
-if ( $ocpt_conf['comms']['smtp_login'] != '' && $ocpt_conf['comms']['smtp_server'] != '' ) {
+if ( $pt_conf['comms']['smtp_login'] != '' && $pt_conf['comms']['smtp_server'] != '' ) {
 
 require_once($base_dir . '/app-lib/php/classes/3rd-party/smtp-mailer/SMTPMailer.php');
 
 // Passing smtp server login vars to config structure used by the 3rd party SMTP class, to maintain ease with any future upgrade compatibility
 // Must be loaded as a global var before class instance is created
-$smtp_vars = $ocpt_gen->smtp_vars();
+$smtp_vars = $pt_gen->smtp_vars();
 
 // Initiation of the 3rd party SMTP class
 $smtp = new SMTPMailer();
@@ -44,7 +44,7 @@ if ( $telegram_activated == 1 ) {
 require_once($base_dir . '/app-lib/php/classes/3rd-party/telegram-php/src/Autoloader.php');
 
 // Initiate the bot for this chatroom
-$telegram_bot = new Telegram\Bot($ocpt_conf['comms']['telegram_bot_token'], $ocpt_conf['comms']['telegram_bot_username'], $ocpt_conf['comms']['telegram_bot_name']);
+$telegram_bot = new Telegram\Bot($pt_conf['comms']['telegram_bot_token'], $pt_conf['comms']['telegram_bot_username'], $pt_conf['comms']['telegram_bot_name']);
 $telegram_messaging = new Telegram\Receiver($telegram_bot);
 
 }
@@ -54,7 +54,7 @@ $telegram_messaging = new Telegram\Receiver($telegram_bot);
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // Google API (google home / translate APIs)
-if ( $ocpt_conf['comms']['google_application_name'] != '' && $ocpt_conf['comms']['google_client_id'] != '' && $ocpt_conf['comms']['google_client_secret'] != '' && $webhook_key != '' ) {
+if ( $pt_conf['comms']['google_application_name'] != '' && $pt_conf['comms']['google_client_id'] != '' && $pt_conf['comms']['google_client_secret'] != '' && $webhook_key != '' ) {
 
 // Based off: https://www.phpflow.com/php/php-web-application-authentication-using-google-oauth-2-0/
 
@@ -74,9 +74,9 @@ require_once($base_dir . '/app-lib/php/classes/3rd-party/google-api/vendor/autol
 $google_client = new Google_Client();
 
 // Google app details (https://developers.google.com/assistant/engagement/notifications)
-$google_client->setApplicationName($ocpt_conf['comms']['google_application_name']);
-$google_client->setClientId($ocpt_conf['comms']['google_client_id']);
-$google_client->setClientSecret($ocpt_conf['comms']['google_client_secret']);
+$google_client->setApplicationName($pt_conf['comms']['google_application_name']);
+$google_client->setClientId($pt_conf['comms']['google_client_id']);
+$google_client->setClientSecret($pt_conf['comms']['google_client_secret']);
 $google_client->setRedirectUri($base_url . 'webhook/' . $webhook_key);
 
 // Google 0auth instance
