@@ -585,7 +585,7 @@ Running a google search for "set permanently ulimit -n linux", you'll find tons 
 	      <div class="card-body">
 	      
 	         
-	        If you installed this application on a device on your home network, or on any other network WITH A SLOW INTERNET CONNECTION, you may need to increase the default timeout for retrieving API data IF YOU RECEIVE PARTIAL OR NO API DATA IN THE APP FOR SOME API DATA SETS (the error logs will alert you if this is happening, so check there). 
+	        If you installed this application on a device on your home network, or on any other network WITH A SLOW INTERNET CONNECTION, you may need to increase the default timeout for retrieving API data IF YOU #FREQUENTLY# RECEIVE #PARTIAL# API DATA IN THE APP FOR SOME API DATA SETS (the error logs will alert you if this is happening, so check there). 
 <br /><br />
 	        
 	        To adjust the API timeout, go to the Admin Config POWER USER section. Adjust the 'remote_api_timeout' setting much higher, save the setup in the app, and run the app again to see if this fixes the issue. Adjust higher again if the issue still occurs frequently. DON'T SET 'remote_api_timeout' TOO HIGH though, or any unresponsive connections may cause the app to take a very long time to load / reload.
