@@ -876,21 +876,23 @@ var $pt_array1 = array();
             $count = 0;
             while ( $count < $strength ) {
                   
-                  $rand_case = rand(1, 2);
+            $rand_case = rand(1, 2);
                   
-                  if( $rand_case % 2 == 0 ){ 
-                  // Even number  
-                  $random_char = strtoupper( $input[mt_rand(0, $input_length - 1)] );
-                  } 
-                  else { 
-                  // Odd number
-                  $random_char = strtolower( $input[mt_rand(0, $input_length - 1)] );
-                  } 
+               if( $rand_case % 2 == 0 ){ 
+               // Even number  
+               $random_char = strtoupper( $input[mt_rand(0, $input_length - 1)] );
+               } 
+               else { 
+               // Odd number
+               $random_char = strtolower( $input[mt_rand(0, $input_length - 1)] );
+               } 
+            
             
                if ( stristr($random_str, $random_char) == false ) {
                $random_str .= $random_char;
                $count = $count + 1;
                }
+
             
             }
            
@@ -1044,6 +1046,7 @@ var $pt_array1 = array();
       
       }
    
+   
    $pretty_str = preg_replace("/btc/i", 'BTC', $pretty_str);
    $pretty_str = preg_replace("/coin/i", 'Coin', $pretty_str);
    $pretty_str = preg_replace("/bitcoin/i", 'Bitcoin', $pretty_str);
@@ -1064,6 +1067,7 @@ var $pt_array1 = array();
    $pretty_str = preg_replace("/amm/i", 'AMM', $pretty_str);
 	$pretty_str = preg_replace("/ico/i", 'ICO', $pretty_str);
 	$pretty_str = preg_replace("/erc20/i", 'ERC-20', $pretty_str);
+   
    
    return trim($pretty_str);
    
@@ -1097,6 +1101,7 @@ var $pt_array1 = array();
        if (ord($char{0}) >= 254 && ord($char{0}) <= 255)    //  error
            $result = false;
            
+           
        if ( $format == 'decimal' ) {
        $result = $result;
        }
@@ -1104,6 +1109,7 @@ var $pt_array1 = array();
        $result = 'x'.dechex($result);
        }
        
+
    return $result;
    
    }
@@ -1133,10 +1139,14 @@ var $pt_array1 = array();
                
       }
       else $base_url = 'http://localhost/';
+      
    
       if ($parse) {
+      	
       $base_url = parse_url($base_url);
-              if (isset($base_url['path'])) if ($base_url['path'] == '/') $base_url['path'] = '';
+      
+           if (isset($base_url['path'])) if ($base_url['path'] == '/') $base_url['path'] = '';
+              
       }
    
    
@@ -1179,7 +1189,9 @@ var $pt_array1 = array();
       $date = date("g:ia", $time); // Format: 5:16pm
       }
    
-   $date = preg_replace("/@/", "at", $date); // 'at' is a stubborn word to escape into the date() function, so we cheat a little
+   
+   // 'at' is a stubborn word to escape into the date() function, so we cheated a little
+   $date = preg_replace("/@/", "at", $date); 
    
    return $date;
    
@@ -1351,17 +1363,16 @@ var $pt_array1 = array();
    
    // Credit: https://phpro.org/examples/Get-Text-Between-Tags.html
    function txt_between_tags($tag, $html, $strict=0) {
+   	
        /*** a new dom object ***/
        $dom = new domDocument;
    
        /*** load the html into the object ***/
-       if($strict==1)
-       {
-           $dom->loadXML($html);
+       if($strict==1) {
+       $dom->loadXML($html);
        }
-       else
-       {
-           $dom->loadHTML($html);
+       else {
+       $dom->loadHTML($html);
        }
    
        /*** discard white space ***/
@@ -1372,13 +1383,15 @@ var $pt_array1 = array();
    
        /*** the array to return ***/
        $out = array();
-       foreach ($content as $item)
-       {
+       foreach ($content as $item) {
            /*** add node value to the out array ***/
            $out[] = $item->nodeValue;
        }
-       /*** return the results ***/
-       return $out;
+   
+       
+   /*** return the results ***/
+   return $out;
+       
    }
    
    
@@ -1471,6 +1484,7 @@ var $pt_array1 = array();
       
    $csv_row[6] = strtolower($csv_row[6]); // Pairing to lowercase
       
+      
       // Pairing auto-correction (if invalid pairing)
       if ( $csv_row[6] == '' || !is_array($pt_conf['assets'][$csv_row[0]]['pairing'][$csv_row[6]]) ) {
          
@@ -1486,6 +1500,7 @@ var $pt_array1 = array();
       $csv_row[5] = 1; // We need to reset the market id to 1 (it's ALWAYS 1 OR GREATER), as the ID was higher than available markets count
       }
       
+      
       // Return false if there is no valid held amount
       if ( $csv_row[1] >= 0.00000001 )  {
       return $csv_row;
@@ -1493,6 +1508,7 @@ var $pt_array1 = array();
       else {
       return false;
       }
+      
    
    }
    
@@ -1568,6 +1584,7 @@ var $pt_array1 = array();
    
    global $pt_conf;
    
+   
        if ( $min_length == $max_length && mb_strlen($password, $pt_conf['dev']['charset_default']) != $min_length ) {
        $error .= "MUST BE EXACTLY ".$min_length." characters; ";
        }
@@ -1577,6 +1594,7 @@ var $pt_array1 = array();
        elseif ( mb_strlen($password, $pt_conf['dev']['charset_default']) > $max_length ) {
        $error .= "requires NO MORE THAN ".$max_length." characters; ";
        }
+       
        
        if ( !preg_match("#[0-9]+#", $password) ) {
        $error .= "include one number; ";
@@ -1644,9 +1662,10 @@ var $pt_array1 = array();
       
       }
       
-      // Trim results
-      $reset_list = trim($reset_list);
-      $reset_list = rtrim($reset_list, ',');
+      
+   // Trim results
+   $reset_list = trim($reset_list);
+   $reset_list = rtrim($reset_list, ',');
    
       
       // Return if no resets occurred
@@ -1681,7 +1700,6 @@ var $pt_array1 = array();
                                          )
                                          
                           );
-                   
                    
                    
    // Send notifications
@@ -1869,6 +1887,7 @@ var $pt_array1 = array();
          
       
       return $upgraded_pt_conf;
+      
       }
    
    
@@ -2081,6 +2100,7 @@ var $pt_array1 = array();
       
       }
    
+   
    return $time_period_text;
    
    }
@@ -2093,7 +2113,6 @@ var $pt_array1 = array();
    function chart_data($file, $chart_format, $start_timestamp=0) {
    
    global $pt_conf, $pt_var, $default_btc_prim_currency_pairing, $runtime_nonce, $runtime_data;
-   
    
    
       // #FOR CLEAN CODE#, RUN CHECK TO MAKE SURE IT'S NOT A CRYPTO AS WELL...WE HAVE A COUPLE SUPPORTED, BUT WE ONLY WANT DESIGNATED FIAT-EQIV HERE
@@ -2182,6 +2201,7 @@ var $pt_array1 = array();
    // Trim away extra commas
    $data['time'] = rtrim($data['time'],',');
    
+   
       if ( $system_statistics_chart ) {
       $data['temperature_celsius'] = rtrim($data['temperature_celsius'],',');
       $data['used_memory_percentage'] = rtrim($data['used_memory_percentage'],',');
@@ -2199,6 +2219,7 @@ var $pt_array1 = array();
       $data['spot'] = rtrim($data['spot'],',');
       $data['volume'] = rtrim($data['volume'],',');
       }
+   
    
    return $data;
    
@@ -2308,18 +2329,18 @@ var $pt_array1 = array();
       
          
          if ( !extension_loaded('zip') ) {
-            return 'no_extension';
+         return 'no_extension';
          }
          elseif ( !file_exists($source) ) {
-            return 'no_source';
+         return 'no_source';
          }
       
       
-         $zip = new ZipArchive();
+   $zip = new ZipArchive();
          
          
          if ( !$zip->open($destination, ZIPARCHIVE::CREATE) ) {
-            return 'no_open_dest';
+         return 'no_open_dest';
          }
          
          
@@ -2329,7 +2350,7 @@ var $pt_array1 = array();
          }
       
       
-         $source = str_replace('\\', '/', realpath($source));
+   $source = str_replace('\\', '/', realpath($source));
       
       
          if ( is_dir($source) === true ) {
@@ -2374,8 +2395,8 @@ var $pt_array1 = array();
             
          }
       
-         return $zip->close();
-         
+      
+   return $zip->close();      
        
    }
    
@@ -2516,6 +2537,7 @@ var $pt_array1 = array();
             }
          
          }
+         
       
       return @mail($to, $subj, $msg, $headers);
       
@@ -2552,10 +2574,9 @@ var $pt_array1 = array();
       $complete = false;
       while ( !$complete ) {
          
-         
-         //seek to a position close to end of file
-         $offset = $linecount * $length * $offset_factor;
-         fseek($fp, -$offset, SEEK_END);
+      //seek to a position close to end of file
+      $offset = $linecount * $length * $offset_factor;
+      fseek($fp, -$offset, SEEK_END);
       
       
          //we might seek mid-line, so read partial line
@@ -2617,10 +2638,8 @@ var $pt_array1 = array();
   
   global $base_dir, $pt_conf, $pt_cache, $runtime_mode, $proxies_checked;
   
-  
   // Endpoint to test proxy connectivity: https://www.myip.com/api-docs/
   $proxy_test_url = 'https://api.myip.com/';
-  
   
   $problem_endpoint = $problem_proxy_array['endpoint'];
   
@@ -2633,147 +2652,146 @@ var $pt_array1 = array();
   $ip = $ip_port[0];
   $port = $ip_port[1];
   
-   // If no ip/port detected in data string, cancel and continue runtime
-   if ( !$ip || !$port ) {
-   $this->app_logging('ext_data_error', 'proxy '.$problem_proxy.' is not a valid format');
-   return false;
-   }
+  
+      // If no ip/port detected in data string, cancel and continue runtime
+      if ( !$ip || !$port ) {
+      $this->app_logging('ext_data_error', 'proxy '.$problem_proxy.' is not a valid format');
+      return false;
+      }
+  
   
   // Create cache filename / session var
   $cache_filename = $problem_proxy;
   $cache_filename = preg_replace("/\./", "-", $cache_filename);
   $cache_filename = preg_replace("/:/", "_", $cache_filename);
   
-   if ( $pt_conf['comms']['proxy_alert_runtime'] == 'all' ) {
-   $run_alerts = 1;
-   }
-   elseif ( $pt_conf['comms']['proxy_alert_runtime'] == 'cron' && $runtime_mode == 'cron' ) {
-   $run_alerts = 1;
-   }
-   elseif ( $pt_conf['comms']['proxy_alert_runtime'] == 'ui' && $runtime_mode == 'ui' ) {
-   $run_alerts = 1;
-   }
-   else {
-   $run_alerts = null;
-   }
   
-   if ( $run_alerts == 1 && $pt_cache->update_cache('cache/alerts/proxy-check-'.$cache_filename.'.dat', ( $pt_conf['comms']['proxy_alert_freq_max'] * 60 ) ) == true
-   && in_array($cache_filename, $proxies_checked) == false ) {
-   
-    
-   // SESSION VAR first, to avoid duplicate alerts at runtime (and longer term cache file locked for writing further down, after logs creation)
-   $proxies_checked[] = $cache_filename;
-    
-   $response = @$this->ext_data('proxy-check', $proxy_test_url, 0, '', '', $problem_proxy);
-   
-   $data = json_decode($response, true);
-   
-    if ( sizeof($data) > 0 ) {
+      if ( $pt_conf['comms']['proxy_alert_runtime'] == 'all' ) {
+      $run_alerts = 1;
+      }
+      elseif ( $pt_conf['comms']['proxy_alert_runtime'] == 'cron' && $runtime_mode == 'cron' ) {
+      $run_alerts = 1;
+      }
+      elseif ( $pt_conf['comms']['proxy_alert_runtime'] == 'ui' && $runtime_mode == 'ui' ) {
+      $run_alerts = 1;
+      }
+      else {
+      $run_alerts = null;
+      }
   
-     
-     // Look for the IP in the response
-     if ( strstr($data['ip'], $ip) == false ) {
+  
+      if ( $run_alerts == 1 && $pt_cache->update_cache('cache/alerts/proxy-check-'.$cache_filename.'.dat', ( $pt_conf['comms']['proxy_alert_freq_max'] * 60 ) ) == true
+      && in_array($cache_filename, $proxies_checked) == false ) {
       
-     $misconfigured = 1;
-     
-     $notifyme_alert = 'A checkup on proxy ' . $ip . ', port ' . $port . ' detected a misconfiguration. Remote address ' . $data['ip'] . ' does not match the proxy address. Runtime mode is ' . $runtime_mode . '.';
-     
-     $text_alert = 'Proxy ' . $problem_proxy . ' remote address mismatch (detected as: ' . $data['ip'] . '). runtime: ' . $runtime_mode;
-    
-     }
-     
-     
-    $cached_logs = ( $misconfigured == 1 ? 'runtime: ' . $runtime_mode . "; \n " . 'Proxy ' . $problem_proxy . ' checkup status = MISCONFIGURED (test endpoint ' . $proxy_test_url . ' detected the incoming ip as: ' . $data['ip'] . ')' . "; \n " . 'Remote address DOES NOT match proxy address;' : 'runtime: ' . $runtime_mode . "; \n " . 'Proxy ' . $problem_proxy . ' checkup status = OK (test endpoint ' . $proxy_test_url . ' detected the incoming ip as: ' . $data['ip'] . ');' );
-    
-    
-    }
-    else {
-     
-    $misconfigured = 1;
-    
-    $notifyme_alert = 'A checkup on proxy ' . $ip . ', port ' . $port . ' resulted in a failed data request. No endpoint connection could be established. Runtime mode is ' . $runtime_mode . '.';
-     
-    $text_alert = 'Proxy ' . $problem_proxy . ' failed, no endpoint connection. runtime: ' . $runtime_mode;
-    
-    $cached_logs = 'runtime: ' . $runtime_mode . "; \n " . 'Proxy ' . $problem_proxy . ' checkup status = DATA REQUEST FAILED' . "; \n " . 'No connection established at test endpoint ' . $proxy_test_url . ';';
-  
-    }
-    
-    
-    // Log to error logs
-    if ( $misconfigured == 1 ) {
-    $this->app_logging('ext_data_error', 'proxy '.$problem_proxy.' connection failed', $cached_logs);
-    }
-   
-  
-    // Update alerts cache for this proxy (to prevent running alerts for this proxy too often)
-    $this->save_file($base_dir . '/cache/alerts/proxy-check-'.$cache_filename.'.dat', $cached_logs);
-     
-        
-        $email_alert = " The proxy " . $problem_proxy . " recently did not receive data when accessing this endpoint: \n " . $obfuscated_url_data . " \n \n A check on this proxy was performed at " . $proxy_test_url . ", and results logged: \n ============================================================== \n " . $cached_logs . " \n ============================================================== \n \n ";
-                      
-    
-    // Send out alerts
-    if ( $misconfigured == 1 || $pt_conf['comms']['proxy_alert_checkup_ok'] == 'include' ) {
-                      
-                      
-        // Message parameter added for desired comm methods (leave any comm method blank to skip sending via that method)
-        if ( $pt_conf['comms']['proxy_alert'] == 'all' ) {
-        
-        // Minimize function calls
-        $encoded_text_alert = $this->charset_encode($text_alert); // Unicode support included for text messages (emojis / asian characters / etc )
-         
-             $send_params = array(
-                    'notifyme' => $notifyme_alert,
-                    'telegram' => $email_alert,
-                    'text' => array(
-                          'message' => $encoded_text_alert['content_output'],
-                          'charset' => $encoded_text_alert['charset']
-                          ),
-                    'email' => array(
-                          'subject' => 'A Proxy Was Unresponsive',
-                          'message' => $email_alert
-                          )
-                    );
+       
+      // SESSION VAR first, to avoid duplicate alerts at runtime (and longer term cache file locked for writing further down, after logs creation)
+      $proxies_checked[] = $cache_filename;
+       
+      $response = @$this->ext_data('proxy-check', $proxy_test_url, 0, '', '', $problem_proxy);
+      
+      $data = json_decode($response, true);
+      
+      
+         if ( sizeof($data) > 0 ) {
+          
+            // Look for the IP in the response
+            if ( strstr($data['ip'], $ip) == false ) {
              
-        }
-        elseif ( $pt_conf['comms']['proxy_alert'] == 'email' ) {
-         
-             $send_params['email'] = array(
-                       'subject' => 'A Proxy Was Unresponsive',
-                       'message' => $email_alert
-                       );
-             
-        }
-        elseif ( $pt_conf['comms']['proxy_alert'] == 'text' ) {
-        
-        // Minimize function calls
-        $encoded_text_alert = $this->charset_encode($text_alert); // Unicode support included for text messages (emojis / asian characters / etc )
-        
-             $send_params['text'] = array(
-                       'message' => $encoded_text_alert['content_output'],
-                       'charset' => $encoded_text_alert['charset']
-                       );
-             
-        }
-        elseif ( $pt_conf['comms']['proxy_alert'] == 'notifyme' ) {
-             $send_params['notifyme'] = $notifyme_alert;
-        }
-        elseif ( $pt_conf['comms']['proxy_alert'] == 'telegram' ) {
-             $send_params['telegram'] = $email_alert;
-        }
-             
-             
-             // Send notifications
-             @$this->queue_notify($send_params);
-             
-             
-    }
+            $misconfigured = 1;
             
+            $notifyme_alert = 'A checkup on proxy ' . $ip . ', port ' . $port . ' detected a misconfiguration. Remote address ' . $data['ip'] . ' does not match the proxy address. Runtime mode is ' . $runtime_mode . '.';
             
-    
-   }
-  
+            $text_alert = 'Proxy ' . $problem_proxy . ' remote address mismatch (detected as: ' . $data['ip'] . '). runtime: ' . $runtime_mode;
+           
+            }
+          
+         $cached_logs = ( $misconfigured == 1 ? 'runtime: ' . $runtime_mode . "; \n " . 'Proxy ' . $problem_proxy . ' checkup status = MISCONFIGURED (test endpoint ' . $proxy_test_url . ' detected the incoming ip as: ' . $data['ip'] . ')' . "; \n " . 'Remote address DOES NOT match proxy address;' : 'runtime: ' . $runtime_mode . "; \n " . 'Proxy ' . $problem_proxy . ' checkup status = OK (test endpoint ' . $proxy_test_url . ' detected the incoming ip as: ' . $data['ip'] . ');' );
+         
+         }
+         else {
+          
+         $misconfigured = 1;
+         
+         $notifyme_alert = 'A checkup on proxy ' . $ip . ', port ' . $port . ' resulted in a failed data request. No endpoint connection could be established. Runtime mode is ' . $runtime_mode . '.';
+          
+         $text_alert = 'Proxy ' . $problem_proxy . ' failed, no endpoint connection. runtime: ' . $runtime_mode;
+         
+         $cached_logs = 'runtime: ' . $runtime_mode . "; \n " . 'Proxy ' . $problem_proxy . ' checkup status = DATA REQUEST FAILED' . "; \n " . 'No connection established at test endpoint ' . $proxy_test_url . ';';
+       
+         }
+       
+       
+         // Log to error logs
+         if ( $misconfigured == 1 ) {
+         $this->app_logging('ext_data_error', 'proxy '.$problem_proxy.' connection failed', $cached_logs);
+         }
+      
+     
+      // Update alerts cache for this proxy (to prevent running alerts for this proxy too often)
+      $this->save_file($base_dir . '/cache/alerts/proxy-check-'.$cache_filename.'.dat', $cached_logs);
+        
+           
+      $email_alert = " The proxy " . $problem_proxy . " recently did not receive data when accessing this endpoint: \n " . $obfuscated_url_data . " \n \n A check on this proxy was performed at " . $proxy_test_url . ", and results logged: \n ============================================================== \n " . $cached_logs . " \n ============================================================== \n \n ";
+                         
+       
+         // Send out alerts
+         if ( $misconfigured == 1 || $pt_conf['comms']['proxy_alert_checkup_ok'] == 'include' ) {
+                           
+                           
+             // Message parameter added for desired comm methods (leave any comm method blank to skip sending via that method)
+             if ( $pt_conf['comms']['proxy_alert'] == 'all' ) {
+             
+             // Minimize function calls
+             $encoded_text_alert = $this->charset_encode($text_alert); // Unicode support included for text messages (emojis / asian characters / etc )
+              
+                  $send_params = array(
+                         'notifyme' => $notifyme_alert,
+                         'telegram' => $email_alert,
+                         'text' => array(
+                               'message' => $encoded_text_alert['content_output'],
+                               'charset' => $encoded_text_alert['charset']
+                               ),
+                         'email' => array(
+                               'subject' => 'A Proxy Was Unresponsive',
+                               'message' => $email_alert
+                               )
+                         );
+                  
+             }
+             elseif ( $pt_conf['comms']['proxy_alert'] == 'email' ) {
+              
+                  $send_params['email'] = array(
+                            'subject' => 'A Proxy Was Unresponsive',
+                            'message' => $email_alert
+                            );
+                  
+             }
+             elseif ( $pt_conf['comms']['proxy_alert'] == 'text' ) {
+             
+             // Minimize function calls
+             $encoded_text_alert = $this->charset_encode($text_alert); // Unicode support included for text messages (emojis / asian characters / etc )
+             
+                  $send_params['text'] = array(
+                            'message' => $encoded_text_alert['content_output'],
+                            'charset' => $encoded_text_alert['charset']
+                            );
+                  
+             }
+             elseif ( $pt_conf['comms']['proxy_alert'] == 'notifyme' ) {
+                  $send_params['notifyme'] = $notifyme_alert;
+             }
+             elseif ( $pt_conf['comms']['proxy_alert'] == 'telegram' ) {
+                  $send_params['telegram'] = $email_alert;
+             }
+                  
+                  
+         // Send notifications
+         @$this->queue_notify($send_params);
+                  
+         }
+               
+       
+      }
   
   
   }
@@ -2816,7 +2834,9 @@ var $pt_array1 = array();
          
          }
       
+      
       $cpu['cpu_info'] = $cpu_info_array;
+      
       
          if ( $cpu['cpu_info']['model'] ) {
          $system['model'] = $cpu['cpu_info']['model'];
@@ -2839,6 +2859,7 @@ var $pt_array1 = array();
          else {
          $system['cpu_threads'] = 1; // Presume only one, if nothing parsed
          }
+         
       
       }
    
@@ -2878,10 +2899,11 @@ var $pt_array1 = array();
       $system['system_load'] .= $load . ' (' . $time . ' min avg) ';
       $loop = $loop + 1;
       }
-      $system['system_load'] = trim($system['system_load']);
       
-   
-   
+      
+   $system['system_load'] = trim($system['system_load']);
+      
+     
       // Temperature stats
       if ( is_readable('/sys/class/thermal/thermal_zone0/temp') ) {
       $temp_info = @file_get_contents('/sys/class/thermal/thermal_zone0/temp');
@@ -2932,9 +2954,7 @@ var $pt_array1 = array();
       
       $system['memory_used_percent'] = $memory_applications_percent;
    
-   
       }
-      
    
    
    // Free space on this partition
@@ -2981,7 +3001,6 @@ var $pt_array1 = array();
       
       }
       
-   
    
    return $system;
    
