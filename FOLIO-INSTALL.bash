@@ -197,6 +197,11 @@ echo "VERY IMPORTANT UPGRADE NOTES:"
 echo " "
 echo " "
 
+echo "v4.30.0 and higher of this app HAS COMPLETELY REFACTORED CONFIGURATION VARIABLE NAMES,"
+echo "SO YOU'LL NEED TO MIGRATE ANY CUSTOM CONFIGS OVER TO THE PROPER NAMES WHERE APPLICABLE!"
+echo " "
+echo " "
+
 echo "v4.29.3 and higher of this app HAS COMPLETELY REFACTORED CONFIGURATION VARIABLE NAMES,"
 echo "SO YOU'LL NEED TO MIGRATE ANY CUSTOM CONFIGS OVER TO THE PROPER NAMES WHERE APPLICABLE!"
 echo " "
@@ -722,10 +727,10 @@ echo "Select 1, 2, or 3 to choose whether to auto-install / remove Open Crypto P
 echo "(!WARNING!: REMOVING Open Crypto Portfolio Tracker WILL DELETE *EVERYTHING* IN $DOC_ROOT !!)"
 echo " "
 
-OPTIONS="install_coin_app remove_coin_app skip"
+OPTIONS="install_portfolio_app remove_portfolio_app skip"
 
 select opt in $OPTIONS; do
-        if [ "$opt" = "install_coin_app" ]; then
+        if [ "$opt" = "install_portfolio_app" ]; then
         
         		if [ ! -d "$DOC_ROOT" ]; then
         		
@@ -942,6 +947,7 @@ select opt in $OPTIONS; do
 				rm $DOC_ROOT/logs.php > /dev/null 2>&1
 				rm $DOC_ROOT/cache/vars/app_config_md5.dat > /dev/null 2>&1
 				rm $DOC_ROOT/cache/vars/default_app_config_md5.dat > /dev/null 2>&1
+				rm $DOC_ROOT/cache/vars/default_ocpt_conf_md5.dat > /dev/null 2>&1
 				rm $DOC_ROOT/cache/vars/default_btc_primary_currency_pairing.dat > /dev/null 2>&1
 				
 				# Force-resets script timeout from config.php (automatically / dynamically re-created by app)
@@ -1104,7 +1110,7 @@ select opt in $OPTIONS; do
   				fi
 
         break
-       elif [ "$opt" = "remove_coin_app" ]; then
+       elif [ "$opt" = "remove_portfolio_app" ]; then
        
         echo " "
         echo "Removing Open Crypto Portfolio Tracker (Server Edition), please wait..."

@@ -15,7 +15,7 @@
 // Cleaning lowercase alphanumeric string values, and auto-correct minor errors
 $pt_conf['dev']['debug'] = $pt_var->auto_correct_str($pt_conf['dev']['debug'], 'lower');
 $pt_conf['comms']['upgrade_alert'] = $pt_var->auto_correct_str($pt_conf['comms']['upgrade_alert'], 'lower');
-$pt_conf['gen']['btc_prim_curr_pairing'] = $pt_var->auto_correct_str($pt_conf['gen']['btc_prim_curr_pairing'], 'lower');
+$pt_conf['gen']['btc_prim_currency_pairing'] = $pt_var->auto_correct_str($pt_conf['gen']['btc_prim_currency_pairing'], 'lower');
 $pt_conf['gen']['btc_prim_exchange'] = $pt_var->auto_correct_str($pt_conf['gen']['btc_prim_exchange'], 'lower');
 $pt_conf['dev']['log_verb'] = $pt_var->auto_correct_str($pt_conf['dev']['log_verb'], 'lower');
 $pt_conf['gen']['default_theme'] = $pt_var->auto_correct_str($pt_conf['gen']['default_theme'], 'lower');
@@ -83,7 +83,7 @@ $pt_conf['power']['captcha_text_angle'] = 35;
 if ( is_array($pt_conf['assets']) ) {
     
     $pt_conf['assets']['MISCASSETS'] = array(
-                                        'name' => 'Misc. '.strtoupper($pt_conf['gen']['btc_prim_curr_pairing']).' Value',
+                                        'name' => 'Misc. '.strtoupper($pt_conf['gen']['btc_prim_currency_pairing']).' Value',
                                         'mcap_slug' => '',
                                         'pairing' => array()
                                         );
@@ -93,7 +93,7 @@ if ( is_array($pt_conf['assets']) ) {
             $pt_conf['assets']['MISCASSETS']['pairing'][$pairing_key] = array('misc_assets' => $pairing_key);
             }
             
-            foreach ( $pt_conf['power']['btc_curr_markets'] as $pairing_key => $pairing_unused ) {
+            foreach ( $pt_conf['power']['btc_currency_markets'] as $pairing_key => $pairing_unused ) {
             	
             	// WE HAVE A COUPLE CRYPTOS SUPPORTED HERE, BUT WE ONLY WANT DESIGNATED FIAT-EQIV HERE (cryptos are added via 'crypto_to_crypto_pairing')
             	if ( !array_key_exists($pairing_key, $pt_conf['power']['crypto_pairing']) ) {
@@ -178,7 +178,7 @@ $pt_gen->app_logging( 'other_error', 'RSS feeds failed to sort alphabetically');
 
 // Better decimal support for these vars...
 $pt_conf['power']['system_stats_first_chart_highest_val'] = $pt_var->num_to_str($pt_conf['power']['system_stats_first_chart_highest_val']); 
-$pt_conf['gen']['prim_curr_dec_max_thres'] = $pt_var->num_to_str($pt_conf['gen']['prim_curr_dec_max_thres']); 
+$pt_conf['gen']['prim_currency_dec_max_thres'] = $pt_var->num_to_str($pt_conf['gen']['prim_currency_dec_max_thres']); 
 $pt_conf['comms']['price_alert_thres'] = $pt_var->num_to_str($pt_conf['comms']['price_alert_thres']); 
 $pt_conf['power']['hivepower_yearly_interest'] = $pt_var->num_to_str($pt_conf['power']['hivepower_yearly_interest']); 
 
@@ -193,22 +193,22 @@ $backup_arch_pass = false;
 
 
 // Light chart config tracking / updating (checking for changes to lite chart app config, to trigger lite chart rebuilds)
-$conf_lite_chart_structure = md5( serialize($pt_conf['power']['lite_chart_day_intervals']) . $pt_conf['power']['lite_chart_data_points_max'] );
+$conf_lite_chart_struct = md5( serialize($pt_conf['power']['lite_chart_day_intervals']) . $pt_conf['power']['lite_chart_data_points_max'] );
 
-if ( !file_exists($base_dir . '/cache/vars/lite_chart_structure.dat') ) {
-$pt_cache->save_file($base_dir . '/cache/vars/lite_chart_structure.dat', $conf_lite_chart_structure);
-$cached_lite_chart_structure = $conf_lite_chart_structure;
+if ( !file_exists($base_dir . '/cache/vars/lite_chart_struct.dat') ) {
+$pt_cache->save_file($base_dir . '/cache/vars/lite_chart_struct.dat', $conf_lite_chart_struct);
+$cached_lite_chart_struct = $conf_lite_chart_struct;
 }
 else {
-$cached_lite_chart_structure = trim( file_get_contents($base_dir . '/cache/vars/lite_chart_structure.dat') );
+$cached_lite_chart_struct = trim( file_get_contents($base_dir . '/cache/vars/lite_chart_struct.dat') );
 }
 
 
 // Check if we need to rebuild lite charts from changes to their structure
-if ( $conf_lite_chart_structure != $cached_lite_chart_structure ) {
+if ( $conf_lite_chart_struct != $cached_lite_chart_struct ) {
 $pt_cache->remove_dir($base_dir . '/cache/charts/spot_price_24hr_volume/lite');
 $pt_cache->remove_dir($base_dir . '/cache/charts/system/lite');
-$pt_cache->save_file($base_dir . '/cache/vars/lite_chart_structure.dat', $conf_lite_chart_structure);
+$pt_cache->save_file($base_dir . '/cache/vars/lite_chart_struct.dat', $conf_lite_chart_struct);
 }
 
 

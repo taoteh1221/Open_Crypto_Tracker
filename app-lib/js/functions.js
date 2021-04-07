@@ -787,19 +787,19 @@ sat_target = Number(document.getElementById("sat_target").value);
 	}
 
 
-target_prim_curr = ( num_total * btc_prim_curr_val );
+target_prim_currency = ( num_total * btc_prim_currency_val );
 
-target_total_prim_curr = ( (to_trade_amount * num_total) * btc_prim_curr_val );
+target_total_prim_currency = ( (to_trade_amount * num_total) * btc_prim_currency_val );
 
 
-	document.getElementById("target_prim_curr").innerHTML = target_prim_curr.toLocaleString(undefined, {
+	document.getElementById("target_prim_currency").innerHTML = target_prim_currency.toLocaleString(undefined, {
    minimumFractionDigits: 8,
    maximumFractionDigits: 8
 	});
 
 document.getElementById("target_btc").innerHTML = num_total;
 
-	document.getElementById("target_total_prim_curr").innerHTML = target_total_prim_curr.toLocaleString(undefined, {
+	document.getElementById("target_total_prim_currency").innerHTML = target_total_prim_currency.toLocaleString(undefined, {
    minimumFractionDigits: 2,
    maximumFractionDigits: 2
 	});

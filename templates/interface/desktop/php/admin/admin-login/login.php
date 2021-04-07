@@ -15,7 +15,7 @@ if ( $_POST['admin_submit_login'] ) {
 	else {
 				
 				// To be safe, don't use trim() on certain strings with arbitrary non-alphanumeric characters here
-				if ( $pt_gen->app_id() != false && isset($_SESSION['nonce']) && trim($_POST['admin_username']) != '' && $_POST['admin_password'] != '' 
+				if ( $pt_gen->id() != false && isset($_SESSION['nonce']) && trim($_POST['admin_username']) != '' && $_POST['admin_password'] != '' 
 				&& $_POST['admin_username'] == $stored_admin_login[0] && $pt_gen->check_pepper_hashed_pass($_POST['admin_password'], $stored_admin_login[1]) == true ) {
 					
 				// Login now (set admin security cookie / 'auth_hash' session var), before redirect
@@ -24,7 +24,7 @@ if ( $_POST['admin_submit_login'] ) {
 				
 				$cookie_nonce = $pt_gen->rand_hash(32); // 32 byte
 		
-				$pt_gen->store_cookie('admin_auth_' . $pt_gen->app_id(), $cookie_nonce, mktime() + ($pt_conf['power']['admin_cookie_expire'] * 3600) );
+				$pt_gen->store_cookie('admin_auth_' . $pt_gen->id(), $cookie_nonce, mktime() + ($pt_conf['power']['admin_cookie_expire'] * 3600) );
 				
 				$_SESSION['admin_logged_in']['auth_hash'] = $pt_gen->admin_hashed_nonce($cookie_nonce, 'force'); // Force set, as we're not logged in fully yet
 				

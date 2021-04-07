@@ -53,11 +53,11 @@ $pairing_btc_val = $pt_asset->pairing_btc_val($asset);
 	
 
 // Get primary currency value of the current address balance
-$asset_prim_curr_worth_raw = $pt_var->num_to_str( ($address_balance * $pairing_btc_val) * $sel_btc_prim_curr_val );
+$asset_prim_currency_worth_raw = $pt_var->num_to_str( ($address_balance * $pairing_btc_val) * $sel_btc_prim_currency_val );
 
-$pretty_prim_curr_worth = $pt_var->num_pretty($asset_prim_curr_worth_raw, ( $asset_prim_curr_worth_raw >= 1.00 ? 2 : 5 ) );
+$pretty_prim_currency_worth = $pt_var->num_pretty($asset_prim_currency_worth_raw, ( $asset_prim_currency_worth_raw >= 1.00 ? 2 : 5 ) );
 
-$pretty_coin_amount = $pt_var->num_pretty($address_balance, 8);
+$pretty_asset_amount = $pt_var->num_pretty($address_balance, 8);
 
 	
 	// Get cache data, and / or flag a cache reset
@@ -109,39 +109,39 @@ $pretty_coin_amount = $pt_var->num_pretty($address_balance, 8);
 		}
 
 
-	$base_message = "The " . $label . " address balance has " . $direction . "d (" . $plus_minus . $difference_amount . " " . strtoupper($asset) . "), to a new balance of " . $pretty_coin_amount . " " . strtoupper($asset) . " (". $pt_conf['power']['btc_curr_markets'][$pt_conf['gen']['btc_prim_curr_pairing']] . $pretty_prim_curr_worth . ").";
+	$base_msg = "The " . $label . " address balance has " . $direction . "d (" . $plus_minus . $difference_amount . " " . strtoupper($asset) . "), to a new balance of " . $pretty_asset_amount . " " . strtoupper($asset) . " (". $pt_conf['power']['btc_currency_markets'][$pt_conf['gen']['btc_prim_currency_pairing']] . $pretty_prim_currency_worth . ").";
 
 
 		// Add blockchain explorer link to email message
 		if ( $asset == 'btc' ) {
-		$email_message = $base_message . " https://www.blockchain.com/btc/address/" . $address;
+		$email_msg = $base_msg . " https://www.blockchain.com/btc/address/" . $address;
 		}
 		elseif ( $asset == 'eth' ) {
-		$email_message = $base_message . " https://etherscan.io/address/" . $address;
+		$email_msg = $base_msg . " https://etherscan.io/address/" . $address;
 		}
 
 
-	$text_message = $label . " address balance " . $direction . " (" . $plus_minus . $difference_amount . " " . strtoupper($asset) . "): " . $pretty_coin_amount . " " . strtoupper($asset) . " (". $pt_conf['power']['btc_curr_markets'][$pt_conf['gen']['btc_prim_curr_pairing']] . $pretty_prim_curr_worth . ").";
+	$text_msg = $label . " address balance " . $direction . " (" . $plus_minus . $difference_amount . " " . strtoupper($asset) . "): " . $pretty_asset_amount . " " . strtoupper($asset) . " (". $pt_conf['power']['btc_currency_markets'][$pt_conf['gen']['btc_prim_currency_pairing']] . $pretty_prim_currency_worth . ").";
               
    // Were're just adding a human-readable timestamp to smart home (audio) alerts
-   $notifyme_message = $base_message . ' Timestamp: ' . $pt_gen->time_date_format($pt_conf['gen']['loc_time_offset'], 'pretty_time') . '.';
+   $notifyme_msg = $base_msg . ' Timestamp: ' . $pt_gen->time_date_format($pt_conf['gen']['loc_time_offset'], 'pretty_time') . '.';
 
 
   	// Message parameter added for desired comm methods (leave any comm method blank to skip sending via that method)
   				
   	// Minimize function calls
-  	$encoded_text_message = $pt_gen->charset_encode($text_message); // Unicode support included for text messages (emojis / asian characters / etc )
+  	$encoded_text_msg = $pt_gen->charset_encode($text_msg); // Unicode support included for text messages (emojis / asian characters / etc )
   				
    $send_params = array(
-          					'notifyme' => $notifyme_message,
-          					'telegram' => $email_message,
+          					'notifyme' => $notifyme_msg,
+          					'telegram' => $email_msg,
           					'text' => array(
-          										'message' => $encoded_text_message['content_output'],
-          										'charset' => $encoded_text_message['charset']
+          										'message' => $encoded_text_msg['content_output'],
+          										'charset' => $encoded_text_msg['charset']
           											),
           					'email' => array(
           											'subject' => strtoupper($asset) . ' Address Balance ' . ucfirst($direction) . ' For: ' . $label,
-          											'message' => $email_message
+          											'message' => $email_msg
           											)
           					);
           	

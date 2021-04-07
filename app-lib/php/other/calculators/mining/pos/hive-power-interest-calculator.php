@@ -40,9 +40,9 @@ $hive_market = $pt_api->market('HIVE', 'bittrex', 'HIVE-BTC')['last_trade'];
 if ( $_POST['hive_submitted'] ) {
 ?>
 
-<p class='red' style='font-weight: bold;'>Your <i>current</i> HIVE Power interest rate results (<i><u><?=strtoupper($pt_conf['gen']['btc_prim_curr_pairing'])?> values may change significantly over long periods of time</u></i>):</p>
+<p class='red' style='font-weight: bold;'>Your <i>current</i> HIVE Power interest rate results (<i><u><?=strtoupper($pt_conf['gen']['btc_prim_currency_pairing'])?> values may change significantly over long periods of time</u></i>):</p>
 
-<p class='green' style='font-weight: bold;'>1 HIVE = <?=$pt_var->num_to_str($hive_market)?> BTC (<?=$pt_conf['power']['btc_curr_markets'][$pt_conf['gen']['btc_prim_curr_pairing']]?><?php echo number_format( $pt_var->num_to_str( $hive_market * $sel_btc_prim_curr_val ), 8, '.', ','); ?>)</p>
+<p class='green' style='font-weight: bold;'>1 HIVE = <?=$pt_var->num_to_str($hive_market)?> BTC (<?=$pt_conf['power']['btc_currency_markets'][$pt_conf['gen']['btc_prim_currency_pairing']]?><?php echo number_format( $pt_var->num_to_str( $hive_market * $sel_btc_prim_currency_val ), 8, '.', ','); ?>)</p>
 
 
 <?php

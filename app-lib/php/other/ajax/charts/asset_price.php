@@ -31,7 +31,7 @@ $x_coord = 120; // Start position (absolute) for lite chart links
 		$market_parse = explode("||", $val );
 
 
-		$charted_val = ( $_GET['charted_val'] == 'pairing' ? $market_parse[1] : $default_btc_prim_curr_pairing );
+		$charted_val = ( $_GET['charted_val'] == 'pairing' ? $market_parse[1] : $default_btc_prim_currency_pairing );
 		
 		
 		// Strip non-alphanumeric characters to use in js vars, to isolate logic for each separate chart
@@ -42,17 +42,17 @@ $x_coord = 120; // Start position (absolute) for lite chart links
 			// Unicode asset symbols
 			// Crypto
 			if ( array_key_exists($charted_val, $pt_conf['power']['crypto_pairing']) ) {
-			$curr_symb = $pt_conf['power']['crypto_pairing'][$charted_val];
+			$currency_symb = $pt_conf['power']['crypto_pairing'][$charted_val];
 			}
 			// Fiat-equiv
 			// RUN AFTER CRYPTO MARKETS...WE HAVE A COUPLE CRYPTOS SUPPORTED HERE, BUT WE ONLY WANT DESIGNATED FIAT-EQIV HERE
-			elseif ( array_key_exists($charted_val, $pt_conf['power']['btc_curr_markets']) && !array_key_exists($charted_val, $pt_conf['power']['crypto_pairing']) ) {
-			$curr_symb = $pt_conf['power']['btc_curr_markets'][$charted_val];
+			elseif ( array_key_exists($charted_val, $pt_conf['power']['btc_currency_markets']) && !array_key_exists($charted_val, $pt_conf['power']['crypto_pairing']) ) {
+			$currency_symb = $pt_conf['power']['btc_currency_markets'][$charted_val];
 			$fiat_equiv = 1;
 			}
 			// Fallback for currency symbol config errors
 			else {
-			$curr_symb = strtoupper($charted_val) . ' ';
+			$currency_symb = strtoupper($charted_val) . ' ';
 			}
 			
 		
@@ -103,7 +103,7 @@ gui: {
   	x: 0, 
   	y: 0,
   	title: {
-  	  text: "<?=$chart_asset?> / <?=strtoupper($market_parse[1])?> @ <?=$pt_gen->snake_case_to_name($market_parse[0])?> <?=( $_GET['charted_val'] != 'pairing' ? '(' . strtoupper($charted_val) . ' Value)' : '' )?>",
+  	  text: "<?=$chart_asset?> / <?=strtoupper($market_parse[1])?> @ <?=$pt_gen->key_to_name($market_parse[0])?> <?=( $_GET['charted_val'] != 'pairing' ? '(' . strtoupper($charted_val) . ' Value)' : '' )?>",
   	  fontColor: "<?=$pt_conf['power']['charts_text']?>",
   	  fontFamily: 'Open Sans',
   	  fontSize: 25,
@@ -164,14 +164,14 @@ gui: {
 		$price_sample_avg = ( $price_sample_oldest + $price_sample_newest ) / 2;
 		
 		
-		$spot_price_dec = ( $fiat_equiv == 1 ? $pt_conf['gen']['prim_curr_dec_max'] : 8 );
+		$spot_price_dec = ( $fiat_equiv == 1 ? $pt_conf['gen']['prim_currency_dec_max'] : 8 );
 		
 			
 			// Force decimals under certain conditions
-			if ( $pt_var->num_to_str($price_sample_avg) >= $pt_conf['gen']['prim_curr_dec_max_thres'] ) {
+			if ( $pt_var->num_to_str($price_sample_avg) >= $pt_conf['gen']['prim_currency_dec_max_thres'] ) {
 			$force_dec = 'decimals: ' . 2 . ',';
 			}
-			elseif ( $pt_var->num_to_str($price_sample_avg) < $pt_conf['gen']['prim_curr_dec_max_thres'] ) {
+			elseif ( $pt_var->num_to_str($price_sample_avg) < $pt_conf['gen']['prim_currency_dec_max_thres'] ) {
 			$force_dec = 'decimals: ' . $spot_price_dec . ',';
 			}
 		
@@ -242,7 +242,7 @@ graphset:[
     plotLabel:{
       backgroundColor: "<?=$pt_conf['power']['charts_tooltip_background']?>",
       fontColor: "<?=$pt_conf['power']['charts_tooltip_text']?>",
-      text: "Spot Price: <?=$curr_symb?>%v",
+      text: "Spot Price: <?=$currency_symb?>%v",
 	 	fontSize: "20",
       fontFamily: "Open Sans",
     	"thousands-separator":",",
@@ -263,7 +263,7 @@ graphset:[
     exact: true
   },
   title: {
-    text: "<?=$chart_asset?> / <?=strtoupper($market_parse[1])?> @ <?=$pt_gen->snake_case_to_name($market_parse[0])?> <?=( $_GET['charted_val'] != 'pairing' ? '(' . strtoupper($charted_val) . ' Value)' : '' )?>",
+    text: "<?=$chart_asset?> / <?=strtoupper($market_parse[1])?> @ <?=$pt_gen->key_to_name($market_parse[0])?> <?=( $_GET['charted_val'] != 'pairing' ? '(' . strtoupper($charted_val) . ' Value)' : '' )?>",
     fontColor: "<?=$pt_conf['power']['charts_text']?>",
     fontFamily: 'Open Sans',
     fontSize: 25,
@@ -298,7 +298,7 @@ graphset:[
         visible:false
   },
   scaleY: {
-    "format":"<?=$curr_symb?>%v",
+    "format":"<?=$currency_symb?>%v",
     "thousands-separator":",",
     guide: {
       visible: true,
@@ -404,7 +404,7 @@ graphset:[
   },
   tooltip:{
     visible: false,
-    text: "24 Hour Volume: <?=$curr_symb?>%v",
+    text: "24 Hour Volume: <?=$currency_symb?>%v",
     fontColor: "<?=$pt_conf['power']['charts_tooltip_text']?>",
 	 fontSize: "20",
     backgroundColor: "<?=$pt_conf['power']['charts_tooltip_background']?>",
@@ -424,7 +424,7 @@ graphset:[
       backgroundColor: "<?=$pt_conf['power']['charts_tooltip_background']?>",
       fontColor: "<?=$pt_conf['power']['charts_tooltip_text']?>",
       fontFamily: "Open Sans",
-      text: "24 Hour Volume: <?=$curr_symb?>%v",
+      text: "24 Hour Volume: <?=$currency_symb?>%v",
 	 	fontSize: "20",
       y:0,
       "thousands-separator":","
@@ -438,7 +438,7 @@ graphset:[
     zooming: true
   },
   scaleY: {
-    "format":"<?=$curr_symb?>%v",
+    "format":"<?=$currency_symb?>%v",
     "thousands-separator":",",
     guide: {
       visible: true,

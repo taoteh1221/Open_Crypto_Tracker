@@ -41,7 +41,7 @@ elseif ( $_POST['submit_check'] == 1 && $_POST['use_cookies'] == 1 || $run_csv_i
       $_POST[$key] = $pt_var->strip_formatting($val);
       
          if ( isset($_POST[$key]) ) {
-            $set_coin_vals .= $key.'-'. $pt_var->rem_num_format($_POST[$key]) . '#';
+            $set_asset_vals .= $key.'-'. $pt_var->rem_num_format($_POST[$key]) . '#';
          }
       
       }
@@ -117,7 +117,7 @@ elseif ( $_POST['submit_check'] == 1 && $_POST['use_cookies'] == 1 || $run_csv_i
 	    
 	     $compat_key = strtolower($key);
 		  
-	     $set_coin_vals .= $compat_key . '_amount-' . $val[1] . '#';
+	     $set_asset_vals .= $compat_key . '_amount-' . $val[1] . '#';
 	     
 	     $set_paid_vals .= $compat_key . '_paid-' . $val[2] . '#';
 	     
@@ -138,8 +138,8 @@ elseif ( $_POST['submit_check'] == 1 && $_POST['use_cookies'] == 1 || $run_csv_i
 
 
 // Store all cookies and redirect to app URL, to clear any POST data from any future page refreshing
-$set_coin_vals = ( $set_coin_vals != NULL ? $set_coin_vals : ' ' ); // Initialized with some whitespace when blank
-$pt_gen->update_cookies($set_coin_vals, $set_pairing_vals, $set_market_vals, $set_paid_vals, $set_leverage_vals, $set_margintype_vals);
+$set_asset_vals = ( $set_asset_vals != NULL ? $set_asset_vals : ' ' ); // Initialized with some whitespace when blank
+$pt_gen->update_cookies($set_asset_vals, $set_pairing_vals, $set_market_vals, $set_paid_vals, $set_leverage_vals, $set_margintype_vals);
 header("Location: " . $pt_gen->start_page($_GET['start_page'])); // Preserve any start page data
 exit;
  	

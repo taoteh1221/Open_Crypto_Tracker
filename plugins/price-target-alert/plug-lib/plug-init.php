@@ -106,11 +106,11 @@ $market_val = $pt_var->num_to_str( $pt_api->market($market_asset, $market_exchan
    
    	// Pretty numbers UX on target / market values, for alert messages
    	// Fiat-eqiv
-   	if ( array_key_exists($market_pairing, $pt_conf['power']['btc_curr_markets']) && !array_key_exists($market_pairing, $pt_conf['power']['crypto_pairing']) ) {
+   	if ( array_key_exists($market_pairing, $pt_conf['power']['btc_currency_markets']) && !array_key_exists($market_pairing, $pt_conf['power']['crypto_pairing']) ) {
    		
-		$target_val_text = ( $target_val >= $pt_conf['gen']['prim_curr_dec_max_thres'] ? $pt_var->num_pretty($target_val, 2) : $pt_var->num_pretty($target_val, $pt_conf['gen']['prim_curr_dec_max']) );
+		$target_val_text = ( $target_val >= $pt_conf['gen']['prim_currency_dec_max_thres'] ? $pt_var->num_pretty($target_val, 2) : $pt_var->num_pretty($target_val, $pt_conf['gen']['prim_currency_dec_max']) );
 		
-		$market_val_text = ( $market_val >= $pt_conf['gen']['prim_curr_dec_max_thres'] ? $pt_var->num_pretty($market_val, 2) : $pt_var->num_pretty($market_val, $pt_conf['gen']['prim_curr_dec_max']) );
+		$market_val_text = ( $market_val >= $pt_conf['gen']['prim_currency_dec_max_thres'] ? $pt_var->num_pretty($market_val, 2) : $pt_var->num_pretty($market_val, $pt_conf['gen']['prim_currency_dec_max']) );
 		
 		}
 		// Crypto
@@ -120,31 +120,31 @@ $market_val = $pt_var->num_to_str( $pt_api->market($market_asset, $market_exchan
 		}
    
 
-	$email_message = "The " . $market_asset . " price target of " . $target_val_text . " " . strtoupper($market_pairing) . " has been met at the " . $pt_gen->snake_case_to_name($market_exchange) . " exchange, with a " . $percent_change . "% " . $target_direction . " over the past " . $last_cached_time . " in market value to " . $market_val_text . " " . strtoupper($market_pairing) . ".";
+	$email_msg = "The " . $market_asset . " price target of " . $target_val_text . " " . strtoupper($market_pairing) . " has been met at the " . $pt_gen->key_to_name($market_exchange) . " exchange, with a " . $percent_change . "% " . $target_direction . " over the past " . $last_cached_time . " in market value to " . $market_val_text . " " . strtoupper($market_pairing) . ".";
 
 
-	$text_message = $market_asset . " price target of " . $target_val_text . " " . strtoupper($market_pairing) . " met @ " . $pt_gen->snake_case_to_name($market_exchange) . " (" . $percent_change . "% " . $target_direction . " over " . $last_cached_time . "): " . $market_val_text . " " . strtoupper($market_pairing);
+	$text_msg = $market_asset . " price target of " . $target_val_text . " " . strtoupper($market_pairing) . " met @ " . $pt_gen->key_to_name($market_exchange) . " (" . $percent_change . "% " . $target_direction . " over " . $last_cached_time . "): " . $market_val_text . " " . strtoupper($market_pairing);
               
               
    // Were're just adding a human-readable timestamp to smart home (audio) alerts
-   $notifyme_message = $email_message . ' Timestamp: ' . $pt_gen->time_date_format($pt_conf['gen']['loc_time_offset'], 'pretty_time') . '.';
+   $notifyme_msg = $email_msg . ' Timestamp: ' . $pt_gen->time_date_format($pt_conf['gen']['loc_time_offset'], 'pretty_time') . '.';
 
 
   	// Message parameter added for desired comm methods (leave any comm method blank to skip sending via that method)
   				
   	// Minimize function calls
-  	$encoded_text_message = $pt_gen->charset_encode($text_message); // Unicode support included for text messages (emojis / asian characters / etc )
+  	$encoded_text_msg = $pt_gen->charset_encode($text_msg); // Unicode support included for text messages (emojis / asian characters / etc )
   				
    $send_params = array(
-          					'notifyme' => $notifyme_message,
-          					'telegram' => $email_message,
+          					'notifyme' => $notifyme_msg,
+          					'telegram' => $email_msg,
           					'text' => array(
-          										'message' => $encoded_text_message['content_output'],
-          										'charset' => $encoded_text_message['charset']
+          										'message' => $encoded_text_msg['content_output'],
+          										'charset' => $encoded_text_msg['charset']
           											),
           					'email' => array(
           											'subject' => $market_asset . ' / ' . strtoupper($market_pairing) . ' Price Target Alert (' . $target_direction . ')',
-          											'message' => $email_message
+          											'message' => $email_msg
           											)
           					);
           	

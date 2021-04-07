@@ -424,7 +424,7 @@ var $pt_array1 = array();
   // Combine all debugging logged
   $debugging_logs .= strip_tags($logs_array['system_debugging']); // Remove any HTML formatting used in UI alerts
   
-  $debugging_logs .= strip_tags($logs_array['config_debugging']); // Remove any HTML formatting used in UI alerts
+  $debugging_logs .= strip_tags($logs_array['conf_debugging']); // Remove any HTML formatting used in UI alerts
   
   $debugging_logs .= strip_tags($logs_array['security_debugging']); // Remove any HTML formatting used in UI alerts
   
@@ -513,7 +513,7 @@ var $pt_array1 = array();
   // Combine all errors logged
   $error_logs .= strip_tags($logs_array['system_error']); // Remove any HTML formatting used in UI alerts
   
-  $error_logs .= strip_tags($logs_array['config_error']); // Remove any HTML formatting used in UI alerts
+  $error_logs .= strip_tags($logs_array['conf_error']); // Remove any HTML formatting used in UI alerts
   
   $error_logs .= strip_tags($logs_array['security_error']); // Remove any HTML formatting used in UI alerts
   
@@ -712,12 +712,12 @@ var $pt_array1 = array();
   ////////////////////////////////////////////////////////
   
   
-  function update_lite_chart($archive_path, $newest_archival_data=false, $days_span=1) {
+  function update_lite_chart($archive_path, $newest_arch_data=false, $days_span=1) {
   
   global $pt_conf, $base_dir, $pt_var, $pt_gen;
   
-  $archival_data = array();
-  $queued_archival_lines = array();
+  $arch_data = array();
+  $queued_arch_lines = array();
   $new_lite_data = null;
   // Lite chart file path
   $lite_path = preg_replace("/archival/i", 'lite/' . $days_span . '_days', $archive_path);
@@ -744,32 +744,32 @@ var $pt_array1 = array();
   
   // Get LAST line of archival chart data (we save SIGNIFICANTLY on runtime / resource usage, if this var is passed into this function already)
   // (determines newest archival timestamp)
-  $last_archival_line = ( $newest_archival_data != false ? $newest_archival_data : $this->tail_custom($archive_path) );
-  $last_archival_array = explode("||", $last_archival_line);
-  $newest_archival_timestamp = $pt_var->num_to_str($last_archival_array[0]);
+  $last_arch_line = ( $newest_arch_data != false ? $newest_arch_data : $this->tail_custom($archive_path) );
+  $last_arch_array = explode("||", $last_arch_line);
+  $newest_arch_timestamp = $pt_var->num_to_str($last_arch_array[0]);
      
      
   // Get FIRST line of archival chart data (determines oldest archival timestamp)
   $fopen_archive = fopen($archive_path, 'r');
   
    if ($fopen_archive) {
-   $first_archival_line = fgets($fopen_archive);
+   $first_arch_line = fgets($fopen_archive);
    fclose($fopen_archive);
    gc_collect_cycles(); // Clean memory cache
    }
    
-  $first_archival_array = explode("||", $first_archival_line);
-  $oldest_archival_timestamp = $pt_var->num_to_str($first_archival_array[0]);
+  $first_arch_array = explode("||", $first_arch_line);
+  $oldest_arch_timestamp = $pt_var->num_to_str($first_arch_array[0]);
    
      
    // Oldest base timestamp we can use (only applies for x days charts, not 'all')
    if ( $days_span != 'all' ) {
-   $base_min_timestamp = $pt_var->num_to_str( strtotime('-'.$days_span.' day', $newest_archival_timestamp) );
+   $base_min_timestamp = $pt_var->num_to_str( strtotime('-'.$days_span.' day', $newest_arch_timestamp) );
    }
    
    // If it's the 'all' lite chart, OR the oldest archival timestamp is newer than oldest base timestamp we can use
-   if ( $days_span == 'all' || $days_span != 'all' && $oldest_archival_timestamp > $base_min_timestamp ) {
-   $oldest_allowed_timestamp = $oldest_archival_timestamp;
+   if ( $days_span == 'all' || $days_span != 'all' && $oldest_arch_timestamp > $base_min_timestamp ) {
+   $oldest_allowed_timestamp = $oldest_arch_timestamp;
    }
    // If it's an X days lite chart (not 'all'), and we have archival timestamps that are older than oldest base timestamp we can use
    elseif ( $days_span != 'all' ) {
@@ -779,7 +779,7 @@ var $pt_array1 = array();
    
    // Minimum time interval between data points in lite chart
    if ( $days_span == 'all' ) {
-   $min_data_interval = round( ($newest_archival_timestamp - $oldest_archival_timestamp) / $pt_conf['power']['lite_chart_data_points_max'] ); // Dynamic
+   $min_data_interval = round( ($newest_arch_timestamp - $oldest_arch_timestamp) / $pt_conf['power']['lite_chart_data_points_max'] ); // Dynamic
    }
    else {
    $min_data_interval = round( ($days_span * 86400) / $pt_conf['power']['lite_chart_data_points_max'] ); // Fixed X days (86400 seconds per day)
@@ -804,31 +804,31 @@ var $pt_array1 = array();
   
      // If we are queued to update an existing lite chart, get the data points we want to add 
      // (may be multiple data points, if the last update had network errors / system reboot / etc)
-     if ( isset($newest_lite_timestamp) && $lite_data_update_thres <= $newest_archival_timestamp ) {
+     if ( isset($newest_lite_timestamp) && $lite_data_update_thres <= $newest_arch_timestamp ) {
      
        // If we are only adding the newest archival data point (passed into this function), 
        // #we save BIGTIME on resource usage# (used EVERYTIME, other than very rare FALLBACKS)
        // CHECKS IF UPDATE THRESHOLD IS GREATER THAN NEWEST ARCHIVAL DATA POINT TIMESTAMP, 
        // #WHEN ADDING AN EXTRA# $min_data_interval (so we know to only add one data point)
-       if ( $pt_var->num_to_str($lite_data_update_thres + $min_data_interval) > $newest_archival_timestamp ) {
-       $queued_archival_lines[] = $last_archival_line;
+       if ( $pt_var->num_to_str($lite_data_update_thres + $min_data_interval) > $newest_arch_timestamp ) {
+       $queued_arch_lines[] = $last_arch_line;
        }
       // If multiple lite chart data points missing (from any very rare FALLBACK instances, like network / load / disk / runtime issues, etc)
        else {
        
-      $tail_archival_lines = $this->tail_custom($archive_path, 20); // Grab last 20 lines, to be safe
-      $tail_archival_lines_array = explode("\n", $tail_archival_lines);
+      $tail_arch_lines = $this->tail_custom($archive_path, 20); // Grab last 20 lines, to be safe
+      $tail_arch_lines_array = explode("\n", $tail_arch_lines);
       // Remove all null / false / empty strings, and reindex
-      $tail_archival_lines_array = array_values( array_filter( $tail_archival_lines_array, 'strlen' ) ); 
+      $tail_arch_lines_array = array_values( array_filter( $tail_arch_lines_array, 'strlen' ) ); 
         
-        foreach( $tail_archival_lines_array as $archival_line ) {
-        $archival_line_array = explode('||', $archival_line);
-        $archival_line_array[0] = $pt_var->num_to_str($archival_line_array[0]);
+        foreach( $tail_arch_lines_array as $arch_line ) {
+        $arch_line_array = explode('||', $arch_line);
+        $arch_line_array[0] = $pt_var->num_to_str($arch_line_array[0]);
          
-          if ( !$added_archival_timestamp && $lite_data_update_thres <= $archival_line_array[0]
-          || isset($added_archival_timestamp) && $pt_var->num_to_str($added_archival_timestamp + $min_data_interval) <= $archival_line_array[0] ) {
-          $queued_archival_lines[] = $archival_line;
-          $added_archival_timestamp = $archival_line_array[0];
+          if ( !$added_arch_timestamp && $lite_data_update_thres <= $arch_line_array[0]
+          || isset($added_arch_timestamp) && $pt_var->num_to_str($added_arch_timestamp + $min_data_interval) <= $arch_line_array[0] ) {
+          $queued_arch_lines[] = $arch_line;
+          $added_arch_timestamp = $arch_line_array[0];
           }
          
         }
@@ -837,7 +837,7 @@ var $pt_array1 = array();
        
        
      // DEBUGGING data
-     $added_archival_mode = sizeof($queued_archival_lines) . '_ADDED';
+     $added_arch_mode = sizeof($queued_arch_lines) . '_ADDED';
      
      }
   
@@ -846,16 +846,16 @@ var $pt_array1 = array();
    ////////////////////////////////////////////////////////////////////////////////////////////////
    // Not time to update / rebuild this lite chart yet
    ////////////////////////////////////////////////////////////////////////////////////////////////
-   if ( $lite_data_update_thres > $newest_archival_timestamp ) {
+   if ( $lite_data_update_thres > $newest_arch_timestamp ) {
    gc_collect_cycles(); // Clean memory cache
    return false;
    }
    ////////////////////////////////////////////////////////////////////////////////////////////////
    // If no lite chart exists yet, OR it's time to RESET intervals in the 'all' chart, rebuild from scratch
-   // (we STILL check $queued_archival_lines for new data, to see if we should SKIP an 'all' charts full rebuild now)
+   // (we STILL check $queued_arch_lines for new data, to see if we should SKIP an 'all' charts full rebuild now)
    ////////////////////////////////////////////////////////////////////////////////////////////////
    elseif ( !$newest_lite_timestamp 
-   || $days_span == 'all' && sizeof($queued_archival_lines) > 0 && $this->update_cache($base_dir . '/cache/events/lite_chart_rebuilds/all_days_chart_'.$lite_path_hash.'.dat', (60 * $all_chart_rebuild_thres) ) == true ) {
+   || $days_span == 'all' && sizeof($queued_arch_lines) > 0 && $this->update_cache($base_dir . '/cache/events/lite_chart_rebuilds/all_days_chart_'.$lite_path_hash.'.dat', (60 * $all_chart_rebuild_thres) ) == true ) {
   
    $archive_file_data = file($archive_path);
    $archive_file_data = array_reverse($archive_file_data); // Save time, only loop / read last lines needed
@@ -867,7 +867,7 @@ var $pt_array1 = array();
     $line_array[0] = $pt_var->num_to_str($line_array[0]);
     
      if ( $line_array[0] >= $oldest_allowed_timestamp ) {
-     $archival_data[] = $line;
+     $arch_data[] = $line;
      }
      
     }
@@ -877,13 +877,13 @@ var $pt_array1 = array();
     $loop = 0;
     $data_points = 0;
     // $data_points <= is INTENTIONAL, as we can have max data points slightly under without it
-    while ( isset($archival_data[$loop]) && $data_points <= $pt_conf['power']['lite_chart_data_points_max'] ) {
+    while ( isset($arch_data[$loop]) && $data_points <= $pt_conf['power']['lite_chart_data_points_max'] ) {
      
-    $data_point_array = explode("||", $archival_data[$loop]);
+    $data_point_array = explode("||", $arch_data[$loop]);
     $data_point_array[0] = $pt_var->num_to_str($data_point_array[0]);
       
      if ( !$next_timestamp || isset($next_timestamp) && $data_point_array[0] <= $next_timestamp ) {
-     $new_lite_data = $archival_data[$loop] . $new_lite_data;// WITHOUT newline, since file() maintains those by default
+     $new_lite_data = $arch_data[$loop] . $new_lite_data;// WITHOUT newline, since file() maintains those by default
      $next_timestamp = $data_point_array[0] - $min_data_interval;
      $data_points = $data_points + 1;
      }
@@ -904,15 +904,15 @@ var $pt_array1 = array();
   
    }
    ////////////////////////////////////////////////////////////////////////////////////////////////
-   // If the lite chart has existing data, then $queued_archival_lines should be populated (IF we have new data to append to it).
+   // If the lite chart has existing data, then $queued_arch_lines should be populated (IF we have new data to append to it).
    // We also trim out X first lines of stale data (earlier then the X days time range)
    ////////////////////////////////////////////////////////////////////////////////////////////////
-   elseif ( sizeof($queued_archival_lines) > 0 ) {
+   elseif ( sizeof($queued_arch_lines) > 0 ) {
     
-   $queued_archival_data = implode("\n", $queued_archival_lines);
+   $queued_arch_data = implode("\n", $queued_arch_lines);
    
    // Current lite chart lines, plus new archival lines queued to be added
-   $check_lite_data_lines = $pt_gen->get_lines($lite_path) + sizeof($queued_archival_lines);
+   $check_lite_data_lines = $pt_gen->get_lines($lite_path) + sizeof($queued_arch_lines);
     
    // Get FIRST line of lite chart data (determines oldest lite timestamp)
    $fopen_lite = fopen($lite_path, 'r');
@@ -932,13 +932,13 @@ var $pt_array1 = array();
     $lite_data_removed_outdated_lines = $pt_gen->prune_first_lines($lite_path, 0, $oldest_allowed_timestamp);
     
     // ONLY APPEND A LINE BREAK TO THE NEW ARCHIVAL DATA, since $pt_gen->prune_first_lines() maintains the existing line breaks
-    $result = $this->save_file($lite_path, $lite_data_removed_outdated_lines['data'] . $queued_archival_data . "\n");  // WITH newline for NEW data (file write)
-    $lite_mode_logging = 'OVERWRITE_' . $lite_data_removed_outdated_lines['lines_removed'] . '_OUTDATED_PRUNED_' . $added_archival_mode;
+    $result = $this->save_file($lite_path, $lite_data_removed_outdated_lines['data'] . $queued_arch_data . "\n");  // WITH newline for NEW data (file write)
+    $lite_mode_logging = 'OVERWRITE_' . $lite_data_removed_outdated_lines['lines_removed'] . '_OUTDATED_PRUNED_' . $added_arch_mode;
     }
     // If we're clear to just append the latest data
     else {
-    $result = $this->save_file($lite_path, $queued_archival_data . "\n", "append");  // WITH newline (file write)
-    $lite_mode_logging = 'APPEND_' . $added_archival_mode;
+    $result = $this->save_file($lite_path, $queued_arch_data . "\n", "append");  // WITH newline (file write)
+    $lite_mode_logging = 'APPEND_' . $added_arch_mode;
     }
     
   
@@ -982,7 +982,7 @@ var $pt_array1 = array();
   
   function send_notifications() {
   
-  global $base_dir, $pt_conf, $pt_var, $pt_gen, $processed_messages, $possible_http_users, $http_runtime_user, $current_runtime_user, $telegram_user_data, $telegram_activated;
+  global $base_dir, $pt_conf, $pt_var, $pt_gen, $processed_msgs, $possible_http_users, $http_runtime_user, $current_runtime_user, $telegram_user_data, $telegram_activated;
   
   
   // Array of currently queued messages in the cache
@@ -996,8 +996,8 @@ var $pt_array1 = array();
    if ( sizeof($msgs_queue) > 0 ) {
    
    
-    if ( !isset($processed_messages['notifications_count']) ) {
-    $processed_messages['notifications_count'] = 0;
+    if ( !isset($processed_msgs['notifications_count']) ) {
+    $processed_msgs['notifications_count'] = 0;
     }
     
     
@@ -1006,38 +1006,38 @@ var $pt_array1 = array();
     // and no session count is set, set session count to zero
     // Don't update the file-cached count here, that will happen automatically from resetting the session count to zero 
     // (if there are notifyme messages queued to send)
-    if ( !isset($processed_messages['notifyme_count']) && $this->update_cache($base_dir . '/cache/events/throttling/notifyme-alerts-sent.dat', 6) == true ) {
-    $processed_messages['notifyme_count'] = 0;
+    if ( !isset($processed_msgs['notifyme_count']) && $this->update_cache($base_dir . '/cache/events/throttling/notifyme-alerts-sent.dat', 6) == true ) {
+    $processed_msgs['notifyme_count'] = 0;
     }
     // If it hasn't been well over 5 minutes since the last notifyme send
     // (we use 6 minutes, safely over the 5 minute limit for the maximum 5 requests), and there is no session count, 
     // use the file-cached count for the session count starting point
-    elseif ( !isset($processed_messages['notifyme_count']) && $this->update_cache($base_dir . '/cache/events/throttling/notifyme-alerts-sent.dat', 6) == false ) {
-    $processed_messages['notifyme_count'] = trim( file_get_contents($base_dir . '/cache/events/throttling/notifyme-alerts-sent.dat') );
+    elseif ( !isset($processed_msgs['notifyme_count']) && $this->update_cache($base_dir . '/cache/events/throttling/notifyme-alerts-sent.dat', 6) == false ) {
+    $processed_msgs['notifyme_count'] = trim( file_get_contents($base_dir . '/cache/events/throttling/notifyme-alerts-sent.dat') );
     }
     
     
-    if ( !isset($processed_messages['text_count']) ) {
-    $processed_messages['text_count'] = 0;
+    if ( !isset($processed_msgs['text_count']) ) {
+    $processed_msgs['text_count'] = 0;
     }
     
     
-    if ( !isset($processed_messages['telegram_count']) ) {
-    $processed_messages['telegram_count'] = 0;
+    if ( !isset($processed_msgs['telegram_count']) ) {
+    $processed_msgs['telegram_count'] = 0;
     }
     
     
-    if ( !isset($processed_messages['email_count']) ) {
-    $processed_messages['email_count'] = 0;
+    if ( !isset($processed_msgs['email_count']) ) {
+    $processed_msgs['email_count'] = 0;
     }
     
    
     // ONLY process queued messages IF they are NOT already being processed by another runtime instance
     // Use file locking with flock() to do this
     
-    $queued_messages_processing_lock_file = $base_dir . '/cache/events/notifications-queue-processing.dat';
+    $queued_msgs_processing_lock_file = $base_dir . '/cache/events/notifications-queue-processing.dat';
     
-    $fp = fopen($queued_messages_processing_lock_file, "w+");
+    $fp = fopen($queued_msgs_processing_lock_file, "w+");
     
     if ( flock($fp, LOCK_EX) ) {  // If we are allowed a file lock, we can proceed
     
@@ -1045,7 +1045,7 @@ var $pt_array1 = array();
     
     
      // Sleep for 2 seconds before starting ANY consecutive message send, to help avoid being blocked / throttled by external server
-     if ( $processed_messages['notifications_count'] > 0 ) {
+     if ( $processed_msgs['notifications_count'] > 0 ) {
      sleep(2);
      }
     
@@ -1089,20 +1089,20 @@ var $pt_array1 = array();
         $notifyme_params['notification'] = $msg_data;
         
       // Sleep for 1 second EXTRA on EACH consecutive notifyme message, to throttle MANY outgoing messages, to help avoid being blocked / throttled by external server
-      $notifyme_sleep = 1 * $processed_messages['notifyme_count'];
+      $notifyme_sleep = 1 * $processed_msgs['notifyme_count'];
       sleep($notifyme_sleep);
       
        
           // Only 5 notifyme messages allowed per minute
-          if ( $processed_messages['notifyme_count'] < 5 ) {
+          if ( $processed_msgs['notifyme_count'] < 5 ) {
           
           $notifyme_response = @$this->ext_data('params', $notifyme_params, 0, 'https://api.notifymyecho.com/v1/NotifyMe');
          
-          $processed_messages['notifyme_count'] = $processed_messages['notifyme_count'] + 1;
+          $processed_msgs['notifyme_count'] = $processed_msgs['notifyme_count'] + 1;
           
           $msg_sent = 1;
           
-          $this->save_file($base_dir . '/cache/events/throttling/notifyme-alerts-sent.dat', $processed_messages['notifyme_count']); 
+          $this->save_file($base_dir . '/cache/events/throttling/notifyme-alerts-sent.dat', $processed_msgs['notifyme_count']); 
           
            if ( $pt_conf['dev']['debug'] == 'all' || $pt_conf['dev']['debug'] == 'all_telemetry' || $pt_conf['dev']['debug'] == 'api_comms_telemetry' ) {
            $this->save_file($base_dir . '/cache/logs/debugging/external_api/last-response-notifyme.log', $notifyme_response);
@@ -1126,12 +1126,12 @@ var $pt_array1 = array();
       $textbelt_params['message'] = $msg_data;
         
       // Sleep for 1 second EXTRA on EACH consecutive text message, to throttle MANY outgoing messages, to help avoid being blocked / throttled by external server
-      $text_sleep = 1 * $processed_messages['text_count'];
+      $text_sleep = 1 * $processed_msgs['text_count'];
       sleep($text_sleep);
         
       $textbelt_response = @$this->ext_data('params', $textbelt_params, 0, 'https://textbelt.com/text', 2);
         
-      $processed_messages['text_count'] = $processed_messages['text_count'] + 1;
+      $processed_msgs['text_count'] = $processed_msgs['text_count'] + 1;
       
       $msg_sent = 1;
         
@@ -1153,12 +1153,12 @@ var $pt_array1 = array();
       $textlocal_params['message'] = $msg_data;
         
       // Sleep for 1 second EXTRA on EACH consecutive text message, to throttle MANY outgoing messages, to help avoid being blocked / throttled by external server
-      $text_sleep = 1 * $processed_messages['text_count'];
+      $text_sleep = 1 * $processed_msgs['text_count'];
       sleep($text_sleep);
         
       $textlocal_response = @$this->ext_data('params', $textlocal_params, 0, 'https://api.txtlocal.com/send/', 1);
         
-      $processed_messages['text_count'] = $processed_messages['text_count'] + 1;
+      $processed_msgs['text_count'] = $processed_msgs['text_count'] + 1;
       
       $msg_sent = 1;
         
@@ -1176,14 +1176,14 @@ var $pt_array1 = array();
       if ( $telegram_activated == 1 && preg_match("/telegram/i", $queued_cache_file) ) {
         
       // Sleep for 1 second EXTRA on EACH consecutive telegram message, to throttle MANY outgoing messages, to help avoid being blocked / throttled by external server
-      $telegram_sleep = 1 * $processed_messages['telegram_count'];
+      $telegram_sleep = 1 * $processed_msgs['telegram_count'];
       sleep($telegram_sleep);
         
       $telegram_response = $pt_gen->telegram_msg($msg_data, $telegram_user_data['message']['chat']['id']);
       
          if ( $telegram_response != false ) {
           
-         $processed_messages['telegram_count'] = $processed_messages['telegram_count'] + 1;
+         $processed_msgs['telegram_count'] = $processed_msgs['telegram_count'] + 1;
          
        	$msg_sent = 1;
        
@@ -1228,14 +1228,14 @@ var $pt_array1 = array();
           if ( $textemail_array['subject'] != '' && $textemail_array['message'] != '' ) {
            
           // Sleep for 1 second EXTRA on EACH consecutive text message, to throttle MANY outgoing messages, to help avoid being blocked / throttled by external server
-          $text_sleep = 1 * $processed_messages['text_count'];
+          $text_sleep = 1 * $processed_msgs['text_count'];
           sleep($text_sleep);
            
           $result = @$pt_gen->safe_mail( $pt_gen->text_email($pt_conf['comms']['to_mobile_text']) , $textemail_array['subject'], $textemail_array['message'], $textemail_array['content_type'], $textemail_array['charset']);
            
              if ( $result == true ) {
              
-             $processed_messages['text_count'] = $processed_messages['text_count'] + 1;
+             $processed_msgs['text_count'] = $processed_msgs['text_count'] + 1;
             
            	 $msg_sent = 1;
           
@@ -1275,14 +1275,14 @@ var $pt_array1 = array();
           if ( $email_array['subject'] != '' && $email_array['message'] != '' ) {
            
           // Sleep for 1 second EXTRA on EACH consecutive email message, to throttle MANY outgoing messages, to help avoid being blocked / throttled by external server
-          $email_sleep = 1 * $processed_messages['email_count'];
+          $email_sleep = 1 * $processed_msgs['email_count'];
           sleep($email_sleep);
            
           $result = @$pt_gen->safe_mail($pt_conf['comms']['to_email'], $email_array['subject'], $email_array['message'], $email_array['content_type'], $email_array['charset']);
            
              if ( $result == true ) {
              
-             $processed_messages['email_count'] = $processed_messages['email_count'] + 1;
+             $processed_msgs['email_count'] = $processed_msgs['email_count'] + 1;
             
            	 $msg_sent = 1;
           
@@ -1306,7 +1306,7 @@ var $pt_array1 = array();
      
      
      if ( $msg_sent == 1 ) {
-     $processed_messages['notifications_count'] = $processed_messages['notifications_count'] + 1;
+     $processed_msgs['notifications_count'] = $processed_msgs['notifications_count'] + 1;
      }
     
     
@@ -1332,8 +1332,8 @@ var $pt_array1 = array();
    
    
    // MAKE SURE we have good chmod file permissions for less-sophisticated server setups
-   $path_parts = pathinfo($queued_messages_processing_lock_file);
-   $file_owner_info = posix_getpwuid(fileowner($queued_messages_processing_lock_file));
+   $path_parts = pathinfo($queued_msgs_processing_lock_file);
+   $file_owner_info = posix_getpwuid(fileowner($queued_msgs_processing_lock_file));
       
       // Does the current runtime user own this file?
     if ( isset($current_runtime_user) && $current_runtime_user == $file_owner_info['name'] ) {
@@ -1345,10 +1345,10 @@ var $pt_array1 = array();
       
      $oldmask = umask(0);
      
-     $did_chmod = chmod($queued_messages_processing_lock_file, $chmod_setting);
+     $did_chmod = chmod($queued_msgs_processing_lock_file, $chmod_setting);
     
       if ( !$did_chmod ) {
-      $pt_gen->app_logging('system_error', 'Chmod failed for file "' . $queued_messages_processing_lock_file . '" (check permissions for the path "' . $path_parts['dirname'] . '", and the file "' . $path_parts['basename'] . '")', 'chmod_setting: ' . $chmod_setting . '; current_runtime_user: ' . $current_runtime_user . '; file_owner: ' . $file_owner_info['name'] . ';');
+      $pt_gen->app_logging('system_error', 'Chmod failed for file "' . $queued_msgs_processing_lock_file . '" (check permissions for the path "' . $path_parts['dirname'] . '", and the file "' . $path_parts['basename'] . '")', 'chmod_setting: ' . $chmod_setting . '; current_runtime_user: ' . $current_runtime_user . '; file_owner: ' . $file_owner_info['name'] . ';');
       }
     
      umask($oldmask);
@@ -1375,8 +1375,8 @@ var $pt_array1 = array();
   
   function ext_data($mode, $request_params, $ttl, $api_server=null, $post_encoding=3, $test_proxy=null, $headers=null) { // Default to JSON encoding post requests (most used)
   
-  // $pt_conf['gen']['btc_prim_curr_pairing'] / $pt_conf['gen']['btc_prim_exchange'] / $sel_btc_prim_curr_val USED FOR TRACE DEBUGGING (TRACING)
-  global $base_dir, $base_url, $pt_conf, $pt_var, $pt_gen, $sel_btc_prim_curr_val, $proxy_checkup, $logs_array, $limited_api_calls, $api_runtime_cache, $user_agent, $api_connections, $defipulse_api_limit, $htaccess_username, $htaccess_password;
+  // $pt_conf['gen']['btc_prim_currency_pairing'] / $pt_conf['gen']['btc_prim_exchange'] / $sel_btc_prim_currency_val USED FOR TRACE DEBUGGING (TRACING)
+  global $base_dir, $base_url, $pt_conf, $pt_var, $pt_gen, $sel_btc_prim_currency_val, $proxy_checkup, $logs_array, $limited_api_calls, $api_runtime_cache, $user_agent, $api_connections, $defipulse_api_limit, $htaccess_username, $htaccess_password;
   
   
   $cookie_jar = tempnam('/tmp','cookie');
@@ -1762,7 +1762,7 @@ var $pt_array1 = array();
       $error_response_log = '/cache/logs/errors/external_api/error-response-'.preg_replace("/\./", "_", $endpoint_tld_or_ip).'-hash-'.$hash_check.'-timestamp-'.time().'.log';
       
       // LOG-SAFE VERSION (no post data with API keys etc)
-       $pt_gen->app_logging('ext_data_error', 'POSSIBLE error for ' . ( $mode == 'params' ? 'server at ' : 'endpoint at ' ) . $pt_gen->obfuscated_url_data($api_endpoint), 'requested_from: server (' . $pt_conf['power']['remote_api_timeout'] . ' second timeout); live_request_time: ' . $api_total_time . ' seconds; mode: ' . $mode . '; received: ' . $data_bytes_ux . '; proxy: ' .( $current_proxy ? $current_proxy : 'none' ) . '; debug_file: ' . $error_response_log . '; btc_prim_curr_pairing: ' . $pt_conf['gen']['btc_prim_curr_pairing'] . '; btc_prim_exchange: ' . $pt_conf['gen']['btc_prim_exchange'] . '; btc_prim_curr_val: ' . $pt_var->num_to_str($sel_btc_prim_curr_val) . '; hash_check: ' . $pt_var->obfuscate_str($hash_check, 4) . ';' );
+       $pt_gen->app_logging('ext_data_error', 'POSSIBLE error for ' . ( $mode == 'params' ? 'server at ' : 'endpoint at ' ) . $pt_gen->obfuscated_url_data($api_endpoint), 'requested_from: server (' . $pt_conf['power']['remote_api_timeout'] . ' second timeout); live_request_time: ' . $api_total_time . ' seconds; mode: ' . $mode . '; received: ' . $data_bytes_ux . '; proxy: ' .( $current_proxy ? $current_proxy : 'none' ) . '; debug_file: ' . $error_response_log . '; btc_prim_currency_pairing: ' . $pt_conf['gen']['btc_prim_currency_pairing'] . '; btc_prim_exchange: ' . $pt_conf['gen']['btc_prim_exchange'] . '; btc_prim_currency_val: ' . $pt_var->num_to_str($sel_btc_prim_currency_val) . '; hash_check: ' . $pt_var->obfuscate_str($hash_check, 4) . ';' );
       
       // Log this error response from this data request
       $this->save_file($base_dir . $error_response_log, $data);
@@ -1826,7 +1826,7 @@ var $pt_array1 = array();
        
        
       // LOG-SAFE VERSION (no post data with API keys etc)
-      $pt_gen->app_logging('ext_data_error', 'CONFIRMED error for ' . ( $mode == 'params' ? 'server at ' : 'endpoint at ' ) . $pt_gen->obfuscated_url_data($api_endpoint) . $log_append, 'requested_from: server (' . $pt_conf['power']['remote_api_timeout'] . ' second timeout); live_request_time: ' . $api_total_time . ' seconds; mode: ' . $mode . '; received: ' . $data_bytes_ux . '; proxy: ' .( $current_proxy ? $current_proxy : 'none' ) . '; btc_prim_curr_pairing: ' . $pt_conf['gen']['btc_prim_curr_pairing'] . '; btc_prim_exchange: ' . $pt_conf['gen']['btc_prim_exchange'] . '; btc_prim_curr_val: ' . $pt_var->num_to_str($sel_btc_prim_curr_val) . '; hash_check: ' . $pt_var->obfuscate_str($hash_check, 4) . ';' );
+      $pt_gen->app_logging('ext_data_error', 'CONFIRMED error for ' . ( $mode == 'params' ? 'server at ' : 'endpoint at ' ) . $pt_gen->obfuscated_url_data($api_endpoint) . $log_append, 'requested_from: server (' . $pt_conf['power']['remote_api_timeout'] . ' second timeout); live_request_time: ' . $api_total_time . ' seconds; mode: ' . $mode . '; received: ' . $data_bytes_ux . '; proxy: ' .( $current_proxy ? $current_proxy : 'none' ) . '; btc_prim_currency_pairing: ' . $pt_conf['gen']['btc_prim_currency_pairing'] . '; btc_prim_exchange: ' . $pt_conf['gen']['btc_prim_exchange'] . '; btc_prim_currency_val: ' . $pt_var->num_to_str($sel_btc_prim_currency_val) . '; hash_check: ' . $pt_var->obfuscate_str($hash_check, 4) . ';' );
        
      
       }

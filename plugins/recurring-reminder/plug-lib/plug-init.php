@@ -62,39 +62,39 @@ $in_minutes_offset = ( $in_minutes >= 20 ? ($in_minutes - 1) : $in_minutes );
 		
 		
 			if ( $now_timestamp >= $dnd_off && $now_timestamp < $dnd_on ) {
-			$send_message = true;
+			$send_msg = true;
 			}
 			else {
-			$send_message = false;
+			$send_msg = false;
 			}
 		
 		
 		}
 		else {
-		$send_message = true;
+		$send_msg = true;
 		}
 		
 		
 		// Send message, if checks pass
-		if ( $send_message ) {
+		if ( $send_msg ) {
 		
-		$format_message = "This is a recurring ~" . round($val['days']) . " day reminder: " . $val['message'];
+		$format_msg = "This is a recurring ~" . round($val['days']) . " day reminder: " . $val['message'];
 
   		// Message parameter added for desired comm methods (leave any comm method blank to skip sending via that method)
   					
   		// Minimize function calls
-  		$encoded_text_message = $pt_gen->charset_encode($format_message); // Unicode support included for text messages (emojis / asian characters / etc )
+  		$encoded_text_msg = $pt_gen->charset_encode($format_msg); // Unicode support included for text messages (emojis / asian characters / etc )
   					
   	 	$send_params = array(
-  	        						'notifyme' => $format_message,
-  	        						'telegram' => $format_message,
+  	        						'notifyme' => $format_msg,
+  	        						'telegram' => $format_msg,
   	        						'text' => array(
-  	        											'message' => $encoded_text_message['content_output'],
-  	        											'charset' => $encoded_text_message['charset']
+  	        											'message' => $encoded_text_msg['content_output'],
+  	        											'charset' => $encoded_text_msg['charset']
   	        												),
   	        						'email' => array(
   	        												'subject' => 'Your Recurring Reminder Message (sent every ~' . round($val['days']) . ' days)',
-  	        												'message' => $format_message
+  	        												'message' => $format_msg
   	        												)
   	        						);
   	        						
@@ -105,7 +105,7 @@ $in_minutes_offset = ( $in_minutes >= 20 ? ($in_minutes - 1) : $in_minutes );
 		// Update the event tracking for this alert
 		$pt_cache->save_file( $pt_plug->event_cache('alert-' . $key . '.dat') , $pt_gen->time_date_format(false, 'pretty_date_time') );
 		
-		$send_message = false; // Reset
+		$send_msg = false; // Reset
 		
 		}
 		

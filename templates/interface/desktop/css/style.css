@@ -167,7 +167,7 @@ CLASSES
 ////////////////////////////// */
 
 
-.chart_reload_message {
+.chart_reload_msg {
 display: inline;
 }
 
@@ -295,7 +295,7 @@ margin-top: 15px;
 }
 
 
-.show_coin_vals {
+.show_asset_vals {
 display: none;
 position: relative;
 float: left;
@@ -786,7 +786,7 @@ border: 2px solid #dd7c0d !important;
 }
 
 
-#prim_curr_markets_alert, #percent_change_alert_type_alert {
+#prim_currency_markets_alert, #percent_change_alert_type_alert {
 display: none;
 font-weight: bold;
 margin: 20px;

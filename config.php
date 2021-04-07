@@ -202,7 +202,7 @@ $pt_conf['gen']['prim_mcap_site'] = 'coingecko';
 // try / tusd / twd / tzs / uah / ugx / usdc / usdt / uyu / ves / vnd / xaf / xof / zar / zmw
 // SEE THE $pt_conf['assets'] CONFIGURATION NEAR THE BOTTOM OF THIS CONFIG FILE, FOR THE PROPER (CORRESPONDING)
 // CURRENCY PAIRING VALUE NEEDED FOR YOUR CHOSEN 'BTC' EXCHANGE (set in $pt_conf['gen']['btc_prim_exchange'] directly below)
-$pt_conf['gen']['btc_prim_curr_pairing'] = 'usd'; // PUT INSIDE SINGLE QUOTES ('selection')
+$pt_conf['gen']['btc_prim_currency_pairing'] = 'usd'; // PUT INSIDE SINGLE QUOTES ('selection')
 
 
 // Default BITCOIN market exchanges (30+ bitcoin exchanges supported)
@@ -211,20 +211,20 @@ $pt_conf['gen']['btc_prim_curr_pairing'] = 'usd'; // PUT INSIDE SINGLE QUOTES ('
 // bittrex_global / braziliex / btcmarkets / btcturk / buyucoin / cex / coinbase / defipulse / gemini / hitbtc / 
 // huobi / korbit / kraken / kucoin / liquid / localbitcoins / loopring_amm / luno / okcoin / okex / southxchange / upbit / wazirx
 // SEE THE $pt_conf['assets'] CONFIGURATION NEAR THE BOTTOM OF THIS CONFIG FILE, FOR THE PROPER (CORRESPONDING)
-// MARKET PAIRING VALUE NEEDED FOR YOUR CHOSEN 'BTC' EXCHANGE (to populate $pt_conf['gen']['btc_prim_curr_pairing'] directly above with)
+// MARKET PAIRING VALUE NEEDED FOR YOUR CHOSEN 'BTC' EXCHANGE (to populate $pt_conf['gen']['btc_prim_currency_pairing'] directly above with)
 // SEE THE $pt_conf['dev']['limited_apis'] SETTING MUCH FURTHER DOWN, FOR EXCHANGES !NOT RECOMMENDED FOR USAGE HERE!
 $pt_conf['gen']['btc_prim_exchange'] = 'kraken';  // PUT INSIDE SINGLE QUOTES ('selection')
 
 
 // Maximum decimal places for [primary currency] values,
-// of coins worth under 'prim_curr_dec_max_thres' [usd/gbp/eur/jpy/brl/rub/etc] (below this setting),
-// for prettier / less-cluttered interface. IF YOU ADJUST $pt_conf['gen']['btc_prim_curr_pairing'] ABOVE, 
+// of coins worth under 'prim_currency_dec_max_thres' [usd/gbp/eur/jpy/brl/rub/etc] (below this setting),
+// for prettier / less-cluttered interface. IF YOU ADJUST $pt_conf['gen']['btc_prim_currency_pairing'] ABOVE, 
 // YOU MAY NEED TO ADJUST THIS ACCORDINGLY FOR !PRETTY / FUNCTIONAL! CHARTS / ALERTS FOR YOUR PRIMARY CURRENCY
 // KEEP THIS NUMBER AS LOW AS IS FEASIBLE, TO SAVE ON CHART DATA STORAGE SPACE / MAINTAIN QUICK CHART LOAD TIMES
-$pt_conf['gen']['prim_curr_dec_max'] = 5; // Whole numbers only (represents number of decimals maximum to use)
+$pt_conf['gen']['prim_currency_dec_max'] = 5; // Whole numbers only (represents number of decimals maximum to use)
 ////
-// Below what currency amount do we switch from 2 decimals, over to using the above 'prim_curr_dec_max' setting
-$pt_conf['gen']['prim_curr_dec_max_thres'] = 1.00; // Can be decimals, NO SYMBOLS, NUMBERS ONLY
+// Below what currency amount do we switch from 2 decimals, over to using the above 'prim_currency_dec_max' setting
+$pt_conf['gen']['prim_currency_dec_max_thres'] = 1.00; // Can be decimals, NO SYMBOLS, NUMBERS ONLY
 
 
 // Your local time offset IN HOURS, COMPARED TO UTC TIME. Can be negative or positive.
@@ -286,13 +286,13 @@ $pt_conf['proxy']['proxy_list'] = array(
 $pt_conf['charts_alerts']['price_alert_fixed_reset'] = 0; // (default = 0)
 ////
 // Whale alert (adds "WHALE ALERT" to beginning of alexa / google home / email / telegram alert text, and spouting whale emoji to email / text / telegram)
-// Format: 'max_days_to_24hr_avg_over||min_price_percent_change_24hr_avg||min_vol_percent_incr_24hr_avg||min_vol_curr_incr_24hr_avg'
+// Format: 'max_days_to_24hr_avg_over||min_price_percent_change_24hr_avg||min_vol_percent_incr_24hr_avg||min_vol_currency_incr_24hr_avg'
 // ("min_price_percent_change_24hr_avg" should be the same value or higher as $pt_conf['comms']['price_alert_thres'] to work properly)
 // Leave BLANK '' TO DISABLE. DECIMALS ARE SUPPORTED, USE NUMBERS ONLY (NO CURRENCY SYMBOLS / COMMAS, ETC)
 $pt_conf['charts_alerts']['price_alert_whale_thres'] = '1.65||8.85||9.1||16000'; // (default: '1.65||8.85||9.1||16000')
 ////
 // Markets you want charts or asset price change alerts for (alerts sent when default [primary currency] 
-// [$pt_conf['gen']['btc_prim_curr_pairing'] at top of this config] value change is equal to or above / below $pt_conf['comms']['price_alert_thres']) 
+// [$pt_conf['gen']['btc_prim_currency_pairing'] at top of this config] value change is equal to or above / below $pt_conf['comms']['price_alert_thres']) 
 // NOTE: This list must only contain assets / exchanges / trading pairs included in the primary portfolio assets list configuration further down in this config file
 // TO ADD MULTIPLE CHARTS / ALERTS FOR SAME ASSET (FOR DIFFERENT EXCHANGES / TRADE PAIRINGS), FORMAT LIKE SO: symbol, symbol-1, symbol-2, symbol-3, etc.
 // TO DISABLE CHART AND ALERT = none, TO ENABLE CHART AND ALERT = both, TO ENABLE CHART ONLY = chart, TO ENABLE ALERT ONLY = alert
@@ -362,13 +362,6 @@ $pt_conf['charts_alerts']['tracked_markets'] = array(
 					'eth-15' => 'defipulse||btc||none',
 					
 					
-					// LRC
-					'lrc' => 'coinbase||usd||both',
-					'lrc-2' => 'binance||btc||chart',
-					'lrc-3' => 'binance||eth||none',
-					'lrc-4' => 'defipulse||eth||none',
-					
-					
 					// UNI
 					'uni' => 'binance||btc||both',
 					'uni-2' => 'defipulse||eth||none',
@@ -388,6 +381,13 @@ $pt_conf['charts_alerts']['tracked_markets'] = array(
 					'dai-2' => 'kraken||usd||none',
 					'dai-3' => 'bittrex||btc||none',
 					'dai-4' => 'defipulse||usdc||none',
+					
+					
+					// LRC
+					'lrc' => 'coinbase||usd||both',
+					'lrc-2' => 'binance||btc||chart',
+					'lrc-3' => 'binance||eth||none',
+					'lrc-4' => 'defipulse||eth||none',
 					
 					
 					// KEEP
@@ -610,16 +610,16 @@ $pt_conf['power']['charts_tooltip_text'] = '#222222'; // (default: '#222222')
 // $pt_conf['assets'] listing (further down in this config file) TO PROPERLY AUTO-ACTIVATE
 // THIS ALSO ADDS THESE ASSETS AS OPTIONS IN THE "Show Crypto Value Of ENTIRE Portfolio In" SETTING, ON THE SETTINGS PAGE,
 // AND IN THE "Show Secondary Trade / Holdings Value" SETTING, ON THE SETTINGS PAGE TOO
-// !!!!!TRY TO #NOT# ADD STABLECOINS HERE!!!!!, FIRST TRY $pt_conf['power']['btc_curr_markets'] INSTEAD (TO AUTO-CLIP UN-NEEDED DECIMAL POINTS) 
+// !!!!!TRY TO #NOT# ADD STABLECOINS HERE!!!!!, FIRST TRY $pt_conf['power']['btc_currency_markets'] INSTEAD (TO AUTO-CLIP UN-NEEDED DECIMAL POINTS) 
 // !!!!!BTC IS ALREADY ADDED AUTOMATICALLY, NO NEED TO ADD IT HERE!!!!!
 $pt_conf['power']['crypto_pairing'] = array(
 						//'lowercase_altcoin_ticker' => 'UNICODE_SYMBOL', // Add whitespace after the symbol, if you prefer that
 						// Native chains...
 						'eth' => 'Ξ ',
 						// Liquidity pools / ERC-20 tokens on Ethereum, etc etc...
-						'lrc' => '➰ ',
 						'uni' => '🦄 ',
 						'mkr' => '𐌼 ',
+						'lrc' => '➰ ',
 						//....
 							);
 
@@ -634,9 +634,9 @@ $pt_conf['power']['crypto_pairing'] = array(
 $pt_conf['power']['crypto_pairing_pref_markets'] = array(
 						//'lowercase_btc_market_or_stablecoin_pairing' => 'PREFERRED_MARKET',
 							'eth' => 'binance',  // WAY MORE volume , WAY BETTER price discovery than ALL alternatives
-							'lrc' => 'binance',  // WAY MORE volume , WAY BETTER price discovery than ALL alternatives
 							'uni' => 'binance',  // WAY MORE volume , WAY BETTER price discovery than ALL alternatives
 							'mkr' => 'binance',  // WAY MORE volume , WAY BETTER price discovery than ALL alternatives
+							'lrc' => 'binance',  // WAY MORE volume , WAY BETTER price discovery than ALL alternatives
 							);
 
 
@@ -646,7 +646,7 @@ $pt_conf['power']['crypto_pairing_pref_markets'] = array(
 // Bitcoin's $pt_conf['assets'] listing (further down in this config file) TO PROPERLY AUTO-ACTIVATE
 // #CAN# BE A CRYPTO / HAVE A DUPLICATE IN $pt_conf['power']['crypto_pairing'], 
 // !AS LONG AS THERE IS A PAIRING CONFIGURED WITHIN THE BITCOIN ASSET SETUP!
-$pt_conf['power']['btc_curr_markets'] = array(
+$pt_conf['power']['btc_currency_markets'] = array(
 						//'lowercase_btc_market_or_stablecoin_pairing' => 'CURRENCY_SYMBOL',
 						'aed' => 'د.إ',
 						'ars' => 'ARS$',
@@ -734,9 +734,9 @@ $pt_conf['power']['btc_curr_markets'] = array(
 
 // Preferred BITCOIN market(s) for getting a certain currency's value
 // (when other exchanges for this currency have poor api / volume / price discovery / etc)
-// EACH CURRENCY LISTED HERE MUST EXIST IN $pt_conf['power']['btc_curr_markets'] ABOVE
+// EACH CURRENCY LISTED HERE MUST EXIST IN $pt_conf['power']['btc_currency_markets'] ABOVE
 // #USE CONSERVATIVELY#, AS YOU'LL BE RECOMMENDING IN THE INTERFACE TO END-USERS TO AVOID USING ANY OTHER MARKETS FOR THIS CURRENCY
-$pt_conf['power']['btc_pref_curr_markets'] = array(
+$pt_conf['power']['btc_pref_currency_markets'] = array(
 						//'lowercase_btc_market_or_stablecoin_pairing' => 'PREFERRED_MARKET',
 							'aud' => 'kraken',  // WAY BETTER api than ALL alternatives
 							'chf' => 'kraken',  // WAY MORE reputable than ALL alternatives
@@ -2367,61 +2367,6 @@ $pt_conf['assets'] = array(
                     ////////////////////////////////////////////////////////////////////
                     
                     
-                    // LRC
-                    'LRC' => array(
-                        
-                        'name' => 'Loopring',
-                        'mcap_slug' => 'loopring',
-                        'pairing' => array(
-                        
-                                    'btc' => array(
-                                        'binance' => 'LRCBTC',
-                                    	 'coinbase' => 'LRC-BTC',
-                                        'bittrex_global' => 'LRC-BTC',
-                                        'okex' => 'LRC-BTC',
-                                        'huobi' => 'lrcbtc',
-                                        'upbit' => 'BTC-LRC',
-                                        'bitfinex' => 'tLRCBTC',
-                                        'loopring_amm' => 'AMM-LRC-WBTC',
-                                        'hitbtc' => 'LRCBTC',
-                                        'gateio' => 'LRC_BTC',
-                                        'coinex' => 'LRCBTC',
-                                                    ),
-                                                    
-                                    'eth' => array(
-                                        'binance' => 'LRCETH',
-                                        'okex' => 'LRC-ETH',
-                                        'huobi' => 'lrceth',
-                                        'loopring' => 'LRC-ETH',
-                                        'hitbtc' => 'LRCETH',
-                                        'gateio' => 'LRC_ETH',
-                                        'coinex' => 'LRCETH',
-                                    	 'defipulse' => 'LRC/WETH||0x8878df9e1a7c87dcbf6d3999d997f262c05d8c70',
-                                                    ),
-                                                    
-                                    'usd' => array(
-                                    	 'coinbase' => 'LRC-USD',
-                                    	 'bitfinex' => 'tLRCUSD',
-                                                    ),
-                                                    
-                                    'usdt' => array(
-                                        'binance' => 'LRCUSDT',
-                                        'okex' => 'LRC-USDT',
-                                        'huobi' => 'lrcusdt',
-                                        'kucoin' => 'LRC-USDT',
-                                        'loopring' => 'LRC-USDT',
-                                        'gateio' => 'LRC_USDT',
-                                        'wazirx' => 'lrcusdt',
-                                                    ),
-                                                    
-                                        ) // market_pairing END
-                                        
-                    ), // Asset END
-                    
-                    
-                    ////////////////////////////////////////////////////////////////////
-                    
-                    
                     // UNI
                     'UNI' => array(
                         
@@ -2565,6 +2510,61 @@ $pt_conf['assets'] = array(
                                         'okex' => 'DAI-USDT',
                                         'loopring' => 'DAI-USDT',
                                     	 'defipulse' => 'DAI/USDT',
+                                                    ),
+                                                    
+                                        ) // market_pairing END
+                                        
+                    ), // Asset END
+                    
+                    
+                    ////////////////////////////////////////////////////////////////////
+                    
+                    
+                    // LRC
+                    'LRC' => array(
+                        
+                        'name' => 'Loopring',
+                        'mcap_slug' => 'loopring',
+                        'pairing' => array(
+                        
+                                    'btc' => array(
+                                        'binance' => 'LRCBTC',
+                                    	 'coinbase' => 'LRC-BTC',
+                                        'bittrex_global' => 'LRC-BTC',
+                                        'okex' => 'LRC-BTC',
+                                        'huobi' => 'lrcbtc',
+                                        'upbit' => 'BTC-LRC',
+                                        'bitfinex' => 'tLRCBTC',
+                                        'loopring_amm' => 'AMM-LRC-WBTC',
+                                        'hitbtc' => 'LRCBTC',
+                                        'gateio' => 'LRC_BTC',
+                                        'coinex' => 'LRCBTC',
+                                                    ),
+                                                    
+                                    'eth' => array(
+                                        'binance' => 'LRCETH',
+                                        'okex' => 'LRC-ETH',
+                                        'huobi' => 'lrceth',
+                                        'loopring' => 'LRC-ETH',
+                                        'hitbtc' => 'LRCETH',
+                                        'gateio' => 'LRC_ETH',
+                                        'coinex' => 'LRCETH',
+                                    	 'defipulse' => 'LRC/WETH||0x8878df9e1a7c87dcbf6d3999d997f262c05d8c70',
+                                                    ),
+                                                    
+                                    'usd' => array(
+                                    	 'coinbase' => 'LRC-USD',
+                                    	 'bitfinex' => 'tLRCUSD',
+                                                    ),
+                                                    
+                                    'usdt' => array(
+                                        'binance' => 'LRCUSDT',
+                                        'okex' => 'LRC-USDT',
+                                        'huobi' => 'lrcusdt',
+                                        'kucoin' => 'LRC-USDT',
+                                        'loopring' => 'LRC-USDT',
+                                        'gateio' => 'LRC_USDT',
+                                        'wazirx' => 'lrcusdt',
                                                     ),
                                                     
                                         ) // market_pairing END

@@ -3,12 +3,12 @@
  * Copyright 2014-2021 GPLv3, Open Crypto Portfolio Tracker by Mike Kilday: http://DragonFrugal.com
  */
 			
-echo ( isset($pow_coin_data['height']) ? '<p><b>Block height:</b> ' . number_format( $pow_coin_data['height'] ) . '</p>' : '' );
-echo ( isset($pow_coin_data['other_network_data']) ? $pow_coin_data['other_network_data'] : '' );
+echo ( isset($pow_asset_data['height']) ? '<p><b>Block height:</b> ' . number_format( $pow_asset_data['height'] ) . '</p>' : '' );
+echo ( isset($pow_asset_data['other_network_data']) ? $pow_asset_data['other_network_data'] : '' );
 				
 				
 // Form submission results
-if ( $_POST[$pow_coin_data['symbol'].'_submitted'] ) {
+if ( $_POST[$pow_asset_data['symbol'].'_submitted'] ) {
 ?>
 
 <!-- Green colored START -->
@@ -28,7 +28,7 @@ include('app-lib/php/other/calculators/mining/pow/earned-daily.php');
 			
 				
 // Render mining calc HTML form, with network measure name parameter
-$pt_asset->mining_calc_form($pow_coin_data, $pow_coin_data['measure_semantic']); 
+$pt_asset->mining_calc_form($pow_asset_data, $pow_asset_data['measure_semantic']); 
 				
 				
 ?>

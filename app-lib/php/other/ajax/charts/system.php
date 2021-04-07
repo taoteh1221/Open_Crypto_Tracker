@@ -173,7 +173,7 @@ if ( $key == 1 ) {
 				$rand_color = '#' . $pt_gen->rand_color( sizeof($sorted_by_last_chart_data) )['hex'];
 					
 				$chart_conf = "{
-			  text: '".$pt_gen->snake_case_to_name($chart_key)."',
+			  text: '".$pt_gen->key_to_name($chart_key)."',
 			  values: [".$chart_val."],
 			  lineColor: '".$rand_color."',
 				 marker: {
@@ -218,7 +218,7 @@ elseif ( $key == 2 ) {
 			$rand_color = '#' . $pt_gen->rand_color( sizeof($sorted_by_last_chart_data) )['hex'];
 	
 			$chart_conf = "{
-			  text: '".$pt_gen->snake_case_to_name($chart_key)."',
+			  text: '".$pt_gen->key_to_name($chart_key)."',
 			  values: [".$chart_val."],
 			  lineColor: '".$rand_color."',
 				 marker: {

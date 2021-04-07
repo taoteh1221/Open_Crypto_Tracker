@@ -26,20 +26,20 @@ Add to /templates/interface/desktop/php/footer.php when testing unicode mobile t
   				// Message parameter added for desired comm methods (leave any comm method blank to skip sending via that method)
   				
   				// Minimize function calls
-  				//$encoded_text_message = $pt_gen->charset_encode($test_phrase); // Unicode support included for text messages (emojis / asian characters / etc )
+  				//$encoded_text_msg = $pt_gen->charset_encode($test_phrase); // Unicode support included for text messages (emojis / asian characters / etc )
   				
   				/*
           	$send_params = array(
           	
-          								'telegram' => $encoded_text_message['content_output'],
+          								'telegram' => $encoded_text_msg['content_output'],
           								'text' => array(
-          														'message' => $encoded_text_message['content_output'],
-          														'charset' => $encoded_text_message['charset']
+          														'message' => $encoded_text_msg['content_output'],
+          														'charset' => $encoded_text_msg['charset']
           														),
           								'email' => array(
           														'subject' => 'UNICODE SUPPORT TEST',
-          														'message' => $encoded_text_message['content_output'],
-          														'charset' => $encoded_text_message['charset'] 
+          														'message' => $encoded_text_msg['content_output'],
+          														'charset' => $encoded_text_msg['charset'] 
           														)
           														
           								);
@@ -50,7 +50,7 @@ Add to /templates/interface/desktop/php/footer.php when testing unicode mobile t
           	@$pt_cache->queue_notify($send_params);
           	*/
     	
-    	//var_dump($encoded_text_message);
+    	//var_dump($encoded_text_msg);
     	
           	
       ////END DEBUGGING ///////////////////////////////////////////////////////////////

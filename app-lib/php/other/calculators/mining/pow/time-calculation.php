@@ -4,7 +4,7 @@
  */
 	
 
-$minutes = ( $pow_coin_data['mining_time_formula'] / 60 );
+$minutes = ( $pow_asset_data['mining_time_formula'] / 60 );
 				
 $hours = ( $minutes / 60 );
 				

@@ -21,7 +21,7 @@ foreach( $secured_cache_files as $secured_file ) {
 			$pt_conf = $cached_pt_conf; // Use cached pt_conf if it exists, seems intact, and DEFAULT Admin Config (in config.php) hasn't been revised since last check
 			}
 			else {
-			$pt_gen->app_logging('config_error', 'Cached pt_conf data appears corrupted (fetching within minimized-sub-init.php)');
+			$pt_gen->app_logging('conf_error', 'Cached pt_conf data appears corrupted (fetching within minimized-sub-init.php)');
 			}
 			
 	}

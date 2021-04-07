@@ -110,7 +110,7 @@ if ( sizeof($pt_conf['proxy']['proxy_list']) > 0 ) {
    }
 
 	if ( $proxy_conf_alert ) {
-	$pt_gen->app_logging('config_error', $proxy_conf_alert);
+	$pt_gen->app_logging('conf_error', $proxy_conf_alert);
 	}
           		
 	// Displaying if checks passed
@@ -129,7 +129,7 @@ $conf_parse_error = NULL; // Blank it out for any other config checks
 
 
 // Check default Bitcoin market/pairing configs (used by charts/alerts)
-if ( !isset( $pt_conf['assets']['BTC']['pairing'][$default_btc_prim_curr_pairing] ) ) {
+if ( !isset( $pt_conf['assets']['BTC']['pairing'][$default_btc_prim_currency_pairing] ) ) {
 
 	foreach ( $pt_conf['assets']['BTC']['pairing'] as $pairing_key => $unused ) {
 	$avialable_btc_pairings .= strtolower($pairing_key) . ', ';
@@ -137,12 +137,12 @@ if ( !isset( $pt_conf['assets']['BTC']['pairing'][$default_btc_prim_curr_pairing
 	$avialable_btc_pairings = trim($avialable_btc_pairings);
 	$avialable_btc_pairings = rtrim($avialable_btc_pairings,',');
 	
-$conf_parse_error[] = 'Charts and price alerts cannot run properly, because the "btc_prim_curr_pairing" (default Bitcoin currency pairing) value \''.$pt_conf['gen']['btc_prim_curr_pairing'].'\' (in Admin Config GENERAL section) is not a valid Bitcoin pairing option (valid Bitcoin pairing options are: '.$avialable_btc_pairings.')';
+$conf_parse_error[] = 'Charts and price alerts cannot run properly, because the "btc_prim_currency_pairing" (default Bitcoin currency pairing) value \''.$pt_conf['gen']['btc_prim_currency_pairing'].'\' (in Admin Config GENERAL section) is not a valid Bitcoin pairing option (valid Bitcoin pairing options are: '.$avialable_btc_pairings.')';
 
 }
-elseif ( !isset( $pt_conf['assets']['BTC']['pairing'][$default_btc_prim_curr_pairing][$default_btc_prim_exchange] ) ) {
+elseif ( !isset( $pt_conf['assets']['BTC']['pairing'][$default_btc_prim_currency_pairing][$default_btc_prim_exchange] ) ) {
 
-	foreach ( $pt_conf['assets']['BTC']['pairing'][$default_btc_prim_curr_pairing] as $pairing_key => $unused ) {
+	foreach ( $pt_conf['assets']['BTC']['pairing'][$default_btc_prim_currency_pairing] as $pairing_key => $unused ) {
 		
 		if( stristr($pairing_key, 'bitmex_') == false ) { // Futures markets not allowed
 		$avialable_btc_prim_exchanges .= strtolower($pairing_key) . ', ';
@@ -152,7 +152,7 @@ elseif ( !isset( $pt_conf['assets']['BTC']['pairing'][$default_btc_prim_curr_pai
 	$avialable_btc_prim_exchanges = trim($avialable_btc_prim_exchanges);
 	$avialable_btc_prim_exchanges = rtrim($avialable_btc_prim_exchanges,',');
 	
-$conf_parse_error[] = 'Charts and price alerts cannot run properly, because the "btc_prim_exchange" (default Bitcoin exchange) value \''.$default_btc_prim_exchange.'\' (in Admin Config GENERAL section) is not a valid option for \''.$default_btc_prim_curr_pairing.'\' Bitcoin pairings (valid \''.$default_btc_prim_curr_pairing.'\' Bitcoin pairing options are: '.$avialable_btc_prim_exchanges.')';
+$conf_parse_error[] = 'Charts and price alerts cannot run properly, because the "btc_prim_exchange" (default Bitcoin exchange) value \''.$default_btc_prim_exchange.'\' (in Admin Config GENERAL section) is not a valid option for \''.$default_btc_prim_currency_pairing.'\' Bitcoin pairings (valid \''.$default_btc_prim_currency_pairing.'\' Bitcoin pairing options are: '.$avialable_btc_prim_exchanges.')';
 
 }
 
@@ -265,7 +265,7 @@ if ( trim($pt_conf['comms']['from_email']) != '' || trim($pt_conf['comms']['to_e
           		
 
 			if ( $price_change_conf_alert ) {
-			$pt_gen->app_logging('config_error', $price_change_conf_alert);
+			$pt_gen->app_logging('conf_error', $price_change_conf_alert);
 			}
           		
          // Displaying if checks passed
@@ -314,7 +314,7 @@ $smtp_email_server_parse = explode(":", $pt_conf['comms']['smtp_server'] );
           		
 
 	if ( $smtp_conf_alert ) {
-	$pt_gen->app_logging('config_error', $smtp_conf_alert);
+	$pt_gen->app_logging('conf_error', $smtp_conf_alert);
 	}
 
         
@@ -357,7 +357,7 @@ if ( $pt_conf['power']['logs_email'] > 0 && trim($pt_conf['comms']['from_email']
           		
 
 	if ( $logs_conf_alert ) {
-	$pt_gen->app_logging('config_error', $logs_conf_alert);
+	$pt_gen->app_logging('conf_error', $logs_conf_alert);
 	}
 
         
@@ -398,7 +398,7 @@ if ( $pt_conf['gen']['asset_charts_toggle'] == 'on' && $pt_conf['power']['charts
           		
 
 	if ( $backuparchive_conf_alert ) {
-	$pt_gen->app_logging('config_error', $backuparchive_conf_alert);
+	$pt_gen->app_logging('conf_error', $backuparchive_conf_alert);
 	}
 
         
@@ -416,11 +416,11 @@ if ( $pt_conf['gen']['asset_charts_toggle'] == 'on' && $pt_conf['power']['charts
 
 // Check $pt_conf['assets'] config
 if ( !is_array($pt_conf['assets']) ) {
-$pt_gen->app_logging('config_error', 'The portfolio assets formatting is corrupt, or not configured yet');
+$pt_gen->app_logging('conf_error', 'The portfolio assets formatting is corrupt, or not configured yet');
 }
 
 // Check default / dynamic Bitcoin market/pairing configs
-if ( !isset( $pt_conf['assets']['BTC']['pairing'][$pt_conf['gen']['btc_prim_curr_pairing']] ) ) {
+if ( !isset( $pt_conf['assets']['BTC']['pairing'][$pt_conf['gen']['btc_prim_currency_pairing']] ) ) {
 
 	foreach ( $pt_conf['assets']['BTC']['pairing'] as $pairing_key => $unused ) {
 	$avialable_btc_pairings .= strtolower($pairing_key) . ', ';
@@ -428,12 +428,12 @@ if ( !isset( $pt_conf['assets']['BTC']['pairing'][$pt_conf['gen']['btc_prim_curr
 	$avialable_btc_pairings = trim($avialable_btc_pairings);
 	$avialable_btc_pairings = rtrim($avialable_btc_pairings,',');
 
-$pt_gen->app_logging('config_error', 'Portfolio cannot run properly, because the "btc_prim_curr_pairing" (Bitcoin primary currency pairing) value \''.$pt_conf['gen']['btc_prim_curr_pairing'].'\' is not a valid Bitcoin pairing option (valid Bitcoin pairing options are: '.$avialable_btc_pairings.')');
+$pt_gen->app_logging('conf_error', 'Portfolio cannot run properly, because the "btc_prim_currency_pairing" (Bitcoin primary currency pairing) value \''.$pt_conf['gen']['btc_prim_currency_pairing'].'\' is not a valid Bitcoin pairing option (valid Bitcoin pairing options are: '.$avialable_btc_pairings.')');
 
 }
-elseif ( !isset( $pt_conf['assets']['BTC']['pairing'][$pt_conf['gen']['btc_prim_curr_pairing']][$pt_conf['gen']['btc_prim_exchange']] ) ) {
+elseif ( !isset( $pt_conf['assets']['BTC']['pairing'][$pt_conf['gen']['btc_prim_currency_pairing']][$pt_conf['gen']['btc_prim_exchange']] ) ) {
 
-	foreach ( $pt_conf['assets']['BTC']['pairing'][$pt_conf['gen']['btc_prim_curr_pairing']] as $pairing_key => $unused ) {
+	foreach ( $pt_conf['assets']['BTC']['pairing'][$pt_conf['gen']['btc_prim_currency_pairing']] as $pairing_key => $unused ) {
 		
 		if( stristr($pairing_key, 'bitmex_') == false ) { // Futures markets not allowed
 		$avialable_btc_prim_exchanges .= strtolower($pairing_key) . ', ';
@@ -443,7 +443,7 @@ elseif ( !isset( $pt_conf['assets']['BTC']['pairing'][$pt_conf['gen']['btc_prim_
 	$avialable_btc_prim_exchanges = trim($avialable_btc_prim_exchanges);
 	$avialable_btc_prim_exchanges = rtrim($avialable_btc_prim_exchanges,',');
 
-$pt_gen->app_logging('config_error', 'Portfolio cannot run properly, because the "btc_prim_exchange" (Bitcoin exchange) value \''.$pt_conf['gen']['btc_prim_exchange'].'\' is not a valid option for \''.$pt_conf['gen']['btc_prim_curr_pairing'].'\' Bitcoin pairings (valid \''.$pt_conf['gen']['btc_prim_curr_pairing'].'\' Bitcoin pairing options are: '.$avialable_btc_prim_exchanges.')');
+$pt_gen->app_logging('conf_error', 'Portfolio cannot run properly, because the "btc_prim_exchange" (Bitcoin exchange) value \''.$pt_conf['gen']['btc_prim_exchange'].'\' is not a valid option for \''.$pt_conf['gen']['btc_prim_currency_pairing'].'\' Bitcoin pairings (valid \''.$pt_conf['gen']['btc_prim_currency_pairing'].'\' Bitcoin pairing options are: '.$avialable_btc_prim_exchanges.')');
 
 }
 

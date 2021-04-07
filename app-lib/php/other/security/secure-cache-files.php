@@ -81,12 +81,12 @@ foreach( $secured_cache_files as $secured_file ) {
 			$is_cached_pt_conf = 1;
 			}
 			elseif ( $check_default_pt_conf != md5(serialize($default_pt_conf)) ) {
-			$pt_gen->app_logging('config_error', 'CACHED pt_conf outdated (DEFAULT pt_conf updated), refreshing from DEFAULT pt_conf');
+			$pt_gen->app_logging('conf_error', 'CACHED pt_conf outdated (DEFAULT pt_conf updated), refreshing from DEFAULT pt_conf');
 			unlink($base_dir . '/cache/secured/' . $secured_file);
 			$refresh_cached_pt_conf = 1;
 			}
 			elseif ( $cached_pt_conf != true ) {
-			$pt_gen->app_logging('config_error', 'CACHED pt_conf appears corrupt, refreshing from DEFAULT pt_conf');
+			$pt_gen->app_logging('conf_error', 'CACHED pt_conf appears corrupt, refreshing from DEFAULT pt_conf');
 			unlink($base_dir . '/cache/secured/' . $secured_file);
 			$refresh_cached_pt_conf = 1;
 			}
@@ -125,7 +125,7 @@ foreach( $secured_cache_files as $secured_file ) {
 			$is_cached_telegram_user_data = 1;
 			}
 			elseif ( $cached_telegram_user_data != true ) {
-			$pt_gen->app_logging('config_error', 'Cached telegram_user_data appears corrupted, deleting cached telegram_user_data (refresh will happen automatically)');
+			$pt_gen->app_logging('conf_error', 'Cached telegram_user_data appears corrupted, deleting cached telegram_user_data (refresh will happen automatically)');
 			unlink($base_dir . '/cache/secured/' . $secured_file);
 			$refresh_cached_telegram_user_data = 1;
 			}
@@ -273,7 +273,7 @@ $secure_128bit_hash = $pt_gen->rand_hash(16); // 128-bit (16-byte) hash converte
 	
 		// If there was an issue updating the cached app config
 		if ( $store_cached_pt_conf == false ) {
-		$pt_gen->app_logging('config_error', 'pt_conf data could not be saved (to secured cache storage) in json format');
+		$pt_gen->app_logging('conf_error', 'pt_conf data could not be saved (to secured cache storage) in json format');
 		}
 		// If cached app config updated successfully
 		else {
@@ -314,7 +314,7 @@ $secure_128bit_hash = $pt_gen->rand_hash(16); // 128-bit (16-byte) hash converte
 		
 		// Need to check a few different possible results for no data found ("null" in quotes as the actual value is returned sometimes)
 		if ( $store_cached_telegram_user_data == false || $store_cached_telegram_user_data == null || $store_cached_telegram_user_data == "null" ) {
-		$pt_gen->app_logging('config_error', 'UPDATED telegram_user_data could not be saved, PLEASE RE-ENTER "/start" IN THE BOT CHATROOM, IN THE TELEGRAM APP');
+		$pt_gen->app_logging('conf_error', 'UPDATED telegram_user_data could not be saved, PLEASE RE-ENTER "/start" IN THE BOT CHATROOM, IN THE TELEGRAM APP');
 		}
 		else {
 		$pt_cache->save_file($base_dir . '/cache/secured/telegram_user_data_'.$secure_128bit_hash.'.dat', $store_cached_telegram_user_data);
@@ -429,7 +429,7 @@ if ( $password_reset_approved || sizeof($stored_admin_login) != 2 ) {
 		
 		
 		// If the admin login update was a success, delete old data file / login / redirect
-		if ( $pt_gen->app_id() != false && isset($_SESSION['nonce']) && $admin_login_updated ) {
+		if ( $pt_gen->id() != false && isset($_SESSION['nonce']) && $admin_login_updated ) {
 		
 			// Delete any previous active admin login data file
 			if ( $active_admin_login_path ) {
@@ -448,7 +448,7 @@ if ( $password_reset_approved || sizeof($stored_admin_login) != 2 ) {
 				
 		$cookie_nonce = $pt_gen->rand_hash(32); // 32 byte
 		
-		$pt_gen->store_cookie('admin_auth_' . $pt_gen->app_id(), $cookie_nonce, mktime() + ($pt_conf['power']['admin_cookie_expire'] * 3600) );
+		$pt_gen->store_cookie('admin_auth_' . $pt_gen->id(), $cookie_nonce, mktime() + ($pt_conf['power']['admin_cookie_expire'] * 3600) );
 				
 		$_SESSION['admin_logged_in']['auth_hash'] = $pt_gen->admin_hashed_nonce($cookie_nonce, 'force'); // Force set, as we're not logged in fully yet
 				

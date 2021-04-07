@@ -48,7 +48,7 @@ var $pt_array1 = array();
    ////////////////////////////////////////////////////////
    
    
-   function coingecko($force_prim_curr=null) {
+   function coingecko($force_prim_currency=null) {
       
    global $base_dir, $pt_conf, $pt_cache;
    
@@ -57,7 +57,7 @@ var $pt_array1 = array();
    $result = array();
    
    // Don't overwrite global
-   $coingecko_prim_curr = ( $force_prim_curr != null ? strtolower($force_prim_curr) : strtolower($pt_conf['gen']['btc_prim_curr_pairing']) );
+   $coingecko_prim_currency = ( $force_prim_currency != null ? strtolower($force_prim_currency) : strtolower($pt_conf['gen']['btc_prim_currency_pairing']) );
    
          
    // DON'T ADD ANY ERROR CHECKS HERE, OR RUNTIME MAY SLOW SIGNIFICANTLY!!
@@ -71,7 +71,7 @@ var $pt_array1 = array();
          
          while ( $loop < $calls ) {
          
-         $url = 'https://api.coingecko.com/api/v3/coins/markets?per_page=' . $pt_conf['dev']['coingecko_api_batched_max'] . '&page=' . ($loop + 1) . '&vs_currency=' . $coingecko_prim_curr . '&price_change_percentage=1h,24h,7d,14d,30d,200d,1y';
+         $url = 'https://api.coingecko.com/api/v3/coins/markets?per_page=' . $pt_conf['dev']['coingecko_api_batched_max'] . '&page=' . ($loop + 1) . '&vs_currency=' . $coingecko_prim_currency . '&price_change_percentage=1h,24h,7d,14d,30d,200d,1y';
             
             if ( $loop > 0 && $pt_cache->update_cache($base_dir . '/cache/secured/external_api/' . md5($url) . '.dat', $pt_conf['power']['mcap_cache_time']) == true ) {
             usleep(150000); // Wait 0.15 seconds between consecutive calls, to avoid being blocked / throttled by external server
@@ -88,7 +88,7 @@ var $pt_array1 = array();
       }
       else {
       	
-      $response = @$pt_cache->ext_data('url', 'https://api.coingecko.com/api/v3/coins/markets?per_page='.$pt_conf['power']['mcap_ranks_max'].'&page=1&vs_currency='.$coingecko_prim_curr.'&price_change_percentage=1h,24h,7d,14d,30d,200d,1y', $pt_conf['power']['mcap_cache_time']);
+      $response = @$pt_cache->ext_data('url', 'https://api.coingecko.com/api/v3/coins/markets?per_page='.$pt_conf['power']['mcap_ranks_max'].'&page=1&vs_currency='.$coingecko_prim_currency.'&price_change_percentage=1h,24h,7d,14d,30d,200d,1y', $pt_conf['power']['mcap_cache_time']);
       
       $sub_arrays[] = json_decode($response, true);
       
@@ -106,7 +106,7 @@ var $pt_array1 = array();
    
       if ( is_array($data) ) {
          
-         foreach ($data as $key => $val) {
+         foreach ($data as $key => $unused) {
             
             if ( $data[$key]['symbol'] != '' ) {
             $result[strtolower($data[$key]['symbol'])] = $data[$key];
@@ -237,7 +237,7 @@ var $pt_array1 = array();
    ////////////////////////////////////////////////////////
    
    
-   function coinmarketcap($force_prim_curr=null) {
+   function coinmarketcap($force_prim_currency=null) {
       
    global $pt_conf, $pt_cache, $pt_gen, $coinmarketcap_currencies, $cap_data_force_usd, $cmc_notes;
    
@@ -251,20 +251,20 @@ var $pt_array1 = array();
       
    
       // Don't overwrite global
-      $coinmarketcap_prim_curr = strtoupper($pt_conf['gen']['btc_prim_curr_pairing']);
+      $coinmarketcap_prim_currency = strtoupper($pt_conf['gen']['btc_prim_currency_pairing']);
       
          
-         if ( $force_prim_curr != null ) {
-         $convert = strtoupper($force_prim_curr);
+         if ( $force_prim_currency != null ) {
+         $convert = strtoupper($force_prim_currency);
          $cap_data_force_usd = null;
          }
-         elseif ( in_array($coinmarketcap_prim_curr, $coinmarketcap_currencies) ) {
-         $convert = $coinmarketcap_prim_curr;
+         elseif ( in_array($coinmarketcap_prim_currency, $coinmarketcap_currencies) ) {
+         $convert = $coinmarketcap_prim_currency;
          $cap_data_force_usd = null;
          }
          // Default to USD, if currency is not supported
          else {
-         $cmc_notes = 'Coinmarketcap.com does not support '.$coinmarketcap_prim_curr.' stats,<br />showing USD stats instead.';
+         $cmc_notes = 'Coinmarketcap.com does not support '.$coinmarketcap_prim_currency.' stats,<br />showing USD stats instead.';
          $convert = 'USD';
          $cap_data_force_usd = 1;
          }
@@ -297,7 +297,7 @@ var $pt_array1 = array();
    
        if ( is_array($data) ) {
          
-            foreach ($data as $key => $val) {
+            foreach ($data as $key => $unused) {
             
                if ( $data[$key]['symbol'] != '' ) {
                $result[strtolower($data[$key]['symbol'])] = $data[$key];
@@ -574,7 +574,7 @@ var $pt_array1 = array();
    function market($asset_symb, $sel_exchange, $market_id, $pairing=false) { 
    
    
-   global $pt_conf, $pt_var, $pt_cache, $pt_gen, $pt_asset, $sel_btc_prim_curr_val, $defipulse_api_limit;
+   global $pt_conf, $pt_var, $pt_cache, $pt_gen, $pt_asset, $sel_btc_prim_currency_val, $defipulse_api_limit;
      
     
     
@@ -1496,7 +1496,7 @@ var $pt_array1 = array();
       
           if ( is_array($data) ) {
       
-           foreach ($data as $key => $val) {
+           foreach ($data as $unused) {
              
              
              if ( $data[$market_id] != '' ) {
@@ -1749,7 +1749,7 @@ var $pt_array1 = array();
              
              if ( $key == 'result' ) {
              
-              foreach ($val as $key2 => $val2) {
+              foreach ($val as $key2 => $unused) {
                 
                 if ( $key2 == $market_id ) {
                  
@@ -2297,12 +2297,12 @@ var $pt_array1 = array();
       
       
       // BTC value of 1 unit of the default primary currency
-      $curr_to_btc = $pt_var->num_to_str(1 / $sel_btc_prim_curr_val);	
+      $currency_to_btc = $pt_var->num_to_str(1 / $sel_btc_prim_currency_val);	
       
         // BTC pairing
         if ( $market_id == 'btc' ) {
          $result = array(
-                  'last_trade' => $curr_to_btc
+                  'last_trade' => $currency_to_btc
                   );
          }
          // All other pairing
@@ -2315,7 +2315,7 @@ var $pt_array1 = array();
           }
       
          $result = array(
-                  'last_trade' => ( 1 / $pt_var->num_to_str($pairing_btc_val / $curr_to_btc) )
+                  'last_trade' => ( 1 / $pt_var->num_to_str($pairing_btc_val / $currency_to_btc) )
                   );
          }
       
@@ -2338,14 +2338,14 @@ var $pt_array1 = array();
         }
       
         // Set primary currency volume value
-        if ( $pairing == $pt_conf['gen']['btc_prim_curr_pairing'] ) {
-        $result['24hr_prim_curr_vol'] = $pt_var->num_to_str($result['24hr_pairing_vol']); // Save on runtime, if we don't need to compute the fiat value
+        if ( $pairing == $pt_conf['gen']['btc_prim_currency_pairing'] ) {
+        $result['24hr_prim_currency_vol'] = $pt_var->num_to_str($result['24hr_pairing_vol']); // Save on runtime, if we don't need to compute the fiat value
         }
         elseif ( !$result['24hr_pairing_vol'] && $result['24hr_usd_vol'] ) {
           
           // Fiat or equivalent pairing?
           // #FOR CLEAN CODE#, RUN CHECK TO MAKE SURE IT'S NOT A CRYPTO AS WELL...WE HAVE A COUPLE SUPPORTED, BUT WE ONLY WANT DESIGNATED FIAT-EQIV HERE
-          if ( array_key_exists($pairing, $pt_conf['power']['btc_curr_markets']) && !array_key_exists($pairing, $pt_conf['power']['crypto_pairing']) ) {
+          if ( array_key_exists($pairing, $pt_conf['power']['btc_currency_markets']) && !array_key_exists($pairing, $pt_conf['power']['crypto_pairing']) ) {
           $fiat_eqiv = 1;
           }
         
@@ -2356,11 +2356,11 @@ var $pt_array1 = array();
         $vol_in_pairing = round( ($vol_in_btc / $pairing_btc_val) , ( $fiat_eqiv == 1 ? 0 : $pt_conf['power']['chart_crypto_vol_dec'] ) );
         
         $result['24hr_pairing_vol'] = $pt_var->num_to_str($vol_in_pairing);
-        $result['24hr_prim_curr_vol'] = $pt_var->num_to_str( $pt_asset->prim_curr_trade_vol('BTC', 'usd', 1, $result['24hr_usd_vol']) );
+        $result['24hr_prim_currency_vol'] = $pt_var->num_to_str( $pt_asset->prim_currency_trade_vol('BTC', 'usd', 1, $result['24hr_usd_vol']) );
         
         }
         else {
-        $result['24hr_prim_curr_vol'] = $pt_var->num_to_str( $pt_asset->prim_curr_trade_vol($asset_symb, $pairing, $result['last_trade'], $result['24hr_pairing_vol']) );
+        $result['24hr_prim_currency_vol'] = $pt_var->num_to_str( $pt_asset->prim_currency_trade_vol($asset_symb, $pairing, $result['last_trade'], $result['24hr_pairing_vol']) );
         }
         
       

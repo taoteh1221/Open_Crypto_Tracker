@@ -147,14 +147,14 @@ $base_url = $pt_gen->base_url();
 
 // Set $pt_app_id as a global (MUST BE SET AFTER $base_url / $base_dir)
 // (a 10 character install ID hash, created from the base URL or base dir [if cron])
-// AFTER THIS IS SET, WE CAN USE EITHER $pt_app_id OR $pt_gen->app_id() RELIABLY / EFFICIENTLY ANYWHERE
-// $pt_gen->app_id() can then be used in functions WITHOUT NEEDING ANY $pt_app_id GLOBAL DECLARED.
-$pt_app_id = $pt_gen->app_id();
+// AFTER THIS IS SET, WE CAN USE EITHER $pt_app_id OR $pt_gen->id() RELIABLY / EFFICIENTLY ANYWHERE
+// $pt_gen->id() can then be used in functions WITHOUT NEEDING ANY $pt_app_id GLOBAL DECLARED.
+$pt_app_id = $pt_gen->id();
 
 
 // Give our session a unique name 
-// MUST BE SET AFTER $pt_app_id / first $pt_gen->app_id() call
-session_name( $pt_gen->app_id() );
+// MUST BE SET AFTER $pt_app_id / first $pt_gen->id() call
+session_name( $pt_gen->id() );
 
 
 // Current runtime user
@@ -196,7 +196,7 @@ if ( $_GET['logout'] == 1 && $pt_gen->admin_hashed_nonce('logout') != false && $
 $pt_gen->hardy_sess_clear(); 
 
 // Delete admin login cookie
-unset($_COOKIE['admin_auth_' . $pt_gen->app_id()]); 
+unset($_COOKIE['admin_auth_' . $pt_gen->id()]); 
 
 header("Location: index.php");
 exit;
@@ -249,7 +249,7 @@ $logs_array = array();
 
 $rand_color_ranged =  array();
 
-$processed_messages = array();
+$processed_msgs = array();
 
 $api_connections = array();
 

@@ -142,7 +142,7 @@ var $pt_array1 = array();
    ////////////////////////////////////////////////////////
    
    
-   function split_text_message($text, $char_length) {
+   function split_text_msg($text, $char_length) {
    
    $chunks = explode("||||", wordwrap($msg, $char_length, "||||", false) );
    $total = count($chunks);
@@ -198,13 +198,13 @@ var $pt_array1 = array();
    function admin_logged_in() {
       
       // IF REQUIRED DATA NOT SET, REFUSE ADMIN AUTHORIZATION
-      if ( !isset( $_COOKIE['admin_auth_' . $this->app_id()] )
+      if ( !isset( $_COOKIE['admin_auth_' . $this->id()] )
       || !isset( $_SESSION['nonce'] )
       || !isset( $_SESSION['admin_logged_in']['auth_hash'] ) ) {
       return false;
       }
       // WE SPLIT THE LOGIN AUTH BETWEEN COOKIE AND SESSION DATA (TO BETTER SECURE LOGIN AUTHORIZATION)
-      elseif ( $this->nonce_digest( $_COOKIE['admin_auth_' . $this->app_id()] ) == $_SESSION['admin_logged_in']['auth_hash'] ) {
+      elseif ( $this->nonce_digest( $_COOKIE['admin_auth_' . $this->id()] ) == $_SESSION['admin_logged_in']['auth_hash'] ) {
       return true;
       }
    
@@ -322,12 +322,12 @@ var $pt_array1 = array();
    // Deleting all session data can fail on occasion, and wreak havoc.
    // This helps according to one programmer on php.net
    session_start();
-   session_name( $this->app_id() );
+   session_name( $this->id() );
    $_SESSION = array();
    session_unset();
    session_destroy();
    session_write_close();
-   setcookie(session_name( $this->app_id() ),'',0,'/');
+   setcookie(session_name( $this->id() ),'',0,'/');
    session_regenerate_id(true);
    
    }
@@ -515,7 +515,7 @@ var $pt_array1 = array();
    
    
    // Install id (10 character hash, based off base url)
-   function app_id() {
+   function id() {
       
    global $base_url, $base_dir, $pt_app_id;
    
@@ -610,7 +610,7 @@ var $pt_array1 = array();
    global $password_pepper;
    
       if ( !$password_pepper ) {
-      $this->app_logging('config_error', '$password_pepper not set properly');
+      $this->app_logging('conf_error', '$password_pepper not set properly');
       return false;
       }
       else {
@@ -618,7 +618,7 @@ var $pt_array1 = array();
       $password_pepper_hashed = hash_hmac("sha256", $password, $password_pepper);
       
          if ( $password_pepper_hashed == false ) {
-         $this->app_logging('config_error', 'hash_hmac() returned false in the pt_gen->pepper_hashed_pass() function');
+         $this->app_logging('conf_error', 'hash_hmac() returned false in the pt_gen->pepper_hashed_pass() function');
          return false;
          }
          else {
@@ -656,7 +656,7 @@ var $pt_array1 = array();
      unset($_COOKIE['theme_selected']);  
      unset($_COOKIE['sort_by']);  
      unset($_COOKIE['alert_percent']);  
-     unset($_COOKIE['prim_curr_market_standalone']);  
+     unset($_COOKIE['prim_currency_market_standalone']);  
     
     
    }
@@ -668,7 +668,7 @@ var $pt_array1 = array();
    
    function obfuscated_path_data($path) {
       
-   global $pt_conf, $pt_var;
+   global $pt_var;
    
       // Secured cache data
       if ( preg_match("/cache\/secured/i", $path) ) {
@@ -768,11 +768,11 @@ var $pt_array1 = array();
    global $password_pepper, $stored_admin_login;
    
       if ( !$password_pepper ) {
-      $this->app_logging('config_error', '$password_pepper not set properly');
+      $this->app_logging('conf_error', '$password_pepper not set properly');
       return false;
       }
       elseif ( sizeof($stored_admin_login) != 2 ) {
-      $this->app_logging('config_error', 'No admin login set yet to check against');
+      $this->app_logging('conf_error', 'No admin login set yet to check against');
       return false;
       }
       else {
@@ -780,7 +780,7 @@ var $pt_array1 = array();
       $input_password_pepper_hashed = hash_hmac("sha256", $input_password, $password_pepper);
       
          if ( $input_password_pepper_hashed == false ) {
-         $this->app_logging('config_error', 'hash_hmac() returned false in the pt_gen->check_pepper_hashed_pass() function');
+         $this->app_logging('conf_error', 'hash_hmac() returned false in the pt_gen->check_pepper_hashed_pass() function');
          return false;
          }
          else {
@@ -911,11 +911,11 @@ var $pt_array1 = array();
       foreach ( $default_pt_conf[$cat_key][$conf_key] as $setting_key => $setting_val ) {
       
          if ( is_array($setting_val) ) {
-         $this->app_logging('config_error', 'Sub-array depth to deep for app config upgrade parser');
+         $this->app_logging('conf_error', 'Sub-array depth to deep for app config upgrade parser');
          }
          elseif ( !in_array($setting_key, $skip_upgrading) && !isset($upgraded_pt_conf[$cat_key][$conf_key][$setting_key]) ) {
          $upgraded_pt_conf[$cat_key][$conf_key][$setting_key] = $default_pt_conf[$cat_key][$conf_key][$setting_key];
-         $this->app_logging('config_error', 'New app config parameter $pt_conf[' . $cat_key . '][' . $conf_key . '][' . $setting_key . '] imported (default value: ' . $default_pt_conf[$cat_key][$conf_key][$setting_key] . ')');
+         $this->app_logging('conf_error', 'New app config parameter $pt_conf[' . $cat_key . '][' . $conf_key . '][' . $setting_key . '] imported (default value: ' . $default_pt_conf[$cat_key][$conf_key][$setting_key] . ')');
          $conf_upgraded = 1;
          }
             
@@ -925,11 +925,11 @@ var $pt_array1 = array();
       foreach ( $cached_pt_conf[$cat_key][$conf_key] as $setting_key => $setting_val ) {
       
          if ( is_array($setting_val) ) {
-         $this->app_logging('config_error', 'Sub-array depth to deep for app config upgrade parser');
+         $this->app_logging('conf_error', 'Sub-array depth to deep for app config upgrade parser');
          }
          elseif ( !in_array($setting_key, $skip_upgrading) && !isset($default_pt_conf[$cat_key][$conf_key][$setting_key]) ) {
          unset($upgraded_pt_conf[$cat_key][$conf_key][$setting_key]);
-         $this->app_logging('config_error', 'Depreciated app config parameter $pt_conf[' . $cat_key . '][' . $conf_key . '][' . $setting_key . '] removed');
+         $this->app_logging('conf_error', 'Depreciated app config parameter $pt_conf[' . $cat_key . '][' . $conf_key . '][' . $setting_key . '] removed');
          $conf_upgraded = 1;
          }
             
@@ -942,7 +942,7 @@ var $pt_array1 = array();
    ////////////////////////////////////////////////////////
    
    
-   function smtp_mail($to, $subject, $msg, $content_type='text', $charset=null) {
+   function smtp_mail($to, $subj, $msg, $content_type='text', $charset=null) {
    
    // Using 3rd party SMTP class, initiated already as global var $smtp
    global $pt_conf, $smtp;
@@ -964,7 +964,7 @@ var $pt_array1 = array();
    
    $smtp->From($from_email); 
    $smtp->singleTo($to); 
-   $smtp->Subject($subject);
+   $smtp->Subject($subj);
    $smtp->Charset($charset);
    
    
@@ -985,7 +985,7 @@ var $pt_array1 = array();
    ////////////////////////////////////////////////////////
    
    
-   function app_logging($log_type, $log_message, $verbose_tracing=false, $hashcheck=false, $overwrite=false) {
+   function app_logging($log_type, $log_msg, $verbose_tracing=false, $hashcheck=false, $overwrite=false) {
    
    global $runtime_mode, $pt_conf, $logs_array;
    
@@ -1003,17 +1003,17 @@ var $pt_array1 = array();
    
    
       if ( $hashcheck != false ) {
-      $logs_array[$log_type][$hashcheck] = '[' . date('Y-m-d H:i:s') . '] ' . $runtime_mode . ' => ' . $category . ': ' . $log_message . ( $verbose_tracing != false ? '; [ '  . $verbose_tracing . ' ]' : ';' ) . " <br /> \n";
+      $logs_array[$log_type][$hashcheck] = '[' . date('Y-m-d H:i:s') . '] ' . $runtime_mode . ' => ' . $category . ': ' . $log_msg . ( $verbose_tracing != false ? '; [ '  . $verbose_tracing . ' ]' : ';' ) . " <br /> \n";
       }
       // We parse cache errors as array entries (like when hashcheck is included, BUT NO ARRAY KEY)
       elseif ( $category == 'cache' ) {
-      $logs_array[$log_type][] = '[' . date('Y-m-d H:i:s') . '] ' . $runtime_mode . ' => ' . $category . ': ' . $log_message . ( $verbose_tracing != false ? '; [ '  . $verbose_tracing . ' ]' : ';' ) . " <br /> \n";
+      $logs_array[$log_type][] = '[' . date('Y-m-d H:i:s') . '] ' . $runtime_mode . ' => ' . $category . ': ' . $log_msg . ( $verbose_tracing != false ? '; [ '  . $verbose_tracing . ' ]' : ';' ) . " <br /> \n";
       }
       elseif ( $overwrite != false ) {
-      $logs_array[$log_type] = '[' . date('Y-m-d H:i:s') . '] ' . $runtime_mode . ' => ' . $category . ': ' . $log_message . ( $verbose_tracing != false ? '; [ '  . $verbose_tracing . ' ]' : ';' ) . " <br /> \n";
+      $logs_array[$log_type] = '[' . date('Y-m-d H:i:s') . '] ' . $runtime_mode . ' => ' . $category . ': ' . $log_msg . ( $verbose_tracing != false ? '; [ '  . $verbose_tracing . ' ]' : ';' ) . " <br /> \n";
       }
       else {
-      $logs_array[$log_type] .= '[' . date('Y-m-d H:i:s') . '] ' . $runtime_mode . ' => ' . $category . ': ' . $log_message . ( $verbose_tracing != false ? '; [ '  . $verbose_tracing . ' ]' : ';' ) . " <br /> \n";
+      $logs_array[$log_type] .= '[' . date('Y-m-d H:i:s') . '] ' . $runtime_mode . ' => ' . $category . ': ' . $log_msg . ( $verbose_tracing != false ? '; [ '  . $verbose_tracing . ' ]' : ';' ) . " <br /> \n";
       }
    
    
@@ -1024,7 +1024,7 @@ var $pt_array1 = array();
    ////////////////////////////////////////////////////////
    
    
-   function snake_case_to_name($str) {
+   function key_to_name($str) {
    
    
    // Uppercase every word, and remove underscore between them
@@ -1388,7 +1388,7 @@ var $pt_array1 = array();
    
    function smtp_vars() {
    
-   // To preserve SMTPMailer class upgrade structure, by creating a global var to be run in classes/smtp-mailer/conf/config_smtp.php
+   // To preserve SMTPMailer class upgrade structure, by creating a global var to be run in classes/smtp-mailer/conf/conf_smtp.php
    
    global $app_version, $base_dir, $pt_conf;
    
@@ -1624,7 +1624,7 @@ var $pt_array1 = array();
    
    function reset_price_alert_notice() {
    
-   global $pt_conf, $pt_cache, $price_alert_fixed_reset_array, $default_btc_prim_curr_pairing;
+   global $pt_conf, $pt_cache, $price_alert_fixed_reset_array, $default_btc_prim_currency_pairing;
    
    
    // Alphabetical asset sort, for message UX 
@@ -1655,29 +1655,29 @@ var $pt_array1 = array();
       }
    
    
-   $text_message = $count . ' ' . strtoupper($default_btc_prim_curr_pairing) . ' Price Alert Fixed Resets: ' . $reset_list;
+   $text_msg = $count . ' ' . strtoupper($default_btc_prim_currency_pairing) . ' Price Alert Fixed Resets: ' . $reset_list;
    
-   $email_message = 'The following ' . $count . ' ' . strtoupper($default_btc_prim_curr_pairing) . ' price alert fixed resets (run every ' . $pt_conf['charts_alerts']['price_alert_fixed_reset'] . ' days) have been processed, with the latest spot price data: ' . $reset_list;
+   $email_msg = 'The following ' . $count . ' ' . strtoupper($default_btc_prim_currency_pairing) . ' price alert fixed resets (run every ' . $pt_conf['charts_alerts']['price_alert_fixed_reset'] . ' days) have been processed, with the latest spot price data: ' . $reset_list;
    
-   $notifyme_message = $email_message . ' Timestamp is ' . $this->time_date_format($pt_conf['gen']['loc_time_offset'], 'pretty_time') . '.';
+   $notifyme_msg = $email_msg . ' Timestamp is ' . $this->time_date_format($pt_conf['gen']['loc_time_offset'], 'pretty_time') . '.';
    
    
    // Message parameter added for desired comm methods (leave any comm method blank to skip sending via that method)
                        
    // Minimize function calls
-   $encoded_text_message = $this->charset_encode($text_message); // Unicode support included for text messages (emojis / asian characters / etc )
+   $encoded_text_msg = $this->charset_encode($text_msg); // Unicode support included for text messages (emojis / asian characters / etc )
                        
    $send_params = array(
    
-                        'notifyme' => $notifyme_message,
-                        'telegram' => $email_message,
+                        'notifyme' => $notifyme_msg,
+                        'telegram' => $email_msg,
                         'text' => array(
-                                        'message' => $encoded_text_message['content_output'],
-                                        'charset' => $encoded_text_message['charset']
+                                        'message' => $encoded_text_msg['content_output'],
+                                        'charset' => $encoded_text_msg['charset']
                                         ),
                         'email' => array(
                                          'subject' => 'Price Alert Fixed Reset Processed For ' . $count . ' Alert(s)',
-                                         'message' => $email_message 
+                                         'message' => $email_msg 
                                          )
                                          
                           );
@@ -1834,7 +1834,7 @@ var $pt_array1 = array();
                   }
                   elseif ( !isset($upgraded_pt_conf[$cat_key][$conf_key]) ) {
                   $upgraded_pt_conf[$cat_key][$conf_key] = $default_pt_conf[$cat_key][$conf_key];
-                  $this->app_logging('config_error', 'New app config parameter $pt_conf[' . $cat_key . '][' . $conf_key . '] imported (default value: ' . $default_pt_conf[$cat_key][$conf_key] . ')');
+                  $this->app_logging('conf_error', 'New app config parameter $pt_conf[' . $cat_key . '][' . $conf_key . '] imported (default value: ' . $default_pt_conf[$cat_key][$conf_key] . ')');
                   $conf_upgraded = 1;
                   }
             
@@ -1857,7 +1857,7 @@ var $pt_array1 = array();
                   }
                   elseif ( !isset($default_pt_conf[$cached_cat_key][$cached_conf_key]) ) {
                   unset($upgraded_pt_conf[$cached_cat_key][$cached_conf_key]);
-                  $this->app_logging('config_error', 'Depreciated app config parameter $pt_conf[' . $cached_cat_key . '][' . $cached_conf_key . '] removed');
+                  $this->app_logging('conf_error', 'Depreciated app config parameter $pt_conf[' . $cached_cat_key . '][' . $cached_conf_key . '] removed');
                   $conf_upgraded = 1;
                   }
                   
@@ -2092,12 +2092,12 @@ var $pt_array1 = array();
    
    function chart_data($file, $chart_format, $start_timestamp=0) {
    
-   global $pt_conf, $pt_var, $default_btc_prim_curr_pairing, $runtime_nonce, $runtime_data;
+   global $pt_conf, $pt_var, $default_btc_prim_currency_pairing, $runtime_nonce, $runtime_data;
    
    
    
       // #FOR CLEAN CODE#, RUN CHECK TO MAKE SURE IT'S NOT A CRYPTO AS WELL...WE HAVE A COUPLE SUPPORTED, BUT WE ONLY WANT DESIGNATED FIAT-EQIV HERE
-      if ( array_key_exists($chart_format, $pt_conf['power']['btc_curr_markets']) && !array_key_exists($chart_format, $pt_conf['power']['crypto_pairing']) ) {
+      if ( array_key_exists($chart_format, $pt_conf['power']['btc_currency_markets']) && !array_key_exists($chart_format, $pt_conf['power']['crypto_pairing']) ) {
       $fiat_formatting = true;
       }
       elseif ( $chart_format == 'system' ) {
@@ -2159,7 +2159,7 @@ var $pt_array1 = array();
             
                // Format or round primary currency price depending on value (non-stablecoin crypto values are already stored in the format we want for the interface)
                if ( $fiat_formatting ) {
-               $data['spot'] .= ( $pt_var->num_to_str($result[1]) >= $pt_conf['gen']['prim_curr_dec_max_thres'] ? number_format((float)$result[1], 2, '.', '')  :  round($result[1], $pt_conf['gen']['prim_curr_dec_max'])  ) . ',';
+               $data['spot'] .= ( $pt_var->num_to_str($result[1]) >= $pt_conf['gen']['prim_currency_dec_max_thres'] ? number_format((float)$result[1], 2, '.', '')  :  round($result[1], $pt_conf['gen']['prim_currency_dec_max'])  ) . ',';
                $data['volume'] .= round($result[2]) . ',';
                }
                // Non-stablecoin crypto
@@ -2209,13 +2209,13 @@ var $pt_array1 = array();
    ////////////////////////////////////////////////////////
    
    
-   function update_cookies($set_coin_vals, $set_pairing_vals, $set_market_vals, $set_paid_vals, $set_leverage_vals, $set_margintype_vals) {
+   function update_cookies($set_asset_vals, $set_pairing_vals, $set_market_vals, $set_paid_vals, $set_leverage_vals, $set_margintype_vals) {
    
               
    // Cookies expire in 1 year (31536000 seconds)
               
    // Portfolio data
-   $this->store_cookie("coin_amounts", $set_coin_vals, mktime()+31536000);
+   $this->store_cookie("coin_amounts", $set_asset_vals, mktime()+31536000);
    $this->store_cookie("coin_pairings", $set_pairing_vals, mktime()+31536000);
    $this->store_cookie("coin_markets", $set_market_vals, mktime()+31536000);
    $this->store_cookie("coin_paid", $set_paid_vals, mktime()+31536000);
@@ -2277,11 +2277,11 @@ var $pt_array1 = array();
                   unset($_COOKIE['alert_percent']);  // Delete any existing cookies
                   }
                  
-                  if ( isset($_POST['prim_curr_market_standalone']) ) {
-                  $this->store_cookie("prim_curr_market_standalone", $_POST['prim_curr_market_standalone'], mktime()+31536000);
+                  if ( isset($_POST['prim_currency_market_standalone']) ) {
+                  $this->store_cookie("prim_currency_market_standalone", $_POST['prim_currency_market_standalone'], mktime()+31536000);
                   }
                   else {
-                  unset($_COOKIE['prim_curr_market_standalone']);  // Delete any existing cookies
+                  unset($_COOKIE['prim_currency_market_standalone']);  // Delete any existing cookies
                   }
                  
                
@@ -2445,7 +2445,7 @@ var $pt_array1 = array();
    ////////////////////////////////////////////////////////
    
    
-   function safe_mail($to, $subject, $msg, $content_type='text', $charset=null) {
+   function safe_mail($to, $subj, $msg, $content_type='text', $charset=null) {
       
    global $app_version, $pt_conf;
    
@@ -2471,7 +2471,7 @@ var $pt_array1 = array();
       
       // SMTP mailing, or PHP's built-in mail() function
       if ( $pt_conf['comms']['smtp_login'] != '' && $pt_conf['comms']['smtp_server'] != '' ) {
-      return @$this->smtp_mail($to, $subject, $msg, $content_type, $charset); 
+      return @$this->smtp_mail($to, $subj, $msg, $content_type, $charset); 
       }
       else {
          
@@ -2517,7 +2517,7 @@ var $pt_array1 = array();
          
          }
       
-      return @mail($to, $subject, $msg, $headers);
+      return @mail($to, $subj, $msg, $headers);
       
       }
    

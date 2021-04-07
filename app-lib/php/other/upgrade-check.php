@@ -45,7 +45,7 @@
 			if ( $latest_bug_fixes > 0 ) {
 			$is_upgrade_bug_fix = 1;
 			$bug_fix_subject_extension = ' (bug fix release)';
-			$bug_fix_message_extension = ' This latest version is a bug fix release.';
+			$bug_fix_msg_extension = ' This latest version is a bug fix release.';
 			}
 			
 		
@@ -61,12 +61,12 @@
 				}
 				
 	
-			$upgrade_check_message = $another_reminder . 'An upgrade for Open Crypto Portfolio Tracker to version ' . $upgrade_check_latest_version . ' is available. You are running version ' . $app_version . '.' . $bug_fix_message_extension;
+			$upgrade_check_msg = $another_reminder . 'An upgrade for Open Crypto Portfolio Tracker to version ' . $upgrade_check_latest_version . ' is available. You are running version ' . $app_version . '.' . $bug_fix_msg_extension;
 			
 			
-			$email_notifyme_message = $upgrade_check_message . ' (you have upgrade reminders triggered every '.$pt_conf['comms']['upgrade_alert_reminder'].' days in the configuration settings)';
+			$email_notifyme_msg = $upgrade_check_msg . ' (you have upgrade reminders triggered every '.$pt_conf['comms']['upgrade_alert_reminder'].' days in the configuration settings)';
 			
-			$email_only_with_upgrade_command = $email_notifyme_message . "\n\n" . 'Quick / easy upgrading can be done by copying / pasting / running this command, using the "Terminal" app in your Ubuntu / Raspberry Pi system menu, or logging in remotely from another device via SSH (user must have sudo privileges):' . "\n\n" . 'wget --no-cache -O FOLIO-INSTALL.bash https://git.io/JqCvQ;chmod +x FOLIO-INSTALL.bash;sudo ./FOLIO-INSTALL.bash';
+			$email_only_with_upgrade_command = $email_notifyme_msg . "\n\n" . 'Quick / easy upgrading can be done by copying / pasting / running this command, using the "Terminal" app in your Ubuntu / Raspberry Pi system menu, or logging in remotely from another device via SSH (user must have sudo privileges):' . "\n\n" . 'wget --no-cache -O FOLIO-INSTALL.bash https://git.io/JqCvQ;chmod +x FOLIO-INSTALL.bash;sudo ./FOLIO-INSTALL.bash';
 			
 						
 					// Message parameter added for desired comm methods (leave any comm method blank to skip sending via that method)
@@ -80,10 +80,10 @@
 					$pt_cache->save_file($base_dir . '/cache/events/ui_upgrade_alert.dat', json_encode($ui_upgrade_alert, JSON_PRETTY_PRINT) );
 					
 					// Minimize function calls
-					$encoded_text_alert = $pt_gen->charset_encode($upgrade_check_message); // Unicode support included for text messages (emojis / asian characters / etc )
+					$encoded_text_alert = $pt_gen->charset_encode($upgrade_check_msg); // Unicode support included for text messages (emojis / asian characters / etc )
 						
 					$upgrade_check_send_params = array(
-											'notifyme' => $email_notifyme_message,
+											'notifyme' => $email_notifyme_msg,
 											'telegram' => $email_only_with_upgrade_command,
 											'text' => array(
 																	'message' => $encoded_text_alert['content_output'],
@@ -107,7 +107,7 @@
 					elseif ( $pt_conf['comms']['upgrade_alert'] == 'text' ) {
 					
 					// Minimize function calls
-					$encoded_text_alert = $pt_gen->charset_encode($upgrade_check_message); // Unicode support included for text messages (emojis / asian characters / etc )
+					$encoded_text_alert = $pt_gen->charset_encode($upgrade_check_msg); // Unicode support included for text messages (emojis / asian characters / etc )
 					
 					$upgrade_check_send_params['text'] = array(
 														'message' => $encoded_text_alert['content_output'],
@@ -116,7 +116,7 @@
 				
 					}
 					elseif ( $pt_conf['comms']['upgrade_alert'] == 'notifyme' ) {
-					$upgrade_check_send_params['notifyme'] = $email_notifyme_message;
+					$upgrade_check_send_params['notifyme'] = $email_notifyme_msg;
 					}
 					elseif ( $pt_conf['comms']['upgrade_alert'] == 'telegram' ) {
 					$upgrade_check_send_params['telegram'] = $email_only_with_upgrade_command;

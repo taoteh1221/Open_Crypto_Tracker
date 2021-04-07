@@ -111,7 +111,7 @@ $show_feeds = explode(',', rtrim( ( $_POST['show_feeds'] != '' ? $_POST['show_fe
 			$chart_conf_check = explode('||', $pt_conf['charts_alerts']['tracked_markets'][$market_key]);
 				
 				// If pairing properly matches OR it's a conversion chart, we're good to keep this $show_charts array value 
-				if ( $chart_params[1] == $chart_conf_check[1] || $chart_params[1] == $default_btc_prim_curr_pairing ) {
+				if ( $chart_params[1] == $chart_conf_check[1] || $chart_params[1] == $default_btc_prim_currency_pairing ) {
 				$temp_show_charts[$loop] = $show_charts[$loop];
 				}
 				

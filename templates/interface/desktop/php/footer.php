@@ -19,7 +19,7 @@
 	
 	$bundle_error_logs .= $logs_array['system_error'];
 	
-	$bundle_error_logs .= $logs_array['config_error'];
+	$bundle_error_logs .= $logs_array['conf_error'];
 	
 	$bundle_error_logs .= $logs_array['security_error'];
 	
@@ -45,7 +45,7 @@
 	
 	$bundle_error_logs .= $logs_array['system_debugging'];
 	
-	$bundle_error_logs .= $logs_array['config_debugging'];
+	$bundle_error_logs .= $logs_array['conf_debugging'];
 	
 	$bundle_error_logs .= $logs_array['security_debugging'];
 	

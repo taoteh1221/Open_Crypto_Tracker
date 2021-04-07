@@ -4,11 +4,11 @@
  */
 
 
-// REMEMBER WE HAVE #GLOBALS# TO WORRY ABOUT ADDING IN $pt_asset->ui_coin_row(), AS THAT'S WHERE THIS CODE IS RAN!
+// REMEMBER WE HAVE #GLOBALS# TO WORRY ABOUT ADDING IN $pt_asset->ui_asset_row(), AS THAT'S WHERE THIS CODE IS RAN!
 
  
 // Consolidate function calls for runtime speed improvement
- $marketcap_data = $this->marketcap_data($asset_symb);
+ $mcap_data = $this->marketcap_data($asset_symb);
  
  ?>
  
@@ -27,8 +27,8 @@
 
 //echo $sort_order;
 
-if ( isset($marketcap_data['rank']) ) {
-echo '#' . $marketcap_data['rank'];
+if ( isset($mcap_data['rank']) ) {
+echo '#' . $mcap_data['rank'];
 }
 else {
 echo '?';
@@ -49,7 +49,7 @@ echo '?';
  
  $mkcap_render_data = trim($pt_conf['assets'][$asset_symb]['mcap_slug']);
  
- $info_icon = ( !$marketcap_data['rank'] && $asset_symb != 'MISCASSETS' ? 'info-red.png' : 'info.png' );
+ $info_icon = ( !$mcap_data['rank'] && $asset_symb != 'MISCASSETS' ? 'info-red.png' : 'info.png' );
  
  
 	if ( $mkcap_render_data != '' ) {
@@ -69,7 +69,7 @@ echo '?';
  <script>
 
 		<?php
-		if ( !$marketcap_data['rank'] ) {
+		if ( !$mcap_data['rank'] ) {
 			
 			if ( $pt_conf['gen']['prim_mcap_site'] == 'coinmarketcap' && trim($pt_conf['gen']['cmc_key']) == null ) {
 			?>
@@ -100,12 +100,12 @@ echo '?';
         else {
         	
         		if ( isset($cap_data_force_usd) ) {
-        		$cmc_prim_curr_symb = '$';
-        		$cmc_prim_curr_ticker = 'USD';
+        		$cmc_prim_currency_symb = '$';
+        		$cmc_prim_currency_ticker = 'USD';
         		}
         		else {
-        		$cmc_prim_curr_symb = $pt_conf['power']['btc_curr_markets'][$pt_conf['gen']['btc_prim_curr_pairing']];
-        		$cmc_prim_curr_ticker = strtoupper($pt_conf['gen']['btc_prim_curr_pairing']);
+        		$cmc_prim_currency_symb = $pt_conf['power']['btc_currency_markets'][$pt_conf['gen']['btc_prim_currency_pairing']];
+        		$cmc_prim_currency_ticker = strtoupper($pt_conf['gen']['btc_prim_currency_pairing']);
         		}
         		
         ?> 
@@ -113,82 +113,82 @@ echo '?';
         var cmc_content = '<h5 class="yellow tooltip_title"><?=ucfirst($pt_conf['gen']['prim_mcap_site'])?>.com Summary For <?=$asset_name?> (<?=$asset_symb?>)</h5>'
         
         		<?php
-            if ( $marketcap_data['app_notice'] != '' ) {
+            if ( $mcap_data['app_notice'] != '' ) {
         		?>
-        +'<p class="coin_info red">Notice: <?=$marketcap_data['app_notice']?></p>'
+        +'<p class="coin_info red">Notice: <?=$mcap_data['app_notice']?></p>'
         		<?php
             }
         		?>
         
-        +'<p class="coin_info"><span class="yellow">Ranking:</span> #<?=$marketcap_data['rank']?></p>'
-        +'<p class="coin_info"><span class="yellow">Marketcap (circulating):</span> <?=$cmc_prim_curr_symb?><?=number_format($marketcap_data['market_cap'],0,".",",")?></p>'
+        +'<p class="coin_info"><span class="yellow">Ranking:</span> #<?=$mcap_data['rank']?></p>'
+        +'<p class="coin_info"><span class="yellow">Marketcap (circulating):</span> <?=$cmc_prim_currency_symb?><?=number_format($mcap_data['market_cap'],0,".",",")?></p>'
         
         <?php
-            if ( $marketcap_data['market_cap_total'] > 0 ) {
+            if ( $mcap_data['market_cap_total'] > 0 ) {
             ?>
-        +'<p class="coin_info"><span class="yellow">Marketcap (total):</span> <?=$cmc_prim_curr_symb?><?=number_format($marketcap_data['market_cap_total'],0,".",",")?></p>'
+        +'<p class="coin_info"><span class="yellow">Marketcap (total):</span> <?=$cmc_prim_currency_symb?><?=number_format($mcap_data['market_cap_total'],0,".",",")?></p>'
         <?php
             }
-            if ( $marketcap_data['circulating_supply'] > 0 ) {
+            if ( $mcap_data['circulating_supply'] > 0 ) {
             ?>
-        +'<p class="coin_info"><span class="yellow">Circulating Supply:</span> <?=number_format($marketcap_data['circulating_supply'], 0, '.', ',')?></p>'
+        +'<p class="coin_info"><span class="yellow">Circulating Supply:</span> <?=number_format($mcap_data['circulating_supply'], 0, '.', ',')?></p>'
         <?php
             }
-            if ( $marketcap_data['total_supply'] > 0 ) {
+            if ( $mcap_data['total_supply'] > 0 ) {
             ?>
-        +'<p class="coin_info"><span class="yellow">Total Supply:</span> <?=number_format($marketcap_data['total_supply'], 0, '.', ',')?></p>'
+        +'<p class="coin_info"><span class="yellow">Total Supply:</span> <?=number_format($mcap_data['total_supply'], 0, '.', ',')?></p>'
         <?php
             }
-            if ( $marketcap_data['max_supply'] > 0 ) {
+            if ( $mcap_data['max_supply'] > 0 ) {
             ?>
-        +'<p class="coin_info"><span class="yellow">Maximum Supply:</span> <?=number_format($marketcap_data['max_supply'], 0, '.', ',')?></p>'
-        <?php
-            }
-            ?>
-        +'<p class="coin_info"><span class="yellow">Unit Value (global average):</span> <?=$cmc_prim_curr_symb?><?=$marketcap_data['price']?></p>'
-        +'<p class="coin_info"><span class="yellow">24 Hour Volume (global):</span> <?=$cmc_prim_curr_symb?><?=number_format($marketcap_data['vol_24h'],0,".",",")?></p>'
-        <?php
-            if ( $marketcap_data['percent_change_1h'] != null ) {
-            ?>
-        +'<p class="coin_info"><span class="yellow">1 Hour Change:</span> <?=( stristr($marketcap_data['percent_change_1h'], '-') != false ? '<span class="red">'.$marketcap_data['percent_change_1h'].'%</span>' : '<span class="green">+'.$marketcap_data['percent_change_1h'].'%</span>' )?></p>'
+        +'<p class="coin_info"><span class="yellow">Maximum Supply:</span> <?=number_format($mcap_data['max_supply'], 0, '.', ',')?></p>'
         <?php
             }
             ?>
-        +'<p class="coin_info"><span class="yellow">24 Hour Change:</span> <?=( stristr($marketcap_data['percent_change_24h'], '-') != false ? '<span class="red">'.$marketcap_data['percent_change_24h'].'%</span>' : '<span class="green">+'.$marketcap_data['percent_change_24h'].'%</span>' )?></p>'
+        +'<p class="coin_info"><span class="yellow">Unit Value (global average):</span> <?=$cmc_prim_currency_symb?><?=$mcap_data['price']?></p>'
+        +'<p class="coin_info"><span class="yellow">24 Hour Volume (global):</span> <?=$cmc_prim_currency_symb?><?=number_format($mcap_data['vol_24h'],0,".",",")?></p>'
         <?php
-            if ( $marketcap_data['percent_change_7d'] != null ) {
+            if ( $mcap_data['percent_change_1h'] != null ) {
             ?>
-        +'<p class="coin_info"><span class="yellow">7 Day Change:</span> <?=( stristr($marketcap_data['percent_change_7d'], '-') != false ? '<span class="red">'.$marketcap_data['percent_change_7d'].'%</span>' : '<span class="green">+'.$marketcap_data['percent_change_7d'].'%</span>' )?></p>'
-        <?php
-            }
-            if ( $marketcap_data['percent_change_14d'] != null ) {
-            ?>
-        +'<p class="coin_info"><span class="yellow">14 Day Change:</span> <?=( stristr($marketcap_data['percent_change_14d'], '-') != false ? '<span class="red">'.$marketcap_data['percent_change_14d'].'%</span>' : '<span class="green">+'.$marketcap_data['percent_change_14d'].'%</span>' )?></p>'
+        +'<p class="coin_info"><span class="yellow">1 Hour Change:</span> <?=( stristr($mcap_data['percent_change_1h'], '-') != false ? '<span class="red">'.$mcap_data['percent_change_1h'].'%</span>' : '<span class="green">+'.$mcap_data['percent_change_1h'].'%</span>' )?></p>'
         <?php
             }
-            if ( $marketcap_data['percent_change_30d'] != null ) {
             ?>
-        +'<p class="coin_info"><span class="yellow">30 Day Change:</span> <?=( stristr($marketcap_data['percent_change_30d'], '-') != false ? '<span class="red">'.$marketcap_data['percent_change_30d'].'%</span>' : '<span class="green">+'.$marketcap_data['percent_change_30d'].'%</span>' )?></p>'
+        +'<p class="coin_info"><span class="yellow">24 Hour Change:</span> <?=( stristr($mcap_data['percent_change_24h'], '-') != false ? '<span class="red">'.$mcap_data['percent_change_24h'].'%</span>' : '<span class="green">+'.$mcap_data['percent_change_24h'].'%</span>' )?></p>'
+        <?php
+            if ( $mcap_data['percent_change_7d'] != null ) {
+            ?>
+        +'<p class="coin_info"><span class="yellow">7 Day Change:</span> <?=( stristr($mcap_data['percent_change_7d'], '-') != false ? '<span class="red">'.$mcap_data['percent_change_7d'].'%</span>' : '<span class="green">+'.$mcap_data['percent_change_7d'].'%</span>' )?></p>'
         <?php
             }
-            if ( $marketcap_data['percent_change_90d'] != null ) {
+            if ( $mcap_data['percent_change_14d'] != null ) {
             ?>
-        +'<p class="coin_info"><span class="yellow">90 Day Change:</span> <?=( stristr($marketcap_data['percent_change_90d'], '-') != false ? '<span class="red">'.$marketcap_data['percent_change_90d'].'%</span>' : '<span class="green">+'.$marketcap_data['percent_change_90d'].'%</span>' )?></p>'
+        +'<p class="coin_info"><span class="yellow">14 Day Change:</span> <?=( stristr($mcap_data['percent_change_14d'], '-') != false ? '<span class="red">'.$mcap_data['percent_change_14d'].'%</span>' : '<span class="green">+'.$mcap_data['percent_change_14d'].'%</span>' )?></p>'
         <?php
             }
-            if ( $marketcap_data['percent_change_200d'] != null ) {
+            if ( $mcap_data['percent_change_30d'] != null ) {
             ?>
-        +'<p class="coin_info"><span class="yellow">200 Day Change:</span> <?=( stristr($marketcap_data['percent_change_200d'], '-') != false ? '<span class="red">'.$marketcap_data['percent_change_200d'].'%</span>' : '<span class="green">+'.$marketcap_data['percent_change_200d'].'%</span>' )?></p>'
+        +'<p class="coin_info"><span class="yellow">30 Day Change:</span> <?=( stristr($mcap_data['percent_change_30d'], '-') != false ? '<span class="red">'.$mcap_data['percent_change_30d'].'%</span>' : '<span class="green">+'.$mcap_data['percent_change_30d'].'%</span>' )?></p>'
         <?php
             }
-            if ( $marketcap_data['percent_change_1y'] != null ) {
+            if ( $mcap_data['percent_change_90d'] != null ) {
             ?>
-        +'<p class="coin_info"><span class="yellow">1 Year Change:</span> <?=( stristr($marketcap_data['percent_change_1y'], '-') != false ? '<span class="red">'.$marketcap_data['percent_change_1y'].'%</span>' : '<span class="green">+'.$marketcap_data['percent_change_1y'].'%</span>' )?></p>'
+        +'<p class="coin_info"><span class="yellow">90 Day Change:</span> <?=( stristr($mcap_data['percent_change_90d'], '-') != false ? '<span class="red">'.$mcap_data['percent_change_90d'].'%</span>' : '<span class="green">+'.$mcap_data['percent_change_90d'].'%</span>' )?></p>'
         <?php
             }
-            if ( $marketcap_data['last_updated'] != '' ) {
+            if ( $mcap_data['percent_change_200d'] != null ) {
             ?>
-        +'<p class="coin_info"><span class="yellow">Data Timestamp (UTC):</span> <?=gmdate("Y-M-d\ \\a\\t g:ia", $marketcap_data['last_updated'])?></p>'
+        +'<p class="coin_info"><span class="yellow">200 Day Change:</span> <?=( stristr($mcap_data['percent_change_200d'], '-') != false ? '<span class="red">'.$mcap_data['percent_change_200d'].'%</span>' : '<span class="green">+'.$mcap_data['percent_change_200d'].'%</span>' )?></p>'
+        <?php
+            }
+            if ( $mcap_data['percent_change_1y'] != null ) {
+            ?>
+        +'<p class="coin_info"><span class="yellow">1 Year Change:</span> <?=( stristr($mcap_data['percent_change_1y'], '-') != false ? '<span class="red">'.$mcap_data['percent_change_1y'].'%</span>' : '<span class="green">+'.$mcap_data['percent_change_1y'].'%</span>' )?></p>'
+        <?php
+            }
+            if ( $mcap_data['last_updated'] != '' ) {
+            ?>
+        +'<p class="coin_info"><span class="yellow">Data Timestamp (UTC):</span> <?=gmdate("Y-M-d\ \\a\\t g:ia", $mcap_data['last_updated'])?></p>'
         +'<p class="coin_info"><span class="yellow">App Cache Time:</span> <?=$pt_conf['power']['mcap_cache_time']?> minute(s)</p>'
         <?php
             }
@@ -235,13 +235,13 @@ echo '?';
     
     
             if ( $alert_percent[3] == '1hour' ) {
-            $percent_change = $marketcap_data['percent_change_1h'];
+            $percent_change = $mcap_data['percent_change_1h'];
             }
             elseif ( $alert_percent[3] == '24hour' ) {
-            $percent_change = $marketcap_data['percent_change_24h'];
+            $percent_change = $mcap_data['percent_change_24h'];
             }
             elseif ( $alert_percent[3] == '7day' ) {
-            $percent_change = $marketcap_data['percent_change_7d'];
+            $percent_change = $mcap_data['percent_change_7d'];
             }
           
          
@@ -284,9 +284,9 @@ echo '?';
 
 			var cmc_content = '<h5 class="yellow align_center tooltip_title"><?=$asset_name?> (<?=$asset_symb?>)</h5>'
     
-        +'<p class="coin_info" style="white-space: normal; max-width: 600px;"><span class="yellow">Miscellaneous <?=strtoupper($pt_conf['gen']['btc_prim_curr_pairing'])?> value can be included in you portfolio stats, by entering it under the "MISCASSETS" asset on the "Update" page.</span></p>'
+        +'<p class="coin_info" style="white-space: normal; max-width: 600px;"><span class="yellow">Miscellaneous <?=strtoupper($pt_conf['gen']['btc_prim_currency_pairing'])?> value can be included in you portfolio stats, by entering it under the "MISCASSETS" asset on the "Update" page.</span></p>'
         
-        +'<p class="coin_info" style="white-space: normal; max-width: 600px;"><span class="yellow">Additionally, you can see it\'s potential market value in another asset by changing the "Market" value on the "Portfolio" page to an asset other than <?=strtoupper($pt_conf['gen']['btc_prim_curr_pairing'])?>.</span></p>';
+        +'<p class="coin_info" style="white-space: normal; max-width: 600px;"><span class="yellow">Additionally, you can see it\'s potential market value in another asset by changing the "Market" value on the "Portfolio" page to an asset other than <?=strtoupper($pt_conf['gen']['btc_prim_currency_pairing'])?>.</span></p>';
 	
 			<?php
 			}
@@ -349,12 +349,12 @@ echo '?';
 
 <?php
   
-  $asset_prim_curr_val = ( $sel_btc_prim_curr_val * $btc_trade_eqiv_raw );
+  $asset_prim_currency_val = ( $sel_btc_prim_currency_val * $btc_trade_eqiv_raw );
 
   // UX on FIAT EQUIV number values
-  $asset_prim_curr_val = ( $pt_var->num_to_str($asset_prim_curr_val) >= $pt_conf['gen']['prim_curr_dec_max_thres'] ? $pt_var->num_pretty($asset_prim_curr_val, 2) : $pt_var->num_pretty($asset_prim_curr_val, $pt_conf['gen']['prim_curr_dec_max']) );
+  $asset_prim_currency_val = ( $pt_var->num_to_str($asset_prim_currency_val) >= $pt_conf['gen']['prim_currency_dec_max_thres'] ? $pt_var->num_pretty($asset_prim_currency_val, 2) : $pt_var->num_pretty($asset_prim_currency_val, $pt_conf['gen']['prim_currency_dec_max']) );
 	
-  echo "<span class='white'>" . $pt_conf['power']['btc_curr_markets'][$pt_conf['gen']['btc_prim_curr_pairing']] . "</span>" . "<span class='app_sort_filter'>" . $asset_prim_curr_val . "</span>";
+  echo "<span class='white'>" . $pt_conf['power']['btc_currency_markets'][$pt_conf['gen']['btc_prim_currency_pairing']] . "</span>" . "<span class='app_sort_filter'>" . $asset_prim_currency_val . "</span>";
 
 ?>
 
@@ -379,10 +379,10 @@ echo '?';
         foreach ( $all_pairing_markets as $market_key => $market_name ) {
          $loop = $loop + 1;
          	if ( $original_market == ($loop -1) ) {
-         	$ui_selected_market = $pt_gen->snake_case_to_name($market_key);
+         	$ui_selected_market = $pt_gen->key_to_name($market_key);
          	}
         ?>
-        <option value='<?=($loop)?>' <?=( $original_market == ($loop -1) ? ' selected ' : '' )?>> <?=$pt_gen->snake_case_to_name($market_key)?> </option>
+        <option value='<?=($loop)?>' <?=( $original_market == ($loop -1) ? ' selected ' : '' )?>> <?=$pt_gen->key_to_name($market_key)?> </option>
         <?php
         }
         $loop = null;
@@ -406,7 +406,7 @@ $asset_val_raw = $pt_var->num_to_str($asset_val_raw);
 
 	// UX on FIAT EQUIV number values
 	if ( $fiat_eqiv == 1 ) {
-	$asset_val_dec = ( $asset_val_raw >= $pt_conf['gen']['prim_curr_dec_max_thres'] ? 2 : $pt_conf['gen']['prim_curr_dec_max'] );
+	$asset_val_dec = ( $asset_val_raw >= $pt_conf['gen']['prim_currency_dec_max_thres'] ? 2 : $pt_conf['gen']['prim_currency_dec_max'] );
 	}
 	else {
 	
@@ -497,7 +497,7 @@ echo $pt_var->num_pretty($asset_val_raw, $asset_val_dec);
 
 <td class='data border_b'>
 
-<span class='white'><?=$pt_conf['power']['btc_curr_markets'][$pt_conf['gen']['btc_prim_curr_pairing']]?></span><span class='app_sort_filter'><?php 
+<span class='white'><?=$pt_conf['power']['btc_currency_markets'][$pt_conf['gen']['btc_prim_currency_pairing']]?></span><span class='app_sort_filter'><?php 
 
   // NULL if not setup to get volume, negative number returned if no data received from API
   if ( $trade_vol == NULL || $trade_vol == -1 ) {
@@ -525,9 +525,9 @@ echo $pt_var->num_pretty($asset_val_raw, $asset_val_dec);
 	$asset_amount_dec = 8;
 	}
 	
-$pretty_coin_amount = $pt_var->num_pretty($asset_amount, $asset_amount_dec);
+$pretty_asset_amount = $pt_var->num_pretty($asset_amount, $asset_amount_dec);
 
-echo "<span class='app_sort_filter blue'>" . ( $pretty_coin_amount != null ? $pretty_coin_amount : 0 ) . "</span>";
+echo "<span class='app_sort_filter blue'>" . ( $pretty_asset_amount != null ? $pretty_asset_amount : 0 ) . "</span>";
 
 ?>
 
@@ -553,7 +553,7 @@ $asset_val_total_raw = $pt_var->num_to_str($asset_val_total_raw);
 
 	// UX on FIAT EQUIV number values
 	if ( $fiat_eqiv == 1 ) {
-	$asset_val_total_dec = ( $asset_val_total_raw >= $pt_conf['gen']['prim_curr_dec_max_thres'] ? 2 : $pt_conf['gen']['prim_curr_dec_max'] );
+	$asset_val_total_dec = ( $asset_val_total_raw >= $pt_conf['gen']['prim_currency_dec_max_thres'] ? 2 : $pt_conf['gen']['prim_currency_dec_max'] );
 	}
 	else {
 	
@@ -569,10 +569,10 @@ $asset_val_total_raw = $pt_var->num_to_str($asset_val_total_raw);
 	}
   
   
-$pretty_coin_val_total_raw = $pt_var->num_pretty($asset_val_total_raw, $asset_val_total_dec); 
+$pretty_asset_val_total_raw = $pt_var->num_pretty($asset_val_total_raw, $asset_val_total_dec); 
 
 
-echo ' <span class="blue"><span class="data app_sort_filter blue">' . $pretty_coin_val_total_raw . '</span> ' . strtoupper($sel_pairing) . '</span>';
+echo ' <span class="blue"><span class="data app_sort_filter blue">' . $pretty_asset_val_total_raw . '</span> ' . strtoupper($sel_pairing) . '</span>';
 
   
   if ( $show_secondary_trade_val != null && $sel_pairing != $show_secondary_trade_val && strtolower($asset_symb) != $show_secondary_trade_val ) {
@@ -609,35 +609,35 @@ echo ' <span class="blue"><span class="data app_sort_filter blue">' . $pretty_co
 <?php
 
 
-echo '<span class="' . ( $purchase_price >= 0.00000001 && $leverage_level >= 2 && $sel_margintype == 'short' ? 'short">★ ' : 'blue">' ) . '<span class="blue">' . $pt_conf['power']['btc_curr_markets'][$pt_conf['gen']['btc_prim_curr_pairing']] . '</span><span class="app_sort_filter blue">' . number_format($asset_prim_curr_worth_raw, 2, '.', ',') . '</span></span>';
+echo '<span class="' . ( $purchase_price >= 0.00000001 && $leverage_level >= 2 && $sel_margintype == 'short' ? 'short">★ ' : 'blue">' ) . '<span class="blue">' . $pt_conf['power']['btc_currency_markets'][$pt_conf['gen']['btc_prim_currency_pairing']] . '</span><span class="app_sort_filter blue">' . number_format($asset_prim_currency_worth_raw, 2, '.', ',') . '</span></span>';
 
   if ( $purchase_price >= 0.00000001 && $leverage_level >= 2 ) {
 
-  $asset_worth_inc_leverage = $asset_prim_curr_worth_raw + $only_leverage_gain_loss;
+  $asset_worth_inc_leverage = $asset_prim_currency_worth_raw + $only_leverage_gain_loss;
   
   echo ' <span class="extra_data">(' . $leverage_level . 'x ' . $sel_margintype . ')</span>';
 
   // Here we parse out negative symbols
-  $parsed_gain_loss = preg_replace("/-/", "-" . $pt_conf['power']['btc_curr_markets'][$pt_conf['gen']['btc_prim_curr_pairing']], number_format( $gain_loss, 2, '.', ',' ) );
+  $parsed_gain_loss = preg_replace("/-/", "-" . $pt_conf['power']['btc_currency_markets'][$pt_conf['gen']['btc_prim_currency_pairing']], number_format( $gain_loss, 2, '.', ',' ) );
   
-  $parsed_inc_leverage_gain_loss = preg_replace("/-/", "-" . $pt_conf['power']['btc_curr_markets'][$pt_conf['gen']['btc_prim_curr_pairing']], number_format( $inc_leverage_gain_loss, 2, '.', ',' ) );
+  $parsed_inc_leverage_gain_loss = preg_replace("/-/", "-" . $pt_conf['power']['btc_currency_markets'][$pt_conf['gen']['btc_prim_currency_pairing']], number_format( $inc_leverage_gain_loss, 2, '.', ',' ) );
   
-  $parsed_only_leverage_gain_loss = preg_replace("/-/", "-" . $pt_conf['power']['btc_curr_markets'][$pt_conf['gen']['btc_prim_curr_pairing']], number_format($only_leverage_gain_loss, 2, '.', ',' ) );
+  $parsed_only_leverage_gain_loss = preg_replace("/-/", "-" . $pt_conf['power']['btc_currency_markets'][$pt_conf['gen']['btc_prim_currency_pairing']], number_format($only_leverage_gain_loss, 2, '.', ',' ) );
   
   // Here we can go negative 'total worth' with the margin leverage (unlike with the margin deposit)
   // We only want a negative sign here in the UI for 'total worth' clarity (if applicable), NEVER a plus sign
   // (plus sign would indicate a gain, NOT 'total worth')
-  $parsed_coin_worth_inc_leverage = preg_replace("/-/", "", number_format($asset_worth_inc_leverage, 2, '.', ',' ) );
+  $parsed_asset_worth_inc_leverage = preg_replace("/-/", "", number_format($asset_worth_inc_leverage, 2, '.', ',' ) );
   
   
   // Pretty format, but no need to parse out anything here
-  $pretty_coin_prim_curr_worth_raw = number_format( ($asset_prim_curr_worth_raw) , 2, '.', ',' );
+  $pretty_asset_prim_currency_worth_raw = number_format( ($asset_prim_currency_worth_raw) , 2, '.', ',' );
   $pretty_leverage_gain_loss_percent = number_format( $inc_leverage_gain_loss_percent, 2, '.', ',' );
   
   
   		// Formatting
   		$gain_loss_span_color = ( $gain_loss >= 0 ? 'green' : 'red' );
-  		$gain_loss_prim_curr = ( $gain_loss >= 0 ? '+' . $pt_conf['power']['btc_curr_markets'][$pt_conf['gen']['btc_prim_curr_pairing']] : '' );
+  		$gain_loss_prim_currency = ( $gain_loss >= 0 ? '+' . $pt_conf['power']['btc_currency_markets'][$pt_conf['gen']['btc_prim_currency_pairing']] : '' );
   		
 		?> 
 		<img id='<?=$rand_id?>_leverage' src='templates/interface/media/images/info.png' alt='' width='30' style='position: relative; left: -5px;' />
@@ -645,11 +645,11 @@ echo '<span class="' . ( $purchase_price >= 0.00000001 && $leverage_level >= 2 &
 	
 			var leverage_content = '<h5 class="yellow tooltip_title"><?=$leverage_level?>x <?=ucfirst($sel_margintype)?> For <?=$asset_name?> (<?=$asset_symb?>)</h5>'
 			
-			+'<p class="coin_info"><span class="yellow">Deposit (1x):</span> <span class="<?=$gain_loss_span_color?>"><?=$gain_loss_prim_curr?><?=$parsed_gain_loss?></span> (<?=$pt_conf['power']['btc_curr_markets'][$pt_conf['gen']['btc_prim_curr_pairing']]?><?=$pretty_coin_prim_curr_worth_raw?>)</p>'
+			+'<p class="coin_info"><span class="yellow">Deposit (1x):</span> <span class="<?=$gain_loss_span_color?>"><?=$gain_loss_prim_currency?><?=$parsed_gain_loss?></span> (<?=$pt_conf['power']['btc_currency_markets'][$pt_conf['gen']['btc_prim_currency_pairing']]?><?=$pretty_asset_prim_currency_worth_raw?>)</p>'
 			
-			+'<p class="coin_info"><span class="yellow">Margin (<?=($leverage_level - 1)?>x):</span> <span class="<?=$gain_loss_span_color?>"><?=$gain_loss_prim_curr?><?=$parsed_only_leverage_gain_loss?></span></p>'
+			+'<p class="coin_info"><span class="yellow">Margin (<?=($leverage_level - 1)?>x):</span> <span class="<?=$gain_loss_span_color?>"><?=$gain_loss_prim_currency?><?=$parsed_only_leverage_gain_loss?></span></p>'
 			
-			+'<p class="coin_info"><span class="yellow">Total (<?=($leverage_level)?>x):</span> <span class="<?=$gain_loss_span_color?>"><?=$gain_loss_prim_curr?><?=$parsed_inc_leverage_gain_loss?> / <?=( $gain_loss >= 0 ? '+' : '' )?><?=$pretty_leverage_gain_loss_percent?>%</span> (<?=( $asset_worth_inc_leverage >= 0 ? '' : '-' )?><?=$pt_conf['power']['btc_curr_markets'][$pt_conf['gen']['btc_prim_curr_pairing']]?><?=$parsed_coin_worth_inc_leverage?>)</p>'
+			+'<p class="coin_info"><span class="yellow">Total (<?=($leverage_level)?>x):</span> <span class="<?=$gain_loss_span_color?>"><?=$gain_loss_prim_currency?><?=$parsed_inc_leverage_gain_loss?> / <?=( $gain_loss >= 0 ? '+' : '' )?><?=$pretty_leverage_gain_loss_percent?>%</span> (<?=( $asset_worth_inc_leverage >= 0 ? '' : '-' )?><?=$pt_conf['power']['btc_currency_markets'][$pt_conf['gen']['btc_prim_currency_pairing']]?><?=$parsed_asset_worth_inc_leverage?>)</p>'
 			
 				
 			+'<p class="coin_info"><span class="yellow"> </span></p>';

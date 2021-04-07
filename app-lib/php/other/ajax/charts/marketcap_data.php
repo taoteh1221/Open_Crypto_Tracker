@@ -6,19 +6,19 @@
 foreach ( $pt_conf['assets'] as $key => $unused ) {
 
 // Consolidate function calls for runtime speed improvement
-$marketcap_data = $pt_asset->marketcap_data($key, 'usd'); // For marketcap bar chart, we ALWAYS force using USD
+$mcap_data = $pt_asset->marketcap_data($key, 'usd'); // For marketcap bar chart, we ALWAYS force using USD
 
-//var_dump($marketcap_data);
+//var_dump($mcap_data);
 		
-	if ( $_GET['marketcap_type'] == 'circulating' && $marketcap_data['market_cap'] ) {
-	$runtime_data['marketcap_data'][$key] = $pt_var->rem_num_format($marketcap_data['market_cap']);
+	if ( $_GET['marketcap_type'] == 'circulating' && $mcap_data['market_cap'] ) {
+	$runtime_data['marketcap_data'][$key] = $pt_var->rem_num_format($mcap_data['market_cap']);
 	}
-	elseif ( $_GET['marketcap_type'] == 'total' && $marketcap_data['market_cap_total'] ) {
-	$runtime_data['marketcap_data'][$key] = ( $pt_var->rem_num_format($marketcap_data['market_cap_total']) ); 
+	elseif ( $_GET['marketcap_type'] == 'total' && $mcap_data['market_cap_total'] ) {
+	$runtime_data['marketcap_data'][$key] = ( $pt_var->rem_num_format($mcap_data['market_cap_total']) ); 
 	}
 	// If circulating / total are same
-	elseif ( $_GET['marketcap_type'] == 'total' && $marketcap_data['market_cap'] ) {
-	$runtime_data['marketcap_data'][$key] = ( $pt_var->rem_num_format($marketcap_data['market_cap']) ); 
+	elseif ( $_GET['marketcap_type'] == 'total' && $mcap_data['market_cap'] ) {
+	$runtime_data['marketcap_data'][$key] = ( $pt_var->rem_num_format($mcap_data['market_cap']) ); 
 	}
 
 }
@@ -96,16 +96,16 @@ exit;
 // If chart data exists...
 
 $loop = 0;
-foreach ( $runtime_data['marketcap_data'] as $marketcap_key => $marketcap_val ) {
+foreach ( $runtime_data['marketcap_data'] as $mcap_key => $mcap_val ) {
   			
-$marketcap_val = $pt_var->rem_num_format($marketcap_val);
+$mcap_val = $pt_var->rem_num_format($mcap_val);
 
 	// If percent value matches, and another (increasing) number to the end, to avoid overwriting keys (this data is only used as an array key anyway)
-	if ( !array_key_exists($marketcap_val, $sorted_by_mcap_data) ) {
-	$sorted_by_mcap_data[$marketcap_val] = array($marketcap_key, $marketcap_val);
+	if ( !array_key_exists($mcap_val, $sorted_by_mcap_data) ) {
+	$sorted_by_mcap_data[$mcap_val] = array($mcap_key, $mcap_val);
 	}
 	else {
-	$sorted_by_mcap_data[$marketcap_val . $loop] = array($marketcap_key, $marketcap_val);
+	$sorted_by_mcap_data[$mcap_val . $loop] = array($mcap_key, $mcap_val);
 	$loop = $loop + 1;
 	}
 
@@ -119,9 +119,9 @@ $plot_conf = explode('|', $_GET['plot_conf']);
 
 //var_dump($sorted_by_mcap_data);
   
-	foreach ( $sorted_by_mcap_data as $marketcap_array ) {
+	foreach ( $sorted_by_mcap_data as $mcap_array ) {
 		
-		if ( in_array($marketcap_array[0], $plot_conf) ) {
+		if ( in_array($mcap_array[0], $plot_conf) ) {
 		$show_plot = 'visible: true,';
 		}
 		else {
@@ -131,10 +131,10 @@ $plot_conf = explode('|', $_GET['plot_conf']);
 	$rand_color = '#' . $pt_gen->rand_color( sizeof($sorted_by_mcap_data) )['hex'];
 		
 					
-				$marketcap_conf = "{
-			  text: '".$marketcap_array[0]."',
+				$mcap_conf = "{
+			  text: '".$mcap_array[0]."',
 			  backgroundColor: '".$rand_color."',
-			  values: [".$marketcap_array[1]."],
+			  values: [".$mcap_array[1]."],
 			  ".$show_plot."
 			  legendItem: {
 					fontColor: 'white',
@@ -144,7 +144,7 @@ $plot_conf = explode('|', $_GET['plot_conf']);
 					borderRadius: '2px'
 			  }
 			},
-			" . $marketcap_conf;
+			" . $mcap_conf;
 			
 		
 	}
@@ -287,7 +287,7 @@ gui: {
       },
   		backgroundColor: "#f2f2f2",
       series: [
-        <?php echo $marketcap_conf . "\n" ?>
+        <?php echo $mcap_conf . "\n" ?>
       ],
 	labels: [
 			{

@@ -35,7 +35,7 @@ OPTIMIZATIONS / BUGS / TESTS / UX / QA / OTHER SECTION
 ///////////////////////////////////////////////////////
 
 
-Statement nesting indentation is a tad f#cked up after wrapping the functions in classes (at least displaying in bluefish), so add some more left margin on nested statements where it looks schetchy
+Statement nesting indentation is a tad f#cked up after wrapping the functions in classes (at least displaying in bluefish), so add some more left margin on nested statements where it looks schetchy...IT MAY BE FROM BATCH FIND/REPLACE, so double check inline logic too.
 
 
 Create a new github repository for a bot to automatically update daily a static-named zip file of most-recent ARCHIVAL-ONLY price chart demo data, so we can link to in the app as a download to bootstrap chart data for new user installs.

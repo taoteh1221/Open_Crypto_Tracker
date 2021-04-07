@@ -20,9 +20,9 @@ var $pt_array1 = array();
    
    function powerdown_prim_curr($data) {
    
-   global $pt_conf, $sel_btc_prim_curr_val, $hive_market;
+   global $sel_btc_prim_currency_val, $hive_market;
    
-   return ( $data * $hive_market * $sel_btc_prim_curr_val );
+   return ( $data * $hive_market * $sel_btc_prim_currency_val );
    
    }
    
@@ -111,7 +111,7 @@ var $pt_array1 = array();
    
    $result = array();
    
-     foreach ( $pt_conf['power']['btc_curr_markets'] as $key => $unused ) {
+     foreach ( $pt_conf['power']['btc_currency_markets'] as $key => $unused ) {
      $result[] = $key;
      }
      
@@ -132,7 +132,7 @@ var $pt_array1 = array();
    
      $pairing_loop = 0;
      
-     foreach ( $pt_conf['assets']['BTC']['pairing'][$pt_conf['gen']['btc_prim_curr_pairing']] as $market_key => $market_id ) {
+     foreach ( $pt_conf['assets']['BTC']['pairing'][$pt_conf['gen']['btc_prim_currency_pairing']] as $market_key => $market_id ) {
        
        // If a numeric id, return the exchange name
        if ( is_int($data) && $pairing_loop == $data ) {
@@ -240,9 +240,9 @@ var $pt_array1 = array();
    ////////////////////////////////////////////////////////
    
    
-   function prim_curr_trade_vol($asset_symb, $pairing, $last_trade, $vol_in_pairing) {
+   function prim_currency_trade_vol($asset_symb, $pairing, $last_trade, $vol_in_pairing) {
    
-   global $pt_conf, $pt_gen, $sel_btc_prim_curr_val;
+   global $pt_conf, $pt_gen, $sel_btc_prim_currency_val;
      
      
      // Return negative number, if no volume data detected (so we know when data errors happen)
@@ -257,22 +257,22 @@ var $pt_array1 = array();
    
      // WE NEED TO SET THIS (ONLY IF NOT SET ALREADY) for $pt_api->market() calls, 
      // because it is not set as a global THE FIRST RUNTIME CALL TO $pt_api->market()
-     if ( strtoupper($asset_symb) == 'BTC' && !$sel_btc_prim_curr_val ) {
-     $temp_btc_prim_curr_val = $last_trade; // Don't overwrite global
+     if ( strtoupper($asset_symb) == 'BTC' && !$sel_btc_prim_currency_val ) {
+     $temp_btc_prim_currency_val = $last_trade; // Don't overwrite global
      }
      else {
-     $temp_btc_prim_curr_val = $sel_btc_prim_curr_val; // Don't overwrite global
+     $temp_btc_prim_currency_val = $sel_btc_prim_currency_val; // Don't overwrite global
      }
    
    
      // Get primary currency volume value	
      // Currency volume from Bitcoin's DEFAULT PAIRING volume
-     if ( $pairing == $pt_conf['gen']['btc_prim_curr_pairing'] ) {
-     $vol_prim_curr_raw = number_format( $vol_in_pairing , 0, '.', '');
+     if ( $pairing == $pt_conf['gen']['btc_prim_currency_pairing'] ) {
+     $vol_prim_currency_raw = number_format( $vol_in_pairing , 0, '.', '');
      }
      // Currency volume from btc PAIRING volume
      elseif ( $pairing == 'btc' ) {
-     $vol_prim_curr_raw = number_format( $temp_btc_prim_curr_val * $vol_in_pairing , 0, '.', '');
+     $vol_prim_currency_raw = number_format( $temp_btc_prim_currency_val * $vol_in_pairing , 0, '.', '');
      }
      // Currency volume from other PAIRING volume
      else { 
@@ -280,15 +280,15 @@ var $pt_array1 = array();
      $pairing_btc_val = $this->pairing_btc_val($pairing);
    
        if ( $pairing_btc_val == null ) {
-       $pt_gen->app_logging('market_error', 'this->pairing_btc_val() returned null in pt_asset->prim_curr_trade_vol()', 'pairing: ' . $pairing);
+       $pt_gen->app_logging('market_error', 'this->pairing_btc_val() returned null in pt_asset->prim_currency_trade_vol()', 'pairing: ' . $pairing);
        }
      
-     $vol_prim_curr_raw = number_format( $temp_btc_prim_curr_val * ( $vol_in_pairing * $pairing_btc_val ) , 0, '.', '');
+     $vol_prim_currency_raw = number_format( $temp_btc_prim_currency_val * ( $vol_in_pairing * $pairing_btc_val ) , 0, '.', '');
      
      }
      
      
-   return $vol_prim_curr_raw;
+   return $vol_prim_currency_raw;
    
    }
    
@@ -392,12 +392,12 @@ var $pt_array1 = array();
    
    function hivepower_time($time) {
        
-   global $pt_conf, $sel_btc_prim_curr_val, $hive_market;
+   global $pt_conf, $sel_btc_prim_currency_val, $hive_market;
    
    $powertime = null;
    $powertime = null;
    $hive_total = null;
-   $prim_curr_total = null;
+   $prim_currency_total = null;
    
    $decimal_yearly_interest = $pt_conf['power']['hivepower_yearly_interest'] / 100;  // Convert APR in config to decimal representation
    
@@ -430,10 +430,10 @@ var $pt_array1 = array();
        }
        
        
-       $powertime_prim_curr = ( $powertime * $hive_market * $sel_btc_prim_curr_val );
+       $powertime_prim_currency = ( $powertime * $hive_market * $sel_btc_prim_currency_val );
        
        $hive_total = ( $powertime + $_POST['hp_total'] );
-       $prim_curr_total = ( $hive_total * $hive_market * $sel_btc_prim_curr_val );
+       $prim_currency_total = ( $hive_total * $hive_market * $sel_btc_prim_currency_val );
        
        $power_purchased = ( $_POST['hp_purchased'] / $hive_total );
        $power_earned = ( $_POST['hp_earned'] / $hive_total );
@@ -450,9 +450,9 @@ var $pt_array1 = array();
        <h2> Interest Per <?=ucfirst($time)?> </h2>
        <ul>
            
-           <li><b><?=number_format( $powertime, 3, '.', ',')?> HIVE</b> <i>in interest</i> (after a <?=$time?> time period) = <b><?=$pt_conf['power']['btc_curr_markets'][$pt_conf['gen']['btc_prim_curr_pairing']]?><?=number_format( $powertime_prim_curr, 2, '.', ',')?></b></li>
+           <li><b><?=number_format( $powertime, 3, '.', ',')?> HIVE</b> <i>in interest</i> (after a <?=$time?> time period) = <b><?=$pt_conf['power']['btc_currency_markets'][$pt_conf['gen']['btc_prim_currency_pairing']]?><?=number_format( $powertime_prim_currency, 2, '.', ',')?></b></li>
            
-           <li><b><?=number_format( $hive_total, 3, '.', ',')?> HIVE</b> <i>in total</i> (including original vested amount) = <b><?=$pt_conf['power']['btc_curr_markets'][$pt_conf['gen']['btc_prim_curr_pairing']]?><?=number_format( $prim_curr_total, 2, '.', ',')?></b></li>
+           <li><b><?=number_format( $hive_total, 3, '.', ',')?> HIVE</b> <i>in total</i> (including original vested amount) = <b><?=$pt_conf['power']['btc_currency_markets'][$pt_conf['gen']['btc_prim_currency_pairing']]?><?=number_format( $prim_currency_total, 2, '.', ',')?></b></li>
        
        </ul>
    
@@ -466,10 +466,10 @@ var $pt_array1 = array();
                </tr>
                    <tr>
    
-                   <td> <?=number_format( $powerdown_purchased, 3, '.', ',')?> HIVE = <?=$pt_conf['power']['btc_curr_markets'][$pt_conf['gen']['btc_prim_curr_pairing']]?><?=number_format( $this->powerdown_prim_curr($powerdown_purchased), 2, '.', ',')?> </td>
-                   <td> <?=number_format( $powerdown_earned, 3, '.', ',')?> HIVE = <?=$pt_conf['power']['btc_curr_markets'][$pt_conf['gen']['btc_prim_curr_pairing']]?><?=number_format( $this->powerdown_prim_curr($powerdown_earned), 2, '.', ',')?> </td>
-                   <td> <?=number_format( $powerdown_interest, 3, '.', ',')?> HIVE = <?=$pt_conf['power']['btc_curr_markets'][$pt_conf['gen']['btc_prim_curr_pairing']]?><?=number_format( $this->powerdown_prim_curr($powerdown_interest), 2, '.', ',')?> </td>
-                   <td> <b><?=number_format( $powerdown_total, 3, '.', ',')?> HIVE</b> = <b><?=$pt_conf['power']['btc_curr_markets'][$pt_conf['gen']['btc_prim_curr_pairing']]?><?=number_format( $this->powerdown_prim_curr($powerdown_total), 2, '.', ',')?></b> </td>
+                   <td> <?=number_format( $powerdown_purchased, 3, '.', ',')?> HIVE = <?=$pt_conf['power']['btc_currency_markets'][$pt_conf['gen']['btc_prim_currency_pairing']]?><?=number_format( $this->powerdown_prim_curr($powerdown_purchased), 2, '.', ',')?> </td>
+                   <td> <?=number_format( $powerdown_earned, 3, '.', ',')?> HIVE = <?=$pt_conf['power']['btc_currency_markets'][$pt_conf['gen']['btc_prim_currency_pairing']]?><?=number_format( $this->powerdown_prim_curr($powerdown_earned), 2, '.', ',')?> </td>
+                   <td> <?=number_format( $powerdown_interest, 3, '.', ',')?> HIVE = <?=$pt_conf['power']['btc_currency_markets'][$pt_conf['gen']['btc_prim_currency_pairing']]?><?=number_format( $this->powerdown_prim_curr($powerdown_interest), 2, '.', ',')?> </td>
+                   <td> <b><?=number_format( $powerdown_total, 3, '.', ',')?> HIVE</b> = <b><?=$pt_conf['power']['btc_currency_markets'][$pt_conf['gen']['btc_prim_currency_pairing']]?><?=number_format( $this->powerdown_prim_curr($powerdown_total), 2, '.', ',')?></b> </td>
    
                    </tr>
               
@@ -539,7 +539,7 @@ var $pt_array1 = array();
            <p><b>Watts Used:</b> <input type='text' value='<?=( isset($_POST['watts_used']) && $_POST[$calculation_form_data['symbol'].'_submitted'] == 1 ? $_POST['watts_used'] : '300' )?>' name='watts_used' /></p>
            
            
-           <p><b>kWh Rate (<?=$pt_conf['power']['btc_curr_markets'][$pt_conf['gen']['btc_prim_curr_pairing']]?>/kWh):</b> <input type='text' value='<?=( isset($_POST['watts_rate']) && $_POST[$calculation_form_data['symbol'].'_submitted'] == 1 ? $_POST['watts_rate'] : '0.1000' )?>' name='watts_rate' /></p>
+           <p><b>kWh Rate (<?=$pt_conf['power']['btc_currency_markets'][$pt_conf['gen']['btc_prim_currency_pairing']]?>/kWh):</b> <input type='text' value='<?=( isset($_POST['watts_rate']) && $_POST[$calculation_form_data['symbol'].'_submitted'] == 1 ? $_POST['watts_rate'] : '0.1000' )?>' name='watts_rate' /></p>
            
            
            <p><b>Pool Fee:</b> <input type='text' value='<?=( isset($_POST['pool_fee']) && $_POST[$calculation_form_data['symbol'].'_submitted'] == 1 ? $_POST['pool_fee'] : '1' )?>' size='4' name='pool_fee' />%</p>
@@ -562,7 +562,7 @@ var $pt_array1 = array();
    ////////////////////////////////////////////////////////
    
    
-   function marketcap_data($symbol, $force_curr=null) {
+   function marketcap_data($symbol, $force_currency=null) {
      
    global $pt_conf, $pt_var, $pt_api, $alert_percent, $coinmarketcap_currencies, $cap_data_force_usd, $cmc_notes, $coingecko_api, $coinmarketcap_api;
    
@@ -575,11 +575,11 @@ var $pt_array1 = array();
      
        
        // Check for currency support, fallback to USD if needed
-       if ( $force_curr != null ) {
+       if ( $force_currency != null ) {
          
-       $app_notice = 'Forcing '.strtoupper($force_curr).' stats.';
+       $app_notice = 'Forcing '.strtoupper($force_currency).' stats.';
        
-       $coingecko_api_no_overwrite = $pt_api->coingecko($force_curr);
+       $coingecko_api_no_overwrite = $pt_api->coingecko($force_currency);
          
          // Overwrite previous app notice and unset force usd flag, if this appears to be a data error rather than an unsupported language
          if ( !isset($coingecko_api_no_overwrite['btc']['market_cap_rank']) ) {
@@ -587,9 +587,9 @@ var $pt_array1 = array();
          }
        
        }
-       elseif ( !isset($coingecko_api['btc']['market_cap_rank']) && strtoupper($pt_conf['gen']['btc_prim_curr_pairing']) != 'USD' ) {
+       elseif ( !isset($coingecko_api['btc']['market_cap_rank']) && strtoupper($pt_conf['gen']['btc_prim_currency_pairing']) != 'USD' ) {
          
-       $app_notice = 'Coingecko.com does not seem to support '.strtoupper($pt_conf['gen']['btc_prim_curr_pairing']).' stats,<br />showing USD stats instead.';
+       $app_notice = 'Coingecko.com does not seem to support '.strtoupper($pt_conf['gen']['btc_prim_currency_pairing']).' stats,<br />showing USD stats instead.';
        
        $cap_data_force_usd = 1;
        
@@ -603,57 +603,57 @@ var $pt_array1 = array();
        
        }
        elseif ( $cap_data_force_usd == 1 ) {
-       $app_notice = 'Coingecko.com does not seem to support '.strtoupper($pt_conf['gen']['btc_prim_curr_pairing']).' stats,<br />showing USD stats instead.';
+       $app_notice = 'Coingecko.com does not seem to support '.strtoupper($pt_conf['gen']['btc_prim_currency_pairing']).' stats,<br />showing USD stats instead.';
        }
      
      
      // Marketcap data
-     $marketcap_data = ( $coingecko_api_no_overwrite ? $coingecko_api_no_overwrite : $coingecko_api );
+     $mcap_data = ( $coingecko_api_no_overwrite ? $coingecko_api_no_overwrite : $coingecko_api );
      
        
-     $data['rank'] = $marketcap_data[$symbol]['market_cap_rank'];
-     $data['price'] = $marketcap_data[$symbol]['current_price'];
-     $data['market_cap'] = round( $pt_var->rem_num_format($marketcap_data[$symbol]['market_cap']) );
+     $data['rank'] = $mcap_data[$symbol]['market_cap_rank'];
+     $data['price'] = $mcap_data[$symbol]['current_price'];
+     $data['market_cap'] = round( $pt_var->rem_num_format($mcap_data[$symbol]['market_cap']) );
      
-       if ( $pt_var->rem_num_format($marketcap_data[$symbol]['total_supply']) > $pt_var->rem_num_format($marketcap_data[$symbol]['circulating_supply']) ) {
-       $data['market_cap_total'] = round( $pt_var->rem_num_format($marketcap_data[$symbol]['current_price']) * $pt_var->rem_num_format($marketcap_data[$symbol]['total_supply']) );
+       if ( $pt_var->rem_num_format($mcap_data[$symbol]['total_supply']) > $pt_var->rem_num_format($mcap_data[$symbol]['circulating_supply']) ) {
+       $data['market_cap_total'] = round( $pt_var->rem_num_format($mcap_data[$symbol]['current_price']) * $pt_var->rem_num_format($mcap_data[$symbol]['total_supply']) );
        }
        
-     $data['vol_24h'] = $marketcap_data[$symbol]['total_volume'];
+     $data['vol_24h'] = $mcap_data[$symbol]['total_volume'];
      
-     $data['percent_change_1h'] = number_format( $marketcap_data[$symbol]['price_change_percentage_1h_in_currency'] , 2, ".", ",");
-     $data['percent_change_24h'] = number_format( $marketcap_data[$symbol]['price_change_percentage_24h_in_currency'] , 2, ".", ",");
-     $data['percent_change_7d'] = number_format( $marketcap_data[$symbol]['price_change_percentage_7d_in_currency'] , 2, ".", ",");
+     $data['percent_change_1h'] = number_format( $mcap_data[$symbol]['price_change_percentage_1h_in_currency'] , 2, ".", ",");
+     $data['percent_change_24h'] = number_format( $mcap_data[$symbol]['price_change_percentage_24h_in_currency'] , 2, ".", ",");
+     $data['percent_change_7d'] = number_format( $mcap_data[$symbol]['price_change_percentage_7d_in_currency'] , 2, ".", ",");
      
-     $data['circulating_supply'] = $marketcap_data[$symbol]['circulating_supply'];
-     $data['total_supply'] = $marketcap_data[$symbol]['total_supply'];
+     $data['circulating_supply'] = $mcap_data[$symbol]['circulating_supply'];
+     $data['total_supply'] = $mcap_data[$symbol]['total_supply'];
      $data['max_supply'] = null;
      
-     $data['last_updated'] = strtotime( $marketcap_data[$symbol]['last_updated'] );
+     $data['last_updated'] = strtotime( $mcap_data[$symbol]['last_updated'] );
      
      $data['app_notice'] = $app_notice;
      
      // Coingecko-only
-     $data['percent_change_14d'] = number_format( $marketcap_data[$symbol]['price_change_percentage_14d_in_currency'] , 2, ".", ",");
-     $data['percent_change_30d'] = number_format( $marketcap_data[$symbol]['price_change_percentage_30d_in_currency'] , 2, ".", ",");
-     $data['percent_change_60d'] = number_format( $marketcap_data[$symbol]['price_change_percentage_60d_in_currency'] , 2, ".", ",");
-     $data['percent_change_200d'] = number_format( $marketcap_data[$symbol]['price_change_percentage_200d_in_currency'] , 2, ".", ",");
-     $data['percent_change_1y'] = number_format( $marketcap_data[$symbol]['price_change_percentage_1y_in_currency'] , 2, ".", ",");
+     $data['percent_change_14d'] = number_format( $mcap_data[$symbol]['price_change_percentage_14d_in_currency'] , 2, ".", ",");
+     $data['percent_change_30d'] = number_format( $mcap_data[$symbol]['price_change_percentage_30d_in_currency'] , 2, ".", ",");
+     $data['percent_change_60d'] = number_format( $mcap_data[$symbol]['price_change_percentage_60d_in_currency'] , 2, ".", ",");
+     $data['percent_change_200d'] = number_format( $mcap_data[$symbol]['price_change_percentage_200d_in_currency'] , 2, ".", ",");
+     $data['percent_change_1y'] = number_format( $mcap_data[$symbol]['price_change_percentage_1y_in_currency'] , 2, ".", ",");
      
      }
      elseif ( $pt_conf['gen']['prim_mcap_site'] == 'coinmarketcap' ) {
    
      // Don't overwrite global
-     $coinmarketcap_prim_curr = strtoupper($pt_conf['gen']['btc_prim_curr_pairing']);
+     $coinmarketcap_prim_currency = strtoupper($pt_conf['gen']['btc_prim_currency_pairing']);
      
      
        // Default to USD, if selected primary currency is not supported
-       if ( $force_curr != null ) {
-       $app_notice .= ' Forcing '.strtoupper($force_curr).' stats. ';
-       $coinmarketcap_api_no_overwrite = $pt_api->coinmarketcap($force_curr);
+       if ( $force_currency != null ) {
+       $app_notice .= ' Forcing '.strtoupper($force_currency).' stats. ';
+       $coinmarketcap_api_no_overwrite = $pt_api->coinmarketcap($force_currency);
        }
        elseif ( isset($cap_data_force_usd) ) {
-       $coinmarketcap_prim_curr = 'USD';
+       $coinmarketcap_prim_currency = 'USD';
        }
        
        
@@ -663,28 +663,28 @@ var $pt_array1 = array();
        
      
      // Marketcap data
-     $marketcap_data = ( $coinmarketcap_api_no_overwrite ? $coinmarketcap_api_no_overwrite : $coinmarketcap_api );
+     $mcap_data = ( $coinmarketcap_api_no_overwrite ? $coinmarketcap_api_no_overwrite : $coinmarketcap_api );
        
        
-     $data['rank'] = $marketcap_data[$symbol]['cmc_rank'];
-     $data['price'] = $marketcap_data[$symbol]['quote'][$coinmarketcap_prim_curr]['price'];
-     $data['market_cap'] = round( $pt_var->rem_num_format($marketcap_data[$symbol]['quote'][$coinmarketcap_prim_curr]['market_cap']) );
+     $data['rank'] = $mcap_data[$symbol]['cmc_rank'];
+     $data['price'] = $mcap_data[$symbol]['quote'][$coinmarketcap_prim_currency]['price'];
+     $data['market_cap'] = round( $pt_var->rem_num_format($mcap_data[$symbol]['quote'][$coinmarketcap_prim_currency]['market_cap']) );
      
-       if ( $pt_var->rem_num_format($marketcap_data[$symbol]['total_supply']) > $pt_var->rem_num_format($marketcap_data[$symbol]['circulating_supply']) ) {
-       $data['market_cap_total'] = round( $pt_var->rem_num_format($marketcap_data[$symbol]['quote'][$coinmarketcap_prim_curr]['price']) * $pt_var->rem_num_format($marketcap_data[$symbol]['total_supply']) );
+       if ( $pt_var->rem_num_format($mcap_data[$symbol]['total_supply']) > $pt_var->rem_num_format($mcap_data[$symbol]['circulating_supply']) ) {
+       $data['market_cap_total'] = round( $pt_var->rem_num_format($mcap_data[$symbol]['quote'][$coinmarketcap_prim_currency]['price']) * $pt_var->rem_num_format($mcap_data[$symbol]['total_supply']) );
        }
        
-     $data['vol_24h'] = $marketcap_data[$symbol]['quote'][$coinmarketcap_prim_curr]['volume_24h'];
+     $data['vol_24h'] = $mcap_data[$symbol]['quote'][$coinmarketcap_prim_currency]['volume_24h'];
      
-     $data['percent_change_1h'] = number_format( $marketcap_data[$symbol]['quote'][$coinmarketcap_prim_curr]['percent_change_1h'] , 2, ".", ",");
-     $data['percent_change_24h'] = number_format( $marketcap_data[$symbol]['quote'][$coinmarketcap_prim_curr]['percent_change_24h'] , 2, ".", ",");
-     $data['percent_change_7d'] = number_format( $marketcap_data[$symbol]['quote'][$coinmarketcap_prim_curr]['percent_change_7d'] , 2, ".", ",");
+     $data['percent_change_1h'] = number_format( $mcap_data[$symbol]['quote'][$coinmarketcap_prim_currency]['percent_change_1h'] , 2, ".", ",");
+     $data['percent_change_24h'] = number_format( $mcap_data[$symbol]['quote'][$coinmarketcap_prim_currency]['percent_change_24h'] , 2, ".", ",");
+     $data['percent_change_7d'] = number_format( $mcap_data[$symbol]['quote'][$coinmarketcap_prim_currency]['percent_change_7d'] , 2, ".", ",");
      
-     $data['circulating_supply'] = $marketcap_data[$symbol]['circulating_supply'];
-     $data['total_supply'] = $marketcap_data[$symbol]['total_supply'];
-     $data['max_supply'] = $marketcap_data[$symbol]['max_supply'];
+     $data['circulating_supply'] = $mcap_data[$symbol]['circulating_supply'];
+     $data['total_supply'] = $mcap_data[$symbol]['total_supply'];
+     $data['max_supply'] = $mcap_data[$symbol]['max_supply'];
      
-     $data['last_updated'] = strtotime( $marketcap_data[$symbol]['last_updated'] );
+     $data['last_updated'] = strtotime( $mcap_data[$symbol]['last_updated'] );
      
      $data['app_notice'] = $app_notice;
      
@@ -692,7 +692,7 @@ var $pt_array1 = array();
      
      
      // UX on number values
-     $data['price'] = ( $pt_var->num_to_str($data['price']) >= $pt_conf['gen']['prim_curr_dec_max_thres'] ? $pt_var->num_pretty($data['price'], 2) : $pt_var->num_pretty($data['price'], $pt_conf['gen']['prim_curr_dec_max']) );
+     $data['price'] = ( $pt_var->num_to_str($data['price']) >= $pt_conf['gen']['prim_currency_dec_max_thres'] ? $pt_var->num_pretty($data['price'], 2) : $pt_var->num_pretty($data['price'], $pt_conf['gen']['prim_currency_dec_max']) );
      
    
    // Return null if we don't even detect a rank
@@ -707,7 +707,7 @@ var $pt_array1 = array();
    
    function market_conv_int_api($market_conversion, $all_markets_data_array) {
    
-   global $pt_conf, $pt_var, $pt_gen, $pt_api, $sel_btc_prim_curr_val, $remote_ip;
+   global $pt_conf, $pt_var, $pt_gen, $pt_api, $sel_btc_prim_currency_val, $remote_ip;
    
    $result = array();
    
@@ -720,13 +720,13 @@ var $pt_array1 = array();
    
    
       // Return error message if there are missing parameters
-      if ( $market_conversion != 'market_only' && !$pt_conf['power']['btc_curr_markets'][$market_conversion] || $all_markets_data_array[0] == '' ) {
+      if ( $market_conversion != 'market_only' && !$pt_conf['power']['btc_currency_markets'][$market_conversion] || $all_markets_data_array[0] == '' ) {
          
          if ( $market_conversion == '' ) {
          $result['error'] .= 'Missing parameter: [currency_symb|market_only]; ';
          $pt_gen->app_logging('int_api_error', 'From ' . $remote_ip . ' (Missing parameter: currency_symb|market_only)', 'uri: ' . $_SERVER['REQUEST_URI'] . ';');
          }
-         elseif ( $market_conversion != 'market_only' && !$pt_conf['power']['btc_curr_markets'][$market_conversion] ) {
+         elseif ( $market_conversion != 'market_only' && !$pt_conf['power']['btc_currency_markets'][$market_conversion] ) {
          $result['error'] .= 'Conversion market does not exist: '.$market_conversion.'; ';
          $pt_gen->app_logging('int_api_error', 'From ' . $remote_ip . ' (Conversion market does not exist: '.$market_conversion.')', 'uri: ' . $_SERVER['REQUEST_URI'] . ';');
          }
@@ -786,8 +786,8 @@ var $pt_array1 = array();
                  
                    
                      // If a preferred bitcoin market is set in app config, use it...otherwise use first array key
-                     if ( isset($pt_conf['power']['btc_pref_curr_markets'][$market_conversion]) ) {
-                     $btc_exchange = $pt_conf['power']['btc_pref_curr_markets'][$market_conversion];
+                     if ( isset($pt_conf['power']['btc_pref_currency_markets'][$market_conversion]) ) {
+                     $btc_exchange = $pt_conf['power']['btc_pref_currency_markets'][$market_conversion];
                  		}
                  		else {
                  		$btc_exchange = key($pt_conf['assets']['BTC']['pairing'][$market_conversion]);
@@ -820,11 +820,11 @@ var $pt_array1 = array();
            
                  
                  // OVERWRITE SELECTED BITCOIN CURRENCY MARKET GLOBALS
-                 $pt_conf['gen']['btc_prim_curr_pairing'] = $market_conversion;
+                 $pt_conf['gen']['btc_prim_currency_pairing'] = $market_conversion;
                  $pt_conf['gen']['btc_prim_exchange'] = $btc_exchange;
                  
                  // OVERWRITE #GLOBAL# BTC PRIMARY CURRENCY VALUE (so we get correct values for volume in currency etc)
-                 $sel_btc_prim_curr_val = $market_conv_btc_val;
+                 $sel_btc_prim_currency_val = $market_conv_btc_val;
                  
                  }
                  
@@ -843,8 +843,8 @@ var $pt_array1 = array();
            
            
                  // More pretty numbers formatting
-                 if ( array_key_exists($market_pairing, $pt_conf['power']['btc_curr_markets']) ) {
-                 $asset_val_raw = ( $pt_var->num_to_str($asset_val_raw) >= $pt_conf['gen']['prim_curr_dec_max_thres'] ? round($asset_val_raw, 2) : round($asset_val_raw, $pt_conf['gen']['prim_curr_dec_max']) );
+                 if ( array_key_exists($market_pairing, $pt_conf['power']['btc_currency_markets']) ) {
+                 $asset_val_raw = ( $pt_var->num_to_str($asset_val_raw) >= $pt_conf['gen']['prim_currency_dec_max_thres'] ? round($asset_val_raw, 2) : round($asset_val_raw, $pt_conf['gen']['prim_currency_dec_max']) );
                  $vol_pairing_rounded = round($pairing_vol_raw);
                  }
                  else {
@@ -873,7 +873,7 @@ var $pt_array1 = array();
                        }
                  
                  // Pretty numbers for fiat currency
-                 $asset_prim_market_worth_raw = ( $pt_var->num_to_str($asset_prim_market_worth_raw) >= $pt_conf['gen']['prim_curr_dec_max_thres'] ? round($asset_prim_market_worth_raw, 2) : round($asset_prim_market_worth_raw, $pt_conf['gen']['prim_curr_dec_max']) );
+                 $asset_prim_market_worth_raw = ( $pt_var->num_to_str($asset_prim_market_worth_raw) >= $pt_conf['gen']['prim_currency_dec_max_thres'] ? round($asset_prim_market_worth_raw, 2) : round($asset_prim_market_worth_raw, $pt_conf['gen']['prim_currency_dec_max']) );
                  
                  }
            
@@ -887,7 +887,7 @@ var $pt_array1 = array();
                    
                  $result['market_conversion'][$market_data] = array(
                                                                        'market' => array( $market_pairing => array('spot_price' => $asset_val_raw, '24hr_vol' => $vol_pairing_rounded) ),
-                                                                       'conversion' => array( $market_conversion => array('spot_price' => $asset_prim_market_worth_raw, '24hr_vol' => round($asset_market_data['24hr_prim_curr_vol']) ) )
+                                                                       'conversion' => array( $market_conversion => array('spot_price' => $asset_prim_market_worth_raw, '24hr_vol' => round($asset_market_data['24hr_prim_currency_vol']) ) )
                                                                      );
                                                                                
                  }
@@ -1016,7 +1016,7 @@ var $pt_array1 = array();
      }
      // If we need a BITCOIN/CURRENCY market value 
      // RUN AFTER CRYPTO MARKETS...WE HAVE A COUPLE CRYPTOS SUPPORTED HERE, BUT WE ONLY WANT DESIGNATED FIAT-EQIV HERE
-     elseif ( array_key_exists($pairing, $pt_conf['power']['btc_curr_markets']) ) {
+     elseif ( array_key_exists($pairing, $pt_conf['power']['btc_currency_markets']) ) {
      
      
        // Include a basic array check, since we want valid data to avoid an endless loop in our fallback support
@@ -1025,8 +1025,8 @@ var $pt_array1 = array();
        return null;
        }
        // Preferred BITCOIN market(s) for getting a certain currency's value, if in config and more than one market exists
-       elseif ( sizeof($pt_conf['assets']['BTC']['pairing'][$pairing]) > 1 && array_key_exists($pairing, $pt_conf['power']['btc_pref_curr_markets']) ) {
-       $market_override = $pt_conf['power']['btc_pref_curr_markets'][$pairing];
+       elseif ( sizeof($pt_conf['assets']['BTC']['pairing'][$pairing]) > 1 && array_key_exists($pairing, $pt_conf['power']['btc_pref_currency_markets']) ) {
+       $market_override = $pt_conf['power']['btc_pref_currency_markets'][$pairing];
        }
            
            
@@ -1084,10 +1084,10 @@ var $pt_array1 = array();
    ////////////////////////////////////////////////////////
    
    
-   function ui_coin_row($asset_name, $asset_symb, $asset_amount, $all_pairing_markets, $sel_pairing, $sel_exchange, $purchase_price=NULL, $leverage_level, $sel_margintype) {
+   function ui_asset_row($asset_name, $asset_symb, $asset_amount, $all_pairing_markets, $sel_pairing, $sel_exchange, $purchase_price=NULL, $leverage_level, $sel_margintype) {
    
    // Globals
-   global $base_dir, $pt_conf, $pt_gen, $pt_var, $pt_api, $prim_curr_market_standalone, $sel_btc_prim_curr_val, $btc_worth_array, $asset_stats_array, $td_color_zebra, $cap_data_force_usd, $theme_selected, $alert_percent, $show_secondary_trade_val, $coingecko_api, $coinmarketcap_api;
+   global $base_dir, $pt_conf, $pt_gen, $pt_var, $pt_api, $prim_currency_market_standalone, $sel_btc_prim_currency_val, $btc_worth_array, $asset_stats_array, $td_color_zebra, $cap_data_force_usd, $theme_selected, $alert_percent, $show_secondary_trade_val, $coingecko_api, $coinmarketcap_api;
    
        
    $original_market = $sel_exchange;
@@ -1111,9 +1111,9 @@ var $pt_array1 = array();
            if ( $loop == $sel_exchange || $key == "ico_erc20_value" ) {
            $sel_exchange = $key;
             
-            if ( sizeof($prim_curr_market_standalone) != 2 && strtolower($asset_name) == 'bitcoin' ) {
+            if ( sizeof($prim_currency_market_standalone) != 2 && strtolower($asset_name) == 'bitcoin' ) {
             $pt_conf['gen']['btc_prim_exchange'] = $key;
-            $pt_conf['gen']['btc_prim_curr_pairing'] = $sel_pairing;
+            $pt_conf['gen']['btc_prim_currency_pairing'] = $sel_pairing;
             
                    // Dynamically modify MISCASSETS in $pt_conf['assets']
                    // ONLY IF USER HASN'T MESSED UP $pt_conf['assets'], AS WE DON'T WANT TO CANCEL OUT ANY
@@ -1125,9 +1125,9 @@ var $pt_array1 = array();
             ?>
             
             <script>
-            window.btc_prim_curr_val = '<?=$pt_api->market('BTC', $key, $pt_conf['assets']['BTC']['pairing'][$sel_pairing][$key])['last_trade']?>';
+            window.btc_prim_currency_val = '<?=$pt_api->market('BTC', $key, $pt_conf['assets']['BTC']['pairing'][$sel_pairing][$key])['last_trade']?>';
             
-            window.btc_prim_curr_pairing = '<?=strtoupper($sel_pairing)?>';
+            window.btc_prim_currency_pairing = '<?=strtoupper($sel_pairing)?>';
             </script>
             
             <?php
@@ -1144,13 +1144,13 @@ var $pt_array1 = array();
        
        
      // Overwrite PRIMARY CURRENCY CONFIG / BTC market value, in case user changed preferred market IN THE UI
-     $sel_btc_pairing_id = $pt_conf['assets']['BTC']['pairing'][$pt_conf['gen']['btc_prim_curr_pairing']][$pt_conf['gen']['btc_prim_exchange']];
-     $sel_btc_prim_curr_val = $pt_api->market('BTC', $pt_conf['gen']['btc_prim_exchange'], $sel_btc_pairing_id)['last_trade'];
+     $sel_btc_pairing_id = $pt_conf['assets']['BTC']['pairing'][$pt_conf['gen']['btc_prim_currency_pairing']][$pt_conf['gen']['btc_prim_exchange']];
+     $sel_btc_prim_currency_val = $pt_api->market('BTC', $pt_conf['gen']['btc_prim_exchange'], $sel_btc_pairing_id)['last_trade'];
        
        
        // Log any Bitcoin market errors
-       if ( !isset($sel_btc_prim_curr_val) || $sel_btc_prim_curr_val == 0 ) {
-       $pt_gen->app_logging('market_error', 'pt_asset->ui_coin_row() Bitcoin primary currency value not properly set', 'exchange: ' . $pt_conf['gen']['btc_prim_exchange'] . '; pairing_id: ' . $sel_btc_pairing_id . '; value: ' . $sel_btc_prim_curr_val );
+       if ( !isset($sel_btc_prim_currency_val) || $sel_btc_prim_currency_val == 0 ) {
+       $pt_gen->app_logging('market_error', 'pt_asset->ui_asset_row() Bitcoin primary currency value not properly set', 'exchange: ' . $pt_conf['gen']['btc_prim_exchange'] . '; pairing_id: ' . $sel_btc_pairing_id . '; value: ' . $sel_btc_prim_currency_val );
        }
        
    
@@ -1217,11 +1217,11 @@ var $pt_array1 = array();
         
         
       if ( $pairing_btc_val == null ) {
-      $pt_gen->app_logging('market_error', 'this->pairing_btc_val(\''.$sel_pairing.'\') returned null in pt_asset->ui_coin_row(), likely from exchange API request failure');
+      $pt_gen->app_logging('market_error', 'this->pairing_btc_val(\''.$sel_pairing.'\') returned null in pt_asset->ui_asset_row(), likely from exchange API request failure');
       }
      
      
-     $asset_prim_curr_worth_raw = ($asset_val_total_raw * $pairing_btc_val) * $sel_btc_prim_curr_val;
+     $asset_prim_currency_worth_raw = ($asset_val_total_raw * $pairing_btc_val) * $sel_btc_prim_currency_val;
    
    
        // BITCOIN (OVERWRITE W/ DIFF LOGIC)
@@ -1237,7 +1237,7 @@ var $pt_array1 = array();
         
        // FLAG SELECTED PAIRING IF FIAT EQUIVALENT formatting should be used, AS SUCH
        // #FOR CLEAN CODE#, RUN CHECK TO MAKE SURE IT'S NOT A CRYPTO AS WELL...WE HAVE A COUPLE SUPPORTED, BUT WE ONLY WANT DESIGNATED FIAT-EQIV HERE
-       if ( array_key_exists($sel_pairing, $pt_conf['power']['btc_curr_markets']) && !array_key_exists($sel_pairing, $pt_conf['power']['crypto_pairing']) ) {
+       if ( array_key_exists($sel_pairing, $pt_conf['power']['btc_currency_markets']) && !array_key_exists($sel_pairing, $pt_conf['power']['crypto_pairing']) ) {
        $fiat_eqiv = 1;
        }
       
@@ -1247,7 +1247,7 @@ var $pt_array1 = array();
        
       $asset_paid_total_raw = ($asset_amount * $purchase_price);
       
-      $gain_loss = $asset_prim_curr_worth_raw - $asset_paid_total_raw;
+      $gain_loss = $asset_prim_currency_worth_raw - $asset_paid_total_raw;
         
         
        // Convert $gain_loss for shorts with leverage
@@ -1257,18 +1257,18 @@ var $pt_array1 = array();
          
          if ( $prev_gain_loss_val >= 0 ) {
          $gain_loss = $prev_gain_loss_val - ( $prev_gain_loss_val * 2 );
-         $asset_prim_curr_worth_raw = $asset_prim_curr_worth_raw - ( $prev_gain_loss_val * 2 );
+         $asset_prim_currency_worth_raw = $asset_prim_currency_worth_raw - ( $prev_gain_loss_val * 2 );
          }
          else {
          $gain_loss = $prev_gain_loss_val + ( abs($prev_gain_loss_val) * 2 );
-         $asset_prim_curr_worth_raw = $asset_prim_curr_worth_raw + ( abs($prev_gain_loss_val) * 2 );
+         $asset_prim_currency_worth_raw = $asset_prim_currency_worth_raw + ( abs($prev_gain_loss_val) * 2 );
          }
    
        }
       
       
       // Gain / loss percent (!MUST NOT BE! absolute value)
-      $gain_loss_percent = ($asset_prim_curr_worth_raw - $asset_paid_total_raw) / abs($asset_paid_total_raw) * 100;
+      $gain_loss_percent = ($asset_prim_currency_worth_raw - $asset_paid_total_raw) / abs($asset_paid_total_raw) * 100;
       
       // Check for any leverage gain / loss
       $only_leverage_gain_loss = ( $leverage_level >= 2 ? ($gain_loss * ($leverage_level - 1) ) : 0 );
@@ -1291,8 +1291,8 @@ var $pt_array1 = array();
                                  'coin_symb' => $asset_symb, 
                                  'coin_leverage' => $leverage_level,
                                  'selected_margintype' => $sel_margintype,
-                                 'coin_worth_total' => $asset_prim_curr_worth_raw,
-                                 'coin_total_worth_if_purchase_price' => ($no_purchase_price == 1 ? null : $asset_prim_curr_worth_raw),
+                                 'coin_worth_total' => $asset_prim_currency_worth_raw,
+                                 'coin_total_worth_if_purchase_price' => ($no_purchase_price == 1 ? null : $asset_prim_currency_worth_raw),
                                  'coin_paid' => $purchase_price,
                                  'coin_paid_total' => $asset_paid_total_raw,
                                  'gain_loss_only_leverage' => $only_leverage_gain_loss,
@@ -1303,7 +1303,7 @@ var $pt_array1 = array();
    
    
      // Get trade volume
-     $trade_vol = $asset_market_data['24hr_prim_curr_vol'];
+     $trade_vol = $asset_market_data['24hr_prim_currency_vol'];
      
      // Rendering webpage UI output
      // DON'T USE require_once(), as we are looping here!
@@ -1322,7 +1322,7 @@ var $pt_array1 = array();
    function charts_price_alerts($asset_data, $exchange, $pairing, $mode) {
    
    // Globals
-   global $base_dir, $pt_conf, $pt_cache, $pt_var, $pt_gen, $pt_api, $default_btc_prim_exchange, $default_btc_prim_curr_val, $default_btc_prim_curr_pairing, $price_alert_fixed_reset_array;
+   global $base_dir, $pt_conf, $pt_cache, $pt_var, $pt_gen, $pt_api, $default_btc_prim_exchange, $default_btc_prim_currency_val, $default_btc_prim_currency_pairing, $price_alert_fixed_reset_array;
    
      
      // Return true (no errors) if alert-only, and alerts are disabled
@@ -1340,7 +1340,7 @@ var $pt_array1 = array();
    
      // Fiat or equivalent pairing?
      // #FOR CLEAN CODE#, RUN CHECK TO MAKE SURE IT'S NOT A CRYPTO AS WELL...WE HAVE A COUPLE SUPPORTED, BUT WE ONLY WANT DESIGNATED FIAT-EQIV HERE
-     if ( array_key_exists($pairing, $pt_conf['power']['btc_curr_markets']) && !array_key_exists($pairing, $pt_conf['power']['crypto_pairing']) ) {
+     if ( array_key_exists($pairing, $pt_conf['power']['btc_currency_markets']) && !array_key_exists($pairing, $pt_conf['power']['crypto_pairing']) ) {
      $fiat_eqiv = 1;
      }
    /////////////////////////////////////////////////////////////////
@@ -1356,12 +1356,12 @@ var $pt_array1 = array();
      // Get asset PRIMARY CURRENCY CONFIG value
      /////////////////////////////////////////////////////////////////
      // PRIMARY CURRENCY CONFIG CHARTS
-     if ( $pairing == $default_btc_prim_curr_pairing ) {
-     $asset_prim_curr_val_raw = $asset_market_data['last_trade']; 
+     if ( $pairing == $default_btc_prim_currency_pairing ) {
+     $asset_prim_currency_val_raw = $asset_market_data['last_trade']; 
      }
      // BTC PAIRINGS CONVERTED TO PRIMARY CURRENCY CONFIG (EQUIV) CHARTS
      elseif ( $pairing == 'btc' ) {
-     $asset_prim_curr_val_raw = number_format( $default_btc_prim_curr_val * $asset_market_data['last_trade'] , 8, '.', '');
+     $asset_prim_currency_val_raw = number_format( $default_btc_prim_currency_val * $asset_market_data['last_trade'] , 8, '.', '');
      }
      // OTHER PAIRINGS CONVERTED TO PRIMARY CURRENCY CONFIG (EQUIV) CHARTS
      else {
@@ -1372,7 +1372,7 @@ var $pt_array1 = array();
        $pt_gen->app_logging('market_error', 'this->pairing_btc_val() returned null in pt_asset->charts_price_alerts()', 'pairing: ' . $pairing);
        }
      
-     $asset_prim_curr_val_raw = number_format( $default_btc_prim_curr_val * ( $asset_market_data['last_trade'] * $pairing_btc_val ) , 8, '.', '');
+     $asset_prim_currency_val_raw = number_format( $default_btc_prim_currency_val * ( $asset_market_data['last_trade'] * $pairing_btc_val ) , 8, '.', '');
      
      }
      /////////////////////////////////////////////////////////////////
@@ -1381,7 +1381,7 @@ var $pt_array1 = array();
        
    /////////////////////////////////////////////////////////////////
    $pairing_vol_raw = $pt_var->num_to_str($asset_market_data['24hr_pairing_vol']); // If available, we'll use this for chart volume UX
-   $vol_prim_curr_raw = $asset_market_data['24hr_prim_curr_vol'];
+   $vol_prim_currency_raw = $asset_market_data['24hr_prim_currency_vol'];
        
    $asset_pairing_val_raw = number_format( $asset_market_data['last_trade'] , 8, '.', '');
    /////////////////////////////////////////////////////////////////
@@ -1390,19 +1390,19 @@ var $pt_array1 = array();
      
      /////////////////////////////////////////////////////////////////
      // Make sure we have basic values, otherwise log errors / return false
-     // Return false if we have no $default_btc_prim_curr_val
-     if ( !isset($default_btc_prim_curr_val) || $default_btc_prim_curr_val == 0 ) {
-     $pt_gen->app_logging('market_error', 'pt_asset->charts_price_alerts() - No Bitcoin '.strtoupper($default_btc_prim_curr_pairing).' value ('.strtoupper($pairing).' pairing) for "' . $asset_data . '"', $asset_data . ': ' . $asset . ' / ' . strtoupper($pairing) . ' @ ' . $exchange . ';' );
+     // Return false if we have no $default_btc_prim_currency_val
+     if ( !isset($default_btc_prim_currency_val) || $default_btc_prim_currency_val == 0 ) {
+     $pt_gen->app_logging('market_error', 'pt_asset->charts_price_alerts() - No Bitcoin '.strtoupper($default_btc_prim_currency_pairing).' value ('.strtoupper($pairing).' pairing) for "' . $asset_data . '"', $asset_data . ': ' . $asset . ' / ' . strtoupper($pairing) . ' @ ' . $exchange . ';' );
      $set_return = 1;
      }
      
      
      // Return false if we have no asset value
-     if ( $pt_var->num_to_str( trim($asset_prim_curr_val_raw) ) >= 0.00000001 ) {
+     if ( $pt_var->num_to_str( trim($asset_prim_currency_val_raw) ) >= 0.00000001 ) {
      // Continue
      }
      else {
-     $pt_gen->app_logging('market_error', 'pt_asset->charts_price_alerts() - No '.strtoupper($default_btc_prim_curr_pairing).' conversion value ('.strtoupper($pairing).' pairing) for "' . $asset_data . '"', $asset_data . ': ' . $asset . ' / ' . strtoupper($pairing) . ' @ ' . $exchange . '; pairing_id: ' . $pt_conf['assets'][$asset]['pairing'][$pairing][$exchange] . ';' );
+     $pt_gen->app_logging('market_error', 'pt_asset->charts_price_alerts() - No '.strtoupper($default_btc_prim_currency_pairing).' conversion value ('.strtoupper($pairing).' pairing) for "' . $asset_data . '"', $asset_data . ': ' . $asset . ' / ' . strtoupper($pairing) . ' @ ' . $exchange . '; pairing_id: ' . $pt_conf['assets'][$asset]['pairing'][$pairing][$exchange] . ';' );
      $set_return = 1;
      }
      
@@ -1417,22 +1417,22 @@ var $pt_array1 = array();
    // Optimizing storage size needed for charts data
    /////////////////////////////////////////////////////////////////
    // Round PRIMARY CURRENCY CONFIG volume to nullify insignificant decimal amounts / for prettier numbers UX, and to save on data set / storage size
-   $vol_prim_curr_raw = ( isset($vol_prim_curr_raw) ? round($vol_prim_curr_raw) : null );		
+   $vol_prim_currency_raw = ( isset($vol_prim_currency_raw) ? round($vol_prim_currency_raw) : null );		
      
    // Round PAIRING volume to only keep $pt_conf['power']['chart_crypto_vol_dec'] decimals max (for crypto volume etc), to save on data set / storage size
    $pairing_vol_raw = ( isset($pairing_vol_raw) ? round($pairing_vol_raw, ( $fiat_eqiv == 1 ? 0 : $pt_conf['power']['chart_crypto_vol_dec'] ) ) : null );	
      
      
-   // Round PRIMARY CURRENCY CONFIG asset price to only keep $pt_conf['gen']['prim_curr_dec_max'] decimals maximum 
-   // (or only 2 decimals if worth $pt_conf['gen']['prim_curr_dec_max_thres'] or more), to save on data set / storage size
-   $asset_prim_curr_val_raw = ( $pt_var->num_to_str($asset_prim_curr_val_raw) >= $pt_conf['gen']['prim_curr_dec_max_thres'] ? round($asset_prim_curr_val_raw, 2) : round($asset_prim_curr_val_raw, $pt_conf['gen']['prim_curr_dec_max']) );
+   // Round PRIMARY CURRENCY CONFIG asset price to only keep $pt_conf['gen']['prim_currency_dec_max'] decimals maximum 
+   // (or only 2 decimals if worth $pt_conf['gen']['prim_currency_dec_max_thres'] or more), to save on data set / storage size
+   $asset_prim_currency_val_raw = ( $pt_var->num_to_str($asset_prim_currency_val_raw) >= $pt_conf['gen']['prim_currency_dec_max_thres'] ? round($asset_prim_currency_val_raw, 2) : round($asset_prim_currency_val_raw, $pt_conf['gen']['prim_currency_dec_max']) );
      
      
      // If fiat equivalent format, round asset price 
-     // to only keep $pt_conf['gen']['prim_curr_dec_max'] decimals maximum 
-     // (or only 2 decimals if worth $pt_conf['gen']['prim_curr_dec_max_thres'] or more), to save on data set / storage size
+     // to only keep $pt_conf['gen']['prim_currency_dec_max'] decimals maximum 
+     // (or only 2 decimals if worth $pt_conf['gen']['prim_currency_dec_max_thres'] or more), to save on data set / storage size
       if ( $fiat_eqiv == 1 ) {
-      $asset_pairing_val_raw = ( $pt_var->num_to_str($asset_pairing_val_raw) >= $pt_conf['gen']['prim_curr_dec_max_thres'] ? round($asset_pairing_val_raw, 2) : round($asset_pairing_val_raw, $pt_conf['gen']['prim_curr_dec_max']) );
+      $asset_pairing_val_raw = ( $pt_var->num_to_str($asset_pairing_val_raw) >= $pt_conf['gen']['prim_currency_dec_max_thres'] ? round($asset_pairing_val_raw, 2) : round($asset_pairing_val_raw, $pt_conf['gen']['prim_currency_dec_max']) );
       }
    
    
@@ -1448,8 +1448,8 @@ var $pt_array1 = array();
      // Charts (WE DON'T WANT TO STORE DATA WITH A CORRUPT TIMESTAMP)
      /////////////////////////////////////////////////////////////////
      // If the charts page is enabled in Admin Config, save latest chart data for assets with price alerts configured on them
-     if ( $mode == 'both' && $pt_var->num_to_str($asset_prim_curr_val_raw) >= 0.00000001 && $pt_conf['gen']['asset_charts_toggle'] == 'on'
-     || $mode == 'chart' && $pt_var->num_to_str($asset_prim_curr_val_raw) >= 0.00000001 && $pt_conf['gen']['asset_charts_toggle'] == 'on' ) {
+     if ( $mode == 'both' && $pt_var->num_to_str($asset_prim_currency_val_raw) >= 0.00000001 && $pt_conf['gen']['asset_charts_toggle'] == 'on'
+     || $mode == 'chart' && $pt_var->num_to_str($asset_prim_currency_val_raw) >= 0.00000001 && $pt_conf['gen']['asset_charts_toggle'] == 'on' ) {
      
      // In case a rare error occured from power outage / corrupt memory / etc, we'll check the timestamp (in a non-resource-intensive way)
      // (#SEEMED# TO BE A REAL ISSUE ON A RASPI ZERO AFTER MULTIPLE POWER OUTAGES [ONE TIMESTAMP HAD PREPENDED CORRUPT DATA])
@@ -1467,16 +1467,16 @@ var $pt_array1 = array();
      // PRIMARY CURRENCY CONFIG ARCHIVAL charts (CRYPTO/PRIMARY CURRENCY CONFIG markets, 
      // AND ALSO crypto-to-crypto pairings converted to PRIMARY CURRENCY CONFIG equiv value for PRIMARY CURRENCY CONFIG equiv charts)
      
-     $prim_curr_chart_path = $base_dir . '/cache/charts/spot_price_24hr_volume/archival/'.$asset.'/'.$asset_data.'_chart_'.strtolower($default_btc_prim_curr_pairing).'.dat';
-     $prim_curr_chart_data = $now . '||' . $asset_prim_curr_val_raw . '||' . $vol_prim_curr_raw;
-     $pt_cache->save_file($prim_curr_chart_path, $prim_curr_chart_data . "\n", "append", false);  // WITH newline (UNLOCKED file write)
+     $prim_currency_chart_path = $base_dir . '/cache/charts/spot_price_24hr_volume/archival/'.$asset.'/'.$asset_data.'_chart_'.strtolower($default_btc_prim_currency_pairing).'.dat';
+     $prim_currency_chart_data = $now . '||' . $asset_prim_currency_val_raw . '||' . $vol_prim_currency_raw;
+     $pt_cache->save_file($prim_currency_chart_path, $prim_currency_chart_data . "\n", "append", false);  // WITH newline (UNLOCKED file write)
        
        
        // Crypto / secondary currency pairing ARCHIVAL charts, volume as pairing (for UX)
-       if ( $pairing != strtolower($default_btc_prim_curr_pairing) ) {
-       $crypto_secondary_curr_chart_path = $base_dir . '/cache/charts/spot_price_24hr_volume/archival/'.$asset.'/'.$asset_data.'_chart_'.$pairing.'.dat';
-       $crypto_secondary_curr_chart_data = $now . '||' . $asset_pairing_val_raw . '||' . $pairing_vol_raw;
-       $pt_cache->save_file($crypto_secondary_curr_chart_path, $crypto_secondary_curr_chart_data . "\n", "append", false); // WITH newline (UNLOCKED file write)
+       if ( $pairing != strtolower($default_btc_prim_currency_pairing) ) {
+       $crypto_secondary_currency_chart_path = $base_dir . '/cache/charts/spot_price_24hr_volume/archival/'.$asset.'/'.$asset_data.'_chart_'.$pairing.'.dat';
+       $crypto_secondary_currency_chart_data = $now . '||' . $asset_pairing_val_raw . '||' . $pairing_vol_raw;
+       $pt_cache->save_file($crypto_secondary_currency_chart_path, $crypto_secondary_currency_chart_data . "\n", "append", false); // WITH newline (UNLOCKED file write)
        }
        
        
@@ -1487,11 +1487,11 @@ var $pt_array1 = array();
        foreach ( $pt_conf['power']['lite_chart_day_intervals'] as $light_chart_days ) {
          
        // Primary currency lite charts
-       $pt_cache->update_lite_chart($prim_curr_chart_path, $prim_curr_chart_data, $light_chart_days); // WITHOUT newline (var passing)
+       $pt_cache->update_lite_chart($prim_currency_chart_path, $prim_currency_chart_data, $light_chart_days); // WITHOUT newline (var passing)
            
          // Crypto / secondary currency pairing lite charts
-         if ( $pairing != strtolower($default_btc_prim_curr_pairing) ) {
-         $pt_cache->update_lite_chart($crypto_secondary_curr_chart_path, $crypto_secondary_curr_chart_data, $light_chart_days); // WITHOUT newline (var passing)
+         if ( $pairing != strtolower($default_btc_prim_currency_pairing) ) {
+         $pt_cache->update_lite_chart($crypto_secondary_currency_chart_path, $crypto_secondary_currency_chart_data, $light_chart_days); // WITHOUT newline (var passing)
          }
        
        }
@@ -1509,7 +1509,7 @@ var $pt_array1 = array();
    
            
       // WE USE PAIRING VOLUME FOR VOLUME PERCENTAGE CHANGES, FOR BETTER PERCENT CHANGE ACCURACY THAN FIAT EQUIV
-      $alert_cache_contents = $asset_prim_curr_val_raw . '||' . $vol_prim_curr_raw . '||' . $pairing_vol_raw;
+      $alert_cache_contents = $asset_prim_currency_val_raw . '||' . $vol_prim_currency_raw . '||' . $pairing_vol_raw;
        
      // Grab any cached price alert data
       $data_file = trim( file_get_contents('cache/alerts/'.$asset_data.'.dat') );
@@ -1525,13 +1525,13 @@ var $pt_array1 = array();
        
          // Backwards compatibility
          if ( $cached_array[0] == null ) {
-         $cached_asset_prim_curr_val = $data_file;
-         $cached_prim_curr_vol = -1;
+         $cached_asset_prim_currency_val = $data_file;
+         $cached_prim_currency_vol = -1;
          $cached_pairing_vol = -1;
          }
          else {
-         $cached_asset_prim_curr_val = $cached_array[0];  // PRIMARY CURRENCY CONFIG token value
-         $cached_prim_curr_vol = round($cached_array[1]); // PRIMARY CURRENCY CONFIG volume value (round PRIMARY CURRENCY CONFIG volume to nullify insignificant decimal amounts skewing checks)
+         $cached_asset_prim_currency_val = $cached_array[0];  // PRIMARY CURRENCY CONFIG token value
+         $cached_prim_currency_vol = round($cached_array[1]); // PRIMARY CURRENCY CONFIG volume value (round PRIMARY CURRENCY CONFIG volume to nullify insignificant decimal amounts skewing checks)
          $cached_pairing_vol = $cached_array[2]; // Crypto volume value (more accurate percent increase / decrease stats than PRIMARY CURRENCY CONFIG value fluctuations)
          }
        
@@ -1539,25 +1539,25 @@ var $pt_array1 = array();
        
          // Price checks (done early for including with price alert reset logic)
          // If cached and current price exist
-         if ( $pt_var->num_to_str( trim($cached_asset_prim_curr_val) ) >= 0.00000001 && $pt_var->num_to_str( trim($asset_prim_curr_val_raw) ) >= 0.00000001 ) {
+         if ( $pt_var->num_to_str( trim($cached_asset_prim_currency_val) ) >= 0.00000001 && $pt_var->num_to_str( trim($asset_prim_currency_val_raw) ) >= 0.00000001 ) {
          
          
          // PRIMARY CURRENCY CONFIG price percent change (!MUST BE! absolute value)
-         $percent_change = abs( ($asset_prim_curr_val_raw - $cached_asset_prim_curr_val) / abs($cached_asset_prim_curr_val) * 100 );
+         $percent_change = abs( ($asset_prim_currency_val_raw - $cached_asset_prim_currency_val) / abs($cached_asset_prim_currency_val) * 100 );
          $percent_change = $pt_var->num_to_str($percent_change); // Better decimal support
                  
                        
        // Pretty exchange name / percent change for UI / UX (defined early for any price alert reset logic)
          $percent_change_text = number_format($percent_change, 2, '.', ',');
-       	$exchange_text = $pt_gen->snake_case_to_name($exchange);
+       	$exchange_text = $pt_gen->key_to_name($exchange);
        
                  
            // UX / UI variables
-           if ( $pt_var->num_to_str($asset_prim_curr_val_raw) < $pt_var->num_to_str($cached_asset_prim_curr_val) ) {
+           if ( $pt_var->num_to_str($asset_prim_currency_val_raw) < $pt_var->num_to_str($cached_asset_prim_currency_val) ) {
            $change_symb = '-';
            $increase_decrease = 'decreased';
            }
-           elseif ( $pt_var->num_to_str($asset_prim_curr_val_raw) >= $pt_var->num_to_str($cached_asset_prim_curr_val) ) {
+           elseif ( $pt_var->num_to_str($asset_prim_currency_val_raw) >= $pt_var->num_to_str($cached_asset_prim_currency_val) ) {
            $change_symb = '+';
            $increase_decrease = 'increased';
            }
@@ -1606,18 +1606,18 @@ var $pt_array1 = array();
                  
                  
                  // UX adjustments, and UI / UX variables
-                 if ( $cached_prim_curr_vol <= 0 && $vol_prim_curr_raw <= 0 ) { // ONLY PRIMARY CURRENCY CONFIG VOLUME CALCULATION RETURNS -1 ON EXCHANGE VOLUME ERROR
+                 if ( $cached_prim_currency_vol <= 0 && $vol_prim_currency_raw <= 0 ) { // ONLY PRIMARY CURRENCY CONFIG VOLUME CALCULATION RETURNS -1 ON EXCHANGE VOLUME ERROR
                  $vol_percent_change = 0; // Skip calculating percent change if cached / live PRIMARY CURRENCY CONFIG volume are both zero or -1 (exchange API error)
                  $vol_change_symb = '+';
                  }
-                 elseif ( $cached_prim_curr_vol <= 0 && $pairing_vol_raw >= $cached_pairing_vol ) { // ONLY PRIMARY CURRENCY CONFIG VOLUME CALCULATION RETURNS -1 ON EXCHANGE VOLUME ERROR
-                 $vol_percent_change = $vol_prim_curr_raw; // Use PRIMARY CURRENCY CONFIG volume value for percent up, for UX sake, if volume is up from zero or -1 (exchange API error)
+                 elseif ( $cached_prim_currency_vol <= 0 && $pairing_vol_raw >= $cached_pairing_vol ) { // ONLY PRIMARY CURRENCY CONFIG VOLUME CALCULATION RETURNS -1 ON EXCHANGE VOLUME ERROR
+                 $vol_percent_change = $vol_prim_currency_raw; // Use PRIMARY CURRENCY CONFIG volume value for percent up, for UX sake, if volume is up from zero or -1 (exchange API error)
                  $vol_change_symb = '+';
                  }
-                 elseif ( $cached_prim_curr_vol > 0 && $pairing_vol_raw < $cached_pairing_vol ) {
+                 elseif ( $cached_prim_currency_vol > 0 && $pairing_vol_raw < $cached_pairing_vol ) {
                  $vol_change_symb = '-';
                  }
-                 elseif ( $cached_prim_curr_vol > 0 && $pairing_vol_raw > $cached_pairing_vol ) {
+                 elseif ( $cached_prim_currency_vol > 0 && $pairing_vol_raw > $cached_pairing_vol ) {
                  $vol_change_symb = '+';
                  }
                  
@@ -1634,14 +1634,14 @@ var $pt_array1 = array();
                  
                  $whale_min_vol_percent_incr_24hr_avg = $pt_var->num_to_str( trim($whale_alert_thres[2]) );
                  
-                 $whale_min_vol_curr_incr_24hr_avg = $pt_var->num_to_str( trim($whale_alert_thres[3]) );
+                 $whale_min_vol_currency_incr_24hr_avg = $pt_var->num_to_str( trim($whale_alert_thres[3]) );
                  
                  
                    // WE ONLY WANT PRICE CHANGE PERCENT AS AN ABSOLUTE VALUE HERE, ALL OTHER VALUES SHOULD BE ALLOWED TO BE NEGATIVE IF THEY ARE NEGATIVE
                    if ( $last_cached_days <= $whale_max_days_to_24hr_avg_over 
                    && $pt_var->num_to_str($percent_change / $last_cached_days) >= $whale_min_price_perc_change_24hr_avg 
                    && $pt_var->num_to_str($vol_change_symb . $vol_percent_change / $last_cached_days) >= $whale_min_vol_percent_incr_24hr_avg 
-                   && $pt_var->num_to_str( ($vol_prim_curr_raw - $cached_prim_curr_vol) / $last_cached_days ) >= $whale_min_vol_curr_incr_24hr_avg ) {
+                   && $pt_var->num_to_str( ($vol_prim_currency_raw - $cached_prim_currency_vol) / $last_cached_days ) >= $whale_min_vol_currency_incr_24hr_avg ) {
                    $whale_alert = 1;
                    }
                    
@@ -1651,7 +1651,7 @@ var $pt_array1 = array();
                 
                  
                  // We disallow alerts where minimum 24 hour trade PRIMARY CURRENCY CONFIG volume has NOT been met, ONLY if an API request doesn't fail to retrieve volume data
-                 if ( $vol_prim_curr_raw >= 0 && $vol_prim_curr_raw < $pt_conf['comms']['price_alert_min_vol'] ) {
+                 if ( $vol_prim_currency_raw >= 0 && $vol_prim_currency_raw < $pt_conf['comms']['price_alert_min_vol'] ) {
                  $send_alert = null;
                  }
          
@@ -1665,7 +1665,7 @@ var $pt_array1 = array();
          
                  // We disallow alerts if $pt_conf['comms']['price_alert_block_vol_error'] is on, and there is a volume retrieval error
                  // ONLY PRIMARY CURRENCY CONFIG VOLUME CALCULATION RETURNS -1 ON EXCHANGE VOLUME ERROR
-                 if ( $vol_prim_curr_raw == -1 && $pt_conf['comms']['price_alert_block_vol_error'] == 'on' ) {
+                 if ( $vol_prim_currency_raw == -1 && $pt_conf['comms']['price_alert_block_vol_error'] == 'on' ) {
                  $send_alert = null;
                  }
                  
@@ -1683,14 +1683,14 @@ var $pt_array1 = array();
                    
                    // IF PRIMARY CURRENCY CONFIG volume was between 0 and 1 last alert / reset, for UX sake 
                    // we use current PRIMARY CURRENCY CONFIG volume instead of pair volume (for percent up, so it's not up 70,000% for altcoins lol)
-                   if ( $cached_prim_curr_vol >= 0 && $cached_prim_curr_vol <= 1 ) {
-                   $vol_describe = strtoupper($default_btc_prim_curr_pairing) . ' volume was ' . $pt_conf['power']['btc_curr_markets'][$default_btc_prim_curr_pairing] . $cached_prim_curr_vol . ' last price ' . $desc_alert_type . ', and ';
-                   $vol_describe_mobile = strtoupper($default_btc_prim_curr_pairing) . ' volume up from ' . $pt_conf['power']['btc_curr_markets'][$default_btc_prim_curr_pairing] . $cached_prim_curr_vol . ' last ' . $desc_alert_type;
+                   if ( $cached_prim_currency_vol >= 0 && $cached_prim_currency_vol <= 1 ) {
+                   $vol_describe = strtoupper($default_btc_prim_currency_pairing) . ' volume was ' . $pt_conf['power']['btc_currency_markets'][$default_btc_prim_currency_pairing] . $cached_prim_currency_vol . ' last price ' . $desc_alert_type . ', and ';
+                   $vol_describe_mobile = strtoupper($default_btc_prim_currency_pairing) . ' volume up from ' . $pt_conf['power']['btc_currency_markets'][$default_btc_prim_currency_pairing] . $cached_prim_currency_vol . ' last ' . $desc_alert_type;
                    }
                    // Best we can do feasibly for UX on volume reporting errors
-                   elseif ( $cached_prim_curr_vol == -1 ) { // ONLY PRIMARY CURRENCY CONFIG VOLUME CALCULATION RETURNS -1 ON EXCHANGE VOLUME ERROR
-                   $vol_describe = strtoupper($default_btc_prim_curr_pairing) . ' volume was NULL last price ' . $desc_alert_type . ', and ';
-                   $vol_describe_mobile = strtoupper($default_btc_prim_curr_pairing) . ' volume up from NULL last ' . $desc_alert_type;
+                   elseif ( $cached_prim_currency_vol == -1 ) { // ONLY PRIMARY CURRENCY CONFIG VOLUME CALCULATION RETURNS -1 ON EXCHANGE VOLUME ERROR
+                   $vol_describe = strtoupper($default_btc_prim_currency_pairing) . ' volume was NULL last price ' . $desc_alert_type . ', and ';
+                   $vol_describe_mobile = strtoupper($default_btc_prim_currency_pairing) . ' volume up from NULL last ' . $desc_alert_type;
                    }
                    else {
                    $vol_describe = 'pair volume ';
@@ -1704,11 +1704,11 @@ var $pt_array1 = array();
                    
                        
                  // Pretty numbers UX on PRIMARY CURRENCY CONFIG asset value
-                 $asset_prim_curr_text = ( $pt_var->num_to_str($asset_prim_curr_val_raw) >= $pt_conf['gen']['prim_curr_dec_max_thres'] ? $pt_var->num_pretty($asset_prim_curr_val_raw, 2) : $pt_var->num_pretty($asset_prim_curr_val_raw, $pt_conf['gen']['prim_curr_dec_max']) );
+                 $asset_prim_currency_text = ( $pt_var->num_to_str($asset_prim_currency_val_raw) >= $pt_conf['gen']['prim_currency_dec_max_thres'] ? $pt_var->num_pretty($asset_prim_currency_val_raw, 2) : $pt_var->num_pretty($asset_prim_currency_val_raw, $pt_conf['gen']['prim_currency_dec_max']) );
                        
-                 $vol_prim_curr_text = $pt_conf['power']['btc_curr_markets'][$default_btc_prim_curr_pairing] . number_format($vol_prim_curr_raw, 0, '.', ',');
+                 $vol_prim_currency_text = $pt_conf['power']['btc_currency_markets'][$default_btc_prim_currency_pairing] . number_format($vol_prim_currency_raw, 0, '.', ',');
                        
-                 $vol_change_text = 'has ' . ( $vol_change_symb == '+' ? 'increased ' : 'decreased ' ) . $vol_change_symb . number_format($vol_percent_change, 2, '.', ',') . '% to a ' . strtoupper($default_btc_prim_curr_pairing) . ' value of';
+                 $vol_change_text = 'has ' . ( $vol_change_symb == '+' ? 'increased ' : 'decreased ' ) . $vol_change_symb . number_format($vol_percent_change, 2, '.', ',') . '% to a ' . strtoupper($default_btc_prim_currency_pairing) . ' value of';
                        
                  $vol_change_text_mobile = '(' . $vol_change_symb . number_format($vol_percent_change, 2, '.', ',') . '% ' . $vol_describe_mobile . ')';
                        
@@ -1717,7 +1717,7 @@ var $pt_array1 = array();
                        
                    // If -1 from exchange API error not reporting any volume data (not even zero)
                    // ONLY PRIMARY CURRENCY CONFIG VOLUME CALCULATION RETURNS -1 ON EXCHANGE VOLUME ERROR
-                   if ( $cached_prim_curr_vol == -1 || $vol_prim_curr_raw == -1 ) {
+                   if ( $cached_prim_currency_vol == -1 || $vol_prim_currency_raw == -1 ) {
                    $vol_change_text = null;
                    $vol_change_text_mobile = null;
                    }
@@ -1727,7 +1727,7 @@ var $pt_array1 = array();
                    // Format trade volume data
                    
                    // Volume filter skipped message, only if filter is on and error getting trade volume data (otherwise is NULL)
-                   if ( $vol_prim_curr_raw == null && $pt_conf['comms']['price_alert_min_vol'] > 0 || $vol_prim_curr_raw < 1 && $pt_conf['comms']['price_alert_min_vol'] > 0 ) {
+                   if ( $vol_prim_currency_raw == null && $pt_conf['comms']['price_alert_min_vol'] > 0 || $vol_prim_currency_raw < 1 && $pt_conf['comms']['price_alert_min_vol'] > 0 ) {
                    $vol_filter_skipped_text = ', so volume filter was skipped';
                    }
                    else {
@@ -1737,21 +1737,21 @@ var $pt_array1 = array();
                    
                    
                    // Successfully received > 0 volume data, at or above an enabled volume filter
-                   if ( $vol_prim_curr_raw > 0 && $pt_conf['comms']['price_alert_min_vol'] > 0 && $vol_prim_curr_raw >= $pt_conf['comms']['price_alert_min_vol'] ) {
-                   $email_vol_summary = '24 hour ' . $vol_describe . $vol_change_text . ' ' . $vol_prim_curr_text . ' (volume filter on).';
+                   if ( $vol_prim_currency_raw > 0 && $pt_conf['comms']['price_alert_min_vol'] > 0 && $vol_prim_currency_raw >= $pt_conf['comms']['price_alert_min_vol'] ) {
+                   $email_vol_summary = '24 hour ' . $vol_describe . $vol_change_text . ' ' . $vol_prim_currency_text . ' (volume filter on).';
                    }
                    // NULL if not setup to get volume, negative number returned if no data received from API, therefore skipping any enabled volume filter
                    // ONLY PRIMARY CURRENCY CONFIG VOLUME CALCULATION RETURNS -1 ON EXCHANGE VOLUME ERROR
-                   elseif ( $vol_prim_curr_raw == -1 ) { 
+                   elseif ( $vol_prim_currency_raw == -1 ) { 
                    $email_vol_summary = 'No data received for 24 hour volume' . $vol_filter_skipped_text . '.';
-                   $vol_prim_curr_text = 'No data';
+                   $vol_prim_currency_text = 'No data';
                    }
                    // If volume is zero or greater in successfully received volume data, without an enabled volume filter (or filter skipped)
                    // IF exchange PRIMARY CURRENCY CONFIG value price goes up/down and triggers alert, 
                    // BUT current reported volume is zero (temporary error on exchange side etc, NOT on our app's side),
                    // inform end-user of this probable volume discrepancy being detected.
-                   elseif ( $vol_prim_curr_raw >= 0 ) {
-                   $email_vol_summary = '24 hour ' . $vol_describe . $vol_change_text . ' ' . $vol_prim_curr_text . ( $vol_prim_curr_raw == 0 ? ' (probable volume discrepancy detected' . $vol_filter_skipped_text . ')' : '' ) . '.'; 
+                   elseif ( $vol_prim_currency_raw >= 0 ) {
+                   $email_vol_summary = '24 hour ' . $vol_describe . $vol_change_text . ' ' . $vol_prim_currency_text . ( $vol_prim_currency_raw == 0 ? ' (probable volume discrepancy detected' . $vol_filter_skipped_text . ')' : '' ) . '.'; 
                    }
                        
                        
@@ -1759,14 +1759,14 @@ var $pt_array1 = array();
                        
                  // Build the different messages, configure comm methods, and send messages
                        
-                 $email_message = ( $whale_alert == 1 ? 'WHALE ALERT: ' : '' ) . 'The ' . $asset . ' trade value in the ' . strtoupper($pairing) . ' market at the ' . $exchange_text . ' exchange has ' . $increase_decrease . ' ' . $change_symb . $percent_change_text . '% in ' . strtoupper($default_btc_prim_curr_pairing) . ' value to ' . $pt_conf['power']['btc_curr_markets'][$default_btc_prim_curr_pairing] . $asset_prim_curr_text . ' over the past ' . $last_cached_time . ' since the last price ' . $desc_alert_type . '. ' . $email_vol_summary;
+                 $email_msg = ( $whale_alert == 1 ? 'WHALE ALERT: ' : '' ) . 'The ' . $asset . ' trade value in the ' . strtoupper($pairing) . ' market at the ' . $exchange_text . ' exchange has ' . $increase_decrease . ' ' . $change_symb . $percent_change_text . '% in ' . strtoupper($default_btc_prim_currency_pairing) . ' value to ' . $pt_conf['power']['btc_currency_markets'][$default_btc_prim_currency_pairing] . $asset_prim_currency_text . ' over the past ' . $last_cached_time . ' since the last price ' . $desc_alert_type . '. ' . $email_vol_summary;
                        
                        
                  // Were're just adding a human-readable timestamp to smart home (audio) alerts
-                 $notifyme_message = $email_message . ' Timestamp: ' . $pt_gen->time_date_format($pt_conf['gen']['loc_time_offset'], 'pretty_time') . '.';
+                 $notifyme_msg = $email_msg . ' Timestamp: ' . $pt_gen->time_date_format($pt_conf['gen']['loc_time_offset'], 'pretty_time') . '.';
                        
                        
-                 $text_message = ( $whale_alert == 1 ? '🐳 ' : '' ) . $asset . ' / ' . strtoupper($pairing) . ' @ ' . $exchange_text . ' ' . $increase_decrease . ' ' . $change_symb . $percent_change_text . '% in ' . strtoupper($default_btc_prim_curr_pairing) . ' value to ' . $pt_conf['power']['btc_curr_markets'][$default_btc_prim_curr_pairing] . $asset_prim_curr_text . ' over ' . $last_cached_time . '. 24 Hour ' . strtoupper($default_btc_prim_curr_pairing) . ' Volume: ' . $vol_prim_curr_text . ' ' . $vol_change_text_mobile;
+                 $text_msg = ( $whale_alert == 1 ? '🐳 ' : '' ) . $asset . ' / ' . strtoupper($pairing) . ' @ ' . $exchange_text . ' ' . $increase_decrease . ' ' . $change_symb . $percent_change_text . '% in ' . strtoupper($default_btc_prim_currency_pairing) . ' value to ' . $pt_conf['power']['btc_currency_markets'][$default_btc_prim_currency_pairing] . $asset_prim_currency_text . ' over ' . $last_cached_time . '. 24 Hour ' . strtoupper($default_btc_prim_currency_pairing) . ' Volume: ' . $vol_prim_currency_text . ' ' . $vol_change_text_mobile;
                        
                        
                    
@@ -1774,19 +1774,19 @@ var $pt_array1 = array();
                  // Message parameter added for desired comm methods (leave any comm method blank to skip sending via that method)
                        
                  // Minimize function calls
-                 $encoded_text_message = $pt_gen->charset_encode($text_message); // Unicode support included for text messages (emojis / asian characters / etc )
+                 $encoded_text_msg = $pt_gen->charset_encode($text_msg); // Unicode support included for text messages (emojis / asian characters / etc )
                        
                  $send_params = array(
                  
-                                      'notifyme' => $notifyme_message,
-                                      'telegram' => ( $whale_alert == 1 ? '🐳 ' : '' ) . $email_message, // Add emoji here, so it's not sent with alexa / google home alerts
+                                      'notifyme' => $notifyme_msg,
+                                      'telegram' => ( $whale_alert == 1 ? '🐳 ' : '' ) . $email_msg, // Add emoji here, so it's not sent with alexa / google home alerts
                                       'text' => array(
-                                                      'message' => $encoded_text_message['content_output'],
-                                                      'charset' => $encoded_text_message['charset']
+                                                      'message' => $encoded_text_msg['content_output'],
+                                                      'charset' => $encoded_text_msg['charset']
                                                       ),
                                       'email' => array(
                                                       'subject' => $asset . ' Asset Value '.ucfirst($increase_decrease).' Alert' . ( $whale_alert == 1 ? ' (🐳 WHALE ALERT)' : '' ),
-                                                      'message' => ( $whale_alert == 1 ? '🐳 ' : '' ) . $email_message // Add emoji here, so it's not sent with alexa / google home alerts
+                                                      'message' => ( $whale_alert == 1 ? '🐳 ' : '' ) . $email_msg // Add emoji here, so it's not sent with alexa / google home alerts
                                                       )
                                                       
                                        );
@@ -1807,10 +1807,10 @@ var $pt_array1 = array();
       
       
        // Cache a price alert value / volumes if not already done, OR if config setting set to reset every X days
-       if ( $pt_var->num_to_str($asset_prim_curr_val_raw) >= 0.00000001 && !file_exists('cache/alerts/'.$asset_data.'.dat') ) {
+       if ( $pt_var->num_to_str($asset_prim_currency_val_raw) >= 0.00000001 && !file_exists('cache/alerts/'.$asset_data.'.dat') ) {
        $pt_cache->save_file($base_dir . '/cache/alerts/'.$asset_data.'.dat', $alert_cache_contents); 
        }
-       elseif ( $send_alert != 1 && $pt_conf['charts_alerts']['price_alert_fixed_reset'] >= 1 && $pt_var->num_to_str($asset_prim_curr_val_raw) >= 0.00000001 
+       elseif ( $send_alert != 1 && $pt_conf['charts_alerts']['price_alert_fixed_reset'] >= 1 && $pt_var->num_to_str($asset_prim_currency_val_raw) >= 0.00000001 
        && $pt_cache->update_cache('cache/alerts/'.$asset_data.'.dat', ( $pt_conf['charts_alerts']['price_alert_fixed_reset'] * 1440 ) ) == true ) {
          
        $pt_cache->save_file($base_dir . '/cache/alerts/'.$asset_data.'.dat', $alert_cache_contents); 

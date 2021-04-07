@@ -77,7 +77,7 @@ var quoteSource=[
 	    	name:"taoteh1221 (creator of this app)"
 	    },
 	    {
-	    	quote:"ONLY HIGHLY EXPERIENCED DAY TRADERS should attempt timing short term trade entry points (buying, to sell in a few days / weeks at a higher price). The average investor IS MUCH BETTER OFF HOLDING LONG TERM, and " + window.btc_prim_curr_pairing + "-cost averaging your cryptocurrency purchases / buys on a weekly or monthly basis (buying the same amount at regular intervals). Remember, " + window.btc_prim_curr_pairing + "-cost averaging DOES #NOT# WORK for <a href='https://twitter.com/hashtag/shitcoin?src=hash' target='_blank'>#shxtcoin</a> trading.",
+	    	quote:"ONLY HIGHLY EXPERIENCED DAY TRADERS should attempt timing short term trade entry points (buying, to sell in a few days / weeks at a higher price). The average investor IS MUCH BETTER OFF HOLDING LONG TERM, and " + window.btc_prim_currency_pairing + "-cost averaging your cryptocurrency purchases / buys on a weekly or monthly basis (buying the same amount at regular intervals). Remember, " + window.btc_prim_currency_pairing + "-cost averaging DOES #NOT# WORK for <a href='https://twitter.com/hashtag/shitcoin?src=hash' target='_blank'>#shxtcoin</a> trading.",
 	    	name:"taoteh1221 (creator of this app)"
 	    },
 	    {

@@ -15,16 +15,16 @@
 
 
 
-		var average_paid_notes = '<h5 class="align_center yellow tooltip_title">Calculating Average <?=strtoupper($pt_conf['gen']['btc_prim_curr_pairing'])?> Price Paid Per Token</h5>'
+		var average_paid_notes = '<h5 class="align_center yellow tooltip_title">Calculating Average <?=strtoupper($pt_conf['gen']['btc_prim_currency_pairing'])?> Price Paid Per Token</h5>'
 			
 			
-			+'<p class="coin_info extra_margins" style="white-space: normal; max-width: 600px;"><span class="green">Total <?=strtoupper($pt_conf['gen']['btc_prim_curr_pairing'])?> Paid For All Tokens</span> <span class="blue">&#247;</span> <span class="yellow">Total Tokens Purchased</span> <span class="blue">=</span> <span class="bitcoin">Average <?=strtoupper($pt_conf['gen']['btc_prim_curr_pairing'])?> Price Paid Per Token</span></p>'
+			+'<p class="coin_info extra_margins" style="white-space: normal; max-width: 600px;"><span class="green">Total <?=strtoupper($pt_conf['gen']['btc_prim_currency_pairing'])?> Paid For All Tokens</span> <span class="blue">&#247;</span> <span class="yellow">Total Tokens Purchased</span> <span class="blue">=</span> <span class="bitcoin">Average <?=strtoupper($pt_conf['gen']['btc_prim_currency_pairing'])?> Price Paid Per Token</span></p>'
 			
-			+'<p class="coin_info extra_margins" style="white-space: normal; max-width: 600px;">The RESULT of the above calculation <i>remains the same even AFTER you sell ANY amount, ONLY if you don\'t buy more between sells</i>. Everytime you buy more <i>after selling some</i>, re-calculate your Average <?=strtoupper($pt_conf['gen']['btc_prim_curr_pairing'])?> Price Paid Per Token with this formula:</p>'
+			+'<p class="coin_info extra_margins" style="white-space: normal; max-width: 600px;">The RESULT of the above calculation <i>remains the same even AFTER you sell ANY amount, ONLY if you don\'t buy more between sells</i>. Everytime you buy more <i>after selling some</i>, re-calculate your Average <?=strtoupper($pt_conf['gen']['btc_prim_currency_pairing'])?> Price Paid Per Token with this formula:</p>'
 			
-			+'<p class="coin_info extra_margins" style="white-space: normal; max-width: 600px;">(<span class="green">Total <?=strtoupper($pt_conf['gen']['btc_prim_curr_pairing'])?> Paid For All Tokens</span> <span class="blue">-</span> <span class="red">Total <?=strtoupper($pt_conf['gen']['btc_prim_curr_pairing'])?> Received From All Sold Tokens</span>) <span class="blue">&#247;</span> <span class="yellow">Total Remaining Tokens Still Held</span> <span class="blue">=</span> <span class="bitcoin">Average <?=strtoupper($pt_conf['gen']['btc_prim_curr_pairing'])?> Price Paid Per Token</span></p>'
+			+'<p class="coin_info extra_margins" style="white-space: normal; max-width: 600px;">(<span class="green">Total <?=strtoupper($pt_conf['gen']['btc_prim_currency_pairing'])?> Paid For All Tokens</span> <span class="blue">-</span> <span class="red">Total <?=strtoupper($pt_conf['gen']['btc_prim_currency_pairing'])?> Received From All Sold Tokens</span>) <span class="blue">&#247;</span> <span class="yellow">Total Remaining Tokens Still Held</span> <span class="blue">=</span> <span class="bitcoin">Average <?=strtoupper($pt_conf['gen']['btc_prim_currency_pairing'])?> Price Paid Per Token</span></p>'
 			
-			+'<p class="coin_info extra_margins" style="white-space: normal; max-width: 600px;"><span class="yellow">PRO TIP:</span> <br /> When buying / selling, keep quick and dirty (yet clear) textual records of... <br />a) How much you bought / sold of what<br />b) What you paid / received in <?=strtoupper($pt_conf['gen']['btc_prim_curr_pairing'])?> value<br />c) What / where you traded <br />d) Backup to USB Stick / NAS / DropBox / GoogleDrive / OneDrive / AmazonBucket <br />e) Now you\'re ready for tax season, to create spreadsheets from this data</p>'
+			+'<p class="coin_info extra_margins" style="white-space: normal; max-width: 600px;"><span class="yellow">PRO TIP:</span> <br /> When buying / selling, keep quick and dirty (yet clear) textual records of... <br />a) How much you bought / sold of what<br />b) What you paid / received in <?=strtoupper($pt_conf['gen']['btc_prim_currency_pairing'])?> value<br />c) What / where you traded <br />d) Backup to USB Stick / NAS / DropBox / GoogleDrive / OneDrive / AmazonBucket <br />e) Now you\'re ready for tax season, to create spreadsheets from this data</p>'
 			
 			+'<p class="coin_info extra_margins yellow" style="white-space: normal; max-width: 600px;">There is also an <i>open source / free</i> app called <a href="https://rotki.com" target="_blank">Rotki</a> that can help you <i>PRIVATELY</i> track your tax data.</p>'
 			
@@ -39,7 +39,7 @@
 			
 			+'<p class="coin_info extra_margins" style="white-space: normal; max-width: 600px;">Set the "Asset / Pairing @ Exchange" drop-down menus for the asset to any markets you prefer. It doesn\'t matter which ones you choose, as long as the price discovery closely matches the exchange where you are margin trading this asset.</p>'
 			
-			+'<p class="coin_info extra_margins" style="white-space: normal; max-width: 600px;">Set the "Holdings" field to match your margin leverage deposit (example: buying 1 BTC @ 5x leverage would be 0.2 BTC in the "Holdings" field in this app). You\'ll also need to fill in the "Average Paid (per-token)" field with the average price paid in <?=strtoupper($pt_conf['gen']['btc_prim_curr_pairing'])?> per-token. Finally, set the "Margin Leverage" fields to match your leverage and whether you are long or short. When you are done, click "Save Updated Portfolio".</p>'
+			+'<p class="coin_info extra_margins" style="white-space: normal; max-width: 600px;">Set the "Holdings" field to match your margin leverage deposit (example: buying 1 BTC @ 5x leverage would be 0.2 BTC in the "Holdings" field in this app). You\'ll also need to fill in the "Average Paid (per-token)" field with the average price paid in <?=strtoupper($pt_conf['gen']['btc_prim_currency_pairing'])?> per-token. Finally, set the "Margin Leverage" fields to match your leverage and whether you are long or short. When you are done, click "Save Updated Portfolio".</p>'
 			
 			+'<p class="coin_info extra_margins" style="white-space: normal; max-width: 600px;">To see your margin leverage stats after updating your portfolio, go to the bottom of the Portfolio page, where you\'ll find a summary section. Hovering over the "I" icon next to the Gain / Loss summary will display any margin leverage stats per-asset. There is also an "I" icon in the far right-side data table column (Subtotal) per-asset, which you can also hover over for margin leverage stats.</p>'
 			
@@ -428,18 +428,18 @@
 	    	  // Cookies
 	        if ( !$run_csv_import && $_COOKIE['coin_pairings'] ) {
 	        
-	        $all_coin_pairings_cookie_array = explode("#", $_COOKIE['coin_pairings']);
+	        $all_asset_pairings_cookie_array = explode("#", $_COOKIE['coin_pairings']);
 	        
-		if ( is_array($all_coin_pairings_cookie_array) ) {
+		if ( is_array($all_asset_pairings_cookie_array) ) {
 		    
-		    foreach ( $all_coin_pairings_cookie_array as $asset_pairings ) {
+		    foreach ( $all_asset_pairings_cookie_array as $asset_pairings ) {
 		        
-		    $single_coin_pairings_cookie_array = explode("-", $asset_pairings);
+		    $single_asset_pairings_cookie_array = explode("-", $asset_pairings);
 		    
-		    $asset_symb = strtoupper(preg_replace("/_pairing/i", "", $single_coin_pairings_cookie_array[0]));  
+		    $asset_symb = strtoupper(preg_replace("/_pairing/i", "", $single_asset_pairings_cookie_array[0]));  
 		    
 		        if ( $asset_symb == strtoupper($asset_array_key) ) {
-		        $asset_pairing_id = $single_coin_pairings_cookie_array[1];
+		        $asset_pairing_id = $single_asset_pairings_cookie_array[1];
 		        }
 		    
 		    
@@ -454,18 +454,18 @@
 	        
 	        if ( !$run_csv_import && $_COOKIE['coin_markets'] ) {
 	        
-	        $all_coin_markets_cookie_array = explode("#", $_COOKIE['coin_markets']);
+	        $all_asset_markets_cookie_array = explode("#", $_COOKIE['coin_markets']);
 	        
-		if ( is_array($all_coin_markets_cookie_array) ) {
+		if ( is_array($all_asset_markets_cookie_array) ) {
 		    
-		    foreach ( $all_coin_markets_cookie_array as $asset_markets ) {
+		    foreach ( $all_asset_markets_cookie_array as $asset_markets ) {
 		        
-		    $single_coin_markets_cookie_array = explode("-", $asset_markets);
+		    $single_asset_markets_cookie_array = explode("-", $asset_markets);
 		    
-		    $asset_symb = strtoupper(preg_replace("/_market/i", "", $single_coin_markets_cookie_array[0]));  
+		    $asset_symb = strtoupper(preg_replace("/_market/i", "", $single_asset_markets_cookie_array[0]));  
 		    
 		        if ( $asset_symb == strtoupper($asset_array_key) ) {
-		        $asset_market_id = $single_coin_markets_cookie_array[1];
+		        $asset_market_id = $single_asset_markets_cookie_array[1];
 		        }
 		    
 		    
@@ -480,19 +480,19 @@
 	
 	        if ( !$run_csv_import && $_COOKIE['coin_amounts'] ) {
 	        
-	        $all_coin_amounts_cookie_array = explode("#", $_COOKIE['coin_amounts']);
+	        $all_asset_amounts_cookie_array = explode("#", $_COOKIE['coin_amounts']);
 	        
-		if ( is_array($all_coin_amounts_cookie_array) ) {
+		if ( is_array($all_asset_amounts_cookie_array) ) {
 		    
-		    foreach ( $all_coin_amounts_cookie_array as $asset_amounts ) {
+		    foreach ( $all_asset_amounts_cookie_array as $asset_amounts ) {
 		        
-		    $single_coin_amounts_cookie_array = explode("-", $asset_amounts);
+		    $single_asset_amounts_cookie_array = explode("-", $asset_amounts);
 		    
-		    $asset_symb = strtoupper(preg_replace("/_amount/i", "", $single_coin_amounts_cookie_array[0]));  
+		    $asset_symb = strtoupper(preg_replace("/_amount/i", "", $single_asset_amounts_cookie_array[0]));  
 		    
 		    		// We don't need $pt_var->rem_num_format() for cookie data, because it was already done creating the cookies
 					if ( $asset_symb == strtoupper($asset_array_key) ) {
-					$asset_amount_val = $pt_var->num_to_str($single_coin_amounts_cookie_array[1]);
+					$asset_amount_val = $pt_var->num_to_str($single_asset_amounts_cookie_array[1]);
 					}
 		    
 		    
@@ -506,19 +506,19 @@
 	
 	        if ( !$run_csv_import && $_COOKIE['coin_paid'] ) {
 	        
-	        $all_coin_paid_cookie_array = explode("#", $_COOKIE['coin_paid']);
+	        $all_asset_paid_cookie_array = explode("#", $_COOKIE['coin_paid']);
 	        
-		if ( is_array($all_coin_paid_cookie_array) ) {
+		if ( is_array($all_asset_paid_cookie_array) ) {
 		    
-		    foreach ( $all_coin_paid_cookie_array as $asset_paid ) {
+		    foreach ( $all_asset_paid_cookie_array as $asset_paid ) {
 		        
-		    $single_coin_paid_cookie_array = explode("-", $asset_paid);
+		    $single_asset_paid_cookie_array = explode("-", $asset_paid);
 		    
-		    $asset_symb = strtoupper(preg_replace("/_paid/i", "", $single_coin_paid_cookie_array[0]));  
+		    $asset_symb = strtoupper(preg_replace("/_paid/i", "", $single_asset_paid_cookie_array[0]));  
 		    		
 		    		// We don't need $pt_var->rem_num_format() for cookie data, because it was already done creating the cookies
 					if ( $asset_symb == strtoupper($asset_array_key) ) {
-					$asset_paid_val = $pt_var->num_to_str($single_coin_paid_cookie_array[1]);
+					$asset_paid_val = $pt_var->num_to_str($single_asset_paid_cookie_array[1]);
 					}
 		    
 		    
@@ -532,18 +532,18 @@
 	
 	        if ( !$run_csv_import && $_COOKIE['coin_leverage'] ) {
 	        
-	        $all_coin_leverage_cookie_array = explode("#", $_COOKIE['coin_leverage']);
+	        $all_asset_leverage_cookie_array = explode("#", $_COOKIE['coin_leverage']);
 	        
-		if ( is_array($all_coin_leverage_cookie_array) ) {
+		if ( is_array($all_asset_leverage_cookie_array) ) {
 		    
-		    foreach ( $all_coin_leverage_cookie_array as $asset_leverage ) {
+		    foreach ( $all_asset_leverage_cookie_array as $asset_leverage ) {
 		        
-		    $single_coin_leverage_cookie_array = explode("-", $asset_leverage);
+		    $single_asset_leverage_cookie_array = explode("-", $asset_leverage);
 		    
-		    $asset_symb = strtoupper(preg_replace("/_leverage/i", "", $single_coin_leverage_cookie_array[0]));  
+		    $asset_symb = strtoupper(preg_replace("/_leverage/i", "", $single_asset_leverage_cookie_array[0]));  
 		    
 					if ( $asset_symb == strtoupper($asset_array_key) ) {
-					$asset_leverage_val = $single_coin_leverage_cookie_array[1];
+					$asset_leverage_val = $single_asset_leverage_cookie_array[1];
 					}
 		    
 		    
@@ -557,18 +557,18 @@
 	
 	        if ( !$run_csv_import && $_COOKIE['coin_margintype'] ) {
 	        
-	        $all_coin_margintype_cookie_array = explode("#", $_COOKIE['coin_margintype']);
+	        $all_asset_margintype_cookie_array = explode("#", $_COOKIE['coin_margintype']);
 	        
-		if ( is_array($all_coin_margintype_cookie_array) ) {
+		if ( is_array($all_asset_margintype_cookie_array) ) {
 		    
-		    foreach ( $all_coin_margintype_cookie_array as $asset_margintype ) {
+		    foreach ( $all_asset_margintype_cookie_array as $asset_margintype ) {
 		        
-		    $single_coin_margintype_cookie_array = explode("-", $asset_margintype);
+		    $single_asset_margintype_cookie_array = explode("-", $asset_margintype);
 		    
-		    $asset_symb = strtoupper(preg_replace("/_margintype/i", "", $single_coin_margintype_cookie_array[0]));  
+		    $asset_symb = strtoupper(preg_replace("/_margintype/i", "", $single_asset_margintype_cookie_array[0]));  
 		    
 					if ( $asset_symb == strtoupper($asset_array_key) ) {
-					$asset_margintype_val = $single_coin_margintype_cookie_array[1];
+					$asset_margintype_val = $single_asset_margintype_cookie_array[1];
 					}
 		    
 		    
@@ -602,7 +602,7 @@
 	    
 	    }
 	    else {
-	    $asset_paid_val = ( $pt_var->num_to_str($asset_paid_val) >= $pt_conf['gen']['prim_curr_dec_max_thres'] ? $pt_var->num_pretty($asset_paid_val, 2) : $pt_var->num_pretty($asset_paid_val, $pt_conf['gen']['prim_curr_dec_max']) );
+	    $asset_paid_val = ( $pt_var->num_to_str($asset_paid_val) >= $pt_conf['gen']['prim_currency_dec_max_thres'] ? $pt_var->num_pretty($asset_paid_val, 2) : $pt_var->num_pretty($asset_paid_val, $pt_conf['gen']['prim_currency_dec_max']) );
 	    }
 	    
 	    
@@ -631,7 +631,7 @@
 					
 					// Get default BITCOIN pairing key for further down in the logic, if no $asset_pairing_id value was set FOR BITCOIN
 					if ( strtolower($asset_array_val['name']) == 'bitcoin' ) {
-					$sel_pairing = ( isset($asset_pairing_id) ? $asset_pairing_id : $pt_conf['gen']['btc_prim_curr_pairing'] );
+					$sel_pairing = ( isset($asset_pairing_id) ? $asset_pairing_id : $pt_conf['gen']['btc_prim_currency_pairing'] );
 					}
 					else {
 					$sel_pairing = $asset_pairing_id;
@@ -654,7 +654,7 @@
 							
 									$html_market_list[$pairing_key] .= "\n<option value='".$loop2."'" . ( 
 									isset($asset_market_id) && ($asset_market_id) == $loop2 
-									|| !isset($asset_market_id) && strtolower($asset_array_val['name']) == 'bitcoin' && $loop2 == $pt_asset->btc_market($pt_conf['gen']['btc_prim_exchange']) ? ' selected ' : '' ) . ">" . $pt_gen->snake_case_to_name($market_key) . " </option>\n";
+									|| !isset($asset_market_id) && strtolower($asset_array_val['name']) == 'bitcoin' && $loop2 == $pt_asset->btc_market($pt_conf['gen']['btc_prim_exchange']) ? ' selected ' : '' ) . ">" . $pt_gen->key_to_name($market_key) . " </option>\n";
 								
 									}
 									$loop2 = NULL;
@@ -718,7 +718,7 @@
 	     ' <?=( $pt_var->rem_num_format($asset_amount_val) > 0 && $pt_var->rem_num_format($asset_amount_val) <= '0.000000001' ? 'readonly' : '' )?> /> <span class='blue'><?=strtoupper($asset_array_key)?></span>  &nbsp;  &nbsp; 
 			    
 			
-	     <b>Average Paid (per-token):</b> <?=$pt_conf['power']['btc_curr_markets'][$pt_conf['gen']['btc_prim_curr_pairing']]?><input type='text' size='10' id='<?=$field_var_paid?>' name='<?=$field_var_paid?>' value='<?=$asset_paid_val?>' <?=$disable_fields?> /> 
+	     <b>Average Paid (per-token):</b> <?=$pt_conf['power']['btc_currency_markets'][$pt_conf['gen']['btc_prim_currency_pairing']]?><input type='text' size='10' id='<?=$field_var_paid?>' name='<?=$field_var_paid?>' value='<?=$asset_paid_val?>' <?=$disable_fields?> /> 
 	     
 	     
 		<img id='average_paid_notes_<?=$rand_id?>' src='templates/interface/media/images/info.png' alt='' width='30' style='position: relative; left: -5px;' /> 
@@ -871,7 +871,7 @@
 	
 	<input type='hidden' id='show_feeds' name='show_feeds' value='<?=( $_POST['show_feeds'] != '' ? $_POST['show_feeds'] : $_COOKIE['show_feeds'] )?>' />
 	
-	<input type='hidden' id='prim_curr_market_standalone' name='prim_curr_market_standalone' value='<?=( $_POST['prim_curr_market_standalone'] != '' ? $_POST['prim_curr_market_standalone'] : $_COOKIE['prim_curr_market_standalone'] )?>' />
+	<input type='hidden' id='prim_currency_market_standalone' name='prim_currency_market_standalone' value='<?=( $_POST['prim_currency_market_standalone'] != '' ? $_POST['prim_currency_market_standalone'] : $_COOKIE['prim_currency_market_standalone'] )?>' />
 			
 	<p><input type='submit' value='Save Updated Portfolio' /></p>
 	

@@ -341,8 +341,6 @@ var $pt_array1 = array();
    
    function num_pretty($val_to_pretty, $num_dec, $small_unlimited=false) {
    
-   global $pt_conf;
-   
    // Pretty number formatting, while maintaining decimals
    
    
