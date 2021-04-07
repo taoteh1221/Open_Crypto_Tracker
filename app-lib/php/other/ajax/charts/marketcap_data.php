@@ -6,7 +6,7 @@
 foreach ( $pt_conf['assets'] as $key => $unused ) {
 
 // Consolidate function calls for runtime speed improvement
-$mcap_data = $pt_asset->marketcap_data($key, 'usd'); // For marketcap bar chart, we ALWAYS force using USD
+$mcap_data = $pt_asset->mcap_data($key, 'usd'); // For marketcap bar chart, we ALWAYS force using USD
 
 //var_dump($mcap_data);
 		

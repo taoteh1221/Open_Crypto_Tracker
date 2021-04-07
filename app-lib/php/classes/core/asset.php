@@ -562,7 +562,7 @@ var $pt_array1 = array();
    ////////////////////////////////////////////////////////
    
    
-   function marketcap_data($symbol, $force_currency=null) {
+   function mcap_data($symbol, $force_currency=null) {
      
    global $pt_conf, $pt_var, $pt_api, $alert_percent, $coinmarketcap_currencies, $cap_data_force_usd, $cmc_notes, $coingecko_api, $coinmarketcap_api;
    

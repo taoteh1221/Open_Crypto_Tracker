@@ -8,7 +8,7 @@
 
  
 // Consolidate function calls for runtime speed improvement
- $mcap_data = $this->marketcap_data($asset_symb);
+ $mcap_data = $this->mcap_data($asset_symb);
  
  ?>
  
@@ -100,12 +100,12 @@ echo '?';
         else {
         	
         		if ( isset($cap_data_force_usd) ) {
-        		$cmc_prim_currency_symb = '$';
-        		$cmc_prim_currency_ticker = 'USD';
+        		$mcap_prim_currency_symb = '$';
+        		$mcap_prim_currency_ticker = 'USD';
         		}
         		else {
-        		$cmc_prim_currency_symb = $pt_conf['power']['btc_currency_markets'][$pt_conf['gen']['btc_prim_currency_pairing']];
-        		$cmc_prim_currency_ticker = strtoupper($pt_conf['gen']['btc_prim_currency_pairing']);
+        		$mcap_prim_currency_symb = $pt_conf['power']['btc_currency_markets'][$pt_conf['gen']['btc_prim_currency_pairing']];
+        		$mcap_prim_currency_ticker = strtoupper($pt_conf['gen']['btc_prim_currency_pairing']);
         		}
         		
         ?> 
@@ -121,12 +121,12 @@ echo '?';
         		?>
         
         +'<p class="coin_info"><span class="yellow">Ranking:</span> #<?=$mcap_data['rank']?></p>'
-        +'<p class="coin_info"><span class="yellow">Marketcap (circulating):</span> <?=$cmc_prim_currency_symb?><?=number_format($mcap_data['market_cap'],0,".",",")?></p>'
+        +'<p class="coin_info"><span class="yellow">Marketcap (circulating):</span> <?=$mcap_prim_currency_symb?><?=number_format($mcap_data['market_cap'],0,".",",")?></p>'
         
         <?php
             if ( $mcap_data['market_cap_total'] > 0 ) {
             ?>
-        +'<p class="coin_info"><span class="yellow">Marketcap (total):</span> <?=$cmc_prim_currency_symb?><?=number_format($mcap_data['market_cap_total'],0,".",",")?></p>'
+        +'<p class="coin_info"><span class="yellow">Marketcap (total):</span> <?=$mcap_prim_currency_symb?><?=number_format($mcap_data['market_cap_total'],0,".",",")?></p>'
         <?php
             }
             if ( $mcap_data['circulating_supply'] > 0 ) {
@@ -145,8 +145,8 @@ echo '?';
         <?php
             }
             ?>
-        +'<p class="coin_info"><span class="yellow">Unit Value (global average):</span> <?=$cmc_prim_currency_symb?><?=$mcap_data['price']?></p>'
-        +'<p class="coin_info"><span class="yellow">24 Hour Volume (global):</span> <?=$cmc_prim_currency_symb?><?=number_format($mcap_data['vol_24h'],0,".",",")?></p>'
+        +'<p class="coin_info"><span class="yellow">Unit Value (global average):</span> <?=$mcap_prim_currency_symb?><?=$mcap_data['price']?></p>'
+        +'<p class="coin_info"><span class="yellow">24 Hour Volume (global):</span> <?=$mcap_prim_currency_symb?><?=number_format($mcap_data['vol_24h'],0,".",",")?></p>'
         <?php
             if ( $mcap_data['percent_change_1h'] != null ) {
             ?>

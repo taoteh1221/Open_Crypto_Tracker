@@ -948,7 +948,8 @@ select opt in $OPTIONS; do
 				rm $DOC_ROOT/cache/vars/app_config_md5.dat > /dev/null 2>&1
 				rm $DOC_ROOT/cache/vars/default_app_config_md5.dat > /dev/null 2>&1
 				rm $DOC_ROOT/cache/vars/default_ocpt_conf_md5.dat > /dev/null 2>&1
-				rm $DOC_ROOT/cache/vars/default_btc_primary_currency_pairing.dat > /dev/null 2>&1
+				rm $DOC_ROOT/cache/vars/lite_chart_structure.dat > /dev/null 2>&1
+				rm $DOC_ROOT/cache/vars/default_btc_prim_curr_pairing.dat > /dev/null 2>&1
 				
 				# Force-resets script timeout from config.php (automatically / dynamically re-created by app)
 				rm $DOC_ROOT/.htaccess > /dev/null 2>&1 

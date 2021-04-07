@@ -1388,7 +1388,7 @@ var $pt_array1 = array();
    
    function smtp_vars() {
    
-   // To preserve SMTPMailer class upgrade structure, by creating a global var to be run in classes/smtp-mailer/conf/conf_smtp.php
+   // To preserve SMTPMailer class upgrade structure, by creating a global var to be run in classes/smtp-mailer/conf/config_smtp.php
    
    global $app_version, $base_dir, $pt_conf;
    
