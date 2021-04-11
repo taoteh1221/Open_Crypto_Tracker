@@ -48,7 +48,7 @@ echo round($years, 2);
 				
 $calculate_daily = ( 24 / $hours );
 				
-$daily_average = $calculate_daily * trim($_POST['block_reward']);
+$daily_avg = $calculate_daily * trim($_POST['block_reward']);
 				
 ?>
 				
