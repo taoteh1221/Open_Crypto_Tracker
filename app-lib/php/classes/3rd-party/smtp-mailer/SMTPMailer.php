@@ -38,7 +38,7 @@ Class SMTPMailer {
     private $log      = array();
     private $debug      = array();
     private $logfile = '';
-    private $logfile_debugging = '';
+    private $logfile_debug = '';
 
 
 
@@ -50,7 +50,7 @@ Class SMTPMailer {
         	
             include dirname(__FILE__) . '/conf/config_smtp.php';
             $this->logfile   = $cfg_log_file;
-            $this->logfile_debugging   = $cfg_log_file_debugging;
+            $this->logfile_debug   = $cfg_log_file_debug;
             $this->server   = $cfg_server;
             $this->port     = $cfg_port;
             $this->secure   = $cfg_secure;
@@ -206,8 +206,8 @@ Class SMTPMailer {
     
     // Log to debugging file
     public function LogFileDebugging() {
-    		$format = "\n" . date('Y-m-d H:i:s') . " UTC | smtp_debugging: \n =========SMTP debugging log START================================================== \n ".print_r($this->debug, true)." \n =========SMTP debugging log END================================================== \n\n";
-    		file_put_contents($this->logfile_debugging, $format, FILE_APPEND | LOCK_EX);
+    		$format = "\n" . date('Y-m-d H:i:s') . " UTC | smtp_debug: \n =========SMTP debugging log START================================================== \n ".print_r($this->debug, true)." \n =========SMTP debugging log END================================================== \n\n";
+    		file_put_contents($this->logfile_debug, $format, FILE_APPEND | LOCK_EX);
     }
     
     

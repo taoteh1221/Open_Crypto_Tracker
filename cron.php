@@ -173,7 +173,13 @@ usleep(120000); // Wait 0.12 seconds
 		
 }
 else {
-$pt_gen->app_logging('system_error', 'time() returned a corrupt value (from power outage / corrupt memory / etc), chart updating canceled', 'chart_type: system stats');
+	
+$pt_gen->app_log(
+							'system_error',
+							'time() returned a corrupt value (from power outage / corrupt memory / etc), chart updating canceled',
+							'chart_type: system stats'
+							);
+
 }
 		
 // SYSTEM STATS END
@@ -189,10 +195,17 @@ if ( $pt_conf['dev']['debug'] == 'all' || $pt_conf['dev']['debug'] == 'all_telem
 	}
 			
 // Log system stats
-$pt_gen->app_logging('system_debugging', 'Hardware / software stats (requires log_verbosity set to verbose)', $system_telemetry);
+$pt_gen->app_log(
+							'system_debug',
+							'Hardware / software stats (requires log_verbosity set to verbose)',
+							$system_telemetry
+							);
 			
 // Log runtime stats
-$pt_gen->app_logging('system_debugging', strtoupper($runtime_mode).' runtime was ' . $total_runtime . ' seconds');
+$pt_gen->app_log(
+							'system_debug',
+							strtoupper($runtime_mode).' runtime was ' . $total_runtime . ' seconds'
+							);
 
 }
 

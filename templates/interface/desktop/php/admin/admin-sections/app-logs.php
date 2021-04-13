@@ -110,29 +110,29 @@
 	    </fieldset>
 	<?php
 	}
-	if ( is_readable($base_dir . '/cache/logs/smtp_debugging.log') ) {
+	if ( is_readable($base_dir . '/cache/logs/smtp_debug.log') ) {
 	?>
 	    <fieldset class='subsection_fieldset'><legend class='subsection_legend'> SMTP Debugging Log </legend>
 	        
 	        <p>
 	        
-	        <b>Extra Spacing:</b> <input type='checkbox' id='smtp_debugging_log_space' value='1' onchange="system_logs('smtp_debugging_log');" />
+	        <b>Extra Spacing:</b> <input type='checkbox' id='smtp_debug_log_space' value='1' onchange="system_logs('smtp_debug_log');" />
 	        
-	        &nbsp; <b>Last lines:</b> <input type='text' id='smtp_debugging_log_lines' value='100' maxlength="5" size="4" />
+	        &nbsp; <b>Last lines:</b> <input type='text' id='smtp_debug_log_lines' value='100' maxlength="5" size="4" />
 	        
-	        &nbsp; <button class='force_button_style' onclick="copy_text('smtp_debugging_log', 'smtp_debugging_log_alert');">Copy To Clipboard</button> 
+	        &nbsp; <button class='force_button_style' onclick="copy_text('smtp_debug_log', 'smtp_debug_log_alert');">Copy To Clipboard</button> 
 	        
-	        &nbsp; <button class='force_button_style' onclick="system_logs('smtp_debugging_log');">Refresh</button> 
+	        &nbsp; <button class='force_button_style' onclick="system_logs('smtp_debug_log');">Refresh</button> 
 	        
-	        &nbsp; <span id='smtp_debugging_log_alert' class='red'></span>
+	        &nbsp; <span id='smtp_debug_log_alert' class='red'></span>
 	        
 	        </p>
 	        
 	        <!-- Looks good highlighted as: less, yaml  -->
-	        <pre class='rounded'><code class='hide-x-scroll less' style='width: 100%; height: 750px;' id='smtp_debugging_log'></code></pre>
+	        <pre class='rounded'><code class='hide-x-scroll less' style='width: 100%; height: 750px;' id='smtp_debug_log'></code></pre>
 			  
 			  <script>
-			  system_logs('smtp_debugging_log');
+			  system_logs('smtp_debug_log');
 			  </script>
 		
 	    </fieldset>

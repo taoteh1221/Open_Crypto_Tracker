@@ -14,7 +14,7 @@
 				
 				$val_per_unit = ( $pt_var->num_to_str($val_per_unit) >= $pt_conf['gen']['prim_currency_dec_max_thres'] ? round($val_per_unit, 2) : round($val_per_unit, $pt_conf['gen']['prim_currency_dec_max']) );
 				
-				echo ( $pow_asset_data['symbol'] == 'btc' ? number_format($sel_btc_prim_currency_val, 2) . ' ' . strtoupper($pt_conf['gen']['btc_prim_currency_pairing']) : number_format($mined_asset_val, 8) . ' BTC (' . $pt_conf['power']['btc_currency_markets'][$pt_conf['gen']['btc_prim_currency_pairing']] . $val_per_unit . ' '.strtoupper($pt_conf['gen']['btc_prim_currency_pairing']).')' );
+				echo ( $pow_asset_data['symbol'] == 'btc' ? number_format($sel_btc_prim_currency_val, 2) . ' ' . strtoupper($pt_conf['gen']['btc_prim_currency_pairing']) : number_format($mined_asset_val, 8) . ' BTC (' . $pt_conf['power']['btc_currency_markets'][ $pt_conf['gen']['btc_prim_currency_pairing'] ] . $val_per_unit . ' '.strtoupper($pt_conf['gen']['btc_prim_currency_pairing']).')' );
 				?>
 				
 				<br />
@@ -44,7 +44,7 @@
 				<?php
 				$prim_currency_daily_avg_raw = ( $pt_var->num_to_str($prim_currency_daily_avg_raw) >= $pt_conf['gen']['prim_currency_dec_max_thres'] ? round($prim_currency_daily_avg_raw, 2) : round($prim_currency_daily_avg_raw, $pt_conf['gen']['prim_currency_dec_max']) );
 				
-				echo number_format( $btc_daily_avg_raw, 8 ) . ' BTC (' . $pt_conf['power']['btc_currency_markets'][$pt_conf['gen']['btc_prim_currency_pairing']] . $prim_currency_daily_avg_raw . ' '.strtoupper($pt_conf['gen']['btc_prim_currency_pairing']).')';
+				echo number_format( $btc_daily_avg_raw, 8 ) . ' BTC (' . $pt_conf['power']['btc_currency_markets'][ $pt_conf['gen']['btc_prim_currency_pairing'] ] . $prim_currency_daily_avg_raw . ' '.strtoupper($pt_conf['gen']['btc_prim_currency_pairing']).')';
 				?>
 				
 				<br />
@@ -53,7 +53,7 @@
 				<span class='red'><b>Power Cost Daily:</b> 
 				
 				<?php
-				echo $pt_conf['power']['btc_currency_markets'][$pt_conf['gen']['btc_prim_currency_pairing']] . number_format($kwh_cost_daily, 2);
+				echo $pt_conf['power']['btc_currency_markets'][ $pt_conf['gen']['btc_prim_currency_pairing'] ] . number_format($kwh_cost_daily, 2);
 				?>
 				
 				</span> 
@@ -64,7 +64,7 @@
 				<span class='red'><b>Pool Fee Daily:</b> 
 				
 				<?php
-				echo $pt_conf['power']['btc_currency_markets'][$pt_conf['gen']['btc_prim_currency_pairing']] . number_format($pool_fee_daily, 2);
+				echo $pt_conf['power']['btc_currency_markets'][ $pt_conf['gen']['btc_prim_currency_pairing'] ] . number_format($pool_fee_daily, 2);
 				?>
 				
 				</span> 
@@ -88,7 +88,7 @@
 				<b><span class="<?=$mining_daily_profit_span?>">Daily Profit:</span></b> 
 				
 				<?php
-				echo '<span class="'.$mining_daily_profit_span.'">' . $pt_conf['power']['btc_currency_markets'][$pt_conf['gen']['btc_prim_currency_pairing']] . number_format($mining_daily_profit, 2) . '</span>';
+				echo '<span class="'.$mining_daily_profit_span.'">' . $pt_conf['power']['btc_currency_markets'][ $pt_conf['gen']['btc_prim_currency_pairing'] ] . number_format($mining_daily_profit, 2) . '</span>';
 				?>
 				
 				<br />
@@ -116,7 +116,7 @@
 				<b>Average BTC Value Earned Weekly:</b> 
 				
 				<?php
-				echo number_format( $btc_daily_avg_raw * 7 , 8) . ' BTC (' . $pt_conf['power']['btc_currency_markets'][$pt_conf['gen']['btc_prim_currency_pairing']] . number_format( $prim_currency_daily_avg_raw * 7 , 2) . ' '.strtoupper($pt_conf['gen']['btc_prim_currency_pairing']).')';
+				echo number_format( $btc_daily_avg_raw * 7 , 8) . ' BTC (' . $pt_conf['power']['btc_currency_markets'][ $pt_conf['gen']['btc_prim_currency_pairing'] ] . number_format( $prim_currency_daily_avg_raw * 7 , 2) . ' '.strtoupper($pt_conf['gen']['btc_prim_currency_pairing']).')';
 				?>
 				
 				<br />
@@ -125,7 +125,7 @@
 				<span class='red'><b>Power Cost Weekly:</b> 
 				
 				<?php
-				echo $pt_conf['power']['btc_currency_markets'][$pt_conf['gen']['btc_prim_currency_pairing']] . number_format($kwh_cost_daily * 7, 2);
+				echo $pt_conf['power']['btc_currency_markets'][ $pt_conf['gen']['btc_prim_currency_pairing'] ] . number_format($kwh_cost_daily * 7, 2);
 				?>
 				
 				</span>
@@ -136,7 +136,7 @@
 				<span class='red'><b>Pool Fee Weekly:</b> 
 				
 				<?php
-				echo $pt_conf['power']['btc_currency_markets'][$pt_conf['gen']['btc_prim_currency_pairing']] . number_format($pool_fee_daily * 7, 2);
+				echo $pt_conf['power']['btc_currency_markets'][ $pt_conf['gen']['btc_prim_currency_pairing'] ] . number_format($pool_fee_daily * 7, 2);
 				?>
 				
 				</span>
@@ -147,7 +147,7 @@
 				<b><span class="<?=$mining_daily_profit_span?>">Weekly Profit:</span></b> 
 				
 				<?php
-				echo '<span class="'.$mining_daily_profit_span.'">' . $pt_conf['power']['btc_currency_markets'][$pt_conf['gen']['btc_prim_currency_pairing']] . number_format( ($mining_daily_profit * 7) , 2) . '</span>';
+				echo '<span class="'.$mining_daily_profit_span.'">' . $pt_conf['power']['btc_currency_markets'][ $pt_conf['gen']['btc_prim_currency_pairing'] ] . number_format( ($mining_daily_profit * 7) , 2) . '</span>';
 				?>
 				
 				<br />

@@ -32,7 +32,12 @@ $pairing_btc_val = $pt_asset->pairing_btc_val($asset);
   	 
   	 
 	if ( $pairing_btc_val == null ) {
-	$pt_gen->app_logging('market_error', 'pt_asset->pairing_btc_val(\''.$asset.'\') returned null in the \''.$this_plug.'\' plugin, likely from exchange API request failure');
+		
+	$pt_gen->app_log(
+								'market_error',
+								'pt_asset->pairing_btc_val(\''.$asset.'\') returned null in the \''.$this_plug.'\' plugin, likely from exchange API request failure'
+								);
+	
 	}
 
 	
@@ -109,7 +114,7 @@ $pretty_asset_amount = $pt_var->num_pretty($address_balance, 8);
 		}
 
 
-	$base_msg = "The " . $label . " address balance has " . $direction . "d (" . $plus_minus . $difference_amount . " " . strtoupper($asset) . "), to a new balance of " . $pretty_asset_amount . " " . strtoupper($asset) . " (". $pt_conf['power']['btc_currency_markets'][$pt_conf['gen']['btc_prim_currency_pairing']] . $pretty_prim_currency_worth . ").";
+	$base_msg = "The " . $label . " address balance has " . $direction . "d (" . $plus_minus . $difference_amount . " " . strtoupper($asset) . "), to a new balance of " . $pretty_asset_amount . " " . strtoupper($asset) . " (". $pt_conf['power']['btc_currency_markets'][ $pt_conf['gen']['btc_prim_currency_pairing'] ] . $pretty_prim_currency_worth . ").";
 
 
 		// Add blockchain explorer link to email message
@@ -121,7 +126,7 @@ $pretty_asset_amount = $pt_var->num_pretty($address_balance, 8);
 		}
 
 
-	$text_msg = $label . " address balance " . $direction . " (" . $plus_minus . $difference_amount . " " . strtoupper($asset) . "): " . $pretty_asset_amount . " " . strtoupper($asset) . " (". $pt_conf['power']['btc_currency_markets'][$pt_conf['gen']['btc_prim_currency_pairing']] . $pretty_prim_currency_worth . ").";
+	$text_msg = $label . " address balance " . $direction . " (" . $plus_minus . $difference_amount . " " . strtoupper($asset) . "): " . $pretty_asset_amount . " " . strtoupper($asset) . " (". $pt_conf['power']['btc_currency_markets'][ $pt_conf['gen']['btc_prim_currency_pairing'] ] . $pretty_prim_currency_worth . ").";
               
    // Were're just adding a human-readable timestamp to smart home (audio) alerts
    $notifyme_msg = $base_msg . ' Timestamp: ' . $pt_gen->time_date_format($pt_conf['gen']['loc_time_offset'], 'pretty_time') . '.';

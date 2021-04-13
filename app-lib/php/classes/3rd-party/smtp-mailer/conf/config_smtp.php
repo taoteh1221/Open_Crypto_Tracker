@@ -4,7 +4,7 @@
 global $smtp_vars;
 		
 $cfg_log_file   = $smtp_vars['cfg_log_file'];
-$cfg_log_file_debugging   = $smtp_vars['cfg_log_file_debugging'];
+$cfg_log_file_debug   = $smtp_vars['cfg_log_file_debug'];
 $cfg_server   = $smtp_vars['cfg_server'];
 $cfg_port     =  $smtp_vars['cfg_port'];
 $cfg_secure   = $smtp_vars['cfg_secure'];

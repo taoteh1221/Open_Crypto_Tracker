@@ -246,9 +246,17 @@ var $pt_array1 = array();
    $result = array();
    
    
-      if ( trim($pt_conf['gen']['cmc_key']) == null ) { 
-      $pt_gen->app_logging('notify_error', '"cmc_key" (free API key) is not configured in Admin Config GENERAL section', false, 'cmc_key');
+      if ( trim($pt_conf['gen']['cmc_key']) == null ) {
+      	
+      $pt_gen->app_log(
+      							'notify_error',
+      							'"cmc_key" (free API key) is not configured in Admin Config GENERAL section',
+      							false,
+      							'cmc_key'
+      							);
+      
       return false;
+      
       }
       
    
@@ -354,7 +362,10 @@ var $pt_array1 = array();
          
          if ( $pt_conf['dev']['debug'] == 'all' || $pt_conf['dev']['debug'] == 'all_telemetry' || $pt_conf['dev']['debug'] == 'memory_usage_telemetry' ) {
          	
-         $pt_gen->app_logging('system_debugging', $endpoint_tld_or_ip . ' news feed updating ('.$_SESSION[$fetched_feeds]['all'].'), CURRENT script memory usage is ' . $pt_gen->conv_bytes(memory_get_usage(), 1) . ', PEAK script memory usage is ' . $pt_gen->conv_bytes(memory_get_peak_usage(), 1) . ', php_sapi_name is "' . php_sapi_name() . '"' );
+         $pt_gen->app_log(
+         							'system_debug',
+         							$endpoint_tld_or_ip . ' news feed updating ('.$_SESSION[$fetched_feeds]['all'].'), CURRENT script memory usage is ' . $pt_gen->conv_bytes(memory_get_usage(), 1) . ', PEAK script memory usage is ' . $pt_gen->conv_bytes(memory_get_peak_usage(), 1) . ', php_sapi_name is "' . php_sapi_name() . '"'
+         							);
          
          }
       
@@ -424,7 +435,7 @@ var $pt_array1 = array();
             $usort_results = usort($sortable_feed,  array('pt_gen', 'timestamps_usort_newest') );
                
             if ( !$usort_results ) {
-            $pt_gen->app_logging( 'other_error', 'RSS feed failed to sort by newest items (' . $url . ')');
+            $pt_gen->app_log( 'other_error', 'RSS feed failed to sort by newest items (' . $url . ')');
             }
              
             
@@ -489,7 +500,7 @@ var $pt_array1 = array();
          $usort_results = usort($sortable_feed, array('pt_gen', 'timestamps_usort_newest') );
                
             if ( !$usort_results ) {
-            $pt_gen->app_logging( 'other_error', 'RSS feed failed to sort by newest items (' . $url . ')');
+            $pt_gen->app_log( 'other_error', 'RSS feed failed to sort by newest items (' . $url . ')');
             }
             
              
@@ -1246,7 +1257,6 @@ var $pt_array1 = array();
           if ( is_array($data) ) {
       
             foreach ($data as $key => $val) {
-         // var_dump($val);
               
               
               if ( $key == $market_id ) {
@@ -1254,6 +1264,46 @@ var $pt_array1 = array();
               $result = array(
                               'last_trade' => $val["last"],
                               '24hr_asset_vol' => $val["vol"],
+                              '24hr_pairing_vol' => null // No pairing volume data for this API
+                     			);
+     
+              }
+            
+          
+            }
+          
+          }
+      
+      
+      }
+     
+     
+     
+     ////////////////////////////////////////////////////////////////////////////////////////////////
+    
+    
+    
+      elseif ( strtolower($sel_exchange) == 'coinspot' ) {
+         
+      $url = 'https://www.coinspot.com.au/pubapi/latest';
+         
+      $response = @$pt_cache->ext_data('url', $url, $pt_conf['power']['last_trade_cache_time']);
+         
+      $data = json_decode($response, true);
+         
+      $data = $data['prices'];
+         
+      
+          if ( is_array($data) ) {
+      
+            foreach ($data as $key => $val) {
+              
+              
+              if ( $key == $market_id ) {
+               
+              $result = array(
+                              'last_trade' => $val["last"],
+                              '24hr_asset_vol' => null, // No asset volume data for this API
                               '24hr_pairing_vol' => null // No pairing volume data for this API
                      			);
      
@@ -1314,8 +1364,16 @@ var $pt_array1 = array();
         
           
           if ( trim($pt_conf['gen']['defipulse_key']) == null ) {
-          $pt_gen->app_logging('notify_error', '"defipulse_key" (free API key) is not configured in Admin Config GENERAL section', false, 'defipulse_key');
+          	
+          $pt_gen->app_log(
+          							'notify_error',
+          							'"defipulse_key" (free API key) is not configured in Admin Config GENERAL section',
+          							false,
+          							'defipulse_key'
+          							);
+          
           return false;
+          
           }
           
         
@@ -1329,12 +1387,26 @@ var $pt_array1 = array();
           
           
           if ( $defipulse_api_limit == true ) {
-          $pt_gen->app_logging('notify_error', 'DeFiPulse.com monthly API limit exceeded (check your account there)', false, 'defipulsecom_api_limit');
+          	
+          $pt_gen->app_log(
+          							'notify_error',
+          							'DeFiPulse.com monthly API limit exceeded (check your account there)',
+          							false,
+          							'defipulsecom_api_limit'
+          							);
+          
           return false;
+          
           }
           elseif ( !$defi_pools_info['pool_address'] ) {
-          $pt_gen->app_logging('market_error', 'No DeFi liquidity pool found for ' . $market_id . ', try setting "defi_liquidity_pools_max" HIGHER in the POWER USER config (current setting is '.$pt_conf['power']['defi_liquidity_pools_max'].', results are sorted by highest trade volume pools first)');
+          	
+          $pt_gen->app_log(
+          							'market_error',
+          							'No DeFi liquidity pool found for ' . $market_id . ', try setting "defi_liquidity_pools_max" HIGHER in the POWER USER config (current setting is '.$pt_conf['power']['defi_liquidity_pools_max'].', results are sorted by highest trade volume pools first)'
+          							);
+          
           return false;
+          
           }
          
          
@@ -1393,7 +1465,12 @@ var $pt_array1 = array();
           
           
             if ( !$result ) {
-            $pt_gen->app_logging('market_error', 'No trades found for ' . $market_id . ', try setting "defi_pools_max_trades" HIGHER in the POWER USER config (current setting is '.$pt_conf['power']['defi_pools_max_trades'].', results are sorted by most recent trades first)');
+            	
+            $pt_gen->app_log(
+            							'market_error',
+            							'No trades found for ' . $market_id . ', try setting "defi_pools_max_trades" HIGHER in the POWER USER config (current setting is '.$pt_conf['power']['defi_pools_max_trades'].', results are sorted by most recent trades first)'
+            							);
+            
             }
           
           }
@@ -2270,7 +2347,13 @@ var $pt_array1 = array();
         $pairing_btc_val = $pt_asset->pairing_btc_val($market_id);
       
           if ( $pairing_btc_val == null ) {
-          $pt_gen->app_logging('market_error', 'pt_asset->pairing_btc_val() returned null', 'market_id: ' . $market_id);
+          	
+          $pt_gen->app_log(
+          							'market_error',
+          							'pt_asset->pairing_btc_val() returned null',
+          							'market_id: ' . $market_id
+          							);
+          
           }
       
          $result = array(

@@ -104,7 +104,7 @@ echo '?';
         		$mcap_prim_currency_ticker = 'USD';
         		}
         		else {
-        		$mcap_prim_currency_symb = $pt_conf['power']['btc_currency_markets'][$pt_conf['gen']['btc_prim_currency_pairing']];
+        		$mcap_prim_currency_symb = $pt_conf['power']['btc_currency_markets'][ $pt_conf['gen']['btc_prim_currency_pairing'] ];
         		$mcap_prim_currency_ticker = strtoupper($pt_conf['gen']['btc_prim_currency_pairing']);
         		}
         		
@@ -354,7 +354,7 @@ echo '?';
   // UX on FIAT EQUIV number values
   $asset_prim_currency_val = ( $pt_var->num_to_str($asset_prim_currency_val) >= $pt_conf['gen']['prim_currency_dec_max_thres'] ? $pt_var->num_pretty($asset_prim_currency_val, 2) : $pt_var->num_pretty($asset_prim_currency_val, $pt_conf['gen']['prim_currency_dec_max']) );
 	
-  echo "<span class='white'>" . $pt_conf['power']['btc_currency_markets'][$pt_conf['gen']['btc_prim_currency_pairing']] . "</span>" . "<span class='app_sort_filter'>" . $asset_prim_currency_val . "</span>";
+  echo "<span class='white'>" . $pt_conf['power']['btc_currency_markets'][ $pt_conf['gen']['btc_prim_currency_pairing'] ] . "</span>" . "<span class='app_sort_filter'>" . $asset_prim_currency_val . "</span>";
 
 ?>
 
@@ -497,7 +497,7 @@ echo $pt_var->num_pretty($asset_val_raw, $asset_val_dec);
 
 <td class='data border_b'>
 
-<span class='white'><?=$pt_conf['power']['btc_currency_markets'][$pt_conf['gen']['btc_prim_currency_pairing']]?></span><span class='app_sort_filter'><?php 
+<span class='white'><?=$pt_conf['power']['btc_currency_markets'][ $pt_conf['gen']['btc_prim_currency_pairing'] ]?></span><span class='app_sort_filter'><?php 
 
   // NULL if not setup to get volume, negative number returned if no data received from API
   if ( $trade_vol == NULL || $trade_vol == -1 ) {
@@ -609,7 +609,7 @@ echo ' <span class="blue"><span class="data app_sort_filter blue">' . $pretty_as
 <?php
 
 
-echo '<span class="' . ( $purchase_price >= 0.00000001 && $leverage_level >= 2 && $sel_margintype == 'short' ? 'short">★ ' : 'blue">' ) . '<span class="blue">' . $pt_conf['power']['btc_currency_markets'][$pt_conf['gen']['btc_prim_currency_pairing']] . '</span><span class="app_sort_filter blue">' . number_format($asset_prim_currency_worth_raw, 2, '.', ',') . '</span></span>';
+echo '<span class="' . ( $purchase_price >= 0.00000001 && $leverage_level >= 2 && $sel_margintype == 'short' ? 'short">★ ' : 'blue">' ) . '<span class="blue">' . $pt_conf['power']['btc_currency_markets'][ $pt_conf['gen']['btc_prim_currency_pairing'] ] . '</span><span class="app_sort_filter blue">' . number_format($asset_prim_currency_worth_raw, 2, '.', ',') . '</span></span>';
 
   if ( $purchase_price >= 0.00000001 && $leverage_level >= 2 ) {
 
@@ -618,11 +618,11 @@ echo '<span class="' . ( $purchase_price >= 0.00000001 && $leverage_level >= 2 &
   echo ' <span class="extra_data">(' . $leverage_level . 'x ' . $sel_margintype . ')</span>';
 
   // Here we parse out negative symbols
-  $parsed_gain_loss = preg_replace("/-/", "-" . $pt_conf['power']['btc_currency_markets'][$pt_conf['gen']['btc_prim_currency_pairing']], number_format( $gain_loss, 2, '.', ',' ) );
+  $parsed_gain_loss = preg_replace("/-/", "-" . $pt_conf['power']['btc_currency_markets'][ $pt_conf['gen']['btc_prim_currency_pairing'] ], number_format( $gain_loss, 2, '.', ',' ) );
   
-  $parsed_inc_leverage_gain_loss = preg_replace("/-/", "-" . $pt_conf['power']['btc_currency_markets'][$pt_conf['gen']['btc_prim_currency_pairing']], number_format( $inc_leverage_gain_loss, 2, '.', ',' ) );
+  $parsed_inc_leverage_gain_loss = preg_replace("/-/", "-" . $pt_conf['power']['btc_currency_markets'][ $pt_conf['gen']['btc_prim_currency_pairing'] ], number_format( $inc_leverage_gain_loss, 2, '.', ',' ) );
   
-  $parsed_only_leverage_gain_loss = preg_replace("/-/", "-" . $pt_conf['power']['btc_currency_markets'][$pt_conf['gen']['btc_prim_currency_pairing']], number_format($only_leverage_gain_loss, 2, '.', ',' ) );
+  $parsed_only_leverage_gain_loss = preg_replace("/-/", "-" . $pt_conf['power']['btc_currency_markets'][ $pt_conf['gen']['btc_prim_currency_pairing'] ], number_format($only_leverage_gain_loss, 2, '.', ',' ) );
   
   // Here we can go negative 'total worth' with the margin leverage (unlike with the margin deposit)
   // We only want a negative sign here in the UI for 'total worth' clarity (if applicable), NEVER a plus sign
@@ -637,7 +637,7 @@ echo '<span class="' . ( $purchase_price >= 0.00000001 && $leverage_level >= 2 &
   
   		// Formatting
   		$gain_loss_span_color = ( $gain_loss >= 0 ? 'green' : 'red' );
-  		$gain_loss_prim_currency = ( $gain_loss >= 0 ? '+' . $pt_conf['power']['btc_currency_markets'][$pt_conf['gen']['btc_prim_currency_pairing']] : '' );
+  		$gain_loss_prim_currency = ( $gain_loss >= 0 ? '+' . $pt_conf['power']['btc_currency_markets'][ $pt_conf['gen']['btc_prim_currency_pairing'] ] : '' );
   		
 		?> 
 		<img id='<?=$rand_id?>_leverage' src='templates/interface/media/images/info.png' alt='' width='30' style='position: relative; left: -5px;' />
@@ -645,11 +645,11 @@ echo '<span class="' . ( $purchase_price >= 0.00000001 && $leverage_level >= 2 &
 	
 			var leverage_content = '<h5 class="yellow tooltip_title"><?=$leverage_level?>x <?=ucfirst($sel_margintype)?> For <?=$asset_name?> (<?=$asset_symb?>)</h5>'
 			
-			+'<p class="coin_info"><span class="yellow">Deposit (1x):</span> <span class="<?=$gain_loss_span_color?>"><?=$gain_loss_prim_currency?><?=$parsed_gain_loss?></span> (<?=$pt_conf['power']['btc_currency_markets'][$pt_conf['gen']['btc_prim_currency_pairing']]?><?=$pretty_asset_prim_currency_worth_raw?>)</p>'
+			+'<p class="coin_info"><span class="yellow">Deposit (1x):</span> <span class="<?=$gain_loss_span_color?>"><?=$gain_loss_prim_currency?><?=$parsed_gain_loss?></span> (<?=$pt_conf['power']['btc_currency_markets'][ $pt_conf['gen']['btc_prim_currency_pairing'] ]?><?=$pretty_asset_prim_currency_worth_raw?>)</p>'
 			
 			+'<p class="coin_info"><span class="yellow">Margin (<?=($leverage_level - 1)?>x):</span> <span class="<?=$gain_loss_span_color?>"><?=$gain_loss_prim_currency?><?=$parsed_only_leverage_gain_loss?></span></p>'
 			
-			+'<p class="coin_info"><span class="yellow">Total (<?=($leverage_level)?>x):</span> <span class="<?=$gain_loss_span_color?>"><?=$gain_loss_prim_currency?><?=$parsed_inc_leverage_gain_loss?> / <?=( $gain_loss >= 0 ? '+' : '' )?><?=$pretty_leverage_gain_loss_percent?>%</span> (<?=( $asset_worth_inc_leverage >= 0 ? '' : '-' )?><?=$pt_conf['power']['btc_currency_markets'][$pt_conf['gen']['btc_prim_currency_pairing']]?><?=$parsed_asset_worth_inc_leverage?>)</p>'
+			+'<p class="coin_info"><span class="yellow">Total (<?=($leverage_level)?>x):</span> <span class="<?=$gain_loss_span_color?>"><?=$gain_loss_prim_currency?><?=$parsed_inc_leverage_gain_loss?> / <?=( $gain_loss >= 0 ? '+' : '' )?><?=$pretty_leverage_gain_loss_percent?>%</span> (<?=( $asset_worth_inc_leverage >= 0 ? '' : '-' )?><?=$pt_conf['power']['btc_currency_markets'][ $pt_conf['gen']['btc_prim_currency_pairing'] ]?><?=$parsed_asset_worth_inc_leverage?>)</p>'
 			
 				
 			+'<p class="coin_info"><span class="yellow"> </span></p>';

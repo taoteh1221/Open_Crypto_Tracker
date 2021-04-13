@@ -81,12 +81,12 @@ foreach( $secured_cache_files as $secured_file ) {
 			$is_cached_pt_conf = 1;
 			}
 			elseif ( $check_default_pt_conf != md5(serialize($default_pt_conf)) ) {
-			$pt_gen->app_logging('conf_error', 'CACHED pt_conf outdated (DEFAULT pt_conf updated), refreshing from DEFAULT pt_conf');
+			$pt_gen->app_log('conf_error', 'CACHED pt_conf outdated (DEFAULT pt_conf updated), refreshing from DEFAULT pt_conf');
 			unlink($base_dir . '/cache/secured/' . $secured_file);
 			$refresh_cached_pt_conf = 1;
 			}
 			elseif ( $cached_pt_conf != true ) {
-			$pt_gen->app_logging('conf_error', 'CACHED pt_conf appears corrupt, refreshing from DEFAULT pt_conf');
+			$pt_gen->app_log('conf_error', 'CACHED pt_conf appears corrupt, refreshing from DEFAULT pt_conf');
 			unlink($base_dir . '/cache/secured/' . $secured_file);
 			$refresh_cached_pt_conf = 1;
 			}
@@ -125,7 +125,7 @@ foreach( $secured_cache_files as $secured_file ) {
 			$is_cached_telegram_user_data = 1;
 			}
 			elseif ( $cached_telegram_user_data != true ) {
-			$pt_gen->app_logging('conf_error', 'Cached telegram_user_data appears corrupted, deleting cached telegram_user_data (refresh will happen automatically)');
+			$pt_gen->app_log('conf_error', 'Cached telegram_user_data appears corrupted, deleting cached telegram_user_data (refresh will happen automatically)');
 			unlink($base_dir . '/cache/secured/' . $secured_file);
 			$refresh_cached_telegram_user_data = 1;
 			}
@@ -254,7 +254,12 @@ $secure_128bit_hash = $pt_gen->rand_hash(16); // 128-bit (16-byte) hash converte
 	
 	// Halt the process if an issue is detected safely creating a random hash
 	if ( $secure_128bit_hash == false ) {
-	$pt_gen->app_logging('security_error', 'Cryptographically secure pseudo-random bytes could not be generated for cached pt_conf array (secured cache storage) suffix, cached pt_conf array creation aborted to preserve security');
+		
+	$pt_gen->app_log(
+								'security_error', 
+								'Cryptographically secure pseudo-random bytes could not be generated for cached pt_conf array (secured cache storage) suffix, cached pt_conf array creation aborted to preserve security'
+								);
+	
 	}
 	else {
 	
@@ -273,7 +278,7 @@ $secure_128bit_hash = $pt_gen->rand_hash(16); // 128-bit (16-byte) hash converte
 	
 		// If there was an issue updating the cached app config
 		if ( $store_cached_pt_conf == false ) {
-		$pt_gen->app_logging('conf_error', 'pt_conf data could not be saved (to secured cache storage) in json format');
+		$pt_gen->app_log('conf_error', 'pt_conf data could not be saved (to secured cache storage) in json format');
 		}
 		// If cached app config updated successfully
 		else {
@@ -304,7 +309,12 @@ $secure_128bit_hash = $pt_gen->rand_hash(16); // 128-bit (16-byte) hash converte
 	
 	// Halt the process if an issue is detected safely creating a random hash
 	if ( $secure_128bit_hash == false ) {
-	$pt_gen->app_logging('security_error', 'Cryptographically secure pseudo-random bytes could not be generated for cached telegram_user_data array (secured cache storage) suffix, cached telegram_user_data array creation aborted to preserve security');
+		
+	$pt_gen->app_log(
+								'security_error', 
+								'Cryptographically secure pseudo-random bytes could not be generated for cached telegram_user_data array (secured cache storage) suffix, cached telegram_user_data array creation aborted to preserve security'
+								);
+	
 	}
 	else {
 	
@@ -314,7 +324,7 @@ $secure_128bit_hash = $pt_gen->rand_hash(16); // 128-bit (16-byte) hash converte
 		
 		// Need to check a few different possible results for no data found ("null" in quotes as the actual value is returned sometimes)
 		if ( $store_cached_telegram_user_data == false || $store_cached_telegram_user_data == null || $store_cached_telegram_user_data == "null" ) {
-		$pt_gen->app_logging('conf_error', 'UPDATED telegram_user_data could not be saved, PLEASE RE-ENTER "/start" IN THE BOT CHATROOM, IN THE TELEGRAM APP');
+		$pt_gen->app_log('conf_error', 'UPDATED telegram_user_data could not be saved, PLEASE RE-ENTER "/start" IN THE BOT CHATROOM, IN THE TELEGRAM APP');
 		}
 		else {
 		$pt_cache->save_file($base_dir . '/cache/secured/telegram_user_data_'.$secure_128bit_hash.'.dat', $store_cached_telegram_user_data);
@@ -338,7 +348,12 @@ $secure_256bit_hash = $pt_gen->rand_hash(32); // 256-bit (32-byte) hash converte
 	
 	// Halt the process if an issue is detected safely creating a random hash
 	if ( $secure_128bit_hash == false || $secure_256bit_hash == false ) {
-	$pt_gen->app_logging('security_error', 'Cryptographically secure pseudo-random bytes could not be generated for pepper var (in secured cache storage), pepper var creation aborted to preserve security');
+		
+	$pt_gen->app_log(
+								'security_error',
+								'Cryptographically secure pseudo-random bytes could not be generated for pepper var (in secured cache storage), pepper var creation aborted to preserve security'
+								);
+	
 	}
 	else {
 	$pt_cache->save_file($base_dir . '/cache/secured/pepper_var_'.$secure_128bit_hash.'.dat', $secure_256bit_hash);
@@ -361,7 +376,12 @@ $secure_256bit_hash = $pt_gen->rand_hash(32); // 256-bit (32-byte) hash converte
 	
 	// Halt the process if an issue is detected safely creating a random hash
 	if ( $secure_128bit_hash == false || $secure_256bit_hash == false ) {
-	$pt_gen->app_logging('security_error', 'Cryptographically secure pseudo-random bytes could not be generated for webhook key (in secured cache storage), webhook key creation aborted to preserve security');
+		
+	$pt_gen->app_log(
+								'security_error',
+								'Cryptographically secure pseudo-random bytes could not be generated for webhook key (in secured cache storage), webhook key creation aborted to preserve security'
+								);
+	
 	}
 	else {
 	$pt_cache->save_file($base_dir . '/cache/secured/webhook_key_'.$secure_128bit_hash.'.dat', $secure_256bit_hash);
@@ -384,7 +404,12 @@ $secure_256bit_hash = $pt_gen->rand_hash(32); // 256-bit (32-byte) hash converte
 	
 	// Halt the process if an issue is detected safely creating a random hash
 	if ( $secure_128bit_hash == false || $secure_256bit_hash == false ) {
-	$pt_gen->app_logging('security_error', 'Cryptographically secure pseudo-random bytes could not be generated for API key (in secured cache storage), API key creation aborted to preserve security');
+		
+	$pt_gen->app_log(
+								'security_error',
+								'Cryptographically secure pseudo-random bytes could not be generated for API key (in secured cache storage), API key creation aborted to preserve security'
+								);
+	
 	}
 	else {
 	$pt_cache->save_file($base_dir . '/cache/secured/int_api_key_'.$secure_128bit_hash.'.dat', $secure_256bit_hash);
@@ -414,11 +439,16 @@ if ( $password_reset_approved || sizeof($stored_admin_login) != 2 ) {
 	
 		// (random hash) Halt the process if an issue is detected safely creating a random hash
 		if ( $secure_128bit_hash == false ) {
-		$pt_gen->app_logging('security_error', 'Cryptographically secure pseudo-random bytes could not be generated for admin login (in secured cache storage), admin login creation aborted to preserve security');
+			
+		$pt_gen->app_log(
+									'security_error',
+									'Cryptographically secure pseudo-random bytes could not be generated for admin login (in secured cache storage), admin login creation aborted to preserve security'
+									);
+		
 		}
 		// (peppered password) Halt the process if an issue is detected safely creating a random hash
 		elseif ( $secure_password_hash == false ) {
-		$pt_gen->app_logging('security_error', 'A peppered password hash could not be generated for admin login, admin login creation aborted to preserve security');
+		$pt_gen->app_log('security_error', 'A peppered password hash could not be generated for admin login, admin login creation aborted to preserve security');
 		}
 		else {
 		$pt_cache->save_file($base_dir . '/cache/secured/admin_login_'.$secure_128bit_hash.'.dat', trim($_POST['set_username']) . '||' . $secure_password_hash);
@@ -458,7 +488,7 @@ if ( $password_reset_approved || sizeof($stored_admin_login) != 2 ) {
 		
 		}
 		else {
-		$pt_gen->app_logging('security_error', 'Admin login could not be updated', 'remote_address: ' . $remote_ip);
+		$pt_gen->app_log('security_error', 'Admin login could not be updated', 'remote_address: ' . $remote_ip);
 		}
 	
 

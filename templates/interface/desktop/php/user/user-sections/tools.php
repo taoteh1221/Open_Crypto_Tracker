@@ -20,7 +20,7 @@
 		    
 			<p class='red'>Using this QR code generator <i><u>will set this page as the start page</u>, which you can reset afterwards at top left</i>. If you have portfolio data you don't want to lose, be sure you have enabled "Use cookies to save data" on the Settings page before using this tool.</p>
 			
-			<p>If you need to safely / quickly copy an address to yours or someone else's phone with a QR Code scanner app. 
+			<p>If you need to safely / quickly copy an address to yours or someone else's phone / air-gapped machine / etc, with a QR Code scanner app. 
 			<br /><br />NOTE: Whitespace, carriage returns, HTML, and non-alphanumeric characters are not allowed.</p>
 
 			<form method='post' action='<?=$pt_gen->start_page('tools')?>'>
@@ -79,9 +79,9 @@
     				
     			</p>
     			
-    			<p class='green' style='font-weight: bold;'>Per-Token (<?=strtoupper($pt_conf['gen']['btc_prim_currency_pairing'])?>): <?=$pt_conf['power']['btc_currency_markets'][$pt_conf['gen']['btc_prim_currency_pairing']]?><span id='target_prim_currency'>0.00</span> (<span id='target_btc'>0.00</span> BTC) </p>
+    			<p class='green' style='font-weight: bold;'>Per-Token (<?=strtoupper($pt_conf['gen']['btc_prim_currency_pairing'])?>): <?=$pt_conf['power']['btc_currency_markets'][ $pt_conf['gen']['btc_prim_currency_pairing'] ]?><span id='target_prim_currency'>0.00</span> (<span id='target_btc'>0.00</span> BTC) </p>
     			
-    			<p class='green' style='font-weight: bold;'>Total: <?=$pt_conf['power']['btc_currency_markets'][$pt_conf['gen']['btc_prim_currency_pairing']]?><span id='target_total_prim_currency'>0.00</span> (<span id='target_total_btc'>0.00</span> BTC) </p>
+    			<p class='green' style='font-weight: bold;'>Total: <?=$pt_conf['power']['btc_currency_markets'][ $pt_conf['gen']['btc_prim_currency_pairing'] ]?><span id='target_total_prim_currency'>0.00</span> (<span id='target_total_btc'>0.00</span> BTC) </p>
     			
     			<script>
     			

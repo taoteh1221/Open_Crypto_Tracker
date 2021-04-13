@@ -1367,7 +1367,7 @@ $pt_conf['power']['news_feed'] = array(
 // 'memory_usage_telemetry' (PHP system memory usage),
 // 'ext_data_live_telemetry' (external API requests from server),
 // 'ext_data_cache_telemetry' (external API requests from cache),
-// 'smtp_telemetry' (smtp server responses to: /cache/logs/smtp_debugging.log),
+// 'smtp_telemetry' (smtp server responses to: /cache/logs/smtp_debug.log),
 // 'api_comms_telemetry' (API comms responses to: /cache/logs/debugging/external_api/last-response-[service].log),
 ////
 // ### CHECKS ###
@@ -1816,6 +1816,7 @@ $pt_conf['assets'] = array(
                                     		'kraken' => 'XBTAUD',
                                     		'btcmarkets' => 'BTC/AUD',
                                           'localbitcoins' => 'AUD',
+                                          'coinspot' => 'btc',
                                                     ),
                                                     
                                     'bam' => array(
@@ -2203,6 +2204,7 @@ $pt_conf['assets'] = array(
                         				'aud' => array(
                                     		'kraken' => 'ETHAUD',
                                     		'btcmarkets' => 'ETH/AUD',
+                                          'coinspot' => 'eth',
                                                     ),
                                                     
                                     'brl' => array(

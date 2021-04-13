@@ -111,7 +111,7 @@ autosize(document.querySelector('textarea[data-autoresize]'));
 		
 		$("#coins_table").tablesorter({
 			
-			sortList: [[sorted_by_col,sorted_by_asc_desc]],
+			sortList: [ [sorted_by_col, sorted_by_asc_desc] ],
 			theme : theme_selected, // theme "jui" and "bootstrap" override the uitheme widget option in v2.7+
 			textExtraction: sort_extraction,
 			widgets: ['zebra'],

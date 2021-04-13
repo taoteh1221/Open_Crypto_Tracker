@@ -454,7 +454,7 @@ $altcoin_dominance = $pt_var->max_100($altcoin_dominance);
 			
 		$gain_loss_total = $pt_asset->coin_stats_data('gain_loss_total');
 		
-		$parsed_gain_loss_total = preg_replace("/-/", "-" . $pt_conf['power']['btc_currency_markets'][$pt_conf['gen']['btc_prim_currency_pairing']], number_format( $gain_loss_total, 2, '.', ',' ) );
+		$parsed_gain_loss_total = preg_replace("/-/", "-" . $pt_conf['power']['btc_currency_markets'][ $pt_conf['gen']['btc_prim_currency_pairing'] ], number_format( $gain_loss_total, 2, '.', ',' ) );
 		
 		$original_worth = $pt_asset->coin_stats_data('coin_paid_total');
 		
@@ -573,7 +573,7 @@ $altcoin_dominance = $pt_var->max_100($altcoin_dominance);
 			
 		
 		// Fiat value of portfolio
-		echo '<span class="black">'.strtoupper($pt_conf['gen']['btc_prim_currency_pairing']).' Value:</span> ' . $pt_conf['power']['btc_currency_markets'][$pt_conf['gen']['btc_prim_currency_pairing']] . number_format($total_prim_currency_worth, 2, '.', ',');
+		echo '<span class="black">' . strtoupper($pt_conf['gen']['btc_prim_currency_pairing']) . ' Value:</span> ' . $pt_conf['power']['btc_currency_markets'][ $pt_conf['gen']['btc_prim_currency_pairing'] ] . number_format($total_prim_currency_worth, 2, '.', ',');
 		
 		?>
 		
@@ -586,7 +586,7 @@ var fiat_val_content = '<h5 class="yellow tooltip_title">Primary Currency (<?=st
 			
 			+'<p class="coin_info" style="max-width: 600px; white-space: normal;">The value of your ENTIRE portfolio, based off your selected primary currency (<?=strtoupper($pt_conf['gen']['btc_prim_currency_pairing'])?>), in the "Primary Currency Market" setting, on the Settings page.</p>'
 			
-			+'<p class="coin_info" style="max-width: 600px; white-space: normal;">Selected Primary Currency Market: <span class="yellow">BTC / <?=strtoupper($pt_conf['gen']['btc_prim_currency_pairing'])?> @ <?=$pt_gen->key_to_name($pt_conf['gen']['btc_prim_exchange'])?> (<?=$pt_conf['power']['btc_currency_markets'][$pt_conf['gen']['btc_prim_currency_pairing']]?><?=number_format( $sel_btc_prim_currency_val, 2, '.', ',')?>)</span></p>'
+			+'<p class="coin_info" style="max-width: 600px; white-space: normal;">Selected Primary Currency Market: <span class="yellow">BTC / <?=strtoupper($pt_conf['gen']['btc_prim_currency_pairing'])?> @ <?=$pt_gen->key_to_name($pt_conf['gen']['btc_prim_exchange'])?> (<?=$pt_conf['power']['btc_currency_markets'][ $pt_conf['gen']['btc_prim_currency_pairing'] ]?><?=number_format( $sel_btc_prim_currency_val, 2, '.', ',')?>)</span></p>'
 		
 			+'<?=$leverage_text2?>';
 		
@@ -624,7 +624,7 @@ var fiat_val_content = '<h5 class="yellow tooltip_title">Primary Currency (<?=st
 		<?php
 		
 		// If using margin leverege anywhere
-		echo ( $purchase_price_added == 1 && $leverage_added == 1 && is_numeric($gain_loss_total) == TRUE ? '<div class="portfolio_summary"><span class="black">Leverage Included: </span>' . ( $total_prim_currency_worth_inc_leverage >= 0 ? '<span class="green">' : '<span class="red">-' ) . $pt_conf['power']['btc_currency_markets'][$pt_conf['gen']['btc_prim_currency_pairing']] . $parsed_total_prim_currency_worth_inc_leverage . '</span></div>' : '' );
+		echo ( $purchase_price_added == 1 && $leverage_added == 1 && is_numeric($gain_loss_total) == TRUE ? '<div class="portfolio_summary"><span class="black">Leverage Included: </span>' . ( $total_prim_currency_worth_inc_leverage >= 0 ? '<span class="green">' : '<span class="red">-' ) . $pt_conf['power']['btc_currency_markets'][ $pt_conf['gen']['btc_prim_currency_pairing'] ] . $parsed_total_prim_currency_worth_inc_leverage . '</span></div>' : '' );
 	
 
 		// Now that BTC / PAIRING summaries have margin leverage stats NEXT TO THEM (NOT in the actual BTC / PAIRING amounts, for UX's sake), 
@@ -645,7 +645,7 @@ var fiat_val_content = '<h5 class="yellow tooltip_title">Primary Currency (<?=st
 	
 	<?php
 		
-		echo '<span class="black">' . ( $gain_loss_total >= 0 ? 'Gain:</span> <span class="green">+' . $pt_conf['power']['btc_currency_markets'][$pt_conf['gen']['btc_prim_currency_pairing']] : 'Loss:</span> <span class="red">' ) . $parsed_gain_loss_total . ' (' . ( $gain_loss_total >= 0 ? '+' : '-' ) . number_format($percent_difference_total, 2, '.', ',') . '%' . ')</span>';
+		echo '<span class="black">' . ( $gain_loss_total >= 0 ? 'Gain:</span> <span class="green">+' . $pt_conf['power']['btc_currency_markets'][ $pt_conf['gen']['btc_prim_currency_pairing'] ] : 'Loss:</span> <span class="red">' ) . $parsed_gain_loss_total . ' (' . ( $gain_loss_total >= 0 ? '+' : '-' ) . number_format($percent_difference_total, 2, '.', ',') . '%' . ')</span>';
 		
 		?> 
 		
@@ -653,7 +653,7 @@ var fiat_val_content = '<h5 class="yellow tooltip_title">Primary Currency (<?=st
 			
 	 <script>
 	 
-		document.title = '<?=( $gain_loss_total >= 0 ? '+' . $pt_conf['power']['btc_currency_markets'][$pt_conf['gen']['btc_prim_currency_pairing']] : '' )?><?=$parsed_gain_loss_total?> (<?=( $gain_loss_total >= 0 ? '+' : '-' )?><?=number_format($percent_difference_total, 2, '.', ',')?>%)';
+		document.title = '<?=( $gain_loss_total >= 0 ? '+' . $pt_conf['power']['btc_currency_markets'][ $pt_conf['gen']['btc_prim_currency_pairing'] ] : '' )?><?=$parsed_gain_loss_total?> (<?=( $gain_loss_total >= 0 ? '+' : '-' )?><?=number_format($percent_difference_total, 2, '.', ',')?>%)';
 	
 		
 			var gain_loss_content = '<h5 class="yellow tooltip_title">Gain / Loss Stats</h5>'
@@ -666,7 +666,7 @@ var fiat_val_content = '<h5 class="yellow tooltip_title">Primary Currency (<?=st
 					
 				foreach ( $asset_stats_array as $key => $val ) {
 					
-						$parsed_gain_loss = preg_replace("/-/", "-" . $pt_conf['power']['btc_currency_markets'][$pt_conf['gen']['btc_prim_currency_pairing']], number_format( $val['gain_loss_total'], 2, '.', ',' ) );
+						$parsed_gain_loss = preg_replace("/-/", "-" . $pt_conf['power']['btc_currency_markets'][ $pt_conf['gen']['btc_prim_currency_pairing'] ], number_format( $val['gain_loss_total'], 2, '.', ',' ) );
 						
 						if ( $val['coin_leverage'] >= 2 ) {
 						$parsed_total_with_leverage = number_format( ( $val['coin_worth_total'] + $val['gain_loss_only_leverage'] ) , 2, '.', ',' );
@@ -677,7 +677,7 @@ var fiat_val_content = '<h5 class="yellow tooltip_title">Primary Currency (<?=st
 							
 							
 				?>
-			+'<p class="coin_info"><span class="yellow"><?=$val['coin_symb']?>:</span> <span class="<?=( $val['gain_loss_total'] >= 0 ? 'green">+' . $pt_conf['power']['btc_currency_markets'][$pt_conf['gen']['btc_prim_currency_pairing']] : 'red">' )?><?=$parsed_gain_loss?> (<?=( $val['gain_loss_total'] >= 0 ? '+' : '' )?><?=number_format($val['gain_loss_percent_total'], 2, '.', ',')?>%<?=( $val['coin_leverage'] >= 2 ? ', ' . $val['coin_leverage'] . 'x ' . $val['selected_margintype'] : '' )?>)</span></p>'
+			+'<p class="coin_info"><span class="yellow"><?=$val['coin_symb']?>:</span> <span class="<?=( $val['gain_loss_total'] >= 0 ? 'green">+' . $pt_conf['power']['btc_currency_markets'][ $pt_conf['gen']['btc_prim_currency_pairing'] ] : 'red">' )?><?=$parsed_gain_loss?> (<?=( $val['gain_loss_total'] >= 0 ? '+' : '' )?><?=number_format($val['gain_loss_percent_total'], 2, '.', ',')?>%<?=( $val['coin_leverage'] >= 2 ? ', ' . $val['coin_leverage'] . 'x ' . $val['selected_margintype'] : '' )?>)</span></p>'
 			
 			<?php
 						}
@@ -1851,29 +1851,29 @@ zingchart.bind('marketcap_chart', 'label_click', function(e){
 	    </fieldset>
 	<?php
 	}
-	if ( is_readable($base_dir . '/cache/logs/smtp_debugging.log') ) {
+	if ( is_readable($base_dir . '/cache/logs/smtp_debug.log') ) {
 	?>
 	    <fieldset class='subsection_fieldset'><legend class='subsection_legend'> SMTP Debugging Log </legend>
 	        
 	        <p>
 	        
-	        <b>Extra Spacing:</b> <input type='checkbox' id='smtp_debugging_log_space' value='1' onchange="system_logs('smtp_debugging_log');" />
+	        <b>Extra Spacing:</b> <input type='checkbox' id='smtp_debug_log_space' value='1' onchange="system_logs('smtp_debug_log');" />
 	        
-	        &nbsp; <b>Last lines:</b> <input type='text' id='smtp_debugging_log_lines' value='100' maxlength="5" size="4" />
+	        &nbsp; <b>Last lines:</b> <input type='text' id='smtp_debug_log_lines' value='100' maxlength="5" size="4" />
 	        
-	        &nbsp; <button class='force_button_style' onclick="copy_text('smtp_debugging_log', 'smtp_debugging_log_alert');">Copy To Clipboard</button> 
+	        &nbsp; <button class='force_button_style' onclick="copy_text('smtp_debug_log', 'smtp_debug_log_alert');">Copy To Clipboard</button> 
 	        
-	        &nbsp; <button class='force_button_style' onclick="system_logs('smtp_debugging_log');">Refresh</button> 
+	        &nbsp; <button class='force_button_style' onclick="system_logs('smtp_debug_log');">Refresh</button> 
 	        
-	        &nbsp; <span id='smtp_debugging_log_alert' class='red'></span>
+	        &nbsp; <span id='smtp_debug_log_alert' class='red'></span>
 	        
 	        </p>
 	        
 	        <!-- Looks good highlighted as: less, yaml  -->
-	        <pre class='rounded'><code class='hide-x-scroll less' style='width: 100%; height: 750px;' id='smtp_debugging_log'></code></pre>
+	        <pre class='rounded'><code class='hide-x-scroll less' style='width: 100%; height: 750px;' id='smtp_debug_log'></code></pre>
 			  
 			  <script>
-			  system_logs('smtp_debugging_log');
+			  system_logs('smtp_debug_log');
 			  </script>
 		
 	    </fieldset>

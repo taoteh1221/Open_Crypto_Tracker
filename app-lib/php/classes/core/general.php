@@ -439,7 +439,12 @@ var $pt_array1 = array();
    
       // Upgrade required
       if ( PHP_VERSION_ID < 70000 ) {
-      $this->app_logging('security_error', 'Upgrade to PHP v7 or later to support cryptographically secure pseudo-random bytes in this application, or your application may not function properly');
+      	
+      $this->app_log(
+      						'security_error',
+      						'Upgrade to PHP v7 or later to support cryptographically secure pseudo-random bytes in this application, or your application may not function properly'
+      						);
+      
       }
       // >= PHP 7
       elseif ( PHP_VERSION_ID >= 70000 ) {
@@ -610,7 +615,7 @@ var $pt_array1 = array();
    global $password_pepper;
    
       if ( !$password_pepper ) {
-      $this->app_logging('conf_error', '$password_pepper not set properly');
+      $this->app_log('conf_error', '$password_pepper not set properly');
       return false;
       }
       else {
@@ -618,7 +623,7 @@ var $pt_array1 = array();
       $password_pepper_hashed = hash_hmac("sha256", $password, $password_pepper);
       
          if ( $password_pepper_hashed == false ) {
-         $this->app_logging('conf_error', 'hash_hmac() returned false in the pt_gen->pepper_hashed_pass() function');
+         $this->app_log('conf_error', 'hash_hmac() returned false in the pt_gen->pepper_hashed_pass() function');
          return false;
          }
          else {
@@ -666,7 +671,7 @@ var $pt_array1 = array();
    ////////////////////////////////////////////////////////
    
    
-   function obfuscated_path_data($path) {
+   function obfusc_path_data($path) {
       
    global $pt_var;
    
@@ -700,7 +705,7 @@ var $pt_array1 = array();
    ////////////////////////////////////////////////////////
    
    
-   function obfuscated_url_data($url) {
+   function obfusc_url_data($url) {
       
    global $pt_conf, $pt_var;
    
@@ -768,11 +773,11 @@ var $pt_array1 = array();
    global $password_pepper, $stored_admin_login;
    
       if ( !$password_pepper ) {
-      $this->app_logging('conf_error', '$password_pepper not set properly');
+      $this->app_log('conf_error', '$password_pepper not set properly');
       return false;
       }
       elseif ( sizeof($stored_admin_login) != 2 ) {
-      $this->app_logging('conf_error', 'No admin login set yet to check against');
+      $this->app_log('conf_error', 'No admin login set yet to check against');
       return false;
       }
       else {
@@ -780,7 +785,7 @@ var $pt_array1 = array();
       $input_password_pepper_hashed = hash_hmac("sha256", $input_password, $password_pepper);
       
          if ( $input_password_pepper_hashed == false ) {
-         $this->app_logging('conf_error', 'hash_hmac() returned false in the pt_gen->check_pepper_hashed_pass() function');
+         $this->app_log('conf_error', 'hash_hmac() returned false in the pt_gen->check_pepper_hashed_pass() function');
          return false;
          }
          else {
@@ -813,12 +818,17 @@ var $pt_array1 = array();
       
       
       // Android / Safari maximum cookie size is 4093 bytes, Chrome / Firefox max is 4096
-      if ( strlen($val) > 4093 ) {  
-      $this->app_logging('other_error', 'Cookie size is greater than 4093 bytes (' . strlen($val) . ' bytes). If saving portfolio as cookie data fails on your browser, try using CSV file import / export instead for large portfolios.');
+      if ( strlen($val) > 4093 ) {
+      	
+      $this->app_log(
+      						'other_error',
+      						'Cookie size is greater than 4093 bytes (' . strlen($val) . ' bytes). If saving portfolio as cookie data fails on your browser, try using CSV file import / export instead for large portfolios.'
+      						);
+      
       }
       
       if ( $result == false ) {
-      $this->app_logging('system_error', 'Cookie creation failed for cookie "' . $name . '"');
+      $this->app_log('system_error', 'Cookie creation failed for cookie "' . $name . '"');
       }
       
       
@@ -913,12 +923,19 @@ var $pt_array1 = array();
       foreach ( $default_pt_conf[$cat_key][$conf_key] as $setting_key => $setting_val ) {
       
          if ( is_array($setting_val) ) {
-         $this->app_logging('conf_error', 'Sub-array depth to deep for app config upgrade parser');
+         $this->app_log('conf_error', 'Sub-array depth to deep for app config upgrade parser');
          }
          elseif ( !in_array($setting_key, $skip_upgrading) && !isset($upgraded_pt_conf[$cat_key][$conf_key][$setting_key]) ) {
+         	
          $upgraded_pt_conf[$cat_key][$conf_key][$setting_key] = $default_pt_conf[$cat_key][$conf_key][$setting_key];
-         $this->app_logging('conf_error', 'New app config parameter $pt_conf[' . $cat_key . '][' . $conf_key . '][' . $setting_key . '] imported (default value: ' . $default_pt_conf[$cat_key][$conf_key][$setting_key] . ')');
+         
+         $this->app_log(
+         						'conf_error',
+         						'Outdated app config, upgraded parameter pt_conf[' . $cat_key . '][' . $conf_key . '][' . $setting_key . '] imported (default value: ' . $default_pt_conf[$cat_key][$conf_key][$setting_key] . ')'
+         						);
+         
          $conf_upgraded = 1;
+         
          }
             
       }
@@ -927,12 +944,19 @@ var $pt_array1 = array();
       foreach ( $cached_pt_conf[$cat_key][$conf_key] as $setting_key => $setting_val ) {
       
          if ( is_array($setting_val) ) {
-         $this->app_logging('conf_error', 'Sub-array depth to deep for app config upgrade parser');
+         $this->app_log('conf_error', 'Sub-array depth to deep for app config upgrade parser');
          }
          elseif ( !in_array($setting_key, $skip_upgrading) && !isset($default_pt_conf[$cat_key][$conf_key][$setting_key]) ) {
+         	
          unset($upgraded_pt_conf[$cat_key][$conf_key][$setting_key]);
-         $this->app_logging('conf_error', 'Depreciated app config parameter $pt_conf[' . $cat_key . '][' . $conf_key . '][' . $setting_key . '] removed');
+         
+         $this->app_log(
+         						'conf_error',
+         						'Depreciated app config, parameter pt_conf[' . $cat_key . '][' . $conf_key . '][' . $setting_key . '] removed'
+         						);
+         
          $conf_upgraded = 1;
+         
          }
             
       }
@@ -987,7 +1011,7 @@ var $pt_array1 = array();
    ////////////////////////////////////////////////////////
    
    
-   function app_logging($log_type, $log_msg, $verbose_tracing=false, $hashcheck=false, $overwrite=false) {
+   function app_log($log_type, $log_msg, $verbose_tracing=false, $hashcheck=false, $overwrite=false) {
    
    global $runtime_mode, $pt_conf, $logs_array;
    
@@ -995,7 +1019,7 @@ var $pt_array1 = array();
    // Less verbose log category
    $category = $log_type;
    $category = preg_replace("/_error/i", "", $category);
-   $category = preg_replace("/_debugging/i", "", $category);
+   $category = preg_replace("/_debug/i", "", $category);
    
    
       // Disable logging any included verbose tracing, if log verbosity level config is set to normal
@@ -1408,7 +1432,7 @@ var $pt_array1 = array();
    $vars = array();
    
    $log_file = $base_dir . "/cache/logs/smtp_errors.log";
-   $log_file_debugging = $base_dir . "/cache/logs/smtp_debugging.log";
+   $log_file_debug = $base_dir . "/cache/logs/smtp_debug.log";
    
    // Don't overwrite globals
    $temp_smtp_email_login = explode("||", $pt_conf['comms']['smtp_login'] );
@@ -1436,7 +1460,7 @@ var $pt_array1 = array();
    
    // Port vars over to class format (so it runs out-of-the-box as much as possible)
    $vars['cfg_log_file']   = $log_file;
-   $vars['cfg_log_file_debugging']   = $log_file_debugging;
+   $vars['cfg_log_file_debug']   = $log_file_debug;
    $vars['cfg_server']   = $smtp_host;
    $vars['cfg_port']     =  $smtp_port;
    $vars['cfg_secure']   = $smtp_secure;
@@ -1486,17 +1510,17 @@ var $pt_array1 = array();
       
       
       // Pairing auto-correction (if invalid pairing)
-      if ( $csv_row[6] == '' || !is_array($pt_conf['assets'][$csv_row[0]]['pairing'][$csv_row[6]]) ) {
+      if ( $csv_row[6] == '' || !is_array($pt_conf['assets'][ $csv_row[0] ]['pairing'][ $csv_row[6] ]) ) {
          
       $csv_row[5] = 1; // We need to reset the market id to 1 (it's ALWAYS 1 OR GREATER), as the pairing was not found
       
-      // First key in $pt_conf['assets'][$csv_row[0]]['pairing']
-      reset($pt_conf['assets'][$csv_row[0]]['pairing']);
-      $csv_row[6] = key($pt_conf['assets'][$csv_row[0]]['pairing']);
+      // First key in $pt_conf['assets'][ $csv_row[0] ]['pairing']
+      reset($pt_conf['assets'][ $csv_row[0] ]['pairing']);
+      $csv_row[6] = key($pt_conf['assets'][ $csv_row[0] ]['pairing']);
       
       }
       // Market ID auto-correction (if invalid market ID)
-      elseif ( sizeof($pt_conf['assets'][$csv_row[0]]['pairing'][$csv_row[6]]) < $csv_row[5] ) {
+      elseif ( sizeof($pt_conf['assets'][ $csv_row[0] ]['pairing'][ $csv_row[6] ]) < $csv_row[5] ) {
       $csv_row[5] = 1; // We need to reset the market id to 1 (it's ALWAYS 1 OR GREATER), as the ID was higher than available markets count
       }
       
@@ -1851,9 +1875,16 @@ var $pt_array1 = array();
                   $this->subarray_pt_conf_upgrade($cat_key, $conf_key, $skip_upgrading);
                   }
                   elseif ( !isset($upgraded_pt_conf[$cat_key][$conf_key]) ) {
+                  	
                   $upgraded_pt_conf[$cat_key][$conf_key] = $default_pt_conf[$cat_key][$conf_key];
-                  $this->app_logging('conf_error', 'New app config parameter $pt_conf[' . $cat_key . '][' . $conf_key . '] imported (default value: ' . $default_pt_conf[$cat_key][$conf_key] . ')');
+                  
+                  $this->app_log(
+                  						'conf_error',
+                  						'Outdated app config, upgraded parameter $pt_conf[' . $cat_key . '][' . $conf_key . '] imported (default value: ' . $default_pt_conf[$cat_key][$conf_key] . ')'
+                  						);
+                  						
                   $conf_upgraded = 1;
+                  
                   }
             
                }
@@ -1874,9 +1905,16 @@ var $pt_array1 = array();
                   $this->subarray_pt_conf_upgrade($cached_cat_key, $cached_conf_key, $skip_upgrading);
                   }
                   elseif ( !isset($default_pt_conf[$cached_cat_key][$cached_conf_key]) ) {
+                  	
                   unset($upgraded_pt_conf[$cached_cat_key][$cached_conf_key]);
-                  $this->app_logging('conf_error', 'Depreciated app config parameter $pt_conf[' . $cached_cat_key . '][' . $cached_conf_key . '] removed');
+                  
+                  $this->app_log(
+                  						'conf_error',
+                  						'Depreciated app config parameter $pt_conf[' . $cached_cat_key . '][' . $cached_conf_key . '] removed'
+                  						);
+                  
                   $conf_upgraded = 1;
+                  
                   }
                   
                }
@@ -2643,7 +2681,7 @@ var $pt_array1 = array();
   
   $problem_endpoint = $problem_proxy_array['endpoint'];
   
-  $obfuscated_url_data = $this->obfuscated_url_data($problem_endpoint); // Automatically removes sensitive URL data
+  $obfusc_url_data = $this->obfusc_url_data($problem_endpoint); // Automatically removes sensitive URL data
   
   $problem_proxy = $problem_proxy_array['proxy'];
   
@@ -2655,7 +2693,7 @@ var $pt_array1 = array();
   
       // If no ip/port detected in data string, cancel and continue runtime
       if ( !$ip || !$port ) {
-      $this->app_logging('ext_data_error', 'proxy '.$problem_proxy.' is not a valid format');
+      $this->app_log('ext_data_error', 'proxy '.$problem_proxy.' is not a valid format');
       return false;
       }
   
@@ -2723,7 +2761,13 @@ var $pt_array1 = array();
        
          // Log to error logs
          if ( $misconfigured == 1 ) {
-         $this->app_logging('ext_data_error', 'proxy '.$problem_proxy.' connection failed', $cached_logs);
+         	
+         $this->app_log(
+         						'ext_data_error',
+         						'proxy '.$problem_proxy.' connection failed',
+         						$cached_logs
+         						);
+         
          }
       
      
@@ -2731,7 +2775,7 @@ var $pt_array1 = array();
       $this->save_file($base_dir . '/cache/alerts/proxy-check-'.$cache_filename.'.dat', $cached_logs);
         
            
-      $email_alert = " The proxy " . $problem_proxy . " recently did not receive data when accessing this endpoint: \n " . $obfuscated_url_data . " \n \n A check on this proxy was performed at " . $proxy_test_url . ", and results logged: \n ============================================================== \n " . $cached_logs . " \n ============================================================== \n \n ";
+      $email_alert = " The proxy " . $problem_proxy . " recently did not receive data when accessing this endpoint: \n " . $obfusc_url_data . " \n \n A check on this proxy was performed at " . $proxy_test_url . ", and results logged: \n ============================================================== \n " . $cached_logs . " \n ============================================================== \n \n ";
                          
        
          // Send out alerts
@@ -2829,7 +2873,7 @@ var $pt_array1 = array();
                $loop = $loop + 1;
                }
             
-            $cpu_info_array[$temp_array_cleaned[0]] = $temp_array_cleaned[1];
+            $cpu_info_array[ $temp_array_cleaned[0] ] = $temp_array_cleaned[1];
             }
          
          }
@@ -2992,7 +3036,7 @@ var $pt_array1 = array();
                $loop = $loop + 1;
                }
             
-            $server_info_array[$temp_array_cleaned[0]] = $temp_array_cleaned[1];
+            $server_info_array[ $temp_array_cleaned[0] ] = $temp_array_cleaned[1];
             }
          
          }

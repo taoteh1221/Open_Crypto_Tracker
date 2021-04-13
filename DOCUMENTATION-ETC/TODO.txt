@@ -35,6 +35,18 @@ OPTIMIZATIONS / BUGS / TESTS / UX / QA / OTHER SECTION
 ///////////////////////////////////////////////////////
 
 
+The upcoming 'add new coin market' admin interface feature should be a "wizard" with a few "steps", to have a decent user experience AND break the logic up into different checks / steps under the hood as well. 1) Asset name and symbol, 2) Choose from a list of exchanges and pairings available for that asset, 3) Enable charts and or alerts for different exchanges and pairings.
+
+
+Update Portfolio page screenshots, since we added the 'Rank' column.
+
+
+Breakup large function call parameters like we already do for arrays (into multiple lines), like was already done for debug logging in the ext_data() logic.
+
+
+Consolidate cookie / post data importing that are near the top of the update and portfolio page UI rendering files, into just one subroutine BEFORE the UI is rendered.
+
+
 Statement nesting indentation is a tad f#cked up after a TON of batch find / replace (at least displaying in bluefish), so clean stuff up add some more left margin on nested statements where it looks schetchy...class files are fixed, just have to check inline logic files.
 
 
@@ -111,6 +123,9 @@ AFTER the admin config GUI has been built out, make sure plugin configs are re-l
 ///////////////////////////////////////////////////////
 API INTEGRATION SECTION
 ///////////////////////////////////////////////////////
+
+
+https://docs.ftx.com/#overview
 
 
 Look into adding Google Sheets API support for portfolio import / export: https://developers.google.com/sheets/api/samples/reading

@@ -1,6 +1,19 @@
 
 
 =======================================================
+Securing User Directories On Raspberry PI
+=======================================================
+
+
+1) Open the 'Terminal' app from the menu, or login with a remote terminal (SSH).
+
+
+2) Run this command to secure a specific user directory from other users ability to spy / snoop around: 
+
+sudo chmod 750 /home/YOUR_USER_NAME_HERE
+
+
+=======================================================
 Disabling On-Board Bluetooth On Raspberry PI
 =======================================================
 

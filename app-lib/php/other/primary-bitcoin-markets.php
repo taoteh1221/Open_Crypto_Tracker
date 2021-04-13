@@ -14,16 +14,25 @@
 // If end user tries to use a FUTURES MARKET as the primary bitcoin exchange name,
 // we disable and trigger a warning (SINCE VALUES OFTEN DON'T REFLECT NORMAL MARKETS)
 if ( stristr($pt_conf['gen']['btc_prim_exchange'], 'bitmex_') != false ) {
-$pt_gen->app_logging('conf_error', 'btc_prim_exchange variable not properly set (futures markets are not allowed)', 'btc_prim_exchange: ' . $pt_conf['gen']['btc_prim_exchange'] . ';' );
-$pt_conf['gen']['btc_prim_exchange'] = 'futures_markets_not_allowed';
+	
+$pt_gen->app_log(
+							'conf_error',
+							'btc_prim_exchange variable not properly set (futures markets are not allowed)',
+							'btc_prim_exchange: ' . $pt_conf['gen']['btc_prim_exchange'] . ';'
+							);
+
+$pt_conf['gen']['btc_prim_exchange'] = 'futures_markets_not_allowed'; // DISABLE
+
 }
 
 
 // Re-set default primary currency 'pref_bitcoin_markets' value, ONLY IF THIS VALUE #EXISTS ALREADY#
 // (for UX, to override the pre-existing value...if we have set this as the global default currency market, we obviously prefer it)
 // SHOULD ONLY BE STATIC, NOT MANIPULATEBLE DYNAMICALLY IN THE INTERFACE...SO WE JUST RUN EARLY HERE ONLY IN INIT.
-if ( isset($pt_conf['power']['btc_pref_currency_markets'][$pt_conf['gen']['btc_prim_currency_pairing']]) ) {
-$pt_conf['power']['btc_pref_currency_markets'][$pt_conf['gen']['btc_prim_currency_pairing']] = $pt_conf['gen']['btc_prim_exchange'];
+if ( isset($pt_conf['power']['btc_pref_currency_markets'][ $pt_conf['gen']['btc_prim_currency_pairing'] ]) ) {
+	
+$pt_conf['power']['btc_pref_currency_markets'][ $pt_conf['gen']['btc_prim_currency_pairing'] ] = $pt_conf['gen']['btc_prim_exchange'];
+
 }
 
 
@@ -71,21 +80,40 @@ $pt_cache->save_file($base_dir . '/cache/vars/default_btc_prim_currency_pairing.
 if ( $runtime_mode == 'cron' || $runtime_mode == 'int_api' || $runtime_mode == 'webhook' ) {
 
 
-    // MUST be called FIRST at runtime by the default bitcoin market, to set this var for reuse later in runtime
-    $default_btc_pairing_id = $pt_conf['assets']['BTC']['pairing'][$default_btc_prim_currency_pairing][$default_btc_prim_exchange];
-    $default_btc_prim_currency_val = $pt_api->market('BTC', $default_btc_prim_exchange, $default_btc_pairing_id)['last_trade'];
+// MUST be called FIRST at runtime by the default bitcoin market, to set this var for reuse later in runtime
+$default_btc_pairing_id = $pt_conf['assets']['BTC']['pairing'][$default_btc_prim_currency_pairing][$default_btc_prim_exchange];
+
+$default_btc_prim_currency_val = $pt_api->market('BTC', $default_btc_prim_exchange, $default_btc_pairing_id)['last_trade'];
     
     
     // Log any charts/alerts Bitcoin market errors
     if ( !$pt_conf['assets']['BTC']['pairing'][$default_btc_prim_currency_pairing] ) {
-    $pt_gen->app_logging('conf_error', 'primary-bitcoin-markets.php Charts / alerts btc_prim_currency_pairing variable not properly set', 'btc_prim_currency_pairing: ' . $default_btc_prim_currency_pairing . ';' );
+    	
+    $pt_gen->app_log(
+    							'conf_error',
+    							'primary-bitcoin-markets.php Charts / alerts btc_prim_currency_pairing variable not properly set',
+    							'btc_prim_currency_pairing: ' . $default_btc_prim_currency_pairing . ';'
+    							);
+    
     }
     elseif ( !$pt_conf['assets']['BTC']['pairing'][$default_btc_prim_currency_pairing][$default_btc_prim_exchange] ) {
-    $pt_gen->app_logging('conf_error', 'primary-bitcoin-markets.php Charts / alerts btc_prim_exchange variable not properly set', 'btc_prim_exchange: ' . $default_btc_prim_exchange . ';' );
+    	
+    $pt_gen->app_log(
+    							'conf_error',
+    							'primary-bitcoin-markets.php Charts / alerts btc_prim_exchange variable not properly set',
+    							'btc_prim_exchange: ' . $default_btc_prim_exchange . ';'
+    							);
+    
     }
     
     if ( !isset($default_btc_prim_currency_val) || $default_btc_prim_currency_val == 0 ) {
-    $pt_gen->app_logging('market_error', 'primary-bitcoin-markets.php Charts / alerts Bitcoin primary currency market value not properly set', 'btc_prim_currency_pairing: ' . $default_btc_prim_currency_pairing . '; exchange: ' . $default_btc_prim_exchange . '; pairing_id: ' . $default_btc_pairing_id . '; value: ' . $default_btc_prim_currency_val );
+    	
+    $pt_gen->app_log(
+    							'market_error',
+    							'primary-bitcoin-markets.php Charts / alerts Bitcoin primary currency market value not properly set',
+    							'btc_prim_currency_pairing: ' . $default_btc_prim_currency_pairing . '; exchange: ' . $default_btc_prim_exchange . '; pairing_id: ' . $default_btc_pairing_id . '; value: ' . $default_btc_prim_currency_val
+    							);
+    
     }
 
 
@@ -103,8 +131,12 @@ else {
 
     // If Stand-Alone Currency Market has been enabled (Settings page), REPLACE/OVERWRITE Bitcoin market config defaults
     if ( $_POST['prim_currency_market_standalone'] || $_COOKIE['prim_currency_market_standalone'] ) {
+    	
     $prim_currency_market_standalone = explode("|", ( $_POST['prim_currency_market_standalone'] != '' ? $_POST['prim_currency_market_standalone'] : $_COOKIE['prim_currency_market_standalone'] ) );
-    $pt_conf['gen']['btc_prim_currency_pairing'] = $prim_currency_market_standalone[0]; // MUST RUN !BEFORE! $pt_asset->btc_market() CALL BELOW, OR INCORRECT VALUE DETERMINED FOR $pt_asset->btc_market() CALL
+    
+    // MUST RUN !BEFORE! $pt_asset->btc_market() CALL BELOW, OR INCORRECT VALUE DETERMINED FOR $pt_asset->btc_market() CALL
+    $pt_conf['gen']['btc_prim_currency_pairing'] = $prim_currency_market_standalone[0]; 
+    
     $pt_conf['gen']['btc_prim_exchange'] = $pt_asset->btc_market($prim_currency_market_standalone[1] - 1);
     
        if ( is_array($pt_conf['assets']) ) {
@@ -115,21 +147,41 @@ else {
     
     
     
-    // MUST be called FIRST at runtime by the default bitcoin market, to set this var for reuse later in runtime
-    $sel_btc_pairing_id = $pt_conf['assets']['BTC']['pairing'][$pt_conf['gen']['btc_prim_currency_pairing']][$pt_conf['gen']['btc_prim_exchange']];
-    $sel_btc_prim_currency_val = $pt_api->market('BTC', $pt_conf['gen']['btc_prim_exchange'], $sel_btc_pairing_id)['last_trade'];
+// MUST be called FIRST at runtime by the default bitcoin market, to set this var for reuse later in runtime
+$sel_btc_pairing_id = $pt_conf['assets']['BTC']['pairing'][ $pt_conf['gen']['btc_prim_currency_pairing'] ][ $pt_conf['gen']['btc_prim_exchange'] ];
+
+$sel_btc_prim_currency_val = $pt_api->market('BTC', $pt_conf['gen']['btc_prim_exchange'], $sel_btc_pairing_id)['last_trade'];
 
     
     // Log any Bitcoin market errors
-    if ( !$pt_conf['assets']['BTC']['pairing'][$pt_conf['gen']['btc_prim_currency_pairing']] ) {
-    $pt_gen->app_logging('conf_error', 'primary-bitcoin-markets.php btc_prim_currency_pairing variable not properly set', 'btc_prim_currency_pairing: ' . $pt_conf['gen']['btc_prim_currency_pairing'] . ';' );
+    if ( !$pt_conf['assets']['BTC']['pairing'][ $pt_conf['gen']['btc_prim_currency_pairing'] ] ) {
+    	
+    $pt_gen->app_log(
+    							'conf_error',
+    							'primary-bitcoin-markets.php btc_prim_currency_pairing variable not properly set', 
+    							'btc_prim_currency_pairing: ' . $pt_conf['gen']['btc_prim_currency_pairing'] . ';'
+    							);
+    
     }
-    elseif ( !$pt_conf['assets']['BTC']['pairing'][$pt_conf['gen']['btc_prim_currency_pairing']][$pt_conf['gen']['btc_prim_exchange']] ) {
-    $pt_gen->app_logging('conf_error', 'primary-bitcoin-markets.php btc_prim_exchange variable not properly set', 'btc_prim_exchange: ' . $pt_conf['gen']['btc_prim_exchange'] . ';' );
+    elseif ( !$pt_conf['assets']['BTC']['pairing'][ $pt_conf['gen']['btc_prim_currency_pairing'] ][ $pt_conf['gen']['btc_prim_exchange'] ] ) {
+    	
+    $pt_gen->app_log(
+    							'conf_error',
+    							'primary-bitcoin-markets.php btc_prim_exchange variable not properly set',
+    							'btc_prim_exchange: ' . $pt_conf['gen']['btc_prim_exchange'] . ';'
+    							);
+    
     }
     
+    
     if ( !isset($sel_btc_prim_currency_val) || $sel_btc_prim_currency_val == 0 ) {
-    $pt_gen->app_logging('market_error', 'init.php Bitcoin primary currency market value not properly set', 'btc_prim_currency_pairing: ' . $pt_conf['gen']['btc_prim_currency_pairing'] . '; exchange: ' . $pt_conf['gen']['btc_prim_exchange'] . '; pairing_id: ' . $sel_btc_pairing_id . '; value: ' . $sel_btc_prim_currency_val );
+    	
+    $pt_gen->app_log(
+    							'market_error',
+    							'init.php Bitcoin primary currency market value not properly set',
+    							'btc_prim_currency_pairing: ' . $pt_conf['gen']['btc_prim_currency_pairing'] . '; exchange: ' . $pt_conf['gen']['btc_prim_exchange'] . '; pairing_id: ' . $sel_btc_pairing_id . '; value: ' . $sel_btc_prim_currency_val
+    							);
+    
     }
 
 

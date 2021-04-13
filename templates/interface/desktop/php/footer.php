@@ -35,27 +35,27 @@
 	if ( $pt_conf['dev']['debug'] != 'off' ) {
 	
 	
-		foreach ( $logs_array['cache_debugging'] as $error ) {
+		foreach ( $logs_array['cache_debug'] as $error ) {
 		$bundle_error_logs .= $error;
 		}
 	
-		foreach ( $logs_array['notify_debugging'] as $error ) {
+		foreach ( $logs_array['notify_debug'] as $error ) {
 		$bundle_error_logs .= $error;
 		}
 	
-	$bundle_error_logs .= $logs_array['system_debugging'];
+	$bundle_error_logs .= $logs_array['system_debug'];
 	
-	$bundle_error_logs .= $logs_array['conf_debugging'];
+	$bundle_error_logs .= $logs_array['conf_debug'];
 	
-	$bundle_error_logs .= $logs_array['security_debugging'];
+	$bundle_error_logs .= $logs_array['security_debug'];
 	
-	$bundle_error_logs .= $logs_array['ext_data_debugging'];
+	$bundle_error_logs .= $logs_array['ext_data_debug'];
 	
-	$bundle_error_logs .= $logs_array['int_api_debugging'];
+	$bundle_error_logs .= $logs_array['int_api_debug'];
 	
-	$bundle_error_logs .= $logs_array['market_debugging'];
+	$bundle_error_logs .= $logs_array['market_debug'];
 	
-	$bundle_error_logs .= $logs_array['other_debugging'];
+	$bundle_error_logs .= $logs_array['other_debug'];
 		
 	
 	}
@@ -275,13 +275,17 @@
 			}
 			
 		// Log system stats
-		$pt_gen->app_logging('system_debugging', 'Hardware / software stats (requires log_verbosity set to verbose)', $system_telemetry);
+		$pt_gen->app_log(
+									'system_debug',
+									'Hardware / software stats (requires log_verbosity set to verbose)',
+									$system_telemetry
+									);
 			
 		// Log user agent
-		$pt_gen->app_logging('system_debugging', 'USER AGENT is "' . $_SERVER['HTTP_USER_AGENT'] . '"');
+		$pt_gen->app_log('system_debug', 'USER AGENT is "' . $_SERVER['HTTP_USER_AGENT'] . '"');
 			
 		// Log runtime stats
-		$pt_gen->app_logging('system_debugging', strtoupper($runtime_mode).' runtime was ' . $total_runtime . ' seconds');
+		$pt_gen->app_log('system_debug', strtoupper($runtime_mode).' runtime was ' . $total_runtime . ' seconds');
 		
 		}
 		

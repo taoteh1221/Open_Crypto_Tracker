@@ -22,10 +22,15 @@ if ( $pt_gen->dir_struct('cache/alerts/') != true
 || $pt_gen->dir_struct('cache/secured/messages/') != true
 || $pt_gen->dir_struct('cache/vars/') != true
 || $pt_gen->dir_struct('plugins/') != true ) {
+	
 $system_error = 'Cannot create cache or cron-plugin sub-directories. Please make sure the primary sub-directories "/cache/" and "/plugins/" are created, and have FULL read / write permissions (chmod 777 on unix / linux systems), so the required files and secondary sub-directories can be created automatically. <br /><br />';
-$pt_gen->app_logging('system_error', $system_error);
+
+$pt_gen->app_log('system_error', $system_error);
+
 echo $system_error;
+
 $force_exit = 1;
+
 }
   
  

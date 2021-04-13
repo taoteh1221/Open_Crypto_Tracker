@@ -197,7 +197,7 @@ echo "VERY IMPORTANT UPGRADE NOTES:"
 echo " "
 echo " "
 
-echo "v4.30.0 and higher of this app HAS COMPLETELY REFACTORED CONFIGURATION VARIABLE NAMES,"
+echo "v5.00.0 and higher of this app HAS COMPLETELY REFACTORED CONFIGURATION VARIABLE NAMES,"
 echo "SO YOU'LL NEED TO MIGRATE ANY CUSTOM CONFIGS OVER TO THE PROPER NAMES WHERE APPLICABLE!"
 echo " "
 echo " "
@@ -348,7 +348,7 @@ select opt in $OPTIONS; do
 			
 			echo " "
 			
-			mv -v $DOC_ROOT/index.html $DOC_ROOT/index.php
+			mv $DOC_ROOT/index.html $DOC_ROOT/index.php > /dev/null 2>&1
 
 
 			######################################
