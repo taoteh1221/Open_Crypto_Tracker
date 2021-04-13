@@ -1431,7 +1431,7 @@ var $pt_array1 = array();
    
    $vars = array();
    
-   $log_file = $base_dir . "/cache/logs/smtp_errors.log";
+   $log_file = $base_dir . "/cache/logs/smtp_error.log";
    $log_file_debug = $base_dir . "/cache/logs/smtp_debug.log";
    
    // Don't overwrite globals

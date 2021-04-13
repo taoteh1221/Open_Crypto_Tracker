@@ -1352,7 +1352,7 @@ $pt_conf['power']['news_feed'] = array(
 
 // $pt_conf['dev']['debug'] enabled runs unit tests during ui runtimes (during webpage load),
 // errors detected are error-logged and printed as alerts in footer
-// It also logs ui / cron runtime telemetry to /cache/logs/debugging.log, AND /cache/logs/debugging/
+// It also logs ui / cron runtime telemetry to /cache/logs/debug.log, AND /cache/logs/debugging/
 ////////////////////////////////////////////////////////////////////////////////////////////
 ////
 // ### GENERAL ###
@@ -1385,7 +1385,7 @@ $pt_conf['power']['news_feed'] = array(
 // UNIT TESTS ('CHECKS' SECTION) WILL ONLY RUN DURING WEB PAGE LOAD. MAY REQUIRE SETTING MAXIMUM ALLOWED 
 // PHP EXECUTION TIME TO 120 SECONDS TEMPORARILY, FOR ALL UNIT TESTS TO FULLY COMPLETE RUNNING, 
 // IF YOU GET AN ERROR 500. OPTIONALLY, TRY RUNNING ONE TEST PER PAGE LOAD, TO AVOID THIS.
-// DON'T LEAVE DEBUGGING ENABLED AFTER USING IT, THE /cache/logs/debugging.log AND /cache/logs/debugging/
+// DON'T LEAVE DEBUGGING ENABLED AFTER USING IT, THE /cache/logs/debug.log AND /cache/logs/debugging/
 // LOG FILES !CAN GROW VERY QUICKLY IN SIZE! EVEN AFTER JUST A FEW RUNTIMES
 $pt_conf['dev']['debug'] = 'off'; 
 

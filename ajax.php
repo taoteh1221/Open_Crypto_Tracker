@@ -58,7 +58,7 @@ $all_feeds_array = array();
  
 // Log errors / debugging, send notifications
 $pt_cache->error_logs();
-$pt_cache->debugging_logs();
+$pt_cache->debug_logs();
 $pt_cache->send_notifications();
 
 flush(); // Clean memory output buffer for echo

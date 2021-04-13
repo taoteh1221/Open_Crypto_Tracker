@@ -62,7 +62,7 @@ if ($fd = fopen ($fullPath, "r")) {
 
 // Log errors / debugging, send notifications
 $pt_cache->error_logs();
-$pt_cache->debugging_logs();
+$pt_cache->debug_logs();
 $pt_cache->send_notifications();
 
 fclose ($fd);

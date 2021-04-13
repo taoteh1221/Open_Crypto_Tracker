@@ -45,7 +45,7 @@
 		
 		<p class='red' style='font-weight: bold;'><?=strtoupper($default_btc_prim_currency_pairing)?>-paired BTC exchanges supported in this app are: <?=$supported_exchange_list?>.</p>
 		
-		<p class='red' style='font-weight: bold;'><?=$supported_prim_currency_count?> primary currency pairings are supported for conversion charts (in the Admin Config GENERAL section, using the "btc_prim_currency_pairing" setting): <?=$supported_prim_currency_list?>. !NOT! ALL EXCHANGES SUPPORT ALL CURRENCY PAIRS, double check any setting changes you make (and check the error log at /cache/logs/errors.log for any reported issues).</p>
+		<p class='red' style='font-weight: bold;'><?=$supported_prim_currency_count?> primary currency pairings are supported for conversion charts (in the Admin Config GENERAL section, using the "btc_prim_currency_pairing" setting): <?=$supported_prim_currency_list?>. !NOT! ALL EXCHANGES SUPPORT ALL CURRENCY PAIRS, double check any setting changes you make (and check the error log at /cache/logs/error.log for any reported issues).</p>
 		 
 		<p class='red' style='font-weight: bold;'>Charts are only available to show for each asset properly configured in the Admin Config CHARTS AND ALERTS section. Charts (and price alerts) must be <a href='README.txt' target='_blank'>setup as a cron job on your web server</a>, or <i>they will not work</i>. The chart's tab / page, and chart data caching can be disabled in the Admin Config GENERAL section, if you choose to not setup a cron job.</p>
 		 

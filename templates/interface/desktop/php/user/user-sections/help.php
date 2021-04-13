@@ -200,7 +200,7 @@ See "<span class='bitcoin'>Setting Up Price Charts And Email / Text / Telegram /
 Running price charts or price alerts requires setting up a cron job on the Ubuntu / Raspberry Pi machine or website server (this is automated for Ubuntu / Raspberry Pi users who use the automated install script), otherwise charts / alerts will not work. Also see the related settings in Admin Config for charts / alerts. 
 	    <br /><br />
 
-Once a cron job is setup, there is no need to keep your PC / Laptop turned on. The price charts and price alerts run automatically from your app server. If you encounter errors or the charts / alerts don't work during setup, check the error logs file at /cache/logs/errors.log for errors in your configuration setup. Basic checks are performed and errors are reported there, and on the Settings page. 
+Once a cron job is setup, there is no need to keep your PC / Laptop turned on. The price charts and price alerts run automatically from your app server. If you encounter errors or the charts / alerts don't work during setup, check the error logs file at /cache/logs/error.log for errors in your configuration setup. Basic checks are performed and errors are reported there, and on the Settings page. 
 	    <br /><br />
 
 If you want to take advantage of these cron job based features and more (chart data backups, daily or weekly error log emails / etc), then the file cron.php (located in the primary directory of this app) must be setup as a cron job on your Ubuntu / Raspberry Pi / website server device. 
@@ -449,7 +449,7 @@ Ethereum ICO subtoken support (pre-exchange listing) has been built in (values a
 	      <div class="card-body">
 	      
 	       
-	        If you have enabled SMTP emailing (to send emails) but it doesn't work, check the error logs files at /cache/logs/errors.log and /cache/logs/smtp_errors.log for error responses from the SMTP server connection attempt(s). 
+	        If you have enabled SMTP emailing (to send emails) but it doesn't work, check the error logs files at /cache/logs/error.log and /cache/logs/smtp_error.log for error responses from the SMTP server connection attempt(s). 
 	    <br /><br />
 	        
 	        If you are sure your username / password / host:port setup are valid, try disabling SMTP email sending by blanking out your username / password / host:port (in the Admin Config COMMUNICATIONS section), and see if PHP's built-in mail function sends emails OK (no setup required, other than SMTP settings must be blanked out). 
@@ -488,7 +488,7 @@ SMTP email sending is REQUIRED if you are running this app on a home network, or
 	      <div class="card-body">
 	      
 	         
-	        If page loads are sluggish or throw API connection errors without clearing up, and you have enabled proxy ip addresses, check the error logs file at /cache/logs/errors.log for error responses from the proxy server connection attempt(s). If there are no errors log entries related to the issue that help diagnose the problem, disable using proxies (in the Admin Config PROXY section) and try loading the web page again.
+	        If page loads are sluggish or throw API connection errors without clearing up, and you have enabled proxy ip addresses, check the error logs file at /cache/logs/error.log for error responses from the proxy server connection attempt(s). If there are no errors log entries related to the issue that help diagnose the problem, disable using proxies (in the Admin Config PROXY section) and try loading the web page again.
 	    <br /><br />
 	      If it is a bad or misconfigured proxy setup causing the issue, and everything runs great after disabling proxies, you probably have either (a) a bad proxy or proxy configuration, or (b) an API server / endpoint address is not responding properly when routed through proxies (example: HTTP used instead of HTTPS can cause this error). <i>If you are absolutely sure your proxy setup is ok</i>, and that an API connection built-in to this app is the issue, please <a href='https://github.com/taoteh1221/Open_Crypto_Portfolio_Tracker/issues' target='_blank'>report it</a>. 
 	        

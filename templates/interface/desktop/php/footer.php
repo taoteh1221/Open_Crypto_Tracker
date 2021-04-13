@@ -291,11 +291,11 @@
 		
 		
 		// Process debugging logs AFTER runtime stats
-		$debugging_logs = $pt_cache->debugging_logs();
+		$debug_logs = $pt_cache->debug_logs();
     		
-		if ( $pt_conf['dev']['debug'] != 'off' && $debugging_logs != true ) {
+		if ( $pt_conf['dev']['debug'] != 'off' && $debug_logs != true ) {
 		?>
-		<div class="red" style='font-weight: bold;'><?=$debugging_logs?></div>
+		<div class="red" style='font-weight: bold;'><?=$debug_logs?></div>
 		<?php
 		}
     		

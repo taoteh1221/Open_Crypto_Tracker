@@ -214,7 +214,7 @@ $pt_gen->app_log(
 // Log errors / debugging, send notifications
 // RUN BEFORE any activated plugins (in case a custom plugin crashes)
 $pt_cache->error_logs();
-$pt_cache->debugging_logs();
+$pt_cache->debug_logs();
 $pt_cache->send_notifications();
 
 
@@ -256,7 +256,7 @@ foreach ( $activated_plugins['cron'] as $plugin_key => $plugin_val ) {
 // (IF ANY PLUGINS ARE ACTIVATED, RAN AGAIN SEPERATELY FOR PLUGIN LOGGING / ALERTS ONLY)
 if ( sizeof($activated_plugins['cron']) > 0 ) {
 $pt_cache->error_logs();
-$pt_cache->debugging_logs();
+$pt_cache->debug_logs();
 $pt_cache->send_notifications();
 }
 
