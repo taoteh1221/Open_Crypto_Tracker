@@ -2268,7 +2268,7 @@ var $pt_array1 = array();
    ////////////////////////////////////////////////////////
    
    
-   function update_cookies($cookie_params) {
+   function update_all_cookies($cookie_params) {
    
               
    	// Portfolio data

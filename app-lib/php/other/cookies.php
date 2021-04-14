@@ -152,7 +152,7 @@ $cookie_params = array(
 								'coin_margintype' => $set_margintype_vals,
 								);
 
-$pt_gen->update_cookies($cookie_params);
+$pt_gen->update_all_cookies($cookie_params);
 
 
 header("Location: " . $pt_gen->start_page($_GET['start_page'])); // Preserve any start page data
