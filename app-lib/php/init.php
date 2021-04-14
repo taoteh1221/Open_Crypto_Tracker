@@ -132,113 +132,10 @@ session_start(); // New session start
 require_once('app-lib/php/core-classes-loader.php');
 
 
-// Register the base directory of this app (MUST BE SET BEFORE !ANY! init logic calls)
-$base_dir = preg_replace("/\/app-lib(.*)/i", "", dirname(__FILE__) );
+// Initial BLANK arrays
 
+$sel_opt = array();
 
-//!!!!!!!!!! IMPORTANT, ALWAYS LEAVE THIS HERE !!!!!!!!!!!!!!!
-// FOR #UI LOGIN / LOGOUT SECURITY#, WE NEED THIS SET #VERY EARLY# IN INIT TOO,
-// EVEN THOUGH WE RUN LOGIC AGAIN FURTHER DOWN IN INIT TO SET THIS UNDER
-// ALL CONDITIONS (EVEN CRON RUNTIMES), AND REFRESH VAR CACHE FOR CRON LOGIC
-if ( $runtime_mode != 'cron' ) {
-$base_url = $pt_gen->base_url();
-}
-
-
-// Set $pt_app_id as a global (MUST BE SET AFTER $base_url / $base_dir)
-// (a 10 character install ID hash, created from the base URL or base dir [if cron])
-// AFTER THIS IS SET, WE CAN USE EITHER $pt_app_id OR $pt_gen->id() RELIABLY / EFFICIENTLY ANYWHERE
-// $pt_gen->id() can then be used in functions WITHOUT NEEDING ANY $pt_app_id GLOBAL DECLARED.
-$pt_app_id = $pt_gen->id();
-
-
-// Give our session a unique name 
-// MUST BE SET AFTER $pt_app_id / first $pt_gen->id() call
-session_name( $pt_gen->id() );
-
-
-// Current runtime user
-$current_runtime_user = posix_getpwuid(posix_geteuid())['name'];
-
-
-// Get WEBSERVER runtime user (from cache if currently running from CLI)
-// MUST BE SET BEFORE CACHE STRUCTURE CREATION, TO RUN IN COMPATIBILITY MODE (IF NEEDED) FOR THIS PARTICULAR SERVER'S SETUP
-// WE HAVE FALLBACKS IF THIS IS NULL IN $pt_cache->save_file() WHEN WE STORE CACHE FILES, SO A BRAND NEW INTALL RUN FIRST VIA CRON IS #OK#
-$http_runtime_user = ( $runtime_mode != 'cron' ? $current_runtime_user : trim( file_get_contents('cache/vars/http_runtime_user.dat') ) );
-
-
-
-//////////////////////////////////////////////////////////////
-// Set global runtime app arrays / vars...
-//////////////////////////////////////////////////////////////
-
-
-// Nonce for unique runtime logic
-$runtime_nonce = $pt_gen->rand_hash(16); // 16 byte
-
-
-// Session array
-if ( !isset( $_SESSION ) ) {
-$_SESSION = array();
-}
-
-
-// Nonce for secured login session logic WHEN NOT RUNNING AS CRON
-if ( $runtime_mode != 'cron' && !isset( $_SESSION['nonce'] ) ) {
-$_SESSION['nonce'] = $pt_gen->rand_hash(32); // 32 byte
-}
-
-
-// If user is logging out (run immediately after setting session vars, for quick runtime)
-if ( $_GET['logout'] == 1 && $pt_gen->admin_hashed_nonce('logout') != false && $_GET['admin_hashed_nonce'] == $pt_gen->admin_hashed_nonce('logout') ) {
-	
-// Try to avoid edge-case bug where sessions don't delete, using our hardened function logic
-$pt_gen->hardy_sess_clear(); 
-
-// Delete admin login cookie
-unset($_COOKIE['admin_auth_' . $pt_gen->id()]); 
-
-header("Location: index.php");
-exit;
-
-}
-
-
-// A bit of DOS attack mitigation for bogus / bot login attempts
-// Speed up runtime SIGNIFICANTLY by checking EARLY for a bad / non-existent captcha code, and rendering the related form again...
-// A BIT STATEMENT-INTENSIVE ON PURPOSE, AS IT KEEPS RUNTIME SPEED MUCH HIGHER
-if ( $_POST['admin_submit_register'] || $_POST['admin_submit_login'] || $_POST['admin_submit_reset'] ) {
-
-
-	if ( trim($_POST['captcha_code']) == '' || trim($_POST['captcha_code']) != '' && strtolower( trim($_POST['captcha_code']) ) != strtolower($_SESSION['captcha_code']) ) {
-	
-	
-		if ( $_POST['admin_submit_register'] ) {
-		$theme_selected = ( $_COOKIE['theme_selected'] ? $_COOKIE['theme_selected'] : $pt_conf['gen']['default_theme'] );
-		require("templates/interface/desktop/php/admin/admin-login/register.php");
-		exit;
-		}
-		elseif ( $_POST['admin_submit_login'] ) {
-		$theme_selected = ( $_COOKIE['theme_selected'] ? $_COOKIE['theme_selected'] : $pt_conf['gen']['default_theme'] );
-		require("templates/interface/desktop/php/admin/admin-login/login.php");
-		exit;
-		}
-		elseif ( $_POST['admin_submit_reset'] ) {
-		$theme_selected = ( $_COOKIE['theme_selected'] ? $_COOKIE['theme_selected'] : $pt_conf['gen']['default_theme'] );
-		require("templates/interface/desktop/php/admin/admin-login/reset.php");
-		exit;
-		}
-	
-	
-	}
-	
-
-}
-
-
-
-
-// Initial arrays
 $runtime_data = array();
 
 $runtime_data['performance_stats'] = array();
@@ -283,13 +180,136 @@ $plug_class = array();
 
 $activated_plugins =  array();
 
-// Coinmarketcap supported currencies array
-require_once('app-lib/php/other/coinmarketcap-currencies.php');
-
 // Set as global, to update in / out of functions as needed
 $upgraded_pt_conf = array();
 
+
+// Initial BLANK strings
+
+$cmc_notes = null;
+
+$conf_upgraded = null;
+
+$td_color_zebra = null;
+
+$mcap_data_force_usd = null;
+
+$defipulse_api_limit = null;
+
+
+
+// Register the base directory of this app (MUST BE SET BEFORE !ANY! init logic calls)
+$base_dir = preg_replace("/\/app-lib(.*)/i", "", dirname(__FILE__) );
+
+
+//!!!!!!!!!! IMPORTANT, ALWAYS LEAVE THIS HERE !!!!!!!!!!!!!!!
+// FOR #UI LOGIN / LOGOUT SECURITY#, WE NEED THIS SET #VERY EARLY# IN INIT TOO,
+// EVEN THOUGH WE RUN LOGIC AGAIN FURTHER DOWN IN INIT TO SET THIS UNDER
+// ALL CONDITIONS (EVEN CRON RUNTIMES), AND REFRESH VAR CACHE FOR CRON LOGIC
+if ( $runtime_mode != 'cron' ) {
+$base_url = $pt_gen->base_url();
+}
+
+
+// Set $pt_app_id as a global (MUST BE SET AFTER $base_url / $base_dir)
+// (a 10 character install ID hash, created from the base URL or base dir [if cron])
+// AFTER THIS IS SET, WE CAN USE EITHER $pt_app_id OR $pt_gen->id() RELIABLY / EFFICIENTLY ANYWHERE
+// $pt_gen->id() can then be used in functions WITHOUT NEEDING ANY $pt_app_id GLOBAL DECLARED.
+$pt_app_id = $pt_gen->id();
+
+
+// Give our session a unique name 
+// MUST BE SET AFTER $pt_app_id / first $pt_gen->id() call
+session_name( $pt_gen->id() );
+
+
+//////////////////////////////////////////////////////////////
+// Set global runtime app arrays / vars...
+//////////////////////////////////////////////////////////////
+
+
+// Session array
+if ( !isset( $_SESSION ) ) {
+$_SESSION = array();
+}
+
+
+// Nonce for secured login session logic WHEN NOT RUNNING AS CRON
+if ( $runtime_mode != 'cron' && !isset( $_SESSION['nonce'] ) ) {
+$_SESSION['nonce'] = $pt_gen->rand_hash(32); // 32 byte
+}
+
+
+// Nonce for unique runtime logic
+$runtime_nonce = $pt_gen->rand_hash(16); // 16 byte
+
+
+// If user is logging out (run immediately after setting session vars, for quick runtime)
+if ( $_GET['logout'] == 1 && $pt_gen->admin_hashed_nonce('logout') != false && $_GET['admin_hashed_nonce'] == $pt_gen->admin_hashed_nonce('logout') ) {
+	
+// Try to avoid edge-case bug where sessions don't delete, using our hardened function logic
+$pt_gen->hardy_sess_clear(); 
+
+// Delete admin login cookie
+unset($_COOKIE['admin_auth_' . $pt_gen->id()]); 
+
+header("Location: index.php");
+exit;
+
+}
+
+
+// Current runtime user
+$current_runtime_user = posix_getpwuid(posix_geteuid())['name'];
+
+
+// Get WEBSERVER runtime user (from cache if currently running from CLI)
+// MUST BE SET BEFORE CACHE STRUCTURE CREATION, TO RUN IN COMPATIBILITY MODE (IF NEEDED) FOR THIS PARTICULAR SERVER'S SETUP
+// WE HAVE FALLBACKS IF THIS IS NULL IN $pt_cache->save_file() WHEN WE STORE CACHE FILES, SO A BRAND NEW INTALL RUN FIRST VIA CRON IS #OK#
+$http_runtime_user = ( $runtime_mode != 'cron' ? $current_runtime_user : trim( file_get_contents('cache/vars/http_runtime_user.dat') ) );
+
+
 $interface_login_array = explode("||", $pt_conf['gen']['interface_login']);
+
+// htaccess login...SET BEFORE system checks
+$htaccess_username = $interface_login_array[0];
+$htaccess_password = $interface_login_array[1];
+
+
+// A bit of DOS attack mitigation for bogus / bot login attempts
+// Speed up runtime SIGNIFICANTLY by checking EARLY for a bad / non-existent captcha code, and rendering the related form again...
+// A BIT STATEMENT-INTENSIVE ON PURPOSE, AS IT KEEPS RUNTIME SPEED MUCH HIGHER
+if ( $_POST['admin_submit_register'] || $_POST['admin_submit_login'] || $_POST['admin_submit_reset'] ) {
+
+
+	if ( trim($_POST['captcha_code']) == '' || trim($_POST['captcha_code']) != '' && strtolower( trim($_POST['captcha_code']) ) != strtolower($_SESSION['captcha_code']) ) {
+	
+	
+		if ( $_POST['admin_submit_register'] ) {
+		$sel_opt['theme_selected'] = ( $_COOKIE['theme_selected'] ? $_COOKIE['theme_selected'] : $pt_conf['gen']['default_theme'] );
+		require("templates/interface/desktop/php/admin/admin-login/register.php");
+		exit;
+		}
+		elseif ( $_POST['admin_submit_login'] ) {
+		$sel_opt['theme_selected'] = ( $_COOKIE['theme_selected'] ? $_COOKIE['theme_selected'] : $pt_conf['gen']['default_theme'] );
+		require("templates/interface/desktop/php/admin/admin-login/login.php");
+		exit;
+		}
+		elseif ( $_POST['admin_submit_reset'] ) {
+		$sel_opt['theme_selected'] = ( $_COOKIE['theme_selected'] ? $_COOKIE['theme_selected'] : $pt_conf['gen']['default_theme'] );
+		require("templates/interface/desktop/php/admin/admin-login/reset.php");
+		exit;
+		}
+	
+	
+	}
+	
+
+}
+
+
+// Coinmarketcap supported currencies array
+require_once('app-lib/php/other/coinmarketcap-currencies.php');
 					
 // HTTP SERVER setup detection variables (for cache compatibility auto-configuration)
 // MUST BE SET BEFORE CACHE STRUCTURE CREATION, TO RUN IN COMPATIBILITY MODE FOR THIS PARTICULAR SERVER'S SETUP
@@ -300,23 +320,6 @@ $possible_http_users = array(
 						'httpd',
 						'httpd2',
 							);
-
-
-// Initial strings
-
-$cmc_notes = null;
-
-$conf_upgraded = null;
-
-$td_color_zebra = null;
-
-$cap_data_force_usd = null;
-
-$defipulse_api_limit = null;
-
-// htaccess login...SET BEFORE system checks
-$htaccess_username = $interface_login_array[0];
-$htaccess_password = $interface_login_array[1];
 
 $fetched_feeds = 'fetched_feeds_' . $runtime_mode; // Unique feed fetch telemetry SESSION KEY (so related runtime BROWSER SESSION logic never accidentally clashes)
 

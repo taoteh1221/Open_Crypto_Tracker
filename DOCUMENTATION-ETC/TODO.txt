@@ -41,7 +41,7 @@ The upcoming 'add new coin market' admin interface feature should be a "wizard" 
 Update Portfolio page screenshots, since we added the 'Rank' column.
 
 
-Breakup large function call parameters like we already do for arrays (into multiple lines), like was already done for debug logging in the ext_data() logic.
+Breakup numerous function call parameters for calls like ui_asset_row() into a param array, like we did for update_cookies(). Also do line breaks like we do for arrays on any large string inputs into function calls, like we did for log().
 
 
 Consolidate cookie / post data importing that are near the top of the update and portfolio page UI rendering files, into just one subroutine BEFORE the UI is rendered.

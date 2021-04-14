@@ -275,17 +275,17 @@
 			}
 			
 		// Log system stats
-		$pt_gen->app_log(
+		$pt_gen->log(
 									'system_debug',
 									'Hardware / software stats (requires log_verbosity set to verbose)',
 									$system_telemetry
 									);
 			
 		// Log user agent
-		$pt_gen->app_log('system_debug', 'USER AGENT is "' . $_SERVER['HTTP_USER_AGENT'] . '"');
+		$pt_gen->log('system_debug', 'USER AGENT is "' . $_SERVER['HTTP_USER_AGENT'] . '"');
 			
 		// Log runtime stats
-		$pt_gen->app_log('system_debug', strtoupper($runtime_mode).' runtime was ' . $total_runtime . ' seconds');
+		$pt_gen->log('system_debug', strtoupper($runtime_mode).' runtime was ' . $total_runtime . ' seconds');
 		
 		}
 		

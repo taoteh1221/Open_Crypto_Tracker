@@ -100,8 +100,8 @@
 			    <select class='browser-default custom-select' onchange='
 			    $("#theme_selected").val(this.value);
 			    '>
-				<option value='dark' <?=( $theme_selected == 'dark' ? ' selected ' : '' )?>> Dark </option>
-				<option value='light' <?=( $theme_selected == 'light' ? ' selected ' : '' )?>> Light </option>
+				<option value='dark' <?=( $sel_opt['theme_selected'] == 'dark' ? ' selected ' : '' )?>> Dark </option>
+				<option value='light' <?=( $sel_opt['theme_selected'] == 'light' ? ' selected ' : '' )?>> Light </option>
 			    </select>
 			    
 			</p>
@@ -113,26 +113,26 @@
 			    <b>Sort Portfolio Data By:</b> 
 			    
 			    <select class='browser-default custom-select' id='sorted_by_col' onchange='
-			    $("#sort_by").val( this.value + "|" + $("#sorted_by_asc_desc").val() );
+			    $("#sort_by").val( this.value + "|" + $("#sorted_asc_desc").val() );
 			    '>
-				<option value='0' <?=( $sorted_by_col == 0 ? ' selected ' : '' )?>> Rank </option>
-				<option value='1' <?=( $sorted_by_col == 1 ? ' selected ' : '' )?>> Asset Name </option>
-				<option value='2' <?=( $sorted_by_col == 2 ? ' selected ' : '' )?>> Unit Value </option>
-				<option value='3' <?=( $sorted_by_col == 3 ? ' selected ' : '' )?>> Exchange </option>
-				<option value='4' <?=( $sorted_by_col == 4 ? ' selected ' : '' )?>> Trade Value </option>
-				<option value='5' <?=( $sorted_by_col == 5 ? ' selected ' : '' )?>> Market </option>
-				<option value='6' <?=( $sorted_by_col == 6 ? ' selected ' : '' )?>> 24 Hour Volume </option>
-				<option value='7' <?=( $sorted_by_col == 7 ? ' selected ' : '' )?>> Holdings </option>
-				<option value='8' <?=( $sorted_by_col == 8 ? ' selected ' : '' )?>> Ticker </option>
-				<option value='9' <?=( $sorted_by_col == 9 ? ' selected ' : '' )?>> Holdings Value </option>
-				<option value='10' <?=( $sorted_by_col == 10 ? ' selected ' : '' )?>> Subtotal </option>
+				<option value='0' <?=( $sel_opt['sorted_by_col'] == 0 ? ' selected ' : '' )?>> Rank </option>
+				<option value='1' <?=( $sel_opt['sorted_by_col'] == 1 ? ' selected ' : '' )?>> Asset Name </option>
+				<option value='2' <?=( $sel_opt['sorted_by_col'] == 2 ? ' selected ' : '' )?>> Unit Value </option>
+				<option value='3' <?=( $sel_opt['sorted_by_col'] == 3 ? ' selected ' : '' )?>> Exchange </option>
+				<option value='4' <?=( $sel_opt['sorted_by_col'] == 4 ? ' selected ' : '' )?>> Trade Value </option>
+				<option value='5' <?=( $sel_opt['sorted_by_col'] == 5 ? ' selected ' : '' )?>> Market </option>
+				<option value='6' <?=( $sel_opt['sorted_by_col'] == 6 ? ' selected ' : '' )?>> 24 Hour Volume </option>
+				<option value='7' <?=( $sel_opt['sorted_by_col'] == 7 ? ' selected ' : '' )?>> Holdings </option>
+				<option value='8' <?=( $sel_opt['sorted_by_col'] == 8 ? ' selected ' : '' )?>> Ticker </option>
+				<option value='9' <?=( $sel_opt['sorted_by_col'] == 9 ? ' selected ' : '' )?>> Holdings Value </option>
+				<option value='10' <?=( $sel_opt['sorted_by_col'] == 10 ? ' selected ' : '' )?>> Subtotal </option>
 			    </select> 
 			    
-			     <select class='browser-default custom-select' id='sorted_by_asc_desc' onchange='
+			     <select class='browser-default custom-select' id='sorted_asc_desc' onchange='
 			    $("#sort_by").val( $("#sorted_by_col").val() + "|" + this.value );
 			    '>
-				<option value='0' <?=( $sorted_by_asc_desc == 0 ? ' selected ' : '' )?>> Ascending </option>
-				<option value='1' <?=( $sorted_by_asc_desc == 1 ? ' selected ' : '' )?>> Decending </option>
+				<option value='0' <?=( $sel_opt['sorted_asc_desc'] == 0 ? ' selected ' : '' )?>> Ascending </option>
+				<option value='1' <?=( $sel_opt['sorted_asc_desc'] == 1 ? ' selected ' : '' )?>> Decending </option>
 			    </select>
 			    
 			</p>
@@ -234,8 +234,8 @@
 				     
 				     <span id='prim_currency_market_id_lists' style='display: inline;'>
 				     <!-- Selected (or first if none selected) pairing: <?=$pt_conf['gen']['btc_prim_currency_pairing']?> -->
-				     <!-- prim_currency_market_standalone[1]: <?=$prim_currency_market_standalone[1]?> -->
-				     <!-- prim_currency_market_standalone[0]: <?=$prim_currency_market_standalone[0]?> -->
+				     <!-- prim_currency_market_standalone[1]: <?=$sel_opt['prim_currency_market_standalone'][1]?> -->
+				     <!-- prim_currency_market_standalone[0]: <?=$sel_opt['prim_currency_market_standalone'][0]?> -->
 				     <!-- btc_prim_exchange: <?=$pt_conf['gen']['btc_prim_exchange']?> -->
 				    <?php
 				    
@@ -317,7 +317,7 @@
 				    }
 				    
 				    
-				    ' <?=( sizeof($prim_currency_market_standalone) == 2 ? 'checked' : '' )?> /> Stand-Alone Mode (<i>WON'T automatically change</i> Bitcoin market on "Update" page)
+				    ' <?=( sizeof($sel_opt['prim_currency_market_standalone']) == 2 ? 'checked' : '' )?> /> Stand-Alone Mode (<i>WON'T automatically change</i> Bitcoin market on "Update" page)
 				    
 				    <div id='prim_currency_markets_alert' class='bitcoin_dotted bitcoin'></div>
 				    
@@ -416,42 +416,42 @@
 			    }
 			    
 			    '>
-			    <option value='no' <?=( !$alert_percent ? ' selected ' : '' )?>> No </option>
-			    <option value='yes' <?=( sizeof($alert_percent) > 4 ? ' selected ' : '' )?>> Yes </option> <!-- Backwards compatibility (dynamic PHP reset, if user data is not the current feature set number of array values) -->
+			    <option value='no' <?=( !$sel_opt['alert_percent'] ? ' selected ' : '' )?>> No </option>
+			    <option value='yes' <?=( sizeof($sel_opt['alert_percent']) > 4 ? ' selected ' : '' )?>> Yes </option> <!-- Backwards compatibility (dynamic PHP reset, if user data is not the current feature set number of array values) -->
 			    </select>
 			     
 			     
 			    <select class='browser-default custom-select' name='alert_source' id='alert_source' onchange='update_alert_percent();'>
-			    <option value='coingecko' <?=( $alert_percent[0] == 'coingecko' ? ' selected ' : '' )?>> Coingecko.com </option>
-			    <option value='coinmarketcap' <?=( $alert_percent[0] == 'coinmarketcap' ? ' selected ' : '' )?>> Coinmarketcap.com </option>
+			    <option value='coingecko' <?=( $sel_opt['alert_percent'][0] == 'coingecko' ? ' selected ' : '' )?>> Coingecko.com </option>
+			    <option value='coinmarketcap' <?=( $sel_opt['alert_percent'][0] == 'coinmarketcap' ? ' selected ' : '' )?>> Coinmarketcap.com </option>
 			    </select>  
 			    
 			    
 			    <select class='browser-default custom-select' name='percent_change_amount' id='percent_change_amount' onchange='update_alert_percent();'>
-			    <option value='5' <?=( $alert_percent[1] == 5 ? ' selected ' : '' )?>> 5% </option>
-			    <option value='10' <?=( $alert_percent[1] == 10 ? ' selected ' : '' )?>> 10% </option>
-			    <option value='15' <?=( $alert_percent[1] == 15 ? ' selected ' : '' )?>> 15% </option>
-			    <option value='20' <?=( $alert_percent[1] == 20 ? ' selected ' : '' )?>> 20% </option>
-			    <option value='25' <?=( $alert_percent[1] == 25 ? ' selected ' : '' )?>> 25% </option>
-			    <option value='30' <?=( $alert_percent[1] == 30 ? ' selected ' : '' )?>> 30% </option>
-			    <option value='35' <?=( $alert_percent[1] == 35 ? ' selected ' : '' )?>> 35% </option>
-			    <option value='40' <?=( $alert_percent[1] == 40 ? ' selected ' : '' )?>> 40% </option>
-			    <option value='45' <?=( $alert_percent[1] == 45 ? ' selected ' : '' )?>> 45% </option>
-			    <option value='50' <?=( $alert_percent[1] == 50 ? ' selected ' : '' )?>> 50% </option>
+			    <option value='5' <?=( $sel_opt['alert_percent'][1] == 5 ? ' selected ' : '' )?>> 5% </option>
+			    <option value='10' <?=( $sel_opt['alert_percent'][1] == 10 ? ' selected ' : '' )?>> 10% </option>
+			    <option value='15' <?=( $sel_opt['alert_percent'][1] == 15 ? ' selected ' : '' )?>> 15% </option>
+			    <option value='20' <?=( $sel_opt['alert_percent'][1] == 20 ? ' selected ' : '' )?>> 20% </option>
+			    <option value='25' <?=( $sel_opt['alert_percent'][1] == 25 ? ' selected ' : '' )?>> 25% </option>
+			    <option value='30' <?=( $sel_opt['alert_percent'][1] == 30 ? ' selected ' : '' )?>> 30% </option>
+			    <option value='35' <?=( $sel_opt['alert_percent'][1] == 35 ? ' selected ' : '' )?>> 35% </option>
+			    <option value='40' <?=( $sel_opt['alert_percent'][1] == 40 ? ' selected ' : '' )?>> 40% </option>
+			    <option value='45' <?=( $sel_opt['alert_percent'][1] == 45 ? ' selected ' : '' )?>> 45% </option>
+			    <option value='50' <?=( $sel_opt['alert_percent'][1] == 50 ? ' selected ' : '' )?>> 50% </option>
 			    </select> 
 			     
 			     
 			    <select class='browser-default custom-select' name='percent_change_filter' id='percent_change_filter' onchange='update_alert_percent();'>
-			    <option value='both' <?=( $alert_percent[2] == 'both' ? ' selected ' : '' )?>> Gain or Loss </option>
-			    <option value='gain' <?=( $alert_percent[2] == 'gain' ? ' selected ' : '' )?>> Gain </option>
-			    <option value='loss' <?=( $alert_percent[2] == 'loss' ? ' selected ' : '' )?>> Loss </option>
+			    <option value='both' <?=( $sel_opt['alert_percent'][2] == 'both' ? ' selected ' : '' )?>> Gain or Loss </option>
+			    <option value='gain' <?=( $sel_opt['alert_percent'][2] == 'gain' ? ' selected ' : '' )?>> Gain </option>
+			    <option value='loss' <?=( $sel_opt['alert_percent'][2] == 'loss' ? ' selected ' : '' )?>> Loss </option>
 			    </select>  
 			     
 			     
 			    <select class='browser-default custom-select' name='percent_change_time' id='percent_change_time' onchange='update_alert_percent();'>
-			    <option value='1hour' <?=( $alert_percent[3] == '1hour' ? ' selected ' : '' )?>> 1 Hour </option>
-			    <option value='24hour' <?=( $alert_percent[3] == '24hour' ? ' selected ' : '' )?>> 24 Hour </option>
-			    <option value='7day' <?=( $alert_percent[3] == '7day' ? ' selected ' : '' )?>> 7 Day </option>
+			    <option value='1hour' <?=( $sel_opt['alert_percent'][3] == '1hour' ? ' selected ' : '' )?>> 1 Hour </option>
+			    <option value='24hour' <?=( $sel_opt['alert_percent'][3] == '24hour' ? ' selected ' : '' )?>> 24 Hour </option>
+			    <option value='7day' <?=( $sel_opt['alert_percent'][3] == '7day' ? ' selected ' : '' )?>> 7 Day </option>
 			    </select>  
 			     
 			     
@@ -466,8 +466,8 @@
 				 $("#percent_change_alert_type_alert").hide(250, "linear"); // 0.25 seconds
 			    }
 			    '>
-			    <option value='visual_only' <?=( $alert_percent[4] == 'visual_only' ? ' selected ' : '' )?>> Visual Only </option>
-			    <option value='visual_audio' <?=( $alert_percent[4] == 'visual_audio' ? ' selected ' : '' )?>> Visual and Audio </option>
+			    <option value='visual_only' <?=( $sel_opt['alert_percent'][4] == 'visual_only' ? ' selected ' : '' )?>> Visual Only </option>
+			    <option value='visual_audio' <?=( $sel_opt['alert_percent'][4] == 'visual_audio' ? ' selected ' : '' )?>> Visual and Audio </option>
 			    </select>
 			
 			</p>
@@ -499,7 +499,7 @@
 			foreach ( $pt_conf['power']['crypto_pairing'] as $key => $unused ) {
 			?>
 			<?=( $loop > 0 ? ' &nbsp;/&nbsp; ' : '' )?> 
-			<input type='checkbox' value='<?=$key?>' onchange='crypto_val_toggle(this);' <?=( in_array("[".$key."]", $show_crypto_val) ? 'checked' : '' )?> /> <?=strtoupper($key)?> 
+			<input type='checkbox' value='<?=$key?>' onchange='crypto_val_toggle(this);' <?=( in_array("[".$key."]", $sel_opt['show_crypto_val']) ? 'checked' : '' )?> /> <?=strtoupper($key)?> 
 			<?php
 			$loop = $loop + 1;
 			}
@@ -560,7 +560,7 @@
 			<?php
 			foreach ( $pt_conf['power']['crypto_pairing'] as $key => $unused ) {
 			?>
-			<option value='<?=$key?>' <?=( $show_secondary_trade_val == $key ? 'selected' : '' )?>> <?=strtoupper($key)?> </option>
+			<option value='<?=$key?>' <?=( $sel_opt['show_secondary_trade_val'] == $key ? 'selected' : '' )?>> <?=strtoupper($key)?> </option>
 			<?php
 			}
 			?> 
@@ -652,7 +652,7 @@
                         
                          
 			<?php
-			if ( sizeof($alert_percent) > 4 ) { // Backwards compatibility (reset if user data is not this many array values)
+			if ( sizeof($sel_opt['alert_percent']) > 4 ) { // Backwards compatibility (reset if user data is not this many array values)
 			?>
 			
 			<style>

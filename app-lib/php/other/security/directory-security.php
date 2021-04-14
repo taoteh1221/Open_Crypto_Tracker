@@ -64,14 +64,14 @@ usleep(1000); // Wait 0.001 seconds after possible directory creation
     
     ///////////////////////////////////////////
     
-    // Recreate /cache/secured/external_api/.htaccess to restrict web snooping of cache contents, if the apis directory was deleted / recreated
-    if ( !file_exists($base_dir . '/cache/secured/external_api/.htaccess') ) {
-    $pt_cache->save_file($base_dir . '/cache/secured/external_api/.htaccess', file_get_contents($base_dir . '/templates/back-end/deny-all-htaccess.template') ); 
+    // Recreate /cache/secured/external_data/.htaccess to restrict web snooping of cache contents, if the apis directory was deleted / recreated
+    if ( !file_exists($base_dir . '/cache/secured/external_data/.htaccess') ) {
+    $pt_cache->save_file($base_dir . '/cache/secured/external_data/.htaccess', file_get_contents($base_dir . '/templates/back-end/deny-all-htaccess.template') ); 
     }
     
-    // Recreate /cache/secured/external_api/index.php to restrict web snooping of backup contents, if the apis directory was deleted / recreated
-    if ( !file_exists($base_dir . '/cache/secured/external_api/index.php') ) {
-    $pt_cache->save_file($base_dir . '/cache/secured/external_api/index.php', file_get_contents($base_dir . '/templates/back-end/403-directory-index.template')); 
+    // Recreate /cache/secured/external_data/index.php to restrict web snooping of backup contents, if the apis directory was deleted / recreated
+    if ( !file_exists($base_dir . '/cache/secured/external_data/index.php') ) {
+    $pt_cache->save_file($base_dir . '/cache/secured/external_data/index.php', file_get_contents($base_dir . '/templates/back-end/403-directory-index.template')); 
     }
     
     ///////////////////////////////////////////

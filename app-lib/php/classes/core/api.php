@@ -73,7 +73,7 @@ var $pt_array1 = array();
          
          $url = 'https://api.coingecko.com/api/v3/coins/markets?per_page=' . $pt_conf['dev']['coingecko_api_batched_max'] . '&page=' . ($loop + 1) . '&vs_currency=' . $coingecko_prim_currency . '&price_change_percentage=1h,24h,7d,14d,30d,200d,1y';
             
-            if ( $loop > 0 && $pt_cache->update_cache($base_dir . '/cache/secured/external_api/' . md5($url) . '.dat', $pt_conf['power']['mcap_cache_time']) == true ) {
+            if ( $loop > 0 && $pt_cache->update_cache($base_dir . '/cache/secured/external_data/' . md5($url) . '.dat', $pt_conf['power']['mcap_cache_time']) == true ) {
             usleep(150000); // Wait 0.15 seconds between consecutive calls, to avoid being blocked / throttled by external server
             }
          
@@ -207,12 +207,12 @@ var $pt_array1 = array();
       else {
             
          // Non-dynamic cache file name, because filename would change every recache and create cache bloat
-         if ( $pt_cache->update_cache('cache/secured/external_api/eth-stats.dat', $pt_conf['power']['chainstats_cache_time'] ) == true ) {
+         if ( $pt_cache->update_cache('cache/secured/external_data/eth-stats.dat', $pt_conf['power']['chainstats_cache_time'] ) == true ) {
             
          $url = 'https://api.etherscan.io/api?module=proxy&action=eth_getBlockByNumber&tag='.$block_number.'&boolean=true&apikey=' . $pt_conf['gen']['etherscan_key'];
          $response = @$pt_cache->ext_data('url', $url, 0); // ZERO TO NOT CACHE DATA (WOULD CREATE CACHE BLOAT)
             
-         $pt_cache->save_file($base_dir . '/cache/secured/external_api/eth-stats.dat', $response);
+         $pt_cache->save_file($base_dir . '/cache/secured/external_data/eth-stats.dat', $response);
             
          $data = json_decode($response, true);
             
@@ -221,7 +221,7 @@ var $pt_array1 = array();
          }
          else {
                
-         $cached_data = trim( file_get_contents('cache/secured/external_api/eth-stats.dat') );
+         $cached_data = trim( file_get_contents('cache/secured/external_data/eth-stats.dat') );
             
          $data = json_decode($cached_data, true);
             
@@ -241,14 +241,14 @@ var $pt_array1 = array();
    
    function coinmarketcap($force_prim_currency=null) {
       
-   global $pt_conf, $pt_cache, $pt_gen, $coinmarketcap_currencies, $cap_data_force_usd, $cmc_notes;
+   global $pt_conf, $pt_cache, $pt_gen, $coinmarketcap_currencies, $mcap_data_force_usd, $cmc_notes;
    
    $result = array();
    
    
       if ( trim($pt_conf['gen']['cmc_key']) == null ) {
       	
-      $pt_gen->app_log(
+      $pt_gen->log(
       							'notify_error',
       							'"cmc_key" (free API key) is not configured in Admin Config GENERAL section',
       							false,
@@ -266,17 +266,17 @@ var $pt_array1 = array();
          
       if ( $force_prim_currency != null ) {
       $convert = strtoupper($force_prim_currency);
-      $cap_data_force_usd = null;
+      $mcap_data_force_usd = null;
       }
       elseif ( in_array($coinmarketcap_prim_currency, $coinmarketcap_currencies) ) {
       $convert = $coinmarketcap_prim_currency;
-      $cap_data_force_usd = null;
+      $mcap_data_force_usd = null;
       }
       // Default to USD, if currency is not supported
       else {
       $cmc_notes = 'Coinmarketcap.com does not support '.$coinmarketcap_prim_currency.' stats,<br />showing USD stats instead.';
       $convert = 'USD';
-      $cap_data_force_usd = 1;
+      $mcap_data_force_usd = 1;
       }
          
       
@@ -352,7 +352,7 @@ var $pt_array1 = array();
                                     
          
       // If we will be updating the feed
-      if ( $pt_cache->update_cache($base_dir . '/cache/secured/external_api/' . md5($url) . '.dat', $rss_feed_cache_time) == true ) {
+      if ( $pt_cache->update_cache($base_dir . '/cache/secured/external_data/' . md5($url) . '.dat', $rss_feed_cache_time) == true ) {
       
       
       $_SESSION[$fetched_feeds]['all'] = $_SESSION[$fetched_feeds]['all'] + 1; // Mark as a fetched feed, since it's going to update
@@ -362,7 +362,7 @@ var $pt_array1 = array();
          
          if ( $pt_conf['dev']['debug'] == 'all' || $pt_conf['dev']['debug'] == 'all_telemetry' || $pt_conf['dev']['debug'] == 'memory_usage_telemetry' ) {
          	
-         $pt_gen->app_log(
+         $pt_gen->log(
          							'system_debug',
          							$endpoint_tld_or_ip . ' news feed updating ('.$_SESSION[$fetched_feeds]['all'].'), CURRENT script memory usage is ' . $pt_gen->conv_bytes(memory_get_usage(), 1) . ', PEAK script memory usage is ' . $pt_gen->conv_bytes(memory_get_peak_usage(), 1) . ', php_sapi_name is "' . php_sapi_name() . '"'
          							);
@@ -417,7 +417,7 @@ var $pt_array1 = array();
       
       $html_hidden .= '<ul class="hidden" id="'.md5($url).'">';
       
-      $mark_new = ' &nbsp; <img alt="" src="templates/interface/media/images/auto-preloaded/twotone_fiber_new_'.$theme_selected.'_theme_48dp.png" height="25" title="New Article (under '.$pt_conf['power']['news_feed_entries_new'].' days old)" />';
+      $mark_new = ' &nbsp; <img alt="" src="templates/interface/media/images/auto-preloaded/twotone_fiber_new_' . $theme_selected . '_theme_48dp.png" height="25" title="New Article (under ' . $pt_conf['power']['news_feed_entries_new'] . ' days old)" />';
              
       $now_timestamp = time();
              
@@ -435,7 +435,7 @@ var $pt_array1 = array();
             $usort_results = usort($sortable_feed,  array('pt_gen', 'timestamps_usort_newest') );
                
             if ( !$usort_results ) {
-            $pt_gen->app_log( 'other_error', 'RSS feed failed to sort by newest items (' . $url . ')');
+            $pt_gen->log( 'other_error', 'RSS feed failed to sort by newest items (' . $url . ')');
             }
              
             
@@ -500,7 +500,7 @@ var $pt_array1 = array();
          $usort_results = usort($sortable_feed, array('pt_gen', 'timestamps_usort_newest') );
                
             if ( !$usort_results ) {
-            $pt_gen->app_log( 'other_error', 'RSS feed failed to sort by newest items (' . $url . ')');
+            $pt_gen->log( 'other_error', 'RSS feed failed to sort by newest items (' . $url . ')');
             }
             
              
@@ -588,7 +588,7 @@ var $pt_array1 = array();
    function market($asset_symb, $sel_exchange, $market_id, $pairing=false) { 
    
    
-   global $pt_conf, $pt_var, $pt_cache, $pt_gen, $pt_asset, $sel_btc_prim_currency_val, $defipulse_api_limit;
+   global $pt_conf, $pt_var, $pt_cache, $pt_gen, $pt_asset, $sel_opt, $defipulse_api_limit;
      
     
     
@@ -1365,7 +1365,7 @@ var $pt_array1 = array();
           
           if ( trim($pt_conf['gen']['defipulse_key']) == null ) {
           	
-          $pt_gen->app_log(
+          $pt_gen->log(
           							'notify_error',
           							'"defipulse_key" (free API key) is not configured in Admin Config GENERAL section',
           							false,
@@ -1388,7 +1388,7 @@ var $pt_array1 = array();
           
           if ( $defipulse_api_limit == true ) {
           	
-          $pt_gen->app_log(
+          $pt_gen->log(
           							'notify_error',
           							'DeFiPulse.com monthly API limit exceeded (check your account there)',
           							false,
@@ -1400,7 +1400,7 @@ var $pt_array1 = array();
           }
           elseif ( !$defi_pools_info['pool_address'] ) {
           	
-          $pt_gen->app_log(
+          $pt_gen->log(
           							'market_error',
           							'No DeFi liquidity pool found for ' . $market_id . ', try setting "defi_liquidity_pools_max" HIGHER in the POWER USER config (current setting is '.$pt_conf['power']['defi_liquidity_pools_max'].', results are sorted by highest trade volume pools first)'
           							);
@@ -1466,7 +1466,7 @@ var $pt_array1 = array();
           
             if ( !$result ) {
             	
-            $pt_gen->app_log(
+            $pt_gen->log(
             							'market_error',
             							'No trades found for ' . $market_id . ', try setting "defi_pools_max_trades" HIGHER in the POWER USER config (current setting is '.$pt_conf['power']['defi_pools_max_trades'].', results are sorted by most recent trades first)'
             							);
@@ -2333,7 +2333,7 @@ var $pt_array1 = array();
       elseif ( strtolower($sel_exchange) == 'misc_assets' ) {
       
       // BTC value of 1 unit of the default primary currency
-      $currency_to_btc = $pt_var->num_to_str(1 / $sel_btc_prim_currency_val);	
+      $currency_to_btc = $pt_var->num_to_str(1 / $sel_opt['sel_btc_prim_currency_val']);	
       
         // BTC pairing
         if ( $market_id == 'btc' ) {
@@ -2348,7 +2348,7 @@ var $pt_array1 = array();
       
           if ( $pairing_btc_val == null ) {
           	
-          $pt_gen->app_log(
+          $pt_gen->log(
           							'market_error',
           							'pt_asset->pairing_btc_val() returned null',
           							'market_id: ' . $market_id

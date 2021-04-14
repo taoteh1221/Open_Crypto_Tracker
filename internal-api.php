@@ -23,7 +23,7 @@ if ( $pt_cache->update_cache($base_dir . '/cache/events/throttling/local_api_inc
 
 $result = array('error' => "Rate limit (maximum of once every " . $pt_conf['dev']['local_api_rate_limit'] . " seconds) reached for ip address: " . $remote_ip);
 
-$pt_gen->app_log(
+$pt_gen->log(
 							'int_api_error',
 							'From ' . $remote_ip . ' (Rate limit reached)', 'uri: ' . $_SERVER['REQUEST_URI'] . ';'
 							);
@@ -39,7 +39,7 @@ elseif ( !isset($_POST['api_key']) || isset($_POST['api_key']) && $_POST['api_ke
 	if ( isset($_POST['api_key']) ) {
 	$result = array('error' => "Incorrect API key: " . $_POST['api_key']);
 	
-	$pt_gen->app_log(
+	$pt_gen->log(
 								'int_api_error',
 								'From ' . $remote_ip . ' (Incorrect API key)', 'api_key: ' . $_POST['api_key'] . '; uri: ' . $_SERVER['REQUEST_URI'] . ';'
 								);
@@ -49,7 +49,7 @@ elseif ( !isset($_POST['api_key']) || isset($_POST['api_key']) && $_POST['api_ke
 		
 	$result = array('error' => "Missing API key.");
 	
-	$pt_gen->app_log(
+	$pt_gen->log(
 								'int_api_error',
 								'From ' . $remote_ip . ' (Missing API key)', 'uri: ' . $_SERVER['REQUEST_URI'] . ';'
 								);
@@ -70,9 +70,9 @@ $hash_check = md5($_GET['data_set']);
 
 
 	// If a cache exists for this request that's NOT OUTDATED, use cache to speed things up
-	if ( $pt_cache->update_cache($base_dir . '/cache/internal-api/'.$hash_check.'.dat', $pt_conf['dev']['local_api_cache_time']) == false ) {
+	if ( $pt_cache->update_cache($base_dir . '/cache/internal_api/'.$hash_check.'.dat', $pt_conf['dev']['local_api_cache_time']) == false ) {
 		
-	$json_result = trim( file_get_contents($base_dir . '/cache/internal-api/'.$hash_check.'.dat') );
+	$json_result = trim( file_get_contents($base_dir . '/cache/internal_api/'.$hash_check.'.dat') );
 
 	// Log access event for this ip address (for throttling)
 	$pt_cache->save_file($base_dir . '/cache/events/throttling/local_api_incoming_ip_' . $store_ip . '.dat', $pt_gen->time_date_format(false, 'pretty_date_time') );
@@ -114,7 +114,7 @@ $hash_check = md5($_GET['data_set']);
 			
 		$result = array('error' => 'Endpoint does not exist: ' . $data_set_array[0]);
 		
-		$pt_gen->app_log(
+		$pt_gen->log(
 									'int_api_error', 
 									'From ' . $remote_ip . ' (Endpoint does not exist: ' . $data_set_array[0] . ')', 'uri: ' . $_SERVER['REQUEST_URI'] . ';'
 									);
@@ -127,7 +127,7 @@ $hash_check = md5($_GET['data_set']);
 			
 		$result = array('error' => 'No matches / results found.');
 		
-		$pt_gen->app_log(
+		$pt_gen->log(
 									'int_api_error',
 									'From ' . $remote_ip . ' (No matches / results found)', 'uri: ' . $_SERVER['REQUEST_URI'] . ';'
 									);
@@ -142,7 +142,7 @@ $hash_check = md5($_GET['data_set']);
 	$json_result = json_encode($result, JSON_PRETTY_PRINT);
 	
 	// Cache the result
-	$pt_cache->save_file($base_dir . '/cache/internal-api/'.$hash_check.'.dat', $json_result);
+	$pt_cache->save_file($base_dir . '/cache/internal_api/'.$hash_check.'.dat', $json_result);
 
 	// Log access event for this ip address (for throttling)
 	$pt_cache->save_file($base_dir . '/cache/events/throttling/local_api_incoming_ip_' . $store_ip . '.dat', $pt_gen->time_date_format(false, 'pretty_date_time') );

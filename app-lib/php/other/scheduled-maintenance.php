@@ -61,15 +61,15 @@ $pt_cache->delete_old_files($base_dir . '/cache/events/lite_chart_rebuilds', 3, 
 
 $pt_cache->delete_old_files($base_dir . '/cache/secured/activation', 1, 'dat'); // Delete activation cache files older than 1 day
 
-$pt_cache->delete_old_files($base_dir . '/cache/secured/external_api', 1, 'dat'); // Delete external API cache files older than 1 day
+$pt_cache->delete_old_files($base_dir . '/cache/secured/external_data', 1, 'dat'); // Delete external API cache files older than 1 day
 
 $pt_cache->delete_old_files($base_dir . '/internal-api', 1, 'dat'); // Delete internal API cache files older than 1 day
 
 
 // Secondary logs cleanup
 $logs_cache_cleanup = array(
-									$base_dir . '/cache/logs/debugging/external_api',
-									$base_dir . '/cache/logs/errors/external_api',
+									$base_dir . '/cache/logs/debug/external_data',
+									$base_dir . '/cache/logs/error/external_data',
 									);
 									
 $pt_cache->delete_old_files($logs_cache_cleanup, $pt_conf['power']['logs_purge'], 'dat'); // Delete LOGS API cache files older than $pt_conf['power']['logs_purge'] day(s)

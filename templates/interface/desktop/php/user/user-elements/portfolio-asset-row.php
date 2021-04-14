@@ -86,11 +86,11 @@ echo '?';
 			<?php
 			}
 
-			if ( sizeof($alert_percent) > 4 ) { // Backwards compatibility (reset if user data is not this many array values)
+			if ( sizeof($sel_opt['alert_percent']) > 4 ) { // Backwards compatibility (reset if user data is not this many array values)
 			?>
 			
 			setTimeout(function() {
-    		row_alert("<?=strtolower($asset_symb)?>_row", "visual", "no_cmc", "<?=$theme_selected?>"); // Assets with marketcap data not set or functioning properly
+    		row_alert("<?=strtolower($asset_symb)?>_row", "visual", "no_cmc", "<?=$sel_opt['theme_selected']?>"); // Assets with marketcap data not set or functioning properly
 			}, 1000);
 			
 			<?php
@@ -99,7 +99,7 @@ echo '?';
         }
         else {
         	
-        		if ( isset($cap_data_force_usd) ) {
+        		if ( isset($mcap_data_force_usd) ) {
         		$mcap_prim_currency_symb = '$';
         		$mcap_prim_currency_ticker = 'USD';
         		}
@@ -225,22 +225,22 @@ echo '?';
     <?php
     
     
-        if ( sizeof($alert_percent) > 4 ) { // Backwards compatibility (reset if user data is not this many array values)
+        if ( sizeof($sel_opt['alert_percent']) > 4 ) { // Backwards compatibility (reset if user data is not this many array values)
         	
-        $percent_alert_filter = $alert_percent[2]; // gain / loss / both
+        $percent_alert_filter = $sel_opt['alert_percent'][2]; // gain / loss / both
     
-        $percent_change_alert = $alert_percent[1];
+        $percent_change_alert = $sel_opt['alert_percent'][1];
     
-        $percent_alert_type = $alert_percent[4];
+        $percent_alert_type = $sel_opt['alert_percent'][4];
     
     
-            if ( $alert_percent[3] == '1hour' ) {
+            if ( $sel_opt['alert_percent'][3] == '1hour' ) {
             $percent_change = $mcap_data['percent_change_1h'];
             }
-            elseif ( $alert_percent[3] == '24hour' ) {
+            elseif ( $sel_opt['alert_percent'][3] == '24hour' ) {
             $percent_change = $mcap_data['percent_change_24h'];
             }
-            elseif ( $alert_percent[3] == '7day' ) {
+            elseif ( $sel_opt['alert_percent'][3] == '7day' ) {
             $percent_change = $mcap_data['percent_change_7d'];
             }
           
@@ -249,7 +249,7 @@ echo '?';
             ?>
          
             setTimeout(function() {
-               row_alert("<?=strtolower($asset_symb)?>_row", "<?=$percent_alert_type?>", "yellow", "<?=$theme_selected?>");
+               row_alert("<?=strtolower($asset_symb)?>_row", "<?=$percent_alert_type?>", "yellow", "<?=$sel_opt['theme_selected']?>");
             }, 1000);
             
             <?php
@@ -258,7 +258,7 @@ echo '?';
             ?>
             
             setTimeout(function() {
-               row_alert("<?=strtolower($asset_symb)?>_row", "<?=$percent_alert_type?>", "green", "<?=$theme_selected?>");
+               row_alert("<?=strtolower($asset_symb)?>_row", "<?=$percent_alert_type?>", "green", "<?=$sel_opt['theme_selected']?>");
             }, 1000);
             
             <?php
@@ -320,11 +320,11 @@ echo '?';
 });
 
 		<?php
-		if ( sizeof($alert_percent) > 4 ) { // Backwards compatibility (reset if user data is not this many array values)
+		if ( sizeof($sel_opt['alert_percent']) > 4 ) { // Backwards compatibility (reset if user data is not this many array values)
 		?>
 		
 		setTimeout(function() {
-    	row_alert("<?=strtolower($asset_symb)?>_row", "visual", "no_cmc", "<?=$theme_selected?>"); // Assets with marketcap data not set or functioning properly
+    	row_alert("<?=strtolower($asset_symb)?>_row", "visual", "no_cmc", "<?=$sel_opt['theme_selected']?>"); // Assets with marketcap data not set or functioning properly
 		}, 1000);
 		
 		<?php
@@ -349,7 +349,7 @@ echo '?';
 
 <?php
   
-  $asset_prim_currency_val = ( $sel_btc_prim_currency_val * $btc_trade_eqiv_raw );
+  $asset_prim_currency_val = ($sel_opt['sel_btc_prim_currency_val'] * $btc_trade_eqiv_raw);
 
   // UX on FIAT EQUIV number values
   $asset_prim_currency_val = ( $pt_var->num_to_str($asset_prim_currency_val) >= $pt_conf['gen']['prim_currency_dec_max_thres'] ? $pt_var->num_pretty($asset_prim_currency_val, 2) : $pt_var->num_pretty($asset_prim_currency_val, $pt_conf['gen']['prim_currency_dec_max']) );
@@ -431,21 +431,21 @@ echo $pt_var->num_pretty($asset_val_raw, $asset_val_dec);
 
 <?php
 
-  if ( $show_secondary_trade_val != null && $sel_pairing != $show_secondary_trade_val && strtolower($asset_symb) != $show_secondary_trade_val ) {
+  if ( $sel_opt['show_secondary_trade_val'] != null && $sel_pairing != $sel_opt['show_secondary_trade_val'] && strtolower($asset_symb) != $sel_opt['show_secondary_trade_val'] ) {
   
-		if ( $show_secondary_trade_val == 'btc' ) {
+		if ( $sel_opt['show_secondary_trade_val'] == 'btc' ) {
 		$secondary_trade_val_result = $pt_var->num_to_str($btc_trade_eqiv_raw);
 		$secondary_trade_val_dec = ( $secondary_trade_val_result >= 0.01 ? 6 : 8 );
 		$secondary_trade_val_dec = ( $secondary_trade_val_result >= 1 ? 4 : $secondary_trade_val_dec );
 		}
 		else {
-		$secondary_trade_val_result = $pt_var->num_to_str( $btc_trade_eqiv_raw / $this->pairing_btc_val($show_secondary_trade_val) );
+		$secondary_trade_val_result = $pt_var->num_to_str( $btc_trade_eqiv_raw / $this->pairing_btc_val($sel_opt['show_secondary_trade_val']) );
 		$secondary_trade_val_dec = ( $secondary_trade_val_result >= 0.01 ? 4 : 8 );
 		$secondary_trade_val_dec = ( $secondary_trade_val_result >= 1 ? 2 : $secondary_trade_val_dec );
 		}
 		
 		if ( $secondary_trade_val_result >= 0.00000001 ) {
-  		echo '<div class="crypto_worth">(' . $pt_var->num_pretty($secondary_trade_val_result, $secondary_trade_val_dec) . ' '.strtoupper($show_secondary_trade_val).')</div>';
+  		echo '<div class="crypto_worth">(' . $pt_var->num_pretty($secondary_trade_val_result, $secondary_trade_val_dec) . ' '.strtoupper($sel_opt['show_secondary_trade_val']).')</div>';
 		}
   
   }
@@ -575,21 +575,21 @@ $pretty_asset_val_total_raw = $pt_var->num_pretty($asset_val_total_raw, $asset_v
 echo ' <span class="blue"><span class="data app_sort_filter blue">' . $pretty_asset_val_total_raw . '</span> ' . strtoupper($sel_pairing) . '</span>';
 
   
-  if ( $show_secondary_trade_val != null && $sel_pairing != $show_secondary_trade_val && strtolower($asset_symb) != $show_secondary_trade_val ) {
+  if ( $sel_opt['show_secondary_trade_val'] != null && $sel_pairing != $sel_opt['show_secondary_trade_val'] && strtolower($asset_symb) != $sel_opt['show_secondary_trade_val'] ) {
   
-		if ( $show_secondary_trade_val == 'btc' ) {
+		if ( $sel_opt['show_secondary_trade_val'] == 'btc' ) {
 		$secondary_holdings_val_result = $pt_var->num_to_str($asset_val_total_raw * $pairing_btc_val);
 		$secondary_holdings_val_dec = ( $secondary_holdings_val_result >= 0.01 ? 6 : 8 );
 		$secondary_holdings_val_dec = ( $secondary_holdings_val_result >= 1 ? 4 : $secondary_holdings_val_dec );
 		}
 		else {
-		$secondary_holdings_val_result = $pt_var->num_to_str( ($asset_val_total_raw * $pairing_btc_val) / $this->pairing_btc_val($show_secondary_trade_val) );
+		$secondary_holdings_val_result = $pt_var->num_to_str( ($asset_val_total_raw * $pairing_btc_val) / $this->pairing_btc_val($sel_opt['show_secondary_trade_val']) );
 		$secondary_holdings_val_dec = ( $secondary_holdings_val_result >= 0.01 ? 4 : 8 );
 		$secondary_holdings_val_dec = ( $secondary_holdings_val_result >= 1 ? 2 : $secondary_holdings_val_dec );
 		}
 		
 		if ( $secondary_holdings_val_result >= 0.00000001 ) {
-  		echo '<div class="crypto_worth"><span>(' . $pt_var->num_pretty($secondary_holdings_val_result, $secondary_holdings_val_dec) . ' '.strtoupper($show_secondary_trade_val).')</span></div>';
+  		echo '<div class="crypto_worth"><span>(' . $pt_var->num_pretty($secondary_holdings_val_result, $secondary_holdings_val_dec) . ' '.strtoupper($sel_opt['show_secondary_trade_val']).')</span></div>';
   		}
   		
   }

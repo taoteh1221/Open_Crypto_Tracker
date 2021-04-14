@@ -917,8 +917,10 @@ select opt in $OPTIONS; do
   				rm -rf $DOC_ROOT/cache/charts/spot_price_24hr_volume/lite/2_years > /dev/null 2>&1
   				rm -rf $DOC_ROOT/cache/charts/spot_price_24hr_volume/lite/4_years > /dev/null 2>&1
   				rm -rf $DOC_ROOT/cache/charts/spot_price_24hr_volume/lite/all > /dev/null 2>&1
-  				rm -rf $DOC_ROOT/cache/logs/debugging/api > /dev/null 2>&1
-  				rm -rf $DOC_ROOT/cache/logs/errors/api > /dev/null 2>&1
+  				rm -rf $DOC_ROOT/cache/logs/debugging > /dev/null 2>&1
+  				rm -rf $DOC_ROOT/cache/logs/errors > /dev/null 2>&1
+  				rm -rf $DOC_ROOT/cache/secured/external_api > /dev/null 2>&1
+  				rm -rf $DOC_ROOT/cache/internal-api > /dev/null 2>&1
   				rm -rf $DOC_ROOT/cache/queue > /dev/null 2>&1
   				rm -rf $DOC_ROOT/cache/rest-api > /dev/null 2>&1
   				rm -rf $DOC_ROOT/cache/secured/apis > /dev/null 2>&1

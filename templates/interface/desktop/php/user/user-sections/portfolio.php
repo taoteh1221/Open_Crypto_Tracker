@@ -9,38 +9,38 @@
     
 			<span class='bitcoin'><b>(<?=$pt_conf['power']['last_trade_cache_time']?> minute cache)</b></span>
 			<?php
-			if ( sizeof($alert_percent) > 4 ) { // Backwards compatibility (reset if user data is not this many array values)
+			if ( sizeof($sel_opt['alert_percent']) > 4 ) { // Backwards compatibility (reset if user data is not this many array values)
 				
-				if ( $alert_percent[4] == 'visual_only' ) {
+				if ( $sel_opt['alert_percent'][4] == 'visual_only' ) {
 				$visual_audio_alerts = 'Visual';
 				}
-				elseif ( $alert_percent[4] == 'visual_audio' ) {
+				elseif ( $sel_opt['alert_percent'][4] == 'visual_audio' ) {
 				$visual_audio_alerts = 'Visual / Audio';
 				}
 				
-				$text_mcap_trend = $alert_percent[3];
+				$text_mcap_trend = $sel_opt['alert_percent'][3];
 				
 				$text_mcap_trend = ucwords(preg_replace("/hour/i", " hour", $text_mcap_trend));
 				
 				$text_mcap_trend = ucwords(preg_replace("/day/i", " day", $text_mcap_trend));
 				
 				
-				if ( $alert_percent[2] == 'gain' ) {
+				if ( $sel_opt['alert_percent'][2] == 'gain' ) {
 				$alert_filter = '<span>+</span>';
 				$alert_filter_css = 'green';
 				}
-				elseif ( $alert_percent[2] == 'loss' ) {
+				elseif ( $sel_opt['alert_percent'][2] == 'loss' ) {
 				$alert_filter = '<span>-</span>';
 				$alert_filter_css = 'orange';
 				}
-				elseif ( $alert_percent[2] == 'both' ) {
+				elseif ( $sel_opt['alert_percent'][2] == 'both' ) {
 				$alert_filter = '<img src="templates/interface/media/images/plus-minus.png" height="13" alt="" style="position: relative; vertical-align:middle; bottom: 2px;" />';
 				$alert_filter_css = 'blue';
 				}
 				
 				
 			?>
-			  &nbsp; &nbsp; <span class='<?=$alert_filter_css?>' style='font-weight: bold;'><?=$visual_audio_alerts?> alerts (<?=ucfirst($pt_conf['gen']['prim_mcap_site'])?> <?=$text_mcap_trend?> <?=$alert_filter?><?=$alert_percent[1]?>%)</span>
+			  &nbsp; &nbsp; <span class='<?=$alert_filter_css?>' style='font-weight: bold;'><?=$visual_audio_alerts?> alerts (<?=ucfirst($pt_conf['gen']['prim_mcap_site'])?> <?=$text_mcap_trend?> <?=$alert_filter?><?=$sel_opt['alert_percent'][1]?>%)</span>
 			<?php
 			}
 			
@@ -483,7 +483,7 @@ $altcoin_dominance = $pt_var->max_100($altcoin_dominance);
 
 
 			// Crypto value(s) of portfolio
-			if ( $show_crypto_val[0] ) {
+			if ( $sel_opt['show_crypto_val'][0] ) {
 			?>
 			
 			<div class="portfolio_summary">
@@ -492,7 +492,7 @@ $altcoin_dominance = $pt_var->max_100($altcoin_dominance);
 			
 			<?php
 					
-			$scan_crypto_val = array_map( array($pt_var, 'strip_brackets') , $show_crypto_val); // Strip brackets
+			$scan_crypto_val = array_map( array($pt_var, 'strip_brackets') , $sel_opt['show_crypto_val']); // Strip brackets
 				
 				// Control the ordering with corrisponding app config array (which is already ordered properly), for UX
 				$loop = 0;
@@ -586,7 +586,7 @@ var fiat_val_content = '<h5 class="yellow tooltip_title">Primary Currency (<?=st
 			
 			+'<p class="coin_info" style="max-width: 600px; white-space: normal;">The value of your ENTIRE portfolio, based off your selected primary currency (<?=strtoupper($pt_conf['gen']['btc_prim_currency_pairing'])?>), in the "Primary Currency Market" setting, on the Settings page.</p>'
 			
-			+'<p class="coin_info" style="max-width: 600px; white-space: normal;">Selected Primary Currency Market: <span class="yellow">BTC / <?=strtoupper($pt_conf['gen']['btc_prim_currency_pairing'])?> @ <?=$pt_gen->key_to_name($pt_conf['gen']['btc_prim_exchange'])?> (<?=$pt_conf['power']['btc_currency_markets'][ $pt_conf['gen']['btc_prim_currency_pairing'] ]?><?=number_format( $sel_btc_prim_currency_val, 2, '.', ',')?>)</span></p>'
+			+'<p class="coin_info" style="max-width: 600px; white-space: normal;">Selected Primary Currency Market: <span class="yellow">BTC / <?=strtoupper($pt_conf['gen']['btc_prim_currency_pairing'])?> @ <?=$pt_gen->key_to_name($pt_conf['gen']['btc_prim_exchange'])?> (<?=$pt_conf['power']['btc_currency_markets'][ $pt_conf['gen']['btc_prim_currency_pairing'] ]?><?=number_format( $sel_opt['sel_btc_prim_currency_val'], 2, '.', ',')?>)</span></p>'
 		
 			+'<?=$leverage_text2?>';
 		

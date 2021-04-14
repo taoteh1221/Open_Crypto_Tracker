@@ -853,9 +853,9 @@
 	
 	<input type='hidden' id='submit_check' name='submit_check' value='1' />
 	
-	<input type='hidden' id='theme_selected' name='theme_selected' value='<?=$theme_selected?>' />
+	<input type='hidden' id='theme_selected' name='theme_selected' value='<?=$sel_opt['theme_selected']?>' />
 	
-	<input type='hidden' id='sort_by' name='sort_by' value='<?=($sorted_by_col)?>|<?=($sorted_by_asc_desc)?>' />
+	<input type='hidden' id='sort_by' name='sort_by' value='<?=($sel_opt['sorted_by_col'])?>|<?=($sel_opt['sorted_asc_desc'])?>' />
 	
 	<input type='hidden' id='use_cookies' name='use_cookies' value='<?php echo ( $_COOKIE['coin_amounts'] != '' ? '1' : ''); ?>' />
 	

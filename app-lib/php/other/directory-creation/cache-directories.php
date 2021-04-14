@@ -13,19 +13,19 @@ if ( $pt_gen->dir_struct('cache/alerts/') != true
 || $pt_gen->dir_struct('cache/charts/system/lite/') != true
 || $pt_gen->dir_struct('cache/events/lite_chart_rebuilds/') != true
 || $pt_gen->dir_struct('cache/events/throttling/') != true
-|| $pt_gen->dir_struct('cache/internal-api/') != true
-|| $pt_gen->dir_struct('cache/logs/debugging/external_api/') != true
-|| $pt_gen->dir_struct('cache/logs/errors/external_api/') != true
+|| $pt_gen->dir_struct('cache/internal_api/') != true
+|| $pt_gen->dir_struct('cache/logs/debug/external_data/') != true
+|| $pt_gen->dir_struct('cache/logs/error/external_data/') != true
 || $pt_gen->dir_struct('cache/secured/activation/') != true
 || $pt_gen->dir_struct('cache/secured/backups/') != true
-|| $pt_gen->dir_struct('cache/secured/external_api/') != true
+|| $pt_gen->dir_struct('cache/secured/external_data/') != true
 || $pt_gen->dir_struct('cache/secured/messages/') != true
 || $pt_gen->dir_struct('cache/vars/') != true
 || $pt_gen->dir_struct('plugins/') != true ) {
 	
 $system_error = 'Cannot create cache or cron-plugin sub-directories. Please make sure the primary sub-directories "/cache/" and "/plugins/" are created, and have FULL read / write permissions (chmod 777 on unix / linux systems), so the required files and secondary sub-directories can be created automatically. <br /><br />';
 
-$pt_gen->app_log('system_error', $system_error);
+$pt_gen->log('system_error', $system_error);
 
 echo $system_error;
 

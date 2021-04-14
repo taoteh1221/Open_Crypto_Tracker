@@ -33,7 +33,7 @@ $pairing_btc_val = $pt_asset->pairing_btc_val($asset);
   	 
 	if ( $pairing_btc_val == null ) {
 		
-	$pt_gen->app_log(
+	$pt_gen->log(
 								'market_error',
 								'pt_asset->pairing_btc_val(\''.$asset.'\') returned null in the \''.$this_plug.'\' plugin, likely from exchange API request failure'
 								);
@@ -58,7 +58,7 @@ $pairing_btc_val = $pt_asset->pairing_btc_val($asset);
 	
 
 // Get primary currency value of the current address balance
-$asset_prim_currency_worth_raw = $pt_var->num_to_str( ($address_balance * $pairing_btc_val) * $sel_btc_prim_currency_val );
+$asset_prim_currency_worth_raw = $pt_var->num_to_str( ($address_balance * $pairing_btc_val) * $sel_opt['sel_btc_prim_currency_val'] );
 
 $pretty_prim_currency_worth = $pt_var->num_pretty($asset_prim_currency_worth_raw, ( $asset_prim_currency_worth_raw >= 1.00 ? 2 : 5 ) );
 

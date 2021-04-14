@@ -440,7 +440,7 @@ var $pt_array1 = array();
       // Upgrade required
       if ( PHP_VERSION_ID < 70000 ) {
       	
-      $this->app_log(
+      $this->log(
       						'security_error',
       						'Upgrade to PHP v7 or later to support cryptographically secure pseudo-random bytes in this application, or your application may not function properly'
       						);
@@ -615,7 +615,7 @@ var $pt_array1 = array();
    global $password_pepper;
    
       if ( !$password_pepper ) {
-      $this->app_log('conf_error', '$password_pepper not set properly');
+      $this->log('conf_error', '$password_pepper not set properly');
       return false;
       }
       else {
@@ -623,7 +623,7 @@ var $pt_array1 = array();
       $password_pepper_hashed = hash_hmac("sha256", $password, $password_pepper);
       
          if ( $password_pepper_hashed == false ) {
-         $this->app_log('conf_error', 'hash_hmac() returned false in the pt_gen->pepper_hashed_pass() function');
+         $this->log('conf_error', 'hash_hmac() returned false in the pt_gen->pepper_hashed_pass() function');
          return false;
          }
          else {
@@ -773,11 +773,11 @@ var $pt_array1 = array();
    global $password_pepper, $stored_admin_login;
    
       if ( !$password_pepper ) {
-      $this->app_log('conf_error', '$password_pepper not set properly');
+      $this->log('conf_error', '$password_pepper not set properly');
       return false;
       }
       elseif ( sizeof($stored_admin_login) != 2 ) {
-      $this->app_log('conf_error', 'No admin login set yet to check against');
+      $this->log('conf_error', 'No admin login set yet to check against');
       return false;
       }
       else {
@@ -785,7 +785,7 @@ var $pt_array1 = array();
       $input_password_pepper_hashed = hash_hmac("sha256", $input_password, $password_pepper);
       
          if ( $input_password_pepper_hashed == false ) {
-         $this->app_log('conf_error', 'hash_hmac() returned false in the pt_gen->check_pepper_hashed_pass() function');
+         $this->log('conf_error', 'hash_hmac() returned false in the pt_gen->check_pepper_hashed_pass() function');
          return false;
          }
          else {
@@ -820,7 +820,7 @@ var $pt_array1 = array();
       // Android / Safari maximum cookie size is 4093 bytes, Chrome / Firefox max is 4096
       if ( strlen($val) > 4093 ) {
       	
-      $this->app_log(
+      $this->log(
       						'other_error',
       						'Cookie size is greater than 4093 bytes (' . strlen($val) . ' bytes). If saving portfolio as cookie data fails on your browser, try using CSV file import / export instead for large portfolios.'
       						);
@@ -828,7 +828,7 @@ var $pt_array1 = array();
       }
       
       if ( $result == false ) {
-      $this->app_log('system_error', 'Cookie creation failed for cookie "' . $name . '"');
+      $this->log('system_error', 'Cookie creation failed for cookie "' . $name . '"');
       }
       
       
@@ -923,13 +923,13 @@ var $pt_array1 = array();
       foreach ( $default_pt_conf[$cat_key][$conf_key] as $setting_key => $setting_val ) {
       
          if ( is_array($setting_val) ) {
-         $this->app_log('conf_error', 'Sub-array depth to deep for app config upgrade parser');
+         $this->log('conf_error', 'Sub-array depth to deep for app config upgrade parser');
          }
          elseif ( !in_array($setting_key, $skip_upgrading) && !isset($upgraded_pt_conf[$cat_key][$conf_key][$setting_key]) ) {
          	
          $upgraded_pt_conf[$cat_key][$conf_key][$setting_key] = $default_pt_conf[$cat_key][$conf_key][$setting_key];
          
-         $this->app_log(
+         $this->log(
          						'conf_error',
          						'Outdated app config, upgraded parameter pt_conf[' . $cat_key . '][' . $conf_key . '][' . $setting_key . '] imported (default value: ' . $default_pt_conf[$cat_key][$conf_key][$setting_key] . ')'
          						);
@@ -944,13 +944,13 @@ var $pt_array1 = array();
       foreach ( $cached_pt_conf[$cat_key][$conf_key] as $setting_key => $setting_val ) {
       
          if ( is_array($setting_val) ) {
-         $this->app_log('conf_error', 'Sub-array depth to deep for app config upgrade parser');
+         $this->log('conf_error', 'Sub-array depth to deep for app config upgrade parser');
          }
          elseif ( !in_array($setting_key, $skip_upgrading) && !isset($default_pt_conf[$cat_key][$conf_key][$setting_key]) ) {
          	
          unset($upgraded_pt_conf[$cat_key][$conf_key][$setting_key]);
          
-         $this->app_log(
+         $this->log(
          						'conf_error',
          						'Depreciated app config, parameter pt_conf[' . $cat_key . '][' . $conf_key . '][' . $setting_key . '] removed'
          						);
@@ -1011,7 +1011,7 @@ var $pt_array1 = array();
    ////////////////////////////////////////////////////////
    
    
-   function app_log($log_type, $log_msg, $verbose_tracing=false, $hashcheck=false, $overwrite=false) {
+   function log($log_type, $log_msg, $verbose_tracing=false, $hashcheck=false, $overwrite=false) {
    
    global $runtime_mode, $pt_conf, $logs_array;
    
@@ -1878,7 +1878,7 @@ var $pt_array1 = array();
                   	
                   $upgraded_pt_conf[$cat_key][$conf_key] = $default_pt_conf[$cat_key][$conf_key];
                   
-                  $this->app_log(
+                  $this->log(
                   						'conf_error',
                   						'Outdated app config, upgraded parameter $pt_conf[' . $cat_key . '][' . $conf_key . '] imported (default value: ' . $default_pt_conf[$cat_key][$conf_key] . ')'
                   						);
@@ -1908,7 +1908,7 @@ var $pt_array1 = array();
                   	
                   unset($upgraded_pt_conf[$cached_cat_key][$cached_conf_key]);
                   
-                  $this->app_log(
+                  $this->log(
                   						'conf_error',
                   						'Depreciated app config parameter $pt_conf[' . $cached_cat_key . '][' . $cached_conf_key . '] removed'
                   						);
@@ -2268,92 +2268,88 @@ var $pt_array1 = array();
    ////////////////////////////////////////////////////////
    
    
-   function update_cookies($set_asset_vals, $set_pairing_vals, $set_market_vals, $set_paid_vals, $set_leverage_vals, $set_margintype_vals) {
+   function update_cookies($cookie_params) {
    
               
-   // Cookies expire in 1 year (31536000 seconds)
-              
-   // Portfolio data
-   $this->store_cookie("coin_amounts", $set_asset_vals, mktime()+31536000);
-   $this->store_cookie("coin_pairings", $set_pairing_vals, mktime()+31536000);
-   $this->store_cookie("coin_markets", $set_market_vals, mktime()+31536000);
-   $this->store_cookie("coin_paid", $set_paid_vals, mktime()+31536000);
-   $this->store_cookie("coin_leverage", $set_leverage_vals, mktime()+31536000);
-   $this->store_cookie("coin_margintype", $set_margintype_vals, mktime()+31536000);
-              
+   	// Portfolio data
+   	// Cookies expire in 1 year (31536000 seconds)
+   
+   	foreach ( $cookie_params as $cookie_key => $cookie_val ) {
+   	$this->store_cookie($cookie_key, $cookie_val, mktime()+31536000);
+   	}
               
    
-              // UI settings (not included in any portfolio data)
-              if ( $_POST['submit_check'] == 1 ) {
+      // UI settings (not included in any portfolio data)
+      if ( $_POST['submit_check'] == 1 ) {
                
                   
-                  if ( isset($_POST['show_charts']) ) {
-                  $this->store_cookie("show_charts", $_POST['show_charts'], mktime()+31536000);
-                  }
-                  else {
-                  unset($_COOKIE['show_charts']);  // Delete any existing cookies
-                  }
+          	if ( isset($_POST['show_charts']) ) {
+            $this->store_cookie("show_charts", $_POST['show_charts'], mktime()+31536000);
+            }
+            else {
+            unset($_COOKIE['show_charts']);  // Delete any existing cookies
+            }
                   
-                  if ( isset($_POST['show_crypto_val']) ) {
-                  $this->store_cookie("show_crypto_val", $_POST['show_crypto_val'], mktime()+31536000);
-                  }
-                  else {
-                  unset($_COOKIE['show_crypto_val']);  // Delete any existing cookies
-                  }
+            if ( isset($_POST['show_crypto_val']) ) {
+            $this->store_cookie("show_crypto_val", $_POST['show_crypto_val'], mktime()+31536000);
+            }
+            else {
+            unset($_COOKIE['show_crypto_val']);  // Delete any existing cookies
+            }
                   
-                  if ( isset($_POST['show_secondary_trade_val']) ) {
-                  $this->store_cookie("show_secondary_trade_val", $_POST['show_secondary_trade_val'], mktime()+31536000);
-                  }
-                  else {
-                  unset($_COOKIE['show_secondary_trade_val']);  // Delete any existing cookies
-                  }
+            if ( isset($_POST['show_secondary_trade_val']) ) {
+            $this->store_cookie("show_secondary_trade_val", $_POST['show_secondary_trade_val'], mktime()+31536000);
+            }
+            else {
+            unset($_COOKIE['show_secondary_trade_val']);  // Delete any existing cookies
+            }
                   
-                  if ( isset($_POST['show_feeds']) ) {
-                  $this->store_cookie("show_feeds", $_POST['show_feeds'], mktime()+31536000);
-                  }
-                  else {
-                  unset($_COOKIE['show_feeds']);  // Delete any existing cookies
-                  }
+            if ( isset($_POST['show_feeds']) ) {
+            $this->store_cookie("show_feeds", $_POST['show_feeds'], mktime()+31536000);
+            }
+            else {
+            unset($_COOKIE['show_feeds']);  // Delete any existing cookies
+            }
                  
-                  if ( isset($_POST['theme_selected']) ) {
-                  $this->store_cookie("theme_selected", $_POST['theme_selected'], mktime()+31536000);
-                  }
-                  else {
-                  unset($_COOKIE['theme_selected']);  // Delete any existing cookies
-                  }
+            if ( isset($_POST['theme_selected']) ) {
+            $this->store_cookie("theme_selected", $_POST['theme_selected'], mktime()+31536000);
+            }
+            else {
+            unset($_COOKIE['theme_selected']);  // Delete any existing cookies
+            }
                   
-                  if ( isset($_POST['sort_by']) ) {
-                  $this->store_cookie("sort_by", $_POST['sort_by'], mktime()+31536000);
-                  }
-                  else {
-                  unset($_COOKIE['sort_by']);  // Delete any existing cookies
-                  }
+            if ( isset($_POST['sort_by']) ) {
+            $this->store_cookie("sort_by", $_POST['sort_by'], mktime()+31536000);
+            }
+            else {
+            unset($_COOKIE['sort_by']);  // Delete any existing cookies
+            }
                  
-                  if ( isset($_POST['use_alert_percent']) ) {
-                  $this->store_cookie("alert_percent", $_POST['use_alert_percent'], mktime()+31536000);
-                  }
-                  else {
-                  unset($_COOKIE['alert_percent']);  // Delete any existing cookies
-                  }
+            if ( isset($_POST['use_alert_percent']) ) {
+            $this->store_cookie("alert_percent", $_POST['use_alert_percent'], mktime()+31536000);
+            }
+            else {
+            unset($_COOKIE['alert_percent']);  // Delete any existing cookies
+            }
                  
-                  if ( isset($_POST['prim_currency_market_standalone']) ) {
-                  $this->store_cookie("prim_currency_market_standalone", $_POST['prim_currency_market_standalone'], mktime()+31536000);
-                  }
-                  else {
-                  unset($_COOKIE['prim_currency_market_standalone']);  // Delete any existing cookies
-                  }
+            if ( isset($_POST['prim_currency_market_standalone']) ) {
+            $this->store_cookie("prim_currency_market_standalone", $_POST['prim_currency_market_standalone'], mktime()+31536000);
+            }
+            else {
+            unset($_COOKIE['prim_currency_market_standalone']);  // Delete any existing cookies
+            }
                  
                
-                  // Notes (only creation / deletion here, update logic is in cookies.php)
-                  if ( $_POST['use_notes'] == 1 && !$_COOKIE['notes'] ) {
-                  $this->store_cookie("notes", " ", mktime()+31536000); // Initialized with some whitespace when blank
-                  }
-                  elseif ( $_POST['use_notes'] != 1 ) {
-                  unset($_COOKIE['notes']);  // Delete any existing cookies
-                  }
+            // Notes (only creation / deletion here, update logic is in cookies.php)
+            if ( $_POST['use_notes'] == 1 && !$_COOKIE['notes'] ) {
+            $this->store_cookie("notes", " ", mktime()+31536000); // Initialized with some whitespace when blank
+            }
+            elseif ( $_POST['use_notes'] != 1 ) {
+            unset($_COOKIE['notes']);  // Delete any existing cookies
+            }
               
               
-              }
+      }
               
     
    }
@@ -2693,7 +2689,7 @@ var $pt_array1 = array();
   
       // If no ip/port detected in data string, cancel and continue runtime
       if ( !$ip || !$port ) {
-      $this->app_log('ext_data_error', 'proxy '.$problem_proxy.' is not a valid format');
+      $this->log('ext_data_error', 'proxy '.$problem_proxy.' is not a valid format');
       return false;
       }
   
@@ -2762,7 +2758,7 @@ var $pt_array1 = array();
          // Log to error logs
          if ( $misconfigured == 1 ) {
          	
-         $this->app_log(
+         $this->log(
          						'ext_data_error',
          						'proxy '.$problem_proxy.' connection failed',
          						$cached_logs

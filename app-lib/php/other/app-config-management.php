@@ -172,7 +172,7 @@ if ( is_array($pt_conf['assets']) ) {
 $usort_feeds_results = usort($pt_conf['power']['news_feed'], array('pt_gen', 'titles_usort_alpha') );
    	
 if ( !$usort_feeds_results ) {
-$pt_gen->app_log('other_error', 'RSS feeds failed to sort alphabetically');
+$pt_gen->log('other_error', 'RSS feeds failed to sort alphabetically');
 }
 
 

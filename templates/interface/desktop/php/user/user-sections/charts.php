@@ -172,14 +172,14 @@
 	
 		<div class='<?=$zebra_stripe?> long_list <?=( $last_rendered != $show_asset ? 'activate_chart_sections' : '' )?>'>
 				
-				<input type='checkbox' value='<?=$key?>_<?=$show_asset_params[1]?>' onchange='chart_toggle(this);' <?=( in_array("[".$key . '_' . $show_asset_params[1]."]", $show_charts) ? 'checked' : '' )?> /> <span class='blue'><?=$show_asset?></span> / <?=strtoupper($show_asset_params[1])?> @ <?=$pt_gen->key_to_name($show_asset_params[0])?>
+				<input type='checkbox' value='<?=$key?>_<?=$show_asset_params[1]?>' onchange='chart_toggle(this);' <?=( in_array("[".$key . '_' . $show_asset_params[1]."]", $sel_opt['show_charts']) ? 'checked' : '' )?> /> <span class='blue'><?=$show_asset?></span> / <?=strtoupper($show_asset_params[1])?> @ <?=$pt_gen->key_to_name($show_asset_params[0])?>
 			
 				<?php
 				// Markets that are NOT the same as PRIMARY CURRENCY CONFIG get a secondary chart for PRIMARY CURRENCY CONFIG
 				if ( $show_asset_params[1] != $default_btc_prim_currency_pairing ) {
 				?>
 				
-				 &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <input type='checkbox' value='<?=$key?>_<?=$default_btc_prim_currency_pairing?>' onchange='chart_toggle(this);' <?=( in_array("[".$key . '_' . $default_btc_prim_currency_pairing."]", $show_charts) ? 'checked' : '' )?> /> <?=strtoupper($default_btc_prim_currency_pairing)?> Value
+				 &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <input type='checkbox' value='<?=$key?>_<?=$default_btc_prim_currency_pairing?>' onchange='chart_toggle(this);' <?=( in_array("[".$key . '_' . $default_btc_prim_currency_pairing."]", $sel_opt['show_charts']) ? 'checked' : '' )?> /> <?=strtoupper($default_btc_prim_currency_pairing)?> Value
 				
 				<?php
 				}
@@ -244,7 +244,7 @@
     	}
 		
 		// Pairings chart
-		if ( in_array('['.$key.'_'.$alerts_market_parse[1].']', $show_charts) ) {
+		if ( in_array('['.$key.'_'.$alerts_market_parse[1].']', $sel_opt['show_charts']) ) {
 		$charts_shown = 1;
 	?>
 	
@@ -278,7 +278,7 @@
 		}
 		
 		// PRIMARY CURRENCY CONFIG chart
-		if ( $alerts_market_parse[1] != $default_btc_prim_currency_pairing && in_array('['.$key.'_'.$default_btc_prim_currency_pairing.']', $show_charts) ) {
+		if ( $alerts_market_parse[1] != $default_btc_prim_currency_pairing && in_array('['.$key.'_'.$default_btc_prim_currency_pairing.']', $sel_opt['show_charts']) ) {
 		$charts_shown = 1;
 	?>
 	

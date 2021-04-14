@@ -4464,7 +4464,7 @@ WILL AUTOMATICALLY PREFORM THE RESET (ALERTS / TRACKING WILL BE ACCURATE AFTERWA
 -"Rank" sort column on Portfolio page, displaying the marketcap rank
 
 
--More coding cleanup / semantics overhauls
+-More coding cleanup / optimization / semantics overhauls for (developer) scalability
 
 
 -Nesting fixes (coding) after mass find/replace sessions

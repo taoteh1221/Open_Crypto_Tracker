@@ -24,9 +24,9 @@ header('Content-type: text/html; charset=' . $pt_conf['dev']['charset_default'])
 	
 	<!-- Preload a few UI-related images -->
 	
-	<link rel="preload" href="templates/interface/media/images/auto-preloaded/login-<?=$theme_selected?>-theme.png" as="image">
+	<link rel="preload" href="templates/interface/media/images/auto-preloaded/login-<?=$sel_opt['theme_selected']?>-theme.png" as="image">
 	
-	<link rel="preload" href="templates/interface/media/images/auto-preloaded/notification-<?=$theme_selected?>-line.png" as="image">
+	<link rel="preload" href="templates/interface/media/images/auto-preloaded/notification-<?=$sel_opt['theme_selected']?>-line.png" as="image">
 	
 	<link rel="preload" href="templates/interface/media/images/auto-preloaded/loader.gif" as="image">
 	
@@ -63,23 +63,23 @@ header('Content-type: text/html; charset=' . $pt_conf['dev']['charset_default'])
 	<!-- Load theme styling last to over rule -->
 	<link rel="stylesheet" href="templates/interface/desktop/css/style.css" type="text/css" />
 	
-	<link rel="stylesheet" href="templates/interface/desktop/css/<?=$theme_selected?>.style.css" type="text/css" />
+	<link rel="stylesheet" href="templates/interface/desktop/css/<?=$sel_opt['theme_selected']?>.style.css" type="text/css" />
 	
 	<?php
 	if ( $is_admin ) {
 	?>
 	<link rel="stylesheet" href="templates/interface/desktop/css/admin.css" type="text/css" />
 	
-	<link rel="stylesheet" href="templates/interface/desktop/css/<?=$theme_selected?>.admin.css" type="text/css" />
+	<link rel="stylesheet" href="templates/interface/desktop/css/<?=$sel_opt['theme_selected']?>.admin.css" type="text/css" />
 	<?php
 	}
 	?>
 	
 	<style>
 
-	@import "templates/interface/desktop/css/tablesorter/theme.<?=$theme_selected?>.css";
+	@import "templates/interface/desktop/css/tablesorter/theme.<?=$sel_opt['theme_selected']?>.css";
 	
-	.tablesorter-<?=$theme_selected?> .header, .tablesorter-<?=$theme_selected?> .tablesorter-header {
+	.tablesorter-<?=$sel_opt['theme_selected']?> .header, .tablesorter-<?=$sel_opt['theme_selected']?> .tablesorter-header {
     white-space: nowrap;
 	}
 	
@@ -147,21 +147,21 @@ header('Content-type: text/html; charset=' . $pt_conf['dev']['charset_default'])
 	});
 	
 	// Main js vars
-	var theme_selected = '<?=$theme_selected?>';
+	var theme_selected = '<?=$sel_opt['theme_selected']?>';
 	
-	var feeds_num = <?=( $show_feeds[0] != '' ? sizeof($show_feeds) : 0 )?>;
+	var feeds_num = <?=( $sel_opt['show_feeds'][0] != '' ? sizeof($sel_opt['show_feeds']) : 0 )?>;
 	var feeds_loaded = new Array();
 	
-	var charts_num = <?=( $show_charts[0] != '' ? sizeof($show_charts) : 0 )?>;
+	var charts_num = <?=( $sel_opt['show_charts'][0] != '' ? sizeof($sel_opt['show_charts']) : 0 )?>;
 	var charts_loaded = new Array();
 	
-	var sorted_by_col = <?=$sorted_by_col?>;
-	var sorted_by_asc_desc = <?=$sorted_by_asc_desc?>;
+	var sorted_by_col = <?=$sel_opt['sorted_by_col']?>;
+	var sorted_asc_desc = <?=$sel_opt['sorted_asc_desc']?>;
 	
 	var charts_background = '<?=$pt_conf['power']['charts_background']?>';
 	var charts_border = '<?=$pt_conf['power']['charts_border']?>';
 	
-	var btc_prim_currency_val = '<?=number_format( $sel_btc_prim_currency_val, 2, '.', '' )?>';
+	var btc_prim_currency_val = '<?=number_format( $sel_opt['sel_btc_prim_currency_val'], 2, '.', '' )?>';
 	var btc_prim_currency_pairing = '<?=strtoupper($pt_conf['gen']['btc_prim_currency_pairing'])?>';
 	
 	// 'Loading X...' UI notices
@@ -229,7 +229,7 @@ header('Content-type: text/html; charset=' . $pt_conf['dev']['charset_default'])
 					
 				  		<li class="nav-item dropdown align_center">
 					
-							<a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><img src='templates/interface/media/images/auto-preloaded/login-<?=$theme_selected?>-theme.png' height='27' border='0' /></a>
+							<a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><img src='templates/interface/media/images/auto-preloaded/login-<?=$sel_opt['theme_selected']?>-theme.png' height='27' border='0' /></a>
 					
 							<div class="dropdown-menu shadow-lg p-3 mb-5 bg-white rounded" aria-labelledby="navbarDropdown">
 							
@@ -257,7 +257,7 @@ header('Content-type: text/html; charset=' . $pt_conf['dev']['charset_default'])
 				
 					<div id="navbarDropdownBell" class="navbar-nav dropleft" style='left: 12px;'>
 				
-  						<a class="nav-link" href="#" id="navbarDropdown2" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><img id='alert_bell_image' src='templates/interface/media/images/auto-preloaded/notification-<?=$theme_selected?>-line.png' height='30' border='0' /></a>
+  						<a class="nav-link" href="#" id="navbarDropdown2" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><img id='alert_bell_image' src='templates/interface/media/images/auto-preloaded/notification-<?=$sel_opt['theme_selected']?>-line.png' height='30' border='0' /></a>
   
   						<!-- Alerts div centering wrapper -->
   						<div id='alert_bell_wrapper' style='position:absolute; top: 46px; left: 50%;'>

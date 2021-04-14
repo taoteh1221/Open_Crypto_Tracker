@@ -138,8 +138,23 @@ elseif ( $_POST['submit_check'] == 1 && $_POST['use_cookies'] == 1 || $run_csv_i
 
 
 // Store all cookies and redirect to app URL, to clear any POST data from any future page refreshing
+
 $set_asset_vals = ( $set_asset_vals != NULL ? $set_asset_vals : ' ' ); // Initialized with some whitespace when blank
-$pt_gen->update_cookies($set_asset_vals, $set_pairing_vals, $set_market_vals, $set_paid_vals, $set_leverage_vals, $set_margintype_vals);
+
+
+// 'cookie_name' => cookie_value
+$cookie_params = array(
+								'coin_amounts' => $set_asset_vals,
+								'coin_pairings' => $set_pairing_vals,
+								'coin_markets' => $set_market_vals,
+								'coin_paid' => $set_paid_vals,
+								'coin_leverage' => $set_leverage_vals,
+								'coin_margintype' => $set_margintype_vals,
+								);
+
+$pt_gen->update_cookies($cookie_params);
+
+
 header("Location: " . $pt_gen->start_page($_GET['start_page'])); // Preserve any start page data
 exit;
  	

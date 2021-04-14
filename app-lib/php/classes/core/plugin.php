@@ -24,7 +24,7 @@ var $pt_array1 = array();
    
       // This plugin's vars cache directory
       if ( $pt_gen->dir_struct($base_dir . '/cache/vars/plugin_vars/'.$this_plug.'/') != true ) {
-      $pt_gen->app_log('system_error', 'Could not create directory: /cache/vars/plugin_vars/'.$this_plug.'/');
+      $pt_gen->log('system_error', 'Could not create directory: /cache/vars/plugin_vars/'.$this_plug.'/');
       }
       
    return $base_dir . '/cache/vars/plugin_vars/'.$this_plug.'/' . $file;
@@ -42,7 +42,7 @@ var $pt_array1 = array();
          
          // This plugin's events cache directory
          if ( $pt_gen->dir_struct($base_dir . '/cache/events/plugin_events/'.$this_plug.'/') != true ) {
-         $pt_gen->app_log('system_error', 'Could not create directory: /cache/events/plugin_events/'.$this_plug.'/');
+         $pt_gen->log('system_error', 'Could not create directory: /cache/events/plugin_events/'.$this_plug.'/');
          }
       
    return $base_dir . '/cache/events/plugin_events/'.$this_plug.'/' . $file;

@@ -20,9 +20,9 @@ var $pt_array1 = array();
    
    function powerdown_prim_curr($data) {
    
-   global $sel_btc_prim_currency_val, $hive_market;
+   global $sel_opt, $hive_market;
    
-   return ( $data * $hive_market * $sel_btc_prim_currency_val );
+   return ( $data * $hive_market * $sel_opt['sel_btc_prim_currency_val'] );
    
    }
    
@@ -218,7 +218,7 @@ var $pt_array1 = array();
      
      if ( !$exchange ) {
      	
-     $pt_gen->app_log(
+     $pt_gen->log(
      								'int_api_error',
      								'From ' . $remote_ip . ' (Missing parameter: exchange)',
      								'uri: ' . $_SERVER['REQUEST_URI'] . ';'
@@ -229,7 +229,7 @@ var $pt_array1 = array();
      }
      if ( sizeof($result) < 1 ) {
      	
-     $pt_gen->app_log(
+     $pt_gen->log(
      								'int_api_error',
      								'From ' . $remote_ip . ' (No markets found for exchange: ' . $exchange . ')',
      								'uri: ' . $_SERVER['REQUEST_URI'] . ';'
@@ -256,7 +256,7 @@ var $pt_array1 = array();
    
    function prim_currency_trade_vol($asset_symb, $pairing, $last_trade, $vol_in_pairing) {
    
-   global $pt_conf, $pt_gen, $sel_btc_prim_currency_val;
+   global $pt_conf, $pt_gen, $sel_opt;
      
      
      // Return negative number, if no volume data detected (so we know when data errors happen)
@@ -271,11 +271,11 @@ var $pt_array1 = array();
    
      // WE NEED TO SET THIS (ONLY IF NOT SET ALREADY) for $pt_api->market() calls, 
      // because it is not set as a global THE FIRST RUNTIME CALL TO $pt_api->market()
-     if ( strtoupper($asset_symb) == 'BTC' && !$sel_btc_prim_currency_val ) {
+     if ( strtoupper($asset_symb) == 'BTC' && !$sel_opt['sel_btc_prim_currency_val'] ) {
      $temp_btc_prim_currency_val = $last_trade; // Don't overwrite global
      }
      else {
-     $temp_btc_prim_currency_val = $sel_btc_prim_currency_val; // Don't overwrite global
+     $temp_btc_prim_currency_val = $sel_opt['sel_btc_prim_currency_val']; // Don't overwrite global
      }
    
    
@@ -295,7 +295,7 @@ var $pt_array1 = array();
    
        if ( $pairing_btc_val == null ) {
        	
-       $pt_gen->app_log(
+       $pt_gen->log(
        							'market_error',
        							'this->pairing_btc_val() returned null in pt_asset->prim_currency_trade_vol()',
        							'pairing: ' . $pairing
@@ -384,7 +384,7 @@ var $pt_array1 = array();
                     
                      if ( $result['pool_usd_vol'] < 1 ) {
                      	
-                     $pt_gen->app_log(
+                     $pt_gen->log(
                      							'market_error',
                      							'No 24 hour trade volume for DeFi liquidity pool at address ' . $result['pool_address'] . ' (' . $pairing_array[0] . '/' . $pairing_array[1] . ')'
                      							);
@@ -417,7 +417,7 @@ var $pt_array1 = array();
    
    function hivepower_time($time) {
        
-   global $pt_conf, $sel_btc_prim_currency_val, $hive_market;
+   global $pt_conf, $sel_opt, $hive_market;
    
    $powertime = null;
    $powertime = null;
@@ -455,10 +455,10 @@ var $pt_array1 = array();
        }
        
        
-   $powertime_prim_currency = ( $powertime * $hive_market * $sel_btc_prim_currency_val );
+   $powertime_prim_currency = ( $powertime * $hive_market * $sel_opt['sel_btc_prim_currency_val'] );
        
    $hive_total = ( $powertime + $_POST['hp_total'] );
-   $prim_currency_total = ( $hive_total * $hive_market * $sel_btc_prim_currency_val );
+   $prim_currency_total = ( $hive_total * $hive_market * $sel_opt['sel_btc_prim_currency_val'] );
        
    $power_purchased = ( $_POST['hp_purchased'] / $hive_total );
    $power_earned = ( $_POST['hp_earned'] / $hive_total );
@@ -589,7 +589,7 @@ var $pt_array1 = array();
    
    function mcap_data($symbol, $force_currency=null) {
      
-   global $pt_conf, $pt_var, $pt_api, $alert_percent, $coinmarketcap_currencies, $cap_data_force_usd, $cmc_notes, $coingecko_api, $coinmarketcap_api;
+   global $pt_conf, $pt_var, $pt_api, $coinmarketcap_currencies, $mcap_data_force_usd, $cmc_notes, $coingecko_api, $coinmarketcap_api;
    
    $symbol = strtolower($symbol);
    
@@ -616,18 +616,18 @@ var $pt_array1 = array();
            
          $app_notice = 'Coingecko.com does not seem to support '.strtoupper($pt_conf['gen']['btc_prim_currency_pairing']).' stats,<br />showing USD stats instead.';
          
-         $cap_data_force_usd = 1;
+         $mcap_data_force_usd = 1;
          
          $coingecko_api = $pt_api->coingecko('usd');
            
            	// Overwrite previous app notice and unset force usd flag, if this appears to be a data error rather than an unsupported language
            	if ( !isset($coingecko_api['btc']['market_cap_rank']) ) {
-           	$cap_data_force_usd = null;
+           	$mcap_data_force_usd = null;
            	$app_notice = 'Coingecko.com API data error, check the error logs for more information.';
            	}
          
          }
-         elseif ( $cap_data_force_usd == 1 ) {
+         elseif ( $mcap_data_force_usd == 1 ) {
          $app_notice = 'Coingecko.com does not seem to support '.strtoupper($pt_conf['gen']['btc_prim_currency_pairing']).' stats,<br />showing USD stats instead.';
          }
      
@@ -677,7 +677,7 @@ var $pt_array1 = array();
          $app_notice .= ' Forcing '.strtoupper($force_currency).' stats. ';
          $coinmarketcap_api_no_overwrite = $pt_api->coinmarketcap($force_currency);
          }
-         elseif ( isset($cap_data_force_usd) ) {
+         elseif ( isset($mcap_data_force_usd) ) {
          $coinmarketcap_prim_currency = 'USD';
          }
          
@@ -731,7 +731,7 @@ var $pt_array1 = array();
    
    function market_conv_int_api($market_conversion, $all_markets_data_array) {
    
-   global $pt_conf, $pt_var, $pt_gen, $pt_api, $sel_btc_prim_currency_val, $remote_ip;
+   global $pt_conf, $pt_var, $pt_gen, $pt_api, $sel_opt, $remote_ip;
    
    $result = array();
    
@@ -750,7 +750,7 @@ var $pt_array1 = array();
             	
             $result['error'] .= 'Missing parameter: [currency_symb|market_only]; ';
             
-            $pt_gen->app_log(
+            $pt_gen->log(
             							'int_api_error',
             							'From ' . $remote_ip . ' (Missing parameter: currency_symb|market_only)',
             							'uri: ' . $_SERVER['REQUEST_URI'] . ';'
@@ -761,7 +761,7 @@ var $pt_array1 = array();
             	
             $result['error'] .= 'Conversion market does not exist: '.$market_conversion.'; ';
             
-            $pt_gen->app_log(
+            $pt_gen->log(
             							'int_api_error',
             							'From ' . $remote_ip . ' (Conversion market does not exist: '.$market_conversion.')',
             							'uri: ' . $_SERVER['REQUEST_URI'] . ';'
@@ -773,7 +773,7 @@ var $pt_array1 = array();
             	
             $result['error'] .= 'Missing parameter: [exchange-asset-pairing]; ';
             
-            $pt_gen->app_log(
+            $pt_gen->log(
             							'int_api_error',
             							'From ' . $remote_ip . ' (Missing parameter: exchange-asset-pairing)',
             							'uri: ' . $_SERVER['REQUEST_URI'] . ';'
@@ -791,7 +791,7 @@ var $pt_array1 = array();
       	
       $result['error'] = 'Exceeded maximum of ' . $pt_conf['dev']['local_api_market_limit'] . ' markets allowed per request (' . sizeof($all_markets_data_array) . ').';
       
-      $pt_gen->app_log(
+      $pt_gen->log(
       							'int_api_error',
       							'From ' . $remote_ip . ' (Exceeded maximum markets allowed per request)',
       							'markets_requested: ' . sizeof($all_markets_data_array) . '; uri: ' . $_SERVER['REQUEST_URI'] . ';'
@@ -813,7 +813,7 @@ var $pt_array1 = array();
            
            $result['error'] = 'Too many non-existent markets requested.';
            
-           $pt_gen->app_log(
+           $pt_gen->log(
            								'int_api_error',
            								'From ' . $remote_ip . ' (Too many non-existent markets requested)',
            								'uri: ' . $_SERVER['REQUEST_URI'] . ';'
@@ -886,7 +886,7 @@ var $pt_array1 = array();
                  $pt_conf['gen']['btc_prim_exchange'] = $btc_exchange;
                  
                  // OVERWRITE #GLOBAL# BTC PRIMARY CURRENCY VALUE (so we get correct values for volume in currency etc)
-                 $sel_btc_prim_currency_val = $market_conv_btc_val;
+                 $sel_opt['sel_btc_prim_currency_val'] = $market_conv_btc_val;
                  
                  }
                  
@@ -928,7 +928,7 @@ var $pt_array1 = array();
                        
                            if ( $pairing_btc_val == null ) {
                            	
-                           $pt_gen->app_log(
+                           $pt_gen->log(
                            							'market_error',
                            							'this->pairing_btc_val() returned null in pt_asset->market_conv_int_api()',
                            							'pairing: ' . $market_pairing
@@ -983,7 +983,7 @@ var $pt_array1 = array();
            	
            $result['market_conversion'][$market_data] = array('error' => "Missing all 3 REQUIRED sub-parameters: [exchange-asset-pairing]");
            
-           $pt_gen->app_log(
+           $pt_gen->log(
            								'int_api_error',
            								'From ' . $remote_ip . ' (Missing all 3 REQUIRED sub-parameters: exchange-asset-pairing)',
            								'uri: ' . $_SERVER['REQUEST_URI'] . ';'
@@ -996,7 +996,7 @@ var $pt_array1 = array();
            	
            $result['market_conversion'][$market_data] = array('error' => "Market does not exist: [" . $exchange . "-" . $asset . "-" . $market_pairing . "]");
            
-           $pt_gen->app_log(
+           $pt_gen->log(
            								'int_api_error',
            								'From ' . $remote_ip . ' (Market does not exist: ' . $exchange . "-" . $asset . "-" . $market_pairing . ')',
            								'uri: ' . $_SERVER['REQUEST_URI'] . ';'
@@ -1056,7 +1056,7 @@ var $pt_array1 = array();
         // Include a basic array check, since we want valid data to avoid an endless loop in our fallback support
         if ( !is_array($pt_conf['assets'][strtoupper($pairing)]['pairing']['btc']) ) {
         	
-        $pt_gen->app_log(
+        $pt_gen->log(
         								'market_error',
         								'this->pairing_btc_val() - market failure (unknown pairing) for ' . $pairing
         								);
@@ -1086,7 +1086,7 @@ var $pt_array1 = array();
               // Data debugging telemetry
               if ( $pt_conf['dev']['debug'] == 'all' || $pt_conf['dev']['debug'] == 'all_telemetry' ) {
               	
-              $pt_gen->app_log(
+              $pt_gen->log(
               								'market_debug',
               								'this->pairing_btc_val() market request succeeded for ' . $pairing,
               								'exchange: ' . $market_key
@@ -1101,7 +1101,7 @@ var $pt_array1 = array();
             // We only want to loop a fallback for the amount of available markets
             elseif ( sizeof($btc_pairing_markets_excluded[$pairing]) == sizeof($pt_conf['assets'][strtoupper($pairing)]['pairing']['btc']) ) {
             	
-            $pt_gen->app_log(
+            $pt_gen->log(
             							'market_error',
             							
             							'this->pairing_btc_val() - market request failure (all '.sizeof($btc_pairing_markets_excluded[$pairing]).' markets failed) for ' . $pairing . ' / btc (' . $market_key . ')',
@@ -1133,7 +1133,7 @@ var $pt_array1 = array();
         // Include a basic array check, since we want valid data to avoid an endless loop in our fallback support
         if ( !is_array($pt_conf['assets']['BTC']['pairing'][$pairing]) ) {
         	
-        $pt_gen->app_log(
+        $pt_gen->log(
         								'market_error',
         								'this->pairing_btc_val() - market failure (unknown pairing) for ' . $pairing
         								);
@@ -1163,7 +1163,7 @@ var $pt_array1 = array();
               // Data debugging telemetry
               if ( $pt_conf['dev']['debug'] == 'all' || $pt_conf['dev']['debug'] == 'all_telemetry' ) {
               	
-              $pt_gen->app_log(
+              $pt_gen->log(
               								'market_debug',
               								'pt_asset->pairing_btc_val() market request succeeded for ' . $pairing,
               								'exchange: ' . $market_key
@@ -1178,7 +1178,7 @@ var $pt_array1 = array();
             // We only want to loop a fallback for the amount of available markets
             elseif ( sizeof($btc_pairing_markets_excluded[$pairing]) >= sizeof($pt_conf['assets']['BTC']['pairing'][$pairing]) ) {
             	
-            $pt_gen->app_log(
+            $pt_gen->log(
             							'market_error',
             							'this->pairing_btc_val() - market request failure (all '.sizeof($btc_pairing_markets_excluded[$pairing]).' markets failed) for btc / ' . $pairing . ' (' . $market_key . ')', $pairing . '_markets_excluded_count: ' . sizeof($btc_pairing_markets_excluded[$pairing])
             							);
@@ -1216,7 +1216,7 @@ var $pt_array1 = array();
    function ui_asset_row($asset_name, $asset_symb, $asset_amount, $all_pairing_markets, $sel_pairing, $sel_exchange, $purchase_price=NULL, $leverage_level, $sel_margintype) {
    
    // Globals
-   global $base_dir, $pt_conf, $pt_gen, $pt_var, $pt_api, $prim_currency_market_standalone, $sel_btc_prim_currency_val, $btc_worth_array, $asset_stats_array, $td_color_zebra, $cap_data_force_usd, $theme_selected, $alert_percent, $show_secondary_trade_val, $coingecko_api, $coinmarketcap_api;
+   global $base_dir, $pt_conf, $pt_gen, $pt_var, $pt_api, $sel_opt, $btc_worth_array, $asset_stats_array, $td_color_zebra, $mcap_data_force_usd, $coingecko_api, $coinmarketcap_api;
    
        
    $original_market = $sel_exchange;
@@ -1240,7 +1240,7 @@ var $pt_array1 = array();
             if ( $loop == $sel_exchange || $key == "ico_erc20_value" ) {
             $sel_exchange = $key;
              
-               if ( sizeof($prim_currency_market_standalone) != 2 && strtolower($asset_name) == 'bitcoin' ) {
+               if ( sizeof($sel_opt['prim_currency_market_standalone']) != 2 && strtolower($asset_name) == 'bitcoin' ) {
                $pt_conf['gen']['btc_prim_exchange'] = $key;
                $pt_conf['gen']['btc_prim_currency_pairing'] = $sel_pairing;
                
@@ -1273,17 +1273,17 @@ var $pt_array1 = array();
         
         
       // Overwrite PRIMARY CURRENCY CONFIG / BTC market value, in case user changed preferred market IN THE UI
-      $sel_btc_pairing_id = $pt_conf['assets']['BTC']['pairing'][ $pt_conf['gen']['btc_prim_currency_pairing'] ][ $pt_conf['gen']['btc_prim_exchange'] ];
-      $sel_btc_prim_currency_val = $pt_api->market('BTC', $pt_conf['gen']['btc_prim_exchange'], $sel_btc_pairing_id)['last_trade'];
+      $sel_opt['sel_btc_pairing_id'] = $pt_conf['assets']['BTC']['pairing'][ $pt_conf['gen']['btc_prim_currency_pairing'] ][ $pt_conf['gen']['btc_prim_exchange'] ];
+      $sel_opt['sel_btc_prim_currency_val'] = $pt_api->market('BTC', $pt_conf['gen']['btc_prim_exchange'], $sel_opt['sel_btc_pairing_id'])['last_trade'];
         
         
          // Log any Bitcoin market errors
-         if ( !isset($sel_btc_prim_currency_val) || $sel_btc_prim_currency_val == 0 ) {
+         if ( !isset($sel_opt['sel_btc_prim_currency_val']) || $sel_opt['sel_btc_prim_currency_val'] == 0 ) {
          	
-         $pt_gen->app_log(
+         $pt_gen->log(
          							'market_error',
 										'pt_asset->ui_asset_row() Bitcoin primary currency value not properly set',
-										'exchange: ' . $pt_conf['gen']['btc_prim_exchange'] . '; pairing_id: ' . $sel_btc_pairing_id . '; value: ' . $sel_btc_prim_currency_val
+										'exchange: ' . $pt_conf['gen']['btc_prim_exchange'] . '; pairing_id: ' . $sel_opt['sel_btc_pairing_id'] . '; value: ' . $sel_opt['sel_btc_prim_currency_val']
 										);
          
          }
@@ -1353,7 +1353,7 @@ var $pt_array1 = array();
          
          if ( $pairing_btc_val == null ) {
          	
-         $pt_gen->app_log(
+         $pt_gen->log(
          							'market_error',
          							'this->pairing_btc_val(\''.$sel_pairing.'\') returned null in pt_asset->ui_asset_row(), likely from exchange API request failure'
          							);
@@ -1361,7 +1361,7 @@ var $pt_array1 = array();
          }
       
       
-      $asset_prim_currency_worth_raw = ($asset_val_total_raw * $pairing_btc_val) * $sel_btc_prim_currency_val;
+      $asset_prim_currency_worth_raw = ($asset_val_total_raw * $pairing_btc_val) * $sel_opt['sel_btc_prim_currency_val'];
     
     
          // BITCOIN (OVERWRITE W/ DIFF LOGIC)
@@ -1510,7 +1510,7 @@ var $pt_array1 = array();
       
         if ( $pairing_btc_val == null ) {
         	
-        $pt_gen->app_log(
+        $pt_gen->log(
         								'market_error',
         								'this->pairing_btc_val() returned null in pt_asset->charts_price_alerts()',
         								'pairing: ' . $pairing
@@ -1539,7 +1539,7 @@ var $pt_array1 = array();
       // Return false if we have no $default_btc_prim_currency_val
       if ( !isset($default_btc_prim_currency_val) || $default_btc_prim_currency_val == 0 ) {
       	
-      $pt_gen->app_log(
+      $pt_gen->log(
       							'market_error',
       							
       							'pt_asset->charts_price_alerts() - No Bitcoin '.strtoupper($default_btc_prim_currency_pairing).' value ('.strtoupper($pairing).' pairing) for "' . $asset_data . '"',
@@ -1558,7 +1558,7 @@ var $pt_array1 = array();
       }
       else {
       	
-      $pt_gen->app_log(
+      $pt_gen->log(
       							'market_error',
       							
       							'pt_asset->charts_price_alerts() - No '.strtoupper($default_btc_prim_currency_pairing).' conversion value ('.strtoupper($pairing).' pairing) for "' . $asset_data . '"',
@@ -1625,7 +1625,7 @@ var $pt_array1 = array();
          else {
          	
          // Return false
-         $pt_gen->app_log(
+         $pt_gen->log(
          							'system_error', 
          							'time() returned a corrupt value (from power outage / corrupt memory / etc), chart updating canceled',
          							'chart_type: asset market'
@@ -1794,7 +1794,6 @@ var $pt_array1 = array();
                   }
                   
                   
-                  
                   // Whale alert (price change average of X or greater over X day(s) or less, with X percent pair volume increase average that is at least a X primary currency volume increase average)
                   $whale_alert_thres = explode("||", $pt_conf['charts_alerts']['price_alert_whale_thres']);
         
@@ -1820,27 +1819,20 @@ var $pt_array1 = array();
                  
                   }
                  
-                 
                   
                   // We disallow alerts where minimum 24 hour trade PRIMARY CURRENCY CONFIG volume has NOT been met, ONLY if an API request doesn't fail to retrieve volume data
                   if ( $vol_prim_currency_raw >= 0 && $vol_prim_currency_raw < $pt_conf['comms']['price_alert_min_vol'] ) {
                   $send_alert = null;
                   }
-          
-          
-          
                   // We disallow alerts if they are not activated
-                  if ( $mode != 'both' && $mode != 'alert' ) {
+                  elseif ( $mode != 'both' && $mode != 'alert' ) {
                   $send_alert = null;
                   }
-          
-          
                   // We disallow alerts if $pt_conf['comms']['price_alert_block_vol_error'] is on, and there is a volume retrieval error
                   // ONLY PRIMARY CURRENCY CONFIG VOLUME CALCULATION RETURNS -1 ON EXCHANGE VOLUME ERROR
-                  if ( $vol_prim_currency_raw == -1 && $pt_conf['comms']['price_alert_block_vol_error'] == 'on' ) {
+                  elseif ( $vol_prim_currency_raw == -1 && $pt_conf['comms']['price_alert_block_vol_error'] == 'on' ) {
                   $send_alert = null;
                   }
-                  
                   
                   
                   
