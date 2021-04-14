@@ -1349,7 +1349,7 @@ echo "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
 
 
 echo " "
-echo "BE SURE TO SAVE ALL THE ACCESS DETAILS PRINTED OUT ABOVE, BEFORE YOU SIGN OFF FROM THIS TERMINAL SESSION."
+echo "BE SURE TO SCROLL UP TO SAVE ALL THE DOCUMENTATION PRINTED OUT ABOVE, BEFORE YOU SIGN OFF FROM THIS TERMINAL SESSION."
 echo " "
 echo "Also check out my 100% FREE open source multi-crypto slideshow ticker for Raspberry Pi LCD screens:"
 echo " "
@@ -1370,8 +1370,15 @@ echo " "
 ######################################
 
 
+# Mark the portfolio install as having run already, to avoid showing
+# the OPTIONAL portfolio install options at end of the ticker install
+FOLIO_INSTALL_RAN=1
 
-echo "Would you like to ADDITIONALLY install Slideshow Crypto Ticker, multi-crypto slideshow ticker for Raspberry Pi LCD screens on this machine?"
+                    
+if [ -z "$TICKER_INSTALL_RAN" ]; then
+
+
+echo "Would you like to ADDITIONALLY / OPTIONALLY install Slideshow Crypto Ticker, multi-crypto slideshow ticker for Raspberry Pi LCD screens on this machine?"
 echo " "
 
 echo "Select 1 or 2 to choose whether to install the crypto ticker for Raspberry Pi LCD screens, or skip."
@@ -1379,7 +1386,7 @@ echo " "
 
 OPTIONS="install_crypto_ticker skip"
 
-select opt in $OPTIONS; do
+	select opt in $OPTIONS; do
         if [ "$opt" = "install_crypto_ticker" ]; then
          
 			
@@ -1400,13 +1407,28 @@ select opt in $OPTIONS; do
 			
         break
        elif [ "$opt" = "skip" ]; then
+       
         echo " "
-        echo "Skipping crypto ticker install..."
+        echo "Skipping the OPTIONAL crypto ticker install..."
+		  echo " "
+		  echo "Installation / setup has finished, exiting to terminal..."
+		  echo " "
+		  exit
+		  
         break
+        
        fi
-done
+	done
+
+
+else
 
 echo " "
+echo "Installation / setup has finished, exiting to terminal..."
+echo " "
+exit
+
+fi
 
 
 ######################################
