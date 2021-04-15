@@ -12,7 +12,7 @@
 foreach ( $plug_conf[$this_plug]['price_targets'] as $target_key => $target_val ) {
 
 
-$price_target_cache_file = $pt_plug->var_cache($target_key . '.dat');
+$price_target_cache_file = $pt_plug->alert_cache($target_key . '.dat');
 
 
 	// If it's too early to re-send an alert again, skip this entry

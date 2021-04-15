@@ -1684,7 +1684,7 @@ var $pt_array1 = array();
        $alert_cache_contents = $asset_prim_currency_val_raw . '||' . $vol_prim_currency_raw . '||' . $pairing_vol_raw;
         
       // Grab any cached price alert data
-       $data_file = trim( file_get_contents('cache/alerts/'.$asset_data.'.dat') );
+       $data_file = trim( file_get_contents('cache/alerts/fiat_price/'.$asset_data.'.dat') );
         
        $cached_array = explode("||", $data_file);
        
@@ -1751,7 +1751,7 @@ var $pt_array1 = array();
         
           // Check for a file modified time !!!BEFORE ANY!!! file creation / updating happens (to calculate time elapsed between updates)
             
-          $last_cached_days = ( time() - filemtime('cache/alerts/'.$asset_data.'.dat') ) / 86400;
+          $last_cached_days = ( time() - filemtime('cache/alerts/fiat_price/'.$asset_data.'.dat') ) / 86400;
           $last_cached_days = $pt_var->num_to_str($last_cached_days); // Better decimal support for whale alerts etc
            
            
@@ -1837,7 +1837,7 @@ var $pt_array1 = array();
                   
                   
                   // Sending the alerts
-                  if ( $pt_cache->update_cache('cache/alerts/'.$asset_data.'.dat', ( $pt_conf['comms']['price_alert_freq_max'] * 60 ) ) == true && $send_alert == 1 ) {
+                  if ( $pt_cache->update_cache('cache/alerts/fiat_price/'.$asset_data.'.dat', ( $pt_conf['comms']['price_alert_freq_max'] * 60 ) ) == true && $send_alert == 1 ) {
                   
                                 
                   // Message formatting for display to end user
@@ -1961,7 +1961,7 @@ var $pt_array1 = array();
                   @$pt_cache->queue_notify($send_params);
                         
                   // Cache the new lower / higher value + volume data
-                  $pt_cache->save_file($base_dir . '/cache/alerts/'.$asset_data.'.dat', $alert_cache_contents); 
+                  $pt_cache->save_file($base_dir . '/cache/alerts/fiat_price/'.$asset_data.'.dat', $alert_cache_contents); 
                   
                   }
                   
@@ -1971,13 +1971,13 @@ var $pt_array1 = array();
        
        
         // Cache a price alert value / volumes if not already done, OR if config setting set to reset every X days
-        if ( $pt_var->num_to_str($asset_prim_currency_val_raw) >= 0.00000001 && !file_exists('cache/alerts/'.$asset_data.'.dat') ) {
-        $pt_cache->save_file($base_dir . '/cache/alerts/'.$asset_data.'.dat', $alert_cache_contents); 
+        if ( $pt_var->num_to_str($asset_prim_currency_val_raw) >= 0.00000001 && !file_exists('cache/alerts/fiat_price/'.$asset_data.'.dat') ) {
+        $pt_cache->save_file($base_dir . '/cache/alerts/fiat_price/'.$asset_data.'.dat', $alert_cache_contents); 
         }
         elseif ( $send_alert != 1 && $pt_conf['charts_alerts']['price_alert_fixed_reset'] >= 1 && $pt_var->num_to_str($asset_prim_currency_val_raw) >= 0.00000001 
-        && $pt_cache->update_cache('cache/alerts/'.$asset_data.'.dat', ( $pt_conf['charts_alerts']['price_alert_fixed_reset'] * 1440 ) ) == true ) {
+        && $pt_cache->update_cache('cache/alerts/fiat_price/'.$asset_data.'.dat', ( $pt_conf['charts_alerts']['price_alert_fixed_reset'] * 1440 ) ) == true ) {
           
-        $pt_cache->save_file($base_dir . '/cache/alerts/'.$asset_data.'.dat', $alert_cache_contents); 
+        $pt_cache->save_file($base_dir . '/cache/alerts/fiat_price/'.$asset_data.'.dat', $alert_cache_contents); 
         
         // Comms data (for one alert message, including data on all resets per runtime)
         $price_alert_fixed_reset_array[strtolower($asset)][$asset_data] = $asset . ' / ' . strtoupper($pairing) . ' @ ' . $exchange_text . ' (' . $change_symb . $percent_change_text . '%)';

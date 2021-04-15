@@ -48,6 +48,24 @@ var $pt_array1 = array();
    return $base_dir . '/cache/events/plugin_events/'.$this_plug.'/' . $file;
    
    }
+
+   
+   ////////////////////////////////////////////////////////
+   ////////////////////////////////////////////////////////
+   
+   
+   function alert_cache($file) {
+      
+   global $base_dir, $pt_gen, $this_plug;
+         
+         // This plugin's events cache directory
+         if ( $pt_gen->dir_struct($base_dir . '/cache/alerts/plugin_alerts/'.$this_plug.'/') != true ) {
+         $pt_gen->log('system_error', 'Could not create directory: /cache/alerts/plugin_alerts/'.$this_plug.'/');
+         }
+      
+   return $base_dir . '/cache/alerts/plugin_alerts/'.$this_plug.'/' . $file;
+   
+   }
    
    
    ////////////////////////////////////////////////////////

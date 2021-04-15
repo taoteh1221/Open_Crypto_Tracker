@@ -6,7 +6,7 @@
 
 // Check for cache directory path creation, create if needed...if it fails, flag a force exit and alert end-user
 
-if ( $pt_gen->dir_struct('cache/alerts/') != true
+if ( $pt_gen->dir_struct('cache/alerts/fiat_price/') != true
 || $pt_gen->dir_struct('cache/charts/spot_price_24hr_volume/archival/') != true
 || $pt_gen->dir_struct('cache/charts/spot_price_24hr_volume/lite/') != true
 || $pt_gen->dir_struct('cache/charts/system/archival/') != true

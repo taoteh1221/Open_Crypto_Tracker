@@ -51,8 +51,8 @@ $default_btc_prim_exchange = $pt_conf['gen']['btc_prim_exchange'];
 // If $default_btc_prim_currency_pairing has changed, or never been set in cache vars, delete all potentially mismatched data and set in cache vars
 if ( $default_btc_prim_currency_pairing != trim( file_get_contents($base_dir . '/cache/vars/default_btc_prim_currency_pairing.dat') ) ) {
 
-// Delete all alerts cache data
-$pt_gen->del_all_files($base_dir . '/cache/alerts'); 
+// Delete all fiat price alerts cache data
+$pt_gen->del_all_files($base_dir . '/cache/alerts/fiat_price'); 
 
 // Delete all lite charts SPOT PRICE data (automatically will trigger a lite chart rebuild)
 $pt_cache->remove_dir($base_dir . '/cache/charts/spot_price_24hr_volume/lite');

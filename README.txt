@@ -4,7 +4,7 @@
 Open Crypto Portfolio Tracker - Developed by Michael Kilday <mike@dragonfrugal.com> (Copyright 2014-2021 GPLv3)
 
 
-Open source / 100% FREE cryptocurrency portfolio tracker. Email / text / Alexa / Ghome / Telegram price alerts, price charts,  mining calculators, leverage / gain / loss / balance stats, news feeds + more. Privately track Bitcoin / Ethereum / unlimited cryptocurrencies. Customize as many assets / markets / alerts / charts as you want. 
+100% FREE / open source / PRIVATE cryptocurrency portfolio tracker. Email / text / Alexa / Ghome / Telegram price alerts, price charts,  mining calculators, leverage / gain / loss / balance stats, news feeds + more. Privately track Bitcoin / Ethereum / unlimited cryptocurrencies. Customize as many assets / markets / alerts / charts as you want. 
 
 
 Web server setup / install is available for $30 hourly if needed (see 'Manual Install' section for managed hosting, or try the auto-install bash script for self-hosted). PM me on Twitter / Skype @ taoteh1221, or get a hold of me using the below-listed contact methods.
@@ -44,6 +44,8 @@ PayPal:    https://www.paypal.me/dragonfrugal
 
 
 FEATURES
+
+-PRIVATELY connects DIRECTLY to APIs / servers for data and comms (no "phoning home" to a middleman server), with optional proxy support for API connections.
 
 -Automated and user-friendly installation / upgrade script for Ubuntu or Raspberry Pi app setup on your home / internal network or website.
 

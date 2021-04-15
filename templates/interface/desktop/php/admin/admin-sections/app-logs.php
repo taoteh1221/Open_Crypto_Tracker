@@ -31,23 +31,23 @@
 	        
 	        <p>
 	        
-	        <b>Extra Spacing:</b> <input type='checkbox' id='errors_log_space' value='1' onchange="system_logs('errors_log');" />
+	        <b>Extra Spacing:</b> <input type='checkbox' id='error_log_space' value='1' onchange="system_logs('error_log');" />
 	        
-	        &nbsp; <b>Last lines:</b> <input type='text' id='errors_log_lines' value='100' maxlength="5" size="4" />
+	        &nbsp; <b>Last lines:</b> <input type='text' id='error_log_lines' value='100' maxlength="5" size="4" />
 	        
-	        &nbsp; <button class='force_button_style' onclick="copy_text('errors_log', 'errors_log_alert');">Copy To Clipboard</button> 
+	        &nbsp; <button class='force_button_style' onclick="copy_text('error_log', 'error_log_alert');">Copy To Clipboard</button> 
 	        
-	        &nbsp; <button class='force_button_style' onclick="system_logs('errors_log');">Refresh</button> 
+	        &nbsp; <button class='force_button_style' onclick="system_logs('error_log');">Refresh</button> 
 	        
-	        &nbsp; <span id='errors_log_alert' class='red'></span>
+	        &nbsp; <span id='error_log_alert' class='red'></span>
 	        
 	        </p>
 	        
 	        <!-- Looks good highlighted as: less, yaml  -->
-	        <pre class='rounded'><code class='hide-x-scroll less' style='width: 100%; height: 750px;' id='errors_log'></code></pre>
+	        <pre class='rounded'><code class='hide-x-scroll less' style='width: 100%; height: 750px;' id='error_log'></code></pre>
 			  
 			  <script>
-			  system_logs('errors_log');
+			  system_logs('error_log');
 			  </script>
 		
 	    </fieldset>
@@ -88,23 +88,23 @@
 	        
 	        <p>
 	        
-	        <b>Extra Spacing:</b> <input type='checkbox' id='smtp_errors_log_space' value='1' onchange="system_logs('smtp_errors_log');" />
+	        <b>Extra Spacing:</b> <input type='checkbox' id='smtp_error_log_space' value='1' onchange="system_logs('smtp_error_log');" />
 	        
-	        &nbsp; <b>Last lines:</b> <input type='text' id='smtp_errors_log_lines' value='100' maxlength="5" size="4" />
+	        &nbsp; <b>Last lines:</b> <input type='text' id='smtp_error_log_lines' value='100' maxlength="5" size="4" />
 	        
-	        &nbsp; <button class='force_button_style' onclick="copy_text('smtp_errors_log', 'smtp_errors_log_alert');">Copy To Clipboard</button> 
+	        &nbsp; <button class='force_button_style' onclick="copy_text('smtp_error_log', 'smtp_error_log_alert');">Copy To Clipboard</button> 
 	        
-	        &nbsp; <button class='force_button_style' onclick="system_logs('smtp_errors_log');">Refresh</button> 
+	        &nbsp; <button class='force_button_style' onclick="system_logs('smtp_error_log');">Refresh</button> 
 	        
-	        &nbsp; <span id='smtp_errors_log_alert' class='red'></span>
+	        &nbsp; <span id='smtp_error_log_alert' class='red'></span>
 	        
 	        </p>
 	        
 	        <!-- Looks good highlighted as: less, yaml  -->
-	        <pre class='rounded'><code class='hide-x-scroll less' style='width: 100%; height: 750px;' id='smtp_errors_log'></code></pre>
+	        <pre class='rounded'><code class='hide-x-scroll less' style='width: 100%; height: 750px;' id='smtp_error_log'></code></pre>
 			  
 			  <script>
-			  system_logs('smtp_errors_log');
+			  system_logs('smtp_error_log');
 			  </script>
 		
 	    </fieldset>
