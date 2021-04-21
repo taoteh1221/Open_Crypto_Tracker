@@ -323,7 +323,7 @@ var $pt_array1 = array();
                
               $backup_url = $base_url . 'download.php?backup=' . $backup_file;
               
-              $msg = "A backup archive has been created for: ".$backup_prefix."\n\nHere is a link to download the backup to your computer: " . $backup_url . "\n\n(backup archives are purged after " . $pt_conf['power']['backup_arch_del_old'] . " days)";
+              $msg = "A backup archive has been created for: ".$backup_prefix."\n\nHere is a link to download the backup to your computer:\n\n" . $backup_url . "\n\n(backup archives are purged after " . $pt_conf['power']['backup_arch_del_old'] . " days)";
               
               // Message parameter added for desired comm methods (leave any comm method blank to skip sending via that method)
               $send_params = array(
