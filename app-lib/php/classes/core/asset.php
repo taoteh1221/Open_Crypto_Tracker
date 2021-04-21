@@ -1059,9 +1059,9 @@ var $pt_array1 = array();
 	        if ( !is_array($pt_conf['assets'][strtoupper($pairing)]['pairing']['btc']) ) {
 	        	
 	        $pt_gen->log(
-	        								'market_error',
-	        								'this->pairing_btc_val() - market failure (unknown pairing) for ' . $pairing
-	        								);
+	        					'market_error',
+	        					'this->pairing_btc_val() - market failure (unknown pairing) for ' . $pairing
+	        					);
 	        
 	        return null;
 	        
@@ -1089,10 +1089,10 @@ var $pt_array1 = array();
 				              if ( $pt_conf['dev']['debug'] == 'all' || $pt_conf['dev']['debug'] == 'all_telemetry' ) {
 				              	
 				              $pt_gen->log(
-				              								'market_debug',
-				              								'this->pairing_btc_val() market request succeeded for ' . $pairing,
-				              								'exchange: ' . $market_key
-				              								);
+				              					'market_debug',
+				              					'this->pairing_btc_val() market request succeeded for ' . $pairing,
+				              					'exchange: ' . $market_key
+				              					);
 				              
 				              }
 			                
