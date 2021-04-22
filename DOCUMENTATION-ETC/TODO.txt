@@ -170,7 +170,7 @@ FEATURES / STRUCTURING SECTION
 The upcoming 'add new coin market' admin interface feature should be a "wizard" with a few "steps", to have a decent user experience AND break the logic up into different checks / steps under the hood as well. 1) Asset name and symbol, 2) Choose from a list of exchanges and pairings available for that asset, 3) Enable charts and or alerts for different exchanges and pairings.
 
 
-On 'more stats' page, add a 'market volume' chart, showing a multi-line chart (like asset comparison chart) of all USD volumes for an asset's configured markets THAT HAVE CHARTS ENABLED (so we grab values from lite chart data). Default to showing Bitcoin, allow using different lite chart time periods (like asset comparison chart).
+On 'more stats' page, add a 'market volume' chart, showing a multi-line chart (like asset comparison chart) of all [charts-fiat-conversion-currency] volumes for an asset's configured markets THAT HAVE CHARTS ENABLED (so we grab values from lite chart data). Default to showing Bitcoin, allow using different lite chart time periods (like asset comparison chart).
 
 
 Add logic to offer securing the computer in the auto-install. Add subsections "Requiring Password For Sudo (Admin)" / "Disabling Bluetooth" / "Enabling firewall" inside a main prompt "Would you like to secure your computer against hacks?" For the bluetooth disabling section, include a commented section so we know if we've already APPENDED (>> IN BASH, NOT >) to boot/config.txt (like we do for htaccess). For firewall setup add a loop that you add new ports to open and quit the loop when finished...AND AUTOMATICALLY OPEN PORTS 80 / 443 FOR THIS APP, AND SSH STUFF TOO IF DETECTED AS INSTALLED ON THE SYSTEM!
