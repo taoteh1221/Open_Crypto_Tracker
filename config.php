@@ -406,7 +406,6 @@ $pt_conf['charts_alerts']['tracked_markets'] = array(
 					
 					// GLM
 					'glm' => 'bittrex||btc||both',
-					'glm-2' => 'ethfinex||btc||chart',
 					
 					
 					// HIVE
@@ -2680,7 +2679,6 @@ $pt_conf['assets'] = array(
                                                     
                                     'eth' => array(
                                           'bittrex' => 'GLM-ETH',
-                                        	'ethfinex' => 'tGNTETH',
                                                     ),
                                                     
                                     'inr' => array(
@@ -2689,6 +2687,10 @@ $pt_conf['assets'] = array(
                                                     
                                     'krw' => array(
                                         	'upbit' => 'KRW-GLM',
+                                                    ),
+                                                    
+                                    'usd' => array(
+                                        	'ethfinex' => 'tGNTUSD',
                                                     ),
                                                     
                                     'usdc' => array(
