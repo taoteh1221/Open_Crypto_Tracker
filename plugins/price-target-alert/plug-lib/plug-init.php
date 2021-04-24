@@ -36,6 +36,14 @@ $market_id = $pt_conf['assets'][$market_asset]['pairing'][$market_pairing][$mark
 $market_val = $pt_var->num_to_str( $pt_api->market($market_asset, $market_exchange, $market_id)['last_trade'] );
 
 	
+	if ( $target_val >= $market_val ) {
+	$target_direction = 'increase';
+	}
+	else {
+	$target_direction = 'decrease';
+	}
+		
+	
 	// Get cache data, and / or flag a cache reset
 	if ( file_exists($price_target_cache_file) ) {
 		
@@ -47,8 +55,13 @@ $market_val = $pt_var->num_to_str( $pt_api->market($market_asset, $market_exchan
 	
 	$cached_market_val = $pt_var->num_to_str($price_target_cache_data[2]);
 	
-		// If user changed the target value in the config, flag a reset
-		if ( $target_val != $cached_target_val ) {
+		// Flag a reset if user changed the target value in the config, 
+		// OR the market value is still getting FURTHER from the target value (so we track when the trend reversed, via file timestamp)
+		if (
+		$target_val != $cached_target_val 
+		|| $target_direction == 'increase' && $market_val < $cached_market_val 
+		|| $target_direction == 'decrease' && $market_val > $cached_market_val
+		) {
 		$cache_reset = true;
 		}
 	
@@ -60,13 +73,6 @@ $market_val = $pt_var->num_to_str( $pt_api->market($market_asset, $market_exchan
 	
 	// If a cache reset was flagged
 	if ( $cache_reset ) {
-	
-		if ( $target_val >= $market_val ) {
-		$target_direction = 'increase';
-		}
-		else {
-		$target_direction = 'decrease';
-		}
 		
 	$new_cache_data = $target_direction . '|' . $target_val . '|' . $market_val;
 	
