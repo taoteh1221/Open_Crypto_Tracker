@@ -317,20 +317,21 @@ Ethereum ICO subtoken support (pre-exchange listing) has been built in (values a
                 'name' => 'COIN_NAME_HERE',
                 // Website slug (URL data) on coinmarketcap / coingecko, leave blank if not listed there
                 'mcap_slug' => 'WEBSITE_SLUG_HERE', 
+                // MARKET IDS ARE CASE-SENSITIVE!
                 'pairing' => array(
                             
-                            // MARKET IDS ARE CASE-SENSITIVE!
                             
-                            'lowercase_pairing_abrv' => array(
+                     	'lowercase_pairing_abrv' => array(
                                   'lowercase_exchange1' => 'MARKETIDHERE',
                                   'lowercase_exchange2' => 'ASSET/PAIRING',
                                   'lowercase_exchange3' => 'ASSET-PAIRING',
                                   'lowercase_exchange4' => 'ASSET_PAIRING',
                                   'lowercase_exchange5' => 'ASSETPAIRING',
                                   'defipulse' => 'ASSET/PAIRING', // DeFi Generic
-                                            ),
+                                  ),
                                             
-                            'eth' => array(
+                                            
+                     	'eth' => array(
                                   'lowercase_exchange1' => 'MARKETIDHERE',
                                   'lowercase_exchange2' => 'ASSET/ETH',
                                   'lowercase_exchange3' => 'ASSET-ETH',
@@ -340,9 +341,10 @@ Ethereum ICO subtoken support (pre-exchange listing) has been built in (values a
                                   'ico_erc20_value' => 'ETHSUBTOKENNAME', 
                                   // INCLUDING #OPTIONAL# LIQUIDITY POOL ADDRESS, ASSURING #EXACT# MARKET DESIRED
                                   'defipulse' => 'ASSET/PAIRING||OPTIONAL_LIQUIDITY_POOL_ADDRESS', // DeFi Generic
-                                            ),
+                                  ),
+
                                             
-                                  ) // market_pairing END
+                ) // pairing END
             	   
             ), // Asset END
 </code></pre>

@@ -1803,13 +1803,16 @@ $pt_conf['assets'] = array(
                         'mcap_slug' => 'bitcoin',
                         'pairing' => array(
                         
+                        
                         				'aed' => array(
                                           'localbitcoins' => 'AED',
                                                     ),
+
                         
                         				'ars' => array(
                                           'localbitcoins' => 'ARS',
                                                     ),
+
                         
                         				'aud' => array(
                                     		'kraken' => 'XBTAUD',
@@ -1817,61 +1820,75 @@ $pt_conf['assets'] = array(
                                           'localbitcoins' => 'AUD',
                                           'coinspot' => 'btc',
                                                     ),
+
                                                     
                                     'bam' => array(
                                           'localbitcoins' => 'BAM',
                                                     ),
+
                                                     
                                     'bdt' => array(
                                           'localbitcoins' => 'BDT',
                                                     ),
+
                                                     
                                     'bob' => array(
                                           'localbitcoins' => 'BOB',
                                                     ),
+
                                                     
                                     'brl' => array(
                                           'braziliex' => 'btc_brl',
                                           'localbitcoins' => 'BRL',
                                                     ),
+
                                                     
                                     'bwp' => array(
                                           'localbitcoins' => 'BWP',
                                                     ),
+
                                                     
                                     'byn' => array(
                                           'localbitcoins' => 'BYN',
                                                     ),
+
                                                     
                                     'cad' => array(
                                           'kraken' => 'XXBTZCAD',
                                           'localbitcoins' => 'CAD',
                                                     ),
+
                                                     
                                     'chf' => array(
                                           'kraken' => 'XBTCHF',
                                           'localbitcoins' => 'CHF',
                                                     ),
+
                                                     
                                     'clp' => array(
                                           'localbitcoins' => 'CLP',
                                                     ),
+
                                                     
                                     'cny' => array(
                                           'localbitcoins' => 'CNY',
                                                     ),
+
                                                     
                                     'cop' => array(
                                           'localbitcoins' => 'COP',
                                                     ),
+
                                                     
                                     'crc' => array(
                                           'localbitcoins' => 'CRC',
                                                     ),
+
                                                     
                                     'czk' => array(
                                           'localbitcoins' => 'CZK',
                                                     ),
+
                                                     
                                     'dai' => array(
                                         	'binance' => 'BTCDAI',
@@ -1880,24 +1897,29 @@ $pt_conf['assets'] = array(
                                         	'okex' => 'BTC-DAI',
                                         	'kucoin' => 'BTC-DAI',
                                                     ),
+
                                                     
                                     'dkk' => array(
                                           'localbitcoins' => 'DKK',
                                                     ),
+
                                                     
                                     'dop' => array(
                                           'localbitcoins' => 'DOP',
                                                     ),
+
                                                     
                                     'egp' => array(
                                           'localbitcoins' => 'EGP',
                                                     ),
+
                                                     
                                     'eth' => array(
                                           'localbitcoins' => 'ETH',
                                         	'loopring_amm' => 'AMM-WBTC-ETH',
                                     	 	'defipulse' => 'WBTC/WETH',
                                                     ),
+
                                                     
                                     'eur' => array(
                                           'coinbase' => 'BTC-EUR',
@@ -1911,6 +1933,7 @@ $pt_conf['assets'] = array(
                                           'localbitcoins' => 'EUR',
                                           'luno' => 'XBTEUR',
                                                     ),
+
                                                     
                                     'gbp' => array(
                                           'coinbase' => 'BTC-GBP',
@@ -1919,35 +1942,43 @@ $pt_conf['assets'] = array(
                                           'cex' => 'BTC:GBP',
                                           'localbitcoins' => 'GBP',
                                                     ),
+
                                                     
                                     'gel' => array(
                                           'localbitcoins' => 'GEL',
                                                     ),
+
                                                     
                                     'ghs' => array(
                                           'localbitcoins' => 'GHS',
                                                     ),
+
                                                     
                                     'gtq' => array(
                                           'localbitcoins' => 'GTQ',
                                                     ),
+
                                                     
                                     'hkd' => array(
                                           'liquid' => 'BTCHKD',
                                           'localbitcoins' => 'HKD',
                                                     ),
+
                                                     
                                     'huf' => array(
                                           'localbitcoins' => 'HUF',
                                                     ),
+
                                                     
                                     'idr' => array(
                                           'localbitcoins' => 'IDR',
                                                     ),
+
                                                     
                                     'ils' => array(
                                           'localbitcoins' => 'ILS',
                                                     ),
+
                                                     
                                     'inr' => array(
                                           'localbitcoins' => 'INR',
@@ -1955,170 +1986,210 @@ $pt_conf['assets'] = array(
                                           'buyucoin' => 'INR-BTC',
                                           'wazirx' => 'btcinr',
                                                     ),
+
                                                     
                                     'irr' => array(
                                           'localbitcoins' => 'IRR',
                                                     ),
+
                                                     
                                     'jmd' => array(
                                           'localbitcoins' => 'JMD',
                                                     ),
+
                                                     
                                     'jod' => array(
                                           'localbitcoins' => 'JOD',
                                                     ),
+
                                                     
                                     'jpy' => array(
                                           'kraken' => 'XXBTZJPY',
                                           'bitflyer' => 'BTC_JPY',
                                           'localbitcoins' => 'JPY',
                                                     ),
+
                                                     
                                     'kes' => array(
                                           'localbitcoins' => 'KES',
                                                     ),
+
                                                     
                                     'krw' => array(
                                           'localbitcoins' => 'KRW',
                                           'upbit' => 'KRW-BTC',
                                         	'korbit' => 'btc_krw',
                                                     ),
+
                                                     
                                     'kwd' => array(
                                           'localbitcoins' => 'KWD',
                                                     ),
+
                                                     
                                     'kzt' => array(
                                           'localbitcoins' => 'KZT',
                                                     ),
+
                                                     
                                     'lkr' => array(
                                           'localbitcoins' => 'LKR',
                                                     ),
+
                                                     
                                     'mad' => array(
                                           'localbitcoins' => 'MAD',
                                                     ),
+
                                                     
                                     'mur' => array(
                                           'localbitcoins' => 'MUR',
                                                     ),
+
                                                     
                                     'mwk' => array(
                                           'localbitcoins' => 'MWK',
                                                     ),
+
                                                     
                                     'mxn' => array(
                                           'bitso' => 'btc_mxn',
                                           'localbitcoins' => 'MXN',
                                                     ),
+
                                                     
                                     'myr' => array(
                                           'localbitcoins' => 'MYR',
                                                     ),
+
                                                     
                                     'ngn' => array(
                                           'localbitcoins' => 'NGN',
                                                     ),
+
                                                     
                                     'nis' => array(
                                           'bit2c' => 'BtcNis',
                                                     ),
+
                                                     
                                     'nok' => array(
                                           'localbitcoins' => 'NOK',
                                                     ),
+
                                                     
                                     'nzd' => array(
                                           'localbitcoins' => 'NZD',
                                                     ),
+
                                                     
                                     'pab' => array(
                                           'localbitcoins' => 'PAB',
                                                     ),
+
                                                     
                                     'pen' => array(
                                           'localbitcoins' => 'PEN',
                                                     ),
+
                                                     
                                     'php' => array(
                                           'localbitcoins' => 'PHP',
                                                     ),
+
                                                     
                                     'pkr' => array(
                                           'localbitcoins' => 'PKR',
                                                     ),
+
                                                     
                                     'pln' => array(
                                           'localbitcoins' => 'PLN',
                                                     ),
+
                                                     
                                     'pyg' => array(
                                           'localbitcoins' => 'PYG',
                                                     ),
+
                                                     
                                     'qar' => array(
                                           'localbitcoins' => 'QAR',
                                                     ),
+
                                                     
                                     'ron' => array(
                                           'localbitcoins' => 'RON',
                                                     ),
+
                                                     
                                     'rsd' => array(
                                           'localbitcoins' => 'RSD',
                                                     ),
+
                                                     
                                     'rub' => array(
                                           'cex' => 'BTC:RUB',
                                           'localbitcoins' => 'RUB',
                                                     ),
+
                                                     
                                     'rwf' => array(
                                           'localbitcoins' => 'RWF',
                                                     ),
+
                                                     
                                     'sar' => array(
                                           'localbitcoins' => 'SAR',
                                                     ),
+
                                                     
                                     'sek' => array(
                                           'localbitcoins' => 'SEK',
                                                     ),
+
                                                     
                                     'sgd' => array(
                                           'localbitcoins' => 'SGD',
                                           'okcoin' => 'BTC-SGD',
                                                     ),
+
                                                     
                                     'thb' => array(
                                           'localbitcoins' => 'THB',
                                                     ),
+
                                                     
                                     'try' => array(
                                           'btcturk' => 'BTCTRY',
                                           'localbitcoins' => 'TRY',
                                                     ),
+
                                                     
                                     'tusd' => array(
                                           'binance' => 'BTCTUSD',
                                                     ),
+
                                                     
                                     'twd' => array(
                                           'localbitcoins' => 'TWD',
                                                     ),
+
                                                     
                                     'tzs' => array(
                                           'localbitcoins' => 'TZS',
                                                     ),
+
                                                     
                                     'uah' => array(
                                           'localbitcoins' => 'UAH',
                                                     ),
+
                                                     
                                     'ugx' => array(
                                           'localbitcoins' => 'UGX',
                                                     ),
+
                                                     
                                     'usd' => array(
                                           'coinbase' => 'BTC-USD',
@@ -2138,11 +2209,13 @@ $pt_conf['assets'] = array(
                                           'cex' => 'BTC:USD',
                                           'southxchange' => 'BTC/USD',
                                                     ),
+
                                                     
                                     'usdc' => array(
                                           'binance' => 'BTCUSDC',
                                           'kraken' => 'XBTUSDC',
                                                     ),
+
                                                     
                                     'usdt' => array(
                                           'binance' => 'BTCUSDT',
@@ -2155,37 +2228,45 @@ $pt_conf['assets'] = array(
                                           'bitbns' => 'BTCUSDT',
                                           'wazirx' => 'btcusdt',
                                                     ),
+
                                                     
                                     'uyu' => array(
                                           'localbitcoins' => 'UYU',
                                                     ),
+
                                                     
                                     'ves' => array(
                                           'localbitcoins' => 'VES',
                                                     ),
+
                                                     
                                     'vnd' => array(
                                           'localbitcoins' => 'VND',
                                                     ),
+
                                                     
                                     'xaf' => array(
                                           'localbitcoins' => 'XAF',
                                                     ),
+
                                                     
                                     'xof' => array(
                                           'localbitcoins' => 'XOF',
                                                     ),
+
                                                     
                                     'zar' => array(
                                           'localbitcoins' => 'ZAR',
                                           'luno' => 'XBTZAR',
                                                     ),
+
                                                     
                                     'zmw' => array(
                                           'localbitcoins' => 'ZMW',
                                                     ),
+
                                                     
-                                        ) // market_pairing END
+                        ) // pairing END
                         
                     ), // Asset END (!!!!*BTC MUST BE THE VERY FIRST* IN THIS ASSET LIST, DO NOT DELETE, BTC IS *REQUIRED* TO RUN THIS APP!!!!)
                     
@@ -2199,16 +2280,19 @@ $pt_conf['assets'] = array(
                         'name' => 'Ethereum',
                         'mcap_slug' => 'ethereum',
                         'pairing' => array(
+
                         
                         				'aud' => array(
                                     		'kraken' => 'ETHAUD',
                                     		'btcmarkets' => 'ETH/AUD',
                                           'coinspot' => 'eth',
                                                     ),
+
                                                     
                                     'brl' => array(
                                           'braziliex' => 'eth_brl',
                                                     ),
+
                                                     
                                     'btc' => array(
                                           'binance' => 'ETHBTC',
@@ -2234,14 +2318,17 @@ $pt_conf['assets'] = array(
                                         	'wazirx' => 'ethbtc',
                                     	 	'defipulse' => 'WETH/WBTC',
                                                     ),
+
                                                     
                                     'cad' => array(
                                           'kraken' => 'XETHZCAD',
                                                     ),
+
                                                     
                                     'chf' => array(
                                           'kraken' => 'ETHCHF',
                                                     ),
+
                                                     
                                     'dai' => array(
                                         	'binance' => 'ETHDAI',
@@ -2252,6 +2339,7 @@ $pt_conf['assets'] = array(
                                         	'loopring_amm' => 'AMM-ETH-DAI',
                                     	 	'defipulse' => 'WETH/DAI',
                                                     ),
+
                                                     
                                     'eur' => array(
                                           'coinbase' => 'ETH-EUR',
@@ -2261,52 +2349,63 @@ $pt_conf['assets'] = array(
                                         	'bittrex_global' => 'ETH-EUR',
                                           'cex' => 'ETH:EUR',
                                                     ),
+
                                                     
                                     'gbp' => array(
                                           'coinbase' => 'ETH-GBP',
                                           'kraken' => 'XETHZGBP',
                                           'cex' => 'BTC:GBP',
                                                     ),
+
                                                     
                                     'hkd' => array(
                                           'liquid' => 'ETHHKD',
                                                     ),
+
                                                     
                                     'inr' => array(
                                           'bitbns' => 'ETH',
                                           'buyucoin' => 'INR-ETH',
                                           'wazirx' => 'ethinr',
                                                     ),
+
                                                     
                                     'jpy' => array(
                                           'kraken' => 'XETHZJPY',
                                           'bitflyer' => 'ETH_JPY',
                                                     ),
+
                                                     
                                     'krw' => array(
                                           'upbit' => 'KRW-ETH',
                                         	'korbit' => 'eth_krw',
                                                     ),
+
                                                     
                                     'mxn' => array(
                                           'bitso' => 'eth_mxn',
                                                     ),
+
                                                     
                                     'nis' => array(
                                           'bit2c' => 'EthNis',
                                                     ),
+
                                                     
                                     'sgd' => array(
                                           'okcoin' => 'ETH-SGD',
                                                     ),
+
                                                     
                                     'tusd' => array(
                                           'binance' => 'ETHTUSD',
                                                     ),
+
                                                     
                                     'try' => array(
                                           'btcturk' => 'ETHTRY',
                                                     ),
+
                                                     
                                     'usd' => array(
                                           'coinbase' => 'ETH-USD',
@@ -2320,6 +2419,7 @@ $pt_conf['assets'] = array(
                                           'okcoin' => 'ETH-USD',
                                           'cex' => 'ETH:USD',
                                                     ),
+
                                                     
                                     'usdt' => array(
                                         	'binance' => 'ETHUSDT',
@@ -2337,6 +2437,7 @@ $pt_conf['assets'] = array(
                                           'bitbns' => 'ETHUSDT',
                                           'wazirx' => 'ethusdt',
                                                     ),
+
                                                     
                                     'usdc' => array(
                                           'binance' => 'ETHUSDC',
@@ -2346,12 +2447,14 @@ $pt_conf['assets'] = array(
                                           'loopring_amm' => 'AMM-ETH-USDC',
                                           'poloniex' => 'USDC_ETH',
                                                     ),
+
                                                     
                                     'zar' => array(
                                           'luno' => 'ETHZAR',
                                                     ),
+
                                                     
-                                        ) // market_pairing END
+                        ) // pairing END
                         
                     ), // Asset END
                     
@@ -2375,26 +2478,31 @@ $pt_conf['assets'] = array(
                         'mcap_slug' => 'uniswap',
                         'pairing' => array(
                                                     
+                                                    
                                     'btc' => array(
                                         'binance' => 'UNIBTC',
                                                     ),
+
                                                     
                                     'eth' => array(
                                         'loopring_amm' => 'AMM-UNI-ETH',
                                     	 'defipulse' => 'UNI/WETH',
                                                     ),
+
                                                     
                                     'usd' => array(
                                         'coinbase' => 'UNI-USD',
                                         'binance_us' => 'UNIUSD',
                                                     ),
+
                                                     
                                     'usdt' => array(
                                         'binance' => 'UNIUSDT',
                                         'binance_us' => 'UNIUSDT',
                                                     ),
+
                                                     
-                                        ) // market_pairing END
+                        ) // pairing END
                                         
                     ), // Asset END
                     
@@ -2408,6 +2516,7 @@ $pt_conf['assets'] = array(
                         'name' => 'Maker',
                         'mcap_slug' => 'maker',
                         'pairing' => array(
+
                         
                                     'btc' => array(
                                         	'binance' => 'MKRBTC',
@@ -2419,11 +2528,13 @@ $pt_conf['assets'] = array(
                                         	'hitbtc' => 'MKRBTC',
                                           'coinex' => 'MKRBTC',
                                                     ),
+
                                                     
                                 		'dai' => array(
                                         	'kucoin' => 'MKR-DAI',
                                         	'hitbtc' => 'MKRDAI',
                                                     ),
+
                                                     
                                 		'eth' => array(
                                           'bittrex' => 'MKR-ETH',
@@ -2435,15 +2546,18 @@ $pt_conf['assets'] = array(
                                           'gateio' => 'MKR_ETH',
                                     	 	'defipulse' => 'MKR/WETH',
                                                     ),
+
                                                     
                                 		'krw' => array(
                                         	'korbit' => 'mkr_krw',
                                                     ),
+
                                                     
                                     'usd' => array(
                                           'coinbase' => 'MKR-USD',
                                           'binance_us' => 'MKRUSD',
                                           			),
+
                                                     
                                     'usdt' => array(
                                         	'binance' => 'MKRUSDT',
@@ -2453,8 +2567,9 @@ $pt_conf['assets'] = array(
                                           'gateio' => 'MKR_USDT',
                                           'coinex' => 'MKRUSDT',
                                           			),
+
                                           			
-                                        ) // market_pairing END
+                        ) // pairing END
                         
                     ), // Asset END
                     
@@ -2468,26 +2583,31 @@ $pt_conf['assets'] = array(
                         'name' => 'Dai',
                         'mcap_slug' => 'dai',
                         'pairing' => array(
+
                         
                                     'btc' => array(
                                         'bittrex' => 'DAI-BTC',
                                         'upbit' => 'BTC-DAI',
                                         'bitfinex' => 'tDAIBTC',
                                                     ),
+
                                                     
                                     'eth' => array(
                                         'bittrex' => 'DAI-ETH',
                                     	 'bitfinex' => 'tDAIETH',
                                     	 'defipulse' => 'DAI/WETH',
                                                     ),
+
                                                     
                                     'eur' => array(
                                     	 'kraken' => 'DAIEUR',
                                                     ),
+
                                                     
                                     'krw' => array(
                                         	'korbit' => 'dai_krw',
                                                     ),
+
                                                     
                                     'usd' => array(
                                     	 'coinbase' => 'DAI-USD',
@@ -2498,12 +2618,14 @@ $pt_conf['assets'] = array(
                                         'bittrex' => 'DAI-USD',
                                         'gemini' => 'daiusd',
                                                     ),
+
                                                     
                                     'usdc' => array(
                                     	 'coinbase' => 'DAI-USDC',
                                         'hitbtc' => 'DAIUSDC',
                                     	 'defipulse' => 'DAI/USDC',
                                                     ),
+
                                                     
                                     'usdt' => array(
                                     	 'kraken' => 'DAIUSDT',
@@ -2512,8 +2634,9 @@ $pt_conf['assets'] = array(
                                         'loopring' => 'DAI-USDT',
                                     	 'defipulse' => 'DAI/USDT',
                                                     ),
+
                                                     
-                                        ) // market_pairing END
+                        ) // pairing END
                                         
                     ), // Asset END
                     
@@ -2527,6 +2650,7 @@ $pt_conf['assets'] = array(
                         'name' => 'Loopring',
                         'mcap_slug' => 'loopring',
                         'pairing' => array(
+
                         
                                     'btc' => array(
                                         'binance' => 'LRCBTC',
@@ -2541,6 +2665,7 @@ $pt_conf['assets'] = array(
                                         'gateio' => 'LRC_BTC',
                                         'coinex' => 'LRCBTC',
                                                     ),
+
                                                     
                                     'eth' => array(
                                         'binance' => 'LRCETH',
@@ -2552,11 +2677,13 @@ $pt_conf['assets'] = array(
                                         'coinex' => 'LRCETH',
                                     	 'defipulse' => 'LRC/WETH||0x8878df9e1a7c87dcbf6d3999d997f262c05d8c70',
                                                     ),
+
                                                     
                                     'usd' => array(
                                     	 'coinbase' => 'LRC-USD',
                                     	 'bitfinex' => 'tLRCUSD',
                                                     ),
+
                                                     
                                     'usdt' => array(
                                         'binance' => 'LRCUSDT',
@@ -2567,8 +2694,9 @@ $pt_conf['assets'] = array(
                                         'gateio' => 'LRC_USDT',
                                         'wazirx' => 'lrcusdt',
                                                     ),
+
                                                     
-                                        ) // market_pairing END
+                        ) // pairing END
                                         
                     ), // Asset END
                     
@@ -2582,27 +2710,32 @@ $pt_conf['assets'] = array(
                         'name' => 'Keep Network',
                         'mcap_slug' => 'keep-network',
                         'pairing' => array(
+
                         
                                     'btc' => array(
                                           'kraken' => 'KEEPXBT',
                                           'hitbtc' => 'KEEPBTC',
                                                     ),
+
                                                     
                                     'eth' => array(
                                         	'kraken' => 'KEEPETH',
                                         	'loopring_amm' => 'AMM-KEEP-ETH',
                                     	 	'defipulse' => 'KEEP/WETH||0xe6f19dab7d43317344282f803f8e8d240708174a',
                                                     ),
+
                                                     
                                     'eur' => array(
                                         	'kraken' => 'KEEPEUR',
                                                     ),
+
                                                     
                                     'usd' => array(
                                         	'kraken' => 'KEEPUSD',
                                                     ),
+
                                                     
-                                        ) // market_pairing END
+                        ) // pairing END
                         
                     ), // Asset END
                     
@@ -2616,6 +2749,7 @@ $pt_conf['assets'] = array(
                         'name' => 'Decentraland',
                         'mcap_slug' => 'decentraland',
                         'pairing' => array(
+
                         
                                     'btc' => array(
                                         	'binance' => 'MANABTC',
@@ -2627,6 +2761,7 @@ $pt_conf['assets'] = array(
                                           'bitso' => 'mana_btc',
                                           'poloniex' => 'BTC_MANA',
                                                     ),
+
                                                     
                                     'eth' => array(
                                         	'binance' => 'MANAETH',
@@ -2636,25 +2771,30 @@ $pt_conf['assets'] = array(
                                           'okex' => 'MANA-ETH',
                                     	 	'defipulse' => 'MANA/WETH||0x11b1f53204d03e5529f09eb3091939e4fd8c9cf3',
                                                     ),
+
                                                     
                                     'krw' => array(
                                         	'upbit' => 'KRW-MANA',
                                                     ),
+
                                                     
                                     'mxn' => array(
                                           'bitso' => 'mana_mxn',
                                                     ),
+
                                                     
                                     'usdc' => array(
                                           'coinbase' => 'MANA-USDC',
                                                     ),
+
                                                     
                                     'usdt' => array(
                                           'hitbtc' => 'MANAUSD',
                                           'okex' => 'MANA-USDT',
                                                     ),
+
                                                     
-                                        ) // market_pairing END
+                        ) // pairing END
                         
                     ), // Asset END
                     
@@ -2668,6 +2808,7 @@ $pt_conf['assets'] = array(
                         'name' => 'Golem',
                         'mcap_slug' => 'golem-network-tokens',
                         'pairing' => array(
+
                         
                                     'btc' => array(
                                           'bittrex' => 'GLM-BTC',
@@ -2676,28 +2817,34 @@ $pt_conf['assets'] = array(
                                           'poloniex' => 'BTC_GLM',
                                           'braziliex' => 'gnt_btc',
                                                     ),
+
                                                     
                                     'eth' => array(
                                           'bittrex' => 'GLM-ETH',
                                                     ),
+
                                                     
                                     'inr' => array(
                                           'bitbns' => 'GNT',
                                                     ),
+
                                                     
                                     'krw' => array(
                                         	'upbit' => 'KRW-GLM',
                                                     ),
+
                                                     
                                     'usd' => array(
                                         	'ethfinex' => 'tGNTUSD',
                                                     ),
+
                                                     
                                     'usdc' => array(
                                           'coinbase' => 'GNT-USDC',
                                                     ),
+
                                                     
-                                        ) // market_pairing END
+                        ) // pairing END
                         
                     ), // Asset END
                     
@@ -2711,6 +2858,7 @@ $pt_conf['assets'] = array(
                         'name' => 'Hive',
                         'mcap_slug' => 'hive-blockchain',
                         'pairing' => array(
+
                         
                                     'btc' => array(
                                         'binance' => 'HIVEBTC',
@@ -2718,14 +2866,16 @@ $pt_conf['assets'] = array(
                                         'huobi' => 'hivebtc',
                                         'hotbit' => 'HIVE_BTC',
                                                     ),
+
                         
                                     'usdt' => array(
                                         'huobi' => 'hiveusdt',
                                         'hotbit' => 'HIVE_USDT',
                                         'wazirx' => 'hiveusdt',
                                                     ),
+
                                                     
-                                        ) // market_pairing END
+                        ) // pairing END
                         
                     ), // Asset END
                     
@@ -2739,6 +2889,7 @@ $pt_conf['assets'] = array(
                         'name' => 'Swipe',
                         'mcap_slug' => 'swipe',
                         'pairing' => array(
+
                         
                                     'btc' => array(
                                         	'binance' => 'SXPBTC',
@@ -2747,31 +2898,38 @@ $pt_conf['assets'] = array(
                                         	'upbit' => 'BTC-SXP',
                                           'hitbtc' => 'SXPBTC',
                                                     ),
+
                                                     
                                     'eth' => array(
                                           'gateio' => 'SXP_ETH',
                                     	 	'defipulse' => 'SXP/WETH||0xac317d14738a454ff20b191ba3504aa97173045b',
                                                     ),
+
                         
                                     'eur' => array(
                                         	'binance' => 'SXPEUR',
                                                     ),
+
                         
                                     'gbp' => array(
                                         	'binance' => 'SXPGBP',
                                                     ),
+
                                                     
                                     'inr' => array(
                                         	'wazirx' => 'sxpinr',
                                                     ),
+
                                                     
                                     'krw' => array(
                                         	'upbit' => 'KRW-SXP',
                                                     ),
+
                         
                                     'try' => array(
                                         	'binance' => 'SXPTRY',
                                                     ),
+
                                                     
                                     'usdt' => array(
                                         	'binance' => 'SXPUSDT',
@@ -2779,8 +2937,9 @@ $pt_conf['assets'] = array(
                                           'hitbtc' => 'SXPUSD',
                                         	'wazirx' => 'sxpusdt',
                                                     ),
+
                                                     
-                                        ) // market_pairing END
+                        ) // pairing END
                         
                     ), // Asset END
                     
@@ -2794,6 +2953,7 @@ $pt_conf['assets'] = array(
                         'name' => 'Enjin Coin',
                         'mcap_slug' => 'enjin-coin',
                         'pairing' => array(
+
                         
                                     'btc' => array(
                                         	'binance' => 'ENJBTC',
@@ -2804,6 +2964,7 @@ $pt_conf['assets'] = array(
                                           'liquid' => 'ENJBTC',
                                         	'upbit' => 'BTC-ENJ',
                                                     ),
+
                                                     
                                     'eth' => array(
                                         	'binance' => 'ENJETH',
@@ -2813,16 +2974,19 @@ $pt_conf['assets'] = array(
                                         	'loopring_amm' => 'AMM-ENJ-ETH',
                                     	 	'defipulse' => 'ENJ/WETH',
                                                     ),
+
                                                     
                                     'krw' => array(
                                         	'upbit' => 'KRW-ENJ',
                                                     ),
+
                                                     
                                     'usd' => array(
                                         	'binance_us' => 'ENJUSD',
                                           'bittrex' => 'ENJ-USD',
                                         	'bitfinex' => 'tENJUSD',
                                                     ),
+
                                                     
                                     'usdt' => array(
                                         	'binance' => 'ENJUSDT',
@@ -2830,8 +2994,9 @@ $pt_conf['assets'] = array(
                                           'hitbtc' => 'ENJUSD',
                                           'coinex' => 'ENJUSDT',
                                                     ),
+
                                                     
-                                        ) // market_pairing END
+                        ) // pairing END
                         
                     ), // Asset END
                     
@@ -2846,24 +3011,28 @@ $pt_conf['assets'] = array(
                         'mcap_slug' => 'streamr-datacoin',
                         'pairing' => array(
                         
+                        
                                     'btc' => array(
                                         'binance' => 'DATABTC',
                                         'ethfinex' => 'tDATBTC',
                                         'hitbtc' => 'DATABTC',
                                                     ),
+
                                                     
                                     'eth' => array(
                                         'binance' => 'DATAETH',
                                   		 'hitbtc' => 'DATAETH',
                                         'gateio' => 'DATA_ETH',
                                                     ),
+
                                                     
                                     'usdt' => array(
                                          'hitbtc' => 'DATAUSD',
                                          'gateio' => 'DATA_USDT',
                                                     ),
+
                                                     
-                                        ) // market_pairing END
+                        ) // pairing END
                         
                     ), // Asset END
                     
@@ -2877,22 +3046,26 @@ $pt_conf['assets'] = array(
                         'name' => 'Mysterium',
                         'mcap_slug' => 'mysterium',
                         'pairing' => array(
+
                         
                                     'btc' => array(
                                           'hitbtc' => 'MYSTBTC',
                                         	'bittrex_global' => 'MYST-BTC',
                                                     ),
+
                                                     
                                     'eth' => array(
                                           'hitbtc' => 'MYSTETH',
                                     	 	'defipulse' => 'MYST/WETH||0x5c56bf84dcbb1d3f9646528a68520b7e21791ddd',
                                                     ),
+
                                                     
                                     'usdt' => array(
                                         	'bittrex_global' => 'MYST-USDT',
                                                     ),
+
                                                     
-                                        ) // market_pairing END
+                        ) // pairing END
                         
                     ), // Asset END
                     
@@ -2900,7 +3073,7 @@ $pt_conf['assets'] = array(
                     ////////////////////////////////////////////////////////////////////
                 
                 
-); // portfolio_assets END
+); // All assets END
 
 
 
