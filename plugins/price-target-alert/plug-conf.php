@@ -22,8 +22,8 @@
 $plug_conf[$this_plug]['runtime_mode'] = 'cron'; // 'cron', 'ui', 'all' (only 'cron' supported as of 2020-10-29)
 
 
-// Re-allow SAME asset price target alert(s) messages after X hours (per alert config)
-$plug_conf[$this_plug]['alerts_freq_max'] = 6; // Can be 0, to have no limits
+// Re-allow SAME asset price target alert(s) messages after X MINUTES (per alert config)
+$plug_conf[$this_plug]['alerts_freq_max'] = 30; // Can be 0, to have no limits (Default = 30)
 
 
 // Price targets array (add unlimited price targets as new array objects)

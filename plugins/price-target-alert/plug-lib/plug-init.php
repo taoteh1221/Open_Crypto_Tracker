@@ -16,7 +16,7 @@ $price_target_cache_file = $pt_plug->alert_cache($target_key . '.dat');
 
 
 	// If it's too early to re-send an alert again, skip this entry
-	if ( $pt_cache->update_cache($price_target_cache_file, ($plug_conf[$this_plug]['alerts_freq_max'] * 60) ) == false ) {
+	if ( $pt_cache->update_cache($price_target_cache_file, $plug_conf[$this_plug]['alerts_freq_max']) == false ) {
 	continue;
 	}
 	
