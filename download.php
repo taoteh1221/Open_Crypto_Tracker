@@ -12,6 +12,10 @@ $runtime_mode = 'download';
 if ( $_GET['csv_export'] == 1 ) {
 $is_csv_export = true;
 }
+// Flag as notes download BEFORE config.php (to run minimized logic from init.php)
+else if ( $_GET['notes'] == 1 ) {
+$is_notes = true;
+}
 
 require("config.php");
 

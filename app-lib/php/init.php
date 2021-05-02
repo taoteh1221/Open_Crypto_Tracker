@@ -391,6 +391,19 @@ elseif ( $is_csv_export ) {
 
 exit;
 }
+// If we are just running notes download, avoiding excess logic (exit after)
+elseif ( $is_notes ) {
+
+$file = tempnam(sys_get_temp_dir(), 'temp');
+$fp = fopen($file, 'w');
+
+fwrite($fp, $_COOKIE['notes']);
+fclose($fp);
+
+$pt_gen->file_download($file, 'Trading-Notes.txt'); // Download file (by default deletes after download, then exits)
+exit;
+
+}
 
 
 

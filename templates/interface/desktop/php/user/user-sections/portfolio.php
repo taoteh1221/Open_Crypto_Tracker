@@ -1439,9 +1439,21 @@ zingchart.bind('marketcap_chart', 'label_click', function(e){
 	
 		<form action='<?=$pt_gen->start_page($_GET['start_page'])?>' method='post'>
 	
-		<b class='black'>&nbsp;Trading Notes:</b><br />
+		<b class='black'>&nbsp;Trading Notes (<a href='javascript: return false;' target='_blank' onclick='
+		
+		if ( getCookie("notes") != document.getElementById("notes").value ) {
+		alert("You have changed your notes since you last saved them. \n\nPlease save your new notes before downloading them.");
+		return false;
+		}
+		else {
+		this.href = "download.php?notes=1";
+		this.click();
+		}
+		
+		'>download</a>):</b><br />
 	
-		<textarea data-autoresize name='notes' id='notes' style='height: auto; width: 100%;'><?=$_COOKIE['notes']?></textarea><br />
+		<textarea data-autoresize name='notes' id='notes' style='height: auto; width: 100%;'><?=$_COOKIE['notes']?></textarea>
+		<br />
 	
 		<input type='hidden' name='update_notes' id='update_notes' value='1' />
 		<input type='submit' value='Save Updated Notes' />
