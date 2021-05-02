@@ -3,23 +3,92 @@
  * Copyright 2014-2021 GPLv3, Open Crypto Portfolio Tracker by Mike Kilday: http://DragonFrugal.com
  */
 
-foreach ( $pt_conf['assets'] as $key => $unused ) {
 
+if ( $_GET['mcap_compare_diff'] != 'none' ) {
+	
 // Consolidate function calls for runtime speed improvement
-$mcap_data = $pt_asset->mcap_data($key, 'usd'); // For marketcap bar chart, we ALWAYS force using USD
-
-//var_dump($mcap_data);
+$mcap_compare = $pt_asset->mcap_data($_GET['mcap_compare_diff'], 'usd'); // For marketcap bar chart, we ALWAYS force using USD
+	
 		
-	if ( $_GET['marketcap_type'] == 'circulating' && $mcap_data['market_cap'] ) {
-	$runtime_data['marketcap_data'][$key] = $pt_var->rem_num_format($mcap_data['market_cap']);
+	if ( $_GET['mcap_type'] == 'circulating' && $mcap_compare['market_cap'] ) {
+	$mcap_compare_diff = $pt_var->rem_num_format($mcap_compare['market_cap']);
 	}
-	elseif ( $_GET['marketcap_type'] == 'total' && $mcap_data['market_cap_total'] ) {
-	$runtime_data['marketcap_data'][$key] = ( $pt_var->rem_num_format($mcap_data['market_cap_total']) ); 
+	elseif ( $_GET['mcap_type'] == 'total' && $mcap_compare['market_cap_total'] ) {
+	$mcap_compare_diff = ( $pt_var->rem_num_format($mcap_compare['market_cap_total']) ); 
 	}
 	// If circulating / total are same
-	elseif ( $_GET['marketcap_type'] == 'total' && $mcap_data['market_cap'] ) {
-	$runtime_data['marketcap_data'][$key] = ( $pt_var->rem_num_format($mcap_data['market_cap']) ); 
+	elseif ( $_GET['mcap_type'] == 'total' && $mcap_compare['market_cap'] ) {
+	$mcap_compare_diff = ( $pt_var->rem_num_format($mcap_compare['market_cap']) ); 
 	}
+	
+}
+
+
+foreach ( $pt_conf['assets'] as $key => $unused ) {
+		
+// Consolidate function calls for runtime speed improvement
+$mcap_data = $pt_asset->mcap_data($key, 'usd'); // For marketcap bar chart, we ALWAYS force using USD
+	
+	if ( $key != 'MISCASSETS' && isset($mcap_data['rank']) ) {
+	
+	
+		if ( $_GET['mcap_compare_diff'] == 'none' ) {
+		
+			
+			if ( $_GET['mcap_type'] == 'circulating' && $mcap_data['market_cap'] ) {
+			$runtime_data['marketcap_data'][$key] = $pt_var->rem_num_format($mcap_data['market_cap']);
+			}
+			elseif ( $_GET['mcap_type'] == 'total' && $mcap_data['market_cap_total'] ) {
+			$runtime_data['marketcap_data'][$key] = $pt_var->rem_num_format($mcap_data['market_cap_total']); 
+			}
+			// If circulating / total are same
+			elseif ( $_GET['mcap_type'] == 'total' && $mcap_data['market_cap'] ) {
+			$runtime_data['marketcap_data'][$key] = $pt_var->rem_num_format($mcap_data['market_cap']); 
+			}
+		
+		$mcap_asset_compare = 'USD';
+		$mcap_chart_val = '$%v';
+		$scale_y_format = '$%v';
+		
+		}
+		else {
+		
+			
+			if ( $_GET['mcap_type'] == 'circulating' && $mcap_data['market_cap'] ) {
+			$temp_mcap = $pt_var->rem_num_format($mcap_data['market_cap']);
+			}
+			elseif ( $_GET['mcap_type'] == 'total' && $mcap_data['market_cap_total'] ) {
+			$temp_mcap = $pt_var->rem_num_format($mcap_data['market_cap_total']); 
+			}
+			// If circulating / total are same
+			elseif ( $_GET['mcap_type'] == 'total' && $mcap_data['market_cap'] ) {
+			$temp_mcap = $pt_var->rem_num_format($mcap_data['market_cap']); 
+			}
+			
+		
+		$mcap_asset_compare = $_GET['mcap_compare_diff'];
+		$mcap_chart_val = '%v% (of ' . $_GET['mcap_compare_diff'] . ' cap)';
+		$scale_y_format = '%v%';
+			
+		//$runtime_data['marketcap_data'][$key] = ($temp_mcap - $mcap_compare_diff) / abs($mcap_compare_diff) * 100;
+			
+		$mcap_diff = $pt_var->num_to_str( 100 + ($temp_mcap - $mcap_compare_diff) / abs($mcap_compare_diff) * 100 );
+		
+			if ( $mcap_diff >= 1 ) {
+			$mcap_diff_dec = 2;
+			}
+			else {
+			$mcap_diff_dec = 5;
+			}
+			
+		$runtime_data['marketcap_data'][$key] = $pt_var->num_pretty($mcap_diff, $mcap_diff_dec);
+		
+		}
+	
+	//var_dump($mcap_data);
+	
+	}
+
 
 }
 
@@ -75,7 +144,7 @@ gui: {
   	x: 0, 
   	y: 0,
   	title: {
-        text: "USD <?=ucfirst($_GET['marketcap_type'])?> Marketcap Comparison (<?=ucfirst($_GET['marketcap_site'])?>.com)",
+        text: "<?=$mcap_asset_compare?> <?=ucfirst($_GET['mcap_type'])?> Marketcap Comparison (<?=ucfirst($_GET['marketcap_site'])?>.com)",
         adjustLayout: true,
     	  align: 'center',
     	  offsetX: 0,
@@ -193,7 +262,7 @@ gui: {
       borderRadius: '8px',
       borderWidth: '2px',
       title: {
-        text: "USD <?=ucfirst($_GET['marketcap_type'])?> Marketcap Comparison (<?=ucfirst($_GET['marketcap_site'])?>.com)",
+        text: "<?=$mcap_asset_compare?> <?=ucfirst($_GET['mcap_type'])?> Marketcap Comparison (<?=ucfirst($_GET['marketcap_site'])?>.com)",
         adjustLayout: true,
     	  align: 'center',
     	  offsetX: 0,
@@ -254,7 +323,7 @@ gui: {
       	 fontFamily: "Open Sans",
           borderRadius: '2px',
           borderWidth: '2px',
-      	 text: "%t Marketcap (<?=$_GET['marketcap_type']?>): $%v",
+      	 text: "%t Marketcap (<?=$_GET['mcap_type']?>): <?=$mcap_chart_val?>",
     	 	 "thousands-separator":","
     		}
       },
@@ -267,7 +336,7 @@ gui: {
         zooming: true
       },
       scaleY: {
-   	  "format":"$%v",
+   	  "format":"<?=$scale_y_format?>",
     	  "thousands-separator":",",
         guide: {
       	visible: true,
@@ -275,7 +344,7 @@ gui: {
       	lineColor: "#444444"
         },
         label: {
-          text: "USD <?=ucfirst($_GET['marketcap_type'])?> Marketcap"
+          text: "<?=$mcap_asset_compare?> <?=ucfirst($_GET['mcap_type'])?> Marketcap"
         },
     	zooming: true
       },

@@ -844,7 +844,7 @@ var fiat_val_content = '<h5 class="yellow tooltip_title">Primary Currency (<?=st
 	?>
 	
 <fieldset class='subsection_fieldset'>
-	<legend class='subsection_legend'> <b>Asset Performance Comparison Chart</b> </legend>
+	<legend class='subsection_legend'> <b>Asset Performance Comparison</b> </legend>
 		    
 	<p class='bitcoin' style='font-weight: bold;'>The Asset Performance Comparison chart <i>requires price charts to be enabled on the Charts page, and uses the price charts primary currency market</i> (<?=strtoupper($default_btc_prim_currency_pairing)?>) for value comparisons.</p>	
 			
@@ -1111,7 +1111,7 @@ zingchart.bind('performance_chart', 'label_click', function(e){
 
 	
 <fieldset class='subsection_fieldset'>
-	<legend class='subsection_legend'> <b>USD Marketcap Comparison Chart</b> </legend>
+	<legend class='subsection_legend'> <b>Marketcap Comparison</b> </legend>
 	
     <p>
     
@@ -1138,9 +1138,27 @@ zingchart.bind('performance_chart', 'label_click', function(e){
     ?>
     
     
-    Marketcap Type: <select class='browser-default custom-select' id='marketcap_type' name='marketcap_type'>
+    Type: <select class='browser-default custom-select' id='mcap_type' name='mcap_type'>
     <option value='circulating'> Circulating </option>
     <option value='total'> Total </option>
+    </select>  &nbsp;&nbsp; 
+    
+    
+    Compare Against: <select class='browser-default custom-select' id='mcap_compare_diff' name='mcap_compare_diff'>
+    <option value='none'> Nothing </option>
+    <?php
+    foreach ( $pt_conf['assets'] as $key => $unused ) {
+		
+	// Consolidate function calls for runtime speed improvement
+	$mcap_data = $pt_asset->mcap_data($key, 'usd'); // For marketcap bar chart, we ALWAYS force using USD
+    	
+    	if ( $key != 'MISCASSETS' && isset($mcap_data['rank']) ) {
+   	?>
+    <option value='<?=$key?>'> <?=$key?> </option>
+    <?php
+    	}
+    }
+   	?>
     </select>  &nbsp;&nbsp; 
     
     
@@ -1201,7 +1219,7 @@ zingchart.bind('performance_chart', 'label_click', function(e){
   
   // 'load'
   zingchart.exec('marketcap_chart', 'load', {
-  	dataurl: 'ajax.php?type=chart&mode=marketcap_data&marketcap_type=' + document.getElementById('marketcap_type').value + '&chart_width=' + marketcap_chart_width + '&chart_height=' + document.getElementById('marketcap_data_height').value + '&menu_size=' + document.getElementById('marketcap_menu_size').value + '&marketcap_site=<?=$pt_conf['gen']['prim_mcap_site']?>&plot_conf=<?=$plot_conf?>',
+  	dataurl: 'ajax.php?type=chart&mode=marketcap_data&mcap_type=' + document.getElementById('mcap_type').value + '&mcap_compare_diff=' + document.getElementById('mcap_compare_diff').value + '&chart_width=' + marketcap_chart_width + '&chart_height=' + document.getElementById('marketcap_data_height').value + '&menu_size=' + document.getElementById('marketcap_menu_size').value + '&marketcap_site=<?=$pt_conf['gen']['prim_mcap_site']?>&plot_conf=<?=$plot_conf?>',
     cache: {
         data: true
     }
@@ -1274,7 +1292,7 @@ $("#marketcap_chart span.chart_loading").hide(); // Hide "Loading chart X..." af
 
 zingchart.TOUCHZOOM = 'pinch'; /* mobile compatibility */
 
-$.get( "ajax.php?type=chart&mode=marketcap_data&marketcap_type=circulating&chart_height=<?=$asset_mcap_chart_defaults[0]?>&menu_size=<?=$asset_mcap_chart_defaults[1]?>&marketcap_site=<?=$pt_conf['gen']['prim_mcap_site']?>&plot_conf=<?=$plot_conf?>", function( json_data ) {
+$.get( "ajax.php?type=chart&mode=marketcap_data&mcap_type=circulating&mcap_compare_diff=none&chart_height=<?=$asset_mcap_chart_defaults[0]?>&menu_size=<?=$asset_mcap_chart_defaults[1]?>&marketcap_site=<?=$pt_conf['gen']['prim_mcap_site']?>&plot_conf=<?=$plot_conf?>", function( json_data ) {
  
 
 	// Mark chart as loaded after it has rendered
