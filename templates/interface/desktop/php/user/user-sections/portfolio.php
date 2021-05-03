@@ -1438,7 +1438,7 @@ zingchart.bind('marketcap_chart', 'label_click', function(e){
 	<script>
 	// WE CANNOT USE getCookie("notes") BECAUSE PHP COOKIE AUTO ENCODING / DECODING IS
 	// #NOT# COMPATIBLE WITH JAVASCRIPT COOKIE ENCODING / DECODING!! (SIGH)
-	var check_notes = `<?=$_COOKIE['notes']?>`;
+	var check_notes = `<?=$_COOKIE['notes']?>`; // Backtick encapsulation lets us include linebreaks in a js variable
 	</script>
 	
 	<div style='margin-top: 10px; height: auto;'>
