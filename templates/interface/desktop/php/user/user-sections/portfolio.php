@@ -1435,6 +1435,12 @@ zingchart.bind('marketcap_chart', 'label_click', function(e){
 	if ( $_COOKIE['notes'] != '' ) {
 	?>
 	
+	<script>
+	// WE CANNOT USE getCookie("notes") BECAUSE PHP COOKIE AUTO ENCODING / DECODING IS
+	// #NOT# COMPATIBLE WITH JAVASCRIPT COOKIE ENCODING / DECODING!! (SIGH)
+	var check_notes = `<?=$_COOKIE['notes']?>`;
+	</script>
+	
 	<div style='margin-top: 10px; height: auto;'>
 	
 	
@@ -1446,8 +1452,9 @@ zingchart.bind('marketcap_chart', 'label_click', function(e){
 	
 		<b class='black'>&nbsp;Trading Notes (<a href='javascript: return false;' target='_blank' onclick='
 		
-		if ( getCookie("notes") != document.getElementById("notes").value ) {
+		if ( check_notes != document.getElementById("notes").value ) {
 		alert("You have changed your notes since you last saved them. \n\nPlease save your new notes before downloading them.");
+		console.log( getCookie("notes") );
 		return false;
 		}
 		else {
@@ -1456,7 +1463,7 @@ zingchart.bind('marketcap_chart', 'label_click', function(e){
 		document.download_notes.submit(); // USE NON-JQUERY METHOD SO "APP LOADING..." DOES #NOT# SHOW
 		}
 		
-		'>download</a>):</b><br />
+		' title='Download your trading notes to your computer.'>download</a>):</b><br />
 	
 		<textarea data-autoresize name='notes' id='notes' style='height: auto; width: 100%;'><?=$_COOKIE['notes']?></textarea>
 		<br />

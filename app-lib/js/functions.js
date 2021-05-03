@@ -164,26 +164,22 @@ document.cookie = cname + "=" + cvalue + "; SameSite=Strict; " + expires;
 /////////////////////////////////////////////////////////////
 
 
-function getCookie(name) {
+// JAVASCRIPT COOKIE ENCODING / DECODING IS #NOT# COMPATIBLE 
+// WITH PHP COOKIE AUTO ENCODING / DECODING!! 
+// ONLY USE THIS FOR CHECKS ON COOKIE VALS EXISTING ETC ETC!!
+function getCookie(cname) {
 	
-    // Split cookie string and get all individual name=value pairs in an array
-    var cookieArr = document.cookie.split(";");
-    
-    // Loop through the array elements
-    for(var i = 0; i < cookieArr.length; i++) {
-        var cookiePair = cookieArr[i].split("=");
-        
-        /* Removing whitespace at the beginning of the cookie name
-        and compare it with the given string */
-        if(name == cookiePair[0].trim()) {
-            // Decode the cookie value and return
-            cval = decodeURIComponent(cookiePair[1]);
-            return cval.replace(/\+/g,' '); 
-        }
+name = cname + "=";
+ca = document.cookie.split(';');
+
+    for(i=0; i<ca.length; i++) {
+        c = ca[i];
+        while (c.charAt(0)==' ') c = c.substring(1);
+        if (c.indexOf(name) == 0) return c.substring(name.length,c.length);
     }
     
-    // Return false if not found
-    return false;
+return false;
+
 }
 
 
