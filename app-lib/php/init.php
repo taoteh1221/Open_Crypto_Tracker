@@ -197,6 +197,10 @@ $mcap_data_force_usd = null;
 $defipulse_api_limit = null;
 
 
+//////////////////////////////////////////////////////////////
+// Set global runtime app arrays / vars...
+//////////////////////////////////////////////////////////////
+
 
 // Register the base directory of this app (MUST BE SET BEFORE !ANY! init logic calls)
 $base_dir = preg_replace("/\/app-lib(.*)/i", "", dirname(__FILE__) );
@@ -223,18 +227,13 @@ $pt_app_id = $pt_gen->id();
 session_name( $pt_gen->id() );
 
 
-//////////////////////////////////////////////////////////////
-// Set global runtime app arrays / vars...
-//////////////////////////////////////////////////////////////
-
-
 // Session array
 if ( !isset( $_SESSION ) ) {
 $_SESSION = array();
 }
 
 
-// Nonce for secured login session logic WHEN NOT RUNNING AS CRON
+// Nonce (CSRF attack protection) for user GET links (downloads etc) / admin login session logic WHEN NOT RUNNING AS CRON
 if ( $runtime_mode != 'cron' && !isset( $_SESSION['nonce'] ) ) {
 $_SESSION['nonce'] = $pt_gen->rand_hash(32); // 32 byte
 }
@@ -258,6 +257,14 @@ exit;
 
 }
 
+
+// CSRF attack protection for downloads EXCEPT backup downloads (which require the nonce 
+// in the filename [which we do already], since backup links are created during cron runtimes)
+if ( $runtime_mode == 'download' && !isset($_GET['backup']) && $_GET['token'] != $pt_gen->nonce_digest('download') ) {
+$pt_gen->log('security_error', 'Missing security token (-possible- CSRF attack) for request: ' . $_SERVER['REQUEST_URI']);
+$pt_cache->error_logs();
+exit;
+}
 
 // Current runtime user
 $current_runtime_user = posix_getpwuid(posix_geteuid())['name'];
@@ -380,29 +387,21 @@ exit;
 // If we are just running CSV exporting, ONLY run csv export libraries for runtime speed / avoiding excess logic (exit after)
 elseif ( $is_csv_export ) {
 
-	// Example template download
+	// Example template download (SAFE FROM CSRF ATTACKS, since it's just example data)
 	if ( $_GET['example_template'] == 1 ) {
 	require_once('app-lib/php/other/csv/example-csv.php');
 	}
-	// Portfolio export download
-	elseif ( $_POST['submit_check'] == 1 && is_array($pt_conf['assets']) ) {
+	// Portfolio export download (CSRF security / logging is in export-csv.php)
+	elseif ( is_array($pt_conf['assets']) ) {
 	require_once('app-lib/php/other/csv/export-csv.php');
 	}
 
 exit;
 }
 // If we are just running notes download, avoiding excess logic (exit after)
+// (CSRF security / logging is in download-notes.php)
 elseif ( $is_notes ) {
-
-$file = tempnam(sys_get_temp_dir(), 'temp');
-$fp = fopen($file, 'w');
-
-fwrite($fp, $_COOKIE['notes']);
-fclose($fp);
-
-$pt_gen->file_download($file, 'Trading-Notes.txt'); // Download file (by default deletes after download, then exits)
-exit;
-
+require_once('app-lib/php/other/download-notes.php');
 }
 
 

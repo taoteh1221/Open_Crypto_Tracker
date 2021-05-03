@@ -1437,6 +1437,11 @@ zingchart.bind('marketcap_chart', 'label_click', function(e){
 	
 	<div style='margin-top: 10px; height: auto;'>
 	
+	
+	<form id='download_notes' name='download_notes' method='post' target='_blank' action=''>
+	<input type='hidden' id='submit_check' name='submit_check' value='1' />
+	</form>
+	
 		<form action='<?=$pt_gen->start_page($_GET['start_page'])?>' method='post'>
 	
 		<b class='black'>&nbsp;Trading Notes (<a href='javascript: return false;' target='_blank' onclick='
@@ -1446,8 +1451,9 @@ zingchart.bind('marketcap_chart', 'label_click', function(e){
 		return false;
 		}
 		else {
-		this.href = "download.php?notes=1";
-		this.click();
+		// HELP THWART CSRF ATTACKS VIA POST METHOD (IN COMBINATION WITH THE TOKEN HASH), DATA IS SENSITIVE!
+		set_target_action("download_notes", "_blank", "download.php?token=<?=$pt_gen->nonce_digest('download')?>&notes=1");
+		document.download_notes.submit(); // USE NON-JQUERY METHOD SO "APP LOADING..." DOES #NOT# SHOW
 		}
 		
 		'>download</a>):</b><br />

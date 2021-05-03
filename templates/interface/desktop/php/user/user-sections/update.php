@@ -294,13 +294,14 @@
 		
 		
 		<button style='margin-left: 40px;' class='force_button_style' onclick='
-		set_target_action("coin_amounts", "_blank", "download.php?csv_export=1");
+		// HELP THWART CSRF ATTACKS VIA POST METHOD (IN COMBINATION WITH THE TOKEN HASH), DATA IS SENSITIVE!
+		set_target_action("coin_amounts", "_blank", "download.php?token=<?=$pt_gen->nonce_digest('download')?>&csv_export=1");
 		document.coin_amounts.submit(); // USE NON-JQUERY METHOD SO "APP LOADING..." DOES #NOT# SHOW
 		set_target_action("coin_amounts", "_self", "<?=$pt_gen->start_page($_GET['start_page'])?>");
 		'>Export Portfolio To CSV File</button>
 		
 		
-		<a style='margin-left: 40px; text-decoration: none;' class='force_button_style' href="download.php?csv_export=1&example_template=1" target="_blank">Example CSV File</a>
+		<a style='margin-left: 40px; text-decoration: none;' class='force_button_style' href="download.php?token=<?=$pt_gen->nonce_digest('download')?>&csv_export=1&example_template=1" target="_blank">Example CSV File</a>
 	     
 		<img id='spreadsheet_import_export' src='templates/interface/media/images/info.png' alt='' width='30' style='position: relative; left: 5px;' /> 
 		

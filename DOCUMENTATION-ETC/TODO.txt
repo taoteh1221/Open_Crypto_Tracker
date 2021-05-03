@@ -47,7 +47,7 @@ Breakup numerous function call parameters for calls like ui_asset_row() into a p
 Consolidate cookie / post data importing that are near the top of the update and portfolio page UI rendering files, into just one subroutine BEFORE the UI is rendered.
 
 
-Statement nesting indentation is a tad f#cked up after a TON of batch find / replace (at least displaying in bluefish), so clean stuff up add some more left margin on nested statements where it looks schetchy...class files are fixed, just have to check inline logic files.
+Statement nesting indentation is a tad f#cked up after a TON of batch find / replace (at least displaying in bluefish), so clean stuff up add some more left margin on nested statements where it looks schetchy...class files are fixed, just have to check inline logic files. INDENTING SPACING IN FILES #CHANGES AUTOMATICALLY# WHEN "BLUEFISH => PREFERENCES => INITIAL DOCUMENT SETTINGS => TAB WIDTH" IS CHANGED, SO BE CAREFUL WHEN FIXING!!
 
 
 Create a new github repository for a bot to automatically update daily a static-named zip file of most-recent ARCHIVAL-ONLY price chart demo data, so we can link to in the app as a download to bootstrap chart data for new user installs.

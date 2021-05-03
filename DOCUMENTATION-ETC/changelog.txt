@@ -4508,6 +4508,9 @@ WILL AUTOMATICALLY PREFORM THE RESET (ALERTS / TRACKING WILL BE ACCURATE AFTERWA
 5.01.0:
 
 
+-Tightened security against CSRF attacks
+
+
 -Compare any marketcap against other marketcaps (in percentage of)
 
 

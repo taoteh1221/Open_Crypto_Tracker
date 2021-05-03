@@ -7,6 +7,14 @@
 require_once($base_dir . '/app-lib/php/other/sub-init/minimized-sub-init.php');
 
 
+// CSRF attack protection (REQUIRED #POST# VAR 'submit_check')
+if ( $_POST['submit_check'] != 1 ) {
+$pt_gen->log('security_error', 'Missing "submit_check" POST data (-possible- CSRF attack) for request: ' . $_SERVER['REQUEST_URI']);
+$pt_cache->error_logs();
+exit;
+}
+
+
 $csv_download_array = array();
 
 

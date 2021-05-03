@@ -805,10 +805,14 @@ var $pt_array1 = array();
       
       if ( PHP_VERSION_ID >= 70300 ) {
          
-      $result = setcookie($name, $val, [
-                           'samesite' => 'Strict', // Strict for high privacy
-                           'expires' => $time,
-                           ]);
+      $result = setcookie(
+      					  $name,
+      					  $val,
+      					  	[
+ 	                        'samesite' => 'Strict', // Strict for high privacy
+    	                    'expires' => $time,
+                          	]
+                          );
       
       }
       else {

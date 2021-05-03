@@ -8,6 +8,7 @@ error_reporting(0); // Turn off all error reporting (0), or enable (1)
 
 $runtime_mode = 'download';
 
+
 // Flag as CSV export BEFORE config.php (to run minimized logic from init.php)
 if ( $_GET['csv_export'] == 1 ) {
 $is_csv_export = true;
@@ -17,11 +18,12 @@ else if ( $_GET['notes'] == 1 ) {
 $is_notes = true;
 }
 
+
 require("config.php");
 
 
 // Backups download
-if ( $_GET['backup'] != NULL ) {
+if ( $_GET['backup'] != null ) {
 require_once( $base_dir . "/app-lib/php/other/backups.php");
 }
 
