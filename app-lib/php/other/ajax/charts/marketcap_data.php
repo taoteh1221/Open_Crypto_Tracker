@@ -70,18 +70,17 @@ $mcap_data = $pt_asset->mcap_data($key, 'usd'); // For marketcap bar chart, we A
 		$mcap_chart_val = '%v% (of ' . $_GET['mcap_compare_diff'] . ' cap)';
 		$scale_y_format = '%v%';
 			
-		//$runtime_data['marketcap_data'][$key] = ($temp_mcap - $mcap_compare_diff) / abs($mcap_compare_diff) * 100;
+		$mcap_diff_percent = $pt_var->num_to_str( 100 + ( ($temp_mcap - $mcap_compare_diff) / abs($mcap_compare_diff) * 100 ) );
 			
-		$mcap_diff = $pt_var->num_to_str( 100 + ($temp_mcap - $mcap_compare_diff) / abs($mcap_compare_diff) * 100 );
-		
-			if ( $mcap_diff >= 1 ) {
+			// Decimal amount
+			if ( $mcap_diff_percent >= 1 ) {
 			$mcap_diff_dec = 2;
 			}
 			else {
 			$mcap_diff_dec = 5;
 			}
 			
-		$runtime_data['marketcap_data'][$key] = $pt_var->num_pretty($mcap_diff, $mcap_diff_dec);
+		$runtime_data['marketcap_data'][$key] = $pt_var->num_pretty($mcap_diff_percent, $mcap_diff_dec);
 		
 		}
 	
