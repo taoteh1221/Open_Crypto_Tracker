@@ -32,13 +32,13 @@ var $pt_array1 = array();
    }
 
 
-	////////////////////////////////////////////////////////
-	////////////////////////////////////////////////////////
+   ////////////////////////////////////////////////////////
+   ////////////////////////////////////////////////////////
 
 
-	function strip_underscore_and_after($str) {
-	return substr($str, 0, strpos($str, "_"));
-	}
+   function strip_underscore_and_after($str) {
+   return substr($str, 0, strpos($str, "_"));
+   }
    
    
    ////////////////////////////////////////////////////////
@@ -117,25 +117,25 @@ var $pt_array1 = array();
    }
 
 
-	////////////////////////////////////////////////////////
-	////////////////////////////////////////////////////////
+   ////////////////////////////////////////////////////////
+   ////////////////////////////////////////////////////////
 	
 	
-	function strip_non_alpha($str, $case=false) {
+   function strip_non_alpha($str, $case=false) {
 	
-		if ( $case == 'lower' ) {
-		$result = strtolower( preg_replace('/[^\w\d]+/','', $str) );
-		}
-		else if ( $case == 'upper' ) {
-		$result = strtoupper( preg_replace('/[^\w\d]+/','', $str) );
-		}
-		else {
-		$result = preg_replace('/[^\w\d]+/','', $str);
-		}
+	 if ( $case == 'lower' ) {
+	 $result = strtolower( preg_replace('/[^\w\d]+/','', $str) );
+	 }
+	 else if ( $case == 'upper' ) {
+	 $result = strtoupper( preg_replace('/[^\w\d]+/','', $str) );
+	 }
+	 else {
+	 $result = preg_replace('/[^\w\d]+/','', $str);
+	 }
 		
-	return trim($result);
+   return trim($result);
 	
-	}
+   }
    
    
    ////////////////////////////////////////////////////////

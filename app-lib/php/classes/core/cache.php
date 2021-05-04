@@ -80,12 +80,12 @@ var $pt_array1 = array();
   	
     foreach ( glob($dir . '/*') as $file ) {
     
-    	if ( is_dir($file) ) {
-    	$this->remove_dir($file);
-    	}
-    	else {
-    	unlink($file);
-    	}
+        if ( is_dir($file) ) {
+        $this->remove_dir($file);
+        }
+        else {
+        unlink($file);
+        }
     	
     }
   
@@ -124,9 +124,9 @@ var $pt_array1 = array();
                	if ( $result == false ) {
                		
                	$pt_gen->log(
-               								'system_error',
-               								'File deletion failed for file "' . $file . '" (check permissions for "' . basename($file) . '")'
-               								);
+               				'system_error',
+               				'File deletion failed for file "' . $file . '" (check permissions for "' . basename($file) . '")'
+               				);
                	
                	}
               
@@ -165,10 +165,10 @@ var $pt_array1 = array();
       elseif ( $valid_username != 'valid' ) {
       	
       $pt_gen->log(
-      							'security_error',
-      							'pt_conf\'s "interface_login" username value does not meet minimum valid username requirements',
-      							$valid_username
-      							);
+      			'security_error',
+      			'pt_conf\'s "interface_login" username value does not meet minimum valid username requirements',
+      			$valid_username
+      			);
       
       return false;
       
@@ -176,10 +176,10 @@ var $pt_array1 = array();
       elseif ( $password_strength != 'valid' ) {
       	
       $pt_gen->log(
-      							'security_error',
-      							'pt_conf\'s "interface_login" password value does not meet minimum password strength requirements',
-      							$password_strength
-      							);
+      			'security_error',
+      			'pt_conf\'s "interface_login" password value does not meet minimum password strength requirements',
+      			$password_strength
+      			);
       
       return false;
       
@@ -303,9 +303,9 @@ var $pt_array1 = array();
           if ( $secure_128bit_hash == false ) {
           	
           $pt_gen->log(
-          							'security_error',
-          							'Cryptographically secure pseudo-random bytes could not be generated for ' . $backup_prefix . ' backup archive filename suffix, backup aborted to preserve backups directory privacy'
-          							);
+          			'security_error',
+          			'Cryptographically secure pseudo-random bytes could not be generated for ' . $backup_prefix . ' backup archive filename suffix, backup aborted to preserve backups directory privacy'
+          			);
           
           }
           else {
@@ -629,20 +629,20 @@ var $pt_array1 = array();
     if ( strlen($data) == 0 ) {
      
     $pt_gen->log(
-    							'system_error',
-    							'No bytes of data received to write to file "' . $pt_gen->obfusc_path_data($file) . '" (aborting useless file write)'
-    							);
+    			'system_error',
+    			'No bytes of data received to write to file "' . $pt_gen->obfusc_path_data($file) . '" (aborting useless file write)'
+    			);
     
      // API timeouts are a confirmed cause for write errors of 0 bytes, so we want to alert end users that they may need to adjust their API timeout settings to get associated API data
      if ( preg_match("/cache\/secured\/apis/i", $file) ) {
        
      $pt_gen->log(
-     								'ext_data_error',
+     			'ext_data_error',
      								
-     								'POSSIBLE api timeout' . ( $pt_conf['dev']['remote_api_strict_ssl'] == 'on' ? ' or strict_ssl' : '' ) . ' issue for cache file "' . $pt_gen->obfusc_path_data($file) . '" (IF ISSUE PERSISTS, TRY INCREASING "remote_api_timeout" IN Admin Config POWER USER SECTION' . ( $pt_conf['dev']['remote_api_strict_ssl'] == 'on' ? ', OR SETTING "remote_api_strict_ssl" to "off" IN Admin Config DEVELOPER SECTION' : '' ) . ')',
+     			'POSSIBLE api timeout' . ( $pt_conf['dev']['remote_api_strict_ssl'] == 'on' ? ' or strict_ssl' : '' ) . ' issue for cache file "' . $pt_gen->obfusc_path_data($file) . '" (IF ISSUE PERSISTS, TRY INCREASING "remote_api_timeout" IN Admin Config POWER USER SECTION' . ( $pt_conf['dev']['remote_api_strict_ssl'] == 'on' ? ', OR SETTING "remote_api_strict_ssl" to "off" IN Admin Config DEVELOPER SECTION' : '' ) . ')',
      								
-     								'remote_api_timeout: '.$pt_conf['power']['remote_api_timeout'].' seconds; remote_api_strict_ssl: ' . $pt_conf['dev']['remote_api_strict_ssl'] . ';'
-     								);
+     			'remote_api_timeout: '.$pt_conf['power']['remote_api_timeout'].' seconds; remote_api_strict_ssl: ' . $pt_conf['dev']['remote_api_strict_ssl'] . ';'
+     			);
      
      }
     
@@ -681,12 +681,12 @@ var $pt_array1 = array();
       if ( !$did_chmod ) {
       	
       $pt_gen->log(
-      							'system_error',
+      			'system_error',
       							
-      							'Chmod failed for file "' . $pt_gen->obfusc_path_data($file) . '" (check permissions for the path "' . $pt_gen->obfusc_path_data($path_parts['dirname']) . '", and the file "' . $pt_var->obfuscate_str($path_parts['basename'], 5) . '")',
+      			'Chmod failed for file "' . $pt_gen->obfusc_path_data($file) . '" (check permissions for the path "' . $pt_gen->obfusc_path_data($path_parts['dirname']) . '", and the file "' . $pt_var->obfuscate_str($path_parts['basename'], 5) . '")',
       							
-      							'chmod_setting: ' . $chmod_setting . '; current_runtime_user: ' . $current_runtime_user . '; file_owner: ' . $file_owner_info['name'] . ';'
-      							);
+      			'chmod_setting: ' . $chmod_setting . '; current_runtime_user: ' . $current_runtime_user . '; file_owner: ' . $file_owner_info['name'] . ';'
+      			);
       
       }
      
@@ -717,9 +717,9 @@ var $pt_array1 = array();
     if ( $result == false ) {
     	
     $pt_gen->log(
-    							'system_error',
-    							'File write failed storing '.strlen($data).' bytes of data to file "' . $pt_gen->obfusc_path_data($file) . '" (MAKE SURE YOUR DISK ISN\'T FULL. Check permissions for the path "' . $pt_gen->obfusc_path_data($path_parts['dirname']) . '", and the file "' . $pt_var->obfuscate_str($path_parts['basename'], 5) . '")'
-    							);
+    				'system_error',
+    				'File write failed storing '.strlen($data).' bytes of data to file "' . $pt_gen->obfusc_path_data($file) . '" (MAKE SURE YOUR DISK ISN\'T FULL. Check permissions for the path "' . $pt_gen->obfusc_path_data($path_parts['dirname']) . '", and the file "' . $pt_var->obfuscate_str($path_parts['basename'], 5) . '")'
+    				);
     
     }
     
@@ -744,12 +744,12 @@ var $pt_array1 = array();
      if ( !$did_chmod ) {
      	
      $pt_gen->log(
-     								'system_error',
+     			'system_error',
      								
-     								'Chmod failed for file "' . $pt_gen->obfusc_path_data($file) . '" (check permissions for the path "' . $pt_gen->obfusc_path_data($path_parts['dirname']) . '", and the file "' . $pt_var->obfuscate_str($path_parts['basename'], 5) . '")',
+     			'Chmod failed for file "' . $pt_gen->obfusc_path_data($file) . '" (check permissions for the path "' . $pt_gen->obfusc_path_data($path_parts['dirname']) . '", and the file "' . $pt_var->obfuscate_str($path_parts['basename'], 5) . '")',
      								
-     								'chmod_setting: ' . $chmod_setting . '; current_runtime_user: ' . $current_runtime_user . '; file_owner: ' . $file_owner_info['name'] . ';'
-     								);
+     			'chmod_setting: ' . $chmod_setting . '; current_runtime_user: ' . $current_runtime_user . '; file_owner: ' . $file_owner_info['name'] . ';'
+     			);
      
      }
      
@@ -876,17 +876,17 @@ var $pt_array1 = array();
        // Remove all null / false / empty strings, and reindex
        $tail_arch_lines_array = array_values( array_filter( $tail_arch_lines_array, 'strlen' ) ); 
          
-         foreach( $tail_arch_lines_array as $arch_line ) {
-         $arch_line_array = explode('||', $arch_line);
-         $arch_line_array[0] = $pt_var->num_to_str($arch_line_array[0]);
+          foreach( $tail_arch_lines_array as $arch_line ) {
+          $arch_line_array = explode('||', $arch_line);
+          $arch_line_array[0] = $pt_var->num_to_str($arch_line_array[0]);
+           
+             if ( !$added_arch_timestamp && $lite_data_update_thres <= $arch_line_array[0]
+             || isset($added_arch_timestamp) && $pt_var->num_to_str($added_arch_timestamp + $min_data_interval) <= $arch_line_array[0] ) {
+             $queued_arch_lines[] = $arch_line;
+             $added_arch_timestamp = $arch_line_array[0];
+             }
           
-           if ( !$added_arch_timestamp && $lite_data_update_thres <= $arch_line_array[0]
-           || isset($added_arch_timestamp) && $pt_var->num_to_str($added_arch_timestamp + $min_data_interval) <= $arch_line_array[0] ) {
-           $queued_arch_lines[] = $arch_line;
-           $added_arch_timestamp = $arch_line_array[0];
-           }
-          
-         }
+          }
          
         }
        
@@ -916,45 +916,45 @@ var $pt_array1 = array();
     $archive_file_data = array_reverse($archive_file_data); // Save time, only loop / read last lines needed
     
     
-     foreach($archive_file_data as $line) {
+      foreach($archive_file_data as $line) {
       
-     $line_array = explode("||", $line);
-     $line_array[0] = $pt_var->num_to_str($line_array[0]);
+      $line_array = explode("||", $line);
+      $line_array[0] = $pt_var->num_to_str($line_array[0]);
      
-      if ( $line_array[0] >= $oldest_allowed_timestamp ) {
-      $arch_data[] = $line;
-      }
+        if ( $line_array[0] >= $oldest_allowed_timestamp ) {
+        $arch_data[] = $line;
+        }
       
-     }
+      }
     
      
-     // We are looping IN REVERSE ODER, to ALWAYS include the latest data
-     $loop = 0;
-     $data_points = 0;
-     // $data_points <= is INTENTIONAL, as we can have max data points slightly under without it
-     while ( isset($arch_data[$loop]) && $data_points <= $pt_conf['power']['lite_chart_data_points_max'] ) {
-      
-     $data_point_array = explode("||", $arch_data[$loop]);
-     $data_point_array[0] = $pt_var->num_to_str($data_point_array[0]);
+      // We are looping IN REVERSE ODER, to ALWAYS include the latest data
+      $loop = 0;
+      $data_points = 0;
+      // $data_points <= is INTENTIONAL, as we can have max data points slightly under without it
+      while ( isset($arch_data[$loop]) && $data_points <= $pt_conf['power']['lite_chart_data_points_max'] ) {
        
-      if ( !$next_timestamp || isset($next_timestamp) && $data_point_array[0] <= $next_timestamp ) {
-      $new_lite_data = $arch_data[$loop] . $new_lite_data;// WITHOUT newline, since file() maintains those by default
-      $next_timestamp = $data_point_array[0] - $min_data_interval;
-      $data_points = $data_points + 1;
-      }
+      $data_point_array = explode("||", $arch_data[$loop]);
+      $data_point_array[0] = $pt_var->num_to_str($data_point_array[0]);
+        
+        if ( !$next_timestamp || isset($next_timestamp) && $data_point_array[0] <= $next_timestamp ) {
+        $new_lite_data = $arch_data[$loop] . $new_lite_data;// WITHOUT newline, since file() maintains those by default
+        $next_timestamp = $data_point_array[0] - $min_data_interval;
+        $data_points = $data_points + 1;
+        }
      
-     $loop = $loop + 1;
-     }
+      $loop = $loop + 1;
+      }
      
     
     // Store the lite chart data (rebuild)
     $result = $this->save_file($lite_path, $new_lite_data);  // WITHOUT newline, since file() maintains those by default (file write)
     $lite_mode_logging = 'REBUILD';
     
-     // Update the 'all' lite chart rebuild event tracking, IF THE LITE CHART UPDATED SUCESSFULLY
-     if ( $days_span == 'all' && $result == true ) {
-     $this->save_file($base_dir . '/cache/events/lite_chart_rebuilds/all_days_chart_'.$lite_path_hash.'.dat', $pt_gen->time_date_format(false, 'pretty_date_time') );
-     }
+      // Update the 'all' lite chart rebuild event tracking, IF THE LITE CHART UPDATED SUCESSFULLY
+      if ( $days_span == 'all' && $result == true ) {
+      $this->save_file($base_dir . '/cache/events/lite_chart_rebuilds/all_days_chart_'.$lite_path_hash.'.dat', $pt_gen->time_date_format(false, 'pretty_date_time') );
+      }
      
    
     }
@@ -972,29 +972,29 @@ var $pt_array1 = array();
     // Get FIRST line of lite chart data (determines oldest lite timestamp)
     $fopen_lite = fopen($lite_path, 'r');
     
-     if ($fopen_lite) {
-     $first_lite_line = fgets($fopen_lite);
-     fclose($fopen_lite);
-     usleep(20000); // Wait 0.02 seconds, since we'll be writing data to this file momentarily
-     gc_collect_cycles(); // Clean memory cache
-     }
+      if ($fopen_lite) {
+      $first_lite_line = fgets($fopen_lite);
+      fclose($fopen_lite);
+      usleep(20000); // Wait 0.02 seconds, since we'll be writing data to this file momentarily
+      gc_collect_cycles(); // Clean memory cache
+      }
        
     $first_lite_array = explode("||", $first_lite_line);
     $oldest_lite_timestamp = $pt_var->num_to_str($first_lite_array[0]);
      
-     // If our oldest lite timestamp is older than allowed, remove the stale data points
-     if ( $oldest_lite_timestamp < $oldest_allowed_timestamp ) {
-     $lite_data_removed_outdated_lines = $pt_gen->prune_first_lines($lite_path, 0, $oldest_allowed_timestamp);
-     
-     // ONLY APPEND A LINE BREAK TO THE NEW ARCHIVAL DATA, since $pt_gen->prune_first_lines() maintains the existing line breaks
-     $result = $this->save_file($lite_path, $lite_data_removed_outdated_lines['data'] . $queued_arch_data . "\n");  // WITH newline for NEW data (file write)
-     $lite_mode_logging = 'OVERWRITE_' . $lite_data_removed_outdated_lines['lines_removed'] . '_OUTDATED_PRUNED_' . $added_arch_mode;
-     }
-     // If we're clear to just append the latest data
-     else {
-     $result = $this->save_file($lite_path, $queued_arch_data . "\n", "append");  // WITH newline (file write)
-     $lite_mode_logging = 'APPEND_' . $added_arch_mode;
-     }
+      // If our oldest lite timestamp is older than allowed, remove the stale data points
+      if ( $oldest_lite_timestamp < $oldest_allowed_timestamp ) {
+      $lite_data_removed_outdated_lines = $pt_gen->prune_first_lines($lite_path, 0, $oldest_allowed_timestamp);
+      
+      // ONLY APPEND A LINE BREAK TO THE NEW ARCHIVAL DATA, since $pt_gen->prune_first_lines() maintains the existing line breaks
+      $result = $this->save_file($lite_path, $lite_data_removed_outdated_lines['data'] . $queued_arch_data . "\n");  // WITH newline for NEW data (file write)
+      $lite_mode_logging = 'OVERWRITE_' . $lite_data_removed_outdated_lines['lines_removed'] . '_OUTDATED_PRUNED_' . $added_arch_mode;
+      }
+      // If we're clear to just append the latest data
+      else {
+      $result = $this->save_file($lite_path, $queued_arch_data . "\n", "append");  // WITH newline (file write)
+      $lite_mode_logging = 'APPEND_' . $added_arch_mode;
+      }
      
    
     }
@@ -1010,27 +1010,31 @@ var $pt_array1 = array();
      
     $_SESSION['lite_charts_updated'] = $_SESSION['lite_charts_updated'] + 1;
       
-     if ( $pt_conf['dev']['debug'] == 'all'
-     || $pt_conf['dev']['debug'] == 'all_telemetry'
-     || $pt_conf['dev']['debug'] == 'lite_chart_telemetry' ) {
-     	
-     $pt_gen->log(
-     								'cache_debug',
-     								'Lite chart ' . $lite_mode_logging . ' COMPLETED ('.$_SESSION['lite_charts_updated'].') for ' . $lite_path
-     								);
-     
-     }
+      if ( 
+      $pt_conf['dev']['debug'] == 'all'
+      || $pt_conf['dev']['debug'] == 'all_telemetry'
+      || $pt_conf['dev']['debug'] == 'lite_chart_telemetry' 
+      ) {
+      	
+      $pt_gen->log(
+      			'cache_debug',
+      			'Lite chart ' . $lite_mode_logging . ' COMPLETED ('.$_SESSION['lite_charts_updated'].') for ' . $lite_path
+      			);
       
-     if ( $pt_conf['dev']['debug'] == 'all'
-     || $pt_conf['dev']['debug'] == 'all_telemetry'
-     || $pt_conf['dev']['debug'] == 'memory_usage_telemetry' ) {
-     	
-     $pt_gen->log(
-     								'system_debug',
-     								$_SESSION['lite_charts_updated'] . ' lite charts updated, CURRENT script memory usage is ' . $pt_gen->conv_bytes(memory_get_usage(), 1) . ', PEAK script memory usage is ' . $pt_gen->conv_bytes(memory_get_peak_usage(), 1) . ', php_sapi_name is "' . php_sapi_name() . '"'
-     								);
+      }
+       
+      if ( 
+      $pt_conf['dev']['debug'] == 'all'
+      || $pt_conf['dev']['debug'] == 'all_telemetry'
+      || $pt_conf['dev']['debug'] == 'memory_usage_telemetry' 
+      ) {
+      	
+      $pt_gen->log(
+      			'system_debug',
+      			$_SESSION['lite_charts_updated'] . ' lite charts updated, CURRENT script memory usage is ' . $pt_gen->conv_bytes(memory_get_usage(), 1) . ', PEAK script memory usage is ' . $pt_gen->conv_bytes(memory_get_peak_usage(), 1) . ', php_sapi_name is "' . php_sapi_name() . '"'
+      			);
      
-     }
+      }
       
     }
     else {
@@ -1174,9 +1178,9 @@ var $pt_array1 = array();
               
               $this->save_file($base_dir . '/cache/events/throttling/notifyme-alerts-sent.dat', $processed_msgs['notifyme_count']); 
               
-               if ( $pt_conf['dev']['debug'] == 'all' || $pt_conf['dev']['debug'] == 'all_telemetry' || $pt_conf['dev']['debug'] == 'api_comms_telemetry' ) {
-               $this->save_file($base_dir . '/cache/logs/debug/external_data/last-response-notifyme.log', $notifyme_response);
-               }
+                if ( $pt_conf['dev']['debug'] == 'all' || $pt_conf['dev']['debug'] == 'all_telemetry' || $pt_conf['dev']['debug'] == 'api_comms_telemetry' ) {
+                $this->save_file($base_dir . '/cache/logs/debug/external_data/last-response-notifyme.log', $notifyme_response);
+                }
               
               unlink($base_dir . '/cache/secured/messages/' . $queued_cache_file);
               
@@ -1231,9 +1235,9 @@ var $pt_array1 = array();
           
           $msg_sent = 1;
             
-           if ( $pt_conf['dev']['debug'] == 'all' || $pt_conf['dev']['debug'] == 'all_telemetry' || $pt_conf['dev']['debug'] == 'api_comms_telemetry' ) {
-           $this->save_file($base_dir . '/cache/logs/debug/external_data/last-response-textlocal.log', $textlocal_response);
-           }
+            if ( $pt_conf['dev']['debug'] == 'all' || $pt_conf['dev']['debug'] == 'all_telemetry' || $pt_conf['dev']['debug'] == 'api_comms_telemetry' ) {
+            $this->save_file($base_dir . '/cache/logs/debug/external_data/last-response-textlocal.log', $textlocal_response);
+            }
           
           unlink($base_dir . '/cache/secured/messages/' . $queued_cache_file);
           
@@ -1314,10 +1318,10 @@ var $pt_array1 = array();
                  else {
                  	
                  $pt_gen->log(
-                 								'system_error',
-                 								'Email-to-mobile-text sending failed',
-                 								'to_text_email: ' . $pt_gen->text_email($pt_conf['comms']['to_mobile_text']) . '; from: ' . $pt_conf['comms']['from_email'] . '; subject: ' . $textemail_array['subject'] . '; function_response: ' . $result . ';'
-                 								);
+                 			'system_error',
+                 			'Email-to-mobile-text sending failed',
+                 			'to_text_email: ' . $pt_gen->text_email($pt_conf['comms']['to_mobile_text']) . '; from: ' . $pt_conf['comms']['from_email'] . '; subject: ' . $textemail_array['subject'] . '; function_response: ' . $result . ';'
+                 			);
                  
                  }
               
@@ -1367,10 +1371,10 @@ var $pt_array1 = array();
                  else {
                  	
                  $pt_gen->log(
-                 								'system_error',
-                 								'Email sending failed',
-                 								'to_email: ' . $pt_conf['comms']['to_email'] . '; from: ' . $pt_conf['comms']['from_email'] . '; subject: ' . $email_array['subject'] . '; function_response: ' . $result . ';'
-                 								);
+                 			'system_error',
+                 			'Email sending failed',
+                 			'to_email: ' . $pt_conf['comms']['to_email'] . '; from: ' . $pt_conf['comms']['from_email'] . '; subject: ' . $email_array['subject'] . '; function_response: ' . $result . ';'
+                 			);
                  
                  }
                  
@@ -1431,12 +1435,12 @@ var $pt_array1 = array();
           if ( !$did_chmod ) {
           	
           $pt_gen->log(
-          							'system_error',
+          			'system_error',
           							
-          							'Chmod failed for file "' . $queued_msgs_processing_lock_file . '" (check permissions for the path "' . $path_parts['dirname'] . '", and the file "' . $path_parts['basename'] . '")',
+          			'Chmod failed for file "' . $queued_msgs_processing_lock_file . '" (check permissions for the path "' . $path_parts['dirname'] . '", and the file "' . $path_parts['basename'] . '")',
           							
-          							'chmod_setting: ' . $chmod_setting . '; current_runtime_user: ' . $current_runtime_user . '; file_owner: ' . $file_owner_info['name'] . ';'
-          							);
+          			'chmod_setting: ' . $chmod_setting . '; current_runtime_user: ' . $current_runtime_user . '; file_owner: ' . $file_owner_info['name'] . ';'
+          			);
           
           }
        
@@ -1454,7 +1458,6 @@ var $pt_array1 = array();
     }
   
   
-  
   }
   
   
@@ -1468,9 +1471,7 @@ var $pt_array1 = array();
   
   global $base_dir, $base_url, $pt_conf, $pt_var, $pt_gen, $sel_opt, $proxy_checkup, $logs_array, $limited_api_calls, $api_runtime_cache, $user_agent, $api_connections, $defipulse_api_limit, $htaccess_username, $htaccess_password;
   
-  
   $cookie_jar = tempnam('/tmp','cookie');
-   
    
   // To cache duplicate requests based on a data hash, during runtime update session (AND persist cache to flat files)
   $hash_check = ( $mode == 'params' ? md5(serialize($request_params)) : md5($request_params) );
@@ -1533,14 +1534,14 @@ var $pt_array1 = array();
       // Don't log this error again during THIS runtime, as it would be a duplicate...just overwrite same error message, BUT update the error count in it
       
       $pt_gen->log(
-      							'cache_error',
+      			'cache_error',
       							
-      							'no RUNTIME CACHE data from failure with ' . ( $mode == 'params' ? 'server at ' : 'endpoint at ' ) . $pt_gen->obfusc_url_data($api_endpoint),
+      			'no RUNTIME CACHE data from failure with ' . ( $mode == 'params' ? 'server at ' : 'endpoint at ' ) . $pt_gen->obfusc_url_data($api_endpoint),
       							
-      							'requested_from: cache ('.$logs_array['error_duplicates'][$hash_check].' runtime instances); mode: ' . $mode . '; received: ' . $data_bytes_ux . '; proxy: ' .( $current_proxy ? $current_proxy : 'none' ) . '; hash_check: ' . $pt_var->obfuscate_str($hash_check, 4) . ';',
+      			'requested_from: cache ('.$logs_array['error_duplicates'][$hash_check].' runtime instances); mode: ' . $mode . '; received: ' . $data_bytes_ux . '; proxy: ' .( $current_proxy ? $current_proxy : 'none' ) . '; hash_check: ' . $pt_var->obfuscate_str($hash_check, 4) . ';',
       							
-      							$hash_check
-      							);
+      			$hash_check
+      			);
        
       }
       elseif ( $pt_conf['dev']['debug'] == 'all' || $pt_conf['dev']['debug'] == 'all_telemetry' || $pt_conf['dev']['debug'] == 'ext_data_cache_telemetry' ) {
@@ -1557,14 +1558,14 @@ var $pt_array1 = array();
       // Don't log this debugging again during THIS runtime, as it would be a duplicate...just overwrite same debugging message, BUT update the debugging count in it
       
       $pt_gen->log(
-      							'cache_debug',
+      			'cache_debug',
       							
-      							'RUNTIME CACHE request for ' . ( $mode == 'params' ? 'server at ' : 'endpoint at ' ) . $pt_gen->obfusc_url_data($api_endpoint),
+      			'RUNTIME CACHE request for ' . ( $mode == 'params' ? 'server at ' : 'endpoint at ' ) . $pt_gen->obfusc_url_data($api_endpoint),
       							
-      							'requested_from: cache ('.$logs_array['debug_duplicates'][$hash_check].' runtime instances); mode: ' . $mode . '; received: ' . $data_bytes_ux . '; proxy: ' .( $current_proxy ? $current_proxy : 'none' ) . '; hash_check: ' . $pt_var->obfuscate_str($hash_check, 4) . ';',
+      			'requested_from: cache ('.$logs_array['debug_duplicates'][$hash_check].' runtime instances); mode: ' . $mode . '; received: ' . $data_bytes_ux . '; proxy: ' .( $current_proxy ? $current_proxy : 'none' ) . '; hash_check: ' . $pt_var->obfuscate_str($hash_check, 4) . ';',
       							
-      							$hash_check
-      							);
+      			$hash_check
+      			);
       
       }
     
@@ -1586,8 +1587,8 @@ var $pt_array1 = array();
      
     // Servers with STRICT reconnect limits
     $strict_reconnect_servers = array(
-              									'defipulse.com',
-              									);
+              						'defipulse.com',
+              						);
               
               
       if ( in_array($endpoint_tld_or_ip, $strict_reconnect_servers) ) {
@@ -1834,20 +1835,20 @@ var $pt_array1 = array();
       
       // LOG-SAFE VERSION (no post data with API keys etc)
       $pt_gen->log(
-      							'ext_data_error',
+      			'ext_data_error',
       							
-      							'connection failed ('.$data_bytes_ux.' received) for ' . ( $mode == 'params' ? 'server at ' : 'endpoint at ' ) . $pt_gen->obfusc_url_data($api_endpoint) . $log_append,
+      			'connection failed ('.$data_bytes_ux.' received) for ' . ( $mode == 'params' ? 'server at ' : 'endpoint at ' ) . $pt_gen->obfusc_url_data($api_endpoint) . $log_append,
       							
-      							'requested_from: server (' . $pt_conf['power']['remote_api_timeout'] . ' second timeout); live_request_time: ' . $api_total_time . ' seconds; mode: ' . $mode . '; received: ' . $data_bytes_ux . '; proxy: ' .( $current_proxy ? $current_proxy : 'none' ) . '; hash_check: ' . $pt_var->obfuscate_str($hash_check, 4) . ';'
-      							);
+      			'requested_from: server (' . $pt_conf['power']['remote_api_timeout'] . ' second timeout); live_request_time: ' . $api_total_time . ' seconds; mode: ' . $mode . '; received: ' . $data_bytes_ux . '; proxy: ' .( $current_proxy ? $current_proxy : 'none' ) . '; hash_check: ' . $pt_var->obfuscate_str($hash_check, 4) . ';'
+      			);
       
       
         if ( sizeof($pt_conf['proxy']['proxy_list']) > 0 && $current_proxy != '' && $mode != 'proxy-check' ) { // Avoid infinite loops doing proxy checks
      
         $proxy_checkup[] = array(
-                    					'endpoint' => ( $mode == 'params' ? 'server at ' : 'endpoint at ' ) . $pt_gen->obfusc_url_data($api_endpoint),
-                    					'proxy' => $current_proxy
-                    					);
+                    			'endpoint' => ( $mode == 'params' ? 'server at ' : 'endpoint at ' ) . $pt_gen->obfusc_url_data($api_endpoint),
+                    			'proxy' => $current_proxy
+                    			);
                     
         }
       
@@ -1862,10 +1863,12 @@ var $pt_array1 = array();
         // Checks for error false positives, BEFORE CHECKING FOR A POSSIBLE ERROR
         // https://www.php.net/manual/en/regexp.reference.meta.php
         // DON'T ADD TOO MANY CHECKS HERE, OR RUNTIME WILL SLOW SIGNIFICANTLY!!
-        if ( preg_match("/xml version/i", $data) // RSS feeds (that are likely intact)
+        if ( 
+        preg_match("/xml version/i", $data) // RSS feeds (that are likely intact)
         || preg_match("/invalid vs_currency/i", $data) // Coingecko (we fallback to USD in this case anyways, and error would repeat every cache refresh cluttering logs)
         || preg_match("/\"error\":\[\],/i", $data) // kraken.com / generic
-        || preg_match("/\"error_code\":0/i", $data) ) { // coinmarketcap.com / generic
+        || preg_match("/\"error_code\":0/i", $data) 
+        ) { // coinmarketcap.com / generic
         $false_positive = 1;
         }
        
@@ -1884,12 +1887,12 @@ var $pt_array1 = array();
             
             // LOG-SAFE VERSION (no post data with API keys etc)
              $pt_gen->log(
-             							'ext_data_error',
+             			'ext_data_error',
              							
-             							'POSSIBLE error for ' . ( $mode == 'params' ? 'server at ' : 'endpoint at ' ) . $pt_gen->obfusc_url_data($api_endpoint),
+             			'POSSIBLE error for ' . ( $mode == 'params' ? 'server at ' : 'endpoint at ' ) . $pt_gen->obfusc_url_data($api_endpoint),
              							
-             							'requested_from: server (' . $pt_conf['power']['remote_api_timeout'] . ' second timeout); live_request_time: ' . $api_total_time . ' seconds; mode: ' . $mode . '; received: ' . $data_bytes_ux . '; proxy: ' .( $current_proxy ? $current_proxy : 'none' ) . '; debug_file: ' . $error_response_log . '; btc_prim_currency_pairing: ' . $pt_conf['gen']['btc_prim_currency_pairing'] . '; btc_prim_exchange: ' . $pt_conf['gen']['btc_prim_exchange'] . '; sel_btc_prim_currency_val: ' . $pt_var->num_to_str($sel_opt['sel_btc_prim_currency_val']) . '; hash_check: ' . $pt_var->obfuscate_str($hash_check, 4) . ';'
-             							);
+             			'requested_from: server (' . $pt_conf['power']['remote_api_timeout'] . ' second timeout); live_request_time: ' . $api_total_time . ' seconds; mode: ' . $mode . '; received: ' . $data_bytes_ux . '; proxy: ' .( $current_proxy ? $current_proxy : 'none' ) . '; debug_file: ' . $error_response_log . '; btc_prim_currency_pairing: ' . $pt_conf['gen']['btc_prim_currency_pairing'] . '; btc_prim_exchange: ' . $pt_conf['gen']['btc_prim_exchange'] . '; sel_btc_prim_currency_val: ' . $pt_var->num_to_str($sel_opt['sel_btc_prim_currency_val']) . '; hash_check: ' . $pt_var->obfuscate_str($hash_check, 4) . ';'
+             			);
             
             // Log this error response from this data request
             $this->save_file($base_dir . $error_response_log, $data);
@@ -1910,7 +1913,8 @@ var $pt_array1 = array();
        
         
             // !!!!!DON'T ADD TOO MANY CHECKS HERE, OR RUNTIME WILL SLOW SIGNIFICANTLY!!!!!
-            if ( // Errors / unavailable / null / throttled / maintenance
+            if ( 
+            // Errors / unavailable / null / throttled / maintenance
             preg_match("/cf-error/i", $data) // Cloudflare (DDOS protection service)
             || preg_match("/cf-browser/i", $data) // Cloudflare (DDOS protection service)
             || preg_match("/scheduled maintenance/i", $data) // Bittrex.com / generic
@@ -1934,7 +1938,8 @@ var $pt_array1 = array();
             || preg_match("/\"reason\":\"Maintenance\"/i", $data) // Gemini.com / generic
             // APIs famous for returning no data frequently
             || $endpoint_tld_or_ip == 'localbitcoins.com' && !preg_match("/volume_btc/i", $data)
-            || $endpoint_tld_or_ip == 'coinmarketcap.com' && !preg_match("/last_updated/i", $data) ) {
+            || $endpoint_tld_or_ip == 'coinmarketcap.com' && !preg_match("/last_updated/i", $data) 
+            ) {
             
               
             $data = trim( file_get_contents($base_dir . '/cache/secured/external_data/'.$hash_check.'.dat') );
@@ -1954,12 +1959,12 @@ var $pt_array1 = array();
              
             // LOG-SAFE VERSION (no post data with API keys etc)
             $pt_gen->log(
-            							'ext_data_error',
+            			'ext_data_error',
             							
-            							'CONFIRMED error for ' . ( $mode == 'params' ? 'server at ' : 'endpoint at ' ) . $pt_gen->obfusc_url_data($api_endpoint) . $log_append,
+            			'CONFIRMED error for ' . ( $mode == 'params' ? 'server at ' : 'endpoint at ' ) . $pt_gen->obfusc_url_data($api_endpoint) . $log_append,
             							
-            							'requested_from: server (' . $pt_conf['power']['remote_api_timeout'] . ' second timeout); live_request_time: ' . $api_total_time . ' seconds; mode: ' . $mode . '; received: ' . $data_bytes_ux . '; proxy: ' .( $current_proxy ? $current_proxy : 'none' ) . '; btc_prim_currency_pairing: ' . $pt_conf['gen']['btc_prim_currency_pairing'] . '; btc_prim_exchange: ' . $pt_conf['gen']['btc_prim_exchange'] . '; sel_btc_prim_currency_val: ' . $pt_var->num_to_str($sel_opt['sel_btc_prim_currency_val']) . '; hash_check: ' . $pt_var->obfuscate_str($hash_check, 4) . ';'
-            							);
+            			'requested_from: server (' . $pt_conf['power']['remote_api_timeout'] . ' second timeout); live_request_time: ' . $api_total_time . ' seconds; mode: ' . $mode . '; received: ' . $data_bytes_ux . '; proxy: ' .( $current_proxy ? $current_proxy : 'none' ) . '; btc_prim_currency_pairing: ' . $pt_conf['gen']['btc_prim_currency_pairing'] . '; btc_prim_exchange: ' . $pt_conf['gen']['btc_prim_exchange'] . '; sel_btc_prim_currency_val: ' . $pt_var->num_to_str($sel_opt['sel_btc_prim_currency_val']) . '; hash_check: ' . $pt_var->obfuscate_str($hash_check, 4) . ';'
+            			);
              
            
             }
@@ -1976,12 +1981,12 @@ var $pt_array1 = array();
          
         // LOG-SAFE VERSION (no post data with API keys etc)
         $pt_gen->log(
-        								'ext_data_debug',
+        			'ext_data_debug',
         								
-        								'LIVE request for ' . ( $mode == 'params' ? 'server at ' : 'endpoint at ' ) . $pt_gen->obfusc_url_data($api_endpoint),
+        			'LIVE request for ' . ( $mode == 'params' ? 'server at ' : 'endpoint at ' ) . $pt_gen->obfusc_url_data($api_endpoint),
         								
-        								'requested_from: server (' . $pt_conf['power']['remote_api_timeout'] . ' second timeout); live_request_time: ' . $api_total_time . ' seconds; mode: ' . $mode . '; received: ' . $data_bytes_ux . '; proxy: ' .( $current_proxy ? $current_proxy : 'none' ) . '; hash_check: ' . $pt_var->obfuscate_str($hash_check, 4) . ';'
-        								);
+        			'requested_from: server (' . $pt_conf['power']['remote_api_timeout'] . ' second timeout); live_request_time: ' . $api_total_time . ' seconds; mode: ' . $mode . '; received: ' . $data_bytes_ux . '; proxy: ' .( $current_proxy ? $current_proxy : 'none' ) . '; hash_check: ' . $pt_var->obfuscate_str($hash_check, 4) . ';'
+        			);
         
         // Log this as the latest response from this data request
         $this->save_file($base_dir . '/cache/logs/debug/external_data/last-response-'.preg_replace("/\./", "_", $endpoint_tld_or_ip).'-'.$hash_check.'.log', $data);
@@ -2013,19 +2018,19 @@ var $pt_array1 = array();
         if ( $store_file_contents == false && isset($fallback_cache_data) ) {
         	
         $pt_gen->log(
-        								'ext_data_error',
-        								'Cache file touch() error for ' . ( $mode == 'params' ? 'server at ' : 'endpoint at ' ) . $pt_gen->obfusc_url_data($api_endpoint),
-        								'data_size_bytes: ' . strlen($api_runtime_cache[$hash_check]) . ' bytes'
-        								);
+        			'ext_data_error',
+        			'Cache file touch() error for ' . ( $mode == 'params' ? 'server at ' : 'endpoint at ' ) . $pt_gen->obfusc_url_data($api_endpoint),
+        			'data_size_bytes: ' . strlen($api_runtime_cache[$hash_check]) . ' bytes'
+        			);
         
         }
         elseif ( $store_file_contents == false && !isset($fallback_cache_data) ) {
         	
         $pt_gen->log(
-        								'ext_data_error',
-        								'Cache file write error for ' . ( $mode == 'params' ? 'server at ' : 'endpoint at ' ) . $pt_gen->obfusc_url_data($api_endpoint),
-        								'data_size_bytes: ' . strlen($api_runtime_cache[$hash_check]) . ' bytes'
-        								);
+        			'ext_data_error',
+        			'Cache file write error for ' . ( $mode == 'params' ? 'server at ' : 'endpoint at ' ) . $pt_gen->obfusc_url_data($api_endpoint),
+        			'data_size_bytes: ' . strlen($api_runtime_cache[$hash_check]) . ' bytes'
+        			);
         
         }
       
@@ -2040,14 +2045,14 @@ var $pt_array1 = array();
       if ( $data_bytes > 0 && $pt_var->num_to_str($pt_conf['power']['remote_api_timeout'] - 1) <= $pt_var->num_to_str($api_total_time) ) {
       	
       $pt_gen->log(
-      							'notify_error',
+      			'notify_error',
       							
-      							'Remote API timeout near OR exceeded for ' . ( $mode == 'params' ? 'server at ' : 'endpoint at ' ) . $pt_gen->obfusc_url_data($api_endpoint) . ' (' . $api_total_time . ' seconds / received ' . $data_bytes_ux . '), consider setting "remote_api_timeout" higher in POWER USER config if this persists OFTEN',
+      			'Remote API timeout near OR exceeded for ' . ( $mode == 'params' ? 'server at ' : 'endpoint at ' ) . $pt_gen->obfusc_url_data($api_endpoint) . ' (' . $api_total_time . ' seconds / received ' . $data_bytes_ux . '), consider setting "remote_api_timeout" higher in POWER USER config if this persists OFTEN',
       							
-      							'remote_api_timeout: ' . $pt_conf['power']['remote_api_timeout'] . ' seconds; live_request_time: ' . $api_total_time . ' seconds; mode: ' . $mode . '; received: ' . $data_bytes_ux . ';',
+      			'remote_api_timeout: ' . $pt_conf['power']['remote_api_timeout'] . ' seconds; live_request_time: ' . $api_total_time . ' seconds; mode: ' . $mode . '; received: ' . $data_bytes_ux . ';',
       							
-      							$hash_check
-      							);
+      			$hash_check
+      			);
       
       }
     
@@ -2096,14 +2101,14 @@ var $pt_array1 = array();
       // Don't log this error again during THIS runtime, as it would be a duplicate...just overwrite same error message, BUT update the error count in it
       
       $pt_gen->log(
-      							'cache_error',
+      			'cache_error',
       							
-      							'no FILE CACHE data from failure with ' . ( $mode == 'params' ? 'server at ' : 'endpoint at ' ) . $pt_gen->obfusc_url_data($api_endpoint),
+      			'no FILE CACHE data from failure with ' . ( $mode == 'params' ? 'server at ' : 'endpoint at ' ) . $pt_gen->obfusc_url_data($api_endpoint),
       							
-      							'requested_from: cache ('.$logs_array['error_duplicates'][$hash_check].' runtime instances); mode: ' . $mode . '; received: ' . $data_bytes_ux . '; proxy: ' .( $current_proxy ? $current_proxy : 'none' ) . '; hash_check: ' . $pt_var->obfuscate_str($hash_check, 4) . ';',
+      			'requested_from: cache ('.$logs_array['error_duplicates'][$hash_check].' runtime instances); mode: ' . $mode . '; received: ' . $data_bytes_ux . '; proxy: ' .( $current_proxy ? $current_proxy : 'none' ) . '; hash_check: ' . $pt_var->obfuscate_str($hash_check, 4) . ';',
       							
-      							$hash_check
-      							);
+      			$hash_check
+      			);
        
       }
       elseif ( $pt_conf['dev']['debug'] == 'all' || $pt_conf['dev']['debug'] == 'all_telemetry' || $pt_conf['dev']['debug'] == 'ext_data_cache_telemetry' ) {
@@ -2118,14 +2123,14 @@ var $pt_array1 = array();
       // Don't log this debugging again during THIS runtime, as it would be a duplicate...just overwrite same debugging message, BUT update the debugging count in it
       
       $pt_gen->log(
-      							'cache_debug',
+      			'cache_debug',
       							
-      							'FILE CACHE request for ' . ( $mode == 'params' ? 'server at ' : 'endpoint at ' ) . $pt_gen->obfusc_url_data($api_endpoint),
+      			'FILE CACHE request for ' . ( $mode == 'params' ? 'server at ' : 'endpoint at ' ) . $pt_gen->obfusc_url_data($api_endpoint),
       							
-      							'requested_from: cache ('.$logs_array['debug_duplicates'][$hash_check].' runtime instances); mode: ' . $mode . '; received: ' . $data_bytes_ux . '; proxy: ' .( $current_proxy ? $current_proxy : 'none' ) . '; hash_check: ' . $pt_var->obfuscate_str($hash_check, 4) . ';',
+      			'requested_from: cache ('.$logs_array['debug_duplicates'][$hash_check].' runtime instances); mode: ' . $mode . '; received: ' . $data_bytes_ux . '; proxy: ' .( $current_proxy ? $current_proxy : 'none' ) . '; hash_check: ' . $pt_var->obfuscate_str($hash_check, 4) . ';',
       							
-      							$hash_check
-      							);
+      			$hash_check
+      			);
       
       }
     

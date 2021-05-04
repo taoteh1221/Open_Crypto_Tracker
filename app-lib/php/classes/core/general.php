@@ -441,9 +441,9 @@ var $pt_array1 = array();
       if ( PHP_VERSION_ID < 70000 ) {
       	
       $this->log(
-      						'security_error',
-      						'Upgrade to PHP v7 or later to support cryptographically secure pseudo-random bytes in this application, or your application may not function properly'
-      						);
+      			'security_error',
+      			'Upgrade to PHP v7 or later to support cryptographically secure pseudo-random bytes in this application, or your application may not function properly'
+      			);
       
       }
       // >= PHP 7
@@ -806,11 +806,11 @@ var $pt_array1 = array();
       if ( PHP_VERSION_ID >= 70300 ) {
          
       $result = setcookie(
-      					  $name,
-      					  $val,
-      					  	[
- 	                        'samesite' => 'Strict', // Strict for high privacy
-    	                    'expires' => $time,
+      				$name,
+      				$val,
+      					[
+ 	                         'samesite' => 'Strict', // Strict for high privacy
+    	                         'expires' => $time,
                           	]
                           );
       
@@ -825,9 +825,9 @@ var $pt_array1 = array();
       if ( strlen($val) > 4093 ) {
       	
       $this->log(
-      						'other_error',
-      						'Cookie size is greater than 4093 bytes (' . strlen($val) . ' bytes). If saving portfolio as cookie data fails on your browser, try using CSV file import / export instead for large portfolios.'
-      						);
+      		'other_error',
+      		'Cookie size is greater than 4093 bytes (' . strlen($val) . ' bytes). If saving portfolio as cookie data fails on your browser, try using CSV file import / export instead for large portfolios.'
+      		);
       
       }
       
@@ -934,9 +934,9 @@ var $pt_array1 = array();
          $upgraded_pt_conf[$cat_key][$conf_key][$setting_key] = $default_pt_conf[$cat_key][$conf_key][$setting_key];
          
          $this->log(
-         						'conf_error',
-         						'Outdated app config, upgraded parameter pt_conf[' . $cat_key . '][' . $conf_key . '][' . $setting_key . '] imported (default value: ' . $default_pt_conf[$cat_key][$conf_key][$setting_key] . ')'
-         						);
+         			'conf_error',
+         			'Outdated app config, upgraded parameter pt_conf[' . $cat_key . '][' . $conf_key . '][' . $setting_key . '] imported (default value: ' . $default_pt_conf[$cat_key][$conf_key][$setting_key] . ')'
+         			);
          
          $conf_upgraded = 1;
          
@@ -955,9 +955,9 @@ var $pt_array1 = array();
          unset($upgraded_pt_conf[$cat_key][$conf_key][$setting_key]);
          
          $this->log(
-         						'conf_error',
-         						'Depreciated app config, parameter pt_conf[' . $cat_key . '][' . $conf_key . '][' . $setting_key . '] removed'
-         						);
+         			'conf_error',
+         			'Depreciated app config, parameter pt_conf[' . $cat_key . '][' . $conf_key . '][' . $setting_key . '] removed'
+         			);
          
          $conf_upgraded = 1;
          
@@ -1093,8 +1093,8 @@ var $pt_array1 = array();
    $pretty_str = preg_replace("/defi/i", 'DeFi', $pretty_str);
    $pretty_str = preg_replace("/ring/i", 'Ring', $pretty_str);
    $pretty_str = preg_replace("/amm/i", 'AMM', $pretty_str);
-	$pretty_str = preg_replace("/ico/i", 'ICO', $pretty_str);
-	$pretty_str = preg_replace("/erc20/i", 'ERC-20', $pretty_str);
+   $pretty_str = preg_replace("/ico/i", 'ICO', $pretty_str);
+   $pretty_str = preg_replace("/erc20/i", 'ERC-20', $pretty_str);
    
    
    return trim($pretty_str);
@@ -1173,7 +1173,7 @@ var $pt_array1 = array();
       	
       $base_url = parse_url($base_url);
       
-           if (isset($base_url['path'])) if ($base_url['path'] == '/') $base_url['path'] = '';
+          if (isset($base_url['path'])) if ($base_url['path'] == '/') $base_url['path'] = '';
               
       }
    
@@ -1672,7 +1672,6 @@ var $pt_array1 = array();
    
    global $pt_conf, $pt_cache, $price_alert_fixed_reset_array, $default_btc_prim_currency_pairing;
    
-   
    // Alphabetical asset sort, for message UX 
    ksort($price_alert_fixed_reset_array);
    
@@ -1689,7 +1688,7 @@ var $pt_array1 = array();
          }
       
       }
-      
+
       
    // Trim results
    $reset_list = trim($reset_list);
@@ -1883,9 +1882,9 @@ var $pt_array1 = array();
                   $upgraded_pt_conf[$cat_key][$conf_key] = $default_pt_conf[$cat_key][$conf_key];
                   
                   $this->log(
-                  						'conf_error',
-                  						'Outdated app config, upgraded parameter $pt_conf[' . $cat_key . '][' . $conf_key . '] imported (default value: ' . $default_pt_conf[$cat_key][$conf_key] . ')'
-                  						);
+                  			'conf_error',
+                  			'Outdated app config, upgraded parameter $pt_conf[' . $cat_key . '][' . $conf_key . '] imported (default value: ' . $default_pt_conf[$cat_key][$conf_key] . ')'
+                  			);
                   						
                   $conf_upgraded = 1;
                   
@@ -1913,9 +1912,9 @@ var $pt_array1 = array();
                   unset($upgraded_pt_conf[$cached_cat_key][$cached_conf_key]);
                   
                   $this->log(
-                  						'conf_error',
-                  						'Depreciated app config parameter $pt_conf[' . $cached_cat_key . '][' . $cached_conf_key . '] removed'
-                  						);
+                  			'conf_error',
+                  			'Depreciated app config parameter $pt_conf[' . $cached_cat_key . '][' . $cached_conf_key . '] removed'
+                  			);
                   
                   $conf_upgraded = 1;
                   
@@ -2278,16 +2277,16 @@ var $pt_array1 = array();
    	// Portfolio data
    	// Cookies expire in 1 year (31536000 seconds)
    
-   	foreach ( $cookie_params as $cookie_key => $cookie_val ) {
-   	$this->store_cookie($cookie_key, $cookie_val, mktime()+31536000);
-   	}
+   	  foreach ( $cookie_params as $cookie_key => $cookie_val ) {
+   	  $this->store_cookie($cookie_key, $cookie_val, mktime()+31536000);
+   	  }
               
    
       // UI settings (not included in any portfolio data)
       if ( $_POST['submit_check'] == 1 ) {
                
                   
-          	if ( isset($_POST['show_charts']) ) {
+            if ( isset($_POST['show_charts']) ) {
             $this->store_cookie("show_charts", $_POST['show_charts'], mktime()+31536000);
             }
             else {
@@ -2563,14 +2562,14 @@ var $pt_array1 = array();
             if ( $this->valid_email($pt_conf['comms']['from_email']) == 'valid' ) {
             
             $headers = 'From: ' . $pt_conf['comms']['from_email'] . "\r\n" .
-         'X-Mailer: Open_Crypto_Portfolio_Tracker/' . $app_version . ' - PHP/' . phpversion() . "\r\n" .
-         'Content-Type: ' . $content_type . '/plain; charset=' . $charset;
+            'X-Mailer: Open_Crypto_Portfolio_Tracker/' . $app_version . ' - PHP/' . phpversion() . "\r\n" .
+            'Content-Type: ' . $content_type . '/plain; charset=' . $charset;
          
             }
             else {
             
             $headers = 'X-Mailer: Open_Crypto_Portfolio_Tracker/' . $app_version . ' - PHP/' . phpversion() . "\r\n" .
-         'Content-Type: ' . $content_type . '/plain; charset=' . $charset;
+            'Content-Type: ' . $content_type . '/plain; charset=' . $charset;
          
             }
          
@@ -2763,10 +2762,10 @@ var $pt_array1 = array();
          if ( $misconfigured == 1 ) {
          	
          $this->log(
-         						'ext_data_error',
-         						'proxy '.$problem_proxy.' connection failed',
-         						$cached_logs
-         						);
+         			'ext_data_error',
+         			'proxy '.$problem_proxy.' connection failed',
+         			$cached_logs
+         			);
          
          }
       
@@ -2969,12 +2968,12 @@ var $pt_array1 = array();
          
       $data = explode("\n", file_get_contents("/proc/meminfo"));
        
+       
          foreach ($data as $line) {
            list($key, $val) = explode(":", $line);
            $ram['ram_'.strtolower($key)] = trim($val);
          }
          
-      
       
       $memory_applications_mb = $this->in_megabytes($ram['ram_memtotal'])['in_megs'] - $this->in_megabytes($ram['ram_memfree'])['in_megs'] - $this->in_megabytes($ram['ram_buffers'])['in_megs'] - $this->in_megabytes($ram['ram_cached'])['in_megs'];
       
