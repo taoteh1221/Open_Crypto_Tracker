@@ -14,7 +14,7 @@
 	<p style='margin-top: 15px; margin-bottom: 15px;'><?=$pt_gen->start_page_html('charts')?></p>		
 			
 	  
-	<p style='margin-top: 25px;'><a style='font-weight: bold;' class='red' href='javascript: show_more("chartsnotice");' title='Click to show charts notice.'><b>Charts Notice / Information</b></a></p>
+	<p style='margin-top: 25px;'><a style='font-weight: bold;' class='red' href='javascript: show_more("chartsnotice");' title='Click to show notices about how charts run within this app.'><b>Charts Notices / Information</b></a></p>
 		
 		
 	<div id='chartsnotice' style='display: none;' class='align_left'>
@@ -41,15 +41,19 @@
 		$supported_exchange_list = trim($supported_exchange_list);
 		?>
 					
-		<p class='red' style='font-weight: bold;'>The administrator has set the <i>price charts primary currency market</i> (in the Admin Config GENERAL section) to: <span class='bitcoin'><?=strtoupper($default_btc_prim_currency_pairing)?> @ <?=$pt_gen->key_to_name($default_btc_prim_exchange)?></span> &nbsp;(enables <i>additional</i> "<?=strtoupper($default_btc_prim_currency_pairing)?> Value" charts)</p>
-		
-		<p class='red' style='font-weight: bold;'><?=strtoupper($default_btc_prim_currency_pairing)?>-paired BTC exchanges supported in this app are: <?=$supported_exchange_list?>.</p>
-		
-		<p class='red' style='font-weight: bold;'><?=$supported_prim_currency_count?> primary currency pairings are supported for conversion charts (in the Admin Config GENERAL section, using the "btc_prim_currency_pairing" setting): <?=$supported_prim_currency_list?>. !NOT! ALL EXCHANGES SUPPORT ALL CURRENCY PAIRS, double check any setting changes you make (and check the error log at /cache/logs/error.log for any reported issues).</p>
+		<p class='bitcoin' style='font-weight: bold;'><span class='red'>Did you just install this app?</span> If you would like to bootstrap the demo price chart data (get many months of spot price data already pre-populated), <a href='https://github.com/taoteh1221/bootstrapping/raw/main/bootstrap-price-charts-data.zip' target='_blank'>download it from github</a>.</p>
 		 
-		<p class='red' style='font-weight: bold;'>Charts are only available to show for each asset properly configured in the Admin Config CHARTS AND ALERTS section. Charts (and price alerts) must be <a href='README.txt' target='_blank'>setup as a cron job on your web server</a>, or <i>they will not work</i>. The chart's tab / page, and chart data caching can be disabled in the Admin Config GENERAL section, if you choose to not setup a cron job.</p>
+		<p class='bitcoin' style='font-weight: bold;'>Charts are only available to show for each asset properly configured in the Admin Config CHARTS AND ALERTS section. Charts (and price alerts) must be <a href='README.txt' target='_blank'>setup as a cron job on your web server</a>, or <i>they will not work</i>. The chart's tab / page, and chart data caching can be disabled in the Admin Config GENERAL section, if you choose to not setup a cron job.</p>
 		 
-		<p class='red' style='font-weight: bold;'>A few crypto exchanges only provide asset volume data (with no pairing volume data included). If 24 hour pair volume is NOT available for a market, it will be emulated via the asset volume multiplied by the <i>current</i> asset market value (which gives us the rough pairing volume for a better chart user experience).</p>
+		<p class='bitcoin' style='font-weight: bold;'>A few crypto exchanges only provide asset volume data (with no pairing volume data included). If 24 hour pair volume is NOT available for a market, it will be emulated via the asset volume multiplied by the <i>current</i> asset market value (which gives us the rough pairing volume for a better chart user experience).</p>
+					
+		<p class='black' style='font-weight: bold;'>The administrator has set the <i>price charts primary currency market</i> (in the Admin Config GENERAL section) to: <span class='bitcoin'><?=strtoupper($default_btc_prim_currency_pairing)?> @ <?=$pt_gen->key_to_name($default_btc_prim_exchange)?></span> &nbsp;(enables <i>additional</i> "<?=strtoupper($default_btc_prim_currency_pairing)?> Value" charts)</p>
+		
+		<p class='black' style='font-weight: bold;'><?=strtoupper($default_btc_prim_currency_pairing)?>-paired BTC exchanges supported in this app are: <br /><span class='bitcoin'><?=$supported_exchange_list?></span></p>
+		
+		<p class='black' style='font-weight: bold;'><?=$supported_prim_currency_count?> primary currency pairings are supported for conversion charts (in the Admin Config GENERAL section, using the "btc_prim_currency_pairing" setting):<br /> <span class='bitcoin'><?=$supported_prim_currency_list?></span> </p>
+		 
+		<p class='red' style='font-weight: bold;'>!NOT! ALL EXCHANGES SUPPORT ALL CURRENCY PAIRS, double check any setting changes you make (and check the error log at /cache/logs/error.log for any reported issues).</p>
 		 
 		<p class='red' style='font-weight: bold;'>v4.03.0 and higher charts are NOT backwards-compatible, as the 24 hour volume format was completely changed over to always be based off pairing volume data only (24 hour asset volume is no longer supported).</p>
 	

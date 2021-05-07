@@ -30,6 +30,9 @@ Don't require any higher than PHP v7.2 until 2023 or later, as Ubuntu 18 only pa
 Use new internal api function calls as much as possible for the tests logic we had already built.
 
 
+Keep github price chart bootstrap download updated weekly!
+
+
 ///////////////////////////////////////////////////////
 OPTIMIZATIONS / BUGS / TESTS / UX / QA / OTHER SECTION
 ///////////////////////////////////////////////////////
@@ -48,9 +51,6 @@ Consolidate cookie / post data importing that are near the top of the update and
 
 
 Statement nesting indentation is a tad f#cked up after a TON of batch find / replace (at least displaying in bluefish), so clean stuff up add some more left margin on nested statements where it looks schetchy...class files are fixed, just have to check inline logic files. INDENTING SPACING IN FILES #CHANGES AUTOMATICALLY# WHEN "BLUEFISH => PREFERENCES => INITIAL DOCUMENT SETTINGS => TAB WIDTH" IS CHANGED, SO BE CAREFUL WHEN FIXING!!
-
-
-Create a new github repository for a bot to automatically update daily a static-named zip file of most-recent ARCHIVAL-ONLY price chart demo data, so we can link to in the app as a download to bootstrap chart data for new user installs.
 
 
 May come in handy for writing PHP unit tests: https://stackoverflow.com/questions/861254/iterate-over-properties-of-a-php-class
@@ -281,16 +281,10 @@ MAYBE SECTION
 Add an OPTIONAL 'cron_plugins_runtime' stat in system charts (save as NO_DATA if non-existant to avoid UI rendering, like we do for temperature sensor). We'd need to append to the same line in the .dat file RIGHT AFTER THE CORE LOGIC HAS ALREADY WRITTEN TO IT. Not sure if this potentially could cause corruption issues in edge cases?
 
 
-Add human-readable INITIAL start date / time as an OPTIONAL extra config param in recurring reminder plugin?
-
-
 Add defipulse 'preferred platform' config in power user section, which falls back to ANY highest volume / liquidity platform's market if no market is found for the preferred platform.
 
 
 Add drop-down menu feature next to "Save Updated Portfolio" buttons for "save as": cookie data | only post data.
-
-
-Mail trading notes to admin email, only if user logged in as admin.
 
 
 Create "Export your feeds" link on News page, to XML / JSON format file download (like exporting portfolio logic).
@@ -312,9 +306,6 @@ When sql host config has been set in config.php, BUT DATABASE SETUP HAS NOT RUN 
 
 
 Maintain sql-based config as completely separate module(s) from the file-based config (config.php), except for the sql host connection / authentication details (put those at the top of the config.php configurations).
-
-
-Maybe hashed password can be re-hashed with a unique per-browser install semi-constant or constant (like machine name or user agent), to securely store a persistent / semi-persisent login cookie (that hackers cannot steal and run on another machine to auto login easily)? Maybe feasible more so with a 7 day (or less) expiring cookie?
 
 
 Convert all long hand javascript to jquery?

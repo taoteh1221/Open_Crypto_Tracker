@@ -4514,6 +4514,9 @@ WILL AUTOMATICALLY PREFORM THE RESET (ALERTS / TRACKING WILL BE ACCURATE AFTERWA
 -Compare any marketcap against other marketcaps (in percentage of)
 
 
+-Option to bootstrap price charts data from github download
+
+
 -Misc UX revisions
 
 
