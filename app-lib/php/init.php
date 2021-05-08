@@ -10,7 +10,7 @@
 
 
 // Application version
-$app_version = '5.01.0';  // 2021/April/23RD
+$app_version = '5.01.1';  // 2021/May/8TH
 
 // Application edition
 $app_edition = 'server';  // 'server' OR 'desktop' edition (LOWERCASE)
@@ -389,11 +389,11 @@ elseif ( $is_csv_export ) {
 
 	// Example template download (SAFE FROM CSRF ATTACKS, since it's just example data)
 	if ( $_GET['example_template'] == 1 ) {
-	require_once('app-lib/php/other/csv/example-csv.php');
+	require_once('app-lib/php/other/downloads/example-csv.php');
 	}
 	// Portfolio export download (CSRF security / logging is in export-csv.php)
 	elseif ( is_array($pt_conf['assets']) ) {
-	require_once('app-lib/php/other/csv/export-csv.php');
+	require_once('app-lib/php/other/downloads/export-csv.php');
 	}
 
 exit;
@@ -401,7 +401,7 @@ exit;
 // If we are just running notes download, avoiding excess logic (exit after)
 // (CSRF security / logging is in download-notes.php)
 elseif ( $is_notes ) {
-require_once('app-lib/php/other/download-notes.php');
+require_once('app-lib/php/other/downloads/export-notes.php');
 }
 
 

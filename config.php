@@ -983,6 +983,12 @@ $pt_conf['power']['news_feed'] = array(
         
         
         				array(
+            			"title" => "Blog - ZkSync (Ethereum Layer 2 Network)",
+            			"url" => "https://medium.com/feed/matter-labs"
+        						),
+        
+        
+        				array(
             			"title" => "News - Altcoin Buzz",
             			"url" => "https://www.altcoinbuzz.io/feed/"
         						),
@@ -2654,8 +2660,8 @@ $pt_conf['assets'] = array(
                         
                                     'btc' => array(
                                         'binance' => 'LRCBTC',
-                                    	 'coinbase' => 'LRC-BTC',
-                                        'bittrex_global' => 'LRC-BTC',
+                                    	'coinbase' => 'LRC-BTC',
+                                        'bittrex' => 'LRC-BTC',
                                         'okex' => 'LRC-BTC',
                                         'huobi' => 'lrcbtc',
                                         'upbit' => 'BTC-LRC',
@@ -2681,6 +2687,7 @@ $pt_conf['assets'] = array(
                                                     
                                     'usd' => array(
                                     	 'coinbase' => 'LRC-USD',
+                                         'bittrex' => 'LRC-USD',
                                     	 'bitfinex' => 'tLRCUSD',
                                                     ),
 

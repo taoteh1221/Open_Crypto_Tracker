@@ -4551,6 +4551,23 @@ WILL AUTOMATICALLY PREFORM THE RESET (ALERTS / TRACKING WILL BE ACCURATE AFTERWA
 
 
 
+-------------------------------------------------------------------
+5.01.1:
+
+
+-SECURITY BUG FIX: Removed underscore-js library (not impressed with the vulnerabilities)
+
+
+-Minor code cleanup
+
+
+-Minor default config revision
+
+
+-------------------------------------------------------------------
+
+
+
 
 
 

@@ -99,9 +99,6 @@ header('Content-type: text/html; charset=' . $pt_conf['dev']['charset_default'])
 	<script src="app-lib/js/modaal.js"></script>
 
 	<script src="app-lib/js/autosize.min.js"></script>
-    
-   <!-- USAGE: http://underscorejs.org -->
-   <script src="app-lib/js/underscore-min.js"></script>
 	
 	<script src="app-lib/js/zingchart.min.js"></script>
 

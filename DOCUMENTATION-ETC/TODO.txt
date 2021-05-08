@@ -38,6 +38,12 @@ OPTIMIZATIONS / BUGS / TESTS / UX / QA / OTHER SECTION
 ///////////////////////////////////////////////////////
 
 
+Add remote IP address data to ALL relevant security error logging everywhere in the app.
+
+
+Project ethos file in docs folder.
+
+
 Look into adding Balancer (BAL), Bittrex just added it for US customers.
 
 

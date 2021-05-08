@@ -24,7 +24,7 @@ require("config.php");
 
 // Backups download
 if ( $_GET['backup'] != null ) {
-require_once( $base_dir . "/app-lib/php/other/backups.php");
+require_once( $base_dir . "/app-lib/php/other/downloads/backups.php");
 }
 
 
