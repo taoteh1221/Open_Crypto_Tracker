@@ -22,6 +22,8 @@ Discord: https://discord.gg/WZVK2nm
 
 Telegram: https://t.me/joinchat/Oo2XZRS2HsOXSMGejgSO0A
 
+Keybase: https://keybase.io/team/dragonfrugaltech
+
 Twitter: https://twitter.com/taoteh1221
 
 Private Contact: https://dragonfrugal.com/contact
