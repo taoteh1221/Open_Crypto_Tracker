@@ -781,16 +781,16 @@ select opt in $OPTIONS; do
 				echo "Downloading / installing the latest version of Open Crypto Portfolio Tracker (Server Edition) from Github.com, please wait..."
             echo " "
 				
-				mkdir DFD-Cryptocoin-Values
+				mkdir DFD-Cryptocoin-Values-TEMP
 				
-				cd DFD-Cryptocoin-Values
+				cd DFD-Cryptocoin-Values-TEMP
 				
 				# Set curl user agent, as the github API REQUIRES ONE
 				curl -H "$CUSTOM_CURL_USER_AGENT_HEADER"
 				
 				ZIP_DL=$(curl -s 'https://api.github.com/repos/taoteh1221/Open_Crypto_Portfolio_Tracker/releases/latest' | jq -r '.zipball_url')
 				
-				wget -O DFD-Cryptocoin-Values.zip $ZIP_DL
+				wget -O DFD-Cryptocoin-Values-TEMP.zip $ZIP_DL
 				
 				sleep 2
 				
@@ -798,11 +798,11 @@ select opt in $OPTIONS; do
 				echo "Extracting download archive, please wait..."
 				echo " "
 				
-				bsdtar --strip-components=1 -xvf DFD-Cryptocoin-Values.zip
+				bsdtar --strip-components=1 -xvf DFD-Cryptocoin-Values-TEMP.zip
 
 				sleep 3
 				
-				rm DFD-Cryptocoin-Values.zip
+				rm DFD-Cryptocoin-Values-TEMP.zip
 				
 				
 					if [ -f $DOC_ROOT/config.php ]; then
@@ -991,7 +991,7 @@ select opt in $OPTIONS; do
 				
 				cd ../
 				
-				rm -rf DFD-Cryptocoin-Values
+				rm -rf DFD-Cryptocoin-Values-TEMP
 				
 				chmod 777 $DOC_ROOT/cache
 				chmod 755 $DOC_ROOT/cron.php

@@ -425,6 +425,11 @@ $pt_conf['charts_alerts']['tracked_markets'] = array(
 					'enj-4' => 'bitfinex||usd||none',
 					
 					
+					// XCH
+					'xch' => 'okex||usdt||both',
+					'xch-2' => 'huobi||btc||chart',
+					
+					
 					// DATA
 					'data' => 'hitbtc||btc||chart',
 					'data-2' => 'binance||btc||chart',
@@ -895,6 +900,12 @@ $pt_conf['power']['news_feed'] = array(
         				array(
             			"title" => "Blog - BTCPay Server",
             			"url" => "https://blog.btcpayserver.org/feed/"
+        						),
+        
+        
+        				array(
+            			"title" => "Blog - Chia",
+            			"url" => "https://medium.com/feed/@chia.net"
         						),
         
         
@@ -3000,6 +3011,35 @@ $pt_conf['assets'] = array(
                                           'bittrex' => 'ENJ-USDT',
                                           'hitbtc' => 'ENJUSD',
                                           'coinex' => 'ENJUSDT',
+                                                    ),
+
+                                                    
+                        ) // pairing END
+                        
+                    ), // Asset END
+                    
+                    
+                    ////////////////////////////////////////////////////////////////////
+                    
+                    
+                    // XCH
+                    'XCH' => array(
+                        
+                        'name' => 'Chia',
+                        'mcap_slug' => 'chia',
+                        'pairing' => array(
+                        
+                        
+                                    'btc' => array(
+                                          'okex' => 'XCH-BTC',
+                                          'huobi' => 'xchbtc',
+                                                    ),
+
+                                                    
+                                    'usdt' => array(
+                                          'okex' => 'XCH-USDT',
+                                          'huobi' => 'xchusdt',
+                                          'gateio' => 'XCH_USDT',
                                                     ),
 
                                                     

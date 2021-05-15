@@ -736,32 +736,32 @@ badColor = "#ff4747";
 
 
 	if ( !var1 ) {
-   message.style.color = badColor;
-   message.innerHTML = "Enter " + ui_name + "."
-   return false;
+    message.style.color = badColor;
+    message.innerHTML = "Enter " + ui_name + "."
+    return false;
 	}
 	else if( !var1.value.match(regex_is_lowercase_alphanumeric) ) {
-   var1.style.backgroundColor = badColor;
-   message.style.color = badColor;
+    var1.style.backgroundColor = badColor;
+    message.style.color = badColor;
 	message.innerHTML = ui_name + ' MUST contain ONLY LOWERCASE alphanumeric characters.';
 	return false;
 	}
 	else if( !var1.value.match(regex_starts_letter) ) {
-   var1.style.backgroundColor = badColor;
-   message.style.color = badColor;
+    var1.style.backgroundColor = badColor;
+    message.style.color = badColor;
 	message.innerHTML = ui_name + ' MUST START with a letter.';
 	return false;
 	}
 	else if ( var1.value.length < 4 || var1.value.length > 30 ) {
-   var1.style.backgroundColor = badColor;
-   message.style.color = badColor;
-   message.innerHTML = ui_name + ' MUST be between 4 and 30 characters long.';
-   return false;
+    var1.style.backgroundColor = badColor;
+    message.style.color = badColor;
+    message.innerHTML = ui_name + ' MUST be between 4 and 30 characters long.';
+    return false;
 	}
 	else {
-   var1.style.backgroundColor = goodColor;
-   message.style.color = goodColor;
-   message.innerHTML = ui_name + " OK.";
+    var1.style.backgroundColor = goodColor;
+    message.style.color = goodColor;
+    message.innerHTML = ui_name + " OK.";
 	return true;
 	}
 
