@@ -26,6 +26,10 @@
 ////////////////////////////////////////
 
 
+// Pause sending out all communications (email / text / telegram / alexa / etc), so they are NOT sent to you anymore UNTIL you un-pause them
+$pt_conf['comms']['comms_pause'] = 'off'; // 'on' / 'off' (Default = 'off' [comms are sent out normally])
+
+
 // Enable / disable daily upgrade checks / alerts (DEFAULT: ALL USER-ACTIVATED COMM CHANNELS)
 // (Checks latest release version via github.com API endpoint value "tag_name" 
 // @ https://api.github.com/repos/taoteh1221/Open_Crypto_Portfolio_Tracker/releases/latest)

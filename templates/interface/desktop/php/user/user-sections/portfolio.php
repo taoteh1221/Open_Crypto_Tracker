@@ -533,6 +533,8 @@ $altcoin_dominance = $pt_var->max_100($altcoin_dominance);
 			var crypto_val_content = '<h5 class="yellow tooltip_title">Crypto Value</h5>'
 			
 			+'<p class="coin_info" style="max-width: 600px; white-space: normal;">The value of your ENTIRE portfolio, in the cryptocurrencies you selected in the "Show Crypto Value Of ENTIRE Portfolio In" setting, on the Settings page.</p>'
+			
+			+'<p class="coin_info bitcoin" style="max-width: 600px; white-space: normal;">If these values are skewed often, it\'s because the market(s) being used to determine the values are trading at different prices compared to the markets you chose in this interface. You can force certain markets to be used for this calculation with the "crypto_pairing_pref_markets" setting, in the Admin Config POWER USER section.</p>'
 		
 			+'<?=$leverage_text1?>';
 		

@@ -4568,6 +4568,20 @@ WILL AUTOMATICALLY PREFORM THE RESET (ALERTS / TRACKING WILL BE ACCURATE AFTERWA
 
 
 
+-------------------------------------------------------------------
+5.02.0:
+
+
+-Config setting to pause sending out all comms (email / text / telegram / alexa / etc), for when markets are extremely volatile
+
+
+-Misc UX
+
+
+-------------------------------------------------------------------
+
+
+
 
 
 

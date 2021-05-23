@@ -359,6 +359,12 @@ var $pt_array1 = array();
   
   global $base_dir, $pt_conf, $pt_gen, $telegram_activated;
   
+     
+     // Abort queueing comms for sending out notifications, if comms pause is on
+     if ( $pt_conf['comms']['comms_pause'] == 'on' ) {
+     return;
+     }
+  
   
    // Queue messages
    

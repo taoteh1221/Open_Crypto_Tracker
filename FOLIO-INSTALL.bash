@@ -980,6 +980,7 @@ select opt in $OPTIONS; do
 
 				sleep 3
 				
+				rm .whitesource > /dev/null 2>&1
 				rm .gitattributes > /dev/null 2>&1
 				rm .gitignore > /dev/null 2>&1
 				rm .travis.yml > /dev/null 2>&1
