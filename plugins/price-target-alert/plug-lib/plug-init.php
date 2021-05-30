@@ -34,14 +34,6 @@ $market_exchange = strtolower($market_conf[2]);
 $market_id = $pt_conf['assets'][$market_asset]['pairing'][$market_pairing][$market_exchange];
 
 $market_val = $pt_var->num_to_str( $pt_api->market($market_asset, $market_exchange, $market_id)['last_trade'] );
-
-	
-	if ( $target_val >= $market_val ) {
-	$target_direction = 'increase';
-	}
-	else {
-	$target_direction = 'decrease';
-	}
 		
 	
 	// Get cache data, and / or flag a cache reset
@@ -73,8 +65,15 @@ $market_val = $pt_var->num_to_str( $pt_api->market($market_asset, $market_exchan
 	
 	// If a cache reset was flagged
 	if ( $cache_reset ) {
+	
+    	if ( $target_val >= $market_val ) {
+    	$reset_target_direction = 'increase';
+    	}
+    	else {
+    	$reset_target_direction = 'decrease';
+    	}
 		
-	$new_cache_data = $target_direction . '|' . $target_val . '|' . $market_val;
+	$new_cache_data = $reset_target_direction . '|' . $target_val . '|' . $market_val;
 	
 	$pt_cache->save_file($price_target_cache_file, $new_cache_data);
 	
@@ -161,15 +160,15 @@ $market_val = $pt_var->num_to_str( $pt_api->market($market_asset, $market_exchan
 
 
 		if ( $target_val >= $market_val ) {
-		$target_direction = 'increase';
+		$reset_target_direction = 'increase';
 		}
 		else {
-		$target_direction = 'decrease';
+		$reset_target_direction = 'decrease';
 		}
 	
 	
 	// Cache new data
-	$new_cache_data = $target_direction . '|' . $target_val . '|' . $market_val;
+	$new_cache_data = $reset_target_direction . '|' . $target_val . '|' . $market_val;
 		
 	$pt_cache->save_file($price_target_cache_file, $new_cache_data);
 

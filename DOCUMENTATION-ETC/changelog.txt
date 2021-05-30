@@ -4582,6 +4582,18 @@ WILL AUTOMATICALLY PREFORM THE RESET (ALERTS / TRACKING WILL BE ACCURATE AFTERWA
 
 
 
+-------------------------------------------------------------------
+5.02.1:
+
+
+-BUG FIX for price target alert plugin
+
+
+-------------------------------------------------------------------
+
+
+
+
 
 
 
