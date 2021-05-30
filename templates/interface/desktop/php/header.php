@@ -86,7 +86,7 @@ header('Content-type: text/html; charset=' . $pt_conf['dev']['charset_default'])
 	</style>
 
 
-	<script src="app-lib/js/jquery/jquery-3.4.1.min.js"></script>
+	<script src="app-lib/js/jquery/jquery-3.6.0.min.js"></script>
 
 	<script src="app-lib/js/jquery/jquery.tablesorter.min.js"></script>
 

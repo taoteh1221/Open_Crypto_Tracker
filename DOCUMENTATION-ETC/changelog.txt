@@ -4586,6 +4586,9 @@ WILL AUTOMATICALLY PREFORM THE RESET (ALERTS / TRACKING WILL BE ACCURATE AFTERWA
 5.02.1:
 
 
+-SECURITY FIX jquery upgrade to v3.6.0
+
+
 -BUG FIX for price target alert plugin
 
 
