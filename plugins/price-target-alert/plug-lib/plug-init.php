@@ -87,31 +87,32 @@ $market_val = $pt_var->num_to_str( $pt_api->market($market_asset, $market_exchan
 	if ( $market_val <= $target_val && $target_direction == 'decrease' || $market_val >= $target_val && $target_direction == 'increase' ) {
         
 
-   $percent_change = ($market_val - $cached_market_val) / abs($cached_market_val) * 100;
-   $percent_change = number_format( $pt_var->num_to_str($percent_change) , 2, '.', ','); // Better decimal support
+    $percent_change = ($market_val - $cached_market_val) / abs($cached_market_val) * 100;
+    $percent_change = number_format( $pt_var->num_to_str($percent_change) , 2, '.', ','); // Better decimal support
 		
 		
-   $last_cached_days = ( time() - filemtime($price_target_cache_file) ) / 86400;
-   $last_cached_days = $pt_var->num_to_str($last_cached_days); // Better decimal support
+    $last_cached_days = ( time() - filemtime($price_target_cache_file) ) / 86400;
+    $last_cached_days = $pt_var->num_to_str($last_cached_days); // Better decimal support
        
        
-   	if ( $last_cached_days >= 365 ) {
-      $last_cached_time = number_format( ($last_cached_days / 365) , 2, '.', ',') . ' years';
-      }
-      elseif ( $last_cached_days >= 30 ) {
-      $last_cached_time = number_format( ($last_cached_days / 30) , 2, '.', ',') . ' months';
-      }
-      elseif ( $last_cached_days >= 7 ) {
-      $last_cached_time = number_format( ($last_cached_days / 7) , 2, '.', ',') . ' weeks';
-      }
-      else {
-      $last_cached_time = number_format($last_cached_days, 2, '.', ',') . ' days';
-      }
+   	    if ( $last_cached_days >= 365 ) {
+        $last_cached_time = number_format( ($last_cached_days / 365) , 2, '.', ',') . ' years';
+        }
+        elseif ( $last_cached_days >= 30 ) {
+        $last_cached_time = number_format( ($last_cached_days / 30) , 2, '.', ',') . ' months';
+        }
+        elseif ( $last_cached_days >= 7 ) {
+        $last_cached_time = number_format( ($last_cached_days / 7) , 2, '.', ',') . ' weeks';
+        }
+        else {
+        $last_cached_time = number_format($last_cached_days, 2, '.', ',') . ' days';
+        }
    
    
-   	// Pretty numbers UX on target / market values, for alert messages
-   	// Fiat-eqiv
-   	if ( array_key_exists($market_pairing, $pt_conf['power']['btc_currency_markets']) && !array_key_exists($market_pairing, $pt_conf['power']['crypto_pairing']) ) {
+   	    // Pretty numbers UX on target / market values, for alert messages
+   	    
+   	    // Fiat-eqiv
+   	    if ( array_key_exists($market_pairing, $pt_conf['power']['btc_currency_markets']) && !array_key_exists($market_pairing, $pt_conf['power']['crypto_pairing']) ) {
    		
 		$target_val_text = ( $target_val >= $pt_conf['gen']['prim_currency_dec_max_thres'] ? $pt_var->num_pretty($target_val, 2) : $pt_var->num_pretty($target_val, $pt_conf['gen']['prim_currency_dec_max']) );
 		
@@ -123,7 +124,9 @@ $market_val = $pt_var->num_to_str( $pt_api->market($market_asset, $market_exchan
 		$target_val_text = $pt_var->num_pretty($target_val, 8);
 		$market_val_text = $pt_var->num_pretty($market_val, 8);
 		}
-   
+    
+    
+    // Message formatting
 
 	$email_msg = "The " . $market_asset . " price target of " . $target_val_text . " " . strtoupper($market_pairing) . " has been met at the " . $pt_gen->key_to_name($market_exchange) . " exchange, with a " . $percent_change . "% " . $target_direction . " over the past " . $last_cached_time . " in market value to " . $market_val_text . " " . strtoupper($market_pairing) . ".";
 
@@ -131,8 +134,8 @@ $market_val = $pt_var->num_to_str( $pt_api->market($market_asset, $market_exchan
 	$text_msg = $market_asset . " price target of " . $target_val_text . " " . strtoupper($market_pairing) . " met @ " . $pt_gen->key_to_name($market_exchange) . " (" . $percent_change . "% " . $target_direction . " over " . $last_cached_time . "): " . $market_val_text . " " . strtoupper($market_pairing);
               
               
-   // Were're just adding a human-readable timestamp to smart home (audio) alerts
-   $notifyme_msg = $email_msg . ' Timestamp: ' . $pt_gen->time_date_format($pt_conf['gen']['loc_time_offset'], 'pretty_time') . '.';
+    // Were're just adding a human-readable timestamp to smart home (audio) alerts
+    $notifyme_msg = $email_msg . ' Timestamp: ' . $pt_gen->time_date_format($pt_conf['gen']['loc_time_offset'], 'pretty_time') . '.';
 
 
   	// Message parameter added for desired comm methods (leave any comm method blank to skip sending via that method)
@@ -140,7 +143,7 @@ $market_val = $pt_var->num_to_str( $pt_api->market($market_asset, $market_exchan
   	// Minimize function calls
   	$encoded_text_msg = $pt_gen->charset_encode($text_msg); // Unicode support included for text messages (emojis / asian characters / etc )
   				
-   $send_params = array(
+    $send_params = array(
           					'notifyme' => $notifyme_msg,
           					'telegram' => $email_msg,
           					'text' => array(
