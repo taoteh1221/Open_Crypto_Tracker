@@ -9,6 +9,9 @@ GENERAL NOTES SECTION
 ///////////////////////////////////////////////////////
 
 
+Always set bluefish to "4 spaces" as a tab indentation, and enabling indentation of selected text.
+
+
 Try sticking with small infrastructure changes, and breaking up large changes into small milestones, then plenty of time is spent on UX / testing / logging / debugging.
 
 
@@ -36,6 +39,17 @@ Keep github price chart bootstrap download updated weekly!
 ///////////////////////////////////////////////////////
 OPTIMIZATIONS / BUGS / TESTS / UX / QA / OTHER SECTION
 ///////////////////////////////////////////////////////
+
+
+CSV download / export stopped working, find out why.
+
+
+Add https://watchtheburn.com/ to resources page.
+
+
+Add ENJ / MATIC kraken markets.
+
+add this ticker API for CoinDCX exchange : https://public.coindcx.com/exchange/ticker from India ( https://github.com/taoteh1221/Open_Crypto_Portfolio_Tracker/issues/11#issuecomment-881934185 )
 
 
 Add remote IP address data to ALL relevant security error logging everywhere in the app.
@@ -173,7 +187,10 @@ FEATURES / STRUCTURING SECTION
 ///////////////////////////////////////////////////////
 
 
-The upcoming 'add new coin market' admin interface feature should be a "wizard" with a few "steps", to have a decent user experience AND break the logic up into different checks / steps under the hood as well. 1) Asset name and symbol, 2) Choose from a list of exchanges and pairings available for that asset, 3) Enable charts and or alerts for different exchanges and pairings.
+On admin "assets" page, add a button atop the page called " Add New Asset Or Market". Then, on page 1 of the 'add asset' wizard (multi-step on separate modal pages), only have the radio selection choices (only one can be selected): 'Add new asset' and 'Add new market to existing asset'. 
+
+
+The upcoming 'add new asset market' admin interface feature should be a "wizard" with a few "steps", to have a decent user experience AND break the logic up into different checks / steps under the hood as well. 1) Asset name and symbol, 2) Choose from a list of exchanges and pairings available for that asset, 3) Enable charts and or alerts for different exchanges and pairings.
 
 
 On 'more stats' page, add a 'market volume' chart, showing a multi-line chart (like asset comparison chart) of all [charts-fiat-conversion-currency] volumes for an asset's configured markets THAT HAVE CHARTS ENABLED (so we grab values from lite chart data). Default to showing Bitcoin, allow using different lite chart time periods (like asset comparison chart).

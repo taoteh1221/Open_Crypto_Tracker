@@ -128,9 +128,7 @@ var $pt_array1 = array();
    function regex_compat_url($url) {
       
    $regex_url = trim($url);
-   
    $regex_url = preg_replace("/(http|https|ftp|tcp|ssl):\/\//i", "", $regex_url);
-   
    $regex_url = preg_replace("/\//i", "\/", $regex_url);
    
    return $regex_url;
@@ -198,9 +196,11 @@ var $pt_array1 = array();
    function admin_logged_in() {
       
       // IF REQUIRED DATA NOT SET, REFUSE ADMIN AUTHORIZATION
-      if ( !isset( $_COOKIE['admin_auth_' . $this->id()] )
+      if (
+      !isset( $_COOKIE['admin_auth_' . $this->id()] )
       || !isset( $_SESSION['nonce'] )
-      || !isset( $_SESSION['admin_logged_in']['auth_hash'] ) ) {
+      || !isset( $_SESSION['admin_logged_in']['auth_hash'] ) 
+      ) {
       return false;
       }
       // WE SPLIT THE LOGIN AUTH BETWEEN COOKIE AND SESSION DATA (TO BETTER SECURE LOGIN AUTHORIZATION)
@@ -422,7 +422,6 @@ var $pt_array1 = array();
       else {
       $url = $index;
       }
-      
       
    return $url;
    
