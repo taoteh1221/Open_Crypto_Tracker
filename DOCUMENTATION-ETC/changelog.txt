@@ -4596,6 +4596,18 @@ WILL AUTOMATICALLY PREFORM THE RESET (ALERTS / TRACKING WILL BE ACCURATE AFTERWA
 
 
 
+-------------------------------------------------------------------
+5.03.0:
+
+
+-Better UX for enabling pre-existing price alert options (stats data is kept current just like already-enabled price alerts)
+
+
+-------------------------------------------------------------------
+
+
+
+
 
 
 

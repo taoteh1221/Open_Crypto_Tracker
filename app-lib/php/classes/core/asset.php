@@ -1971,15 +1971,24 @@ var $pt_array1 = array();
                   
           
           }
-            
+          // If run alerts not triggered, BUT asset price exists, we tidy up for UX or run any (activated) additional features
+          elseif ( $pt_var->num_to_str($asset_prim_currency_val_raw) >= 0.00000001 ) {
        
-       
-        	 // Cache a price alert value / volumes if not already done, OR if config setting set to reset every X days
-        	 if ( $pt_var->num_to_str($asset_prim_currency_val_raw) >= 0.00000001 && !file_exists('cache/alerts/fiat_price/'.$asset_data.'.dat') ) {
+        	 // Refresh cache price alert value / volume REGARDLESS at this point if:
+        	 //
+        	 // Not already run at least once (alert cache file not created yet)
+        	 // Alerts have been disabled (for UX on -current- price changes, IN CASE the user enables alerts at a later date)
+        	 // Config setting set to reset every X days (and X days threshold has been met)
+        	 if ( 
+        	 !file_exists('cache/alerts/fiat_price/'.$asset_data.'.dat')
+        	 || $mode != 'both' && $mode != 'alert'
+        	 ) {
         	 $pt_cache->save_file($base_dir . '/cache/alerts/fiat_price/'.$asset_data.'.dat', $alert_cache_contents); 
         	 }
-        	 elseif ( $send_alert != 1 && $pt_conf['charts_alerts']['price_alert_fixed_reset'] >= 1 && $pt_var->num_to_str($asset_prim_currency_val_raw) >= 0.00000001 
-        	 && $pt_cache->update_cache('cache/alerts/fiat_price/'.$asset_data.'.dat', ( $pt_conf['charts_alerts']['price_alert_fixed_reset'] * 1440 ) ) == true ) {
+        	 elseif ( 
+        	 $pt_conf['charts_alerts']['price_alert_fixed_reset'] >= 1 
+        	 && $pt_cache->update_cache('cache/alerts/fiat_price/'.$asset_data.'.dat', ( $pt_conf['charts_alerts']['price_alert_fixed_reset'] * 1440 ) ) == true
+        	 ) {
           
         	 $pt_cache->save_file($base_dir . '/cache/alerts/fiat_price/'.$asset_data.'.dat', $alert_cache_contents); 
         
@@ -1988,6 +1997,9 @@ var $pt_array1 = array();
         
         	 }
     
+    
+          }
+       
        
       ////// Alert checking END //////////////
       }

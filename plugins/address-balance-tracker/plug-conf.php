@@ -31,23 +31,23 @@ $plug_conf[$this_plug]['alerts_freq_max'] = 15; // Can be 0, to have no limits
 $plug_conf[$this_plug]['tracking'] = array(
 																	
 																	
-															// BTC EXAMPLE
-															array(
-																	'asset' => 'btc', // Asset symbol (LOWERCASE)
-																	'address' => '3Nw6cvSgnLEFmQ1V4e8RSBG23G7pDjF3hW', // Recieving address
-																	'label' => 'Portfolio Tracker BTC Donations' // Description of address
-																	),
+												// BTC EXAMPLE
+												array(
+													'asset' => 'btc', // Asset symbol (LOWERCASE)
+													'address' => '3Nw6cvSgnLEFmQ1V4e8RSBG23G7pDjF3hW', // Recieving address
+													'label' => 'Portfolio Tracker BTC Donations' // Description of address
+													),
 																			
 																			
-															// ETH EXAMPLE
-															array(
-																	'asset' => 'eth', // Asset symbol (LOWERCASE)
-																	'address' => '0x644343e8D0A4cF33eee3E54fE5d5B8BFD0285EF8', // Recieving address
-																	'label' => 'Portfolio Tracker ETH Donations' // Description of address
-																	),
+											    // ETH EXAMPLE
+												array(
+													'asset' => 'eth', // Asset symbol (LOWERCASE)
+													'address' => '0x644343e8D0A4cF33eee3E54fE5d5B8BFD0285EF8', // Recieving address
+													'label' => 'Portfolio Tracker ETH Donations' // Description of address
+													),
 																	
 																	
-															); // END tracking array
+											); // END tracking array
 
 
 
