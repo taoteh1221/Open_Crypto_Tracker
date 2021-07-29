@@ -261,7 +261,7 @@ exit;
 // CSRF attack protection for downloads EXCEPT backup downloads (which require the nonce 
 // in the filename [which we do already], since backup links are created during cron runtimes)
 if ( $runtime_mode == 'download' && !isset($_GET['backup']) && $_GET['token'] != $pt_gen->nonce_digest('download') ) {
-$pt_gen->log('security_error', 'Missing security token (-possible- CSRF attack) for request: ' . $_SERVER['REQUEST_URI']);
+$pt_gen->log('security_error', 'Missing security token (-possible- CSRF attack from ' . $_SERVER['REMOTE_ADDR'] . ') for request: ' . $_SERVER['REQUEST_URI']);
 $pt_cache->error_logs();
 exit;
 }

@@ -1596,6 +1596,11 @@ var $pt_array1 = array();
    // (or only 2 decimals if worth $pt_conf['gen']['prim_currency_dec_max_thres'] or more), to save on data set / storage size
    $asset_prim_currency_val_raw = ( $pt_var->num_to_str($asset_prim_currency_val_raw) >= $pt_conf['gen']['prim_currency_dec_max_thres'] ? round($asset_prim_currency_val_raw, 2) : round($asset_prim_currency_val_raw, $pt_conf['gen']['prim_currency_dec_max']) );
      
+   
+   // WE SET ALERT CACHE CONTENTS AS EARLY AS POSSIBLE, AS IT MAY BE NEEDED #OUTSIDE TRIGGERED ALERTS LOGIC# (UX ON PREVIOUSLY ENABLED ALERTS, ETC)
+   // WE USE PAIRING VOLUME FOR VOLUME PERCENTAGE CHANGES, FOR BETTER PERCENT CHANGE ACCURACY THAN FIAT EQUIV
+   $alert_cache_contents = $asset_prim_currency_val_raw . '||' . $vol_prim_currency_raw . '||' . $pairing_vol_raw;
+     
      
       // If fiat equivalent format, round asset price 
       // to only keep $pt_conf['gen']['prim_currency_dec_max'] decimals maximum 
@@ -1678,15 +1683,12 @@ var $pt_array1 = array();
       /////////////////////////////////////////////////////////////////
      
      
-     
+    
      
       // Alert checking START
       /////////////////////////////////////////////////////////////////
       if ( $mode == 'alert' && $pt_conf['comms']['price_alert_thres'] > 0 || $mode == 'both' && $pt_conf['comms']['price_alert_thres'] > 0 ) {
-    
-            
-       // WE USE PAIRING VOLUME FOR VOLUME PERCENTAGE CHANGES, FOR BETTER PERCENT CHANGE ACCURACY THAN FIAT EQUIV
-       $alert_cache_contents = $asset_prim_currency_val_raw . '||' . $vol_prim_currency_raw . '||' . $pairing_vol_raw;
+          
         
       // Grab any cached price alert data
        $data_file = trim( file_get_contents('cache/alerts/fiat_price/'.$asset_data.'.dat') );
@@ -1971,20 +1973,15 @@ var $pt_array1 = array();
                   
           
           }
-          // If run alerts not triggered, BUT asset price exists, we tidy up for UX or run any (activated) additional features
+          // If run alerts not triggered, BUT asset price exists, we run any required additional logic
           elseif ( $pt_var->num_to_str($asset_prim_currency_val_raw) >= 0.00000001 ) {
        
-        	 // Refresh cache price alert value / volume REGARDLESS at this point if:
-        	 //
+       
         	 // Not already run at least once (alert cache file not created yet)
-        	 // Alerts have been disabled (for UX on -current- price changes, IN CASE the user enables alerts at a later date)
-        	 // Config setting set to reset every X days (and X days threshold has been met)
-        	 if ( 
-        	 !file_exists('cache/alerts/fiat_price/'.$asset_data.'.dat')
-        	 || $mode != 'both' && $mode != 'alert'
-        	 ) {
+        	 if ( !file_exists('cache/alerts/fiat_price/'.$asset_data.'.dat') ) {
         	 $pt_cache->save_file($base_dir . '/cache/alerts/fiat_price/'.$asset_data.'.dat', $alert_cache_contents); 
         	 }
+        	 // Config setting set to ALWAYS reset every X days (and X days threshold has been met)
         	 elseif ( 
         	 $pt_conf['charts_alerts']['price_alert_fixed_reset'] >= 1 
         	 && $pt_cache->update_cache('cache/alerts/fiat_price/'.$asset_data.'.dat', ( $pt_conf['charts_alerts']['price_alert_fixed_reset'] * 1440 ) ) == true
@@ -2002,6 +1999,14 @@ var $pt_array1 = array();
        
        
       ////// Alert checking END //////////////
+      }
+      // For UX, if this alert has been enabled previously, then disabled later on
+      // (for correct and up-to-date time / price change percent stats, IN CASE the user RE-ENABLES this alert at a later date)
+      elseif (
+      file_exists('cache/alerts/fiat_price/'.$asset_data.'.dat') && $mode != 'alert'
+      || file_exists('cache/alerts/fiat_price/'.$asset_data.'.dat') && $mode != 'both'
+      ) {
+      $pt_cache->save_file($base_dir . '/cache/alerts/fiat_price/'.$asset_data.'.dat', $alert_cache_contents); 
       }
       /////////////////////////////////////////////////////////////////
      
