@@ -1467,12 +1467,6 @@ var $pt_array1 = array();
    // Globals
    global $base_dir, $pt_conf, $pt_cache, $pt_var, $pt_gen, $pt_api, $default_btc_prim_exchange, $default_btc_prim_currency_val, $default_btc_prim_currency_pairing, $price_alert_fixed_reset_array;
    
-     
-      // Return true (no errors) if alert-only, and alerts are disabled
-      if ( $mode == 'alert' && $pt_conf['comms']['price_alert_thres'] == 0 ) {
-      return true;
-      }
-   
    $pairing = strtolower($pairing);
    
    /////////////////////////////////////////////////////////////////
@@ -1615,6 +1609,7 @@ var $pt_array1 = array();
    
    // Remove any leading / trailing zeros from PAIRING VOLUME, to save on data set / storage size
    $pairing_vol_raw = $pt_var->num_to_str($pairing_vol_raw);
+   
    /////////////////////////////////////////////////////////////////
    
      
@@ -2002,10 +1997,7 @@ var $pt_array1 = array();
       }
       // For UX, if this alert has been enabled previously, then disabled later on
       // (for correct and up-to-date time / price change percent stats, IN CASE the user RE-ENABLES this alert at a later date)
-      elseif (
-      file_exists('cache/alerts/fiat_price/'.$asset_data.'.dat') && $mode != 'alert'
-      || file_exists('cache/alerts/fiat_price/'.$asset_data.'.dat') && $mode != 'both'
-      ) {
+      elseif ( file_exists('cache/alerts/fiat_price/'.$asset_data.'.dat') && $pt_var->num_to_str($asset_prim_currency_val_raw) >= 0.00000001 ) {
       $pt_cache->save_file($base_dir . '/cache/alerts/fiat_price/'.$asset_data.'.dat', $alert_cache_contents); 
       }
       /////////////////////////////////////////////////////////////////

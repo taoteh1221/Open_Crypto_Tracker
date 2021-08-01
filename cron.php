@@ -34,10 +34,6 @@ require("config.php");
 $_SESSION['lite_charts_updated'] = 0;
 
 foreach ( $pt_conf['charts_alerts']['tracked_markets'] as $key => $val ) {
-	
-// Remove any duplicate asset array key formatting, which allows multiple alerts per asset with different exchanges / trading pairs (keyed like SYMB, SYMB-1, SYMB-2, etc)
-$asset = ( stristr($key, "-") == false ? $key : substr( $key, 0, mb_strpos($key, "-", 0, 'utf-8') ) );
-$asset = strtoupper($asset);
 
 $val = explode("||",$val); // Convert $val into an array
 
