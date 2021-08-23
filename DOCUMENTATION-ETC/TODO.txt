@@ -41,9 +41,6 @@ OPTIMIZATIONS / BUGS / TESTS / UX / QA / OTHER SECTION
 ///////////////////////////////////////////////////////
 
 
-CSV download / export stopped working, find out why.
-
-
 Add https://watchtheburn.com/ to resources page.
 
 
@@ -185,6 +182,9 @@ https://zksync.io/api/v0.1.html
 ///////////////////////////////////////////////////////
 FEATURES / STRUCTURING SECTION
 ///////////////////////////////////////////////////////
+
+
+Add ability to email selected news feed links every X days, only including the 'new' posts that are detected.
 
 
 On admin "assets" page, add a button atop the page called " Add New Asset Or Market". Then, on page 1 of the 'add asset' wizard (multi-step on separate modal pages), only have the radio selection choices (only one can be selected): 'Add new asset' and 'Add new market to existing asset'. 
