@@ -1467,6 +1467,20 @@ var $pt_array1 = array();
    // Globals
    global $base_dir, $pt_conf, $pt_cache, $pt_var, $pt_gen, $pt_api, $default_btc_prim_exchange, $default_btc_prim_currency_val, $default_btc_prim_currency_pairing, $price_alert_fixed_reset_array;
    
+      
+      // Skip (and remove any stale data) if this entry is disabled
+      if ( $mode != 'alert' && $mode != 'chart' && $mode != 'both' ) {
+      
+          // For UX, if this is an alert that has been enabled previously, then disabled later on, we remove stale data
+          // (for correct and up-to-date time / price change percent stats, IN CASE the user RE-ENABLES this alert at a later date)
+          if ( file_exists($base_dir . '/cache/alerts/fiat_price/'.$asset_data.'.dat') ) {
+          unlink($base_dir . '/cache/alerts/fiat_price/'.$asset_data.'.dat'); 
+          }
+      
+      return false;
+      }
+      
+      
    $pairing = strtolower($pairing);
    
    /////////////////////////////////////////////////////////////////
@@ -1995,11 +2009,7 @@ var $pt_array1 = array();
        
       ////// Alert checking END //////////////
       }
-      // For UX, if this alert has been enabled previously, then disabled later on
-      // (for correct and up-to-date time / price change percent stats, IN CASE the user RE-ENABLES this alert at a later date)
-      elseif ( file_exists('cache/alerts/fiat_price/'.$asset_data.'.dat') && $pt_var->num_to_str($asset_prim_currency_val_raw) >= 0.00000001 ) {
-      $pt_cache->save_file($base_dir . '/cache/alerts/fiat_price/'.$asset_data.'.dat', $alert_cache_contents); 
-      }
+      
       /////////////////////////////////////////////////////////////////
      
    
