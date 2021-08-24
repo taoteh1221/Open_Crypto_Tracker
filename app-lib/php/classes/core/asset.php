@@ -1468,7 +1468,7 @@ var $pt_array1 = array();
    global $base_dir, $pt_conf, $pt_cache, $pt_var, $pt_gen, $pt_api, $default_btc_prim_exchange, $default_btc_prim_currency_val, $default_btc_prim_currency_pairing, $price_alert_fixed_reset_array;
    
       
-      // Skip (and remove any stale data) if this entry is disabled
+      // Return false (and remove any stale data) if this entry is disabled
       if ( $mode != 'alert' && $mode != 'chart' && $mode != 'both' ) {
       
           // For UX, if this is an alert that has been enabled previously, then disabled later on, we remove stale data
@@ -1477,6 +1477,10 @@ var $pt_array1 = array();
           unlink($base_dir . '/cache/alerts/fiat_price/'.$asset_data.'.dat'); 
           }
       
+      return false;
+      }
+      // Return false if alert-only, and alerts are disabled
+      elseif ( $mode == 'alert' && $pt_conf['comms']['price_alert_thres'] == 0 ) {
       return false;
       }
       
@@ -1605,7 +1609,7 @@ var $pt_array1 = array();
    $asset_prim_currency_val_raw = ( $pt_var->num_to_str($asset_prim_currency_val_raw) >= $pt_conf['gen']['prim_currency_dec_max_thres'] ? round($asset_prim_currency_val_raw, 2) : round($asset_prim_currency_val_raw, $pt_conf['gen']['prim_currency_dec_max']) );
      
    
-   // WE SET ALERT CACHE CONTENTS AS EARLY AS POSSIBLE, AS IT MAY BE NEEDED #OUTSIDE TRIGGERED ALERTS LOGIC# (UX ON PREVIOUSLY ENABLED ALERTS, ETC)
+   // WE SET ALERT CACHE CONTENTS AS EARLY AS POSSIBLE, AS IT MAY BE DESIRED #OUTSIDE TRIGGERED ALERTS LOGIC# IN FUTURE LOGIC
    // WE USE PAIRING VOLUME FOR VOLUME PERCENTAGE CHANGES, FOR BETTER PERCENT CHANGE ACCURACY THAN FIAT EQUIV
    $alert_cache_contents = $asset_prim_currency_val_raw . '||' . $vol_prim_currency_raw . '||' . $pairing_vol_raw;
      
