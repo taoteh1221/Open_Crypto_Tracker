@@ -41,8 +41,7 @@ $exchange = $val[0];
 $pairing = $val[1];
 $mode = $val[2];
 
-// ALWAYS RUN for UX, even if $mode != 'none', 
-// as charts_price_alerts() is optimized for this so it can run some UX logic
+// ALWAYS RUN even if $mode != 'none' etc, as charts_price_alerts() is optimized to run UX logic scanning
 // (such as as removing STALE EXISTING ALERT CACHE FILES THAT WERE PREVIOUSLY-ENABLED,
 // THEN USER-DISABLED...IN CASE USER RE-ENABLES, THE ALERT STATS / ETC REMAIN UP-TO-DATE)
 $pt_asset->charts_price_alerts($key, $exchange, $pairing, $mode);

@@ -1468,8 +1468,9 @@ var $pt_array1 = array();
    global $base_dir, $pt_conf, $pt_cache, $pt_var, $pt_gen, $pt_api, $default_btc_prim_exchange, $default_btc_prim_currency_val, $default_btc_prim_currency_pairing, $price_alert_fixed_reset_array;
    
       
-      // Return false (and remove any stale data) if this entry is disabled, or if it is alert-only and alerts are disabled globally
-      if ( $mode != 'alert' && $mode != 'chart' && $mode != 'both' || $mode == 'alert' && $pt_conf['comms']['price_alert_thres'] == 0 ) {
+      // For UX, scan to remove any old stale price alert entries that are now disabled / disabled GLOBALLY 
+      // Return false if there is no charting on this entry (to optimize runtime)
+      if ( $mode != 'alert' && $mode != 'both' || $pt_conf['comms']['price_alert_thres'] == 0 ) {
       
           // For UX, if this is an alert that has been enabled previously, then disabled later on, we remove stale data
           // (for correct and up-to-date time / price change percent stats, IN CASE the user RE-ENABLES this alert at a later date)
@@ -1477,7 +1478,11 @@ var $pt_array1 = array();
           unlink($base_dir . '/cache/alerts/fiat_price/'.$asset_data.'.dat'); 
           }
       
-      return false;
+          // If we are not running charting logic, we can safely return false now 
+          if ( $mode != 'chart' && $mode != 'both' ) {
+          return false;
+          }
+          
       }
       
       
