@@ -230,7 +230,7 @@ USAGE (ADDING / UPDATING COINS):
                         'pairing' => array(
                         
                                                       
-                        		'lowercase_pairing_abrv' => array(
+                        	'lowercase_pairing_abrv' => array(
                                           'lowercase_exchange1' => 'MARKETIDHERE',
                                           'lowercase_exchange2' => 'ASSET/PAIRING',
                                           'lowercase_exchange3' => 'ASSET-PAIRING',
