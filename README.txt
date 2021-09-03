@@ -45,6 +45,8 @@ PayPal:    https://www.paypal.me/dragonfrugal
 
 FEATURES
 
+-ALWAYS will remain 100% FREE F.O.S.S. software (no need to endlessly pay a premium access fee).
+
 -PRIVATELY connects DIRECTLY to APIs / servers for data and comms (no "phoning home" to a middleman server), with optional proxy support for API connections.
 
 -Automated and user-friendly installation / upgrade script for Ubuntu or Raspberry Pi app setup on your home / internal network or website.

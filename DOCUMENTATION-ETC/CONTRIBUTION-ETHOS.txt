@@ -1,0 +1,56 @@
+
+
+=========================
+ETHOS OF THIS PROJECT:
+=========================
+
+
+• This app is ment to serve the cryptocurrency community as a simple / easy-to-use, HIGHLY secured / optimized, and PRIVATE / ALWAYS 100% FREE and open source cryptocurrency portfolio tracker. 
+
+
+• The "server edition" of this app can run 24/7 (with very little elecricity usage costs) on a raspberry pi OS / ubuntu OS installation on a user's internal / home network, saving price chart data and sending out price alerts (or doing any other background task) any time of the day or night...even on a raspberry pi zero ($10 chipset / $30 kit). The "desktop edition" of this app runs as a local / native app on a PC (just download / run it), allowing for easy installation by less technically-advanced users. 
+
+
+• The design of this app is minimalistic ON PURPOSE to achieve all the above-mentioned important properties, all while still able to run on low power hardware (raspberry pi / pine64 / etc), which in turn make this app a feasible choice for end-users of ANY portfolio size large or small. 
+
+
+• By MINIMIZING exposure to user details (in case a user's operating system is ever hacked), security / privacy within this app is actually ENHANCED. In this specific case of attempting to maintain security and privacy of an end-user, the "less is more" approach works best (features / security is always a balance that must be considered in any app, but ESPECIALLY in a cryptocurrency app). ADDITIONALLY, these considerations become EVEN MORE IMPORTANT if an end-user's portfolio grows in value over the years.
+
+
+• There is no rush here to add features EVER, as this is a "passion project" (NOT for profit). There is also no "paying for a feature". If end-users want to donate twords the project, it must be a "generalized donation" not tied to any specific contract / agreement between the donors and developers. One of the primary pillars as mentioned above is "ALWAYS 100% FREE and open source". This is how the backbone of the ENTIRE underlying internet was built out in the late 1990's and early 2000's. This project is HEAVILY COMMITED to this ideal. Accepting donations must NEVER prioritize development for the few over the many, PERIOD. The goal here is to create / maintain software that ANYBODY can use, redistribute, and modify to their liking (under the GPLv3 license).
+
+
+===============================================================================================================================================
+
+
+============================================
+CONTRIBUTION GUIDELINES (FOR DEVELOPERS):
+============================================
+
+
+• Please review the above "ETHOS OF THIS PROJECT" section, to see if your planned iterations are in line with this project's main pillars / objectives. Maybe even contact the project lead, to run your ideas by them and get feedback before you start coding.
+
+
+• Please consider using "snake case" when creating variables / classes / etc, to match the coding style of the app. This helps a lot during code reviews to find bugs and security issues in more complex code, by making the code easier to read through. 
+
+
+• Please consider using spaces instead of tab spacing when nesting / indenting. This makes it easier when refactoring code, if we need more nested indentation to read code cleaner for code reviews.
+
+
+• Please optimize your logic after fleshing it out, and make sure everything works as intended AND reads clean during code reviews. Other contributors should not need to 'fix' much in your code contributions, as this defeats the purpose of having multiple contributors. There is no rush here, this is free software. You can take all the time you need and get it right.
+
+
+• Please make sure you use decent semantics for your varaible / class names etc. This goes a VERY long way twords making code readable during code reviews.
+
+
+• ALL code you include in your contribution MUST BE COMPATIBLE WITH THE GPLv3 LICENSE that this app is released under. If you include any code licensed by somebody other than yourself, please leave attribution for them in your contribution, and include the license they released their code under.
+
+
+• Thank you in advance for any considerations by your twords contributing to this app's codebase. It's much appreciated! :)
+
+
+===============================================================================================================================================
+
+
+
+
