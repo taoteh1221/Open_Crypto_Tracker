@@ -220,15 +220,11 @@ $pt_conf['gen']['btc_prim_currency_pairing'] = 'usd'; // PUT INSIDE SINGLE QUOTE
 $pt_conf['gen']['btc_prim_exchange'] = 'kraken';  // PUT INSIDE SINGLE QUOTES ('selection')
 
 
-// Maximum decimal places for [primary currency] values,
-// of coins worth under 'prim_currency_dec_max_thres' [usd/gbp/eur/jpy/brl/rub/etc] (below this setting),
+// Maximum decimal places for [primary currency] values, of coins worth under 1 fiat value unit [usd/gbp/eur/jpy/brl/rub/etc],
 // for prettier / less-cluttered interface. IF YOU ADJUST $pt_conf['gen']['btc_prim_currency_pairing'] ABOVE, 
 // YOU MAY NEED TO ADJUST THIS ACCORDINGLY FOR !PRETTY / FUNCTIONAL! CHARTS / ALERTS FOR YOUR PRIMARY CURRENCY
-// KEEP THIS NUMBER AS LOW AS IS FEASIBLE, TO SAVE ON CHART DATA STORAGE SPACE / MAINTAIN QUICK CHART LOAD TIMES
+// ALSO KEEP THIS NUMBER AS LOW AS IS FEASIBLE, TO SAVE ON CHART DATA STORAGE SPACE / MAINTAIN QUICK CHART LOAD TIMES
 $pt_conf['gen']['prim_currency_dec_max'] = 5; // Whole numbers only (represents number of decimals maximum to use)
-////
-// Below what currency amount do we switch from 2 decimals, over to using the above 'prim_currency_dec_max' setting
-$pt_conf['gen']['prim_currency_dec_max_thres'] = 1.00; // Can be decimals, NO SYMBOLS, NUMBERS ONLY
 
 
 // Your local time offset IN HOURS, COMPARED TO UTC TIME. Can be negative or positive.

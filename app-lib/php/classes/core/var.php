@@ -344,25 +344,61 @@ var $pt_array1 = array();
    ////////////////////////////////////////////////////////
    
    
-   // Pretty number formatting, while maintaining decimals
-   function num_pretty($val_to_pretty, $num_dec, $small_unlimited=false) {
-   
+   // Pretty number formatting, while maintaining decimals (max decimals required, min decimals optional)
+   function num_pretty($val_to_pretty, $dec_max, $small_unlimited=false, $dec_min=false) {
    
    // Strip formatting, convert from scientific format, and remove leading / trailing zeros
    $raw_val_to_pretty = $this->rem_num_format($val_to_pretty);
    
    
-   	// Do any rounding that may be needed now (skip WATCH-ONLY 9 decimal values)
-   	if ( $this->num_to_str($raw_val_to_pretty) > 0.00000000 && $small_unlimited != TRUE ) { 
-   	$raw_val_to_pretty = number_format($raw_val_to_pretty, $num_dec, '.', '');
-   	}
+      // IF MAX DECIMAL == 2, WE #AUTOMATICALLY# FORCE #MIN# DECIMAL TO SAME (PRESUMING COMMON FIAT ROUNDING)
+      // ALSO, IF MIN DECIMAL IS SET HIGHER THAN MAX DECIMAL, AUTO-CORRECT IT (AS IT'S AN INVALID PARAMETER SETTING)
+      if ( $dec_max == 2 || $dec_min > $dec_max ) {
+      $dec_min = $dec_max;
+      }
    
    
-   // AFTER ROUNDING, RE-PROCESS removing leading / trailing zeros
+   	  // Do any MAX decimal allowed rounding that may be needed FIRST
+   	  // (skip WATCH-ONLY flag values)
+   	  if ( $small_unlimited != true ) { 
+   	  $raw_val_to_pretty = number_format($raw_val_to_pretty, $dec_max, '.', '');
+   	  }
+   
+   
+   // AFTER MAX DECIMAL ROUNDING, RE-PROCESS removing leading / trailing zeros
    $raw_val_to_pretty = $this->num_to_str($raw_val_to_pretty);
+   
+   
+      // IF #MIN# DECIMAL ALLOWED IS SET, THEN WE RE-PROCESS AGAIN, TO #FORCE# ANY NEEDED ZERO DECIMALS ONTO THE RIGHT SIDE
+      // (skip WATCH-ONLY flag values)
+      if ( $dec_min != false && $small_unlimited != true ) {
+      
+      $decimal_check = preg_replace("/(.*)\./", "", $raw_val_to_pretty);
+        
+        // #ONLY IF# amount of decimals is LESS the min decimal, FORCE NEEDED ZEROS TO RIGHT SIDE
+        if ( iconv_strlen($decimal_check, 'utf-8') < $dec_min ) {
+        $raw_val_to_pretty = number_format($raw_val_to_pretty, $dec_min, '.', '');
+        }
+      
+      }
+      
+      
+      // Optimized return for zero values
+      if ( $raw_val_to_pretty == 0 ) {
+          
+          if ( $dec_min != false ) {
+          $val_to_pretty = number_format(0, $dec_min, '.', ',');
+          }
+          else {
+          $val_to_pretty = 0;
+          }
+      
+      return $val_to_pretty;
+          
+      }
           
           
-      // Pretty things up...
+   // Ready to pretty existing numbers up now...
           
       if ( preg_match("/\./", $raw_val_to_pretty) ) {
       $val_no_decimal = preg_replace("/\.(.*)/", "", $raw_val_to_pretty);
@@ -374,42 +410,11 @@ var $pt_array1 = array();
       $decimal_amount = null;
       $check_decimal_amount = null;
       }
-            
-            
-      // Limit $decimal_amount to $num_dec (unless it's a watch-only asset)
-      if ( $raw_val_to_pretty != 0.000000001 ) {
-      $decimal_amount = ( iconv_strlen($decimal_amount, 'utf-8') > $num_dec ? substr($decimal_amount, 0, $num_dec) : $decimal_amount );
-      }
-          
-            
-      // Show EVEN IF LOW VALUE IS OFF THE MAP, just for UX purposes (tracking token price only, etc)
-      if ( $this->num_to_str($raw_val_to_pretty) > 0.00000000 && $small_unlimited == true ) {  
-               
-          if ( $num_dec == 2 ) {
-          $val_to_pretty = number_format($raw_val_to_pretty, 2, '.', ',');
-          }
-          else {
-          // $val_no_decimal stops rounding, while number_format gives us pretty numbers left of decimal
-          $val_to_pretty = number_format($val_no_decimal, 0, '.', ',') . ( $this->num_to_str($check_decimal_amount) > 0.00000000 ? '.' . $decimal_amount : '' );
-          }
-            
-     	}
-      // Show low value only with $decimal_amount minimum
-      elseif ( $this->num_to_str($raw_val_to_pretty) >= 0.00000001 && $small_unlimited == false ) {  
-               
-          if ( $num_dec == 2 ) {
-          $val_to_pretty = number_format($raw_val_to_pretty, 2, '.', ',');
-          }
-          else {
-          // $val_no_decimal stops rounding, while number_format gives us pretty numbers left of decimal
-          $val_to_pretty = number_format($val_no_decimal, 0, '.', ',') . ( $this->num_to_str($check_decimal_amount) > 0.00000000 ? '.' . $decimal_amount : '' );
-          }
-            
-      }
-      else {
-      $val_to_pretty = 0;
-      }
-            
+      
+      
+   // Show decimal value with $decimal_amount
+   // $val_no_decimal stops rounding any whole number left of decimal, AND number_format gives us pretty numbers left of decimal
+   $val_to_pretty = number_format($val_no_decimal, 0, '.', ',') . ( $this->num_to_str($check_decimal_amount) > 0.00000000 || $dec_min != false ? '.' . $decimal_amount : '' );
           
    return $val_to_pretty;
    

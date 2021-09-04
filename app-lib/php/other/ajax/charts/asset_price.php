@@ -168,10 +168,10 @@ gui: {
 		
 			
 			// Force decimals under certain conditions
-			if ( $pt_var->num_to_str($price_sample_avg) >= $pt_conf['gen']['prim_currency_dec_max_thres'] ) {
+			if ( $pt_var->num_to_str($price_sample_avg) >= 1 ) {
 			$force_dec = 'decimals: ' . 2 . ',';
 			}
-			elseif ( $pt_var->num_to_str($price_sample_avg) < $pt_conf['gen']['prim_currency_dec_max_thres'] ) {
+			elseif ( $pt_var->num_to_str($price_sample_avg) < 1 ) {
 			$force_dec = 'decimals: ' . $spot_price_dec . ',';
 			}
 		

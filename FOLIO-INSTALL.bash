@@ -1170,6 +1170,9 @@ echo " "
 
 if [ -f "/usr/bin/raspi-config" ]; then
 echo "Select 1 or 2 to choose whether to setup SSH (under 'Interfacing Options' in raspi-config), or skip it."
+echo " "
+echo "IF YOU CHOOSE OPTION 1, AND IT ASKS IF YOU WANT TO REBOOT AFTER CONFIGURATION, CHOOSE 'NO'"
+echo "OTHERWISE #THIS AUTO-INSTALL WILL ABORT PREMATURELY#! ONLY REBOOT AFTER AUTO-INSTALL WITH: sudo reboot"
 else
 echo "Select 1 or 2 to choose whether to setup SSH, or skip it."
 fi
@@ -1342,8 +1345,12 @@ echo "port forwarding and dynamic DNS on your router needs to be setup (preferab
 echo "rules using a 'guest network' configuration, to disallow this device requesting access to other machines"
 echo "on your home / internal network, and only allow it an access route through the internet gateway)."
 echo " "
-echo "A #VERY HIGH# port number is recommended (FREE / AVAILABLE port range is 1,024 to 65,535), to help avoid"
+echo "A #VERY HIGH# port number is recommended (FREE / AVAILABLE port range is 1,025 to 65,535), to help avoid"
 echo "port scanning bots from detecting your machine (and then starting hack attempts on your bound port)."
+echo " "
+echo "FOR ADDED SECURITY, YOU SHOULD #ALWAYS KEEP THIS OPERATING SYSTEM UP-TO-DATE# WITH THIS TERMINAL COMMAND:"
+echo " "
+echo "sudo apt update;sudo apt upgrade -y"
 echo " "
 
 echo "SEE /DOCUMENTATION-ETC/RASPBERRY-PI/ for additional information on securing and"

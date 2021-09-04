@@ -1,5 +1,7 @@
 
 
+IMPORTANT NOTE: THESE ARE COMMANDS FOR #DEBIAN-BASED SYSTEMS# (Ubuntu, etc)! RHEL/CentOS commands may differ.
+
 =======================================================
 Securing User Directories On Raspberry PI
 =======================================================
@@ -78,7 +80,7 @@ Install a firewall
 =======================================================
 
 
-IMPORTANT: You must open ports after installing a firewall for any servers you have running, OR YOU WON'T BE ABLE TO CONNECT TO THEM...see step #2
+IMPORTANT: You must open ports after installing a firewall for any servers you have running, OR YOU WON'T BE ABLE TO CONNECT TO THEM...see step #3
 
 
 1) Open the 'Terminal' app from the menu, or login with a remote terminal (SSH).
@@ -112,5 +114,38 @@ sudo ufw status
 
 
 =======================================================
+
+
+=======================================================
+Disable Apache Web Server Revealing Itself (and version)
+=======================================================
+
+
+1) Open the 'Terminal' app from the menu, or login with a remote terminal (SSH).
+
+
+2) Open the Apache config with this command:
+
+sudo nano /etc/apache2/apache2.conf
+
+
+3) At the bottom of that file, add these lines:
+
+# Disable showing apache product name and version number
+ServerTokens Prod
+ServerSignature Off 
+
+
+4) Hold down the Ctrl key and X key at the same time, choose Y, hit enter to save / exit editing the config.
+
+
+5) Reboot Apache:
+
+sudo systemctl restart apache2
+
+
+=======================================================
+
+
 
 

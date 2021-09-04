@@ -46,7 +46,7 @@ CONTRIBUTION GUIDELINES (FOR DEVELOPERS):
 • ALL code you include in your contribution MUST BE COMPATIBLE WITH THE GPLv3 LICENSE that this app is released under. If you include any code licensed by somebody other than yourself, please leave attribution for them in your contribution, and include the license they released their code under.
 
 
-• Thank you in advance for any considerations by your twords contributing to this app's codebase. It's much appreciated! :)
+• Thank you in advance for any considerations by you twords contributing to this app's codebase. It's much appreciated! :)
 
 
 ===============================================================================================================================================

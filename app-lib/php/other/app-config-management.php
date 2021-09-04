@@ -178,7 +178,6 @@ $pt_gen->log('other_error', 'RSS feeds failed to sort alphabetically');
 
 // Better decimal support for these vars...
 $pt_conf['power']['system_stats_first_chart_highest_val'] = $pt_var->num_to_str($pt_conf['power']['system_stats_first_chart_highest_val']); 
-$pt_conf['gen']['prim_currency_dec_max_thres'] = $pt_var->num_to_str($pt_conf['gen']['prim_currency_dec_max_thres']); 
 $pt_conf['comms']['price_alert_thres'] = $pt_var->num_to_str($pt_conf['comms']['price_alert_thres']); 
 $pt_conf['power']['hivepower_yearly_interest'] = $pt_var->num_to_str($pt_conf['power']['hivepower_yearly_interest']); 
 

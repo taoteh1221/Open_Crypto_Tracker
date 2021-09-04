@@ -2219,7 +2219,7 @@ var $pt_array1 = array();
             
                // Format or round primary currency price depending on value (non-stablecoin crypto values are already stored in the format we want for the interface)
                if ( $fiat_formatting ) {
-               $data['spot'] .= ( $pt_var->num_to_str($result[1]) >= $pt_conf['gen']['prim_currency_dec_max_thres'] ? number_format((float)$result[1], 2, '.', '')  :  round($result[1], $pt_conf['gen']['prim_currency_dec_max'])  ) . ',';
+               $data['spot'] .= ( $pt_var->num_to_str($result[1]) >= 1 ? number_format((float)$result[1], 2, '.', '')  :  round($result[1], $pt_conf['gen']['prim_currency_dec_max'])  ) . ',';
                $data['volume'] .= round($result[2]) . ',';
                }
                // Non-stablecoin crypto

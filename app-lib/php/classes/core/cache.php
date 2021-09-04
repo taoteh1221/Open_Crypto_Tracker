@@ -1044,7 +1044,14 @@ var $pt_array1 = array();
       
     }
     else {
-    $pt_gen->log( 'cache_error', 'Lite chart ' . $lite_mode_logging . ' FAILED for ' . $lite_path);
+        
+        if ( file_exists($archive_path) ) {
+        $pt_gen->log( 'cache_error', 'Lite chart ' . $lite_mode_logging . ' FAILED, data from archive file ' . $archive_path . ' could not be read. Check cache directory permissions.');
+        }
+        else {
+        $pt_gen->log( 'cache_error', 'Lite chart ' . $lite_mode_logging . ' FAILED for ' . $lite_path . ', archival data not created yet (for new installs please wait a few hours, then check cache directory permissions if this error continues beyond then).');
+        }
+    
     }
   
    

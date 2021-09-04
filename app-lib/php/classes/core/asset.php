@@ -719,7 +719,7 @@ var $pt_array1 = array();
      
      
    // UX on number values
-   $data['price'] = ( $pt_var->num_to_str($data['price']) >= $pt_conf['gen']['prim_currency_dec_max_thres'] ? $pt_var->num_pretty($data['price'], 2) : $pt_var->num_pretty($data['price'], $pt_conf['gen']['prim_currency_dec_max']) );
+   $data['price'] = ( $pt_var->num_to_str($data['price']) >= 1 ? $pt_var->num_pretty($data['price'], 2) : $pt_var->num_pretty($data['price'], $pt_conf['gen']['prim_currency_dec_max']) );
    
    // Return null if we don't even detect a rank
    return ( $data['rank'] != NULL ? $data : NULL );
@@ -908,7 +908,7 @@ var $pt_array1 = array();
            
                  // More pretty numbers formatting
                  if ( array_key_exists($market_pairing, $pt_conf['power']['btc_currency_markets']) ) {
-                 $asset_val_raw = ( $pt_var->num_to_str($asset_val_raw) >= $pt_conf['gen']['prim_currency_dec_max_thres'] ? round($asset_val_raw, 2) : round($asset_val_raw, $pt_conf['gen']['prim_currency_dec_max']) );
+                 $asset_val_raw = ( $pt_var->num_to_str($asset_val_raw) >= 1 ? round($asset_val_raw, 2) : round($asset_val_raw, $pt_conf['gen']['prim_currency_dec_max']) );
                  $vol_pairing_rounded = round($pairing_vol_raw);
                  }
                  else {
@@ -943,7 +943,7 @@ var $pt_array1 = array();
                        }
                  
                  // Pretty numbers for fiat currency
-                 $asset_prim_market_worth_raw = ( $pt_var->num_to_str($asset_prim_market_worth_raw) >= $pt_conf['gen']['prim_currency_dec_max_thres'] ? round($asset_prim_market_worth_raw, 2) : round($asset_prim_market_worth_raw, $pt_conf['gen']['prim_currency_dec_max']) );
+                 $asset_prim_market_worth_raw = ( $pt_var->num_to_str($asset_prim_market_worth_raw) >= 1 ? round($asset_prim_market_worth_raw, 2) : round($asset_prim_market_worth_raw, $pt_conf['gen']['prim_currency_dec_max']) );
                  
                  }
            
@@ -1606,8 +1606,8 @@ var $pt_array1 = array();
      
      
    // Round PRIMARY CURRENCY CONFIG asset price to only keep $pt_conf['gen']['prim_currency_dec_max'] decimals maximum 
-   // (or only 2 decimals if worth $pt_conf['gen']['prim_currency_dec_max_thres'] or more), to save on data set / storage size
-   $asset_prim_currency_val_raw = ( $pt_var->num_to_str($asset_prim_currency_val_raw) >= $pt_conf['gen']['prim_currency_dec_max_thres'] ? round($asset_prim_currency_val_raw, 2) : round($asset_prim_currency_val_raw, $pt_conf['gen']['prim_currency_dec_max']) );
+   // (or only 2 decimals if worth 1 unit value or more), to save on data set / storage size
+   $asset_prim_currency_val_raw = ( $pt_var->num_to_str($asset_prim_currency_val_raw) >= 1 ? round($asset_prim_currency_val_raw, 2) : round($asset_prim_currency_val_raw, $pt_conf['gen']['prim_currency_dec_max']) );
      
    
    // WE SET ALERT CACHE CONTENTS AS EARLY AS POSSIBLE, AS IT MAY BE DESIRED #OUTSIDE TRIGGERED ALERTS LOGIC# IN FUTURE LOGIC
@@ -1617,9 +1617,9 @@ var $pt_array1 = array();
      
       // If fiat equivalent format, round asset price 
       // to only keep $pt_conf['gen']['prim_currency_dec_max'] decimals maximum 
-      // (or only 2 decimals if worth $pt_conf['gen']['prim_currency_dec_max_thres'] or more), to save on data set / storage size
+      // (or only 2 decimals if worth 1 unit value or more), to save on data set / storage size
       if ( $fiat_eqiv == 1 ) {
-      $asset_pairing_val_raw = ( $pt_var->num_to_str($asset_pairing_val_raw) >= $pt_conf['gen']['prim_currency_dec_max_thres'] ? round($asset_pairing_val_raw, 2) : round($asset_pairing_val_raw, $pt_conf['gen']['prim_currency_dec_max']) );
+      $asset_pairing_val_raw = ( $pt_var->num_to_str($asset_pairing_val_raw) >= 1 ? round($asset_pairing_val_raw, 2) : round($asset_pairing_val_raw, $pt_conf['gen']['prim_currency_dec_max']) );
       }
    
    
@@ -1888,8 +1888,16 @@ var $pt_array1 = array();
                // Pretty up textual output to end-user (convert raw numbers to have separators, remove underscores in names, etc)
                     
                         
-              	// Pretty numbers UX on PRIMARY CURRENCY CONFIG asset value
-               $asset_prim_currency_text = ( $pt_var->num_to_str($asset_prim_currency_val_raw) >= $pt_conf['gen']['prim_currency_dec_max_thres'] ? $pt_var->num_pretty($asset_prim_currency_val_raw, 2) : $pt_var->num_pretty($asset_prim_currency_val_raw, $pt_conf['gen']['prim_currency_dec_max']) );
+              	     // Pretty numbers UX on PRIMARY CURRENCY CONFIG asset value
+              	
+                     // NO DECIMALS on 100 in unit value or greater 
+                     if ( $asset_prim_currency_val_raw >= 100 ) {
+                     $asset_prim_currency_text = number_format($asset_prim_currency_val_raw, 0, '.', ',');
+                     }
+                     // MAX 2 DECIMALS, #AND MIN 2 DECIMALS# FOR VALUES UNDER 100
+                     else {
+                     $asset_prim_currency_text = ( $pt_var->num_to_str($asset_prim_currency_val_raw) >= 1 ? $pt_var->num_pretty($asset_prim_currency_val_raw, 2) : $pt_var->num_pretty($asset_prim_currency_val_raw, $pt_conf['gen']['prim_currency_dec_max'], false, 2) );
+                     }
                         
                $vol_prim_currency_text = $pt_conf['power']['btc_currency_markets'][$default_btc_prim_currency_pairing] . number_format($vol_prim_currency_raw, 0, '.', ',');
                         

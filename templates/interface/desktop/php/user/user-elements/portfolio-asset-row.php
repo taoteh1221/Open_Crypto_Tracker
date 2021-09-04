@@ -351,8 +351,14 @@ echo '?';
   
   $asset_prim_currency_val = ($sel_opt['sel_btc_prim_currency_val'] * $btc_trade_eqiv_raw);
 
-  // UX on FIAT EQUIV number values
-  $asset_prim_currency_val = ( $pt_var->num_to_str($asset_prim_currency_val) >= $pt_conf['gen']['prim_currency_dec_max_thres'] ? $pt_var->num_pretty($asset_prim_currency_val, 2) : $pt_var->num_pretty($asset_prim_currency_val, $pt_conf['gen']['prim_currency_dec_max']) );
+  // UX on 100 in unit value or greater
+  if ( $asset_prim_currency_val >= 100 ) {
+  $asset_prim_currency_val = number_format($asset_prim_currency_val, 0, '.', ',');
+  }
+  // UX on FIAT EQUIV number values under 100 in unit value (MAX 2 DECIMALS, #AND MIN 2 DECIMALS# FOR INTERFACE UX)
+  else {
+  $asset_prim_currency_val = ( $pt_var->num_to_str($asset_prim_currency_val) >= 1 ? $pt_var->num_pretty($asset_prim_currency_val, 2) : $pt_var->num_pretty($asset_prim_currency_val, $pt_conf['gen']['prim_currency_dec_max'], false, 2) );
+  }
 	
   echo "<span class='white'>" . $pt_conf['power']['btc_currency_markets'][ $pt_conf['gen']['btc_prim_currency_pairing'] ] . "</span>" . "<span class='app_sort_filter'>" . $asset_prim_currency_val . "</span>";
 
@@ -404,9 +410,14 @@ echo '?';
 
 $asset_val_raw = $pt_var->num_to_str($asset_val_raw);
 
-	// UX on FIAT EQUIV number values
-	if ( $fiat_eqiv == 1 ) {
-	$asset_val_dec = ( $asset_val_raw >= $pt_conf['gen']['prim_currency_dec_max_thres'] ? 2 : $pt_conf['gen']['prim_currency_dec_max'] );
+	// UX on 100 in unit value or greater
+	if ( $asset_val_raw >= 100 ) {
+    echo number_format($asset_val_raw, 0, '.', ','); // NO DECIMALS ALLOWED
+	}
+	// UX on FIAT EQUIV number values under 100 in unit value
+	elseif ( $fiat_eqiv == 1 ) {
+	$asset_val_dec = ( $asset_val_raw >= 1 ? 2 : $pt_conf['gen']['prim_currency_dec_max'] );
+    echo $pt_var->num_pretty($asset_val_raw, $asset_val_dec, false, 2); // 2 decimal #MINIMUM#
 	}
 	else {
 	
@@ -419,10 +430,9 @@ $asset_val_raw = $pt_var->num_to_str($asset_val_raw);
 		$asset_val_dec = ( $asset_val_raw >= 1 ? 2 : $asset_val_dec );
 		}
 		
+    echo $pt_var->num_pretty($asset_val_raw, $asset_val_dec); // NO decimal #MINIMUM#
+		
 	}
-  
-  
-echo $pt_var->num_pretty($asset_val_raw, $asset_val_dec); 
 
 
 ?>
@@ -551,9 +561,14 @@ echo "<span class='app_sort_filter blue'>" . ( $pretty_asset_amount != null ? $p
 
 $asset_val_total_raw = $pt_var->num_to_str($asset_val_total_raw);
 
-	// UX on FIAT EQUIV number values
-	if ( $fiat_eqiv == 1 ) {
-	$asset_val_total_dec = ( $asset_val_total_raw >= $pt_conf['gen']['prim_currency_dec_max_thres'] ? 2 : $pt_conf['gen']['prim_currency_dec_max'] );
+	// UX on 100 in unit value or greater
+	if ( $asset_val_total_raw >= 100 ) {
+    $pretty_asset_val_total_raw = number_format($asset_val_total_raw, 0, '.', ','); // NO DECIMALS ALLOWED
+	}
+	// UX on FIAT EQUIV number values under 100 in unit value
+	elseif ( $fiat_eqiv == 1 ) {
+	$asset_val_total_dec = ( $asset_val_total_raw >= 1 ? 2 : $pt_conf['gen']['prim_currency_dec_max'] );
+    $pretty_asset_val_total_raw = $pt_var->num_pretty($asset_val_total_raw, $asset_val_total_dec, false, 2); // 2 decimal #MINIMUM#
 	}
 	else {
 	
@@ -565,11 +580,10 @@ $asset_val_total_raw = $pt_var->num_to_str($asset_val_total_raw);
 		$asset_val_total_dec = ( $asset_val_total_raw >= 0.01 ? 4 : 8 );
 		$asset_val_total_dec = ( $asset_val_total_raw >= 1 ? 2 : $asset_val_total_dec );
 		}
+  
+    $pretty_asset_val_total_raw = $pt_var->num_pretty($asset_val_total_raw, $asset_val_total_dec); // NO decimal #MINIMUM#
 		
 	}
-  
-  
-$pretty_asset_val_total_raw = $pt_var->num_pretty($asset_val_total_raw, $asset_val_total_dec); 
 
 
 echo ' <span class="blue"><span class="data app_sort_filter blue">' . $pretty_asset_val_total_raw . '</span> ' . strtoupper($sel_pairing) . '</span>';
@@ -608,8 +622,17 @@ echo ' <span class="blue"><span class="data app_sort_filter blue">' . $pretty_as
 
 <?php
 
+    if ( $asset_prim_currency_worth_raw >= 100 ) {
+    $dec = 0;
+    }
+    elseif ( $asset_prim_currency_worth_raw >= 1 ) {
+    $dec = 2;
+    }
+    else {
+    $dec = $pt_conf['gen']['prim_currency_dec_max'];
+    }
 
-echo '<span class="' . ( $purchase_price >= 0.00000001 && $leverage_level >= 2 && $sel_margintype == 'short' ? 'short">★ ' : 'blue">' ) . '<span class="blue">' . $pt_conf['power']['btc_currency_markets'][ $pt_conf['gen']['btc_prim_currency_pairing'] ] . '</span><span class="app_sort_filter blue">' . number_format($asset_prim_currency_worth_raw, 2, '.', ',') . '</span></span>';
+echo '<span class="' . ( $purchase_price >= 0.00000001 && $leverage_level >= 2 && $sel_margintype == 'short' ? 'short">★ ' : 'blue">' ) . '<span class="blue">' . $pt_conf['power']['btc_currency_markets'][ $pt_conf['gen']['btc_prim_currency_pairing'] ] . '</span><span class="app_sort_filter blue">' . $pt_var->num_pretty($asset_prim_currency_worth_raw, $dec, false, 2) . '</span></span>';
 
   if ( $purchase_price >= 0.00000001 && $leverage_level >= 2 ) {
 
@@ -617,22 +640,81 @@ echo '<span class="' . ( $purchase_price >= 0.00000001 && $leverage_level >= 2 &
   
   echo ' <span class="extra_data">(' . $leverage_level . 'x ' . $sel_margintype . ')</span>';
 
+		  if ( abs($gain_loss) >= 100 ) {
+          $dec = 0;
+          }
+		  elseif ( abs($gain_loss) >= 1 ) {
+          $dec = 2;
+          }
+          else {
+          $dec = $pt_conf['gen']['prim_currency_dec_max'];
+          }
+		
   // Here we parse out negative symbols
-  $parsed_gain_loss = preg_replace("/-/", "-" . $pt_conf['power']['btc_currency_markets'][ $pt_conf['gen']['btc_prim_currency_pairing'] ], number_format( $gain_loss, 2, '.', ',' ) );
+  $parsed_gain_loss = preg_replace("/-/", "-" . $pt_conf['power']['btc_currency_markets'][ $pt_conf['gen']['btc_prim_currency_pairing'] ], number_format( $gain_loss, $dec, '.', ',' ) );
   
-  $parsed_inc_leverage_gain_loss = preg_replace("/-/", "-" . $pt_conf['power']['btc_currency_markets'][ $pt_conf['gen']['btc_prim_currency_pairing'] ], number_format( $inc_leverage_gain_loss, 2, '.', ',' ) );
+		  if ( abs($inc_leverage_gain_loss) >= 100 ) {
+          $dec = 0;
+          }
+		  elseif ( abs($inc_leverage_gain_loss) >= 1 ) {
+          $dec = 2;
+          }
+          else {
+          $dec = $pt_conf['gen']['prim_currency_dec_max'];
+          }
+		
+  $parsed_inc_leverage_gain_loss = preg_replace("/-/", "-" . $pt_conf['power']['btc_currency_markets'][ $pt_conf['gen']['btc_prim_currency_pairing'] ], number_format( $inc_leverage_gain_loss, $dec, '.', ',' ) );
   
-  $parsed_only_leverage_gain_loss = preg_replace("/-/", "-" . $pt_conf['power']['btc_currency_markets'][ $pt_conf['gen']['btc_prim_currency_pairing'] ], number_format($only_leverage_gain_loss, 2, '.', ',' ) );
+		  if ( abs($only_leverage_gain_loss) >= 100 ) {
+          $dec = 0;
+          }
+		  elseif ( abs($only_leverage_gain_loss) >= 1 ) {
+          $dec = 2;
+          }
+          else {
+          $dec = $pt_conf['gen']['prim_currency_dec_max'];
+          }
+		
+  $parsed_only_leverage_gain_loss = preg_replace("/-/", "-" . $pt_conf['power']['btc_currency_markets'][ $pt_conf['gen']['btc_prim_currency_pairing'] ], number_format($only_leverage_gain_loss, $dec, '.', ',' ) );
   
+		  if ( abs($asset_worth_inc_leverage) >= 100 ) {
+          $dec = 0;
+          }
+		  elseif ( abs($asset_worth_inc_leverage) >= 1 ) {
+          $dec = 2;
+          }
+          else {
+          $dec = $pt_conf['gen']['prim_currency_dec_max'];
+          }
+		
   // Here we can go negative 'total worth' with the margin leverage (unlike with the margin deposit)
   // We only want a negative sign here in the UI for 'total worth' clarity (if applicable), NEVER a plus sign
   // (plus sign would indicate a gain, NOT 'total worth')
-  $parsed_asset_worth_inc_leverage = preg_replace("/-/", "", number_format($asset_worth_inc_leverage, 2, '.', ',' ) );
+  $parsed_asset_worth_inc_leverage = preg_replace("/-/", "", number_format($asset_worth_inc_leverage, $dec, '.', ',' ) );
   
+  
+		  if ( abs($asset_prim_currency_worth_raw) >= 100 ) {
+          $dec = 0;
+          }
+		  elseif ( abs($asset_prim_currency_worth_raw) >= 1 ) {
+          $dec = 2;
+          }
+          else {
+          $dec = $pt_conf['gen']['prim_currency_dec_max'];
+          }
+		
   
   // Pretty format, but no need to parse out anything here
-  $pretty_asset_prim_currency_worth_raw = number_format( ($asset_prim_currency_worth_raw) , 2, '.', ',' );
-  $pretty_leverage_gain_loss_percent = number_format( $inc_leverage_gain_loss_percent, 2, '.', ',' );
+  $pretty_asset_prim_currency_worth_raw = number_format( ($asset_prim_currency_worth_raw) , $dec, '.', ',' );
+  
+		  if ( abs($inc_leverage_gain_loss_percent) >= 100 ) {
+          $dec = 0;
+          }
+          else {
+          $dec = 2;
+          }
+		
+  $pretty_leverage_gain_loss_percent = number_format( $inc_leverage_gain_loss_percent, $dec, '.', ',' );
   
   
   		// Formatting

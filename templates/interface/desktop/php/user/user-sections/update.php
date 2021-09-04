@@ -603,7 +603,7 @@
 	    
 	    }
 	    else {
-	    $asset_paid_val = ( $pt_var->num_to_str($asset_paid_val) >= $pt_conf['gen']['prim_currency_dec_max_thres'] ? $pt_var->num_pretty($asset_paid_val, 2) : $pt_var->num_pretty($asset_paid_val, $pt_conf['gen']['prim_currency_dec_max']) );
+	    $asset_paid_val = ( $pt_var->num_to_str($asset_paid_val) >= 1 ? $pt_var->num_pretty($asset_paid_val, 2) : $pt_var->num_pretty($asset_paid_val, $pt_conf['gen']['prim_currency_dec_max']) );
 	    }
 	    
 	    

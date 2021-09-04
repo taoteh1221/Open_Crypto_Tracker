@@ -12,7 +12,7 @@
 				<?php
 				$val_per_unit = round( $mined_asset_val * $sel_opt['sel_btc_prim_currency_val'] , 8);
 				
-				$val_per_unit = ( $pt_var->num_to_str($val_per_unit) >= $pt_conf['gen']['prim_currency_dec_max_thres'] ? round($val_per_unit, 2) : round($val_per_unit, $pt_conf['gen']['prim_currency_dec_max']) );
+				$val_per_unit = ( $pt_var->num_to_str($val_per_unit) >= 1 ? round($val_per_unit, 2) : round($val_per_unit, $pt_conf['gen']['prim_currency_dec_max']) );
 				
 				echo ( $pow_asset_data['symbol'] == 'btc' ? number_format($sel_opt['sel_btc_prim_currency_val'], 2) . ' ' . strtoupper($pt_conf['gen']['btc_prim_currency_pairing']) : number_format($mined_asset_val, 8) . ' BTC (' . $pt_conf['power']['btc_currency_markets'][ $pt_conf['gen']['btc_prim_currency_pairing'] ] . $val_per_unit . ' '.strtoupper($pt_conf['gen']['btc_prim_currency_pairing']).')' );
 				?>
@@ -42,7 +42,7 @@
 				<b>Average BTC Value Earned Daily:</b> 
 				
 				<?php
-				$prim_currency_daily_avg_raw = ( $pt_var->num_to_str($prim_currency_daily_avg_raw) >= $pt_conf['gen']['prim_currency_dec_max_thres'] ? round($prim_currency_daily_avg_raw, 2) : round($prim_currency_daily_avg_raw, $pt_conf['gen']['prim_currency_dec_max']) );
+				$prim_currency_daily_avg_raw = ( $pt_var->num_to_str($prim_currency_daily_avg_raw) >= 1 ? round($prim_currency_daily_avg_raw, 2) : round($prim_currency_daily_avg_raw, $pt_conf['gen']['prim_currency_dec_max']) );
 				
 				echo number_format( $btc_daily_avg_raw, 8 ) . ' BTC (' . $pt_conf['power']['btc_currency_markets'][ $pt_conf['gen']['btc_prim_currency_pairing'] ] . $prim_currency_daily_avg_raw . ' '.strtoupper($pt_conf['gen']['btc_prim_currency_pairing']).')';
 				?>
