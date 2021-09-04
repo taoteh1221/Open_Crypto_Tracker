@@ -2190,7 +2190,7 @@ var $pt_array1 = array();
             $data['cron_runtime_seconds'] .= trim($result[7]) . ',';
             $data['used_memory_gigabytes'] .= trim($result[3]) . ',';
             $data['load_average_15_minutes'] .= trim($result[1]) . ',';
-            $data['free_disk_space_terabtyes'] .= trim($result[5]) . ',';
+            $data['free_disk_space_terabytes'] .= trim($result[5]) . ',';
             $data['portfolio_cache_size_gigabytes'] .= trim($result[6]) . ',';
             
             }
@@ -2249,7 +2249,7 @@ var $pt_array1 = array();
       $data['cron_runtime_seconds'] = rtrim($data['cron_runtime_seconds'],',');
       $data['used_memory_gigabytes'] = rtrim($data['used_memory_gigabytes'],',');
       $data['load_average_15_minutes'] = rtrim($data['load_average_15_minutes'],',');
-      $data['free_disk_space_terabtyes'] = rtrim($data['free_disk_space_terabtyes'],',');
+      $data['free_disk_space_terabytes'] = rtrim($data['free_disk_space_terabytes'],',');
       $data['portfolio_cache_size_gigabytes'] = rtrim($data['portfolio_cache_size_gigabytes'],',');
       }
       elseif ( $asset_performance_chart ) {

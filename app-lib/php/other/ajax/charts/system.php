@@ -125,7 +125,7 @@ $check_chart_val = $pt_var->num_to_str( $pt_var->delimited_str_sample($chart_val
 	
 	// Include load average no matter what (it can be zero on a low-load setup, and should be supported by nearly every linux system?)
 	// Also always include free disk space (WE WANT TO KNOW IF IT'S ZERO)
-	if ( $chart_key != 'time' && $check_chart_val != 'NO_DATA' && $check_chart_val > 0.000000 || $chart_key == 'load_average_15_minutes' || $chart_key == 'free_disk_space_terabtyes' ) {
+	if ( $chart_key != 'time' && $check_chart_val != 'NO_DATA' && $check_chart_val > 0.000000 || $chart_key == 'load_average_15_minutes' || $chart_key == 'free_disk_space_terabytes' ) {
 		
 	$check_chart_val_key = $pt_var->num_to_str($check_chart_val * 100000000); // To RELIABLY sort integers AND decimals, via ksort()
 	
