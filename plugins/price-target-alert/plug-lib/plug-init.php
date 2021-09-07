@@ -111,26 +111,14 @@ $market_val = $pt_var->num_to_str( $pt_api->market($market_asset, $market_exchan
    
    	    // Pretty numbers UX on target / market values, for alert messages
    	    
-   	    // Fiat-eqiv (NO DECIMALS OVER 100 IN UNIT VALUE, MAX 2 DECIMALS #AND MIN 2 DECIMALS# FOR INTERFACE UX)
+   	    // Fiat-eqiv
    	    if ( array_key_exists($market_pairing, $pt_conf['power']['btc_currency_markets']) && !array_key_exists($market_pairing, $pt_conf['power']['crypto_pairing']) ) {
    		
-   		
-   		  // UX on 100 in unit value or greater
-          if ( $target_val >= 100 ) {
-          $target_val_text = number_format($target_val, 0, '.', ',');
-          }
-          else {
-		  $target_val_text = ( $target_val >= 1 ? $pt_var->num_pretty($target_val, 2) : $pt_var->num_pretty($target_val, $pt_conf['gen']['prim_currency_dec_max'], false, 2) );
-          }
+   		$thres_dec = $pt_gen->thres_dec($target_val, 'u'); // Units mode
+   		$target_val_text = $pt_var->num_pretty($target_val, $thres_dec['max_dec'], false, $thres_dec['min_dec'])
 		
-   		  
-   		  // UX on 100 in unit value or greater
-          if ( $market_val >= 100 ) {
-          $market_val_text = number_format($market_val, 0, '.', ',');
-          }
-          else {
-		  $market_val_text = ( $market_val >= 1 ? $pt_var->num_pretty($market_val, 2) : $pt_var->num_pretty($market_val, $pt_conf['gen']['prim_currency_dec_max'], false, 2) );
-          }
+   		$thres_dec = $pt_gen->thres_dec($market_val, 'u'); // Units mode
+   		$market_val_text = $pt_var->num_pretty($market_val, $thres_dec['max_dec'], false, $thres_dec['min_dec'])
 		
 		
 		}

@@ -454,17 +454,10 @@ $altcoin_dominance = $pt_var->max_100($altcoin_dominance);
 		    
 		$gain_loss_total = $pt_asset->coin_stats_data('gain_loss_total');
 		
-		  if ( abs($gain_loss_total) >= 100 ) {
-          $dec = 0;
-          }
-		  elseif ( abs($gain_loss_total) >= 1 ) {
-          $dec = 2;
-          }
-          else {
-          $dec = $pt_conf['gen']['prim_currency_dec_max'];
-          }
 		
-		$parsed_gain_loss_total = preg_replace("/-/", "-" . $pt_conf['power']['btc_currency_markets'][ $pt_conf['gen']['btc_prim_currency_pairing'] ], number_format( $gain_loss_total, $dec, '.', ',' ) );
+        $thres_dec = $pt_gen->thres_dec($gain_loss_total, 'u'); // Units mode
+		$parsed_gain_loss_total = preg_replace("/-/", "-" . $pt_conf['power']['btc_currency_markets'][ $pt_conf['gen']['btc_prim_currency_pairing'] ], number_format($gain_loss_total, $thres_dec['max_dec'], '.', ',' ) );
+		
 		
 		$original_worth = $pt_asset->coin_stats_data('coin_paid_total');
 		
@@ -472,20 +465,12 @@ $altcoin_dominance = $pt_var->max_100($altcoin_dominance);
   		
 		$total_prim_currency_worth_inc_leverage = $total_prim_currency_worth + $leverage_only_gain_loss;
 		
-		  if ( abs($total_prim_currency_worth_inc_leverage) >= 100 ) {
-          $dec = 0;
-          }
-		  elseif ( abs($total_prim_currency_worth_inc_leverage) >= 1 ) {
-          $dec = 2;
-          }
-          else {
-          $dec = $pt_conf['gen']['prim_currency_dec_max'];
-          }
 		
+        $thres_dec = $pt_gen->thres_dec($total_prim_currency_worth_inc_leverage, 'u'); // Units mode
   		// Here we can go negative 'total worth' with the margin leverage (unlike with the margin deposit)
   		// We only want a negative sign here in the UI for 'total worth' clarity (if applicable), NEVER a plus sign
   		// (plus sign would indicate a gain, NOT 'total worth')
-		$parsed_total_prim_currency_worth_inc_leverage = preg_replace("/-/", "", number_format( $total_prim_currency_worth_inc_leverage, $dec, '.', ',' ) );
+		$parsed_total_prim_currency_worth_inc_leverage = preg_replace("/-/", "", number_format($total_prim_currency_worth_inc_leverage, $thres_dec['max_dec'], '.', ',' ) );
   		
 		$total_prim_currency_worth_if_purchase_price = $pt_asset->coin_stats_data('coin_total_worth_if_purchase_price') + $leverage_only_gain_loss;
 		
@@ -594,18 +579,9 @@ $altcoin_dominance = $pt_var->max_100($altcoin_dominance);
 			<?php
 			
 		
-		  if ( abs($total_prim_currency_worth) >= 100 ) {
-          $dec = 0;
-          }
-		  elseif ( abs($total_prim_currency_worth) >= 1 ) {
-          $dec = 2;
-          }
-          else {
-          $dec = $pt_conf['gen']['prim_currency_dec_max'];
-          }
-		
+        $thres_dec = $pt_gen->thres_dec($total_prim_currency_worth, 'u'); // Units mode
 		// Fiat value of portfolio
-		echo '<span class="black">' . strtoupper($pt_conf['gen']['btc_prim_currency_pairing']) . ' Value:</span> ' . $pt_conf['power']['btc_currency_markets'][ $pt_conf['gen']['btc_prim_currency_pairing'] ] . number_format($total_prim_currency_worth, $dec, '.', ',');
+		echo '<span class="black">' . strtoupper($pt_conf['gen']['btc_prim_currency_pairing']) . ' Value:</span> ' . $pt_conf['power']['btc_currency_markets'][ $pt_conf['gen']['btc_prim_currency_pairing'] ] . number_format($total_prim_currency_worth, $thres_dec['max_dec'], '.', ',');
 		
 		?>
 		
@@ -665,7 +641,7 @@ var fiat_val_content = '<h5 class="yellow tooltip_title">Primary Currency (<?=st
 			
 			
      	// Gain / loss percent (!MUST BE! absolute value)
-      $percent_difference_total = abs( ($total_prim_currency_worth_if_purchase_price - $original_worth) / abs($original_worth) * 100 );
+        $percent_difference_total = abs( ($total_prim_currency_worth_if_purchase_price - $original_worth) / abs($original_worth) * 100 );
           
 		
 		// Notice that we include margin leverage in gain / loss stats (for UX's sake, too confusing to included in anything other than gain / loss stats)
@@ -677,15 +653,8 @@ var fiat_val_content = '<h5 class="yellow tooltip_title">Primary Currency (<?=st
 	
 	<?php
 		
-		  if ( abs($percent_difference_total) >= 100 ) {
-          $dec = 0;
-          }
-		  else {
-          $dec = 2;
-          }
-		
-		
-		echo '<span class="black">' . ( $gain_loss_total >= 0 ? 'Gain:</span> <span class="green">+' . $pt_conf['power']['btc_currency_markets'][ $pt_conf['gen']['btc_prim_currency_pairing'] ] : 'Loss:</span> <span class="red">' ) . $parsed_gain_loss_total . ' (' . ( $gain_loss_total >= 0 ? '+' : '-' ) . number_format($percent_difference_total, $dec, '.', ',') . '%' . ')</span>';
+        $thres_dec = $pt_gen->thres_dec($percent_difference_total, 'p'); // Percentage mode
+		echo '<span class="black">' . ( $gain_loss_total >= 0 ? 'Gain:</span> <span class="green">+' . $pt_conf['power']['btc_currency_markets'][ $pt_conf['gen']['btc_prim_currency_pairing'] ] : 'Loss:</span> <span class="red">' ) . $parsed_gain_loss_total . ' (' . ( $gain_loss_total >= 0 ? '+' : '-' ) . number_format($percent_difference_total, $thres_dec['max_dec'], '.', ',') . '%' . ')</span>';
 		
 		?> 
 		
@@ -714,34 +683,19 @@ var fiat_val_content = '<h5 class="yellow tooltip_title">Primary Currency (<?=st
 					
 						if ( $pt_var->num_to_str($val['coin_paid']) >= 0.00000001 ) {
 							
-                    		if ( abs($val['gain_loss_total']) >= 100 ) {
-                            $dec_1 = 0;
-                            }
-                    		elseif ( abs($val['gain_loss_total']) >= 1 ) {
-                            $dec_1 = 2;
-                            }
-                    		else {
-                            $dec_1 = $pt_conf['gen']['prim_currency_dec_max'];
-                            }
-					
-						$parsed_gain_loss = preg_replace("/-/", "-" . $pt_conf['power']['btc_currency_markets'][ $pt_conf['gen']['btc_prim_currency_pairing'] ], number_format( $val['gain_loss_total'], $dec_1, '.', ',' ) );
+                        $thres_dec_1 = $pt_gen->thres_dec($val['gain_loss_total'], 'u'); // Units mode
+						$parsed_gain_loss = preg_replace("/-/", "-" . $pt_conf['power']['btc_currency_markets'][ $pt_conf['gen']['btc_prim_currency_pairing'] ], number_format( $val['gain_loss_total'], $thres_dec_1['max_dec'], '.', ',' ) );
 		
-                		    if ( abs($val['gain_loss_percent_total']) >= 100 ) {
-                            $dec_2 = 0;
-                            }
-                		    else {
-                            $dec_2 = 2;
-                            }
 		
-							
-				?>
-			+'<p class="coin_info"><span class="yellow"><?=$val['coin_symb']?>:</span> <span class="<?=( $val['gain_loss_total'] >= 0 ? 'green">+' . $pt_conf['power']['btc_currency_markets'][ $pt_conf['gen']['btc_prim_currency_pairing'] ] : 'red">' )?><?=$parsed_gain_loss?> (<?=( $val['gain_loss_total'] >= 0 ? '+' : '' )?><?=number_format($val['gain_loss_percent_total'], $dec_2, '.', ',')?>%<?=( $val['coin_leverage'] >= 2 ? ', ' . $val['coin_leverage'] . 'x ' . $val['selected_margintype'] : '' )?>)</span></p>'
+                        $thres_dec_2 = $pt_gen->thres_dec($val['gain_loss_percent_total'], 'p'); // Percentage mode
+				        ?>
+			+'<p class="coin_info"><span class="yellow"><?=$val['coin_symb']?>:</span> <span class="<?=( $val['gain_loss_total'] >= 0 ? 'green">+' . $pt_conf['power']['btc_currency_markets'][ $pt_conf['gen']['btc_prim_currency_pairing'] ] : 'red">' )?><?=$parsed_gain_loss?> (<?=( $val['gain_loss_total'] >= 0 ? '+' : '' )?><?=number_format($val['gain_loss_percent_total'], $thres_dec_2['max_dec'], '.', ',')?>%<?=( $val['coin_leverage'] >= 2 ? ', ' . $val['coin_leverage'] . 'x ' . $val['selected_margintype'] : '' )?>)</span></p>'
 			
-			<?php
+			    <?php
 						}
 							
 				}
-			 ?>
+			    ?>
 		
 			+'<?=$leverage_text3?>'
 				

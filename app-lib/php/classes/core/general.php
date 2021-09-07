@@ -800,6 +800,54 @@ var $pt_array1 = array();
    ////////////////////////////////////////////////////////
    
    
+   // Pretty decimals calculation (ONLY returns num of decimals to use)
+   // (NO DECIMALS OVER 100 IN UNIT VALUE, MAX 2 DECIMALS OVER 1, #AND MIN 2 DECIMALS# UNDER, FOR INTERFACE UX)
+   function thres_dec($num, $mode) {
+       
+   global $pt_conf;
+   
+   $result = array();
+   
+      // Unit
+      if ( $mode == 'u' ) {
+   
+   		  if ( abs($num) >= 100 ) {
+          $result['max_dec'] = 0;
+          $result['min_dec'] = 0;
+          }
+		  elseif ( abs($num) >= 1 ) {
+          $result['max_dec'] = 2;
+          $result['min_dec'] = 0;
+          }
+          else {
+          $result['max_dec'] = $pt_conf['gen']['prim_currency_dec_max'];
+          $result['min_dec'] = 2;
+          }
+          
+      }
+      // Percent 
+      elseif ( $mode == 'p' ) {
+          
+          if ( abs($num) >= 100 ) {
+          $result['max_dec'] = 0;
+          $result['min_dec'] = 0;
+          }
+		  else {
+          $result['max_dec'] = 2;
+          $result['min_dec'] = 2;
+          }
+      
+      }
+      
+   return $result;
+      
+   }
+   
+   
+   ////////////////////////////////////////////////////////
+   ////////////////////////////////////////////////////////
+   
+   
    function store_cookie($name, $val, $time) {
       
       if ( PHP_VERSION_ID >= 70300 ) {

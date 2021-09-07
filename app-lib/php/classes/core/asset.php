@@ -1888,16 +1888,10 @@ var $pt_array1 = array();
                // Pretty up textual output to end-user (convert raw numbers to have separators, remove underscores in names, etc)
                     
                         
-              	     // Pretty numbers UX on PRIMARY CURRENCY CONFIG asset value
-              	
-                     // NO DECIMALS on 100 in unit value or greater 
-                     if ( $asset_prim_currency_val_raw >= 100 ) {
-                     $asset_prim_currency_text = number_format($asset_prim_currency_val_raw, 0, '.', ',');
-                     }
-                     // MAX 2 DECIMALS, #AND MIN 2 DECIMALS# FOR VALUES UNDER 100
-                     else {
-                     $asset_prim_currency_text = ( $pt_var->num_to_str($asset_prim_currency_val_raw) >= 1 ? $pt_var->num_pretty($asset_prim_currency_val_raw, 2) : $pt_var->num_pretty($asset_prim_currency_val_raw, $pt_conf['gen']['prim_currency_dec_max'], false, 2) );
-                     }
+               // Pretty numbers UX on PRIMARY CURRENCY CONFIG asset value
+              	     
+               $thres_dec = $pt_gen->thres_dec($asset_prim_currency_val_raw, 'u'); // Units mode
+               $asset_prim_currency_text = $pt_var->num_pretty($asset_prim_currency_val_raw, $thres_dec['max_dec'], false, $thres_dec['min_dec']);
                         
                $vol_prim_currency_text = $pt_conf['power']['btc_currency_markets'][$default_btc_prim_currency_pairing] . number_format($vol_prim_currency_raw, 0, '.', ',');
                         
