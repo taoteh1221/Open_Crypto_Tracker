@@ -662,7 +662,7 @@ var fiat_val_content = '<h5 class="yellow tooltip_title">Primary Currency (<?=st
 			
 	 <script>
 	 
-		document.title = '<?=( $gain_loss_total >= 0 ? '+' . $pt_conf['power']['btc_currency_markets'][ $pt_conf['gen']['btc_prim_currency_pairing'] ] : '' )?><?=$parsed_gain_loss_total?> (<?=( $gain_loss_total >= 0 ? '+' : '-' )?><?=number_format($percent_difference_total, $dec, '.', ',')?>%)';
+		document.title = '<?=( $gain_loss_total >= 0 ? '+' . $pt_conf['power']['btc_currency_markets'][ $pt_conf['gen']['btc_prim_currency_pairing'] ] : '' )?><?=$parsed_gain_loss_total?> (<?=( $gain_loss_total >= 0 ? '+' : '-' )?><?=number_format($percent_difference_total, $thres_dec['max_dec'], '.', ',')?>%)';
 	
 		
 			var gain_loss_content = '<h5 class="yellow tooltip_title">Gain / Loss Stats</h5>'
