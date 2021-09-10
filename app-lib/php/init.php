@@ -10,7 +10,7 @@
 
 
 // Application version
-$app_version = '5.03.0';  // 2021/July/27TH
+$app_version = '5.04.0';  // 2021/September/10TH
 
 // Application edition
 $app_edition = 'server';  // 'server' OR 'desktop' edition (LOWERCASE)
@@ -443,6 +443,11 @@ else {
 $base_url = trim( file_get_contents('cache/vars/base_url.dat') );
 }
 
+
+if ( isset($base_url) ) {
+$parse_temp = parse_url($base_url);
+$app_host = $parse_temp['host'];
+}
 
 
 // Basic system checks (before allowing app to run ANY FURTHER, MUST RUN AFTER directory creation check / http server user vars / user agent var)

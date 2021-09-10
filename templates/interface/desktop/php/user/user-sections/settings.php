@@ -458,11 +458,11 @@
 			    <select class='browser-default custom-select' name='percent_change_alert_type' id='percent_change_alert_type' onchange='
 			    update_alert_percent();
 			    if ( this.value == "visual_audio" ) {
-				 $("#percent_change_alert_type_alert").text("For security, some browsers may require occasional interaction to allow media auto-play (clicking on page etc), or changes to per-site auto-play preferences.");
+				 $("#percent_change_alert_type_alert").html("For security, some browsers may require occasional interaction to allow media auto-play (clicking on page etc), or changes to per-site auto-play preferences. <br /><br />Chrome users can open chrome://settings/content/sound, enable \"Sites can play sound\", and under \"Allowed to play sound\" add the address: <?=$app_host?>");
 				 $("#percent_change_alert_type_alert").show(250, "linear"); // 0.25 seconds
 			    }
 			    else {
-				 $("#percent_change_alert_type_alert").text("");
+				 $("#percent_change_alert_type_alert").html("");
 				 $("#percent_change_alert_type_alert").hide(250, "linear"); // 0.25 seconds
 			    }
 			    '>
@@ -478,11 +478,11 @@
 		 <script>
 
 					 if ( $("#percent_change_alert_type").val() == "visual_audio" ) {
-				    $("#percent_change_alert_type_alert").text("For security, some browsers may require occasional interaction to allow media auto-play (clicking on page etc), or changes to per-site auto-play preferences.");
+				    $("#percent_change_alert_type_alert").html("For security, some browsers may require occasional interaction to allow media auto-play (clicking on page etc), or changes to per-site auto-play preferences. <br /><br />Chrome users can open chrome://settings/content/sound, enable \"Sites can play sound\", and under \"Allowed to play sound\" add the address: <?=$app_host?>");
 				    $("#percent_change_alert_type_alert").show(250, "linear"); // 0.25 seconds
 				    }
 				    else {
-				    $("#percent_change_alert_type_alert").text("");
+				    $("#percent_change_alert_type_alert").html("");
 				    $("#percent_change_alert_type_alert").hide(250, "linear"); // 0.25 seconds
 				    }
 		

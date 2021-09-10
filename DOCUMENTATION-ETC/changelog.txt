@@ -4613,6 +4613,20 @@ WILL AUTOMATICALLY PREFORM THE RESET (ALERTS / TRACKING WILL BE ACCURATE AFTERWA
 
 
 
+-------------------------------------------------------------------
+5.04.0:
+
+
+-Better misc. documentation
+
+
+-------------------------------------------------------------------
+
+
+
+
+
+
 
 
 
