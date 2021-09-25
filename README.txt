@@ -1,7 +1,7 @@
 
 ############################################################################################################################
 
-Open Crypto Portfolio Tracker - Developed by Michael Kilday <mike@dragonfrugal.com> (Copyright 2014-2021 GPLv3)
+Open Crypto Tracker - Developed by Michael Kilday <mike@dragonfrugal.com> (Copyright 2014-2021 GPLv3)
 
 
 100% FREE / open source / PRIVATE cryptocurrency portfolio tracker. Email / text / Alexa / Ghome / Telegram price alerts, price charts,  mining calculators, leverage / gain / loss / balance stats, news feeds + more. Privately track Bitcoin / Ethereum / unlimited cryptocurrencies. Customize as many assets / markets / alerts / charts as you want. 
@@ -14,9 +14,9 @@ Project Website: https://taoteh1221.github.io
 
 LIVE PUBLIC DEMO: https://dragonfrugal.com/coin-prices
 
-Download Latest Version: https://github.com/taoteh1221/Open_Crypto_Portfolio_Tracker/releases
+Download Latest Version: https://github.com/taoteh1221/Open_Crypto_Tracker/releases
 
-Issue Reporting (Features / Issues / Help): https://github.com/taoteh1221/Open_Crypto_Portfolio_Tracker/issues
+Issue Reporting (Features / Issues / Help): https://github.com/taoteh1221/Open_Crypto_Tracker/issues
 
 Discord: https://discord.gg/WZVK2nm
 
@@ -45,7 +45,7 @@ PayPal:    https://www.paypal.me/dragonfrugal
 
 FEATURES
 
--ALWAYS will remain 100% FREE F.O.S.S. software (no need to endlessly pay a premium access fee).
+-ALWAYS will remain 100% FREE F.O.S.S. software (no need to register and pay premium access fees).
 
 -PRIVATELY connects DIRECTLY to APIs / servers for data and comms (no "phoning home" to a middleman server), with optional proxy support for API connections.
 
@@ -117,7 +117,7 @@ To install / upgrade everything automatically on Ubuntu or Raspberry Pi (an affo
 
 wget --no-cache -O FOLIO-INSTALL.bash https://git.io/JqCvQ;chmod +x FOLIO-INSTALL.bash;sudo ./FOLIO-INSTALL.bash
 
-Follow the prompts. This automated script gives you the options to: install / uninstall a PHP web server automatically, download / install / configure / uninstall the latest version of the Open Crypto Portfolio Tracker app automatically, setup a cron job automatically (for price alerts / price charts), and setup SSH (to update / install web site files remotely to the web server via SFTP) automatically. 
+Follow the prompts. This automated script gives you the options to: install / uninstall a PHP web server automatically, download / install / configure / uninstall the latest version of the Open Crypto Tracker app automatically, setup a cron job automatically (for price alerts / price charts), and setup SSH (to update / install web site files remotely to the web server via SFTP) automatically. 
 
 When the auto-install is completed, it will display addresses / logins to access the app (write these down / save them for future use).
 

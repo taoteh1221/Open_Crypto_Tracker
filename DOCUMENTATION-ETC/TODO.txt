@@ -59,7 +59,7 @@ Add opensea.com and watchtheburn.com to resources page.
 Add ENJ / MATIC kraken markets, and AXS coinbase markets.
 
 
-add this ticker API for CoinDCX exchange : https://public.coindcx.com/exchange/ticker from India ( https://github.com/taoteh1221/Open_Crypto_Portfolio_Tracker/issues/11#issuecomment-881934185 )
+add this ticker API for CoinDCX exchange : https://public.coindcx.com/exchange/ticker from India ( https://github.com/taoteh1221/Open_Crypto_Tracker/issues/11#issuecomment-881934185 )
 
 
 Add remote IP address data to ALL relevant security error logging everywhere in the app.

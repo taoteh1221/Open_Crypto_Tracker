@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2014-2021 GPLv3, Open Crypto Portfolio Tracker by Mike Kilday: http://DragonFrugal.com
+ * Copyright 2014-2021 GPLv3, Open Crypto Tracker by Mike Kilday: Mike@DragonFrugal.com
  */
 
 
@@ -11,7 +11,7 @@
 	if ( isset($pt_conf['comms']['upgrade_alert']) && $pt_conf['comms']['upgrade_alert'] != 'off' && $pt_cache->update_cache($base_dir . '/cache/vars/upgrade_check_latest_version.dat', 1440) == true ) {
 	
 	
-	$upgrade_check_jsondata = @$pt_cache->ext_data('url', 'https://api.github.com/repos/taoteh1221/Open_Crypto_Portfolio_Tracker/releases/latest', 0); // Don't cache API data
+	$upgrade_check_jsondata = @$pt_cache->ext_data('url', 'https://api.github.com/repos/taoteh1221/Open_Crypto_Tracker/releases/latest', 0); // Don't cache API data
 	
 	$upgrade_check_data = json_decode($upgrade_check_jsondata, true);
 	
@@ -61,7 +61,7 @@
 				}
 				
 	
-			$upgrade_check_msg = $another_reminder . 'An upgrade for Open Crypto Portfolio Tracker to version ' . $upgrade_check_latest_version . ' is available. You are running version ' . $app_version . '.' . $bug_fix_msg_extension;
+			$upgrade_check_msg = $another_reminder . 'An upgrade for Open Crypto Tracker to version ' . $upgrade_check_latest_version . ' is available. You are running version ' . $app_version . '.' . $bug_fix_msg_extension;
 			
 			
 			$email_notifyme_msg = $upgrade_check_msg . ' (you have upgrade reminders triggered every '.$pt_conf['comms']['upgrade_alert_reminder'].' days in the configuration settings)';
@@ -90,7 +90,7 @@
 																	'charset' => $encoded_text_alert['charset']
 																	),
 											'email' => array(
-																	'subject' => $another_reminder . 'Open Crypto Portfolio Tracker v'.$upgrade_check_latest_version.' Upgrade Available' . $bug_fix_subject_extension,
+																	'subject' => $another_reminder . 'Open Crypto Tracker v'.$upgrade_check_latest_version.' Upgrade Available' . $bug_fix_subject_extension,
 																	'message' => $email_only_with_upgrade_command
 																	)
 											);
@@ -99,7 +99,7 @@
 					elseif ( $pt_conf['comms']['upgrade_alert'] == 'email' ) {
 						
 					$upgrade_check_send_params['email'] = array(
-														'subject' => $another_reminder . 'Open Crypto Portfolio Tracker v'.$upgrade_check_latest_version.' Upgrade Available' . $bug_fix_subject_extension,
+														'subject' => $another_reminder . 'Open Crypto Tracker v'.$upgrade_check_latest_version.' Upgrade Available' . $bug_fix_subject_extension,
 														'message' => $email_only_with_upgrade_command
 														);
 				

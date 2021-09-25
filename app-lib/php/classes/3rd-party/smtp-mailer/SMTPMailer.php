@@ -14,9 +14,9 @@ Class SMTPMailer {
     private $secure = 'tls';
     private $username = '';
     private $password = '';
-    private $debug_mode = '';  // Open Crypto Portfolio Tracker debug mode setting
-    private $strict_ssl = '';  // Open Crypto Portfolio Tracker strict SSL setting
-    private $app_version = ''; // Open Crypto Portfolio Tracker version
+    private $debug_mode = '';  // Open Crypto Tracker debug mode setting
+    private $strict_ssl = '';  // Open Crypto Tracker strict SSL setting
+    private $app_version = ''; // Open Crypto Tracker version
     public $to       = array();
     public $from     = array();
     public $cc       = array();
@@ -56,9 +56,9 @@ Class SMTPMailer {
             $this->secure   = $cfg_secure;
             $this->username = $cfg_username;
             $this->password = $cfg_password;
-            $this->debug_mode = $cfg_debug_mode;   // Open Crypto Portfolio Tracker debug mode setting
-            $this->strict_ssl = $cfg_strict_ssl;   // Open Crypto Portfolio Tracker strict SSL setting
-            $this->app_version = $cfg_app_version; // Open Crypto Portfolio Tracker version
+            $this->debug_mode = $cfg_debug_mode;   // Open Crypto Tracker debug mode setting
+            $this->strict_ssl = $cfg_strict_ssl;   // Open Crypto Tracker strict SSL setting
+            $this->app_version = $cfg_app_version; // Open Crypto Tracker version
             
         }
         
@@ -501,7 +501,7 @@ Class SMTPMailer {
         
         $this->ahead[] = 'Subject: '.'=?UTF-8?B?'.base64_encode($this->subject).'?=';
         $this->ahead[] = 'Message-ID: '.$this->generateMessageID();
-        $this->ahead[] = 'X-Mailer: '.'Open_Crypto_Portfolio_Tracker/' . $this->app_version . ' - PHP/' . phpversion();
+        $this->ahead[] = 'X-Mailer: '.'Open_Crypto_Tracker/' . $this->app_version . ' - PHP/' . phpversion();
         $this->ahead[] = 'MIME-Version: '.'1.0';
 
         $boundary = md5(uniqid());

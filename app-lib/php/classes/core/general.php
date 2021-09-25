@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2014-2021 GPLv3, Open Crypto Portfolio Tracker by Mike Kilday: http://DragonFrugal.com
+ * Copyright 2014-2021 GPLv3, Open Crypto Tracker by Mike Kilday: Mike@DragonFrugal.com
  */
 
 
@@ -1518,9 +1518,9 @@ var $pt_array1 = array();
    $vars['cfg_secure']   = $smtp_secure;
    $vars['cfg_username'] = $smtp_user;
    $vars['cfg_password'] = $smtp_password;
-   $vars['cfg_debug_mode'] = $pt_conf['dev']['debug']; // Open Crypto Portfolio Tracker debug mode setting
-   $vars['cfg_strict_ssl'] = $pt_conf['dev']['smtp_strict_ssl']; // Open Crypto Portfolio Tracker strict SSL setting
-   $vars['cfg_app_version'] = $app_version; // Open Crypto Portfolio Tracker version
+   $vars['cfg_debug_mode'] = $pt_conf['dev']['debug']; // Open Crypto Tracker debug mode setting
+   $vars['cfg_strict_ssl'] = $pt_conf['dev']['smtp_strict_ssl']; // Open Crypto Tracker strict SSL setting
+   $vars['cfg_app_version'] = $app_version; // Open Crypto Tracker version
    
    return $vars;
    
@@ -2589,7 +2589,7 @@ var $pt_array1 = array();
             
             $headers = array(
                         'From' => $pt_conf['comms']['from_email'],
-                        'X-Mailer' => 'Open_Crypto_Portfolio_Tracker/' . $app_version . ' - PHP/' . phpversion(),
+                        'X-Mailer' => 'Open_Crypto_Tracker/' . $app_version . ' - PHP/' . phpversion(),
                         'Content-Type' => $content_type . '/plain; charset=' . $charset
                            );
             
@@ -2597,7 +2597,7 @@ var $pt_array1 = array();
             else {
             
             $headers = array(
-                        'X-Mailer' => 'Open_Crypto_Portfolio_Tracker/' . $app_version . ' - PHP/' . phpversion(),
+                        'X-Mailer' => 'Open_Crypto_Tracker/' . $app_version . ' - PHP/' . phpversion(),
                         'Content-Type' => $content_type . '/plain; charset=' . $charset
                            );
             
@@ -2610,13 +2610,13 @@ var $pt_array1 = array();
             if ( $this->valid_email($pt_conf['comms']['from_email']) == 'valid' ) {
             
             $headers = 'From: ' . $pt_conf['comms']['from_email'] . "\r\n" .
-            'X-Mailer: Open_Crypto_Portfolio_Tracker/' . $app_version . ' - PHP/' . phpversion() . "\r\n" .
+            'X-Mailer: Open_Crypto_Tracker/' . $app_version . ' - PHP/' . phpversion() . "\r\n" .
             'Content-Type: ' . $content_type . '/plain; charset=' . $charset;
          
             }
             else {
             
-            $headers = 'X-Mailer: Open_Crypto_Portfolio_Tracker/' . $app_version . ' - PHP/' . phpversion() . "\r\n" .
+            $headers = 'X-Mailer: Open_Crypto_Tracker/' . $app_version . ' - PHP/' . phpversion() . "\r\n" .
             'Content-Type: ' . $content_type . '/plain; charset=' . $charset;
          
             }
@@ -3058,7 +3058,7 @@ var $pt_array1 = array();
    
    
    // Software
-   $system['software'] = 'Open_Crypto_Portfolio_Tracker/' . $app_version . ' - PHP/' . phpversion();
+   $system['software'] = 'Open_Crypto_Tracker/' . $app_version . ' - PHP/' . phpversion();
    
    
       // Server stats

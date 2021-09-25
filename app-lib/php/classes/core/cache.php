@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2014-2021 GPLv3, Open Crypto Portfolio Tracker by Mike Kilday: http://DragonFrugal.com
+ * Copyright 2014-2021 GPLv3, Open Crypto Tracker by Mike Kilday: Mike@DragonFrugal.com
  */
  
 
@@ -328,7 +328,7 @@ var $pt_array1 = array();
               // Message parameter added for desired comm methods (leave any comm method blank to skip sending via that method)
               $send_params = array(
                                   'email' => array(
-                                                  'subject' => 'Open Crypto Portfolio Tracker - Backup Archive For: ' . $backup_prefix,
+                                                  'subject' => 'Open Crypto Tracker - Backup Archive For: ' . $backup_prefix,
                                                   'message' => $msg
                                                   )
                     );
@@ -487,7 +487,7 @@ var $pt_array1 = array();
         // Message parameter added for desired comm methods (leave any comm method blank to skip sending via that method)
         $send_params = array(
                     'email' => array(
-                          'subject' => 'Open Crypto Portfolio Tracker - Debugging Logs Report',
+                          'subject' => 'Open Crypto Tracker - Debugging Logs Report',
                        'message' => $msg
                           )
                     );
@@ -576,7 +576,7 @@ var $pt_array1 = array();
         // Message parameter added for desired comm methods (leave any comm method blank to skip sending via that method)
         $send_params = array(
                     'email' => array(
-                          'subject' => 'Open Crypto Portfolio Tracker - Error Logs Report',
+                          'subject' => 'Open Crypto Tracker - Error Logs Report',
                        'message' => $msg
                           )
                     );
@@ -1714,7 +1714,7 @@ var $pt_array1 = array();
               
      
       if ( in_array($endpoint_tld_or_ip, $strict_feed_servers) ) {
-      curl_setopt($ch, CURLOPT_USERAGENT, 'Custom_Feed_Parser/1.0 (compatible; Open_Crypto_Portfolio_Tracker/' . $app_version . '; +https://github.com/taoteh1221/Open_Crypto_Portfolio_Tracker)');
+      curl_setopt($ch, CURLOPT_USERAGENT, 'Custom_Feed_Parser/1.0 (compatible; Open_Crypto_Tracker/' . $app_version . '; +https://github.com/taoteh1221/Open_Crypto_Tracker)');
       }
       else {
       curl_setopt($ch, CURLOPT_USERAGENT, $user_agent);

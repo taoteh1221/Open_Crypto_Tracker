@@ -1,6 +1,6 @@
 
 /*
- * Copyright 2014-2021 GPLv3, Open Crypto Portfolio Tracker by Mike Kilday: http://DragonFrugal.com
+ * Copyright 2014-2021 GPLv3, Open Crypto Tracker by Mike Kilday: Mike@DragonFrugal.com
  */
  
  
@@ -32,7 +32,7 @@ $pt_conf['comms']['comms_pause'] = 'off'; // 'on' / 'off' (Default = 'off' [comm
 
 // Enable / disable daily upgrade checks / alerts (DEFAULT: ALL USER-ACTIVATED COMM CHANNELS)
 // (Checks latest release version via github.com API endpoint value "tag_name" 
-// @ https://api.github.com/repos/taoteh1221/Open_Crypto_Portfolio_Tracker/releases/latest)
+// @ https://api.github.com/repos/taoteh1221/Open_Crypto_Tracker/releases/latest)
 // Choosing 'all' will send to all properly-configured communication channels, and automatically skip any not properly setup
 $pt_conf['comms']['upgrade_alert'] = 'all'; // 'off' (disabled) / 'all' / 'ui' (web interface) / 'email' / 'text' / 'notifyme' / 'telegram'
 ////
@@ -410,11 +410,6 @@ $pt_conf['charts_alerts']['tracked_markets'] = array(
 					'enj-2' => 'binance||btc||both',
 					'enj-3' => 'kucoin||btc||none',
 					'enj-4' => 'bitfinex||usd||none',
-					
-					
-					// XCH
-					'xch' => 'okex||usdt||both',
-					'xch-2' => 'huobi||btc||chart',
 					
 					
 					// DATA
@@ -885,18 +880,6 @@ $pt_conf['power']['news_feed'] = array(
         
         
         				array(
-            			"title" => "Blog - BTCPay Server",
-            			"url" => "https://blog.btcpayserver.org/feed/"
-        						),
-        
-        
-        				array(
-            			"title" => "Blog - Chia",
-            			"url" => "https://medium.com/feed/@chia.net"
-        						),
-        
-        
-        				array(
             			"title" => "Blog - Coinbase",
             			"url" => "https://medium.com/feed/the-coinbase-blog"
         						),
@@ -1019,12 +1002,6 @@ $pt_conf['power']['news_feed'] = array(
         				array(
             			"title" => "News - BTC Manager",
             			"url" => "https://btcmanager.com/rssfeed/"
-        						),
-        
-        
-        				array(
-            			"title" => "News - CoinDesk",
-            			"url" => "https://coindesk.com/feed?x=1"
         						),
         
         
@@ -1583,7 +1560,7 @@ add that EXACT name in this config file further above within the $pt_conf['comms
 to enable email-to-text alerts to your network's mobile phone number.
 
 PLEASE REPORT ANY MISSING / INCORRECT / NON-FUNCTIONAL GATEWAYS HERE, AND I WILL FIX THEM:
-https://github.com/taoteh1221/Open_Crypto_Portfolio_Tracker/issues
+https://github.com/taoteh1221/Open_Crypto_Tracker/issues
 (or you can add / update it yourself right in this configuration, if you know the correct gateway domain name)
 
 */
@@ -2998,35 +2975,6 @@ $pt_conf['assets'] = array(
                                           'bittrex' => 'ENJ-USDT',
                                           'hitbtc' => 'ENJUSD',
                                           'coinex' => 'ENJUSDT',
-                                                    ),
-
-                                                    
-                        ) // pairing END
-                        
-                    ), // Asset END
-                    
-                    
-                    ////////////////////////////////////////////////////////////////////
-                    
-                    
-                    // XCH
-                    'XCH' => array(
-                        
-                        'name' => 'Chia',
-                        'mcap_slug' => 'chia',
-                        'pairing' => array(
-                        
-                        
-                                    'btc' => array(
-                                          'okex' => 'XCH-BTC',
-                                          'huobi' => 'xchbtc',
-                                                    ),
-
-                                                    
-                                    'usdt' => array(
-                                          'okex' => 'XCH-USDT',
-                                          'huobi' => 'xchusdt',
-                                          'gateio' => 'XCH_USDT',
                                                     ),
 
                                                     

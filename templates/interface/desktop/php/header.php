@@ -4,13 +4,13 @@ header('Content-type: text/html; charset=' . $pt_conf['dev']['charset_default'])
 <html lang="en">
 
 <!-- /*
- * Copyright 2014-2021 GPLv3, Open Crypto Portfolio Tracker by Mike Kilday: http://DragonFrugal.com
+ * Copyright 2014-2021 GPLv3, Open Crypto Tracker by Mike Kilday: Mike@DragonFrugal.com
  */ -->
 
 <head>
 
 
-	<title>Open Crypto Portfolio Tracker<?=( $is_admin ? ' - Admin Config' : '' )?></title>
+	<title>Open Crypto Tracker<?=( $is_admin ? ' - Admin Config' : '' )?></title>
     
 
    <meta charset="<?=$pt_conf['dev']['charset_default']?>">
@@ -249,7 +249,7 @@ header('Content-type: text/html; charset=' . $pt_conf['dev']['charset_default'])
 					</ul>
 				
 				
-				<h2>Open Crypto Portfolio Tracker<?=( $is_admin ? ' - Admin Config' : '' )?></h2>
+				<h2>Open Crypto Tracker<?=( $is_admin ? ' - Admin Config' : '' )?></h2>
 				
 				
 					<div id="navbarDropdownBell" class="navbar-nav dropleft" style='left: 12px;'>

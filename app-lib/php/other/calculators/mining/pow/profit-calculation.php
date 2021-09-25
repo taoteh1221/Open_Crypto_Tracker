@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2014-2020 GPLv3, Open Crypto Portfolio Tracker by Mike Kilday: http://DragonFrugal.com
+ * Copyright 2014-2020 GPLv3, Open Crypto Tracker by Mike Kilday: Mike@DragonFrugal.com
  */
 				
 $mined_asset_val = $pt_api->market(strtoupper($pow_asset_data['symbol']), $pow_asset_data['exchange_name'], $pow_asset_data['exchange_market'])['last_trade'];

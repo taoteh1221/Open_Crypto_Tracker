@@ -12,7 +12,7 @@ Web server setup / install is available for $30 hourly if needed (see 'Manual In
 
 Have a question, feature you'd like to see added, or an issue to report? You can do that at the following URLs...
 
-Issue Reporting (Features / Issues / Help): https://github.com/taoteh1221/Open_Crypto_Portfolio_Tracker/issues
+Issue Reporting (Features / Issues / Help): https://github.com/taoteh1221/Open_Crypto_Tracker/issues
 
 Discord Chat: https://discord.gg/WZVK2nm
 
@@ -46,7 +46,7 @@ To install / upgrade everything automatically on Ubuntu or Raspberry Pi (an affo
 
 wget --no-cache -O FOLIO-INSTALL.bash https://git.io/JqCvQ;chmod +x FOLIO-INSTALL.bash;sudo ./FOLIO-INSTALL.bash
 
-Follow the prompts. This automated script gives you the options to: install / uninstall a PHP web server automatically, download / install / configure / uninstall the latest version of the Open Crypto Portfolio Tracker app automatically, setup a cron job automatically (for price alerts / charts), and setup SSH (to update / install web site files remotely to the web server via SFTP) automatically. 
+Follow the prompts. This automated script gives you the options to: install / uninstall a PHP web server automatically, download / install / configure / uninstall the latest version of the Open Crypto Tracker app automatically, setup a cron job automatically (for price alerts / charts), and setup SSH (to update / install web site files remotely to the web server via SFTP) automatically. 
 
 When the auto-install is completed, it will display addresses / logins to access the app (write these down / save them for future use).
 
@@ -194,7 +194,7 @@ If your problems still persist even after clearing your browser cache (temporary
 	    
 If none of the above solutions work, your last resort (before contacting me for support) is to wipe out all data in your cache directory folder within the app. THIS WILL ERASE YOUR CHART DATA, SO YOU MAY WANT TO BE SURE YOU HAVE A BACKUP FIRST. After your chart data is backed up, delete the folder named 'cache' in the main directory of this app. Reloading the app web page should re-create the cache folder, with new / clean cache files.
 	    
-If you are still having issues after trying everything, file an issue here at the github project account, and I will help you troubleshoot the problems: https://github.com/taoteh1221/Open_Crypto_Portfolio_Tracker/issues
+If you are still having issues after trying everything, file an issue here at the github project account, and I will help you troubleshoot the problems: https://github.com/taoteh1221/Open_Crypto_Tracker/issues
 
 =========================================================================================================================================
 
@@ -227,7 +227,7 @@ SMTP email sending is REQUIRED if you are running this app on a home network, or
 
 If page loads are sluggish or throw API connection errors without clearing up, and you have enabled proxy ip addresses, check the error logs file at /cache/logs/error.log for error responses from the proxy server connection attempt(s). If there are no errors log entries related to the issue that help diagnose the problem, disable using proxies (in the Admin Config PROXY section) and try loading the web page again.
 	    
-If it is a bad or misconfigured proxy setup causing the issue, and everything runs great after disabling proxies, you probably have either (a) a bad proxy or proxy configuration, or (b) an API server / endpoint address is not responding properly when routed through proxies (example: HTTP used instead of HTTPS can cause this error). If you are absolutely sure your proxy setup is ok, and that an API connection built-in to this app is the issue, please report it here: https://github.com/taoteh1221/Open_Crypto_Portfolio_Tracker/issues
+If it is a bad or misconfigured proxy setup causing the issue, and everything runs great after disabling proxies, you probably have either (a) a bad proxy or proxy configuration, or (b) an API server / endpoint address is not responding properly when routed through proxies (example: HTTP used instead of HTTPS can cause this error). If you are absolutely sure your proxy setup is ok, and that an API connection built-in to this app is the issue, please report it here: https://github.com/taoteh1221/Open_Crypto_Tracker/issues
 
 
 =========================================================================================================================================

@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# Copyright 2014-2021 GPLv3, Open Crypto Portfolio Tracker by Mike Kilday: http://DragonFrugal.com
+# Copyright 2014-2021 GPLv3, Open Crypto Tracker by Mike Kilday: Mike@DragonFrugal.com
 
 
 ######################################
@@ -179,7 +179,7 @@ fi
 				
 				
 if [ -f $DOC_ROOT/config.php ]; then
-echo "A configuration file from a previous install of Open Crypto Portfolio Tracker (Server Edition) has been detected on your system."
+echo "A configuration file from a previous install of Open Crypto Tracker (Server Edition) has been detected on your system."
 echo " "
 echo "During this upgrade / re-install, it will be backed up to:"
 echo " "
@@ -244,7 +244,7 @@ echo "environment that a service provider has already provisioned, please quit t
 echo "session, and refer to the \"Manual Install\" section of the README.txt file documentation."
 echo " "
 
-echo "PLEASE REPORT ANY ISSUES HERE: https://github.com/taoteh1221/Open_Crypto_Portfolio_Tracker/issues"
+echo "PLEASE REPORT ANY ISSUES HERE: https://github.com/taoteh1221/Open_Crypto_Tracker/issues"
 echo " "
   				
 echo "Select 1 or 2 to choose whether to continue with installation, or quit."
@@ -726,12 +726,12 @@ echo " "
 ######################################
 
 
-echo "Do you want this script to automatically download the latest version of Open Crypto Portfolio Tracker"
+echo "Do you want this script to automatically download the latest version of Open Crypto Tracker"
 echo "(Server Edition) from Github.com, and install / configure it?"
 echo " "
 
-echo "Select 1, 2, or 3 to choose whether to auto-install / remove Open Crypto Portfolio Tracker (Server Edition), or skip."
-echo "(!WARNING!: REMOVING Open Crypto Portfolio Tracker WILL DELETE *EVERYTHING* IN $DOC_ROOT !!)"
+echo "Select 1, 2, or 3 to choose whether to auto-install / remove Open Crypto Tracker (Server Edition), or skip."
+echo "(!WARNING!: REMOVING Open Crypto Tracker WILL DELETE *EVERYTHING* IN $DOC_ROOT !!)"
 echo " "
 
 OPTIONS="install_portfolio_app remove_portfolio_app skip"
@@ -743,8 +743,8 @@ select opt in $OPTIONS; do
         		
         		echo " "
 				
-				echo "Directory $DOC_ROOT DOES NOT exist, cannot install Open Crypto Portfolio Tracker."
-				echo "Skipping auto-install of Open Crypto Portfolio Tracker."
+				echo "Directory $DOC_ROOT DOES NOT exist, cannot install Open Crypto Tracker."
+				echo "Skipping auto-install of Open Crypto Tracker."
 				else
 				
 				echo " "
@@ -778,7 +778,7 @@ select opt in $OPTIONS; do
 				echo "Required component installation completed."
 				
 				echo " "
-				echo "Downloading / installing the latest version of Open Crypto Portfolio Tracker (Server Edition) from Github.com, please wait..."
+				echo "Downloading / installing the latest version of Open Crypto Tracker (Server Edition) from Github.com, please wait..."
             echo " "
 				
 				mkdir DFD-Cryptocoin-Values-TEMP
@@ -788,7 +788,7 @@ select opt in $OPTIONS; do
 				# Set curl user agent, as the github API REQUIRES ONE
 				curl -H "$CUSTOM_CURL_USER_AGENT_HEADER"
 				
-				ZIP_DL=$(curl -s 'https://api.github.com/repos/taoteh1221/Open_Crypto_Portfolio_Tracker/releases/latest' | jq -r '.zipball_url')
+				ZIP_DL=$(curl -s 'https://api.github.com/repos/taoteh1221/Open_Crypto_Tracker/releases/latest' | jq -r '.zipball_url')
 				
 				wget -O DFD-Cryptocoin-Values-TEMP.zip $ZIP_DL
 				
@@ -970,7 +970,7 @@ select opt in $OPTIONS; do
 				sleep 3
 				
 				echo " "
-				echo "Installing Open Crypto Portfolio Tracker (Server Edition), please wait..."
+				echo "Installing Open Crypto Tracker (Server Edition), please wait..."
   				
   				# Copy over the upgrade install files to the install directory, after cleaning up dev files
 				# No trailing forward slash here
@@ -1005,7 +1005,7 @@ select opt in $OPTIONS; do
 				sleep 3
 				
 				echo " "
-				echo "Open Crypto Portfolio Tracker (Server Edition) has been installed."
+				echo "Open Crypto Tracker (Server Edition) has been installed."
 				
 				
             ######################################
@@ -1098,7 +1098,7 @@ select opt in $OPTIONS; do
                     echo " "
 				
 						  echo " "
-						  echo "Open Crypto Portfolio Tracker (Server Edition) has been configured."
+						  echo "Open Crypto Tracker (Server Edition) has been configured."
                     
                     CRON_SETUP=1
                     
@@ -1126,7 +1126,7 @@ select opt in $OPTIONS; do
        elif [ "$opt" = "remove_portfolio_app" ]; then
        
         echo " "
-        echo "Removing Open Crypto Portfolio Tracker (Server Edition), please wait..."
+        echo "Removing Open Crypto Tracker (Server Edition), please wait..."
         
         rm /etc/cron.d/cryptocoin
 		  
@@ -1137,13 +1137,13 @@ select opt in $OPTIONS; do
 		  sleep 3
         
 		  echo " "
-		  echo "Open Crypto Portfolio Tracker (Server Edition) has been removed from the system."
+		  echo "Open Crypto Tracker (Server Edition) has been removed from the system."
         
         break
        elif [ "$opt" = "skip" ]; then
        
         echo " "
-        echo "Skipping auto-install of Open Crypto Portfolio Tracker (Server Edition)."
+        echo "Skipping auto-install of Open Crypto Tracker (Server Edition)."
         
         break
        fi
@@ -1235,11 +1235,11 @@ echo " "
 
 if [ "$APP_SETUP" = "1" ]; then
 
-echo "Web server setup and installation / configuration of Open Crypto Portfolio Tracker (Server Edition)"
+echo "Web server setup and installation / configuration of Open Crypto Tracker (Server Edition)"
 echo "should now be complete (if you chose those options), unless you saw any errors on screen during setup."
 echo " "
 
-echo "Open Crypto Portfolio Tracker is located at (and can be edited) inside this folder:"
+echo "Open Crypto Tracker is located at (and can be edited) inside this folder:"
 echo " "
 echo "$DOC_ROOT"
 echo " "
@@ -1284,7 +1284,7 @@ echo " "
 echo "$DOC_ROOT"
 echo " "
 
-echo "If web server setup has completed successfully, Open Crypto Portfolio Tracker (Server Edition) can now be"
+echo "If web server setup has completed successfully, Open Crypto Tracker (Server Edition) can now be"
 echo "installed (if you haven't already) in $DOC_ROOT remotely via SFTP, or by copying over app files locally."
 echo " "
 

@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2014-2021 GPLv3, Open Crypto Portfolio Tracker by Mike Kilday: http://DragonFrugal.com
+ * Copyright 2014-2021 GPLv3, Open Crypto Tracker by Mike Kilday: Mike@DragonFrugal.com
  */
 
 
@@ -42,7 +42,7 @@
 	      
 	        <span class='blue'>Have a question, feature you'd like to see added, or an issue to report? You can do that at the following URLs...</span><br /><br />
 	        
-	        <span class='bitcoin'>Issue Reporting (Features / Issues / Help):</span> <a href='https://github.com/taoteh1221/Open_Crypto_Portfolio_Tracker/issues' target='_blank'>https://github.com/taoteh1221/Open_Crypto_Portfolio_Tracker/issues</a><br /><br />
+	        <span class='bitcoin'>Issue Reporting (Features / Issues / Help):</span> <a href='https://github.com/taoteh1221/Open_Crypto_Tracker/issues' target='_blank'>https://github.com/taoteh1221/Open_Crypto_Tracker/issues</a><br /><br />
 	        
 	        <span class='bitcoin'>Discord:</span> <a href='https://discord.gg/WZVK2nm' target='_blank'>https://discord.gg/WZVK2nm</a><br /><br />
 	        
@@ -120,13 +120,13 @@
 
 	    <br /><br />
 
-Follow the prompts. This automated script gives you the options to: install / uninstall a PHP web server automatically, download / install / configure / uninstall the latest version of the Open Crypto Portfolio Tracker app automatically, setup a cron job automatically (for price alerts / price charts), and setup SSH (to update / install web site files remotely to the web server via SFTP) automatically. 
+Follow the prompts. This automated script gives you the options to: install / uninstall a PHP web server automatically, download / install / configure / uninstall the latest version of the Open Crypto Tracker app automatically, setup a cron job automatically (for price alerts / price charts), and setup SSH (to update / install web site files remotely to the web server via SFTP) automatically. 
 	    <br /><br />
 
 <span class='bitcoin'>When the auto-install is completed, it will display addresses / logins to access the app (write these down / save them for future use).</span>
 
 	    <br /><br />
-SEE <a href='https://github.com/taoteh1221/Open_Crypto_Portfolio_Tracker/tree/main/DOCUMENTATION-ETC/RASPBERRY-PI' target='_blank'>DOCUMENTATION-ETC/RASPBERRY-PI</a> for additional information on securing and setting up Raspberry Pi OS (disabling bluetooth, firewall setup, remote login, hostname, etc). 
+SEE <a href='https://github.com/taoteh1221/Open_Crypto_Tracker/tree/main/DOCUMENTATION-ETC/RASPBERRY-PI' target='_blank'>DOCUMENTATION-ETC/RASPBERRY-PI</a> for additional information on securing and setting up Raspberry Pi OS (disabling bluetooth, firewall setup, remote login, hostname, etc). 
 	        
 	        
 	      </div>
@@ -274,7 +274,7 @@ MAKE SURE YOU ONLY USE EITHER /etc/cron.d/, or 'crontab -e', NOT BOTH...ANY OLD 
 	       <span class='red'>Important Note:</span> <span class='bitcoin'>In the upcoming v5 release (due out in 2021 or 2022), doing this manually in a text editor won't be necassary. You will be able to do it in the <span class='blue'>"Admin Config => Portfolio Assets"</span> interface much easier.</span>
 	    <br /><br />
 
-Below is an example for editing your assets / markets into the portfolio assets in the file config.php (located in the primary directory of this app), in the PORTFOLIO ASSETS section. It's very quick / easy to do (after you get the hang of it, lol). Also see the text file <a href='https://raw.githubusercontent.com/taoteh1221/Open_Crypto_Portfolio_Tracker/main/DOCUMENTATION-ETC/CONFIG-EXAMPLE.txt' target='_blank'>DOCUMENTATION-ETC/CONFIG-EXAMPLE.txt</a>, for a pre-configured set of default settings and example assets / markets. 
+Below is an example for editing your assets / markets into the portfolio assets in the file config.php (located in the primary directory of this app), in the PORTFOLIO ASSETS section. It's very quick / easy to do (after you get the hang of it, lol). Also see the text file <a href='https://raw.githubusercontent.com/taoteh1221/Open_Crypto_Tracker/main/DOCUMENTATION-ETC/CONFIG-EXAMPLE.txt' target='_blank'>DOCUMENTATION-ETC/CONFIG-EXAMPLE.txt</a>, for a pre-configured set of default settings and example assets / markets. 
 
 	    <br /><br />
 
@@ -352,7 +352,7 @@ Ethereum ICO subtoken support (pre-exchange listing) has been built in (values a
 	    <br /><br />
  
     
- SEE <a href='https://raw.githubusercontent.com/taoteh1221/Open_Crypto_Portfolio_Tracker/main/DOCUMENTATION-ETC/CONFIG-EXAMPLE.txt' target='_blank'>DOCUMENTATION-ETC/CONFIG-EXAMPLE.txt</a> FOR A FULL EXAMPLE OF THE DEFAULT CONFIGURATION (ESPECIALLY IF YOU MESS UP config.php, lol)
+ SEE <a href='https://raw.githubusercontent.com/taoteh1221/Open_Crypto_Tracker/main/DOCUMENTATION-ETC/CONFIG-EXAMPLE.txt' target='_blank'>DOCUMENTATION-ETC/CONFIG-EXAMPLE.txt</a> FOR A FULL EXAMPLE OF THE DEFAULT CONFIGURATION (ESPECIALLY IF YOU MESS UP config.php, lol)
 	        
 	        
 	      </div>
@@ -391,7 +391,7 @@ Ethereum ICO subtoken support (pre-exchange listing) has been built in (values a
 	    <br /><br />
 	    If none of the above solutions work, your last resort (before contacting me for support) is to wipe out all data in your cache directory folder within the app. THIS WILL ERASE YOUR CHART DATA, SO YOU MAY WANT TO BE SURE YOU HAVE A BACKUP FIRST. After your chart data is backed up, delete the folder named 'cache' in the main directory of this app. Reloading the app web page should re-create the cache folder, with new / clean cache files.
 	    <br /><br />
-	    If you are still having issues after trying everything, file an issue here at the github project account, and I will help you troubleshoot the problems: <a href='https://github.com/taoteh1221/Open_Crypto_Portfolio_Tracker/issues' target='_blank'>https://github.com/taoteh1221/Open_Crypto_Portfolio_Tracker/issues</a>
+	    If you are still having issues after trying everything, file an issue here at the github project account, and I will help you troubleshoot the problems: <a href='https://github.com/taoteh1221/Open_Crypto_Tracker/issues' target='_blank'>https://github.com/taoteh1221/Open_Crypto_Tracker/issues</a>
 	        
 	        
 	      </div>
@@ -492,7 +492,7 @@ SMTP email sending is REQUIRED if you are running this app on a home network, or
 	         
 	        If page loads are sluggish or throw API connection errors without clearing up, and you have enabled proxy ip addresses, check the error logs file at /cache/logs/error.log for error responses from the proxy server connection attempt(s). If there are no errors log entries related to the issue that help diagnose the problem, disable using proxies (in the Admin Config PROXY section) and try loading the web page again.
 	    <br /><br />
-	      If it is a bad or misconfigured proxy setup causing the issue, and everything runs great after disabling proxies, you probably have either (a) a bad proxy or proxy configuration, or (b) an API server / endpoint address is not responding properly when routed through proxies (example: HTTP used instead of HTTPS can cause this error). <i>If you are absolutely sure your proxy setup is ok</i>, and that an API connection built-in to this app is the issue, please <a href='https://github.com/taoteh1221/Open_Crypto_Portfolio_Tracker/issues' target='_blank'>report it</a>. 
+	      If it is a bad or misconfigured proxy setup causing the issue, and everything runs great after disabling proxies, you probably have either (a) a bad proxy or proxy configuration, or (b) an API server / endpoint address is not responding properly when routed through proxies (example: HTTP used instead of HTTPS can cause this error). <i>If you are absolutely sure your proxy setup is ok</i>, and that an API connection built-in to this app is the issue, please <a href='https://github.com/taoteh1221/Open_Crypto_Tracker/issues' target='_blank'>report it</a>. 
 	        
 	        
 	      </div>
