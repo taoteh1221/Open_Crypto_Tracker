@@ -42,9 +42,9 @@ var $array1 = array();
 		else if ( !isset($data['address']) ) {
 			
     	$pt_gen->log(
-    								'ext_data_error',
-    								'BTC address balance retrieval failed in the "' . $this_plug . '" plugin, no API data received'
-    								);
+    				'ext_data_error',
+    				'BTC address balance retrieval failed in the "' . $this_plug . '" plugin, no API data received'
+    				);
     	
 		return false;
 		
@@ -78,9 +78,9 @@ var $array1 = array();
 		else if ( !isset($data['message']) ) {
 			
     	$pt_gen->log(
-    								'ext_data_error',
-    								'ETH address balance retrieval failed in the "' . $this_plug . '" plugin, no API data received'
-    								);
+    				'ext_data_error',
+    				'ETH address balance retrieval failed in the "' . $this_plug . '" plugin, no API data received'
+    				);
     	
 		return false;
 		

@@ -34,9 +34,9 @@ $pairing_btc_val = $pt_asset->pairing_btc_val($asset);
 	if ( $pairing_btc_val == null ) {
 		
 	$pt_gen->log(
-								'market_error',
-								'pt_asset->pairing_btc_val(\''.$asset.'\') returned null in the \''.$this_plug.'\' plugin, likely from exchange API request failure'
-								);
+				'market_error',
+				'pt_asset->pairing_btc_val(\''.$asset.'\') returned null in the \''.$this_plug.'\' plugin, likely from exchange API request failure'
+				);
 	
 	}
 
@@ -98,11 +98,16 @@ $pretty_asset_amount = $pt_var->num_pretty($address_balance, 8);
 	}
 	
 	
+// DEBUGGING 
+//$pt_cache->save_file( $pt_plug->alert_cache('debugging-' . $target_key . '.dat') , $cached_address_balance . '|' . $address_balance );
+
+	
 	// If address balance has changed, send a notification...
 	if ( $address_balance != $cached_address_balance ) {
 		
 	// Balance change amount
 	$difference_amount = abs( $pt_var->num_to_str($cached_address_balance - $address_balance) );
+		
 		
 		if ( $address_balance > $cached_address_balance ) {
 		$direction = 'increase';
@@ -128,8 +133,8 @@ $pretty_asset_amount = $pt_var->num_pretty($address_balance, 8);
 
 	$text_msg = $label . " address balance " . $direction . " (" . $plus_minus . $difference_amount . " " . strtoupper($asset) . "): " . $pretty_asset_amount . " " . strtoupper($asset) . " (". $pt_conf['power']['btc_currency_markets'][ $pt_conf['gen']['btc_prim_currency_pairing'] ] . $pretty_prim_currency_worth . ").";
               
-   // Were're just adding a human-readable timestamp to smart home (audio) alerts
-   $notifyme_msg = $base_msg . ' Timestamp: ' . $pt_gen->time_date_format($pt_conf['gen']['loc_time_offset'], 'pretty_time') . '.';
+    // Were're just adding a human-readable timestamp to smart home (audio) alerts
+    $notifyme_msg = $base_msg . ' Timestamp: ' . $pt_gen->time_date_format($pt_conf['gen']['loc_time_offset'], 'pretty_time') . '.';
 
 
   	// Message parameter added for desired comm methods (leave any comm method blank to skip sending via that method)
@@ -137,24 +142,28 @@ $pretty_asset_amount = $pt_var->num_pretty($address_balance, 8);
   	// Minimize function calls
   	$encoded_text_msg = $pt_gen->charset_encode($text_msg); // Unicode support included for text messages (emojis / asian characters / etc )
   				
-   $send_params = array(
-          					'notifyme' => $notifyme_msg,
-          					'telegram' => $email_msg,
-          					'text' => array(
-          										'message' => $encoded_text_msg['content_output'],
-          										'charset' => $encoded_text_msg['charset']
-          											),
-          					'email' => array(
-          											'subject' => strtoupper($asset) . ' Address Balance ' . ucfirst($direction) . ' For: ' . $label,
-          											'message' => $email_msg
-          											)
-          					);
+    $send_params = array(
+   
+          				'notifyme' => $notifyme_msg,
+          				
+          				'telegram' => $email_msg,
+          				
+          				'text' => array(
+          								'message' => $encoded_text_msg['content_output'],
+          								'charset' => $encoded_text_msg['charset']
+          								),
+          								
+          				'email' => array(
+          								'subject' => strtoupper($asset) . ' Address Balance ' . ucfirst($direction) . ' For: ' . $label,
+          								'message' => $email_msg
+          								)
+          								
+          				);
           	
           	
           	
 	// Send notifications
 	@$pt_cache->queue_notify($send_params);
-	
 	
 	// Cache new data
 	$new_cache_data = $address . '|' . $address_balance;
