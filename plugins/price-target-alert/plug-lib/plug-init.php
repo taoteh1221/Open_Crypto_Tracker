@@ -115,10 +115,10 @@ $market_val = $pt_var->num_to_str( $pt_api->market($market_asset, $market_exchan
    	    if ( array_key_exists($market_pairing, $pt_conf['power']['btc_currency_markets']) && !array_key_exists($market_pairing, $pt_conf['power']['crypto_pairing']) ) {
    		
    		$thres_dec = $pt_gen->thres_dec($target_val, 'u'); // Units mode
-   		$target_val_text = $pt_var->num_pretty($target_val, $thres_dec['max_dec'], false, $thres_dec['min_dec'])
+   		$target_val_text = $pt_var->num_pretty($target_val, $thres_dec['max_dec'], false, $thres_dec['min_dec']);
 		
    		$thres_dec = $pt_gen->thres_dec($market_val, 'u'); // Units mode
-   		$market_val_text = $pt_var->num_pretty($market_val, $thres_dec['max_dec'], false, $thres_dec['min_dec'])
+   		$market_val_text = $pt_var->num_pretty($market_val, $thres_dec['max_dec'], false, $thres_dec['min_dec']);
 		
 		
 		}

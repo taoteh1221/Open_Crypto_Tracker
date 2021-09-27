@@ -4614,7 +4614,10 @@ WILL AUTOMATICALLY PREFORM THE RESET (ALERTS / TRACKING WILL BE ACCURATE AFTERWA
 
 
 -------------------------------------------------------------------
-5.04.0:
+5.03.1:
+
+
+-Bug fix for bundled "price-target-alert" plugin, crashing the plugin runtime
 
 
 -Better misc. documentation

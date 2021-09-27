@@ -21,9 +21,9 @@ $balance_tracking_cache_file = $pt_plug->alert_cache($target_key . '.dat');
 	}
 
 
-$asset = strtolower($target_val['asset']);
-$address = $target_val['address'];
-$label = $target_val['label'];
+$asset = trim( strtolower($target_val['asset']) );
+$address = trim($target_val['address']);
+$label = trim($target_val['label']);
 
 
 // Only getting BTC value for non-bitcoin assets is supported
@@ -50,9 +50,8 @@ $pairing_btc_val = $pt_asset->pairing_btc_val($asset);
 	}
 	
 	
-	// If we returned === false (3 NOT 2, to check the type too) from an API error, skip this one for now
-	// https://stackoverflow.com/questions/137487/null-vs-false-vs-0-in-php
-	if ( $address_balance === false ) {
+	// If we returned 'error' from a detected API error, skip this one for now
+	if ( $address_balance == 'error' ) {
 	continue;
 	}
 	
@@ -70,7 +69,7 @@ $pretty_asset_amount = $pt_var->num_pretty($address_balance, 8);
 		
 	$balance_tracking_cache_data = explode('|', trim( file_get_contents($balance_tracking_cache_file) ) );
 	
-	$cached_address = $balance_tracking_cache_data[0];
+	$cached_address = trim($balance_tracking_cache_data[0]);
 	
 	$cached_address_balance = $pt_var->num_to_str($balance_tracking_cache_data[1]);
 	
@@ -85,6 +84,10 @@ $pretty_asset_amount = $pt_var->num_pretty($address_balance, 8);
 	}
 	
 	
+// DEBUGGING 
+//$pt_cache->save_file( $pt_plug->alert_cache('debugging-' . $target_key . '.dat') , $cached_address_balance . '|' . $address_balance );
+	
+	
 	// If a cache reset was flagged
 	if ( $cache_reset ) {
 		
@@ -96,10 +99,6 @@ $pretty_asset_amount = $pt_var->num_pretty($address_balance, 8);
 	continue;
 	
 	}
-	
-	
-// DEBUGGING 
-//$pt_cache->save_file( $pt_plug->alert_cache('debugging-' . $target_key . '.dat') , $cached_address_balance . '|' . $address_balance );
 
 	
 	// If address balance has changed, send a notification...

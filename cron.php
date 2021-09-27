@@ -172,10 +172,10 @@ usleep(120000); // Wait 0.12 seconds
 else {
 	
 $pt_gen->log(
-							'system_error',
-							'time() returned a corrupt value (from power outage / corrupt memory / etc), chart updating canceled',
-							'chart_type: system stats'
-							);
+			'system_error',
+			'time() returned a corrupt value (from power outage / corrupt memory / etc), chart updating canceled',
+			'chart_type: system stats'
+			);
 
 }
 		
@@ -193,16 +193,16 @@ if ( $pt_conf['dev']['debug'] == 'all' || $pt_conf['dev']['debug'] == 'all_telem
 			
 // Log system stats
 $pt_gen->log(
-							'system_debug',
-							'Hardware / software stats (requires log_verbosity set to verbose)',
-							$system_telemetry
-							);
+			'system_debug',
+			'Hardware / software stats (requires log_verbosity set to verbose)',
+			$system_telemetry
+			);
 			
 // Log runtime stats
 $pt_gen->log(
-							'system_debug',
-							strtoupper($runtime_mode).' runtime was ' . $total_runtime . ' seconds'
-							);
+			'system_debug',
+			strtoupper($runtime_mode).' runtime was ' . $total_runtime . ' seconds'
+			);
 
 }
 
@@ -224,9 +224,9 @@ $logs_array = array();
 // Run any cron-designated plugins activated in pt_conf
 // ALWAYS KEEP PLUGIN RUNTIME LOGIC INLINE (NOT ISOLATED WITHIN A FUNCTION), 
 // SO WE DON'T NEED TO WORRY ABOUT IMPORTING GLOBALS!
-foreach ( $activated_plugins['cron'] as $plugin_key => $plugin_val ) {
+foreach ( $activated_plugins['cron'] as $plugin_key => $plugin_init ) {
 	
-	if ( file_exists($plugin_val) ) {
+	if ( file_exists($plugin_init) ) {
 		
 	$this_plug = $plugin_key;
 	
@@ -235,11 +235,11 @@ foreach ( $activated_plugins['cron'] as $plugin_key => $plugin_val ) {
 	
 		// This plugin's default class (only if the file exists)
 		if ( file_exists($base_dir . '/plugins/'.$this_plug.'/plug-lib/plug-class.php') ) {
-      include($base_dir . '/plugins/'.$this_plug.'/plug-lib/plug-class.php');
+        include($base_dir . '/plugins/'.$this_plug.'/plug-lib/plug-class.php');
 		}
 	
 	// This plugin's plug-init.php file (runs the plugin)
-	include($plugin_val);
+	include($plugin_init);
 	
 	// Reset $this_plug at end of loop
 	$this_plug = null; 

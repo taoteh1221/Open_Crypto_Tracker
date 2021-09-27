@@ -86,17 +86,22 @@ $in_minutes_offset = ( $in_minutes >= 20 ? ($in_minutes - 1) : $in_minutes );
   		$encoded_text_msg = $pt_gen->charset_encode($format_msg); // Unicode support included for text messages (emojis / asian characters / etc )
   					
   	 	$send_params = array(
+
   	        						'notifyme' => $format_msg,
+
   	        						'telegram' => $format_msg,
+  	        						
   	        						'text' => array(
-  	        											'message' => $encoded_text_msg['content_output'],
-  	        											'charset' => $encoded_text_msg['charset']
-  	        												),
+  	        										'message' => $encoded_text_msg['content_output'],
+  	        										'charset' => $encoded_text_msg['charset']
+  	        										),
+  	        										
   	        						'email' => array(
-  	        												'subject' => 'Your Recurring Reminder Message (sent every ~' . round($val['days']) . ' days)',
-  	        												'message' => $format_msg
-  	        												)
-  	        						);
+  	        										'subject' => 'Your Recurring Reminder Message (sent every ~' . round($val['days']) . ' days)',
+  	        										'message' => $format_msg
+  	        										)
+  	        										
+  	        				 );
   	        						
    	       	
 		// Send notifications
