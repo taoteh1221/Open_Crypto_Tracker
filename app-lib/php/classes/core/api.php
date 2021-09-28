@@ -1036,42 +1036,6 @@ var $pt_array1 = array();
     
     
     
-      elseif ( strtolower($sel_exchange) == 'braziliex' ) {
-         
-      $url = 'https://braziliex.com/api/v1/public/ticker';
-         
-      $response = @$pt_cache->ext_data('url', $url, $pt_conf['power']['last_trade_cache_time']);
-         
-      $data = json_decode($response, true);
-         
-      
-	          if ( is_array($data) ) {
-	      
-	            foreach ($data as $key => $val) {
-	              
-	              if ( $val['market'] == $market_id ) {
-	               
-	              $result = array(
-	                              'last_trade' => $val["last"],
-	                              '24hr_asset_vol' => $val["baseVolume24"],
-	                              '24hr_pairing_vol' => $val["quoteVolume24"]
-	                               );
-	               
-	              }
-	          
-	            }
-	          
-	          }
-      
-      
-      }
-     
-     
-     
-     ////////////////////////////////////////////////////////////////////////////////////////////////
-    
-    
-    
       elseif ( strtolower($sel_exchange) == 'btcmarkets' ) {
       
       $url = 'https://api.btcmarkets.net/market/'.$market_id.'/tick';

@@ -199,7 +199,7 @@ $pt_conf['gen']['btc_prim_currency_pairing'] = 'usd'; // PUT INSIDE SINGLE QUOTE
 // Default BITCOIN market exchanges (30+ bitcoin exchanges supported)
 // (set for default Bitcoin market, and charts / price alert primary-currency-equivalent value determination [example: usd value of btc/ltc market, etc])
 // binance / binance_us / bit2c / bitbns / bitfinex / bitflyer / bitmex / bitpanda / bitso / bitstamp / bittrex / 
-// bittrex_global / braziliex / btcmarkets / btcturk / buyucoin / cex / coinbase / defipulse / gemini / hitbtc / 
+// bittrex_global / btcmarkets / btcturk / buyucoin / cex / coinbase / defipulse / gemini / hitbtc / 
 // huobi / korbit / kraken / kucoin / liquid / localbitcoins / loopring_amm / luno / okcoin / okex / southxchange / upbit / wazirx
 // SEE THE $pt_conf['assets'] CONFIGURATION NEAR THE BOTTOM OF THIS CONFIG FILE, FOR THE PROPER (CORRESPONDING)
 // MARKET PAIRING VALUE NEEDED FOR YOUR CHOSEN 'BTC' EXCHANGE (to populate $pt_conf['gen']['btc_prim_currency_pairing'] directly above with)
@@ -1819,7 +1819,6 @@ $pt_conf['assets'] = array(
 
                                                     
                                     'brl' => array(
-                                          'braziliex' => 'btc_brl',
                                           'localbitcoins' => 'BRL',
                                                     ),
 
@@ -2270,11 +2269,6 @@ $pt_conf['assets'] = array(
                                                     ),
 
                                                     
-                                    'brl' => array(
-                                          'braziliex' => 'eth_brl',
-                                                    ),
-
-                                                    
                                     'btc' => array(
                                           'binance' => 'ETHBTC',
                                           'coinbase' => 'ETH-BTC',
@@ -2293,7 +2287,6 @@ $pt_conf['assets'] = array(
                                           'poloniex' => 'BTC_ETH',
                                           'cryptofresh' => 'OPEN.ETH',
                                           'bitso' => 'eth_btc',
-                                          'braziliex' => 'eth_btc',
                                           'zebpay' => 'ETH-BTC',
                                           'luno' => 'ETHXBT',
                                         	'wazirx' => 'ethbtc',
@@ -2505,7 +2498,6 @@ $pt_conf['assets'] = array(
                                           'bittrex' => 'MKR-BTC',
                                        	'kucoin' => 'MKR-BTC',
                                           'okex' => 'MKR-BTC',
-                                          'bitfinex' => 'tMKRBTC',
                                         	'hitbtc' => 'MKRBTC',
                                           'coinex' => 'MKRBTC',
                                                     ),
@@ -2521,7 +2513,6 @@ $pt_conf['assets'] = array(
                                           'bittrex' => 'MKR-ETH',
                                         	'kucoin' => 'MKR-ETH',
                                           'okex' => 'MKR-ETH',
-                                          'bitfinex' => 'tMKRETH',
                                         	'loopring_amm' => 'AMM-MKR-ETH',
                                         	'hitbtc' => 'MKRETH',
                                           'gateio' => 'MKR_ETH',
@@ -2541,9 +2532,10 @@ $pt_conf['assets'] = array(
 
                                                     
                                     'usdt' => array(
-                                        	'binance' => 'MKRUSDT',
+                                          'binance' => 'MKRUSDT',
                                           'bittrex' => 'MKR-USDT',
                                           'okex' => 'MKR-USDT',
+                                          'bitfinex' => 'tMKRUSD',
                                         	'hitbtc' => 'MKRUSD',
                                           'gateio' => 'MKR_USDT',
                                           'coinex' => 'MKRUSDT',
@@ -2640,7 +2632,6 @@ $pt_conf['assets'] = array(
                                         'okex' => 'LRC-BTC',
                                         'huobi' => 'lrcbtc',
                                         'upbit' => 'BTC-LRC',
-                                        'bitfinex' => 'tLRCBTC',
                                         'loopring_amm' => 'AMM-LRC-WBTC',
                                         'hitbtc' => 'LRCBTC',
                                         'gateio' => 'LRC_BTC',
@@ -2650,12 +2641,10 @@ $pt_conf['assets'] = array(
                                                     
                                     'eth' => array(
                                         'binance' => 'LRCETH',
-                                        'okex' => 'LRC-ETH',
                                         'huobi' => 'lrceth',
                                         'loopring' => 'LRC-ETH',
                                         'hitbtc' => 'LRCETH',
                                         'gateio' => 'LRC_ETH',
-                                        'coinex' => 'LRCETH',
                                     	 'defipulse' => 'LRC/WETH||0x8878df9e1a7c87dcbf6d3999d997f262c05d8c70',
                                                     ),
 
@@ -2674,6 +2663,7 @@ $pt_conf['assets'] = array(
                                         'kucoin' => 'LRC-USDT',
                                         'loopring' => 'LRC-USDT',
                                         'gateio' => 'LRC_USDT',
+                                        'coinex' => 'LRCUSDT',
                                         'wazirx' => 'lrcusdt',
                                                     ),
 
@@ -2794,10 +2784,8 @@ $pt_conf['assets'] = array(
                         
                                     'btc' => array(
                                           'bittrex' => 'GLM-BTC',
-                                        	'ethfinex' => 'tGNTBTC',
                                         	'upbit' => 'BTC-GLM',
                                           'poloniex' => 'BTC_GLM',
-                                          'braziliex' => 'gnt_btc',
                                                     ),
 
                                                     
@@ -2997,19 +2985,19 @@ $pt_conf['assets'] = array(
                                     'btc' => array(
                                         'binance' => 'DATABTC',
                                         'ethfinex' => 'tDATBTC',
-                                        'hitbtc' => 'DATABTC',
+                                        'hitbtc' => 'XDATABTC',
                                                     ),
 
                                                     
                                     'eth' => array(
                                         'binance' => 'DATAETH',
-                                  		 'hitbtc' => 'DATAETH',
+                                  		'hitbtc' => 'XDATAETH',
                                         'gateio' => 'DATA_ETH',
                                                     ),
 
                                                     
                                     'usdt' => array(
-                                         'hitbtc' => 'DATAUSD',
+                                         'hitbtc' => 'XDATAUSDT',
                                          'gateio' => 'DATA_USDT',
                                                     ),
 

@@ -4617,13 +4617,19 @@ WILL AUTOMATICALLY PREFORM THE RESET (ALERTS / TRACKING WILL BE ACCURATE AFTERWA
 5.03.1:
 
 
--Bug fix for bundled "price-target-alert" plugin, crashing the plugin runtime
+-Rebranded to "Open Crypto Tracker"
+
+
+-Bug fix for bundled "price-target-alert" plugin (crashing the plugin runtime)
+
+
+-Bug fixes for "address-balance-tracker" plugin
+
+
+-Cleanup of out-dated default market configs
 
 
 -Better misc. documentation
-
-
--Rebranded to "Open Crypto Tracker"
 
 
 -------------------------------------------------------------------

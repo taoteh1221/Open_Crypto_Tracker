@@ -11,6 +11,8 @@
 
 foreach ( $plug_conf[$this_plug]['tracking'] as $target_key => $target_val ) {
 	
+// Clear any previous loop's $cache_reset var
+$cache_reset = false;
 	
 $balance_tracking_cache_file = $pt_plug->alert_cache($target_key . '.dat');
 
@@ -50,8 +52,8 @@ $pairing_btc_val = $pt_asset->pairing_btc_val($asset);
 	}
 	
 	
-	// If we returned 'error' from a detected API error, skip this one for now
-	if ( $address_balance == 'error' ) {
+	// If we returned 'error' from a detected API error OR no address detected in config, skip this one for now
+	if ( !$address || $address_balance == 'error' ) {
 	continue;
 	}
 	
@@ -73,8 +75,8 @@ $pretty_asset_amount = $pt_var->num_pretty($address_balance, 8);
 	
 	$cached_address_balance = $pt_var->num_to_str($balance_tracking_cache_data[1]);
 	
-		// If user changed the address in the config, flag a reset
-		if ( $address != $cached_address ) {
+		// If user changed the address in the config OR no address detected in cache, flag a reset
+		if ( !$cached_address || $address != $cached_address ) {
 		$cache_reset = true;
 		}
 	
@@ -84,8 +86,8 @@ $pretty_asset_amount = $pt_var->num_pretty($address_balance, 8);
 	}
 	
 	
-// DEBUGGING 
-//$pt_cache->save_file( $pt_plug->alert_cache('debugging-' . $target_key . '.dat') , $cached_address_balance . '|' . $address_balance );
+// DEBUGGING ONLY
+//$pt_cache->save_file( $pt_plug->alert_cache('debugging-' . $target_key . '.dat') , $cached_address_balance . '|' . $address_balance . '|' . $cache_reset );
 	
 	
 	// If a cache reset was flagged

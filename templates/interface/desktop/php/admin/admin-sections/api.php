@@ -298,7 +298,6 @@ var_dump($api_data_array);
         "bitstamp",
         "bittrex",
         "bittrex_global",
-        "braziliex",
         "btcmarkets",
         "btcturk",
         "buyucoin",

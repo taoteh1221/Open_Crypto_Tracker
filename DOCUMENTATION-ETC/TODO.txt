@@ -41,6 +41,9 @@ OPTIMIZATIONS / BUGS / TESTS / UX / QA / OTHER SECTION
 ///////////////////////////////////////////////////////
 
 
+Check in on defipulse API data, unit tests showed it failing across the board for price data.
+
+
 For the language translation cache (to avoid asking API for a translation if we already did once), include a hash digest of the original English text used to translate. That way if the hash changes for the current English text used (English is never translated as it's the default), we know we need to re-translate with a fresh API call, and also save the new hash digest of the current English text as well.
 
 

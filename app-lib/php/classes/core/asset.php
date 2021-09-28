@@ -1965,11 +1965,14 @@ var $pt_array1 = array();
                $send_params = array(
                   
                                     'notifyme' => $notifyme_msg,
+                                    
                                     'telegram' => ( $whale_alert == 1 ? '🐳 ' : '' ) . $email_msg, // Add emoji here, so it's not sent with alexa / google home alerts
+                                    
                                     'text' => array(
                                                     'message' => $encoded_text_msg['content_output'],
                                                     'charset' => $encoded_text_msg['charset']
                                                     ),
+                                                    
                                     'email' => array(
                                                     'subject' => $asset . ' Asset Value '.ucfirst($increase_decrease).' Alert' . ( $whale_alert == 1 ? ' (🐳 WHALE ALERT)' : '' ),
                                                     'message' => ( $whale_alert == 1 ? '🐳 ' : '' ) . $email_msg // Add emoji here, so it's not sent with alexa / google home alerts
