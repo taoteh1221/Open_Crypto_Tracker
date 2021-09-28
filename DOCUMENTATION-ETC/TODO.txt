@@ -41,43 +41,49 @@ OPTIMIZATIONS / BUGS / TESTS / UX / QA / OTHER SECTION
 ///////////////////////////////////////////////////////
 
 
-Check in on defipulse API data, unit tests showed it failing across the board for price data.
+Change $pt_ over to: $oct_ (for better semantics after rebranding)
 
 
-For the language translation cache (to avoid asking API for a translation if we already did once), include a hash digest of the original English text used to translate. That way if the hash changes for the current English text used (English is never translated as it's the default), we know we need to re-translate with a fresh API call, and also save the new hash digest of the current English text as well.
+https://github.com/taoteh1221/Open_Crypto_Tracker/issues/19
 
 
-Remove dead hitbtc market btc/data
-
-
-Rename "cron runtime" to "cron core runtime", to semantically describe it doesn't include cron plugin runtime telemetry (which isnt feasible to add to already-processed charting logic, relative to its usefullness).
-
-
-Prioritize building the admin interface / language translation modules / native app "desktop edition" (via PHPdesktop) above all other infrastructure. Then it's the most useful for the maximum number of people as it can be going forward.
+https://github.com/taoteh1221/Open_Crypto_Tracker/issues/21
 
 
 Add opensea.com and watchtheburn.com to resources page.
 
 
-Add ENJ / MATIC kraken markets, and AXS coinbase markets.
-
-
-add this ticker API for CoinDCX exchange : https://public.coindcx.com/exchange/ticker from India ( https://github.com/taoteh1221/Open_Crypto_Tracker/issues/11#issuecomment-881934185 )
-
-
-Add remote IP address data to ALL relevant security error logging everywhere in the app.
-
-
-Project ethos file in docs folder.
+Add ENJ / MATIC kraken markets.
 
 
 Look into adding Balancer (BAL), Bittrex just added it for US customers.
 
 
-Update Portfolio page screenshots, since we added the 'Rank' column.
+Check in on defipulse API data, unit tests showed it failing across the board for price data.
+
+
+Double-check that the internal API (AND EVERYTHING ELSE) still works, after all the refactoring we did.
+
+
+Make sure everything STILL runs smoothly with the charts page turned off.
+
+
+Rename "cron runtime" to "cron core runtime", to semantically describe it doesn't include cron plugin runtime telemetry (which isnt feasible to add to already-processed charting logic, relative to its usefullness).
+
+
+Update Portfolio page screenshots, since we added the 'Rank' column AND REBRANDED app name.
+
+
+For the language translation cache (to avoid asking API for a translation if we already did once), include a hash digest of the original English text used to translate. That way if the hash changes for the current English text used (English is never translated as it's the default), we know we need to re-translate with a fresh API call, and also save the new hash digest of the current English text as well.
+
+
+Prioritize building the admin interface / language translation modules / native app "desktop edition" (via PHPdesktop) above all other infrastructure. Then it's the most useful for the maximum number of people as it can be going forward.
 
 
 Breakup numerous function call parameters for calls like ui_asset_row() into a param array, like we did for update_all_cookies(). Also do line breaks like we do for arrays on any large string inputs into function calls, like we did for log().
+
+
+Add remote IP address data to ALL relevant security error logging everywhere in the app.
 
 
 Consolidate cookie / post data importing that are near the top of the update and portfolio page UI rendering files, into just one subroutine BEFORE the UI is rendered.
@@ -92,19 +98,10 @@ May come in handy for writing PHP unit tests: https://stackoverflow.com/question
 Add same logic we have for internal API request throttling to the admin login / reset attempts, make setting configurable.
 
 
-Double-check that the internal API (AND EVERYTHING ELSE) still works, after all the refactoring we did.
-
-
-Change the api key format to GET instead of POST on my portfolio app's internal REST API, so browser-based javascript implementations can work cross-site retrieving data.
-
-
 Make sure ALL MARKETS are added FOR ALL SUPPORTED EXCHANGES (EVERY EXCHANGE IN exchange-ticker-apis.php), then re-run the exchange summaries printout (in debug mode), for updating documentation on the web page / README / in config.php.
 
 
 Look into laptop touchscreen zingchart js error on Ubuntu 20.04 / Chrome, when hiding / showing assets in performance chart (but is fine on Ubuntu 20.04 / Chrome on desktop). IT DOESN'T SEEM TO BE MY CODE, SO REPORT IT TO THE ZINGCHART TEAM.
-
-
-Make sure everything STILL runs smoothly with the charts page turned off.
 
 
 Consider moving the error log alerts for "email not configured" under the new "notify" category (which avoids duplicate messages).
@@ -122,7 +119,7 @@ Check log formatting for every debug mode.
 Write debugging tests for rss feeds.
 
 
-Consolidate number_to_string() calls, to speed up runtime.
+Consolidate num_to_str() calls, to speed up runtime.
 
 
 See if exchange API data arrays can be manipulated slightly to build a reusable module for every exchange's API calls.
@@ -315,6 +312,9 @@ Simple trading bot, to run as a cron plugin (with web UI for configuration / sta
 ///////////////////////////////////////////////////////
 MAYBE SECTION
 ///////////////////////////////////////////////////////
+
+
+Change the api key format to GET instead of POST on my portfolio app's internal REST API, so browser-based javascript implementations can work cross-site retrieving data.
 
 
 Add an OPTIONAL 'cron_plugins_runtime' stat in system charts (save as NO_DATA if non-existant to avoid UI rendering, like we do for temperature sensor). We'd need to append to the same line in the .dat file RIGHT AFTER THE CORE LOGIC HAS ALREADY WRITTEN TO IT. Not sure if this potentially could cause corruption issues in edge cases?
