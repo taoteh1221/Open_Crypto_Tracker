@@ -442,8 +442,8 @@ $asset_val_raw = $pt_var->num_to_str($asset_val_raw);
 		}
 		else {
 		$secondary_trade_val_result = $pt_var->num_to_str( $btc_trade_eqiv_raw / $this->pairing_btc_val($sel_opt['show_secondary_trade_val']) );
-		$secondary_trade_val_dec = ( $secondary_trade_val_result >= 0.01 ? 4 : 8 );
-		$secondary_trade_val_dec = ( $secondary_trade_val_result >= 1 ? 2 : $secondary_trade_val_dec );
+		$secondary_trade_val_dec = ( $secondary_trade_val_result >= 0.01 ? 5 : 8 );
+		$secondary_trade_val_dec = ( $secondary_trade_val_result >= 1 ? 3 : $secondary_trade_val_dec );
 		}
 		
   $secondary_trade_val_dec = ( $secondary_trade_val_result >= 100 ? 0 : $secondary_trade_val_dec );
@@ -522,12 +522,17 @@ $asset_val_raw = $pt_var->num_to_str($asset_val_raw);
 
 <?php
 
-	if ( strtoupper($asset_symb) == 'MISCASSETS' ) {
-	$asset_amount_dec = 2;
+	
+	if ( strtolower($asset_symb) == 'btc' ) {
+	$asset_amount_dec = ( $asset_amount >= 0.01 ? 6 : 8 );
+	$asset_amount_dec = ( $asset_amount >= 1 ? 4 : $asset_amount_dec );
 	}
 	else {
-	$asset_amount_dec = 8;
+	$asset_amount_dec = ( $asset_amount >= 0.01 ? 5 : 8 );
+	$asset_amount_dec = ( $asset_amount >= 1 ? 3 : $asset_amount_dec );
 	}
+		
+$asset_amount_dec = ( $asset_amount >= 100 ? 0 : $asset_amount_dec );
 	
 $pretty_asset_amount = $pt_var->num_pretty($asset_amount, $asset_amount_dec);
 
@@ -567,8 +572,8 @@ $asset_val_total_raw = $pt_var->num_to_str($asset_val_total_raw);
 		$asset_val_total_dec = ( $asset_val_total_raw >= 1 ? 4 : $asset_val_total_dec );
 		}
 		else {
-		$asset_val_total_dec = ( $asset_val_total_raw >= 0.01 ? 4 : 8 );
-		$asset_val_total_dec = ( $asset_val_total_raw >= 1 ? 2 : $asset_val_total_dec );
+		$asset_val_total_dec = ( $asset_val_total_raw >= 0.01 ? 5 : 8 );
+		$asset_val_total_dec = ( $asset_val_total_raw >= 1 ? 3 : $asset_val_total_dec );
 		}
   
 	$asset_val_total_dec = ( $asset_val_total_raw >= 100 ? 0 : $asset_val_total_dec );
@@ -590,8 +595,8 @@ echo ' <span class="blue"><span class="data app_sort_filter blue">' . $pretty_as
 		}
 		else {
 		$secondary_holdings_val_result = $pt_var->num_to_str( ($asset_val_total_raw * $pairing_btc_val) / $this->pairing_btc_val($sel_opt['show_secondary_trade_val']) );
-		$secondary_holdings_val_dec = ( $secondary_holdings_val_result >= 0.01 ? 4 : 8 );
-		$secondary_holdings_val_dec = ( $secondary_holdings_val_result >= 1 ? 2 : $secondary_holdings_val_dec );
+		$secondary_holdings_val_dec = ( $secondary_holdings_val_result >= 0.01 ? 5 : 8 );
+		$secondary_holdings_val_dec = ( $secondary_holdings_val_result >= 1 ? 3 : $secondary_holdings_val_dec );
 		}
 		
   $secondary_holdings_val_dec = ( $secondary_holdings_val_result >= 100 ? 0 : $secondary_holdings_val_dec );

@@ -410,12 +410,17 @@ var $pt_array1 = array();
       $decimal_amount = null;
       $check_decimal_amount = null;
       }
-      
+   
+   
+      if ( trim($decimal_amount) != '' ) {
+      $render_decimals = '.' . $decimal_amount;
+      }
+   
       
    // Show decimal value with $decimal_amount
    // $val_no_decimal stops rounding any whole number left of decimal, AND number_format gives us pretty numbers left of decimal
-   $val_to_pretty = number_format($val_no_decimal, 0, '.', ',') . ( $this->num_to_str($check_decimal_amount) > 0.00000000 || $dec_min != false ? '.' . $decimal_amount : '' );
-          
+   $val_to_pretty = number_format($val_no_decimal, 0, '.', ',') . ( $this->num_to_str($check_decimal_amount) > 0.00000000 || $dec_min != false ? $render_decimals : '' );
+     
    return $val_to_pretty;
    
    }
