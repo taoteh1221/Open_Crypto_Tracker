@@ -13,6 +13,33 @@ if [ "$EUID" -ne 0 ]; then
  exit
 fi
 
+######################################
+
+# https://stackoverflow.com/questions/5947742/how-to-change-the-output-color-of-echo-in-linux
+
+if hash tput; then
+
+red=`tput setaf 1`
+green=`tput setaf 2`
+yellow=`tput setaf 3`
+blue=`tput setaf 4`
+magenta=`tput setaf 5`
+cyan=`tput setaf 6`
+
+reset=`tput sgr0`
+
+else
+
+red=``
+green=``
+yellow=``
+blue=``
+magenta=``
+cyan=``
+
+reset=``
+
+fi
 
 ######################################
 
@@ -97,17 +124,17 @@ CUSTOM_CURL_USER_AGENT_HEADER="User-Agent: Curl (${OS}/$VER; compatible;)"
 echo "We need to know the SYSTEM username you'll be logging in as on this machine to edit web files..."
 echo " "
         
-echo "Enter the SYSTEM username to allow web server editing access for:"
-echo "(leave blank / hit enter for default username '${TERMINAL_USERNAME}')"
+echo "${yellow}Enter the SYSTEM username to allow web server editing access for:"
+echo "(leave blank / hit enter for default username '${TERMINAL_USERNAME}')${reset}"
 echo " "
         
 read APP_USER
 
  if [ -z "$APP_USER" ]; then
  APP_USER=${1:-$TERMINAL_USERNAME}
- echo "Using default username: $APP_USER"
+ echo "${cyan}Using default username: $APP_USER${reset}"
  else
- echo "Using username: $APP_USER"
+ echo "${cyan}Using username: $APP_USER${reset}"
  fi
 
 echo " "
@@ -116,21 +143,21 @@ echo " "
 ######################################
 
 			
-echo "Enter the FULL SYSTEM PATH to the document root of the web server:"
+echo "${yellow}Enter the FULL SYSTEM PATH to the document root of the web server:"
 echo "(this does NOT automate setting apache's document root, you would need to do that manually)"
 echo "(DO !NOT! INCLUDE A #TRAILING# FORWARD SLASH)"
-echo "(leave blank / hit enter to use the default value: /var/www/html)"
+echo "(leave blank / hit enter to use the default value: /var/www/html)${reset}"
 echo " "
 
 read DOC_ROOT
         
 if [ -z "$DOC_ROOT" ]; then
 DOC_ROOT=${1:-/var/www/html}
-echo "Using default website document root:"
-echo "$DOC_ROOT"
+echo "${cyan}Using default website document root:"
+echo "$DOC_ROOT${reset}"
 else
-echo "Using custom website document root:"
-echo "$DOC_ROOT"
+echo "${cyan}Using custom website document root:"
+echo "$DOC_ROOT${reset}"
 fi
 
 echo " "
@@ -146,23 +173,25 @@ fi
 ######################################
 
 
-echo "TECHNICAL NOTE:"
+echo " "
+echo "${yellow}TECHNICAL NOTE:${reset}"
+echo " "
 echo "This script was designed to install / setup on Ubuntu or Raspberry Pi OS, and MAY also work on other"
 echo "Debian-based systems (but it has not been tested for that purpose)."
 echo " "
 
-echo "Your operating system has been detected as:"
+echo "${cyan}Your operating system has been detected as:"
 echo " "
-echo "$OS v$VER"
-echo " "
-
-echo "Recommended MINIMUM system specs:"
-echo " "
-echo "1 Gigahertz CPU / 512 Megabytes RAM / HIGH QUALITY 32 Gigabyte MicroSD card (running Nginx or Apache headless with PHP v7.2+)"
+echo "$OS v$VER${reset}"
 echo " "
 
-echo "If you already have unrelated web site files located at $DOC_ROOT on your system, they may be affected."
-echo "Please back up any important pre-existing files in that directory before proceeding."
+echo "${red}Recommended MINIMUM system specs:${reset}"
+echo " "
+echo "${yellow}1 Gigahertz CPU / 512 Megabytes RAM / HIGH QUALITY 32 Gigabyte MicroSD card (running Nginx or Apache headless with PHP v7.2+)${reset}"
+echo " "
+
+echo "${red}If you already have unrelated web site files located at $DOC_ROOT on your system, they may be affected."
+echo "Please back up any important pre-existing files in that directory before proceeding.${reset}"
 echo " "
 
 if [ -f "/etc/debian_version" ]; then
@@ -179,11 +208,11 @@ fi
 				
 				
 if [ -f $DOC_ROOT/config.php ]; then
-echo "A configuration file from a previous install of Open Crypto Tracker (Server Edition) has been detected on your system."
+echo "${yellow}A configuration file from a previous install of Open Crypto Tracker (Server Edition) has been detected on your system."
 echo " "
-echo "During this upgrade / re-install, it will be backed up to:"
+echo "${cyan}During this upgrade / re-install, it will be backed up to:"
 echo " "
-echo "$DOC_ROOT/config.php.BACKUP.$DATE.[random string]"
+echo "$DOC_ROOT/config.php.BACKUP.$DATE.[random string]${reset}"
 echo " "
 echo "This will save any custom settings within it."
 echo " "
@@ -193,8 +222,7 @@ echo "You will need to manually move any CUSTOMIZED DEFAULT settings from backup
 echo "otherwise you can just ignore or delete the backup files."
 echo " "
 
-echo "VERY IMPORTANT UPGRADE NOTES:"
-echo " "
+echo "${red}VERY IMPORTANT UPGRADE NOTES:${reset}"
 echo " "
 
 echo "v5.00.0 and higher of this app HAS COMPLETELY REFACTORED CONFIGURATION VARIABLE NAMES,"
@@ -229,7 +257,7 @@ echo " "
 fi
   				
 
-echo "VERY IMPORTANT SECURITY NOTES:"
+echo "${red}VERY IMPORTANT SECURITY NOTES:"
 echo " "
 echo "YOU WILL BE PROMPTED TO CREATE AN ADMIN LOGIN (FOR SECURITY OF THE ADMIN AREA),"
 echo "#WHEN YOU FIRST RUN THIS APP AFTER INSTALLATION#. IT'S #HIGHLY RECOMMENDED TO DO THIS IMMEDIATELY#,"
@@ -241,13 +269,13 @@ echo " "
 echo "This auto-install script is ONLY FOR SELF-HOSTED ENVIRONMENTS, THAT #DO NOT# ALREADY"
 echo "HAVE A WEB SERVER OR CONTROL PANEL INSTALLED ON THE SYSTEM. If this is a managed hosting"
 echo "environment that a service provider has already provisioned, please quit this auto-install"
-echo "session, and refer to the \"Manual Install\" section of the README.txt file documentation."
+echo "session, and refer to the \"Manual Install\" section of the README.txt file documentation.${reset}"
 echo " "
 
 echo "PLEASE REPORT ANY ISSUES HERE: https://github.com/taoteh1221/Open_Crypto_Tracker/issues"
 echo " "
   				
-echo "Select 1 or 2 to choose whether to continue with installation, or quit."
+echo "${yellow}Select 1 or 2 to choose whether to continue with installation, or quit.${reset}"
 echo " "
 
 OPTIONS="continue quit"
@@ -255,11 +283,11 @@ OPTIONS="continue quit"
 select opt in $OPTIONS; do
         if [ "$opt" = "continue" ]; then
         echo " "
-        echo "Continuing with setup, please wait..."
+        echo "${cyan}Continuing with setup, please wait...${reset}"
         break
        elif [ "$opt" = "quit" ]; then
         echo " "
-        echo "Exiting setup..."
+        echo "${cyan}Exiting setup...${reset}"
         exit
         break
        fi
@@ -273,7 +301,7 @@ echo " "
 
 echo " "
 
-echo "Making sure your system is updated before installation, please wait..."
+echo "${green}Making sure your system is updated before installation, please wait...${reset}"
 
 echo " "
 			
@@ -284,7 +312,7 @@ apt-get upgrade -y
 
 echo " "
 				
-echo "System update completed."
+echo "${green}System update completed.${reset}"
 				
 sleep 3
 				
@@ -306,20 +334,20 @@ FPM_PACKAGE=`expr match "$PHP_FPM_LIST" '.*\(php[0-9][.][0-9]-fpm\)'`
 
 FPM_PACKAGE_VER=`expr match "$FPM_PACKAGE" '.*\([0-9][.][0-9]\)'`
 
-echo "#PREFERRED# PHP-FPM package auto-detected: $FPM_PACKAGE"
+echo "${yellow}#PREFERRED# PHP-FPM package auto-detected: $FPM_PACKAGE"
 echo " "
         
-echo "Enter the PHP-FPM version (numeric only) that you want to use:"
-echo "(leave blank / hit enter for default of '$FPM_PACKAGE_VER')"
+echo "Enter the PHP-FPM version (numeric only) that you want to install / uninstall:"
+echo "(leave blank / hit enter for default of '$FPM_PACKAGE_VER')${reset}"
 echo " "
         
 read PHP_FPM_VER
                 
 	if [ -z "$PHP_FPM_VER" ]; then
  	PHP_FPM_VER=${1:-$FPM_PACKAGE_VER}
- 	echo "Using default PHP-FPM version: $PHP_FPM_VER"
+ 	echo "${cyan}Using default PHP-FPM version: $PHP_FPM_VER${reset}"
  	else
- 	echo "Using custom PHP-FPM version: $PHP_FPM_VER"
+ 	echo "${cyan}Using custom PHP-FPM version: $PHP_FPM_VER${reset}"
  	fi
         
 echo " "
@@ -328,7 +356,7 @@ echo " "
 ######################################
 
 
-echo "Select 1, 2, or 3 to choose whether to auto-install / remove the PHP web server, or skip."
+echo "${yellow}Select 1, 2, or 3 to choose whether to auto-install / remove the PHP web server, or skip.${reset}"
 echo " "
 
 OPTIONS="install_webserver remove_webserver skip"
@@ -338,7 +366,7 @@ select opt in $OPTIONS; do
          
          echo " "
 			
-			echo "Proceeding with PHP web server installation, please wait..."
+			echo "${cyan}Proceeding with PHP web server installation, please wait...${reset}"
 			echo " "
         
 			# !!!RUN FIRST!!! PHP FPM (fcgi) version $PHP_FPM_VER, run SEPERATE in case it fails from package not found
@@ -368,7 +396,7 @@ select opt in $OPTIONS; do
 			# Regenerate new self-signed SSL cert keys with ssl-cert (for secure HTTPS web pages)
 			make-ssl-cert generate-default-snakeoil --force-overwrite
 
-			echo "New SSL certificate keys have been self-signed, please wait..."
+			echo "${green}New SSL certificate keys have been self-signed, please wait...${reset}"
 			echo " "
 
 			# Enable SSL (for secure HTTPS web pages)
@@ -407,11 +435,11 @@ select opt in $OPTIONS; do
 			echo " "
 				
 				if [ -f /etc/init.d/apache2 ]; then
-				echo "New Apache modules have been enabled, restarting the Apache web server, please wait..."
+				echo "${green}New Apache modules have been enabled, restarting the Apache web server, please wait...${reset}"
 				/etc/init.d/apache2 restart
 				echo " "
 				else
-				echo "New Apache modules have been enabled, YOU MUST RESTART the Apache web server for these to activate."
+				echo "${red}New Apache modules have been enabled, YOU MUST RESTART the Apache web server for these to activate.${reset}"
 				echo " "
 				fi
 
@@ -426,18 +454,18 @@ select opt in $OPTIONS; do
             
             if [ ! -f $HTTP_CONF ]; then
             
-            echo "$HTTP_CONF could NOT be found on your system."
-            echo "Please enter the FULL Apache config file path for HTTP (port 80):"
+            echo "${red}$HTTP_CONF could NOT be found on your system."
+            echo "Please enter the FULL Apache config file path for HTTP (port 80):${reset}"
             echo " "
             
             read HTTP_CONF
                     
                 if [ ! -f $HTTP_CONF ] || [ -z "$HTTP_CONF" ]; then
-                echo "No HTTP config file detected, skipping Apache htaccess setup for port 80, please wait..."
+                echo "${red}No HTTP config file detected, skipping Apache htaccess setup for port 80, please wait...${reset}"
                 SKIP_HTTP_HTACCESS=1
                 else
-                echo "Using Apache HTTP config file:"
-                echo "$HTTP_CONF"
+                echo "${cyan}Using Apache HTTP config file:"
+                echo "$HTTP_CONF${reset}"
                 CHECK_HTTP=$(<$HTTP_CONF)
                 fi
             
@@ -455,7 +483,7 @@ select opt in $OPTIONS; do
             
             echo " "
             
-            echo "Enabling htaccess for HTTP (port 80), please wait..."
+            echo "${green}Enabling htaccess for HTTP (port 80), please wait...${reset}"
             echo " "
 
 
@@ -488,13 +516,13 @@ EOF
                             
                 # Restart Apache
                 if [ -f /etc/init.d/apache2 ]; then
-                echo "Htaccess has been enabled for HTTP (port 80),"
-                echo "restarting the Apache web server, please wait..."
+                echo "${green}Htaccess has been enabled for HTTP (port 80),"
+                echo "restarting the Apache web server, please wait...${reset}"
                 /etc/init.d/apache2 restart
                 echo " "
                 else
-                echo "Htaccess has been enabled for HTTP (port 80)."
-                echo "YOU MUST RESTART the Apache web server for this to take affect."
+                echo "${red}Htaccess has been enabled for HTTP (port 80)."
+                echo "YOU MUST RESTART the Apache web server for this to take affect.${reset}"
                 echo " "
                 fi
             
@@ -521,18 +549,18 @@ EOF
             
             if [ ! -f $HTTPS_CONF ]; then
             
-            echo "$HTTPS_CONF could NOT be found on your system."
-            echo "Please enter the FULL Apache config file path for HTTPS (port 443):"
+            echo "${red}$HTTPS_CONF could NOT be found on your system."
+            echo "Please enter the FULL Apache config file path for HTTPS (port 443):${reset}"
             echo " "
             
             read HTTPS_CONF
                     
                 if [ ! -f $HTTPS_CONF ] || [ -z "$HTTPS_CONF" ]; then
-                echo "No HTTPS config file detected, skipping Apache htaccess setup for port 443, please wait..."
+                echo "${red}No HTTPS config file detected, skipping Apache htaccess setup for port 443, please wait...${reset}"
                 SKIP_HTTPS_HTACCESS=1
                 else
-                echo "Using Apache HTTPS config file:"
-                echo "$HTTPS_CONF"
+                echo "${cyan}Using Apache HTTPS config file:"
+                echo "$HTTPS_CONF${reset}"
                 CHECK_HTTPS=$(<$HTTPS_CONF)
                 fi
             
@@ -549,7 +577,7 @@ EOF
             if [ "$SKIP_HTTPS_HTACCESS" != "1" ] && [[ $CHECK_HTTPS != *"cryptocoin_htaccess_443"* ]]; then
             
             echo " "
-            echo "Enabling htaccess for HTTPS (port 443), please wait..."
+            echo "${green}Enabling htaccess for HTTPS (port 443), please wait...${reset}"
             echo " "
             
             
@@ -583,13 +611,13 @@ EOF
                             
                 # Restart Apache
                 if [ -f /etc/init.d/apache2 ]; then
-                echo "Htaccess has been enabled for HTTPS (port 443),"
-                echo "restarting the Apache web server, please wait..."
+                echo "${green}Htaccess has been enabled for HTTPS (port 443),"
+                echo "restarting the Apache web server, please wait...${reset}"
                 /etc/init.d/apache2 restart
                 echo " "
                 else
-                echo "Htaccess has been enabled for HTTPS (port 443)."
-                echo "YOU MUST RESTART the Apache web server for this to take affect."
+                echo "${red}Htaccess has been enabled for HTTPS (port 443)."
+                echo "YOU MUST RESTART the Apache web server for this to take affect.${reset}"
                 echo " "
                 fi
             
@@ -608,8 +636,7 @@ EOF
 			######################################
 			
 			
-			echo " "
-			echo "PHP web server installation is complete."
+	     echo " "
          echo " "
 			
 			
@@ -617,7 +644,7 @@ EOF
             
             
          # Give the new HTTP server system user a chance to exist for a few seconds, before trying to determine the name / group automatically
-         echo "Attempting to auto-detect the web server's user group, please wait..."
+         echo "${green}PHP web server installation completed, auto-detecting it's configuration, please wait...${reset}"
          echo " "
          
          sleep 3
@@ -635,17 +662,17 @@ EOF
             fi
             
          echo " "
-         echo "Enter the web server's user group:"
-         echo "(leave blank / hit enter to use default group '$WWW_GROUP')"
+         echo "${yellow}Enter the web server's user group:"
+         echo "(leave blank / hit enter to use default group '$WWW_GROUP')${reset}"
          echo " "
             
          read CUSTOM_GROUP
                     
             if [ -z "$CUSTOM_GROUP" ]; then
             CUSTOM_GROUP=${1:-$WWW_GROUP}
-            echo "The web server's user group has been declared as: $WWW_GROUP"
+            echo "${cyan}The web server's user group has been declared as: $WWW_GROUP${reset}"
             else
-            echo "The web server's user group has been declared as: $CUSTOM_GROUP"
+            echo "${cyan}The web server's user group has been declared as: $CUSTOM_GROUP${reset}"
             fi
             
          echo " "
@@ -681,7 +708,7 @@ EOF
 			sleep 3
         
 			echo " "
-			echo "PHP web server configuration is complete."
+			echo "${cyan}PHP web server configuration is complete.${reset}"
         
         	######################################
          
@@ -690,7 +717,7 @@ EOF
        elif [ "$opt" = "remove_webserver" ]; then
        
         echo " "
-        echo "Removing PHP web server, please wait..."
+        echo "${cyan}Removing PHP web server, please wait...${reset}"
         echo " "
         
         # WE USE --purge TO REMOVE ANY MISCONFIGURATIONS, IN CASE SOMEBODY IS TRYING A UN-INSTALL / RE-INSTALL TO FIX THINGS
@@ -708,7 +735,7 @@ EOF
 		  sleep 3
 			
 		  echo " "
-		  echo "PHP web server has been removed from the system."
+		  echo "${cyan}PHP web server has been removed from the system.${reset}"
         
         break
        elif [ "$opt" = "skip" ]; then
@@ -730,8 +757,8 @@ echo "Do you want this script to automatically download the latest version of Op
 echo "(Server Edition) from Github.com, and install / configure it?"
 echo " "
 
-echo "Select 1, 2, or 3 to choose whether to auto-install / remove Open Crypto Tracker (Server Edition), or skip."
-echo "(!WARNING!: REMOVING Open Crypto Tracker WILL DELETE *EVERYTHING* IN $DOC_ROOT !!)"
+echo "${yellow}Select 1, 2, or 3 to choose whether to auto-install / remove Open Crypto Tracker (Server Edition), or skip."
+echo "(!WARNING!: REMOVING Open Crypto Tracker WILL DELETE *EVERYTHING* IN $DOC_ROOT !!)${reset}"
 echo " "
 
 OPTIONS="install_portfolio_app remove_portfolio_app skip"
@@ -743,20 +770,20 @@ select opt in $OPTIONS; do
         		
         		echo " "
 				
-				echo "Directory $DOC_ROOT DOES NOT exist, cannot install Open Crypto Tracker."
-				echo "Skipping auto-install of Open Crypto Tracker."
+				echo "${red}Directory $DOC_ROOT DOES NOT exist, cannot install Open Crypto Tracker."
+				echo "Skipping auto-install of Open Crypto Tracker.${reset}"
 				else
 				
 				echo " "
-				echo "Proceeding with required component installation, please wait..."
+				echo "${green}Proceeding with required component installation, please wait...${reset}"
 				
 				echo " "
 				
 				# bsdtar installs may fail (essentially the same package as libarchive-tools),
 				# SO WE RUN BOTH SEPERATELY IN CASE AN ERROR THROWS, SO OTHER PACKAGES INSTALL OK AFTERWARDS
 				
-				echo "(you can safely ignore any upcoming 'bsdtar' install errors, if 'libarchive-tools'"
-				echo "installs OK...and visa versa, as they are essentially the same package)"
+				echo "${yellow}(you can safely ignore any upcoming 'bsdtar' install errors, if 'libarchive-tools'"
+				echo "installs OK...and visa versa, as they are essentially the same package)${reset}"
 				echo " "
 				
 				# Ubuntu 16.x, and other debian-based systems
@@ -775,10 +802,10 @@ select opt in $OPTIONS; do
 				sleep 3
 				
 				echo " "
-				echo "Required component installation completed."
+				echo "${green}Required component installation completed.${reset}"
 				
 				echo " "
-				echo "Downloading / installing the latest version of Open Crypto Tracker (Server Edition) from Github.com, please wait..."
+				echo "${green}Downloading the latest version of Open Crypto Tracker (Server Edition) from Github.com, please wait...${reset}"
             echo " "
 				
 				mkdir DFD-Cryptocoin-Values-TEMP
@@ -819,11 +846,11 @@ select opt in $OPTIONS; do
 						# If openssl fails, create manually
 						if [ -z "$RAND_STRING" ]; then
 						echo " "
-						echo "Automatic random hash creation has failed, please enter a random alphanumeric string"
+						echo "${red}Automatic random hash creation has failed, please enter a random alphanumeric string"
 						echo "of text (no spaces / symbols) at least 10 characters long."
 						echo " "
 						echo "IF YOU SKIP THIS, no backup of the previous install's configuration files will be created (for security reasons),"
-						echo "and YOU WILL LOSE ALL PREVIOUSLY-CONFIGURED SETTINGS."
+						echo "and YOU WILL LOSE ALL PREVIOUSLY-CONFIGURED SETTINGS.${reset}"
 						echo " "
   						read RAND_STRING
 						fi
@@ -888,8 +915,8 @@ select opt in $OPTIONS; do
 						
   						else
   						echo " "
-  						echo "No backup of the previous install's configuration files was created (for security reasons)."
-  						echo "The new install WILL NOW OVERWRITE ALL PREVIOUSLY-CONFIGURED SETTINGS in $DOC_ROOT/config.php..."
+  						echo "${red}No backup of the previous install's configuration files was created (for security reasons)."
+  						echo "The new install WILL NOW OVERWRITE ALL PREVIOUSLY-CONFIGURED SETTINGS in $DOC_ROOT/config.php...${reset}"
   						echo " "
 						fi
 						
@@ -970,7 +997,7 @@ select opt in $OPTIONS; do
 				sleep 3
 				
 				echo " "
-				echo "Installing Open Crypto Tracker (Server Edition), please wait..."
+				echo "${cyan}Installing Open Crypto Tracker (Server Edition), please wait...${reset}"
   				
   				# Copy over the upgrade install files to the install directory, after cleaning up dev files
 				# No trailing forward slash here
@@ -1005,7 +1032,7 @@ select opt in $OPTIONS; do
 				sleep 3
 				
 				echo " "
-				echo "Open Crypto Tracker (Server Edition) has been installed."
+				echo "${cyan}Open Crypto Tracker (Server Edition) has been installed.${reset}"
 				
 				
             ######################################
@@ -1015,7 +1042,7 @@ select opt in $OPTIONS; do
             echo "If you want to use price alerts or charts, you'll need to setup a cron job for that."
             echo " "
             
-            echo "Select 1 or 2 to choose whether to setup a cron job for price alerts / charts, or skip it."
+            echo "${yellow}Select 1 or 2 to choose whether to setup a cron job for price alerts / charts, or skip it.${reset}"
             echo " "
             
             OPTIONS="auto_setup_cron skip"
@@ -1024,40 +1051,40 @@ select opt in $OPTIONS; do
                     if [ "$opt" = "auto_setup_cron" ]; then
                     
                     echo " "
-                    echo "Enter the FULL system path to cron.php:"
-                    echo "(leave blank / hit enter for default of $DOC_ROOT/cron.php)"
+                    echo "${yellow}Enter the FULL system path to cron.php:"
+                    echo "(leave blank / hit enter for default of $DOC_ROOT/cron.php)${reset}"
                     echo " "
                     
                     read SYS_PATH
                     
                         if [ -z "$SYS_PATH" ]; then
                         SYS_PATH=${1:-$DOC_ROOT/cron.php}
-                    		echo "Using default system path to cron.php:"
+                    		echo "${cyan}Using default system path to cron.php:"
                     		echo " "
-                    		echo "$SYS_PATH"
+                    		echo "$SYS_PATH${reset}"
                         else
-                    		echo "System path set to cron.php:"
+                    		echo "${cyan}System path set to cron.php:"
                     		echo " "
-                    		echo "$SYS_PATH"
+                    		echo "$SYS_PATH${reset}"
                         fi
                     
                     echo " "
-                    echo "Options for choosing a time interval to run the background task (cron job)..."
+                    echo "${yellow}Options for choosing a time interval to run the background task (cron job)..."
                     echo " "
-                    echo "IT'S RECOMMENDED TO GO #NO LOWER THAN# EVERY 20 MINUTES FOR CHART DATA, OTHERWISE LITE CHART"
+                    echo "${red}IT'S RECOMMENDED TO GO #NO LOWER THAN# EVERY 20 MINUTES FOR CHART DATA, OTHERWISE LITE CHART"
                     echo "DISK WRITES MAY BE EXCESSIVE FOR LOWER END HARDWARE (Raspberry PI MicroSD cards etc)."
                     echo " "
-                    echo "Enter the time interval in minutes to run this cron job:"
-                    echo "(#MUST BE# either 5, 10, 15, 20, or 30...leave blank / hit enter for default of 20)"
+                    echo "${yellow}Enter the time interval in minutes to run this cron job:"
+                    echo "(#MUST BE# either 5, 10, 15, 20, or 30...leave blank / hit enter for default of 20)${reset}"
                     echo " "
                     
                     read INTERVAL
                     
                         if [ -z "$INTERVAL" ]; then
                         INTERVAL=${2:-20}
-                    		echo "Using default time interval of $INTERVAL minutes."
+                    		echo "${cyan}Using default time interval of $INTERVAL minutes.${reset}"
                         else
-                    		echo "Time interval set to $INTERVAL minutes."
+                    		echo "${cyan}Time interval set to $INTERVAL minutes.${reset}"
                         fi
                     
                             
@@ -1091,14 +1118,14 @@ select opt in $OPTIONS; do
                       
                     
                     echo " "
-                    echo "A cron job has been setup for user '$APP_USER',"
+                    echo "${cyan}A cron job has been setup for user '$APP_USER',"
                     echo "as a command in /etc/cron.d/cryptocoin:"
                     echo " "
                     echo "$CRONJOB"
                     echo " "
 				
-						  echo " "
-						  echo "Open Crypto Tracker (Server Edition) has been configured."
+				    echo " "
+					echo "Open Crypto Tracker (Server Edition) has been configured.${reset}"
                     
                     CRON_SETUP=1
                     
@@ -1106,8 +1133,8 @@ select opt in $OPTIONS; do
                    elif [ "$opt" = "skip" ]; then
                    
                     echo " "
-                    echo "Skipping cron job setup."
-            		  echo " "
+                    echo "${cyan}Skipping cron job setup.${reset}"
+            		echo " "
             
                     break
                    fi
@@ -1126,24 +1153,24 @@ select opt in $OPTIONS; do
        elif [ "$opt" = "remove_portfolio_app" ]; then
        
         echo " "
-        echo "Removing Open Crypto Tracker (Server Edition), please wait..."
+        echo "${cyan}Removing Open Crypto Tracker (Server Edition), please wait...${reset}"
         
-        rm /etc/cron.d/cryptocoin
+        rm /etc/cron.d/cryptocoin > /dev/null 2>&1
 		  
-        rm $DOC_ROOT/.htaccess
+        rm $DOC_ROOT/.htaccess > /dev/null 2>&1
         
-        rm -rf $DOC_ROOT/*
+        rm -rf $DOC_ROOT/* > /dev/null 2>&1
 
-		  sleep 3
+		sleep 3
         
-		  echo " "
-		  echo "Open Crypto Tracker (Server Edition) has been removed from the system."
+		echo " "
+		echo "${cyan}Open Crypto Tracker (Server Edition) has been removed from the system.${reset}"
         
         break
        elif [ "$opt" = "skip" ]; then
        
         echo " "
-        echo "Skipping auto-install of Open Crypto Tracker (Server Edition)."
+        echo "${cyan}Skipping auto-install of Open Crypto Tracker (Server Edition).${reset}"
         
         break
        fi
@@ -1169,12 +1196,12 @@ echo "because anybody on your home / internal network will have access if they k
 echo " "
 
 if [ -f "/usr/bin/raspi-config" ]; then
-echo "Select 1 or 2 to choose whether to setup SSH (under 'Interfacing Options' in raspi-config), or skip it."
+echo "${yellow}Select 1 or 2 to choose whether to setup SSH (under 'Interfacing Options' in raspi-config), or skip it."
 echo " "
 echo "IF YOU CHOOSE OPTION 1, AND IT ASKS IF YOU WANT TO REBOOT AFTER CONFIGURATION, CHOOSE 'NO'"
-echo "OTHERWISE #THIS AUTO-INSTALL WILL ABORT PREMATURELY#! ONLY REBOOT AFTER AUTO-INSTALL WITH: sudo reboot"
+echo "OTHERWISE #THIS AUTO-INSTALL WILL ABORT PREMATURELY#! ONLY REBOOT AFTER AUTO-INSTALL WITH: sudo reboot${reset}"
 else
-echo "Select 1 or 2 to choose whether to setup SSH, or skip it."
+echo "${yellow}Select 1 or 2 to choose whether to setup SSH, or skip it.${reset}"
 fi
 
 echo " "
@@ -1187,13 +1214,13 @@ select opt in $OPTIONS; do
 
 				if [ -f "/usr/bin/raspi-config" ]; then
 				echo " "
-				echo "Initiating raspi-config, please wait..."
+				echo "${green}Initiating raspi-config, please wait...${reset}"
 				# WE NEED SUDO HERE, or raspi-config fails in bash
 				sudo raspi-config
 				else
 				echo " "
 				
-				echo "Proceeding with openssh-server installation, please wait..."
+				echo "${cyan}Proceeding with openssh-server installation, please wait...${reset}"
 				
 				echo " "
 				
@@ -1203,7 +1230,7 @@ select opt in $OPTIONS; do
 				
 				echo " "
 				
-				echo "openssh-server installation completed."
+				echo "${cyan}openssh-server installation completed.${reset}"
 				fi
         
         
@@ -1211,7 +1238,7 @@ select opt in $OPTIONS; do
         break
        elif [ "$opt" = "skip" ]; then
         echo " "
-        echo "Skipping SSH setup."
+        echo "${cyan}Skipping SSH setup.${reset}"
         break
        fi
 done
@@ -1225,68 +1252,68 @@ echo " "
 cd /home/$APP_USER/
 
 
-echo " "
+echo "${yellow} "
 echo "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
 echo "# SAVE THE INFORMATION BELOW FOR FUTURE ACCESS TO THIS APP #"
 echo "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
-echo " "
+echo "${reset} "
 
 
 
 if [ "$APP_SETUP" = "1" ]; then
 
-echo "Web server setup and installation / configuration of Open Crypto Tracker (Server Edition)"
+echo "${yellow}Web server setup and installation / configuration of Open Crypto Tracker (Server Edition)"
 echo "should now be complete (if you chose those options), unless you saw any errors on screen during setup."
 echo " "
 
-echo "Open Crypto Tracker is located at (and can be edited) inside this folder:"
+echo "${cyan}Open Crypto Tracker is located at (and can be edited) inside this folder:"
 echo " "
 echo "$DOC_ROOT"
 echo " "
 
-echo "You may now optionally edit the APP DEFAULT CONFIG (configuration file config.php) remotely via SFTP,"
-echo "or by editing app files locally."
-echo " "
+echo "${yellow}You may now optionally edit the APP DEFAULT CONFIG (configuration file config.php) remotely via SFTP,"
+echo "or by editing it locally with nano or any other installed text editor."
+echo "${reset} "
 
 
     if [ "$CONFIG_BACKUP" = "1" ]; then
     
-    echo "The previously-installed configuration file $DOC_ROOT/config.php has been backed up to:"
-	 echo " "
+    echo "${cyan}The previously-installed configuration file $DOC_ROOT/config.php has been backed up to:"
+	echo " "
     echo "$DOC_ROOT/config.php.BACKUP.$DATE.$RAND_STRING"
-	 echo " "
-	 echo "The bundled plugin's configuration files were also be backed up in the same manner."
-	 echo " "
-	 echo "You will need to manually move any CUSTOMIZED DEFAULT settings from backup files to the NEW configuration files with a text editor,"
-	 echo "otherwise you can just ignore or delete the backup files."
-    echo " "
+	echo " "
+	echo "${yellow}The bundled plugin's configuration files were also be backed up in the same manner."
+	echo " "
+	echo "You will need to manually move any CUSTOMIZED DEFAULT settings from backup files to the NEW configuration files with a text editor,"
+	echo "otherwise you can just ignore or delete the backup files."
+    echo "${reset} "
     
     fi
     
     
     if [ "$CRON_SETUP" = "1" ]; then
     
-    echo "A cron job has been setup for user '$APP_USER', as a command in /etc/cron.d/cryptocoin:"
-	 echo " "
+    echo "${cyan}A cron job has been setup for user '$APP_USER', as a command in /etc/cron.d/cryptocoin:"
+	echo " "
     echo "$CRONJOB"
-    echo " "
+    echo "${reset} "
     
     fi
 
 
 else
 
-echo "Web server setup should now be complete (if you chose that option), unless you saw any errors on screen during setup."
+echo "${yellow}Web server setup should now be complete (if you chose that option), unless you saw any errors on screen during setup."
 echo " "
 
-echo "Web site app files must be placed inside this folder:"
+echo "${cyan}Web site app files must be placed inside this folder:"
 echo " "
 echo "$DOC_ROOT"
 echo " "
 
-echo "If web server setup has completed successfully, Open Crypto Tracker (Server Edition) can now be"
+echo "${yellow}If web server setup has completed successfully, Open Crypto Tracker (Server Edition) can now be"
 echo "installed (if you haven't already) in $DOC_ROOT remotely via SFTP, or by copying over app files locally."
-echo " "
+echo "${reset} "
 
 fi
 
@@ -1294,10 +1321,10 @@ fi
 
 if [ "$SSH_SETUP" = "1" ]; then
 
-echo "SFTP login details are..."
+echo "${yellow}SFTP login details are..."
 echo " "
 
-echo "INTERNAL NETWORK SFTP host (port 22, on home / internal network):"
+echo "${cyan}INTERNAL NETWORK SFTP host (port 22, on home / internal network):"
 echo " "
 echo "$IP"
 echo " "
@@ -1310,24 +1337,25 @@ echo " "
 echo "SFTP remote working directory (where web site files should be placed on web server):"
 echo " "
 echo "$DOC_ROOT"
-echo " "
+echo "${reset} "
 
 fi
 
 
 
-echo "#INTERNAL# NETWORK SSL / HTTPS (secure / private SSL connection) web addresses are..."
+echo "${yellow}#INTERNAL# NETWORK SSL / HTTPS (secure / private SSL connection) web addresses are..."
 echo " "
-echo "IP ADDRESS (may change, unless set as static for this device within the router):"
+echo "${cyan}IP ADDRESS (may change, unless set as static for this device within the router):"
 echo " "
 echo "https://$IP"
 echo " "
 echo "HOST ADDRESS (ONLY works on linux / mac / windows, NOT android as of 2020):"
 echo " "
-echo "https://${HOSTNAME}.local"
+echo "https://${HOSTNAME}.local${reset}"
 echo " "
 
-echo "IMPORTANT NOTES:"
+echo "${red}IMPORTANT NOTES:"
+echo " "
 echo "YOU WILL BE PROMPTED TO CREATE AN ADMIN LOGIN (FOR SECURITY OF THE ADMIN AREA),"
 echo "#WHEN YOU FIRST RUN THIS APP#. IT'S #HIGHLY RECOMMENDED TO DO THIS IMMEDIATELY#,"
 echo "ESPECIALLY ON PUBLIC FACING / KNOWN SERVERS, #OR SOMEBODY ELSE MAY BEAT YOU TO IT#."
@@ -1340,7 +1368,7 @@ echo "THAT SAID, ONLY TRUST SELF-SIGNED CERTIFICATES #IF YOUR COMPUTER CREATED T
 echo "!NEVER! TRUST SELF-SIGNED CERTIFICATES SIGNED BY THIRD PARTIES!"
 echo " "
 
-echo "If you wish to allow external access to this app (when not on your home / internal network),"
+echo "${yellow}If you wish to allow external access to this app (when not on your home / internal network),"
 echo "port forwarding and dynamic DNS on your router needs to be setup (preferably with strict firewall"
 echo "rules using a 'guest network' configuration, to disallow this device requesting access to other machines"
 echo "on your home / internal network, and only allow it an access route through the internet gateway)."
@@ -1348,16 +1376,16 @@ echo " "
 echo "A #VERY HIGH# port number is recommended (FREE / AVAILABLE port range is 1,025 to 65,535), to help avoid"
 echo "port scanning bots from detecting your machine (and then starting hack attempts on your bound port)."
 echo " "
-echo "FOR ADDED SECURITY, YOU SHOULD #ALWAYS KEEP THIS OPERATING SYSTEM UP-TO-DATE# WITH THIS TERMINAL COMMAND:"
+echo "${red}FOR ADDED SECURITY, YOU SHOULD #ALWAYS KEEP THIS OPERATING SYSTEM UP-TO-DATE# WITH THIS TERMINAL COMMAND:"
 echo " "
-echo "sudo apt update;sudo apt upgrade -y"
+echo "${cyan}sudo apt update;sudo apt upgrade -y"
 echo " "
 
-echo "SEE /DOCUMENTATION-ETC/RASPBERRY-PI/ for additional information on securing and"
+echo "${yellow}SEE /DOCUMENTATION-ETC/RASPBERRY-PI/ for additional information on securing and"
 echo "setting up Raspberry Pi OS (disabling bluetooth, firewall setup, remote login, hostname, etc)."
 echo " "
 
-echo "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
+echo "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~${reset}"
 
 
 ######################################
@@ -1371,13 +1399,14 @@ echo " "
 echo "https://github.com/taoteh1221/Slideshow_Crypto_Ticker"
 echo " "
 
-echo "ANY DONATIONS (LARGE OR SMALL) HELP SUPPORT DEVELOPMENT OF MY APPS..."
+echo "${yellow}ANY DONATIONS (LARGE OR SMALL) HELP SUPPORT DEVELOPMENT OF MY APPS..."
 echo " "
-echo "Bitcoin: 3Nw6cvSgnLEFmQ1V4e8RSBG23G7pDjF3hW"
+echo "${green}Bitcoin: ${cyan}3Nw6cvSgnLEFmQ1V4e8RSBG23G7pDjF3hW"
 echo " "
-echo "Ethereum: 0x644343e8D0A4cF33eee3E54fE5d5B8BFD0285EF8"
+echo "${green}Ethereum: ${cyan}0x644343e8D0A4cF33eee3E54fE5d5B8BFD0285EF8"
 echo " "
-echo "!!!!!BE SURE TO SCROLL UP, TO SAVE #ALL THE PORTFOLIO APP USAGE DOCUMENTATION# PRINTED OUT ABOVE, BEFORE YOU SIGN OFF FROM THIS TERMINAL SESSION!!!!!"
+echo "${red}!!!!!BE SURE TO SCROLL UP, TO SAVE #ALL THE PORTFOLIO APP USAGE DOCUMENTATION#"
+echo "PRINTED OUT ABOVE, BEFORE YOU SIGN OFF FROM THIS TERMINAL SESSION!!!!!${reset}"
 echo " "
 
 
@@ -1393,10 +1422,12 @@ export FOLIO_INSTALL_RAN=1
 if [ -z "$TICKER_INSTALL_RAN" ]; then
 
 
-echo "Would you like to ADDITIONALLY / OPTIONALLY install Slideshow Crypto Ticker, multi-crypto slideshow ticker for Raspberry Pi LCD screens on this machine?"
+echo "Would you like to ${red}ADDITIONALLY / OPTIONALLY${reset} install Slideshow Crypto Ticker,"
+echo "multi-crypto slideshow ticker for Raspberry Pi LCD screens on this machine?"
 echo " "
 
-echo "Select 1 or 2 to choose whether to install the crypto ticker for Raspberry Pi LCD screens, or skip."
+echo "Select 1 or 2 to choose whether to ${red}optionally${reset} install the crypto ticker"
+echo "for Raspberry Pi LCD screens, or skip."
 echo " "
 
 OPTIONS="install_crypto_ticker skip"
@@ -1407,7 +1438,7 @@ OPTIONS="install_crypto_ticker skip"
 			
 			echo " "
 			
-			echo "Proceeding with crypto ticker installation, please wait..."
+			echo "${cyan}Proceeding with crypto ticker installation, please wait...${reset}"
 			
 			echo " "
 			
@@ -1424,11 +1455,11 @@ OPTIONS="install_crypto_ticker skip"
        elif [ "$opt" = "skip" ]; then
        
         echo " "
-        echo "Skipping the OPTIONAL crypto ticker install..."
-		  echo " "
-		  echo "Installation / setup has finished, exiting to terminal..."
-		  echo " "
-		  exit
+        echo "${cyan}Skipping the ${red}OPTIONAL ${cyan}crypto ticker install...${reset}"
+		echo " "
+		echo "${green}Installation / setup has finished, exiting to terminal...${reset}"
+		echo " "
+		exit
 		  
         break
         
@@ -1439,7 +1470,7 @@ OPTIONS="install_crypto_ticker skip"
 else
 
 echo " "
-echo "Installation / setup has finished, exiting to terminal..."
+echo "${green}Installation / setup has finished, exiting to terminal...${reset}"
 echo " "
 exit
 
