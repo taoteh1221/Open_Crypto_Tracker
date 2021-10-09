@@ -2310,6 +2310,15 @@ var $pt_array1 = array();
       }
    
    
+      foreach ( $data as $check_key => $check_value ) {
+      
+        if ( $check_value == 'NO_DATA' || $check_value == '' ) {
+        unset($data[$check_key]);
+        }
+      
+      }
+      
+   
    return $data;
    
    }

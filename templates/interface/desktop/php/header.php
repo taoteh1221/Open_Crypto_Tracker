@@ -152,8 +152,8 @@ header('Content-type: text/html; charset=' . $pt_conf['dev']['charset_default'])
 	var charts_num = <?=( $sel_opt['show_charts'][0] != '' ? sizeof($sel_opt['show_charts']) : 0 )?>;
 	var charts_loaded = new Array();
 	
-	var sorted_by_col = <?=$sel_opt['sorted_by_col']?>;
-	var sorted_asc_desc = <?=$sel_opt['sorted_asc_desc']?>;
+	var sorted_by_col = <?=( $sel_opt['sorted_by_col'] ? $sel_opt['sorted_by_col'] : 0 )?>;
+	var sorted_asc_desc = <?=( $sel_opt['sorted_asc_desc'] ? $sel_opt['sorted_asc_desc'] : 0 )?>;
 	
 	var charts_background = '<?=$pt_conf['power']['charts_background']?>';
 	var charts_border = '<?=$pt_conf['power']['charts_border']?>';

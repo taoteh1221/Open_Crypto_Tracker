@@ -1387,7 +1387,7 @@ $pt_conf['dev']['remote_api_strict_ssl'] = 'off'; // (default = 'off')
 
 
 // Ignore warning to use PHP-FPM (#PHP-FPM HELPS PREVENT RUNTIME CRASHES# ON LOW POWER DEVICES OR HIGH TRAFFIC INSTALLS)
-$pt_conf['dev']['ignore_php_fpm_warning'] = 'no'; // (default = 'no', options are 'yes' / 'no')
+$pt_conf['dev']['ignore_php_fpm_warning'] = 'yes'; // (default = 'no', options are 'yes' / 'no')
 
 
 // Maximum number of BATCHED coingecko marketcap data results to fetch, per API call (during multiple / paginated calls) 

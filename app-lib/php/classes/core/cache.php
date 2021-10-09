@@ -659,7 +659,12 @@ var $pt_array1 = array();
   
   $path_parts = pathinfo($file);
   
-  $file_owner_info = posix_getpwuid(fileowner($file));
+    if ( function_exists('posix_getpwuid') ) {
+    $file_owner_info = posix_getpwuid(fileowner($file));
+    }
+    else {
+    $file_owner_info = get_current_user();
+    }
   
   
     // Does the current runtime user own this file (or will they own it after creating a non-existent file)?

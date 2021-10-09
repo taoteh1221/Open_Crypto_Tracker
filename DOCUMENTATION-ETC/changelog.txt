@@ -4636,6 +4636,23 @@ WILL AUTOMATICALLY PREFORM THE RESET (ALERTS / TRACKING WILL BE ACCURATE AFTERWA
 
 
 
+-------------------------------------------------------------------
+5.03.2:
+
+
+-Bug fix for Apache Web Server for Windows 10 support 
+
+
+-Windows 10 batch file, to automatically add cron.php to Windows Task Scheduler 
+
+
+-Misc. UX
+
+
+-------------------------------------------------------------------
+
+
+
 
 
 

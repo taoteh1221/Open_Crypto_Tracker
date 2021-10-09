@@ -741,7 +741,7 @@ EOF
        elif [ "$opt" = "skip" ]; then
        
         echo " "
-        echo "Skipping PHP web server setup..."
+        echo "${cyan}Skipping PHP web server setup...${reset}"
         
         break
        fi

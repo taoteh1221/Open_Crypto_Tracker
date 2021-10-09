@@ -10,7 +10,7 @@
 
 
 // Application version
-$app_version = '5.03.1';  // 2021/October/27TH
+$app_version = '5.03.2';  // 2021/October/9TH
 
 // Application edition
 $app_edition = 'server';  // 'server' OR 'desktop' edition (LOWERCASE)
@@ -203,7 +203,8 @@ $defipulse_api_limit = null;
 
 
 // Register the base directory of this app (MUST BE SET BEFORE !ANY! init logic calls)
-$base_dir = preg_replace("/\/app-lib(.*)/i", "", dirname(__FILE__) );
+$file_loc = str_replace('\\', '/', dirname(__FILE__) ); // Windows compatibility (convert backslashes)
+$base_dir = preg_replace("/\/app-lib(.*)/i", "", $file_loc );
 
 
 //!!!!!!!!!! IMPORTANT, ALWAYS LEAVE THIS HERE !!!!!!!!!!!!!!!
@@ -266,8 +267,14 @@ $pt_cache->error_logs();
 exit;
 }
 
+
 // Current runtime user
+if ( function_exists('posix_getpwuid') && function_exists('posix_geteuid') ) {
 $current_runtime_user = posix_getpwuid(posix_geteuid())['name'];
+}
+else {
+$current_runtime_user = get_current_user();
+}
 
 
 // Get WEBSERVER runtime user (from cache if currently running from CLI)
