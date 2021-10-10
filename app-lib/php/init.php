@@ -27,10 +27,10 @@ date_default_timezone_set('UTC');
 
 // If debugging is enabled, turn on all PHP error reporting (BEFORE ANYTHING ELSE RUNS)
 if ( $pt_conf['dev']['debug'] != 'off' ) {
-error_reporting(1); 
+error_reporting(-1); 
 }
 else {
-error_reporting(0); 
+error_reporting($pt_conf['init']['error_reporting']); 
 }
 
 

@@ -7,17 +7,26 @@
 
 //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 ///////////////////////////////////////////////////////////////////////////////////////////////
+
 // Forbid direct INTERNET access to this file
 if ( isset($_SERVER['REQUEST_METHOD']) && realpath(__FILE__) == realpath($_SERVER['SCRIPT_FILENAME']) ) {
 header('HTTP/1.0 403 Forbidden', TRUE, 403);
 exit;
 }
-error_reporting(0); // Turn off all PHP error reporting on production servers (0), or enable (1)
-//apc_clear_cache(); apcu_clear_cache(); opcache_reset();  // DEBUGGING ONLY
+
 $pt_conf = array(); // REQUIRED, DON'T DELETE BY ACCIDENT
-// WHEN RE-CONFIGURING APP, LEAVE THIS CODE ABOVE HERE, DON'T DELETE ABOVE THESE LINES
+
+// https://www.php.net/manual/en/function.error-reporting.php
+$pt_conf['init']['error_reporting'] = 0; // 0 == off / -1 == on
+
+error_reporting($pt_conf['init']['error_reporting']);
+
+//apc_clear_cache(); apcu_clear_cache(); opcache_reset();  // DEBUGGING ONLY
+
 ///////////////////////////////////////////////////////////////////////////////////////////////
 //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+// !!! WHEN RE-CONFIGURING APP, LEAVE THIS CODE ABOVE HERE, DON'T DELETE ABOVE THESE LINES !!!!
+
 
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
@@ -3065,9 +3074,10 @@ $pt_conf['assets'] = array(
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
 
+
+// !!! WHEN RE-CONFIGURING APP, LEAVE THIS CODE BELOW HERE, DON'T DELETE BELOW THESE LINES !!!!
 //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 ///////////////////////////////////////////////////////////////////////////////////////////////
-// WHEN RE-CONFIGURING APP, LEAVE THIS CODE BELOW HERE, DON'T DELETE BELOW THESE LINES
 require_once("app-lib/php/init.php"); // REQUIRED, DON'T DELETE BY ACCIDENT
 ///////////////////////////////////////////////////////////////////////////////////////////////
 //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!

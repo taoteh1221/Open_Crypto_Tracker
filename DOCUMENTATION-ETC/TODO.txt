@@ -50,7 +50,7 @@ https://github.com/taoteh1221/Open_Crypto_Tracker/issues/19
 https://github.com/taoteh1221/Open_Crypto_Tracker/issues/21
 
 
-Add opensea.com and watchtheburn.com to resources page.
+Add opensea.com / watchtheburn.com / gridplus.io / nodewatch.io to resources page.
 
 
 Add ENJ / MATIC kraken markets.

@@ -4,8 +4,6 @@
  */
 
 
-error_reporting(0); // Turn off all error reporting (0), or enable (1)
-
 $runtime_mode = 'download';
 
 

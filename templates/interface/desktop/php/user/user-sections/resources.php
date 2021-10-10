@@ -157,7 +157,7 @@
 						<p class='red'>ALWAYS backup your HD wallet recovery seed (<a href='https://github.com/iancoleman/bip39' target='_blank'>24 word seed generators</a> are the most secure [only use them OFFLINE!]), NEVER store it in plain text (unencrypted) on a computer or the cloud (BUT use an encryption password YOU WON'T FORGET!!), AND NEVER ENTER IT INTO ANY WEBPAGE OR UNVERIFIED WALLET!!, AND ALWAYS VERIFY YOUR BACKUP WITH A TEST RESTORE!!</p>
 	
 	     
-						<p class='red'>If you use the native Bitcoin Core wallet (NOT recommended), always backup your wallet.dat file after EVERY transaction, OR YOU WILL LOSE ALL YOUR COINS (becuase if it's UTXO logic)! If you use a BITCOIN paper wallet, ALWAYS transfer the ENTIRE amount out in the FIRST TRANSACTION OUT, OR YOU WILL LOSE ALL YOUR COINS (becuase if it's UTXO logic)! 😮</p>
+						<p class='red'>If you use the native Bitcoin Core wallet (NOT recommended), always backup your wallet.dat file after EVERY transaction, OR YOU WILL LOSE ALL YOUR COINS (because of it's UTXO logic)! If you use a BITCOIN paper wallet, ALWAYS transfer the ENTIRE amount out in the FIRST TRANSACTION OUT, OR YOU WILL LOSE ALL YOUR COINS (because of it's UTXO logic)! 😮</p>
 	
 		
 		</div>
