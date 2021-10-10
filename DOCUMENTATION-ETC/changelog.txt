@@ -4664,6 +4664,19 @@ WILL AUTOMATICALLY PREFORM THE RESET (ALERTS / TRACKING WILL BE ACCURATE AFTERWA
 
 
 
+-------------------------------------------------------------------
+5.03.4:
+
+
+-Another Windows 10 fix (sorry!), blank screen on page load
+
+
+-------------------------------------------------------------------
+
+
+
+
+
 
 
 

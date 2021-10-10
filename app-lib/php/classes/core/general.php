@@ -2983,25 +2983,28 @@ var $pt_array1 = array();
       
       
       // System loads
-      $loop = 1;
-      foreach ( sys_getloadavg() as $load ) {
-         
-         if ( $loop == 1 ) {
-         $time = 1;
-         }
-         elseif ( $loop == 2 ) {
-         $time = 5;
-         }
-         elseif ( $loop == 3 ) {
-         $time = 15;
-         }
-         
-      $system['system_load'] .= $load . ' (' . $time . ' min avg) ';
-      $loop = $loop + 1;
+      if ( function_exists('sys_getloadavg') ) {
+          
+          $loop = 1;
+          foreach ( sys_getloadavg() as $load ) {
+             
+             if ( $loop == 1 ) {
+             $time = 1;
+             }
+             elseif ( $loop == 2 ) {
+             $time = 5;
+             }
+             elseif ( $loop == 3 ) {
+             $time = 15;
+             }
+             
+          $system['system_load'] .= $load . ' (' . $time . ' min avg) ';
+          $loop = $loop + 1;
+          }
+      
+      $system['system_load'] = trim($system['system_load']);
+      
       }
-      
-      
-   $system['system_load'] = trim($system['system_load']);
       
      
       // Temperature stats
