@@ -50,11 +50,6 @@ if ( $_POST['hive_submitted'] ) {
 $pt_asset->hivepower_time('day');
 $pt_asset->hivepower_time('week');
 $pt_asset->hivepower_time('month');
-$pt_asset->hivepower_time('2month');
-$pt_asset->hivepower_time('3month');
-$pt_asset->hivepower_time('6month');
-$pt_asset->hivepower_time('9month');
-$pt_asset->hivepower_time('12month');
 
 
 }

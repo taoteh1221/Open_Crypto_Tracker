@@ -478,8 +478,6 @@ var $pt_array1 = array();
        <ul>
            
            <li><b><?=number_format( $powertime, 3, '.', ',')?> HIVE</b> <i>in interest</i> (after a <?=$time?> time period) = <b><?=$pt_conf['power']['btc_currency_markets'][ $pt_conf['gen']['btc_prim_currency_pairing'] ]?><?=number_format( $powertime_prim_currency, 2, '.', ',')?></b></li>
-           
-           <li><b><?=number_format( $hive_total, 3, '.', ',')?> HIVE</b> <i>in total</i> (including original vested amount) = <b><?=$pt_conf['power']['btc_currency_markets'][ $pt_conf['gen']['btc_prim_currency_pairing'] ]?><?=number_format( $prim_currency_total, 2, '.', ',')?></b></li>
        
        </ul>
    
