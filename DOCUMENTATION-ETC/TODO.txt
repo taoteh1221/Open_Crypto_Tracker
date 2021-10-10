@@ -230,12 +230,6 @@ Store the php timeout as a cached var, and compare the CACHED app config to it a
 Store visitor access data in A SEPERATE flat file / json format PER IP ADDRESS (so mulitiple values can be read back into the app before updating, then updated values saved back in json overwriting previously saved values, BUT AVOIDS MULTIPLE IP ADDRESES OVERWRITING SAME DATA). Last X unique ip addresses (as a power user config setting), showing ip address's last user agent / last visit time (AND HISTORY OF DIFFERENT USER AGENTS / LAST VISITS) / total visits count. Drop any over X ip addresses off the list based on oldest LAST VISIT timestamps. Store visitor data (user agent, etc) in a SECURED CACHE filename based off MD5 HASH of ip address. INITIAL BUILDOUT SHOULD ONLY BE FOR 'ui' RUNTIME DATA ONLY.
 
 
-Add google home support via direct connect on same network, OR via IFTTT (whichever is most feasible).
-
-
-Add IFTTT support (alexa / google home / whatever supported devices).
-
-
 Create mobile devices templates, have the portfolio data rows show each piece of data on its own line the entire width of the screen (like android asset trackers do). We may need to create header / footer for mobile as well.
 
 
@@ -302,7 +296,7 @@ Create help page modal for explanations on all config.php settings, that we can 
 Wrap all interface English within a "placeholder" lang_translate() function call. Then from a developer perspective you can still fully see the interface logic, and build out translation logic over time later. 
 
 
-Add Google and Microsoft translate API as options to translate the portfolio interface and price alerts.
+Add Google or Microsoft translate API as options to translate the portfolio interface and price alerts.
 
 
 Simple trading bot, to run as a cron plugin (with web UI for configuration / stats / etc)

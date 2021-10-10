@@ -1964,7 +1964,7 @@ var $pt_array1 = array();
                   
                                     'notifyme' => $notifyme_msg,
                                     
-                                    'telegram' => ( $whale_alert == 1 ? '🐳 ' : '' ) . $email_msg, // Add emoji here, so it's not sent with alexa / google home alerts
+                                    'telegram' => ( $whale_alert == 1 ? '🐳 ' : '' ) . $email_msg, // Add emoji here, so it's not sent with alexa alerts
                                     
                                     'text' => array(
                                                     'message' => $encoded_text_msg['content_output'],
@@ -1973,7 +1973,7 @@ var $pt_array1 = array();
                                                     
                                     'email' => array(
                                                     'subject' => $asset . ' Asset Value '.ucfirst($increase_decrease).' Alert' . ( $whale_alert == 1 ? ' (🐳 WHALE ALERT)' : '' ),
-                                                    'message' => ( $whale_alert == 1 ? '🐳 ' : '' ) . $email_msg // Add emoji here, so it's not sent with alexa / google home alerts
+                                                    'message' => ( $whale_alert == 1 ? '🐳 ' : '' ) . $email_msg // Add emoji here, so it's not sent with alexa alerts
                                                     )
                                                        
                                      );

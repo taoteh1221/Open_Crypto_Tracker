@@ -61,7 +61,7 @@ FEATURES
 
 -Cryptocurrency portfolio subtotal summaries, and total portfolio worth (in crypto and your local primary currency), including value gain / loss data (with tracking support for long / short margin leverages), portfolio balance data, and marketcap data.
 
--Price change alerts by email / text / Alexa / Google Home / Telegram (configurable alert parameters available).
+-Price change alerts by email / text / Alexa / Telegram (configurable alert parameters available).
 
 -Add / edit / delete your own portfolio assets list, with your favorite exchanges / market pairings.
 
@@ -134,11 +134,11 @@ Your web host must have CURL modules activated on your HTTP server. Most web hos
 WINDOWS 10 USERS WHO ARE USING XAMPP WILL NEED TO ENABLE GD FOR PHP (FOR THE ADMIN LOGIN CAPTCHA SECURITY) BEFORE USING THIS APP. PLEASE SEE THE SCREENSHOT LOCATED AT /DOCUMENTATION-ETC/XAMPP-ENABLE-GD.png FOR A VISUAL ON SETTING THIS UP EASILY.
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-Setting up a cron job for charts and price alerts by email / mobile phone text / Alexa / Google Home / Telegram notifications 
+Setting up a cron job for charts and price alerts by email / mobile phone text / Alexa / Telegram notifications 
 (get notifications sent to you, even when your PC / Laptop is offline): 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-You can setup price charts or price alerts in your app install. Price alerts can be sent to email, mobile phone text, Telegram, and Alexa / Google Home notifications. You will be alerted when the [configured default primary currency] price of an asset goes up or down a certain percent or more (whatever percent you choose in the settings), for specific exchange / base pairing combinations for that asset. You can even setup alerts and charts for multiple exchanges / base pairings for the same asset.
+You can setup price charts or price alerts in your app install. Price alerts can be sent to email, mobile phone text, Telegram, and Alexa notifications. You will be alerted when the [configured default primary currency] price of an asset goes up or down a certain percent or more (whatever percent you choose in the settings), for specific exchange / base pairing combinations for that asset. You can even setup alerts and charts for multiple exchanges / base pairings for the same asset.
 	    
 Running price charts or price alerts requires setting up a cron job or scheduled task on the Ubuntu / Raspberry Pi / Windows 10 machine or website server (this is automated for Ubuntu and Raspberry Pi users using the automated FOLIO-INSTALL.bash script / Windows 10 users who run the ADD-WIN10-SCHEDULER-JOB.bat file), otherwise charts / alerts will not work. Also see the related settings in Admin Config for charts / alerts. 
 

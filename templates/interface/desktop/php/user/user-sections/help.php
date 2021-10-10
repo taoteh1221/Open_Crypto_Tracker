@@ -165,7 +165,7 @@ SEE <a href='https://github.com/taoteh1221/Open_Crypto_Tracker/tree/main/DOCUMEN
 
 WINDOWS 10 USERS WHO ARE USING XAMPP WILL NEED TO ENABLE GD FOR PHP (FOR THE ADMIN LOGIN CAPTCHA SECURITY) BEFORE USING THIS APP. PLEASE SEE THE SCREENSHOT LOCATED AT <a href='https://raw.githubusercontent.com/taoteh1221/Open_Crypto_Tracker/main/DOCUMENTATION-ETC/XAMPP-ENABLE-GD.png' target='_blank'>/DOCUMENTATION-ETC/XAMPP-ENABLE-GD.png</a> FOR A VISUAL ON SETTING THIS UP EASILY.<br /><br />
 
-See "<span class='bitcoin'>Setting Up Price Charts And Email / Text / Telegram / Alexa / Google Home Price Alerts</span>"</a>, for how to setup a cron job for additional features. 
+See "<span class='bitcoin'>Setting Up Price Charts And Email / Text / Telegram / Alexa Price Alerts</span>"</a>, for how to setup a cron job for additional features. 
 	        
 	      </div>
 	    </div>
@@ -187,7 +187,7 @@ See "<span class='bitcoin'>Setting Up Price Charts And Email / Text / Telegram /
 	        <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapse_<?=$accord_var?>"
 	          aria-expanded="false" aria-controls="collapse_<?=$accord_var?>">
 	          
-	          Setting Up Price Charts And Email / Text / Telegram / Alexa / Google Home Price Alerts
+	          Setting Up Price Charts And Email / Text / Telegram / Alexa Price Alerts
 	          
 	        </button>
 	      </h5>
@@ -196,7 +196,7 @@ See "<span class='bitcoin'>Setting Up Price Charts And Email / Text / Telegram /
 	      data-parent="#accordionHelp">
 	      <div class="card-body">
 	      
-	      You can setup price charts or price alerts in your app install. Price alerts can be sent to email, mobile phone text, Telegram, and Alexa / Google Home notifications. You will be alerted when the [configured default primary currency] price of an asset goes up or down a certain percent or more (whatever percent you choose in the settings), for specific exchange / base pairing combinations for that asset. You can even setup alerts and charts for multiple exchanges / base pairings for the same asset.
+	      You can setup price charts or price alerts in your app install. Price alerts can be sent to email, mobile phone text, Telegram, and Alexa notifications. You will be alerted when the [configured default primary currency] price of an asset goes up or down a certain percent or more (whatever percent you choose in the settings), for specific exchange / base pairing combinations for that asset. You can even setup alerts and charts for multiple exchanges / base pairings for the same asset.
 	    <br /><br />
 	    
 Running price charts or price alerts requires setting up a cron job or scheduled task on the Ubuntu / Raspberry Pi / Windows 10 machine or website server (this is automated for Ubuntu and Raspberry Pi users using the automated FOLIO-INSTALL.bash script / Windows 10 users who run the ADD-WIN10-SCHEDULER-JOB.bat file), otherwise charts / alerts will not work. Also see the related settings in Admin Config for charts / alerts. 

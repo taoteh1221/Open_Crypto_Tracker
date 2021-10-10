@@ -17,7 +17,7 @@ fi
 
 # https://stackoverflow.com/questions/5947742/how-to-change-the-output-color-of-echo-in-linux
 
-if hash tput; then
+if hash tput > /dev/null 2>&1; then
 
 red=`tput setaf 1`
 green=`tput setaf 2`

@@ -4653,6 +4653,19 @@ WILL AUTOMATICALLY PREFORM THE RESET (ALERTS / TRACKING WILL BE ACCURATE AFTERWA
 
 
 
+-------------------------------------------------------------------
+5.03.3:
+
+
+-Removed vulnerable google API library (not feasible enough to warrant upgrading instead of removing [bloated in size])
+
+
+-------------------------------------------------------------------
+
+
+
+
+
 
 
 

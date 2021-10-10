@@ -110,15 +110,6 @@ $pt_conf['comms']['textlocal_account'] = ''; // This format MUST be used: 'usern
 $pt_conf['comms']['notifyme_accesscode'] = '';
 
 
-// Google Home alert configuration (WORK IN PROGRESS, !!NOT FUNCTIONAL!!)
-// CAN BE BLANK. Setup: https://developers.google.com/assistant/engagement/notifications
-$pt_conf['comms']['google_application_name'] = '';
-////
-$pt_conf['comms']['google_client_id'] = '';
-////
-$pt_conf['comms']['google_client_secret'] = '';
-
-
 // Sending alerts to your own telegram bot chatroom. 
 // (USEFUL IF YOU HAVE ISSUES SETTING UP MOBILE TEXT ALERTS, INCLUDING EMOJI / UNICODE CHARACTER ENCODING)
 // Setup: https://core.telegram.org/bots , OR JUST SEARCH / VISIT "BotFather" in the telegram app
@@ -294,7 +285,7 @@ $pt_conf['proxy']['proxy_list'] = array(
 // Can be 0 to disable fixed time interval resetting (IN WHICH CASE RESETS WILL ONLY OCCUR DYNAMICALLY when the next price alert is triggered / sent out)
 $pt_conf['charts_alerts']['price_alert_fixed_reset'] = 0; // (default = 0)
 ////
-// Whale alert (adds "WHALE ALERT" to beginning of alexa / google home / email / telegram alert text, and spouting whale emoji to email / text / telegram)
+// Whale alert (adds "WHALE ALERT" to beginning of alexa / email / telegram alert text, and spouting whale emoji to email / text / telegram)
 // Format: 'max_days_to_24hr_avg_over||min_price_percent_change_24hr_avg||min_vol_percent_incr_24hr_avg||min_vol_currency_incr_24hr_avg'
 // ("min_price_percent_change_24hr_avg" should be the same value or higher as $pt_conf['comms']['price_alert_thres'] to work properly)
 // Leave BLANK '' TO DISABLE. DECIMALS ARE SUPPORTED, USE NUMBERS ONLY (NO CURRENCY SYMBOLS / COMMAS, ETC)

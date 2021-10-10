@@ -211,13 +211,6 @@ if ( trim($pt_conf['comms']['from_email']) != '' || trim($pt_conf['comms']['to_e
       }
           	
           	
-      // Google Home
-		// To be safe, don't use trim() on certain strings with arbitrary non-alphanumeric characters here
-      if ( trim($pt_conf['comms']['google_application_name']) != '' && trim($pt_conf['comms']['google_client_id']) != '' && $pt_conf['comms']['google_client_secret'] != '' ) {
-      $alerts_enabled_types[] = 'Google Home';
-      }
-          	
-          	
       // Telegram
       if ( $telegram_activated == 1 ) {
       $alerts_enabled_types[] = 'Telegram';

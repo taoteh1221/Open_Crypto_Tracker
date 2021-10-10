@@ -19,15 +19,6 @@ $webhook_hash = explode('/', $_GET['webhook_hash']); // Remove any data after th
 
 
 ///////////////////////////////////////////////////////////////////////////////
-// Google 0auth
-if ( $webhook_hash[0] == $pt_gen->nonce_digest('google-0auth', $webhook_key) ) {
-require_once($base_dir . '/app-lib/php/other/security/google-0auth.php');
-}
-///////////////////////////////////////////////////////////////////////////////
-
-
-
-///////////////////////////////////////////////////////////////////////////////
 // Telegram
 elseif ( $webhook_hash[0] == $pt_gen->nonce_digest('telegram', $webhook_key) ) {
 

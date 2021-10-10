@@ -50,44 +50,5 @@ $telegram_messaging = new Telegram\Receiver($telegram_bot);
 }
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-
-
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-// Google API (google home / translate APIs)
-if ( $pt_conf['comms']['google_application_name'] != '' && $pt_conf['comms']['google_client_id'] != '' && $pt_conf['comms']['google_client_secret'] != '' && $webhook_key != '' ) {
-
-// Based off: https://www.phpflow.com/php/php-web-application-authentication-using-google-oauth-2-0/
-
-// Load class files
-require_once($base_dir . '/app-lib/php/classes/3rd-party/google-api/vendor/autoload.php');
- 
-// GOOGLE HOME
-//Create and Request to access Google API 
-// We are using push notifications for the price alerts 
-// (after firewalling the raspi with it's own subnetwork / WAP device, 
-// and creating an authenticated google API action with our dynamic ip's URI)
-// https://developers.google.com/assistant/engagement/notifications
-// https://www.reddit.com/r/GoogleAssistantDev/comments/eptoha/need_google_home_api_authentication_locally_for/
-
-
-// Google client instance
-$google_client = new Google_Client();
-
-// Google app details (https://developers.google.com/assistant/engagement/notifications)
-$google_client->setApplicationName($pt_conf['comms']['google_application_name']);
-$google_client->setClientId($pt_conf['comms']['google_client_id']);
-$google_client->setClientSecret($pt_conf['comms']['google_client_secret']);
-$google_client->setRedirectUri($base_url . 'webhook/' . $webhook_key);
-
-// Google 0auth instance
-$google_0auth = new Google_Service_Oauth2($google_client);
-
-
-// GOOGLE TRANSLATE
-// (NOT BUILT YET)
-
-}
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
  
  ?>

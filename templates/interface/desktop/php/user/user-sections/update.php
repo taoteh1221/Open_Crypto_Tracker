@@ -270,7 +270,7 @@
 	
 	<div> &nbsp; </div>
 	
-	<p><a style='font-weight: bold;' href='README.txt' target='_blank'>Editing The Portfolio Assets List, and Enabling Email / Text / Telegram / Alexa / Google Home Price Alerts (installation on Ubuntu, Raspberry Pi, Windows 10, or website)</a></p>
+	<p><a style='font-weight: bold;' href='README.txt' target='_blank'>Editing The Portfolio Assets List, and Enabling Email / Text / Telegram / Alexa Price Alerts (installation on Ubuntu, Raspberry Pi, Windows 10, or website)</a></p>
 	
 				
 			
