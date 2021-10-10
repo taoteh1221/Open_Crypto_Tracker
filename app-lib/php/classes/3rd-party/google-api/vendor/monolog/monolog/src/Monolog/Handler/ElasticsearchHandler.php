@@ -11,14 +11,14 @@
 
 namespace Monolog\Handler;
 
-use Elasticsearch\Client;
-use Elasticsearch\Common\Exceptions\RuntimeException as ElasticsearchRuntimeException;
-use InvalidArgumentException;
-use Monolog\Formatter\ElasticsearchFormatter;
-use Monolog\Formatter\FormatterInterface;
-use Monolog\Logger;
-use RuntimeException;
 use Throwable;
+use RuntimeException;
+use Monolog\Logger;
+use Monolog\Formatter\FormatterInterface;
+use Monolog\Formatter\ElasticsearchFormatter;
+use InvalidArgumentException;
+use Elasticsearch\Common\Exceptions\RuntimeException as ElasticsearchRuntimeException;
+use Elasticsearch\Client;
 
 /**
  * Elasticsearch handler
@@ -49,15 +49,13 @@ class ElasticsearchHandler extends AbstractProcessingHandler
     protected $client;
 
     /**
-     * @var array Handler config options
+     * @var mixed[] Handler config options
      */
     protected $options = [];
 
     /**
-     * @param Client     $client  Elasticsearch Client object
-     * @param array      $options Handler configuration
-     * @param string|int $level   The minimum logging level at which this handler will be triggered
-     * @param bool       $bubble  Whether the messages that are handled can bubble up the stack or not
+     * @param Client  $client  Elasticsearch Client object
+     * @param mixed[] $options Handler configuration
      */
     public function __construct(Client $client, array $options = [], $level = Logger::DEBUG, bool $bubble = true)
     {
@@ -82,7 +80,7 @@ class ElasticsearchHandler extends AbstractProcessingHandler
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
     public function setFormatter(FormatterInterface $formatter): HandlerInterface
     {
@@ -96,7 +94,7 @@ class ElasticsearchHandler extends AbstractProcessingHandler
     /**
      * Getter options
      *
-     * @return array
+     * @return mixed[]
      */
     public function getOptions(): array
     {
@@ -112,7 +110,7 @@ class ElasticsearchHandler extends AbstractProcessingHandler
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
     public function handleBatch(array $records): void
     {
@@ -123,7 +121,7 @@ class ElasticsearchHandler extends AbstractProcessingHandler
     /**
      * Use Elasticsearch bulk API to send list of documents
      *
-     * @param  array             $records
+     * @param  array[]           $records Records + _index/_type keys
      * @throws \RuntimeException
      */
     protected function bulkSend(array $records): void
@@ -148,12 +146,42 @@ class ElasticsearchHandler extends AbstractProcessingHandler
             $responses = $this->client->bulk($params);
 
             if ($responses['errors'] === true) {
-                throw new ElasticsearchRuntimeException('Elasticsearch returned error for one of the records');
+                throw $this->createExceptionFromResponses($responses);
             }
         } catch (Throwable $e) {
             if (! $this->options['ignore_error']) {
                 throw new RuntimeException('Error sending messages to Elasticsearch', 0, $e);
             }
         }
+    }
+
+    /**
+     * Creates elasticsearch exception from responses array
+     *
+     * Only the first error is converted into an exception.
+     *
+     * @param mixed[] $responses returned by $this->client->bulk()
+     */
+    protected function createExceptionFromResponses(array $responses): ElasticsearchRuntimeException
+    {
+        foreach ($responses['items'] ?? [] as $item) {
+            if (isset($item['index']['error'])) {
+                return $this->createExceptionFromError($item['index']['error']);
+            }
+        }
+
+        return new ElasticsearchRuntimeException('Elasticsearch failed to index one or more records.');
+    }
+
+    /**
+     * Creates elasticsearch exception from error array
+     *
+     * @param mixed[] $error
+     */
+    protected function createExceptionFromError(array $error): ElasticsearchRuntimeException
+    {
+        $previous = isset($error['caused_by']) ? $this->createExceptionFromError($error['caused_by']) : null;
+
+        return new ElasticsearchRuntimeException($error['type'] . ': ' . $error['reason'], 0, $previous);
     }
 }

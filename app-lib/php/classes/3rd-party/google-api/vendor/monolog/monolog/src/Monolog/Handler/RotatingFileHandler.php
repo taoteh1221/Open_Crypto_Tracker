@@ -13,6 +13,7 @@ namespace Monolog\Handler;
 
 use InvalidArgumentException;
 use Monolog\Logger;
+use Monolog\Utils;
 
 /**
  * Stores logs to files that are rotated every day and a limited number of files are kept.
@@ -29,24 +30,28 @@ class RotatingFileHandler extends StreamHandler
     public const FILE_PER_MONTH = 'Y-m';
     public const FILE_PER_YEAR = 'Y';
 
+    /** @var string */
     protected $filename;
+    /** @var int */
     protected $maxFiles;
+    /** @var bool */
     protected $mustRotate;
+    /** @var \DateTimeImmutable */
     protected $nextRotation;
+    /** @var string */
     protected $filenameFormat;
+    /** @var string */
     protected $dateFormat;
 
     /**
      * @param string     $filename
      * @param int        $maxFiles       The maximal amount of files to keep (0 means unlimited)
-     * @param string|int $level          The minimum logging level at which this handler will be triggered
-     * @param bool       $bubble         Whether the messages that are handled can bubble up the stack or not
      * @param int|null   $filePermission Optional file permissions (default (0644) are only for owner read/write)
      * @param bool       $useLocking     Try to lock log file before doing any writes
      */
     public function __construct(string $filename, int $maxFiles = 0, $level = Logger::DEBUG, bool $bubble = true, ?int $filePermission = null, bool $useLocking = false)
     {
-        $this->filename = $filename;
+        $this->filename = Utils::canonicalizePath($filename);
         $this->maxFiles = $maxFiles;
         $this->nextRotation = new \DateTimeImmutable('tomorrow');
         $this->filenameFormat = '{filename}-{date}';
@@ -56,7 +61,7 @@ class RotatingFileHandler extends StreamHandler
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
     public function close(): void
     {
@@ -68,7 +73,7 @@ class RotatingFileHandler extends StreamHandler
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
     public function reset()
     {
@@ -103,13 +108,13 @@ class RotatingFileHandler extends StreamHandler
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
     protected function write(array $record): void
     {
         // on the first record written, if the log is new, we should rotate (once per day)
         if (null === $this->mustRotate) {
-            $this->mustRotate = !file_exists($this->url);
+            $this->mustRotate = null === $this->url || !file_exists($this->url);
         }
 
         if ($this->nextRotation <= $record['datetime']) {
@@ -135,6 +140,11 @@ class RotatingFileHandler extends StreamHandler
         }
 
         $logFiles = glob($this->getGlobPattern());
+        if (false === $logFiles) {
+            // failed to glob
+            return;
+        }
+
         if ($this->maxFiles >= count($logFiles)) {
             // no files to remove
             return;
@@ -169,7 +179,7 @@ class RotatingFileHandler extends StreamHandler
             $fileInfo['dirname'] . '/' . $this->filenameFormat
         );
 
-        if (!empty($fileInfo['extension'])) {
+        if (isset($fileInfo['extension'])) {
             $timedFilename .= '.'.$fileInfo['extension'];
         }
 
@@ -184,7 +194,7 @@ class RotatingFileHandler extends StreamHandler
             [$fileInfo['filename'], '[0-9][0-9][0-9][0-9]*'],
             $fileInfo['dirname'] . '/' . $this->filenameFormat
         );
-        if (!empty($fileInfo['extension'])) {
+        if (isset($fileInfo['extension'])) {
             $glob .= '.'.$fileInfo['extension'];
         }
 

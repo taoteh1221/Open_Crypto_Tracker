@@ -19,7 +19,7 @@ namespace Monolog\Processor;
 class WebProcessor implements ProcessorInterface
 {
     /**
-     * @var array|\ArrayAccess
+     * @var array<string, mixed>|\ArrayAccess<string, mixed>
      */
     protected $serverData;
 
@@ -28,7 +28,7 @@ class WebProcessor implements ProcessorInterface
      *
      * Array is structured as [key in record.extra => key in $serverData]
      *
-     * @var array
+     * @var array<string, string>
      */
     protected $extraFields = [
         'url'         => 'REQUEST_URI',
@@ -39,8 +39,8 @@ class WebProcessor implements ProcessorInterface
     ];
 
     /**
-     * @param array|\ArrayAccess|null $serverData  Array or object w/ ArrayAccess that provides access to the $_SERVER data
-     * @param array|null              $extraFields Field names and the related key inside $serverData to be added. If not provided it defaults to: url, ip, http_method, server, referrer
+     * @param array<string, mixed>|\ArrayAccess<string, mixed>|null $serverData  Array or object w/ ArrayAccess that provides access to the $_SERVER data
+     * @param array<string, string>|null                            $extraFields Field names and the related key inside $serverData to be added. If not provided it defaults to: url, ip, http_method, server, referrer
      */
     public function __construct($serverData = null, array $extraFields = null)
     {
@@ -50,6 +50,10 @@ class WebProcessor implements ProcessorInterface
             $this->serverData = $serverData;
         } else {
             throw new \UnexpectedValueException('$serverData must be an array or object implementing ArrayAccess.');
+        }
+
+        if (isset($this->serverData['UNIQUE_ID'])) {
+            $this->extraFields['unique_id'] = 'UNIQUE_ID';
         }
 
         if (null !== $extraFields) {
@@ -65,6 +69,9 @@ class WebProcessor implements ProcessorInterface
         }
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public function __invoke(array $record): array
     {
         // skip processing if for some reason request data
@@ -85,14 +92,14 @@ class WebProcessor implements ProcessorInterface
         return $this;
     }
 
+    /**
+     * @param  mixed[] $extra
+     * @return mixed[]
+     */
     private function appendExtraFields(array $extra): array
     {
         foreach ($this->extraFields as $extraName => $serverName) {
             $extra[$extraName] = $this->serverData[$serverName] ?? null;
-        }
-
-        if (isset($this->serverData['UNIQUE_ID'])) {
-            $extra['unique_id'] = $this->serverData['UNIQUE_ID'];
         }
 
         return $extra;

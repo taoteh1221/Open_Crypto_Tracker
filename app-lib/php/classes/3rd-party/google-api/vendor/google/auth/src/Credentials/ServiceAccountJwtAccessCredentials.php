@@ -18,7 +18,9 @@
 namespace Google\Auth\Credentials;
 
 use Google\Auth\CredentialsLoader;
+use Google\Auth\GetQuotaProjectInterface;
 use Google\Auth\OAuth2;
+use Google\Auth\ProjectIdProviderInterface;
 use Google\Auth\ServiceAccountSignerTrait;
 use Google\Auth\SignBlobInterface;
 
@@ -31,7 +33,10 @@ use Google\Auth\SignBlobInterface;
  * console (via 'Generate new Json Key').  It is not part of any OAuth2
  * flow, rather it creates a JWT and sends that as a credential.
  */
-class ServiceAccountJwtAccessCredentials extends CredentialsLoader implements SignBlobInterface
+class ServiceAccountJwtAccessCredentials extends CredentialsLoader implements
+    GetQuotaProjectInterface,
+    SignBlobInterface,
+    ProjectIdProviderInterface
 {
     use ServiceAccountSignerTrait;
 
@@ -43,12 +48,19 @@ class ServiceAccountJwtAccessCredentials extends CredentialsLoader implements Si
     protected $auth;
 
     /**
+     * The quota project associated with the JSON credentials
+     */
+    protected $quotaProject;
+
+    /**
      * Create a new ServiceAccountJwtAccessCredentials.
      *
      * @param string|array $jsonKey JSON credential file path or JSON credentials
      *   as an associative array
+     * @param string|array $scope the scope of the access request, expressed
+     *   either as an Array or as a space-delimited String.
      */
-    public function __construct($jsonKey)
+    public function __construct($jsonKey, $scope = null)
     {
         if (is_string($jsonKey)) {
             if (!file_exists($jsonKey)) {
@@ -61,18 +73,28 @@ class ServiceAccountJwtAccessCredentials extends CredentialsLoader implements Si
         }
         if (!array_key_exists('client_email', $jsonKey)) {
             throw new \InvalidArgumentException(
-                'json key is missing the client_email field');
+                'json key is missing the client_email field'
+            );
         }
         if (!array_key_exists('private_key', $jsonKey)) {
             throw new \InvalidArgumentException(
-                'json key is missing the private_key field');
+                'json key is missing the private_key field'
+            );
+        }
+        if (array_key_exists('quota_project_id', $jsonKey)) {
+            $this->quotaProject = (string) $jsonKey['quota_project_id'];
         }
         $this->auth = new OAuth2([
             'issuer' => $jsonKey['client_email'],
             'sub' => $jsonKey['client_email'],
             'signingAlgorithm' => 'RS256',
             'signingKey' => $jsonKey['private_key'],
+            'scope' => $scope,
         ]);
+
+        $this->projectId = isset($jsonKey['project_id'])
+            ? $jsonKey['project_id']
+            : null;
     }
 
     /**
@@ -81,7 +103,6 @@ class ServiceAccountJwtAccessCredentials extends CredentialsLoader implements Si
      * @param array $metadata metadata hashmap
      * @param string $authUri optional auth uri
      * @param callable $httpHandler callback which delivers psr7 request
-     *
      * @return array updated metadata hashmap
      */
     public function updateMetadata(
@@ -89,7 +110,8 @@ class ServiceAccountJwtAccessCredentials extends CredentialsLoader implements Si
         $authUri = null,
         callable $httpHandler = null
     ) {
-        if (empty($authUri)) {
+        $scope = $this->auth->getScope();
+        if (empty($authUri) && empty($scope)) {
             return $metadata;
         }
 
@@ -110,11 +132,21 @@ class ServiceAccountJwtAccessCredentials extends CredentialsLoader implements Si
     public function fetchAuthToken(callable $httpHandler = null)
     {
         $audience = $this->auth->getAudience();
-        if (empty($audience)) {
+        $scope = $this->auth->getScope();
+        if (empty($audience) && empty($scope)) {
             return null;
         }
 
+        if (!empty($audience) && !empty($scope)) {
+            throw new \UnexpectedValueException(
+                'Cannot sign both audience and scope in JwtAccess'
+            );
+        }
+
         $access_token = $this->auth->toJwt();
+
+        // Set the self-signed access token in OAuth2 for getLastReceivedToken
+        $this->auth->setAccessToken($access_token);
 
         return array('access_token' => $access_token);
     }
@@ -136,6 +168,19 @@ class ServiceAccountJwtAccessCredentials extends CredentialsLoader implements Si
     }
 
     /**
+     * Get the project ID from the service account keyfile.
+     *
+     * Returns null if the project ID does not exist in the keyfile.
+     *
+     * @param callable $httpHandler Not used by this credentials type.
+     * @return string|null
+     */
+    public function getProjectId(callable $httpHandler = null)
+    {
+        return $this->projectId;
+    }
+
+    /**
      * Get the client name from the keyfile.
      *
      * In this case, it returns the keyfile's client_email key.
@@ -146,5 +191,15 @@ class ServiceAccountJwtAccessCredentials extends CredentialsLoader implements Si
     public function getClientName(callable $httpHandler = null)
     {
         return $this->auth->getIssuer();
+    }
+
+    /**
+     * Get the quota project used for this API request
+     *
+     * @return string|null
+     */
+    public function getQuotaProject()
+    {
+        return $this->quotaProject;
     }
 }

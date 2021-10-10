@@ -11,7 +11,6 @@
 
 namespace Monolog\Formatter;
 
-use Monolog\Utils;
 use Throwable;
 
 /**
@@ -20,24 +19,33 @@ use Throwable;
  * This can be useful to log to databases or remote APIs
  *
  * @author Jordi Boggiano <j.boggiano@seld.be>
+ *
+ * @phpstan-import-type Record from \Monolog\Logger
  */
 class JsonFormatter extends NormalizerFormatter
 {
     public const BATCH_MODE_JSON = 1;
     public const BATCH_MODE_NEWLINES = 2;
 
+    /** @var self::BATCH_MODE_* */
     protected $batchMode;
+    /** @var bool */
     protected $appendNewline;
-
-    /**
-     * @var bool
-     */
+    /** @var bool */
+    protected $ignoreEmptyContextAndExtra;
+    /** @var bool */
     protected $includeStacktraces = false;
 
-    public function __construct(int $batchMode = self::BATCH_MODE_JSON, bool $appendNewline = true)
+    /**
+     * @param self::BATCH_MODE_* $batchMode
+     */
+    public function __construct(int $batchMode = self::BATCH_MODE_JSON, bool $appendNewline = true, bool $ignoreEmptyContextAndExtra = false)
     {
         $this->batchMode = $batchMode;
         $this->appendNewline = $appendNewline;
+        $this->ignoreEmptyContextAndExtra = $ignoreEmptyContextAndExtra;
+
+        parent::__construct();
     }
 
     /**
@@ -61,25 +69,32 @@ class JsonFormatter extends NormalizerFormatter
     }
 
     /**
-     * {@inheritdoc}
-     *
-     * @suppress PhanTypeComparisonToArray
+     * {@inheritDoc}
      */
     public function format(array $record): string
     {
         $normalized = $this->normalize($record);
+
         if (isset($normalized['context']) && $normalized['context'] === []) {
-            $normalized['context'] = new \stdClass;
+            if ($this->ignoreEmptyContextAndExtra) {
+                unset($normalized['context']);
+            } else {
+                $normalized['context'] = new \stdClass;
+            }
         }
         if (isset($normalized['extra']) && $normalized['extra'] === []) {
-            $normalized['extra'] = new \stdClass;
+            if ($this->ignoreEmptyContextAndExtra) {
+                unset($normalized['extra']);
+            } else {
+                $normalized['extra'] = new \stdClass;
+            }
         }
 
         return $this->toJson($normalized, true) . ($this->appendNewline ? "\n" : '');
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
     public function formatBatch(array $records): string
     {
@@ -93,6 +108,9 @@ class JsonFormatter extends NormalizerFormatter
         }
     }
 
+    /**
+     * @return void
+     */
     public function includeStacktraces(bool $include = true)
     {
         $this->includeStacktraces = $include;
@@ -100,6 +118,8 @@ class JsonFormatter extends NormalizerFormatter
 
     /**
      * Return a JSON-encoded array of records.
+     *
+     * @phpstan-param Record[] $records
      */
     protected function formatBatchJson(array $records): string
     {
@@ -109,6 +129,8 @@ class JsonFormatter extends NormalizerFormatter
     /**
      * Use new lines to separate records instead of a
      * JSON-encoded array.
+     *
+     * @phpstan-param Record[] $records
      */
     protected function formatBatchNewlines(array $records): string
     {
@@ -137,7 +159,7 @@ class JsonFormatter extends NormalizerFormatter
             return 'Over '.$this->maxNormalizeDepth.' levels deep, aborting normalization';
         }
 
-        if (is_array($data) || $data instanceof \Traversable) {
+        if (is_array($data)) {
             $normalized = [];
 
             $count = 1;
@@ -153,8 +175,16 @@ class JsonFormatter extends NormalizerFormatter
             return $normalized;
         }
 
+        if ($data instanceof \DateTimeInterface) {
+            return $this->formatDate($data);
+        }
+
         if ($data instanceof Throwable) {
             return $this->normalizeException($data, $depth);
+        }
+
+        if (is_resource($data)) {
+            return parent::normalize($data);
         }
 
         return $data;
@@ -163,6 +193,8 @@ class JsonFormatter extends NormalizerFormatter
     /**
      * Normalizes given exception with or without its own stack trace based on
      * `includeStacktraces` property.
+     *
+     * {@inheritDoc}
      */
     protected function normalizeException(Throwable $e, int $depth = 0): array
     {
