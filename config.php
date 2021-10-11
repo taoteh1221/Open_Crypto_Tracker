@@ -174,6 +174,8 @@ $pt_conf['comms']['proxy_alert_checkup_ok'] = 'include';
 // (ENABLES / UPDATES automatically, when a valid username / password are filled in or updated here)
 // (DISABLES automatically, when username / password are blank '' OR invalid) 
 // (!ONLY #UPDATES OR DISABLES# AUTOMATICALLY #AFTER# LOGGING IN ONCE WITH YOUR #OLD LOGIN# [or if a cron job runs with the new config]!)
+// #IF THIS SETTING GIVES YOU ISSUES# ON YOUR SYSTEM, BLANK IT OUT TO '', AND DELETE '.htaccess' IN THE MAIN DIRECTORY OF 
+// THIS APP (TO RESTORE PAGE ACCESS), AND PLEASE REPORT IT HERE: https://github.com/taoteh1221/Open_Crypto_Tracker/issues
 $pt_conf['gen']['interface_login'] = ''; // Leave blank to disable requiring an interface login. This format MUST be used: 'username||password'
 
 
