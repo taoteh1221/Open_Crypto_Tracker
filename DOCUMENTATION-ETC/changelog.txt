@@ -4674,6 +4674,17 @@ WILL AUTOMATICALLY PREFORM THE RESET (ALERTS / TRACKING WILL BE ACCURATE AFTERWA
 -Semantic code changes after rebranding
 
 
+-Added Bitmart API support
+
+
+-Revised default config
+
+
+v5.03.4 and higher renames the admin config array. ALL CONFIGURATION SETTING
+VARIABLE NAMES ARE NOW DIFFERENT, USE THE LATEST/UPGRADED CONFIG.PHP, AND
+MIGRATE YOUR EXISTING SETTINGS TO THE NEW FORMAT.
+
+
 -------------------------------------------------------------------
 
 

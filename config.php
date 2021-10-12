@@ -392,10 +392,10 @@ $oct_conf['charts_alerts']['tracked_markets'] = array(
 					'lrc-4' => 'defipulse||eth||none',
 					
 					
-					// KEEP
-					'keep' => 'kraken||btc||both',
-					'keep-2' => 'hitbtc||btc||chart',
-					'keep-3' => 'defipulse||eth||none',
+					// HNT
+					'hnt' => 'binance||btc||chart',
+					'hnt-2' => 'binance_us||usd||both',
+					'hnt-3' => 'gateio||eth||none',
 					
 					
 					// MANA
@@ -404,6 +404,12 @@ $oct_conf['charts_alerts']['tracked_markets'] = array(
 					'mana-3' => 'kucoin||btc||none',
 					'mana-4' => 'ethfinex||btc||none',
 					'mana-5' => 'binance||eth||none',
+					
+					
+					// KEEP
+					'keep' => 'kraken||btc||both',
+					'keep-2' => 'hitbtc||btc||chart',
+					'keep-3' => 'defipulse||eth||none',
 					
 					
 					// GLM
@@ -437,6 +443,12 @@ $oct_conf['charts_alerts']['tracked_markets'] = array(
 					'myst-2' => 'hitbtc||eth||none',
 					'myst-3' => 'bittrex_global||btc||both',
 					'myst-4' => 'defipulse||eth||none',
+					
+					
+					// SG
+					'sg' => 'bittrex_global||usdt||chart',
+					'sg-2' => 'bitmart||usdt||none',
+					'sg-3' => 'bitmart||btc||both',
 					
 					
 					);
@@ -2691,6 +2703,111 @@ $oct_conf['assets'] = array(
                     ////////////////////////////////////////////////////////////////////
                     
                     
+                    // HNT
+                    'HNT' => array(
+                        
+                        'name' => 'Helium',
+                        'mcap_slug' => 'helium',
+                        'pairing' => array(
+
+                        
+                                    'btc' => array(
+                                        'binance' => 'HNTBTC',
+                                        'hotbit' => 'HNT_BTC',
+                                                    ),
+
+                                                    
+                                    'eth' => array(
+                                        'gateio' => 'HNT_ETH',
+                                                    ),
+
+                                                    
+                                    'inr' => array(
+                                        'wazirx' => 'hntinr',
+                                                    ),
+
+                                                    
+                                    'usd' => array(
+                                    	 'binance_us' => 'HNTUSD',
+                                                    ),
+
+                                                    
+                                    'usdt' => array(
+                                        'binance' => 'HNTUSDT',
+                                    	'binance_us' => 'HNTUSDT',
+                                        'hotbit' => 'HNT_USDT',
+                                        'gateio' => 'HNT_USDT',
+                                        'wazirx' => 'hntusdt',
+                                                    ),
+
+                                                    
+                        ) // pairing END
+                                        
+                    ), // Asset END
+                    
+                    
+                    ////////////////////////////////////////////////////////////////////
+                    
+                    
+                    // MANA
+                    'MANA' => array(
+                        
+                        'name' => 'Decentraland',
+                        'mcap_slug' => 'decentraland',
+                        'pairing' => array(
+
+                        
+                                    'btc' => array(
+                                          'binance' => 'MANABTC',
+                                          'bittrex' => 'MANA-BTC',
+                                          'ethfinex' => 'tMNABTC',
+                                          'kucoin' => 'MANA-BTC',
+                                          'upbit' => 'BTC-MANA',
+                                          'okex' => 'MANA-BTC',
+                                          'bitso' => 'mana_btc',
+                                          'poloniex' => 'BTC_MANA',
+                                                    ),
+
+                                                    
+                                    'eth' => array(
+                                          'binance' => 'MANAETH',
+                                          'bittrex' => 'MANA-ETH',
+                                          'hitbtc' => 'MANAETH',
+                                          'kucoin' => 'MANA-ETH',
+                                          'okex' => 'MANA-ETH',
+                                    	  'defipulse' => 'MANA/WETH||0x11b1f53204d03e5529f09eb3091939e4fd8c9cf3',
+                                                    ),
+
+                                                    
+                                    'krw' => array(
+                                        	'upbit' => 'KRW-MANA',
+                                                    ),
+
+                                                    
+                                    'mxn' => array(
+                                          'bitso' => 'mana_mxn',
+                                                    ),
+
+                                                    
+                                    'usdc' => array(
+                                          'coinbase' => 'MANA-USDC',
+                                                    ),
+
+                                                    
+                                    'usdt' => array(
+                                          'hitbtc' => 'MANAUSD',
+                                          'okex' => 'MANA-USDT',
+                                                    ),
+
+                                                    
+                        ) // pairing END
+                        
+                    ), // Asset END
+                    
+                    
+                    ////////////////////////////////////////////////////////////////////
+                    
+                    
                     // KEEP
                     'KEEP' => array(
                         
@@ -2719,65 +2836,6 @@ $oct_conf['assets'] = array(
                                                     
                                     'usd' => array(
                                         	'kraken' => 'KEEPUSD',
-                                                    ),
-
-                                                    
-                        ) // pairing END
-                        
-                    ), // Asset END
-                    
-                    
-                    ////////////////////////////////////////////////////////////////////
-                    
-                    
-                    // MANA
-                    'MANA' => array(
-                        
-                        'name' => 'Decentraland',
-                        'mcap_slug' => 'decentraland',
-                        'pairing' => array(
-
-                        
-                                    'btc' => array(
-                                        	'binance' => 'MANABTC',
-                                          'bittrex' => 'MANA-BTC',
-                                        	'ethfinex' => 'tMNABTC',
-                                          'kucoin' => 'MANA-BTC',
-                                        	'upbit' => 'BTC-MANA',
-                                          'okex' => 'MANA-BTC',
-                                          'bitso' => 'mana_btc',
-                                          'poloniex' => 'BTC_MANA',
-                                                    ),
-
-                                                    
-                                    'eth' => array(
-                                        	'binance' => 'MANAETH',
-                                          'bittrex' => 'MANA-ETH',
-                                          'hitbtc' => 'MANAETH',
-                                          'kucoin' => 'MANA-ETH',
-                                          'okex' => 'MANA-ETH',
-                                    	 	'defipulse' => 'MANA/WETH||0x11b1f53204d03e5529f09eb3091939e4fd8c9cf3',
-                                                    ),
-
-                                                    
-                                    'krw' => array(
-                                        	'upbit' => 'KRW-MANA',
-                                                    ),
-
-                                                    
-                                    'mxn' => array(
-                                          'bitso' => 'mana_mxn',
-                                                    ),
-
-                                                    
-                                    'usdc' => array(
-                                          'coinbase' => 'MANA-USDC',
-                                                    ),
-
-                                                    
-                                    'usdt' => array(
-                                          'hitbtc' => 'MANAUSD',
-                                          'okex' => 'MANA-USDT',
                                                     ),
 
                                                     
@@ -3047,6 +3105,33 @@ $oct_conf['assets'] = array(
                                                     
                                     'usdt' => array(
                                         	'bittrex_global' => 'MYST-USDT',
+                                                    ),
+
+                                                    
+                        ) // pairing END
+                        
+                    ), // Asset END
+                    
+                    
+                    ////////////////////////////////////////////////////////////////////
+                    
+                    
+                    // SG
+                    'SG' => array(
+                        
+                        'name' => 'SocialGood',
+                        'mcap_slug' => 'socialgood',
+                        'pairing' => array(
+
+                        
+                                    'btc' => array(
+                                          'bitmart' => 'SG_BTC',
+                                                    ),
+
+                                                    
+                                    'usdt' => array(
+                                          'bittrex_global' => 'SG-USDT',
+                                          'bitmart' => 'SG_USDT',
                                                     ),
 
                                                     

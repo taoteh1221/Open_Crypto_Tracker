@@ -838,6 +838,43 @@ var $oct_array1 = array();
      
      
      ////////////////////////////////////////////////////////////////////////////////////////////////
+      
+      
+    
+      elseif ( strtolower($sel_exchange) == 'bitmart' ) {
+         
+      $url = 'https://api-cloud.bitmart.com/spot/v1/ticker';
+         
+      $response = @$oct_cache->ext_data('url', $url, $oct_conf['power']['last_trade_cache_time']);
+         
+      $data = json_decode($response, true);
+         
+      $data = $data['data']['tickers'];
+         
+      
+	          if ( is_array($data) ) {
+	      
+	            foreach ($data as $key => $val) {
+	              
+	              if ( $val['symbol'] == $market_id ) {
+	               
+	              $result = array(
+	                              'last_trade' => $val["last_price"],
+	                              '24hr_asset_vol' => $val["base_volume_24h"],
+	                              '24hr_pairing_vol' => $val["quote_volume_24h"]
+	                    		  );
+	               
+	              }
+	          
+	            }
+	          
+	          }
+      
+      }
+     
+     
+     
+     ////////////////////////////////////////////////////////////////////////////////////////////////
     
     
     
