@@ -984,6 +984,7 @@ select opt in $OPTIONS; do
 				rm $DOC_ROOT/cache/vars/app_config_md5.dat > /dev/null 2>&1
 				rm $DOC_ROOT/cache/vars/default_app_config_md5.dat > /dev/null 2>&1
 				rm $DOC_ROOT/cache/vars/default_ocpt_conf_md5.dat > /dev/null 2>&1
+				rm $DOC_ROOT/cache/vars/default_pt_conf_md5.dat > /dev/null 2>&1
 				rm $DOC_ROOT/cache/vars/lite_chart_structure.dat > /dev/null 2>&1
 				rm $DOC_ROOT/cache/vars/default_btc_prim_curr_pairing.dat > /dev/null 2>&1
 				rm $DOC_ROOT/cache/logs/errors.log > /dev/null 2>&1

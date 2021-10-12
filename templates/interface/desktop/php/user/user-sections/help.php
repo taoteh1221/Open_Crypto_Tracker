@@ -115,7 +115,7 @@
 	       
 
 	    <br /><br />
-<pre class='rounded' style='display: inline-block;<?=( $pt_gen->is_msie() == false ? ' padding-top: 1em !important;' : '' )?>'><code class='hide-x-scroll less' style='white-space: nowrap; width: auto; display: inline-block;'>wget --no-cache -O FOLIO-INSTALL.bash https://git.io/JoDFD;chmod +x FOLIO-INSTALL.bash;sudo ./FOLIO-INSTALL.bash</code></pre>
+<pre class='rounded' style='display: inline-block;<?=( $oct_gen->is_msie() == false ? ' padding-top: 1em !important;' : '' )?>'><code class='hide-x-scroll less' style='white-space: nowrap; width: auto; display: inline-block;'>wget --no-cache -O FOLIO-INSTALL.bash https://git.io/JoDFD;chmod +x FOLIO-INSTALL.bash;sudo ./FOLIO-INSTALL.bash</code></pre>
 
 
 	    <br /><br />
@@ -219,7 +219,7 @@ FOR WINDOWS 10 USERS, just click / run the file 'ADD-WIN10-SCHEDULER-JOB.bat' fo
 FOR LINUX / MAC USERS, here is an example cron job command line for reference below (NOT including any cron parameters your host interface may require), to setup as the "command" within a cron job. Replace system paths in the example with the correct ones for your server (TIP - A very common path to PHP on a server is /usr/bin/php):
 	    <br /><br />
 	    
-<pre class='rounded' style='display: inline-block;<?=( $pt_gen->is_msie() == false ? ' padding-top: 1em !important;' : '' )?>'><code class='hide-x-scroll less' style='white-space: nowrap; width: auto; display: inline-block;'>/path/to/php -q /home/username/path/to/website/this_app/cron.php</code></pre>
+<pre class='rounded' style='display: inline-block;<?=( $oct_gen->is_msie() == false ? ' padding-top: 1em !important;' : '' )?>'><code class='hide-x-scroll less' style='white-space: nowrap; width: auto; display: inline-block;'>/path/to/php -q /home/username/path/to/website/this_app/cron.php</code></pre>
 
 
 	    <br /><br />
@@ -228,7 +228,7 @@ Here is another example of a COMPLETE cron command that can be added by creating
 	    <br /><br />
 
 	    
-<pre class='rounded' style='display: inline-block;<?=( $pt_gen->is_msie() == false ? ' padding-top: 1em !important;' : '' )?>'><code class='hide-x-scroll less' style='white-space: nowrap; width: auto; display: inline-block;'>*/20 * * * * WEBSITE_USERNAME_GOES_HERE /usr/bin/php -q /var/www/html/cron.php > /dev/null 2>&1</code></pre>
+<pre class='rounded' style='display: inline-block;<?=( $oct_gen->is_msie() == false ? ' padding-top: 1em !important;' : '' )?>'><code class='hide-x-scroll less' style='white-space: nowrap; width: auto; display: inline-block;'>*/20 * * * * WEBSITE_USERNAME_GOES_HERE /usr/bin/php -q /var/www/html/cron.php > /dev/null 2>&1</code></pre>
 
 
 	    <br /><br />
@@ -237,7 +237,7 @@ If your system DOES NOT have the directory /etc/cron.d/ on it, then NEARLY the s
 	    <br /><br />
 
 	    
-<pre class='rounded' style='display: inline-block;<?=( $pt_gen->is_msie() == false ? ' padding-top: 1em !important;' : '' )?>'><code class='hide-x-scroll less' style='white-space: nowrap; width: auto; display: inline-block;'>*/20 * * * * /usr/bin/php -q /var/www/html/cron.php > /dev/null 2>&1</code></pre>
+<pre class='rounded' style='display: inline-block;<?=( $oct_gen->is_msie() == false ? ' padding-top: 1em !important;' : '' )?>'><code class='hide-x-scroll less' style='white-space: nowrap; width: auto; display: inline-block;'>*/20 * * * * /usr/bin/php -q /var/www/html/cron.php > /dev/null 2>&1</code></pre>
 
 
 
@@ -556,7 +556,7 @@ If you are getting a lot of messages in the error logs like "file_write_error: F
 <br /><br />
 If you already have plenty of disk space quota freed up / your cache folder permissions are readable / writable, and you still have file write issues on linux-based operating systems, you MAY need to setup a higher "open files" limit for your website user account. If you have shell access you can login and run this command to check your current limits:
 <br /><br />
-<pre class='rounded' style='display: inline-block;<?=( $pt_gen->is_msie() == false ? ' padding-top: 1em !important;' : '' )?>'><code class='hide-x-scroll less' style='white-space: nowrap; width: auto; display: inline-block;'>ulimit -n</code></pre>
+<pre class='rounded' style='display: inline-block;<?=( $oct_gen->is_msie() == false ? ' padding-top: 1em !important;' : '' )?>'><code class='hide-x-scroll less' style='white-space: nowrap; width: auto; display: inline-block;'>ulimit -n</code></pre>
 
 <br /><br />
 If it's a low number like 1024, this MAY be the cause of your file write error issue (especially if you run multiple web apps that write a lot of data on the same account). If you are running a dedicated or VPS server, you can easily change this limit. 

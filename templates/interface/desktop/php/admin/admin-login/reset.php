@@ -10,7 +10,7 @@ $reset_result = array();
 // If we are not activating an existing reset session, run checks before rendering anything...
 if ( !$_GET['new_reset_key'] && !$_POST['admin_submit_reset'] ) {
 	
-	if ( $pt_gen->valid_email($pt_conf['comms']['to_email']) != 'valid'  ) {
+	if ( $oct_gen->valid_email($oct_conf['comms']['to_email']) != 'valid'  ) {
 	$reset_result['error'][] = "A VALID admin's 'To' Email has NOT been properly set in the Admin Config yet, therefore the password CANNOT be reset by interface form submission. Alternatively, you can MANUALLY delete the file '/cache/secured/admin_login_XXXXXXXXXXXXX.dat' in the app directory. This will prompt you to create a new admin login, the next time you use the app.";
 	$no_password_reset = 1;
 	}
@@ -52,7 +52,7 @@ if ( $_POST['admin_submit_reset'] ) {
 	// If checks clear, send email ////////
 	if ( sizeof($reset_result['error']) < 1 && trim($_POST['reset_username']) != '' && trim($_POST['reset_username']) == $stored_admin_login[0] ) {
 
-	$new_reset_key = $pt_gen->rand_hash(32);
+	$new_reset_key = $oct_gen->rand_hash(32);
 	
 	$msg = "
 
@@ -76,9 +76,9 @@ If you did NOT request this password reset (originating from ip address ".$remot
           					);
           	
    // Send notifications
-   @$pt_cache->queue_notify($send_params);
+   @$oct_cache->queue_notify($send_params);
           	
-	$pt_cache->save_file($base_dir . '/cache/secured/activation/password_reset_' . $pt_gen->rand_hash(16) . '.dat', $new_reset_key); // Store password reset activation code, to confirm via clicked email link later
+	$oct_cache->save_file($base_dir . '/cache/secured/activation/password_reset_' . $oct_gen->rand_hash(16) . '.dat', $new_reset_key); // Store password reset activation code, to confirm via clicked email link later
 
 	
 	}
@@ -114,7 +114,7 @@ require("templates/interface/desktop/php/header.php");
 			
 			+'<p class="coin_info extra_margins" style="white-space: normal; max-width: 600px;"><span class="bitcoin">REGARDLESS as to whether your particular app server automatically clears it\'s temporary session data or not, whenever you logout the 32-byte key in your browser is deleted, along with all the session data on the app server.</span></p>'
 			
-			+'<p class="coin_info extra_margins" style="white-space: normal; max-width: 600px;"><span class="bitcoin">If your app server DOES automatically clears session data often, you will also be logged out AUTOMATICALLY at that time. ADDITIONALLY, the 32-byte random key that is saved inside a cookie in your web browser EXPIRES (automatically deletes itself) AFTER <?=$pt_conf['power']['admin_cookie_expire']?> HOURS (you can adjust this time period in the Admin Config POWER USER section).</span></p>'
+			+'<p class="coin_info extra_margins" style="white-space: normal; max-width: 600px;"><span class="bitcoin">If your app server DOES automatically clears session data often, you will also be logged out AUTOMATICALLY at that time. ADDITIONALLY, the 32-byte random key that is saved inside a cookie in your web browser EXPIRES (automatically deletes itself) AFTER <?=$oct_conf['power']['admin_cookie_expire']?> HOURS (you can adjust this time period in the Admin Config POWER USER section).</span></p>'
 			
 			
 			+'<p> </p>';

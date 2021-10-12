@@ -12,7 +12,7 @@
 				<span class='red countdown_notice'></span>
 			
 
-			<p style='margin-top: 15px; margin-bottom: 15px;'><?=$pt_gen->start_page_html('tools')?></p>			
+			<p style='margin-top: 15px; margin-bottom: 15px;'><?=$oct_gen->start_page_html('tools')?></p>			
 
 			
 			<fieldset class='subsection_fieldset'>
@@ -23,7 +23,7 @@
 			<p>If you need to safely / quickly copy an address to yours or someone else's phone / air-gapped machine / etc, with a QR Code scanner app. 
 			<br /><br />NOTE: Whitespace, carriage returns, HTML, and non-alphanumeric characters are not allowed.</p>
 
-			<form method='post' action='<?=$pt_gen->start_page('tools')?>'>
+			<form method='post' action='<?=$oct_gen->start_page('tools')?>'>
 
 			<p><input type='text' name='qr-string' placeholder="Enter address to convert to QR code here..." value='<?=trim($_POST['qr-string'])?>' style='width: 100%;' /></p>
 
@@ -79,9 +79,9 @@
     				
     			</p>
     			
-    			<p class='green' style='font-weight: bold;'>Per-Token (<?=strtoupper($pt_conf['gen']['btc_prim_currency_pairing'])?>): <?=$pt_conf['power']['btc_currency_markets'][ $pt_conf['gen']['btc_prim_currency_pairing'] ]?><span id='target_prim_currency'>0.00</span> (<span id='target_btc'>0.00</span> BTC) </p>
+    			<p class='green' style='font-weight: bold;'>Per-Token (<?=strtoupper($oct_conf['gen']['btc_prim_currency_pairing'])?>): <?=$oct_conf['power']['btc_currency_markets'][ $oct_conf['gen']['btc_prim_currency_pairing'] ]?><span id='target_prim_currency'>0.00</span> (<span id='target_btc'>0.00</span> BTC) </p>
     			
-    			<p class='green' style='font-weight: bold;'>Total: <?=$pt_conf['power']['btc_currency_markets'][ $pt_conf['gen']['btc_prim_currency_pairing'] ]?><span id='target_total_prim_currency'>0.00</span> (<span id='target_total_btc'>0.00</span> BTC) </p>
+    			<p class='green' style='font-weight: bold;'>Total: <?=$oct_conf['power']['btc_currency_markets'][ $oct_conf['gen']['btc_prim_currency_pairing'] ]?><span id='target_total_prim_currency'>0.00</span> (<span id='target_total_btc'>0.00</span> BTC) </p>
     			
     			<script>
     			

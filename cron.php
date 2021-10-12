@@ -33,7 +33,7 @@ require("config.php");
 // Charts and price alerts
 $_SESSION['lite_charts_updated'] = 0;
 
-foreach ( $pt_conf['charts_alerts']['tracked_markets'] as $key => $val ) {
+foreach ( $oct_conf['charts_alerts']['tracked_markets'] as $key => $val ) {
 
 $val = explode("||",$val); // Convert $val into an array
 
@@ -44,17 +44,17 @@ $mode = $val[2];
 // ALWAYS RUN even if $mode != 'none' etc, as charts_price_alerts() is optimized to run UX logic scanning
 // (such as as removing STALE EXISTING ALERT CACHE FILES THAT WERE PREVIOUSLY-ENABLED,
 // THEN USER-DISABLED...IN CASE USER RE-ENABLES, THE ALERT STATS / ETC REMAIN UP-TO-DATE)
-$pt_asset->charts_price_alerts($key, $exchange, $pairing, $mode);
+$oct_asset->charts_price_alerts($key, $exchange, $pairing, $mode);
 
 }
 
 
 
 // Checkup on each failed proxy
-if ( $pt_conf['comms']['proxy_alert'] != 'off' ) {
+if ( $oct_conf['comms']['proxy_alert'] != 'off' ) {
 	
 	foreach ( $proxy_checkup as $problem_proxy ) {
-	$pt_gen->test_proxy($problem_proxy);
+	$oct_gen->test_proxy($problem_proxy);
 	sleep(1);
 	}
 
@@ -62,8 +62,8 @@ if ( $pt_conf['comms']['proxy_alert'] != 'off' ) {
 
 
 
-// Queue notifications if there were any price alert resets, BEFORE $pt_cache->send_notifications() runs
-$pt_gen->reset_price_alert_notice();
+// Queue notifications if there were any price alert resets, BEFORE $oct_cache->send_notifications() runs
+$oct_gen->reset_price_alert_notice();
 
 
 
@@ -86,9 +86,9 @@ $system_load = preg_replace("/(.*)\(5 min avg\) /i", "", $system_load); // Use 1
     		
 $system_temp = preg_replace("/° Celsius/i", "", $system_info['system_temp']);
 
-$system_free_space_mb = $pt_gen->in_megabytes($system_info['free_partition_space'])['in_megs'];
+$system_free_space_mb = $oct_gen->in_megabytes($system_info['free_partition_space'])['in_megs'];
          
-$portfolio_cache_size_mb = $pt_gen->in_megabytes($system_info['portfolio_cache'])['in_megs'];
+$portfolio_cache_size_mb = $oct_gen->in_megabytes($system_info['portfolio_cache'])['in_megs'];
 
 
 	if ( trim($system_load) >= 0 ) {
@@ -158,20 +158,20 @@ if ( $now > 0 ) {
 $system_stats_path = $base_dir . '/cache/charts/system/archival/system_stats.dat';
 $system_stats_data = $now . $chart_data_set;
 
-$pt_cache->save_file($system_stats_path, $system_stats_data . "\n", "append", false); // WITH newline (UNLOCKED file write)
+$oct_cache->save_file($system_stats_path, $system_stats_data . "\n", "append", false); // WITH newline (UNLOCKED file write)
     		
-// Lite charts (update time dynamically determined in $pt_cache->update_lite_chart() logic)
+// Lite charts (update time dynamically determined in $oct_cache->update_lite_chart() logic)
 // Try to assure file locking from archival chart updating has been released, wait 0.12 seconds before updating lite charts
 usleep(120000); // Wait 0.12 seconds
 		
-	foreach ( $pt_conf['power']['lite_chart_day_intervals'] as $light_chart_days ) {
-	$pt_cache->update_lite_chart($system_stats_path, $system_stats_data, $light_chart_days); // WITHOUT newline (var passing)
+	foreach ( $oct_conf['power']['lite_chart_day_intervals'] as $light_chart_days ) {
+	$oct_cache->update_lite_chart($system_stats_path, $system_stats_data, $light_chart_days); // WITHOUT newline (var passing)
 	}
 		
 }
 else {
 	
-$pt_gen->log(
+$oct_gen->log(
 			'system_error',
 			'time() returned a corrupt value (from power outage / corrupt memory / etc), chart updating canceled',
 			'chart_type: system stats'
@@ -185,21 +185,21 @@ $pt_gen->log(
 
 // If debug mode is on
 // RUN BEFORE plugins (in case custom plugin crashes)
-if ( $pt_conf['dev']['debug'] == 'all' || $pt_conf['dev']['debug'] == 'all_telemetry' || $pt_conf['dev']['debug'] == 'stats' ) {
+if ( $oct_conf['dev']['debug'] == 'all' || $oct_conf['dev']['debug'] == 'all_telemetry' || $oct_conf['dev']['debug'] == 'stats' ) {
 		
 	foreach ( $system_info as $key => $val ) {
 	$system_telemetry .= $key . ': ' . $val . '; ';
 	}
 			
 // Log system stats
-$pt_gen->log(
+$oct_gen->log(
 			'system_debug',
 			'Hardware / software stats (requires log_verbosity set to verbose)',
 			$system_telemetry
 			);
 			
 // Log runtime stats
-$pt_gen->log(
+$oct_gen->log(
 			'system_debug',
 			strtoupper($runtime_mode).' runtime was ' . $total_runtime . ' seconds'
 			);
@@ -210,9 +210,9 @@ $pt_gen->log(
 
 // Log errors / debugging, send notifications
 // RUN BEFORE any activated plugins (in case a custom plugin crashes)
-$pt_cache->error_logs();
-$pt_cache->debug_logs();
-$pt_cache->send_notifications();
+$oct_cache->error_logs();
+$oct_cache->debug_logs();
+$oct_cache->send_notifications();
 
 
 // If any plugins are activated, RESET $logs_array for plugin logging, SO WE DON'T GET DUPLICATE LOGGING
@@ -221,7 +221,7 @@ $logs_array = array();
 }
 
 
-// Run any cron-designated plugins activated in pt_conf
+// Run any cron-designated plugins activated in oct_conf
 // ALWAYS KEEP PLUGIN RUNTIME LOGIC INLINE (NOT ISOLATED WITHIN A FUNCTION), 
 // SO WE DON'T NEED TO WORRY ABOUT IMPORTING GLOBALS!
 foreach ( $activated_plugins['cron'] as $plugin_key => $plugin_init ) {
@@ -231,7 +231,7 @@ foreach ( $activated_plugins['cron'] as $plugin_key => $plugin_init ) {
 	$this_plug = $plugin_key;
 	
 	// This plugin's config (from the global app config)
-	$plug_conf[$this_plug] = $pt_conf['plug_conf'][$this_plug]; 
+	$plug_conf[$this_plug] = $oct_conf['plug_conf'][$this_plug]; 
 	
 		// This plugin's default class (only if the file exists)
 		if ( file_exists($base_dir . '/plugins/'.$this_plug.'/plug-lib/plug-class.php') ) {
@@ -252,9 +252,9 @@ foreach ( $activated_plugins['cron'] as $plugin_key => $plugin_init ) {
 // Log errors / debugging, send notifications
 // (IF ANY PLUGINS ARE ACTIVATED, RAN AGAIN SEPERATELY FOR PLUGIN LOGGING / ALERTS ONLY)
 if ( sizeof($activated_plugins['cron']) > 0 ) {
-$pt_cache->error_logs();
-$pt_cache->debug_logs();
-$pt_cache->send_notifications();
+$oct_cache->error_logs();
+$oct_cache->debug_logs();
+$oct_cache->send_notifications();
 }
 
 

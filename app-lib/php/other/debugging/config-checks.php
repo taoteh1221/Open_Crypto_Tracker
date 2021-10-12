@@ -7,22 +7,22 @@
 
 // Run some basic configuration file checks
 
-$validate_from_email = $pt_gen->valid_email($pt_conf['comms']['from_email']);
+$validate_from_email = $oct_gen->valid_email($oct_conf['comms']['from_email']);
       
-$validate_to_email = $pt_gen->valid_email($pt_conf['comms']['to_email']);
+$validate_to_email = $oct_gen->valid_email($oct_conf['comms']['to_email']);
 
 
 // Proxy configuration check
-if ( sizeof($pt_conf['proxy']['proxy_list']) > 0 ) {
+if ( sizeof($oct_conf['proxy']['proxy_list']) > 0 ) {
 	
 
 	$proxy_parse_errors = 0;
 	
 	
 	// Email for proxy alerts
-	if ( $pt_conf['comms']['proxy_alert'] == 'email' || $pt_conf['comms']['proxy_alert'] == 'all' ) {
+	if ( $oct_conf['comms']['proxy_alert'] == 'email' || $oct_conf['comms']['proxy_alert'] == 'all' ) {
 		
-      if ( trim($pt_conf['comms']['from_email']) != '' && trim($pt_conf['comms']['to_email']) != '' ) {
+      if ( trim($oct_conf['comms']['from_email']) != '' && trim($oct_conf['comms']['to_email']) != '' ) {
       	
 					
 			// Config error check(s)
@@ -42,12 +42,12 @@ if ( sizeof($pt_conf['proxy']['proxy_list']) > 0 ) {
           
 	
 	// Text for proxy alerts
-	if ( $pt_conf['comms']['proxy_alert'] == 'text' || $pt_conf['comms']['proxy_alert'] == 'all' ) {
+	if ( $oct_conf['comms']['proxy_alert'] == 'text' || $oct_conf['comms']['proxy_alert'] == 'all' ) {
 		
 		// To be safe, don't use trim() on certain strings with arbitrary non-alphanumeric characters here
       if ( trim($text_parse[0]) != '' && trim($text_parse[1]) != 'skip_network_name'
-      || trim($pt_conf['comms']['textbelt_apikey']) != '' && $pt_conf['comms']['textlocal_account'] == ''
-      || trim($pt_conf['comms']['textbelt_apikey']) == '' && $pt_conf['comms']['textlocal_account'] != '' ) {
+      || trim($oct_conf['comms']['textbelt_apikey']) != '' && $oct_conf['comms']['textlocal_account'] == ''
+      || trim($oct_conf['comms']['textbelt_apikey']) == '' && $oct_conf['comms']['textlocal_account'] != '' ) {
       	
 				
 			// Config error check(s)
@@ -61,7 +61,7 @@ if ( sizeof($pt_conf['proxy']['proxy_list']) > 0 ) {
       	$proxy_parse_errors = $proxy_parse_errors + 1;
          }
           		
-         if ( $text_parse[1] != 'skip_network_name' && $pt_gen->valid_email( $pt_gen->text_email($pt_conf['comms']['to_mobile_text']) ) != 'valid' ) {
+         if ( $text_parse[1] != 'skip_network_name' && $oct_gen->valid_email( $oct_gen->text_email($oct_conf['comms']['to_mobile_text']) ) != 'valid' ) {
          $conf_parse_error[] = 'Mobile text services carrier name (for email-to-text) not configured properly for proxy alerts.';
       	$proxy_parse_errors = $proxy_parse_errors + 1;
          }
@@ -74,9 +74,9 @@ if ( sizeof($pt_conf['proxy']['proxy_list']) > 0 ) {
 	// proxy login configuration check
 	
 	// To be safe, don't use trim() on certain strings with arbitrary non-alphanumeric characters here
-	if ( $pt_conf['proxy']['proxy_login'] != '' ) {
+	if ( $oct_conf['proxy']['proxy_login'] != '' ) {
 		
-	$proxy_login_parse = explode("||", $pt_conf['proxy']['proxy_login'] );
+	$proxy_login_parse = explode("||", $oct_conf['proxy']['proxy_login'] );
          
 		if ( sizeof($proxy_login_parse) < 2 || trim($proxy_login_parse[0]) == '' || $proxy_login_parse[1] == '' ) {
    	$conf_parse_error[] = 'Proxy username / password not formatted properly.';
@@ -87,7 +87,7 @@ if ( sizeof($pt_conf['proxy']['proxy_list']) > 0 ) {
 	
           	
 	// Check proxy config
-	foreach ( $pt_conf['proxy']['proxy_list'] as $proxy ) {
+	foreach ( $oct_conf['proxy']['proxy_list'] as $proxy ) {
           		
 	$proxy_str = explode(":",$proxy);
           	
@@ -110,7 +110,7 @@ if ( sizeof($pt_conf['proxy']['proxy_list']) > 0 ) {
    }
 
 	if ( $proxy_conf_alert ) {
-	$pt_gen->log('conf_error', $proxy_conf_alert);
+	$oct_gen->log('conf_error', $proxy_conf_alert);
 	}
           		
 	// Displaying if checks passed
@@ -129,20 +129,20 @@ $conf_parse_error = NULL; // Blank it out for any other config checks
 
 
 // Check default Bitcoin market/pairing configs (used by charts/alerts)
-if ( !isset( $pt_conf['assets']['BTC']['pairing'][$default_btc_prim_currency_pairing] ) ) {
+if ( !isset( $oct_conf['assets']['BTC']['pairing'][$default_btc_prim_currency_pairing] ) ) {
 
-	foreach ( $pt_conf['assets']['BTC']['pairing'] as $pairing_key => $unused ) {
+	foreach ( $oct_conf['assets']['BTC']['pairing'] as $pairing_key => $unused ) {
 	$avialable_btc_pairings .= strtolower($pairing_key) . ', ';
 	}
 	$avialable_btc_pairings = trim($avialable_btc_pairings);
 	$avialable_btc_pairings = rtrim($avialable_btc_pairings,',');
 	
-$conf_parse_error[] = 'Charts and price alerts cannot run properly, because the "btc_prim_currency_pairing" (default Bitcoin currency pairing) value \''.$pt_conf['gen']['btc_prim_currency_pairing'].'\' (in Admin Config GENERAL section) is not a valid Bitcoin pairing option (valid Bitcoin pairing options are: '.$avialable_btc_pairings.')';
+$conf_parse_error[] = 'Charts and price alerts cannot run properly, because the "btc_prim_currency_pairing" (default Bitcoin currency pairing) value \''.$oct_conf['gen']['btc_prim_currency_pairing'].'\' (in Admin Config GENERAL section) is not a valid Bitcoin pairing option (valid Bitcoin pairing options are: '.$avialable_btc_pairings.')';
 
 }
-elseif ( !isset( $pt_conf['assets']['BTC']['pairing'][$default_btc_prim_currency_pairing][$default_btc_prim_exchange] ) ) {
+elseif ( !isset( $oct_conf['assets']['BTC']['pairing'][$default_btc_prim_currency_pairing][$default_btc_prim_exchange] ) ) {
 
-	foreach ( $pt_conf['assets']['BTC']['pairing'][$default_btc_prim_currency_pairing] as $pairing_key => $unused ) {
+	foreach ( $oct_conf['assets']['BTC']['pairing'][$default_btc_prim_currency_pairing] as $pairing_key => $unused ) {
 		
 		if( stristr($pairing_key, 'bitmex_') == false ) { // Futures markets not allowed
 		$avialable_btc_prim_exchanges .= strtolower($pairing_key) . ', ';
@@ -157,15 +157,15 @@ $conf_parse_error[] = 'Charts and price alerts cannot run properly, because the 
 }
 
 
-$text_parse = explode("||", trim($pt_conf['comms']['to_mobile_text']) );
+$text_parse = explode("||", trim($oct_conf['comms']['to_mobile_text']) );
           
           
 // Check other charts/price alerts configs
-if ( trim($pt_conf['comms']['from_email']) != '' || trim($pt_conf['comms']['to_email']) != '' || sizeof($text_parse) > 0 || trim($pt_conf['comms']['notifyme_accesscode']) != '' ) {
+if ( trim($oct_conf['comms']['from_email']) != '' || trim($oct_conf['comms']['to_email']) != '' || sizeof($text_parse) > 0 || trim($oct_conf['comms']['notifyme_accesscode']) != '' ) {
           
           
 		// Email
-      if ( trim($pt_conf['comms']['from_email']) != '' || trim($pt_conf['comms']['to_email']) != '' ) {
+      if ( trim($oct_conf['comms']['from_email']) != '' || trim($oct_conf['comms']['to_email']) != '' ) {
       	
       $alerts_enabled_types[] = 'Email';
 					
@@ -184,8 +184,8 @@ if ( trim($pt_conf['comms']['from_email']) != '' || trim($pt_conf['comms']['to_e
 		// Text
 		// To be safe, don't use trim() on certain strings with arbitrary non-alphanumeric characters here
       if ( trim($text_parse[0]) != '' && trim($text_parse[1]) != 'skip_network_name'
-      || trim($pt_conf['comms']['textbelt_apikey']) != '' && $pt_conf['comms']['textlocal_account'] == ''
-      || trim($pt_conf['comms']['textbelt_apikey']) == '' && $pt_conf['comms']['textlocal_account'] != '' ) {
+      || trim($oct_conf['comms']['textbelt_apikey']) != '' && $oct_conf['comms']['textlocal_account'] == ''
+      || trim($oct_conf['comms']['textbelt_apikey']) == '' && $oct_conf['comms']['textlocal_account'] != '' ) {
       	
       $alerts_enabled_types[] = 'Text';
 				
@@ -198,7 +198,7 @@ if ( trim($pt_conf['comms']['from_email']) != '' || trim($pt_conf['comms']['to_e
          $conf_parse_error[] = 'Number for text email not configured properly for price alerts.';
          }
           		
-         if ( $text_parse[1] != 'skip_network_name' && $pt_gen->valid_email( $pt_gen->text_email($pt_conf['comms']['to_mobile_text']) ) != 'valid' ) {
+         if ( $text_parse[1] != 'skip_network_name' && $oct_gen->valid_email( $oct_gen->text_email($oct_conf['comms']['to_mobile_text']) ) != 'valid' ) {
          $conf_parse_error[] = 'Mobile text services carrier name (for email-to-text) not configured properly for price alerts.';
          }
           	
@@ -206,7 +206,7 @@ if ( trim($pt_conf['comms']['from_email']) != '' || trim($pt_conf['comms']['to_e
           	
           	
       // Notifyme (alexa)
-      if ( trim($pt_conf['comms']['notifyme_accesscode']) != '' ) {
+      if ( trim($oct_conf['comms']['notifyme_accesscode']) != '' ) {
       $alerts_enabled_types[] = 'Alexa';
       }
           	
@@ -228,13 +228,13 @@ if ( trim($pt_conf['comms']['from_email']) != '' || trim($pt_conf['comms']['to_e
           		
           		
 
-			// Check $pt_conf['charts_alerts']['tracked_markets'] config
-			if ( !is_array($pt_conf['charts_alerts']['tracked_markets']) ) {
+			// Check $oct_conf['charts_alerts']['tracked_markets'] config
+			if ( !is_array($oct_conf['charts_alerts']['tracked_markets']) ) {
 			$conf_parse_error[] = 'The asset / exchange / pairing price alert formatting is corrupt, or not configured yet.';
 			}
 			
 			
-			foreach ( $pt_conf['charts_alerts']['tracked_markets'] as $key => $val ) {
+			foreach ( $oct_conf['charts_alerts']['tracked_markets'] as $key => $val ) {
    		       		
 			$alerts_str = explode("||",$val);
    		       	
@@ -258,7 +258,7 @@ if ( trim($pt_conf['comms']['from_email']) != '' || trim($pt_conf['comms']['to_e
           		
 
 			if ( $price_change_conf_alert ) {
-			$pt_gen->log('conf_error', $price_change_conf_alert);
+			$oct_gen->log('conf_error', $price_change_conf_alert);
 			}
           		
          // Displaying if checks passed
@@ -279,12 +279,12 @@ if ( trim($pt_conf['comms']['from_email']) != '' || trim($pt_conf['comms']['to_e
 
 // Check SMTP configs
 // To be safe, don't use trim() on certain strings with arbitrary non-alphanumeric characters here
-if ( $pt_conf['comms']['smtp_login'] != '' && $pt_conf['comms']['smtp_server'] != '' ) {
+if ( $oct_conf['comms']['smtp_login'] != '' && $oct_conf['comms']['smtp_server'] != '' ) {
 	
 	
 // SMTP configuration check
-$smtp_email_login_parse = explode("||", $pt_conf['comms']['smtp_login'] );
-$smtp_email_server_parse = explode(":", $pt_conf['comms']['smtp_server'] );
+$smtp_email_login_parse = explode("||", $oct_conf['comms']['smtp_login'] );
+$smtp_email_server_parse = explode(":", $oct_conf['comms']['smtp_server'] );
 
 	if ( sizeof($smtp_email_login_parse) < 2 || trim($smtp_email_login_parse[0]) == '' || $smtp_email_login_parse[1] == '' ) {
    $conf_parse_error[] = 'SMTP username / password not formatted properly.';
@@ -307,7 +307,7 @@ $smtp_email_server_parse = explode(":", $pt_conf['comms']['smtp_server'] );
           		
 
 	if ( $smtp_conf_alert ) {
-	$pt_gen->log('conf_error', $smtp_conf_alert);
+	$oct_gen->log('conf_error', $smtp_conf_alert);
 	}
 
         
@@ -326,7 +326,7 @@ $smtp_email_server_parse = explode(":", $pt_conf['comms']['smtp_server'] );
 
 
 // Email logs configs
-if ( $pt_conf['power']['logs_email'] > 0 && trim($pt_conf['comms']['from_email']) != '' && trim($pt_conf['comms']['to_email']) != '' ) {
+if ( $oct_conf['power']['logs_email'] > 0 && trim($oct_conf['comms']['from_email']) != '' && trim($oct_conf['comms']['to_email']) != '' ) {
 					
 	// Config error check(s)
    if ( $validate_from_email != 'valid' ) {
@@ -350,7 +350,7 @@ if ( $pt_conf['power']['logs_email'] > 0 && trim($pt_conf['comms']['from_email']
           		
 
 	if ( $logs_conf_alert ) {
-	$pt_gen->log('conf_error', $logs_conf_alert);
+	$oct_gen->log('conf_error', $logs_conf_alert);
 	}
 
         
@@ -367,7 +367,7 @@ if ( $pt_conf['power']['logs_email'] > 0 && trim($pt_conf['comms']['from_email']
 
 
 // Email backup archives configs
-if ( $pt_conf['gen']['asset_charts_toggle'] == 'on' && $pt_conf['power']['charts_backup_freq'] > 0 && trim($pt_conf['comms']['from_email']) != '' && trim($pt_conf['comms']['to_email']) != '' ) {
+if ( $oct_conf['gen']['asset_charts_toggle'] == 'on' && $oct_conf['power']['charts_backup_freq'] > 0 && trim($oct_conf['comms']['from_email']) != '' && trim($oct_conf['comms']['to_email']) != '' ) {
 					
 	// Config error check(s)
    if ( $validate_from_email != 'valid' ) {
@@ -391,7 +391,7 @@ if ( $pt_conf['gen']['asset_charts_toggle'] == 'on' && $pt_conf['power']['charts
           		
 
 	if ( $backuparchive_conf_alert ) {
-	$pt_gen->log('conf_error', $backuparchive_conf_alert);
+	$oct_gen->log('conf_error', $backuparchive_conf_alert);
 	}
 
         
@@ -407,29 +407,29 @@ if ( $pt_conf['gen']['asset_charts_toggle'] == 'on' && $pt_conf['power']['charts
 
 
 
-// Check $pt_conf['assets'] config
-if ( !is_array($pt_conf['assets']) ) {
-$pt_gen->log('conf_error', 'The portfolio assets formatting is corrupt, or not configured yet');
+// Check $oct_conf['assets'] config
+if ( !is_array($oct_conf['assets']) ) {
+$oct_gen->log('conf_error', 'The portfolio assets formatting is corrupt, or not configured yet');
 }
 
 // Check default / dynamic Bitcoin market/pairing configs
-if ( !isset( $pt_conf['assets']['BTC']['pairing'][ $pt_conf['gen']['btc_prim_currency_pairing'] ] ) ) {
+if ( !isset( $oct_conf['assets']['BTC']['pairing'][ $oct_conf['gen']['btc_prim_currency_pairing'] ] ) ) {
 
-	foreach ( $pt_conf['assets']['BTC']['pairing'] as $pairing_key => $unused ) {
+	foreach ( $oct_conf['assets']['BTC']['pairing'] as $pairing_key => $unused ) {
 	$avialable_btc_pairings .= strtolower($pairing_key) . ', ';
 	}
 	$avialable_btc_pairings = trim($avialable_btc_pairings);
 	$avialable_btc_pairings = rtrim($avialable_btc_pairings,',');
 
-$pt_gen->log(
+$oct_gen->log(
 							'conf_error',
-							'Portfolio cannot run properly, because the "btc_prim_currency_pairing" (Bitcoin primary currency pairing) value \''.$pt_conf['gen']['btc_prim_currency_pairing'].'\' is not a valid Bitcoin pairing option (valid Bitcoin pairing options are: '.$avialable_btc_pairings.')'
+							'Portfolio cannot run properly, because the "btc_prim_currency_pairing" (Bitcoin primary currency pairing) value \''.$oct_conf['gen']['btc_prim_currency_pairing'].'\' is not a valid Bitcoin pairing option (valid Bitcoin pairing options are: '.$avialable_btc_pairings.')'
 							);
 
 }
-elseif ( !isset( $pt_conf['assets']['BTC']['pairing'][ $pt_conf['gen']['btc_prim_currency_pairing'] ][ $pt_conf['gen']['btc_prim_exchange'] ] ) ) {
+elseif ( !isset( $oct_conf['assets']['BTC']['pairing'][ $oct_conf['gen']['btc_prim_currency_pairing'] ][ $oct_conf['gen']['btc_prim_exchange'] ] ) ) {
 
-	foreach ( $pt_conf['assets']['BTC']['pairing'][ $pt_conf['gen']['btc_prim_currency_pairing'] ] as $pairing_key => $unused ) {
+	foreach ( $oct_conf['assets']['BTC']['pairing'][ $oct_conf['gen']['btc_prim_currency_pairing'] ] as $pairing_key => $unused ) {
 		
 		if( stristr($pairing_key, 'bitmex_') == false ) { // Futures markets not allowed
 		$avialable_btc_prim_exchanges .= strtolower($pairing_key) . ', ';
@@ -439,9 +439,9 @@ elseif ( !isset( $pt_conf['assets']['BTC']['pairing'][ $pt_conf['gen']['btc_prim
 	$avialable_btc_prim_exchanges = trim($avialable_btc_prim_exchanges);
 	$avialable_btc_prim_exchanges = rtrim($avialable_btc_prim_exchanges,',');
 
-$pt_gen->log(
+$oct_gen->log(
 							'conf_error',
-							'Portfolio cannot run properly, because the "btc_prim_exchange" (Bitcoin exchange) value \''.$pt_conf['gen']['btc_prim_exchange'].'\' is not a valid option for \''.$pt_conf['gen']['btc_prim_currency_pairing'].'\' Bitcoin pairings (valid \''.$pt_conf['gen']['btc_prim_currency_pairing'].'\' Bitcoin pairing options are: '.$avialable_btc_prim_exchanges.')'
+							'Portfolio cannot run properly, because the "btc_prim_exchange" (Bitcoin exchange) value \''.$oct_conf['gen']['btc_prim_exchange'].'\' is not a valid option for \''.$oct_conf['gen']['btc_prim_currency_pairing'].'\' Bitcoin pairings (valid \''.$oct_conf['gen']['btc_prim_currency_pairing'].'\' Bitcoin pairing options are: '.$avialable_btc_prim_exchanges.')'
 							);
 
 }

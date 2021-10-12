@@ -19,7 +19,7 @@ foreach ( $plug_conf[$this_plug]['reminders'] as $key => $val ) {
 
 
 // Recurring reminder time in minutes
-$in_minutes = round( $pt_var->num_to_str(1440 * $val['days']) );
+$in_minutes = round( $oct_var->num_to_str(1440 * $val['days']) );
 
 
 // Offset -1 anything 20 minutes or higher, so recurring reminder is triggered at same EXACT cron job interval consistently 
@@ -28,14 +28,14 @@ $in_minutes_offset = ( $in_minutes >= 20 ? ($in_minutes - 1) : $in_minutes );
 
 	
 	// If it's time to send a reminder...
-	if ( $pt_cache->update_cache( $pt_plug->event_cache('alert-' . $key . '.dat') , $in_minutes_offset ) == true ) {
+	if ( $oct_cache->update_cache( $oct_plug->event_cache('alert-' . $key . '.dat') , $in_minutes_offset ) == true ) {
 		
 		
 		// If 'do not disturb' enabled
 		if ( $do_not_dist ) {
 		
 		// Human-readable year-month-date for today, ADJUSTED FOR USER'S TIME ZONE OFFSET FROM APP CONFIG
-		$offset_date = $pt_gen->time_date_format($pt_conf['gen']['loc_time_offset'], 'standard_date');
+		$offset_date = $oct_gen->time_date_format($oct_conf['gen']['loc_time_offset'], 'standard_date');
 		
 		// Time of day in decimals (as hours) for dnd on/off config settings
 		$dnd_on_dec = $plug_class[$this_plug]->time_dec_hours($plug_conf[$this_plug]['do_not_dist']['on'], 'to');
@@ -43,13 +43,13 @@ $in_minutes_offset = ( $in_minutes >= 20 ? ($in_minutes - 1) : $in_minutes );
 		
 			
 			// Time of day in hours:minutes for dnd on/off (IN UTC TIME), ADJUSTED FOR USER'S TIME ZONE OFFSET FROM APP CONFIG
-			if ( $pt_conf['gen']['loc_time_offset'] < 0 ) {
-			$offset_dnd_on = $plug_class[$this_plug]->time_dec_hours( ( $dnd_on_dec + abs($pt_conf['gen']['loc_time_offset']) ) , 'from');
-			$offset_dnd_off = $plug_class[$this_plug]->time_dec_hours( ( $dnd_off_dec + abs($pt_conf['gen']['loc_time_offset']) ) , 'from');
+			if ( $oct_conf['gen']['loc_time_offset'] < 0 ) {
+			$offset_dnd_on = $plug_class[$this_plug]->time_dec_hours( ( $dnd_on_dec + abs($oct_conf['gen']['loc_time_offset']) ) , 'from');
+			$offset_dnd_off = $plug_class[$this_plug]->time_dec_hours( ( $dnd_off_dec + abs($oct_conf['gen']['loc_time_offset']) ) , 'from');
 			}
 			else {
-			$offset_dnd_on = $plug_class[$this_plug]->time_dec_hours( ( $dnd_on_dec - $pt_conf['gen']['loc_time_offset'] ) , 'from');
-			$offset_dnd_off = $plug_class[$this_plug]->time_dec_hours( ( $dnd_off_dec - $pt_conf['gen']['loc_time_offset'] ) , 'from');
+			$offset_dnd_on = $plug_class[$this_plug]->time_dec_hours( ( $dnd_on_dec - $oct_conf['gen']['loc_time_offset'] ) , 'from');
+			$offset_dnd_off = $plug_class[$this_plug]->time_dec_hours( ( $dnd_off_dec - $oct_conf['gen']['loc_time_offset'] ) , 'from');
 			}
 		
 		
@@ -83,7 +83,7 @@ $in_minutes_offset = ( $in_minutes >= 20 ? ($in_minutes - 1) : $in_minutes );
   		// Message parameter added for desired comm methods (leave any comm method blank to skip sending via that method)
   					
   		// Minimize function calls
-  		$encoded_text_msg = $pt_gen->charset_encode($format_msg); // Unicode support included for text messages (emojis / asian characters / etc )
+  		$encoded_text_msg = $oct_gen->charset_encode($format_msg); // Unicode support included for text messages (emojis / asian characters / etc )
   					
   	 	$send_params = array(
 
@@ -105,10 +105,10 @@ $in_minutes_offset = ( $in_minutes >= 20 ? ($in_minutes - 1) : $in_minutes );
   	        						
    	       	
 		// Send notifications
-		@$pt_cache->queue_notify($send_params);
+		@$oct_cache->queue_notify($send_params);
 	
 		// Update the event tracking for this alert
-		$pt_cache->save_file( $pt_plug->event_cache('alert-' . $key . '.dat') , $pt_gen->time_date_format(false, 'pretty_date_time') );
+		$oct_cache->save_file( $oct_plug->event_cache('alert-' . $key . '.dat') , $oct_gen->time_date_format(false, 'pretty_date_time') );
 		
 		$send_msg = false; // Reset
 		

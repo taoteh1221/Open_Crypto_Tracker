@@ -15,18 +15,18 @@ if ( $_POST['admin_submit_login'] ) {
 	else {
 				
 				// To be safe, don't use trim() on certain strings with arbitrary non-alphanumeric characters here
-				if ( $pt_gen->id() != false && isset($_SESSION['nonce']) && trim($_POST['admin_username']) != '' && $_POST['admin_password'] != '' 
-				&& $_POST['admin_username'] == $stored_admin_login[0] && $pt_gen->check_pepper_hashed_pass($_POST['admin_password'], $stored_admin_login[1]) == true ) {
+				if ( $oct_gen->id() != false && isset($_SESSION['nonce']) && trim($_POST['admin_username']) != '' && $_POST['admin_password'] != '' 
+				&& $_POST['admin_username'] == $stored_admin_login[0] && $oct_gen->check_pepper_hashed_pass($_POST['admin_password'], $stored_admin_login[1]) == true ) {
 					
 				// Login now (set admin security cookie / 'auth_hash' session var), before redirect
 				
 				// WE SPLIT THE LOGIN AUTH BETWEEN COOKIE AND SESSION DATA (TO BETTER SECURE LOGIN AUTHORIZATION)
 				
-				$cookie_nonce = $pt_gen->rand_hash(32); // 32 byte
+				$cookie_nonce = $oct_gen->rand_hash(32); // 32 byte
 		
-				$pt_gen->store_cookie('admin_auth_' . $pt_gen->id(), $cookie_nonce, mktime() + ($pt_conf['power']['admin_cookie_expire'] * 3600) );
+				$oct_gen->store_cookie('admin_auth_' . $oct_gen->id(), $cookie_nonce, mktime() + ($oct_conf['power']['admin_cookie_expire'] * 3600) );
 				
-				$_SESSION['admin_logged_in']['auth_hash'] = $pt_gen->admin_hashed_nonce($cookie_nonce, 'force'); // Force set, as we're not logged in fully yet
+				$_SESSION['admin_logged_in']['auth_hash'] = $oct_gen->admin_hashed_nonce($cookie_nonce, 'force'); // Force set, as we're not logged in fully yet
 				
 				header("Location: admin.php");
 				exit;
@@ -64,7 +64,7 @@ require("templates/interface/desktop/php/header.php");
 			
 			+'<p class="coin_info extra_margins" style="white-space: normal; max-width: 600px;"><span class="bitcoin">REGARDLESS as to whether your particular app server automatically clears it\'s temporary session data or not, whenever you logout the 32-byte key in your browser is deleted, along with all the session data on the app server.</span></p>'
 			
-			+'<p class="coin_info extra_margins" style="white-space: normal; max-width: 600px;"><span class="bitcoin">If your app server DOES automatically clears session data often, you will also be logged out AUTOMATICALLY at that time. ADDITIONALLY, the 32-byte random key that is saved inside a cookie in your web browser EXPIRES (automatically deletes itself) AFTER <?=$pt_conf['power']['admin_cookie_expire']?> HOURS (you can adjust this time period in the Admin Config POWER USER section).</span></p>'
+			+'<p class="coin_info extra_margins" style="white-space: normal; max-width: 600px;"><span class="bitcoin">If your app server DOES automatically clears session data often, you will also be logged out AUTOMATICALLY at that time. ADDITIONALLY, the 32-byte random key that is saved inside a cookie in your web browser EXPIRES (automatically deletes itself) AFTER <?=$oct_conf['power']['admin_cookie_expire']?> HOURS (you can adjust this time period in the Admin Config POWER USER section).</span></p>'
 			
 			
 			+'<p> </p>';

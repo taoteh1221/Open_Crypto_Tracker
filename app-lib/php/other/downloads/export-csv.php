@@ -9,8 +9,8 @@ require_once($base_dir . '/app-lib/php/other/sub-init/minimized-sub-init.php');
 
 // CSRF attack protection (REQUIRED #POST# VAR 'submit_check')
 if ( $_POST['submit_check'] != 1 ) {
-$pt_gen->log('security_error', 'Missing "submit_check" POST data (-possible- CSRF attack) for request: ' . $_SERVER['REQUEST_URI']);
-$pt_cache->error_logs();
+$oct_gen->log('security_error', 'Missing "submit_check" POST data (-possible- CSRF attack) for request: ' . $_SERVER['REQUEST_URI']);
+$oct_cache->error_logs();
 exit;
 }
 
@@ -30,7 +30,7 @@ $csv_download_array[] = array(
 	        							);
 	    
 	    
-	foreach ( $pt_conf['assets'] as $asset_array_key => $asset_array_val ) {
+	foreach ( $oct_conf['assets'] as $asset_array_key => $asset_array_val ) {
 		
 	    
 	    $field_var_pairing = strtolower($asset_array_key) . '_pairing';
@@ -55,13 +55,13 @@ $csv_download_array[] = array(
 	    $sel_pairing = ( $asset_pairing_id ? $asset_pairing_id : NULL );
 	    
 	    
-			foreach ( $pt_conf['assets'][strtoupper($asset_array_key)]['pairing'] as $pairing_key => $unused ) {
+			foreach ( $oct_conf['assets'][strtoupper($asset_array_key)]['pairing'] as $pairing_key => $unused ) {
 			$ploop = 0;
 					 						
 				// Use first pairing key from coins config for this asset, if no pairing value was set properly
 				if ( $ploop == 0 ) {
 				
-					if ( $sel_pairing == NULL || !$pt_conf['assets'][strtoupper($asset_array_key)]['pairing'][$sel_pairing] ) {
+					if ( $sel_pairing == NULL || !$oct_conf['assets'][strtoupper($asset_array_key)]['pairing'][$sel_pairing] ) {
 					$sel_pairing = $pairing_key;
 					}
 				
@@ -78,13 +78,13 @@ $csv_download_array[] = array(
 	    	$asset_amount_dec = 8;
 	    	}
 	    
-	  	 $asset_amount_val = $pt_var->num_pretty($asset_amount_val, $asset_amount_dec);
+	  	 $asset_amount_val = $oct_var->num_pretty($asset_amount_val, $asset_amount_dec);
 	    
-	    $asset_paid_val = ( $pt_var->num_to_str($asset_paid_val) >= 1 ? $pt_var->num_pretty($asset_paid_val, 2) : $pt_var->num_pretty($asset_paid_val, $pt_conf['gen']['prim_currency_dec_max']) );
+	    $asset_paid_val = ( $oct_var->num_to_str($asset_paid_val) >= 1 ? $oct_var->num_pretty($asset_paid_val, 2) : $oct_var->num_pretty($asset_paid_val, $oct_conf['gen']['prim_currency_dec_max']) );
 	  	 
 	    
 	   	// Asset data to array for CSV export
-	      if ( trim($asset_array_key) != '' && $pt_var->rem_num_format($asset_amount_val) >= 0.00000001 ) {
+	      if ( trim($asset_array_key) != '' && $oct_var->rem_num_format($asset_amount_val) >= 0.00000001 ) {
 	        	
 	        $csv_download_array[] = array(
 	        											strtoupper($asset_array_key),
@@ -107,7 +107,7 @@ $csv_download_array[] = array(
 
 
 // Run last, as it exits when completed
-$pt_gen->create_csv('temp', 'Crypto_Portfolio.csv', $csv_download_array); 
+$oct_gen->create_csv('temp', 'Crypto_Portfolio.csv', $csv_download_array); 
 
 
 ?>

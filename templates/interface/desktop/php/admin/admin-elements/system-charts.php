@@ -5,12 +5,12 @@
 
 
 // Don't load any data if admin isn't logged in
-if ( $pt_gen->admin_logged_in() ) {
+if ( $oct_gen->admin_logged_in() ) {
 
 
 
-// For system charts, we want the first $pt_conf['power']['lite_chart_day_intervals'] value, not 'all'
-$first_lite_chart = $pt_conf['power']['lite_chart_day_intervals'][0];
+// For system charts, we want the first $oct_conf['power']['lite_chart_day_intervals'] value, not 'all'
+$first_lite_chart = $oct_conf['power']['lite_chart_day_intervals'][0];
 		
 		
 	// Have this script send the UI alert messages, and not load any chart code (to not leave the page endlessly loading) if cache data is not present
@@ -73,7 +73,7 @@ zingchart.bind('system_stats_chart_<?=$chart_mode?>', 'label_click', function(e)
   switch(e.labelid) {
   	
   	<?php
-	foreach ($pt_conf['power']['lite_chart_day_intervals'] as $lite_chart_days) {
+	foreach ($oct_conf['power']['lite_chart_day_intervals'] as $lite_chart_days) {
 	?>	
 	
     case '<?=$lite_chart_days?>':

@@ -6,13 +6,13 @@
 
 // Updating trading notes is separate from updating all other data
 if ( $_POST['update_notes'] == 1 && trim($_POST['notes']) != '' && $_COOKIE['notes'] ) {
-$pt_gen->store_cookie("notes", $_POST['notes'], mktime()+31536000);
-header("Location: " . $pt_gen->start_page($_GET['start_page']));
+$oct_gen->store_cookie("notes", $_POST['notes'], mktime()+31536000);
+header("Location: " . $oct_gen->start_page($_GET['start_page']));
 exit;
 }
 elseif ( $_POST['update_notes'] == 1 && trim($_POST['notes']) == '' && $_COOKIE['notes'] ) {
-$pt_gen->store_cookie("notes", " ", mktime()+31536000); // Initialized with some whitespace when blank
-header("Location: " . $pt_gen->start_page($_GET['start_page']));
+$oct_gen->store_cookie("notes", " ", mktime()+31536000); // Initialized with some whitespace when blank
+header("Location: " . $oct_gen->start_page($_GET['start_page']));
 exit;
 }
 
@@ -23,7 +23,7 @@ exit;
 
 // If cookies are enabled or not, update accordingly
 if ( $_POST['submit_check'] == 1 && $_POST['use_cookies'] != 1 ) {
-$pt_gen->delete_all_cookies(); // Delete any existing cookies, if cookies have been disabled
+$oct_gen->delete_all_cookies(); // Delete any existing cookies, if cookies have been disabled
 }
 elseif ( $_POST['submit_check'] == 1 && $_POST['use_cookies'] == 1 || $run_csv_import == 1 && $_COOKIE['coin_amounts'] != '' ) {
  
@@ -38,10 +38,10 @@ elseif ( $_POST['submit_check'] == 1 && $_POST['use_cookies'] == 1 || $run_csv_i
   
       if ( preg_match("/_amount/i", $key) ) {
       
-      $_POST[$key] = $pt_var->strip_formatting($val);
+      $_POST[$key] = $oct_var->strip_formatting($val);
       
          if ( isset($_POST[$key]) ) {
-            $set_asset_vals .= $key.'-'. $pt_var->rem_num_format($_POST[$key]) . '#';
+            $set_asset_vals .= $key.'-'. $oct_var->rem_num_format($_POST[$key]) . '#';
          }
       
       }
@@ -49,7 +49,7 @@ elseif ( $_POST['submit_check'] == 1 && $_POST['use_cookies'] == 1 || $run_csv_i
   
       if ( preg_match("/_pairing/i", $key) ) {
       
-      $_POST[$key] = $pt_var->strip_formatting($val);
+      $_POST[$key] = $oct_var->strip_formatting($val);
       
          if ( isset($_POST[$key]) ) {
             $set_pairing_vals .= $key.'-'. $_POST[$key] . '#';
@@ -60,7 +60,7 @@ elseif ( $_POST['submit_check'] == 1 && $_POST['use_cookies'] == 1 || $run_csv_i
   
       if ( preg_match("/_market/i", $key) ) {
       
-      $_POST[$key] = $pt_var->strip_formatting($val);
+      $_POST[$key] = $oct_var->strip_formatting($val);
       
          if ( isset($_POST[$key]) ) {
             $set_market_vals .= $key.'-'. $_POST[$key] . '#';
@@ -71,10 +71,10 @@ elseif ( $_POST['submit_check'] == 1 && $_POST['use_cookies'] == 1 || $run_csv_i
   
       if ( preg_match("/_paid/i", $key) ) {
       
-      $_POST[$key] = $pt_var->strip_formatting($val);
+      $_POST[$key] = $oct_var->strip_formatting($val);
       
          if ( isset($_POST[$key]) ) {
-            $set_paid_vals .= $key.'-'. $pt_var->rem_num_format($_POST[$key]) . '#';
+            $set_paid_vals .= $key.'-'. $oct_var->rem_num_format($_POST[$key]) . '#';
          }
       
       }
@@ -82,7 +82,7 @@ elseif ( $_POST['submit_check'] == 1 && $_POST['use_cookies'] == 1 || $run_csv_i
   
       if ( preg_match("/_leverage/i", $key) ) {
       
-      $_POST[$key] = $pt_var->strip_formatting($val);
+      $_POST[$key] = $oct_var->strip_formatting($val);
       
          if ( isset($_POST[$key]) ) {
             $set_leverage_vals .= $key.'-'. $_POST[$key] . '#';
@@ -93,7 +93,7 @@ elseif ( $_POST['submit_check'] == 1 && $_POST['use_cookies'] == 1 || $run_csv_i
   
       if ( preg_match("/_margintype/i", $key) ) {
       
-      $_POST[$key] = $pt_var->strip_formatting($val);
+      $_POST[$key] = $oct_var->strip_formatting($val);
       
          if ( isset($_POST[$key]) ) {
             $set_margintype_vals .= $key.'-'. $_POST[$key] . '#';
@@ -152,10 +152,10 @@ $cookie_params = array(
 								'coin_margintype' => $set_margintype_vals,
 								);
 
-$pt_gen->update_all_cookies($cookie_params);
+$oct_gen->update_all_cookies($cookie_params);
 
 
-header("Location: " . $pt_gen->start_page($_GET['start_page'])); // Preserve any start page data
+header("Location: " . $oct_gen->start_page($_GET['start_page'])); // Preserve any start page data
 exit;
  	
  

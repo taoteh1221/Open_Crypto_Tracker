@@ -24,24 +24,24 @@ var $array1 = array();
 		
 	function btc_addr_bal($address) {
 		 
-	global $this_plug, $pt_conf, $pt_var, $pt_cache;
+	global $this_plug, $oct_conf, $oct_var, $oct_cache;
 		
 	// Take into account previous runtime (over start of runtime), and give 3 minutes wiggle room
 	$recache = ( $plug_conf[$this_plug]['alerts_freq_max'] >= 3 ? ($plug_conf[$this_plug]['alerts_freq_max'] - 3) : $plug_conf[$this_plug]['alerts_freq_max'] );
 		
 	$url = 'https://blockchain.info/rawaddr/' . $address;
 			 
-	$response = @$pt_cache->ext_data('url', $url, $recache);
+	$response = @$oct_cache->ext_data('url', $url, $recache);
 			 
 	$data = json_decode($response, true);
 		   
 		   
 		if ( isset($data['final_balance']) ) {
-		return $pt_var->num_to_str( $data['final_balance'] / 100000000 ); // Convert sats to BTC
+		return $oct_var->num_to_str( $data['final_balance'] / 100000000 ); // Convert sats to BTC
 		}
 		elseif ( !isset($data['address']) ) {
 			
-    	$pt_gen->log(
+    	$oct_gen->log(
     				'ext_data_error',
     				'BTC address balance retrieval failed in the "' . $this_plug . '" plugin, no API data received'
     				);
@@ -60,24 +60,24 @@ var $array1 = array();
 		
 	function eth_addr_bal($address) {
 		 
-	global $this_plug, $pt_conf, $pt_var, $pt_cache;
+	global $this_plug, $oct_conf, $oct_var, $oct_cache;
 		
 	// Take into account previous runtime (over start of runtime), and give 3 minutes wiggle room
 	$recache = ( $plug_conf[$this_plug]['alerts_freq_max'] >= 3 ? ($plug_conf[$this_plug]['alerts_freq_max'] - 3) : $plug_conf[$this_plug]['alerts_freq_max'] );
 		
-	$url = 'https://api.etherscan.io/api?module=account&action=balance&address='.$address.'&tag=latest&apikey=' . $pt_conf['gen']['etherscan_key'];
+	$url = 'https://api.etherscan.io/api?module=account&action=balance&address='.$address.'&tag=latest&apikey=' . $oct_conf['gen']['etherscan_key'];
 			 
-	$response = @$pt_cache->ext_data('url', $url, $recache);
+	$response = @$oct_cache->ext_data('url', $url, $recache);
 			 
 	$data = json_decode($response, true);
 		   
 		   
 		if ( isset($data['result']) ) {
-		return $pt_var->num_to_str( $data['result'] / 1000000000000000000 ); // Convert wei to ETH
+		return $oct_var->num_to_str( $data['result'] / 1000000000000000000 ); // Convert wei to ETH
 		}
 		elseif ( !isset($data['message']) ) {
 			
-    	$pt_gen->log(
+    	$oct_gen->log(
     				'ext_data_error',
     				'ETH address balance retrieval failed in the "' . $this_plug . '" plugin, no API data received'
     				);

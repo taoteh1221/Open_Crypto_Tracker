@@ -5,7 +5,7 @@
 
 
 	// Have this script not load any code if system stats are not turned on, or key GET request corrupt
-	if ( !$pt_gen->admin_logged_in() || !is_numeric($_GET['key']) ) {
+	if ( !$oct_gen->admin_logged_in() || !is_numeric($_GET['key']) ) {
 	exit;
 	}
 
@@ -72,8 +72,8 @@ gui: {
    }],
 	labels: [
 	<?php
-	foreach ($pt_conf['power']['lite_chart_day_intervals'] as $lite_chart_days) {
-	$lite_chart_text = $pt_gen->light_chart_time_period($lite_chart_days, 'short');
+	foreach ($oct_conf['power']['lite_chart_day_intervals'] as $lite_chart_days) {
+	$lite_chart_text = $oct_gen->light_chart_time_period($lite_chart_days, 'short');
 	?>
 		{
 	    x: <?=$x_coord?>,
@@ -110,7 +110,7 @@ exit;
 }
 			
 		
-$chart_data = $pt_gen->chart_data('cache/charts/system/lite/' . $_GET['days'] . '_days/system_stats.dat', 'system');
+$chart_data = $oct_gen->chart_data('cache/charts/system/lite/' . $_GET['days'] . '_days/system_stats.dat', 'system');
 
 
 // Determine how many data sensors to include in first chart
@@ -119,15 +119,15 @@ $loop = 0;
 foreach ( $chart_data as $chart_key => $chart_val ) {
 
 // Average for first / last value
-//$check_chart_val = $pt_var->num_to_str( $pt_var->delimited_str_sample($chart_val, ',', 'first') + $pt_var->delimited_str_sample($chart_val, ',', 'last') / 2 );
+//$check_chart_val = $oct_var->num_to_str( $oct_var->delimited_str_sample($chart_val, ',', 'first') + $oct_var->delimited_str_sample($chart_val, ',', 'last') / 2 );
 // Just last value
-$check_chart_val = $pt_var->num_to_str( $pt_var->delimited_str_sample($chart_val, ',', 'last') );
+$check_chart_val = $oct_var->num_to_str( $oct_var->delimited_str_sample($chart_val, ',', 'last') );
 	
 	// Include load average no matter what (it can be zero on a low-load setup, and should be supported by nearly every linux system?)
 	// Also always include free disk space (WE WANT TO KNOW IF IT'S ZERO)
 	if ( $chart_key != 'time' && $check_chart_val != 'NO_DATA' && $check_chart_val > 0.000000 || $chart_key == 'load_average_15_minutes' || $chart_key == 'free_disk_space_terabytes' ) {
 		
-	$check_chart_val_key = $pt_var->num_to_str($check_chart_val * 100000000); // To RELIABLY sort integers AND decimals, via ksort()
+	$check_chart_val_key = $oct_var->num_to_str($check_chart_val * 100000000); // To RELIABLY sort integers AND decimals, via ksort()
 	
 		// If value matches, and another (increasing) number to the end, to avoid overwriting keys (this data is only used as an array key anyway)
 		if ( !array_key_exists($check_chart_val_key, $sorted_by_last_chart_data) ) {
@@ -138,7 +138,7 @@ $check_chart_val = $pt_var->num_to_str( $pt_var->delimited_str_sample($chart_val
 		$loop = $loop + 1;
 		}
 		
-		if ( $check_chart_val <= $pt_var->num_to_str($pt_conf['power']['system_stats_first_chart_highest_val']) ) {
+		if ( $check_chart_val <= $oct_var->num_to_str($oct_conf['power']['system_stats_first_chart_highest_val']) ) {
 		$num_in_first_chart = $num_in_first_chart + 1;
 		//echo $check_chart_val . ' --- '; // DEBUGGING ONLY
 		}
@@ -170,10 +170,10 @@ if ( $key == 1 ) {
 				// WE STILL COUNT THIS, SO LET COUNT RUN ABOVE
 				if ( !preg_match("/NO_DATA/i", $chart_val, $matches) ) {
 			
-				$rand_color = '#' . $pt_gen->rand_color( sizeof($sorted_by_last_chart_data) )['hex'];
+				$rand_color = '#' . $oct_gen->rand_color( sizeof($sorted_by_last_chart_data) )['hex'];
 					
 				$chart_conf = "{
-			  text: '".$pt_gen->key_to_name($chart_key)."',
+			  text: '".$oct_gen->key_to_name($chart_key)."',
 			  values: [".$chart_val."],
 			  lineColor: '".$rand_color."',
 				 marker: {
@@ -215,10 +215,10 @@ elseif ( $key == 2 ) {
 				// WE STILL COUNT THIS, SO LET COUNT RUN ABOVE
 				if ( !preg_match("/NO_DATA/i", $chart_val, $matches) ) {
 			
-			$rand_color = '#' . $pt_gen->rand_color( sizeof($sorted_by_last_chart_data) )['hex'];
+			$rand_color = '#' . $oct_gen->rand_color( sizeof($sorted_by_last_chart_data) )['hex'];
 	
 			$chart_conf = "{
-			  text: '".$pt_gen->key_to_name($chart_key)."',
+			  text: '".$oct_gen->key_to_name($chart_key)."',
 			  values: [".$chart_val."],
 			  lineColor: '".$rand_color."',
 				 marker: {
@@ -252,7 +252,7 @@ elseif ( $key == 2 ) {
 $chart_conf = trim($chart_conf);
 $chart_conf = rtrim($chart_conf,',');
 
-header('Content-type: text/html; charset=' . $pt_conf['dev']['charset_default']);
+header('Content-type: text/html; charset=' . $oct_conf['dev']['charset_default']);
 
 ?>
 
@@ -357,7 +357,7 @@ gui: {
         zooming: true
       },
       scaleY: {
-      maxValue: <?=( $key == 1 ? $pt_conf['power']['system_stats_first_chart_highest_val'] : $pt_conf['power']['system_stats_second_chart_max_scale'] )?>,
+      maxValue: <?=( $key == 1 ? $oct_conf['power']['system_stats_first_chart_highest_val'] : $oct_conf['power']['system_stats_second_chart_max_scale'] )?>,
         guide: {
       	visible: true,
      		lineStyle: 'solid',
@@ -416,8 +416,8 @@ gui: {
       ],
 		labels: [
 	<?php
-	foreach ($pt_conf['power']['lite_chart_day_intervals'] as $lite_chart_days) {
-	$lite_chart_text = $pt_gen->light_chart_time_period($lite_chart_days, 'short');
+	foreach ($oct_conf['power']['lite_chart_day_intervals'] as $lite_chart_days) {
+	$lite_chart_text = $oct_gen->light_chart_time_period($lite_chart_days, 'short');
 	?>
 		{
 	    x: <?=$x_coord?>,

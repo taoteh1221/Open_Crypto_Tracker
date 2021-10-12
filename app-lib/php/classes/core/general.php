@@ -4,13 +4,13 @@
  */
 
 
-class pt_gen {
+class oct_gen {
 	
 // Class variables / arrays
-var $pt_var1;
-var $pt_var2;
-var $pt_var3;
-var $pt_array1 = array();
+var $oct_var1;
+var $oct_var2;
+var $oct_var3;
+var $oct_array1 = array();
    
    
    ////////////////////////////////////////////////////////
@@ -61,11 +61,11 @@ var $pt_array1 = array();
    
    function mob_number($str) {
    	
-   global $pt_var;
+   global $oct_var;
    
    $str = explode("||",$str);
    
-   return $pt_var->strip_non_alpha($str[0]);
+   return $oct_var->strip_non_alpha($str[0]);
    
    }
    
@@ -382,17 +382,17 @@ var $pt_array1 = array();
    
    function text_email($str) {
    
-   global $pt_conf, $pt_var;
+   global $oct_conf, $oct_var;
    
    $str = explode("||",$str);
    
-   $phone_number = $pt_var->strip_non_alpha($str[0]);
+   $phone_number = $oct_var->strip_non_alpha($str[0]);
    
    $network_name = trim( strtolower($str[1]) ); // Force lowercase lookups for reliability / consistency
    
       // Set text domain
-      if ( trim($phone_number) != '' && isset($pt_conf['mob_net_txt_gateways'][$network_name]) ) {
-      return trim($phone_number) . '@' . trim($pt_conf['mob_net_txt_gateways'][$network_name]); // Return formatted texting email address
+      if ( trim($phone_number) != '' && isset($oct_conf['mob_net_txt_gateways'][$network_name]) ) {
+      return trim($phone_number) . '@' . trim($oct_conf['mob_net_txt_gateways'][$network_name]); // Return formatted texting email address
       }
       else {
       return false;
@@ -466,7 +466,7 @@ var $pt_array1 = array();
    
    function valid_email($email) {
    
-   global $pt_var;
+   global $oct_var;
    
    // Trim whitespace off ends, since we do this before attempting to send anyways in our safe_mail function
    $email = trim($email);
@@ -480,7 +480,7 @@ var $pt_array1 = array();
       return "Please enter a valid email address.";
       }
       elseif ( function_exists("getmxrr") && !getmxrr($domain, $mxrecords) ) {
-      return "No mail server records found for domain '" . $pt_var->obfuscate_str($domain) . "' [obfuscated]";
+      return "No mail server records found for domain '" . $oct_var->obfuscate_str($domain) . "' [obfuscated]";
       }
       else {
       return "valid";
@@ -521,11 +521,11 @@ var $pt_array1 = array();
    // Install id (10 character hash, based off base url)
    function id() {
       
-   global $base_url, $base_dir, $pt_app_id;
+   global $base_url, $base_dir, $oct_app_id;
    
       // ALREADY SET
-      if ( isset($pt_app_id) ) {
-      return $pt_app_id;
+      if ( isset($oct_app_id) ) {
+      return $oct_app_id;
       }
       // NOT CRON
       elseif ( $runtime_mode != 'cron' && trim($base_url) != '' ) {
@@ -582,19 +582,19 @@ var $pt_array1 = array();
    
    function dir_struct($path) {
    
-   global $pt_conf, $possible_http_users, $http_runtime_user;
+   global $oct_conf, $possible_http_users, $http_runtime_user;
    
       if ( !is_dir($path) ) {
       
          // Run cache compatibility on certain PHP setups
          if ( !$http_runtime_user || in_array($http_runtime_user, $possible_http_users) ) {
          $oldmask = umask(0);
-         $result = mkdir($path, octdec($pt_conf['dev']['chmod_cache_dir']), true); // Recursively create whatever path depth desired if non-existent
+         $result = mkdir($path, octdec($oct_conf['dev']['chmod_cache_dir']), true); // Recursively create whatever path depth desired if non-existent
          umask($oldmask);
          return $result;
          }
          else {
-         return  mkdir($path, octdec($pt_conf['dev']['chmod_cache_dir']), true); // Recursively create whatever path depth desired if non-existent
+         return  mkdir($path, octdec($oct_conf['dev']['chmod_cache_dir']), true); // Recursively create whatever path depth desired if non-existent
          }
       
       }
@@ -622,7 +622,7 @@ var $pt_array1 = array();
       $password_pepper_hashed = hash_hmac("sha256", $password, $password_pepper);
       
          if ( $password_pepper_hashed == false ) {
-         $this->log('conf_error', 'hash_hmac() returned false in the pt_gen->pepper_hashed_pass() function');
+         $this->log('conf_error', 'hash_hmac() returned false in the oct_gen->pepper_hashed_pass() function');
          return false;
          }
          else {
@@ -672,7 +672,7 @@ var $pt_array1 = array();
    
    function obfusc_path_data($path) {
       
-   global $pt_var;
+   global $oct_var;
    
       // Secured cache data
       if ( preg_match("/cache\/secured/i", $path) ) {
@@ -683,15 +683,15 @@ var $pt_array1 = array();
          
          // Subdirectories of /secured/
          if ( sizeof($subpath_array) > 1 ) {
-         $path = str_replace($subpath_array[0], $pt_var->obfuscate_str($subpath_array[0], 1), $path);
-         $path = str_replace($subpath_array[1], $pt_var->obfuscate_str($subpath_array[1], 5), $path);
+         $path = str_replace($subpath_array[0], $oct_var->obfuscate_str($subpath_array[0], 1), $path);
+         $path = str_replace($subpath_array[1], $oct_var->obfuscate_str($subpath_array[1], 5), $path);
          }
          // Files directly in /secured/
          else {
-         $path = str_replace($subpath, $pt_var->obfuscate_str($subpath, 5), $path);
+         $path = str_replace($subpath, $oct_var->obfuscate_str($subpath, 5), $path);
          }
             
-      //$path = str_replace('cache/secured', $pt_var->obfuscate_str('cache', 0) . '/' . $pt_var->obfuscate_str('secured', 0), $path);
+      //$path = str_replace('cache/secured', $oct_var->obfuscate_str('cache', 0) . '/' . $oct_var->obfuscate_str('secured', 0), $path);
       
       }
    
@@ -706,22 +706,22 @@ var $pt_array1 = array();
    
    function obfusc_url_data($url) {
       
-   global $pt_conf, $pt_var;
+   global $oct_conf, $oct_var;
    
    // Keep our color-coded logs in the admin UI pretty, remove '//' and put in parenthesis
    $url = preg_replace("/:\/\//i", ") ", $url);
    
       // Etherscan
       if ( preg_match("/etherscan/i", $url) ) {
-      $url = str_replace($pt_conf['gen']['etherscan_key'], $pt_var->obfuscate_str($pt_conf['gen']['etherscan_key'], 2), $url);
+      $url = str_replace($oct_conf['gen']['etherscan_key'], $oct_var->obfuscate_str($oct_conf['gen']['etherscan_key'], 2), $url);
       }
       // Telegram
       elseif ( preg_match("/telegram/i", $url) ) {
-      $url = str_replace($pt_conf['comms']['telegram_bot_token'], $pt_var->obfuscate_str($pt_conf['comms']['telegram_bot_token'], 2), $url); 
+      $url = str_replace($oct_conf['comms']['telegram_bot_token'], $oct_var->obfuscate_str($oct_conf['comms']['telegram_bot_token'], 2), $url); 
       }
       // Defipulse
       elseif ( preg_match("/defipulse/i", $url) ) {
-      $url = str_replace($pt_conf['gen']['defipulse_key'], $pt_var->obfuscate_str($pt_conf['gen']['defipulse_key'], 2), $url); 
+      $url = str_replace($oct_conf['gen']['defipulse_key'], $oct_var->obfuscate_str($oct_conf['gen']['defipulse_key'], 2), $url); 
       }
    
    // Keep our color-coded logs in the admin UI pretty, remove '//' and put in parenthesis
@@ -737,7 +737,7 @@ var $pt_array1 = array();
    // Return the TLD only (no subdomain)
    function get_tld_or_ip($url) {
    
-   global $pt_conf;
+   global $oct_conf;
    
    $urlData = parse_url($url);
       
@@ -750,10 +750,10 @@ var $pt_array1 = array();
    $hostData = array_reverse($hostData);
    
    
-      if ( array_search($hostData[1] . '.' . $hostData[0], $pt_conf['dev']['top_level_domain_map']) !== false ) {
+      if ( array_search($hostData[1] . '.' . $hostData[0], $oct_conf['dev']['top_level_domain_map']) !== false ) {
       $host = $hostData[2] . '.' . $hostData[1] . '.' . $hostData[0];
       } 
-      elseif ( array_search($hostData[0], $pt_conf['dev']['top_level_domain_map']) !== false ) {
+      elseif ( array_search($hostData[0], $oct_conf['dev']['top_level_domain_map']) !== false ) {
       $host = $hostData[1] . '.' . $hostData[0];
       }
    
@@ -784,7 +784,7 @@ var $pt_array1 = array();
       $input_password_pepper_hashed = hash_hmac("sha256", $input_password, $password_pepper);
       
          if ( $input_password_pepper_hashed == false ) {
-         $this->log('conf_error', 'hash_hmac() returned false in the pt_gen->check_pepper_hashed_pass() function');
+         $this->log('conf_error', 'hash_hmac() returned false in the oct_gen->check_pepper_hashed_pass() function');
          return false;
          }
          else {
@@ -804,7 +804,7 @@ var $pt_array1 = array();
    // (NO DECIMALS OVER 100 IN UNIT VALUE, MAX 2 DECIMALS OVER 1, #AND MIN 2 DECIMALS# UNDER, FOR INTERFACE UX)
    function thres_dec($num, $mode) {
        
-   global $pt_conf;
+   global $oct_conf;
    
    $result = array();
    
@@ -820,7 +820,7 @@ var $pt_array1 = array();
           $result['min_dec'] = 0;
           }
           else {
-          $result['max_dec'] = $pt_conf['gen']['prim_currency_dec_max'];
+          $result['max_dec'] = $oct_conf['gen']['prim_currency_dec_max'];
           $result['min_dec'] = 2;
           }
           
@@ -894,13 +894,13 @@ var $pt_array1 = array();
    
    function valid_username($username) {
    
-   global $pt_conf;
+   global $oct_conf;
    
-       if ( mb_strlen($username, $pt_conf['dev']['charset_default']) < 4 ) {
+       if ( mb_strlen($username, $oct_conf['dev']['charset_default']) < 4 ) {
        $error .= "requires 4 minimum characters; ";
        }
        
-       if ( mb_strlen($username, $pt_conf['dev']['charset_default']) > 30 ) {
+       if ( mb_strlen($username, $oct_conf['dev']['charset_default']) > 30 ) {
        $error .= "requires 30 maximum characters; ";
        }
        
@@ -966,23 +966,23 @@ var $pt_array1 = array();
    ////////////////////////////////////////////////////////
    
    
-   function subarray_pt_conf_upgrade($cat_key, $conf_key, $skip_upgrading) {
+   function subarray_oct_conf_upgrade($cat_key, $conf_key, $skip_upgrading) {
    
-   global $upgraded_pt_conf, $cached_pt_conf, $check_default_pt_conf, $default_pt_conf;
+   global $upgraded_oct_conf, $cached_oct_conf, $check_default_oct_conf, $default_oct_conf;
    
       // Check for new variables, and add them
-      foreach ( $default_pt_conf[$cat_key][$conf_key] as $setting_key => $setting_val ) {
+      foreach ( $default_oct_conf[$cat_key][$conf_key] as $setting_key => $setting_val ) {
       
          if ( is_array($setting_val) ) {
          $this->log('conf_error', 'Sub-array depth to deep for app config upgrade parser');
          }
-         elseif ( !in_array($setting_key, $skip_upgrading) && !isset($upgraded_pt_conf[$cat_key][$conf_key][$setting_key]) ) {
+         elseif ( !in_array($setting_key, $skip_upgrading) && !isset($upgraded_oct_conf[$cat_key][$conf_key][$setting_key]) ) {
          	
-         $upgraded_pt_conf[$cat_key][$conf_key][$setting_key] = $default_pt_conf[$cat_key][$conf_key][$setting_key];
+         $upgraded_oct_conf[$cat_key][$conf_key][$setting_key] = $default_oct_conf[$cat_key][$conf_key][$setting_key];
          
          $this->log(
          			'conf_error',
-         			'Outdated app config, upgraded parameter pt_conf[' . $cat_key . '][' . $conf_key . '][' . $setting_key . '] imported (default value: ' . $default_pt_conf[$cat_key][$conf_key][$setting_key] . ')'
+         			'Outdated app config, upgraded parameter oct_conf[' . $cat_key . '][' . $conf_key . '][' . $setting_key . '] imported (default value: ' . $default_oct_conf[$cat_key][$conf_key][$setting_key] . ')'
          			);
          
          $conf_upgraded = 1;
@@ -992,18 +992,18 @@ var $pt_array1 = array();
       }
       
       // Check for depreciated variables, and remove them
-      foreach ( $cached_pt_conf[$cat_key][$conf_key] as $setting_key => $setting_val ) {
+      foreach ( $cached_oct_conf[$cat_key][$conf_key] as $setting_key => $setting_val ) {
       
          if ( is_array($setting_val) ) {
          $this->log('conf_error', 'Sub-array depth to deep for app config upgrade parser');
          }
-         elseif ( !in_array($setting_key, $skip_upgrading) && !isset($default_pt_conf[$cat_key][$conf_key][$setting_key]) ) {
+         elseif ( !in_array($setting_key, $skip_upgrading) && !isset($default_oct_conf[$cat_key][$conf_key][$setting_key]) ) {
          	
-         unset($upgraded_pt_conf[$cat_key][$conf_key][$setting_key]);
+         unset($upgraded_oct_conf[$cat_key][$conf_key][$setting_key]);
          
          $this->log(
          			'conf_error',
-         			'Depreciated app config, parameter pt_conf[' . $cat_key . '][' . $conf_key . '][' . $setting_key . '] removed'
+         			'Depreciated app config, parameter oct_conf[' . $cat_key . '][' . $conf_key . '][' . $setting_key . '] removed'
          			);
          
          $conf_upgraded = 1;
@@ -1022,19 +1022,19 @@ var $pt_array1 = array();
    function smtp_mail($to, $subj, $msg, $content_type='text', $charset=null) {
    
    // Using 3rd party SMTP class, initiated already as global var $smtp
-   global $pt_conf, $smtp;
+   global $oct_conf, $smtp;
    
       if ( $charset == null ) {
-      $charset = $pt_conf['dev']['charset_default'];
+      $charset = $oct_conf['dev']['charset_default'];
       }
       
       
       // Fallback, if no From email set in app config
-      if ( $this->valid_email($pt_conf['comms']['from_email']) == 'valid' ) {
-      $from_email = $pt_conf['comms']['from_email'];
+      if ( $this->valid_email($oct_conf['comms']['from_email']) == 'valid' ) {
+      $from_email = $oct_conf['comms']['from_email'];
       }
       else {
-      $temp_data = explode("||", $pt_conf['comms']['smtp_login']);
+      $temp_data = explode("||", $oct_conf['comms']['smtp_login']);
       $from_email = $temp_data[0];
       }
    
@@ -1064,7 +1064,7 @@ var $pt_array1 = array();
    
    function log($log_type, $log_msg, $verbose_tracing=false, $hashcheck=false, $overwrite=false) {
    
-   global $runtime_mode, $pt_conf, $logs_array;
+   global $runtime_mode, $oct_conf, $logs_array;
    
    
    // Less verbose log category
@@ -1074,7 +1074,7 @@ var $pt_array1 = array();
    
    
       // Disable logging any included verbose tracing, if log verbosity level config is set to normal
-      if ( $pt_conf['dev']['log_verb'] == 'normal' ) {
+      if ( $oct_conf['dev']['log_verb'] == 'normal' ) {
       $verbose_tracing = false;
       }
    
@@ -1280,12 +1280,12 @@ var $pt_array1 = array();
    
    function file_download($file, $save_as, $delete=true) {
       
-   global $pt_conf;
+   global $oct_conf;
    
    $type = pathinfo($save_as, PATHINFO_EXTENSION);
    
       if ( $type == 'csv' ) {
-      $content_type = 'Content-type: text/csv; charset=' . $pt_conf['dev']['charset_default'];
+      $content_type = 'Content-type: text/csv; charset=' . $oct_conf['dev']['charset_default'];
       }
       else {
       $content_type = 'Content-type: application/octet-stream';
@@ -1322,7 +1322,7 @@ var $pt_array1 = array();
    
    function csv_import_array($file) {
    
-   global $pt_conf;
+   global $oct_conf;
       
       $row = 0;
       if ( ( $handle = fopen($file, "r") ) != false ) {
@@ -1332,8 +1332,8 @@ var $pt_array1 = array();
          $num = count($data);
          $asset = strtoupper($data[0]);
          
-            // ONLY importing if it exists in $pt_conf['assets']
-            if ( is_array($pt_conf['assets'][$asset]) ) {
+            // ONLY importing if it exists in $oct_conf['assets']
+            if ( is_array($oct_conf['assets'][$asset]) ) {
          
                for ($c=0; $c < $num; $c++) {
                $check_csv_rows[$asset][] = $data[$c];
@@ -1422,14 +1422,14 @@ var $pt_array1 = array();
    /* Usage: 
    
    // HTML
-   $content = $pt_gen->txt_between_tags('a', $html);
+   $content = $oct_gen->txt_between_tags('a', $html);
    
    foreach( $content as $item ) {
        echo $item.'<br />';
    }
    
    // XML
-   $content2 = $pt_gen->txt_between_tags('description', $xml, 1);
+   $content2 = $oct_gen->txt_between_tags('description', $xml, 1);
    
    foreach( $content2 as $item ) {
        echo $item.'<br />';
@@ -1479,7 +1479,7 @@ var $pt_array1 = array();
    
    // To preserve SMTPMailer class upgrade structure, by creating a global var to be run in classes/smtp-mailer/conf/config_smtp.php
    
-   global $app_version, $base_dir, $pt_conf;
+   global $app_version, $base_dir, $oct_conf;
    
    $vars = array();
    
@@ -1487,8 +1487,8 @@ var $pt_array1 = array();
    $log_file_debug = $base_dir . "/cache/logs/smtp_debug.log";
    
    // Don't overwrite globals
-   $temp_smtp_email_login = explode("||", $pt_conf['comms']['smtp_login'] );
-   $temp_smtp_email_server = explode(":", $pt_conf['comms']['smtp_server'] );
+   $temp_smtp_email_login = explode("||", $oct_conf['comms']['smtp_login'] );
+   $temp_smtp_email_server = explode(":", $oct_conf['comms']['smtp_server'] );
    
    // To be safe, don't use trim() on certain strings with arbitrary non-alphanumeric characters here
    $smtp_user = trim($temp_smtp_email_login[0]);
@@ -1518,8 +1518,8 @@ var $pt_array1 = array();
    $vars['cfg_secure']   = $smtp_secure;
    $vars['cfg_username'] = $smtp_user;
    $vars['cfg_password'] = $smtp_password;
-   $vars['cfg_debug_mode'] = $pt_conf['dev']['debug']; // Open Crypto Tracker debug mode setting
-   $vars['cfg_strict_ssl'] = $pt_conf['dev']['smtp_strict_ssl']; // Open Crypto Tracker strict SSL setting
+   $vars['cfg_debug_mode'] = $oct_conf['dev']['debug']; // Open Crypto Tracker debug mode setting
+   $vars['cfg_strict_ssl'] = $oct_conf['dev']['smtp_strict_ssl']; // Open Crypto Tracker strict SSL setting
    $vars['cfg_app_version'] = $app_version; // Open Crypto Tracker version
    
    return $vars;
@@ -1533,7 +1533,7 @@ var $pt_array1 = array();
    
    function valid_csv_import_row($csv_row) {
       
-   global $pt_conf, $pt_var;
+   global $oct_conf, $oct_var;
    
    // WE AUTO-CORRECT AS MUCH AS IS FEASIBLE, IF THE USER-INPUT IS CORRUPT / INVALID
    
@@ -1541,38 +1541,38 @@ var $pt_array1 = array();
       
    $csv_row[0] = strtoupper($csv_row[0]); // Asset to uppercase (we already validate it's existance in $this->csv_import_array())
           
-   $csv_row[1] = $pt_var->rem_num_format($csv_row[1]); // Remove any number formatting in held amount
+   $csv_row[1] = $oct_var->rem_num_format($csv_row[1]); // Remove any number formatting in held amount
    
    // Remove any number formatting in paid amount, default paid amount to null if not a valid positive number
-   $csv_row[2] = ( $pt_var->rem_num_format($csv_row[2]) >= 0 ? $pt_var->rem_num_format($csv_row[2]) : null ); 
+   $csv_row[2] = ( $oct_var->rem_num_format($csv_row[2]) >= 0 ? $oct_var->rem_num_format($csv_row[2]) : null ); 
       
    // If leverage amount input is corrupt, default to 0 (ALSO simple auto-correct if negative)
-   $csv_row[3] = ( $pt_var->whole_int($csv_row[3]) != false && $csv_row[3] >= 0 ? $csv_row[3] : 0 ); 
+   $csv_row[3] = ( $oct_var->whole_int($csv_row[3]) != false && $csv_row[3] >= 0 ? $csv_row[3] : 0 ); 
       
    // If leverage is ABOVE 'margin_leverage_max', default to 'margin_leverage_max'
-   $csv_row[3] = ( $csv_row[3] <= $pt_conf['power']['margin_leverage_max'] ? $csv_row[3] : $pt_conf['power']['margin_leverage_max'] ); 
+   $csv_row[3] = ( $csv_row[3] <= $oct_conf['power']['margin_leverage_max'] ? $csv_row[3] : $oct_conf['power']['margin_leverage_max'] ); 
    
    // Default to 'long', if not 'short' (set to lowercase...simple auto-correct, if set to anything other than 'short')
    $csv_row[4] = ( strtolower($csv_row[4]) == 'short' ? strtolower($csv_row[4]) : 'long' ); 
    
    // If market ID input is corrupt, default to 1 (it's ALWAYS 1 OR GREATER)
-   $csv_row[5] = ( $pt_var->whole_int($csv_row[5]) != false && $csv_row[5] >= 1 ? $csv_row[5] : 1 ); 
+   $csv_row[5] = ( $oct_var->whole_int($csv_row[5]) != false && $csv_row[5] >= 1 ? $csv_row[5] : 1 ); 
       
    $csv_row[6] = strtolower($csv_row[6]); // Pairing to lowercase
       
       
       // Pairing auto-correction (if invalid pairing)
-      if ( $csv_row[6] == '' || !is_array($pt_conf['assets'][ $csv_row[0] ]['pairing'][ $csv_row[6] ]) ) {
+      if ( $csv_row[6] == '' || !is_array($oct_conf['assets'][ $csv_row[0] ]['pairing'][ $csv_row[6] ]) ) {
          
       $csv_row[5] = 1; // We need to reset the market id to 1 (it's ALWAYS 1 OR GREATER), as the pairing was not found
       
-      // First key in $pt_conf['assets'][ $csv_row[0] ]['pairing']
-      reset($pt_conf['assets'][ $csv_row[0] ]['pairing']);
-      $csv_row[6] = key($pt_conf['assets'][ $csv_row[0] ]['pairing']);
+      // First key in $oct_conf['assets'][ $csv_row[0] ]['pairing']
+      reset($oct_conf['assets'][ $csv_row[0] ]['pairing']);
+      $csv_row[6] = key($oct_conf['assets'][ $csv_row[0] ]['pairing']);
       
       }
       // Market ID auto-correction (if invalid market ID)
-      elseif ( sizeof($pt_conf['assets'][ $csv_row[0] ]['pairing'][ $csv_row[6] ]) < $csv_row[5] ) {
+      elseif ( sizeof($oct_conf['assets'][ $csv_row[0] ]['pairing'][ $csv_row[6] ]) < $csv_row[5] ) {
       $csv_row[5] = 1; // We need to reset the market id to 1 (it's ALWAYS 1 OR GREATER), as the ID was higher than available markets count
       }
       
@@ -1658,16 +1658,16 @@ var $pt_array1 = array();
    
    function pass_strength($password, $min_length, $max_length) {
    
-   global $pt_conf;
+   global $oct_conf;
    
    
-       if ( $min_length == $max_length && mb_strlen($password, $pt_conf['dev']['charset_default']) != $min_length ) {
+       if ( $min_length == $max_length && mb_strlen($password, $oct_conf['dev']['charset_default']) != $min_length ) {
        $error .= "MUST BE EXACTLY ".$min_length." characters; ";
        }
-       elseif ( mb_strlen($password, $pt_conf['dev']['charset_default']) < $min_length ) {
+       elseif ( mb_strlen($password, $oct_conf['dev']['charset_default']) < $min_length ) {
        $error .= "requires AT LEAST ".$min_length." characters; ";
        }
-       elseif ( mb_strlen($password, $pt_conf['dev']['charset_default']) > $max_length ) {
+       elseif ( mb_strlen($password, $oct_conf['dev']['charset_default']) > $max_length ) {
        $error .= "requires NO MORE THAN ".$max_length." characters; ";
        }
        
@@ -1718,7 +1718,7 @@ var $pt_array1 = array();
    
    function reset_price_alert_notice() {
    
-   global $pt_conf, $pt_cache, $price_alert_fixed_reset_array, $default_btc_prim_currency_pairing;
+   global $oct_conf, $oct_cache, $price_alert_fixed_reset_array, $default_btc_prim_currency_pairing;
    
    // Alphabetical asset sort, for message UX 
    ksort($price_alert_fixed_reset_array);
@@ -1751,9 +1751,9 @@ var $pt_array1 = array();
    
    $text_msg = $count . ' ' . strtoupper($default_btc_prim_currency_pairing) . ' Price Alert Fixed Resets: ' . $reset_list;
    
-   $email_msg = 'The following ' . $count . ' ' . strtoupper($default_btc_prim_currency_pairing) . ' price alert fixed resets (run every ' . $pt_conf['charts_alerts']['price_alert_fixed_reset'] . ' days) have been processed, with the latest spot price data: ' . $reset_list;
+   $email_msg = 'The following ' . $count . ' ' . strtoupper($default_btc_prim_currency_pairing) . ' price alert fixed resets (run every ' . $oct_conf['charts_alerts']['price_alert_fixed_reset'] . ' days) have been processed, with the latest spot price data: ' . $reset_list;
    
-   $notifyme_msg = $email_msg . ' Timestamp is ' . $this->time_date_format($pt_conf['gen']['loc_time_offset'], 'pretty_time') . '.';
+   $notifyme_msg = $email_msg . ' Timestamp is ' . $this->time_date_format($oct_conf['gen']['loc_time_offset'], 'pretty_time') . '.';
    
    
    // Message parameter added for desired comm methods (leave any comm method blank to skip sending via that method)
@@ -1778,7 +1778,7 @@ var $pt_array1 = array();
                    
                    
    // Send notifications
-   @$pt_cache->queue_notify($send_params);
+   @$oct_cache->queue_notify($send_params);
          
    
    }
@@ -1884,11 +1884,11 @@ var $pt_array1 = array();
    
    
    // Check to see if we need to upgrade the app config (add new primary vars / remove depreciated primary vars)
-   function upgrade_cache_pt_conf() {
+   function upgrade_cache_oct_conf() {
    
-   global $upgraded_pt_conf, $cached_pt_conf, $check_default_pt_conf, $default_pt_conf;
+   global $upgraded_oct_conf, $cached_oct_conf, $check_default_oct_conf, $default_oct_conf;
    
-   $upgraded_pt_conf = $cached_pt_conf;
+   $upgraded_oct_conf = $cached_oct_conf;
    
    
    // WE LEAVE THE SUB-ARRAYS FOR PROXIES / CHARTS / TEXT GATEWAYS / PORTFOLIO ASSETS / ETC / ETC ALONE
@@ -1908,30 +1908,30 @@ var $pt_array1 = array();
    
    
       // If no cached app config or it's corrupt, just use full default app config
-      if ( $cached_pt_conf != true ) {
-      return $default_pt_conf;
+      if ( $cached_oct_conf != true ) {
+      return $default_oct_conf;
       }
       // If the default app config has changed since last check (from upgrades / end user editing)
-      elseif ( $check_default_pt_conf != md5(serialize($default_pt_conf)) ) {
+      elseif ( $check_default_oct_conf != md5(serialize($default_oct_conf)) ) {
          
          
          // Check for new variables, and add them
-         foreach ( $default_pt_conf as $cat_key => $cat_val ) {
+         foreach ( $default_oct_conf as $cat_key => $cat_val ) {
             
             foreach ( $cat_val as $conf_key => $conf_val ) {
          
                if ( !in_array($cat_key, $skip_upgrading) && !in_array($conf_key, $skip_upgrading) ) {
                   
                   if ( is_array($conf_val) ) {
-                  $this->subarray_pt_conf_upgrade($cat_key, $conf_key, $skip_upgrading);
+                  $this->subarray_oct_conf_upgrade($cat_key, $conf_key, $skip_upgrading);
                   }
-                  elseif ( !isset($upgraded_pt_conf[$cat_key][$conf_key]) ) {
+                  elseif ( !isset($upgraded_oct_conf[$cat_key][$conf_key]) ) {
                   	
-                  $upgraded_pt_conf[$cat_key][$conf_key] = $default_pt_conf[$cat_key][$conf_key];
+                  $upgraded_oct_conf[$cat_key][$conf_key] = $default_oct_conf[$cat_key][$conf_key];
                   
                   $this->log(
                   			'conf_error',
-                  			'Outdated app config, upgraded parameter $pt_conf[' . $cat_key . '][' . $conf_key . '] imported (default value: ' . $default_pt_conf[$cat_key][$conf_key] . ')'
+                  			'Outdated app config, upgraded parameter $oct_conf[' . $cat_key . '][' . $conf_key . '] imported (default value: ' . $default_oct_conf[$cat_key][$conf_key] . ')'
                   			);
                   						
                   $conf_upgraded = 1;
@@ -1946,22 +1946,22 @@ var $pt_array1 = array();
          
          
          // Check for depreciated variables, and remove them
-         foreach ( $cached_pt_conf as $cached_cat_key => $cached_cat_val ) {
+         foreach ( $cached_oct_conf as $cached_cat_key => $cached_cat_val ) {
             
             foreach ( $cached_cat_val as $cached_conf_key => $cached_conf_val ) {
          
                if ( !in_array($cached_cat_key, $skip_upgrading) && !in_array($cached_conf_key, $skip_upgrading) ) {
                
                   if ( is_array($cached_conf_val) ) {
-                  $this->subarray_pt_conf_upgrade($cached_cat_key, $cached_conf_key, $skip_upgrading);
+                  $this->subarray_oct_conf_upgrade($cached_cat_key, $cached_conf_key, $skip_upgrading);
                   }
-                  elseif ( !isset($default_pt_conf[$cached_cat_key][$cached_conf_key]) ) {
+                  elseif ( !isset($default_oct_conf[$cached_cat_key][$cached_conf_key]) ) {
                   	
-                  unset($upgraded_pt_conf[$cached_cat_key][$cached_conf_key]);
+                  unset($upgraded_oct_conf[$cached_cat_key][$cached_conf_key]);
                   
                   $this->log(
                   			'conf_error',
-                  			'Depreciated app config parameter $pt_conf[' . $cached_cat_key . '][' . $cached_conf_key . '] removed'
+                  			'Depreciated app config parameter $oct_conf[' . $cached_cat_key . '][' . $cached_conf_key . '] removed'
                   			);
                   
                   $conf_upgraded = 1;
@@ -1975,7 +1975,7 @@ var $pt_array1 = array();
          }
          
       
-      return $upgraded_pt_conf;
+      return $upgraded_oct_conf;
       
       }
    
@@ -1989,7 +1989,7 @@ var $pt_array1 = array();
    
    function charset_encode($content) {
       
-   global $pt_conf;
+   global $oct_conf;
    
    
    // Charsets we want to try and detect here
@@ -2006,7 +2006,7 @@ var $pt_array1 = array();
    
    
    // Changs only if non-UTF-8 / non-ASCII characters are detected further down in this function
-   $set_charset = $pt_conf['dev']['charset_default'];
+   $set_charset = $oct_conf['dev']['charset_default'];
    
    $words = explode(" ", $content);
       
@@ -2017,8 +2017,8 @@ var $pt_array1 = array();
       
       $scan_charset = ( mb_detect_encoding($scan_val, 'auto') != false ? mb_detect_encoding($scan_val, 'auto') : null );
       
-         if ( isset($scan_charset) && !preg_match("/" . $pt_conf['dev']['charset_default'] . "/i", $scan_charset) && !preg_match("/ASCII/i", $scan_charset) ) {
-         $set_charset = $pt_conf['dev']['charset_unicode'];
+         if ( isset($scan_charset) && !preg_match("/" . $oct_conf['dev']['charset_default'] . "/i", $scan_charset) && !preg_match("/ASCII/i", $scan_charset) ) {
+         $set_charset = $oct_conf['dev']['charset_unicode'];
          }
       
       }
@@ -2058,7 +2058,7 @@ var $pt_array1 = array();
    $result['length'] = mb_strlen($temp_converted, $set_charset); // Get character length AFTER trim() / BEFORE bin2hex() processing
          
       
-      if ( $set_charset == $pt_conf['dev']['charset_unicode'] ) {
+      if ( $set_charset == $oct_conf['dev']['charset_unicode'] ) {
          
          for($i =0; $i < strlen($temp_converted); $i++) {
          //$content_converted .= ' ' . strtoupper(bin2hex($temp_converted[$i])); // Spacing between characters
@@ -2201,11 +2201,11 @@ var $pt_array1 = array();
    
    function chart_data($file, $chart_format, $start_timestamp=0) {
    
-   global $pt_conf, $pt_var, $default_btc_prim_currency_pairing, $runtime_nonce, $runtime_data;
+   global $oct_conf, $oct_var, $default_btc_prim_currency_pairing, $runtime_nonce, $runtime_data;
    
    
       // #FOR CLEAN CODE#, RUN CHECK TO MAKE SURE IT'S NOT A CRYPTO AS WELL...WE HAVE A COUPLE SUPPORTED, BUT WE ONLY WANT DESIGNATED FIAT-EQIV HERE
-      if ( array_key_exists($chart_format, $pt_conf['power']['btc_currency_markets']) && !array_key_exists($chart_format, $pt_conf['power']['crypto_pairing']) ) {
+      if ( array_key_exists($chart_format, $oct_conf['power']['btc_currency_markets']) && !array_key_exists($chart_format, $oct_conf['power']['crypto_pairing']) ) {
       $fiat_formatting = true;
       }
       elseif ( $chart_format == 'system' ) {
@@ -2255,7 +2255,7 @@ var $pt_array1 = array();
                // PRIMARY CURRENCY CONFIG price percent change (CAN BE NEGATIVE OR POSITIVE IN THIS INSTANCE)
                $percent_change = ($result[1] - $runtime_data['performance_stats'][$asset]['start_val']) / abs($runtime_data['performance_stats'][$asset]['start_val']) * 100;
                // Better decimal support
-               $percent_change = $pt_var->num_to_str($percent_change); 
+               $percent_change = $oct_var->num_to_str($percent_change); 
                
                $data['percent'] .= round($percent_change, 2) . ',';
                $data['combined'] .= '[' . trim($result[0]) . '000' . ', ' . round($percent_change, 2) . '],';  // Zingchart wants 3 more zeros with unix time (milliseconds)
@@ -2267,13 +2267,13 @@ var $pt_array1 = array();
             
                // Format or round primary currency price depending on value (non-stablecoin crypto values are already stored in the format we want for the interface)
                if ( $fiat_formatting ) {
-               $data['spot'] .= ( $pt_var->num_to_str($result[1]) >= 1 ? number_format((float)$result[1], 2, '.', '')  :  round($result[1], $pt_conf['gen']['prim_currency_dec_max'])  ) . ',';
+               $data['spot'] .= ( $oct_var->num_to_str($result[1]) >= 1 ? number_format((float)$result[1], 2, '.', '')  :  round($result[1], $oct_conf['gen']['prim_currency_dec_max'])  ) . ',';
                $data['volume'] .= round($result[2]) . ',';
                }
                // Non-stablecoin crypto
                else {
                $data['spot'] .= $result[1] . ',';
-               $data['volume'] .= round($result[2], $pt_conf['power']['chart_crypto_vol_dec']) . ',';
+               $data['volume'] .= round($result[2], $oct_conf['power']['chart_crypto_vol_dec']) . ',';
                }
             
             }
@@ -2562,18 +2562,18 @@ var $pt_array1 = array();
    
    function safe_mail($to, $subj, $msg, $content_type='text', $charset=null) {
       
-   global $app_version, $pt_conf;
+   global $app_version, $oct_conf;
    
       if ( $charset == null ) {
-      $charset = $pt_conf['dev']['charset_default'];
+      $charset = $oct_conf['dev']['charset_default'];
       }
    
    // Stop injection vulnerability
-   $pt_conf['comms']['from_email'] = str_replace("\r\n", "", $pt_conf['comms']['from_email']); // windows -> unix
-   $pt_conf['comms']['from_email'] = str_replace("\r", "", $pt_conf['comms']['from_email']);   // remaining -> unix
+   $oct_conf['comms']['from_email'] = str_replace("\r\n", "", $oct_conf['comms']['from_email']); // windows -> unix
+   $oct_conf['comms']['from_email'] = str_replace("\r", "", $oct_conf['comms']['from_email']);   // remaining -> unix
    
    // Trim any (remaining) whitespace off ends
-   $pt_conf['comms']['from_email'] = trim($pt_conf['comms']['from_email']);
+   $oct_conf['comms']['from_email'] = trim($oct_conf['comms']['from_email']);
    $to = trim($to);
          
          
@@ -2585,7 +2585,7 @@ var $pt_array1 = array();
       
       
       // SMTP mailing, or PHP's built-in mail() function
-      if ( $pt_conf['comms']['smtp_login'] != '' && $pt_conf['comms']['smtp_server'] != '' ) {
+      if ( $oct_conf['comms']['smtp_login'] != '' && $oct_conf['comms']['smtp_server'] != '' ) {
       return @$this->smtp_mail($to, $subj, $msg, $content_type, $charset); 
       }
       else {
@@ -2594,10 +2594,10 @@ var $pt_array1 = array();
          if ( PHP_VERSION_ID >= 70200 ) {
             
             // Fallback, if no From email set in app config
-            if ( $this->valid_email($pt_conf['comms']['from_email']) == 'valid' ) {
+            if ( $this->valid_email($oct_conf['comms']['from_email']) == 'valid' ) {
             
             $headers = array(
-                        'From' => $pt_conf['comms']['from_email'],
+                        'From' => $oct_conf['comms']['from_email'],
                         'X-Mailer' => 'Open_Crypto_Tracker/' . $app_version . ' - PHP/' . phpversion(),
                         'Content-Type' => $content_type . '/plain; charset=' . $charset
                            );
@@ -2616,9 +2616,9 @@ var $pt_array1 = array();
          else {
             
             // Fallback, if no From email set in app config
-            if ( $this->valid_email($pt_conf['comms']['from_email']) == 'valid' ) {
+            if ( $this->valid_email($oct_conf['comms']['from_email']) == 'valid' ) {
             
-            $headers = 'From: ' . $pt_conf['comms']['from_email'] . "\r\n" .
+            $headers = 'From: ' . $oct_conf['comms']['from_email'] . "\r\n" .
             'X-Mailer: Open_Crypto_Tracker/' . $app_version . ' - PHP/' . phpversion() . "\r\n" .
             'Content-Type: ' . $content_type . '/plain; charset=' . $charset;
          
@@ -2730,7 +2730,7 @@ var $pt_array1 = array();
   
   function test_proxy($problem_proxy_array) {
   
-  global $base_dir, $pt_conf, $pt_cache, $runtime_mode, $proxies_checked;
+  global $base_dir, $oct_conf, $oct_cache, $runtime_mode, $proxies_checked;
   
   // Endpoint to test proxy connectivity: https://www.myip.com/api-docs/
   $proxy_test_url = 'https://api.myip.com/';
@@ -2760,13 +2760,13 @@ var $pt_array1 = array();
   $cache_filename = preg_replace("/:/", "_", $cache_filename);
   
   
-      if ( $pt_conf['comms']['proxy_alert_runtime'] == 'all' ) {
+      if ( $oct_conf['comms']['proxy_alert_runtime'] == 'all' ) {
       $run_alerts = 1;
       }
-      elseif ( $pt_conf['comms']['proxy_alert_runtime'] == 'cron' && $runtime_mode == 'cron' ) {
+      elseif ( $oct_conf['comms']['proxy_alert_runtime'] == 'cron' && $runtime_mode == 'cron' ) {
       $run_alerts = 1;
       }
-      elseif ( $pt_conf['comms']['proxy_alert_runtime'] == 'ui' && $runtime_mode == 'ui' ) {
+      elseif ( $oct_conf['comms']['proxy_alert_runtime'] == 'ui' && $runtime_mode == 'ui' ) {
       $run_alerts = 1;
       }
       else {
@@ -2774,7 +2774,7 @@ var $pt_array1 = array();
       }
   
   
-      if ( $run_alerts == 1 && $pt_cache->update_cache('cache/alerts/proxy-check-'.$cache_filename.'.dat', ( $pt_conf['comms']['proxy_alert_freq_max'] * 60 ) ) == true
+      if ( $run_alerts == 1 && $oct_cache->update_cache('cache/alerts/proxy-check-'.$cache_filename.'.dat', ( $oct_conf['comms']['proxy_alert_freq_max'] * 60 ) ) == true
       && in_array($cache_filename, $proxies_checked) == false ) {
       
        
@@ -2835,11 +2835,11 @@ var $pt_array1 = array();
                          
        
          // Send out alerts
-         if ( $misconfigured == 1 || $pt_conf['comms']['proxy_alert_checkup_ok'] == 'include' ) {
+         if ( $misconfigured == 1 || $oct_conf['comms']['proxy_alert_checkup_ok'] == 'include' ) {
                            
                            
              // Message parameter added for desired comm methods (leave any comm method blank to skip sending via that method)
-             if ( $pt_conf['comms']['proxy_alert'] == 'all' ) {
+             if ( $oct_conf['comms']['proxy_alert'] == 'all' ) {
              
              // Minimize function calls
              $encoded_text_alert = $this->charset_encode($text_alert); // Unicode support included for text messages (emojis / asian characters / etc )
@@ -2858,7 +2858,7 @@ var $pt_array1 = array();
                          );
                   
              }
-             elseif ( $pt_conf['comms']['proxy_alert'] == 'email' ) {
+             elseif ( $oct_conf['comms']['proxy_alert'] == 'email' ) {
               
                   $send_params['email'] = array(
                             'subject' => 'A Proxy Was Unresponsive',
@@ -2866,7 +2866,7 @@ var $pt_array1 = array();
                             );
                   
              }
-             elseif ( $pt_conf['comms']['proxy_alert'] == 'text' ) {
+             elseif ( $oct_conf['comms']['proxy_alert'] == 'text' ) {
              
              // Minimize function calls
              $encoded_text_alert = $this->charset_encode($text_alert); // Unicode support included for text messages (emojis / asian characters / etc )
@@ -2877,10 +2877,10 @@ var $pt_array1 = array();
                             );
                   
              }
-             elseif ( $pt_conf['comms']['proxy_alert'] == 'notifyme' ) {
+             elseif ( $oct_conf['comms']['proxy_alert'] == 'notifyme' ) {
                   $send_params['notifyme'] = $notifyme_alert;
              }
-             elseif ( $pt_conf['comms']['proxy_alert'] == 'telegram' ) {
+             elseif ( $oct_conf['comms']['proxy_alert'] == 'telegram' ) {
                   $send_params['telegram'] = $email_alert;
              }
                   
@@ -2903,7 +2903,7 @@ var $pt_array1 = array();
    
    function system_info() {
    
-   global $runtime_mode, $app_version, $base_dir, $pt_var;
+   global $runtime_mode, $app_version, $base_dir, $oct_var;
    
    // OS
    $system['operating_system'] = php_uname();
@@ -3066,7 +3066,7 @@ var $pt_array1 = array();
    
    // Portfolio cache size (cached for efficiency)
    $portfolio_cache = trim( file_get_contents($base_dir . '/cache/vars/cache_size.dat') );
-   $system['portfolio_cache'] = ( $pt_var->num_to_str($portfolio_cache) > 0 ? $portfolio_cache : 0 );
+   $system['portfolio_cache'] = ( $oct_var->num_to_str($portfolio_cache) > 0 ? $portfolio_cache : 0 );
    
    
    // Software

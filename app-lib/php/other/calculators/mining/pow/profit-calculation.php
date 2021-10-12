@@ -3,7 +3,7 @@
  * Copyright 2014-2020 GPLv3, Open Crypto Tracker by Mike Kilday: Mike@DragonFrugal.com
  */
 				
-$mined_asset_val = $pt_api->market(strtoupper($pow_asset_data['symbol']), $pow_asset_data['exchange_name'], $pow_asset_data['exchange_market'])['last_trade'];
+$mined_asset_val = $oct_api->market(strtoupper($pow_asset_data['symbol']), $pow_asset_data['exchange_name'], $pow_asset_data['exchange_market'])['last_trade'];
 				
 $btc_daily_avg_raw = ( $pow_asset_data['symbol'] == 'btc' ? $daily_avg : $daily_avg * $mined_asset_val );
 

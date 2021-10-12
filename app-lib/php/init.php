@@ -26,32 +26,32 @@ date_default_timezone_set('UTC');
 
 
 // If debugging is enabled, turn on all PHP error reporting (BEFORE ANYTHING ELSE RUNS)
-if ( $pt_conf['dev']['debug'] != 'off' ) {
+if ( $oct_conf['dev']['debug'] != 'off' ) {
 error_reporting(-1); 
 }
 else {
-error_reporting($pt_conf['init']['error_reporting']); 
+error_reporting($oct_conf['init']['error_reporting']); 
 }
 
 
 // Set a max execution time (if the system lets us), TO AVOID RUNAWAY PROCESSES FREEZING THE SERVER
-if ( $pt_conf['dev']['debug'] != 'off' ) {
+if ( $oct_conf['dev']['debug'] != 'off' ) {
 $max_exec_time = 600; // 10 minutes in debug mode
 }
 elseif ( $runtime_mode == 'ui' ) {
-$max_exec_time = $pt_conf['dev']['ui_max_exec_time'];
+$max_exec_time = $oct_conf['dev']['ui_max_exec_time'];
 }
 elseif ( $runtime_mode == 'ajax' ) {
-$max_exec_time = $pt_conf['dev']['ajax_max_exec_time'];
+$max_exec_time = $oct_conf['dev']['ajax_max_exec_time'];
 }
 elseif ( $runtime_mode == 'cron' ) {
-$max_exec_time = $pt_conf['dev']['cron_max_exec_time'];
+$max_exec_time = $oct_conf['dev']['cron_max_exec_time'];
 }
 elseif ( $runtime_mode == 'int_api' ) {
-$max_exec_time = $pt_conf['dev']['int_api_max_exec_time'];
+$max_exec_time = $oct_conf['dev']['int_api_max_exec_time'];
 }
 elseif ( $runtime_mode == 'webhook' ) {
-$max_exec_time = $pt_conf['dev']['webhook_max_exec_time'];
+$max_exec_time = $oct_conf['dev']['webhook_max_exec_time'];
 }
 
 
@@ -181,7 +181,7 @@ $plug_class = array();
 $activated_plugins =  array();
 
 // Set as global, to update in / out of functions as needed
-$upgraded_pt_conf = array();
+$upgraded_oct_conf = array();
 
 
 // Initial BLANK strings
@@ -212,20 +212,20 @@ $base_dir = preg_replace("/\/app-lib(.*)/i", "", $file_loc );
 // EVEN THOUGH WE RUN LOGIC AGAIN FURTHER DOWN IN INIT TO SET THIS UNDER
 // ALL CONDITIONS (EVEN CRON RUNTIMES), AND REFRESH VAR CACHE FOR CRON LOGIC
 if ( $runtime_mode != 'cron' ) {
-$base_url = $pt_gen->base_url();
+$base_url = $oct_gen->base_url();
 }
 
 
-// Set $pt_app_id as a global (MUST BE SET AFTER $base_url / $base_dir)
+// Set $oct_app_id as a global (MUST BE SET AFTER $base_url / $base_dir)
 // (a 10 character install ID hash, created from the base URL or base dir [if cron])
-// AFTER THIS IS SET, WE CAN USE EITHER $pt_app_id OR $pt_gen->id() RELIABLY / EFFICIENTLY ANYWHERE
-// $pt_gen->id() can then be used in functions WITHOUT NEEDING ANY $pt_app_id GLOBAL DECLARED.
-$pt_app_id = $pt_gen->id();
+// AFTER THIS IS SET, WE CAN USE EITHER $oct_app_id OR $oct_gen->id() RELIABLY / EFFICIENTLY ANYWHERE
+// $oct_gen->id() can then be used in functions WITHOUT NEEDING ANY $oct_app_id GLOBAL DECLARED.
+$oct_app_id = $oct_gen->id();
 
 
 // Give our session a unique name 
-// MUST BE SET AFTER $pt_app_id / first $pt_gen->id() call
-session_name( $pt_gen->id() );
+// MUST BE SET AFTER $oct_app_id / first $oct_gen->id() call
+session_name( $oct_gen->id() );
 
 
 // Session array
@@ -236,22 +236,22 @@ $_SESSION = array();
 
 // Nonce (CSRF attack protection) for user GET links (downloads etc) / admin login session logic WHEN NOT RUNNING AS CRON
 if ( $runtime_mode != 'cron' && !isset( $_SESSION['nonce'] ) ) {
-$_SESSION['nonce'] = $pt_gen->rand_hash(32); // 32 byte
+$_SESSION['nonce'] = $oct_gen->rand_hash(32); // 32 byte
 }
 
 
 // Nonce for unique runtime logic
-$runtime_nonce = $pt_gen->rand_hash(16); // 16 byte
+$runtime_nonce = $oct_gen->rand_hash(16); // 16 byte
 
 
 // If user is logging out (run immediately after setting session vars, for quick runtime)
-if ( $_GET['logout'] == 1 && $pt_gen->admin_hashed_nonce('logout') != false && $_GET['admin_hashed_nonce'] == $pt_gen->admin_hashed_nonce('logout') ) {
+if ( $_GET['logout'] == 1 && $oct_gen->admin_hashed_nonce('logout') != false && $_GET['admin_hashed_nonce'] == $oct_gen->admin_hashed_nonce('logout') ) {
 	
 // Try to avoid edge-case bug where sessions don't delete, using our hardened function logic
-$pt_gen->hardy_sess_clear(); 
+$oct_gen->hardy_sess_clear(); 
 
 // Delete admin login cookie
-unset($_COOKIE['admin_auth_' . $pt_gen->id()]); 
+unset($_COOKIE['admin_auth_' . $oct_gen->id()]); 
 
 header("Location: index.php");
 exit;
@@ -261,9 +261,9 @@ exit;
 
 // CSRF attack protection for downloads EXCEPT backup downloads (which require the nonce 
 // in the filename [which we do already], since backup links are created during cron runtimes)
-if ( $runtime_mode == 'download' && !isset($_GET['backup']) && $_GET['token'] != $pt_gen->nonce_digest('download') ) {
-$pt_gen->log('security_error', 'Missing security token (-possible- CSRF attack from ' . $_SERVER['REMOTE_ADDR'] . ') for request: ' . $_SERVER['REQUEST_URI']);
-$pt_cache->error_logs();
+if ( $runtime_mode == 'download' && !isset($_GET['backup']) && $_GET['token'] != $oct_gen->nonce_digest('download') ) {
+$oct_gen->log('security_error', 'Missing security token (-possible- CSRF attack from ' . $_SERVER['REMOTE_ADDR'] . ') for request: ' . $_SERVER['REQUEST_URI']);
+$oct_cache->error_logs();
 exit;
 }
 
@@ -279,11 +279,11 @@ $current_runtime_user = get_current_user();
 
 // Get WEBSERVER runtime user (from cache if currently running from CLI)
 // MUST BE SET BEFORE CACHE STRUCTURE CREATION, TO RUN IN COMPATIBILITY MODE (IF NEEDED) FOR THIS PARTICULAR SERVER'S SETUP
-// WE HAVE FALLBACKS IF THIS IS NULL IN $pt_cache->save_file() WHEN WE STORE CACHE FILES, SO A BRAND NEW INTALL RUN FIRST VIA CRON IS #OK#
+// WE HAVE FALLBACKS IF THIS IS NULL IN $oct_cache->save_file() WHEN WE STORE CACHE FILES, SO A BRAND NEW INTALL RUN FIRST VIA CRON IS #OK#
 $http_runtime_user = ( $runtime_mode != 'cron' ? $current_runtime_user : trim( file_get_contents('cache/vars/http_runtime_user.dat') ) );
 
 
-$interface_login_array = explode("||", $pt_conf['gen']['interface_login']);
+$interface_login_array = explode("||", $oct_conf['gen']['interface_login']);
 
 // htaccess login...SET BEFORE system checks
 $htaccess_username = $interface_login_array[0];
@@ -300,17 +300,17 @@ if ( $_POST['admin_submit_register'] || $_POST['admin_submit_login'] || $_POST['
 	
 	
 		if ( $_POST['admin_submit_register'] ) {
-		$sel_opt['theme_selected'] = ( $_COOKIE['theme_selected'] ? $_COOKIE['theme_selected'] : $pt_conf['gen']['default_theme'] );
+		$sel_opt['theme_selected'] = ( $_COOKIE['theme_selected'] ? $_COOKIE['theme_selected'] : $oct_conf['gen']['default_theme'] );
 		require("templates/interface/desktop/php/admin/admin-login/register.php");
 		exit;
 		}
 		elseif ( $_POST['admin_submit_login'] ) {
-		$sel_opt['theme_selected'] = ( $_COOKIE['theme_selected'] ? $_COOKIE['theme_selected'] : $pt_conf['gen']['default_theme'] );
+		$sel_opt['theme_selected'] = ( $_COOKIE['theme_selected'] ? $_COOKIE['theme_selected'] : $oct_conf['gen']['default_theme'] );
 		require("templates/interface/desktop/php/admin/admin-login/login.php");
 		exit;
 		}
 		elseif ( $_POST['admin_submit_reset'] ) {
-		$sel_opt['theme_selected'] = ( $_COOKIE['theme_selected'] ? $_COOKIE['theme_selected'] : $pt_conf['gen']['default_theme'] );
+		$sel_opt['theme_selected'] = ( $_COOKIE['theme_selected'] ? $_COOKIE['theme_selected'] : $oct_conf['gen']['default_theme'] );
 		require("templates/interface/desktop/php/admin/admin-login/reset.php");
 		exit;
 		}
@@ -341,7 +341,7 @@ $remote_ip = ( isset($_SERVER['REMOTE_ADDR']) ? $_SERVER['REMOTE_ADDR'] : 'local
 
 
 // Get system info for debugging / stats
-$system_info = $pt_gen->system_info(); // MUST RUN AFTER SETTING $base_dir
+$system_info = $oct_gen->system_info(); // MUST RUN AFTER SETTING $base_dir
 
 
 // If upgrade check enabled / cached var set, set the runtime var for any configured alerts
@@ -357,15 +357,15 @@ $is_raspi = 1;
 }
 
 // To be safe, don't use trim() on certain strings with arbitrary non-alphanumeric characters here
-if ( trim($pt_conf['comms']['telegram_your_username']) != '' && trim($pt_conf['comms']['telegram_bot_name']) != '' && trim($pt_conf['comms']['telegram_bot_username']) != '' && $pt_conf['comms']['telegram_bot_token'] != '' ) {
+if ( trim($oct_conf['comms']['telegram_your_username']) != '' && trim($oct_conf['comms']['telegram_bot_name']) != '' && trim($oct_conf['comms']['telegram_bot_username']) != '' && $oct_conf['comms']['telegram_bot_token'] != '' ) {
 $telegram_activated = 1;
 }
 
 // User agent (MUST BE SET EARLY [BUT AFTER SYSTEM INFO VAR], FOR ANY API CALLS WHERE USER AGENT IS REQUIRED BY THE API SERVER)
-if ( trim($pt_conf['dev']['override_user_agent']) != '' ) {
-$user_agent = $pt_conf['dev']['override_user_agent'];  // Custom user agent
+if ( trim($oct_conf['dev']['override_user_agent']) != '' ) {
+$user_agent = $oct_conf['dev']['override_user_agent'];  // Custom user agent
 }
-elseif ( sizeof($pt_conf['proxy']['proxy_list']) > 0 ) {
+elseif ( sizeof($oct_conf['proxy']['proxy_list']) > 0 ) {
 $user_agent = 'Curl/' .$curl_setup["version"]. ' ('.PHP_OS.'; compatible;)';  // If proxies in use, preserve some privacy
 }
 else {
@@ -399,7 +399,7 @@ elseif ( $is_csv_export ) {
 	require_once('app-lib/php/other/downloads/example-csv.php');
 	}
 	// Portfolio export download (CSRF security / logging is in export-csv.php)
-	elseif ( is_array($pt_conf['assets']) ) {
+	elseif ( is_array($oct_conf['assets']) ) {
 	require_once('app-lib/php/other/downloads/export-csv.php');
 	}
 
@@ -431,15 +431,15 @@ require_once('app-lib/php/other/security/directory-security.php');
 if ( $runtime_mode == 'ui' ) {
 	
 	// Have UI / HTTP runtime mode RE-CACHE the runtime_user data every 24 hours, since CLI runtime cannot determine the UI / HTTP runtime_user 
-	if ( $pt_cache->update_cache('cache/vars/http_runtime_user.dat', (60 * 24) ) == true ) {
-	$pt_cache->save_file('cache/vars/http_runtime_user.dat', $http_runtime_user); // ALREADY SET FURTHER UP IN INIT.PHP
+	if ( $oct_cache->update_cache('cache/vars/http_runtime_user.dat', (60 * 24) ) == true ) {
+	$oct_cache->save_file('cache/vars/http_runtime_user.dat', $http_runtime_user); // ALREADY SET FURTHER UP IN INIT.PHP
 	}
 
 
 	// Have UI runtime mode RE-CACHE the app URL data every 24 hours, since CLI runtime cannot determine the app URL (for sending backup link emails during backups, etc)
-	if ( $pt_cache->update_cache('cache/vars/base_url.dat', (60 * 24) ) == true ) {
-	$base_url = $pt_gen->base_url();
-	$pt_cache->save_file('cache/vars/base_url.dat', $base_url);
+	if ( $oct_cache->update_cache('cache/vars/base_url.dat', (60 * 24) ) == true ) {
+	$base_url = $oct_gen->base_url();
+	$oct_cache->save_file('cache/vars/base_url.dat', $base_url);
 	}
 	else {
 	$base_url = trim( file_get_contents('cache/vars/base_url.dat') );
@@ -463,13 +463,13 @@ require_once('app-lib/php/other/debugging/system-checks.php');
 // Plugins config (MUST RUN AFTER system checks and BEFORE secure cache files)
 require_once('app-lib/php/other/plugins-config.php');
 
-// SET original pt_conf array AFTER plugins config, BEFORE secure cache files, and BEFORE dynamic app config management
-$default_pt_conf = $pt_conf; 
+// SET original oct_conf array AFTER plugins config, BEFORE secure cache files, and BEFORE dynamic app config management
+$default_oct_conf = $oct_conf; 
 
 // SECURED cache files management (MUST RUN AFTER system checks and AFTER plugins config)
 require_once('app-lib/php/other/security/secure-cache-files.php');
 
-// Dynamic app config management (MUST RUN AFTER secure cache files FOR CACHED / config.php pt_conf comparison)
+// Dynamic app config management (MUST RUN AFTER secure cache files FOR CACHED / config.php oct_conf comparison)
 require_once('app-lib/php/other/app-config-management.php');
 
 // Load any activated 3RD PARTY classes (MUST RUN AS EARLY AS POSSIBLE #AFTER SECURE CACHE FILES / APP CONFIG MANAGEMENT#)
@@ -499,7 +499,7 @@ require_once('app-lib/php/other/scheduled-maintenance.php');
 
 
 // Unit tests to run in debug mode (MUST RUN AT THE VERY END OF INIT.PHP)
-if ( $pt_conf['dev']['debug'] != 'off' ) {
+if ( $oct_conf['dev']['debug'] != 'off' ) {
 require_once('app-lib/php/other/debugging/tests.php');
 require_once('app-lib/php/other/debugging/exchange-and-pairing-info.php');
 }

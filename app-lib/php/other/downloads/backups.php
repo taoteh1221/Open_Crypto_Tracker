@@ -61,9 +61,9 @@ if ($fd = fopen ($fullPath, "r")) {
 
 
 // Log errors / debugging, send notifications
-$pt_cache->error_logs();
-$pt_cache->debug_logs();
-$pt_cache->send_notifications();
+$oct_cache->error_logs();
+$oct_cache->debug_logs();
+$oct_cache->send_notifications();
 
 fclose ($fd);
 gc_collect_cycles(); // Clean memory cache
