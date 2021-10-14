@@ -1143,6 +1143,7 @@ var $oct_array1 = array();
    $pretty_str = preg_replace("/ico/i", 'ICO', $pretty_str);
    $pretty_str = preg_replace("/erc20/i", 'ERC-20', $pretty_str);
    $pretty_str = preg_replace("/okex/i", 'OKex', $pretty_str);
+   $pretty_str = preg_replace("/mart/i", 'Mart', $pretty_str);
    
    
    return trim($pretty_str);
