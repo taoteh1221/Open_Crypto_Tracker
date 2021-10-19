@@ -50,6 +50,9 @@ $pairing_btc_val = $oct_asset->pairing_btc_val($asset);
 	elseif ( $asset == 'eth' ) {
 	$address_balance = $plug_class[$this_plug]->eth_addr_bal($address);
 	}
+	elseif ( $asset == 'hnt' ) {
+	$address_balance = $plug_class[$this_plug]->hnt_addr_bal($address);
+	}
 	
 	
 	// If we returned 'error' from a detected API error OR no address detected in config, skip this one for now

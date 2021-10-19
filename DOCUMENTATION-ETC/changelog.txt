@@ -4689,6 +4689,26 @@ MIGRATE YOUR EXISTING SETTINGS TO THE NEW FORMAT.
 
 
 
+-------------------------------------------------------------------
+5.04.0:
+
+
+-HNT support in the address-balance-tracker cron plugin
+
+
+v5.03.4 and higher renames the admin config array. ALL CONFIGURATION SETTING
+VARIABLE NAMES ARE NOW DIFFERENT, USE THE LATEST/UPGRADED CONFIG.PHP, AND
+MIGRATE YOUR EXISTING SETTINGS TO THE NEW FORMAT.
+
+
+-------------------------------------------------------------------
+
+
+
+
+
+
+
 
 
 
