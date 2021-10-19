@@ -133,6 +133,9 @@ $pretty_asset_amount = $oct_var->num_pretty($address_balance, 8);
 		elseif ( $asset == 'eth' ) {
 		$email_msg = $base_msg . " https://etherscan.io/address/" . $address;
 		}
+		elseif ( $asset == 'hnt' ) {
+		$email_msg = $base_msg . " https://explorer.helium.com/accounts/" . $address;
+		}
 
 
 	$text_msg = $label . " address balance " . $direction . " (" . $plus_minus . $difference_amount . " " . strtoupper($asset) . "): " . $pretty_asset_amount . " " . strtoupper($asset) . " (". $oct_conf['power']['btc_currency_markets'][ $oct_conf['gen']['btc_prim_currency_pairing'] ] . $pretty_prim_currency_worth . ").";
