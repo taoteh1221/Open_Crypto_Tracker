@@ -726,7 +726,7 @@ var $oct_array1 = array();
     
       elseif ( strtolower($sel_exchange) == 'bitbns' ) {
          
-      $url = 'https://bitbns.com/order/getTickerWithVolume/';
+      $url = 'https://bitbns.com/order/getTickerWithVolume';
          
       $response = @$oct_cache->ext_data('url', $url, $oct_conf['power']['last_trade_cache_time']);
          
@@ -1234,6 +1234,44 @@ var $oct_array1 = array();
     
     
     
+      elseif ( strtolower($sel_exchange) == 'coindcx' ) {
+         
+      $url = 'https://public.coindcx.com/exchange/ticker';
+         
+      $response = @$oct_cache->ext_data('url', $url, $oct_conf['power']['last_trade_cache_time']);
+         
+      $data = json_decode($response, true);
+         
+      
+	          if ( is_array($data) ) {
+	      
+	            foreach ($data as $key => $val) {
+	              
+	              
+	              if ( $val["market"] == $market_id ) {
+	               
+	              $result = array(
+	                              'last_trade' => $val["last_price"],
+	                              '24hr_asset_vol' => null, // No asset volume data for this API
+	                              '24hr_pairing_vol' => $val["volume"]
+	                     		  );
+	     
+	              }
+	            
+	          
+	            }
+	          
+	          }
+      
+      
+      }
+     
+     
+     
+     ////////////////////////////////////////////////////////////////////////////////////////////////
+    
+    
+    
       elseif ( strtolower($sel_exchange) == 'coinex' ) {
          
       $url = 'https://api.coinex.com/v1/market/ticker/all';
@@ -1295,6 +1333,46 @@ var $oct_array1 = array();
 	              $result = array(
 	                              'last_trade' => $val["last"],
 	                              '24hr_asset_vol' => null, // No asset volume data for this API
+	                              '24hr_pairing_vol' => null // No pairing volume data for this API
+	                     		  );
+	     
+	              }
+	            
+	          
+	            }
+	          
+	          }
+      
+      
+      }
+     
+     
+     
+     ////////////////////////////////////////////////////////////////////////////////////////////////
+    
+    
+    
+      elseif ( strtolower($sel_exchange) == 'crypto.com' ) {
+         
+      $url = 'https://api.crypto.com/v2/public/get-ticker';
+         
+      $response = @$oct_cache->ext_data('url', $url, $oct_conf['power']['last_trade_cache_time']);
+         
+      $data = json_decode($response, true);
+         
+      $data = $data['result']['data'];
+         
+      
+	          if ( is_array($data) ) {
+	      
+	            foreach ($data as $key => $val) {
+	              
+	              
+	              if ( $val['i'] == $market_id ) {
+	               
+	              $result = array(
+	                              'last_trade' => $val["a"],
+	                              '24hr_asset_vol' => $val["v"],
 	                              '24hr_pairing_vol' => null // No pairing volume data for this API
 	                     		  );
 	     
@@ -1466,6 +1544,86 @@ var $oct_array1 = array();
 		   
           
          }
+      
+      
+      }
+     
+     
+     
+     ////////////////////////////////////////////////////////////////////////////////////////////////
+    
+    
+    
+      elseif ( strtolower($sel_exchange) == 'ftx' ) {
+         
+      $url = 'https://ftx.com/api/markets';
+         
+      $response = @$oct_cache->ext_data('url', $url, $oct_conf['power']['last_trade_cache_time']);
+         
+      $data = json_decode($response, true);
+         
+      $data = $data['result'];
+         
+      
+	          if ( is_array($data) ) {
+	      
+	            foreach ($data as $key => $val) {
+	              
+	              
+	              if ( $val['name'] == $market_id ) {
+	               
+	              $result = array(
+	                              'last_trade' => $val["last"],
+	                              '24hr_asset_vol' => null, // No asset volume data for this API
+	                              '24hr_pairing_vol' => $val["quoteVolume24h"]
+	                     		  );
+	     
+	              }
+	            
+	          
+	            }
+	          
+	          }
+      
+      
+      }
+     
+     
+     
+     ////////////////////////////////////////////////////////////////////////////////////////////////
+    
+    
+    
+      elseif ( strtolower($sel_exchange) == 'ftx_us' ) {
+         
+      $url = 'https://ftx.us/api/markets';
+         
+      $response = @$oct_cache->ext_data('url', $url, $oct_conf['power']['last_trade_cache_time']);
+         
+      $data = json_decode($response, true);
+         
+      $data = $data['result'];
+         
+      
+	          if ( is_array($data) ) {
+	      
+	            foreach ($data as $key => $val) {
+	              
+	              
+	              if ( $val['name'] == $market_id ) {
+	               
+	              $result = array(
+	                              'last_trade' => $val["last"],
+	                              '24hr_asset_vol' => null, // No asset volume data for this API
+	                              '24hr_pairing_vol' => $val["quoteVolume24h"]
+	                     		  );
+	     
+	              }
+	            
+	          
+	            }
+	          
+	          }
       
       
       }
@@ -2196,6 +2354,44 @@ var $oct_array1 = array();
     
     
     
+      elseif ( strtolower($sel_exchange) == 'unocoin' ) {
+         
+      $url = 'https://api.unocoin.com/api/trades/in/all/all';
+         
+      $response = @$oct_cache->ext_data('url', $url, $oct_conf['power']['last_trade_cache_time']);
+         
+      $data = json_decode($response, true);
+         
+      
+	          if ( is_array($data) ) {
+	      
+	            foreach ($data as $key => $val) {
+	              
+	              
+	              if ( $key == $market_id ) {
+	               
+	              $result = array(
+	                              'last_trade' => $val["average_price"],
+	                              '24hr_asset_vol' => null, // No asset volume data for this API
+	                              '24hr_pairing_vol' => null // No pairing volume data for this API
+	                     		  );
+	     
+	              }
+	            
+	          
+	            }
+	          
+	          }
+      
+      
+      }
+     
+     
+     
+     ////////////////////////////////////////////////////////////////////////////////////////////////
+    
+    
+    
       elseif ( strtolower($sel_exchange) == 'upbit' ) {
         
       $upbit_pairs = null; // In case user messes up Admin Config, this helps
@@ -2288,25 +2484,32 @@ var $oct_array1 = array();
     
       elseif ( strtolower($sel_exchange) == 'zebpay' ) {
     
-      $url = 'https://www.zebapi.com/pro/v1/market/';
+      $url = 'https://www.zebapi.com/pro/v1/market';
          
       $response = @$oct_cache->ext_data('url', $url, $oct_conf['power']['last_trade_cache_time']);
          
       $data = json_decode($response, true);
-      
       
           if ( is_array($data) ) {
       
             foreach ($data as $key => $val) {
               
               if ( $val['pair'] == $market_id ) {
+                  
+                  // Workaround for weird zebpay API bug, where they include a second
+                  // array object with same 'pair' property, that's mostly a null data set
+                  if ( $val["market"] > 0 && $zebapi_bug_workaround != true ) {
+                  
+                  $zebapi_bug_workaround = true;
+                   
+                  $result = array(
+                                  'last_trade' => $val["market"],
+                                  '24hr_asset_vol' => $val["volume"],
+                                  '24hr_pairing_vol' => null // No pairing volume data for this API
+                         		  );
                
-              $result = array(
-                              'last_trade' => $val["market"],
-                              '24hr_asset_vol' => $val["volume"],
-                              '24hr_pairing_vol' => null // No pairing volume data for this API
-                     		  );
-               
+                  }
+                  
               }
           
             }

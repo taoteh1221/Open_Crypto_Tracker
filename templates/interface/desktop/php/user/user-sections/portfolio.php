@@ -1667,7 +1667,7 @@ zingchart.bind('marketcap_chart', 'label_click', function(e){
 	
 	<li class='bitcoin' style='font-weight: bold;'>System load is always (roughly) MULTIPLIED by the number of threads.</li>	
 	
-	<li class='bitcoin' style='font-weight: bold;'>Cron Runtime Seconds DOES NOT INCLUDE plugin runtime (for stability of CORE runtime, in case <i>custom</i> plugins are buggy).</li>	
+	<li class='bitcoin' style='font-weight: bold;'>"Cron Core Runtime Seconds" DOES NOT INCLUDE plugin runtime (for stability of CORE runtime, in case <i>custom</i> plugins are buggy and crash).</li>	
    
    </ul>
    

@@ -4690,10 +4690,19 @@ MIGRATE YOUR EXISTING SETTINGS TO THE NEW FORMAT.
 
 
 -------------------------------------------------------------------
-5.04.0:
+5.03.5:
+
+
+-Bug fix for zebpay API support (workaround for bug on their end)
 
 
 -HNT support in the address-balance-tracker cron plugin
+
+
+-FTX.com / FTX.us / Crypto.com / CoinDCX / UnoCoin API market support
+
+
+-Misc. UX
 
 
 v5.03.4 and higher renames the admin config array. ALL CONFIGURATION SETTING

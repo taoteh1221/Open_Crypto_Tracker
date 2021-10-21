@@ -168,6 +168,8 @@
 	        
 	        <li class='links_list'><a href='https://trezor.io/' target='_blank'>Trezor</a>   <span class='yellow'>(open source multi-coin hardware wallet)</span></li>
 	        
+	        <li class='links_list'><a href='https://gridplus.io' target='_blank'>GridPlus</a>   <span class='yellow'>(high-end proprietary hardware wallet)</span></li>
+	        
 	        <li class='links_list'><a href='https://coldcardwallet.com/' target='_blank'>Coldcard</a>   <span class='yellow'>(open source Bitcoin hardware wallet [uses fork of trezor software interface])</span></li>
 	        
 	        <li class='links_list'><a href='https://github.com/gnosis/MultiSigWallet/releases' target='_blank'>Gnosis Multisig Wallet</a>   <span class='yellow'>(Ethereum software wallet, with hardware wallet support)</span></li>
@@ -400,6 +402,10 @@
 	        
 	        <li class='links_list'><a href='https://nakamotoinstitute.org/' target='_blank'>Nakamotoinstitute.org</a> <span class='yellow'>(Bitcoin educational resources)</span></li>
 	        
+	        <li class='links_list'><a href='https://nodewatch.io' target='_blank'>NodeWatch.io</a> <span class='yellow'>(ETH v2 Node Stats)</span></li>
+	        
+	        <li class='links_list'><a href='https://opensea.io/' target='_blank'>OpenSea.io</a> <span class='yellow'>(NFT marketplace)</span></li>
+	        
 	        <li class='links_list'><a href='https://sourceforge.net/projects/dfd-crypto-ticker/' target='_blank'>Raspberry PI Real-Time / Multi-Crypto Slideshow Price Ticker</a> <span class='yellow'>(a side project of mine)</span></li>
 	        
 	        <li class='links_list'><a href='https://www.sec.gov/ICO' target='_blank'>SEC.gov ICO Awareness Site</a></li>
@@ -407,6 +413,8 @@
 	        <li class='links_list'><a href='https://txstreet.com/' target='_blank'>TxStreet.com</a> <span class='yellow'>(Blockchain Transaction Visualizer)</span></li>
 	        
 	        <li class='links_list'><a href='https://usdsat.com/' target='_blank'>USDsat.com</a> <span class='yellow'>(US Dollar vs Bitcoin's smallest unit of measure)</span></li>
+	        
+	        <li class='links_list'><a href='https://watchtheburn.com' target='_blank'>Watch The Burn</a> <span class='yellow'>(watch ETH transaction fees get burned)</span></li>
 	        
 	        <li class='links_list'><a href='https://whale-alert.io/' target='_blank'>Whale Alert</a> <span class='yellow'>(cryptocurrency transaction alerts)</span></li>
 	        

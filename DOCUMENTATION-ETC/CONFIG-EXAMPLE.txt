@@ -376,6 +376,12 @@ $oct_conf['charts_alerts']['tracked_markets'] = array(
 					'hnt-3' => 'gateio||eth||none',
 					
 					
+					// SOL
+					'sol' => 'binance||btc||none',
+					'sol-2' => 'coinbase||usd||chart',
+					'sol-3' => 'ftx_us||btc||both',
+					
+					
 					// MANA
 					'mana' => 'bittrex||btc||chart',
 					'mana-2' => 'binance||btc||both',
@@ -607,6 +613,7 @@ $oct_conf['power']['crypto_pairing'] = array(
 						//'lowercase_altcoin_ticker' => 'UNICODE_SYMBOL', // Add whitespace after the symbol, if you prefer that
 						// Native chains...
 						'eth' => 'Ξ ',
+						'hnt' => 'Ȟ ',
 						// Liquidity pools / ERC-20 tokens on Ethereum, etc etc...
 						'uni' => '🦄 ',
 						'mkr' => '𐌼 ',
@@ -625,6 +632,7 @@ $oct_conf['power']['crypto_pairing'] = array(
 $oct_conf['power']['crypto_pairing_pref_markets'] = array(
 						//'lowercase_btc_market_or_stablecoin_pairing' => 'PREFERRED_MARKET',
 							'eth' => 'binance',  // WAY MORE volume , WAY BETTER price discovery than ALL alternatives
+							'hnt' => 'binance',  // WAY MORE volume , WAY BETTER price discovery than ALL alternatives
 							'uni' => 'binance',  // WAY MORE volume , WAY BETTER price discovery than ALL alternatives
 							'mkr' => 'binance',  // WAY MORE volume , WAY BETTER price discovery than ALL alternatives
 							'lrc' => 'binance',  // WAY MORE volume , WAY BETTER price discovery than ALL alternatives
@@ -929,6 +937,12 @@ $oct_conf['power']['news_feed'] = array(
         				array(
             			"title" => "Blog - Ethereum Solidity (smart contract programming language)",
             			"url" => "https://solidity.ethereum.org/feed.xml"
+        						),
+        
+        
+        				array(
+            			"title" => "Blog - Helium Network (community-driven global LoRaWAN network)",
+            			"url" => "https://blog.helium.com/feed"
         						),
     
     
@@ -1911,7 +1925,7 @@ $oct_conf['assets'] = array(
                                           'kraken' => 'XXBTZEUR',
                                           'bitstamp' => 'btceur',
                                           'okcoin' => 'BTC-EUR',
-                                        	'bittrex_global' => 'BTC-EUR',
+                                          'bittrex_global' => 'BTC-EUR',
                                           'bitpanda' => 'BTC_EUR',
                                           'bitflyer' => 'BTC_EUR',
                                           'cex' => 'BTC:EUR',
@@ -1970,6 +1984,8 @@ $oct_conf['assets'] = array(
                                           'bitbns' => 'BTC',
                                           'buyucoin' => 'INR-BTC',
                                           'wazirx' => 'btcinr',
+                                          'coindcx' => 'BTCINR',
+                                          'unocoin' => 'BTC',
                                                     ),
 
                                                     
@@ -2468,6 +2484,13 @@ $oct_conf['assets'] = array(
                                     	 'defipulse' => 'UNI/WETH',
                                                     ),
 
+
+                                    'inr' => array(
+                                          'bitbns' => 'UNI',
+                                          'wazirx' => 'uniinr',
+                                          'zebpay' => 'UNI-INR',
+                                                    ),
+
                                                     
                                     'usd' => array(
                                         'coinbase' => 'UNI-USD',
@@ -2706,16 +2729,127 @@ $oct_conf['assets'] = array(
 
                                                     
                                     'usd' => array(
+                                    	 'ftx' => 'HNT/USD',
                                     	 'binance_us' => 'HNTUSD',
                                                     ),
 
                                                     
                                     'usdt' => array(
                                         'binance' => 'HNTUSDT',
+                                    	'ftx' => 'HNT/USDT',
                                     	'binance_us' => 'HNTUSDT',
+                                    	'crypto.com' => 'HNT_USDT',
                                         'hotbit' => 'HNT_USDT',
                                         'gateio' => 'HNT_USDT',
                                         'wazirx' => 'hntusdt',
+                                                    ),
+
+                                                    
+                        ) // pairing END
+                                        
+                    ), // Asset END
+                    
+                    
+                    ////////////////////////////////////////////////////////////////////
+                    
+                    
+                    // SOL
+                    'SOL' => array(
+                        
+                        'name' => 'Solana',
+                        'mcap_slug' => 'solana',
+                        'pairing' => array(
+
+                                                    
+                                    'aud' => array(
+                                        'binance' => 'SOLAUD',
+                                                    ),
+
+                                                    
+                                    'brl' => array(
+                                        'binance' => 'SOLBRL',
+                                                    ),
+
+                        
+                                    'btc' => array(
+                                    	'coinbase' => 'SOL-BTC',
+                                        'binance' => 'SOLBTC',
+                                        'huobi' => 'solbtc',
+                                    	'ftx' => 'SOL/BTC',
+                                    	'ftx_us' => 'SOL/BTC',
+                                        'okex' => 'SOL-BTC',
+                                    	'crypto.com' => 'SOL_BTC',
+                                        'hitbtc' => 'SOLBTC',
+                                        'hotbit' => 'SOL_BTC',
+                                        'coinex' => 'SOLBTC',
+                                                    ),
+
+                                                    
+                                    'eth' => array(
+                                        'okex' => 'SOL-ETH',
+                                        'binance' => 'SOLETH',
+                                        'huobi' => 'soleth',
+                                        'hitbtc' => 'SOLETH',
+                                                    ),
+
+                                                    
+                                    'eur' => array(
+                                    	 'coinbase' => 'SOL-EUR',
+                                         'binance' => 'SOLEUR',
+                                    	 'kraken' => 'SOLEUR',
+                                                    ),
+
+                                                    
+                                    'gbp' => array(
+                                    	 'kraken' => 'SOLGBP',
+                                                    ),
+
+                                                    
+                                    'rub' => array(
+                                        'binance' => 'SOLRUB',
+                                                    ),
+
+                                                    
+                                    'try' => array(
+                                        'binance' => 'SOLTRY',
+                                                    ),
+
+                                                    
+                                    'usd' => array(
+                                    	 'coinbase' => 'SOL-USD',
+                                    	 'ftx' => 'SOL/USD',
+                                    	 'ftx_us' => 'SOL/USD',
+                                    	 'kraken' => 'SOLUSD',
+                                    	 'binance_us' => 'SOLUSD',
+                                    	 'bitfinex' => 'tSOLUSD',
+                                         'okcoin' => 'SOL-USD',
+                                         'gateio' => 'SOL_USD',
+                                         'cex' => 'SOL:USD',
+                                                    ),
+
+                                                    
+                                    'usdc' => array(
+                                        'binance' => 'SOLUSDC',
+                                    	'crypto.com' => 'SOL_USDC',
+                                                    ),
+
+                                                    
+                                    'usdt' => array(
+                                    	'coinbase' => 'SOL-USDT',
+                                        'binance' => 'SOLUSDT',
+                                    	'ftx' => 'SOL/USDT',
+                                    	'ftx_us' => 'SOL/USDT',
+                                        'okex' => 'SOL-USDT',
+                                        'huobi' => 'solusdt',
+                                    	'binance_us' => 'SOLUSDT',
+                                    	'crypto.com' => 'SOL_USDT',
+                                        'kucoin' => 'SOL-USDT',
+                                        'hitbtc' => 'SOLUSDT',
+                                        'coinex' => 'SOLUSDT',
+                                        'hotbit' => 'SOL_USDT',
+                                        'gateio' => 'SOL_USDT',
+                                        'bitmart' => 'SOL_USDT',
+                                        'wazirx' => 'solusdt',
                                                     ),
 
                                                     
@@ -3036,19 +3170,19 @@ $oct_conf['assets'] = array(
                                     'btc' => array(
                                         'binance' => 'DATABTC',
                                         'ethfinex' => 'tDATBTC',
-                                        'hitbtc' => 'XDATABTC',
+                                        'hitbtc' => 'DATABTC',
                                                     ),
 
                                                     
                                     'eth' => array(
                                         'binance' => 'DATAETH',
-                                  		'hitbtc' => 'XDATAETH',
+                                  		'hitbtc' => 'DATAETH',
                                         'gateio' => 'DATA_ETH',
                                                     ),
 
                                                     
                                     'usdt' => array(
-                                         'hitbtc' => 'XDATAUSDT',
+                                         'hitbtc' => 'DATAUSDT',
                                          'gateio' => 'DATA_USDT',
                                                     ),
 

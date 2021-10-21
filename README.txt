@@ -33,6 +33,8 @@ Bitcoin:  3Nw6cvSgnLEFmQ1V4e8RSBG23G7pDjF3hW
 
 Ethereum:  0x644343e8D0A4cF33eee3E54fE5d5B8BFD0285EF8
 
+Helium:  13xs559435FGkh39qD9kXasaAnB8JRF8KowqPeUmKHWU46VYG1h
+
 Github Sponsors:  https://github.com/sponsors/taoteh1221
 
 Patreon:   https://www.patreon.com/dragonfrugal

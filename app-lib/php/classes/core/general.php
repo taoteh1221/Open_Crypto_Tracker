@@ -1144,6 +1144,8 @@ var $oct_array1 = array();
    $pretty_str = preg_replace("/erc20/i", 'ERC-20', $pretty_str);
    $pretty_str = preg_replace("/okex/i", 'OKex', $pretty_str);
    $pretty_str = preg_replace("/mart/i", 'Mart', $pretty_str);
+   $pretty_str = preg_replace("/ftx/i", 'FTX', $pretty_str);
+   $pretty_str = preg_replace("/dcx/i", 'DCX', $pretty_str);
    
    
    return trim($pretty_str);
@@ -2236,7 +2238,7 @@ var $oct_array1 = array();
             
             $data['temperature_celsius'] .= trim($result[2]) . ',';
             $data['used_memory_percentage'] .= trim($result[4]) . ',';
-            $data['cron_runtime_seconds'] .= trim($result[7]) . ',';
+            $data['cron_core_runtime_seconds'] .= trim($result[7]) . ',';
             $data['used_memory_gigabytes'] .= trim($result[3]) . ',';
             $data['load_average_15_minutes'] .= trim($result[1]) . ',';
             $data['free_disk_space_terabytes'] .= trim($result[5]) . ',';
@@ -2295,7 +2297,7 @@ var $oct_array1 = array();
       if ( $system_statistics_chart ) {
       $data['temperature_celsius'] = rtrim($data['temperature_celsius'],',');
       $data['used_memory_percentage'] = rtrim($data['used_memory_percentage'],',');
-      $data['cron_runtime_seconds'] = rtrim($data['cron_runtime_seconds'],',');
+      $data['cron_core_runtime_seconds'] = rtrim($data['cron_core_runtime_seconds'],',');
       $data['used_memory_gigabytes'] = rtrim($data['used_memory_gigabytes'],',');
       $data['load_average_15_minutes'] = rtrim($data['load_average_15_minutes'],',');
       $data['free_disk_space_terabytes'] = rtrim($data['free_disk_space_terabytes'],',');

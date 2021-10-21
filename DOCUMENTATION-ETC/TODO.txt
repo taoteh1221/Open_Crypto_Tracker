@@ -44,15 +44,6 @@ OPTIMIZATIONS / BUGS / TESTS / UX / QA / OTHER SECTION
 Investigate / report to PHP devs (IF IT'S NOT A FILE READ ISSUE) the .htaccess password bug (/classes/core/cache.php, line 189) issue on Windows 10 / XAMPP 3.3.0 / PHP 7.4.24: $htaccess_password = crypt( $htaccess_password, base64_encode($htaccess_password) );
 
 
-https://github.com/taoteh1221/Open_Crypto_Tracker/issues/19
-
-
-https://github.com/taoteh1221/Open_Crypto_Tracker/issues/21
-
-
-Add opensea.com / watchtheburn.com / gridplus.io / nodewatch.io to resources page.
-
-
 Add ENJ / MATIC kraken markets.
 
 
@@ -63,9 +54,6 @@ Check in on defipulse API data, unit tests showed it failing across the board fo
 
 
 Make sure everything STILL runs smoothly with the charts page turned off.
-
-
-Rename "cron runtime" to "cron core runtime", to semantically describe it doesn't include cron plugin runtime telemetry (which isnt feasible to add to already-processed charting logic, relative to its usefullness).
 
 
 Update Portfolio page screenshots, since we added the 'Rank' column AND REBRANDED app name.
@@ -153,9 +141,6 @@ For 'Desktop Edition' (using phpdesktop), look into using docker images for cros
 ///////////////////////////////////////////////////////
 API INTEGRATION SECTION
 ///////////////////////////////////////////////////////
-
-
-https://docs.ftx.com/#overview
 
 
 Look into adding Google Sheets API support for portfolio import / export: https://developers.google.com/sheets/api/samples/reading

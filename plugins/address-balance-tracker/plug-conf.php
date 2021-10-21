@@ -45,6 +45,14 @@ $plug_conf[$this_plug]['tracking'] = array(
 													'address' => '0x644343e8D0A4cF33eee3E54fE5d5B8BFD0285EF8', // Recieving address
 													'label' => 'Portfolio Tracker ETH Donations' // Description of address
 													),
+																			
+												
+											    // HNT EXAMPLE
+												array(
+													'asset' => 'hnt', // Asset symbol (LOWERCASE)
+													'address' => '13xs559435FGkh39qD9kXasaAnB8JRF8KowqPeUmKHWU46VYG1h', // Recieving address
+													'label' => 'Portfolio Tracker HNT Donations' // Description of address
+													),
 																	
 																	
 											); // END tracking array
