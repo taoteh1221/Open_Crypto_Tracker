@@ -41,6 +41,9 @@ OPTIMIZATIONS / BUGS / TESTS / UX / QA / OTHER SECTION
 ///////////////////////////////////////////////////////
 
 
+Rerun Bitcoin exchanges / all exchanges debugging printout, to update documentation in config notes / README / project website.
+
+
 Investigate / report to PHP devs (IF IT'S NOT A FILE READ ISSUE) the .htaccess password bug (/classes/core/cache.php, line 189) issue on Windows 10 / XAMPP 3.3.0 / PHP 7.4.24: $htaccess_password = crypt( $htaccess_password, base64_encode($htaccess_password) );
 
 
