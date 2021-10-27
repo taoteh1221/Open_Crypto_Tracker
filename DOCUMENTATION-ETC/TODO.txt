@@ -44,6 +44,15 @@ OPTIMIZATIONS / BUGS / TESTS / UX / QA / OTHER SECTION
 Rerun Bitcoin exchanges / all exchanges debugging printout, to update documentation in config notes / README / project website.
 
 
+Add obfuscation filter on error logs in the address-balance-tracker plugin for server/crypto_address/XXXXXXXX, as a plugin class function (same type of filter we do for etherscan urls in error logging).
+
+
+Change "oct_" to "ct_" globally, for cleaner semantics that are less prone to typos.
+
+
+Add a dedicated system chart file for plugin cron stats ONLY (runtime seconds, etc).
+
+
 Investigate / report to PHP devs (IF IT'S NOT A FILE READ ISSUE) the .htaccess password bug (/classes/core/cache.php, line 189) issue on Windows 10 / XAMPP 3.3.0 / PHP 7.4.24: $htaccess_password = crypt( $htaccess_password, base64_encode($htaccess_password) );
 
 

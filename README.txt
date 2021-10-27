@@ -47,6 +47,8 @@ PayPal:    https://www.paypal.me/dragonfrugal
 
 FEATURES
 
+-Optimized for low power devices (raspberrypi, pine64, etc).
+
 -ALWAYS will remain 100% FREE F.O.S.S. software (no need to register and pay premium access fees).
 
 -PRIVATELY connects DIRECTLY to APIs / servers for data and comms (no "phoning home" to a middleman server), with optional proxy support for API connections.

@@ -110,7 +110,7 @@ $pretty_asset_amount = $oct_var->num_pretty($address_balance, 8);
 	if ( $address_balance != $cached_address_balance ) {
 		
 	// Balance change amount
-	$difference_amount = abs( $oct_var->num_to_str($cached_address_balance - $address_balance) );
+	$difference_amount = $oct_var->num_to_str( abs($cached_address_balance - $address_balance) );
 		
 		
 		if ( $address_balance > $cached_address_balance ) {
