@@ -47,9 +47,6 @@ Rerun Bitcoin exchanges / all exchanges debugging printout, to update documentat
 Add obfuscation filter on error logs in the address-balance-tracker plugin for server/crypto_address/XXXXXXXX, as a plugin class function (same type of filter we do for etherscan urls in error logging).
 
 
-Change "oct_" to "ct_" globally, for cleaner semantics that are less prone to typos.
-
-
 Add a dedicated system chart file for plugin cron stats ONLY (runtime seconds, etc).
 
 
@@ -137,7 +134,7 @@ Create github wiki with the current documentation for the portfolio app.
 Cross-browser test RTL (right to left) effects from middle eastern currency symbols being injected into the interface output for those currencies
 
 
-Test unicode mobile text message with no space in front of hex-encoded data (forgot to try that, coded and ready to go now...see $oct_gen->charset_encode() and /DOCUMENTATION-ETC/Developing-maintaining/DEBUGGING.txt).
+Test unicode mobile text message with no space in front of hex-encoded data (forgot to try that, coded and ready to go now...see $ct_gen->charset_encode() and /DOCUMENTATION-ETC/Developing-maintaining/DEBUGGING.txt).
 
 
 AFTER the admin config GUI has been built out, make sure plugin configs are re-loaded AFTER 'activate_plugins' in the power user section has been updated.
@@ -209,7 +206,7 @@ On 'more stats' page, add a 'market volume' chart, showing a multi-line chart (l
 Add logic to offer securing the computer in the auto-install. Add subsections "Requiring Password For Sudo (Admin)" / "Disabling Bluetooth" / "Enabling firewall" inside a main prompt "Would you like to secure your computer against hacks?" For the bluetooth disabling section, include a commented section so we know if we've already APPENDED (>> IN BASH, NOT >) to boot/config.txt (like we do for htaccess). For firewall setup add a loop that you add new ports to open and quit the loop when finished...AND AUTOMATICALLY OPEN PORTS 80 / 443 FOR THIS APP, AND SSH STUFF TOO IF DETECTED AS INSTALLED ON THE SYSTEM!
 
 
-Create a power user config option to toggle between plain text and HTML email. We can have the $oct_cache->queue_notify() function detect if HTML email is enabled, and run email messages through PHP's built-in nl2br() function if so, which converts newlines to <br /> tags.
+Create a power user config option to toggle between plain text and HTML email. We can have the $ct_cache->queue_notify() function detect if HTML email is enabled, and run email messages through PHP's built-in nl2br() function if so, which converts newlines to <br /> tags.
 
 
 Add a "Reset lite charts" button on the admin 'Reset' page, to trigger rebuilding lite charts.
@@ -251,7 +248,7 @@ Auto-update feature like WordPress has (downloads a zip file upgrade from github
 2-way JAVASCRIPT encryption option (unlocked with 6 digit PIN) for showing holdings amounts IN THE GUI (IN COOKIES ONLY, NO DATABASE STORAGE !EVER!), with "quick lock" to quickly re-hide portfolio data (staying hidden persists on page load / reload as well with a cookie).
 
 
-Option to use new zip file encryption password feature to encrypt portfolio spreadsheet exports when downloading exported portfolio data (with password entered in the UI, #NOT# $oct_conf['gen']['backup_arch_pass']).
+Option to use new zip file encryption password feature to encrypt portfolio spreadsheet exports when downloading exported portfolio data (with password entered in the UI, #NOT# $ct_conf['gen']['backup_arch_pass']).
 
 
 For each cat_key => cat_val loop app config, to automate categorizing new admin settings tabs...selects for arrays, text fields for strings. Maybe certain key names get checkbox / radio button fields.
@@ -266,7 +263,7 @@ Once an admin interface is fully built out, permanently switch out the app confi
 Add force reset logic for app config, if cached app version number is non-existent or below a certain version, so we force a complete reset for non-backwards-compatible upgrades.
 
 
-On admin config reset tab, have "reset app config to default settings" button (with js confirm alert when pushed) that refreshes ALL the cached oct_conf from config.php settings.
+On admin config reset tab, have "reset app config to default settings" button (with js confirm alert when pushed) that refreshes ALL the cached ct_conf from config.php settings.
 
 
 Admin import / export of settings (consider security implications CAREFULLY...include an optional / mandatory checkbox to encrypt to zip file with our new zip encryption feature).

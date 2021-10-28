@@ -7,21 +7,21 @@
 
 // Trim whitespace
 if ( $_POST['hive_submitted'] ) {
-$_POST = $oct_var->clean_array($_POST);
+$_POST = $ct_var->clean_array($_POST);
 }
 
 // Get HIVE value
-$hive_market = $oct_api->market('HIVE', 'bittrex', 'HIVE-BTC')['last_trade'];
+$hive_market = $ct_api->market('HIVE', 'bittrex', 'HIVE-BTC')['last_trade'];
 
 ?>
     
 
 <div>
-    <form action='<?=$oct_gen->start_page('mining')?>' method='post'>
+    <form action='<?=$ct_gen->start_page('mining')?>' method='post'>
         
-        <p><b>Power Down Period:</b> <?=$oct_conf['power']['hive_powerdown_time']?> weeks</p>
+        <p><b>Power Down Period:</b> <?=$ct_conf['power']['hive_powerdown_time']?> weeks</p>
 	
-        <p><b>HIVE Power Interest Rate:</b> <?=($oct_conf['power']['hivepower_yearly_interest'])?> percent annually (see Power User Config for yearly adjustments)</p>
+        <p><b>HIVE Power Interest Rate:</b> <?=($ct_conf['power']['hivepower_yearly_interest'])?> percent annually (see Power User Config for yearly adjustments)</p>
 	
         <p><b>HIVE Power Purchased:</b> <input type='text' name='hp_purchased' value='<?=$_POST['hp_purchased']?>' placeholder="(from Bittrex trading etc)" size='45' /></p>
         
@@ -40,16 +40,16 @@ $hive_market = $oct_api->market('HIVE', 'bittrex', 'HIVE-BTC')['last_trade'];
 if ( $_POST['hive_submitted'] ) {
 ?>
 
-<p class='red' style='font-weight: bold;'>Your <i>current</i> HIVE Power interest rate results (<i><u><?=strtoupper($oct_conf['gen']['btc_prim_currency_pairing'])?> values may change significantly over long periods of time</u></i>):</p>
+<p class='red' style='font-weight: bold;'>Your <i>current</i> HIVE Power interest rate results (<i><u><?=strtoupper($ct_conf['gen']['btc_prim_currency_pairing'])?> values may change significantly over long periods of time</u></i>):</p>
 
-<p class='green' style='font-weight: bold;'>1 HIVE = <?=$oct_var->num_to_str($hive_market)?> BTC (<?=$oct_conf['power']['btc_currency_markets'][ $oct_conf['gen']['btc_prim_currency_pairing'] ]?><?php echo number_format( $oct_var->num_to_str( $hive_market * $sel_opt['sel_btc_prim_currency_val'] ), 8, '.', ','); ?>)</p>
+<p class='green' style='font-weight: bold;'>1 HIVE = <?=$ct_var->num_to_str($hive_market)?> BTC (<?=$ct_conf['power']['btc_currency_markets'][ $ct_conf['gen']['btc_prim_currency_pairing'] ]?><?php echo number_format( $ct_var->num_to_str( $hive_market * $sel_opt['sel_btc_prim_currency_val'] ), 8, '.', ','); ?>)</p>
 
 
 <?php
 
-$oct_asset->hivepower_time('day');
-$oct_asset->hivepower_time('week');
-$oct_asset->hivepower_time('month');
+$ct_asset->hivepower_time('day');
+$ct_asset->hivepower_time('week');
+$ct_asset->hivepower_time('month');
 
 
 }

@@ -5,13 +5,13 @@
 
 
 
-class oct_plug {
+class ct_plug {
 	
 // Class variables / arrays
-var $oct_var1;
-var $oct_var2;
-var $oct_var3;
-var $oct_array1 = array();
+var $ct_var1;
+var $ct_var2;
+var $ct_var3;
+var $ct_array1 = array();
    
    
    ////////////////////////////////////////////////////////
@@ -20,11 +20,11 @@ var $oct_array1 = array();
    
    function var_cache($file) {
       
-   global $base_dir, $oct_gen, $this_plug;
+   global $base_dir, $ct_gen, $this_plug;
    
       // This plugin's vars cache directory
-      if ( $oct_gen->dir_struct($base_dir . '/cache/vars/plugin_vars/'.$this_plug.'/') != true ) {
-      $oct_gen->log('system_error', 'Could not create directory: /cache/vars/plugin_vars/'.$this_plug.'/');
+      if ( $ct_gen->dir_struct($base_dir . '/cache/vars/plugin_vars/'.$this_plug.'/') != true ) {
+      $ct_gen->log('system_error', 'Could not create directory: /cache/vars/plugin_vars/'.$this_plug.'/');
       }
       
    return $base_dir . '/cache/vars/plugin_vars/'.$this_plug.'/' . $file;
@@ -38,11 +38,11 @@ var $oct_array1 = array();
    
    function event_cache($file) {
       
-   global $base_dir, $oct_gen, $this_plug;
+   global $base_dir, $ct_gen, $this_plug;
          
       // This plugin's events cache directory
-      if ( $oct_gen->dir_struct($base_dir . '/cache/events/plugin_events/'.$this_plug.'/') != true ) {
-      $oct_gen->log('system_error', 'Could not create directory: /cache/events/plugin_events/'.$this_plug.'/');
+      if ( $ct_gen->dir_struct($base_dir . '/cache/events/plugin_events/'.$this_plug.'/') != true ) {
+      $ct_gen->log('system_error', 'Could not create directory: /cache/events/plugin_events/'.$this_plug.'/');
       }
       
    return $base_dir . '/cache/events/plugin_events/'.$this_plug.'/' . $file;
@@ -56,11 +56,11 @@ var $oct_array1 = array();
    
    function alert_cache($file) {
       
-   global $base_dir, $oct_gen, $this_plug;
+   global $base_dir, $ct_gen, $this_plug;
          
       // This plugin's events cache directory
-      if ( $oct_gen->dir_struct($base_dir . '/cache/alerts/plugin_alerts/'.$this_plug.'/') != true ) {
-      $oct_gen->log('system_error', 'Could not create directory: /cache/alerts/plugin_alerts/'.$this_plug.'/');
+      if ( $ct_gen->dir_struct($base_dir . '/cache/alerts/plugin_alerts/'.$this_plug.'/') != true ) {
+      $ct_gen->log('system_error', 'Could not create directory: /cache/alerts/plugin_alerts/'.$this_plug.'/');
       }
       
    return $base_dir . '/cache/alerts/plugin_alerts/'.$this_plug.'/' . $file;

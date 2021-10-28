@@ -5,22 +5,22 @@
 
 
 require_once("app-lib/php/classes/core/general.php");
-$oct_gen = new oct_gen();
+$ct_gen = new ct_gen();
 
 require_once("app-lib/php/classes/core/var.php");
-$oct_var = new oct_var();
+$ct_var = new ct_var();
 
 require_once("app-lib/php/classes/core/cache.php");
-$oct_cache = new oct_cache();
+$ct_cache = new ct_cache();
 
 require_once("app-lib/php/classes/core/api.php");
-$oct_api = new oct_api();
+$ct_api = new ct_api();
 
 require_once("app-lib/php/classes/core/asset.php");
-$oct_asset = new oct_asset();
+$ct_asset = new ct_asset();
 
 require_once("app-lib/php/classes/core/plugin.php");
-$oct_plug = new oct_plug();
+$ct_plug = new ct_plug();
 
  
  ?>

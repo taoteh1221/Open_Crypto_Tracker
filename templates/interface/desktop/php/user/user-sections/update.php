@@ -15,16 +15,16 @@
 
 
 
-		var average_paid_notes = '<h5 class="align_center yellow tooltip_title">Calculating Average <?=strtoupper($oct_conf['gen']['btc_prim_currency_pairing'])?> Price Paid Per Token</h5>'
+		var average_paid_notes = '<h5 class="align_center yellow tooltip_title">Calculating Average <?=strtoupper($ct_conf['gen']['btc_prim_currency_pairing'])?> Price Paid Per Token</h5>'
 			
 			
-			+'<p class="coin_info extra_margins" style="white-space: normal; max-width: 600px;"><span class="green">Total <?=strtoupper($oct_conf['gen']['btc_prim_currency_pairing'])?> Paid For All Tokens</span> <span class="blue">&#247;</span> <span class="yellow">Total Tokens Purchased</span> <span class="blue">=</span> <span class="bitcoin">Average <?=strtoupper($oct_conf['gen']['btc_prim_currency_pairing'])?> Price Paid Per Token</span></p>'
+			+'<p class="coin_info extra_margins" style="white-space: normal; max-width: 600px;"><span class="green">Total <?=strtoupper($ct_conf['gen']['btc_prim_currency_pairing'])?> Paid For All Tokens</span> <span class="blue">&#247;</span> <span class="yellow">Total Tokens Purchased</span> <span class="blue">=</span> <span class="bitcoin">Average <?=strtoupper($ct_conf['gen']['btc_prim_currency_pairing'])?> Price Paid Per Token</span></p>'
 			
-			+'<p class="coin_info extra_margins" style="white-space: normal; max-width: 600px;">The RESULT of the above calculation <i>remains the same even AFTER you sell ANY amount, ONLY if you don\'t buy more between sells</i>. Everytime you buy more <i>after selling some</i>, re-calculate your Average <?=strtoupper($oct_conf['gen']['btc_prim_currency_pairing'])?> Price Paid Per Token with this formula:</p>'
+			+'<p class="coin_info extra_margins" style="white-space: normal; max-width: 600px;">The RESULT of the above calculation <i>remains the same even AFTER you sell ANY amount, ONLY if you don\'t buy more between sells</i>. Everytime you buy more <i>after selling some</i>, re-calculate your Average <?=strtoupper($ct_conf['gen']['btc_prim_currency_pairing'])?> Price Paid Per Token with this formula:</p>'
 			
-			+'<p class="coin_info extra_margins" style="white-space: normal; max-width: 600px;">(<span class="green">Total <?=strtoupper($oct_conf['gen']['btc_prim_currency_pairing'])?> Paid For All Tokens</span> <span class="blue">-</span> <span class="red">Total <?=strtoupper($oct_conf['gen']['btc_prim_currency_pairing'])?> Received From All Sold Tokens</span>) <span class="blue">&#247;</span> <span class="yellow">Total Remaining Tokens Still Held</span> <span class="blue">=</span> <span class="bitcoin">Average <?=strtoupper($oct_conf['gen']['btc_prim_currency_pairing'])?> Price Paid Per Token</span></p>'
+			+'<p class="coin_info extra_margins" style="white-space: normal; max-width: 600px;">(<span class="green">Total <?=strtoupper($ct_conf['gen']['btc_prim_currency_pairing'])?> Paid For All Tokens</span> <span class="blue">-</span> <span class="red">Total <?=strtoupper($ct_conf['gen']['btc_prim_currency_pairing'])?> Received From All Sold Tokens</span>) <span class="blue">&#247;</span> <span class="yellow">Total Remaining Tokens Still Held</span> <span class="blue">=</span> <span class="bitcoin">Average <?=strtoupper($ct_conf['gen']['btc_prim_currency_pairing'])?> Price Paid Per Token</span></p>'
 			
-			+'<p class="coin_info extra_margins" style="white-space: normal; max-width: 600px;"><span class="yellow">PRO TIP:</span> <br /> When buying / selling, keep quick and dirty (yet clear) textual records of... <br />a) How much you bought / sold of what<br />b) What you paid / received in <?=strtoupper($oct_conf['gen']['btc_prim_currency_pairing'])?> value<br />c) What / where you traded <br />d) Backup to USB Stick / NAS / DropBox / GoogleDrive / OneDrive / AmazonBucket <br />e) Now you\'re ready for tax season, to create spreadsheets from this data</p>'
+			+'<p class="coin_info extra_margins" style="white-space: normal; max-width: 600px;"><span class="yellow">PRO TIP:</span> <br /> When buying / selling, keep quick and dirty (yet clear) textual records of... <br />a) How much you bought / sold of what<br />b) What you paid / received in <?=strtoupper($ct_conf['gen']['btc_prim_currency_pairing'])?> value<br />c) What / where you traded <br />d) Backup to USB Stick / NAS / DropBox / GoogleDrive / OneDrive / AmazonBucket <br />e) Now you\'re ready for tax season, to create spreadsheets from this data</p>'
 			
 			+'<p class="coin_info extra_margins yellow" style="white-space: normal; max-width: 600px;">There is also an <i>open source / free</i> app called <a href="https://rotki.com" target="_blank">Rotki</a> that can help you <i>PRIVATELY</i> track your tax data.</p>'
 			
@@ -39,11 +39,11 @@
 			
 			+'<p class="coin_info extra_margins" style="white-space: normal; max-width: 600px;">Set the "Asset / Pairing @ Exchange" drop-down menus for the asset to any markets you prefer. It doesn\'t matter which ones you choose, as long as the price discovery closely matches the exchange where you are margin trading this asset.</p>'
 			
-			+'<p class="coin_info extra_margins" style="white-space: normal; max-width: 600px;">Set the "Holdings" field to match your margin leverage deposit (example: buying 1 BTC @ 5x leverage would be 0.2 BTC in the "Holdings" field in this app). You\'ll also need to fill in the "Average Paid (per-token)" field with the average price paid in <?=strtoupper($oct_conf['gen']['btc_prim_currency_pairing'])?> per-token. Finally, set the "Margin Leverage" fields to match your leverage and whether you are long or short. When you are done, click "Save Updated Portfolio".</p>'
+			+'<p class="coin_info extra_margins" style="white-space: normal; max-width: 600px;">Set the "Holdings" field to match your margin leverage deposit (example: buying 1 BTC @ 5x leverage would be 0.2 BTC in the "Holdings" field in this app). You\'ll also need to fill in the "Average Paid (per-token)" field with the average price paid in <?=strtoupper($ct_conf['gen']['btc_prim_currency_pairing'])?> per-token. Finally, set the "Margin Leverage" fields to match your leverage and whether you are long or short. When you are done, click "Save Updated Portfolio".</p>'
 			
 			+'<p class="coin_info extra_margins" style="white-space: normal; max-width: 600px;">To see your margin leverage stats after updating your portfolio, go to the bottom of the Portfolio page, where you\'ll find a summary section. Hovering over the "I" icon next to the Gain / Loss summary will display any margin leverage stats per-asset. There is also an "I" icon in the far right-side data table column (Subtotal) per-asset, which you can also hover over for margin leverage stats.</p>'
 			
-			+'<p class="coin_info balloon_notation extra_margins yellow" style="white-space: normal; max-width: 600px;">*Current maximum margin leverage setting of <?=$oct_conf['power']['margin_leverage_max']?>x can be adjusted in the Admin Config POWER USER section.</p>'
+			+'<p class="coin_info balloon_notation extra_margins yellow" style="white-space: normal; max-width: 600px;">*Current maximum margin leverage setting of <?=$ct_conf['power']['margin_leverage_max']?>x can be adjusted in the Admin Config POWER USER section.</p>'
 			
 			+'<p> </p>';
 
@@ -282,7 +282,7 @@
 		$("#coin_amounts").submit();
 		'>Save Updated Portfolio</button>
 	
-		<form style='display: inline;' name='csv_import' id='csv_import' enctype="multipart/form-data" action="<?=$oct_gen->start_page($_GET['start_page'])?>" method="post">
+		<form style='display: inline;' name='csv_import' id='csv_import' enctype="multipart/form-data" action="<?=$ct_gen->start_page($_GET['start_page'])?>" method="post">
 		
 	    <input type="hidden" name="csv_check" value="1" />
 	    
@@ -295,13 +295,13 @@
 		
 		<button style='margin-left: 40px;' class='force_button_style' onclick='
 		// HELP THWART CSRF ATTACKS VIA POST METHOD (IN COMBINATION WITH THE TOKEN HASH), DATA IS SENSITIVE!
-		set_target_action("coin_amounts", "_blank", "download.php?token=<?=$oct_gen->nonce_digest('download')?>&csv_export=1");
+		set_target_action("coin_amounts", "_blank", "download.php?token=<?=$ct_gen->nonce_digest('download')?>&csv_export=1");
 		document.coin_amounts.submit(); // USE NON-JQUERY METHOD SO "APP LOADING..." DOES #NOT# SHOW
-		set_target_action("coin_amounts", "_self", "<?=$oct_gen->start_page($_GET['start_page'])?>");
+		set_target_action("coin_amounts", "_self", "<?=$ct_gen->start_page($_GET['start_page'])?>");
 		'>Export Portfolio To CSV File</button>
 		
 		
-		<a style='margin-left: 40px; text-decoration: none;' class='force_button_style' href="download.php?token=<?=$oct_gen->nonce_digest('download')?>&csv_export=1&example_template=1" target="_blank">Example CSV File</a>
+		<a style='margin-left: 40px; text-decoration: none;' class='force_button_style' href="download.php?token=<?=$ct_gen->nonce_digest('download')?>&csv_export=1&example_template=1" target="_blank">Example CSV File</a>
 	     
 		<img id='spreadsheet_import_export' src='templates/interface/media/images/info.png' alt='' width='30' style='position: relative; left: 5px;' /> 
 		
@@ -369,18 +369,18 @@
 	
 	
 	
-	<form id='coin_amounts' name='coin_amounts' action='<?=$oct_gen->start_page($_GET['start_page'])?>' method='post'>
+	<form id='coin_amounts' name='coin_amounts' action='<?=$ct_gen->start_page($_GET['start_page'])?>' method='post'>
 	
 		
 	<div class='long_list_start list_start_black'> &nbsp; </div>
 	
 	<?php
 	
-	if ( is_array($oct_conf['assets']) ) {
+	if ( is_array($ct_conf['assets']) ) {
 
 	    
 	    $zebra_stripe = 'long_list_odd';
-	    foreach ( $oct_conf['assets'] as $asset_array_key => $asset_array_val ) {
+	    foreach ( $ct_conf['assets'] as $asset_array_key => $asset_array_val ) {
 		
 		 $rand_id = rand(10000000,100000000);
 	    
@@ -397,8 +397,8 @@
 	        if ( $_POST['submit_check'] == 1 ) {
 	        $asset_pairing_id = $_POST[$field_var_pairing];
 	        $asset_market_id = $_POST[$field_var_market];
-	        $asset_amount_val = $oct_var->rem_num_format($_POST[$field_var_amount]);
-	        $asset_paid_val = $oct_var->rem_num_format($_POST[$field_var_paid]);
+	        $asset_amount_val = $ct_var->rem_num_format($_POST[$field_var_amount]);
+	        $asset_paid_val = $ct_var->rem_num_format($_POST[$field_var_paid]);
 	        $asset_leverage_val = $_POST[$field_var_leverage];
 	        $asset_margintype_val = $_POST[$field_var_margintype];
 	        }
@@ -491,9 +491,9 @@
 		    
 		    $asset_symb = strtoupper(preg_replace("/_amount/i", "", $single_asset_amounts_cookie_array[0]));  
 		    
-		    		// We don't need $oct_var->rem_num_format() for cookie data, because it was already done creating the cookies
+		    		// We don't need $ct_var->rem_num_format() for cookie data, because it was already done creating the cookies
 					if ( $asset_symb == strtoupper($asset_array_key) ) {
-					$asset_amount_val = $oct_var->num_to_str($single_asset_amounts_cookie_array[1]);
+					$asset_amount_val = $ct_var->num_to_str($single_asset_amounts_cookie_array[1]);
 					}
 		    
 		    
@@ -517,9 +517,9 @@
 		    
 		    $asset_symb = strtoupper(preg_replace("/_paid/i", "", $single_asset_paid_cookie_array[0]));  
 		    		
-		    		// We don't need $oct_var->rem_num_format() for cookie data, because it was already done creating the cookies
+		    		// We don't need $ct_var->rem_num_format() for cookie data, because it was already done creating the cookies
 					if ( $asset_symb == strtoupper($asset_array_key) ) {
-					$asset_paid_val = $oct_var->num_to_str($single_asset_paid_cookie_array[1]);
+					$asset_paid_val = $ct_var->num_to_str($single_asset_paid_cookie_array[1]);
 					}
 		    
 		    
@@ -593,17 +593,17 @@
 	    	}
 	    
 	    
-	  	 $asset_amount_val = $oct_var->num_pretty($asset_amount_val, $asset_amount_dec, TRUE); // TRUE = Show even if low value is off the map, just for UX purposes tracking token price only, etc
+	  	 $asset_amount_val = $ct_var->num_pretty($asset_amount_val, $asset_amount_dec, TRUE); // TRUE = Show even if low value is off the map, just for UX purposes tracking token price only, etc
 	    
 	    // Set any previously-used additional feilds to default, if 'watch only' now (no amount held)
-	    if ( $oct_var->rem_num_format($asset_amount_val) < 0.00000001 ) {
+	    if ( $ct_var->rem_num_format($asset_amount_val) < 0.00000001 ) {
 	    $asset_paid_val = 0;
 	    $asset_leverage_val = 0;
 	    $asset_margintype_val = 'long';
 	    
 	    }
 	    else {
-	    $asset_paid_val = ( $oct_var->num_to_str($asset_paid_val) >= 1 ? $oct_var->num_pretty($asset_paid_val, 2) : $oct_var->num_pretty($asset_paid_val, $oct_conf['gen']['prim_currency_dec_max']) );
+	    $asset_paid_val = ( $ct_var->num_to_str($asset_paid_val) >= 1 ? $ct_var->num_pretty($asset_paid_val, 2) : $ct_var->num_pretty($asset_paid_val, $ct_conf['gen']['prim_currency_dec_max']) );
 	    }
 	    
 	    
@@ -614,7 +614,7 @@
 	    <div class='<?=$zebra_stripe?> long_list_taller' style='white-space: nowrap;'> 
 	       
 	       
-	       <input type='checkbox' value='<?=strtolower($asset_array_key)?>' id='<?=$field_var_watchonly?>' onchange='watch_toggle(this);' <?=( $oct_var->rem_num_format($asset_amount_val) > 0 && $oct_var->rem_num_format($asset_amount_val) <= '0.000000001' ? 'checked' : '' )?> /> &nbsp;
+	       <input type='checkbox' value='<?=strtolower($asset_array_key)?>' id='<?=$field_var_watchonly?>' onchange='watch_toggle(this);' <?=( $ct_var->rem_num_format($asset_amount_val) > 0 && $ct_var->rem_num_format($asset_amount_val) <= '0.000000001' ? 'checked' : '' )?> /> &nbsp;
 				    
 				    
 			<b class='blue'><?=$asset_array_val['name']?> (<?=strtoupper($asset_array_key)?>)</b> /  
@@ -632,7 +632,7 @@
 					
 					// Get default BITCOIN pairing key for further down in the logic, if no $asset_pairing_id value was set FOR BITCOIN
 					if ( strtolower($asset_array_val['name']) == 'bitcoin' ) {
-					$sel_pairing = ( isset($asset_pairing_id) ? $asset_pairing_id : $oct_conf['gen']['btc_prim_currency_pairing'] );
+					$sel_pairing = ( isset($asset_pairing_id) ? $asset_pairing_id : $ct_conf['gen']['btc_prim_currency_pairing'] );
 					}
 					else {
 					$sel_pairing = $asset_pairing_id;
@@ -655,7 +655,7 @@
 							
 									$html_market_list[$pairing_key] .= "\n<option value='".$loop2."'" . ( 
 									isset($asset_market_id) && ($asset_market_id) == $loop2 
-									|| !isset($asset_market_id) && strtolower($asset_array_val['name']) == 'bitcoin' && $loop2 == $oct_asset->btc_market($oct_conf['gen']['btc_prim_exchange']) ? ' selected ' : '' ) . ">" . $oct_gen->key_to_name($market_key) . " </option>\n";
+									|| !isset($asset_market_id) && strtolower($asset_array_val['name']) == 'bitcoin' && $loop2 == $ct_asset->btc_market($ct_conf['gen']['btc_prim_exchange']) ? ' selected ' : '' ) . ">" . $ct_gen->key_to_name($market_key) . " </option>\n";
 								
 									}
 									$loop2 = NULL;
@@ -675,7 +675,7 @@
 				     echo $asset_market_id;
 				     }
 				     elseif ( !isset($asset_market_id) && strtolower($asset_array_val['name']) == 'bitcoin' ) {
-				     echo $oct_asset->btc_market($oct_conf['gen']['btc_prim_exchange']);
+				     echo $ct_asset->btc_market($ct_conf['gen']['btc_prim_exchange']);
 				     }
 				     else {
 						echo '1';
@@ -716,10 +716,10 @@
 	     
 	     $("#<?=strtolower($asset_array_key)?>_restore").val( $("#<?=strtolower($asset_array_key)?>_amount").val() );
 	     
-	     ' <?=( $oct_var->rem_num_format($asset_amount_val) > 0 && $oct_var->rem_num_format($asset_amount_val) <= '0.000000001' ? 'readonly' : '' )?> /> <span class='blue'><?=strtoupper($asset_array_key)?></span>  &nbsp;  &nbsp; 
+	     ' <?=( $ct_var->rem_num_format($asset_amount_val) > 0 && $ct_var->rem_num_format($asset_amount_val) <= '0.000000001' ? 'readonly' : '' )?> /> <span class='blue'><?=strtoupper($asset_array_key)?></span>  &nbsp;  &nbsp; 
 			    
 			
-	     <b>Average Paid (per-token):</b> <?=$oct_conf['power']['btc_currency_markets'][ $oct_conf['gen']['btc_prim_currency_pairing'] ]?><input type='text' size='10' id='<?=$field_var_paid?>' name='<?=$field_var_paid?>' value='<?=$asset_paid_val?>' <?=$disable_fields?> /> 
+	     <b>Average Paid (per-token):</b> <?=$ct_conf['power']['btc_currency_markets'][ $ct_conf['gen']['btc_prim_currency_pairing'] ]?><input type='text' size='10' id='<?=$field_var_paid?>' name='<?=$field_var_paid?>' value='<?=$asset_paid_val?>' <?=$disable_fields?> /> 
 	     
 	     
 		<img id='average_paid_notes_<?=$rand_id?>' src='templates/interface/media/images/info.png' alt='' width='30' style='position: relative; left: -5px;' /> 
@@ -775,12 +775,12 @@
 	     }
 	     alert(" " + this.value + "x (" + mode + " Mode) \n Leverage trading in crypto assets is \n EXTREMELY RISKY. NEVER put more \n than ~5% of your crypto investments \n in leveraged trades EVER, OR YOU \n ###COULD LOSE EVERYTHING###. ");
 	     ' <?=$disable_fields?> >
-	     <option value='0' <?=( $asset_leverage_val == 0 || $oct_var->rem_num_format($asset_paid_val) < 0.00000001 ? 'selected' : '' )?>> None </option>
+	     <option value='0' <?=( $asset_leverage_val == 0 || $ct_var->rem_num_format($asset_paid_val) < 0.00000001 ? 'selected' : '' )?>> None </option>
 	     <?php
 	     $leverage_count = 2;
-	     while ( $oct_conf['power']['margin_leverage_max'] > 1 && $leverage_count <= $oct_conf['power']['margin_leverage_max'] ) {
+	     while ( $ct_conf['power']['margin_leverage_max'] > 1 && $leverage_count <= $ct_conf['power']['margin_leverage_max'] ) {
 	     ?>	     
-	     <option value='<?=$leverage_count?>' <?=( $asset_leverage_val == $leverage_count && $oct_var->rem_num_format($asset_paid_val) >= 0.00000001 ? 'selected' : '' )?>> <?=$leverage_count?>x </option>
+	     <option value='<?=$leverage_count?>' <?=( $asset_leverage_val == $leverage_count && $ct_var->rem_num_format($asset_paid_val) >= 0.00000001 ? 'selected' : '' )?>> <?=$leverage_count?>x </option>
 	     <?php
 	     $leverage_count = $leverage_count + 1;
 	     }
@@ -821,7 +821,7 @@
 		 
 	     
 	     
-	     <input type='hidden' id='<?=$field_var_restore?>' name='<?=$field_var_restore?>' value='<?=( $oct_var->rem_num_format($asset_amount_val) > 0 && $oct_var->rem_num_format($asset_amount_val) <= '0.000000001' ? '' : $asset_amount_val )?>' />
+	     <input type='hidden' id='<?=$field_var_restore?>' name='<?=$field_var_restore?>' value='<?=( $ct_var->rem_num_format($asset_amount_val) > 0 && $ct_var->rem_num_format($asset_amount_val) <= '0.000000001' ? '' : $asset_amount_val )?>' />
 				
 				
 	    </div>

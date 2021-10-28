@@ -7,7 +7,7 @@
 $register_result = array();
 
 	
-if ( !$_GET['new_reset_key'] && !$_POST['admin_submit_register'] && sizeof($stored_admin_login) == 2 && $oct_gen->valid_email($oct_conf['comms']['to_email']) == 'valid' ) {
+if ( !$_GET['new_reset_key'] && !$_POST['admin_submit_register'] && sizeof($stored_admin_login) == 2 && $ct_gen->valid_email($ct_conf['comms']['to_email']) == 'valid' ) {
 $register_result['error'][] = "An admin login already exists, and you HAVE properly added a VALID 'To' email in the communications configuration. Try <a href='password-reset.php' class='red'>resetting your password</a> instead.";
 }
 	
@@ -16,8 +16,8 @@ if ( $_POST['admin_submit_register'] ) {
 
 	// Run checks...
 	
-	if ( $oct_gen->valid_username( trim($_POST['set_username']) ) != 'valid' ) {
-	$register_result['error'][] = $oct_gen->valid_username( trim($_POST['set_username']) );
+	if ( $ct_gen->valid_username( trim($_POST['set_username']) ) != 'valid' ) {
+	$register_result['error'][] = $ct_gen->valid_username( trim($_POST['set_username']) );
 	$username_field_color = '#ff4747';
 	}
 	
@@ -26,8 +26,8 @@ if ( $_POST['admin_submit_register'] ) {
 	////////////////
 	
 	
-	if ( $oct_gen->pass_strength($_POST['set_password'], 12, 40) != 'valid'  ) {
-	$register_result['error'][] = $oct_gen->pass_strength($_POST['set_password'], 12, 40);
+	if ( $ct_gen->pass_strength($_POST['set_password'], 12, 40) != 'valid'  ) {
+	$register_result['error'][] = $ct_gen->pass_strength($_POST['set_password'], 12, 40);
 	$password_field_color = '#ff4747';
 	}
 	
@@ -74,7 +74,7 @@ require("templates/interface/desktop/php/header.php");
 			
 			+'<p class="coin_info extra_margins" style="white-space: normal; max-width: 600px;"><span class="bitcoin">REGARDLESS as to whether your particular app server automatically clears it\'s temporary session data or not, whenever you logout the 32-byte key in your browser is deleted, along with all the session data on the app server.</span></p>'
 			
-			+'<p class="coin_info extra_margins" style="white-space: normal; max-width: 600px;"><span class="bitcoin">If your app server DOES automatically clears session data often, you will also be logged out AUTOMATICALLY at that time. ADDITIONALLY, the 32-byte random key that is saved inside a cookie in your web browser EXPIRES (automatically deletes itself) AFTER <?=$oct_conf['power']['admin_cookie_expire']?> HOURS (you can adjust this time period in the Admin Config POWER USER section).</span></p>'
+			+'<p class="coin_info extra_margins" style="white-space: normal; max-width: 600px;"><span class="bitcoin">If your app server DOES automatically clears session data often, you will also be logged out AUTOMATICALLY at that time. ADDITIONALLY, the 32-byte random key that is saved inside a cookie in your web browser EXPIRES (automatically deletes itself) AFTER <?=$ct_conf['power']['admin_cookie_expire']?> HOURS (you can adjust this time period in the Admin Config POWER USER section).</span></p>'
 			
 			
 			+'<p> </p>';

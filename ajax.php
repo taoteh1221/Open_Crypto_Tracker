@@ -33,14 +33,14 @@ $batched_feed_hashes_array = explode(',', $_GET['feeds']);
 $all_feeds_array = array();
     
     
-    	foreach($oct_conf['power']['news_feed'] as $feed) {
-    	$feed_id = $oct_gen->digest($feed["title"], 10); // We avoid using array keys for end user config editing UX, BUT STILL UNIQUELY IDENTIFY EACH FEED
+    	foreach($ct_conf['power']['news_feed'] as $feed) {
+    	$feed_id = $ct_gen->digest($feed["title"], 10); // We avoid using array keys for end user config editing UX, BUT STILL UNIQUELY IDENTIFY EACH FEED
     	$all_feeds_array[$feed_id] = $feed;
     	}
 
 
 	// Mitigate DOS attack leverage, since we recieve extrenal calls in ajax.php
-	if ( sizeof($batched_feed_hashes_array) <= $oct_conf['dev']['news_feed_batched_max'] ) {
+	if ( sizeof($batched_feed_hashes_array) <= $ct_conf['dev']['news_feed_batched_max'] ) {
     	
 	// Reset feed fetch telemetry 
 	$_SESSION[$fetched_feeds] = false;
@@ -48,7 +48,7 @@ $all_feeds_array = array();
     	// We already alphabetically ordered / pruned before sending to ajax.php
     	foreach($batched_feed_hashes_array as $chosen_feed_hash) {
     	echo "<fieldset class='subsection_fieldset'><legend class='subsection_legend'> " .$all_feeds_array[$chosen_feed_hash]["title"]." </legend>";
-    	echo $oct_api->rss($all_feeds_array[$chosen_feed_hash]["url"], $_GET['theme'], $oct_conf['power']['news_feed_entries_show']);
+    	echo $ct_api->rss($all_feeds_array[$chosen_feed_hash]["url"], $_GET['theme'], $ct_conf['power']['news_feed_entries_show']);
     	echo "</fieldset>"; 
     	}
 	
@@ -57,9 +57,9 @@ $all_feeds_array = array();
 }
  
 // Log errors / debugging, send notifications
-$oct_cache->error_logs();
-$oct_cache->debug_logs();
-$oct_cache->send_notifications();
+$ct_cache->error_logs();
+$ct_cache->debug_logs();
+$ct_cache->send_notifications();
 
 flush(); // Clean memory output buffer for echo
 gc_collect_cycles(); // Clean memory cache

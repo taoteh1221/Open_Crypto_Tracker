@@ -5,13 +5,13 @@
 
 
 
-class oct_var {
+class ct_var {
 	
 // Class variables / arrays
-var $oct_var1;
-var $oct_var2;
-var $oct_var3;
-var $oct_array1 = array();
+var $ct_var1;
+var $ct_var2;
+var $ct_var3;
+var $ct_array1 = array();
 
    
    ////////////////////////////////////////////////////////

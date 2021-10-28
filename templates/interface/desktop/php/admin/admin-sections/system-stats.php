@@ -19,13 +19,13 @@
     		
     		$system_temp = preg_replace("/° Celsius/i", "", $system_info['system_temp']);
          
-			$system_free_space_mb = $oct_gen->in_megabytes($system_info['free_partition_space'])['in_megs'];
+			$system_free_space_mb = $ct_gen->in_megabytes($system_info['free_partition_space'])['in_megs'];
          
-			$portfolio_cache_size_mb = $oct_gen->in_megabytes($system_info['portfolio_cache'])['in_megs'];
+			$portfolio_cache_size_mb = $ct_gen->in_megabytes($system_info['portfolio_cache'])['in_megs'];
     		
-    		$system_memory_total_mb = $oct_gen->in_megabytes($system_info['memory_total'])['in_megs'];
+    		$system_memory_total_mb = $ct_gen->in_megabytes($system_info['memory_total'])['in_megs'];
     		
-    		$system_memory_free_mb = $oct_gen->in_megabytes($system_info['memory_free'])['in_megs'];
+    		$system_memory_free_mb = $ct_gen->in_megabytes($system_info['memory_free'])['in_megs'];
     		
   			// Percent difference (!MUST BE! absolute value)
          $memory_percent_free = abs( ($system_memory_free_mb - $system_memory_total_mb) / abs($system_memory_total_mb) * 100 );
@@ -72,7 +72,7 @@
 			<?php
 			foreach ( $system_alerts as $alert_key => $alert_val ) {
 			?>
-			+'<p class="coin_info extra_margins" style="max-width: 600px; white-space: normal;"><span class="red"><?=$oct_gen->key_to_name($alert_key)?>:</span> <?=$alert_val?></p>'
+			+'<p class="coin_info extra_margins" style="max-width: 600px; white-space: normal;"><span class="red"><?=$ct_gen->key_to_name($alert_key)?>:</span> <?=$alert_val?></p>'
 			<?php
 			}
 			?>
@@ -172,7 +172,7 @@
 	
 	
 	<?php
-	$all_chart_rebuild_min_max = explode(',', $oct_conf['dev']['all_chart_rebuild_min_max']);
+	$all_chart_rebuild_min_max = explode(',', $ct_conf['dev']['all_chart_rebuild_min_max']);
 	?>
 	
 	<p class='sys_stats red' style='font-weight: bold;'>*The most recent days in the 'ALL' chart MAY ALWAYS show a spike on the cron runtime seconds (ON SLOWER MACHINES, from re-building the 'ALL' chart every <?=$all_chart_rebuild_min_max[0]?> to <?=$all_chart_rebuild_min_max[1]?> hours), until the 'ALL' chart re-builds slowly average out only showing their own runtime data for older days.</p>		
@@ -183,7 +183,7 @@
 	
 	<div style='display: flex; flex-flow: column wrap; overflow: hidden;' class='chart_wrapper' id='system_stats_chart_1'>
 	
-	<span class='chart_loading' style='color: <?=$oct_conf['power']['charts_text']?>;'> &nbsp; Loading chart #1 for system data...</span>
+	<span class='chart_loading' style='color: <?=$ct_conf['power']['charts_text']?>;'> &nbsp; Loading chart #1 for system data...</span>
 	
 	<div style='z-index: 99999; margin-top: 7px;' class='chart_reload align_center absolute_centered loading bitcoin'><img src="templates/interface/media/images/auto-preloaded/loader.gif" height='17' alt="" style='vertical-align: middle;' /> <div class='chart_reload_msg'></div></div>
 	
@@ -204,7 +204,7 @@
 	
 	<div style='display: flex; flex-flow: column wrap; overflow: hidden;' class='chart_wrapper' id='system_stats_chart_2'>
 	
-	<span class='chart_loading' style='color: <?=$oct_conf['power']['charts_text']?>;'> &nbsp; Loading chart #2 for system data...</span>
+	<span class='chart_loading' style='color: <?=$ct_conf['power']['charts_text']?>;'> &nbsp; Loading chart #2 for system data...</span>
 	
 	<div style='z-index: 99999; margin-top: 7px;' class='chart_reload align_center absolute_centered loading bitcoin'><img src="templates/interface/media/images/auto-preloaded/loader.gif" height='17' alt="" style='vertical-align: middle;' /> <div class='chart_reload_msg'></div></div>
 	

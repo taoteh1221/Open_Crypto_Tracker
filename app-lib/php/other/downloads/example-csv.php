@@ -65,7 +65,7 @@ $example_download_array[] = array(
 
 
 // Run last, as it exits when completed
-$oct_gen->create_csv('temp', 'Crypto_Portfolio_Example.csv', $example_download_array); 
+$ct_gen->create_csv('temp', 'Crypto_Portfolio_Example.csv', $example_download_array); 
 
 
 ?>

@@ -6,7 +6,7 @@
 
 // Logs library
 
-if ( !$oct_gen->admin_logged_in() ) {
+if ( !$ct_gen->admin_logged_in() ) {
 exit;
 }
 

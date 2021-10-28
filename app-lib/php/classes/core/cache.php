@@ -5,13 +5,13 @@
  
 
 
-class oct_cache {
+class ct_cache {
 	
 // Class variables / arrays
-var $oct_var1;
-var $oct_var2;
-var $oct_var3;
-var $oct_array1 = array();
+var $ct_var1;
+var $ct_var2;
+var $ct_var3;
+var $ct_array1 = array();
 
   
   
@@ -38,9 +38,9 @@ var $oct_array1 = array();
   
   function user_ini_defaults() {
    
-  global $base_dir, $oct_conf;
+  global $base_dir, $ct_conf;
   
-  $ui_exec_time = $oct_conf['dev']['ui_max_exec_time']; // Don't overwrite globals
+  $ui_exec_time = $ct_conf['dev']['ui_max_exec_time']; // Don't overwrite globals
   
     // If the UI timeout var wasn't set properly / is not a whole number 3600 or less
     if ( !ctype_digit($ui_exec_time) || $ui_exec_time > 3600 ) {
@@ -58,9 +58,9 @@ var $oct_array1 = array();
   
   function htaccess_dir_defaults() {
    
-  global $base_dir, $oct_conf;
+  global $base_dir, $ct_conf;
   
-  $ui_exec_time = $oct_conf['dev']['ui_max_exec_time']; // Don't overwrite globals
+  $ui_exec_time = $ct_conf['dev']['ui_max_exec_time']; // Don't overwrite globals
   
     // If the UI timeout var wasn't set properly / is not a whole number 3600 or less
     if ( !ctype_digit($ui_exec_time) || $ui_exec_time > 3600 ) {
@@ -100,7 +100,7 @@ var $oct_array1 = array();
   
   function delete_old_files($dir_arr, $days, $ext) {
   
-  global $oct_gen;
+  global $ct_gen;
    
       // Support for string OR array in the calls, for directory data
       if ( !is_array($dir_arr) ) {
@@ -123,7 +123,7 @@ var $oct_array1 = array();
               
                	if ( $result == false ) {
                		
-               	$oct_gen->log(
+               	$ct_gen->log(
                				'system_error',
                				'File deletion failed for file "' . $file . '" (check permissions for "' . basename($file) . '")'
                				);
@@ -134,7 +134,7 @@ var $oct_array1 = array();
               
             }
             else {
-            $oct_gen->log('system_error', 'File deletion failed, file not found: "' . $file . '"');
+            $ct_gen->log('system_error', 'File deletion failed, file not found: "' . $file . '"');
             }
             
           }
@@ -151,12 +151,12 @@ var $oct_array1 = array();
   
   function htaccess_dir_protection() {
   
-  global $base_dir, $oct_conf, $oct_gen, $htaccess_username, $htaccess_password;
+  global $base_dir, $ct_conf, $ct_gen, $htaccess_username, $htaccess_password;
   
-  $valid_username = $oct_gen->valid_username($htaccess_username);
+  $valid_username = $ct_gen->valid_username($htaccess_username);
   
   // Password must be exactly 8 characters long for good htaccess security (htaccess only checks the first 8 characters for a match)
-  $password_strength = $oct_gen->pass_strength($htaccess_password, 8, 8); 
+  $password_strength = $ct_gen->pass_strength($htaccess_password, 8, 8); 
   
   
       if ( $htaccess_username == '' || $htaccess_password == '' ) {
@@ -164,9 +164,9 @@ var $oct_array1 = array();
       }
       elseif ( $valid_username != 'valid' ) {
       	
-      $oct_gen->log(
+      $ct_gen->log(
       			'security_error',
-      			'oct_conf\'s "interface_login" username value does not meet minimum valid username requirements',
+      			'ct_conf\'s "interface_login" username value does not meet minimum valid username requirements',
       			$valid_username
       			);
       
@@ -175,9 +175,9 @@ var $oct_array1 = array();
       }
       elseif ( $password_strength != 'valid' ) {
       	
-      $oct_gen->log(
+      $ct_gen->log(
       			'security_error',
-      			'oct_conf\'s "interface_login" password value does not meet minimum password strength requirements',
+      			'ct_conf\'s "interface_login" password value does not meet minimum password strength requirements',
       			$password_strength
       			);
       
@@ -219,7 +219,7 @@ var $oct_array1 = array();
     * @author Torleif Berger, Lorenzo Stanco
     * @link http://stackoverflow.com/a/15025877/995958
     * @license http://creativecommons.org/licenses/by/3.0/
-    Usage: $last_line = $oct_cache->tail_custom($file_path);
+    Usage: $last_line = $ct_cache->tail_custom($file_path);
   */
   
   function tail_custom($filepath, $lines = 1, $adaptive = true) {
@@ -290,19 +290,19 @@ var $oct_array1 = array();
   
   function backup_archive($backup_prefix, $backup_target, $interval, $password=false) {
   
-  global $oct_conf, $oct_gen, $base_dir, $base_url;
+  global $ct_conf, $ct_gen, $base_dir, $base_url;
   
   
       if ( $this->update_cache('cache/events/backup-'.$backup_prefix.'.dat', ( $interval * 1440 ) ) == true ) {
      
-      $secure_128bit_hash = $oct_gen->rand_hash(16); // 128-bit (16-byte) hash converted to hexadecimal, used for suffix
+      $secure_128bit_hash = $ct_gen->rand_hash(16); // 128-bit (16-byte) hash converted to hexadecimal, used for suffix
       
       
           // We only want to store backup files with suffixes that can't be guessed, 
           // otherwise halt the application if an issue is detected safely creating a random hash
           if ( $secure_128bit_hash == false ) {
           	
-          $oct_gen->log(
+          $ct_gen->log(
           			'security_error',
           			'Cryptographically secure pseudo-random bytes could not be generated for ' . $backup_prefix . ' backup archive filename suffix, backup aborted to preserve backups directory privacy'
           			);
@@ -314,16 +314,16 @@ var $oct_array1 = array();
           $backup_dest = $base_dir . '/cache/secured/backups/' . $backup_file;
            
           // Zip archive
-          $backup_results = $oct_gen->zip_recursively($backup_target, $backup_dest, $password);
+          $backup_results = $ct_gen->zip_recursively($backup_target, $backup_dest, $password);
            
            
               if ( $backup_results == 1 ) {
                
-              $this->save_file($base_dir . '/cache/events/backup-'.$backup_prefix.'.dat', $oct_gen->time_date_format(false, 'pretty_date_time') );
+              $this->save_file($base_dir . '/cache/events/backup-'.$backup_prefix.'.dat', $ct_gen->time_date_format(false, 'pretty_date_time') );
                
               $backup_url = $base_url . 'download.php?backup=' . $backup_file;
               
-              $msg = "A backup archive has been created for: ".$backup_prefix."\n\nHere is a link to download the backup to your computer:\n\n" . $backup_url . "\n\n(backup archives are purged after " . $oct_conf['power']['backup_arch_del_old'] . " days)";
+              $msg = "A backup archive has been created for: ".$backup_prefix."\n\nHere is a link to download the backup to your computer:\n\n" . $backup_url . "\n\n(backup archives are purged after " . $ct_conf['power']['backup_arch_del_old'] . " days)";
               
               // Message parameter added for desired comm methods (leave any comm method blank to skip sending via that method)
               $send_params = array(
@@ -338,7 +338,7 @@ var $oct_array1 = array();
               
               }
               else {
-              $oct_gen->log('system_error', 'Backup zip archive creation failed with ' . $backup_results);
+              $ct_gen->log('system_error', 'Backup zip archive creation failed with ' . $backup_results);
               }
             
           
@@ -357,11 +357,11 @@ var $oct_array1 = array();
   
   function queue_notify($send_params) {
   
-  global $base_dir, $oct_conf, $oct_gen, $telegram_activated;
+  global $base_dir, $ct_conf, $ct_gen, $telegram_activated;
   
      
      // Abort queueing comms for sending out notifications, if comms pause is on
-     if ( $oct_conf['comms']['comms_pause'] == 'on' ) {
+     if ( $ct_conf['comms']['comms_pause'] == 'on' ) {
      return;
      }
   
@@ -371,34 +371,34 @@ var $oct_array1 = array();
    // RANDOM HASH SHOULD BE CALLED PER-STATEMENT, OTHERWISE FOR SOME REASON SEEMS TO REUSE SAME HASH FOR THE WHOLE RUNTIME INSTANCE (if set as a variable beforehand)
    
      // Notifyme
-     if ( $send_params['notifyme'] != '' && trim($oct_conf['comms']['notifyme_accesscode']) != '' ) {
-   	 $this->save_file($base_dir . '/cache/secured/messages/notifyme-' . $oct_gen->rand_hash(8) . '.queue', $send_params['notifyme']);
+     if ( $send_params['notifyme'] != '' && trim($ct_conf['comms']['notifyme_accesscode']) != '' ) {
+   	 $this->save_file($base_dir . '/cache/secured/messages/notifyme-' . $ct_gen->rand_hash(8) . '.queue', $send_params['notifyme']);
      }
     
      // Textbelt
      // To be safe, don't use trim() on certain strings with arbitrary non-alphanumeric characters here
      // Only run if textlocal API isn't being used to avoid double texts
-     if ( $send_params['text']['message'] != '' && trim($oct_conf['comms']['textbelt_apikey']) != '' && $oct_conf['comms']['textlocal_account'] == '' ) { 
-     $this->save_file($base_dir . '/cache/secured/messages/textbelt-' . $oct_gen->rand_hash(8) . '.queue', $send_params['text']['message']);
+     if ( $send_params['text']['message'] != '' && trim($ct_conf['comms']['textbelt_apikey']) != '' && $ct_conf['comms']['textlocal_account'] == '' ) { 
+     $this->save_file($base_dir . '/cache/secured/messages/textbelt-' . $ct_gen->rand_hash(8) . '.queue', $send_params['text']['message']);
      }
     
      // Textlocal
      // To be safe, don't use trim() on certain strings with arbitrary non-alphanumeric characters here
      // Only run if textbelt API isn't being used to avoid double texts
-     if ( $send_params['text']['message'] != '' && $oct_conf['comms']['textlocal_account'] != '' && trim($oct_conf['comms']['textbelt_apikey']) == '' ) { 
-     $this->save_file($base_dir . '/cache/secured/messages/textlocal-' . $oct_gen->rand_hash(8) . '.queue', $send_params['text']['message']);
+     if ( $send_params['text']['message'] != '' && $ct_conf['comms']['textlocal_account'] != '' && trim($ct_conf['comms']['textbelt_apikey']) == '' ) { 
+     $this->save_file($base_dir . '/cache/secured/messages/textlocal-' . $ct_gen->rand_hash(8) . '.queue', $send_params['text']['message']);
      }
    
      // Telegram
      if ( $send_params['telegram'] != '' && $telegram_activated == 1 ) {
-     $this->save_file($base_dir . '/cache/secured/messages/telegram-' . $oct_gen->rand_hash(8) . '.queue', $send_params['telegram']);
+     $this->save_file($base_dir . '/cache/secured/messages/telegram-' . $ct_gen->rand_hash(8) . '.queue', $send_params['telegram']);
      }
      
              
      // Text email
      // To be safe, don't use trim() on certain strings with arbitrary non-alphanumeric characters here
      // Only use text-to-email if other text services aren't configured
-     if ( $send_params['text']['message'] != '' && $oct_gen->valid_email( $oct_gen->text_email($oct_conf['comms']['to_mobile_text']) ) == 'valid' && trim($oct_conf['comms']['textbelt_apikey']) == '' && $oct_conf['comms']['textlocal_account'] == '' ) { 
+     if ( $send_params['text']['message'] != '' && $ct_gen->valid_email( $ct_gen->text_email($ct_conf['comms']['to_mobile_text']) ) == 'valid' && trim($ct_conf['comms']['textbelt_apikey']) == '' && $ct_conf['comms']['textlocal_account'] == '' ) { 
      
      // $send_params['text_charset'] SHOULD ALWAYS BE SET FROM THE CALL TO HERE (for emojis, or other unicode characters to send via text message properly)
      // SUBJECT !!MUST BE SET!! OR SOME TEXT SERVICES WILL NOT ACCEPT THE MESSAGE!
@@ -413,15 +413,15 @@ var $oct_array1 = array();
       
       	}
      
-     $this->save_file($base_dir . '/cache/secured/messages/textemail-' . $oct_gen->rand_hash(8) . '.queue', json_encode($textemail_array) );
+     $this->save_file($base_dir . '/cache/secured/messages/textemail-' . $ct_gen->rand_hash(8) . '.queue', json_encode($textemail_array) );
    
      }
      
             
      // Normal email
-     if ( $send_params['email']['message'] != '' && $oct_gen->valid_email($oct_conf['comms']['to_email']) == 'valid' ) {
+     if ( $send_params['email']['message'] != '' && $ct_gen->valid_email($ct_conf['comms']['to_email']) == 'valid' ) {
      
-     $email_array = array('subject' => $send_params['email']['subject'], 'message' => $send_params['email']['message'], 'content_type' => ( $send_params['email']['content_type'] ? $send_params['email']['content_type'] : 'text' ), 'charset' => ( $send_params['email']['charset'] ? $send_params['email']['charset'] : $oct_conf['dev']['charset_default'] ) );
+     $email_array = array('subject' => $send_params['email']['subject'], 'message' => $send_params['email']['message'], 'content_type' => ( $send_params['email']['content_type'] ? $send_params['email']['content_type'] : 'text' ), 'charset' => ( $send_params['email']['charset'] ? $send_params['email']['charset'] : $ct_conf['dev']['charset_default'] ) );
      
       	// json_encode() only accepts UTF-8, SO TEMPORARILY CONVERT TO THAT FOR MESSAGE QUEUE STORAGE
       	if ( strtolower($send_params['email']['charset']) != 'utf-8' ) {
@@ -432,7 +432,7 @@ var $oct_array1 = array();
       
       	}
      
-   	 $this->save_file($base_dir . '/cache/secured/messages/normalemail-' . $oct_gen->rand_hash(8) . '.queue', json_encode($email_array) );
+   	 $this->save_file($base_dir . '/cache/secured/messages/normalemail-' . $ct_gen->rand_hash(8) . '.queue', json_encode($email_array) );
    
      }
     
@@ -446,9 +446,9 @@ var $oct_array1 = array();
   
   function debug_logs() {
   
-  global $base_dir, $oct_conf, $logs_array;
+  global $base_dir, $ct_conf, $logs_array;
   
-      if ( $oct_conf['dev']['debug'] == 'off' ) {
+      if ( $ct_conf['dev']['debug'] == 'off' ) {
       return false;
       }
   
@@ -478,7 +478,7 @@ var $oct_array1 = array();
   
   
       // If it's time to email debugging logs...
-      if ( $oct_conf['power']['logs_email'] > 0 && $this->update_cache('cache/events/email-debugging-logs.dat', ( $oct_conf['power']['logs_email'] * 1440 ) ) == true ) {
+      if ( $ct_conf['power']['logs_email'] > 0 && $this->update_cache('cache/events/email-debugging-logs.dat', ( $ct_conf['power']['logs_email'] * 1440 ) ) == true ) {
        
       $emailed_logs = "\n\n ------------------debug.log------------------ \n\n" . file_get_contents('cache/logs/debug.log') . "\n\n ------------------smtp_debug.log------------------ \n\n" . file_get_contents('cache/logs/smtp_debug.log');
        
@@ -501,7 +501,7 @@ var $oct_array1 = array();
       
       
       // Log debugging...Purge old logs before storing new logs, if it's time to...otherwise just append.
-      if ( $this->update_cache('cache/events/purge-debugging-logs.dat', ( $oct_conf['power']['logs_purge'] * 1440 ) ) == true ) {
+      if ( $this->update_cache('cache/events/purge-debugging-logs.dat', ( $ct_conf['power']['logs_purge'] * 1440 ) ) == true ) {
       
       unlink($base_dir . '/cache/logs/smtp_debug.log');
       unlink($base_dir . '/cache/logs/debug.log');
@@ -521,7 +521,7 @@ var $oct_array1 = array();
           return 'Debugging logs write error for "' . $base_dir . '/cache/logs/debug.log" (MAKE SURE YOUR DISK ISN\'T FULL), data_size_bytes: ' . strlen($debug_logs) . ' bytes';
           }
           // DEBUGGING ONLY (rules out issues other than full disk)
-          elseif ( $oct_conf['dev']['debug'] == 'all' || $oct_conf['dev']['debug'] == 'all_telemetry' ) {
+          elseif ( $ct_conf['dev']['debug'] == 'all' || $ct_conf['dev']['debug'] == 'all_telemetry' ) {
           return 'Debugging logs write success for "' . $base_dir . '/cache/logs/debug.log", data_size_bytes: ' . strlen($debug_logs) . ' bytes';
           }
         
@@ -539,7 +539,7 @@ var $oct_array1 = array();
   
   function error_logs() {
   
-  global $base_dir, $oct_conf, $logs_array;
+  global $base_dir, $ct_conf, $logs_array;
   
   // Combine all errors logged
   $error_logs .= strip_tags($logs_array['system_error']); // Remove any HTML formatting used in UI alerts
@@ -567,7 +567,7 @@ var $oct_array1 = array();
     
     
       // If it's time to email error logs...
-      if ( $oct_conf['power']['logs_email'] > 0 && $this->update_cache('cache/events/email-error-logs.dat', ( $oct_conf['power']['logs_email'] * 1440 ) ) == true ) {
+      if ( $ct_conf['power']['logs_email'] > 0 && $this->update_cache('cache/events/email-error-logs.dat', ( $ct_conf['power']['logs_email'] * 1440 ) ) == true ) {
        
       $emailed_logs = "\n\n ------------------error.log------------------ \n\n" . file_get_contents('cache/logs/error.log') . "\n\n ------------------smtp_error.log------------------ \n\n" . file_get_contents('cache/logs/smtp_error.log');
        
@@ -590,7 +590,7 @@ var $oct_array1 = array();
       
       
       // Log errors...Purge old logs before storing new logs, if it's time to...otherwise just append.
-      if ( $this->update_cache('cache/events/purge-error-logs.dat', ( $oct_conf['power']['logs_purge'] * 1440 ) ) == true ) {
+      if ( $this->update_cache('cache/events/purge-error-logs.dat', ( $ct_conf['power']['logs_purge'] * 1440 ) ) == true ) {
       
       unlink($base_dir . '/cache/logs/smtp_error.log');
       unlink($base_dir . '/cache/logs/error.log');
@@ -610,7 +610,7 @@ var $oct_array1 = array();
           return 'Error logs write error for "' . $base_dir . '/cache/logs/error.log" (MAKE SURE YOUR DISK ISN\'T FULL), data_size_bytes: ' . strlen($error_logs) . ' bytes';
           }
           // DEBUGGING ONLY (rules out issues other than full disk)
-          elseif ( $oct_conf['dev']['debug'] == 'all' || $oct_conf['dev']['debug'] == 'all_telemetry' ) {
+          elseif ( $ct_conf['dev']['debug'] == 'all' || $ct_conf['dev']['debug'] == 'all_telemetry' ) {
           return 'Error logs write success for "' . $base_dir . '/cache/logs/error.log", data_size_bytes: ' . strlen($error_logs) . ' bytes';
           }
       
@@ -628,26 +628,26 @@ var $oct_array1 = array();
   
   function save_file($file, $data, $mode=false, $lock=true) {
   
-  global $oct_conf, $oct_var, $oct_gen, $current_runtime_user, $possible_http_users, $http_runtime_user;
+  global $ct_conf, $ct_var, $ct_gen, $current_runtime_user, $possible_http_users, $http_runtime_user;
   
   
     // If no data was passed on to write to file, log it and return false early for runtime speed sake
     if ( strlen($data) == 0 ) {
      
-    $oct_gen->log(
+    $ct_gen->log(
     			'system_error',
-    			'No bytes of data received to write to file "' . $oct_gen->obfusc_path_data($file) . '" (aborting useless file write)'
+    			'No bytes of data received to write to file "' . $ct_gen->obfusc_path_data($file) . '" (aborting useless file write)'
     			);
     
      // API timeouts are a confirmed cause for write errors of 0 bytes, so we want to alert end users that they may need to adjust their API timeout settings to get associated API data
      if ( preg_match("/cache\/secured\/apis/i", $file) ) {
        
-     $oct_gen->log(
+     $ct_gen->log(
      			'ext_data_error',
      								
-     			'POSSIBLE api timeout' . ( $oct_conf['dev']['remote_api_strict_ssl'] == 'on' ? ' or strict_ssl' : '' ) . ' issue for cache file "' . $oct_gen->obfusc_path_data($file) . '" (IF ISSUE PERSISTS, TRY INCREASING "remote_api_timeout" IN Admin Config POWER USER SECTION' . ( $oct_conf['dev']['remote_api_strict_ssl'] == 'on' ? ', OR SETTING "remote_api_strict_ssl" to "off" IN Admin Config DEVELOPER SECTION' : '' ) . ')',
+     			'POSSIBLE api timeout' . ( $ct_conf['dev']['remote_api_strict_ssl'] == 'on' ? ' or strict_ssl' : '' ) . ' issue for cache file "' . $ct_gen->obfusc_path_data($file) . '" (IF ISSUE PERSISTS, TRY INCREASING "remote_api_timeout" IN Admin Config POWER USER SECTION' . ( $ct_conf['dev']['remote_api_strict_ssl'] == 'on' ? ', OR SETTING "remote_api_strict_ssl" to "off" IN Admin Config DEVELOPER SECTION' : '' ) . ')',
      								
-     			'remote_api_timeout: '.$oct_conf['power']['remote_api_timeout'].' seconds; remote_api_strict_ssl: ' . $oct_conf['dev']['remote_api_strict_ssl'] . ';'
+     			'remote_api_timeout: '.$ct_conf['power']['remote_api_timeout'].' seconds; remote_api_strict_ssl: ' . $ct_conf['dev']['remote_api_strict_ssl'] . ';'
      			);
      
      }
@@ -673,11 +673,11 @@ var $oct_array1 = array();
     }
    
    
-    // We ALWAYS set .htaccess files to a more secure $oct_conf['dev']['chmod_index_sec'] permission AFTER EDITING, 
-    // so we TEMPORARILY set .htaccess to $oct_conf['dev']['chmod_cache_file'] for NEW EDITING...
+    // We ALWAYS set .htaccess files to a more secure $ct_conf['dev']['chmod_index_sec'] permission AFTER EDITING, 
+    // so we TEMPORARILY set .htaccess to $ct_conf['dev']['chmod_cache_file'] for NEW EDITING...
     if ( strstr($file, '.htaccess') != false || strstr($file, '.user.ini') != false || strstr($file, 'index.php') != false ) {
      
-    $chmod_setting = octdec($oct_conf['dev']['chmod_cache_file']);
+    $chmod_setting = octdec($ct_conf['dev']['chmod_cache_file']);
     
     
      // Run chmod compatibility on certain PHP setups (if we can because we are running as the file owner)
@@ -691,10 +691,10 @@ var $oct_array1 = array();
      
       if ( !$did_chmod ) {
       	
-      $oct_gen->log(
+      $ct_gen->log(
       			'system_error',
       							
-      			'Chmod failed for file "' . $oct_gen->obfusc_path_data($file) . '" (check permissions for the path "' . $oct_gen->obfusc_path_data($path_parts['dirname']) . '", and the file "' . $oct_var->obfuscate_str($path_parts['basename'], 5) . '")',
+      			'Chmod failed for file "' . $ct_gen->obfusc_path_data($file) . '" (check permissions for the path "' . $ct_gen->obfusc_path_data($path_parts['dirname']) . '", and the file "' . $ct_var->obfuscate_str($path_parts['basename'], 5) . '")',
       							
       			'chmod_setting: ' . $chmod_setting . '; current_runtime_user: ' . $current_runtime_user . '; file_owner: ' . $file_owner_info['name'] . ';'
       			);
@@ -727,9 +727,9 @@ var $oct_array1 = array();
     // Log any write error
     if ( $result == false ) {
     	
-    $oct_gen->log(
+    $ct_gen->log(
     				'system_error',
-    				'File write failed storing '.strlen($data).' bytes of data to file "' . $oct_gen->obfusc_path_data($file) . '" (MAKE SURE YOUR DISK ISN\'T FULL. Check permissions for the path "' . $oct_gen->obfusc_path_data($path_parts['dirname']) . '", and the file "' . $oct_var->obfuscate_str($path_parts['basename'], 5) . '")'
+    				'File write failed storing '.strlen($data).' bytes of data to file "' . $ct_gen->obfusc_path_data($file) . '" (MAKE SURE YOUR DISK ISN\'T FULL. Check permissions for the path "' . $ct_gen->obfusc_path_data($path_parts['dirname']) . '", and the file "' . $ct_var->obfuscate_str($path_parts['basename'], 5) . '")'
     				);
     
     }
@@ -737,11 +737,11 @@ var $oct_array1 = array();
     
     // For security, NEVER make an .htaccess file writable by any user not in the group
     if ( strstr($file, '.htaccess') != false || strstr($file, '.user.ini') != false || strstr($file, 'index.php') != false ) {
-    $chmod_setting = octdec($oct_conf['dev']['chmod_index_sec']);
+    $chmod_setting = octdec($ct_conf['dev']['chmod_index_sec']);
     }
     // All other files
     else {
-    $chmod_setting = octdec($oct_conf['dev']['chmod_cache_file']);
+    $chmod_setting = octdec($ct_conf['dev']['chmod_cache_file']);
     }
    
    
@@ -754,10 +754,10 @@ var $oct_array1 = array();
      
      if ( !$did_chmod ) {
      	
-     $oct_gen->log(
+     $ct_gen->log(
      			'system_error',
      								
-     			'Chmod failed for file "' . $oct_gen->obfusc_path_data($file) . '" (check permissions for the path "' . $oct_gen->obfusc_path_data($path_parts['dirname']) . '", and the file "' . $oct_var->obfuscate_str($path_parts['basename'], 5) . '")',
+     			'Chmod failed for file "' . $ct_gen->obfusc_path_data($file) . '" (check permissions for the path "' . $ct_gen->obfusc_path_data($path_parts['dirname']) . '", and the file "' . $ct_var->obfuscate_str($path_parts['basename'], 5) . '")',
      								
      			'chmod_setting: ' . $chmod_setting . '; current_runtime_user: ' . $current_runtime_user . '; file_owner: ' . $file_owner_info['name'] . ';'
      			);
@@ -780,7 +780,7 @@ var $oct_array1 = array();
   
   function update_lite_chart($archive_path, $newest_arch_data=false, $days_span=1) {
   
-  global $oct_conf, $base_dir, $oct_var, $oct_gen;
+  global $ct_conf, $base_dir, $ct_var, $ct_gen;
   
   $arch_data = array();
   $queued_arch_lines = array();
@@ -792,7 +792,7 @@ var $oct_array1 = array();
     // Hash of lite path, AND random X hours update threshold, to spread out and event-track 'all' chart rebuilding
     if ( $days_span == 'all' ) {
     $lite_path_hash = md5($lite_path);
-    $thres_range = explode(',', $oct_conf['dev']['all_chart_rebuild_min_max']);
+    $thres_range = explode(',', $ct_conf['dev']['all_chart_rebuild_min_max']);
     $all_chart_rebuild_thres = rand($thres_range[0], $thres_range[1]); // Randomly within the min/max range, to spead the load across multiple runtimes
     }
    
@@ -801,7 +801,7 @@ var $oct_array1 = array();
     if ( file_exists($lite_path) ) {
     $last_lite_line = $this->tail_custom($lite_path);
     $last_lite_array = explode("||", $last_lite_line);
-    $newest_lite_timestamp = ( isset($last_lite_array[0]) ? $oct_var->num_to_str($last_lite_array[0]) : false );
+    $newest_lite_timestamp = ( isset($last_lite_array[0]) ? $ct_var->num_to_str($last_lite_array[0]) : false );
     }
     else {
     $newest_lite_timestamp = false;
@@ -812,7 +812,7 @@ var $oct_array1 = array();
   // (determines newest archival timestamp)
   $last_arch_line = ( $newest_arch_data != false ? $newest_arch_data : $this->tail_custom($archive_path) );
   $last_arch_array = explode("||", $last_arch_line);
-  $newest_arch_timestamp = $oct_var->num_to_str($last_arch_array[0]);
+  $newest_arch_timestamp = $ct_var->num_to_str($last_arch_array[0]);
      
      
   // Get FIRST line of archival chart data (determines oldest archival timestamp)
@@ -825,12 +825,12 @@ var $oct_array1 = array();
     }
    
   $first_arch_array = explode("||", $first_arch_line);
-  $oldest_arch_timestamp = $oct_var->num_to_str($first_arch_array[0]);
+  $oldest_arch_timestamp = $ct_var->num_to_str($first_arch_array[0]);
    
      
     // Oldest base timestamp we can use (only applies for x days charts, not 'all')
     if ( $days_span != 'all' ) {
-    $base_min_timestamp = $oct_var->num_to_str( strtotime('-'.$days_span.' day', $newest_arch_timestamp) );
+    $base_min_timestamp = $ct_var->num_to_str( strtotime('-'.$days_span.' day', $newest_arch_timestamp) );
     }
     
     // If it's the 'all' lite chart, OR the oldest archival timestamp is newer than oldest base timestamp we can use
@@ -845,10 +845,10 @@ var $oct_array1 = array();
    
     // Minimum time interval between data points in lite chart
     if ( $days_span == 'all' ) {
-    $min_data_interval = round( ($newest_arch_timestamp - $oldest_arch_timestamp) / $oct_conf['power']['lite_chart_data_points_max'] ); // Dynamic
+    $min_data_interval = round( ($newest_arch_timestamp - $oldest_arch_timestamp) / $ct_conf['power']['lite_chart_data_points_max'] ); // Dynamic
     }
     else {
-    $min_data_interval = round( ($days_span * 86400) / $oct_conf['power']['lite_chart_data_points_max'] ); // Fixed X days (86400 seconds per day)
+    $min_data_interval = round( ($days_span * 86400) / $ct_conf['power']['lite_chart_data_points_max'] ); // Fixed X days (86400 seconds per day)
     }
   
   
@@ -864,8 +864,8 @@ var $oct_array1 = array();
   
   
   // Large number support (NOT scientific format), since we manipulated these
-  $min_data_interval = $oct_var->num_to_str($min_data_interval); 
-  $lite_data_update_thres = $oct_var->num_to_str($lite_data_update_thres); 
+  $min_data_interval = $ct_var->num_to_str($min_data_interval); 
+  $lite_data_update_thres = $ct_var->num_to_str($lite_data_update_thres); 
   
   
      // If we are queued to update an existing lite chart, get the data points we want to add 
@@ -876,7 +876,7 @@ var $oct_array1 = array();
         // #we save BIGTIME on resource usage# (used EVERYTIME, other than very rare FALLBACKS)
         // CHECKS IF UPDATE THRESHOLD IS GREATER THAN NEWEST ARCHIVAL DATA POINT TIMESTAMP, 
         // #WHEN ADDING AN EXTRA# $min_data_interval (so we know to only add one data point)
-        if ( $oct_var->num_to_str($lite_data_update_thres + $min_data_interval) > $newest_arch_timestamp ) {
+        if ( $ct_var->num_to_str($lite_data_update_thres + $min_data_interval) > $newest_arch_timestamp ) {
         $queued_arch_lines[] = $last_arch_line;
         }
        // If multiple lite chart data points missing (from any very rare FALLBACK instances, like network / load / disk / runtime issues, etc)
@@ -889,10 +889,10 @@ var $oct_array1 = array();
          
           foreach( $tail_arch_lines_array as $arch_line ) {
           $arch_line_array = explode('||', $arch_line);
-          $arch_line_array[0] = $oct_var->num_to_str($arch_line_array[0]);
+          $arch_line_array[0] = $ct_var->num_to_str($arch_line_array[0]);
            
              if ( !$added_arch_timestamp && $lite_data_update_thres <= $arch_line_array[0]
-             || isset($added_arch_timestamp) && $oct_var->num_to_str($added_arch_timestamp + $min_data_interval) <= $arch_line_array[0] ) {
+             || isset($added_arch_timestamp) && $ct_var->num_to_str($added_arch_timestamp + $min_data_interval) <= $arch_line_array[0] ) {
              $queued_arch_lines[] = $arch_line;
              $added_arch_timestamp = $arch_line_array[0];
              }
@@ -930,7 +930,7 @@ var $oct_array1 = array();
       foreach($archive_file_data as $line) {
       
       $line_array = explode("||", $line);
-      $line_array[0] = $oct_var->num_to_str($line_array[0]);
+      $line_array[0] = $ct_var->num_to_str($line_array[0]);
      
         if ( $line_array[0] >= $oldest_allowed_timestamp ) {
         $arch_data[] = $line;
@@ -943,10 +943,10 @@ var $oct_array1 = array();
       $loop = 0;
       $data_points = 0;
       // $data_points <= is INTENTIONAL, as we can have max data points slightly under without it
-      while ( isset($arch_data[$loop]) && $data_points <= $oct_conf['power']['lite_chart_data_points_max'] ) {
+      while ( isset($arch_data[$loop]) && $data_points <= $ct_conf['power']['lite_chart_data_points_max'] ) {
        
       $data_point_array = explode("||", $arch_data[$loop]);
-      $data_point_array[0] = $oct_var->num_to_str($data_point_array[0]);
+      $data_point_array[0] = $ct_var->num_to_str($data_point_array[0]);
         
         if ( !$next_timestamp || isset($next_timestamp) && $data_point_array[0] <= $next_timestamp ) {
         $new_lite_data = $arch_data[$loop] . $new_lite_data;// WITHOUT newline, since file() maintains those by default
@@ -964,7 +964,7 @@ var $oct_array1 = array();
     
       // Update the 'all' lite chart rebuild event tracking, IF THE LITE CHART UPDATED SUCESSFULLY
       if ( $days_span == 'all' && $result == true ) {
-      $this->save_file($base_dir . '/cache/events/lite_chart_rebuilds/all_days_chart_'.$lite_path_hash.'.dat', $oct_gen->time_date_format(false, 'pretty_date_time') );
+      $this->save_file($base_dir . '/cache/events/lite_chart_rebuilds/all_days_chart_'.$lite_path_hash.'.dat', $ct_gen->time_date_format(false, 'pretty_date_time') );
       }
      
    
@@ -978,7 +978,7 @@ var $oct_array1 = array();
     $queued_arch_data = implode("\n", $queued_arch_lines);
     
     // Current lite chart lines, plus new archival lines queued to be added
-    $check_lite_data_lines = $oct_gen->get_lines($lite_path) + sizeof($queued_arch_lines);
+    $check_lite_data_lines = $ct_gen->get_lines($lite_path) + sizeof($queued_arch_lines);
      
     // Get FIRST line of lite chart data (determines oldest lite timestamp)
     $fopen_lite = fopen($lite_path, 'r');
@@ -991,13 +991,13 @@ var $oct_array1 = array();
       }
        
     $first_lite_array = explode("||", $first_lite_line);
-    $oldest_lite_timestamp = $oct_var->num_to_str($first_lite_array[0]);
+    $oldest_lite_timestamp = $ct_var->num_to_str($first_lite_array[0]);
      
       // If our oldest lite timestamp is older than allowed, remove the stale data points
       if ( $oldest_lite_timestamp < $oldest_allowed_timestamp ) {
-      $lite_data_removed_outdated_lines = $oct_gen->prune_first_lines($lite_path, 0, $oldest_allowed_timestamp);
+      $lite_data_removed_outdated_lines = $ct_gen->prune_first_lines($lite_path, 0, $oldest_allowed_timestamp);
       
-      // ONLY APPEND A LINE BREAK TO THE NEW ARCHIVAL DATA, since $oct_gen->prune_first_lines() maintains the existing line breaks
+      // ONLY APPEND A LINE BREAK TO THE NEW ARCHIVAL DATA, since $ct_gen->prune_first_lines() maintains the existing line breaks
       $result = $this->save_file($lite_path, $lite_data_removed_outdated_lines['data'] . $queued_arch_data . "\n");  // WITH newline for NEW data (file write)
       $lite_mode_logging = 'OVERWRITE_' . $lite_data_removed_outdated_lines['lines_removed'] . '_OUTDATED_PRUNED_' . $added_arch_mode;
       }
@@ -1022,12 +1022,12 @@ var $oct_array1 = array();
     $_SESSION['lite_charts_updated'] = $_SESSION['lite_charts_updated'] + 1;
       
       if ( 
-      $oct_conf['dev']['debug'] == 'all'
-      || $oct_conf['dev']['debug'] == 'all_telemetry'
-      || $oct_conf['dev']['debug'] == 'lite_chart_telemetry' 
+      $ct_conf['dev']['debug'] == 'all'
+      || $ct_conf['dev']['debug'] == 'all_telemetry'
+      || $ct_conf['dev']['debug'] == 'lite_chart_telemetry' 
       ) {
       	
-      $oct_gen->log(
+      $ct_gen->log(
       			'cache_debug',
       			'Lite chart ' . $lite_mode_logging . ' COMPLETED ('.$_SESSION['lite_charts_updated'].') for ' . $lite_path
       			);
@@ -1035,14 +1035,14 @@ var $oct_array1 = array();
       }
        
       if ( 
-      $oct_conf['dev']['debug'] == 'all'
-      || $oct_conf['dev']['debug'] == 'all_telemetry'
-      || $oct_conf['dev']['debug'] == 'memory_usage_telemetry' 
+      $ct_conf['dev']['debug'] == 'all'
+      || $ct_conf['dev']['debug'] == 'all_telemetry'
+      || $ct_conf['dev']['debug'] == 'memory_usage_telemetry' 
       ) {
       	
-      $oct_gen->log(
+      $ct_gen->log(
       			'system_debug',
-      			$_SESSION['lite_charts_updated'] . ' lite charts updated, CURRENT script memory usage is ' . $oct_gen->conv_bytes(memory_get_usage(), 1) . ', PEAK script memory usage is ' . $oct_gen->conv_bytes(memory_get_peak_usage(), 1) . ', php_sapi_name is "' . php_sapi_name() . '"'
+      			$_SESSION['lite_charts_updated'] . ' lite charts updated, CURRENT script memory usage is ' . $ct_gen->conv_bytes(memory_get_usage(), 1) . ', PEAK script memory usage is ' . $ct_gen->conv_bytes(memory_get_peak_usage(), 1) . ', php_sapi_name is "' . php_sapi_name() . '"'
       			);
      
       }
@@ -1051,10 +1051,10 @@ var $oct_array1 = array();
     else {
         
         if ( file_exists($archive_path) ) {
-        $oct_gen->log( 'cache_error', 'Lite chart ' . $lite_mode_logging . ' FAILED, data from archive file ' . $archive_path . ' could not be read. Check cache directory permissions.');
+        $ct_gen->log( 'cache_error', 'Lite chart ' . $lite_mode_logging . ' FAILED, data from archive file ' . $archive_path . ' could not be read. Check cache directory permissions.');
         }
         else {
-        $oct_gen->log( 'cache_error', 'Lite chart ' . $lite_mode_logging . ' FAILED for ' . $lite_path . ', archival data not created yet (for new installs please wait a few hours, then check cache directory permissions if this error continues beyond then).');
+        $ct_gen->log( 'cache_error', 'Lite chart ' . $lite_mode_logging . ' FAILED for ' . $lite_path . ', archival data not created yet (for new installs please wait a few hours, then check cache directory permissions if this error continues beyond then).');
         }
     
     }
@@ -1073,11 +1073,11 @@ var $oct_array1 = array();
   
   function send_notifications() {
   
-  global $base_dir, $oct_conf, $oct_var, $oct_gen, $processed_msgs, $possible_http_users, $http_runtime_user, $current_runtime_user, $telegram_user_data, $telegram_activated;
+  global $base_dir, $ct_conf, $ct_var, $ct_gen, $processed_msgs, $possible_http_users, $http_runtime_user, $current_runtime_user, $telegram_user_data, $telegram_activated;
   
   
   // Array of currently queued messages in the cache
-  $msgs_queue = $oct_gen->sort_files($base_dir . '/cache/secured/messages', 'queue', 'asc');
+  $msgs_queue = $ct_gen->sort_files($base_dir . '/cache/secured/messages', 'queue', 'asc');
    
   //var_dump($msgs_queue); // DEBUGGING ONLY
   //return false; // DEBUGGING ONLY
@@ -1144,22 +1144,22 @@ var $oct_array1 = array();
       
       $notifyme_params = array(
               'notification' => null, // Setting this right before sending
-              'accessCode' => $oct_conf['comms']['notifyme_accesscode']
+              'accessCode' => $ct_conf['comms']['notifyme_accesscode']
                 );
           
           
       $textbelt_params = array(
               'message' => null, // Setting this right before sending
-              'phone' => $oct_gen->mob_number($oct_conf['comms']['to_mobile_text']),
-              'key' => $oct_conf['comms']['textbelt_apikey']
+              'phone' => $ct_gen->mob_number($ct_conf['comms']['to_mobile_text']),
+              'key' => $ct_conf['comms']['textbelt_apikey']
              );
           
           
       $textlocal_params = array(
                'message' => null, // Setting this right before sending
-               'username' => $oct_var->str_to_array($oct_conf['comms']['textlocal_account'])[0],
-               'hash' => $oct_var->str_to_array($oct_conf['comms']['textlocal_account'])[1],
-               'numbers' => $oct_gen->mob_number($oct_conf['comms']['to_mobile_text'])
+               'username' => $ct_var->str_to_array($ct_conf['comms']['textlocal_account'])[0],
+               'hash' => $ct_var->str_to_array($ct_conf['comms']['textlocal_account'])[1],
+               'numbers' => $ct_gen->mob_number($ct_conf['comms']['to_mobile_text'])
                 );
       
       
@@ -1176,7 +1176,7 @@ var $oct_array1 = array();
           unlink($base_dir . '/cache/secured/messages/' . $queued_cache_file);
           }
           // Notifyme
-          elseif ( $msg_data != '' && trim($oct_conf['comms']['notifyme_accesscode']) != '' && preg_match("/notifyme/i", $queued_cache_file) ) {
+          elseif ( $msg_data != '' && trim($ct_conf['comms']['notifyme_accesscode']) != '' && preg_match("/notifyme/i", $queued_cache_file) ) {
             
             $notifyme_params['notification'] = $msg_data;
             
@@ -1196,7 +1196,7 @@ var $oct_array1 = array();
               
               $this->save_file($base_dir . '/cache/events/throttling/notifyme-alerts-sent.dat', $processed_msgs['notifyme_count']); 
               
-                if ( $oct_conf['dev']['debug'] == 'all' || $oct_conf['dev']['debug'] == 'all_telemetry' || $oct_conf['dev']['debug'] == 'api_comms_telemetry' ) {
+                if ( $ct_conf['dev']['debug'] == 'all' || $ct_conf['dev']['debug'] == 'all_telemetry' || $ct_conf['dev']['debug'] == 'api_comms_telemetry' ) {
                 $this->save_file($base_dir . '/cache/logs/debug/external_data/last-response-notifyme.log', $notifyme_response);
                 }
               
@@ -1212,7 +1212,7 @@ var $oct_array1 = array();
           // Textbelt
           // To be safe, don't use trim() on certain strings with arbitrary non-alphanumeric characters here
           // Only run if textlocal API isn't being used to avoid double texts
-          if ( $msg_data != '' && trim($oct_conf['comms']['textbelt_apikey']) != '' && $oct_conf['comms']['textlocal_account'] == '' && preg_match("/textbelt/i", $queued_cache_file) ) {
+          if ( $msg_data != '' && trim($ct_conf['comms']['textbelt_apikey']) != '' && $ct_conf['comms']['textlocal_account'] == '' && preg_match("/textbelt/i", $queued_cache_file) ) {
             
           $textbelt_params['message'] = $msg_data;
             
@@ -1226,7 +1226,7 @@ var $oct_array1 = array();
           
           $msg_sent = 1;
             
-            if ( $oct_conf['dev']['debug'] == 'all' || $oct_conf['dev']['debug'] == 'all_telemetry' || $oct_conf['dev']['debug'] == 'api_comms_telemetry' ) {
+            if ( $ct_conf['dev']['debug'] == 'all' || $ct_conf['dev']['debug'] == 'all_telemetry' || $ct_conf['dev']['debug'] == 'api_comms_telemetry' ) {
             $this->save_file($base_dir . '/cache/logs/debug/external_data/last-response-textbelt.log', $textbelt_response);
             }
           
@@ -1239,7 +1239,7 @@ var $oct_array1 = array();
           // Textlocal
           // To be safe, don't use trim() on certain strings with arbitrary non-alphanumeric characters here
           // Only run if textbelt API isn't being used to avoid double texts
-          if ( $msg_data != '' && $oct_conf['comms']['textlocal_account'] != '' && trim($oct_conf['comms']['textbelt_apikey']) == '' && preg_match("/textlocal/i", $queued_cache_file) ) {  
+          if ( $msg_data != '' && $ct_conf['comms']['textlocal_account'] != '' && trim($ct_conf['comms']['textbelt_apikey']) == '' && preg_match("/textlocal/i", $queued_cache_file) ) {  
             
           $textlocal_params['message'] = $msg_data;
             
@@ -1253,7 +1253,7 @@ var $oct_array1 = array();
           
           $msg_sent = 1;
             
-            if ( $oct_conf['dev']['debug'] == 'all' || $oct_conf['dev']['debug'] == 'all_telemetry' || $oct_conf['dev']['debug'] == 'api_comms_telemetry' ) {
+            if ( $ct_conf['dev']['debug'] == 'all' || $ct_conf['dev']['debug'] == 'all_telemetry' || $ct_conf['dev']['debug'] == 'api_comms_telemetry' ) {
             $this->save_file($base_dir . '/cache/logs/debug/external_data/last-response-textlocal.log', $textlocal_response);
             }
           
@@ -1270,7 +1270,7 @@ var $oct_array1 = array();
           $telegram_sleep = 1 * $processed_msgs['telegram_count'];
           sleep($telegram_sleep);
             
-          $telegram_response = $oct_gen->telegram_msg($msg_data, $telegram_user_data['message']['chat']['id']);
+          $telegram_response = $ct_gen->telegram_msg($msg_data, $telegram_user_data['message']['chat']['id']);
           
              if ( $telegram_response != false ) {
               
@@ -1282,11 +1282,11 @@ var $oct_array1 = array();
               
              }
              else {
-             $oct_gen->log( 'system_error', 'Telegram sending failed', $telegram_response);
+             $ct_gen->log( 'system_error', 'Telegram sending failed', $telegram_response);
              }
               
             
-             if ( $oct_conf['dev']['debug'] == 'all' || $oct_conf['dev']['debug'] == 'all_telemetry' || $oct_conf['dev']['debug'] == 'api_comms_telemetry' ) {
+             if ( $ct_conf['dev']['debug'] == 'all' || $ct_conf['dev']['debug'] == 'all_telemetry' || $ct_conf['dev']['debug'] == 'api_comms_telemetry' ) {
              $this->save_file($base_dir . '/cache/logs/debug/external_data/last-response-telegram.log', $telegram_response);
              }
           
@@ -1299,7 +1299,7 @@ var $oct_array1 = array();
           // Text email
           // To be safe, don't use trim() on certain strings with arbitrary non-alphanumeric characters here
           // Only use text-to-email if other text services aren't configured
-          if ( $oct_gen->valid_email( $oct_gen->text_email($oct_conf['comms']['to_mobile_text']) ) == 'valid' && trim($oct_conf['comms']['textbelt_apikey']) == '' && $oct_conf['comms']['textlocal_account'] == '' && preg_match("/textemail/i", $queued_cache_file) ) {
+          if ( $ct_gen->valid_email( $ct_gen->text_email($ct_conf['comms']['to_mobile_text']) ) == 'valid' && trim($ct_conf['comms']['textbelt_apikey']) == '' && $ct_conf['comms']['textlocal_account'] == '' && preg_match("/textemail/i", $queued_cache_file) ) {
             
           $textemail_array = json_decode($msg_data, true);
             
@@ -1322,7 +1322,7 @@ var $oct_array1 = array();
               $text_sleep = 1 * $processed_msgs['text_count'];
               sleep($text_sleep);
                
-              $result = @$oct_gen->safe_mail( $oct_gen->text_email($oct_conf['comms']['to_mobile_text']) , $textemail_array['subject'], $textemail_array['message'], $textemail_array['content_type'], $textemail_array['charset']);
+              $result = @$ct_gen->safe_mail( $ct_gen->text_email($ct_conf['comms']['to_mobile_text']) , $textemail_array['subject'], $textemail_array['message'], $textemail_array['content_type'], $textemail_array['charset']);
                
                  if ( $result == true ) {
                  
@@ -1335,10 +1335,10 @@ var $oct_array1 = array();
                  }
                  else {
                  	
-                 $oct_gen->log(
+                 $ct_gen->log(
                  			'system_error',
                  			'Email-to-mobile-text sending failed',
-                 			'to_text_email: ' . $oct_gen->text_email($oct_conf['comms']['to_mobile_text']) . '; from: ' . $oct_conf['comms']['from_email'] . '; subject: ' . $textemail_array['subject'] . '; function_response: ' . $result . ';'
+                 			'to_text_email: ' . $ct_gen->text_email($ct_conf['comms']['to_mobile_text']) . '; from: ' . $ct_conf['comms']['from_email'] . '; subject: ' . $textemail_array['subject'] . '; function_response: ' . $result . ';'
                  			);
                  
                  }
@@ -1352,7 +1352,7 @@ var $oct_array1 = array();
             
             
           // Normal email
-          if ( $oct_gen->valid_email($oct_conf['comms']['to_email']) == 'valid' && preg_match("/normalemail/i", $queued_cache_file) ) {
+          if ( $ct_gen->valid_email($ct_conf['comms']['to_email']) == 'valid' && preg_match("/normalemail/i", $queued_cache_file) ) {
             
           $email_array = json_decode($msg_data, true);
             
@@ -1375,7 +1375,7 @@ var $oct_array1 = array();
               $email_sleep = 1 * $processed_msgs['email_count'];
               sleep($email_sleep);
                
-              $result = @$oct_gen->safe_mail($oct_conf['comms']['to_email'], $email_array['subject'], $email_array['message'], $email_array['content_type'], $email_array['charset']);
+              $result = @$ct_gen->safe_mail($ct_conf['comms']['to_email'], $email_array['subject'], $email_array['message'], $email_array['content_type'], $email_array['charset']);
                
                  if ( $result == true ) {
                  
@@ -1388,10 +1388,10 @@ var $oct_array1 = array();
                  }
                  else {
                  	
-                 $oct_gen->log(
+                 $ct_gen->log(
                  			'system_error',
                  			'Email sending failed',
-                 			'to_email: ' . $oct_conf['comms']['to_email'] . '; from: ' . $oct_conf['comms']['from_email'] . '; subject: ' . $email_array['subject'] . '; function_response: ' . $result . ';'
+                 			'to_email: ' . $ct_conf['comms']['to_email'] . '; from: ' . $ct_conf['comms']['from_email'] . '; subject: ' . $email_array['subject'] . '; function_response: ' . $result . ';'
                  			);
                  
                  }
@@ -1419,13 +1419,13 @@ var $oct_array1 = array();
       
       
       // We are done processing the queue, so we can release the lock
-      fwrite($fp, $oct_gen->time_date_format(false, 'pretty_date_time'). " UTC (with file lock)\n");
+      fwrite($fp, $ct_gen->time_date_format(false, 'pretty_date_time'). " UTC (with file lock)\n");
       fflush($fp);            // flush output before releasing the lock
       flock($fp, LOCK_UN);    // release the lock
       $result = true;
       } 
       else {
-      fwrite($fp, $oct_gen->time_date_format(false, 'pretty_date_time'). " UTC (no file lock)\n");
+      fwrite($fp, $ct_gen->time_date_format(false, 'pretty_date_time'). " UTC (no file lock)\n");
       $result = false; // Another runtime instance was already processing the queue, so skip processing and return false
       }
      
@@ -1441,7 +1441,7 @@ var $oct_array1 = array();
       // Does the current runtime user own this file?
       if ( isset($current_runtime_user) && $current_runtime_user == $file_owner_info['name'] ) {
       
-      $chmod_setting = octdec($oct_conf['dev']['chmod_cache_file']);
+      $chmod_setting = octdec($ct_conf['dev']['chmod_cache_file']);
       
         // Run chmod compatibility on certain PHP setups
         if ( !$http_runtime_user || isset($http_runtime_user) && in_array($http_runtime_user, $possible_http_users) ) {
@@ -1452,7 +1452,7 @@ var $oct_array1 = array();
        
           if ( !$did_chmod ) {
           	
-          $oct_gen->log(
+          $ct_gen->log(
           			'system_error',
           							
           			'Chmod failed for file "' . $queued_msgs_processing_lock_file . '" (check permissions for the path "' . $path_parts['dirname'] . '", and the file "' . $path_parts['basename'] . '")',
@@ -1485,9 +1485,9 @@ var $oct_array1 = array();
   
   function ext_data($mode, $request_params, $ttl, $api_server=null, $post_encoding=3, $test_proxy=null, $headers=null) { // Default to JSON encoding post requests (most used)
   
-  // $oct_conf['gen']['btc_prim_currency_pairing'] / $oct_conf['gen']['btc_prim_exchange'] / $sel_opt['sel_btc_prim_currency_val'] USED FOR TRACE DEBUGGING (TRACING)
+  // $ct_conf['gen']['btc_prim_currency_pairing'] / $ct_conf['gen']['btc_prim_exchange'] / $sel_opt['sel_btc_prim_currency_val'] USED FOR TRACE DEBUGGING (TRACING)
   
-  global $base_dir, $base_url, $oct_conf, $oct_var, $oct_gen, $sel_opt, $proxy_checkup, $logs_array, $limited_api_calls, $api_runtime_cache, $user_agent, $api_connections, $defipulse_api_limit, $htaccess_username, $htaccess_password;
+  global $base_dir, $base_url, $ct_conf, $ct_var, $ct_gen, $sel_opt, $proxy_checkup, $logs_array, $limited_api_calls, $api_runtime_cache, $user_agent, $api_connections, $defipulse_api_limit, $htaccess_username, $htaccess_password;
   
   $cookie_jar = tempnam('/tmp','cookie');
    
@@ -1496,7 +1496,7 @@ var $oct_array1 = array();
   
   $api_endpoint = ( $mode == 'params' ? $api_server : $request_params );
      
-  $endpoint_tld_or_ip = $oct_gen->get_tld_or_ip($api_endpoint);
+  $endpoint_tld_or_ip = $ct_gen->get_tld_or_ip($api_endpoint);
   
   $tld_session_prefix = preg_replace("/\./i", "_", $endpoint_tld_or_ip);
     
@@ -1535,7 +1535,7 @@ var $oct_array1 = array();
     
     // Size of data, for checks in error log UX logic
     $data_bytes = strlen($data);
-    $data_bytes_ux = $oct_gen->conv_bytes($data_bytes, 2);
+    $data_bytes_ux = $ct_gen->conv_bytes($data_bytes, 2);
     
      
       if ( $data == 'none' ) {
@@ -1551,18 +1551,18 @@ var $oct_array1 = array();
        
       // Don't log this error again during THIS runtime, as it would be a duplicate...just overwrite same error message, BUT update the error count in it
       
-      $oct_gen->log(
+      $ct_gen->log(
       			'cache_error',
       							
-      			'no RUNTIME CACHE data from failure with ' . ( $mode == 'params' ? 'server at ' : 'endpoint at ' ) . $oct_gen->obfusc_url_data($api_endpoint),
+      			'no RUNTIME CACHE data from failure with ' . ( $mode == 'params' ? 'server at ' : 'endpoint at ' ) . $ct_gen->obfusc_url_data($api_endpoint),
       							
-      			'requested_from: cache ('.$logs_array['error_duplicates'][$hash_check].' runtime instances); mode: ' . $mode . '; received: ' . $data_bytes_ux . '; proxy: ' .( $current_proxy ? $current_proxy : 'none' ) . '; hash_check: ' . $oct_var->obfuscate_str($hash_check, 4) . ';',
+      			'requested_from: cache ('.$logs_array['error_duplicates'][$hash_check].' runtime instances); mode: ' . $mode . '; received: ' . $data_bytes_ux . '; proxy: ' .( $current_proxy ? $current_proxy : 'none' ) . '; hash_check: ' . $ct_var->obfuscate_str($hash_check, 4) . ';',
       							
       			$hash_check
       			);
        
       }
-      elseif ( $oct_conf['dev']['debug'] == 'all' || $oct_conf['dev']['debug'] == 'all_telemetry' || $oct_conf['dev']['debug'] == 'ext_data_cache_telemetry' ) {
+      elseif ( $ct_conf['dev']['debug'] == 'all' || $ct_conf['dev']['debug'] == 'all_telemetry' || $ct_conf['dev']['debug'] == 'ext_data_cache_telemetry' ) {
       
       
         if ( !$logs_array['debug_duplicates'][$hash_check] ) {
@@ -1575,12 +1575,12 @@ var $oct_array1 = array();
        
       // Don't log this debugging again during THIS runtime, as it would be a duplicate...just overwrite same debugging message, BUT update the debugging count in it
       
-      $oct_gen->log(
+      $ct_gen->log(
       			'cache_debug',
       							
-      			'RUNTIME CACHE request for ' . ( $mode == 'params' ? 'server at ' : 'endpoint at ' ) . $oct_gen->obfusc_url_data($api_endpoint),
+      			'RUNTIME CACHE request for ' . ( $mode == 'params' ? 'server at ' : 'endpoint at ' ) . $ct_gen->obfusc_url_data($api_endpoint),
       							
-      			'requested_from: cache ('.$logs_array['debug_duplicates'][$hash_check].' runtime instances); mode: ' . $mode . '; received: ' . $data_bytes_ux . '; proxy: ' .( $current_proxy ? $current_proxy : 'none' ) . '; hash_check: ' . $oct_var->obfuscate_str($hash_check, 4) . ';',
+      			'requested_from: cache ('.$logs_array['debug_duplicates'][$hash_check].' runtime instances); mode: ' . $mode . '; received: ' . $data_bytes_ux . '; proxy: ' .( $current_proxy ? $current_proxy : 'none' ) . '; hash_check: ' . $ct_var->obfuscate_str($hash_check, 4) . ';',
       							
       			$hash_check
       			);
@@ -1620,10 +1620,10 @@ var $oct_array1 = array();
       }
     
     
-      // Throttled endpoints in $oct_conf['dev']['limited_apis']
+      // Throttled endpoints in $ct_conf['dev']['limited_apis']
       // If this is an API service that requires multiple calls (for each market), 
       // and a request to it has been made consecutively, we throttle it to avoid being blocked / throttled by external server
-      if ( in_array($endpoint_tld_or_ip, $oct_conf['dev']['limited_apis']) ) {
+      if ( in_array($endpoint_tld_or_ip, $ct_conf['dev']['limited_apis']) ) {
       
         if ( !$limited_api_calls[$tld_session_prefix . '_calls'] ) {
         $limited_api_calls[$tld_session_prefix . '_calls'] = 1;
@@ -1646,9 +1646,9 @@ var $oct_array1 = array();
       
       
       // If proxies are configured
-      if ( sizeof($oct_conf['proxy']['proxy_list']) > 0 ) {
+      if ( sizeof($ct_conf['proxy']['proxy_list']) > 0 ) {
        
-      $current_proxy = ( $mode == 'proxy-check' && $test_proxy != null ? $test_proxy : $oct_var->random_array_var($oct_conf['proxy']['proxy_list']) );
+      $current_proxy = ( $mode == 'proxy-check' && $test_proxy != null ? $test_proxy : $ct_var->random_array_var($ct_conf['proxy']['proxy_list']) );
       
       // Check for valid proxy config
       $ip_port = explode(':', $current_proxy);
@@ -1658,7 +1658,7 @@ var $oct_array1 = array();
     
         // If no ip/port detected in data string, cancel and continue runtime
         if ( !$ip || !$port ) {
-        $oct_gen->log('ext_data_error', 'proxy '.$current_proxy.' is not a valid format');
+        $ct_gen->log('ext_data_error', 'proxy '.$current_proxy.' is not a valid format');
         return false;
         }
     
@@ -1667,9 +1667,9 @@ var $oct_array1 = array();
       curl_setopt($ch, CURLOPT_HTTPPROXYTUNNEL, true);  
       
         // To be safe, don't use trim() on certain strings with arbitrary non-alphanumeric characters here
-        if ( $oct_conf['proxy']['proxy_login'] != ''  ) {
+        if ( $ct_conf['proxy']['proxy_login'] != ''  ) {
        
-        $user_pass = explode('||', $oct_conf['proxy']['proxy_login']);
+        $user_pass = explode('||', $ct_conf['proxy']['proxy_login']);
          
         curl_setopt($ch, CURLOPT_HTTPAUTH, CURLAUTH_ANY);
         curl_setopt($ch, CURLOPT_PROXYUSERPWD, $user_pass[0] . ':' . $user_pass[1]); // DO NOT ENCAPSULATE PHP USER/PASS VARS IN QUOTES, IT BREAKS THE FEATURE
@@ -1705,8 +1705,8 @@ var $oct_array1 = array();
     curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
     curl_setopt($ch, CURLOPT_MAXREDIRS, 5);
-    curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, $oct_conf['power']['remote_api_timeout']);
-    curl_setopt($ch, CURLOPT_TIMEOUT, $oct_conf['power']['remote_api_timeout']);
+    curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, $ct_conf['power']['remote_api_timeout']);
+    curl_setopt($ch, CURLOPT_TIMEOUT, $ct_conf['power']['remote_api_timeout']);
     
      
      // Medium / Reddit (and maybe whatbitcoindid) are a bit funky with allowed user agents, so we need to let them know this is a real feed parser (not just a spammy bot)
@@ -1732,10 +1732,10 @@ var $oct_array1 = array();
       
       // We don't want strict SSL checks if this is our app calling itself (as we may be running our own self-signed certificate)
       // (app running an external check on its htaccess, etc)
-      $regex_base_url = $oct_gen->regex_compat_url($base_url);
+      $regex_base_url = $ct_gen->regex_compat_url($base_url);
        
       // Secure random hash to nullify any preg_match() below, as we are submitting out htaccess user/pass if setup
-      $scan_base_url = ( $regex_base_url != '' ? $regex_base_url : $oct_gen->rand_hash(8) );
+      $scan_base_url = ( $regex_base_url != '' ? $regex_base_url : $ct_gen->rand_hash(8) );
       
        
         if ( isset($scan_base_url) && preg_match("/".$scan_base_url."/i", $api_endpoint) ) {
@@ -1752,7 +1752,7 @@ var $oct_array1 = array();
         
         }
         else {
-        $remote_api_strict_ssl = $oct_conf['dev']['remote_api_strict_ssl'];
+        $remote_api_strict_ssl = $ct_conf['dev']['remote_api_strict_ssl'];
         }
        
       
@@ -1785,7 +1785,7 @@ var $oct_array1 = array();
     
     // Size of data, for checks in error log UX logic
     $data_bytes = strlen($data);
-    $data_bytes_ux = $oct_gen->conv_bytes($data_bytes, 2);
+    $data_bytes_ux = $ct_gen->conv_bytes($data_bytes, 2);
     
     
       // IF DEBUGGING FOR PROBLEM ENDPOINT IS ENABLED
@@ -1852,19 +1852,19 @@ var $oct_array1 = array();
      
       
       // LOG-SAFE VERSION (no post data with API keys etc)
-      $oct_gen->log(
+      $ct_gen->log(
       			'ext_data_error',
       							
-      			'connection failed ('.$data_bytes_ux.' received) for ' . ( $mode == 'params' ? 'server at ' : 'endpoint at ' ) . $oct_gen->obfusc_url_data($api_endpoint) . $log_append,
+      			'connection failed ('.$data_bytes_ux.' received) for ' . ( $mode == 'params' ? 'server at ' : 'endpoint at ' ) . $ct_gen->obfusc_url_data($api_endpoint) . $log_append,
       							
-      			'requested_from: server (' . $oct_conf['power']['remote_api_timeout'] . ' second timeout); live_request_time: ' . $api_total_time . ' seconds; mode: ' . $mode . '; received: ' . $data_bytes_ux . '; proxy: ' .( $current_proxy ? $current_proxy : 'none' ) . '; hash_check: ' . $oct_var->obfuscate_str($hash_check, 4) . ';'
+      			'requested_from: server (' . $ct_conf['power']['remote_api_timeout'] . ' second timeout); live_request_time: ' . $api_total_time . ' seconds; mode: ' . $mode . '; received: ' . $data_bytes_ux . '; proxy: ' .( $current_proxy ? $current_proxy : 'none' ) . '; hash_check: ' . $ct_var->obfuscate_str($hash_check, 4) . ';'
       			);
       
       
-        if ( sizeof($oct_conf['proxy']['proxy_list']) > 0 && $current_proxy != '' && $mode != 'proxy-check' ) { // Avoid infinite loops doing proxy checks
+        if ( sizeof($ct_conf['proxy']['proxy_list']) > 0 && $current_proxy != '' && $mode != 'proxy-check' ) { // Avoid infinite loops doing proxy checks
      
         $proxy_checkup[] = array(
-                    			'endpoint' => ( $mode == 'params' ? 'server at ' : 'endpoint at ' ) . $oct_gen->obfusc_url_data($api_endpoint),
+                    			'endpoint' => ( $mode == 'params' ? 'server at ' : 'endpoint at ' ) . $ct_gen->obfusc_url_data($api_endpoint),
                     			'proxy' => $current_proxy
                     			);
                     
@@ -1898,18 +1898,18 @@ var $oct_array1 = array();
             // MUST RUN BEFORE FALLBACK ATTEMPT TO CACHED DATA
             // If response seems to contain an error message ('error' only found once, no words containing 'error')
             // DON'T ADD TOO MANY CHECKS HERE, OR RUNTIME WILL SLOW SIGNIFICANTLY!!
-            if ( $oct_var->substri_count($data, 'error') == 1 && !preg_match("/terror/i", $data) ) {
+            if ( $ct_var->substri_count($data, 'error') == 1 && !preg_match("/terror/i", $data) ) {
              
             // Log full results to file, WITH UNIQUE TIMESTAMP IN FILENAME TO AVOID OVERWRITES (FOR ADEQUATE DEBUGGING REVIEW)
             $error_response_log = '/cache/logs/error/external_data/error-response-'.preg_replace("/\./", "_", $endpoint_tld_or_ip).'-hash-'.$hash_check.'-timestamp-'.time().'.log';
             
             // LOG-SAFE VERSION (no post data with API keys etc)
-             $oct_gen->log(
+             $ct_gen->log(
              			'ext_data_error',
              							
-             			'POSSIBLE error for ' . ( $mode == 'params' ? 'server at ' : 'endpoint at ' ) . $oct_gen->obfusc_url_data($api_endpoint),
+             			'POSSIBLE error for ' . ( $mode == 'params' ? 'server at ' : 'endpoint at ' ) . $ct_gen->obfusc_url_data($api_endpoint),
              							
-             			'requested_from: server (' . $oct_conf['power']['remote_api_timeout'] . ' second timeout); live_request_time: ' . $api_total_time . ' seconds; mode: ' . $mode . '; received: ' . $data_bytes_ux . '; proxy: ' .( $current_proxy ? $current_proxy : 'none' ) . '; debug_file: ' . $error_response_log . '; btc_prim_currency_pairing: ' . $oct_conf['gen']['btc_prim_currency_pairing'] . '; btc_prim_exchange: ' . $oct_conf['gen']['btc_prim_exchange'] . '; sel_btc_prim_currency_val: ' . $oct_var->num_to_str($sel_opt['sel_btc_prim_currency_val']) . '; hash_check: ' . $oct_var->obfuscate_str($hash_check, 4) . ';'
+             			'requested_from: server (' . $ct_conf['power']['remote_api_timeout'] . ' second timeout); live_request_time: ' . $api_total_time . ' seconds; mode: ' . $mode . '; received: ' . $data_bytes_ux . '; proxy: ' .( $current_proxy ? $current_proxy : 'none' ) . '; debug_file: ' . $error_response_log . '; btc_prim_currency_pairing: ' . $ct_conf['gen']['btc_prim_currency_pairing'] . '; btc_prim_exchange: ' . $ct_conf['gen']['btc_prim_exchange'] . '; sel_btc_prim_currency_val: ' . $ct_var->num_to_str($sel_opt['sel_btc_prim_currency_val']) . '; hash_check: ' . $ct_var->obfuscate_str($hash_check, 4) . ';'
              			);
             
             // Log this error response from this data request
@@ -1976,12 +1976,12 @@ var $oct_array1 = array();
              
              
             // LOG-SAFE VERSION (no post data with API keys etc)
-            $oct_gen->log(
+            $ct_gen->log(
             			'ext_data_error',
             							
-            			'CONFIRMED error for ' . ( $mode == 'params' ? 'server at ' : 'endpoint at ' ) . $oct_gen->obfusc_url_data($api_endpoint) . $log_append,
+            			'CONFIRMED error for ' . ( $mode == 'params' ? 'server at ' : 'endpoint at ' ) . $ct_gen->obfusc_url_data($api_endpoint) . $log_append,
             							
-            			'requested_from: server (' . $oct_conf['power']['remote_api_timeout'] . ' second timeout); live_request_time: ' . $api_total_time . ' seconds; mode: ' . $mode . '; received: ' . $data_bytes_ux . '; proxy: ' .( $current_proxy ? $current_proxy : 'none' ) . '; btc_prim_currency_pairing: ' . $oct_conf['gen']['btc_prim_currency_pairing'] . '; btc_prim_exchange: ' . $oct_conf['gen']['btc_prim_exchange'] . '; sel_btc_prim_currency_val: ' . $oct_var->num_to_str($sel_opt['sel_btc_prim_currency_val']) . '; hash_check: ' . $oct_var->obfuscate_str($hash_check, 4) . ';'
+            			'requested_from: server (' . $ct_conf['power']['remote_api_timeout'] . ' second timeout); live_request_time: ' . $api_total_time . ' seconds; mode: ' . $mode . '; received: ' . $data_bytes_ux . '; proxy: ' .( $current_proxy ? $current_proxy : 'none' ) . '; btc_prim_currency_pairing: ' . $ct_conf['gen']['btc_prim_currency_pairing'] . '; btc_prim_exchange: ' . $ct_conf['gen']['btc_prim_exchange'] . '; sel_btc_prim_currency_val: ' . $ct_var->num_to_str($sel_opt['sel_btc_prim_currency_val']) . '; hash_check: ' . $ct_var->obfuscate_str($hash_check, 4) . ';'
             			);
              
            
@@ -1995,15 +1995,15 @@ var $oct_array1 = array();
       
       
         // Data debugging telemetry
-        if ( $oct_conf['dev']['debug'] == 'all' || $oct_conf['dev']['debug'] == 'all_telemetry' || $oct_conf['dev']['debug'] == 'ext_data_live_telemetry' ) {
+        if ( $ct_conf['dev']['debug'] == 'all' || $ct_conf['dev']['debug'] == 'all_telemetry' || $ct_conf['dev']['debug'] == 'ext_data_live_telemetry' ) {
          
         // LOG-SAFE VERSION (no post data with API keys etc)
-        $oct_gen->log(
+        $ct_gen->log(
         			'ext_data_debug',
         								
-        			'LIVE request for ' . ( $mode == 'params' ? 'server at ' : 'endpoint at ' ) . $oct_gen->obfusc_url_data($api_endpoint),
+        			'LIVE request for ' . ( $mode == 'params' ? 'server at ' : 'endpoint at ' ) . $ct_gen->obfusc_url_data($api_endpoint),
         								
-        			'requested_from: server (' . $oct_conf['power']['remote_api_timeout'] . ' second timeout); live_request_time: ' . $api_total_time . ' seconds; mode: ' . $mode . '; received: ' . $data_bytes_ux . '; proxy: ' .( $current_proxy ? $current_proxy : 'none' ) . '; hash_check: ' . $oct_var->obfuscate_str($hash_check, 4) . ';'
+        			'requested_from: server (' . $ct_conf['power']['remote_api_timeout'] . ' second timeout); live_request_time: ' . $api_total_time . ' seconds; mode: ' . $mode . '; received: ' . $data_bytes_ux . '; proxy: ' .( $current_proxy ? $current_proxy : 'none' ) . '; hash_check: ' . $ct_var->obfuscate_str($hash_check, 4) . ';'
         			);
         
         // Log this as the latest response from this data request
@@ -2035,18 +2035,18 @@ var $oct_array1 = array();
        
         if ( $store_file_contents == false && isset($fallback_cache_data) ) {
         	
-        $oct_gen->log(
+        $ct_gen->log(
         			'ext_data_error',
-        			'Cache file touch() error for ' . ( $mode == 'params' ? 'server at ' : 'endpoint at ' ) . $oct_gen->obfusc_url_data($api_endpoint),
+        			'Cache file touch() error for ' . ( $mode == 'params' ? 'server at ' : 'endpoint at ' ) . $ct_gen->obfusc_url_data($api_endpoint),
         			'data_size_bytes: ' . strlen($api_runtime_cache[$hash_check]) . ' bytes'
         			);
         
         }
         elseif ( $store_file_contents == false && !isset($fallback_cache_data) ) {
         	
-        $oct_gen->log(
+        $ct_gen->log(
         			'ext_data_error',
-        			'Cache file write error for ' . ( $mode == 'params' ? 'server at ' : 'endpoint at ' ) . $oct_gen->obfusc_url_data($api_endpoint),
+        			'Cache file write error for ' . ( $mode == 'params' ? 'server at ' : 'endpoint at ' ) . $ct_gen->obfusc_url_data($api_endpoint),
         			'data_size_bytes: ' . strlen($api_runtime_cache[$hash_check]) . ' bytes'
         			);
         
@@ -2060,14 +2060,14 @@ var $oct_array1 = array();
      
    
       // API timeout limit near / exceeded warning (ONLY IF THIS ISN'T A DATA FAILURE)
-      if ( $data_bytes > 0 && $oct_var->num_to_str($oct_conf['power']['remote_api_timeout'] - 1) <= $oct_var->num_to_str($api_total_time) ) {
+      if ( $data_bytes > 0 && $ct_var->num_to_str($ct_conf['power']['remote_api_timeout'] - 1) <= $ct_var->num_to_str($api_total_time) ) {
       	
-      $oct_gen->log(
+      $ct_gen->log(
       			'notify_error',
       							
-      			'Remote API timeout near OR exceeded for ' . ( $mode == 'params' ? 'server at ' : 'endpoint at ' ) . $oct_gen->obfusc_url_data($api_endpoint) . ' (' . $api_total_time . ' seconds / received ' . $data_bytes_ux . '), consider setting "remote_api_timeout" higher in POWER USER config if this persists OFTEN',
+      			'Remote API timeout near OR exceeded for ' . ( $mode == 'params' ? 'server at ' : 'endpoint at ' ) . $ct_gen->obfusc_url_data($api_endpoint) . ' (' . $api_total_time . ' seconds / received ' . $data_bytes_ux . '), consider setting "remote_api_timeout" higher in POWER USER config if this persists OFTEN',
       							
-      			'remote_api_timeout: ' . $oct_conf['power']['remote_api_timeout'] . ' seconds; live_request_time: ' . $api_total_time . ' seconds; mode: ' . $mode . '; received: ' . $data_bytes_ux . ';',
+      			'remote_api_timeout: ' . $ct_conf['power']['remote_api_timeout'] . ' seconds; live_request_time: ' . $api_total_time . ' seconds; mode: ' . $mode . '; received: ' . $data_bytes_ux . ';',
       							
       			$hash_check
       			);
@@ -2104,7 +2104,7 @@ var $oct_array1 = array();
     
     // Size of data, for checks in error log UX logic
     $data_bytes = strlen($data);
-    $data_bytes_ux = $oct_gen->conv_bytes($data_bytes, 2);
+    $data_bytes_ux = $ct_gen->conv_bytes($data_bytes, 2);
     
      
       if ( $data == 'none' || !isset($fallback_cache_data) ) {
@@ -2118,18 +2118,18 @@ var $oct_array1 = array();
        
       // Don't log this error again during THIS runtime, as it would be a duplicate...just overwrite same error message, BUT update the error count in it
       
-      $oct_gen->log(
+      $ct_gen->log(
       			'cache_error',
       							
-      			'no FILE CACHE data from failure with ' . ( $mode == 'params' ? 'server at ' : 'endpoint at ' ) . $oct_gen->obfusc_url_data($api_endpoint),
+      			'no FILE CACHE data from failure with ' . ( $mode == 'params' ? 'server at ' : 'endpoint at ' ) . $ct_gen->obfusc_url_data($api_endpoint),
       							
-      			'requested_from: cache ('.$logs_array['error_duplicates'][$hash_check].' runtime instances); mode: ' . $mode . '; received: ' . $data_bytes_ux . '; proxy: ' .( $current_proxy ? $current_proxy : 'none' ) . '; hash_check: ' . $oct_var->obfuscate_str($hash_check, 4) . ';',
+      			'requested_from: cache ('.$logs_array['error_duplicates'][$hash_check].' runtime instances); mode: ' . $mode . '; received: ' . $data_bytes_ux . '; proxy: ' .( $current_proxy ? $current_proxy : 'none' ) . '; hash_check: ' . $ct_var->obfuscate_str($hash_check, 4) . ';',
       							
       			$hash_check
       			);
        
       }
-      elseif ( $oct_conf['dev']['debug'] == 'all' || $oct_conf['dev']['debug'] == 'all_telemetry' || $oct_conf['dev']['debug'] == 'ext_data_cache_telemetry' ) {
+      elseif ( $ct_conf['dev']['debug'] == 'all' || $ct_conf['dev']['debug'] == 'all_telemetry' || $ct_conf['dev']['debug'] == 'ext_data_cache_telemetry' ) {
       
         if ( !$logs_array['debug_duplicates'][$hash_check] ) {
         $logs_array['debug_duplicates'][$hash_check] = 1; 
@@ -2140,12 +2140,12 @@ var $oct_array1 = array();
        
       // Don't log this debugging again during THIS runtime, as it would be a duplicate...just overwrite same debugging message, BUT update the debugging count in it
       
-      $oct_gen->log(
+      $ct_gen->log(
       			'cache_debug',
       							
-      			'FILE CACHE request for ' . ( $mode == 'params' ? 'server at ' : 'endpoint at ' ) . $oct_gen->obfusc_url_data($api_endpoint),
+      			'FILE CACHE request for ' . ( $mode == 'params' ? 'server at ' : 'endpoint at ' ) . $ct_gen->obfusc_url_data($api_endpoint),
       							
-      			'requested_from: cache ('.$logs_array['debug_duplicates'][$hash_check].' runtime instances); mode: ' . $mode . '; received: ' . $data_bytes_ux . '; proxy: ' .( $current_proxy ? $current_proxy : 'none' ) . '; hash_check: ' . $oct_var->obfuscate_str($hash_check, 4) . ';',
+      			'requested_from: cache ('.$logs_array['debug_duplicates'][$hash_check].' runtime instances); mode: ' . $mode . '; received: ' . $data_bytes_ux . '; proxy: ' .( $current_proxy ? $current_proxy : 'none' ) . '; hash_check: ' . $ct_var->obfuscate_str($hash_check, 4) . ';',
       							
       			$hash_check
       			);
@@ -2158,8 +2158,8 @@ var $oct_array1 = array();
   
    
     // Defipulse API limit exceeded detection (FAILSAFE AT END OF FUNCTION before returning, whether live OR cache)
-    if ( $endpoint_tld_or_ip == 'defipulse.com' && trim($oct_conf['gen']['defipulse_key']) != null && preg_match("/API limit exceeded/i", $data) ) {
-    $oct_gen->log('notify_error', 'DeFiPulse.com monthly API limit exceeded (check your account there)', false, 'defipulsecom_api_limit');
+    if ( $endpoint_tld_or_ip == 'defipulse.com' && trim($ct_conf['gen']['defipulse_key']) != null && preg_match("/API limit exceeded/i", $data) ) {
+    $ct_gen->log('notify_error', 'DeFiPulse.com monthly API limit exceeded (check your account there)', false, 'defipulsecom_api_limit');
     $defipulse_api_limit = true;
     }
   

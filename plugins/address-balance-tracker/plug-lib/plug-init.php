@@ -14,11 +14,11 @@ foreach ( $plug_conf[$this_plug]['tracking'] as $target_key => $target_val ) {
 // Clear any previous loop's $cache_reset var
 $cache_reset = false;
 	
-$balance_tracking_cache_file = $oct_plug->alert_cache($target_key . '.dat');
+$balance_tracking_cache_file = $ct_plug->alert_cache($target_key . '.dat');
 
 
 	// If it's too early to re-send an alert again, skip this entry
-	if ( $oct_cache->update_cache($balance_tracking_cache_file, $plug_conf[$this_plug]['alerts_freq_max']) == false ) {
+	if ( $ct_cache->update_cache($balance_tracking_cache_file, $plug_conf[$this_plug]['alerts_freq_max']) == false ) {
 	continue;
 	}
 
@@ -29,15 +29,15 @@ $label = trim($target_val['label']);
 
 
 // Only getting BTC value for non-bitcoin assets is supported
-// SUPPORTED even for BTC ( $oct_asset->pairing_btc_val('btc') ALWAYS = 1 )
-$pairing_btc_val = $oct_asset->pairing_btc_val($asset); 
+// SUPPORTED even for BTC ( $ct_asset->pairing_btc_val('btc') ALWAYS = 1 )
+$pairing_btc_val = $ct_asset->pairing_btc_val($asset); 
   	 
   	 
 	if ( $pairing_btc_val == null ) {
 		
-	$oct_gen->log(
+	$ct_gen->log(
 				'market_error',
-				'oct_asset->pairing_btc_val(\''.$asset.'\') returned null in the \''.$this_plug.'\' plugin, likely from exchange API request failure'
+				'ct_asset->pairing_btc_val(\''.$asset.'\') returned null in the \''.$this_plug.'\' plugin, likely from exchange API request failure'
 				);
 	
 	}
@@ -62,11 +62,11 @@ $pairing_btc_val = $oct_asset->pairing_btc_val($asset);
 	
 
 // Get primary currency value of the current address balance
-$asset_prim_currency_worth_raw = $oct_var->num_to_str( ($address_balance * $pairing_btc_val) * $sel_opt['sel_btc_prim_currency_val'] );
+$asset_prim_currency_worth_raw = $ct_var->num_to_str( ($address_balance * $pairing_btc_val) * $sel_opt['sel_btc_prim_currency_val'] );
 
-$pretty_prim_currency_worth = $oct_var->num_pretty($asset_prim_currency_worth_raw, ( $asset_prim_currency_worth_raw >= 1.00 ? 2 : 5 ) );
+$pretty_prim_currency_worth = $ct_var->num_pretty($asset_prim_currency_worth_raw, ( $asset_prim_currency_worth_raw >= 1.00 ? 2 : 5 ) );
 
-$pretty_asset_amount = $oct_var->num_pretty($address_balance, 8);
+$pretty_asset_amount = $ct_var->num_pretty($address_balance, 8);
 
 	
 	// Get cache data, and / or flag a cache reset
@@ -76,7 +76,7 @@ $pretty_asset_amount = $oct_var->num_pretty($address_balance, 8);
 	
 	$cached_address = trim($balance_tracking_cache_data[0]);
 	
-	$cached_address_balance = $oct_var->num_to_str($balance_tracking_cache_data[1]);
+	$cached_address_balance = $ct_var->num_to_str($balance_tracking_cache_data[1]);
 	
 		// If user changed the address in the config OR no address detected in cache, flag a reset
 		if ( !$cached_address || $address != $cached_address ) {
@@ -90,7 +90,7 @@ $pretty_asset_amount = $oct_var->num_pretty($address_balance, 8);
 	
 	
 // DEBUGGING ONLY
-//$oct_cache->save_file( $oct_plug->alert_cache('debugging-' . $target_key . '.dat') , $cached_address_balance . '|' . $address_balance . '|' . $cache_reset );
+//$ct_cache->save_file( $ct_plug->alert_cache('debugging-' . $target_key . '.dat') , $cached_address_balance . '|' . $address_balance . '|' . $cache_reset );
 	
 	
 	// If a cache reset was flagged
@@ -98,7 +98,7 @@ $pretty_asset_amount = $oct_var->num_pretty($address_balance, 8);
 		
 	$new_cache_data = $address . '|' . $address_balance;
 	
-	$oct_cache->save_file($balance_tracking_cache_file, $new_cache_data);
+	$ct_cache->save_file($balance_tracking_cache_file, $new_cache_data);
 	
 	// Skip the rest, as this was setting / resetting cache data
 	continue;
@@ -110,7 +110,7 @@ $pretty_asset_amount = $oct_var->num_pretty($address_balance, 8);
 	if ( $address_balance != $cached_address_balance ) {
 		
 	// Balance change amount
-	$difference_amount = $oct_var->num_to_str( abs($cached_address_balance - $address_balance) );
+	$difference_amount = $ct_var->num_to_str( abs($cached_address_balance - $address_balance) );
 		
 		
 		if ( $address_balance > $cached_address_balance ) {
@@ -123,7 +123,7 @@ $pretty_asset_amount = $oct_var->num_pretty($address_balance, 8);
 		}
 
 
-	$base_msg = "The " . $label . " address balance has " . $direction . "d (" . $plus_minus . $difference_amount . " " . strtoupper($asset) . "), to a new balance of " . $pretty_asset_amount . " " . strtoupper($asset) . " (". $oct_conf['power']['btc_currency_markets'][ $oct_conf['gen']['btc_prim_currency_pairing'] ] . $pretty_prim_currency_worth . ").";
+	$base_msg = "The " . $label . " address balance has " . $direction . "d (" . $plus_minus . $difference_amount . " " . strtoupper($asset) . "), to a new balance of " . $pretty_asset_amount . " " . strtoupper($asset) . " (". $ct_conf['power']['btc_currency_markets'][ $ct_conf['gen']['btc_prim_currency_pairing'] ] . $pretty_prim_currency_worth . ").";
 
 
 		// Add blockchain explorer link to email message
@@ -138,16 +138,16 @@ $pretty_asset_amount = $oct_var->num_pretty($address_balance, 8);
 		}
 
 
-	$text_msg = $label . " address balance " . $direction . " (" . $plus_minus . $difference_amount . " " . strtoupper($asset) . "): " . $pretty_asset_amount . " " . strtoupper($asset) . " (". $oct_conf['power']['btc_currency_markets'][ $oct_conf['gen']['btc_prim_currency_pairing'] ] . $pretty_prim_currency_worth . ").";
+	$text_msg = $label . " address balance " . $direction . " (" . $plus_minus . $difference_amount . " " . strtoupper($asset) . "): " . $pretty_asset_amount . " " . strtoupper($asset) . " (". $ct_conf['power']['btc_currency_markets'][ $ct_conf['gen']['btc_prim_currency_pairing'] ] . $pretty_prim_currency_worth . ").";
               
     // Were're just adding a human-readable timestamp to smart home (audio) alerts
-    $notifyme_msg = $base_msg . ' Timestamp: ' . $oct_gen->time_date_format($oct_conf['gen']['loc_time_offset'], 'pretty_time') . '.';
+    $notifyme_msg = $base_msg . ' Timestamp: ' . $ct_gen->time_date_format($ct_conf['gen']['loc_time_offset'], 'pretty_time') . '.';
 
 
   	// Message parameter added for desired comm methods (leave any comm method blank to skip sending via that method)
   				
   	// Minimize function calls
-  	$encoded_text_msg = $oct_gen->charset_encode($text_msg); // Unicode support included for text messages (emojis / asian characters / etc )
+  	$encoded_text_msg = $ct_gen->charset_encode($text_msg); // Unicode support included for text messages (emojis / asian characters / etc )
   				
     $send_params = array(
    
@@ -170,12 +170,12 @@ $pretty_asset_amount = $oct_var->num_pretty($address_balance, 8);
           	
           	
 	// Send notifications
-	@$oct_cache->queue_notify($send_params);
+	@$ct_cache->queue_notify($send_params);
 	
 	// Cache new data
 	$new_cache_data = $address . '|' . $address_balance;
 	
-	$oct_cache->save_file($balance_tracking_cache_file, $new_cache_data);
+	$ct_cache->save_file($balance_tracking_cache_file, $new_cache_data);
 
 	}
 	// END notification

@@ -32,7 +32,7 @@
 	$bundle_error_logs .= $logs_array['other_error'];
 	
 	
-	if ( $oct_conf['dev']['debug'] != 'off' ) {
+	if ( $ct_conf['dev']['debug'] != 'off' ) {
 	
 	
 		foreach ( $logs_array['cache_debug'] as $error ) {
@@ -306,10 +306,10 @@
           
     	
     	// Proxy alerts (if setup by user, and any of them failed, test the failed proxies and log/alert if they seem offline)
-		if ( $oct_conf['comms']['proxy_alert'] != 'off' ) {
+		if ( $ct_conf['comms']['proxy_alert'] != 'off' ) {
 	
 			foreach ( $proxy_checkup as $problem_proxy ) {
-			$oct_gen->test_proxy($problem_proxy);
+			$ct_gen->test_proxy($problem_proxy);
 			sleep(1);
 			}
 
@@ -318,8 +318,8 @@
           	
           	
 		// Log errors, send notifications BEFORE runtime stats
-		$error_logs = $oct_cache->error_logs();
-		$oct_cache->send_notifications();
+		$error_logs = $ct_cache->error_logs();
+		$ct_cache->send_notifications();
 		
 		if ( $error_logs != true ) {
 		?>
@@ -338,32 +338,32 @@
 
 
 		// If debug mode is 'all' / 'all_telemetry' / 'stats'
-		if ( $oct_conf['dev']['debug'] == 'all' || $oct_conf['dev']['debug'] == 'all_telemetry' || $oct_conf['dev']['debug'] == 'stats' ) {
+		if ( $ct_conf['dev']['debug'] == 'all' || $ct_conf['dev']['debug'] == 'all_telemetry' || $ct_conf['dev']['debug'] == 'stats' ) {
 		
 			foreach ( $system_info as $key => $val ) {
 			$system_telemetry .= $key . ': ' . $val . '; ';
 			}
 			
 		// Log system stats
-		$oct_gen->log(
+		$ct_gen->log(
 									'system_debug',
 									'Hardware / software stats (requires log_verbosity set to verbose)',
 									$system_telemetry
 									);
 			
 		// Log user agent
-		$oct_gen->log('system_debug', 'USER AGENT is "' . $_SERVER['HTTP_USER_AGENT'] . '"');
+		$ct_gen->log('system_debug', 'USER AGENT is "' . $_SERVER['HTTP_USER_AGENT'] . '"');
 			
 		// Log runtime stats
-		$oct_gen->log('system_debug', strtoupper($runtime_mode).' runtime was ' . $total_runtime . ' seconds');
+		$ct_gen->log('system_debug', strtoupper($runtime_mode).' runtime was ' . $total_runtime . ' seconds');
 		
 		}
 		
 		
 		// Process debugging logs AFTER runtime stats
-		$debug_logs = $oct_cache->debug_logs();
+		$debug_logs = $ct_cache->debug_logs();
     		
-		if ( $oct_conf['dev']['debug'] != 'off' && $debug_logs != true ) {
+		if ( $ct_conf['dev']['debug'] != 'off' && $debug_logs != true ) {
 		?>
 		<div class="red" style='font-weight: bold;'><?=$debug_logs?></div>
 		<?php

@@ -9,11 +9,11 @@ Add to /templates/interface/desktop/php/footer.php when testing unicode mobile t
     	
     	//echo '<br /> ------ <br />';
     	
-    	//echo $oct_gen->unicode_to_utf8('x1f433', 'hexadecimal');
+    	//echo $ct_gen->unicode_to_utf8('x1f433', 'hexadecimal');
     	
     	//echo '<br /> ------ <br />';
     	
-    	//echo $oct_gen->utf8_to_unicode('🐳', 'hexadecimal');
+    	//echo $ct_gen->utf8_to_unicode('🐳', 'hexadecimal');
     	
     	//echo '<br /> ------ <br />';
     	
@@ -26,7 +26,7 @@ Add to /templates/interface/desktop/php/footer.php when testing unicode mobile t
   				// Message parameter added for desired comm methods (leave any comm method blank to skip sending via that method)
   				
   				// Minimize function calls
-  				//$encoded_text_msg = $oct_gen->charset_encode($test_phrase); // Unicode support included for text messages (emojis / asian characters / etc )
+  				//$encoded_text_msg = $ct_gen->charset_encode($test_phrase); // Unicode support included for text messages (emojis / asian characters / etc )
   				
   				/*
           	$send_params = array(
@@ -47,7 +47,7 @@ Add to /templates/interface/desktop/php/footer.php when testing unicode mobile t
           	
           	
           	// Send notifications
-          	@$oct_cache->queue_notify($send_params);
+          	@$ct_cache->queue_notify($send_params);
           	*/
     	
     	//var_dump($encoded_text_msg);

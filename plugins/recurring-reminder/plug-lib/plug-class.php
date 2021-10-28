@@ -25,7 +25,7 @@ var $array1 = array();
    
    function time_dec_hours($var, $mode) {
    	
-   global $oct_var;
+   global $ct_var;
    
    
    	if ( $mode == 'to' ) {
@@ -36,14 +36,14 @@ var $array1 = array();
    
    	$minutes = $hours_minutes[1];
    
-  		return $oct_var->num_to_str( $hours + round( ($minutes / 60) , 2 ) );
+  		return $ct_var->num_to_str( $hours + round( ($minutes / 60) , 2 ) );
    	
    	}
    	else if ( $mode == 'from' ) {
    
    	$var = abs($var);
    	
-   	$dec = explode('.', $oct_var->num_to_str($var) );
+   	$dec = explode('.', $ct_var->num_to_str($var) );
    
    	$hours = ( strlen($dec[0]) < 2 ? '0' . $dec[0] : $dec[0] );
    

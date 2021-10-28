@@ -20,7 +20,7 @@ $webhook_hash = explode('/', $_GET['webhook_hash']); // Remove any data after th
 
 ///////////////////////////////////////////////////////////////////////////////
 // Telegram
-elseif ( $webhook_hash[0] == $oct_gen->nonce_digest('telegram', $webhook_key) ) {
+elseif ( $webhook_hash[0] == $ct_gen->nonce_digest('telegram', $webhook_key) ) {
 
 // https://core.telegram.org/bots/api
 
@@ -40,11 +40,11 @@ elseif ( $webhook_hash[0] == $oct_gen->nonce_digest('telegram', $webhook_key) ) 
 
 ///////////////////////////////////////////////////////////////////////////////
 // Test only
-elseif ( $webhook_hash[0] == $oct_gen->nonce_digest('test-only', $webhook_key) ) {
+elseif ( $webhook_hash[0] == $ct_gen->nonce_digest('test-only', $webhook_key) ) {
 
 $test_params = array('api_key' => $api_key);
 						
-$test_data = @$oct_cache->ext_data('params', $test_params, 0, $base_url . 'api/market_conversion/eur/kraken-btc-usd,coinbase-dai-usdc,coinbase-eth-usd', 2);
+$test_data = @$ct_cache->ext_data('params', $test_params, 0, $base_url . 'api/market_conversion/eur/kraken-btc-usd,coinbase-dai-usdc,coinbase-eth-usd', 2);
 
 // Already json-encoded
 echo $test_data;
@@ -68,13 +68,13 @@ if ( isset($result) ) {
 echo json_encode($result, JSON_PRETTY_PRINT);
 }
 
-//echo $oct_gen->nonce_digest('test-only', $webhook_key) . ' -- ';
+//echo $ct_gen->nonce_digest('test-only', $webhook_key) . ' -- ';
 
 
 // Log errors / debugging, send notifications
-$oct_cache->error_logs();
-$oct_cache->debug_logs();
-$oct_cache->send_notifications();
+$ct_cache->error_logs();
+$ct_cache->debug_logs();
+$ct_cache->send_notifications();
 
 flush(); // Clean memory output buffer for echo
 gc_collect_cycles(); // Clean memory cache

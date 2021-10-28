@@ -24,24 +24,24 @@ var $array1 = array();
 		
 	function btc_addr_bal($address) {
 		 
-	global $this_plug, $oct_conf, $oct_var, $oct_cache;
+	global $this_plug, $ct_conf, $ct_var, $ct_cache;
 		
 	// Take into account previous runtime (over start of runtime), and give 3 minutes wiggle room
 	$recache = ( $plug_conf[$this_plug]['alerts_freq_max'] >= 3 ? ($plug_conf[$this_plug]['alerts_freq_max'] - 3) : $plug_conf[$this_plug]['alerts_freq_max'] );
 		
 	$url = 'https://blockchain.info/rawaddr/' . $address;
 			 
-	$response = @$oct_cache->ext_data('url', $url, $recache);
+	$response = @$ct_cache->ext_data('url', $url, $recache);
 			 
 	$data = json_decode($response, true);
 		   
 		   
 		if ( isset($data['final_balance']) ) {
-		return $oct_var->num_to_str( $data['final_balance'] / 100000000 ); // Convert sats to BTC
+		return $ct_var->num_to_str( $data['final_balance'] / 100000000 ); // Convert sats to BTC
 		}
 		elseif ( !isset($data['address']) ) {
 			
-    	$oct_gen->log(
+    	$ct_gen->log(
     				'ext_data_error',
     				'BTC address balance retrieval failed in the "' . $this_plug . '" plugin, no API data received'
     				);
@@ -60,24 +60,24 @@ var $array1 = array();
 		
 	function eth_addr_bal($address) {
 		 
-	global $this_plug, $oct_conf, $oct_var, $oct_cache;
+	global $this_plug, $ct_conf, $ct_var, $ct_cache;
 		
 	// Take into account previous runtime (over start of runtime), and give 3 minutes wiggle room
 	$recache = ( $plug_conf[$this_plug]['alerts_freq_max'] >= 3 ? ($plug_conf[$this_plug]['alerts_freq_max'] - 3) : $plug_conf[$this_plug]['alerts_freq_max'] );
 		
-	$url = 'https://api.etherscan.io/api?module=account&action=balance&address='.$address.'&tag=latest&apikey=' . $oct_conf['gen']['etherscan_key'];
+	$url = 'https://api.etherscan.io/api?module=account&action=balance&address='.$address.'&tag=latest&apikey=' . $ct_conf['gen']['etherscan_key'];
 			 
-	$response = @$oct_cache->ext_data('url', $url, $recache);
+	$response = @$ct_cache->ext_data('url', $url, $recache);
 			 
 	$data = json_decode($response, true);
 		   
 		   
 		if ( isset($data['result']) ) {
-		return $oct_var->num_to_str( $data['result'] / 1000000000000000000 ); // Convert wei to ETH
+		return $ct_var->num_to_str( $data['result'] / 1000000000000000000 ); // Convert wei to ETH
 		}
 		elseif ( !isset($data['message']) ) {
 			
-    	$oct_gen->log(
+    	$ct_gen->log(
     				'ext_data_error',
     				'ETH address balance retrieval failed in the "' . $this_plug . '" plugin, no API data received'
     				);
@@ -96,14 +96,14 @@ var $array1 = array();
 		
 	function hnt_addr_bal($address) {
 		 
-	global $this_plug, $oct_conf, $oct_var, $oct_cache;
+	global $this_plug, $ct_conf, $ct_var, $ct_cache;
 		
 	// Take into account previous runtime (over start of runtime), and give 3 minutes wiggle room
 	$recache = ( $plug_conf[$this_plug]['alerts_freq_max'] >= 3 ? ($plug_conf[$this_plug]['alerts_freq_max'] - 3) : $plug_conf[$this_plug]['alerts_freq_max'] );
 		
 	$url = 'https://api.helium.io/v1/accounts/'.$address;
 			 
-	$response = @$oct_cache->ext_data('url', $url, $recache);
+	$response = @$ct_cache->ext_data('url', $url, $recache);
 			 
 	$data = json_decode($response, true);
 			 
@@ -111,11 +111,11 @@ var $array1 = array();
 		   
 		   
 		if ( isset($data['balance']) ) {
-		return $oct_var->num_to_str( $data['balance'] / 100000000 ); // Convert bones to HNT
+		return $ct_var->num_to_str( $data['balance'] / 100000000 ); // Convert bones to HNT
 		}
 		elseif ( !isset($data['address']) ) {
 			
-    	$oct_gen->log(
+    	$ct_gen->log(
     				'ext_data_error',
     				'HNT address balance retrieval failed in the "' . $this_plug . '" plugin, no API data received'
     				);

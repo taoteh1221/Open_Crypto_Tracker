@@ -1,5 +1,5 @@
 <?php
-header('Content-type: text/html; charset=' . $oct_conf['dev']['charset_default']);
+header('Content-type: text/html; charset=' . $ct_conf['dev']['charset_default']);
 ?><!DOCTYPE html>
 <html lang="en">
 
@@ -13,7 +13,7 @@ header('Content-type: text/html; charset=' . $oct_conf['dev']['charset_default']
 	<title>Open Crypto Tracker<?=( $is_admin ? ' - Admin Config' : '' )?></title>
     
 
-   <meta charset="<?=$oct_conf['dev']['charset_default']?>">
+   <meta charset="<?=$ct_conf['dev']['charset_default']?>">
    
    <meta name="viewport" content="width=device-width"> <!-- Mobile compatibility -->
    
@@ -37,7 +37,7 @@ header('Content-type: text/html; charset=' . $oct_conf['dev']['charset_default']
 	
 	<?php
 	$preloaded_files_dir = 'templates/interface/media/images/auto-preloaded';
-	$preloaded_files = $oct_gen->list_files($preloaded_files_dir);
+	$preloaded_files = $ct_gen->list_files($preloaded_files_dir);
 	
 	$loop = 0;
 	foreach ( $preloaded_files as $preload_file ) {
@@ -106,7 +106,7 @@ header('Content-type: text/html; charset=' . $oct_conf['dev']['charset_default']
 	
 	<?php
 	// MSIE doesn't like highlightjs (LOL)
-	if ( $oct_gen->is_msie() == false ) {
+	if ( $ct_gen->is_msie() == false ) {
 	?>
 	
 	<link rel="stylesheet" href="templates/interface/desktop/css/highlightjs.min.css" type="text/css" />
@@ -155,18 +155,18 @@ header('Content-type: text/html; charset=' . $oct_conf['dev']['charset_default']
 	var sorted_by_col = <?=( $sel_opt['sorted_by_col'] ? $sel_opt['sorted_by_col'] : 0 )?>;
 	var sorted_asc_desc = <?=( $sel_opt['sorted_asc_desc'] ? $sel_opt['sorted_asc_desc'] : 0 )?>;
 	
-	var charts_background = '<?=$oct_conf['power']['charts_background']?>';
-	var charts_border = '<?=$oct_conf['power']['charts_border']?>';
+	var charts_background = '<?=$ct_conf['power']['charts_background']?>';
+	var charts_border = '<?=$ct_conf['power']['charts_border']?>';
 	
 	var btc_prim_currency_val = '<?=number_format( $sel_opt['sel_btc_prim_currency_val'], 2, '.', '' )?>';
-	var btc_prim_currency_pairing = '<?=strtoupper($oct_conf['gen']['btc_prim_currency_pairing'])?>';
+	var btc_prim_currency_pairing = '<?=strtoupper($ct_conf['gen']['btc_prim_currency_pairing'])?>';
 	
 	// 'Loading X...' UI notices
 	feeds_loading_check(window.feeds_loaded);
 	charts_loading_check(window.charts_loaded);
 	
 	<?php
-	foreach ( $oct_conf['dev']['limited_apis'] as $api ) {
+	foreach ( $ct_conf['dev']['limited_apis'] as $api ) {
 	$js_limited_apis .= '"'.strtolower( preg_replace("/\.(.*)/i", "", $api) ).'", ';
 	}
 	$js_limited_apis = trim($js_limited_apis);
@@ -179,7 +179,7 @@ header('Content-type: text/html; charset=' . $oct_conf['dev']['charset_default']
 	
 	var pref_bitcoin_markets = []; // Set the array
 	<?php
-	foreach ( $oct_conf['power']['btc_pref_currency_markets'] as $pref_bitcoin_markets_key => $pref_bitcoin_markets_val ) {
+	foreach ( $ct_conf['power']['btc_pref_currency_markets'] as $pref_bitcoin_markets_key => $pref_bitcoin_markets_val ) {
 	?>
 	pref_bitcoin_markets["<?=strtolower( $pref_bitcoin_markets_key )?>"] = "<?=strtolower( $pref_bitcoin_markets_val )?>";
 	<?php
@@ -235,9 +235,9 @@ header('Content-type: text/html; charset=' . $oct_conf['dev']['charset_default']
 					  			<a class="dropdown-item<?=( $script_file_info['basename'] == 'index.php' ? ' active' : '' )?>" href="index.php">Portfolio</a>
 					  			
 					  			<?php
-					  			if ( $oct_gen->admin_logged_in() ) {
+					  			if ( $ct_gen->admin_logged_in() ) {
 					  			?>
-					  			<a class="dropdown-item" href="?logout=1&admin_hashed_nonce=<?=$oct_gen->admin_hashed_nonce('logout')?>">Logout</a>
+					  			<a class="dropdown-item" href="?logout=1&admin_hashed_nonce=<?=$ct_gen->admin_hashed_nonce('logout')?>">Logout</a>
 					  			<?php
 					  			}
 					 			?>
@@ -321,7 +321,7 @@ header('Content-type: text/html; charset=' . $oct_conf['dev']['charset_default']
 														'message' => null
 														);
 						
-				$oct_cache->save_file($base_dir . '/cache/events/ui_upgrade_alert.dat', json_encode($ui_upgrade_alert, JSON_PRETTY_PRINT) );
+				$ct_cache->save_file($base_dir . '/cache/events/ui_upgrade_alert.dat', json_encode($ui_upgrade_alert, JSON_PRETTY_PRINT) );
 				
 					}
 					
