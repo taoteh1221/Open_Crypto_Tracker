@@ -182,7 +182,7 @@ var $ct_array1 = array();
    ////////////////////////////////////////////////////////
    
    
-   function obfuscate_str($str, $show=1) {
+   function obfusc_str($str, $show=1) {
       
    $len = strlen($str);
    

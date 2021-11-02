@@ -64,7 +64,7 @@ $pairing_btc_val = $ct_asset->pairing_btc_val($asset);
 // Get primary currency value of the current address balance
 $asset_prim_currency_worth_raw = $ct_var->num_to_str( ($address_balance * $pairing_btc_val) * $sel_opt['sel_btc_prim_currency_val'] );
 
-$pretty_prim_currency_worth = $ct_var->num_pretty($asset_prim_currency_worth_raw, ( $asset_prim_currency_worth_raw >= 1.00 ? 2 : 5 ) );
+$pretty_prim_currency_worth = $ct_var->num_pretty($asset_prim_currency_worth_raw, ( $asset_prim_currency_worth_raw >= 1.00 ? 2 : $ct_conf['gen']['prim_currency_dec_max'] ) );
 
 $pretty_asset_amount = $ct_var->num_pretty($address_balance, 8);
 
@@ -179,6 +179,11 @@ $pretty_asset_amount = $ct_var->num_pretty($address_balance, 8);
 
 	}
 	// END notification
+
+
+// Obfuscate any addresses in error / debug logs
+$error_logs = $plug_class[$this_plug]->obfusc_addr($error_logs, $address);
+$debug_logs = $plug_class[$this_plug]->obfusc_addr($debug_logs, $address);
 
 
 }

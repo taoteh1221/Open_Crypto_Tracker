@@ -480,7 +480,7 @@ var $ct_array1 = array();
       return "Please enter a valid email address.";
       }
       elseif ( function_exists("getmxrr") && !getmxrr($domain, $mxrecords) ) {
-      return "No mail server records found for domain '" . $ct_var->obfuscate_str($domain) . "' [obfuscated]";
+      return "No mail server records found for domain '" . $ct_var->obfusc_str($domain) . "' [obfuscated]";
       }
       else {
       return "valid";
@@ -683,15 +683,15 @@ var $ct_array1 = array();
          
          // Subdirectories of /secured/
          if ( sizeof($subpath_array) > 1 ) {
-         $path = str_replace($subpath_array[0], $ct_var->obfuscate_str($subpath_array[0], 1), $path);
-         $path = str_replace($subpath_array[1], $ct_var->obfuscate_str($subpath_array[1], 5), $path);
+         $path = str_replace($subpath_array[0], $ct_var->obfusc_str($subpath_array[0], 1), $path);
+         $path = str_replace($subpath_array[1], $ct_var->obfusc_str($subpath_array[1], 5), $path);
          }
          // Files directly in /secured/
          else {
-         $path = str_replace($subpath, $ct_var->obfuscate_str($subpath, 5), $path);
+         $path = str_replace($subpath, $ct_var->obfusc_str($subpath, 5), $path);
          }
             
-      //$path = str_replace('cache/secured', $ct_var->obfuscate_str('cache', 0) . '/' . $ct_var->obfuscate_str('secured', 0), $path);
+      //$path = str_replace('cache/secured', $ct_var->obfusc_str('cache', 0) . '/' . $ct_var->obfusc_str('secured', 0), $path);
       
       }
    
@@ -713,15 +713,15 @@ var $ct_array1 = array();
    
       // Etherscan
       if ( preg_match("/etherscan/i", $url) ) {
-      $url = str_replace($ct_conf['gen']['etherscan_key'], $ct_var->obfuscate_str($ct_conf['gen']['etherscan_key'], 2), $url);
+      $url = str_replace($ct_conf['gen']['etherscan_key'], $ct_var->obfusc_str($ct_conf['gen']['etherscan_key'], 2), $url);
       }
       // Telegram
       elseif ( preg_match("/telegram/i", $url) ) {
-      $url = str_replace($ct_conf['comms']['telegram_bot_token'], $ct_var->obfuscate_str($ct_conf['comms']['telegram_bot_token'], 2), $url); 
+      $url = str_replace($ct_conf['comms']['telegram_bot_token'], $ct_var->obfusc_str($ct_conf['comms']['telegram_bot_token'], 2), $url); 
       }
       // Defipulse
       elseif ( preg_match("/defipulse/i", $url) ) {
-      $url = str_replace($ct_conf['gen']['defipulse_key'], $ct_var->obfuscate_str($ct_conf['gen']['defipulse_key'], 2), $url); 
+      $url = str_replace($ct_conf['gen']['defipulse_key'], $ct_var->obfusc_str($ct_conf['gen']['defipulse_key'], 2), $url); 
       }
    
    // Keep our color-coded logs in the admin UI pretty, remove '//' and put in parenthesis
@@ -853,12 +853,12 @@ var $ct_array1 = array();
       if ( PHP_VERSION_ID >= 70300 ) {
          
       $result = setcookie(
-      				$name,
-      				$val,
-      					[
- 	                         'samesite' => 'Strict', // Strict for high privacy
-    	                         'expires' => $time,
-                          	]
+              			  $name,
+              			  $val,
+              			     [
+         	                 'samesite' => 'Strict', // Strict for high privacy
+            	             'expires' => $time,
+                             ]
                           );
       
       }
