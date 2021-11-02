@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2014-2021 GPLv3, Open Crypto Tracker by Mike Kilday: Mike@DragonFrugal.com
+ * Copyright 2014-2022 GPLv3, Open Crypto Tracker by Mike Kilday: Mike@DragonFrugal.com
  */
  
  
@@ -24,7 +24,7 @@ var $array1 = array();
 		
 	function btc_addr_bal($address) {
 		 
-	global $this_plug, $ct_conf, $ct_var, $ct_cache;
+	global $this_plug, $ct_conf, $plug_conf, $ct_gen, $ct_var, $ct_cache;
 		
 	// Take into account previous runtime (over start of runtime), and give 3 minutes wiggle room
 	$recache = ( $plug_conf[$this_plug]['alerts_freq_max'] >= 3 ? ($plug_conf[$this_plug]['alerts_freq_max'] - 3) : $plug_conf[$this_plug]['alerts_freq_max'] );
@@ -60,7 +60,7 @@ var $array1 = array();
 		
 	function eth_addr_bal($address) {
 		 
-	global $this_plug, $ct_conf, $ct_var, $ct_cache;
+	global $this_plug, $ct_conf, $plug_conf, $ct_gen, $ct_var, $ct_cache;
 		
 	// Take into account previous runtime (over start of runtime), and give 3 minutes wiggle room
 	$recache = ( $plug_conf[$this_plug]['alerts_freq_max'] >= 3 ? ($plug_conf[$this_plug]['alerts_freq_max'] - 3) : $plug_conf[$this_plug]['alerts_freq_max'] );
@@ -96,7 +96,7 @@ var $array1 = array();
 		
 	function hnt_addr_bal($address) {
 		 
-	global $this_plug, $ct_conf, $ct_var, $ct_cache;
+	global $this_plug, $ct_conf, $plug_conf, $ct_gen, $ct_var, $ct_cache;
 		
 	// Take into account previous runtime (over start of runtime), and give 3 minutes wiggle room
 	$recache = ( $plug_conf[$this_plug]['alerts_freq_max'] >= 3 ? ($plug_conf[$this_plug]['alerts_freq_max'] - 3) : $plug_conf[$this_plug]['alerts_freq_max'] );
@@ -134,10 +134,10 @@ var $array1 = array();
    
     function obfusc_addr($address) {
       
-    global $ct_var, $logs_array;
+    global $ct_var, $log_array;
     
-       foreach ( $logs_array as $key => $val ) {
-       $logs_array[$key] = str_replace($address, $ct_var->obfusc_str($address, 2), $logs_array[$key]);
+       foreach ( $log_array as $key => $val ) {
+       $log_array[$key] = str_replace($address, $ct_var->obfusc_str($address, 1), $log_array[$key]);
        }
    
     }

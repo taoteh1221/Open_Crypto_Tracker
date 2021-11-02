@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2014-2021 GPLv3, Open Crypto Tracker by Mike Kilday: Mike@DragonFrugal.com
+ * Copyright 2014-2022 GPLv3, Open Crypto Tracker by Mike Kilday: Mike@DragonFrugal.com
  */
  
  
@@ -36,7 +36,7 @@ var $array1 = array();
    
    	$minutes = $hours_minutes[1];
    
-  		return $ct_var->num_to_str( $hours + round( ($minutes / 60) , 2 ) );
+  	return $ct_var->num_to_str( $hours + round( ($minutes / 60) , 2 ) );
    	
    	}
    	else if ( $mode == 'from' ) {
@@ -51,7 +51,7 @@ var $array1 = array();
    	
    	$minutes = ( strlen($minutes) < 2 ? '0' . $minutes : $minutes );
    
-  		return $hours . ':' . $minutes;
+  	return $hours . ':' . $minutes;
    	
    	}
    	

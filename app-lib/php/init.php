@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2014-2021 GPLv3, Open Crypto Tracker by Mike Kilday: Mike@DragonFrugal.com
+ * Copyright 2014-2022 GPLv3, Open Crypto Tracker by Mike Kilday: Mike@DragonFrugal.com
  */
 
 
@@ -10,7 +10,7 @@
 
 
 // Application version
-$app_version = '5.03.5';  // 2021/October/21ST
+$app_version = '5.03.6';  // 2021/November/2ND
 
 // Application edition
 $app_edition = 'server';  // 'server' OR 'desktop' edition (LOWERCASE)
@@ -142,7 +142,7 @@ $runtime_data['performance_stats'] = array();
 
 $system_alerts = array();
 
-$logs_array = array();
+$log_array = array();
 
 $rand_color_ranged =  array();
 
@@ -263,7 +263,7 @@ exit;
 // in the filename [which we do already], since backup links are created during cron runtimes)
 if ( $runtime_mode == 'download' && !isset($_GET['backup']) && $_GET['token'] != $ct_gen->nonce_digest('download') ) {
 $ct_gen->log('security_error', 'Missing security token (-possible- CSRF attack from ' . $_SERVER['REMOTE_ADDR'] . ') for request: ' . $_SERVER['REQUEST_URI']);
-$ct_cache->error_logs();
+$ct_cache->error_log();
 exit;
 }
 

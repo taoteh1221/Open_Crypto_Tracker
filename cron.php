@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2014-2021 GPLv3, Open Crypto Tracker by Mike Kilday: Mike@DragonFrugal.com
+ * Copyright 2014-2022 GPLv3, Open Crypto Tracker by Mike Kilday: Mike@DragonFrugal.com
  */
 
 
@@ -210,16 +210,25 @@ $ct_gen->log(
 
 // Log errors / debugging, send notifications
 // RUN BEFORE any activated plugins (in case a custom plugin crashes)
-$ct_cache->error_logs();
-$ct_cache->debug_logs();
-$logs_array = array(); // Reset logs, for any possible seperate plugin logging
+$ct_cache->error_log();
+$ct_cache->debug_log();
 $ct_cache->send_notifications();
 
 
-// If any plugins are activated, RESET $logs_array for plugin logging, SO WE DON'T GET DUPLICATE LOGGING
+// If any plugins are activated, RESET $log_array for plugin logging, SO WE DON'T GET DUPLICATE LOGGING
 if ( sizeof($activated_plugins['cron']) > 0 ) {
-$logs_array = array();
+    
+$log_array = array();
+
+// Give a bit of time for the "core runtime" error / debugging logs to 
+// close their file locks, before we append "plugin runtime" log data
+sleep(1); 
+			
 }
+
+
+// DEBUGGING ONLY (checking logging capability)
+//$ct_cache->check_log('cron.php:pre-plugin-runtime');
 
 
 // Run any cron-designated plugins activated in ct_conf
@@ -250,11 +259,15 @@ foreach ( $activated_plugins['cron'] as $plugin_key => $plugin_init ) {
 }
 
 
+// DEBUGGING ONLY (checking logging capability)
+//$ct_cache->check_log('cron.php:post-plugin-runtime');
+
+
 // Log errors / debugging, send notifications
 // (IF ANY PLUGINS ARE ACTIVATED, RAN AGAIN SEPERATELY FOR PLUGIN LOGGING / ALERTS ONLY)
 if ( sizeof($activated_plugins['cron']) > 0 ) {
-$ct_cache->error_logs();
-$ct_cache->debug_logs();
+$ct_cache->error_log();
+$ct_cache->debug_log();
 $ct_cache->send_notifications();
 }
 

@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2014-2021 GPLv3, Open Crypto Tracker by Mike Kilday: Mike@DragonFrugal.com
+ * Copyright 2014-2022 GPLv3, Open Crypto Tracker by Mike Kilday: Mike@DragonFrugal.com
  */
 
 
@@ -177,7 +177,7 @@ $system_error = 'Server / app setup requirements not met (SEE LOGGED SETUP DEFIC
 $ct_gen->log('system_error', $system_error);
 echo $system_error;
 // Log errors before exiting
-$ct_cache->error_logs();
+$ct_cache->error_log();
 exit;
 }
 

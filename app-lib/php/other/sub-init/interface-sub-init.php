@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2014-2021 GPLv3, Open Crypto Tracker by Mike Kilday: Mike@DragonFrugal.com
+ * Copyright 2014-2022 GPLv3, Open Crypto Tracker by Mike Kilday: Mike@DragonFrugal.com
  */
 
 
@@ -179,7 +179,7 @@ $sel_opt['sorted_asc_desc'] = $sort_array[1];
 								'Requested theme value: "' . $sel_opt['theme_selected'] . '";'
 								);
 	
-	$ct_cache->error_logs();
+	$ct_cache->error_log();
 	
 	exit;
 	

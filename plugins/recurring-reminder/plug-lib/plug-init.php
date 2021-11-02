@@ -1,12 +1,16 @@
 <?php
 /*
- * Copyright 2014-2021 GPLv3, Open Crypto Tracker by Mike Kilday: Mike@DragonFrugal.com
+ * Copyright 2014-2022 GPLv3, Open Crypto Tracker by Mike Kilday: Mike@DragonFrugal.com
  */
 
 
 // ###########################################################################################
 // SEE /DOCUMENTATION-ETC/PLUGINS-README.txt FOR CREATING YOUR OWN CUSTOM PLUGINS
 // ###########################################################################################
+
+
+// DEBUGGING ONLY (checking logging capability)
+//$ct_cache->check_log('plugins/' . $this_plug . '/plug-lib/plug-init.php:start');
 
 
 foreach ( $plug_conf[$this_plug]['reminders'] as $key => $val ) {
@@ -120,6 +124,10 @@ $in_minutes_offset = ( $in_minutes >= 20 ? ($in_minutes - 1) : $in_minutes );
 
 
 }
+
+
+// DEBUGGING ONLY (checking logging capability)
+//$ct_cache->check_log('plugins/' . $this_plug . '/plug-lib/plug-init.php:end');
 
 
 // DON'T LEAVE ANY WHITESPACE AFTER THE CLOSING PHP TAG!

@@ -1,12 +1,16 @@
 <?php
 /*
- * Copyright 2014-2021 GPLv3, Open Crypto Tracker by Mike Kilday: Mike@DragonFrugal.com
+ * Copyright 2014-2022 GPLv3, Open Crypto Tracker by Mike Kilday: Mike@DragonFrugal.com
  */
 
 
 // ###########################################################################################
 // SEE /DOCUMENTATION-ETC/PLUGINS-README.txt FOR CREATING YOUR OWN CUSTOM PLUGINS
 // ###########################################################################################
+
+
+// DEBUGGING ONLY (checking logging capability)
+//$ct_cache->check_log('plugins/' . $this_plug . '/plug-lib/plug-init.php:start');
 
 
 foreach ( $plug_conf[$this_plug]['tracking'] as $target_key => $target_val ) {
@@ -57,9 +61,14 @@ $pairing_btc_val = $ct_asset->pairing_btc_val($asset);
 	
 	// If we returned 'error' from a detected API error OR no address detected in config, skip this one for now
 	if ( !$address || $address_balance == 'error' ) {
-    // Obfuscate any addresses in error / debug logs
-    $plug_class[$this_plug]->obfusc_addr($address);
+	    
+	    if ( $address != '' ) {
+        // Obfuscate any addresses in error / debug logs
+        $plug_class[$this_plug]->obfusc_addr($address);
+	    }
+	    
 	continue;
+	
 	}
 	
 
@@ -191,6 +200,10 @@ $plug_class[$this_plug]->obfusc_addr($address);
 
 
 }
+
+
+// DEBUGGING ONLY (checking logging capability)
+//$ct_cache->check_log('plugins/' . $this_plug . '/plug-lib/plug-init.php:end');
 
 
 // DON'T LEAVE ANY WHITESPACE AFTER THE CLOSING PHP TAG!

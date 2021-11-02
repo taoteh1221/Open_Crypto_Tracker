@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2014-2021 GPLv3, Open Crypto Tracker by Mike Kilday: Mike@DragonFrugal.com
+ * Copyright 2014-2022 GPLv3, Open Crypto Tracker by Mike Kilday: Mike@DragonFrugal.com
  */
 
 
@@ -10,7 +10,7 @@ require_once($base_dir . '/app-lib/php/other/sub-init/minimized-sub-init.php');
 // CSRF attack protection (REQUIRED #POST# VAR 'submit_check')
 if ( $_POST['submit_check'] != 1 ) {
 $ct_gen->log('security_error', 'Missing "submit_check" POST data (-possible- CSRF attack) for request: ' . $_SERVER['REQUEST_URI']);
-$ct_cache->error_logs();
+$ct_cache->error_log();
 exit;
 }
 

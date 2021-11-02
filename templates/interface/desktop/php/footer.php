@@ -9,53 +9,53 @@
 <?php
 
 
-	foreach ( $logs_array['cache_error'] as $error ) {
+	foreach ( $log_array['cache_error'] as $error ) {
 	$bundle_error_logs .= $error;
 	}
 
-	foreach ( $logs_array['notify_error'] as $error ) {
+	foreach ( $log_array['notify_error'] as $error ) {
 	$bundle_error_logs .= $error;
 	}
 	
-	$bundle_error_logs .= $logs_array['system_error'];
+	$bundle_error_logs .= $log_array['system_error'];
 	
-	$bundle_error_logs .= $logs_array['conf_error'];
+	$bundle_error_logs .= $log_array['conf_error'];
 	
-	$bundle_error_logs .= $logs_array['security_error'];
+	$bundle_error_logs .= $log_array['security_error'];
 	
-	$bundle_error_logs .= $logs_array['ext_data_error'];
+	$bundle_error_logs .= $log_array['ext_data_error'];
 	
-	$bundle_error_logs .= $logs_array['int_api_error'];
+	$bundle_error_logs .= $log_array['int_api_error'];
 	
-	$bundle_error_logs .= $logs_array['market_error'];
+	$bundle_error_logs .= $log_array['market_error'];
 	
-	$bundle_error_logs .= $logs_array['other_error'];
+	$bundle_error_logs .= $log_array['other_error'];
 	
 	
 	if ( $ct_conf['dev']['debug'] != 'off' ) {
 	
 	
-		foreach ( $logs_array['cache_debug'] as $error ) {
+		foreach ( $log_array['cache_debug'] as $error ) {
 		$bundle_error_logs .= $error;
 		}
 	
-		foreach ( $logs_array['notify_debug'] as $error ) {
+		foreach ( $log_array['notify_debug'] as $error ) {
 		$bundle_error_logs .= $error;
 		}
 	
-	$bundle_error_logs .= $logs_array['system_debug'];
+	$bundle_error_logs .= $log_array['system_debug'];
 	
-	$bundle_error_logs .= $logs_array['conf_debug'];
+	$bundle_error_logs .= $log_array['conf_debug'];
 	
-	$bundle_error_logs .= $logs_array['security_debug'];
+	$bundle_error_logs .= $log_array['security_debug'];
 	
-	$bundle_error_logs .= $logs_array['ext_data_debug'];
+	$bundle_error_logs .= $log_array['ext_data_debug'];
 	
-	$bundle_error_logs .= $logs_array['int_api_debug'];
+	$bundle_error_logs .= $log_array['int_api_debug'];
 	
-	$bundle_error_logs .= $logs_array['market_debug'];
+	$bundle_error_logs .= $log_array['market_debug'];
 	
-	$bundle_error_logs .= $logs_array['other_debug'];
+	$bundle_error_logs .= $log_array['other_debug'];
 		
 	
 	}
@@ -318,12 +318,12 @@
           	
           	
 		// Log errors, send notifications BEFORE runtime stats
-		$error_logs = $ct_cache->error_logs();
+		$error_log = $ct_cache->error_log();
 		$ct_cache->send_notifications();
 		
-		if ( $error_logs != true ) {
+		if ( $error_log != true ) {
 		?>
-		<div class="red" style='font-weight: bold;'><?=$error_logs?></div>
+		<div class="red" style='font-weight: bold;'><?=$error_log?></div>
 		<?php
 		}
 		
@@ -361,11 +361,11 @@
 		
 		
 		// Process debugging logs AFTER runtime stats
-		$debug_logs = $ct_cache->debug_logs();
+		$debug_log = $ct_cache->debug_log();
     		
-		if ( $ct_conf['dev']['debug'] != 'off' && $debug_logs != true ) {
+		if ( $ct_conf['dev']['debug'] != 'off' && $debug_log != true ) {
 		?>
-		<div class="red" style='font-weight: bold;'><?=$debug_logs?></div>
+		<div class="red" style='font-weight: bold;'><?=$debug_log?></div>
 		<?php
 		}
     		
@@ -392,7 +392,7 @@ gc_collect_cycles(); // Clean memory cache
 </html>
 
 <!-- /*
- * Copyright 2014-2021 GPLv3, Open Crypto Tracker by Mike Kilday: Mike@DragonFrugal.com
+ * Copyright 2014-2022 GPLv3, Open Crypto Tracker by Mike Kilday: Mike@DragonFrugal.com
  */ -->
  
  <?php

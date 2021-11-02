@@ -1,7 +1,7 @@
 <?php
 
 /*
- * Copyright 2014-2021 GPLv3, Open Crypto Tracker by Mike Kilday: Mike@DragonFrugal.com
+ * Copyright 2014-2022 GPLv3, Open Crypto Tracker by Mike Kilday: Mike@DragonFrugal.com
  */
 
 
@@ -636,6 +636,7 @@ $ct_conf['power']['crypto_pairing'] = array(
 						// Native chains...
 						'eth' => 'Ξ ',
 						'hnt' => 'Ȟ ',
+						'sol' => '◎ ',
 						// Liquidity pools / ERC-20 tokens on Ethereum, etc etc...
 						'uni' => '🦄 ',
 						'mkr' => '𐌼 ',
@@ -655,6 +656,7 @@ $ct_conf['power']['crypto_pairing_pref_markets'] = array(
 						//'lowercase_btc_market_or_stablecoin_pairing' => 'PREFERRED_MARKET',
 							'eth' => 'binance',  // WAY MORE volume , WAY BETTER price discovery than ALL alternatives
 							'hnt' => 'binance',  // WAY MORE volume , WAY BETTER price discovery than ALL alternatives
+							'sol' => 'binance',  // WAY MORE volume , WAY BETTER price discovery than ALL alternatives
 							'uni' => 'binance',  // WAY MORE volume , WAY BETTER price discovery than ALL alternatives
 							'mkr' => 'binance',  // WAY MORE volume , WAY BETTER price discovery than ALL alternatives
 							'lrc' => 'binance',  // WAY MORE volume , WAY BETTER price discovery than ALL alternatives

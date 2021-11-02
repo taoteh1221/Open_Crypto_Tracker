@@ -1,12 +1,16 @@
 <?php
 /*
- * Copyright 2014-2021 GPLv3, Open Crypto Tracker by Mike Kilday: Mike@DragonFrugal.com
+ * Copyright 2014-2022 GPLv3, Open Crypto Tracker by Mike Kilday: Mike@DragonFrugal.com
  */
 
 
 // ###########################################################################################
 // SEE /DOCUMENTATION-ETC/PLUGINS-README.txt FOR CREATING YOUR OWN CUSTOM PLUGINS
 // ###########################################################################################
+
+
+// DEBUGGING ONLY (checking logging capability)
+//$ct_cache->check_log('plugins/' . $this_plug . '/plug-lib/plug-init.php:start');
 
 
 foreach ( $plug_conf[$this_plug]['price_targets'] as $target_key => $target_val ) {
@@ -150,13 +154,13 @@ $market_val = $ct_var->num_to_str( $ct_api->market($market_asset, $market_exchan
           					'notifyme' => $notifyme_msg,
           					'telegram' => $email_msg,
           					'text' => array(
-          										'message' => $encoded_text_msg['content_output'],
-          										'charset' => $encoded_text_msg['charset']
-          											),
+          									'message' => $encoded_text_msg['content_output'],
+          									'charset' => $encoded_text_msg['charset']
+          									),
           					'email' => array(
-          											'subject' => $market_asset . ' / ' . strtoupper($market_pairing) . ' Price Target Alert (' . $target_direction . ')',
-          											'message' => $email_msg
-          											)
+          									'subject' => $market_asset . ' / ' . strtoupper($market_pairing) . ' Price Target Alert (' . $target_direction . ')',
+          									'message' => $email_msg
+          									)
           					);
           	
           	
@@ -183,6 +187,10 @@ $market_val = $ct_var->num_to_str( $ct_api->market($market_asset, $market_exchan
 
 
 }
+
+
+// DEBUGGING ONLY (checking logging capability)
+//$ct_cache->check_log('plugins/' . $this_plug . '/plug-lib/plug-init.php:end');
 
 
 // DON'T LEAVE ANY WHITESPACE AFTER THE CLOSING PHP TAG!

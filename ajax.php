@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2014-2021 GPLv3, Open Crypto Tracker by Mike Kilday: Mike@DragonFrugal.com
+ * Copyright 2014-2022 GPLv3, Open Crypto Tracker by Mike Kilday: Mike@DragonFrugal.com
  */
  
  
@@ -57,8 +57,8 @@ $all_feeds_array = array();
 }
  
 // Log errors / debugging, send notifications
-$ct_cache->error_logs();
-$ct_cache->debug_logs();
+$ct_cache->error_log();
+$ct_cache->debug_log();
 $ct_cache->send_notifications();
 
 flush(); // Clean memory output buffer for echo
