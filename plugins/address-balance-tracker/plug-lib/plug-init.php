@@ -57,6 +57,8 @@ $pairing_btc_val = $ct_asset->pairing_btc_val($asset);
 	
 	// If we returned 'error' from a detected API error OR no address detected in config, skip this one for now
 	if ( !$address || $address_balance == 'error' ) {
+    // Obfuscate any addresses in error / debug logs
+    $plug_class[$this_plug]->obfusc_addr($address);
 	continue;
 	}
 	
@@ -99,6 +101,9 @@ $pretty_asset_amount = $ct_var->num_pretty($address_balance, 8);
 	$new_cache_data = $address . '|' . $address_balance;
 	
 	$ct_cache->save_file($balance_tracking_cache_file, $new_cache_data);
+	
+    // Obfuscate any addresses in error / debug logs
+    $plug_class[$this_plug]->obfusc_addr($address);
 	
 	// Skip the rest, as this was setting / resetting cache data
 	continue;
@@ -182,8 +187,7 @@ $pretty_asset_amount = $ct_var->num_pretty($address_balance, 8);
 
 
 // Obfuscate any addresses in error / debug logs
-$error_logs = $plug_class[$this_plug]->obfusc_addr($error_logs, $address);
-$debug_logs = $plug_class[$this_plug]->obfusc_addr($debug_logs, $address);
+$plug_class[$this_plug]->obfusc_addr($address);
 
 
 }

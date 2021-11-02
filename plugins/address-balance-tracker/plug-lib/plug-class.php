@@ -132,14 +132,13 @@ var $array1 = array();
     ////////////////////////////////////////////////////////
    
    
-    function obfusc_addr($data, $address) {
+    function obfusc_addr($address) {
       
-    global $ct_var;
-   
-    $data = str_replace($address, $ct_var->obfusc_str($address, 2), $data);
-   
-    // Keep our color-coded logs in the admin UI pretty, remove '//' and put in parenthesis
-    return $data;
+    global $ct_var, $logs_array;
+    
+       foreach ( $logs_array as $key => $val ) {
+       $logs_array[$key] = str_replace($address, $ct_var->obfusc_str($address, 2), $logs_array[$key]);
+       }
    
     }
 		

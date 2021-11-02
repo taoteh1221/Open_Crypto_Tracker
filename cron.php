@@ -212,6 +212,7 @@ $ct_gen->log(
 // RUN BEFORE any activated plugins (in case a custom plugin crashes)
 $ct_cache->error_logs();
 $ct_cache->debug_logs();
+$logs_array = array(); // Reset logs, for any possible seperate plugin logging
 $ct_cache->send_notifications();
 
 
