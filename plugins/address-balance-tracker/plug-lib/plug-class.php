@@ -139,26 +139,31 @@ var $array1 = array();
 	// Take into account previous runtime (over start of runtime), and give 3 minutes wiggle room
 	$recache = ( $plug_conf[$this_plug]['alerts_freq_max'] >= 3 ? ($plug_conf[$this_plug]['alerts_freq_max'] - 3) : $plug_conf[$this_plug]['alerts_freq_max'] );
 	
+        
+    $headers = array(
+                    'Content-Type: application/json'
+                    );
+                    
 			 
     $request_params = array(
                            'jsonrpc' => '2.0', // Setting this right before sending
                            'id' => 1,
                            'method' => 'getBalance',
-                           'params' => [$address]
+                           'params' => array($address),
                            );
+                    
                 
-                
-	$response = @$this->ext_data('params', $request_params, $recache, 'https://api.mainnet-beta.solana.com');
+	$response = @$ct_cache->ext_data('params', $request_params, $recache, 'https://api.mainnet-beta.solana.com', 3, null, $headers);
 			 
 	$data = json_decode($response, true);
 			 
 	$data = $data['result'];
 		   
 		   
-		if ( isset($data['context']['value']) ) {
-		return $ct_var->num_to_str( $data['context']['value'] / 1000000000 ); // Convert lamports to SOL
+		if ( isset($data['value']) ) {
+		return $ct_var->num_to_str( $data['value'] / 1000000000 ); // Convert lamports to SOL
 		}
-		elseif ( !isset($data['id']) ) {
+		elseif ( !isset($data['context']) ) {
 			
     	$ct_gen->log(
     				'ext_data_error',
