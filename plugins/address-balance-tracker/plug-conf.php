@@ -35,7 +35,7 @@ $plug_conf[$this_plug]['tracking'] = array(
 												array(
 													'asset' => 'btc', // Asset symbol (LOWERCASE)
 													'address' => '3Nw6cvSgnLEFmQ1V4e8RSBG23G7pDjF3hW', // Recieving address
-													'label' => 'Portfolio Tracker BTC Donations' // Description of address
+													'label' => 'Crypto Tracker BTC Donations' // Description of address
 													),
 																			
 																			
@@ -43,7 +43,7 @@ $plug_conf[$this_plug]['tracking'] = array(
 												array(
 													'asset' => 'eth', // Asset symbol (LOWERCASE)
 													'address' => '0x644343e8D0A4cF33eee3E54fE5d5B8BFD0285EF8', // Recieving address
-													'label' => 'Portfolio Tracker ETH Donations' // Description of address
+													'label' => 'Crypto Tracker ETH Donations' // Description of address
 													),
 																			
 												
@@ -51,7 +51,7 @@ $plug_conf[$this_plug]['tracking'] = array(
 												array(
 													'asset' => 'hnt', // Asset symbol (LOWERCASE)
 													'address' => '13xs559435FGkh39qD9kXasaAnB8JRF8KowqPeUmKHWU46VYG1h', // Recieving address
-													'label' => 'Portfolio Tracker HNT Donations' // Description of address
+													'label' => 'Crypto Tracker HNT Donations' // Description of address
 													),
 																			
 												
@@ -59,7 +59,7 @@ $plug_conf[$this_plug]['tracking'] = array(
 												array(
 													'asset' => 'sol', // Asset symbol (LOWERCASE)
 													'address' => 'GvX4AU4V9atTBof9dT9oBnLPmPiz3mhoXBdqcxyRuQnU', // Recieving address
-													'label' => 'Portfolio Tracker SOL Donations' // Description of address
+													'label' => 'Crypto Tracker SOL Donations' // Description of address
 													),
 																	
 																	
