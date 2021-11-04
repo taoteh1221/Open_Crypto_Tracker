@@ -80,6 +80,8 @@
             	
             	<br /><br /><b>Helium:</b> <br /><span class='underline_pointer' id='hnt_donate' title='Click to show / hide address copying details.'>13xs559435FGkh39qD9kXasaAnB8JRF8KowqPeUmKHWU46VYG1h</span>
             	
+            	<br /><br /><b>Solana:</b> <br /><span class='underline_pointer' id='sol_donate' title='Click to show / hide address copying details.'>GvX4AU4V9atTBof9dT9oBnLPmPiz3mhoXBdqcxyRuQnU</span>
+            	
             	<br /><br /><b>Github:</b> <br /><a href='https://github.com/sponsors/taoteh1221' target='_blank'>https://github.com/sponsors/taoteh1221</a>
             	
             	<br /><br /><b>PayPal:</b> <br /><a href='https://www.paypal.me/dragonfrugal' target='_blank'>https://www.paypal.me/dragonfrugal</a>
@@ -292,6 +294,75 @@
             hnt_shown = !hnt_shown;
             
           }).hideBalloon();
+	
+	
+			
+			 // Info ballon only opens / closes when clicked (for a different UX on certain elements)
+	
+			var sol_donate_content = '<h5 class="align_center yellow tooltip_title">Solana (SOL) Donation Address</h5>'
+			
+			+'<p id="copy_sol_address" class="coin_info align_center pointer" style="white-space: nowrap;" onclick="copy_text(\'copy_sol_address\', \'copy_sol_address_alert\')">GvX4AU4V9atTBof9dT9oBnLPmPiz3mhoXBdqcxyRuQnU</p>'
+			
+			+'<p id="copy_sol_address_alert" class="coin_info align_center bitcoin">(click address above, to copy to clipboard)</p>'
+			
+			+'<p class="coin_info align_center"><b>QR Code For Phones:</b></p>'
+			
+			+'<p class="coin_info align_center"><img src="templates/interface/media/images/auto-preloaded/sol-donations.png" width="200" title="Solana (SOL) Donation Address" /></p>'
+			
+			+'<p> </p>';
+			
+			
+			// If the target of the click doesn't have the 'leave_open' class (clicking elsewhere on page)
+			$(document).click(function(e) {
+				
+				if ( sol_shown ) {
+			
+    		 	var sol_container = $("#sol_donate");
+    		 	
+    		 	// Add 'leave_open' class to parent / all child elements reursively
+    		 	addCSSClassRecursively( $(".sol_click_to_open") , 'sol_leave_open');
+
+    		 		if ( !sol_container.is(e.target) && sol_container.has(e.target).length === 0 && $(e.target).hasClass('sol_leave_open') == false ) {
+        	 		sol_container.hideBalloon();
+        	 		sol_shown = false;
+    		 		}
+    		 		
+        	 	}
+    		 	
+			});
+			
+			
+			// Open / close via target element
+			 var sol_shown = false;
+			 
+          $("#sol_donate").on("click", function(e) {
+          	
+            sol_shown ? $(this).hideBalloon() : $(this).showBalloon({
+            	
+			html: true,
+			position: "top",
+  			classname: 'sol_click_to_open',
+			contents: sol_donate_content,
+			css: {
+					fontSize: ".8rem",
+					minWidth: "450px",
+					padding: ".3rem .7rem",
+					border: "2px solid rgba(212, 212, 212, .4)",
+					borderRadius: "6px",
+					boxShadow: "3px 3px 6px #555",
+					color: "#eee",
+					backgroundColor: "#111",
+					opacity: "0.99",
+					zIndex: "999",
+					textAlign: "left"
+					}
+					
+			 	});
+			 	
+            sol_shown = !sol_shown;
+            
+          }).hideBalloon();
+	
 	
 	
 	

@@ -57,6 +57,9 @@ $pairing_btc_val = $ct_asset->pairing_btc_val($asset);
 	elseif ( $asset == 'hnt' ) {
 	$address_balance = $plug_class[$this_plug]->hnt_addr_bal($address);
 	}
+	elseif ( $asset == 'sol' ) {
+	$address_balance = $plug_class[$this_plug]->sol_addr_bal($address);
+	}
 	
 	
 	// If we returned 'error' from a detected API error OR no address detected in config, skip this one for now
@@ -149,6 +152,9 @@ $pretty_asset_amount = $ct_var->num_pretty($address_balance, 8);
 		}
 		elseif ( $asset == 'hnt' ) {
 		$email_msg = $base_msg . " https://explorer.helium.com/accounts/" . $address;
+		}
+		elseif ( $asset == 'sol' ) {
+		$email_msg = $base_msg . " https://solscan.io/account/" . $address;
 		}
 
 

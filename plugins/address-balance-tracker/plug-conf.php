@@ -53,6 +53,14 @@ $plug_conf[$this_plug]['tracking'] = array(
 													'address' => '13xs559435FGkh39qD9kXasaAnB8JRF8KowqPeUmKHWU46VYG1h', // Recieving address
 													'label' => 'Portfolio Tracker HNT Donations' // Description of address
 													),
+																			
+												
+											    // SOL EXAMPLE
+												array(
+													'asset' => 'sol', // Asset symbol (LOWERCASE)
+													'address' => 'GvX4AU4V9atTBof9dT9oBnLPmPiz3mhoXBdqcxyRuQnU', // Recieving address
+													'label' => 'Portfolio Tracker SOL Donations' // Description of address
+													),
 																	
 																	
 											); // END tracking array

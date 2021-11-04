@@ -126,6 +126,51 @@ var $array1 = array();
 		
 		
 	}
+		
+		
+	////////////////////////////////////////////////////////////////////////////////////////////////
+	////////////////////////////////////////////////////////////////////////////////////////////////
+		
+		
+	function sol_addr_bal($address) {
+		 
+	global $this_plug, $ct_conf, $plug_conf, $ct_gen, $ct_var, $ct_cache;
+		
+	// Take into account previous runtime (over start of runtime), and give 3 minutes wiggle room
+	$recache = ( $plug_conf[$this_plug]['alerts_freq_max'] >= 3 ? ($plug_conf[$this_plug]['alerts_freq_max'] - 3) : $plug_conf[$this_plug]['alerts_freq_max'] );
+	
+			 
+    $request_params = array(
+                           'jsonrpc' => '2.0', // Setting this right before sending
+                           'id' => 1,
+                           'method' => 'getBalance',
+                           'params' => [$address]
+                           );
+                
+                
+	$response = @$this->ext_data('params', $request_params, $recache, 'https://api.mainnet-beta.solana.com');
+			 
+	$data = json_decode($response, true);
+			 
+	$data = $data['result'];
+		   
+		   
+		if ( isset($data['context']['value']) ) {
+		return $ct_var->num_to_str( $data['context']['value'] / 1000000000 ); // Convert lamports to SOL
+		}
+		elseif ( !isset($data['id']) ) {
+			
+    	$ct_gen->log(
+    				'ext_data_error',
+    				'SOL address balance retrieval failed in the "' . $this_plug . '" plugin, no API data received'
+    				);
+    	
+		return 'error';
+		
+		}
+		
+		
+	}
    
    
     ////////////////////////////////////////////////////////
