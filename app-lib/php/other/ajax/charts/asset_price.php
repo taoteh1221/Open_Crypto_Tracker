@@ -15,7 +15,7 @@
 	}
 	
 	
-$x_coord = 120; // Start position (absolute) for lite chart links
+$x_coord = 75; // Start position (absolute) for lite chart links
 	
 
 	foreach ( $ct_conf['charts_alerts']['tracked_markets'] as $key => $val ) {

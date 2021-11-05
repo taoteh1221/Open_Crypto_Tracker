@@ -41,6 +41,9 @@ OPTIMIZATIONS / BUGS / TESTS / UX / QA / OTHER SECTION
 ///////////////////////////////////////////////////////
 
 
+Our auto-scroll to last position feature for secondary pages has a bug, where if a secondary page is set as the start page, and a light chart time period link (10D , 1W, 1M, etc) is clicked on that secondary page, the browser auto-scrolls to the top of the page after the new chart time period finishes loading. Debugg the auto-scroll to last position (before page reload) logic on this.
+
+
 Rerun Bitcoin exchanges / all exchanges debugging printout, to update documentation in config notes / README / project website.
 
 

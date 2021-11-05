@@ -4749,10 +4749,16 @@ MIGRATE YOUR EXISTING SETTINGS TO THE NEW FORMAT.
 
 
 -------------------------------------------------------------------
-5.04.0:
+5.03.7:
+
+
+-Bug fix for saved scroll position on secondary pages (after page reload)
 
 
 -Solana support to address-balance-tracker plugin
+
+
+-Better low resolution support for price charts
 
 
 v5.03.5 and higher renames the admin config array. ALL CONFIGURATION SETTING
