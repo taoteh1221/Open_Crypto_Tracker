@@ -26,6 +26,10 @@ $plug_conf[$this_plug]['runtime_mode'] = 'cron'; // 'cron', 'ui', 'all' (only 'c
 $plug_conf[$this_plug]['alerts_freq_max'] = 15; // Can be 0, to have no limits
 
 
+// Privacy mode (restrict alerts from sending detailed data, only sends fiat increase / decrease in value when set to 'on')
+$plug_conf[$this_plug]['privacy_mode'] = 'on'; // 'on' / 'off' (Default: 'on')
+
+
 // Balance tracking array (add unlimited addresses as new subarray objects)
 // (ONLY BTC / ETH SUPPORTED)
 $plug_conf[$this_plug]['tracking'] = array(

@@ -4758,6 +4758,9 @@ MIGRATE YOUR EXISTING SETTINGS TO THE NEW FORMAT.
 -Solana support to address-balance-tracker plugin
 
 
+-Privacy mode feature for address-balance-tracker plugin
+
+
 -Better low resolution support for price charts
 
 

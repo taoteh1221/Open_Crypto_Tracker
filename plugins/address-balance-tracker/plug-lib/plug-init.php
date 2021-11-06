@@ -73,14 +73,6 @@ $pairing_btc_val = $ct_asset->pairing_btc_val($asset);
 	continue;
 	
 	}
-	
-
-// Get primary currency value of the current address balance
-$asset_prim_currency_worth_raw = $ct_var->num_to_str( ($address_balance * $pairing_btc_val) * $sel_opt['sel_btc_prim_currency_val'] );
-
-$pretty_prim_currency_worth = $ct_var->num_pretty($asset_prim_currency_worth_raw, ( $asset_prim_currency_worth_raw >= 1.00 ? 2 : $ct_conf['gen']['prim_currency_dec_max'] ) );
-
-$pretty_asset_amount = $ct_var->num_pretty($address_balance, 8);
 
 	
 	// Get cache data, and / or flag a cache reset
@@ -126,6 +118,7 @@ $pretty_asset_amount = $ct_var->num_pretty($address_balance, 8);
 	// If address balance has changed, send a notification...
 	if ( $address_balance != $cached_address_balance ) {
 		
+		
 	// Balance change amount
 	$difference_amount = $ct_var->num_to_str( abs($cached_address_balance - $address_balance) );
 		
@@ -139,8 +132,37 @@ $pretty_asset_amount = $ct_var->num_pretty($address_balance, 8);
 		$plus_minus = '-';
 		}
 
+        
+        if ( $plug_conf[$this_plug]['privacy_mode'] == 'on' ) {
 
-	$base_msg = "The " . $label . " address balance has " . $direction . "d (" . $plus_minus . $difference_amount . " " . strtoupper($asset) . "), to a new balance of " . $pretty_asset_amount . " " . strtoupper($asset) . " (". $ct_conf['power']['btc_currency_markets'][ $ct_conf['gen']['btc_prim_currency_pairing'] ] . $pretty_prim_currency_worth . ").";
+        // Get primary currency value of the current address INCREASE / DECREASE amount only (for increased privacy in alerts)
+        $asset_prim_currency_worth_raw = $ct_var->num_to_str( ($difference_amount * $pairing_btc_val) * $sel_opt['sel_btc_prim_currency_val'] );
+        
+        $pretty_prim_currency_worth = $ct_var->num_pretty($asset_prim_currency_worth_raw, ( $asset_prim_currency_worth_raw >= 1.00 ? 2 : $ct_conf['gen']['prim_currency_dec_max'] ) );
+            
+            
+	    $base_msg = "The " . $label . " address balance has " . $direction . "d: ". $plus_minus . $ct_conf['power']['btc_currency_markets'][ $ct_conf['gen']['btc_prim_currency_pairing'] ] . $pretty_prim_currency_worth;
+	    
+	    
+        $text_msg = $label . " address balance " . $direction . ": ". $plus_minus . $ct_conf['power']['btc_currency_markets'][ $ct_conf['gen']['btc_prim_currency_pairing'] ] . $pretty_prim_currency_worth;
+	    
+        }
+        else {
+
+        // Get primary currency value of the current address TOTAL balance
+        $asset_prim_currency_worth_raw = $ct_var->num_to_str( ($address_balance * $pairing_btc_val) * $sel_opt['sel_btc_prim_currency_val'] );
+        
+        $pretty_prim_currency_worth = $ct_var->num_pretty($asset_prim_currency_worth_raw, ( $asset_prim_currency_worth_raw >= 1.00 ? 2 : $ct_conf['gen']['prim_currency_dec_max'] ) );
+        
+        $pretty_asset_amount = $ct_var->num_pretty($address_balance, 8);
+            
+            
+	    $base_msg = "The " . $label . " address balance has " . $direction . "d (" . $plus_minus . $difference_amount . " " . strtoupper($asset) . "), to a new balance of " . $pretty_asset_amount . " " . strtoupper($asset) . " (". $ct_conf['power']['btc_currency_markets'][ $ct_conf['gen']['btc_prim_currency_pairing'] ] . $pretty_prim_currency_worth . ").";
+	    
+	    
+        $text_msg = $label . " address balance " . $direction . " (" . $plus_minus . $difference_amount . " " . strtoupper($asset) . "): " . $pretty_asset_amount . " " . strtoupper($asset) . " (". $ct_conf['power']['btc_currency_markets'][ $ct_conf['gen']['btc_prim_currency_pairing'] ] . $pretty_prim_currency_worth . ").";
+	    
+        }
 
 
 		// Add blockchain explorer link to email message
@@ -156,9 +178,7 @@ $pretty_asset_amount = $ct_var->num_pretty($address_balance, 8);
 		elseif ( $asset == 'sol' ) {
 		$email_msg = $base_msg . " https://solscan.io/account/" . $address;
 		}
-
-
-	$text_msg = $label . " address balance " . $direction . " (" . $plus_minus . $difference_amount . " " . strtoupper($asset) . "): " . $pretty_asset_amount . " " . strtoupper($asset) . " (". $ct_conf['power']['btc_currency_markets'][ $ct_conf['gen']['btc_prim_currency_pairing'] ] . $pretty_prim_currency_worth . ").";
+              
               
     // Were're just adding a human-readable timestamp to smart home (audio) alerts
     $notifyme_msg = $base_msg . ' Timestamp: ' . $ct_gen->time_date_format($ct_conf['gen']['loc_time_offset'], 'pretty_time') . '.';
