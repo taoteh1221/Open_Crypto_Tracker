@@ -160,7 +160,7 @@ $pairing_btc_val = $ct_asset->pairing_btc_val($asset);
 	    $base_msg = "The " . $label . " address balance has " . $direction . "d (" . $plus_minus . $difference_amount . " " . strtoupper($asset) . "), to a new balance of " . $pretty_asset_amount . " " . strtoupper($asset) . " (". $ct_conf['power']['btc_currency_markets'][ $ct_conf['gen']['btc_prim_currency_pairing'] ] . $pretty_prim_currency_worth . ").";
 	    
 	    
-        $text_msg = $label . " address balance " . $direction . " (" . $plus_minus . $difference_amount . " " . strtoupper($asset) . "): " . $pretty_asset_amount . " " . strtoupper($asset) . " (". $ct_conf['power']['btc_currency_markets'][ $ct_conf['gen']['btc_prim_currency_pairing'] ] . $pretty_prim_currency_worth . ").";
+        $text_msg = $label . " address balance " . $direction . " (" . $plus_minus . $difference_amount . " " . strtoupper($asset) . "): " . $pretty_asset_amount . " " . strtoupper($asset) . " (". $ct_conf['power']['btc_currency_markets'][ $ct_conf['gen']['btc_prim_currency_pairing'] ] . $pretty_prim_currency_worth . ")";
 	    
         }
 
@@ -181,7 +181,8 @@ $pairing_btc_val = $ct_asset->pairing_btc_val($asset);
               
               
     // Were're just adding a human-readable timestamp to smart home (audio) alerts
-    $notifyme_msg = $base_msg . ' Timestamp: ' . $ct_gen->time_date_format($ct_conf['gen']['loc_time_offset'], 'pretty_time') . '.';
+    // (add a period at end of message before timestamp if it's non-existant, so alexa pauses before speaking the timestamp)
+    $notifyme_msg = $base_msg . ( substr( trim($base_msg) , -1) != '.' ? '.' : '' ) . ' Timestamp: ' . $ct_gen->time_date_format($ct_conf['gen']['loc_time_offset'], 'pretty_time') . '.';
 
 
   	// Message parameter added for desired comm methods (leave any comm method blank to skip sending via that method)
