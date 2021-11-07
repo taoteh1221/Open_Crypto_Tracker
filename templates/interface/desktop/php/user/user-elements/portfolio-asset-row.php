@@ -419,8 +419,6 @@ $asset_val_raw = $ct_var->num_to_str($asset_val_raw);
 		$asset_val_dec = ( $asset_val_raw >= 0.01 ? 4 : 8 );
 		$asset_val_dec = ( $asset_val_raw >= 1 ? 2 : $asset_val_dec );
 		}
-		
-    $asset_val_dec = ( $asset_val_raw >= 100 ? 0 : $asset_val_dec );
     
     echo $ct_var->num_pretty($asset_val_raw, $asset_val_dec); // NO decimal #MINIMUM#
 		
@@ -437,16 +435,14 @@ $asset_val_raw = $ct_var->num_to_str($asset_val_raw);
   
 		if ( $sel_opt['show_secondary_trade_val'] == 'btc' ) {
 		$secondary_trade_val_result = $ct_var->num_to_str($btc_trade_eqiv_raw);
-		$secondary_trade_val_dec = ( $secondary_trade_val_result >= 0.01 ? 6 : 8 );
-		$secondary_trade_val_dec = ( $secondary_trade_val_result >= 1 ? 4 : $secondary_trade_val_dec );
+		$secondary_trade_val_dec = ( $secondary_trade_val_result >= 0.1 ? 6 : 8 );
+		$secondary_trade_val_dec = ( $secondary_trade_val_result >= 1 ? 5 : $secondary_trade_val_dec );
 		}
 		else {
 		$secondary_trade_val_result = $ct_var->num_to_str( $btc_trade_eqiv_raw / $this->pairing_btc_val($sel_opt['show_secondary_trade_val']) );
-		$secondary_trade_val_dec = ( $secondary_trade_val_result >= 0.01 ? 5 : 8 );
-		$secondary_trade_val_dec = ( $secondary_trade_val_result >= 1 ? 3 : $secondary_trade_val_dec );
+		$secondary_trade_val_dec = ( $secondary_trade_val_result >= 0.1 ? 5 : 7 );
+		$secondary_trade_val_dec = ( $secondary_trade_val_result >= 1 ? 4 : $secondary_trade_val_dec );
 		}
-		
-  $secondary_trade_val_dec = ( $secondary_trade_val_result >= 100 ? 0 : $secondary_trade_val_dec );
 		
 		if ( $secondary_trade_val_result >= 0.00000001 ) {
   		echo '<div class="crypto_worth">(' . $ct_var->num_pretty($secondary_trade_val_result, $secondary_trade_val_dec) . ' '.strtoupper($sel_opt['show_secondary_trade_val']).')</div>';
@@ -524,15 +520,13 @@ $asset_val_raw = $ct_var->num_to_str($asset_val_raw);
 
 	
 	if ( strtolower($asset_symb) == 'btc' ) {
-	$asset_amount_dec = ( $asset_amount >= 0.01 ? 6 : 8 );
-	$asset_amount_dec = ( $asset_amount >= 1 ? 4 : $asset_amount_dec );
+	$asset_amount_dec = ( $asset_amount >= 0.1 ? 6 : 8 );
+	$asset_amount_dec = ( $asset_amount >= 1 ? 5 : $asset_amount_dec );
 	}
 	else {
-	$asset_amount_dec = ( $asset_amount >= 0.01 ? 5 : 8 );
-	$asset_amount_dec = ( $asset_amount >= 1 ? 3 : $asset_amount_dec );
+	$asset_amount_dec = ( $asset_amount >= 0.1 ? 5 : 7 );
+	$asset_amount_dec = ( $asset_amount >= 1 ? 4 : $asset_amount_dec );
 	}
-		
-$asset_amount_dec = ( $asset_amount >= 100 ? 0 : $asset_amount_dec );
 	
 $pretty_asset_amount = $ct_var->num_pretty($asset_amount, $asset_amount_dec);
 
@@ -568,15 +562,13 @@ $asset_val_total_raw = $ct_var->num_to_str($asset_val_total_raw);
 	else {
 	
 		if ( $sel_pairing == 'btc' ) {
-		$asset_val_total_dec = ( $asset_val_total_raw >= 0.01 ? 6 : 8 );
-		$asset_val_total_dec = ( $asset_val_total_raw >= 1 ? 4 : $asset_val_total_dec );
+		$asset_val_total_dec = ( $asset_val_total_raw >= 0.1 ? 6 : 8 );
+		$asset_val_total_dec = ( $asset_val_total_raw >= 1 ? 5 : $asset_val_total_dec );
 		}
 		else {
-		$asset_val_total_dec = ( $asset_val_total_raw >= 0.01 ? 5 : 8 );
-		$asset_val_total_dec = ( $asset_val_total_raw >= 1 ? 3 : $asset_val_total_dec );
+		$asset_val_total_dec = ( $asset_val_total_raw >= 0.1 ? 5 : 7 );
+		$asset_val_total_dec = ( $asset_val_total_raw >= 1 ? 4 : $asset_val_total_dec );
 		}
-  
-	$asset_val_total_dec = ( $asset_val_total_raw >= 100 ? 0 : $asset_val_total_dec );
 	
     $pretty_asset_val_total_raw = $ct_var->num_pretty($asset_val_total_raw, $asset_val_total_dec); // NO decimal #MINIMUM#
 		
@@ -590,16 +582,14 @@ echo ' <span class="blue"><span class="data app_sort_filter blue">' . $pretty_as
   
 		if ( $sel_opt['show_secondary_trade_val'] == 'btc' ) {
 		$secondary_holdings_val_result = $ct_var->num_to_str($asset_val_total_raw * $pairing_btc_val);
-		$secondary_holdings_val_dec = ( $secondary_holdings_val_result >= 0.01 ? 6 : 8 );
-		$secondary_holdings_val_dec = ( $secondary_holdings_val_result >= 1 ? 4 : $secondary_holdings_val_dec );
+		$secondary_holdings_val_dec = ( $secondary_holdings_val_result >= 0.1 ? 6 : 8 );
+		$secondary_holdings_val_dec = ( $secondary_holdings_val_result >= 1 ? 5 : $secondary_holdings_val_dec );
 		}
 		else {
 		$secondary_holdings_val_result = $ct_var->num_to_str( ($asset_val_total_raw * $pairing_btc_val) / $this->pairing_btc_val($sel_opt['show_secondary_trade_val']) );
-		$secondary_holdings_val_dec = ( $secondary_holdings_val_result >= 0.01 ? 5 : 8 );
-		$secondary_holdings_val_dec = ( $secondary_holdings_val_result >= 1 ? 3 : $secondary_holdings_val_dec );
+		$secondary_holdings_val_dec = ( $secondary_holdings_val_result >= 0.1 ? 5 : 7 );
+		$secondary_holdings_val_dec = ( $secondary_holdings_val_result >= 1 ? 4 : $secondary_holdings_val_dec );
 		}
-		
-  $secondary_holdings_val_dec = ( $secondary_holdings_val_result >= 100 ? 0 : $secondary_holdings_val_dec );
 		
 		if ( $secondary_holdings_val_result >= 0.00000001 ) {
   		echo '<div class="crypto_worth"><span>(' . $ct_var->num_pretty($secondary_holdings_val_result, $secondary_holdings_val_dec) . ' '.strtoupper($sel_opt['show_secondary_trade_val']).')</span></div>';
