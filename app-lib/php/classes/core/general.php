@@ -1146,6 +1146,7 @@ var $ct_array1 = array();
    $pretty_str = preg_replace("/mart/i", 'Mart', $pretty_str);
    $pretty_str = preg_replace("/ftx/i", 'FTX', $pretty_str);
    $pretty_str = preg_replace("/dcx/i", 'DCX', $pretty_str);
+   $pretty_str = preg_replace("/gateio/i", 'Gate.io', $pretty_str);
    
    
    return trim($pretty_str);

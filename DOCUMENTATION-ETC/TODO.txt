@@ -41,15 +41,6 @@ OPTIMIZATIONS / BUGS / TESTS / UX / QA / OTHER SECTION
 ///////////////////////////////////////////////////////
 
 
-Our auto-scroll to last position feature for secondary pages has a bug, where if a secondary page is set as the start page, and a light chart time period link (10D , 1W, 1M, etc) is clicked on that secondary page, the browser auto-scrolls to the top of the page after the new chart time period finishes loading. Debugg the auto-scroll to last position (before page reload) logic on this.
-
-
-Rerun Bitcoin exchanges / all exchanges debugging printout, to update documentation in config notes / README / project website.
-
-
-Add obfuscation filter on error logs in the address-balance-tracker plugin for server/crypto_address/XXXXXXXX, as a plugin class function (same type of filter we do for etherscan urls in error logging).
-
-
 Add a dedicated system chart file for plugin cron stats ONLY (runtime seconds, etc).
 
 
@@ -153,6 +144,9 @@ For 'Desktop Edition' (using phpdesktop), look into using docker images for cros
 ///////////////////////////////////////////////////////
 API INTEGRATION SECTION
 ///////////////////////////////////////////////////////
+
+
+https://docs.bonfida.com/#introduction (solana dex API??)
 
 
 Look into adding Google Sheets API support for portfolio import / export: https://developers.google.com/sheets/api/samples/reading

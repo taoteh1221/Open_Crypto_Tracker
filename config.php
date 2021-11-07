@@ -201,10 +201,10 @@ $ct_conf['gen']['prim_mcap_site'] = 'coingecko';
 
 // Default BITCOIN market currencies (80+ currencies supported)
 // (set for default Bitcoin market, and charts / price alert primary-currency-equivalent value determination [example: usd value of btc/ltc market, etc])
-// aed / ars / aud / bam / bdt / bob / brl / bwp / byn / cad / chf / clp / cny / cop / crc / czk / 
-// dai / dkk / dop / egp / eth / eur / gbp / gel / ghs / gtq / hkd / huf / idr / ils / inr / irr / 
-// jmd / jod / jpy / kes / krw / kwd / kzt / lkr / mad / mur / mwk / mxn / myr / ngn / nis / nok / 
-// nzd / pab / pen / php / pkr / pln / pyg / qar / ron / rsd / rub / rwf / sar / sek / sgd / thb / 
+// aed / ars / aud / bam / bdt / bob / brl / bwp / byn / cad / chf / clp / cny / cop / crc / czk 
+// dai / dkk / dop / egp / eth / eur / gbp / gel / ghs / gtq / hkd / huf / idr / ils / inr / irr 
+// jmd / jod / jpy / kes / krw / kwd / kzt / lkr / mad / mur / mwk / mxn / myr / ngn / nis / nok 
+// nzd / pab / pen / php / pkr / pln / pyg / qar / ron / rsd / rub / rwf / sar / sek / sgd / thb 
 // try / tusd / twd / tzs / uah / ugx / usdc / usdt / uyu / ves / vnd / xaf / xof / zar / zmw
 // SEE THE $ct_conf['assets'] CONFIGURATION NEAR THE BOTTOM OF THIS CONFIG FILE, FOR THE PROPER (CORRESPONDING)
 // CURRENCY PAIRING VALUE NEEDED FOR YOUR CHOSEN 'BTC' EXCHANGE (set in $ct_conf['gen']['btc_prim_exchange'] directly below)
@@ -213,9 +213,10 @@ $ct_conf['gen']['btc_prim_currency_pairing'] = 'usd'; // PUT INSIDE SINGLE QUOTE
 
 // Default BITCOIN market exchanges (30+ bitcoin exchanges supported)
 // (set for default Bitcoin market, and charts / price alert primary-currency-equivalent value determination [example: usd value of btc/ltc market, etc])
-// binance / binance_us / bit2c / bitbns / bitfinex / bitflyer / bitmex / bitpanda / bitso / bitstamp / bittrex / 
-// bittrex_global / btcmarkets / btcturk / buyucoin / cex / coinbase / defipulse / gemini / hitbtc / 
-// huobi / korbit / kraken / kucoin / liquid / localbitcoins / loopring_amm / luno / okcoin / okex / southxchange / upbit / wazirx
+// binance / binance_us / bit2c / bitbns / bitfinex / bitflyer / bitmex / bitpanda / bitso / bitstamp 
+// bittrex / bittrex_global / btcmarkets / btcturk / buyucoin / cex / coinbase / coindcx / coinspot 
+// defipulse / gemini / hitbtc / huobi / korbit / kraken / kucoin / liquid / localbitcoins / loopring_amm 
+// luno / okcoin / okex / southxchange / unocoin / upbit / wazirx
 // SEE THE $ct_conf['assets'] CONFIGURATION NEAR THE BOTTOM OF THIS CONFIG FILE, FOR THE PROPER (CORRESPONDING)
 // MARKET PAIRING VALUE NEEDED FOR YOUR CHOSEN 'BTC' EXCHANGE (to populate $ct_conf['gen']['btc_prim_currency_pairing'] directly above with)
 // SEE THE $ct_conf['dev']['limited_apis'] SETTING MUCH FURTHER DOWN, FOR EXCHANGES !NOT RECOMMENDED FOR USAGE HERE!
@@ -231,7 +232,7 @@ $ct_conf['gen']['prim_currency_dec_max'] = 5; // Whole numbers only (represents 
 
 // Your local time offset IN HOURS, COMPARED TO UTC TIME. Can be negative or positive.
 // (Used for user experience 'pretty' timestamping in interface logic ONLY, WILL NOT change or screw up UTC log times etc if you change this)
-$ct_conf['gen']['loc_time_offset'] = -4; // example: -5 or 5, -5.5 or 5.75 (#CAN BE DECIMAL# TO SUPPORT 30 / 45 MINUTE TIME ZONES)
+$ct_conf['gen']['loc_time_offset'] = -5; // example: -5 or 5, -5.5 or 5.75 (#CAN BE DECIMAL# TO SUPPORT 30 / 45 MINUTE TIME ZONES)
 
 
 // Configure which interface theme you want as the default theme (also can be manually switched later, on the settings page in the interface)
@@ -457,6 +458,11 @@ $ct_conf['charts_alerts']['tracked_markets'] = array(
 					'sg-3' => 'bitmart||btc||both',
 					
 					
+					// SAMO
+					'samo' => 'okex||usdt||both',
+					'samo-2' => 'gateio||eth||chart',
+					
+					
 					);
 					
 // END $ct_conf['charts_alerts']['tracked_markets']
@@ -511,11 +517,11 @@ $ct_conf['power']['chainstats_cache_time'] = 75;  // (default = 75)
 
 
 // Minutes to cache marketcap rankings...start high and test lower, it can be strict
-$ct_conf['power']['mcap_cache_time'] = 50;  // (default = 50)
+$ct_conf['power']['mcap_cache_time'] = 60;  // (default = 60)
 ////
 // Number of marketcap rankings to request from API.
-// 300 rankings is a safe maximum to start with, to avoid getting your API requests throttled / blocked
-$ct_conf['power']['mcap_ranks_max'] = 300; // (default = 300)
+// 500 rankings is a safe maximum to start with, to avoid getting your API requests throttled / blocked
+$ct_conf['power']['mcap_ranks_max'] = 500; // (default = 500)
 
 
 // Maximum margin leverage available in the user interface ('Update' page, etc)
@@ -3129,10 +3135,10 @@ $ct_conf['assets'] = array(
 
                                                     
                                     'usdt' => array(
-                                        	'binance' => 'SXPUSDT',
+                                          'binance' => 'SXPUSDT',
                                           'kucoin' => 'SXP-USDT',
                                           'hitbtc' => 'SXPUSD',
-                                        	'wazirx' => 'sxpusdt',
+                                          'wazirx' => 'sxpusdt',
                                                     ),
 
                                                     
@@ -3153,23 +3159,23 @@ $ct_conf['assets'] = array(
 
                         
                                     'btc' => array(
-                                        	'binance' => 'ENJBTC',
+                                          'binance' => 'ENJBTC',
                                           'bittrex' => 'ENJ-BTC',
                                           'hitbtc' => 'ENJBTC',
                                           'kucoin' => 'ENJ-BTC',
                                           'coinex' => 'ENJBTC',
                                           'liquid' => 'ENJBTC',
-                                        	'upbit' => 'BTC-ENJ',
+                                          'upbit' => 'BTC-ENJ',
                                                     ),
 
                                                     
                                     'eth' => array(
-                                        	'binance' => 'ENJETH',
+                                          'binance' => 'ENJETH',
                                           'bittrex' => 'ENJ-ETH',
                                           'hitbtc' => 'ENJETH',
                                           'kucoin' => 'ENJ-ETH',
-                                        	'loopring_amm' => 'AMM-ENJ-ETH',
-                                    	 	'defipulse' => 'ENJ/WETH',
+                                          'loopring_amm' => 'AMM-ENJ-ETH',
+                                    	  'defipulse' => 'ENJ/WETH',
                                                     ),
 
                                                     
@@ -3201,8 +3207,8 @@ $ct_conf['assets'] = array(
                     ////////////////////////////////////////////////////////////////////
                     
                     
-                    // DATA
-                    'DATA' => array(
+                    // XDATA
+                    'XDATA' => array(
                         
                         'name' => 'Streamr DATAcoin',
                         'mcap_slug' => 'streamr-datacoin',
@@ -3286,6 +3292,33 @@ $ct_conf['assets'] = array(
                                     'usdt' => array(
                                           'bittrex_global' => 'SG-USDT',
                                           'bitmart' => 'SG_USDT',
+                                                    ),
+
+                                                    
+                        ) // pairing END
+                        
+                    ), // Asset END
+                    
+                    
+                    ////////////////////////////////////////////////////////////////////
+                    
+                    
+                    // SAMO
+                    'SAMO' => array(
+                        
+                        'name' => 'Samoyedcoin',
+                        'mcap_slug' => 'samoyedcoin',
+                        'pairing' => array(
+
+                        
+                                    'eth' => array(
+                                        'gateio' => 'SAMO_ETH',
+                                                    ),
+
+                                                    
+                                    'usdt' => array(
+                                        'okex' => 'SAMO-USDT',
+                                        'gateio' => 'SAMO_USDT',
                                                     ),
 
                                                     

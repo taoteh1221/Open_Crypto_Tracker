@@ -70,8 +70,9 @@ $("span.btc_prim_currency_pairing").html(window.btc_prim_currency_pairing);
 
 
 // We only want to load our vertical scroll position on secondary start pages that are't background-loading AFTER page load
+// (WE ALREADY LOAD get_scroll_position() in charts_loading_check() AND feeds_loading_check() FOR THE DYNAMIC PAGE LOADING)
 if ( $(location).attr('hash') != '' && $(location).attr('hash') != '#news' && $(location).attr('hash') != '#charts' ) {
-get_scroll_position(); // Run AFTER showing content
+get_scroll_position('init'); // Run AFTER showing content
 }
 
 random_tips(); // https://codepen.io/kkoutoup/pen/zxmGLE

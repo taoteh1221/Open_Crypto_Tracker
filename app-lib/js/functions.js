@@ -62,6 +62,8 @@ function store_scroll_position() {
 // WE ONLY CALL THIS FUNCTION ONCE PER PAGE UNLOAD (body => onbeforeunload)
 sessionStorage['scroll_position'] = window.scrollY;
 
+//console.log('scroll_position set to: ' + window.scrollY); // DEBUGGING ONLY
+
 }
 
 
@@ -271,7 +273,7 @@ function charts_loading_check(charts_loaded) {
 		// Run setting scroll position AGAIN if we are on the charts page,
 		// as we start out with no scroll height before the charts load
 		if ( $(location).attr('hash') == '#charts' ) {
-		get_scroll_position(); 
+		get_scroll_position('charts'); 
 		}
 	
 	return 'done';
@@ -306,7 +308,7 @@ function feeds_loading_check(feeds_loaded) {
 		// Run setting scroll position AGAIN if we are on the news page,
 		// as we start out with no scroll height before the news feeds load
 		if ( $(location).attr('hash') == '#news' ) {
-		get_scroll_position(); 
+		get_scroll_position('news'); 
 		}
 	
 	return 'done';
@@ -375,7 +377,7 @@ show_feeds = $("#show_feeds").val();
 /////////////////////////////////////////////////////////////
 
 
-function get_scroll_position() {
+function get_scroll_position(tracing) {
 
 	 // If we are using a different start page than the portfolio page,
 	 // RETRIEVE any stored scroll position we were at before the page reload
@@ -388,12 +390,17 @@ function get_scroll_position() {
     // Reset if we're NOT starting on a secondary page
     else {
 	 sessionStorage['scroll_position'] = 0;
+
+     //console.log('scroll_position set to zero'); // DEBUGGING ONLY
     }
+
+//console.log('get_scroll_position ('+tracing+')'); // DEBUGGING ONLY
 
 }
 	
 	
 /////////////////////////////////////////////////////////////
+
 
 
 function render_names(name) {
@@ -411,9 +418,20 @@ render = render.replace(/stamp/gi, "Stamp");
 render = render.replace(/flyer/gi, "Flyer");
 render = render.replace(/panda/gi, "Panda");
 render = render.replace(/pay/gi, "Pay");
+render = render.replace(/swap/gi, "Swap");
+render = render.replace(/iearn/gi, "iEarn");
+render = render.replace(/pulse/gi, "Pulse");
+render = render.replace(/defi/gi, "DeFi");
+render = render.replace(/ring/gi, "Ring");
+render = render.replace(/amm/gi, "AMM");
+render = render.replace(/ico/gi, "ICO");
+render = render.replace(/erc20/gi, "ERC-20");
+render = render.replace(/okex/gi, "OKex");
+render = render.replace(/mart/gi, "Mart");
+render = render.replace(/ftx/gi, "FTX");
+render = render.replace(/gateio/gi, "Gate.io");
 
 return render;
-
 }
 
 

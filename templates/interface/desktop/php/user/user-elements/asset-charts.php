@@ -81,6 +81,10 @@ $.get( "ajax.php?type=chart&mode=asset_price&asset_data=<?=$key?>&charted_val=<?
 
 
 zingchart.bind('<?=strtolower($key)?>_<?=$charted_val?>_chart', 'label_click', function(e){
+    
+// Set scroll position upon chart link clicks, to avoid page jumping from other zingchart bindings
+// when the charts page is set as the start page
+store_scroll_position(); 
 	
   if(lite_state_<?=$js_key?>.current === e.labelid){
     return;
