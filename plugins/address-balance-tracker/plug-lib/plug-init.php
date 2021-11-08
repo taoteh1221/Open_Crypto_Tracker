@@ -146,6 +146,10 @@ $pairing_btc_val = $ct_asset->pairing_btc_val($asset);
 	    
         $text_msg = $label . " address balance " . $direction . ": ". $plus_minus . $ct_conf['power']['btc_currency_markets'][ $ct_conf['gen']['btc_prim_currency_pairing'] ] . $pretty_prim_currency_worth;
 	    
+	    
+	    $email_msg = $base_msg; // PRIVACY MODE (NO EXPLORER LINK APPENDED)
+
+	    
         }
         else {
 
@@ -162,22 +166,23 @@ $pairing_btc_val = $ct_asset->pairing_btc_val($asset);
 	    
         $text_msg = $label . " address balance " . $direction . " (" . $plus_minus . $difference_amount . " " . strtoupper($asset) . "): " . $pretty_asset_amount . " " . strtoupper($asset) . " (". $ct_conf['power']['btc_currency_markets'][ $ct_conf['gen']['btc_prim_currency_pairing'] ] . $pretty_prim_currency_worth . ")";
 	    
+
+    		// Add blockchain explorer link to email message
+    		if ( $asset == 'btc' ) {
+    		$email_msg = $base_msg . " https://www.blockchain.com/btc/address/" . $address;
+    		}
+    		elseif ( $asset == 'eth' ) {
+    		$email_msg = $base_msg . " https://etherscan.io/address/" . $address;
+    		}
+    		elseif ( $asset == 'hnt' ) {
+    		$email_msg = $base_msg . " https://explorer.helium.com/accounts/" . $address;
+    		}
+    		elseif ( $asset == 'sol' ) {
+    		$email_msg = $base_msg . " https://solscan.io/account/" . $address;
+    		}
+		
+	    
         }
-
-
-		// Add blockchain explorer link to email message
-		if ( $asset == 'btc' ) {
-		$email_msg = $base_msg . " https://www.blockchain.com/btc/address/" . $address;
-		}
-		elseif ( $asset == 'eth' ) {
-		$email_msg = $base_msg . " https://etherscan.io/address/" . $address;
-		}
-		elseif ( $asset == 'hnt' ) {
-		$email_msg = $base_msg . " https://explorer.helium.com/accounts/" . $address;
-		}
-		elseif ( $asset == 'sol' ) {
-		$email_msg = $base_msg . " https://solscan.io/account/" . $address;
-		}
               
               
     // Were're just adding a human-readable timestamp to smart home (audio) alerts
