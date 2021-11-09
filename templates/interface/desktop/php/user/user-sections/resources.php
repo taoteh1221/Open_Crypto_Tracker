@@ -110,6 +110,8 @@
 	        
 	        <li class='links_list'><a href='https://www.kucoin.com/' target='_blank'>Kucoin.com</a></li>
 	        
+	        <li class='links_list'><a href='https://www.gate.io/' target='_blank'>Gate.io</a></li>
+	        
 	        <li class='links_list'><a href='https://gemini.com/' target='_blank'>Gemini.com</a></li>
 	        
 	        <li class='links_list'><a href='https://www.bitstamp.net/' target='_blank'>Bitstamp.net</a></li>
