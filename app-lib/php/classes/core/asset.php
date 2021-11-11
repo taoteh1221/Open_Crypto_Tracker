@@ -787,7 +787,7 @@ var $ct_array1 = array();
       
       
       // Return error message if the markets lists is more markets than allowed by $ct_conf['dev']['local_api_market_limit']
-      if ( sizeof($all_markets_data_array) > $ct_conf['dev']['local_api_market_limit'] ) {
+      if ( is_array($all_markets_data_array) && sizeof($all_markets_data_array) > $ct_conf['dev']['local_api_market_limit'] ) {
       	
       $result['error'] = 'Exceeded maximum of ' . $ct_conf['dev']['local_api_market_limit'] . ' markets allowed per request (' . sizeof($all_markets_data_array) . ').';
       
@@ -979,7 +979,7 @@ var $ct_array1 = array();
            
            
            }
-           elseif ( sizeof($market_data_array) < 3 ) {
+           elseif ( !is_array($market_data_array) || is_array($market_data_array) && sizeof($market_data_array) < 3 ) {
            	
            $result['market_conversion'][$market_data] = array('error' => "Missing all 3 REQUIRED sub-parameters: [exchange-asset-pairing]");
            
@@ -1065,18 +1065,36 @@ var $ct_array1 = array();
 	        
 	        }
 	        // Preferred BITCOIN market(s) for getting a certain currency's value, if in config and more than one market exists
-	        elseif ( sizeof($ct_conf['assets'][strtoupper($pairing)]['pairing']['btc']) > 1 && array_key_exists($pairing, $ct_conf['power']['crypto_pairing_pref_markets']) ) {
+	        elseif ( is_array($ct_conf['assets'][strtoupper($pairing)]['pairing']['btc']) && sizeof($ct_conf['assets'][strtoupper($pairing)]['pairing']['btc']) > 1 && array_key_exists($pairing, $ct_conf['power']['crypto_pairing_pref_markets']) ) {
 	        $market_override = $ct_conf['power']['crypto_pairing_pref_markets'][$pairing];
 	        }
 	      
 	      
 	        // Loop until we find a market override / non-excluded pairing market
 	        foreach ( $ct_conf['assets'][strtoupper($pairing)]['pairing']['btc'] as $market_key => $market_val ) {
+	            
+	            
+	              if ( is_array($btc_pairing_markets_excluded[$pairing]) && in_array($market_key, $btc_pairing_markets_excluded[$pairing]) ) {
+	              $market_blacklisted = true;
+	              }
+	              else {
+	              $market_blacklisted = false;
+	              }
 	              
 	              
-		          if ( isset($market_override) && $market_override == $market_key && !in_array($market_key, $btc_pairing_markets_excluded[$pairing])
-		          || isset($market_override) && $market_override != $market_key && in_array($market_override, $btc_pairing_markets_excluded[$pairing]) && !in_array($market_key, $btc_pairing_markets_excluded[$pairing])
-		          || !isset($market_override) && !in_array($market_key, $btc_pairing_markets_excluded[$pairing]) ) {
+	              if ( is_array($btc_pairing_markets_excluded[$pairing]) && in_array($market_override, $btc_pairing_markets_excluded[$pairing]) ) {
+	              $market_override_blacklisted = true;
+	              }
+	              else {
+	              $market_override_blacklisted = false;
+	              }
+	              
+	              
+		          if ( 
+		          isset($market_override) && $market_override == $market_key && !$market_blacklisted
+		          || isset($market_override) && $market_override != $market_key && $market_override_blacklisted && !$market_blacklisted
+		          || !isset($market_override) && !$market_blacklisted
+		          ) {
 		            
 		          $btc_pairing_markets[$pairing.'_btc'] = $ct_api->market(strtoupper($pairing), $market_key, $market_val)['last_trade'];
 		          
@@ -1099,7 +1117,7 @@ var $ct_array1 = array();
 			            }
 			            // ONLY LOG AN ERROR IF ALL AVAILABLE MARKETS FAIL (AND RETURN NULL)
 			            // We only want to loop a fallback for the amount of available markets
-			            elseif ( sizeof($btc_pairing_markets_excluded[$pairing]) == sizeof($ct_conf['assets'][strtoupper($pairing)]['pairing']['btc']) ) {
+			            elseif ( is_array($btc_pairing_markets_excluded[$pairing]) && sizeof($btc_pairing_markets_excluded[$pairing]) >= sizeof($ct_conf['assets'][strtoupper($pairing)]['pairing']['btc']) ) {
 			            	
 			            $ct_gen->log(
 			            			'market_error',
@@ -1143,18 +1161,36 @@ var $ct_array1 = array();
 	        
 	        }
 	        // Preferred BITCOIN market(s) for getting a certain currency's value, if in config and more than one market exists
-	        elseif ( sizeof($ct_conf['assets']['BTC']['pairing'][$pairing]) > 1 && array_key_exists($pairing, $ct_conf['power']['btc_pref_currency_markets']) ) {
+	        elseif ( is_array($ct_conf['assets']['BTC']['pairing'][$pairing]) && sizeof($ct_conf['assets']['BTC']['pairing'][$pairing]) > 1 && array_key_exists($pairing, $ct_conf['power']['btc_pref_currency_markets']) ) {
 	        $market_override = $ct_conf['power']['btc_pref_currency_markets'][$pairing];
 	        }
 	            
 	            
 	        // Loop until we find a market override / non-excluded pairing market
 	        foreach ( $ct_conf['assets']['BTC']['pairing'][$pairing] as $market_key => $market_val ) {
+	            
+	            
+	              if ( is_array($btc_pairing_markets_excluded[$pairing]) && in_array($market_key, $btc_pairing_markets_excluded[$pairing]) ) {
+	              $market_blacklisted = true;
+	              }
+	              else {
+	              $market_blacklisted = false;
+	              }
 	              
 	              
-		          if ( isset($market_override) && $market_override == $market_key && !in_array($market_key, $btc_pairing_markets_excluded[$pairing])
-		          || isset($market_override) && $market_override != $market_key && in_array($market_override, $btc_pairing_markets_excluded[$pairing]) && !in_array($market_key, $btc_pairing_markets_excluded[$pairing])
-		          || !isset($market_override) && !in_array($market_key, $btc_pairing_markets_excluded[$pairing]) ) {
+	              if ( is_array($btc_pairing_markets_excluded[$pairing]) && in_array($market_override, $btc_pairing_markets_excluded[$pairing]) ) {
+	              $market_override_blacklisted = true;
+	              }
+	              else {
+	              $market_override_blacklisted = false;
+	              }
+	              
+	              
+		          if (
+		          isset($market_override) && $market_override == $market_key && !$market_blacklisted
+		          || isset($market_override) && $market_override != $market_key && $market_override_blacklisted && !$market_blacklisted
+		          || !isset($market_override) && !$market_blacklisted
+		          ) {
 		                
 		          $btc_pairing_markets[$pairing.'_btc'] = ( 1 / $ct_api->market(strtoupper($pairing), $market_key, $market_val)['last_trade'] );
 		                
@@ -1177,7 +1213,7 @@ var $ct_array1 = array();
 			            }
 			            // ONLY LOG AN ERROR IF ALL AVAILABLE MARKETS FAIL (AND RETURN NULL)
 			            // We only want to loop a fallback for the amount of available markets
-			            elseif ( sizeof($btc_pairing_markets_excluded[$pairing]) >= sizeof($ct_conf['assets']['BTC']['pairing'][$pairing]) ) {
+			            elseif ( is_array($btc_pairing_markets_excluded[$pairing]) && sizeof($btc_pairing_markets_excluded[$pairing]) >= sizeof($ct_conf['assets']['BTC']['pairing'][$pairing]) ) {
 			            	
 			            $ct_gen->log(
 			            			'market_error',
@@ -1241,7 +1277,7 @@ var $ct_array1 = array();
 	            if ( $loop == $sel_exchange || $key == "ico_erc20_value" ) {
 	            $sel_exchange = $key;
 	             
-		               if ( sizeof($sel_opt['prim_currency_market_standalone']) != 2 && strtolower($asset_name) == 'bitcoin' ) {
+		               if ( !is_array($sel_opt['prim_currency_market_standalone']) && strtolower($asset_name) == 'bitcoin' ) {
 		               $ct_conf['gen']['btc_prim_exchange'] = $key;
 		               $ct_conf['gen']['btc_prim_currency_pairing'] = $sel_pairing;
 		               

@@ -41,6 +41,9 @@ OPTIMIZATIONS / BUGS / TESTS / UX / QA / OTHER SECTION
 ///////////////////////////////////////////////////////
 
 
+Overhaul / optimize config checks.
+
+
 Add a dedicated system chart file for plugin cron stats ONLY (runtime seconds, etc).
 
 

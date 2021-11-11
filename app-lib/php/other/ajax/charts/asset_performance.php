@@ -35,7 +35,7 @@ $attributes = explode("||", $val);
 
 // If no chart data available...
 
-if ( sizeof($runtime_data['performance_stats']) < 1 ) {
+if ( !is_array($runtime_data['performance_stats']) || is_array($runtime_data['performance_stats']) && sizeof($runtime_data['performance_stats']) < 1 ) {
 ?>
 			
 {
@@ -101,6 +101,8 @@ exit;
 
 
 // If chart data exists...
+
+$sorted_by_last_chart_data = array();
 
 $loop = 0;
 foreach ( $runtime_data['performance_stats'] as $chart_key => $chart_val ) {

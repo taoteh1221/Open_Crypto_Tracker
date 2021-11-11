@@ -113,6 +113,8 @@ exit;
 $chart_data = $ct_gen->chart_data('cache/charts/system/lite/' . $_GET['days'] . '_days/system_stats.dat', 'system');
 
 
+$sorted_by_last_chart_data = array();
+
 // Determine how many data sensors to include in first chart
 $num_in_first_chart = 0;
 $loop = 0;

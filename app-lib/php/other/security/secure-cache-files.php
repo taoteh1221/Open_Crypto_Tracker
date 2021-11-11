@@ -424,7 +424,7 @@ $secure_256bit_hash = $ct_gen->rand_hash(32); // 256-bit (32-byte) hash converte
 
 
 // If no admin login or an activated reset, valid user / pass are submitted, AND CAPTCHA MATCHES, store the new admin login
-if ( $password_reset_approved || sizeof($stored_admin_login) != 2 ) {
+if ( $password_reset_approved || !is_array($stored_admin_login) ) {
 	
 
 	if ( $ct_gen->valid_username( trim($_POST['set_username']) ) == 'valid' 
@@ -478,7 +478,7 @@ if ( $password_reset_approved || sizeof($stored_admin_login) != 2 ) {
 				
 		$cookie_nonce = $ct_gen->rand_hash(32); // 32 byte
 		
-		$ct_gen->store_cookie('admin_auth_' . $ct_gen->id(), $cookie_nonce, mktime() + ($ct_conf['power']['admin_cookie_expire'] * 3600) );
+		$ct_gen->store_cookie('admin_auth_' . $ct_gen->id(), $cookie_nonce, time() + ($ct_conf['power']['admin_cookie_expire'] * 3600) );
 				
 		$_SESSION['admin_logged_in']['auth_hash'] = $ct_gen->admin_hashed_nonce($cookie_nonce, 'force'); // Force set, as we're not logged in fully yet
 				

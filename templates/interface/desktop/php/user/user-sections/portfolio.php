@@ -9,7 +9,7 @@
     
 			<span class='bitcoin'><b>(<?=$ct_conf['power']['last_trade_cache_time']?> minute cache)</b></span>
 			<?php
-			if ( sizeof($sel_opt['alert_percent']) > 4 ) { // Backwards compatibility (reset if user data is not this many array values)
+			if ( is_array($sel_opt['alert_percent']) && sizeof($sel_opt['alert_percent']) > 4 ) { // Backwards compatibility (reset if user data is not this many array values)
 				
 				if ( $sel_opt['alert_percent'][4] == 'visual_only' ) {
 				$visual_audio_alerts = 'Visual';
@@ -430,11 +430,24 @@ $total_btc_worth = ( $total_btc_worth_raw >= 0.00000001 ? $ct_var->num_pretty($t
 
 $total_prim_currency_worth = $ct_asset->coin_stats_data('coin_worth_total');
 
-$bitcoin_dominance = $ct_var->num_to_str( ( $btc_worth_array['BTC'] / $total_btc_worth_raw ) * 100 );
+    if ( $total_btc_worth_raw > 0 ) {
+        
+    $bitcoin_dominance = $ct_var->num_to_str( ( $btc_worth_array['BTC'] / $total_btc_worth_raw ) * 100 );
 
-$ethereum_dominance = $ct_var->num_to_str( ( $btc_worth_array['ETH'] / $total_btc_worth_raw ) * 100 );
+    $ethereum_dominance = $ct_var->num_to_str( ( $btc_worth_array['ETH'] / $total_btc_worth_raw ) * 100 );
 
-$miscassets_dominance = $ct_var->num_to_str( ( $btc_worth_array['MISCASSETS'] / $total_btc_worth_raw ) * 100 );
+    $miscassets_dominance = $ct_var->num_to_str( ( $btc_worth_array['MISCASSETS'] / $total_btc_worth_raw ) * 100 );
+
+    }
+    else {
+        
+    $bitcoin_dominance = 0;
+
+    $ethereum_dominance = 0;
+
+    $miscassets_dominance = 0;
+    
+    }
 
 $altcoin_dominance = ( $total_btc_worth_raw >= 0.00000001 ? $ct_var->num_to_str( 100 - $bitcoin_dominance - $ethereum_dominance - $miscassets_dominance ) : 0.00 );
 
@@ -511,7 +524,14 @@ $altcoin_dominance = $ct_var->max_100($altcoin_dominance);
 							echo '<span class="'.$key.'" title="'.strtoupper($key).'">'.$val.' ' . $total_btc_worth . '</span>';
 							}
 							else {
-							echo '<span class="'.$key.'" title="'.strtoupper($key).'">'.$val.' ' . number_format( ( $total_btc_worth_raw / $ct_asset->pairing_btc_val($key) ) , 4) . '</span>';
+							    
+							   if ( $ct_asset->pairing_btc_val($key) > 0 ) {
+							   echo '<span class="'.$key.'" title="'.strtoupper($key).'">'.$val.' ' . number_format( ( $total_btc_worth_raw / $ct_asset->pairing_btc_val($key) ) , 4) . '</span>';
+							   }
+							   else {
+							   echo '<span class="'.$key.'" title="'.strtoupper($key).'">'.$val.' ' . number_format(0, 4) . '</span>';
+							   }
+							    
 							}
 				
 						$loop = $loop + 1;
@@ -1559,7 +1579,7 @@ zingchart.bind('marketcap_chart', 'label_click', function(e){
          
          
          // Red UI nav, with info bubble too
-         if ( sizeof($system_alerts) > 0 ) {
+         if ( is_array($system_alerts) && sizeof($system_alerts) > 0 ) {
          ?>
          <script>
          

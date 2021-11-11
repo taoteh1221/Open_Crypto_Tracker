@@ -25,7 +25,7 @@ if ( is_readable($filename) ) {
 }
 
 
-if( sizeof($lines) < 1 ){
+if( !is_array($lines) ){
 $lines[] = 'No logs yet for log file: ' . $filename;
 }
 

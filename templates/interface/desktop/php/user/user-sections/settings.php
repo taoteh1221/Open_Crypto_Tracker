@@ -36,7 +36,7 @@
                         
 			<?php
 			}
-			if ( sizeof($ct_conf['proxy']['proxy_list']) > 0 ) {
+			if ( is_array($ct_conf['proxy']['proxy_list']) && sizeof($ct_conf['proxy']['proxy_list']) > 0 ) {
 			?>
           <p class='settings_sections'><b><?=( trim($ct_conf['proxy']['proxy_login']) != '' ? 'Password-based' : 'IP-athenticated' )?> proxy mode</b> is <i>enabled</i> in the configuration file for API connections (<?=sizeof($ct_conf['proxy']['proxy_list'])?> proxies randomly used<?=( $ct_conf['comms']['proxy_alert'] != 'off' ? ' / proxy alerts enabled for ' . $ct_conf['comms']['proxy_alert'] . ' alert method(s), every ' . $ct_conf['comms']['proxy_alert_freq_max'] . ' hours max per-proxy at ' . $ct_conf['comms']['proxy_alert_runtime'] . ' runtimes / ' .$ct_conf['comms']['proxy_alert_checkup_ok']. ' sending proxy alerts on proxy checks that tested OK after acting up' : '' )?>). 
           	
@@ -317,7 +317,7 @@
 				    }
 				    
 				    
-				    ' <?=( sizeof($sel_opt['prim_currency_market_standalone']) == 2 ? 'checked' : '' )?> /> Stand-Alone Mode (<i>WON'T automatically change</i> Bitcoin market on "Update" page)
+				    ' <?=( is_array($sel_opt['prim_currency_market_standalone']) ? 'checked' : '' )?> /> Stand-Alone Mode (<i>WON'T automatically change</i> Bitcoin market on "Update" page)
 				    
 				    <div id='prim_currency_markets_alert' class='bitcoin_dotted bitcoin'></div>
 				    
@@ -417,7 +417,7 @@
 			    
 			    '>
 			    <option value='no' <?=( !$sel_opt['alert_percent'] ? ' selected ' : '' )?>> No </option>
-			    <option value='yes' <?=( sizeof($sel_opt['alert_percent']) > 4 ? ' selected ' : '' )?>> Yes </option> <!-- Backwards compatibility (dynamic PHP reset, if user data is not the current feature set number of array values) -->
+			    <option value='yes' <?=( is_array($sel_opt['alert_percent']) && sizeof($sel_opt['alert_percent']) > 4 ? ' selected ' : '' )?>> Yes </option> <!-- Backwards compatibility (dynamic PHP reset, if user data is not the current feature set number of array values) -->
 			    </select>
 			     
 			     
@@ -652,7 +652,7 @@
                         
                          
 			<?php
-			if ( sizeof($sel_opt['alert_percent']) > 4 ) { // Backwards compatibility (reset if user data is not this many array values)
+			if ( is_array($sel_opt['alert_percent']) && sizeof($sel_opt['alert_percent']) > 4 ) { // Backwards compatibility (reset if user data is not this many array values)
 			?>
 			
 			<style>

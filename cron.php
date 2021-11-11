@@ -216,7 +216,7 @@ $ct_cache->send_notifications();
 
 
 // If any plugins are activated, RESET $log_array for plugin logging, SO WE DON'T GET DUPLICATE LOGGING
-if ( sizeof($activated_plugins['cron']) > 0 ) {
+if ( is_array($activated_plugins['cron']) && sizeof($activated_plugins['cron']) > 0 ) {
     
 $log_array = array();
 
@@ -265,7 +265,7 @@ foreach ( $activated_plugins['cron'] as $plugin_key => $plugin_init ) {
 
 // Log errors / debugging, send notifications
 // (IF ANY PLUGINS ARE ACTIVATED, RAN AGAIN SEPERATELY FOR PLUGIN LOGGING / ALERTS ONLY)
-if ( sizeof($activated_plugins['cron']) > 0 ) {
+if ( is_array($activated_plugins['cron']) && sizeof($activated_plugins['cron']) > 0 ) {
 $ct_cache->error_log();
 $ct_cache->debug_log();
 $ct_cache->send_notifications();

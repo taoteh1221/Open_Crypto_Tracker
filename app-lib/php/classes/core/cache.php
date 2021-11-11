@@ -926,8 +926,14 @@ var $ct_array1 = array();
         }
        
        
-     // DEBUGGING data
-     $added_arch_mode = sizeof($queued_arch_lines) . '_ADDED';
+        // DEBUGGING data
+        if ( is_array($queued_arch_lines) ) {
+        $added_arch_mode = sizeof($queued_arch_lines) . '_ADDED';
+        }
+        else {
+        $added_arch_mode = '0_ADDED';
+        }
+        
      
      }
   
@@ -945,7 +951,7 @@ var $ct_array1 = array();
     // (we STILL check $queued_arch_lines for new data, to see if we should SKIP an 'all' charts full rebuild now)
     ////////////////////////////////////////////////////////////////////////////////////////////////
     elseif ( !$newest_lite_timestamp 
-    || $days_span == 'all' && sizeof($queued_arch_lines) > 0 && $this->update_cache($base_dir . '/cache/events/lite_chart_rebuilds/all_days_chart_'.$lite_path_hash.'.dat', (60 * $all_chart_rebuild_thres) ) == true ) {
+    || $days_span == 'all' && is_array($queued_arch_lines) && sizeof($queued_arch_lines) > 0 && $this->update_cache($base_dir . '/cache/events/lite_chart_rebuilds/all_days_chart_'.$lite_path_hash.'.dat', (60 * $all_chart_rebuild_thres) ) == true ) {
    
     $archive_file_data = file($archive_path);
     $archive_file_data = array_reverse($archive_file_data); // Save time, only loop / read last lines needed
@@ -997,7 +1003,7 @@ var $ct_array1 = array();
     // If the lite chart has existing data, then $queued_arch_lines should be populated (IF we have new data to append to it).
     // We also trim out X first lines of stale data (earlier then the X days time range)
     ////////////////////////////////////////////////////////////////////////////////////////////////
-    elseif ( sizeof($queued_arch_lines) > 0 ) {
+    elseif ( is_array($queued_arch_lines) && sizeof($queued_arch_lines) > 0 ) {
      
     $queued_arch_data = implode("\n", $queued_arch_lines);
     
@@ -1108,7 +1114,7 @@ var $ct_array1 = array();
   
   
     // If queued messages exist, proceed
-    if ( sizeof($msgs_queue) > 0 ) {
+    if ( is_array($msgs_queue) && sizeof($msgs_queue) > 0 ) {
     
     
       if ( !isset($processed_msgs['notifications_count']) ) {
@@ -1670,7 +1676,7 @@ var $ct_array1 = array();
       
       
       // If proxies are configured
-      if ( sizeof($ct_conf['proxy']['proxy_list']) > 0 ) {
+      if ( is_array($ct_conf['proxy']['proxy_list']) && sizeof($ct_conf['proxy']['proxy_list']) > 0 ) {
        
       $current_proxy = ( $mode == 'proxy-check' && $test_proxy != null ? $test_proxy : $ct_var->random_array_var($ct_conf['proxy']['proxy_list']) );
       
@@ -1885,7 +1891,7 @@ var $ct_array1 = array();
       			);
       
       
-        if ( sizeof($ct_conf['proxy']['proxy_list']) > 0 && $current_proxy != '' && $mode != 'proxy-check' ) { // Avoid infinite loops doing proxy checks
+        if ( is_array($ct_conf['proxy']['proxy_list']) && sizeof($ct_conf['proxy']['proxy_list']) > 0 && $current_proxy != '' && $mode != 'proxy-check' ) { // Avoid infinite loops doing proxy checks
      
         $proxy_checkup[] = array(
                     			'endpoint' => ( $mode == 'params' ? 'server at ' : 'endpoint at ' ) . $ct_gen->obfusc_url_data($api_endpoint),

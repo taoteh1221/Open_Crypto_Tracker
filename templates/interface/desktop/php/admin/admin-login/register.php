@@ -7,7 +7,7 @@
 $register_result = array();
 
 	
-if ( !$_GET['new_reset_key'] && !$_POST['admin_submit_register'] && sizeof($stored_admin_login) == 2 && $ct_gen->valid_email($ct_conf['comms']['to_email']) == 'valid' ) {
+if ( !$_GET['new_reset_key'] && !$_POST['admin_submit_register'] && is_array($stored_admin_login) && $ct_gen->valid_email($ct_conf['comms']['to_email']) == 'valid' ) {
 $register_result['error'][] = "An admin login already exists, and you HAVE properly added a VALID 'To' email in the communications configuration. Try <a href='password-reset.php' class='red'>resetting your password</a> instead.";
 }
 	
@@ -168,7 +168,7 @@ else {
 
 <?php
 
-if ( !$_POST['submit_registration'] || sizeof($register_result['error']) > 0 ) {
+if ( !$_POST['submit_registration'] || is_array($register_result['error']) && sizeof($register_result['error']) > 0 ) {
 ?>
 
 <form name='set_admin' id='set_admin' action='' method='post'>

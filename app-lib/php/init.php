@@ -10,7 +10,7 @@
 
 
 // Application version
-$app_version = '5.03.8';  // 2021/November/8TH
+$app_version = '5.03.9';  // 2021/November/11TH
 
 // Application edition
 $app_edition = 'server';  // 'server' OR 'desktop' edition (LOWERCASE)
@@ -365,7 +365,7 @@ $telegram_activated = 1;
 if ( trim($ct_conf['dev']['override_user_agent']) != '' ) {
 $user_agent = $ct_conf['dev']['override_user_agent'];  // Custom user agent
 }
-elseif ( sizeof($ct_conf['proxy']['proxy_list']) > 0 ) {
+elseif ( is_array($ct_conf['proxy']['proxy_list']) && sizeof($ct_conf['proxy']['proxy_list']) > 0 ) {
 $user_agent = 'Curl/' .$curl_setup["version"]. ' ('.PHP_OS.'; compatible;)';  // If proxies in use, preserve some privacy
 }
 else {

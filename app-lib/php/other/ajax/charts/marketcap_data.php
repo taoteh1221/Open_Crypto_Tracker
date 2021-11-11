@@ -96,7 +96,7 @@ $mcap_data = $ct_asset->mcap_data($key, 'usd'); // For marketcap bar chart, we A
 
 // If no chart data available...
 
-if ( sizeof($runtime_data['marketcap_data']) < 1 ) {
+if ( !is_array($runtime_data['marketcap_data']) || is_array($runtime_data['marketcap_data']) && sizeof($runtime_data['marketcap_data']) < 1 ) {
 ?>
 			
 {
@@ -162,6 +162,8 @@ exit;
 
 
 // If chart data exists...
+
+$sorted_by_mcap_data = array();
 
 $loop = 0;
 foreach ( $runtime_data['marketcap_data'] as $mcap_key => $mcap_val ) {

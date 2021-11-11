@@ -169,7 +169,7 @@ if ( is_array($ct_conf['assets']) ) {
 
 
 // Alphabetically sort news feeds
-$usort_feeds_results = usort($ct_conf['power']['news_feed'], array('ct_gen', 'titles_usort_alpha') );
+$usort_feeds_results = usort($ct_conf['power']['news_feed'], array($ct_gen, 'titles_usort_alpha') );
    	
 if ( !$usort_feeds_results ) {
 $ct_gen->log('other_error', 'RSS feeds failed to sort alphabetically');

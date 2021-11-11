@@ -301,7 +301,12 @@ var $ct_array1 = array();
       }
       
       
+      if ( is_float($val) ) {
       $val = number_format($val, $decimals, '.', '');
+      }
+      else {
+      $val = number_format( floatval($val) , $decimals, '.', '');
+      }
    
    
       // Remove TRAILING zeros ie. 140.00000 becomes 140.

@@ -682,7 +682,7 @@ var $ct_array1 = array();
       $subpath_array = explode("/", $subpath);
          
          // Subdirectories of /secured/
-         if ( sizeof($subpath_array) > 1 ) {
+         if ( is_array($subpath_array) && sizeof($subpath_array) > 1 ) {
          $path = str_replace($subpath_array[0], $ct_var->obfusc_str($subpath_array[0], 1), $path);
          $path = str_replace($subpath_array[1], $ct_var->obfusc_str($subpath_array[1], 5), $path);
          }
@@ -775,7 +775,7 @@ var $ct_array1 = array();
       $this->log('conf_error', '$password_pepper not set properly');
       return false;
       }
-      elseif ( sizeof($stored_admin_login) != 2 ) {
+      elseif ( !is_array($stored_admin_login) ) {
       $this->log('conf_error', 'No admin login set yet to check against');
       return false;
       }
@@ -1160,25 +1160,25 @@ var $ct_array1 = array();
     
    function utf8_to_unicode($char, $format) {
       
-       if (ord($char{0}) >=0 && ord($char{0}) <= 127)
-           $result = ord($char{0});
+       if (ord($char[0]) >=0 && ord($char[0]) <= 127)
+           $result = ord($char[0]);
            
-       if (ord($char{0}) >= 192 && ord($char{0}) <= 223)
-           $result = (ord($char{0})-192)*64 + (ord($char{1})-128);
+       if (ord($char[0]) >= 192 && ord($char[0]) <= 223)
+           $result = (ord($char[0])-192)*64 + (ord($char[1])-128);
            
-       if (ord($char{0}) >= 224 && ord($char{0}) <= 239)
-           $result = (ord($char{0})-224)*4096 + (ord($char{1})-128)*64 + (ord($char{2})-128);
+       if (ord($char[0]) >= 224 && ord($char[0]) <= 239)
+           $result = (ord($char[0])-224)*4096 + (ord($char[1])-128)*64 + (ord($char[2])-128);
            
-       if (ord($char{0}) >= 240 && ord($char{0}) <= 247)
-           $result = (ord($char{0})-240)*262144 + (ord($char{1})-128)*4096 + (ord($char{2})-128)*64 + (ord($char{3})-128);
+       if (ord($char[0]) >= 240 && ord($char[0]) <= 247)
+           $result = (ord($char[0])-240)*262144 + (ord($char[1])-128)*4096 + (ord($char[2])-128)*64 + (ord($char[3])-128);
            
-       if (ord($char{0}) >= 248 && ord($char{0}) <= 251)
-           $result = (ord($char{0})-248)*16777216 + (ord($char{1})-128)*262144 + (ord($char{2})-128)*4096 + (ord($char{3})-128)*64 + (ord($char{4})-128);
+       if (ord($char[0]) >= 248 && ord($char[0]) <= 251)
+           $result = (ord($char[0])-248)*16777216 + (ord($char[1])-128)*262144 + (ord($char[2])-128)*4096 + (ord($char[3])-128)*64 + (ord($char[4])-128);
            
-       if (ord($char{0}) >= 252 && ord($char{0}) <= 253)
-           $result = (ord($char{0})-252)*1073741824 + (ord($char{1})-128)*16777216 + (ord($char{2})-128)*262144 + (ord($char{3})-128)*4096 + (ord($char{4})-128)*64 + (ord($char{5})-128);
+       if (ord($char[0]) >= 252 && ord($char[0]) <= 253)
+           $result = (ord($char[0])-252)*1073741824 + (ord($char[1])-128)*16777216 + (ord($char[2])-128)*262144 + (ord($char[3])-128)*4096 + (ord($char[4])-128)*64 + (ord($char[5])-128);
            
-       if (ord($char{0}) >= 254 && ord($char{0}) <= 255)    //  error
+       if (ord($char[0]) >= 254 && ord($char[0]) <= 255)    //  error
            $result = false;
            
            
@@ -1576,7 +1576,7 @@ var $ct_array1 = array();
       
       }
       // Market ID auto-correction (if invalid market ID)
-      elseif ( sizeof($ct_conf['assets'][ $csv_row[0] ]['pairing'][ $csv_row[6] ]) < $csv_row[5] ) {
+      elseif ( is_array($ct_conf['assets'][ $csv_row[0] ]['pairing'][ $csv_row[6] ]) && sizeof($ct_conf['assets'][ $csv_row[0] ]['pairing'][ $csv_row[6] ]) < $csv_row[5] ) {
       $csv_row[5] = 1; // We need to reset the market id to 1 (it's ALWAYS 1 OR GREATER), as the ID was higher than available markets count
       }
       
@@ -1601,6 +1601,13 @@ var $ct_array1 = array();
    
    $result = array();
    $file = file($filename);
+   
+    if ( !is_array($file) ) {
+    $result['lines_removed'] = 0;
+    $result['data'] = false;
+    return $result;
+    }
+   
    $size = sizeof($file);
    $loop = 0;
    
@@ -1842,7 +1849,7 @@ var $ct_array1 = array();
          /////////////////////////////////
          // Check to make sure new random color isn't within range (nearly same color codes) of any colors already generated
          /////////////////////////////////
-         if( sizeof($rand_color_ranged) > 0 ) {
+         if( is_array($rand_color_ranged) && sizeof($rand_color_ranged) > 0 ) {
          
             // Compare new random color's range to any colors already generated
             foreach( $rand_color_ranged as $used_range ) {
@@ -2339,7 +2346,7 @@ var $ct_array1 = array();
    	// Cookies expire in 1 year (31536000 seconds)
    
    	  foreach ( $cookie_params as $cookie_key => $cookie_val ) {
-   	  $this->store_cookie($cookie_key, $cookie_val, mktime()+31536000);
+   	  $this->store_cookie($cookie_key, $cookie_val, time()+31536000);
    	  }
               
    
@@ -2348,56 +2355,56 @@ var $ct_array1 = array();
                
                   
             if ( isset($_POST['show_charts']) ) {
-            $this->store_cookie("show_charts", $_POST['show_charts'], mktime()+31536000);
+            $this->store_cookie("show_charts", $_POST['show_charts'], time()+31536000);
             }
             else {
             unset($_COOKIE['show_charts']);  // Delete any existing cookies
             }
                   
             if ( isset($_POST['show_crypto_val']) ) {
-            $this->store_cookie("show_crypto_val", $_POST['show_crypto_val'], mktime()+31536000);
+            $this->store_cookie("show_crypto_val", $_POST['show_crypto_val'], time()+31536000);
             }
             else {
             unset($_COOKIE['show_crypto_val']);  // Delete any existing cookies
             }
                   
             if ( isset($_POST['show_secondary_trade_val']) ) {
-            $this->store_cookie("show_secondary_trade_val", $_POST['show_secondary_trade_val'], mktime()+31536000);
+            $this->store_cookie("show_secondary_trade_val", $_POST['show_secondary_trade_val'], time()+31536000);
             }
             else {
             unset($_COOKIE['show_secondary_trade_val']);  // Delete any existing cookies
             }
                   
             if ( isset($_POST['show_feeds']) ) {
-            $this->store_cookie("show_feeds", $_POST['show_feeds'], mktime()+31536000);
+            $this->store_cookie("show_feeds", $_POST['show_feeds'], time()+31536000);
             }
             else {
             unset($_COOKIE['show_feeds']);  // Delete any existing cookies
             }
                  
             if ( isset($_POST['theme_selected']) ) {
-            $this->store_cookie("theme_selected", $_POST['theme_selected'], mktime()+31536000);
+            $this->store_cookie("theme_selected", $_POST['theme_selected'], time()+31536000);
             }
             else {
             unset($_COOKIE['theme_selected']);  // Delete any existing cookies
             }
                   
             if ( isset($_POST['sort_by']) ) {
-            $this->store_cookie("sort_by", $_POST['sort_by'], mktime()+31536000);
+            $this->store_cookie("sort_by", $_POST['sort_by'], time()+31536000);
             }
             else {
             unset($_COOKIE['sort_by']);  // Delete any existing cookies
             }
                  
             if ( isset($_POST['use_alert_percent']) ) {
-            $this->store_cookie("alert_percent", $_POST['use_alert_percent'], mktime()+31536000);
+            $this->store_cookie("alert_percent", $_POST['use_alert_percent'], time()+31536000);
             }
             else {
             unset($_COOKIE['alert_percent']);  // Delete any existing cookies
             }
                  
             if ( isset($_POST['prim_currency_market_standalone']) ) {
-            $this->store_cookie("prim_currency_market_standalone", $_POST['prim_currency_market_standalone'], mktime()+31536000);
+            $this->store_cookie("prim_currency_market_standalone", $_POST['prim_currency_market_standalone'], time()+31536000);
             }
             else {
             unset($_COOKIE['prim_currency_market_standalone']);  // Delete any existing cookies
@@ -2406,7 +2413,7 @@ var $ct_array1 = array();
                
             // Notes (only creation / deletion here, update logic is in cookies.php)
             if ( $_POST['use_notes'] == 1 && !$_COOKIE['notes'] ) {
-            $this->store_cookie("notes", " ", mktime()+31536000); // Initialized with some whitespace when blank
+            $this->store_cookie("notes", " ", time()+31536000); // Initialized with some whitespace when blank
             }
             elseif ( $_POST['use_notes'] != 1 ) {
             unset($_COOKIE['notes']);  // Delete any existing cookies
@@ -2790,7 +2797,7 @@ var $ct_array1 = array();
       $data = json_decode($response, true);
       
       
-         if ( sizeof($data) > 0 ) {
+         if ( is_array($data) && sizeof($data) > 0 ) {
           
             // Look for the IP in the response
             if ( strstr($data['ip'], $ip) == false ) {

@@ -420,7 +420,7 @@ var $ct_array1 = array();
       $count = 0;
              
 	      // Atom format
-	      if ( sizeof($rss->entry) > 0 ) {
+	      if ( is_object($rss->entry) && sizeof($rss->entry) > 0 ) {
 	             
 	      $sortable_feed = array();
 	               
@@ -428,7 +428,7 @@ var $ct_array1 = array();
 		      $sortable_feed[] = $item;
 		      }
 		               
-		  $usort_results = usort($sortable_feed,  array('ct_gen', 'timestamps_usort_newest') );
+		  $usort_results = usort($sortable_feed,  array($ct_gen, 'timestamps_usort_newest') );
 		               
 		      if ( !$usort_results ) {
 		      $ct_gen->log( 'other_error', 'RSS feed failed to sort by newest items (' . $url . ')');
@@ -484,7 +484,7 @@ var $ct_array1 = array();
 	             
 	      }
 	      // Standard RSS format
-	      elseif ( sizeof($rss->channel->item) > 0 ) {
+	      elseif ( is_object($rss->channel->item) && sizeof($rss->channel->item) > 0 ) {
 	             
 	      $sortable_feed = array();
 	               
@@ -492,7 +492,7 @@ var $ct_array1 = array();
 	          $sortable_feed[] = $item;
 	          }
 	               
-	      $usort_results = usort($sortable_feed, array('ct_gen', 'timestamps_usort_newest') );
+	      $usort_results = usort($sortable_feed, array($ct_gen, 'timestamps_usort_newest') );
 	               
 	          if ( !$usort_results ) {
 	          $ct_gen->log( 'other_error', 'RSS feed failed to sort by newest items (' . $url . ')');
@@ -773,7 +773,7 @@ var $ct_array1 = array();
 	      
 	            foreach ( $data as $object ) {
 	              
-	              if ( $object[0] == $market_id ) {
+	              if ( is_array($object) && $object[0] == $market_id ) {
 	                      
 	               
 	              $result = array(
@@ -2539,23 +2539,33 @@ var $ct_array1 = array();
            // All other pairing
      	 else {
      		        
-           $pairing_btc_val = $ct_asset->pairing_btc_val($market_id);
+         $pairing_btc_val = $ct_asset->pairing_btc_val($market_id);
      		      
-          	 if ( $pairing_btc_val == null ) {
+     		      
+          	if ( $pairing_btc_val == null ) {
           				          	
-          	 $ct_gen->log(
+          	$ct_gen->log(
           				'market_error',
           				'ct_asset->pairing_btc_val() returned null',
           				'market_id: ' . $market_id
           				);
           				          
-                }
+            }
      		      
-           $result = array(
-     		            'last_trade' => ( 1 / $ct_var->num_to_str($pairing_btc_val / $currency_to_btc) )
+           
+            if ( $ct_var->num_to_str($pairing_btc_val) > 0 && $ct_var->num_to_str($currency_to_btc) > 0 ) {
+            $calc = ( 1 / $ct_var->num_to_str($pairing_btc_val / $currency_to_btc) );
+            }
+            else {
+            $calc = 0;
+            }     		      
+     
+     			      
+         $result = array(
+     		            'last_trade' => $calc
      		            );
      		                  		
-           }
+         }
       
       
       }

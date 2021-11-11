@@ -15,7 +15,7 @@ if ( !$_GET['new_reset_key'] && !$_POST['admin_submit_reset'] ) {
 	$no_password_reset = 1;
 	}
 	
-	if ( sizeof($stored_admin_login) != 2 ) {
+	if ( !is_array($stored_admin_login) ) {
 	$reset_result['error'][] = "No admin account exists to reset.";
 	$no_password_reset = 1;
 	}
@@ -50,7 +50,7 @@ if ( $_POST['admin_submit_reset'] ) {
 	
 
 	// If checks clear, send email ////////
-	if ( sizeof($reset_result['error']) < 1 && trim($_POST['reset_username']) != '' && trim($_POST['reset_username']) == $stored_admin_login[0] ) {
+	if ( !is_array($reset_result['error']) || is_array($reset_result['error']) && sizeof($reset_result['error']) < 1 && trim($_POST['reset_username']) != '' && trim($_POST['reset_username']) == $stored_admin_login[0] ) {
 
 	$new_reset_key = $ct_gen->rand_hash(32);
 	
@@ -86,7 +86,7 @@ If you did NOT request this password reset (originating from ip address ".$remot
 
 
 	// Fake success message, even if the username was not found (so 3rd parties cannot hunt for a valid username)
-	if ( sizeof($reset_result['error']) < 1 ) {
+	if ( !is_array($reset_result['error']) || is_array($reset_result['error']) && sizeof($reset_result['error']) < 1 ) {
 	$reset_result['success'][] = "IF THE USERNAME EXISTS, a message has been sent to the registered admin email address for resetting the admin password. Please check your inbox (or spam folder, and mark as 'not spam') in a few minutes.";
 	}
 
@@ -180,7 +180,7 @@ require("templates/interface/desktop/php/header.php");
 
 <?php
 
-if ( !$_POST['admin_submit_reset'] && !$no_password_reset || sizeof($reset_result['error']) > 0 && !$no_password_reset ) {
+if ( !$_POST['admin_submit_reset'] && !$no_password_reset || is_array($reset_result['error']) && sizeof($reset_result['error']) > 0 && !$no_password_reset ) {
 ?>
 
 				<form id='reset_admin' action='' method ='post'>

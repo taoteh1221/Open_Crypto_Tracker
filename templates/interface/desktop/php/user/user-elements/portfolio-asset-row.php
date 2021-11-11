@@ -86,7 +86,7 @@ echo '?';
 			<?php
 			}
 
-			if ( sizeof($sel_opt['alert_percent']) > 4 ) { // Backwards compatibility (reset if user data is not this many array values)
+			if ( is_array($sel_opt['alert_percent']) && sizeof($sel_opt['alert_percent']) > 4 ) { // Backwards compatibility (reset if user data is not this many array values)
 			?>
 			
 			setTimeout(function() {
@@ -225,7 +225,7 @@ echo '?';
     <?php
     
     
-        if ( sizeof($sel_opt['alert_percent']) > 4 ) { // Backwards compatibility (reset if user data is not this many array values)
+        if ( is_array($sel_opt['alert_percent']) && sizeof($sel_opt['alert_percent']) > 4 ) { // Backwards compatibility (reset if user data is not this many array values)
         	
         $percent_alert_filter = $sel_opt['alert_percent'][2]; // gain / loss / both
     
@@ -320,7 +320,7 @@ echo '?';
 });
 
 		<?php
-		if ( sizeof($sel_opt['alert_percent']) > 4 ) { // Backwards compatibility (reset if user data is not this many array values)
+		if ( is_array($sel_opt['alert_percent']) && sizeof($sel_opt['alert_percent']) > 4 ) { // Backwards compatibility (reset if user data is not this many array values)
 		?>
 		
 		setTimeout(function() {
@@ -439,9 +439,18 @@ $asset_val_raw = $ct_var->num_to_str($asset_val_raw);
 		$secondary_trade_val_dec = ( $secondary_trade_val_result >= 1 ? 5 : $secondary_trade_val_dec );
 		}
 		else {
-		$secondary_trade_val_result = $ct_var->num_to_str( $btc_trade_eqiv_raw / $this->pairing_btc_val($sel_opt['show_secondary_trade_val']) );
+		    
+		   if ( $this->pairing_btc_val($sel_opt['show_secondary_trade_val']) > 0 ) {
+		   $secondary_trade_val_result = $ct_var->num_to_str( $btc_trade_eqiv_raw / $this->pairing_btc_val($sel_opt['show_secondary_trade_val']) );
+		   }
+		   else {
+		   $secondary_trade_val_result = 0;
+		   }
+		
 		$secondary_trade_val_dec = ( $secondary_trade_val_result >= 0.1 ? 5 : 7 );
+
 		$secondary_trade_val_dec = ( $secondary_trade_val_result >= 1 ? 4 : $secondary_trade_val_dec );
+
 		}
 		
 		if ( $secondary_trade_val_result >= 0.00000001 ) {
@@ -586,9 +595,18 @@ echo ' <span class="blue"><span class="data app_sort_filter blue">' . $pretty_as
 		$secondary_holdings_val_dec = ( $secondary_holdings_val_result >= 1 ? 5 : $secondary_holdings_val_dec );
 		}
 		else {
-		$secondary_holdings_val_result = $ct_var->num_to_str( ($asset_val_total_raw * $pairing_btc_val) / $this->pairing_btc_val($sel_opt['show_secondary_trade_val']) );
+
+            if ( $this->pairing_btc_val($sel_opt['show_secondary_trade_val']) > 0 ) {
+		    $secondary_holdings_val_result = $ct_var->num_to_str( ($asset_val_total_raw * $pairing_btc_val) / $this->pairing_btc_val($sel_opt['show_secondary_trade_val']) );
+            }
+            else {
+		    $secondary_holdings_val_result = 0;
+            }
+		
 		$secondary_holdings_val_dec = ( $secondary_holdings_val_result >= 0.1 ? 5 : 7 );
+
 		$secondary_holdings_val_dec = ( $secondary_holdings_val_result >= 1 ? 4 : $secondary_holdings_val_dec );
+
 		}
 		
 		if ( $secondary_holdings_val_result >= 0.00000001 ) {

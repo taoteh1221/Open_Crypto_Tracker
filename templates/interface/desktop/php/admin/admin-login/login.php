@@ -24,7 +24,7 @@ if ( $_POST['admin_submit_login'] ) {
 				
 				$cookie_nonce = $ct_gen->rand_hash(32); // 32 byte
 		
-				$ct_gen->store_cookie('admin_auth_' . $ct_gen->id(), $cookie_nonce, mktime() + ($ct_conf['power']['admin_cookie_expire'] * 3600) );
+				$ct_gen->store_cookie('admin_auth_' . $ct_gen->id(), $cookie_nonce, time() + ($ct_conf['power']['admin_cookie_expire'] * 3600) );
 				
 				$_SESSION['admin_logged_in']['auth_hash'] = $ct_gen->admin_hashed_nonce($cookie_nonce, 'force'); // Force set, as we're not logged in fully yet
 				
@@ -118,7 +118,7 @@ require("templates/interface/desktop/php/header.php");
   
 <?php
 
-if ( !$_POST['submit_login'] || sizeof($login_result['error']) > 0 ) {
+if ( !$_POST['submit_login'] || is_array($login_result['error']) && sizeof($login_result['error']) > 0 ) {
 ?>
 
 

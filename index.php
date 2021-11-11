@@ -19,7 +19,7 @@ require("config.php");
 	
 
 // If an activated password reset is in progress or no admin login has been set yet, prompt user to create an admin user / pass
-if ( $password_reset_approved || sizeof($stored_admin_login) != 2 ) {
+if ( $password_reset_approved || !is_array($stored_admin_login) ) {
 require("templates/interface/desktop/php/admin/admin-login/register.php");
 exit;
 }

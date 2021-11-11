@@ -60,7 +60,7 @@
          
          
          // Red UI nav, with info bubble too
-         if ( sizeof($system_alerts) > 0 ) {
+         if ( is_array($system_alerts) && sizeof($system_alerts) > 0 ) {
          ?>
          <script>
          
