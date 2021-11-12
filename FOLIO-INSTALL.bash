@@ -348,7 +348,7 @@ select opt in $OPTIONS; do
 			echo " "
         
 			# !!!RUN FIRST!!! PHP FPM (fcgi) version $PHP_FPM_VER, run SEPERATE in case it fails from package not found
-        	INSTALL_FPM_VER="install php${PHP_FPM_VER}-fpm -y"
+        	INSTALL_FPM_VER="install php${PHP_FPM_VER}-fpm php${PHP_FPM_VER}-mbstring php${PHP_FPM_VER}-xml php${PHP_FPM_VER}-curl php${PHP_FPM_VER}-gd php${PHP_FPM_VER}-zip -y"
         
         	apt-get $INSTALL_FPM_VER
         	
@@ -701,7 +701,7 @@ EOF
         # WE USE --purge TO REMOVE ANY MISCONFIGURATIONS, IN CASE SOMEBODY IS TRYING A UN-INSTALL / RE-INSTALL TO FIX THINGS
         
 		  # !!!RUN FIRST!!! PHP FPM (fcgi) version $PHP_FPM_VER, run SEPERATE in case it fails from package not found
-        REMOVE_FPM_VER="--purge remove php${PHP_FPM_VER}-fpm -y"
+        REMOVE_FPM_VER="--purge remove php${PHP_FPM_VER}-fpm php${PHP_FPM_VER}-mbstring php${PHP_FPM_VER}-xml php${PHP_FPM_VER}-curl php${PHP_FPM_VER}-gd php${PHP_FPM_VER}-zip -y"
         
         apt-get $REMOVE_FPM_VER
         
@@ -903,7 +903,7 @@ select opt in $OPTIONS; do
   				
   				
 				echo " "
-				echo "Making sure any previous install's DEPRECIATED directories / files are cleaned up, please wait..."
+				echo "${cyan}Making sure any previous install's DEPRECIATED directories / files are cleaned up, please wait...${reset}"
 				
   				# Delete old directory / file structures
   				
@@ -1354,16 +1354,16 @@ echo "(preferably with strict firewall rules using a 'guest network' configurati
 echo "requesting access to other machines on your home / internal network, and only allow it an access"
 echo "route through the internet gateway)."
 echo " "
-echo "A #VERY HIGH# port number is recommended (FREE / AVAILABLE port range is 1,025 to 65,535), to help avoid"
-echo "port scanning bots from detecting your machine (and then starting hack attempts on your bound port)."
+echo "A #VERY HIGH# NON-STANDARD port number is recommended (NON-STANDARD port range is 1,025 to 65,535), to help"
+echo "avoid port scanning bots from detecting your machine (and then starting hack attempts on your bound port)."
 echo " "
 echo "${red}FOR ADDED SECURITY, YOU SHOULD #ALWAYS KEEP THIS OPERATING SYSTEM UP-TO-DATE# WITH THIS TERMINAL COMMAND:"
 echo " "
 echo "${green}sudo apt update;sudo apt upgrade -y"
 echo " "
 
-echo "${yellow}SEE /DOCUMENTATION-ETC/RASPBERRY-PI/ for additional information on securing and"
-echo "setting up Raspberry Pi OS (disabling bluetooth, firewall setup, remote login, hostname, etc)."
+echo "${yellow}SEE /DOCUMENTATION-ETC/RASPBERRY-PI/ for additional information on securing and setting"
+echo "up Raspberry Pi OS (disabling bluetooth, firewall setup, remote login, hostname, etc)."
 echo " "
 
 echo "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~${reset}"
