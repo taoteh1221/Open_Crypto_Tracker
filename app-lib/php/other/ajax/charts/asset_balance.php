@@ -86,7 +86,7 @@
       	$asset_key = $misc_array[1];
       	}
       
-      	if ( $asset_key != 'type' && $asset_key != 'leverage_added' && $asset_key != 'short_added' && $asset_val >= 0.01 ) {
+      	if ( $asset_key != 'mode' && $asset_key != 'type' && $asset_key != 'leverage_added' && $asset_key != 'short_added' && $asset_val >= 0.01 ) {
       ?>
         {
           "values": [<?=strtoupper($asset_val)?>],
@@ -116,18 +116,18 @@
 					// Sort by most dominant first
 					arsort($_GET);
 					
-				foreach ( $_GET as $key => $val ) {
+				foreach ( $_GET as $asset_key => $asset_val ) {
 					
-      			if ( stristr($key, 'MISC__') != false ) {
-      			$key = strtolower($key);
-      			$misc_array = explode("__", $key);
-      			$key = $misc_array[1];
+      			if ( stristr($asset_key, 'MISC__') != false ) {
+      			$asset_key = strtolower($asset_key);
+      			$misc_array = explode("__", $asset_key);
+      			$asset_key = $misc_array[1];
       			}
       			
       
-						if ( $key != 'type' && $key != 'leverage_added' && $key != 'short_added' && $val >= 0.01 ) {
+						if ( $asset_key != 'mode' && $asset_key != 'type' && $asset_key != 'leverage_added' && $asset_key != 'short_added' && $asset_val >= 0.01 ) {
 				?>
-			<p class="coin_info"><span class="yellow"><?=strtoupper($key)?>:</span> <?=$val?>%</p>
+			<p class="coin_info"><span class="yellow"><?=strtoupper($asset_key)?>:</span> <?=$asset_val?>%</p>
 			
 			<?php
 						}
