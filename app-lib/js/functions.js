@@ -1250,6 +1250,14 @@ private_data = document.getElementsByClassName('private_data');
             
         
         }
+        else {
+        
+            // Any stats are added to document title
+            if ( typeof doc_title_stats !== 'undefined' ) {
+            document.title = doc_title_stats; 
+            }
+        
+        }
         
     
     }
