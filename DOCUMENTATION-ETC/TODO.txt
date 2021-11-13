@@ -41,6 +41,9 @@ OPTIMIZATIONS / BUGS / TESTS / UX / QA / OTHER SECTION
 ///////////////////////////////////////////////////////
 
 
+Write debugging tests for rss feeds.
+
+
 Overhaul / optimize config checks.
 
 
@@ -105,9 +108,6 @@ Check optimization by enabling "telemetry" debug mode, and reviewing debugging l
 
 
 Check log formatting for every debug mode.
-
-
-Write debugging tests for rss feeds.
 
 
 Consolidate num_to_str() calls, to speed up runtime.
@@ -243,9 +243,6 @@ Add market stats summaries from chart data, like bar charts for exchange volume 
 
 
 Auto-update feature like WordPress has (downloads a zip file upgrade from github, and exctracts it overwriting the old app files).
-
-
-2-way JAVASCRIPT encryption option (unlocked with 6 digit PIN) for showing holdings amounts IN THE GUI (IN COOKIES ONLY, NO DATABASE STORAGE !EVER!), with "quick lock" to quickly re-hide portfolio data (staying hidden persists on page load / reload as well with a cookie).
 
 
 Option to use new zip file encryption password feature to encrypt portfolio spreadsheet exports when downloading exported portfolio data (with password entered in the UI, #NOT# $ct_conf['gen']['backup_arch_pass']).

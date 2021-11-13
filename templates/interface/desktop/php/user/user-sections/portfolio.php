@@ -7,7 +7,7 @@
 ?>
 
     
-			<span class='bitcoin'><b>(<?=$ct_conf['power']['last_trade_cache_time']?> minute cache)</b></span>
+			<span id='pm_link' class='bitcoin' onclick='hide_show(true);' title='Turn privacy mode ON. This encrypts / hides RENDERED personal portfolio data with the PIN you setup (BUT DOES #NOT# encrypt RAW source code). It ALSO disables opposite-clicking.'>Privacy Mode: Off</span> 
 			<?php
 			if ( is_array($sel_opt['alert_percent']) && sizeof($sel_opt['alert_percent']) > 4 ) { // Backwards compatibility (reset if user data is not this many array values)
 				
@@ -52,9 +52,9 @@
 			$refresh_link_title = 'The current real-time exchange data re-cache (refresh from live data instead of cached data) setting in the Admin Config GENERAL section is set to '. $ct_conf['power']['last_trade_cache_time'] . ' minute(s).';
 			}
 			
-			?>  &nbsp; &nbsp; &nbsp; <a href='javascript:app_reloading_placeholder();app_reload();' style='font-weight: bold;' title='<?=$refresh_link_title?>'>Refresh</a>
+			?>  &nbsp; &nbsp; &nbsp; <a href='javascript:app_reloading_placeholder();app_reload();' style='font-weight: bold;' title='<?=$refresh_link_title?>'>Refresh</a> <span><b>(<?=$ct_conf['power']['last_trade_cache_time']?> minute cache)</b></span>
 			
-			 &nbsp;<select title='Auto-Refresh MAY NOT WORK properly on mobile devices (phone / laptop / tablet / etc).' class='browser-default custom-select' name='select_auto_refresh' id='select_auto_refresh' onchange='
+			 &nbsp;<select title='Auto-Refresh MAY NOT WORK properly on mobile devices (phone / laptop / tablet / etc), or inactive tabs.' class='browser-default custom-select' name='select_auto_refresh' id='select_auto_refresh' onchange='
 			 window.reload_time = this.value;
 			 auto_reload();
 			 '>
@@ -508,6 +508,7 @@ $altcoin_dominance = $ct_var->max_100($altcoin_dominance);
 			
 			<span class="black">Crypto Value:</span> 
 			
+			<span class='private_data'>
 			<?php
 					
 			$scan_crypto_val = array_map( array($ct_var, 'strip_brackets') , $sel_opt['show_crypto_val']); // Strip brackets
@@ -539,14 +540,19 @@ $altcoin_dominance = $ct_var->max_100($altcoin_dominance);
 						}
 				
 				}
-				
+				?>
+				</span>
+                
+                <?php				
 				// Delete any stale configs
 				if ( $loop < 1 ) {
 				?>
+				
 				<script>
 				$("#show_crypto_val").val('');
 				delete_cookie("show_crypto_val");
 				</script>
+				
 				<?php
 				}
 				?>
@@ -601,7 +607,7 @@ $altcoin_dominance = $ct_var->max_100($altcoin_dominance);
 		
         $thres_dec = $ct_gen->thres_dec($total_prim_currency_worth, 'u'); // Units mode
 		// Fiat value of portfolio
-		echo '<span class="black">' . strtoupper($ct_conf['gen']['btc_prim_currency_pairing']) . ' Value:</span> ' . $ct_conf['power']['btc_currency_markets'][ $ct_conf['gen']['btc_prim_currency_pairing'] ] . number_format($total_prim_currency_worth, $thres_dec['max_dec'], '.', ',');
+		echo '<span class="black">' . strtoupper($ct_conf['gen']['btc_prim_currency_pairing']) . ' Value:</span> <span class="private_data">' . $ct_conf['power']['btc_currency_markets'][ $ct_conf['gen']['btc_prim_currency_pairing'] ] . number_format($total_prim_currency_worth, $thres_dec['max_dec'], '.', ',') . '</span>';
 		
 		?>
 		
@@ -652,7 +658,7 @@ var fiat_val_content = '<h5 class="yellow tooltip_title">Primary Currency (<?=st
 		<?php
 		
 		// If using margin leverege anywhere
-		echo ( $purchase_price_added == 1 && $leverage_added == 1 && is_numeric($gain_loss_total) == TRUE ? '<div class="portfolio_summary"><span class="black">Leverage Included: </span>' . ( $total_prim_currency_worth_inc_leverage >= 0 ? '<span class="green">' : '<span class="red">-' ) . $ct_conf['power']['btc_currency_markets'][ $ct_conf['gen']['btc_prim_currency_pairing'] ] . $parsed_total_prim_currency_worth_inc_leverage . '</span></div>' : '' );
+		echo ( $purchase_price_added == 1 && $leverage_added == 1 && is_numeric($gain_loss_total) == TRUE ? '<div class="portfolio_summary"><span class="black">Leverage Included: </span>' . ( $total_prim_currency_worth_inc_leverage >= 0 ? '<span class="green private_data">' : '<span class="red private_data">-' ) . $ct_conf['power']['btc_currency_markets'][ $ct_conf['gen']['btc_prim_currency_pairing'] ] . $parsed_total_prim_currency_worth_inc_leverage . '</span></div>' : '' );
 	
 
 		// Now that BTC / PAIRING summaries have margin leverage stats NEXT TO THEM (NOT in the actual BTC / PAIRING amounts, for UX's sake), 
@@ -674,7 +680,7 @@ var fiat_val_content = '<h5 class="yellow tooltip_title">Primary Currency (<?=st
 	<?php
 		
         $thres_dec = $ct_gen->thres_dec($percent_difference_total, 'p'); // Percentage mode
-		echo '<span class="black">' . ( $gain_loss_total >= 0 ? 'Gain:</span> <span class="green">+' . $ct_conf['power']['btc_currency_markets'][ $ct_conf['gen']['btc_prim_currency_pairing'] ] : 'Loss:</span> <span class="red">' ) . $parsed_gain_loss_total . ' (' . ( $gain_loss_total >= 0 ? '+' : '-' ) . number_format($percent_difference_total, $thres_dec['max_dec'], '.', ',') . '%' . ')</span>';
+		echo '<span class="black">' . ( $gain_loss_total >= 0 ? 'Gain:</span> <span class="green private_data">+' . $ct_conf['power']['btc_currency_markets'][ $ct_conf['gen']['btc_prim_currency_pairing'] ] : 'Loss:</span> <span class="red private_data">' ) . $parsed_gain_loss_total . ' (' . ( $gain_loss_total >= 0 ? '+' : '-' ) . number_format($percent_difference_total, $thres_dec['max_dec'], '.', ',') . '%' . ')</span>';
 		
 		?> 
 		
@@ -682,7 +688,7 @@ var fiat_val_content = '<h5 class="yellow tooltip_title">Primary Currency (<?=st
 			
 	 <script>
 	 
-		document.title = '<?=( $gain_loss_total >= 0 ? '+' . $ct_conf['power']['btc_currency_markets'][ $ct_conf['gen']['btc_prim_currency_pairing'] ] : '' )?><?=$parsed_gain_loss_total?> (<?=( $gain_loss_total >= 0 ? '+' : '-' )?><?=number_format($percent_difference_total, $thres_dec['max_dec'], '.', ',')?>%)';
+		var doc_title_stats = '<?=( $gain_loss_total >= 0 ? '+' . $ct_conf['power']['btc_currency_markets'][ $ct_conf['gen']['btc_prim_currency_pairing'] ] : '' )?><?=$parsed_gain_loss_total?> (<?=( $gain_loss_total >= 0 ? '+' : '-' )?><?=number_format($percent_difference_total, $thres_dec['max_dec'], '.', ',')?>%)';
 	
 		
 			var gain_loss_content = '<h5 class="yellow tooltip_title">Gain / Loss Stats</h5>'

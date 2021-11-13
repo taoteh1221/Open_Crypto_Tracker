@@ -539,7 +539,7 @@ $asset_val_raw = $ct_var->num_to_str($asset_val_raw);
 	
 $pretty_asset_amount = $ct_var->num_pretty($asset_amount, $asset_amount_dec);
 
-echo "<span class='app_sort_filter blue'>" . ( $pretty_asset_amount != null ? $pretty_asset_amount : 0 ) . "</span>";
+echo "<span class='app_sort_filter blue private_data'>" . ( $pretty_asset_amount != null ? $pretty_asset_amount : 0 ) . "</span>";
 
 ?>
 
@@ -584,7 +584,7 @@ $asset_val_total_raw = $ct_var->num_to_str($asset_val_total_raw);
 	}
 
 
-echo ' <span class="blue"><span class="data app_sort_filter blue">' . $pretty_asset_val_total_raw . '</span> ' . strtoupper($sel_pairing) . '</span>';
+echo ' <span class="blue"><span class="data app_sort_filter blue private_data">' . $pretty_asset_val_total_raw . '</span> ' . strtoupper($sel_pairing) . '</span>';
 
   
   if ( $sel_opt['show_secondary_trade_val'] != null && $sel_pairing != $sel_opt['show_secondary_trade_val'] && strtolower($asset_symb) != $sel_opt['show_secondary_trade_val'] ) {
@@ -610,7 +610,7 @@ echo ' <span class="blue"><span class="data app_sort_filter blue">' . $pretty_as
 		}
 		
 		if ( $secondary_holdings_val_result >= 0.00000001 ) {
-  		echo '<div class="crypto_worth"><span>(' . $ct_var->num_pretty($secondary_holdings_val_result, $secondary_holdings_val_dec) . ' '.strtoupper($sel_opt['show_secondary_trade_val']).')</span></div>';
+  		echo '<div class="crypto_worth"><span class="private_data">(' . $ct_var->num_pretty($secondary_holdings_val_result, $secondary_holdings_val_dec) . ' '.strtoupper($sel_opt['show_secondary_trade_val']).')</span></div>';
   		}
   		
   }
@@ -630,13 +630,13 @@ echo ' <span class="blue"><span class="data app_sort_filter blue">' . $pretty_as
 <?php
 
 $thres_dec = $ct_gen->thres_dec($asset_prim_currency_worth_raw, 'u'); // Units mode
-echo '<span class="' . ( $purchase_price >= 0.00000001 && $leverage_level >= 2 && $sel_margintype == 'short' ? 'short">★ ' : 'blue">' ) . '<span class="blue">' . $ct_conf['power']['btc_currency_markets'][ $ct_conf['gen']['btc_prim_currency_pairing'] ] . '</span><span class="app_sort_filter blue">' . $ct_var->num_pretty($asset_prim_currency_worth_raw, $thres_dec['max_dec'], false, $thres_dec['min_dec']) . '</span></span>';
+echo '<span class="' . ( $purchase_price >= 0.00000001 && $leverage_level >= 2 && $sel_margintype == 'short' ? 'short">★ ' : 'blue">' ) . '<span class="blue">' . $ct_conf['power']['btc_currency_markets'][ $ct_conf['gen']['btc_prim_currency_pairing'] ] . '</span><span class="app_sort_filter blue private_data">' . $ct_var->num_pretty($asset_prim_currency_worth_raw, $thres_dec['max_dec'], false, $thres_dec['min_dec']) . '</span></span>';
 
   if ( $purchase_price >= 0.00000001 && $leverage_level >= 2 ) {
 
   $asset_worth_inc_leverage = $asset_prim_currency_worth_raw + $only_leverage_gain_loss;
   
-  echo ' <span class="extra_data">(' . $leverage_level . 'x ' . $sel_margintype . ')</span>';
+  echo ' <span class="extra_data private_data">(' . $leverage_level . 'x ' . $sel_margintype . ')</span>';
 
   $thres_dec = $ct_gen->thres_dec($gain_loss, 'u'); // Units mode
   // Here we parse out negative symbols
@@ -671,7 +671,7 @@ echo '<span class="' . ( $purchase_price >= 0.00000001 && $leverage_level >= 2 &
   		$gain_loss_prim_currency = ( $gain_loss >= 0 ? '+' . $ct_conf['power']['btc_currency_markets'][ $ct_conf['gen']['btc_prim_currency_pairing'] ] : '' );
   		
 		?> 
-		<img id='<?=$rand_id?>_leverage' src='templates/interface/media/images/info.png' alt='' width='30' style='position: relative; left: -5px;' />
+		<img class='leverage_info' id='<?=$rand_id?>_leverage' src='templates/interface/media/images/info.png' alt='' width='30' style='position: relative; left: -5px;' />
 	 <script>
 	
 			var leverage_content = '<h5 class="yellow tooltip_title"><?=$leverage_level?>x <?=ucfirst($sel_margintype)?> For <?=$asset_name?> (<?=$asset_symb?>)</h5>'

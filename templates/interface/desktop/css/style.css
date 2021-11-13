@@ -167,6 +167,33 @@ CLASSES
 ////////////////////////////// */
 
 
+.disable_click{
+pointer-events: none !important;
+}
+
+
+.pw_prompt {
+    position: fixed;
+    left: 50%;
+    top: 50%;
+    margin-left: -100px;
+    padding: 15px;
+    width: 300px;
+    z-index: 99999;
+}
+
+
+.pw_prompt label {
+    display:block; 
+    margin-bottom:5px;
+}
+
+
+.pw_prompt input {
+    margin-bottom:10px;
+}
+
+
 .chart_reload_msg {
 display: inline;
 }
@@ -618,9 +645,29 @@ min-width: 1150px !important;
 }
 
 
+
+.obfuscated {    
+  display: inline-block;
+  line-height: 0px;
+  min-width: 0;
+  width: 75px;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+
 /* //////////////////////////////
 IDs
 ////////////////////////////// */
+
+
+#pm_link {
+font-weight: bold;
+text-decoration: underline;
+cursor: pointer;
+margin-right: 6px;
+}
 
 
 #loading_subsections, .chart_reload {

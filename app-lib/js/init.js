@@ -7,6 +7,9 @@ window.zingAlert= function(){
 
 // Wait until the DOM has loaded before running DOM-related scripting
 $(document).ready(function(){
+    
+    
+hide_show(); // Privacy mode for assets held
 	
 
 // See if any alerts are present

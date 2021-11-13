@@ -101,6 +101,8 @@ header('Content-type: text/html; charset=' . $ct_conf['dev']['charset_default'])
 	<script src="app-lib/js/autosize.min.js"></script>
 	
 	<script src="app-lib/js/zingchart.min.js"></script>
+	
+	<script src="app-lib/js/crypto-js.js"></script>
 
 	<script src="app-lib/js/functions.js"></script>
 	

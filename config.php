@@ -1006,6 +1006,12 @@ $ct_conf['power']['news_feed'] = array(
         
         
         				array(
+            			"title" => "Blog - RNDR Network (Blockchain-Distributed GPU Rendering)",
+            			"url" => "https://medium.com/feed/render-token"
+        						),
+        
+        
+        				array(
             			"title" => "Blog - Solana Labs (High-Speed Smart Contracts Network)",
             			"url" => "https://medium.com/feed/solana-labs"
         						),

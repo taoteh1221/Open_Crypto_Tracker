@@ -78,6 +78,17 @@ CLASSES
 ////////////////////////////// */
 
 
+.disable_click{
+background: #ea6b1c !important;
+}
+
+
+.pw_prompt {
+    border: 2px solid black;
+    background: #808080 !important;
+}
+
+
 .custom-select:disabled { 
   background-color: #d1d1d1 !important;
   color: black !important;
