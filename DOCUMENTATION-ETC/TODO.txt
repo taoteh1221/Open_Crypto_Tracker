@@ -41,6 +41,12 @@ OPTIMIZATIONS / BUGS / TESTS / UX / QA / OTHER SECTION
 ///////////////////////////////////////////////////////
 
 
+Add 'cancel' button on privacy mode PIN modal, and adjust the background color / border color / border width to 'pop out' better in the light / dark themes.
+
+
+Table column sorting is a tad borked up if you disable privacy mode AFTER a page reload. See if this can be 'reset' or whatever for better UX.
+
+
 Write debugging tests for rss feeds.
 
 

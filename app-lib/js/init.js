@@ -9,7 +9,7 @@ window.zingAlert= function(){
 $(document).ready(function(){
     
     
-hide_show(); // Privacy mode for assets held
+privacy_mode(); // Privacy mode for assets held
 	
 
 // See if any alerts are present

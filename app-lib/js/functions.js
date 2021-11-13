@@ -1034,8 +1034,121 @@ function row_alert(tr_id, alert_type, color, theme) {
 /////////////////////////////////////////////////////////////
 
 
+function auto_reload() {
+
+
+	if ( window.reload_time ) {
+	time = window.reload_time;
+	}
+	else if ( getCookie("coin_reload") ) {
+	time = getCookie("coin_reload");
+	}
+	else {
+	return;
+	}
+	
+
+	if ( document.getElementById("set_use_cookies") ) {
+		
+		
+		if ( window.reload_countdown ) {
+		clearInterval(window.reload_countdown);
+		}
+
+		
+		if ( time >= 1 ) {
+			
+			
+			if ( document.getElementById("set_use_cookies").checked == false ) {
+				
+			use_cookies = confirm(' You must enable "Use cookies to save data" on the "Settings" page before using this auto-refresh feature. \n \n Click OK below to enable "Use cookies to save data" automatically NOW, or click CANCEL to NOT enable cookie data storage for this app.');
+			
+				if ( use_cookies == true ) {
+					
+				setCookie("coin_reload", time, 365);
+				
+				$("#use_cookies").val(1);
+				
+				document.getElementById("reload_countdown").innerHTML = "(reloading app, please wait...)";
+				
+					setTimeout(function () {
+						$("#coin_amounts").submit();
+					}, 2000);
+				
+				}
+				else{
+				$("#select_auto_refresh").val('');
+				return false;
+				}
+			
+			}
+			else {
+				
+
+            // If subsections are still loading, wait until they are finished
+            if ( $("#loading_subsections").is(":visible") || window.charts_loaded.length < window.charts_num || window.feeds_loaded.length < window.feeds_num ) {
+            setTimeout(auto_reload, 1000); // Wait 1000 milliseconds then recheck
+            return;
+            }
+            else {
+               
+           	setCookie("coin_reload", time, 365);
+           	
+				int_time = time - 1; // Remove a second for the 1000 millisecond (1 second) recheck interval
+			
+            	window.reload_countdown = setInterval(function () {
+                      
+                
+                	if ( int_time >= 60 ) {
+                
+                	round_min = Math.floor(int_time / 60);
+                	sec = ( int_time - (round_min * 60) );
+                
+               	    $("#reload_countdown").html("<b>(" + round_min + " minutes " + sec + " seconds)</b>"); // Portfolio page
+               	    $("span.countdown_notice").html("<b>(auto-reload in " + round_min + " minutes " + sec + " seconds)</b>"); // Secondary pages
+                  
+                	}
+                	else {
+                	$("#reload_countdown").html("<b>(" + int_time + " seconds)</b>"); // Portfolio page
+                	$("span.countdown_notice").html("<b>(auto-reload in " + int_time + " seconds)</b>"); // Secondary pages
+                	}
+        				
+        				if ( int_time == 0 ) {
+             		    app_reloading_placeholder();
+             		    app_reload();
+        				}
+            
+            
+             	int_time-- || clearInterval(int_time);  // Clear if 0 reached
+             
+             	}, 1000);
+	    
+               
+            }
+   
+   
+			}
+		
+		
+		}
+		else {
+		setCookie("coin_reload", '', 365);
+		$("#reload_countdown").html(""); // Portfolio page
+		$("span.countdown_notice").html(""); // Secondary pages
+		}
+	
+	
+	}
+
+
+}
+
+
+/////////////////////////////////////////////////////////////
+
+
 // https://stackoverflow.com/questions/14458819/simplest-way-to-obfuscate-and-deobfuscate-a-string-in-javascript
-function hide_show(click=false) {
+function privacy_mode(click=false) {
     
     
     // Failsafe (if no PIN cookie, delete toggle cookie)
@@ -1168,7 +1281,7 @@ private_data = document.getElementsByClassName('private_data');
         
                                 if ( pin != null && pin == pin_check ) {
                                 setCookie('priv_sec', btoa(pin), 365);
-                                hide_show(click);
+                                privacy_mode(click);
                                 }
                                 else {
                                 alert("PIN mis-match, please try again.");
@@ -1270,114 +1383,6 @@ private_data = document.getElementsByClassName('private_data');
 /////////////////////////////////////////////////////////////
 
 
-function auto_reload() {
-
-
-	if ( window.reload_time ) {
-	time = window.reload_time;
-	}
-	else if ( getCookie("coin_reload") ) {
-	time = getCookie("coin_reload");
-	}
-	else {
-	return;
-	}
-	
-
-	if ( document.getElementById("set_use_cookies") ) {
-		
-		
-		if ( window.reload_countdown ) {
-		clearInterval(window.reload_countdown);
-		}
-
-		
-		if ( time >= 1 ) {
-			
-			
-			if ( document.getElementById("set_use_cookies").checked == false ) {
-				
-			use_cookies = confirm(' You must enable "Use cookies to save data" on the "Settings" page before using this auto-refresh feature. \n \n Click OK below to enable "Use cookies to save data" automatically NOW, or click CANCEL to NOT enable cookie data storage for this app.');
-			
-				if ( use_cookies == true ) {
-					
-				setCookie("coin_reload", time, 365);
-				
-				$("#use_cookies").val(1);
-				
-				document.getElementById("reload_countdown").innerHTML = "(reloading app, please wait...)";
-				
-					setTimeout(function () {
-						$("#coin_amounts").submit();
-					}, 2000);
-				
-				}
-				else{
-				$("#select_auto_refresh").val('');
-				return false;
-				}
-			
-			}
-			else {
-				
-
-            // If subsections are still loading, wait until they are finished
-            if ( $("#loading_subsections").is(":visible") || window.charts_loaded.length < window.charts_num || window.feeds_loaded.length < window.feeds_num ) {
-            setTimeout(auto_reload, 1000); // Wait 1000 milliseconds then recheck
-            return;
-            }
-            else {
-               
-           	setCookie("coin_reload", time, 365);
-           	
-				int_time = time - 1; // Remove a second for the 1000 millisecond (1 second) recheck interval
-			
-            	window.reload_countdown = setInterval(function () {
-                      
-                
-                	if ( int_time >= 60 ) {
-                
-                	round_min = Math.floor(int_time / 60);
-                	sec = ( int_time - (round_min * 60) );
-                
-               	    $("#reload_countdown").html("<b>(" + round_min + " minutes " + sec + " seconds)</b>"); // Portfolio page
-               	    $("span.countdown_notice").html("<b>(auto-reload in " + round_min + " minutes " + sec + " seconds)</b>"); // Secondary pages
-                  
-                	}
-                	else {
-                	$("#reload_countdown").html("<b>(" + int_time + " seconds)</b>"); // Portfolio page
-                	$("span.countdown_notice").html("<b>(auto-reload in " + int_time + " seconds)</b>"); // Secondary pages
-                	}
-        				
-        				if ( int_time == 0 ) {
-             		    app_reloading_placeholder();
-             		    app_reload();
-        				}
-            
-            
-             	int_time-- || clearInterval(int_time);  // Clear if 0 reached
-             
-             	}, 1000);
-	    
-               
-            }
-   
-   
-			}
-		
-		
-		}
-		else {
-		setCookie("coin_reload", '', 365);
-		$("#reload_countdown").html(""); // Portfolio page
-		$("span.countdown_notice").html(""); // Secondary pages
-		}
-	
-	
-	}
-
-
-}
 
 
 
