@@ -1123,6 +1123,9 @@ var $ct_array1 = array();
    
    
    $pretty_str = preg_replace("/btc/i", 'BTC', $pretty_str);
+   $pretty_str = preg_replace("/eth/i", 'ETH', $pretty_str);
+   $pretty_str = preg_replace("/sol/i", 'SOL', $pretty_str);
+   $pretty_str = preg_replace("/nft/i", 'NFT', $pretty_str);
    $pretty_str = preg_replace("/coin/i", 'Coin', $pretty_str);
    $pretty_str = preg_replace("/bitcoin/i", 'Bitcoin', $pretty_str);
    $pretty_str = preg_replace("/exchange/i", 'Exchange', $pretty_str);

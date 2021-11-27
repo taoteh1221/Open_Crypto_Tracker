@@ -438,6 +438,10 @@ $total_prim_currency_worth = $ct_asset->coin_stats_data('coin_worth_total');
 
     $miscassets_dominance = $ct_var->num_to_str( ( $btc_worth_array['MISCASSETS'] / $total_btc_worth_raw ) * 100 );
 
+    $ethnfts_dominance = $ct_var->num_to_str( ( $btc_worth_array['ETHNFTS'] / $total_btc_worth_raw ) * 100 );
+
+    $solnfts_dominance = $ct_var->num_to_str( ( $btc_worth_array['SOLNFTS'] / $total_btc_worth_raw ) * 100 );
+
     }
     else {
         
@@ -449,12 +453,14 @@ $total_prim_currency_worth = $ct_asset->coin_stats_data('coin_worth_total');
     
     }
 
-$altcoin_dominance = ( $total_btc_worth_raw >= 0.00000001 ? $ct_var->num_to_str( 100 - $bitcoin_dominance - $ethereum_dominance - $miscassets_dominance ) : 0.00 );
+$altcoin_dominance = ( $total_btc_worth_raw >= 0.00000001 ? $ct_var->num_to_str( 100 - $bitcoin_dominance - $ethereum_dominance - $miscassets_dominance - $ethnfts_dominance - $solnfts_dominance ) : 0.00 );
 
 // Remove any slight decimal over 100 (100.01 etc)
 $bitcoin_dominance = $ct_var->max_100($bitcoin_dominance);
 $ethereum_dominance = $ct_var->max_100($ethereum_dominance);
 $miscassets_dominance = $ct_var->max_100($miscassets_dominance);
+$ethnfts_dominance = $ct_var->max_100($ethnfts_dominance);
+$solnfts_dominance = $ct_var->max_100($solnfts_dominance);
 $altcoin_dominance = $ct_var->max_100($altcoin_dominance);
 	
 		
@@ -773,6 +779,16 @@ var fiat_val_content = '<h5 class="yellow tooltip_title">Primary Currency (<?=st
 			$seperator_miscassets = ( $ct_var->num_to_str($bitcoin_dominance) + $ct_var->num_to_str($ethereum_dominance) + $ct_var->num_to_str($miscassets_dominance) <= 99.99 ? ' &nbsp;/&nbsp; ' : '' );
 			}
 			
+			if ( $ct_var->num_to_str($ethnfts_dominance) >= 0.01 ) {
+			$ethnfts_dominance_text = number_format($ethnfts_dominance, 2, '.', ',') . '% ETH NFTs';
+			$seperator_ethnfts = ( $ct_var->num_to_str($bitcoin_dominance) + $ct_var->num_to_str($ethereum_dominance) + $ct_var->num_to_str($miscassets_dominance) + $ct_var->num_to_str($ethnfts_dominance) <= 99.99 ? ' &nbsp;/&nbsp; ' : '' );
+			}
+			
+			if ( $ct_var->num_to_str($solnfts_dominance) >= 0.01 ) {
+			$solnfts_dominance_text = number_format($solnfts_dominance, 2, '.', ',') . '% SOL NFTs';
+			$seperator_solnfts = ( $ct_var->num_to_str($bitcoin_dominance) + $ct_var->num_to_str($ethereum_dominance) + $ct_var->num_to_str($miscassets_dominance) + $ct_var->num_to_str($ethnfts_dominance) + $ct_var->num_to_str($solnfts_dominance) <= 99.99 ? ' &nbsp;/&nbsp; ' : '' );
+			}
+			
 			if ( $ct_var->num_to_str($altcoin_dominance) >= 0.01 ) {
 			$altcoin_dominance_text = number_format($altcoin_dominance, 2, '.', ',') .'% Alt(s)';
 			}
@@ -783,7 +799,7 @@ var fiat_val_content = '<h5 class="yellow tooltip_title">Primary Currency (<?=st
 		
 		<?php
 			
-			echo '<span class="black">Balance:</span> ' . $bitcoin_dominance_text . $seperator_btc . $ethereum_dominance_text . $seperator_eth . $miscassets_dominance_text . $seperator_miscassets . $altcoin_dominance_text;
+			echo '<span class="black">Balance:</span> ' . $bitcoin_dominance_text . $seperator_btc . $ethereum_dominance_text . $seperator_eth . $miscassets_dominance_text . $seperator_miscassets . $ethnfts_dominance_text . $seperator_ethnfts . $solnfts_dominance_text . $seperator_solnfts . $altcoin_dominance_text;
 			
 			
 		?>
@@ -800,15 +816,15 @@ var fiat_val_content = '<h5 class="yellow tooltip_title">Primary Currency (<?=st
 				foreach ( $btc_worth_array as $key => $val ) {
 					
 					if ( $key == 'MISCASSETS' ) {
-					$key = 'Misc. ' . strtoupper($ct_conf['gen']['btc_prim_currency_pairing']);
+					$key = 'MISC__' . strtoupper($ct_conf['gen']['btc_prim_currency_pairing']);
 					}
 					
-					// Remove any slight decimal over 100 (100.01 etc)
-					$balance_stats = $ct_var->max_100( ( $val / $total_btc_worth_raw ) * 100 );
+			    // Remove any slight decimal over 100 (100.01 etc)
+				$balance_stats = $ct_var->max_100( ( $val / $total_btc_worth_raw ) * 100 );
 					
-						if ( $balance_stats >= 0.01 ) {
-						$balance_stats_encoded .= '&' . urlencode($key) . '=' . urlencode( number_format($balance_stats, 2, '.', ',') );
-						}
+					if ( $balance_stats >= 0.01 ) {
+					$balance_stats_encoded .= '&' . urlencode($key) . '=' . urlencode( number_format($balance_stats, 2, '.', ',') );
+					}
 							
 				}
 				
@@ -817,7 +833,7 @@ var fiat_val_content = '<h5 class="yellow tooltip_title">Primary Currency (<?=st
 		
 			$('#balance_stats').balloon({
 			html: true,
-			position: "right",
+			position: "bottom",
   			classname: 'balloon-tooltips',
 			contents: ajax_placeholder(30, 'center', 'Loading Data...'),
   			url: 'ajax.php?type=chart&mode=asset_balance&leverage_added=<?=$leverage_added?>&short_added=<?=$short_added?><?=$balance_stats_encoded?>',

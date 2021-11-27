@@ -493,7 +493,7 @@ num_val = num_val.replace(/,/g, '');
 		if ( obj_var.checked == true ) {
 			
 			// If there is a valid coin amount OR this is MISCASSETS, uncheck it
-			if ( num_val >= 0.00000001 || obj_var.value == 'miscassets' ) {
+			if ( num_val >= 0.00000001 || obj_var.value == 'miscassets' || obj_var.value == 'ethnfts' || obj_var.value == 'solnfts' ) {
 			obj_var.checked = false;
 			}
 			else {
@@ -555,6 +555,9 @@ function render_names(name) {
 render = name.charAt(0).toUpperCase() + name.slice(1);
 
 render = render.replace(/btc/gi, "BTC");
+render = render.replace(/eth/gi, "ETH");
+render = render.replace(/sol/gi, "SOL");
+render = render.replace(/nft/gi, "NFT");
 render = render.replace(/coin/gi, "Coin");
 render = render.replace(/bitcoin/gi, "Bitcoin");
 render = render.replace(/exchange/gi, "Exchange");
@@ -675,7 +678,7 @@ promptCount = 0;
     };
 
     var label = document.createElement("label");
-    label.textContent = lm;
+    label.innerHTML = lm;
     label.for = "pw_prompt_input" + (++promptCount);
     prompt.appendChild(label);
 
@@ -1265,7 +1268,7 @@ private_data = document.getElementsByClassName('private_data');
     
 
             pw_prompt({
-                lm:"Create a PIN for privacy mode:", 
+                lm:"Create PIN <span style='font-weight: bold;' class='bitcoin'>(requires / uses cookies)</span>:", 
                 callback: function(pin) {
 
                     if ( isInt(pin) == false || pin.length != 6 ) {
@@ -1275,7 +1278,7 @@ private_data = document.getElementsByClassName('private_data');
                     
 
                         pw_prompt({
-                            lm:"Verify your PIN again:", 
+                            lm:"Verify PIN:", 
                             callback: function(pin_check) {
                                 
         

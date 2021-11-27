@@ -5,16 +5,6 @@
 
 ######################################
 
-echo " "
-
-if [ "$EUID" -ne 0 ]; then 
- echo "Please run as root (or sudo)."
- echo "Exiting..."
- exit
-fi
-
-######################################
-
 # https://stackoverflow.com/questions/5947742/how-to-change-the-output-color-of-echo-in-linux
 
 if hash tput > /dev/null 2>&1; then
@@ -103,6 +93,18 @@ else
     VER=$(uname -r)
 fi
 
+
+######################################
+
+echo " "
+
+if [ "$EUID" -ne 0 ] || [ "$TERMINAL_USERNAME" == "root" ]; then 
+ echo "Please run with 'sudo' permissions (NOT LOGGED IN AS 'root')."
+ echo "Exiting..."
+ exit
+fi
+
+######################################
 
 
 # Start in user home directory

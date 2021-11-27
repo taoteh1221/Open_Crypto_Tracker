@@ -71,7 +71,7 @@ $currency_count = 0;
 					foreach ( $ct_conf['assets'][$asset_key]['pairing'][$pairing_key] as $exchange_key => $unused ) {
 					
 						// Detects better with right side space included
-						if ( stristr($all_exchanges_list, $exchange_key . ' ') == false && $exchange_key != 'misc_assets' ) {
+						if ( stristr($all_exchanges_list, $exchange_key . ' ') == false && $exchange_key != 'misc_assets' && $exchange_key != 'eth_nfts' && $exchange_key != 'sol_nfts' ) {
 						$all_exchange_count = $all_exchange_count + 1;
 						$all_exchanges_list .= $exchange_key . ' / ';
 						}

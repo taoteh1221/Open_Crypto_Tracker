@@ -41,6 +41,9 @@ OPTIMIZATIONS / BUGS / TESTS / UX / QA / OTHER SECTION
 ///////////////////////////////////////////////////////
 
 
+Just got this error when adding a new chart config, try to replicate it when you have more time (workaround of recursive /cache/charts/ all dirs to chmod 777 in filezilla fixed it): "Improper directory permissions on the '/cache/charts/' sub-directories, cannot create new sub-directories. Make sure the folder '/cache/charts/' AND ANY SUB-DIRECTORIES IN IT have read / write permissions (and further sub-directories WITHIN THESE should be created automatically)"
+
+
 Add 'cancel' button on privacy mode PIN modal, and adjust the background color / border color / border width to 'pop out' better in the light / dark themes.
 
 
@@ -156,6 +159,9 @@ API INTEGRATION SECTION
 
 
 https://docs.bonfida.com/#introduction (solana dex API??)
+
+https://docs.solana.com/cluster/rpc-endpoints
+https://docs.solana.com/developing/clients/jsonrpc-api#getbalance
 
 
 Look into adding Google Sheets API support for portfolio import / export: https://developers.google.com/sheets/api/samples/reading

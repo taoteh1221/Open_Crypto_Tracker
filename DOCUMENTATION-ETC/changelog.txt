@@ -4818,6 +4818,9 @@ MIGRATE YOUR EXISTING SETTINGS TO THE NEW FORMAT.
 -Bug fixes for the auto-install script
 
 
+-Support for ETH and SOL NFT value tracking
+
+
 -Privacy Mode to quickly hide your personal portfolio data with one click, and 6 digit PIN protection to unlock
 
 

@@ -2530,13 +2530,13 @@ var $ct_array1 = array();
       // BTC value of 1 unit of the default primary currency
       $currency_to_btc = $ct_var->num_to_str(1 / $sel_opt['sel_btc_prim_currency_val']);	
       
-           // BTC pairing
-           if ( $market_id == 'btc' ) {
-           $result = array(
+         // BTC pairing
+         if ( $market_id == 'btc' ) {
+         $result = array(
      		            'last_trade' => $currency_to_btc
      		            );
-           }
-           // All other pairing
+         }
+         // All other pairing
      	 else {
      		        
          $pairing_btc_val = $ct_asset->pairing_btc_val($market_id);
@@ -2575,7 +2575,111 @@ var $ct_array1 = array();
      ////////////////////////////////////////////////////////////////////////////////////////////////
     
     
-      if ( strtolower($sel_exchange) != 'misc_assets' ) {
+    
+      elseif ( strtolower($sel_exchange) == 'eth_nfts' ) {
+      
+      // BTC value of 1 unit of ETH
+      $currency_to_btc = $ct_asset->pairing_btc_val('eth');	
+      
+         // BTC pairing
+         if ( $market_id == 'btc' ) {
+         $result = array(
+     		            'last_trade' => $currency_to_btc
+     		            );
+         }
+         // All other pairing
+     	 else {
+     		        
+         $pairing_btc_val = $ct_asset->pairing_btc_val($market_id);
+     		      
+     		      
+          	if ( $pairing_btc_val == null ) {
+          				          	
+          	$ct_gen->log(
+          				'market_error',
+          				'ct_asset->pairing_btc_val() returned null',
+          				'market_id: ' . $market_id
+          				);
+          				          
+            }
+     		      
+           
+            if ( $ct_var->num_to_str($pairing_btc_val) > 0 && $ct_var->num_to_str($currency_to_btc) > 0 ) {
+            $calc = ( 1 / $ct_var->num_to_str($pairing_btc_val / $currency_to_btc) );
+            }
+            else {
+            $calc = 0;
+            }     		      
+     
+     			      
+         $result = array(
+     		            'last_trade' => $calc
+     		            );
+     		                  		
+         }
+      
+      
+      
+      }
+     
+     
+     
+     ////////////////////////////////////////////////////////////////////////////////////////////////
+    
+    
+    
+      elseif ( strtolower($sel_exchange) == 'sol_nfts' ) {
+      
+      // BTC value of 1 unit of SOL
+      $currency_to_btc = $ct_asset->pairing_btc_val('sol');	
+      
+         // BTC pairing
+         if ( $market_id == 'btc' ) {
+         $result = array(
+     		            'last_trade' => $currency_to_btc
+     		            );
+         }
+         // All other pairing
+     	 else {
+     		        
+         $pairing_btc_val = $ct_asset->pairing_btc_val($market_id);
+     		      
+     		      
+          	if ( $pairing_btc_val == null ) {
+          				          	
+          	$ct_gen->log(
+          				'market_error',
+          				'ct_asset->pairing_btc_val() returned null',
+          				'market_id: ' . $market_id
+          				);
+          				          
+            }
+     		      
+           
+            if ( $ct_var->num_to_str($pairing_btc_val) > 0 && $ct_var->num_to_str($currency_to_btc) > 0 ) {
+            $calc = ( 1 / $ct_var->num_to_str($pairing_btc_val / $currency_to_btc) );
+            }
+            else {
+            $calc = 0;
+            }     		      
+     
+     			      
+         $result = array(
+     		            'last_trade' => $calc
+     		            );
+     		                  		
+         }
+      
+      
+      
+      }
+     
+     
+     
+     ////////////////////////////////////////////////////////////////////////////////////////////////
+    
+    
+      if ( strtolower($sel_exchange) != 'misc_assets' && strtolower($sel_exchange) != 'eth_nfts' && strtolower($sel_exchange) != 'sol_nfts' ) {
         
       // Better large / small number support
       $result['last_trade'] = $ct_var->num_to_str($result['last_trade']);

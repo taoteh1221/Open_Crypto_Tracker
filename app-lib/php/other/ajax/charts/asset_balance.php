@@ -79,18 +79,29 @@
       "series": [
       <?php
       foreach ( $_GET as $asset_key => $asset_val ) {
+          
+      $orig_key = $asset_key;
       	
       	if ( stristr($asset_key, 'MISC__') != false ) {
       	$asset_key = strtolower($asset_key);
       	$misc_array = explode("__", $asset_key);
-      	$asset_key = $misc_array[1];
+      	$asset_key = strtoupper($misc_array[1]);
+      	}
+      	elseif ( stristr($asset_key, 'ETHNFTS') != false ) {
+      	$asset_key = 'ETH NFTs';
+      	}
+      	elseif ( stristr($asset_key, 'SOLNFTS') != false ) {
+      	$asset_key = 'SOL NFTs';
+      	}
+      	else {
+      	$asset_key = strtoupper($asset_key);
       	}
       
-      	if ( $asset_key != 'mode' && $asset_key != 'type' && $asset_key != 'leverage_added' && $asset_key != 'short_added' && $asset_val >= 0.01 ) {
+      	if ( $orig_key != 'mode' && $orig_key != 'type' && $orig_key != 'leverage_added' && $orig_key != 'short_added' && $asset_val >= 0.01 ) {
       ?>
         {
           "values": [<?=strtoupper($asset_val)?>],
-          "text": "<?=strtoupper($asset_key)?>"
+          "text": "<?=$asset_key?>"
         },
       <?php
       	}
@@ -117,17 +128,29 @@
 					arsort($_GET);
 					
 				foreach ( $_GET as $asset_key => $asset_val ) {
+          
+                $orig_key = $asset_key;
 					
-      			if ( stristr($asset_key, 'MISC__') != false ) {
-      			$asset_key = strtolower($asset_key);
-      			$misc_array = explode("__", $asset_key);
-      			$asset_key = $misc_array[1];
-      			}
+					
+                  	if ( stristr($asset_key, 'MISC__') != false ) {
+                  	$asset_key = strtolower($asset_key);
+                  	$misc_array = explode("__", $asset_key);
+                  	$asset_key = strtoupper($misc_array[1]);
+                  	}
+                  	elseif ( stristr($asset_key, 'ETHNFTS') != false ) {
+                  	$asset_key = 'ETH NFTs';
+                  	}
+                  	elseif ( stristr($asset_key, 'SOLNFTS') != false ) {
+                  	$asset_key = 'SOL NFTs';
+                  	}
+                  	else {
+                  	$asset_key = strtoupper($asset_key);
+                  	}
       			
       
-						if ( $asset_key != 'mode' && $asset_key != 'type' && $asset_key != 'leverage_added' && $asset_key != 'short_added' && $asset_val >= 0.01 ) {
+						if ( $orig_key != 'mode' && $orig_key != 'type' && $orig_key != 'leverage_added' && $orig_key != 'short_added' && $asset_val >= 0.01 ) {
 				?>
-			<p class="coin_info"><span class="yellow"><?=strtoupper($asset_key)?>:</span> <?=$asset_val?>%</p>
+			<p class="coin_info"><span class="yellow"><?=$asset_key?>:</span> <?=$asset_val?>%</p>
 			
 			<?php
 						}

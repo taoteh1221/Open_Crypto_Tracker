@@ -174,11 +174,12 @@ pointer-events: none !important;
 
 .pw_prompt {
     position: fixed;
+  text-align: center;
     left: 50%;
     top: 50%;
     margin-left: -100px;
     padding: 15px;
-    width: 300px;
+    width: 330px;
     z-index: 99999;
 }
 

@@ -98,7 +98,7 @@ if ( $runtime_mode == 'ui' ) {
 			
 				foreach ( $pairing_val as $key => $val ) {
 				
-					if ( $key != 'misc_assets' ) {
+					if ( $key != 'misc_assets' && $key != 'eth_nfts' && $key != 'sol_nfts' ) {
 					
 					// Consolidate function calls for runtime speed improvement
 					$markets_test_data = $ct_api->market( strtoupper($asset_key) , $key, $val, $pairing_key);

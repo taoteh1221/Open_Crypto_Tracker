@@ -170,7 +170,7 @@
 	        
 	        <li class='links_list'><a href='https://trezor.io/' target='_blank'>Trezor</a>   <span class='yellow'>(open source multi-coin hardware wallet)</span></li>
 	        
-	        <li class='links_list'><a href='https://gridplus.io' target='_blank'>GridPlus</a>   <span class='yellow'>(high-end proprietary hardware wallet)</span></li>
+	        <li class='links_list'><a href='https://gridplus.io' target='_blank'>GridPlus</a>   <span class='yellow'>(high-end proprietary Ethereum hardware wallet)</span></li>
 	        
 	        <li class='links_list'><a href='https://coldcardwallet.com/' target='_blank'>Coldcard</a>   <span class='yellow'>(open source Bitcoin hardware wallet [uses fork of trezor software interface])</span></li>
 	        
@@ -179,6 +179,8 @@
 	        <li class='links_list'><a href='https://metamask.io/' target='_blank'>Metamask</a>   <span class='yellow'>(Ethereum software wallet browser extension, with hardware wallet support)</span></li>
 	        
 	        <li class='links_list'><a href='https://download.mycrypto.com/' target='_blank'>Mycrypto Desktop App</a>   <span class='yellow'>(Ethereum software wallet, with hardware wallet support)</span></li>
+	        
+	        <li class='links_list'><a href='https://phantom.app/' target='_blank'>Phantom Wallet App</a>   <span class='yellow'>(Solana software wallet browser extension, with hardware wallet support)</span></li>
 	        
 	        <li class='links_list'><a href='https://specter.solutions/' target='_blank'>Specter Desktop</a>   <span class='yellow'>(Bitcoin software for hardware wallets)</span></li>
 	        

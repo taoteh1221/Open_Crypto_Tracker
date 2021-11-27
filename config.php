@@ -451,6 +451,16 @@ $ct_conf['charts_alerts']['tracked_markets'] = array(
 					'myst-4' => 'defipulse||eth||none',
 					
 					
+					// SLRS
+					'slrs' => 'ftx||usd||both',
+					'slrs-2' => 'gateio||eth||chart',
+					
+					
+					// SHILL
+					'shill' => 'gateio||usdt||both',
+					'shill-2' => 'kucoin||usdt||none',
+					
+					
 					// SAMO
 					'samo' => 'okex||usdt||both',
 					'samo-2' => 'gateio||eth||chart',
@@ -1002,6 +1012,18 @@ $ct_conf['power']['news_feed'] = array(
         				array(
             			"title" => "Blog - Open Node (Professional Bitcoin Ecommerce Merchant Services)",
             			"url" => "https://www.opennode.com/blog/feed/"
+        						),
+        
+        
+        				array(
+            			"title" => "Blog - Project Eluüne (NFT-based game on Solana)",
+            			"url" => "https://medium.com/@Arrivant_/feed"
+        						),
+        
+        
+        				array(
+            			"title" => "Blog - Project SEED (NFT ecosystem on Solana)",
+            			"url" => "https://projectseed.medium.com/feed"
         						),
         
         
@@ -1865,6 +1887,26 @@ $ct_conf['assets'] = array(
                     // (KEY PLACED HERE FOR ORDERING ONLY, DYNAMICALLY POPULATED BY THE APP AT RUNTIME)
                     // (DO NOT DELETE, MISCASSETS IS *REQUIRED* TO RUN THIS APP!!!!)
                     'MISCASSETS' => array(), 
+                    // Asset END
+
+                    
+                    ////////////////////////////////////////////////////////////////////
+                    
+                    
+                    // ETHNFTS 
+                    // (KEY PLACED HERE FOR ORDERING ONLY, DYNAMICALLY POPULATED BY THE APP AT RUNTIME)
+                    // (DO NOT DELETE, ETHNFTS IS *REQUIRED* TO RUN THIS APP!!!!)
+                    'ETHNFTS' => array(), 
+                    // Asset END
+
+                    
+                    ////////////////////////////////////////////////////////////////////
+                    
+                    
+                    // SOLNFTS 
+                    // (KEY PLACED HERE FOR ORDERING ONLY, DYNAMICALLY POPULATED BY THE APP AT RUNTIME)
+                    // (DO NOT DELETE, SOLNFTS IS *REQUIRED* TO RUN THIS APP!!!!)
+                    'SOLNFTS' => array(), 
                     // Asset END
                     
                     
@@ -3250,6 +3292,61 @@ $ct_conf['assets'] = array(
                                                     
                                     'usdt' => array(
                                         	'bittrex_global' => 'MYST-USDT',
+                                                    ),
+
+                                                    
+                        ) // pairing END
+                        
+                    ), // Asset END
+                    
+                    
+                    ////////////////////////////////////////////////////////////////////
+                    
+                    
+                    // SLRS
+                    'SLRS' => array(
+                        
+                        'name' => 'Solrise Finance',
+                        'mcap_slug' => 'solrise-finance',
+                        'pairing' => array(
+
+                        
+                                    'eth' => array(
+                                        'gateio' => 'SLRS_ETH',
+                                                    ),
+
+                                                    
+                                    'usd' => array(
+                                    	 'ftx' => 'SLRS/USD',
+                                                    ),
+
+                                                    
+                                    'usdt' => array(
+                                        'gateio' => 'SLRS_USDT',
+                                        'coinex' => 'SLRSUSDT',
+                                                    ),
+
+                                                    
+                        ) // pairing END
+                        
+                    ), // Asset END
+                    
+                    
+                    ////////////////////////////////////////////////////////////////////
+                    
+                    
+                    // SHILL
+                    'SHILL' => array(
+                        
+                        'name' => 'SHILL Token',
+                        'mcap_slug' => 'shill-token',
+                        'pairing' => array(
+
+                                                    
+                                    'usdt' => array(
+                                        'gateio' => 'SHILL_USDT',
+                                        'kucoin' => 'SHILL-USDT',
+                                        'bitmart' => 'SHILL_USDT',
                                                     ),
 
                                                     
