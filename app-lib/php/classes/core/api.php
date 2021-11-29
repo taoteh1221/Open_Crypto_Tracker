@@ -74,7 +74,7 @@ var $ct_array1 = array();
           $url = 'https://api.coingecko.com/api/v3/coins/markets?per_page=' . $ct_conf['dev']['coingecko_api_batched_max'] . '&page=' . ($loop + 1) . '&vs_currency=' . $coingecko_prim_currency . '&price_change_percentage=1h,24h,7d,14d,30d,200d,1y';
             
               if ( $loop > 0 && $ct_cache->update_cache($base_dir . '/cache/secured/external_data/' . md5($url) . '.dat', $ct_conf['power']['mcap_cache_time']) == true ) {
-              usleep(300000); // Wait 0.3 seconds between consecutive calls, to avoid being blocked / throttled by external server
+              usleep(750000); // Wait 0.75 seconds between consecutive calls, to avoid being blocked / throttled by external server
               }
          
           $response = @$ct_cache->ext_data('url', $url, $ct_conf['power']['mcap_cache_time']);
@@ -1304,6 +1304,29 @@ var $ct_array1 = array();
 	          }
       
       
+      }
+     
+     
+     
+     ////////////////////////////////////////////////////////////////////////////////////////////////
+    
+    
+    
+      elseif ( strtolower($sel_exchange) == 'generic_usd' ) {
+         
+      $data = $ct_asset->mcap_data($market_id, 'usd');
+	  
+	     // If we are in the top X ranks, we should already have data from coingecko to fallback on
+	     if ( isset($data['rank']) ) {
+	     
+	     $result = array(
+	                     'last_trade' => $ct_var->num_to_str($data['price']),
+	                     '24hr_asset_vol' => $ct_var->num_to_str($data["vol_24h"] / $data['price']),
+	                     '24hr_pairing_vol' => null // No pairing volume data for this API
+	                     );
+	                     		  
+	     }
+	     
       }
      
      

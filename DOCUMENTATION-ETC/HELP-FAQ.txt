@@ -177,6 +177,11 @@ USAGE (ADDING / UPDATING COINS):
                                           ),
 
                                                     
+                                'usd' => array(
+                                          'generic_usd' => 'lowercase_coin_symbol_here', // GENERIC USD PRICE, FROM MARKETCAP DATA (IF NO EXHANGE APIs AVAILABLE)
+                                          ),
+
+                                                    
                        	) // pairing END
                         
                     ), // Asset END

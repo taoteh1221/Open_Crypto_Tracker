@@ -472,6 +472,10 @@ $ct_conf['charts_alerts']['tracked_markets'] = array(
 					'sg-3' => 'bitmart||btc||both',
 					
 					
+					// IN
+					'in' => 'generic_usd||usd||both',
+					
+					
 					);
 					
 // END $ct_conf['charts_alerts']['tracked_markets']
@@ -526,11 +530,11 @@ $ct_conf['power']['chainstats_cache_time'] = 75;  // (default = 75)
 
 
 // Minutes to cache marketcap rankings...start high and test lower, it can be strict
-$ct_conf['power']['mcap_cache_time'] = 60;  // (default = 60)
+$ct_conf['power']['mcap_cache_time'] = 55;  // (default = 55)
 ////
 // Number of marketcap rankings to request from API.
 // 500 rankings is a safe maximum to start with, to avoid getting your API requests throttled / blocked
-$ct_conf['power']['mcap_ranks_max'] = 500; // (default = 500)
+$ct_conf['power']['mcap_ranks_max'] = 750; // (default = 750)
 
 
 // Maximum margin leverage available in the user interface ('Update' page, etc)
@@ -558,12 +562,12 @@ $ct_conf['power']['charts_backup_freq'] = 1;
 
 // Default settings for Asset Performance chart height / menu size (in the 'View More Stats' modal window, linked at bottom of Portfolio page)
 // CHART HEIGHT MIN/MAX = 400/900 (increments of 100), MENU SIZE MIN/MAX (increments of 1) = 7/16
-$ct_conf['power']['asset_performance_chart_defaults'] = '600||14'; // 'chart_height||menu_size' (default = '600||14')
+$ct_conf['power']['asset_performance_chart_defaults'] = '700||11'; // 'chart_height||menu_size' (default = '700||11')
 
 
 // Default settings for Marketcap Comparison chart height / menu size (in the 'View More Stats' modal window, linked at bottom of Portfolio page)
 // CHART HEIGHT MIN/MAX = 400/900 (increments of 100), MENU SIZE MIN/MAX (increments of 1) = 7/16
-$ct_conf['power']['asset_mcap_chart_defaults'] = '600||14'; // 'chart_height||menu_size' (default = '600||14')
+$ct_conf['power']['asset_mcap_chart_defaults'] = '700||11'; // 'chart_height||menu_size' (default = '700||11')
 
 
 // Highest numeric value sensor data to include, in the FIRST system information chart (out of two)
@@ -1016,6 +1020,12 @@ $ct_conf['power']['news_feed'] = array(
         
         
         				array(
+            			"title" => "Blog - Portals (NFT-based metaverse on Solana)",
+            			"url" => "https://medium.com/@portals_/feed"
+        						),
+        
+        
+        				array(
             			"title" => "Blog - Project Eluüne (NFT-based game on Solana)",
             			"url" => "https://medium.com/@Arrivant_/feed"
         						),
@@ -1162,6 +1172,12 @@ $ct_conf['power']['news_feed'] = array(
         				array(
             			"title" => "Newsletter - The Daily Gwei",
             			"url" => "https://thedailygwei.substack.com/feed"
+        						),
+    
+    
+        				array(
+            			"title" => "Newsletter - The Solana Grapevine",
+            			"url" => "https://thesolanagrapevine.substack.com/feed"
         						),
     
     
@@ -3401,6 +3417,27 @@ $ct_conf['assets'] = array(
                                     'usdt' => array(
                                           'bittrex_global' => 'SG-USDT',
                                           'bitmart' => 'SG_USDT',
+                                                    ),
+
+                                                    
+                        ) // pairing END
+                        
+                    ), // Asset END
+                    
+                    
+                    ////////////////////////////////////////////////////////////////////
+                    
+                    
+                    // IN
+                    'IN' => array(
+                        
+                        'name' => 'Invictus',
+                        'mcap_slug' => 'invictus',
+                        'pairing' => array(
+
+                                                    
+                                    'usd' => array(
+                                          'generic_usd' => 'in',
                                                     ),
 
                                                     

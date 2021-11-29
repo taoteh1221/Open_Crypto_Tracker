@@ -52,7 +52,7 @@
 			$refresh_link_title = 'The current real-time exchange data re-cache (refresh from live data instead of cached data) setting in the Admin Config GENERAL section is set to '. $ct_conf['power']['last_trade_cache_time'] . ' minute(s).';
 			}
 			
-			?>  &nbsp; &nbsp; &nbsp; <a href='javascript:app_reloading_placeholder();app_reload();' style='font-weight: bold;' title='<?=$refresh_link_title?>'>Refresh</a> <span><b>(<?=$ct_conf['power']['last_trade_cache_time']?> minute cache)</b></span>
+			?>  &nbsp; &nbsp; &nbsp; <a href='javascript:app_reloading_placeholder(1);app_reload();' style='font-weight: bold;' title='<?=$refresh_link_title?>'>Refresh</a> <span><b>(<?=$ct_conf['power']['last_trade_cache_time']?> minute cache)</b></span>
 			
 			 &nbsp;<select title='Auto-Refresh MAY NOT WORK properly on mobile devices (phone / laptop / tablet / etc), or inactive tabs.' class='browser-default custom-select' name='select_auto_refresh' id='select_auto_refresh' onchange='
 			 window.reload_time = this.value;

@@ -351,6 +351,11 @@ Ethereum ICO subtoken support (pre-exchange listing) has been built in (values a
                                   'defipulse' => 'ASSET/PAIRING||OPTIONAL_LIQUIDITY_POOL_ADDRESS', // DeFi Generic
                                   ),
 
+                                                    
+                        'usd' => array(
+                                  'generic_usd' => 'lowercase_coin_symbol_here', // GENERIC USD PRICE, FROM MARKETCAP DATA (IF NO EXHANGE APIs AVAILABLE)
+                                  ),
+
                                             
                 ) // pairing END
             	   

@@ -51,7 +51,13 @@ else if ( $("#reset_admin").length ) {
 // Show "app loading" placeholder when submitting ANY form JQUERY SUBMIT METHOD, OR CLICKING A SUBMIT BUTTON
 // (does NOT affect a standard javascript ELEMENT.submit() call)
 $("form").submit(function(event) { 
-app_reloading_placeholder();
+    
+    // Checking if privacy mode is enabled (which should disable updating anything)
+    if ( app_reloading_placeholder(0) == false ) {
+    event.preventDefault();
+    return false;
+    }
+    
 });
 
 

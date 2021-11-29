@@ -314,13 +314,13 @@ var badColor = "#ff4747";
 	document.getElementById("submit_alert").style.display = "inline-block";
 	document.getElementById("submit_alert").innerHTML = "Creating your new admin login, please wait...";
 	
-   captcha_code.style.backgroundColor = goodColor;
-   captcha_alert.style.color = goodColor;
-   captcha_alert.innerHTML = "Captcha code included."
+    captcha_code.style.backgroundColor = goodColor;
+    captcha_alert.style.color = goodColor;
+    captcha_alert.innerHTML = "Captcha code included."
    
-   document.getElementById("admin_register_button").innerHTML = ajax_placeholder(15, "center", "Submitting...");
 	document.getElementById("admin_register_button").disable = true;
 	$("#set_admin").submit(); // Triggers "app reloading" sequence
+    document.getElementById("admin_register_button").innerHTML = ajax_placeholder(15, "center", "Submitting...");
 	}
 	else {
 		

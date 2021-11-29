@@ -296,6 +296,8 @@ echo '?';
 			var cmc_content = '<h5 class="yellow align_center tooltip_title"><?=$asset_name?> (<?=$asset_symb?>)</h5>'
     
         +'<p class="coin_info" style="white-space: normal; max-width: 600px;"><span class="yellow">ETH value of NFTS can be included in you portfolio stats, by entering it under the "ETHNFTS" asset on the "Update" page.</span></p>'
+    
+        +'<p class="coin_info" style="white-space: normal; max-width: 600px;"><span class="yellow">If you are unsure of the value of any of your NFTs, you can use the \'Floor Price\' (if available) for that NFT collection found on NFT marketplace(s).</span></p>'
         
         +'<p class="coin_info" style="white-space: normal; max-width: 600px;"><span class="yellow">Additionally, you can see it\'s potential market value in another asset by changing the "Market" value on the "Portfolio" page to an asset other than <?=strtoupper($ct_conf['gen']['btc_prim_currency_pairing'])?>.</span></p>';
 	
@@ -307,6 +309,8 @@ echo '?';
 			var cmc_content = '<h5 class="yellow align_center tooltip_title"><?=$asset_name?> (<?=$asset_symb?>)</h5>'
     
         +'<p class="coin_info" style="white-space: normal; max-width: 600px;"><span class="yellow">SOL value of NFTS can be included in you portfolio stats, by entering it under the "SOLNFTS" asset on the "Update" page.</span></p>'
+    
+        +'<p class="coin_info" style="white-space: normal; max-width: 600px;"><span class="yellow">If you are unsure of the value of any of your NFTs, you can use the \'Floor Price\' (if available) for that NFT collection found on NFT marketplace(s).</span></p>'
         
         +'<p class="coin_info" style="white-space: normal; max-width: 600px;"><span class="yellow">Additionally, you can see it\'s potential market value in another asset by changing the "Market" value on the "Portfolio" page to an asset other than <?=strtoupper($ct_conf['gen']['btc_prim_currency_pairing'])?>.</span></p>';
 	

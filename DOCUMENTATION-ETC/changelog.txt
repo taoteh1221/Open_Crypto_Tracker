@@ -4836,6 +4836,32 @@ MIGRATE YOUR EXISTING SETTINGS TO THE NEW FORMAT.
 
 
 
+-------------------------------------------------------------------
+5.03.11:
+
+
+-Bug fix to disable portfolio / settings updates in privacy mode (since we encrypt rendered data)
+
+
+-Bug fix for admin area display when privacy mode is on
+
+
+-'generic_usd' market, for assets with no known exchange-specific available API markets yet (but are listed on marketcap sites)
+
+
+-Misc. UX
+
+
+v5.03.5 and higher renames the admin config array. ALL CONFIGURATION SETTING
+VARIABLE NAMES ARE NOW DIFFERENT, USE THE LATEST/UPGRADED CONFIG.PHP, AND
+MIGRATE YOUR EXISTING SETTINGS TO THE NEW FORMAT.
+
+
+-------------------------------------------------------------------
+
+
+
+
 
 
 

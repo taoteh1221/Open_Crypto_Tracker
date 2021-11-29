@@ -1122,6 +1122,7 @@ var $ct_array1 = array();
       }
    
    
+   $pretty_str = preg_replace("/usd/i", 'USD', $pretty_str);
    $pretty_str = preg_replace("/btc/i", 'BTC', $pretty_str);
    $pretty_str = preg_replace("/eth/i", 'ETH', $pretty_str);
    $pretty_str = preg_replace("/sol/i", 'SOL', $pretty_str);

@@ -112,17 +112,13 @@ if ( is_array($ct_conf['assets']) ) {
             
             
             foreach ( $ct_conf['power']['crypto_pairing'] as $pairing_key => $pairing_unused ) {
-            	
-            	if ( $pairing_key != 'eth' ) {
-                $ct_conf['assets']['ETHNFTS']['pairing'][$pairing_key] = array('eth_nfts' => $pairing_key);
-            	}
-            
+            $ct_conf['assets']['ETHNFTS']['pairing'][$pairing_key] = array('eth_nfts' => $pairing_key);
             }
             
             foreach ( $ct_conf['power']['btc_currency_markets'] as $pairing_key => $pairing_unused ) {
             	
             	// WE HAVE A COUPLE CRYPTOS SUPPORTED HERE, BUT WE ONLY WANT DESIGNATED FIAT-EQIV HERE (cryptos are added via 'crypto_to_crypto_pairing')
-            	if ( !array_key_exists($pairing_key, $ct_conf['power']['crypto_pairing']) && $pairing_key != 'eth' ) {
+            	if ( !array_key_exists($pairing_key, $ct_conf['power']['crypto_pairing']) ) {
             	$ct_conf['assets']['ETHNFTS']['pairing'][$pairing_key] = array('eth_nfts' => $pairing_key);
             	}
             
@@ -137,17 +133,13 @@ if ( is_array($ct_conf['assets']) ) {
             
             
             foreach ( $ct_conf['power']['crypto_pairing'] as $pairing_key => $pairing_unused ) {
-            	
-            	if ( $pairing_key != 'sol' ) {
-                $ct_conf['assets']['SOLNFTS']['pairing'][$pairing_key] = array('sol_nfts' => $pairing_key);
-            	}
-            
+            $ct_conf['assets']['SOLNFTS']['pairing'][$pairing_key] = array('sol_nfts' => $pairing_key);
             }
             
             foreach ( $ct_conf['power']['btc_currency_markets'] as $pairing_key => $pairing_unused ) {
             	
             	// WE HAVE A COUPLE CRYPTOS SUPPORTED HERE, BUT WE ONLY WANT DESIGNATED FIAT-EQIV HERE (cryptos are added via 'crypto_to_crypto_pairing')
-            	if ( !array_key_exists($pairing_key, $ct_conf['power']['crypto_pairing']) && $pairing_key != 'sol' ) {
+            	if ( !array_key_exists($pairing_key, $ct_conf['power']['crypto_pairing']) ) {
             	$ct_conf['assets']['SOLNFTS']['pairing'][$pairing_key] = array('sol_nfts' => $pairing_key);
             	}
             

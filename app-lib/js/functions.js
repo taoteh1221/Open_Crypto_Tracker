@@ -2,6 +2,7 @@
 // Copyright 2014-2022 GPLv3, Open Crypto Tracker by Mike Kilday: Mike@DragonFrugal.com
 
 
+
 /////////////////////////////////////////////////////////////
 
 
@@ -99,20 +100,6 @@ function update_alert_percent() {
 	else {
 	document.getElementById("use_alert_percent").value = "";
 	}
-
-}
-
-	
-/////////////////////////////////////////////////////////////
-
-
-function app_reloading_placeholder() {
-
-$("#app_loading_span").html("Reloading...");
-
-// Transition effects
-$("#content_wrapper").hide(250, 'linear'); // 0.25 seconds
-$("#app_loading").show(250, 'linear'); // 0.25 seconds
 
 }
 
@@ -310,6 +297,31 @@ ca = document.cookie.split(';');
     }
     
 return false;
+
+}
+
+	
+/////////////////////////////////////////////////////////////
+
+
+function app_reloading_placeholder(refresh_only=0) {
+    
+    // Disable form updating
+    if ( getCookie('priv_toggle') == 'on' && refresh_only == 0 ) {
+    alert('Updating is not allowed in privacy mode.');
+    return false;
+    }
+    else {
+    
+    $("#app_loading_span").html("Reloading...");
+    
+    // Transition effects
+    $("#content_wrapper").hide(250, 'linear'); // 0.25 seconds
+    $("#app_loading").show(250, 'linear'); // 0.25 seconds
+
+    return true;
+
+    }
 
 }
 
@@ -554,6 +566,7 @@ function render_names(name) {
 	
 render = name.charAt(0).toUpperCase() + name.slice(1);
 
+render = render.replace(/usd/gi, "USD");
 render = render.replace(/btc/gi, "BTC");
 render = render.replace(/eth/gi, "ETH");
 render = render.replace(/sol/gi, "SOL");
@@ -1224,19 +1237,25 @@ private_data = document.getElementsByClassName('private_data');
                         }
             		
             		
-                    document.getElementById("pm_link").classList.remove("green");
-                    document.getElementById("pm_link").classList.add("bitcoin"); 
-                    document.getElementById("pm_link").setAttribute('title', 'Turn privacy mode ON. This encrypts / hides RENDERED personal portfolio data with the PIN you setup (BUT DOES #NOT# encrypt RAW source code). It ALSO disables opposite-clicking.');
+                    safe_add_remove_class('green', 'pm_link', 'remove');
+                    safe_add_remove_class('bitcoin', 'pm_link', 'add');
                     
-                    document.getElementById("update_link").classList.remove("disable_click");
-                    document.getElementById("update_link").setAttribute('title', 'Update your portfolio data.');
+                        if ( document.getElementById("pm_link") ) {
+                        document.getElementById("pm_link").setAttribute('title', 'Turn privacy mode ON. This encrypts / hides RENDERED personal portfolio data with the PIN you setup (BUT DOES #NOT# encrypt RAW source code). It ALSO disables opposite-clicking.');
+                        }
+                    
+                    safe_add_remove_class('disable_click', 'update_link', 'remove');
+                    
+                        if ( document.getElementById("update_link") ) {
+                        document.getElementById("update_link").setAttribute('title', 'Update your portfolio data.');
+                        }
         
                     safe_add_remove_class('hidden', 'crypto_val', 'remove');
                     safe_add_remove_class('hidden', 'fiat_val', 'remove');
                     safe_add_remove_class('hidden', 'portfolio_gain_loss', 'remove');
        
                     
-                        var leverage_info = document.querySelectorAll(".leverage_info");
+                    var leverage_info = document.querySelectorAll(".leverage_info");
                         
                         leverage_info.forEach(function(info, index){
                         info.style.visibility = "visible";
@@ -1342,19 +1361,25 @@ private_data = document.getElementsByClassName('private_data');
         
         document.title = ''; // Blank out document title
             		
-        document.getElementById("pm_link").classList.remove("bitcoin");
-        document.getElementById("pm_link").classList.add("green");
-        document.getElementById("pm_link").setAttribute('title', 'Turn privacy mode OFF. This reveals your personal portfolio data, using the PIN you setup. It ALSO re-enables opposite-clicking.');
+        safe_add_remove_class('bitcoin', 'pm_link', 'remove');
+        safe_add_remove_class('green', 'pm_link', 'add');
                     
-        document.getElementById("update_link").classList.add("disable_click"); 
-        document.getElementById("update_link").setAttribute('title', 'Disabled in privacy mode.');
+            if ( document.getElementById("pm_link") ) {
+            document.getElementById("pm_link").setAttribute('title', 'Turn privacy mode OFF. This reveals your personal portfolio data, using the PIN you setup. It ALSO re-enables opposite-clicking.');
+            }
+                    
+        safe_add_remove_class('disable_click', 'update_link', 'add');
+                    
+            if ( document.getElementById("update_link") ) {
+            document.getElementById("update_link").setAttribute('title', 'Disabled in privacy mode.');
+            }
         
         safe_add_remove_class('hidden', 'crypto_val', 'add');
         safe_add_remove_class('hidden', 'fiat_val', 'add');
         safe_add_remove_class('hidden', 'portfolio_gain_loss', 'add');
 
                     
-             var leverage_info = document.querySelectorAll(".leverage_info");
+        var leverage_info = document.querySelectorAll(".leverage_info");
                         
              leverage_info.forEach(function(info, index){
              info.style.visibility = "hidden";
