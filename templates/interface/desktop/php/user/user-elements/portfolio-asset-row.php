@@ -286,6 +286,8 @@ echo '?';
     
         +'<p class="coin_info" style="white-space: normal; max-width: 600px;"><span class="yellow">Miscellaneous <?=strtoupper($ct_conf['gen']['btc_prim_currency_pairing'])?> value can be included in you portfolio stats, by entering it under the "MISCASSETS" asset on the "Update" page.</span></p>'
         
+        +'<p class="coin_info" style="white-space: normal; max-width: 600px;"><span class="yellow">This can be useful for including <?=strtoupper($ct_conf['gen']['btc_prim_currency_pairing'])?> Checking / Savings accounts at banks, stable coin holdings, etc.</span></p>'
+        
         +'<p class="coin_info" style="white-space: normal; max-width: 600px;"><span class="yellow">Additionally, you can see it\'s potential market value in another asset by changing the "Market" value on the "Portfolio" page to an asset other than <?=strtoupper($ct_conf['gen']['btc_prim_currency_pairing'])?>.</span></p>';
 	
 			<?php

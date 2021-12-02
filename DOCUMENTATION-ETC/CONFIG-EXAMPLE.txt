@@ -349,10 +349,30 @@ $ct_conf['charts_alerts']['tracked_markets'] = array(
 					'sol-3' => 'ftx_us||btc||both',
 					
 					
-					// HNT
-					'hnt' => 'binance||btc||chart',
-					'hnt-2' => 'binance_us||usd||both',
-					'hnt-3' => 'gateio||eth||none',
+					// UNI
+					'uni' => 'binance||btc||both',
+					'uni-2' => 'defipulse||eth||none',
+					'uni-3' => 'binance||usdt||none',
+					'uni-4' => 'coinbase||usd||none',
+					
+					
+					// MKR
+					'mkr' => 'okex||btc||none',
+					'mkr-2' => 'kucoin||btc||none',
+					'mkr-3' => 'coinbase||btc||both',
+					'mkr-4' => 'defipulse||eth||none',
+					
+					
+					// DAI
+					'dai' => 'coinbase||usdc||both',
+					'dai-2' => 'kraken||usd||none',
+					'dai-3' => 'bittrex||btc||none',
+					'dai-4' => 'defipulse||usdc||none',
+					
+					
+					// USDC
+					'usdc' => 'kraken||usd||chart',
+					'usdc-2' => 'binance_us||usd||none',
 					
 					
 					// MANA
@@ -375,27 +395,6 @@ $ct_conf['charts_alerts']['tracked_markets'] = array(
 					'rndr-2' => 'gateio||usdt||none',
 					
 					
-					// UNI
-					'uni' => 'binance||btc||both',
-					'uni-2' => 'defipulse||eth||none',
-					'uni-3' => 'binance||usdt||none',
-					'uni-4' => 'coinbase||usd||none',
-					
-					
-					// MKR
-					'mkr' => 'okex||btc||none',
-					'mkr-2' => 'kucoin||btc||none',
-					'mkr-3' => 'coinbase||btc||both',
-					'mkr-4' => 'defipulse||eth||none',
-					
-					
-					// DAI
-					'dai' => 'coinbase||usdc||both',
-					'dai-2' => 'kraken||usd||none',
-					'dai-3' => 'bittrex||btc||none',
-					'dai-4' => 'defipulse||usdc||none',
-					
-					
 					// LRC
 					'lrc' => 'coinbase||usd||both',
 					'lrc-2' => 'binance||btc||chart',
@@ -403,23 +402,19 @@ $ct_conf['charts_alerts']['tracked_markets'] = array(
 					'lrc-4' => 'defipulse||eth||none',
 					
 					
-					// ENS
-					'ens' => 'okex||usdt||both',
-					'ens-2' => 'gateio||eth||chart',
+					// SLRS
+					'slrs' => 'ftx||usd||both',
+					'slrs-2' => 'gateio||eth||chart',
+					
+					
+					// HNT
+					'hnt' => 'binance||btc||chart',
+					'hnt-2' => 'binance_us||usd||both',
+					'hnt-3' => 'gateio||eth||none',
 					
 					
 					// HIVE
 					'hive' => 'bittrex||btc||both',
-					
-					
-					// KEEP
-					'keep' => 'kraken||btc||both',
-					'keep-2' => 'hitbtc||btc||chart',
-					'keep-3' => 'defipulse||eth||none',
-					
-					
-					// GLM
-					'glm' => 'bittrex||btc||both',
 					
 					
 					// MYST
@@ -429,29 +424,19 @@ $ct_conf['charts_alerts']['tracked_markets'] = array(
 					'myst-4' => 'defipulse||eth||none',
 					
 					
-					// SLRS
-					'slrs' => 'ftx||usd||both',
-					'slrs-2' => 'gateio||eth||chart',
-					
-					
-					// SHILL
-					'shill' => 'gateio||usdt||both',
-					'shill-2' => 'kucoin||usdt||none',
-					
-					
 					// SAMO
 					'samo' => 'okex||usdt||both',
 					'samo-2' => 'gateio||eth||chart',
+					
+					
+					// IN
+					'in' => 'generic_usd||usd||both',
 					
 					
 					// SG
 					'sg' => 'bittrex_global||usdt||chart',
 					'sg-2' => 'bitmart||usdt||none',
 					'sg-3' => 'bitmart||btc||both',
-					
-					
-					// IN
-					'in' => 'generic_usd||usd||both',
 					
 					
 					);
@@ -1006,12 +991,6 @@ $ct_conf['power']['news_feed'] = array(
         				array(
             			"title" => "Blog - Project Eluüne (NFT-based game on Solana)",
             			"url" => "https://medium.com/@Arrivant_/feed"
-        						),
-        
-        
-        				array(
-            			"title" => "Blog - Project SEED (NFT ecosystem on Solana)",
-            			"url" => "https://projectseed.medium.com/feed"
         						),
         
         
@@ -2676,210 +2655,6 @@ $ct_conf['assets'] = array(
                     ////////////////////////////////////////////////////////////////////
                     
                     
-                    // HNT
-                    'HNT' => array(
-                        
-                        'name' => 'Helium',
-                        'mcap_slug' => 'helium',
-                        'pairing' => array(
-
-                        
-                                    'btc' => array(
-                                        'binance' => 'HNTBTC',
-                                        'hotbit' => 'HNT_BTC',
-                                                    ),
-
-                                                    
-                                    'eth' => array(
-                                        'gateio' => 'HNT_ETH',
-                                                    ),
-
-                                                    
-                                    'inr' => array(
-                                        'wazirx' => 'hntinr',
-                                                    ),
-
-                                                    
-                                    'usd' => array(
-                                    	 'ftx' => 'HNT/USD',
-                                    	 'binance_us' => 'HNTUSD',
-                                                    ),
-
-                                                    
-                                    'usdt' => array(
-                                        'binance' => 'HNTUSDT',
-                                    	'ftx' => 'HNT/USDT',
-                                    	'binance_us' => 'HNTUSDT',
-                                    	'crypto.com' => 'HNT_USDT',
-                                        'hotbit' => 'HNT_USDT',
-                                        'gateio' => 'HNT_USDT',
-                                        'wazirx' => 'hntusdt',
-                                                    ),
-
-                                                    
-                        ) // pairing END
-                                        
-                    ), // Asset END
-                    
-                    
-                    ////////////////////////////////////////////////////////////////////
-                    
-                    
-                    // MANA
-                    'MANA' => array(
-                        
-                        'name' => 'Decentraland',
-                        'mcap_slug' => 'decentraland',
-                        'pairing' => array(
-
-                        
-                                    'btc' => array(
-                                          'binance' => 'MANABTC',
-                                          'bittrex' => 'MANA-BTC',
-                                          'ethfinex' => 'tMNABTC',
-                                          'kucoin' => 'MANA-BTC',
-                                          'upbit' => 'BTC-MANA',
-                                          'okex' => 'MANA-BTC',
-                                          'bitso' => 'mana_btc',
-                                          'poloniex' => 'BTC_MANA',
-                                                    ),
-
-                                                    
-                                    'eth' => array(
-                                          'binance' => 'MANAETH',
-                                          'bittrex' => 'MANA-ETH',
-                                          'hitbtc' => 'MANAETH',
-                                          'kucoin' => 'MANA-ETH',
-                                          'okex' => 'MANA-ETH',
-                                    	  'defipulse' => 'MANA/WETH||0x11b1f53204d03e5529f09eb3091939e4fd8c9cf3',
-                                                    ),
-
-                                                    
-                                    'krw' => array(
-                                        	'upbit' => 'KRW-MANA',
-                                                    ),
-
-                                                    
-                                    'mxn' => array(
-                                          'bitso' => 'mana_mxn',
-                                                    ),
-
-                                                    
-                                    'usdc' => array(
-                                          'coinbase' => 'MANA-USDC',
-                                                    ),
-
-                                                    
-                                    'usdt' => array(
-                                          'hitbtc' => 'MANAUSD',
-                                          'okex' => 'MANA-USDT',
-                                                    ),
-
-                                                    
-                        ) // pairing END
-                        
-                    ), // Asset END
-                    
-                    
-                    ////////////////////////////////////////////////////////////////////
-                    
-                    
-                    // ENJ
-                    'ENJ' => array(
-                        
-                        'name' => 'Enjin Coin',
-                        'mcap_slug' => 'enjin-coin',
-                        'pairing' => array(
-
-                        
-                                    'btc' => array(
-                                          'binance' => 'ENJBTC',
-                                          'bittrex' => 'ENJ-BTC',
-                                          'hitbtc' => 'ENJBTC',
-                                          'kucoin' => 'ENJ-BTC',
-                                          'coinex' => 'ENJBTC',
-                                          'liquid' => 'ENJBTC',
-                                          'upbit' => 'BTC-ENJ',
-                                                    ),
-
-                                                    
-                                    'eth' => array(
-                                          'binance' => 'ENJETH',
-                                          'bittrex' => 'ENJ-ETH',
-                                          'hitbtc' => 'ENJETH',
-                                          'kucoin' => 'ENJ-ETH',
-                                          'loopring_amm' => 'AMM-ENJ-ETH',
-                                    	  'defipulse' => 'ENJ/WETH',
-                                                    ),
-
-                                                    
-                                    'krw' => array(
-                                        	'upbit' => 'KRW-ENJ',
-                                                    ),
-
-                                                    
-                                    'usd' => array(
-                                        	'binance_us' => 'ENJUSD',
-                                          'bittrex' => 'ENJ-USD',
-                                        	'bitfinex' => 'tENJUSD',
-                                                    ),
-
-                                                    
-                                    'usdt' => array(
-                                        	'binance' => 'ENJUSDT',
-                                          'bittrex' => 'ENJ-USDT',
-                                          'hitbtc' => 'ENJUSD',
-                                          'coinex' => 'ENJUSDT',
-                                                    ),
-
-                                                    
-                        ) // pairing END
-                        
-                    ), // Asset END
-                    
-                    
-                    ////////////////////////////////////////////////////////////////////
-                    
-                    
-                    // RNDR
-                    'RNDR' => array(
-                        
-                        'name' => 'Render Token',
-                        'mcap_slug' => 'render-token',
-                        'pairing' => array(
-
-                                                    
-                                    'btc' => array(
-                                        'huobi' => 'rndrbtc',
-                                        'kucoin' => 'RNDR-BTC',
-                                        'hitbtc' => 'RNDRBTC',
-                                                    ),
-
-                                                    
-                                    'eth' => array(
-                                        'huobi' => 'rndreth',
-                                        'gateio' => 'RNDR_ETH',
-                                                    ),
-
-                                                    
-                                    'usdt' => array(
-                                        'huobi' => 'rndrusdt',
-                                        'gateio' => 'RNDR_USDT',
-                                        'kucoin' => 'RNDR-USDT',
-                                        'hotbit' => 'RNDR_USDT',
-                                        'coinex' => 'RNDRUSDT',
-                                        'hitbtc' => 'RNDRUSDT',
-                                                    ),
-
-                                                    
-                        ) // pairing END
-                        
-                    ), // Asset END
-                    
-                    
-                    ////////////////////////////////////////////////////////////////////
-                    
-                    
                     // UNI
                     'UNI' => array(
                         
@@ -3059,6 +2834,203 @@ $ct_conf['assets'] = array(
                     ////////////////////////////////////////////////////////////////////
                     
                     
+                    // USDC
+                    'USDC' => array(
+                        
+                        'name' => 'USD Coin',
+                        'mcap_slug' => 'usd-coin',
+                        'pairing' => array(
+
+                                                    
+                                    'eur' => array(
+                                    	 'coinbase' => 'USDC-EUR',
+                                    	 'kraken' => 'USDCEUR',
+                                                    ),
+
+                                                    
+                                    'gbp' => array(
+                                    	 'coinbase' => 'USDC-GBP',
+                                    	 'kraken' => 'USDCGBP',
+                                                    ),
+
+                                                    
+                                    'usd' => array(
+                                    	 'kraken' => 'USDCUSD',
+                                    	 'binance_us' => 'USDCUSD',
+                                                    ),
+
+                                                    
+                                    'usdt' => array(
+                                        'binance' => 'USDCUSDT',
+                                    	'kraken' => 'USDCUSDT',
+                                        'huobi' => 'usdcusdt',
+                                        'kucoin' => 'USDC-USDT',
+                                                    ),
+
+                                                    
+                        ) // pairing END
+                                        
+                    ), // Asset END
+                    
+                    
+                    ////////////////////////////////////////////////////////////////////
+                    
+                    
+                    // MANA
+                    'MANA' => array(
+                        
+                        'name' => 'Decentraland',
+                        'mcap_slug' => 'decentraland',
+                        'pairing' => array(
+
+                        
+                                    'btc' => array(
+                                          'binance' => 'MANABTC',
+                                          'bittrex' => 'MANA-BTC',
+                                          'ethfinex' => 'tMNABTC',
+                                          'kucoin' => 'MANA-BTC',
+                                          'upbit' => 'BTC-MANA',
+                                          'okex' => 'MANA-BTC',
+                                          'bitso' => 'mana_btc',
+                                          'poloniex' => 'BTC_MANA',
+                                                    ),
+
+                                                    
+                                    'eth' => array(
+                                          'binance' => 'MANAETH',
+                                          'bittrex' => 'MANA-ETH',
+                                          'hitbtc' => 'MANAETH',
+                                          'kucoin' => 'MANA-ETH',
+                                          'okex' => 'MANA-ETH',
+                                    	  'defipulse' => 'MANA/WETH||0x11b1f53204d03e5529f09eb3091939e4fd8c9cf3',
+                                                    ),
+
+                                                    
+                                    'krw' => array(
+                                        	'upbit' => 'KRW-MANA',
+                                                    ),
+
+                                                    
+                                    'mxn' => array(
+                                          'bitso' => 'mana_mxn',
+                                                    ),
+
+                                                    
+                                    'usdc' => array(
+                                          'coinbase' => 'MANA-USDC',
+                                                    ),
+
+                                                    
+                                    'usdt' => array(
+                                          'hitbtc' => 'MANAUSD',
+                                          'okex' => 'MANA-USDT',
+                                                    ),
+
+                                                    
+                        ) // pairing END
+                        
+                    ), // Asset END
+                    
+                    
+                    ////////////////////////////////////////////////////////////////////
+                    
+                    
+                    // ENJ
+                    'ENJ' => array(
+                        
+                        'name' => 'Enjin Coin',
+                        'mcap_slug' => 'enjin-coin',
+                        'pairing' => array(
+
+                        
+                                    'btc' => array(
+                                          'binance' => 'ENJBTC',
+                                          'bittrex' => 'ENJ-BTC',
+                                          'hitbtc' => 'ENJBTC',
+                                          'kucoin' => 'ENJ-BTC',
+                                          'coinex' => 'ENJBTC',
+                                          'liquid' => 'ENJBTC',
+                                          'upbit' => 'BTC-ENJ',
+                                                    ),
+
+                                                    
+                                    'eth' => array(
+                                          'binance' => 'ENJETH',
+                                          'bittrex' => 'ENJ-ETH',
+                                          'hitbtc' => 'ENJETH',
+                                          'kucoin' => 'ENJ-ETH',
+                                          'loopring_amm' => 'AMM-ENJ-ETH',
+                                    	  'defipulse' => 'ENJ/WETH',
+                                                    ),
+
+                                                    
+                                    'krw' => array(
+                                        	'upbit' => 'KRW-ENJ',
+                                                    ),
+
+                                                    
+                                    'usd' => array(
+                                        	'binance_us' => 'ENJUSD',
+                                          'bittrex' => 'ENJ-USD',
+                                        	'bitfinex' => 'tENJUSD',
+                                                    ),
+
+                                                    
+                                    'usdt' => array(
+                                        	'binance' => 'ENJUSDT',
+                                          'bittrex' => 'ENJ-USDT',
+                                          'hitbtc' => 'ENJUSD',
+                                          'coinex' => 'ENJUSDT',
+                                                    ),
+
+                                                    
+                        ) // pairing END
+                        
+                    ), // Asset END
+                    
+                    
+                    ////////////////////////////////////////////////////////////////////
+                    
+                    
+                    // RNDR
+                    'RNDR' => array(
+                        
+                        'name' => 'Render Token',
+                        'mcap_slug' => 'render-token',
+                        'pairing' => array(
+
+                                                    
+                                    'btc' => array(
+                                        'huobi' => 'rndrbtc',
+                                        'kucoin' => 'RNDR-BTC',
+                                        'hitbtc' => 'RNDRBTC',
+                                                    ),
+
+                                                    
+                                    'eth' => array(
+                                        'huobi' => 'rndreth',
+                                        'gateio' => 'RNDR_ETH',
+                                                    ),
+
+                                                    
+                                    'usdt' => array(
+                                        'huobi' => 'rndrusdt',
+                                        'gateio' => 'RNDR_USDT',
+                                        'kucoin' => 'RNDR-USDT',
+                                        'hotbit' => 'RNDR_USDT',
+                                        'coinex' => 'RNDRUSDT',
+                                        'hitbtc' => 'RNDRUSDT',
+                                                    ),
+
+                                                    
+                        ) // pairing END
+                        
+                    ), // Asset END
+                    
+                    
+                    ////////////////////////////////////////////////////////////////////
+                    
+                    
                     // LRC
                     'LRC' => array(
                         
@@ -3118,28 +3090,81 @@ $ct_conf['assets'] = array(
                     ////////////////////////////////////////////////////////////////////
                     
                     
-                    // ENS
-                    'ENS' => array(
+                    // SLRS
+                    'SLRS' => array(
                         
-                        'name' => 'Ethereum Name Service',
-                        'mcap_slug' => 'ethereum-name-service',
+                        'name' => 'Solrise Finance',
+                        'mcap_slug' => 'solrise-finance',
                         'pairing' => array(
 
                         
                                     'eth' => array(
-                                        'gateio' => 'ENS_ETH',
+                                        'gateio' => 'SLRS_ETH',
+                                                    ),
+
+                                                    
+                                    'usd' => array(
+                                    	 'ftx' => 'SLRS/USD',
                                                     ),
 
                                                     
                                     'usdt' => array(
-                                        'okex' => 'ENS-USDT',
-                                        'huobi' => 'ensusdt',
-                                        'gateio' => 'ENS_USDT',
+                                        'gateio' => 'SLRS_USDT',
+                                        'coinex' => 'SLRSUSDT',
                                                     ),
 
                                                     
                         ) // pairing END
                         
+                    ), // Asset END
+                    
+                    
+                    ////////////////////////////////////////////////////////////////////
+                    
+                    
+                    // HNT
+                    'HNT' => array(
+                        
+                        'name' => 'Helium',
+                        'mcap_slug' => 'helium',
+                        'pairing' => array(
+
+                        
+                                    'btc' => array(
+                                        'binance' => 'HNTBTC',
+                                        'hotbit' => 'HNT_BTC',
+                                                    ),
+
+                                                    
+                                    'eth' => array(
+                                        'gateio' => 'HNT_ETH',
+                                                    ),
+
+                                                    
+                                    'inr' => array(
+                                        'wazirx' => 'hntinr',
+                                                    ),
+
+                                                    
+                                    'usd' => array(
+                                    	 'ftx' => 'HNT/USD',
+                                    	 'binance_us' => 'HNTUSD',
+                                                    ),
+
+                                                    
+                                    'usdt' => array(
+                                        'binance' => 'HNTUSDT',
+                                    	'ftx' => 'HNT/USDT',
+                                    	'binance_us' => 'HNTUSDT',
+                                    	'crypto.com' => 'HNT_USDT',
+                                        'hotbit' => 'HNT_USDT',
+                                        'gateio' => 'HNT_USDT',
+                                        'wazirx' => 'hntusdt',
+                                                    ),
+
+                                                    
+                        ) // pairing END
+                                        
                     ), // Asset END
                     
                     
@@ -3166,93 +3191,6 @@ $ct_conf['assets'] = array(
                                         'huobi' => 'hiveusdt',
                                         'hotbit' => 'HIVE_USDT',
                                         'wazirx' => 'hiveusdt',
-                                                    ),
-
-                                                    
-                        ) // pairing END
-                        
-                    ), // Asset END
-                    
-                    
-                    ////////////////////////////////////////////////////////////////////
-                    
-                    
-                    // KEEP
-                    'KEEP' => array(
-                        
-                        'name' => 'Keep Network',
-                        'mcap_slug' => 'keep-network',
-                        'pairing' => array(
-
-                        
-                                    'btc' => array(
-                                          'kraken' => 'KEEPXBT',
-                                          'hitbtc' => 'KEEPBTC',
-                                                    ),
-
-                                                    
-                                    'eth' => array(
-                                        	'kraken' => 'KEEPETH',
-                                        	'loopring_amm' => 'AMM-KEEP-ETH',
-                                    	 	'defipulse' => 'KEEP/WETH||0xe6f19dab7d43317344282f803f8e8d240708174a',
-                                                    ),
-
-                                                    
-                                    'eur' => array(
-                                        	'kraken' => 'KEEPEUR',
-                                                    ),
-
-                                                    
-                                    'usd' => array(
-                                        	'kraken' => 'KEEPUSD',
-                                                    ),
-
-                                                    
-                        ) // pairing END
-                        
-                    ), // Asset END
-                    
-                    
-                    ////////////////////////////////////////////////////////////////////
-                    
-                    
-                    // GLM
-                    'GLM' => array(
-                        
-                        'name' => 'Golem',
-                        'mcap_slug' => 'golem-network-tokens',
-                        'pairing' => array(
-
-                        
-                                    'btc' => array(
-                                          'bittrex' => 'GLM-BTC',
-                                        	'upbit' => 'BTC-GLM',
-                                          'poloniex' => 'BTC_GLM',
-                                                    ),
-
-                                                    
-                                    'eth' => array(
-                                          'bittrex' => 'GLM-ETH',
-                                                    ),
-
-                                                    
-                                    'inr' => array(
-                                          'bitbns' => 'GNT',
-                                                    ),
-
-                                                    
-                                    'krw' => array(
-                                        	'upbit' => 'KRW-GLM',
-                                                    ),
-
-                                                    
-                                    'usd' => array(
-                                        	'ethfinex' => 'tGNTUSD',
-                                                    ),
-
-                                                    
-                                    'usdc' => array(
-                                          'coinbase' => 'GNT-USDC',
                                                     ),
 
                                                     
@@ -3297,61 +3235,6 @@ $ct_conf['assets'] = array(
                     ////////////////////////////////////////////////////////////////////
                     
                     
-                    // SLRS
-                    'SLRS' => array(
-                        
-                        'name' => 'Solrise Finance',
-                        'mcap_slug' => 'solrise-finance',
-                        'pairing' => array(
-
-                        
-                                    'eth' => array(
-                                        'gateio' => 'SLRS_ETH',
-                                                    ),
-
-                                                    
-                                    'usd' => array(
-                                    	 'ftx' => 'SLRS/USD',
-                                                    ),
-
-                                                    
-                                    'usdt' => array(
-                                        'gateio' => 'SLRS_USDT',
-                                        'coinex' => 'SLRSUSDT',
-                                                    ),
-
-                                                    
-                        ) // pairing END
-                        
-                    ), // Asset END
-                    
-                    
-                    ////////////////////////////////////////////////////////////////////
-                    
-                    
-                    // SHILL
-                    'SHILL' => array(
-                        
-                        'name' => 'SHILL Token',
-                        'mcap_slug' => 'shill-token',
-                        'pairing' => array(
-
-                                                    
-                                    'usdt' => array(
-                                        'gateio' => 'SHILL_USDT',
-                                        'kucoin' => 'SHILL-USDT',
-                                        'bitmart' => 'SHILL_USDT',
-                                                    ),
-
-                                                    
-                        ) // pairing END
-                        
-                    ), // Asset END
-                    
-                    
-                    ////////////////////////////////////////////////////////////////////
-                    
-                    
                     // SAMO
                     'SAMO' => array(
                         
@@ -3379,6 +3262,27 @@ $ct_conf['assets'] = array(
                     ////////////////////////////////////////////////////////////////////
                     
                     
+                    // IN
+                    'IN' => array(
+                        
+                        'name' => 'Invictus',
+                        'mcap_slug' => 'invictus',
+                        'pairing' => array(
+
+                                                    
+                                    'usd' => array(
+                                          'generic_usd' => 'in',
+                                                    ),
+
+                                                    
+                        ) // pairing END
+                        
+                    ), // Asset END
+                    
+                    
+                    ////////////////////////////////////////////////////////////////////
+                    
+                    
                     // SG
                     'SG' => array(
                         
@@ -3395,27 +3299,6 @@ $ct_conf['assets'] = array(
                                     'usdt' => array(
                                           'bittrex_global' => 'SG-USDT',
                                           'bitmart' => 'SG_USDT',
-                                                    ),
-
-                                                    
-                        ) // pairing END
-                        
-                    ), // Asset END
-                    
-                    
-                    ////////////////////////////////////////////////////////////////////
-                    
-                    
-                    // IN
-                    'IN' => array(
-                        
-                        'name' => 'Invictus',
-                        'mcap_slug' => 'invictus',
-                        'pairing' => array(
-
-                                                    
-                                    'usd' => array(
-                                          'generic_usd' => 'in',
                                                     ),
 
                                                     
