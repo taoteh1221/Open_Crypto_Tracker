@@ -1312,29 +1312,6 @@ var $ct_array1 = array();
     
     
     
-      elseif ( strtolower($sel_exchange) == 'generic_usd' ) {
-         
-      $data = $ct_asset->mcap_data($market_id, 'usd');
-	  
-	     // If we are in the top X ranks, we should already have data from coingecko to fallback on
-	     if ( isset($data['rank']) ) {
-	     
-	     $result = array(
-	                     'last_trade' => $ct_var->num_to_str($data['price']),
-	                     '24hr_asset_vol' => $ct_var->num_to_str($data["vol_24h"] / $data['price']),
-	                     '24hr_pairing_vol' => null // No pairing volume data for this API
-	                     );
-	                     		  
-	     }
-	     
-      }
-     
-     
-     
-     ////////////////////////////////////////////////////////////////////////////////////////////////
-    
-    
-    
       elseif ( strtolower($sel_exchange) == 'coinspot' ) {
          
       $url = 'https://www.coinspot.com.au/pubapi/latest';
@@ -2695,6 +2672,54 @@ var $ct_array1 = array();
       
       
       
+      }
+     
+     
+     
+     ////////////////////////////////////////////////////////////////////////////////////////////////
+    
+    
+    
+      elseif ( strtolower($sel_exchange) == 'generic_btc' ) {
+         
+      $data = $ct_asset->mcap_data($market_id, 'usd');
+	  
+	     // If we are in the top X ranks, we should already have data from coingecko to fallback on
+	     if ( isset($data['rank']) ) {
+	         
+         $pairing_btc_val = $ct_asset->pairing_btc_val('usd');
+	     
+	     $result = array(
+	                     'last_trade' => $ct_var->num_to_str($pairing_btc_val * $data['price']),
+	                     '24hr_asset_vol' => null, // No asset volume data for this API
+	                     '24hr_pairing_vol' => $ct_var->num_to_str( $pairing_btc_val * $data["vol_24h"] ) 
+	                     );
+	                     		  
+	     }
+	     
+      }
+     
+     
+     
+     ////////////////////////////////////////////////////////////////////////////////////////////////
+    
+    
+    
+      elseif ( strtolower($sel_exchange) == 'generic_usd' ) {
+         
+      $data = $ct_asset->mcap_data($market_id, 'usd');
+	  
+	     // If we are in the top X ranks, we should already have data from coingecko to fallback on
+	     if ( isset($data['rank']) ) {
+	     
+	     $result = array(
+	                     'last_trade' => $ct_var->num_to_str($data['price']),
+	                     '24hr_asset_vol' => $ct_var->num_to_str($data["vol_24h"] / $data['price']),
+	                     '24hr_pairing_vol' => null // No pairing volume data for this API
+	                     );
+	                     		  
+	     }
+	     
       }
      
      

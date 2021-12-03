@@ -393,7 +393,7 @@ $ct_conf['charts_alerts']['tracked_markets'] = array(
 					
 					
 					// USDC
-					'usdc' => 'kraken||usd||chart',
+					'usdc' => 'kraken||usd||both',
 					'usdc-2' => 'binance_us||usd||none',
 					
 					
@@ -429,6 +429,11 @@ $ct_conf['charts_alerts']['tracked_markets'] = array(
 					'slrs-2' => 'gateio||eth||chart',
 					
 					
+					// IN
+					'in' => 'generic_usd||usd||both',
+					'in-2' => 'generic_btc||btc||chart',
+					
+					
 					// HNT
 					'hnt' => 'binance||btc||chart',
 					'hnt-2' => 'binance_us||usd||both',
@@ -449,10 +454,6 @@ $ct_conf['charts_alerts']['tracked_markets'] = array(
 					// SAMO
 					'samo' => 'okex||usdt||both',
 					'samo-2' => 'gateio||eth||chart',
-					
-					
-					// IN
-					'in' => 'generic_usd||usd||both',
 					
 					
 					// SG
@@ -518,7 +519,7 @@ $ct_conf['power']['chainstats_cache_time'] = 75;  // (default = 75)
 $ct_conf['power']['mcap_cache_time'] = 55;  // (default = 55)
 ////
 // Number of marketcap rankings to request from API.
-// 500 rankings is a safe maximum to start with, to avoid getting your API requests throttled / blocked
+// 750 rankings is a safe maximum to start with, to avoid getting your API requests throttled / blocked
 $ct_conf['power']['mcap_ranks_max'] = 750; // (default = 750)
 
 
@@ -639,12 +640,13 @@ $ct_conf['power']['crypto_pairing'] = array(
 						//'lowercase_altcoin_ticker' => 'UNICODE_SYMBOL', // Add whitespace after the symbol, if you prefer that
 						// Native chains...
 						'eth' => 'Ξ ',
-						'hnt' => 'Ȟ ',
 						'sol' => '◎ ',
-						// Liquidity pools / ERC-20 tokens on Ethereum, etc etc...
+						'hnt' => 'Ȟ ',
+						// Liquidity pools / ERC-20 tokens on Ethereum / SPL tokens on Solana, etc etc...
 						'uni' => '🦄 ',
 						'mkr' => '𐌼 ',
 						'lrc' => '➰ ',
+						'in' => '🦉 ',
 						//....
 							);
 
@@ -1023,6 +1025,12 @@ $ct_conf['power']['news_feed'] = array(
         
         
         				array(
+            			"title" => "Blog - Sol Invictus (Fork of OlympusDAO on Solana)",
+            			"url" => "https://medium.com/@Sol-Invictus/feed"
+        						),
+        
+        
+        				array(
             			"title" => "Blog - Solana Labs (High-Speed Smart Contracts Network)",
             			"url" => "https://medium.com/feed/solana-labs"
         						),
@@ -1301,6 +1309,12 @@ $ct_conf['power']['news_feed'] = array(
         				array(
             			"title" => "Reddit - Helium Network (top)",
             			"url" => "https://www.reddit.com/r/heliumnetwork/top/.rss?format=xml"
+        						),
+    
+    
+        				array(
+            			"title" => "Reddit - Invictus DAO (top)",
+            			"url" => "https://www.reddit.com/r/invictusdao/top/.rss?format=xml"
         						),
     
     
@@ -3144,6 +3158,32 @@ $ct_conf['assets'] = array(
                     ////////////////////////////////////////////////////////////////////
                     
                     
+                    // IN
+                    'IN' => array(
+                        
+                        'name' => 'Invictus',
+                        'mcap_slug' => 'invictus',
+                        'pairing' => array(
+
+                                                    
+                                    'btc' => array(
+                                          'generic_btc' => 'in',
+                                                    ),
+
+                                                    
+                                    'usd' => array(
+                                          'generic_usd' => 'in',
+                                                    ),
+
+                                                    
+                        ) // pairing END
+                        
+                    ), // Asset END
+                    
+                    
+                    ////////////////////////////////////////////////////////////////////
+                    
+                    
                     // HNT
                     'HNT' => array(
                         
@@ -3273,27 +3313,6 @@ $ct_conf['assets'] = array(
                                     'usdt' => array(
                                         'okex' => 'SAMO-USDT',
                                         'gateio' => 'SAMO_USDT',
-                                                    ),
-
-                                                    
-                        ) // pairing END
-                        
-                    ), // Asset END
-                    
-                    
-                    ////////////////////////////////////////////////////////////////////
-                    
-                    
-                    // IN
-                    'IN' => array(
-                        
-                        'name' => 'Invictus',
-                        'mcap_slug' => 'invictus',
-                        'pairing' => array(
-
-                                                    
-                                    'usd' => array(
-                                          'generic_usd' => 'in',
                                                     ),
 
                                                     

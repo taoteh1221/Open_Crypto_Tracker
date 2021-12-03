@@ -352,8 +352,17 @@ Ethereum ICO subtoken support (pre-exchange listing) has been built in (values a
                                   ),
 
                                                     
+                        'btc' => array(
+                                  // GENERIC BTC PRICE, FROM MARKETCAP DATA (IF NO EXHANGE APIs AVAILABLE)
+                                  // MARKETCAP RANK OF TOKEN MUST BE WITHIN RANGE SET IN 'mcap_ranks_max' (POWER USER SECTION)
+                                  'generic_btc' => 'lowercase_coin_symbol_here',
+                                  ),
+
+                                                    
                         'usd' => array(
-                                  'generic_usd' => 'lowercase_coin_symbol_here', // GENERIC USD PRICE, FROM MARKETCAP DATA (IF NO EXHANGE APIs AVAILABLE)
+                                  // GENERIC USD PRICE, FROM MARKETCAP DATA (IF NO EXHANGE APIs AVAILABLE)
+                                  // MARKETCAP RANK OF TOKEN MUST BE WITHIN RANGE SET IN 'mcap_ranks_max' (POWER USER SECTION)
+                                  'generic_usd' => 'lowercase_coin_symbol_here',
                                   ),
 
                                             
