@@ -132,7 +132,7 @@ var $array1 = array();
 	////////////////////////////////////////////////////////////////////////////////////////////////
 		
 		
-	function sol_addr_bal($address) {
+	function sol_addr_bal($address, $spl_token=false) {
 		 
 	global $this_plug, $ct_conf, $plug_conf, $ct_gen, $ct_var, $ct_cache;
 		
@@ -148,7 +148,7 @@ var $array1 = array();
     $request_params = array(
                            'jsonrpc' => '2.0', // Setting this right before sending
                            'id' => 1,
-                           'method' => 'getBalance',
+                           'method' => ( $spl_token == false ? 'getBalance' : 'getTokenAccountBalance' ),
                            'params' => array($address),
                            );
                     
@@ -161,13 +161,23 @@ var $array1 = array();
 		   
 		   
 		if ( isset($data['value']) ) {
-		return $ct_var->num_to_str( $data['value'] / 1000000000 ); // Convert lamports to SOL
+		    
+		    
+		    if ( $spl_token == false ) {
+		    return $ct_var->num_to_str( $data['value'] / 1000000000 ); // Convert lamports to SOL
+		    }
+		    else {
+		    $divide_by = str_pad(1, (1 + $data['value']['decimals']), "0");
+		    return $ct_var->num_to_str( $data['value']['amount'] / $divide_by ); // Convert to spl token's unit value
+		    }
+		
+		
 		}
 		elseif ( !isset($data['context']) ) {
 			
     	$ct_gen->log(
     				'ext_data_error',
-    				'SOL address balance retrieval failed in the "' . $this_plug . '" plugin, no API data received'
+    				( $spl_token == false ? 'SOL' : strtoupper($spl_token) ) . ' address balance retrieval failed in the "' . $this_plug . '" plugin, no API data received'
     				);
     	
 		return 'error';

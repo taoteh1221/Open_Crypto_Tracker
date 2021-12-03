@@ -28,6 +28,13 @@ $balance_tracking_cache_file = $ct_plug->alert_cache($target_key . '.dat');
 
 
 $asset = trim( strtolower($target_val['asset']) );
+
+    if ( stristr($asset, '|') != false ) {
+    $sub_asset = explode('|', $asset);
+    $chain = $sub_asset[0];
+    $asset = $sub_asset[1];
+    }
+
 $address = trim($target_val['address']);
 $label = trim($target_val['label']);
 
@@ -54,11 +61,17 @@ $pairing_btc_val = $ct_asset->pairing_btc_val($asset);
 	elseif ( $asset == 'eth' ) {
 	$address_balance = $plug_class[$this_plug]->eth_addr_bal($address);
 	}
+	elseif ( $asset == 'sol' ) {
+	$address_balance = $plug_class[$this_plug]->sol_addr_bal($address);
+	}
 	elseif ( $asset == 'hnt' ) {
 	$address_balance = $plug_class[$this_plug]->hnt_addr_bal($address);
 	}
-	elseif ( $asset == 'sol' ) {
-	$address_balance = $plug_class[$this_plug]->sol_addr_bal($address);
+	elseif ( $chain == 'eth' ) {
+	$address_balance = $plug_class[$this_plug]->eth_addr_bal($address, $asset);
+	}
+	elseif ( $chain == 'sol' ) {
+	$address_balance = $plug_class[$this_plug]->sol_addr_bal($address, $asset);
 	}
 	
 	
@@ -171,14 +184,14 @@ $pairing_btc_val = $ct_asset->pairing_btc_val($asset);
     		if ( $asset == 'btc' ) {
     		$email_msg = $base_msg . " https://www.blockchain.com/btc/address/" . $address;
     		}
-    		elseif ( $asset == 'eth' ) {
+    		elseif ( $asset == 'eth' || $chain == 'eth' ) {
     		$email_msg = $base_msg . " https://etherscan.io/address/" . $address;
+    		}
+    		elseif ( $asset == 'sol' || $chain == 'sol' ) {
+    		$email_msg = $base_msg . " https://solscan.io/account/" . $address;
     		}
     		elseif ( $asset == 'hnt' ) {
     		$email_msg = $base_msg . " https://explorer.helium.com/accounts/" . $address;
-    		}
-    		elseif ( $asset == 'sol' ) {
-    		$email_msg = $base_msg . " https://solscan.io/account/" . $address;
     		}
 		
 	    
@@ -226,6 +239,7 @@ $pairing_btc_val = $ct_asset->pairing_btc_val($asset);
 	}
 	// END notification
 
+$chain = null;
 
 // Obfuscate any addresses in error / debug logs
 $plug_class[$this_plug]->obfusc_addr($address);
