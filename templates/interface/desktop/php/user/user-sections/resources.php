@@ -182,6 +182,8 @@
 	        
 	        <li class='links_list'><a href='https://phantom.app/' target='_blank'>Phantom Wallet App</a>   <span class='yellow'>(Solana software wallet browser extension, with hardware wallet support)</span></li>
 	        
+	        <li class='links_list'><a href='https://solflare.com/' target='_blank'>Solflare Wallet App</a>   <span class='yellow'>(Solana software wallet browser extension, with hardware wallet support)</span></li>
+	        
 	        <li class='links_list'><a href='https://specter.solutions/' target='_blank'>Specter Desktop</a>   <span class='yellow'>(Bitcoin software for hardware wallets)</span></li>
 	        
 	        <li class='links_list'><a href='https://zap.jackmallers.com/download' target='_blank'>Zap</a>  <span class='yellow'>(Bitcoin Lightning network on multiple devices [WARNING: Lightning network is still VERY EXPERIMENTAL, AND MAY STILL HAVE SIGNIFICANT BUGS])</span></li>
