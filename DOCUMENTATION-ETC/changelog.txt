@@ -4862,7 +4862,7 @@ MIGRATE YOUR EXISTING SETTINGS TO THE NEW FORMAT.
 
 
 -------------------------------------------------------------------
-5.04:
+5.04.0:
 
 
 -'generic_btc' market, for assets with no known exchange-specific available API markets yet (but are listed on marketcap sites)

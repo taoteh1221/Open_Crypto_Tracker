@@ -29,8 +29,8 @@ $balance_tracking_cache_file = $ct_plug->alert_cache($target_key . '.dat');
 
 $asset = trim( strtolower($target_val['asset']) );
 
-    if ( stristr($asset, '|') != false ) {
-    $sub_asset = explode('|', $asset);
+    if ( stristr($asset, '||') != false ) {
+    $sub_asset = explode('||', $asset);
     $chain = $sub_asset[0];
     $asset = $sub_asset[1];
     }
