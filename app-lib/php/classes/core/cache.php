@@ -317,7 +317,7 @@ var $ct_array1 = array();
   global $ct_conf, $ct_gen, $base_dir, $base_url;
   
   
-      if ( $this->update_cache('cache/events/backup-'.$backup_prefix.'.dat', ( $interval * 1440 ) ) == true ) {
+      if ( $this->update_cache($base_dir . '/cache/events/backup-'.$backup_prefix.'.dat', ( $interval * 1440 ) ) == true ) {
      
       $secure_128bit_hash = $ct_gen->rand_hash(16); // 128-bit (16-byte) hash converted to hexadecimal, used for suffix
       

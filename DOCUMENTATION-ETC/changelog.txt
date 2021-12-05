@@ -4883,15 +4883,26 @@ MIGRATE YOUR EXISTING SETTINGS TO THE NEW FORMAT.
 
 
 
+-------------------------------------------------------------------
+5.04.1:
 
 
+-Bug fix for pre-caching news feeds via cron job
 
 
+-Email new posts in RSS feeds every X days (configured in power user section)
 
 
+-Code optimizations / cleanup
 
 
+-Misc. UX
 
 
+v5.03.5 and higher renames the admin config array. ALL CONFIGURATION SETTING
+VARIABLE NAMES ARE NOW DIFFERENT, USE THE LATEST/UPGRADED CONFIG.PHP, AND
+MIGRATE YOUR EXISTING SETTINGS TO THE NEW FORMAT.
 
+
+-------------------------------------------------------------------
 

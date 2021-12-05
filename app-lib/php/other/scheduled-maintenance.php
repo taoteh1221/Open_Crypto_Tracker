@@ -5,10 +5,10 @@
 
 
 //////////////////////////////////////////////////////////////////
-// Scheduled maintenance (run every ~3 hours if NOT cron runtime, OR if runtime is cron every ~1 hours)
+// Scheduled maintenance (run every ~2 hours if NOT cron runtime, OR if runtime is cron every ~30 minutes)
 //////////////////////////////////////////////////////////////////
-if ( $runtime_mode != 'cron' && $ct_cache->update_cache($base_dir . '/cache/events/scheduled-maintenance.dat', (60 * 3) ) == true 
-|| $runtime_mode == 'cron' && $ct_cache->update_cache($base_dir . '/cache/events/scheduled-maintenance.dat', (60 * 1) ) == true  ) {
+if ( $runtime_mode != 'cron' && $ct_cache->update_cache($base_dir . '/cache/events/scheduled-maintenance.dat', 120) == true 
+|| $runtime_mode == 'cron' && $ct_cache->update_cache($base_dir . '/cache/events/scheduled-maintenance.dat', 30) == true  ) {
 //////////////////////////////////////////////////////////////////
 
 
@@ -17,11 +17,49 @@ if ( $runtime_mode != 'cron' && $ct_cache->update_cache($base_dir . '/cache/even
 	// Maintenance to run only if cron is setup and running
 	////////////////////////////////////////////////////////////
 	if ( $runtime_mode == 'cron' ) {
+    
+    
+    	// Re-cache RSS feeds for faster UI runtimes later
+    	foreach($ct_conf['power']['news_feed'] as $feed_item) {
+    	    
+    		if ( trim($feed_item["url"]) != '' ) {
+    	 	$ct_api->rss($feed_item["url"], 'no_theme', 0, true);
+    	 	}
+    	 	
+    	}
+	
 	
 		// Chart backups...run before any price checks to avoid any potential file lock issues
 		if ( $ct_conf['gen']['asset_charts_toggle'] == 'on' && $ct_conf['power']['charts_backup_freq'] > 0 ) {
 		$ct_cache->backup_archive('charts-data', $base_dir . '/cache/charts/', $ct_conf['power']['charts_backup_freq']); // No $backup_arch_pass extra param here (waste of time / energy to encrypt charts data backups)
 		}
+    
+    
+    	// If coinmarketcap API key is added, re-cache data for faster UI runtimes later
+    	if ( trim($ct_conf['gen']['cmc_key']) != null ) {
+    	$coinmarketcap_api = $ct_api->coinmarketcap();
+    	}
+    	 
+    
+    // Re-cache marketcap data for faster UI runtimes later
+    $coingecko_api = $ct_api->coingecko();
+    	 
+    	 
+    // Re-cache chain data for faster UI runtimes later
+    
+    // Bitcoin
+    $ct_api->bitcoin('height');
+    $ct_api->bitcoin('difficulty');
+    
+    // Ethereum
+    $ct_api->etherscan('number');
+    $ct_api->etherscan('difficulty');
+    $ct_api->etherscan('gasLimit');
+    
+    // Hive
+    $ct_api->market('HIVE', 'bittrex', 'BTC-HIVE');
+    
+    // Chain data END
    
 	}
 	////////////////////////////////////////////////////////////

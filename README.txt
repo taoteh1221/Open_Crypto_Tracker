@@ -59,7 +59,7 @@ FEATURES
 
 -Support for over 40 exchanges (including DeFi), and over 80 market pairings (country fiat currency or secondary crypto).
 
--Secure HTTPS (SSL) and username / password protection in the portfolio interface, for privacy and security.
+-Secure HTTPS (SSL), username / password protection, and privacy mode in the portfolio interface, for privacy and security.
 
 -Admin interface, to allow easily viewing / changing the app configuration (alerts / charts / markets / API / backups / logs / etc).
 
@@ -76,6 +76,8 @@ FEATURES
 -Import / export your portfolio in CSV (spreadsheet) file format.
 
 -A news page with over 70 different cryptocurrency-related RSS feeds to select from, including company and organization blogs / news sites / podcasts / youtube channels / reddit and stackexchange forums, with ability to add / remove feeds in the app configuration.
+
+-Newly added news feed posts, chart data backup archives, and app error / debugging logs sent to your email.
 
 -External resources page, includes links to marketcap stats sites / news sites / wallets / exchanges / block explorers / developer resources / newsletters / podcasts / social media / etc.
 
@@ -102,8 +104,6 @@ FEATURES
 -System / configuration checking, alerting, logging, and auto-correcting (where possible).
 
 -Detailed error logging and debugging (with adjustable verbosity / debug modes), to assist with troubleshooting / installation / configuration of the app.
-
--Chart data backup archives and app error / debugging logs sent to your email.
 
 
 ############################################################################################################################

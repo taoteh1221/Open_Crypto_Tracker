@@ -200,9 +200,6 @@ FEATURES / STRUCTURING SECTION
 ///////////////////////////////////////////////////////
 
 
-Add ability to email selected news feed links every X days, only including the 'new' posts that are detected.
-
-
 For admin area pages / sections, consider doing subsections in a modal subwindow, with iframes for loading through 'wizard' steps or opening different categories. It would possibly keep a native app 'feel' while also reducing admin page load times. Think it over, figure out the best solution here for a great UX.
 
 

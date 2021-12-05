@@ -842,6 +842,76 @@ var $ct_array1 = array();
    return $result;
       
    }
+  
+  
+   ////////////////////////////////////////////////////////
+   ////////////////////////////////////////////////////////
+  
+  
+   function news_feed_email($interval) {
+  
+   global $ct_conf, $ct_cache, $ct_api, $base_dir, $base_url;
+  
+  
+      if ( $ct_cache->update_cache($base_dir . '/cache/events/news-feed-email.dat', ($interval * 1440) ) == true ) {
+      
+      // Reset feed fetch telemetry 
+      $_SESSION[$fetched_feeds] = false;
+        
+        
+        	// NEW RSS feed posts
+        	$num_posts = 0;
+        	foreach($ct_conf['power']['news_feed'] as $feed_item) {
+        	    
+        		if ( trim($feed_item["url"]) != '' ) {
+        		    
+        		$result = $ct_api->rss($feed_item["url"], false, $ct_conf['power']['news_feed_email_entries_show'], false, true);
+        		
+        		  if ( trim($result) != '<ul></ul>' ) {
+        		  $html .= '<div style="padding: 40px;"><fieldset><legend> ' . $feed_item["title"] . ' </legend>' . "\n\n";
+        	 	  $html .= $result . "\n\n";
+        		  $html .= '</fieldset></div>' . "\n\n";
+        	 	  $num_posts++;  
+        		  }
+        		  
+        	 	}
+        	 	
+        	}         
+               
+        	
+      $top .= '<h3>' . $num_posts . ' Updated RSS Feeds (over ' . $ct_conf['power']['news_feed_email_freq'] . ' days)</h3>' . "\n\n";
+	
+	  $top .= '<p>To see the date / time an entry was published, hover over it.</p>' . "\n\n";
+	
+	  $top .= '<p>Entries are sorted newest to oldest.</p>' . "\n\n";
+        	
+      $top .= '<p><a title="View the news feeds page in the Open Crypto Tracker app here." target="_blank" href="' . $base_url . 'index.php?start_page=news#news">View All News Feeds Here</a></p>' . "\n\n";
+      
+      
+      $email_body = $top . $html;
+      
+               
+      $send_params = array(
+                                                    
+                           'email' => array(
+                                            'content_type' => 'text/html', // Have email sent as HTML content type
+                                            'subject' => $num_posts . ' Updated RSS Feeds (over ' . $ct_conf['power']['news_feed_email_freq'] . ' days)',
+                                            'message' => $email_body // Add emoji here, so it's not sent with alexa alerts
+                                           )
+                                                       
+                          );
+                    
+                    
+                    
+      // Send notifications
+      @$ct_cache->queue_notify($send_params);
+                        
+      
+      $ct_cache->save_file($base_dir . '/cache/events/news-feed-email.dat', $this->time_date_format(false, 'pretty_date_time') );
+      
+      }
+   
+   }
    
    
    ////////////////////////////////////////////////////////
@@ -1019,7 +1089,7 @@ var $ct_array1 = array();
    ////////////////////////////////////////////////////////
    
    
-   function smtp_mail($to, $subj, $msg, $content_type='text', $charset=null) {
+   function smtp_mail($to, $subj, $msg, $content_type='text/plain', $charset=null) {
    
    // Using 3rd party SMTP class, initiated already as global var $smtp
    global $ct_conf, $smtp;
@@ -1045,10 +1115,10 @@ var $ct_array1 = array();
    $smtp->Charset($charset);
    
    
-      if ( $content_type == 'text' ) {
+      if ( $content_type == 'text/plain' ) {
       $smtp->Text($msg);
       }
-      elseif ( $content_type == 'html' ) {
+      elseif ( $content_type == 'text/html' ) {
       $smtp->Body($msg);
       }
    
@@ -2575,7 +2645,7 @@ var $ct_array1 = array();
    ////////////////////////////////////////////////////////
    
    
-   function safe_mail($to, $subj, $msg, $content_type='text', $charset=null) {
+   function safe_mail($to, $subj, $msg, $content_type='text/plain', $charset=null) {
       
    global $app_version, $ct_conf;
    
@@ -2614,7 +2684,7 @@ var $ct_array1 = array();
             $headers = array(
                         'From' => $ct_conf['comms']['from_email'],
                         'X-Mailer' => 'Open_Crypto_Tracker/' . $app_version . ' - PHP/' . phpversion(),
-                        'Content-Type' => $content_type . '/plain; charset=' . $charset
+                        'Content-Type' => $content_type . '; charset=' . $charset
                            );
             
             }
@@ -2622,7 +2692,7 @@ var $ct_array1 = array();
             
             $headers = array(
                         'X-Mailer' => 'Open_Crypto_Tracker/' . $app_version . ' - PHP/' . phpversion(),
-                        'Content-Type' => $content_type . '/plain; charset=' . $charset
+                        'Content-Type' => $content_type . '; charset=' . $charset
                            );
             
             }
@@ -2635,13 +2705,13 @@ var $ct_array1 = array();
             
             $headers = 'From: ' . $ct_conf['comms']['from_email'] . "\r\n" .
             'X-Mailer: Open_Crypto_Tracker/' . $app_version . ' - PHP/' . phpversion() . "\r\n" .
-            'Content-Type: ' . $content_type . '/plain; charset=' . $charset;
+            'Content-Type: ' . $content_type . '; charset=' . $charset;
          
             }
             else {
             
             $headers = 'X-Mailer: Open_Crypto_Tracker/' . $app_version . ' - PHP/' . phpversion() . "\r\n" .
-            'Content-Type: ' . $content_type . '/plain; charset=' . $charset;
+            'Content-Type: ' . $content_type . '; charset=' . $charset;
          
             }
          

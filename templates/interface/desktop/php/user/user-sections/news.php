@@ -24,7 +24,7 @@
 	
 	<li class='bitcoin' style='font-weight: bold;'>RSS feed data is cached (randomly) between <?=$news_feed_cache_min_max[0]?> / <?=$news_feed_cache_min_max[1]?> minutes for quicker load times.</li>	
 	
-	<li class='bitcoin' style='font-weight: bold;'>To see the date an entry was published, hover over it.</li>	
+	<li class='bitcoin' style='font-weight: bold;'>To see the date / time an entry was published, hover over it.</li>	
 	
 	<li class='bitcoin' style='font-weight: bold;'>Entries are sorted newest to oldest.</li>	
    

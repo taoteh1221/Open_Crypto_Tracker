@@ -837,11 +837,17 @@ $ct_conf['power']['mining_calculators'] = array(
 
 
 // NEWS FEED (RSS) SETTINGS
-// RSS feed entries to show per-feed on News page (without needing to click the "show more / less" link)
+// RSS feed entries to show (per-feed) on News page (without needing to click the "show more / less" link)
 $ct_conf['power']['news_feed_entries_show'] = 5; // (default = 5)
 ////
 // RSS feed entries under X days old are marked as 'new'
 $ct_conf['power']['news_feed_entries_new'] = 2; // (default = 2)
+////
+// Every X days email a list of new RSS feed posts. 0 disables. Email to / from !MUST BE SET!
+$ct_conf['power']['news_feed_email_freq'] = 1; // (default = 1)
+////
+// MAXIMUM #NEW# RSS feed entries to include (per-feed) in news feed email (less then 'news_feed_email_freq' days old)
+$ct_conf['power']['news_feed_email_entries_show'] = 5; // (default = 5)
 ////
 // RSS news feeds available on the News page
 $ct_conf['power']['news_feed'] = array(
@@ -897,6 +903,12 @@ $ct_conf['power']['news_feed'] = array(
         				array(
             			"title" => "Blog - Bitmex",
             			"url" => "https://blog.bitmex.com/feed/?lang=en_us"
+        						),
+        
+        
+        				array(
+            			"title" => "Blog - Bonifida (Data, Analytics, GUIs for Serum / Solana)",
+            			"url" => "https://bonfida.medium.com/feed"
         						),
         
         
@@ -993,6 +1005,12 @@ $ct_conf['power']['news_feed'] = array(
         				array(
             			"title" => "Blog - Project Eluüne (NFT-based game on Solana)",
             			"url" => "https://medium.com/@Arrivant_/feed"
+        						),
+        
+        
+        				array(
+            			"title" => "Blog - Raydium (Solana-based on-chain order book AMM)",
+            			"url" => "https://raydium.medium.com/feed"
         						),
         
         

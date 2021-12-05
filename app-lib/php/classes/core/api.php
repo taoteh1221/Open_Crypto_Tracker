@@ -328,9 +328,9 @@ var $ct_array1 = array();
    
    
    // Credit: https://www.alexkras.com/simple-rss-reader-in-85-lines-of-php/
-   function rss($url, $theme_selected, $feed_size, $cache_only=false){
+   function rss($url, $theme_selected, $feed_size, $cache_only=false, $email_only=false){
       
-   global $base_dir, $ct_conf, $ct_var, $ct_cache, $ct_gen, $fetched_feeds;
+   global $base_dir, $ct_conf, $ct_var, $ct_cache, $ct_gen, $fetched_feeds, $runtime_mode;
    
    
       if ( !isset($_SESSION[$fetched_feeds]['all']) ) {
@@ -338,7 +338,7 @@ var $ct_array1 = array();
       }
       // Never re-cache FROM LIVE more than 'news_feed_batched_max' (EXCEPT for cron runtimes pre-caching), 
       // to avoid overloading low resource devices (raspi / pine64 / etc) and creating long feed load times
-      elseif ( $_SESSION[$fetched_feeds]['all'] >= $ct_conf['dev']['news_feed_batched_max'] && $cache_only == false ) {
+      elseif ( $_SESSION[$fetched_feeds]['all'] >= $ct_conf['dev']['news_feed_batched_max'] && $cache_only == false && $runtime_mode != 'cron' ) {
       return '<span class="red">Live data fetching limit reached (' . $_SESSION[$fetched_feeds]['all'] . ').</span>';
       }
       
@@ -462,18 +462,29 @@ var $ct_array1 = array();
 			     $month_name = date("F", mktime(0, 0, 0, $date_array['month'], 10));
 			                  
 			     $date_ui = $month_name . ' ' . $ct_gen->ordinal($date_array['day']) . ', ' . $date_array['year'] . ' @ ' . substr("0{$date_array['hour']}", -2) . ':' . substr("0{$date_array['minute']}", -2);
+			            
 			                  
 				     // If publish date is OVER 'news_feed_entries_new' days old, DONT mark as new
 				     if ( $ct_var->num_to_str($now_timestamp) > $ct_var->num_to_str( strtotime($item_date) + ($ct_conf['power']['news_feed_entries_new'] * 86400) ) ) { // 86400 seconds == 1 day
 				     $mark_new = null;
 				     }
-				                  
-				     if ($count < $feed_size) {
-				     $html .= '<li class="links_list"><a href="'.htmlspecialchars($item_link).'" target="_blank" title="'.htmlspecialchars($date_ui).'">'.htmlspecialchars($item->title).'</a> '.$mark_new.'</li>';
+				     // If running as $email_only, we only want 'new' posts anyway (less than 'news_feed_email_freq' days old)
+				     elseif ( $email_only && $ct_var->num_to_str($now_timestamp) > $ct_var->num_to_str( strtotime($item_date) + ($ct_conf['power']['news_feed_email_freq'] * 86400) ) ) { // 86400 seconds == 1 day
+    				 $html .= '<li style="padding: 7px;"><a href="'.htmlspecialchars($item_link).'" target="_blank" title="'.htmlspecialchars($date_ui).'">'.htmlspecialchars($item->title).'</a> </li>';
 				     }
-				     else {
-				     $html_hidden .= '<li class="links_list"><a href="'.htmlspecialchars($item_link).'" target="_blank" title="'.htmlspecialchars($date_ui).'">'.htmlspecialchars($item->title).'</a> '.$mark_new.'</li>';
+				     
+				     
+				     if ( !$email_only ) {
+				         
+    				     if ($count < $feed_size) {
+    				     $html .= '<li class="links_list"><a href="'.htmlspecialchars($item_link).'" target="_blank" title="'.htmlspecialchars($date_ui).'">'.htmlspecialchars($item->title).'</a> '.$mark_new.'</li>';
+    				     }
+    				     else {
+    				     $html_hidden .= '<li class="links_list"><a href="'.htmlspecialchars($item_link).'" target="_blank" title="'.htmlspecialchars($date_ui).'">'.htmlspecialchars($item->title).'</a> '.$mark_new.'</li>';
+    				     }
+    				     
 				     }
+			                        
 			                        
 			     $count++;     
 			               
@@ -530,17 +541,28 @@ var $ct_array1 = array();
 		                  
 		         $item_link = preg_replace("/web\.bittrex\.com/i", "bittrex.com", $item_link); // Fix for bittrex blog links
 		                  
+		                  
 			         // If publish date is OVER 'news_feed_entries_new' days old, DONT mark as new
 			         if ( $ct_var->num_to_str($now_timestamp) > $ct_var->num_to_str( strtotime($item_date) + ($ct_conf['power']['news_feed_entries_new'] * 86400) ) ) { // 86400 seconds == 1 day
 			         $mark_new = null;
 			         }
-			                  
-			         if ($count < $feed_size) {
-			         $html .= '<li class="links_list"><a href="'.htmlspecialchars($item_link).'" target="_blank" title="'.htmlspecialchars($date_ui).'">'.htmlspecialchars($item->title).'</a> '.$mark_new.'</li>';
-			         }
-			         else {
-			         $html_hidden .= '<li class="links_list"><a href="'.htmlspecialchars($item_link).'" target="_blank" title="'.htmlspecialchars($date_ui).'">'.htmlspecialchars($item->title).'</a> '.$mark_new.'</li>';
-			         }
+				     // If running as $email_only, we only want 'new' posts anyway (less than 'news_feed_email_freq' days old)
+				     elseif ( $email_only && $ct_var->num_to_str($now_timestamp) > $ct_var->num_to_str( strtotime($item_date) + ($ct_conf['power']['news_feed_email_freq'] * 86400) ) ) { // 86400 seconds == 1 day
+    			     $html .= '<li style="padding: 7px;"><a href="'.htmlspecialchars($item_link).'" target="_blank" title="'.htmlspecialchars($date_ui).'">'.htmlspecialchars($item->title).'</a> </li>';
+				     }
+				     
+				     
+				     if ( !$email_only ) {
+				         
+    			         if ($count < $feed_size) {
+    			         $html .= '<li class="links_list"><a href="'.htmlspecialchars($item_link).'" target="_blank" title="'.htmlspecialchars($date_ui).'">'.htmlspecialchars($item->title).'</a> '.$mark_new.'</li>';
+    			         }
+    			         else {
+    			         $html_hidden .= '<li class="links_list"><a href="'.htmlspecialchars($item_link).'" target="_blank" title="'.htmlspecialchars($date_ui).'">'.htmlspecialchars($item->title).'</a> '.$mark_new.'</li>';
+    			         }
+    			         
+				     }
+		                        
 		                        
 		         $count++;     
 		               
@@ -567,7 +589,14 @@ var $ct_array1 = array();
        return true;
        }
        else {
-       return $html . "\n" . $show_more_less . "\n" . $html_hidden;
+	       
+	       if ( !$email_only ) {
+           return $html . "\n" . $show_more_less . "\n" . $html_hidden;
+	       }
+	       else {
+	       return $html;
+	       }
+	       
        }
       
        
