@@ -866,10 +866,10 @@ $ct_conf['power']['news_feed_entries_show'] = 5; // (default = 5)
 $ct_conf['power']['news_feed_entries_new'] = 2; // (default = 2)
 ////
 // Every X days email a list of new RSS feed posts. 0 disables. Email to / from !MUST BE SET!
-$ct_conf['power']['news_feed_email_freq'] = 1; // (default = 1)
+$ct_conf['power']['news_feed_email_freq'] = 2; // (default = 2)
 ////
 // MAXIMUM #NEW# RSS feed entries to include (per-feed) in news feed email (less then 'news_feed_email_freq' days old)
-$ct_conf['power']['news_feed_email_entries_show'] = 5; // (default = 5)
+$ct_conf['power']['news_feed_email_entries_show'] = 15; // (default = 15)
 ////
 // RSS news feeds available on the News page
 $ct_conf['power']['news_feed'] = array(
