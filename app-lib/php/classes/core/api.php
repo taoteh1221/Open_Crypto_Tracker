@@ -465,12 +465,20 @@ var $ct_array1 = array();
 			            
 			                  
 				     // If publish date is OVER 'news_feed_entries_new' days old, DONT mark as new
-				     if ( $ct_var->num_to_str($now_timestamp) > $ct_var->num_to_str( strtotime($item_date) + ($ct_conf['power']['news_feed_entries_new'] * 86400) ) ) { // 86400 seconds == 1 day
+				     // 86340 seconds == 1 day minus 1 minute, to try to catch any that would have been missed from runtime
+				     if ( $ct_var->num_to_str($now_timestamp) > $ct_var->num_to_str( strtotime($item_date) + ($ct_conf['power']['news_feed_entries_new'] * 86340) ) ) {
 				     $mark_new = null;
 				     }
 				     // If running as $email_only, we only want 'new' posts anyway (less than 'news_feed_email_freq' days old)
-				     elseif ( $email_only && $ct_var->num_to_str($now_timestamp) > $ct_var->num_to_str( strtotime($item_date) + ($ct_conf['power']['news_feed_email_freq'] * 86400) ) ) { // 86400 seconds == 1 day
-    				 $html .= '<li style="padding: 7px;"><a href="'.htmlspecialchars($item_link).'" target="_blank" title="'.htmlspecialchars($date_ui).'">'.htmlspecialchars($item->title).'</a> </li>';
+				     // 86340 seconds == 1 day minus 1 minute, to try to catch any that would have been missed from runtime
+				     elseif ( $email_only && $ct_var->num_to_str($now_timestamp) > $ct_var->num_to_str( strtotime($item_date) + ($ct_conf['power']['news_feed_email_freq'] * 86340) ) ) { 
+				     
+    				     if ($count < $ct_conf['power']['news_feed_email_entries_show']) {
+    				     $html .= '<li style="padding: 8px;"><a href="'.htmlspecialchars($item_link).'" target="_blank" title="'.htmlspecialchars($date_ui).'">'.htmlspecialchars($item->title).'</a> </li>';
+    				     }
+    				     
+			         $count++;   
+			         
 				     }
 				     
 				     
@@ -482,13 +490,14 @@ var $ct_array1 = array();
     				     else {
     				     $html_hidden .= '<li class="links_list"><a href="'.htmlspecialchars($item_link).'" target="_blank" title="'.htmlspecialchars($date_ui).'">'.htmlspecialchars($item->title).'</a> '.$mark_new.'</li>';
     				     }
+			                       
+			         $count++;   
     				     
 				     }
-			                        
-			                        
-			     $count++;     
+			               
 			               
 			     }
+
 		               
 		      }
 	               
@@ -543,12 +552,20 @@ var $ct_array1 = array();
 		                  
 		                  
 			         // If publish date is OVER 'news_feed_entries_new' days old, DONT mark as new
-			         if ( $ct_var->num_to_str($now_timestamp) > $ct_var->num_to_str( strtotime($item_date) + ($ct_conf['power']['news_feed_entries_new'] * 86400) ) ) { // 86400 seconds == 1 day
+				     // 86340 seconds == 1 day minus 1 minute, to try to catch any that would have been missed from runtime
+			         if ( $ct_var->num_to_str($now_timestamp) > $ct_var->num_to_str( strtotime($item_date) + ($ct_conf['power']['news_feed_entries_new'] * 86340) ) ) {
 			         $mark_new = null;
 			         }
 				     // If running as $email_only, we only want 'new' posts anyway (less than 'news_feed_email_freq' days old)
-				     elseif ( $email_only && $ct_var->num_to_str($now_timestamp) > $ct_var->num_to_str( strtotime($item_date) + ($ct_conf['power']['news_feed_email_freq'] * 86400) ) ) { // 86400 seconds == 1 day
-    			     $html .= '<li style="padding: 7px;"><a href="'.htmlspecialchars($item_link).'" target="_blank" title="'.htmlspecialchars($date_ui).'">'.htmlspecialchars($item->title).'</a> </li>';
+				     // 86340 seconds == 1 day minus 1 minute, to try to catch any that would have been missed from runtime
+				     elseif ( $email_only && $ct_var->num_to_str($now_timestamp) > $ct_var->num_to_str( strtotime($item_date) + ($ct_conf['power']['news_feed_email_freq'] * 86340) ) ) {
+    			     
+    				     if ($count < $ct_conf['power']['news_feed_email_entries_show']) {
+    				     $html .= '<li style="padding: 8px;"><a href="'.htmlspecialchars($item_link).'" target="_blank" title="'.htmlspecialchars($date_ui).'">'.htmlspecialchars($item->title).'</a> </li>';
+    				     }
+    				     
+			         $count++;   
+			         
 				     }
 				     
 				     
@@ -560,11 +577,11 @@ var $ct_array1 = array();
     			         else {
     			         $html_hidden .= '<li class="links_list"><a href="'.htmlspecialchars($item_link).'" target="_blank" title="'.htmlspecialchars($date_ui).'">'.htmlspecialchars($item->title).'</a> '.$mark_new.'</li>';
     			         }
+		                        
+		             $count++;     
     			         
 				     }
 		                        
-		                        
-		         $count++;     
 		               
 		         }
 	               

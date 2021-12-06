@@ -317,7 +317,8 @@ var $ct_array1 = array();
   global $ct_conf, $ct_gen, $base_dir, $base_url;
   
   
-      if ( $this->update_cache($base_dir . '/cache/events/backup-'.$backup_prefix.'.dat', ( $interval * 1440 ) ) == true ) {
+	  // 1439 minutes instead (minus 1 minute), to try keeping daily recurrences at same exact runtime (instead of moving up the runtime daily)
+      if ( $this->update_cache($base_dir . '/cache/events/backup-'.$backup_prefix.'.dat', ( $interval * 1439 ) ) == true ) {
      
       $secure_128bit_hash = $ct_gen->rand_hash(16); // 128-bit (16-byte) hash converted to hexadecimal, used for suffix
       
@@ -426,7 +427,7 @@ var $ct_array1 = array();
      
      // $send_params['text_charset'] SHOULD ALWAYS BE SET FROM THE CALL TO HERE (for emojis, or other unicode characters to send via text message properly)
      // SUBJECT !!MUST BE SET!! OR SOME TEXT SERVICES WILL NOT ACCEPT THE MESSAGE!
-     $textemail_array = array('subject' => 'Text Notify', 'message' => $send_params['text']['message'], 'content_type' => 'text', 'charset' => $send_params['text']['charset'] );
+     $textemail_array = array('subject' => 'Text Notify', 'message' => $send_params['text']['message'], 'content_type' => 'text/plain', 'charset' => $send_params['text']['charset'] );
      
       	// json_encode() only accepts UTF-8, SO TEMPORARILY CONVERT TO THAT FOR MESSAGE QUEUE STORAGE
       	if ( strtolower($send_params['text']['charset']) != 'utf-8' ) {
@@ -445,7 +446,7 @@ var $ct_array1 = array();
      // Normal email
      if ( $send_params['email']['message'] != '' && $ct_gen->valid_email($ct_conf['comms']['to_email']) == 'valid' ) {
      
-     $email_array = array('subject' => $send_params['email']['subject'], 'message' => $send_params['email']['message'], 'content_type' => ( $send_params['email']['content_type'] ? $send_params['email']['content_type'] : 'text' ), 'charset' => ( $send_params['email']['charset'] ? $send_params['email']['charset'] : $ct_conf['dev']['charset_default'] ) );
+     $email_array = array('subject' => $send_params['email']['subject'], 'message' => $send_params['email']['message'], 'content_type' => ( $send_params['email']['content_type'] ? $send_params['email']['content_type'] : 'text/plain' ), 'charset' => ( $send_params['email']['charset'] ? $send_params['email']['charset'] : $ct_conf['dev']['charset_default'] ) );
      
       	// json_encode() only accepts UTF-8, SO TEMPORARILY CONVERT TO THAT FOR MESSAGE QUEUE STORAGE
       	if ( strtolower($send_params['email']['charset']) != 'utf-8' ) {
@@ -502,7 +503,8 @@ var $ct_array1 = array();
   
   
       // If it's time to email debugging logs...
-      if ( $ct_conf['power']['logs_email'] > 0 && $this->update_cache('cache/events/email-debugging-logs.dat', ( $ct_conf['power']['logs_email'] * 1440 ) ) == true ) {
+	  // 1439 minutes instead (minus 1 minute), to try keeping daily recurrences at same exact runtime (instead of moving up the runtime daily)
+      if ( $ct_conf['power']['logs_email'] > 0 && $this->update_cache('cache/events/email-debugging-logs.dat', ( $ct_conf['power']['logs_email'] * 1439 ) ) == true ) {
        
       $emailed_logs = "\n\n ------------------debug.log------------------ \n\n" . file_get_contents('cache/logs/debug.log') . "\n\n ------------------smtp_debug.log------------------ \n\n" . file_get_contents('cache/logs/smtp_debug.log');
        
@@ -525,7 +527,8 @@ var $ct_array1 = array();
       
       
       // Log debugging...Purge old logs before storing new logs, if it's time to...otherwise just append.
-      if ( $this->update_cache('cache/events/purge-debugging-logs.dat', ( $ct_conf['power']['logs_purge'] * 1440 ) ) == true ) {
+	  // 1439 minutes instead (minus 1 minute), to try keeping daily recurrences at same exact runtime (instead of moving up the runtime daily)
+      if ( $this->update_cache('cache/events/purge-debugging-logs.dat', ( $ct_conf['power']['logs_purge'] * 1439 ) ) == true ) {
       
       unlink($base_dir . '/cache/logs/smtp_debug.log');
       unlink($base_dir . '/cache/logs/debug.log');
@@ -591,7 +594,8 @@ var $ct_array1 = array();
     
     
       // If it's time to email error logs...
-      if ( $ct_conf['power']['logs_email'] > 0 && $this->update_cache('cache/events/email-error-logs.dat', ( $ct_conf['power']['logs_email'] * 1440 ) ) == true ) {
+	  // 1439 minutes instead (minus 1 minute), to try keeping daily recurrences at same exact runtime (instead of moving up the runtime daily)
+      if ( $ct_conf['power']['logs_email'] > 0 && $this->update_cache('cache/events/email-error-logs.dat', ( $ct_conf['power']['logs_email'] * 1439 ) ) == true ) {
        
       $emailed_logs = "\n\n ------------------error.log------------------ \n\n" . file_get_contents('cache/logs/error.log') . "\n\n ------------------smtp_error.log------------------ \n\n" . file_get_contents('cache/logs/smtp_error.log');
        
@@ -614,7 +618,8 @@ var $ct_array1 = array();
       
       
       // Log errors...Purge old logs before storing new logs, if it's time to...otherwise just append.
-      if ( $this->update_cache('cache/events/purge-error-logs.dat', ( $ct_conf['power']['logs_purge'] * 1440 ) ) == true ) {
+	  // 1439 minutes instead (minus 1 minute), to try keeping daily recurrences at same exact runtime (instead of moving up the runtime daily)
+      if ( $this->update_cache('cache/events/purge-error-logs.dat', ( $ct_conf['power']['logs_purge'] * 1439 ) ) == true ) {
       
       unlink($base_dir . '/cache/logs/smtp_error.log');
       unlink($base_dir . '/cache/logs/error.log');

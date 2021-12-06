@@ -2035,9 +2035,10 @@ var $ct_array1 = array();
         	 $ct_cache->save_file($base_dir . '/cache/alerts/fiat_price/'.$asset_data.'.dat', $alert_cache_contents); 
         	 }
         	 // Config setting set to ALWAYS reset every X days (and X days threshold has been met)
+			 // 1439 minutes instead (minus 1 minute), to try keeping daily recurrences at same exact runtime (instead of moving up the runtime daily)
         	 elseif ( 
         	 $ct_conf['charts_alerts']['price_alert_fixed_reset'] >= 1 
-        	 && $ct_cache->update_cache('cache/alerts/fiat_price/'.$asset_data.'.dat', ( $ct_conf['charts_alerts']['price_alert_fixed_reset'] * 1440 ) ) == true
+        	 && $ct_cache->update_cache('cache/alerts/fiat_price/'.$asset_data.'.dat', ( $ct_conf['charts_alerts']['price_alert_fixed_reset'] * 1439 ) ) == true
         	 ) {
           
         	 $ct_cache->save_file($base_dir . '/cache/alerts/fiat_price/'.$asset_data.'.dat', $alert_cache_contents); 

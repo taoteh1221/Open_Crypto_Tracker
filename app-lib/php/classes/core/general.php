@@ -853,7 +853,8 @@ var $ct_array1 = array();
    global $ct_conf, $ct_cache, $ct_api, $base_dir, $base_url;
   
   
-      if ( $ct_cache->update_cache($base_dir . '/cache/events/news-feed-email.dat', ($interval * 1440) ) == true ) {
+	  // 1439 minutes instead (minus 1 minute), to try keeping daily recurrences at same exact runtime (instead of moving up the runtime daily)
+      if ( $ct_cache->update_cache($base_dir . '/cache/events/news-feed-email.dat', ($interval * 1439) ) == true ) {
       
       // Reset feed fetch telemetry 
       $_SESSION[$fetched_feeds] = false;
@@ -868,7 +869,7 @@ var $ct_array1 = array();
         		$result = $ct_api->rss($feed_item["url"], false, $ct_conf['power']['news_feed_email_entries_show'], false, true);
         		
         		  if ( trim($result) != '<ul></ul>' ) {
-        		  $html .= '<div style="padding: 40px;"><fieldset><legend> ' . $feed_item["title"] . ' </legend>' . "\n\n";
+        		  $html .= '<div style="padding: 30px;"><fieldset><legend style="font-weight: bold; color: blue;"> ' . $feed_item["title"] . ' </legend>' . "\n\n";
         	 	  $html .= $result . "\n\n";
         		  $html .= '</fieldset></div>' . "\n\n";
         	 	  $num_posts++;  
@@ -879,16 +880,18 @@ var $ct_array1 = array();
         	}         
                
         	
-      $top .= '<h3>' . $num_posts . ' Updated RSS Feeds (over ' . $ct_conf['power']['news_feed_email_freq'] . ' days)</h3>' . "\n\n";
+      $top .= '<h2 style="color: blue;">' . $num_posts . ' Updated RSS Feeds (over ' . $ct_conf['power']['news_feed_email_freq'] . ' days)</h3>' . "\n\n";
+        	
+      $top .= '<p><a title="View the news feeds page in the Open Crypto Tracker app here." target="_blank" href="' . $base_url . 'index.php?start_page=news#news">View All News Feeds Here</a></p>' . "\n\n";
 	
 	  $top .= '<p>To see the date / time an entry was published, hover over it.</p>' . "\n\n";
 	
 	  $top .= '<p>Entries are sorted newest to oldest.</p>' . "\n\n";
-        	
-      $top .= '<p><a title="View the news feeds page in the Open Crypto Tracker app here." target="_blank" href="' . $base_url . 'index.php?start_page=news#news">View All News Feeds Here</a></p>' . "\n\n";
+	
+	  $top .= '<p style="color: #dd7c0d;">You can edit this news feeds list in Admin Config, at the bottom of the "Power User" section.</p>' . "\n\n";
       
       
-      $email_body = $top . $html;
+      $email_body = '<div style="padding: 15px;">' . $top . $html . '</div>';
       
                
       $send_params = array(
@@ -910,6 +913,7 @@ var $ct_array1 = array();
       $ct_cache->save_file($base_dir . '/cache/events/news-feed-email.dat', $this->time_date_format(false, 'pretty_date_time') );
       
       }
+      
    
    }
    
@@ -1117,9 +1121,11 @@ var $ct_array1 = array();
    
       if ( $content_type == 'text/plain' ) {
       $smtp->Text($msg);
+      $smtp->Body(null);
       }
       elseif ( $content_type == 'text/html' ) {
       $smtp->Body($msg);
+      $smtp->Text(null);
       }
    
    
