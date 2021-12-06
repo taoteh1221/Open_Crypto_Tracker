@@ -471,7 +471,7 @@ var $ct_array1 = array();
 				     }
 				     // If running as $email_only, we only want 'new' posts anyway (less than 'news_feed_email_freq' days old)
 				     // 86340 seconds == 1 day minus 1 minute, to try to catch any that would have been missed from runtime
-				     elseif ( $email_only && $ct_var->num_to_str($now_timestamp) > $ct_var->num_to_str( strtotime($item_date) + ($ct_conf['power']['news_feed_email_freq'] * 86340) ) ) { 
+				     elseif ( $email_only && $ct_var->num_to_str($now_timestamp) <= $ct_var->num_to_str( strtotime($item_date) + ($ct_conf['power']['news_feed_email_freq'] * 86340) ) ) { 
 				     
     				     if ($count < $ct_conf['power']['news_feed_email_entries_show']) {
     				     $html .= '<li style="padding: 8px;"><a style="color: #00b6db;" href="'.htmlspecialchars($item_link).'" target="_blank" title="'.htmlspecialchars($date_ui).'">'.htmlspecialchars($item->title).'</a> </li>';
@@ -558,7 +558,7 @@ var $ct_array1 = array();
 			         }
 				     // If running as $email_only, we only want 'new' posts anyway (less than 'news_feed_email_freq' days old)
 				     // 86340 seconds == 1 day minus 1 minute, to try to catch any that would have been missed from runtime
-				     elseif ( $email_only && $ct_var->num_to_str($now_timestamp) > $ct_var->num_to_str( strtotime($item_date) + ($ct_conf['power']['news_feed_email_freq'] * 86340) ) ) {
+				     elseif ( $email_only && $ct_var->num_to_str($now_timestamp) <= $ct_var->num_to_str( strtotime($item_date) + ($ct_conf['power']['news_feed_email_freq'] * 86340) ) ) {
     			     
     				     if ($count < $ct_conf['power']['news_feed_email_entries_show']) {
     				     $html .= '<li style="padding: 8px;"><a style="color: #00b6db;" href="'.htmlspecialchars($item_link).'" target="_blank" title="'.htmlspecialchars($date_ui).'">'.htmlspecialchars($item->title).'</a> </li>';
