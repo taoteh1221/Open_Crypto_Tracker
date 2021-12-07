@@ -124,6 +124,19 @@ $ct_conf['comms']['price_alert_block_vol_error'] = 'on'; // 'on' / 'off'
 $ct_conf['comms']['price_alert_min_vol'] = 3500;
 
 
+// Every X days email a list of #NEW# RSS feed posts. 
+// 0 to disable. Email to / from !MUST BE SET!
+$ct_conf['comms']['news_feed_email_freq'] = 2; // (default = 2)
+////
+// MAXIMUM #NEW# RSS feed entries to include (per-feed) in news feed email (less then 'news_feed_email_freq' days old)
+$ct_conf['comms']['news_feed_email_entries_show'] = 15; // (default = 15)
+
+
+// Email logs every X days. 
+// 0 to disable. Email to / from !MUST BE SET!, MAY NOT SEND IN TIMELY FASHION WITHOUT A CRON JOB
+$ct_conf['comms']['logs_email'] = 2; 
+
+
 // Alerts for failed proxy data connections (#ONLY USED# IF proxies are enabled further down in PROXY CONFIGURATION). 
 // Choosing 'all' will send to all properly-configured communication channels, and automatically skip any not properly setup
 $ct_conf['comms']['proxy_alert'] = 'email'; // 'off' (disabled) / 'all' / 'email' / 'text' / 'notifyme' / 'telegram'
@@ -469,6 +482,10 @@ $ct_conf['power']['activate_plugins'] = array(
 									'price-target-alert' => 'off',  // Price target alert plugin (alert yourself when an asset's price target is reached)
 									'address-balance-tracker' => 'off',  // Get alerts for BTC / ETH address balance changes (when new coins are sent / recieved)
 									);
+
+
+// Keep logs X days before purging (fully deletes logs every X days). Start low (especially when using proxies)
+$ct_conf['power']['logs_purge'] = 10; // (default = 10)
 							
 							
 // Seconds to wait for response from REMOTE API endpoints (exchange data, etc). 
@@ -558,13 +575,6 @@ $ct_conf['power']['defi_liquidity_pools_sort_by'] = 'volume'; // 'volume' or 'li
 // Maximum number of MOST RECENT trades to fetch per DeFi pool
 // INCREASE IF TRADES FOR YOUR PAIRING DON'T GET DETECTED, AS TRADES ARE SORTED BY NEWEST FIRST
 $ct_conf['power']['defi_pools_max_trades'] = 60; // (default = 60)
-
-
-// Email logs every X days. 0 disables mailing logs. Email to / from !MUST BE SET!, MAY NOT SEND IN TIMELY FASHION WITHOUT A CRON JOB
-$ct_conf['power']['logs_email'] = 0; 
-////
-// Keep logs X days before purging (fully deletes logs every X days). Start low (especially when using proxies)
-$ct_conf['power']['logs_purge'] = 10; 
 		
 
 // CONTRAST of CAPTCHA IMAGE text against background (on login pages)
@@ -842,12 +852,6 @@ $ct_conf['power']['news_feed_entries_show'] = 5; // (default = 5)
 ////
 // RSS feed entries under X days old are marked as 'new'
 $ct_conf['power']['news_feed_entries_new'] = 2; // (default = 2)
-////
-// Every X days email a list of new RSS feed posts. 0 disables. Email to / from !MUST BE SET!
-$ct_conf['power']['news_feed_email_freq'] = 2; // (default = 2)
-////
-// MAXIMUM #NEW# RSS feed entries to include (per-feed) in news feed email (less then 'news_feed_email_freq' days old)
-$ct_conf['power']['news_feed_email_entries_show'] = 15; // (default = 15)
 ////
 // RSS news feeds available on the News page
 $ct_conf['power']['news_feed'] = array(

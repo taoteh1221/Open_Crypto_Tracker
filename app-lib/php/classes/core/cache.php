@@ -504,11 +504,11 @@ var $ct_array1 = array();
   
       // If it's time to email debugging logs...
 	  // 1439 minutes instead (minus 1 minute), to try keeping daily recurrences at same exact runtime (instead of moving up the runtime daily)
-      if ( $ct_conf['power']['logs_email'] > 0 && $this->update_cache('cache/events/email-debugging-logs.dat', ( $ct_conf['power']['logs_email'] * 1439 ) ) == true ) {
+      if ( $ct_conf['comms']['logs_email'] > 0 && $this->update_cache('cache/events/email-debugging-logs.dat', ( $ct_conf['comms']['logs_email'] * 1439 ) ) == true ) {
        
       $emailed_logs = "\n\n ------------------debug.log------------------ \n\n" . file_get_contents('cache/logs/debug.log') . "\n\n ------------------smtp_debug.log------------------ \n\n" . file_get_contents('cache/logs/smtp_debug.log');
        
-      $msg = " Here are the current debugging logs from the ".$base_dir."/cache/logs/ directory: \n =========================================================================== \n \n"  . ( $emailed_logs != '' ? $emailed_logs : 'No debugging logs currently.' );
+      $msg = " Here are the current debugging logs from the ".$base_dir."/cache/logs/ directory. \n\n You can disable receiving log emails in the Admin Config \"Communications\" section. \n =========================================================================== \n \n"  . ( $emailed_logs != '' ? $emailed_logs : 'No debugging logs currently.' );
       
         // Message parameter added for desired comm methods (leave any comm method blank to skip sending via that method)
         $send_params = array(
@@ -595,11 +595,11 @@ var $ct_array1 = array();
     
       // If it's time to email error logs...
 	  // 1439 minutes instead (minus 1 minute), to try keeping daily recurrences at same exact runtime (instead of moving up the runtime daily)
-      if ( $ct_conf['power']['logs_email'] > 0 && $this->update_cache('cache/events/email-error-logs.dat', ( $ct_conf['power']['logs_email'] * 1439 ) ) == true ) {
+      if ( $ct_conf['comms']['logs_email'] > 0 && $this->update_cache('cache/events/email-error-logs.dat', ( $ct_conf['comms']['logs_email'] * 1439 ) ) == true ) {
        
       $emailed_logs = "\n\n ------------------error.log------------------ \n\n" . file_get_contents('cache/logs/error.log') . "\n\n ------------------smtp_error.log------------------ \n\n" . file_get_contents('cache/logs/smtp_error.log');
        
-      $msg = " Here are the current error logs from the ".$base_dir."/cache/logs/ directory: \n =========================================================================== \n \n"  . ( $emailed_logs != '' ? $emailed_logs : 'No error logs currently.' );
+      $msg = " Here are the current error logs from the ".$base_dir."/cache/logs/ directory. \n\n You can disable receiving log emails in the Admin Config \"Communications\" section. \n \n =========================================================================== \n \n"  . ( $emailed_logs != '' ? $emailed_logs : 'No error logs currently.' );
       
         // Message parameter added for desired comm methods (leave any comm method blank to skip sending via that method)
         $send_params = array(

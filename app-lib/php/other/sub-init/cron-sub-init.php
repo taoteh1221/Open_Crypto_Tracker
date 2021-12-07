@@ -13,8 +13,8 @@ if ( $runtime_mode == 'cron' ) {
 $_SESSION[$fetched_feeds] = false;
 	
 	// News feeds - new posts email
-	if ( $ct_conf['power']['news_feed_email_freq'] > 0 ) {
-	$ct_gen->news_feed_email($ct_conf['power']['news_feed_email_freq']);
+	if ( $ct_conf['comms']['news_feed_email_freq'] > 0 ) {
+	$ct_gen->news_feed_email($ct_conf['comms']['news_feed_email_freq']);
 	}
 
 }

@@ -342,7 +342,7 @@ $smtp_email_server_parse = explode(":", $ct_conf['comms']['smtp_server'] );
 
 
 // Email logs configs
-if ( $ct_conf['power']['logs_email'] > 0 && trim($ct_conf['comms']['from_email']) != '' && trim($ct_conf['comms']['to_email']) != '' ) {
+if ( $ct_conf['comms']['logs_email'] > 0 && trim($ct_conf['comms']['from_email']) != '' && trim($ct_conf['comms']['to_email']) != '' ) {
 					
 					
 	// Config error check(s)
