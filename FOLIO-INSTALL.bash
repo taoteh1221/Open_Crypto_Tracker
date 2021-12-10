@@ -31,6 +31,7 @@ reset=``
 
 fi
 
+
 ######################################
 
 
@@ -99,8 +100,8 @@ fi
 echo " "
 
 if [ "$EUID" -ne 0 ] || [ "$TERMINAL_USERNAME" == "root" ]; then 
- echo "Please run with 'sudo' permissions (NOT LOGGED IN AS 'root')."
- echo "Exiting..."
+ echo "${red}Please run with 'sudo' permissions (NOT LOGGED IN AS 'root').${reset}"
+ echo "${cyan}Exiting...${reset}"
  exit
 fi
 
@@ -176,13 +177,13 @@ fi
 
 
 echo " "
-echo "${yellow}TECHNICAL NOTE:${reset}"
+echo "${yellow}TECHNICAL NOTE:"
 echo " "
 echo "This script was designed to install / setup on Ubuntu or Raspberry Pi OS, and MAY also work on other"
-echo "Debian-based systems (but it has not been tested for that purpose)."
+echo "Debian-based systems (but it has not been tested for that purpose).${reset}"
 echo " "
 
-echo "${green}Your operating system has been detected as:"
+echo "${cyan}Your operating system has been detected as:"
 echo " "
 echo "$OS v$VER${reset}"
 echo " "
@@ -197,14 +198,14 @@ echo "Please back up any important pre-existing files in that directory before p
 echo " "
 
 if [ -f "/etc/debian_version" ]; then
-echo "Your system has been detected as Debian-based, which is compatible with this automated installation script."
+echo "${cyan}Your system has been detected as Debian-based, which is compatible with this automated installation script."
 echo " "
-echo "Continuing..."
+echo "Continuing...${reset}"
 echo " "
 else
-echo "Your system has been detected as NOT BEING Debian-based. Your system is NOT compatible with this automated installation script."
+echo "${red}Your system has been detected as NOT BEING Debian-based. Your system is NOT compatible with this automated installation script."
 echo " "
-echo "Exiting..."
+echo "Exiting...${reset}"
 exit
 fi
 				
@@ -660,21 +661,21 @@ EOF
         	usermod -a -G $CUSTOM_GROUP $APP_USER
         
         	echo " "
-        	echo "Access for user '$APP_USER' within group '$CUSTOM_GROUP' is completed, please wait..."
+        	echo "${cyan}Access for user '$APP_USER' within group '$CUSTOM_GROUP' is completed, please wait...${reset}"
 
 			sleep 1
         
         	usermod -a -G $APP_USER $CUSTOM_GROUP
         	
         	echo " "
-        	echo "Access for user '$CUSTOM_GROUP' within group '$APP_USER' is completed, please wait..."
+        	echo "${cyan}Access for user '$CUSTOM_GROUP' within group '$APP_USER' is completed, please wait...${reset}"
 
 			sleep 1
 			
         	chmod 775 $DOC_ROOT
 			
         	echo " "
-        	echo "Document root access is completed (chmod 775, owner:group set to '$APP_USER'), please wait..."
+        	echo "${cyan}Document root access is completed (chmod 775, owner:group set to '$APP_USER'), please wait...${reset}"
 
 			sleep 1
         
@@ -1244,7 +1245,7 @@ echo "${reset} "
 
 if [ "$APP_SETUP" = "1" ]; then
 
-echo "${yellow}Web server setup and installation / configuration of Open Crypto Tracker (Server Edition)"
+echo "${cyan}Web server setup and installation / configuration of Open Crypto Tracker (Server Edition)"
 echo "should now be complete (if you chose those options), unless you saw any errors on screen during setup."
 echo " "
 
