@@ -38,7 +38,7 @@ error_reporting($ct_conf['init']['error_reporting']);
 
 // SEE /DOCUMENTATION-ETC/CONFIG-EXAMPLE.txt FOR A FULL EXAMPLE OF THE DEFAULT CONFIGURATION (ESPECIALLY IF YOU MESS UP config.php, lol)
 
-// See /DOCUMENTATION-ETC/HELP-FAQ.txt for tips / troubleshooting FAQs.
+// See TROUBLESHOOTING.txt for tips / troubleshooting FAQs.
 
 // TYPOS LIKE MISSED COMMAS / MISSED QUOTES / ETC !!!!WILL BREAK THE APP!!!!, BE CAREFUL EDITING THIS CONFIG FILE!
 
@@ -435,6 +435,16 @@ $ct_conf['charts_alerts']['tracked_markets'] = array(
 					'lrc-2' => 'binance||btc||chart',
 					'lrc-3' => 'binance||eth||none',
 					'lrc-4' => 'defipulse||eth||none',
+					
+					
+					// RAY
+					'ray' => 'ftx||usd||both',
+					'ray-2' => 'generic_btc||btc||chart',
+					
+					
+					// SRM
+					'srm' => 'ftx||usd||both',
+					'srm-2' => 'binance||btc||chart',
 					
 					
 					// SLRS
@@ -1709,7 +1719,7 @@ https://github.com/taoteh1221/Open_Crypto_Tracker/issues
 
 // SEE /DOCUMENTATION-ETC/CONFIG-EXAMPLE.txt FOR A FULL EXAMPLE OF THE DEFAULT CONFIGURATION (ESPECIALLY IF YOU MESS UP config.php, lol)
 
-// See /DOCUMENTATION-ETC/HELP-FAQ.txt for tips / troubleshooting FAQs.
+// See TROUBLESHOOTING.txt for tips / troubleshooting FAQs.
 
 // TYPOS LIKE MISSED COMMAS / MISSED QUOTES / ETC !!!!WILL BREAK THE APP!!!!, BE CAREFUL EDITING THIS CONFIG FILE!
 
@@ -1903,7 +1913,7 @@ $ct_conf['mob_net_txt_gateways'] = array(
 
 // SEE /DOCUMENTATION-ETC/CONFIG-EXAMPLE.txt FOR A FULL EXAMPLE OF THE DEFAULT CONFIGURATION (ESPECIALLY IF YOU MESS UP config.php, lol)
 
-// See /DOCUMENTATION-ETC/HELP-FAQ.txt for tips / troubleshooting FAQs.
+// See TROUBLESHOOTING.txt for tips / troubleshooting FAQs.
 
 // TYPOS LIKE MISSED COMMAS / MISSED QUOTES / ETC !!!!WILL BREAK THE APP!!!!, BE CAREFUL EDITING THIS CONFIG FILE!
 
@@ -2167,7 +2177,7 @@ $ct_conf['assets'] = array(
                                     'krw' => array(
                                           'localbitcoins' => 'KRW',
                                           'upbit' => 'KRW-BTC',
-                                        	'korbit' => 'btc_krw',
+                                          'korbit' => 'btc_krw',
                                                     ),
 
                                                     
@@ -2431,9 +2441,9 @@ $ct_conf['assets'] = array(
                         'pairing' => array(
 
                         
-                        				'aud' => array(
-                                    		'kraken' => 'ETHAUD',
-                                    		'btcmarkets' => 'ETH/AUD',
+                        			'aud' => array(
+                                    	  'kraken' => 'ETHAUD',
+                                    	  'btcmarkets' => 'ETH/AUD',
                                           'coinspot' => 'eth',
                                                     ),
 
@@ -2447,7 +2457,7 @@ $ct_conf['assets'] = array(
                                           'gemini' => 'ethbtc',
                                           'kraken' => 'XETHXXBT',
                                           'bitfinex' => 'tETHBTC',
-                                        	'bitmex_u20' => 'ETHU20',
+                                          'bitmex_u20' => 'ETHU20',
                                           'hitbtc' => 'ETHBTC',
                                           'upbit' => 'BTC-ETH',
                                           'bitflyer' => 'ETH_BTC',
@@ -2458,8 +2468,8 @@ $ct_conf['assets'] = array(
                                           'bitso' => 'eth_btc',
                                           'zebpay' => 'ETH-BTC',
                                           'luno' => 'ETHXBT',
-                                        	'wazirx' => 'ethbtc',
-                                    	 	'defipulse' => 'WETH/WBTC',
+                                          'wazirx' => 'ethbtc',
+                                    	  'defipulse' => 'WETH/WBTC',
                                                     ),
 
                                                     
@@ -2841,7 +2851,7 @@ $ct_conf['assets'] = array(
 
                                                     
                                     'eth' => array(
-                                        'bittrex' => 'DAI-ETH',
+                                         'bittrex' => 'DAI-ETH',
                                     	 'bitfinex' => 'tDAIETH',
                                     	 'defipulse' => 'DAI/WETH',
                                                     ),
@@ -2853,34 +2863,34 @@ $ct_conf['assets'] = array(
 
                                                     
                                     'krw' => array(
-                                        	'korbit' => 'dai_krw',
+                                         'korbit' => 'dai_krw',
                                                     ),
 
                                                     
                                     'usd' => array(
-                                    	 'coinbase' => 'DAI-USD',
-                                    	 'kraken' => 'DAIUSD',
+                                    	'coinbase' => 'DAI-USD',
+                                    	'kraken' => 'DAIUSD',
                                         'binance_us' => 'DAIUSD',
                                         'okcoin' => 'DAI-USD',
-                                    	 'bitfinex' => 'tDAIUSD',
+                                    	'bitfinex' => 'tDAIUSD',
                                         'bittrex' => 'DAI-USD',
                                         'gemini' => 'daiusd',
                                                     ),
 
                                                     
                                     'usdc' => array(
-                                    	 'coinbase' => 'DAI-USDC',
+                                    	'coinbase' => 'DAI-USDC',
                                         'hitbtc' => 'DAIUSDC',
-                                    	 'defipulse' => 'DAI/USDC',
+                                    	'defipulse' => 'DAI/USDC',
                                                     ),
 
                                                     
                                     'usdt' => array(
-                                    	 'kraken' => 'DAIUSDT',
+                                    	'kraken' => 'DAIUSDT',
                                         'bittrex' => 'DAI-USDT',
                                         'okex' => 'DAI-USDT',
                                         'loopring' => 'DAI-USDT',
-                                    	 'defipulse' => 'DAI/USDT',
+                                    	'defipulse' => 'DAI/USDT',
                                                     ),
 
                                                     
@@ -3029,16 +3039,16 @@ $ct_conf['assets'] = array(
                                                     
                                     'usd' => array(
                                         	'binance_us' => 'ENJUSD',
-                                          'bittrex' => 'ENJ-USD',
+                                            'bittrex' => 'ENJ-USD',
                                         	'bitfinex' => 'tENJUSD',
                                                     ),
 
                                                     
                                     'usdt' => array(
                                         	'binance' => 'ENJUSDT',
-                                          'bittrex' => 'ENJ-USDT',
-                                          'hitbtc' => 'ENJUSD',
-                                          'coinex' => 'ENJUSDT',
+                                            'bittrex' => 'ENJ-USDT',
+                                            'hitbtc' => 'ENJUSD',
+                                            'coinex' => 'ENJUSDT',
                                                     ),
 
                                                     
@@ -3117,7 +3127,7 @@ $ct_conf['assets'] = array(
                                         'loopring' => 'LRC-ETH',
                                         'hitbtc' => 'LRCETH',
                                         'gateio' => 'LRC_ETH',
-                                    	 'defipulse' => 'LRC/WETH||0x8878df9e1a7c87dcbf6d3999d997f262c05d8c70',
+                                    	'defipulse' => 'LRC/WETH||0x8878df9e1a7c87dcbf6d3999d997f262c05d8c70',
                                                     ),
 
                                                     
@@ -3137,6 +3147,134 @@ $ct_conf['assets'] = array(
                                         'gateio' => 'LRC_USDT',
                                         'coinex' => 'LRCUSDT',
                                         'wazirx' => 'lrcusdt',
+                                                    ),
+
+                                                    
+                        ) // pairing END
+                                        
+                    ), // Asset END
+                    
+                    
+                    ////////////////////////////////////////////////////////////////////
+                    
+                    
+                    // RAY
+                    'RAY' => array(
+                        
+                        'name' => 'Raydium',
+                        'mcap_slug' => 'raydium',
+                        'pairing' => array(
+
+                        
+                                    'btc' => array(
+                                        'generic_btc' => 'ray',
+                                                    ),
+
+                                                    
+                                    'eth' => array(
+                                        'gateio' => 'RAY_ETH',
+                                                    ),
+
+                                                    
+                                    'eur' => array(
+                                    	 'kraken' => 'RAYEUR',
+                                                    ),
+
+                                                    
+                                    'usd' => array(
+                                    	'ftx' => 'RAY/USD',
+                                    	'kraken' => 'RAYUSD',
+                                        'gateio' => 'RAY_USD',
+                                                    ),
+
+                                                    
+                                    'usdt' => array(
+                                        'binance' => 'RAYUSDT',
+                                        'coinex' => 'RAYUSDT',
+                                        'gateio' => 'RAY_USDT',
+                                        'wazirx' => 'rayusdt',
+                                        'bitmart' => 'RAY_USDT',
+                                                    ),
+
+                                                    
+                        ) // pairing END
+                                        
+                    ), // Asset END
+                    
+                    
+                    ////////////////////////////////////////////////////////////////////
+                    
+                    
+                    // SRM
+                    'SRM' => array(
+                        
+                        'name' => 'Serum',
+                        'mcap_slug' => 'serum',
+                        'pairing' => array(
+
+                        
+                                    'btc' => array(
+                                        'binance' => 'SRMBTC',
+                                        'kraken' => 'SRMXBT',
+                                        'okex' => 'SRM-BTC',
+                                        'huobi' => 'srmbtc',
+                                        'kucoin' => 'SRM-BTC',
+                                        'upbit' => 'BTC-SRM',
+                                        'hitbtc' => 'SRMBTC',
+                                        'poloniex' => 'BTC_SRM',
+                                                    ),
+
+                                                    
+                                    'eth' => array(
+                                        'gateio' => 'SRM_ETH',
+                                                    ),
+
+                                                    
+                                    'eur' => array(
+                                    	 'kraken' => 'SRMEUR',
+                                                    ),
+
+                                                    
+                                    'gbp' => array(
+                                    	'kraken' => 'SRMGBP',
+                                                    ),
+
+                                                    
+                                    'krw' => array(
+                                          'upbit' => 'KRW-SRM',
+                                                    ),
+
+                                                    
+                                    'usd' => array(
+                                    	'ftx' => 'SRM/USD',
+                                    	'kraken' => 'SRMUSD',
+                                        'gateio' => 'SRM_USD',
+                                    	'bitfinex' => 'tSRMUSD',
+                                        'cex' => 'SRM:USD',
+                                                    ),
+
+                                                    
+                                    'usdc' => array(
+                                    	'crypto.com' => 'SRM_USDC',
+                                        'poloniex' => 'USDC_SRM',
+                                        'coinex' => 'SRMUSDC',
+                                                    ),
+
+                                                    
+                                    'usdt' => array(
+                                        'binance' => 'SRMUSDT',
+                                        'okex' => 'SRM-USDT',
+                                        'huobi' => 'srmusdt',
+                                        'kucoin' => 'SRM-USDT',
+                                    	'bitfinex' => 'tSRMUSDT',
+                                        'poloniex' => 'USDT_SRM',
+                                        'coinex' => 'SRMUSDT',
+                                        'hitbtc' => 'SRMUSDT',
+                                        'hotbit' => 'SRM_USDT',
+                                        'gateio' => 'SRM_USDT',
+                                        'wazirx' => 'srmusdt',
+                                        'bitmart' => 'SRM_USDT',
+                                        'cex' => 'SRM:USDT',
                                                     ),
 
                                                     

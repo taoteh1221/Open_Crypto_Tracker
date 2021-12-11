@@ -41,7 +41,7 @@ OPTIMIZATIONS / BUGS / TESTS / UX / QA / OTHER SECTION
 ///////////////////////////////////////////////////////
 
 
-Just got this error when adding a new chart config, try to replicate it when you have more time (workaround of recursive /cache/charts/ all dirs to chmod 777 in filezilla fixed it): "Improper directory permissions on the '/cache/charts/' sub-directories, cannot create new sub-directories. Make sure the folder '/cache/charts/' AND ANY SUB-DIRECTORIES IN IT have read / write permissions (and further sub-directories WITHIN THESE should be created automatically)"
+Remember when restoring charts from archive, if you delete instead of overwrite, the file permissions may be incorrect when restoring (as its not default permissions same as the app sets).
 
 
 Add 'cancel' button on privacy mode PIN modal, and adjust the background color / border color / border width to 'pop out' better in the light / dark themes.

@@ -1386,7 +1386,7 @@ app doing the data requests, not a malicious bot)
 3.18.3:
 -Bug fix for layout error when no portfolio added yet
 -Bug fix for chart interval detection (for chart time interval preset buttons)
--Additions to /DOCUMENTATION-ETC/HELP-FAQ.txt / Help page
+-Additions to TROUBLESHOOTING.txt / Help page
 -Import / Export portfolio from CSV file
 -------------------------------------------------------------------
 
@@ -4926,6 +4926,9 @@ MIGRATE YOUR EXISTING SETTINGS TO THE NEW FORMAT.
 
 -------------------------------------------------------------------
 5.05.0:
+
+
+-Created TROUBLESHOOTING.txt (originally /DOCUMENTATION-ETC/HELP-FAQ.txt)
 
 
 -Misc. UX

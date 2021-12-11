@@ -279,7 +279,7 @@ USAGE (ADDING / UPDATING COINS):
 SEE /DOCUMENTATION-ETC/PLUGINS-README.txt for creating your own custom plugins (custom code that adds additional features)
 
 
-See /DOCUMENTATION-ETC/HELP-FAQ.txt for additional tips / troubleshooting FAQs.
+See TROUBLESHOOTING.txt for additional tips / troubleshooting FAQs.
 
 
 
