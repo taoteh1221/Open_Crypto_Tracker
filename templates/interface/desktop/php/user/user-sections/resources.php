@@ -139,6 +139,8 @@
 	        
 	        <li class='links_list'><a href='https://etherscan.io/' target='_blank'>EtherScan.io Ethereum v1.0 Explorer</a></li>
 	        
+	        <li class='links_list'><a href='https://solscan.io/' target='_blank'>SolScan.io Solana Explorer</a></li>
+	        
 	        
 	        
 	        
@@ -483,8 +485,6 @@
 	        <li class='links_list'><a href='https://www.youtube.com/channel/UC5rV0QEGbv0Y-umDwshs_HA/featured' target='_blank'>Kripto Sözlük (turkish)</a></li>
 	        
 	        <li class='links_list'><a href='https://www.youtube.com/channel/UCSuHzQ3GrHSzoBbwrIq3LLA' target='_blank'>Naomi Brockwell</a></li>
-	        
-	        <li class='links_list'><a href='https://www.youtube.com/user/australiaalex/featured' target='_blank'>Nugget's News</a></li>
 	        
 	        <li class='links_list'><a href='https://www.youtube.com/channel/UCt_oM56Ui0BCCgi0Yc-Wh3Q/featured' target='_blank'>Proof of Talent</a></li>
 	        

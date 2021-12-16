@@ -1425,12 +1425,6 @@ $ct_conf['power']['news_feed'] = array(
     
     
         				array(
-            			"title" => "Youtube - Nugget's News",
-            			"url" => "https://www.youtube.com/feeds/videos.xml?channel_id=UCLo66QVfEod0nNM_GzKNxmQ"
-        						),
-    
-    
-        				array(
             			"title" => "Youtube - Solana Labs",
             			"url" => "https://www.youtube.com/feeds/videos.xml?channel_id=UC9AdQPUe4BdVJ8M9X7wxHUA"
         						),

@@ -40,7 +40,7 @@ CONTRIBUTION GUIDELINES (FOR DEVELOPERS):
 • Please optimize your logic after fleshing it out, and make sure everything works as intended AND reads clean during code reviews. Other contributors should not need to 'fix' much in your code contributions, as this defeats the purpose of having multiple contributors. There is no rush here, this is free software. You can take all the time you need and get it right.
 
 
-• Please make sure you use decent semantics for your varaible / class names etc. This goes a VERY long way twords making code readable during code reviews.
+• Please make sure you use decent semantics for your variable / class names etc. This goes a VERY long way twords making code readable during code reviews.
 
 
 • Please add enough comments to your code to clarify what's going on, especially for moderate to heavy logic. Just like good semantic naming, this ALSO goes a VERY long way twords making code readable during code reviews.
