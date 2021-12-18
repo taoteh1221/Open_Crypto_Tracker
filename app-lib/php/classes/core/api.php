@@ -2729,19 +2729,72 @@ var $ct_array1 = array();
       elseif ( strtolower($sel_exchange) == 'generic_btc' ) {
          
       $data = $ct_asset->mcap_data($market_id, 'usd');
+	         
+      $pairing_btc_val = $ct_asset->pairing_btc_val('usd');
+	  
 	  
 	     // If we are in the top X ranks, we should already have data from coingecko to fallback on
 	     if ( isset($data['rank']) ) {
-	         
-         $pairing_btc_val = $ct_asset->pairing_btc_val('usd');
 	     
 	     $result = array(
 	                     'last_trade' => $ct_var->num_to_str($pairing_btc_val * $data['price']),
 	                     '24hr_asset_vol' => null, // No asset volume data for this API
-	                     '24hr_pairing_vol' => $ct_var->num_to_str( $pairing_btc_val * $data["vol_24h"] ) 
+	                     '24hr_pairing_vol' => $ct_var->num_to_str($pairing_btc_val * $data["vol_24h"]) 
 	                     );
 	                     		  
 	     }
+	     else {
+        
+         $generic_pairs = null; // In case user messes up Admin Config, this helps
+         $check = array();
+            
+            
+              foreach ( $ct_conf['assets'] as $markets_conf ) {
+              
+    	         foreach ( $markets_conf['pairing'] as $pairing_conf ) {
+              
+        	         foreach ( $pairing_conf as $exchange_key => $exchange_val ) {
+        	            
+        		        if ( stristr($exchange_key, 'generic_') != false && trim($exchange_val) != '' ) { // In case user messes up Admin Config, this helps
+        		        
+        		           if ( !in_array($exchange_val, $check) ) {
+        		           $generic_pairs .= $exchange_val . ',';
+        		           $check[] = $exchange_val;
+        		           }
+        		        
+        		        }
+        	            
+        	         }
+    	         
+    	         }
+                
+              }
+        
+        
+         $generic_pairs = substr($generic_pairs, 0, -1);
+	         
+         $url = 'https://api.coingecko.com/api/v3/simple/price?ids=' . $generic_pairs . '&vs_currencies=USD&include_24hr_vol=true';
+         
+         $response = @$ct_cache->ext_data('url', $url, $ct_conf['power']['last_trade_cache_time']);
+         
+         $data = json_decode($response, true);
+         
+         $data = $data[$market_id];
+
+         
+             if ( isset($data['usd']) ) {
+	     
+	         $result = array(
+	                        'last_trade' => $ct_var->num_to_str($pairing_btc_val * $data['usd']),
+	                        '24hr_asset_vol' => null, // No asset volume data for this API
+	                        '24hr_pairing_vol' => $ct_var->num_to_str($pairing_btc_val * $data["usd_24h_vol"])
+	                        );
+	                     		  
+             }
+         
+         
+	     }
+	     
 	     
       }
      
@@ -2755,16 +2808,69 @@ var $ct_array1 = array();
          
       $data = $ct_asset->mcap_data($market_id, 'usd');
 	  
+	  
 	     // If we are in the top X ranks, we should already have data from coingecko to fallback on
 	     if ( isset($data['rank']) ) {
 	     
 	     $result = array(
 	                     'last_trade' => $ct_var->num_to_str($data['price']),
-	                     '24hr_asset_vol' => $ct_var->num_to_str($data["vol_24h"] / $data['price']),
-	                     '24hr_pairing_vol' => null // No pairing volume data for this API
+	                     '24hr_asset_vol' => null, // No asset volume data for this API
+	                     '24hr_pairing_vol' => $ct_var->num_to_str($data["vol_24h"])
 	                     );
 	                     		  
 	     }
+	     else {
+        
+         $generic_pairs = null; // In case user messes up Admin Config, this helps
+         $check = array();
+            
+            
+              foreach ( $ct_conf['assets'] as $markets_conf ) {
+              
+    	         foreach ( $markets_conf['pairing'] as $pairing_conf ) {
+              
+        	         foreach ( $pairing_conf as $exchange_key => $exchange_val ) {
+        	            
+        		        if ( stristr($exchange_key, 'generic_') != false && trim($exchange_val) != '' ) { // In case user messes up Admin Config, this helps
+        		        
+        		           if ( !in_array($exchange_val, $check) ) {
+        		           $generic_pairs .= $exchange_val . ',';
+        		           $check[] = $exchange_val;
+        		           }
+        		        
+        		        }
+        	            
+        	         }
+    	         
+    	         }
+                
+              }
+        
+        
+         $generic_pairs = substr($generic_pairs, 0, -1);
+	         
+         $url = 'https://api.coingecko.com/api/v3/simple/price?ids=' . $generic_pairs . '&vs_currencies=USD&include_24hr_vol=true';
+         
+         $response = @$ct_cache->ext_data('url', $url, $ct_conf['power']['last_trade_cache_time']);
+         
+         $data = json_decode($response, true);
+         
+         $data = $data[$market_id];
+
+         
+             if ( isset($data['usd']) ) {
+	     
+	         $result = array(
+	                        'last_trade' => $ct_var->num_to_str($data['usd']),
+	                        '24hr_asset_vol' => null, // No asset volume data for this API
+	                        '24hr_pairing_vol' => $ct_var->num_to_str($data["usd_24h_vol"])
+	                        );
+	                     		  
+             }
+         
+         
+	     }
+	     
 	     
       }
      

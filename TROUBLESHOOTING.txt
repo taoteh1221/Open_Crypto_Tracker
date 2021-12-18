@@ -180,15 +180,19 @@ USAGE (ADDING / UPDATING COINS):
                                                     
                                 'btc' => array(
                                           // GENERIC BTC PRICE, FROM MARKETCAP DATA (IF NO EXHANGE APIs AVAILABLE)
-                                          // MARKETCAP RANK OF TOKEN MUST BE WITHIN RANGE SET IN 'mcap_ranks_max' (POWER USER SECTION)
-                                          'generic_btc' => 'lowercase_coin_symbol_here',
+                                          // SHOULD BE COINGECKO'S API ID FOR THIS ASSET (SEE COINGECKO ASSET PAGE'S INFO SECTION) 
+                                          // FALLBACK OPTION: LOWERCASE TICKER SYMBOL OF ASSET (UPDATED LESS FREQUENTLY), IF RANK
+                                          // OF TOKEN IS #RELIABLY# WITHIN RANGE SET IN 'mcap_ranks_max' (POWER USER SECTION)
+                                          'generic_btc' => 'coingecko_api_id_here',
                                           ),
 
                                                     
                                 'usd' => array(
                                           // GENERIC USD PRICE, FROM MARKETCAP DATA (IF NO EXHANGE APIs AVAILABLE)
-                                          // MARKETCAP RANK OF TOKEN MUST BE WITHIN RANGE SET IN 'mcap_ranks_max' (POWER USER SECTION)
-                                          'generic_usd' => 'lowercase_coin_symbol_here',
+                                          // SHOULD BE COINGECKO'S API ID FOR THIS ASSET (SEE COINGECKO ASSET PAGE'S INFO SECTION) 
+                                          // FALLBACK OPTION: LOWERCASE TICKER SYMBOL OF ASSET (UPDATED LESS FREQUENTLY), IF RANK
+                                          // OF TOKEN IS #RELIABLY# WITHIN RANGE SET IN 'mcap_ranks_max' (POWER USER SECTION)
+                                          'generic_usd' => 'coingecko_api_id_here',
                                           ),
 
                                                     

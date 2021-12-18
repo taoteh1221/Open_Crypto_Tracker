@@ -457,6 +457,11 @@ $ct_conf['charts_alerts']['tracked_markets'] = array(
 					'in-2' => 'generic_btc||btc||chart',
 					
 					
+					// GRAPE
+					'grape' => 'generic_usd||usd||both',
+					'grape-2' => 'generic_btc||btc||chart',
+					
+					
 					// HNT
 					'hnt' => 'binance||btc||chart',
 					'hnt-2' => 'binance_us||usd||both',
@@ -1003,6 +1008,12 @@ $ct_conf['power']['news_feed'] = array(
         
         
         				array(
+            			"title" => "Blog - Grape Protocol (tokenized community access on Solana)",
+            			"url" => "https://medium.com/feed/great-ape"
+        						),
+        
+        
+        				array(
             			"title" => "Blog - Helium Network (community-driven global LoRaWAN network)",
             			"url" => "https://blog.helium.com/feed"
         						),
@@ -1035,12 +1046,6 @@ $ct_conf['power']['news_feed'] = array(
         				array(
             			"title" => "Blog - Portals (NFT-based metaverse on Solana)",
             			"url" => "https://medium.com/@portals_/feed"
-        						),
-        
-        
-        				array(
-            			"title" => "Blog - Project Eluüne (NFT-based game on Solana)",
-            			"url" => "https://medium.com/@Arrivant_/feed"
         						),
         
         
@@ -3161,7 +3166,7 @@ $ct_conf['assets'] = array(
 
                         
                                     'btc' => array(
-                                        'generic_btc' => 'ray',
+                                        'generic_btc' => 'raydium',
                                                     ),
 
                                                     
@@ -3321,12 +3326,38 @@ $ct_conf['assets'] = array(
 
                                                     
                                     'btc' => array(
-                                          'generic_btc' => 'in',
+                                          'generic_btc' => 'invictus',
                                                     ),
 
                                                     
                                     'usd' => array(
-                                          'generic_usd' => 'in',
+                                          'generic_usd' => 'invictus',
+                                                    ),
+
+                                                    
+                        ) // pairing END
+                        
+                    ), // Asset END
+                    
+                    
+                    ////////////////////////////////////////////////////////////////////
+                    
+                    
+                    // GRAPE
+                    'GRAPE' => array(
+                        
+                        'name' => 'Grape Protocol',
+                        'mcap_slug' => 'grape-protocol',
+                        'pairing' => array(
+
+                                                    
+                                    'btc' => array(
+                                          'generic_btc' => 'grape-2',
+                                                    ),
+
+                                                    
+                                    'usd' => array(
+                                          'generic_usd' => 'grape-2',
                                                     ),
 
                                                     

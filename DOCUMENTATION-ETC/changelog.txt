@@ -4943,5 +4943,21 @@ MIGRATE YOUR EXISTING SETTINGS TO THE NEW FORMAT.
 
 
 
+-------------------------------------------------------------------
+5.06.0:
+
+
+-Better 'generic_usd' / 'generic_btc' market support (via coingecko using asset API IDs)
+
+
+v5.03.5 and higher renames the admin config array. ALL CONFIGURATION SETTING
+VARIABLE NAMES ARE NOW DIFFERENT, USE THE LATEST/UPGRADED CONFIG.PHP, AND
+MIGRATE YOUR EXISTING SETTINGS TO THE NEW FORMAT.
+
+
+-------------------------------------------------------------------
+
+
+
 
 
