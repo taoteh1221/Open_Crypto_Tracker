@@ -2733,7 +2733,7 @@ var $ct_array1 = array();
       $pairing_btc_val = $ct_asset->pairing_btc_val('usd');
 	  
 	  
-	     // If we are in the top X ranks, we should already have data from coingecko to fallback on
+	     // If we are in the top X ranks, we should already have data from coingecko / cmc to fallback on
 	     if ( isset($data['rank']) ) {
 	     
 	     $result = array(
@@ -2743,6 +2743,7 @@ var $ct_array1 = array();
 	                     );
 	                     		  
 	     }
+	     // Otherwise, get data from coingecko if API ID exists
 	     else {
         
          $generic_pairs = null; // In case user messes up Admin Config, this helps
@@ -2804,9 +2805,12 @@ var $ct_array1 = array();
     
     
     
-      elseif ( strtolower($sel_exchange) == 'generic_usd' ) {
+      elseif ( strtolower($sel_exchange) == 'generic_usd' || strtolower($sel_exchange) == 'generic_eth' ) {
+          
+      $paired_with = explode('_', strtolower($sel_exchange) );
+      $paired_with = $paired_with[1];
          
-      $data = $ct_asset->mcap_data($market_id, 'usd');
+      $data = $ct_asset->mcap_data($market_id, $paired_with);
 	  
 	  
 	     // If we are in the top X ranks, we should already have data from coingecko to fallback on
@@ -2819,6 +2823,7 @@ var $ct_array1 = array();
 	                     );
 	                     		  
 	     }
+	     // Otherwise, get data from coingecko if API ID exists
 	     else {
         
          $generic_pairs = null; // In case user messes up Admin Config, this helps
@@ -2849,7 +2854,7 @@ var $ct_array1 = array();
         
          $generic_pairs = substr($generic_pairs, 0, -1);
 	         
-         $url = 'https://api.coingecko.com/api/v3/simple/price?ids=' . $generic_pairs . '&vs_currencies=USD&include_24hr_vol=true';
+         $url = 'https://api.coingecko.com/api/v3/simple/price?ids=' . $generic_pairs . '&vs_currencies='.$paired_with.'&include_24hr_vol=true';
          
          $response = @$ct_cache->ext_data('url', $url, $ct_conf['power']['last_trade_cache_time']);
          
@@ -2858,12 +2863,12 @@ var $ct_array1 = array();
          $data = $data[$market_id];
 
          
-             if ( isset($data['usd']) ) {
+             if ( isset($data[$paired_with]) ) {
 	     
 	         $result = array(
-	                        'last_trade' => $ct_var->num_to_str($data['usd']),
+	                        'last_trade' => $ct_var->num_to_str($data[$paired_with]),
 	                        '24hr_asset_vol' => null, // No asset volume data for this API
-	                        '24hr_pairing_vol' => $ct_var->num_to_str($data["usd_24h_vol"])
+	                        '24hr_pairing_vol' => $ct_var->num_to_str($data[$paired_with . "_24h_vol"])
 	                        );
 	                     		  
              }
