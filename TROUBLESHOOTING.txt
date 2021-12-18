@@ -171,6 +171,11 @@ USAGE (ADDING / UPDATING COINS):
                                           'lowercase_exchange3' => 'ASSET-ETH',
                                           'lowercase_exchange4' => 'ASSET_ETH',
                                           'lowercase_exchange5' => 'ASSETETH',
+                                          // GENERIC ETH PRICE, FROM MARKETCAP DATA (IF NO EXHANGE APIs AVAILABLE)
+                                          // SHOULD BE COINGECKO'S API ID FOR THIS ASSET (SEE COINGECKO ASSET PAGE'S INFO SECTION) 
+                                          // FALLBACK OPTION: LOWERCASE TICKER SYMBOL OF ASSET (UPDATED LESS FREQUENTLY), IF RANK
+                                          // OF TOKEN IS #RELIABLY# WITHIN RANGE SET IN 'mcap_ranks_max' (POWER USER SECTION)
+                                          'generic_eth' => 'coingecko_api_id_here',
                                           // ETH ICOs...MUST be defined in 'eth_erc20_icos', in Admin Config POWER USER section
                                           'ico_erc20_value' => 'ETHSUBTOKENNAME', 
                                           // INCLUDING #OPTIONAL# LIQUIDITY POOL ADDRESS, ASSURING #EXACT# MARKET DESIRED
