@@ -200,6 +200,10 @@ FEATURES / STRUCTURING SECTION
 ///////////////////////////////////////////////////////
 
 
+A good demo app for building out the interface hooks for plugins to support the GUI runtime (not just the cron runtime), would be to build a chart in the same format as the system stats chart, but put InvictusDAO data in it from this endpoint:
+https://api.invictusdao.fi/api/dashboard
+
+
 For admin area pages / sections, consider doing subsections in a modal subwindow, with iframes for loading through 'wizard' steps or opening different categories. It would possibly keep a native app 'feel' while also reducing admin page load times. Think it over, figure out the best solution here for a great UX.
 
 

@@ -1181,14 +1181,14 @@ var $ct_array1 = array();
    
    function key_to_name($str) {
    
+   global $ct_conf;
    
    // Uppercase every word, and remove underscore between them
    $str = ucwords(preg_replace("/_/i", " ", $str));
    
    
-   // Pretty up the individual words as needed
-   $words = explode(" ",$str);
-   
+      // Pretty up the individual words as needed
+      $words = explode(" ",$str);
       foreach($words as $key => $val) {
       
          if ( $val == 'Us' ) {
@@ -1199,11 +1199,17 @@ var $ct_array1 = array();
       
       }
    
+      
+      // Pretty up all secondary asset market symbols
+      foreach($ct_conf['power']['crypto_pairing_pref_markets'] as $key => $unused) {
+      $pretty_str = preg_replace("/".strtolower($key)."/i", strtoupper($key), $pretty_str);
+      }
    
-   $pretty_str = preg_replace("/usd/i", 'USD', $pretty_str);
+      foreach($ct_conf['power']['btc_currency_markets'] as $key => $unused) {
+      $pretty_str = preg_replace("/".strtolower($key)."/i", strtoupper($key), $pretty_str);
+      }
+   
    $pretty_str = preg_replace("/btc/i", 'BTC', $pretty_str);
-   $pretty_str = preg_replace("/eth/i", 'ETH', $pretty_str);
-   $pretty_str = preg_replace("/sol/i", 'SOL', $pretty_str);
    $pretty_str = preg_replace("/nft/i", 'NFT', $pretty_str);
    $pretty_str = preg_replace("/coin/i", 'Coin', $pretty_str);
    $pretty_str = preg_replace("/bitcoin/i", 'Bitcoin', $pretty_str);

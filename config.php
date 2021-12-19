@@ -455,11 +455,17 @@ $ct_conf['charts_alerts']['tracked_markets'] = array(
 					// IN
 					'in' => 'generic_usd||usd||both',
 					'in-2' => 'generic_btc||btc||chart',
+					'in-3' => 'generic_eth||eth||chart',
+					'in-4' => 'generic_eur||eur||none',
+					'in-5' => 'generic_gbp||gbp||none',
 					
 					
 					// GRAPE
 					'grape' => 'generic_usd||usd||both',
 					'grape-2' => 'generic_btc||btc||chart',
+					'grape-3' => 'generic_eth||eth||chart',
+					'grape-4' => 'generic_eur||eur||none',
+					'grape-5' => 'generic_gbp||gbp||none',
 					
 					
 					// HNT
@@ -1029,6 +1035,12 @@ $ct_conf['power']['news_feed'] = array(
             			"title" => "Blog - LoopRing (Ethereum Layer 2 Network)",
             			"url" => "https://medium.com/feed/loopring-protocol"
         						),
+        
+        
+        				array(
+            			"title" => "Blog - Marinade Finance (mSOL liquid staking on Solana)",
+            			"url" => "https://medium.com/feed/marinade-finance"
+        						),
     
     
         				array(
@@ -1058,6 +1070,12 @@ $ct_conf['power']['news_feed'] = array(
         				array(
             			"title" => "Blog - RNDR Network (Blockchain-Distributed GPU Rendering)",
             			"url" => "https://medium.com/feed/render-token"
+        						),
+        
+        
+        				array(
+            			"title" => "Blog - SamoyedCoin (Popular Dog Meme Coin on Solana)",
+            			"url" => "https://officialsamoyedcoin.medium.com/feed"
         						),
         
         
@@ -2350,15 +2368,16 @@ $ct_conf['assets'] = array(
 
                                                     
                                     'usd' => array(
+                                          'generic_usd' => 'bitcoin',
                                           'coinbase' => 'BTC-USD',
                                           'binance_us' => 'BTCUSD',
                                           'bitstamp' => 'btcusd',
                                           'kraken' => 'XXBTZUSD',
                                           'gemini' => 'btcusd',
                                           'bitmex' => 'XBTUSD',
-                                        	'bitmex_u20' => 'XBTU20',
-                                        	'bitmex_z20' => 'XBTZ20',
-                                        	'bittrex' => 'BTC-USD',
+                                          'bitmex_u20' => 'XBTU20',
+                                          'bitmex_z20' => 'XBTZ20',
+                                          'bittrex' => 'BTC-USD',
                                           'localbitcoins' => 'USD',
                                           'bitfinex' => 'tBTCUSD',
                                           'bitflyer' => 'BTC_USD',
@@ -2560,29 +2579,30 @@ $ct_conf['assets'] = array(
 
                                                     
                                     'usd' => array(
+                                          'generic_usd' => 'ethereum',
                                           'coinbase' => 'ETH-USD',
                                           'kraken' => 'XETHZUSD',
                                           'bitstamp' => 'ethusd',
                                           'gemini' => 'ethusd',
                                           'bitfinex' => 'tETHUSD',
                                           'bitmex' => 'ETHUSD',
-                                        	'bitmex_u20' => 'ETHUSDU20',
-                                        	'bittrex' => 'ETH-USD',
+                                          'bitmex_u20' => 'ETHUSDU20',
+                                          'bittrex' => 'ETH-USD',
                                           'okcoin' => 'ETH-USD',
                                           'cex' => 'ETH:USD',
                                                     ),
 
                                                     
                                     'usdt' => array(
-                                        	'binance' => 'ETHUSDT',
+                                          'binance' => 'ETHUSDT',
                                           'kraken' => 'ETHUSDT',
                                           'btcturk' => 'ETHUSDT',
                                           'huobi' => 'ethusdt',
-                                        	'binance_us' => 'ETHUSDT',
+                                          'binance_us' => 'ETHUSDT',
                                           'bittrex' => 'ETH-USDT',
                                           'hitbtc' => 'ETHUSD',
                                           'upbit' => 'USDT-ETH',
-                                       	'kucoin' => 'ETH-USDT',
+                                       	  'kucoin' => 'ETH-USDT',
                                           'okex' => 'ETH-USDT',
                                           'loopring_amm' => 'AMM-ETH-USDT',
                                           'poloniex' => 'USDT_ETH',
@@ -2667,12 +2687,12 @@ $ct_conf['assets'] = array(
 
                                                     
                                     'rub' => array(
-                                        'binance' => 'SOLRUB',
+                                         'binance' => 'SOLRUB',
                                                     ),
 
                                                     
                                     'try' => array(
-                                        'binance' => 'SOLTRY',
+                                         'binance' => 'SOLTRY',
                                                     ),
 
                                                     
@@ -2737,14 +2757,14 @@ $ct_conf['assets'] = array(
                                                     
                                     'eth' => array(
                                         'loopring_amm' => 'AMM-UNI-ETH',
-                                    	 'defipulse' => 'UNI/WETH',
+                                    	'defipulse' => 'UNI/WETH',
                                                     ),
 
 
                                     'inr' => array(
-                                          'bitbns' => 'UNI',
-                                          'wazirx' => 'uniinr',
-                                          'zebpay' => 'UNI-INR',
+                                        'bitbns' => 'UNI',
+                                        'wazirx' => 'uniinr',
+                                        'zebpay' => 'UNI-INR',
                                                     ),
 
                                                     
@@ -2777,12 +2797,12 @@ $ct_conf['assets'] = array(
 
                         
                                     'btc' => array(
-                                        	'binance' => 'MKRBTC',
+                                          'binance' => 'MKRBTC',
                                           'coinbase' => 'MKR-BTC',
                                           'bittrex' => 'MKR-BTC',
-                                       	'kucoin' => 'MKR-BTC',
+                                       	  'kucoin' => 'MKR-BTC',
                                           'okex' => 'MKR-BTC',
-                                        	'hitbtc' => 'MKRBTC',
+                                          'hitbtc' => 'MKRBTC',
                                           'coinex' => 'MKRBTC',
                                                     ),
 
@@ -2794,12 +2814,12 @@ $ct_conf['assets'] = array(
 
                                                     
                                 		'eth' => array(
-                                          'bittrex' => 'MKR-ETH',
+                                            'bittrex' => 'MKR-ETH',
                                         	'kucoin' => 'MKR-ETH',
-                                          'okex' => 'MKR-ETH',
+                                            'okex' => 'MKR-ETH',
                                         	'loopring_amm' => 'AMM-MKR-ETH',
                                         	'hitbtc' => 'MKRETH',
-                                          'gateio' => 'MKR_ETH',
+                                            'gateio' => 'MKR_ETH',
                                     	 	'defipulse' => 'MKR/WETH',
                                                     ),
 
@@ -2820,7 +2840,7 @@ $ct_conf['assets'] = array(
                                           'bittrex' => 'MKR-USDT',
                                           'okex' => 'MKR-USDT',
                                           'bitfinex' => 'tMKRUSD',
-                                        	'hitbtc' => 'MKRUSD',
+                                          'hitbtc' => 'MKRUSD',
                                           'gateio' => 'MKR_USDT',
                                           'coinex' => 'MKRUSDT',
                                           			),
@@ -2974,7 +2994,7 @@ $ct_conf['assets'] = array(
 
                                                     
                                     'krw' => array(
-                                        	'upbit' => 'KRW-MANA',
+                                          'upbit' => 'KRW-MANA',
                                                     ),
 
                                                     
@@ -3329,6 +3349,21 @@ $ct_conf['assets'] = array(
                                           'generic_btc' => 'invictus',
                                                     ),
 
+                        
+                                    'eth' => array(
+                                          'generic_eth' => 'invictus',
+                                                    ),
+
+                                                    
+                                    'eur' => array(
+                                          'generic_eur' => 'invictus',
+                                                    ),
+
+                                                    
+                                    'gbp' => array(
+                                          'generic_gbp' => 'invictus',
+                                                    ),
+
                                                     
                                     'usd' => array(
                                           'generic_usd' => 'invictus',
@@ -3353,6 +3388,21 @@ $ct_conf['assets'] = array(
                                                     
                                     'btc' => array(
                                           'generic_btc' => 'grape-2',
+                                                    ),
+
+                        
+                                    'eth' => array(
+                                          'generic_eth' => 'grape-2',
+                                                    ),
+
+                                                    
+                                    'eur' => array(
+                                          'generic_eur' => 'grape-2',
+                                                    ),
+
+                                                    
+                                    'gbp' => array(
+                                          'generic_gbp' => 'grape-2',
                                                     ),
 
                                                     

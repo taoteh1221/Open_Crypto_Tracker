@@ -195,6 +195,14 @@ $td_color_zebra = null;
 $mcap_data_force_usd = null;
 
 $defipulse_api_limit = null;
+        
+$kraken_pairs = null;
+        
+$upbit_pairs = null;
+        
+$generic_pairs = null;
+        
+$generic_assets = null;
 
 
 //////////////////////////////////////////////////////////////

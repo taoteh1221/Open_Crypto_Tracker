@@ -228,7 +228,7 @@ Ethereum ICO subtoken support (pre-exchange listing) has been built in (values a
 
 
 USAGE (ADDING / UPDATING COINS):
-
+ 
  
  
                     // UPPERCASE_COIN_ABRV_HERE
@@ -237,34 +237,69 @@ USAGE (ADDING / UPDATING COINS):
                         'name' => 'COIN_NAME_HERE',
                         // Website slug (URL data) on coinmarketcap / coingecko, leave blank if not listed there
                         'mcap_slug' => 'WEBSITE_SLUG_HERE', 
-                        // MARKET IDS ARE CASE-SENSITIVE!                  
+                        // MARKET IDS ARE CASE-SENSITIVE!
                         'pairing' => array(
-                        
-                                                      
-                        	'lowercase_pairing_abrv' => array(
+                                    
+                                    
+                        		'lowercase_pairing_abrv' => array(
                                           'lowercase_exchange1' => 'MARKETIDHERE',
                                           'lowercase_exchange2' => 'ASSET/PAIRING',
                                           'lowercase_exchange3' => 'ASSET-PAIRING',
                                           'lowercase_exchange4' => 'ASSET_PAIRING',
                                           'lowercase_exchange5' => 'ASSETPAIRING',
-                                          'defipulse' => 'ASSET/PAIRING', // DeFi Generic
+                                          'defipulse' => 'ASSET/PAIRING', // DeFi
+                                          // GENERIC PAIRING PRICE (IF NO EXHANGE APIs AVAILABLE)
+                                          // USE COINGECKO'S API ID FOR THIS ASSET (SEE COINGECKO ASSET PAGE'S INFO SECTION) 
+                                          // LOWERCASE_PAIRING_ABRV MUST BE SUPPORTED BY COINGECKO'S 'vs_currencies' API PARAMETER!
+                                          'generic_LOWERCASE_PAIRING_ABRV' => 'coingecko_api_id_here',
                                           ),
-
                                                     
-                           	'eth' => array(
+                                                    
+                          		'eth' => array(
                                           'lowercase_exchange1' => 'MARKETIDHERE',
                                           'lowercase_exchange2' => 'ASSET/ETH',
                                           'lowercase_exchange3' => 'ASSET-ETH',
                                           'lowercase_exchange4' => 'ASSET_ETH',
                                           'lowercase_exchange5' => 'ASSETETH',
+                                          // DEFI, INCLUDING #OPTIONAL# LIQUIDITY POOL ADDRESS, ASSURING #EXACT# MARKET DESIRED
+                                          'defipulse' => 'ASSET/PAIRING||OPTIONAL_LIQUIDITY_POOL_ADDRESS',
                                           // ETH ICOs...MUST be defined in 'eth_erc20_icos', in Admin Config POWER USER section
                                           'ico_erc20_value' => 'ETHSUBTOKENNAME', 
-                                          // INCLUDING #OPTIONAL# LIQUIDITY POOL ADDRESS, ASSURING #EXACT# MARKET DESIRED
-                                          'defipulse' => 'ASSET/PAIRING||OPTIONAL_LIQUIDITY_POOL_ADDRESS', // DeFi Generic
-                                           ),
+                                          // GENERIC ETH PRICE (IF NO EXHANGE APIs AVAILABLE)
+                                          // USE COINGECKO'S API ID FOR THIS ASSET (SEE COINGECKO ASSET PAGE'S INFO SECTION) 
+                                          'generic_eth' => 'coingecko_api_id_here',
+                                          ),
 
                                                     
-                        ) // pairing END
+                                'btc' => array(
+                                          // GENERIC BTC PRICE (IF NO EXHANGE APIs AVAILABLE)
+                                          // USE COINGECKO'S API ID FOR THIS ASSET (SEE COINGECKO ASSET PAGE'S INFO SECTION) 
+                                          'generic_btc' => 'coingecko_api_id_here',
+                                          ),
+
+                                                    
+                                'usd' => array(
+                                          // GENERIC USD PRICE (IF NO EXHANGE APIs AVAILABLE)
+                                          // USE COINGECKO'S API ID FOR THIS ASSET (SEE COINGECKO ASSET PAGE'S INFO SECTION) 
+                                          'generic_usd' => 'coingecko_api_id_here',
+                                          ),
+
+                                                    
+                                'eur' => array(
+                                          // GENERIC EUR PRICE (IF NO EXHANGE APIs AVAILABLE)
+                                          // USE COINGECKO'S API ID FOR THIS ASSET (SEE COINGECKO ASSET PAGE'S INFO SECTION) 
+                                          'generic_eur' => 'coingecko_api_id_here',
+                                          ),
+
+                                                    
+                                'gbp' => array(
+                                          // GENERIC GBP PRICE (IF NO EXHANGE APIs AVAILABLE)
+                                          // USE COINGECKO'S API ID FOR THIS ASSET (SEE COINGECKO ASSET PAGE'S INFO SECTION) 
+                                          'generic_gbp' => 'coingecko_api_id_here',
+                                          ),
+
+                                                    
+                       	) // pairing END
                         
                     ), // Asset END
                     

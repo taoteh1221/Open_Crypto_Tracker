@@ -13,6 +13,15 @@
 //$ct_cache->check_log('plugins/' . $this_plug . '/plug-lib/plug-init.php:start');
 
 
+// Remove any stale cache files
+$loop = sizeof($plug_conf[$this_plug]['reminders']);
+while ( file_exists( $ct_plug->event_cache('alert-' . $loop . '.dat') ) ) {
+unlink( $ct_plug->event_cache('alert-' . $loop . '.dat') );
+$loop = $loop + 1;
+}
+$loop = null;
+
+
 foreach ( $plug_conf[$this_plug]['reminders'] as $key => $val ) {
 	
 	

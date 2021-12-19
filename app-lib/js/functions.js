@@ -566,10 +566,14 @@ function render_names(name) {
 	
 render = name.charAt(0).toUpperCase() + name.slice(1);
 
-render = render.replace(/usd/gi, "USD");
+
+	Object.keys(secondary_market_currencies).forEach(function(currency) {
+	re = new RegExp(currency,"gi");
+    render = render.replace(re, currency.toUpperCase() );
+	});
+		
+		
 render = render.replace(/btc/gi, "BTC");
-render = render.replace(/eth/gi, "ETH");
-render = render.replace(/sol/gi, "SOL");
 render = render.replace(/nft/gi, "NFT");
 render = render.replace(/coin/gi, "Coin");
 render = render.replace(/bitcoin/gi, "Bitcoin");

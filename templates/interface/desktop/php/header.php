@@ -179,7 +179,23 @@ header('Content-type: text/html; charset=' . $ct_conf['dev']['charset_default'])
 
 	var limited_apis = <?=$js_limited_apis?>;
 	
+	<?php
+	foreach ( $ct_conf['power']['crypto_pairing_pref_markets'] as $key => $unused ) {
+	$secondary_market_currencies .= '"'.strtolower($key).'", ';
+	}
+	foreach ( $ct_conf['power']['btc_currency_markets'] as $key => $unused ) {
+	$secondary_market_currencies .= '"'.strtolower($key).'", ';
+	}
+	$secondary_market_currencies = trim($secondary_market_currencies);
+	$secondary_market_currencies = rtrim($secondary_market_currencies,',');
+	$secondary_market_currencies = trim($secondary_market_currencies);
+	$secondary_market_currencies = '['.$secondary_market_currencies.']';
+	?>
+
+	var secondary_market_currencies = <?=$secondary_market_currencies?>;
+	
 	var pref_bitcoin_markets = []; // Set the array
+	
 	<?php
 	foreach ( $ct_conf['power']['btc_pref_currency_markets'] as $pref_bitcoin_markets_key => $pref_bitcoin_markets_val ) {
 	?>
