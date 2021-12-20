@@ -30,6 +30,9 @@ if ( sizeof($plug_conf[$this_plug]['price_targets']) != sizeof($alert_cache_file
 
 // Check each configged price target alert
 foreach ( $plug_conf[$this_plug]['price_targets'] as $target_key => $target_val ) {
+	
+// Clear any previous loop's $cache_reset var
+$cache_reset = false;
 
 
 $price_target_cache_file = $ct_plug->alert_cache($target_key . '.dat');
