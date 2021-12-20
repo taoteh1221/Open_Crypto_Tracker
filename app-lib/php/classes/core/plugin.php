@@ -18,7 +18,7 @@ var $ct_array1 = array();
    ////////////////////////////////////////////////////////
    
    
-   function var_cache($file) {
+   function var_cache($file=false) {
       
    global $base_dir, $ct_gen, $this_plug;
    
@@ -27,7 +27,12 @@ var $ct_array1 = array();
       $ct_gen->log('system_error', 'Could not create directory: /cache/vars/plugin_vars/'.$this_plug.'/');
       }
       
-   return $base_dir . '/cache/vars/plugin_vars/'.$this_plug.'/' . $file;
+      if ( $file == false ) {
+      return $base_dir . '/cache/vars/plugin_vars/'.$this_plug;
+      }
+      else {
+      return $base_dir . '/cache/vars/plugin_vars/'.$this_plug.'/' . $file;
+      }
    
    }
 
@@ -36,7 +41,7 @@ var $ct_array1 = array();
    ////////////////////////////////////////////////////////
    
    
-   function event_cache($file) {
+   function event_cache($file=false) {
       
    global $base_dir, $ct_gen, $this_plug;
          
@@ -45,7 +50,12 @@ var $ct_array1 = array();
       $ct_gen->log('system_error', 'Could not create directory: /cache/events/plugin_events/'.$this_plug.'/');
       }
       
-   return $base_dir . '/cache/events/plugin_events/'.$this_plug.'/' . $file;
+      if ( $file == false ) {
+      return $base_dir . '/cache/events/plugin_events/'.$this_plug;
+      }
+      else {
+      return $base_dir . '/cache/events/plugin_events/'.$this_plug.'/' . $file;
+      }
    
    }
 
@@ -54,7 +64,7 @@ var $ct_array1 = array();
    ////////////////////////////////////////////////////////
    
    
-   function alert_cache($file) {
+   function alert_cache($file=false) {
       
    global $base_dir, $ct_gen, $this_plug;
          
@@ -63,7 +73,12 @@ var $ct_array1 = array();
       $ct_gen->log('system_error', 'Could not create directory: /cache/alerts/plugin_alerts/'.$this_plug.'/');
       }
       
-   return $base_dir . '/cache/alerts/plugin_alerts/'.$this_plug.'/' . $file;
+      if ( $file == false ) {
+      return $base_dir . '/cache/alerts/plugin_alerts/'.$this_plug;
+      }
+      else {
+      return $base_dir . '/cache/alerts/plugin_alerts/'.$this_plug.'/' . $file;
+      }
    
    }
    

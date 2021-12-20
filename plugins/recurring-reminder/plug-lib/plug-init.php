@@ -24,6 +24,42 @@ $loop = null;
 
 foreach ( $plug_conf[$this_plug]['reminders'] as $key => $val ) {
 	
+$recurring_reminder_cache_file = $ct_plug->event_cache('alert-' . $key . '.dat');
+
+// MD5 fingerprint digest of current settings / data of this reminder
+$digest = md5($val['days'] . $val['message']);
+
+	
+	// Get cache data, and / or flag a cache reset
+	if ( file_exists($recurring_reminder_cache_file) ) {
+	
+	$cached_digest = trim( file_get_contents($recurring_reminder_cache_file) );
+	
+		// If user changed the settings / data for this reminder, flag a reset
+		if ( !$cached_digest || $digest != $cached_digest ) {
+		$cache_reset = true;
+		}
+	
+	}
+	else {
+	$cache_reset = true;
+	}
+	
+	
+// DEBUGGING ONLY
+//$ct_cache->save_file( $ct_plug->event_cache('debugging-' . $key . '.dat') , $digest );
+	
+	
+	// If a cache reset was flagged
+	if ( $cache_reset ) {
+	
+	$ct_cache->save_file($recurring_reminder_cache_file, $digest);
+	
+	// Skip the rest, as this was setting / resetting cache data
+	continue;
+	
+	}
+	
 	
 	if ( preg_match("/^([0-1][0-9]|2[0-3]):([0-5][0-9])$/", $plug_conf[$this_plug]['do_not_dist']['on'])
 	&& preg_match("/^([0-1][0-9]|2[0-3]):([0-5][0-9])$/", $plug_conf[$this_plug]['do_not_dist']['off']) ) {
@@ -42,7 +78,7 @@ $in_minutes_offset = ( $in_minutes >= 20 ? ($in_minutes - 1) : $in_minutes );
 
 	
 	// If it's time to send a reminder...
-	if ( $ct_cache->update_cache( $ct_plug->event_cache('alert-' . $key . '.dat') , $in_minutes_offset ) == true ) {
+	if ( $ct_cache->update_cache($recurring_reminder_cache_file, $in_minutes_offset) == true ) {
 		
 		
 		// If 'do not disturb' enabled
@@ -122,7 +158,7 @@ $in_minutes_offset = ( $in_minutes >= 20 ? ($in_minutes - 1) : $in_minutes );
 		@$ct_cache->queue_notify($send_params);
 	
 		// Update the event tracking for this alert
-		$ct_cache->save_file( $ct_plug->event_cache('alert-' . $key . '.dat') , $ct_gen->time_date_format(false, 'pretty_date_time') );
+		$ct_cache->save_file($recurring_reminder_cache_file, $digest);
 		
 		$send_msg = false; // Reset
 		

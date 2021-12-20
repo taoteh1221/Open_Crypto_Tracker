@@ -14,14 +14,21 @@
 
 
 // Remove any stale cache files
-$loop = sizeof($plug_conf[$this_plug]['price_targets']);
-while ( file_exists( $ct_plug->alert_cache($loop . '.dat') ) ) {
-unlink( $ct_plug->alert_cache($loop . '.dat') );
-$loop = $loop + 1;
+$alert_cache_files = $ct_gen->sort_files( $ct_plug->alert_cache(false) , 'dat', 'desc');
+if ( sizeof($plug_conf[$this_plug]['price_targets']) != sizeof($alert_cache_files) ) {
+
+    foreach ( $alert_cache_files as $check_file ) {
+    
+        if ( !array_key_exists( basename($check_file, '.dat') , $plug_conf[$this_plug]['price_targets']) ) {
+        unlink( $ct_plug->alert_cache(false) . '/' . $check_file );
+        }    
+    
+    }
+
 }
-$loop = null;
 
 
+// Check each configged price target alert
 foreach ( $plug_conf[$this_plug]['price_targets'] as $target_key => $target_val ) {
 
 
