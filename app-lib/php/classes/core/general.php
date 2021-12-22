@@ -842,82 +842,6 @@ var $ct_array1 = array();
    return $result;
       
    }
-  
-  
-   ////////////////////////////////////////////////////////
-   ////////////////////////////////////////////////////////
-  
-  
-   function news_feed_email($interval) {
-  
-   global $ct_conf, $ct_cache, $ct_api, $base_dir, $base_url;
-  
-  
-	  // 1439 minutes instead (minus 1 minute), to try keeping daily recurrences at same exact runtime (instead of moving up the runtime daily)
-      if ( $ct_cache->update_cache($base_dir . '/cache/events/news-feed-email.dat', ($interval * 1439) ) == true ) {
-      
-      // Reset feed fetch telemetry 
-      $_SESSION[$fetched_feeds] = false;
-        
-        
-        	// NEW RSS feed posts
-        	$num_posts = 0;
-        	foreach($ct_conf['power']['news_feed'] as $feed_item) {
-        	    
-        		if ( trim($feed_item["url"]) != '' ) {
-        		    
-        		$result = $ct_api->rss($feed_item["url"], false, $ct_conf['comms']['news_feed_email_entries_show'], false, true);
-        		
-        		  if ( trim($result) != '<ul></ul>' ) {
-        		  $html .= '<div style="padding: 30px;"><fieldset><legend style="font-weight: bold; color: #00b6db;"> ' . $feed_item["title"] . ' </legend>' . "\n\n";
-        	 	  $html .= $result . "\n\n";
-        		  $html .= '</fieldset></div>' . "\n\n";
-        	 	  $num_posts++;  
-        		  }
-        		  
-        	 	}
-        	 	
-        	}         
-               
-        	
-      $top .= '<h2 style="color: #00b6db;">' . $num_posts . ' Updated RSS Feeds (over ' . $ct_conf['comms']['news_feed_email_freq'] . ' days)</h3>' . "\n\n";
-        	
-      $top .= '<p><a style="color: #00b6db;" title="View the news feeds page in the Open Crypto Tracker app here." target="_blank" href="' . $base_url . 'index.php?start_page=news#news">View All News Feeds Here</a></p>' . "\n\n";
-	
-	  $top .= '<p style="color: #dd7c0d;">You can disable receiving news feed emails in the Admin Config "Communications" section.</p>' . "\n\n";
-	
-	  $top .= '<p style="color: #dd7c0d;">You can edit this list in the Admin Config "Power User" section.</p>' . "\n\n";
-	
-	  $top .= '<p>To see the date / time an entry was published, hover over it.</p>' . "\n\n";
-	
-	  $top .= '<p>Entries are sorted newest to oldest.</p>' . "\n\n";
-      
-      
-      $email_body = '<div style="padding: 15px;">' . $top . $html . '</div>';
-      
-               
-      $send_params = array(
-                                                    
-                           'email' => array(
-                                            'content_type' => 'text/html', // Have email sent as HTML content type
-                                            'subject' => $num_posts . ' Updated RSS Feeds (over ' . $ct_conf['comms']['news_feed_email_freq'] . ' days)',
-                                            'message' => $email_body // Add emoji here, so it's not sent with alexa alerts
-                                           )
-                                                       
-                          );
-                    
-                    
-                    
-      // Send notifications
-      @$ct_cache->queue_notify($send_params);
-                        
-      
-      $ct_cache->save_file($base_dir . '/cache/events/news-feed-email.dat', $this->time_date_format(false, 'pretty_date_time') );
-      
-      }
-      
-   
-   }
    
    
    ////////////////////////////////////////////////////////
@@ -1115,7 +1039,7 @@ var $ct_array1 = array();
       }
    
    
-   $smtp->From($from_email); 
+   $smtp->From('Open Crypto Tracker <' . $from_email . '>'); 
    $smtp->singleTo($to); 
    $smtp->Subject($subj);
    $smtp->Charset($charset);
@@ -1675,6 +1599,82 @@ var $ct_array1 = array();
       }
       else {
       return false;
+      }
+      
+   
+   }
+  
+  
+   ////////////////////////////////////////////////////////
+   ////////////////////////////////////////////////////////
+  
+  
+   function news_feed_email($interval) {
+  
+   global $ct_conf, $ct_cache, $ct_api, $base_dir, $base_url;
+  
+  
+	  // 1439 minutes instead (minus 1 minute), to try keeping daily recurrences at same exact runtime (instead of moving up the runtime daily)
+      if ( $ct_cache->update_cache($base_dir . '/cache/events/news-feed-email.dat', ($interval * 1439) ) == true ) {
+      
+      // Reset feed fetch telemetry 
+      $_SESSION[$fetched_feeds] = false;
+        
+        
+        	// NEW RSS feed posts
+        	$num_posts = 0;
+        	foreach($ct_conf['power']['news_feed'] as $feed_item) {
+        	    
+        		if ( trim($feed_item["url"]) != '' ) {
+        		    
+        		$result = $ct_api->rss($feed_item["url"], false, $ct_conf['comms']['news_feed_email_entries_show'], false, true);
+        		
+        		  if ( trim($result) != '<ul></ul>' ) {
+        		  $html .= '<div style="padding: 30px;"><fieldset><legend style="font-weight: bold; color: #00b6db;"> ' . $feed_item["title"] . ' </legend>' . "\n\n";
+        	 	  $html .= $result . "\n\n";
+        		  $html .= '</fieldset></div>' . "\n\n";
+        	 	  $num_posts++;  
+        		  }
+        		  
+        	 	}
+        	 	
+        	}         
+               
+        	
+      $top .= '<h2 style="color: #00b6db;">' . $num_posts . ' Updated RSS Feeds (over ' . $ct_conf['comms']['news_feed_email_freq'] . ' days)</h3>' . "\n\n";
+        	
+      $top .= '<p><a style="color: #00b6db;" title="View the news feeds page in the Open Crypto Tracker app here." target="_blank" href="' . $base_url . 'index.php?start_page=news#news">View All News Feeds Here</a></p>' . "\n\n";
+	
+	  $top .= '<p style="color: #dd7c0d;">You can disable receiving news feed emails in the Admin Config "Communications" section.</p>' . "\n\n";
+	
+	  $top .= '<p style="color: #dd7c0d;">You can edit this list in the Admin Config "Power User" section.</p>' . "\n\n";
+	
+	  $top .= '<p>To see the date / time an entry was published, hover over it.</p>' . "\n\n";
+	
+	  $top .= '<p>Entries are sorted newest to oldest.</p>' . "\n\n";
+      
+      
+      $email_body = '<div style="padding: 15px;">' . $top . $html . '</div>';
+      
+               
+      $send_params = array(
+                                                    
+                           'email' => array(
+                                            'content_type' => 'text/html', // Have email sent as HTML content type
+                                            'subject' => $num_posts . ' Updated RSS Feeds (over ' . $ct_conf['comms']['news_feed_email_freq'] . ' days)',
+                                            'message' => $email_body // Add emoji here, so it's not sent with alexa alerts
+                                           )
+                                                       
+                          );
+                    
+                    
+                    
+      // Send notifications
+      @$ct_cache->queue_notify($send_params);
+                        
+      
+      $ct_cache->save_file($base_dir . '/cache/events/news-feed-email.dat', $this->time_date_format(false, 'pretty_date_time') );
+      
       }
       
    
@@ -2696,7 +2696,7 @@ var $ct_array1 = array();
             if ( $this->valid_email($ct_conf['comms']['from_email']) == 'valid' ) {
             
             $headers = array(
-                        'From' => $ct_conf['comms']['from_email'],
+                        'From' => 'From: Open Crypto Tracker <' . $ct_conf['comms']['from_email'] . '>',
                         'X-Mailer' => 'Open_Crypto_Tracker/' . $app_version . ' - PHP/' . phpversion(),
                         'Content-Type' => $content_type . '; charset=' . $charset
                            );
@@ -2717,7 +2717,7 @@ var $ct_array1 = array();
             // Fallback, if no From email set in app config
             if ( $this->valid_email($ct_conf['comms']['from_email']) == 'valid' ) {
             
-            $headers = 'From: ' . $ct_conf['comms']['from_email'] . "\r\n" .
+            $headers = 'From: Open Crypto Tracker <' . $ct_conf['comms']['from_email'] . ">\r\n" .
             'X-Mailer: Open_Crypto_Tracker/' . $app_version . ' - PHP/' . phpversion() . "\r\n" .
             'Content-Type: ' . $content_type . '; charset=' . $charset;
          

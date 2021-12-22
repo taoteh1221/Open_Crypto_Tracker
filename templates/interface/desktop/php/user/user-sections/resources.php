@@ -133,13 +133,15 @@
 	    <ul>
 	        
 	        
-	        <li class='links_list'><a href='https://beaconscan.com/' target='_blank'>BeaconScan.io Ethereum v2.0 Explorer</a></li>
+	        <li class='links_list'><a href='https://beaconscan.com/' target='_blank'>BeaconScan.io - Ethereum v2.0 Explorer</a></li>
 	        
-	        <li class='links_list'><a href='https://www.blockchain.com/explorer?view=btc' target='_blank'>Blockchain.com Bitcoin Explorer</a></li>
+	        <li class='links_list'><a href='https://www.blockchain.com/explorer?view=btc' target='_blank'>Blockchain.com - Bitcoin Explorer</a></li>
 	        
-	        <li class='links_list'><a href='https://etherscan.io/' target='_blank'>EtherScan.io Ethereum v1.0 Explorer</a></li>
+	        <li class='links_list'><a href='https://etherscan.io/' target='_blank'>EtherScan.io - Ethereum v1.0 Explorer</a></li>
 	        
-	        <li class='links_list'><a href='https://solscan.io/' target='_blank'>SolScan.io Solana Explorer</a></li>
+	        <li class='links_list'><a href='https://solanabeach.io/' target='_blank'>Solana Beach - Solana Explorer</a></li>
+	        
+	        <li class='links_list'><a href='https://solscan.io/' target='_blank'>SolScan.io - Solana Explorer</a></li>
 	        
 	        
 	        
