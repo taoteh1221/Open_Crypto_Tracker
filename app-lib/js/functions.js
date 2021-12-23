@@ -714,6 +714,10 @@ promptCount = 0;
 
     document.body.appendChild(prompt);
     
+	setTimeout(function(){
+    $(input).filter(':visible').focus();
+	}, 1000);
+    
 };
 
 
