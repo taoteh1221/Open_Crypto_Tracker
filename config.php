@@ -384,6 +384,10 @@ $ct_conf['charts_alerts']['tracked_markets'] = array(
 					'sol-3' => 'ftx_us||btc||both',
 					
 					
+					// MSOL
+					'msol' => 'ftx||usd||chart',
+					
+					
 					// UNI
 					'uni' => 'binance||btc||both',
 					'uni-2' => 'defipulse||eth||none',
@@ -416,6 +420,11 @@ $ct_conf['charts_alerts']['tracked_markets'] = array(
 					'mana-3' => 'kucoin||btc||none',
 					'mana-4' => 'ethfinex||btc||none',
 					'mana-5' => 'binance||eth||none',
+					
+					
+					// ATLAS
+					'atlas' => 'ftx||usd||both',
+					'atlas-2' => 'generic_btc||btc||chart',
 					
 					
 					// ENJ
@@ -1088,6 +1097,18 @@ $ct_conf['power']['news_feed'] = array(
         				array(
             			"title" => "Blog - Solana Labs (High-Speed Smart Contracts Network)",
             			"url" => "https://medium.com/feed/solana-labs"
+        						),
+        
+        
+        				array(
+            			"title" => "Blog - Solice (Virtual World / Metaverse on Solana)",
+            			"url" => "https://medium.com/feed/@solice_io"
+        						),
+        
+        
+        				array(
+            			"title" => "Blog - Star Atlas (NFT-based Space Shooter Metaverse on Solana)",
+            			"url" => "https://medium.com/feed/star-atlas"
         						),
         
         
@@ -2742,6 +2763,38 @@ $ct_conf['assets'] = array(
                     ////////////////////////////////////////////////////////////////////
                     
                     
+                    // MSOL
+                    'MSOL' => array(
+                        
+                        'name' => 'Marinade Solana',
+                        'mcap_slug' => 'marinade-staked-sol',
+                        'pairing' => array(
+
+                                                    
+                                    'eth' => array(
+                                        'gateio' => 'MSOL_ETH',
+                                                    ),
+
+                                                    
+                                    'usd' => array(
+                                    	 'ftx' => 'MSOL/USD',
+                                    	 'generic_usd' => 'msol',
+                                                    ),
+
+                                                    
+                                    'usdt' => array(
+                                        'gateio' => 'MSOL_USDT',
+                                                    ),
+
+                                                    
+                        ) // pairing END
+                                        
+                    ), // Asset END
+                    
+                    
+                    ////////////////////////////////////////////////////////////////////
+                    
+                    
                     // UNI
                     'UNI' => array(
                         
@@ -3016,6 +3069,42 @@ $ct_conf['assets'] = array(
                                                     
                         ) // pairing END
                         
+                    ), // Asset END
+                    
+                    
+                    ////////////////////////////////////////////////////////////////////
+                    
+                    
+                    // ATLAS
+                    'ATLAS' => array(
+                        
+                        'name' => 'Star Atlas',
+                        'mcap_slug' => 'star-atlas',
+                        'pairing' => array(
+
+                                                    
+                                    'btc' => array(
+                                        'generic_btc' => 'star-atlas',
+                                                    ),
+
+                                                    
+                                    'usd' => array(
+                                    	 'ftx' => 'ATLAS/USD',
+                                         'okcoin' => 'ATLAS-USD',
+                                    	 'generic_usd' => 'star-atlas',
+                                                    ),
+
+                                                    
+                                    'usdt' => array(
+                                        'gateio' => 'ATLAS_USDT',
+                                        'coinex' => 'ATLASUSDT',
+                                        'hotbit' => 'ATLAS_USDT',
+                                        'bitmart' => 'ATLAS_USDT',
+                                                    ),
+
+                                                    
+                        ) // pairing END
+                                        
                     ), // Asset END
                     
                     
