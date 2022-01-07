@@ -414,8 +414,6 @@
 	        
 	        <li class='links_list'><a href='https://nodewatch.io' target='_blank'>NodeWatch.io</a> <span class='yellow'>(ETH v2 Node Stats)</span></li>
 	        
-	        <li class='links_list'><a href='https://opensea.io/' target='_blank'>OpenSea.io</a> <span class='yellow'>(NFT marketplace)</span></li>
-	        
 	        <li class='links_list'><a href='https://sourceforge.net/projects/dfd-crypto-ticker/' target='_blank'>Raspberry PI Real-Time / Multi-Crypto Slideshow Price Ticker</a> <span class='yellow'>(a side project of mine)</span></li>
 	        
 	        <li class='links_list'><a href='https://www.sec.gov/ICO' target='_blank'>SEC.gov ICO Awareness Site</a></li>

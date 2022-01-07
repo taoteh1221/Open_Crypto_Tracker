@@ -439,6 +439,11 @@ $ct_conf['charts_alerts']['tracked_markets'] = array(
 					'rndr-2' => 'gateio||usdt||none',
 					
 					
+					// SLC
+					'slc' => 'generic_btc||btc||chart',
+					'slc-2' => 'gateio||usdt||both',
+					
+					
 					// LRC
 					'lrc' => 'coinbase||usd||both',
 					'lrc-2' => 'binance||btc||chart',
@@ -467,6 +472,14 @@ $ct_conf['charts_alerts']['tracked_markets'] = array(
 					'in-3' => 'generic_eth||eth||chart',
 					'in-4' => 'generic_eur||eur||none',
 					'in-5' => 'generic_gbp||gbp||none',
+					
+					
+					// GRAPE
+					'grape' => 'generic_usd||usd||both',
+					'grape-2' => 'generic_btc||btc||chart',
+					'grape-3' => 'generic_eth||eth||chart',
+					'grape-4' => 'generic_eur||eur||none',
+					'grape-5' => 'generic_gbp||gbp||none',
 					
 					
 					// HNT
@@ -1011,6 +1024,12 @@ $ct_conf['power']['news_feed'] = array(
         				array(
             			"title" => "Blog - Ethereum Solidity (smart contract programming language)",
             			"url" => "https://solidity.ethereum.org/feed.xml"
+        						),
+        
+        
+        				array(
+            			"title" => "Blog - Grape Protocol (tokenized community access on Solana)",
+            			"url" => "https://medium.com/feed/great-ape"
         						),
         
         
@@ -3193,6 +3212,38 @@ $ct_conf['assets'] = array(
                     ////////////////////////////////////////////////////////////////////
                     
                     
+                    // SLC
+                    'SLC' => array(
+                        
+                        'name' => 'Solice',
+                        'mcap_slug' => 'solice',
+                        'pairing' => array(
+
+                                                    
+                                    'btc' => array(
+                                        'generic_btc' => 'solice',
+                                                    ),
+
+                                                    
+                                    'eth' => array(
+                                        'gateio' => 'SLC_ETH',
+                                                    ),
+
+                                                    
+                                    'usdt' => array(
+                                        'huobi' => 'slcusdt',
+                                        'gateio' => 'SLC_USDT',
+                                                    ),
+
+                                                    
+                        ) // pairing END
+                        
+                    ), // Asset END
+                    
+                    
+                    ////////////////////////////////////////////////////////////////////
+                    
+                    
                     // LRC
                     'LRC' => array(
                         
@@ -3442,6 +3493,47 @@ $ct_conf['assets'] = array(
                                                     
                                     'usd' => array(
                                           'generic_usd' => 'invictus',
+                                                    ),
+
+                                                    
+                        ) // pairing END
+                        
+                    ), // Asset END
+                    
+                    
+                    ////////////////////////////////////////////////////////////////////
+                    
+                    
+                    // GRAPE
+                    'GRAPE' => array(
+                        
+                        'name' => 'Grape Protocol',
+                        'mcap_slug' => 'grape-protocol',
+                        'pairing' => array(
+
+                                                    
+                                    'btc' => array(
+                                          'generic_btc' => 'grape-2',
+                                                    ),
+
+                        
+                                    'eth' => array(
+                                          'generic_eth' => 'grape-2',
+                                                    ),
+
+                                                    
+                                    'eur' => array(
+                                          'generic_eur' => 'grape-2',
+                                                    ),
+
+                                                    
+                                    'gbp' => array(
+                                          'generic_gbp' => 'grape-2',
+                                                    ),
+
+                                                    
+                                    'usd' => array(
+                                          'generic_usd' => 'grape-2',
                                                     ),
 
                                                     

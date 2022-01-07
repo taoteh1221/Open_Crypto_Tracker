@@ -10,7 +10,7 @@
 
 
 // Application version
-$app_version = '5.08.0';  // 2021/December/30TH
+$app_version = '5.09.0';  // 2022/JANUARY/7TH
 
 // Application edition
 $app_edition = 'server';  // 'server' OR 'desktop' edition (LOWERCASE)
@@ -270,7 +270,7 @@ exit;
 // CSRF attack protection for downloads EXCEPT backup downloads (which require the nonce 
 // in the filename [which we do already], since backup links are created during cron runtimes)
 if ( $runtime_mode == 'download' && !isset($_GET['backup']) && $_GET['token'] != $ct_gen->nonce_digest('download') ) {
-$ct_gen->log('security_error', 'Missing security token (-possible- CSRF attack from ' . $_SERVER['REMOTE_ADDR'] . ') for request: ' . $_SERVER['REQUEST_URI']);
+$ct_gen->log('security_error', 'Invalid security token used by ' . $_SERVER['REMOTE_ADDR'] . ', for request: ' . $_SERVER['REQUEST_URI']);
 $ct_cache->error_log();
 exit;
 }
