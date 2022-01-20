@@ -7,15 +7,6 @@
 
 
 <?php
-
-
-	foreach ( $log_array['cache_error'] as $error ) {
-	$bundle_error_logs .= $error;
-	}
-
-	foreach ( $log_array['notify_error'] as $error ) {
-	$bundle_error_logs .= $error;
-	}
 	
 	$bundle_error_logs .= $log_array['system_error'];
 	
@@ -30,18 +21,18 @@
 	$bundle_error_logs .= $log_array['market_error'];
 	
 	$bundle_error_logs .= $log_array['other_error'];
+
+
+	foreach ( $log_array['cache_error'] as $error ) {
+	$bundle_error_logs .= $error;
+	}
+
+	foreach ( $log_array['notify_error'] as $error ) {
+	$bundle_error_logs .= $error;
+	}
 	
 	
 	if ( $ct_conf['dev']['debug'] != 'off' ) {
-	
-	
-		foreach ( $log_array['cache_debug'] as $error ) {
-		$bundle_error_logs .= $error;
-		}
-	
-		foreach ( $log_array['notify_debug'] as $error ) {
-		$bundle_error_logs .= $error;
-		}
 	
 	$bundle_error_logs .= $log_array['system_debug'];
 	
@@ -56,6 +47,15 @@
 	$bundle_error_logs .= $log_array['market_debug'];
 	
 	$bundle_error_logs .= $log_array['other_debug'];
+	
+	
+		foreach ( $log_array['cache_debug'] as $error ) {
+		$bundle_error_logs .= $error;
+		}
+	
+		foreach ( $log_array['notify_debug'] as $error ) {
+		$bundle_error_logs .= $error;
+		}
 		
 	
 	}

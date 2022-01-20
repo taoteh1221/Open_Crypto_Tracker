@@ -1968,6 +1968,7 @@ var $ct_array1 = array();
             // !!!!!DON'T ADD TOO MANY CHECKS HERE, OR RUNTIME WILL SLOW SIGNIFICANTLY!!!!!
             if ( 
             // Errors / unavailable / null / throttled / maintenance
+            // Generic
             preg_match("/cf-error/i", $data) // Cloudflare (DDOS protection service)
             || preg_match("/cf-browser/i", $data) // Cloudflare (DDOS protection service)
             || preg_match("/scheduled maintenance/i", $data) // Bittrex.com / generic
@@ -1989,14 +1990,17 @@ var $ct_array1 = array();
             || preg_match("/\"success\":false/i", $data) // BTCturk.com / Bittrex.com / generic
             || preg_match("/\"error\":\"timeout/i", $data) // Defipulse.com / generic
             || preg_match("/\"reason\":\"Maintenance\"/i", $data) // Gemini.com / generic
-            // APIs famous for returning no data frequently
+            // API-specific
+            || $endpoint_tld_or_ip == 'coingecko.com' && preg_match("/error code: /i", $data)
             || $endpoint_tld_or_ip == 'localbitcoins.com' && !preg_match("/volume_btc/i", $data)
             || $endpoint_tld_or_ip == 'coinmarketcap.com' && !preg_match("/last_updated/i", $data) 
             ) {
-            
+              
               
             $data = trim( file_get_contents($base_dir . '/cache/secured/external_data/'.$hash_check.'.dat') );
              
+                
+                // Flag if cache fallback succeeded
                 if ( $data != '' && $data != 'none' ) {
                 $fallback_cache_data = true;
                 }
@@ -2018,6 +2022,12 @@ var $ct_array1 = array();
             							
             			'requested_from: server (' . $ct_conf['power']['remote_api_timeout'] . ' second timeout); live_request_time: ' . $api_total_time . ' seconds; mode: ' . $mode . '; received: ' . $data_bytes_ux . '; proxy: ' .( $current_proxy ? $current_proxy : 'none' ) . '; btc_prim_currency_pairing: ' . $ct_conf['gen']['btc_prim_currency_pairing'] . '; btc_prim_exchange: ' . $ct_conf['gen']['btc_prim_exchange'] . '; sel_btc_prim_currency_val: ' . $ct_var->num_to_str($sel_opt['sel_btc_prim_currency_val']) . '; hash_check: ' . $ct_var->obfusc_str($hash_check, 4) . ';'
             			);
+            
+                
+                // Delete any 'possible error' cached error file, since we just confirmed it is indeed an error
+                if ( $error_response_log ) {
+                unlink($base_dir . $error_response_log);
+                }
              
            
             }
@@ -2142,7 +2152,8 @@ var $ct_array1 = array();
     $data_bytes_ux = $ct_gen->conv_bytes($data_bytes, 2);
     
      
-      if ( $data == 'none' || !isset($fallback_cache_data) ) {
+      // Skip FILE CACHE error logging if we already set cache data as 'none', for logging UX
+      if ( $data == '' ) {
       
         if ( !$log_array['error_duplicates'][$hash_check] ) {
         $log_array['error_duplicates'][$hash_check] = 1; 
@@ -2164,7 +2175,9 @@ var $ct_array1 = array();
       			);
        
       }
-      elseif ( $ct_conf['dev']['debug'] == 'all' || $ct_conf['dev']['debug'] == 'all_telemetry' || $ct_conf['dev']['debug'] == 'ext_data_cache_telemetry' ) {
+      
+      
+      if ( $ct_conf['dev']['debug'] == 'all' || $ct_conf['dev']['debug'] == 'all_telemetry' || $ct_conf['dev']['debug'] == 'ext_data_cache_telemetry' ) {
       
         if ( !$log_array['debug_duplicates'][$hash_check] ) {
         $log_array['debug_duplicates'][$hash_check] = 1; 
