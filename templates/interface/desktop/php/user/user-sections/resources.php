@@ -440,10 +440,6 @@
 	        
 	        <li class='links_list'><a href='https://www.youtube.com/channel/UCevXpeL8cNyAnww-NqJ4m2w' target='_blank'>Anthony Pompliano</a></li>
 	        
-	        <li class='links_list'><a href='https://www.youtube.com/channel/UCfYw6dhiwGBJQY_-Jcs8ozw' target='_blank'>Binance</a></li>
-	        
-	        <li class='links_list'><a href='https://www.youtube.com/channel/UCBAQgjMqCuXQXfmLhtZuIuA' target='_blank'>Bitcoin and Friends</a></li>
-	        
 	        <li class='links_list'><a href='https://www.youtube.com/user/BaltimoreHourly/featured' target='_blank'>BitcoinMeister</a></li>
 	        
 	        <li class='links_list'><a href='https://www.youtube.com/user/BitsBeTrippin' target='_blank'>Bits Be Trippin</a> (POW mining channel)</li>
@@ -462,23 +458,15 @@
 	        
 	        <li class='links_list'><a href='https://www.youtube.com/channel/UCCatR7nWbYrkVXdxXb4cGXw/featured' target='_blank'>DataDash</a></li>
 	        
-	        <li class='links_list'><a href='https://www.youtube.com/c/CryptoFinally/featured' target='_blank'>Crypto Finally</a></li>
-	        
 	        <li class='links_list'><a href='https://www.youtube.com/channel/UCu7Sre5A1NMV8J3s2FhluCw' target='_blank'>Crypto Love</a></li>
 	        
 	        <li class='links_list'><a href='https://www.youtube.com/user/PrisonOrFreedom/featured' target='_blank'>Cryptocurrency Market</a></li>
 	        
 	        <li class='links_list'><a href='https://www.youtube.com/channel/UCavTvSwEoRABvnPtLg0e6LQ/featured' target='_blank'>Crypto Tips</a></li>
 	        
-	        <li class='links_list'><a href='https://www.youtube.com/channel/UCla2jS8BrfLJj7kbKyy5_ew/featured' target='_blank'>CryptoWendyO</a></li>
-	        
-	        <li class='links_list'><a href='https://www.youtube.com/channel/UCiUnrCUGCJTCC7KjuW493Ww' target='_blank'>Crypto Zombie</a></li>
-	        
 	        <li class='links_list'><a href='https://www.youtube.com/user/epicenterbtc/featured' target='_blank'>Epicenter</a></li>
 	        
 	        <li class='links_list'><a href='https://www.youtube.com/channel/UCNOfzGXD_C9YMYmnefmPH0g/featured' target='_blank'>Ethereum Foundation</a></li>
-	        
-	        <li class='links_list'><a href='https://www.youtube.com/user/LiljeqvistIvan/featured' target='_blank'>Ivan on Tech</a></li>
 	        
 	        <li class='links_list'><a href='https://www.youtube.com/channel/UC87A7vsRlyZ68gtu-z1Q3ow/featured' target='_blank'>Kripto Emre (turkish)</a></li>
 	        
@@ -489,8 +477,6 @@
 	        <li class='links_list'><a href='https://www.youtube.com/channel/UCt_oM56Ui0BCCgi0Yc-Wh3Q/featured' target='_blank'>Proof of Talent</a></li>
 	        
 	        <li class='links_list'><a href='https://www.youtube.com/channel/UCWiiMnsnw5Isc2PP1to9nNw/featured' target='_blank'>Unchained Podcast</a></li>
-	        
-	        <li class='links_list'><a href='https://www.youtube.com/channel/UCT44w6854K62cSiwA1aiXfw' target='_blank'>VoskCoin</a> (POW mining channel)</li>
 	        
 	        <li class='links_list'><a href='https://www.youtube.com/user/WorldCryptoNetwork/featured' target='_blank'>World Crypto Network</a></li>
 	        

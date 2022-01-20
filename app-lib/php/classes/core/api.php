@@ -100,7 +100,9 @@ var $ct_array1 = array();
       
       // Merge any sub arrays into one data set
       foreach ( $sub_arrays as $sub ) {
-      $data = array_merge($data, $sub);
+          if ( is_array($sub) ) {
+          $data = array_merge($data, $sub);
+          }
       }
       
    

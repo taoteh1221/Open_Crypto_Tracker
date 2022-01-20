@@ -108,25 +108,25 @@ $ct_conf['comms']['telegram_bot_token'] = '';  // Your bot's access token
 // PRICE ALERTS SETUP REQUIRES A CRON JOB RUNNING ON YOUR WEB SERVER (see README.txt for cron job setup information) 
 // Price alerts will send to all properly-configured communication channels, and automatically skip any not properly setup
 // Price percent change to send alerts for (WITHOUT percent sign: 15.75 = 15.75%). Sends alerts when percent change reached (up or down)
-$ct_conf['comms']['price_alert_thres'] = 9.25; // CAN BE 0 TO DISABLE PRICE ALERTS
+$ct_conf['comms']['price_alert_thres'] = 9.45; // CAN BE 0 TO DISABLE PRICE ALERTS
 ////
 // Re-allow SAME asset price alert(s) messages after X hours (per alert config, set higher if sent to junk folder / API blocking or throttling)
 // Price alerts AUTOMATICALLY will send to all properly-configured communication channels, and automatically skip any not properly setup
-$ct_conf['comms']['price_alert_freq_max'] = 2; // Can be 0, to have no limits
+$ct_conf['comms']['price_alert_freq_max'] = 1; // Can be 0, to have no limits
 ////
 // Block an asset price alert if price retrieved, BUT failed retrieving pair volume (not even a zero was retrieved, nothing)
-// Good for blocking questionable exchanges bugging you with price alerts, especially when used in combination with the minimum volume filter
+// Good for BLOCKING QUESTIONABLE EXCHANGES from bugging you with price alerts, especially when used in combination with the minimum volume filter
 $ct_conf['comms']['price_alert_block_vol_error'] = 'on'; // 'on' / 'off' 
 ////
 // Minimum 24 hour volume filter. Only allows sending price alerts if minimum 24 hour volume reached
 // CAN BE 0 TO DISABLE MINIMUM VOLUME FILTERING, NO DECIMALS OR SEPARATORS, NUMBERS ONLY, WITHOUT the [primary currency] prefix symbol: 4500 = $4,500 , 30000 = $30,000 , etc
 // THIS FILTER WILL AUTO-DISABLE IF THERE IS ANY ERROR RETRIEVING DATA ON A CERTAIN MARKET (WHEN NOT EVEN A ZERO IS RECEIVED)
-$ct_conf['comms']['price_alert_min_vol'] = 3500;
+$ct_conf['comms']['price_alert_min_vol'] = 7500;
 
 
 // Every X days email a list of #NEW# RSS feed posts. 
 // 0 to disable. Email to / from !MUST BE SET!
-$ct_conf['comms']['news_feed_email_freq'] = 2; // (default = 2)
+$ct_conf['comms']['news_feed_email_freq'] = 3; // (default = 3)
 ////
 // MAXIMUM #NEW# RSS feed entries to include (per-feed) in news feed email (less then 'news_feed_email_freq' days old)
 $ct_conf['comms']['news_feed_email_entries_show'] = 15; // (default = 15)
@@ -134,7 +134,7 @@ $ct_conf['comms']['news_feed_email_entries_show'] = 15; // (default = 15)
 
 // Email logs every X days. 
 // 0 to disable. Email to / from !MUST BE SET!, MAY NOT SEND IN TIMELY FASHION WITHOUT A CRON JOB
-$ct_conf['comms']['logs_email'] = 2; 
+$ct_conf['comms']['logs_email'] = 3; // (default = 3)
 
 
 // Alerts for failed proxy data connections (#ONLY USED# IF proxies are enabled further down in PROXY CONFIGURATION). 
@@ -143,10 +143,11 @@ $ct_conf['comms']['proxy_alert'] = 'email'; // 'off' (disabled) / 'all' / 'email
 ////
 $ct_conf['comms']['proxy_alert_freq_max'] = 1; // Re-allow same proxy alert(s) after X hours (per ip/port pair, can be 0)
 ////
-$ct_conf['comms']['proxy_alert_runtime'] = 'cron'; // Which runtime mode should allow proxy alerts? Options: 'cron', 'ui', 'all' 
+// Which runtime mode should allow proxy alerts? Options: 'cron', 'ui', 'all' 
+$ct_conf['comms']['proxy_alert_runtime'] = 'cron'; // (default = 'cron')
 ////
-// 'include' or 'ignore' proxy alerts, if proxy checkup went OK? (after flagged, started working again when checked)
-$ct_conf['comms']['proxy_alert_checkup_ok'] = 'include'; 
+// Include or ignore proxy alerts if proxy checkup went OK? (after flagged, started working again when checked)
+$ct_conf['comms']['proxy_alert_checkup_ok'] = 'include'; // 'include' / 'ignore' 
 
 
 ////////////////////////////////////////
@@ -422,13 +423,6 @@ $ct_conf['charts_alerts']['tracked_markets'] = array(
 					'slc-2' => 'gateio||usdt||both',
 					
 					
-					// LRC
-					'lrc' => 'coinbase||usd||both',
-					'lrc-2' => 'binance||btc||chart',
-					'lrc-3' => 'binance||eth||none',
-					'lrc-4' => 'defipulse||eth||none',
-					
-					
 					// RAY
 					'ray' => 'ftx||usd||both',
 					'ray-2' => 'generic_btc||btc||chart',
@@ -444,12 +438,11 @@ $ct_conf['charts_alerts']['tracked_markets'] = array(
 					'slrs-2' => 'gateio||eth||chart',
 					
 					
-					// IN
-					'in' => 'generic_usd||usd||both',
-					'in-2' => 'generic_btc||btc||chart',
-					'in-3' => 'generic_eth||eth||chart',
-					'in-4' => 'generic_eur||eur||none',
-					'in-5' => 'generic_gbp||gbp||none',
+					// LRC
+					'lrc' => 'coinbase||usd||both',
+					'lrc-2' => 'binance||btc||chart',
+					'lrc-3' => 'binance||eth||none',
+					'lrc-4' => 'defipulse||eth||none',
 					
 					
 					// GRAPE
@@ -470,16 +463,25 @@ $ct_conf['charts_alerts']['tracked_markets'] = array(
 					'hive' => 'bittrex||btc||both',
 					
 					
-					// MYST
-					'myst' => 'hitbtc||btc||chart',
-					'myst-2' => 'hitbtc||eth||none',
-					'myst-3' => 'bittrex_global||btc||both',
-					'myst-4' => 'defipulse||eth||none',
+					// IN
+					'in' => 'generic_usd||usd||both',
+					'in-2' => 'generic_btc||btc||chart',
+					'in-3' => 'generic_eth||eth||chart',
+					'in-4' => 'generic_eur||eur||none',
+					'in-5' => 'generic_gbp||gbp||none',
 					
 					
 					// SAMO
 					'samo' => 'okex||usdt||both',
 					'samo-2' => 'gateio||eth||chart',
+					'samo-3' => 'generic_btc||btc||chart',
+					
+					
+					// MYST
+					'myst' => 'hitbtc||btc||chart',
+					'myst-2' => 'hitbtc||eth||none',
+					'myst-3' => 'bittrex_global||btc||both',
+					'myst-4' => 'defipulse||eth||none',
 					
 					
 					// SG
@@ -515,7 +517,7 @@ $ct_conf['power']['activate_plugins'] = array(
 									//'plugin-folder-name' => 'on', // (disabled example...your LOWERCASE plugin folder name in the folder: /plugins/)
 									'recurring-reminder' => 'off',  // Recurring Reminder plugin (alert yourself every X days to do something)
 									'price-target-alert' => 'off',  // Price target alert plugin (alert yourself when an asset's price target is reached)
-									'address-balance-tracker' => 'off',  // Get alerts for BTC / ETH address balance changes (when new coins are sent / recieved)
+									'address-balance-tracker' => 'off',  // Get alerts for BTC / ETH / SOL / HNT address balance changes (when new coins are sent / recieved)
 									);
 
 
@@ -578,12 +580,12 @@ $ct_conf['power']['charts_backup_freq'] = 1;
 
 // Default settings for Asset Performance chart height / menu size (in the 'View More Stats' modal window, linked at bottom of Portfolio page)
 // CHART HEIGHT MIN/MAX = 400/900 (increments of 100), MENU SIZE MIN/MAX (increments of 1) = 7/16
-$ct_conf['power']['asset_performance_chart_defaults'] = '700||11'; // 'chart_height||menu_size' (default = '700||11')
+$ct_conf['power']['asset_performance_chart_defaults'] = '700||10'; // 'chart_height||menu_size' (default = '700||10')
 
 
 // Default settings for Marketcap Comparison chart height / menu size (in the 'View More Stats' modal window, linked at bottom of Portfolio page)
 // CHART HEIGHT MIN/MAX = 400/900 (increments of 100), MENU SIZE MIN/MAX (increments of 1) = 7/16
-$ct_conf['power']['asset_mcap_chart_defaults'] = '700||11'; // 'chart_height||menu_size' (default = '700||11')
+$ct_conf['power']['asset_mcap_chart_defaults'] = '700||10'; // 'chart_height||menu_size' (default = '700||10')
 
 
 // Highest numeric value sensor data to include, in the FIRST system information chart (out of two)
@@ -670,6 +672,7 @@ $ct_conf['power']['crypto_pairing'] = array(
 						'mkr' => '𐌼 ',
 						'lrc' => '➰ ',
 						'in' => '🦉 ',
+						'samo' => '🐶 ',
 						//....
 							);
 
@@ -898,38 +901,8 @@ $ct_conf['power']['news_feed'] = array(
 
         
         				array(
-            			"title" => "Blog - Binance Academy",
-            			"url" => "https://api.binance.vision/api/feed"
-        						),
-        
-        
-        				array(
             			"title" => "Blog - BitcoinCore.org",
             			"url" => "https://bitcoincore.org/en/rss.xml"
-        						),
-        
-        
-        				array(
-            			"title" => "Blog - BitcoinCore.org Meetings",
-            			"url" => "https://bitcoincore.org/en/meetingrss.xml"
-        						),
-        
-        
-        				array(
-            			"title" => "Blog - BitcoinCore.org Releases",
-            			"url" => "https://bitcoincore.org/en/releasesrss.xml"
-        						),
-        
-        
-        				array(
-            			"title" => "Blog - BitcoinCore.org Security",
-            			"url" => "https://bitcoincore.org/en/announcements.xml"
-        						),
-        
-        
-        				array(
-            			"title" => "Blog - Bitfinex",
-            			"url" => "https://blog.bitfinex.com/feed/"
         						),
         
         
@@ -960,12 +933,6 @@ $ct_conf['power']['news_feed'] = array(
         				array(
             			"title" => "Blog - CoinGecko",
             			"url" => "https://blog.coingecko.com/feed/"
-        						),
-        
-        
-        				array(
-            			"title" => "Blog - CoinMarketCap",
-            			"url" => "https://blog.coinmarketcap.com/feed/"
         						),
         
         
@@ -1039,12 +1006,6 @@ $ct_conf['power']['news_feed'] = array(
             			"title" => "Blog - OkCoin",
             			"url" => "https://blog.okcoin.com/feed/"
         						),
-    
-    
-        				array(
-            			"title" => "Blog - Open Node (Professional Bitcoin Ecommerce Merchant Services)",
-            			"url" => "https://www.opennode.com/blog/feed/"
-        						),
         
         
         				array(
@@ -1102,18 +1063,6 @@ $ct_conf['power']['news_feed'] = array(
         
         
         				array(
-            			"title" => "News - Altcoin Buzz",
-            			"url" => "https://www.altcoinbuzz.io/feed/"
-        						),
-        
-        
-        				array(
-            			"title" => "News - AMB Crypto",
-            			"url" => "https://investing-api-eng.ambcrypto.com/feed/merge_category"
-        						),
-        
-        
-        				array(
             			"title" => "News - Bitcoin Magazine",
             			"url" => "https://bitcoinmagazine.com/feed"
         						),
@@ -1132,32 +1081,8 @@ $ct_conf['power']['news_feed'] = array(
         
         
         				array(
-            			"title" => "News - BTC Manager",
-            			"url" => "https://btcmanager.com/rssfeed/"
-        						),
-        
-        
-        				array(
             			"title" => "News - CoinTelegraph",
             			"url" => "https://cointelegraph.com/feed"
-        						),
-        
-        
-        				array(
-            			"title" => "News - Crypto Potato",
-            			"url" => "https://cryptopotato.com/feed"
-        						),
-        
-        
-        				array(
-            			"title" => "News - Crypto Mining Blog",
-            			"url" => "https://cryptomining-blog.com/feed/"
-        						),
-        
-        
-        				array(
-            			"title" => "News - Ethereum World News",
-            			"url" => "https://en.ethereumworldnews.com/feed"
         						),
     
     
@@ -1240,20 +1165,8 @@ $ct_conf['power']['news_feed'] = array(
         
         
         				array(
-            			"title" => "Podcast - Blockchain Insider",
-            			"url" => "https://feeds.fireside.fm/bifeed/rss"
-        						),
-        
-        
-        				array(
             			"title" => "Podcast - Citadel Dispatch",
             			"url" => "https://anchor.fm/s/45563e80/podcast/rss"
-        						),
-        
-        
-        				array(
-            			"title" => "Podcast - Citizen Bitcoin",
-            			"url" => "https://feeds.simplecast.com/620_gQYv"
         						),
     
     
@@ -1272,12 +1185,6 @@ $ct_conf['power']['news_feed'] = array(
         				array(
             			"title" => "Podcast - POV Crypto",
             			"url" => "http://povcryptopod.libsyn.com/rss"
-        						),
-        
-        
-        				array(
-            			"title" => "Podcast - Proof of Talent",
-            			"url" => "https://feedcdn21.podbean.com/cryptobob/feed.xml"
         						),
     					
     					
@@ -1414,12 +1321,6 @@ $ct_conf['power']['news_feed'] = array(
     
     
         				array(
-            			"title" => "Youtube - Crypto Finally",
-            			"url" => "https://www.youtube.com/feeds/videos.xml?channel_id=UCzPaGwO9MY5_xUNuwHEzR4Q"
-        						),
-    
-    
-        				array(
             			"title" => "Youtube - Crypt0's News",
             			"url" => "https://www.youtube.com/feeds/videos.xml?channel_id=UCdUSSt-IEUg2eq46rD7lu_g"
         						),
@@ -1450,12 +1351,6 @@ $ct_conf['power']['news_feed'] = array(
     
     
         				array(
-            			"title" => "Youtube - Ivan on Tech",
-            			"url" => "https://www.youtube.com/feeds/videos.xml?channel_id=UCrYmtJBtLdtm2ov84ulV-yg"
-        						),
-    
-    
-        				array(
             			"title" => "Youtube - Kripto Emre (turkish)",
             			"url" => "https://www.youtube.com/feeds/videos.xml?channel_id=UC87A7vsRlyZ68gtu-z1Q3ow"
         						),
@@ -1476,12 +1371,6 @@ $ct_conf['power']['news_feed'] = array(
         				array(
             			"title" => "Youtube - Solana Labs",
             			"url" => "https://www.youtube.com/feeds/videos.xml?channel_id=UC9AdQPUe4BdVJ8M9X7wxHUA"
-        						),
-    
-    
-        				array(
-            			"title" => "Youtube - VoskCoin",
-            			"url" => "https://www.youtube.com/feeds/videos.xml?channel_id=UCT44w6854K62cSiwA1aiXfw"
         						),
         
         
@@ -3222,65 +3111,6 @@ $ct_conf['assets'] = array(
                     ////////////////////////////////////////////////////////////////////
                     
                     
-                    // LRC
-                    'LRC' => array(
-                        
-                        'name' => 'Loopring',
-                        'mcap_slug' => 'loopring',
-                        'pairing' => array(
-
-                        
-                                    'btc' => array(
-                                        'binance' => 'LRCBTC',
-                                    	'coinbase' => 'LRC-BTC',
-                                        'bittrex' => 'LRC-BTC',
-                                        'okex' => 'LRC-BTC',
-                                        'huobi' => 'lrcbtc',
-                                        'upbit' => 'BTC-LRC',
-                                        'loopring_amm' => 'AMM-LRC-WBTC',
-                                        'hitbtc' => 'LRCBTC',
-                                        'gateio' => 'LRC_BTC',
-                                        'coinex' => 'LRCBTC',
-                                                    ),
-
-                                                    
-                                    'eth' => array(
-                                        'binance' => 'LRCETH',
-                                        'huobi' => 'lrceth',
-                                        'loopring' => 'LRC-ETH',
-                                        'hitbtc' => 'LRCETH',
-                                        'gateio' => 'LRC_ETH',
-                                    	'defipulse' => 'LRC/WETH||0x8878df9e1a7c87dcbf6d3999d997f262c05d8c70',
-                                                    ),
-
-                                                    
-                                    'usd' => array(
-                                    	 'coinbase' => 'LRC-USD',
-                                         'bittrex' => 'LRC-USD',
-                                    	 'bitfinex' => 'tLRCUSD',
-                                                    ),
-
-                                                    
-                                    'usdt' => array(
-                                        'binance' => 'LRCUSDT',
-                                        'okex' => 'LRC-USDT',
-                                        'huobi' => 'lrcusdt',
-                                        'kucoin' => 'LRC-USDT',
-                                        'loopring' => 'LRC-USDT',
-                                        'gateio' => 'LRC_USDT',
-                                        'coinex' => 'LRCUSDT',
-                                        'wazirx' => 'lrcusdt',
-                                                    ),
-
-                                                    
-                        ) // pairing END
-                                        
-                    ), // Asset END
-                    
-                    
-                    ////////////////////////////////////////////////////////////////////
-                    
-                    
                     // RAY
                     'RAY' => array(
                         
@@ -3441,41 +3271,59 @@ $ct_conf['assets'] = array(
                     ////////////////////////////////////////////////////////////////////
                     
                     
-                    // IN
-                    'IN' => array(
+                    // LRC
+                    'LRC' => array(
                         
-                        'name' => 'Invictus',
-                        'mcap_slug' => 'invictus',
+                        'name' => 'Loopring',
+                        'mcap_slug' => 'loopring',
                         'pairing' => array(
 
-                                                    
-                                    'btc' => array(
-                                          'generic_btc' => 'invictus',
-                                                    ),
-
                         
+                                    'btc' => array(
+                                        'binance' => 'LRCBTC',
+                                    	'coinbase' => 'LRC-BTC',
+                                        'bittrex' => 'LRC-BTC',
+                                        'okex' => 'LRC-BTC',
+                                        'huobi' => 'lrcbtc',
+                                        'upbit' => 'BTC-LRC',
+                                        'loopring_amm' => 'AMM-LRC-WBTC',
+                                        'hitbtc' => 'LRCBTC',
+                                        'gateio' => 'LRC_BTC',
+                                        'coinex' => 'LRCBTC',
+                                                    ),
+
+                                                    
                                     'eth' => array(
-                                          'generic_eth' => 'invictus',
-                                                    ),
-
-                                                    
-                                    'eur' => array(
-                                          'generic_eur' => 'invictus',
-                                                    ),
-
-                                                    
-                                    'gbp' => array(
-                                          'generic_gbp' => 'invictus',
+                                        'binance' => 'LRCETH',
+                                        'huobi' => 'lrceth',
+                                        'loopring' => 'LRC-ETH',
+                                        'hitbtc' => 'LRCETH',
+                                        'gateio' => 'LRC_ETH',
+                                    	'defipulse' => 'LRC/WETH||0x8878df9e1a7c87dcbf6d3999d997f262c05d8c70',
                                                     ),
 
                                                     
                                     'usd' => array(
-                                          'generic_usd' => 'invictus',
+                                    	 'coinbase' => 'LRC-USD',
+                                         'bittrex' => 'LRC-USD',
+                                    	 'bitfinex' => 'tLRCUSD',
+                                                    ),
+
+                                                    
+                                    'usdt' => array(
+                                        'binance' => 'LRCUSDT',
+                                        'okex' => 'LRC-USDT',
+                                        'huobi' => 'lrcusdt',
+                                        'kucoin' => 'LRC-USDT',
+                                        'loopring' => 'LRC-USDT',
+                                        'gateio' => 'LRC_USDT',
+                                        'coinex' => 'LRCUSDT',
+                                        'wazirx' => 'lrcusdt',
                                                     ),
 
                                                     
                         ) // pairing END
-                        
+                                        
                     ), // Asset END
                     
                     
@@ -3603,6 +3451,79 @@ $ct_conf['assets'] = array(
                     ////////////////////////////////////////////////////////////////////
                     
                     
+                    // IN
+                    'IN' => array(
+                        
+                        'name' => 'Invictus',
+                        'mcap_slug' => 'invictus',
+                        'pairing' => array(
+
+                                                    
+                                    'btc' => array(
+                                          'generic_btc' => 'invictus',
+                                                    ),
+
+                        
+                                    'eth' => array(
+                                          'generic_eth' => 'invictus',
+                                                    ),
+
+                                                    
+                                    'eur' => array(
+                                          'generic_eur' => 'invictus',
+                                                    ),
+
+                                                    
+                                    'gbp' => array(
+                                          'generic_gbp' => 'invictus',
+                                                    ),
+
+                                                    
+                                    'usd' => array(
+                                          'generic_usd' => 'invictus',
+                                                    ),
+
+                                                    
+                        ) // pairing END
+                        
+                    ), // Asset END
+                    
+                    
+                    ////////////////////////////////////////////////////////////////////
+                    
+                    
+                    // SAMO
+                    'SAMO' => array(
+                        
+                        'name' => 'Samoyedcoin',
+                        'mcap_slug' => 'samoyedcoin',
+                        'pairing' => array(
+
+                        
+                                    'btc' => array(
+                                        'generic_btc' => 'samoyedcoin',
+                                                    ),
+
+                        
+                                    'eth' => array(
+                                        'gateio' => 'SAMO_ETH',
+                                                    ),
+
+                                                    
+                                    'usdt' => array(
+                                        'okex' => 'SAMO-USDT',
+                                        'gateio' => 'SAMO_USDT',
+                                                    ),
+
+                                                    
+                        ) // pairing END
+                        
+                    ), // Asset END
+                    
+                    
+                    ////////////////////////////////////////////////////////////////////
+                    
+                    
                     // MYST
                     'MYST' => array(
                         
@@ -3625,33 +3546,6 @@ $ct_conf['assets'] = array(
                                                     
                                     'usdt' => array(
                                         	'bittrex_global' => 'MYST-USDT',
-                                                    ),
-
-                                                    
-                        ) // pairing END
-                        
-                    ), // Asset END
-                    
-                    
-                    ////////////////////////////////////////////////////////////////////
-                    
-                    
-                    // SAMO
-                    'SAMO' => array(
-                        
-                        'name' => 'Samoyedcoin',
-                        'mcap_slug' => 'samoyedcoin',
-                        'pairing' => array(
-
-                        
-                                    'eth' => array(
-                                        'gateio' => 'SAMO_ETH',
-                                                    ),
-
-                                                    
-                                    'usdt' => array(
-                                        'okex' => 'SAMO-USDT',
-                                        'gateio' => 'SAMO_USDT',
                                                     ),
 
                                                     
@@ -3697,6 +3591,7 @@ $ct_conf['assets'] = array(
 ///////////////////////////////////////////////////////////////////////////////////////////////
 /////////////////// PORTFOLIO ASSETS CONFIGURATION -END- //////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////
+
 
 
 

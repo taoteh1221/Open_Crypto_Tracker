@@ -140,11 +140,15 @@ if ( !$_POST['submit_login'] || is_array($login_result['error']) && sizeof($logi
   	 
   	 <p><img id='captcha_image' src='templates/interface/media/images/captcha.php' alt='' title='CAPTCHA image text contrast / maximum angle can be adjusted in Admin Config, within the "Power User" section.
 
-Custom TTF fonts can be automatically added by placing them in the /templates/interface/fonts/ folder.' class='image_border' />
+Custom TTF fonts can be automatically added by placing them in the /templates/interface/fonts/ folder.
+
+Google Fonts is supported (fonts.google.com).' class='image_border' />
   	 <br />
   	 <a href='javascript: refreshImage("captcha_image", "templates/interface/media/images/captcha.php");' class='bitcoin' style='font-weight: bold;' title='CAPTCHA image text contrast / maximum angle can be adjusted in Admin Config, within the "Power User" section.
 
-Custom TTF fonts can be automatically added by placing them in the /templates/interface/fonts/ folder.'>Get A Different Image</a>
+Custom TTF fonts can be automatically added by placing them in the /templates/interface/fonts/ folder.
+
+Google Fonts is supported (fonts.google.com).'>Get A Different Image</a>
   	 </p>
   	 
   	 </div>

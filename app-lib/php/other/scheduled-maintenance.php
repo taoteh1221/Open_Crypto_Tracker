@@ -95,7 +95,7 @@ $ct_cache->delete_old_files($base_dir . '/cache/secured/backups', $ct_conf['powe
 
 $ct_cache->delete_old_files($base_dir . '/cache/events/throttling', 1, 'dat'); // Delete throttling event tracking cache files older than 1 day
 
-$ct_cache->delete_old_files($base_dir . '/cache/events/lite_chart_rebuilds', 3, 'dat'); // Delete lite chart rebuild event tracking cache files older than 3 days
+$ct_cache->delete_old_files($base_dir . '/cache/events/lite_chart_rebuilds', 4, 'dat'); // Delete lite chart rebuild event tracking cache files older than 4 days
 
 $ct_cache->delete_old_files($base_dir . '/cache/secured/activation', 1, 'dat'); // Delete activation cache files older than 1 day
 
