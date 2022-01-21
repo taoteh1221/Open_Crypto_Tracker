@@ -1575,7 +1575,7 @@ var $ct_array1 = array();
      
       if ( $data == 'none' ) {
     
-      $data_bytes_ux = 'unknown, data flagged as none'; // OVERWRITE 
+      $data_bytes_ux = 'data flagged as none'; // OVERWRITE 
       
       
         if ( !$log_array['error_duplicates'][$hash_check] ) {
@@ -2158,7 +2158,7 @@ var $ct_array1 = array();
     
       // Size of data, for checks in error log UX logic
       if ( $data == 'none' ) {
-      $data_bytes_ux = 'unknown, data flagged as none';
+      $data_bytes_ux = 'data flagged as none';
       }
       else {
       $data_bytes = strlen($data);
@@ -2201,7 +2201,7 @@ var $ct_array1 = array();
         
         
         if ( $data == 'none' ) {
-        $log_append = ' (FLAGGED AS ERROR / NO DATA RECEIVED DURING LIVE REQUEST)';
+        $log_append = ' (FLAGGED AS ERROR / NO DATA FROM LIVE REQUEST)';
         }
         
         
