@@ -1574,6 +1574,8 @@ var $ct_array1 = array();
     
      
       if ( $data == 'none' ) {
+    
+      $data_bytes_ux = 'unknown, data flagged as none'; // OVERWRITE 
       
       
         if ( !$log_array['error_duplicates'][$hash_check] ) {
@@ -1996,7 +1998,9 @@ var $ct_array1 = array();
             || $endpoint_tld_or_ip == 'coinmarketcap.com' && !preg_match("/last_updated/i", $data) 
             ) {
               
-              
+            
+            // Reset $data var with any cached value (null / false result is OK), as we don't want to cache a KNOWN error response
+            // (will be set / reset as 'none' further down in the logic and cached / recached for a TTL cycle, if no cached data exists to fallback on)
             $data = trim( file_get_contents($base_dir . '/cache/secured/external_data/'.$hash_check.'.dat') );
              
                 
@@ -2035,6 +2039,8 @@ var $ct_array1 = array();
        
         }
        
+       
+       
         ////////////////////////////////////////////////////////////////
        
       
@@ -2070,6 +2076,7 @@ var $ct_array1 = array();
       // DON'T USE isset(), use != '' to store as 'none' reliably (so we don't keep hitting a server that may be throttling us, UNTIL cache TTL runs out)
       $api_runtime_cache[$hash_check] = ( $data != '' ? $data : 'none' ); 
       
+        // Fallback just needs 'modified time' updated with touch()
         if ( isset($fallback_cache_data) ) {
         $store_file_contents = touch($base_dir . '/cache/secured/external_data/'.$hash_check.'.dat');
         }
@@ -2096,6 +2103,7 @@ var $ct_array1 = array();
         			);
         
         }
+      
       
       }
       // NEVER cache proxy checking data, OR TTL == 0
@@ -2147,12 +2155,19 @@ var $ct_array1 = array();
        
       }
     
-    // Size of data, for checks in error log UX logic
-    $data_bytes = strlen($data);
-    $data_bytes_ux = $ct_gen->conv_bytes($data_bytes, 2);
     
+      // Size of data, for checks in error log UX logic
+      if ( $data == 'none' ) {
+      $data_bytes_ux = 'unknown, data flagged as none';
+      }
+      else {
+      $data_bytes = strlen($data);
+      $data_bytes_ux = $ct_gen->conv_bytes($data_bytes, 2);
+      }
+
      
-      // Skip FILE CACHE error logging if we already set cache data as 'none', for logging UX
+      // Only do FILE CACHE error logging if we HAVE NOT YET set this file cache data as 'none', 
+      // for logging UX (avoid exessive log entries EVERY RUNTIME that is using cached data)
       if ( $data == '' ) {
       
         if ( !$log_array['error_duplicates'][$hash_check] ) {
@@ -2167,7 +2182,7 @@ var $ct_array1 = array();
       $ct_gen->log(
       			'cache_error',
       							
-      			'no FILE CACHE data from failure with ' . ( $mode == 'params' ? 'server at ' : 'endpoint at ' ) . $ct_gen->obfusc_url_data($api_endpoint),
+      			'no FILE CACHE data from recent failure with ' . ( $mode == 'params' ? 'server at ' : 'endpoint at ' ) . $ct_gen->obfusc_url_data($api_endpoint),
       							
       			'requested_from: cache ('.$log_array['error_duplicates'][$hash_check].' runtime instances); mode: ' . $mode . '; received: ' . $data_bytes_ux . '; proxy: ' .( $current_proxy ? $current_proxy : 'none' ) . '; hash_check: ' . $ct_var->obfusc_str($hash_check, 4) . ';',
       							
@@ -2175,9 +2190,7 @@ var $ct_array1 = array();
       			);
        
       }
-      
-      
-      if ( $ct_conf['dev']['debug'] == 'all' || $ct_conf['dev']['debug'] == 'all_telemetry' || $ct_conf['dev']['debug'] == 'ext_data_cache_telemetry' ) {
+      elseif ( $ct_conf['dev']['debug'] == 'all' || $ct_conf['dev']['debug'] == 'all_telemetry' || $ct_conf['dev']['debug'] == 'ext_data_cache_telemetry' ) {
       
         if ( !$log_array['debug_duplicates'][$hash_check] ) {
         $log_array['debug_duplicates'][$hash_check] = 1; 
@@ -2185,13 +2198,19 @@ var $ct_array1 = array();
         else {
         $log_array['debug_duplicates'][$hash_check] = $log_array['debug_duplicates'][$hash_check] + 1;
         }
-       
+        
+        
+        if ( $data == 'none' ) {
+        $log_append = ' (FLAGGED AS ERROR / NO DATA RECEIVED DURING LIVE REQUEST)';
+        }
+        
+        
       // Don't log this debugging again during THIS runtime, as it would be a duplicate...just overwrite same debugging message, BUT update the debugging count in it
       
       $ct_gen->log(
       			'cache_debug',
       							
-      			'FILE CACHE request for ' . ( $mode == 'params' ? 'server at ' : 'endpoint at ' ) . $ct_gen->obfusc_url_data($api_endpoint),
+      			'FILE CACHE request for ' . ( $mode == 'params' ? 'server at ' : 'endpoint at ' ) . $ct_gen->obfusc_url_data($api_endpoint) . $log_append,
       							
       			'requested_from: cache ('.$log_array['debug_duplicates'][$hash_check].' runtime instances); mode: ' . $mode . '; received: ' . $data_bytes_ux . '; proxy: ' .( $current_proxy ? $current_proxy : 'none' ) . '; hash_check: ' . $ct_var->obfusc_str($hash_check, 4) . ';',
       							
