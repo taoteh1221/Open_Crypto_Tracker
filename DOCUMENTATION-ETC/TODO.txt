@@ -41,6 +41,9 @@ OPTIMIZATIONS / BUGS / TESTS / UX / QA / OTHER SECTION
 ///////////////////////////////////////////////////////
 
 
+Add ability to choose what decimal and thousands seperators to use.
+
+
 Remember when restoring charts from archive, if you delete instead of overwrite, the file permissions may be incorrect when restoring (as its not default permissions same as the app sets).
 
 
