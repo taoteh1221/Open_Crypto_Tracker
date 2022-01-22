@@ -475,9 +475,15 @@ $asset_val_raw = $ct_var->num_to_str($asset_val_raw);
 		   $secondary_trade_val_result = 0;
 		   }
 		
-		$secondary_trade_val_dec = ( $secondary_trade_val_result >= 0.1 ? 5 : 7 );
+		$secondary_trade_val_dec = ( $secondary_trade_val_result >= 0.1 ? 5 : 6 );
 
-		$secondary_trade_val_dec = ( $secondary_trade_val_result >= 1 ? 4 : $secondary_trade_val_dec );
+		$secondary_trade_val_dec = ( $secondary_trade_val_result >= 1 ? 3 : $secondary_trade_val_dec );
+
+		$secondary_trade_val_dec = ( $secondary_trade_val_result >= 10 ? 2 : $secondary_trade_val_dec );
+
+		$secondary_trade_val_dec = ( $secondary_trade_val_result >= 100 ? 1 : $secondary_trade_val_dec );
+
+		$secondary_trade_val_dec = ( $secondary_trade_val_result >= 1000 ? 0 : $secondary_trade_val_dec );
 
 		}
 		
@@ -561,8 +567,11 @@ $asset_val_raw = $ct_var->num_to_str($asset_val_raw);
 	$asset_amount_dec = ( $asset_amount >= 1 ? 5 : $asset_amount_dec );
 	}
 	else {
-	$asset_amount_dec = ( $asset_amount >= 0.1 ? 5 : 7 );
-	$asset_amount_dec = ( $asset_amount >= 1 ? 4 : $asset_amount_dec );
+	$asset_amount_dec = ( $asset_amount >= 0.1 ? 5 : 6 );
+	$asset_amount_dec = ( $asset_amount >= 1 ? 3 : $asset_amount_dec );
+	$asset_amount_dec = ( $asset_amount >= 10 ? 2 : $asset_amount_dec );
+	$asset_amount_dec = ( $asset_amount >= 100 ? 1 : $asset_amount_dec );
+	$asset_amount_dec = ( $asset_amount >= 1000 ? 0 : $asset_amount_dec );
 	}
 	
 $pretty_asset_amount = $ct_var->num_pretty($asset_amount, $asset_amount_dec);
@@ -603,8 +612,11 @@ $asset_val_total_raw = $ct_var->num_to_str($asset_val_total_raw);
 		$asset_val_total_dec = ( $asset_val_total_raw >= 1 ? 5 : $asset_val_total_dec );
 		}
 		else {
-		$asset_val_total_dec = ( $asset_val_total_raw >= 0.1 ? 5 : 7 );
-		$asset_val_total_dec = ( $asset_val_total_raw >= 1 ? 4 : $asset_val_total_dec );
+		$asset_val_total_dec = ( $asset_val_total_raw >= 0.1 ? 5 : 6 );
+		$asset_val_total_dec = ( $asset_val_total_raw >= 1 ? 3 : $asset_val_total_dec );
+		$asset_val_total_dec = ( $asset_val_total_raw >= 10 ? 2 : $asset_val_total_dec );
+		$asset_val_total_dec = ( $asset_val_total_raw >= 100 ? 1 : $asset_val_total_dec );
+		$asset_val_total_dec = ( $asset_val_total_raw >= 1000 ? 0 : $asset_val_total_dec );
 		}
 	
     $pretty_asset_val_total_raw = $ct_var->num_pretty($asset_val_total_raw, $asset_val_total_dec); // NO decimal #MINIMUM#
@@ -631,9 +643,15 @@ echo ' <span class="blue"><span class="data app_sort_filter blue private_data">'
 		    $secondary_holdings_val_result = 0;
             }
 		
-		$secondary_holdings_val_dec = ( $secondary_holdings_val_result >= 0.1 ? 5 : 7 );
+		$secondary_holdings_val_dec = ( $secondary_holdings_val_result >= 0.1 ? 5 : 6 );
 
-		$secondary_holdings_val_dec = ( $secondary_holdings_val_result >= 1 ? 4 : $secondary_holdings_val_dec );
+		$secondary_holdings_val_dec = ( $secondary_holdings_val_result >= 1 ? 3 : $secondary_holdings_val_dec );
+
+		$secondary_holdings_val_dec = ( $secondary_holdings_val_result >= 10 ? 2 : $secondary_holdings_val_dec );
+
+		$secondary_holdings_val_dec = ( $secondary_holdings_val_result >= 100 ? 1 : $secondary_holdings_val_dec );
+
+		$secondary_holdings_val_dec = ( $secondary_holdings_val_result >= 1000 ? 0 : $secondary_holdings_val_dec );
 
 		}
 		
