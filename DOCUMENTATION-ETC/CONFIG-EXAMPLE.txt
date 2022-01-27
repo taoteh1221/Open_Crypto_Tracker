@@ -108,11 +108,11 @@ $ct_conf['comms']['telegram_bot_token'] = '';  // Your bot's access token
 // PRICE ALERTS SETUP REQUIRES A CRON JOB RUNNING ON YOUR WEB SERVER (see README.txt for cron job setup information) 
 // Price alerts will send to all properly-configured communication channels, and automatically skip any not properly setup
 // Price percent change to send alerts for (WITHOUT percent sign: 15.75 = 15.75%). Sends alerts when percent change reached (up or down)
-$ct_conf['comms']['price_alert_thres'] = 9.45; // CAN BE 0 TO DISABLE PRICE ALERTS
+$ct_conf['comms']['price_alert_thres'] = 9.65; // CAN BE 0 TO DISABLE PRICE ALERTS
 ////
 // Re-allow SAME asset price alert(s) messages after X hours (per alert config, set higher if sent to junk folder / API blocking or throttling)
 // Price alerts AUTOMATICALLY will send to all properly-configured communication channels, and automatically skip any not properly setup
-$ct_conf['comms']['price_alert_freq_max'] = 1; // Can be 0, to have no limits
+$ct_conf['comms']['price_alert_freq_max'] = 2; // Can be 0, to have no limits
 ////
 // Block an asset price alert if price retrieved, BUT failed retrieving pair volume (not even a zero was retrieved, nothing)
 // Good for BLOCKING QUESTIONABLE EXCHANGES from bugging you with price alerts, especially when used in combination with the minimum volume filter
@@ -519,10 +519,6 @@ $ct_conf['power']['activate_plugins'] = array(
 									'price-target-alert' => 'off',  // Price target alert plugin (alert yourself when an asset's price target is reached)
 									'address-balance-tracker' => 'off',  // Get alerts for BTC / ETH / SOL / HNT address balance changes (when new coins are sent / recieved)
 									);
-
-
-// Keep logs X days before purging (fully deletes logs every X days). Start low (especially when using proxies)
-$ct_conf['power']['logs_purge'] = 10; // (default = 10)
 							
 							
 // Seconds to wait for response from REMOTE API endpoints (exchange data, etc). 
@@ -535,7 +531,7 @@ $ct_conf['power']['remote_api_timeout'] = 35; // (default = 35)
 // HOURS until admin login cookie expires (requiring you to login again)
 // The lower number the better for higher security, epecially if the app server temporary session data 
 // doesn't auto-clear too often (that also logs you off automatically, REGARDLESS of this setting's attribute)
-$ct_conf['power']['admin_cookie_expire'] = 6; // (default = 6)
+$ct_conf['power']['admin_cookie_expire'] = 8; // (default = 8)
 
 
 // MINUTES to cache real-time exchange price data...can be zero to skip cache, but set to at least 1 minute TO AVOID YOUR IP ADDRESS GETTING BLOCKED
@@ -544,19 +540,23 @@ $ct_conf['power']['last_trade_cache_time'] = 4; // (default = 4)
 
 
 // Minutes to cache blockchain stats (for mining calculators). Set high initially, it can be strict
-$ct_conf['power']['chainstats_cache_time'] = 75;  // (default = 75)
+$ct_conf['power']['chainstats_cache_time'] = 70;  // (default = 70)
 
 
 // Minutes to cache marketcap rankings...start high and test lower, it can be strict
-$ct_conf['power']['mcap_cache_time'] = 55;  // (default = 55)
+$ct_conf['power']['mcap_cache_time'] = 70;  // (default = 70)
 ////
 // Number of marketcap rankings to request from API.
 // 750 rankings is a safe maximum to start with, to avoid getting your API requests throttled / blocked
-$ct_conf['power']['mcap_ranks_max'] = 750; // (default = 750)
+$ct_conf['power']['mcap_ranks_max'] = 700; // (default = 700)
 
 
 // Maximum margin leverage available in the user interface ('Update' page, etc)
 $ct_conf['power']['margin_leverage_max'] = 150; 
+
+
+// Keep logs X days before purging (fully deletes logs every X days). Start low (especially when using proxies)
+$ct_conf['power']['logs_purge'] = 5; // (default = 5)
 
 
 // Lite charts (load just as quickly for any time interval, 7 day / 30 day / 365 day / etc)
@@ -566,8 +566,8 @@ $ct_conf['power']['margin_leverage_max'] = 150;
 $ct_conf['power']['lite_chart_day_intervals'] = array(10, 30, 90, 180, 365, 730, 1460); // (default = 10, 30, 90, 180, 365, 730, 1460)
 ////
 // The maximum number of data points allowed in each lite chart 
-// (saves on disk storage / speeds up chart loading times SIGNIFICANTLY #WITH A NUMBER OF 400 OR LESS#)
-$ct_conf['power']['lite_chart_data_points_max'] = 400; // (default = 400), ADJUST WITH CARE!!!
+// (saves on disk storage / speeds up chart loading times SIGNIFICANTLY #WITH A NUMBER OF 500 OR LESS#)
+$ct_conf['power']['lite_chart_data_points_max'] = 500; // (default = 500), ADJUST WITH CARE!!!
 
 
 // Number of decimals for price chart CRYPTO 24 hour volumes (NOT USED FOR FIAT VOLUMES, 4 decimals example: 24 hr vol = 91.3874 BTC)
@@ -580,7 +580,7 @@ $ct_conf['power']['charts_backup_freq'] = 1;
 
 // Default settings for Asset Performance chart height / menu size (in the 'View More Stats' modal window, linked at bottom of Portfolio page)
 // CHART HEIGHT MIN/MAX = 400/900 (increments of 100), MENU SIZE MIN/MAX (increments of 1) = 7/16
-$ct_conf['power']['asset_performance_chart_defaults'] = '700||10'; // 'chart_height||menu_size' (default = '700||10')
+$ct_conf['power']['asset_perf_chart_defaults'] = '700||10'; // 'chart_height||menu_size' (default = '700||10')
 
 
 // Default settings for Marketcap Comparison chart height / menu size (in the 'View More Stats' modal window, linked at bottom of Portfolio page)
@@ -588,13 +588,13 @@ $ct_conf['power']['asset_performance_chart_defaults'] = '700||10'; // 'chart_hei
 $ct_conf['power']['asset_mcap_chart_defaults'] = '700||10'; // 'chart_height||menu_size' (default = '700||10')
 
 
-// Highest numeric value sensor data to include, in the FIRST system information chart (out of two)
+// Highest allowed sensor value to scale vertical axis for, in the FIRST system information chart  (out of two)
 // (higher sensor data is moved into the second chart, to keep ranges easily readable between both charts...only used IF CRON JOB IS SETUP)
-$ct_conf['power']['system_stats_first_chart_highest_val'] = 1; // (default = 1) 
+$ct_conf['power']['sys_stats_first_chart_max_scale'] = 1; // (default = 1) 
 ////
 // Highest allowed sensor value to scale vertical axis for, in the SECOND system information chart (out of two)
 // (to prevent anomaly results from scaling vertical axis too high to read LESSER-VALUE sensor data...only used IF CRON JOB IS SETUP)
-$ct_conf['power']['system_stats_second_chart_max_scale'] = 150; // (default = 150) 
+$ct_conf['power']['sys_stats_second_chart_max_scale'] = 150; // (default = 150) 
 
 
 // MINUTES to cache real-time DeFi pool info (pool eth address / name / volume / etc)
@@ -616,14 +616,14 @@ $ct_conf['power']['defi_pools_max_trades'] = 60; // (default = 60)
 
 // CONTRAST of CAPTCHA IMAGE text against background (on login pages)
 // 0 for neutral contrast, positive for more contrast, negative for less contrast (MAXIMUM OF +-35)
-$ct_conf['power']['captcha_text_contrast'] = -5; // example: -5 or 5 (default = -5)
+$ct_conf['power']['captcha_text_contrast'] = -7; // example: -5 or 5 (default = -7)
 ////
 // MAX OFF-ANGLE DEGREES (tilted backward / forward) of CAPTCHA IMAGE text characters (MAXIMUM OF 35)
-$ct_conf['power']['captcha_text_angle'] = 30; // (default = 30)
+$ct_conf['power']['captcha_text_angle'] = 33; // (default = 33)
 
 
 // Days until old backup archives should be deleted (chart data archives, etc)
-$ct_conf['power']['backup_arch_del_old'] = 7; 
+$ct_conf['power']['backup_arch_del_old'] = 10; 
 
 																					
 // ASSET MARKETS chart colors (https://www.w3schools.com/colors/colors_picker.asp)
@@ -667,7 +667,7 @@ $ct_conf['power']['crypto_pairing'] = array(
 						'eth' => 'Ξ ',
 						'sol' => '◎ ',
 						'hnt' => 'Ȟ ',
-						// Liquidity pools / ERC-20 tokens on Ethereum / SPL tokens on Solana, etc etc...
+						// ERC-20 tokens on Ethereum / SPL tokens on Solana, etc etc...
 						'uni' => '🦄 ',
 						'mkr' => '𐌼 ',
 						'lrc' => '➰ ',
@@ -820,9 +820,9 @@ $ct_conf['power']['eth_erc20_icos'] = array(
 // Weeks to power down all HIVE Power holdings
 $ct_conf['power']['hive_powerdown_time'] = 13; 
 ////
-// HIVE Power yearly interest rate START 11/29/2019 (1.2%, decreasing every year by roughly 0.075% until it hits a minimum of 0.075% and stays there)
-// 1.2 (DO NOT INCLUDE PERCENT SIGN) the first year at 11/29/2019 refactored rates, see above for manual yearly adjustment
-$ct_conf['power']['hivepower_yearly_interest'] = 1.2;
+// HIVE Power yearly interest rate START 11/29/2021 (1.05%, decreasing every year by roughly 0.075% until it hits a minimum of 0.075% and stays there)
+// (DO NOT INCLUDE PERCENT SIGN) the first year at 11/29/2021 refactored rates, see above for manual yearly adjustment
+$ct_conf['power']['hivepower_yearly_interest'] = 1.05; // (Default = 1.05 as of 11/29/21)
 
 
 
@@ -830,6 +830,7 @@ $ct_conf['power']['hivepower_yearly_interest'] = 1.2;
 // FOR #DYNAMIC# CHAIN STATS (height / difficuly / rewards / etc), API CALL FUNCTIONS NEED TO BE CUSTOM-WRITTEN FOR ANY #CUSTOM# ASSETS ADDED HERE,
 // AND CALLED WITHIN THE 'Update dynamic mining data' SECTION OF THE FILE: /app-lib/php/other/app-config-managment.php
 // 'mining_time_formula' ALSO NEEDS TO BE DYNAMICALLY ADDED IN THAT SAME SECTION, #OR YOUR CUSTOM CALCULATOR WILL NOT WORK AT ALL#
+// ('PLACEHOLDER' values are dynamically populated during app runtime)
 $ct_conf['power']['mining_calculators'] = array(
 					
 					
@@ -886,10 +887,10 @@ $ct_conf['power']['mining_calculators'] = array(
 
 // NEWS FEED (RSS) SETTINGS
 // RSS feed entries to show (per-feed) on News page (without needing to click the "show more / less" link)
-$ct_conf['power']['news_feed_entries_show'] = 5; // (default = 5)
+$ct_conf['power']['news_feed_entries_show'] = 7; // (default = 7)
 ////
 // RSS feed entries under X days old are marked as 'new'
-$ct_conf['power']['news_feed_entries_new'] = 2; // (default = 2)
+$ct_conf['power']['news_feed_entries_new'] = 3; // (default = 3)
 ////
 // RSS news feeds available on the News page
 $ct_conf['power']['news_feed'] = array(
@@ -1452,8 +1453,8 @@ $ct_conf['dev']['coingecko_api_batched_max'] = 100; // (default = 100), ADJUST W
 
 
 // Maximum number of BATCHED news feed fetches / re-caches per ajax OR cron runtime 
-// (#TO HELP PREVENT RUNTIME CRASHES# ON LOW POWER DEVICES OR HIGH TRAFFIC INSTALLS, WITH A LOW NUMBER OF 25 OR LESS)
-$ct_conf['dev']['news_feed_batched_max'] = 25; // (default = 25), ADJUST WITH CARE!!!
+// (#TO HELP PREVENT RUNTIME CRASHES# ON LOW POWER DEVICES OR HIGH TRAFFIC INSTALLS, WITH A LOW NUMBER OF 20 OR LESS)
+$ct_conf['dev']['news_feed_batched_max'] = 20; // (default = 20), ADJUST WITH CARE!!!
 ////
 // Minutes to cache RSS feeds for News page
 // Randomly cache each RSS feed between the minimum and maximum MINUTES set here (so they don't refresh all at once, for faster runtimes)
@@ -1466,26 +1467,26 @@ $ct_conf['dev']['all_chart_rebuild_min_max'] = '4,12'; // 'min,max' (default = '
 			
 			
 // Configuration for advanced CAPTCHA image settings on all admin login / reset pages
-$ct_conf['dev']['captcha_image_width'] = 430; // Image width (default = 430)
+$ct_conf['dev']['captcha_image_width'] = 525; // Image width (default = 525)
 ////
-$ct_conf['dev']['captcha_image_height'] = 130; // Image height (default = 130)
+$ct_conf['dev']['captcha_image_height'] = 135; // Image height (default = 135)
 ////
-$ct_conf['dev']['captcha_text_margin'] = 4; // MINIMUM margin of text from edge of image (approximate / average) (default = 4)
+$ct_conf['dev']['captcha_text_margin'] = 6; // MINIMUM margin of text from edge of image (approximate / average) (default = 6)
 ////
 $ct_conf['dev']['captcha_text_size'] = 50; // Text size (default = 50)
 ////
-$ct_conf['dev']['captcha_chars_length'] = 6; // Number of characters in captcha image (default = 6)
+$ct_conf['dev']['captcha_chars_length'] = 7; // Number of characters in captcha image (default = 7)
 ////
 // ONLY MOST READABLE characters allowed for use in captcha image 
-$ct_conf['dev']['captcha_permitted_chars'] = 'ACEFHMNPQRSTUVWXYZ2345679'; // (default = 'ACEFHMNPQRSTUVWXYZ2345679')
+$ct_conf['dev']['captcha_permitted_chars'] = 'ABCDEFHJKMNPRSTUVWXYZ23456789'; // (default = 'ABCDEFHJKMNPRSTUVWXYZ23456789')
 
 
 // Local / internal API rate limit (maximum of once every X seconds, per ip address) for accepting remote requests
 // Can be 0 to disable rate limiting (unlimited)
-$ct_conf['dev']['local_api_rate_limit'] = 5; // (default = 5)
+$ct_conf['dev']['local_api_rate_limit'] = 3; // (default = 3)
 ////
 // Local / internal API market limit (maximum number of markets requested per call)
-$ct_conf['dev']['local_api_market_limit'] = 20; // (default = 20)
+$ct_conf['dev']['local_api_market_limit'] = 15; // (default = 15)
 ////
 // Local / internal API cache time (minutes that previous requests are cached for)
 $ct_conf['dev']['local_api_cache_time'] = 4; // (default = 4)
@@ -1520,25 +1521,21 @@ $ct_conf['dev']['chmod_index_sec'] = '0664'; // (default = '0664')
 									
 // !!!!! BE #VERY CAREFUL# LOWERING MAXIMUM EXECUTION TIMES BELOW, #OR YOU MAY CRASH THE RUNNING PROCESSES EARLY, 
 // OR CAUSE MEMORY LEAKS THAT ALSO CRASH YOUR !ENTIRE SYSTEM!#
+// (ALL execution times are automatically 600 IN DEBUG MODE)
 ////
 // Maximum execution time for interface runtime in seconds (how long it's allowed to run before automatically killing the process)
-// (ALL execution times are automatically 600 IN DEBUG MODE)
 $ct_conf['dev']['ui_max_exec_time'] = 120; // (default = 120)
 ////
 // Maximum execution time for ajax runtime in seconds (how long it's allowed to run before automatically killing the process)
-// (ALL execution times are automatically 600 IN DEBUG MODE)
 $ct_conf['dev']['ajax_max_exec_time'] = 120; // (default = 120)
 ////
 // Maximum execution time for cron job runtime in seconds (how long it's allowed to run before automatically killing the process)
-// (ALL execution times are automatically 600 IN DEBUG MODE)
 $ct_conf['dev']['cron_max_exec_time'] = 600; // (default = 600)
 ////
 // Maximum execution time for internal API runtime in seconds (how long it's allowed to run before automatically killing the process)
-// (ALL execution times are automatically 600 IN DEBUG MODE)
 $ct_conf['dev']['int_api_max_exec_time'] = 90; // (default = 90)
 ////
 // Maximum execution time for webhook runtime in seconds (how long it's allowed to run before automatically killing the process)
-// (ALL execution times are automatically 600 IN DEBUG MODE)
 $ct_conf['dev']['webhook_max_exec_time'] = 90; // (default = 90)
 							
 
@@ -1568,6 +1565,7 @@ $ct_conf['dev']['limited_apis'] = array(
 // IF YOU ADD A NEW API, !MAKE SURE IT'S DOMAIN EXTENSION EXISTS HERE!
 // (NO LEADING DOTS, !MUST BE LOWERCASE!)
 $ct_conf['dev']['top_level_domain_map'] = array(
+                    // TLD
 					'co',
 					'co.il',
 					'co.uk',
@@ -1836,7 +1834,7 @@ $ct_conf['assets'] = array(
                     
                     // MISCASSETS 
                     // (KEY PLACED HERE FOR ORDERING ONLY, DYNAMICALLY POPULATED BY THE APP AT RUNTIME)
-                    // (DO NOT DELETE, MISCASSETS IS *REQUIRED* TO RUN THIS APP!!!!)
+                    // (!!!!DO NOT DELETE, MISCASSETS IS *REQUIRED* TO RUN THIS APP!!!!)
                     'MISCASSETS' => array(), 
                     // Asset END
 
@@ -1846,7 +1844,7 @@ $ct_conf['assets'] = array(
                     
                     // ETHNFTS 
                     // (KEY PLACED HERE FOR ORDERING ONLY, DYNAMICALLY POPULATED BY THE APP AT RUNTIME)
-                    // (DO NOT DELETE, ETHNFTS IS *REQUIRED* TO RUN THIS APP!!!!)
+                    // (!!!!DO NOT DELETE, ETHNFTS IS *REQUIRED* TO RUN THIS APP!!!!)
                     'ETHNFTS' => array(), 
                     // Asset END
 
@@ -1856,7 +1854,7 @@ $ct_conf['assets'] = array(
                     
                     // SOLNFTS 
                     // (KEY PLACED HERE FOR ORDERING ONLY, DYNAMICALLY POPULATED BY THE APP AT RUNTIME)
-                    // (DO NOT DELETE, SOLNFTS IS *REQUIRED* TO RUN THIS APP!!!!)
+                    // (!!!!DO NOT DELETE, SOLNFTS IS *REQUIRED* TO RUN THIS APP!!!!)
                     'SOLNFTS' => array(), 
                     // Asset END
                     
@@ -1864,7 +1862,9 @@ $ct_conf['assets'] = array(
                     ////////////////////////////////////////////////////////////////////
                     
                     
-                    // BTC (!!!!*BTC MUST BE THE VERY FIRST* IN THIS CRYPTO ASSET LIST, DO NOT DELETE, BTC IS *REQUIRED* TO RUN THIS APP!!!!)
+                    // BTC 
+                    // (!!!!*BTC #MUST# BE THE VERY FIRST* IN THIS CRYPTO ASSET MARKETS LIST!!!!)
+                    // (!!!!DO NOT DELETE, BTC IS *REQUIRED* TO RUN THIS APP!!!!)
                     'BTC' => array(
                         
                         'name' => 'Bitcoin',
@@ -1872,19 +1872,19 @@ $ct_conf['assets'] = array(
                         'pairing' => array(
                         
                         
-                        				'aed' => array(
+                        			'aed' => array(
                                           'localbitcoins' => 'AED',
                                                     ),
 
                         
-                        				'ars' => array(
+                        			'ars' => array(
                                           'localbitcoins' => 'ARS',
                                                     ),
 
                         
-                        				'aud' => array(
-                                    		'kraken' => 'XBTAUD',
-                                    		'btcmarkets' => 'BTC/AUD',
+                        		    'aud' => array(
+                                    	  'kraken' => 'XBTAUD',
+                                    	  'btcmarkets' => 'BTC/AUD',
                                           'localbitcoins' => 'AUD',
                                           'coinspot' => 'btc',
                                                     ),
@@ -1983,8 +1983,8 @@ $ct_conf['assets'] = array(
                                                     
                                     'eth' => array(
                                           'localbitcoins' => 'ETH',
-                                        	'loopring_amm' => 'AMM-WBTC-ETH',
-                                    	 	'defipulse' => 'WBTC/WETH',
+                                          'loopring_amm' => 'AMM-WBTC-ETH',
+                                    	  'defipulse' => 'WBTC/WETH',
                                                     ),
 
                                                     
@@ -2289,9 +2289,9 @@ $ct_conf['assets'] = array(
                                                     
                                     'usdt' => array(
                                           'binance' => 'BTCUSDT',
-                                    	 	'kraken' => 'XBTUSDT',
+                                    	  'kraken' => 'XBTUSDT',
                                           'okcoin' => 'BTC-USDT',
-                                        	'bittrex' => 'BTC-USDT',
+                                          'bittrex' => 'BTC-USDT',
                                           'btcturk' => 'BTCUSDT',
                                           'huobi' => 'btcusdt',
                                           'okex' => 'BTC-USDT',
@@ -2395,13 +2395,13 @@ $ct_conf['assets'] = array(
 
                                                     
                                     'dai' => array(
-                                        	'binance' => 'ETHDAI',
+                                          'binance' => 'ETHDAI',
                                           'coinbase' => 'ETH-DAI',
                                           'kraken' => 'ETHDAI',
-                                        	'kucoin' => 'ETH-DAI',
+                                          'kucoin' => 'ETH-DAI',
                                           'hitbtc' => 'ETHDAI',
-                                        	'loopring_amm' => 'AMM-ETH-DAI',
-                                    	 	'defipulse' => 'WETH/DAI',
+                                          'loopring_amm' => 'AMM-ETH-DAI',
+                                    	  'defipulse' => 'WETH/DAI',
                                                     ),
 
                                                     
@@ -2410,7 +2410,7 @@ $ct_conf['assets'] = array(
                                           'kraken' => 'XETHZEUR',
                                           'bitstamp' => 'etheur',
                                           'okcoin' => 'ETH-EUR',
-                                        	'bittrex_global' => 'ETH-EUR',
+                                          'bittrex_global' => 'ETH-EUR',
                                           'cex' => 'ETH:EUR',
                                                     ),
 
@@ -2442,7 +2442,7 @@ $ct_conf['assets'] = array(
                                                     
                                     'krw' => array(
                                           'upbit' => 'KRW-ETH',
-                                        	'korbit' => 'eth_krw',
+                                          'korbit' => 'eth_krw',
                                                     ),
 
                                                     
@@ -2732,13 +2732,13 @@ $ct_conf['assets'] = array(
                                                     ),
 
                                                     
-                                		'dai' => array(
+                                	'dai' => array(
                                         	'kucoin' => 'MKR-DAI',
                                         	'hitbtc' => 'MKRDAI',
                                                     ),
 
                                                     
-                                		'eth' => array(
+                                	'eth' => array(
                                             'bittrex' => 'MKR-ETH',
                                         	'kucoin' => 'MKR-ETH',
                                             'okex' => 'MKR-ETH',
@@ -2749,7 +2749,7 @@ $ct_conf['assets'] = array(
                                                     ),
 
                                                     
-                                		'krw' => array(
+                                	'krw' => array(
                                         	'korbit' => 'mkr_krw',
                                                     ),
 
@@ -3534,18 +3534,18 @@ $ct_conf['assets'] = array(
                         
                                     'btc' => array(
                                           'hitbtc' => 'MYSTBTC',
-                                        	'bittrex_global' => 'MYST-BTC',
+                                          'bittrex_global' => 'MYST-BTC',
                                                     ),
 
                                                     
                                     'eth' => array(
                                           'hitbtc' => 'MYSTETH',
-                                    	 	'defipulse' => 'MYST/WETH||0x5c56bf84dcbb1d3f9646528a68520b7e21791ddd',
+                                    	  'defipulse' => 'MYST/WETH||0x5c56bf84dcbb1d3f9646528a68520b7e21791ddd',
                                                     ),
 
                                                     
                                     'usdt' => array(
-                                        	'bittrex_global' => 'MYST-USDT',
+                                          'bittrex_global' => 'MYST-USDT',
                                                     ),
 
                                                     

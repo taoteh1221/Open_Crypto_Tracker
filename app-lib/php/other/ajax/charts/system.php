@@ -140,7 +140,7 @@ $check_chart_val = $ct_var->num_to_str( $ct_var->delimited_str_sample($chart_val
 		$loop = $loop + 1;
 		}
 		
-		if ( $check_chart_val <= $ct_var->num_to_str($ct_conf['power']['system_stats_first_chart_highest_val']) ) {
+		if ( $check_chart_val <= $ct_var->num_to_str($ct_conf['power']['sys_stats_first_chart_max_scale']) ) {
 		$num_in_first_chart = $num_in_first_chart + 1;
 		//echo $check_chart_val . ' --- '; // DEBUGGING ONLY
 		}
@@ -359,7 +359,7 @@ gui: {
         zooming: true
       },
       scaleY: {
-      maxValue: <?=( $key == 1 ? $ct_conf['power']['system_stats_first_chart_highest_val'] : $ct_conf['power']['system_stats_second_chart_max_scale'] )?>,
+      maxValue: <?=( $key == 1 ? $ct_conf['power']['sys_stats_first_chart_max_scale'] : $ct_conf['power']['sys_stats_second_chart_max_scale'] )?>,
         guide: {
       	visible: true,
      		lineStyle: 'solid',

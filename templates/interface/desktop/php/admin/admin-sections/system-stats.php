@@ -64,10 +64,10 @@
          ?>
          <script>
          
-         $('#system_stats_admin_link a').addClass("red_background");
-         document.getElementById('system_stats_admin_link_info').style.display = 'inline';
+         $('#sys_stats_admin_link a').addClass("red_background");
+         document.getElementById('sys_stats_admin_link_info').style.display = 'inline';
 
-			var system_stats_admin_link_info_content = '<h5 class="red tooltip_title">System Stats Alerts</h5>'
+			var sys_stats_admin_link_info_content = '<h5 class="red tooltip_title">System Stats Alerts</h5>'
 			
 			<?php
 			foreach ( $system_alerts as $alert_key => $alert_val ) {
@@ -80,11 +80,11 @@
 			+'';
 		
 		
-			$('#system_stats_admin_link_info').balloon({
+			$('#sys_stats_admin_link_info').balloon({
 			html: true,
 			position: "right",
   			classname: 'balloon-tooltips',
-			contents: system_stats_admin_link_info_content,
+			contents: sys_stats_admin_link_info_content,
 			css: {
 					fontSize: ".8rem",
 					minWidth: "450px",
@@ -181,7 +181,7 @@
 	<div class='red' id='system_charts_error'></div>
 	
 	
-	<div style='display: flex; flex-flow: column wrap; overflow: hidden;' class='chart_wrapper' id='system_stats_chart_1'>
+	<div style='display: flex; flex-flow: column wrap; overflow: hidden;' class='chart_wrapper' id='sys_stats_chart_1'>
 	
 	<span class='chart_loading' style='color: <?=$ct_conf['power']['charts_text']?>;'> &nbsp; Loading chart #1 for system data...</span>
 	
@@ -202,7 +202,7 @@
 	<br/><br/><br/>
 	
 	
-	<div style='display: flex; flex-flow: column wrap; overflow: hidden;' class='chart_wrapper' id='system_stats_chart_2'>
+	<div style='display: flex; flex-flow: column wrap; overflow: hidden;' class='chart_wrapper' id='sys_stats_chart_2'>
 	
 	<span class='chart_loading' style='color: <?=$ct_conf['power']['charts_text']?>;'> &nbsp; Loading chart #2 for system data...</span>
 	

@@ -220,7 +220,7 @@ $ct_gen->log('other_error', 'RSS feeds failed to sort alphabetically');
 
 
 // Better decimal support for these vars...
-$ct_conf['power']['system_stats_first_chart_highest_val'] = $ct_var->num_to_str($ct_conf['power']['system_stats_first_chart_highest_val']); 
+$ct_conf['power']['sys_stats_first_chart_max_scale'] = $ct_var->num_to_str($ct_conf['power']['sys_stats_first_chart_max_scale']); 
 $ct_conf['comms']['price_alert_thres'] = $ct_var->num_to_str($ct_conf['comms']['price_alert_thres']); 
 $ct_conf['power']['hivepower_yearly_interest'] = $ct_var->num_to_str($ct_conf['power']['hivepower_yearly_interest']); 
 

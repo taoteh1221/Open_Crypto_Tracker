@@ -10,7 +10,7 @@
 
 
 // Application version
-$app_version = '5.09.1';  // 2022/JANUARY/20TH
+$app_version = '5.10.0';  // 2022/JANUARY/27TH
 
 // Application edition
 $app_edition = 'server';  // 'server' OR 'desktop' edition (LOWERCASE)

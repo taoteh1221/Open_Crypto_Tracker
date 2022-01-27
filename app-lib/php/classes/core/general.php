@@ -2311,7 +2311,7 @@ var $ct_array1 = array();
       $system_statistics_chart = true;
       }
       elseif ( $chart_format == 'performance' ) {
-      $asset_performance_chart = true;
+      $asset_perf_chart = true;
       $asset = $file;
       $asset = preg_replace("/(.*)_days\//i", "", $asset);
       $asset = preg_replace("/\/(.*)/i", "", $asset);
@@ -2341,7 +2341,7 @@ var $ct_array1 = array();
             $data['portfolio_cache_size_gigabytes'] .= trim($result[6]) . ',';
             
             }
-            elseif ( $asset_performance_chart ) {
+            elseif ( $asset_perf_chart ) {
       
                if ( !$runtime_data['performance_stats'][$asset]['start_val'] ) {
                $runtime_data['performance_stats'][$asset]['start_val'] = $result[1];
@@ -2399,7 +2399,7 @@ var $ct_array1 = array();
       $data['free_disk_space_terabytes'] = rtrim($data['free_disk_space_terabytes'],',');
       $data['portfolio_cache_size_gigabytes'] = rtrim($data['portfolio_cache_size_gigabytes'],',');
       }
-      elseif ( $asset_performance_chart ) {
+      elseif ( $asset_perf_chart ) {
       $data['percent'] = rtrim($data['percent'],',');
       $data['combined'] = rtrim($data['combined'],',');
       }

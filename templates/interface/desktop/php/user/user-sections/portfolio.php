@@ -906,22 +906,22 @@ var fiat_val_content = '<h5 class="yellow tooltip_title">Primary Currency (<?=st
     
     <?php
     
-    $asset_performance_chart_defaults = explode("||", $ct_conf['power']['asset_performance_chart_defaults']);
+    $asset_perf_chart_defaults = explode("||", $ct_conf['power']['asset_perf_chart_defaults']);
     
     	// Fallbacks
     	
-    	if ( $asset_performance_chart_defaults[0] >= 400 && $asset_performance_chart_defaults[0] <= 900 ) {
+    	if ( $asset_perf_chart_defaults[0] >= 400 && $asset_perf_chart_defaults[0] <= 900 ) {
 		// DO NOTHING    	
     	}
     	else {
-    	$asset_performance_chart_defaults[0] = 600;
+    	$asset_perf_chart_defaults[0] = 600;
     	}
     	
-    	if ( $asset_performance_chart_defaults[1] >= 7 && $asset_performance_chart_defaults[1] <= 16 ) {
+    	if ( $asset_perf_chart_defaults[1] >= 7 && $asset_perf_chart_defaults[1] <= 16 ) {
 		// DO NOTHING    	
     	}
     	else {
-    	$asset_performance_chart_defaults[1] = 15;
+    	$asset_perf_chart_defaults[1] = 15;
     	}
     
     ?>
@@ -960,7 +960,7 @@ var fiat_val_content = '<h5 class="yellow tooltip_title">Primary Currency (<?=st
     $count = 400;
     while ( $count <= 900 ) {
     ?>
-    <option value='<?=$count?>' <?=( $count == $asset_performance_chart_defaults[0] ? 'selected' : '' )?>> <?=$count?> </option>
+    <option value='<?=$count?>' <?=( $count == $asset_perf_chart_defaults[0] ? 'selected' : '' )?>> <?=$count?> </option>
     <?php
     $count = $count + 100;
     }
@@ -973,7 +973,7 @@ var fiat_val_content = '<h5 class="yellow tooltip_title">Primary Currency (<?=st
     $count = 7;
     while ( $count <= 16 ) {
     ?>
-    <option value='<?=$count?>' <?=( $count == $asset_performance_chart_defaults[1] ? 'selected' : '' )?>> <?=$count?> </option>
+    <option value='<?=$count?>' <?=( $count == $asset_perf_chart_defaults[1] ? 'selected' : '' )?>> <?=$count?> </option>
     <?php
     $count = $count + 1;
     }
@@ -1052,7 +1052,7 @@ var performance_chart_defaults_content = '<h5 class="yellow tooltip_title">Setti
 			
 			+'<p class="coin_info extra_margins" style="max-width: 600px; white-space: normal;">The "Custom Start Date" is OPTIONAL, for choosing a custom date in time the asset performance comparisions begin, starting at 0&#37; <?=strtoupper($default_btc_prim_currency_pairing)?> value increase / decrease. The Custom Start Date can only go back in time as far back as you have <?=strtoupper($default_btc_prim_currency_pairing)?> Value price charts (per asset) for the "All" chart, and only as far back as the beginning date of smaller time period charts.</p>'
 			
-			+'<p class="coin_info extra_margins" style="max-width: 600px; white-space: normal;">Adjust the chart height and menu size, depending on your preferences. The defaults for these two settings can be changed in the Admin Config POWER USER section, under \'asset_performance_chart_defaults\'.</p>';
+			+'<p class="coin_info extra_margins" style="max-width: 600px; white-space: normal;">Adjust the chart height and menu size, depending on your preferences. The defaults for these two settings can be changed in the Admin Config POWER USER section, under \'asset_perf_chart_defaults\'.</p>';
 		
 		
 		
@@ -1121,18 +1121,18 @@ $("#performance_chart span.chart_loading").hide(); // Hide "Loading chart X..." 
 
 zingchart.TOUCHZOOM = 'pinch'; /* mobile compatibility */
 
-$.get( "ajax.php?type=chart&mode=asset_performance&time_period=all&start_time=0&chart_height=<?=$asset_performance_chart_defaults[0]?>&menu_size=<?=$asset_performance_chart_defaults[1]?>&plot_conf=<?=$plot_conf?>", function( json_data ) {
+$.get( "ajax.php?type=chart&mode=asset_performance&time_period=all&start_time=0&chart_height=<?=$asset_perf_chart_defaults[0]?>&menu_size=<?=$asset_perf_chart_defaults[1]?>&plot_conf=<?=$plot_conf?>", function( json_data ) {
  
 
 	// Mark chart as loaded after it has rendered
 	zingchart.bind('performance_chart', 'complete', function() {
 	$("#performance_chart span.chart_loading").hide(); // Hide "Loading chart X..." after it loads
-	$('#performance_chart').css('height', '<?=$asset_performance_chart_defaults[0]?>px');
+	$('#performance_chart').css('height', '<?=$asset_perf_chart_defaults[0]?>px');
 	});
 
 	zingchart.render({
   	id: 'performance_chart',
-  	height: '<?=$asset_performance_chart_defaults[0]?>',
+  	height: '<?=$asset_perf_chart_defaults[0]?>',
   	width: "100%",
   	data: json_data
 	});
@@ -1438,7 +1438,7 @@ zingchart.bind('marketcap_chart', 'label_click', function(e){
 		<fieldset><legend> <strong class="bitcoin">Admin Config - Quick Links</strong> </legend>
     		
     		
-    		<b><a id="system_stats_quick_link" href="javascript: return false;" class="show_system_stats blue" title="View System Statistics">System Stats</a></b><img id='system_stats_quick_link_info' src='templates/interface/media/images/info-red.png' alt='' width='30' style='position: relative;' />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+    		<b><a id="sys_stats_quick_link" href="javascript: return false;" class="show_system_stats blue" title="View System Statistics">System Stats</a></b><img id='sys_stats_quick_link_info' src='templates/interface/media/images/info-red.png' alt='' width='30' style='position: relative;' />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
     		
 
     		<b><a href="javascript: return false;" class="show_access_stats blue" title="View Access Statistics">Access Stats</a></b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
@@ -1605,10 +1605,10 @@ zingchart.bind('marketcap_chart', 'label_click', function(e){
          ?>
          <script>
          
-         document.getElementById('system_stats_quick_link').classList.add("red");
-         document.getElementById('system_stats_quick_link_info').style.display = 'inline';
+         document.getElementById('sys_stats_quick_link').classList.add("red");
+         document.getElementById('sys_stats_quick_link_info').style.display = 'inline';
 
-			var system_stats_quick_link_info_content = '<h5 class="red tooltip_title">System Stats Alerts</h5>'
+			var sys_stats_quick_link_info_content = '<h5 class="red tooltip_title">System Stats Alerts</h5>'
 			
 			<?php
 			foreach ( $system_alerts as $alert_key => $alert_val ) {
@@ -1621,11 +1621,11 @@ zingchart.bind('marketcap_chart', 'label_click', function(e){
 			+'';
 		
 		
-			$('#system_stats_quick_link_info').balloon({
+			$('#sys_stats_quick_link_info').balloon({
 			html: true,
 			position: "left",
   			classname: 'balloon-tooltips',
-			contents: system_stats_quick_link_info_content,
+			contents: sys_stats_quick_link_info_content,
 			css: {
 					fontSize: ".8rem",
 					minWidth: "450px",
@@ -1723,7 +1723,7 @@ zingchart.bind('marketcap_chart', 'label_click', function(e){
 	<div class='red' id='system_charts_error'></div>
 	
 	
-	<div style='display: flex; flex-flow: column wrap; overflow: hidden;' class='chart_wrapper' id='system_stats_chart_1'>
+	<div style='display: flex; flex-flow: column wrap; overflow: hidden;' class='chart_wrapper' id='sys_stats_chart_1'>
 	
 	<span class='chart_loading' style='color: <?=$ct_conf['power']['charts_text']?>;'> &nbsp; Loading chart #1 for system data...</span>
 	
@@ -1744,7 +1744,7 @@ zingchart.bind('marketcap_chart', 'label_click', function(e){
 	<br/><br/><br/>
 	
 	
-	<div style='display: flex; flex-flow: column wrap; overflow: hidden;' class='chart_wrapper' id='system_stats_chart_2'>
+	<div style='display: flex; flex-flow: column wrap; overflow: hidden;' class='chart_wrapper' id='sys_stats_chart_2'>
 	
 	<span class='chart_loading' style='color: <?=$ct_conf['power']['charts_text']?>;'> &nbsp; Loading chart #2 for system data...</span>
 	

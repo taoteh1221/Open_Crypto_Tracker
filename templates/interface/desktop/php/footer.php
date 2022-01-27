@@ -65,7 +65,7 @@
             	
     <div id="app_error_alert" style='display: none;'><?=$bundle_error_logs?></div>
             	
-    <p class='align_center'><a href='https://taoteh1221.github.io' target='_blank' title='Check for upgrades to the latest version here.'>Running <?=ucfirst($app_edition)?> Edition v<?=$app_version?></a>
+    <p class='align_center'><a href='https://taoteh1221.github.io' target='_blank' title='Check for upgrades to the latest version here.'>Running <?=ucfirst($app_edition)?> Edition<?=( $ct_gen->admin_logged_in() ? ' v' . $app_version : '' )?></a>
     
 
     <p class='align_center'><a title='Click to show / hide donation addresses.' href='javascript: show_more("donate");'>Donations Support Development</a></p>

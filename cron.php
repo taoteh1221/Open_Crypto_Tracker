@@ -155,17 +155,17 @@ $now = time();
 if ( $now > 0 ) {
 
 // Store system data to archival / lite charts
-$system_stats_path = $base_dir . '/cache/charts/system/archival/system_stats.dat';
-$system_stats_data = $now . $chart_data_set;
+$sys_stats_path = $base_dir . '/cache/charts/system/archival/system_stats.dat';
+$sys_stats_data = $now . $chart_data_set;
 
-$ct_cache->save_file($system_stats_path, $system_stats_data . "\n", "append", false); // WITH newline (UNLOCKED file write)
+$ct_cache->save_file($sys_stats_path, $sys_stats_data . "\n", "append", false); // WITH newline (UNLOCKED file write)
     		
 // Lite charts (update time dynamically determined in $ct_cache->update_lite_chart() logic)
 // Try to assure file locking from archival chart updating has been released, wait 0.12 seconds before updating lite charts
 usleep(120000); // Wait 0.12 seconds
 		
 	foreach ( $ct_conf['power']['lite_chart_day_intervals'] as $light_chart_days ) {
-	$ct_cache->update_lite_chart($system_stats_path, $system_stats_data, $light_chart_days); // WITHOUT newline (var passing)
+	$ct_cache->update_lite_chart($sys_stats_path, $sys_stats_data, $light_chart_days); // WITHOUT newline (var passing)
 	}
 		
 }
