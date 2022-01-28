@@ -738,8 +738,8 @@ echo "Do you want this script to automatically download the latest version of Op
 echo "(Server Edition) from Github.com, and install / configure it?"
 echo " "
 
-echo "${yellow}Select 1, 2, or 3 to choose whether to auto-install / remove Open Crypto Tracker (Server Edition), or skip."
-echo "(!WARNING!: REMOVING Open Crypto Tracker WILL DELETE *EVERYTHING* IN $DOC_ROOT !!)${reset}"
+echo "${yellow}Select 1, 2, or 3 to choose whether to auto-install / remove Open Crypto Tracker (Server Edition), or skip.${reset}"
+echo "${red}(!WARNING!: REMOVING Open Crypto Tracker WILL DELETE *EVERYTHING* IN $DOC_ROOT !!)${reset}"
 echo " "
 
 OPTIONS="install_portfolio_app remove_portfolio_app skip"
@@ -1179,10 +1179,10 @@ echo "because anybody on your home / internal network will have access if they k
 echo " "
 
 if [ -f "/usr/bin/raspi-config" ]; then
-echo "${yellow}Select 1 or 2 to choose whether to setup SSH (under 'Interfacing Options' in raspi-config), or skip it."
+echo "${yellow}Select 1 or 2 to choose whether to setup SSH (under 'Interfacing Options' in raspi-config), or skip it.${reset}"
 echo " "
-echo "IF YOU CHOOSE OPTION 1, AND IT ASKS IF YOU WANT TO REBOOT AFTER CONFIGURATION, CHOOSE 'NO'"
-echo "OTHERWISE #THIS AUTO-INSTALL WILL ABORT PREMATURELY#! ONLY REBOOT AFTER AUTO-INSTALL WITH: sudo reboot${reset}"
+echo "${red}IF YOU CHOOSE OPTION 1, AND IT ASKS IF YOU WANT TO REBOOT AFTER CONFIGURATION, CHOOSE 'NO'"
+echo "OTHERWISE #THIS AUTO-INSTALL WILL ABORT PREMATURELY#! ONLY REBOOT #AFTER# AUTO-INSTALL WITH: sudo reboot${reset}"
 else
 echo "${yellow}Select 1 or 2 to choose whether to setup SSH, or skip it.${reset}"
 fi

@@ -186,8 +186,8 @@ var $ct_array1 = array();
       
    $len = strlen($str);
    
-      if ( $len <= ($show * 2) ) {
-      $show = 0;
+      if ( $len <= $show ) {
+      $show = round($len / 4);
       }
    
       if ( $show == 0 ) {
