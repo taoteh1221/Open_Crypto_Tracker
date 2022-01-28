@@ -186,9 +186,13 @@ var $ct_array1 = array();
       
    $len = strlen($str);
    
-      if ( $len <= $show ) {
-      $show = round($len / 4);
+   
+      // If string is too short for the passed $show var on each end of string, 
+      // make $show roughly 20% of string length (1/5 rounded)
+      if ( $len <= ($show * 2) ) {
+      $show = round($len / 5);
       }
+   
    
       if ( $show == 0 ) {
       return str_repeat('*', $len);
@@ -196,6 +200,7 @@ var $ct_array1 = array();
       else {
       return substr($str, 0, $show) . str_repeat('*', $len - (2*$show) ) . substr($str, $len - $show, $show);
       }
+      
       
    }
    
