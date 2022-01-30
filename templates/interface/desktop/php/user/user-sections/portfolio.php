@@ -1587,7 +1587,7 @@ zingchart.bind('marketcap_chart', 'label_click', function(e){
          $system_alerts['system_temp'] = 'High temperature';
          }
 	
-         if ( $system_info['memory_used_percent'] > 91 ) {
+         if ( $system_info['memory_used_percent'] > 89 ) {
          $system_alerts['memory_used_megabytes'] = 'High memory usage';
          }
 	
@@ -1613,7 +1613,7 @@ zingchart.bind('marketcap_chart', 'label_click', function(e){
 			<?php
 			foreach ( $system_alerts as $alert_key => $alert_val ) {
 			?>
-			+'<p class="coin_info extra_margins" style="max-width: 600px; white-space: normal;"><span class="red"><?=$ct_gen->key_to_name($alert_key)?>:</span> <?=$alert_val?></p>'
+			+'<p class="coin_info" style="max-width: 600px; white-space: normal;"><span class="red"><?=$ct_gen->key_to_name($alert_key)?>:</span> <?=$alert_val?></p>'
 			<?php
 			}
 			?>
