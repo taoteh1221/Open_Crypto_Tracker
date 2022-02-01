@@ -308,7 +308,7 @@ function app_reloading_placeholder(refresh_only=0) {
     
     // Disable form updating
     if ( getCookie('priv_toggle') == 'on' && refresh_only == 0 ) {
-    alert('Updating is not allowed in privacy mode.');
+    alert('Submitting data is not allowed in privacy mode.');
     return false;
     }
     else {
