@@ -203,8 +203,10 @@ FEATURES / STRUCTURING SECTION
 ///////////////////////////////////////////////////////
 
 
-A good demo app for building out the interface hooks for plugins to support the GUI runtime (not just the cron runtime), would be to build a chart in the same format as the system stats chart, but put InvictusDAO data in it from this endpoint:
-https://api.invictusdao.fi/api/dashboard
+A good demo app for building out the interface hooks for plugins to support the GUI runtime (not just the cron runtime), would be to build a chart in the same format as the system stats chart, but put InvictusDAO data in it from https://api.invictusdao.fi/api/dashboard. Another good one would be a monthly interest cost calculator on debt (credit cards / loans / etc).
+
+
+Add ability to send out alerts if a system resource is redlined, separate alert per resource, with power user config for thresholds, and comms config for enabling / disabling / what comms to use. Also have a max frequency for re-sending like we do for price alerts etc.
 
 
 For admin area pages / sections, consider doing subsections in a modal subwindow, with iframes for loading through 'wizard' steps or opening different categories. It would possibly keep a native app 'feel' while also reducing admin page load times. Think it over, figure out the best solution here for a great UX.

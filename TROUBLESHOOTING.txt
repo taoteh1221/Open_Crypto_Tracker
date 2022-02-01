@@ -118,7 +118,7 @@ MAKE SURE YOU ONLY USE EITHER /etc/cron.d/, or 'crontab -e', NOT BOTH...ANY OLD 
   
 -----------------------------------------------------------------------------------------------------------------------------------------
 
-IMPORTANT NOTE: IN THE UPCOMING v5 RELEASE (DUE OUT IN 2021 OR 2022), DOING THIS MANUALLY IN A TEXT EDITOR WON'T BE NECESSARY. YOU WILL BE ABLE TO DO IT IN THE "Admin Config => Portfolio Assets" INTERFACE MUCH EASIER.
+IMPORTANT NOTE: IN THE v6 RELEASE (Coming Soon™), DOING THIS MANUALLY IN A TEXT EDITOR WON'T BE NECESSARY. YOU WILL BE ABLE TO DO IT IN THE "Admin Config => Portfolio Assets" INTERFACE MUCH EASIER.
 
 Below is an example for editing your assets / markets into the portfolio assets in the file config.php (located in the primary directory of this app), in the PORTFOLIO ASSETS section. It's very quick / easy to do (after you get the hang of it, lol). Also see the text file /DOCUMENTATION-ETC/CONFIG-EXAMPLE.txt, for a pre-configured set of default settings and example assets / markets. 
 

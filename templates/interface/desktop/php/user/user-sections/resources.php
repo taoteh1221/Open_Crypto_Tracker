@@ -209,17 +209,11 @@
 	        
 	        <li class='links_list'><a href='http://newsletter.coingecko.com/landing/subscribe' target='_blank'>Coingecko Newsletter</a></li>
 	        
-	        <li class='links_list'><a href='https://coinmarketcap.com/newsletter/' target='_blank'>Coinmarketcap Newsletter</a></li>
-	        
 	        <li class='links_list'><a href='https://ethhub.substack.com/' target='_blank'>EthHub Newsletter</a></li>
 	        
 	        <li class='links_list'><a href='https://lightninglabs.substack.com' target='_blank'>Lightning Labs</a></li>  
 	        
 	        <li class='links_list'><a href='https://ournetwork.substack.com/' target='_blank'>Our Network</a></li>  
-	        
-	        <li class='links_list'><a href='https://sludgefeed.com/hashed/' target='_blank'>Sludgefeed's Hashed</a></li>
-	        
-	        <li class='links_list'><a href='https://www.tokendaily.co/' target='_blank'>Token Daily</a></li>
 	        
 	        <li class='links_list'><a href='https://unbankd.co/' target='_blank'>Unbankd</a></li>
 	        
@@ -242,8 +236,6 @@
 	        
 	        
 	        
-	        <li class='links_list'><a href='https://open.spotify.com/show/2R9ypQf38jKV5QbYIIeZaV' target='_blank'>Citizen Bitcoin</a></li>
-	        
 	        <li class='links_list'><a href='https://open.spotify.com/show/09k4pnFm6WokaszuoeZ6yf' target='_blank'>Block Crunch</a></li>
 	        
 	        <li class='links_list'><a href='https://open.spotify.com/show/4VOhf9IRUYDMISnTSa4IR6' target='_blank'>Blockchain Insider</a></li>
@@ -258,13 +250,9 @@
 	        
 	        <li class='links_list'><a href='https://open.spotify.com/show/2CNyWXgKVxTqTlmLhc8A5m' target='_blank'>Into The Ether Podcast (by EthHub)</a></li>
 	        
-	        <li class='links_list'><a href='https://open.spotify.com/show/0uG5qpwFg67zTt0VQRTaZ7' target='_blank'>Messari's Unqualified Opinions</a></li>
-	        
 	        <li class='links_list'><a href='https://open.spotify.com/show/2QwpFjzJ0ZteqmMqw2xIfA' target='_blank'>Off The Chain With Anthony Pompliano</a></li>
 	        
 	        <li class='links_list'><a href='https://open.spotify.com/show/4OxfZixGspVVpn0mx8FPcg' target='_blank'>POV Crypto</a></li>
-	        
-	        <li class='links_list'><a href='https://open.spotify.com/show/7n1EJmK1cP3IDTVqxC03UP' target='_blank'>Proof of Talent</a></li>
 	        
 	        <li class='links_list'><a href='https://open.spotify.com/show/3ObwKoyqttA1OLNhInnrbx' target='_blank'>Rekt</a></li>
 	        
@@ -274,11 +262,7 @@
 	        
 	        <li class='links_list'><a href='https://open.spotify.com/show/4rKK1cICXnzCA7GZzbULBY' target='_blank'>The Bad Crypto Podcast</a></li>
 	        
-	        <li class='links_list'><a href='https://open.spotify.com/show/7vC3IydlbcHq7fHEgUXyYx' target='_blank'>The Bitcoin Podcast</a></li>
-	        
-	        <li class='links_list'><a href='https://open.spotify.com/show/3RHfXyEPkxsj2yoetdds0H' target='_blank'>The Crypto Chick Podcast</a></li>
-	        
-	        <li class='links_list'><a href='https://open.spotify.com/show/16c6WR2znCZM1wveeeJoSz' target='_blank'>The Cryptoconomy Podcast</a></li>
+	        <li class='links_list'><a href='https://open.spotify.com/show/16c6WR2znCZM1wveeeJoSz' target='_blank'>Bitcoin Audible</a></li>
 	        
 	        <li class='links_list'><a href='https://open.spotify.com/show/7qwrgTJ5CYDXAaVILNZuEd' target='_blank'>The Scoop</a></li>
 	        
@@ -473,8 +457,6 @@
 	        <li class='links_list'><a href='https://www.youtube.com/channel/UC5rV0QEGbv0Y-umDwshs_HA/featured' target='_blank'>Kripto Sözlük (turkish)</a></li>
 	        
 	        <li class='links_list'><a href='https://www.youtube.com/channel/UCSuHzQ3GrHSzoBbwrIq3LLA' target='_blank'>Naomi Brockwell</a></li>
-	        
-	        <li class='links_list'><a href='https://www.youtube.com/channel/UCt_oM56Ui0BCCgi0Yc-Wh3Q/featured' target='_blank'>Proof of Talent</a></li>
 	        
 	        <li class='links_list'><a href='https://www.youtube.com/channel/UCWiiMnsnw5Isc2PP1to9nNw/featured' target='_blank'>Unchained Podcast</a></li>
 	        

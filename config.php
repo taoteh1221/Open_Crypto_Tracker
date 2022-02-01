@@ -562,15 +562,15 @@ $ct_conf['power']['last_trade_cache_time'] = 4; // (default = 4)
 
 
 // Minutes to cache blockchain stats (for mining calculators). Set high initially, it can be strict
-$ct_conf['power']['chainstats_cache_time'] = 70;  // (default = 70)
+$ct_conf['power']['chainstats_cache_time'] = 75;  // (default = 75)
 
 
 // Minutes to cache marketcap rankings...start high and test lower, it can be strict
-$ct_conf['power']['mcap_cache_time'] = 70;  // (default = 70)
+$ct_conf['power']['mcap_cache_time'] = 75;  // (default = 75)
 ////
 // Number of marketcap rankings to request from API.
-// 750 rankings is a safe maximum to start with, to avoid getting your API requests throttled / blocked
-$ct_conf['power']['mcap_ranks_max'] = 700; // (default = 700)
+// 500 rankings is a safe maximum to start with, to avoid getting your API requests throttled / blocked
+$ct_conf['power']['mcap_ranks_max'] = 500; // (default = 500)
 
 
 // Maximum margin leverage available in the user interface ('Update' page, etc)
@@ -1118,12 +1118,6 @@ $ct_conf['power']['news_feed'] = array(
         				array(
             			"title" => "News - The Merkle",
             			"url" => "https://themerkle.com/feed/"
-        						),
-    
-    
-        				array(
-            			"title" => "News - Token Daily",
-            			"url" => "https://www.tokendaily.co/rss"
         						),
     
     
