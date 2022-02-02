@@ -33,6 +33,9 @@ header('Content-type: text/html; charset=' . $ct_conf['dev']['charset_default'])
 	
 	<script>
 	
+	// Install ID (derived from this app's server path)
+	var ct_id = '<?=$ct_gen->id()?>';
+	
 	// Preload /images/auto-preloaded/ images VIA JAVASCRIPT TOO (WAY MORE RELIABLE THAN META TAG PRELOAD)
 	
 	<?php

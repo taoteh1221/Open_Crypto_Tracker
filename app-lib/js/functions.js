@@ -1396,6 +1396,10 @@ private_data = document.getElementsByClassName('private_data');
         document.oncontextmenu = document.body.oncontextmenu = function() {return false;};    
         
         $("#pm_link").text('Privacy Mode: On');
+        
+        // Delete any existing admin auth (login) cookie
+        // (we force admin logout when privacy mode is on)
+        delete_cookie('admin_auth_' + ct_id); 
             
         
         }
