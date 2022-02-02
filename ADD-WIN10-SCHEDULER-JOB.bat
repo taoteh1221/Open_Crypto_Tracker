@@ -1,5 +1,7 @@
 @echo off
 
+:: Copyright 2014-2022 GPLv3, Open Crypto Tracker by Mike Kilday: Mike@DragonFrugal.com
+
 echo:
 echo Enter the time interval in minutes to run this scheduled task 
 set /p cron_interval="(5, 10, 15, 20, or 30...leave blank / hit enter for default of 20): "
