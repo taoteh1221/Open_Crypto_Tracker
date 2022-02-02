@@ -515,14 +515,14 @@ $ct_conf['charts_alerts']['tracked_markets'] = array(
 // PLUGIN CONFIGS are in the /plugins/ directory associated with that plugin
 // CHANGE 'off' to 'on' FOR THE PLUGIN YOU WANT ACTIVATED 
 $ct_conf['power']['activate_plugins'] = array(
-									//'plugin-folder-name' => 'on', // (disabled example...your LOWERCASE plugin folder name in the folder: /plugins/)
-									'recurring-reminder' => 'off',  // Recurring Reminder plugin (alert yourself every X days to do something)
-									'price-target-alert' => 'off',  // Price target alert plugin (alert yourself when an asset's price target is reached)
-									'address-balance-tracker' => 'off',  // Get alerts for BTC / ETH / SOL / HNT address balance changes (when new coins are sent / recieved)
-									);
+            								  //'plugin-folder-name' => 'on', // (disabled example...your LOWERCASE plugin folder name in the folder: /plugins/)
+            								  'recurring-reminder' => 'off',  // Recurring Reminder plugin (alert yourself every X days to do something)
+            								  'price-target-alert' => 'off',  // Price target alert plugin (alert yourself when an asset's price target is reached)
+            								  'address-balance-tracker' => 'off',  // Alerts for BTC / ETH / [SOL|SPL Token] / HNT address balance changes (when new coins are sent / recieved)
+            								  );
 							
 							
-// Seconds to wait for response from REMOTE API endpoints (exchange data, etc). 
+// SECONDS to wait for response from REMOTE API endpoints (exchange data, etc). 
 // Set too low you won't get ALL data (partial or zero bytes), set too high the interface can take a long time loading if an API server hangs up
 // RECOMMENDED MINIMUM OF 60 FOR INSTALLS BEHIND #LOW BANDWIDTH# NETWORKS 
 // (which may need an even higher timeout above 60 if data still isn't FULLY received from all APIs)
@@ -540,11 +540,11 @@ $ct_conf['power']['admin_cookie_expire'] = 8; // (default = 8)
 $ct_conf['power']['last_trade_cache_time'] = 4; // (default = 4)
 
 
-// Minutes to cache blockchain stats (for mining calculators). Set high initially, it can be strict
+// MINUTES to cache blockchain stats (for mining calculators). Set high initially, it can be strict
 $ct_conf['power']['chainstats_cache_time'] = 75;  // (default = 75)
 
 
-// Minutes to cache marketcap rankings...start high and test lower, it can be strict
+// MINUTES to cache marketcap rankings...start high and test lower, it can be strict
 $ct_conf['power']['mcap_cache_time'] = 75;  // (default = 75)
 ////
 // Number of marketcap rankings to request from API.
@@ -841,34 +841,34 @@ $ct_conf['power']['mining_calculators'] = array(
 					
 					// BTC
 					'btc' => array(
-											'name' => 'Bitcoin', // Coin name
-											'symbol' => 'btc', // Coin symbol (lowercase)
-											'exchange_name' => 'binance', // Exchange name (for price data, lowercase)
-											'exchange_market' => 'BTCUSDT', // Market pair name (for price data)
-											'measure_semantic' => 'difficulty',  // (difficulty, nethashrate, etc)
-											'block_reward' => 6.25, // Mining block reward (OPTIONAL, can be made dynamic with code, like below)
-											// EVERYTHING BELOW #MUST BE# updated in /app-lib/php/other/app-config-managment.php, since we run a cached config)
-											'mining_time_formula' => 'PLACEHOLDER', // Mining time formula calculation (REQUIRED)
-											'height' => 'PLACEHOLDER', // Block height (OPTIONAL)
-											'difficulty' => 'PLACEHOLDER', // Mining network difficulty (OPTIONAL)
-											'other_network_data' => '', // Leave blank to skip (OPTIONAL)
-										),
+									'name' => 'Bitcoin', // Coin name
+									'symbol' => 'btc', // Coin symbol (lowercase)
+									'exchange_name' => 'binance', // Exchange name (for price data, lowercase)
+									'exchange_market' => 'BTCUSDT', // Market pair name (for price data)
+									'measure_semantic' => 'difficulty',  // (difficulty, nethashrate, etc)
+									'block_reward' => 6.25, // Mining block reward (OPTIONAL, can be made dynamic with code, like below)
+									// EVERYTHING BELOW #MUST BE# updated in /app-lib/php/other/app-config-managment.php, since we run a cached config)
+									'mining_time_formula' => 'PLACEHOLDER', // Mining time formula calculation (REQUIRED)
+									'height' => 'PLACEHOLDER', // Block height (OPTIONAL)
+									'difficulty' => 'PLACEHOLDER', // Mining network difficulty (OPTIONAL)
+									'other_network_data' => '', // Leave blank to skip (OPTIONAL)
+									),
 					
 					
 					// ETH
 					'eth' => array(
-											'name' => 'Ethereum', // Coin name
-											'symbol' => 'eth', // Coin symbol (lowercase)
-											'exchange_name' => 'binance', // Exchange name (for price data, lowercase)
-											'exchange_market' => 'ETHBTC', // Market pair name (for price data)
-											'measure_semantic' => 'difficulty',  // (difficulty, nethashrate, etc)
-											'block_reward' => 2, // Mining block reward (OPTIONAL, can be made dynamic with code, like below)
-											// EVERYTHING BELOW #MUST BE# updated in /app-lib/php/other/app-config-managment.php, since we run a cached config)
-											'mining_time_formula' => 'PLACEHOLDER', // Mining time formula calculation (REQUIRED)
-											'height' => 'PLACEHOLDER', // Block height (OPTIONAL)
-											'difficulty' => 'PLACEHOLDER', // Mining network difficulty (OPTIONAL)
-											'other_network_data' => 'PLACEHOLDER', // Leave blank to skip (OPTIONAL)
-										),
+									'name' => 'Ethereum', // Coin name
+									'symbol' => 'eth', // Coin symbol (lowercase)
+									'exchange_name' => 'binance', // Exchange name (for price data, lowercase)
+									'exchange_market' => 'ETHBTC', // Market pair name (for price data)
+									'measure_semantic' => 'difficulty',  // (difficulty, nethashrate, etc)
+									'block_reward' => 2, // Mining block reward (OPTIONAL, can be made dynamic with code, like below)
+									// EVERYTHING BELOW #MUST BE# updated in /app-lib/php/other/app-config-managment.php, since we run a cached config)
+									'mining_time_formula' => 'PLACEHOLDER', // Mining time formula calculation (REQUIRED)
+									'height' => 'PLACEHOLDER', // Block height (OPTIONAL)
+									'difficulty' => 'PLACEHOLDER', // Mining network difficulty (OPTIONAL)
+									'other_network_data' => 'PLACEHOLDER', // Leave blank to skip (OPTIONAL)
+									),
 					
 					
 			), // POW END
@@ -1540,50 +1540,50 @@ $ct_conf['dev']['webhook_max_exec_time'] = 90; // (default = 90)
 // AS ON OCCASION THEY CAN BE !UNRELIABLE! IF HIT WITH TOO MANY SEPARATE API CALLS FOR MULTIPLE COINS / ASSETS)
 // !MUST BE LOWERCASE!
 $ct_conf['dev']['limited_apis'] = array(
-						'bit2c.co.il',
-						'bitforex.com',
-						'bitflyer.com',
-						'bitmex.com',
-						'bitso.com',
-						'bitstamp.net',
-						'blockchain.info',
-						'btcmarkets.net',
-						'coinbase.com',
-						'cryptofresh.com',
-						'defipulse.com',
-						'etherscan.io',
-						'gemini.com',
-							);
+                						'bit2c.co.il',
+                						'bitforex.com',
+                						'bitflyer.com',
+                						'bitmex.com',
+                						'bitso.com',
+                						'bitstamp.net',
+                						'blockchain.info',
+                						'btcmarkets.net',
+                						'coinbase.com',
+                						'cryptofresh.com',
+                						'defipulse.com',
+                						'etherscan.io',
+                						'gemini.com',
+							            );
 
 
 // TLD-extensions-only mapping (Top Level Domain extensions only, supported in the $ct_gen->get_tld_or_ip() function, which removes subdomains for tld checks)
 // IF YOU ADD A NEW API, !MAKE SURE IT'S DOMAIN EXTENSION EXISTS HERE!
 // (NO LEADING DOTS, !MUST BE LOWERCASE!)
 $ct_conf['dev']['top_level_domain_map'] = array(
-                    // TLD
-					'co',
-					'co.il',
-					'co.uk',
-					'com', 
-					'com.au',
-					'fm',
-					'info',
-					'io',
-					'market',
-					'net',
-					'net.au',
-					'net.uk',
-					'one',
-					'org',
-					'org.au',
-					'org.uk',
-					'pro',
-					'us',
-					'xyz',
-					// internal / intranet / etc...
-					'local', 
-					'network', 
-					);
+                                                // TLD
+                            					'co',
+                            					'co.il',
+                            					'co.uk',
+                            					'com', 
+                            					'com.au',
+                            					'fm',
+                            					'info',
+                            					'io',
+                            					'market',
+                            					'net',
+                            					'net.au',
+                            					'net.uk',
+                            					'one',
+                            					'org',
+                            					'org.au',
+                            					'org.uk',
+                            					'pro',
+                            					'us',
+                            					'xyz',
+                            					// internal / intranet / etc...
+                            					'local', 
+                            					'network', 
+					                             );
 				
 
 ////////////////////////////////////////

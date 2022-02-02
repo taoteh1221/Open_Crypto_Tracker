@@ -294,8 +294,6 @@
 	        
 	        <li class='links_list'><a href='https://cointelegraph.com/' target='_blank'>Coin Telegraph</a></li>
 	        
-	        <li class='links_list'><a href='https://www.cointrust.com/' target='_blank'>Coin Trust</a></li>
-	        
 	        <li class='links_list'><a href='https://www.theblockcrypto.com/' target='_blank'>The Block</a></li>
 	        
 	        
@@ -310,6 +308,8 @@
 	    <ul>
 	        
 	        <li class='links_list'><a href='https://www.reddit.com/r/gpumining/' target='_blank'>GPU Mining Subreddit</a></li>
+	        
+	        <li class='links_list'><a href='https://hiveon.com/' target='_blank'>HiveOS</a></li>
 	        
 	        <li class='links_list'><a href='https://www.rocketpool.net/' target='_blank'>RocketPool Ethereum v2 Staking</a></li>
 	        
@@ -337,6 +337,8 @@
 	        <li class='links_list'><a href='https://ethresear.ch/' target='_blank'>Ethereum Research</a></li>
 	        
 	        <li class='links_list'><a href='https://programmingbitcoin.com/' target='_blank'>Programming Bitcoin</a></li>
+	        
+	        <li class='links_list'><a href='https://docs.solana.com/cluster/rpc-endpoints' target='_blank'>Solana API Endpoints / Documentation</a></li>
 	        
 	        <li class='links_list'><a href='https://bitcoin.stackexchange.com/' target='_blank'>StackExchange - Bitcoin</a></li>
 	        
@@ -366,6 +368,8 @@
 	        <li class='links_list'><a href='https://www.opennode.com/' target='_blank'>OpenNode</a>    <span class='yellow'>(Bitcoin / Lightning ecommerce gateway services)</span></li>
 	        
 	        <li class='links_list'><a href='https://github.com/rootzoll/raspiblitz' target='_blank'>RaspiBlitz</a>    <span class='yellow'>(Bitcoin Lightning node on a Raspberry Pi w/LCD screen)</span></li>
+	        
+	        <li class='links_list'><a href='https://solanapay.com/' target='_blank'>SolanaPay</a>    <span class='yellow'>(Solana ecommerce gateway services)</span></li>
 	        
 	        <li class='links_list'><a href='https://zap.jackmallers.com/download' target='_blank'>Zap</a>    <span class='yellow'>(Bitcoin Lightning node on multiple devices)</span></li>
 	      
@@ -400,7 +404,9 @@
 	        
 	        <li class='links_list'><a href='https://sourceforge.net/projects/dfd-crypto-ticker/' target='_blank'>Raspberry PI Real-Time / Multi-Crypto Slideshow Price Ticker</a> <span class='yellow'>(a side project of mine)</span></li>
 	        
-	        <li class='links_list'><a href='https://www.sec.gov/ICO' target='_blank'>SEC.gov ICO Awareness Site</a></li>
+	        <li class='links_list'><a href='https://www.sec.gov/ICO' target='_blank'>SEC.gov Crypto Scam Awareness Site</a></li>
+	        
+	        <li class='links_list'><a href='https://www.reddit.com/r/solana/' target='_blank'>Solana Subreddit</a></li>
 	        
 	        <li class='links_list'><a href='https://txstreet.com/' target='_blank'>TxStreet.com</a> <span class='yellow'>(Blockchain Transaction Visualizer)</span></li>
 	        
@@ -457,6 +463,8 @@
 	        <li class='links_list'><a href='https://www.youtube.com/channel/UC5rV0QEGbv0Y-umDwshs_HA/featured' target='_blank'>Kripto Sözlük (turkish)</a></li>
 	        
 	        <li class='links_list'><a href='https://www.youtube.com/channel/UCSuHzQ3GrHSzoBbwrIq3LLA' target='_blank'>Naomi Brockwell</a></li>
+	        
+	        <li class='links_list'><a href='https://www.youtube.com/c/Solanalabs/featured' target='_blank'>Solana Labs</a></li>
 	        
 	        <li class='links_list'><a href='https://www.youtube.com/channel/UCWiiMnsnw5Isc2PP1to9nNw/featured' target='_blank'>Unchained Podcast</a></li>
 	        

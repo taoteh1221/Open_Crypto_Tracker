@@ -206,10 +206,10 @@ See "<span class='bitcoin'>Setting Up Price Charts And Email / Text / Telegram /
 Running price charts or price alerts requires setting up a cron job or scheduled task on the Ubuntu / Raspberry Pi / Windows 10 machine or website server (this is automated for Ubuntu and Raspberry Pi users using the automated FOLIO-INSTALL.bash script / Windows 10 users who run the ADD-WIN10-SCHEDULER-JOB.bat file), otherwise charts / alerts will not work. Also see the related settings in Admin Config for charts / alerts. 
 	    <br /><br />
 
-Once a cron job is setup, there is no need to keep your PC / Laptop turned on. The price charts and price alerts run automatically from your app server. If you encounter errors or the charts / alerts don't work during setup, check the error logs file at /cache/logs/error.log for errors in your configuration setup. Basic checks are performed and errors are reported there, and on the Settings page. 
+Once a cron job is setup, there is no need to keep your PC / Laptop turned on. The price charts and price alerts run automatically from your Open Crypto Tracker app server installation. If you encounter errors or the charts / alerts don't work during setup, check the error logs file at /cache/logs/error.log for errors in your configuration setup. Basic checks are performed and errors are reported there, and on the Settings page. 
 	    <br /><br />
 
-If you want to take advantage of these cron job based features and more (chart data backups, daily or weekly error log emails / etc), then the file cron.php (located in the primary directory of this app) must be setup as a cron job on your Ubuntu / Raspberry Pi / Windows 10 / website server device. 
+If you want to turn on these cron job based features and more (chart data backups, new RSS news feed entries emails, error log emails / etc), then the file cron.php (located in the primary directory of this app) must be setup as a cron job on your Ubuntu / Raspberry Pi / Windows 10 / website server device. 
 	    <br /><br />
 
 As mentioned previously, if you run the automated setup / install script for Ubuntu / Raspberry Pi / Windows 10 devices on home / internal networks, automatic cron job setup is offered as an option during this process. If you are using a full stack website host for hosting a TLD website domain name remotely, consult your web server host's documentation or help desk for their particular method of setting up a cron job. 
@@ -218,7 +218,7 @@ As mentioned previously, if you run the automated setup / install script for Ubu
 Note that you should have the cron job run every 5, 10, 15, 20, or 30 minutes 24/7, based on how often you want chart data points / alerts / any other cron based features to run. Setting up the cron job to run every 20 minutes is the RECOMMENDED lowest time interval. IF SET BELOW 20 MINUTES, lite chart disk writes may be excessive for lower end hardware (Raspberry PI MicroSD cards etc). IF SET #VERY LOW# (5 / 10 minutes), the free exchange APIs may throttle / block your data requests temporarily on occasion for requesting data too frequently (negatively affecting your alerts / charts). 
 	    <br /><br />
 
-FOR WINDOWS 10 USERS, just click / run the file 'ADD-WIN10-SCHEDULER-JOB.bat' found in the main directory of the app, and everything will be automatically setup for you. As long as you login into your Windows account after system startup, the scheduled task will run every 20 minutes until your computer is shut off.<br /><br />
+FOR WINDOWS 10 USERS, just click / run the file 'ADD-WIN10-SCHEDULER-JOB.bat' found in the main directory of the app, follow the prompts, and everything will be automatically setup for you. As long as you login into your Windows account after system startup, the scheduled task will run until your computer is shut off OR you logout of that user account.<br /><br />
 
 FOR LINUX / MAC USERS, here is an example cron job command line for reference below (NOT including any cron parameters your host interface may require), to setup as the "command" within a cron job. Replace system paths in the example with the correct ones for your server (TIP - A very common path to PHP on a server is /usr/bin/php):
 	    <br /><br />
@@ -351,7 +351,7 @@ Ethereum ICO subtoken support (pre-exchange listing) has been built in (values a
                                   'lowercase_exchange5' => 'ASSETETH',
                                   // DEFI, INCLUDING #OPTIONAL# LIQUIDITY POOL ADDRESS, ASSURING #EXACT# MARKET DESIRED
                                   'defipulse' => 'ASSET/PAIRING||OPTIONAL_LIQUIDITY_POOL_ADDRESS',
-                                  // ETH ICOs...MUST be defined in 'eth_erc20_icos', in Admin Config POWER USER section
+                                  // ETH ICOs...ETHSUBTOKENNAME MUST be defined in 'eth_erc20_icos' (Admin Config POWER USER section)
                                   'ico_erc20_value' => 'ETHSUBTOKENNAME', 
                                   // GENERIC ETH PRICE (IF NO EXHANGE APIs AVAILABLE)
                                   // USE COINGECKO'S API ID FOR THIS ASSET (SEE COINGECKO ASSET PAGE'S INFO SECTION)
@@ -464,7 +464,7 @@ Ethereum ICO subtoken support (pre-exchange listing) has been built in (values a
 	      <div class="card-body">
 	      
 	       
-	        Either the asset has not been added to <a href='https://coinmarketcap.com' target='_blank'>Coinmarketcap.com</a> or <a href='https://Coingecko.com' target='_blank'>Coingecko.com</a> yet, you forgot to add the URL slug in it's config section, or you need to increase the number of rankings to fetch in Admin Config in the POWER USER section (750 rankings is the safe maximum to avoid getting your API requests throttled / blocked). 
+	        Either the asset has not been added to <a href='https://coinmarketcap.com' target='_blank'>Coinmarketcap.com</a> or <a href='https://Coingecko.com' target='_blank'>Coingecko.com</a> yet, you forgot to add the URL slug in it's config section, or you need to increase the number of rankings to fetch in Admin Config in the POWER USER section (500 rankings is the safe maximum to avoid getting your API requests throttled / blocked). 
 	        
 	        
 	      </div>
