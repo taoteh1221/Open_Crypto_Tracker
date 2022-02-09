@@ -1109,46 +1109,46 @@ function auto_reload() {
 			else {
 				
 
-            // If subsections are still loading, wait until they are finished
-            if ( $("#loading_subsections").is(":visible") || window.charts_loaded.length < window.charts_num || window.feeds_loaded.length < window.feeds_num ) {
-            setTimeout(auto_reload, 1000); // Wait 1000 milliseconds then recheck
-            return;
-            }
-            else {
-               
-           	setCookie("coin_reload", time, 365);
-           	
-				int_time = time - 1; // Remove a second for the 1000 millisecond (1 second) recheck interval
-			
-            	window.reload_countdown = setInterval(function () {
+                // If subsections are still loading, wait until they are finished
+                if ( $("#loading_subsections").is(":visible") || window.charts_loaded.length < window.charts_num || window.feeds_loaded.length < window.feeds_num ) {
+                setTimeout(auto_reload, 1000); // Wait 1000 milliseconds then recheck
+                return;
+                }
+                else {
+                   
+               	setCookie("coin_reload", time, 365);
+               	
+    				int_time = time - 1; // Remove a second for the 1000 millisecond (1 second) recheck interval
+    			
+                	window.reload_countdown = setInterval(function () {
+                          
+                    
+                    	if ( int_time >= 60 ) {
+                    
+                    	round_min = Math.floor(int_time / 60);
+                    	sec = ( int_time - (round_min * 60) );
+                    
+                   	    $("#reload_countdown").html("<b>(" + round_min + " minutes " + sec + " seconds)</b>"); // Portfolio page
+                   	    $("span.countdown_notice").html("<b>(auto-reload in " + round_min + " minutes " + sec + " seconds)</b>"); // Secondary pages
                       
+                    	}
+                    	else {
+                    	$("#reload_countdown").html("<b>(" + int_time + " seconds)</b>"); // Portfolio page
+                    	$("span.countdown_notice").html("<b>(auto-reload in " + int_time + " seconds)</b>"); // Secondary pages
+                    	}
+            				
+            				if ( int_time == 0 ) {
+                 		    app_reloading_placeholder();
+                 		    app_reload();
+            				}
                 
-                	if ( int_time >= 60 ) {
                 
-                	round_min = Math.floor(int_time / 60);
-                	sec = ( int_time - (round_min * 60) );
-                
-               	    $("#reload_countdown").html("<b>(" + round_min + " minutes " + sec + " seconds)</b>"); // Portfolio page
-               	    $("span.countdown_notice").html("<b>(auto-reload in " + round_min + " minutes " + sec + " seconds)</b>"); // Secondary pages
-                  
-                	}
-                	else {
-                	$("#reload_countdown").html("<b>(" + int_time + " seconds)</b>"); // Portfolio page
-                	$("span.countdown_notice").html("<b>(auto-reload in " + int_time + " seconds)</b>"); // Secondary pages
-                	}
-        				
-        				if ( int_time == 0 ) {
-             		    app_reloading_placeholder();
-             		    app_reload();
-        				}
-            
-            
-             	int_time-- || clearInterval(int_time);  // Clear if 0 reached
-             
-             	}, 1000);
-	    
-               
-            }
+                 	int_time-- || clearInterval(int_time);  // Clear if 0 reached
+                 
+                 	}, 1000);
+    	    
+                   
+                }
    
    
 			}

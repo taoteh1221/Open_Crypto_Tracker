@@ -1219,6 +1219,44 @@ var $ct_array1 = array();
     
     
     
+      elseif ( strtolower($sel_exchange) == 'bybit' ) {
+         
+      $url = 'https://api-testnet.bybit.com/v2/public/tickers';
+         
+      $response = @$ct_cache->ext_data('url', $url, $ct_conf['power']['last_trade_cache_time']);
+         
+      $data = json_decode($response, true);
+         
+      $data = $data['result'];
+         
+      
+	          if ( is_array($data) ) {
+	      
+	            foreach ($data as $key => $val) {
+	              
+	              if ( $val["symbol"] == $market_id ) {
+	               
+	              $result = array(
+	                              'last_trade' => $val["last_price"],
+	                              '24hr_asset_vol' => null, 
+	                              '24hr_pairing_vol' => $val["volume_24h"] 
+	                     		  );
+	               
+	              }
+	          
+	            }
+	          
+	          }
+      
+      
+      }
+     
+     
+     
+     ////////////////////////////////////////////////////////////////////////////////////////////////
+    
+    
+    
       elseif ( strtolower($sel_exchange) == 'cex' ) {
          
       $url = 'https://cex.io/api/tickers/BTC/USD/USDT/RUB/EUR/GBP';

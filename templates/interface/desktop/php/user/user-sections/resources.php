@@ -55,8 +55,6 @@
 	        
 	        <li class='links_list'><a href='https://bitcoinvisuals.com/lightning' target='_blank'>Lightning Network Stats</a> <span class='yellow'>(Bitcoin Layer 2 Network)</span></li>
 	        
-	        <li class='links_list'><a href='https://duneanalytics.com/loopring' target='_blank'>LoopRing Network Stats</a> <span class='yellow'>(Ethereum Layer 2 Network)</span></li>
-	        
 	        
 	    </ul>
 	    </fieldset>
@@ -120,7 +118,7 @@
 	        
 	        <li class='links_list'><a href='https://uniswap.org/' target='_blank'>Uniswap.org</a>  <span class='yellow'>(NON-CUSTODIAL markets ANYBODY can trade)</span></li>
 	        
-	        <li class='links_list'><a href='https://loopring.io/' target='_blank'>LoopRing.io</a>  <span class='yellow'>(#EARLY BETA TESTING# Layer 2 [low TX fee] NON-CUSTODIAL markets ANYBODY can trade)</span></li>
+	        <li class='links_list'><a href='https://zksync.io/' target='_blank'>ZKsync.io</a>  <span class='yellow'>(#EARLY BETA TESTING# Layer 2 [low TX fee] NON-CUSTODIAL markets ANYBODY can trade)</span></li>
 	        
 	        
 	        
@@ -142,6 +140,8 @@
 	        <li class='links_list'><a href='https://solanabeach.io/' target='_blank'>Solana Beach - Solana Explorer</a></li>
 	        
 	        <li class='links_list'><a href='https://solscan.io/' target='_blank'>SolScan.io - Solana Explorer</a></li>
+	        
+	        <li class='links_list'><a href='https://zkscan.io/' target='_blank'>ZKscan.io - ZKsync Explorer <span class='yellow'>(Ethereum layer 2)</span></a></li>
 	        
 	        
 	        
@@ -288,8 +288,6 @@
 	        
 	        <li class='links_list'><a href='https://bravenewcoin.com/' target='_blank'>Brave New Coin</a></li>
 	        
-	        <li class='links_list'><a href='https://btcmanager.com/' target='_blank'>BTC Manager</a></li>
-	        
 	        <li class='links_list'><a href='https://www.coindesk.com/' target='_blank'>Coin Desk</a></li>
 	        
 	        <li class='links_list'><a href='https://cointelegraph.com/' target='_blank'>Coin Telegraph</a></li>
@@ -433,8 +431,6 @@
 	        <li class='links_list'><a href='https://www.youtube.com/user/BaltimoreHourly/featured' target='_blank'>BitcoinMeister</a></li>
 	        
 	        <li class='links_list'><a href='https://www.youtube.com/user/BitsBeTrippin' target='_blank'>Bits Be Trippin</a> (POW mining channel)</li>
-	        
-	        <li class='links_list'><a href='https://www.youtube.com/channel/UCxODjeUwZHk3p-7TU-IsDOA/featured' target='_blank'>Boxmining</a></li>
 	        
 	        <li class='links_list'><a href='https://www.youtube.com/c/BTCSessions/featured' target='_blank'>BTC Sessions</a></li>
 	        

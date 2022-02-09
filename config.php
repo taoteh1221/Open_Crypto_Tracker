@@ -460,11 +460,9 @@ $ct_conf['charts_alerts']['tracked_markets'] = array(
 					'slrs-2' => 'gateio||eth||chart',
 					
 					
-					// LRC
-					'lrc' => 'coinbase||usd||both',
-					'lrc-2' => 'binance||btc||chart',
-					'lrc-3' => 'binance||eth||none',
-					'lrc-4' => 'defipulse||eth||none',
+					// BIT
+					'bit' => 'ftx||usd||both',
+					'bit-2' => 'generic_btc||btc||chart',
 					
 					
 					// GRAPE
@@ -485,25 +483,10 @@ $ct_conf['charts_alerts']['tracked_markets'] = array(
 					'hive' => 'bittrex||btc||both',
 					
 					
-					// IN
-					'in' => 'generic_usd||usd||both',
-					'in-2' => 'generic_btc||btc||chart',
-					'in-3' => 'generic_eth||eth||chart',
-					'in-4' => 'generic_eur||eur||none',
-					'in-5' => 'generic_gbp||gbp||none',
-					
-					
 					// SAMO
 					'samo' => 'okex||usdt||both',
 					'samo-2' => 'gateio||eth||chart',
 					'samo-3' => 'generic_btc||btc||chart',
-					
-					
-					// MYST
-					'myst' => 'hitbtc||btc||chart',
-					'myst-2' => 'hitbtc||eth||none',
-					'myst-3' => 'bittrex_global||btc||both',
-					'myst-4' => 'defipulse||eth||none',
 					
 					
 					// SG
@@ -692,8 +675,6 @@ $ct_conf['power']['crypto_pairing'] = array(
 						// ERC-20 tokens on Ethereum / SPL tokens on Solana, etc etc...
 						'uni' => '🦄 ',
 						'mkr' => '𐌼 ',
-						'lrc' => '➰ ',
-						'in' => '🦉 ',
 						'samo' => '🐶 ',
 						//....
 							);
@@ -713,7 +694,6 @@ $ct_conf['power']['crypto_pairing_pref_markets'] = array(
 							'sol' => 'binance',  // WAY MORE volume , WAY BETTER price discovery than ALL alternatives
 							'uni' => 'binance',  // WAY MORE volume , WAY BETTER price discovery than ALL alternatives
 							'mkr' => 'binance',  // WAY MORE volume , WAY BETTER price discovery than ALL alternatives
-							'lrc' => 'binance',  // WAY MORE volume , WAY BETTER price discovery than ALL alternatives
 							);
 
 
@@ -930,6 +910,12 @@ $ct_conf['power']['news_feed'] = array(
         
         
         				array(
+            			"title" => "Blog - BitDAO (decentralized hedge fund on Ethereum)",
+            			"url" => "https://medium.com/feed/bitdao"
+        						),
+        
+        
+        				array(
             			"title" => "Blog - Bittrex",
             			"url" => "https://bittrex.com/discover/category/blog/feed"
         						),
@@ -1014,12 +1000,6 @@ $ct_conf['power']['news_feed'] = array(
         
         
         				array(
-            			"title" => "Blog - LoopRing (Ethereum Layer 2 Network)",
-            			"url" => "https://medium.com/feed/loopring-protocol"
-        						),
-        
-        
-        				array(
             			"title" => "Blog - Marinade Finance (mSOL liquid staking on Solana)",
             			"url" => "https://medium.com/feed/marinade-finance"
         						),
@@ -1056,12 +1036,6 @@ $ct_conf['power']['news_feed'] = array(
         
         
         				array(
-            			"title" => "Blog - Sol Invictus (Fork of OlympusDAO on Solana)",
-            			"url" => "https://medium.com/@Sol-Invictus/feed"
-        						),
-        
-        
-        				array(
             			"title" => "Blog - Solana Labs (High-Speed Smart Contracts Network)",
             			"url" => "https://medium.com/feed/solana-labs"
         						),
@@ -1092,18 +1066,6 @@ $ct_conf['power']['news_feed'] = array(
         
         
         				array(
-            			"title" => "News - Bitcoinist",
-            			"url" => "https://bitcoinist.com/feed/"
-        						),
-    					
-    					
-        				array(
-            			"title" => "News - Box Mining",
-            			"url" => "https://boxmining.com/feed/"
-        						),
-        
-        
-        				array(
             			"title" => "News - CoinTelegraph",
             			"url" => "https://cointelegraph.com/feed"
         						),
@@ -1112,12 +1074,6 @@ $ct_conf['power']['news_feed'] = array(
         				array(
             			"title" => "News - The Block",
             			"url" => "https://www.theblockcrypto.com/rss.xml"
-        						),
-    
-    
-        				array(
-            			"title" => "News - The Merkle",
-            			"url" => "https://themerkle.com/feed/"
         						),
     
     
@@ -1142,12 +1098,6 @@ $ct_conf['power']['news_feed'] = array(
         				array(
             			"title" => "Newsletter - Lightning Labs (Bitcoin Layer 2 Network)",
             			"url" => "https://lightninglabs.substack.com/feed"
-        						),
-    
-    
-        				array(
-            			"title" => "Newsletter - LoopRing (Ethereum Layer 2 Network)",
-            			"url" => "https://loopring.substack.com/feed"
         						),
     
     
@@ -1260,18 +1210,6 @@ $ct_conf['power']['news_feed'] = array(
     
     
         				array(
-            			"title" => "Reddit - CryptoCurrency (top)",
-            			"url" => "https://www.reddit.com/r/CryptoCurrency/top/.rss?format=xml"
-        						),
-    
-    
-        				array(
-            			"title" => "Reddit - CryptoMarkets (top)",
-            			"url" => "https://www.reddit.com/r/CryptoMarkets/top/.rss?format=xml"
-        						),
-    
-    
-        				array(
             			"title" => "Reddit - Ethereum (top)",
             			"url" => "https://www.reddit.com/r/Ethereum/top/.rss?format=xml"
         						),
@@ -1284,26 +1222,20 @@ $ct_conf['power']['news_feed'] = array(
     
     
         				array(
-            			"title" => "Reddit - GPUMining (top)",
-            			"url" => "https://www.reddit.com/r/gpumining/top/.rss?format=xml"
-        						),
-    
-    
-        				array(
             			"title" => "Reddit - Helium Network (top)",
             			"url" => "https://www.reddit.com/r/heliumnetwork/top/.rss?format=xml"
         						),
     
     
         				array(
-            			"title" => "Reddit - Invictus DAO (top)",
-            			"url" => "https://www.reddit.com/r/invictusdao/top/.rss?format=xml"
+            			"title" => "Reddit - Solana (top)",
+            			"url" => "https://www.reddit.com/r/solana/top/.rss?format=xml"
         						),
     
     
         				array(
-            			"title" => "Reddit - Solana (top)",
-            			"url" => "https://www.reddit.com/r/solana/top/.rss?format=xml"
+            			"title" => "Reddit - ZKsync (top)",
+            			"url" => "https://www.reddit.com/r/zksync/top/.rss?format=xml"
         						),
     
     
@@ -3287,54 +3219,31 @@ $ct_conf['assets'] = array(
                     ////////////////////////////////////////////////////////////////////
                     
                     
-                    // LRC
-                    'LRC' => array(
+                    // BIT
+                    'BIT' => array(
                         
-                        'name' => 'Loopring',
-                        'mcap_slug' => 'loopring',
+                        'name' => 'BitDAO',
+                        'mcap_slug' => 'bitdao',
                         'pairing' => array(
 
-                        
-                                    'btc' => array(
-                                        'binance' => 'LRCBTC',
-                                    	'coinbase' => 'LRC-BTC',
-                                        'bittrex' => 'LRC-BTC',
-                                        'okex' => 'LRC-BTC',
-                                        'huobi' => 'lrcbtc',
-                                        'upbit' => 'BTC-LRC',
-                                        'loopring_amm' => 'AMM-LRC-WBTC',
-                                        'hitbtc' => 'LRCBTC',
-                                        'gateio' => 'LRC_BTC',
-                                        'coinex' => 'LRCBTC',
-                                                    ),
-
                                                     
-                                    'eth' => array(
-                                        'binance' => 'LRCETH',
-                                        'huobi' => 'lrceth',
-                                        'loopring' => 'LRC-ETH',
-                                        'hitbtc' => 'LRCETH',
-                                        'gateio' => 'LRC_ETH',
-                                    	'defipulse' => 'LRC/WETH||0x8878df9e1a7c87dcbf6d3999d997f262c05d8c70',
+                                    'btc' => array(
+                                        'generic_btc' => 'bitdao',
                                                     ),
 
                                                     
                                     'usd' => array(
-                                    	 'coinbase' => 'LRC-USD',
-                                         'bittrex' => 'LRC-USD',
-                                    	 'bitfinex' => 'tLRCUSD',
+                                    	'ftx' => 'BIT/USD',
+                                        'bybit' => 'BITUSD',
                                                     ),
 
                                                     
                                     'usdt' => array(
-                                        'binance' => 'LRCUSDT',
-                                        'okex' => 'LRC-USDT',
-                                        'huobi' => 'lrcusdt',
-                                        'kucoin' => 'LRC-USDT',
-                                        'loopring' => 'LRC-USDT',
-                                        'gateio' => 'LRC_USDT',
-                                        'coinex' => 'LRCUSDT',
-                                        'wazirx' => 'lrcusdt',
+                                        'bybit' => 'BITUSDT',
+                                        'gateio' => 'BIT_USDT',
+                                        'bitmart' => 'BIT_USDT',
+                                        'bigone' => 'BIT-USDT',
+                                        'hotbit' => 'BIT_USDT',
                                                     ),
 
                                                     
@@ -3467,47 +3376,6 @@ $ct_conf['assets'] = array(
                     ////////////////////////////////////////////////////////////////////
                     
                     
-                    // IN
-                    'IN' => array(
-                        
-                        'name' => 'Invictus',
-                        'mcap_slug' => 'invictus',
-                        'pairing' => array(
-
-                                                    
-                                    'btc' => array(
-                                          'generic_btc' => 'invictus',
-                                                    ),
-
-                        
-                                    'eth' => array(
-                                          'generic_eth' => 'invictus',
-                                                    ),
-
-                                                    
-                                    'eur' => array(
-                                          'generic_eur' => 'invictus',
-                                                    ),
-
-                                                    
-                                    'gbp' => array(
-                                          'generic_gbp' => 'invictus',
-                                                    ),
-
-                                                    
-                                    'usd' => array(
-                                          'generic_usd' => 'invictus',
-                                                    ),
-
-                                                    
-                        ) // pairing END
-                        
-                    ), // Asset END
-                    
-                    
-                    ////////////////////////////////////////////////////////////////////
-                    
-                    
                     // SAMO
                     'SAMO' => array(
                         
@@ -3529,39 +3397,6 @@ $ct_conf['assets'] = array(
                                     'usdt' => array(
                                         'okex' => 'SAMO-USDT',
                                         'gateio' => 'SAMO_USDT',
-                                                    ),
-
-                                                    
-                        ) // pairing END
-                        
-                    ), // Asset END
-                    
-                    
-                    ////////////////////////////////////////////////////////////////////
-                    
-                    
-                    // MYST
-                    'MYST' => array(
-                        
-                        'name' => 'Mysterium',
-                        'mcap_slug' => 'mysterium',
-                        'pairing' => array(
-
-                        
-                                    'btc' => array(
-                                          'hitbtc' => 'MYSTBTC',
-                                          'bittrex_global' => 'MYST-BTC',
-                                                    ),
-
-                                                    
-                                    'eth' => array(
-                                          'hitbtc' => 'MYSTETH',
-                                    	  'defipulse' => 'MYST/WETH||0x5c56bf84dcbb1d3f9646528a68520b7e21791ddd',
-                                                    ),
-
-                                                    
-                                    'usdt' => array(
-                                          'bittrex_global' => 'MYST-USDT',
                                                     ),
 
                                                     
