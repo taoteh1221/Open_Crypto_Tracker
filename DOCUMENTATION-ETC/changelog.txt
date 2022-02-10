@@ -5124,6 +5124,9 @@ MIGRATE YOUR EXISTING SETTINGS TO THE NEW FORMAT.
 5.13.0:
 
 
+-Optimized system stats logic
+
+
 -Default config cleanup
 
 

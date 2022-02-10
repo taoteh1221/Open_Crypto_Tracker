@@ -49,7 +49,6 @@ $ct_asset->charts_price_alerts($key, $exchange, $pairing, $mode);
 }
 
 
-
 // Checkup on each failed proxy
 if ( $ct_conf['comms']['proxy_alert'] != 'off' ) {
 	
@@ -61,35 +60,19 @@ if ( $ct_conf['comms']['proxy_alert'] != 'off' ) {
 }
 
 
-
 // Queue notifications if there were any price alert resets, BEFORE $ct_cache->send_notifications() runs
 $ct_gen->reset_price_alert_notice();
 
 
-
-// Calculate script runtime length
+// Calculate script runtime length (BEFORE system stats logging)
 $time = microtime();
 $time = explode(' ', $time);
 $time = $time[1] + $time[0];
 $total_runtime = round( ($time - $start_runtime) , 3);
 
 
-
-// SYSTEM STATS START
-// System stats, chart the 15 min load avg / temperature / free partition space / free memory [mb/percent] / portfolio cache size / runtime length
-// RUN BEFORE plugins (in case custom plugin crashes)
-    			
-// System data
-$system_load = $system_info['system_load'];
-$system_load = preg_replace("/ \(15 min avg\)(.*)/i", "", $system_load);
-$system_load = preg_replace("/(.*)\(5 min avg\) /i", "", $system_load); // Use 15 minute average
-    		
-$system_temp = preg_replace("/° Celsius/i", "", $system_info['system_temp']);
-
-$system_free_space_mb = $ct_gen->in_megabytes($system_info['free_partition_space'])['in_megs'];
-         
-$portfolio_cache_size_mb = $ct_gen->in_megabytes($system_info['portfolio_cache'])['in_megs'];
-
+    // System stats, chart the 15 min load avg / temperature / free partition space / free memory [mb/percent] / portfolio cache size / runtime length
+    // RUN BEFORE plugins (in case custom plugin crashes)
 
 	if ( trim($system_load) >= 0 ) {
 	$chart_data_set .= '||' . trim($system_load);

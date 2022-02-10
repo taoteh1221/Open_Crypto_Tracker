@@ -10,54 +10,10 @@
 	
 				
 	
-    <div style='margin-bottom: 30px;'><?php
-    			
-    		// System data
-    		$system_load = $system_info['system_load'];
-    		$system_load = preg_replace("/ \(15 min avg\)(.*)/i", "", $system_load);
-    		$system_load = preg_replace("/(.*)\(5 min avg\) /i", "", $system_load); // Use 15 minute average
-    		
-    		$system_temp = preg_replace("/° Celsius/i", "", $system_info['system_temp']);
-         
-			$system_free_space_mb = $ct_gen->in_megabytes($system_info['free_partition_space'])['in_megs'];
-         
-			$portfolio_cache_size_mb = $ct_gen->in_megabytes($system_info['portfolio_cache'])['in_megs'];
-    		
-    		$system_memory_total_mb = $ct_gen->in_megabytes($system_info['memory_total'])['in_megs'];
-    		
-    		$system_memory_free_mb = $ct_gen->in_megabytes($system_info['memory_free'])['in_megs'];
-    		
-  			// Percent difference (!MUST BE! absolute value)
-         $memory_percent_free = abs( ($system_memory_free_mb - $system_memory_total_mb) / abs($system_memory_total_mb) * 100 );
-         $memory_percent_free = round( 100 - $memory_percent_free, 2);
-    		
-    		$system_load_redline = ( $system_info['cpu_threads'] > 1 ? ($system_info['cpu_threads'] * 2) : 2 );
-         
-         
-         if ( substr($system_info['uptime'], 0, 6) == '0 days' ) {
-         $system_alerts['uptime'] = 'Low uptime';
-         }
-	
-         if ( $system_load > $system_load_redline ) {
-         $system_alerts['system_load'] = 'High CPU load';
-         }
-	
-         if ( $system_temp > 79 ) {
-         $system_alerts['system_temp'] = 'High temperature';
-         }
-	
-         if ( $system_info['memory_used_percent'] > 89 ) {
-         $system_alerts['memory_used_megabytes'] = 'High memory usage';
-         }
-	
-         if ( $system_free_space_mb < 500 ) {
-         $system_alerts['free_partition_space'] = 'High disk storage usage';
-         }
-	
-         if ( $portfolio_cache_size_mb > 10000 ) {
-         $system_alerts['portfolio_cache'] = 'High app cache disk storage usage';
-         }
-         
+    <div style='margin-bottom: 30px;'>
+    
+    <?php
+       
          
          // Red UI nav, with info bubble too
          if ( is_array($system_alerts) && sizeof($system_alerts) > 0 ) {
@@ -155,7 +111,9 @@
     		}
     		
     		
-    		?></div>
+    		?>
+    		
+    		</div>
     		
     		
    <ul>
@@ -166,7 +124,7 @@
 	
 	<li class='bitcoin' style='font-weight: bold;'>System load is always (roughly) MULTIPLIED by the number of threads.</li>	
 	
-	<li class='bitcoin' style='font-weight: bold;'>"Cron Core Runtime Seconds" DOES NOT INCLUDE plugin runtime (for stability of CORE runtime, in case <i>custom</i> plugins are buggy and crash).</li>	
+	<li class='bitcoin' style='font-weight: bold;'>"CRON Core Runtime Seconds" DOES NOT INCLUDE plugin runtime (for stability of CORE runtime, in case <i>custom</i> plugins are buggy and crash).</li>	
    
    </ul>
 	
@@ -175,7 +133,7 @@
 	$all_chart_rebuild_min_max = explode(',', $ct_conf['dev']['all_chart_rebuild_min_max']);
 	?>
 	
-	<p class='sys_stats red' style='font-weight: bold;'>*The most recent days in the 'ALL' chart MAY ALWAYS show a spike on the cron runtime seconds (ON SLOWER MACHINES, from re-building the 'ALL' chart every <?=$all_chart_rebuild_min_max[0]?> to <?=$all_chart_rebuild_min_max[1]?> hours), until the 'ALL' chart re-builds slowly average out only showing their own runtime data for older days.</p>		
+	<p class='sys_stats red' style='font-weight: bold;'>*The "CRON Core Runtime Seconds" telemetry data <i>may vary per time period chart</i> (10D / 2W / 1M / 1Y / etc etc), as time period charts are updated during CRON runtimes, and some time period charts (including asset price charts) can take longer to update than others. Additionally, recent "ALL" chart data may show higher CRON runtimes, and average out in older data.</p>		
     		
 	
 	<div class='red' id='system_charts_error'></div>
