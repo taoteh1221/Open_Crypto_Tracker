@@ -326,23 +326,25 @@ header('Content-type: text/html; charset=' . $ct_conf['dev']['charset_default'])
 					
 					// If this isn't google or bing spidering the web, show the upgrade notice one time until the next reminder period
 					if ( stristr($_SERVER['HTTP_USER_AGENT'], 'googlebot') == false && stristr($_SERVER['HTTP_USER_AGENT'], 'bingbot') == false ) {
-				?>
-				<div class="alert alert-warning" role="alert">
-  					<button type="button" class="close" data-dismiss="alert" aria-label="Close">
-    					<span aria-hidden="true">&times;</span>
-  					</button>
-				  	<strong>Upgrade Notice:</strong> <?=$ui_upgrade_alert['message']?> 
-				</div>
-				<?php
+				    ?>
+				    
+    				<div class="alert alert-warning" role="alert">
+      					<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+        					<span aria-hidden="true">&times;</span>
+      					</button>
+    				  	<strong>Upgrade Notice:</strong> <?=$ct_gen->convert_urls($ui_upgrade_alert['message'])?> 
+    				</div>
 				
-				// Set back to 'run' => 'no' 
-				// (will automatically re-activate in upgrade-check.php at a later date, if another reminder is needed after X days)
-				$ui_upgrade_alert = array(
-														'run' => 'no',
-														'message' => null
-														);
-						
-				$ct_cache->save_file($base_dir . '/cache/events/ui_upgrade_alert.dat', json_encode($ui_upgrade_alert, JSON_PRETTY_PRINT) );
+				    <?php
+				
+    				// Set back to 'run' => 'no' 
+    				// (will automatically re-activate in upgrade-check.php at a later date, if another reminder is needed after X days)
+    				$ui_upgrade_alert = array(
+    										  'run' => 'no',
+    										  'message' => null
+    										  );
+    						
+    				$ct_cache->save_file($base_dir . '/cache/events/ui_upgrade_alert.dat', json_encode($ui_upgrade_alert, JSON_PRETTY_PRINT) );
 				
 					}
 					

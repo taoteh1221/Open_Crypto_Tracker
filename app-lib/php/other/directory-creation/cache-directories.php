@@ -12,6 +12,7 @@ if ( $ct_gen->dir_struct('cache/alerts/fiat_price/') != true
 || $ct_gen->dir_struct('cache/charts/system/archival/') != true
 || $ct_gen->dir_struct('cache/charts/system/lite/') != true
 || $ct_gen->dir_struct('cache/events/lite_chart_rebuilds/') != true
+|| $ct_gen->dir_struct('cache/events/system/') != true
 || $ct_gen->dir_struct('cache/events/throttling/') != true
 || $ct_gen->dir_struct('cache/internal_api/') != true
 || $ct_gen->dir_struct('cache/logs/debug/external_data/') != true

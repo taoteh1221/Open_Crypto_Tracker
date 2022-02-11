@@ -8,6 +8,8 @@
 
 <?php
 	
+	$bundle_error_logs .= $log_array['system_warning'];
+	
 	$bundle_error_logs .= $log_array['system_error'];
 	
 	$bundle_error_logs .= $log_array['conf_error'];

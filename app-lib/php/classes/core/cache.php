@@ -569,6 +569,8 @@ var $ct_array1 = array();
   global $base_dir, $ct_conf, $log_array;
   
   // Combine all errors logged
+  $error_log .= strip_tags($log_array['system_warning']); // Remove any HTML formatting used in UI alerts
+  
   $error_log .= strip_tags($log_array['system_error']); // Remove any HTML formatting used in UI alerts
   
   $error_log .= strip_tags($log_array['conf_error']); // Remove any HTML formatting used in UI alerts

@@ -5124,6 +5124,9 @@ MIGRATE YOUR EXISTING SETTINGS TO THE NEW FORMAT.
 5.13.0:
 
 
+-Error log and email warnings, if any system resource usage is above thresholds (thresholds adjustable in admin config power user section)
+
+
 -Optimized system stats logic
 
 

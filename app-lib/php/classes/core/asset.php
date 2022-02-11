@@ -1192,7 +1192,14 @@ var $ct_array1 = array();
 		          || !isset($market_override) && !$market_blacklisted
 		          ) {
 		                
-		          $btc_pairing_markets[$pairing.'_btc'] = ( 1 / $ct_api->market(strtoupper($pairing), $market_key, $market_val)['last_trade'] );
+		          
+        		        if ( $ct_api->market(strtoupper($pairing), $market_key, $market_val)['last_trade'] > 0 ) {
+        		        $btc_pairing_markets[$pairing.'_btc'] = ( 1 / $ct_api->market(strtoupper($pairing), $market_key, $market_val)['last_trade'] );
+        		        }
+        		        else {
+        		        $btc_pairing_markets[$pairing.'_btc'] = null;
+        		        }
+		                
 		                
 			            // Fallback support IF THIS IS A FUTURES MARKET (we want a normal / current value), OR no data returned
 			            if ( stristr($market_key, 'bitmex_') == false && $ct_var->num_to_str($btc_pairing_markets[$pairing.'_btc']) >= 0.0000000000000000000000001 ) { // FUTURE-PROOF FIAT ROUNDING WITH 25 DECIMALS, IN CASE BITCOIN MOONS HARD

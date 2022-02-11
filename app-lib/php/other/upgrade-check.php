@@ -18,6 +18,10 @@
 	
 	$upgrade_check_latest_version = trim($upgrade_check_data["tag_name"]);
 	
+	$upgrade_description = preg_replace( "/\[\!\{(.*)/i", "", trim($upgrade_check_data["body"]) );
+	
+	$upgrade_download = trim($upgrade_check_data["zipball_url"]);
+	
 	$ct_cache->save_file($base_dir . '/cache/vars/upgrade_check_latest_version.dat', $upgrade_check_latest_version);
 	
 	
@@ -68,16 +72,16 @@
 			
 			$email_notifyme_msg = $upgrade_check_msg . ' (you have upgrade reminders triggered every '.$ct_conf['comms']['upgrade_alert_reminder'].' days in the configuration settings)';
 			
-			$email_only_with_upgrade_command = $email_notifyme_msg . "\n\n" . 'Quick / easy upgrading can be done by copying / pasting / running this command, using the "Terminal" app in your Ubuntu / Raspberry Pi system menu, or logging in remotely from another device via SSH (user must have sudo privileges):' . "\n\n" . 'wget --no-cache -O FOLIO-INSTALL.bash https://git.io/JoDFD;chmod +x FOLIO-INSTALL.bash;sudo ./FOLIO-INSTALL.bash';
+			$email_only_with_upgrade_command = $email_notifyme_msg . "\n\n" . 'Quick / easy upgrading can be done by copying / pasting / running this command, using the "Terminal" app in your Ubuntu / Raspberry Pi system menu, or logging in remotely from another device via SSH (user must have sudo privileges):' . "\n\n" . 'wget --no-cache -O FOLIO-INSTALL.bash https://git.io/JoDFD;chmod +x FOLIO-INSTALL.bash;sudo ./FOLIO-INSTALL.bash' . "\n\nUpgrade Description:\n\n" . $upgrade_description . "\n\nManual Download Link:\n" . $upgrade_download . "\n\n";
 			
 						
 					// Message parameter added for desired comm methods (leave any comm method blank to skip sending via that method)
 					if ( $ct_conf['comms']['upgrade_alert'] == 'all' ) {
 						
 					$ui_upgrade_alert = array(
-														'run' => 'yes',
-														'message' => nl2br($email_only_with_upgrade_command)
-														);
+											  'run' => 'yes',
+											  'message' => nl2br($email_only_with_upgrade_command)
+											  );
 						
 					$ct_cache->save_file($base_dir . '/cache/events/ui_upgrade_alert.dat', json_encode($ui_upgrade_alert, JSON_PRETTY_PRINT) );
 					
@@ -88,13 +92,13 @@
 											'notifyme' => $email_notifyme_msg,
 											'telegram' => $email_only_with_upgrade_command,
 											'text' => array(
-																	'message' => $encoded_text_alert['content_output'],
-																	'charset' => $encoded_text_alert['charset']
-																	),
+														    'message' => $encoded_text_alert['content_output'],
+															'charset' => $encoded_text_alert['charset']
+															),
 											'email' => array(
-																	'subject' => $another_reminder . 'Open Crypto Tracker v'.$upgrade_check_latest_version.' Upgrade Available' . $bug_fix_subject_extension,
-																	'message' => $email_only_with_upgrade_command
-																	)
+															 'subject' => $another_reminder . 'Open Crypto Tracker v'.$upgrade_check_latest_version.' Upgrade Available' . $bug_fix_subject_extension,
+															 'message' => $email_only_with_upgrade_command
+															 )
 											);
 				
 					}
@@ -112,9 +116,9 @@
 					$encoded_text_alert = $ct_gen->charset_encode($upgrade_check_msg); // Unicode support included for text messages (emojis / asian characters / etc )
 					
 					$upgrade_check_send_params['text'] = array(
-														'message' => $encoded_text_alert['content_output'],
-														'charset' => $encoded_text_alert['charset']
-														);
+														       'message' => $encoded_text_alert['content_output'],
+														       'charset' => $encoded_text_alert['charset']
+														       );
 				
 					}
 					elseif ( $ct_conf['comms']['upgrade_alert'] == 'notifyme' ) {
@@ -126,9 +130,9 @@
 					elseif ( $ct_conf['comms']['upgrade_alert'] == 'ui' ) {
 						
 					$ui_upgrade_alert = array(
-														'run' => 'yes',
-														'message' => nl2br($email_only_with_upgrade_command)
-														);
+											  'run' => 'yes',
+											  'message' => nl2br($email_only_with_upgrade_command)
+											  );
 						
 					$ct_cache->save_file($base_dir . '/cache/events/ui_upgrade_alert.dat', json_encode($ui_upgrade_alert, JSON_PRETTY_PRINT) );
 					

@@ -45,6 +45,16 @@ var $ct_array1 = array();
    ////////////////////////////////////////////////////////
    
    
+   function convert_urls($string) {
+   $url = '%^(?:(?:https?|ftp)://)(?:\S+(?::\S*)?@|\d{1,3}(?:\.\d{1,3}){3}|(?:(?:[a-z\d\x{00a1}-\x{ffff}]+-?)*[a-z\d\x{00a1}-\x{ffff}]+)(?:\.(?:[a-z\d\x{00a1}-\x{ffff}]+-?)*[a-z\d\x{00a1}-\x{ffff}]+)*(?:\.[a-z\x{00a1}-\x{ffff}]{2,6}))(?::\d+)?(?:[^\s]*)?$%iu';   
+   return preg_replace($url, '<a href="$0" target="_blank" title="$0">$0</a>', $string);
+   }
+   
+   
+   ////////////////////////////////////////////////////////
+   ////////////////////////////////////////////////////////
+   
+   
    function telegram_msg($msg, $chat_id) {
    
    // Using 3rd party Telegram class, initiated already as global var $telegram_messaging
@@ -958,6 +968,61 @@ var $ct_array1 = array();
             }
            
    return $random_str;
+   
+   }
+   
+   
+   ////////////////////////////////////////////////////////
+   ////////////////////////////////////////////////////////
+   
+   
+   function throttled_warning_log($type) {
+   
+   global $ct_cache, $base_dir, $system_warnings, $system_warnings_cron_interval;
+   
+      if ( $ct_cache->update_cache($base_dir . '/cache/events/system/warning-' . $type . '.dat', ($system_warnings_cron_interval[$type] * 60) ) == true ) {
+          
+      $this->log('system_warning', $system_warnings[$type]);
+      
+      $email_msg = 'Open Crypto Tracker detected an app server resource issue: ' . $system_warnings[$type] . '.';
+               
+      // Were're just adding a human-readable timestamp to smart home (audio) alerts
+      $notifyme_msg = $email_msg . ' Timestamp: ' . $this->time_date_format($ct_conf['gen']['loc_time_offset'], 'pretty_time') . '.';
+      
+      $text_msg = $email_msg;
+               
+      // Minimize function calls
+      $encoded_text_msg = $this->charset_encode($text_msg); // Unicode support included for text messages (emojis / asian characters / etc )
+                    
+      // Message parameter added for desired comm methods (leave any comm method blank to skip sending via that method)
+                        
+      $send_params = array(
+                  
+                           'notifyme' => $notifyme_msg,
+                                    
+                           'telegram' => $email_msg,
+                                    
+                           'text' => array(
+                                           'message' => $encoded_text_msg['content_output'],
+                                           'charset' => $encoded_text_msg['charset']
+                                           ),
+                                                    
+                           'email' => array(
+                                            'subject' => 'App Server Resource Issue Detected',
+                                            'message' => $email_msg
+                                            )
+                                                       
+                             );
+                    
+                    
+      // Send notifications
+      @$ct_cache->queue_notify($send_params);
+                        
+      
+      $ct_cache->save_file($base_dir . '/cache/events/system/warning-' . $type . '.dat', $this->time_date_format(false, 'pretty_date_time') );
+      
+      }
+   
    
    }
        

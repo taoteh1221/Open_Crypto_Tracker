@@ -140,9 +140,9 @@ $runtime_data = array();
 
 $runtime_data['performance_stats'] = array();
 
-$system_alerts = array();
+$system_warnings = array();
 
-$system_alerts_cron_interval = array();
+$system_warnings_cron_interval = array();
 
 $log_array = array();
 
@@ -351,7 +351,12 @@ $fetched_feeds = 'fetched_feeds_' . $runtime_mode; // Unique feed fetch telemetr
 $remote_ip = ( isset($_SERVER['REMOTE_ADDR']) ? $_SERVER['REMOTE_ADDR'] : 'localhost' );
 
 
-// Get system info for debugging / stats
+// Create cache directories (if needed), with $http_runtime_user determined further above 
+// (for cache compatibility on certain PHP setups)
+require_once('app-lib/php/other/directory-creation/cache-directories.php');
+
+
+// Get / check system info for debugging / stats (MUST run AFTER directory structure creation check, AND BEFORE system checks)
 require_once('app-lib/php/other/system-info.php');
 
 
@@ -427,11 +432,6 @@ require_once('app-lib/php/other/downloads/export-notes.php');
 //////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////
 
-
-
-// Create cache directories (if needed), with $http_runtime_user determined further above 
-// (for cache compatibility on certain PHP setups)
-require_once('app-lib/php/other/directory-creation/cache-directories.php');
 
 // Directory security check (MUST run AFTER directory structure creation check, AND BEFORE system checks)
 require_once('app-lib/php/other/security/directory-security.php');

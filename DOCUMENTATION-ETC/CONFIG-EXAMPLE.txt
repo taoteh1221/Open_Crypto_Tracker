@@ -539,7 +539,11 @@ $ct_conf['power']['mcap_ranks_max'] = 500; // (default = 500)
 $ct_conf['power']['margin_leverage_max'] = 150; 
 
 
-// Keep logs X days before purging (fully deletes logs every X days). Start low (especially when using proxies)
+// Days TO WAIT UNTIL DELETING OLD backup archives (chart data archives, etc)
+$ct_conf['power']['backup_arch_del_old'] = 10; 
+
+
+// Keep logs X DAYS before purging (fully deletes logs every X days). Start low (especially when using proxies)
 $ct_conf['power']['logs_purge'] = 5; // (default = 5)
 
 
@@ -604,10 +608,17 @@ $ct_conf['power']['captcha_text_contrast'] = -7; // example: -5 or 5 (default = 
 ////
 // MAX OFF-ANGLE DEGREES (tilted backward / forward) of CAPTCHA IMAGE text characters (MAXIMUM OF 35)
 $ct_conf['power']['captcha_text_angle'] = 33; // (default = 33)
-
-
-// Days until old backup archives should be deleted (chart data archives, etc)
-$ct_conf['power']['backup_arch_del_old'] = 10; 
+			
+			
+// Configuration for system resource warning thresholds (logs to error log, and sends comms alerts to any activated comms)
+// (WHEN THE SYSTEM RESOURCES REACH THESE VALUES, THE WARNINGS ARE TRIGGERED TO BE LOGGED / SENT TO ADMIN COMMS)
+$ct_conf['power']['system_temp_warning'] = 80; // Temp IN CELCIUS! (default = 80)
+////
+$ct_conf['power']['memory_used_percent_warning'] = 90; // DO #NOT# INCLUDE PERCENT SYMBOL! (default = 90)
+////
+$ct_conf['power']['free_partition_space_warning'] = 500; // Scale IN MEGABYTES! (default = 500)
+////
+$ct_conf['power']['portfolio_cache_warning'] = 10000; // Scale IN MEGABYTES! (default = 10000)
 
 																					
 // ASSET MARKETS chart colors (https://www.w3schools.com/colors/colors_picker.asp)
