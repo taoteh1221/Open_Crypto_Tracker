@@ -18,7 +18,9 @@
 	
 	$upgrade_check_latest_version = trim($upgrade_check_data["tag_name"]);
 	
-	$upgrade_description = preg_replace( "/\[\!\{(.*)/i", "", trim($upgrade_check_data["body"]) );
+	// Remove any formatted links etc, that may exist AFTER description, and trim whitespace
+	$upgrade_description = preg_replace("/\[\!(.*)/i", "", $upgrade_check_data["body"]); 
+	$upgrade_description = trim($upgrade_description);
 	
 	$upgrade_download = trim($upgrade_check_data["zipball_url"]);
 	
