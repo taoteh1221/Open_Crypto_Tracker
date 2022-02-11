@@ -978,7 +978,7 @@ var $ct_array1 = array();
    
    function throttled_warning_log($type) {
    
-   global $ct_cache, $base_dir, $system_warnings, $system_warnings_cron_interval;
+   global $ct_conf, $ct_cache, $base_dir, $system_warnings, $system_warnings_cron_interval;
    
       if ( $ct_cache->update_cache($base_dir . '/cache/events/system/warning-' . $type . '.dat', ($system_warnings_cron_interval[$type] * 60) ) == true ) {
           
