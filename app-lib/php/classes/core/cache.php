@@ -508,7 +508,7 @@ var $ct_array1 = array();
        
       $emailed_logs = "\n\n ------------------debug.log------------------ \n\n" . file_get_contents('cache/logs/debug.log') . "\n\n ------------------smtp_debug.log------------------ \n\n" . file_get_contents('cache/logs/smtp_debug.log');
        
-      $msg = " Here are the current debugging logs from the ".$base_dir."/cache/logs/ directory. \n\n You can disable receiving log emails in the Admin Config \"Communications\" section. \n =========================================================================== \n \n"  . ( $emailed_logs != '' ? $emailed_logs : 'No debugging logs currently.' );
+      $msg = " Here are the current debugging logs from the " . $base_dir . "/cache/logs/ directory. \n\n You can disable / change receiving log emails (every " . $ct_conf['comms']['logs_email'] . " days) in the Admin Config \"Communications\" section. \n =========================================================================== \n \n"  . ( $emailed_logs != '' ? $emailed_logs : 'No debugging logs currently.' );
       
         // Message parameter added for desired comm methods (leave any comm method blank to skip sending via that method)
         $send_params = array(
@@ -599,7 +599,7 @@ var $ct_array1 = array();
        
       $emailed_logs = "\n\n ------------------error.log------------------ \n\n" . file_get_contents('cache/logs/error.log') . "\n\n ------------------smtp_error.log------------------ \n\n" . file_get_contents('cache/logs/smtp_error.log');
        
-      $msg = " Here are the current error logs from the ".$base_dir."/cache/logs/ directory. \n\n You can disable receiving log emails in the Admin Config \"Communications\" section. \n \n =========================================================================== \n \n"  . ( $emailed_logs != '' ? $emailed_logs : 'No error logs currently.' );
+      $msg = " Here are the current error logs from the ".$base_dir."/cache/logs/ directory. \n\n You can disable / change receiving log emails (every " . $ct_conf['comms']['logs_email'] . " days) in the Admin Config \"Communications\" section. \n \n =========================================================================== \n \n"  . ( $emailed_logs != '' ? $emailed_logs : 'No error logs currently.' );
       
         // Message parameter added for desired comm methods (leave any comm method blank to skip sending via that method)
         $send_params = array(

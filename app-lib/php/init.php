@@ -142,6 +142,8 @@ $runtime_data['performance_stats'] = array();
 
 $system_alerts = array();
 
+$system_alerts_cron_interval = array();
+
 $log_array = array();
 
 $rand_color_ranged =  array();
