@@ -95,7 +95,7 @@
     		}
     		
     		if ( isset($system_info['memory_used_megabytes']) ) {
-    		echo '<div class="sys_stats"><span class="bitcoin"><b>Used Memory (*not* including buffers / cache):</b></span> <span class="'.( isset($system_warnings['memory_used_megabytes']) ? 'red' : 'green' ).'"> '.round($system_info['memory_used_megabytes'] / 1000, 4).' Gigabytes <span class="black">('.number_format($system_info['memory_used_megabytes'], 2, '.', ',').' Megabytes / '.$system_info['memory_used_percent'].'%)</span></span> </div>';
+    		echo '<div class="sys_stats"><span class="bitcoin"><b>Used Memory (*not* including buffers / cache):</b></span> <span class="'.( isset($system_warnings['memory_used_percent']) ? 'red' : 'green' ).'"> '.round($system_info['memory_used_megabytes'] / 1000, 4).' Gigabytes <span class="black">('.number_format($system_info['memory_used_megabytes'], 2, '.', ',').' Megabytes / '.$system_info['memory_used_percent'].'%)</span></span> </div>';
     		}
     		
     		if ( isset($system_info['free_partition_space']) ) {
@@ -103,7 +103,7 @@
     		}
     		
     		if ( isset($system_info['portfolio_cache']) ) {
-    		echo '<div class="sys_stats"><span class="bitcoin"><b>Portfolio Cache Size:</b></span> <span class="'.( isset($system_warnings['portfolio_cache']) ? 'red' : 'green' ).'"> '.round($portfolio_cache_size_mb / 1000, 4).' Gigabytes <span class="black">('.number_format($portfolio_cache_size_mb, 2, '.', ',').' Megabytes)</span></span> </div>';
+    		echo '<div class="sys_stats"><span class="bitcoin"><b>Portfolio Cache Size:</b></span> <span class="'.( isset($system_warnings['portfolio_cache_size']) ? 'red' : 'green' ).'"> '.round($portfolio_cache_size_mb / 1000, 4).' Gigabytes <span class="black">('.number_format($portfolio_cache_size_mb, 2, '.', ',').' Megabytes)</span></span> </div>';
     		}
     		
     		if ( isset($system_info['software']) ) {

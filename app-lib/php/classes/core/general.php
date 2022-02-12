@@ -986,12 +986,12 @@ var $ct_array1 = array();
           
       $this->log('system_warning', $system_warnings[$type]);
       
-      $email_msg = 'Open Crypto Tracker detected an app server issue: ' . $system_warnings[$type] . '.';
+      $email_msg = 'Open Crypto Tracker detected an app server issue: ' . $system_warnings[$type] . '. (warning thresholds are adjustable in the Admin Config Power User section)';
                
       // Were're just adding a human-readable timestamp to smart home (audio) alerts
       $notifyme_msg = $email_msg . ' Timestamp: ' . $this->time_date_format($ct_conf['gen']['loc_time_offset'], 'pretty_time') . '.';
       
-      $text_msg = $email_msg;
+      $text_msg = 'Open Crypto Tracker app server issue: ' . $system_warnings[$type] . '.';
                
       // Minimize function calls
       $encoded_text_msg = $this->charset_encode($text_msg); // Unicode support included for text messages (emojis / asian characters / etc )
