@@ -32,13 +32,13 @@ $system_load_redline = ( $system_info['cpu_threads'] > 1 ? ($system_info['cpu_th
 
 // Interface alert messages (UI / email / etc)
 if ( substr($system_info['uptime'], 0, 6) == '0 days' ) {
-$system_warnings['uptime'] = 'Low uptime (' . $system_load_all . ')';
+$system_warnings['uptime'] = 'Low uptime (' . $system_info['uptime'] . ')';
 $system_warnings_cron_interval['uptime'] = 25; // 25 hours
 }
 	
 	
 if ( $system_load > ($system_load_redline * $ct_conf['power']['system_load_warning']) ) {
-$system_warnings['system_load'] = 'High CPU load (' . $system_load . ' 15 minute average)';
+$system_warnings['system_load'] = 'High 15 minute CPU load [' . $system_load_all . ']';
 $system_warnings_cron_interval['system_load'] = 8; // 8 hours
 }
 
