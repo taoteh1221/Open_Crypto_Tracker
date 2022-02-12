@@ -47,8 +47,8 @@ $system_warnings_cron_interval['system_temp'] = 1; // 1 hours
 
 	
 if ( $system_info['memory_used_percent'] >= $ct_conf['power']['memory_used_percent_warning'] ) {
-$system_warnings['memory_used_megabytes'] = 'High memory usage (' . $system_info['memory_used_percent'] . ' percent used)';
-$system_warnings_cron_interval['memory_used_megabytes'] = 4; // 4 hours
+$system_warnings['memory_used_percent'] = 'High memory usage (' . $system_info['memory_used_percent'] . ' percent used)';
+$system_warnings_cron_interval['memory_used_percent'] = 4; // 4 hours
 }
 
 	
@@ -59,8 +59,8 @@ $system_warnings_cron_interval['free_partition_space'] = 4; // 4 hours
 
 	
 if ( $portfolio_cache_size_mb >= $ct_conf['power']['portfolio_cache_warning'] ) {
-$system_warnings['portfolio_cache'] = 'High app cache disk storage usage (' . $ct_var->num_pretty($portfolio_cache_size_mb, 1) . ' megabytes in app cache)';
-$system_warnings_cron_interval['portfolio_cache'] = 72; // 72 hours
+$system_warnings['portfolio_cache_size'] = 'High app cache disk storage usage (' . $ct_var->num_pretty($portfolio_cache_size_mb, 1) . ' megabytes in app cache)';
+$system_warnings_cron_interval['portfolio_cache_size'] = 72; // 72 hours
 }
 
 

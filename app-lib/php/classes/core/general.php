@@ -980,11 +980,13 @@ var $ct_array1 = array();
    
    global $ct_conf, $ct_cache, $base_dir, $system_warnings, $system_warnings_cron_interval;
    
-      if ( $ct_cache->update_cache($base_dir . '/cache/events/system/warning-' . $type . '.dat', ($system_warnings_cron_interval[$type] * 60) ) == true ) {
+   
+	  // Minus 1 minute, to try keeping daily / hourly recurrences at same exact runtime (instead of moving up the runtime daily / hourly)
+      if ( $ct_cache->update_cache($base_dir . '/cache/events/system/warning-' . $type . '.dat', ($system_warnings_cron_interval[$type] * 60) -1 ) == true ) {
           
       $this->log('system_warning', $system_warnings[$type]);
       
-      $email_msg = 'Open Crypto Tracker detected an app server resource issue: ' . $system_warnings[$type] . '.';
+      $email_msg = 'Open Crypto Tracker detected an app server issue: ' . $system_warnings[$type] . '.';
                
       // Were're just adding a human-readable timestamp to smart home (audio) alerts
       $notifyme_msg = $email_msg . ' Timestamp: ' . $this->time_date_format($ct_conf['gen']['loc_time_offset'], 'pretty_time') . '.';
@@ -1008,7 +1010,7 @@ var $ct_array1 = array();
                                            ),
                                                     
                            'email' => array(
-                                            'subject' => 'App Server Resource Issue Detected',
+                                            'subject' => 'App Server Issue (' . preg_replace("/_/", " ", $type) . ')',
                                             'message' => $email_msg
                                             )
                                                        

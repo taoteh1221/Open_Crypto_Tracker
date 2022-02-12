@@ -332,7 +332,7 @@ header('Content-type: text/html; charset=' . $ct_conf['dev']['charset_default'])
       					<button type="button" class="close" data-dismiss="alert" aria-label="Close">
         					<span aria-hidden="true">&times;</span>
       					</button>
-    				  	<strong>Upgrade Notice:</strong> <?=$ct_gen->convert_urls($ui_upgrade_alert['message'])?> 
+    				  	<strong>Upgrade Notice:</strong> <?=$ui_upgrade_alert['message']?> 
     				</div>
 				
 				    <?php

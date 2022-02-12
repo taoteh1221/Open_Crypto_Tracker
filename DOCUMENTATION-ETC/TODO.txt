@@ -44,12 +44,6 @@ OPTIMIZATIONS / BUGS / TESTS / UX / QA / OTHER SECTION
 Update Portfolio page screenshots, since we added the 'Rank' column AND REBRANDED app name.
 
 
-Find out why the INTERFACE upgrade notice still doesn't get the manual download link converted into a href tag with $ct_gen->convert_urls()
-
-
-Find out why system redline warnings don't send through telegram, but send fine through email / text / notifyme
-
-
 Add ability to choose what decimal and thousands seperators to use.
 
 

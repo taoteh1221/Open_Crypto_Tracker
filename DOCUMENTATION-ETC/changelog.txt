@@ -5124,7 +5124,7 @@ MIGRATE YOUR EXISTING SETTINGS TO THE NEW FORMAT.
 5.12.1:
 
 
--Bug fix that may cause assets to not display on the portfolio page
+-Bug fixed for edge case, that may cause assets to not display on the portfolio page
 
 
 -Error log and email warnings, if any system resource usage is above thresholds (thresholds adjustable in admin config power user section)

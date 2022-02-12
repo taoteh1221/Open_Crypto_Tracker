@@ -34,6 +34,13 @@ error_reporting($ct_conf['init']['error_reporting']);
 }
 
 
+// To be safe, don't use trim() on certain strings with arbitrary non-alphanumeric characters here
+// MUST RUN #AS SOON AS POSSIBLE#, SO TELEGRAM COMMS ARE ENABLED FOR #ALL# FOLLOWING LOGIC!
+if ( trim($ct_conf['comms']['telegram_your_username']) != '' && trim($ct_conf['comms']['telegram_bot_name']) != '' && trim($ct_conf['comms']['telegram_bot_username']) != '' && $ct_conf['comms']['telegram_bot_token'] != '' ) {
+$telegram_activated = 1;
+}
+
+
 // Set a max execution time (if the system lets us), TO AVOID RUNAWAY PROCESSES FREEZING THE SERVER
 if ( $ct_conf['dev']['debug'] != 'off' ) {
 $max_exec_time = 600; // 10 minutes in debug mode
@@ -360,22 +367,18 @@ require_once('app-lib/php/other/directory-creation/cache-directories.php');
 require_once('app-lib/php/other/system-info.php');
 
 
+// Raspberry Pi device? (run after system info logic)
+if ( preg_match("/raspberry/i", $system_info['model']) ) {
+$is_raspi = 1;
+}
+
+
 // If upgrade check enabled / cached var set, set the runtime var for any configured alerts
 $upgrade_check_latest_version = trim( file_get_contents('cache/vars/upgrade_check_latest_version.dat') );
 
 // If we are queued to run a UI alert that an upgrade is available
 $ui_upgrade_alert = json_decode( trim( file_get_contents($base_dir . '/cache/events/ui_upgrade_alert.dat') ) , TRUE);
 
-
-// Raspberry Pi device? (run after system info var)
-if ( preg_match("/raspberry/i", $system_info['model']) ) {
-$is_raspi = 1;
-}
-
-// To be safe, don't use trim() on certain strings with arbitrary non-alphanumeric characters here
-if ( trim($ct_conf['comms']['telegram_your_username']) != '' && trim($ct_conf['comms']['telegram_bot_name']) != '' && trim($ct_conf['comms']['telegram_bot_username']) != '' && $ct_conf['comms']['telegram_bot_token'] != '' ) {
-$telegram_activated = 1;
-}
 
 // User agent (MUST BE SET EARLY [BUT AFTER SYSTEM INFO VAR], FOR ANY API CALLS WHERE USER AGENT IS REQUIRED BY THE API SERVER)
 if ( trim($ct_conf['dev']['override_user_agent']) != '' ) {
