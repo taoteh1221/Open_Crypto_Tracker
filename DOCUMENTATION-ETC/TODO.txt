@@ -41,6 +41,13 @@ OPTIMIZATIONS / BUGS / TESTS / UX / QA / OTHER SECTION
 ///////////////////////////////////////////////////////
 
 
+Whn selecting too many charts / news feeds / coins, the header data can be too big:
+Bad Request
+Your browser sent a request that this server could not understand.
+Size of a request header field exceeds server limit.
+ABOVE IS FROM APACHE. MAY BE RELATED TO https://github.com/taoteh1221/Open_Crypto_Tracker/issues/39 ON NGINX! We may need to find a way to detect TOTAL COOKIE SIZE (OF ALL COOKIES USED BY THE APP) #BEFORE SUBMITTING DATA#. Look into it.
+
+
 Update Portfolio page screenshots, since we added the 'Rank' column AND REBRANDED app name.
 
 
