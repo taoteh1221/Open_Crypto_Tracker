@@ -41,11 +41,19 @@ OPTIMIZATIONS / BUGS / TESTS / UX / QA / OTHER SECTION
 ///////////////////////////////////////////////////////
 
 
-Whn selecting too many charts / news feeds / coins, the header data can be too big:
-Bad Request
+Get rid of false positive error for needing to re-enter "/start" in the telegram bot chatroom, every time ANY config change is made. Make sure it just checks for any pre-existing telegram chatroom data stored in cache/secured.
+
+
+Make all coin configs (assets and price alerts / charts) CASE-INSENSITIVE. Most efficient way to do this would be by auto-correcting in other/app-config-managment.php, to be the correct case even if a user editing config.php used the wrong case.
+
+
+When selecting too many charts / news feeds / coins, the header data can be too big:
+
+"Bad Request
 Your browser sent a request that this server could not understand.
-Size of a request header field exceeds server limit.
-ABOVE IS FROM APACHE. MAY BE RELATED TO https://github.com/taoteh1221/Open_Crypto_Tracker/issues/39 ON NGINX! We may need to find a way to detect TOTAL COOKIE SIZE (OF ALL COOKIES USED BY THE APP) #BEFORE SUBMITTING DATA#. Look into it.
+Size of a request header field exceeds server limit."
+
+ABOVE IS FROM APACHE. MAY BE RELATED TO https://github.com/taoteh1221/Open_Crypto_Tracker/issues/39 ON NGINX! We may need to find a way to detect TOTAL COOKIE SIZE (OF ALL COOKIES USED BY THE APP) #BEFORE SUBMITTING DATA#. Look into it. Maybe use javascript to detect cookie size totals, and offer in the UI different storage methods? Also look into offloading chosen assets / news feeds / price charts cookie data into javascript's 'local storage' INSTEAD (like we do for saving start page on sencondary page's scroll position). Also maybe trim a couple characters off chosen news feed hashes that are saved?
 
 
 Update Portfolio page screenshots, since we added the 'Rank' column AND REBRANDED app name.
