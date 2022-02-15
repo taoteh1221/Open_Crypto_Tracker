@@ -89,7 +89,11 @@
 			
 			+'<p class="coin_info" style="white-space: normal; max-width: 600px;">You can import / export your portfolio as a CSV spreadsheet saved on your computer, for portfolio backup / editing offline:</p>'
 			
-			+'<p class="coin_info" style="max-width: 600px; white-space: normal;"><img src="templates/interface/media/images/auto-preloaded/csv-spreadsheet-example.png" width="590" title="CSV Spreadsheet of Portfolio" /></p>'
+			+'<p class="coin_info" style="max-width: 600px; white-space: normal;"><img src="templates/interface/media/images/auto-preloaded/csv-spreadsheet-example.png" width="590" title="CSV spreadsheet of portfolio holdings" /></p>'
+			
+			+'<p class="coin_info" style="max-width: 600px; white-space: normal;"><span class="yellow">FORMATTING:</span> <br /> The spreadsheet format is custom, and DOES NOT support importing CSV spreadsheets provided by any particular exchange. The only required entries for CSV spreadsheet import are Asset Symbol / Holdings / Market Pairing. The other fields are optional, and can be left blank if desired:</p>'
+			
+			+'<p class="coin_info" style="max-width: 600px; white-space: normal;"><img src="templates/interface/media/images/auto-preloaded/csv-spreadsheet-example-minimal.png" width="590" title="MINIMUM requirements to import a CSV spreadsheet" /></p>'
 			
 			+'<p class="coin_info" style="max-width: 600px; white-space: normal;"><span class="yellow">PRO TIP:</span> <br /> To easily display different portfolio setups SEPERATELY in this app (long term holdings / short term holdings / etc), save each of your different portfolio setups to seperate spreadsheet backup files. Then import whichever spreadsheet you wish into this app for portfolio tracking.</p>'
 			
