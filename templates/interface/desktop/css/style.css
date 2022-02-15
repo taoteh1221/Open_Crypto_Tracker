@@ -856,7 +856,17 @@ min-width: 1200px !important;
 }
 
 
-#alert_source, #percent_change_amount, #percent_change_filter, #percent_change_time, #percent_change_alert_type, #show_chart_settings, #show_feed_settings, #show_portfolio_stats, #show_system_stats, #show_access_stats, #show_logs, #coins_table, #sys_stats_quick_link_info, #sys_stats_admin_link_info {
+#header_size_warning {
+position: absolute;
+    top: 3px;
+    left: 5px;
+    font-weight: bold;
+    font-size: 12px;
+    max-width: 90vw;
+}
+
+
+#alert_source, #percent_change_amount, #percent_change_filter, #percent_change_time, #percent_change_alert_type, #show_chart_settings, #show_feed_settings, #show_portfolio_stats, #show_system_stats, #show_access_stats, #show_logs, #coins_table, #sys_stats_quick_link_info, #sys_stats_admin_link_info, #header_size_warning {
 display: none;
 }
 

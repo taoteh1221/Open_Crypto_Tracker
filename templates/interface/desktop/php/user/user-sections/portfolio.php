@@ -1641,6 +1641,10 @@ zingchart.bind('marketcap_chart', 'label_click', function(e){
     		echo '<div class="sys_stats"><span class="bitcoin"><b>Free Disk Space:</b></span> <span class="'.( isset($system_warnings['free_partition_space']) ? 'red' : 'green' ).'"> '.round($system_free_space_mb / 1000000, 4).' Terabytes <span class="black">('.number_format($system_free_space_mb / 1000, 2, '.', ',').' Gigabytes)</span></span> </div>';
     		}
     		
+    		if ( isset($system_info['portfolio_cookies']) ) {
+    		echo '<div class="sys_stats"><span class="bitcoin"><b>Portfolio Cookies Size:</b></span> <span class="'.( isset($system_warnings['portfolio_cookies_size']) ? 'red' : 'green' ).'"> '.$ct_var->num_pretty( ($system_info['portfolio_cookies'] / 1000) , 2).' Kilobytes</span></span> </div>';
+    		}
+    		
     		if ( isset($system_info['portfolio_cache']) ) {
     		echo '<div class="sys_stats"><span class="bitcoin"><b>Portfolio Cache Size:</b></span> <span class="'.( isset($system_warnings['portfolio_cache_size']) ? 'red' : 'green' ).'"> '.round($portfolio_cache_size_mb / 1000, 4).' Gigabytes <span class="black">('.number_format($portfolio_cache_size_mb, 2, '.', ',').' Megabytes)</span></span> </div>';
     		}
@@ -1671,6 +1675,8 @@ zingchart.bind('marketcap_chart', 'label_click', function(e){
 	<?php
 	$all_chart_rebuild_min_max = explode(',', $ct_conf['dev']['all_chart_rebuild_min_max']);
 	?>
+	
+	<p class='sys_stats red' style='font-weight: bold;'>*The "Portfolio Cookies Size" telemetry data above <i>is not tracked in the system charts, because it's ONLY available in the user interface runtime (NOT the cron job runtime)</i>.</p>				
 	
 	<p class='sys_stats red' style='font-weight: bold;'>*The "CRON Core Runtime Seconds" telemetry data <i>may vary per time period chart</i> (10D / 2W / 1M / 1Y / etc etc), as time period charts are updated during CRON runtimes, and some time period charts (including asset price charts) can take longer to update than others. Additionally, recent "ALL" chart data may show higher CRON runtimes, and average out in older data.</p>		
 	

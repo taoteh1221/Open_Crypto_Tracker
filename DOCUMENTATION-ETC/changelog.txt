@@ -5155,7 +5155,11 @@ MIGRATE YOUR EXISTING SETTINGS TO THE NEW FORMAT.
 
 
 -------------------------------------------------------------------
-5.13.0:
+5.12.2:
+
+-BUG FIX: reduced storage size for user-selected news feeds (helps avoid app crashes from excessively-sized page headers)
+
+-Added system alerts (comms messages / error logging) and threshold trigger config, for when TOTAL cookies data size risks server crashing
 
 -Better tooltip (hover icon) documentation
 

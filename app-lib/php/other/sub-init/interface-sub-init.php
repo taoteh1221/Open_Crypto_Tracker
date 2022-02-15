@@ -69,7 +69,7 @@ $sel_opt['show_feeds'] = explode(',', rtrim( ( $_POST['show_feeds'] != '' ? $_PO
 	$scan_feeds = $sel_opt['show_feeds'];
 	$scan_feeds = array_map( array($ct_var, 'strip_brackets') , $scan_feeds); // Strip brackets
 	foreach ($ct_conf['power']['news_feed'] as $feed) {
-	$feed_id = $ct_gen->digest($feed["title"], 10);
+	$feed_id = $ct_gen->digest($feed["title"], 5);
 		if ( in_array($feed_id, $scan_feeds) ) {
 		$temp_show_feeds[] = '[' . $feed_id . ']';
 		}

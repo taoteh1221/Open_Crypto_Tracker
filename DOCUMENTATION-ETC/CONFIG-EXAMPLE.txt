@@ -621,6 +621,10 @@ $ct_conf['power']['memory_used_percent_warning'] = 85; // DO #NOT# INCLUDE PERCE
 $ct_conf['power']['free_partition_space_warning'] = 750; // Scale IN MEGABYTES! (default = 750)
 ////
 $ct_conf['power']['portfolio_cache_warning'] = 5000; // Scale IN MEGABYTES! (default = 5000)
+////
+// If ALL cookie data reaches this threshold, the header data may be approaching the server limit (CRASHING THIS APP!!)
+// STANDARD SERVER LIMITS...Apache: 8000, NGINX: 4000 - 8000, IIS: 8000 - 16000, Tomcat: 8000 - 48000
+$ct_conf['power']['cookies_size_warning'] = 7500; // Size in BYTES! (default = 7500)
 
 																					
 // ASSET MARKETS chart colors (https://www.w3schools.com/colors/colors_picker.asp)

@@ -9,56 +9,68 @@ window.zingAlert= function(){
 $(document).ready(function(){
     
     
+// PHP used instead for logging / alerts, but leave here in case we want to use pure-javascript
+// cookie creation some day (which could help pre-detect too-large headers that crash an HTTP server)
+// console.log( array_byte_size(document.cookie) );
+
+    
+    // If all cookie data is above threshold trigger, warn end-user in UI
+    if ( cookies_size_warning != 'none' ) {
+    $("#header_size_warning").css({ "display": "block" });
+    $("#header_size_warning").html(cookies_size_warning + '. (warning thresholds are adjustable in the Admin Config Power User section)');
+    }
+        
+    
 privacy_mode(); // Privacy mode for assets held
 	
 
-// See if any alerts are present
-if ( $('#app_error_alert').html() == '' ) {
-$('#app_error_alert').html('No new runtime alerts.');
-}
-else {
-$("#alert_bell_image").attr("src","templates/interface/media/images/auto-preloaded/notification-" + theme_selected + "-fill.png");
-}
+    // See if any alerts are present
+    if ( $('#app_error_alert').html() == '' ) {
+    $('#app_error_alert').html('No new runtime alerts.');
+    }
+    else {
+    $("#alert_bell_image").attr("src","templates/interface/media/images/auto-preloaded/notification-" + theme_selected + "-fill.png");
+    }
 
 // Mirror hidden errors output in the footer over to the alert bell area with javascript
 // Run AFTER check to see if alerts are present
 $('#alert_bell_area').html( "<span class='bitcoin'>Current UTC time:</span> <span class='utc_timestamp red'></span><br />" + $('#app_error_alert').html() );
 	
 
-if ( $("#admin_login").length ) {
-
-	setTimeout(function(){
-    $("#admin_username").filter(':visible').focus();
-	}, 1000);
-
-}
-else if ( $("#set_admin").length ) {
-
-	setTimeout(function(){
-    $("#set_username").filter(':visible').focus();
-	}, 1000);
-
-}
-else if ( $("#reset_admin").length ) {
-
-	setTimeout(function(){
-    $("#reset_username").filter(':visible').focus();
-	}, 1000);
-
-}
-
-
-// Show "app loading" placeholder when submitting ANY form JQUERY SUBMIT METHOD, OR CLICKING A SUBMIT BUTTON
-// (does NOT affect a standard javascript ELEMENT.submit() call)
-$("form").submit(function(event) { 
+    if ( $("#admin_login").length ) {
     
-    // Checking if privacy mode is enabled (which should disable updating anything)
-    if ( app_reloading_placeholder(0) == false ) {
-    event.preventDefault();
-    return false;
+    	setTimeout(function(){
+        $("#admin_username").filter(':visible').focus();
+    	}, 1000);
+    
     }
+    else if ( $("#set_admin").length ) {
     
-});
+    	setTimeout(function(){
+        $("#set_username").filter(':visible').focus();
+    	}, 1000);
+    
+    }
+    else if ( $("#reset_admin").length ) {
+    
+    	setTimeout(function(){
+        $("#reset_username").filter(':visible').focus();
+    	}, 1000);
+    
+    }
+
+
+    // Show "app loading" placeholder when submitting ANY form JQUERY SUBMIT METHOD, OR CLICKING A SUBMIT BUTTON
+    // (does NOT affect a standard javascript ELEMENT.submit() call)
+    $("form").submit(function(event) { 
+        
+        // Checking if privacy mode is enabled (which should disable updating anything)
+        if ( app_reloading_placeholder(0) == false ) {
+        event.preventDefault();
+        return false;
+        }
+        
+    });
 
 
 // Render interface after loading (with transition effects)
@@ -78,11 +90,11 @@ $("span.btc_prim_currency_pairing").html(window.btc_prim_currency_pairing);
 //////////////////////////////////////////////////////////////////////////////
 
 
-// We only want to load our vertical scroll position on secondary start pages that are't background-loading AFTER page load
-// (WE ALREADY LOAD get_scroll_position() in charts_loading_check() AND feeds_loading_check() FOR THE DYNAMIC PAGE LOADING)
-if ( $(location).attr('hash') != '' && $(location).attr('hash') != '#news' && $(location).attr('hash') != '#charts' ) {
-get_scroll_position('init'); // Run AFTER showing content
-}
+    // We only want to load our vertical scroll position on secondary start pages that are't background-loading AFTER page load
+    // (WE ALREADY LOAD get_scroll_position() in charts_loading_check() AND feeds_loading_check() FOR THE DYNAMIC PAGE LOADING)
+    if ( $(location).attr('hash') != '' && $(location).attr('hash') != '#news' && $(location).attr('hash') != '#charts' ) {
+    get_scroll_position('init'); // Run AFTER showing content
+    }
 
 random_tips(); // https://codepen.io/kkoutoup/pen/zxmGLE
 
@@ -94,19 +106,19 @@ autosize(document.querySelector('textarea[data-autoresize]'));
 ///////////////////////////////////////////////////////////////////////////////
 
   
-  // Dynamically adjust admin tab content width
-  $('.admin_change_width').click(function() {
+    // Dynamically adjust admin tab content width
+    $('.admin_change_width').click(function() {
   
-  	if ( $(this).data('width') == 'full' ) {
-  	$("#admin_wrapper").css('max-width','100%');
-  	$("#admin_tab_content").css('max-width','100%');
-  	}
-  	else {
-  	$("#admin_wrapper").css('max-width','1200px');
-  	$("#admin_tab_content").css('max-width','1200px');
-  	}
+      	if ( $(this).data('width') == 'full' ) {
+      	$("#admin_wrapper").css('max-width','100%');
+      	$("#admin_tab_content").css('max-width','100%');
+      	}
+      	else {
+      	$("#admin_wrapper").css('max-width','1200px');
+      	$("#admin_tab_content").css('max-width','1200px');
+      	}
   
-  });
+    });
 
 
 	//////////////////////////////////////////////////////////

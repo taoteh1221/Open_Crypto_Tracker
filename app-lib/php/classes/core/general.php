@@ -45,6 +45,16 @@ var $ct_array1 = array();
    ////////////////////////////////////////////////////////
    
    
+   function all_cookies_size() {
+   $cookies = isset($_SERVER['HTTP_COOKIE']) ? $_SERVER['HTTP_COOKIE'] : null;
+   return mb_strlen($cookies);
+   }
+   
+   
+   ////////////////////////////////////////////////////////
+   ////////////////////////////////////////////////////////
+   
+   
    function convert_urls($string) {
    $url = '%(?:(?:https?|ftp)://)(?:\S+(?::\S*)?@|\d{1,3}(?:\.\d{1,3}){3}|(?:(?:[a-z\d\x{00a1}-\x{ffff}]+-?)*[a-z\d\x{00a1}-\x{ffff}]+)(?:\.(?:[a-z\d\x{00a1}-\x{ffff}]+-?)*[a-z\d\x{00a1}-\x{ffff}]+)*(?:\.[a-z\x{00a1}-\x{ffff}]{2,6}))(?::\d+)?(?:[^\s]*)?$%iu';   
    return preg_replace($url, '<a href="$0" target="_blank" title="">$0</a>', $string);
@@ -3228,6 +3238,9 @@ var $ct_array1 = array();
    
    // Free space on this partition
    $system['free_partition_space'] = $this->conv_bytes( disk_free_space($base_dir) , 3);
+   
+   
+   $system['portfolio_cookies'] = $this->all_cookies_size();
    
    
    // Portfolio cache size (cached for efficiency)

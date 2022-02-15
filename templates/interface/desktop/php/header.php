@@ -149,6 +149,8 @@ header('Content-type: text/html; charset=' . $ct_conf['dev']['charset_default'])
 	});
 	
 	// Main js vars
+	var cookies_size_warning = '<?=( isset($system_warnings['portfolio_cookies_size']) ? $system_warnings['portfolio_cookies_size'] : 'none' )?>';
+	
 	var theme_selected = '<?=$sel_opt['theme_selected']?>';
 	
 	var feeds_num = <?=( $sel_opt['show_feeds'][0] != '' ? sizeof($sel_opt['show_feeds']) : 0 )?>;
@@ -220,6 +222,7 @@ header('Content-type: text/html; charset=' . $ct_conf['dev']['charset_default'])
 </head>
 <body onbeforeunload="store_scroll_position();">
 
+<div id='header_size_warning'></div>
     
     <audio preload="metadata" id="audio_alert">
       <source src="templates/interface/media/audio/Intruder_Alert-SoundBible.com-867759995.mp3">

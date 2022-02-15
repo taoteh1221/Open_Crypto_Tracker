@@ -2,7 +2,6 @@
 // Copyright 2014-2022 GPLv3, Open Crypto Tracker by Mike Kilday: Mike@DragonFrugal.com
 
 
-
 /////////////////////////////////////////////////////////////
 
 
@@ -16,6 +15,14 @@ return ("0" + num).slice(-2);
 
 function delete_cookie( name ) {
 document.cookie = name + '=; SameSite=Strict; expires=Thu, 01 Jan 1970 00:00:01 GMT;';
+}
+
+
+/////////////////////////////////////////////////////////////
+
+
+function array_byte_size(val) {
+return new Blob([JSON.stringify(val)]).size;
 }
 
 

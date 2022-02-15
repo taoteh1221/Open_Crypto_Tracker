@@ -61,6 +61,12 @@ $system_warnings_cron_interval['free_partition_space'] = 20; // 20 hours
 }
 
 	
+if ( $system_info['portfolio_cookies'] >= $ct_conf['power']['cookies_size_warning'] ) {
+$system_warnings['portfolio_cookies_size'] = 'High app cookie storage usage (' . $ct_var->num_pretty( ($system_info['portfolio_cookies'] / 1000) , 2) . ' kilobytes in app cookies), try UNSELECTING a few coins / news feeds / price charts, OR delete ALL browser cookies if the app crashes with a "header too large" error';
+$system_warnings_cron_interval['portfolio_cookies_size'] = 6; // 6 hours
+}
+
+	
 if ( $portfolio_cache_size_mb >= $ct_conf['power']['portfolio_cache_warning'] ) {
 $system_warnings['portfolio_cache_size'] = 'High app cache disk storage usage (' . $ct_var->num_pretty($portfolio_cache_size_mb, 1) . ' megabytes in app cache)';
 $system_warnings_cron_interval['portfolio_cache_size'] = 72; // 72 hours

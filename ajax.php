@@ -34,7 +34,7 @@ $all_feeds_array = array();
     
     
     	foreach($ct_conf['power']['news_feed'] as $feed) {
-    	$feed_id = $ct_gen->digest($feed["title"], 10); // We avoid using array keys for end user config editing UX, BUT STILL UNIQUELY IDENTIFY EACH FEED
+    	$feed_id = $ct_gen->digest($feed["title"], 5); // We avoid using array keys for end user config editing UX, BUT STILL UNIQUELY IDENTIFY EACH FEED
     	$all_feeds_array[$feed_id] = $feed;
     	}
 
