@@ -91,7 +91,7 @@ FEATURES
 
 -Help page in easy-to-use FAQ format, for common issues (with support / contact links if you need additional assistance).
 
--System stats in the interface and debug logs (uptime / load averages / temperature / free disk space / used system memory / portfolio cache size, if available on your device).
+-System stats / alerts in the interface, by text or email or other comms, and in the logs (uptime / load averages / temperature / free disk space / used system memory / portfolio cookies and cache sizes, if available on your device), to help keep your Raspberry Pi or other device running within healthy parameters.
 
 -Plugin system, to use built-in / your own custom plugins for additional features.
 
