@@ -8,7 +8,7 @@
 // Have this script not load any code if asset charts are not turned on
 if ( $ct_conf['gen']['asset_charts_toggle'] == 'on' ) {
 
-$charted_val = ( $chart_mode == 'pairing' ? $alerts_market_parse[1] : $default_btc_prim_currency_pairing );
+$charted_val = ( $chart_mode == 'pair' ? $alerts_mrkt_parse[1] : $default_btc_prim_currency_pair );
 		
 // Strip non-alphanumeric characters to use in js vars, to isolate logic for each separate chart
 $js_key = preg_replace("/-/", "", $key) . '_' . $charted_val;
@@ -16,10 +16,10 @@ $js_key = preg_replace("/-/", "", $key) . '_' . $charted_val;
 		
 	// Have this script send the UI alert messages, and not load any chart code (to not leave the page endlessly loading) if cache data is not present
 	if ( file_exists('cache/charts/spot_price_24hr_volume/lite/all_days/'.$chart_asset.'/'.$key.'_chart_'.$charted_val.'.dat') != 1
-	|| $alerts_market_parse[2] != 'chart' && $alerts_market_parse[2] != 'both' ) {
+	|| $alerts_mrkt_parse[2] != 'chart' && $alerts_mrkt_parse[2] != 'both' ) {
 		
 		// If we have disabled this chart AFTER adding it at some point earlier (fixes "loading charts" not closing)
-		if ( $alerts_market_parse[2] != 'chart' && $alerts_market_parse[2] != 'both' ) {
+		if ( $alerts_mrkt_parse[2] != 'chart' && $alerts_mrkt_parse[2] != 'both' ) {
 		$chart_error_notice = 'Chart data is no longer configured for:';
 		}
 		else {
@@ -28,7 +28,7 @@ $js_key = preg_replace("/-/", "", $key) . '_' . $charted_val;
 	
 	?>
 			
-			$("#<?=$key?>_<?=$charted_val?>_chart span.chart_loading").html(' &nbsp; <?=$chart_error_notice?> <?=$chart_asset?> / <?=strtoupper($alerts_market_parse[1])?> @ <?=$ct_gen->key_to_name($alerts_market_parse[0])?><?=( $chart_mode != 'pairing' ? ' \(' . strtoupper($charted_val) . ' Value\)' : '' )?>');
+			$("#<?=$key?>_<?=$charted_val?>_chart span.chart_loading").html(' &nbsp; <?=$chart_error_notice?> <?=$chart_asset?> / <?=strtoupper($alerts_mrkt_parse[1])?> @ <?=$ct_gen->key_to_name($alerts_mrkt_parse[0])?><?=( $chart_mode != 'pair' ? ' \(' . strtoupper($charted_val) . ' Value\)' : '' )?>');
 			
 			$("#<?=$key?>_<?=$charted_val?>_chart span.chart_loading").css({ "background-color": "#9b4b26" });
 			
@@ -50,7 +50,7 @@ var lite_state_<?=$js_key?> = {
 };
  
 
-$("#<?=$key?>_<?=$charted_val?>_chart span.chart_loading").html(' &nbsp; <img src="templates/interface/media/images/auto-preloaded/loader.gif" height="16" alt="" style="vertical-align: middle;" /> Loading ALL chart for <?=$chart_asset?> / <?=strtoupper($alerts_market_parse[1])?> @ <?=$ct_gen->key_to_name($alerts_market_parse[0])?><?=( $chart_mode != 'pairing' ? ' \(' . strtoupper($charted_val) . ' Value\)' : '' )?>...');
+$("#<?=$key?>_<?=$charted_val?>_chart span.chart_loading").html(' &nbsp; <img src="templates/interface/media/images/auto-preloaded/loader.gif" height="16" alt="" style="vertical-align: middle;" /> Loading ALL chart for <?=$chart_asset?> / <?=strtoupper($alerts_mrkt_parse[1])?> @ <?=$ct_gen->key_to_name($alerts_mrkt_parse[0])?><?=( $chart_mode != 'pair' ? ' \(' . strtoupper($charted_val) . ' Value\)' : '' )?>...');
 	
   
 zingchart.bind('<?=strtolower($key)?>_<?=$charted_val?>_chart', 'load', function() {
@@ -166,7 +166,7 @@ store_scroll_position();
 		}
 		
   
-  $("#<?=strtolower($key)?>_<?=$charted_val?>_chart div.chart_reload div.chart_reload_msg").html("Loading " + lite_chart_text + " chart for <?=$chart_asset?> / <?=strtoupper($alerts_market_parse[1])?> @ <?=$ct_gen->key_to_name($alerts_market_parse[0])?><?=( $chart_mode != 'pairing' ? ' \(' . strtoupper($charted_val) . ' Value\)' : '' )?>...");
+  $("#<?=strtolower($key)?>_<?=$charted_val?>_chart div.chart_reload div.chart_reload_msg").html("Loading " + lite_chart_text + " chart for <?=$chart_asset?> / <?=strtoupper($alerts_mrkt_parse[1])?> @ <?=$ct_gen->key_to_name($alerts_mrkt_parse[0])?><?=( $chart_mode != 'pair' ? ' \(' . strtoupper($charted_val) . ' Value\)' : '' )?>...");
   
 	$("#<?=strtolower($key)?>_<?=$charted_val?>_chart div.chart_reload").fadeIn(100); // 0.1 seconds
 	

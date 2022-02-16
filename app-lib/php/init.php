@@ -173,9 +173,9 @@ $asset_tracking =  array();
 
 $btc_worth_array = array();
 
-$btc_pairing_markets = array();
+$btc_pair_mrkts = array();
 
-$btc_pairing_markets_excluded = array();
+$btc_pair_mrkts_excluded = array();
 
 $price_alert_fixed_reset_array = array();
 
@@ -268,7 +268,7 @@ if ( $_GET['logout'] == 1 && $ct_gen->admin_hashed_nonce('logout') != false && $
 $ct_gen->hardy_sess_clear(); 
 
 // Delete admin login cookie
-unset($_COOKIE['admin_auth_' . $ct_gen->id()]); 
+$ct_gen->store_cookie('admin_auth_' . $ct_gen->id(), '', time()-3600); // Delete
 
 header("Location: index.php");
 exit;
@@ -515,7 +515,7 @@ require_once('app-lib/php/other/scheduled-maintenance.php');
 // Unit tests to run in debug mode (MUST RUN AT THE VERY END OF INIT.PHP)
 if ( $ct_conf['dev']['debug'] != 'off' ) {
 require_once('app-lib/php/other/debugging/tests.php');
-require_once('app-lib/php/other/debugging/exchange-and-pairing-info.php');
+require_once('app-lib/php/other/debugging/exchange-and-pair-info.php');
 }
 
 

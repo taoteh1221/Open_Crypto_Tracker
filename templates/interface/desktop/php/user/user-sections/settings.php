@@ -17,7 +17,7 @@
 			<?php
 			if ( $price_alert_type_text != '' && $ct_conf['comms']['price_alert_thres'] > 0 ) {
           ?>
-          	<p class='settings_sections'><b><?=$price_alert_type_text?> price alerts</b> are <i>enabled</i> in the configuration file (upon <?=$ct_conf['comms']['price_alert_thres']?>% or more <?=strtoupper($default_btc_prim_currency_pairing)?> price change<?=( $ct_conf['comms']['price_alert_freq_max'] > 0 ? ' / max every ' . $ct_conf['comms']['price_alert_freq_max'] . ' hours per-alert' : '' )?><?=( $ct_conf['comms']['price_alert_min_vol'] > 0 ? ' / ' . $ct_conf['power']['btc_currency_markets'][$default_btc_prim_currency_pairing] . number_format($ct_conf['comms']['price_alert_min_vol'], 0, '.', ',') . ' minumum volume filter enabled' : '' )?><?=( $ct_conf['charts_alerts']['price_alert_fixed_reset'] > 0 ? ' / comparison price fixed-reset after ' . $ct_conf['charts_alerts']['price_alert_fixed_reset'] . ' days' : '' )?>). 
+          	<p class='settings_sections'><b><?=$price_alert_type_text?> price alerts</b> are <i>enabled</i> in the configuration file (upon <?=$ct_conf['comms']['price_alert_thres']?>% or more <?=strtoupper($default_btc_prim_currency_pair)?> price change<?=( $ct_conf['comms']['price_alert_freq_max'] > 0 ? ' / max every ' . $ct_conf['comms']['price_alert_freq_max'] . ' hours per-alert' : '' )?><?=( $ct_conf['comms']['price_alert_min_vol'] > 0 ? ' / ' . $ct_conf['power']['btc_currency_mrkts'][$default_btc_prim_currency_pair] . number_format($ct_conf['comms']['price_alert_min_vol'], 0, '.', ',') . ' minumum volume filter enabled' : '' )?><?=( $ct_conf['charts_alerts']['price_alert_fixed_reset'] > 0 ? ' / comparison price fixed-reset after ' . $ct_conf['charts_alerts']['price_alert_fixed_reset'] . ' days' : '' )?>). 
           	
           	<br /><i>Enable <a href='README.txt' target='_blank'>a cron job on your web server</a>, or this feature will not work AT ALL.</i> 
           	
@@ -152,9 +152,9 @@
 					BTC / <select class='browser-default custom-select' onchange='
 					
 					 btc_prim_currency = this.value;
-					 prim_currency_market = $("#" + btc_prim_currency + "btc_currency_pairs").val();
-					 currency_selected_market = $("#" + btc_prim_currency + "BTC_pairs option:selected").val();
-					 currency_selected_market_standalone = $("#" + btc_prim_currency + "btc_currency_pairs option:selected").val();
+					 prim_currency_mrkt = $("#" + btc_prim_currency + "btc_currency_pairs").val();
+					 currency_selected_mrkt = $("#" + btc_prim_currency + "BTC_pairs option:selected").val();
+					 currency_selected_mrkt_standalone = $("#" + btc_prim_currency + "btc_currency_pairs option:selected").val();
 					
 				    
 				    exchange_name_ui = $("#" + btc_prim_currency + "btc_currency_pairs option:selected").text();
@@ -164,59 +164,59 @@
 				    exchange_name_check = exchange_name.replace(" ", "_");
 				    
 				    if ( window.limited_apis.indexOf(exchange_name) != -1 ) { // MSIE-compatible
-				    $("#prim_currency_markets_alert").text("The " + exchange_name_ui + " exchange API is less reliable than some others (by NOT consolidating multiple / different asset price requests into one single call per session).\n\nIf you experience issues with primary currency values NOT displaying in this app when using the " + exchange_name_ui + " exchange marketplace, try a different exchange for your preferred primary currency market, and the issue should go away.");
-				    $("#prim_currency_markets_alert").show(250, "linear"); // 0.25 seconds
+				    $("#prim_currency_mrkts_alert").text("The " + exchange_name_ui + " exchange API is less reliable than some others (by NOT consolidating multiple / different asset price requests into one single call per session).\n\nIf you experience issues with primary currency values NOT displaying in this app when using the " + exchange_name_ui + " exchange marketplace, try a different exchange for your preferred primary currency market, and the issue should go away.");
+				    $("#prim_currency_mrkts_alert").show(250, "linear"); // 0.25 seconds
 				    }
-					 else if ( window.pref_bitcoin_markets[btc_prim_currency] && window.pref_bitcoin_markets[btc_prim_currency].length > 0 && window.pref_bitcoin_markets[btc_prim_currency] != exchange_name_check ) {
-				    $("#prim_currency_markets_alert").text("It is recommended to use the " + render_names(window.pref_bitcoin_markets[btc_prim_currency]) + " marketplace, as there MAY be occasional issues with other BTC / " + btc_prim_currency.toUpperCase() + " marketplaces.\n\nIf you experience issues with primary currency values NOT displaying in this app when using the " + exchange_name_ui + " exchange marketplace, try a different exchange for your preferred primary currency market, and the issue should go away.");
-				    $("#prim_currency_markets_alert").show(250, "linear"); // 0.25 seconds
+					 else if ( window.pref_bitcoin_mrkts[btc_prim_currency] && window.pref_bitcoin_mrkts[btc_prim_currency].length > 0 && window.pref_bitcoin_mrkts[btc_prim_currency] != exchange_name_check ) {
+				    $("#prim_currency_mrkts_alert").text("It is recommended to use the " + render_names(window.pref_bitcoin_mrkts[btc_prim_currency]) + " marketplace, as there MAY be occasional issues with other BTC / " + btc_prim_currency.toUpperCase() + " marketplaces.\n\nIf you experience issues with primary currency values NOT displaying in this app when using the " + exchange_name_ui + " exchange marketplace, try a different exchange for your preferred primary currency market, and the issue should go away.");
+				    $("#prim_currency_mrkts_alert").show(250, "linear"); // 0.25 seconds
 				    }
 				    else {
-				    $("#prim_currency_markets_alert").text("");
-				    $("#prim_currency_markets_alert").hide(250, "linear"); // 0.25 seconds
+				    $("#prim_currency_mrkts_alert").text("");
+				    $("#prim_currency_mrkts_alert").hide(250, "linear"); // 0.25 seconds
 				    }
 				    
 				    
 				    $("#btc_prim_currency").val( btc_prim_currency );
 				    
-				    $("#prim_currency_market_id_lists").children().hide(); 
+				    $("#prim_currency_mrkt_id_lists").children().hide(); 
 				    $("#" + btc_prim_currency + "btc_currency_pairs").show(); 
-				    $("#prim_currency_market_id").val( currency_selected_market_standalone );
+				    $("#prim_currency_mrkt_id").val( currency_selected_mrkt_standalone );
 				    
 				    /////////////////////////////////////////////////////////
 				    
 				    // "Update" tab, mirroring of settings
 				    if ( document.getElementById("standalone_prim_currency_enabled").checked == false ) {
 				    
-				    $("#btc_pairing").val( btc_prim_currency );
+				    $("#btc_pair").val( btc_prim_currency );
 				    
-				    $("#btc_market_lists").children().hide(); 
+				    $("#btc_mrkt_lists").children().hide(); 
 				    $("#" + btc_prim_currency + "BTC_pairs").show(); 
-				    $("#btc_market").val( currency_selected_market );
+				    $("#btc_mrkt").val( currency_selected_mrkt );
 				    
-				    $("#btc_market").val( prim_currency_market ); // Set hidden field var
-				    $("#" + btc_prim_currency + "BTC_pairs").val( prim_currency_market ); // Set selected drop down choice
+				    $("#btc_mrkt").val( prim_currency_mrkt ); // Set hidden field var
+				    $("#" + btc_prim_currency + "BTC_pairs").val( prim_currency_mrkt ); // Set selected drop down choice
 				    
 				    }
 				    else {
-				    $("#prim_currency_market_standalone").val( btc_prim_currency + "|" + prim_currency_market );
+				    $("#prim_currency_mrkt_standalone").val( btc_prim_currency + "|" + prim_currency_mrkt );
 				    }
 				    
 				    '>
 					
 					<?php
 					
-					$exchange_field_id = $ct_asset->btc_market($ct_conf['gen']['btc_prim_exchange']);
+					$exchange_field_id = $ct_asset->btc_mrkt($ct_conf['gen']['btc_prim_exchange']);
 					
-					foreach (  $ct_conf['assets']['BTC']['pairing'] as $pairing_key => $pairing_id ) {
+					foreach (  $ct_conf['assets']['BTC']['pair'] as $pair_key => $pair_id ) {
 					?>
-					<option value='<?=$pairing_key?>' <?=( $ct_conf['gen']['btc_prim_currency_pairing'] == $pairing_key ? ' selected ' : '' )?>> <?=strtoupper(preg_replace("/_/i", " ", $pairing_key))?> </option>
+					<option value='<?=$pair_key?>' <?=( $ct_conf['gen']['btc_prim_currency_pair'] == $pair_key ? ' selected ' : '' )?>> <?=strtoupper(preg_replace("/_/i", " ", $pair_key))?> </option>
 					<?php
 					
 									
-									foreach ( $ct_conf['assets']['BTC']['pairing'][$pairing_key] as $market_key => $market_id ) {
+									foreach ( $ct_conf['assets']['BTC']['pair'][$pair_key] as $market_key => $market_id ) {
 									$loop2 = $loop2 + 1;
-									$btc_market_list[$pairing_key] .= "\n<option value='".$loop2."'" . ( $exchange_field_id == $loop2 ? ' selected ' : '' ) . ">" . $ct_gen->key_to_name($market_key) . "</option>\n";
+									$btc_mrkt_list[$pair_key] .= "\n<option value='".$loop2."'" . ( $exchange_field_id == $loop2 ? ' selected ' : '' ) . ">" . $ct_gen->key_to_name($market_key) . "</option>\n";
 									}
 									$loop2 = NULL;
 							
@@ -227,19 +227,19 @@
 				    
 				     @ 
 				    
-				    <input type='hidden' id='btc_prim_currency' name='btc_prim_currency' value='<?=$ct_conf['gen']['btc_prim_currency_pairing']?>' />
+				    <input type='hidden' id='btc_prim_currency' name='btc_prim_currency' value='<?=$ct_conf['gen']['btc_prim_currency_pair']?>' />
 				     
-				    <input type='hidden' id='prim_currency_market_id' name='prim_currency_market_id' value='<?=$exchange_field_id?>' />
+				    <input type='hidden' id='prim_currency_mrkt_id' name='prim_currency_mrkt_id' value='<?=$exchange_field_id?>' />
 				     
 				     
-				     <span id='prim_currency_market_id_lists' style='display: inline;'>
-				     <!-- Selected (or first if none selected) pairing: <?=$ct_conf['gen']['btc_prim_currency_pairing']?> -->
-				     <!-- prim_currency_market_standalone[1]: <?=$sel_opt['prim_currency_market_standalone'][1]?> -->
-				     <!-- prim_currency_market_standalone[0]: <?=$sel_opt['prim_currency_market_standalone'][0]?> -->
+				     <span id='prim_currency_mrkt_id_lists' style='display: inline;'>
+				     <!-- Selected (or first if none selected) pair: <?=$ct_conf['gen']['btc_prim_currency_pair']?> -->
+				     <!-- prim_currency_mrkt_standalone[1]: <?=$sel_opt['prim_currency_mrkt_standalone'][1]?> -->
+				     <!-- prim_currency_mrkt_standalone[0]: <?=$sel_opt['prim_currency_mrkt_standalone'][0]?> -->
 				     <!-- btc_prim_exchange: <?=$ct_conf['gen']['btc_prim_exchange']?> -->
 				    <?php
 				    
-				    foreach ( $btc_market_list as $key => $value ) {
+				    foreach ( $btc_mrkt_list as $key => $value ) {
 				    ?>
 				    
 				    <select class='browser-default custom-select' onchange='
@@ -251,75 +251,75 @@
 				    exchange_name_check = exchange_name.replace(" ", "_");
 				    
 				    btc_prim_currency = $("#btc_prim_currency").val();
-					 prim_currency_market = this.value;
+					 prim_currency_mrkt = this.value;
 				    
 				    if ( window.limited_apis.indexOf(exchange_name) != -1 ) { // MSIE-compatible
-				    $("#prim_currency_markets_alert").text("The " + exchange_name_ui + " exchange API is less reliable than some others (by NOT consolidating multiple / different asset price requests into one single call per session).\n\nIf you experience issues with primary currency values NOT displaying in this app when using the " + exchange_name_ui + " exchange marketplace, try a different exchange for your preferred primary currency market, and the issue should go away.");
-				    $("#prim_currency_markets_alert").show(250, "linear"); // 0.25 seconds
+				    $("#prim_currency_mrkts_alert").text("The " + exchange_name_ui + " exchange API is less reliable than some others (by NOT consolidating multiple / different asset price requests into one single call per session).\n\nIf you experience issues with primary currency values NOT displaying in this app when using the " + exchange_name_ui + " exchange marketplace, try a different exchange for your preferred primary currency market, and the issue should go away.");
+				    $("#prim_currency_mrkts_alert").show(250, "linear"); // 0.25 seconds
 				    }
-					 else if ( window.pref_bitcoin_markets[btc_prim_currency] && window.pref_bitcoin_markets[btc_prim_currency].length > 0 && window.pref_bitcoin_markets[btc_prim_currency] != exchange_name_check ) {
-				    $("#prim_currency_markets_alert").text("It is recommended to use the " + render_names(window.pref_bitcoin_markets[btc_prim_currency]) + " marketplace, as there MAY be occasional issues with other BTC / " + btc_prim_currency.toUpperCase() + " marketplaces.\n\nIf you experience issues with primary currency values NOT displaying in this app when using the " + exchange_name_ui + " exchange marketplace, try a different exchange for your preferred primary currency market, and the issue should go away.");
-				    $("#prim_currency_markets_alert").show(250, "linear"); // 0.25 seconds
+					 else if ( window.pref_bitcoin_mrkts[btc_prim_currency] && window.pref_bitcoin_mrkts[btc_prim_currency].length > 0 && window.pref_bitcoin_mrkts[btc_prim_currency] != exchange_name_check ) {
+				    $("#prim_currency_mrkts_alert").text("It is recommended to use the " + render_names(window.pref_bitcoin_mrkts[btc_prim_currency]) + " marketplace, as there MAY be occasional issues with other BTC / " + btc_prim_currency.toUpperCase() + " marketplaces.\n\nIf you experience issues with primary currency values NOT displaying in this app when using the " + exchange_name_ui + " exchange marketplace, try a different exchange for your preferred primary currency market, and the issue should go away.");
+				    $("#prim_currency_mrkts_alert").show(250, "linear"); // 0.25 seconds
 				    }
 				    else {
-				    $("#prim_currency_markets_alert").text("");
-				    $("#prim_currency_markets_alert").hide(250, "linear"); // 0.25 seconds
+				    $("#prim_currency_mrkts_alert").text("");
+				    $("#prim_currency_mrkts_alert").hide(250, "linear"); // 0.25 seconds
 				    }
 					 
-				    $("#prim_currency_market_id").val( prim_currency_market );
+				    $("#prim_currency_mrkt_id").val( prim_currency_mrkt );
 				    
 				    /////////////////////////////////////////////////////////
 				    
 				    // "Update" tab, mirroring of settings
 				    if ( document.getElementById("standalone_prim_currency_enabled").checked == false ) {
-				    $("#btc_market").val( prim_currency_market ); // Set hidden field var
-				    $("#" + btc_prim_currency + "BTC_pairs").val( prim_currency_market ); // Set selected drop down choice
+				    $("#btc_mrkt").val( prim_currency_mrkt ); // Set hidden field var
+				    $("#" + btc_prim_currency + "BTC_pairs").val( prim_currency_mrkt ); // Set selected drop down choice
 				    }
 				    else {
-				    $("#prim_currency_market_standalone").val( btc_prim_currency + "|" + prim_currency_market );
+				    $("#prim_currency_mrkt_standalone").val( btc_prim_currency + "|" + prim_currency_mrkt );
 				    }
 				    
-				    ' id='<?=$key?>btc_currency_pairs' style='display: <?=( $ct_conf['gen']['btc_prim_currency_pairing'] == $key ? 'inline' : 'none' )?>;'>
+				    ' id='<?=$key?>btc_currency_pairs' style='display: <?=( $ct_conf['gen']['btc_prim_currency_pair'] == $key ? 'inline' : 'none' )?>;'>
 				    
-				    <?=$btc_market_list[$key]?>
+				    <?=$btc_mrkt_list[$key]?>
 				    
 				    </select>
 				    
 				    <?php
 				    }
-				    $btc_market_list = NULL;
+				    $btc_mrkt_list = NULL;
 				    ?>
 				    
 				    </span> <img id='currency_info' src='templates/interface/media/images/info.png' alt='' width='30' style='position: relative; left: -5px;' /> <input type='checkbox' id='standalone_prim_currency_enabled' name='standalone_prim_currency_enabled' value='1' onchange='
 				    
-				    btc_prim_currency = $("#btc_prim_currency").val() ? $("#btc_prim_currency").val() : "<?=$ct_conf['gen']['btc_prim_currency_pairing']?>";
-				    prim_currency_market = $("#prim_currency_market_id").val() ? $("#prim_currency_market_id").val() : <?=$ct_asset->btc_market($ct_conf['gen']['btc_prim_exchange'])?>;
+				    btc_prim_currency = $("#btc_prim_currency").val() ? $("#btc_prim_currency").val() : "<?=$ct_conf['gen']['btc_prim_currency_pair']?>";
+				    prim_currency_mrkt = $("#prim_currency_mrkt_id").val() ? $("#prim_currency_mrkt_id").val() : <?=$ct_asset->btc_mrkt($ct_conf['gen']['btc_prim_exchange'])?>;
 				    
 				    /////////////////////////////////////////////////////////
 				    
 				    // "Update" tab, mirroring of settings
 				    if ( this.checked == false ) {
 				    
-				    $("#btc_market_lists").children().hide(); 
+				    $("#btc_mrkt_lists").children().hide(); 
 				    $("#" + btc_prim_currency + "BTC_pairs").show(); 
-				    $("#btc_market").val( $("#" + btc_prim_currency + "BTC_pairs option:selected").val() );
+				    $("#btc_mrkt").val( $("#" + btc_prim_currency + "BTC_pairs option:selected").val() );
 				    
-				    $("#btc_pairing").val( btc_prim_currency );
+				    $("#btc_pair").val( btc_prim_currency );
 				    	
-				    $("#btc_market").val( prim_currency_market ); // Set hidden field var
-				    $("#" + btc_prim_currency + "BTC_pairs").val( prim_currency_market ); // Set selected drop down choice
+				    $("#btc_mrkt").val( prim_currency_mrkt ); // Set hidden field var
+				    $("#" + btc_prim_currency + "BTC_pairs").val( prim_currency_mrkt ); // Set selected drop down choice
 				    
-				    $("#prim_currency_market_standalone").val("");
+				    $("#prim_currency_mrkt_standalone").val("");
 				    
 				    }
 				    else {
-				    $("#prim_currency_market_standalone").val( btc_prim_currency + "|" + prim_currency_market );
+				    $("#prim_currency_mrkt_standalone").val( btc_prim_currency + "|" + prim_currency_mrkt );
 				    }
 				    
 				    
-				    ' <?=( is_array($sel_opt['prim_currency_market_standalone']) ? 'checked' : '' )?> /> Stand-Alone Mode (<i>WON'T automatically change</i> Bitcoin market on "Update" page)
+				    ' <?=( is_array($sel_opt['prim_currency_mrkt_standalone']) ? 'checked' : '' )?> /> Stand-Alone Mode (<i>WON'T automatically change</i> Bitcoin market on "Update" page)
 				    
-				    <div id='prim_currency_markets_alert' class='bitcoin_dotted bitcoin'></div>
+				    <div id='prim_currency_mrkts_alert' class='bitcoin_dotted bitcoin'></div>
 				    
  <script>
 	
@@ -355,7 +355,7 @@
 		
 			// On page load / reload
 			
-			var settings_tab_prim_btc_exchange = document.getElementById("<?=$ct_conf['gen']['btc_prim_currency_pairing']?>btc_currency_pairs");
+			var settings_tab_prim_btc_exchange = document.getElementById("<?=$ct_conf['gen']['btc_prim_currency_pair']?>btc_currency_pairs");
 
 			exchange_name_ui = settings_tab_prim_btc_exchange.options[settings_tab_prim_btc_exchange.selectedIndex].text;
 
@@ -363,20 +363,20 @@
 				    
 			exchange_name_check = exchange_name.replace(" ", "_");
 
-			btc_prim_currency = btc_prim_currency_pairing.toLowerCase();
+			btc_prim_currency = btc_prim_currency_pair.toLowerCase();
 			
 
 				    if ( window.limited_apis.indexOf(exchange_name) != -1 ) { // MSIE-compatible
-				    $('#prim_currency_markets_alert').text("The " + exchange_name_ui + " exchange API is less reliable than some others (by NOT consolidating multiple / different asset price requests into one single call per session).\n\nIf you experience issues with primary currency values NOT displaying in this app when using the " + exchange_name_ui + " exchange marketplace, try a different exchange for your preferred primary currency market, and the issue should go away.");
-				    $("#prim_currency_markets_alert").show(250, "linear"); // 0.25 seconds
+				    $('#prim_currency_mrkts_alert').text("The " + exchange_name_ui + " exchange API is less reliable than some others (by NOT consolidating multiple / different asset price requests into one single call per session).\n\nIf you experience issues with primary currency values NOT displaying in this app when using the " + exchange_name_ui + " exchange marketplace, try a different exchange for your preferred primary currency market, and the issue should go away.");
+				    $("#prim_currency_mrkts_alert").show(250, "linear"); // 0.25 seconds
 				    }
-					 else if ( window.pref_bitcoin_markets[btc_prim_currency] && window.pref_bitcoin_markets[btc_prim_currency].length > 0 && window.pref_bitcoin_markets[btc_prim_currency] != exchange_name_check ) {
-				    $("#prim_currency_markets_alert").text("It is recommended to use the " + render_names(window.pref_bitcoin_markets[btc_prim_currency]) + " marketplace, as there MAY be occasional issues with other BTC / " + btc_prim_currency.toUpperCase() + " marketplaces.\n\nIf you experience issues with primary currency values NOT displaying in this app when using the " + exchange_name_ui + " exchange marketplace, try a different exchange for your preferred primary currency market, and the issue should go away.");
-				    $("#prim_currency_markets_alert").show(250, "linear"); // 0.25 seconds
+					 else if ( window.pref_bitcoin_mrkts[btc_prim_currency] && window.pref_bitcoin_mrkts[btc_prim_currency].length > 0 && window.pref_bitcoin_mrkts[btc_prim_currency] != exchange_name_check ) {
+				    $("#prim_currency_mrkts_alert").text("It is recommended to use the " + render_names(window.pref_bitcoin_mrkts[btc_prim_currency]) + " marketplace, as there MAY be occasional issues with other BTC / " + btc_prim_currency.toUpperCase() + " marketplaces.\n\nIf you experience issues with primary currency values NOT displaying in this app when using the " + exchange_name_ui + " exchange marketplace, try a different exchange for your preferred primary currency market, and the issue should go away.");
+				    $("#prim_currency_mrkts_alert").show(250, "linear"); // 0.25 seconds
 				    }
 				    else {
-				    $('#prim_currency_markets_alert').text("");
-				    $("#prim_currency_markets_alert").hide(250, "linear"); // 0.25 seconds
+				    $('#prim_currency_mrkts_alert').text("");
+				    $("#prim_currency_mrkts_alert").hide(250, "linear"); // 0.25 seconds
 				    }
 		
 		
@@ -402,14 +402,14 @@
 			    
 			    if ( this.value == "yes" ) {
 			    document.getElementById("alert_source").style.display = "inline";
-			    document.getElementById("percent_change_amount").style.display = "inline";
+			    document.getElementById("percent_change_amnt").style.display = "inline";
 			    document.getElementById("percent_change_filter").style.display = "inline";
 			    document.getElementById("percent_change_time").style.display = "inline";
 			    document.getElementById("percent_change_alert_type").style.display = "inline";
 			    }
 			    else {
 			    document.getElementById("alert_source").style.display = "none";
-			    document.getElementById("percent_change_amount").style.display = "none";
+			    document.getElementById("percent_change_amnt").style.display = "none";
 			    document.getElementById("percent_change_filter").style.display = "none";
 			    document.getElementById("percent_change_time").style.display = "none";
 			    document.getElementById("percent_change_alert_type").style.display = "none";
@@ -427,7 +427,7 @@
 			    </select>  
 			    
 			    
-			    <select class='browser-default custom-select' name='percent_change_amount' id='percent_change_amount' onchange='update_alert_percent();'>
+			    <select class='browser-default custom-select' name='percent_change_amnt' id='percent_change_amnt' onchange='update_alert_percent();'>
 			    <option value='5' <?=( $sel_opt['alert_percent'][1] == 5 ? ' selected ' : '' )?>> 5% </option>
 			    <option value='10' <?=( $sel_opt['alert_percent'][1] == 10 ? ' selected ' : '' )?>> 10% </option>
 			    <option value='15' <?=( $sel_opt['alert_percent'][1] == 15 ? ' selected ' : '' )?>> 15% </option>
@@ -496,7 +496,7 @@
 			     
 			<?php
 			$loop = 0;
-			foreach ( $ct_conf['power']['crypto_pairing'] as $key => $unused ) {
+			foreach ( $ct_conf['power']['crypto_pair'] as $key => $unused ) {
 			?>
 			<?=( $loop > 0 ? ' &nbsp;/&nbsp; ' : '' )?> 
 			<input type='checkbox' value='<?=$key?>' onchange='crypto_val_toggle(this);' <?=( in_array("[".$key."]", $sel_opt['show_crypto_val']) ? 'checked' : '' )?> /> <?=strtoupper($key)?> 
@@ -516,7 +516,7 @@
 			
 			+'<p class="coin_info" style="max-width: 600px; white-space: normal;">Shows the value of your ENTIRE portfolio, in cryptocurrencies selected here, at the bottom of the Portfolio page.</p>'
 			
-			+'<p class="coin_info" style="max-width: 600px; white-space: normal;">You can edit this list (except for BTC) with the "crypto_pairing" setting, in the Admin Config POWER USER section.</p>';
+			+'<p class="coin_info" style="max-width: 600px; white-space: normal;">You can edit this list (except for BTC) with the "crypto_pair" setting, in the Admin Config POWER USER section.</p>';
 			
 		
 			$('#setting_crypto_val').balloon({
@@ -558,7 +558,7 @@
 			'>
 			<option value=''> None </option>
 			<?php
-			foreach ( $ct_conf['power']['crypto_pairing'] as $key => $unused ) {
+			foreach ( $ct_conf['power']['crypto_pair'] as $key => $unused ) {
 			?>
 			<option value='<?=$key?>' <?=( $sel_opt['show_secondary_trade_val'] == $key ? 'selected' : '' )?>> <?=strtoupper($key)?> </option>
 			<?php
@@ -581,7 +581,7 @@
 			
 			+'<p class="coin_info" style="max-width: 600px; white-space: normal;"><img src="templates/interface/media/images/auto-preloaded/secondary-value-example.png" width="590" title="Secondary Trade / Holdings Value" /></p>'
 			
-			+'<p class="coin_info" style="max-width: 600px; white-space: normal;">You can edit this list (except for BTC) with the "crypto_pairing" setting, in the Admin Config POWER USER section.</p>';
+			+'<p class="coin_info" style="max-width: 600px; white-space: normal;">You can edit this list (except for BTC) with the "crypto_pair" setting, in the Admin Config POWER USER section.</p>';
 			
 		
 			$('#setting_secondary_trade_val').balloon({
@@ -622,7 +622,7 @@
 			document.getElementById("use_notes").value = "";
 			document.getElementById("set_use_notes").checked = false;
          }
-         ' <?php echo ( $_COOKIE['coin_amounts'] != '' ? 'checked' : ''); ?> /> <span class='bitcoin'>(un-checking this box <i>deletes ALL previously-saved cookie data <u>permanently</u></i>)</span>
+         ' <?php echo ( $_COOKIE['coin_amnts'] != '' ? 'checked' : ''); ?> /> <span class='bitcoin'>(un-checking this box <i>deletes ALL previously-saved cookie data <u>permanently</u></i>)</span>
          
          </p>
 			
@@ -646,7 +646,7 @@
 			
 			
           <p class='settings_sections'>
-          <input type='button' value='Save Updated Settings' onclick='$("#coin_amounts").submit();' />
+          <input type='button' value='Save Updated Settings' onclick='$("#coin_amnts").submit();' />
           </p>
                         
                         
@@ -656,7 +656,7 @@
 			?>
 			
 			<style>
-			#alert_source, #percent_change_amount, #percent_change_filter, #percent_change_time, #percent_change_alert_type {
+			#alert_source, #percent_change_amnt, #percent_change_filter, #percent_change_time, #percent_change_alert_type {
 			display: inline;
 			}
 			</style>

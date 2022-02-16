@@ -57,7 +57,7 @@ FEATURES
 
 -Automated and user-friendly installation / upgrade script for Ubuntu or Raspberry Pi app setup on your home / internal network or website.
 
--Support for over 40 exchanges (including DeFi), and over 80 market pairings (country fiat currency or secondary crypto).
+-Support for over 40 exchanges (including DeFi), and over 80 market pairs (country fiat currency or secondary crypto).
 
 -Secure HTTPS (SSL), username / password protection, and privacy mode in the portfolio interface, for privacy and security.
 
@@ -69,9 +69,9 @@ FEATURES
 
 -Price change alerts by email / text / Alexa / Telegram (configurable alert parameters available).
 
--Add / edit / delete your own portfolio assets list, with your favorite exchanges / market pairings.
+-Add / edit / delete your own portfolio assets list, with your favorite exchanges / market pairs.
 
--Add / edit / delete your own price alerts and price charts for assets / exchanges / market pairings (supports multiple exchanges / market pairings per asset).
+-Add / edit / delete your own price alerts and price charts for assets / exchanges / market pairs (supports multiple exchanges / market pairs per asset).
 
 -Import / export your portfolio in CSV (spreadsheet) file format.
 
@@ -97,7 +97,7 @@ FEATURES
 
 -Secure webhook capability, allowing other external apps to communicate in real-time safely (separate keys per service, without giving away the master webhook key).
 
--Internal restful API built-in, to allow other external apps to query real-time market data in over 80 country fiat currencies / secondary crypto pairings (raw data also available).
+-Internal restful API built-in, to allow other external apps to query real-time market data in over 80 country fiat currencies / secondary crypto pairs (raw data also available).
 
 -Option to use proxies for external API requests, and SMTP authentication for email sending.
 
@@ -144,7 +144,7 @@ Setting up a cron job for charts and price alerts by email / mobile phone text /
 (get notifications sent to you, even when your PC / Laptop is offline): 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-You can setup price charts or price alerts in your app install. Price alerts can be sent to email, mobile phone text, Telegram, and Alexa notifications. You will be alerted when the [configured default primary currency] price of an asset goes up or down a certain percent or more (whatever percent you choose in the settings), for specific exchange / base pairing combinations for that asset. You can even setup alerts and charts for multiple exchanges / base pairings for the same asset.
+You can setup price charts or price alerts in your app install. Price alerts can be sent to email, mobile phone text, Telegram, and Alexa notifications. You will be alerted when the [configured default primary currency] price of an asset goes up or down a certain percent or more (whatever percent you choose in the settings), for specific exchange / base pair combinations for that asset. You can even setup alerts and charts for multiple exchanges / base pairs for the same asset.
 	    
 Running price charts or price alerts requires setting up a cron job or scheduled task on the Ubuntu / Raspberry Pi / Windows 10 machine or website server (this is automated for Ubuntu and Raspberry Pi users using the automated FOLIO-INSTALL.bash script / Windows 10 users who run the ADD-WIN10-SCHEDULER-JOB.bat file), otherwise charts / alerts will not work. Also see the related settings in Admin Config for charts / alerts. 
 
@@ -180,7 +180,7 @@ MAKE SURE YOU ONLY USE EITHER /etc/cron.d/, or 'crontab -e', NOT BOTH...ANY OLD 
 Using the built-in (internal) REST API:
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-This app has a built-in (internal) REST API available, so other external apps can connect to it and receive market data, including market conversion (converting the market values to their equivalent value in country fiat currencies and secondary cryptocurrency market pairings).
+This app has a built-in (internal) REST API available, so other external apps can connect to it and receive market data, including market conversion (converting the market values to their equivalent value in country fiat currencies and secondary cryptocurrency market pairs).
 
 To see a list of the supported assets in the API, use the endpoint: "/api/asset_list"
 
@@ -190,9 +190,9 @@ To see a list of the supported markets for a particular exchange in the API, use
 
 To see a list of the supported conversion currencies (market values converted to these currency values) in the API, use the endpoint: "/api/conversion_list"
 
-To get raw market values AND also get a market conversion to a supported conversion currency (see ALL requested market values also converted to values in this currency) in the API, use the endpoint: "/api/market_conversion/[conversion currency]/[exchange1-asset1-pairing1],[exchange2-asset2-pairing2],[exchange3-asset3-pairing3]"
+To get raw market values AND also get a market conversion to a supported conversion currency (see ALL requested market values also converted to values in this currency) in the API, use the endpoint: "/api/market_conversion/[conversion currency]/[exchange1-asset1-pair1],[exchange2-asset2-pair2],[exchange3-asset3-pair3]"
 
-To skip conversions and just receive raw market values in the API, you can use the endpoint: "/api/market_conversion/market_only/[exchange1-asset1-pairing1],[exchange2-asset2-pairing2],[exchange3-asset3-pairing3]"
+To skip conversions and just receive raw market values in the API, you can use the endpoint: "/api/market_conversion/market_only/[exchange1-asset1-pair1],[exchange2-asset2-pair2],[exchange3-asset3-pair3]"
 
 For security, the API requires a key / token to access it. This key must be named "api_key", and must be sent with the "POST" data method.
 
@@ -208,7 +208,7 @@ IMPORTANT NOTE: IN THE v6 RELEASE (Coming Soon™), DOING THIS MANUALLY IN A TEX
 
 Below is an example for editing your assets / markets into the portfolio assets in the file config.php (located in the primary directory of this app), in the PORTFOLIO ASSETS section. It's very quick / easy to do (after you get the hang of it, lol). Also see the text file /DOCUMENTATION-ETC/CONFIG-EXAMPLE.txt, for a pre-configured set of default settings and example assets / markets. 
 
-Contact any supported exchange's help desk if you are unaware of the correct formatting of the trading pair naming you are adding in the configuration file (examples: Kraken has arbitrary Xs inserted in SOME older pair names, HitBTC sometimes has tether pairing without the "T" in the symbol name).
+Contact any supported exchange's help desk if you are unaware of the correct formatting of the trading pair naming you are adding in the configuration file (examples: Kraken has arbitrary Xs inserted in SOME older pair names, HitBTC sometimes has tether pair without the "T" in the symbol name).
 
 
 Support for over 80 trading pairs (country fiat currency or secondary crypto, contact me to request more): 
@@ -238,20 +238,20 @@ USAGE (ADDING / UPDATING COINS):
                         // Website slug (URL data) on coinmarketcap / coingecko, leave blank if not listed there
                         'mcap_slug' => 'WEBSITE_SLUG_HERE', 
                         // MARKET IDS ARE CASE-SENSITIVE!
-                        'pairing' => array(
+                        'pair' => array(
                                     
                                     
-                        		'lowercase_pairing_abrv' => array(
+                        		'lowercase_pair_abrv' => array(
                                           'lowercase_exchange1' => 'MARKETIDHERE',
-                                          'lowercase_exchange2' => 'ASSET/PAIRING',
-                                          'lowercase_exchange3' => 'ASSET-PAIRING',
-                                          'lowercase_exchange4' => 'ASSET_PAIRING',
-                                          'lowercase_exchange5' => 'ASSETPAIRING',
-                                          'defipulse' => 'ASSET/PAIRING', // DeFi
-                                          // GENERIC PAIRING PRICE (IF NO EXHANGE APIs AVAILABLE)
+                                          'lowercase_exchange2' => 'ASSET/PAIR',
+                                          'lowercase_exchange3' => 'ASSET-PAIR',
+                                          'lowercase_exchange4' => 'ASSET_PAIR',
+                                          'lowercase_exchange5' => 'ASSETPAIR',
+                                          'defipulse' => 'ASSET/PAIR', // DeFi
+                                          // GENERIC PAIR PRICE (IF NO EXHANGE APIs AVAILABLE)
                                           // USE COINGECKO'S API ID FOR THIS ASSET (SEE COINGECKO ASSET PAGE'S INFO SECTION) 
-                                          // LOWERCASE_PAIRING_ABRV MUST BE SUPPORTED BY COINGECKO'S 'vs_currencies' API PARAMETER!
-                                          'generic_LOWERCASE_PAIRING_ABRV' => 'coingecko_api_id_here',
+                                          // LOWERCASE_PAIR_ABRV MUST BE SUPPORTED BY COINGECKO'S 'vs_currencies' API PARAMETER!
+                                          'generic_LOWERCASE_PAIR_ABRV' => 'coingecko_api_id_here',
                                           ),
                                                     
                                                     
@@ -262,7 +262,7 @@ USAGE (ADDING / UPDATING COINS):
                                           'lowercase_exchange4' => 'ASSET_ETH',
                                           'lowercase_exchange5' => 'ASSETETH',
                                           // DEFI, INCLUDING #OPTIONAL# LIQUIDITY POOL ADDRESS, ASSURING #EXACT# MARKET DESIRED
-                                          'defipulse' => 'ASSET/PAIRING||OPTIONAL_LIQUIDITY_POOL_ADDRESS',
+                                          'defipulse' => 'ASSET/PAIR||OPTIONAL_LIQUIDITY_POOL_ADDRESS',
                                           // ETH ICOs...ETHSUBTOKENNAME MUST be defined in 'eth_erc20_icos' (Admin Config POWER USER section)
                                           'ico_erc20_value' => 'ETHSUBTOKENNAME', 
                                           // GENERIC ETH PRICE (IF NO EXHANGE APIs AVAILABLE)
@@ -299,7 +299,7 @@ USAGE (ADDING / UPDATING COINS):
                                           ),
 
                                                     
-                       	) // pairing END
+                       	) // pair END
                         
                     ), // Asset END
                     

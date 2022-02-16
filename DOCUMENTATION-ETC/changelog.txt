@@ -125,7 +125,7 @@ Minor GUI tweaks
 -------------------------------------------------------------------
 1.0.11:
 -A few bug fixes, failsafes, and optimizations
--Added trade pairing info in each submission form description
+-Added trade pair info in each submission form description
 -------------------------------------------------------------------
 
 -------------------------------------------------------------------
@@ -658,7 +658,7 @@ app doing the data requests, not a malicious bot)
 -------------------------------------------------------------------
 1.9.9 (BETA TESTING):
 -Major semantics cleanup
--Built front end GUI for additional LTC / ETH / USDT market pairings support (that was already built into back end)
+-Built front end GUI for additional LTC / ETH / USDT market pairs support (that was already built into back end)
 -Minor optimizations
 -Added newsletters section on external resource links page
 -------------------------------------------------------------------
@@ -668,7 +668,7 @@ app doing the data requests, not a malicious bot)
 -------------------------------------------------------------------
 2.0.0 (STABLE RELEASE):
 -Major semantics cleanup
--Built front end GUI for additional LTC / ETH / USDT market pairings support (that was already built into back end)
+-Built front end GUI for additional LTC / ETH / USDT market pairs support (that was already built into back end)
 -Minor optimizations
 -Added newsletters section on external resource links page
 -------------------------------------------------------------------
@@ -677,8 +677,8 @@ app doing the data requests, not a malicious bot)
 -------------------------------------------------------------------
 2.0.1:
 -Added Okex and Bitstamp markets API support
--Added XMR market pairing support
--Added additional USDT / XMR / LTC / ETH / BTC pairings in example assets
+-Added XMR market pair support
+-Added additional USDT / XMR / LTC / ETH / BTC pairs in example assets
 -------------------------------------------------------------------
 
 
@@ -836,8 +836,8 @@ app doing the data requests, not a malicious bot)
 2.2.3:
 -Config to adjust chain stats cache time
 -Optimize API cache efficiency
--Fixed cron alert bug related to trade pairings other than BTC
--Allowed multiple cron job alerts per asset (different exchanges / trade pairings for same asset)
+-Fixed cron alert bug related to trade pairs other than BTC
+-Allowed multiple cron job alerts per asset (different exchanges / trade pairs for same asset)
 -Tweaks
 -------------------------------------------------------------------
 
@@ -884,7 +884,7 @@ app doing the data requests, not a malicious bot)
 -------------------------------------------------------------------
 2.2.8:
 -Tweaks, bug fixes, optimizations
--Quick market pairing selection change in UI
+-Quick market pair selection change in UI
 -------------------------------------------------------------------
 
 
@@ -1223,7 +1223,7 @@ app doing the data requests, not a malicious bot)
 -------------------------------------------------------------------
 3.09.0:
 -Minor UX tweaks
--Optional charts based on pairing values (to compliment USD values charts)
+-Optional charts based on pair values (to compliment USD values charts)
 -------------------------------------------------------------------
 
 
@@ -1311,7 +1311,7 @@ app doing the data requests, not a malicious bot)
 3.15.0:
 -UX revisions
 -Feature to enable charts and alerts separately if desired (includes config file formatting changes)
--USDC base pairing support
+-USDC base pair support
 -Bittrex International market naming (semantics)
 -------------------------------------------------------------------
 
@@ -1439,7 +1439,7 @@ app doing the data requests, not a malicious bot)
 -------------------------------------------------------------------
 3.20.1:
 -Bug fix for info balloons to not word wrap lines (was minimizing balloon width too much on mobile)
--Fixed error logging for base pairings info, when chart / price alert runs for BTC / USD markets
+-Fixed error logging for base pairs info, when chart / price alert runs for BTC / USD markets
 -------------------------------------------------------------------
 
 
@@ -1774,7 +1774,7 @@ app doing the data requests, not a malicious bot)
 -------------------------------------------------------------------
 3.42.4:
 -Bug fix for price alert volume change percentage (edge case / UX issue)
--Bug fix for 'BTC worth' text color in dark theme (where base pairing isn't BTC)
+-Bug fix for 'BTC worth' text color in dark theme (where base pair isn't BTC)
 -Coding cleanup (semantics)
 -Config setting to control the maximum decimals used on coins with USD values under $1 (for cleaner interface / UX)
 -------------------------------------------------------------------
@@ -1812,7 +1812,7 @@ app doing the data requests, not a malicious bot)
 
 -------------------------------------------------------------------
 3.45.1:
--Bug fix for spot price / pairing volume percent change calculations in price alerts
+-Bug fix for spot price / pair volume percent change calculations in price alerts
 -Bug fix for gain / loss percent change calculations in portfolio interface
 -Minor code housekeeping
 -------------------------------------------------------------------
@@ -1822,7 +1822,7 @@ app doing the data requests, not a malicious bot)
 -------------------------------------------------------------------
 3.46.0:
 -UX revisions
--Altcoin USD-based pairing markets support
+-Altcoin USD-based pair markets support
 -Default config revision (includes new parameters)
 -Dogecoin mining calculator
 -------------------------------------------------------------------
@@ -1842,7 +1842,7 @@ app doing the data requests, not a malicious bot)
 3.47.0:
 -Coding semantics cleanup
 -Minor bugfixes
--Added parsing of pairing volume data from market API calls (for exchanges that support it)
+-Added parsing of pair volume data from market API calls (for exchanges that support it)
 -Revised resources page
 -Logs for last notifyme / text alert responses
 -------------------------------------------------------------------
@@ -1950,7 +1950,7 @@ app doing the data requests, not a malicious bot)
 
 -Code cleanup / optimizations / bug fixes / semantics
 
--All charts now have 24 hour volume as pairing volume (for normal UX feel charts)
+-All charts now have 24 hour volume as pair volume (for normal UX feel charts)
 
 -Added debugging log (when debugging is enabled in config.php) to log runtime telemetry
 
@@ -1963,7 +1963,7 @@ app doing the data requests, not a malicious bot)
 -New Bitcoin fiat (or stablecoin) trading pairs: USDT / TUSD / USDC / GBP / EUR / CAD / AUD / SGD / HKD / GBP / EUR / CHF / JPY / RUB
 
 -Dynamically changeable primary primary currency globally (charts / alerts / token value / subtotal / total / tools / calculators), 
-based off the chosen Bitcoin market pairing (charts / alerts default primary currency is ONLY changeable in configuration file).
+based off the chosen Bitcoin market pair (charts / alerts default primary currency is ONLY changeable in configuration file).
 
 IMPORTANT NOTE: v4.00.0 and higher of this app REQUIRES DELETING YOUR PREVIOUS CHART DATA FROM ANY EARLIER VERSIONS.
 MAJOR IMPROVEMENTS TO THE USER EXPERIENCE HAVE BEEN MADE, WHICH ARE !NOT! BACKWARDS-COMPATIBLE.
@@ -1977,7 +1977,7 @@ MAJOR IMPROVEMENTS TO THE USER EXPERIENCE HAVE BEEN MADE, WHICH ARE !NOT! BACKWA
 
 -Added dynamic modularity to MISCASSETS
 
--Added all 13 fiat pairings (to already-existing 4 crypto pairings) within MISCASSETS as pairing options (to see what the equivalent trade / holdings value in the paired currency would be)
+-Added all 13 fiat pairs (to already-existing 4 crypto pairs) within MISCASSETS as pair options (to see what the equivalent trade / holdings value in the paired currency would be)
 
 -Auto-correct any basic end user data entry errors in config.php
 
@@ -1993,11 +1993,11 @@ MAJOR IMPROVEMENTS TO THE USER EXPERIENCE HAVE BEEN MADE, WHICH ARE !NOT! BACKWA
 -------------------------------------------------------------------
 4.02.0:
 
--Config checks for new default Bitcoin exchange/pairing config settings
+-Config checks for new default Bitcoin exchange/pair config settings
 
 -Hardware sensor(s) data included in debugging mode stats (cpu / temperature / load / etc)
 
--Sort all exchange / pairing drop-down menus alphabetically (better user experience with large lists)
+-Sort all exchange / pair drop-down menus alphabetically (better user experience with large lists)
 
 -API exchange support for southxchange, braziliex, bitflyer
 
@@ -2124,7 +2124,7 @@ IMPORTANT NOTES:
 v4.03.0 and higher of this app REQUIRES DELETING YOUR PREVIOUS CHART DATA FROM ANY EARLIER VERSIONS.
 MAJOR IMPROVEMENTS TO THE USER EXPERIENCE HAVE BEEN MADE, WHICH ARE !NOT! BACKWARDS-COMPATIBLE.
 
-v4.04.3 and higher of this app RESETS PRICE ALERT VOLUME STORED TO USE PAIRING VOLUME INSTEAD 
+v4.04.3 and higher of this app RESETS PRICE ALERT VOLUME STORED TO USE PAIR VOLUME INSTEAD 
 OF ASSET VOLUME, SO !FIRST! PRICE ALERTS AFTER UPGRADING WILL HAVE INCORRECT VOLUME CHANGE 
 PERCENTAGES (BUT WILL BE ACCURATE AFTERWARDS).
 
@@ -2144,7 +2144,7 @@ IMPORTANT NOTES:
 v4.03.0 and higher of this app REQUIRES DELETING YOUR PREVIOUS CHART DATA FROM ANY EARLIER VERSIONS.
 MAJOR IMPROVEMENTS TO THE USER EXPERIENCE HAVE BEEN MADE, WHICH ARE !NOT! BACKWARDS-COMPATIBLE.
 
-v4.04.3 and higher of this app RESETS PRICE ALERT VOLUME STORED TO USE PAIRING VOLUME INSTEAD 
+v4.04.3 and higher of this app RESETS PRICE ALERT VOLUME STORED TO USE PAIR VOLUME INSTEAD 
 OF ASSET VOLUME, SO !FIRST! PRICE ALERTS AFTER UPGRADING WILL HAVE INCORRECT VOLUME CHANGE 
 PERCENTAGES (BUT WILL BE ACCURATE AFTERWARDS).
 
@@ -2162,7 +2162,7 @@ IMPORTANT NOTES:
 v4.03.0 and higher of this app REQUIRES DELETING YOUR PREVIOUS CHART DATA FROM ANY EARLIER VERSIONS.
 MAJOR IMPROVEMENTS TO THE USER EXPERIENCE HAVE BEEN MADE, WHICH ARE !NOT! BACKWARDS-COMPATIBLE.
 
-v4.04.3 and higher of this app RESETS PRICE ALERT VOLUME STORED TO USE PAIRING VOLUME INSTEAD 
+v4.04.3 and higher of this app RESETS PRICE ALERT VOLUME STORED TO USE PAIR VOLUME INSTEAD 
 OF ASSET VOLUME, SO !FIRST! PRICE ALERTS AFTER UPGRADING WILL HAVE INCORRECT VOLUME CHANGE 
 PERCENTAGES (BUT WILL BE ACCURATE AFTERWARDS).
 
@@ -2190,7 +2190,7 @@ IMPORTANT NOTES:
 v4.03.0 and higher of this app REQUIRES DELETING YOUR PREVIOUS CHART DATA FROM ANY EARLIER VERSIONS.
 MAJOR IMPROVEMENTS TO THE USER EXPERIENCE HAVE BEEN MADE, WHICH ARE !NOT! BACKWARDS-COMPATIBLE.
 
-v4.04.3 and higher of this app RESETS PRICE ALERT VOLUME STORED TO USE PAIRING VOLUME INSTEAD 
+v4.04.3 and higher of this app RESETS PRICE ALERT VOLUME STORED TO USE PAIR VOLUME INSTEAD 
 OF ASSET VOLUME, SO !FIRST! PRICE ALERTS AFTER UPGRADING WILL HAVE INCORRECT VOLUME CHANGE 
 PERCENTAGES (BUT WILL BE ACCURATE AFTERWARDS).
 
@@ -2216,7 +2216,7 @@ IMPORTANT NOTES:
 v4.03.0 and higher of this app REQUIRES DELETING YOUR PREVIOUS CHART DATA FROM ANY EARLIER VERSIONS.
 MAJOR IMPROVEMENTS TO THE USER EXPERIENCE HAVE BEEN MADE, WHICH ARE !NOT! BACKWARDS-COMPATIBLE.
 
-v4.04.3 and higher of this app RESETS PRICE ALERT VOLUME STORED TO USE PAIRING VOLUME INSTEAD 
+v4.04.3 and higher of this app RESETS PRICE ALERT VOLUME STORED TO USE PAIR VOLUME INSTEAD 
 OF ASSET VOLUME, SO !FIRST! PRICE ALERTS AFTER UPGRADING WILL HAVE INCORRECT VOLUME CHANGE 
 PERCENTAGES (BUT WILL BE ACCURATE AFTERWARDS).
 
@@ -2259,7 +2259,7 @@ v4.06.0 and higher modularizes the configuration settings into the new $ct_conf 
 CONFIGURATION SETTING VARIABLE NAMES ARE NOW DIFFERENT, USE THE LATEST/UPGRADED CONFIG.PHP,
 AND MIGRATE YOUR EXISTING SETTINGS TO THE NEW FORMAT.
 
-v4.04.3 and higher of this app RESETS PRICE ALERT VOLUME STORED TO USE PAIRING VOLUME INSTEAD 
+v4.04.3 and higher of this app RESETS PRICE ALERT VOLUME STORED TO USE PAIR VOLUME INSTEAD 
 OF ASSET VOLUME, SO !FIRST! PRICE ALERTS AFTER UPGRADING WILL HAVE INCORRECT VOLUME CHANGE 
 PERCENTAGES (BUT WILL BE ACCURATE AFTERWARDS).
 
@@ -2287,7 +2287,7 @@ v4.06.0 and higher modularizes the configuration settings into the new $ct_conf 
 CONFIGURATION SETTING VARIABLE NAMES ARE NOW DIFFERENT, USE THE LATEST/UPGRADED CONFIG.PHP,
 AND MIGRATE YOUR EXISTING SETTINGS TO THE NEW FORMAT.
 
-v4.04.3 and higher of this app RESETS PRICE ALERT VOLUME STORED TO USE PAIRING VOLUME INSTEAD 
+v4.04.3 and higher of this app RESETS PRICE ALERT VOLUME STORED TO USE PAIR VOLUME INSTEAD 
 OF ASSET VOLUME, SO !FIRST! PRICE ALERTS AFTER UPGRADING WILL HAVE INCORRECT VOLUME CHANGE 
 PERCENTAGES (BUT WILL BE ACCURATE AFTERWARDS).
 
@@ -2319,7 +2319,7 @@ v4.06.0 and higher modularizes the configuration settings into the new $ct_conf 
 CONFIGURATION SETTING VARIABLE NAMES ARE NOW DIFFERENT, USE THE LATEST/UPGRADED CONFIG.PHP,
 AND MIGRATE YOUR EXISTING SETTINGS TO THE NEW FORMAT.
 
-v4.04.3 and higher of this app RESETS PRICE ALERT VOLUME STORED TO USE PAIRING VOLUME INSTEAD 
+v4.04.3 and higher of this app RESETS PRICE ALERT VOLUME STORED TO USE PAIR VOLUME INSTEAD 
 OF ASSET VOLUME, SO !FIRST! PRICE ALERTS AFTER UPGRADING WILL HAVE INCORRECT VOLUME CHANGE 
 PERCENTAGES (BUT WILL BE ACCURATE AFTERWARDS).
 
@@ -2349,7 +2349,7 @@ v4.06.0 and higher modularizes the configuration settings into the new $ct_conf 
 CONFIGURATION SETTING VARIABLE NAMES ARE NOW DIFFERENT, USE THE LATEST/UPGRADED CONFIG.PHP,
 AND MIGRATE YOUR EXISTING SETTINGS TO THE NEW FORMAT.
 
-v4.04.3 and higher of this app RESETS PRICE ALERT VOLUME STORED TO USE PAIRING VOLUME INSTEAD 
+v4.04.3 and higher of this app RESETS PRICE ALERT VOLUME STORED TO USE PAIR VOLUME INSTEAD 
 OF ASSET VOLUME, SO !FIRST! PRICE ALERTS AFTER UPGRADING WILL HAVE INCORRECT VOLUME CHANGE 
 PERCENTAGES (BUT WILL BE ACCURATE AFTERWARDS).
 
@@ -2379,7 +2379,7 @@ v4.06.0 and higher modularizes the configuration settings into the new $ct_conf 
 CONFIGURATION SETTING VARIABLE NAMES ARE NOW DIFFERENT, USE THE LATEST/UPGRADED CONFIG.PHP,
 AND MIGRATE YOUR EXISTING SETTINGS TO THE NEW FORMAT.
 
-v4.04.3 and higher of this app RESETS PRICE ALERT VOLUME STORED TO USE PAIRING VOLUME INSTEAD 
+v4.04.3 and higher of this app RESETS PRICE ALERT VOLUME STORED TO USE PAIR VOLUME INSTEAD 
 OF ASSET VOLUME, SO !FIRST! PRICE ALERTS AFTER UPGRADING WILL HAVE INCORRECT VOLUME CHANGE 
 PERCENTAGES (BUT WILL BE ACCURATE AFTERWARDS).
 
@@ -2403,7 +2403,7 @@ v4.06.0 and higher modularizes the configuration settings into the new $ct_conf 
 CONFIGURATION SETTING VARIABLE NAMES ARE NOW DIFFERENT, USE THE LATEST/UPGRADED CONFIG.PHP,
 AND MIGRATE YOUR EXISTING SETTINGS TO THE NEW FORMAT.
 
-v4.04.3 and higher of this app RESETS PRICE ALERT VOLUME STORED TO USE PAIRING VOLUME INSTEAD 
+v4.04.3 and higher of this app RESETS PRICE ALERT VOLUME STORED TO USE PAIR VOLUME INSTEAD 
 OF ASSET VOLUME, SO !FIRST! PRICE ALERTS AFTER UPGRADING WILL HAVE INCORRECT VOLUME CHANGE 
 PERCENTAGES (BUT WILL BE ACCURATE AFTERWARDS).
 
@@ -2441,7 +2441,7 @@ v4.06.0 and higher modularizes the configuration settings into the new $ct_conf 
 CONFIGURATION SETTING VARIABLE NAMES ARE NOW DIFFERENT, USE THE LATEST/UPGRADED CONFIG.PHP,
 AND MIGRATE YOUR EXISTING SETTINGS TO THE NEW FORMAT.
 
-v4.04.3 and higher of this app RESETS PRICE ALERT VOLUME STORED TO USE PAIRING VOLUME INSTEAD 
+v4.04.3 and higher of this app RESETS PRICE ALERT VOLUME STORED TO USE PAIR VOLUME INSTEAD 
 OF ASSET VOLUME, SO !FIRST! PRICE ALERTS AFTER UPGRADING WILL HAVE INCORRECT VOLUME CHANGE 
 PERCENTAGES (BUT WILL BE ACCURATE AFTERWARDS).
 
@@ -2473,7 +2473,7 @@ v4.06.0 and higher modularizes the configuration settings into the new $ct_conf 
 CONFIGURATION SETTING VARIABLE NAMES ARE NOW DIFFERENT, USE THE LATEST/UPGRADED CONFIG.PHP,
 AND MIGRATE YOUR EXISTING SETTINGS TO THE NEW FORMAT.
 
-v4.04.3 and higher of this app RESETS PRICE ALERT VOLUME STORED TO USE PAIRING VOLUME INSTEAD 
+v4.04.3 and higher of this app RESETS PRICE ALERT VOLUME STORED TO USE PAIR VOLUME INSTEAD 
 OF ASSET VOLUME, SO !FIRST! PRICE ALERTS AFTER UPGRADING WILL HAVE INCORRECT VOLUME CHANGE 
 PERCENTAGES (BUT WILL BE ACCURATE AFTERWARDS).
 
@@ -2509,7 +2509,7 @@ v4.06.0 and higher modularizes the configuration settings into the new $ct_conf 
 CONFIGURATION SETTING VARIABLE NAMES ARE NOW DIFFERENT, USE THE LATEST/UPGRADED CONFIG.PHP,
 AND MIGRATE YOUR EXISTING SETTINGS TO THE NEW FORMAT.
 
-v4.04.3 and higher of this app RESETS PRICE ALERT VOLUME STORED TO USE PAIRING VOLUME INSTEAD 
+v4.04.3 and higher of this app RESETS PRICE ALERT VOLUME STORED TO USE PAIR VOLUME INSTEAD 
 OF ASSET VOLUME, SO !FIRST! PRICE ALERTS AFTER UPGRADING WILL HAVE INCORRECT VOLUME CHANGE 
 PERCENTAGES (BUT WILL BE ACCURATE AFTERWARDS).
 
@@ -2541,7 +2541,7 @@ v4.06.0 and higher modularizes the configuration settings into the new $ct_conf 
 CONFIGURATION SETTING VARIABLE NAMES ARE NOW DIFFERENT, USE THE LATEST/UPGRADED CONFIG.PHP,
 AND MIGRATE YOUR EXISTING SETTINGS TO THE NEW FORMAT.
 
-v4.04.3 and higher of this app RESETS PRICE ALERT VOLUME STORED TO USE PAIRING VOLUME INSTEAD 
+v4.04.3 and higher of this app RESETS PRICE ALERT VOLUME STORED TO USE PAIR VOLUME INSTEAD 
 OF ASSET VOLUME, SO !FIRST! PRICE ALERTS AFTER UPGRADING WILL HAVE INCORRECT VOLUME CHANGE 
 PERCENTAGES (BUT WILL BE ACCURATE AFTERWARDS).
 
@@ -2571,7 +2571,7 @@ v4.06.0 and higher modularizes the configuration settings into the new $ct_conf 
 CONFIGURATION SETTING VARIABLE NAMES ARE NOW DIFFERENT, USE THE LATEST/UPGRADED CONFIG.PHP,
 AND MIGRATE YOUR EXISTING SETTINGS TO THE NEW FORMAT.
 
-v4.04.3 and higher of this app RESETS PRICE ALERT VOLUME STORED TO USE PAIRING VOLUME INSTEAD 
+v4.04.3 and higher of this app RESETS PRICE ALERT VOLUME STORED TO USE PAIR VOLUME INSTEAD 
 OF ASSET VOLUME, SO !FIRST! PRICE ALERTS AFTER UPGRADING WILL HAVE INCORRECT VOLUME CHANGE 
 PERCENTAGES (BUT WILL BE ACCURATE AFTERWARDS).
 
@@ -2601,7 +2601,7 @@ v4.06.0 and higher modularizes the configuration settings into the new $ct_conf 
 CONFIGURATION SETTING VARIABLE NAMES ARE NOW DIFFERENT, USE THE LATEST/UPGRADED CONFIG.PHP,
 AND MIGRATE YOUR EXISTING SETTINGS TO THE NEW FORMAT.
 
-v4.04.3 and higher of this app RESETS PRICE ALERT VOLUME STORED TO USE PAIRING VOLUME INSTEAD 
+v4.04.3 and higher of this app RESETS PRICE ALERT VOLUME STORED TO USE PAIR VOLUME INSTEAD 
 OF ASSET VOLUME, SO !FIRST! PRICE ALERTS AFTER UPGRADING WILL HAVE INCORRECT VOLUME CHANGE 
 PERCENTAGES (BUT WILL BE ACCURATE AFTERWARDS).
 
@@ -2631,7 +2631,7 @@ v4.06.0 and higher modularizes the configuration settings into the new $ct_conf 
 CONFIGURATION SETTING VARIABLE NAMES ARE NOW DIFFERENT, USE THE LATEST/UPGRADED CONFIG.PHP,
 AND MIGRATE YOUR EXISTING SETTINGS TO THE NEW FORMAT.
 
-v4.04.3 and higher of this app RESETS PRICE ALERT VOLUME STORED TO USE PAIRING VOLUME INSTEAD 
+v4.04.3 and higher of this app RESETS PRICE ALERT VOLUME STORED TO USE PAIR VOLUME INSTEAD 
 OF ASSET VOLUME, SO !FIRST! PRICE ALERTS AFTER UPGRADING WILL HAVE INCORRECT VOLUME CHANGE 
 PERCENTAGES (BUT WILL BE ACCURATE AFTERWARDS).
 
@@ -2663,7 +2663,7 @@ v4.06.0 and higher modularizes the configuration settings into the new $ct_conf 
 CONFIGURATION SETTING VARIABLE NAMES ARE NOW DIFFERENT, USE THE LATEST/UPGRADED CONFIG.PHP,
 AND MIGRATE YOUR EXISTING SETTINGS TO THE NEW FORMAT.
 
-v4.04.3 and higher of this app RESETS PRICE ALERT VOLUME STORED TO USE PAIRING VOLUME INSTEAD 
+v4.04.3 and higher of this app RESETS PRICE ALERT VOLUME STORED TO USE PAIR VOLUME INSTEAD 
 OF ASSET VOLUME, SO !FIRST! PRICE ALERTS AFTER UPGRADING WILL HAVE INCORRECT VOLUME CHANGE 
 PERCENTAGES (BUT WILL BE ACCURATE AFTERWARDS).
 
@@ -2693,7 +2693,7 @@ v4.06.0 and higher modularizes the configuration settings into the new $ct_conf 
 CONFIGURATION SETTING VARIABLE NAMES ARE NOW DIFFERENT, USE THE LATEST/UPGRADED CONFIG.PHP,
 AND MIGRATE YOUR EXISTING SETTINGS TO THE NEW FORMAT.
 
-v4.04.3 and higher of this app RESETS PRICE ALERT VOLUME STORED TO USE PAIRING VOLUME INSTEAD 
+v4.04.3 and higher of this app RESETS PRICE ALERT VOLUME STORED TO USE PAIR VOLUME INSTEAD 
 OF ASSET VOLUME, SO !FIRST! PRICE ALERTS AFTER UPGRADING WILL HAVE INCORRECT VOLUME CHANGE 
 PERCENTAGES (BUT WILL BE ACCURATE AFTERWARDS).
 
@@ -2731,7 +2731,7 @@ v4.06.0 and higher modularizes the configuration settings into the new $ct_conf 
 CONFIGURATION SETTING VARIABLE NAMES ARE NOW DIFFERENT, USE THE LATEST/UPGRADED CONFIG.PHP,
 AND MIGRATE YOUR EXISTING SETTINGS TO THE NEW FORMAT.
 
-v4.04.3 and higher of this app RESETS PRICE ALERT VOLUME STORED TO USE PAIRING VOLUME INSTEAD 
+v4.04.3 and higher of this app RESETS PRICE ALERT VOLUME STORED TO USE PAIR VOLUME INSTEAD 
 OF ASSET VOLUME, SO !FIRST! PRICE ALERTS AFTER UPGRADING WILL HAVE INCORRECT VOLUME CHANGE 
 PERCENTAGES (BUT WILL BE ACCURATE AFTERWARDS).
 
@@ -2763,7 +2763,7 @@ v4.06.0 and higher modularizes the configuration settings into the new $ct_conf 
 CONFIGURATION SETTING VARIABLE NAMES ARE NOW DIFFERENT, USE THE LATEST/UPGRADED CONFIG.PHP,
 AND MIGRATE YOUR EXISTING SETTINGS TO THE NEW FORMAT.
 
-v4.04.3 and higher of this app RESETS PRICE ALERT VOLUME STORED TO USE PAIRING VOLUME INSTEAD 
+v4.04.3 and higher of this app RESETS PRICE ALERT VOLUME STORED TO USE PAIR VOLUME INSTEAD 
 OF ASSET VOLUME, SO !FIRST! PRICE ALERTS AFTER UPGRADING WILL HAVE INCORRECT VOLUME CHANGE 
 PERCENTAGES (BUT WILL BE ACCURATE AFTERWARDS).
 
@@ -2797,7 +2797,7 @@ v4.06.0 and higher modularizes the configuration settings into the new $ct_conf 
 CONFIGURATION SETTING VARIABLE NAMES ARE NOW DIFFERENT, USE THE LATEST/UPGRADED CONFIG.PHP,
 AND MIGRATE YOUR EXISTING SETTINGS TO THE NEW FORMAT.
 
-v4.04.3 and higher of this app RESETS PRICE ALERT VOLUME STORED TO USE PAIRING VOLUME INSTEAD 
+v4.04.3 and higher of this app RESETS PRICE ALERT VOLUME STORED TO USE PAIR VOLUME INSTEAD 
 OF ASSET VOLUME, SO !FIRST! PRICE ALERTS AFTER UPGRADING WILL HAVE INCORRECT VOLUME CHANGE 
 PERCENTAGES (BUT WILL BE ACCURATE AFTERWARDS).
 
@@ -2831,7 +2831,7 @@ v4.06.0 and higher modularizes the configuration settings into the new $ct_conf 
 CONFIGURATION SETTING VARIABLE NAMES ARE NOW DIFFERENT, USE THE LATEST/UPGRADED CONFIG.PHP,
 AND MIGRATE YOUR EXISTING SETTINGS TO THE NEW FORMAT.
 
-v4.04.3 and higher of this app RESETS PRICE ALERT VOLUME STORED TO USE PAIRING VOLUME INSTEAD 
+v4.04.3 and higher of this app RESETS PRICE ALERT VOLUME STORED TO USE PAIR VOLUME INSTEAD 
 OF ASSET VOLUME, SO !FIRST! PRICE ALERTS AFTER UPGRADING WILL HAVE INCORRECT VOLUME CHANGE 
 PERCENTAGES (BUT WILL BE ACCURATE AFTERWARDS).
 
@@ -2861,7 +2861,7 @@ v4.06.0 and higher modularizes the configuration settings into the new $ct_conf 
 CONFIGURATION SETTING VARIABLE NAMES ARE NOW DIFFERENT, USE THE LATEST/UPGRADED CONFIG.PHP,
 AND MIGRATE YOUR EXISTING SETTINGS TO THE NEW FORMAT.
 
-v4.04.3 and higher of this app RESETS PRICE ALERT VOLUME STORED TO USE PAIRING VOLUME INSTEAD 
+v4.04.3 and higher of this app RESETS PRICE ALERT VOLUME STORED TO USE PAIR VOLUME INSTEAD 
 OF ASSET VOLUME, SO !FIRST! PRICE ALERTS AFTER UPGRADING WILL HAVE INCORRECT VOLUME CHANGE 
 PERCENTAGES (BUT WILL BE ACCURATE AFTERWARDS).
 
@@ -2875,7 +2875,7 @@ MAJOR IMPROVEMENTS TO THE USER EXPERIENCE HAVE BEEN MADE, WHICH ARE !NOT! BACKWA
 -------------------------------------------------------------------
 4.08.9:
 
--!CRITICAL! bug fix in the $ct_asset->pairing_btc_val() function (web server get overloaded and crashes)
+-!CRITICAL! bug fix in the $ct_asset->pair_btc_val() function (web server get overloaded and crashes)
 
 -Execution time config settings
 
@@ -2901,7 +2901,7 @@ v4.06.0 and higher modularizes the configuration settings into the new $ct_conf 
 CONFIGURATION SETTING VARIABLE NAMES ARE NOW DIFFERENT, USE THE LATEST/UPGRADED CONFIG.PHP,
 AND MIGRATE YOUR EXISTING SETTINGS TO THE NEW FORMAT.
 
-v4.04.3 and higher of this app RESETS PRICE ALERT VOLUME STORED TO USE PAIRING VOLUME INSTEAD 
+v4.04.3 and higher of this app RESETS PRICE ALERT VOLUME STORED TO USE PAIR VOLUME INSTEAD 
 OF ASSET VOLUME, SO !FIRST! PRICE ALERTS AFTER UPGRADING WILL HAVE INCORRECT VOLUME CHANGE 
 PERCENTAGES (BUT WILL BE ACCURATE AFTERWARDS).
 
@@ -2915,7 +2915,7 @@ MAJOR IMPROVEMENTS TO THE USER EXPERIENCE HAVE BEEN MADE, WHICH ARE !NOT! BACKWA
 -------------------------------------------------------------------
 4.08.10:
 
--Additional !CRITICAL! bug fix for $ct_asset->pairing_btc_val() function overloading the server (SHOULD BE GOOD NOW, SORRY!)
+-Additional !CRITICAL! bug fix for $ct_asset->pair_btc_val() function overloading the server (SHOULD BE GOOD NOW, SORRY!)
 
 -Raspberry Pi Security documentation
 
@@ -2937,7 +2937,7 @@ v4.06.0 and higher modularizes the configuration settings into the new $ct_conf 
 CONFIGURATION SETTING VARIABLE NAMES ARE NOW DIFFERENT, USE THE LATEST/UPGRADED CONFIG.PHP,
 AND MIGRATE YOUR EXISTING SETTINGS TO THE NEW FORMAT.
 
-v4.04.3 and higher of this app RESETS PRICE ALERT VOLUME STORED TO USE PAIRING VOLUME INSTEAD 
+v4.04.3 and higher of this app RESETS PRICE ALERT VOLUME STORED TO USE PAIR VOLUME INSTEAD 
 OF ASSET VOLUME, SO !FIRST! PRICE ALERTS AFTER UPGRADING WILL HAVE INCORRECT VOLUME CHANGE 
 PERCENTAGES (BUT WILL BE ACCURATE AFTERWARDS).
 
@@ -2967,7 +2967,7 @@ v4.06.0 and higher modularizes the configuration settings into the new $ct_conf 
 CONFIGURATION SETTING VARIABLE NAMES ARE NOW DIFFERENT, USE THE LATEST/UPGRADED CONFIG.PHP,
 AND MIGRATE YOUR EXISTING SETTINGS TO THE NEW FORMAT.
 
-v4.04.3 and higher of this app RESETS PRICE ALERT VOLUME STORED TO USE PAIRING VOLUME INSTEAD 
+v4.04.3 and higher of this app RESETS PRICE ALERT VOLUME STORED TO USE PAIR VOLUME INSTEAD 
 OF ASSET VOLUME, SO !FIRST! PRICE ALERTS AFTER UPGRADING WILL HAVE INCORRECT VOLUME CHANGE 
 PERCENTAGES (BUT WILL BE ACCURATE AFTERWARDS).
 
@@ -2999,7 +2999,7 @@ v4.06.0 and higher modularizes the configuration settings into the new $ct_conf 
 CONFIGURATION SETTING VARIABLE NAMES ARE NOW DIFFERENT, USE THE LATEST/UPGRADED CONFIG.PHP,
 AND MIGRATE YOUR EXISTING SETTINGS TO THE NEW FORMAT.
 
-v4.04.3 and higher of this app RESETS PRICE ALERT VOLUME STORED TO USE PAIRING VOLUME INSTEAD 
+v4.04.3 and higher of this app RESETS PRICE ALERT VOLUME STORED TO USE PAIR VOLUME INSTEAD 
 OF ASSET VOLUME, SO !FIRST! PRICE ALERTS AFTER UPGRADING WILL HAVE INCORRECT VOLUME CHANGE 
 PERCENTAGES (BUT WILL BE ACCURATE AFTERWARDS).
 
@@ -3029,7 +3029,7 @@ v4.06.0 and higher modularizes the configuration settings into the new $ct_conf 
 CONFIGURATION SETTING VARIABLE NAMES ARE NOW DIFFERENT, USE THE LATEST/UPGRADED CONFIG.PHP,
 AND MIGRATE YOUR EXISTING SETTINGS TO THE NEW FORMAT.
 
-v4.04.3 and higher of this app RESETS PRICE ALERT VOLUME STORED TO USE PAIRING VOLUME INSTEAD 
+v4.04.3 and higher of this app RESETS PRICE ALERT VOLUME STORED TO USE PAIR VOLUME INSTEAD 
 OF ASSET VOLUME, SO !FIRST! PRICE ALERTS AFTER UPGRADING WILL HAVE INCORRECT VOLUME CHANGE 
 PERCENTAGES (BUT WILL BE ACCURATE AFTERWARDS).
 
@@ -3057,7 +3057,7 @@ MAJOR IMPROVEMENTS TO THE USER EXPERIENCE HAVE BEEN MADE, WHICH ARE !NOT! BACKWA
 
 -HIVE interest calculator
 
--DAI crypto market pairing 
+-DAI crypto market pair 
 
 IMPORTANT NOTES: 
 
@@ -3071,7 +3071,7 @@ v4.06.0 and higher modularizes the configuration settings into the new $ct_conf 
 CONFIGURATION SETTING VARIABLE NAMES ARE NOW DIFFERENT, USE THE LATEST/UPGRADED CONFIG.PHP,
 AND MIGRATE YOUR EXISTING SETTINGS TO THE NEW FORMAT.
 
-v4.04.3 and higher of this app RESETS PRICE ALERT VOLUME STORED TO USE PAIRING VOLUME INSTEAD 
+v4.04.3 and higher of this app RESETS PRICE ALERT VOLUME STORED TO USE PAIR VOLUME INSTEAD 
 OF ASSET VOLUME, SO !FIRST! PRICE ALERTS AFTER UPGRADING WILL HAVE INCORRECT VOLUME CHANGE 
 PERCENTAGES (BUT WILL BE ACCURATE AFTERWARDS).
 
@@ -3103,7 +3103,7 @@ v4.06.0 and higher modularizes the configuration settings into the new $ct_conf 
 CONFIGURATION SETTING VARIABLE NAMES ARE NOW DIFFERENT, USE THE LATEST/UPGRADED CONFIG.PHP,
 AND MIGRATE YOUR EXISTING SETTINGS TO THE NEW FORMAT.
 
-v4.04.3 and higher of this app RESETS PRICE ALERT VOLUME STORED TO USE PAIRING VOLUME INSTEAD 
+v4.04.3 and higher of this app RESETS PRICE ALERT VOLUME STORED TO USE PAIR VOLUME INSTEAD 
 OF ASSET VOLUME, SO !FIRST! PRICE ALERTS AFTER UPGRADING WILL HAVE INCORRECT VOLUME CHANGE 
 PERCENTAGES (BUT WILL BE ACCURATE AFTERWARDS).
 
@@ -3143,7 +3143,7 @@ v4.06.0 and higher modularizes the configuration settings into the new $ct_conf 
 CONFIGURATION SETTING VARIABLE NAMES ARE NOW DIFFERENT, USE THE LATEST/UPGRADED CONFIG.PHP,
 AND MIGRATE YOUR EXISTING SETTINGS TO THE NEW FORMAT.
 
-v4.04.3 and higher of this app RESETS PRICE ALERT VOLUME STORED TO USE PAIRING VOLUME INSTEAD 
+v4.04.3 and higher of this app RESETS PRICE ALERT VOLUME STORED TO USE PAIR VOLUME INSTEAD 
 OF ASSET VOLUME, SO !FIRST! PRICE ALERTS AFTER UPGRADING WILL HAVE INCORRECT VOLUME CHANGE 
 PERCENTAGES (BUT WILL BE ACCURATE AFTERWARDS).
 
@@ -3181,7 +3181,7 @@ v4.06.0 and higher modularizes the configuration settings into the new $ct_conf 
 CONFIGURATION SETTING VARIABLE NAMES ARE NOW DIFFERENT, USE THE LATEST/UPGRADED CONFIG.PHP,
 AND MIGRATE YOUR EXISTING SETTINGS TO THE NEW FORMAT.
 
-v4.04.3 and higher of this app RESETS PRICE ALERT VOLUME STORED TO USE PAIRING VOLUME INSTEAD 
+v4.04.3 and higher of this app RESETS PRICE ALERT VOLUME STORED TO USE PAIR VOLUME INSTEAD 
 OF ASSET VOLUME, SO !FIRST! PRICE ALERTS AFTER UPGRADING WILL HAVE INCORRECT VOLUME CHANGE 
 PERCENTAGES (BUT WILL BE ACCURATE AFTERWARDS).
 
@@ -3203,7 +3203,7 @@ MAJOR IMPROVEMENTS TO THE USER EXPERIENCE HAVE BEEN MADE, WHICH ARE !NOT! BACKWA
 
 -Microsoft Internet Explorer bug fixed, where log viewing / code examples were not rendering properly
 
--Market pairing value function bugs fixed, where under certain edge cases could make the cron job runtime excessively long
+-Market pair value function bugs fixed, where under certain edge cases could make the cron job runtime excessively long
 
 -Misc. small bug fixes / compatibility / error fallback improvements
 
@@ -3223,7 +3223,7 @@ v4.06.0 and higher modularizes the configuration settings into the new $ct_conf 
 CONFIGURATION SETTING VARIABLE NAMES ARE NOW DIFFERENT, USE THE LATEST/UPGRADED CONFIG.PHP,
 AND MIGRATE YOUR EXISTING SETTINGS TO THE NEW FORMAT.
 
-v4.04.3 and higher of this app RESETS PRICE ALERT VOLUME STORED TO USE PAIRING VOLUME INSTEAD 
+v4.04.3 and higher of this app RESETS PRICE ALERT VOLUME STORED TO USE PAIR VOLUME INSTEAD 
 OF ASSET VOLUME, SO !FIRST! PRICE ALERTS AFTER UPGRADING WILL HAVE INCORRECT VOLUME CHANGE 
 PERCENTAGES (BUT WILL BE ACCURATE AFTERWARDS).
 
@@ -3261,7 +3261,7 @@ v4.06.0 and higher modularizes the configuration settings into the new $ct_conf 
 CONFIGURATION SETTING VARIABLE NAMES ARE NOW DIFFERENT, USE THE LATEST/UPGRADED CONFIG.PHP,
 AND MIGRATE YOUR EXISTING SETTINGS TO THE NEW FORMAT.
 
-v4.04.3 and higher of this app RESETS PRICE ALERT VOLUME STORED TO USE PAIRING VOLUME INSTEAD 
+v4.04.3 and higher of this app RESETS PRICE ALERT VOLUME STORED TO USE PAIR VOLUME INSTEAD 
 OF ASSET VOLUME, SO !FIRST! PRICE ALERTS AFTER UPGRADING WILL HAVE INCORRECT VOLUME CHANGE 
 PERCENTAGES (BUT WILL BE ACCURATE AFTERWARDS).
 
@@ -3293,7 +3293,7 @@ v4.06.0 and higher modularizes the configuration settings into the new $ct_conf 
 CONFIGURATION SETTING VARIABLE NAMES ARE NOW DIFFERENT, USE THE LATEST/UPGRADED CONFIG.PHP,
 AND MIGRATE YOUR EXISTING SETTINGS TO THE NEW FORMAT.
 
-v4.04.3 and higher of this app RESETS PRICE ALERT VOLUME STORED TO USE PAIRING VOLUME INSTEAD 
+v4.04.3 and higher of this app RESETS PRICE ALERT VOLUME STORED TO USE PAIR VOLUME INSTEAD 
 OF ASSET VOLUME, SO !FIRST! PRICE ALERTS AFTER UPGRADING WILL HAVE INCORRECT VOLUME CHANGE 
 PERCENTAGES (BUT WILL BE ACCURATE AFTERWARDS).
 
@@ -3327,7 +3327,7 @@ v4.06.0 and higher modularizes the configuration settings into the new $ct_conf 
 CONFIGURATION SETTING VARIABLE NAMES ARE NOW DIFFERENT, USE THE LATEST/UPGRADED CONFIG.PHP,
 AND MIGRATE YOUR EXISTING SETTINGS TO THE NEW FORMAT.
 
-v4.04.3 and higher of this app RESETS PRICE ALERT VOLUME STORED TO USE PAIRING VOLUME INSTEAD 
+v4.04.3 and higher of this app RESETS PRICE ALERT VOLUME STORED TO USE PAIR VOLUME INSTEAD 
 OF ASSET VOLUME, SO !FIRST! PRICE ALERTS AFTER UPGRADING WILL HAVE INCORRECT VOLUME CHANGE 
 PERCENTAGES (BUT WILL BE ACCURATE AFTERWARDS).
 
@@ -3357,7 +3357,7 @@ v4.06.0 and higher modularizes the configuration settings into the new $ct_conf 
 CONFIGURATION SETTING VARIABLE NAMES ARE NOW DIFFERENT, USE THE LATEST/UPGRADED CONFIG.PHP,
 AND MIGRATE YOUR EXISTING SETTINGS TO THE NEW FORMAT.
 
-v4.04.3 and higher of this app RESETS PRICE ALERT VOLUME STORED TO USE PAIRING VOLUME INSTEAD 
+v4.04.3 and higher of this app RESETS PRICE ALERT VOLUME STORED TO USE PAIR VOLUME INSTEAD 
 OF ASSET VOLUME, SO !FIRST! PRICE ALERTS AFTER UPGRADING WILL HAVE INCORRECT VOLUME CHANGE 
 PERCENTAGES (BUT WILL BE ACCURATE AFTERWARDS).
 
@@ -3389,7 +3389,7 @@ v4.06.0 and higher modularizes the configuration settings into the new $ct_conf 
 CONFIGURATION SETTING VARIABLE NAMES ARE NOW DIFFERENT, USE THE LATEST/UPGRADED CONFIG.PHP,
 AND MIGRATE YOUR EXISTING SETTINGS TO THE NEW FORMAT.
 
-v4.04.3 and higher of this app RESETS PRICE ALERT VOLUME STORED TO USE PAIRING VOLUME INSTEAD 
+v4.04.3 and higher of this app RESETS PRICE ALERT VOLUME STORED TO USE PAIR VOLUME INSTEAD 
 OF ASSET VOLUME, SO !FIRST! PRICE ALERTS AFTER UPGRADING WILL HAVE INCORRECT VOLUME CHANGE 
 PERCENTAGES (BUT WILL BE ACCURATE AFTERWARDS).
 
@@ -3419,7 +3419,7 @@ v4.06.0 and higher modularizes the configuration settings into the new $ct_conf 
 CONFIGURATION SETTING VARIABLE NAMES ARE NOW DIFFERENT, USE THE LATEST/UPGRADED CONFIG.PHP,
 AND MIGRATE YOUR EXISTING SETTINGS TO THE NEW FORMAT.
 
-v4.04.3 and higher of this app RESETS PRICE ALERT VOLUME STORED TO USE PAIRING VOLUME INSTEAD 
+v4.04.3 and higher of this app RESETS PRICE ALERT VOLUME STORED TO USE PAIR VOLUME INSTEAD 
 OF ASSET VOLUME, SO !FIRST! PRICE ALERTS AFTER UPGRADING WILL HAVE INCORRECT VOLUME CHANGE 
 PERCENTAGES (BUT WILL BE ACCURATE AFTERWARDS).
 
@@ -3455,7 +3455,7 @@ v4.06.0 and higher modularizes the configuration settings into the new $ct_conf 
 CONFIGURATION SETTING VARIABLE NAMES ARE NOW DIFFERENT, USE THE LATEST/UPGRADED CONFIG.PHP,
 AND MIGRATE YOUR EXISTING SETTINGS TO THE NEW FORMAT.
 
-v4.04.3 and higher of this app RESETS PRICE ALERT VOLUME STORED TO USE PAIRING VOLUME INSTEAD 
+v4.04.3 and higher of this app RESETS PRICE ALERT VOLUME STORED TO USE PAIR VOLUME INSTEAD 
 OF ASSET VOLUME, SO !FIRST! PRICE ALERTS AFTER UPGRADING WILL HAVE INCORRECT VOLUME CHANGE 
 PERCENTAGES (BUT WILL BE ACCURATE AFTERWARDS).
 
@@ -3501,7 +3501,7 @@ v4.06.0 and higher modularizes the configuration settings into the new $ct_conf 
 CONFIGURATION SETTING VARIABLE NAMES ARE NOW DIFFERENT, USE THE LATEST/UPGRADED CONFIG.PHP,
 AND MIGRATE YOUR EXISTING SETTINGS TO THE NEW FORMAT.
 
-v4.04.3 and higher of this app RESETS PRICE ALERT VOLUME STORED TO USE PAIRING VOLUME INSTEAD 
+v4.04.3 and higher of this app RESETS PRICE ALERT VOLUME STORED TO USE PAIR VOLUME INSTEAD 
 OF ASSET VOLUME, SO !FIRST! PRICE ALERTS AFTER UPGRADING WILL HAVE INCORRECT VOLUME CHANGE 
 PERCENTAGES (BUT WILL BE ACCURATE AFTERWARDS).
 
@@ -3535,7 +3535,7 @@ v4.06.0 and higher modularizes the configuration settings into the new $ct_conf 
 CONFIGURATION SETTING VARIABLE NAMES ARE NOW DIFFERENT, USE THE LATEST/UPGRADED CONFIG.PHP,
 AND MIGRATE YOUR EXISTING SETTINGS TO THE NEW FORMAT.
 
-v4.04.3 and higher of this app RESETS PRICE ALERT VOLUME STORED TO USE PAIRING VOLUME INSTEAD 
+v4.04.3 and higher of this app RESETS PRICE ALERT VOLUME STORED TO USE PAIR VOLUME INSTEAD 
 OF ASSET VOLUME, SO !FIRST! PRICE ALERTS AFTER UPGRADING WILL HAVE INCORRECT VOLUME CHANGE 
 PERCENTAGES (BUT WILL BE ACCURATE AFTERWARDS).
 
@@ -3565,7 +3565,7 @@ v4.06.0 and higher modularizes the configuration settings into the new $ct_conf 
 CONFIGURATION SETTING VARIABLE NAMES ARE NOW DIFFERENT, USE THE LATEST/UPGRADED CONFIG.PHP,
 AND MIGRATE YOUR EXISTING SETTINGS TO THE NEW FORMAT.
 
-v4.04.3 and higher of this app RESETS PRICE ALERT VOLUME STORED TO USE PAIRING VOLUME INSTEAD 
+v4.04.3 and higher of this app RESETS PRICE ALERT VOLUME STORED TO USE PAIR VOLUME INSTEAD 
 OF ASSET VOLUME, SO !FIRST! PRICE ALERTS AFTER UPGRADING WILL HAVE INCORRECT VOLUME CHANGE 
 PERCENTAGES (BUT WILL BE ACCURATE AFTERWARDS).
 
@@ -3603,7 +3603,7 @@ v4.06.0 and higher modularizes the configuration settings into the new $ct_conf 
 CONFIGURATION SETTING VARIABLE NAMES ARE NOW DIFFERENT, USE THE LATEST/UPGRADED CONFIG.PHP,
 AND MIGRATE YOUR EXISTING SETTINGS TO THE NEW FORMAT.
 
-v4.04.3 and higher of this app RESETS PRICE ALERT VOLUME STORED TO USE PAIRING VOLUME INSTEAD 
+v4.04.3 and higher of this app RESETS PRICE ALERT VOLUME STORED TO USE PAIR VOLUME INSTEAD 
 OF ASSET VOLUME, SO !FIRST! PRICE ALERTS AFTER UPGRADING WILL HAVE INCORRECT VOLUME CHANGE 
 PERCENTAGES (BUT WILL BE ACCURATE AFTERWARDS).
 
@@ -3651,7 +3651,7 @@ v4.06.0 and higher modularizes the configuration settings into the new $ct_conf 
 CONFIGURATION SETTING VARIABLE NAMES ARE NOW DIFFERENT, USE THE LATEST/UPGRADED CONFIG.PHP,
 AND MIGRATE YOUR EXISTING SETTINGS TO THE NEW FORMAT.
 
-v4.04.3 and higher of this app RESETS PRICE ALERT VOLUME STORED TO USE PAIRING VOLUME INSTEAD 
+v4.04.3 and higher of this app RESETS PRICE ALERT VOLUME STORED TO USE PAIR VOLUME INSTEAD 
 OF ASSET VOLUME, SO !FIRST! PRICE ALERTS AFTER UPGRADING WILL HAVE INCORRECT VOLUME CHANGE 
 PERCENTAGES (BUT WILL BE ACCURATE AFTERWARDS).
 
@@ -3695,7 +3695,7 @@ v4.06.0 and higher modularizes the configuration settings into the new $ct_conf 
 CONFIGURATION SETTING VARIABLE NAMES ARE NOW DIFFERENT, USE THE LATEST/UPGRADED CONFIG.PHP,
 AND MIGRATE YOUR EXISTING SETTINGS TO THE NEW FORMAT.
 
-v4.04.3 and higher of this app RESETS PRICE ALERT VOLUME STORED TO USE PAIRING VOLUME INSTEAD 
+v4.04.3 and higher of this app RESETS PRICE ALERT VOLUME STORED TO USE PAIR VOLUME INSTEAD 
 OF ASSET VOLUME, SO !FIRST! PRICE ALERTS AFTER UPGRADING WILL HAVE INCORRECT VOLUME CHANGE 
 PERCENTAGES (BUT WILL BE ACCURATE AFTERWARDS).
 
@@ -3735,7 +3735,7 @@ v4.06.0 and higher modularizes the configuration settings into the new $ct_conf 
 CONFIGURATION SETTING VARIABLE NAMES ARE NOW DIFFERENT, USE THE LATEST/UPGRADED CONFIG.PHP,
 AND MIGRATE YOUR EXISTING SETTINGS TO THE NEW FORMAT.
 
-v4.04.3 and higher of this app RESETS PRICE ALERT VOLUME STORED TO USE PAIRING VOLUME INSTEAD 
+v4.04.3 and higher of this app RESETS PRICE ALERT VOLUME STORED TO USE PAIR VOLUME INSTEAD 
 OF ASSET VOLUME, SO !FIRST! PRICE ALERTS AFTER UPGRADING WILL HAVE INCORRECT VOLUME CHANGE 
 PERCENTAGES (BUT WILL BE ACCURATE AFTERWARDS).
 
@@ -3773,7 +3773,7 @@ v4.06.0 and higher modularizes the configuration settings into the new $ct_conf 
 CONFIGURATION SETTING VARIABLE NAMES ARE NOW DIFFERENT, USE THE LATEST/UPGRADED CONFIG.PHP,
 AND MIGRATE YOUR EXISTING SETTINGS TO THE NEW FORMAT.
 
-v4.04.3 and higher of this app RESETS PRICE ALERT VOLUME STORED TO USE PAIRING VOLUME INSTEAD 
+v4.04.3 and higher of this app RESETS PRICE ALERT VOLUME STORED TO USE PAIR VOLUME INSTEAD 
 OF ASSET VOLUME, SO !FIRST! PRICE ALERTS AFTER UPGRADING WILL HAVE INCORRECT VOLUME CHANGE 
 PERCENTAGES (BUT WILL BE ACCURATE AFTERWARDS).
 
@@ -3821,7 +3821,7 @@ v4.06.0 and higher modularizes the configuration settings into the new $ct_conf 
 CONFIGURATION SETTING VARIABLE NAMES ARE NOW DIFFERENT, USE THE LATEST/UPGRADED CONFIG.PHP,
 AND MIGRATE YOUR EXISTING SETTINGS TO THE NEW FORMAT.
 
-v4.04.3 and higher of this app RESETS PRICE ALERT VOLUME STORED TO USE PAIRING VOLUME INSTEAD 
+v4.04.3 and higher of this app RESETS PRICE ALERT VOLUME STORED TO USE PAIR VOLUME INSTEAD 
 OF ASSET VOLUME, SO !FIRST! PRICE ALERTS AFTER UPGRADING WILL HAVE INCORRECT VOLUME CHANGE 
 PERCENTAGES (BUT WILL BE ACCURATE AFTERWARDS).
 
@@ -3861,7 +3861,7 @@ v4.06.0 and higher modularizes the configuration settings into the new $ct_conf 
 CONFIGURATION SETTING VARIABLE NAMES ARE NOW DIFFERENT, USE THE LATEST/UPGRADED CONFIG.PHP,
 AND MIGRATE YOUR EXISTING SETTINGS TO THE NEW FORMAT.
 
-v4.04.3 and higher of this app RESETS PRICE ALERT VOLUME STORED TO USE PAIRING VOLUME INSTEAD 
+v4.04.3 and higher of this app RESETS PRICE ALERT VOLUME STORED TO USE PAIR VOLUME INSTEAD 
 OF ASSET VOLUME, SO !FIRST! PRICE ALERTS AFTER UPGRADING WILL HAVE INCORRECT VOLUME CHANGE 
 PERCENTAGES (BUT WILL BE ACCURATE AFTERWARDS).
 
@@ -3899,7 +3899,7 @@ v4.06.0 and higher modularizes the configuration settings into the new $ct_conf 
 CONFIGURATION SETTING VARIABLE NAMES ARE NOW DIFFERENT, USE THE LATEST/UPGRADED CONFIG.PHP,
 AND MIGRATE YOUR EXISTING SETTINGS TO THE NEW FORMAT.
 
-v4.04.3 and higher of this app RESETS PRICE ALERT VOLUME STORED TO USE PAIRING VOLUME INSTEAD 
+v4.04.3 and higher of this app RESETS PRICE ALERT VOLUME STORED TO USE PAIR VOLUME INSTEAD 
 OF ASSET VOLUME, SO !FIRST! PRICE ALERTS AFTER UPGRADING WILL HAVE INCORRECT VOLUME CHANGE 
 PERCENTAGES (BUT WILL BE ACCURATE AFTERWARDS).
 
@@ -3939,7 +3939,7 @@ v4.06.0 and higher modularizes the configuration settings into the new $ct_conf 
 CONFIGURATION SETTING VARIABLE NAMES ARE NOW DIFFERENT, USE THE LATEST/UPGRADED CONFIG.PHP,
 AND MIGRATE YOUR EXISTING SETTINGS TO THE NEW FORMAT.
 
-v4.04.3 and higher of this app RESETS PRICE ALERT VOLUME STORED TO USE PAIRING VOLUME INSTEAD 
+v4.04.3 and higher of this app RESETS PRICE ALERT VOLUME STORED TO USE PAIR VOLUME INSTEAD 
 OF ASSET VOLUME, SO !FIRST! PRICE ALERTS AFTER UPGRADING WILL HAVE INCORRECT VOLUME CHANGE 
 PERCENTAGES (BUT WILL BE ACCURATE AFTERWARDS).
 
@@ -4029,7 +4029,7 @@ MAJOR IMPROVEMENTS TO THE USER EXPERIENCE HAVE BEEN MADE, WHICH ARE !NOT! BACKWA
 
 -API fixes and optimizations (Optimized default results limits / Multiple-connection local auto-throttling / error fallback for Defipulse.com API connections)
 
--Fix for missing pairing volume data in charts, and 'volume percent up/down' in price alerts, for DeFi markets
+-Fix for missing pair volume data in charts, and 'volume percent up/down' in price alerts, for DeFi markets
 
 -Misc UX
 
@@ -5157,13 +5157,17 @@ MIGRATE YOUR EXISTING SETTINGS TO THE NEW FORMAT.
 -------------------------------------------------------------------
 5.12.2:
 
--BUG FIX: reduced storage size for user-selected news feeds (helps avoid app crashes from excessively-sized page headers)
+-BUG FIX: reduced cookie sizes for user-selected items (helps avoid app crashes from excessively-sized page headers)
+
+-BUG FIX: Cookies would not delete, if 'Use cookies to save data' was CHANGED BACK to unchecked
 
 -Added system alerts (comms messages / error logging) and threshold trigger config, for when TOTAL cookies data size risks server crashing
 
 -Better tooltip (hover icon) documentation
 
-v5.03.5 and higher renames the admin config array. ALL CONFIGURATION SETTING
+-Code optimization for faster interface runtimes
+
+v5.12.2 and higher renames the admin config array. ALL CONFIGURATION SETTING
 VARIABLE NAMES ARE NOW DIFFERENT, USE THE LATEST/UPGRADED CONFIG.PHP, AND
 MIGRATE YOUR EXISTING SETTINGS TO THE NEW FORMAT.
 

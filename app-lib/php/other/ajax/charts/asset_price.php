@@ -18,7 +18,7 @@
 $x_coord = 75; // Start position (absolute) for lite chart links
 	
 
-	foreach ( $ct_conf['charts_alerts']['tracked_markets'] as $key => $val ) {
+	foreach ( $ct_conf['charts_alerts']['tracked_mrkts'] as $key => $val ) {
 		
  
 		if ( $_GET['asset_data'] == $key ) {
@@ -31,7 +31,7 @@ $x_coord = 75; // Start position (absolute) for lite chart links
 		$market_parse = explode("||", $val );
 
 
-		$charted_val = ( $_GET['charted_val'] == 'pairing' ? $market_parse[1] : $default_btc_prim_currency_pairing );
+		$charted_val = ( $_GET['charted_val'] == 'pair' ? $market_parse[1] : $default_btc_prim_currency_pair );
 		
 		
 		// Strip non-alphanumeric characters to use in js vars, to isolate logic for each separate chart
@@ -41,13 +41,13 @@ $x_coord = 75; // Start position (absolute) for lite chart links
 			
 			// Unicode asset symbols
 			// Crypto
-			if ( array_key_exists($charted_val, $ct_conf['power']['crypto_pairing']) ) {
-			$currency_symb = $ct_conf['power']['crypto_pairing'][$charted_val];
+			if ( array_key_exists($charted_val, $ct_conf['power']['crypto_pair']) ) {
+			$currency_symb = $ct_conf['power']['crypto_pair'][$charted_val];
 			}
 			// Fiat-equiv
 			// RUN AFTER CRYPTO MARKETS...WE HAVE A COUPLE CRYPTOS SUPPORTED HERE, BUT WE ONLY WANT DESIGNATED FIAT-EQIV HERE
-			elseif ( array_key_exists($charted_val, $ct_conf['power']['btc_currency_markets']) && !array_key_exists($charted_val, $ct_conf['power']['crypto_pairing']) ) {
-			$currency_symb = $ct_conf['power']['btc_currency_markets'][$charted_val];
+			elseif ( array_key_exists($charted_val, $ct_conf['power']['btc_currency_mrkts']) && !array_key_exists($charted_val, $ct_conf['power']['crypto_pair']) ) {
+			$currency_symb = $ct_conf['power']['btc_currency_mrkts'][$charted_val];
 			$fiat_equiv = 1;
 			}
 			// Fallback for currency symbol config errors
@@ -103,7 +103,7 @@ gui: {
   	x: 0, 
   	y: 0,
   	title: {
-  	  text: "<?=$chart_asset?> / <?=strtoupper($market_parse[1])?> @ <?=$ct_gen->key_to_name($market_parse[0])?> <?=( $_GET['charted_val'] != 'pairing' ? '(' . strtoupper($charted_val) . ' Value)' : '' )?>",
+  	  text: "<?=$chart_asset?> / <?=strtoupper($market_parse[1])?> @ <?=$ct_gen->key_to_name($market_parse[0])?> <?=( $_GET['charted_val'] != 'pair' ? '(' . strtoupper($charted_val) . ' Value)' : '' )?>",
   	  fontColor: "<?=$ct_conf['power']['charts_text']?>",
   	  fontFamily: 'Open Sans',
   	  fontSize: 25,
@@ -263,7 +263,7 @@ graphset:[
     exact: true
   },
   title: {
-    text: "<?=$chart_asset?> / <?=strtoupper($market_parse[1])?> @ <?=$ct_gen->key_to_name($market_parse[0])?> <?=( $_GET['charted_val'] != 'pairing' ? '(' . strtoupper($charted_val) . ' Value)' : '' )?>",
+    text: "<?=$chart_asset?> / <?=strtoupper($market_parse[1])?> @ <?=$ct_gen->key_to_name($market_parse[0])?> <?=( $_GET['charted_val'] != 'pair' ? '(' . strtoupper($charted_val) . ' Value)' : '' )?>",
     fontColor: "<?=$ct_conf['power']['charts_text']?>",
     fontFamily: 'Open Sans',
     fontSize: 25,

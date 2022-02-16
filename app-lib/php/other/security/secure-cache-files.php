@@ -324,7 +324,7 @@ $secure_128bit_hash = $ct_gen->rand_hash(16); // 128-bit (16-byte) hash converte
 		
 		// Need to check a few different possible results for no data found ("null" in quotes as the actual value is returned sometimes)
 		if ( $store_cached_telegram_user_data == false || $store_cached_telegram_user_data == null || $store_cached_telegram_user_data == "null" ) {
-		$ct_gen->log('conf_error', 'UPDATED telegram_user_data could not be saved, PLEASE RE-ENTER "/start" IN THE BOT CHATROOM, IN THE TELEGRAM APP');
+		$ct_gen->log('conf_error', 'CURRENT telegram configuration could not be checked, PLEASE RE-ENTER "/start" IN THE BOT CHATROOM, IN THE TELEGRAM APP');
 		}
 		else {
 		$ct_cache->save_file($base_dir . '/cache/secured/telegram_user_data_'.$secure_128bit_hash.'.dat', $store_cached_telegram_user_data);

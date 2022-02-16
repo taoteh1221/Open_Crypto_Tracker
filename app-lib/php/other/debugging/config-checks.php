@@ -134,28 +134,28 @@ $conf_parse_error = NULL; // Blank it out for any other config checks
 // Charts and price change alerts configuration check
 
 
-// Check default Bitcoin market/pairing configs (used by charts/alerts)
-if ( !isset( $ct_conf['assets']['BTC']['pairing'][$default_btc_prim_currency_pairing] ) ) {
+// Check default Bitcoin market/pair configs (used by charts/alerts)
+if ( !isset( $ct_conf['assets']['BTC']['pair'][$default_btc_prim_currency_pair] ) ) {
 
 
-	foreach ( $ct_conf['assets']['BTC']['pairing'] as $pairing_key => $unused ) {
-	$avialable_btc_pairings .= strtolower($pairing_key) . ', ';
+	foreach ( $ct_conf['assets']['BTC']['pair'] as $pair_key => $unused ) {
+	$avialable_btc_pairs .= strtolower($pair_key) . ', ';
 	}
 	
-	$avialable_btc_pairings = trim($avialable_btc_pairings);
-	$avialable_btc_pairings = rtrim($avialable_btc_pairings,',');
+	$avialable_btc_pairs = trim($avialable_btc_pairs);
+	$avialable_btc_pairs = rtrim($avialable_btc_pairs,',');
 	
-$conf_parse_error[] = 'Charts and price alerts cannot run properly, because the "btc_prim_currency_pairing" (default Bitcoin currency pairing) value \''.$ct_conf['gen']['btc_prim_currency_pairing'].'\' (in Admin Config GENERAL section) is not a valid Bitcoin pairing option (valid Bitcoin pairing options are: '.$avialable_btc_pairings.')';
+$conf_parse_error[] = 'Charts and price alerts cannot run properly, because the "btc_prim_currency_pair" (default Bitcoin currency pair) value \''.$ct_conf['gen']['btc_prim_currency_pair'].'\' (in Admin Config GENERAL section) is not a valid Bitcoin pair option (valid Bitcoin pair options are: '.$avialable_btc_pairs.')';
 
 
 }
-elseif ( !isset( $ct_conf['assets']['BTC']['pairing'][$default_btc_prim_currency_pairing][$default_btc_prim_exchange] ) ) {
+elseif ( !isset( $ct_conf['assets']['BTC']['pair'][$default_btc_prim_currency_pair][$default_btc_prim_exchange] ) ) {
 
 
-	foreach ( $ct_conf['assets']['BTC']['pairing'][$default_btc_prim_currency_pairing] as $pairing_key => $unused ) {
+	foreach ( $ct_conf['assets']['BTC']['pair'][$default_btc_prim_currency_pair] as $pair_key => $unused ) {
 		
-		if( stristr($pairing_key, 'bitmex_') == false ) { // Futures markets not allowed
-		$avialable_btc_prim_exchanges .= strtolower($pairing_key) . ', ';
+		if( stristr($pair_key, 'bitmex_') == false ) { // Futures markets not allowed
+		$avialable_btc_prim_exchanges .= strtolower($pair_key) . ', ';
 		}
 		
 	}
@@ -163,7 +163,7 @@ elseif ( !isset( $ct_conf['assets']['BTC']['pairing'][$default_btc_prim_currency
 	$avialable_btc_prim_exchanges = trim($avialable_btc_prim_exchanges);
 	$avialable_btc_prim_exchanges = rtrim($avialable_btc_prim_exchanges,',');
 	
-$conf_parse_error[] = 'Charts and price alerts cannot run properly, because the "btc_prim_exchange" (default Bitcoin exchange) value \''.$default_btc_prim_exchange.'\' (in Admin Config GENERAL section) is not a valid option for \''.$default_btc_prim_currency_pairing.'\' Bitcoin pairings (valid \''.$default_btc_prim_currency_pairing.'\' Bitcoin pairing options are: '.$avialable_btc_prim_exchanges.')';
+$conf_parse_error[] = 'Charts and price alerts cannot run properly, because the "btc_prim_exchange" (default Bitcoin exchange) value \''.$default_btc_prim_exchange.'\' (in Admin Config GENERAL section) is not a valid option for \''.$default_btc_prim_currency_pair.'\' Bitcoin pairs (valid \''.$default_btc_prim_currency_pair.'\' Bitcoin pair options are: '.$avialable_btc_prim_exchanges.')';
 
 
 }
@@ -243,13 +243,13 @@ if ( trim($ct_conf['comms']['from_email']) != '' || trim($ct_conf['comms']['to_e
           		
           		
 
-			// Check $ct_conf['charts_alerts']['tracked_markets'] config
-			if ( !is_array($ct_conf['charts_alerts']['tracked_markets']) ) {
-			$conf_parse_error[] = 'The asset / exchange / pairing price alert formatting is corrupt, or not configured yet.';
+			// Check $ct_conf['charts_alerts']['tracked_mrkts'] config
+			if ( !is_array($ct_conf['charts_alerts']['tracked_mrkts']) ) {
+			$conf_parse_error[] = 'The asset / exchange / pair price alert formatting is corrupt, or not configured yet.';
 			}
 			
 			
-			foreach ( $ct_conf['charts_alerts']['tracked_markets'] as $key => $val ) {
+			foreach ( $ct_conf['charts_alerts']['tracked_mrkts'] as $key => $val ) {
    		       		
 			$alerts_str = explode("||", $val);
    		       	
@@ -430,32 +430,32 @@ $ct_gen->log('conf_error', 'The portfolio assets formatting is corrupt, or not c
 }
 
 
-// Check default / dynamic Bitcoin market/pairing configs
-if ( !isset( $ct_conf['assets']['BTC']['pairing'][ $ct_conf['gen']['btc_prim_currency_pairing'] ] ) ) {
+// Check default / dynamic Bitcoin market/pair configs
+if ( !isset( $ct_conf['assets']['BTC']['pair'][ $ct_conf['gen']['btc_prim_currency_pair'] ] ) ) {
 
 
-	foreach ( $ct_conf['assets']['BTC']['pairing'] as $pairing_key => $unused ) {
-	$avialable_btc_pairings .= strtolower($pairing_key) . ', ';
+	foreach ( $ct_conf['assets']['BTC']['pair'] as $pair_key => $unused ) {
+	$avialable_btc_pairs .= strtolower($pair_key) . ', ';
 	}
 	
-	$avialable_btc_pairings = trim($avialable_btc_pairings);
-	$avialable_btc_pairings = rtrim($avialable_btc_pairings,',');
+	$avialable_btc_pairs = trim($avialable_btc_pairs);
+	$avialable_btc_pairs = rtrim($avialable_btc_pairs,',');
 
 
 $ct_gen->log(
 			'conf_error',
-			'Portfolio cannot run properly, because the "btc_prim_currency_pairing" (Bitcoin primary currency pairing) value \''.$ct_conf['gen']['btc_prim_currency_pairing'].'\' is not a valid Bitcoin pairing option (valid Bitcoin pairing options are: '.$avialable_btc_pairings.')'
+			'Portfolio cannot run properly, because the "btc_prim_currency_pair" (Bitcoin primary currency pair) value \''.$ct_conf['gen']['btc_prim_currency_pair'].'\' is not a valid Bitcoin pair option (valid Bitcoin pair options are: '.$avialable_btc_pairs.')'
 			);
 
 
 }
-elseif ( !isset( $ct_conf['assets']['BTC']['pairing'][ $ct_conf['gen']['btc_prim_currency_pairing'] ][ $ct_conf['gen']['btc_prim_exchange'] ] ) ) {
+elseif ( !isset( $ct_conf['assets']['BTC']['pair'][ $ct_conf['gen']['btc_prim_currency_pair'] ][ $ct_conf['gen']['btc_prim_exchange'] ] ) ) {
 
 
-	foreach ( $ct_conf['assets']['BTC']['pairing'][ $ct_conf['gen']['btc_prim_currency_pairing'] ] as $pairing_key => $unused ) {
+	foreach ( $ct_conf['assets']['BTC']['pair'][ $ct_conf['gen']['btc_prim_currency_pair'] ] as $pair_key => $unused ) {
 		
-		if( stristr($pairing_key, 'bitmex_') == false ) { // Futures markets not allowed
-		$avialable_btc_prim_exchanges .= strtolower($pairing_key) . ', ';
+		if( stristr($pair_key, 'bitmex_') == false ) { // Futures markets not allowed
+		$avialable_btc_prim_exchanges .= strtolower($pair_key) . ', ';
 		}
 		
 	}
@@ -465,7 +465,7 @@ elseif ( !isset( $ct_conf['assets']['BTC']['pairing'][ $ct_conf['gen']['btc_prim
 
 $ct_gen->log(
 			'conf_error',
-			'Portfolio cannot run properly, because the "btc_prim_exchange" (Bitcoin exchange) value \''.$ct_conf['gen']['btc_prim_exchange'].'\' is not a valid option for \''.$ct_conf['gen']['btc_prim_currency_pairing'].'\' Bitcoin pairings (valid \''.$ct_conf['gen']['btc_prim_currency_pairing'].'\' Bitcoin pairing options are: '.$avialable_btc_prim_exchanges.')'
+			'Portfolio cannot run properly, because the "btc_prim_exchange" (Bitcoin exchange) value \''.$ct_conf['gen']['btc_prim_exchange'].'\' is not a valid option for \''.$ct_conf['gen']['btc_prim_currency_pair'].'\' Bitcoin pairs (valid \''.$ct_conf['gen']['btc_prim_currency_pair'].'\' Bitcoin pair options are: '.$avialable_btc_prim_exchanges.')'
 			);
 
 

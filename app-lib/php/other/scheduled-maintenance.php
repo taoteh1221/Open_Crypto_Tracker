@@ -74,7 +74,7 @@ require($base_dir . '/app-lib/php/other/upgrade-check.php');
 // Update cached vars...
 
 // Current default primary currency stored to flat file (for checking if we need to reconfigure things for a changed value here)
-$ct_cache->save_file($base_dir . '/cache/vars/default_btc_prim_currency_pairing.dat', $default_btc_prim_currency_pairing);
+$ct_cache->save_file($base_dir . '/cache/vars/default_btc_prim_currency_pair.dat', $default_btc_prim_currency_pair);
 	
 
 // Current app version stored to flat file (for the bash auto-install/upgrade script to easily determine the currently-installed version)

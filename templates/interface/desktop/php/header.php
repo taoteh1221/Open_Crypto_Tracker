@@ -148,6 +148,8 @@ header('Content-type: text/html; charset=' . $ct_conf['dev']['charset_default'])
     async: true
 	});
 	
+	// CURRENT COOKIES SIZE TOTAL: <?=$ct_var->num_pretty( ($system_info['portfolio_cookies'] / 1000) , 2)?> kilobytes
+	
 	// Main js vars
 	var cookies_size_warning = '<?=( isset($system_warnings['portfolio_cookies_size']) ? $system_warnings['portfolio_cookies_size'] : 'none' )?>';
 	
@@ -166,7 +168,7 @@ header('Content-type: text/html; charset=' . $ct_conf['dev']['charset_default'])
 	var charts_border = '<?=$ct_conf['power']['charts_border']?>';
 	
 	var btc_prim_currency_val = '<?=number_format( $sel_opt['sel_btc_prim_currency_val'], 2, '.', '' )?>';
-	var btc_prim_currency_pairing = '<?=strtoupper($ct_conf['gen']['btc_prim_currency_pairing'])?>';
+	var btc_prim_currency_pair = '<?=strtoupper($ct_conf['gen']['btc_prim_currency_pair'])?>';
 	
 	// 'Loading X...' UI notices
 	feeds_loading_check(window.feeds_loaded);
@@ -185,26 +187,26 @@ header('Content-type: text/html; charset=' . $ct_conf['dev']['charset_default'])
 	var limited_apis = <?=$js_limited_apis?>;
 	
 	<?php
-	foreach ( $ct_conf['power']['crypto_pairing_pref_markets'] as $key => $unused ) {
-	$secondary_market_currencies .= '"'.strtolower($key).'", ';
+	foreach ( $ct_conf['power']['crypto_pair_pref_mrkts'] as $key => $unused ) {
+	$secondary_mrkt_currencies .= '"'.strtolower($key).'", ';
 	}
-	foreach ( $ct_conf['power']['btc_currency_markets'] as $key => $unused ) {
-	$secondary_market_currencies .= '"'.strtolower($key).'", ';
+	foreach ( $ct_conf['power']['btc_currency_mrkts'] as $key => $unused ) {
+	$secondary_mrkt_currencies .= '"'.strtolower($key).'", ';
 	}
-	$secondary_market_currencies = trim($secondary_market_currencies);
-	$secondary_market_currencies = rtrim($secondary_market_currencies,',');
-	$secondary_market_currencies = trim($secondary_market_currencies);
-	$secondary_market_currencies = '['.$secondary_market_currencies.']';
+	$secondary_mrkt_currencies = trim($secondary_mrkt_currencies);
+	$secondary_mrkt_currencies = rtrim($secondary_mrkt_currencies,',');
+	$secondary_mrkt_currencies = trim($secondary_mrkt_currencies);
+	$secondary_mrkt_currencies = '['.$secondary_mrkt_currencies.']';
 	?>
 
-	var secondary_market_currencies = <?=$secondary_market_currencies?>;
+	var secondary_mrkt_currencies = <?=$secondary_mrkt_currencies?>;
 	
-	var pref_bitcoin_markets = []; // Set the array
+	var pref_bitcoin_mrkts = []; // Set the array
 	
 	<?php
-	foreach ( $ct_conf['power']['btc_pref_currency_markets'] as $pref_bitcoin_markets_key => $pref_bitcoin_markets_val ) {
+	foreach ( $ct_conf['power']['btc_pref_currency_mrkts'] as $pref_bitcoin_mrkts_key => $pref_bitcoin_mrkts_val ) {
 	?>
-	pref_bitcoin_markets["<?=strtolower( $pref_bitcoin_markets_key )?>"] = "<?=strtolower( $pref_bitcoin_markets_val )?>";
+	pref_bitcoin_mrkts["<?=strtolower( $pref_bitcoin_mrkts_key )?>"] = "<?=strtolower( $pref_bitcoin_mrkts_val )?>";
 	<?php
 	}
 	?>

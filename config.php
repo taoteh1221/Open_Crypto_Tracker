@@ -221,8 +221,8 @@ $ct_conf['gen']['prim_mcap_site'] = 'coingecko';
 // nzd / pab / pen / php / pkr / pln / pyg / qar / ron / rsd / rub / rwf / sar / sek / sgd / thb 
 // try / tusd / twd / tzs / uah / ugx / usdc / usdt / uyu / ves / vnd / xaf / xof / zar / zmw
 // SEE THE $ct_conf['assets'] CONFIGURATION NEAR THE BOTTOM OF THIS CONFIG FILE, FOR THE PROPER (CORRESPONDING)
-// CURRENCY PAIRING VALUE NEEDED FOR YOUR CHOSEN 'BTC' EXCHANGE (set in $ct_conf['gen']['btc_prim_exchange'] directly below)
-$ct_conf['gen']['btc_prim_currency_pairing'] = 'usd'; // PUT INSIDE SINGLE QUOTES ('selection')
+// CURRENCY PAIR VALUE NEEDED FOR YOUR CHOSEN 'BTC' EXCHANGE (set in $ct_conf['gen']['btc_prim_exchange'] directly below)
+$ct_conf['gen']['btc_prim_currency_pair'] = 'usd'; // PUT INSIDE SINGLE QUOTES ('selection')
 
 
 // Default BITCOIN market exchanges (30+ bitcoin exchanges supported)
@@ -232,13 +232,13 @@ $ct_conf['gen']['btc_prim_currency_pairing'] = 'usd'; // PUT INSIDE SINGLE QUOTE
 // defipulse / gemini / hitbtc / huobi / korbit / kraken / kucoin / liquid / localbitcoins / loopring_amm 
 // luno / okcoin / okex / southxchange / unocoin / upbit / wazirx
 // SEE THE $ct_conf['assets'] CONFIGURATION NEAR THE BOTTOM OF THIS CONFIG FILE, FOR THE PROPER (CORRESPONDING)
-// MARKET PAIRING VALUE NEEDED FOR YOUR CHOSEN 'BTC' EXCHANGE (to populate $ct_conf['gen']['btc_prim_currency_pairing'] directly above with)
+// MARKET PAIR VALUE NEEDED FOR YOUR CHOSEN 'BTC' EXCHANGE (to populate $ct_conf['gen']['btc_prim_currency_pair'] directly above with)
 // SEE THE $ct_conf['dev']['limited_apis'] SETTING MUCH FURTHER DOWN, FOR EXCHANGES !NOT RECOMMENDED FOR USAGE HERE!
 $ct_conf['gen']['btc_prim_exchange'] = 'kraken';  // PUT INSIDE SINGLE QUOTES ('selection')
 
 
 // Maximum decimal places for [primary currency] values, of coins worth under 1 fiat value unit [usd/gbp/eur/jpy/brl/rub/etc],
-// for prettier / less-cluttered interface. IF YOU ADJUST $ct_conf['gen']['btc_prim_currency_pairing'] ABOVE, 
+// for prettier / less-cluttered interface. IF YOU ADJUST $ct_conf['gen']['btc_prim_currency_pair'] ABOVE, 
 // YOU MAY NEED TO ADJUST THIS ACCORDINGLY FOR !PRETTY / FUNCTIONAL! CHARTS / ALERTS FOR YOUR PRIMARY CURRENCY
 // ALSO KEEP THIS NUMBER AS LOW AS IS FEASIBLE, TO SAVE ON CHART DATA STORAGE SPACE / MAINTAIN QUICK CHART LOAD TIMES
 $ct_conf['gen']['prim_currency_dec_max'] = 5; // Whole numbers only (represents number of decimals maximum to use)
@@ -295,7 +295,7 @@ $ct_conf['proxy']['proxy_list'] = array(
 // CHARTS / PRICE ALERTS SETUP REQUIRES A CRON JOB RUNNING ON YOUR WEB SERVER (see README.txt for cron job setup information) 
 
 // Asset price alert configuration
-// Only used if $ct_conf['charts_alerts']['tracked_markets'] is filled in properly below, AND a cron job is setup (see README.txt for cron job setup information) 
+// Only used if $ct_conf['charts_alerts']['tracked_mrkts'] is filled in properly below, AND a cron job is setup (see README.txt for cron job setup information) 
 ////
 // Fixed time interval RESET of cached comparison asset prices every X days (since last price reset / alert) with the current latest spot prices
 // Helpful if you only want price alerts for a certain time window. Resets also send alerts that reset occurred, with summary of price changes since last reset
@@ -309,25 +309,25 @@ $ct_conf['charts_alerts']['price_alert_fixed_reset'] = 0; // (default = 0)
 $ct_conf['charts_alerts']['price_alert_whale_thres'] = '1.65||8.85||9.1||16000'; // (default: '1.65||8.85||9.1||16000')
 ////
 // Markets you want charts or asset price change alerts for (alerts sent when default [primary currency] 
-// [$ct_conf['gen']['btc_prim_currency_pairing'] at top of this config] value change is equal to or above / below $ct_conf['comms']['price_alert_thres']) 
+// [$ct_conf['gen']['btc_prim_currency_pair'] at top of this config] value change is equal to or above / below $ct_conf['comms']['price_alert_thres']) 
 // NOTE: This list must only contain assets / exchanges / trading pairs included in the primary portfolio assets list configuration further down in this config file
-// TO ADD MULTIPLE CHARTS / ALERTS FOR SAME ASSET (FOR DIFFERENT EXCHANGES / TRADE PAIRINGS), FORMAT LIKE SO: symbol, symbol-1, symbol-2, symbol-3, etc.
+// TO ADD MULTIPLE CHARTS / ALERTS FOR SAME ASSET (FOR DIFFERENT EXCHANGES / TRADE PAIRS), FORMAT LIKE SO: symbol, symbol-1, symbol-2, symbol-3, etc.
 // TO DISABLE CHART AND ALERT = none, TO ENABLE CHART AND ALERT = both, TO ENABLE CHART ONLY = chart, TO ENABLE ALERT ONLY = alert
-$ct_conf['charts_alerts']['tracked_markets'] = array(
+$ct_conf['charts_alerts']['tracked_mrkts'] = array(
 
 
 					// SYMBOL
-				// 'symbol' => 'exchange||trade_pairing||alert',
-				// 'symbol-2' => 'exchange2||trade_pairing2||chart',
-				// 'symbol-3' => 'exchange3||trade_pairing3||both',
-				// 'symbol-4' => 'exchange4||trade_pairing4||none',
+				// 'symbol' => 'exchange||trade_pair||alert',
+				// 'symbol-2' => 'exchange2||trade_pair2||chart',
+				// 'symbol-3' => 'exchange3||trade_pair3||both',
+				// 'symbol-4' => 'exchange4||trade_pair4||none',
 				
 				
 					// OTHERSYMBOL
-				// 'othersymbol' => 'exchange||trade_pairing||none',
-				// 'othersymbol-2' => 'exchange2||trade_pairing2||both',
-				// 'othersymbol-3' => 'exchange3||trade_pairing3||chart',
-				// 'othersymbol-4' => 'exchange4||trade_pairing4||alert',
+				// 'othersymbol' => 'exchange||trade_pair||none',
+				// 'othersymbol-2' => 'exchange2||trade_pair2||both',
+				// 'othersymbol-3' => 'exchange3||trade_pair3||chart',
+				// 'othersymbol-4' => 'exchange4||trade_pair4||alert',
 					
 					
 					// BTC
@@ -497,7 +497,7 @@ $ct_conf['charts_alerts']['tracked_markets'] = array(
 					
 					);
 					
-// END $ct_conf['charts_alerts']['tracked_markets']
+// END $ct_conf['charts_alerts']['tracked_mrkts']
 
 
 ////////////////////////////////////////
@@ -557,7 +557,7 @@ $ct_conf['power']['mcap_ranks_max'] = 500; // (default = 500)
 
 
 // Maximum margin leverage available in the user interface ('Update' page, etc)
-$ct_conf['power']['margin_leverage_max'] = 150; 
+$ct_conf['power']['margin_lvrg_max'] = 150; 
 
 
 // Days TO WAIT UNTIL DELETING OLD backup archives (chart data archives, etc)
@@ -619,7 +619,7 @@ $ct_conf['power']['defi_liquidity_pools_max'] = 1000; // (default = 1000)
 $ct_conf['power']['defi_liquidity_pools_sort_by'] = 'volume'; // 'volume' or 'liquidity' (default = 'volume')
 ////
 // Maximum number of MOST RECENT trades to fetch per DeFi pool
-// INCREASE IF TRADES FOR YOUR PAIRING DON'T GET DETECTED, AS TRADES ARE SORTED BY NEWEST FIRST
+// INCREASE IF TRADES FOR YOUR PAIR DON'T GET DETECTED, AS TRADES ARE SORTED BY NEWEST FIRST
 $ct_conf['power']['defi_pools_max_trades'] = 60; // (default = 60)
 		
 
@@ -676,14 +676,14 @@ $ct_conf['power']['charts_tooltip_text'] = '#222222'; // (default: '#222222')
 							
 							
 
-// Auto-activate support for ALTCOIN PAIRED MARKETS (like glm/eth or mkr/eth, etc...markets where the base pairing is an altcoin)
-// EACH ALTCOIN LISTED HERE !MUST HAVE! AN EXISTING 'btc' MARKET (within 'pairing') in it's 
+// Auto-activate support for ALTCOIN PAIRED MARKETS (like glm/eth or mkr/eth, etc...markets where the base pair is an altcoin)
+// EACH ALTCOIN LISTED HERE !MUST HAVE! AN EXISTING 'btc' MARKET (within 'pair') in it's 
 // $ct_conf['assets'] listing (further down in this config file) TO PROPERLY AUTO-ACTIVATE
 // THIS ALSO ADDS THESE ASSETS AS OPTIONS IN THE "Show Crypto Value Of ENTIRE Portfolio In" SETTING, ON THE SETTINGS PAGE,
 // AND IN THE "Show Secondary Trade / Holdings Value" SETTING, ON THE SETTINGS PAGE TOO
-// !!!!!TRY TO #NOT# ADD STABLECOINS HERE!!!!!, FIRST TRY $ct_conf['power']['btc_currency_markets'] INSTEAD (TO AUTO-CLIP UN-NEEDED DECIMAL POINTS) 
+// !!!!!TRY TO #NOT# ADD STABLECOINS HERE!!!!!, FIRST TRY $ct_conf['power']['btc_currency_mrkts'] INSTEAD (TO AUTO-CLIP UN-NEEDED DECIMAL POINTS) 
 // !!!!!BTC IS ALREADY ADDED AUTOMATICALLY, NO NEED TO ADD IT HERE!!!!!
-$ct_conf['power']['crypto_pairing'] = array(
+$ct_conf['power']['crypto_pair'] = array(
 						//'lowercase_altcoin_ticker' => 'UNICODE_SYMBOL', // Add whitespace after the symbol, if you prefer that
 						// Native chains...
 						'eth' => 'Ξ ',
@@ -699,13 +699,13 @@ $ct_conf['power']['crypto_pairing'] = array(
 
 
 // Preferred ALTCOIN PAIRED MARKETS market(s) for getting a certain crypto's value
-// EACH ALTCOIN LISTED HERE MUST EXIST IN $ct_conf['power']['crypto_pairing'] ABOVE,
-// AND !MUST HAVE! AN EXISTING 'btc' MARKET (within 'pairing') in it's 
+// EACH ALTCOIN LISTED HERE MUST EXIST IN $ct_conf['power']['crypto_pair'] ABOVE,
+// AND !MUST HAVE! AN EXISTING 'btc' MARKET (within 'pair') in it's 
 // $ct_conf['assets'] listing (further down in this config file),
 // AND #THE EXCHANGE NAME MUST BE IN THAT 'btc' LIST#
 // #USE LIBERALLY#, AS YOU WANT THE BEST PRICE DISCOVERY FOR THIS CRYPTO'S VALUE
-$ct_conf['power']['crypto_pairing_pref_markets'] = array(
-						//'lowercase_btc_market_or_stablecoin_pairing' => 'PREFERRED_MARKET',
+$ct_conf['power']['crypto_pair_pref_mrkts'] = array(
+						//'lowercase_btc_mrkt_or_stablecoin_pair' => 'PREFERRED_MRKT',
 							'eth' => 'binance',  // WAY MORE volume , WAY BETTER price discovery than ALL alternatives
 							'hnt' => 'binance',  // WAY MORE volume , WAY BETTER price discovery than ALL alternatives
 							'sol' => 'binance',  // WAY MORE volume , WAY BETTER price discovery than ALL alternatives
@@ -716,12 +716,12 @@ $ct_conf['power']['crypto_pairing_pref_markets'] = array(
 
 
 // Auto-activate support for PRIMARY CURRENCY MARKETS (to use as your preferred local currency in the app)
-// EACH CURRENCY LISTED HERE !MUST HAVE! AN EXISTING BITCOIN ASSET MARKET (within 'pairing') in 
+// EACH CURRENCY LISTED HERE !MUST HAVE! AN EXISTING BITCOIN ASSET MARKET (within 'pair') in 
 // Bitcoin's $ct_conf['assets'] listing (further down in this config file) TO PROPERLY AUTO-ACTIVATE
-// #CAN# BE A CRYPTO / HAVE A DUPLICATE IN $ct_conf['power']['crypto_pairing'], 
-// !AS LONG AS THERE IS A PAIRING CONFIGURED WITHIN THE BITCOIN ASSET SETUP!
-$ct_conf['power']['btc_currency_markets'] = array(
-						//'lowercase_btc_market_or_stablecoin_pairing' => 'CURRENCY_SYMBOL',
+// #CAN# BE A CRYPTO / HAVE A DUPLICATE IN $ct_conf['power']['crypto_pair'], 
+// !AS LONG AS THERE IS A PAIR CONFIGURED WITHIN THE BITCOIN ASSET SETUP!
+$ct_conf['power']['btc_currency_mrkts'] = array(
+						//'lowercase_btc_mrkt_or_stablecoin_pair' => 'CURRENCY_SYMBOL',
 						'aed' => 'د.إ',
 						'ars' => 'ARS$',
 						'aud' => 'A$',
@@ -808,10 +808,10 @@ $ct_conf['power']['btc_currency_markets'] = array(
 
 // Preferred BITCOIN market(s) for getting a certain currency's value
 // (when other exchanges for this currency have poor api / volume / price discovery / etc)
-// EACH CURRENCY LISTED HERE MUST EXIST IN $ct_conf['power']['btc_currency_markets'] ABOVE
+// EACH CURRENCY LISTED HERE MUST EXIST IN $ct_conf['power']['btc_currency_mrkts'] ABOVE
 // #USE CONSERVATIVELY#, AS YOU'LL BE RECOMMENDING IN THE INTERFACE TO END-USERS TO AVOID USING ANY OTHER MARKETS FOR THIS CURRENCY
-$ct_conf['power']['btc_pref_currency_markets'] = array(
-						//'lowercase_btc_market_or_stablecoin_pairing' => 'PREFERRED_MARKET',
+$ct_conf['power']['btc_pref_currency_mrkts'] = array(
+						//'lowercase_btc_mrkt_or_stablecoin_pair' => 'PREFERRED_MRKT',
 							'aud' => 'kraken',  // WAY BETTER api than ALL alternatives
 							'chf' => 'kraken',  // WAY MORE reputable than ALL alternatives
 							'dai' => 'kraken',  // WAY MORE reputable than ALL alternatives
@@ -862,7 +862,7 @@ $ct_conf['power']['mining_calculators'] = array(
 									'name' => 'Bitcoin', // Coin name
 									'symbol' => 'btc', // Coin symbol (lowercase)
 									'exchange_name' => 'binance', // Exchange name (for price data, lowercase)
-									'exchange_market' => 'BTCUSDT', // Market pair name (for price data)
+									'exchange_mrkt' => 'BTCUSDT', // Market pair name (for price data)
 									'measure_semantic' => 'difficulty',  // (difficulty, nethashrate, etc)
 									'block_reward' => 6.25, // Mining block reward (OPTIONAL, can be made dynamic with code, like below)
 									// EVERYTHING BELOW #MUST BE# updated in /app-lib/php/other/app-config-managment.php, since we run a cached config)
@@ -878,7 +878,7 @@ $ct_conf['power']['mining_calculators'] = array(
 									'name' => 'Ethereum', // Coin name
 									'symbol' => 'eth', // Coin symbol (lowercase)
 									'exchange_name' => 'binance', // Exchange name (for price data, lowercase)
-									'exchange_market' => 'ETHBTC', // Market pair name (for price data)
+									'exchange_mrkt' => 'ETHBTC', // Market pair name (for price data)
 									'measure_semantic' => 'difficulty',  // (difficulty, nethashrate, etc)
 									'block_reward' => 2, // Mining block reward (OPTIONAL, can be made dynamic with code, like below)
 									// EVERYTHING BELOW #MUST BE# updated in /app-lib/php/other/app-config-managment.php, since we run a cached config)
@@ -1451,7 +1451,7 @@ $ct_conf['dev']['captcha_permitted_chars'] = 'ABCDEFHJKMNPRSTUVWXYZ23456789'; //
 $ct_conf['dev']['local_api_rate_limit'] = 3; // (default = 3)
 ////
 // Local / internal API market limit (maximum number of markets requested per call)
-$ct_conf['dev']['local_api_market_limit'] = 15; // (default = 15)
+$ct_conf['dev']['local_api_mrkt_limit'] = 15; // (default = 15)
 ////
 // Local / internal API cache time (minutes that previous requests are cached for)
 $ct_conf['dev']['local_api_cache_time'] = 4; // (default = 4)
@@ -1834,7 +1834,7 @@ $ct_conf['assets'] = array(
                         
                         'name' => 'Bitcoin',
                         'mcap_slug' => 'bitcoin',
-                        'pairing' => array(
+                        'pair' => array(
                         
                         
                         			'aed' => array(
@@ -2301,7 +2301,7 @@ $ct_conf['assets'] = array(
                                                     ),
 
                                                     
-                        ) // pairing END
+                        ) // pair END
                         
                     ), // Asset END (!!!!*BTC MUST BE THE VERY FIRST* IN THIS ASSET LIST, DO NOT DELETE, BTC IS *REQUIRED* TO RUN THIS APP!!!!)
                     
@@ -2314,7 +2314,7 @@ $ct_conf['assets'] = array(
                         
                         'name' => 'Ethereum',
                         'mcap_slug' => 'ethereum',
-                        'pairing' => array(
+                        'pair' => array(
 
                         
                         			'aud' => array(
@@ -2484,7 +2484,7 @@ $ct_conf['assets'] = array(
                                                     ),
 
                                                     
-                        ) // pairing END
+                        ) // pair END
                         
                     ), // Asset END
                     
@@ -2497,7 +2497,7 @@ $ct_conf['assets'] = array(
                         
                         'name' => 'Solana',
                         'mcap_slug' => 'solana',
-                        'pairing' => array(
+                        'pair' => array(
 
                                                     
                                     'aud' => array(
@@ -2592,7 +2592,7 @@ $ct_conf['assets'] = array(
                                                     ),
 
                                                     
-                        ) // pairing END
+                        ) // pair END
                                         
                     ), // Asset END
                     
@@ -2605,7 +2605,7 @@ $ct_conf['assets'] = array(
                         
                         'name' => 'Marinade Solana',
                         'mcap_slug' => 'marinade-staked-sol',
-                        'pairing' => array(
+                        'pair' => array(
 
                                                     
                                     'eth' => array(
@@ -2624,7 +2624,7 @@ $ct_conf['assets'] = array(
                                                     ),
 
                                                     
-                        ) // pairing END
+                        ) // pair END
                                         
                     ), // Asset END
                     
@@ -2637,7 +2637,7 @@ $ct_conf['assets'] = array(
                         
                         'name' => 'Uniswap',
                         'mcap_slug' => 'uniswap',
-                        'pairing' => array(
+                        'pair' => array(
                                                     
                                                     
                                     'btc' => array(
@@ -2670,7 +2670,7 @@ $ct_conf['assets'] = array(
                                                     ),
 
                                                     
-                        ) // pairing END
+                        ) // pair END
                                         
                     ), // Asset END
                     
@@ -2683,7 +2683,7 @@ $ct_conf['assets'] = array(
                         
                         'name' => 'Maker',
                         'mcap_slug' => 'maker',
-                        'pairing' => array(
+                        'pair' => array(
 
                         
                                     'btc' => array(
@@ -2736,7 +2736,7 @@ $ct_conf['assets'] = array(
                                           			),
 
                                           			
-                        ) // pairing END
+                        ) // pair END
                         
                     ), // Asset END
                     
@@ -2749,7 +2749,7 @@ $ct_conf['assets'] = array(
                         
                         'name' => 'Dai',
                         'mcap_slug' => 'dai',
-                        'pairing' => array(
+                        'pair' => array(
 
                         
                                     'btc' => array(
@@ -2803,7 +2803,7 @@ $ct_conf['assets'] = array(
                                                     ),
 
                                                     
-                        ) // pairing END
+                        ) // pair END
                                         
                     ), // Asset END
                     
@@ -2816,7 +2816,7 @@ $ct_conf['assets'] = array(
                         
                         'name' => 'USD Coin',
                         'mcap_slug' => 'usd-coin',
-                        'pairing' => array(
+                        'pair' => array(
 
                                                     
                                     'eur' => array(
@@ -2845,7 +2845,7 @@ $ct_conf['assets'] = array(
                                                     ),
 
                                                     
-                        ) // pairing END
+                        ) // pair END
                                         
                     ), // Asset END
                     
@@ -2858,7 +2858,7 @@ $ct_conf['assets'] = array(
                         
                         'name' => 'Decentraland',
                         'mcap_slug' => 'decentraland',
-                        'pairing' => array(
+                        'pair' => array(
 
                         
                                     'btc' => array(
@@ -2904,7 +2904,7 @@ $ct_conf['assets'] = array(
                                                     ),
 
                                                     
-                        ) // pairing END
+                        ) // pair END
                         
                     ), // Asset END
                     
@@ -2917,7 +2917,7 @@ $ct_conf['assets'] = array(
                         
                         'name' => 'Star Atlas',
                         'mcap_slug' => 'star-atlas',
-                        'pairing' => array(
+                        'pair' => array(
 
                                                     
                                     'btc' => array(
@@ -2940,7 +2940,7 @@ $ct_conf['assets'] = array(
                                                     ),
 
                                                     
-                        ) // pairing END
+                        ) // pair END
                                         
                     ), // Asset END
                     
@@ -2953,7 +2953,7 @@ $ct_conf['assets'] = array(
                         
                         'name' => 'Enjin Coin',
                         'mcap_slug' => 'enjin-coin',
-                        'pairing' => array(
+                        'pair' => array(
 
                         
                                     'btc' => array(
@@ -2997,7 +2997,7 @@ $ct_conf['assets'] = array(
                                                     ),
 
                                                     
-                        ) // pairing END
+                        ) // pair END
                         
                     ), // Asset END
                     
@@ -3010,7 +3010,7 @@ $ct_conf['assets'] = array(
                         
                         'name' => 'Render Token',
                         'mcap_slug' => 'render-token',
-                        'pairing' => array(
+                        'pair' => array(
 
                                                     
                                     'btc' => array(
@@ -3036,7 +3036,7 @@ $ct_conf['assets'] = array(
                                                     ),
 
                                                     
-                        ) // pairing END
+                        ) // pair END
                         
                     ), // Asset END
                     
@@ -3049,7 +3049,7 @@ $ct_conf['assets'] = array(
                         
                         'name' => 'Solice',
                         'mcap_slug' => 'solice',
-                        'pairing' => array(
+                        'pair' => array(
 
                                                     
                                     'btc' => array(
@@ -3068,7 +3068,7 @@ $ct_conf['assets'] = array(
                                                     ),
 
                                                     
-                        ) // pairing END
+                        ) // pair END
                         
                     ), // Asset END
                     
@@ -3081,7 +3081,7 @@ $ct_conf['assets'] = array(
                         
                         'name' => 'Raydium',
                         'mcap_slug' => 'raydium',
-                        'pairing' => array(
+                        'pair' => array(
 
                         
                                     'btc' => array(
@@ -3115,7 +3115,7 @@ $ct_conf['assets'] = array(
                                                     ),
 
                                                     
-                        ) // pairing END
+                        ) // pair END
                                         
                     ), // Asset END
                     
@@ -3128,7 +3128,7 @@ $ct_conf['assets'] = array(
                         
                         'name' => 'Serum',
                         'mcap_slug' => 'serum',
-                        'pairing' => array(
+                        'pair' => array(
 
                         
                                     'btc' => array(
@@ -3196,7 +3196,7 @@ $ct_conf['assets'] = array(
                                                     ),
 
                                                     
-                        ) // pairing END
+                        ) // pair END
                                         
                     ), // Asset END
                     
@@ -3209,7 +3209,7 @@ $ct_conf['assets'] = array(
                         
                         'name' => 'Solrise Finance',
                         'mcap_slug' => 'solrise-finance',
-                        'pairing' => array(
+                        'pair' => array(
 
                         
                                     'eth' => array(
@@ -3228,7 +3228,7 @@ $ct_conf['assets'] = array(
                                                     ),
 
                                                     
-                        ) // pairing END
+                        ) // pair END
                         
                     ), // Asset END
                     
@@ -3241,7 +3241,7 @@ $ct_conf['assets'] = array(
                         
                         'name' => 'BitDAO',
                         'mcap_slug' => 'bitdao',
-                        'pairing' => array(
+                        'pair' => array(
 
                                                     
                                     'btc' => array(
@@ -3264,7 +3264,7 @@ $ct_conf['assets'] = array(
                                                     ),
 
                                                     
-                        ) // pairing END
+                        ) // pair END
                                         
                     ), // Asset END
                     
@@ -3277,7 +3277,7 @@ $ct_conf['assets'] = array(
                         
                         'name' => 'Grape Protocol',
                         'mcap_slug' => 'grape-protocol',
-                        'pairing' => array(
+                        'pair' => array(
 
                                                     
                                     'btc' => array(
@@ -3305,7 +3305,7 @@ $ct_conf['assets'] = array(
                                                     ),
 
                                                     
-                        ) // pairing END
+                        ) // pair END
                         
                     ), // Asset END
                     
@@ -3318,7 +3318,7 @@ $ct_conf['assets'] = array(
                         
                         'name' => 'Helium',
                         'mcap_slug' => 'helium',
-                        'pairing' => array(
+                        'pair' => array(
 
                         
                                     'btc' => array(
@@ -3354,7 +3354,7 @@ $ct_conf['assets'] = array(
                                                     ),
 
                                                     
-                        ) // pairing END
+                        ) // pair END
                                         
                     ), // Asset END
                     
@@ -3367,7 +3367,7 @@ $ct_conf['assets'] = array(
                         
                         'name' => 'Hive',
                         'mcap_slug' => 'hive-blockchain',
-                        'pairing' => array(
+                        'pair' => array(
 
                         
                                     'btc' => array(
@@ -3385,7 +3385,7 @@ $ct_conf['assets'] = array(
                                                     ),
 
                                                     
-                        ) // pairing END
+                        ) // pair END
                         
                     ), // Asset END
                     
@@ -3398,7 +3398,7 @@ $ct_conf['assets'] = array(
                         
                         'name' => 'Samoyedcoin',
                         'mcap_slug' => 'samoyedcoin',
-                        'pairing' => array(
+                        'pair' => array(
 
                         
                                     'btc' => array(
@@ -3417,7 +3417,7 @@ $ct_conf['assets'] = array(
                                                     ),
 
                                                     
-                        ) // pairing END
+                        ) // pair END
                         
                     ), // Asset END
                     
@@ -3430,7 +3430,7 @@ $ct_conf['assets'] = array(
                         
                         'name' => 'SocialGood',
                         'mcap_slug' => 'socialgood',
-                        'pairing' => array(
+                        'pair' => array(
 
                         
                                     'btc' => array(
@@ -3444,7 +3444,7 @@ $ct_conf['assets'] = array(
                                                     ),
 
                                                     
-                        ) // pairing END
+                        ) // pair END
                         
                     ), // Asset END
                     

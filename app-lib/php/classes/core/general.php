@@ -661,26 +661,26 @@ var $ct_array1 = array();
    function delete_all_cookies() {
    
      
-     // Portfolio
-     unset($_COOKIE['coin_amounts']); 
-     unset($_COOKIE['coin_pairings']); 
-     unset($_COOKIE['coin_markets']); 
-     unset($_COOKIE['coin_paid']); 
-     unset($_COOKIE['coin_leverage']); 
-     unset($_COOKIE['coin_margintype']); 
+    // Portfolio
+   $this->store_cookie('coin_amnts', '', time()-3600); // Delete
+   $this->store_cookie('coin_pairs', '', time()-3600); // Delete
+   $this->store_cookie('coin_mrkts', '', time()-3600); // Delete
+   $this->store_cookie('coin_paid', '', time()-3600); // Delete
+   $this->store_cookie('coin_lvrg', '', time()-3600); // Delete
+   $this->store_cookie('coin_mrgntyp', '', time()-3600); // Delete
      
      
-     // Settings
-     unset($_COOKIE['coin_reload']);  
-     unset($_COOKIE['notes']);
-     unset($_COOKIE['show_charts']);  
-     unset($_COOKIE['show_crypto_val']);  
-     unset($_COOKIE['show_secondary_trade_val']);  
-     unset($_COOKIE['show_feeds']);  
-     unset($_COOKIE['theme_selected']);  
-     unset($_COOKIE['sort_by']);  
-     unset($_COOKIE['alert_percent']);  
-     unset($_COOKIE['prim_currency_market_standalone']);  
+   // Settings
+   $this->store_cookie('coin_reload', '', time()-3600); // Delete
+   $this->store_cookie('notes', '', time()-3600); // Delete
+   $this->store_cookie('show_charts', '', time()-3600); // Delete
+   $this->store_cookie('show_crypto_val', '', time()-3600); // Delete
+   $this->store_cookie('show_secondary_trade_val', '', time()-3600); // Delete
+   $this->store_cookie('show_feeds', '', time()-3600); // Delete
+   $this->store_cookie('theme_selected', '', time()-3600); // Delete
+   $this->store_cookie('sort_by', '', time()-3600); // Delete
+   $this->store_cookie('alert_percent', '', time()-3600); // Delete
+   $this->store_cookie('prim_currency_mrkt_standalone', '', time()-3600); // Delete
     
     
    }
@@ -1202,11 +1202,11 @@ var $ct_array1 = array();
    
       
       // Pretty up all secondary asset market symbols
-      foreach($ct_conf['power']['crypto_pairing_pref_markets'] as $key => $unused) {
+      foreach($ct_conf['power']['crypto_pair_pref_mrkts'] as $key => $unused) {
       $pretty_str = preg_replace("/".strtolower($key)."/i", strtoupper($key), $pretty_str);
       }
    
-      foreach($ct_conf['power']['btc_currency_markets'] as $key => $unused) {
+      foreach($ct_conf['power']['btc_currency_mrkts'] as $key => $unused) {
       $pretty_str = preg_replace("/".strtolower($key)."/i", strtoupper($key), $pretty_str);
       }
    
@@ -1642,30 +1642,30 @@ var $ct_array1 = array();
    // If leverage amount input is corrupt, default to 0 (ALSO simple auto-correct if negative)
    $csv_row[3] = ( $ct_var->whole_int($csv_row[3]) != false && $csv_row[3] >= 0 ? $csv_row[3] : 0 ); 
       
-   // If leverage is ABOVE 'margin_leverage_max', default to 'margin_leverage_max'
-   $csv_row[3] = ( $csv_row[3] <= $ct_conf['power']['margin_leverage_max'] ? $csv_row[3] : $ct_conf['power']['margin_leverage_max'] ); 
+   // If leverage is ABOVE 'margin_lvrg_max', default to 'margin_lvrg_max'
+   $csv_row[3] = ( $csv_row[3] <= $ct_conf['power']['margin_lvrg_max'] ? $csv_row[3] : $ct_conf['power']['margin_lvrg_max'] ); 
    
    // Default to 'long', if not 'short' (set to lowercase...simple auto-correct, if set to anything other than 'short')
-   $csv_row[4] = ( strtolower($csv_row[4]) == 'short' ? strtolower($csv_row[4]) : 'long' ); 
+   $csv_row[4] = ( strtolower($csv_row[4]) == 'short' ? 'short' : 'long' );
    
    // If market ID input is corrupt, default to 1 (it's ALWAYS 1 OR GREATER)
    $csv_row[5] = ( $ct_var->whole_int($csv_row[5]) != false && $csv_row[5] >= 1 ? $csv_row[5] : 1 ); 
       
-   $csv_row[6] = strtolower($csv_row[6]); // Pairing to lowercase
+   $csv_row[6] = strtolower($csv_row[6]); // Pair to lowercase
       
       
-      // Pairing auto-correction (if invalid pairing)
-      if ( $csv_row[6] == '' || !is_array($ct_conf['assets'][ $csv_row[0] ]['pairing'][ $csv_row[6] ]) ) {
+      // Pair auto-correction (if invalid pair)
+      if ( $csv_row[6] == '' || !is_array($ct_conf['assets'][ $csv_row[0] ]['pair'][ $csv_row[6] ]) ) {
          
-      $csv_row[5] = 1; // We need to reset the market id to 1 (it's ALWAYS 1 OR GREATER), as the pairing was not found
+      $csv_row[5] = 1; // We need to reset the market id to 1 (it's ALWAYS 1 OR GREATER), as the pair was not found
       
-      // First key in $ct_conf['assets'][ $csv_row[0] ]['pairing']
-      reset($ct_conf['assets'][ $csv_row[0] ]['pairing']);
-      $csv_row[6] = key($ct_conf['assets'][ $csv_row[0] ]['pairing']);
+      // First key in $ct_conf['assets'][ $csv_row[0] ]['pair']
+      reset($ct_conf['assets'][ $csv_row[0] ]['pair']);
+      $csv_row[6] = key($ct_conf['assets'][ $csv_row[0] ]['pair']);
       
       }
       // Market ID auto-correction (if invalid market ID)
-      elseif ( is_array($ct_conf['assets'][ $csv_row[0] ]['pairing'][ $csv_row[6] ]) && sizeof($ct_conf['assets'][ $csv_row[0] ]['pairing'][ $csv_row[6] ]) < $csv_row[5] ) {
+      elseif ( is_array($ct_conf['assets'][ $csv_row[0] ]['pair'][ $csv_row[6] ]) && sizeof($ct_conf['assets'][ $csv_row[0] ]['pair'][ $csv_row[6] ]) < $csv_row[5] ) {
       $csv_row[5] = 1; // We need to reset the market id to 1 (it's ALWAYS 1 OR GREATER), as the ID was higher than available markets count
       }
       
@@ -1894,7 +1894,7 @@ var $ct_array1 = array();
    
    function reset_price_alert_notice() {
    
-   global $ct_conf, $ct_cache, $price_alert_fixed_reset_array, $default_btc_prim_currency_pairing;
+   global $ct_conf, $ct_cache, $price_alert_fixed_reset_array, $default_btc_prim_currency_pair;
    
    // Alphabetical asset sort, for message UX 
    ksort($price_alert_fixed_reset_array);
@@ -1925,9 +1925,9 @@ var $ct_array1 = array();
       }
    
    
-   $text_msg = $count . ' ' . strtoupper($default_btc_prim_currency_pairing) . ' Price Alert Fixed Resets: ' . $reset_list;
+   $text_msg = $count . ' ' . strtoupper($default_btc_prim_currency_pair) . ' Price Alert Fixed Resets: ' . $reset_list;
    
-   $email_msg = 'The following ' . $count . ' ' . strtoupper($default_btc_prim_currency_pairing) . ' price alert fixed resets (run every ' . $ct_conf['charts_alerts']['price_alert_fixed_reset'] . ' days) have been processed, with the latest spot price data: ' . $reset_list;
+   $email_msg = 'The following ' . $count . ' ' . strtoupper($default_btc_prim_currency_pair) . ' price alert fixed resets (run every ' . $ct_conf['charts_alerts']['price_alert_fixed_reset'] . ' days) have been processed, with the latest spot price data: ' . $reset_list;
    
    $notifyme_msg = $email_msg . ' Timestamp is ' . $this->time_date_format($ct_conf['gen']['loc_time_offset'], 'pretty_time') . '.';
    
@@ -2071,11 +2071,11 @@ var $ct_array1 = array();
    // (ANY SUB-ARRAY WHERE A USER ADDS / DELETES VARIABLES THEY WANTED DIFFERENT FROM DEFAULT VARS)
    $skip_upgrading = array(
                            'proxy',
-                           'tracked_markets',
-                           'crypto_pairing',
-                           'crypto_pairing_pref_markets',
-                           'btc_currency_markets',
-                           'btc_pref_currency_markets',
+                           'tracked_mrkts',
+                           'crypto_pair',
+                           'crypto_pair_pref_mrkts',
+                           'btc_currency_mrkts',
+                           'btc_pref_currency_mrkts',
                            'eth_erc20_icos',
                            'mob_net_txt_gateways',
                            'assets',
@@ -2377,11 +2377,11 @@ var $ct_array1 = array();
    
    function chart_data($file, $chart_format, $start_timestamp=0) {
    
-   global $ct_conf, $ct_var, $default_btc_prim_currency_pairing, $runtime_nonce, $runtime_data;
+   global $ct_conf, $ct_var, $default_btc_prim_currency_pair, $runtime_nonce, $runtime_data;
    
    
       // #FOR CLEAN CODE#, RUN CHECK TO MAKE SURE IT'S NOT A CRYPTO AS WELL...WE HAVE A COUPLE SUPPORTED, BUT WE ONLY WANT DESIGNATED FIAT-EQIV HERE
-      if ( array_key_exists($chart_format, $ct_conf['power']['btc_currency_markets']) && !array_key_exists($chart_format, $ct_conf['power']['crypto_pairing']) ) {
+      if ( array_key_exists($chart_format, $ct_conf['power']['btc_currency_mrkts']) && !array_key_exists($chart_format, $ct_conf['power']['crypto_pair']) ) {
       $fiat_formatting = true;
       }
       elseif ( $chart_format == 'system' ) {
@@ -2523,56 +2523,56 @@ var $ct_array1 = array();
             $this->store_cookie("show_charts", $_POST['show_charts'], time()+31536000);
             }
             else {
-            unset($_COOKIE['show_charts']);  // Delete any existing cookies
+            $this->store_cookie('show_charts', '', time()-3600); // Delete
             }
                   
             if ( isset($_POST['show_crypto_val']) ) {
             $this->store_cookie("show_crypto_val", $_POST['show_crypto_val'], time()+31536000);
             }
             else {
-            unset($_COOKIE['show_crypto_val']);  // Delete any existing cookies
+            $this->store_cookie('show_crypto_val', '', time()-3600); // Delete
             }
                   
             if ( isset($_POST['show_secondary_trade_val']) ) {
             $this->store_cookie("show_secondary_trade_val", $_POST['show_secondary_trade_val'], time()+31536000);
             }
             else {
-            unset($_COOKIE['show_secondary_trade_val']);  // Delete any existing cookies
+            $this->store_cookie('show_secondary_trade_val', '', time()-3600); // Delete
             }
                   
             if ( isset($_POST['show_feeds']) ) {
             $this->store_cookie("show_feeds", $_POST['show_feeds'], time()+31536000);
             }
             else {
-            unset($_COOKIE['show_feeds']);  // Delete any existing cookies
+            $this->store_cookie('show_feeds', '', time()-3600); // Delete
             }
                  
             if ( isset($_POST['theme_selected']) ) {
             $this->store_cookie("theme_selected", $_POST['theme_selected'], time()+31536000);
             }
             else {
-            unset($_COOKIE['theme_selected']);  // Delete any existing cookies
+            $this->store_cookie('theme_selected', '', time()-3600); // Delete
             }
                   
             if ( isset($_POST['sort_by']) ) {
             $this->store_cookie("sort_by", $_POST['sort_by'], time()+31536000);
             }
             else {
-            unset($_COOKIE['sort_by']);  // Delete any existing cookies
+            $this->store_cookie('sort_by', '', time()-3600); // Delete
             }
                  
             if ( isset($_POST['use_alert_percent']) ) {
             $this->store_cookie("alert_percent", $_POST['use_alert_percent'], time()+31536000);
             }
             else {
-            unset($_COOKIE['alert_percent']);  // Delete any existing cookies
+            $this->store_cookie('alert_percent', '', time()-3600); // Delete
             }
                  
-            if ( isset($_POST['prim_currency_market_standalone']) ) {
-            $this->store_cookie("prim_currency_market_standalone", $_POST['prim_currency_market_standalone'], time()+31536000);
+            if ( isset($_POST['prim_currency_mrkt_standalone']) ) {
+            $this->store_cookie("prim_currency_mrkt_standalone", $_POST['prim_currency_mrkt_standalone'], time()+31536000);
             }
             else {
-            unset($_COOKIE['prim_currency_market_standalone']);  // Delete any existing cookies
+            $this->store_cookie('prim_currency_mrkt_standalone', '', time()-3600); // Delete
             }
                  
                
@@ -2581,7 +2581,7 @@ var $ct_array1 = array();
             $this->store_cookie("notes", " ", time()+31536000); // Initialized with some whitespace when blank
             }
             elseif ( $_POST['use_notes'] != 1 ) {
-            unset($_COOKIE['notes']);  // Delete any existing cookies
+            $this->store_cookie('notes', '', time()-3600); // Delete
             }
               
               
@@ -2697,8 +2697,8 @@ var $ct_array1 = array();
       
       // This start page method saves portfolio data during the session, even without cookie data enabled
       var set_action = this.value + anchor;
-      set_target_action("coin_amounts", "_self", set_action);
-      $("#coin_amounts").submit();
+      set_target_action("coin_amnts", "_self", set_action);
+      $("#coin_amnts").submit();
       
       '>
          <option value='index.php'> Show Portfolio Page First </option>

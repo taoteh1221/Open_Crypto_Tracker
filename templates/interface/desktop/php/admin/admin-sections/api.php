@@ -9,7 +9,7 @@
 <div class='max_1200px_wrapper'>
 	
 		
-		<p>This app has a built-in (internal) REST API available, so other external apps can connect to it and receive market data, including market conversion (converting the market values to their equivalent value in country fiat currencies and secondary cryptocurrency market pairings).</p>
+		<p>This app has a built-in (internal) REST API available, so other external apps can connect to it and receive market data, including market conversion (converting the market values to their equivalent value in country fiat currencies and secondary cryptocurrency market pairs).</p>
 		
 		<p>To see a list of the supported assets in the API, use the endpoint: "<span class='bitcoin'>/api/asset_list</span>"</p>
 		
@@ -19,9 +19,9 @@
 		
 		<p>To see a list of the supported conversion currencies (market values converted to these currency values) in the API, use the endpoint: "<span class='bitcoin'>/api/conversion_list</span>"</p>
 		
-		<p>To get raw market values AND also get a market conversion to a supported conversion currency (see ALL requested market values also converted to values in this currency) in the API, use the endpoint: "<span class='bitcoin'>/api/market_conversion/[conversion currency]/[exchange1-asset1-pairing1],[exchange2-asset2-pairing2],[exchange3-asset3-pairing3]</span>"</p>
+		<p>To get raw market values AND also get a market conversion to a supported conversion currency (see ALL requested market values also converted to values in this currency) in the API, use the endpoint: "<span class='bitcoin'>/api/market_conversion/[conversion currency]/[exchange1-asset1-pair1],[exchange2-asset2-pair2],[exchange3-asset3-pair3]</span>"</p>
 		
-		<p><i>To skip conversions and just receive raw market values</i> in the API, you can use the endpoint: "<span class='bitcoin'>/api/market_conversion/market_only/[exchange1-asset1-pairing1],[exchange2-asset2-pairing2],[exchange3-asset3-pairing3]</span>"</p>
+		<p><i>To skip conversions and just receive raw market values</i> in the API, you can use the endpoint: "<span class='bitcoin'>/api/market_conversion/market_only/[exchange1-asset1-pair1],[exchange2-asset2-pair2],[exchange3-asset3-pair3]</span>"</p>
 		
 		<p>For security, the API requires a key / token to access it. This key must be named "api_key", and must be sent with the "POST" data method.</p>
 	

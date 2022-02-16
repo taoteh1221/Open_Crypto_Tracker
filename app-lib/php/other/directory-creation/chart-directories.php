@@ -6,7 +6,7 @@
 
 
 // ALL CHARTS FOR SPOT PRICE / 24 HOUR VOLUME
-foreach ( $ct_conf['charts_alerts']['tracked_markets'] as $key => $val ) {
+foreach ( $ct_conf['charts_alerts']['tracked_mrkts'] as $key => $val ) {
 
 	// Remove any duplicate asset array key formatting, which allows multiple alerts per asset with different exchanges / trading pairs (keyed like SYMB, SYMB-1, SYMB-2, etc)
 	$asset_dir = ( stristr($key, "-") == false ? $key : substr( $key, 0, mb_strpos($key, "-", 0, 'utf-8') ) );

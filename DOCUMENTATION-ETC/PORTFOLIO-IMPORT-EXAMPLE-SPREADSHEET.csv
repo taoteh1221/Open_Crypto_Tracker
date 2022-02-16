@@ -1,4 +1,4 @@
-"Asset Symbol",Holdings,"Average Paid (per-token)","Margin Leverage","Long or Short","Exchange ID","Market Pairing"
+"Asset Symbol",Holdings,"Average Paid (per-token)","Margin Leverage","Long or Short","Exchange ID","Market Pair"
 BTC,0.00123,"11,500.25",0,long,1,usdt
 ETH,7.255,120.50,0,long,1,usdt
 UNI,67.843,4.80,0,long,1,btc

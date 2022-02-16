@@ -69,7 +69,7 @@
                             
 <?php
 // Start outputting results
-if ( $_POST['submit_check'] == 1 || !$csv_import_fail && $_POST['csv_check'] == 1 || $_COOKIE['coin_amounts'] ) {
+if ( $_POST['submit_check'] == 1 || $run_csv_import || $ui_cookies ) {
 ?>
 
 
@@ -98,28 +98,28 @@ if ( $_POST['submit_check'] == 1 || !$csv_import_fail && $_POST['csv_check'] == 
 		
 		if ( is_array($_POST) ) {
 			
-		$btc_market = ($_POST['btc_market'] - 1);
+		$btc_mrkt = ($_POST['btc_mrkt'] - 1);
 									
 									foreach ( $_POST as $key => $val ) {
 								
-										if ( preg_match("/_amount/i", $key) ) {
+										if ( preg_match("/_amnt/i", $key) ) {
 										
-										$held_amount = $ct_var->rem_num_format($val);
-										$asset_symb = strtoupper(preg_replace("/_amount/i", "", $key));
-										$sel_pairing = ($_POST[strtolower($asset_symb).'_pairing']);
+										$held_amnt = $ct_var->rem_num_format($val);
+										$asset_symb = strtoupper(preg_replace("/_amnt/i", "", $key));
+										$sel_pair = ($_POST[strtolower($asset_symb).'_pair']);
 										// Avoided possible null equivelent issue by upping post value +1 in case zero, so -1 here
-										$sel_market = ($_POST[strtolower($asset_symb).'_market'] - 1); 
+										$sel_mrkt = ($_POST[strtolower($asset_symb).'_mrkt'] - 1); 
 										$purchase_price = $ct_var->rem_num_format($_POST[strtolower($asset_symb).'_paid']);
-										$leverage_level = $_POST[strtolower($asset_symb).'_leverage'];
-										$sel_margintype = $_POST[strtolower($asset_symb).'_margintype'];
+										$leverage_level = $_POST[strtolower($asset_symb).'_lvrg'];
+										$sel_mrgntyp = $_POST[strtolower($asset_symb).'_mrgntyp'];
 												
 						
 										// Render the row of coin data in the UI
-										$ct_asset->ui_asset_row($ct_conf['assets'][$asset_symb]['name'], $asset_symb, $held_amount, $ct_conf['assets'][$asset_symb]['pairing'][$sel_pairing], $sel_pairing, $sel_market, $purchase_price, $leverage_level, $sel_margintype);
+										$ct_asset->ui_asset_row($ct_conf['assets'][$asset_symb]['name'], $asset_symb, $held_amnt, $ct_conf['assets'][$asset_symb]['pair'][$sel_pair], $sel_pair, $sel_mrkt, $purchase_price, $leverage_level, $sel_mrgntyp);
 										
 										
 										
-											if ( $held_amount >= 0.00000001 ) {
+											if ( $held_amnt >= 0.00000001 ) {
 												
 											$assets_added = 1;
 											
@@ -132,17 +132,17 @@ if ( $_POST['submit_check'] == 1 || !$csv_import_fail && $_POST['csv_check'] == 
 												$leverage_added = 1;
 												}
 												
-												if ( $leverage_level >= 2 && $sel_margintype == 'short' ) {
+												if ( $leverage_level >= 2 && $sel_mrgntyp == 'short' ) {
 												$short_added = 1;
 												}
 											
 											
 											}
-											elseif ( $held_amount > 0.00000000 ) { // Show even if decimal is off the map, just for UX purposes tracking token price only
+											elseif ( $held_amnt > 0.00000000 ) { // Show even if decimal is off the map, just for UX purposes tracking token price only
 											$assets_watched = 1;
 											}
 										
-											if ( $held_amount > 0.00000000 ) {
+											if ( $held_amnt > 0.00000000 ) {
 											$asset_tracking[] = $asset_symb; // For only showing chosen assets in chart stats etc
 											}
 										
@@ -161,8 +161,6 @@ if ( $_POST['submit_check'] == 1 || !$csv_import_fail && $_POST['csv_check'] == 
 			
 									
 				foreach( $csv_file_array as $key => $val ) {
-								
-									$run_csv_import = 1;
 	        
 	        		
 	        			if ( $ct_var->rem_num_format($val[1]) > 0.00000000 ) {  // Show even if decimal is off the map, just for UX purposes tracking token price only
@@ -170,25 +168,25 @@ if ( $_POST['submit_check'] == 1 || !$csv_import_fail && $_POST['csv_check'] == 
 	        			$val[5] = ( $ct_var->whole_int( trim($val[5]) ) != false ? trim($val[5]) : 1 ); // If market ID input is corrupt, default to 1
 	        			$val[3] = ( $ct_var->whole_int( trim($val[3]) ) != false ? trim($val[3]) : 0 ); // If leverage amount input is corrupt, default to 0
 	        			
-										$held_amount = $ct_var->rem_num_format( trim($val[1]) );
+										$held_amnt = $ct_var->rem_num_format( trim($val[1]) );
 										$asset_symb = strtoupper( trim($val[0]) );
-										$sel_pairing = strtolower( trim($val[6]) );
+										$sel_pair = strtolower( trim($val[6]) );
 										// Avoided possible null equivelent issue by upping post value +1 in case zero, so -1 here
-										$sel_market = ( $val[5] != NULL ? $val[5] - 1 : 1 ); 
+										$sel_mrkt = ( $val[5] != NULL ? $val[5] - 1 : 1 ); 
 										$purchase_price = $ct_var->rem_num_format($val[2]);
 										$leverage_level = $val[3];
-										$sel_margintype = strtolower( trim($val[4]) );
+										$sel_mrgntyp = $val[4];
 										
 											
-											// Check pairing value
-											foreach ( $ct_conf['assets'][$asset_symb]['pairing'] as $pairing_key => $unused ) {
+											// Check pair value
+											foreach ( $ct_conf['assets'][$asset_symb]['pair'] as $pair_key => $unused ) {
 					 						$ploop = 0;
 					 						
-					 							// Use first pairing key from coins config for this asset, if no pairing value was set properly in the spreadsheet
+					 							// Use first pair key from coins config for this asset, if no pair value was set properly in the spreadsheet
 					 							if ( $ploop == 0 ) {
 					 								
-					 								if ( $sel_pairing == NULL || !$ct_conf['assets'][$asset_symb]['pairing'][$sel_pairing] ) {
-					 								$sel_pairing = $pairing_key;
+					 								if ( $sel_pair == NULL || !$ct_conf['assets'][$asset_symb]['pair'][$sel_pair] ) {
+					 								$sel_pair = $pair_key;
 					 								}
 					 							
 					 							}
@@ -198,18 +196,18 @@ if ( $_POST['submit_check'] == 1 || !$csv_import_fail && $_POST['csv_check'] == 
 											
 											
 											// Check margin type value
-											if ( $sel_margintype != 'long' && $sel_margintype != 'short' ) {
-											$sel_margintype = 'long';
+											if ( $sel_mrgntyp != 'long' && $sel_mrgntyp != 'short' ) {
+											$sel_mrgntyp = 'long';
 											}
 											
 						
 						
 										// Render the row of coin data in the UI
-										$ct_asset->ui_asset_row($ct_conf['assets'][$asset_symb]['name'], $asset_symb, $held_amount, $ct_conf['assets'][$asset_symb]['pairing'][$sel_pairing], $sel_pairing, $sel_market, $purchase_price, $leverage_level, $sel_margintype);
+										$ct_asset->ui_asset_row($ct_conf['assets'][$asset_symb]['name'], $asset_symb, $held_amnt, $ct_conf['assets'][$asset_symb]['pair'][$sel_pair], $sel_pair, $sel_mrkt, $purchase_price, $leverage_level, $sel_mrgntyp);
 										
 										
 										
-											if ( $held_amount >= 0.00000001 ) {
+											if ( $held_amnt >= 0.00000001 ) {
 												
 											$assets_added = 1;
 											
@@ -222,17 +220,17 @@ if ( $_POST['submit_check'] == 1 || !$csv_import_fail && $_POST['csv_check'] == 
 												$leverage_added = 1;
 												}
 												
-												if ( $leverage_level >= 2 && $sel_margintype == 'short' ) {
+												if ( $leverage_level >= 2 && $sel_mrgntyp == 'short' ) {
 												$short_added = 1;
 												}
 											
 											
 											}
-											elseif ( $held_amount > 0.00000000 ) { // Show even if decimal is off the map, just for UX purposes tracking token price only
+											elseif ( $held_amnt > 0.00000000 ) { // Show even if decimal is off the map, just for UX purposes tracking token price only
 											$assets_watched = 1;
 											}
 										
-											if ( $held_amount > 0.00000000 ) {
+											if ( $held_amnt > 0.00000000 ) {
 											$asset_tracking[] = $asset_symb; // For only showing chosen assets in chart stats etc
 											}
 											
@@ -247,166 +245,89 @@ if ( $_POST['submit_check'] == 1 || !$csv_import_fail && $_POST['csv_check'] == 
 		}
 	
 	}
-	elseif ( $_COOKIE['coin_amounts'] && $_COOKIE['coin_markets'] && $_COOKIE['coin_pairings'] ) {
+	elseif ( $ui_cookies ) {
 	
+	//var_dump($all_cookies_data_array);
 	
-		$all_cookies_data_array = array('');
-		
-	
-	$all_asset_markets_cookie_array = explode("#", $_COOKIE['coin_markets']);
-	
-		if ( is_array($all_asset_markets_cookie_array) ) {
-			
-					foreach ( $all_asset_markets_cookie_array as $asset_markets ) {
-									
-					$single_asset_market_cookie_array = explode("-", $asset_markets);
-					
-					$asset_symb = strtoupper(preg_replace("/_market/i", "", $single_asset_market_cookie_array[0]));
-					
-					$all_cookies_data_array[$asset_symb.'_data'][$asset_symb.'_market'] = $single_asset_market_cookie_array[1];
-					
-					}
-					
-		}
-	
-	
-	$all_asset_pairings_cookie_array = explode("#", $_COOKIE['coin_pairings']);
-	
-		if ( is_array($all_asset_pairings_cookie_array) ) {
-			
-					foreach ( $all_asset_pairings_cookie_array as $asset_pairings ) {
-									
-					$single_asset_pairing_cookie_array = explode("-", $asset_pairings);
-					
-					$asset_symb = strtoupper(preg_replace("/_pairing/i", "", $single_asset_pairing_cookie_array[0]));
-					
-					$all_cookies_data_array[$asset_symb.'_data'][$asset_symb.'_pairing'] = $single_asset_pairing_cookie_array[1];
-					
-					}
-					
-		}
-	
-	
-	$all_asset_paid_cookie_array = explode("#", $_COOKIE['coin_paid']);
-	
-		if ( is_array($all_asset_paid_cookie_array) ) {
-			
-					foreach ( $all_asset_paid_cookie_array as $asset_paid ) {
-									
-					$single_asset_paid_cookie_array = explode("-", $asset_paid);
-					
-					$asset_symb = strtoupper(preg_replace("/_paid/i", "", $single_asset_paid_cookie_array[0]));
-					
-					$all_cookies_data_array[$asset_symb.'_data'][$asset_symb.'_paid'] = $single_asset_paid_cookie_array[1];
-					
-					}
-					
-		}
-	
-	
-	$all_asset_leverage_cookie_array = explode("#", $_COOKIE['coin_leverage']);
-	
-		if ( is_array($all_asset_leverage_cookie_array) ) {
-			
-					foreach ( $all_asset_leverage_cookie_array as $asset_leverage ) {
-									
-					$single_asset_leverage_cookie_array = explode("-", $asset_leverage);
-					
-					$asset_symb = strtoupper(preg_replace("/_leverage/i", "", $single_asset_leverage_cookie_array[0]));
-					
-					$all_cookies_data_array[$asset_symb.'_data'][$asset_symb.'_leverage'] = $single_asset_leverage_cookie_array[1];
-					
-					}
-					
-		}
-	
-	
-	$all_asset_margintype_cookie_array = explode("#", $_COOKIE['coin_margintype']);
-	
-		if ( is_array($all_asset_margintype_cookie_array) ) {
-			
-					foreach ( $all_asset_margintype_cookie_array as $asset_margintype ) {
-									
-					$single_asset_margintype_cookie_array = explode("-", $asset_margintype);
-					
-					$asset_symb = strtoupper(preg_replace("/_margintype/i", "", $single_asset_margintype_cookie_array[0]));
-					
-					$all_cookies_data_array[$asset_symb.'_data'][$asset_symb.'_margintype'] = $single_asset_margintype_cookie_array[1];
-					
-					}
-					
-		}
-	
-	
-		
-		
-	
-	$all_asset_amounts_cookie_array = explode("#", $_COOKIE['coin_amounts']);
-	
-		if ( is_array($all_asset_amounts_cookie_array) ) {
-			
-					foreach ( $all_asset_amounts_cookie_array as $asset_amounts ) {
-									
-					$single_asset_amount_cookie_array = explode("-", $asset_amounts);
-					
-					$asset_symb = strtoupper(preg_replace("/_amount/i", "", $single_asset_amount_cookie_array[0]));
+	   foreach ( $all_cookies_data_array as $key => $unused ) {
+        	       
+       $temp = null;
+	       
+	   $asset_symb = substr($key, 0, strpos($key, "_"));
+    		
+    	// Bundle all required cookie data in this final cookies parsing loop for each coin, and render the coin's data
+    	// We don't need $ct_var->rem_num_format() for cookie data, because it was already done creating the cookies
+    	$held_amnt = $ct_var->num_to_str($all_cookies_data_array[$asset_symb.'_data'][$asset_symb.'_amnt']);
+    	// Avoided possible null equivelent issue by upping post value +1 in case zero, so -1 here
+    	$sel_mrkt = ($all_cookies_data_array[$asset_symb.'_data'][$asset_symb.'_mrkt'] -1);
+    	$sel_pair = $all_cookies_data_array[$asset_symb.'_data'][$asset_symb.'_pair'];
+    					
+    		if ( $held_amnt >= 0.000000001 ) {
+    					       
+    		$temp = $ct_var->num_to_str($all_cookies_data_array[$asset_symb.'_data'][$asset_symb.'_paid']);
+    					   
+        		if (
+        		$temp >= 0.00000001
+        		&& $held_amnt >= 0.00000001
+        		) {
+    			$purchase_price = $temp;
+        		$leverage_level = $all_cookies_data_array[$asset_symb.'_data'][$asset_symb.'_lvrg'];
+            	$sel_mrgntyp = $all_cookies_data_array[$asset_symb.'_data'][$asset_symb.'_mrgntyp'];
+        		}
+        		else {
+    			$purchase_price = 0;
+        		$leverage_level = 0;
+        		$sel_mrgntyp = 'long';
+        		}
+    					   
+    		}
+    		else {
+    		$purchase_price = 0;
+    		$leverage_level = 0;
+    		$sel_mrgntyp = 'long';
+    		}
+    					
+    	
+    	//echo ' ' . $held_amnt . ' => ' . $sel_mrgntyp . ' || ';
+    		
+    	//echo ' ' . $sel_mrkt . ' => ' .$sel_pair. ' ';
+    					
+    	// Render the row of coin data in the UI
+    	$ct_asset->ui_asset_row($ct_conf['assets'][$asset_symb]['name'], $asset_symb, $held_amnt, $ct_conf['assets'][$asset_symb]['pair'][$sel_pair], $sel_pair, $sel_mrkt, $purchase_price, $leverage_level, $sel_mrgntyp);
+    					
+    					
+    						
+    		if ( $held_amnt >= 0.00000001 ) {
+    							
+    		$assets_added = 1;
+    						
+    						
+    			if ( $purchase_price >= 0.00000001 ) {
+    			$purchase_price_added = 1;
+    			}
+    												
+    			if ( $leverage_level >= 2 ) {
+    			$leverage_added = 1;
+    			}
+    												
+    			if ( $leverage_level >= 2 && $sel_mrgntyp == 'short' ) {
+    			$short_added = 1;
+    		    }
+    						
+    						
+    		}
+    		elseif ( $held_amnt > 0.00000000 ) { // Show even if decimal is off the map, just for UX purposes tracking token price only
+    		$assets_watched = 1;
+    		}
+    										
+    						
+    		if ( $held_amnt > 0.00000000 ) {
+    		$asset_tracking[] = $asset_symb; // For only showing chosen assets in chart stats etc
+    		}
+    		
+
+       }
 				
-							if ( $asset_symb == 'BTC' && !$btc_market ) {
-							$btc_market = ($all_cookies_data_array[$asset_symb.'_data'][$asset_symb.'_market'] -1);
-							}
-	
-					$all_cookies_data_array[$asset_symb.'_data'][$asset_symb.'_amount'] = $single_asset_amount_cookie_array[1];
-					
-					
-					// Bundle all required cookie data in this final cookies parsing loop for each coin, and render the coin's data
-					// We don't need $ct_var->rem_num_format() for cookie data, because it was already done creating the cookies
-					$held_amount = $ct_var->num_to_str($all_cookies_data_array[$asset_symb.'_data'][$asset_symb.'_amount']);
-					$sel_pairing = $all_cookies_data_array[$asset_symb.'_data'][$asset_symb.'_pairing'];
-					// Avoided possible null equivelent issue by upping post value +1 in case zero, so -1 here
-					$sel_market = ($all_cookies_data_array[$asset_symb.'_data'][$asset_symb.'_market'] -1);
-					$purchase_price = $ct_var->num_to_str($all_cookies_data_array[$asset_symb.'_data'][$asset_symb.'_paid']);
-					$leverage_level = $all_cookies_data_array[$asset_symb.'_data'][$asset_symb.'_leverage'];
-					$sel_margintype = $all_cookies_data_array[$asset_symb.'_data'][$asset_symb.'_margintype'];
-					
-					
-					// Render the row of coin data in the UI
-					$ct_asset->ui_asset_row($ct_conf['assets'][$asset_symb]['name'], $asset_symb, $held_amount, $ct_conf['assets'][$asset_symb]['pairing'][$sel_pairing], $sel_pairing, $sel_market, $purchase_price, $leverage_level, $sel_margintype);
-					
-					
-						
-						if ( $held_amount >= 0.00000001 ) {
-							
-						$assets_added = 1;
-						
-						
-							if ( $purchase_price >= 0.00000001 ) {
-							$purchase_price_added = 1;
-							}
-												
-							if ( $leverage_level >= 2 ) {
-							$leverage_added = 1;
-							}
-												
-							if ( $leverage_level >= 2 && $sel_margintype == 'short' ) {
-							$short_added = 1;
-							}
-						
-						
-						}
-						elseif ( $held_amount > 0.00000000 ) { // Show even if decimal is off the map, just for UX purposes tracking token price only
-						$assets_watched = 1;
-						}
-										
-						
-						if ( $held_amount > 0.00000000 ) {
-						$asset_tracking[] = $asset_symb; // For only showing chosen assets in chart stats etc
-						}
-					
-	
-					}
-					
-					
-		}
 		
 	}
 
@@ -468,28 +389,28 @@ $altcoin_dominance = $ct_var->max_100($altcoin_dominance);
 <div class="show_asset_vals bold_1 blue"><!-- Summary START -->
 <?php
 		
-		// Run BEFORE output of BTC / PAIRING portfolio values, to include any margin / leverage summaries in parentheses NEXT TO THEM (NOT in the actual BTC / PAIRING amounts, for UX's sake)
+		// Run BEFORE output of BTC / PAIR portfolio values, to include any margin / leverage summaries in parentheses NEXT TO THEM (NOT in the actual BTC / PAIR amounts, for UX's sake)
 		if ( $purchase_price_added == 1 ) {
 		    
 		$gain_loss_total = $ct_asset->coin_stats_data('gain_loss_total');
 		
 		
         $thres_dec = $ct_gen->thres_dec($gain_loss_total, 'u'); // Units mode
-		$parsed_gain_loss_total = preg_replace("/-/", "-" . $ct_conf['power']['btc_currency_markets'][ $ct_conf['gen']['btc_prim_currency_pairing'] ], number_format($gain_loss_total, $thres_dec['max_dec'], '.', ',' ) );
+		$parsed_gain_loss_total = preg_replace("/-/", "-" . $ct_conf['power']['btc_currency_mrkts'][ $ct_conf['gen']['btc_prim_currency_pair'] ], number_format($gain_loss_total, $thres_dec['max_dec'], '.', ',' ) );
 		
 		
 		$original_worth = $ct_asset->coin_stats_data('coin_paid_total');
 		
-		$leverage_only_gain_loss = $ct_asset->coin_stats_data('gain_loss_only_leverage');
+		$leverage_only_gain_loss = $ct_asset->coin_stats_data('gain_loss_only_lvrg');
   		
-		$total_prim_currency_worth_inc_leverage = $total_prim_currency_worth + $leverage_only_gain_loss;
+		$total_prim_currency_worth_inc_lvrg = $total_prim_currency_worth + $leverage_only_gain_loss;
 		
 		
-        $thres_dec = $ct_gen->thres_dec($total_prim_currency_worth_inc_leverage, 'u'); // Units mode
+        $thres_dec = $ct_gen->thres_dec($total_prim_currency_worth_inc_lvrg, 'u'); // Units mode
   		// Here we can go negative 'total worth' with the margin leverage (unlike with the margin deposit)
   		// We only want a negative sign here in the UI for 'total worth' clarity (if applicable), NEVER a plus sign
   		// (plus sign would indicate a gain, NOT 'total worth')
-		$parsed_total_prim_currency_worth_inc_leverage = preg_replace("/-/", "", number_format($total_prim_currency_worth_inc_leverage, $thres_dec['max_dec'], '.', ',' ) );
+		$parsed_total_prim_currency_worth_inc_lvrg = preg_replace("/-/", "", number_format($total_prim_currency_worth_inc_lvrg, $thres_dec['max_dec'], '.', ',' ) );
   		
 		$total_prim_currency_worth_if_purchase_price = $ct_asset->coin_stats_data('coin_total_worth_if_purchase_price') + $leverage_only_gain_loss;
 		
@@ -499,8 +420,8 @@ $altcoin_dominance = $ct_var->max_100($altcoin_dominance);
 		
 	  
 	  
-	  // Notice that margin leverage is NOT included !!WITHIN!! BTC / PAIRING TOTALS EVER (for UX's sake, too confusing to included in anything other than gain / loss stats)
-	  // We only include data in parenthesis NEXT TO THE BTC / PAIRING PORTFOLIO SUMMARIES
+	  // Notice that margin leverage is NOT included !!WITHIN!! BTC / PAIR TOTALS EVER (for UX's sake, too confusing to included in anything other than gain / loss stats)
+	  // We only include data in parenthesis NEXT TO THE BTC / PAIR PORTFOLIO SUMMARIES
 	  $leverage_text1 = ( $purchase_price_added == 1 && $leverage_added == 1 && is_numeric($gain_loss_total) == TRUE ? ' <p class="coin_info balloon_notation red" style="max-width: 600px; white-space: normal;"> *Includes adjusted long deposits, <i><u>not</u></i> leverage.</p>' : '' );
 	  $leverage_text2 = ( $purchase_price_added == 1 && $leverage_added == 1 && is_numeric($gain_loss_total) == TRUE ? ' <p class="coin_info balloon_notation red" style="max-width: 600px; white-space: normal;"> *Includes adjusted short / long deposits, <i><u>not</u></i> leverage.</p>' : '' );
 
@@ -521,7 +442,7 @@ $altcoin_dominance = $ct_var->max_100($altcoin_dominance);
 				
 				// Control the ordering with corrisponding app config array (which is already ordered properly), for UX
 				$loop = 0;
-				foreach ( $ct_conf['power']['crypto_pairing'] as $key => $val ) {
+				foreach ( $ct_conf['power']['crypto_pair'] as $key => $val ) {
 						
 						if ( in_array($key, $scan_crypto_val) ) {
 						
@@ -532,8 +453,8 @@ $altcoin_dominance = $ct_var->max_100($altcoin_dominance);
 							}
 							else {
 							    
-							   if ( $ct_asset->pairing_btc_val($key) > 0 ) {
-							   echo '<span class="'.$key.'" title="'.strtoupper($key).'">'.$val.' ' . number_format( ( $total_btc_worth_raw / $ct_asset->pairing_btc_val($key) ) , 4) . '</span>';
+							   if ( $ct_asset->pair_btc_val($key) > 0 ) {
+							   echo '<span class="'.$key.'" title="'.strtoupper($key).'">'.$val.' ' . number_format( ( $total_btc_worth_raw / $ct_asset->pair_btc_val($key) ) , 4) . '</span>';
 							   }
 							   else {
 							   echo '<span class="'.$key.'" title="'.strtoupper($key).'">'.$val.' ' . number_format(0, 4) . '</span>';
@@ -571,7 +492,7 @@ $altcoin_dominance = $ct_var->max_100($altcoin_dominance);
 			
 			+'<p class="coin_info" style="max-width: 600px; white-space: normal;">The value of your ENTIRE portfolio, in the cryptocurrencies you selected in the "Show Crypto Value Of ENTIRE Portfolio In" setting, on the Settings page.</p>'
 			
-			+'<p class="coin_info bitcoin" style="max-width: 600px; white-space: normal;">If these values are skewed often, it\'s because the market(s) being used to determine the values are trading at different prices compared to the markets you chose in this interface. You can force certain markets to be used for this calculation with the "crypto_pairing_pref_markets" setting, in the Admin Config POWER USER section.</p>'
+			+'<p class="coin_info bitcoin" style="max-width: 600px; white-space: normal;">If these values are skewed often, it\'s because the market(s) being used to determine the values are trading at different prices compared to the markets you chose in this interface. You can force certain markets to be used for this calculation with the "crypto_pair_pref_mrkts" setting, in the Admin Config POWER USER section.</p>'
 		
 			+'<?=$leverage_text1?>';
 		
@@ -613,7 +534,7 @@ $altcoin_dominance = $ct_var->max_100($altcoin_dominance);
 		
         $thres_dec = $ct_gen->thres_dec($total_prim_currency_worth, 'u'); // Units mode
 		// Fiat value of portfolio
-		echo '<span class="black">' . strtoupper($ct_conf['gen']['btc_prim_currency_pairing']) . ' Value:</span> <span class="private_data">' . $ct_conf['power']['btc_currency_markets'][ $ct_conf['gen']['btc_prim_currency_pairing'] ] . number_format($total_prim_currency_worth, $thres_dec['max_dec'], '.', ',') . '</span>';
+		echo '<span class="black">' . strtoupper($ct_conf['gen']['btc_prim_currency_pair']) . ' Value:</span> <span class="private_data">' . $ct_conf['power']['btc_currency_mrkts'][ $ct_conf['gen']['btc_prim_currency_pair'] ] . number_format($total_prim_currency_worth, $thres_dec['max_dec'], '.', ',') . '</span>';
 		
 		?>
 		
@@ -622,11 +543,11 @@ $altcoin_dominance = $ct_var->max_100($altcoin_dominance);
 <script>
 
 
-var fiat_val_content = '<h5 class="yellow tooltip_title">Primary Currency (<?=strtoupper($ct_conf['gen']['btc_prim_currency_pairing'])?>) Value</h5>'
+var fiat_val_content = '<h5 class="yellow tooltip_title">Primary Currency (<?=strtoupper($ct_conf['gen']['btc_prim_currency_pair'])?>) Value</h5>'
 			
-			+'<p class="coin_info" style="max-width: 600px; white-space: normal;">The value of your ENTIRE portfolio, based off your selected primary currency (<?=strtoupper($ct_conf['gen']['btc_prim_currency_pairing'])?>), in the "Primary Currency Market" setting, on the Settings page.</p>'
+			+'<p class="coin_info" style="max-width: 600px; white-space: normal;">The value of your ENTIRE portfolio, based off your selected primary currency (<?=strtoupper($ct_conf['gen']['btc_prim_currency_pair'])?>), in the "Primary Currency Market" setting, on the Settings page.</p>'
 			
-			+'<p class="coin_info" style="max-width: 600px; white-space: normal;">Selected Primary Currency Market: <span class="yellow">BTC / <?=strtoupper($ct_conf['gen']['btc_prim_currency_pairing'])?> @ <?=$ct_gen->key_to_name($ct_conf['gen']['btc_prim_exchange'])?> (<?=$ct_conf['power']['btc_currency_markets'][ $ct_conf['gen']['btc_prim_currency_pairing'] ]?><?=number_format( $sel_opt['sel_btc_prim_currency_val'], 0, '.', ',')?>)</span></p>'
+			+'<p class="coin_info" style="max-width: 600px; white-space: normal;">Selected Primary Currency Market: <span class="yellow">BTC / <?=strtoupper($ct_conf['gen']['btc_prim_currency_pair'])?> @ <?=$ct_gen->key_to_name($ct_conf['gen']['btc_prim_exchange'])?> (<?=$ct_conf['power']['btc_currency_mrkts'][ $ct_conf['gen']['btc_prim_currency_pair'] ]?><?=number_format( $sel_opt['sel_btc_prim_currency_val'], 0, '.', ',')?>)</span></p>'
 		
 			+'<?=$leverage_text2?>';
 		
@@ -664,10 +585,10 @@ var fiat_val_content = '<h5 class="yellow tooltip_title">Primary Currency (<?=st
 		<?php
 		
 		// If using margin leverege anywhere
-		echo ( $purchase_price_added == 1 && $leverage_added == 1 && is_numeric($gain_loss_total) == TRUE ? '<div class="portfolio_summary"><span class="black">Leverage Included: </span>' . ( $total_prim_currency_worth_inc_leverage >= 0 ? '<span class="green private_data">' : '<span class="red private_data">-' ) . $ct_conf['power']['btc_currency_markets'][ $ct_conf['gen']['btc_prim_currency_pairing'] ] . $parsed_total_prim_currency_worth_inc_leverage . '</span></div>' : '' );
+		echo ( $purchase_price_added == 1 && $leverage_added == 1 && is_numeric($gain_loss_total) == TRUE ? '<div class="portfolio_summary"><span class="black">Leverage Included: </span>' . ( $total_prim_currency_worth_inc_lvrg >= 0 ? '<span class="green private_data">' : '<span class="red private_data">-' ) . $ct_conf['power']['btc_currency_mrkts'][ $ct_conf['gen']['btc_prim_currency_pair'] ] . $parsed_total_prim_currency_worth_inc_lvrg . '</span></div>' : '' );
 	
 
-		// Now that BTC / PAIRING summaries have margin leverage stats NEXT TO THEM (NOT in the actual BTC / PAIRING amounts, for UX's sake), 
+		// Now that BTC / PAIR summaries have margin leverage stats NEXT TO THEM (NOT in the actual BTC / PAIR amounts, for UX's sake), 
 		// we move on to the gain / loss stats WHERE IT IS FEASIBLE ENOUGH TO INCLUDE !BASIC! MARGIN LEVERAGE DATA SUMMARY (where applicable)
 		if ( $purchase_price_added == 1 && is_numeric($gain_loss_total) == TRUE ) {
 			
@@ -686,7 +607,7 @@ var fiat_val_content = '<h5 class="yellow tooltip_title">Primary Currency (<?=st
 	<?php
 		
         $thres_dec = $ct_gen->thres_dec($percent_difference_total, 'p'); // Percentage mode
-		echo '<span class="black">' . ( $gain_loss_total >= 0 ? 'Gain:</span> <span class="green private_data">+' . $ct_conf['power']['btc_currency_markets'][ $ct_conf['gen']['btc_prim_currency_pairing'] ] : 'Loss:</span> <span class="red private_data">' ) . $parsed_gain_loss_total . ' (' . ( $gain_loss_total >= 0 ? '+' : '-' ) . number_format($percent_difference_total, $thres_dec['max_dec'], '.', ',') . '%' . ')</span>';
+		echo '<span class="black">' . ( $gain_loss_total >= 0 ? 'Gain:</span> <span class="green private_data">+' . $ct_conf['power']['btc_currency_mrkts'][ $ct_conf['gen']['btc_prim_currency_pair'] ] : 'Loss:</span> <span class="red private_data">' ) . $parsed_gain_loss_total . ' (' . ( $gain_loss_total >= 0 ? '+' : '-' ) . number_format($percent_difference_total, $thres_dec['max_dec'], '.', ',') . '%' . ')</span>';
 		
 		?> 
 		
@@ -694,34 +615,34 @@ var fiat_val_content = '<h5 class="yellow tooltip_title">Primary Currency (<?=st
 			
 	 <script>
 	 
-		var doc_title_stats = '<?=( $gain_loss_total >= 0 ? '+' . $ct_conf['power']['btc_currency_markets'][ $ct_conf['gen']['btc_prim_currency_pairing'] ] : '' )?><?=$parsed_gain_loss_total?> (<?=( $gain_loss_total >= 0 ? '+' : '-' )?><?=number_format($percent_difference_total, $thres_dec['max_dec'], '.', ',')?>%)';
+		var doc_title_stats = '<?=( $gain_loss_total >= 0 ? '+' . $ct_conf['power']['btc_currency_mrkts'][ $ct_conf['gen']['btc_prim_currency_pair'] ] : '' )?><?=$parsed_gain_loss_total?> (<?=( $gain_loss_total >= 0 ? '+' : '-' )?><?=number_format($percent_difference_total, $thres_dec['max_dec'], '.', ',')?>%)';
 	
 		
 			var gain_loss_content = '<h5 class="yellow tooltip_title">Gain / Loss Stats</h5>'
 			
 			<?php
 					
-					// Sort descending gains
-					$columns_array = array_column($asset_stats_array, 'gain_loss_total');
-					array_multisort($columns_array, SORT_DESC, $asset_stats_array);
+			    // Sort descending gains
+			    $columns_array = array_column($asset_stats_array, 'gain_loss_total');
+				array_multisort($columns_array, SORT_DESC, $asset_stats_array);
 					
 				foreach ( $asset_stats_array as $key => $val ) {
 				    
 						
-						if ( $val['coin_leverage'] >= 2 ) {
-						$parsed_total_with_leverage = number_format( ( $val['coin_worth_total'] + $val['gain_loss_only_leverage'] ) , 2, '.', ',' );
+						if ( $val['coin_lvrg'] >= 2 ) {
+						$parsed_total_with_lvrg = number_format( ( $val['coin_worth_total'] + $val['gain_loss_only_lvrg'] ) , 2, '.', ',' );
 						}
 						
 					
 						if ( $ct_var->num_to_str($val['coin_paid']) >= 0.00000001 ) {
 							
                         $thres_dec_1 = $ct_gen->thres_dec($val['gain_loss_total'], 'u'); // Units mode
-						$parsed_gain_loss = preg_replace("/-/", "-" . $ct_conf['power']['btc_currency_markets'][ $ct_conf['gen']['btc_prim_currency_pairing'] ], number_format( $val['gain_loss_total'], $thres_dec_1['max_dec'], '.', ',' ) );
+						$parsed_gain_loss = preg_replace("/-/", "-" . $ct_conf['power']['btc_currency_mrkts'][ $ct_conf['gen']['btc_prim_currency_pair'] ], number_format( $val['gain_loss_total'], $thres_dec_1['max_dec'], '.', ',' ) );
 		
 		
                         $thres_dec_2 = $ct_gen->thres_dec($val['gain_loss_percent_total'], 'p'); // Percentage mode
 				        ?>
-			+'<p class="coin_info"><span class="yellow"><?=$val['coin_symb']?>:</span> <span class="<?=( $val['gain_loss_total'] >= 0 ? 'green">+' . $ct_conf['power']['btc_currency_markets'][ $ct_conf['gen']['btc_prim_currency_pairing'] ] : 'red">' )?><?=$parsed_gain_loss?> (<?=( $val['gain_loss_total'] >= 0 ? '+' : '' )?><?=number_format($val['gain_loss_percent_total'], $thres_dec_2['max_dec'], '.', ',')?>%<?=( $val['coin_leverage'] >= 2 ? ', ' . $val['coin_leverage'] . 'x ' . $val['selected_margintype'] : '' )?>)</span></p>'
+			+'<p class="coin_info"><span class="yellow"><?=$val['coin_symb']?>:</span> <span class="<?=( $val['gain_loss_total'] >= 0 ? 'green">+' . $ct_conf['power']['btc_currency_mrkts'][ $ct_conf['gen']['btc_prim_currency_pair'] ] : 'red">' )?><?=$parsed_gain_loss?> (<?=( $val['gain_loss_total'] >= 0 ? '+' : '' )?><?=number_format($val['gain_loss_percent_total'], $thres_dec_2['max_dec'], '.', ',')?>%<?=( $val['coin_lvrg'] >= 2 ? ', ' . $val['coin_lvrg'] . 'x ' . $val['selected_mrgntyp'] : '' )?>)</span></p>'
 			
 			    <?php
 						}
@@ -775,7 +696,7 @@ var fiat_val_content = '<h5 class="yellow tooltip_title">Primary Currency (<?=st
 			}
 			
 			if ( $ct_var->num_to_str($miscassets_dominance) >= 0.01 ) {
-			$miscassets_dominance_text = number_format($miscassets_dominance, 2, '.', ',') . '% <span class="btc_prim_currency_pairing">' . strtoupper($ct_conf['gen']['btc_prim_currency_pairing']) . '</span>';
+			$miscassets_dominance_text = number_format($miscassets_dominance, 2, '.', ',') . '% <span class="btc_prim_currency_pair">' . strtoupper($ct_conf['gen']['btc_prim_currency_pair']) . '</span>';
 			$seperator_miscassets = ( $ct_var->num_to_str($bitcoin_dominance) + $ct_var->num_to_str($ethereum_dominance) + $ct_var->num_to_str($miscassets_dominance) <= 99.99 ? ' &nbsp;/&nbsp; ' : '' );
 			}
 			
@@ -816,7 +737,7 @@ var fiat_val_content = '<h5 class="yellow tooltip_title">Primary Currency (<?=st
 				foreach ( $btc_worth_array as $key => $val ) {
 					
 					if ( $key == 'MISCASSETS' ) {
-					$key = 'MISC__' . strtoupper($ct_conf['gen']['btc_prim_currency_pairing']);
+					$key = 'MISC__' . strtoupper($ct_conf['gen']['btc_prim_currency_pair']);
 					}
 					
 			    // Remove any slight decimal over 100 (100.01 etc)
@@ -900,7 +821,7 @@ var fiat_val_content = '<h5 class="yellow tooltip_title">Primary Currency (<?=st
 <fieldset class='subsection_fieldset'>
 	<legend class='subsection_legend'> <b>Asset Performance Comparison</b> </legend>
 		    
-	<p class='bitcoin' style='font-weight: bold;'>The Asset Performance Comparison chart <i>requires price charts to be enabled on the Charts page, and uses the price charts primary currency market</i> (<?=strtoupper($default_btc_prim_currency_pairing)?>) for value comparisons.</p>	
+	<p class='bitcoin' style='font-weight: bold;'>The Asset Performance Comparison chart <i>requires price charts to be enabled on the Charts page, and uses the price charts primary currency market</i> (<?=strtoupper($default_btc_prim_currency_pair)?>) for value comparisons.</p>	
 			
     <p>
     
@@ -1050,7 +971,7 @@ var performance_chart_defaults_content = '<h5 class="yellow tooltip_title">Setti
 
 			+'<p class="coin_info extra_margins" style="max-width: 600px; white-space: normal;">Select the Time Period, to get finer grain details for smaller time periods.</p>'
 			
-			+'<p class="coin_info extra_margins" style="max-width: 600px; white-space: normal;">The "Custom Start Date" is OPTIONAL, for choosing a custom date in time the asset performance comparisions begin, starting at 0&#37; <?=strtoupper($default_btc_prim_currency_pairing)?> value increase / decrease. The Custom Start Date can only go back in time as far back as you have <?=strtoupper($default_btc_prim_currency_pairing)?> Value price charts (per asset) for the "All" chart, and only as far back as the beginning date of smaller time period charts.</p>'
+			+'<p class="coin_info extra_margins" style="max-width: 600px; white-space: normal;">The "Custom Start Date" is OPTIONAL, for choosing a custom date in time the asset performance comparisions begin, starting at 0&#37; <?=strtoupper($default_btc_prim_currency_pair)?> value increase / decrease. The Custom Start Date can only go back in time as far back as you have <?=strtoupper($default_btc_prim_currency_pair)?> Value price charts (per asset) for the "All" chart, and only as far back as the beginning date of smaller time period charts.</p>'
 			
 			+'<p class="coin_info extra_margins" style="max-width: 600px; white-space: normal;">Adjust the chart height and menu size, depending on your preferences. The defaults for these two settings can be changed in the Admin Config POWER USER section, under \'asset_perf_chart_defaults\'.</p>';
 		

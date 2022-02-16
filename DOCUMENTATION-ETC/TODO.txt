@@ -41,7 +41,12 @@ OPTIMIZATIONS / BUGS / TESTS / UX / QA / OTHER SECTION
 ///////////////////////////////////////////////////////
 
 
-Get rid of false positive error for needing to re-enter "/start" in the telegram bot chatroom, every time ANY config change is made. Make sure it just checks for any pre-existing telegram chatroom data stored in cache/secured.
+market_ to mrkt_
+markets_ to mrkts_
+leverage_ to lvrg_
+
+
+Research whether POST data size affects header size like cookie data size does.
 
 
 Make all coin configs (assets and price alerts / charts) CASE-INSENSITIVE. Most efficient way to do this would be by auto-correcting in other/app-config-managment.php, to be the correct case even if a user editing config.php used the wrong case.
@@ -98,7 +103,7 @@ Breakup numerous function call parameters for calls like ui_asset_row() into a p
 Add remote IP address data to ALL relevant security error logging everywhere in the app.
 
 
-Consolidate cookie / post data importing that are near the top of the update and portfolio page UI rendering files, into just one subroutine BEFORE the UI is rendered.
+Consolidate CSV import / post data importing that are near the top of the update and portfolio page UI rendering files, into just one subroutine BEFORE the UI is rendered...like we ALREADY DID for cookie data in those sections.
 
 
 Statement nesting indentation is a tad f#cked up after a TON of batch find / replace (at least displaying in bluefish), so clean stuff up add some more left margin on nested statements where it looks schetchy...class files are fixed, just have to check inline logic files. INDENTING SPACING IN FILES #CHANGES AUTOMATICALLY# WHEN "BLUEFISH => PREFERENCES => INITIAL DOCUMENT SETTINGS => TAB WIDTH" IS CHANGED, SO BE CAREFUL WHEN FIXING!!
@@ -221,7 +226,7 @@ For admin area pages / sections, consider doing subsections in a modal subwindow
 On admin "assets" page, add a button atop the page called " Add New Asset Or Market". Then, on page 1 of the 'add asset' wizard (multi-step on separate modal pages), only have the radio selection choices (only one can be selected): 'Add new asset' and 'Add new market to existing asset'. 
 
 
-The upcoming 'add new asset market' admin interface feature should be a "wizard" with a few "steps", to have a decent user experience AND break the logic up into different checks / steps under the hood as well. 1) Asset name and symbol, 2) Choose from a list of exchanges and pairings available for that asset, 3) Enable charts and or alerts for different exchanges and pairings.
+The upcoming 'add new asset market' admin interface feature should be a "wizard" with a few "steps", to have a decent user experience AND break the logic up into different checks / steps under the hood as well. 1) Asset name and symbol, 2) Choose from a list of exchanges and pairs available for that asset, 3) Enable charts and or alerts for different exchanges and pairs.
 
 
 On 'more stats' page, add a 'market volume' chart, showing a multi-line chart (like asset comparison chart) of all [charts-fiat-conversion-currency] volumes for an asset's configured markets THAT HAVE CHARTS ENABLED (so we grab values from lite chart data). Default to showing Bitcoin, allow using different lite chart time periods (like asset comparison chart).
@@ -260,7 +265,7 @@ Add webhook keys on admin page.
 Do a gains / losses bar chart for the gains / losses summary (tooltip, like balance stats chart).
 
 
-On 'more stats' page, have a 'market comparison stats' chart for arbitrage on one asset (picked from dropdown menu), with default showing BTC / All pairing's markets, with USD conversion. Make it a bar chart, based off the marketcap chart template. Have 3 drop-down menus: Asset, Pairing (with an All option), Primary Currency (conversion). Looping through asset pairings / markets should be a straight forward algo that does the job.
+On 'more stats' page, have a 'market comparison stats' chart for arbitrage on one asset (picked from dropdown menu), with default showing BTC / All pair's markets, with USD conversion. Make it a bar chart, based off the marketcap chart template. Have 3 drop-down menus: Asset, Pair (with an All option), Primary Currency (conversion). Looping through asset pairs / markets should be a straight forward algo that does the job.
 
 
 Add market stats summaries from chart data, like bar charts for exchange volume on certain assets / pairs (on 'view more stats' page).

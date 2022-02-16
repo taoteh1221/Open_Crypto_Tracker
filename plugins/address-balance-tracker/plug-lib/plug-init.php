@@ -49,15 +49,15 @@ $label = trim($target_val['label']);
 
 
 // Only getting BTC value for non-bitcoin assets is supported
-// SUPPORTED even for BTC ( $ct_asset->pairing_btc_val('btc') ALWAYS = 1 )
-$pairing_btc_val = $ct_asset->pairing_btc_val($asset); 
+// SUPPORTED even for BTC ( $ct_asset->pair_btc_val('btc') ALWAYS = 1 )
+$pair_btc_val = $ct_asset->pair_btc_val($asset); 
   	 
   	 
-	if ( $pairing_btc_val == null ) {
+	if ( $pair_btc_val == null ) {
 		
 	$ct_gen->log(
 				'market_error',
-				'ct_asset->pairing_btc_val(\''.$asset.'\') returned null in the \''.$this_plug.'\' plugin, likely from exchange API request failure'
+				'ct_asset->pair_btc_val(\''.$asset.'\') returned null in the \''.$this_plug.'\' plugin, likely from exchange API request failure'
 				);
 	
 	}
@@ -142,7 +142,7 @@ $pairing_btc_val = $ct_asset->pairing_btc_val($asset);
 		
 		
 	// Balance change amount
-	$difference_amount = $ct_var->num_to_str( abs($cached_address_balance - $address_balance) );
+	$difference_amnt = $ct_var->num_to_str( abs($cached_address_balance - $address_balance) );
 		
 		
 		if ( $address_balance > $cached_address_balance ) {
@@ -158,15 +158,15 @@ $pairing_btc_val = $ct_asset->pairing_btc_val($asset);
         if ( $plug_conf[$this_plug]['privacy_mode'] == 'on' ) {
 
         // Get primary currency value of the current address INCREASE / DECREASE amount only (for increased privacy in alerts)
-        $asset_prim_currency_worth_raw = $ct_var->num_to_str( ($difference_amount * $pairing_btc_val) * $sel_opt['sel_btc_prim_currency_val'] );
+        $asset_prim_currency_worth_raw = $ct_var->num_to_str( ($difference_amnt * $pair_btc_val) * $sel_opt['sel_btc_prim_currency_val'] );
         
         $pretty_prim_currency_worth = $ct_var->num_pretty($asset_prim_currency_worth_raw, ( $asset_prim_currency_worth_raw >= 1.00 ? 2 : $ct_conf['gen']['prim_currency_dec_max'] ) );
             
             
-	    $base_msg = "The " . $label . " address balance has " . $direction . "d: ". $plus_minus . $ct_conf['power']['btc_currency_markets'][ $ct_conf['gen']['btc_prim_currency_pairing'] ] . $pretty_prim_currency_worth;
+	    $base_msg = "The " . $label . " address balance has " . $direction . "d: ". $plus_minus . $ct_conf['power']['btc_currency_mrkts'][ $ct_conf['gen']['btc_prim_currency_pair'] ] . $pretty_prim_currency_worth;
 	    
 	    
-        $text_msg = $label . " address balance " . $direction . ": ". $plus_minus . $ct_conf['power']['btc_currency_markets'][ $ct_conf['gen']['btc_prim_currency_pairing'] ] . $pretty_prim_currency_worth;
+        $text_msg = $label . " address balance " . $direction . ": ". $plus_minus . $ct_conf['power']['btc_currency_mrkts'][ $ct_conf['gen']['btc_prim_currency_pair'] ] . $pretty_prim_currency_worth;
 	    
 	    
 	    $email_msg = $base_msg; // PRIVACY MODE (NO EXPLORER LINK APPENDED)
@@ -176,17 +176,17 @@ $pairing_btc_val = $ct_asset->pairing_btc_val($asset);
         else {
 
         // Get primary currency value of the current address TOTAL balance
-        $asset_prim_currency_worth_raw = $ct_var->num_to_str( ($address_balance * $pairing_btc_val) * $sel_opt['sel_btc_prim_currency_val'] );
+        $asset_prim_currency_worth_raw = $ct_var->num_to_str( ($address_balance * $pair_btc_val) * $sel_opt['sel_btc_prim_currency_val'] );
         
         $pretty_prim_currency_worth = $ct_var->num_pretty($asset_prim_currency_worth_raw, ( $asset_prim_currency_worth_raw >= 1.00 ? 2 : $ct_conf['gen']['prim_currency_dec_max'] ) );
         
-        $pretty_asset_amount = $ct_var->num_pretty($address_balance, 8);
+        $pretty_asset_amnt = $ct_var->num_pretty($address_balance, 8);
             
             
-	    $base_msg = "The " . $label . " address balance has " . $direction . "d (" . $plus_minus . $difference_amount . " " . strtoupper($asset) . "), to a new balance of " . $pretty_asset_amount . " " . strtoupper($asset) . " (". $ct_conf['power']['btc_currency_markets'][ $ct_conf['gen']['btc_prim_currency_pairing'] ] . $pretty_prim_currency_worth . ").";
+	    $base_msg = "The " . $label . " address balance has " . $direction . "d (" . $plus_minus . $difference_amnt . " " . strtoupper($asset) . "), to a new balance of " . $pretty_asset_amnt . " " . strtoupper($asset) . " (". $ct_conf['power']['btc_currency_mrkts'][ $ct_conf['gen']['btc_prim_currency_pair'] ] . $pretty_prim_currency_worth . ").";
 	    
 	    
-        $text_msg = $label . " address balance " . $direction . " (" . $plus_minus . $difference_amount . " " . strtoupper($asset) . "): " . $pretty_asset_amount . " " . strtoupper($asset) . " (". $ct_conf['power']['btc_currency_markets'][ $ct_conf['gen']['btc_prim_currency_pairing'] ] . $pretty_prim_currency_worth . ")";
+        $text_msg = $label . " address balance " . $direction . " (" . $plus_minus . $difference_amnt . " " . strtoupper($asset) . "): " . $pretty_asset_amnt . " " . strtoupper($asset) . " (". $ct_conf['power']['btc_currency_mrkts'][ $ct_conf['gen']['btc_prim_currency_pair'] ] . $pretty_prim_currency_worth . ")";
 	    
 
     		// Add blockchain explorer link to email message

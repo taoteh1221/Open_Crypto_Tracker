@@ -97,7 +97,7 @@
 	<!-- Submit button must be OUTSIDE form tags here, or it submits the target form improperly and loses data -->
 	<p><button class='force_button_style' onclick='
 	$(".show_feed_settings").modaal("close");
-	$("#coin_amounts").submit();
+	$("#coin_amnts").submit();
 	'>Update Selected News Feeds</button></p>
 	
 	<div> &nbsp; </div>
@@ -152,7 +152,7 @@
 		<!-- Submit button must be OUTSIDE form tags here, or it submits the target form improperly and loses data -->
 		<p><button class='force_button_style' onclick='
 		$(".show_feed_settings").modaal("close");
-		$("#coin_amounts").submit();
+		$("#coin_amnts").submit();
 		'>Update Selected News Feeds</button></p>
 		
 	</div>

@@ -15,7 +15,7 @@ $currency_count = 0;
 	if ( $ct_conf['dev']['debug'] == 'all' || $ct_conf['dev']['debug'] == 'markets_conf' ) {
 		
 		
-		foreach ( $ct_conf['power']['btc_currency_markets'] as $key => $unused ) {
+		foreach ( $ct_conf['power']['btc_currency_mrkts'] as $key => $unused ) {
 			
 			// Detects better with right side space included
 			if ( stristr($supported_prim_currency_list, $key . ' ') == false ) {
@@ -26,15 +26,15 @@ $currency_count = 0;
 		
 		}
 		
-		$pairings_count = $currency_count;
-		$all_supported_pairings_list = $supported_prim_currency_list;
+		$pairs_count = $currency_count;
+		$all_supported_pairs_list = $supported_prim_currency_list;
 		
-		foreach ( $ct_conf['power']['crypto_pairing'] as $key => $unused ) {
+		foreach ( $ct_conf['power']['crypto_pair'] as $key => $unused ) {
 			
 			// Detects better with right side space included
-			if ( stristr($all_supported_pairings_list, $key . ' ') == false ) {
-			$pairings_count = $pairings_count + 1;
-			$all_supported_pairings_list .= $key . ' / ';
+			if ( stristr($all_supported_pairs_list, $key . ' ') == false ) {
+			$pairs_count = $pairs_count + 1;
+			$all_supported_pairs_list .= $key . ' / ';
 			}
 			
 		
@@ -43,12 +43,12 @@ $currency_count = 0;
 		
 		// Alphabetical sorting
 		$supported_prim_currency_list = $ct_var->list_sort($supported_prim_currency_list, '/', 'sort', true);
-		$all_supported_pairings_list = $ct_var->list_sort($all_supported_pairings_list, '/', 'sort', true);
+		$all_supported_pairs_list = $ct_var->list_sort($all_supported_pairs_list, '/', 'sort', true);
 		
 		
-		foreach ( $ct_conf['assets']['BTC']['pairing'] as $pairing_key => $unused ) {
+		foreach ( $ct_conf['assets']['BTC']['pair'] as $pair_key => $unused ) {
 			
-				foreach ( $ct_conf['assets']['BTC']['pairing'][$pairing_key] as $exchange_key => $unused ) {
+				foreach ( $ct_conf['assets']['BTC']['pair'][$pair_key] as $exchange_key => $unused ) {
 					
 					// Detects better with right side space included
 					if ( stristr($supported_btc_exchange_list, $exchange_key . ' ') == false && stristr($exchange_key, 'bitmex_') == false ) { // Futures markets not allowed
@@ -66,9 +66,9 @@ $currency_count = 0;
 		
 		foreach ( $ct_conf['assets'] as $asset_key => $unused ) {
 			
-				foreach ( $ct_conf['assets'][$asset_key]['pairing'] as $pairing_key => $unused ) {
+				foreach ( $ct_conf['assets'][$asset_key]['pair'] as $pair_key => $unused ) {
 					
-					foreach ( $ct_conf['assets'][$asset_key]['pairing'][$pairing_key] as $exchange_key => $unused ) {
+					foreach ( $ct_conf['assets'][$asset_key]['pair'][$pair_key] as $exchange_key => $unused ) {
 					
 						// Detects better with right side space included
 						if ( stristr($all_exchanges_list, $exchange_key . ' ') == false && $exchange_key != 'misc_assets' && $exchange_key != 'eth_nfts' && $exchange_key != 'sol_nfts' ) {
@@ -97,7 +97,7 @@ $currency_count = 0;
 	
 	$ct_gen->log(
 								'conf_debug',
-								"\n\n" . 'ALL markets configuration information (for README.txt documentation) supported_all_pairings_list['.$pairings_count.']: ' . strtoupper($all_supported_pairings_list) . '; ' . "\n\n" . 'supported_all_exchanges_list['.$all_exchange_count.']: ' . strtolower($all_exchanges_list) . "\n\n"
+								"\n\n" . 'ALL markets configuration information (for README.txt documentation) supported_all_pairs_list['.$pairs_count.']: ' . strtoupper($all_supported_pairs_list) . '; ' . "\n\n" . 'supported_all_exchanges_list['.$all_exchange_count.']: ' . strtolower($all_exchanges_list) . "\n\n"
 								);
 	
 	

@@ -87,15 +87,15 @@ $hash_check = md5($_GET['data_set']);
 	// Cleanup
 	$data_set_array = array_map('trim', $data_set_array);
 
-	$all_markets_data_array = explode(",", $data_set_array[2]); // Market data array
+	$all_mrkts_data_array = explode(",", $data_set_array[2]); // Market data array
 
 	// Cleanup
-	$all_markets_data_array = array_map('trim', $all_markets_data_array);
+	$all_mrkts_data_array = array_map('trim', $all_mrkts_data_array);
 
 
 		// /api/price endpoint
 		if ( $data_set_array[0] == 'market_conversion' ) {
-		$result = $ct_asset->market_conv_int_api($data_set_array[1], $all_markets_data_array);
+		$result = $ct_asset->market_conv_int_api($data_set_array[1], $all_mrkts_data_array);
 		}
 		elseif ( $data_set_array[0] == 'asset_list' ) {
 		$result = $ct_asset->asset_list_int_api();

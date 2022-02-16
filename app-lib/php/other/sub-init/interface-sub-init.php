@@ -27,7 +27,7 @@ $sel_opt['show_crypto_val'] = explode(',', rtrim( ( $_POST['show_crypto_val'] !=
 		$scan_crypto_val = array_map( array($ct_var, 'strip_brackets') , $scan_crypto_val); // Strip brackets
 		$loop = 0;
 		foreach ($scan_crypto_val as $key) {
-			if ( array_key_exists($key, $ct_conf['power']['crypto_pairing']) ) {
+			if ( array_key_exists($key, $ct_conf['power']['crypto_pair']) ) {
 			$temp_show_crypto_val[$loop] = $sel_opt['show_crypto_val'][$loop];
 			}
 		$loop = $loop + 1;
@@ -50,11 +50,10 @@ $sel_opt['show_crypto_val'] = explode(',', rtrim( ( $_POST['show_crypto_val'] !=
 $sel_opt['show_secondary_trade_val'] = ( $_POST['show_secondary_trade_val'] != '' ? $_POST['show_secondary_trade_val'] : $_COOKIE['show_secondary_trade_val'] );
 
 	// Remove any stale secondary trade value
-	if ( !array_key_exists($sel_opt['show_secondary_trade_val'], $ct_conf['power']['crypto_pairing']) ) {
+	if ( !array_key_exists($sel_opt['show_secondary_trade_val'], $ct_conf['power']['crypto_pair']) ) {
 	$sel_opt['show_secondary_trade_val'] = null;
 	$_POST['show_secondary_trade_val'] = null;  
 	$ct_gen->store_cookie("show_secondary_trade_val", "", time()-3600);  
-	unset($_COOKIE['show_secondary_trade_val']);  
 	}
 
 
@@ -104,14 +103,14 @@ $sel_opt['show_feeds'] = explode(',', rtrim( ( $_POST['show_feeds'] != '' ? $_PO
 		foreach ($scan_charts as $market_key) {
 			
 			// IF asset exists in charts app config, AND $sel_opt['show_charts'] UI key format is latest iteration (fiat conversion charts USED TO have no underscore)
-			if ( array_key_exists($market_key, $ct_conf['charts_alerts']['tracked_markets']) && stristr($sel_opt['show_charts'][$loop], '_') ) {
+			if ( array_key_exists($market_key, $ct_conf['charts_alerts']['tracked_mrkts']) && stristr($sel_opt['show_charts'][$loop], '_') ) {
 				
 			$chart_params = explode('_', $ct_var->strip_brackets($sel_opt['show_charts'][$loop]) );
 			
-			$chart_conf_check = explode('||', $ct_conf['charts_alerts']['tracked_markets'][$market_key]);
+			$chart_conf_check = explode('||', $ct_conf['charts_alerts']['tracked_mrkts'][$market_key]);
 				
-				// If pairing properly matches OR it's a conversion chart, we're good to keep this $sel_opt['show_charts'] array value 
-				if ( $chart_params[1] == $chart_conf_check[1] || $chart_params[1] == $default_btc_prim_currency_pairing ) {
+				// If pair properly matches OR it's a conversion chart, we're good to keep this $sel_opt['show_charts'] array value 
+				if ( $chart_params[1] == $chart_conf_check[1] || $chart_params[1] == $default_btc_prim_currency_pair ) {
 				$temp_show_charts[$loop] = $sel_opt['show_charts'][$loop];
 				}
 				
@@ -156,7 +155,7 @@ $sel_opt['sorted_asc_desc'] = $sort_array[1];
 
 
 	// We can safely dismiss alerts with cookies enabled, without losing data
-	if ( $_COOKIE['coin_amounts'] != '' ) {
+	if ( $_COOKIE['coin_amnts'] != '' ) {
 	$dismiss_alert = ' <br /><br /><a href="'.$ct_gen->start_page($_GET['start_page'], 'href').'">Dismiss Alert</a>';
 	}
 	

@@ -26,43 +26,43 @@ $csv_download_array[] = array(
 	        							'Margin Leverage',
 	        							'Long or Short',
 	        							'Exchange ID',
-	        							'Market Pairing'
+	        							'Market Pair'
 	        							);
 	    
 	    
 	foreach ( $ct_conf['assets'] as $asset_array_key => $asset_array_val ) {
 		
 	    
-	    $field_var_pairing = strtolower($asset_array_key) . '_pairing';
-	    $field_var_market = strtolower($asset_array_key) . '_market';
-	    $field_var_amount = strtolower($asset_array_key) . '_amount';
+	    $field_var_pair = strtolower($asset_array_key) . '_pair';
+	    $field_var_mrkt = strtolower($asset_array_key) . '_mrkt';
+	    $field_var_amnt = strtolower($asset_array_key) . '_amnt';
 	    $field_var_paid = strtolower($asset_array_key) . '_paid';
-	    $field_var_leverage = strtolower($asset_array_key) . '_leverage';
-	    $field_var_margintype = strtolower($asset_array_key) . '_margintype';
+	    $field_var_lvrg = strtolower($asset_array_key) . '_lvrg';
+	    $field_var_mrgntyp = strtolower($asset_array_key) . '_mrgntyp';
 	    $field_var_watchonly = strtolower($asset_array_key) . '_watchonly';
 	    $field_var_restore = strtolower($asset_array_key) . '_restore';
 	    
 	    
 	    
-	    $asset_pairing_id = $_POST[$field_var_pairing];
-	    $asset_market_id = $_POST[$field_var_market];
-	    $asset_amount_val = $_POST[$field_var_amount];
+	    $asset_pair_id = $_POST[$field_var_pair];
+	    $asset_mrkt_id = $_POST[$field_var_mrkt];
+	    $asset_amnt_val = $_POST[$field_var_amnt];
 	    $asset_paid_val = $_POST[$field_var_paid];
-	    $asset_leverage_val = $_POST[$field_var_leverage];
-	    $asset_margintype_val = $_POST[$field_var_margintype];
+	    $asset_lvrg_val = $_POST[$field_var_lvrg];
+	    $asset_mrgntyp_val = $_POST[$field_var_mrgntyp];
 	        	
 	        
-	    $sel_pairing = ( $asset_pairing_id ? $asset_pairing_id : NULL );
+	    $sel_pair = ( $asset_pair_id ? $asset_pair_id : NULL );
 	    
 	    
-			foreach ( $ct_conf['assets'][strtoupper($asset_array_key)]['pairing'] as $pairing_key => $unused ) {
+			foreach ( $ct_conf['assets'][strtoupper($asset_array_key)]['pair'] as $pair_key => $unused ) {
 			$ploop = 0;
 					 						
-				// Use first pairing key from coins config for this asset, if no pairing value was set properly
+				// Use first pair key from coins config for this asset, if no pair value was set properly
 				if ( $ploop == 0 ) {
 				
-					if ( $sel_pairing == NULL || !$ct_conf['assets'][strtoupper($asset_array_key)]['pairing'][$sel_pairing] ) {
-					$sel_pairing = $pairing_key;
+					if ( $sel_pair == NULL || !$ct_conf['assets'][strtoupper($asset_array_key)]['pair'][$sel_pair] ) {
+					$sel_pair = $pair_key;
 					}
 				
 				}
@@ -72,28 +72,28 @@ $csv_download_array[] = array(
 											
 	    
 	    	if ( strtoupper($asset_array_key) == 'MISCASSETS' ) {
-	    	$asset_amount_dec = 2;
+	    	$asset_amnt_dec = 2;
 	    	}
 	    	else {
-	    	$asset_amount_dec = 8;
+	    	$asset_amnt_dec = 8;
 	    	}
 	    
-	  	 $asset_amount_val = $ct_var->num_pretty($asset_amount_val, $asset_amount_dec);
+	  	 $asset_amnt_val = $ct_var->num_pretty($asset_amnt_val, $asset_amnt_dec);
 	    
 	    $asset_paid_val = ( $ct_var->num_to_str($asset_paid_val) >= 1 ? $ct_var->num_pretty($asset_paid_val, 2) : $ct_var->num_pretty($asset_paid_val, $ct_conf['gen']['prim_currency_dec_max']) );
 	  	 
 	    
 	   	// Asset data to array for CSV export
-	      if ( trim($asset_array_key) != '' && $ct_var->rem_num_format($asset_amount_val) >= 0.00000001 ) {
+	      if ( trim($asset_array_key) != '' && $ct_var->rem_num_format($asset_amnt_val) >= 0.00000001 ) {
 	        	
 	        $csv_download_array[] = array(
 	        											strtoupper($asset_array_key),
-	        											$asset_amount_val,
+	        											$asset_amnt_val,
 	        											$asset_paid_val,
-	        											$asset_leverage_val,
-	        											$asset_margintype_val,
-	        											$asset_market_id,
-	        											$sel_pairing
+	        											$asset_lvrg_val,
+	        											$asset_mrgntyp_val,
+	        											$asset_mrkt_id,
+	        											$sel_pair
 	        											);
 	        											
 	      }

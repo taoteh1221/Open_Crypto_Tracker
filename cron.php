@@ -33,18 +33,18 @@ require("config.php");
 // Charts and price alerts
 $_SESSION['lite_charts_updated'] = 0;
 
-foreach ( $ct_conf['charts_alerts']['tracked_markets'] as $key => $val ) {
+foreach ( $ct_conf['charts_alerts']['tracked_mrkts'] as $key => $val ) {
 
 $val = explode("||",$val); // Convert $val into an array
 
 $exchange = $val[0];
-$pairing = $val[1];
+$pair = $val[1];
 $mode = $val[2];
 
 // ALWAYS RUN even if $mode != 'none' etc, as charts_price_alerts() is optimized to run UX logic scanning
 // (such as as removing STALE EXISTING ALERT CACHE FILES THAT WERE PREVIOUSLY-ENABLED,
 // THEN USER-DISABLED...IN CASE USER RE-ENABLES, THE ALERT STATS / ETC REMAIN UP-TO-DATE)
-$ct_asset->charts_price_alerts($key, $exchange, $pairing, $mode);
+$ct_asset->charts_price_alerts($key, $exchange, $pair, $mode);
 
 }
 

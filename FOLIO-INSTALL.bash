@@ -228,7 +228,7 @@ echo " "
 echo "${red}VERY IMPORTANT UPGRADE NOTES:${reset}"
 echo " "
 
-echo "v5.03.5 and higher renames the admin config array. ALL CONFIGURATION SETTING"
+echo "v5.12.2 and higher renames the admin config array. ALL CONFIGURATION SETTING"
 echo "VARIABLE NAMES ARE NOW DIFFERENT, USE THE LATEST/UPGRADED CONFIG.PHP, AND"
 echo "MIGRATE YOUR EXISTING SETTINGS TO THE NEW FORMAT."
 echo " "
@@ -971,6 +971,7 @@ select opt in $OPTIONS; do
 				rm $DOC_ROOT/cache/vars/default_btc_prim_curr_pairing.dat > /dev/null 2>&1
 				rm $DOC_ROOT/cache/logs/errors.log > /dev/null 2>&1
 				rm $DOC_ROOT/cache/logs/debugging.log > /dev/null 2>&1
+				rm $DOC_ROOT/cache/vars/default_btc_prim_currency_pairing.dat > /dev/null 2>&1
 				
 				# Force-resets script timeout from config.php (automatically / dynamically re-created by app)
 				rm $DOC_ROOT/.htaccess > /dev/null 2>&1 

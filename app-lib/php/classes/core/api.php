@@ -57,7 +57,7 @@ var $ct_array1 = array();
    $result = array();
    
    // Don't overwrite global
-   $coingecko_prim_currency = ( $force_prim_currency != null ? strtolower($force_prim_currency) : strtolower($ct_conf['gen']['btc_prim_currency_pairing']) );
+   $coingecko_prim_currency = ( $force_prim_currency != null ? strtolower($force_prim_currency) : strtolower($ct_conf['gen']['btc_prim_currency_pair']) );
    
          
    // DON'T ADD ANY ERROR CHECKS HERE, OR RUNTIME MAY SLOW SIGNIFICANTLY!!
@@ -261,7 +261,7 @@ var $ct_array1 = array();
       
    
    // Don't overwrite global
-   $coinmarketcap_prim_currency = strtoupper($ct_conf['gen']['btc_prim_currency_pairing']);
+   $coinmarketcap_prim_currency = strtoupper($ct_conf['gen']['btc_prim_currency_pair']);
       
          
       if ( $force_prim_currency != null ) {
@@ -626,8 +626,8 @@ var $ct_array1 = array();
    ////////////////////////////////////////////////////////
    
    
-   // We only need $pairing data if our function call needs 24hr trade volumes, so it's optional overhead
-   function market($asset_symb, $sel_exchange, $market_id, $pairing=false) {
+   // We only need $pair data if our function call needs 24hr trade volumes, so it's optional overhead
+   function market($asset_symb, $sel_exchange, $market_id, $pair=false) {
    
    global $ct_conf, $ct_var, $ct_cache, $ct_gen, $ct_asset, $sel_opt, $defipulse_api_limit, $kraken_pairs, $upbit_pairs, $generic_pairs, $generic_assets;
     
@@ -655,7 +655,7 @@ var $ct_array1 = array();
 	               $result = array(
 	                              'last_trade' => $val["close"],
 	                              '24hr_asset_vol' => $val["volume"],
-	                              '24hr_pairing_vol' => null // No pairing volume data for this API
+	                              '24hr_pair_vol' => null // No pair volume data for this API
 	                     		    );
 	               
 	               }
@@ -693,7 +693,7 @@ var $ct_array1 = array();
 	              $result = array(
 	                              'last_trade' => $val["lastPrice"],
 	                              '24hr_asset_vol' => $val["volume"],
-	                              '24hr_pairing_vol' => $val["quoteVolume"]
+	                              '24hr_pair_vol' => $val["quoteVolume"]
 	                     		    );
 	     
 	              }
@@ -731,7 +731,7 @@ var $ct_array1 = array();
 	              $result = array(
 	                              'last_trade' => $val["lastPrice"],
 	                              '24hr_asset_vol' => $val["volume"],
-	                              '24hr_pairing_vol' => $val["quoteVolume"]
+	                              '24hr_pair_vol' => $val["quoteVolume"]
 	                     			);
 	     
 	              }
@@ -761,7 +761,7 @@ var $ct_array1 = array();
       $result = array(
                      'last_trade' => $data["ll"],
                      '24hr_asset_vol' => $data["a"],
-                     '24hr_pairing_vol' => null // No pairing volume data for this API
+                     '24hr_pair_vol' => null // No pair volume data for this API
                 	   );
       
       }
@@ -790,7 +790,7 @@ var $ct_array1 = array();
 	              $result = array(
 	                              'last_trade' => $val["last_traded_price"],
 	                              '24hr_asset_vol' => $val["volume"]["volume"],
-	                              '24hr_pairing_vol' => null // No pairing volume data for this API
+	                              '24hr_pair_vol' => null // No pair volume data for this API
 	                    		  );
 	     
 	              }
@@ -827,7 +827,7 @@ var $ct_array1 = array();
 	              $result = array(
 	                              'last_trade' => $object[( sizeof($object) - 4 )],
 	                              '24hr_asset_vol' => $object[( sizeof($object) - 3 )],
-	                              '24hr_pairing_vol' => null // No pairing volume data for this API
+	                              '24hr_pair_vol' => null // No pair volume data for this API
 	                     		  );
 	               
 	              }
@@ -856,7 +856,7 @@ var $ct_array1 = array();
       $result = array(
                      'last_trade' => $data["data"]["last"],
                      '24hr_asset_vol' => $data["data"]["vol"],
-                     '24hr_pairing_vol' => null // No pairing volume data for this API
+                     '24hr_pair_vol' => null // No pair volume data for this API
                        );
       
       }
@@ -878,7 +878,7 @@ var $ct_array1 = array();
       $result = array(
                      'last_trade' => $data["ltp"],
                      '24hr_asset_vol' => $data["volume_by_product"],
-                     '24hr_pairing_vol' => null // Seems to be an EXACT duplicate of asset volume in MANY cases, skipping to be safe
+                     '24hr_pair_vol' => null // Seems to be an EXACT duplicate of asset volume in MANY cases, skipping to be safe
                	     );
       
       }
@@ -909,7 +909,7 @@ var $ct_array1 = array();
 	              $result = array(
 	                              'last_trade' => $val["last_price"],
 	                              '24hr_asset_vol' => $val["base_volume_24h"],
-	                              '24hr_pairing_vol' => $val["quote_volume_24h"]
+	                              '24hr_pair_vol' => $val["quote_volume_24h"]
 	                    		  );
 	               
 	              }
@@ -945,18 +945,18 @@ var $ct_array1 = array();
 			         if ( !$last_trade && $val['symbol'] == $market_id ) {
 			         $last_trade = $val['close'];
 			         $asset_vol = $val['homeNotional'];
-			         $pairing_vol = $val['foreignNotional'];
+			         $pair_vol = $val['foreignNotional'];
 			         }
 			         elseif ( $val['symbol'] == $market_id ) {
 			                   
 			         $asset_vol = $ct_var->num_to_str($asset_vol + $val['homeNotional']);
-			         $pairing_vol = $ct_var->num_to_str($pairing_vol + $val['foreignNotional']);
+			         $pair_vol = $ct_var->num_to_str($pair_vol + $val['foreignNotional']);
 			                 
 			         // Average of 24 hours, since we are always between 23.5 and 24.5
 			         // (least resource-intensive way to get close enough to actual 24 hour volume)
 			         // Overwrites until it's the last values
 			         $half_oldest_hour_asset_vol = round($val['homeNotional'] / 2);
-			         $half_oldest_hour_pairing_vol = round($val['foreignNotional'] / 2);
+			         $half_oldest_hour_pair_vol = round($val['foreignNotional'] / 2);
 			                 
 			         }
 	              
@@ -968,7 +968,7 @@ var $ct_array1 = array();
 	                           // Average of 24 hours, since we are always between 23.5 and 24.5
 	                           // (least resource-intensive way to get close enough to actual 24 hour volume)
 	                           '24hr_asset_vol' => $ct_var->num_to_str($asset_vol - $half_oldest_hour_asset_vol),
-	                           '24hr_pairing_vol' =>  $ct_var->num_to_str($pairing_vol - $half_oldest_hour_pairing_vol)
+	                           '24hr_pair_vol' =>  $ct_var->num_to_str($pair_vol - $half_oldest_hour_pair_vol)
 	                    	   );
 	      
 	      
@@ -1001,7 +1001,7 @@ var $ct_array1 = array();
 	              $result = array(
 	                              'last_trade' => $val["last_price"],
 	                              '24hr_asset_vol' => $val["base_volume"],
-	                              '24hr_pairing_vol' => $val["quote_volume"]
+	                              '24hr_pair_vol' => $val["quote_volume"]
 	                     	       );
 	     
 	              }
@@ -1032,7 +1032,7 @@ var $ct_array1 = array();
       $result = array(
                      'last_trade' => $data["last"],
                      '24hr_asset_vol' => $data["volume"],
-                     '24hr_pairing_vol' => null // No pairing volume data for this API
+                     '24hr_pair_vol' => null // No pair volume data for this API
                	    );
       
       }
@@ -1054,7 +1054,7 @@ var $ct_array1 = array();
       $result = array(
                      'last_trade' => number_format( $data['last'], 8, '.', ''),
                      '24hr_asset_vol' => $data["volume"],
-                     '24hr_pairing_vol' => null // No pairing volume data for this API
+                     '24hr_pair_vol' => null // No pair volume data for this API
       	              );
         
       }
@@ -1105,7 +1105,7 @@ var $ct_array1 = array();
 		              
 			       if ( $val['symbol'] == $market_id ) {
 			       $result['24hr_asset_vol'] = $val["volume"];
-			       $result['24hr_pairing_vol'] = $val["quoteVolume"];
+			       $result['24hr_pair_vol'] = $val["quoteVolume"];
 			       }
 		          
 		        }
@@ -1132,7 +1132,7 @@ var $ct_array1 = array();
       $result = array(
                      'last_trade' => $data['lastPrice'],
                      '24hr_asset_vol' => $data["volume24h"],
-                     '24hr_pairing_vol' => null // No pairing volume data for this API
+                     '24hr_pair_vol' => null // No pair volume data for this API
                   	 );
        
       }
@@ -1163,7 +1163,7 @@ var $ct_array1 = array();
 	              $result = array(
 	                              'last_trade' => $val["last"],
 	                              '24hr_asset_vol' => $val["volume"],
-	                              '24hr_pairing_vol' => null // No pairing volume data for this API
+	                              '24hr_pair_vol' => null // No pair volume data for this API
 	                    		  );
 	               
 	              }
@@ -1201,7 +1201,7 @@ var $ct_array1 = array();
 	              $result = array(
 	                              'last_trade' => $val["LTRate"],
 	                              '24hr_asset_vol' => $val["v24"], 
-	                              '24hr_pairing_vol' => $val["tp24"] 
+	                              '24hr_pair_vol' => $val["tp24"] 
 	                     		  );
 	               
 	              }
@@ -1239,7 +1239,7 @@ var $ct_array1 = array();
 	              $result = array(
 	                              'last_trade' => $val["last_price"],
 	                              '24hr_asset_vol' => null, 
-	                              '24hr_pairing_vol' => $val["volume_24h"] 
+	                              '24hr_pair_vol' => $val["volume_24h"] 
 	                     		  );
 	               
 	              }
@@ -1278,7 +1278,7 @@ var $ct_array1 = array();
 	              $result = array(
 	                              'last_trade' => $val["last"],
 	                              '24hr_asset_vol' => $val["volume"],
-	                              '24hr_pairing_vol' => null // No pairing volume data for this API
+	                              '24hr_pair_vol' => null // No pair volume data for this API
 	                     	       );
 	     
 	              }
@@ -1308,7 +1308,7 @@ var $ct_array1 = array();
       $result = array(
                      'last_trade' => $data['price'],
                      '24hr_asset_vol' => $data["volume"],
-                     '24hr_pairing_vol' => null // No pairing volume data for this API
+                     '24hr_pair_vol' => null // No pair volume data for this API
                   	 );
        
        
@@ -1339,7 +1339,7 @@ var $ct_array1 = array();
 	              $result = array(
 	                              'last_trade' => $val["last_price"],
 	                              '24hr_asset_vol' => null, // No asset volume data for this API
-	                              '24hr_pairing_vol' => $val["volume"]
+	                              '24hr_pair_vol' => $val["volume"]
 	                     		  );
 	     
 	              }
@@ -1379,7 +1379,7 @@ var $ct_array1 = array();
 	              $result = array(
 	                              'last_trade' => $val["last"],
 	                              '24hr_asset_vol' => $val["vol"],
-	                              '24hr_pairing_vol' => null // No pairing volume data for this API
+	                              '24hr_pair_vol' => null // No pair volume data for this API
 	                     		  );
 	     
 	              }
@@ -1419,7 +1419,7 @@ var $ct_array1 = array();
 	              $result = array(
 	                              'last_trade' => $val["last"],
 	                              '24hr_asset_vol' => null, // No asset volume data for this API
-	                              '24hr_pairing_vol' => null // No pairing volume data for this API
+	                              '24hr_pair_vol' => null // No pair volume data for this API
 	                     		  );
 	     
 	              }
@@ -1459,7 +1459,7 @@ var $ct_array1 = array();
 	              $result = array(
 	                              'last_trade' => $val["a"],
 	                              '24hr_asset_vol' => $val["v"],
-	                              '24hr_pairing_vol' => null // No pairing volume data for this API
+	                              '24hr_pair_vol' => null // No pair volume data for this API
 	                     		  );
 	     
 	              }
@@ -1492,7 +1492,7 @@ var $ct_array1 = array();
            $result = array(
      		            'last_trade' => number_format( $data['BRIDGE.BTC']['price'], 8, '.', ''),
      		            '24hr_asset_vol' => $data['BRIDGE.BTC']['volume24'],
-     		            '24hr_pairing_vol' => null // No pairing volume data for this API
+     		            '24hr_pair_vol' => null // No pair volume data for this API
      		            );
      		                  
      	 }
@@ -1501,7 +1501,7 @@ var $ct_array1 = array();
            $result = array(
      		            'last_trade' => number_format( $data['OPEN.BTC']['price'], 8, '.', ''),
      		            '24hr_asset_vol' => $data['OPEN.BTC']['volume24'],
-     		            '24hr_pairing_vol' => null // No pairing volume data for this API
+     		            '24hr_pair_vol' => null // No pair volume data for this API
      		            );
      		                  
            }
@@ -1534,11 +1534,11 @@ var $ct_array1 = array();
         
       $market_data = explode('||', $market_id);
         
-      $pairing_data = explode('/', $market_data[0]);
+      $pair_data = explode('/', $market_data[0]);
         
       $pool_data = $market_data[1];
         
-      $defi_pools_info = $ct_asset->defi_pools_info($pairing_data, $pool_data);
+      $defi_pools_info = $ct_asset->defi_pools_info($pair_data, $pool_data);
           
           
           if ( $defipulse_api_limit == true ) {
@@ -1577,12 +1577,12 @@ var $ct_array1 = array();
          if ( is_array($data) ) {
           
 		   if ( preg_match("/curve/i", $defi_pools_info['platform']) ) {
-		   $fromSymbol = $pairing_data[0];
-		   $toSymbol = $pairing_data[1];
+		   $fromSymbol = $pair_data[0];
+		   $toSymbol = $pair_data[1];
 		   }
 		   else {
-		   $fromSymbol = $pairing_data[1];
-		   $toSymbol = $pairing_data[0];
+		   $fromSymbol = $pair_data[1];
+		   $toSymbol = $pair_data[0];
 		   }
 		           
 		      
@@ -1593,20 +1593,20 @@ var $ct_array1 = array();
 		   $trade_asset = true;
 	        }
 				                   
-		   // Check for pairing asset
+		   // Check for pair asset
 		   if ( $val["toSymbol"] == $toSymbol || preg_match("/([a-z]{1})".$toSymbol."/", $val["toSymbol"]) ) {
-		   $trade_pairing = true;
+		   $trade_pair = true;
 		   }
 				                   
 				              
-		   if ( $trade_asset && $trade_pairing ) {
+		   if ( $trade_asset && $trade_pair ) {
 				               
 		   $result = array(
 				         'defi_pool_name' => $defi_pools_info['pool_name'],
 				         'defi_platform' => $defi_pools_info['platform'],
 				         'last_trade' => $val["price"],
 				         '24hr_asset_vol' => null, // No asset volume data for this API
-				         '24hr_pairing_vol' => null, // No pairing volume data for this API
+				         '24hr_pair_vol' => null, // No pair volume data for this API
 				         '24hr_usd_vol' => $defi_pools_info['pool_usd_volume']
 				          );
 				     
@@ -1614,7 +1614,7 @@ var $ct_array1 = array();
 		              
 		            
 		   $trade_asset = false;
-		   $trade_pairing = false;
+		   $trade_pair = false;
 		            
 		   }
 		          
@@ -1661,7 +1661,7 @@ var $ct_array1 = array();
 	              $result = array(
 	                              'last_trade' => $val["last"],
 	                              '24hr_asset_vol' => null, // No asset volume data for this API
-	                              '24hr_pairing_vol' => $val["quoteVolume24h"]
+	                              '24hr_pair_vol' => $val["quoteVolume24h"]
 	                     		  );
 	     
 	              }
@@ -1701,7 +1701,7 @@ var $ct_array1 = array();
 	              $result = array(
 	                              'last_trade' => $val["last"],
 	                              '24hr_asset_vol' => null, // No asset volume data for this API
-	                              '24hr_pairing_vol' => $val["quoteVolume24h"]
+	                              '24hr_pair_vol' => $val["quoteVolume24h"]
 	                     		  );
 	     
 	              }
@@ -1738,7 +1738,7 @@ var $ct_array1 = array();
               $result = array(
                               'last_trade' => $val["last"],
                               '24hr_asset_vol' => $val["base_volume"],
-                              '24hr_pairing_vol' => $val["quote_volume"]
+                              '24hr_pair_vol' => $val["quote_volume"]
                               );
                
               }
@@ -1767,7 +1767,7 @@ var $ct_array1 = array();
       $result = array(
                      'last_trade' => $data['last'],
                      '24hr_asset_vol' => $data['volume'][strtoupper($asset_symb)],
-                     '24hr_pairing_vol' => $data['volume'][strtoupper($pairing)]
+                     '24hr_pair_vol' => $data['volume'][strtoupper($pair)]
       	              );
       
       
@@ -1797,7 +1797,7 @@ var $ct_array1 = array();
               $result = array(
                               'last_trade' => $data[$market_id]['ticker']['last'],
                               '24hr_asset_vol' => $data[$market_id]['ticker']['vol'],
-                              '24hr_pairing_vol' => null // Weird pairing volume always in BTC according to array keyname, skipping
+                              '24hr_pair_vol' => null // Weird pair volume always in BTC according to array keyname, skipping
                      	      );
                
               }
@@ -1833,7 +1833,7 @@ var $ct_array1 = array();
               $result = array(
                               'last_trade' => $val["last"],
                               '24hr_asset_vol' => $val["volume"],
-                              '24hr_pairing_vol' => $val["volumeQuote"]
+                              '24hr_pair_vol' => $val["volumeQuote"]
                               );
                
               }
@@ -1871,7 +1871,7 @@ var $ct_array1 = array();
               $result = array(
                               'last_trade' => $val["last"],
                               '24hr_asset_vol' => $val["vol"],
-                              '24hr_pairing_vol' => null // No pairing volume data for this API
+                              '24hr_pair_vol' => null // No pair volume data for this API
                               );
                
               }
@@ -1909,7 +1909,7 @@ var $ct_array1 = array();
               $result = array(
                               'last_trade' => $val["close"],
                               '24hr_asset_vol' => $val["amount"],
-                              '24hr_pairing_vol' => $val["vol"]
+                              '24hr_pair_vol' => $val["vol"]
                               );
      
               }
@@ -1947,7 +1947,7 @@ var $ct_array1 = array();
                               'last_trade' => $val["last"],
                               // ARRAY KEY SEMANTICS BACKWARDS COMPARED TO OTHER EXCHANGES
                               '24hr_asset_vol' => $val["quoteVolume"],
-                              '24hr_pairing_vol' => $val["baseVolume"]
+                              '24hr_pair_vol' => $val["baseVolume"]
                      		  );
                
               }
@@ -1984,7 +1984,7 @@ var $ct_array1 = array();
               $result = array(
                               'last_trade' => $val["last"],
                               '24hr_asset_vol' => $val["volume"],
-                              '24hr_pairing_vol' => null // No pairing volume data for this API
+                              '24hr_pair_vol' => null // No pair volume data for this API
                     	      );
                
               }
@@ -2011,7 +2011,7 @@ var $ct_array1 = array();
         
               foreach ( $ct_conf['assets'] as $markets ) {
               
-    	         foreach ( $markets['pairing'] as $exchange_pairs ) {
+    	         foreach ( $markets['pair'] as $exchange_pairs ) {
     	            
     		        if ( isset($exchange_pairs['kraken']) && $exchange_pairs['kraken'] != '' ) { // In case user messes up Admin Config, this helps
     		        $kraken_pairs .= $exchange_pairs['kraken'] . ',';
@@ -2046,7 +2046,7 @@ var $ct_array1 = array();
                  $result = array(
                                  'last_trade' => $val[$key2]["c"][0],
                                  '24hr_asset_vol' => $val[$key2]["v"][1],
-                                 '24hr_pairing_vol' => null // No pairing volume data for this API
+                                 '24hr_pair_vol' => null // No pair volume data for this API
                        		     );
                   
                  }
@@ -2088,7 +2088,7 @@ var $ct_array1 = array();
               $result = array(
                               'last_trade' => $val["last"],
                               '24hr_asset_vol' => $val["vol"],
-                              '24hr_pairing_vol' => $val["volValue"]
+                              '24hr_pair_vol' => $val["volValue"]
                      		  );
                
               }
@@ -2124,7 +2124,7 @@ var $ct_array1 = array();
               $result = array(
                               'last_trade' => $val["last_traded_price"],
                               '24hr_asset_vol' => $val["volume_24h"],
-                              '24hr_pairing_vol' => null // No pairing volume data for this API
+                              '24hr_pair_vol' => null // No pair volume data for this API
                      	        );
      
               }
@@ -2160,7 +2160,7 @@ var $ct_array1 = array();
               $result = array(
                               'last_trade' => $ct_var->num_to_str($val["rates"]["last"]), // Handle large / small values better with $ct_var->num_to_str()
                               '24hr_asset_vol' => $val["volume_btc"],
-                              '24hr_pairing_vol' => null // No pairing volume data for this API
+                              '24hr_pair_vol' => null // No pair volume data for this API
                               );
      
               }
@@ -2205,7 +2205,7 @@ var $ct_array1 = array();
 	              $result = array(
 	                              'last_trade' => $val["last_price"],
 	                              '24hr_asset_vol' => $val["base_volume"],
-	                              '24hr_pairing_vol' => $val["quote_volume"]
+	                              '24hr_pair_vol' => $val["quote_volume"]
 	                     	       );
 	     
 	              }
@@ -2243,7 +2243,7 @@ var $ct_array1 = array();
               $result = array(
                               'last_trade' => $ct_var->num_to_str($val["last_trade"]), // Handle large / small values better with $ct_var->num_to_str()
                               '24hr_asset_vol' => $val["rolling_24_hour_volume"],
-                              '24hr_pairing_vol' => null // No pairing volume data for this API
+                              '24hr_pair_vol' => null // No pair volume data for this API
                      		  );
      
               }
@@ -2280,7 +2280,7 @@ var $ct_array1 = array();
               $result = array(
                               'last_trade' => $val['last'],
                               '24hr_asset_vol' => $val['base_volume_24h'],
-                              '24hr_pairing_vol' => $val['quote_volume_24h']
+                              '24hr_pair_vol' => $val['quote_volume_24h']
                               );
      
               }
@@ -2317,7 +2317,7 @@ var $ct_array1 = array();
               $result = array(
                               'last_trade' => $val["last"],
                               '24hr_asset_vol' => $val["base_volume_24h"],
-                              '24hr_pairing_vol' => $val['quote_volume_24h']
+                              '24hr_pair_vol' => $val['quote_volume_24h']
                      		  );
      
               }
@@ -2354,7 +2354,7 @@ var $ct_array1 = array();
                               'last_trade' =>$val["last"],
                               // ARRAY KEY SEMANTICS BACKWARDS COMPARED TO OTHER EXCHANGES
                               '24hr_asset_vol' => $val["quoteVolume"],
-                              '24hr_pairing_vol' => $val["baseVolume"]
+                              '24hr_pair_vol' => $val["baseVolume"]
                      	        );
                
               }
@@ -2390,7 +2390,7 @@ var $ct_array1 = array();
               $result = array(
                               'last_trade' => $val["Last"],
                               '24hr_asset_vol' => $val["Volume24Hr"],
-                              '24hr_pairing_vol' => null // No pairing volume data for this API
+                              '24hr_pair_vol' => null // No pair volume data for this API
                      		  );
                
               }
@@ -2426,7 +2426,7 @@ var $ct_array1 = array();
               $result = array(
                               'last_trade' => $val[$market_id]["price"],
                               '24hr_asset_vol' => null, // No asset volume data for this API
-                              '24hr_pairing_vol' => $val[$market_id]["volume"]
+                              '24hr_pair_vol' => $val[$market_id]["volume"]
                      		  );
                
               }
@@ -2463,7 +2463,7 @@ var $ct_array1 = array();
 	              $result = array(
 	                              'last_trade' => $val["average_price"],
 	                              '24hr_asset_vol' => null, // No asset volume data for this API
-	                              '24hr_pairing_vol' => null // No pairing volume data for this API
+	                              '24hr_pair_vol' => null // No pair volume data for this API
 	                     		  );
 	     
 	              }
@@ -2491,7 +2491,7 @@ var $ct_array1 = array();
                 
               foreach ( $ct_conf['assets'] as $markets ) {
               
-    	         foreach ( $markets['pairing'] as $exchange_pairs ) {
+    	         foreach ( $markets['pair'] as $exchange_pairs ) {
     	            
     		        if ( isset($exchange_pairs['upbit']) && $exchange_pairs['upbit'] != '' ) { // In case user messes up Admin Config, this helps
     		        $upbit_pairs .= $exchange_pairs['upbit'] . ',';
@@ -2522,7 +2522,7 @@ var $ct_array1 = array();
               $result = array(
                               'last_trade' => $val["trade_price"],
                               '24hr_asset_vol' => $val["acc_trade_volume_24h"],
-                              '24hr_pairing_vol' => null // No 24 hour trade volume going by array keynames, skipping
+                              '24hr_pair_vol' => null // No 24 hour trade volume going by array keynames, skipping
                      		  );
                
               }
@@ -2558,7 +2558,7 @@ var $ct_array1 = array();
               $result = array(
                               'last_trade' => $val["last"],
                               '24hr_asset_vol' => $val["volume"],
-                              '24hr_pairing_vol' => null // No pairing volume data for this API
+                              '24hr_pair_vol' => null // No pair volume data for this API
                      		  );
                
               }
@@ -2599,7 +2599,7 @@ var $ct_array1 = array();
                   $result = array(
                                   'last_trade' => $val["market"],
                                   '24hr_asset_vol' => $val["volume"],
-                                  '24hr_pairing_vol' => null // No pairing volume data for this API
+                                  '24hr_pair_vol' => null // No pair volume data for this API
                          		  );
                
                   }
@@ -2624,31 +2624,31 @@ var $ct_array1 = array();
       // BTC value of 1 unit of the default primary currency
       $currency_to_btc = $ct_var->num_to_str(1 / $sel_opt['sel_btc_prim_currency_val']);	
       
-         // BTC pairing
+         // BTC pair
          if ( $market_id == 'btc' ) {
          $result = array(
      		            'last_trade' => $currency_to_btc
      		            );
          }
-         // All other pairing
+         // All other pair
      	 else {
      		        
-         $pairing_btc_val = $ct_asset->pairing_btc_val($market_id);
+         $pair_btc_val = $ct_asset->pair_btc_val($market_id);
      		      
      		      
-          	if ( $pairing_btc_val == null ) {
+          	if ( $pair_btc_val == null ) {
           				          	
           	$ct_gen->log(
           				'market_error',
-          				'ct_asset->pairing_btc_val() returned null',
+          				'ct_asset->pair_btc_val() returned null',
           				'market_id: ' . $market_id
           				);
           				          
             }
      		      
            
-            if ( $ct_var->num_to_str($pairing_btc_val) > 0 && $ct_var->num_to_str($currency_to_btc) > 0 ) {
-            $calc = ( 1 / $ct_var->num_to_str($pairing_btc_val / $currency_to_btc) );
+            if ( $ct_var->num_to_str($pair_btc_val) > 0 && $ct_var->num_to_str($currency_to_btc) > 0 ) {
+            $calc = ( 1 / $ct_var->num_to_str($pair_btc_val / $currency_to_btc) );
             }
             else {
             $calc = 0;
@@ -2673,33 +2673,33 @@ var $ct_array1 = array();
       elseif ( strtolower($sel_exchange) == 'eth_nfts' ) {
       
       // BTC value of 1 unit of ETH
-      $currency_to_btc = $ct_asset->pairing_btc_val('eth');	
+      $currency_to_btc = $ct_asset->pair_btc_val('eth');	
       
-         // BTC pairing
+         // BTC pair
          if ( $market_id == 'btc' ) {
          $result = array(
      		            'last_trade' => $currency_to_btc
      		            );
          }
-         // All other pairing
+         // All other pair
      	 else {
      		        
-         $pairing_btc_val = $ct_asset->pairing_btc_val($market_id);
+         $pair_btc_val = $ct_asset->pair_btc_val($market_id);
      		      
      		      
-          	if ( $pairing_btc_val == null ) {
+          	if ( $pair_btc_val == null ) {
           				          	
           	$ct_gen->log(
           				'market_error',
-          				'ct_asset->pairing_btc_val() returned null',
+          				'ct_asset->pair_btc_val() returned null',
           				'market_id: ' . $market_id
           				);
           				          
             }
      		      
            
-            if ( $ct_var->num_to_str($pairing_btc_val) > 0 && $ct_var->num_to_str($currency_to_btc) > 0 ) {
-            $calc = ( 1 / $ct_var->num_to_str($pairing_btc_val / $currency_to_btc) );
+            if ( $ct_var->num_to_str($pair_btc_val) > 0 && $ct_var->num_to_str($currency_to_btc) > 0 ) {
+            $calc = ( 1 / $ct_var->num_to_str($pair_btc_val / $currency_to_btc) );
             }
             else {
             $calc = 0;
@@ -2725,33 +2725,33 @@ var $ct_array1 = array();
       elseif ( strtolower($sel_exchange) == 'sol_nfts' ) {
       
       // BTC value of 1 unit of SOL
-      $currency_to_btc = $ct_asset->pairing_btc_val('sol');	
+      $currency_to_btc = $ct_asset->pair_btc_val('sol');	
       
-         // BTC pairing
+         // BTC pair
          if ( $market_id == 'btc' ) {
          $result = array(
      		            'last_trade' => $currency_to_btc
      		            );
          }
-         // All other pairing
+         // All other pair
      	 else {
      		        
-         $pairing_btc_val = $ct_asset->pairing_btc_val($market_id);
+         $pair_btc_val = $ct_asset->pair_btc_val($market_id);
      		      
      		      
-          	if ( $pairing_btc_val == null ) {
+          	if ( $pair_btc_val == null ) {
           				          	
           	$ct_gen->log(
           				'market_error',
-          				'ct_asset->pairing_btc_val() returned null',
+          				'ct_asset->pair_btc_val() returned null',
           				'market_id: ' . $market_id
           				);
           				          
             }
      		      
            
-            if ( $ct_var->num_to_str($pairing_btc_val) > 0 && $ct_var->num_to_str($currency_to_btc) > 0 ) {
-            $calc = ( 1 / $ct_var->num_to_str($pairing_btc_val / $currency_to_btc) );
+            if ( $ct_var->num_to_str($pair_btc_val) > 0 && $ct_var->num_to_str($currency_to_btc) > 0 ) {
+            $calc = ( 1 / $ct_var->num_to_str($pair_btc_val / $currency_to_btc) );
             }
             else {
             $calc = 0;
@@ -2790,9 +2790,9 @@ var $ct_array1 = array();
                    
                   foreach ( $ct_conf['assets'] as $markets_conf ) {
                   
-        	         foreach ( $markets_conf['pairing'] as $pairing_conf ) {
+        	         foreach ( $markets_conf['pair'] as $pair_conf ) {
                   
-            	         foreach ( $pairing_conf as $exchange_key => $exchange_val ) {
+            	         foreach ( $pair_conf as $exchange_key => $exchange_val ) {
             	            
             		        if ( stristr($exchange_key, 'generic_') != false && trim($exchange_val) != '' ) { // In case user messes up Admin Config, this helps
             		        
@@ -2841,7 +2841,7 @@ var $ct_array1 = array();
 	         $result = array(
 	                        'last_trade' => $ct_var->num_to_str($data[$paired_with]),
 	                        '24hr_asset_vol' => null, // No asset volume data for this API
-	                        '24hr_pairing_vol' => $ct_var->num_to_str($data[$paired_with . "_24h_vol"])
+	                        '24hr_pair_vol' => $ct_var->num_to_str($data[$paired_with . "_24h_vol"])
 	                        );
 	                     		  
              }
@@ -2859,35 +2859,35 @@ var $ct_array1 = array();
       // Better large / small number support
       $result['last_trade'] = $ct_var->num_to_str($result['last_trade']);
         
-          // SET FIRST...emulate pairing volume if non-existent
-		if ( is_numeric($result['24hr_pairing_vol']) != true ) {
-		$result['24hr_pairing_vol'] = $ct_var->num_to_str($result['last_trade'] * $result['24hr_asset_vol']);
+          // SET FIRST...emulate pair volume if non-existent
+		if ( is_numeric($result['24hr_pair_vol']) != true ) {
+		$result['24hr_pair_vol'] = $ct_var->num_to_str($result['last_trade'] * $result['24hr_asset_vol']);
 		}
 		      
 		// Set primary currency volume value
-		if ( $pairing == $ct_conf['gen']['btc_prim_currency_pairing'] ) {
-		$result['24hr_prim_currency_vol'] = $ct_var->num_to_str($result['24hr_pairing_vol']); // Save on runtime, if we don't need to compute the fiat value
+		if ( $pair == $ct_conf['gen']['btc_prim_currency_pair'] ) {
+		$result['24hr_prim_currency_vol'] = $ct_var->num_to_str($result['24hr_pair_vol']); // Save on runtime, if we don't need to compute the fiat value
 		}
-		elseif ( !$result['24hr_pairing_vol'] && $result['24hr_usd_vol'] ) {
+		elseif ( !$result['24hr_pair_vol'] && $result['24hr_usd_vol'] ) {
 		          
-	         // Fiat or equivalent pairing?
+	         // Fiat or equivalent pair?
 	         // #FOR CLEAN CODE#, RUN CHECK TO MAKE SURE IT'S NOT A CRYPTO AS WELL...WE HAVE A COUPLE SUPPORTED, BUT WE ONLY WANT DESIGNATED FIAT-EQIV HERE
-		    if ( array_key_exists($pairing, $ct_conf['power']['btc_currency_markets']) && !array_key_exists($pairing, $ct_conf['power']['crypto_pairing']) ) {
+		    if ( array_key_exists($pair, $ct_conf['power']['btc_currency_mrkts']) && !array_key_exists($pair, $ct_conf['power']['crypto_pair']) ) {
 		    $fiat_eqiv = 1;
 		    }
 		        
-	     $pairing_btc_val = $ct_asset->pairing_btc_val($pairing);
-		$usd_btc_val = $ct_asset->pairing_btc_val('usd');
+	     $pair_btc_val = $ct_asset->pair_btc_val($pair);
+		$usd_btc_val = $ct_asset->pair_btc_val('usd');
 		        
 		$vol_in_btc = $result['24hr_usd_vol'] * $usd_btc_val;
-		$vol_in_pairing = round( ($vol_in_btc / $pairing_btc_val) , ( $fiat_eqiv == 1 ? 0 : $ct_conf['power']['chart_crypto_vol_dec'] ) );
+		$vol_in_pair = round( ($vol_in_btc / $pair_btc_val) , ( $fiat_eqiv == 1 ? 0 : $ct_conf['power']['chart_crypto_vol_dec'] ) );
 		        
-		$result['24hr_pairing_vol'] = $ct_var->num_to_str($vol_in_pairing);
+		$result['24hr_pair_vol'] = $ct_var->num_to_str($vol_in_pair);
 		$result['24hr_prim_currency_vol'] = $ct_var->num_to_str( $ct_asset->prim_currency_trade_vol('BTC', 'usd', 1, $result['24hr_usd_vol']) );
 		        
 		}
 		else {
-		$result['24hr_prim_currency_vol'] = $ct_var->num_to_str( $ct_asset->prim_currency_trade_vol($asset_symb, $pairing, $result['last_trade'], $result['24hr_pairing_vol']) );
+		$result['24hr_prim_currency_vol'] = $ct_var->num_to_str( $ct_asset->prim_currency_trade_vol($asset_symb, $pair, $result['last_trade'], $result['24hr_pair_vol']) );
 		}
         
       

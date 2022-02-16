@@ -15,7 +15,7 @@ $example_download_array[] = array(
 	        							'Margin Leverage',
 	        							'Long or Short',
 	        							'Exchange ID',
-	        							'Market Pairing'
+	        							'Market Pair'
 	        							);
 	        
 // BTC

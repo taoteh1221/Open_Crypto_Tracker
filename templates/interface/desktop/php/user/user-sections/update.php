@@ -15,16 +15,16 @@
 
 
 
-		var average_paid_notes = '<h5 class="align_center yellow tooltip_title">Calculating Average <?=strtoupper($ct_conf['gen']['btc_prim_currency_pairing'])?> Price Paid Per Token</h5>'
+		var average_paid_notes = '<h5 class="align_center yellow tooltip_title">Calculating Average <?=strtoupper($ct_conf['gen']['btc_prim_currency_pair'])?> Price Paid Per Token</h5>'
 			
 			
-			+'<p class="coin_info extra_margins" style="white-space: normal; max-width: 600px;"><span class="green">Total <?=strtoupper($ct_conf['gen']['btc_prim_currency_pairing'])?> Paid For All Tokens</span> <span class="blue">&#247;</span> <span class="yellow">Total Tokens Purchased</span> <span class="blue">=</span> <span class="bitcoin">Average <?=strtoupper($ct_conf['gen']['btc_prim_currency_pairing'])?> Price Paid Per Token</span></p>'
+			+'<p class="coin_info extra_margins" style="white-space: normal; max-width: 600px;"><span class="green">Total <?=strtoupper($ct_conf['gen']['btc_prim_currency_pair'])?> Paid For All Tokens</span> <span class="blue">&#247;</span> <span class="yellow">Total Tokens Purchased</span> <span class="blue">=</span> <span class="bitcoin">Average <?=strtoupper($ct_conf['gen']['btc_prim_currency_pair'])?> Price Paid Per Token</span></p>'
 			
-			+'<p class="coin_info extra_margins" style="white-space: normal; max-width: 600px;">The RESULT of the above calculation <i>remains the same even AFTER you sell ANY amount, ONLY if you don\'t buy more between sells</i>. Everytime you buy more <i>after selling some</i>, re-calculate your Average <?=strtoupper($ct_conf['gen']['btc_prim_currency_pairing'])?> Price Paid Per Token with this formula:</p>'
+			+'<p class="coin_info extra_margins" style="white-space: normal; max-width: 600px;">The RESULT of the above calculation <i>remains the same even AFTER you sell ANY amount, ONLY if you don\'t buy more between sells</i>. Everytime you buy more <i>after selling some</i>, re-calculate your Average <?=strtoupper($ct_conf['gen']['btc_prim_currency_pair'])?> Price Paid Per Token with this formula:</p>'
 			
-			+'<p class="coin_info extra_margins" style="white-space: normal; max-width: 600px;">(<span class="green">Total <?=strtoupper($ct_conf['gen']['btc_prim_currency_pairing'])?> Paid For All Tokens</span> <span class="blue">-</span> <span class="red">Total <?=strtoupper($ct_conf['gen']['btc_prim_currency_pairing'])?> Received From All Sold Tokens</span>) <span class="blue">&#247;</span> <span class="yellow">Total Remaining Tokens Still Held</span> <span class="blue">=</span> <span class="bitcoin">Average <?=strtoupper($ct_conf['gen']['btc_prim_currency_pairing'])?> Price Paid Per Token</span></p>'
+			+'<p class="coin_info extra_margins" style="white-space: normal; max-width: 600px;">(<span class="green">Total <?=strtoupper($ct_conf['gen']['btc_prim_currency_pair'])?> Paid For All Tokens</span> <span class="blue">-</span> <span class="red">Total <?=strtoupper($ct_conf['gen']['btc_prim_currency_pair'])?> Received From All Sold Tokens</span>) <span class="blue">&#247;</span> <span class="yellow">Total Remaining Tokens Still Held</span> <span class="blue">=</span> <span class="bitcoin">Average <?=strtoupper($ct_conf['gen']['btc_prim_currency_pair'])?> Price Paid Per Token</span></p>'
 			
-			+'<p class="coin_info extra_margins" style="white-space: normal; max-width: 600px;"><span class="yellow">PRO TIP:</span> <br /> When buying / selling, keep quick and dirty (yet clear) textual records of... <br />a) How much you bought / sold of what<br />b) What you paid / received in <?=strtoupper($ct_conf['gen']['btc_prim_currency_pairing'])?> value<br />c) What / where you traded <br />d) Backup to USB Stick / NAS / DropBox / GoogleDrive / OneDrive / AmazonBucket <br />e) Now you\'re ready for tax season, to create spreadsheets from this data</p>'
+			+'<p class="coin_info extra_margins" style="white-space: normal; max-width: 600px;"><span class="yellow">PRO TIP:</span> <br /> When buying / selling, keep quick and dirty (yet clear) textual records of... <br />a) How much you bought / sold of what<br />b) What you paid / received in <?=strtoupper($ct_conf['gen']['btc_prim_currency_pair'])?> value<br />c) What / where you traded <br />d) Backup to USB Stick / NAS / DropBox / GoogleDrive / OneDrive / AmazonBucket <br />e) Now you\'re ready for tax season, to create spreadsheets from this data</p>'
 			
 			+'<p class="coin_info extra_margins yellow" style="white-space: normal; max-width: 600px;">There is also an <i>open source / free</i> app called <a href="https://rotki.com" target="_blank">Rotki</a> that can help you <i>PRIVATELY</i> track your tax data.</p>'
 			
@@ -37,13 +37,13 @@
 			
 			+'<p class="coin_info extra_margins red" style="white-space: normal; max-width: 600px;"><b>*Leverage trading is <u>EXTREMELY RISKY</u> (and even more so in crypto markets). Never put more than ~5% of your total investment worth into leverage trades, or you will <u>RISK LOSING EVERYTHING</u>!</b></p>'
 			
-			+'<p class="coin_info extra_margins" style="white-space: normal; max-width: 600px;">Set the "Asset / Pairing @ Exchange" drop-down menus for the asset to any markets you prefer. It doesn\'t matter which ones you choose, as long as the price discovery closely matches the exchange where you are margin trading this asset.</p>'
+			+'<p class="coin_info extra_margins" style="white-space: normal; max-width: 600px;">Set the "Asset / Pair @ Exchange" drop-down menus for the asset to any markets you prefer. It doesn\'t matter which ones you choose, as long as the price discovery closely matches the exchange where you are margin trading this asset.</p>'
 			
-			+'<p class="coin_info extra_margins" style="white-space: normal; max-width: 600px;">Set the "Holdings" field to match your margin leverage deposit (example: buying 1 BTC @ 5x leverage would be 0.2 BTC in the "Holdings" field in this app). You\'ll also need to fill in the "Average Paid (per-token)" field with the average price paid in <?=strtoupper($ct_conf['gen']['btc_prim_currency_pairing'])?> per-token. Finally, set the "Margin Leverage" fields to match your leverage and whether you are long or short. When you are done, click "Save Updated Portfolio".</p>'
+			+'<p class="coin_info extra_margins" style="white-space: normal; max-width: 600px;">Set the "Holdings" field to match your margin leverage deposit (example: buying 1 BTC @ 5x leverage would be 0.2 BTC in the "Holdings" field in this app). You\'ll also need to fill in the "Average Paid (per-token)" field with the average price paid in <?=strtoupper($ct_conf['gen']['btc_prim_currency_pair'])?> per-token. Finally, set the "Margin Leverage" fields to match your leverage and whether you are long or short. When you are done, click "Save Updated Portfolio".</p>'
 			
 			+'<p class="coin_info extra_margins" style="white-space: normal; max-width: 600px;">To see your margin leverage stats after updating your portfolio, go to the bottom of the Portfolio page, where you\'ll find a summary section. Hovering over the "I" icon next to the Gain / Loss summary will display any margin leverage stats per-asset. There is also an "I" icon in the far right-side data table column (Subtotal) per-asset, which you can also hover over for margin leverage stats.</p>'
 			
-			+'<p class="coin_info balloon_notation extra_margins yellow" style="white-space: normal; max-width: 600px;">*Current maximum margin leverage setting of <?=$ct_conf['power']['margin_leverage_max']?>x can be adjusted in the Admin Config POWER USER section.</p>'
+			+'<p class="coin_info balloon_notation extra_margins yellow" style="white-space: normal; max-width: 600px;">*Current maximum margin leverage setting of <?=$ct_conf['power']['margin_lvrg_max']?>x can be adjusted in the Admin Config POWER USER section.</p>'
 			
 			+'<p> </p>';
 
@@ -91,7 +91,7 @@
 			
 			+'<p class="coin_info" style="max-width: 600px; white-space: normal;"><img src="templates/interface/media/images/auto-preloaded/csv-spreadsheet-example.png" width="590" title="CSV spreadsheet of portfolio holdings" /></p>'
 			
-			+'<p class="coin_info" style="max-width: 600px; white-space: normal;"><span class="yellow">FORMATTING:</span> <br /> The spreadsheet format is custom, and DOES NOT support importing CSV spreadsheets provided by any particular exchange. The only required entries for CSV spreadsheet import are Asset Symbol / Holdings / Market Pairing. The other fields are optional, and can be left blank if desired:</p>'
+			+'<p class="coin_info" style="max-width: 600px; white-space: normal;"><span class="yellow">FORMATTING:</span> <br /> The spreadsheet format is custom, and DOES NOT support importing CSV spreadsheets provided by any particular exchange. The only required entries for CSV spreadsheet import are Asset Symbol / Holdings / Market Pair. The other fields are optional, and can be left blank if desired:</p>'
 			
 			+'<p class="coin_info" style="max-width: 600px; white-space: normal;"><img src="templates/interface/media/images/auto-preloaded/csv-spreadsheet-example-minimal.png" width="590" title="MINIMUM requirements to import a CSV spreadsheet" /></p>'
 			
@@ -283,7 +283,7 @@
 		
 		<!-- Submit button must be OUTSIDE form tags here, or it submits the target form improperly and loses data -->
 		<button class='force_button_style' onclick='
-		$("#coin_amounts").submit();
+		$("#coin_amnts").submit();
 		'>Save Updated Portfolio</button>
 	
 		<form style='display: inline;' name='csv_import' id='csv_import' enctype="multipart/form-data" action="<?=$ct_gen->start_page($_GET['start_page'])?>" method="post">
@@ -299,9 +299,9 @@
 		
 		<button style='margin-left: 40px;' class='force_button_style' onclick='
 		// HELP THWART CSRF ATTACKS VIA POST METHOD (IN COMBINATION WITH THE TOKEN HASH), DATA IS SENSITIVE!
-		set_target_action("coin_amounts", "_blank", "download.php?token=<?=$ct_gen->nonce_digest('download')?>&csv_export=1");
-		document.coin_amounts.submit(); // USE NON-JQUERY METHOD SO "APP LOADING..." DOES #NOT# SHOW
-		set_target_action("coin_amounts", "_self", "<?=$ct_gen->start_page($_GET['start_page'])?>");
+		set_target_action("coin_amnts", "_blank", "download.php?token=<?=$ct_gen->nonce_digest('download')?>&csv_export=1");
+		document.coin_amnts.submit(); // USE NON-JQUERY METHOD SO "APP LOADING..." DOES #NOT# SHOW
+		set_target_action("coin_amnts", "_self", "<?=$ct_gen->start_page($_GET['start_page'])?>");
 		'>Export Portfolio To CSV File</button>
 		
 		
@@ -344,7 +344,7 @@
 	
 		<div class='align_center' style='font-weight: bold;'>Watch Only</div>
 	
-		<div style='margin-left: 6px;'><input type='checkbox' onclick='selectAll(this, "coin_amounts");' /> <b>Select / Unselect All <i><u>Unheld</u> Assets</i></b>	</div>
+		<div style='margin-left: 6px;'><input type='checkbox' onclick='selectAll(this, "coin_amnts");' /> <b>Select / Unselect All <i><u>Unheld</u> Assets</i></b>	</div>
 		
 	
 	</div>
@@ -373,7 +373,7 @@
 	
 	
 	
-	<form id='coin_amounts' name='coin_amounts' action='<?=$ct_gen->start_page($_GET['start_page'])?>' method='post'>
+	<form id='coin_amnts' name='coin_amnts' action='<?=$ct_gen->start_page($_GET['start_page'])?>' method='post'>
 	
 		
 	<div class='long_list_start list_start_black'> &nbsp; </div>
@@ -382,243 +382,138 @@
 	
 	if ( is_array($ct_conf['assets']) ) {
 
+	        
+	//var_dump($ct_conf['assets']);
+	        
+	//var_dump($all_cookies_data_array);
+	
 	    
 	    $zebra_stripe = 'long_list_odd';
 	    foreach ( $ct_conf['assets'] as $asset_array_key => $asset_array_val ) {
 		
-		 $rand_id = rand(10000000,100000000);
+		$rand_id = rand(10000000,100000000);
 	    
-	    $field_var_pairing = strtolower($asset_array_key) . '_pairing';
-	    $field_var_market = strtolower($asset_array_key) . '_market';
-	    $field_var_amount = strtolower($asset_array_key) . '_amount';
+	    $field_var_pair = strtolower($asset_array_key) . '_pair';
+	    $field_var_mrkt = strtolower($asset_array_key) . '_mrkt';
+	    $field_var_amnt = strtolower($asset_array_key) . '_amnt';
 	    $field_var_paid = strtolower($asset_array_key) . '_paid';
-	    $field_var_leverage = strtolower($asset_array_key) . '_leverage';
-	    $field_var_margintype = strtolower($asset_array_key) . '_margintype';
+	    $field_var_lvrg = strtolower($asset_array_key) . '_lvrg';
+	    $field_var_mrgntyp = strtolower($asset_array_key) . '_mrgntyp';
 	    $field_var_watchonly = strtolower($asset_array_key) . '_watchonly';
 	    $field_var_restore = strtolower($asset_array_key) . '_restore';
 	    
 	    
 	        if ( $_POST['submit_check'] == 1 ) {
-	        $asset_pairing_id = $_POST[$field_var_pairing];
-	        $asset_market_id = $_POST[$field_var_market];
-	        $asset_amount_val = $ct_var->rem_num_format($_POST[$field_var_amount]);
+	        $asset_pair_id = $_POST[$field_var_pair];
+	        $asset_mrkt_id = $_POST[$field_var_mrkt];
+	        $asset_amnt_val = $ct_var->rem_num_format($_POST[$field_var_amnt]);
 	        $asset_paid_val = $ct_var->rem_num_format($_POST[$field_var_paid]);
-	        $asset_leverage_val = $_POST[$field_var_leverage];
-	        $asset_margintype_val = $_POST[$field_var_margintype];
+	        $asset_lvrg_val = $_POST[$field_var_lvrg];
+	        $asset_mrgntyp_val = $_POST[$field_var_mrgntyp];
 	        }
 	        elseif ( $run_csv_import == 1 ) {
 	        	
 	        
-	        		foreach( $csv_file_array as $key => $val ) {
+	        	foreach( $csv_file_array as $key => $val ) {
 	        		
-	        			if ( strtoupper($asset_array_key) == strtoupper($key) ) {
+	        		if ( strtoupper($asset_array_key) == strtoupper($key) ) {
 	        			
 	        			// We already validated / auto-corrected $csv_file_array
-	        		 	$asset_amount_val = $val[1];
-	       		 	$asset_paid_val = $val[2];
-	       		 	$asset_leverage_val = $val[3];
-	        			$asset_margintype_val = $val[4];
-	        			$asset_market_id = $val[5];
-	        		 	$asset_pairing_id = $val[6];
+	        		 	$asset_amnt_val = $val[1];
+    	       		 	$asset_paid_val = $val[2];
+    	       		 	$asset_lvrg_val = $val[3];
+	        			$asset_mrgntyp_val = $val[4];
+	        			$asset_mrkt_id = $val[5];
+	        		 	$asset_pair_id = $val[6];
 	        			
 	       		 	}
 	        	
-	        		}
+	        	}
 	        		
 	        
 	        }
-	        
+	    	// Cookies
+	        elseif ( $ui_cookies ) {
 	
-	    
-	    	  // Cookies
-	        if ( !$run_csv_import && $_COOKIE['coin_pairings'] ) {
-	        
-	        $all_asset_pairings_cookie_array = explode("#", $_COOKIE['coin_pairings']);
-	        
-		if ( is_array($all_asset_pairings_cookie_array) ) {
-		    
-		    foreach ( $all_asset_pairings_cookie_array as $asset_pairings ) {
-		        
-		    $single_asset_pairings_cookie_array = explode("-", $asset_pairings);
-		    
-		    $asset_symb = strtoupper(preg_replace("/_pairing/i", "", $single_asset_pairings_cookie_array[0]));  
-		    
-		        if ( $asset_symb == strtoupper($asset_array_key) ) {
-		        $asset_pairing_id = $single_asset_pairings_cookie_array[1];
-		        }
-		    
-		    
-		    }
-		    
-		}
-	        
-	        
+        	   foreach ( $all_cookies_data_array as $key => $unused ) {
+        	       
+        	   $temp = null;
+        	       
+        	   $asset_symb = substr($key, 0, strpos($key, "_"));
+        	        
+        	        if ( strtoupper($asset_array_key) == strtoupper($asset_symb) ) {
+        	            
+        						
+                	// Bundle all required cookie data in this final cookies parsing loop for each coin, and render the coin's data
+                	// We don't need $ct_var->rem_num_format() for cookie data, because it was already done creating the cookies
+                	$asset_amnt_val = $ct_var->num_to_str($all_cookies_data_array[$asset_symb.'_data'][$asset_symb.'_amnt']);
+                	$asset_mrkt_id = $all_cookies_data_array[$asset_symb.'_data'][$asset_symb.'_mrkt'];
+                	$asset_pair_id = $all_cookies_data_array[$asset_symb.'_data'][$asset_symb.'_pair'];
+                					
+                					
+                		if ( $asset_amnt_val >= 0.000000001 ) {
+                					       
+                		$temp = $ct_var->num_to_str($all_cookies_data_array[$asset_symb.'_data'][$asset_symb.'_paid']);
+                					   
+                    		if (
+                    		$temp >= 0.00000001
+                    		&& $asset_amnt_val >= 0.00000001
+                    		) {
+                			$asset_paid_val = $temp;
+                    		$asset_lvrg_val = $all_cookies_data_array[$asset_symb.'_data'][$asset_symb.'_lvrg'];
+                    		$asset_mrgntyp_val = $all_cookies_data_array[$asset_symb.'_data'][$asset_symb.'_mrgntyp'];
+                    		}
+                    		else {
+                		    $asset_paid_val = 0;
+                    		$asset_lvrg_val = 0;
+                    		$asset_mrgntyp_val = 'long';
+                    		}
+                					   
+                		}
+                		else {
+                		$asset_paid_val = 0;
+                		$asset_lvrg_val = 0;
+                		$asset_mrgntyp_val = 'long';
+                		}
+        					
+        	        }
+        	        
+        	   }
+	   
 	        }
 	        
-	        
-	        
-	        if ( !$run_csv_import && $_COOKIE['coin_markets'] ) {
-	        
-	        $all_asset_markets_cookie_array = explode("#", $_COOKIE['coin_markets']);
-	        
-		if ( is_array($all_asset_markets_cookie_array) ) {
-		    
-		    foreach ( $all_asset_markets_cookie_array as $asset_markets ) {
-		        
-		    $single_asset_markets_cookie_array = explode("-", $asset_markets);
-		    
-		    $asset_symb = strtoupper(preg_replace("/_market/i", "", $single_asset_markets_cookie_array[0]));  
-		    
-		        if ( $asset_symb == strtoupper($asset_array_key) ) {
-		        $asset_market_id = $single_asset_markets_cookie_array[1];
-		        }
-		    
-		    
-		    
-		    }
-		    
-		}
-	        
-	        
-	        }
-	        
-	
-	        if ( !$run_csv_import && $_COOKIE['coin_amounts'] ) {
-	        
-	        $all_asset_amounts_cookie_array = explode("#", $_COOKIE['coin_amounts']);
-	        
-		if ( is_array($all_asset_amounts_cookie_array) ) {
-		    
-		    foreach ( $all_asset_amounts_cookie_array as $asset_amounts ) {
-		        
-		    $single_asset_amounts_cookie_array = explode("-", $asset_amounts);
-		    
-		    $asset_symb = strtoupper(preg_replace("/_amount/i", "", $single_asset_amounts_cookie_array[0]));  
-		    
-		    		// We don't need $ct_var->rem_num_format() for cookie data, because it was already done creating the cookies
-					if ( $asset_symb == strtoupper($asset_array_key) ) {
-					$asset_amount_val = $ct_var->num_to_str($single_asset_amounts_cookie_array[1]);
-					}
-		    
-		    
-		    }
-		    
-		}
-	        
-	        
-	        }
-	        
-	
-	        if ( !$run_csv_import && $_COOKIE['coin_paid'] ) {
-	        
-	        $all_asset_paid_cookie_array = explode("#", $_COOKIE['coin_paid']);
-	        
-		if ( is_array($all_asset_paid_cookie_array) ) {
-		    
-		    foreach ( $all_asset_paid_cookie_array as $asset_paid ) {
-		        
-		    $single_asset_paid_cookie_array = explode("-", $asset_paid);
-		    
-		    $asset_symb = strtoupper(preg_replace("/_paid/i", "", $single_asset_paid_cookie_array[0]));  
-		    		
-		    		// We don't need $ct_var->rem_num_format() for cookie data, because it was already done creating the cookies
-					if ( $asset_symb == strtoupper($asset_array_key) ) {
-					$asset_paid_val = $ct_var->num_to_str($single_asset_paid_cookie_array[1]);
-					}
-		    
-		    
-		    }
-		    
-		}
-	        
-	        
-	        }
-	        
-	
-	        if ( !$run_csv_import && $_COOKIE['coin_leverage'] ) {
-	        
-	        $all_asset_leverage_cookie_array = explode("#", $_COOKIE['coin_leverage']);
-	        
-		if ( is_array($all_asset_leverage_cookie_array) ) {
-		    
-		    foreach ( $all_asset_leverage_cookie_array as $asset_leverage ) {
-		        
-		    $single_asset_leverage_cookie_array = explode("-", $asset_leverage);
-		    
-		    $asset_symb = strtoupper(preg_replace("/_leverage/i", "", $single_asset_leverage_cookie_array[0]));  
-		    
-					if ( $asset_symb == strtoupper($asset_array_key) ) {
-					$asset_leverage_val = $single_asset_leverage_cookie_array[1];
-					}
-		    
-		    
-		    }
-		    
-		}
-	        
-	        
-	        }
-	        
-	
-	        if ( !$run_csv_import && $_COOKIE['coin_margintype'] ) {
-	        
-	        $all_asset_margintype_cookie_array = explode("#", $_COOKIE['coin_margintype']);
-	        
-		if ( is_array($all_asset_margintype_cookie_array) ) {
-		    
-		    foreach ( $all_asset_margintype_cookie_array as $asset_margintype ) {
-		        
-		    $single_asset_margintype_cookie_array = explode("-", $asset_margintype);
-		    
-		    $asset_symb = strtoupper(preg_replace("/_margintype/i", "", $single_asset_margintype_cookie_array[0]));  
-		    
-					if ( $asset_symb == strtoupper($asset_array_key) ) {
-					$asset_margintype_val = $single_asset_margintype_cookie_array[1];
-					}
-		    
-		    
-		    }
-		    
-		}
-	        
-	        
-	        }
-	        
-	      
-	      
 	    
 	    	if ( strtoupper($asset_array_key) == 'MISCASSETS' || strtoupper($asset_array_key) == 'ETHNFTS' || strtoupper($asset_array_key) == 'SOLNFTS' ) {
-	    	$asset_amount_dec = 2;
+	    	$asset_amnt_dec = 2;
 	    	$disable_fields = 'disabled';
 	    	}
 	    	else {
-	    	$asset_amount_dec = 8;
+	    	$asset_amnt_dec = 8;
 	    	$disable_fields = null;
 	    	}
 	    
 	    
-	  	 $asset_amount_val = $ct_var->num_pretty($asset_amount_val, $asset_amount_dec, TRUE); // TRUE = Show even if low value is off the map, just for UX purposes tracking token price only, etc
-	    
-	    // Set any previously-used additional feilds to default, if 'watch only' now (no amount held)
-	    if ( $ct_var->rem_num_format($asset_amount_val) < 0.00000001 ) {
-	    $asset_paid_val = 0;
-	    $asset_leverage_val = 0;
-	    $asset_margintype_val = 'long';
-	    
-	    }
-	    else {
-	    $asset_paid_val = ( $ct_var->num_to_str($asset_paid_val) >= 1 ? $ct_var->num_pretty($asset_paid_val, 2) : $ct_var->num_pretty($asset_paid_val, $ct_conf['gen']['prim_currency_dec_max']) );
-	    }
+	  	 $asset_amnt_val = $ct_var->num_pretty($asset_amnt_val, $asset_amnt_dec, TRUE); // TRUE = Show even if low value is off the map, just for UX purposes tracking token price only, etc
 	    
 	    
-	  	 
-	    	
+    	    // Set any previously-used additional feilds to default, if 'watch only' now (no amount held)
+    	    if ( $ct_var->rem_num_format($asset_amnt_val) < 0.00000001 ) {
+    	    $asset_paid_val = 0;
+    	    $asset_lvrg_val = 0;
+    	    $asset_mrgntyp_val = 'long';
+    	    
+    	    }
+    	    else {
+    	    $asset_paid_val = ( $ct_var->num_to_str($asset_paid_val) >= 1 ? $ct_var->num_pretty($asset_paid_val, 2) : $ct_var->num_pretty($asset_paid_val, $ct_conf['gen']['prim_currency_dec_max']) );
+    	    }
+	    
+	    
 	    ?>
 	    
 	    <div class='<?=$zebra_stripe?> long_list_taller' style='white-space: nowrap;'> 
 	       
 	       
-	       <input type='checkbox' value='<?=strtolower($asset_array_key)?>' id='<?=$field_var_watchonly?>' onchange='watch_toggle(this);' <?=( $ct_var->rem_num_format($asset_amount_val) > 0 && $ct_var->rem_num_format($asset_amount_val) <= '0.000000001' ? 'checked' : '' )?> /> &nbsp;
+	       <input type='checkbox' value='<?=strtolower($asset_array_key)?>' id='<?=$field_var_watchonly?>' onchange='watch_toggle(this);' <?=( $ct_var->rem_num_format($asset_amnt_val) > 0 && $ct_var->rem_num_format($asset_amnt_val) <= '0.000000001' ? 'checked' : '' )?> /> &nbsp;
 				    
 				    
 			<b class='blue'><?=$asset_array_val['name']?> (<?=strtoupper($asset_array_key)?>)</b> /  
@@ -626,40 +521,40 @@
 	       
 				    <select class='browser-default custom-select' onchange='
 				    
-				    $("#<?=$field_var_market?>_lists").children().hide(); 
+				    $("#<?=$field_var_mrkt?>_lists").children().hide(); 
 				    $("#" + this.value + "<?=$asset_array_key?>_pairs").show(); 
 				    
-				    $("#<?=$field_var_market?>").val( $("#" + this.value + "<?=$asset_array_key?>_pairs option:selected").val() );
+				    $("#<?=$field_var_mrkt?>").val( $("#" + this.value + "<?=$asset_array_key?>_pairs option:selected").val() );
 				    
-				    ' id='<?=$field_var_pairing?>' name='<?=$field_var_pairing?>'>
+				    ' id='<?=$field_var_pair?>' name='<?=$field_var_pair?>'>
 					<?php
 					
-					// Get default BITCOIN pairing key for further down in the logic, if no $asset_pairing_id value was set FOR BITCOIN
+					// Get default BITCOIN pair key for further down in the logic, if no $asset_pair_id value was set FOR BITCOIN
 					if ( strtolower($asset_array_val['name']) == 'bitcoin' ) {
-					$sel_pairing = ( isset($asset_pairing_id) ? $asset_pairing_id : $ct_conf['gen']['btc_prim_currency_pairing'] );
+					$sel_pair = ( isset($asset_pair_id) ? $asset_pair_id : $ct_conf['gen']['btc_prim_currency_pair'] );
 					}
 					else {
-					$sel_pairing = $asset_pairing_id;
+					$sel_pair = $asset_pair_id;
 					}
 					
 					
-					foreach ( $asset_array_val['pairing'] as $pairing_key => $pairing_id ) {
+					foreach ( $asset_array_val['pair'] as $pair_key => $pair_id ) {
 					 	
-					 	// Set pairing key if not set yet (values not yet populated etc)
-					 	if ( !isset($sel_pairing) ) {
-					 	$sel_pairing = $pairing_key;
+					 	// Set pair key if not set yet (values not yet populated etc)
+					 	if ( !isset($sel_pair) ) {
+					 	$sel_pair = $pair_key;
 					 	}
 						
 					?>
-					<option value='<?=$pairing_key?>' <?=( $sel_pairing == $pairing_key ? ' selected ' : '' )?>> <?=strtoupper(preg_replace("/_/i", " ", $pairing_key))?> </option>
+					<option value='<?=$pair_key?>' <?=( $sel_pair == $pair_key ? ' selected ' : '' )?>> <?=strtoupper(preg_replace("/_/i", " ", $pair_key))?> </option>
 					<?php
 					
-									foreach ( $asset_array_val['pairing'][$pairing_key] as $market_key => $market_id ) {
+									foreach ( $asset_array_val['pair'][$pair_key] as $market_key => $market_id ) {
 									$loop2 = $loop2 + 1;
 							
-									$html_market_list[$pairing_key] .= "\n<option value='".$loop2."'" . ( 
-									isset($asset_market_id) && ($asset_market_id) == $loop2 
-									|| !isset($asset_market_id) && strtolower($asset_array_val['name']) == 'bitcoin' && $loop2 == $ct_asset->btc_market($ct_conf['gen']['btc_prim_exchange']) ? ' selected ' : '' ) . ">" . $ct_gen->key_to_name($market_key) . " </option>\n";
+									$html_mrkt_list[$pair_key] .= "\n<option value='".$loop2."'" . ( 
+									isset($asset_mrkt_id) && ($asset_mrkt_id) == $loop2 
+									|| !isset($asset_mrkt_id) && strtolower($asset_array_val['name']) == 'bitcoin' && $loop2 == $ct_asset->btc_mrkt($ct_conf['gen']['btc_prim_exchange']) ? ' selected ' : '' ) . ">" . $ct_gen->key_to_name($market_key) . " </option>\n";
 								
 									}
 									$loop2 = NULL;
@@ -670,16 +565,16 @@
 				    </select> 
 				    
 				    
-				     @ <input type='hidden' id='<?=$field_var_market?>' name='<?=$field_var_market?>' value='<?php
+				     @ <input type='hidden' id='<?=$field_var_mrkt?>' name='<?=$field_var_mrkt?>' value='<?php
 				     
-				     if ( $_POST[$field_var_market] ) {
-				     echo $_POST[$field_var_market];
+				     if ( $_POST[$field_var_mrkt] ) {
+				     echo $_POST[$field_var_mrkt];
 				     }
-				     elseif ( isset($asset_market_id) ) {
-				     echo $asset_market_id;
+				     elseif ( isset($asset_mrkt_id) ) {
+				     echo $asset_mrkt_id;
 				     }
-				     elseif ( !isset($asset_market_id) && strtolower($asset_array_val['name']) == 'bitcoin' ) {
-				     echo $ct_asset->btc_market($ct_conf['gen']['btc_prim_exchange']);
+				     elseif ( !isset($asset_mrkt_id) && strtolower($asset_array_val['name']) == 'bitcoin' ) {
+				     echo $ct_asset->btc_mrkt($ct_conf['gen']['btc_prim_exchange']);
 				     }
 				     else {
 						echo '1';
@@ -688,42 +583,42 @@
 				     ?>'>
 				     
 				     
-				     <span id='<?=$field_var_market?>_lists' style='display: inline;'>
-				     <!-- Selected (or first if none selected) pairing: <?=$sel_pairing?> -->
+				     <span id='<?=$field_var_mrkt?>_lists' style='display: inline;'>
+				     <!-- Selected (or first if none selected) pair: <?=$sel_pair?> -->
 				    <?php
 				    
-				    foreach ( $html_market_list as $key => $val ) {
+				    foreach ( $html_mrkt_list as $key => $val ) {
 				    ?>
 				    
 				    <select class='browser-default custom-select' onchange ='
 				    
-				    $("#<?=$field_var_market?>").val( this.value );
+				    $("#<?=$field_var_mrkt?>").val( this.value );
 				    
-				    ' id='<?=$key.$asset_array_key?>_pairs' style='display: <?=( $sel_pairing == $key ? 'inline' : 'none' )?>;'><?=$html_market_list[$key]?>
+				    ' id='<?=$key.$asset_array_key?>_pairs' style='display: <?=( $sel_pair == $key ? 'inline' : 'none' )?>;'><?=$html_mrkt_list[$key]?>
 				    
 				    </select>
 				    
 				    <?php
 				    }
-				    $html_market_list = NULL;
+				    $html_mrkt_list = NULL;
 				    ?>
 				    
 				    </span> &nbsp;  &nbsp; 
 				    
 				    
 			
-	     			 <b>Holdings:</b> <input class='private_data' type='text' size='11' id='<?=$field_var_amount?>' name='<?=$field_var_amount?>' value='<?=$asset_amount_val?>' onkeyup='
+	     			 <b>Holdings:</b> <input class='private_data' type='text' size='11' id='<?=$field_var_amnt?>' name='<?=$field_var_amnt?>' value='<?=$asset_amnt_val?>' onkeyup='
 	     
-	     $("#<?=strtolower($asset_array_key)?>_restore").val( $("#<?=strtolower($asset_array_key)?>_amount").val() );
+	     $("#<?=strtolower($asset_array_key)?>_restore").val( $("#<?=strtolower($asset_array_key)?>_amnt").val() );
 	     
 	     ' onblur='
 	     
-	     $("#<?=strtolower($asset_array_key)?>_restore").val( $("#<?=strtolower($asset_array_key)?>_amount").val() );
+	     $("#<?=strtolower($asset_array_key)?>_restore").val( $("#<?=strtolower($asset_array_key)?>_amnt").val() );
 	     
-	     ' <?=( $ct_var->rem_num_format($asset_amount_val) > 0 && $ct_var->rem_num_format($asset_amount_val) <= '0.000000001' ? 'readonly' : '' )?> /> <span class='blue'><?=strtoupper($asset_array_key)?></span>  &nbsp;  &nbsp; 
+	     ' <?=( $ct_var->rem_num_format($asset_amnt_val) > 0 && $ct_var->rem_num_format($asset_amnt_val) <= '0.000000001' ? 'readonly' : '' )?> /> <span class='blue'><?=strtoupper($asset_array_key)?></span>  &nbsp;  &nbsp; 
 			    
 			
-	     <b>Average Paid (per-token):</b> <?=$ct_conf['power']['btc_currency_markets'][ $ct_conf['gen']['btc_prim_currency_pairing'] ]?><input class='private_data' type='text' size='10' id='<?=$field_var_paid?>' name='<?=$field_var_paid?>' value='<?=$asset_paid_val?>' <?=$disable_fields?> /> 
+	     <b>Average Paid (per-token):</b> <?=$ct_conf['power']['btc_currency_mrkts'][ $ct_conf['gen']['btc_prim_currency_pair'] ]?><input class='private_data' type='text' size='10' id='<?=$field_var_paid?>' name='<?=$field_var_paid?>' value='<?=$asset_paid_val?>' <?=$disable_fields?> /> 
 	     
 	     
 		<img id='average_paid_notes_<?=$rand_id?>' src='templates/interface/media/images/info.png' alt='' width='30' style='position: relative; left: -5px;' /> 
@@ -755,7 +650,7 @@
 	     
 	     <b>Margin Leverage:</b> 
 	     
-	     <select class='browser-default custom-select' name='<?=$field_var_leverage?>' id='<?=$field_var_leverage?>' onchange='
+	     <select class='browser-default custom-select' name='<?=$field_var_lvrg?>' id='<?=$field_var_lvrg?>' onchange='
 	     if ( this.value <= 5 ) {
 	     var mode = "Sane";
 	     }
@@ -779,12 +674,12 @@
 	     }
 	     alert(" " + this.value + "x (" + mode + " Mode) \n Leverage trading in crypto assets is \n EXTREMELY RISKY. NEVER put more \n than ~5% of your crypto investments \n in leveraged trades EVER, OR YOU \n ###COULD LOSE EVERYTHING###. ");
 	     ' <?=$disable_fields?> >
-	     <option value='0' <?=( $asset_leverage_val == 0 || $ct_var->rem_num_format($asset_paid_val) < 0.00000001 ? 'selected' : '' )?>> None </option>
+	     <option value='0' <?=( $asset_lvrg_val == 0 || $ct_var->rem_num_format($asset_paid_val) < 0.00000001 ? 'selected' : '' )?>> None </option>
 	     <?php
 	     $leverage_count = 2;
-	     while ( $ct_conf['power']['margin_leverage_max'] > 1 && $leverage_count <= $ct_conf['power']['margin_leverage_max'] ) {
+	     while ( $ct_conf['power']['margin_lvrg_max'] > 1 && $leverage_count <= $ct_conf['power']['margin_lvrg_max'] ) {
 	     ?>	     
-	     <option value='<?=$leverage_count?>' <?=( $asset_leverage_val == $leverage_count && $ct_var->rem_num_format($asset_paid_val) >= 0.00000001 ? 'selected' : '' )?>> <?=$leverage_count?>x </option>
+	     <option value='<?=$leverage_count?>' <?=( $asset_lvrg_val == $leverage_count && $ct_var->rem_num_format($asset_paid_val) >= 0.00000001 ? 'selected' : '' )?>> <?=$leverage_count?>x </option>
 	     <?php
 	     $leverage_count = $leverage_count + 1;
 	     }
@@ -792,9 +687,9 @@
 	     </select> 
 	     
 	     
-	     <select class='browser-default custom-select' name='<?=$field_var_margintype?>' id='<?=$field_var_margintype?>' <?=$disable_fields?> >
-	     <option value='long' <?=( $asset_margintype_val == 'long' ? 'selected' : '' )?>> Long </option>
-	     <option value='short' <?=( $asset_leverage_val >= 2 && $asset_margintype_val == 'short' ? 'selected' : '' )?>> Short </option>
+	     <select class='browser-default custom-select' name='<?=$field_var_mrgntyp?>' id='<?=$field_var_mrgntyp?>' <?=$disable_fields?> >
+	     <option value='long' <?=( $asset_mrgntyp_val == 'long' ? 'selected' : '' )?>> Long </option>
+	     <option value='short' <?=( $asset_lvrg_val >= 2 && $asset_mrgntyp_val == 'short' ? 'selected' : '' )?>> Short </option>
 	     </select> 
 	     
 	     
@@ -825,7 +720,7 @@
 		 
 	     
 	     
-	     <input type='hidden' id='<?=$field_var_restore?>' name='<?=$field_var_restore?>' value='<?=( $ct_var->rem_num_format($asset_amount_val) > 0 && $ct_var->rem_num_format($asset_amount_val) <= '0.000000001' ? '' : $asset_amount_val )?>' />
+	     <input type='hidden' id='<?=$field_var_restore?>' name='<?=$field_var_restore?>' value='<?=( $ct_var->rem_num_format($asset_amnt_val) > 0 && $ct_var->rem_num_format($asset_amnt_val) <= '0.000000001' ? '' : $asset_amnt_val )?>' />
 				
 				
 	    </div>
@@ -842,9 +737,9 @@
 	    
 	    $asset_symb = NULL;
 	    
-	    $asset_pairing_id = NULL;
-	    $asset_market_id = NULL;
-	    $asset_amount_val = NULL;
+	    $asset_pair_id = NULL;
+	    $asset_mrkt_id = NULL;
+	    $asset_amnt_val = NULL;
  		 $asset_paid_val = NULL;
 	    
 	    }
@@ -862,7 +757,7 @@
 	
 	<input type='hidden' id='sort_by' name='sort_by' value='<?=($sel_opt['sorted_by_col'])?>|<?=($sel_opt['sorted_asc_desc'])?>' />
 	
-	<input type='hidden' id='use_cookies' name='use_cookies' value='<?php echo ( $_COOKIE['coin_amounts'] != '' ? '1' : ''); ?>' />
+	<input type='hidden' id='use_cookies' name='use_cookies' value='<?php echo ( $_COOKIE['coin_amnts'] != '' ? '1' : ''); ?>' />
 	
 	<input type='hidden' id='use_notes' name='use_notes' value='<?php echo ( $_COOKIE['notes'] != '' ? '1' : ''); ?>' />
 	
@@ -876,7 +771,7 @@
 	
 	<input type='hidden' id='show_feeds' name='show_feeds' value='<?=( $_POST['show_feeds'] != '' ? $_POST['show_feeds'] : $_COOKIE['show_feeds'] )?>' />
 	
-	<input type='hidden' id='prim_currency_market_standalone' name='prim_currency_market_standalone' value='<?=( $_POST['prim_currency_market_standalone'] != '' ? $_POST['prim_currency_market_standalone'] : $_COOKIE['prim_currency_market_standalone'] )?>' />
+	<input type='hidden' id='prim_currency_mrkt_standalone' name='prim_currency_mrkt_standalone' value='<?=( $_POST['prim_currency_mrkt_standalone'] != '' ? $_POST['prim_currency_mrkt_standalone'] : $_COOKIE['prim_currency_mrkt_standalone'] )?>' />
 			
 	<p><input type='submit' value='Save Updated Portfolio' /></p>
 	

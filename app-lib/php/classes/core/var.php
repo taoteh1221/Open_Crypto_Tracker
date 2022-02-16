@@ -412,24 +412,24 @@ var $ct_array1 = array();
           
       if ( preg_match("/\./", $raw_val_to_pretty) ) {
       $val_no_decimal = preg_replace("/\.(.*)/", "", $raw_val_to_pretty);
-      $decimal_amount = preg_replace("/(.*)\./", "", $raw_val_to_pretty);
-      $check_decimal_amount = '0.' . $decimal_amount;
+      $decimal_amnt = preg_replace("/(.*)\./", "", $raw_val_to_pretty);
+      $check_decimal_amnt = '0.' . $decimal_amnt;
       }
       else {
       $val_no_decimal = $raw_val_to_pretty;
-      $decimal_amount = null;
-      $check_decimal_amount = null;
+      $decimal_amnt = null;
+      $check_decimal_amnt = null;
       }
    
    
-      if ( trim($decimal_amount) != '' ) {
-      $render_decimals = '.' . $decimal_amount;
+      if ( trim($decimal_amnt) != '' ) {
+      $render_decimals = '.' . $decimal_amnt;
       }
    
       
-   // Show decimal value with $decimal_amount
+   // Show decimal value with $decimal_amnt
    // $val_no_decimal stops rounding any whole number left of decimal, AND number_format gives us pretty numbers left of decimal
-   $val_to_pretty = number_format($val_no_decimal, 0, '.', ',') . ( $this->num_to_str($check_decimal_amount) > 0.00000000 || $dec_min != false ? $render_decimals : '' );
+   $val_to_pretty = number_format($val_no_decimal, 0, '.', ',') . ( $this->num_to_str($check_decimal_amnt) > 0.00000000 || $dec_min != false ? $render_decimals : '' );
      
    return $val_to_pretty;
    

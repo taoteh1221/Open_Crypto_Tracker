@@ -102,7 +102,7 @@ sessionStorage['scroll_position'] = window.scrollY;
 function update_alert_percent() {
 
 	if ( document.getElementById("alert_percent").value == "yes" ) {
-	document.getElementById("use_alert_percent").value = document.getElementById("alert_source").value + "|" + document.getElementById("percent_change_amount").value + "|" + document.getElementById("percent_change_filter").value + "|" + document.getElementById("percent_change_time").value + "|" + document.getElementById("percent_change_alert_type").value;
+	document.getElementById("use_alert_percent").value = document.getElementById("alert_source").value + "|" + document.getElementById("percent_change_amnt").value + "|" + document.getElementById("percent_change_filter").value + "|" + document.getElementById("percent_change_time").value + "|" + document.getElementById("percent_change_alert_type").value;
 	}
 	else {
 	document.getElementById("use_alert_percent").value = "";
@@ -460,7 +460,7 @@ function selectAll(toggle, form_name) {
             feed_toggle(checkbox);
             }
             
-            else if ( form_name == 'coin_amounts' && checkbox.checked != toggle.checked ) {
+            else if ( form_name == 'coin_amnts' && checkbox.checked != toggle.checked ) {
         		checkbox.checked = toggle.checked;
             watch_toggle(checkbox);
             }
@@ -506,7 +506,7 @@ function copy_text(elm_id, alert_id) {
 
 function watch_toggle(obj_var) {
 	
-num_val = $("#"+obj_var.value+"_amount").val();
+num_val = $("#"+obj_var.value+"_amnt").val();
 num_val = num_val.replace(/,/g, '');
 		
 		if ( obj_var.checked == true ) {
@@ -516,19 +516,19 @@ num_val = num_val.replace(/,/g, '');
 			obj_var.checked = false;
 			}
 			else {
-			$("#"+obj_var.value+"_amount").val("0.000000001");
-			$("#"+obj_var.value+"_amount").attr("readonly", "readonly");
+			$("#"+obj_var.value+"_amnt").val("0.000000001");
+			$("#"+obj_var.value+"_amnt").attr("readonly", "readonly");
 			}
 		
 		}
 		else {
 			
 			if ( num_val < 0.00000001 ) {
-			$("#"+obj_var.value+"_amount").val("");
+			$("#"+obj_var.value+"_amnt").val("");
 			}
 			
-		$("#"+obj_var.value+"_amount").removeAttr("readonly");
-		$("#"+obj_var.value+"_amount").val( $("#"+obj_var.value+"_restore").val() );
+		$("#"+obj_var.value+"_amnt").removeAttr("readonly");
+		$("#"+obj_var.value+"_amnt").val( $("#"+obj_var.value+"_restore").val() );
 		}
 	
 }
@@ -574,7 +574,7 @@ function render_names(name) {
 render = name.charAt(0).toUpperCase() + name.slice(1);
 
 
-	Object.keys(secondary_market_currencies).forEach(function(currency) {
+	Object.keys(secondary_mrkt_currencies).forEach(function(currency) {
 	re = new RegExp(currency,"gi");
     render = render.replace(re, currency.toUpperCase() );
 	});
@@ -733,7 +733,7 @@ promptCount = 0;
 
 function sats_val(sat_increase) {
 
-to_trade_amount = Number(document.getElementById("to_trade_amount").value);
+to_trade_amnt = Number(document.getElementById("to_trade_amnt").value);
 
 sat_target = Number(document.getElementById("sat_target").value);
 
@@ -752,7 +752,7 @@ sat_target = Number(document.getElementById("sat_target").value);
 
 target_prim_currency = ( num_total * btc_prim_currency_val );
 
-target_total_prim_currency = ( (to_trade_amount * num_total) * btc_prim_currency_val );
+target_total_prim_currency = ( (to_trade_amnt * num_total) * btc_prim_currency_val );
 
 
 	document.getElementById("target_prim_currency").innerHTML = target_prim_currency.toLocaleString(undefined, {
@@ -767,7 +767,7 @@ document.getElementById("target_btc").innerHTML = num_total;
    maximumFractionDigits: 2
 	});
 
-document.getElementById("target_total_btc").innerHTML = (to_trade_amount * num_total).toFixed(8);
+document.getElementById("target_total_btc").innerHTML = (to_trade_amnt * num_total).toFixed(8);
 
 }
 
@@ -1103,7 +1103,7 @@ function auto_reload() {
 				document.getElementById("reload_countdown").innerHTML = "(reloading app, please wait...)";
 				
 					setTimeout(function () {
-						$("#coin_amounts").submit();
+						$("#coin_amnts").submit();
 					}, 2000);
 				
 				}
