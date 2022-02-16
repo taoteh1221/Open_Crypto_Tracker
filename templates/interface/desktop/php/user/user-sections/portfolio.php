@@ -251,26 +251,29 @@ if ( $_POST['submit_check'] == 1 || $run_csv_import || $ui_cookies ) {
 	
 	   foreach ( $all_cookies_data_array as $key => $unused ) {
         	       
-       $temp = null;
+       $purchase_price_temp = null;
 	       
 	   $asset_symb = substr($key, 0, strpos($key, "_"));
     		
     	// Bundle all required cookie data in this final cookies parsing loop for each coin, and render the coin's data
     	// We don't need $ct_var->rem_num_format() for cookie data, because it was already done creating the cookies
-    	$held_amnt = $ct_var->num_to_str($all_cookies_data_array[$asset_symb.'_data'][$asset_symb.'_amnt']);
-    	// Avoided possible null equivelent issue by upping post value +1 in case zero, so -1 here
-    	$sel_mrkt = ($all_cookies_data_array[$asset_symb.'_data'][$asset_symb.'_mrkt'] -1);
-    	$sel_pair = $all_cookies_data_array[$asset_symb.'_data'][$asset_symb.'_pair'];
+    	$held_temp = $ct_var->num_to_str($all_cookies_data_array[$asset_symb.'_data'][$asset_symb.'_amnt']);
     					
-    		if ( $held_amnt >= 0.000000001 ) {
+            if ( $held_temp >= 0.000000001 ) {
+                
+        	$held_amnt = $held_temp;
+        	// Avoided possible null equivelent issue by upping post value +1 in case zero, so -1 here
+        	$sel_mrkt = ($all_cookies_data_array[$asset_symb.'_data'][$asset_symb.'_mrkt'] -1);
+        	$sel_pair = $all_cookies_data_array[$asset_symb.'_data'][$asset_symb.'_pair'];
     					       
-    		$temp = $ct_var->num_to_str($all_cookies_data_array[$asset_symb.'_data'][$asset_symb.'_paid']);
-    					   
+    		$purchase_price_temp = $ct_var->num_to_str($all_cookies_data_array[$asset_symb.'_data'][$asset_symb.'_paid']);
+    			
+    			// If purchased amount (not just watched), AND cost basis
         		if (
-        		$temp >= 0.00000001
+        		$purchase_price_temp >= 0.00000001
         		&& $held_amnt >= 0.00000001
         		) {
-    			$purchase_price = $temp;
+    			$purchase_price = $purchase_price_temp;
         		$leverage_level = $all_cookies_data_array[$asset_symb.'_data'][$asset_symb.'_lvrg'];
             	$sel_mrgntyp = $all_cookies_data_array[$asset_symb.'_data'][$asset_symb.'_mrgntyp'];
         		}

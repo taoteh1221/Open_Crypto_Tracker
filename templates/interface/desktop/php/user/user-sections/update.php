@@ -437,7 +437,7 @@
 	
         	   foreach ( $all_cookies_data_array as $key => $unused ) {
         	       
-        	   $temp = null;
+        	   $purchase_price_temp = null;
         	       
         	   $asset_symb = substr($key, 0, strpos($key, "_"));
         	        
@@ -446,20 +446,23 @@
         						
                 	// Bundle all required cookie data in this final cookies parsing loop for each coin, and render the coin's data
                 	// We don't need $ct_var->rem_num_format() for cookie data, because it was already done creating the cookies
-                	$asset_amnt_val = $ct_var->num_to_str($all_cookies_data_array[$asset_symb.'_data'][$asset_symb.'_amnt']);
-                	$asset_mrkt_id = $all_cookies_data_array[$asset_symb.'_data'][$asset_symb.'_mrkt'];
-                	$asset_pair_id = $all_cookies_data_array[$asset_symb.'_data'][$asset_symb.'_pair'];
+                	$asset_amnt_val_temp = $ct_var->num_to_str($all_cookies_data_array[$asset_symb.'_data'][$asset_symb.'_amnt']);
                 					
                 					
-                		if ( $asset_amnt_val >= 0.000000001 ) {
+                		if ( $asset_amnt_val_temp >= 0.000000001 ) {
+                		    
+                    	$asset_amnt_val = $asset_amnt_val_temp;
+                    	$asset_mrkt_id = $all_cookies_data_array[$asset_symb.'_data'][$asset_symb.'_mrkt'];
+                    	$asset_pair_id = $all_cookies_data_array[$asset_symb.'_data'][$asset_symb.'_pair'];
                 					       
-                		$temp = $ct_var->num_to_str($all_cookies_data_array[$asset_symb.'_data'][$asset_symb.'_paid']);
+                		$purchase_price_temp = $ct_var->num_to_str($all_cookies_data_array[$asset_symb.'_data'][$asset_symb.'_paid']);
                 					   
+    			            // If purchased amount (not just watched), AND cost basis
                     		if (
-                    		$temp >= 0.00000001
+                    		$purchase_price_temp >= 0.00000001
                     		&& $asset_amnt_val >= 0.00000001
                     		) {
-                			$asset_paid_val = $temp;
+                			$asset_paid_val = $purchase_price_temp;
                     		$asset_lvrg_val = $all_cookies_data_array[$asset_symb.'_data'][$asset_symb.'_lvrg'];
                     		$asset_mrgntyp_val = $all_cookies_data_array[$asset_symb.'_data'][$asset_symb.'_mrgntyp'];
                     		}

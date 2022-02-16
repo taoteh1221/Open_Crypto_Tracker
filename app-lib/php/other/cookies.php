@@ -209,7 +209,7 @@ $ct_gen->delete_all_cookies(); // Delete any existing cookies, if cookies have b
     }
     
 }
-elseif ( $_POST['submit_check'] == 1 && $_POST['use_cookies'] == 1 || $run_csv_import == 1 && $_COOKIE['coin_amnts'] != '' ) {
+elseif ( $_POST['submit_check'] == 1 && $_POST['use_cookies'] == 1 || $run_csv_import == 1 && $ui_cookies ) {
  
  
  // UI form POST data
@@ -228,8 +228,28 @@ elseif ( $_POST['submit_check'] == 1 && $_POST['use_cookies'] == 1 || $run_csv_i
           }
       
       }
+   
+  
+      if ( preg_match("/_mrkt/i", $key) ) {
+              
+          if ( $ct_var->rem_num_format($_POST[$asset_symb . '_amnt']) >= 0.000000001 ) {
+          $set_mrkt_vals .= $key.'-'. $_POST[$key] . '#';
+          }
+      
+      }
+   
+  
+      if ( preg_match("/_pair/i", $key) ) {
+              
+          if ( $ct_var->rem_num_format($_POST[$asset_symb . '_amnt']) >= 0.000000001 ) {
+          $set_pair_vals .= $key.'-'. $_POST[$key] . '#';
+          }
+      
+      }
   
   
+      // If purchased amount (not just watched), AND cost basis
+      
       if ( preg_match("/_paid/i", $key) ) {
               
           if (
@@ -245,7 +265,9 @@ elseif ( $_POST['submit_check'] == 1 && $_POST['use_cookies'] == 1 || $run_csv_i
                  
      if ( preg_match("/_lvrg/i", $key) ) {
                       
-           if ( $ct_var->rem_num_format($_POST[$asset_symb . '_paid']) >= 0.00000001 ) {
+           if ( $ct_var->rem_num_format($_POST[$asset_symb . '_paid']) >= 0.00000001
+           && $ct_var->rem_num_format($_POST[$asset_symb . '_amnt']) >= 0.00000001
+           ) {
            $set_lvrg_vals .= $key.'-'. $_POST[$key] . '#';
            }
                       
@@ -254,21 +276,13 @@ elseif ( $_POST['submit_check'] == 1 && $_POST['use_cookies'] == 1 || $run_csv_i
                   
      if ( preg_match("/_mrgntyp/i", $key) ) {
                       
-           if ( $ct_var->rem_num_format($_POST[$asset_symb . '_paid']) >= 0.00000001 ) {
+           if ( $ct_var->rem_num_format($_POST[$asset_symb . '_paid']) >= 0.00000001
+           && $ct_var->rem_num_format($_POST[$asset_symb . '_amnt']) >= 0.00000001
+           ) {
            // COMPRESS to save on cookie storage space
            $set_mrgntyp_vals .= $key.'-'. ( $_POST[$key] == 'short' ? 'shrt' : 'lng' ) . '#';
            }
                       
-      }
-   
-  
-      if ( preg_match("/_mrkt/i", $key) ) {
-      $set_mrkt_vals .= $key.'-'. $_POST[$key] . '#';
-      }
-   
-  
-      if ( preg_match("/_pair/i", $key) ) {
-      $set_pair_vals .= $key.'-'. $_POST[$key] . '#';
       }
    
   
@@ -292,7 +306,12 @@ elseif ( $_POST['submit_check'] == 1 && $_POST['use_cookies'] == 1 || $run_csv_i
 	       if ( $ct_var->rem_num_format($val[1]) >= 0.000000001 ) {
 	           
 	       $set_asset_vals .= $compat_key . '_amnt-' . $ct_var->rem_num_format($val[1]) . '#';
+	       
+    	   $set_mrkt_vals .= $compat_key . '_mrkt-' . $val[5] . '#';
+    	     	
+    	   $set_pair_vals .= $compat_key . '_pair-' . $val[6] . '#';
 	     
+    		   // If purchased amount (not just watched), AND cost basis
     	       if (
     	       $ct_var->rem_num_format($val[2]) >= 0.00000001
     	       && $ct_var->rem_num_format($val[1]) >= 0.00000001
@@ -306,9 +325,6 @@ elseif ( $_POST['submit_check'] == 1 && $_POST['use_cookies'] == 1 || $run_csv_i
 	       }
 	     
 	     
-	    $set_mrkt_vals .= $compat_key . '_mrkt-' . $val[5] . '#';
-	     	
-	    $set_pair_vals .= $compat_key . '_pair-' . $val[6] . '#';
 	     
 	     
 	    }
