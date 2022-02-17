@@ -1973,6 +1973,8 @@ var $ct_array1 = array();
       
    global $rand_color_ranged;
    
+   $result = array();
+   
    // WE DON'T USE THE ENTIRE 0-255 RANGES, AS SOME COLORS ARE TOO DARK / LIGHT AT FULL RANGES
    $darkest = 79;
    $lightest = 178;
@@ -2379,6 +2381,7 @@ var $ct_array1 = array();
    
    global $ct_conf, $ct_var, $default_btc_prim_currency_pair, $runtime_nonce, $runtime_data;
    
+   $data = array();
    
       // #FOR CLEAN CODE#, RUN CHECK TO MAKE SURE IT'S NOT A CRYPTO AS WELL...WE HAVE A COUPLE SUPPORTED, BUT WE ONLY WANT DESIGNATED FIAT-EQIV HERE
       if ( array_key_exists($chart_format, $ct_conf['power']['btc_currency_mrkts']) && !array_key_exists($chart_format, $ct_conf['power']['crypto_pair']) ) {
@@ -2395,7 +2398,6 @@ var $ct_array1 = array();
       }
    
    
-   $data = array();
    $fn = fopen($file,"r");
      
      while( !feof($fn) )  {
