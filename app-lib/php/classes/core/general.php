@@ -672,7 +672,6 @@ var $ct_array1 = array();
      
    // Settings
    $this->store_cookie('coin_reload', '', time()-3600); // Delete
-   $this->store_cookie('notes', '', time()-3600); // Delete
    $this->store_cookie('show_charts', '', time()-3600); // Delete
    $this->store_cookie('show_crypto_val', '', time()-3600); // Delete
    $this->store_cookie('show_secondary_trade_val', '', time()-3600); // Delete
@@ -2575,15 +2574,6 @@ var $ct_array1 = array();
             }
             else {
             $this->store_cookie('prim_currency_mrkt_standalone', '', time()-3600); // Delete
-            }
-                 
-               
-            // Notes (only creation / deletion here, update logic is in cookies.php)
-            if ( $_POST['use_notes'] == 1 && !$_COOKIE['notes'] ) {
-            $this->store_cookie("notes", " ", time()+31536000); // Initialized with some whitespace when blank
-            }
-            elseif ( $_POST['use_notes'] != 1 ) {
-            $this->store_cookie('notes', '', time()-3600); // Delete
             }
               
               

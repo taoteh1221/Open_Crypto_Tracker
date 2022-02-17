@@ -147,19 +147,6 @@ $all_asset_amnts_cookie_array = explode("#", $_COOKIE['coin_amnts']);
 }
 
 
-// Updating trading notes is separate from updating all other data
-if ( $_POST['update_notes'] == 1 && trim($_POST['notes']) != '' && $_COOKIE['notes'] ) {
-$ct_gen->store_cookie("notes", $_POST['notes'], time()+31536000);
-header("Location: " . $ct_gen->start_page($_GET['start_page']));
-exit;
-}
-elseif ( $_POST['update_notes'] == 1 && trim($_POST['notes']) == '' && $_COOKIE['notes'] ) {
-$ct_gen->store_cookie("notes", " ", time()+31536000); // Initialized with some whitespace when blank
-header("Location: " . $ct_gen->start_page($_GET['start_page']));
-exit;
-}
-
-
 //////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////
 
@@ -194,6 +181,11 @@ $reset_all_cookies = true;
 if ( $_COOKIE['prim_currency_market_standalone'] ) {
 $ct_gen->store_cookie('prim_currency_market_standalone', '', time()-3600); // Delete
 $reset_all_cookies = true;
+}
+
+if ( $_COOKIE['notes'] ) {
+$ct_gen->store_cookie('notes', '', time()-3600); // Delete
+$reset_all_cookies = false;
 }
 
 

@@ -10,7 +10,7 @@
 
 
 // Application version
-$app_version = '5.12.3';  // 2022/FEBUARY/17TH
+$app_version = '5.13.0';  // 2022/FEBUARY/17TH
 
 // Application edition
 $app_edition = 'server';  // 'server' OR 'desktop' edition (LOWERCASE)
@@ -423,11 +423,6 @@ elseif ( $is_csv_export ) {
 	}
 
 exit;
-}
-// If we are just running notes download, avoiding excess logic (exit after)
-// (CSRF security / logging is in download-notes.php)
-elseif ( $is_notes ) {
-require_once('app-lib/php/other/downloads/export-notes.php');
 }
 
 

@@ -619,27 +619,8 @@
          }
          else {
 			document.getElementById("use_cookies").value = "";
-			document.getElementById("use_notes").value = "";
-			document.getElementById("set_use_notes").checked = false;
          }
          ' <?php echo ( $_COOKIE['coin_amnts'] != '' ? 'checked' : ''); ?> /> <span class='bitcoin'>(un-checking this box <i>deletes ALL previously-saved cookie data <u>permanently</u></i>)</span>
-         
-         </p>
-			
-			
-			
-         <p class='settings_sections'>
-         
-         <b>Enable trading notes:</b> <input type='checkbox' name='set_use_notes' id='set_use_notes' value='1' onchange='
-         if ( this.checked == true ) {
-			document.getElementById("set_use_cookies").checked = true;
-			document.getElementById("use_cookies").value = "1";
-			document.getElementById("use_notes").value = "1";
-         }
-         else {
-			document.getElementById("use_notes").value = "";
-         }
-         ' <?php echo ( $_COOKIE['notes'] != '' ? 'checked' : ''); ?> /> <span class='bitcoin'>(requires cookies)</span>
          
          </p>
 			

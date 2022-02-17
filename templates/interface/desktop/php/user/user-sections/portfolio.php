@@ -1433,37 +1433,19 @@ zingchart.bind('marketcap_chart', 'label_click', function(e){
 	
 	<?php
 	}
-	
-	
-	if ( $_COOKIE['notes'] != '' ) {
 	?>
 	
-	<script>
-	// WE CANNOT USE getCookie("notes") BECAUSE PHP COOKIE AUTO ENCODING / DECODING IS
-	// #NOT# COMPATIBLE WITH JAVASCRIPT COOKIE ENCODING / DECODING!! (SIGH)
-	var check_notes = `<?=$_COOKIE['notes']?>`; // Backtick encapsulation lets us include linebreaks in a js variable
-	</script>
 	
 	<div style='margin-top: 10px; height: auto;'>
 	
-	
-	<form id='download_notes' name='download_notes' method='post' target='_blank' action=''>
-	<input type='hidden' id='submit_check' name='submit_check' value='1' />
-	</form>
-	
-		<form action='<?=$ct_gen->start_page($_GET['start_page'])?>' method='post'>
-	
 		<b class='black'>&nbsp;Trading Notes (<a href='javascript: return false;' target='_blank' onclick='
 		
-		if ( check_notes != document.getElementById("notes").value ) {
+		if ( localStorage.getItem(notes_storage) != document.getElementById("notes").value ) {
 		alert("You have changed your notes since you last saved them. \n\nPlease save your new notes before downloading them.");
-		console.log( getCookie("notes") );
 		return false;
 		}
 		else {
-		// HELP THWART CSRF ATTACKS VIA POST METHOD (IN COMBINATION WITH THE TOKEN HASH), DATA IS SENSITIVE!
-		set_target_action("download_notes", "_blank", "download.php?token=<?=$ct_gen->nonce_digest('download')?>&notes=1");
-		document.download_notes.submit(); // USE NON-JQUERY METHOD SO "APP LOADING..." DOES #NOT# SHOW
+		text_to_download(document.getElementById("notes").value,"Trading-Notes.txt")
 		}
 		
 		' title='Download your trading notes to your computer.'>download</a>):</b><br />
@@ -1471,16 +1453,21 @@ zingchart.bind('marketcap_chart', 'label_click', function(e){
 		<textarea data-autoresize name='notes' id='notes' style='height: auto; width: 100%;'><?=$_COOKIE['notes']?></textarea>
 		<br />
 	
-		<input type='hidden' name='update_notes' id='update_notes' value='1' />
-		<input type='submit' value='Save Updated Notes' />
-	
-		</form>
+		<button onclick='
+		
+		localStorage.setItem(notes_storage, document.getElementById("notes").value);
+		
+		document.getElementById("notes_save_result").innerHTML = "Notes saved.";
+		
+		  setTimeout(
+             function() {
+             document.getElementById("notes_save_result").innerHTML = "";
+             }
+          , 10000);
+		
+		'>Save Updated Notes</button> &nbsp; <span class='red' id='notes_save_result'></span>
 		
 	</div>
-	
-	<?php
-	}
-	?>
    
    
 	<?php

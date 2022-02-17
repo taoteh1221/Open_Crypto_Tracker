@@ -31,7 +31,7 @@ background-color: #dbd9d9 !important;
 }
 
 
-input[type=submit], input[type=button], .force_button_style {
+button, input[type=submit], input[type=button], .force_button_style {
   border: 1px solid #999999;
   background-color: #42484e;
 }

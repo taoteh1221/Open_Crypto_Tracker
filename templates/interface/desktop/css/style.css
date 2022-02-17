@@ -112,7 +112,7 @@ height: 15px !important;
 }
 
 
-input[type=submit], input[type=button], .force_button_style {
+button, input[type=submit], input[type=button], .force_button_style {
   color: white;
   padding: 5px 10px;
   text-align: center;

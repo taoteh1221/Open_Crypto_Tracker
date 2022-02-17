@@ -13,6 +13,12 @@ $(document).ready(function(){
 // cookie creation some day (which could help pre-detect too-large headers that crash an HTTP server)
 // console.log( array_byte_size(document.cookie) );
 
+
+    // Trading notes
+	if ( localStorage.getItem(notes_storage) && $("#notes").length ) {
+	document.getElementById("notes").value = localStorage.getItem(notes_storage);
+	}
+		
     
     // If all cookie data is above threshold trigger, warn end-user in UI
     if ( cookies_size_warning != 'none' ) {

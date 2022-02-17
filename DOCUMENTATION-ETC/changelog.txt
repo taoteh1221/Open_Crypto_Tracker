@@ -5190,6 +5190,19 @@ MIGRATE YOUR EXISTING SETTINGS TO THE NEW FORMAT.
 
 
 
+-------------------------------------------------------------------
+5.13.0:
+
+-Moved trading notes to local storage (to avoid cookie sizes over-affecting server header size)
+
+v5.12.2 and higher renames the admin config array. ALL CONFIGURATION SETTING
+VARIABLE NAMES ARE NOW DIFFERENT, USE THE LATEST/UPGRADED CONFIG.PHP, AND
+MIGRATE YOUR EXISTING SETTINGS TO THE NEW FORMAT.
+
+-------------------------------------------------------------------
+
+
+
 
 
 
