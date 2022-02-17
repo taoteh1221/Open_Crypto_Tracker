@@ -84,7 +84,7 @@ $csv_download_array[] = array(
 	  	 
 	    
 	   	// Asset data to array for CSV export
-	      if ( trim($asset_array_key) != '' && $ct_var->rem_num_format($asset_amnt_val) >= 0.00000001 ) {
+	      if ( isset($asset_array_key) && trim($asset_array_key) != '' && $ct_var->rem_num_format($asset_amnt_val) >= 0.00000001 ) {
 	        	
 	        $csv_download_array[] = array(
 	        											strtoupper($asset_array_key),

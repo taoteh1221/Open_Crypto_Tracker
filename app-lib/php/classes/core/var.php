@@ -422,7 +422,7 @@ var $ct_array1 = array();
       }
    
    
-      if ( trim($decimal_amnt) != '' ) {
+      if ( isset($decimal_amnt) && trim($decimal_amnt) != '' ) {
       $render_decimals = '.' . $decimal_amnt;
       }
    

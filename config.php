@@ -633,6 +633,8 @@ $ct_conf['power']['captcha_text_angle'] = 33; // (default = 33)
 			
 // Configuration for system resource warning thresholds (logs to error log, and sends comms alerts to any activated comms)
 // (WHEN THE SYSTEM RESOURCES REACH THESE VALUES, THE WARNINGS ARE TRIGGERED TO BE LOGGED / SENT TO ADMIN COMMS)
+// System load warning default is 2x number of cores your app server has (1 core system = load level 2.00 would trigger an alert)
+// System load threshold multiplier allows you to adjust when warning is triggered (0.5 is half default, 2.00 is 2x default, etc)
 $ct_conf['power']['system_load_warning'] = 1.00; // THRESHOLD MULTIPLIER! (default = 1.00)
 ////
 $ct_conf['power']['system_temp_warning'] = 75; // Temp IN CELCIUS! (default = 75)

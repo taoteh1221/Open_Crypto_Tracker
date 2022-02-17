@@ -125,11 +125,12 @@ $all_asset_amnts_cookie_array = explode("#", $_COOKIE['coin_amnts']);
 							if ( $asset_symb == 'BTC' && !$btc_mrkt ) {
 							    
     	                       // Avoided possible null equivelent issue by upping post value +1 in case zero, so -1 here
+    	                       // (we go by array index number here, rather than 1 or higher for html form values)
     	                       if ( $all_cookies_data_array[$asset_symb.'_data'][$asset_symb.'_mrkt'] > 0 ) {
 							   $btc_mrkt = ($all_cookies_data_array[$asset_symb.'_data'][$asset_symb.'_mrkt'] - 1);
     	                       }
     	                       else {
-    	                       $btc_mrkt = 1;
+    	                       $btc_mrkt = 0;
     	                       }
 							
 							}

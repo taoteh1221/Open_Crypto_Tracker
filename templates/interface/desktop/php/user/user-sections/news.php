@@ -168,7 +168,8 @@
 	
 	
 	<?php
-	if ( $sel_opt['show_feeds'][0] != '' ) {
+	
+	if ( isset($sel_opt['show_feeds'][0]) && $sel_opt['show_feeds'][0] != '' ) {
 	 
 	 $chosen_feeds = array_map( array($ct_var, 'strip_brackets') , $sel_opt['show_feeds']);
 	 

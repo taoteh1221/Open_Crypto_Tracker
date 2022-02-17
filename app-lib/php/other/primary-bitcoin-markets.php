@@ -136,11 +136,20 @@ else {
     // MUST RUN !BEFORE! $ct_asset->btc_mrkt() CALL BELOW, OR INCORRECT VALUE DETERMINED FOR $ct_asset->btc_mrkt() CALL
     $ct_conf['gen']['btc_prim_currency_pair'] = $sel_opt['prim_currency_mrkt_standalone'][0]; 
     
-    $ct_conf['gen']['btc_prim_exchange'] = $ct_asset->btc_mrkt($sel_opt['prim_currency_mrkt_standalone'][1] - 1);
     
-       if ( is_array($ct_conf['assets']) ) {
-       $ct_conf['assets']['MISCASSETS']['name'] = 'Misc. '.strtoupper($ct_conf['gen']['btc_prim_currency_pair']).' Value';
-       }
+    	// (we go by array index number here, rather than 1 or higher for html form values)
+        if ( $sel_opt['prim_currency_mrkt_standalone'][1] > 0 ) {
+        $ct_conf['gen']['btc_prim_exchange'] = $ct_asset->btc_mrkt($sel_opt['prim_currency_mrkt_standalone'][1] - 1);
+        }
+        else {
+        $ct_conf['gen']['btc_prim_exchange'] = $ct_asset->btc_mrkt(0);
+        }
+    
+    
+        if ( is_array($ct_conf['assets']) ) {
+        $ct_conf['assets']['MISCASSETS']['name'] = 'Misc. '.strtoupper($ct_conf['gen']['btc_prim_currency_pair']).' Value';
+        }
+                
                 
     }
     

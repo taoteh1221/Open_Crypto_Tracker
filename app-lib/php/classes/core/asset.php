@@ -838,7 +838,7 @@ var $ct_array1 = array();
        
        
            // If market exists, get latest data
-           if ( $pair_id != '' ) {
+           if ( isset($pair_id) && $pair_id != '' ) {
            
                  
                  
@@ -1257,7 +1257,7 @@ var $ct_array1 = array();
    ////////////////////////////////////////////////////////
    
    
-   function ui_asset_row($asset_name, $asset_symb, $asset_amnt, $all_pair_mrkts, $sel_pair, $sel_exchange, $purchase_price=NULL, $leverage_level, $sel_mrgntyp) {
+   function ui_asset_row($asset_name, $asset_symb, $asset_amnt, $all_pair_mrkts, $sel_pair, $sel_exchange, $purchase_price=null, $leverage_level, $sel_mrgntyp) {
    
    // Globals
    global $base_dir, $ct_conf, $ct_gen, $ct_var, $ct_api, $sel_opt, $btc_worth_array, $asset_stats_array, $td_color_zebra, $mcap_data_force_usd, $coingecko_api, $coinmarketcap_api;

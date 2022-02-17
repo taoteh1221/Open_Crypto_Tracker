@@ -36,7 +36,7 @@
 # Add --insecure to the command, if your app's SSL certificate
 # is SELF-SIGNED (not CA issued), #OR THE COMMAND WON'T WORK#
 
-curl<?=( $htaccess_username != '' && $htaccess_password != '' ? ' -u "' . $htaccess_username . ':' . $htaccess_password . '"' : '' )?> -d "api_key=<?=$api_key?>" -X POST <?=$base_url?>api/market_conversion/eur/kraken-btc-usd,coinbase-dai-usdc,coinbase-eth-usd
+curl<?=( isset($htaccess_username) && isset($htaccess_password) && $htaccess_username != '' && $htaccess_password != '' ? ' -u "' . $htaccess_username . ':' . $htaccess_password . '"' : '' )?> -d "api_key=<?=$api_key?>" -X POST <?=$base_url?>api/market_conversion/eur/kraken-btc-usd,coinbase-dai-usdc,coinbase-eth-usd
 </code></pre>
 	        
 	        
@@ -46,7 +46,7 @@ curl<?=( $htaccess_username != '' && $htaccess_password != '' ? ' -u "' . $htacc
 <pre class='rounded'><code class='hide-x-scroll javascript' style='width: auto; height: auto;'>// Javascript example
 
 <?php
-if ( $htaccess_username != '' && $htaccess_password != '' ) {
+if ( isset($htaccess_username) && isset($htaccess_password) && $htaccess_username != '' && $htaccess_password != '' ) {
 ?>
 // Login htaccess user/pass (results sent to console log)
 // (we are not looking for an API result YET, rather just logging in the htaccess user/pass)
@@ -82,7 +82,7 @@ api_request.setRequestHeader("Content-type", "application/x-www-form-urlencoded"
 	};
 
 <?php
-if ( $htaccess_username != '' && $htaccess_password != '' ) {
+if ( isset($htaccess_username) && isset($htaccess_password) && $htaccess_username != '' && $htaccess_password != '' ) {
 ?>
 // Our API has a rate limit of once every <?=$ct_conf['dev']['local_api_rate_limit']?> seconds,
 // so we must wait to reconnect after the htaccess authentication (<?=$ct_conf['dev']['local_api_rate_limit']?> + 1 seconds)
@@ -136,7 +136,7 @@ curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 60);
 curl_setopt($ch, CURLOPT_TIMEOUT, 60);
 
 <?php
-if ( $htaccess_username != '' && $htaccess_password != '' ) {
+if ( isset($htaccess_username) && isset($htaccess_password) && $htaccess_username != '' && $htaccess_password != '' ) {
 ?>
 // Htaccess login
 curl_setopt($ch, CURLOPT_HTTPAUTH, CURLAUTH_ANY);

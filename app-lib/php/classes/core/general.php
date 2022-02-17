@@ -315,15 +315,15 @@ var $ct_array1 = array();
    
    function timestamps_usort_newest($a, $b) {
       
-      if ( $a->pubDate != '' ) {
+      if ( isset($a->pubDate) && $a->pubDate != '' ) {
       $a = $a->pubDate;
       $b = $b->pubDate;
       }
-      elseif ( $a->published != '' ) {
+      elseif ( isset($a->published) && $a->published != '' ) {
       $a = $a->published;
       $b = $b->published;
       }
-      elseif ( $a->updated != '' ) {
+      elseif ( isset($a->updated) && $a->updated != '' ) {
       $a = $a->updated;
       $b = $b->updated;
       }
@@ -411,7 +411,7 @@ var $ct_array1 = array();
    $network_name = trim( strtolower($str[1]) ); // Force lowercase lookups for reliability / consistency
    
       // Set text domain
-      if ( trim($phone_number) != '' && isset($ct_conf['mob_net_txt_gateways'][$network_name]) ) {
+      if ( isset($phone_number) && trim($phone_number) != '' && isset($ct_conf['mob_net_txt_gateways'][$network_name]) ) {
       return trim($phone_number) . '@' . trim($ct_conf['mob_net_txt_gateways'][$network_name]); // Return formatted texting email address
       }
       else {
@@ -436,8 +436,8 @@ var $ct_array1 = array();
       $index = 'index.php';
       }
       
-      if ( $page != '' ) {
-      $url = $index . ( $page != '' ? '?start_page=' . $page . '#' . $page : '' );
+      if ( isset($page) && $page != '' ) {
+      $url = $index . '?start_page=' . $page . '#' . $page;
       }
       else {
       $url = $index;
@@ -1702,7 +1702,7 @@ var $ct_array1 = array();
         	$num_posts = 0;
         	foreach($ct_conf['power']['news_feed'] as $feed_item) {
         	    
-        		if ( trim($feed_item["url"]) != '' ) {
+        		if ( isset($feed_item["url"]) && trim($feed_item["url"]) != '' ) {
         		    
         		$result = $ct_api->rss($feed_item["url"], false, $ct_conf['comms']['news_feed_email_entries_show'], false, true);
         		
@@ -2402,7 +2402,7 @@ var $ct_array1 = array();
       
       $result = explode("||", fgets($fn) );
       
-         if ( trim($result[0]) != '' && trim($result[0]) >= $start_timestamp ) {
+         if ( isset($result[0]) && trim($result[0]) != '' && trim($result[0]) >= $start_timestamp ) {
             
          $data['time'] .= trim($result[0]) . '000,';  // Zingchart wants 3 more zeros with unix time (milliseconds)
          
@@ -2677,7 +2677,7 @@ var $ct_array1 = array();
    
    function start_page_html($page) {
       
-      if ( $_GET['start_page'] != '' ) {
+      if ( isset($_GET['start_page']) && $_GET['start_page'] != '' ) {
       $border_highlight = '_red';
       $text_class = 'red';
       }
@@ -2703,7 +2703,7 @@ var $ct_array1 = array();
       '>
          <option value='index.php'> Show Portfolio Page First </option>
          <?php
-         if ( $_GET['start_page'] != '' && $_GET['start_page'] != $page ) {
+         if ( isset($_GET['start_page']) && $_GET['start_page'] != '' && $_GET['start_page'] != $page ) {
          $another_set = 1;
          ?>
          <option value='index.php?start_page=<?=$_GET['start_page']?>' selected > Show <?=ucwords( preg_replace("/_/i", " ", $_GET['start_page']) )?> Page First </option>
@@ -3093,7 +3093,7 @@ var $ct_array1 = array();
       
          foreach ( $raw_cpu_info_array as $cpu_info_field ) {
          
-            if ( trim($cpu_info_field) != '' ) {
+            if ( isset($cpu_info_field) && trim($cpu_info_field) != '' ) {
                
             $temp_array = explode(":", $cpu_info_field);
             
@@ -3260,7 +3260,7 @@ var $ct_array1 = array();
       
          foreach ( $raw_server_info_array as $server_info_field ) {
          
-            if ( trim($server_info_field) != '' ) {
+            if ( isset($server_info_field) && trim($server_info_field) != '' ) {
                
             $server_info_field = preg_replace('/\s/', ':', $server_info_field, 1);
                

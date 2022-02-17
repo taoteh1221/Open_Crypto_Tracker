@@ -97,8 +97,16 @@ if ( $_POST['submit_check'] == 1 || $run_csv_import || $ui_cookies ) {
 	
 		
 		if ( is_array($_POST) ) {
-			
-		$btc_mrkt = ($_POST['btc_mrkt'] - 1);
+		    
+		    
+    	        // (we go by array index number here, rather than 1 or higher for html form values)
+    		    if ( $_POST['btc_mrkt'] > 0 ) {
+    		    $btc_mrkt = ($_POST['btc_mrkt'] - 1);
+    		    }
+    			else {
+    			$btc_mrkt = 0;
+    			}
+		
 									
 									foreach ( $_POST as $key => $val ) {
 								
@@ -107,8 +115,16 @@ if ( $_POST['submit_check'] == 1 || $run_csv_import || $ui_cookies ) {
 										$held_amnt = $ct_var->rem_num_format($val);
 										$asset_symb = strtoupper(preg_replace("/_amnt/i", "", $key));
 										$sel_pair = ($_POST[strtolower($asset_symb).'_pair']);
-										// Avoided possible null equivelent issue by upping post value +1 in case zero, so -1 here
-										$sel_mrkt = ($_POST[strtolower($asset_symb).'_mrkt'] - 1); 
+										
+										   // Avoided possible null equivelent issue by upping post value +1 in case zero, so -1 here
+    	                                   // (we go by array index number here, rather than 1 or higher for html form values)
+										   if ( $_POST[strtolower($asset_symb).'_mrkt'] > 0 ) {
+										   $sel_mrkt = ($_POST[strtolower($asset_symb).'_mrkt'] - 1); 
+										   }
+										   else {
+										   $sel_mrkt = 0;
+										   }
+										
 										$purchase_price = $ct_var->rem_num_format($_POST[strtolower($asset_symb).'_paid']);
 										$leverage_level = $_POST[strtolower($asset_symb).'_lvrg'];
 										$sel_mrgntyp = $_POST[strtolower($asset_symb).'_mrgntyp'];
@@ -172,7 +188,8 @@ if ( $_POST['submit_check'] == 1 || $run_csv_import || $ui_cookies ) {
 										$asset_symb = strtoupper( trim($val[0]) );
 										$sel_pair = strtolower( trim($val[6]) );
 										// Avoided possible null equivelent issue by upping post value +1 in case zero, so -1 here
-										$sel_mrkt = ( $val[5] != NULL ? $val[5] - 1 : 1 ); 
+    	                                // (we go by array index number here, rather than 1 or higher for html form values)
+										$sel_mrkt = ( $val[5] > 0 ? $val[5] - 1 : 0 ); 
 										$purchase_price = $ct_var->rem_num_format($val[2]);
 										$leverage_level = $val[3];
 										$sel_mrgntyp = $val[4];
@@ -185,7 +202,7 @@ if ( $_POST['submit_check'] == 1 || $run_csv_import || $ui_cookies ) {
 					 							// Use first pair key from coins config for this asset, if no pair value was set properly in the spreadsheet
 					 							if ( $ploop == 0 ) {
 					 								
-					 								if ( $sel_pair == NULL || !$ct_conf['assets'][$asset_symb]['pair'][$sel_pair] ) {
+					 								if ( $sel_pair == null || !$ct_conf['assets'][$asset_symb]['pair'][$sel_pair] ) {
 					 								$sel_pair = $pair_key;
 					 								}
 					 							
@@ -262,8 +279,16 @@ if ( $_POST['submit_check'] == 1 || $run_csv_import || $ui_cookies ) {
             if ( $held_temp >= 0.000000001 ) {
                 
         	$held_amnt = $held_temp;
-        	// Avoided possible null equivelent issue by upping post value +1 in case zero, so -1 here
-        	$sel_mrkt = ($all_cookies_data_array[$asset_symb.'_data'][$asset_symb.'_mrkt'] -1);
+        	
+        	   // Avoided possible null equivelent issue by upping post value +1 in case zero, so -1 here
+    	       // (we go by array index number here, rather than 1 or higher for html form values)
+        	   if ( $all_cookies_data_array[$asset_symb.'_data'][$asset_symb.'_mrkt'] > 0) {
+        	   $sel_mrkt = ($all_cookies_data_array[$asset_symb.'_data'][$asset_symb.'_mrkt'] -1);
+        	   }
+        	   else {
+        	   $sel_mrkt = 0;
+        	   }
+        	
         	$sel_pair = $all_cookies_data_array[$asset_symb.'_data'][$asset_symb.'_pair'];
     					       
     		$purchase_price_temp = $ct_var->num_to_str($all_cookies_data_array[$asset_symb.'_data'][$asset_symb.'_paid']);

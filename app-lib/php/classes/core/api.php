@@ -110,7 +110,7 @@ var $ct_array1 = array();
          
           foreach ($data as $key => $unused) {
             
-              if ( $data[$key]['symbol'] != '' ) {
+              if ( isset($data[$key]['symbol']) && $data[$key]['symbol'] != '' ) {
               $result[strtolower($data[$key]['symbol'])] = $data[$key];
               }
        
@@ -310,7 +310,7 @@ var $ct_array1 = array();
          
           foreach ($data as $key => $unused) {
             
-              if ( $data[$key]['symbol'] != '' ) {
+              if ( isset($data[$key]['symbol']) && $data[$key]['symbol'] != '' ) {
               $result[strtolower($data[$key]['symbol'])] = $data[$key];
               }
           
@@ -440,7 +440,7 @@ var $ct_array1 = array();
 		      foreach($sortable_feed as $item) {
 		                  
 			     // If data exists, AND we aren't just caching data during a cron job
-			     if ( trim($item->title) != '' && $feed_size > 0 ) {
+			     if ( isset($item->title) && trim($item->title) != '' && $feed_size > 0 ) {
 			               
 				     if ( $item->pubDate != '' ) {
 				     $item_date = $item->pubDate;
@@ -525,7 +525,7 @@ var $ct_array1 = array();
 	                  
 	                  
 		         // If data exists, AND we aren't just caching data during a cron job
-		         if ( trim($item->title) != '' && $feed_size > 0 ) {
+		         if ( isset($item->title) && trim($item->title) != '' && $feed_size > 0 ) {
 		               
 			         if ( $item->pubDate != '' ) {
 			         $item_date = $item->pubDate;
@@ -1792,7 +1792,7 @@ var $ct_array1 = array();
       
             foreach ($data as $unused) {
               
-              if ( $data[$market_id] != '' ) {
+              if ( isset($data[$market_id]) && $data[$market_id] != '' ) {
                
               $result = array(
                               'last_trade' => $data[$market_id]['ticker']['last'],
@@ -2421,7 +2421,7 @@ var $ct_array1 = array();
       
             foreach ($data as $key => $val) {
               
-              if ( $val[$market_id] != '' ) {
+              if ( isset($val[$market_id]) && $val[$market_id] != '' ) {
                
               $result = array(
                               'last_trade' => $val[$market_id]["price"],

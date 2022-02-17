@@ -17,7 +17,7 @@ $restore_default_htaccess = $ct_cache->save_file($base_dir . '/.htaccess', $ct_c
 
 
 // To be safe, don't use trim() on certain strings with arbitrary non-alphanumeric characters here
-if ( $htaccess_username != '' && $htaccess_password != '' ) {
+if ( isset($htaccess_username) && isset($htaccess_password) && $htaccess_username != '' && $htaccess_password != '' ) {
 
 	// If NO SETUP password protection exists
 	if ( !preg_match("/Require valid-user/i", $htaccess_protection_check) || $refresh_cached_ct_conf == 1 ) {

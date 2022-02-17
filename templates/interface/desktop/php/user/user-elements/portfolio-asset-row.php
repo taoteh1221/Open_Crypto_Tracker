@@ -52,7 +52,7 @@ echo '?';
  $info_icon = ( !$mcap_data['rank'] && $asset_symb != 'MISCASSETS' && $asset_symb != 'ETHNFTS' && $asset_symb != 'SOLNFTS' ? 'info-red.png' : 'info.png' );
  
  
-	if ( $mkcap_render_data != '' ) {
+	if ( isset($mkcap_render_data) && $mkcap_render_data != '' ) {
  	
  
  		if ( $ct_conf['gen']['prim_mcap_site'] == 'coinmarketcap' ) {
@@ -113,7 +113,7 @@ echo '?';
         var cmc_content = '<h5 class="yellow tooltip_title"><?=ucfirst($ct_conf['gen']['prim_mcap_site'])?>.com Summary For <?=$asset_name?> (<?=$asset_symb?>)</h5>'
         
         		<?php
-            if ( $mcap_data['app_notice'] != '' ) {
+            if ( isset($mcap_data['app_notice']) && $mcap_data['app_notice'] != '' ) {
         		?>
         +'<p class="coin_info red">Notice: <?=$mcap_data['app_notice']?></p>'
         		<?php
@@ -186,7 +186,7 @@ echo '?';
         +'<p class="coin_info"><span class="yellow">1 Year Change:</span> <?=( stristr($mcap_data['percent_change_1y'], '-') != false ? '<span class="red">'.$mcap_data['percent_change_1y'].'%</span>' : '<span class="green">+'.$mcap_data['percent_change_1y'].'%</span>' )?></p>'
         <?php
             }
-            if ( $mcap_data['last_updated'] != '' ) {
+            if ( isset($mcap_data['last_updated']) && $mcap_data['last_updated'] != '' ) {
             ?>
         +'<p class="coin_info"><span class="yellow">Data Timestamp (UTC):</span> <?=gmdate("Y-M-d\ \\a\\t g:ia", $mcap_data['last_updated'])?></p>'
         +'<p class="coin_info"><span class="yellow">App Cache Time:</span> <?=$ct_conf['power']['mcap_cache_time']?> minute(s)</p>'
@@ -404,6 +404,7 @@ echo '?';
     $("#coin_amnts").submit();
     '>
         <?php
+        $loop = 0;
         foreach ( $all_pair_mrkts as $market_key => $market_name ) {
          $loop = $loop + 1;
          	if ( $original_mrkt == ($loop - 1) ) {
@@ -413,7 +414,6 @@ echo '?';
         <option value='<?=($loop)?>' <?=( $original_mrkt == ($loop - 1) ? ' selected ' : '' )?>> <?=$ct_gen->key_to_name($market_key)?> </option>
         <?php
         }
-        $loop = null;
         ?>
     </select>
     

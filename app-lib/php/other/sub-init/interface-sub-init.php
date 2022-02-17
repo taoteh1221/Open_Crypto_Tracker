@@ -160,10 +160,10 @@ $sel_opt['sorted_asc_desc'] = $sort_array[1];
 	}
 	
 
-	if ( $_COOKIE['theme_selected'] != NULL ) {
+	if ( $_COOKIE['theme_selected'] != null ) {
 	$sel_opt['theme_selected'] = $_COOKIE['theme_selected'];
 	}
-	elseif ( $_POST['theme_selected'] != NULL ) {
+	elseif ( $_POST['theme_selected'] != null ) {
 	$sel_opt['theme_selected'] = $_POST['theme_selected'];
 	}
 	else {

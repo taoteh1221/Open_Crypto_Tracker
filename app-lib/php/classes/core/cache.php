@@ -396,26 +396,26 @@ var $ct_array1 = array();
    // RANDOM HASH SHOULD BE CALLED PER-STATEMENT, OTHERWISE FOR SOME REASON SEEMS TO REUSE SAME HASH FOR THE WHOLE RUNTIME INSTANCE (if set as a variable beforehand)
    
      // Notifyme
-     if ( $send_params['notifyme'] != '' && trim($ct_conf['comms']['notifyme_accesscode']) != '' ) {
+     if ( isset($send_params['notifyme']) && $send_params['notifyme'] != '' && trim($ct_conf['comms']['notifyme_accesscode']) != '' ) {
    	 $this->save_file($base_dir . '/cache/secured/messages/notifyme-' . $ct_gen->rand_hash(8) . '.queue', $send_params['notifyme']);
      }
     
      // Textbelt
      // To be safe, don't use trim() on certain strings with arbitrary non-alphanumeric characters here
      // Only run if textlocal API isn't being used to avoid double texts
-     if ( $send_params['text']['message'] != '' && trim($ct_conf['comms']['textbelt_apikey']) != '' && $ct_conf['comms']['textlocal_account'] == '' ) { 
+     if ( isset($send_params['text']['message']) && $send_params['text']['message'] != '' && trim($ct_conf['comms']['textbelt_apikey']) != '' && $ct_conf['comms']['textlocal_account'] == '' ) { 
      $this->save_file($base_dir . '/cache/secured/messages/textbelt-' . $ct_gen->rand_hash(8) . '.queue', $send_params['text']['message']);
      }
     
      // Textlocal
      // To be safe, don't use trim() on certain strings with arbitrary non-alphanumeric characters here
      // Only run if textbelt API isn't being used to avoid double texts
-     if ( $send_params['text']['message'] != '' && $ct_conf['comms']['textlocal_account'] != '' && trim($ct_conf['comms']['textbelt_apikey']) == '' ) { 
+     if ( isset($send_params['text']['message']) && $send_params['text']['message'] != '' && $ct_conf['comms']['textlocal_account'] != '' && trim($ct_conf['comms']['textbelt_apikey']) == '' ) { 
      $this->save_file($base_dir . '/cache/secured/messages/textlocal-' . $ct_gen->rand_hash(8) . '.queue', $send_params['text']['message']);
      }
    
      // Telegram
-     if ( $send_params['telegram'] != '' && $telegram_activated == 1 ) {
+     if ( isset($send_params['telegram']) && $send_params['telegram'] != '' && $telegram_activated == 1 ) {
      $this->save_file($base_dir . '/cache/secured/messages/telegram-' . $ct_gen->rand_hash(8) . '.queue', $send_params['telegram']);
      }
      
@@ -423,7 +423,7 @@ var $ct_array1 = array();
      // Text email
      // To be safe, don't use trim() on certain strings with arbitrary non-alphanumeric characters here
      // Only use text-to-email if other text services aren't configured
-     if ( $send_params['text']['message'] != '' && $ct_gen->valid_email( $ct_gen->text_email($ct_conf['comms']['to_mobile_text']) ) == 'valid' && trim($ct_conf['comms']['textbelt_apikey']) == '' && $ct_conf['comms']['textlocal_account'] == '' ) { 
+     if ( isset($send_params['text']['message']) && $send_params['text']['message'] != '' && $ct_gen->valid_email( $ct_gen->text_email($ct_conf['comms']['to_mobile_text']) ) == 'valid' && trim($ct_conf['comms']['textbelt_apikey']) == '' && $ct_conf['comms']['textlocal_account'] == '' ) { 
      
      // $send_params['text_charset'] SHOULD ALWAYS BE SET FROM THE CALL TO HERE (for emojis, or other unicode characters to send via text message properly)
      // SUBJECT !!MUST BE SET!! OR SOME TEXT SERVICES WILL NOT ACCEPT THE MESSAGE!
@@ -444,7 +444,7 @@ var $ct_array1 = array();
      
             
      // Normal email
-     if ( $send_params['email']['message'] != '' && $ct_gen->valid_email($ct_conf['comms']['to_email']) == 'valid' ) {
+     if ( isset($send_params['email']['message']) && $send_params['email']['message'] != '' && $ct_gen->valid_email($ct_conf['comms']['to_email']) == 'valid' ) {
      
      $email_array = array('subject' => $send_params['email']['subject'], 'message' => $send_params['email']['message'], 'content_type' => ( $send_params['email']['content_type'] ? $send_params['email']['content_type'] : 'text/plain' ), 'charset' => ( $send_params['email']['charset'] ? $send_params['email']['charset'] : $ct_conf['dev']['charset_default'] ) );
      
@@ -508,7 +508,7 @@ var $ct_array1 = array();
        
       $emailed_logs = "\n\n ------------------debug.log------------------ \n\n" . file_get_contents('cache/logs/debug.log') . "\n\n ------------------smtp_debug.log------------------ \n\n" . file_get_contents('cache/logs/smtp_debug.log');
        
-      $msg = " Here are the current debugging logs from the " . $base_dir . "/cache/logs/ directory. \n\n You can disable / change receiving log emails (every " . $ct_conf['comms']['logs_email'] . " days) in the Admin Config \"Communications\" section. \n =========================================================================== \n \n"  . ( $emailed_logs != '' ? $emailed_logs : 'No debugging logs currently.' );
+      $msg = " Here are the current debugging logs from the " . $base_dir . "/cache/logs/ directory. \n\n You can disable / change receiving log emails (every " . $ct_conf['comms']['logs_email'] . " days) in the Admin Config \"Communications\" section. \n =========================================================================== \n \n"  . ( isset($emailed_logs) && $emailed_logs != '' ? $emailed_logs : 'No debugging logs currently.' );
       
         // Message parameter added for desired comm methods (leave any comm method blank to skip sending via that method)
         $send_params = array(
@@ -601,7 +601,7 @@ var $ct_array1 = array();
        
       $emailed_logs = "\n\n ------------------error.log------------------ \n\n" . file_get_contents('cache/logs/error.log') . "\n\n ------------------smtp_error.log------------------ \n\n" . file_get_contents('cache/logs/smtp_error.log');
        
-      $msg = " Here are the current error logs from the ".$base_dir."/cache/logs/ directory. \n\n You can disable / change receiving log emails (every " . $ct_conf['comms']['logs_email'] . " days) in the Admin Config \"Communications\" section. \n \n =========================================================================== \n \n"  . ( $emailed_logs != '' ? $emailed_logs : 'No error logs currently.' );
+      $msg = " Here are the current error logs from the ".$base_dir."/cache/logs/ directory. \n\n You can disable / change receiving log emails (every " . $ct_conf['comms']['logs_email'] . " days) in the Admin Config \"Communications\" section. \n \n =========================================================================== \n \n"  . ( isset($emailed_logs) && $emailed_logs != '' ? $emailed_logs : 'No error logs currently.' );
       
         // Message parameter added for desired comm methods (leave any comm method blank to skip sending via that method)
         $send_params = array(
@@ -1213,7 +1213,7 @@ var $ct_array1 = array();
           unlink($base_dir . '/cache/secured/messages/' . $queued_cache_file);
           }
           // Notifyme
-          elseif ( $msg_data != '' && trim($ct_conf['comms']['notifyme_accesscode']) != '' && preg_match("/notifyme/i", $queued_cache_file) ) {
+          elseif ( isset($msg_data) && $msg_data != '' && trim($ct_conf['comms']['notifyme_accesscode']) != '' && preg_match("/notifyme/i", $queued_cache_file) ) {
             
             $notifyme_params['notification'] = $msg_data;
             
@@ -1249,7 +1249,7 @@ var $ct_array1 = array();
           // Textbelt
           // To be safe, don't use trim() on certain strings with arbitrary non-alphanumeric characters here
           // Only run if textlocal API isn't being used to avoid double texts
-          if ( $msg_data != '' && trim($ct_conf['comms']['textbelt_apikey']) != '' && $ct_conf['comms']['textlocal_account'] == '' && preg_match("/textbelt/i", $queued_cache_file) ) {
+          if ( isset($msg_data) && $msg_data != '' && trim($ct_conf['comms']['textbelt_apikey']) != '' && $ct_conf['comms']['textlocal_account'] == '' && preg_match("/textbelt/i", $queued_cache_file) ) {
             
           $textbelt_params['message'] = $msg_data;
             
@@ -1276,7 +1276,7 @@ var $ct_array1 = array();
           // Textlocal
           // To be safe, don't use trim() on certain strings with arbitrary non-alphanumeric characters here
           // Only run if textbelt API isn't being used to avoid double texts
-          if ( $msg_data != '' && $ct_conf['comms']['textlocal_account'] != '' && trim($ct_conf['comms']['textbelt_apikey']) == '' && preg_match("/textlocal/i", $queued_cache_file) ) {  
+          if ( isset($msg_data) && $msg_data != '' && $ct_conf['comms']['textlocal_account'] != '' && trim($ct_conf['comms']['textbelt_apikey']) == '' && preg_match("/textlocal/i", $queued_cache_file) ) {  
             
           $textlocal_params['message'] = $msg_data;
             
@@ -1353,7 +1353,7 @@ var $ct_array1 = array();
               }
          
             
-              if ( $textemail_array['subject'] != '' && $textemail_array['message'] != '' ) {
+              if ( isset($textemail_array['subject']) && isset($textemail_array['message']) && $textemail_array['subject'] != '' && $textemail_array['message'] != '' ) {
                
               // Sleep for 1 second EXTRA on EACH consecutive text message, to throttle MANY outgoing messages, to help avoid being blocked / throttled by external server
               $text_sleep = 1 * $processed_msgs['text_count'];
@@ -1406,7 +1406,7 @@ var $ct_array1 = array();
               }
             
             
-              if ( $email_array['subject'] != '' && $email_array['message'] != '' ) {
+              if ( isset($email_array['subject']) && isset($email_array['message']) && $email_array['subject'] != '' && $email_array['message'] != '' ) {
                
               // Sleep for 1 second EXTRA on EACH consecutive email message, to throttle MANY outgoing messages, to help avoid being blocked / throttled by external server
               $email_sleep = 1 * $processed_msgs['email_count'];
@@ -1774,7 +1774,7 @@ var $ct_array1 = array();
       $regex_base_url = $ct_gen->regex_compat_url($base_url);
        
       // Secure random hash to nullify any preg_match() below, as we are submitting out htaccess user/pass if setup
-      $scan_base_url = ( $regex_base_url != '' ? $regex_base_url : $ct_gen->rand_hash(8) );
+      $scan_base_url = ( isset($regex_base_url) && $regex_base_url != '' ? $regex_base_url : $ct_gen->rand_hash(8) );
       
        
         if ( isset($scan_base_url) && preg_match("/".$scan_base_url."/i", $api_endpoint) ) {
@@ -1782,7 +1782,7 @@ var $ct_array1 = array();
         $is_self_security_test = 1;
          
           // If we have password protection on in the app
-          if ( $htaccess_username != '' && $htaccess_password != '' ) {
+          if ( isset($htaccess_username) && isset($htaccess_password) && $htaccess_username != '' && $htaccess_password != '' ) {
           curl_setopt($ch, CURLOPT_HTTPAUTH, CURLAUTH_ANY);
           curl_setopt($ch, CURLOPT_USERPWD, $htaccess_username . ':' . $htaccess_password); // DO NOT ENCAPSULATE PHP USER/PASS VARS IN QUOTES, IT BREAKS THE FEATURE
           }
@@ -1874,7 +1874,7 @@ var $ct_array1 = array();
         
         // IF CACHE DATA EXISTS, flag cache fallback as succeeded, and IMMEADIATELY add data set to runtime cache / update the file cache timestamp
         // (so all following requests DURING THIS RUNTIME are run from cache ASAP, since we had a live request failure)
-        if ( $data != '' && $data != 'none' ) {
+        if ( isset($data) && $data != '' && $data != 'none' ) {
         $fallback_cache_data = true;
         // IMMEADIATELY RUN THIS LOGIC NOW, EVEN THOUGH IT RUNS AT END OF STATEMENT TOO, SINCE WE HAD A LIVE REQUEST FAILURE
         $api_runtime_cache[$hash_check] = $data;
@@ -1900,7 +1900,7 @@ var $ct_array1 = array();
       			);
       
       
-        if ( is_array($ct_conf['proxy']['proxy_list']) && sizeof($ct_conf['proxy']['proxy_list']) > 0 && $current_proxy != '' && $mode != 'proxy-check' ) { // Avoid infinite loops doing proxy checks
+        if ( is_array($ct_conf['proxy']['proxy_list']) && sizeof($ct_conf['proxy']['proxy_list']) > 0 && isset($current_proxy) && $current_proxy != '' && $mode != 'proxy-check' ) { // Avoid infinite loops doing proxy checks
      
         $proxy_checkup[] = array(
                     			'endpoint' => ( $mode == 'params' ? 'server at ' : 'endpoint at ' ) . $ct_gen->obfusc_url_data($api_endpoint),
@@ -1913,7 +1913,7 @@ var $ct_array1 = array();
       }
       // Log this latest live data response, 
       // ONLY IF WE DETECT AN $endpoint_tld_or_ip, AND TTL IS !NOT! ZERO (TTL==0 usually means too many unique requests that would bloat the cache)
-      elseif ( isset($data) && $endpoint_tld_or_ip != '' && $ttl != 0 ) {
+      elseif ( isset($data) && isset($endpoint_tld_or_ip) && $endpoint_tld_or_ip != '' && $ttl != 0 ) {
       
       
         ////////////////////////////////////////////////////////////////	
@@ -2007,7 +2007,7 @@ var $ct_array1 = array();
              
                 
                 // Flag if cache fallback succeeded
-                if ( $data != '' && $data != 'none' ) {
+                if ( isset($data) && $data != '' && $data != 'none' ) {
                 $fallback_cache_data = true;
                 }
                
@@ -2076,7 +2076,7 @@ var $ct_array1 = array();
       if ( $ttl > 0 && $mode != 'proxy-check' ) {
       
       // DON'T USE isset(), use != '' to store as 'none' reliably (so we don't keep hitting a server that may be throttling us, UNTIL cache TTL runs out)
-      $api_runtime_cache[$hash_check] = ( $data != '' ? $data : 'none' ); 
+      $api_runtime_cache[$hash_check] = ( isset($data) && $data != '' ? $data : 'none' ); 
       
         // Fallback just needs 'modified time' updated with touch()
         if ( isset($fallback_cache_data) ) {
@@ -2142,7 +2142,7 @@ var $ct_array1 = array();
       // Use runtime cache if it exists. Remember file cache doesn't update until session is nearly over because of file locking, so only reliable for persisting a cache long term
       // If no API data was received, add error notices to UI / error logs (we don't try fetching the data again until cache TTL expiration, so as to NOT hang the app)
       // Run from runtime cache if requested again (for runtime speed improvements)
-      if ( $api_runtime_cache[$hash_check] != '' && $api_runtime_cache[$hash_check] != 'none' ) {
+      if ( isset($api_runtime_cache[$hash_check]) && $api_runtime_cache[$hash_check] != '' && $api_runtime_cache[$hash_check] != 'none' ) {
       $data = $api_runtime_cache[$hash_check];
       $fallback_cache_data = true;
       }
@@ -2150,7 +2150,7 @@ var $ct_array1 = array();
         
       $data = trim( file_get_contents($base_dir . '/cache/secured/external_data/'.$hash_check.'.dat') );
       
-        if ( $data != '' && $data != 'none' ) {
+        if ( isset($data) && $data != '' && $data != 'none' ) {
         $api_runtime_cache[$hash_check] = $data; // Create a runtime cache from the file cache, for any additional requests during runtime for this data set
         $fallback_cache_data = true;
         }

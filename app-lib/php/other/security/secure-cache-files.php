@@ -10,7 +10,7 @@
 
 // Activating an existing admin password reset session 
 // (MUST RUN #AFTER GETTING CACHED APP CONFIG)
-if ( trim($_GET['new_reset_key']) != '' ) {
+if ( isset($_GET['new_reset_key']) && trim($_GET['new_reset_key']) != '' ) {
 
 // Secured activation code data
 $activation_files = $ct_gen->sort_files($base_dir . '/cache/secured/activation', 'dat', 'desc');

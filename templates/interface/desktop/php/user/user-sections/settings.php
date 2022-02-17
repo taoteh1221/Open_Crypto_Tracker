@@ -15,13 +15,13 @@
 			
 			
 			<?php
-			if ( $price_alert_type_text != '' && $ct_conf['comms']['price_alert_thres'] > 0 ) {
+			if ( isset($price_alert_type_text) && $price_alert_type_text != '' && $ct_conf['comms']['price_alert_thres'] > 0 ) {
           ?>
           	<p class='settings_sections'><b><?=$price_alert_type_text?> price alerts</b> are <i>enabled</i> in the configuration file (upon <?=$ct_conf['comms']['price_alert_thres']?>% or more <?=strtoupper($default_btc_prim_currency_pair)?> price change<?=( $ct_conf['comms']['price_alert_freq_max'] > 0 ? ' / max every ' . $ct_conf['comms']['price_alert_freq_max'] . ' hours per-alert' : '' )?><?=( $ct_conf['comms']['price_alert_min_vol'] > 0 ? ' / ' . $ct_conf['power']['btc_currency_mrkts'][$default_btc_prim_currency_pair] . number_format($ct_conf['comms']['price_alert_min_vol'], 0, '.', ',') . ' minumum volume filter enabled' : '' )?><?=( $ct_conf['charts_alerts']['price_alert_fixed_reset'] > 0 ? ' / comparison price fixed-reset after ' . $ct_conf['charts_alerts']['price_alert_fixed_reset'] . ' days' : '' )?>). 
           	
           	<br /><i>Enable <a href='README.txt' target='_blank'>a cron job on your web server</a>, or this feature will not work AT ALL.</i> 
           	
-          		<?=( $price_change_conf_alert != '' ? '<br />' . $price_change_conf_alert : '' )?>
+          		<?=( isset($price_change_conf_alert) && $price_change_conf_alert != '' ? '<br />' . $price_change_conf_alert : '' )?>
           		
           		<?php
           		if ( preg_match("/text/i", $price_alert_type_text) && $ct_conf['comms']['smtp_login'] == '' && $ct_conf['comms']['smtp_server'] == '' && $ct_conf['comms']['textbelt_apikey'] == '' && $ct_conf['comms']['textlocal_account'] == '' ) {
@@ -40,7 +40,7 @@
 			?>
           <p class='settings_sections'><b><?=( trim($ct_conf['proxy']['proxy_login']) != '' ? 'Password-based' : 'IP-athenticated' )?> proxy mode</b> is <i>enabled</i> in the configuration file for API connections (<?=sizeof($ct_conf['proxy']['proxy_list'])?> proxies randomly used<?=( $ct_conf['comms']['proxy_alert'] != 'off' ? ' / proxy alerts enabled for ' . $ct_conf['comms']['proxy_alert'] . ' alert method(s), every ' . $ct_conf['comms']['proxy_alert_freq_max'] . ' hours max per-proxy at ' . $ct_conf['comms']['proxy_alert_runtime'] . ' runtimes / ' .$ct_conf['comms']['proxy_alert_checkup_ok']. ' sending proxy alerts on proxy checks that tested OK after acting up' : '' )?>). 
           	
-          		<?=( $proxy_conf_alert != '' ? '<br />' . $proxy_conf_alert : '' )?>
+          		<?=( isset($proxy_conf_alert) && $proxy_conf_alert != '' ? '<br />' . $proxy_conf_alert : '' )?>
           	
           	</p>      
           <?php
@@ -51,7 +51,7 @@
           	
           	<br /><i>Enable <a href='README.txt' target='_blank'>a cron job on your web server</a>, or this feature will not work RELIABLY.</i> 
           	
-          		<?=( $logs_conf_alert != '' ? '<br />' . $logs_conf_alert : '' )?>
+          		<?=( isset($logs_conf_alert) && $logs_conf_alert != '' ? '<br />' . $logs_conf_alert : '' )?>
           	
           	</p>  
                         
@@ -63,7 +63,7 @@
           	
           	<br /><i>Enable <a href='README.txt' target='_blank'>a cron job on your web server</a>, or this feature will not work AT ALL.</i> 
           	
-          		<?=( $backuparchive_conf_alert != '' ? '<br />' . $backuparchive_conf_alert : '' )?>
+          		<?=( isset($backuparchive_conf_alert) && $backuparchive_conf_alert != '' ? '<br />' . $backuparchive_conf_alert : '' )?>
           	
           	</p>  
                         
@@ -74,7 +74,7 @@
           ?>
           	<p class='settings_sections'><b>SMTP email sending</b> (by account login) is <i>enabled</i> in the configuration file.
           	
-          		<?=( $smtp_conf_alert != '' ? '<br />' . $smtp_conf_alert : '' )?>
+          		<?=( isset($smtp_conf_alert) && $smtp_conf_alert != '' ? '<br />' . $smtp_conf_alert : '' )?>
           	
           	</p>  
                         

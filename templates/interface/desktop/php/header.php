@@ -155,10 +155,10 @@ header('Content-type: text/html; charset=' . $ct_conf['dev']['charset_default'])
 	
 	var theme_selected = '<?=$sel_opt['theme_selected']?>';
 	
-	var feeds_num = <?=( $sel_opt['show_feeds'][0] != '' ? sizeof($sel_opt['show_feeds']) : 0 )?>;
+	var feeds_num = <?=( isset($sel_opt['show_feeds'][0]) && $sel_opt['show_feeds'][0] != '' ? sizeof($sel_opt['show_feeds']) : 0 )?>;
 	var feeds_loaded = new Array();
 	
-	var charts_num = <?=( $sel_opt['show_charts'][0] != '' ? sizeof($sel_opt['show_charts']) : 0 )?>;
+	var charts_num = <?=( isset($sel_opt['show_charts'][0]) && $sel_opt['show_charts'][0] != '' ? sizeof($sel_opt['show_charts']) : 0 )?>;
 	var charts_loaded = new Array();
 	
 	var sorted_by_col = <?=( $sel_opt['sorted_by_col'] ? $sel_opt['sorted_by_col'] : 0 )?>;
