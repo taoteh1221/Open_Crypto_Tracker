@@ -5201,6 +5201,10 @@ MIGRATE YOUR EXISTING SETTINGS TO THE NEW FORMAT.
 
 -Added short trading and 'View More Stats' privacy mode enhancements
 
+-More config options / documentation for system resource alerts / logging
+
+-Miscellaneous other user experience improvements
+
 v5.12.2 and higher renames the admin config array. ALL CONFIGURATION SETTING
 VARIABLE NAMES ARE NOW DIFFERENT, USE THE LATEST/UPGRADED CONFIG.PHP, AND
 MIGRATE YOUR EXISTING SETTINGS TO THE NEW FORMAT.

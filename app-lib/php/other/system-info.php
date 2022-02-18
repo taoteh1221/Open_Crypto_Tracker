@@ -30,46 +30,62 @@ $memory_percent_free = round( 100 - $memory_percent_free, 2);
 $system_load_redline = ( $system_info['cpu_threads'] > 1 ? ($system_info['cpu_threads'] * 2) : 2 );
 
 
-// Interface alert messages (UI / email / etc)
-if ( substr($system_info['uptime'], 0, 6) == '0 days' ) {
+// Interface alert messages (UI / email / etc), and error logging
+
+
+$system_uptime_warning = explode('||', $ct_conf['power']['system_uptime_warning']);
+
+if ( substr($system_info['uptime'], 0, 6) == $system_uptime_warning[0] . ' days' ) {
 $system_warnings['uptime'] = 'Low uptime (' . $system_info['uptime'] . ')';
-$system_warnings_cron_interval['uptime'] = 25; // 25 hours
+$system_warnings_cron_interval['uptime'] = $system_uptime_warning[1];
 }
 	
 	
-if ( $system_load > ($system_load_redline * $ct_conf['power']['system_load_warning']) ) {
+$system_load_warning = explode('||', $ct_conf['power']['system_load_warning']);
+
+if ( $system_load > ($system_load_redline * $system_load_warning[0]) ) {
 $system_warnings['system_load'] = 'High 15 minute CPU load [' . $system_load_all . ']';
-$system_warnings_cron_interval['system_load'] = 8; // 8 hours
+$system_warnings_cron_interval['system_load'] = $system_load_warning[1];
 }
 
 	
-if ( $system_temp >= $ct_conf['power']['system_temp_warning'] ) {
+$system_temp_warning = explode('||', $ct_conf['power']['system_temp_warning']);
+
+if ( $system_temp >= $system_temp_warning[0] ) {
 $system_warnings['system_temp'] = 'High temperature (' . $system_temp . ' degrees celcius)';
-$system_warnings_cron_interval['system_temp'] = 1; // 1 hours
+$system_warnings_cron_interval['system_temp'] = $system_temp_warning[1];
 }
 
 	
-if ( $system_info['memory_used_percent'] >= $ct_conf['power']['memory_used_percent_warning'] ) {
+$memory_used_percent_warning = explode('||', $ct_conf['power']['memory_used_percent_warning']);
+
+if ( $system_info['memory_used_percent'] >= $memory_used_percent_warning[0] ) {
 $system_warnings['memory_used_percent'] = 'High memory usage (' . $system_info['memory_used_percent'] . ' percent used)';
-$system_warnings_cron_interval['memory_used_percent'] = 8; // 8 hours
+$system_warnings_cron_interval['memory_used_percent'] = $memory_used_percent_warning[1];
 }
 
 	
-if ( $system_free_space_mb <= $ct_conf['power']['free_partition_space_warning'] ) {
+$free_partition_space_warning = explode('||', $ct_conf['power']['free_partition_space_warning']);
+
+if ( $system_free_space_mb <= $free_partition_space_warning[0] ) {
 $system_warnings['free_partition_space'] = 'High disk storage usage (only ' . $ct_var->num_pretty($system_free_space_mb, 1) . ' megabytes free space left)';
-$system_warnings_cron_interval['free_partition_space'] = 20; // 20 hours
+$system_warnings_cron_interval['free_partition_space'] = $free_partition_space_warning[1];
 }
 
 	
-if ( $system_info['portfolio_cookies'] >= $ct_conf['power']['cookies_size_warning'] ) {
-$system_warnings['portfolio_cookies_size'] = 'High app cookie storage usage (' . $ct_var->num_pretty( ($system_info['portfolio_cookies'] / 1000) , 2) . ' kilobytes in app cookies), try UNSELECTING a few coins / news feeds / price charts, OR delete ALL browser cookies if the app crashes with a "header too large" error';
-$system_warnings_cron_interval['portfolio_cookies_size'] = 6; // 6 hours
-}
+$portfolio_cache_warning = explode('||', $ct_conf['power']['portfolio_cache_warning']);
 
-	
-if ( $portfolio_cache_size_mb >= $ct_conf['power']['portfolio_cache_warning'] ) {
+if ( $portfolio_cache_size_mb >= $portfolio_cache_warning[0] ) {
 $system_warnings['portfolio_cache_size'] = 'High app cache disk storage usage (' . $ct_var->num_pretty($portfolio_cache_size_mb, 1) . ' megabytes in app cache)';
-$system_warnings_cron_interval['portfolio_cache_size'] = 72; // 72 hours
+$system_warnings_cron_interval['portfolio_cache_size'] = $portfolio_cache_warning[1];
+}
+
+	
+$cookies_size_warning = explode('||', $ct_conf['power']['cookies_size_warning']);
+
+if ( $system_info['portfolio_cookies'] >= $cookies_size_warning[0] ) {
+$system_warnings['portfolio_cookies_size'] = 'High app cookie storage usage (' . $ct_var->num_pretty( ($system_info['portfolio_cookies'] / 1000) , 2) . ' kilobytes in app cookies), try UNSELECTING a few coins / news feeds / price charts, OR delete ALL browser cookies if the app crashes with a "header too large" error';
+$system_warnings_cron_interval['portfolio_cookies_size'] = $cookies_size_warning[1];
 }
 
 

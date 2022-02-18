@@ -46,6 +46,12 @@ markets_ to mrkts_
 leverage_ to lvrg_
 
 
+Since we already wait for the page to load for initiating batch-grabbing news feeds(?), maybe we can store the user-selected feeds in local storage, since the data set is potentially VERY large (to save alot on cookie header data)? Look over the batch loading logic, and see if we can do it more with JavaScript instead of PHP (except for the batch calls endpoint on the server). Same should generally go for price charts (as we load after the page has loaded), so look into that too.
+
+
+Check in on defipulse API data, unit tests showed it failing across the board for price data.
+
+
 Research whether POST data size affects header size like cookie data size does.
 
 
@@ -83,9 +89,6 @@ Add ENJ / MATIC kraken markets.
 
 
 Look into adding Balancer (BAL), Bittrex just added it for US customers.
-
-
-Check in on defipulse API data, unit tests showed it failing across the board for price data.
 
 
 Make sure everything STILL runs smoothly with the charts page turned off.
