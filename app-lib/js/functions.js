@@ -249,15 +249,21 @@ show_feeds = $("#show_feeds").val();
 /////////////////////////////////////////////////////////////
 
 
-function ajax_placeholder(px_size, align, message){
+function ajax_placeholder(px_size, align, message=null, display_mode=null){
+    
+    
+    if ( display_mode ) {
+    display_mode = 'display: ' + display_mode + '; ';
+    }
+
 
 	if ( message ) {
 	img_height = px_size - 2;
-	return '<div class="align_' + align + '" style="white-space: nowrap; font-size: ' + px_size + 'px;"><img src="templates/interface/media/images/auto-preloaded/loader.gif" height="' + img_height + '" alt="" style="position: relative; vertical-align:middle;" /> ' + message + ' </div>';
+	return '<div class="align_' + align + '" style="'+display_mode+'white-space: nowrap; font-size: ' + px_size + 'px;"><img src="templates/interface/media/images/auto-preloaded/loader.gif" height="' + img_height + '" alt="" style="position: relative; vertical-align:middle;" /> ' + message + ' </div>';
 	}
 	else {
 	img_height = px_size;
-	return '<div class="align_' + align + '"><img src="templates/interface/media/images/auto-preloaded/loader.gif" height="' + img_height + '" alt="" /></div>';
+	return '<div class="align_' + align + '" style="'+display_mode+'"><img src="templates/interface/media/images/auto-preloaded/loader.gif" height="' + img_height + '" alt="" /></div>';
 	}
 	
 
@@ -1246,18 +1252,18 @@ private_data = document.getElementsByClassName('private_data');
                     	    
                         //console.log( private_data[element].nodeName );
                     		
-                    		if ( private_data[element].nodeName == "INPUT" ) {
+                    		if ( private_data[element].nodeName == "INPUT" || private_data[element].nodeName == "TEXTAREA" ) {
                     		    
-                            //console.log( private_data[element].value );
+                            //console.log( private_data[element].nodeName + ': ' + private_data[element].value );
                             
                             decrypted = CryptoJS.AES.decrypt(private_data[element].value, pin_check);
             	    
-            	            private_data[element].setAttribute('value', decrypted.toString(CryptoJS.enc.Utf8) );
+            	            private_data[element].value = decrypted.toString(CryptoJS.enc.Utf8);
         
                     		}
                     		else if ( private_data[element].nodeName == "DIV" || private_data[element].nodeName == "SPAN" ) {
         
-                            //console.log( private_data[element].innerHTML );
+                            //console.log( private_data[element].nodeName + ': ' + private_data[element].innerHTML );
         
                             decrypted = CryptoJS.AES.decrypt(private_data[element].innerHTML, pin_check);
         
@@ -1297,6 +1303,7 @@ private_data = document.getElementsByClassName('private_data');
                     safe_add_remove_class('hidden', 'crypto_val', 'remove');
                     safe_add_remove_class('hidden', 'fiat_val', 'remove');
                     safe_add_remove_class('hidden', 'portfolio_gain_loss', 'remove');
+                    safe_add_remove_class('hidden', 'balance_stats', 'remove');
        
                     
                     var leverage_info = document.querySelectorAll(".leverage_info");
@@ -1305,7 +1312,10 @@ private_data = document.getElementsByClassName('private_data');
                         info.style.visibility = "visible";
                         });
                         
+                        
                     document.oncontextmenu = document.body.oncontextmenu = function() {return true;};
+                    
+                    autosize.update(window.autosize_target); // Textarea auto resizing
                     
         
                     $("#pm_link").text('Privacy Mode: Off');
@@ -1379,16 +1389,16 @@ private_data = document.getElementsByClassName('private_data');
             	    
             //console.log( private_data[element].nodeName );
             		
-            		if ( private_data[element].nodeName == "INPUT" ) {
+            		if ( private_data[element].nodeName == "INPUT" || private_data[element].nodeName == "TEXTAREA" ) {
 
-                    //console.log( private_data[element].value );
+                    //console.log( private_data[element].nodeName + ': ' + private_data[element].value );
             	    
-            	    private_data[element].setAttribute('value', CryptoJS.AES.encrypt(private_data[element].value, pin) );
+            	    private_data[element].value = CryptoJS.AES.encrypt(private_data[element].value, pin);
 
             		}
             		else if ( private_data[element].nodeName == "DIV" || private_data[element].nodeName == "SPAN" ) {
 
-                    //console.log( private_data[element].innerHTML );
+                    //console.log( private_data[element].nodeName + ': ' + private_data[element].innerHTML );
 
             	    private_data[element].innerHTML = CryptoJS.AES.encrypt(private_data[element].innerHTML, pin);
 
@@ -1421,6 +1431,7 @@ private_data = document.getElementsByClassName('private_data');
         safe_add_remove_class('hidden', 'crypto_val', 'add');
         safe_add_remove_class('hidden', 'fiat_val', 'add');
         safe_add_remove_class('hidden', 'portfolio_gain_loss', 'add');
+        safe_add_remove_class('hidden', 'balance_stats', 'add');
 
                     
         var leverage_info = document.querySelectorAll(".leverage_info");
@@ -1450,7 +1461,6 @@ private_data = document.getElementsByClassName('private_data');
         
     
     }
-
 
 
 }

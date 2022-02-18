@@ -653,13 +653,13 @@ min-width: 1150px !important;
 
 
 .obfuscated {    
-  display: inline-block;
-  line-height: 0px;
-  min-width: 0;
-  width: 75px;
-  overflow: hidden;
-  white-space: nowrap;
-  text-overflow: ellipsis;
+    display: none !important;
+    line-height: 0px !important;
+    min-width: 0px !important;
+    width: 0px !important;
+    overflow: hidden !important;
+    white-space: nowrap !important;
+    text-overflow: ellipsis !important;
 }
 
 

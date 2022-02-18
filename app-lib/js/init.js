@@ -16,7 +16,7 @@ $(document).ready(function(){
 
     // Trading notes
 	if ( localStorage.getItem(notes_storage) && $("#notes").length ) {
-	document.getElementById("notes").value = localStorage.getItem(notes_storage);
+    document.getElementById("notes").value = localStorage.getItem(notes_storage);
 	}
 		
     
@@ -104,10 +104,15 @@ $("span.btc_prim_currency_pair").html(window.btc_prim_currency_pair);
 
 random_tips(); // https://codepen.io/kkoutoup/pen/zxmGLE
 
-start_utc_time();
+start_utc_time(); // Show UTC time count in logs UI sections
 
-autosize(document.querySelector('textarea[data-autoresize]'));
+window.autosize_target = document.querySelector('textarea[data-autoresize]');
 
+var autosize_textarea = autosize(window.autosize_target);
+
+    autosize_textarea.addEventListener('autosize:resized', function(){
+    //console.log('textarea height updated');
+    });
 
 ///////////////////////////////////////////////////////////////////////////////
 

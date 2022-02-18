@@ -676,7 +676,7 @@ echo ' <span class="blue"><span class="data app_sort_filter blue private_data">'
 <?php
 
 $thres_dec = $ct_gen->thres_dec($asset_prim_currency_worth_raw, 'u'); // Units mode
-echo '<span class="' . ( $purchase_price >= 0.00000001 && $leverage_level >= 2 && $sel_mrgntyp == 'short' ? 'short">★ ' : 'blue">' ) . '<span class="blue">' . $ct_conf['power']['btc_currency_mrkts'][ $ct_conf['gen']['btc_prim_currency_pair'] ] . '</span><span class="app_sort_filter blue private_data">' . $ct_var->num_pretty($asset_prim_currency_worth_raw, $thres_dec['max_dec'], false, $thres_dec['min_dec']) . '</span></span>';
+echo '<span class="private_data ' . ( $purchase_price >= 0.00000001 && $leverage_level >= 2 && $sel_mrgntyp == 'short' ? 'short">★ ' : 'blue">' ) . '<span class="blue">' . $ct_conf['power']['btc_currency_mrkts'][ $ct_conf['gen']['btc_prim_currency_pair'] ] . '</span><span class="app_sort_filter blue">' . $ct_var->num_pretty($asset_prim_currency_worth_raw, $thres_dec['max_dec'], false, $thres_dec['min_dec']) . '</span></span>';
 
   if ( $purchase_price >= 0.00000001 && $leverage_level >= 2 ) {
 

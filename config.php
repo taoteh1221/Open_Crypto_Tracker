@@ -633,21 +633,22 @@ $ct_conf['power']['captcha_text_angle'] = 33; // (default = 33)
 			
 // Configuration for system resource warning thresholds (logs to error log, and sends comms alerts to any activated comms)
 // (WHEN THE SYSTEM RESOURCES REACH THESE VALUES, THE WARNINGS ARE TRIGGERED TO BE LOGGED / SENT TO ADMIN COMMS)
+// !!LEAVE YOURSELF SOME #EXTRA ROOM# ON THESE VALUES, TO BE ALERTED #BEFORE# YOUR SYSTEM WOULD RISK CRASHING!!
 // System load warning default is 2x number of cores your app server has (1 core system = load level 2.00 would trigger an alert)
 // System load threshold multiplier allows you to adjust when warning is triggered (0.5 is half default, 2.00 is 2x default, etc)
 $ct_conf['power']['system_load_warning'] = 1.00; // THRESHOLD MULTIPLIER! (default = 1.00)
 ////
-$ct_conf['power']['system_temp_warning'] = 75; // Temp IN CELCIUS! (default = 75)
+$ct_conf['power']['system_temp_warning'] = 70; // Temp IN CELCIUS! (default = 70)
 ////
-$ct_conf['power']['memory_used_percent_warning'] = 85; // DO #NOT# INCLUDE PERCENT SYMBOL! (default = 85)
+$ct_conf['power']['memory_used_percent_warning'] = 80; // DO #NOT# INCLUDE PERCENT SYMBOL! (default = 80)
 ////
-$ct_conf['power']['free_partition_space_warning'] = 750; // Scale IN MEGABYTES! (default = 750)
+$ct_conf['power']['free_partition_space_warning'] = 1000; // Scale IN MEGABYTES! (default = 1000)
 ////
-$ct_conf['power']['portfolio_cache_warning'] = 5000; // Scale IN MEGABYTES! (default = 5000)
+$ct_conf['power']['portfolio_cache_warning'] = 2500; // Scale IN MEGABYTES! (default = 2500)
 ////
-// If ALL cookie data reaches this threshold, the header data may be approaching the server limit (CRASHING THIS APP!!)
+// If ALL cookie data reaches this threshold, the header data MAY be approaching the server limit (CRASHING THIS APP!!)
 // STANDARD SERVER LIMITS...Apache: 8000, NGINX: 4000 - 8000, IIS: 8000 - 16000, Tomcat: 8000 - 48000
-$ct_conf['power']['cookies_size_warning'] = 7500; // Size in BYTES! (default = 7500)
+$ct_conf['power']['cookies_size_warning'] = 7000; // Size in BYTES! (default = 7000)
 
 																					
 // ASSET MARKETS chart colors (https://www.w3schools.com/colors/colors_picker.asp)

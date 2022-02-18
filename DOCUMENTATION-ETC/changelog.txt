@@ -5191,9 +5191,15 @@ MIGRATE YOUR EXISTING SETTINGS TO THE NEW FORMAT.
 
 
 -------------------------------------------------------------------
-5.13.0:
+5.12.4:
+
+-BUG FIX: Trading notes now hide in privacy mode
 
 -Moved trading notes to local storage (to avoid cookie sizes over-affecting server header size)
+
+-Added portfolio allocation perenctange balances to privacy mode (now also hides)
+
+-Added short trading and 'View More Stats' privacy mode enhancements
 
 v5.12.2 and higher renames the admin config array. ALL CONFIGURATION SETTING
 VARIABLE NAMES ARE NOW DIFFERENT, USE THE LATEST/UPGRADED CONFIG.PHP, AND

@@ -191,13 +191,22 @@ $plot_conf = explode('|', $_GET['plot_conf']);
   
 	foreach ( $sorted_by_mcap_data as $mcap_array ) {
 		
+		
 		if ( in_array($mcap_array[0], $plot_conf) ) {
 		$show_plot = 'visible: true,';
 		}
 		else {
 		$show_plot = 'visible: false,';
 		}
-			
+		
+		
+	    // We want ONLY WATCHED ASSETS SHOWN for privacy mode, so nobody easily
+	    // becomes interested in what we are NOT watching on the update page
+		if ( !in_array($mcap_array[0], $plot_conf) && $_GET['privacy'] == 'on' ) {
+		continue; // Skip
+		}
+		
+		
 	$rand_color = '#' . $ct_gen->rand_color( sizeof($sorted_by_mcap_data) )['hex'];
 		
 					

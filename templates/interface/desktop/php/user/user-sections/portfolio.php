@@ -52,7 +52,7 @@
 			$refresh_link_title = 'The current real-time exchange data re-cache (refresh from live data instead of cached data) setting in the Admin Config GENERAL section is set to '. $ct_conf['power']['last_trade_cache_time'] . ' minute(s).';
 			}
 			
-			?>  &nbsp; &nbsp; &nbsp; <a href='javascript:app_reloading_placeholder(1);app_reload();' style='font-weight: bold;' title='<?=$refresh_link_title?>'>Refresh</a> <span><b>(<?=$ct_conf['power']['last_trade_cache_time']?> minute cache)</b></span>
+			?>  &nbsp; &nbsp; &nbsp; <a href='javascript:app_reloading_placeholder(1);app_reload();' class='bitcoin' style='font-weight: bold;' title='<?=$refresh_link_title?>'>Refresh</a> <span><b>(<?=$ct_conf['power']['last_trade_cache_time']?> minute cache)</b></span>
 			
 			 &nbsp;<select title='Auto-Refresh MAY NOT WORK properly on mobile devices (phone / laptop / tablet / etc), or inactive tabs.' class='browser-default custom-select' name='select_auto_refresh' id='select_auto_refresh' onchange='
 			 window.reload_time = this.value;
@@ -748,7 +748,7 @@ var fiat_val_content = '<h5 class="yellow tooltip_title">Primary Currency (<?=st
 		
 		<?php
 			
-			echo '<span class="black">Balance:</span> ' . $bitcoin_dominance_text . $seperator_btc . $ethereum_dominance_text . $seperator_eth . $miscassets_dominance_text . $seperator_miscassets . $ethnfts_dominance_text . $seperator_ethnfts . $solnfts_dominance_text . $seperator_solnfts . $altcoin_dominance_text;
+			echo '<span class="black">Balance:</span>  <span class="private_data">' . $bitcoin_dominance_text . $seperator_btc . $ethereum_dominance_text . $seperator_eth . $miscassets_dominance_text . $seperator_miscassets . $ethnfts_dominance_text . $seperator_ethnfts . $solnfts_dominance_text . $seperator_solnfts . $altcoin_dominance_text . '</span>';
 			
 			
 		?>
@@ -840,6 +840,19 @@ var fiat_val_content = '<h5 class="yellow tooltip_title">Primary Currency (<?=st
 	<br clear='all' />
 	
 	<br clear='all' />
+	
+	
+	<script>
+	// We want ONLY WATCHED ASSETS SHOWN for privacy mode, so nobody easily
+	// becomes interested in what we are NOT watching on the update page
+	if ( getCookie('priv_toggle') == 'on' ) {
+	zingchart_privacy = '&privacy=on';
+	}
+	else {
+	zingchart_privacy = '&privacy=off';
+	}
+	</script>
+	
 	
   	<?php
   	// Performance chart START (requires price charts)
@@ -978,7 +991,7 @@ var fiat_val_content = '<h5 class="yellow tooltip_title">Primary Currency (<?=st
   
   // 'load'
   zingchart.exec('performance_chart', 'load', {
-  	dataurl: 'ajax.php?type=chart&mode=asset_performance&time_period=' + document.getElementById('performance_chart_period').value + '&start_time=' + date_timestamp + '&chart_width=' + performance_chart_width + '&chart_height=' + document.getElementById('performance_chart_height').value + '&menu_size=' + document.getElementById('performance_menu_size').value + '&plot_conf=<?=$plot_conf?>',
+  	dataurl: 'ajax.php?type=chart&mode=asset_performance&time_period=' + document.getElementById('performance_chart_period').value + '&start_time=' + date_timestamp + '&chart_width=' + performance_chart_width + '&chart_height=' + document.getElementById('performance_chart_height').value + '&menu_size=' + document.getElementById('performance_menu_size').value + '&plot_conf=<?=$plot_conf?>' + zingchart_privacy,
     cache: {
         data: true
     }
@@ -1070,7 +1083,7 @@ $("#performance_chart span.chart_loading").hide(); // Hide "Loading chart X..." 
 
 zingchart.TOUCHZOOM = 'pinch'; /* mobile compatibility */
 
-$.get( "ajax.php?type=chart&mode=asset_performance&time_period=all&start_time=0&chart_height=<?=$asset_perf_chart_defaults[0]?>&menu_size=<?=$asset_perf_chart_defaults[1]?>&plot_conf=<?=$plot_conf?>", function( json_data ) {
+$.get( "ajax.php?type=chart&mode=asset_performance&time_period=all&start_time=0&chart_height=<?=$asset_perf_chart_defaults[0]?>&menu_size=<?=$asset_perf_chart_defaults[1]?>&plot_conf=<?=$plot_conf?>" + zingchart_privacy, function( json_data ) {
  
 
 	// Mark chart as loaded after it has rendered
@@ -1222,7 +1235,7 @@ zingchart.bind('performance_chart', 'label_click', function(e){
   
   // 'load'
   zingchart.exec('marketcap_chart', 'load', {
-  	dataurl: 'ajax.php?type=chart&mode=marketcap_data&mcap_type=' + document.getElementById('mcap_type').value + '&mcap_compare_diff=' + document.getElementById('mcap_compare_diff').value + '&chart_width=' + marketcap_chart_width + '&chart_height=' + document.getElementById('marketcap_data_height').value + '&menu_size=' + document.getElementById('marketcap_menu_size').value + '&marketcap_site=<?=$ct_conf['gen']['prim_mcap_site']?>&plot_conf=<?=$plot_conf?>',
+  	dataurl: 'ajax.php?type=chart&mode=marketcap_data&mcap_type=' + document.getElementById('mcap_type').value + '&mcap_compare_diff=' + document.getElementById('mcap_compare_diff').value + '&chart_width=' + marketcap_chart_width + '&chart_height=' + document.getElementById('marketcap_data_height').value + '&menu_size=' + document.getElementById('marketcap_menu_size').value + '&marketcap_site=<?=$ct_conf['gen']['prim_mcap_site']?>&plot_conf=<?=$plot_conf?>' + zingchart_privacy,
     cache: {
         data: true
     }
@@ -1295,7 +1308,7 @@ $("#marketcap_chart span.chart_loading").hide(); // Hide "Loading chart X..." af
 
 zingchart.TOUCHZOOM = 'pinch'; /* mobile compatibility */
 
-$.get( "ajax.php?type=chart&mode=marketcap_data&mcap_type=circulating&mcap_compare_diff=none&chart_height=<?=$asset_mcap_chart_defaults[0]?>&menu_size=<?=$asset_mcap_chart_defaults[1]?>&marketcap_site=<?=$ct_conf['gen']['prim_mcap_site']?>&plot_conf=<?=$plot_conf?>", function( json_data ) {
+$.get( "ajax.php?type=chart&mode=marketcap_data&mcap_type=circulating&mcap_compare_diff=none&chart_height=<?=$asset_mcap_chart_defaults[0]?>&menu_size=<?=$asset_mcap_chart_defaults[1]?>&marketcap_site=<?=$ct_conf['gen']['prim_mcap_site']?>&plot_conf=<?=$plot_conf?>" + zingchart_privacy, function( json_data ) {
  
 
 	// Mark chart as loaded after it has rendered
@@ -1364,7 +1377,7 @@ zingchart.bind('marketcap_chart', 'label_click', function(e){
 		if ( $short_added == 1 ) {
 		?>	
 		<div class="portfolio_summary" style='margin-top: 15px;'>
-		<span class="short">★ Adjusted short trade deposit(s) (leverage <u>not</u> included)</span>
+		<span class="short private_data">★ Adjusted short trade deposit(s) (leverage <u>not</u> included)</span>
 		</div>		
 		<?php
 		}
@@ -1438,7 +1451,7 @@ zingchart.bind('marketcap_chart', 'label_click', function(e){
 	
 	<div style='margin-top: 10px; height: auto;'>
 	
-		<b class='black'>&nbsp;Trading Notes (<a href='javascript: return false;' target='_blank' onclick='
+		<b class='black private_data'>&nbsp;Trading Notes (<a href='javascript: return false;' target='_blank' onclick='
 		
 		if ( localStorage.getItem(notes_storage) != document.getElementById("notes").value ) {
 		alert("You have changed your notes since you last saved them. \n\nPlease save your new notes before downloading them.");
@@ -1450,20 +1463,27 @@ zingchart.bind('marketcap_chart', 'label_click', function(e){
 		
 		' title='Download your trading notes to your computer.'>download</a>):</b><br />
 	
-		<textarea data-autoresize name='notes' id='notes' style='height: auto; width: 100%;'><?=$_COOKIE['notes']?></textarea>
+		<textarea class='private_data' data-autoresize name='notes' id='notes' style='height: auto; width: 100%;'></textarea>
 		<br />
 	
 		<button onclick='
 		
+		if ( getCookie("priv_toggle") == "on" ) {
+		alert("Submitting data is not allowed in privacy mode.");
+		}
+		else {
+		
 		localStorage.setItem(notes_storage, document.getElementById("notes").value);
 		
-		document.getElementById("notes_save_result").innerHTML = "Notes saved.";
+		document.getElementById("notes_save_result").innerHTML = ajax_placeholder(18, "left", "Saving notes...", "inline");
 		
-		  setTimeout(
+		   setTimeout(
              function() {
              document.getElementById("notes_save_result").innerHTML = "";
              }
-          , 10000);
+           , 2500);
+           
+		}
 		
 		'>Save Updated Notes</button> &nbsp; <span class='red' id='notes_save_result'></span>
 		
