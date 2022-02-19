@@ -39,8 +39,16 @@ $activation_files = $ct_gen->sort_files($base_dir . '/cache/secured/activation',
 	
 	$ct_conf['comms']['to_email'] = $ct_var->auto_correct_str($ct_conf['comms']['to_email'], 'lower'); // Clean / auto-correct
 	
-	if ( $_GET['new_reset_key'] == $stored_reset_key && $ct_gen->valid_email($ct_conf['comms']['to_email']) == 'valid' ) {
-	$password_reset_approved = 1;
+	if ( isset($stored_reset_key) && trim($stored_reset_key) != '' && $_GET['new_reset_key'] == $stored_reset_key && $ct_gen->valid_email($ct_conf['comms']['to_email']) == 'valid' ) {
+	    
+        // One last check for password resets
+        if ( isset($_POST['new_reset_key']) && $_POST['new_reset_key'] != $_GET['new_reset_key'] ) {
+        $password_reset_denied = 1;
+        }
+        else {
+        $password_reset_approved = 1;
+        }
+	
 	}
 	else {
 	$password_reset_denied = 1; // For reset page UI
@@ -425,12 +433,15 @@ $secure_256bit_hash = $ct_gen->rand_hash(32); // 256-bit (32-byte) hash converte
 
 // If no admin login or an activated reset, valid user / pass are submitted, AND CAPTCHA MATCHES, store the new admin login
 if ( $password_reset_approved || !is_array($stored_admin_login) ) {
-	
-
-	if ( $ct_gen->valid_username( trim($_POST['set_username']) ) == 'valid' 
-&& $ct_gen->pass_strength($_POST['set_password'], 12, 40) == 'valid' 
-&& $_POST['set_password'] == $_POST['set_password2'] 
-&& trim($_POST['captcha_code']) != '' && strtolower( trim($_POST['captcha_code']) ) == strtolower($_SESSION['captcha_code']) ) {
+    
+    
+	if (
+	$ct_gen->valid_username( trim($_POST['set_username']) ) == 'valid' 
+    && $ct_gen->pass_strength($_POST['set_password'], 12, 40) == 'valid' 
+    && $_POST['set_password'] == $_POST['set_password2'] 
+    && trim($_POST['captcha_code']) != ''
+    && strtolower( trim($_POST['captcha_code']) ) == strtolower($_SESSION['captcha_code'])
+    ) {
 	
 	
 	$secure_128bit_hash = $ct_gen->rand_hash(16); // 128-bit (16-byte) hash converted to hexadecimal, used for suffix

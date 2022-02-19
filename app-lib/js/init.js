@@ -47,7 +47,7 @@ $('#alert_bell_area').html( "<span class='bitcoin'>Current UTC time:</span> <spa
     
     	setTimeout(function(){
         $("#admin_username").filter(':visible').focus();
-    	}, 1000);
+    	}, 1000); 
     
     }
     else if ( $("#set_admin").length ) {
@@ -110,9 +110,13 @@ window.autosize_target = document.querySelector('textarea[data-autoresize]');
 
 var autosize_textarea = autosize(window.autosize_target);
 
-    autosize_textarea.addEventListener('autosize:resized', function(){
-    //console.log('textarea height updated');
-    });
+
+    if ( autosize_textarea ) {
+        autosize_textarea.addEventListener('autosize:resized', function(){
+        //console.log('textarea height updated');
+        });
+    }
+
 
 ///////////////////////////////////////////////////////////////////////////////
 

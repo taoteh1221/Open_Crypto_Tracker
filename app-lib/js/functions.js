@@ -1419,7 +1419,7 @@ private_data = document.getElementsByClassName('private_data');
         safe_add_remove_class('green', 'pm_link', 'add');
                     
             if ( document.getElementById("pm_link") ) {
-            document.getElementById("pm_link").setAttribute('title', 'Turn privacy mode OFF. This reveals your personal portfolio data, using the PIN you setup. It ALSO re-enables opposite-clicking.');
+            document.getElementById("pm_link").setAttribute('title', 'Turn privacy mode OFF. This reveals your personal portfolio data, using the PIN you setup. It ALSO re-enables opposite-clicking / data submission, and allows admin logins.');
             }
                     
         safe_add_remove_class('disable_click', 'update_link', 'add');

@@ -10,7 +10,7 @@
 
 
 // Application version
-$app_version = '5.12.4';  // 2022/FEBUARY/18TH
+$app_version = '5.12.5';  // 2022/FEBUARY/19TH
 
 // Application edition
 $app_edition = 'server';  // 'server' OR 'desktop' edition (LOWERCASE)
@@ -316,7 +316,8 @@ if ( $_POST['admin_submit_register'] || $_POST['admin_submit_login'] || $_POST['
 
 	if ( trim($_POST['captcha_code']) == '' || trim($_POST['captcha_code']) != '' && strtolower( trim($_POST['captcha_code']) ) != strtolower($_SESSION['captcha_code']) ) {
 	
-	
+	    
+	    // WE RUN SECURITY CHECKS WITHIN THE REGISTRATION PAGE, SO NOT MUCH CHECKS ARE IN THIS INIT
 		if ( $_POST['admin_submit_register'] ) {
 		$sel_opt['theme_selected'] = ( $_COOKIE['theme_selected'] ? $_COOKIE['theme_selected'] : $ct_conf['gen']['default_theme'] );
 		require("templates/interface/desktop/php/admin/admin-login/register.php");

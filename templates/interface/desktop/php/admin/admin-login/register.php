@@ -4,6 +4,27 @@
  */
 
 
+// SECURITY CHECKS FIRST! (ALL IF STATEMENTS #ON PURPOSE#, TO AVOID ANY UNFORSEEN EDGE CASES!)
+
+// REGISTRATION SECURITY 
+if ( !isset($_GET['new_reset_key']) && is_array($stored_admin_login) ) {
+$ct_gen->log('security_error', 'aborted admin registration attempt ('.$_SERVER['REQUEST_URI'].'), admin account ALREADY EXISTS');
+$ct_cache->error_log();
+echo "Aborted, admin account ALREADY EXISTS.";
+exit;
+}
+
+
+// RESET SECURITY 
+if ( isset($_GET['new_reset_key']) && $password_reset_denied == 1 ) {
+$ct_gen->log('security_error', 'aborted password reset attempt ('.$_SERVER['REQUEST_URI'].'), verification MISMATCH / NOT APPROVED');
+$ct_cache->error_log();
+echo "Aborted, password reset verification MISMATCH / NOT APPROVED.";
+exit;
+}
+	
+
+
 $register_result = array();
 
 	
@@ -136,7 +157,7 @@ else {
 }
 ?>
 
-<p class='bitcoin' style='font-size: 19px; font-weight: bold;'>Cookies MUST be enabled in your browser to login.
+<p class='red' style='font-size: 19px; font-weight: bold;'>Cookies MUST be ENABLED in your browser to login.
 	 <img id='admin_cookies' src='templates/interface/media/images/info-orange.png' alt='' width='30' style='position: relative;' /> 
 	 </p>
 
@@ -166,8 +187,24 @@ else {
 		 
 
 
-<?php
+<script>
 
+if ( getCookie('priv_toggle') == 'on' ) {
+
+document.write("<p class='red align_center' style='font-size: 19px; font-weight: bold;'>"
+
++ "PRIVACY MODE MUST be DISABLED to login. "
+
++ "<span id='pm_link' class='bitcoin' onclick='privacy_mode(true);' title=''>Disable Privacy Mode</span>"
+
++ "</p>");
+	 
+}
+
+</script>
+
+
+<?php
 if ( !$_POST['submit_registration'] || is_array($register_result['error']) && sizeof($register_result['error']) > 0 ) {
 ?>
 
@@ -293,6 +330,14 @@ Google Fonts is supported (fonts.google.com).'>Get A Different Image</a>
   
   
 <input type='hidden' name='admin_submit_register' value='1' />
+
+<?php 
+if ( isset($_GET['new_reset_key']) ) {
+?>
+<input type='hidden' name='new_reset_key' value='<?=$_GET['new_reset_key']?>' />
+<?php
+}
+?>
 
 </form>
   
