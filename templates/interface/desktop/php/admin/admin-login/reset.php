@@ -142,6 +142,25 @@ require("templates/interface/desktop/php/header.php");
 	 <img id='admin_cookies' src='templates/interface/media/images/info-orange.png' alt='' width='30' style='position: relative;' /> 
 	 </p>
 
+
+<script>
+
+if ( getCookie('priv_toggle') == 'on' ) {
+
+document.write("<p class='red align_center' style='font-size: 19px; font-weight: bold;'>"
+
++ "PRIVACY MODE MUST BE DISABLED to submit data: "
+
++ "<span id='pm_link' class='bitcoin' onclick='privacy_mode(true);' title=''>Disable Privacy Mode</span>"
+
++ "</p>");
+	 
+}
+
+</script>
+
+
+
 	 <script>
 	
 			$('#admin_cookies').balloon({

@@ -181,6 +181,7 @@ pointer-events: none !important;
     padding: 15px;
     width: 330px;
     z-index: 99999;
+    border-radius: 5px;
 }
 
 
@@ -192,6 +193,11 @@ pointer-events: none !important;
 
 .pw_prompt input {
     margin-bottom:10px;
+}
+
+
+.pw_prompt button {    
+margin-left: 5px;
 }
 
 
@@ -649,7 +655,6 @@ margin-top: 5px;
 div.modaal-wrapper.modaal-fullscreen div.modaal-content-container fieldset.subsection_fieldset {
 min-width: 1150px !important;
 }
-
 
 
 .obfuscated {    

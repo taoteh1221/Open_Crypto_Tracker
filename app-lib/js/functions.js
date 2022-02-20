@@ -1318,7 +1318,7 @@ private_data = document.getElementsByClassName('private_data');
                     autosize.update(window.autosize_target); // Textarea auto resizing
                     
         
-                    $("#pm_link").text('Privacy Mode: Off');
+                    $("#pm_link").text('Privacy Mode Is Off');
                                 
                     }
                     else {
@@ -1442,7 +1442,7 @@ private_data = document.getElementsByClassName('private_data');
              
         document.oncontextmenu = document.body.oncontextmenu = function() {return false;};    
         
-        $("#pm_link").text('Privacy Mode: On');
+        $("#pm_link").text('Privacy Mode Is On');
         
         // Delete any existing admin auth (login) cookie
         // (we force admin logout when privacy mode is on)
