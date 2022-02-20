@@ -1586,7 +1586,7 @@ zingchart.bind('marketcap_chart', 'label_click', function(e){
     		}
     		
     		if ( isset($system_info['system_temp']) ) {
-    		echo '<div class="sys_stats"><span class="bitcoin"><b>Temperature:</b></span> <span class="'.( isset($system_warnings['system_temp']) ? 'red' : 'green' ).'"> '.$system_info['system_temp'].'</span> </div>';
+    		echo '<div class="sys_stats"><span class="bitcoin"><b>Temperature:</b></span> <span class="'.( isset($system_warnings['system_temp']) ? 'red' : 'green' ).'"> '.$system_info['system_temp'].' <span class="black">('.round( ($system_temp * 9 / 5 + 32), 2).'° Fahrenheit)</span></span> </div>';
     		}
     		
     		if ( isset($system_info['memory_used_megabytes']) ) {

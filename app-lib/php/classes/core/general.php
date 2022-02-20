@@ -3178,15 +3178,15 @@ var $ct_array1 = array();
       // Temperature stats
       if ( is_readable('/sys/class/thermal/thermal_zone0/temp') ) {
       $temp_info = @file_get_contents('/sys/class/thermal/thermal_zone0/temp');
-      $system['system_temp'] = round($temp_info/1000) . '° Celsius';
+      $system['system_temp'] = round( ($temp_info/1000) , 2) . '° Celsius';
       }
       elseif ( is_readable('/sys/class/thermal/thermal_zone1/temp') ) {
       $temp_info = @file_get_contents('/sys/class/thermal/thermal_zone1/temp');
-      $system['system_temp'] = round($temp_info/1000) . '° Celsius';
+      $system['system_temp'] = round( ($temp_info/1000) , 2) . '° Celsius';
       }
       elseif ( is_readable('/sys/class/thermal/thermal_zone2/temp') ) {
       $temp_info = @file_get_contents('/sys/class/thermal/thermal_zone2/temp');
-      $system['system_temp'] = round($temp_info/1000) . '° Celsius';
+      $system['system_temp'] = round( ($temp_info/1000) , 2) . '° Celsius';
       }
       
    
