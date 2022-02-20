@@ -9,7 +9,7 @@ GENERAL NOTES SECTION
 ///////////////////////////////////////////////////////
 
 
-Always set bluefish to "4 spaces" as a tab indentation, and enabling indentation of selected text.
+Always set bluefish to "4 spaces" as a tab indentation, and enabling indentation of selected text. INDENTING SPACING IN FILES #CHANGES AUTOMATICALLY# WHEN "BLUEFISH => PREFERENCES => INITIAL DOCUMENT SETTINGS => TAB WIDTH" IS CHANGED, SO BE CAREFUL WHEN FIXING!!
 
 
 Try sticking with small infrastructure changes, and breaking up large changes into small milestones, then plenty of time is spent on UX / testing / logging / debugging.
@@ -41,30 +41,28 @@ OPTIMIZATIONS / BUGS / TESTS / UX / QA / OTHER SECTION
 ///////////////////////////////////////////////////////
 
 
-market_ to mrkt_
-markets_ to mrkts_
-leverage_ to lvrg_
+Prioritize building the mobile templates / language translation modules / admin interface / native app "desktop edition" (via PHPdesktop) above all other infrastructure. Then it's the most useful for the maximum number of people as it can be going forward.
 
 
-Consider adding some SPECIFIC filenames that are sensitive data to obfusc_path_data() via the $file = basename($path) method. Not sure if needed for log security, BUT right now obfusc_path_data() DOES #NOT# OBFUSCATE THE FILENAME AT ALL (just path up to the file).
-
-
-Since we already wait for the page to load for initiating batch-grabbing news feeds(?), maybe we can store the user-selected feeds in local storage, since the data set is potentially VERY large (to save alot on cookie header data)? Look over the batch loading logic, and see if we can do it more with JavaScript instead of PHP (except for the batch calls endpoint on the server). Same should generally go for price charts (as we load after the page has loaded), so look into that too.
-
-
-Check in on defipulse API data, unit tests showed it failing across the board for price data.
-
-
-Research whether POST data size affects header size like cookie data size does.
-
-
-Make all coin configs (assets and price alerts / charts) CASE-INSENSITIVE. Most efficient way to do this would be by auto-correcting in other/app-config-managment.php, to be the correct case even if a user editing config.php used the wrong case.
+AFTER the admin config GUI has been built out, make sure plugin configs are re-loaded AFTER 'activate_plugins' in the power user section has been updated.
 
 
 Update Portfolio page screenshots, since we added the 'Rank' column AND REBRANDED app name.
 
 
-Add ability to choose what decimal and thousands seperators to use.
+Since we already wait for the page to load for initiating batch-grabbing news feeds(?), maybe we can store the user-selected feeds in local storage, since the data set is potentially VERY large (to save alot on cookie header data)? Look over the batch loading logic, and see if we can do it more with JavaScript instead of PHP (except for the batch calls endpoint on the server). Same should generally go for price charts (as we load after the page has loaded), so look into that too.
+
+
+Consider adding some SPECIFIC filenames that are sensitive data to obfusc_path_data() via the $file = basename($path) method. Not sure if needed for log security, BUT right now obfusc_path_data() DOES #NOT# OBFUSCATE THE FILENAME AT ALL (just path up to the file).
+
+
+Make all coin configs (assets and price alerts / charts) CASE-INSENSITIVE. Most efficient way to do this would be by auto-correcting in other/app-config-managment.php, to be the correct case even if a user editing config.php used the wrong case.
+
+
+Check in on defipulse API data, unit tests showed it failing across the board for price data. 
+
+
+Add bonifida / serum markets support.
 
 
 Remember when restoring charts from archive, if you delete instead of overwrite, the file permissions may be incorrect when restoring (as its not default permissions same as the app sets).
@@ -73,58 +71,22 @@ Remember when restoring charts from archive, if you delete instead of overwrite,
 Add 'cancel' button on privacy mode PIN modal, and adjust the background color / border color / border width to 'pop out' better in the light / dark themes.
 
 
-Table column sorting is a tad borked up if you disable privacy mode AFTER a page reload. See if this can be 'reset' or whatever for better UX.
+Consolidate CSV import / post data importing that are near the top of the update and portfolio page UI rendering files, into just one subroutine BEFORE the UI is rendered...like we ALREADY DID for cookie data in those sections.
+
+
+Make sure everything STILL runs smoothly with the charts page turned off.
+
+
+Add same logic we have for internal API request throttling to the admin login / reset attempts, make setting configurable.
+
+
+Add remote IP address data to ALL relevant security error logging everywhere in the app.
 
 
 Write debugging tests for rss feeds.
 
 
 Overhaul / optimize config checks.
-
-
-Add a dedicated system chart file for plugin cron stats ONLY (runtime seconds, etc).
-
-
-Investigate / report to PHP devs (IF IT'S NOT A FILE READ ISSUE) the .htaccess password bug (/classes/core/cache.php, line 189) issue on Windows 10 / XAMPP 3.3.0 / PHP 7.4.24: $htaccess_password = crypt( $htaccess_password, base64_encode($htaccess_password) );
-
-
-Add ENJ / MATIC kraken markets.
-
-
-Look into adding Balancer (BAL), Bittrex just added it for US customers.
-
-
-Make sure everything STILL runs smoothly with the charts page turned off.
-
-
-For the language translation cache (to avoid asking API for a translation if we already did once), include a hash digest of the original English text used to translate. That way if the hash changes for the current English text used (English is never translated as it's the default), we know we need to re-translate with a fresh API call, and also save the new hash digest of the current English text as well.
-
-
-Prioritize building the admin interface / language translation modules / native app "desktop edition" (via PHPdesktop) above all other infrastructure. Then it's the most useful for the maximum number of people as it can be going forward.
-
-
-Breakup numerous function call parameters for calls like ui_asset_row() into a param array, like we did for update_all_cookies(). Also do line breaks like we do for arrays on any large string inputs into function calls, like we did for log().
-
-
-Add remote IP address data to ALL relevant security error logging everywhere in the app.
-
-
-Consolidate CSV import / post data importing that are near the top of the update and portfolio page UI rendering files, into just one subroutine BEFORE the UI is rendered...like we ALREADY DID for cookie data in those sections.
-
-
-Statement nesting indentation is a tad f#cked up after a TON of batch find / replace (at least displaying in bluefish), so clean stuff up add some more left margin on nested statements where it looks schetchy...class files are fixed, just have to check inline logic files. INDENTING SPACING IN FILES #CHANGES AUTOMATICALLY# WHEN "BLUEFISH => PREFERENCES => INITIAL DOCUMENT SETTINGS => TAB WIDTH" IS CHANGED, SO BE CAREFUL WHEN FIXING!!
-
-
-May come in handy for writing PHP unit tests: https://stackoverflow.com/questions/861254/iterate-over-properties-of-a-php-class
-
-
-Add same logic we have for internal API request throttling to the admin login / reset attempts, make setting configurable.
-
-
-Make sure ALL MARKETS are added FOR ALL SUPPORTED EXCHANGES (EVERY EXCHANGE IN exchange-ticker-apis.php), then re-run the exchange summaries printout (in debug mode), for updating documentation on the web page / README / in config.php.
-
-
-Look into laptop touchscreen zingchart js error on Ubuntu 20.04 / Chrome, when hiding / showing assets in performance chart (but is fine on Ubuntu 20.04 / Chrome on desktop). IT DOESN'T SEEM TO BE MY CODE, SO REPORT IT TO THE ZINGCHART TEAM.
 
 
 Consider moving the error log alerts for "email not configured" under the new "notify" category (which avoids duplicate messages).
@@ -145,7 +107,36 @@ Consolidate num_to_str() calls, to speed up runtime.
 See if exchange API data arrays can be manipulated slightly to build a reusable module for every exchange's API calls.
 
 
-Look into X day moving average overlay for price charts.
+market_ to mrkt_
+markets_ to mrkts_
+leverage_ to lvrg_
+
+
+Research whether POST data size affects header size like cookie data size does.
+
+
+Table column sorting is a tad borked up if you disable privacy mode AFTER a page reload. See if this can be 'reset' or whatever for better UX.
+
+
+Breakup numerous function call parameters for calls like ui_asset_row() into a param array, like we did for update_all_cookies(). Also do line breaks like we do for arrays on any large string inputs into function calls, like we did for log().
+
+
+Add ENJ / MATIC kraken markets.
+
+
+Look into adding Balancer (BAL), Bittrex just added it for US customers.
+
+
+Make sure ALL MARKETS are added FOR ALL SUPPORTED EXCHANGES (EVERY EXCHANGE IN exchange-ticker-apis.php), then re-run the exchange summaries printout (in debug mode), for updating documentation on the web page / README / in config.php.
+
+
+Cross-browser test RTL (right to left) effects from middle eastern currency symbols being injected into the interface output for those currencies
+
+
+Test unicode mobile text message with no space in front of hex-encoded data (forgot to try that, coded and ready to go now...see $ct_gen->charset_encode() and /DOCUMENTATION-ETC/Developing-maintaining/DEBUGGING.txt).
+
+
+For 'Desktop Edition' (using phpdesktop), look into using docker images for cross-platform compatibility (Windows / Mac / Linux).
 
 
 Review Help FAQ, and config.php settings documentation.
@@ -157,16 +148,13 @@ Think over what other "faq" entries would be helpful.
 Create github wiki with the current documentation for the portfolio app.
 
 
-Cross-browser test RTL (right to left) effects from middle eastern currency symbols being injected into the interface output for those currencies
+May come in handy for writing PHP unit tests: https://stackoverflow.com/questions/861254/iterate-over-properties-of-a-php-class
 
 
-Test unicode mobile text message with no space in front of hex-encoded data (forgot to try that, coded and ready to go now...see $ct_gen->charset_encode() and /DOCUMENTATION-ETC/Developing-maintaining/DEBUGGING.txt).
+Investigate / report to PHP devs (IF IT'S NOT A FILE READ ISSUE) the .htaccess password bug (/classes/core/cache.php, line 189) issue on Windows 10 / XAMPP 3.3.0 / PHP 7.4.24: $htaccess_password = crypt( $htaccess_password, base64_encode($htaccess_password) );
 
 
-AFTER the admin config GUI has been built out, make sure plugin configs are re-loaded AFTER 'activate_plugins' in the power user section has been updated.
-
-
-For 'Desktop Edition' (using phpdesktop), look into using docker images for cross-platform compatibility (Windows / Mac / Linux).
+Look into laptop touchscreen zingchart js error on Ubuntu 20.04 / Chrome, when hiding / showing assets in performance chart (but is fine on Ubuntu 20.04 / Chrome on desktop). IT DOESN'T SEEM TO BE MY CODE, SO REPORT IT TO THE ZINGCHART TEAM.
 
 
 ///////////////////////////////////////////////////////
@@ -218,6 +206,18 @@ https://zksync.io/api/v0.1.html
 ///////////////////////////////////////////////////////
 FEATURES / STRUCTURING SECTION
 ///////////////////////////////////////////////////////
+
+
+For mobile templates, we are completely ditching the desktop layout, for a design similar to mobile app portfolio tracking layouts. Hopefully we can still do sorting by marketcap, held amount, most volume, etc, AND add in sorting by gain / loss (which may also be useful in the desktop layout).
+
+
+For the language translation cache (to avoid asking API for a translation if we already did once), include a hash digest of the original English text used to translate. That way if the hash changes for the current English text used (English is never translated as it's the default), we know we need to re-translate with a fresh API call, and also save the new hash digest of the current English text as well.
+
+
+Add a dedicated system chart file for plugin cron stats ONLY (runtime seconds, etc).
+
+
+Add ability to choose what decimal and thousands seperators to use.
 
 
 Look into adding temp monitoring upport for systems other than raspi devices: https://phoenixnap.com/kb/linux-cpu-temp
@@ -332,6 +332,9 @@ Simple trading bot, to run as a cron plugin (with web UI for configuration / sta
 ///////////////////////////////////////////////////////
 MAYBE SECTION
 ///////////////////////////////////////////////////////
+
+
+Look into X day moving average overlay for price charts.
 
 
 Change the api key format to GET instead of POST on my portfolio app's internal REST API, so browser-based javascript implementations can work cross-site retrieving data.
