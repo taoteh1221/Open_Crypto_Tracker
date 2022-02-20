@@ -782,7 +782,7 @@ var fiat_val_content = '<h5 class="yellow tooltip_title">Primary Currency (<?=st
 		
 			$('#balance_stats').balloon({
 			html: true,
-			position: "bottom",
+			position: "top",
   			classname: 'balloon-tooltips',
 			contents: ajax_placeholder(30, 'center', 'Loading Data...'),
   			url: 'ajax.php?type=chart&mode=asset_balance&leverage_added=<?=$leverage_added?>&short_added=<?=$short_added?><?=$balance_stats_encoded?>',
@@ -1598,7 +1598,7 @@ zingchart.bind('marketcap_chart', 'label_click', function(e){
     		}
     		
     		if ( isset($system_info['portfolio_cookies']) ) {
-    		echo '<div class="sys_stats"><span class="bitcoin"><b>Portfolio Cookies Size:</b></span> <span class="'.( isset($system_warnings['portfolio_cookies_size']) ? 'red' : 'green' ).'"> '.$ct_var->num_pretty( ($system_info['portfolio_cookies'] / 1000) , 2).' Kilobytes</span></span> </div>';
+    		echo '<div class="sys_stats"><span class="bitcoin"><b>Portfolio Cookies Size:</b></span> <span class="'.( isset($system_warnings['portfolio_cookies_size']) ? 'red' : 'green' ).'"> '.$ct_var->num_pretty( ($system_info['portfolio_cookies'] / 1000) , 2).' Kilobytes</span> <span class="black">(~'.abs( round( ($system_info['portfolio_cookies'] / 1000) , 2) / abs(8.00) * 100 ).'% of <i>average</i> server header size limit [8 kilobytes])</span></span> &nbsp;<img class="server_header_defaults" src="templates/interface/media/images/info.png" alt="" width="30" style="position: relative; left: -5px;" /> </div>';
     		}
     		
     		if ( isset($system_info['portfolio_cache']) ) {
@@ -1611,6 +1611,45 @@ zingchart.bind('marketcap_chart', 'label_click', function(e){
     		
     		
    ?>
+    
+ 
+<script>
+
+
+var server_header_defaults_content = '<h5 class="yellow tooltip_title">Average Server Header Size Limits</h5>'
+
+			+'<p class="coin_info extra_margins" style="max-width: 600px; white-space: normal;">Web servers have a pre-set header size limit (which can be adjusted within it\'s own server configuration), which varies depending on the server software you are using. <span class="bitcoin">IF THIS APP GOES OVER THOSE HEADER SIZE LIMITS, IT WILL CRASH!</span></p>'
+
+			+'<p class="coin_info extra_margins" style="max-width: 600px; white-space: normal;"><span class="bitcoin">STANDARD SERVER HEADER SIZE LIMITS (IN KILOBYTES)...</span><br />Apache: 8kb<br />NGINX: 4kb - 8kb<br />IIS: 8kb - 16kb<br />Tomcat: 8kb - 48kb</p>';
+		
+		
+			$('.server_header_defaults').balloon({
+			html: true,
+			position: "top",
+  			classname: 'balloon-tooltips',
+			contents: server_header_defaults_content,
+			css: {
+					fontSize: ".8rem",
+					minWidth: "450px",
+					padding: ".3rem .7rem",
+					border: "2px solid rgba(212, 212, 212, .4)",
+					borderRadius: "6px",
+					boxShadow: "3px 3px 6px #555",
+					color: "#eee",
+					backgroundColor: "#111",
+					opacity: "0.99",
+					zIndex: "32767",
+					textAlign: "left"
+					}
+			});
+			
+		
+		
+		
+
+
+</script> 
+
     		
    </div>
     		

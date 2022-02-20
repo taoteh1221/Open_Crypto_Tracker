@@ -5218,7 +5218,7 @@ MIGRATE YOUR EXISTING SETTINGS TO THE NEW FORMAT.
 
 -BUG FIXES: Tighter security on admin user registration / password reset
 
--Miscellaneous other user experience improvements
+-Miscellaneous documentation / user experience improvements
 
 v5.12.2 and higher renames the admin config array. ALL CONFIGURATION SETTING
 VARIABLE NAMES ARE NOW DIFFERENT, USE THE LATEST/UPGRADED CONFIG.PHP, AND
