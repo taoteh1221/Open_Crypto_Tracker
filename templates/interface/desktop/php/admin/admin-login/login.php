@@ -34,8 +34,6 @@ if ( $_POST['admin_submit_login'] ) {
 				}
 				else {
 				$login_result['error'][] = "Wrong username / password.";
-				$_POST['admin_username'] = '';
-				$_POST['admin_password'] = '';
 				}
 			
 

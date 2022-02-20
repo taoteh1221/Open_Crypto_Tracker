@@ -5216,7 +5216,7 @@ MIGRATE YOUR EXISTING SETTINGS TO THE NEW FORMAT.
 -------------------------------------------------------------------
 5.12.5:
 
--BUG FIX: Tighter security on admin user registration / password reset
+-BUG FIXES: Tighter security on admin user registration / password reset
 
 -Miscellaneous other user experience improvements
 

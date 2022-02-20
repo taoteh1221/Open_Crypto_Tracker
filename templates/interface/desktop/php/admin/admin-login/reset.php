@@ -30,7 +30,7 @@ $no_password_reset = 1;
 
 
 // Submitted reset request
-if ( $_POST['admin_submit_reset'] ) {
+if ( $_POST['admin_submit_reset'] && !$no_password_reset ) {
 
 
 	// Run more checks...
@@ -50,13 +50,16 @@ if ( $_POST['admin_submit_reset'] ) {
 	
 
 	// If checks clear, send email ////////
-	if ( !is_array($reset_result['error']) || is_array($reset_result['error']) && sizeof($reset_result['error']) < 1 && trim($_POST['reset_username']) != '' && trim($_POST['reset_username']) == $stored_admin_login[0] ) {
+	if ( 
+	!is_array($reset_result['error']) && trim($_POST['reset_username']) != '' && trim($_POST['reset_username']) == $stored_admin_login[0]
+	|| is_array($reset_result['error']) && sizeof($reset_result['error']) < 1 && trim($_POST['reset_username']) != '' && trim($_POST['reset_username']) == $stored_admin_login[0]
+	) {
 
 	$new_reset_key = $ct_gen->rand_hash(32);
 	
 	$msg = "
 
-Please confirm your request to reset the admin password for username '".$stored_admin_login[0]."', in your Open Crypto Tracker application.
+Please confirm your request to reset the admin password for username '".trim($_POST['reset_username'])."', in your Open Crypto Tracker application.
 
 To complete resetting your admin password, please visit this link below:
 ". $base_url . "password-reset.php?new_reset_key=".$new_reset_key."
@@ -123,7 +126,7 @@ require("templates/interface/desktop/php/header.php");
 		var reset_notes = '<h5 class="align_center red tooltip_title">Reset Admin Account By Username</h5>'
 			
 			
-			+'<p class="coin_info extra_margins" style="white-space: normal; max-width: 600px;"><span class="red">For security purposes you MUST know the admin username, and a VALID admin \'To\' Email MUST be set in the Admin Config already. Otherwise the password CANNOT be reset by interface form submission. Alternatively, you can MANUALLY delete the file \'/cache/secured/admin_login_XXXXXXXXXXXXX.dat\' in the app directory. This will prompt you to create a new admin login, the next time you use the app.<br /></span></p>'
+			+'<p class="coin_info extra_margins" style="white-space: normal; max-width: 600px;"><span class="red">For security purposes you MUST know the CURRENT admin username, and a VALID admin \'To\' Email MUST be set in the Admin Config already. Otherwise the password CANNOT be reset by interface form submission. Alternatively, you can MANUALLY delete the file \'/cache/secured/admin_login_XXXXXXXXXXXXX.dat\' in the app directory. This will prompt you to create a new admin login, the next time you use the app.<br /></span></p>'
 			
 			+'<p> </p>';
 
@@ -180,7 +183,10 @@ require("templates/interface/desktop/php/header.php");
 
 <?php
 
-if ( !$_POST['admin_submit_reset'] && !$no_password_reset || is_array($reset_result['error']) && sizeof($reset_result['error']) > 0 && !$no_password_reset ) {
+if (
+!$_POST['admin_submit_reset'] && !$no_password_reset
+|| is_array($reset_result['error']) && sizeof($reset_result['error']) > 0 && !$no_password_reset
+) {
 ?>
 
 				<form id='reset_admin' action='' method ='post'>
@@ -191,7 +197,7 @@ if ( !$_POST['admin_submit_reset'] && !$no_password_reset || is_array($reset_res
 	 
 	 <img id='reset_notes' src='templates/interface/media/images/info-red.png' alt='' width='30' style='position: relative; left: 5px;' />  
 	 
-	 <b>Username:</b> <input type='text' name='reset_username' id='reset_username' value='<?=trim($_POST['reset_username'])?>' style='<?=( $username_field_color ? 'background: ' . $username_field_color : '' )?>' />
+	 <b>CURRENT Username:</b> <input type='text' name='reset_username' id='reset_username' value='<?=trim($_POST['reset_username'])?>' style='<?=( $username_field_color ? 'background: ' . $username_field_color : '' )?>' />
 	 
 		
 	 <script>
