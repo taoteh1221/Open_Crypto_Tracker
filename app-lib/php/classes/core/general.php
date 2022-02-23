@@ -541,11 +541,15 @@ var $ct_array1 = array();
    // Install id (10 character hash, based off base url)
    function id() {
       
-   global $base_url, $base_dir, $ct_app_id;
+   global $app_edition, $base_url, $base_dir, $ct_app_id;
    
       // ALREADY SET
       if ( isset($ct_app_id) ) {
       return $ct_app_id;
+      }
+      // DESKTOP EDITION
+      elseif ( $app_edition == 'desktop' ) {
+      return substr( md5('desktop') , 0, 10); // First 10 characters;
       }
       // NOT CRON
       elseif ( $runtime_mode != 'cron' && trim($base_url) != '' ) {
@@ -575,9 +579,13 @@ var $ct_array1 = array();
      
      foreach($scan_array as $filename) {
        
-       if ( pathinfo($filename, PATHINFO_EXTENSION) == $extension ) {
-         $mod_time = filemtime($files_dir.'/'.$filename);
-         $files[$mod_time . '-' . $filename] = $filename;
+       if ( $extension == false ) {
+       $mod_time = filemtime($files_dir.'/'.$filename);
+       $files[$mod_time . '-' . $filename] = $filename;
+       }
+       elseif ( pathinfo($filename, PATHINFO_EXTENSION) == $extension ) {
+       $mod_time = filemtime($files_dir.'/'.$filename);
+       $files[$mod_time . '-' . $filename] = $filename;
        }
        
      }

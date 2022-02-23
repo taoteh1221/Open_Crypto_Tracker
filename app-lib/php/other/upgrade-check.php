@@ -74,11 +74,11 @@
 			
 			$email_notifyme_msg = $upgrade_check_msg . ' (you have upgrade reminders triggered every '.$ct_conf['comms']['upgrade_alert_reminder'].' days in the configuration settings)';
 			
-			$email_only_with_upgrade_command = $email_notifyme_msg . "\n\n" . 'Quick / easy upgrading can be done by copying / pasting / running this command, using the "Terminal" app in your Ubuntu / Raspberry Pi system menu, or logging in remotely from another device via SSH (user must have sudo privileges):' . "\n\n" . 'wget --no-cache -O FOLIO-INSTALL.bash https://git.io/JoDFD;chmod +x FOLIO-INSTALL.bash;sudo ./FOLIO-INSTALL.bash' . "\n\nUpgrade Description:\n\n" . $upgrade_description . "\n\n";
+			$email_only_with_upgrade_command = $email_notifyme_msg . "\n\n" . 'Quick / easy upgrading for the SERVER EDITION can be done by copying / pasting / running this command, using the "Terminal" app in your Ubuntu / Raspberry Pi system menu (Windows 10 requires manual upgrading), or logging in remotely from another device via SSH (user must have sudo privileges):' . "\n\n" . 'wget --no-cache -O FOLIO-INSTALL.bash https://git.io/JoDFD;chmod +x FOLIO-INSTALL.bash;sudo ./FOLIO-INSTALL.bash' . "\n\nUpgrade Description:\n\n" . $upgrade_description . "\n\n";
 			
-			$download_link = "Manual Download Link:\n" . $upgrade_download . "\n\n";
+			$download_link = "Manual Download Link (SERVER and DESKTOP edition upgrading):\n" . $upgrade_download . "\n\n";
 			
-			$download_link_html = "Manual Download Link:\n" . $ct_gen->convert_urls($upgrade_download) . "\n\n";
+			$download_link_html = "Manual Download Link (SERVER and DESKTOP edition upgrading):\n" . $ct_gen->convert_urls($upgrade_download) . "\n\n";
 			
 						
 					// Message parameter added for desired comm methods (leave any comm method blank to skip sending via that method)

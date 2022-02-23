@@ -41,7 +41,13 @@ OPTIMIZATIONS / BUGS / TESTS / UX / QA / OTHER SECTION
 ///////////////////////////////////////////////////////
 
 
-Prioritize building the mobile templates / language translation modules / admin interface / native app "desktop edition" (via PHPdesktop) above all other infrastructure. Then it's the most useful for the maximum number of people as it can be going forward.
+If desktop edition is detected, run upgrade checks on the seperate desktop containers github repository, and create a seperate / additional upgrade alert for it.
+
+
+Prioritize building the mobile templates / language translation modules / admin interface / native app "desktop editions" (via PHPdesktop) above all other infrastructure. Then it's the most useful for the maximum number of people as it can be going forward.
+
+
+For 'Desktop Edition' (using phpdesktop), look into using docker images for cross-platform compatibility (Windows / Mac / Linux).
 
 
 AFTER the admin config GUI has been built out, make sure plugin configs are re-loaded AFTER 'activate_plugins' in the power user section has been updated.
@@ -134,9 +140,6 @@ Cross-browser test RTL (right to left) effects from middle eastern currency symb
 
 
 Test unicode mobile text message with no space in front of hex-encoded data (forgot to try that, coded and ready to go now...see $ct_gen->charset_encode() and /DOCUMENTATION-ETC/Developing-maintaining/DEBUGGING.txt).
-
-
-For 'Desktop Edition' (using phpdesktop), look into using docker images for cross-platform compatibility (Windows / Mac / Linux).
 
 
 Review Help FAQ, and config.php settings documentation.
@@ -308,9 +311,6 @@ Add admin settings feature to restore chart data from the zip archive backups (w
 
 
 Give plugins a dedicated admin page (if any are activated), for UI settings etc.
-
-
-Once the admin UI is complete, create a "Desktop Edition" using PHPDesktop (https://github.com/cztomczak/phpdesktop/wiki), so it can easily be downloaded / run locally as a native app...SUPER IMPORTANT FOR MASS USER ADOPTION!!!
 
 
 Create help page modal for explanations on all config.php settings, that we can link to / open specific sections from a click next to that setting in the admin GUI. Then we can run this through the upcoming lang_translate() function as well.

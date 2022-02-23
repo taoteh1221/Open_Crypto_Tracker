@@ -1,6 +1,7 @@
 
 // Copyright 2014-2022 GPLv3, Open Crypto Tracker by Mike Kilday: Mike@DragonFrugal.com
-    
+  
+
 
 /////////////////////////////////////////////////////////////
 
@@ -249,6 +250,26 @@ show_feeds = $("#show_feeds").val();
 /////////////////////////////////////////////////////////////
 
 
+function human_time(timestamp) {
+    
+date = new Date(timestamp),
+datevalues = [
+   date.getFullYear(),
+   date.getMonth()+1,
+   date.getDate(),
+   date.getHours(),
+   date.getMinutes(),
+   date.getSeconds(),
+];
+
+return datevalues[0] + '/' + datevalues[1] + '/' + datevalues[2] + ' @ ' + datevalues[3] + ':' + datevalues[4] + ':' + datevalues[5];
+
+}
+
+
+/////////////////////////////////////////////////////////////
+
+
 function ajax_placeholder(px_size, align, message=null, display_mode=null){
     
     
@@ -413,6 +434,47 @@ function safe_add_remove_class(class_name, element, mode) {
 
     
 }
+
+
+/////////////////////////////////////////////////////////////
+
+
+function emulated_cron() {
+    
+cron_loaded = false;
+cron_loading_check(cron_loaded); 
+            
+console.log( "cron emulation: STARTED at " + human_time( new Date().getTime() ) );
+
+      $.ajax({
+            type: 'GET',
+            url: 'cron.php?cron_emulate=1',
+            async: true,
+            contentType: "application/json",
+            dataType: 'json',
+            success: function(response) {
+            
+            console.log( "cron emulation: ENDED at " + human_time( new Date().getTime() ) );
+                
+                if ( response.result ) {
+                console.log( "cron emulation RESULT: " + response.result );
+                }
+                
+            // future UI logic here?
+            
+            cron_loaded = true;
+            
+            cron_loading_check(cron_loaded); 
+            
+            },
+            error: function(e) {
+            console.log( "cron emulation: ERROR at " + human_time( new Date().getTime() ) );
+            cron_loaded = true;
+            cron_loading_check(cron_loaded); 
+            }
+        });
+
+}  
 
 
 /////////////////////////////////////////////////////////////
@@ -648,23 +710,85 @@ return render;
 /////////////////////////////////////////////////////////////
 
 
-function charts_loading_check(charts_loaded) {
+function cron_loading_check(cron_loaded) {
 	
 //console.log('loaded charts = ' + window.charts_loaded.length + ', all charts = ' + window.charts_num);
 
-	if ( charts_loaded.length >= window.charts_num ) {
+	if ( window.cron_loaded == true ) {
 		
-		// Only hide if no feeds are loading also
-		if ( window.feeds_loaded.length >= window.feeds_num ) { // DONT USE feeds_loading_check(), WILL LOOP ENDLESSLY
+		// Only hide if no feeds / charts are loading also
+		if ( window.feeds_loaded.length >= window.feeds_num || window.is_admin == true ) {
 		$("#loading_subsections").hide(250); // 0.25 seconds
 		}
 		else {
 		feeds_loading_check(window.feeds_loaded);
 		}
 		
+		// Only hide if no feeds / charts are loading also
+		if ( window.charts_loaded.length >= window.charts_num || window.is_admin == true ) {
+		$("#loading_subsections").hide(250); // 0.25 seconds
+		}
+		else {
+		charts_loading_check(window.charts_loaded);
+		}
+		
+		// Run setting scroll position AGAIN if we are on the news page,
+		// as we start out with no scroll height before the news feeds load
+		if ( $(location).attr('hash') == '#news' ) {
+		get_scroll_position('news'); 
+		}
 		// Run setting scroll position AGAIN if we are on the charts page,
 		// as we start out with no scroll height before the charts load
-		if ( $(location).attr('hash') == '#charts' ) {
+		else if ( $(location).attr('hash') == '#charts' ) {
+		get_scroll_position('charts'); 
+		}
+	
+	return 'done';
+	
+	}
+	else {
+	$("#loading_subsections_span").html("Running Background Task...");
+	$("#loading_subsections").show(250); // 0.25 seconds
+	return 'active';
+	}
+
+}
+
+
+/////////////////////////////////////////////////////////////
+
+
+function charts_loading_check(charts_loaded) {
+	
+//console.log('loaded charts = ' + window.charts_loaded.length + ', all charts = ' + window.charts_num);
+
+    // NOT IN ADMIN AREA (UNLIKE CRON EMULATION)
+	if ( charts_loaded.length >= window.charts_num || window.is_admin == true ) {
+		
+		// Only hide if no feeds / emulated cron are loading also
+		if ( window.feeds_loaded.length >= window.feeds_num || window.is_admin == true ) {
+		$("#loading_subsections").hide(250); // 0.25 seconds
+		}
+		else {
+		feeds_loading_check(window.feeds_loaded);
+		}
+		
+		// Only hide if no feeds / emulated cron are loading also
+		if ( window.cron_loaded == true ) {
+		$("#loading_subsections").hide(250); // 0.25 seconds
+		}
+		else {
+		cron_loading_check(window.cron_loaded);
+		}
+		
+		// Run setting scroll position AGAIN if we are on the news page,
+		// as we start out with no scroll height before the news feeds load
+		if ( $(location).attr('hash') == '#news' ) {
+		get_scroll_position('news'); 
+		}
+		// Run setting scroll position AGAIN if we are on the charts page,
+		// as we start out with no scroll height before the charts load
+		else if ( $(location).attr('hash') == '#charts' ) {
 		get_scroll_position('charts'); 
 		}
 	
@@ -687,20 +811,34 @@ function feeds_loading_check(feeds_loaded) {
 	
 //console.log('loaded feeds = ' + window.feeds_loaded.length + ', all feeds = ' + window.feeds_num);
 
-	if ( feeds_loaded.length >= window.feeds_num ) {
+    // NOT IN ADMIN AREA (UNLIKE CRON EMULATION)
+	if ( feeds_loaded.length >= window.feeds_num || window.is_admin == true ) {
 		
-		// Only hide if no charts are loading also
-		if ( window.charts_loaded.length >= window.charts_num ) { // DONT USE charts_loading_check(), WILL LOOP ENDLESSLY
+		// Only hide if no charts / emulated cron are loading also
+		if ( window.charts_loaded.length >= window.charts_num || window.is_admin == true ) {
 		$("#loading_subsections").hide(250); // 0.25 seconds
 		}
 		else {
 		charts_loading_check(window.charts_loaded);
 		}
 		
+		// Only hide if no charts / emulated cron are loading also
+		if ( window.cron_loaded == true ) {
+		$("#loading_subsections").hide(250); // 0.25 seconds
+		}
+		else {
+		cron_loading_check(window.cron_loaded);
+		}
+		
 		// Run setting scroll position AGAIN if we are on the news page,
 		// as we start out with no scroll height before the news feeds load
 		if ( $(location).attr('hash') == '#news' ) {
 		get_scroll_position('news'); 
+		}
+		// Run setting scroll position AGAIN if we are on the charts page,
+		// as we start out with no scroll height before the charts load
+		else if ( $(location).attr('hash') == '#charts' ) {
+		get_scroll_position('charts'); 
 		}
 	
 	return 'done';

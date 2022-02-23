@@ -51,6 +51,8 @@ FEATURES
 
 -Optimized for low power devices (raspberrypi, pine64, etc).
 
+-Desktop / Server Editions available (see README.txt for differences / usage documentation)
+
 -ALWAYS will remain 100% FREE F.O.S.S. software (no need to register and pay premium access fees).
 
 -PRIVATELY connects DIRECTLY to APIs / servers for data and comms (no "phoning home" to a middleman server), with optional proxy support for API connections.
@@ -116,7 +118,25 @@ IMPORTANT NOTES: YOU WILL BE PROMPTED TO CREATE AN ADMIN LOGIN (FOR SECURITY OF 
 Recommended MINIMUM system specs: 1 Gigahertz CPU / 512 Megabytes RAM / HIGH QUALITY 32 Gigabyte MicroSD card (running Nginx or Apache headless with PHP v7.2+)
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-Automatic Setup For Ubuntu or Raspberry Pi, On Home / Internal Network (THE RECOMMENDED WAY TO PRIVATELY / CHEAPLY USE THIS APP)...
+Setting Up The 'DESKTOP EDITION' (runs very easily, like any other normally-downloaded native app)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+To install as a normal native app on your laptop / desktop, first download the "Desktop Edition" of the app here:
+
+https://github.com/taoteh1221/Open_Crypto_Tracker_Desktop/releases
+
+After downloading, unzip the contents of the download to your desktop or other preffered file location (it doesn't matter, put it wherever you want to).
+
+Next, use your operating system's file browser, and enter the app's main directory. You'll notice a sub-directory inside named "INSTALL_CRYPTO_TRACKER_HERE". Inside this folder is where we need to put the source files for the "Server Edition" of the app. 
+
+Now we need to download the "Server Edition" of the app here:
+
+https://github.com/taoteh1221/Open_Crypto_Tracker/releases
+
+After downloading, unzip the files and move them into the "INSTALL_CRYPTO_TRACKER_HERE" folder. After doing this, you are finished installing everything, and now you can return to the main directory of the app, and click on "RUN_CRYPTO_TRACKER" to launch the app.
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Automatic Setup For 'SERVER EDITION' On Ubuntu or Raspberry Pi, On Home / Internal Network (THE RECOMMENDED WAY TO PRIVATELY / CHEAPLY USE THIS APP)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 To install / upgrade everything automatically on Ubuntu or Raspberry Pi (an affordable low power single board computer), copy / paste / run the command below in a terminal program (using the 'Terminal' app in the system menu, or over remote SSH), while logged in AS THE USER THAT WILL RUN THE APP (user must have sudo privileges):
@@ -130,7 +150,7 @@ When the auto-install is completed, it will display addresses / logins to access
 SEE /DOCUMENTATION-ETC/RASPBERRY-PI/ for additional information on securing and setting up Raspberry Pi OS (disabling bluetooth, firewall setup, remote login, hostname, etc).
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-Manual Installation:
+Manual Installation For 'SERVER EDITION':
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Just upload this app's files to your PHP-based web server (with an FTP client like FileZilla) and you should be all set, unless your host is a strict setup related to file writing permissions, in which case the 'cache' directory permissions should be set to '777' chmod on unix / linux systems (or 'readable / writable' on windows systems). 
@@ -141,7 +161,8 @@ WINDOWS 10 USERS WHO ARE USING XAMPP WILL NEED TO ENABLE GD FOR PHP (FOR THE ADM
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 Setting up a cron job for charts and price alerts by email / mobile phone text / Alexa / Telegram notifications 
-(get notifications sent to you, even when your PC / Laptop is offline): 
+(get notifications sent to you, even when your PC / Laptop is offline)...
+(FOR 'SERVER EDITION', THIS IS DONE DIFFERENTLY / AUTOMATICALLY FOR 'DESKTOP EDITION')
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 You can setup price charts or price alerts in your app install. Price alerts can be sent to email, mobile phone text, Telegram, and Alexa notifications. You will be alerted when the [configured default primary currency] price of an asset goes up or down a certain percent or more (whatever percent you choose in the settings), for specific exchange / base pair combinations for that asset. You can even setup alerts and charts for multiple exchanges / base pairs for the same asset.

@@ -10,15 +10,22 @@
 
 
 // Application version
-$app_version = '5.12.5';  // 2022/FEBUARY/19TH
-
-// Application edition
-$app_edition = 'server';  // 'server' OR 'desktop' edition (LOWERCASE)
+$app_version = '5.13.0';  // 2022/FEBUARY/22ND
 
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////
 ///////////////////// S Y S T E M   I N I T   S E T T I N G S ///////////////////////////////////////
 /////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+// Detect if we are running the desktop or server edition
+// (MUST BE SET #AFTER# APP VERSION NUMBER, AND #BEFORE# EVERYTHING ELSE!)
+if ( file_exists('../RUN_CRYPTO_TRACKER') ) {
+$app_edition = 'desktop';  // 'desktop' (LOWERCASE)
+}
+else {
+$app_edition = 'server';  // 'server' (LOWERCASE)
+}
 
 
 // Set time as UTC for logs etc ('loc_time_offset' in Admin Config GENERAL section can adjust UI / UX timestamps as needed)
@@ -126,9 +133,6 @@ else {
 
 }
 
-
-// Session start
-session_start(); // New session start
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////
 ///////////////////// APP   I N I T   S E T T I N G S /////////////////////////////////////////////////
@@ -239,6 +243,9 @@ $base_url = $ct_gen->base_url();
 // $ct_gen->id() can then be used in functions WITHOUT NEEDING ANY $ct_app_id GLOBAL DECLARED.
 $ct_app_id = $ct_gen->id();
 
+
+// Session start
+session_start(); // New session start
 
 // Give our session a unique name 
 // MUST BE SET AFTER $ct_app_id / first $ct_gen->id() call

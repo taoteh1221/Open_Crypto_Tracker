@@ -4,11 +4,15 @@
  */
 
 
-// Forbid direct INTERNET access to this file
-if ( isset($_SERVER['REQUEST_METHOD']) && realpath(__FILE__) == realpath($_SERVER['SCRIPT_FILENAME']) ) {
+// Forbid direct INTERNET access to this file, UNLESS IT'S EMULATED CRON IN THE DESKTOP EDITION
+if ( !isset($_GET['cron_emulate']) && isset($_SERVER['REQUEST_METHOD']) && realpath(__FILE__) == realpath($_SERVER['SCRIPT_FILENAME']) ) {
 header('HTTP/1.0 403 Forbidden', TRUE, 403);
 exit;
 }
+
+
+// Assure CLI runtime is in install directory (server compatibility required for some PHP setups)
+chdir( dirname(__FILE__) );
 
 
 // Calculate script runtime length
@@ -21,13 +25,55 @@ $start_runtime = $time;
 // Runtime mode
 $runtime_mode = 'cron';
 
-
-// Assure CLI runtime is in install directory (server compatibility required for some PHP setups)
-chdir( dirname(__FILE__) );
-
-
 // Load app config / etc
 require("config.php");
+
+
+// EXIT IF CRON IS NOT RUNNING IN THE PROPER MODE
+if ( !isset($_GET['cron_emulate']) && $app_edition == 'desktop' || isset($_GET['cron_emulate']) && $app_edition == 'server' ) {
+$ct_gen->log('security_error', 'aborted cron job attempt ('.$_SERVER['REQUEST_URI'].'), INVALID CONFIG');
+$ct_cache->error_log();
+echo "Aborted, INVALID CONFIG.";
+exit;
+}
+
+
+// Emulated cron checks / flag as go or not 
+// (WE ALREADY ADJUST EXECUTION TIME FOR CRON RUNTIMES IN INIT.PHP, SO THAT'S ALREADY OK EVEN EMULATING CRON)
+if ( !isset($_SESSION['cron_emulate_run']) && isset($_GET['cron_emulate']) ) {
+$_SESSION['cron_emulate_run'] = time();
+ignore_user_abort(true); // If app UI is reloaded, we still want the async-ajax-called (emulated) cron job to finish running completely
+$run_cron = true;
+}
+// +20 minutes
+elseif ( isset($_SESSION['cron_emulate_run']) && ($_SESSION['cron_emulate_run'] + 1200) <= time() ) {
+$_SESSION['cron_emulate_run'] = time();
+ignore_user_abort(true); // If app UI is reloaded, we still want the async-ajax-called (emulated) cron job to finish running completely
+$run_cron = true;
+}
+// Regular cron check
+elseif ( $app_edition == 'server' ) {
+$run_cron = true;
+}
+else {
+$run_cron = false;
+}
+
+
+// If a no go, exit with a json response
+if ( isset($_GET['cron_emulate']) && $run_cron == false ) {
+$result = array('result' => "Too early to re-run emulated cron job");
+echo json_encode($result, JSON_PRETTY_PRINT);
+exit;
+}
+
+
+// Otherwise, start running cron job logic...
+
+
+//////////////////////////////////////////////
+/// CRON LOGIC #START#
+//////////////////////////////////////////////
 
 
 // Charts and price alerts
@@ -256,6 +302,20 @@ $ct_cache->send_notifications();
 
 
 gc_collect_cycles(); // Clean memory cache
+  
+
+// If emulated cron, show a result in json
+if ( isset($_GET['cron_emulate']) && $run_cron == true ) {
+$result = array('result' => "Emulated cron job has finished running");
+echo json_encode($result, JSON_PRETTY_PRINT);
+exit;
+}
+
+
+//////////////////////////////////////////////
+/// CRON LOGIC #END#
+//////////////////////////////////////////////
+
 
 
 ?>

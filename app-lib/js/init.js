@@ -8,7 +8,6 @@ window.zingAlert= function(){
 // Wait until the DOM has loaded before running DOM-related scripting
 $(document).ready(function(){
     
-    
 // PHP used instead for logging / alerts, but leave here in case we want to use pure-javascript
 // cookie creation some day (which could help pre-detect too-large headers that crash an HTTP server)
 // console.log( array_byte_size(document.cookie) );

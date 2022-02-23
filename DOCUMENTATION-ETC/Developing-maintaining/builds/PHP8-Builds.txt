@@ -1,0 +1,27 @@
+
+
+./configure \
+  --enable-bcmath \
+  --enable-gd \
+  --enable-calendar \
+  --enable-dba \
+  --enable-exif \
+  --enable-ftp \
+  --enable-fpm \
+  --enable-mbstring \
+  --enable-shmop \
+  --enable-sigchild \
+  --enable-soap \
+  --enable-sockets \
+  --enable-sysvmsg \
+  --with-libdir=lib64 \
+  --with-zip \
+  --with-bz2 \
+  --with-curl \
+  --with-gettext \
+  --with-openssl \
+  --with-pdo-mysql \
+  --with-zlib \
+  --with-libxml \
+  --with-freetype \
+  --prefix=$HOME/customphp8

@@ -106,7 +106,7 @@ $force_exit = 1;
 
 
 // IF WE ARE NOT RUNNING AS CRON, detect if we are running on a secure HTTPS (SSL) connection
-if ( $runtime_mode != 'cron' ) {
+if ( $runtime_mode != 'cron' && $app_edition == 'server' ) {
 	
 	// Apache / etc
 	if ( isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] == 'on' ) {
@@ -133,7 +133,7 @@ if ( $runtime_mode != 'cron' ) {
 
 
 // Check htaccess security (checked once every 60 minutes maximum)
-if ( $ct_cache->update_cache($base_dir . '/cache/events/scan-htaccess-security.dat', 60) == true ) {
+if ( $ct_cache->update_cache($base_dir . '/cache/events/scan-htaccess-security.dat', 60) == true && $app_edition == 'server' ) {
 	
 	
 	// Only run the check if the base url is set (runs every ~10 minutes, so we'll be checking again anyway, and it should set AFTER first UI run)

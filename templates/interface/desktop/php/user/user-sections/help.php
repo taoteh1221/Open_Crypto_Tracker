@@ -78,6 +78,53 @@
 	  
 	
 	
+	<?php
+	$accord_var = 'desktop_install';
+	?>
+	
+	  <div class="card z-depth-0 bordered">
+	    <div class="card-header" id="heading_<?=$accord_var?>">
+	      <h5 class="mb-0">
+	        <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapse_<?=$accord_var?>"
+	          aria-expanded="false" aria-controls="collapse_<?=$accord_var?>">
+	          
+	          Setting Up The 'DESKTOP EDITION' <span class='bitcoin'>(runs very easily, like any other normally-downloaded native app)</span>
+	          
+	        </button>
+	      </h5>
+	    </div>
+	    <div id="collapse_<?=$accord_var?>" class="collapse" aria-labelledby="heading_<?=$accord_var?>"
+	      data-parent="#accordionHelp">
+	      <div class="card-body">
+
+To install as a normal native app on your laptop / desktop, first download the "Desktop Edition" of the app here:
+	    <br /><br />
+
+<a href='https://github.com/taoteh1221/Open_Crypto_Tracker_Desktop/releases' target='_blank' title='Download The Desktop Edition Of This App.'>https://github.com/taoteh1221/Open_Crypto_Tracker_Desktop/releases</a>
+	    <br /><br />
+
+After downloading, unzip the contents of the download to your desktop or other preffered file location (it doesn't matter, put it wherever you want to).
+	    <br /><br />
+	        
+	        Next, use your operating system's file browser, and enter the app's main directory. You'll notice a sub-directory inside named "INSTALL_CRYPTO_TRACKER_HERE". Inside this folder is where we need to put the source files for the "Server Edition" of the app. 
+	    <br /><br />
+
+Now we need to download the "Server Edition" of the app here:
+	    <br /><br />
+	    
+<a href='https://github.com/taoteh1221/Open_Crypto_Tracker/releases' target='_blank' title='Download The Server Edition Of This App.'>https://github.com/taoteh1221/Open_Crypto_Tracker/releases</a>
+
+	    <br /><br />
+
+After downloading, uzip the files and move them into the "INSTALL_CRYPTO_TRACKER_HERE" folder. After doing this, you are finished installing everything, and now you can return to the main directory of the app, and click on "RUN_CRYPTO_TRACKER" to launch the app.<br /><br />
+	        
+	      </div>
+	    </div>
+	  </div>
+	  
+	  
+	
+	
 	
 	<?php
 	$accord_var = 'raspi_install';
@@ -89,7 +136,8 @@
 	        <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapse_<?=$accord_var?>"
 	          aria-expanded="false" aria-controls="collapse_<?=$accord_var?>">
 	          
-	          Automatic Setup For Ubuntu or Raspberry Pi, On Home / Internal Network <span class='red' style="display: block;">(THE RECOMMENDED WAY TO PRIVATELY / CHEAPLY USE THIS APP)</span>
+Automatic Setup For 'SERVER EDITION' On Ubuntu or Raspberry Pi, On Home / Internal Network <span class='red' style="display: block;">(THE RECOMMENDED WAY TO PRIVATELY / CHEAPLY USE THIS APP)</span>
+	          
 	          
 	        </button>
 	      </h5>
@@ -150,7 +198,7 @@ SEE <a href='https://github.com/taoteh1221/Open_Crypto_Tracker/tree/main/DOCUMEN
 	        <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapse_<?=$accord_var?>"
 	          aria-expanded="false" aria-controls="collapse_<?=$accord_var?>">
 	          
-	          Installing On A Website / Manual Installation
+	          Installing On A Website / Manual Installation <span class='bitcoin'>('SERVER EDITION')</span>
 	          
 	        </button>
 	      </h5>
@@ -190,8 +238,9 @@ See "<span class='bitcoin'>Setting Up Price Charts And Email / Text / Telegram /
 	      <h5 class="mb-0">
 	        <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapse_<?=$accord_var?>"
 	          aria-expanded="false" aria-controls="collapse_<?=$accord_var?>">
+
+Setting Up Price Charts And Email / Text / Telegram / Alexa Price Alerts <span class='bitcoin' style="display: block;">(FOR 'SERVER EDITION', THIS IS DONE DIFFERENTLY / AUTOMATICALLY FOR 'DESKTOP EDITION')</span>
 	          
-	          Setting Up Price Charts And Email / Text / Telegram / Alexa Price Alerts
 	          
 	        </button>
 	      </h5>

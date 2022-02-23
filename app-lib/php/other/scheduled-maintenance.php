@@ -117,6 +117,30 @@ $ct_cache->delete_old_files($logs_cache_cleanup, $ct_conf['power']['logs_purge']
 $ct_cache->save_file($base_dir . '/cache/events/scheduled-maintenance.dat', $ct_gen->time_date_format(false, 'pretty_date_time') );
 
 
+    // Clear any stale session files / PHP error logging in desktop version
+    if ( $app_edition == 'desktop' ) {
+        
+    unlink($base_dir . '/../logs/php_errors.log');
+    
+    $session_files = $ct_gen->sort_files($base_dir . '/../cache-other/temp_server', false, 'desc');
+    
+    
+    	foreach( $session_files as $session_file ) {
+    	
+    		
+    			// If we already loaded the newest modified file, delete any stale ones
+    			if ( $newest_session_file == 1 ) {
+    			unlink($base_dir . '/../cache-other/temp_server/' . $session_file);
+    			}
+    			else {
+    			$newest_session_file = 1;
+    			}
+    	
+    	}
+
+    }
+    
+
 }
 //////////////////////////////////////////////////////////////////
 // END SCHEDULED MAINTENANCE

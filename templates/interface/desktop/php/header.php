@@ -144,6 +144,20 @@ header('Content-type: text/html; charset=' . $ct_conf['dev']['charset_default'])
 	
 	<script>
 
+    
+    window.is_admin = false; // Default
+	
+	<?php
+	// Flag admin area in js
+	if ( $is_admin == true ) {
+	?>	
+	
+    window.is_admin = true;
+	
+	<?php
+	}
+	?>
+	
 	// Set the global JSON config to asynchronous 
 	// (so JSON requests run in the background, without pausing any of the page render scripting)
 	$.ajaxSetup({
@@ -173,8 +187,8 @@ header('Content-type: text/html; charset=' . $ct_conf['dev']['charset_default'])
 	var btc_prim_currency_pair = '<?=strtoupper($ct_conf['gen']['btc_prim_currency_pair'])?>';
 	
 	// 'Loading X...' UI notices
-	feeds_loading_check(window.feeds_loaded);
-	charts_loading_check(window.charts_loaded);
+	feeds_loading_check(feeds_loaded);
+	charts_loading_check(charts_loaded);
 	
 	<?php
 	foreach ( $ct_conf['dev']['limited_apis'] as $api ) {
@@ -211,6 +225,29 @@ header('Content-type: text/html; charset=' . $ct_conf['dev']['charset_default'])
 	pref_bitcoin_mrkts["<?=strtolower( $pref_bitcoin_mrkts_key )?>"] = "<?=strtolower( $pref_bitcoin_mrkts_val )?>";
 	<?php
 	}
+	if ( $app_edition == 'desktop' ) {
+	?>	
+	
+    // Emulate a cron job every 20 minutes...
+    var cron_loaded = false;
+    
+    emulated_cron(); // This will run on page load
+    
+    setInterval(function(){
+        emulated_cron() 
+    }, 60000); // Re-check every minute (in milliseconds...cron.php will know if it's time)
+	
+	<?php
+	}
+	else {
+	?>
+	
+	// Register as no-action-needed (saying it's already loaded turns off UI notices)
+    var cron_loaded = true;
+    cron_loading_check(cron_loaded);
+    
+	<?php
+	}	
 	?>
 	
 	</script>
