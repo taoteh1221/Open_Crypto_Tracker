@@ -121,19 +121,11 @@ Recommended MINIMUM system specs: 1 Gigahertz CPU / 512 Megabytes RAM / HIGH QUA
 Setting Up The 'DESKTOP EDITION' (runs very easily, like any other normally-downloaded native app)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-To install as a normal native app on your laptop / desktop, first download the "Desktop Edition" of the app here:
-
-https://github.com/taoteh1221/Open_Crypto_Tracker_Desktop/releases
-
-After downloading, unzip the contents of the download to your desktop or other preffered file location (it doesn't matter, put it wherever you want to).
-
-Next, use your operating system's file browser, and enter the app's main directory. You'll notice a sub-directory inside named "INSTALL_CRYPTO_TRACKER_HERE". Inside this folder is where we need to put the source files for the "Server Edition" of the app. 
-
-Now we need to download the "Server Edition" of the app here:
+To install as a normal native app on your laptop / desktop, download the "Desktop Edition" of the app here:
 
 https://github.com/taoteh1221/Open_Crypto_Tracker/releases
 
-After downloading, unzip the files and move them into the "INSTALL_CRYPTO_TRACKER_HERE" folder. After doing this, you are finished installing everything, and now you can return to the main directory of the app, and click on "RUN_CRYPTO_TRACKER" to launch the app.
+After downloading, unzip the contents of the download to your desktop or other preferred file location (it doesn't matter, put it wherever you want to). Now use your operating system's file browser to enter the app's main directory, and click on "RUN_CRYPTO_TRACKER" to launch the app. TO USE PRICE CHARTS AND PRICE ALERTS TO EMAIL / TEXT / ALEXA / TELEGRAM, YOU #MUST# LEAVE THE APP RUNNING!
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 Automatic Setup For 'SERVER EDITION' On Ubuntu or Raspberry Pi, On Home / Internal Network (THE RECOMMENDED WAY TO PRIVATELY / CHEAPLY USE THIS APP)

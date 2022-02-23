@@ -97,26 +97,17 @@
 	      data-parent="#accordionHelp">
 	      <div class="card-body">
 
-To install as a normal native app on your laptop / desktop, first download the "Desktop Edition" of the app here:
-	    <br /><br />
 
-<a href='https://github.com/taoteh1221/Open_Crypto_Tracker_Desktop/releases' target='_blank' title='Download The Desktop Edition Of This App.'>https://github.com/taoteh1221/Open_Crypto_Tracker_Desktop/releases</a>
-	    <br /><br />
-
-After downloading, unzip the contents of the download to your desktop or other preffered file location (it doesn't matter, put it wherever you want to).
-	    <br /><br />
-	        
-	        Next, use your operating system's file browser, and enter the app's main directory. You'll notice a sub-directory inside named "INSTALL_CRYPTO_TRACKER_HERE". Inside this folder is where we need to put the source files for the "Server Edition" of the app. 
-	    <br /><br />
-
-Now we need to download the "Server Edition" of the app here:
+To install as a normal native app on your laptop / desktop, download the "Desktop Edition" of the app here:
 	    <br /><br />
 	    
-<a href='https://github.com/taoteh1221/Open_Crypto_Tracker/releases' target='_blank' title='Download The Server Edition Of This App.'>https://github.com/taoteh1221/Open_Crypto_Tracker/releases</a>
+<a href='https://github.com/taoteh1221/Open_Crypto_Tracker/releases' target='_blank' title='Download The Desktop Edition Of This App.'>https://github.com/taoteh1221/Open_Crypto_Tracker/releases</a>
 
 	    <br /><br />
 
-After downloading, uzip the files and move them into the "INSTALL_CRYPTO_TRACKER_HERE" folder. After doing this, you are finished installing everything, and now you can return to the main directory of the app, and click on "RUN_CRYPTO_TRACKER" to launch the app.<br /><br />
+After downloading, unzip the contents of the download to your desktop or other preferred file location (it doesn't matter, put it wherever you want to). Now use your operating system's file browser to enter the app's main directory, and click on "RUN_CRYPTO_TRACKER" to launch the app. TO USE PRICE CHARTS AND PRICE ALERTS TO EMAIL / TEXT / ALEXA / TELEGRAM, YOU #MUST# LEAVE THE APP RUNNING! 
+	        
+	        
 	        
 	      </div>
 	    </div>
