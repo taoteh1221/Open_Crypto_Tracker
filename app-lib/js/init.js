@@ -9,6 +9,7 @@ window.zingAlert= function(){
 $(document).ready(function(){    
 
     
+    // Page zoom logic
     if ( localStorage.getItem('currFFZoom') ) {
     currFFZoom = localStorage.getItem('currFFZoom');
     }
@@ -67,6 +68,8 @@ $(document).ready(function(){
             console.log(currIEZoom);
         }
     });
+    
+    // END page zoom logic
     
     
 // PHP used instead for logging / alerts, but leave here in case we want to use pure-javascript

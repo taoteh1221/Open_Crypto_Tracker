@@ -881,6 +881,20 @@ position: absolute;
 }
 
 
+#minusBtn {
+padding-left: 5px;
+padding-right: 5px;
+cursor: pointer;
+}
+
+
+#plusBtn {
+padding-left: 5px;
+padding-right: 5px;
+cursor: pointer;
+}
+
+
 #alert_source, #percent_change_amnt, #percent_change_filter, #percent_change_time, #percent_change_alert_type, #show_chart_settings, #show_feed_settings, #show_portfolio_stats, #show_system_stats, #show_access_stats, #show_logs, #coins_table, #sys_stats_quick_link_info, #sys_stats_admin_link_info, #header_size_warning {
 display: none;
 }

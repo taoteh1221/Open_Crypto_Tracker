@@ -313,4 +313,14 @@ border-radius: 3px;
 }
 
 
+#minusBtn {
+border: 1px solid #D61F00;
+}
+
+
+#plusBtn {
+border: 1px solid #066000;
+}
+
+
 

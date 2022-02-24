@@ -304,3 +304,13 @@ color: white !important;
 border-radius: 3px;
 }
 
+
+#minusBtn {
+border: 1px solid #ff4747;
+}
+
+
+#plusBtn {
+border: 1px solid #10d602;
+}
+
