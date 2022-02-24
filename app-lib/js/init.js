@@ -6,7 +6,68 @@ window.zingAlert= function(){
 }
 
 // Wait until the DOM has loaded before running DOM-related scripting
-$(document).ready(function(){
+$(document).ready(function(){    
+
+    
+    if ( localStorage.getItem('currFFZoom') ) {
+    currFFZoom = localStorage.getItem('currFFZoom');
+    }
+    else {
+    currFFZoom = 1;
+    }
+    
+    
+    if ( localStorage.getItem('currIEZoom') ) {
+    currIEZoom = localStorage.getItem('currIEZoom');
+    }
+    else {
+    currIEZoom = 100;
+    }
+    
+    
+    if ( navigator.userAgent.search("Firefox") >= 0 ){
+    $('body').css('MozTransform','scale(' + currFFZoom + ')');
+            console.log(currFFZoom);
+    }
+    else {
+    $('body').css('zoom', ' ' + currIEZoom + '%');
+            console.log(currIEZoom);
+    }
+    
+
+    $('#plusBtn').on('click',function(){
+        if ( navigator.userAgent.search("Firefox") >= 0 ){
+            var step = 0.02;
+            currFFZoom = parseFloat(currFFZoom) + step; 
+            $('body').css('MozTransform','scale(' + currFFZoom + ')');
+            localStorage.setItem('currFFZoom', currFFZoom);
+            console.log(currFFZoom);
+        } else {
+            var step = 2;
+            currIEZoom = parseFloat(currIEZoom) + step; 
+            $('body').css('zoom', ' ' + currIEZoom + '%');
+            localStorage.setItem('currIEZoom', currIEZoom);
+            console.log(currIEZoom);
+        }
+    });
+
+    $('#minusBtn').on('click',function(){
+        if ( navigator.userAgent.search("Firefox") >= 0 ){
+            var step = 0.02;
+            currFFZoom = parseFloat(currFFZoom) - step; 
+            $('body').css('MozTransform','scale(' + currFFZoom + ')');
+            localStorage.setItem('currFFZoom', currFFZoom);
+            console.log(currFFZoom);
+
+        } else {
+            var step = 2;
+            currIEZoom = parseFloat(currIEZoom) - step; 
+            $('body').css('zoom', ' ' + currIEZoom + '%');
+            localStorage.setItem('currIEZoom', currIEZoom);
+            console.log(currIEZoom);
+        }
+    });
+    
     
 // PHP used instead for logging / alerts, but leave here in case we want to use pure-javascript
 // cookie creation some day (which could help pre-detect too-large headers that crash an HTTP server)
@@ -36,6 +97,7 @@ privacy_mode(); // Privacy mode for assets held
     else {
     $("#alert_bell_image").attr("src","templates/interface/media/images/auto-preloaded/notification-" + theme_selected + "-fill.png");
     }
+
 
 // Mirror hidden errors output in the footer over to the alert bell area with javascript
 // Run AFTER check to see if alerts are present
@@ -69,8 +131,13 @@ $('#alert_bell_area').html( "<span class='bitcoin'>Current UTC time:</span> <spa
     // (does NOT affect a standard javascript ELEMENT.submit() call)
     $("form").submit(function(event) { 
         
+        if ( window.cron_loaded == false ) {
+        event.preventDefault();
+        alert('Background task is still running, please try again after it has completed.');
+        return false;
+        }
         // Checking if privacy mode is enabled (which should disable updating anything)
-        if ( app_reloading_placeholder(0) == false ) {
+        else if ( app_reloading_placeholder(0) == false ) {
         event.preventDefault();
         return false;
         }

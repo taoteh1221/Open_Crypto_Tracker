@@ -36,15 +36,18 @@ Use new internal api function calls as much as possible for the tests logic we h
 Keep github price chart bootstrap download updated weekly!
 
 
+ALWAYS bundle desktop and server downloads with releases from now on (NOT just source code archives). The secondary Desktop Edition github repo is just for backups and staging. Keep it simple.
+
+
+Prioritize building the mobile templates / language translation modules / admin interface / native app "desktop editions" (via PHPdesktop) above all other infrastructure. Then it's the most useful for the maximum number of people as it can be going forward.
+
+
 ///////////////////////////////////////////////////////
 OPTIMIZATIONS / BUGS / TESTS / UX / QA / OTHER SECTION
 ///////////////////////////////////////////////////////
 
 
-ALWAYS bundle desktop and server downloads with releases from now on (NOT just source code archives). The secondary Desktop Edition github repo is just for backups and staging. Keep it simple.
-
-
-Prioritize building the mobile templates / language translation modules / admin interface / native app "desktop editions" (via PHPdesktop) above all other infrastructure. Then it's the most useful for the maximum number of people as it can be going forward.
+"CSV import suceeded" has a 'dismiss' link that doesn't work...when clicked, it reloads a blank portfolio page. But when the normal 'refresh' link is used INSTEAD atop the portfolio page, the imported data stays just fine. Funny thing is the "CSV import suceeded" message ALSO PERSISTS THIS WAY. Figure out whats going on there.
 
 
 For 'Desktop Edition' (using phpdesktop), look into using docker images for cross-platform compatibility (Windows / Mac / Linux).

@@ -5,7 +5,6 @@
 
 
 ?>
-
     
 			<span id='pm_link' class='bitcoin' onclick='privacy_mode(true);' title='Turn privacy mode ON. This encrypts / hides RENDERED personal portfolio data with the PIN you setup (BUT DOES #NOT# encrypt RAW source code). It ALSO disables opposite-clicking / data submission, and logs out any active admin login.'>Privacy Mode Is Off</span> 
 			<?php

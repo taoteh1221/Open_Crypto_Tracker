@@ -1,6 +1,25 @@
 
 // Copyright 2014-2022 GPLv3, Open Crypto Tracker by Mike Kilday: Mike@DragonFrugal.com
-  
+
+
+
+/////////////////////////////////////////////////////////////
+
+
+function toggle_scroll_position() {
+		
+		// Run setting scroll position AGAIN if we are on the news page,
+		// as we start out with no scroll height before the news feeds load
+		if ( $(location).attr('hash') == '#news' ) {
+		get_scroll_position('news'); 
+		}
+		// Run setting scroll position AGAIN if we are on the charts page,
+		// as we start out with no scroll height before the charts load
+		else if ( $(location).attr('hash') == '#charts' ) {
+		get_scroll_position('charts'); 
+		}
+
+}
 
 
 /////////////////////////////////////////////////////////////
@@ -717,33 +736,21 @@ function cron_loading_check(cron_loaded) {
 	if ( window.cron_loaded == true ) {
 		
 		// Only hide if no feeds / charts are loading also
-		if ( window.feeds_loaded.length >= window.feeds_num || window.is_admin == true ) {
+		if (
+		window.feeds_loaded.length >= window.feeds_num && window.charts_loaded.length >= window.charts_num
+		|| window.is_admin == true
+		) {
 		$("#loading_subsections").hide(250); // 0.25 seconds
-		}
-		else {
-		feeds_loading_check(window.feeds_loaded);
-		}
-		
-		// Only hide if no feeds / charts are loading also
-		if ( window.charts_loaded.length >= window.charts_num || window.is_admin == true ) {
-		$("#loading_subsections").hide(250); // 0.25 seconds
+		toggle_scroll_position();
+	    return 'done';
 		}
 		else {
 		charts_loading_check(window.charts_loaded);
-		}
-		
-		// Run setting scroll position AGAIN if we are on the news page,
-		// as we start out with no scroll height before the news feeds load
-		if ( $(location).attr('hash') == '#news' ) {
-		get_scroll_position('news'); 
-		}
-		// Run setting scroll position AGAIN if we are on the charts page,
-		// as we start out with no scroll height before the charts load
-		else if ( $(location).attr('hash') == '#charts' ) {
-		get_scroll_position('charts'); 
+		feeds_loading_check(window.feeds_loaded);
+		toggle_scroll_position();
+	    return 'done';
 		}
 	
-	return 'done';
 	
 	}
 	else {
@@ -764,35 +771,24 @@ function charts_loading_check(charts_loaded) {
 
     // NOT IN ADMIN AREA (UNLIKE CRON EMULATION)
 	if ( charts_loaded.length >= window.charts_num || window.is_admin == true ) {
+	    
 		
 		// Only hide if no feeds / emulated cron are loading also
-		if ( window.feeds_loaded.length >= window.feeds_num || window.is_admin == true ) {
+		if (
+		window.feeds_loaded.length >= window.feeds_num && window.cron_loaded == true
+		|| window.is_admin == true && window.cron_loaded == true
+		) {
 		$("#loading_subsections").hide(250); // 0.25 seconds
-		}
-		else {
-		feeds_loading_check(window.feeds_loaded);
-		}
-		
-		// Only hide if no feeds / emulated cron are loading also
-		if ( window.cron_loaded == true ) {
-		$("#loading_subsections").hide(250); // 0.25 seconds
+		toggle_scroll_position();
+	    return 'done';
 		}
 		else {
 		cron_loading_check(window.cron_loaded);
-		}
-		
-		// Run setting scroll position AGAIN if we are on the news page,
-		// as we start out with no scroll height before the news feeds load
-		if ( $(location).attr('hash') == '#news' ) {
-		get_scroll_position('news'); 
-		}
-		// Run setting scroll position AGAIN if we are on the charts page,
-		// as we start out with no scroll height before the charts load
-		else if ( $(location).attr('hash') == '#charts' ) {
-		get_scroll_position('charts'); 
+		feeds_loading_check(window.feeds_loaded);
+		toggle_scroll_position();
+	    return 'done';
 		}
 	
-	return 'done';
 	
 	}
 	else {
@@ -815,33 +811,21 @@ function feeds_loading_check(feeds_loaded) {
 	if ( feeds_loaded.length >= window.feeds_num || window.is_admin == true ) {
 		
 		// Only hide if no charts / emulated cron are loading also
-		if ( window.charts_loaded.length >= window.charts_num || window.is_admin == true ) {
+		if (
+		window.charts_loaded.length >= window.charts_num && window.cron_loaded == true
+		|| window.is_admin == true && window.cron_loaded == true
+		) {
 		$("#loading_subsections").hide(250); // 0.25 seconds
-		}
-		else {
-		charts_loading_check(window.charts_loaded);
-		}
-		
-		// Only hide if no charts / emulated cron are loading also
-		if ( window.cron_loaded == true ) {
-		$("#loading_subsections").hide(250); // 0.25 seconds
+		toggle_scroll_position();
+	    return 'done';
 		}
 		else {
 		cron_loading_check(window.cron_loaded);
+		charts_loading_check(window.charts_loaded);
+		toggle_scroll_position();
+	    return 'done';
 		}
 		
-		// Run setting scroll position AGAIN if we are on the news page,
-		// as we start out with no scroll height before the news feeds load
-		if ( $(location).attr('hash') == '#news' ) {
-		get_scroll_position('news'); 
-		}
-		// Run setting scroll position AGAIN if we are on the charts page,
-		// as we start out with no scroll height before the charts load
-		else if ( $(location).attr('hash') == '#charts' ) {
-		get_scroll_position('charts'); 
-		}
-	
-	return 'done';
 	
 	}
 	else {

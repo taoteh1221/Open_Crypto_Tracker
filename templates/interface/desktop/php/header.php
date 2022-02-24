@@ -263,6 +263,10 @@ header('Content-type: text/html; charset=' . $ct_conf['dev']['charset_default'])
 </head>
 <body onbeforeunload="store_scroll_position();">
 
+
+<div class='blue' id='change_font_size' style='font-size: 20px;'>Zoom: <span id='minusBtn' class='red' style='padding-left: 5px; padding-right: 5px; cursor: pointer; font-size: 20px; border: 1px solid red;'>-</span> <span id='plusBtn' class='green' style='padding-left: 5px; padding-right: 5px; cursor: pointer; font-size: 20px; border: 1px solid green;'>+</span></div>
+
+
 <div id='header_size_warning'></div>
     
     <audio preload="metadata" id="audio_alert">
