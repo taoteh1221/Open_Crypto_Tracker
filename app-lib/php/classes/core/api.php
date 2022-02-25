@@ -650,7 +650,7 @@ var $ct_array1 = array();
 	      
 	            foreach ($data as $key => $val) {
 	              
-	               if ( $val["asset_pair_name"] == $market_id ) {
+	               if ( isset($val["asset_pair_name"]) && $val["asset_pair_name"] == $market_id ) {
 	               
 	               $result = array(
 	                              'last_trade' => $val["close"],
@@ -688,7 +688,7 @@ var $ct_array1 = array();
 	            foreach ($data as $key => $val) {
 	              
 	              
-	              if ( $val['symbol'] == $market_id ) {
+	              if ( isset($val['symbol']) && $val['symbol'] == $market_id ) {
 	               
 	              $result = array(
 	                              'last_trade' => $val["lastPrice"],
@@ -726,7 +726,7 @@ var $ct_array1 = array();
 	            foreach ($data as $key => $val) {
 	              
 	              
-	              if ( $val['symbol'] == $market_id ) {
+	              if ( isset($val['symbol']) && $val['symbol'] == $market_id ) {
 	               
 	              $result = array(
 	                              'last_trade' => $val["lastPrice"],
@@ -904,7 +904,7 @@ var $ct_array1 = array();
 	      
 	            foreach ($data as $key => $val) {
 	              
-	              if ( $val['symbol'] == $market_id ) {
+	              if ( isset($val['symbol']) && $val['symbol'] == $market_id ) {
 	               
 	              $result = array(
 	                              'last_trade' => $val["last_price"],
@@ -942,12 +942,12 @@ var $ct_array1 = array();
 	             foreach ($data as $key => $val) {
 	                
 			         // We only want the FIRST data set for trade value
-			         if ( !$last_trade && $val['symbol'] == $market_id ) {
+			         if ( !$last_trade && isset($val['symbol']) && $val['symbol'] == $market_id ) {
 			         $last_trade = $val['close'];
 			         $asset_vol = $val['homeNotional'];
 			         $pair_vol = $val['foreignNotional'];
 			         }
-			         elseif ( $val['symbol'] == $market_id ) {
+			         elseif ( isset($val['symbol']) && $val['symbol'] == $market_id ) {
 			                   
 			         $asset_vol = $ct_var->num_to_str($asset_vol + $val['homeNotional']);
 			         $pair_vol = $ct_var->num_to_str($pair_vol + $val['foreignNotional']);
@@ -996,7 +996,7 @@ var $ct_array1 = array();
 	      
 	            foreach ($data as $key => $val) {
 	              
-	              if ( $val['instrument_code'] == $market_id ) {
+	              if ( isset($val['instrument_code']) && $val['instrument_code'] == $market_id ) {
 	               
 	              $result = array(
 	                              'last_trade' => $val["last_price"],
@@ -1080,7 +1080,7 @@ var $ct_array1 = array();
 	      
 	            foreach ($data as $key => $val) {
 	              
-	              if ( $val['symbol'] == $market_id ) {
+	              if ( isset($val['symbol']) && $val['symbol'] == $market_id ) {
 	              $result['last_trade'] = $val["lastTradeRate"];
 	              }
 	          
@@ -1103,7 +1103,7 @@ var $ct_array1 = array();
 	      
 		        foreach ($data as $key => $val) {
 		              
-			       if ( $val['symbol'] == $market_id ) {
+			       if ( isset($val['symbol']) && $val['symbol'] == $market_id ) {
 			       $result['24hr_asset_vol'] = $val["volume"];
 			       $result['24hr_pair_vol'] = $val["quoteVolume"];
 			       }
@@ -1158,7 +1158,7 @@ var $ct_array1 = array();
 	      
 	            foreach ($data as $key => $val) {
 	              
-	              if ( $val['pair'] == $market_id ) {
+	              if ( isset($val['pair']) && $val['pair'] == $market_id ) {
 	               
 	              $result = array(
 	                              'last_trade' => $val["last"],
@@ -1196,7 +1196,7 @@ var $ct_array1 = array();
 	      
 	            foreach ($data as $key => $val) {
 	              
-	              if ( $val["marketName"] == $market_id ) {
+	              if ( isset($val["marketName"]) && $val["marketName"] == $market_id ) {
 	               
 	              $result = array(
 	                              'last_trade' => $val["LTRate"],
@@ -1234,7 +1234,7 @@ var $ct_array1 = array();
 	      
 	            foreach ($data as $key => $val) {
 	              
-	              if ( $val["symbol"] == $market_id ) {
+	              if ( isset($val["symbol"]) && $val["symbol"] == $market_id ) {
 	               
 	              $result = array(
 	                              'last_trade' => $val["last_price"],
@@ -1273,7 +1273,7 @@ var $ct_array1 = array();
 	            foreach ($data as $key => $val) {
 	              
 	              
-	              if ( $val["pair"] == $market_id ) {
+	              if ( isset($val["pair"]) && $val["pair"] == $market_id ) {
 	               
 	              $result = array(
 	                              'last_trade' => $val["last"],
@@ -1334,7 +1334,7 @@ var $ct_array1 = array();
 	            foreach ($data as $key => $val) {
 	              
 	              
-	              if ( $val["market"] == $market_id ) {
+	              if ( isset($val["market"]) && $val["market"] == $market_id ) {
 	               
 	              $result = array(
 	                              'last_trade' => $val["last_price"],
@@ -1454,7 +1454,7 @@ var $ct_array1 = array();
 	            foreach ($data as $key => $val) {
 	              
 	              
-	              if ( $val['i'] == $market_id ) {
+	              if ( isset($val['i']) && $val['i'] == $market_id ) {
 	               
 	              $result = array(
 	                              'last_trade' => $val["a"],
@@ -1589,12 +1589,12 @@ var $ct_array1 = array();
 		   foreach ($data as $key => $val) {
 		             
 	        // Check for main asset
-		   if ( $val["fromSymbol"] == $fromSymbol || preg_match("/([a-z]{1})".$fromSymbol."/", $val["fromSymbol"]) ) {
+		   if ( isset($val["fromSymbol"]) && $val["fromSymbol"] == $fromSymbol || preg_match("/([a-z]{1})".$fromSymbol."/", $val["fromSymbol"]) ) {
 		   $trade_asset = true;
 	        }
 				                   
 		   // Check for pair asset
-		   if ( $val["toSymbol"] == $toSymbol || preg_match("/([a-z]{1})".$toSymbol."/", $val["toSymbol"]) ) {
+		   if ( isset($val["toSymbol"]) && $val["toSymbol"] == $toSymbol || preg_match("/([a-z]{1})".$toSymbol."/", $val["toSymbol"]) ) {
 		   $trade_pair = true;
 		   }
 				                   
@@ -1656,7 +1656,7 @@ var $ct_array1 = array();
 	            foreach ($data as $key => $val) {
 	              
 	              
-	              if ( $val['name'] == $market_id ) {
+	              if ( isset($val['name']) && $val['name'] == $market_id ) {
 	               
 	              $result = array(
 	                              'last_trade' => $val["last"],
@@ -1696,7 +1696,7 @@ var $ct_array1 = array();
 	            foreach ($data as $key => $val) {
 	              
 	              
-	              if ( $val['name'] == $market_id ) {
+	              if ( isset($val['name']) && $val['name'] == $market_id ) {
 	               
 	              $result = array(
 	                              'last_trade' => $val["last"],
@@ -1733,7 +1733,7 @@ var $ct_array1 = array();
       
             foreach ($data as $key => $val) {
               
-              if ( $val["currency_pair"] == $market_id ) {
+              if ( isset($val["currency_pair"]) && $val["currency_pair"] == $market_id ) {
                
               $result = array(
                               'last_trade' => $val["last"],
@@ -1828,7 +1828,7 @@ var $ct_array1 = array();
       
             foreach ($data as $key => $val) {
               
-              if ( $val["symbol"] == $market_id ) {
+              if ( isset($val["symbol"]) && $val["symbol"] == $market_id ) {
                
               $result = array(
                               'last_trade' => $val["last"],
@@ -1866,7 +1866,7 @@ var $ct_array1 = array();
       
             foreach ($data as $key => $val) {
               
-              if ( $val["symbol"] == $market_id ) {
+              if ( isset($val["symbol"]) && $val["symbol"] == $market_id ) {
                
               $result = array(
                               'last_trade' => $val["last"],
@@ -1904,7 +1904,7 @@ var $ct_array1 = array();
       
             foreach ($data as $key => $val) {
               
-              if ( $val["symbol"] == $market_id ) {
+              if ( isset($val["symbol"]) && $val["symbol"] == $market_id ) {
                
               $result = array(
                               'last_trade' => $val["close"],
@@ -2083,7 +2083,7 @@ var $ct_array1 = array();
       
             foreach ($data as $key => $val) {
               
-              if ($val['symbol'] == $market_id ) {
+              if ( isset($val["symbol"]) && $val['symbol'] == $market_id ) {
                
               $result = array(
                               'last_trade' => $val["last"],
@@ -2119,7 +2119,7 @@ var $ct_array1 = array();
       
             foreach ($data as $key => $val) {
               
-              if ( $val["currency_pair_code"] == $market_id ) {
+              if ( isset($val["currency_pair_code"]) && $val["currency_pair_code"] == $market_id ) {
                
               $result = array(
                               'last_trade' => $val["last_traded_price"],
@@ -2238,7 +2238,7 @@ var $ct_array1 = array();
       
             foreach ($data as $key => $val) {
               
-              if ( $val["pair"] == $market_id ) {
+              if ( isset($val["pair"]) && $val["pair"] == $market_id ) {
                
               $result = array(
                               'last_trade' => $ct_var->num_to_str($val["last_trade"]), // Handle large / small values better with $ct_var->num_to_str()
@@ -2275,7 +2275,7 @@ var $ct_array1 = array();
             foreach ($data as $key => $val) {
              
               
-              if ( $val['instrument_id'] == $market_id ) {
+              if ( isset($val['instrument_id']) && $val['instrument_id'] == $market_id ) {
                
               $result = array(
                               'last_trade' => $val['last'],
@@ -2312,7 +2312,7 @@ var $ct_array1 = array();
       
             foreach ($data as $key => $val) {
               
-              if ( $val['instrument_id'] == $market_id ) {
+              if ( isset($val['instrument_id']) && $val['instrument_id'] == $market_id ) {
                
               $result = array(
                               'last_trade' => $val["last"],
@@ -2385,7 +2385,7 @@ var $ct_array1 = array();
       
             foreach ($data as $key => $val) {
               
-              if ( $val["Market"] == $market_id ) {
+              if ( isset($val["Market"]) && $val["Market"] == $market_id ) {
                
               $result = array(
                               'last_trade' => $val["Last"],
@@ -2517,7 +2517,7 @@ var $ct_array1 = array();
       
             foreach ( $data as $key => $val ) {
               
-              if ( $val["market"] == $market_id ) {
+              if ( isset($val["market"]) && $val["market"] == $market_id ) {
                
               $result = array(
                               'last_trade' => $val["trade_price"],
@@ -2588,11 +2588,11 @@ var $ct_array1 = array();
       
             foreach ($data as $key => $val) {
               
-              if ( $val['pair'] == $market_id ) {
+              if ( isset($val['pair']) && $val['pair'] == $market_id ) {
                   
                   // Workaround for weird zebpay API bug, where they include a second
                   // array object with same 'pair' property, that's mostly a null data set
-                  if ( $val["market"] > 0 && $zebapi_bug_workaround != true ) {
+                  if ( isset($val["market"]) && $val["market"] > 0 && $zebapi_bug_workaround != true ) {
                   
                   $zebapi_bug_workaround = true;
                    

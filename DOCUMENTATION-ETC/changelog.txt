@@ -5242,7 +5242,9 @@ MIGRATE YOUR EXISTING SETTINGS TO THE NEW FORMAT.
 
 
 -------------------------------------------------------------------
-5.14.0:
+5.13.1:
+
+-BUG FIX: PHP8 compatibility fixes (edge case blank page / error 500 issues) 
 
 -IMPROVED desktop edition support (zoom level control / background tasks wait to finish before page reloads)
 
