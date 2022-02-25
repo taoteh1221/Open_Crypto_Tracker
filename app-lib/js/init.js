@@ -116,15 +116,14 @@ $('#alert_bell_area').html( "<span class='bitcoin'>Current UTC time:</span> <spa
     
     store_scroll_position(); 
         
-        // If background tasks are still running, force a browser confirmaaation
-        // to refresh / leave / close
-        if ( window.background_tasks_status == 'wait' || window.reload_approved == false ) {
+        // If background tasks are still running, force a browser confirmation to refresh / leave / close
+        if ( window.background_tasks_status == 'wait' ) {
+        $("#background_loading_span").html("Please wait, finishing background tasks...").css("color", "#ff4747", "important");
         event.preventDefault();
         e.returnValue = '';
         }
-        
-        if ( window.background_tasks_status == 'wait' ) {
-        $("#background_loading_span").html("Please wait, finishing background tasks...").css("color", "#ff4747", "important");
+        else {
+        //alert('done');
         }
         
         //console.log(e);
@@ -137,7 +136,9 @@ $('#alert_bell_area').html( "<span class='bitcoin'>Current UTC time:</span> <spa
     // (does NOT affect a standard javascript ELEMENT.submit() call)
     $("form").submit(function(event) { 
     
-        if ( window.reload_approved == false ) {
+        // We have to run app_reloading_check() here, 
+        // NOT just get current window.reload_approved value from another run somewhere else
+        if ( app_reloading_check(0) == false ) {
         event.preventDefault();
         return false;
         }

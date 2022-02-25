@@ -344,6 +344,8 @@ function app_reloading_check(refresh_only=0) {
     window.reload_approved = true;
     app_reload();
     }
+    
+    return window.reload_approved;
 
 }
 
