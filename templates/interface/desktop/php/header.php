@@ -38,6 +38,16 @@ header('Content-type: text/html; charset=' . $ct_conf['dev']['charset_default'])
 	
 	var notes_storage = ct_id + "notes";
 	
+	var background_tasks_status = 'wait'; // Default
+	
+	var background_tasks_recheck; // Default
+	
+	var reload_recheck; // Default
+	
+	var reload_approved; // Default
+	
+	window.reload_countdown = false; // Default
+	
 	// Preload /images/auto-preloaded/ images VIA JAVASCRIPT TOO (WAY MORE RELIABLE THAN META TAG PRELOAD)
 	
 	<?php
@@ -186,9 +196,6 @@ header('Content-type: text/html; charset=' . $ct_conf['dev']['charset_default'])
 	var btc_prim_currency_val = '<?=number_format( $sel_opt['sel_btc_prim_currency_val'], 2, '.', '' )?>';
 	var btc_prim_currency_pair = '<?=strtoupper($ct_conf['gen']['btc_prim_currency_pair'])?>';
 	
-	// 'Loading X...' UI notices
-	feeds_loading_check(feeds_loaded);
-	charts_loading_check(charts_loaded);
 	
 	<?php
 	foreach ( $ct_conf['dev']['limited_apis'] as $api ) {
@@ -231,11 +238,7 @@ header('Content-type: text/html; charset=' . $ct_conf['dev']['charset_default'])
     // Emulate a cron job every 20 minutes...
     var cron_loaded = false;
     
-    emulated_cron(); // This will run on page load
-    
-    setInterval(function(){
-        emulated_cron() 
-    }, 60000); // Re-check every minute (in milliseconds...cron.php will know if it's time)
+    emulated_cron(); // Initial load (RELOADS from WITHIN it's OWN logic every minute AFTER)
 	
 	<?php
 	}
@@ -244,11 +247,15 @@ header('Content-type: text/html; charset=' . $ct_conf['dev']['charset_default'])
 	
 	// Register as no-action-needed (saying it's already loaded turns off UI notices)
     var cron_loaded = true;
-    cron_loading_check(cron_loaded);
     
 	<?php
 	}	
 	?>
+	
+	
+	// 'Loading X...' UI notices
+	background_tasks_check();
+    
 	
 	</script>
 
@@ -261,13 +268,7 @@ header('Content-type: text/html; charset=' . $ct_conf['dev']['charset_default'])
 	<link rel="icon" href="templates/interface/media/images/favicon.png">
 
 </head>
-<body onbeforeunload="store_scroll_position();">
-
-
-<div class='blue' id='change_font_size'>Zoom: <span id='minusBtn' class='red'>-</span> <span id='plusBtn' class='green'>+</span></div>
-
-
-<div id='header_size_warning'></div>
+<body>
     
     <audio preload="metadata" id="audio_alert">
       <source src="templates/interface/media/audio/Intruder_Alert-SoundBible.com-867759995.mp3">
@@ -276,6 +277,16 @@ header('Content-type: text/html; charset=' . $ct_conf['dev']['charset_default'])
     
 	 
     <div class='align_center' id='body_wrapper' style='<?=( $login_template == 1 ? 'min-width: 720px; max-width: 800px;' : '' )?>'>
+
+        <?php
+        if ( strpos($_SERVER['HTTP_USER_AGENT'], 'Chrome') != false ) {
+        ?>
+        <div class='blue' id='change_font_size'>Zoom (<span id='zoom_show_ui'></span>): <span id='minusBtn' class='red'>-</span> <span id='plusBtn' class='green'>+</span></div>
+        <?php
+        }
+        ?>
+        
+        <div id='header_size_warning'></div>
     
     
 		<div class='align_center' id='body_top_nav' style='<?=( $login_template == 1 ? 'min-width: 720px; max-width: 800px;' : '' )?>'>
@@ -399,7 +410,7 @@ header('Content-type: text/html; charset=' . $ct_conf['dev']['charset_default'])
 				}
 				?>
 		 
-				<div id='loading_subsections' class='align_center loading bitcoin'><img src="templates/interface/media/images/auto-preloaded/loader.gif" height='17' alt="" style='vertical-align: middle;' /> <span id='loading_subsections_span'></span></div>
+				<div id='background_loading' class='align_center loading bitcoin'><img src="templates/interface/media/images/auto-preloaded/loader.gif" height='17' alt="" style='vertical-align: middle;' /> <span id='background_loading_span'></span></div>
 		
 					
 		<!-- header.php END -->

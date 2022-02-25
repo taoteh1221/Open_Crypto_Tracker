@@ -681,7 +681,7 @@ margin-right: 6px;
 }
 
 
-#loading_subsections, .chart_reload {
+#background_loading, .chart_reload {
 display: none;
 width: 100%;
 max-width: 1200px; 
@@ -704,6 +704,8 @@ margin-bottom: 60px;
 
 
 #body_wrapper {
+    position: relative;
+    top: 0px;
 width: 100%; 
 min-width: 1200px; 
 margin: auto;

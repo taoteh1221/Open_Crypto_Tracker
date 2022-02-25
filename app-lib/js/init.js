@@ -6,70 +6,52 @@ window.zingAlert= function(){
 }
 
 // Wait until the DOM has loaded before running DOM-related scripting
-$(document).ready(function(){    
+$(document).ready(function(){   
+ 
 
-    
-    // Page zoom logic
-    if ( localStorage.getItem('currFFZoom') ) {
-    currFFZoom = localStorage.getItem('currFFZoom');
-    }
-    else {
-    currFFZoom = 1;
-    }
-    
-    
-    if ( localStorage.getItem('currIEZoom') ) {
-    currIEZoom = localStorage.getItem('currIEZoom');
-    }
-    else {
-    currIEZoom = 100;
-    }
-    
-    
-    if ( navigator.userAgent.search("Firefox") >= 0 ){
-    $('body').css('MozTransform','scale(' + currFFZoom + ')');
-            console.log(currFFZoom);
-    }
-    else {
-    $('body').css('zoom', ' ' + currIEZoom + '%');
-            console.log(currIEZoom);
-    }
-    
-
-    $('#plusBtn').on('click',function(){
-        if ( navigator.userAgent.search("Firefox") >= 0 ){
-            var step = 0.02;
-            currFFZoom = parseFloat(currFFZoom) + step; 
-            $('body').css('MozTransform','scale(' + currFFZoom + ')');
-            localStorage.setItem('currFFZoom', currFFZoom);
-            console.log(currFFZoom);
-        } else {
-            var step = 2;
-            currIEZoom = parseFloat(currIEZoom) + step; 
-            $('body').css('zoom', ' ' + currIEZoom + '%');
-            localStorage.setItem('currIEZoom', currIEZoom);
-            console.log(currIEZoom);
+    // Page zoom support for chrome 
+    // (firefox skews the entire page, safari untested)
+    if ( navigator.userAgent.search("Chrome") >= 0 ) {
+        
+        // Page zoom logic
+        if ( localStorage.getItem('currzoom') ) {
+        currzoom = localStorage.getItem('currzoom');
         }
-    });
-
-    $('#minusBtn').on('click',function(){
-        if ( navigator.userAgent.search("Firefox") >= 0 ){
-            var step = 0.02;
-            currFFZoom = parseFloat(currFFZoom) - step; 
-            $('body').css('MozTransform','scale(' + currFFZoom + ')');
-            localStorage.setItem('currFFZoom', currFFZoom);
-            console.log(currFFZoom);
-
-        } else {
-            var step = 2;
-            currIEZoom = parseFloat(currIEZoom) - step; 
-            $('body').css('zoom', ' ' + currIEZoom + '%');
-            localStorage.setItem('currIEZoom', currIEZoom);
-            console.log(currIEZoom);
+        else {
+        currzoom = 100;
         }
-    });
+        
+    //console.log(currzoom);
     
-    // END page zoom logic
+    $('body').css('zoom', ' ' + currzoom + '%');
+    $("#zoom_show_ui").html(currzoom + '%');
+        
+    
+        $('#plusBtn').on('click',function(){
+        
+        var step = 2;
+        currzoom = parseFloat(currzoom) + step; 
+        $('body').css('zoom', ' ' + currzoom + '%');
+        
+        localStorage.setItem('currzoom', currzoom);
+        $("#zoom_show_ui").html(currzoom);
+        //console.log(currzoom);
+        
+        });
+    
+        $('#minusBtn').on('click',function(){
+        
+        var step = 2;
+        currzoom = parseFloat(currzoom) - step; 
+        $('body').css('zoom', ' ' + currzoom + '%');
+        
+        localStorage.setItem('currzoom', currzoom);
+        $("#zoom_show_ui").html(currzoom);
+        //console.log(currzoom);
+        
+        });
+        
+    } // END page zoom logic
     
     
 // PHP used instead for logging / alerts, but leave here in case we want to use pure-javascript
@@ -130,17 +112,32 @@ $('#alert_bell_area').html( "<span class='bitcoin'>Current UTC time:</span> <spa
     }
 
 
+    window.addEventListener('beforeunload', function (e) {
+    
+    store_scroll_position(); 
+        
+        // If background tasks are still running, force a browser confirmaaation
+        // to refresh / leave / close
+        if ( window.background_tasks_status == 'wait' || window.reload_approved == false ) {
+        event.preventDefault();
+        e.returnValue = '';
+        }
+        
+        if ( window.background_tasks_status == 'wait' ) {
+        $("#background_loading_span").html("Please wait, finishing background tasks...").css("color", "#ff4747", "important");
+        }
+        
+        //console.log(e);
+        //console.log( window.background_tasks_status );
+        
+    });
+
+
     // Show "app loading" placeholder when submitting ANY form JQUERY SUBMIT METHOD, OR CLICKING A SUBMIT BUTTON
     // (does NOT affect a standard javascript ELEMENT.submit() call)
     $("form").submit(function(event) { 
-        
-        if ( window.cron_loaded == false ) {
-        event.preventDefault();
-        alert('Background task is still running, please try again after it has completed.');
-        return false;
-        }
-        // Checking if privacy mode is enabled (which should disable updating anything)
-        else if ( app_reloading_placeholder(0) == false ) {
+    
+        if ( window.reload_approved == false ) {
         event.preventDefault();
         return false;
         }

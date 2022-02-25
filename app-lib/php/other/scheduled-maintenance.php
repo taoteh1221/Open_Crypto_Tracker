@@ -120,9 +120,9 @@ $ct_cache->save_file($base_dir . '/cache/events/scheduled-maintenance.dat', $ct_
     // Clear any stale session files / PHP error logging in desktop version
     if ( $app_edition == 'desktop' ) {
         
-    unlink($base_dir . '/../logs/php_errors.log');
+    unlink($base_dir . '/../temp-other/php_errors.log');
     
-    $session_files = $ct_gen->sort_files($base_dir . '/../cache-other/temp_server', false, 'desc');
+    $session_files = $ct_gen->sort_files($base_dir . '/../temp-other/temp_server', false, 'desc');
     
     
     	foreach( $session_files as $session_file ) {
@@ -130,7 +130,7 @@ $ct_cache->save_file($base_dir . '/cache/events/scheduled-maintenance.dat', $ct_
     		
     			// If we already loaded the newest modified file, delete any stale ones
     			if ( $newest_session_file == 1 ) {
-    			unlink($base_dir . '/../cache-other/temp_server/' . $session_file);
+    			unlink($base_dir . '/../temp-other/temp_server/' . $session_file);
     			}
     			else {
     			$newest_session_file = 1;

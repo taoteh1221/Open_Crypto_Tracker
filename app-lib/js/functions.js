@@ -3,24 +3,6 @@
 
 
 
-/////////////////////////////////////////////////////////////
-
-
-function toggle_scroll_position() {
-		
-		// Run setting scroll position AGAIN if we are on the news page,
-		// as we start out with no scroll height before the news feeds load
-		if ( $(location).attr('hash') == '#news' ) {
-		get_scroll_position('news'); 
-		}
-		// Run setting scroll position AGAIN if we are on the charts page,
-		// as we start out with no scroll height before the charts load
-		else if ( $(location).attr('hash') == '#charts' ) {
-		get_scroll_position('charts'); 
-		}
-
-}
-
 
 /////////////////////////////////////////////////////////////
 
@@ -61,6 +43,18 @@ document.getElementById(obj_id).action = set_action;
 function toTimestamp(year,month,day,hour,minute,second) {
  var datum = new Date(Date.UTC(year,month-1,day,hour,minute,second));
  return datum.getTime()/1000;
+}
+
+
+/////////////////////////////////////////////////////////////
+
+
+function background_loading_notices(message) {
+
+    if ( $("#background_loading_span").html() != 'Please wait, finishing background tasks...' ) {
+    $("#background_loading_span").html(message).css("color", "#dd7c0d", "important");
+    }
+
 }
 
 
@@ -119,21 +113,6 @@ sessionStorage['scroll_position'] = window.scrollY;
 /////////////////////////////////////////////////////////////
 
 
-function update_alert_percent() {
-
-	if ( document.getElementById("alert_percent").value == "yes" ) {
-	document.getElementById("use_alert_percent").value = document.getElementById("alert_source").value + "|" + document.getElementById("percent_change_amnt").value + "|" + document.getElementById("percent_change_filter").value + "|" + document.getElementById("percent_change_time").value + "|" + document.getElementById("percent_change_alert_type").value;
-	}
-	else {
-	document.getElementById("use_alert_percent").value = "";
-	}
-
-}
-
-
-/////////////////////////////////////////////////////////////
-
-
 var sort_extraction = function(node) {
 
 // Sort with the .app_sort_filter CSS class as the primary sorter
@@ -141,6 +120,23 @@ sort_target = $(node).find(".app_sort_filter").text();
 
 // Remove any commas from number sorting
 return sort_target.replace(/,/g, '');
+
+}
+
+
+/////////////////////////////////////////////////////////////
+
+
+function update_alert_percent() {
+
+	if ( document.getElementById("alert_percent").value == "yes" ) {
+	document.getElementById("use_alert_percent").value = document.getElementById("alert_source").value + "|"
+	+ document.getElementById("percent_change_amnt").value + "|" + document.getElementById("percent_change_filter").value + "|" 
+	+ document.getElementById("percent_change_time").value + "|" + document.getElementById("percent_change_alert_type").value;
+	}
+	else {
+	document.getElementById("use_alert_percent").value = "";
+	}
 
 }
 
@@ -192,26 +188,6 @@ x = document.forms[form_id][field].value;
   $("#" + form_id).submit();
   }
   
-}
-
-
-/////////////////////////////////////////////////////////////
-
-
-function app_reload() {
-	
-// ADD ANY LOGIC HERE, TO RUN BEFORE THE APP RELOADS
-// Close any open modal windows
-$(".show_chart_settings").modaal("close");
-$(".show_feed_settings").modaal("close");
-$(".show_portfolio_stats").modaal("close");
-$(".show_system_stats").modaal("close");
-$(".show_access_stats").modaal("close");
-$(".show_logs").modaal("close");
-
-// Reload
-location.reload(true);
-
 }
 
 
@@ -357,24 +333,76 @@ return false;
 /////////////////////////////////////////////////////////////
 
 
-function app_reloading_placeholder(refresh_only=0) {
-    
-    // Disable form updating
+function app_reloading_check(refresh_only=0) {
+        
+    // Disable form updating in privacy mode
     if ( getCookie('priv_toggle') == 'on' && refresh_only == 0 ) {
     alert('Submitting data is not allowed in privacy mode.');
-    return false;
+    window.reload_approved = false;
     }
     else {
-    
-    $("#app_loading_span").html("Reloading...");
-    
-    // Transition effects
-    $("#content_wrapper").hide(250, 'linear'); // 0.25 seconds
-    $("#app_loading").show(250, 'linear'); // 0.25 seconds
-
-    return true;
-
+    window.reload_approved = true;
+    app_reload();
     }
+
+}
+
+
+/////////////////////////////////////////////////////////////
+
+
+function cron_loading_check(cron_loaded) {
+	
+//console.log('loaded charts = ' + window.charts_loaded.length + ', all charts = ' + window.charts_num);
+
+	if ( window.cron_loaded == true ) {
+	return 'done';
+	}
+	else {
+	background_loading_notices("Running Scheduled Tasks...");
+	$("#background_loading").show(250); // 0.25 seconds
+	return 'active';
+	}
+
+}
+
+
+/////////////////////////////////////////////////////////////
+
+
+function charts_loading_check(charts_loaded) {
+	
+//console.log('loaded charts = ' + window.charts_loaded.length + ', all charts = ' + window.charts_num);
+
+    // NOT IN ADMIN AREA (UNLIKE CRON EMULATION)
+	if ( charts_loaded.length >= window.charts_num || window.is_admin == true ) {
+	return 'done';
+	}
+	else {
+	background_loading_notices("Loading Charts...");
+	$("#background_loading").show(250); // 0.25 seconds
+	return 'active';
+	}
+
+}
+
+
+/////////////////////////////////////////////////////////////
+
+
+function feeds_loading_check(feeds_loaded) {
+	
+//console.log('loaded feeds = ' + window.feeds_loaded.length + ', all feeds = ' + window.feeds_num);
+
+    // NOT IN ADMIN AREA (UNLIKE CRON EMULATION)
+	if ( feeds_loaded.length >= window.feeds_num || window.is_admin == true ) {
+	return 'done';
+	}
+	else {
+	background_loading_notices("Loading News Feeds...");
+	$("#background_loading").show(250); // 0.25 seconds
+	return 'active';
+	}
 
 }
 
@@ -458,47 +486,6 @@ function safe_add_remove_class(class_name, element, mode) {
 /////////////////////////////////////////////////////////////
 
 
-function emulated_cron() {
-    
-cron_loaded = false;
-cron_loading_check(cron_loaded); 
-            
-console.log( "cron emulation: STARTED at " + human_time( new Date().getTime() ) );
-
-      $.ajax({
-            type: 'GET',
-            url: 'cron.php?cron_emulate=1',
-            async: true,
-            contentType: "application/json",
-            dataType: 'json',
-            success: function(response) {
-            
-            console.log( "cron emulation: ENDED at " + human_time( new Date().getTime() ) );
-                
-                if ( response.result ) {
-                console.log( "cron emulation RESULT: " + response.result );
-                }
-                
-            // future UI logic here?
-            
-            cron_loaded = true;
-            
-            cron_loading_check(cron_loaded); 
-            
-            },
-            error: function(e) {
-            console.log( "cron emulation: ERROR at " + human_time( new Date().getTime() ) );
-            cron_loaded = true;
-            cron_loading_check(cron_loaded); 
-            }
-        });
-
-}  
-
-
-/////////////////////////////////////////////////////////////
-
-
 function text_to_download(textToWrite, fileNameToSaveAs)
     {
     	var textFileAsBlob = new Blob([textToWrite], {type:'text/plain'}); 
@@ -542,7 +529,7 @@ audio_alert = document.getElementById('audio_alert');
 				
 	
 	// If subsections are still loading, wait until they are finished
-   if ( $("#loading_subsections").is(":visible") ) {
+   if ( $("#background_loading").is(":visible") ) {
    setTimeout(play_audio_alert, 1000); // Wait 1000 millisecnds then recheck
    return;
    }
@@ -614,6 +601,97 @@ function copy_text(elm_id, alert_id) {
 	 document.getElementById(alert_id).innerHTML = 'Copied to clipboard.';
   }
   
+}
+
+
+/////////////////////////////////////////////////////////////
+
+
+function emulated_cron() {
+    
+window.cron_loaded = false;
+background_tasks_check(); 
+            
+//console.log( "cron emulation: STARTED at " + human_time( new Date().getTime() ) );
+
+      $.ajax({
+            type: 'GET',
+            url: 'cron.php?cron_emulate=1',
+            async: true,
+            contentType: "application/json",
+            dataType: 'json',
+            success: function(response) {
+            
+            //console.log( "cron emulation: ENDED at " + human_time( new Date().getTime() ) );
+                
+                if ( response.result ) {
+                console.log( "cron emulation RESULT: " + response.result + ', at ' + human_time( new Date().getTime() ) );
+                }
+                
+            // future UI logic here?
+            
+            window.cron_loaded = true;
+            
+            background_tasks_check();  
+            
+            },
+            error: function(e) {
+            console.log( "cron emulation: ERROR at " + human_time( new Date().getTime() ) );
+            window.cron_loaded = true;
+            background_tasks_check(); 
+            }
+        });
+    
+setTimeout(emulated_cron, 60000); // Re-check every minute (in milliseconds...cron.php will know if it's time)
+    
+}  
+
+
+/////////////////////////////////////////////////////////////
+
+
+function app_reload() {
+    
+    // Wait if anything is running in the background
+    // (emulated cron / charts / news feeds / etc)
+    if ( window.background_tasks_status == 'wait' ) {
+
+    //console.log(window.background_tasks_status);
+            
+    $("#background_loading_span").html("Please wait, finishing background tasks...").css("color", "#ff4747", "important");
+            
+    reload_recheck = setTimeout(app_reload, 1000);  // Re-check every 1 seconds (in milliseconds)
+    
+    return false;
+    
+    }
+    // ADD ANY LOGIC HERE, TO RUN BEFORE THE APP RELOADS
+    else if ( window.background_tasks_status == 'done' ) {
+    
+    $("#app_loading").show(250, 'linear'); // 0.25 seconds
+    $("#app_loading_span").html("Reloading...");
+        
+    // Transition effects
+    $("#content_wrapper").hide(250, 'linear'); // 0.25 seconds
+        
+    // Close any open modal windows
+    $(".show_chart_settings").modaal("close");
+    $(".show_feed_settings").modaal("close");
+    $(".show_portfolio_stats").modaal("close");
+    $(".show_system_stats").modaal("close");
+    $(".show_access_stats").modaal("close");
+    $(".show_logs").modaal("close");
+
+    //alert(window.background_tasks_status);
+    
+    clearTimeout(reload_recheck);
+    
+    // Reload
+    location.reload(true);
+    
+    }
+    
+
 }
 
 
@@ -729,110 +807,41 @@ return render;
 /////////////////////////////////////////////////////////////
 
 
-function cron_loading_check(cron_loaded) {
-	
-//console.log('loaded charts = ' + window.charts_loaded.length + ', all charts = ' + window.charts_num);
-
-	if ( window.cron_loaded == true ) {
-		
-		// Only hide if no feeds / charts are loading also
-		if (
-		window.feeds_loaded.length >= window.feeds_num && window.charts_loaded.length >= window.charts_num
-		|| window.is_admin == true
+function background_tasks_check() {
+        
+        
+        if (
+		feeds_loading_check(window.feeds_loaded) == 'done' && charts_loading_check(window.charts_loaded) == 'done' && cron_loading_check(window.cron_loaded) == 'done'
 		) {
-		$("#loading_subsections").hide(250); // 0.25 seconds
-		toggle_scroll_position();
-	    return 'done';
+		    
+		$("#background_loading").hide(250); // 0.25 seconds
+		
+    		// Run setting scroll position AGAIN if we are on the news page,
+    		// as we start out with no scroll height before the news feeds load
+    		if ( $(location).attr('hash') == '#news' ) {
+    		get_scroll_position('news'); 
+    		}
+    		// Run setting scroll position AGAIN if we are on the charts page,
+    		// as we start out with no scroll height before the charts load
+    		else if ( $(location).attr('hash') == '#charts' ) {
+    		get_scroll_position('charts'); 
+    		}
+    	
+    	window.background_tasks_status = 'done';
+    	
+    	clearTimeout(background_tasks_recheck);
+		
 		}
 		else {
-		charts_loading_check(window.charts_loaded);
-		feeds_loading_check(window.feeds_loaded);
-		toggle_scroll_position();
-	    return 'done';
-		}
+		    
+		background_tasks_recheck = setTimeout(background_tasks_check, 1000); // Re-check every 1 seconds (in milliseconds)
 	
-	
-	}
-	else {
-	$("#loading_subsections_span").html("Running Background Task...");
-	$("#loading_subsections").show(250); // 0.25 seconds
-	return 'active';
-	}
-
-}
-
-
-/////////////////////////////////////////////////////////////
-
-
-function charts_loading_check(charts_loaded) {
-	
-//console.log('loaded charts = ' + window.charts_loaded.length + ', all charts = ' + window.charts_num);
-
-    // NOT IN ADMIN AREA (UNLIKE CRON EMULATION)
-	if ( charts_loaded.length >= window.charts_num || window.is_admin == true ) {
-	    
-		
-		// Only hide if no feeds / emulated cron are loading also
-		if (
-		window.feeds_loaded.length >= window.feeds_num && window.cron_loaded == true
-		|| window.is_admin == true && window.cron_loaded == true
-		) {
-		$("#loading_subsections").hide(250); // 0.25 seconds
-		toggle_scroll_position();
-	    return 'done';
-		}
-		else {
-		cron_loading_check(window.cron_loaded);
-		feeds_loading_check(window.feeds_loaded);
-		toggle_scroll_position();
-	    return 'done';
-		}
-	
-	
-	}
-	else {
-	$("#loading_subsections_span").html("Loading Charts...");
-	$("#loading_subsections").show(250); // 0.25 seconds
-	return 'active';
-	}
-
-}
-
-
-/////////////////////////////////////////////////////////////
-
-
-function feeds_loading_check(feeds_loaded) {
-	
-//console.log('loaded feeds = ' + window.feeds_loaded.length + ', all feeds = ' + window.feeds_num);
-
-    // NOT IN ADMIN AREA (UNLIKE CRON EMULATION)
-	if ( feeds_loaded.length >= window.feeds_num || window.is_admin == true ) {
-		
-		// Only hide if no charts / emulated cron are loading also
-		if (
-		window.charts_loaded.length >= window.charts_num && window.cron_loaded == true
-		|| window.is_admin == true && window.cron_loaded == true
-		) {
-		$("#loading_subsections").hide(250); // 0.25 seconds
-		toggle_scroll_position();
-	    return 'done';
-		}
-		else {
-		cron_loading_check(window.cron_loaded);
-		charts_loading_check(window.charts_loaded);
-		toggle_scroll_position();
-	    return 'done';
+    	window.background_tasks_status = 'wait';
+    
 		}
 		
-	
-	}
-	else {
-	$("#loading_subsections_span").html("Loading News Feeds...");
-	$("#loading_subsections").show(250); // 0.25 seconds
-	return 'active';
-	}
+    	
+//console.log('background_tasks_check: ' + window.background_tasks_status);
 
 }
 
@@ -1274,7 +1283,7 @@ function auto_reload() {
 				
 
                 // If subsections are still loading, wait until they are finished
-                if ( $("#loading_subsections").is(":visible") || window.charts_loaded.length < window.charts_num || window.feeds_loaded.length < window.feeds_num ) {
+                if ( $("#background_loading").is(":visible") || window.charts_loaded.length < window.charts_num || window.feeds_loaded.length < window.feeds_num ) {
                 setTimeout(auto_reload, 1000); // Wait 1000 milliseconds then recheck
                 return;
                 }
@@ -1302,12 +1311,11 @@ function auto_reload() {
                     	}
             				
             				if ( int_time == 0 ) {
-                 		    app_reloading_placeholder();
-                 		    app_reload();
+                 		    app_reloading_check(1);
             				}
                 
                 
-                 	int_time-- || clearInterval(int_time);  // Clear if 0 reached
+                 	int_time-- || clearInterval(window.reload_countdown);  // Clear if 0 reached
                  
                  	}, 1000);
     	    

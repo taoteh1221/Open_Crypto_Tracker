@@ -5241,6 +5241,22 @@ MIGRATE YOUR EXISTING SETTINGS TO THE NEW FORMAT.
 
 
 
+-------------------------------------------------------------------
+5.14.0:
+
+-IMPROVED desktop edition support (zoom level control / background tasks wait to finish before page reloads)
+
+-Zoom level option for chrome browser (without needing to use the browser menu)
+
+v5.12.2 and higher renames the admin config array. ALL CONFIGURATION SETTING
+VARIABLE NAMES ARE NOW DIFFERENT, USE THE LATEST/UPGRADED CONFIG.PHP, AND
+MIGRATE YOUR EXISTING SETTINGS TO THE NEW FORMAT.
+
+-------------------------------------------------------------------
+
+
+
+
 
 
 
