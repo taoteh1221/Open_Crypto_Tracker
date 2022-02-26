@@ -22,7 +22,22 @@
 	$upgrade_description = preg_replace("/\[\!(.*)/i", "", $upgrade_check_data["body"]); 
 	$upgrade_description = trim($upgrade_description);
 	
-	$upgrade_download = trim($upgrade_check_data["zipball_url"]);
+	$upgrade_download_array = $upgrade_check_data["assets"];
+	
+	$upgrade_download = null;
+	$upgrade_download_html = null;
+	
+	   foreach ( $upgrade_download_array as $asset ) {
+	       
+	       if ( isset($asset['browser_download_url']) ) {
+    	   $upgrade_download .= $asset['browser_download_url'] . "\n";
+    	   $upgrade_download_html .= $ct_gen->html_url($asset['browser_download_url']) . "<br />";
+	       }
+	       
+	   }
+	
+	$upgrade_download = trim($upgrade_download);
+	$upgrade_download_html = trim($upgrade_download_html);
 	
 	$ct_cache->save_file($base_dir . '/cache/vars/upgrade_check_latest_version.dat', $upgrade_check_latest_version);
 	
@@ -76,9 +91,9 @@
 			
 			$email_only_with_upgrade_command = $email_notifyme_msg . "\n\n" . 'Quick / easy upgrading for the SERVER EDITION can be done by copying / pasting / running this command, using the "Terminal" app in your Ubuntu / Raspberry Pi system menu (Windows 10 requires manual upgrading), or logging in remotely from another device via SSH (user must have sudo privileges):' . "\n\n" . 'wget --no-cache -O FOLIO-INSTALL.bash https://git.io/JoDFD;chmod +x FOLIO-INSTALL.bash;sudo ./FOLIO-INSTALL.bash' . "\n\nUpgrade Description:\n\n" . $upgrade_description . "\n\n";
 			
-			$download_link = "Manual Download Link (SERVER and DESKTOP edition upgrading):\n" . $upgrade_download . "\n\n";
+			$download_link = "Manual Download Links (SERVER and DESKTOP edition upgrading):\n" . $upgrade_download . "\n\n";
 			
-			$download_link_html = "Manual Download Link (SERVER and DESKTOP edition upgrading):\n" . $ct_gen->convert_urls($upgrade_download) . "\n\n";
+			$download_link_html = "Manual Download Links (SERVER and DESKTOP edition upgrading):\n" . $upgrade_download_html . "\n\n";
 			
 						
 					// Message parameter added for desired comm methods (leave any comm method blank to skip sending via that method)

@@ -55,16 +55,6 @@ var $ct_array1 = array();
    ////////////////////////////////////////////////////////
    
    
-   function convert_urls($string) {
-   $url = '%(?:(?:https?|ftp)://)(?:\S+(?::\S*)?@|\d{1,3}(?:\.\d{1,3}){3}|(?:(?:[a-z\d\x{00a1}-\x{ffff}]+-?)*[a-z\d\x{00a1}-\x{ffff}]+)(?:\.(?:[a-z\d\x{00a1}-\x{ffff}]+-?)*[a-z\d\x{00a1}-\x{ffff}]+)*(?:\.[a-z\x{00a1}-\x{ffff}]{2,6}))(?::\d+)?(?:[^\s]*)?$%iu';   
-   return preg_replace($url, '<a href="$0" target="_blank" title="">$0</a>', $string);
-   }
-   
-   
-   ////////////////////////////////////////////////////////
-   ////////////////////////////////////////////////////////
-   
-   
    function telegram_msg($msg, $chat_id) {
    
    // Using 3rd party Telegram class, initiated already as global var $telegram_messaging
@@ -86,6 +76,23 @@ var $ct_array1 = array();
    $str = explode("||",$str);
    
    return $ct_var->strip_non_alpha($str[0]);
+   
+   }
+   
+   
+   ////////////////////////////////////////////////////////
+   ////////////////////////////////////////////////////////
+   
+   
+   function html_url($string) {
+       
+   $result = $string;
+       
+   $url = '%(?:(?:https?|ftp)://)(?:\S+(?::\S*)?@|\d{1,3}(?:\.\d{1,3}){3}|(?:(?:[a-z\d\x{00a1}-\x{ffff}]+-?)*[a-z\d\x{00a1}-\x{ffff}]+)(?:\.(?:[a-z\d\x{00a1}-\x{ffff}]+-?)*[a-z\d\x{00a1}-\x{ffff}]+)*(?:\.[a-z\x{00a1}-\x{ffff}]{2,6}))(?::\d+)?(?:[^\s]*)?$%iu';   
+   
+   $result = preg_replace($url, '<a href="$0" target="_blank" title="">$0</a>', $result);
+   
+   return $result;
    
    }
    

@@ -11,6 +11,10 @@ exit;
 }
 
 
+// Make sure the cron job will always finish running completely
+ignore_user_abort(true); 
+
+
 // Assure CLI runtime is in install directory (server compatibility required for some PHP setups)
 chdir( dirname(__FILE__) );
 
@@ -42,13 +46,11 @@ exit;
 // (WE ALREADY ADJUST EXECUTION TIME FOR CRON RUNTIMES IN INIT.PHP, SO THAT'S ALREADY OK EVEN EMULATING CRON)
 if ( !isset($_SESSION['cron_emulate_run']) && isset($_GET['cron_emulate']) ) {
 $_SESSION['cron_emulate_run'] = time();
-ignore_user_abort(true); // If app UI is reloaded, we still want the async-ajax-called (emulated) cron job to finish running completely
 $run_cron = true;
 }
 // +20 minutes
 elseif ( isset($_SESSION['cron_emulate_run']) && ($_SESSION['cron_emulate_run'] + 1200) <= time() ) {
 $_SESSION['cron_emulate_run'] = time();
-ignore_user_abort(true); // If app UI is reloaded, we still want the async-ajax-called (emulated) cron job to finish running completely
 $run_cron = true;
 }
 // Regular cron check
