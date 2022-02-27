@@ -5259,13 +5259,13 @@ MIGRATE YOUR EXISTING SETTINGS TO THE NEW FORMAT.
 
 
 -------------------------------------------------------------------
-5.14.0:
+5.13.2:
+
+-BUG FIX: ALL platform download links in upgrade alerts, instead of source code download
 
 -Cron job reliability improvements
 
--Detailed download links in upgrade alerts
-
--Miscellaneous user experience improvements
+-Minor user experience improvements
 
 v5.12.2 and higher renames the admin config array. ALL CONFIGURATION SETTING
 VARIABLE NAMES ARE NOW DIFFERENT, USE THE LATEST/UPGRADED CONFIG.PHP, AND

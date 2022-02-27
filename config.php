@@ -428,13 +428,6 @@ $ct_conf['charts_alerts']['tracked_mrkts'] = array(
 					'atlas-2' => 'generic_btc||btc||chart',
 					
 					
-					// ENJ
-					'enj' => 'bittrex||btc||none',
-					'enj-2' => 'binance||btc||both',
-					'enj-3' => 'kucoin||btc||none',
-					'enj-4' => 'bitfinex||usd||none',
-					
-					
 					// RNDR
 					'rndr' => 'huobi||btc||both',
 					'rndr-2' => 'gateio||usdt||none',
@@ -484,15 +477,15 @@ $ct_conf['charts_alerts']['tracked_mrkts'] = array(
 					
 					
 					// SAMO
-					'samo' => 'okex||usdt||both',
+					'samo' => 'gateio||usdt||both',
 					'samo-2' => 'gateio||eth||chart',
 					'samo-3' => 'generic_btc||btc||chart',
 					
 					
 					// SG
-					'sg' => 'bittrex_global||usdt||chart',
+					'sg' => 'bittrex_global||usdt||none',
 					'sg-2' => 'bitmart||usdt||none',
-					'sg-3' => 'bitmart||btc||both',
+					'sg-3' => 'bitmart||btc||none',
 					
 					
 					);
@@ -2960,63 +2953,6 @@ $ct_conf['assets'] = array(
                     ////////////////////////////////////////////////////////////////////
                     
                     
-                    // ENJ
-                    'ENJ' => array(
-                        
-                        'name' => 'Enjin Coin',
-                        'mcap_slug' => 'enjin-coin',
-                        'pair' => array(
-
-                        
-                                    'btc' => array(
-                                          'binance' => 'ENJBTC',
-                                          'bittrex' => 'ENJ-BTC',
-                                          'hitbtc' => 'ENJBTC',
-                                          'kucoin' => 'ENJ-BTC',
-                                          'coinex' => 'ENJBTC',
-                                          'liquid' => 'ENJBTC',
-                                          'upbit' => 'BTC-ENJ',
-                                                    ),
-
-                                                    
-                                    'eth' => array(
-                                          'binance' => 'ENJETH',
-                                          'bittrex' => 'ENJ-ETH',
-                                          'hitbtc' => 'ENJETH',
-                                          'kucoin' => 'ENJ-ETH',
-                                          'loopring_amm' => 'AMM-ENJ-ETH',
-                                    	  'defipulse' => 'ENJ/WETH',
-                                                    ),
-
-                                                    
-                                    'krw' => array(
-                                        	'upbit' => 'KRW-ENJ',
-                                                    ),
-
-                                                    
-                                    'usd' => array(
-                                        	'binance_us' => 'ENJUSD',
-                                            'bittrex' => 'ENJ-USD',
-                                        	'bitfinex' => 'tENJUSD',
-                                                    ),
-
-                                                    
-                                    'usdt' => array(
-                                        	'binance' => 'ENJUSDT',
-                                            'bittrex' => 'ENJ-USDT',
-                                            'hitbtc' => 'ENJUSD',
-                                            'coinex' => 'ENJUSDT',
-                                                    ),
-
-                                                    
-                        ) // pair END
-                        
-                    ), // Asset END
-                    
-                    
-                    ////////////////////////////////////////////////////////////////////
-                    
-                    
                     // RNDR
                     'RNDR' => array(
                         
@@ -3424,7 +3360,6 @@ $ct_conf['assets'] = array(
 
                                                     
                                     'usdt' => array(
-                                        'okex' => 'SAMO-USDT',
                                         'gateio' => 'SAMO_USDT',
                                                     ),
 

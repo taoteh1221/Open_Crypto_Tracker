@@ -1702,7 +1702,7 @@ var $ct_array1 = array();
   
    function news_feed_email($interval) {
   
-   global $ct_conf, $ct_cache, $ct_api, $base_dir, $base_url;
+   global $ct_conf, $ct_cache, $ct_api, $app_edition, $base_dir, $base_url;
   
   
 	  // 1439 minutes instead (minus 1 minute), to try keeping daily recurrences at same exact runtime (instead of moving up the runtime daily)
@@ -1734,7 +1734,9 @@ var $ct_array1 = array();
         	
       $top .= '<h2 style="color: #00b6db;">' . $num_posts . ' Updated RSS Feeds (over ' . $ct_conf['comms']['news_feed_email_freq'] . ' days)</h3>' . "\n\n";
         	
-      $top .= '<p><a style="color: #00b6db;" title="View the news feeds page in the Open Crypto Tracker app here." target="_blank" href="' . $base_url . 'index.php?start_page=news#news">View All News Feeds Here</a></p>' . "\n\n";
+        	if ( $app_edition == 'server' ) {
+            $top .= '<p><a style="color: #00b6db;" title="View the news feeds page in the Open Crypto Tracker app here." target="_blank" href="' . $base_url . 'index.php?start_page=news#news">View All News Feeds Here</a></p>' . "\n\n";
+        	}
 	
 	  $top .= '<p style="color: #dd7c0d;">You can disable receiving news feed emails in the Admin Config "Communications" section.</p>' . "\n\n";
 	
