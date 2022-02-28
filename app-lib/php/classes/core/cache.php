@@ -699,7 +699,7 @@ var $ct_array1 = array();
   
   
     // Does the current runtime user own this file (or will they own it after creating a non-existent file)?
-    if ( file_exists($file) == false || isset($current_runtime_user) && $current_runtime_user == $file_owner_info['name'] ) {
+    if ( isset($file) && file_exists($file) == false || isset($current_runtime_user) && isset($file_owner_info['name']) && $current_runtime_user == $file_owner_info['name'] ) {
     $is_file_owner = 1;
     }
    

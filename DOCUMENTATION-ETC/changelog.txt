@@ -5261,6 +5261,10 @@ MIGRATE YOUR EXISTING SETTINGS TO THE NEW FORMAT.
 -------------------------------------------------------------------
 5.13.2:
 
+-BUG FIX: more PHP v8 edge case "fatal errors" fixes
+
+-BUG FIX: Better Windows 10 support
+
 -BUG FIX: ALL platform download links in upgrade alerts, instead of source code download
 
 -Cron job reliability improvements

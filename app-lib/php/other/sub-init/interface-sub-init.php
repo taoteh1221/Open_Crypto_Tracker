@@ -190,11 +190,11 @@ $sel_opt['sorted_asc_desc'] = $sort_array[1];
 		
 		
 		// Checks and importing
-		if ( $_FILES['csv_file']['tmp_name'] != NULL ) {
+		if ( is_uploaded_file($_FILES['csv_file']['tmp_name']) ) {
 		$csv_file_array = $ct_gen->csv_import_array($_FILES['csv_file']['tmp_name']);
    	}
    	else {
-   	$csv_import_fail = 'You forgot to select your CSV import file.' . $dismiss_alert;
+   	$csv_import_fail = 'Your CSV import upload failed.' . $dismiss_alert;
    	}
    	
    	

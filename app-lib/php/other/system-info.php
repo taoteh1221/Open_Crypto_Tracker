@@ -23,9 +23,16 @@ $system_memory_total_mb = $ct_gen->in_megabytes($system_info['memory_total'])['i
     		
 $system_memory_free_mb = $ct_gen->in_megabytes($system_info['memory_free'])['in_megs'];
     		
-// Percent difference (!MUST BE! absolute value)
-$memory_percent_free = abs( ($system_memory_free_mb - $system_memory_total_mb) / abs($system_memory_total_mb) * 100 );
-$memory_percent_free = round( 100 - $memory_percent_free, 2);
+    		
+    // Percent difference (!MUST BE! absolute value)
+    if ( ( abs($system_memory_total_mb) * 100 ) > 0 ) {
+    $memory_percent_free = abs( ($system_memory_free_mb - $system_memory_total_mb) / abs($system_memory_total_mb) * 100 );
+    $memory_percent_free = round( 100 - $memory_percent_free, 2);
+    }
+    else {
+    $memory_percent_free = null;
+    }
+    		
     		
 $system_load_redline = ( $system_info['cpu_threads'] > 1 ? ($system_info['cpu_threads'] * 2) : 2 );
 

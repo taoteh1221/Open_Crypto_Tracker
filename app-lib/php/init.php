@@ -20,7 +20,7 @@ $app_version = '5.13.2';  // 2022/FEBUARY/27TH
 
 // Detect if we are running the desktop or server edition
 // (MUST BE SET #AFTER# APP VERSION NUMBER, AND #BEFORE# EVERYTHING ELSE!)
-if ( file_exists('../RUN_CRYPTO_TRACKER') ) {
+if ( file_exists('../RUN_CRYPTO_TRACKER') || file_exists('../RUN_CRYPTO_TRACKER.exe') ) {
 $app_edition = 'desktop';  // 'desktop' (LOWERCASE)
 }
 else {
