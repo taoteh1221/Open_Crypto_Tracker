@@ -1678,6 +1678,12 @@ var $ct_array1 = array();
     $ch = curl_init( ( $mode == 'params' ? $api_server : '' ) );
      
      
+      // If this is a windows desktop edition
+      if ( file_exists($base_dir . '/cache/cacert.pem') ) {
+      curl_setopt($ch, CURLOPT_CAINFO, $base_dir . '/cache/cacert.pem');
+      }
+     
+     
       // If header data is being passed in
       if ( $headers != null ) {
       curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);

@@ -120,6 +120,27 @@ $ct_cache->delete_old_files($logs_cache_cleanup, $ct_conf['power']['logs_purge']
     @unlink($base_dir . '/../temp-other/phpdesktop.log');
     $ct_cache->save_file($base_dir . '/cache/events/desktop-logs-purge.dat', $ct_gen->time_date_format(false, 'pretty_date_time') );
     }
+    
+    
+    // Get root CA certificates for windows desktop edition if we haven't yet, as we need them...
+    
+    $save_file = $base_dir . '/cache/cacert.pem';
+    
+    if ( $app_platform == 'windows' && !file_exists($save_file) ) {
+    
+    $get_file = 'https://curl.se/ca/cacert.pem';
+    
+
+        if ( !copy($get_file, $save_file) ) {
+         
+        $ct_gen->log(
+               		'system_error',
+               		'Error copying file "' . $get_file . '" into "' . $save_file . '"'
+               		);
+               				
+        }
+
+    }
 
 
 // Update the maintenance event tracking

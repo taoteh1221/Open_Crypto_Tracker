@@ -723,6 +723,9 @@ class Sender {
 	}
 
 	private function Request($method, $parameters, $post = FALSE) {
+	
+	global $base_dir;
+	
 		if (!is_string($method)) {
 			error_log("Method name must be a string\n");
 			return false;
@@ -746,6 +749,14 @@ class Sender {
 		if(!$post){ $url .= '?'.http_build_query($parameters); }
 
 		$handle = curl_init($url);
+     
+     
+          // If this is a windows desktop edition
+          if ( file_exists($base_dir . '/cache/cacert.pem') ) {
+          curl_setopt($handle, CURLOPT_CAINFO, $base_dir . '/cache/cacert.pem');
+          }
+      
+      
 		curl_setopt($handle, CURLOPT_RETURNTRANSFER, TRUE);
 		curl_setopt($handle, CURLOPT_CONNECTTIMEOUT, 5);
 		curl_setopt($handle, CURLOPT_TIMEOUT, 60);

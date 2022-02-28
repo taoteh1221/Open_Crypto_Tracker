@@ -10,7 +10,7 @@
 
 
 // Application version
-$app_version = '5.13.3';  // 2022/FEBUARY/27TH
+$app_version = '5.13.4';  // 2022/FEBUARY/28TH
 
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -20,11 +20,17 @@ $app_version = '5.13.3';  // 2022/FEBUARY/27TH
 
 // Detect if we are running the desktop or server edition
 // (MUST BE SET #AFTER# APP VERSION NUMBER, AND #BEFORE# EVERYTHING ELSE!)
-if ( file_exists('../RUN_CRYPTO_TRACKER') || file_exists('../RUN_CRYPTO_TRACKER.exe') ) {
+if ( file_exists('../RUN_CRYPTO_TRACKER') ) {
 $app_edition = 'desktop';  // 'desktop' (LOWERCASE)
+$app_platform = 'linux';
+}
+else if ( file_exists('../RUN_CRYPTO_TRACKER.exe') ) {
+$app_edition = 'desktop';  // 'desktop' (LOWERCASE)
+$app_platform = 'windows';
 }
 else {
 $app_edition = 'server';  // 'server' (LOWERCASE)
+$app_platform = 'web';
 }
 
 
