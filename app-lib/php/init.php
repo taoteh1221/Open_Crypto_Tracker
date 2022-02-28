@@ -47,13 +47,6 @@ error_reporting($ct_conf['init']['error_reporting']);
 }
 
 
-// To be safe, don't use trim() on certain strings with arbitrary non-alphanumeric characters here
-// MUST RUN #AS SOON AS POSSIBLE#, SO TELEGRAM COMMS ARE ENABLED FOR #ALL# FOLLOWING LOGIC!
-if ( trim($ct_conf['comms']['telegram_your_username']) != '' && trim($ct_conf['comms']['telegram_bot_name']) != '' && trim($ct_conf['comms']['telegram_bot_username']) != '' && $ct_conf['comms']['telegram_bot_token'] != '' ) {
-$telegram_activated = 1;
-}
-
-
 // Set a max execution time (if the system lets us), TO AVOID RUNAWAY PROCESSES FREEZING THE SERVER
 if ( $ct_conf['dev']['debug'] != 'off' ) {
 $max_exec_time = 600; // 10 minutes in debug mode
@@ -225,7 +218,7 @@ $generic_assets = null;
 
 
 //////////////////////////////////////////////////////////////
-// Set global runtime app arrays / vars...
+// Set PRIMARY global runtime app arrays / vars...
 //////////////////////////////////////////////////////////////
 
 
@@ -274,31 +267,6 @@ $_SESSION['nonce'] = $ct_gen->rand_hash(32); // 32 byte
 $runtime_nonce = $ct_gen->rand_hash(16); // 16 byte
 
 
-// If user is logging out (run immediately after setting session vars, for quick runtime)
-if ( $_GET['logout'] == 1 && $ct_gen->admin_hashed_nonce('logout') != false && $_GET['admin_hashed_nonce'] == $ct_gen->admin_hashed_nonce('logout') ) {
-	
-// Try to avoid edge-case bug where sessions don't delete, using our hardened function logic
-$ct_gen->hardy_sess_clear(); 
-
-// Delete admin login cookie
-$ct_gen->store_cookie('admin_auth_' . $ct_gen->id(), '', time()-3600); // Delete
-
-header("Location: index.php");
-exit;
-
-}
-
-
-// CSRF attack protection for downloads EXCEPT backup downloads (which require the nonce 
-// in the filename [which we do already], since backup links are created during cron runtimes)
-if ( $runtime_mode == 'download' && !isset($_GET['backup']) && $_GET['token'] != $ct_gen->nonce_digest('download') ) {
-$ct_gen->log('security_error', 'aborted, security token mis-match/stale from ' . $_SERVER['REMOTE_ADDR'] . ', for request: ' . $_SERVER['REQUEST_URI']);
-$ct_cache->error_log();
-echo "Aborted, security token mis-match/stale.";
-exit;
-}
-
-
 // Current runtime user
 if ( function_exists('posix_getpwuid') && function_exists('posix_geteuid') ) {
 $current_runtime_user = posix_getpwuid(posix_geteuid())['name'];
@@ -313,12 +281,78 @@ $current_runtime_user = get_current_user();
 // WE HAVE FALLBACKS IF THIS IS NULL IN $ct_cache->save_file() WHEN WE STORE CACHE FILES, SO A BRAND NEW INTALL RUN FIRST VIA CRON IS #OK#
 $http_runtime_user = ( $runtime_mode != 'cron' ? $current_runtime_user : trim( file_get_contents('cache/vars/http_runtime_user.dat') ) );
 
+					
+// HTTP SERVER setup detection variables (for cache compatibility auto-configuration)
+// MUST BE SET BEFORE CACHE STRUCTURE CREATION, TO RUN IN COMPATIBILITY MODE FOR THIS PARTICULAR SERVER'S SETUP
+$possible_http_users = array(
+						'www-data',
+						'apache',
+						'apache2',
+						'httpd',
+						'httpd2',
+							);
 
-$interface_login_array = explode("||", $ct_conf['gen']['interface_login']);
+
+// Create cache directories (if needed), with $http_runtime_user determined further above 
+// (for cache compatibility on certain PHP setups)
+require_once('app-lib/php/other/directory-creation/cache-directories.php');
+
+
+// Get / check system info for debugging / stats (MUST run AFTER directory structure creation check, AND BEFORE system checks)
+require_once('app-lib/php/other/system-info.php');
+
+
+// Raspberry Pi device? (run after system info logic)
+if ( preg_match("/raspberry/i", $system_info['model']) ) {
+$is_raspi = 1;
+}
+
+
+// User agent (MUST BE SET EARLY [BUT AFTER SYSTEM INFO VAR], FOR ANY API CALLS WHERE USER AGENT IS REQUIRED BY THE API SERVER)
+if ( trim($ct_conf['dev']['override_user_agent']) != '' ) {
+$user_agent = $ct_conf['dev']['override_user_agent'];  // Custom user agent
+}
+elseif ( is_array($ct_conf['proxy']['proxy_list']) && sizeof($ct_conf['proxy']['proxy_list']) > 0 ) {
+$user_agent = 'Curl/' .$curl_setup["version"]. ' ('.PHP_OS.'; compatible;)';  // If proxies in use, preserve some privacy
+}
+else {
+$user_agent = 'Curl/' .$curl_setup["version"]. ' ('.PHP_OS.'; ' . $_SERVER['SERVER_SOFTWARE'] . '; PHP/' .phpversion(). '; Open_Crypto_Tracker/' . $app_version . '; +https://github.com/taoteh1221/Open_Crypto_Tracker)';
+}
+
+
+// To be safe, don't use trim() on certain strings with arbitrary non-alphanumeric characters here
+// MUST RUN #AS SOON AS POSSIBLE IN APP LOGIC#, SO TELEGRAM COMMS ARE ENABLED FOR #ALL# FOLLOWING LOGIC!
+if ( trim($ct_conf['comms']['telegram_your_username']) != '' && trim($ct_conf['comms']['telegram_bot_name']) != '' && trim($ct_conf['comms']['telegram_bot_username']) != '' && $ct_conf['comms']['telegram_bot_token'] != '' ) {
+$telegram_activated = 1;
+}
+
 
 // htaccess login...SET BEFORE system checks
+$interface_login_array = explode("||", $ct_conf['gen']['interface_login']);
+
 $htaccess_username = $interface_login_array[0];
 $htaccess_password = $interface_login_array[1];
+
+$remote_ip = ( isset($_SERVER['REMOTE_ADDR']) ? $_SERVER['REMOTE_ADDR'] : 'localhost' );
+
+$fetched_feeds = 'fetched_feeds_' . $runtime_mode; // Unique feed fetch telemetry SESSION KEY (so related runtime BROWSER SESSION logic never accidentally clashes)
+
+// If upgrade check enabled / cached var set, set the runtime var for any configured alerts
+$upgrade_check_latest_version = trim( file_get_contents('cache/vars/upgrade_check_latest_version.dat') );
+
+// If we are queued to run a UI alert that an upgrade is available
+$ui_upgrade_alert = json_decode( trim( file_get_contents($base_dir . '/cache/events/ui_upgrade_alert.dat') ) , TRUE);
+
+
+////////////////////////////////////////////////////////////
+// END of primary vars / arrays (now we can add app logic etc)
+////////////////////////////////////////////////////////////
+
+
+//////////////////////////////////////////////////////////////
+// INCREASE CERTAIN RUNTIME SPEEDS / REDUCE LOADING EXCESS LOGIC
+// (minimal inits included in libraries if needed)
+//////////////////////////////////////////////////////////////
 
 
 // A bit of DOS attack mitigation for bogus / bot login attempts
@@ -330,7 +364,7 @@ if ( $_POST['admin_submit_register'] || $_POST['admin_submit_login'] || $_POST['
 	if ( trim($_POST['captcha_code']) == '' || trim($_POST['captcha_code']) != '' && strtolower( trim($_POST['captcha_code']) ) != strtolower($_SESSION['captcha_code']) ) {
 	
 	    
-	    // WE RUN SECURITY CHECKS WITHIN THE REGISTRATION PAGE, SO NOT MUCH CHECKS ARE IN THIS INIT
+	    // WE RUN SECURITY CHECKS WITHIN THE REGISTRATION PAGE, SO NOT MUCH CHECKS ARE IN THIS INIT SECTION
 		if ( $_POST['admin_submit_register'] ) {
 		$sel_opt['theme_selected'] = ( $_COOKIE['theme_selected'] ? $_COOKIE['theme_selected'] : $ct_conf['gen']['default_theme'] );
 		require("templates/interface/desktop/php/admin/admin-login/register.php");
@@ -354,60 +388,30 @@ if ( $_POST['admin_submit_register'] || $_POST['admin_submit_login'] || $_POST['
 }
 
 
-// Coinmarketcap supported currencies array
-require_once('app-lib/php/other/coinmarketcap-currencies.php');
-					
-// HTTP SERVER setup detection variables (for cache compatibility auto-configuration)
-// MUST BE SET BEFORE CACHE STRUCTURE CREATION, TO RUN IN COMPATIBILITY MODE FOR THIS PARTICULAR SERVER'S SETUP
-$possible_http_users = array(
-						'www-data',
-						'apache',
-						'apache2',
-						'httpd',
-						'httpd2',
-							);
-
-$fetched_feeds = 'fetched_feeds_' . $runtime_mode; // Unique feed fetch telemetry SESSION KEY (so related runtime BROWSER SESSION logic never accidentally clashes)
-
-$remote_ip = ( isset($_SERVER['REMOTE_ADDR']) ? $_SERVER['REMOTE_ADDR'] : 'localhost' );
-
-
-// Create cache directories (if needed), with $http_runtime_user determined further above 
-// (for cache compatibility on certain PHP setups)
-require_once('app-lib/php/other/directory-creation/cache-directories.php');
-
-
-// Get / check system info for debugging / stats (MUST run AFTER directory structure creation check, AND BEFORE system checks)
-require_once('app-lib/php/other/system-info.php');
-
-
-// Raspberry Pi device? (run after system info logic)
-if ( preg_match("/raspberry/i", $system_info['model']) ) {
-$is_raspi = 1;
+// CSRF attack protection for downloads EXCEPT backup downloads (which require the nonce 
+// in the filename [which we do already], since backup links are created during cron runtimes)
+if ( $runtime_mode == 'download' && !isset($_GET['backup']) && $_GET['token'] != $ct_gen->nonce_digest('download') ) {
+$ct_gen->log('security_error', 'aborted, security token mis-match/stale from ' . $_SERVER['REMOTE_ADDR'] . ', for request: ' . $_SERVER['REQUEST_URI']);
+$ct_cache->error_log();
+echo "Aborted, security token mis-match/stale.";
+exit;
 }
 
 
-// If upgrade check enabled / cached var set, set the runtime var for any configured alerts
-$upgrade_check_latest_version = trim( file_get_contents('cache/vars/upgrade_check_latest_version.dat') );
+// If user is logging out (run immediately after setting PRIMARY vars, for quick runtime)
+if ( $_GET['logout'] == 1 && $ct_gen->admin_hashed_nonce('logout') != false && $_GET['admin_hashed_nonce'] == $ct_gen->admin_hashed_nonce('logout') ) {
+	
+// Try to avoid edge-case bug where sessions don't delete, using our hardened function logic
+$ct_gen->hardy_sess_clear(); 
 
-// If we are queued to run a UI alert that an upgrade is available
-$ui_upgrade_alert = json_decode( trim( file_get_contents($base_dir . '/cache/events/ui_upgrade_alert.dat') ) , TRUE);
+// Delete admin login cookie
+$ct_gen->store_cookie('admin_auth_' . $ct_gen->id(), '', time()-3600); // Delete
 
+header("Location: index.php");
+exit;
 
-// User agent (MUST BE SET EARLY [BUT AFTER SYSTEM INFO VAR], FOR ANY API CALLS WHERE USER AGENT IS REQUIRED BY THE API SERVER)
-if ( trim($ct_conf['dev']['override_user_agent']) != '' ) {
-$user_agent = $ct_conf['dev']['override_user_agent'];  // Custom user agent
-}
-elseif ( is_array($ct_conf['proxy']['proxy_list']) && sizeof($ct_conf['proxy']['proxy_list']) > 0 ) {
-$user_agent = 'Curl/' .$curl_setup["version"]. ' ('.PHP_OS.'; compatible;)';  // If proxies in use, preserve some privacy
-}
-else {
-$user_agent = 'Curl/' .$curl_setup["version"]. ' ('.PHP_OS.'; ' . $_SERVER['SERVER_SOFTWARE'] . '; PHP/' .phpversion(). '; Open_Crypto_Tracker/' . $app_version . '; +https://github.com/taoteh1221/Open_Crypto_Tracker)';
 }
 
-
-
-// INCREASE CERTAIN RUNTIME SPEEDS / REDUCE LOADING EXCESS LOGIC (minimal inits included in libraries if needed)
 
 // If we are just running a captcha image, ONLY run captcha library for runtime speed (exit after)
 if ( $runtime_mode == 'captcha' ) {
@@ -440,8 +444,50 @@ exit;
 }
 
 
+// Exit cron runtime early, if configs don't appear normal
+// (and set / reset any needed cron emulation vars)
+if ( $runtime_mode == 'cron' ) {
+    
+    // EXIT IF CRON IS NOT RUNNING IN THE PROPER CONFIGURATION
+    if ( !isset($_GET['cron_emulate']) && $app_edition == 'desktop' || isset($_GET['cron_emulate']) && $app_edition == 'server' ) {
+    $ct_gen->log('security_error', 'aborted cron job attempt ('.$_SERVER['REQUEST_URI'].'), INVALID CONFIG');
+    $ct_cache->error_log();
+    echo "Aborted, INVALID CONFIG.";
+    exit;
+    }
+
+    // Emulated cron checks / flag as go or not 
+    // (WE ALREADY ADJUST EXECUTION TIME FOR CRON RUNTIMES IN INIT.PHP, SO THAT'S ALREADY OK EVEN EMULATING CRON)
+    if ( !isset($_SESSION['cron_emulate_run']) && isset($_GET['cron_emulate']) ) {
+    $_SESSION['cron_emulate_run'] = time();
+    $run_cron = true;
+    }
+    // +20 minutes
+    elseif ( isset($_SESSION['cron_emulate_run']) && ($_SESSION['cron_emulate_run'] + 1200) <= time() ) {
+    $_SESSION['cron_emulate_run'] = time();
+    $run_cron = true;
+    }
+    // Regular cron check
+    elseif ( $app_edition == 'server' ) {
+    $run_cron = true;
+    }
+    else {
+    $run_cron = false;
+    }
+    
+    // If emulated cron and it's a no go, exit with a json response (for interface / console log)
+    if ( isset($_GET['cron_emulate']) && $run_cron == false ) {
+    $result = array('result' => "Too early to re-run emulated cron job");
+    echo json_encode($result, JSON_PRETTY_PRINT);
+    exit;
+    }
+
+}
+
 
 //////////////////////////////////////////////////////////////
+// END increasing certain runtime speeds
+// (now we run non-prioritized logic)
 //////////////////////////////////////////////////////////////
 
 
@@ -474,6 +520,7 @@ $base_url = trim( file_get_contents('cache/vars/base_url.dat') );
 }
 
 
+// Our FINAL $base_url logic has run, so set app host var
 if ( isset($base_url) ) {
 $parse_temp = parse_url($base_url);
 $app_host = $parse_temp['host'];
@@ -506,6 +553,9 @@ require_once('app-lib/php/other/security/password-protection.php');
 
 // Primary Bitcoin markets (MUST RUN AFTER app config management)
 require_once('app-lib/php/other/primary-bitcoin-markets.php');
+
+// Coinmarketcap supported currencies array (must run before sub-inits)
+require_once('app-lib/php/other/coinmarketcap-currencies.php');
 
 // Misc dynamic interface vars (MUST RUN AFTER app config management)
 require_once('app-lib/php/other/sub-init/interface-sub-init.php');

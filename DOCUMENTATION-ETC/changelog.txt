@@ -5299,6 +5299,8 @@ MIGRATE YOUR EXISTING SETTINGS TO THE NEW FORMAT.
 
 -BUG FIX: Strict SSL support in the Windows Desktop Edition (auto-install root certs to: /cache/cacert.pem)
 
+-BUG FIX: Emulated cron / regular cron logic properly merged now (no more missing comms emails on certain logic routines)
+
 v5.12.2 and higher renames the admin config array. ALL CONFIGURATION SETTING
 VARIABLE NAMES ARE NOW DIFFERENT, USE THE LATEST/UPGRADED CONFIG.PHP, AND
 MIGRATE YOUR EXISTING SETTINGS TO THE NEW FORMAT.

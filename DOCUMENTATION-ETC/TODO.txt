@@ -47,9 +47,6 @@ OPTIMIZATIONS / BUGS / TESTS / UX / QA / OTHER SECTION
 ///////////////////////////////////////////////////////
 
 
-Verify whether alerts / zip backups work in the Windows Desktop Edition.
-
-
 CSV import file upload fails in the Windows Desktop Edition. Figure out why.
 
 

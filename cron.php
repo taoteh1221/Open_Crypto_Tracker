@@ -33,46 +33,6 @@ $runtime_mode = 'cron';
 require("config.php");
 
 
-// EXIT IF CRON IS NOT RUNNING IN THE PROPER MODE
-if ( !isset($_GET['cron_emulate']) && $app_edition == 'desktop' || isset($_GET['cron_emulate']) && $app_edition == 'server' ) {
-$ct_gen->log('security_error', 'aborted cron job attempt ('.$_SERVER['REQUEST_URI'].'), INVALID CONFIG');
-$ct_cache->error_log();
-echo "Aborted, INVALID CONFIG.";
-exit;
-}
-
-
-// Emulated cron checks / flag as go or not 
-// (WE ALREADY ADJUST EXECUTION TIME FOR CRON RUNTIMES IN INIT.PHP, SO THAT'S ALREADY OK EVEN EMULATING CRON)
-if ( !isset($_SESSION['cron_emulate_run']) && isset($_GET['cron_emulate']) ) {
-$_SESSION['cron_emulate_run'] = time();
-$run_cron = true;
-}
-// +20 minutes
-elseif ( isset($_SESSION['cron_emulate_run']) && ($_SESSION['cron_emulate_run'] + 1200) <= time() ) {
-$_SESSION['cron_emulate_run'] = time();
-$run_cron = true;
-}
-// Regular cron check
-elseif ( $app_edition == 'server' ) {
-$run_cron = true;
-}
-else {
-$run_cron = false;
-}
-
-
-// If a no go, exit with a json response
-if ( isset($_GET['cron_emulate']) && $run_cron == false ) {
-$result = array('result' => "Too early to re-run emulated cron job");
-echo json_encode($result, JSON_PRETTY_PRINT);
-exit;
-}
-
-
-// Otherwise, start running cron job logic...
-
-
 //////////////////////////////////////////////
 /// CRON LOGIC #START#
 //////////////////////////////////////////////
@@ -306,8 +266,8 @@ $ct_cache->send_notifications();
 gc_collect_cycles(); // Clean memory cache
   
 
-// If emulated cron, show a result in json
-if ( isset($_GET['cron_emulate']) && $run_cron == true ) {
+// If emulated cron, show a result in json (for interface / console log)
+if ( isset($_GET['cron_emulate']) ) {
 $result = array('result' => "Emulated cron job has finished running");
 echo json_encode($result, JSON_PRETTY_PRINT);
 exit;
