@@ -4,6 +4,8 @@
  */
  
 
+$is_admin = true;
+
 $reset_result = array();
 
 

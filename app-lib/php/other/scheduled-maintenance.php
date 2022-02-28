@@ -110,36 +110,20 @@ $logs_cache_cleanup = array(
 							$base_dir . '/cache/logs/error/external_data',
 							);
 									
-$ct_cache->delete_old_files($logs_cache_cleanup, $ct_conf['power']['logs_purge'], 'dat'); // Delete LOGS API cache files older than $ct_conf['power']['logs_purge'] day(s)
+$ct_cache->delete_old_files($logs_cache_cleanup, $ct_conf['power']['logs_purge'], 'dat'); // Purge app LOGS cache files older than $ct_conf['power']['logs_purge'] day(s)
+
+
+    // Purge any error logging in the desktop version every 6 hours
+    if ( $app_edition == 'desktop' && $ct_cache->update_cache($base_dir . '/cache/events/desktop-logs-purge.dat', 360) == true ) {
+    @unlink($base_dir . '/../temp-other/php_errors.log');
+    @unlink($base_dir . '/../temp-other/debugging.log');
+    @unlink($base_dir . '/../temp-other/phpdesktop.log');
+    $ct_cache->save_file($base_dir . '/cache/events/desktop-logs-purge.dat', $ct_gen->time_date_format(false, 'pretty_date_time') );
+    }
 
 
 // Update the maintenance event tracking
 $ct_cache->save_file($base_dir . '/cache/events/scheduled-maintenance.dat', $ct_gen->time_date_format(false, 'pretty_date_time') );
-
-
-    // Clear any stale session files / PHP error logging in desktop version
-    if ( $app_edition == 'desktop' ) {
-        
-    unlink($base_dir . '/../temp-other/php_errors.log');
-    
-    $session_files = $ct_gen->sort_files($base_dir . '/../temp-other/temp_server', false, 'desc');
-    
-    
-    	foreach( $session_files as $session_file ) {
-    	
-    		
-    			// If we already loaded the newest modified file, delete any stale ones
-    			if ( $newest_session_file == 1 ) {
-    			unlink($base_dir . '/../temp-other/temp_server/' . $session_file);
-    			}
-    			else {
-    			$newest_session_file = 1;
-    			}
-    	
-    	}
-
-    }
-    
 
 }
 //////////////////////////////////////////////////////////////////

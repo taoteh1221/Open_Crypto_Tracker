@@ -5279,6 +5279,21 @@ MIGRATE YOUR EXISTING SETTINGS TO THE NEW FORMAT.
 
 
 
+-------------------------------------------------------------------
+5.13.3:
+
+-BUG FIX: Admin login / reset pages trying to load news feeds / price charts
+
+-BUG FIX: Session support in the Windows Desktop Edition (fixed can't create / reset an admin account)
+
+v5.12.2 and higher renames the admin config array. ALL CONFIGURATION SETTING
+VARIABLE NAMES ARE NOW DIFFERENT, USE THE LATEST/UPGRADED CONFIG.PHP, AND
+MIGRATE YOUR EXISTING SETTINGS TO THE NEW FORMAT.
+
+-------------------------------------------------------------------
+
+
+
 
 
 

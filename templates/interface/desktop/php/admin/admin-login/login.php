@@ -4,6 +4,8 @@
  */
 
 
+$is_admin = true;
+
 $login_result = array();
 		
 if ( $_POST['admin_submit_login'] ) {
