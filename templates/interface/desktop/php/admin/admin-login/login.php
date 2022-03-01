@@ -6,6 +6,8 @@
 
 $is_admin = true;
 
+$is_login_form = true;
+
 $login_result = array();
 		
 if ( $_POST['admin_submit_login'] ) {

@@ -6,6 +6,8 @@
 
 $is_admin = true;
 
+$is_login_form = true;
+
 $reset_result = array();
 
 

@@ -6,6 +6,8 @@
 
 $is_admin = true;
 
+$is_login_form = true;
+
 // SECURITY CHECKS FIRST! (ALL IF STATEMENTS #ON PURPOSE#, TO AVOID ANY UNFORSEEN EDGE CASES!)
 
 // REGISTRATION SECURITY 

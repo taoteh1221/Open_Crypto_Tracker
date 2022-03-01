@@ -5301,6 +5301,8 @@ MIGRATE YOUR EXISTING SETTINGS TO THE NEW FORMAT.
 
 -BUG FIX: Emulated cron / regular cron logic properly merged now (no more missing comms emails on certain logic routines)
 
+-Improved user experience on admin account creation / login / reset form submission pages
+
 v5.12.2 and higher renames the admin config array. ALL CONFIGURATION SETTING
 VARIABLE NAMES ARE NOW DIFFERENT, USE THE LATEST/UPGRADED CONFIG.PHP, AND
 MIGRATE YOUR EXISTING SETTINGS TO THE NEW FORMAT.

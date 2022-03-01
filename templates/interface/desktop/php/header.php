@@ -232,7 +232,8 @@ header('Content-type: text/html; charset=' . $ct_conf['dev']['charset_default'])
 	pref_bitcoin_mrkts["<?=strtolower( $pref_bitcoin_mrkts_key )?>"] = "<?=strtolower( $pref_bitcoin_mrkts_val )?>";
 	<?php
 	}
-	if ( $app_edition == 'desktop' ) {
+	// If desktop edition, and NOT on login form submission pages, run emulated cron
+	if ( $app_edition == 'desktop' && !$is_login_form ) {
 	?>	
 	
     // Emulate a cron job every 20 minutes...
