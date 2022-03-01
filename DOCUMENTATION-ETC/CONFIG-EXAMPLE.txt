@@ -498,6 +498,14 @@ $ct_conf['power']['activate_plugins'] = array(
             								  );
 							
 							
+// MINUTES to wait until running consecutive desktop edition emulated cron jobs
+// (HOW OFTEN BACKGROUND TASKS ARE RUN...#NOT# USED IN SERVER EDITION)
+// SET TO ZERO DISABLES EMULATED CRON JOBS ON #DESKTOP EDITIONS#
+// IF USING ADD-WIN10-SCHEDULER-JOB.bat INSTEAD (IN MAIN INSTALL FOLDER) ON WINDOWS 10,
+// THEN #THIS SETTING SHOULD BE DISABLED# TO AVOID RUNNING 2 INSTANCES AT THE SAME TIME!
+$ct_conf['power']['desktop_cron_interval'] = 20; // (default = 20, 0 disables this feature)
+							
+							
 // SECONDS to wait for response from REMOTE API endpoints (exchange data, etc). 
 // Set too low you won't get ALL data (partial or zero bytes), set too high the interface can take a long time loading if an API server hangs up
 // RECOMMENDED MINIMUM OF 60 FOR INSTALLS BEHIND #LOW BANDWIDTH# NETWORKS 

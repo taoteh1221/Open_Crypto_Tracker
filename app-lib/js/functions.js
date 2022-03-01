@@ -361,7 +361,7 @@ function cron_loading_check(cron_loaded) {
 	return 'done';
 	}
 	else {
-	background_loading_notices("Running Scheduled Tasks...");
+	background_loading_notices("Checking For Scheduled Tasks...");
 	$("#background_loading").show(250); // 0.25 seconds
 	return 'active';
 	}

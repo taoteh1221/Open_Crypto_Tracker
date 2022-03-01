@@ -154,8 +154,9 @@ WINDOWS 10 USERS WHO ARE USING XAMPP WILL NEED TO ENABLE GD FOR PHP (FOR THE ADM
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 Setting up a cron job for charts and price alerts by email / mobile phone text / Alexa / Telegram notifications 
 (get notifications sent to you, even when your PC / Laptop is offline)...
-(FOR 'SERVER EDITION', THIS IS DONE DIFFERENTLY / AUTOMATICALLY FOR 'DESKTOP EDITION')
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+IMPORTANT NOTES: THIS IS FOR 'SERVER EDITION' ONLY, UNLESS YOU DISABLE 'desktop_cron_interval' IN THE POWER USER CONFIG IN THE 'DESKTOP EDITION'...IN WHICH CASE READ THE MANUAL CRON JOB INSTALL SECTIONS BELOW THAT ARE RELEVANT TO YOUR OPERATING SYSTEM.
 
 You can setup price charts or price alerts in your app install. Price alerts can be sent to email, mobile phone text, Telegram, and Alexa notifications. You will be alerted when the [configured default primary currency] price of an asset goes up or down a certain percent or more (whatever percent you choose in the settings), for specific exchange / base pair combinations for that asset. You can even setup alerts and charts for multiple exchanges / base pairs for the same asset.
 	    

@@ -5305,6 +5305,10 @@ MIGRATE YOUR EXISTING SETTINGS TO THE NEW FORMAT.
 
 -Improved user experience on admin account creation / login / reset form submission pages
 
+-Improved user experience when using 'ADD-WIN10-SCHEDULER-JOB.bat' on Windows 10
+
+-Power user config setting to adjust / disable emulated cron job intervals (in desktop editions)
+
 v5.12.2 and higher renames the admin config array. ALL CONFIGURATION SETTING
 VARIABLE NAMES ARE NOW DIFFERENT, USE THE LATEST/UPGRADED CONFIG.PHP, AND
 MIGRATE YOUR EXISTING SETTINGS TO THE NEW FORMAT.

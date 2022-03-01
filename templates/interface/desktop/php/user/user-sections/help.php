@@ -230,7 +230,7 @@ See "<span class='bitcoin'>Setting Up Price Charts And Email / Text / Telegram /
 	        <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapse_<?=$accord_var?>"
 	          aria-expanded="false" aria-controls="collapse_<?=$accord_var?>">
 
-Setting Up Price Charts And Email / Text / Telegram / Alexa Price Alerts <span class='bitcoin' style="display: block;">(FOR 'SERVER EDITION', THIS IS DONE DIFFERENTLY / AUTOMATICALLY FOR 'DESKTOP EDITION')</span>
+Setting Up Price Charts And Email / Text / Telegram / Alexa Price Alerts
 	          
 	          
 	        </button>
@@ -240,6 +240,9 @@ Setting Up Price Charts And Email / Text / Telegram / Alexa Price Alerts <span c
 	      data-parent="#accordionHelp">
 	      <div class="card-body">
 	      
+          <span class='red'>IMPORTANT NOTES:</span> THIS IS FOR 'SERVER EDITION' ONLY, UNLESS YOU DISABLE 'desktop_cron_interval' IN THE POWER USER CONFIG IN THE 'DESKTOP EDITION'...IN WHICH CASE READ THE MANUAL CRON JOB INSTALL SECTIONS BELOW THAT ARE RELEVANT TO YOUR OPERATING SYSTEM.</span>
+	    <br /><br />
+
 	      You can setup price charts or price alerts in your app install. Price alerts can be sent to email, mobile phone text, Telegram, and Alexa notifications. You will be alerted when the [configured default primary currency] price of an asset goes up or down a certain percent or more (whatever percent you choose in the settings), for specific exchange / base pair combinations for that asset. You can even setup alerts and charts for multiple exchanges / base pairs for the same asset.
 	    <br /><br />
 	    
