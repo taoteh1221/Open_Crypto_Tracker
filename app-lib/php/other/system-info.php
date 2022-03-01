@@ -3,8 +3,6 @@
  * Copyright 2014-2022 GPLv3, Open Crypto Tracker by Mike Kilday: Mike@DragonFrugal.com
  */
 
-
-$system_info = $ct_gen->system_info(); // MUST RUN AFTER SETTING $base_dir
     			
 $system_load_all = $system_info['system_load'];
 
@@ -106,5 +104,5 @@ if ( is_array($system_warnings) && sizeof($system_warnings) > 0 ) {
 }
 
 
-
+// DON'T CREATE ANY WHITESPACE AFTER CLOSING PHP TAG, A WE ARE STILL IN INIT! (NO HEADER ESTABLISHED YET)
 ?>

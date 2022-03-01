@@ -5,17 +5,12 @@
 
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////
-///////////////////// A P P   V E R S I O N /////////////////////////////////////////////////////////
+///////////////////// A P P   V E R S I O N  /  E D I T I O N  /  P L A T F O R M  //////////////////
 /////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
 // Application version
 $app_version = '5.13.4';  // 2022/FEBUARY/28TH
-
-
-/////////////////////////////////////////////////////////////////////////////////////////////////////
-///////////////////// S Y S T E M   I N I T   S E T T I N G S ///////////////////////////////////////
-/////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
 // Detect if we are running the desktop or server edition
@@ -32,6 +27,11 @@ else {
 $app_edition = 'server';  // 'server' (LOWERCASE)
 $app_platform = 'web';
 }
+
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////
+///////////////////// S Y S T E M   I N I T   S E T T I N G S ///////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
 // Set time as UTC for logs etc ('loc_time_offset' in Admin Config GENERAL section can adjust UI / UX timestamps as needed)
@@ -293,18 +293,24 @@ $possible_http_users = array(
 							);
 
 
-// Create cache directories (if needed), with $http_runtime_user determined further above 
+// Create cache directories AS EARLY AS POSSIBLE (if needed), REQUIRES $http_runtime_user determined further above 
 // (for cache compatibility on certain PHP setups)
 require_once('app-lib/php/other/directory-creation/cache-directories.php');
 
 
-// Get / check system info for debugging / stats (MUST run AFTER directory structure creation check, AND BEFORE system checks)
-require_once('app-lib/php/other/system-info.php');
+$system_info = $ct_gen->system_info(); // MUST RUN AFTER SETTING $base_dir
 
 
-// Raspberry Pi device? (run after system info logic)
+// Raspberry Pi device? (run after system info var)
 if ( preg_match("/raspberry/i", $system_info['model']) ) {
-$is_raspi = 1;
+$is_raspi = true;
+}
+
+
+// To be safe, don't use trim() on certain strings with arbitrary non-alphanumeric characters here
+// MUST RUN #AS SOON AS POSSIBLE IN APP INIT#, SO TELEGRAM COMMS ARE ENABLED FOR #ALL# FOLLOWING LOGIC!
+if ( trim($ct_conf['comms']['telegram_your_username']) != '' && trim($ct_conf['comms']['telegram_bot_name']) != '' && trim($ct_conf['comms']['telegram_bot_username']) != '' && $ct_conf['comms']['telegram_bot_token'] != '' ) {
+$telegram_activated = 1;
 }
 
 
@@ -320,10 +326,35 @@ $user_agent = 'Curl/' .$curl_setup["version"]. ' ('.PHP_OS.'; ' . $_SERVER['SERV
 }
 
 
-// To be safe, don't use trim() on certain strings with arbitrary non-alphanumeric characters here
-// MUST RUN #AS SOON AS POSSIBLE IN APP LOGIC#, SO TELEGRAM COMMS ARE ENABLED FOR #ALL# FOLLOWING LOGIC!
-if ( trim($ct_conf['comms']['telegram_your_username']) != '' && trim($ct_conf['comms']['telegram_bot_name']) != '' && trim($ct_conf['comms']['telegram_bot_username']) != '' && $ct_conf['comms']['telegram_bot_token'] != '' ) {
-$telegram_activated = 1;
+// UI-CACHED VARS THAT !MUST! BE AVAILABLE BEFORE SYSTEM CHECKS, #BUT# MUST RUN AFTER DIRECTORY CREATION
+// RUN DURING 'ui' ONLY
+if ( $runtime_mode == 'ui' ) {
+	
+	// Have UI / HTTP runtime mode RE-CACHE the runtime_user data every 24 hours, since CLI runtime cannot determine the UI / HTTP runtime_user 
+	if ( $ct_cache->update_cache('cache/vars/http_runtime_user.dat', (60 * 24) ) == true ) {
+	$ct_cache->save_file('cache/vars/http_runtime_user.dat', $http_runtime_user); // ALREADY SET FURTHER UP IN INIT.PHP
+	}
+
+
+	// Have UI runtime mode RE-CACHE the app URL data every 24 hours, since CLI runtime cannot determine the app URL (for sending backup link emails during backups, etc)
+	if ( $ct_cache->update_cache('cache/vars/base_url.dat', (60 * 24) ) == true ) {
+	$base_url = $ct_gen->base_url();
+	$ct_cache->save_file('cache/vars/base_url.dat', $base_url);
+	}
+	else {
+	$base_url = trim( file_get_contents('cache/vars/base_url.dat') );
+	}
+
+}
+else {
+$base_url = trim( file_get_contents('cache/vars/base_url.dat') );
+}
+
+
+// Our FINAL $base_url logic has run, so set app host var
+if ( isset($base_url) ) {
+$parse_temp = parse_url($base_url);
+$app_host = $parse_temp['host'];
 }
 
 
@@ -395,21 +426,6 @@ $ct_gen->log('security_error', 'aborted, security token mis-match/stale from ' .
 $ct_cache->error_log();
 echo "Aborted, security token mis-match/stale.";
 exit;
-}
-
-
-// If user is logging out (run immediately after setting PRIMARY vars, for quick runtime)
-if ( $_GET['logout'] == 1 && $ct_gen->admin_hashed_nonce('logout') != false && $_GET['admin_hashed_nonce'] == $ct_gen->admin_hashed_nonce('logout') ) {
-	
-// Try to avoid edge-case bug where sessions don't delete, using our hardened function logic
-$ct_gen->hardy_sess_clear(); 
-
-// Delete admin login cookie
-$ct_gen->store_cookie('admin_auth_' . $ct_gen->id(), '', time()-3600); // Delete
-
-header("Location: index.php");
-exit;
-
 }
 
 
@@ -485,6 +501,21 @@ if ( $runtime_mode == 'cron' ) {
 }
 
 
+// If user is logging out (run immediately after setting PRIMARY vars, for quick runtime)
+if ( $_GET['logout'] == 1 && $ct_gen->admin_hashed_nonce('logout') != false && $_GET['admin_hashed_nonce'] == $ct_gen->admin_hashed_nonce('logout') ) {
+	
+// Try to avoid edge-case bug where sessions don't delete, using our hardened function logic
+$ct_gen->hardy_sess_clear(); 
+
+// Delete admin login cookie
+$ct_gen->store_cookie('admin_auth_' . $ct_gen->id(), '', time()-3600); // Delete
+
+header("Location: index.php");
+exit;
+
+}
+
+
 //////////////////////////////////////////////////////////////
 // END increasing certain runtime speeds
 // (now we run non-prioritized logic)
@@ -494,38 +525,8 @@ if ( $runtime_mode == 'cron' ) {
 // Directory security check (MUST run AFTER directory structure creation check, AND BEFORE system checks)
 require_once('app-lib/php/other/security/directory-security.php');
 
-
-// UI-CACHED VARS THAT !MUST! BE AVAILABLE BEFORE SYSTEM CHECKS, #BUT# MUST RUN AFTER DIRECTORY CREATION
-// RUN DURING 'ui' ONLY
-if ( $runtime_mode == 'ui' ) {
-	
-	// Have UI / HTTP runtime mode RE-CACHE the runtime_user data every 24 hours, since CLI runtime cannot determine the UI / HTTP runtime_user 
-	if ( $ct_cache->update_cache('cache/vars/http_runtime_user.dat', (60 * 24) ) == true ) {
-	$ct_cache->save_file('cache/vars/http_runtime_user.dat', $http_runtime_user); // ALREADY SET FURTHER UP IN INIT.PHP
-	}
-
-
-	// Have UI runtime mode RE-CACHE the app URL data every 24 hours, since CLI runtime cannot determine the app URL (for sending backup link emails during backups, etc)
-	if ( $ct_cache->update_cache('cache/vars/base_url.dat', (60 * 24) ) == true ) {
-	$base_url = $ct_gen->base_url();
-	$ct_cache->save_file('cache/vars/base_url.dat', $base_url);
-	}
-	else {
-	$base_url = trim( file_get_contents('cache/vars/base_url.dat') );
-	}
-
-}
-else {
-$base_url = trim( file_get_contents('cache/vars/base_url.dat') );
-}
-
-
-// Our FINAL $base_url logic has run, so set app host var
-if ( isset($base_url) ) {
-$parse_temp = parse_url($base_url);
-$app_host = $parse_temp['host'];
-}
-
+// Get / check system info for debugging / stats (MUST run AFTER directory structure creation check, AND BEFORE system checks)
+require_once('app-lib/php/other/system-info.php');
 
 // Basic system checks (before allowing app to run ANY FURTHER, MUST RUN AFTER directory creation check / http server user vars / user agent var)
 require_once('app-lib/php/other/debugging/system-checks.php');
@@ -570,7 +571,6 @@ require_once('app-lib/php/other/debugging/config-checks.php');
 require_once('app-lib/php/other/scheduled-maintenance.php');
 
 
-
 // Unit tests to run in debug mode (MUST RUN AT THE VERY END OF INIT.PHP)
 if ( $ct_conf['dev']['debug'] != 'off' ) {
 require_once('app-lib/php/other/debugging/tests.php');
@@ -578,5 +578,5 @@ require_once('app-lib/php/other/debugging/exchange-and-pair-info.php');
 }
 
 
-
+// DON'T CREATE ANY WHITESPACE AFTER CLOSING PHP TAG, A WE ARE STILL IN INIT! (NO HEADER ESTABLISHED YET)
 ?>
