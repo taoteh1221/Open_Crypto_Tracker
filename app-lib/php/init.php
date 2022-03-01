@@ -530,6 +530,9 @@ $app_host = $parse_temp['host'];
 // Basic system checks (before allowing app to run ANY FURTHER, MUST RUN AFTER directory creation check / http server user vars / user agent var)
 require_once('app-lib/php/other/debugging/system-checks.php');
 
+// Coinmarketcap supported currencies array (run before non-system-related inits)
+require_once('app-lib/php/other/coinmarketcap-currencies.php');
+
 // Plugins config (MUST RUN AFTER system checks and BEFORE secure cache files)
 require_once('app-lib/php/other/plugins-config.php');
 
@@ -553,9 +556,6 @@ require_once('app-lib/php/other/security/password-protection.php');
 
 // Primary Bitcoin markets (MUST RUN AFTER app config management)
 require_once('app-lib/php/other/primary-bitcoin-markets.php');
-
-// Coinmarketcap supported currencies array (must run before sub-inits)
-require_once('app-lib/php/other/coinmarketcap-currencies.php');
 
 // Misc dynamic interface vars (MUST RUN AFTER app config management)
 require_once('app-lib/php/other/sub-init/interface-sub-init.php');

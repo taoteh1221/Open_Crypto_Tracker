@@ -143,8 +143,9 @@ $plot_conf = explode('|', $_GET['plot_conf']);
 		continue; // Skip
 		}
 		
-			
-	$rand_color = '#' . $ct_gen->rand_color( sizeof($sorted_by_last_chart_data) )['hex'];
+    $choose_rand = ( is_array($sorted_by_last_chart_data) ? sizeof($sorted_by_last_chart_data) : 0 );
+    
+	$rand_color = '#' . $ct_gen->rand_color($choose_rand)['hex'];
 		
 					
 				$chart_conf = "{

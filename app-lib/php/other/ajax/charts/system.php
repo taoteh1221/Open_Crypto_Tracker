@@ -172,7 +172,9 @@ if ( $key == 1 ) {
 				// WE STILL COUNT THIS, SO LET COUNT RUN ABOVE
 				if ( !preg_match("/NO_DATA/i", $chart_val, $matches) ) {
 			
-				$rand_color = '#' . $ct_gen->rand_color( sizeof($sorted_by_last_chart_data) )['hex'];
+                $choose_rand = ( is_array($sorted_by_last_chart_data) ? sizeof($sorted_by_last_chart_data) : 0 );
+    
+				$rand_color = '#' . $ct_gen->rand_color($choose_rand)['hex'];
 					
 				$chart_conf = "{
 			  text: '".$ct_gen->key_to_name($chart_key)."',
@@ -217,7 +219,9 @@ elseif ( $key == 2 ) {
 				// WE STILL COUNT THIS, SO LET COUNT RUN ABOVE
 				if ( !preg_match("/NO_DATA/i", $chart_val, $matches) ) {
 			
-			$rand_color = '#' . $ct_gen->rand_color( sizeof($sorted_by_last_chart_data) )['hex'];
+                $choose_rand = ( is_array($sorted_by_last_chart_data) ? sizeof($sorted_by_last_chart_data) : 0 );
+    
+			    $rand_color = '#' . $ct_gen->rand_color($choose_rand)['hex'];
 	
 			$chart_conf = "{
 			  text: '".$ct_gen->key_to_name($chart_key)."',

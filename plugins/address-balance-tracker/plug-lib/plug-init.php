@@ -14,7 +14,7 @@
 
 
 // Remove any stale cache files
-$loop = sizeof($plug_conf[$this_plug]['tracking']);
+$loop = ( is_array($plug_conf[$this_plug]['tracking']) ? sizeof($plug_conf[$this_plug]['tracking']) : 0 );
 while ( file_exists( $ct_plug->alert_cache($loop . '.dat') ) ) {
 unlink( $ct_plug->alert_cache($loop . '.dat') );
 $loop = $loop + 1;

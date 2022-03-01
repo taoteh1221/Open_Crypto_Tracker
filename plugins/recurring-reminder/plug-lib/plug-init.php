@@ -14,7 +14,7 @@
 
 
 // Remove any stale cache files
-$loop = sizeof($plug_conf[$this_plug]['reminders']);
+$loop = ( is_array($plug_conf[$this_plug]['reminders']) ? sizeof($plug_conf[$this_plug]['reminders']) : 0 );
 while ( file_exists( $ct_plug->event_cache('alert-' . $loop . '.dat') ) ) {
 unlink( $ct_plug->event_cache('alert-' . $loop . '.dat') );
 $loop = $loop + 1;

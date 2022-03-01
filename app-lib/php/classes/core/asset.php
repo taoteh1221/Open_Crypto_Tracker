@@ -229,7 +229,7 @@ var $ct_array1 = array();
      }
      
      
-     if ( sizeof($result) < 1 ) {
+     if ( is_array($result) && sizeof($result) < 1 ) {
      	
      $ct_gen->log(
      			'int_api_error',
@@ -1220,7 +1220,7 @@ var $ct_array1 = array();
 			            }
 			            // ONLY LOG AN ERROR IF ALL AVAILABLE MARKETS FAIL (AND RETURN NULL)
 			            // We only want to loop a fallback for the amount of available markets
-			            elseif ( is_array($btc_pair_mrkts_excluded[$pair]) && sizeof($btc_pair_mrkts_excluded[$pair]) >= sizeof($ct_conf['assets']['BTC']['pair'][$pair]) ) {
+			            elseif ( is_array($ct_conf['assets']['BTC']['pair'][$pair]) && is_array($btc_pair_mrkts_excluded[$pair]) && sizeof($btc_pair_mrkts_excluded[$pair]) >= sizeof($ct_conf['assets']['BTC']['pair'][$pair]) ) {
 			            	
 			            $ct_gen->log(
 			            			'market_error',
@@ -1356,10 +1356,10 @@ var $ct_array1 = array();
     
          // Consolidate function calls for runtime speed improvement
          // (called here so first runtime with NO SELECTED ASSETS RUNS SIGNIFICANTLY QUICKER)
-         if ( $ct_conf['gen']['prim_mcap_site'] == 'coingecko' && sizeof($coingecko_api) < 1 ) {
+         if ( $ct_conf['gen']['prim_mcap_site'] == 'coingecko' && is_array($coingecko_api) && sizeof($coingecko_api) < 1 ) {
          $coingecko_api = $ct_api->coingecko();
          }
-         elseif ( $ct_conf['gen']['prim_mcap_site'] == 'coinmarketcap' && sizeof($coinmarketcap_api) < 1 ) {
+         elseif ( $ct_conf['gen']['prim_mcap_site'] == 'coinmarketcap' && is_array($coinmarketcap_api) && sizeof($coinmarketcap_api) < 1 ) {
          $coinmarketcap_api = $ct_api->coinmarketcap();
          }
         

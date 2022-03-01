@@ -173,7 +173,12 @@
 	 
 	 $chosen_feeds = array_map( array($ct_var, 'strip_brackets') , $sel_opt['show_feeds']);
 	 
-	 $batched_feeds_loops_max = ceil( sizeof($chosen_feeds) / $ct_conf['dev']['news_feed_batched_max'] );
+	    if ( is_array($chosen_feeds) && sizeof($chosen_feeds) > 0 ) {
+	    $batched_feeds_loops_max = ceil( sizeof($chosen_feeds) / $ct_conf['dev']['news_feed_batched_max'] );
+	    }
+	    else {
+	    $batched_feeds_loops_max = 0;
+	    }
 	 
 	 // Defaults before looping
 	 $all_feeds_added = 0;

@@ -5297,6 +5297,8 @@ MIGRATE YOUR EXISTING SETTINGS TO THE NEW FORMAT.
 -------------------------------------------------------------------
 5.13.4:
 
+-BUG FIX: more potential PHPv8 edge case "fatal errors" fixes
+
 -BUG FIX: Strict SSL support in the Windows Desktop Edition (auto-install root certs to: /cache/cacert.pem)
 
 -BUG FIX: Emulated cron / regular cron logic properly merged now (no more missing comms emails on certain logic routines)

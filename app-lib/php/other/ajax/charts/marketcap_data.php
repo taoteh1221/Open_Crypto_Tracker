@@ -207,7 +207,9 @@ $plot_conf = explode('|', $_GET['plot_conf']);
 		}
 		
 		
-	$rand_color = '#' . $ct_gen->rand_color( sizeof($sorted_by_mcap_data) )['hex'];
+    $choose_rand = ( is_array($sorted_by_mcap_data) ? sizeof($sorted_by_mcap_data) : 0 );
+    
+	$rand_color = '#' . $ct_gen->rand_color($choose_rand)['hex'];
 		
 					
 				$mcap_conf = "{

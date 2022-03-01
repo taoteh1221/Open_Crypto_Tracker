@@ -1788,10 +1788,12 @@ var $ct_array1 = array();
     $result['data'] = false;
     return $result;
     }
+    else {
+    $size = sizeof($file);
+    }
+    
    
-   $size = sizeof($file);
-   $loop = 0;
-   
+      $loop = 0;
    
       if ( $oldest_allowed_timestamp == false ) {
       

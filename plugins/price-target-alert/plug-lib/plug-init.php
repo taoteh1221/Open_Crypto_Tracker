@@ -15,7 +15,7 @@
 
 // Remove any stale cache files
 $alert_cache_files = $ct_gen->sort_files( $ct_plug->alert_cache(false) , 'dat', 'desc');
-if ( sizeof($plug_conf[$this_plug]['price_targets']) != sizeof($alert_cache_files) ) {
+if ( is_array($plug_conf[$this_plug]['price_targets']) && sizeof($plug_conf[$this_plug]['price_targets']) != sizeof($alert_cache_files) ) {
 
     foreach ( $alert_cache_files as $check_file ) {
     

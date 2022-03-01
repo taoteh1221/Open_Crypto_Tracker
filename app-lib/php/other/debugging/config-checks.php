@@ -197,7 +197,7 @@ if ( trim($ct_conf['comms']['from_email']) != '' || trim($ct_conf['comms']['to_e
 		// Text
 		// To be safe, don't use trim() on certain strings with arbitrary non-alphanumeric characters here
       if (
-      trim($text_parse[0]) != '' && trim($text_parse[1]) != 'skip_network_name'
+      is_array($text_parse) && trim($text_parse[0]) != '' && trim($text_parse[1]) != 'skip_network_name'
       || trim($ct_conf['comms']['textbelt_apikey']) != '' && $ct_conf['comms']['textlocal_account'] == ''
       || trim($ct_conf['comms']['textbelt_apikey']) == '' && $ct_conf['comms']['textlocal_account'] != ''
       ) {
