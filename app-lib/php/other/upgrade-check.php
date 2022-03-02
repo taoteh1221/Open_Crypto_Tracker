@@ -95,13 +95,17 @@
 			
 			$download_link_html = "Manual Download Links (SERVER and DESKTOP edition upgrading):\n" . $upgrade_download_html . "\n\n";
 			
+			$changelog_link = "Changelog:\nhttps://raw.githubusercontent.com/taoteh1221/Open_Crypto_Tracker/main/DOCUMENTATION-ETC/changelog.txt\n\n";
+			
+			$changelog_link_html = "Changelog:\n" . $ct_gen->html_url('https://raw.githubusercontent.com/taoteh1221/Open_Crypto_Tracker/main/DOCUMENTATION-ETC/changelog.txt') . "\n\n";
+			
 						
 					// Message parameter added for desired comm methods (leave any comm method blank to skip sending via that method)
 					if ( $ct_conf['comms']['upgrade_alert'] == 'all' ) {
 						
 					$ui_upgrade_alert = array(
 											  'run' => 'yes',
-											  'message' => nl2br( $email_only_with_upgrade_command . $download_link_html )
+											  'message' => nl2br( $email_only_with_upgrade_command . $download_link_html . $changelog_link_html )
 											  );
 						
 					$ct_cache->save_file($base_dir . '/cache/events/ui_upgrade_alert.dat', json_encode($ui_upgrade_alert, JSON_PRETTY_PRINT) );
@@ -111,14 +115,14 @@
 						
 					$upgrade_check_send_params = array(
 											'notifyme' => $email_notifyme_msg,
-											'telegram' => $email_only_with_upgrade_command . $download_link,
+											'telegram' => $email_only_with_upgrade_command . $download_link . $changelog_link,
 											'text' => array(
 														    'message' => $encoded_text_alert['content_output'],
 															'charset' => $encoded_text_alert['charset']
 															),
 											'email' => array(
 															 'subject' => $another_reminder . 'Open Crypto Tracker v'.$upgrade_check_latest_version.' Upgrade Available' . $bug_fix_subject_extension,
-															 'message' => $email_only_with_upgrade_command . $download_link
+															 'message' => $email_only_with_upgrade_command . $download_link . $changelog_link
 															 )
 											);
 				
@@ -127,7 +131,7 @@
 						
 					$upgrade_check_send_params['email'] = array(
 														'subject' => $another_reminder . 'Open Crypto Tracker v'.$upgrade_check_latest_version.' Upgrade Available' . $bug_fix_subject_extension,
-														'message' => $email_only_with_upgrade_command . $download_link
+														'message' => $email_only_with_upgrade_command . $download_link . $changelog_link
 														);
 				
 					}
@@ -146,13 +150,13 @@
 					$upgrade_check_send_params['notifyme'] = $email_notifyme_msg;
 					}
 					elseif ( $ct_conf['comms']['upgrade_alert'] == 'telegram' ) {
-					$upgrade_check_send_params['telegram'] = $email_only_with_upgrade_command . $download_link;
+					$upgrade_check_send_params['telegram'] = $email_only_with_upgrade_command . $download_link . $changelog_link;
 					}
 					elseif ( $ct_conf['comms']['upgrade_alert'] == 'ui' ) {
 						
 					$ui_upgrade_alert = array(
 											  'run' => 'yes',
-											  'message' => nl2br( $email_only_with_upgrade_command . $download_link_html )
+											  'message' => nl2br( $email_only_with_upgrade_command . $download_link_html . $changelog_link_html )
 											  );
 						
 					$ct_cache->save_file($base_dir . '/cache/events/ui_upgrade_alert.dat', json_encode($ui_upgrade_alert, JSON_PRETTY_PRINT) );
