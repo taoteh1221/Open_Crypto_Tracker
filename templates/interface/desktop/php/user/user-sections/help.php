@@ -88,7 +88,7 @@
 	        <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapse_<?=$accord_var?>"
 	          aria-expanded="false" aria-controls="collapse_<?=$accord_var?>">
 	          
-	          Setting Up The 'DESKTOP EDITION' <span class='bitcoin'>(runs very easily, like any other normally-downloaded native app)</span>
+	          Setting Up The 'Desktop Edition' <span class='bitcoin'>(runs very easily, like any other normally-downloaded native app)</span>
 	          
 	        </button>
 	      </h5>
@@ -105,8 +105,7 @@ To install as a normal native app on your laptop / desktop, download the "Deskto
 
 	    <br /><br />
 
-After downloading, unzip the contents of the download to your desktop or other preferred file location (it doesn't matter, put it wherever you want to). Now use your operating system's file browser to enter the app's main directory, and click on "RUN_CRYPTO_TRACKER" to launch the app. TO USE PRICE CHARTS AND PRICE ALERTS TO EMAIL / TEXT / ALEXA / TELEGRAM, YOU #MUST# LEAVE THE APP RUNNING! 
-	        
+After downloading, unzip the contents of the download to your desktop or other preferred file location (it doesn't matter, put it wherever you want to). Now use your operating system's file browser to enter the app's main directory, and click on "RUN_CRYPTO_TRACKER" to launch the app. <span class='red'>TO USE PRICE CHARTS AND PRICE ALERTS TO EMAIL / TEXT / ALEXA / TELEGRAM, YOU #MUST# LEAVE THE APP RUNNING UNLESS YOU MANUALLY SETUP A CRON JOB! (see: "Setting Up Price Charts And Email / Text / Telegram / Alexa Price Alerts")</span>
 	        
 	        
 	      </div>
@@ -127,7 +126,7 @@ After downloading, unzip the contents of the download to your desktop or other p
 	        <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapse_<?=$accord_var?>"
 	          aria-expanded="false" aria-controls="collapse_<?=$accord_var?>">
 	          
-Automatic Setup For 'SERVER EDITION' On Ubuntu or Raspberry Pi, On Home / Internal Network <span class='red' style="display: block;">(THE RECOMMENDED WAY TO PRIVATELY / CHEAPLY USE THIS APP)</span>
+Automatic Setup For 'Server Edition' On Ubuntu or Raspberry Pi, On Home / Internal Network <span class='red' style="display: block;">(the recommemnded way to PRIVATELY / CHEAPLY use this app)</span>
 	          
 	          
 	        </button>
@@ -189,7 +188,7 @@ SEE <a href='https://github.com/taoteh1221/Open_Crypto_Tracker/tree/main/DOCUMEN
 	        <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapse_<?=$accord_var?>"
 	          aria-expanded="false" aria-controls="collapse_<?=$accord_var?>">
 	          
-	          Installing On A Website / Manual Installation <span class='bitcoin'>('SERVER EDITION')</span>
+	          Installing On A Website / Manual Installation <span class='bitcoin'>('Server Edition')</span>
 	          
 	        </button>
 	      </h5>
