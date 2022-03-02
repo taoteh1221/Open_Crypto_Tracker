@@ -10,16 +10,16 @@
 
 
 // Application version
-$app_version = '5.13.4';  // 2022/FEBUARY/28TH
+$app_version = '5.13.5';  // 2022/MARCH/1ST
 
 
 // Detect if we are running the desktop or server edition
 // (MUST BE SET #AFTER# APP VERSION NUMBER, AND #BEFORE# EVERYTHING ELSE!)
-if ( file_exists('../RUN_CRYPTO_TRACKER') ) {
+if ( file_exists('../libcef.so') ) {
 $app_edition = 'desktop';  // 'desktop' (LOWERCASE)
 $app_platform = 'linux';
 }
-else if ( file_exists('../RUN_CRYPTO_TRACKER.exe') ) {
+else if ( file_exists('../libcef.dll') ) {
 $app_edition = 'desktop';  // 'desktop' (LOWERCASE)
 $app_platform = 'windows';
 }
@@ -466,7 +466,7 @@ if ( $runtime_mode == 'cron' ) {
     
     
     // EXIT IF CRON IS NOT RUNNING IN THE PROPER CONFIGURATION
-    if ( !isset($_GET['cron_emulate']) && $app_edition == 'desktop' || isset($_GET['cron_emulate']) && $app_edition == 'server' ) {
+    if ( !isset($_GET['cron_emulate']) && php_sapi_name() != 'cli' || isset($_GET['cron_emulate']) && $app_edition == 'server' ) {
     $ct_gen->log('security_error', 'aborted cron job attempt ('.$_SERVER['REQUEST_URI'].'), INVALID CONFIG');
     $ct_cache->error_log();
     echo "Aborted, INVALID CONFIG.";
@@ -485,13 +485,19 @@ if ( $runtime_mode == 'cron' ) {
     $_SESSION['cron_emulate_run'] = time();
     $run_cron = true;
     }
-    // +interval
+    // +interval time met
     elseif ( isset($_SESSION['cron_emulate_run']) && isset($_GET['cron_emulate']) && ( $_SESSION['cron_emulate_run'] + ($ct_conf['power']['desktop_cron_interval'] * 60) ) <= time() ) {
     $_SESSION['cron_emulate_run'] = time();
     $run_cron = true;
     }
-    // Regular cron check
-    elseif ( $app_edition == 'server' ) {
+    // If end-user did not disable emulated cron, BEFORE setting up and running regular cron
+    elseif ( $app_edition == 'desktop' && $ct_conf['power']['desktop_cron_interval'] > 0 && php_sapi_name() == 'cli' ) {
+    $ct_gen->log('conf_error', 'you must disable EMULATED cron BEFORE running REGULAR cron (set "desktop_cron_interval" to zero in power user config)');
+    $ct_cache->error_log();
+    $run_cron = false;
+    }
+    // Regular cron check (via command line)
+    elseif ( php_sapi_name() == 'cli' ) {
     $run_cron = true;
     }
     else {
