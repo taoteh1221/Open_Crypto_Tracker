@@ -73,7 +73,7 @@ dtparam=audio=off
 5) Now go to the bottom of that same file, add a new line at the end of the file, and add this text:
 
 # Disable on-board bluetooth
-dtoverlay=pi3-disable-bt
+dtoverlay=disable-bt
 
 
 6) Hold down the Ctrl key and X key at the same time, choose Y, hit enter to save / exit editing the config.

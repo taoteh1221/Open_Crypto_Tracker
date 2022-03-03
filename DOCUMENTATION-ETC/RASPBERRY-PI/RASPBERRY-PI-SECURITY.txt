@@ -31,7 +31,7 @@ sudo nano /boot/config.txt
 3) At the bottom of that file, add these lines:
 
 # Disable on-board bluetooth
-dtoverlay=pi3-disable-bt
+dtoverlay=disable-bt
 
 
 4) Hold down the Ctrl key and X key at the same time, choose Y, hit enter to save / exit editing the config.
