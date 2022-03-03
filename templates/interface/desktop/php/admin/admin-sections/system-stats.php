@@ -103,7 +103,7 @@
     		}
     		
     		if ( isset($system_info['portfolio_cookies']) ) {
-    		echo '<div class="sys_stats"><span class="bitcoin"><b>Portfolio Cookies Size:</b></span> <span class="'.( isset($system_warnings['portfolio_cookies_size']) ? 'red' : 'green' ).'"> '.$ct_var->num_pretty( ($system_info['portfolio_cookies'] / 1000) , 2).' Kilobytes</span> <span class="black">(~'.abs( round( ($system_info['portfolio_cookies'] / 1000) , 2) / abs(8.00) * 100 ).'% of <i>average</i> server header size limit [8 kilobytes])</span></span> &nbsp;<img class="server_header_defaults" src="templates/interface/media/images/info.png" alt="" width="30" style="position: relative; left: -5px;" /> </div>';
+    		echo '<div class="sys_stats"><span class="bitcoin"><b>Portfolio Cookies Size:</b></span> <span class="'.( isset($system_warnings['portfolio_cookies_size']) ? 'red' : 'green' ).'"> '.$ct_var->num_pretty( ($system_info['portfolio_cookies'] / 1000) , 2).' Kilobytes</span> <span class="black">(~'.round( abs( ($system_info['portfolio_cookies'] / 1000) / abs(8.00) * 100 ) , 2).'% of <i>average</i> server header size limit [8 kilobytes])</span></span> &nbsp;<img class="server_header_defaults" src="templates/interface/media/images/info.png" alt="" width="30" style="position: relative; left: -5px;" /> </div>';
     		}
     		
     		if ( isset($system_info['portfolio_cache']) ) {
