@@ -461,12 +461,6 @@ $ct_conf['charts_alerts']['tracked_mrkts'] = array(
 					'samo-3' => 'generic_btc||btc||chart',
 					
 					
-					// SG
-					'sg' => 'bittrex_global||usdt||none',
-					'sg-2' => 'bitmart||usdt||none',
-					'sg-3' => 'bitmart||btc||none',
-					
-					
 					);
 					
 // END $ct_conf['charts_alerts']['tracked_mrkts']
@@ -627,7 +621,7 @@ $ct_conf['power']['system_load_warning'] = '1.00||4';  // 'threshold_multiplier|
 $ct_conf['power']['system_temp_warning'] = '70||1'; // 'temp_celcius||hours_between_alerts' (default = '70||1')
 ////
 // If USED MEMORY PERCENTAGE is X (or more), trigger warning
-$ct_conf['power']['memory_used_percent_warning'] = '80||6'; // 'memory_used_percent||hours_between_alerts' (default = '80||6')
+$ct_conf['power']['memory_used_percent_warning'] = '85||8'; // 'memory_used_percent||hours_between_alerts' (default = '85||8')
 ////
 // If FREE STORAGE space is X MEGABYTES (or less), trigger warning
 $ct_conf['power']['free_partition_space_warning'] = '1000||24'; // 'free_space_megabytes||hours_between_alerts' (default = '1000||24')
@@ -3349,33 +3343,6 @@ $ct_conf['assets'] = array(
                                                     
                                     'usdt' => array(
                                         'gateio' => 'SAMO_USDT',
-                                                    ),
-
-                                                    
-                        ) // pair END
-                        
-                    ), // Asset END
-                    
-                    
-                    ////////////////////////////////////////////////////////////////////
-                    
-                    
-                    // SG
-                    'SG' => array(
-                        
-                        'name' => 'SocialGood',
-                        'mcap_slug' => 'socialgood',
-                        'pair' => array(
-
-                        
-                                    'btc' => array(
-                                          'bitmart' => 'SG_BTC',
-                                                    ),
-
-                                                    
-                                    'usdt' => array(
-                                          'bittrex_global' => 'SG-USDT',
-                                          'bitmart' => 'SG_USDT',
                                                     ),
 
                                                     
