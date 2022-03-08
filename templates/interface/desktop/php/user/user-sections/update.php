@@ -55,6 +55,9 @@
 			+'<p class="coin_info extra_margins" style="white-space: normal; max-width: 600px;"><i class="bitcoin">TLDR: <u>NOBODY EXCEPT YOU ON YOUR COMPUTER</u> CAN SEE THE INFORMATION YOU ENTER IN THIS APP (<u>NO DATA</u> IS STORED REMOTELY).</i></p>'
 			
 			
+			+'<p class="coin_info extra_margins" style="white-space: normal; max-width: 600px;"><i class="bitcoin"><u>TRADING NOTES are kept in LOCAL STORAGE</u></i> within your web browser, which is saved PERMANENTLY between browser sessions. Soon user-selected price chart / news feed options will be kept in local storage too.</p>'
+			
+			
 			+'<p class="coin_info extra_margins" style="white-space: normal; max-width: 600px;"><i class="bitcoin"><u>Your portfolio data is NEVER stored in the app</u></i>, it is ONLY stored on your computer in your web browser (either temporarily in the web browser temporary files cache, or semi-permanently in web browser cookies IF YOU MANUALLY ENABLE COOKIES ON THE SETTINGS PAGE).</p>'
 			
 			
