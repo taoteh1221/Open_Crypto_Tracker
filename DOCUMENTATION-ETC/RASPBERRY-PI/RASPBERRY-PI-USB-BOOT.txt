@@ -1,0 +1,47 @@
+
+
+IMPORTANT NOTE: THESE ARE COMMANDS FOR #DEBIAN-BASED SYSTEMS# (Ubuntu, etc)! RHEL/CentOS commands may differ.
+
+=======================================================
+Booting From USB Device
+=======================================================
+
+
+IMPORTANT NOTES: THIS #PERMANENTLY# ENABLES BOOTING FROM A USB DEVICE. YOU WILL STILL BE ABLE TO BOOT FROM A MICROSD CARD AFTERWARDS, BUT MUST REMOVE ANY EXISTING MICROSD CARD TO BOOT TO A USB DEVICE INSTEAD.
+
+
+1) Open the 'Terminal' app from the menu, or login with a remote terminal (SSH).
+
+
+2) Run this command to open the config file: 
+
+sudo nano /boot/config.txt
+
+
+3) At the bottom of that file, add these lines:
+
+# PERMANENTLY enable USB Device Booting (can be removed AFTER reboot)
+program_usb_boot_mode=1
+
+
+4) Hold down the Ctrl key and X key at the same time, choose Y, hit enter to save / exit editing the config.
+
+
+5) Reboot the Pi:
+
+sudo reboot
+
+
+6) After reboot, run this to verify (output should be 3020000a):
+
+vcgencmd otp_dump | grep 17
+
+
+7) Flash the raspberry pi disk image onto the USB device you want to boot from (just like you would for a MicroSD card), plug it into a raspberry pi USB port, REMOVE the microsd card (it will STILL boot from it if you leave it plugged in), and reboot the pi:
+
+sudo reboot
+
+
+You now should be running from the USB disk.
+
+
