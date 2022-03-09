@@ -11,21 +11,7 @@ $(document).ready(function(){
 
     // Page zoom support for chrome 
     // (firefox skews the entire page, safari untested)
-    if ( navigator.userAgent.search("Chrome") >= 0 ) {
-        
-        // Page zoom logic
-        if ( localStorage.getItem('currzoom') ) {
-        currzoom = localStorage.getItem('currzoom');
-        }
-        else {
-        currzoom = 100;
-        }
-        
-    //console.log(currzoom);
-    
-    $('body').css('zoom', ' ' + currzoom + '%');
-    $("#zoom_show_ui").html(currzoom + '%');
-        
+    if ( app_edition == 'desktop' ) {
     
         $('#plusBtn').on('click',function(){
         
@@ -34,7 +20,7 @@ $(document).ready(function(){
         $('body').css('zoom', ' ' + currzoom + '%');
         
         localStorage.setItem('currzoom', currzoom);
-        $("#zoom_show_ui").html(currzoom);
+        $("#zoom_show_ui").html(currzoom + '%');
         //console.log(currzoom);
         
         });
@@ -46,7 +32,7 @@ $(document).ready(function(){
         $('body').css('zoom', ' ' + currzoom + '%');
         
         localStorage.setItem('currzoom', currzoom);
-        $("#zoom_show_ui").html(currzoom);
+        $("#zoom_show_ui").html(currzoom + '%');
         //console.log(currzoom);
         
         });

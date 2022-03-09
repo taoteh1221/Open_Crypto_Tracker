@@ -162,6 +162,15 @@ var server_header_defaults_content = '<h5 class="yellow tooltip_title">Average S
     		
    <ul>
 	
+        <?php
+        if ( $app_edition == 'desktop' ) {
+        ?>
+	<li class='red' style='font-weight: bold;'>Using 'zoom' (top right) can skew chart hovering mouse positions.</li>	
+        <?php
+        }
+        ?>
+        
+	
 	<li class='bitcoin' style='font-weight: bold;'>Charts may take awhile to update with the latest data.</li>	
 	
 	<li class='bitcoin' style='font-weight: bold;'>See Admin Config POWER USER section, to adjust vertical axis scales.</li>	

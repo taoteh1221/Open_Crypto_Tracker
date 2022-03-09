@@ -36,6 +36,8 @@ header('Content-type: text/html; charset=' . $ct_conf['dev']['charset_default'])
 	// Install ID (derived from this app's server path)
 	var ct_id = '<?=$ct_gen->id()?>';
 	
+	var app_edition = '<?=$app_edition?>';
+	
 	var notes_storage = ct_id + "notes";
 	
 	var background_tasks_status = 'wait'; // Default
@@ -280,9 +282,25 @@ header('Content-type: text/html; charset=' . $ct_conf['dev']['charset_default'])
     <div class='align_center' id='body_wrapper' style='<?=( $login_template == 1 ? 'min-width: 720px; max-width: 800px;' : '' )?>'>
 
         <?php
-        if ( strpos($_SERVER['HTTP_USER_AGENT'], 'Chrome') != false ) {
+        if ( $app_edition == 'desktop' ) {
         ?>
         <div class='blue' id='change_font_size'>Zoom (<span id='zoom_show_ui'></span>): <span id='minusBtn' class='red'>-</span> <span id='plusBtn' class='green'>+</span></div>
+        <script>
+        
+        // Page zoom logic
+        if ( localStorage.getItem('currzoom') ) {
+        currzoom = localStorage.getItem('currzoom');
+        }
+        else {
+        currzoom = 100;
+        }
+        
+        //console.log(currzoom);
+        
+        $('body').css('zoom', ' ' + currzoom + '%');
+        $("#zoom_show_ui").html(currzoom + '%');
+        
+        </script>
         <?php
         }
         ?>
