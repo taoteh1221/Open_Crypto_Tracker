@@ -5333,11 +5333,15 @@ MIGRATE YOUR EXISTING SETTINGS TO THE NEW FORMAT.
 -------------------------------------------------------------------
 5.14.0:
 
--Price charts with page zoom user experience (logic overhaul, notices on charts pages)
+-User experience improvements for price charts with page zooming (now desktop editions only, notices atop chart sections on usage impacts)
 
--New documentation and revised documentation
+-User experience improvements for Windows Desktop Edition CSV spreadsheet importing (error notice / logs now warns to run app as admin)
 
--Minor user experience improvements
+-New documentation, and revised documentation
+
+-Other minor user experience improvements
+
+-Revised default config
 
 v5.12.2 and higher renames the admin config array. ALL CONFIGURATION SETTING
 VARIABLE NAMES ARE NOW DIFFERENT, USE THE LATEST/UPGRADED CONFIG.PHP, AND

@@ -11,17 +11,7 @@ var $ct_var1;
 var $ct_var2;
 var $ct_var3;
 
-
-var $upload_error = array(
-    0 => 'uploaded with success',
-    1 => 'file exceeds upload_max_filesize',
-    2 => 'file exceeds the MAX_FILE_SIZE',
-    3 => 'file partially uploaded',
-    4 => 'no file uploaded',
-    6 => 'missing temporary folder',
-    7 => 'failed to write to disk',
-    8 => 'PHP extension stopped the file upload',
-);
+var $ct_array = array();
    
    
    ////////////////////////////////////////////////////////
@@ -224,6 +214,30 @@ var $upload_error = array(
       return false;
       }
    
+   }
+   
+   
+   ////////////////////////////////////////////////////////
+   ////////////////////////////////////////////////////////
+   
+   
+   function upload_error($pointer) {
+   
+   global $app_platform;
+   
+   $errors = array(
+                    0 => 'uploaded success',
+                    1 => 'file exceeds upload_max_filesize',
+                    2 => 'file exceeds MAX_FILE_SIZE',
+                    3 => 'file partially uploaded',
+                    4 => 'no file uploaded',
+                    6 => 'no temporary folder',
+                    7 => 'failed write to disk',
+                    8 => 'PHP extension stopped upload',
+                   );
+
+   return $errors[$pointer] . ( $app_platform == 'windows' ? ' [try running app as admin]' : '' );
+
    }
    
    

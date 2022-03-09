@@ -130,11 +130,11 @@ $ct_conf['comms']['telegram_bot_token'] = '';  // Your bot's access token
 // PRICE ALERTS SETUP REQUIRES A CRON JOB RUNNING ON YOUR WEB SERVER (see README.txt for cron job setup information) 
 // Price alerts will send to all properly-configured communication channels, and automatically skip any not properly setup
 // Price percent change to send alerts for (WITHOUT percent sign: 15.75 = 15.75%). Sends alerts when percent change reached (up or down)
-$ct_conf['comms']['price_alert_thres'] = 9.65; // CAN BE 0 TO DISABLE PRICE ALERTS
+$ct_conf['comms']['price_alert_thres'] = 8.75; // CAN BE 0 TO DISABLE PRICE ALERTS
 ////
-// Re-allow SAME asset price alert(s) messages after X hours (per alert config, set higher if sent to junk folder / API blocking or throttling)
+// Re-allow SAME asset price alert(s) messages after X HOURS (per alert config, set higher if sent to junk folder / API blocking or throttling)
 // Price alerts AUTOMATICALLY will send to all properly-configured communication channels, and automatically skip any not properly setup
-$ct_conf['comms']['price_alert_freq_max'] = 2; // Can be 0, to have no limits
+$ct_conf['comms']['price_alert_freq_max'] = 1; // Can be 0, to have no limits
 ////
 // Block an asset price alert if price retrieved, BUT failed retrieving pair volume (not even a zero was retrieved, nothing)
 // Good for BLOCKING QUESTIONABLE EXCHANGES from bugging you with price alerts, especially when used in combination with the minimum volume filter
@@ -143,7 +143,7 @@ $ct_conf['comms']['price_alert_block_vol_error'] = 'on'; // 'on' / 'off'
 // Minimum 24 hour volume filter. Only allows sending price alerts if minimum 24 hour volume reached
 // CAN BE 0 TO DISABLE MINIMUM VOLUME FILTERING, NO DECIMALS OR SEPARATORS, NUMBERS ONLY, WITHOUT the [primary currency] prefix symbol: 4500 = $4,500 , 30000 = $30,000 , etc
 // THIS FILTER WILL AUTO-DISABLE IF THERE IS ANY ERROR RETRIEVING DATA ON A CERTAIN MARKET (WHEN NOT EVEN A ZERO IS RECEIVED)
-$ct_conf['comms']['price_alert_min_vol'] = 7500;
+$ct_conf['comms']['price_alert_min_vol'] = 9500;
 
 
 // Every X days email a list of #NEW# RSS feed posts. 
@@ -151,7 +151,7 @@ $ct_conf['comms']['price_alert_min_vol'] = 7500;
 $ct_conf['comms']['news_feed_email_freq'] = 3; // (default = 3)
 ////
 // MAXIMUM #NEW# RSS feed entries to include (per-feed) in news feed email (less then 'news_feed_email_freq' days old)
-$ct_conf['comms']['news_feed_email_entries_show'] = 15; // (default = 15)
+$ct_conf['comms']['news_feed_email_entries_show'] = 20; // (default = 20)
 
 
 // Email logs every X days. 
@@ -163,7 +163,7 @@ $ct_conf['comms']['logs_email'] = 3; // (default = 3)
 // Choosing 'all' will send to all properly-configured communication channels, and automatically skip any not properly setup
 $ct_conf['comms']['proxy_alert'] = 'email'; // 'off' (disabled) / 'all' / 'email' / 'text' / 'notifyme' / 'telegram'
 ////
-$ct_conf['comms']['proxy_alert_freq_max'] = 1; // Re-allow same proxy alert(s) after X hours (per ip/port pair, can be 0)
+$ct_conf['comms']['proxy_alert_freq_max'] = 1; // Re-allow same proxy alert(s) after X HOURS (per ip/port pair, can be 0)
 ////
 // Which runtime mode should allow proxy alerts? Options: 'cron', 'ui', 'all' 
 $ct_conf['comms']['proxy_alert_runtime'] = 'cron'; // (default = 'cron')
@@ -209,7 +209,7 @@ $ct_conf['gen']['defipulse_key'] = '';
 $ct_conf['gen']['cmc_key'] = '';
 
 
-// Default marketcap data source: 'coingecko', or 'coinmarketcap' (COINMARKETCAP REQUIRES A #FREE# API KEY, see $ct_conf['gen']['cmc_key'] above)
+// Default marketcap data source: 'coingecko', or 'coinmarketcap' (COINMARKETCAP REQUIRES A #FREE# API KEY, SEE $ct_conf['gen']['cmc_key'] ABOVE)
 $ct_conf['gen']['prim_mcap_site'] = 'coingecko'; 
 
 
@@ -306,7 +306,7 @@ $ct_conf['charts_alerts']['price_alert_fixed_reset'] = 0; // (default = 0)
 // Format: 'max_days_to_24hr_avg_over||min_price_percent_change_24hr_avg||min_vol_percent_incr_24hr_avg||min_vol_currency_incr_24hr_avg'
 // ("min_price_percent_change_24hr_avg" should be the same value or higher as $ct_conf['comms']['price_alert_thres'] to work properly)
 // Leave BLANK '' TO DISABLE. DECIMALS ARE SUPPORTED, USE NUMBERS ONLY (NO CURRENCY SYMBOLS / COMMAS, ETC)
-$ct_conf['charts_alerts']['price_alert_whale_thres'] = '1.65||8.85||9.1||16000'; // (default: '1.65||8.85||9.1||16000')
+$ct_conf['charts_alerts']['price_alert_whale_thres'] = '1.25||9.75||12.75||25000'; // (default: '1.25||9.75||12.75||25000')
 ////
 // Markets you want charts or asset price change alerts for (alerts sent when default [primary currency] 
 // [$ct_conf['gen']['btc_prim_currency_pair'] at top of this config] value change is equal to or above / below $ct_conf['comms']['price_alert_thres']) 
@@ -433,11 +433,6 @@ $ct_conf['charts_alerts']['tracked_mrkts'] = array(
 					'rndr-2' => 'gateio||usdt||none',
 					
 					
-					// SLC
-					'slc' => 'generic_btc||btc||chart',
-					'slc-2' => 'gateio||usdt||both',
-					
-					
 					// RAY
 					'ray' => 'ftx||usd||both',
 					'ray-2' => 'generic_btc||btc||chart',
@@ -464,6 +459,11 @@ $ct_conf['charts_alerts']['tracked_mrkts'] = array(
 					'grape-3' => 'generic_eth||eth||chart',
 					'grape-4' => 'generic_eur||eur||none',
 					'grape-5' => 'generic_gbp||gbp||none',
+					
+					
+					// SLC
+					'slc' => 'generic_btc||btc||chart',
+					'slc-2' => 'gateio||usdt||both',
 					
 					
 					// HNT
@@ -541,11 +541,11 @@ $ct_conf['power']['last_trade_cache_time'] = 4; // (default = 4)
 
 
 // MINUTES to cache blockchain stats (for mining calculators). Set high initially, it can be strict
-$ct_conf['power']['chainstats_cache_time'] = 75;  // (default = 75)
+$ct_conf['power']['chainstats_cache_time'] = 90;  // (default = 90)
 
 
 // MINUTES to cache marketcap rankings...start high and test lower, it can be strict
-$ct_conf['power']['mcap_cache_time'] = 75;  // (default = 75)
+$ct_conf['power']['mcap_cache_time'] = 90;  // (default = 90)
 ////
 // Number of marketcap rankings to request from API.
 // 500 rankings is a safe maximum to start with, to avoid getting your API requests throttled / blocked
@@ -561,7 +561,7 @@ $ct_conf['power']['backup_arch_del_old'] = 10;
 
 
 // Keep logs X DAYS before purging (fully deletes logs every X days). Start low (especially when using proxies)
-$ct_conf['power']['logs_purge'] = 5; // (default = 5)
+$ct_conf['power']['logs_purge'] = 6; // (default = 6)
 
 
 // Lite charts (load just as quickly for any time interval, 7 day / 30 day / 365 day / etc)
@@ -598,7 +598,7 @@ $ct_conf['power']['asset_mcap_chart_defaults'] = '700||10'; // 'chart_height||me
 $ct_conf['power']['sys_stats_first_chart_max_scale'] = 1; // (default = 1) 
 ////
 // Highest allowed sensor value to scale vertical axis for, in the SECOND system information chart (out of two)
-// (to prevent anomaly results from scaling vertical axis too high to read LESSER-VALUE sensor data...only used IF CRON JOB IS SETUP)
+// (to prevent anomaly results from scaling vertical axis TOO HIGH to read LESSER-VALUE sensor data...only used IF CRON JOB IS SETUP)
 $ct_conf['power']['sys_stats_second_chart_max_scale'] = 150; // (default = 150) 
 
 
@@ -621,10 +621,10 @@ $ct_conf['power']['defi_pools_max_trades'] = 60; // (default = 60)
 
 // CONTRAST of CAPTCHA IMAGE text against background (on login pages)
 // 0 for neutral contrast, positive for more contrast, negative for less contrast (MAXIMUM OF +-35)
-$ct_conf['power']['captcha_text_contrast'] = -7; // example: -5 or 5 (default = -7)
+$ct_conf['power']['captcha_text_contrast'] = -8; // example: -5 or 5 (default = -8)
 ////
 // MAX OFF-ANGLE DEGREES (tilted backward / forward) of CAPTCHA IMAGE text characters (MAXIMUM OF 35)
-$ct_conf['power']['captcha_text_angle'] = 33; // (default = 33)
+$ct_conf['power']['captcha_text_angle'] = 35; // (default = 35)
 			
 			
 // Configuration for system resource warning thresholds (logs to error log, and sends comms alerts to any activated comms)
@@ -642,18 +642,18 @@ $ct_conf['power']['system_load_warning'] = '1.00||4';  // 'threshold_multiplier|
 $ct_conf['power']['system_temp_warning'] = '70||1'; // 'temp_celcius||hours_between_alerts' (default = '70||1')
 ////
 // If USED MEMORY PERCENTAGE is X (or more), trigger warning
-$ct_conf['power']['memory_used_percent_warning'] = '85||8'; // 'memory_used_percent||hours_between_alerts' (default = '85||8')
+$ct_conf['power']['memory_used_percent_warning'] = '90||4'; // 'memory_used_percent||hours_between_alerts' (default = '90||4')
 ////
 // If FREE STORAGE space is X MEGABYTES (or less), trigger warning
 $ct_conf['power']['free_partition_space_warning'] = '1000||24'; // 'free_space_megabytes||hours_between_alerts' (default = '1000||24')
 ////
 // If PORTFOLIO CACHE SIZE is X MEGABYTES (or more), trigger warning
-$ct_conf['power']['portfolio_cache_warning'] = '2500||72'; // 'portfolio_cache_megabytes||hours_between_alerts' (default = '2500||72')
+$ct_conf['power']['portfolio_cache_warning'] = '2000||72'; // 'portfolio_cache_megabytes||hours_between_alerts' (default = '2500||72')
 ////
 // If ALL COOKIES TOTAL DATA SIZE is X BYTES (or more), trigger warning
 // Because the header data MAY be approaching the server limit (CRASHING THIS APP!!)
 // STANDARD SERVER HEADER SIZE LIMITS (IN BYTES)...Apache: 8000, NGINX: 4000 - 8000, IIS: 8000 - 16000, Tomcat: 8000 - 48000
-$ct_conf['power']['cookies_size_warning'] = '7000||3'; // 'cookies_size_bytes||hours_between_alerts' (default = '7000||3')
+$ct_conf['power']['cookies_size_warning'] = '7000||6'; // 'cookies_size_bytes||hours_between_alerts' (default = '7000||6')
 
 																					
 // ASSET MARKETS chart colors (https://www.w3schools.com/colors/colors_picker.asp)
@@ -914,9 +914,9 @@ $ct_conf['power']['mining_calculators'] = array(
 
 // NEWS FEED (RSS) SETTINGS
 // RSS feed entries to show (per-feed) on News page (without needing to click the "show more / less" link)
-$ct_conf['power']['news_feed_entries_show'] = 7; // (default = 7)
+$ct_conf['power']['news_feed_entries_show'] = 10; // (default = 10)
 ////
-// RSS feed entries under X days old are marked as 'new'
+// RSS feed entries under X DAYS old are marked as 'new' on the news page
 $ct_conf['power']['news_feed_entries_new'] = 3; // (default = 3)
 ////
 // RSS news feeds available on the News page
@@ -1436,6 +1436,7 @@ $ct_conf['dev']['news_feed_cache_min_max'] = '90,180'; // 'min,max' (default = '
 
 
 // Randomly rebuild the 'ALL' chart between the minimum and maximum HOURS set here  (so they don't refresh all at once, for faster runtimes)
+// LARGER AVERAGE TIME SPREAD IS EASIER ON LOW POWER DEVICES (TO ONLY UPDATE A FEW AT A TIME)!!
 $ct_conf['dev']['all_chart_rebuild_min_max'] = '4,12'; // 'min,max' (default = '4,12'), ADJUST WITH CARE!!!
 			
 			
@@ -1444,7 +1445,7 @@ $ct_conf['dev']['captcha_image_width'] = 525; // Image width (default = 525)
 ////
 $ct_conf['dev']['captcha_image_height'] = 135; // Image height (default = 135)
 ////
-$ct_conf['dev']['captcha_text_margin'] = 6; // MINIMUM margin of text from edge of image (approximate / average) (default = 6)
+$ct_conf['dev']['captcha_text_margin'] = 10; // MINIMUM margin of text from edge of image (approximate / average) (default = 10)
 ////
 $ct_conf['dev']['captcha_text_size'] = 50; // Text size (default = 50)
 ////
@@ -1454,14 +1455,14 @@ $ct_conf['dev']['captcha_chars_length'] = 7; // Number of characters in captcha 
 $ct_conf['dev']['captcha_permitted_chars'] = 'ABCDEFHJKMNPRSTUVWXYZ23456789'; // (default = 'ABCDEFHJKMNPRSTUVWXYZ23456789')
 
 
-// Local / internal API rate limit (maximum of once every X seconds, per ip address) for accepting remote requests
+// Local / internal API rate limit (maximum of once every X SECONDS, per ip address) for accepting remote requests
 // Can be 0 to disable rate limiting (unlimited)
 $ct_conf['dev']['local_api_rate_limit'] = 3; // (default = 3)
 ////
-// Local / internal API market limit (maximum number of markets requested per call)
+// Local / internal API market limit (maximum number of MARKETS requested per call)
 $ct_conf['dev']['local_api_mrkt_limit'] = 15; // (default = 15)
 ////
-// Local / internal API cache time (minutes that previous requests are cached for)
+// Local / internal API cache time (MINUTES that previous requests are cached for)
 $ct_conf['dev']['local_api_cache_time'] = 4; // (default = 4)
 
 
@@ -1503,13 +1504,13 @@ $ct_conf['dev']['ui_max_exec_time'] = 120; // (default = 120)
 $ct_conf['dev']['ajax_max_exec_time'] = 120; // (default = 120)
 ////
 // Maximum execution time for cron job runtime in seconds (how long it's allowed to run before automatically killing the process)
-$ct_conf['dev']['cron_max_exec_time'] = 600; // (default = 600)
+$ct_conf['dev']['cron_max_exec_time'] = 500; // (default = 500)
 ////
 // Maximum execution time for internal API runtime in seconds (how long it's allowed to run before automatically killing the process)
-$ct_conf['dev']['int_api_max_exec_time'] = 90; // (default = 90)
+$ct_conf['dev']['int_api_max_exec_time'] = 60; // (default = 60)
 ////
 // Maximum execution time for webhook runtime in seconds (how long it's allowed to run before automatically killing the process)
-$ct_conf['dev']['webhook_max_exec_time'] = 90; // (default = 90)
+$ct_conf['dev']['webhook_max_exec_time'] = 60; // (default = 60)
 							
 
 // TLD-only (Top Level Domain only, NO SUBDOMAINS) for each API service that UN-EFFICIENTLY requires multiple calls (for each market / data set)
@@ -2995,38 +2996,6 @@ $ct_conf['assets'] = array(
                     ////////////////////////////////////////////////////////////////////
                     
                     
-                    // SLC
-                    'SLC' => array(
-                        
-                        'name' => 'Solice',
-                        'mcap_slug' => 'solice',
-                        'pair' => array(
-
-                                                    
-                                    'btc' => array(
-                                        'generic_btc' => 'solice',
-                                                    ),
-
-                                                    
-                                    'eth' => array(
-                                        'gateio' => 'SLC_ETH',
-                                                    ),
-
-                                                    
-                                    'usdt' => array(
-                                        'huobi' => 'slcusdt',
-                                        'gateio' => 'SLC_USDT',
-                                                    ),
-
-                                                    
-                        ) // pair END
-                        
-                    ), // Asset END
-                    
-                    
-                    ////////////////////////////////////////////////////////////////////
-                    
-                    
                     // RAY
                     'RAY' => array(
                         
@@ -3253,6 +3222,38 @@ $ct_conf['assets'] = array(
                                                     
                                     'usd' => array(
                                           'generic_usd' => 'grape-2',
+                                                    ),
+
+                                                    
+                        ) // pair END
+                        
+                    ), // Asset END
+                    
+                    
+                    ////////////////////////////////////////////////////////////////////
+                    
+                    
+                    // SLC
+                    'SLC' => array(
+                        
+                        'name' => 'Solice',
+                        'mcap_slug' => 'solice',
+                        'pair' => array(
+
+                                                    
+                                    'btc' => array(
+                                        'generic_btc' => 'solice',
+                                                    ),
+
+                                                    
+                                    'eth' => array(
+                                        'gateio' => 'SLC_ETH',
+                                                    ),
+
+                                                    
+                                    'usdt' => array(
+                                        'huobi' => 'slcusdt',
+                                        'gateio' => 'SLC_USDT',
                                                     ),
 
                                                     

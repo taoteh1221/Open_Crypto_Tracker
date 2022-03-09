@@ -194,7 +194,9 @@ $sel_opt['sorted_asc_desc'] = $sort_array[1];
 		$csv_file_array = $ct_gen->csv_import_array($_FILES['csv_file']['tmp_name']);
        	}
        	else {
-       	$csv_import_fail = 'Your CSV import upload failed (' . $ct_gen->upload_error[ $_FILES['csv_file']['error'] ] . ').' . $dismiss_alert;
+       	$csv_import_fail_alert = 'Your CSV import upload failed (' . $ct_gen->upload_error($_FILES['csv_file']['error']) . ').';
+        $ct_gen->log('system_error', $csv_import_fail_alert);
+       	$csv_import_fail = $csv_import_fail_alert . $dismiss_alert;
        	}
        	
        	

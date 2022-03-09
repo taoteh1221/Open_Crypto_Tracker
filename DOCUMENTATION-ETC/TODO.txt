@@ -53,7 +53,7 @@ CSV import file upload fails in the Windows Desktop Edition. Figure out why.
 Research max allowed value for session.cookie_lifetime in php.ini desktop edition containers. Our session controls the interval between emulated cron jobs, and since we're running locally there are no security concerns / storage concerns with setting it to the maximum allowed value.
 
 
-"CSV import suceeded" has a 'dismiss' link that doesn't work...when clicked, it reloads a blank portfolio page. But when the normal 'refresh' link is used INSTEAD atop the portfolio page, the imported data stays just fine. Funny thing is the "CSV import suceeded" message ALSO PERSISTS THIS WAY. Figure out whats going on there. Also check the "Your CSV import upload failed." logic.
+"CSV import suceeded" has a 'dismiss' link that doesn't work...when clicked, it reloads a blank portfolio page. But when the normal 'refresh' link is used INSTEAD atop the portfolio page, the imported data stays just fine. Funny thing is the "CSV import suceeded" message ALSO PERSISTS THIS WAY. Figure out whats going on there. Also check the "Your CSV import upload failed." logic. Start tests with Windows Desktop Edition.
 
 
 For 'Desktop Edition' (using phpdesktop), look into using docker images for cross-platform compatibility (Windows / Mac / Linux).
