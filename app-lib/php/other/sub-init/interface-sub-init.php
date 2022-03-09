@@ -192,22 +192,22 @@ $sel_opt['sorted_asc_desc'] = $sort_array[1];
 		// Checks and importing
 		if ( is_uploaded_file($_FILES['csv_file']['tmp_name']) ) {
 		$csv_file_array = $ct_gen->csv_import_array($_FILES['csv_file']['tmp_name']);
-   	}
-   	else {
-   	$csv_import_fail = 'Your CSV import upload failed.' . $dismiss_alert;
-   	}
-   	
-   	
-		if ( !$csv_import_fail && !is_array($csv_file_array) ) {
-   	$csv_import_fail = 'Your CSV import file does not appear to be formatted correctly.' . $dismiss_alert;
-   	}
-		elseif ( is_array($csv_file_array) ) {
-   	$csv_import_succeed = 'Your CSV import succeeded.' . $dismiss_alert;
-   	}
-   	
-   	if ( !$csv_import_fail ) {
-   	$run_csv_import = 1;
-   	}
+       	}
+       	else {
+       	$csv_import_fail = 'Your CSV import upload failed (' . $ct_gen->upload_error[ $_FILES['csv_file']['error'] ] . ').' . $dismiss_alert;
+       	}
+       	
+       	
+    	if ( !$csv_import_fail && !is_array($csv_file_array) ) {
+       	$csv_import_fail = 'Your CSV import file does not appear to be formatted correctly.' . $dismiss_alert;
+       	}
+    	elseif ( is_array($csv_file_array) ) {
+       	$csv_import_succeed = 'Your CSV import succeeded.' . $dismiss_alert;
+       	}
+       	
+       	if ( !$csv_import_fail ) {
+       	$run_csv_import = 1;
+       	}
    	
    
 	}

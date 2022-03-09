@@ -10,7 +10,18 @@ class ct_gen {
 var $ct_var1;
 var $ct_var2;
 var $ct_var3;
-var $ct_array1 = array();
+
+
+var $upload_error = array(
+    0 => 'uploaded with success',
+    1 => 'file exceeds upload_max_filesize',
+    2 => 'file exceeds the MAX_FILE_SIZE',
+    3 => 'file partially uploaded',
+    4 => 'no file uploaded',
+    6 => 'missing temporary folder',
+    7 => 'failed to write to disk',
+    8 => 'PHP extension stopped the file upload',
+);
    
    
    ////////////////////////////////////////////////////////
