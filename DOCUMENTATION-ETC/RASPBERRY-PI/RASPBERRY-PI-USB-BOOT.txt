@@ -2,6 +2,7 @@
 
 IMPORTANT NOTE: THESE ARE COMMANDS FOR #DEBIAN-BASED SYSTEMS# (Ubuntu, etc)! RHEL/CentOS commands may differ.
 
+
 =======================================================
 Booting From USB Device
 =======================================================
@@ -43,5 +44,52 @@ sudo reboot
 
 
 You now should be running from the USB disk.
+
+
+=======================================================
+Increasing Swap Space (virtual / backup system memory on disk)
+=======================================================
+
+
+IMPORTANT NOTES: INCREASING SWAP SPACE IS BEST DONE ONLY IF YOUR NEW BOOTABLE EXTERNAL USB DRIVE #IS A REGULAR LAPTOP / PC DRIVE IN AN EXTERNAL CASE#. A LARGE SWAP SPACE ON A MICROSD CARD / THUMB DRIVE MIGHT NOT PERFORM VERY WELL!
+
+
+1) Shut down the current swap file:
+
+sudo dphys-swapfile swapoff
+
+
+2) Open the swap configuration file:
+
+sudo nano /etc/dphys-swapfile
+
+
+3) Find this in the configuration file:
+
+CONF_SWAPSIZE=100
+
+
+4) Change it to the size you want (in megabytes):
+
+CONF_SWAPSIZE=1024
+
+
+5) Hold down the Ctrl key and X key at the same time, choose Y, hit enter to save / exit editing the config.
+
+
+6) Run the swap setup command:
+
+sudo dphys-swapfile setup
+
+
+7) Then re-activate the new swap space:
+
+sudo dphys-swapfile swapon
+
+
+8) Reboot the pi, so all the running programs know about the new swap size:
+
+sudo reboot
+
 
 
