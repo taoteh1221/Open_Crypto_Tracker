@@ -67,6 +67,10 @@
     		echo '<div class="sys_stats"><span class="bitcoin"><b>Operating System:</b></span> <span class="blue"> '.$system_info['operating_system'].'</span> </div>';
     		}
     		
+    		if ( isset($system_info['distro_name']) ) {
+    		echo '<div class="sys_stats"><span class="bitcoin"><b>Distro:</b></span> <span class="blue"> '.$system_info['distro_name'].( isset($system_info['distro_version']) ? ' ' . $system_info['distro_version'] : '' ).'</span> </div>';
+    		}
+    		
     		if ( isset($system_info['model']) || isset($system_info['hardware']) ) {
     			
     			if ( isset($system_info['model']) ) {

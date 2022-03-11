@@ -301,12 +301,6 @@ require_once('app-lib/php/other/directory-creation/cache-directories.php');
 $system_info = $ct_gen->system_info(); // MUST RUN AFTER SETTING $base_dir
 
 
-// Raspberry Pi device? (run after system info var)
-if ( preg_match("/raspberry/i", $system_info['model']) ) {
-$is_raspi = true;
-}
-
-
 // To be safe, don't use trim() on certain strings with arbitrary non-alphanumeric characters here
 // MUST RUN #AS SOON AS POSSIBLE IN APP INIT#, SO TELEGRAM COMMS ARE ENABLED FOR #ALL# FOLLOWING LOGIC!
 if ( trim($ct_conf['comms']['telegram_your_username']) != '' && trim($ct_conf['comms']['telegram_bot_name']) != '' && trim($ct_conf['comms']['telegram_bot_username']) != '' && $ct_conf['comms']['telegram_bot_token'] != '' ) {

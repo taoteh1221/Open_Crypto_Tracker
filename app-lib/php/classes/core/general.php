@@ -859,6 +859,44 @@ var $ct_array = array();
    ////////////////////////////////////////////////////////
    
    
+   function system_stats_file($file, $delimiter, $subdelimiter) {
+   
+   $stats_info = @file_get_contents($file);
+      
+   $raw_stats_info_array = explode($delimiter, $stats_info);
+   
+      
+         foreach ( $raw_stats_info_array as $stats_info_field ) {
+         
+            if ( isset($stats_info_field) && trim($stats_info_field) != '' ) {
+               
+            $temp_array = explode($subdelimiter, $stats_info_field);
+            $temp_array_cleaned = array();
+            
+               $loop = 0;
+               foreach ( $temp_array as $key => $val ) {
+               $trimmed_val = ( $loop < 1 ? strtolower(trim($val)) : trim($val) );
+               $trimmed_val = ( $loop < 1 ? preg_replace('/\s/', '_', $trimmed_val) : $trimmed_val );
+               $trimmed_val = ( $loop < 1 ? preg_replace('/\s/', '_', $trimmed_val) : $trimmed_val );
+               $temp_array_cleaned[strtolower($key)] = trim($trimmed_val,'\'"'); // Trim quotes
+               $loop = $loop + 1;
+               }
+            
+            $stats_info_array[ $temp_array_cleaned[0] ] = $temp_array_cleaned[1];
+            }
+         
+         }
+         
+         
+   return $stats_info_array;
+   
+   }
+   
+   
+   ////////////////////////////////////////////////////////
+   ////////////////////////////////////////////////////////
+   
+   
    // Pretty decimals calculation (ONLY returns num of decimals to use)
    // (NO DECIMALS OVER 100 IN UNIT VALUE, MAX 2 DECIMALS OVER 1, #AND MIN 2 DECIMALS# UNDER, FOR INTERFACE UX)
    function thres_dec($num, $mode) {
@@ -1027,7 +1065,7 @@ var $ct_array = array();
    
    function throttled_warning_log($type) {
    
-   global $ct_conf, $ct_cache, $base_dir, $system_warnings, $system_warnings_cron_interval;
+   global $ct_conf, $ct_cache, $base_dir, $system_info, $system_warnings, $system_warnings_cron_interval;
    
    
 	  // Minus 1 minute, to try keeping daily / hourly recurrences at same exact runtime (instead of moving up the runtime daily / hourly)
@@ -1035,7 +1073,11 @@ var $ct_array = array();
           
       $this->log('system_warning', $system_warnings[$type]);
       
-      $email_msg = 'Open Crypto Tracker detected an app server issue: ' . $system_warnings[$type] . '. (warning thresholds are adjustable in the Admin Config Power User section)';
+          if ( isset($system_info['distro_name']) ) {
+          $system_info = "\n\nSystem Info: " . $system_info['distro_name'] . ( isset($system_info['distro_version']) ? ' ' . $system_info['distro_version'] : '' );
+          }
+      
+      $email_msg = 'Open Crypto Tracker detected an app server issue: ' . $system_warnings[$type] . '. (warning thresholds are adjustable in the Admin Config Power User section) ' . $system_info;
                
       // Were're just adding a human-readable timestamp to smart home (audio) alerts
       $notifyme_msg = $email_msg . ' Timestamp: ' . $this->time_date_format($ct_conf['gen']['loc_time_offset'], 'pretty_time') . '.';
@@ -1044,6 +1086,7 @@ var $ct_array = array();
                
       // Minimize function calls
       $encoded_text_msg = $this->charset_encode($text_msg); // Unicode support included for text messages (emojis / asian characters / etc )
+      
                     
       // Message parameter added for desired comm methods (leave any comm method blank to skip sending via that method)
                         
@@ -3106,7 +3149,7 @@ var $ct_array = array();
       }
   
   
-  }
+   }
    
    
    ////////////////////////////////////////////////////////
@@ -3117,37 +3160,67 @@ var $ct_array = array();
    
    global $runtime_mode, $app_version, $base_dir, $ct_var;
    
+   $system = array();
+   
    // OS
    $system['operating_system'] = php_uname();
+   
+      
+      // Distro
+      if ( is_readable('/etc/os-release') ) {
+      
+      $distro['distro_info'] = $this->system_stats_file('/etc/os-release', "\n", "=");
+      
+         // Distro Name
+         if ( file_exists('/boot/dietpi/.version') ) {
+             
+         $system['distro_name'] = 'DietPi OS';
+         
+            
+            if ( is_readable('/boot/dietpi/.version') ) {
+          
+            $dietpi['dietpi_info'] = $this->system_stats_file('/boot/dietpi/.version', "\n", "=");
+            
+                // Distro Version
+                if ( isset($dietpi['dietpi_info']['g_dietpi_version_core']) ) {
+                    
+                $system['distro_version'] = $dietpi['dietpi_info']['g_dietpi_version_core'] . ( isset($dietpi['dietpi_info']['g_dietpi_version_sub']) ? '.' . $dietpi['dietpi_info']['g_dietpi_version_sub'] . '.' . $dietpi['dietpi_info']['g_dietpi_version_rc'] : '' );
+                
+                $system['distro_version'] = $system['distro_version'] . ' ' . ( isset($distro['distro_info']['name']) ? '['.$distro['distro_info']['name'].' '.$distro['distro_info']['version'].']' : '' );
+                
+                }
+          
+            }
+      
+         }
+         elseif ( file_exists('/usr/bin/raspi-config') ) {
+         $system['distro_name'] = 'RaspberryPi OS';
+         $system['distro_version'] = ( isset($distro['distro_info']['name']) ? '['.$distro['distro_info']['name'].' '.$distro['distro_info']['version'].']' : '' );
+         }
+         elseif ( $distro['distro_info']['name'] ) {
+         $system['distro_name'] = $distro['distro_info']['name'];
+         }
+         
+         
+         // Distro Version
+         if ( isset($distro['distro_info']['version']) && !isset($system['distro_version']) ) {
+         $system['distro_version'] = $distro['distro_info']['version'];
+         }
+         
+      
+      }
+      elseif ( preg_match("/windows nt/i", $system['operating_system']) ) {
+      $system['distro_name'] = 'Windows NT';
+      }
+      elseif ( preg_match("/windows/i", $system['operating_system']) ) {
+      $system['distro_name'] = 'Windows';
+      }
       
       
       // CPU stats
       if ( is_readable('/proc/cpuinfo') ) {
-      $cpu_info = @file_get_contents('/proc/cpuinfo');
       
-      $raw_cpu_info_array = explode("\n", $cpu_info);
-      
-         foreach ( $raw_cpu_info_array as $cpu_info_field ) {
-         
-            if ( isset($cpu_info_field) && trim($cpu_info_field) != '' ) {
-               
-            $temp_array = explode(":", $cpu_info_field);
-            
-               $loop = 0;
-               foreach ( $temp_array as $key => $val ) {
-               $trimmed_val = ( $loop < 1 ? strtolower(trim($val)) : trim($val) );
-               $trimmed_val = ( $loop < 1 ? preg_replace('/\s/', '_', $trimmed_val) : $trimmed_val );
-               $temp_array_cleaned[$key] = $trimmed_val;
-               $loop = $loop + 1;
-               }
-            
-            $cpu_info_array[ $temp_array_cleaned[0] ] = $temp_array_cleaned[1];
-            }
-         
-         }
-      
-      
-      $cpu['cpu_info'] = $cpu_info_array;
+      $cpu['cpu_info'] = $this->system_stats_file('/proc/cpuinfo', "\n", ":");
       
       
          if ( $cpu['cpu_info']['model'] ) {
