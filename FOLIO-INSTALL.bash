@@ -3,6 +3,17 @@
 # Copyright 2014-2022 GPLv3, Open Crypto Tracker by Mike Kilday: Mike@DragonFrugal.com
 
 
+echo " "
+echo "PLEASE REPORT ANY ISSUES HERE: https://github.com/taoteh1221/Open_Crypto_Tracker/issues"
+echo " "
+
+
+# EXPLICITLY set any dietpi paths 
+if [ -f /boot/dietpi/.version ]; then
+PATH=/boot/dietpi:$PATH
+fi
+
+
 ######################################
 
 # https://stackoverflow.com/questions/5947742/how-to-change-the-output-color-of-echo-in-linux
@@ -45,6 +56,12 @@ BASH_PATH=$(which bash)
 
 # Get logged-in username (if sudo, this works best with logname)
 TERMINAL_USERNAME=$(logname)
+
+
+# If logname doesn't work, use the $SUDO_USER global var
+if [ -z "$TERMINAL_USERNAME" ]; then
+TERMINAL_USERNAME=${1:-$SUDO_USER}
+fi
 
 
 # Get date
@@ -100,8 +117,10 @@ fi
 echo " "
 
 if [ "$EUID" -ne 0 ] || [ "$TERMINAL_USERNAME" == "root" ]; then 
- echo "${red}Please run with 'sudo' permissions (NOT LOGGED IN AS 'root').${reset}"
+ echo "${red}Please run as a NORMAL USER WITH 'sudo' PERMISSIONS (NOT LOGGED IN AS 'root').${reset}"
+ echo " "
  echo "${cyan}Exiting...${reset}"
+ echo " "
  exit
 fi
 
