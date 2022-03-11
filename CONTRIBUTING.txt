@@ -8,7 +8,7 @@ ETHOS OF THIS PROJECT:
 • This app is ment to serve the cryptocurrency community as a simple / easy-to-use, HIGHLY secured / optimized, and PRIVATE / ALWAYS 100% FREE and open source cryptocurrency portfolio tracker. 
 
 
-• The "server edition" of this app can run 24/7 (with very little elecricity usage costs) on a raspberry pi OS / ubuntu OS installation on a user's internal / home network, saving price chart data and sending out price alerts (or doing any other background task) any time of the day or night...even on a raspberry pi zero ($10 chipset / $30 kit). The "desktop edition" of this app runs as a local / native app on a PC (just download / run it), allowing for easy installation by less technically-advanced users. 
+• The "server edition" of this app can run 24/7 (with very little elecricity usage costs) on an Ubuntu / DietPi OS / RaspberryPi OS installation on a user's internal / home network, saving price chart data and sending out price alerts (or doing any other background task) any time of the day or night...even on a raspberry pi zero ($10 chipset / $30 kit). The "desktop edition" of this app runs as a local / native app on a PC (just download / run it), allowing for easy installation by less technically-advanced users. 
 
 
 • The design of this app is minimalistic ON PURPOSE to achieve all the above-mentioned important properties, all while still able to run on low power hardware (raspberry pi / pine64 / etc), which in turn makes this app a feasible choice for end-users of ANY portfolio size large or small. 

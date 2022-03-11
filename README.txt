@@ -49,25 +49,21 @@ PayPal:    https://www.paypal.me/dragonfrugal
 
 FEATURES
 
+-ALWAYS will remain 100% FREE F.O.S.S. software (no need to register and pay premium access fees).
+
 -Optimized for low power devices (raspberrypi, pine64, etc).
 
 -Desktop / Server Editions available (see README.txt for differences / usage documentation)
 
--ALWAYS will remain 100% FREE F.O.S.S. software (no need to register and pay premium access fees).
+-Automated and user-friendly installation / upgrade script for Ubuntu / DietPi OS / RaspberryPi OS app setup (server edition) on your home / internal network or website.
 
 -PRIVATELY connects DIRECTLY to APIs / servers for data and comms (no "phoning home" to a middleman server), with optional proxy support for API connections.
 
--Automated and user-friendly installation / upgrade script for Ubuntu or Raspberry Pi app setup on your home / internal network or website.
-
--Support for over 40 exchanges (including DeFi), and over 80 market pairs (country fiat currency or secondary crypto).
+-Option to use proxies for external API requests, and SMTP authentication for email sending.
 
 -Secure HTTPS (SSL), username / password protection, and privacy mode in the portfolio interface, for privacy and security.
 
--Admin interface, to allow easily viewing / changing the app configuration (alerts / charts / markets / API / backups / logs / etc).
-
--Switch between light / dark (night mode) theme colors.
-
--Cryptocurrency portfolio subtotal summaries, and total portfolio worth (in crypto and your local primary currency), including value gain / loss data (with tracking support for long / short margin leverages), portfolio balance data, and marketcap data.
+-Support for over 40 exchanges (including DeFi), and over 80 market pairs (country fiat currency or secondary crypto).
 
 -Price change alerts by email / text / Alexa / Telegram (configurable alert parameters available).
 
@@ -76,6 +72,8 @@ FEATURES
 -Add / edit / delete your own price alerts and price charts for assets / exchanges / market pairs (supports multiple exchanges / market pairs per asset).
 
 -Import / export your portfolio in CSV (spreadsheet) file format.
+
+-Cryptocurrency portfolio subtotal summaries, and total portfolio worth (in crypto and your local primary currency), including value gain / loss data (with tracking support for long / short margin leverages), portfolio balance data, and marketcap data.
 
 -A news page with over 70 different cryptocurrency-related RSS feeds to select from, including company and organization blogs / news sites / podcasts / youtube channels / reddit and stackexchange forums, with ability to add / remove feeds in the app configuration.
 
@@ -87,6 +85,8 @@ FEATURES
 
 -Detailed portfolio statistics, including Asset Performance side-by-side comparision charts with user-defined time periods, and Portfolio Balance pie charts to get a better feel for your asset allocations.
 
+-Switch between light / dark (night mode) theme colors.
+
 -Crypto tools (QR code generator, altcoin trade preview / marketcap calculator in BTC and your local primary currency, etc).
 
 -Mining calculators, to determine coin mining profitability (in crypto and your local primary currency, includes electricity costs and pool fees).
@@ -95,17 +95,17 @@ FEATURES
 
 -System stats / alerts in the interface, by text or email or other comms, and in the logs (uptime / load averages / temperature / free disk space / used system memory / portfolio cookies and cache sizes, if available on your device), to help keep your Raspberry Pi or other device running within healthy parameters.
 
--Plugin system, to use built-in / your own custom plugins for additional features.
-
--Secure webhook capability, allowing other external apps to communicate in real-time safely (separate keys per service, without giving away the master webhook key).
-
--Internal restful API built-in, to allow other external apps to query real-time market data in over 80 country fiat currencies / secondary crypto pairs (raw data also available).
-
--Option to use proxies for external API requests, and SMTP authentication for email sending.
-
 -System / configuration checking, alerting, logging, and auto-correcting (where possible).
 
 -Detailed error logging and debugging (with adjustable verbosity / debug modes), to assist with troubleshooting / installation / configuration of the app.
+
+-Plugin system, to use built-in / your own custom plugins for additional features.
+
+-Internal restful API built-in, to allow other external apps to query real-time market data in over 80 country fiat currencies / secondary crypto pairs (raw data also available).
+
+-Admin interface, to allow easily viewing / changing the app configuration (alerts / charts / markets / API / backups / logs / etc).
+
+-Secure webhook capability, allowing other external apps to communicate in real-time safely (separate keys per service, without giving away the master webhook key).
 
 
 ############################################################################################################################
@@ -128,10 +128,10 @@ https://github.com/taoteh1221/Open_Crypto_Tracker/releases
 After downloading, unzip the contents of the download to your desktop or other preferred file location (it doesn't matter, put it wherever you want to). Now use your operating system's file browser to enter the app's main directory, and click on "RUN_CRYPTO_TRACKER" to launch the app. TO USE PRICE CHARTS AND PRICE ALERTS TO EMAIL / TEXT / ALEXA / TELEGRAM, YOU #MUST# LEAVE THE APP RUNNING UNLESS YOU MANUALLY SETUP A CRON JOB! (see: "Setting Up Price Charts And Email / Text / Telegram / Alexa Price Alerts")
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-Automatic Setup For 'Server Edition' On Ubuntu or Raspberry Pi, On Home / Internal Network (the recommemnded way to PRIVATELY / CHEAPLY use this app)
+Automatic Setup For 'Server Edition' On Ubuntu / DietPi OS / RaspberryPi OS, On Home / Internal Network (recommemnded way to PRIVATELY / CHEAPLY use this app)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-To install / upgrade everything automatically on Ubuntu or Raspberry Pi (an affordable low power single board computer), copy / paste / run the command below in a terminal program (using the 'Terminal' app in the system menu, or over remote SSH), while logged in AS THE USER THAT WILL RUN THE APP (user must have sudo privileges):
+To install / upgrade everything automatically on Ubuntu / DietPi OS / RaspberryPi OS, copy => paste => run the command below in a terminal program (using the 'Terminal' app in the system menu, or over remote SSH), while logged in AS THE USER THAT WILL RUN THE APP (user must have sudo privileges):
 
 wget --no-cache -O FOLIO-INSTALL.bash https://git.io/JoDFD;chmod +x FOLIO-INSTALL.bash;sudo ./FOLIO-INSTALL.bash
 
@@ -160,13 +160,13 @@ IMPORTANT NOTES: THIS IS FOR 'SERVER EDITION' ONLY, UNLESS YOU DISABLE 'desktop_
 
 You can setup price charts or price alerts in your app install. Price alerts can be sent to email, mobile phone text, Telegram, and Alexa notifications. You will be alerted when the [configured default primary currency] price of an asset goes up or down a certain percent or more (whatever percent you choose in the settings), for specific exchange / base pair combinations for that asset. You can even setup alerts and charts for multiple exchanges / base pairs for the same asset.
 	    
-Running price charts or price alerts requires setting up a cron job or scheduled task on the Ubuntu / Raspberry Pi / Windows 10 machine or website server (this is automated for Ubuntu and Raspberry Pi users using the automated FOLIO-INSTALL.bash script / Windows 10 users who run the ADD-WIN10-SCHEDULER-JOB.bat file), otherwise charts / alerts will not work. Also see the related settings in Admin Config for charts / alerts. 
+Running price charts or price alerts requires setting up a cron job or scheduled task on the Ubuntu / DietPi OS / RaspberryPi OS / Windows 10 machine or website server (this is automated for Ubuntu / DietPi OS / RaspberryPi OS users using the automated FOLIO-INSTALL.bash script / Windows 10 users who run the ADD-WIN10-SCHEDULER-JOB.bat file), otherwise charts / alerts will not work. Also see the related settings in Admin Config for charts / alerts. 
 
 Once a cron job is setup, there is no need to keep your PC / Laptop turned on. The price charts and price alerts run automatically from your Open Crypto Tracker app server installation. If you encounter errors or the charts / alerts don't work during setup, check the error logs file at /cache/logs/error.log for errors in your configuration setup. Basic checks are performed and errors are reported there, and on the Settings page. 
 
-If you want to turn on these cron job based features and more (chart data backups, new RSS news feed entries emails, error log emails / etc), then the file cron.php (located in the primary directory of this app) must be setup as a cron job on your Ubuntu / Raspberry Pi / Windows 10 / website server device. 
+If you want to turn on these cron job based features and more (chart data backups, new RSS news feed entries emails, error log emails / etc), then the file cron.php (located in the primary directory of this app) must be setup as a cron job on your Ubuntu / DietPi OS / RaspberryPi OS / Windows 10 / website server device. 
 
-As mentioned previously, if you run the automated setup / install script for Ubuntu / Raspberry Pi / Windows 10 devices on home / internal networks, automatic cron job setup is offered as an option during this process. If you are using a full stack website host for hosting a TLD website domain name remotely, consult your web server host's documentation or help desk for their particular method of setting up a cron job.
+As mentioned previously, if you run the automated setup / install script for Ubuntu / DietPi OS / RaspberryPi OS / Windows 10 devices on home / internal networks, automatic cron job setup is offered as an option during this process. If you are using a full stack website host for hosting a TLD website domain name remotely, consult your web server host's documentation or help desk for their particular method of setting up a cron job.
 
 Note that you should have the cron job run every 5, 10, 15, 20, or 30 minutes 24/7, based on how often you want chart data points / alerts / any other cron based features to run. Setting up the cron job to run every 20 minutes is the RECOMMENDED lowest time interval. IF SET BELOW 20 MINUTES, lite chart disk writes may be excessive for lower end hardware (Raspberry PI MicroSD cards etc). IF SET #VERY LOW# (5 / 10 minutes), the free exchange APIs may throttle / block your data requests temporarily on occasion for requesting data too frequently (negatively affecting your alerts / charts). 
 
