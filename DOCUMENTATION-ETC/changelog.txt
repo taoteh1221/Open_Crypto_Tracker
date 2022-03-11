@@ -5351,6 +5351,21 @@ MIGRATE YOUR EXISTING SETTINGS TO THE NEW FORMAT.
 
 
 
+-------------------------------------------------------------------
+5.14.1:
+
+-BUG FIX: Auto-installer script detects logged-in user properly now in ALL debian-based operating systems
+
+-Auto-installer support for DietPI OS
+
+v5.12.2 and higher renames the admin config array. ALL CONFIGURATION SETTING
+VARIABLE NAMES ARE NOW DIFFERENT, USE THE LATEST/UPGRADED CONFIG.PHP, AND
+MIGRATE YOUR EXISTING SETTINGS TO THE NEW FORMAT.
+
+-------------------------------------------------------------------
+
+
+
 
 
 

@@ -198,7 +198,7 @@ fi
 echo " "
 echo "${yellow}TECHNICAL NOTE:"
 echo " "
-echo "This script was designed to install / setup on Ubuntu or Raspberry Pi OS, and MAY also work on other"
+echo "This script was designed to install on Ubuntu / Raspberry Pi OS / DietPI OS, and MAY also work on other"
 echo "Debian-based systems (but it has not been tested for that purpose).${reset}"
 echo " "
 
@@ -1220,11 +1220,14 @@ select opt in $OPTIONS; do
 				echo "${cyan}Initiating raspi-config, please wait...${reset}"
 				# WE NEED SUDO HERE, or raspi-config fails in bash
 				sudo raspi-config
-				else
+				elif [ -f /boot/dietpi/.version ]; then
 				echo " "
+				echo "${cyan}Initiating dietpi-software, please wait...${reset}"
+				dietpi-software
+				else
 				
+				echo " "
 				echo "${green}Proceeding with openssh-server installation, please wait...${reset}"
-				
 				echo " "
 				
 				apt-get install openssh-server -y
@@ -1232,8 +1235,8 @@ select opt in $OPTIONS; do
 				sleep 3
 				
 				echo " "
-				
 				echo "${green}openssh-server installation completed.${reset}"
+				
 				fi
         
         
@@ -1413,10 +1416,6 @@ echo "${cyan}Helium: ${green}13xs559435FGkh39qD9kXasaAnB8JRF8KowqPeUmKHWU46VYG1h
 echo " "
 echo "${cyan}Solana: ${green}GvX4AU4V9atTBof9dT9oBnLPmPiz3mhoXBdqcxyRuQnU"
 echo " "
-echo "${red}!!!!!BE SURE TO SCROLL UP, TO SAVE #ALL THE PORTFOLIO APP USAGE DOCUMENTATION#"
-echo "PRINTED OUT ABOVE, BEFORE YOU SIGN OFF FROM THIS TERMINAL SESSION!!!!!${reset}"
-echo " "
-
 
 
 ######################################
@@ -1429,6 +1428,9 @@ export FOLIO_INSTALL_RAN=1
                     
 if [ -z "$TICKER_INSTALL_RAN" ]; then
 
+echo " "
+echo "${red}!!!!!BE SURE TO SCROLL UP, TO SAVE #ALL THE TICKER APP USAGE DOCUMENTATION#"
+echo "PRINTED OUT ABOVE, BEFORE YOU SIGN OFF FROM THIS TERMINAL SESSION!!!!!${reset}"
 
 echo "Would you like to ${red}ADDITIONALLY / OPTIONALLY${reset} install Slideshow Crypto Ticker,"
 echo "multi-crypto slideshow ticker for Raspberry Pi LCD screens on this machine?"
@@ -1466,9 +1468,6 @@ OPTIONS="install_crypto_ticker skip"
         echo "${green}Skipping the ${red}OPTIONAL ${green}crypto ticker install...${reset}"
 		echo " "
 		echo "${cyan}Installation / setup has finished, exiting to terminal...${reset}"
-		echo " "
-        echo "${red}!!!!!BE SURE TO SCROLL UP, TO SAVE #ALL THE PORTFOLIO APP USAGE DOCUMENTATION#"
-        echo "PRINTED OUT ABOVE, BEFORE YOU SIGN OFF FROM THIS TERMINAL SESSION!!!!!${reset}"
         echo " "
 		exit
 		  
