@@ -3209,6 +3209,12 @@ var $ct_array = array();
          
       
       }
+      elseif ( preg_match("/windows 11/i", $system['operating_system']) ) {
+      $system['distro_name'] = 'Windows 11';
+      }
+      elseif ( preg_match("/windows 10/i", $system['operating_system']) ) {
+      $system['distro_name'] = 'Windows 10';
+      }
       elseif ( preg_match("/windows nt/i", $system['operating_system']) ) {
       $system['distro_name'] = 'Windows NT';
       }
