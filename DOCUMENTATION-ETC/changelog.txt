@@ -5370,6 +5370,19 @@ MIGRATE YOUR EXISTING SETTINGS TO THE NEW FORMAT.
 
 
 
+-------------------------------------------------------------------
+5.15.0:
+
+-Easter Egg in documentation files :)
+
+v5.12.2 and higher renames the admin config array. ALL CONFIGURATION SETTING
+VARIABLE NAMES ARE NOW DIFFERENT, USE THE LATEST/UPGRADED CONFIG.PHP, AND
+MIGRATE YOUR EXISTING SETTINGS TO THE NEW FORMAT.
+
+-------------------------------------------------------------------
+
+
+
 
 
 
