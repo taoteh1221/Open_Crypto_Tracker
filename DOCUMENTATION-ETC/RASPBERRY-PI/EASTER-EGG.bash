@@ -7,8 +7,12 @@
 # bluetooth receiver (bash script, chmod +x it to run):
 
 
-# EXPLICITLY set paths 
-#PATH=/bin:/usr/bin:/usr/local/bin:/sbin:/usr/sbin:/usr/local/sbin:$PATH
+
+# EXPLICITLY set any dietpi paths 
+if [ -f /boot/dietpi/.version ]; then
+PATH=/boot/dietpi:$PATH
+fi
+
 
 export DISPLAY=':0.0' 
 export XAUTHORITY=~/.Xauthority 
