@@ -7,6 +7,13 @@
 # bluetooth receiver (bash script, chmod +x it to run):
 
 
+FIND_DISPLAY=$(w -h $USER | awk '$3 ~ /:[0-9.]*/{print $3}')
+
+DISPLAY=$FIND_DISPLAY
+
+export DISPLAY=$FIND_DISPLAY
+export XAUTHORITY=~/.Xauthority 
+				
 
 # EXPLICITLY set any dietpi paths 
 if [ -f /boot/dietpi/.version ]; then
@@ -14,9 +21,6 @@ PATH=/boot/dietpi:$PATH
 fi
 
 
-export DISPLAY=':0.0' 
-export XAUTHORITY=~/.Xauthority 
-				
 
 # Path to expect binary
 EXPECT_PATH=$(which expect)
@@ -180,6 +184,8 @@ select opt in $OPTIONS; do
         usermod -a -G lp $TERMINAL_USERNAME
         
         usermod -a -G pulse-access $TERMINAL_USERNAME
+        
+        usermod -a -G bluetooth $TERMINAL_USERNAME
 
 
 # Don't nest / indent, or it could malform the settings            
@@ -191,7 +197,7 @@ Description=PulseAudio system server
 \r
 [Service]
 Type=notify
-ExecStart=pulseaudio --daemonize=no --realtime --log-target=journal
+ExecStart=pulseaudio --system --daemonize=no --realtime --log-target=journal
 Restart=on-failure
 \r
 [Install]
@@ -325,16 +331,16 @@ EOF
         
         
         $EXPECT_PATH -c "
-        set timeout 60
+        set timeout 45
         spawn bluetoothctl
         send -- \"scan on\r\"
         expect \"$BLU_MAC\"
+        send -- \"trust $BLU_MAC\r\"
+        expect \"trust succeeded\"
         send -- \"pair $BLU_MAC\r\"
         expect \"Pairing successful\"
         send -- \"connect $BLU_MAC\r\"
         expect \"Connection successful\"
-        send -- \"trust $BLU_MAC\r\"
-        expect \"trust succeeded\"
         send -- \"exit\r\"
         "
         
