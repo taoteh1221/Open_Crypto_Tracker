@@ -7,11 +7,6 @@
 # bluetooth receiver (bash script, chmod +x it to run):
 
 
-FIND_DISPLAY=$(w -h $USER | awk '$3 ~ /:[0-9.]*/{print $3}')
-
-DISPLAY=$FIND_DISPLAY
-
-export DISPLAY=$FIND_DISPLAY
 export XAUTHORITY=~/.Xauthority 
 				
 
