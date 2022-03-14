@@ -58,9 +58,15 @@ BASH_PATH=$(which bash)
 TERMINAL_USERNAME=$(logname)
 
 
-# If logname doesn't work, use the $SUDO_USER global var
+# If logname doesn't work, use the $SUDO_USER or $USER global var
 if [ -z "$TERMINAL_USERNAME" ]; then
-TERMINAL_USERNAME=${1:-$SUDO_USER}
+
+    if [ -z "$SUDO_USER" ]; then
+    TERMINAL_USERNAME=$USER
+    else
+    TERMINAL_USERNAME=$SUDO_USER
+    fi
+
 fi
 
 

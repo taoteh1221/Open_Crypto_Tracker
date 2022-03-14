@@ -16,22 +16,78 @@ PATH=/boot/dietpi:$PATH
 fi
 
 
+# Get date
+DATE=$(date '+%Y-%m-%d')
+
+
+# Bash's FULL PATH
+BASH_PATH=$(which bash)
+				
 
 # Path to expect binary
 EXPECT_PATH=$(which expect)
+        
+        
+# pulseaudio's FULL PATH
+PULSEAUDIO_PATH=$(which pulseaudio)
 
 
 # Get logged-in username (if sudo, this works best with logname)
 TERMINAL_USERNAME=$(logname)
 
 
-# If logname doesn't work, use the $SUDO_USER global var
+######################################
+
+
+# If logname doesn't work, use the $SUDO_USER or $USER global var
 if [ -z "$TERMINAL_USERNAME" ]; then
-TERMINAL_USERNAME=${1:-$SUDO_USER}
+
+    if [ -z "$SUDO_USER" ]; then
+    TERMINAL_USERNAME=$USER
+    else
+    TERMINAL_USERNAME=$SUDO_USER
+    fi
+
 fi
- 
+
 
 ######################################
+
+
+# Get the operating system and version
+if [ -f /etc/os-release ]; then
+    # freedesktop.org and systemd
+    . /etc/os-release
+    OS=$NAME
+    VER=$VERSION_ID
+elif type lsb_release >/dev/null 2>&1; then
+    # linuxbase.org
+    OS=$(lsb_release -si)
+    VER=$(lsb_release -sr)
+elif [ -f /etc/lsb-release ]; then
+    # For some versions of Debian/Ubuntu without lsb_release command
+    . /etc/lsb-release
+    OS=$DISTRIB_ID
+    VER=$DISTRIB_RELEASE
+elif [ -f /etc/debian_version ]; then
+    # Older Debian/Ubuntu/etc.
+    OS=Debian
+    VER=$(cat /etc/debian_version)
+elif [ -f /etc/SuSe-release ]; then
+    # Older SuSE/etc.
+    ...
+elif [ -f /etc/redhat-release ]; then
+    # Older Red Hat, CentOS, etc.
+    ...
+else
+    # Fall back to uname, e.g. "Linux <version>", also works for BSD, etc.
+    OS=$(uname -s)
+    VER=$(uname -r)
+fi
+
+
+######################################
+
 
 # https://stackoverflow.com/questions/5947742/how-to-change-the-output-color-of-echo-in-linux
 
@@ -62,43 +118,33 @@ fi
 
 ######################################
 
-
-# pulseaudio's FULL PATH
-PULSEAUDIO_PATH=$(which pulseaudio)
-
-# If 'pulseaudio' was found, start it
-if [ -f "$PULSEAUDIO_PATH" ]; then
-
 echo " "
-echo "${cyan}Starting pulseaudio, please wait...${reset}"
-echo " "
-		
-# start NOW
-sudo systemctl --system enable --now pulseaudio.service
 
-sleep 2
-        
-PULSEAUDIO_RESULT=$(sudo systemctl status pulseaudio.service)
-
-sleep 2
-        
-echo "${yellow}PulseAudio startup results:${reset}"
-echo "${cyan} "
-        
-echo "$PULSEAUDIO_RESULT"
-echo "${reset} "
-        
+if [ "$TERMINAL_USERNAME" == "root" ]; then 
+ echo "${red}Please run as a NORMAL USER WITH 'sudo' PERMISSIONS (NOT LOGGED IN AS 'root').${reset}"
+ echo " "
+ echo "${cyan}Exiting...${reset}"
+ echo " "
+ exit
 fi
+
+######################################
+
 
 
 echo " "
 echo "${yellow}Enter the NUMBER next to your chosen option:${reset}"
 echo " "
 
-OPTIONS="install_pulseaudio install_pyradio bluetooth_mac_address connect_bluetooth test_sound radio_on radio_off adjust_volume troubleshoot skip"
+OPTIONS="pulseaudio_install pulseaudio_start_restart pulseaudio_fix pulseaudio_status pyradio_install pyradio_on pyradio_off bluetooth_mac_address bluetooth_connect bluetooth_test volume_adjust troubleshoot skip"
 
+# start options
 select opt in $OPTIONS; do
-        if [ "$opt" = "install_pulseaudio" ]; then
+
+        ##################################################################################################################
+        ##################################################################################################################
+        
+        if [ "$opt" = "pulseaudio_install" ]; then
         
         
         ######################################
@@ -106,7 +152,7 @@ select opt in $OPTIONS; do
         echo " "
         
         if [ "$EUID" -ne 0 ] || [ "$TERMINAL_USERNAME" == "root" ]; then 
-         echo "${red}Please run as a NORMAL USER #WITH# 'sudo' PERMISSIONS (NOT LOGGED IN AS 'root').${reset}"
+         echo "${red}Please run #WITH# 'sudo' PERMISSIONS.${reset}"
          echo " "
          echo "${cyan}Exiting...${reset}"
          echo " "
@@ -192,7 +238,7 @@ Description=PulseAudio system server
 \r
 [Service]
 Type=notify
-ExecStart=pulseaudio --system --daemonize=no --realtime --log-target=journal
+ExecStart=pulseaudio --system --daemonize=no --realtime --disallow-exit --disallow-module-loading --log-target=journal
 Restart=on-failure
 \r
 [Install]
@@ -239,32 +285,302 @@ EOF
 		
 		sleep 2
         
-        PULSEAUDIO_RESULT=$(systemctl status pulseaudio.service)
+        PULSEAUDIO_STATUS=$(systemctl status pulseaudio.service)
 		
 		sleep 2
         
         echo " "
-        echo "${yellow}PulseAudio install results:${reset}"
+        echo "${yellow}PulseAudio status:${reset}"
         echo "${cyan} "
                 
-        echo "$PULSEAUDIO_RESULT"
+        echo "$PULSEAUDIO_STATUS"
         echo "${reset} "
         
         break
-       elif [ "$opt" = "bluetooth_mac_address" ]; then
+        
+        ##################################################################################################################
+        ##################################################################################################################
+        
+        elif [ "$opt" = "pulseaudio_start_restart" ]; then
         
         
         ######################################
         
         echo " "
         
-        if [ "$EUID" == 0 ]; then 
-         echo "${red}Please run as a NORMAL USER #WITHOUT# 'sudo' PERMISSIONS.${reset}"
-         echo " "
-         echo "${cyan}Exiting...${reset}"
-         echo " "
-         exit
-        fi
+            if [ "$EUID" -ne 0 ] || [ "$TERMINAL_USERNAME" == "root" ]; then 
+             echo "${red}Please run #WITH# 'sudo' PERMISSIONS.${reset}"
+             echo " "
+             echo "${cyan}Exiting...${reset}"
+             echo " "
+             exit
+            fi
+        
+        ######################################
+        
+            
+            # If 'pulseaudio' was found, start it
+            if [ -f "$PULSEAUDIO_PATH" ]; then
+                    
+            echo "${green}Starting / restarting pulseaudio, please wait...${reset}"
+            echo " "
+                
+    		# restart
+    		systemctl restart pulseaudio.service
+            
+            sleep 5
+                    
+            PULSEAUDIO_STATUS=$(sudo systemctl status pulseaudio.service)
+            
+            sleep 2
+                    
+            echo "${yellow}PulseAudio status:${reset}"
+            echo "${cyan} "
+                    
+            echo "$PULSEAUDIO_STATUS"
+            echo "${reset} "
+                    
+            echo "${red}INACTIVE / DEAD doesn't mean it won't start when needed? Currently looking into this.${reset}"
+            echo " "
+            
+            else
+            
+            echo "PulseAudio not found, must be installed first, please re-run this script and choose that option."
+            echo " "
+                    
+            fi
+
+        
+        break
+        
+        ##################################################################################################################
+        ##################################################################################################################
+        
+        elif [ "$opt" = "pulseaudio_status" ]; then
+        
+        
+        ######################################
+        
+        echo " "
+        
+            if [ "$EUID" -ne 0 ] || [ "$TERMINAL_USERNAME" == "root" ]; then 
+             echo "${red}Please run #WITH# 'sudo' PERMISSIONS.${reset}"
+             echo " "
+             echo "${cyan}Exiting...${reset}"
+             echo " "
+             exit
+            fi
+        
+        ######################################
+        
+            
+            # If 'pulseaudio' was found, start it
+            if [ -f "$PULSEAUDIO_PATH" ]; then
+                    
+            PULSEAUDIO_STATUS=$(sudo systemctl status pulseaudio.service)
+            
+            sleep 2
+                    
+            echo "${yellow}PulseAudio status:${reset}"
+            echo "${cyan} "
+                    
+            echo "$PULSEAUDIO_STATUS"
+            echo "${reset} "
+                    
+            echo "${red}INACTIVE / DEAD doesn't mean it won't start when needed? Currently looking into this.${reset}"
+            echo " "
+            
+            else
+            
+            echo "PulseAudio not found, must be installed first, please re-run this script and choose that option."
+            echo " "
+                    
+            fi
+
+        
+        break
+        
+        ##################################################################################################################
+        ##################################################################################################################
+        
+        elif [ "$opt" = "pulseaudio_fix" ]; then
+        
+        
+        ######################################
+        
+        echo " "
+        
+            if [ "$EUID" == 0 ]; then 
+             echo "${red}Please run #WITHOUT# 'sudo' PERMISSIONS.${reset}"
+             echo " "
+             echo "${cyan}Exiting...${reset}"
+             echo " "
+             exit
+            fi
+        
+        ######################################
+        
+            
+            # If 'pulseaudio' was found, run the fix
+            if [ -f "$PULSEAUDIO_PATH" ]; then
+                    
+            
+            rm -r ~/.config/pulse.old > /dev/null 2>&1
+            mv ~/.config/pulse/ ~/.config/pulse.old-$DATE > /dev/null 2>&1
+                    
+            echo "${green}Attempted fixes have been completed.${reset}"
+            echo " "
+                    
+            echo "${red}PULSEAUDIO MUST BE RESTARTED, please re-run this script and choose that option.${reset}"
+            echo " "
+            
+            else
+            
+            echo "PulseAudio not found, must be installed first, please re-run this script and choose that option."
+            echo " "
+                    
+            fi
+
+        
+        break
+        
+        ##################################################################################################################
+        ##################################################################################################################
+        
+        elif [ "$opt" = "pyradio_install" ]; then
+        
+        
+        ######################################
+        
+        echo " "
+        
+            if [ "$EUID" -ne 0 ] || [ "$TERMINAL_USERNAME" == "root" ]; then 
+             echo "${red}Please run #WITH# 'sudo' PERMISSIONS.${reset}"
+             echo " "
+             echo "${cyan}Exiting...${reset}"
+             echo " "
+             exit
+            fi
+        
+        ######################################
+       
+        
+        echo " "
+        echo "${green}Installing PyRadio, please wait...${reset}"
+        echo " "
+        
+        pip install pyradio
+        
+        sleep 2
+        
+        echo " "
+        echo "${green}PyRadio installed.${reset}"
+        echo " "
+        
+        break
+        
+        ##################################################################################################################
+        ##################################################################################################################
+        
+        elif [ "$opt" = "pyradio_on" ]; then
+        
+        
+        ######################################
+        
+        echo " "
+        
+            if [ "$EUID" == 0 ]; then 
+             echo "${red}Please run #WITHOUT# 'sudo' PERMISSIONS.${reset}"
+             echo " "
+             echo "${cyan}Exiting...${reset}"
+             echo " "
+             exit
+            fi
+        
+        ######################################
+       
+       
+        echo "${yellow} "
+        read -n1 -s -r -p $'Press b to run radio in the background, or s to show on-screen...\n' key
+        echo "${reset} "
+
+            if [ "$key" = 'b' ] || [ "$key" = 'B' ]; then
+        
+            echo "${yellow} "
+            read -p 'Enter playlist number: ' PLAY_NUM
+            echo "${reset} "
+            
+            echo " "
+            echo "${green}Tuning radio app to playlist ${PLAY_NUM}...${reset}"
+            echo " "
+            
+            export PLAY_NUM=$PLAY_NUM
+            screen -dm -S radio bash -c 'pyradio --play ${PLAY_NUM}'
+        
+            elif [ "$key" = 's' ] || [ "$key" = 'S' ]; then
+            
+            pyradio --play
+            
+            echo " "
+            echo "${cyan}Exited radio app.${reset}"
+            echo " "
+        
+            else
+            
+            echo "${cyan}Opening radio app cancelled.${reset}"
+            echo " "
+        
+            fi
+        
+        break        
+        
+        ##################################################################################################################
+        ##################################################################################################################
+        
+        elif [ "$opt" = "pyradio_off" ]; then
+        
+        
+        ######################################
+        
+        echo " "
+        
+            if [ "$EUID" == 0 ]; then 
+             echo "${red}Please run #WITHOUT# 'sudo' PERMISSIONS.${reset}"
+             echo " "
+             echo "${cyan}Exiting...${reset}"
+             echo " "
+             exit
+            fi
+        
+        ######################################
+       
+       
+        echo " "
+        echo "${green}Turning radio app OFF...${reset}"
+        echo " "
+        
+        screen -ls | grep Detached | cut -d. -f1 | awk '{print $1}' | xargs kill
+        exit
+        
+        break    
+        
+        ##################################################################################################################
+        ##################################################################################################################
+        
+        elif [ "$opt" = "bluetooth_mac_address" ]; then
+        
+        
+        ######################################
+        
+        echo " "
+        
+            if [ "$EUID" == 0 ]; then 
+             echo "${red}Please run #WITHOUT# 'sudo' PERMISSIONS.${reset}"
+             echo " "
+             echo "${cyan}Exiting...${reset}"
+             echo " "
+             exit
+            fi
         
         ######################################
 
@@ -297,7 +613,7 @@ EOF
             fi
         
         break        
-       elif [ "$opt" = "connect_bluetooth" ]; then
+       elif [ "$opt" = "bluetooth_connect" ]; then
         
         
         ######################################
@@ -305,7 +621,7 @@ EOF
         echo " "
         
         if [ "$EUID" == 0 ]; then 
-         echo "${red}Please run as a NORMAL USER #WITHOUT# 'sudo' PERMISSIONS.${reset}"
+         echo "${red}Please run #WITHOUT# 'sudo' PERMISSIONS.${reset}"
          echo " "
          echo "${cyan}Exiting...${reset}"
          echo " "
@@ -353,181 +669,85 @@ EOF
         
         
         break
-       elif [ "$opt" = "install_pyradio" ]; then
+        
+        ##################################################################################################################
+        ##################################################################################################################
+        
+        elif [ "$opt" = "bluetooth_test" ]; then
         
         
         ######################################
         
         echo " "
         
-        if [ "$EUID" -ne 0 ] || [ "$TERMINAL_USERNAME" == "root" ]; then 
-         echo "${red}Please run as a NORMAL USER #WITH# 'sudo' PERMISSIONS (NOT LOGGED IN AS 'root').${reset}"
-         echo " "
-         echo "${cyan}Exiting...${reset}"
-         echo " "
-         exit
-        fi
-        
-        ######################################
-       
-        
-        echo " "
-        echo "${green}Installing PyRadio, please wait...${reset}"
-        echo " "
-        
-        pip install pyradio
-        
-        sleep 2
-        
-        echo " "
-        echo "${green}PyRadio installed.${reset}"
-        echo " "
-        
-        break
-       elif [ "$opt" = "test_sound" ]; then
-        
-        
-        ######################################
-        
-        echo " "
-        
-        if [ "$EUID" == 0 ]; then 
-         echo "${red}Please run as a NORMAL USER #WITHOUT# 'sudo' PERMISSIONS.${reset}"
-         echo " "
-         echo "${cyan}Exiting...${reset}"
-         echo " "
-         exit
-        fi
+            if [ "$EUID" == 0 ]; then 
+             echo "${red}Please run #WITHOUT# 'sudo' PERMISSIONS.${reset}"
+             echo " "
+             echo "${cyan}Exiting...${reset}"
+             echo " "
+             exit
+            fi
         
         ######################################
        
        
         echo " "
-        echo "${green}Testing with 'Front Center' sound test...${reset}"
+        echo "${green}Testing with 'Front Center' sound test... ${red}If you did NOT hear these words on your bluetooth speaker, then there is a problem somewhere.${reset}"
         echo " "
         
         aplay /usr/share/sounds/alsa/Front_Center.wav
         exit
         
         break
-       elif [ "$opt" = "radio_on" ]; then
+        
+        ##################################################################################################################
+        ##################################################################################################################
+        
+        elif [ "$opt" = "volume_adjust" ]; then
         
         
         ######################################
         
         echo " "
         
-        if [ "$EUID" == 0 ]; then 
-         echo "${red}Please run as a NORMAL USER #WITHOUT# 'sudo' PERMISSIONS.${reset}"
-         echo " "
-         echo "${cyan}Exiting...${reset}"
-         echo " "
-         exit
-        fi
-        
-        ######################################
-       
-       
-        echo "${yellow} "
-        read -n1 -s -r -p $'Press b to run radio in the background, or s to show on-screen...\n' key
-        echo "${reset} "
-
-            if [ "$key" = 'b' ] || [ "$key" = 'B' ]; then
-        
-            echo "${yellow} "
-            read -p 'Enter playlist number: ' PLAY_NUM
-            echo "${reset} "
-            
-            echo " "
-            echo "${green}Tuning radio app to playlist ${PLAY_NUM}...${reset}"
-            echo " "
-            
-            export PLAY_NUM=$PLAY_NUM
-            screen -dm -S radio bash -c 'pyradio --play ${PLAY_NUM}'
-        
-            elif [ "$key" = 's' ] || [ "$key" = 'S' ]; then
-            
-            pyradio --play
-            
-            echo " "
-            echo "${cyan}Exited radio app.${reset}"
-            echo " "
-        
-            else
-            
-            echo "${cyan}Opening radio app cancelled.${reset}"
-            echo " "
-        
+            if [ "$EUID" == 0 ]; then 
+             echo "${red}Please run #WITHOUT# 'sudo' PERMISSIONS.${reset}"
+             echo " "
+             echo "${cyan}Exiting...${reset}"
+             echo " "
+             exit
             fi
         
-        break        
-       elif [ "$opt" = "radio_off" ]; then
-        
-        
-        ######################################
-        
-        echo " "
-        
-        if [ "$EUID" == 0 ]; then 
-         echo "${red}Please run as a NORMAL USER #WITHOUT# 'sudo' PERMISSIONS.${reset}"
-         echo " "
-         echo "${cyan}Exiting...${reset}"
-         echo " "
-         exit
-        fi
-        
         ######################################
        
        
-        echo " "
-        echo "${green}Turning radio app OFF...${reset}"
-        echo " "
-        
-       screen -ls | grep Detached | cut -d. -f1 | awk '{print $1}' | xargs kill
-        exit
-        
-        break
-       elif [ "$opt" = "adjust_volume" ]; then
-        
-        
-        ######################################
-        
-        echo " "
-        
-        if [ "$EUID" == 0 ]; then 
-         echo "${red}Please run as a NORMAL USER #WITHOUT# 'sudo' PERMISSIONS.${reset}"
-         echo " "
-         echo "${cyan}Exiting...${reset}"
-         echo " "
-         exit
-        fi
-        
-        ######################################
-       
-       
-       alsamixer
+        alsamixer
        
         echo " "
-        echo "${green}Volume adjusted...${reset}"
+        echo "${cyan}Exiting volume control...${reset}"
         echo " "
         
         exit
         
         break
-       elif [ "$opt" = "troubleshoot" ]; then
+        
+        ##################################################################################################################
+        ##################################################################################################################
+        
+        elif [ "$opt" = "troubleshoot" ]; then
         
         
         ######################################
         
         echo " "
         
-        if [ "$EUID" == 0 ]; then 
-         echo "${red}Please run as a NORMAL USER #WITHOUT# 'sudo' PERMISSIONS.${reset}"
-         echo " "
-         echo "${cyan}Exiting...${reset}"
-         echo " "
-         exit
-        fi
+            if [ "$EUID" == 0 ]; then 
+             echo "${red}Please run #WITHOUT# 'sudo' PERMISSIONS.${reset}"
+             echo " "
+             echo "${cyan}Exiting...${reset}"
+             echo " "
+             exit
+            fi
         
         ######################################
         
@@ -539,7 +759,11 @@ EOF
         exit
         
         break
-       elif [ "$opt" = "skip" ]; then
+        
+        ##################################################################################################################
+        ##################################################################################################################
+        
+        elif [ "$opt" = "skip" ]; then
        
         echo " "
         echo "${green}Skipping...${reset}"
@@ -548,10 +772,14 @@ EOF
         exit
         
         break
-       fi
+        fi
+        
+        ##################################################################################################################
+        ##################################################################################################################
+        
        
 done
-
+# done options
 
 exit
 
