@@ -11,8 +11,18 @@ export XAUTHORITY=~/.Xauthority
 				
 
 # EXPLICITLY set any dietpi paths 
+# Export too, in case we are calling another bash instance in this script
 if [ -f /boot/dietpi/.version ]; then
 PATH=/boot/dietpi:$PATH
+export PATH=$PATH
+fi
+				
+
+# EXPLICITLY set any ~/.local/bin paths (for pyradio, etc)
+# Export too, in case we are calling another bash instance in this script
+if [ -d ~/.local/bin ]; then
+PATH=~/.local/bin:$PATH
+export PATH=$PATH
 fi
 
 
@@ -454,8 +464,8 @@ EOF
         
         echo " "
         
-            if [ "$EUID" -ne 0 ] || [ "$TERMINAL_USERNAME" == "root" ]; then 
-             echo "${red}Please run #WITH# 'sudo' PERMISSIONS.${reset}"
+            if [ "$EUID" == 0 ]; then 
+             echo "${red}Please run #WITHOUT# 'sudo' PERMISSIONS.${reset}"
              echo " "
              echo "${cyan}Exiting...${reset}"
              echo " "
@@ -469,7 +479,9 @@ EOF
         echo "${green}Installing PyRadio, please wait...${reset}"
         echo " "
         
-        pip install pyradio
+        # Since we check for ~/.local/bin atop this script,
+        # suppress any script location warning with a cli flag here
+        pip install pyradio --no-warn-script-location
         
         sleep 2
         
@@ -499,8 +511,51 @@ EOF
         
         ######################################
        
+  				
+        echo "${yellow}Select 1 or 2 to choose whether to load a custom stations file, or the default one.${reset}"
+        echo " "
+        
+        OPTIONS="custom_stations default_stations"
+        
+        select opt in $OPTIONS; do
+                if [ "$opt" = "custom_stations" ]; then
+        
+                echo " "
+                echo "${yellow}Enter the #FULL SYSTEM PATH# (example: start with /home/$TERMINAL_USERNAME/ for your home directory)"
+                echo "to your CUSTOM stations file, OR leave blank to use the default one.${reset}"
+                echo " "
+                
+                read CUSTOM_STATIONS_FILE
+                echo " "
+                                
+                	if [ -z "$CUSTOM_STATIONS_FILE" ]; then
+                 	LOAD_CUSTOM_STATIONS=""
+                 	echo "${green}Using default stations...${reset}"
+                    echo " "
+                    sleep 3
+                 	else
+                 	LOAD_CUSTOM_STATIONS="-s $CUSTOM_STATIONS_FILE"
+                    echo "${green}Using custom stations from: $CUSTOM_STATIONS_FILE${reset}"
+                    echo " "
+                    sleep 3
+                 	fi
+                
+                break
+               elif [ "$opt" = "default_stations" ]; then
+                echo " "
+                echo "${green}Using default stations...${reset}"
+                break
+               fi
+        done
+        
+        echo " "
        
-        echo "${yellow} "
+        echo "${red}PRO TIPS (if you choose 'show on-screen' below):"
+        echo " "
+        echo "Press the q key to exit pyradio"
+        echo " "
+        echo "Navigate with the up / down arrows, and choose a station with the enter / return key"
+        echo "${reset}${yellow} "
         read -n1 -s -r -p $'Press b to run radio in the background, or s to show on-screen...\n' key
         echo "${reset} "
 
@@ -515,11 +570,11 @@ EOF
             echo " "
             
             export PLAY_NUM=$PLAY_NUM
-            screen -dm -S radio bash -c 'pyradio --play ${PLAY_NUM}'
+            screen -dm -S radio bash -c 'pyradio ${LOAD_CUSTOM_STATIONS} --play ${PLAY_NUM}'
         
             elif [ "$key" = 's' ] || [ "$key" = 'S' ]; then
             
-            pyradio --play
+            pyradio ${LOAD_CUSTOM_STATIONS} --play
             
             echo " "
             echo "${cyan}Exited radio app.${reset}"
