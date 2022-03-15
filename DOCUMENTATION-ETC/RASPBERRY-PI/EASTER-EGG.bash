@@ -1,11 +1,10 @@
 #!/bin/bash
 
-# Copyright 2022 GPLv3, By Mike Kilday: Mike@DragonFrugal.com
+# Copyright 2022 GPLv3, Bluetooth Internet Radio By Mike Kilday: Mike@DragonFrugal.com
 
-# Fully automated setup of bluetooth and an internet radio player (PyRadio),
-# on a headless RaspberryPi / DietPi, connecting to a stereo system's
-# bluetooth receiver (bash script, chmod +x it to run):
 
+# Version of this script
+APP_VERSION="1.00.0"
 
 export XAUTHORITY=~/.Xauthority 
 				
@@ -35,6 +34,10 @@ DATE=$(date '+%Y-%m-%d')
 
 # Bash's FULL PATH
 BASH_PATH=$(which bash)
+
+
+# pyradio's FULL PATH
+PYRADIO_PATH=$(which pyradio)
 				
 
 # Path to expect binary
@@ -515,14 +518,19 @@ EOF
         echo "${green}Installing PyRadio, please wait...${reset}"
         echo " "
         
-        # Since we check for ~/.local/bin atop this script,
-        # suppress any script location warning with a cli flag here
-        pip install pyradio --no-warn-script-location
+        # SPECIFILLY NAME IT WITH -O, TO OVERWRITE ANY PREVIOUS COPY...ALSO --no-cache TO ALWAYS GET LATEST COPY
+        wget --no-cache -O install.py https://raw.githubusercontent.com/coderholic/pyradio/master/pyradio/install.py
+        
+        sleep 2
+        
+        chmod +x install.py
+        
+        python install.py --force
         
         sleep 2
         
         echo " "
-        echo "${green}PyRadio installed.${reset}"
+        echo "${green}PyRadio installation complete.${reset}"
         echo " "
         
         break
@@ -585,46 +593,92 @@ EOF
         done
         
         echo " "
-       
         echo "${red}PRO TIPS:"
         echo " "
-        echo "Press the q key to exit pyradio"
+        echo "Press the q OR Esc key to exit pyradio"
         echo " "
         echo "Navigate with the up / down arrows, and choose a station with the enter / return key"
         echo " "
-        echo "PYRADIO VERSION 0.5.2 HAS A CHOOSE PLAYLIST BUG, REQUIRING YOU TO SET THE CHOSEN PLAYLIST"
-        echo "TO ZERO #TO RUN THE FIRST STATION IN THE LIST# (OTHERWISE IT PLAYS A RANDOM STATION)"
-        echo "${reset}${yellow} "
-        read -n1 -s -r -p $'Press b to run radio in the background, or s to show on-screen...\n' key
-        echo "${reset} "
+        echo "Full list of controls:"
+        echo " "
+        echo "https://github.com/coderholic/pyradio/blob/master/README.md#controls"
+        echo " "
+        
+            # IF FIRST RUN, FORCE SHOWING PYRADIO ON SCREEN (SO USER CONFIG FILES GET CREATED IN HOME DIR)
+            if [ ! -d /home/pi/.config/pyradio ]; then
 
-            if [ "$key" = 'b' ] || [ "$key" = 'B' ]; then
-        
+            echo " "
+            echo "###########################################################################################"
+            echo " "
+            echo "We must activate pyradio config files for the first time, before continuing."
+            echo " "
+            echo "After letting pyradio run for a minute, please exit pyradio, and run this script again."
+            echo " "
+            echo "Afterwards, this notice will dissapear, and the normal pyradio options will show instead."
+            echo " "
+            echo "###########################################################################################"
+            echo " "
+            
             echo "${yellow} "
-            read -p 'Enter playlist number: ' PLAY_NUM
+            read -n1 -s -r -p $'Press y to run pyradio first-time setup (or press n to cancel)...\n' key
             echo "${reset} "
-            
-            echo " "
-            echo "${green}Tuning radio app to playlist ${PLAY_NUM}...${reset}"
-            echo " "
-            
-            export PLAY_NUM=$PLAY_NUM
-            screen -dm -S radio bash -c 'pyradio --play ${PLAY_NUM} ${LOAD_CUSTOM_STATIONS}'
         
-            elif [ "$key" = 's' ] || [ "$key" = 'S' ]; then
+                if [ "$key" = 'y' ] || [ "$key" = 'Y' ]; then
             
-            pyradio --play ${LOAD_CUSTOM_STATIONS}
+    		    echo " "
+    			echo "${cyan}Initiating pyradio first-time setup, please wait...${reset}"
+                
+                sleep 3
+    			
+    			$PYRADIO_PATH --play
             
-            echo " "
-            echo "${cyan}Exited radio app.${reset}"
-            echo " "
-        
+                else
+                echo "${cyan}pyradio first-time setup has been cancelled.${reset}"
+                echo " "
+                fi
+                
+            
+            # OTHERWISE, LET USER CHOOSE WHICH WAY TO RUN PYRADIO
             else
-            
-            echo "${cyan}Opening radio app cancelled.${reset}"
-            echo " "
         
+            echo "${reset}${yellow} "
+            read -n1 -s -r -p $'Press b to run radio in the background, or s to show on-screen...\n' key
+            echo "${reset} "
+    
+                # Using $PYRADIO_PATH in case any old pip version messed up our bash config?
+                if [ "$key" = 'b' ] || [ "$key" = 'B' ]; then
+            
+                echo "${yellow} "
+                read -p 'Enter playlist number: ' PLAY_NUM
+                echo "${reset} "
+                
+                echo " "
+                echo "${green}Tuning pyradio to playlist ${PLAY_NUM}...${reset}"
+                echo " "
+                
+                # Export the vars to screen's bash session, OR IT WON'T RUN!
+                export PYRADIO_PATH=$PYRADIO_PATH
+                export PLAY_NUM=$PLAY_NUM
+                export LOAD_CUSTOM_STATIONS=$LOAD_CUSTOM_STATIONS
+                screen -dmS radio bash -c '${PYRADIO_PATH} --play ${PLAY_NUM} ${LOAD_CUSTOM_STATIONS}'
+            
+                elif [ "$key" = 's' ] || [ "$key" = 'S' ]; then
+                
+                $PYRADIO_PATH --play $LOAD_CUSTOM_STATIONS
+                
+                echo " "
+                echo "${cyan}Exited pyradio.${reset}"
+                echo " "
+            
+                else
+                
+                echo "${cyan}Opening pyradio cancelled.${reset}"
+                echo " "
+            
+                fi
+                
             fi
+            
         
         break        
         
@@ -650,7 +704,7 @@ EOF
        
        
         echo " "
-        echo "${green}Turning radio app OFF...${reset}"
+        echo "${green}Turning pyradio OFF...${reset}"
         echo " "
         
         screen -ls | grep Detached | cut -d. -f1 | awk '{print $1}' | xargs kill
