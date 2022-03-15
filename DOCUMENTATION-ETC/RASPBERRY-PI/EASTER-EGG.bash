@@ -46,6 +46,13 @@ PULSEAUDIO_PATH=$(which pulseaudio)
 TERMINAL_USERNAME=$(logname)
 
 
+SCRIPT_NAME=`basename "$0"`
+
+SCRIPT_PATH="$( cd -- "$(dirname "$0")" >/dev/null 2>&1 ; pwd -P )"
+
+SCRIPT_LOCATION="${SCRIPT_PATH}/${SCRIPT_NAME}"
+
+
 ######################################
 
 
@@ -139,6 +146,34 @@ if [ "$TERMINAL_USERNAME" == "root" ]; then
 fi
 
 ######################################
+
+
+######################################
+
+echo " "
+
+if [ ! -f ~/radio ]; then 
+
+ln -s $SCRIPT_LOCATION ~/radio
+
+echo "${red}IMPORTANT INFORMATION:"
+echo " "
+echo "~/radio command is now a shortcut for ./$SCRIPT_NAME"
+echo " "
+
+echo "IF YOU MOVE $SCRIPT_LOCATION TO A NEW LOCATION,"
+echo "you'll have to delete ~/radio and THIS SCRIPT WILL RE-CREATE IT.${reset}"
+echo " "
+
+else
+echo "${red}PRO TIP:"
+echo " "
+echo "~/radio command is a shortcut to this script (${SCRIPT_LOCATION})${reset}"
+echo " "
+fi
+
+######################################
+
 
 
 
