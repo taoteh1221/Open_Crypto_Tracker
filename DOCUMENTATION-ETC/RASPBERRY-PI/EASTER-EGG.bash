@@ -9,6 +9,9 @@
 
 export XAUTHORITY=~/.Xauthority 
 				
+# Export current working directory, in case we are calling another bash instance in this script
+export PWD=$PWD
+
 
 # EXPLICITLY set any dietpi paths 
 # Export too, in case we are calling another bash instance in this script
@@ -585,11 +588,14 @@ EOF
         
         echo " "
        
-        echo "${red}PRO TIPS (if you choose 'show on-screen' below):"
+        echo "${red}PRO TIPS:"
         echo " "
         echo "Press the q key to exit pyradio"
         echo " "
         echo "Navigate with the up / down arrows, and choose a station with the enter / return key"
+        echo " "
+        echo "PYRADIO VERSION 0.5.2 HAS A CHOOSE PLAYLIST BUG, REQUIRING YOU TO SET THE CHOSEN PLAYLIST"
+        echo "TO ZERO #TO RUN THE FIRST STATION IN THE LIST# (OTHERWISE IT PLAYS A RANDOM STATION)"
         echo "${reset}${yellow} "
         read -n1 -s -r -p $'Press b to run radio in the background, or s to show on-screen...\n' key
         echo "${reset} "
@@ -605,11 +611,11 @@ EOF
             echo " "
             
             export PLAY_NUM=$PLAY_NUM
-            screen -dm -S radio bash -c 'pyradio ${LOAD_CUSTOM_STATIONS} --play ${PLAY_NUM}'
+            screen -dm -S radio bash -c 'pyradio --play ${PLAY_NUM} ${LOAD_CUSTOM_STATIONS}'
         
             elif [ "$key" = 's' ] || [ "$key" = 'S' ]; then
             
-            pyradio ${LOAD_CUSTOM_STATIONS} --play
+            pyradio --play ${LOAD_CUSTOM_STATIONS}
             
             echo " "
             echo "${cyan}Exited radio app.${reset}"
