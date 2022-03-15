@@ -169,9 +169,7 @@ echo "you'll have to delete ~/radio and THIS SCRIPT WILL RE-CREATE IT.${reset}"
 echo " "
 
 else
-echo "${red}PRO TIP:"
-echo " "
-echo "~/radio command is a shortcut to this script (${SCRIPT_LOCATION})${reset}"
+echo "${red}PRO TIP: ~/radio command is a shortcut to this script${reset}"
 echo " "
 fi
 
