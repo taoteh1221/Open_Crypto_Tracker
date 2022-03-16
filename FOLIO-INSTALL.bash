@@ -9,8 +9,10 @@ echo " "
 
 
 # EXPLICITLY set any dietpi paths 
+# Export too, in case we are calling another bash instance in this script
 if [ -f /boot/dietpi/.version ]; then
 PATH=/boot/dietpi:$PATH
+export PATH=$PATH
 fi
 
 
@@ -52,6 +54,22 @@ fi
 
 # Bash's FULL PATH
 BASH_PATH=$(which bash)
+
+
+# curl's FULL PATH
+CURL_PATH=$(which curl)
+
+
+# jq's FULL PATH
+JQ_PATH=$(which jq)
+
+
+# wget's FULL PATH
+WGET_PATH=$(which wget)
+
+
+# sed's FULL PATH
+SED_PATH=$(which sed)
 
 
 # Get logged-in username (if sudo, this works best with logname)
@@ -132,6 +150,60 @@ fi
 
 ######################################
 
+# Install curl if needed
+if [ -z "$CURL_PATH" ]; then
+
+sudo apt update
+
+echo " "
+echo "${cyan}Installing required component curl, please wait...${reset}"
+echo " "
+
+sudo apt install curl jq -y
+
+fi
+
+# Install jq if needed
+if [ -z "$JQ_PATH" ]; then
+
+sudo apt update
+
+echo " "
+echo "${cyan}Installing required component jq, please wait...${reset}"
+echo " "
+
+sudo apt install jq -y
+
+fi
+
+# Install wget if needed
+if [ -z "$WGET_PATH" ]; then
+
+sudo apt update
+
+echo " "
+echo "${cyan}Installing required component wget, please wait...${reset}"
+echo " "
+
+sudo apt install wget -y
+
+fi
+
+# Install sed if needed
+if [ -z "$SED_PATH" ]; then
+
+sudo apt update
+
+echo " "
+echo "${cyan}Installing required component sed, please wait...${reset}"
+echo " "
+
+sudo apt install sed -y
+
+fi
+
+######################################
+
 
 # Start in user home directory
 # WE DON'T USE ~/ FOR PATHS IN THIS SCRIPT BECAUSE:
@@ -157,6 +229,7 @@ echo "(leave blank / hit enter for default username '${TERMINAL_USERNAME}')${res
 echo " "
         
 read APP_USER
+echo " "
 
  if [ -z "$APP_USER" ]; then
  APP_USER=${1:-$TERMINAL_USERNAME}
@@ -178,6 +251,7 @@ echo "(leave blank / hit enter to use the default value: /var/www/html)${reset}"
 echo " "
 
 read DOC_ROOT
+echo " "
         
 if [ -z "$DOC_ROOT" ]; then
 DOC_ROOT=${1:-/var/www/html}
@@ -348,6 +422,7 @@ echo "(leave blank / hit enter for default of '$FPM_PACKAGE_VER')${reset}"
 echo " "
         
 read PHP_FPM_VER
+echo " "
                 
 	if [ -z "$PHP_FPM_VER" ]; then
  	PHP_FPM_VER=${1:-$FPM_PACKAGE_VER}
@@ -465,6 +540,7 @@ select opt in $OPTIONS; do
             echo " "
             
             read HTTP_CONF
+            echo " "
                     
                 if [ ! -f $HTTP_CONF ] || [ -z "$HTTP_CONF" ]; then
                 echo "${red}No HTTP config file detected, skipping Apache htaccess setup for port 80, please wait...${reset}"
@@ -560,6 +636,7 @@ EOF
             echo " "
             
             read HTTPS_CONF
+            echo " "
                     
                 if [ ! -f $HTTPS_CONF ] || [ -z "$HTTPS_CONF" ]; then
                 echo "${red}No HTTPS config file detected, skipping Apache htaccess setup for port 443, please wait...${reset}"
@@ -673,6 +750,7 @@ EOF
          echo " "
             
          read CUSTOM_GROUP
+         echo " "
                     
             if [ -z "$CUSTOM_GROUP" ]; then
             CUSTOM_GROUP=${1:-$WWW_GROUP}
@@ -859,6 +937,7 @@ select opt in $OPTIONS; do
 						echo "and YOU WILL LOSE ALL PREVIOUSLY-CONFIGURED SETTINGS.${reset}"
 						echo " "
   						read RAND_STRING
+                        echo " "
 						fi
 				
 						# If $RAND_STRING has a value, backup config.php, otherwise don't create backup file (for security reasons)
@@ -1065,6 +1144,7 @@ select opt in $OPTIONS; do
                     echo " "
                     
                     read SYS_PATH
+                    echo " "
                     
                         if [ -z "$SYS_PATH" ]; then
                         SYS_PATH=${1:-$DOC_ROOT/cron.php}
@@ -1088,6 +1168,7 @@ select opt in $OPTIONS; do
                     echo " "
                     
                     read INTERVAL
+                    echo " "
                     
                         if [ -z "$INTERVAL" ]; then
                         INTERVAL=${2:-20}
@@ -1404,14 +1485,6 @@ echo "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~${reset}"
 ######################################
 
 
-echo " "
-echo "Also check out my 100% FREE open source multi-crypto slideshow ticker for Raspberry Pi LCD screens:"
-echo " "
-echo "https://sourceforge.net/projects/dfd-crypto-ticker"
-echo " "
-echo "https://github.com/taoteh1221/Slideshow_Crypto_Ticker"
-echo " "
-
 echo "${yellow}ANY DONATIONS (LARGE OR SMALL) HELP SUPPORT DEVELOPMENT OF MY APPS..."
 echo " "
 echo "${cyan}Bitcoin: ${green}3Nw6cvSgnLEFmQ1V4e8RSBG23G7pDjF3hW"
@@ -1437,6 +1510,14 @@ if [ -z "$TICKER_INSTALL_RAN" ]; then
 echo " "
 echo "${red}!!!!!BE SURE TO SCROLL UP, TO SAVE #ALL THE TICKER APP USAGE DOCUMENTATION#"
 echo "PRINTED OUT ABOVE, BEFORE YOU SIGN OFF FROM THIS TERMINAL SESSION!!!!!${reset}"
+
+echo " "
+echo "Also check out my 100% FREE open source multi-crypto slideshow ticker for Raspberry Pi LCD screens:"
+echo " "
+echo "https://sourceforge.net/projects/dfd-crypto-ticker"
+echo " "
+echo "https://github.com/taoteh1221/Slideshow_Crypto_Ticker"
+echo " "
 
 echo "Would you like to ${red}ADDITIONALLY / OPTIONALLY${reset} install Slideshow Crypto Ticker,"
 echo "multi-crypto slideshow ticker for Raspberry Pi LCD screens on this machine?"

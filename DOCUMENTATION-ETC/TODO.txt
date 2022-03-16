@@ -53,6 +53,9 @@ When importing a CSV spreadsheet in linux desktop edition with cookies enabled, 
 "CSV import suceeded" has a 'dismiss' link that doesn't work...when clicked, it reloads a blank portfolio page. But when the normal 'refresh' link is used INSTEAD atop the portfolio page, the imported data stays just fine. Funny thing is the "CSV import suceeded" message ALSO PERSISTS THIS WAY. Figure out whats going on there. Also check the "Your CSV import upload failed." logic. Start tests with Windows Desktop Edition.
 
 
+Look into merging all our classes in the portfolio app like so: https://stackoverflow.com/questions/2374828/how-to-merge-two-class-in-php  Then it is more programmer-friendly, as all functions can then be called from something like $ct->my_object() for simplicity sake.
+
+
 For 'Desktop Edition' (using phpdesktop), look into using docker images for cross-platform compatibility (Windows / Mac / Linux).
 
 

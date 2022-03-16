@@ -1,7 +1,7 @@
 #!/bin/bash
 
 #enter your build directory
-cd /home/taoteh1221/Build/
+cd /home/taoteh1221/Compiling/
 
 #uncomment first run only
 #git clone --bare --mirror https://github.com/taoteh1221/DFD_Cryptocoin_Values.git
