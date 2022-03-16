@@ -194,11 +194,11 @@ fi
 # Install curl if needed
 if [ -z "$CURL_PATH" ]; then
 
-sudo apt update
-
 echo " "
 echo "${cyan}Installing required component curl, please wait...${reset}"
 echo " "
+
+sudo apt update
 
 sudo apt install curl jq -y
 
@@ -207,11 +207,11 @@ fi
 # Install jq if needed
 if [ -z "$JQ_PATH" ]; then
 
-sudo apt update
-
 echo " "
 echo "${cyan}Installing required component jq, please wait...${reset}"
 echo " "
+
+sudo apt update
 
 sudo apt install jq -y
 
@@ -220,11 +220,11 @@ fi
 # Install wget if needed
 if [ -z "$WGET_PATH" ]; then
 
-sudo apt update
-
 echo " "
 echo "${cyan}Installing required component wget, please wait...${reset}"
 echo " "
+
+sudo apt update
 
 sudo apt install wget -y
 
@@ -233,11 +233,11 @@ fi
 # Install sed if needed
 if [ -z "$SED_PATH" ]; then
 
-sudo apt update
-
 echo " "
 echo "${cyan}Installing required component sed, please wait...${reset}"
 echo " "
+
+sudo apt update
 
 sudo apt install sed -y
 
@@ -361,7 +361,7 @@ echo " "
 echo "${yellow}Enter the NUMBER next to your chosen option:${reset}"
 echo " "
 
-OPTIONS="pulseaudio_install pulseaudio_start_restart pulseaudio_fix pulseaudio_status pyradio_install pyradio_on pyradio_off bluetooth_mac_address bluetooth_connect bluetooth_test volume_adjust troubleshoot other_apps exit"
+OPTIONS="pulseaudio_install pulseaudio_start_restart pulseaudio_fix pulseaudio_status pyradio_install pyradio_on pyradio_off bluetooth_mac_address bluetooth_connect bluetooth_log bluetooth_test volume_adjust troubleshoot other_apps exit"
 
 # start options
 select opt in $OPTIONS; do
@@ -419,16 +419,16 @@ select opt in $OPTIONS; do
 				if [ -f /boot/dietpi/.version ]; then
 				
                 echo " "
-                echo "We must ENABLE BLUETOOTH in DietPi OS before continuing."
+                echo "${red}We must ENABLE BLUETOOTH in DietPi OS before continuing (#IF# YOU HAVEN'T ALREADY).${reset}"
                 echo " "
                 echo "This script will now launch dietpi-config."
                 echo " "
                 echo "In ADVANCED OPTIONS, you will need to ENABLE BLUETOOTH."
                 echo " "
-                echo "You CAN SAFELY REBOOT if needed, and RUN THIS SCRIPT AGAIN AFTERWARDS."
+                echo "You #CAN# SAFELY REBOOT if asked to, and RUN THE PULSEAUDIO INSTALL OPTION #AGAIN# AFTERWARDS."
                 
                 echo "${yellow} "
-                read -n1 -s -r -p $'Press y to run dietpi-config (or press n to cancel)...\n' key
+                read -n1 -s -r -p $'Press y to run dietpi-config (or #IF# YOU DID THIS ALREADY press n to skip)...\n' key
                 echo "${reset} "
         
                     if [ "$key" = 'y' ] || [ "$key" = 'Y' ]; then
@@ -440,7 +440,7 @@ select opt in $OPTIONS; do
                 
                     else
                     
-                    echo "${green}dietpi-config bluetooth enabling has been cancelled.${reset}"
+                    echo "${green}dietpi-config bluetooth enabling routine has been skipped.${reset}"
                     echo " "
                 
                     fi
@@ -450,7 +450,7 @@ select opt in $OPTIONS; do
         				
         echo " "
         
-        echo "${green}Installing PulseAudio and other required components, please wait...${reset}"
+        echo "${green}Installing pulseaudio and other required components, please wait...${reset}"
         echo " "
         
         # .local support and other needed components that require system-wide intallation
@@ -471,7 +471,7 @@ select opt in $OPTIONS; do
 read -r -d '' AUDIO_STARTUP <<- EOF
 \r
 [Unit]
-Description=PulseAudio system server
+Description=pulseaudio system server
 # DO NOT ADD ConditionUser=!root
 \r
 [Service]
@@ -479,12 +479,13 @@ Type=notify
 ExecStart=pulseaudio --system --daemonize=no --realtime --disallow-exit --disallow-module-loading --log-target=journal
 Restart=on-failure
 \r
+# multi-user.target FOR EVERYTHING, SINCE WE ARE RUNNING HEADLESS
 [Install]
 WantedBy=multi-user.target
 [Unit]
 Description=pulseaudio service
-Wants=graphical.target
-After=graphical.target
+Wants=multi-user.target
+After=multi-user.target
 \r
 EOF
 
@@ -520,19 +521,18 @@ EOF
 		
 		# start AT BOOT
 		systemctl enable pulseaudio.service
-		
-		sleep 2
-        
-        PULSEAUDIO_STATUS=$(systemctl status pulseaudio.service)
-		
-		sleep 2
         
         echo " "
-        echo "${yellow}PulseAudio status:${reset}"
-        echo "${cyan} "
-                
-        echo "$PULSEAUDIO_STATUS"
-        echo "${reset} "
+        echo "${green}pulseaudio installation complete.${reset}"
+        echo " "
+		
+		echo " "
+		echo "${red}Rebooting your system, please wait, and log back in afterwards...${reset}"
+		echo " "
+		
+		sleep 5
+		
+		reboot
         
         break
         
@@ -572,7 +572,7 @@ EOF
             
             sleep 2
                     
-            echo "${yellow}PulseAudio status:${reset}"
+            echo "${yellow}pulseaudio status:${reset}"
             echo "${cyan} "
                     
             echo "$PULSEAUDIO_STATUS"
@@ -583,7 +583,7 @@ EOF
             
             else
             
-            echo "PulseAudio not found, must be installed first, please re-run this script and choose that option."
+            echo "pulseaudio not found, must be installed first, please re-run this script and choose that option."
             echo " "
                     
             fi
@@ -615,11 +615,11 @@ EOF
             # If 'pulseaudio' was found, start it
             if [ -f "$PULSEAUDIO_PATH" ]; then
                     
-            PULSEAUDIO_STATUS=$(sudo systemctl status pulseaudio.service)
+            PULSEAUDIO_STATUS=$(systemctl status pulseaudio.service)
             
             sleep 2
                     
-            echo "${yellow}PulseAudio status:${reset}"
+            echo "${yellow}pulseaudio status:${reset}"
             echo "${cyan} "
                     
             echo "$PULSEAUDIO_STATUS"
@@ -630,7 +630,7 @@ EOF
             
             else
             
-            echo "PulseAudio not found, must be installed first, please re-run this script and choose that option."
+            echo "pulseaudio not found, must be installed first, please re-run this script and choose that option."
             echo " "
                     
             fi
@@ -674,7 +674,7 @@ EOF
             
             else
             
-            echo "PulseAudio not found, must be installed first, please re-run this script and choose that option."
+            echo "pulseaudio not found, must be installed first, please re-run this script and choose that option."
             echo " "
                     
             fi
@@ -723,16 +723,18 @@ EOF
         echo "${green}Installing pyradio and required components, please wait...${reset}"
         echo " "
         
-        # Install secondary python packages seperately, so any missing packages don't break installing the others
+        sudo apt update
+        
         sudo apt install pip mplayer -y
         
-        sudo apt install python-setuptools -y
+        # Install secondary python packages seperately, so any missing packages don't break installing the others
+        sudo apt install python -y
+        sudo apt install python3 -y
         
-        sudo apt install python-requests -y
+        sleep 5
         
-        sudo apt install python-dnspython -y
-        
-        sudo apt install python-psutil -y
+        # Install pip packages system-wide with sudo
+        sudo pip install setuptools requests dnspython psutil
         
         # SPECIFILLY NAME IT WITH -O, TO OVERWRITE ANY PREVIOUS COPY...ALSO --no-cache TO ALWAYS GET LATEST COPY
         wget --no-cache -O install.py https://raw.githubusercontent.com/coderholic/pyradio/master/pyradio/install.py
@@ -741,13 +743,31 @@ EOF
         
         chmod +x install.py
         
-        python install.py --force
+        # Use LATEST version of python available
+        
+        # Look for python3
+        PYTHON_PATH=$(which python3)
+
+        # If 'python3' wasn't found, look for 'python'
+        if [ -z "$PYTHON_PATH" ]; then
+        PYTHON_PATH=$(which python)
+        fi
+        
+        $PYTHON_PATH install.py --force
         
         sleep 2
         
         echo " "
         echo "${green}pyradio installation complete.${reset}"
         echo " "
+		
+		echo " "
+		echo "${red}Rebooting your system, please wait, and log back in afterwards...${reset}"
+		echo " "
+		
+		sleep 5
+		
+		sudo reboot
         
         break
         
@@ -814,6 +834,8 @@ EOF
         echo "Press the q OR Esc key to exit pyradio"
         echo " "
         echo "Navigate with the up / down arrows, and choose a station with the enter / return key"
+        echo " "
+        echo "Default stations are created (after first-run) at: /home/$TERMINAL_USERNAME/.config/pyradio/stations.csv"
         echo " "
         echo "Full list of controls:"
         echo " "
@@ -950,11 +972,11 @@ EOF
 
        
         echo " "
-        echo "We must find out what the mac address of your bluetooth receiver is."
+        echo "${yellow}We must find out what the mac address of your bluetooth receiver is."
         echo " "
-        echo "Put your bluetooth receiver in pairing mode, and get ready to write down what you see as it's mac address (format: XX:XX:XX:XX:XX:XX)."
+        echo "Put your bluetooth receiver in pairing mode, and get ready to write down what you see as it's mac address (format: XX:XX:XX:XX:XX:XX).${reset}"
         echo " "
-        echo "When you are done, hold down the 2 keys Ctrl+c at the same time, until you exit this script."
+        echo "${red}WHEN YOU ARE DONE: hold down the 2 keys Ctrl+c at the same time, until you exit this script.${reset}"
         
         echo "${yellow} "
         read -n1 -s -r -p $'Press y to run the bluetooth scan (or press n to cancel)...\n' key
@@ -994,6 +1016,9 @@ EOF
         
         ######################################
         
+        echo "${red}PRO TIP:"
+        echo " "
+        echo "WAIT UNTIL THE #CONNECTION ATTEMPT TIMES OUT#, TO SEE A #RESULTS SUMMARY# FOR YOUR CONNECTION ATTEMPT.${reset}"
         echo " "
         read -p "${yellow}Enter your bluetooth receiver mac address here (format: XX:XX:XX:XX:XX:XX):${reset} " BLU_MAC
         echo " "
@@ -1006,7 +1031,7 @@ EOF
         
         
         $EXPECT_PATH -c "
-        set timeout 45
+        set timeout 60
         spawn bluetoothctl
         send -- \"scan on\r\"
         expect \"$BLU_MAC\"
@@ -1060,6 +1085,33 @@ EOF
         echo " "
         
         aplay /usr/share/sounds/alsa/Front_Center.wav
+        exit
+        
+        break
+        
+        ##################################################################################################################
+        ##################################################################################################################
+        
+        elif [ "$opt" = "bluetooth_log" ]; then
+        
+        
+        ######################################
+        
+        echo " "
+        
+            if [ "$EUID" -ne 0 ] || [ "$TERMINAL_USERNAME" == "root" ]; then 
+             echo "${red}Please run #WITH# 'sudo' PERMISSIONS.${reset}"
+             echo " "
+             echo "${cyan}Exiting...${reset}"
+             echo " "
+             exit
+            fi
+        
+        ######################################
+                    
+        echo "${yellow}bluetooth logs ${red}(HOLD Ctrl+c KEYS DOWN TO EXIT)${yellow}:"
+        echo "${reset} "
+        journalctl --unit=bluetooth -f
         exit
         
         break
