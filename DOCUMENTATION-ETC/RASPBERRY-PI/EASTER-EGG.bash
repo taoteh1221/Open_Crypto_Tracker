@@ -24,7 +24,7 @@
 
 
 # Version of this script
-APP_VERSION="1.00.2" # 2022/MARCH/16TH
+APP_VERSION="1.01.0" # 2022/MARCH/16TH
 
 export XAUTHORITY=~/.Xauthority 
 				
@@ -376,13 +376,26 @@ select opt in $OPTIONS; do
         
         echo " "
         
-        if [ "$EUID" -ne 0 ] || [ "$TERMINAL_USERNAME" == "root" ]; then 
-         echo "${red}Please run #WITH# 'sudo' PERMISSIONS.${reset}"
-         echo " "
-         echo "${cyan}Exiting...${reset}"
-         echo " "
-         exit
-        fi
+            if [ "$EUID" -ne 0 ] || [ "$TERMINAL_USERNAME" == "root" ]; then 
+             echo "${red}Please run #WITH# 'sudo' PERMISSIONS.${reset}"
+             echo " "
+             echo "${cyan}Exiting...${reset}"
+             echo " "
+             exit
+            fi
+    
+            if [ -f "/etc/debian_version" ]; then
+            echo "${cyan}Your system has been detected as Debian-based, which is compatible with this automated installation script."
+            echo " "
+            echo "Continuing...${reset}"
+            echo " "
+            else
+            echo "${red}Your system has been detected as NOT BEING Debian-based. Your system is NOT compatible with this automated installation script."
+            echo " "
+            echo "Exiting...${reset}"
+            echo " "
+            exit
+            fi
         
         ######################################
         
@@ -688,6 +701,19 @@ EOF
              echo " "
              exit
             fi
+
+            if [ -f "/etc/debian_version" ]; then
+            echo "${cyan}Your system has been detected as Debian-based, which is compatible with this automated installation script."
+            echo " "
+            echo "Continuing...${reset}"
+            echo " "
+            else
+            echo "${red}Your system has been detected as NOT BEING Debian-based. Your system is NOT compatible with this automated installation script."
+            echo " "
+            echo "Exiting...${reset}"
+            echo " "
+            exit
+            fi
         
         ######################################
         
@@ -958,13 +984,13 @@ EOF
         
         echo " "
         
-        if [ "$EUID" == 0 ]; then 
-         echo "${red}Please run #WITHOUT# 'sudo' PERMISSIONS.${reset}"
-         echo " "
-         echo "${cyan}Exiting...${reset}"
-         echo " "
-         exit
-        fi
+            if [ "$EUID" == 0 ]; then 
+             echo "${red}Please run #WITHOUT# 'sudo' PERMISSIONS.${reset}"
+             echo " "
+             echo "${cyan}Exiting...${reset}"
+             echo " "
+             exit
+            fi
         
         ######################################
         

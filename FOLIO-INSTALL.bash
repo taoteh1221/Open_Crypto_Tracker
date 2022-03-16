@@ -305,6 +305,7 @@ else
 echo "${red}Your system has been detected as NOT BEING Debian-based. Your system is NOT compatible with this automated installation script."
 echo " "
 echo "Exiting...${reset}"
+echo " "
 exit
 fi
 				
@@ -354,24 +355,21 @@ echo " "
 
 echo "PLEASE REPORT ANY ISSUES HERE: https://github.com/taoteh1221/Open_Crypto_Tracker/issues"
 echo " "
-  				
-echo "${yellow}Select 1 or 2 to choose whether to continue with installation, or quit.${reset}"
-echo " "
 
-OPTIONS="continue quit"
+echo "${yellow} "
+read -n1 -s -r -p $"Press y to continue (or press n to exit)..." key
+echo "${reset} "
 
-select opt in $OPTIONS; do
-        if [ "$opt" = "continue" ]; then
-        echo " "
-        echo "${green}Continuing with setup, please wait...${reset}"
-        break
-       elif [ "$opt" = "quit" ]; then
-        echo " "
-        echo "${green}Exiting setup...${reset}"
-        exit
-        break
-       fi
-done
+    if [ "$key" = 'y' ] || [ "$key" = 'Y' ]; then
+    echo " "
+    echo "${green}Continuing...${reset}"
+    echo " "
+    else
+    echo " "
+    echo "${green}Exiting...${reset}"
+    echo " "
+    exit
+    fi
 
 echo " "
 
