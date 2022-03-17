@@ -24,7 +24,7 @@
 
 
 # Version of this script
-APP_VERSION="1.01.0" # 2022/MARCH/16TH
+APP_VERSION="1.00.3" # 2022/MARCH/16TH
 
 export XAUTHORITY=~/.Xauthority 
 				
