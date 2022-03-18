@@ -24,7 +24,7 @@
 
 
 # Version of this script
-APP_VERSION="1.00.3" # 2022/MARCH/16TH
+APP_VERSION="1.00.4" # 2022/MARCH/18TH
 
 # If parameters are added via command line
 # (CLEANEST WAY TO RUN PARAMETER INPUT #TO AUTO-SELECT MULTIPLE CONSECUTIVE OPTION MENUS#)
@@ -100,6 +100,10 @@ WGET_PATH=$(which wget)
 
 # sed's FULL PATH
 SED_PATH=$(which sed)
+
+
+# less's FULL PATH
+LESS_PATH=$(which less)
 
 
 # pyradio's FULL PATH
@@ -312,6 +316,19 @@ sudo apt install sed -y
 
 fi
 
+# Install less if needed
+if [ -z "$LESS_PATH" ]; then
+
+echo " "
+echo "${cyan}Installing required component less, please wait...${reset}"
+echo " "
+
+sudo apt update
+
+sudo apt install less -y
+
+fi
+
 
 BT_AUTOCONNECT_PATH="${PWD}/bluetooth-autoconnect.py"
 
@@ -326,8 +343,13 @@ bluetooth_autoconnect () {
     echo "${cyan}Installing required component bluetooth-autoconnect and dependancies, please wait...${reset}"
     echo " "
     
+    sudo apt update
+    sudo apt install pip -y
+    
     # Install pip packages system-wide with sudo
-    sudo pip install prctl dbus
+    sudo pip install --upgrade setuptools
+    sudo pip install dbus-python
+    sudo pip install python-prctl
     
             
     # SPECIFILLY NAME IT WITH -O, TO OVERWRITE ANY PREVIOUS COPY...ALSO --no-cache TO ALWAYS GET LATEST COPY
@@ -672,7 +694,7 @@ select opt in $OPTIONS; do
         echo " "
         
         # .local support and other needed components that require system-wide intallation
-        apt install avahi-daemon screen alsa-utils expect -y
+        apt install avahi-daemon screen alsa-utils expect rsyslog -y
         
         apt install pulseaudio* -y
         
@@ -949,7 +971,10 @@ select opt in $OPTIONS; do
         sleep 5
         
         # Install pip packages system-wide with sudo
-        sudo pip install setuptools requests dnspython psutil
+        sudo pip install --upgrade setuptools
+        sudo pip install requests
+        sudo pip install dnspython
+        sudo pip install psutil
         
         # SPECIFILLY NAME IT WITH -O, TO OVERWRITE ANY PREVIOUS COPY...ALSO --no-cache TO ALWAYS GET LATEST COPY
         wget --no-cache -O install-pyradio.py https://raw.githubusercontent.com/coderholic/pyradio/master/pyradio/install.py
