@@ -247,92 +247,6 @@ fi
 ######################################
 
 
-# Check for newer version
-API_VERSION_DATA=$(curl -s 'https://api.github.com/repos/taoteh1221/Bluetooth_Internet_Radio/releases/latest')
-
-LATEST_VERSION=$(echo "$API_VERSION_DATA" | jq -r '.tag_name')
-
-if [ $APP_VERSION != $LATEST_VERSION ]; then 
-
-# Remove any sourceforge link in the description, with sed
-UPGRADE_DESC=$(echo "$API_VERSION_DATA" | jq -r '.body' | sed 's/\[.*//g')
-
-echo " "
-echo "${red}An upgrade is available to v${LATEST_VERSION} (you are running v${APP_VERSION})${reset}"
-echo " "
-echo "${cyan}Upgrade Description:${reset}"
-echo " "
-echo "${green}$UPGRADE_DESC${reset}"
-echo " "
-echo "${yellow}Do you want to upgrade to v${LATEST_VERSION} now?${reset}"
-
-echo "${yellow} "
-read -n1 -s -r -p $"Press y to upgrade (or press n to cancel)..." key
-echo "${reset} "
-        
-        
-    if [ "$key" = 'y' ] || [ "$key" = 'Y' ]; then
-          
-    echo " "
-    echo "${cyan}Initiating upgrade, please wait...${reset}"
-    echo " "
-    				
-    sleep 3
-    
-    UPGRADE_FILE="https://raw.githubusercontent.com/taoteh1221/Bluetooth_Internet_Radio/${LATEST_VERSION}/bt-radio-setup.bash"
-    
-    wget --no-cache -O BT-TEMP.bash $UPGRADE_FILE
-    
-    sleep 3
-    
-    FILE_SIZE=$(stat -c%s BT-TEMP.bash)
-    
-        # If we got back a file greater than 0 bytes (NOT a 404 error)
-        if [ $FILE_SIZE -gt 0 ]; then
-    
-        # Remove system link, to reset automatically after upgrade (in case script location changed)
-        rm ~/radio > /dev/null 2>&1
-        
-        mv -v --force BT-TEMP.bash bt-radio-setup.bash
-        
-        sleep 3
-    
-        chmod +x bt-radio-setup.bash
-        				
-        sleep 1
-        				
-        INSTALL_LOCATION="${PWD}/bt-radio-setup.bash"
-        				
-        # Re-create system link, with latest script location
-        ln -s $INSTALL_LOCATION ~/radio
-        				
-        echo " "
-        echo "${green}Upgrade has completed.${reset}"
-        echo " "
-        echo "${red}Please re-run this script, since we just completed an upgrade to it."
-        echo " "
-        echo "Exiting..."
-        echo "${reset} "
-        exit
-        
-        else
-        echo " "
-        echo "${red}Upgrade download failed, please try again.${reset}"
-        echo " "
-        fi
-    
-    else
-    echo " "
-    echo "${green}Upgrade has been cancelled.${reset}"
-    fi
-    	
-
-fi
-
-
-######################################
-
-
 echo " "
 
 if [ ! -f ~/radio ]; then 
@@ -361,15 +275,107 @@ echo " "
 echo "${yellow}Enter the NUMBER next to your chosen option:${reset}"
 echo " "
 
-OPTIONS="pulseaudio_install pulseaudio_start_restart pulseaudio_fix pulseaudio_status pyradio_install pyradio_on pyradio_off bluetooth_mac_address bluetooth_connect bluetooth_log bluetooth_test volume_adjust troubleshoot other_apps exit"
+OPTIONS="script_upgrade_check pulseaudio_install pulseaudio_start_restart pulseaudio_fix pulseaudio_status pyradio_install pyradio_on pyradio_off bluetooth_mac_address bluetooth_connect bluetooth_remove bluetooth_test bluetooth_list bluetooth_log volume_adjust troubleshoot other_apps exit"
 
 # start options
 select opt in $OPTIONS; do
 
+        
         ##################################################################################################################
         ##################################################################################################################
         
-        if [ "$opt" = "pulseaudio_install" ]; then
+        if [ "$opt" = "script_upgrade_check" ]; then
+       
+        # Check for newer version
+        API_VERSION_DATA=$(curl -s 'https://api.github.com/repos/taoteh1221/Bluetooth_Internet_Radio/releases/latest')
+        
+        LATEST_VERSION=$(echo "$API_VERSION_DATA" | jq -r '.tag_name')
+        
+            if [ $APP_VERSION != $LATEST_VERSION ]; then 
+            
+            # Remove any sourceforge link in the description, with sed
+            UPGRADE_DESC=$(echo "$API_VERSION_DATA" | jq -r '.body' | sed 's/\[.*//g')
+            
+            echo " "
+            echo "${red}An upgrade is available to v${LATEST_VERSION} (you are running v${APP_VERSION})${reset}"
+            echo " "
+            echo "${cyan}Upgrade Description:${reset}"
+            echo " "
+            echo "${green}$UPGRADE_DESC${reset}"
+            echo " "
+            echo "${yellow}Do you want to upgrade to v${LATEST_VERSION} now?${reset}"
+            
+            echo "${yellow} "
+            read -n1 -s -r -p $"Press y to upgrade (or press n to cancel)..." key
+            echo "${reset} "
+                    
+                    
+                if [ "$key" = 'y' ] || [ "$key" = 'Y' ]; then
+                      
+                echo " "
+                echo "${cyan}Initiating upgrade, please wait...${reset}"
+                echo " "
+                				
+                sleep 3
+                
+                UPGRADE_FILE="https://raw.githubusercontent.com/taoteh1221/Bluetooth_Internet_Radio/${LATEST_VERSION}/bt-radio-setup.bash"
+                
+                wget --no-cache -O BT-TEMP.bash $UPGRADE_FILE
+                
+                sleep 3
+                
+                FILE_SIZE=$(stat -c%s BT-TEMP.bash)
+                
+                    # If we got back a file greater than 0 bytes (NOT a 404 error)
+                    if [ $FILE_SIZE -gt 0 ]; then
+                
+                    # Remove system link, to reset automatically after upgrade (in case script location changed)
+                    rm ~/radio > /dev/null 2>&1
+                    
+                    mv -v --force BT-TEMP.bash bt-radio-setup.bash
+                    
+                    sleep 3
+                
+                    chmod +x bt-radio-setup.bash
+                    				
+                    sleep 1
+                    				
+                    INSTALL_LOCATION="${PWD}/bt-radio-setup.bash"
+                    				
+                    # Re-create system link, with latest script location
+                    ln -s $INSTALL_LOCATION ~/radio
+                    				
+                    echo " "
+                    echo "${green}Upgrade has completed.${reset}"
+                    echo " "
+                    echo "${red}Please re-run this script, since we just completed an upgrade to it."
+                    echo " "
+                    echo "Exiting..."
+                    echo "${reset} "
+                    exit
+                    
+                    else
+                    echo " "
+                    echo "${red}Upgrade download failed, please try again.${reset}"
+                    echo " "
+                    fi
+                
+                else
+                echo " "
+                echo "${green}Upgrade has been cancelled.${reset}"
+                echo " "
+                fi
+                	
+            
+            fi
+
+        
+        break
+        
+        ##################################################################################################################
+        ##################################################################################################################
+        
+        elif [ "$opt" = "pulseaudio_install" ]; then
         
         
         ######################################
@@ -666,10 +672,62 @@ EOF
             rm -r ~/.config/pulse.old > /dev/null 2>&1
             mv ~/.config/pulse/ ~/.config/pulse.old-$DATE > /dev/null 2>&1
                     
-            echo "${green}Attempted fixes have been completed.${reset}"
+            echo "${green}Attempted fixes on user config files have been completed.${reset}"
             echo " "
+
+            echo "${cyan}Now checking /etc/pulse/system.pa for missing bluetooth modules, please wait...${reset}"
+            echo " "
+		
+            PULSE_BT_POLICY=$(sed -n '/module-bluetooth-policy/p' /etc/pulse/system.pa)
+            PULSE_BT_DISCOVER=$(sed -n '/module-bluetooth-discover/p' /etc/pulse/system.pa)
+            
+                if [ "$PULSE_BT_POLICY" == "" ]; then 
+                echo "${red}No bluetooth policy module loaded in pulseaudio, fixing, please wait...${reset}"
+                echo " "
+                sudo bash -c 'echo "### REQUIRED FOR BLUETOOTH!" >> /etc/pulse/system.pa'
+                sleep 2
+                sudo bash -c 'echo "load-module module-bluetooth-policy" >> /etc/pulse/system.pa'
+                sleep 2
+                else
+                NO_CONFIG_ISSUE=1
+                fi        
+            
+                if [ "$PULSE_BT_DISCOVER" == "" ]; then 
+                echo "${red}No bluetooth discover module loaded in pulseaudio, fixing, please wait...${reset}"
+                echo " "
+                sudo bash -c 'echo "### REQUIRED FOR BLUETOOTH!" >> /etc/pulse/system.pa'
+                sleep 2
+                sudo bash -c 'echo "load-module module-bluetooth-discover" >> /etc/pulse/system.pa'
+                sleep 2
+                else
+                NO_CONFIG_ISSUE=1
+                fi         
+            
+                if [ "$NO_CONFIG_ISSUE" == "1" ]; then 
+                echo "${green}No known pulseaudio configuration issues detected.${reset}"
+                echo " "
+                sleep 2
+                fi        
                     
-            echo "${red}PULSEAUDIO MUST BE RESTARTED, please re-run this script and choose that option.${reset}"
+            echo "${red}Restarting pulseaudio, please wait...${reset}"
+            echo " "
+            
+    		# restart
+    		sudo systemctl restart pulseaudio.service
+            
+            sleep 5
+                    
+            PULSEAUDIO_STATUS=$(sudo systemctl status pulseaudio.service)
+            
+            sleep 2
+                    
+            echo "${yellow}pulseaudio status:${reset}"
+            echo "${cyan} "
+                    
+            echo "$PULSEAUDIO_STATUS"
+            echo "${reset} "
+                    
+            echo "${red}INACTIVE / DEAD doesn't mean it won't start when needed? Currently looking into this.${reset}"
             echo " "
             
             else
@@ -1026,19 +1084,19 @@ EOF
         bluetoothctl power on
         echo " "
         
-        echo "${cyan}Scanning for device $BLU_MAC, please wait about 60 seconds...${reset}"
+        echo "${cyan}Scanning for device $BLU_MAC, ${red}please wait 60 seconds or longer${cyan}...${reset}"
         echo " "
         
         
         $EXPECT_PATH -c "
-        set timeout 60
+        set timeout 20
         spawn bluetoothctl
         send -- \"scan on\r\"
         expect \"$BLU_MAC\"
-        send -- \"trust $BLU_MAC\r\"
-        expect \"trust succeeded\"
         send -- \"pair $BLU_MAC\r\"
         expect \"Pairing successful\"
+        send -- \"trust $BLU_MAC\r\"
+        expect \"trust succeeded\"
         send -- \"connect $BLU_MAC\r\"
         expect \"Connection successful\"
         send -- \"exit\r\"
@@ -1054,6 +1112,56 @@ EOF
         bluetoothctl info $BLU_MAC
         
         echo "${reset} "
+        echo " "
+        
+        
+        break        
+       elif [ "$opt" = "bluetooth_remove" ]; then
+        
+        
+        ######################################
+        
+        echo " "
+        
+            if [ "$EUID" == 0 ]; then 
+             echo "${red}Please run #WITHOUT# 'sudo' PERMISSIONS.${reset}"
+             echo " "
+             echo "${cyan}Exiting...${reset}"
+             echo " "
+             exit
+            fi
+        
+        ######################################
+        
+        echo "${red}PRO TIP:"
+        echo " "
+        echo "WAIT UNTIL THE #CONNECTION REMOVAL TIMES OUT#, TO SEE A #RESULTS SUMMARY# FOR YOUR CONNECTION REMOVAL.${reset}"
+        echo " "
+        read -p "${yellow}Enter your bluetooth receiver mac address here (format: XX:XX:XX:XX:XX:XX):${reset} " BLU_MAC
+        echo " "
+        
+        bluetoothctl power on
+        echo " "
+        
+        echo "${cyan}Scanning for device $BLU_MAC, ${red}please wait 60 seconds or longer${cyan}...${reset}"
+        echo " "
+        
+        
+        $EXPECT_PATH -c "
+        set timeout 20
+        spawn bluetoothctl
+        send -- \"scan on\r\"
+        expect \"$BLU_MAC\"
+        send -- \"remove $BLU_MAC\r\"
+        expect \"Device has been removed\"
+        send -- \"exit\r\"
+        "
+        
+        
+        sleep 3
+        
+        echo " "
+        echo "${green}Bluetooth device $BLU_MAC was removed.${reset}"
         echo " "
         
         
@@ -1086,6 +1194,82 @@ EOF
         
         aplay /usr/share/sounds/alsa/Front_Center.wav
         exit
+        
+        break
+        
+        ##################################################################################################################
+        ##################################################################################################################
+        
+        elif [ "$opt" = "bluetooth_list" ]; then
+        
+        
+        ######################################
+        
+        echo " "
+        
+            if [ "$EUID" == 0 ]; then 
+             echo "${red}Please run #WITHOUT# 'sudo' PERMISSIONS.${reset}"
+             echo " "
+             echo "${cyan}Exiting...${reset}"
+             echo " "
+             exit
+            fi
+            
+        ######################################
+                  
+
+        echo "${yellow}Enter a NUMBER to choose whether to view the system's (INTERNAL) bluetooth devices, available devices, paired devices, or trusted devices (may not be available).${reset}"
+        echo " "
+            
+            OPTIONS="internal_devices available_devices paired_devices trusted_devices"
+            
+            select opt in $OPTIONS; do
+                    if [ "$opt" = "internal_devices" ]; then
+                   
+                    echo " "
+                    echo "${yellow}System's (INTERNAL) bluetooth devices:"
+                    echo "${reset} "
+                    bluetoothctl list
+                    echo " "
+                    
+                    break
+                   elif [ "$opt" = "available_devices" ]; then
+                   
+                    echo " "
+                    echo "${yellow}Avialable bluetooth devices:"
+                    echo "${reset} "
+                    bluetoothctl devices
+                    echo " "
+                    
+                   break
+                   elif [ "$opt" = "paired_devices" ]; then
+                   
+                    echo " "
+                    echo "${yellow}Paired bluetooth devices:"
+                    echo "${reset} "
+                    bluetoothctl paired-devices
+                    echo " "
+                   
+                   break
+                   elif [ "$opt" = "trusted_devices" ]; then
+                   
+                    echo " "
+                    echo "${yellow}Trusted bluetooth devices:"
+                    echo "${reset} "
+                    BT_TRUSTED=$(sudo grep -Ri trust /var/lib/bluetooth)
+                    
+                    # Cleanup results with sed
+                    BT_TRUSTED=$(echo "$BT_TRUSTED" | sed 's/\/info\:.*//g')
+                    BT_TRUSTED=$(echo "$BT_TRUSTED" | sed 's/.*bluetooth\///g')
+                    BT_TRUSTED=$(sed 's|/|, |g' <<< $BT_TRUSTED) # replace "/" with ", "
+                    
+                    echo $BT_TRUSTED
+                    echo " "
+                   
+                   break
+                   
+                   fi
+            done
         
         break
         
