@@ -275,7 +275,7 @@ echo " "
 echo "${yellow}Enter the NUMBER next to your chosen option:${reset}"
 echo " "
 
-OPTIONS="script_upgrade_check pulseaudio_install pulseaudio_start_restart pulseaudio_fix pulseaudio_status pyradio_install pyradio_on pyradio_off bluetooth_mac_address bluetooth_connect bluetooth_remove bluetooth_test bluetooth_list bluetooth_log volume_adjust troubleshoot other_apps exit"
+OPTIONS="upgrade_check pulseaudio_install pulseaudio_fix pyradio_install pyradio_on pyradio_off bluetooth_scan bluetooth_connect bluetooth_devices bluetooth_remove sound_test volume_adjust syslog_logs journal_logs troubleshoot other_apps exit"
 
 # start options
 select opt in $OPTIONS; do
@@ -284,7 +284,23 @@ select opt in $OPTIONS; do
         ##################################################################################################################
         ##################################################################################################################
         
-        if [ "$opt" = "script_upgrade_check" ]; then
+        if [ "$opt" = "upgrade_check" ]; then
+        
+        
+        ######################################
+        
+        echo " "
+        
+            if [ "$EUID" == 0 ]; then 
+             echo "${red}Please run #WITHOUT# 'sudo' PERMISSIONS.${reset}"
+             echo " "
+             echo "${cyan}Exiting...${reset}"
+             echo " "
+             exit
+            fi
+        
+        ######################################
+        
        
         # Check for newer version
         API_VERSION_DATA=$(curl -s 'https://api.github.com/repos/taoteh1221/Bluetooth_Internet_Radio/releases/latest')
@@ -365,8 +381,11 @@ select opt in $OPTIONS; do
                 echo "${green}Upgrade has been cancelled.${reset}"
                 echo " "
                 fi
-                	
             
+            else
+            echo " "
+            echo "${green}You are already running the latest version.${reset}"
+            echo " "
             fi
 
         
@@ -453,6 +472,28 @@ select opt in $OPTIONS; do
 				
 				fi
         
+
+                # DISABLE IF ALREADY RUNNING AS A SYSTEM SERVICE,
+                # AS IT'S A #HUGE NIGHTMARE# TRYING TO USE BLUETOOTH THAT WAY RELIABLY!!
+				if [ -f /lib/systemd/system/pulseaudio.service ]; then
+        		
+        		# Stop / remove any existing instance of pulseaudio.service FROM EARLY VERSIONS OF THIS SCRIPT!
+        		# (so we are allowed to remove /lib/systemd/system/pulseaudio.service)
+        		systemctl stop pulseaudio.service
+        		
+        		sleep 5
+        		
+        		rm /lib/systemd/system/pulseaudio.service > /dev/null 2>&1
+        		
+        		sleep 2
+        		
+        		# reload services, to complete purging the old pulseaudio service setup
+        		systemctl daemon-reload
+                
+                sleep 2
+				
+				fi
+        
         				
         echo " "
         
@@ -472,61 +513,30 @@ select opt in $OPTIONS; do
         
         usermod -a -G bluetooth $TERMINAL_USERNAME
 
-
-# Don't nest / indent, or it could malform the settings            
-read -r -d '' AUDIO_STARTUP <<- EOF
-\r
-[Unit]
-Description=pulseaudio system server
-# DO NOT ADD ConditionUser=!root
-\r
-[Service]
-Type=notify
-ExecStart=pulseaudio --system --daemonize=no --realtime --disallow-exit --disallow-module-loading --log-target=journal
-Restart=on-failure
-\r
-# multi-user.target FOR EVERYTHING, SINCE WE ARE RUNNING HEADLESS
-[Install]
-WantedBy=multi-user.target
-[Unit]
-Description=pulseaudio service
-Wants=multi-user.target
-After=multi-user.target
-\r
-EOF
-
-		# Setup service to run at boot, AND START NOW
+        echo " "
+        echo "${cyan}Now making sure /etc/pulse/system.pa has bluetooth modules, please wait...${reset}"
+        echo " "
 		
-		# Stop / remove any previous instance first
-		# (so we are allowed to modify /lib/systemd/system/pulseaudio.service)
-		systemctl stop pulseaudio.service
-		
-		sleep 5
-		
-		rm /lib/systemd/system/pulseaudio.service > /dev/null 2>&1
-		
-		sleep 2
-		
-		# reload services
-		systemctl daemon-reload
+        PULSE_BT_POLICY=$(sed -n '/module-bluetooth-policy/p' /etc/pulse/system.pa)
+        PULSE_BT_DISCOVER=$(sed -n '/module-bluetooth-discover/p' /etc/pulse/system.pa)
         
-        sleep 2
-		
-	    
-	    # Setup / re-setup latest service config in this script
-		echo -e "$AUDIO_STARTUP" > /lib/systemd/system/pulseaudio.service
-		
-		chown root:root /lib/systemd/system/pulseaudio.service
-		
-		sleep 2
-		
-		# start NOW
-		systemctl --system enable --now pulseaudio.service
-		
-		sleep 2
-		
-		# start AT BOOT
-		systemctl enable pulseaudio.service
+            if [ "$PULSE_BT_POLICY" == "" ]; then 
+            echo "${red}No bluetooth policy module loaded in pulseaudio, adding it now, please wait...${reset}"
+            echo " "
+            sudo bash -c 'echo "### REQUIRED FOR BLUETOOTH!" >> /etc/pulse/system.pa'
+            sleep 2
+            sudo bash -c 'echo "load-module module-bluetooth-policy" >> /etc/pulse/system.pa'
+            sleep 2
+            fi        
+        
+            if [ "$PULSE_BT_DISCOVER" == "" ]; then 
+            echo "${red}No bluetooth discover module loaded in pulseaudio, adding it now, please wait...${reset}"
+            echo " "
+            sudo bash -c 'echo "### REQUIRED FOR BLUETOOTH!" >> /etc/pulse/system.pa'
+            sleep 2
+            sudo bash -c 'echo "load-module module-bluetooth-discover" >> /etc/pulse/system.pa'
+            sleep 2
+            fi        
         
         echo " "
         echo "${green}pulseaudio installation complete.${reset}"
@@ -539,108 +549,6 @@ EOF
 		sleep 5
 		
 		reboot
-        
-        break
-        
-        ##################################################################################################################
-        ##################################################################################################################
-        
-        elif [ "$opt" = "pulseaudio_start_restart" ]; then
-        
-        
-        ######################################
-        
-        echo " "
-        
-            if [ "$EUID" -ne 0 ] || [ "$TERMINAL_USERNAME" == "root" ]; then 
-             echo "${red}Please run #WITH# 'sudo' PERMISSIONS.${reset}"
-             echo " "
-             echo "${cyan}Exiting...${reset}"
-             echo " "
-             exit
-            fi
-        
-        ######################################
-        
-            
-            # If 'pulseaudio' was found, start it
-            if [ -f "$PULSEAUDIO_PATH" ]; then
-                    
-            echo "${green}Starting / restarting pulseaudio, please wait...${reset}"
-            echo " "
-                
-    		# restart
-    		systemctl restart pulseaudio.service
-            
-            sleep 5
-                    
-            PULSEAUDIO_STATUS=$(sudo systemctl status pulseaudio.service)
-            
-            sleep 2
-                    
-            echo "${yellow}pulseaudio status:${reset}"
-            echo "${cyan} "
-                    
-            echo "$PULSEAUDIO_STATUS"
-            echo "${reset} "
-                    
-            echo "${red}INACTIVE / DEAD doesn't mean it won't start when needed? Currently looking into this.${reset}"
-            echo " "
-            
-            else
-            
-            echo "pulseaudio not found, must be installed first, please re-run this script and choose that option."
-            echo " "
-                    
-            fi
-
-        
-        break
-        
-        ##################################################################################################################
-        ##################################################################################################################
-        
-        elif [ "$opt" = "pulseaudio_status" ]; then
-        
-        
-        ######################################
-        
-        echo " "
-        
-            if [ "$EUID" -ne 0 ] || [ "$TERMINAL_USERNAME" == "root" ]; then 
-             echo "${red}Please run #WITH# 'sudo' PERMISSIONS.${reset}"
-             echo " "
-             echo "${cyan}Exiting...${reset}"
-             echo " "
-             exit
-            fi
-        
-        ######################################
-        
-            
-            # If 'pulseaudio' was found, start it
-            if [ -f "$PULSEAUDIO_PATH" ]; then
-                    
-            PULSEAUDIO_STATUS=$(systemctl status pulseaudio.service)
-            
-            sleep 2
-                    
-            echo "${yellow}pulseaudio status:${reset}"
-            echo "${cyan} "
-                    
-            echo "$PULSEAUDIO_STATUS"
-            echo "${reset} "
-                    
-            echo "${red}INACTIVE / DEAD doesn't mean it won't start when needed? Currently looking into this.${reset}"
-            echo " "
-            
-            else
-            
-            echo "pulseaudio not found, must be installed first, please re-run this script and choose that option."
-            echo " "
-                    
-            fi
-
         
         break
         
@@ -672,14 +580,14 @@ EOF
             rm -r ~/.config/pulse.old > /dev/null 2>&1
             mv ~/.config/pulse/ ~/.config/pulse.old-$DATE > /dev/null 2>&1
                     
-            echo "${green}Attempted fixes on user config files have been completed.${reset}"
+            echo "${green}Attempted fixes on user config files have been completed (and backup saved to: ~/.config/pulse.old-$DATE).${reset}"
             echo " "
 
             echo "${cyan}Now checking /etc/pulse/system.pa for missing bluetooth modules, please wait...${reset}"
             echo " "
 		
-            PULSE_BT_POLICY=$(sed -n '/module-bluetooth-policy/p' /etc/pulse/system.pa)
-            PULSE_BT_DISCOVER=$(sed -n '/module-bluetooth-discover/p' /etc/pulse/system.pa)
+            PULSE_BT_POLICY=$(sudo sed -n '/module-bluetooth-policy/p' /etc/pulse/system.pa)
+            PULSE_BT_DISCOVER=$(sudo sed -n '/module-bluetooth-discover/p' /etc/pulse/system.pa)
             
                 if [ "$PULSE_BT_POLICY" == "" ]; then 
                 echo "${red}No bluetooth policy module loaded in pulseaudio, fixing, please wait...${reset}"
@@ -707,28 +615,19 @@ EOF
                 echo "${green}No known pulseaudio configuration issues detected.${reset}"
                 echo " "
                 sleep 2
-                fi        
-                    
-            echo "${red}Restarting pulseaudio, please wait...${reset}"
+                fi     
+        
             echo " "
-            
-    		# restart
-    		sudo systemctl restart pulseaudio.service
-            
-            sleep 5
-                    
-            PULSEAUDIO_STATUS=$(sudo systemctl status pulseaudio.service)
-            
-            sleep 2
-                    
-            echo "${yellow}pulseaudio status:${reset}"
-            echo "${cyan} "
-                    
-            echo "$PULSEAUDIO_STATUS"
-            echo "${reset} "
-                    
-            echo "${red}INACTIVE / DEAD doesn't mean it won't start when needed? Currently looking into this.${reset}"
-            echo " "
+            echo "${green}pulseaudio attempted fixes complete.${reset}"
+            echo " "   
+		
+    		echo " "
+    		echo "${red}Rebooting your system, please wait, and log back in afterwards...${reset}"
+    		echo " "
+    		
+    		sleep 5
+    		
+    		sudo reboot
             
             else
             
@@ -893,7 +792,8 @@ EOF
         echo " "
         echo "Navigate with the up / down arrows, and choose a station with the enter / return key"
         echo " "
-        echo "Default stations are created (after first-run) at: /home/$TERMINAL_USERNAME/.config/pyradio/stations.csv"
+        echo "Default stations are here (created after first-run): /home/$TERMINAL_USERNAME/.config/pyradio/stations.csv"
+        echo "(you can overwrite this with your own default stations file [filename must stay the same])"
         echo " "
         echo "Full list of controls:"
         echo " "
@@ -1011,7 +911,7 @@ EOF
         ##################################################################################################################
         ##################################################################################################################
         
-        elif [ "$opt" = "bluetooth_mac_address" ]; then
+        elif [ "$opt" = "bluetooth_scan" ]; then
         
         
         ######################################
@@ -1116,91 +1016,11 @@ EOF
         
         
         break        
-       elif [ "$opt" = "bluetooth_remove" ]; then
-        
-        
-        ######################################
-        
-        echo " "
-        
-            if [ "$EUID" == 0 ]; then 
-             echo "${red}Please run #WITHOUT# 'sudo' PERMISSIONS.${reset}"
-             echo " "
-             echo "${cyan}Exiting...${reset}"
-             echo " "
-             exit
-            fi
-        
-        ######################################
-        
-        echo "${red}PRO TIP:"
-        echo " "
-        echo "WAIT UNTIL THE #CONNECTION REMOVAL TIMES OUT#, TO SEE A #RESULTS SUMMARY# FOR YOUR CONNECTION REMOVAL.${reset}"
-        echo " "
-        read -p "${yellow}Enter your bluetooth receiver mac address here (format: XX:XX:XX:XX:XX:XX):${reset} " BLU_MAC
-        echo " "
-        
-        bluetoothctl power on
-        echo " "
-        
-        echo "${cyan}Scanning for device $BLU_MAC, ${red}please wait 60 seconds or longer${cyan}...${reset}"
-        echo " "
-        
-        
-        $EXPECT_PATH -c "
-        set timeout 20
-        spawn bluetoothctl
-        send -- \"scan on\r\"
-        expect \"$BLU_MAC\"
-        send -- \"remove $BLU_MAC\r\"
-        expect \"Device has been removed\"
-        send -- \"exit\r\"
-        "
-        
-        
-        sleep 3
-        
-        echo " "
-        echo "${green}Bluetooth device $BLU_MAC was removed.${reset}"
-        echo " "
-        
-        
-        break
         
         ##################################################################################################################
         ##################################################################################################################
         
-        elif [ "$opt" = "bluetooth_test" ]; then
-        
-        
-        ######################################
-        
-        echo " "
-        
-            if [ "$EUID" == 0 ]; then 
-             echo "${red}Please run #WITHOUT# 'sudo' PERMISSIONS.${reset}"
-             echo " "
-             echo "${cyan}Exiting...${reset}"
-             echo " "
-             exit
-            fi
-        
-        ######################################
-       
-       
-        echo " "
-        echo "${green}Testing with 'Front Center' sound test... ${red}If you did NOT hear these words on your bluetooth speaker, then there is a problem somewhere.${reset}"
-        echo " "
-        
-        aplay /usr/share/sounds/alsa/Front_Center.wav
-        exit
-        
-        break
-        
-        ##################################################################################################################
-        ##################################################################################################################
-        
-        elif [ "$opt" = "bluetooth_list" ]; then
+        elif [ "$opt" = "bluetooth_devices" ]; then
         
         
         ######################################
@@ -1271,20 +1091,20 @@ EOF
                    fi
             done
         
-        break
+        break    
         
         ##################################################################################################################
         ##################################################################################################################
         
-        elif [ "$opt" = "bluetooth_log" ]; then
+        elif [ "$opt" = "bluetooth_remove" ]; then
         
         
         ######################################
         
         echo " "
         
-            if [ "$EUID" -ne 0 ] || [ "$TERMINAL_USERNAME" == "root" ]; then 
-             echo "${red}Please run #WITH# 'sudo' PERMISSIONS.${reset}"
+            if [ "$EUID" == 0 ]; then 
+             echo "${red}Please run #WITHOUT# 'sudo' PERMISSIONS.${reset}"
              echo " "
              echo "${cyan}Exiting...${reset}"
              echo " "
@@ -1292,10 +1112,69 @@ EOF
             fi
         
         ######################################
-                    
-        echo "${yellow}bluetooth logs ${red}(HOLD Ctrl+c KEYS DOWN TO EXIT)${yellow}:"
-        echo "${reset} "
-        journalctl --unit=bluetooth -f
+        
+        echo "${red}PRO TIP:"
+        echo " "
+        echo "WAIT UNTIL THE #CONNECTION REMOVAL TIMES OUT#, TO SEE A #RESULTS SUMMARY# FOR YOUR CONNECTION REMOVAL.${reset}"
+        echo " "
+        read -p "${yellow}Enter your bluetooth receiver mac address here (format: XX:XX:XX:XX:XX:XX):${reset} " BLU_MAC
+        echo " "
+        
+        bluetoothctl power on
+        echo " "
+        
+        echo "${cyan}Scanning for device $BLU_MAC, ${red}please wait 60 seconds or longer${cyan}...${reset}"
+        echo " "
+        
+        
+        $EXPECT_PATH -c "
+        set timeout 20
+        spawn bluetoothctl
+        send -- \"scan on\r\"
+        expect \"$BLU_MAC\"
+        send -- \"remove $BLU_MAC\r\"
+        expect \"Device has been removed\"
+        send -- \"exit\r\"
+        "
+        
+        
+        sleep 3
+        
+        echo " "
+        echo "${green}Bluetooth device $BLU_MAC was removed.${reset}"
+        echo " "
+        
+        
+        break
+        
+        ##################################################################################################################
+        ##################################################################################################################
+        
+        elif [ "$opt" = "sound_test" ]; then
+        
+        
+        ######################################
+        
+        echo " "
+        
+            if [ "$EUID" == 0 ]; then 
+             echo "${red}Please run #WITHOUT# 'sudo' PERMISSIONS.${reset}"
+             echo " "
+             echo "${cyan}Exiting...${reset}"
+             echo " "
+             exit
+            fi
+        
+        ######################################
+       
+       
+        echo " "
+        echo "${green}Testing with 'Center' sound test..."
+        echo " "
+        echo "${red}If you did NOT hear this word on your bluetooth speaker, there likely is a problem somewhere.${reset}"
+        echo " "
+        
+        aplay /usr/share/sounds/alsa/Front_Center.wav
         exit
         
         break
@@ -1327,6 +1206,71 @@ EOF
         echo "${cyan}Exiting volume control...${reset}"
         echo " "
         
+        exit
+        
+        break
+        
+        ##################################################################################################################
+        ##################################################################################################################
+        
+        elif [ "$opt" = "syslog_logs" ]; then
+        
+        
+        ######################################
+        
+        echo " "
+        
+            if [ "$EUID" -ne 0 ] || [ "$TERMINAL_USERNAME" == "root" ]; then 
+             echo "${red}Please run #WITH# 'sudo' PERMISSIONS.${reset}"
+             echo " "
+             echo "${cyan}Exiting...${reset}"
+             echo " "
+             exit
+            fi
+        
+        ######################################
+        
+            
+            # If 'pulseaudio' was found, start it
+            if [ -f "$PULSEAUDIO_PATH" ]; then
+                    
+            echo "${yellow}pulseaudio / bluetoothd logs:${reset}"
+            echo " "
+            less /var/log/syslog | grep "bluetoothd\|pulseaudio"
+            
+            else
+            
+            echo "pulseaudio not found, must be installed first, please re-run this script and choose that option."
+            echo " "
+                    
+            fi
+
+        
+        break
+        
+        ##################################################################################################################
+        ##################################################################################################################
+        
+        elif [ "$opt" = "journal_logs" ]; then
+        
+        
+        ######################################
+        
+        echo " "
+        
+            if [ "$EUID" -ne 0 ] || [ "$TERMINAL_USERNAME" == "root" ]; then 
+             echo "${red}Please run #WITH# 'sudo' PERMISSIONS.${reset}"
+             echo " "
+             echo "${cyan}Exiting...${reset}"
+             echo " "
+             exit
+            fi
+        
+        ######################################
+                    
+        echo "${yellow}bluetooth journal ${red}(HOLD Ctrl+c KEYS DOWN TO EXIT)${yellow}:"
+        echo "${reset} "
+        journalctl --unit=bluetooth -f
         exit
         
         break
