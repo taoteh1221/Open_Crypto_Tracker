@@ -1,9 +1,7 @@
 #!/bin/bash
 
-
 ########################################################################################################################
 ########################################################################################################################
-
 
 # Copyright 2022 GPLv3, Bluetooth Internet Radio By Mike Kilday: Mike@DragonFrugal.com
 
@@ -18,13 +16,13 @@
 
 # wget --no-cache -O bt-radio-setup.bash https://tinyurl.com/bt-radio-setup;chmod +x bt-radio-setup.bash;./bt-radio-setup.bash
 
-
 ########################################################################################################################
 ########################################################################################################################
 
 
 # Version of this script
 APP_VERSION="1.00.4" # 2022/MARCH/18TH
+
 
 # If parameters are added via command line
 # (CLEANEST WAY TO RUN PARAMETER INPUT #TO AUTO-SELECT MULTIPLE CONSECUTIVE OPTION MENUS#)
@@ -34,17 +32,7 @@ APP_RECURSE=1
 export APP_RECURSE=$APP_RECURSE
 printf "%s\n" $1 | ~/radio
 exit
-else
-UNUSED_VAR="dummy command"
-#debugging here
-#echo "APP_RECURSE=$APP_RECURSE"
-#echo "PARAM=$1"
 fi
-
-export XAUTHORITY=~/.Xauthority 
-				
-# Export current working directory, in case we are calling another bash instance in this script
-export PWD=$PWD
 
 
 # EXPLICITLY set any dietpi paths 
@@ -63,64 +51,13 @@ export PATH=$PATH
 fi
 
 
+export XAUTHORITY=~/.Xauthority 
+				
+# Export current working directory, in case we are calling another bash instance in this script
+export PWD=$PWD
+
 # Get date
 DATE=$(date '+%Y-%m-%d')
-
-
-# Bash's FULL PATH
-BASH_PATH=$(which bash)
-        
-        
-# Use LATEST version of python available
-        
-# Look for python3
-PYTHON_PATH=$(which python3)
-
-# If 'python3' wasn't found, look for 'python'
-if [ -z "$PYTHON_PATH" ]; then
-PYTHON_PATH=$(which python)
-fi
-
-
-# git's FULL PATH
-GIT_PATH=$(which git)
-
-
-# curl's FULL PATH
-CURL_PATH=$(which curl)
-
-
-# jq's FULL PATH
-JQ_PATH=$(which jq)
-
-
-# wget's FULL PATH
-WGET_PATH=$(which wget)
-
-
-# sed's FULL PATH
-SED_PATH=$(which sed)
-
-
-# less's FULL PATH
-LESS_PATH=$(which less)
-
-
-# pyradio's FULL PATH
-PYRADIO_PATH=$(which pyradio)
-				
-
-# Path to expect binary
-EXPECT_PATH=$(which expect)
-        
-        
-# pulseaudio's FULL PATH
-PULSEAUDIO_PATH=$(which pulseaudio)
-
-
-# Get logged-in username (if sudo, this works best with logname)
-TERMINAL_USERNAME=$(logname)
-
 
 SCRIPT_NAME=`basename "$0"`
 
@@ -128,8 +65,13 @@ SCRIPT_PATH="$( cd -- "$(dirname "$0")" >/dev/null 2>&1 ; pwd -P )"
 
 SCRIPT_LOCATION="${SCRIPT_PATH}/${SCRIPT_NAME}"
 
+# pulseaudio's FULL PATH (to run checks later)
+PULSEAUDIO_PATH=$(which pulseaudio)
 
-######################################
+BT_AUTOCONNECT_PATH="${PWD}/bluetooth-autoconnect.py"
+
+# Get logged-in username (if sudo, this works best with logname)
+TERMINAL_USERNAME=$(logname)
 
 
 # If logname doesn't work, use the $SUDO_USER or $USER global var
@@ -142,9 +84,6 @@ if [ -z "$TERMINAL_USERNAME" ]; then
     fi
 
 fi
-
-
-######################################
 
 
 # Get the operating system and version
@@ -179,42 +118,30 @@ else
 fi
 
 
-######################################
-
-
+# Setup color coding
 # https://stackoverflow.com/questions/5947742/how-to-change-the-output-color-of-echo-in-linux
-
 if hash tput > /dev/null 2>&1; then
-
 red=`tput setaf 1`
 green=`tput setaf 2`
 yellow=`tput setaf 3`
 blue=`tput setaf 4`
 magenta=`tput setaf 5`
 cyan=`tput setaf 6`
-
 reset=`tput sgr0`
-
 else
-
 red=``
 green=``
 yellow=``
 blue=``
 magenta=``
 cyan=``
-
 reset=``
-
 fi
 
 
-######################################
-
-
-echo " "
-
+# Quit if ACTUAL USERNAME is root
 if [ "$TERMINAL_USERNAME" == "root" ]; then 
+ echo " "
  echo "${red}Please run as a NORMAL USER WITH 'sudo' PERMISSIONS (NOT LOGGED IN AS 'root').${reset}"
  echo " "
  echo "${cyan}Exiting...${reset}"
@@ -223,34 +150,28 @@ if [ "$TERMINAL_USERNAME" == "root" ]; then
 fi
 
 
-######################################
+# Get primary dependency apps
 
-# Install python if needed
+# If 'python3' wasn't found, install it
+# python3's FULL PATH (we DONT want python [which is python2])
+PYTHON_PATH=$(which python3)
+
 if [ -z "$PYTHON_PATH" ]; then
 
 echo " "
-echo "${cyan}Installing required components python python3, please wait...${reset}"
+echo "${cyan}Installing required component python3, please wait...${reset}"
 echo " "
 
 sudo apt update
 
-sudo apt install python python3 -y
-
-sleep 5
-        
-# Use LATEST version of python available
-        
-# Look for python3
-PYTHON_PATH=$(which python3)
-
-    # If 'python3' wasn't found, look for 'python'
-    if [ -z "$PYTHON_PATH" ]; then
-    PYTHON_PATH=$(which python)
-    fi
+sudo apt install python3 -y
 
 fi
 
+
 # Install git if needed
+GIT_PATH=$(which git)
+
 if [ -z "$GIT_PATH" ]; then
 
 echo " "
@@ -265,6 +186,8 @@ fi
 
 
 # Install curl if needed
+CURL_PATH=$(which curl)
+
 if [ -z "$CURL_PATH" ]; then
 
 echo " "
@@ -278,6 +201,8 @@ sudo apt install curl -y
 fi
 
 # Install jq if needed
+JQ_PATH=$(which jq)
+
 if [ -z "$JQ_PATH" ]; then
 
 echo " "
@@ -291,6 +216,8 @@ sudo apt install jq -y
 fi
 
 # Install wget if needed
+WGET_PATH=$(which wget)
+
 if [ -z "$WGET_PATH" ]; then
 
 echo " "
@@ -304,6 +231,8 @@ sudo apt install wget -y
 fi
 
 # Install sed if needed
+SED_PATH=$(which sed)
+
 if [ -z "$SED_PATH" ]; then
 
 echo " "
@@ -317,6 +246,8 @@ sudo apt install sed -y
 fi
 
 # Install less if needed
+LESS_PATH=$(which less)
+				
 if [ -z "$LESS_PATH" ]; then
 
 echo " "
@@ -329,8 +260,55 @@ sudo apt install less -y
 
 fi
 
+# Install expect if needed
+EXPECT_PATH=$(which expect)
+				
+if [ -z "$EXPECT_PATH" ]; then
 
-BT_AUTOCONNECT_PATH="${PWD}/bluetooth-autoconnect.py"
+echo " "
+echo "${cyan}Installing required component expect, please wait...${reset}"
+echo " "
+
+sudo apt update
+
+sudo apt install expect -y
+
+fi
+
+# Install rsyslogd if needed
+SYSLOG_PATH=$(which rsyslogd)
+
+if [ -z "$SYSLOG_PATH" ]; then
+
+echo " "
+echo "${cyan}Installing required component rsyslog, please wait...${reset}"
+echo " "
+
+sudo apt update
+
+sudo apt install rsyslog -y
+
+fi
+
+# Install avahi-daemon if needed (for .local names on internal / home network)
+AVAHID_PATH=$(which avahi-daemon)
+
+if [ -z "$AVAHID_PATH" ]; then
+
+echo " "
+echo "${cyan}Installing required component avahi-daemon, please wait...${reset}"
+echo " "
+
+sudo apt update
+
+sudo apt install avahi-daemon -y
+
+fi
+
+
+###############################################################################################
+# Primary init complete, now check bluetooth_autoconnect and symbolic link status
+###############################################################################################
 
 
 # bluetooth_autoconnect function START
@@ -344,12 +322,12 @@ bluetooth_autoconnect () {
     echo " "
     
     sudo apt update
-    sudo apt install pip -y
     
-    # Install pip packages system-wide with sudo
-    sudo pip install --upgrade setuptools
-    sudo pip install dbus-python
-    sudo pip install python-prctl
+    # Install python3 prctl
+    sudo apt install python3-prctl -y
+    
+    # Install python3 dbus modules
+    sudo apt install python3-dbus python3-slip-dbus python3-pydbus -y
     
             
     # SPECIFILLY NAME IT WITH -O, TO OVERWRITE ANY PREVIOUS COPY...ALSO --no-cache TO ALWAYS GET LATEST COPY
@@ -378,7 +356,7 @@ After=pulseaudio.service
 [Service]
 Type=simple
 \r
-ExecStart=$PYTHON_PATH $BT_AUTOCONNECT_PATH
+ExecStart=python3 $BT_AUTOCONNECT_PATH
 [Install]
 WantedBy=pulseaudio.service
 \r
@@ -410,7 +388,7 @@ EOF
 
     # Run bluetooth-autoconnect.py (IF we are #NOT# running as sudo, AND no systemd startup service is installed)
     if [ -f "$BT_AUTOCONNECT_PATH" ] && [ "$EUID" != 0 ] && [ ! -f /lib/systemd/system/btautoconnect.service ]; then
-    $PYTHON_PATH $BT_AUTOCONNECT_PATH
+    python3 $BT_AUTOCONNECT_PATH
     fi
 
 }
@@ -421,12 +399,11 @@ EOF
 bluetooth_autoconnect
 
 
-echo " "
-
 if [ ! -f ~/radio ]; then 
 
 ln -s $SCRIPT_LOCATION ~/radio
 
+echo " "
 echo "${red}IMPORTANT INFORMATION:"
 echo " "
 echo "~/radio command is now a shortcut for ./$SCRIPT_NAME"
@@ -460,7 +437,9 @@ echo "${reset} "
 fi
 
 
-######################################
+###############################################################################################
+# Secondary init / checks complete, now run main app logic
+###############################################################################################
 
 
 echo " "
@@ -693,8 +672,8 @@ select opt in $OPTIONS; do
         echo "${green}Installing pulseaudio and other required components, please wait...${reset}"
         echo " "
         
-        # .local support and other needed components that require system-wide intallation
-        apt install avahi-daemon screen alsa-utils expect rsyslog -y
+        # needed components
+        apt install alsa-utils -y
         
         apt install pulseaudio* -y
         
@@ -718,27 +697,39 @@ select opt in $OPTIONS; do
             echo "${red}No bluetooth policy module loaded in pulseaudio, adding it now, please wait...${reset}"
             echo " "
             sudo bash -c 'echo "### REQUIRED FOR BLUETOOTH!" >> /etc/pulse/default.pa'
-            sleep 2
+            sleep 1
+            sudo bash -c 'echo ".ifexists module-bluetooth-policy.so" >> /etc/pulse/default.pa'
+            sleep 1
             sudo bash -c 'echo "load-module module-bluetooth-policy" >> /etc/pulse/default.pa'
-            sleep 2
+            sleep 1
+            sudo bash -c 'echo ".endif" >> /etc/pulse/default.pa'
+            sleep 1
             fi        
         
             if [ "$PULSE_BT_DISCOVER" == "" ]; then 
             echo "${red}No bluetooth discover module loaded in pulseaudio, adding it now, please wait...${reset}"
             echo " "
             sudo bash -c 'echo "### REQUIRED FOR BLUETOOTH!" >> /etc/pulse/default.pa'
-            sleep 2
+            sleep 1
+            sudo bash -c 'echo ".ifexists module-bluetooth-discover.so" >> /etc/pulse/default.pa'
+            sleep 1
             sudo bash -c 'echo "load-module module-bluetooth-discover" >> /etc/pulse/default.pa'
-            sleep 2
+            sleep 1
+            sudo bash -c 'echo ".endif" >> /etc/pulse/default.pa'
+            sleep 1
             fi        
         
             if [ "$PULSE_BT_CONNECT" == "" ]; then 
             echo "${red}No switch on connect module loaded in pulseaudio, adding it now, please wait...${reset}"
             echo " "
             sudo bash -c 'echo "### REQUIRED FOR AUTO-CONNECT NEW DEVICES!" >> /etc/pulse/default.pa'
-            sleep 2
+            sleep 1
+            sudo bash -c 'echo ".ifexists module-switch-on-connect.so" >> /etc/pulse/default.pa'
+            sleep 1
             sudo bash -c 'echo "load-module module-switch-on-connect" >> /etc/pulse/default.pa'
-            sleep 2
+            sleep 1
+            sudo bash -c 'echo ".endif" >> /etc/pulse/default.pa'
+            sleep 1
             fi        
         
         echo " "
@@ -858,9 +849,13 @@ select opt in $OPTIONS; do
                 echo "${red}No bluetooth policy module loaded in pulseaudio, fixing, please wait...${reset}"
                 echo " "
                 sudo bash -c 'echo "### REQUIRED FOR BLUETOOTH!" >> /etc/pulse/default.pa'
-                sleep 2
+                sleep 1
+                sudo bash -c 'echo ".ifexists module-bluetooth-policy.so" >> /etc/pulse/default.pa'
+                sleep 1
                 sudo bash -c 'echo "load-module module-bluetooth-policy" >> /etc/pulse/default.pa'
-                sleep 2
+                sleep 1
+                sudo bash -c 'echo ".endif" >> /etc/pulse/default.pa'
+                sleep 1
                 NO_CONFIG_ISSUE=0
                 else
                 NO_CONFIG_ISSUE=1
@@ -870,9 +865,13 @@ select opt in $OPTIONS; do
                 echo "${red}No bluetooth discover module loaded in pulseaudio, fixing, please wait...${reset}"
                 echo " "
                 sudo bash -c 'echo "### REQUIRED FOR BLUETOOTH!" >> /etc/pulse/default.pa'
-                sleep 2
+                sleep 1
+                sudo bash -c 'echo ".ifexists module-bluetooth-discover.so" >> /etc/pulse/default.pa'
+                sleep 1
                 sudo bash -c 'echo "load-module module-bluetooth-discover" >> /etc/pulse/default.pa'
-                sleep 2
+                sleep 1
+                sudo bash -c 'echo ".endif" >> /etc/pulse/default.pa'
+                sleep 1
                 NO_CONFIG_ISSUE=0
                 else
                 NO_CONFIG_ISSUE=1
@@ -882,9 +881,13 @@ select opt in $OPTIONS; do
                 echo "${red}No switch on connect module loaded in pulseaudio, fixing, please wait...${reset}"
                 echo " "
                 sudo bash -c 'echo "### REQUIRED FOR AUTO-CONNECT NEW DEVICES!" >> /etc/pulse/default.pa'
-                sleep 2
+                sleep 1
+                sudo bash -c 'echo ".ifexists module-switch-on-connect.so" >> /etc/pulse/default.pa'
+                sleep 1
                 sudo bash -c 'echo "load-module module-switch-on-connect" >> /etc/pulse/default.pa'
-                sleep 2
+                sleep 1
+                sudo bash -c 'echo ".endif" >> /etc/pulse/default.pa'
+                sleep 1
                 NO_CONFIG_ISSUE=0
                 else
                 NO_CONFIG_ISSUE=1
@@ -962,28 +965,24 @@ select opt in $OPTIONS; do
         
         sudo apt update
         
-        sudo apt install pip mplayer -y
+        # Install screen and mpv instead of mplayer, it's more stable
+        sudo apt install screen mpv -y
         
-        # Install secondary python packages seperately, so any missing packages don't break installing the others
-        sudo apt install python -y
-        sudo apt install python3 -y
+        # mplayer as backup if distro doesn't have an mpv package (mpv will be used first automatically if found)
+        sudo apt install mplayer -y
+        
+        # Install pyradio python3 dependencies
+        sudo apt install python3-setuptools python3-wheel python3-pip python3-requests python3-dnspython python3-psutil -y
         
         sleep 5
         
-        # Install pip packages system-wide with sudo
-        sudo pip install --upgrade setuptools
-        sudo pip install requests
-        sudo pip install dnspython
-        sudo pip install psutil
-        
         # SPECIFILLY NAME IT WITH -O, TO OVERWRITE ANY PREVIOUS COPY...ALSO --no-cache TO ALWAYS GET LATEST COPY
-        wget --no-cache -O install-pyradio.py https://raw.githubusercontent.com/coderholic/pyradio/master/pyradio/install.py
+        # Renaming pyradio's installation script may not work...
+        wget --no-cache -O install.py https://raw.githubusercontent.com/coderholic/pyradio/master/pyradio/install.py
         
         sleep 2
         
-        chmod +x install-pyradio.py
-        
-        $PYTHON_PATH install-pyradio.py --force
+        python3 install.py --force
         
         sleep 2
         
@@ -1106,7 +1105,7 @@ select opt in $OPTIONS; do
                 
                 sleep 3
     			
-    			$PYRADIO_PATH --play
+    			pyradio --play
             
                 else
                 echo "${green}pyradio first-time setup has been cancelled.${reset}"
@@ -1122,7 +1121,6 @@ select opt in $OPTIONS; do
             read -n1 -s -r -p $'Press b to run pyradio in the background, or s to show on-screen...\n' key
             echo "${reset} "
     
-                # Using $PYRADIO_PATH in case any old pip version messed up our bash config?
                 if [ "$key" = 'b' ] || [ "$key" = 'B' ]; then
             
                 echo "${yellow} "
@@ -1138,14 +1136,13 @@ select opt in $OPTIONS; do
                 echo " "
                 
                 # Export the vars to screen's bash session, OR IT WON'T RUN!
-                export PYRADIO_PATH=$PYRADIO_PATH
                 export PLAY_NUM=$PLAY_NUM
                 export LOAD_CUSTOM_STATIONS=$LOAD_CUSTOM_STATIONS
-                screen -dmS radio bash -c '${PYRADIO_PATH} --play ${PLAY_NUM} ${LOAD_CUSTOM_STATIONS}'
+                screen -dmS radio bash -c 'pyradio --play ${PLAY_NUM} ${LOAD_CUSTOM_STATIONS}'
             
                 elif [ "$key" = 's' ] || [ "$key" = 'S' ]; then
                 
-                $PYRADIO_PATH --play $LOAD_CUSTOM_STATIONS
+                pyradio --play $LOAD_CUSTOM_STATIONS
                 
                 echo " "
                 echo "${cyan}Exited pyradio.${reset}"
@@ -1274,7 +1271,7 @@ select opt in $OPTIONS; do
         echo " "
         
         
-        $EXPECT_PATH -c "
+        expect -c "
         set timeout 20
         spawn bluetoothctl
         send -- \"scan on\r\"
@@ -1416,7 +1413,7 @@ select opt in $OPTIONS; do
         echo " "
         
         
-        $EXPECT_PATH -c "
+        expect -c "
         set timeout 20
         spawn bluetoothctl
         send -- \"scan on\r\"
