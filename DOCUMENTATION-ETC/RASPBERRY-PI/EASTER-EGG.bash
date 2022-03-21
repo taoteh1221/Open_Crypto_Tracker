@@ -40,7 +40,10 @@
 # ~/radio "9 XX:XX:XX:XX:XX:XX"
 # (connect bluetooth device by mac address)
  
-# ~/radio "10 3"
+# ~/radio "10 XX:XX:XX:XX:XX:XX"
+# (remove bluetooth device by mac address)
+ 
+# ~/radio "11 3"
 # (shows paired bluetooth devices)
 
 ########################################################################################################################
@@ -48,7 +51,7 @@
 
 
 # Version of this script
-APP_VERSION="1.00.4" # 2022/MARCH/18TH
+APP_VERSION="1.00.5" # 2022/MARCH/21ST
 
 
 # If parameters are added via command line
@@ -95,6 +98,7 @@ SCRIPT_LOCATION="${SCRIPT_PATH}/${SCRIPT_NAME}"
 # pulseaudio's FULL PATH (to run checks later)
 PULSEAUDIO_PATH=$(which pulseaudio)
 
+# bluetooth-autoconnect's FULL PATH (to run checks later)
 BT_AUTOCONNECT_PATH="${PWD}/bluetooth-autoconnect.py"
 
 # Get logged-in username (if sudo, this works best with logname)
@@ -177,160 +181,167 @@ if [ "$TERMINAL_USERNAME" == "root" ]; then
 fi
 
 
-# Get primary dependency apps
+# Get primary dependency apps, if we haven't already
+if [ ! -f ~/.bt-radio-dependency-check.dat ]; then
+    
+    # If 'python3' wasn't found, install it
+    # python3's FULL PATH (we DONT want python [which is python2])
+    PYTHON_PATH=$(which python3)
+    
+    if [ -z "$PYTHON_PATH" ]; then
+    
+    echo " "
+    echo "${cyan}Installing required component python3, please wait...${reset}"
+    echo " "
+    
+    sudo apt update
+    
+    sudo apt install python3 -y
+    
+    fi
+    
+    
+    # Install git if needed
+    GIT_PATH=$(which git)
+    
+    if [ -z "$GIT_PATH" ]; then
+    
+    echo " "
+    echo "${cyan}Installing required component git, please wait...${reset}"
+    echo " "
+    
+    sudo apt update
+    
+    sudo apt install git -y
+    
+    fi
+    
+    
+    # Install curl if needed
+    CURL_PATH=$(which curl)
+    
+    if [ -z "$CURL_PATH" ]; then
+    
+    echo " "
+    echo "${cyan}Installing required component curl, please wait...${reset}"
+    echo " "
+    
+    sudo apt update
+    
+    sudo apt install curl -y
+    
+    fi
+    
+    # Install jq if needed
+    JQ_PATH=$(which jq)
+    
+    if [ -z "$JQ_PATH" ]; then
+    
+    echo " "
+    echo "${cyan}Installing required component jq, please wait...${reset}"
+    echo " "
+    
+    sudo apt update
+    
+    sudo apt install jq -y
+    
+    fi
+    
+    # Install wget if needed
+    WGET_PATH=$(which wget)
+    
+    if [ -z "$WGET_PATH" ]; then
+    
+    echo " "
+    echo "${cyan}Installing required component wget, please wait...${reset}"
+    echo " "
+    
+    sudo apt update
+    
+    sudo apt install wget -y
+    
+    fi
+    
+    # Install sed if needed
+    SED_PATH=$(which sed)
+    
+    if [ -z "$SED_PATH" ]; then
+    
+    echo " "
+    echo "${cyan}Installing required component sed, please wait...${reset}"
+    echo " "
+    
+    sudo apt update
+    
+    sudo apt install sed -y
+    
+    fi
+    
+    # Install less if needed
+    LESS_PATH=$(which less)
+    				
+    if [ -z "$LESS_PATH" ]; then
+    
+    echo " "
+    echo "${cyan}Installing required component less, please wait...${reset}"
+    echo " "
+    
+    sudo apt update
+    
+    sudo apt install less -y
+    
+    fi
+    
+    # Install expect if needed
+    EXPECT_PATH=$(which expect)
+    				
+    if [ -z "$EXPECT_PATH" ]; then
+    
+    echo " "
+    echo "${cyan}Installing required component expect, please wait...${reset}"
+    echo " "
+    
+    sudo apt update
+    
+    sudo apt install expect -y
+    
+    fi
+    
+    # Install rsyslogd if needed
+    SYSLOG_PATH=$(which rsyslogd)
+    
+    if [ -z "$SYSLOG_PATH" ]; then
+    
+    echo " "
+    echo "${cyan}Installing required component rsyslog, please wait...${reset}"
+    echo " "
+    
+    sudo apt update
+    
+    sudo apt install rsyslog -y
+    
+    fi
+    
+    # Install avahi-daemon if needed (for .local names on internal / home network)
+    AVAHID_PATH=$(which avahi-daemon)
+    
+    if [ -z "$AVAHID_PATH" ]; then
+    
+    echo " "
+    echo "${cyan}Installing required component avahi-daemon, please wait...${reset}"
+    echo " "
+    
+    sudo apt update
+    
+    sudo apt install avahi-daemon -y
+    
+    fi
 
-# If 'python3' wasn't found, install it
-# python3's FULL PATH (we DONT want python [which is python2])
-PYTHON_PATH=$(which python3)
-
-if [ -z "$PYTHON_PATH" ]; then
-
-echo " "
-echo "${cyan}Installing required component python3, please wait...${reset}"
-echo " "
-
-sudo apt update
-
-sudo apt install python3 -y
+export DATE=$DATE
+bash -c 'echo "checked primary dependencies of bt-radio-setup.bash: ${DATE}" >> ~/.bt-radio-dependency-check.dat'
 
 fi
-
-
-# Install git if needed
-GIT_PATH=$(which git)
-
-if [ -z "$GIT_PATH" ]; then
-
-echo " "
-echo "${cyan}Installing required component git, please wait...${reset}"
-echo " "
-
-sudo apt update
-
-sudo apt install git -y
-
-fi
-
-
-# Install curl if needed
-CURL_PATH=$(which curl)
-
-if [ -z "$CURL_PATH" ]; then
-
-echo " "
-echo "${cyan}Installing required component curl, please wait...${reset}"
-echo " "
-
-sudo apt update
-
-sudo apt install curl -y
-
-fi
-
-# Install jq if needed
-JQ_PATH=$(which jq)
-
-if [ -z "$JQ_PATH" ]; then
-
-echo " "
-echo "${cyan}Installing required component jq, please wait...${reset}"
-echo " "
-
-sudo apt update
-
-sudo apt install jq -y
-
-fi
-
-# Install wget if needed
-WGET_PATH=$(which wget)
-
-if [ -z "$WGET_PATH" ]; then
-
-echo " "
-echo "${cyan}Installing required component wget, please wait...${reset}"
-echo " "
-
-sudo apt update
-
-sudo apt install wget -y
-
-fi
-
-# Install sed if needed
-SED_PATH=$(which sed)
-
-if [ -z "$SED_PATH" ]; then
-
-echo " "
-echo "${cyan}Installing required component sed, please wait...${reset}"
-echo " "
-
-sudo apt update
-
-sudo apt install sed -y
-
-fi
-
-# Install less if needed
-LESS_PATH=$(which less)
-				
-if [ -z "$LESS_PATH" ]; then
-
-echo " "
-echo "${cyan}Installing required component less, please wait...${reset}"
-echo " "
-
-sudo apt update
-
-sudo apt install less -y
-
-fi
-
-# Install expect if needed
-EXPECT_PATH=$(which expect)
-				
-if [ -z "$EXPECT_PATH" ]; then
-
-echo " "
-echo "${cyan}Installing required component expect, please wait...${reset}"
-echo " "
-
-sudo apt update
-
-sudo apt install expect -y
-
-fi
-
-# Install rsyslogd if needed
-SYSLOG_PATH=$(which rsyslogd)
-
-if [ -z "$SYSLOG_PATH" ]; then
-
-echo " "
-echo "${cyan}Installing required component rsyslog, please wait...${reset}"
-echo " "
-
-sudo apt update
-
-sudo apt install rsyslog -y
-
-fi
-
-# Install avahi-daemon if needed (for .local names on internal / home network)
-AVAHID_PATH=$(which avahi-daemon)
-
-if [ -z "$AVAHID_PATH" ]; then
-
-echo " "
-echo "${cyan}Installing required component avahi-daemon, please wait...${reset}"
-echo " "
-
-sudo apt update
-
-sudo apt install avahi-daemon -y
-
-fi
+# dependency check END
 
 
 ###############################################################################################
@@ -414,7 +425,7 @@ EOF
 
 
     # Run bluetooth-autoconnect.py (IF we are #NOT# running as sudo, AND no systemd startup service is installed)
-    if [ -f "$BT_AUTOCONNECT_PATH" ] && [ "$EUID" != 0 ] && [ ! -f /lib/systemd/system/btautoconnect.service ]; then
+    if [ -f "$BT_AUTOCONNECT_PATH" ] && [ "$EUID" != 0 ] && [ ! -f $HOME/.local/share/systemd/user/btautoconnect.service ]; then
     python3 $BT_AUTOCONNECT_PATH
     fi
 
@@ -466,7 +477,10 @@ echo " "
 echo "${green}~/radio \"9 XX:XX:XX:XX:XX:XX\"${cyan}"
 echo "(connect bluetooth device by mac address)"
 echo " "
-echo "${green}~/radio \"10 3\"${cyan}"
+echo "${green}~/radio \"10 XX:XX:XX:XX:XX:XX\"${cyan}"
+echo "(remove bluetooth device by mac address)"
+echo " "
+echo "${green}~/radio \"11 3\"${cyan}"
 echo "(shows paired bluetooth devices)"
 echo "${reset} "
 fi
@@ -481,7 +495,7 @@ echo " "
 echo "${yellow}Enter the NUMBER next to your chosen option:${reset}"
 echo " "
 
-OPTIONS="upgrade_check pulseaudio_install pulseaudio_status pulseaudio_fix pyradio_install pyradio_on pyradio_off bluetooth_scan bluetooth_connect bluetooth_devices bluetooth_remove sound_test volume_adjust syslog_logs journal_logs troubleshoot other_apps restart_computer exit"
+OPTIONS="upgrade_check pulseaudio_install pulseaudio_fix pulseaudio_status pyradio_install pyradio_on pyradio_off bluetooth_scan bluetooth_connect bluetooth_remove bluetooth_devices sound_test volume_adjust troubleshoot syslog_logs journal_logs restart_computer exit_app other_apps"
 
 
 # start options
@@ -784,45 +798,6 @@ select opt in $OPTIONS; do
         ##################################################################################################################
         ##################################################################################################################
         
-        elif [ "$opt" = "pulseaudio_status" ]; then
-        
-        
-        ######################################
-        
-        echo " "
-        
-            if [ "$EUID" == 0 ]; then 
-             echo "${red}Please run #WITHOUT# 'sudo' PERMISSIONS.${reset}"
-             echo " "
-             echo "${cyan}Exiting...${reset}"
-             echo " "
-             exit
-            fi
-        
-        ######################################
-        
-            
-            # If 'pulseaudio' was found, start it
-            if [ -f "$PULSEAUDIO_PATH" ]; then
-                    
-            echo "${yellow}PulseAudio status: ${red}(HOLD Ctrl+c KEYS DOWN TO EXIT)${yellow}:"
-            echo "${reset} "
-            systemctl --user status pulseaudio.service
-            exit
-            
-            else
-            
-            echo "PulseAudio not found, must be installed first, please re-run this script and choose that option."
-            echo " "
-                    
-            fi
-
-        
-        break
-        
-        ##################################################################################################################
-        ##################################################################################################################
-        
         elif [ "$opt" = "pulseaudio_fix" ]; then
         
         
@@ -950,6 +925,45 @@ select opt in $OPTIONS; do
             else
             
             echo "pulseaudio not found, must be installed first, please re-run this script and choose that option."
+            echo " "
+                    
+            fi
+
+        
+        break
+        
+        ##################################################################################################################
+        ##################################################################################################################
+        
+        elif [ "$opt" = "pulseaudio_status" ]; then
+        
+        
+        ######################################
+        
+        echo " "
+        
+            if [ "$EUID" == 0 ]; then 
+             echo "${red}Please run #WITHOUT# 'sudo' PERMISSIONS.${reset}"
+             echo " "
+             echo "${cyan}Exiting...${reset}"
+             echo " "
+             exit
+            fi
+        
+        ######################################
+        
+            
+            # If 'pulseaudio' was found, start it
+            if [ -f "$PULSEAUDIO_PATH" ]; then
+                    
+            echo "${yellow}PulseAudio status: ${red}(HOLD Ctrl+c KEYS DOWN TO EXIT)${yellow}:"
+            echo "${reset} "
+            systemctl --user status pulseaudio.service
+            exit
+            
+            else
+            
+            echo "PulseAudio not found, must be installed first, please re-run this script and choose that option."
             echo " "
                     
             fi
@@ -1156,11 +1170,22 @@ select opt in $OPTIONS; do
             # We have already initialized pyradio and mpv beforehand,
             # so we can tweak a few config settings now before we start them up
             
-            # mpv fails opening streams in pyradio, unless we set the connection timeout high
-            sed -i 's/connection_timeout = .*/connection_timeout = 30/g' ~/.config/pyradio/config
             
-            # mpv default volume is VERY low on raspi os, so we set it to 100 instead
-            sed -i 's/volume=.*/volume=100/g' ~/.config/mpv/mpv.conf
+                # Raspberry pi device compatibilities
+                if [ -f "/usr/bin/raspi-config" ]; then
+                
+                # mpv crashes a raspberry pi zero, mplayer does not (and vlc doesn't handle network disruption too well)
+                sed -i 's/player = .*/player = mplayer, vlc, mpv/g' ~/.config/pyradio/config
+                
+                sleep 1
+
+                # mpv fails opening streams in pyradio on raspi devices, unless we set the connection timeout high
+                sed -i 's/connection_timeout = .*/connection_timeout = 30/g' ~/.config/pyradio/config
+                
+                # mpv default volume is VERY low on raspi os, so we set it to 100 instead
+                sed -i 's/volume=.*/volume=100/g' ~/.config/mpv/mpv.conf
+                
+                fi
          
          
             echo "${reset}${yellow} "
@@ -1349,6 +1374,60 @@ select opt in $OPTIONS; do
         ##################################################################################################################
         ##################################################################################################################
         
+        elif [ "$opt" = "bluetooth_remove" ]; then
+        
+        
+        ######################################
+        
+        echo " "
+        
+            if [ "$EUID" == 0 ]; then 
+             echo "${red}Please run #WITHOUT# 'sudo' PERMISSIONS.${reset}"
+             echo " "
+             echo "${cyan}Exiting...${reset}"
+             echo " "
+             exit
+            fi
+        
+        ######################################
+        
+        echo "${cyan}PRO TIP:"
+        echo " "
+        echo "WAIT UNTIL THE #CONNECTION REMOVAL TIMES OUT#, TO SEE A #RESULTS SUMMARY# FOR YOUR CONNECTION REMOVAL.${reset}"
+        echo " "
+        read -p "${yellow}Enter your bluetooth receiver mac address here (format: XX:XX:XX:XX:XX:XX):${reset} " BLU_MAC
+        echo " "
+        
+        bluetoothctl power on
+        echo " "
+        
+        echo "${cyan}Scanning for device $BLU_MAC, ${red}please wait 60 seconds or longer${cyan}...${reset}"
+        echo " "
+        
+        
+        expect -c "
+        set timeout 20
+        spawn bluetoothctl
+        send -- \"scan on\r\"
+        expect \"$BLU_MAC\"
+        send -- \"remove $BLU_MAC\r\"
+        expect \"Device has been removed\"
+        send -- \"exit\r\"
+        "
+        
+        
+        sleep 3
+        
+        echo " "
+        echo "${green}Bluetooth device $BLU_MAC was removed.${reset}"
+        echo " "
+        
+        
+        break
+        
+        ##################################################################################################################
+        ##################################################################################################################
+        
         elif [ "$opt" = "bluetooth_devices" ]; then
         
         
@@ -1428,60 +1507,6 @@ select opt in $OPTIONS; do
         ##################################################################################################################
         ##################################################################################################################
         
-        elif [ "$opt" = "bluetooth_remove" ]; then
-        
-        
-        ######################################
-        
-        echo " "
-        
-            if [ "$EUID" == 0 ]; then 
-             echo "${red}Please run #WITHOUT# 'sudo' PERMISSIONS.${reset}"
-             echo " "
-             echo "${cyan}Exiting...${reset}"
-             echo " "
-             exit
-            fi
-        
-        ######################################
-        
-        echo "${cyan}PRO TIP:"
-        echo " "
-        echo "WAIT UNTIL THE #CONNECTION REMOVAL TIMES OUT#, TO SEE A #RESULTS SUMMARY# FOR YOUR CONNECTION REMOVAL.${reset}"
-        echo " "
-        read -p "${yellow}Enter your bluetooth receiver mac address here (format: XX:XX:XX:XX:XX:XX):${reset} " BLU_MAC
-        echo " "
-        
-        bluetoothctl power on
-        echo " "
-        
-        echo "${cyan}Scanning for device $BLU_MAC, ${red}please wait 60 seconds or longer${cyan}...${reset}"
-        echo " "
-        
-        
-        expect -c "
-        set timeout 20
-        spawn bluetoothctl
-        send -- \"scan on\r\"
-        expect \"$BLU_MAC\"
-        send -- \"remove $BLU_MAC\r\"
-        expect \"Device has been removed\"
-        send -- \"exit\r\"
-        "
-        
-        
-        sleep 3
-        
-        echo " "
-        echo "${green}Bluetooth device $BLU_MAC was removed.${reset}"
-        echo " "
-        
-        
-        break
-        
-        ##################################################################################################################
-        ##################################################################################################################
-        
         elif [ "$opt" = "sound_test" ]; then
         
         
@@ -1536,6 +1561,35 @@ select opt in $OPTIONS; do
        
         echo " "
         echo "${cyan}Exiting volume control...${reset}"
+        echo " "
+        
+        exit
+        
+        break
+        
+        ##################################################################################################################
+        ##################################################################################################################
+        
+        elif [ "$opt" = "troubleshoot" ]; then
+        
+        
+        ######################################
+        
+        echo " "
+        
+            if [ "$EUID" == 0 ]; then 
+             echo "${red}Please run #WITHOUT# 'sudo' PERMISSIONS.${reset}"
+             echo " "
+             echo "${cyan}Exiting...${reset}"
+             echo " "
+             exit
+            fi
+        
+        ######################################
+        
+       
+        echo " "
+        echo "${red}IF THE BLUETOOTH CONNECTION SUDDENLY FAILS, AFTER IT WAS WORKING FINE BEFORE:${reset} Restart the transmitting AND receiving devices (reboot / temporarily unplug / etc)."
         echo " "
         
         exit
@@ -1610,26 +1664,23 @@ select opt in $OPTIONS; do
         ##################################################################################################################
         ##################################################################################################################
         
-        elif [ "$opt" = "troubleshoot" ]; then
-        
-        
-        ######################################
-        
-        echo " "
-        
-            if [ "$EUID" == 0 ]; then 
-             echo "${red}Please run #WITHOUT# 'sudo' PERMISSIONS.${reset}"
-             echo " "
-             echo "${cyan}Exiting...${reset}"
-             echo " "
-             exit
-            fi
-        
-        ######################################
-        
+        elif [ "$opt" = "restart_computer" ]; then
        
         echo " "
-        echo "${red}IF THE BLUETOOTH CONNECTION SUDDENLY FAILS, AFTER IT WAS WORKING FINE BEFORE:${reset} Restart the transmitting AND receiving devices (reboot / temporarily unplug / etc)."
+        echo "${green}Rebooting...${reset}"
+        echo " "
+        
+        sudo reboot
+        
+        break
+        
+        ##################################################################################################################
+        ##################################################################################################################
+        
+        elif [ "$opt" = "exit_app" ]; then
+       
+        echo " "
+        echo "${green}Exiting...${reset}"
         echo " "
         
         exit
@@ -1692,31 +1743,6 @@ select opt in $OPTIONS; do
         
         break
         
-        ##################################################################################################################
-        ##################################################################################################################
-        
-        elif [ "$opt" = "restart_computer" ]; then
-       
-        echo " "
-        echo "${green}Rebooting...${reset}"
-        echo " "
-        
-        sudo reboot
-        
-        break
-        
-        ##################################################################################################################
-        ##################################################################################################################
-        
-        elif [ "$opt" = "exit" ]; then
-       
-        echo " "
-        echo "${green}Exiting...${reset}"
-        echo " "
-        
-        exit
-        
-        break
         fi
         
         ##################################################################################################################
