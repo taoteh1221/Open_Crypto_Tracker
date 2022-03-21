@@ -16,6 +16,33 @@
 
 # wget --no-cache -O bt-radio-setup.bash https://tinyurl.com/bt-radio-setup;chmod +x bt-radio-setup.bash;./bt-radio-setup.bash
 
+# AFTER installation, ~/radio is installed as a shortcut command pointing to this script,
+# and paired bluetooth reconnects (if disconnected) when you start a new terminal session. 
+
+# A command line parameter can be passed to auto-select menu choices. Multi sub-option selecting is available too,
+# by seperating each sub-option with a space, AND ecapsulating everything in quotes like "option1 sub-option2 sub-sub-option3".
+
+# Running normally (diplays options to choose from):
+
+# ~/radio
+ 
+# Auto-selecting single / multi sub-option examples (MULTI SUB-OPTIONS #MUST# BE IN QUOTES!):
+ 
+# ~/radio "1 y"
+# (checks for / confirms script upgrade)
+ 
+# ~/radio "6 1 b"
+# (plays pyradio default station in background)
+ 
+# ~/radio 7
+# (stops pyradio background playing)
+ 
+# ~/radio "9 XX:XX:XX:XX:XX:XX"
+# (connect bluetooth device by mac address)
+ 
+# ~/radio "10 3"
+# (shows paired bluetooth devices)
+
 ########################################################################################################################
 ########################################################################################################################
 
@@ -414,18 +441,26 @@ echo "you'll have to delete ~/radio and THIS SCRIPT WILL RE-CREATE IT.${reset}"
 echo " "
 
 else
+echo " "
 echo "${cyan}PRO TIPS:"
 echo " "
 echo "Shortcut to this script: ${green}~/radio${cyan}"
 echo " "
 echo "Paired bluetooth reconnects (if disconnected) when you start a terminal session"
 echo " "
-echo "Auto-selecting multi-option examples ${red}(#MUST# BE IN QUOTES!)${cyan}:"
+echo "Running normally (diplays options to choose from):"
 echo " "
-echo "${green}~/radio \"6 2 b\"${cyan}"
-echo "(runs pyradio default list in background)"
+echo "${green}~/radio${cyan}"
 echo " "
-echo "${green}~/radio \"7\"${cyan}"
+echo "Auto-selecting single / multi sub-option examples ${red}(MULTI SUB-OPTIONS #MUST# BE IN QUOTES!)${cyan}:"
+echo " "
+echo "${green}~/radio \"1 y\"${cyan}"
+echo "(checks for / confirms script upgrade)"
+echo " "
+echo "${green}~/radio \"6 1 b\"${cyan}"
+echo "(plays pyradio default station in background)"
+echo " "
+echo "${green}~/radio 7${cyan}"
 echo "(stops pyradio background playing)"
 echo " "
 echo "${green}~/radio \"9 XX:XX:XX:XX:XX:XX\"${cyan}"
@@ -1030,7 +1065,7 @@ select opt in $OPTIONS; do
         echo "${yellow}Select 1 or 2 to choose whether to load a custom stations file, or the default one.${reset}"
         echo " "
         
-        OPTIONS="custom_stations default_stations"
+        OPTIONS="default_stations custom_stations"
         
         select opt in $OPTIONS; do
                 if [ "$opt" = "custom_stations" ]; then
@@ -1082,7 +1117,7 @@ select opt in $OPTIONS; do
             # IF FIRST RUN, FORCE SHOWING PYRADIO ON SCREEN (SO USER CONFIG FILES GET CREATED IN HOME DIR)
             if [ ! -d /home/pi/.config/pyradio ]; then
 
-            echo " "
+            echo "${red} "
             echo "###########################################################################################"
             echo " "
             echo "We must activate pyradio config files for the first time, before continuing."
@@ -1091,8 +1126,10 @@ select opt in $OPTIONS; do
             echo " "
             echo "Afterwards, this notice will dissapear, and the normal pyradio options will show instead."
             echo " "
-            echo "###########################################################################################"
+            echo "IF YOU GET 'connection failed' OR LOW VOLUME, DON'T WORRY, WE AUTO-FIX THAT #NEXT TIME# YOU RUN PYRADIO."
             echo " "
+            echo "###########################################################################################"
+            echo "${reset} "
             
             echo "${yellow} "
             read -n1 -s -r -p $'Press y to run pyradio first-time setup (or press n to cancel)...\n' key
@@ -1115,7 +1152,16 @@ select opt in $OPTIONS; do
             
             # OTHERWISE, LET USER CHOOSE WHICH WAY TO RUN PYRADIO
             else
-        
+            
+            # We have already initialized pyradio and mpv beforehand,
+            # so we can tweak a few config settings now before we start them up
+            
+            # mpv fails opening streams in pyradio, unless we set the connection timeout high
+            sed -i 's/connection_timeout = .*/connection_timeout = 30/g' ~/.config/pyradio/config
+            
+            # mpv default volume is VERY low on raspi os, so we set it to 100 instead
+            sed -i 's/volume=.*/volume=100/g' ~/.config/mpv/mpv.conf
+         
          
             echo "${reset}${yellow} "
             read -n1 -s -r -p $'Press b to run pyradio in the background, or s to show on-screen...\n' key
