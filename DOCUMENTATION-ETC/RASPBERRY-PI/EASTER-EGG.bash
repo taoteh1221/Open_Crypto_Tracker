@@ -51,7 +51,7 @@
 
 
 # Version of this script
-APP_VERSION="1.00.5" # 2022/MARCH/21ST
+APP_VERSION="1.00.6" # 2022/MARCH/21ST
 
 
 # If parameters are added via command line
@@ -89,11 +89,19 @@ export PWD=$PWD
 # Get date
 DATE=$(date '+%Y-%m-%d')
 
-SCRIPT_NAME=`basename "$0"`
 
-SCRIPT_PATH="$( cd -- "$(dirname "$0")" >/dev/null 2>&1 ; pwd -P )"
+# If a symlink, get link target for script location
+ # WE ALWAYS WANT THE FULL PATH!
+if [[ -L "$0" ]]; then
+SCRIPT_LOCATION=$(readlink "$0")
+else
+SCRIPT_LOCATION="$( cd -- "$(dirname "$0")" >/dev/null 2>&1 ; pwd -P )/"$(basename "$0")""
+fi
 
-SCRIPT_LOCATION="${SCRIPT_PATH}/${SCRIPT_NAME}"
+
+# Now set path / file vars, after setting SCRIPT_LOCATION
+SCRIPT_PATH="$( cd -- "$(dirname "$SCRIPT_LOCATION")" >/dev/null 2>&1 ; pwd -P )"
+SCRIPT_NAME=$(basename "$SCRIPT_LOCATION")
 
 # pulseaudio's FULL PATH (to run checks later)
 PULSEAUDIO_PATH=$(which pulseaudio)
@@ -338,7 +346,8 @@ if [ ! -f ~/.bt-radio-dependency-check.dat ]; then
     fi
 
 export DATE=$DATE
-bash -c 'echo "checked primary dependencies of bt-radio-setup.bash: ${DATE}" >> ~/.bt-radio-dependency-check.dat'
+export SCRIPT_LOCATION=$SCRIPT_LOCATION
+bash -c 'echo "checked primary dependencies of ${SCRIPT_LOCATION}: ${DATE}" >> ~/.bt-radio-dependency-check.dat'
 
 fi
 # dependency check END
@@ -372,8 +381,6 @@ bluetooth_autoconnect () {
     wget --no-cache -O bluetooth-autoconnect.py https://raw.githubusercontent.com/taoteh1221/Bluetooth_Internet_Radio/main/bluetooth-autoconnect/bluetooth-autoconnect.py
     
     sleep 3
-    
-    chmod +x $BT_AUTOCONNECT_PATH
     
         
         # bluetooth-autoconnect systemd service start at boot
@@ -447,8 +454,8 @@ echo " "
 echo "~/radio command is now a shortcut for ./$SCRIPT_NAME"
 echo " "
 
-echo "IF YOU MOVE $SCRIPT_LOCATION TO A NEW LOCATION,"
-echo "you'll have to delete ~/radio and THIS SCRIPT WILL RE-CREATE IT.${reset}"
+echo "IF YOU MOVE $SCRIPT_LOCATION TO A NEW LOCATION, #OR RENAME IT#,"
+echo "you'll have to delete ~/radio and THIS SCRIPT WILL RE-CREATE THIS SHORTCUT.${reset}"
 echo " "
 
 else
@@ -569,15 +576,15 @@ select opt in $OPTIONS; do
                     # Remove system link, to reset automatically after upgrade (in case script location changed)
                     rm ~/radio > /dev/null 2>&1
                     
-                    mv -v --force BT-TEMP.bash bt-radio-setup.bash
+                    mv -v --force BT-TEMP.bash $SCRIPT_LOCATION
                     
                     sleep 3
                 
-                    chmod +x bt-radio-setup.bash
+                    chmod +x $SCRIPT_LOCATION
                     				
                     sleep 1
                     				
-                    INSTALL_LOCATION="${PWD}/bt-radio-setup.bash"
+                    INSTALL_LOCATION="${SCRIPT_LOCATION}"
                     				
                     # Re-create system link, with latest script location
                     ln -s $INSTALL_LOCATION ~/radio
