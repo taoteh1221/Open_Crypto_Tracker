@@ -5373,6 +5373,8 @@ MIGRATE YOUR EXISTING SETTINGS TO THE NEW FORMAT.
 -------------------------------------------------------------------
 5.15.0:
 
+-Revised auto-installer
+
 -Easter Egg in documentation files :)
 
 v5.12.2 and higher renames the admin config array. ALL CONFIGURATION SETTING

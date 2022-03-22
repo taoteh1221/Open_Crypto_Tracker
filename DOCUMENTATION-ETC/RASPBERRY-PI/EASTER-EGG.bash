@@ -31,19 +31,19 @@
 # ~/radio "1 y"
 # (checks for / confirms script upgrade)
  
-# ~/radio "6 1 b"
+# ~/radio "7 1 b"
 # (plays pyradio default station in background)
  
-# ~/radio 7
+# ~/radio 8
 # (stops pyradio background playing)
  
-# ~/radio "9 XX:XX:XX:XX:XX:XX"
+# ~/radio "10 XX:XX:XX:XX:XX:XX"
 # (connect bluetooth device by mac address)
  
-# ~/radio "10 XX:XX:XX:XX:XX:XX"
+# ~/radio "11 XX:XX:XX:XX:XX:XX"
 # (remove bluetooth device by mac address)
  
-# ~/radio "11 3"
+# ~/radio "12 3"
 # (shows paired bluetooth devices)
 
 ########################################################################################################################
@@ -51,7 +51,7 @@
 
 
 # Version of this script
-APP_VERSION="1.00.6" # 2022/MARCH/21ST
+APP_VERSION="1.00.7" # 2022/MARCH/22ND
 
 
 # If parameters are added via command line
@@ -98,10 +98,10 @@ else
 SCRIPT_LOCATION="$( cd -- "$(dirname "$0")" >/dev/null 2>&1 ; pwd -P )/"$(basename "$0")""
 fi
 
-
 # Now set path / file vars, after setting SCRIPT_LOCATION
 SCRIPT_PATH="$( cd -- "$(dirname "$SCRIPT_LOCATION")" >/dev/null 2>&1 ; pwd -P )"
 SCRIPT_NAME=$(basename "$SCRIPT_LOCATION")
+
 
 # pulseaudio's FULL PATH (to run checks later)
 PULSEAUDIO_PATH=$(which pulseaudio)
@@ -475,19 +475,19 @@ echo " "
 echo "${green}~/radio \"1 y\"${cyan}"
 echo "(checks for / confirms script upgrade)"
 echo " "
-echo "${green}~/radio \"6 1 b\"${cyan}"
+echo "${green}~/radio \"7 1 b\"${cyan}"
 echo "(plays pyradio default station in background)"
 echo " "
-echo "${green}~/radio 7${cyan}"
+echo "${green}~/radio 8${cyan}"
 echo "(stops pyradio background playing)"
 echo " "
-echo "${green}~/radio \"9 XX:XX:XX:XX:XX:XX\"${cyan}"
+echo "${green}~/radio \"10 XX:XX:XX:XX:XX:XX\"${cyan}"
 echo "(connect bluetooth device by mac address)"
 echo " "
-echo "${green}~/radio \"10 XX:XX:XX:XX:XX:XX\"${cyan}"
+echo "${green}~/radio \"11 XX:XX:XX:XX:XX:XX\"${cyan}"
 echo "(remove bluetooth device by mac address)"
 echo " "
-echo "${green}~/radio \"11 3\"${cyan}"
+echo "${green}~/radio \"12 3\"${cyan}"
 echo "(shows paired bluetooth devices)"
 echo "${reset} "
 fi
@@ -502,7 +502,7 @@ echo " "
 echo "${yellow}Enter the NUMBER next to your chosen option:${reset}"
 echo " "
 
-OPTIONS="upgrade_check pulseaudio_install pulseaudio_fix pulseaudio_status pyradio_install pyradio_on pyradio_off bluetooth_scan bluetooth_connect bluetooth_remove bluetooth_devices sound_test volume_adjust troubleshoot syslog_logs journal_logs restart_computer exit_app other_apps"
+OPTIONS="upgrade_check pulseaudio_install pulseaudio_fix pulseaudio_status pyradio_install pyradio_fix pyradio_on pyradio_off bluetooth_scan bluetooth_connect bluetooth_remove bluetooth_devices sound_test volume_adjust troubleshoot syslog_logs journal_logs restart_computer exit_app other_apps"
 
 
 # start options
@@ -1027,6 +1027,9 @@ select opt in $OPTIONS; do
         # mplayer as backup if distro doesn't have an mpv package (mpv will be used first automatically if found)
         sudo apt install mplayer -y
         
+        # vlc as backup if distro doesn't have an mpv or mplayer package
+        sudo apt install vlc -y
+        
         # Install pyradio python3 dependencies
         sudo apt install python3-setuptools python3-wheel python3-pip python3-requests python3-dnspython python3-psutil -y
         
@@ -1059,6 +1062,78 @@ select opt in $OPTIONS; do
         ##################################################################################################################
         ##################################################################################################################
         
+        elif [ "$opt" = "pyradio_fix" ]; then
+        
+        
+        ######################################
+        
+        echo " "
+        
+            if [ "$EUID" == 0 ]; then 
+             echo "${red}Please run #WITHOUT# 'sudo' PERMISSIONS.${reset}"
+             echo " "
+             echo "${cyan}Exiting...${reset}"
+             echo " "
+             exit
+            fi
+        
+        ######################################
+       
+       
+        echo " "
+        echo "${yellow}Select which pyradio fix to attempt, or skip it."
+        echo "(ONLY RUN #AFTER# PYRADIO FIRST-TIME SETUP)${reset}"
+        echo " "
+        
+        OPTIONS="connection_failed system_freezes mpv_low_volume skip"
+        
+        select opt in $OPTIONS; do
+                if [ "$opt" = "connection_failed" ]; then
+
+                # mpv fails opening streams in pyradio on low power devices, unless we set the connection timeout high
+                sed -i 's/connection_timeout = .*/connection_timeout = 30/g' ~/.config/pyradio/config
+         
+                echo " "
+                echo "${green}Increased pyradio connection timout to 30 seconds.${reset}"
+       
+                break
+               elif [ "$opt" = "system_freezes" ]; then
+                
+                sudo apt update
+                sudo apt install mplayer -y
+                
+                # mpv crashes low power devices, mplayer does not (and vlc doesn't handle network disruption too well)
+                sed -i 's/player = .*/player = mplayer, vlc, mpv/g' ~/.config/pyradio/config
+                
+                echo " "
+                echo "${green}Set mplayer to default pyradio stream player.${reset}"
+                
+                
+                break
+               elif [ "$opt" = "mpv_low_volume" ]; then
+                
+                # mpv default volume set to 100
+                sed -i 's/volume=.*/volume=100/g' ~/.config/mpv/mpv.conf
+                
+                echo " "
+                echo "${green}Increased mpv volume to 100.${reset}"
+                
+                
+                break
+               elif [ "$opt" = "skip" ]; then
+                echo " "
+                echo "${green}Skipping pyradio fixes.${reset}"
+                break
+               fi
+        done
+               
+        echo " "
+        
+        break    
+        
+        ##################################################################################################################
+        ##################################################################################################################
+        
         elif [ "$opt" = "pyradio_on" ]; then
         
         
@@ -1077,7 +1152,7 @@ select opt in $OPTIONS; do
         ######################################
         
         # kill any background instances of pyradio
-        SCREENS_DETACHED=$(screen -ls | grep Detached)
+        SCREENS_DETACHED=$(screen -ls | grep Detached | grep "pyradio")
         if [ "$SCREENS_DETACHED" != "" ]; then
         echo $SCREENS_DETACHED | cut -d. -f1 | awk '{print $1}' | xargs kill
         fi
@@ -1191,10 +1266,14 @@ select opt in $OPTIONS; do
                 
                 # mpv default volume is VERY low on raspi os, so we set it to 100 instead
                 sed -i 's/volume=.*/volume=100/g' ~/.config/mpv/mpv.conf
-                
+         
+                echo " "
+                echo "${red}Raspberry Pi compatibility settings for pyradio have been applied.${reset}"
+                echo " "
+            
                 fi
-         
-         
+            
+            
             echo "${reset}${yellow} "
             read -n1 -s -r -p $'Press b to run pyradio in the background, or s to show on-screen...\n' key
             echo "${reset} "
@@ -1216,7 +1295,7 @@ select opt in $OPTIONS; do
                 # Export the vars to screen's bash session, OR IT WON'T RUN!
                 export PLAY_NUM=$PLAY_NUM
                 export LOAD_CUSTOM_STATIONS=$LOAD_CUSTOM_STATIONS
-                screen -dmS radio bash -c 'pyradio --play ${PLAY_NUM} ${LOAD_CUSTOM_STATIONS}'
+                screen -dmS pyradio bash -c 'pyradio --play ${PLAY_NUM} ${LOAD_CUSTOM_STATIONS}'
             
                 elif [ "$key" = 's' ] || [ "$key" = 'S' ]; then
                 
@@ -1263,7 +1342,12 @@ select opt in $OPTIONS; do
         echo "${green}Turning pyradio OFF...${reset}"
         echo " "
         
-        screen -ls | grep Detached | cut -d. -f1 | awk '{print $1}' | xargs kill
+            # kill any background instances of pyradio
+            SCREENS_DETACHED=$(screen -ls | grep Detached | grep "pyradio")
+            if [ "$SCREENS_DETACHED" != "" ]; then
+            echo $SCREENS_DETACHED | cut -d. -f1 | awk '{print $1}' | xargs kill
+            fi
+        
         exit
         
         break    
@@ -1745,8 +1829,56 @@ select opt in $OPTIONS; do
         echo "${cyan}Solana: ${green}GvX4AU4V9atTBof9dT9oBnLPmPiz3mhoXBdqcxyRuQnU"
         echo " "
 
+       
+        echo " "
+        echo "${yellow}Would you like to install any of these other apps, or skip them?${reset}"
+        echo " "
         
-        exit
+        OPTIONS="install_open_crypto_tracker install_slideshow_crypto_ticker skip"
+        
+        select opt in $OPTIONS; do
+                if [ "$opt" = "install_open_crypto_tracker" ]; then
+         
+    			echo " "
+    			
+    			echo "${green}Proceeding with portfolio tracker installation, please wait...${reset}"
+    			
+    			echo " "
+    			
+    			wget --no-cache -O FOLIO-INSTALL.bash https://raw.githubusercontent.com/taoteh1221/Open_Crypto_Tracker/main/FOLIO-INSTALL.bash
+    			
+    			chmod +x FOLIO-INSTALL.bash
+    			
+    			chown $APP_USER:$APP_USER FOLIO-INSTALL.bash
+    			
+    			sudo ./FOLIO-INSTALL.bash
+			
+                break
+               elif [ "$opt" = "install_slideshow_crypto_ticker" ]; then
+			
+    			echo " "
+    			
+    			echo "${green}Proceeding with crypto ticker installation, please wait...${reset}"
+    			
+    			echo " "
+    			
+    			wget --no-cache -O TICKER-INSTALL.bash https://raw.githubusercontent.com/taoteh1221/Slideshow_Crypto_Ticker/main/TICKER-INSTALL.bash
+    			
+    			chmod +x TICKER-INSTALL.bash
+    			
+    			chown $APP_USER:$APP_USER TICKER-INSTALL.bash
+    			
+    			sudo ./TICKER-INSTALL.bash
+			
+                break
+               elif [ "$opt" = "skip" ]; then
+                echo " "
+                echo "${green}Skipping other apps installation.${reset}"
+                break
+               fi
+        done
+               
+        echo " "
         
         break
         

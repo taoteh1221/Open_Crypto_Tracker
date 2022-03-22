@@ -6,6 +6,8 @@
 echo " "
 echo "PLEASE REPORT ANY ISSUES HERE: https://github.com/taoteh1221/Open_Crypto_Tracker/issues"
 echo " "
+echo "Initializing, please wait..."
+echo " "
 
 
 # EXPLICITLY set any dietpi paths 
@@ -52,26 +54,6 @@ fi
 #PATH=/bin:/usr/bin:/usr/local/bin:/sbin:/usr/sbin:/usr/local/sbin:$PATH
 
 
-# Bash's FULL PATH
-BASH_PATH=$(which bash)
-
-
-# curl's FULL PATH
-CURL_PATH=$(which curl)
-
-
-# jq's FULL PATH
-JQ_PATH=$(which jq)
-
-
-# wget's FULL PATH
-WGET_PATH=$(which wget)
-
-
-# sed's FULL PATH
-SED_PATH=$(which sed)
-
-
 # Get logged-in username (if sudo, this works best with logname)
 TERMINAL_USERNAME=$(logname)
 
@@ -94,6 +76,19 @@ DATE=$(date '+%Y-%m-%d')
 
 # Get the host ip address
 IP=`hostname -I` 
+
+
+# If a symlink, get link target for script location
+ # WE ALWAYS WANT THE FULL PATH!
+if [[ -L "$0" ]]; then
+SCRIPT_LOCATION=$(readlink "$0")
+else
+SCRIPT_LOCATION="$( cd -- "$(dirname "$0")" >/dev/null 2>&1 ; pwd -P )/"$(basename "$0")""
+fi
+
+# Now set path / file vars, after setting SCRIPT_LOCATION
+SCRIPT_PATH="$( cd -- "$(dirname "$SCRIPT_LOCATION")" >/dev/null 2>&1 ; pwd -P )"
+SCRIPT_NAME=$(basename "$SCRIPT_LOCATION")
 
 
 # Get a list of PHP packages THAT ARE ALREADY INSTALLED
@@ -150,57 +145,139 @@ fi
 
 ######################################
 
-# Install curl if needed
-if [ -z "$CURL_PATH" ]; then
 
-sudo apt update
+# Get primary dependency apps, if we haven't already
+if [ ! -f ~/.crypto-tracker-dependency-check.dat ]; then
+    
+    
+    # Install git if needed
+    GIT_PATH=$(which git)
+    
+    if [ -z "$GIT_PATH" ]; then
+    
+    echo " "
+    echo "${cyan}Installing required component git, please wait...${reset}"
+    echo " "
+    
+    sudo apt update
+    
+    sudo apt install git -y
+    
+    fi
+    
+    
+    # Install curl if needed
+    CURL_PATH=$(which curl)
+    
+    if [ -z "$CURL_PATH" ]; then
+    
+    echo " "
+    echo "${cyan}Installing required component curl, please wait...${reset}"
+    echo " "
+    
+    sudo apt update
+    
+    sudo apt install curl -y
+    
+    fi
+    
+    # Install jq if needed
+    JQ_PATH=$(which jq)
+    
+    if [ -z "$JQ_PATH" ]; then
+    
+    echo " "
+    echo "${cyan}Installing required component jq, please wait...${reset}"
+    echo " "
+    
+    sudo apt update
+    
+    sudo apt install jq -y
+    
+    fi
+    
+    # Install wget if needed
+    WGET_PATH=$(which wget)
+    
+    if [ -z "$WGET_PATH" ]; then
+    
+    echo " "
+    echo "${cyan}Installing required component wget, please wait...${reset}"
+    echo " "
+    
+    sudo apt update
+    
+    sudo apt install wget -y
+    
+    fi
+    
+    # Install sed if needed
+    SED_PATH=$(which sed)
+    
+    if [ -z "$SED_PATH" ]; then
+    
+    echo " "
+    echo "${cyan}Installing required component sed, please wait...${reset}"
+    echo " "
+    
+    sudo apt update
+    
+    sudo apt install sed -y
+    
+    fi
+    
+    # Install less if needed
+    LESS_PATH=$(which less)
+    				
+    if [ -z "$LESS_PATH" ]; then
+    
+    echo " "
+    echo "${cyan}Installing required component less, please wait...${reset}"
+    echo " "
+    
+    sudo apt update
+    
+    sudo apt install less -y
+    
+    fi
+    
+    # Install expect if needed
+    EXPECT_PATH=$(which expect)
+    				
+    if [ -z "$EXPECT_PATH" ]; then
+    
+    echo " "
+    echo "${cyan}Installing required component expect, please wait...${reset}"
+    echo " "
+    
+    sudo apt update
+    
+    sudo apt install expect -y
+    
+    fi
+    
+    # Install avahi-daemon if needed (for .local names on internal / home network)
+    AVAHID_PATH=$(which avahi-daemon)
+    
+    if [ -z "$AVAHID_PATH" ]; then
+    
+    echo " "
+    echo "${cyan}Installing required component avahi-daemon, please wait...${reset}"
+    echo " "
+    
+    sudo apt update
+    
+    sudo apt install avahi-daemon -y
+    
+    fi
 
-echo " "
-echo "${cyan}Installing required component curl, please wait...${reset}"
-echo " "
-
-sudo apt install curl jq -y
+export DATE=$DATE
+export SCRIPT_LOCATION=$SCRIPT_LOCATION
+bash -c 'echo "checked primary dependencies of ${SCRIPT_LOCATION}: ${DATE}" >> ~/.crypto-tracker-dependency-check.dat'
 
 fi
+# dependency check END
 
-# Install jq if needed
-if [ -z "$JQ_PATH" ]; then
-
-sudo apt update
-
-echo " "
-echo "${cyan}Installing required component jq, please wait...${reset}"
-echo " "
-
-sudo apt install jq -y
-
-fi
-
-# Install wget if needed
-if [ -z "$WGET_PATH" ]; then
-
-sudo apt update
-
-echo " "
-echo "${cyan}Installing required component wget, please wait...${reset}"
-echo " "
-
-sudo apt install wget -y
-
-fi
-
-# Install sed if needed
-if [ -z "$SED_PATH" ]; then
-
-sudo apt update
-
-echo " "
-echo "${cyan}Installing required component sed, please wait...${reset}"
-echo " "
-
-sudo apt install sed -y
-
-fi
 
 ######################################
 
@@ -879,7 +956,7 @@ select opt in $OPTIONS; do
 				sleep 3
 				
 				# Safely install other packages seperately, so they aren't cancelled by 'package missing' errors
-				apt-get install curl jq pwgen openssl wget -y
+				apt-get install pwgen openssl -y
 
 				sleep 3
 				
