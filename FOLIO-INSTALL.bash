@@ -70,9 +70,12 @@ if [ -z "$TERMINAL_USERNAME" ]; then
 fi
 
 
-# Get date
+# Get date / time
 DATE=$(date '+%Y-%m-%d')
+TIME=$(date '+%H:%M:%S')
 
+# Current timestamp
+CURRENT_TIMESTAMP=$(/usr/bin/date +%s)
 
 # Get the host ip address
 IP=`hostname -I` 
@@ -146,14 +149,20 @@ fi
 ######################################
 
 
-# Get primary dependency apps, if we haven't already
-if [ ! -f ~/.crypto-tracker-dependency-check.dat ]; then
+# Get primary dependency apps, if we haven't recently (increases consecutive runtime speeds)
+# 15 minutes (in seconds) between dependency checks (in case of script upgrades etc)
+DEP_CHECK_REFRESH=900
+DEP_CHECK_LOG="${SCRIPT_PATH}/.crypto-tracker-dependency-check.dat"
+
+if [ ! -f $DEP_CHECK_LOG ]; then
     
     
     # Install git if needed
     GIT_PATH=$(which git)
     
     if [ -z "$GIT_PATH" ]; then
+    
+    DEPS_MISSING=1
     
     echo " "
     echo "${cyan}Installing required component git, please wait...${reset}"
@@ -171,6 +180,8 @@ if [ ! -f ~/.crypto-tracker-dependency-check.dat ]; then
     
     if [ -z "$CURL_PATH" ]; then
     
+    DEPS_MISSING=1
+    
     echo " "
     echo "${cyan}Installing required component curl, please wait...${reset}"
     echo " "
@@ -181,10 +192,13 @@ if [ ! -f ~/.crypto-tracker-dependency-check.dat ]; then
     
     fi
     
+    
     # Install jq if needed
     JQ_PATH=$(which jq)
     
     if [ -z "$JQ_PATH" ]; then
+    
+    DEPS_MISSING=1
     
     echo " "
     echo "${cyan}Installing required component jq, please wait...${reset}"
@@ -196,10 +210,13 @@ if [ ! -f ~/.crypto-tracker-dependency-check.dat ]; then
     
     fi
     
+    
     # Install wget if needed
     WGET_PATH=$(which wget)
     
     if [ -z "$WGET_PATH" ]; then
+    
+    DEPS_MISSING=1
     
     echo " "
     echo "${cyan}Installing required component wget, please wait...${reset}"
@@ -211,10 +228,13 @@ if [ ! -f ~/.crypto-tracker-dependency-check.dat ]; then
     
     fi
     
+    
     # Install sed if needed
     SED_PATH=$(which sed)
     
     if [ -z "$SED_PATH" ]; then
+    
+    DEPS_MISSING=1
     
     echo " "
     echo "${cyan}Installing required component sed, please wait...${reset}"
@@ -226,10 +246,13 @@ if [ ! -f ~/.crypto-tracker-dependency-check.dat ]; then
     
     fi
     
+    
     # Install less if needed
     LESS_PATH=$(which less)
     				
     if [ -z "$LESS_PATH" ]; then
+    
+    DEPS_MISSING=1
     
     echo " "
     echo "${cyan}Installing required component less, please wait...${reset}"
@@ -241,10 +264,13 @@ if [ ! -f ~/.crypto-tracker-dependency-check.dat ]; then
     
     fi
     
+    
     # Install expect if needed
     EXPECT_PATH=$(which expect)
     				
     if [ -z "$EXPECT_PATH" ]; then
+    
+    DEPS_MISSING=1
     
     echo " "
     echo "${cyan}Installing required component expect, please wait...${reset}"
@@ -256,10 +282,13 @@ if [ ! -f ~/.crypto-tracker-dependency-check.dat ]; then
     
     fi
     
+    
     # Install avahi-daemon if needed (for .local names on internal / home network)
     AVAHID_PATH=$(which avahi-daemon)
     
     if [ -z "$AVAHID_PATH" ]; then
+    
+    DEPS_MISSING=1
     
     echo " "
     echo "${cyan}Installing required component avahi-daemon, please wait...${reset}"
@@ -270,10 +299,45 @@ if [ ! -f ~/.crypto-tracker-dependency-check.dat ]; then
     sudo apt install avahi-daemon -y
     
     fi
+    
+    
+    # Install bc if needed (for decimal math in bash)
+    BC_PATH=$(which bc)
+    
+    if [ -z "$BC_PATH" ]; then
+    
+    DEPS_MISSING=1
+    
+    echo " "
+    echo "${cyan}Installing required component bc, please wait...${reset}"
+    echo " "
+    
+    sudo apt update
+    
+    sudo apt install bc -y
+    
+    fi
 
-export DATE=$DATE
-export SCRIPT_LOCATION=$SCRIPT_LOCATION
-bash -c 'echo "checked primary dependencies of ${SCRIPT_LOCATION}: ${DATE}" >> ~/.crypto-tracker-dependency-check.dat'
+
+    # If no dependencies missing, speed up next runtime of script
+    if [ -z "$DEPS_MISSING" ]; then
+    export SCRIPT_LOCATION=$SCRIPT_LOCATION
+    export DATE=$DATE
+    export TIME=$TIME
+    export DEP_CHECK_LOG=$DEP_CHECK_LOG
+    bash -c "echo 'all primary dependencies installed for ${SCRIPT_LOCATION}: ${DATE} @ ${TIME}' >> ${DEP_CHECK_LOG}"
+    fi
+    
+
+else
+
+DEP_CHECK_LAST_MODIFIED=$(/usr/bin/date +%s -r $DEP_CHECK_LOG)
+
+DEP_CHECK_THRESHOLD=$(($DEP_CHECK_LAST_MODIFIED + $DEP_CHECK_REFRESH))
+
+	if [ "$CURRENT_TIMESTAMP" -ge "$DEP_CHECK_THRESHOLD" ]; then
+	rm $DEP_CHECK_LOG
+	fi
 
 fi
 # dependency check END

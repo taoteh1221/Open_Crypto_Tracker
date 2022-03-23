@@ -51,7 +51,7 @@
 
 
 # Version of this script
-APP_VERSION="1.00.7" # 2022/MARCH/22ND
+APP_VERSION="1.01.0" # 2022/MARCH/23RD
 
 
 # If parameters are added via command line
@@ -86,8 +86,12 @@ export XAUTHORITY=~/.Xauthority
 # Export current working directory, in case we are calling another bash instance in this script
 export PWD=$PWD
 
-# Get date
+# Get date / time
 DATE=$(date '+%Y-%m-%d')
+TIME=$(date '+%H:%M:%S')
+
+# Current timestamp
+CURRENT_TIMESTAMP=$(/usr/bin/date +%s)
 
 
 # If a symlink, get link target for script location
@@ -106,8 +110,8 @@ SCRIPT_NAME=$(basename "$SCRIPT_LOCATION")
 # pulseaudio's FULL PATH (to run checks later)
 PULSEAUDIO_PATH=$(which pulseaudio)
 
-# bluetooth-autoconnect's FULL PATH (to run checks later)
-BT_AUTOCONNECT_PATH="${PWD}/bluetooth-autoconnect.py"
+# bluetooth-autoconnect's FULL PATH (to run checks OR install later)
+BT_AUTOCONNECT_PATH="${SCRIPT_PATH}/bluetooth-autoconnect.py"
 
 # Get logged-in username (if sudo, this works best with logname)
 TERMINAL_USERNAME=$(logname)
@@ -189,14 +193,21 @@ if [ "$TERMINAL_USERNAME" == "root" ]; then
 fi
 
 
-# Get primary dependency apps, if we haven't already
-if [ ! -f ~/.bt-radio-dependency-check.dat ]; then
+# Get primary dependency apps, if we haven't recently (increases consecutive runtime speeds)
+# 15 minutes (in seconds) between dependency checks (in case of script upgrades etc)
+DEP_CHECK_REFRESH=900
+DEP_CHECK_LOG="${SCRIPT_PATH}/.bt-radio-dependency-check.dat"
+
+if [ ! -f $DEP_CHECK_LOG ]; then
+    
     
     # If 'python3' wasn't found, install it
     # python3's FULL PATH (we DONT want python [which is python2])
     PYTHON_PATH=$(which python3)
     
     if [ -z "$PYTHON_PATH" ]; then
+    
+    DEPS_MISSING=1
     
     echo " "
     echo "${cyan}Installing required component python3, please wait...${reset}"
@@ -209,10 +220,30 @@ if [ ! -f ~/.bt-radio-dependency-check.dat ]; then
     fi
     
     
+    # Install rsyslogd if needed
+    SYSLOG_PATH=$(which rsyslogd)
+    
+    if [ -z "$SYSLOG_PATH" ]; then
+    
+    DEPS_MISSING=1
+    
+    echo " "
+    echo "${cyan}Installing required component rsyslog, please wait...${reset}"
+    echo " "
+    
+    sudo apt update
+    
+    sudo apt install rsyslog -y
+    
+    fi
+    
+    
     # Install git if needed
     GIT_PATH=$(which git)
     
     if [ -z "$GIT_PATH" ]; then
+    
+    DEPS_MISSING=1
     
     echo " "
     echo "${cyan}Installing required component git, please wait...${reset}"
@@ -230,6 +261,8 @@ if [ ! -f ~/.bt-radio-dependency-check.dat ]; then
     
     if [ -z "$CURL_PATH" ]; then
     
+    DEPS_MISSING=1
+    
     echo " "
     echo "${cyan}Installing required component curl, please wait...${reset}"
     echo " "
@@ -240,10 +273,13 @@ if [ ! -f ~/.bt-radio-dependency-check.dat ]; then
     
     fi
     
+    
     # Install jq if needed
     JQ_PATH=$(which jq)
     
     if [ -z "$JQ_PATH" ]; then
+    
+    DEPS_MISSING=1
     
     echo " "
     echo "${cyan}Installing required component jq, please wait...${reset}"
@@ -255,10 +291,13 @@ if [ ! -f ~/.bt-radio-dependency-check.dat ]; then
     
     fi
     
+    
     # Install wget if needed
     WGET_PATH=$(which wget)
     
     if [ -z "$WGET_PATH" ]; then
+    
+    DEPS_MISSING=1
     
     echo " "
     echo "${cyan}Installing required component wget, please wait...${reset}"
@@ -270,10 +309,13 @@ if [ ! -f ~/.bt-radio-dependency-check.dat ]; then
     
     fi
     
+    
     # Install sed if needed
     SED_PATH=$(which sed)
     
     if [ -z "$SED_PATH" ]; then
+    
+    DEPS_MISSING=1
     
     echo " "
     echo "${cyan}Installing required component sed, please wait...${reset}"
@@ -285,10 +327,13 @@ if [ ! -f ~/.bt-radio-dependency-check.dat ]; then
     
     fi
     
+    
     # Install less if needed
     LESS_PATH=$(which less)
     				
     if [ -z "$LESS_PATH" ]; then
+    
+    DEPS_MISSING=1
     
     echo " "
     echo "${cyan}Installing required component less, please wait...${reset}"
@@ -300,10 +345,13 @@ if [ ! -f ~/.bt-radio-dependency-check.dat ]; then
     
     fi
     
+    
     # Install expect if needed
     EXPECT_PATH=$(which expect)
     				
     if [ -z "$EXPECT_PATH" ]; then
+    
+    DEPS_MISSING=1
     
     echo " "
     echo "${cyan}Installing required component expect, please wait...${reset}"
@@ -315,25 +363,13 @@ if [ ! -f ~/.bt-radio-dependency-check.dat ]; then
     
     fi
     
-    # Install rsyslogd if needed
-    SYSLOG_PATH=$(which rsyslogd)
-    
-    if [ -z "$SYSLOG_PATH" ]; then
-    
-    echo " "
-    echo "${cyan}Installing required component rsyslog, please wait...${reset}"
-    echo " "
-    
-    sudo apt update
-    
-    sudo apt install rsyslog -y
-    
-    fi
     
     # Install avahi-daemon if needed (for .local names on internal / home network)
     AVAHID_PATH=$(which avahi-daemon)
     
     if [ -z "$AVAHID_PATH" ]; then
+    
+    DEPS_MISSING=1
     
     echo " "
     echo "${cyan}Installing required component avahi-daemon, please wait...${reset}"
@@ -344,10 +380,45 @@ if [ ! -f ~/.bt-radio-dependency-check.dat ]; then
     sudo apt install avahi-daemon -y
     
     fi
+    
+    
+    # Install bc if needed (for decimal math in bash)
+    BC_PATH=$(which bc)
+    
+    if [ -z "$BC_PATH" ]; then
+    
+    DEPS_MISSING=1
+    
+    echo " "
+    echo "${cyan}Installing required component bc, please wait...${reset}"
+    echo " "
+    
+    sudo apt update
+    
+    sudo apt install bc -y
+    
+    fi
 
-export DATE=$DATE
-export SCRIPT_LOCATION=$SCRIPT_LOCATION
-bash -c 'echo "checked primary dependencies of ${SCRIPT_LOCATION}: ${DATE}" >> ~/.bt-radio-dependency-check.dat'
+
+    # If no dependencies missing, speed up next runtime of script
+    if [ -z "$DEPS_MISSING" ]; then
+    export SCRIPT_LOCATION=$SCRIPT_LOCATION
+    export DATE=$DATE
+    export TIME=$TIME
+    export DEP_CHECK_LOG=$DEP_CHECK_LOG
+    bash -c "echo 'all primary dependencies installed for ${SCRIPT_LOCATION}: ${DATE} @ ${TIME}' >> ${DEP_CHECK_LOG}"
+    fi
+    
+
+else
+
+DEP_CHECK_LAST_MODIFIED=$(/usr/bin/date +%s -r $DEP_CHECK_LOG)
+
+DEP_CHECK_THRESHOLD=$(($DEP_CHECK_LAST_MODIFIED + $DEP_CHECK_REFRESH))
+
+	if [ "$CURRENT_TIMESTAMP" -ge "$DEP_CHECK_THRESHOLD" ]; then
+	rm $DEP_CHECK_LOG
+	fi
 
 fi
 # dependency check END
@@ -378,9 +449,13 @@ bluetooth_autoconnect () {
     
             
     # SPECIFILLY NAME IT WITH -O, TO OVERWRITE ANY PREVIOUS COPY...ALSO --no-cache TO ALWAYS GET LATEST COPY
-    wget --no-cache -O bluetooth-autoconnect.py https://raw.githubusercontent.com/taoteh1221/Bluetooth_Internet_Radio/main/bluetooth-autoconnect/bluetooth-autoconnect.py
+    wget --no-cache -O TEMP-BT-AUTO-CONN.py https://raw.githubusercontent.com/taoteh1221/Bluetooth_Internet_Radio/main/bluetooth-autoconnect/bluetooth-autoconnect.py
     
-    sleep 3
+    sleep 2
+    
+    mv -v --force TEMP-BT-AUTO-CONN.py $BT_AUTOCONNECT_PATH
+    
+    sleep 2
     
         
         # bluetooth-autoconnect systemd service start at boot
@@ -535,7 +610,14 @@ select opt in $OPTIONS; do
         
         LATEST_VERSION=$(echo "$API_VERSION_DATA" | jq -r '.tag_name')
         
-            if [ $APP_VERSION != $LATEST_VERSION ]; then 
+        APP_MAJOR_MINOR=$(echo "${APP_VERSION%.*}" | xargs) #X.XX trim whitespace
+        APP_BUG_FIXES=$(echo "${APP_VERSION##*.}" | xargs) #X trim whitespace
+        
+        LATEST_MAJOR_MINOR=$(echo "${LATEST_VERSION%.*}" | xargs) #X.XX trim whitespace
+        LATEST_BUG_FIXES=$(echo "${LATEST_VERSION##*.}" | xargs) #X trim whitespace
+        
+        
+            if ( [ $(echo "$LATEST_MAJOR_MINOR > $APP_MAJOR_MINOR" |bc -l) -eq 1 ] ) || ( [ $(echo "$LATEST_MAJOR_MINOR == $APP_MAJOR_MINOR" |bc -l) -eq 1 ] && [ $(echo "$LATEST_BUG_FIXES > $APP_BUG_FIXES" |bc -l) -eq 1 ] ); then 
             
             # Remove any sourceforge link in the description, with sed
             UPGRADE_DESC=$(echo "$API_VERSION_DATA" | jq -r '.body' | sed 's/\[.*//g')

@@ -45,7 +45,7 @@
 	// Parse latest version
 	$latest_version_array = explode(".", $upgrade_check_latest_version);
 	
-	$latest_major_minor = $latest_version_array[0] . $latest_version_array[1];
+	$latest_major_minor = $ct_var->num_to_str($latest_version_array[0] . '.' . $latest_version_array[1]);
 	
 	$latest_bug_fixes = $latest_version_array[2];
 	
@@ -53,7 +53,7 @@
 	// Parse currently installed version
 	$app_version_array = explode(".", $app_version);
 	
-	$app_major_minor = $app_version_array[0] . $app_version_array[1];
+	$app_major_minor = $ct_var->num_to_str($app_version_array[0] . '.' . $app_version_array[1]);
 	
 	$app_bug_fixes = $app_version_array[2];
 	
