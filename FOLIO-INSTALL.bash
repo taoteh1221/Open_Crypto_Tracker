@@ -16,6 +16,22 @@ if [ -f /boot/dietpi/.version ]; then
 PATH=/boot/dietpi:$PATH
 export PATH=$PATH
 fi
+				
+
+# EXPLICITLY set any ~/.local/bin paths
+# Export too, in case we are calling another bash instance in this script
+if [ -d ~/.local/bin ]; then
+PATH=~/.local/bin:$PATH
+export PATH=$PATH
+fi
+				
+
+# EXPLICITLY set any /usr/sbin path
+# Export too, in case we are calling another bash instance in this script
+if [ -d /usr/sbin ]; then
+PATH=/usr/sbin:$PATH
+export PATH=$PATH
+fi
 
 
 ######################################

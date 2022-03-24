@@ -73,10 +73,18 @@ export PATH=$PATH
 fi
 				
 
-# EXPLICITLY set any ~/.local/bin paths (for pyradio, etc)
+# EXPLICITLY set any ~/.local/bin paths
 # Export too, in case we are calling another bash instance in this script
 if [ -d ~/.local/bin ]; then
 PATH=~/.local/bin:$PATH
+export PATH=$PATH
+fi
+				
+
+# EXPLICITLY set any /usr/sbin path
+# Export too, in case we are calling another bash instance in this script
+if [ -d /usr/sbin ]; then
+PATH=/usr/sbin:$PATH
 export PATH=$PATH
 fi
 
@@ -193,234 +201,200 @@ if [ "$TERMINAL_USERNAME" == "root" ]; then
 fi
 
 
-# Get primary dependency apps, if we haven't recently (increases consecutive runtime speeds)
-# 15 minutes (in seconds) between dependency checks (in case of script upgrades etc)
-DEP_CHECK_REFRESH=900
-DEP_CHECK_LOG="${SCRIPT_PATH}/.bt-radio-dependency-check.dat"
+# Get primary dependency apps, if we haven't yet
+    
+# If 'python3' wasn't found, install it
+# python3's FULL PATH (we DONT want python [which is python2])
+PYTHON_PATH=$(which python3)
 
-if [ ! -f $DEP_CHECK_LOG ]; then
-    
-    
-    # If 'python3' wasn't found, install it
-    # python3's FULL PATH (we DONT want python [which is python2])
-    PYTHON_PATH=$(which python3)
-    
-    if [ -z "$PYTHON_PATH" ]; then
-    
-    DEPS_MISSING=1
-    
-    echo " "
-    echo "${cyan}Installing required component python3, please wait...${reset}"
-    echo " "
-    
-    sudo apt update
-    
-    sudo apt install python3 -y
-    
-    fi
-    
-    
-    # Install rsyslogd if needed
-    SYSLOG_PATH=$(which rsyslogd)
-    
-    if [ -z "$SYSLOG_PATH" ]; then
-    
-    DEPS_MISSING=1
-    
-    echo " "
-    echo "${cyan}Installing required component rsyslog, please wait...${reset}"
-    echo " "
-    
-    sudo apt update
-    
-    sudo apt install rsyslog -y
-    
-    fi
-    
-    
-    # Install git if needed
-    GIT_PATH=$(which git)
-    
-    if [ -z "$GIT_PATH" ]; then
-    
-    DEPS_MISSING=1
-    
-    echo " "
-    echo "${cyan}Installing required component git, please wait...${reset}"
-    echo " "
-    
-    sudo apt update
-    
-    sudo apt install git -y
-    
-    fi
-    
-    
-    # Install curl if needed
-    CURL_PATH=$(which curl)
-    
-    if [ -z "$CURL_PATH" ]; then
-    
-    DEPS_MISSING=1
-    
-    echo " "
-    echo "${cyan}Installing required component curl, please wait...${reset}"
-    echo " "
-    
-    sudo apt update
-    
-    sudo apt install curl -y
-    
-    fi
-    
-    
-    # Install jq if needed
-    JQ_PATH=$(which jq)
-    
-    if [ -z "$JQ_PATH" ]; then
-    
-    DEPS_MISSING=1
-    
-    echo " "
-    echo "${cyan}Installing required component jq, please wait...${reset}"
-    echo " "
-    
-    sudo apt update
-    
-    sudo apt install jq -y
-    
-    fi
-    
-    
-    # Install wget if needed
-    WGET_PATH=$(which wget)
-    
-    if [ -z "$WGET_PATH" ]; then
-    
-    DEPS_MISSING=1
-    
-    echo " "
-    echo "${cyan}Installing required component wget, please wait...${reset}"
-    echo " "
-    
-    sudo apt update
-    
-    sudo apt install wget -y
-    
-    fi
-    
-    
-    # Install sed if needed
-    SED_PATH=$(which sed)
-    
-    if [ -z "$SED_PATH" ]; then
-    
-    DEPS_MISSING=1
-    
-    echo " "
-    echo "${cyan}Installing required component sed, please wait...${reset}"
-    echo " "
-    
-    sudo apt update
-    
-    sudo apt install sed -y
-    
-    fi
-    
-    
-    # Install less if needed
-    LESS_PATH=$(which less)
-    				
-    if [ -z "$LESS_PATH" ]; then
-    
-    DEPS_MISSING=1
-    
-    echo " "
-    echo "${cyan}Installing required component less, please wait...${reset}"
-    echo " "
-    
-    sudo apt update
-    
-    sudo apt install less -y
-    
-    fi
-    
-    
-    # Install expect if needed
-    EXPECT_PATH=$(which expect)
-    				
-    if [ -z "$EXPECT_PATH" ]; then
-    
-    DEPS_MISSING=1
-    
-    echo " "
-    echo "${cyan}Installing required component expect, please wait...${reset}"
-    echo " "
-    
-    sudo apt update
-    
-    sudo apt install expect -y
-    
-    fi
-    
-    
-    # Install avahi-daemon if needed (for .local names on internal / home network)
-    AVAHID_PATH=$(which avahi-daemon)
-    
-    if [ -z "$AVAHID_PATH" ]; then
-    
-    DEPS_MISSING=1
-    
-    echo " "
-    echo "${cyan}Installing required component avahi-daemon, please wait...${reset}"
-    echo " "
-    
-    sudo apt update
-    
-    sudo apt install avahi-daemon -y
-    
-    fi
-    
-    
-    # Install bc if needed (for decimal math in bash)
-    BC_PATH=$(which bc)
-    
-    if [ -z "$BC_PATH" ]; then
-    
-    DEPS_MISSING=1
-    
-    echo " "
-    echo "${cyan}Installing required component bc, please wait...${reset}"
-    echo " "
-    
-    sudo apt update
-    
-    sudo apt install bc -y
-    
-    fi
+if [ -z "$PYTHON_PATH" ]; then
 
+echo " "
+echo "${cyan}Installing required component python3, please wait...${reset}"
+echo " "
 
-    # If no dependencies missing, speed up next runtime of script
-    if [ -z "$DEPS_MISSING" ]; then
-    export SCRIPT_LOCATION=$SCRIPT_LOCATION
-    export DATE=$DATE
-    export TIME=$TIME
-    export DEP_CHECK_LOG=$DEP_CHECK_LOG
-    bash -c "echo 'all primary dependencies installed for ${SCRIPT_LOCATION}: ${DATE} @ ${TIME}' >> ${DEP_CHECK_LOG}"
-    fi
-    
+sudo apt update
 
-else
-
-DEP_CHECK_LAST_MODIFIED=$(/usr/bin/date +%s -r $DEP_CHECK_LOG)
-
-DEP_CHECK_THRESHOLD=$(($DEP_CHECK_LAST_MODIFIED + $DEP_CHECK_REFRESH))
-
-	if [ "$CURRENT_TIMESTAMP" -ge "$DEP_CHECK_THRESHOLD" ]; then
-	rm $DEP_CHECK_LOG
-	fi
+sudo apt install python3 -y
 
 fi
+
+
+# Install xdg-user-dirs if needed
+XDGUSER_PATH=$(which xdg-user-dir)
+
+if [ -z "$XDGUSER_PATH" ]; then
+
+echo " "
+echo "${cyan}Installing required component xdg-user-dirs, please wait...${reset}"
+echo " "
+
+sudo apt update
+
+sudo apt install xdg-user-dirs -y
+
+fi
+
+
+# Install rsyslogd if needed
+SYSLOG_PATH=$(which rsyslogd)
+
+if [ -z "$SYSLOG_PATH" ]; then
+
+echo " "
+echo "${cyan}Installing required component rsyslog, please wait...${reset}"
+echo " "
+
+sudo apt update
+
+sudo apt install rsyslog -y
+
+fi
+
+
+# Install git if needed
+GIT_PATH=$(which git)
+
+if [ -z "$GIT_PATH" ]; then
+
+echo " "
+echo "${cyan}Installing required component git, please wait...${reset}"
+echo " "
+
+sudo apt update
+
+sudo apt install git -y
+
+fi
+
+
+# Install curl if needed
+CURL_PATH=$(which curl)
+
+if [ -z "$CURL_PATH" ]; then
+
+echo " "
+echo "${cyan}Installing required component curl, please wait...${reset}"
+echo " "
+
+sudo apt update
+
+sudo apt install curl -y
+
+fi
+
+
+# Install jq if needed
+JQ_PATH=$(which jq)
+
+if [ -z "$JQ_PATH" ]; then
+
+echo " "
+echo "${cyan}Installing required component jq, please wait...${reset}"
+echo " "
+
+sudo apt update
+
+sudo apt install jq -y
+
+fi
+
+
+# Install wget if needed
+WGET_PATH=$(which wget)
+
+if [ -z "$WGET_PATH" ]; then
+
+echo " "
+echo "${cyan}Installing required component wget, please wait...${reset}"
+echo " "
+
+sudo apt update
+
+sudo apt install wget -y
+
+fi
+
+
+# Install sed if needed
+SED_PATH=$(which sed)
+
+if [ -z "$SED_PATH" ]; then
+
+echo " "
+echo "${cyan}Installing required component sed, please wait...${reset}"
+echo " "
+
+sudo apt update
+
+sudo apt install sed -y
+
+fi
+
+
+# Install less if needed
+LESS_PATH=$(which less)
+				
+if [ -z "$LESS_PATH" ]; then
+
+echo " "
+echo "${cyan}Installing required component less, please wait...${reset}"
+echo " "
+
+sudo apt update
+
+sudo apt install less -y
+
+fi
+
+
+# Install expect if needed
+EXPECT_PATH=$(which expect)
+				
+if [ -z "$EXPECT_PATH" ]; then
+
+echo " "
+echo "${cyan}Installing required component expect, please wait...${reset}"
+echo " "
+
+sudo apt update
+
+sudo apt install expect -y
+
+fi
+
+
+# Install avahi-daemon if needed (for .local names on internal / home network)
+AVAHID_PATH=$(which avahi-daemon)
+
+if [ -z "$AVAHID_PATH" ]; then
+
+echo " "
+echo "${cyan}Installing required component avahi-daemon, please wait...${reset}"
+echo " "
+
+sudo apt update
+
+sudo apt install avahi-daemon -y
+
+fi
+
+
+# Install bc if needed (for decimal math in bash)
+BC_PATH=$(which bc)
+
+if [ -z "$BC_PATH" ]; then
+
+echo " "
+echo "${cyan}Installing required component bc, please wait...${reset}"
+echo " "
+
+sudo apt update
+
+sudo apt install bc -y
+
+fi
+
 # dependency check END
 
 
@@ -436,7 +410,7 @@ bluetooth_autoconnect () {
     if [ ! -f "$BT_AUTOCONNECT_PATH" ] && [ "$EUID" != 0 ]; then
     
     echo " "
-    echo "${cyan}Installing required component bluetooth-autoconnect and dependancies, please wait...${reset}"
+    echo "${cyan}Installing required component bluetooth-autoconnect and dependencies, please wait...${reset}"
     echo " "
     
     sudo apt update
@@ -1103,19 +1077,27 @@ select opt in $OPTIONS; do
         
         sudo apt update
         
+        sleep 1
+        
         # Install screen and mpv instead of mplayer, it's more stable
         sudo apt install screen mpv -y
+        
+        sleep 1
         
         # mplayer as backup if distro doesn't have an mpv package (mpv will be used first automatically if found)
         sudo apt install mplayer -y
         
+        sleep 1
+        
         # vlc as backup if distro doesn't have an mpv or mplayer package
         sudo apt install vlc -y
+        
+        sleep 1
         
         # Install pyradio python3 dependencies
         sudo apt install python3-setuptools python3-wheel python3-pip python3-requests python3-dnspython python3-psutil -y
         
-        sleep 5
+        sleep 3
         
         # SPECIFILLY NAME IT WITH -O, TO OVERWRITE ANY PREVIOUS COPY...ALSO --no-cache TO ALWAYS GET LATEST COPY
         # Renaming pyradio's installation script may not work...
