@@ -682,6 +682,34 @@ Running a google search for "set permanently ulimit -n linux", you'll find tons 
 	    </div>
 	  </div>
 	  
+	
+	<?php
+	$accord_var = 'os_stability_issues';
+	?>
+	
+	  <div class="card z-depth-0 bordered">
+	    <div class="card-header" id="heading_<?=$accord_var?>">
+	      <h5 class="mb-0">
+	        <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapse_<?=$accord_var?>"
+	          aria-expanded="false" aria-controls="collapse_<?=$accord_var?>">
+	          
+	          Data Errors, Data Not Updating
+	          
+	        </button>
+	      </h5>
+	    </div>
+	    <div id="collapse_<?=$accord_var?>" class="collapse" aria-labelledby="heading_<?=$accord_var?>"
+	      data-parent="#accordionHelp">
+	      <div class="card-body">
+	      
+	         
+	        Restart the device running this app. If this fixes the problem, you may have crond / systemd crashes ocurring on your system. Make sure you are using a WELL-MAINTAINED version of a debian-based operating system for maximum compatibility with this app (Ubuntu or Raspberry Pi OS are VERY stable an reliable).
+	        
+	        
+	      </div>
+	    </div>
+	  </div>
+	  
 	  
 	  
 	  

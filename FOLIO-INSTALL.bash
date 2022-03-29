@@ -91,7 +91,7 @@ DATE=$(date '+%Y-%m-%d')
 TIME=$(date '+%H:%M:%S')
 
 # Current timestamp
-CURRENT_TIMESTAMP=$(/usr/bin/date +%s)
+CURRENT_TIMESTAMP=$(date +%s)
 
 # Get the host ip address
 IP=`hostname -I` 
@@ -347,7 +347,7 @@ if [ ! -f $DEP_CHECK_LOG ]; then
 
 else
 
-DEP_CHECK_LAST_MODIFIED=$(/usr/bin/date +%s -r $DEP_CHECK_LOG)
+DEP_CHECK_LAST_MODIFIED=$(date +%s -r $DEP_CHECK_LOG)
 
 DEP_CHECK_THRESHOLD=$(($DEP_CHECK_LAST_MODIFIED + $DEP_CHECK_REFRESH))
 
@@ -435,8 +435,8 @@ fi
 echo " "
 echo "${yellow}TECHNICAL NOTE:"
 echo " "
-echo "This script was designed to install on Ubuntu / Raspberry Pi OS / DietPI OS, and MAY also work on other"
-echo "Debian-based systems (but it has not been tested for that purpose).${reset}"
+echo "This script was designed to install on Ubuntu / Raspberry Pi OS, and MAY also work on other"
+echo "Debian-based systems (but it has NOT been FULLY DEVELOPED for that purpose).${reset}"
 echo " "
 
 echo "${cyan}Your operating system has been detected as:"

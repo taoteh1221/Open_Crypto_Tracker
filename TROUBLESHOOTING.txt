@@ -331,6 +331,18 @@ To adjust the API timeout, go to the Admin Config POWER USER section. Adjust the
 =========================================================================================================================================
 
 
+=========================================================================================================================================
+
+  Data Errors, Data Not Updating
+  
+-----------------------------------------------------------------------------------------------------------------------------------------
+
+Restart the device running this app. If this fixes the problem, you may have crond / systemd crashes ocurring on your system. Make sure you are using a WELL-MAINTAINED version of a debian-based operating system for maximum compatibility with this app (Ubuntu or Raspberry Pi OS are VERY stable an reliable).
+
+
+=========================================================================================================================================
+
+
 
 
 
