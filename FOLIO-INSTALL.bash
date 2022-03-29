@@ -404,6 +404,7 @@ echo " "
 echo "${yellow}Enter the FULL SYSTEM PATH to the document root of the web server:"
 echo "(this does NOT automate setting apache's document root, you would need to do that manually)"
 echo "(DO !NOT! INCLUDE A #TRAILING# FORWARD SLASH)"
+echo " "
 echo "(leave blank / hit enter to use the default value: /var/www/html)${reset}"
 echo " "
 
@@ -1663,7 +1664,7 @@ export FOLIO_INSTALL_RAN=1
 if [ -z "$TICKER_INSTALL_RAN" ]; then
 
 echo " "
-echo "${red}!!!!!BE SURE TO SCROLL UP, TO SAVE #ALL THE TICKER APP USAGE DOCUMENTATION#"
+echo "${red}!!!!!BE SURE TO SCROLL UP, TO SAVE #ALL THE PORTFOLIO APP USAGE DOCUMENTATION#"
 echo "PRINTED OUT ABOVE, BEFORE YOU SIGN OFF FROM THIS TERMINAL SESSION!!!!!${reset}"
 
 echo " "
