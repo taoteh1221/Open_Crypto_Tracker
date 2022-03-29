@@ -7,10 +7,10 @@
 
 # https://github.com/taoteh1221/Bluetooth_Internet_Radio
 
-# Fully automated setup of bluetooth and an internet radio player (PyRadio), on a headless RaspberryPi / DietPi,
+# Fully automated setup of bluetooth and an internet radio player (PyRadio), on a headless RaspberryPi,
 # connecting to a stereo system's bluetooth receiver (bash script, chmod +x it to run).
 
-# To install automatically on Ubuntu / DietPi OS / RaspberryPi OS, copy => paste => run the command below in a
+# To install automatically on Ubuntu / RaspberryPi OS, copy => paste => run the command below in a
 # terminal program (using the 'Terminal' app in the system menu, or over remote SSH), while logged in AS THE
 # USER THAT WILL RUN THE APP (user must have sudo privileges):
 
@@ -51,7 +51,7 @@
 
 
 # Version of this script
-APP_VERSION="1.01.0" # 2022/MARCH/23RD
+APP_VERSION="1.02.0" # 2022/MARCH/29TH
 
 
 # If parameters are added via command line
@@ -99,7 +99,7 @@ DATE=$(date '+%Y-%m-%d')
 TIME=$(date '+%H:%M:%S')
 
 # Current timestamp
-CURRENT_TIMESTAMP=$(/usr/bin/date +%s)
+CURRENT_TIMESTAMP=$(date +%s)
 
 
 # If a symlink, get link target for script location
@@ -1286,8 +1286,13 @@ select opt in $OPTIONS; do
             echo " "
             echo "Afterwards, this notice will dissapear, and the normal pyradio options will show instead."
             echo " "
-            echo "IF YOU GET 'connection failed' OR LOW VOLUME, DON'T WORRY, WE AUTO-FIX THAT #NEXT TIME# YOU RUN PYRADIO."
-            echo " "
+            
+                # Raspberry pi device compatibilities NOTICE
+                if [ -f "/usr/bin/raspi-config" ]; then
+                echo "IF YOU GET 'connection failed' OR LOW VOLUME, DON'T WORRY, WE AUTO-FIX THAT FOR RASPBERRY PI DEVICES #NEXT TIME# YOU RUN PYRADIO."
+                echo " "
+                fi
+                
             echo "###########################################################################################"
             echo "${reset} "
             
