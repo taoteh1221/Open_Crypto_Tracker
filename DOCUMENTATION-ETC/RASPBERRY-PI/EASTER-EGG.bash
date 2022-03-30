@@ -51,7 +51,7 @@
 
 
 # Version of this script
-APP_VERSION="1.02.0" # 2022/MARCH/29TH
+APP_VERSION="1.01.1" # 2022/MARCH/29TH
 
 
 # If parameters are added via command line
@@ -399,12 +399,12 @@ fi
 
 
 ###############################################################################################
-# Primary init complete, now check bluetooth_autoconnect and symbolic link status
+# Primary init complete, now check bt_autoconnect_install and symbolic link status
 ###############################################################################################
 
 
-# bluetooth_autoconnect function START
-bluetooth_autoconnect () {
+# bt_autoconnect_install function START
+bt_autoconnect_install () {
 
     # Install bluetooth-autoconnect.py if needed (AND we are #NOT# running as sudo)
     if [ ! -f "$BT_AUTOCONNECT_PATH" ] && [ "$EUID" != 0 ]; then
@@ -486,11 +486,27 @@ EOF
     fi
 
 }
-# bluetooth_autoconnect function END
+# bt_autoconnect_install function END
 
 
-# Call bluetooth_autoconnect function
-bluetooth_autoconnect
+# Call bt_autoconnect_install function
+bt_autoconnect_install
+
+
+# bt_autoconnect_check function
+bt_autoconnect_check () {
+        
+# Make sure we are connected to the bluetooth receiver (NOT just paired)
+# (SOME DEVICES MAY DISCONNECT AGAIN IF WHEN YOU LOGIN, YOU DON'T #QUICKLY# START A SOUND / RADIO STREAM)
+CONNECT_STATUS=$(python3 $BT_AUTOCONNECT_PATH)
+        
+     if [ -n "$CONNECT_STATUS" ]; then
+     echo " "
+     echo "$CONNECT_STATUS"
+     echo " "
+     fi
+            
+}
 
 
 if [ ! -f ~/radio ]; then 
@@ -904,8 +920,8 @@ select opt in $OPTIONS; do
     		
     		sleep 2
     		
-            # Call bluetooth_autoconnect function (this will re-initialize it, since we removed it)
-            bluetooth_autoconnect
+            # Call bt_autoconnect_install function (this will re-initialize it, since we removed it)
+            bt_autoconnect_install
                     
             echo "${green}Attempted USER FILES fixes completed (old configs at ~/.config/pulse.old-$DATE, btautoconnect.service re-initialized).${reset}"
             echo " "
@@ -1220,6 +1236,8 @@ select opt in $OPTIONS; do
         if [ "$SCREENS_DETACHED" != "" ]; then
         echo $SCREENS_DETACHED | cut -d. -f1 | awk '{print $1}' | xargs kill
         fi
+        
+        bt_autoconnect_check
         
         echo " "
         echo "${yellow}Select 1 or 2 to choose whether to load a custom stations file, or the default one.${reset}"
@@ -1683,7 +1701,10 @@ select opt in $OPTIONS; do
             fi
         
         ######################################
-       
+        
+        bt_autoconnect_check
+        
+        sleep 2
        
         echo " "
         echo "${green}Testing with 'Center' sound test..."
