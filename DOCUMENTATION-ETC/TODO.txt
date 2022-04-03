@@ -47,6 +47,9 @@ OPTIMIZATIONS / BUGS / TESTS / UX / QA / OTHER SECTION
 ///////////////////////////////////////////////////////
 
 
+$ct_conf will EVENTUALLY be populated ENTIRELY by the JSON config read logic we currently have in app-lib/php/other/security/secure-cache-files.php. RIGHT NOW alot of init.php is DEPENDING ON $ct_conf values WAAAY BEFORE WE RUN secure-cache-files.php (from what will eventually just be the DEFAULT config within config.php). This is ok for now, BUT after the admin interface has been fully populated WE'LL NEED LOGIC LIKE secure-cache-files.php RUN BEFORE #ANY# $ct_conf LOGIC IS USED. To significantly reduce the required amount of refactoring, we may be able to run logic similar to app-lib/php/other/sub-init/minimized-sub-init.php VERY EARLY WITHIN INIT.PHP? We do check for a corrupt JSON config in minimized-sub-init.php, so this may be reliable to call early? In this case, some (if not all) the logic in secure-cache-files.php AND minimized-sub-init.php should be consolidated into one file for effiency / clarity AS MUCH AS POSSIBLE.
+
+
 System alert EMAILS are not going through (not even showing in mailbox on dragonfrugal.com server), EVEN THOUGH PRICE ALERT EMAILS ARE GOING THOUGH JUST FINE. Additionally, ALEXA / TEXT / TELEGRAM SYSTEM ALERTS WORK FINE. Find out what's going on.
 
 

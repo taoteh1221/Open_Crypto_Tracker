@@ -6,7 +6,7 @@
 
 if ( $force_exit != 1 ) {
 	
-usleep(1000); // Wait 0.001 seconds after possible directory creation
+usleep(100000); // Wait 0.1 seconds after possible directory creation
     
     ///////////////////////////////////////////
     
