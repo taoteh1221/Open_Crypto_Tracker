@@ -46,6 +46,9 @@ CONTRIBUTION GUIDELINES (FOR DEVELOPERS):
 • Please add enough comments to your code to clarify what's going on, especially for moderate to heavy logic. Just like good semantic naming, this ALSO goes a VERY long way twords making code readable during code reviews.
 
 
+• Be liberal with spacing and new lines in your logic. This ALSO goes a VERY long way twords making code readable during code reviews.
+
+
 • ALL code you include in your contribution MUST BE COMPATIBLE WITH THE GPLv3 LICENSE that this app is released under. If you include any code licensed by somebody other than yourself, please leave attribution for them in your contribution, and include the license they released their code under.
 
 

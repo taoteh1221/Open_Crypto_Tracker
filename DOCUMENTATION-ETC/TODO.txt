@@ -15,7 +15,7 @@ Always set bluefish to "4 spaces" as a tab indentation, and enabling indentation
 Try sticking with small infrastructure changes, and breaking up large changes into small milestones, then plenty of time is spent on UX / testing / logging / debugging.
 
 
-Always test in a WebKit-based browser [Epiphany|Safari], Firefox, and Chromium.
+Always test in a WebKit-based browser [Epiphany|Safari|Midori], Firefox, and Chromium.
 
 
 Post on hive, telegram, discord, Twitter, Facebook (and r/CryptoMarkets and r/CryptoCurrency on MAJOR RELEASES) whenever there is a new release of the app.
@@ -47,7 +47,7 @@ OPTIMIZATIONS / BUGS / TESTS / UX / QA / OTHER SECTION
 ///////////////////////////////////////////////////////
 
 
-CSV spreadsheet EXPORT is not working on one install, BUT is on another. Find out why.
+System alert EMAILS are not going through (not even showing in mailbox on dragonfrugal.com server), EVEN THOUGH PRICE ALERT EMAILS ARE GOING THOUGH JUST FINE. Additionally, ALEXA / TEXT / TELEGRAM SYSTEM ALERTS WORK FINE. Find out what's going on.
 
 
 When importing a CSV spreadsheet in linux desktop edition with cookies enabled, UNLESS we manually save the portflio data on the update page AFTER importing, the portfolio data is lost when we close the app. See if this also affects windows desktop edition, and server edition.
