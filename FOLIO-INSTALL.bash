@@ -436,8 +436,8 @@ fi
 echo " "
 echo "${yellow}TECHNICAL NOTE:"
 echo " "
-echo "This script was designed to install on Ubuntu / Raspberry Pi OS, and MAY also work on other"
-echo "Debian-based systems (but it has NOT been FULLY DEVELOPED for that purpose).${reset}"
+echo "This script was designed to install on Debian-based operating systems (Raspberry Pi OS, Ubuntu, etc),"
+echo "BUT MAY NOT WORK on some system setups.${reset}"
 echo " "
 
 echo "${cyan}Your operating system has been detected as:"
@@ -1241,7 +1241,7 @@ select opt in $OPTIONS; do
 				sleep 3
 				
 				echo " "
-				echo "${green}Installing Open Crypto Tracker (Server Edition), please wait...${reset}"
+				echo "${cyan}Installing Open Crypto Tracker (Server Edition), please wait...${reset}"
   				
   				# Copy over the upgrade install files to the install directory, after cleaning up dev files
 				# No trailing forward slash here
@@ -1636,6 +1636,7 @@ echo "up Raspberry Pi OS (disabling bluetooth, firewall setup, remote login, hos
 echo " "
 
 echo "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~${reset}"
+echo " "
 
 
 ######################################

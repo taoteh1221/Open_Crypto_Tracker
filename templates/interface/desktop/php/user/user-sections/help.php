@@ -126,7 +126,7 @@ After downloading, unzip the contents of the download to your desktop or other p
 	        <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapse_<?=$accord_var?>"
 	          aria-expanded="false" aria-controls="collapse_<?=$accord_var?>">
 	          
-Automatic Setup For 'Server Edition' On Ubuntu / DietPi OS / RaspberryPi OS, On Home / Internal Network <span class='red' style="display: block;">(recommemnded way to PRIVATELY / CHEAPLY use this app)</span>
+Automatic Setup For 'Server Edition' On Ubuntu / DietPi OS / RaspberryPi OS, On Home / Internal Network <span class='red' style="display: block;">(recommended way to PRIVATELY / CHEAPLY use this app)</span>
 	          
 	          
 	        </button>

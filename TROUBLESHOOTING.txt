@@ -54,7 +54,7 @@ After downloading, unzip the contents of the download to your desktop or other p
 	    
 =========================================================================================================================================
 
-  Automatic Setup For 'Server Edition' On Ubuntu / DietPi OS / RaspberryPi OS, On Home / Internal Network (recommemnded way to PRIVATELY / CHEAPLY use this app)
+  Automatic Setup For 'Server Edition' On Ubuntu / DietPi OS / RaspberryPi OS, On Home / Internal Network (recommended way to PRIVATELY / CHEAPLY use this app)
   
 -----------------------------------------------------------------------------------------------------------------------------------------
 
