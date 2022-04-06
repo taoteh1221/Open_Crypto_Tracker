@@ -26,7 +26,7 @@ $plug_conf[$this_plug]['runtime_mode'] = 'cron'; // 'cron', 'ui', 'all' (only 'c
 // THIS TAKES INTO ACCOUNT YOUR TIME ZONE OFFSET, IN 'loc_time_offset' IN THE MAIN CONFIG OF THIS APP ('GENERAL' SECTION)
 $plug_conf[$this_plug]['do_not_dist'] = array(
 											  // ALWAYS USE THIS FORMAT: '00:00', OR THIS FEATURE WON'T BE ENABLED!
-											  'on' => '19:30', // DND #START#, Default = '19:30' (7:30 AT NIGHT)
+											  'on' => '17:30', // DND #START#, Default = '17:30' (5:30 AT NIGHT)
 											  'off' => '9:30' // DND #END#, Default = '9:30' (9:30 IN MORNING)
 											  );
 
