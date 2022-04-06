@@ -29,6 +29,10 @@ $run_reminder = false;
 	
 $recurring_reminder_cache_file = $ct_plug->event_cache('alert-' . $key . '.dat');
 
+// Remove any leading zeros in do-not-disturb time format
+$plug_conf[$this_plug]['do_not_dist']['on'] = ltrim($plug_conf[$this_plug]['do_not_dist']['on'], "0");
+$plug_conf[$this_plug]['do_not_dist']['off'] = ltrim($plug_conf[$this_plug]['do_not_dist']['off'], "0");
+
 // MD5 fingerprint digest of current settings / data of this reminder
 $digest = md5($val['days'] . $val['message']);
 
@@ -50,13 +54,6 @@ $digest = md5($val['days'] . $val['message']);
 	}
 	
 	
-	// See if do not disturb is enabled
-	if ( preg_match("/^([0-1][0-9]|2[0-3]):([0-5][0-9])$/", $plug_conf[$this_plug]['do_not_dist']['on'])
-	&& preg_match("/^([0-1][0-9]|2[0-3]):([0-5][0-9])$/", $plug_conf[$this_plug]['do_not_dist']['off']) ) {
-	$do_not_dist = true;
-	}
-	
-	
 // DEBUGGING ONLY
 //$ct_cache->save_file( $ct_plug->event_cache('debugging-' . $key . '.dat') , $digest );
 
@@ -75,8 +72,11 @@ $in_minutes_offset = ( $in_minutes >= 20 ? ($in_minutes - 1) : $in_minutes );
 	if ( $run_reminder || $ct_cache->update_cache($recurring_reminder_cache_file, $in_minutes_offset) == true ) {
 		
 		
-		// If 'do not disturb' enabled
-		if ( $do_not_dist ) {
+		// If 'do not disturb' enabled with valid time fomats in plug conf
+		if (
+    	$plug_class[$this_plug]->valid_time_format($plug_conf[$this_plug]['do_not_dist']['on'])
+    	&& $plug_class[$this_plug]->valid_time_format($plug_conf[$this_plug]['do_not_dist']['off'])
+	    ) {
 		
 		// Human-readable year-month-date for today, ADJUSTED FOR USER'S TIME ZONE OFFSET FROM APP CONFIG
 		$offset_date = $ct_gen->time_date_format($ct_conf['gen']['loc_time_offset'], 'standard_date');

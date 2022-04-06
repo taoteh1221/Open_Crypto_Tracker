@@ -22,11 +22,12 @@
 $plug_conf[$this_plug]['runtime_mode'] = 'cron'; // 'cron', 'ui', 'all' (only 'cron' supported as of 2020-10-29)
 
 
-// Enable / disable "do not disturb" time (24 HOUR FORMAT, HOURS / MINUTES ONLY, SET EITHER TO BLANK '' TO DISABLE)
+// Enable / disable "do not disturb" time (#24 HOUR FORMAT#, HOURS / MINUTES ONLY, SET EITHER TO BLANK '' TO DISABLE)
+// THIS TAKES INTO ACCOUNT YOUR TIME ZONE OFFSET, IN 'loc_time_offset' IN THE MAIN CONFIG OF THIS APP ('GENERAL' SECTION)
 $plug_conf[$this_plug]['do_not_dist'] = array(
 											  // ALWAYS USE THIS FORMAT: '00:00', OR THIS FEATURE WON'T BE ENABLED!
-											  'on' => '17:15', // Default = '17:15' (5:15pm)
-											  'off' => '10:30' // Default = '10:30' (10:30am)
+											  'on' => '19:30', // DND #START#, Default = '19:30' (7:30 AT NIGHT)
+											  'off' => '9:30' // DND #END#, Default = '9:30' (9:30 IN MORNING)
 											  );
 
 
