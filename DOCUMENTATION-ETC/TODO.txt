@@ -47,6 +47,9 @@ OPTIMIZATIONS / BUGS / TESTS / UX / QA / OTHER SECTION
 ///////////////////////////////////////////////////////
 
 
+Remove defipluse API support, the service is a joke. We have coingecko support now anyway.
+
+
 Add a "reset light charts" button to the admin "reset" page. Also maybe in the future look into "auto-detecting" light chart updating better when restoring from older archival data (overwriting archival data and having light charts detect that change).
 
 

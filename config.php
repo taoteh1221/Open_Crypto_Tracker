@@ -246,7 +246,7 @@ $ct_conf['gen']['prim_currency_dec_max'] = 5; // Whole numbers only (represents 
 
 // Your local time offset IN HOURS, COMPARED TO UTC TIME. Can be negative or positive.
 // (Used for user experience 'pretty' timestamping in interface logic ONLY, WILL NOT change or screw up UTC log times etc if you change this)
-$ct_conf['gen']['loc_time_offset'] = -5; // example: -5 or 5, -5.5 or 5.75 (#CAN BE DECIMAL# TO SUPPORT 30 / 45 MINUTE TIME ZONES)
+$ct_conf['gen']['loc_time_offset'] = -4; // example: -5 or 5, -5.5 or 5.75 (#CAN BE DECIMAL# TO SUPPORT 30 / 45 MINUTE TIME ZONES)
 
 
 // Configure which interface theme you want as the default theme (also can be manually switched later, on the settings page in the interface)
@@ -383,6 +383,7 @@ $ct_conf['charts_alerts']['tracked_mrkts'] = array(
 					'sol' => 'binance||btc||none',
 					'sol-2' => 'coinbase||usd||chart',
 					'sol-3' => 'ftx_us||btc||both',
+					'sol-4' => 'binance||eth||chart',
 					
 					
 					// MSOL
@@ -464,6 +465,13 @@ $ct_conf['charts_alerts']['tracked_mrkts'] = array(
 					// SLC
 					'slc' => 'generic_btc||btc||chart',
 					'slc-2' => 'gateio||usdt||both',
+					'slc-3' => 'generic_eth||eth||chart',
+					
+					
+					// ZBC
+					'zbc' => 'generic_btc||btc||chart',
+					'zbc-2' => 'generic_eth||eth||chart',
+					'zbc-3' => 'gateio||usdt||both',
 					
 					
 					// HNT
@@ -648,7 +656,7 @@ $ct_conf['power']['memory_used_percent_warning'] = '90||4'; // 'memory_used_perc
 $ct_conf['power']['free_partition_space_warning'] = '1000||24'; // 'free_space_megabytes||hours_between_alerts' (default = '1000||24')
 ////
 // If PORTFOLIO CACHE SIZE is X MEGABYTES (or more), trigger warning
-$ct_conf['power']['portfolio_cache_warning'] = '2000||72'; // 'portfolio_cache_megabytes||hours_between_alerts' (default = '2500||72')
+$ct_conf['power']['portfolio_cache_warning'] = '2000||72'; // 'portfolio_cache_megabytes||hours_between_alerts' (default = '2000||72')
 ////
 // If ALL COOKIES TOTAL DATA SIZE is X BYTES (or more), trigger warning
 // Because the header data MAY be approaching the server limit (CRASHING THIS APP!!)
@@ -1295,12 +1303,6 @@ $ct_conf['power']['news_feed'] = array(
     
     
         				array(
-            			"title" => "Youtube - Crypt0's News",
-            			"url" => "https://www.youtube.com/feeds/videos.xml?channel_id=UCdUSSt-IEUg2eq46rD7lu_g"
-        						),
-    
-    
-        				array(
             			"title" => "Youtube - DataDash",
             			"url" => "https://www.youtube.com/feeds/videos.xml?channel_id=UCCatR7nWbYrkVXdxXb4cGXw"
         						),
@@ -1315,6 +1317,12 @@ $ct_conf['power']['news_feed'] = array(
         				array(
             			"title" => "Youtube - Ethereum Foundation",
             			"url" => "https://www.youtube.com/feeds/videos.xml?channel_id=UCNOfzGXD_C9YMYmnefmPH0g"
+        						),
+    
+    
+        				array(
+            			"title" => "Youtube - Grape Network",
+            			"url" => "https://www.youtube.com/feeds/videos.xml?channel_id=UC58byjI3u8KaehHumP3AXrQ"
         						),
     
     
@@ -3247,6 +3255,7 @@ $ct_conf['assets'] = array(
 
                                                     
                                     'eth' => array(
+                                        'generic_eth' => 'solice',
                                         'gateio' => 'SLC_ETH',
                                                     ),
 
@@ -3254,6 +3263,42 @@ $ct_conf['assets'] = array(
                                     'usdt' => array(
                                         'huobi' => 'slcusdt',
                                         'gateio' => 'SLC_USDT',
+                                                    ),
+
+                                                    
+                        ) // pair END
+                        
+                    ), // Asset END
+                    
+                    
+                    ////////////////////////////////////////////////////////////////////
+                    
+                    
+                    // ZBC
+                    'ZBC' => array(
+                        
+                        'name' => 'Zebec Protocol',
+                        'mcap_slug' => 'zebec-protocol',
+                        'pair' => array(
+
+                                                    
+                                    'btc' => array(
+                                        'generic_btc' => 'zebec-protocol',
+                                                    ),
+
+                                                    
+                                    'eth' => array(
+                                        'generic_eth' => 'zebec-protocol',
+                                                    ),
+
+                                                    
+                                    'usdt' => array(
+                                    	'crypto.com' => 'ZBC_USDT',
+                                        'huobi' => 'zbcusdt',
+                                        'gateio' => 'ZBC_USDT',
+                                        'bitmart' => 'ZBC_USDT',
+                                        'bybit' => 'ZBCUSDT',
+                                        'coinex' => 'ZBCUSDT',
                                                     ),
 
                                                     
