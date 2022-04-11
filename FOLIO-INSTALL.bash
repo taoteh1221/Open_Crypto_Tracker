@@ -436,8 +436,11 @@ fi
 echo " "
 echo "${yellow}TECHNICAL NOTE:"
 echo " "
-echo "This script was designed to install on Debian-based operating systems (Raspberry Pi OS, Ubuntu, etc),"
-echo "BUT MAY NOT WORK on some system setups.${reset}"
+echo "This script was designed to install on popular Debian-based operating systems (Ubuntu, Raspberry Pi OS [Raspbian], Armbian, DietPi, etc),"
+echo "for running as an app server WHICH IS LEFT TURNED ON 24/7 (ALL THE TIME).${reset}"
+echo " "
+
+echo "${yellow}This script MAY NOT work on ALL Debian-based system setups.${reset}"
 echo " "
 
 echo "${cyan}Your operating system has been detected as:"
