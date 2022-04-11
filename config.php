@@ -490,6 +490,11 @@ $ct_conf['charts_alerts']['tracked_mrkts'] = array(
 					'samo-3' => 'generic_btc||btc||chart',
 					
 					
+					// UST
+					'ust' => 'binance||usdt||both',
+					'ust-2' => 'okex||usd||chart',
+					
+					
 					);
 					
 // END $ct_conf['charts_alerts']['tracked_mrkts']
@@ -1137,6 +1142,18 @@ $ct_conf['power']['news_feed'] = array(
         				array(
             			"title" => "Newsletter - Our Network",
             			"url" => "https://ournetwork.substack.com/feed"
+        						),
+    
+    
+        				array(
+            			"title" => "Newsletter - Page One",
+            			"url" => "https://page1.substack.com/feed"
+        						),
+    
+    
+        				array(
+            			"title" => "Newsletter - reSync: zkSync Biweekly",
+            			"url" => "https://pseudotheos.substack.com/feed"
         						),
     
     
@@ -3417,6 +3434,46 @@ $ct_conf['assets'] = array(
                         
                     ), // Asset END
                     
+                    
+                    ////////////////////////////////////////////////////////////////////
+                    
+                    
+                    // UST
+                    'UST' => array(
+                        
+                        'name' => 'TerraUSD',
+                        'mcap_slug' => 'terra-usd',
+                        'pair' => array(
+
+                                                    
+                                    'eur' => array(
+                                    	 'coinbase' => 'UST-EUR',
+                                                    ),
+
+                                                    
+                                    'usd' => array(
+                                    	 'kraken' => 'USTUSD',
+                                    	 'bitfinex' => 'tUSTUSD',
+                                         'gemini' => 'ustusd',
+                                         'okcoin' => 'UST-USD',
+                                    	 'coinbase' => 'UST-USD',
+                                                    ),
+
+                                                    
+                                    'usdt' => array(
+                                        'binance' => 'USTUSDT',
+                                    	'ftx' => 'UST/USDT',
+                                    	'kraken' => 'USTUSDT',
+                                        'huobi' => 'ustusdt',
+                                        'bittrex' => 'UST-USDT',
+                                        'coinex' => 'USTUSDT',
+                                                    ),
+
+                                                    
+                        ) // pair END
+                                        
+                    ), // Asset END
+                    
                 
                     ////////////////////////////////////////////////////////////////////
                 
@@ -3438,5 +3495,6 @@ require_once("app-lib/php/init.php"); // REQUIRED, DON'T DELETE BY ACCIDENT
 ///////////////////////////////////////////////////////////////////////////////////////////////
 //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
+// DON'T LEAVE ANY WHITESPACE AFTER THE CLOSING PHP TAG!
 
 ?>
