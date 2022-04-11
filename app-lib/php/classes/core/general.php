@@ -3197,6 +3197,10 @@ var $ct_array = array();
          $system['distro_name'] = 'RaspberryPi OS';
          $system['distro_version'] = ( isset($distro['distro_info']['name']) ? '['.$distro['distro_info']['name'].' '.$distro['distro_info']['version'].']' : '' );
          }
+         elseif ( file_exists('/usr/bin/armbian-config') ) {
+         $system['distro_name'] = 'Armbian';
+         $system['distro_version'] = ( isset($distro['distro_info']['name']) ? '['.$distro['distro_info']['name'].' '.$distro['distro_info']['version'].']' : '' );
+         }
          elseif ( $distro['distro_info']['name'] ) {
          $system['distro_name'] = $distro['distro_info']['name'];
          }
