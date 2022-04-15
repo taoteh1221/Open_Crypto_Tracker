@@ -10,7 +10,7 @@
 # Fully automated setup of bluetooth and an internet radio player (PyRadio), on a headless RaspberryPi,
 # connecting to a stereo system's bluetooth receiver (bash script, chmod +x it to run).
 
-# To install automatically on Ubuntu / RaspberryPi OS, copy => paste => run the command below in a
+# To install automatically on Ubuntu / RaspberryPi OS / Armbian, copy => paste => run the command below in a
 # terminal program (using the 'Terminal' app in the system menu, or over remote SSH), while logged in AS THE
 # USER THAT WILL RUN THE APP (user must have sudo privileges):
 
@@ -51,7 +51,7 @@
 
 
 # Version of this script
-APP_VERSION="1.01.1" # 2022/MARCH/29TH
+APP_VERSION="1.01.2" # 2022/APRIL/12TH
 
 
 # If parameters are added via command line
@@ -1293,7 +1293,7 @@ select opt in $OPTIONS; do
         echo " "
         
             # IF FIRST RUN, FORCE SHOWING PYRADIO ON SCREEN (SO USER CONFIG FILES GET CREATED IN HOME DIR)
-            if [ ! -d /home/pi/.config/pyradio ]; then
+            if [ ! -d /home/$TERMINAL_USERNAME/.config/pyradio ]; then
 
             echo "${red} "
             echo "###########################################################################################"
