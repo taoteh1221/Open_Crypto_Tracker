@@ -5377,11 +5377,15 @@ MIGRATE YOUR EXISTING SETTINGS TO THE NEW FORMAT.
 
 -BUG FIX: Spreadheet export reliability fix
 
+-Easter Egg in documentation files :)
+
 -Better upgrade version detection precision
 
 -Revised auto-installer
 
--Easter Egg in documentation files :)
+-Pine64 Documentation
+
+-Other minor user experience improvements
 
 -Code cleanup / housekeeping
 
