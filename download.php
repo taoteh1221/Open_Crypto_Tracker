@@ -26,4 +26,6 @@ require_once( $base_dir . "/app-lib/php/other/downloads/backups.php");
 // (WE ALWAYS EXIT BEFORE HERE IN EACH REQUIRED FILE, OR WE SKIP IT FOR MINIMIZED RUNTIME LOGIC ETC)
 
 
+// DON'T LEAVE ANY WHITESPACE AFTER THE CLOSING PHP TAG!
+
 ?>

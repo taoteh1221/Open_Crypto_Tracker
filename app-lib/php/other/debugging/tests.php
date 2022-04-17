@@ -138,4 +138,6 @@ if ( $runtime_mode == 'ui' ) {
 
 }
 
+// DON'T LEAVE ANY WHITESPACE AFTER THE CLOSING PHP TAG!
+
 ?>

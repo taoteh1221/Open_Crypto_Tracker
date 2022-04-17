@@ -120,5 +120,6 @@ usleep(100000); // Wait 0.1 seconds after possible directory creation
 
 }
 
+// DON'T LEAVE ANY WHITESPACE AFTER THE CLOSING PHP TAG!
  
 ?>

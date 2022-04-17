@@ -492,7 +492,7 @@ $ct_conf['charts_alerts']['tracked_mrkts'] = array(
 					
 					// UST
 					'ust' => 'binance||usdt||both',
-					'ust-2' => 'okex||usd||chart',
+					'ust-2' => 'kraken||usd||chart',
 					
 					
 					);

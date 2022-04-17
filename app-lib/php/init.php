@@ -10,7 +10,7 @@
 
 
 // Application version
-$app_version = '5.15.0';  // 2022/MARCH/13TH
+$app_version = '5.14.2';  // 2022/APRIL/17TH
 
 
 // Detect if we are running the desktop or server edition
@@ -596,4 +596,5 @@ require_once('app-lib/php/other/debugging/exchange-and-pair-info.php');
 
 
 // DON'T CREATE ANY WHITESPACE AFTER CLOSING PHP TAG, A WE ARE STILL IN INIT! (NO HEADER ESTABLISHED YET)
+
 ?>

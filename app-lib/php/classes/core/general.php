@@ -3415,4 +3415,6 @@ var $ct_array = array();
 }
 
 
+// DON'T LEAVE ANY WHITESPACE AFTER THE CLOSING PHP TAG!
+
 ?>

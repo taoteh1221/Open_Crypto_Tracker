@@ -86,4 +86,6 @@ header('Content-type: image/png');
 imagepng($image);
 imagedestroy($image);
 
+// DON'T LEAVE ANY WHITESPACE AFTER THE CLOSING PHP TAG!
+
 ?>

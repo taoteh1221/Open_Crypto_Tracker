@@ -51,7 +51,7 @@
 
 
 # Version of this script
-APP_VERSION="1.01.2" # 2022/APRIL/12TH
+APP_VERSION="1.02.0" # 2022/APRIL/17TH
 
 
 # If parameters are added via command line
@@ -1235,6 +1235,8 @@ select opt in $OPTIONS; do
         SCREENS_DETACHED=$(screen -ls | grep Detached | grep "pyradio")
         if [ "$SCREENS_DETACHED" != "" ]; then
         echo $SCREENS_DETACHED | cut -d. -f1 | awk '{print $1}' | xargs kill
+        else
+        pkill -o pyradio > /dev/null 2>&1
         fi
         
         bt_autoconnect_check
@@ -1433,6 +1435,8 @@ select opt in $OPTIONS; do
             SCREENS_DETACHED=$(screen -ls | grep Detached | grep "pyradio")
             if [ "$SCREENS_DETACHED" != "" ]; then
             echo $SCREENS_DETACHED | cut -d. -f1 | awk '{print $1}' | xargs kill
+            else
+            pkill -o pyradio > /dev/null 2>&1
             fi
         
         exit

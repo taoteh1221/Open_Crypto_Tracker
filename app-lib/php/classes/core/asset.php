@@ -2082,6 +2082,6 @@ var $ct_array1 = array();
 } // Class END
 
 
-
+// DON'T LEAVE ANY WHITESPACE AFTER THE CLOSING PHP TAG!
 
 ?>

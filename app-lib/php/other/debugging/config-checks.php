@@ -476,6 +476,6 @@ $ct_gen->log(
 			
 // END of basic configuration file checks
 
-  
+// DON'T LEAVE ANY WHITESPACE AFTER THE CLOSING PHP TAG!
  
  ?>

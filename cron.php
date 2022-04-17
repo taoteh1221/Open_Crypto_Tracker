@@ -279,5 +279,6 @@ exit;
 //////////////////////////////////////////////
 
 
+// DON'T LEAVE ANY WHITESPACE AFTER THE CLOSING PHP TAG!
 
 ?>

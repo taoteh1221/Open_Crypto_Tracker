@@ -34,4 +34,6 @@ echo json_encode($lines);
 flush(); // Clean memory output buffer for echo
 gc_collect_cycles(); // Clean memory cache
 
+// DON'T LEAVE ANY WHITESPACE AFTER THE CLOSING PHP TAG!
+
 ?>

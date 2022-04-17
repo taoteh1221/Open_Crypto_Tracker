@@ -103,5 +103,6 @@ $coinmarketcap_currencies = array(
 										);
 
 
+// DON'T LEAVE ANY WHITESPACE AFTER THE CLOSING PHP TAG!
 
 ?>

@@ -22,5 +22,7 @@ $_SESSION[$fetched_feeds] = false;
 // END CRON-ONLY LOGIC
 //////////////////////////////////////////////////////////////////
 
+// DON'T LEAVE ANY WHITESPACE AFTER THE CLOSING PHP TAG!
+
  
  ?>

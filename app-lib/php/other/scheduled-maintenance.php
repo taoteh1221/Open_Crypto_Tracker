@@ -151,5 +151,6 @@ $ct_cache->save_file($base_dir . '/cache/events/scheduled-maintenance.dat', $ct_
 // END SCHEDULED MAINTENANCE
 //////////////////////////////////////////////////////////////////
 
- 
- ?>
+// DON'T LEAVE ANY WHITESPACE AFTER THE CLOSING PHP TAG!
+
+?>

@@ -34,5 +34,6 @@ $force_exit = 1;
 
 }
   
+// DON'T LEAVE ANY WHITESPACE AFTER THE CLOSING PHP TAG!
  
 ?>

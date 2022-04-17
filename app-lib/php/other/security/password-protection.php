@@ -57,6 +57,6 @@ elseif ( $htaccess_username == '' || $htaccess_password == '' ) {
 		
 }
 
-
+// DON'T LEAVE ANY WHITESPACE AFTER THE CLOSING PHP TAG!
  
 ?>

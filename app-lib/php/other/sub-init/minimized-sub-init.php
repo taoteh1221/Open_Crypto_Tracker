@@ -38,5 +38,7 @@ if ( $is_charts ) {
 require_once('app-lib/php/other/primary-bitcoin-markets.php');
 }
 
+// DON'T LEAVE ANY WHITESPACE AFTER THE CLOSING PHP TAG!
+
  
  ?>

@@ -51,6 +51,6 @@ exit;
 // END chart sub-directory creation
 ///////////////////////////////////////////////////////////////////////////
 
-  
- 
+// DON'T LEAVE ANY WHITESPACE AFTER THE CLOSING PHP TAG!
+
  ?>

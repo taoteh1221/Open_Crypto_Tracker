@@ -39,4 +39,6 @@ require_once($base_dir . '/app-lib/php/other/ajax/charts/system.php');
 flush(); // Clean memory output buffer for echo
 gc_collect_cycles(); // Clean memory cache
 
+// DON'T LEAVE ANY WHITESPACE AFTER THE CLOSING PHP TAG!
+
 ?>

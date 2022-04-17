@@ -21,6 +21,7 @@ $ct_asset = new ct_asset();
 
 require_once("app-lib/php/classes/core/plugin.php");
 $ct_plug = new ct_plug();
-
  
+// DON'T LEAVE ANY WHITESPACE AFTER THE CLOSING PHP TAG!
+
  ?>

@@ -108,5 +108,7 @@ $currency_count = 0;
 }
 
 
+// DON'T LEAVE ANY WHITESPACE AFTER THE CLOSING PHP TAG!
+
 
 ?>

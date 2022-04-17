@@ -105,4 +105,5 @@ if ( is_array($system_warnings) && sizeof($system_warnings) > 0 ) {
 
 
 // DON'T CREATE ANY WHITESPACE AFTER CLOSING PHP TAG, A WE ARE STILL IN INIT! (NO HEADER ESTABLISHED YET)
+
 ?>

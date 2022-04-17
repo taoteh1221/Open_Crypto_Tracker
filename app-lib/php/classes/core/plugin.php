@@ -90,4 +90,6 @@ var $ct_array1 = array();
 }
 
 
+// DON'T LEAVE ANY WHITESPACE AFTER THE CLOSING PHP TAG!
+
 ?>

@@ -224,5 +224,7 @@ require_once($base_dir . "/app-lib/php/other/cookies.php");
 // END UI-ONLY VAR SETTINGS
 //////////////////////////////////////////////////////////////////
 
+// DON'T LEAVE ANY WHITESPACE AFTER THE CLOSING PHP TAG!
+
  
  ?>

@@ -167,5 +167,7 @@ exit;
 
 <?php
 require("templates/interface/desktop/php/footer.php");
-?>
 
+// DON'T LEAVE ANY WHITESPACE AFTER THE CLOSING PHP TAG!
+
+?>

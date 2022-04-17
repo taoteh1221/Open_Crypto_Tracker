@@ -56,4 +56,6 @@ foreach ( $ct_conf['power']['activate_plugins'] as $key => $val ) {
 // END PLUGINS CONFIG
 //////////////////////////////////////////////////////////////////
 
+// DON'T LEAVE ANY WHITESPACE AFTER THE CLOSING PHP TAG!
+
 ?>

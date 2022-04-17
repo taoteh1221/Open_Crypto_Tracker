@@ -201,6 +201,6 @@ $sel_opt['sel_btc_prim_currency_val'] = $ct_api->market('BTC', $ct_conf['gen']['
 // END PRIMARY BITCOIN MARKET SETTINGS
 //////////////////////////////////////////////////////////////////
 
-  
+// DON'T LEAVE ANY WHITESPACE AFTER THE CLOSING PHP TAG!
  
- ?>
+?>

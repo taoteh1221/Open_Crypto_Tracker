@@ -47,6 +47,9 @@ OPTIMIZATIONS / BUGS / TESTS / UX / QA / OTHER SECTION
 ///////////////////////////////////////////////////////
 
 
+Port the new fine-grained decimal control feature in the ticker app over to this tracker app.
+
+
 Remove defipluse API support, the service is a joke. We have coingecko support now anyway.
 
 
@@ -57,9 +60,6 @@ Add a "reset light charts" button to the admin "reset" page. Also maybe in the f
 
 
 $ct_conf will EVENTUALLY be populated ENTIRELY by the JSON config read logic we currently have in app-lib/php/other/security/secure-cache-files.php. RIGHT NOW alot of init.php is DEPENDING ON $ct_conf values WAAAY BEFORE WE RUN secure-cache-files.php (from what will eventually just be the DEFAULT config within config.php). This is ok for now, BUT after the admin interface has been fully populated WE'LL NEED LOGIC LIKE secure-cache-files.php RUN BEFORE #ANY# $ct_conf LOGIC IS USED. To significantly reduce the required amount of refactoring, we may be able to run logic similar to app-lib/php/other/sub-init/minimized-sub-init.php VERY EARLY WITHIN INIT.PHP? We do check for a corrupt JSON config in minimized-sub-init.php, so this may be reliable to call early? In this case, some (if not all) the logic in secure-cache-files.php AND minimized-sub-init.php should be consolidated into one file for effiency / clarity AS MUCH AS POSSIBLE.
-
-
-Some crypto tracker EMAILS were not going through when sending DIRECTLY to gmail, BUT ALEXA / TEXT / TELEGRAM ALERTS WORKED FINE. When set to go to another email on the same server it goes through fine. Double-check gmail filters, MAYBE I BLACK-HOLE SOME EMAILS WITH MY SETTINGS?
 
 
 When importing a CSV spreadsheet in linux desktop edition with cookies enabled, UNLESS we manually save the portflio data on the update page AFTER importing, the portfolio data is lost when we close the app. See if this also affects windows desktop edition, and server edition.

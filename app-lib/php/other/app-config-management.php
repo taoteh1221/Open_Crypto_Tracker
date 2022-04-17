@@ -258,4 +258,6 @@ $ct_cache->save_file($base_dir . '/cache/vars/lite_chart_struct.dat', $conf_lite
 // END APP CONFIG DYNAMIC MANAGEMENT
 //////////////////////////////////////////////////////////////////
 
+// DON'T LEAVE ANY WHITESPACE AFTER THE CLOSING PHP TAG!
+
 ?>

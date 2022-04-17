@@ -69,5 +69,7 @@ fclose ($fd);
 gc_collect_cycles(); // Clean memory cache
 exit;
 
+// DON'T LEAVE ANY WHITESPACE AFTER THE CLOSING PHP TAG!
+
 
 ?>
