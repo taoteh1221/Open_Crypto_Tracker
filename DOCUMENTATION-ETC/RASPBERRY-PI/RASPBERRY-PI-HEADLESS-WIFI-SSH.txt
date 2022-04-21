@@ -56,7 +56,42 @@ Step #7) Add your WiFi name / password in 'wpa_supplicant.conf', and save / clos
 --------------------------------------------------------------------------
 
 
-OPTIONAL Step #8) Once running the Pi, if you want to decrease memory usage / system load, AND you only plan to run it HEADLESS (NOT USE the desktop interface): Run "sudo raspi-config", choose "Boot Options" => "Desktop / CLI" => "Console", and reboot.
+Step #8) Create an ENCYRPTED password for your user login with this command:
+
+echo 'mypassword' | openssl passwd -6 -stdin
+
+
+--------------------------------------------------------------------------
+
+
+Step #9) Add a new blank file in the boot partition named: userconf.txt 
+
+
+--------------------------------------------------------------------------
+
+
+Step #10) Open the new file 'userconf.txt' with a text editor.
+
+
+--------------------------------------------------------------------------
+
+
+Step #11) Add your username / ENCRYPTED password in 'userconf.txt':
+
+
+YOUR_USERNAME_HERE:YOUR_ENCRYPTED_PASSWORD_HERE
+
+
+--------------------------------------------------------------------------
+
+
+Step #12) Save / close the file.
+
+
+--------------------------------------------------------------------------
+
+
+OPTIONAL Step #13) Once running the Pi, if you want to decrease memory usage / system load, AND you only plan to run it HEADLESS (NOT USE the desktop interface): Run "sudo raspi-config", choose "Boot Options" => "Desktop / CLI" => "Console", and reboot.
 
 
 

@@ -5375,7 +5375,7 @@ MIGRATE YOUR EXISTING SETTINGS TO THE NEW FORMAT.
 
 -BUG FIX: recurring-reminder plugin's do-not-disturb setting works properly now
 
--BUG FIX: Spreadheet export reliability fix
+-BUG FIX: Spreadsheet export reliability fix
 
 -Easter Egg in documentation files :)
 
