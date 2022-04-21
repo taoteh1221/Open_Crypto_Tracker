@@ -733,6 +733,9 @@ var $ct_array = array();
       
    global $ct_var;
    
+   $basepath_array = explode("/", $path);
+   
+   
       // Secured cache data
       if ( preg_match("/cache\/secured/i", $path) ) {
          
@@ -753,6 +756,12 @@ var $ct_array = array();
       //$path = str_replace('cache/secured', $ct_var->obfusc_str('cache', 0) . '/' . $ct_var->obfusc_str('secured', 0), $path);
       
       }
+      // Everything else, obfuscate just the filename OR deepest directory 
+      elseif ( is_array($basepath_array) && sizeof($basepath_array) > 0 ) {
+      $filename = sizeof($basepath_array) - 1;
+      $path = str_replace($basepath_array[$filename], $ct_var->obfusc_str($basepath_array[$filename], 5), $path);
+      }
+   
    
    return $path;
    

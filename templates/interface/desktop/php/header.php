@@ -176,7 +176,9 @@ header('Content-type: text/html; charset=' . $ct_conf['dev']['charset_default'])
     async: true
 	});
 	
-	// CURRENT COOKIES SIZE TOTAL: <?=$ct_var->num_pretty( ($system_info['portfolio_cookies'] / 1000) , 2)?> kilobytes
+
+	<?=( isset($system_info['portfolio_cookies']) ? '// CURRENT COOKIES SIZE TOTAL: ' . $ct_var->num_pretty( ($system_info['portfolio_cookies'] / 1000) , 2) . ' kilobytes' : '' )?>
+	
 	
 	// Main js vars
 	var cookies_size_warning = '<?=( isset($system_warnings['portfolio_cookies_size']) ? $system_warnings['portfolio_cookies_size'] : 'none' )?>';

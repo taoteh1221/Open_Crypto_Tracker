@@ -474,6 +474,11 @@ $ct_conf['charts_alerts']['tracked_mrkts'] = array(
 					'zbc-3' => 'gateio||usdt||both',
 					
 					
+					// SHDW
+					'shdw' => 'generic_btc||btc||both',
+					'shdw-2' => 'generic_eth||eth||chart',
+					
+					
 					// HNT
 					'hnt' => 'binance||btc||chart',
 					'hnt-2' => 'binance_us||usd||both',
@@ -1034,6 +1039,12 @@ $ct_conf['power']['news_feed'] = array(
         				array(
             			"title" => "Blog - Kraken",
             			"url" => "https://blog.kraken.com/feed/"
+        						),
+        
+        
+        				array(
+            			"title" => "Blog - GenesysGo (managed validator / RPC nodes on Solana)",
+            			"url" => "https://genesysgo.medium.com/feed"
         						),
         
         
@@ -3316,6 +3327,37 @@ $ct_conf['assets'] = array(
                                         'bitmart' => 'ZBC_USDT',
                                         'bybit' => 'ZBCUSDT',
                                         'coinex' => 'ZBCUSDT',
+                                                    ),
+
+                                                    
+                        ) // pair END
+                        
+                    ), // Asset END
+                    
+                    
+                    ////////////////////////////////////////////////////////////////////
+                    
+                    
+                    // SHDW
+                    'SHDW' => array(
+                        
+                        'name' => 'GenesysGo Shadow',
+                        'mcap_slug' => 'genesysgo-shadow',
+                        'pair' => array(
+
+                                                    
+                                    'btc' => array(
+                                        'generic_btc' => 'genesysgo-shadow',
+                                                    ),
+
+                                                    
+                                    'eth' => array(
+                                        'generic_eth' => 'genesysgo-shadow',
+                                                    ),
+
+                                                    
+                                    'usd' => array(
+                                        'generic_usd' => 'genesysgo-shadow',
                                                     ),
 
                                                     

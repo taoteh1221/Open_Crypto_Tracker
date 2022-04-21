@@ -10,7 +10,7 @@
 
 
 // Application version
-$app_version = '5.14.2';  // 2022/APRIL/17TH
+$app_version = '5.14.3';  // 2022/APRIL/21ST
 
 
 // Detect if we are running the desktop or server edition
