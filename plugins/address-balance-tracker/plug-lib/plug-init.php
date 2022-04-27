@@ -48,6 +48,13 @@ $address = trim($target_val['address']);
 $label = trim($target_val['label']);
 
 
+    // Add this altcoin to $ct_conf['power']['crypto_pair'] dynamically #IF# it doesn't exist there, #IF# it has a BTC market configured
+    // (For conversion of it's BTC value to the user's fiat value, set in $ct_conf['gen']['btc_prim_currency_pair'])
+    if ( $asset != 'btc' && !isset($ct_conf['power']['crypto_pair'][$asset]) && isset($ct_conf['assets'][strtoupper($asset)]['pair']['btc']) ) {
+    $ct_conf['power']['crypto_pair'][$asset] = strtoupper($asset) . ' ';
+    }
+
+
 // Only getting BTC value for non-bitcoin assets is supported
 // SUPPORTED even for BTC ( $ct_asset->pair_btc_val('btc') ALWAYS = 1 )
 $pair_btc_val = $ct_asset->pair_btc_val($asset); 
