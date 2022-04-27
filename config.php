@@ -479,6 +479,11 @@ $ct_conf['charts_alerts']['tracked_mrkts'] = array(
 					'shdw-2' => 'generic_eth||eth||chart',
 					
 					
+					// BOP
+					'bop' => 'generic_btc||btc||both',
+					'bop-2' => 'generic_eth||eth||chart',
+					
+					
 					// HNT
 					'hnt' => 'binance||btc||chart',
 					'hnt-2' => 'binance_us||usd||both',
@@ -714,10 +719,10 @@ $ct_conf['power']['crypto_pair'] = array(
 						// Native chains...
 						'eth' => 'Ξ ',
 						'sol' => '◎ ',
-						'hnt' => 'Ȟ ',
 						// ERC-20 tokens on Ethereum / SPL tokens on Solana, etc etc...
 						'uni' => '🦄 ',
 						'mkr' => '𐌼 ',
+						'slc' => 'Ŝ ',
 						'samo' => '🐶 ',
 						//....
 							);
@@ -737,6 +742,8 @@ $ct_conf['power']['crypto_pair_pref_mrkts'] = array(
 							'sol' => 'binance',  // WAY MORE volume , WAY BETTER price discovery than ALL alternatives
 							'uni' => 'binance',  // WAY MORE volume , WAY BETTER price discovery than ALL alternatives
 							'mkr' => 'binance',  // WAY MORE volume , WAY BETTER price discovery than ALL alternatives
+							'slc' => 'generic_btc',  // coingecko global average price IN BTC
+							'samo' => 'generic_btc',  // coingecko global average price IN BTC
 							);
 
 
@@ -1321,6 +1328,12 @@ $ct_conf['power']['news_feed'] = array(
         				array(
             			"title" => "Youtube - Anthony Pompliano",
             			"url" => "https://www.youtube.com/feeds/videos.xml?channel_id=UCevXpeL8cNyAnww-NqJ4m2w"
+        						),
+    
+    
+        				array(
+            			"title" => "Youtube - Boring Protocol (dVPN on Solana)",
+            			"url" => "https://www.youtube.com/feeds/videos.xml?channel_id=UCTx39_CFaov2O6ZLv7Y5oEA"
         						),
     
     
@@ -3288,6 +3301,11 @@ $ct_conf['assets'] = array(
                                                     ),
 
                                                     
+                                    'usd' => array(
+                                        'generic_usd' => 'solice',
+                                                    ),
+
+                                                    
                                     'usdt' => array(
                                         'huobi' => 'slcusdt',
                                         'gateio' => 'SLC_USDT',
@@ -3358,6 +3376,37 @@ $ct_conf['assets'] = array(
                                                     
                                     'usd' => array(
                                         'generic_usd' => 'genesysgo-shadow',
+                                                    ),
+
+                                                    
+                        ) // pair END
+                        
+                    ), // Asset END
+                    
+                    
+                    ////////////////////////////////////////////////////////////////////
+                    
+                    
+                    // BOP
+                    'BOP' => array(
+                        
+                        'name' => 'Boring Protocol',
+                        'mcap_slug' => 'boring-protocol',
+                        'pair' => array(
+
+                                                    
+                                    'btc' => array(
+                                        'generic_btc' => 'boring-protocol',
+                                                    ),
+
+                                                    
+                                    'eth' => array(
+                                        'generic_eth' => 'boring-protocol',
+                                                    ),
+
+                                                    
+                                    'usd' => array(
+                                        'generic_usd' => 'boring-protocol',
                                                     ),
 
                                                     
