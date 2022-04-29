@@ -47,6 +47,12 @@ OPTIMIZATIONS / BUGS / TESTS / UX / QA / OTHER SECTION
 ///////////////////////////////////////////////////////
 
 
+Firefox won't submit on the admin account creation form: https://github.com/taoteh1221/Open_Crypto_Tracker/issues/42
+
+
+Just like chart crosshair positions, some info bubble positions are WAAAAY off when using the zoom feature in desktop editions. Put a red info icon to the left of the zoom setting, with a warning about both these positioning issues, and POTENTIALLY EVEN MORE unoticed issues from zooming. We don't have a choice beyond this as a 'solution', because we don't build the container software we are using for the desktop editions (PHPdesktop), and those devs have not implemented a 'normal' browser zoom feature.
+
+
 Port the new fine-grained decimal control feature in the ticker app over to this tracker app.
 
 
