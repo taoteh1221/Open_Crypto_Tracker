@@ -136,7 +136,7 @@
 						<ul>
 						
 							<li class='bitcoin disclaimer'>
-								<i>LITERALLY</i> nearly 99.9% of all tokens are either scams, garbage, or dead ends.
+								<i>LITERALLY</i> nearly 99.9% of all tokens (including NFTs) are either scams, garbage, or dead ends.
 							</li>
 						
 							<li class='bitcoin disclaimer'>
