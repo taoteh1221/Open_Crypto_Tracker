@@ -36,6 +36,7 @@ $plug_conf[$this_plug]['price_targets'] = array(
 												'sol-eth-binance' => '0.045',
 												'sol-usd-coinbase' => '125',
 												'slc-usd-generic_usd' => '0.75',
+												'luna-usd-ftx' => '0.25',
 													
 												); // END price targets array
 

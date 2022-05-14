@@ -484,6 +484,12 @@ $ct_conf['charts_alerts']['tracked_mrkts'] = array(
 					'ust-2' => 'kraken||usd||chart',
 					
 					
+					// LUNA
+					'luna' => 'binance||btc||chart',
+					'luna-2' => 'generic_eth||eth||chart',
+					'luna-3' => 'ftx||usd||both',
+					
+					
 					);
 					
 // END $ct_conf['charts_alerts']['tracked_mrkts']
@@ -1085,6 +1091,12 @@ $ct_conf['power']['news_feed'] = array(
         				array(
             			"title" => "Blog - Star Atlas (NFT-based Space Shooter Metaverse on Solana)",
             			"url" => "https://medium.com/feed/star-atlas"
+        						),
+        
+        
+        				array(
+            			"title" => "Blog - Terra Money (algorithmic stablecoin network)",
+            			"url" => "https://medium.com/feed/terra-money"
         						),
         
         
@@ -3537,6 +3549,69 @@ $ct_conf['assets'] = array(
                                         'huobi' => 'ustusdt',
                                         'bittrex' => 'UST-USDT',
                                         'coinex' => 'USTUSDT',
+                                                    ),
+
+                                                    
+                        ) // pair END
+                                        
+                    ), // Asset END
+                    
+                    
+                    ////////////////////////////////////////////////////////////////////
+                    
+                    
+                    // LUNA
+                    'LUNA' => array(
+                        
+                        'name' => 'Terra',
+                        'mcap_slug' => 'terra-luna',
+                        'pair' => array(
+
+                                                    
+                                    'btc' => array(
+                                        'binance' => 'LUNABTC',
+                                                    ),
+
+                                                    
+                                    'aud' => array(
+                                        'binance' => 'LUNAAUD',
+                                        'generic_aud' => 'terra-luna',
+                                                    ),
+
+                                                    
+                                    'eth' => array(
+                                        'binance' => 'LUNAETH',
+                                        'generic_eth' => 'terra-luna',
+                                                    ),
+
+                                                    
+                                    'eur' => array(
+                                        'binance' => 'LUNAEUR',
+                                        'generic_eur' => 'terra-luna',
+                                                    ),
+
+                                                    
+                                    'gbp' => array(
+                                        'binance' => 'LUNAGBP',
+                                        'generic_gbp' => 'terra-luna',
+                                                    ),
+
+                                                    
+                                    'try' => array(
+                                        'binance' => 'LUNATRY',
+                                        'generic_try' => 'terra-luna',
+                                                    ),
+
+                                                    
+                                    'usd' => array(
+                                    	'ftx' => 'LUNA/USD',
+                                        'generic_usd' => 'terra-luna',
+                                                    ),
+
+                                                    
+                                    'usdt' => array(
+                                        'binance' => 'LUNAUSDT',
+                                    	'ftx' => 'LUNA/USDT',
                                                     ),
 
                                                     
