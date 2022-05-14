@@ -53,7 +53,7 @@ Firefox won't submit on the admin account creation form: https://github.com/taot
 Just like chart crosshair positions, some info bubble positions are WAAAAY off when using the zoom feature in desktop editions. Put a red info icon to the left of the zoom setting, with a warning about both these positioning issues, and POTENTIALLY EVEN MORE unoticed issues from zooming. We don't have a choice beyond this as a 'solution', because we don't build the container software we are using for the desktop editions (PHPdesktop), and those devs have not implemented a 'normal' browser zoom feature.
 
 
-Port the new fine-grained decimal control feature in the ticker app over to this tracker app.
+Port the new fine-grained decimal control feature in the ticker app over to this tracker app. ALSO add more than 8 digit support for bitcoin-derived FIAT values IF POSSIBLE, as we cannot show super-low fiat values in the 'unit value' GUI column / price alert comms (eg: $0.0001602) without support for sub-SAT values in Bitcoin value. IF THIS IS DONE, we also ned to change the 'watch-only' flag to something different, as now that flag is 9 decimals.
 
 
 Remove defipluse API support, the service is a joke. We have coingecko support now anyway.
