@@ -27,6 +27,7 @@ $plug_conf[$this_plug]['alerts_freq_max'] = 30; // Can be 0, to have no limits (
 
 
 // Price targets array (add unlimited price targets as new array objects)
+// MUST BE THE #EXACT# MARKETS, THERE IS NO LOCAL CURRENCY CONVERSION AVAILABLE IN THIS PLUGIN!
 $plug_conf[$this_plug]['price_targets'] = array(
 																	
 												// 'asset-pair-exchange' => '123.4567', // NO COMMAS ALLOWED IN PRICE, ONLY DECIMALS

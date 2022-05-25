@@ -162,7 +162,7 @@ else {
 ?>
 
 <p class='red' style='font-size: 19px; font-weight: bold;'>Cookies MUST be ENABLED in your browser to login.
-	 <img id='admin_cookies' src='templates/interface/media/images/info-orange.png' alt='' width='30' style='position: relative;' /> 
+	 <img id='admin_cookies' src='templates/interface/media/images/info-red.png' alt='' width='30' style='position: relative;' /> 
 	 </p>
 
 	 <script>
@@ -224,31 +224,6 @@ if ( !$_POST['submit_registration'] || is_array($register_result['error']) && si
 	 <b>Username:</b> 
 	 
 	 <input type='text' id='set_username' name='set_username' value='<?=trim($_POST['set_username'])?>' style='<?=( $username_field_color ? 'background: ' . $username_field_color : '' )?>' />
-	 
-		
-	 <script>
-	
-			$('#username_notes').balloon({
-			html: true,
-			position: "bottom",
-  			classname: 'balloon-tooltips',
-			contents: username_notes,
-			css: {
-					fontSize: ".8rem",
-					minWidth: "450px",
-					padding: ".3rem .7rem",
-					border: "2px solid rgba(212, 212, 212, .4)",
-					borderRadius: "6px",
-					boxShadow: "3px 3px 6px #555",
-					color: "#eee",
-					backgroundColor: "#111",
-					opacity: "0.99",
-					zIndex: "32767",
-					textAlign: "left"
-					}
-			});
-		
-		 </script>
 		 
 	 </p>
 
@@ -260,31 +235,6 @@ if ( !$_POST['submit_registration'] || is_array($register_result['error']) && si
 	 	 
 	 <input type='password' id='set_password' name='set_password' value='<?=$_POST['set_password']?>' style='<?=( $password_field_color ? 'background: ' . $password_field_color : '' )?>' />
 	 
-		
-	 <script>
-	
-			$('#password_notes').balloon({
-			html: true,
-			position: "bottom",
-  			classname: 'balloon-tooltips',
-			contents: password_notes,
-			css: {
-					fontSize: ".8rem",
-					minWidth: "450px",
-					padding: ".3rem .7rem",
-					border: "2px solid rgba(212, 212, 212, .4)",
-					borderRadius: "6px",
-					boxShadow: "3px 3px 6px #555",
-					color: "#eee",
-					backgroundColor: "#111",
-					opacity: "0.99",
-					zIndex: "32767",
-					textAlign: "left"
-					}
-			});
-		
-		 </script>
-		 
 	 </p>
 
 	 <p><b>Repeat Password:</b> <input type='password' id='set_password2' name='set_password2' value='<?=$_POST['set_password2']?>' style='<?=( $password2_field_color ? 'background: ' . $password2_field_color : '' )?>' /></p>
@@ -342,13 +292,11 @@ if ( isset($_GET['new_reset_key']) ) {
 <?php
 }
 ?>
-
-</form>
-  
+		 
     
 <p style='padding: 20px;'>
 
-<button id='admin_register_button' class='force_button_style' onclick='
+<input type='submit' id='admin_register_button' class='force_button_style' onclick='
 
 // Remove any previous submission error notices (captcha error etc)
 document.getElementById("login_alert").style.display = "none";
@@ -363,7 +311,6 @@ var badColor = "#ff4747";
 
 	if ( captcha_code.value != "" ) {
 		
-	//console.log("OK to submit.");
 	document.getElementById("submit_alert").style.display = "inline-block";
 	document.getElementById("submit_alert").innerHTML = "Creating your new admin login, please wait...";
 	
@@ -371,24 +318,76 @@ var badColor = "#ff4747";
     captcha_alert.style.color = goodColor;
     captcha_alert.innerHTML = "Captcha code included."
    
-	document.getElementById("admin_register_button").disable = true;
+    document.getElementById("admin_register_button").value = "Submitting, please wait...";
 	$("#set_admin").submit(); // Triggers "app reloading" sequence
-    document.getElementById("admin_register_button").innerHTML = ajax_placeholder(15, "center", "Submitting...");
+	
 	}
 	else {
 		
-   captcha_code.style.backgroundColor = badColor;
-   captcha_alert.style.color = badColor;
-   captcha_alert.innerHTML = "Captcha code MUST be included.";
-   
+    captcha_code.style.backgroundColor = badColor;
+    captcha_alert.style.color = badColor;
+    captcha_alert.innerHTML = "Captcha code MUST be included.";
+    return false;
+    
 	}
 
 }
+else {
+return false;
+}
 
-'><?=( $_GET['new_reset_key'] ? 'Reset' : 'Create' )?> Admin Login</button>
+' value='<?=( $_GET['new_reset_key'] ? 'Reset' : 'Create' )?> Admin Login' />
 
 </p>
 
+
+</form>
+  
+		
+	 <script>
+	
+			$('#username_notes').balloon({
+			html: true,
+			position: "bottom",
+  			classname: 'balloon-tooltips',
+			contents: username_notes,
+			css: {
+					fontSize: ".8rem",
+					minWidth: "450px",
+					padding: ".3rem .7rem",
+					border: "2px solid rgba(212, 212, 212, .4)",
+					borderRadius: "6px",
+					boxShadow: "3px 3px 6px #555",
+					color: "#eee",
+					backgroundColor: "#111",
+					opacity: "0.99",
+					zIndex: "32767",
+					textAlign: "left"
+					}
+			});
+		
+	
+			$('#password_notes').balloon({
+			html: true,
+			position: "bottom",
+  			classname: 'balloon-tooltips',
+			contents: password_notes,
+			css: {
+					fontSize: ".8rem",
+					minWidth: "450px",
+					padding: ".3rem .7rem",
+					border: "2px solid rgba(212, 212, 212, .4)",
+					borderRadius: "6px",
+					boxShadow: "3px 3px 6px #555",
+					color: "#eee",
+					backgroundColor: "#111",
+					opacity: "0.99",
+					zIndex: "32767",
+					textAlign: "left"
+					}
+			});
+		
+		 </script>
 
 <?php
 }

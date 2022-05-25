@@ -480,8 +480,8 @@ $ct_conf['charts_alerts']['tracked_mrkts'] = array(
 					
 					
 					// UST
-					'ust' => 'binance||usdt||both',
-					'ust-2' => 'kraken||usd||chart',
+					'ust' => 'binance||usdt||chart',
+					'ust-2' => 'kraken||usd||both',
 					
 					
 					// LUNA

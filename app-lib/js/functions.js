@@ -333,19 +333,16 @@ return false;
 /////////////////////////////////////////////////////////////
 
 
-function app_reloading_check(refresh_only=0) {
+function app_reloading_check(data_submission=0) {
         
     // Disable form updating in privacy mode
-    if ( getCookie('priv_toggle') == 'on' && refresh_only == 0 ) {
+    if ( getCookie('priv_toggle') == 'on' && data_submission == 1 ) {
     alert('Submitting data is not allowed in privacy mode.');
-    window.reload_approved = false;
+    return 'no'; // WE NORMALLY DON'T RETURN DATA HERE BECAUSE WE ARE REFRESHING OR SUBMITTING, SO WE CANNOT USE RETURN FALSE RELIABLY
     }
     else {
-    window.reload_approved = true;
-    app_reload();
+    app_reload(data_submission);
     }
-    
-    return window.reload_approved;
 
 }
 
@@ -652,17 +649,16 @@ setTimeout(emulated_cron, 60000); // Re-check every minute (in milliseconds...cr
 /////////////////////////////////////////////////////////////
 
 
-function app_reload() {
+function app_reload(data_submission) {
+    
     
     // Wait if anything is running in the background
     // (emulated cron / charts / news feeds / etc)
     if ( window.background_tasks_status == 'wait' ) {
-
-    //console.log(window.background_tasks_status);
-            
+        
     $("#background_loading_span").html("Please wait, finishing background tasks...").css("color", "#ff4747", "important");
             
-    reload_recheck = setTimeout(app_reload, 1000);  // Re-check every 1 seconds (in milliseconds)
+    reload_recheck = setTimeout(app_reload, 1500, data_submission);  // Re-check every 1.5 seconds (in milliseconds)
     
     return false;
     
@@ -683,13 +679,15 @@ function app_reload() {
     $(".show_system_stats").modaal("close");
     $(".show_access_stats").modaal("close");
     $(".show_logs").modaal("close");
-
-    //alert(window.background_tasks_status);
     
     clearTimeout(reload_recheck);
     
-    // Reload
-    location.reload(true);
+    //console.log('data_submission=' + data_submission);
+    
+        // Reload, ONLY IF WE ARE NOT ALREADY RELOADING VIA SUBMITTING DATA (so we don't cancel data submission!)
+        if ( data_submission == 0 ) {
+        location.reload(true);
+        }
     
     }
     
@@ -1313,7 +1311,7 @@ function auto_reload() {
                     	}
             				
             				if ( int_time == 0 ) {
-                 		    app_reloading_check(1);
+                 		    app_reloading_check(0);
             				}
                 
                 

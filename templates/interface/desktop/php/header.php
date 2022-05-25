@@ -46,8 +46,6 @@ header('Content-type: text/html; charset=' . $ct_conf['dev']['charset_default'])
 	
 	var reload_recheck; // Default
 	
-	var reload_approved; // Default
-	
 	window.reload_countdown = false; // Default
 	
 	// Preload /images/auto-preloaded/ images VIA JAVASCRIPT TOO (WAY MORE RELIABLE THAN META TAG PRELOAD)

@@ -123,8 +123,7 @@ $('#alert_bell_area').html( "<span class='bitcoin'>Current UTC time:</span> <spa
     $("form").submit(function(event) { 
     
         // We have to run app_reloading_check() here, 
-        // NOT just get current window.reload_approved value from another run somewhere else
-        if ( app_reloading_check(0) == false ) {
+        if ( app_reloading_check(1) == 'no' ) {
         event.preventDefault();
         return false;
         }
