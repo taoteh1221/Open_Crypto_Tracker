@@ -15,13 +15,22 @@ CLASSES
 ////////////////////////////// */
 
 
+
+.plugin-content {
+    border: 2px solid #808080;
+	 border-radius: 8px;
+    display: block;
+    min-height: 1100px;
+}
+
+
 .tab-content {
     float: left;
     width: 85%;
 }
 
 
-.tab-content > div {
+.tab-content > div, .plugin-content {
 padding: 20px !important;
 }
 

@@ -15,7 +15,7 @@ CLASSES
 ////////////////////////////// */
 
 
-.tab-content>.active {
+.tab-content>.active, .plugin-content {
 background-color: #fff;
 color: #000;
 }

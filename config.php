@@ -508,7 +508,6 @@ $ct_conf['charts_alerts']['tracked_mrkts'] = array(
 					// LUNA
 					'luna' => 'binance||btc||chart',
 					'luna-2' => 'generic_eth||eth||chart',
-					'luna-3' => 'ftx||usd||both',
 					
 					
 					);
@@ -539,6 +538,7 @@ $ct_conf['power']['activate_plugins'] = array(
             								  'recurring-reminder' => 'off',  // Recurring Reminder plugin (alert yourself every X days to do something)
             								  'price-target-alert' => 'off',  // Price target alert plugin (alert yourself when an asset's price target is reached)
             								  'address-balance-tracker' => 'off',  // Alerts for BTC / ETH / [SOL|SPL Token] / HNT address balance changes (when new coins are sent / recieved)
+            								  'debt-tracker' => 'off',  // Track how much you pay in TOTAL interest MONTHLY on ALL your debt (credit cards, auto / personal / mortgage loan, etc)
             								  );
 							
 							
@@ -3591,6 +3591,7 @@ $ct_conf['assets'] = array(
                                                     
                                     'btc' => array(
                                         'binance' => 'LUNABTC',
+                                        'generic_btc' => 'terra-luna',
                                                     ),
 
                                                     
@@ -3625,14 +3626,12 @@ $ct_conf['assets'] = array(
 
                                                     
                                     'usd' => array(
-                                    	'ftx' => 'LUNA/USD',
                                         'generic_usd' => 'terra-luna',
                                                     ),
 
                                                     
                                     'usdt' => array(
                                         'binance' => 'LUNAUSDT',
-                                    	'ftx' => 'LUNA/USDT',
                                                     ),
 
                                                     

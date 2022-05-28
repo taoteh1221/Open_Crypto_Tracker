@@ -253,9 +253,6 @@ Add ability to choose what decimal and thousands seperators to use.
 Look into adding temp monitoring upport for systems other than raspi devices: https://phoenixnap.com/kb/linux-cpu-temp
 
 
-A good demo app for building out the interface hooks for plugins to support the GUI runtime (not just the cron runtime), would be a monthly interest cost calculator on debt (credit cards / loans / etc).
-
-
 For admin area pages / sections, consider doing subsections in a modal subwindow, with iframes for loading through 'wizard' steps or opening different categories. It would possibly keep a native app 'feel' while also reducing admin page load times. Think it over, figure out the best solution here for a great UX.
 
 
