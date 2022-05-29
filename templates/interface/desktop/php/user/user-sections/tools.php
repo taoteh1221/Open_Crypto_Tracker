@@ -116,7 +116,44 @@
     			</ul>
 			</fieldset>
 			
-			
+			<?php
+
+            // Run any ui-designated plugins activated in ct_conf
+            // ALWAYS KEEP PLUGIN RUNTIME LOGIC INLINE (NOT ISOLATED WITHIN A FUNCTION), 
+            // SO WE DON'T NEED TO WORRY ABOUT IMPORTING GLOBALS!
+            foreach ( $activated_plugins['ui'] as $plugin_key => $plugin_init ) {
+            		
+            $this_plug = $plugin_key;
+  	
+            	if (
+            	file_exists($plugin_init) && !isset($plug_conf[$this_plug]['ui_location'])
+            	|| file_exists($plugin_init) && $plug_conf[$this_plug]['ui_location'] == 'tools'
+            	) {
+            	
+              	?>
+                <fieldset class='subsection_fieldset'>
+                	<legend class='subsection_legend'> <b><?=( isset($plug_conf[$this_plug]['ui_name']) ? $plug_conf[$this_plug]['ui_name'] : $this_plug )?></b> </legend>
+              	<?php
+          		
+            		// This plugin's default class (only if the file exists)
+            		if ( file_exists($base_dir . '/plugins/'.$this_plug.'/plug-lib/plug-class.php') ) {
+                    include($base_dir . '/plugins/'.$this_plug.'/plug-lib/plug-class.php');
+            		}
+            	
+            	// This plugin's plug-init.php file (runs the plugin)
+            	include($plugin_init);
+            	
+                ?>
+                </fieldset>
+                <?php
+            
+            	}
+            	
+            // Reset $this_plug at end of loop
+            unset($this_plug); 
+            	
+          	}
+			?>
 		    
 		    
 </div> <!-- max_1200px_wrapper END -->

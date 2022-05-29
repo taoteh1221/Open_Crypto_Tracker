@@ -102,7 +102,7 @@ usleep(100000); // Wait 0.1 seconds after possible directory creation
     
     // Recreate /plugins/.htaccess to restrict web snooping of plugins contents, if the plugins directory was deleted / recreated
     if ( !file_exists($base_dir . '/plugins/.htaccess') ) {
-    $ct_cache->save_file($base_dir . '/plugins/.htaccess', file_get_contents($base_dir . '/templates/back-end/deny-all-htaccess.template') ); 
+    $ct_cache->save_file($base_dir . '/plugins/.htaccess', file_get_contents($base_dir . '/templates/back-end/deny-all-htaccess-plugins.template') ); 
     }
     
     // Recreate /plugins/index.php to restrict web snooping of plugins contents, if the plugins directory was deleted / recreated

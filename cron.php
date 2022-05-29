@@ -226,13 +226,10 @@ sleep(1);
 // ALWAYS KEEP PLUGIN RUNTIME LOGIC INLINE (NOT ISOLATED WITHIN A FUNCTION), 
 // SO WE DON'T NEED TO WORRY ABOUT IMPORTING GLOBALS!
 foreach ( $activated_plugins['cron'] as $plugin_key => $plugin_init ) {
+		
+$this_plug = $plugin_key;
 	
 	if ( file_exists($plugin_init) ) {
-		
-	$this_plug = $plugin_key;
-	
-	// This plugin's config (from the global app config)
-	$plug_conf[$this_plug] = $ct_conf['plug_conf'][$this_plug]; 
 	
 		// This plugin's default class (only if the file exists)
 		if ( file_exists($base_dir . '/plugins/'.$this_plug.'/plug-lib/plug-class.php') ) {
@@ -242,11 +239,11 @@ foreach ( $activated_plugins['cron'] as $plugin_key => $plugin_init ) {
 	// This plugin's plug-init.php file (runs the plugin)
 	include($plugin_init);
 	
-	// Reset $this_plug at end of loop
-	$this_plug = null; 
-	
 	}
 	
+// Reset $this_plug at end of loop
+unset($this_plug); 
+
 }
 
 
