@@ -1,6 +1,6 @@
 deny from all
 
-# DISABLED example of leaving only SPECIFIC directory files accessible (for captcha images etc)
+# Leaving only plugin asset files accessible (for scripts, css, images, etc)
 # Add no directory listing logic too (if ever used)
 <IfModule mod_rewrite.c>
 
