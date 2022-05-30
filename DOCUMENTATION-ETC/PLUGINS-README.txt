@@ -5,7 +5,7 @@ CREATING CUSTOM PLUGINS
 ##########################################################################################
 
 
-IMPORTANT NOTICE: PLUGINS *MAY REQUIRE* A CRON JOB RUNNING ON YOUR WEB SERVER (see README.txt for cron job setup information). CURRENTLY *ONLY CRON PLUGINS ARE SUPPORTED* (INTERFACE PLUGINS ARE COMING IN THE FUTURE).
+IMPORTANT NOTICE: PLUGINS *MAY REQUIRE* A CRON JOB RUNNING ON YOUR WEB SERVER (see README.txt for cron job setup information).
 
 
 Take advantage of this app's built-in functions / classes, and your config settings (alert comm channels setup, etc) to create your own custom plugins WITH MINIMAL CODING REQUIRED, to add features to this app.
@@ -49,7 +49,8 @@ Example: "/plugins/my-app-plugin/plug-lib/plug-class.php" (must be lowercase)
 6) All ADDED LOGIC in the "plug-class.php" file can be AUTO-INCLUDED IN A NEW CLASS NAMED "$plug_class[$this_plug]" USING THIS FORMAT BELOW:
 
 
-// CREATE THIS PLUGIN'S CLASS OBJECT DYNAMICALLY AS: $plug_class[$this_plug]
+// CREATE THIS PLUGIN'S CLASS OBJECT DYNAMICALLY AS:
+
 $plug_class[$this_plug] = new class() {
 
 var my_var_1 = 'Testing 123';
@@ -109,18 +110,18 @@ Example: $plug_conf[$this_plug]['ui_name'] = 'My Plugin Name';
 12) We are now done setting up plugin files, now we need to activate the new plugin. IN THE MAIN APP "Admin Config" POWER USER section. Locate the configuration variable named: 'activate_plugins'
 
 
-13) To add / activate your new plugin, add your plugin name (example: 'my-app-plugin') as a new value within 'activate_plugins', and set to 'on'.
+13) To add / activate your new plugin, add your plugin name (example: 'my-app-plugin') as a new value within 'activate_plugins', and set to 'on'...ALSO INCLUDE A COMMA AT THE END.
 
-Example: 'my-app-plugin' => 'on' 
+Example: 'my-app-plugin' => 'on',
 
 
 
-Now you are ready to write your custom plugin code in PHP, inside the new plugin files you created, which will run everytime a normally-scheduled cron job runs for this app. See the example code in the included plugins inside the /plugins/ directory, for useful code snippets to speed up your plugin development.
+Now you are ready to write your custom plugin code in PHP, inside the new plugin files you created. See the example code in the included plugins inside the /plugins/ directory, for useful code snippets to speed up your plugin development.
 
 
 IMPORTANT NOTES:
 
-!!NEVER ADD A CRON PLUGIN SOMEBODY ELSE WROTE, UNLESS YOU OR SOMEONE YOU TRUST HAVE REVIEWED THE CODE AND ARE ABSOLUTELY SURE IT IS NOT MALICIOUS!!
+!!NEVER ADD A PLUGIN SOMEBODY ELSE WROTE, UNLESS YOU OR SOMEONE YOU TRUST HAVE REVIEWED THE CODE AND ARE ABSOLUTELY SURE IT IS NOT MALICIOUS!!
 
 "plug-conf.php" files are loaded on main app initiation, so they can be included in the GLOBAL cached app config (allowing the editing of these config settings in the admin interface, etc). 
 

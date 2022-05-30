@@ -707,6 +707,210 @@ Running a google search for "set permanently ulimit -n linux", you'll find tons 
 	    </div>
 	  </div>
 	  
+	
+	<?php
+	$accord_var = 'custom_plugins';
+	?>
+	
+	  <div class="card z-depth-0 bordered">
+	    <div class="card-header" id="heading_<?=$accord_var?>">
+	      <h5 class="mb-0">
+	        <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapse_<?=$accord_var?>"
+	          aria-expanded="false" aria-controls="collapse_<?=$accord_var?>">
+	          
+	          Creating A Custom Plugin For This App
+	          
+	        </button>
+	      </h5>
+	    </div>
+	    <div id="collapse_<?=$accord_var?>" class="collapse" aria-labelledby="heading_<?=$accord_var?>"
+	      data-parent="#accordionHelp">
+	      <div class="card-body">
+	      
+
+<span class='bitcoin'>IMPORTANT NOTICE:</span> PLUGINS *MAY REQUIRE* A CRON JOB RUNNING ON YOUR WEB SERVER (see <a href='README.txt' target='_blank'>README.txt</a> for cron job setup information).
+<br /><br />
+
+
+Take advantage of this app's built-in functions / classes, and your config settings (alert comm channels setup, etc) to create your own custom plugins WITH MINIMAL CODING REQUIRED, to add features to this app.
+<br /><br />
+
+
+<span class='blue'>STEPS TO CREATE YOUR OWN PLUGIN...</span>
+<br /><br />
+
+
+<span class='blue'>1)</span> Create a new subdirectory inside the main /plugins/ directory of this app, and name it after your plugin name.
+<br /><br />
+
+Example: "/plugins/my-app-plugin/" (must be lowercase)
+<br /><br /><br />
+
+
+
+<span class='blue'>2)</span> Create a new subdirectory inside the new plugin directory created in step #1, named "plug-lib".
+<br /><br />
+
+Example: "/plugins/my-app-plugin/plug-lib/" (must be lowercase)
+<br /><br /><br />
+
+
+
+<span class='blue'>3)</span> OPTIONALLY, create a new subdirectory inside the new plugin directory created in step #1, named "plug-assets".
+<br /><br />
+
+Example: "/plugins/my-app-plugin/plug-assets/" (must be lowercase)
+<br /><br />
+
+THIS IS #REQUIRED TO BYPASS THE USUAL SECURITY# OF OTHER-NAMED DIRECTORIES, SO IMAGES / JAVASCRIPT / CSS / ETC CAN BE LOADED #ONLY FROM HERE#...OTHERWISE ANY DIFFERENT-NAMED ASSETS DIRECTORY #WILL BE DENIED ACCESS# OVER HTTP / HTTPS!
+<br /><br /><br />
+
+
+
+<span class='blue'>4)</span> Create a blank INIT file (plugin runtime starts here) inside the new "plug-lib" directory created in step #2, with the name "plug-init.php".
+<br /><br />
+
+Example: "/plugins/my-app-plugin/plug-lib/plug-init.php" (must be lowercase)
+<br /><br /><br />
+
+
+
+<span class='blue'>5)</span> OPTIONALLY create a blank CLASS file (custom class logic goes here), inside the new "plug-lib" directory created in step #2, with the name "plug-class.php".
+<br /><br />
+
+Example: "/plugins/my-app-plugin/plug-lib/plug-class.php" (must be lowercase)
+<br /><br /><br />
+
+
+
+<span class='blue'>6)</span> All ADDED LOGIC in the "plug-class.php" file can be AUTO-INCLUDED IN A NEW CLASS NAMED "$plug_class[$this_plug]" USING THIS FORMAT BELOW:
+<br /><br />
+
+
+// CREATE THIS PLUGIN'S CLASS OBJECT DYNAMICALLY AS:
+<br /><br />
+
+<pre class='rounded'><code class='hide-x-scroll less' style='width: auto; height: auto;'>
+$plug_class[$this_plug] = new class() {
+
+var my_var_1 = 'Testing 123';
+var my_var_2 = 'World';
+
+	function my_function_1($var) {
+	return ' Hello ' . $var . '! ';
+	}
+				
+};
+// END class
+
+</code></pre>
+
+<br /><br /><br />
+
+
+
+Examples of calling plugin class objects (ANYWHERE FROM WITHIN "plug-init.php" ONWARDS):
+<br /><br />
+
+<pre class='rounded'><code class='hide-x-scroll less' style='width: auto; height: auto;'>
+echo $plug_class[$this_plug]->my_var_1;
+
+echo $plug_class[$this_plug]->my_function_1( $plug_class[$this_plug]->my_var_2 );
+
+echo $plug_class[$this_plug]->my_function_1('Kitty');
+
+</code></pre>
+
+<br /><br /><br />
+
+
+
+<span class='blue'>7)</span> Create a blank CONFIG file (plugin configs go here) inside the new plugin directory created in step #1, with the name "plug-conf.php".
+<br /><br />
+
+Example: "/plugins/my-app-plugin/plug-conf.php" (must be lowercase)
+<br /><br /><br />
+
+
+
+<span class='blue'>8)</span> All "plug-conf.php" PLUGIN CONFIG settings MUST BE INSIDE THE ARRAY "$plug_conf[$this_plug]" (sub-arrays are allowed).
+<br /><br />
+
+<pre class='rounded'><code class='hide-x-scroll less' style='width: auto; height: auto;'>
+$plug_conf[$this_plug]['SETTING_NAME_HERE'] = 'mysetting';
+
+
+$plug_conf[$this_plug]['SETTING_NAME_HERE'] = array('mysetting1', 'mysetting2');
+
+</code></pre>
+
+<br /><br /><br />
+
+
+
+<span class='blue'>9)</span> The "plug-conf.php" PLUGIN CONFIG SETTING 'runtime_mode' IS MANDATORY, to determine WHEN the plugin should run (during cron jobs / user interface loading / all runtimes / etc).
+<br /><br />
+
+<pre class='rounded' style='display: inline-block;<?=( $ct_gen->is_msie() == false ? ' padding-top: 1em !important;' : '' )?>'><code class='hide-x-scroll less' style='white-space: nowrap; width: auto; display: inline-block;'>$plug_conf[$this_plug]['runtime_mode'] = 'cron'; // 'cron', 'ui', 'all'</code></pre>
+<br /><br /><br />
+
+
+
+<span class='blue'>10)</span> The "plug-conf.php" PLUGIN CONFIG SETTING 'ui_location' IS OPTIONAL, to determine WHERE the plugin should run (on the tools page, in the 'more stats' section, etc...defaults to 'tools' if not set).
+<br /><br />
+
+<pre class='rounded' style='display: inline-block;<?=( $ct_gen->is_msie() == false ? ' padding-top: 1em !important;' : '' )?>'><code class='hide-x-scroll less' style='white-space: nowrap; width: auto; display: inline-block;'>$plug_conf[$this_plug]['ui_location'] = 'tools'; // 'tools', 'more_stats'</code></pre>
+<br /><br /><br />
+
+
+
+<span class='blue'>11)</span> The "plug-conf.php" PLUGIN CONFIG SETTING 'ui_name' IS OPTIONAL, to determine THE NAME the plugin should show as to end-users (defaults to $this_plug if not set).
+<br /><br />
+
+<pre class='rounded' style='display: inline-block;<?=( $ct_gen->is_msie() == false ? ' padding-top: 1em !important;' : '' )?>'><code class='hide-x-scroll less' style='white-space: nowrap; width: auto; display: inline-block;'>$plug_conf[$this_plug]['ui_name'] = 'My Plugin Name';</code></pre>
+<br /><br /><br />
+
+
+
+<span class='blue'>12)</span> We are now done setting up plugin files, now we need to activate the new plugin. IN THE MAIN APP "Admin Config" POWER USER section. Locate the configuration variable named: 'activate_plugins'
+<br /><br />
+
+
+<span class='blue'>13)</span> To add / activate your new plugin, add your plugin name (example: 'my-app-plugin') as a new value within 'activate_plugins', and set to 'on'...ALSO INCLUDE A COMMA AT THE END.
+<br /><br />
+
+<pre class='rounded' style='display: inline-block;<?=( $ct_gen->is_msie() == false ? ' padding-top: 1em !important;' : '' )?>'><code class='hide-x-scroll less' style='white-space: nowrap; width: auto; display: inline-block;'>'my-app-plugin' => 'on',</code></pre>
+<br /><br /><br />
+
+
+
+Now you are ready to write your custom plugin code in PHP, inside the new plugin files you created. See the example code in the included plugins inside the /plugins/ directory, for useful code snippets to speed up your plugin development.
+<br /><br />
+
+
+<span class='bitcoin'>IMPORTANT NOTES:</span>
+<br /><br />
+
+!!NEVER ADD A PLUGIN SOMEBODY ELSE WROTE, UNLESS YOU OR SOMEONE YOU TRUST HAVE REVIEWED THE CODE AND ARE ABSOLUTELY SURE IT IS NOT MALICIOUS!!
+<br /><br />
+
+"plug-conf.php" files are loaded on main app initiation, so they can be included in the GLOBAL cached app config (allowing the editing of these config settings in the admin interface, etc). 
+<br /><br />
+
+"plug-init.php" files are where plugins first start loading from, so you edit these files like you would the first file containing the programming logic for your plugin. You are free to add and include more files / folders inside your plugin main folder, in the same way you would build an ordinary application. Any config settings you have in "plug-conf.php" are automatically available to use in "plug-init.php", and in any other plugin files you create that run within / after the initial "plug-init.php" logic.
+<br /><br />
+
+CRON-DESIGNATED PLUGINS (PLUGINS FLAGGED TO RUN DURING CRON JOBS) DO RUN #LAST# WITHIN THE CRON RUNTIME (AND THEREFORE ARE #NOT# INCLUDED IN RUNTIME STATS DATA LIKE HOW MANY SECONDS IT RAN / SYSTEM LOAD), SO EVEN IF YOUR CUSTOM PLUGIN CRASHES, #EVERYTHING ELSE# IMPORTANT RAN BEFOREHAND ANYWAY.
+<br /><br />
+
+<span class='red'>ALWAYS TEST YOUR CODE, TO MAKE SURE IT DOESN'T CRASH THE APP.</span>
+<br /><br />
+
+
+	      </div>
+	    </div>
+	  </div>
+	  
 	  
 	  
 	  
