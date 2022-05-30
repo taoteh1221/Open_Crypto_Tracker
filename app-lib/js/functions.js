@@ -798,6 +798,7 @@ render = render.replace(/okex/gi, "OKex");
 render = render.replace(/mart/gi, "Mart");
 render = render.replace(/ftx/gi, "FTX");
 render = render.replace(/gateio/gi, "Gate.io");
+render = render.replace(/dex/gi, "DEX");
 
 return render;
 

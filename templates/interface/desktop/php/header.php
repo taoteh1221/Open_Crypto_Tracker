@@ -111,6 +111,8 @@ header('Content-type: text/html; charset=' . $ct_conf['dev']['charset_default'])
 	
 	<script src="app-lib/js/jquery/jquery-ui/jquery-ui.js"></script>
 
+    <script src="app-lib/js/jquery/jquery.repeatable.js"></script>
+
 	<script src="app-lib/js/modaal.js"></script>
 
 	<script src="app-lib/js/autosize.min.js"></script>

@@ -122,7 +122,9 @@ $ct_conf['comms']['price_alert_block_vol_error'] = 'on'; // 'on' / 'off'
 // Minimum 24 hour volume filter. Only allows sending price alerts if minimum 24 hour volume reached
 // CAN BE 0 TO DISABLE MINIMUM VOLUME FILTERING, NO DECIMALS OR SEPARATORS, NUMBERS ONLY, WITHOUT the [primary currency] prefix symbol: 4500 = $4,500 , 30000 = $30,000 , etc
 // THIS FILTER WILL AUTO-DISABLE IF THERE IS ANY ERROR RETRIEVING DATA ON A CERTAIN MARKET (WHEN NOT EVEN A ZERO IS RECEIVED)
-$ct_conf['comms']['price_alert_min_vol'] = 9500;
+// WARNING: IF AN EXCHANGE DOES #NOT# PROVIDE TRADE VOLUME API DATA FOR MARKETS, SETTING THIS ABOVE 0 WILL #DISABLE ANY 
+// CONFIGURED PRICE ALERTS# FOR MARKETS ON THAT EXCHANGE, SO USE WITH CARE!
+$ct_conf['comms']['price_alert_min_vol'] = 0;
 
 
 // Every X days email a list of #NEW# RSS feed posts. 
@@ -180,10 +182,6 @@ $ct_conf['gen']['backup_arch_pass'] = ''; // LEAVE BLANK TO DISABLE
 $ct_conf['gen']['etherscan_key'] = '';
 
 
-// API key for defipulse.com API (required unfortunately, but a FREE level is available): https://data.defipulse.com/
-$ct_conf['gen']['defipulse_key'] = '';
-
-
 // API key for coinmarketcap.com Pro API (required unfortunately, but a FREE level is available): https://coinmarketcap.com/api
 $ct_conf['gen']['cmc_key'] = '';
 
@@ -208,7 +206,7 @@ $ct_conf['gen']['btc_prim_currency_pair'] = 'usd'; // PUT INSIDE SINGLE QUOTES (
 // (set for default Bitcoin market, and charts / price alert primary-currency-equivalent value determination [example: usd value of btc/ltc market, etc])
 // binance / binance_us / bit2c / bitbns / bitfinex / bitflyer / bitmex / bitpanda / bitso / bitstamp 
 // bittrex / bittrex_global / btcmarkets / btcturk / buyucoin / cex / coinbase / coindcx / coinspot 
-// defipulse / gemini / hitbtc / huobi / korbit / kraken / kucoin / liquid / localbitcoins / loopring_amm 
+// gemini / hitbtc / huobi / korbit / kraken / kucoin / liquid / localbitcoins / loopring_amm 
 // luno / okcoin / okex / southxchange / unocoin / upbit / wazirx
 // SEE THE $ct_conf['assets'] CONFIGURATION NEAR THE BOTTOM OF THIS CONFIG FILE, FOR THE PROPER (CORRESPONDING)
 // MARKET PAIR VALUE NEEDED FOR YOUR CHOSEN 'BTC' EXCHANGE (to populate $ct_conf['gen']['btc_prim_currency_pair'] directly above with)
@@ -337,7 +335,6 @@ $ct_conf['charts_alerts']['tracked_mrkts'] = array(
 					'btc-26' => 'luno||zar||none',
 					'btc-27' => 'kraken||dai||none',
 					'btc-28' => 'bitmex||usd||both',
-					'btc-29' => 'defipulse||eth||none',
 					
 					
 					// ETH
@@ -355,7 +352,6 @@ $ct_conf['charts_alerts']['tracked_mrkts'] = array(
 					'eth-12' => 'bittrex||usdt||none',
 					'eth-13' => 'bitbns||inr||none',
 					'eth-14' => 'bitmex||usd||both',
-					'eth-15' => 'defipulse||btc||none',
 					
 					
 					// SOL
@@ -371,7 +367,6 @@ $ct_conf['charts_alerts']['tracked_mrkts'] = array(
 					
 					// UNI
 					'uni' => 'binance||btc||both',
-					'uni-2' => 'defipulse||eth||none',
 					'uni-3' => 'binance||usdt||none',
 					'uni-4' => 'coinbase||usd||none',
 					
@@ -380,14 +375,12 @@ $ct_conf['charts_alerts']['tracked_mrkts'] = array(
 					'mkr' => 'okex||btc||none',
 					'mkr-2' => 'kucoin||btc||none',
 					'mkr-3' => 'coinbase||btc||both',
-					'mkr-4' => 'defipulse||eth||none',
 					
 					
 					// DAI
 					'dai' => 'coinbase||usdc||both',
 					'dai-2' => 'kraken||usd||none',
 					'dai-3' => 'bittrex||btc||none',
-					'dai-4' => 'defipulse||usdc||none',
 					
 					
 					// USDC
@@ -479,14 +472,9 @@ $ct_conf['charts_alerts']['tracked_mrkts'] = array(
 					'samo-3' => 'generic_btc||btc||chart',
 					
 					
-					// UST
-					'ust' => 'binance||usdt||chart',
-					'ust-2' => 'kraken||usd||both',
-					
-					
-					// LUNA
-					'luna' => 'binance||btc||chart',
-					'luna-2' => 'generic_eth||eth||chart',
+					// acUSD
+					'acusd' => 'generic_usd||usd||chart',
+					'acusd-2' => 'jupiter_ag||usdc||both',
 					
 					
 					);
@@ -514,10 +502,10 @@ $ct_conf['charts_alerts']['tracked_mrkts'] = array(
 // CHANGE 'off' to 'on' FOR THE PLUGIN YOU WANT ACTIVATED 
 $ct_conf['power']['activate_plugins'] = array(
             								  //'plugin-folder-name' => 'on', // (disabled example...your LOWERCASE plugin folder name in the folder: /plugins/)
+            								  'debt-tracker' => 'on',  // Track how much you pay in TOTAL interest MONTHLY on ALL your debt (credit cards, auto / personal / mortgage loan, etc)
             								  'recurring-reminder' => 'off',  // Recurring Reminder plugin (alert yourself every X days to do something)
             								  'price-target-alert' => 'off',  // Price target alert plugin (alert yourself when an asset's price target is reached)
             								  'address-balance-tracker' => 'off',  // Alerts for BTC / ETH / [SOL|SPL Token] / HNT address balance changes (when new coins are sent / recieved)
-            								  'debt-tracker' => 'off',  // Track how much you pay in TOTAL interest MONTHLY on ALL your debt (credit cards, auto / personal / mortgage loan, etc)
             								  );
 							
 							
@@ -608,23 +596,6 @@ $ct_conf['power']['sys_stats_first_chart_max_scale'] = 1; // (default = 1)
 // Highest allowed sensor value to scale vertical axis for, in the SECOND system information chart (out of two)
 // (to prevent anomaly results from scaling vertical axis TOO HIGH to read LESSER-VALUE sensor data...only used IF CRON JOB IS SETUP)
 $ct_conf['power']['sys_stats_second_chart_max_scale'] = 150; // (default = 150) 
-
-
-// MINUTES to cache real-time DeFi pool info (pool eth address / name / volume / etc)
-// THIS SETTING DOES #NOT# AFFECT PRICE / TRADE VALUE REFRESHING, IT ONLY AFFECTS THE POOL'S TRADE VOLUME STATS / STORED ETH ADDRESS
-// LOTS OF DATA, the higher number the better for fast page load times
-$ct_conf['power']['defi_pools_info_cache_time'] = 25; // (default = 25)
-////
-// Maximum number of LARGEST LIQUIDITY OR 24 HOUR TRADE VOLUME DeFi pools to fetch
-// INCREASE IF YOUR POOL DOESN'T GET DETECTED, BUT YOU KNOW THE POOL EXISTS, AS POOLS ARE SORTED BY LARGEST VOLUME OR LIQUIDITY
-$ct_conf['power']['defi_liquidity_pools_max'] = 1000; // (default = 1000)
-////
-// Sort DeFi pools by USD liquidity or volume (largest first)
-$ct_conf['power']['defi_liquidity_pools_sort_by'] = 'volume'; // 'volume' or 'liquidity' (default = 'volume')
-////
-// Maximum number of MOST RECENT trades to fetch per DeFi pool
-// INCREASE IF TRADES FOR YOUR PAIR DON'T GET DETECTED, AS TRADES ARE SORTED BY NEWEST FIRST
-$ct_conf['power']['defi_pools_max_trades'] = 60; // (default = 60)
 		
 
 // CONTRAST of CAPTCHA IMAGE text against background (on login pages)
@@ -1149,6 +1120,12 @@ $ct_conf['power']['news_feed'] = array(
     
     
         				array(
+            			"title" => "Newsletter - Misaka (MEV expert)",
+            			"url" => "https://misaka.substack.com/feed"
+        						),
+    
+    
+        				array(
             			"title" => "Newsletter - Our Network",
             			"url" => "https://ournetwork.substack.com/feed"
         						),
@@ -1569,9 +1546,9 @@ $ct_conf['dev']['limited_apis'] = array(
                 						'btcmarkets.net',
                 						'coinbase.com',
                 						'cryptofresh.com',
-                						'defipulse.com',
                 						'etherscan.io',
                 						'gemini.com',
+                						'jup.ag',
 							            );
 
 
@@ -1580,6 +1557,7 @@ $ct_conf['dev']['limited_apis'] = array(
 // (NO LEADING DOTS, !MUST BE LOWERCASE!)
 $ct_conf['dev']['top_level_domain_map'] = array(
                                                 // TLD
+                            					'ag',
                             					'co',
                             					'co.il',
                             					'co.uk',
@@ -1998,7 +1976,6 @@ $ct_conf['assets'] = array(
                                     'eth' => array(
                                           'localbitcoins' => 'ETH',
                                           'loopring_amm' => 'AMM-WBTC-ETH',
-                                    	  'defipulse' => 'WBTC/WETH',
                                                     ),
 
                                                     
@@ -2394,7 +2371,6 @@ $ct_conf['assets'] = array(
                                           'zebpay' => 'ETH-BTC',
                                           'luno' => 'ETHXBT',
                                           'wazirx' => 'ethbtc',
-                                    	  'defipulse' => 'WETH/WBTC',
                                                     ),
 
                                                     
@@ -2415,7 +2391,6 @@ $ct_conf['assets'] = array(
                                           'kucoin' => 'ETH-DAI',
                                           'hitbtc' => 'ETHDAI',
                                           'loopring_amm' => 'AMM-ETH-DAI',
-                                    	  'defipulse' => 'WETH/DAI',
                                                     ),
 
                                                     
@@ -2696,7 +2671,6 @@ $ct_conf['assets'] = array(
                                                     
                                     'eth' => array(
                                         'loopring_amm' => 'AMM-UNI-ETH',
-                                    	'defipulse' => 'UNI/WETH',
                                                     ),
 
 
@@ -2759,7 +2733,6 @@ $ct_conf['assets'] = array(
                                         	'loopring_amm' => 'AMM-MKR-ETH',
                                         	'hitbtc' => 'MKRETH',
                                             'gateio' => 'MKR_ETH',
-                                    	 	'defipulse' => 'MKR/WETH',
                                                     ),
 
                                                     
@@ -2811,7 +2784,6 @@ $ct_conf['assets'] = array(
                                     'eth' => array(
                                          'bittrex' => 'DAI-ETH',
                                     	 'bitfinex' => 'tDAIETH',
-                                    	 'defipulse' => 'DAI/WETH',
                                                     ),
 
                                                     
@@ -2839,7 +2811,6 @@ $ct_conf['assets'] = array(
                                     'usdc' => array(
                                     	'coinbase' => 'DAI-USDC',
                                         'hitbtc' => 'DAIUSDC',
-                                    	'defipulse' => 'DAI/USDC',
                                                     ),
 
                                                     
@@ -2848,7 +2819,6 @@ $ct_conf['assets'] = array(
                                         'bittrex' => 'DAI-USDT',
                                         'okex' => 'DAI-USDT',
                                         'loopring' => 'DAI-USDT',
-                                    	'defipulse' => 'DAI/USDT',
                                                     ),
 
                                                     
@@ -2928,7 +2898,6 @@ $ct_conf['assets'] = array(
                                           'hitbtc' => 'MANAETH',
                                           'kucoin' => 'MANA-ETH',
                                           'okex' => 'MANA-ETH',
-                                    	  'defipulse' => 'MANA/WETH||0x11b1f53204d03e5529f09eb3091939e4fd8c9cf3',
                                                     ),
 
                                                     
@@ -3520,102 +3489,26 @@ $ct_conf['assets'] = array(
                     ////////////////////////////////////////////////////////////////////
                     
                     
-                    // UST
-                    'UST' => array(
+                    // ACUSD
+                    'ACUSD' => array(
                         
-                        'name' => 'TerraUSD',
-                        'mcap_slug' => 'terra-usd',
+                        'name' => 'Wrapped CUSD',
+                        'mcap_slug' => 'wrapped-cusd-allbridge-from-celo',
                         'pair' => array(
 
-                                                    
-                                    'eur' => array(
-                                    	 'coinbase' => 'UST-EUR',
-                                                    ),
-
-                                                    
+                        
                                     'usd' => array(
-                                    	 'kraken' => 'USTUSD',
-                                    	 'bitfinex' => 'tUSTUSD',
-                                         'gemini' => 'ustusd',
-                                         'okcoin' => 'UST-USD',
-                                    	 'coinbase' => 'UST-USD',
+                                        'generic_usd' => 'wrapped-cusd-allbridge-from-celo',
                                                     ),
 
-                                                    
-                                    'usdt' => array(
-                                        'binance' => 'USTUSDT',
-                                    	'ftx' => 'UST/USDT',
-                                    	'kraken' => 'USTUSDT',
-                                        'huobi' => 'ustusdt',
-                                        'bittrex' => 'UST-USDT',
-                                        'coinex' => 'USTUSDT',
+                        
+                                    'usdc' => array(
+                                        'jupiter_ag' => 'acUSD/USDC',
                                                     ),
 
                                                     
                         ) // pair END
-                                        
-                    ), // Asset END
-                    
-                    
-                    ////////////////////////////////////////////////////////////////////
-                    
-                    
-                    // LUNA
-                    'LUNA' => array(
                         
-                        'name' => 'Terra',
-                        'mcap_slug' => 'terra-luna',
-                        'pair' => array(
-
-                                                    
-                                    'btc' => array(
-                                        'binance' => 'LUNABTC',
-                                        'generic_btc' => 'terra-luna',
-                                                    ),
-
-                                                    
-                                    'aud' => array(
-                                        'binance' => 'LUNAAUD',
-                                        'generic_aud' => 'terra-luna',
-                                                    ),
-
-                                                    
-                                    'eth' => array(
-                                        'binance' => 'LUNAETH',
-                                        'generic_eth' => 'terra-luna',
-                                                    ),
-
-                                                    
-                                    'eur' => array(
-                                        'binance' => 'LUNAEUR',
-                                        'generic_eur' => 'terra-luna',
-                                                    ),
-
-                                                    
-                                    'gbp' => array(
-                                        'binance' => 'LUNAGBP',
-                                        'generic_gbp' => 'terra-luna',
-                                                    ),
-
-                                                    
-                                    'try' => array(
-                                        'binance' => 'LUNATRY',
-                                        'generic_try' => 'terra-luna',
-                                                    ),
-
-                                                    
-                                    'usd' => array(
-                                        'generic_usd' => 'terra-luna',
-                                                    ),
-
-                                                    
-                                    'usdt' => array(
-                                        'binance' => 'LUNAUSDT',
-                                                    ),
-
-                                                    
-                        ) // pair END
-                                        
                     ), // Asset END
                     
                 

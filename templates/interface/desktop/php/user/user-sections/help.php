@@ -343,7 +343,7 @@ Support for over 80 trading pairs (country fiat currency or secondary crypto, co
 Support for over 40 exchanges (contact me to request more): 
 	    <br /><br />
 
-<span class='blue'>bigone / binance / binance_us / bit2c / bitbns / bitfinex / bitflyer / bitmart / bitmex / bitmex_u20 / bitmex_z20 / bitpanda / bitso / bitstamp / bittrex / bittrex_global / btcmarkets / btcturk / buyucoin / bybit / cex / coinbase / coindcx / coinex / coinspot / crypto.com / cryptofresh / defipulse / ethfinex / ftx / ftx_us / gateio / gemini / hitbtc / hotbit / huobi / korbit / kraken / kucoin / liquid / localbitcoins / loopring / loopring_amm / luno / okcoin / okex / poloniex / southxchange / unocoin / upbit / wazirx / zebpay</span>
+<span class='blue'>bigone / binance / binance_us / bit2c / bitbns / bitfinex / bitflyer / bitmart / bitmex / bitmex_u20 / bitmex_z20 / bitpanda / bitso / bitstamp / bittrex / bittrex_global / btcmarkets / btcturk / buyucoin / bybit / cex / coinbase / coindcx / coinex / coinspot / crypto.com / cryptofresh / ethfinex / ftx / ftx_us / gateio / gemini / hitbtc / hotbit / huobi / korbit / kraken / kucoin / liquid / localbitcoins / loopring / loopring_amm / luno / okcoin / okex / poloniex / southxchange / unocoin / upbit / wazirx / zebpay</span>
 	    <br /><br />
 
 
@@ -377,7 +377,6 @@ Ethereum ICO subtoken support (pre-exchange listing) has been built in (values a
                                   'lowercase_exchange3' => 'ASSET-PAIR',
                                   'lowercase_exchange4' => 'ASSET_PAIR',
                                   'lowercase_exchange5' => 'ASSETPAIR',
-                                  'defipulse' => 'ASSET/PAIR', // DeFi
                                   // GENERIC PAIR PRICE (IF NO EXHANGE APIs AVAILABLE)
                                   // USE COINGECKO'S API ID FOR THIS ASSET (SEE COINGECKO ASSET PAGE'S INFO SECTION) 
                                   // LOWERCASE_PAIR_ABRV MUST BE SUPPORTED BY COINGECKO'S 'vs_currencies' API PARAMETER!
@@ -391,8 +390,6 @@ Ethereum ICO subtoken support (pre-exchange listing) has been built in (values a
                                   'lowercase_exchange3' => 'ASSET-ETH',
                                   'lowercase_exchange4' => 'ASSET_ETH',
                                   'lowercase_exchange5' => 'ASSETETH',
-                                  // DEFI, INCLUDING #OPTIONAL# LIQUIDITY POOL ADDRESS, ASSURING #EXACT# MARKET DESIRED
-                                  'defipulse' => 'ASSET/PAIR||OPTIONAL_LIQUIDITY_POOL_ADDRESS',
                                   // ETH ICOs...ETHSUBTOKENNAME MUST be defined in 'eth_erc20_icos' (Admin Config POWER USER section)
                                   'ico_erc20_value' => 'ETHSUBTOKENNAME', 
                                   // GENERIC ETH PRICE (IF NO EXHANGE APIs AVAILABLE)

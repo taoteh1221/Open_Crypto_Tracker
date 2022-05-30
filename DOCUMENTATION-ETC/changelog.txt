@@ -5438,7 +5438,11 @@ MIGRATE YOUR EXISTING SETTINGS TO THE NEW FORMAT.
 
 -Hooks for where plugins display in the user interface
 
--debt-tracker plugin
+-New debt-tracker plugin (on tools page, on by default)
+
+-Added Jupiter Aggregator swap markets support
+
+-Housekeeping / code cleanup
 
 v5.12.2 and higher renames the admin config array. ALL CONFIGURATION SETTING
 VARIABLE NAMES ARE NOW DIFFERENT, USE THE LATEST/UPGRADED CONFIG.PHP, AND

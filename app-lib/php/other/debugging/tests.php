@@ -41,7 +41,7 @@ if ( $runtime_mode == 'ui' ) {
 			
 			}
 			
-			if ( $charts_test_data['24hr_prim_currency_vol'] == NULL || $charts_test_data['24hr_prim_currency_vol'] < 1 ) {
+			if ( $charts_test_data['24hr_prim_currency_vol'] == null || $charts_test_data['24hr_prim_currency_vol'] < 1 ) {
 				
 			$ct_gen->log(
 										'market_error',
@@ -103,7 +103,7 @@ if ( $runtime_mode == 'ui' ) {
 					// Consolidate function calls for runtime speed improvement
 					$markets_test_data = $ct_api->market( strtoupper($asset_key) , $key, $val, $pair_key);
 				
-						if ( $markets_test_data['last_trade'] == NULL ) {
+						if ( $markets_test_data['last_trade'] == null ) {
 							
 						$ct_gen->log(
 													'market_error',
@@ -112,7 +112,7 @@ if ( $runtime_mode == 'ui' ) {
 						
 						}
 					
-						if ( $markets_test_data['24hr_prim_currency_vol'] == NULL || $markets_test_data['24hr_prim_currency_vol'] < 1 ) {
+						if ( $markets_test_data['24hr_prim_currency_vol'] == null || $markets_test_data['24hr_prim_currency_vol'] < 1 ) {
 							
 						$ct_gen->log(
 													'market_error',

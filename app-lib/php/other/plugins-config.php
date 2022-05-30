@@ -31,13 +31,14 @@ foreach ( $ct_conf['power']['activate_plugins'] as $key => $val ) {
 			// Add to activated cron plugins 
 			if ( $plug_conf[$this_plug]['runtime_mode'] == 'cron' || $plug_conf[$this_plug]['runtime_mode'] == 'all' ) {
 			$activated_plugins['cron'][$this_plug] = $base_dir . '/plugins/' . $this_plug . '/plug-lib/plug-init.php'; // Loaded LATER at bottom of cron.php (if cron runtime)
+			ksort($activated_plugins['cron']); // Alphabetical order (for admin UI)
 			}
 			
 			// Add to activated UI plugins
 			if ( $plug_conf[$this_plug]['runtime_mode'] == 'ui' || $plug_conf[$this_plug]['runtime_mode'] == 'all' ) {
-			$activated_plugins['ui'][$this_plug] = $base_dir . '/plugins/' . $this_plug . '/plug-lib/plug-init.php'; // NOT IMPLEMENTED YET!
+			$activated_plugins['ui'][$this_plug] = $base_dir . '/plugins/' . $this_plug . '/plug-lib/plug-init.php';
+			ksort($activated_plugins['ui']); // Alphabetical order (for admin UI)
 			}
-		
 		
 		$ct_conf['plug_conf'][$this_plug] = $plug_conf[$this_plug]; // Add each plugin's config into the GLOBAL app config
 		

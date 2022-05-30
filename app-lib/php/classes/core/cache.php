@@ -1524,7 +1524,7 @@ var $ct_array1 = array();
   
   // $ct_conf['gen']['btc_prim_currency_pair'] / $ct_conf['gen']['btc_prim_exchange'] / $sel_opt['sel_btc_prim_currency_val'] USED FOR TRACE DEBUGGING (TRACING)
   
-  global $base_dir, $base_url, $ct_conf, $ct_var, $ct_gen, $sel_opt, $proxy_checkup, $log_array, $limited_api_calls, $api_runtime_cache, $user_agent, $api_connections, $defipulse_api_limit, $htaccess_username, $htaccess_password;
+  global $base_dir, $base_url, $ct_conf, $ct_var, $ct_gen, $sel_opt, $proxy_checkup, $log_array, $limited_api_calls, $api_runtime_cache, $user_agent, $api_connections, $htaccess_username, $htaccess_password;
   
   $cookie_jar = tempnam('/tmp','cookie');
    
@@ -1644,7 +1644,7 @@ var $ct_array1 = array();
      
     // Servers with STRICT reconnect limits
     $strict_reconnect_servers = array(
-              						'defipulse.com',
+              						'test654321.com',
               						);
               
               
@@ -1989,16 +1989,16 @@ var $ct_array1 = array();
             || preg_match("/something went wrong/i", $data) // Bitbns.com / generic
             || preg_match("/An error has occurred/i", $data) // Bitflyer.com / generic
             || preg_match("/too many requests/i", $data) // reddit.com / generic
-            || preg_match("/Request failed/i", $data) // Defipulse.com / generic
+            || preg_match("/Request failed/i", $data) // generic
             || preg_match("/EService:Unavailable/i", $data) // Kraken.com / generic
             || preg_match("/EService:Busy/i", $data) // Kraken.com / generic
             || preg_match("/\"result\":{}/i", $data) // Kraken.com / generic
             || preg_match("/\"result\":null/i", $data) // Bittrex.com / generic
             || preg_match("/\"result\":\[\],/i", $data) // Generic
-            || preg_match("/\"results\":\[\],/i", $data) // defipulse.com / generic
+            || preg_match("/\"results\":\[\],/i", $data) // generic
             || preg_match("/\"data\":null/i", $data) // Bitflyer.com / generic
             || preg_match("/\"success\":false/i", $data) // BTCturk.com / Bittrex.com / generic
-            || preg_match("/\"error\":\"timeout/i", $data) // Defipulse.com / generic
+            || preg_match("/\"error\":\"timeout/i", $data) // generic
             || preg_match("/\"reason\":\"Maintenance\"/i", $data) // Gemini.com / generic
             // API-specific
             || $endpoint_tld_or_ip == 'coingecko.com' && preg_match("/error code: /i", $data)
@@ -2228,14 +2228,6 @@ var $ct_array1 = array();
       }
     
     
-    }
-   
-  
-   
-    // Defipulse API limit exceeded detection (FAILSAFE AT END OF FUNCTION before returning, whether live OR cache)
-    if ( $endpoint_tld_or_ip == 'defipulse.com' && trim($ct_conf['gen']['defipulse_key']) != null && preg_match("/API limit exceeded/i", $data) ) {
-    $ct_gen->log('notify_error', 'DeFiPulse.com monthly API limit exceeded (check your account there)', false, 'defipulsecom_api_limit');
-    $defipulse_api_limit = true;
     }
   
   

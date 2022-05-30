@@ -330,7 +330,7 @@ var $ct_array1 = array();
    
    
    // Credit: https://www.alexkras.com/simple-rss-reader-in-85-lines-of-php/
-   function rss($url, $theme_selected, $feed_size, $cache_only=false, $email_only=false){
+   function rss($url, $theme_selected, $feed_size, $cache_only=false, $email_only=false) {
       
    global $base_dir, $ct_conf, $ct_var, $ct_cache, $ct_gen, $fetched_feeds, $runtime_mode;
    
@@ -629,7 +629,7 @@ var $ct_array1 = array();
    // We only need $pair data if our function call needs 24hr trade volumes, so it's optional overhead
    function market($asset_symb, $sel_exchange, $market_id, $pair=false) {
    
-   global $ct_conf, $ct_var, $ct_cache, $ct_gen, $ct_asset, $sel_opt, $defipulse_api_limit, $kraken_pairs, $upbit_pairs, $generic_pairs, $generic_assets;
+   global $ct_conf, $ct_var, $ct_cache, $ct_gen, $ct_asset, $sel_opt, $kraken_pairs, $upbit_pairs, $generic_pairs, $generic_assets;
     
     
     ////////////////////////////////////////////////////////////////////////////////////////////////
@@ -655,7 +655,7 @@ var $ct_array1 = array();
 	               $result = array(
 	                              'last_trade' => $val["close"],
 	                              '24hr_asset_vol' => $val["volume"],
-	                              '24hr_pair_vol' => null // No pair volume data for this API
+	                              '24hr_pair_vol' => null // Unavailable, set null
 	                     		    );
 	               
 	               }
@@ -761,7 +761,7 @@ var $ct_array1 = array();
       $result = array(
                      'last_trade' => $data["ll"],
                      '24hr_asset_vol' => $data["a"],
-                     '24hr_pair_vol' => null // No pair volume data for this API
+                     '24hr_pair_vol' => null // Unavailable, set null
                 	   );
       
       }
@@ -790,7 +790,7 @@ var $ct_array1 = array();
 	              $result = array(
 	                              'last_trade' => $val["last_traded_price"],
 	                              '24hr_asset_vol' => $val["volume"]["volume"],
-	                              '24hr_pair_vol' => null // No pair volume data for this API
+	                              '24hr_pair_vol' => null // Unavailable, set null
 	                    		  );
 	     
 	              }
@@ -827,7 +827,7 @@ var $ct_array1 = array();
 	              $result = array(
 	                              'last_trade' => $object[( sizeof($object) - 4 )],
 	                              '24hr_asset_vol' => $object[( sizeof($object) - 3 )],
-	                              '24hr_pair_vol' => null // No pair volume data for this API
+	                              '24hr_pair_vol' => null // Unavailable, set null
 	                     		  );
 	               
 	              }
@@ -856,7 +856,7 @@ var $ct_array1 = array();
       $result = array(
                      'last_trade' => $data["data"]["last"],
                      '24hr_asset_vol' => $data["data"]["vol"],
-                     '24hr_pair_vol' => null // No pair volume data for this API
+                     '24hr_pair_vol' => null // Unavailable, set null
                        );
       
       }
@@ -1032,7 +1032,7 @@ var $ct_array1 = array();
       $result = array(
                      'last_trade' => $data["last"],
                      '24hr_asset_vol' => $data["volume"],
-                     '24hr_pair_vol' => null // No pair volume data for this API
+                     '24hr_pair_vol' => null // Unavailable, set null
                	    );
       
       }
@@ -1054,7 +1054,7 @@ var $ct_array1 = array();
       $result = array(
                      'last_trade' => number_format( $data['last'], 8, '.', ''),
                      '24hr_asset_vol' => $data["volume"],
-                     '24hr_pair_vol' => null // No pair volume data for this API
+                     '24hr_pair_vol' => null // Unavailable, set null
       	              );
         
       }
@@ -1132,7 +1132,7 @@ var $ct_array1 = array();
       $result = array(
                      'last_trade' => $data['lastPrice'],
                      '24hr_asset_vol' => $data["volume24h"],
-                     '24hr_pair_vol' => null // No pair volume data for this API
+                     '24hr_pair_vol' => null // Unavailable, set null
                   	 );
        
       }
@@ -1163,7 +1163,7 @@ var $ct_array1 = array();
 	              $result = array(
 	                              'last_trade' => $val["last"],
 	                              '24hr_asset_vol' => $val["volume"],
-	                              '24hr_pair_vol' => null // No pair volume data for this API
+	                              '24hr_pair_vol' => null // Unavailable, set null
 	                    		  );
 	               
 	              }
@@ -1238,7 +1238,7 @@ var $ct_array1 = array();
 	               
 	              $result = array(
 	                              'last_trade' => $val["last_price"],
-	                              '24hr_asset_vol' => null, 
+	                              '24hr_asset_vol' => 0, // Unavailable, set 0 to avoid 'price_alert_block_vol_error' supression
 	                              '24hr_pair_vol' => $val["volume_24h"] 
 	                     		  );
 	               
@@ -1278,7 +1278,7 @@ var $ct_array1 = array();
 	              $result = array(
 	                              'last_trade' => $val["last"],
 	                              '24hr_asset_vol' => $val["volume"],
-	                              '24hr_pair_vol' => null // No pair volume data for this API
+	                              '24hr_pair_vol' => null // Unavailable, set null
 	                     	       );
 	     
 	              }
@@ -1308,7 +1308,7 @@ var $ct_array1 = array();
       $result = array(
                      'last_trade' => $data['price'],
                      '24hr_asset_vol' => $data["volume"],
-                     '24hr_pair_vol' => null // No pair volume data for this API
+                     '24hr_pair_vol' => null // Unavailable, set null
                   	 );
        
        
@@ -1338,7 +1338,7 @@ var $ct_array1 = array();
 	               
 	              $result = array(
 	                              'last_trade' => $val["last_price"],
-	                              '24hr_asset_vol' => null, // No asset volume data for this API
+	                              '24hr_asset_vol' => 0, // Unavailable, set 0 to avoid 'price_alert_block_vol_error' supression
 	                              '24hr_pair_vol' => $val["volume"]
 	                     		  );
 	     
@@ -1379,7 +1379,7 @@ var $ct_array1 = array();
 	              $result = array(
 	                              'last_trade' => $val["last"],
 	                              '24hr_asset_vol' => $val["vol"],
-	                              '24hr_pair_vol' => null // No pair volume data for this API
+	                              '24hr_pair_vol' => null // Unavailable, set null
 	                     		  );
 	     
 	              }
@@ -1418,8 +1418,8 @@ var $ct_array1 = array();
 	               
 	              $result = array(
 	                              'last_trade' => $val["last"],
-	                              '24hr_asset_vol' => null, // No asset volume data for this API
-	                              '24hr_pair_vol' => null // No pair volume data for this API
+	                              '24hr_asset_vol' => 0, // Unavailable, set 0 to avoid 'price_alert_block_vol_error' supression
+	                              '24hr_pair_vol' => null // Unavailable, set null
 	                     		  );
 	     
 	              }
@@ -1459,7 +1459,7 @@ var $ct_array1 = array();
 	              $result = array(
 	                              'last_trade' => $val["a"],
 	                              '24hr_asset_vol' => $val["v"],
-	                              '24hr_pair_vol' => null // No pair volume data for this API
+	                              '24hr_pair_vol' => null // Unavailable, set null
 	                     		  );
 	     
 	              }
@@ -1492,7 +1492,7 @@ var $ct_array1 = array();
            $result = array(
      		            'last_trade' => number_format( $data['BRIDGE.BTC']['price'], 8, '.', ''),
      		            '24hr_asset_vol' => $data['BRIDGE.BTC']['volume24'],
-     		            '24hr_pair_vol' => null // No pair volume data for this API
+     		            '24hr_pair_vol' => null // Unavailable, set null
      		            );
      		                  
      	 }
@@ -1501,135 +1501,10 @@ var $ct_array1 = array();
            $result = array(
      		            'last_trade' => number_format( $data['OPEN.BTC']['price'], 8, '.', ''),
      		            '24hr_asset_vol' => $data['OPEN.BTC']['volume24'],
-     		            '24hr_pair_vol' => null // No pair volume data for this API
+     		            '24hr_pair_vol' => null // Unavailable, set null
      		            );
      		                  
            }
-      
-      
-      }
-     
-     
-     
-     ////////////////////////////////////////////////////////////////////////////////////////////////
-    
-    
-      // https://docs.defipulse.com/api-docs-by-provider/pools.fyi/exchange
-      elseif ( strtolower($sel_exchange) == 'defipulse' ) {
-        
-          
-          if ( trim($ct_conf['gen']['defipulse_key']) == null ) {
-          	
-          $ct_gen->log(
-                       'notify_error',
-          		       '"defipulse_key" (free API key) is not configured in Admin Config GENERAL section',
-          		       false,
-          		       'defipulse_key'
-          		       );
-          
-          return false;
-          
-          }
-          
-        
-      $market_data = explode('||', $market_id);
-        
-      $pair_data = explode('/', $market_data[0]);
-        
-      $pool_data = $market_data[1];
-        
-      $defi_pools_info = $ct_asset->defi_pools_info($pair_data, $pool_data);
-          
-          
-          if ( $defipulse_api_limit == true ) {
-          	
-          $ct_gen->log(
-          		   'notify_error',
-          		   'DeFiPulse.com monthly API limit exceeded (check your account there)',
-          		   false,
-          		   'defipulsecom_api_limit'
-          		   );
-          
-          return false;
-          
-          }
-          elseif ( !$defi_pools_info['pool_address'] ) {
-          	
-          $ct_gen->log(
-          		   'market_error',
-          		   'No DeFi liquidity pool found for ' . $market_id . ', try setting "defi_liquidity_pools_max" HIGHER in the POWER USER config (current setting is '.$ct_conf['power']['defi_liquidity_pools_max'].', results are sorted by highest trade volume pools first)'
-          		   );
-          
-          return false;
-          
-          }
-         
-         
-      $url = 'https://data-api.defipulse.com/api/v1/blocklytics/pools/v1/trades/' . $defi_pools_info['pool_address'] . '?limit=' . $ct_conf['power']['defi_pools_max_trades'] . '&orderBy=timestamp&direction=desc&api-key=' . $ct_conf['gen']['defipulse_key'];
-         
-      $response = @$ct_cache->ext_data('url', $url, $ct_conf['power']['last_trade_cache_time']);
-         
-      $data = json_decode($response, true);
-         
-      $data = $data['results'];
-         
-      
-         if ( is_array($data) ) {
-          
-		   if ( preg_match("/curve/i", $defi_pools_info['platform']) ) {
-		   $fromSymbol = $pair_data[0];
-		   $toSymbol = $pair_data[1];
-		   }
-		   else {
-		   $fromSymbol = $pair_data[1];
-		   $toSymbol = $pair_data[0];
-		   }
-		           
-		      
-		   foreach ($data as $key => $val) {
-		             
-	        // Check for main asset
-		   if ( isset($val["fromSymbol"]) && $val["fromSymbol"] == $fromSymbol || preg_match("/([a-z]{1})".$fromSymbol."/", $val["fromSymbol"]) ) {
-		   $trade_asset = true;
-	        }
-				                   
-		   // Check for pair asset
-		   if ( isset($val["toSymbol"]) && $val["toSymbol"] == $toSymbol || preg_match("/([a-z]{1})".$toSymbol."/", $val["toSymbol"]) ) {
-		   $trade_pair = true;
-		   }
-				                   
-				              
-		   if ( $trade_asset && $trade_pair ) {
-				               
-		   $result = array(
-				         'defi_pool_name' => $defi_pools_info['pool_name'],
-				         'defi_platform' => $defi_pools_info['platform'],
-				         'last_trade' => $val["price"],
-				         '24hr_asset_vol' => null, // No asset volume data for this API
-				         '24hr_pair_vol' => null, // No pair volume data for this API
-				         '24hr_usd_vol' => $defi_pools_info['pool_usd_volume']
-				          );
-				     
-		   }
-		              
-		            
-		   $trade_asset = false;
-		   $trade_pair = false;
-		            
-		   }
-		          
-		          
-		   if ( !$result ) {
-		            	
-		   $ct_gen->log(
-		            	'market_error',
-		                'No trades found for ' . $market_id . ', try setting "defi_pools_max_trades" HIGHER in the POWER USER config (current setting is '.$ct_conf['power']['defi_pools_max_trades'].', results are sorted by most recent trades first)'
-		                );
-		            
-		   }
-		   
-          
-         }
       
       
       }
@@ -1660,7 +1535,7 @@ var $ct_array1 = array();
 	               
 	              $result = array(
 	                              'last_trade' => $val["last"],
-	                              '24hr_asset_vol' => null, // No asset volume data for this API
+	                              '24hr_asset_vol' => 0, // Unavailable, set 0 to avoid 'price_alert_block_vol_error' supression
 	                              '24hr_pair_vol' => $val["quoteVolume24h"]
 	                     		  );
 	     
@@ -1700,7 +1575,7 @@ var $ct_array1 = array();
 	               
 	              $result = array(
 	                              'last_trade' => $val["last"],
-	                              '24hr_asset_vol' => null, // No asset volume data for this API
+	                              '24hr_asset_vol' => 0, // Unavailable, set 0 to avoid 'price_alert_block_vol_error' supression
 	                              '24hr_pair_vol' => $val["quoteVolume24h"]
 	                     		  );
 	     
@@ -1871,7 +1746,7 @@ var $ct_array1 = array();
               $result = array(
                               'last_trade' => $val["last"],
                               '24hr_asset_vol' => $val["vol"],
-                              '24hr_pair_vol' => null // No pair volume data for this API
+                              '24hr_pair_vol' => null // Unavailable, set null
                               );
                
               }
@@ -1961,6 +1836,32 @@ var $ct_array1 = array();
      
      
      
+     ////////////////////////////////////////////////////////////////////////////////////////////////
+    
+    
+    
+      elseif ( strtolower($sel_exchange) == 'jupiter_ag' ) {
+          
+      $jup_pairs = explode('/', $market_id);
+      
+      $url = 'https://price.jup.ag/v1/price?id=' . $jup_pairs[0] . '&vsToken=' . $jup_pairs[1];
+      
+      $response = @$ct_cache->ext_data('url', $url, $ct_conf['power']['last_trade_cache_time']);
+        
+      $data = json_decode($response, true);
+      
+      $data = $data['data'];
+        
+      $result = array(
+                     'last_trade' => number_format( $data['price'], 8, '.', ''),
+                     '24hr_asset_vol' => 0, // Unavailable, set 0 to avoid 'price_alert_block_vol_error' supression
+                     '24hr_pair_vol' => null // Unavailable, set null
+      	              );
+        
+      }
+     
+     
+     
      
      ////////////////////////////////////////////////////////////////////////////////////////////////
     
@@ -1984,7 +1885,7 @@ var $ct_array1 = array();
               $result = array(
                               'last_trade' => $val["last"],
                               '24hr_asset_vol' => $val["volume"],
-                              '24hr_pair_vol' => null // No pair volume data for this API
+                              '24hr_pair_vol' => null // Unavailable, set null
                     	      );
                
               }
@@ -2046,7 +1947,7 @@ var $ct_array1 = array();
                  $result = array(
                                  'last_trade' => $val[$key2]["c"][0],
                                  '24hr_asset_vol' => $val[$key2]["v"][1],
-                                 '24hr_pair_vol' => null // No pair volume data for this API
+                                 '24hr_pair_vol' => null // Unavailable, set null
                        		     );
                   
                  }
@@ -2124,7 +2025,7 @@ var $ct_array1 = array();
               $result = array(
                               'last_trade' => $val["last_traded_price"],
                               '24hr_asset_vol' => $val["volume_24h"],
-                              '24hr_pair_vol' => null // No pair volume data for this API
+                              '24hr_pair_vol' => null // Unavailable, set null
                      	        );
      
               }
@@ -2160,7 +2061,7 @@ var $ct_array1 = array();
               $result = array(
                               'last_trade' => $ct_var->num_to_str($val["rates"]["last"]), // Handle large / small values better with $ct_var->num_to_str()
                               '24hr_asset_vol' => $val["volume_btc"],
-                              '24hr_pair_vol' => null // No pair volume data for this API
+                              '24hr_pair_vol' => null // Unavailable, set null
                               );
      
               }
@@ -2243,7 +2144,7 @@ var $ct_array1 = array();
               $result = array(
                               'last_trade' => $ct_var->num_to_str($val["last_trade"]), // Handle large / small values better with $ct_var->num_to_str()
                               '24hr_asset_vol' => $val["rolling_24_hour_volume"],
-                              '24hr_pair_vol' => null // No pair volume data for this API
+                              '24hr_pair_vol' => null // Unavailable, set null
                      		  );
      
               }
@@ -2390,7 +2291,7 @@ var $ct_array1 = array();
               $result = array(
                               'last_trade' => $val["Last"],
                               '24hr_asset_vol' => $val["Volume24Hr"],
-                              '24hr_pair_vol' => null // No pair volume data for this API
+                              '24hr_pair_vol' => null // Unavailable, set null
                      		  );
                
               }
@@ -2425,7 +2326,7 @@ var $ct_array1 = array();
                
               $result = array(
                               'last_trade' => $val[$market_id]["price"],
-                              '24hr_asset_vol' => null, // No asset volume data for this API
+                              '24hr_asset_vol' => 0, // Unavailable, set 0 to avoid 'price_alert_block_vol_error' supression
                               '24hr_pair_vol' => $val[$market_id]["volume"]
                      		  );
                
@@ -2462,8 +2363,8 @@ var $ct_array1 = array();
 	               
 	              $result = array(
 	                              'last_trade' => $val["average_price"],
-	                              '24hr_asset_vol' => null, // No asset volume data for this API
-	                              '24hr_pair_vol' => null // No pair volume data for this API
+	                              '24hr_asset_vol' => 0, // Unavailable, set 0 to avoid 'price_alert_block_vol_error' supression
+	                              '24hr_pair_vol' => null // Unavailable, set null
 	                     		  );
 	     
 	              }
@@ -2558,7 +2459,7 @@ var $ct_array1 = array();
               $result = array(
                               'last_trade' => $val["last"],
                               '24hr_asset_vol' => $val["volume"],
-                              '24hr_pair_vol' => null // No pair volume data for this API
+                              '24hr_pair_vol' => null // Unavailable, set null
                      		  );
                
               }
@@ -2599,7 +2500,7 @@ var $ct_array1 = array();
                   $result = array(
                                   'last_trade' => $val["market"],
                                   '24hr_asset_vol' => $val["volume"],
-                                  '24hr_pair_vol' => null // No pair volume data for this API
+                                  '24hr_pair_vol' => null // Unavailable, set null
                          		  );
                
                   }
@@ -2840,7 +2741,7 @@ var $ct_array1 = array();
 	     
 	         $result = array(
 	                        'last_trade' => $ct_var->num_to_str($data[$paired_with]),
-	                        '24hr_asset_vol' => null, // No asset volume data for this API
+	                        '24hr_asset_vol' => 0, // Unavailable, set 0 to avoid 'price_alert_block_vol_error' supression
 	                        '24hr_pair_vol' => $ct_var->num_to_str($data[$paired_with . "_24h_vol"])
 	                        );
 	                     		  
@@ -2859,36 +2760,21 @@ var $ct_array1 = array();
       // Better large / small number support
       $result['last_trade'] = $ct_var->num_to_str($result['last_trade']);
         
-          // SET FIRST...emulate pair volume if non-existent
-		if ( is_numeric($result['24hr_pair_vol']) != true ) {
-		$result['24hr_pair_vol'] = $ct_var->num_to_str($result['last_trade'] * $result['24hr_asset_vol']);
-		}
+        
+            // SET FIRST...emulate pair volume if non-existent
+            // If no pair volume is available for this market, emulate it within reason with: asset value * asset volume
+    		if ( is_numeric($result['24hr_pair_vol']) != true ) {
+            $result['24hr_pair_vol'] = $ct_var->num_to_str($result['last_trade'] * $result['24hr_asset_vol']);
+    		}
 		      
-		// Set primary currency volume value
-		if ( $pair == $ct_conf['gen']['btc_prim_currency_pair'] ) {
-		$result['24hr_prim_currency_vol'] = $ct_var->num_to_str($result['24hr_pair_vol']); // Save on runtime, if we don't need to compute the fiat value
-		}
-		elseif ( !$result['24hr_pair_vol'] && $result['24hr_usd_vol'] ) {
-		          
-	         // Fiat or equivalent pair?
-	         // #FOR CLEAN CODE#, RUN CHECK TO MAKE SURE IT'S NOT A CRYPTO AS WELL...WE HAVE A COUPLE SUPPORTED, BUT WE ONLY WANT DESIGNATED FIAT-EQIV HERE
-		    if ( array_key_exists($pair, $ct_conf['power']['btc_currency_mrkts']) && !array_key_exists($pair, $ct_conf['power']['crypto_pair']) ) {
-		    $fiat_eqiv = 1;
-		    }
-		        
-	     $pair_btc_val = $ct_asset->pair_btc_val($pair);
-		$usd_btc_val = $ct_asset->pair_btc_val('usd');
-		        
-		$vol_in_btc = $result['24hr_usd_vol'] * $usd_btc_val;
-		$vol_in_pair = round( ($vol_in_btc / $pair_btc_val) , ( $fiat_eqiv == 1 ? 0 : $ct_conf['power']['chart_crypto_vol_dec'] ) );
-		        
-		$result['24hr_pair_vol'] = $ct_var->num_to_str($vol_in_pair);
-		$result['24hr_prim_currency_vol'] = $ct_var->num_to_str( $ct_asset->prim_currency_trade_vol('BTC', 'usd', 1, $result['24hr_usd_vol']) );
-		        
-		}
-		else {
-		$result['24hr_prim_currency_vol'] = $ct_var->num_to_str( $ct_asset->prim_currency_trade_vol($asset_symb, $pair, $result['last_trade'], $result['24hr_pair_vol']) );
-		}
+		      
+    		// Set primary currency volume value
+    		if ( $pair == $ct_conf['gen']['btc_prim_currency_pair'] ) {
+    		$result['24hr_prim_currency_vol'] = $ct_var->num_to_str($result['24hr_pair_vol']); // Save on runtime, if we don't need to compute the fiat value
+    		}
+    		else {
+    		$result['24hr_prim_currency_vol'] = $ct_var->num_to_str( $ct_asset->prim_currency_trade_vol($asset_symb, $pair, $result['last_trade'], $result['24hr_pair_vol']) );
+    		}
         
       
       }
@@ -2897,6 +2783,7 @@ var $ct_array1 = array();
    return $result;
    
    }
+   
 
    
    ////////////////////////////////////////////////////////

@@ -392,12 +392,6 @@ echo '?';
 
 
 <td class='data border_lb'>
-
-	<?php
-	if ( $asset_mrkt_data['defi_pool_name'] ) {
-	$defi_exchange_dropdown_title = "\n\n" . 'Current DeFi Liquidity Pool: ' . $asset_mrkt_data['defi_pool_name'] . ' (' . $asset_mrkt_data['defi_platform'] . ')';
-	}
-	?>
  
     <select class='browser-default custom-select' name='change_<?=strtolower($asset_symb)?>_mrkt' title='Choose which exchange or defi pool you want.<?=htmlentities($defi_exchange_dropdown_title, ENT_QUOTES)?>' onchange='
     $("#<?=strtolower($asset_symb)?>_mrkt").val(this.value);
@@ -543,7 +537,7 @@ $asset_val_raw = $ct_var->num_to_str($asset_val_raw);
 <span class='white'><?=$ct_conf['power']['btc_currency_mrkts'][ $ct_conf['gen']['btc_prim_currency_pair'] ]?></span><span class='app_sort_filter'><?php 
 
   // NULL if not setup to get volume, negative number returned if no data received from API
-  if ( $trade_vol == NULL || $trade_vol == -1 ) {
+  if ( $trade_vol == null || $trade_vol == -1 ) {
   echo '0';
   }
   elseif ( $trade_vol >= 0 ) {

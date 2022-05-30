@@ -319,104 +319,6 @@ var $ct_array1 = array();
    ////////////////////////////////////////////////////////
    
    
-   function defi_pools_info($pair_array, $pool_address=null) {
-   
-   global $ct_conf, $ct_cache, $ct_gen;
-   
-   
-      if ( $ct_conf['power']['defi_liquidity_pools_sort_by'] == 'volume' ) {
-      $sort_by = 'usdVolume';
-      }
-      elseif ( $ct_conf['power']['defi_liquidity_pools_sort_by'] == 'liquidity' ) {
-      $sort_by = 'usdLiquidity';
-      }
-   
-      
-      if ( $pool_address ) {
-      $url = 'https://data-api.defipulse.com/api/v1/blocklytics/pools/v1/exchange/'.$pool_address.'?api-key=' . $ct_conf['gen']['defipulse_key'];
-      }
-      else {
-      $url = 'https://data-api.defipulse.com/api/v1/blocklytics/pools/v1/exchanges?limit=' . $ct_conf['power']['defi_liquidity_pools_max'] . '&orderBy='.$sort_by.'&direction=desc&api-key=' . $ct_conf['gen']['defipulse_key'];
-      }
-   
-   
-   $response = @$ct_cache->ext_data('url', $url, $ct_conf['power']['defi_pools_info_cache_time']); // Re-cache exchanges => addresses data, etc
-        
-   $data = json_decode($response, true);
-   
-   
-      if ( $pool_address ) {
-      $new_data = array($data);
-      $data = $new_data;
-      }
-      else {
-      $data = $data['results'];
-      }
-   
-     
-      if ( is_array($data) ) {
-         	
-           
-         foreach ($data as $key => $val) {
-           	
-               
-             foreach ( $val['assets'] as $asset ) {
-               	
-                 
-                  // Check for main asset
-                  if ( $asset['symbol'] == $pair_array[0] || preg_match("/([a-z]{1})".$pair_array[0]."/", $asset['symbol']) ) {
-                  $debug_asset = $asset['symbol'];
-                  $is_asset = true;
-                  }
-                  // Check for pair asset
-                  elseif ( $asset['symbol'] == $pair_array[1] || preg_match("/([a-z]{1})".$pair_array[1]."/", $asset['symbol']) ) {
-                  $debug_pair = $asset['symbol'];
-                  $is_pair = true;
-                  }
-                    
-                    
-                  if ( !$done && $is_asset && $is_pair ) {
-                    
-                  $done = true;
-                  $result['platform'] = $val['platform'];
-                  $result['pool_name'] = $val['poolName'];
-                  $result['pool_address'] = $val['exchange'];
-                  $result['pool_assets'] = $val['assets'];
-                  $result['pool_usd_vol'] = $val['usdVolume'];
-                    
-                     	if ( $result['pool_usd_vol'] < 1 ) {
-                     	
-                     	$ct_gen->log(
-                     				'market_error',
-                     				'No 24 hour trade volume for DeFi liquidity pool at address ' . $result['pool_address'] . ' (' . $pair_array[0] . '/' . $pair_array[1] . ')'
-                     				);
-                     
-                     	}
-                  
-                  }
-                 
-                 
-             }
-               
-           
-           $is_asset = false;
-           $is_pair = false;
-           
-           }
-           
-         
-      }
-    
-    
-   return $result;
-     
-   }
-   
-   
-   ////////////////////////////////////////////////////////
-   ////////////////////////////////////////////////////////
-   
-   
    function hivepower_time($time) {
        
    global $ct_conf, $sel_opt, $hive_mrkt;
@@ -899,7 +801,6 @@ var $ct_array1 = array();
            // Pretty numbers
            $asset_val_raw = $ct_var->num_to_str($asset_val_raw);
            
-           // If no pair volume is available for this market, emulate it within reason with: asset value * asset volume
            $pair_vol_raw = $ct_var->num_to_str($asset_mrkt_data['24hr_pair_vol']);
            
            
@@ -1892,8 +1793,8 @@ var $ct_array1 = array();
                elseif ( $mode != 'both' && $mode != 'alert' ) {
                $send_alert = null;
                }
-               // We disallow alerts if $ct_conf['comms']['price_alert_block_vol_error'] is on, and there is a volume retrieval error
-               // ONLY PRIMARY CURRENCY CONFIG VOLUME CALCULATION RETURNS -1 ON EXCHANGE VOLUME ERROR
+               // We disallow alerts if $ct_conf['comms']['price_alert_block_vol_error'] is ON, and there is
+               // a volume retrieval error (flagged as -1) #NOT RELATED# TO LACK OF VOLUME API features (flagged as 0)
                elseif ( $vol_prim_currency_raw == -1 && $ct_conf['comms']['price_alert_block_vol_error'] == 'on' ) {
                $send_alert = null;
                }

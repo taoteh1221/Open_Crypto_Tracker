@@ -787,10 +787,6 @@ var $ct_array = array();
       elseif ( preg_match("/telegram/i", $url) ) {
       $url = str_replace($ct_conf['comms']['telegram_bot_token'], $ct_var->obfusc_str($ct_conf['comms']['telegram_bot_token'], 2), $url); 
       }
-      // Defipulse
-      elseif ( preg_match("/defipulse/i", $url) ) {
-      $url = str_replace($ct_conf['gen']['defipulse_key'], $ct_var->obfusc_str($ct_conf['gen']['defipulse_key'], 2), $url); 
-      }
    
    // Keep our color-coded logs in the admin UI pretty, remove '//' and put in parenthesis
    return '('.$url;
@@ -1327,6 +1323,7 @@ var $ct_array = array();
    $pretty_str = preg_replace("/ftx/i", 'FTX', $pretty_str);
    $pretty_str = preg_replace("/dcx/i", 'DCX', $pretty_str);
    $pretty_str = preg_replace("/gateio/i", 'Gate.io', $pretty_str);
+   $pretty_str = preg_replace("/dex/i", 'DEX', $pretty_str);
    
    
    return trim($pretty_str);

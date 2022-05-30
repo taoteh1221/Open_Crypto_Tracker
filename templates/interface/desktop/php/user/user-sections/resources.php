@@ -47,8 +47,6 @@
 	    <fieldset class='subsection_fieldset'><legend class='subsection_legend'> <strong>Other Stats</strong> </legend>
 	    <ul>
 	        
-	        <li class='links_list'><a href='https://defipulse.com/' target='_blank'>DeFiPulse</a></li>
-	        
 	        <li class='links_list'><a href='https://studio.glassnode.com/' target='_blank'>GlassNode</a></li>
 	        
 	        <li class='links_list'><a href='https://messari.io/onchainfx' target='_blank'>OnChainFX</a></li>

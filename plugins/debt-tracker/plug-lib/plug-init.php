@@ -16,10 +16,6 @@
 ?>
 
 
-
-<script src="plugins/debt-tracker/plug-assets/jquery.repeatable.js"></script>
-
-
     	<div class="container">
 
     		<div class="page-header">
@@ -73,7 +69,7 @@
 				deleteTrigger: ".accounts_labels .delete",
 				template: "#accounts_labels",
 				min: 1,
-				max: 15
+				max: 100
 			});
 		});
 		</script>

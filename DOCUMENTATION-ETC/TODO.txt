@@ -92,9 +92,6 @@ Consider adding some SPECIFIC filenames that are sensitive data to obfusc_path_d
 Make all coin configs (assets and price alerts / charts) CASE-INSENSITIVE. Most efficient way to do this would be by auto-correcting in other/app-config-managment.php, to be the correct case even if a user editing config.php used the wrong case.
 
 
-Check in on defipulse API data, unit tests showed it failing across the board for price data. 
-
-
 Add bonifida / serum markets support.
 
 
@@ -194,6 +191,11 @@ Look into laptop touchscreen zingchart js error on Ubuntu 20.04 / Chrome, when h
 ///////////////////////////////////////////////////////
 API INTEGRATION SECTION
 ///////////////////////////////////////////////////////
+
+
+Jupiter Aggregator (Solana DEXs)
+https://price.jup.ag/v1/price?id=SOL&vsToken=USDC
+https://docs.jup.ag/jupiter-api/jupiter-price-api-beta
 
 
 https://docs.bonfida.com/#introduction (solana dex API??)
@@ -365,9 +367,6 @@ Change the api key format to GET instead of POST on my portfolio app's internal 
 
 
 Add an OPTIONAL 'cron_plugins_runtime' stat in system charts (save as NO_DATA if non-existant to avoid UI rendering, like we do for temperature sensor). We'd need to append to the same line in the .dat file RIGHT AFTER THE CORE LOGIC HAS ALREADY WRITTEN TO IT. Not sure if this potentially could cause corruption issues in edge cases?
-
-
-Add defipulse 'preferred platform' config in power user section, which falls back to ANY highest volume / liquidity platform's market if no market is found for the preferred platform.
 
 
 Add drop-down menu feature next to "Save Updated Portfolio" buttons for "save as": cookie data | only post data.
