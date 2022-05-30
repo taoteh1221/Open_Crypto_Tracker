@@ -2763,13 +2763,13 @@ var $ct_array1 = array();
         
             // SET FIRST...emulate pair volume if non-existent
             // If no pair volume is available for this market, emulate it within reason with: asset value * asset volume
-    		if ( is_numeric($result['24hr_pair_vol']) != true ) {
+    		if ( is_numeric($result['24hr_pair_vol']) != true && is_numeric($result['last_trade']) == true && is_numeric($result['24hr_asset_vol']) == true ) {
             $result['24hr_pair_vol'] = $ct_var->num_to_str($result['last_trade'] * $result['24hr_asset_vol']);
     		}
 		      
 		      
     		// Set primary currency volume value
-    		if ( $pair == $ct_conf['gen']['btc_prim_currency_pair'] ) {
+    		if ( isset($pair) && $pair == $ct_conf['gen']['btc_prim_currency_pair'] ) {
     		$result['24hr_prim_currency_vol'] = $ct_var->num_to_str($result['24hr_pair_vol']); // Save on runtime, if we don't need to compute the fiat value
     		}
     		else {
