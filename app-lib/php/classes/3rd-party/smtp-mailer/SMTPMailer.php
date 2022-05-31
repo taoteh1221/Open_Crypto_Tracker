@@ -255,8 +255,8 @@ Class SMTPMailer {
         }
         
         
-        if (!$this->sock) {
-        	$this->log[] = 'Socket connection error for host: ' . $this->hostname.':'.$this->port . '. Make sure your hostname and firewall settings are correct.';
+        if ( !is_resource($this->sock) ) {
+         $this->log[] = 'Socket connection error for host: ' . $this->hostname.':'.$this->port . '. Make sure your hostname and firewall settings are correct.';
          $this->LogFile();
          return false;
         }
@@ -289,8 +289,12 @@ Class SMTPMailer {
         $this->request($this->headers, '250');
 
         $this->logreq('QUIT', '221');
-        fclose($this->sock);
-		  gc_collect_cycles(); // Clean memory cache
+        
+            if ( is_resource($this->sock) ) {
+            fclose($this->sock);
+            }
+        
+		gc_collect_cycles(); // Clean memory cache
 				
 				if ( $this->debug_mode == 'on' || $this->debug_mode == 'smtp_telemetry' ) {
         		
@@ -371,8 +375,12 @@ Class SMTPMailer {
         
         
         if ($this->meta['timed_out'] === true) {
+            
+            if ( is_resource($this->sock) ) {
             fclose($this->sock);
-				gc_collect_cycles(); // Clean memory cache
+            }
+            
+			gc_collect_cycles(); // Clean memory cache
             $this->log[] = "\n\n Was a timeout in Server response \n";
             $this->LogFile();            
             print_r($this->meta);
@@ -392,8 +400,11 @@ Class SMTPMailer {
         }
         
             
-        fclose($this->sock);
-		  gc_collect_cycles(); // Clean memory cache
+            if ( is_resource($this->sock) ) {
+            fclose($this->sock);
+            }
+        
+		gc_collect_cycles(); // Clean memory cache
         
         $this->log[] = "\n\n META DATA: \n";
         

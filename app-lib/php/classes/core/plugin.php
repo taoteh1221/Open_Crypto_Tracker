@@ -12,6 +12,24 @@ var $ct_var1;
 var $ct_var2;
 var $ct_var3;
 var $ct_array1 = array();
+
+   
+   ////////////////////////////////////////////////////////
+   ////////////////////////////////////////////////////////
+   
+   
+   function plug_dir($http=false) {
+       
+   global $base_dir, $this_plug;
+   
+      if ( $http == true ) {
+      return 'plugins/' . $this_plug;
+      }
+      else {
+      return $base_dir . '/plugins/' . $this_plug;
+      }
+    
+   }
    
    
    ////////////////////////////////////////////////////////

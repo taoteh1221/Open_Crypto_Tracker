@@ -1785,8 +1785,9 @@ var $ct_array1 = array();
                }
                  
                   
-               // We disallow alerts where minimum 24 hour trade PRIMARY CURRENCY CONFIG volume has NOT been met, ONLY if an API request doesn't fail to retrieve volume data
-               if ( $vol_prim_currency_raw >= 0 && $vol_prim_currency_raw < $ct_conf['comms']['price_alert_min_vol'] ) {
+               // We disallow alerts where minimum 24 hour trade PRIMARY CURRENCY CONFIG volume IS ABOVE ZERO (as zero can be a 'no vol API' flag), 
+               // AND price_alert_min_vol config has NOT been met, ONLY if volume API request doesn't fail to retrieve volume data (which is flagged as -1)
+               if ( $vol_prim_currency_raw > 0 && $vol_prim_currency_raw < $ct_conf['comms']['price_alert_min_vol'] ) {
                $send_alert = null;
                }
                // We disallow alerts if they are not activated
@@ -1858,7 +1859,7 @@ var $ct_array1 = array();
                      
                      // Volume filter skipped message, only if filter is on and error getting trade volume data (otherwise is NULL)
                      if ( $vol_prim_currency_raw == null && $ct_conf['comms']['price_alert_min_vol'] > 0 || $vol_prim_currency_raw < 1 && $ct_conf['comms']['price_alert_min_vol'] > 0 ) {
-                     $vol_filter_skipped_text = ', so volume filter was skipped';
+                     $vol_filter_skipped_text = 'no trade volume detected, so volume filter was skipped';
                      }
                      else {
                      $vol_filter_skipped_text = null;
@@ -1881,7 +1882,7 @@ var $ct_array1 = array();
                      // BUT current reported volume is zero (temporary error on exchange side etc, NOT on our app's side),
                      // inform end-user of this probable volume discrepancy being detected.
                      elseif ( $vol_prim_currency_raw >= 0 ) {
-                     $email_vol_summary = '24 hour ' . $vol_describe . $vol_change_text . ' ' . $vol_prim_currency_text . ( $vol_prim_currency_raw == 0 ? ' (probable volume discrepancy detected' . $vol_filter_skipped_text . ')' : '' ) . '.'; 
+                     $email_vol_summary = '24 hour ' . $vol_describe . $vol_change_text . ' ' . $vol_prim_currency_text . ( $vol_prim_currency_raw == 0 ? ' (' . $vol_filter_skipped_text . ')' : '' ) . '.'; 
                      }
                         
                         

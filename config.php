@@ -138,13 +138,14 @@ $ct_conf['comms']['price_alert_freq_max'] = 1; // Can be 0, to have no limits
 ////
 // Block an asset price alert if price retrieved, BUT failed retrieving pair volume (not even a zero was retrieved, nothing)
 // Good for BLOCKING QUESTIONABLE EXCHANGES from bugging you with price alerts, especially when used in combination with the minimum volume filter
-$ct_conf['comms']['price_alert_block_vol_error'] = 'on'; // 'on' / 'off' 
+// (EXCHANGES WITH NO TRADE VOLUME API ARE EXCLUDED [VOLUME SET TO ZERO BEFORE THIS FILTER RUNS])
+$ct_conf['comms']['price_alert_block_vol_error'] = 'off'; // 'on' / 'off' 
 ////
-// Minimum 24 hour volume filter. Only allows sending price alerts if minimum 24 hour volume reached
-// CAN BE 0 TO DISABLE MINIMUM VOLUME FILTERING, NO DECIMALS OR SEPARATORS, NUMBERS ONLY, WITHOUT the [primary currency] prefix symbol: 4500 = $4,500 , 30000 = $30,000 , etc
-// THIS FILTER WILL AUTO-DISABLE IF THERE IS ANY ERROR RETRIEVING DATA ON A CERTAIN MARKET (WHEN NOT EVEN A ZERO IS RECEIVED)
-// WARNING: IF AN EXCHANGE DOES #NOT# PROVIDE TRADE VOLUME API DATA FOR MARKETS, SETTING THIS ABOVE 0 WILL #DISABLE ANY 
-// CONFIGURED PRICE ALERTS# FOR MARKETS ON THAT EXCHANGE, SO USE WITH CARE!
+// Minimum 24 hour trade volume filter. Only allows sending price alerts if minimum 24 hour trade volume reached
+// CAN BE 0 TO DISABLE MINIMUM VOLUME FILTERING, NO DECIMALS OR SEPARATORS, NUMBERS ONLY, WITHOUT the [primary currency] prefix symbol
+// THIS FILTER WILL AUTO-DISABLE IF THERE IS ANY ERROR RETRIEVING VOLUME DATA ON A CERTAIN MARKET (NOT EVEN A ZERO IS RECEIVED ON VOLUME API)
+// WARNING: IF AN EXCHANGE DOES #NOT# PROVIDE TRADE VOLUME API DATA FOR MARKETS, SETTING THIS ABOVE 0 WILL 
+// #DISABLE ANY CONFIGURED PRICE ALERTS# FOR MARKETS ON THAT EXCHANGE, SO USE WITH CARE!
 $ct_conf['comms']['price_alert_min_vol'] = 0;
 
 

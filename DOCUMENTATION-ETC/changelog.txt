@@ -5430,7 +5430,11 @@ MIGRATE YOUR EXISTING SETTINGS TO THE NEW FORMAT.
 
 
 -------------------------------------------------------------------
-5.15.0:
+5.14.5:
+
+-BUG FIX: PHP8 compatibility in SMTP Mailer class (used for price alerts)
+
+-BUG FIX: Markets with no trade volume API data are no longer incorrectly flagged as a trade volume error (optional error filter config no longer blocks price alerts on these markets)
 
 -Graphical interface capability for plugins
 
@@ -5441,6 +5445,8 @@ MIGRATE YOUR EXISTING SETTINGS TO THE NEW FORMAT.
 -New debt-tracker plugin (on tools page, on by default)
 
 -Added Jupiter Aggregator swap markets support
+
+-Revised default configuration
 
 -Housekeeping / code cleanup
 

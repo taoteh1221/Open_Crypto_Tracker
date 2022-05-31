@@ -1,0 +1,15 @@
+
+
+.debt_results {
+color: #808080;
+border: 1px solid #808080;
+border-radius: 8px;
+padding: 8px;
+margin: 16px;
+}
+
+.debt_results_total {
+font-weight: bold;
+margin: 25px;
+color: #808080;
+}

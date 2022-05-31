@@ -20,13 +20,6 @@
 		};
 
 		/**
-		 * Iterator used to make each added
-		 * repeatable element unique
-		 * @type {Number}
-		 */
-		var i = 0;
-
-		/**
 		 * DOM element into which repeatable
 		 * items will be added
 		 * @type {jQuery object}
@@ -48,6 +41,13 @@
 		var total = function () {
 			return $(target).find(settings.itemContainer).length;
 		}();
+
+		/**
+		 * Iterator used to make each added
+		 * repeatable element unique
+		 * @type {Number}
+		 */
+		var i = total > 0 ? total : 0;
 
 
 		/**
