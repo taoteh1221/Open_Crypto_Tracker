@@ -393,7 +393,7 @@ echo '?';
 
 <td class='data border_lb'>
  
-    <select class='browser-default custom-select' name='change_<?=strtolower($asset_symb)?>_mrkt' title='Choose which exchange or defi pool you want.<?=htmlentities($defi_exchange_dropdown_title, ENT_QUOTES)?>' onchange='
+    <select class='browser-default custom-select' name='change_<?=strtolower($asset_symb)?>_mrkt' title='Choose which exchange or defi pool you want.' onchange='
     $("#<?=strtolower($asset_symb)?>_mrkt").val(this.value);
     $("#coin_amnts").submit();
     '>
