@@ -1106,7 +1106,7 @@ var $ct_array = array();
    $chosen_params = array();
    
    
-    	// Message parameter added for desired comm methods (leave any comm method blank to skip sending via that method)
+    	// Message parameters added to $chosen_params for preferred comm methods
     	if ( $preferred_comms == 'all' ) {
     		
     	$chosen_params = array(
@@ -1865,8 +1865,8 @@ var $ct_array = array();
    function sanitize_string($method, $ext_key, $data, $mysqli_connection=false) {
    
     
-        // Leave bold and underline HTML tags only
-        $data = strip_tags($data, '<b><u><B><U>');  
+        // Strip ALL HTML tags
+        $data = strip_tags($data);  
         
         
         /////////// S C A N N I N G   -   S T A R T /////////////////////////////
