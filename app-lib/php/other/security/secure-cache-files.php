@@ -483,19 +483,7 @@ if ( $password_reset_approved || !is_array($stored_admin_login) ) {
 			}
 			
 		
-		// Login now (set admin security cookie / 'auth_hash' session var), before redirect
-				
-		// WE SPLIT THE LOGIN AUTH BETWEEN COOKIE AND SESSION DATA (TO BETTER SECURE LOGIN AUTHORIZATION)
-				
-		$cookie_nonce = $ct_gen->rand_hash(32); // 32 byte
-		
-		$ct_gen->store_cookie('admin_auth_' . $ct_gen->id(), $cookie_nonce, time() + ($ct_conf['power']['admin_cookie_expire'] * 3600) );
-				
-		$_SESSION['admin_logged_in']['auth_hash'] = $ct_gen->admin_hashed_nonce($cookie_nonce, 'force'); // Force set, as we're not logged in fully yet
-				
-		// Redirect to avoid quirky page reloads later on, AND preset the admin login page for good UX
-		header("Location: admin.php");
-		exit;
+		$ct_gen->do_admin_login();
 		
 		}
 		else {

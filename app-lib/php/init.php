@@ -37,6 +37,8 @@ $app_platform = 'web';
 // Set time as UTC for logs etc ('loc_time_offset' in Admin Config GENERAL section can adjust UI / UX timestamps as needed)
 date_default_timezone_set('UTC'); 
 
+$remote_ip = ( isset($_SERVER['REMOTE_ADDR']) ? $_SERVER['REMOTE_ADDR'] : 'localhost' );
+
 
 // If debugging is enabled, turn on all PHP error reporting (BEFORE ANYTHING ELSE RUNS)
 if ( $ct_conf['dev']['debug'] != 'off' ) {
@@ -356,20 +358,24 @@ $interface_login_array = explode("||", $ct_conf['gen']['interface_login']);
 $htaccess_username = $interface_login_array[0];
 $htaccess_password = $interface_login_array[1];
 
-$remote_ip = ( isset($_SERVER['REMOTE_ADDR']) ? $_SERVER['REMOTE_ADDR'] : 'localhost' );
-
 $fetched_feeds = 'fetched_feeds_' . $runtime_mode; // Unique feed fetch telemetry SESSION KEY (so related runtime BROWSER SESSION logic never accidentally clashes)
 
 // If upgrade check enabled / cached var set, set the runtime var for any configured alerts
 $upgrade_check_latest_version = trim( file_get_contents('cache/vars/upgrade_check_latest_version.dat') );
 
-// If we are queued to run a UI alert that an upgrade is available
-$ui_upgrade_alert = json_decode( trim( file_get_contents($base_dir . '/cache/events/ui_upgrade_alert.dat') ) , TRUE);
-
 
 ////////////////////////////////////////////////////////////
 // END of primary vars / arrays (now we can add app logic etc)
 ////////////////////////////////////////////////////////////
+
+
+// Sanitize any user inputs VERY EARLY (for security / compatibility)
+foreach ( $_GET as $scan_get_key => $unused ) {
+$_GET[$scan_get_key] = $ct_gen->sanitize_requests('get', $scan_get_key, $_GET[$scan_get_key]);
+}
+foreach ( $_POST as $scan_post_key => $unused ) {
+$_POST[$scan_post_key] = $ct_gen->sanitize_requests('post', $scan_post_key, $_POST[$scan_post_key]);
+}
 
 
 //////////////////////////////////////////////////////////////

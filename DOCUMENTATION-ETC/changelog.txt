@@ -5434,21 +5434,25 @@ MIGRATE YOUR EXISTING SETTINGS TO THE NEW FORMAT.
 
 -BUG FIX: PHP8 compatibility in SMTP Mailer class (used for price alerts)
 
+-BUG FIX: Upgrade alert in the interface no longer stays frozen (it was unable to close without refreshing the app)
+
 -BUG FIX: Markets with no trade volume API data are no longer incorrectly flagged as a trade volume error (optional error filter config no longer blocks price alerts on these markets)
 
--Graphical interface capability for plugins
+-Admin login alert for Server Edition, by email / text / telegram / alexa (for security, IF you setup any of the related comm channels)
+
+-Sanatization of user input (for security and compatibility)
 
 -Admin area for configuring plugins (work-in-progress)
 
--Hooks for where plugins display in the user interface
+-Graphical interface capability for plugins
 
--New debt-tracker plugin (on tools page, on by default)
+-New debt-tracker plugin (in interface on tools page, on by default)
+
+-Housekeeping / code cleanup and optimization
 
 -Added Jupiter Aggregator swap markets support
 
 -Revised default configuration
-
--Housekeeping / code cleanup
 
 v5.12.2 and higher renames the admin config array. ALL CONFIGURATION SETTING
 VARIABLE NAMES ARE NOW DIFFERENT, USE THE LATEST/UPGRADED CONFIG.PHP, AND

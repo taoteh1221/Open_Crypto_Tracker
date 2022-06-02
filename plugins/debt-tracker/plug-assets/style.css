@@ -1,8 +1,8 @@
 
 
 .debt_results {
-color: #808080;
-border: 1px solid #808080;
+color: #dd7c0d;
+border: 1px solid #dd7c0d;
 border-radius: 8px;
 padding: 8px;
 margin: 16px;
@@ -11,5 +11,5 @@ margin: 16px;
 .debt_results_total {
 font-weight: bold;
 margin: 25px;
-color: #808080;
+color: #dd7c0d;
 }

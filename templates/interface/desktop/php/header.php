@@ -402,27 +402,49 @@ header('Content-type: text/html; charset=' . $ct_conf['dev']['charset_default'])
 		<div class='align_left' id='content_wrapper'>
 				
 				<?php
-				if ( $ui_upgrade_alert['run'] == 'yes' ) {
+
+                // If we are queued to run a UI alert that an upgrade is available
+                // VAR MUST BE SET RIGHT BEFORE CHECK ON DATA FROM THIS CACHE FILE, AS IT CAN BE UPDATED #AFTER# APP INIT!
+                $ui_upgrade_alert = json_decode( file_get_contents($base_dir . '/cache/events/ui_upgrade_alert.dat') , true);
+                
+                
+				if ( isset($ui_upgrade_alert) && $ui_upgrade_alert['run'] == 'yes' ) {
 					
 					// If this isn't google or bing spidering the web, show the upgrade notice one time until the next reminder period
 					if ( stristr($_SERVER['HTTP_USER_AGENT'], 'googlebot') == false && stristr($_SERVER['HTTP_USER_AGENT'], 'bingbot') == false ) {
+					    
+                    $url = $base_url . '/cache/events/ui_upgrade_alert.dat';
+                    
 				    ?>
 				    
+                	<script>
+                	
+                	// Workaround for #VERY ODD# PHP v8.0.1 BUG, WHEN TRYING TO ECHO $ui_upgrade_alert['message']
+                	$.get( "<?=$url?>", function(data) {
+                	    
+                	upgrade_json = JSON.parse(data);
+                	
+                	upgrade_message = upgrade_json.message.replace(/(?:\r\n|\r|\n)/g, '<br />'); // Change line breaks to HTML break tags
+                	
+                	$( "#ui_upgrade_message" ).html('<strong>Upgrade Notice:</strong> ' + upgrade_message);
+                	
+                	});
+                	
+                	</script>
+	
     				<div class="alert alert-warning" role="alert">
       					<button type="button" class="close" data-dismiss="alert" aria-label="Close">
         					<span aria-hidden="true">&times;</span>
       					</button>
-    				  	<strong>Upgrade Notice:</strong> <?=$ui_upgrade_alert['message']?> 
+    				  	<div id='ui_upgrade_message'></div>
     				</div>
 				
 				    <?php
 				
     				// Set back to 'run' => 'no' 
     				// (will automatically re-activate in upgrade-check.php at a later date, if another reminder is needed after X days)
-    				$ui_upgrade_alert = array(
-    										  'run' => 'no',
-    										  'message' => null
-    										  );
+    				// LEAVE 'message' ALONE, SINCE WE ARE USING JAVASCRIPT IF WE BLANK IT OUT, NO MESSAGE WILL EXIST BY THE TIME JAVASCIPT AJAX GETS THE DATA!
+    				$ui_upgrade_alert['run'] = 'no';
     						
     				$ct_cache->save_file($base_dir . '/cache/events/ui_upgrade_alert.dat', json_encode($ui_upgrade_alert, JSON_PRETTY_PRINT) );
 				

@@ -47,9 +47,11 @@ $debt_form_action = $ct_gen->start_page($plug_conf[$this_plug]['ui_location']); 
                         
                         $all_debt = array();
                         
-                        $loop=0;
-                            
+                        
+                            $loop=0;
                             foreach ( $_POST['accounts_labels'] as $key => $val ) {
+                        
+                            $val['amount'] = $ct_var->strip_formatting($val['amount']);
                             
                             // Get results for this debt account
                             $all_debt[$key] = $plug_class[$this_plug]->apr_calc($val['account'], $val['amount'], $val['apr']);
@@ -66,7 +68,7 @@ $debt_form_action = $ct_gen->start_page($plug_conf[$this_plug]['ui_location']); 
                       			
                       			<div class="extra_margins col-lg-2">
                       			<label class='blue' for="amount_<?=$key?>">Debt Amount <?=$ct_conf['power']['btc_currency_mrkts'][ $ct_conf['gen']['btc_prim_currency_pair'] ]?></label>
-                      			<input type="text" class="span2 form-control" name="accounts_labels[<?=$key?>][amount]" value="<?=$val['amount']?>" id="amount_<?=$key?>">
+                      			<input type="text" class="span2 form-control" name="accounts_labels[<?=$key?>][amount]" value="<?=number_format($val['amount'], 2, '.', ',')?>" id="amount_<?=$key?>">
                     			</div>
                 			
                       			<div class="extra_margins col-lg-2">
@@ -87,8 +89,7 @@ $debt_form_action = $ct_gen->start_page($plug_conf[$this_plug]['ui_location']); 
                             $loop = $loop + 1;
                             
                             }
-                            
-                        $loop=null;
+                            $loop=null;
                         
                         }
                         ?>

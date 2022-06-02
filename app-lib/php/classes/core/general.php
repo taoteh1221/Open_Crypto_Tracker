@@ -484,6 +484,39 @@ var $ct_array = array();
    ////////////////////////////////////////////////////////
    
    
+   function sanitize_requests($method, $ext_key, $data, $mysqli_connection=false) {
+       
+   global $remote_ip;
+   
+   
+        if ( is_array($data) ) {
+        
+            foreach ( $data as $key => $val ) {
+                
+                if ( is_array($val) ) {
+                $data[$key] = $this->sanitize_requests($method, $key, $val, false);
+                }
+                else {
+                $data[$key] = $this->sanitize_string($method, $key, $val, false);
+                }
+            
+            }
+        
+        }
+        else {
+        $data = $this->sanitize_string($method, $ext_key, $data, $mysqli_connection);
+        }
+   
+   
+   return $data;
+        
+   }
+   
+   
+   ////////////////////////////////////////////////////////
+   ////////////////////////////////////////////////////////
+   
+   
    function rand_hash($num_bytes) {
    
    global $base_dir;
@@ -1062,6 +1095,61 @@ var $ct_array = array();
    return $random_str;
    
    }
+
+   
+   ////////////////////////////////////////////////////////
+   ////////////////////////////////////////////////////////
+   
+   
+   function preferred_comms($preferred_comms, $available_params) {
+   
+   $chosen_params = array();
+   
+   
+    	// Message parameter added for desired comm methods (leave any comm method blank to skip sending via that method)
+    	if ( $preferred_comms == 'all' ) {
+    		
+    	$chosen_params = array(
+                                'notifyme' => $available_params['notifyme'],
+                                'telegram' => $available_params['telegram'],
+                                'text' => array(
+                                               'message' => $available_params['text']['message'],
+                                               'charset' => $available_params['text']['charset']
+                                               ),
+                                'email' => array(
+                                                'subject' => $available_params['email']['subject'],
+                                                'message' => $available_params['email']['message']
+                                                )
+                                );
+    	
+    	}
+    	elseif ( $preferred_comms == 'email' ) {
+    		
+    	$chosen_params['email'] = array(
+            			'subject' => $available_params['email']['subject'],
+            			'message' => $available_params['email']['message']
+            			);
+    	
+    	}
+    	elseif ( $preferred_comms == 'text' ) {
+    	
+    	$chosen_params['text'] = array(
+    			       'message' => $available_params['text']['message'],
+    			       'charset' => $available_params['text']['charset']
+    			       );
+    	
+    	}
+    	elseif ( $preferred_comms == 'notifyme' ) {
+    	$chosen_params['notifyme'] = $available_params['notifyme'];
+    	}
+    	elseif ( $preferred_comms == 'telegram' ) {
+    	$chosen_params['telegram'] = $available_params['telegram'];
+    	}					
+
+
+   return $chosen_params;
+   
+   }
    
    
    ////////////////////////////////////////////////////////
@@ -1079,7 +1167,7 @@ var $ct_array = array();
       $this->log('system_warning', $system_warnings[$type]);
       
           if ( isset($system_info['distro_name']) ) {
-          $system_info = "\n\nSystem Info: " . $system_info['distro_name'] . ( isset($system_info['distro_version']) ? ' ' . $system_info['distro_version'] : '' );
+          $system_info = "\n\nApp Server System Info: " . $system_info['distro_name'] . ( isset($system_info['distro_version']) ? ' ' . $system_info['distro_version'] : '' );
           }
       
       $email_msg = 'Open Crypto Tracker detected an app server issue: ' . $system_warnings[$type] . '. (warning thresholds are adjustable in the Admin Config Power User section) ' . $system_info;
@@ -1768,6 +1856,80 @@ var $ct_array = array();
       
    
    }
+   
+   
+   ////////////////////////////////////////////////////////
+   ////////////////////////////////////////////////////////
+   
+   
+   function sanitize_string($method, $ext_key, $data, $mysqli_connection=false) {
+   
+    
+        // Leave bold and underline HTML tags only
+        $data = strip_tags($data, '<b><u><B><U>');  
+        
+        
+        /////////// S C A N N I N G   -   S T A R T /////////////////////////////
+        
+        // Scan for malicious content
+        $scan = $data;
+        
+        // Scan lowercase
+        $scan = strtolower($scan);
+        
+        // Scan for potentially hidden HTML tags, then scan for remaining scripting
+        $html_and_js_events = array(
+                                   ">",
+                                   "&gt;",
+                                   "html",
+                                   "script",
+                                   "css",
+                                   "iframe",
+                                   "href",
+                                   "src",
+                                   "onclick",
+                                   "onmouse",
+                                   "onresize",
+                                   "onchange",
+                                   "onabort",
+                                   "onblur",
+                                   "ondblclick",
+                                   "ondragdrop",
+                                   "onerror",
+                                   "onfocus",
+                                   "onkey",
+                                   "onload",
+                                   "onmove",
+                                   "onreset",
+                                   "onselect",
+                                   "onsubmit",
+                                   "onunload",
+                                   );
+                       
+                           
+        $scan = str_replace($html_and_js_events, "", $scan, $count);
+        
+        
+           // Exit function if html or scripting is detected
+           if ( $count > 0 ) {
+           $this->log('security_error', 'HTML / script code blocked in request data (from ' . $remote_ip . '): ["' . $ext_key . '"]');
+           return 'HTML / CSS / script not allowed.';
+           }
+           
+           
+        /////////// S C A N N I N G   -   E N D /////////////////////////////
+        
+        
+           // a mySQLi connection is required before using this function
+           // Escapes special characters in a string for use in an SQL statement
+           if ( $mysqli_connection ) {
+           $data = mysqli_real_escape_string($mysqli_connection, $data);
+           }
+        
+        
+        return $data;
+        
+   }
   
   
    ////////////////////////////////////////////////////////
@@ -2048,6 +2210,86 @@ var $ct_array = array();
    // Send notifications
    @$ct_cache->queue_notify($send_params);
          
+   
+   }
+
+   
+   ////////////////////////////////////////////////////////
+   ////////////////////////////////////////////////////////
+   
+   
+   // ONLY #SETS# ADMIN LOGIN, DOES #NOT# CHECK USER / PASS OR RESET AUTHORIZATION,
+   // THAT #MUST# BE DONE WITHIN THE LOGIC THAT CALLS THIS FUNCTION, #BEFORE# CALLING THIS FUNCTION!
+   function do_admin_login() {
+       
+   global $ct_conf, $ct_cache, $remote_ip, $system_info, $base_url, $app_edition;
+   
+   // Login now (set admin security cookie / 'auth_hash' session var), before redirect
+				
+   // WE SPLIT THE LOGIN AUTH BETWEEN COOKIE AND SESSION DATA (TO BETTER SECURE LOGIN AUTHORIZATION)
+				
+   $cookie_nonce = $this->rand_hash(32); // 32 byte
+		
+   $this->store_cookie('admin_auth_' . $this->id(), $cookie_nonce, time() + ($ct_conf['power']['admin_cookie_expire'] * 3600) );
+				
+   $_SESSION['admin_logged_in']['auth_hash'] = $this->admin_hashed_nonce($cookie_nonce, 'force'); // Force set, as we're not logged in fully yet
+   
+   
+       // If server edition, and admin login notifications are on
+       if ( $app_edition == 'server' && $ct_conf['comms']['login_alert'] != 'off' ) {
+
+      
+            if ( isset($system_info['distro_name']) ) {
+            $system_info = "\n\nApp Server System Info: " . $system_info['distro_name'] . ( isset($system_info['distro_version']) ? ' ' . $system_info['distro_version'] : '' );
+            }
+              
+                            
+       // Build the different messages, configure comm methods, and send messages
+                            
+       $email_msg = 'New admin login from: ' . $remote_ip . $system_info;
+                            
+       // Were're just adding a human-readable timestamp to smart home (audio) alerts
+       $notifyme_msg = $email_msg . ' Timestamp: ' . $this->time_date_format($ct_conf['gen']['loc_time_offset'], 'pretty_time') . '.';
+                            
+       $text_msg = $email_msg;
+       
+       $app_location = "\n\n" . 'App Location: ' . $base_url;
+                        
+       // Message parameter added for desired comm methods (leave any comm method blank to skip sending via that method)
+                  
+       // Minimize function calls
+       $encoded_text_alert = $this->charset_encode($text_msg); // Unicode support included for text messages (emojis / asian characters / etc )
+    			
+       $admin_login_send_params = array(
+                                        'notifyme' => $notifyme_msg,
+                                        'telegram' => $email_msg . $app_location,
+                                        'text' => array(
+                                                       'message' => $encoded_text_alert['content_output'],
+                                                       'charset' => $encoded_text_alert['charset']
+                                                       ),
+                                        'email' => array(
+                                                        'subject' => 'New Admin Login From ' . $remote_ip,
+                                                        'message' => $email_msg . $app_location
+                                                        )
+                                        );
+    				
+    		    
+       // Only send to comm channels the user prefers, based off the config setting $ct_conf['comms']['login_alert']
+       $preferred_comms = $this->preferred_comms($ct_conf['comms']['login_alert'], $admin_login_send_params);
+    			
+       // Queue notifications
+       @$ct_cache->queue_notify($preferred_comms);
+        
+        
+       }
+   
+   
+   // Log errors, send notifications BEFORE reload
+   $error_log = $ct_cache->error_log();
+   $ct_cache->send_notifications();
+				
+   header("Location: admin.php");
+   exit;
    
    }
    
@@ -3097,57 +3339,29 @@ var $ct_array = array();
        
          // Send out alerts
          if ( $misconfigured == 1 || $ct_conf['comms']['proxy_alert_checkup_ok'] == 'include' ) {
+             
+         // Minimize function calls
+         $encoded_text_alert = $this->charset_encode($text_alert); // Unicode support included for text messages (emojis / asian characters / etc )
                            
-                           
-             // Message parameter added for desired comm methods (leave any comm method blank to skip sending via that method)
-             if ( $ct_conf['comms']['proxy_alert'] == 'all' ) {
-             
-             // Minimize function calls
-             $encoded_text_alert = $this->charset_encode($text_alert); // Unicode support included for text messages (emojis / asian characters / etc )
-              
-                  $send_params = array(
-                         'notifyme' => $notifyme_alert,
-                         'telegram' => $email_alert,
-                         'text' => array(
-                               'message' => $encoded_text_alert['content_output'],
-                               'charset' => $encoded_text_alert['charset']
-                               ),
-                         'email' => array(
-                               'subject' => 'A Proxy Was Unresponsive',
-                               'message' => $email_alert
-                               )
-                         );
+         $send_params = array(
+                             'notifyme' => $notifyme_alert,
+                             'telegram' => $email_alert,
+                             'text' => array(
+                                   'message' => $encoded_text_alert['content_output'],
+                                   'charset' => $encoded_text_alert['charset']
+                                   ),
+                             'email' => array(
+                                   'subject' => 'A Proxy Was Unresponsive',
+                                   'message' => $email_alert
+                                   )
+                              );
                   
-             }
-             elseif ( $ct_conf['comms']['proxy_alert'] == 'email' ) {
-              
-                  $send_params['email'] = array(
-                            'subject' => 'A Proxy Was Unresponsive',
-                            'message' => $email_alert
-                            );
+		 
+		 // Only send to comm channels the user prefers, based off the config setting $ct_conf['comms']['proxy_alert']
+		 $preferred_comms = $this->preferred_comms($ct_conf['comms']['proxy_alert'], $send_params);			
                   
-             }
-             elseif ( $ct_conf['comms']['proxy_alert'] == 'text' ) {
-             
-             // Minimize function calls
-             $encoded_text_alert = $this->charset_encode($text_alert); // Unicode support included for text messages (emojis / asian characters / etc )
-             
-                  $send_params['text'] = array(
-                            'message' => $encoded_text_alert['content_output'],
-                            'charset' => $encoded_text_alert['charset']
-                            );
-                  
-             }
-             elseif ( $ct_conf['comms']['proxy_alert'] == 'notifyme' ) {
-                  $send_params['notifyme'] = $notifyme_alert;
-             }
-             elseif ( $ct_conf['comms']['proxy_alert'] == 'telegram' ) {
-                  $send_params['telegram'] = $email_alert;
-             }
-                  
-                  
-         // Send notifications
-         @$this->queue_notify($send_params);
+         // Queue notifications
+         @$ct_cache->queue_notify($preferred_comms);
                   
          }
                

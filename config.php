@@ -55,7 +55,7 @@ $ct_conf['comms']['comms_pause'] = 'off'; // 'on' / 'off' (Default = 'off' [comm
 // Enable / disable daily upgrade checks / alerts (DEFAULT: ALL USER-ACTIVATED COMM CHANNELS)
 // (Checks latest release version via github.com API endpoint value "tag_name" 
 // @ https://api.github.com/repos/taoteh1221/Open_Crypto_Tracker/releases/latest)
-// Choosing 'all' will send to all properly-configured communication channels, and automatically skip any not properly setup
+// Choosing 'all' will send to all properly-configured communication channels (and automatically skip any not properly setup)
 $ct_conf['comms']['upgrade_alert'] = 'all'; // 'off' (disabled) / 'all' / 'ui' (web interface) / 'email' / 'text' / 'notifyme' / 'telegram'
 ////
 // Wait X days between upgrade reminders
@@ -162,8 +162,13 @@ $ct_conf['comms']['news_feed_email_entries_show'] = 20; // (default = 20)
 $ct_conf['comms']['logs_email'] = 3; // (default = 3)
 
 
+// Enable / disable admin login alerts (DEFAULT: ALL USER-ACTIVATED COMM CHANNELS)
+// Choosing 'all' will send to all properly-configured communication channels, (and automatically skip any not properly setup)
+$ct_conf['comms']['login_alert'] = 'all'; // 'off' (disabled) / 'all' / 'email' / 'text' / 'notifyme' / 'telegram'
+
+
 // Alerts for failed proxy data connections (#ONLY USED# IF proxies are enabled further down in PROXY CONFIGURATION). 
-// Choosing 'all' will send to all properly-configured communication channels, and automatically skip any not properly setup
+// Choosing 'all' will send to all properly-configured communication channels (and automatically skip any not properly setup)
 $ct_conf['comms']['proxy_alert'] = 'email'; // 'off' (disabled) / 'all' / 'email' / 'text' / 'notifyme' / 'telegram'
 ////
 $ct_conf['comms']['proxy_alert_freq_max'] = 1; // Re-allow same proxy alert(s) after X HOURS (per ip/port pair, can be 0)

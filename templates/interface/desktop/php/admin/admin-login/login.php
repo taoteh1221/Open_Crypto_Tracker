@@ -21,20 +21,7 @@ if ( $_POST['admin_submit_login'] ) {
 				// To be safe, don't use trim() on certain strings with arbitrary non-alphanumeric characters here
 				if ( $ct_gen->id() != false && isset($_SESSION['nonce']) && trim($_POST['admin_username']) != '' && $_POST['admin_password'] != '' 
 				&& $_POST['admin_username'] == $stored_admin_login[0] && $ct_gen->check_pepper_hashed_pass($_POST['admin_password'], $stored_admin_login[1]) == true ) {
-					
-				// Login now (set admin security cookie / 'auth_hash' session var), before redirect
-				
-				// WE SPLIT THE LOGIN AUTH BETWEEN COOKIE AND SESSION DATA (TO BETTER SECURE LOGIN AUTHORIZATION)
-				
-				$cookie_nonce = $ct_gen->rand_hash(32); // 32 byte
-		
-				$ct_gen->store_cookie('admin_auth_' . $ct_gen->id(), $cookie_nonce, time() + ($ct_conf['power']['admin_cookie_expire'] * 3600) );
-				
-				$_SESSION['admin_logged_in']['auth_hash'] = $ct_gen->admin_hashed_nonce($cookie_nonce, 'force'); // Force set, as we're not logged in fully yet
-				
-				header("Location: admin.php");
-				exit;
-				
+                $ct_gen->do_admin_login();
 				}
 				else {
 				$login_result['error'][] = "Wrong username / password.";

@@ -115,9 +115,9 @@ $hash_check = md5($_GET['data_set']);
 		$result = array('error' => 'Endpoint does not exist: ' . $data_set_array[0]);
 		
 		$ct_gen->log(
-									'int_api_error', 
-									'From ' . $remote_ip . ' (Endpoint does not exist: ' . $data_set_array[0] . ')', 'uri: ' . $_SERVER['REQUEST_URI'] . ';'
-									);
+					'int_api_error', 
+					'From ' . $remote_ip . ' (Endpoint does not exist: ' . $data_set_array[0] . ')', 'uri: ' . $_SERVER['REQUEST_URI'] . ';'
+					);
 		
 		}
 	
