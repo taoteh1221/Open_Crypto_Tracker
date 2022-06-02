@@ -25,8 +25,7 @@ usleep(100000); // Wait 0.1 seconds after possible directory creation
     
     // Recreate /cache/.htaccess to restrict web snooping of cache contents, if the cache directory was deleted / recreated
     if ( !file_exists($base_dir . '/cache/.htaccess') ) {
-    // DIFFERENT FILENAME TEMPLATE (deny-all-htaccess-cache-main.template) FOR SOME ACCESS EXCEPTIONS!!!
-    $ct_cache->save_file($base_dir . '/cache/.htaccess', file_get_contents($base_dir . '/templates/back-end/deny-all-htaccess-cache-main.template') ); 
+    $ct_cache->save_file($base_dir . '/cache/.htaccess', file_get_contents($base_dir . '/templates/back-end/deny-all-htaccess.template') ); 
     }
     
     // Recreate /cache/index.php to restrict web snooping of backup contents, if the cache directory was deleted / recreated
@@ -102,8 +101,8 @@ usleep(100000); // Wait 0.1 seconds after possible directory creation
     ///////////////////////////////////////////
     
     // Recreate /plugins/.htaccess to restrict web snooping of plugins contents, if the plugins directory was deleted / recreated
-    if ( !file_exists($base_dir . '/plugins/.htaccess') ) {
     // DIFFERENT FILENAME TEMPLATE (deny-all-htaccess-plugins.template) FOR SOME ACCESS EXCEPTIONS!!!
+    if ( !file_exists($base_dir . '/plugins/.htaccess') ) {
     $ct_cache->save_file($base_dir . '/plugins/.htaccess', file_get_contents($base_dir . '/templates/back-end/deny-all-htaccess-plugins.template') ); 
     }
     

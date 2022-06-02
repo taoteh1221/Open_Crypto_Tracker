@@ -456,11 +456,23 @@ gc_collect_cycles(); // Clean memory cache
     </div>
      <br /> <br />
      
- 
+            	
+<!--
+Workaround for #VERY ODD# PHP v8.0.1 BUG, WHEN TRYING TO ECHO $ui_upgrade_alert['message'] IN HEADER.PHP
+(so we render it in footer.php, near the end of rendering)
+-->
+<div id="app_upgrade_alert" style='display: none;'>
+<?php
+// For security, only display if a UI upgrade alert notice was triggered
+if ( $display_upgrade_alert ) {
+echo nl2br($ui_upgrade_alert['message']);
+}
+?>
+</div>
+    
 
 <!-- https://v4-alpha.getbootstrap.com/getting-started/introduction/#starter-template -->
 <script src="app-lib/js/jquery/bootstrap.min.js"></script>
-
 </body>
 </html>
 

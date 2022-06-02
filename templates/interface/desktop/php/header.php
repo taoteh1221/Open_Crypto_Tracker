@@ -409,27 +409,21 @@ header('Content-type: text/html; charset=' . $ct_conf['dev']['charset_default'])
                 
                 
 				if ( isset($ui_upgrade_alert) && $ui_upgrade_alert['run'] == 'yes' ) {
+				    
 					
 					// If this isn't google or bing spidering the web, show the upgrade notice one time until the next reminder period
 					if ( stristr($_SERVER['HTTP_USER_AGENT'], 'googlebot') == false && stristr($_SERVER['HTTP_USER_AGENT'], 'bingbot') == false ) {
-					    
-                    $url = $base_url . '/cache/events/ui_upgrade_alert.dat';
-                    
+				
+                    // Workaround for #VERY ODD# PHP v8.0.1 BUG, WHEN TRYING TO ECHO $ui_upgrade_alert['message'] IN HEADER.PHP
+                    // (so we render it in footer.php, near the end of rendering)
+    				$display_upgrade_alert = true;
 				    ?>
 				    
                 	<script>
-                	
-                	// Workaround for #VERY ODD# PHP v8.0.1 BUG, WHEN TRYING TO ECHO $ui_upgrade_alert['message']
-                	$.get( "<?=$url?>", function(data) {
-                	    
-                	upgrade_json = JSON.parse(data);
-                	
-                	upgrade_message = upgrade_json.message.replace(/(?:\r\n|\r|\n)/g, '<br />'); // Change line breaks to HTML break tags
-                	
-                	$( "#ui_upgrade_message" ).html('<strong>Upgrade Notice:</strong> ' + upgrade_message);
-                	
-                	});
-                	
+                	// Render after page loads
+                	$(document).ready(function(){
+                    $('#ui_upgrade_message').html( $('#app_upgrade_alert').html() );
+                    });
                 	</script>
 	
     				<div class="alert alert-warning" role="alert">
@@ -449,6 +443,7 @@ header('Content-type: text/html; charset=' . $ct_conf['dev']['charset_default'])
     				$ct_cache->save_file($base_dir . '/cache/events/ui_upgrade_alert.dat', json_encode($ui_upgrade_alert, JSON_PRETTY_PRINT) );
 				
 					}
+					
 					
 				}
 				?>

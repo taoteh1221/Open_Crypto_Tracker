@@ -48,8 +48,13 @@ error_reporting($ct_conf['init']['error_reporting']);
 ////////////////////////////////////////
 
 
-// Pause sending out all communications (email / text / telegram / alexa / etc), so they are NOT sent to you anymore UNTIL you un-pause them
+// Pause sending out ALL communications (email / text / telegram / alexa / etc), so they are NOT sent to you anymore UNTIL you un-pause them
 $ct_conf['comms']['comms_pause'] = 'off'; // 'on' / 'off' (Default = 'off' [comms are sent out normally])
+
+
+// Enable / disable admin login alerts (DEFAULT: ALL USER-ACTIVATED COMM CHANNELS)
+// Choosing 'all' will send to all properly-configured communication channels, (and automatically skip any not properly setup)
+$ct_conf['comms']['login_alert'] = 'all'; // 'off' (disabled) / 'all' / 'email' / 'text' / 'notifyme' / 'telegram'
 
 
 // Enable / disable daily upgrade checks / alerts (DEFAULT: ALL USER-ACTIVATED COMM CHANNELS)
@@ -62,71 +67,10 @@ $ct_conf['comms']['upgrade_alert'] = 'all'; // 'off' (disabled) / 'all' / 'ui' (
 $ct_conf['comms']['upgrade_alert_reminder'] = 7; // (only used if upgrade check is enabled above)
 
 
-// IF SMTP EMAIL SENDING --NOT-- USED, FROM email should be REAL address on the website domain, or risk having email sent to junk folder
-// IF SMTP EMAIL SENDING --IS-- USED, FROM EMAIL MUST MATCH EMAIL ADDRESS associated with SMTP login (SMTP Email configuration is below this setting)
-$ct_conf['comms']['from_email'] = ''; // #SHOULD BE SET# to avoid email going to spam / junk
+// Enable / disable price alerts (DEFAULT: ALL USER-ACTIVATED COMM CHANNELS)
+// Choosing 'all' will send to all properly-configured communication channels, (and automatically skip any not properly setup)
+$ct_conf['comms']['price_alert'] = 'all'; // 'off' (disabled) / 'all' / 'email' / 'text' / 'notifyme' / 'telegram'
 ////
-$ct_conf['comms']['to_email'] = ''; // #MUST BE SET# for price alerts and other email features
-
-
-// Use SMTP authentication TO SEND EMAIL, if your IP has no reverse lookup that matches the email domain name (on your home network etc)
-// #REQUIRED WHEN INSTALLED ON A HOME NETWORK#, OR ALL YOUR EMAIL ALERTS WILL BE BLACKHOLED / SEEN AS SPAM EMAIL BY EMAIL SERVERS
-// If SMTP credentials / configuration is filled in, BUT not setup properly, APP EMAILING WILL FAIL
-// !!USE A THROWAWAY ACCOUNT ONLY!! If web server is hacked, HACKER WOULD THEN HAVE ACCESS YOUR EMAIL LOGIN FROM THIS FILE!!
-// CAN BE BLANK (PHP's built-in mail function will be automatically used to send email instead)
-$ct_conf['comms']['smtp_login'] = ''; //  CAN BE BLANK. This format MUST be used: 'username||password'
-////
-// SMTP Server examples (protocol auto-detected / used based off port number): 
-// 'example.com:25' (non-encrypted), 'example.com:465' (ssl-encrypted), 'example.com:587' (tls-encrypted)
-$ct_conf['comms']['smtp_server'] = ''; // CAN BE BLANK. This format MUST be used: 'domain_or_ip:port_number' 
-
-
-// For alert texts to mobile phone numbers. 
-// Attempts to email the text if a SUPPORTED MOBILE TEXTING NETWORK name is set, AND no textbelt / textlocal config is setup.
-// SMTP-authenticated email sending MAY GET THROUGH TEXTING SERVICE CONTENT FILTERS #BETTER# THAN USING PHP'S BUILT-IN EMAILING FUNCTION
-// SEE FURTHER DOWN IN THIS CONFIG FILE, FOR A LIST OF SUPPORTED MOBILE TEXTING NETWORK PROVIDER NAMES 
-// IN THE EMAIL-TO-MOBILE-TEXT CONFIG SECTION (the "network name keys" in the $ct_conf['mob_net_txt_gateways'] variables array)
-// CAN BE BLANK. Country code format MAY NEED TO BE USED (depending on your mobile network)
-// skip_network_name SHOULD BE USED IF USING textbelt / textlocal BELOW
-// 'phone_number||network_name_key' (examples: '12223334444||virgin_us' / '12223334444||skip_network_name')
-$ct_conf['comms']['to_mobile_text'] = '';
-
-
-// Do NOT use textbelt AND textlocal together. Leave one setting blank, OR IT WILL DISABLE USING BOTH.
-// LEAVE textbelt AND textlocal BOTH BLANK to use a mobile text gateway set ABOVE
-
-// CAN BE BLANK. For asset price alert textbelt notifications. Setup: https://textbelt.com/
-$ct_conf['comms']['textbelt_apikey'] = '';
-
-
-// CAN BE BLANK. For asset price alert textlocal notifications. Setup: https://www.textlocal.com/integrations/api/
-$ct_conf['comms']['textlocal_account'] = ''; // This format MUST be used: 'username||hash_code'
-
-
-// For notifyme / alexa notifications (sending Alexa devices notifications for free). 
-// CAN BE BLANK. Setup: http://www.thomptronics.com/notify-me
-// (NOTE: THIS APP'S BUILT-IN QUEUE SYSTEM THROTTLES / SENDS OUT 6 ALERTS EVERY 6 MINUTES MAXIMUM FOR NOTIFYME ALERTS,
-// TO STAY WITHIN NOTIFYME API MESSAGE LIMITS, SO YOU ALWAYS STILL GET ALL YOUR ALERTS, JUST SLIGHTLY DELAYED)
-$ct_conf['comms']['notifyme_accesscode'] = '';
-
-
-// Sending alerts to your own telegram bot chatroom. 
-// (USEFUL IF YOU HAVE ISSUES SETTING UP MOBILE TEXT ALERTS, INCLUDING EMOJI / UNICODE CHARACTER ENCODING)
-// Setup: https://core.telegram.org/bots , OR JUST SEARCH / VISIT "BotFather" in the telegram app
-// YOU MUST SETUP A TELEGRAM USERNAME #FIRST / BEFORE SETTING UP THE BOT#, IF YOU HAVEN'T ALREADY (IN THE TELEGRAM APP SETTINGS)
-// SET UP YOUR BOT WITH "BotFather", AND SAVE YOUR BOT NAME / USERNAME / ACCESS TOKEN / BOT CHATROOM LINK
-// VISIT THE BOT CHATROOM, #SEND THE MESSAGE "/start" TO THIS CHATROOM# (THIS WILL CREATE USER CHAT DATA THE APP NEEDS)
-// THE USER CHAT DATA #IS REQUIRED# FOR THIS APP TO INITIALLY DETERMINE AND SECURELY SAVE YOU TELEGRAM USER'S CHAT ID
-// #DO NOT DELETE THE BOT CHATROOM IN THE TELEGRAM APP, OR YOU WILL STOP RECEIVING MESSAGES FROM THE BOT#
-$ct_conf['comms']['telegram_your_username'] = ''; // Your telegram username (REQUIRED, setup in telegram app settings)
-////
-$ct_conf['comms']['telegram_bot_username'] = '';  // Your bot's username
-////
-$ct_conf['comms']['telegram_bot_name'] = ''; // Your bot's human-readable name (example: 'My Alerts Bot')
-////
-$ct_conf['comms']['telegram_bot_token'] = '';  // Your bot's access token
-
-
 // PRICE ALERTS SETUP REQUIRES A CRON JOB RUNNING ON YOUR WEB SERVER (see README.txt for cron job setup information) 
 // Price alerts will send to all properly-configured communication channels, and automatically skip any not properly setup
 // Price percent change to send alerts for (WITHOUT percent sign: 15.75 = 15.75%). Sends alerts when percent change reached (up or down)
@@ -149,22 +93,17 @@ $ct_conf['comms']['price_alert_block_vol_error'] = 'off'; // 'on' / 'off'
 $ct_conf['comms']['price_alert_min_vol'] = 0;
 
 
+// Email logs every X days. 
+// 0 to disable. Email to / from !MUST BE SET!, MAY NOT SEND IN TIMELY FASHION WITHOUT A CRON JOB
+$ct_conf['comms']['logs_email'] = 3; // (default = 3)
+
+
 // Every X days email a list of #NEW# RSS feed posts. 
 // 0 to disable. Email to / from !MUST BE SET!
 $ct_conf['comms']['news_feed_email_freq'] = 3; // (default = 3)
 ////
 // MAXIMUM #NEW# RSS feed entries to include (per-feed) in news feed email (less then 'news_feed_email_freq' days old)
 $ct_conf['comms']['news_feed_email_entries_show'] = 20; // (default = 20)
-
-
-// Email logs every X days. 
-// 0 to disable. Email to / from !MUST BE SET!, MAY NOT SEND IN TIMELY FASHION WITHOUT A CRON JOB
-$ct_conf['comms']['logs_email'] = 3; // (default = 3)
-
-
-// Enable / disable admin login alerts (DEFAULT: ALL USER-ACTIVATED COMM CHANNELS)
-// Choosing 'all' will send to all properly-configured communication channels, (and automatically skip any not properly setup)
-$ct_conf['comms']['login_alert'] = 'all'; // 'off' (disabled) / 'all' / 'email' / 'text' / 'notifyme' / 'telegram'
 
 
 // Alerts for failed proxy data connections (#ONLY USED# IF proxies are enabled further down in PROXY CONFIGURATION). 
@@ -178,6 +117,75 @@ $ct_conf['comms']['proxy_alert_runtime'] = 'cron'; // (default = 'cron')
 ////
 // Include or ignore proxy alerts if proxy checkup went OK? (after flagged, started working again when checked)
 $ct_conf['comms']['proxy_alert_checkup_ok'] = 'include'; // 'include' / 'ignore' 
+
+
+// ~~~~~~~~~~~~~~~  C O M M   C H A N N E L S   S E T U P   (email, text, alexa, telegram, etc)  ~~~~~~~~~~~~~~~
+
+// Use SMTP authentication TO SEND EMAIL, if your IP has no reverse lookup that matches the email domain name (on your home network etc)
+// #REQUIRED WHEN INSTALLED ON A HOME NETWORK#, OR ALL YOUR EMAIL ALERTS WILL BE BLACKHOLED / SEEN AS SPAM EMAIL BY EMAIL SERVERS!
+// If SMTP credentials / configuration is filled in, BUT not setup properly, APP EMAILING WILL FAIL!
+// !!USE A THROWAWAY ACCOUNT ONLY!! If web server is hacked, HACKER WOULD THEN HAVE ACCESS YOUR EMAIL LOGIN FROM THIS FILE!!
+// CAN BE BLANK (PHP's built-in mail function will be automatically used to send email instead)
+$ct_conf['comms']['smtp_login'] = ''; //  CAN BE BLANK. This format MUST be used: 'username||password'
+////
+// SMTP Server examples (protocol auto-detected / used based off port number): 
+// 'example.com:25' (non-encrypted), 'example.com:465' (ssl-encrypted), 'example.com:587' (tls-encrypted)
+$ct_conf['comms']['smtp_server'] = ''; // CAN BE BLANK. This format MUST be used: 'domain_or_ip:port_number' 
+
+
+// IF SMTP EMAIL SENDING --NOT-- USED, FROM email should be REAL address on the website domain, or risk having email sent to junk folder
+// IF SMTP EMAIL SENDING --IS-- USED, FROM EMAIL MUST MATCH EMAIL ADDRESS associated with SMTP login (SMTP Email configuration is below this setting)
+$ct_conf['comms']['from_email'] = ''; // #SHOULD BE SET# to avoid email going to spam / junk
+////
+$ct_conf['comms']['to_email'] = ''; // #MUST BE SET# for price alerts and other email features
+
+
+// For alert texts to mobile phone numbers. 
+// Attempts to email the text if a SUPPORTED MOBILE TEXTING NETWORK name is set, AND no textbelt / textlocal config is setup.
+// SMTP-authenticated email sending MAY GET THROUGH TEXTING SERVICE CONTENT FILTERS #BETTER# THAN USING PHP'S BUILT-IN EMAILING FUNCTION
+// SEE FURTHER DOWN IN THIS CONFIG FILE, FOR A LIST OF SUPPORTED MOBILE TEXTING NETWORK PROVIDER NAMES 
+// IN THE EMAIL-TO-MOBILE-TEXT CONFIG SECTION (the "network name keys" in the $ct_conf['mob_net_txt_gateways'] variables array)
+// CAN BE BLANK. Country code format MAY NEED TO BE USED (depending on your mobile network)
+// skip_network_name SHOULD BE USED IF USING textbelt / textlocal BELOW
+// 'phone_number||network_name_key' (examples: '12223334444||virgin_us' / '12223334444||skip_network_name')
+$ct_conf['comms']['to_mobile_text'] = '';
+
+
+// Do NOT use textbelt AND textlocal together. Leave one setting blank, #OR IT WILL DISABLE# USING BOTH.
+// LEAVE textbelt AND textlocal BOTH BLANK to use a mobile text gateway set ABOVE
+
+// CAN BE BLANK. For asset price alert textbelt notifications. Setup: https://textbelt.com/
+// SET $ct_conf['comms']['to_mobile_text'] ABOVE IN THE SERVICE PROVIDER AREA TO: skip_network_name
+$ct_conf['comms']['textbelt_apikey'] = '';
+
+
+// CAN BE BLANK. For asset price alert textlocal notifications. Setup: https://www.textlocal.com/integrations/api/
+// SET $ct_conf['comms']['to_mobile_text'] ABOVE IN THE SERVICE PROVIDER AREA TO: skip_network_name
+$ct_conf['comms']['textlocal_account'] = ''; // This format MUST be used: 'username||hash_code'
+
+
+// For notifyme / alexa notifications (sending Alexa devices notifications for free). 
+// CAN BE BLANK. Setup: http://www.thomptronics.com/notify-me
+// (NOTE: THIS APP'S BUILT-IN QUEUE SYSTEM THROTTLES / SENDS OUT ONLY 5 ALERTS EVERY 5 MINUTES MAXIMUM FOR NOTIFYME ALERTS,
+// TO STAY WITHIN NOTIFYME API MESSAGE LIMITS, SO YOU ALWAYS #STILL GET ALL YOUR ALERTS#, JUST SLIGHTLY DELAYED)
+$ct_conf['comms']['notifyme_accesscode'] = '';
+
+
+// Sending alerts to your own telegram bot chatroom. 
+// (USEFUL IF YOU HAVE ISSUES SETTING UP MOBILE TEXT ALERTS, INCLUDING EMOJI / UNICODE CHARACTER ENCODING)
+// Setup: https://core.telegram.org/bots , OR JUST SEARCH / VISIT "BotFather" in the telegram app
+// YOU MUST SETUP A TELEGRAM USERNAME #FIRST / BEFORE SETTING UP THE BOT#, IF YOU HAVEN'T ALREADY (IN THE TELEGRAM APP SETTINGS)
+// SET UP YOUR BOT WITH "BotFather", AND SAVE YOUR BOT NAME / USERNAME / ACCESS TOKEN / BOT CHATROOM LINK
+// VISIT THE BOT CHATROOM, #SEND THE MESSAGE "/start" TO THIS CHATROOM# (THIS WILL CREATE USER CHAT DATA THE APP NEEDS)
+// THE USER CHAT DATA #IS REQUIRED# FOR THIS APP TO INITIALLY DETERMINE AND SECURELY SAVE YOU TELEGRAM USER'S CHAT ID
+// #DO NOT DELETE THE BOT CHATROOM IN THE TELEGRAM APP, OR YOU WILL STOP RECEIVING MESSAGES FROM THE BOT#
+$ct_conf['comms']['telegram_your_username'] = ''; // Your telegram username (REQUIRED, setup in telegram app settings)
+////
+$ct_conf['comms']['telegram_bot_username'] = '';  // Your bot's username
+////
+$ct_conf['comms']['telegram_bot_name'] = ''; // Your bot's human-readable name (example: 'My Alerts Bot')
+////
+$ct_conf['comms']['telegram_bot_token'] = '';  // Your bot's access token
 
 
 ////////////////////////////////////////

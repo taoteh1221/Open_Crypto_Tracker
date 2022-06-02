@@ -1926,9 +1926,11 @@ var $ct_array1 = array();
                                      );
                     
                     
+               // Only send to comm channels the user prefers, based off the config setting $ct_conf['comms']['price_alert']
+               $preferred_comms = $this->preferred_comms($ct_conf['comms']['price_alert'], $send_params);
                     
                // Send notifications
-               @$ct_cache->queue_notify($send_params);
+               @$ct_cache->queue_notify($preferred_comms);
                         
                // Cache the new lower / higher value + volume data
                $ct_cache->save_file($base_dir . '/cache/alerts/fiat_price/'.$asset_data.'.dat', $alert_cache_contents); 
