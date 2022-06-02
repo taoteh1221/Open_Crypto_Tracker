@@ -2253,7 +2253,7 @@ var $ct_array = array();
                             
        $text_msg = $email_msg;
        
-       $app_location = "\n\n" . 'App Location: ' . $base_url;
+       $app_location = "\n\n" . 'App Server Web Address: ' . $base_url;
                         
        // Message parameter added for desired comm methods (leave any comm method blank to skip sending via that method)
                   
