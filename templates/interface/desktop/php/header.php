@@ -437,7 +437,6 @@ header('Content-type: text/html; charset=' . $ct_conf['dev']['charset_default'])
 				
     				// Set back to 'run' => 'no' 
     				// (will automatically re-activate in upgrade-check.php at a later date, if another reminder is needed after X days)
-    				// LEAVE 'message' ALONE, SINCE WE ARE USING JAVASCRIPT IF WE BLANK IT OUT, NO MESSAGE WILL EXIST BY THE TIME JAVASCIPT AJAX GETS THE DATA!
     				$ui_upgrade_alert['run'] = 'no';
     						
     				$ct_cache->save_file($base_dir . '/cache/events/ui_upgrade_alert.dat', json_encode($ui_upgrade_alert, JSON_PRETTY_PRINT) );

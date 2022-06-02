@@ -787,7 +787,7 @@ Example: "/plugins/my-app-plugin/plug-lib/plug-class.php" (must be lowercase)
 <br /><br />
 
 
-// CREATE THIS PLUGIN'S CLASS OBJECT DYNAMICALLY AS:
+CREATE THIS PLUGIN'S CLASS OBJECT DYNAMICALLY AS:
 <br /><br />
 
 <pre class='rounded'><code class='hide-x-scroll less' style='width: auto; height: auto;'>
@@ -897,7 +897,7 @@ Now you are ready to write your custom plugin code in PHP, inside the new plugin
 "plug-conf.php" files are loaded on main app initiation, so they can be included in the GLOBAL cached app config (allowing the editing of these config settings in the admin interface, etc). 
 <br /><br />
 
-"plug-init.php" files are where plugins first start loading from, so you edit these files like you would the first file containing the programming logic for your plugin. You are free to add and include more files / folders inside your plugin main folder, in the same way you would build an ordinary application. Any config settings you have in "plug-conf.php" are automatically available to use in "plug-init.php", and in any other plugin files you create that run within / after the initial "plug-init.php" logic.
+"plug-init.php" files are where plugins first start loading from, so you edit these files like you would the first file containing the programming logic for your plugin. You are free to add and include more files / folders inside your plugin main folder, in the same way you would build an ordinary application. Any config settings / class functions and variables you have in "plug-conf.php" and "plug-lib/plug-class.php" are automatically available to use in "plug-init.php", and in any other plugin files you create that run within / after the initial "plug-init.php" logic.
 <br /><br />
 
 CRON-DESIGNATED PLUGINS (PLUGINS FLAGGED TO RUN DURING CRON JOBS) DO RUN #LAST# WITHIN THE CRON RUNTIME (AND THEREFORE ARE #NOT# INCLUDED IN RUNTIME STATS DATA LIKE HOW MANY SECONDS IT RAN / SYSTEM LOAD), SO EVEN IF YOUR CUSTOM PLUGIN CRASHES, #EVERYTHING ELSE# IMPORTANT RAN BEFOREHAND ANYWAY.
