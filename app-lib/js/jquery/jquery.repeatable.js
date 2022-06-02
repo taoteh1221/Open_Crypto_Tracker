@@ -1,3 +1,6 @@
+
+// version 0.40.2, 2022/JUNE/2ND
+
 (function ($) {
 
 	$.fn.repeatable = function (userSettings) {
@@ -39,7 +42,9 @@
 		 * @return null
 		 */
 		var total = function () {
-			return $(target).find(settings.itemContainer).length;
+		    calc_total = $(target).find(settings.itemContainer).length;
+		    console.log(calc_total);
+			return calc_total;
 		}();
 
 		/**
@@ -99,7 +104,8 @@
 		 */
 		var getUniqueTemplate = function () {
 			var template = $(settings.template).html();
-			template = template.replace(/{\?}/g, "new" + i++); 	// {?} => iterated placeholder
+			i = i + 1;
+			template = template.replace(/{\?}/g, "new" + i); 	// {?} => iterated placeholder
 			template = template.replace(/\{[^\?\}]*\}/g, ""); 	// {valuePlaceholder} => ""
 			return $(template);
 		};

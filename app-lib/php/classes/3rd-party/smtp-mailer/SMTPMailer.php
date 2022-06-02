@@ -70,7 +70,7 @@ Class SMTPMailer {
         
         if ($port   !== false) $this->port   = $port;
         
-        if ($secure !== false) $this->secure = strtolower($secure);
+        if ($secure !== false) $this->secure = $secure;
 
         // Define connection hostname and localhost
         $this->hostname = $this->server;
