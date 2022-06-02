@@ -1913,7 +1913,7 @@ var $ct_array = array();
            // Exit function if html or scripting is detected
            if ( $count > 0 ) {
            $this->log('security_error', 'HTML / script code blocked in request data (from ' . $remote_ip . '): ["' . $ext_key . '"]');
-           return 'HTML / CSS / script not allowed.';
+           return 'Characters not allowed.';
            }
            
            
