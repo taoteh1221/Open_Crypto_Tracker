@@ -29,7 +29,7 @@ var $array1 = array();
    
    $result = array();
    
-       if ( is_numeric($amount)  && is_numeric($apr) ) {
+       if ( is_numeric($amount) && is_numeric($apr) ) {
                                 
        $apr = round( ($apr / 100) , 2); // Change to decimal (25.5 to 0.255)
                                 

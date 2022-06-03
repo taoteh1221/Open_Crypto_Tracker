@@ -13,12 +13,22 @@
 			
 
 			<p style='margin-top: 15px; margin-bottom: 15px;'><?=$ct_gen->start_page_html('tools')?></p>			
+			
+	  
+	<p style='margin-top: 25px;'><a style='font-weight: bold;' class='red' href='javascript: show_more("toolsnotice");' title='Click to show notices about how tools on this page run within this app.'><b>Tools Notices / Information</b></a></p>
+		
+		
+	<div id='toolsnotice' style='display: none;' class='align_left'>
+		
+		    
+			<p class='red' style='font-weight: bold;'>Using tools on this page that submit data for processing <i><u>may need to set this page as the start page (to display the results on page reload)</u>, which you can reset afterwards at top left</i>. If you have portfolio data you don't want to lose, be sure you have enabled "Use cookies to save data" on the Settings page before using these tools.</p>	
+					
+	
+	</div>	
 
 			
 			<fieldset class='subsection_fieldset'>
 				<legend class='subsection_legend'> <b>QR Code Generator For Addresses</b> </legend>
-		    
-			<p class='red'>Using this QR code generator <i><u>will set this page as the start page</u>, which you can reset afterwards at top left</i>. If you have portfolio data you don't want to lose, be sure you have enabled "Use cookies to save data" on the Settings page before using this tool.</p>
 			
 			<p>If you need to safely / quickly copy an address to yours or someone else's phone / air-gapped machine / etc, with a QR Code scanner app. 
 			<br /><br />NOTE: Whitespace, carriage returns, HTML, and non-alphanumeric characters are not allowed.</p>

@@ -23,7 +23,7 @@ $debt_form_action = $ct_gen->start_page($plug_conf[$this_plug]['ui_location']); 
 
 
     		<div class="page-header">
-		    	<h5 class='bitcoin'>Credit / Loan Accounts To Track Monthly and Yearly Interest On</h5>
+		    	<h5 class='blue'>Credit / Loan Accounts To Track Monthly and Yearly Interest On</h5>
 		    </div>
 
 
@@ -50,43 +50,53 @@ $debt_form_action = $ct_gen->start_page($plug_conf[$this_plug]['ui_location']); 
                         
                             $loop=0;
                             foreach ( $_POST['accounts_labels'] as $key => $val ) {
-                        
+                                
+                            // Filter vars
+                            $val['account'] = trim($val['account']);
                             $val['amount'] = $ct_var->strip_formatting($val['amount']);
+                            $val['apr'] = $ct_var->strip_formatting($val['apr']);
                             
-                            // Get results for this debt account
-                            $all_debt[$key] = $plug_class[$this_plug]->apr_calc($val['account'], $val['amount'], $val['apr']);
+                                
+                                if ( $val['account'] != '' && is_numeric($val['amount']) && is_numeric($val['apr']) ) {
+                        
+                                $val['amount'] = $ct_var->strip_formatting($val['amount']);
+                                
+                                // Get results for this debt account
+                                $all_debt[$key] = $plug_class[$this_plug]->apr_calc($val['account'], $val['amount'], $val['apr']);
+                                
+                                ?>
                             
-                            ?>
-                        
-                        
-                            <div class="field-group row">
-                        
-                      			<div class="extra_margins col-lg-6">
-                      			<label class='blue' for="account_<?=$key?>">Account Name</label>
-                      			<input type="text" class="span6 form-control" name="accounts_labels[<?=$key?>][account]" value="<?=$val['account']?>" id="account_<?=$key?>">
-                      			</div>
-                      			
-                      			<div class="extra_margins col-lg-2">
-                      			<label class='blue' for="amount_<?=$key?>">Debt Amount <?=$ct_conf['power']['btc_currency_mrkts'][ $ct_conf['gen']['btc_prim_currency_pair'] ]?></label>
-                      			<input type="text" class="span2 form-control" name="accounts_labels[<?=$key?>][amount]" value="<?=number_format($val['amount'], 2, '.', ',')?>" id="amount_<?=$key?>">
+                            
+                                <div class="field-group row">
+                            
+                          			<div class="extra_margins col-lg-6">
+                          			<label class='blue' for="account_<?=$key?>">Account Name</label>
+                          			<input type="text" class="span6 form-control" name="accounts_labels[<?=$key?>][account]" value="<?=$val['account']?>" id="account_<?=$key?>">
+                          			</div>
+                          			
+                          			<div class="extra_margins col-lg-2">
+                          			<label class='blue' for="amount_<?=$key?>">Debt Amount <?=$ct_conf['power']['btc_currency_mrkts'][ $ct_conf['gen']['btc_prim_currency_pair'] ]?></label>
+                          			<input type="text" class="span2 form-control" name="accounts_labels[<?=$key?>][amount]" value="<?=number_format($val['amount'], 2, '.', ',')?>" id="amount_<?=$key?>">
+                        			</div>
+                    			
+                          			<div class="extra_margins col-lg-2">
+                          			<label class='blue' for="apr_<?=$key?>">APR %</label>
+                          			<input type="text" class="span2 form-control" name="accounts_labels[<?=$key?>][apr]" value="<?=$val['apr']?>" id="apr_<?=$key?>">
+                        			</div>
+                    			
+                            		<div class="extra_margins col-lg-2">
+                            		<label for="">&nbsp;</label><br>
+                              		<input type="button" class="btn btn-danger span-2 delete" value="Remove" />
+                            		</div>
+                            		
                     			</div>
-                			
-                      			<div class="extra_margins col-lg-2">
-                      			<label class='blue' for="apr_<?=$key?>">APR %</label>
-                      			<input type="text" class="span2 form-control" name="accounts_labels[<?=$key?>][apr]" value="<?=$val['apr']?>" id="apr_<?=$key?>">
-                    			</div>
-                			
-                        		<div class="extra_margins col-lg-2">
-                        		<label for="">&nbsp;</label><br>
-                          		<input type="button" class="btn btn-danger span-2 delete" value="Remove" />
-                        		</div>
-                        		
-                			</div>
-                  		
-                  		
-                            <?php
-                            
-                            $loop = $loop + 1;
+                      		
+                      		
+                                <?php
+                                
+                                $loop = $loop + 1;
+                                }
+                                
                             
                             }
                             $loop=null;
