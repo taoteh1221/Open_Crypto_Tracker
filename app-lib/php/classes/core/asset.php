@@ -1927,7 +1927,7 @@ var $ct_array1 = array();
                     
                     
                // Only send to comm channels the user prefers, based off the config setting $ct_conf['comms']['price_alert']
-               $preferred_comms = $this->preferred_comms($ct_conf['comms']['price_alert'], $send_params);
+               $preferred_comms = $ct_gen->preferred_comms($ct_conf['comms']['price_alert'], $send_params);
                     
                // Send notifications
                @$ct_cache->queue_notify($preferred_comms);
