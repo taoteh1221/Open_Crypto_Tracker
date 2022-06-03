@@ -1864,6 +1864,8 @@ var $ct_array = array();
    
    function sanitize_string($method, $ext_key, $data, $mysqli_connection=false) {
    
+   global $remote_ip;
+   
     
         // Strip ALL HTML tags
         $data = strip_tags($data);  
@@ -1877,10 +1879,11 @@ var $ct_array = array();
         // Scan lowercase
         $scan = strtolower($scan);
         
-        // Scan for potentially hidden HTML tags, then scan for remaining scripting
+        // Scan for potentially hidden code injection
         $html_and_js_events = array(
-                                   ">",
-                                   "&gt;",
+                                   "base64", // base64 PHP
+                                   "btao", // base64 javascript
+                                   "php",
                                    "html",
                                    "script",
                                    "css",
@@ -1912,8 +1915,8 @@ var $ct_array = array();
         
            // Exit function if html or scripting is detected
            if ( $count > 0 ) {
-           $this->log('security_error', 'HTML / script code blocked in request data (from ' . $remote_ip . '): ["' . $ext_key . '"]');
-           return 'Characters not allowed.';
+           $this->log('security_error', 'Possible code injection blocked in request data (from ' . $remote_ip . '): ["' . $ext_key . '"]');
+           return 'code_not_allowed';
            }
            
            
@@ -2089,6 +2092,13 @@ var $ct_array = array();
    function pass_strength($password, $min_length, $max_length) {
    
    global $ct_conf;
+   
+       
+       // If our request sanitizer flags the input as containing a programming code phrase,
+       // let the user know they need to avoid this (we scan ALL inputs, no exclusions for better security)
+       if( $password == 'code_not_allowed' ){
+       return 'programming code phrases are not allowed inside ANY user inputs within this app; ';
+       }
    
    
        if ( $min_length == $max_length && mb_strlen($password, $ct_conf['dev']['charset_default']) != $min_length ) {

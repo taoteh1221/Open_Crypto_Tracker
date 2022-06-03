@@ -58,8 +58,6 @@ $debt_form_action = $ct_gen->start_page($plug_conf[$this_plug]['ui_location']); 
                             
                                 
                                 if ( $val['account'] != '' && is_numeric($val['amount']) && is_numeric($val['apr']) ) {
-                        
-                                $val['amount'] = $ct_var->strip_formatting($val['amount']);
                                 
                                 // Get results for this debt account
                                 $all_debt[$key] = $plug_class[$this_plug]->apr_calc($val['account'], $val['amount'], $val['apr']);
