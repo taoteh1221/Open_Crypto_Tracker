@@ -1323,8 +1323,6 @@ var $ct_array = array();
    
    // Less verbose log category
    $category = $log_type;
-   $category = preg_replace("/_error/i", "", $category);
-   $category = preg_replace("/_debug/i", "", $category);
    
    
       // Disable logging any included verbose tracing, if log verbosity level config is set to normal
