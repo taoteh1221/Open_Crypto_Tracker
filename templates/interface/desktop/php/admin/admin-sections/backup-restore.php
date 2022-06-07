@@ -6,16 +6,9 @@
 
 ?>
 
-<div class='max_1200px_wrapper'>
-	
-	
 	<p> Coming Soon&trade; </p>
 	
 			    
-			    
-</div> <!-- max_1200px_wrapper END -->
-
-
 
 
 		    

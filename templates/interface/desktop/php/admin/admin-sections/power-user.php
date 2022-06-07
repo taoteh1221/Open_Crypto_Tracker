@@ -6,8 +6,6 @@
 
 ?>
 
-<div class='max_1200px_wrapper'>
-	
 				<div class='bitcoin align_center' style='margin-bottom: 20px;'>(advanced configuration, handle with care)</div>
 	
 	
@@ -17,10 +15,5 @@
 				
 	
 			    
-			    
-</div> <!-- max_1200px_wrapper END -->
-
-
-
 
 		    

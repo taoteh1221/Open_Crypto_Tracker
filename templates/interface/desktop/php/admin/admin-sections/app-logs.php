@@ -7,8 +7,6 @@
 ?>
 
 
-<div class='full_width_wrapper'>
-	
 	
    <ul>
 	
@@ -141,9 +139,6 @@
 	?>
 	    
 			    
-</div> <!-- full_width_wrapper END -->
-
-
 
 
 		    

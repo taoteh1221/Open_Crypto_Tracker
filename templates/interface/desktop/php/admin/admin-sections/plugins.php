@@ -6,8 +6,6 @@
 
 ?>
 
-<div class='max_1200px_wrapper'>
-	
 	
     <fieldset class='subsection_fieldset'><legend class='subsection_legend'> <strong>Currently Activated Plugins</strong> </legend>
     
@@ -60,8 +58,6 @@
 	</fieldset>
 	
 			    
-</div> <!-- max_1200px_wrapper END -->
-
 
 
 

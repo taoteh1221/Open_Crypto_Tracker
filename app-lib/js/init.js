@@ -1,9 +1,11 @@
 
 // Copyright 2014-2022 GPLv3, Open Crypto Tracker by Mike Kilday: Mike@DragonFrugal.com
 
+
 window.zingAlert= function(){
   window.alert("PRIVACY ALERT!\n\nUsing the 'Download [filetype]' menu links sends the chart data to export.zingchart.com, to create the download file.\n\nTo preserve privacy, CHOOSE 'View As PNG' INSTEAD, then opposite-click over the chart and choose 'Save Image As', to save the PNG image to your computer.")
 }
+
 
 // Wait until the DOM has loaded before running DOM-related scripting
 $(document).ready(function(){   
@@ -46,13 +48,13 @@ $(document).ready(function(){
 
 
     // Trading notes
-	if ( localStorage.getItem(notes_storage) && $("#notes").length ) {
+	if ( typeof notes_storage != 'undefined' && localStorage.getItem(notes_storage) && $("#notes").length ) {
     document.getElementById("notes").value = localStorage.getItem(notes_storage);
 	}
 		
     
     // If all cookie data is above threshold trigger, warn end-user in UI
-    if ( cookies_size_warning != 'none' ) {
+    if ( typeof cookies_size_warning != 'undefined' && cookies_size_warning != 'none' ) {
     $("#header_size_warning").css({ "display": "block" });
     $("#header_size_warning").html(cookies_size_warning + '. (warning thresholds are adjustable in the Admin Config Power User section)');
     }

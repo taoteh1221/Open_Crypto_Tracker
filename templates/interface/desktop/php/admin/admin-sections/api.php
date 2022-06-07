@@ -6,9 +6,6 @@
 
 ?>
 
-<div class='max_1200px_wrapper'>
-	
-		
 		<p>This app has a built-in (internal) REST API available, so other external apps can connect to it and receive market data, including market conversion (converting the market values to their equivalent value in country fiat currencies and secondary cryptocurrency market pairs).</p>
 		
 		<p>To see a list of the supported assets in the API, use the endpoint: "<span class='bitcoin'>/api/asset_list</span>"</p>
@@ -448,9 +445,3 @@ var_dump($api_data_array);
 				
 			    
 	        
-			    
-</div> <!-- max_1200px_wrapper END -->
-
-
-
-		    

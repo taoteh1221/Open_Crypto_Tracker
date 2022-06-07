@@ -47,6 +47,21 @@ OPTIMIZATIONS / BUGS / TESTS / UX / QA / OTHER SECTION
 ///////////////////////////////////////////////////////
 
 
+ADMIN IFRAME BUILDOUT NOTES:
+
+-COMPLETED: Should NOT load until tab clicked
+
+-COMPLETED: Should properly auto-size iframe height, bassed off iframe's body scroll height (after EVERYTHING is rendered)
+
+-TODO: Should have CSS position set as 'sticky' for the 'Save' button (like reload countdown on secondary user tabs)
+
+-TODO: Onblur of iframe (clicking another tab, etc) should pause click actions and warn IF CHANGES HAVE BEEN MADE TO SETTINGS WITHIN THE IFRAME
+
+-TODO: CURRENT admin config should be BACKED-UP #RIGHT BEFORE# UPDATING VIA THE INTERFACE (after a validity check), IN CASE THE END-USER WANTS / NEEDS TO REVERT TO LAST KNOWN WORKING CONFIG
+
+
+```````````````````````````````````````````````````````````````````````````````````````````````````````````````
+
 Just like chart crosshair positions, some info bubble positions are WAAAAY off when using the zoom feature in desktop editions. Put a red info icon to the left of the zoom setting, with a warning about both these positioning issues, and POTENTIALLY EVEN MORE unoticed issues from zooming. We don't have a choice beyond this as a 'solution', because we don't build the container software we are using for the desktop editions (PHPdesktop), and those devs have not implemented a 'normal' browser zoom feature.
 
 

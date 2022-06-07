@@ -1316,9 +1316,15 @@ var $ct_array = array();
    ////////////////////////////////////////////////////////
    
    
-   function log($category, $log_msg, $verbose_tracing=false, $hashcheck=false, $overwrite=false) {
+   function log($log_type, $log_msg, $verbose_tracing=false, $hashcheck=false, $overwrite=false) {
    
    global $runtime_mode, $ct_conf, $log_array;
+   
+   
+   // Less verbose log category
+   $category = $log_type;
+   $category = preg_replace("/_error/i", "", $category);
+   $category = preg_replace("/_debug/i", "", $category);
    
    
       // Disable logging any included verbose tracing, if log verbosity level config is set to normal
@@ -1328,17 +1334,17 @@ var $ct_array = array();
    
    
       if ( $hashcheck != false ) {
-      $log_array[$category][$hashcheck] = '[' . date('Y-m-d H:i:s') . '] ' . $runtime_mode . ' => ' . $category . ': ' . $log_msg . ( $verbose_tracing != false ? '; [ '  . $verbose_tracing . ' ]' : ';' ) . " <br /> \n";
+      $log_array[$log_type][$hashcheck] = '[' . date('Y-m-d H:i:s') . '] ' . $runtime_mode . ' => ' . $category . ': ' . $log_msg . ( $verbose_tracing != false ? '; [ '  . $verbose_tracing . ' ]' : ';' ) . " <br /> \n";
       }
       // We parse cache errors as array entries (like when hashcheck is included, BUT NO ARRAY KEY)
-      elseif ( stristr($category, 'cache') != false ) {
-      $log_array[$category][] = '[' . date('Y-m-d H:i:s') . '] ' . $runtime_mode . ' => ' . $category . ': ' . $log_msg . ( $verbose_tracing != false ? '; [ '  . $verbose_tracing . ' ]' : ';' ) . " <br /> \n";
+      elseif ( $category == 'cache' ) {
+      $log_array[$log_type][] = '[' . date('Y-m-d H:i:s') . '] ' . $runtime_mode . ' => ' . $category . ': ' . $log_msg . ( $verbose_tracing != false ? '; [ '  . $verbose_tracing . ' ]' : ';' ) . " <br /> \n";
       }
       elseif ( $overwrite != false ) {
-      $log_array[$category] = '[' . date('Y-m-d H:i:s') . '] ' . $runtime_mode . ' => ' . $category . ': ' . $log_msg . ( $verbose_tracing != false ? '; [ '  . $verbose_tracing . ' ]' : ';' ) . " <br /> \n";
+      $log_array[$log_type] = '[' . date('Y-m-d H:i:s') . '] ' . $runtime_mode . ' => ' . $category . ': ' . $log_msg . ( $verbose_tracing != false ? '; [ '  . $verbose_tracing . ' ]' : ';' ) . " <br /> \n";
       }
       else {
-      $log_array[$category] .= '[' . date('Y-m-d H:i:s') . '] ' . $runtime_mode . ' => ' . $category . ': ' . $log_msg . ( $verbose_tracing != false ? '; [ '  . $verbose_tracing . ' ]' : ';' ) . " <br /> \n";
+      $log_array[$log_type] .= '[' . date('Y-m-d H:i:s') . '] ' . $runtime_mode . ' => ' . $category . ': ' . $log_msg . ( $verbose_tracing != false ? '; [ '  . $verbose_tracing . ' ]' : ';' ) . " <br /> \n";
       }
    
    

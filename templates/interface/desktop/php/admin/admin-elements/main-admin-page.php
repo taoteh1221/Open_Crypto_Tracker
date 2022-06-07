@@ -6,6 +6,10 @@
 
 ?>
 
+<div class='full_width_wrapper align_center'>
+
+	<div id='admin_wrapper' class='align_center' style='margin: auto;'>
+	
 
 		<!-- set data-width="full", to have the tab width be 100% of the screen -->
 		<ul class="nav nav-tabs-vertical align_center" id="admin_tabs" role="tablist">
@@ -44,10 +48,10 @@
 			<a class="nav-link admin_change_width" data-toggle="tab" data-width="fixed_max" href="#admin_webook" role="tab" aria-controls="admin_webook">Webhook</a>
 		  </li>
 		  <li class="nav-item" id="sys_stats_admin_link">
-			<a class="nav-link admin_change_width" data-toggle="tab" data-width="full" href="#system_stats" role="tab" aria-controls="system_stats">System Stats<img id='sys_stats_admin_link_info' src='templates/interface/media/images/info-red.png' alt='' width='30' style='position: relative;' /></a>
+			<a class="nav-link admin_change_width" data-toggle="tab" data-width="full" href="#admin_system_stats" role="tab" aria-controls="admin_system_stats">System Stats<img id='sys_stats_admin_link_info' src='templates/interface/media/images/info-red.png' alt='' width='30' style='position: relative;' /></a>
 		  </li>
 		  <li class="nav-item">
-			<a class="nav-link admin_change_width" data-toggle="tab" data-width="full" href="#access_stats" role="tab" aria-controls="access_stats">Access Stats</a>
+			<a class="nav-link admin_change_width" data-toggle="tab" data-width="full" href="#admin_access_stats" role="tab" aria-controls="admin_access_stats">Access Stats</a>
 		  </li>
 		  <li class="nav-item">
 			<a class="nav-link admin_change_width" data-toggle="tab" data-width="full" href="#admin_logs" role="tab" aria-controls="admin_logs">App Logs</a>
@@ -64,68 +68,141 @@
 		<div id='admin_tab_content' class="tab-content align_left">
 		
 		  <div class="tab-pane" id="admin_comms" role="tabpanel">
-			<?php require("templates/interface/desktop/php/admin/admin-sections/communications.php"); ?>
+
+                <div class='max_1200px_wrapper'>
+                	<iframe id="iframe_comms" src="admin.php?iframe=<?=$ct_gen->admin_hashed_nonce('iframe_comms')?>&section=comms" loading="lazy" frameborder="0" class="admin_iframe"></iframe>
+                </div> 
+		  
 		  </div>
 		  
 		  <div class="tab-pane" id="admin_general" role="tabpanel">
-			<?php require("templates/interface/desktop/php/admin/admin-sections/general.php"); ?>
+
+                <div class='max_1200px_wrapper'>
+                	<iframe id="iframe_general" src="admin.php?iframe=<?=$ct_gen->admin_hashed_nonce('iframe_general')?>&section=general" loading="lazy" frameborder="0" class="admin_iframe"></iframe>
+                </div> 
+		  
 		  </div>
 		  
 		  <div class="tab-pane" id="admin_portfolio_assets" role="tabpanel">
-			<?php require("templates/interface/desktop/php/admin/admin-sections/portfolio-assets.php"); ?>
+
+                <div class='max_1200px_wrapper'>
+                	<iframe id="iframe_portfolio_assets" src="admin.php?iframe=<?=$ct_gen->admin_hashed_nonce('iframe_portfolio_assets')?>&section=portfolio_assets" loading="lazy" frameborder="0" class="admin_iframe"></iframe>
+                </div> 
+		  
 		  </div>
 		  
 		  <div class="tab-pane" id="admin_charts_alerts" role="tabpanel">
-			<?php require("templates/interface/desktop/php/admin/admin-sections/charts-and-alerts.php"); ?>
+
+                <div class='max_1200px_wrapper'>
+                	<iframe id="iframe_charts_alerts" src="admin.php?iframe=<?=$ct_gen->admin_hashed_nonce('iframe_charts_alerts')?>&section=charts_alerts" loading="lazy" frameborder="0" class="admin_iframe"></iframe>
+                </div> 
+		  
 		  </div>
 		  
 		  <div class="tab-pane" id="admin_plugins" role="tabpanel">
-			<?php require("templates/interface/desktop/php/admin/admin-sections/plugins.php"); ?>
+
+                <div class='max_1200px_wrapper'>
+                	<iframe id="iframe_plugins" src="admin.php?iframe=<?=$ct_gen->admin_hashed_nonce('iframe_plugins')?>&section=plugins" loading="lazy" frameborder="0" class="admin_iframe"></iframe>
+                </div> 
+		  
 		  </div>
 		  
 		  <div class="tab-pane" id="admin_power_user" role="tabpanel">
-			<?php require("templates/interface/desktop/php/admin/admin-sections/power-user.php"); ?>
+
+                <div class='max_1200px_wrapper'>
+                	<iframe id="iframe_power_user" src="admin.php?iframe=<?=$ct_gen->admin_hashed_nonce('iframe_power_user')?>&section=power_user" loading="lazy" frameborder="0" class="admin_iframe"></iframe>
+                </div> 
+		  
 		  </div>
 		  
 		  <div class="tab-pane" id="admin_text_gateways" role="tabpanel">
-			<?php require("templates/interface/desktop/php/admin/admin-sections/text-gateways.php"); ?>
+
+                <div class='max_1200px_wrapper'>
+                	<iframe id="iframe_text_gateways" src="admin.php?iframe=<?=$ct_gen->admin_hashed_nonce('iframe_text_gateways')?>&section=text_gateways" loading="lazy" frameborder="0" class="admin_iframe"></iframe>
+                </div> 
+		  
 		  </div>
 		  
 		  <div class="tab-pane" id="admin_proxy" role="tabpanel">
-			<?php require("templates/interface/desktop/php/admin/admin-sections/proxy.php"); ?>
+
+                <div class='max_1200px_wrapper'>
+                	<iframe id="iframe_proxy" src="admin.php?iframe=<?=$ct_gen->admin_hashed_nonce('iframe_proxy')?>&section=proxy" loading="lazy" frameborder="0" class="admin_iframe"></iframe>
+                </div> 
+		  
 		  </div>
 		  
 		  <div class="tab-pane" id="admin_developer_only" role="tabpanel">
-			<?php require("templates/interface/desktop/php/admin/admin-sections/developer-only.php"); ?>
+
+                <div class='max_1200px_wrapper'>
+                	<iframe id="iframe_developer" src="admin.php?iframe=<?=$ct_gen->admin_hashed_nonce('iframe_developer')?>&section=developer" loading="lazy" frameborder="0" class="admin_iframe"></iframe>
+                </div> 
+		  
 		  </div>
 		  
 		  <div class="tab-pane active" id="admin_api" role="tabpanel">
-			<?php require("templates/interface/desktop/php/admin/admin-sections/api.php"); ?>
+
+                <div class='max_1200px_wrapper'>
+                	<iframe id="iframe_api" src="admin.php?iframe=<?=$ct_gen->admin_hashed_nonce('iframe_api')?>&section=api" loading="lazy" frameborder="0" class="admin_iframe"></iframe>
+                </div> 
+		  
 		  </div>
 		  
 		  <div class="tab-pane" id="admin_webook" role="tabpanel">
-			<?php require("templates/interface/desktop/php/admin/admin-sections/webhook.php"); ?>
+
+                <div class='max_1200px_wrapper'>
+                	<iframe id="iframe_webook" src="admin.php?iframe=<?=$ct_gen->admin_hashed_nonce('iframe_webook')?>&section=webook" loading="lazy" frameborder="0" class="admin_iframe"></iframe>
+                </div> 
+		  
 		  </div>
 		  
-		  <div class="tab-pane" id="system_stats" role="tabpanel">
-			<?php require("templates/interface/desktop/php/admin/admin-sections/system-stats.php"); ?>
+		  <div class="tab-pane" id="admin_system_stats" role="tabpanel">
+
+                <div class='full_width_wrapper'>
+                	<iframe id="iframe_system_stats" src="admin.php?iframe=<?=$ct_gen->admin_hashed_nonce('iframe_system_stats')?>&section=system_stats" loading="lazy" frameborder="0" class="admin_iframe"></iframe>
+                </div> 
+		  
 		  </div>
 		  
-		  <div class="tab-pane" id="access_stats" role="tabpanel">
-			<?php require("templates/interface/desktop/php/admin/admin-sections/access-stats.php"); ?>
+		  <div class="tab-pane" id="admin_access_stats" role="tabpanel">
+
+                <div class='full_width_wrapper'>
+                	<iframe id="iframe_access_stats" src="admin.php?iframe=<?=$ct_gen->admin_hashed_nonce('iframe_access_stats')?>&section=access_stats" loading="lazy" frameborder="0" class="admin_iframe"></iframe>
+                </div> 
+		  
 		  </div>
 		  
 		  <div class="tab-pane" id="admin_logs" role="tabpanel">
-			<?php require("templates/interface/desktop/php/admin/admin-sections/app-logs.php"); ?>
+
+                <div class='full_width_wrapper'>
+                	<iframe id="iframe_logs" src="admin.php?iframe=<?=$ct_gen->admin_hashed_nonce('iframe_logs')?>&section=logs" loading="lazy" frameborder="0" class="admin_iframe"></iframe>
+                </div> 
+		  
 		  </div>
 		  
 		  <div class="tab-pane" id="admin_backup_restore" role="tabpanel">
-			<?php require("templates/interface/desktop/php/admin/admin-sections/backup-restore.php"); ?>
+
+                <div class='max_1200px_wrapper'>
+                	<iframe id="iframe_backup_restore" src="admin.php?iframe=<?=$ct_gen->admin_hashed_nonce('iframe_backup_restore')?>&section=backup_restore" loading="lazy" frameborder="0" class="admin_iframe"></iframe>
+                </div> 
+		  
 		  </div>
 		  
 		  <div class="tab-pane" id="admin_reset" role="tabpanel">
-			<?php require("templates/interface/desktop/php/admin/admin-sections/reset.php"); ?>
+
+                <div class='max_1200px_wrapper'>
+                	<iframe id="iframe_reset" src="admin.php?iframe=<?=$ct_gen->admin_hashed_nonce('iframe_reset')?>&section=reset" loading="lazy" frameborder="0" class="admin_iframe"></iframe>
+                </div> 
+		  
 		  </div>
 		  
 		</div>
+
+
+	</div> <!-- wrapper END -->
+	
+</div> <!-- admin index full_width_wrapper END -->
+
+
+<br clear="all" />
+
 

@@ -6,8 +6,6 @@
 
 ?>
 
-<div class='full_width_wrapper'>
-	
 				
 	
     <div style='margin-bottom: 30px;'>
@@ -18,9 +16,11 @@
          // Red UI nav, with info bubble too
          if ( is_array($system_warnings) && sizeof($system_warnings) > 0 ) {
          ?>
+         
          <script>
          
          $('#sys_stats_admin_link a').addClass("red_background");
+         
          document.getElementById('sys_stats_admin_link_info').style.display = 'inline';
 
 			var sys_stats_admin_link_info_content = '<h5 class="red tooltip_title">System Stats Alerts</h5>'
@@ -58,6 +58,7 @@
 			
   
          </script>
+         
          <?php
          }
 	
@@ -122,43 +123,43 @@
     		?>
     
  
-<script>
-
-
-var server_header_defaults_content = '<h5 class="yellow tooltip_title">Average Server Header Size Limits</h5>'
-
-			+'<p class="coin_info extra_margins" style="max-width: 600px; white-space: normal;">Web servers have a pre-set header size limit (which can be adjusted within it\'s own server configuration), which varies depending on the server software you are using. <span class="bitcoin">IF THIS APP GOES OVER THOSE HEADER SIZE LIMITS, IT WILL CRASH!</span></p>'
-
-			+'<p class="coin_info extra_margins" style="max-width: 600px; white-space: normal;"><span class="bitcoin">STANDARD SERVER HEADER SIZE LIMITS (IN KILOBYTES)...</span><br />Apache: 8kb<br />NGINX: 4kb - 8kb<br />IIS: 8kb - 16kb<br />Tomcat: 8kb - 48kb</p>';
-		
-		
-		
-			$('.server_header_defaults').balloon({
-			html: true,
-			position: "top",
-  			classname: 'balloon-tooltips',
-			contents: server_header_defaults_content,
-			css: {
-					fontSize: ".8rem",
-					minWidth: "450px",
-					padding: ".3rem .7rem",
-					border: "2px solid rgba(212, 212, 212, .4)",
-					borderRadius: "6px",
-					boxShadow: "3px 3px 6px #555",
-					color: "#eee",
-					backgroundColor: "#111",
-					opacity: "0.99",
-					zIndex: "32767",
-					textAlign: "left"
-					}
-			});
-			
-		
-		
-		
-
-
-</script> 
+            <script>
+            
+            
+            var server_header_defaults_content = '<h5 class="yellow tooltip_title">Average Server Header Size Limits</h5>'
+            
+            			+'<p class="coin_info extra_margins" style="max-width: 600px; white-space: normal;">Web servers have a pre-set header size limit (which can be adjusted within it\'s own server configuration), which varies depending on the server software you are using. <span class="bitcoin">IF THIS APP GOES OVER THOSE HEADER SIZE LIMITS, IT WILL CRASH!</span></p>'
+            
+            			+'<p class="coin_info extra_margins" style="max-width: 600px; white-space: normal;"><span class="bitcoin">STANDARD SERVER HEADER SIZE LIMITS (IN KILOBYTES)...</span><br />Apache: 8kb<br />NGINX: 4kb - 8kb<br />IIS: 8kb - 16kb<br />Tomcat: 8kb - 48kb</p>';
+            		
+            		
+            		
+            			$('.server_header_defaults').balloon({
+            			html: true,
+            			position: "top",
+              			classname: 'balloon-tooltips',
+            			contents: server_header_defaults_content,
+            			css: {
+            					fontSize: ".8rem",
+            					minWidth: "450px",
+            					padding: ".3rem .7rem",
+            					border: "2px solid rgba(212, 212, 212, .4)",
+            					borderRadius: "6px",
+            					boxShadow: "3px 3px 6px #555",
+            					color: "#eee",
+            					backgroundColor: "#111",
+            					opacity: "0.99",
+            					zIndex: "32767",
+            					textAlign: "left"
+            					}
+            			});
+            			
+            		
+            		
+            		
+            
+            
+            </script> 
 
     		
     		</div>
@@ -237,11 +238,4 @@ var server_header_defaults_content = '<h5 class="yellow tooltip_title">Average S
 	</script>
 		
 	
-			    
-			    
-</div> <!-- full_width_wrapper END -->
-
-
-
-
 		    

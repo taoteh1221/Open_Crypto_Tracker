@@ -6,17 +6,10 @@
 
 ?>
 
-<div class='full_width_wrapper'>
-	
-	
 	<p> Coming Soon&trade; </p>
 				
 	
 			    
-			    
-</div> <!-- full_width_wrapper END -->
-
-
 
 
 		    

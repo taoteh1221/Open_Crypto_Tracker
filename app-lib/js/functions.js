@@ -127,6 +127,20 @@ return sort_target.replace(/,/g, '');
 /////////////////////////////////////////////////////////////
 
 
+function iframe_adjust_height(iframe, extra) {
+      
+iframe_id = window.parent.document.getElementById(iframe);
+      
+      if( iframe_id ) {
+      iframe_id.height = (iframe_id.contentWindow.document.body.scrollHeight + extra) + "px";
+      }   
+      
+}
+
+
+/////////////////////////////////////////////////////////////
+
+
 function update_alert_percent() {
 
 	if ( document.getElementById("alert_percent").value == "yes" ) {
@@ -733,7 +747,11 @@ num_val = num_val.replace(/,/g, '');
 
 // https://codepen.io/kkoutoup/pen/zxmGLE
 function random_tips() {
-			
+	
+	if ( typeof quoteSource == 'undefined' ) {
+	return;
+	}
+	
 //getting a new random number to attach to a quote and setting a limit
 randomNumber= Math.floor(Math.random() * quoteSource.length);
 			

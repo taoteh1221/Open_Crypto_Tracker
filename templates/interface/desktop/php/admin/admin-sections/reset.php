@@ -6,9 +6,6 @@
 
 ?>
 
-<div class='max_1200px_wrapper'>
-	
-
 
 	<!-- RESET API key START -->
 
@@ -70,10 +67,6 @@
 	<!-- RESET webhook key END -->
 	
 	
-			    
-</div> <!-- max_1200px_wrapper END -->
-
-
 
 
 		    
