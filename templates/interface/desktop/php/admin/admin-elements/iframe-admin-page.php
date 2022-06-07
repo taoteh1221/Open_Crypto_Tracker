@@ -294,8 +294,8 @@ padding: 0px;
     elseif ( $_GET['section'] == 'api' ) {
     require("templates/interface/desktop/php/admin/admin-sections/api.php");
     }
-    elseif ( $_GET['section'] == 'webook' ) {
-    require("templates/interface/desktop/php/admin/admin-sections/webook.php");
+    elseif ( $_GET['section'] == 'webhook' ) {
+    require("templates/interface/desktop/php/admin/admin-sections/webhook.php");
     }
     elseif ( $_GET['section'] == 'system_stats' ) {
     require("templates/interface/desktop/php/admin/admin-sections/system-stats.php");

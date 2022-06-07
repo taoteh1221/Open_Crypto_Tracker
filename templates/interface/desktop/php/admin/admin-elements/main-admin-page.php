@@ -45,7 +45,7 @@
 			<a class="nav-link admin_change_width active" data-toggle="tab" data-width="fixed_max" href="#admin_api" role="tab" aria-controls="admin_api">API</a>
 		  </li>
 		  <li class="nav-item">
-			<a class="nav-link admin_change_width" data-toggle="tab" data-width="fixed_max" href="#admin_webook" role="tab" aria-controls="admin_webook">Webhook</a>
+			<a class="nav-link admin_change_width" data-toggle="tab" data-width="fixed_max" href="#admin_webhook" role="tab" aria-controls="admin_webhook">Webhook</a>
 		  </li>
 		  <li class="nav-item" id="sys_stats_admin_link">
 			<a class="nav-link admin_change_width" data-toggle="tab" data-width="full" href="#admin_system_stats" role="tab" aria-controls="admin_system_stats">System Stats<img id='sys_stats_admin_link_info' src='templates/interface/media/images/info-red.png' alt='' width='30' style='position: relative;' /></a>
@@ -147,10 +147,10 @@
 		  
 		  </div>
 		  
-		  <div class="tab-pane" id="admin_webook" role="tabpanel">
+		  <div class="tab-pane" id="admin_webhook" role="tabpanel">
 
                 <div class='max_1200px_wrapper'>
-                	<iframe id="iframe_webook" src="admin.php?iframe=<?=$ct_gen->admin_hashed_nonce('iframe_webook')?>&section=webook" loading="lazy" frameborder="0" class="admin_iframe"></iframe>
+                	<iframe id="iframe_webhook" src="admin.php?iframe=<?=$ct_gen->admin_hashed_nonce('iframe_webhook')?>&section=webhook" loading="lazy" frameborder="0" class="admin_iframe"></iframe>
                 </div> 
 		  
 		  </div>
