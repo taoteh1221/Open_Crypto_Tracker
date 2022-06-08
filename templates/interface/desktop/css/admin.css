@@ -22,19 +22,13 @@ position: relative;
 }
 
 
-.plugin-content {
-    display: block;
-    min-height: 1100px;
-}
-
-
 .tab-content {
     float: left;
     width: 85%;
 }
 
 
-.tab-content > div, .plugin-content {
+.tab-content > div {
 padding: 20px !important;
 }
 

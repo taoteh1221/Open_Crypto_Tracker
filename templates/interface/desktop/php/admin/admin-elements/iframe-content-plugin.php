@@ -6,12 +6,12 @@
 
 $this_plug = $_GET['plugin'];
 ?>
-        <div class="plugin-content align_left">
         
         <h3 style='padding-bottom: 10px;' class='bitcoin align_center'><a class='bitcoin' href='admin.php?iframe=<?=$ct_gen->admin_hashed_nonce('iframe_plugins')?>&section=plugins'>Plugins</a>: <?=$this_plug?></h3>
         
         
         <?php
+        
         // If requested plugin does not exist, log / warn
         if ( !file_exists("plugins/" . $this_plug . "/plug-conf.php") ) {
         $system_error = "Admin area for plugin '" . $this_plug . "' (requested from ".$remote_ip.") does not exist (no config file found).";
@@ -28,6 +28,7 @@ $this_plug = $_GET['plugin'];
         /////////////////////////////////////////////////////////////////////////////////////////////////
         //// P L U G I N   A D M I N   #S T A R T#
         /////////////////////////////////////////////////////////////////////////////////////////////////
+        
         ?>
         
         
@@ -37,15 +38,13 @@ $this_plug = $_GET['plugin'];
         
         				
         <?php
+        
         /////////////////////////////////////////////////////////////////////////////////////////////////
         //// P L U G I N   A D M I N   #E N D#
         /////////////////////////////////////////////////////////////////////////////////////////////////
         }
-        ?>
-        
-        </div>
-        
-<?php
+
+
 // DON'T LEAVE ANY WHITESPACE AFTER THE CLOSING PHP TAG!
 unset($this_plug);
 ?>
