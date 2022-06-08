@@ -49,9 +49,11 @@ OPTIMIZATIONS / BUGS / TESTS / UX / QA / OTHER SECTION
 
 ADMIN IFRAME BUILDOUT NOTES:
 
--COMPLETED: Should NOT load until tab clicked
+-COMPLETED: Should NOT load until tab clicked (for fast load of initial showing section)
 
--COMPLETED: Should properly auto-size iframe height, bassed off iframe's body scroll height (after EVERYTHING is rendered)
+-COMPLETED: Should properly auto-size iframe height on load / reload / page change, based off iframe's body scroll height (after EVERYTHING is rendered)
+
+-COMPLETED: Optional GET parameter (comma-delimited to include multiple values), to ALSO reload OTHER admin sections AFTER UPDATING ANOTHER (eg: after an API reset on the 'reset' page, we also reload the 'api' page)
 
 -TODO: Should have CSS position set as 'sticky' for the 'Save' button (like reload countdown on secondary user tabs)
 

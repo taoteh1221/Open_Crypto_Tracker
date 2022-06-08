@@ -127,13 +127,11 @@ return sort_target.replace(/,/g, '');
 /////////////////////////////////////////////////////////////
 
 
-function iframe_adjust_height(iframe, extra) {
+function iframe_adjust_height(elm) {
+    
+extra = elm.id == 'iframe_system_stats' ? 1000 : 100;
       
-iframe_id = window.parent.document.getElementById(iframe);
-      
-      if( iframe_id ) {
-      iframe_id.height = (iframe_id.contentWindow.document.body.scrollHeight + extra) + "px";
-      }   
+elm.height = (elm.contentWindow.document.body.scrollHeight + extra) + "px";
       
 }
 
@@ -185,6 +183,25 @@ $(topElement).addClass(CssClass);
             });
             
 }
+
+
+/////////////////////////////////////////////////////////////
+
+
+const iframe_adjuster = new IntersectionObserver(entries => {
+    
+    entries.forEach(entry => {
+      
+    const intersecting = entry.isIntersecting;
+      
+        if ( intersecting ) {
+        iframe_adjust_height(entry.target);
+        //console.log(entry.target.id + ' showing.');
+        }
+        
+    });
+
+});
 
 
 /////////////////////////////////////////////////////////////

@@ -15,9 +15,6 @@ header('Content-type: text/html; charset=' . $ct_conf['dev']['charset_default'])
 <head>
 
 	<title></title>
-
-
-   <base target="_parent">	<!-- ALL href links in the iframe will open in the main window -->
 	
    <meta charset="<?=$ct_conf['dev']['charset_default']?>">
    
@@ -231,17 +228,12 @@ header('Content-type: text/html; charset=' . $ct_conf['dev']['charset_default'])
 <script>
 
 // Wait until the DOM has loaded before running DOM-related scripting
-$(document).ready(function(){   
+$(document).ready(function(){
+    
+//console.log('admin iframe "<?=$_GET['section']?>" loaded.'); // DEBUGGING
 
-$("#<?=$_GET['section']?>_loading").css({ "display": "none" });
+$("#<?=$_GET['section']?>_loading").fadeOut(250);
 
-section = '<?=$_GET['section']?>';
-
-// Workaround for stubborn detection of iframe height once charts are loaded
-iframe_height_extra = section == 'system_stats' ? 1000 : 100;
-
-iframe_adjust_height('iframe_<?=$_GET['section']?>', iframe_height_extra);
- 
 });
 
 </script>
@@ -261,59 +253,50 @@ padding: 0px;
 <body class='iframe_wrapper'>
 
 
-    <div id='<?=$_GET['section']?>_loading' class='align_center loading bitcoin'><img src="templates/interface/media/images/auto-preloaded/loader.gif" height='17' alt="" style='vertical-align: middle;' /> <span id='background_loading_span'></span></div>
+    <div id='<?=$_GET['section']?>_loading' class='align_center loading bitcoin'><img src="templates/interface/media/images/auto-preloaded/loader.gif" height='17' alt="" style='vertical-align: middle;' /> Loading...<span id='background_loading_span'></span></div>
+    
     
     <?php
-    if ( $_GET['section'] == 'comms' ) {
-    require("templates/interface/desktop/php/admin/admin-sections/comms.php");
+    if ( isset($_GET['section']) ) {
+    require("templates/interface/desktop/php/admin/admin-elements/iframe-content-category.php");
     }
-    elseif ( $_GET['section'] == 'general' ) {
-    require("templates/interface/desktop/php/admin/admin-sections/general.php");
-    }
-    elseif ( $_GET['section'] == 'portfolio_assets' ) {
-    require("templates/interface/desktop/php/admin/admin-sections/portfolio-assets.php");
-    }
-    elseif ( $_GET['section'] == 'charts_alerts' ) {
-    require("templates/interface/desktop/php/admin/admin-sections/charts-and-alerts.php");
-    }
-    elseif ( $_GET['section'] == 'plugins' ) {
-    require("templates/interface/desktop/php/admin/admin-sections/plugins.php");
-    }
-    elseif ( $_GET['section'] == 'power_user' ) {
-    require("templates/interface/desktop/php/admin/admin-sections/power-user.php");
-    }
-    elseif ( $_GET['section'] == 'text_gateways' ) {
-    require("templates/interface/desktop/php/admin/admin-sections/text-gateways.php");
-    }
-    elseif ( $_GET['section'] == 'proxy' ) {
-    require("templates/interface/desktop/php/admin/admin-sections/proxy.php");
-    }
-    elseif ( $_GET['section'] == 'developer' ) {
-    require("templates/interface/desktop/php/admin/admin-sections/developer.php");
-    }
-    elseif ( $_GET['section'] == 'api' ) {
-    require("templates/interface/desktop/php/admin/admin-sections/api.php");
-    }
-    elseif ( $_GET['section'] == 'webhook' ) {
-    require("templates/interface/desktop/php/admin/admin-sections/webhook.php");
-    }
-    elseif ( $_GET['section'] == 'system_stats' ) {
-    require("templates/interface/desktop/php/admin/admin-sections/system-stats.php");
-    }
-    elseif ( $_GET['section'] == 'access_stats' ) {
-    require("templates/interface/desktop/php/admin/admin-sections/access-stats.php");
-    }
-    elseif ( $_GET['section'] == 'logs' ) {
-    require("templates/interface/desktop/php/admin/admin-sections/app-logs.php");
-    }
-    elseif ( $_GET['section'] == 'backup_restore' ) {
-    require("templates/interface/desktop/php/admin/admin-sections/backup-restore.php");
-    }
-    elseif ( $_GET['section'] == 'reset' ) {
-    require("templates/interface/desktop/php/admin/admin-sections/reset.php");
+    elseif ( isset($_GET['plugin']) ) {
+    require("templates/interface/desktop/php/admin/admin-elements/iframe-content-plugin.php");
     }
     ?>
 
+
+	
+	
+<script>
+
+// Wait until the DOM has loaded before running DOM-related scripting
+$(document).ready(function(){
+    
+<?php
+
+// If we need to refresh an admin iframe, to show the updated data
+if ( $_GET['refresh'] ) {
+    
+$refresh_admin = explode(',', $_GET['refresh']);
+
+    foreach ( $refresh_admin as $refresh ) {
+        
+        if ( isset($refresh) && trim($refresh) != '' ) {
+        ?>
+        parent.document.getElementById('<?=$refresh?>').contentWindow.location.reload(true);
+        <?php
+        }
+    
+    }
+
+}
+
+?>
+
+});
+
+</script>
 
 </body>
 </html>

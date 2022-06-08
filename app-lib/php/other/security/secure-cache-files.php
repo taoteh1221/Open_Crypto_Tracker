@@ -177,8 +177,8 @@ foreach( $secured_cache_files as $secured_file ) {
 				
 			unlink($base_dir . '/cache/secured/' . $secured_file);
 			
-			// Redirect to avoid quirky page reloads later on
-			header("Location: admin.php");
+			// Reload to avoid quirky page reloads later on
+			header("Location: " . $_SERVER['REQUEST_URI']);
 			exit;
 			
 			}
@@ -208,8 +208,8 @@ foreach( $secured_cache_files as $secured_file ) {
 				
 			unlink($base_dir . '/cache/secured/' . $secured_file);
 			
-			// Redirect to avoid quirky page reloads later on
-			header("Location: admin.php");
+			// Reload to avoid quirky page reloads later on
+			header("Location: " . $_SERVER['REQUEST_URI']);
 			exit;
 			
 			}

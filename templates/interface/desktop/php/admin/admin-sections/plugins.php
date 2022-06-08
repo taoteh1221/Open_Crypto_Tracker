@@ -18,7 +18,7 @@
 	else {
 		foreach ( $activated_plugins['ui'] as $plugin_key => $unused ) {
     	?>
-        <li><a href='admin.php?plugin=<?=$plugin_key?>'><?=$plugin_key?></a></li>
+        <li><a href='admin.php?iframe=<?=$ct_gen->admin_hashed_nonce('iframe_' . $plugin_key)?>&plugin=<?=$plugin_key?>'><?=$plugin_key?></a></li>
     	<?php
     	}
 	}
@@ -35,7 +35,7 @@
 	else {
 		foreach ( $activated_plugins['cron'] as $plugin_key => $unused ) {
     	?>
-        <li><a href='admin.php?plugin=<?=$plugin_key?>'><?=$plugin_key?></a></li>
+        <li><a href='admin.php?iframe=<?=$ct_gen->admin_hashed_nonce('iframe_' . $plugin_key)?>&plugin=<?=$plugin_key?>'><?=$plugin_key?></a></li>
     	<?php
     	}
 	}

@@ -23,8 +23,6 @@ position: relative;
 
 
 .plugin-content {
-    border: 2px solid #808080;
-	 border-radius: 8px;
     display: block;
     min-height: 1100px;
 }

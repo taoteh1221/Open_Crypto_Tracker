@@ -1663,7 +1663,7 @@ var server_header_defaults_content = '<h5 class="yellow tooltip_title">Average S
 		
 			$('.server_header_defaults').balloon({
 			html: true,
-			position: "top",
+			position: "bottom",
   			classname: 'balloon-tooltips',
 			contents: server_header_defaults_content,
 			css: {

@@ -36,33 +36,26 @@ exit;
 // Main admin page
 if ( !isset($_GET['plugin']) && !isset($_GET['iframe']) ) {
 require("templates/interface/desktop/php/header.php");
-require("templates/interface/desktop/php/admin/admin-elements/main-admin-page.php");
+require("templates/interface/desktop/php/admin/admin-elements/admin-page-main.php");
 require("templates/interface/desktop/php/footer.php");
 }
-// Plugin admin page
-elseif ( isset($_GET['plugin']) && trim($_GET['plugin']) != '' ) {
-require("templates/interface/desktop/php/header.php");
-require("templates/interface/desktop/php/admin/admin-elements/plugin-admin-page.php");
-require("templates/interface/desktop/php/footer.php");
-}
-// Iframe admin page
+// Iframe admin pages
 elseif (
 isset($_GET['section'])
 && trim($_GET['section']) != ''
 && isset($_GET['iframe'])
 && trim($_GET['iframe']) != ''
 && $_GET['iframe'] == $ct_gen->admin_hashed_nonce('iframe_' . $_GET['section'])
-) {
-require("templates/interface/desktop/php/admin/admin-elements/iframe-admin-page.php");
-}
-// Security monitoring
-elseif (
-isset($_GET['section'])
-&& trim($_GET['section']) != ''
+|| isset($_GET['plugin'])
+&& trim($_GET['plugin']) != ''
 && isset($_GET['iframe'])
 && trim($_GET['iframe']) != ''
-&& $_GET['iframe'] != $ct_gen->admin_hashed_nonce('iframe_' . $_GET['section'])
+&& $_GET['iframe'] == $ct_gen->admin_hashed_nonce('iframe_' . $_GET['plugin'])
 ) {
+require("templates/interface/desktop/php/admin/admin-elements/admin-page-iframe.php");
+}
+// Security monitoring
+else {
 $security_error = 'Admin nonce expired / incorrect (from ' . $remote_ip . ')';
 $ct_gen->log('security_error', $security_error);
 echo $security_error;

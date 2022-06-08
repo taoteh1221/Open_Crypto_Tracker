@@ -1883,11 +1883,7 @@ var $ct_array = array();
         $html_and_js_events = array(
                                    "base64", // base64 PHP
                                    "btao", // base64 javascript
-                                   "php",
-                                   "html",
                                    "script",
-                                   "css",
-                                   "iframe",
                                    "href",
                                    "src",
                                    "onclick",

@@ -2,19 +2,13 @@
 /*
  * Copyright 2014-2022 GPLv3, Open Crypto Tracker by Mike Kilday: Mike@DragonFrugal.com
  */
-
+ 
 
 $this_plug = $_GET['plugin'];
 ?>
-
-<div class='full_width_wrapper align_center'>
-
-	<div id='admin_wrapper' class='align_center' style='margin: auto;'>
-	
-        
         <div class="plugin-content align_left">
         
-        <h3 style='padding-bottom: 10px;' class='bitcoin align_center'><a class='bitcoin' href='admin.php'>Admin Config</a> > Plugin: <?=$this_plug?></h3>
+        <h3 style='padding-bottom: 10px;' class='bitcoin align_center'><a class='bitcoin' href='admin.php?iframe=<?=$ct_gen->admin_hashed_nonce('iframe_plugins')?>&section=plugins'>Plugins</a>: <?=$this_plug?></h3>
         
         
         <?php
@@ -40,7 +34,7 @@ $this_plug = $_GET['plugin'];
         <p> Coming Soon&trade; </p>
         				
         <p class='bitcoin'> Editing these settings is <i>currently only available manually</i>, by updating the file plug-conf.php (in this plugin's directory: <?=$base_dir?>/plugins/<?=$this_plug?>) with a text editor.</p>
-        	
+        
         				
         <?php
         /////////////////////////////////////////////////////////////////////////////////////////////////
@@ -50,16 +44,7 @@ $this_plug = $_GET['plugin'];
         ?>
         
         </div>
-
-
-	</div> <!-- wrapper END -->
-	
-</div> <!-- admin index full_width_wrapper END -->
-
-
-<br clear="all" />
-
-
+        
 <?php
 // DON'T LEAVE ANY WHITESPACE AFTER THE CLOSING PHP TAG!
 unset($this_plug);

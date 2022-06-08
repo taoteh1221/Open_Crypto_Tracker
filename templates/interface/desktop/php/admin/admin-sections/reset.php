@@ -11,7 +11,7 @@
 
 	<div style='margin: 25px;'>
 	
-	<form name='reset_api' id='reset_api' action='' method='post'>
+	<form name='reset_api' id='reset_api' action='admin.php?iframe=<?=$ct_gen->admin_hashed_nonce('iframe_reset')?>&section=reset&refresh=iframe_api' method='post'>
 	
 	<input type='hidden' name='admin_hashed_nonce' value='<?=$ct_gen->admin_hashed_nonce('reset_api_key')?>' />
 	
@@ -41,7 +41,7 @@
 
 	<div style='margin: 25px;'>
 	
-	<form name='reset_webhook' id='reset_webhook' action='' method='post'>
+	<form name='reset_webhook' id='reset_webhook' action='admin.php?iframe=<?=$ct_gen->admin_hashed_nonce('iframe_reset')?>&section=reset&refresh=iframe_webhook' method='post'>
 	
 	<input type='hidden' name='admin_hashed_nonce' value='<?=$ct_gen->admin_hashed_nonce('reset_webhook_key')?>' />
 	
@@ -65,8 +65,6 @@
 	</div>
 				
 	<!-- RESET webhook key END -->
-	
-	
 
 
 		    

@@ -8,8 +8,14 @@ window.zingAlert= function(){
 
 
 // Wait until the DOM has loaded before running DOM-related scripting
-$(document).ready(function(){   
- 
+$(document).ready(function(){  
+
+
+    // Monitor iframes for auto-height adjustment
+    $("iframe").each(function(){
+    iframe_adjuster.observe(this);
+    });
+    
 
     // Page zoom support for chrome 
     // (firefox skews the entire page, safari untested)
