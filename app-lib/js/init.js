@@ -8,50 +8,214 @@ window.zingAlert= function(){
 
 
 // Wait until the DOM has loaded before running DOM-related scripting
-$(document).ready(function(){  
+$(document).ready(function(){ 
+    
+// PHP used instead for logging / alerts, but leave here in case we want to use pure-javascript
+// cookie creation some day (which could help pre-detect too-large headers that crash an HTTP server)
+// console.log( array_byte_size(document.cookie) );
+
+// Check if privacy mode for assets held is enabled
+privacy_mode(); 
+
+// Mirror hidden errors output in the footer over to the alert bell area with javascript
+// Run AFTER check to see if alerts are present
+$('#alert_bell_area').html( "<span class='bitcoin'>Current UTC time:</span> <span class='utc_timestamp red'></span><br />" + $('#app_error_alert').html() );
+
+// Render interface after loading (with transition effects)
+$("#app_loading").hide(250, 'linear'); // 0.25 seconds
+
+$("#content_wrapper").show(250, 'linear'); // 0.25 seconds
+$("#content_wrapper").css('display','inline'); // MUST display inline to center itself cross-browser
+  
+// Charts background / border
+$(".chart_wrapper").css({ "background-color": window.charts_background });
+$(".chart_wrapper").css({ "border": '2px solid ' + window.charts_border });
+
+// Dynamic table header updating
+$("span.btc_prim_currency_pair").html(window.btc_prim_currency_pair); 
+
+random_tips(); // https://codepen.io/kkoutoup/pen/zxmGLE
+
+start_utc_time(); // Show UTC time count in logs UI sections
+
+// Auto-size for trading notes textarea, etc
+window.autosize_target = document.querySelector('textarea[data-autoresize]');
+////
+var autosize_textarea = autosize(window.autosize_target);
+
+    if ( autosize_textarea ) {
+        autosize_textarea.addEventListener('autosize:resized', function(){
+        //console.log('textarea height updated');
+        });
+    }
 
 
-    // Monitor admin iframes for auto-height adjustment
+	/////////////////////////////////////////////////////////////////////////////////////////////////////
+	
+	
+	// Activate auto-reload
+	if ( getCookie("coin_reload") ) {
+	auto_reload();
+	}
+
+
+	/////////////////////////////////////////////////////////////////////////////////////////////////////
+	
+	
+    // Monitor admin iframes for auto-height adjustment WHEN THEY SHOW
     $(".admin_iframe").each(function(){
     iframe_adjuster.observe(this);
     });
+
+
+	/////////////////////////////////////////////////////////////////////////////////////////////////////
+	
+	
+    // Trading notes
+	if ( typeof notes_storage != 'undefined' && localStorage.getItem(notes_storage) && $("#notes").length ) {
+    document.getElementById("notes").value = localStorage.getItem(notes_storage);
+	}
+
+
+	/////////////////////////////////////////////////////////////////////////////////////////////////////
+	
+	
+    // If all cookie data is above threshold trigger, warn end-user in UI
+    if ( typeof cookies_size_warning != 'undefined' && cookies_size_warning != 'none' ) {
+    $("#header_size_warning").css({ "display": "block" });
+    $("#header_size_warning").html(cookies_size_warning + '. (warning thresholds are adjustable in the Admin Config Power User section)');
+    }
+
+
+	/////////////////////////////////////////////////////////////////////////////////////////////////////
+	
+	
+    // We only want to load our vertical scroll position on secondary start pages that are't background-loading AFTER page load
+    // (WE ALREADY LOAD get_scroll_position() in charts_loading_check() AND feeds_loading_check() FOR THE DYNAMIC PAGE LOADING)
+    if ( $(location).attr('hash') != '' && $(location).attr('hash') != '#news' && $(location).attr('hash') != '#charts' ) {
+    get_scroll_position('init'); // Run AFTER showing content
+    }
+
+
+	/////////////////////////////////////////////////////////////////////////////////////////////////////
+	
+	
+    // See if any alerts are present
+    if ( $('#app_error_alert').html() == '' ) {
+    $('#app_error_alert').html('No new runtime alerts.');
+    }
+    else {
+    $("#alert_bell_image").attr("src","templates/interface/media/images/auto-preloaded/notification-" + theme_selected + "-fill.png");
+    }
+
+
+	/////////////////////////////////////////////////////////////////////////////////////////////////////
+	
+	
+    // Show "app loading" placeholder when submitting ANY form JQUERY SUBMIT METHOD, OR CLICKING A SUBMIT BUTTON
+    // (does NOT affect a standard javascript ELEMENT.submit() call)
+    $("form").submit(function(event) { 
     
-    
+        // We have to run app_reloading_check() here, 
+        if ( app_reloading_check(1) == 'no' ) {
+        event.preventDefault();
+        return false;
+        }
+        
+    });
+
+
+	/////////////////////////////////////////////////////////////////////////////////////////////////////
+	
+	
+    // Dynamically adjust admin tab content width
+    $('.admin_change_width').click(function() {
+  
+      	if ( $(this).data('width') == 'full' ) {
+      	$("#admin_wrapper").css('max-width','100%');
+      	$("#admin_tab_content").css('max-width','100%');
+      	}
+      	else {
+      	$("#admin_wrapper").css('max-width','1200px');
+      	$("#admin_tab_content").css('max-width','1200px');
+      	}
+  
+    });
+
+
+	/////////////////////////////////////////////////////////////////////////////////////////////////////
+	
+	
+    // Auto-focus admin authentication form's username feild
+    if ( $("#admin_login").length ) {
+    	setTimeout(function(){
+        $("#admin_username").filter(':visible').focus();
+    	}, 1000); 
+    }
+    else if ( $("#set_admin").length ) {
+    	setTimeout(function(){
+        $("#set_username").filter(':visible').focus();
+    	}, 1000);
+    }
+    else if ( $("#reset_admin").length ) {
+    	setTimeout(function(){
+        $("#reset_username").filter(':visible').focus();
+    	}, 1000);
+    }
+
+
+	/////////////////////////////////////////////////////////////////////////////////////////////////////
+	
+	
     // Monitor admin iframes for load / unload events
     const admin_iframe_load = document.querySelectorAll('.admin_iframe');
+    ////
     admin_iframe_load.forEach(function(iframe) {
-          
        
           // When admin iframe loads
           iframe.addEventListener('load', function() {
               
-          $("#"+iframe.id+"_loading").fadeOut(250);
           iframe_adjust_height(iframe);
-          //console.log(iframe.id + ' loaded');
+          $("#"+iframe.id+"_loading").fadeOut(250);
           
-          
-              // Detect PARENT window unloading
-              // (suppress the 'loading' subsection for iframes from showing)
-              window.onbeforeunload = function () {
-              $("#"+iframe.id+"_loading").html('');
-              $("#"+iframe.id+"_loading").removeClass("loading");
-              //$("#"+iframe.id+"_loading").fadeOut(250);
-              };
-              
-              
-              // Detect admin iframe unloading
-              document.getElementById(iframe.id).contentWindow.onbeforeunload = function () {
+              // Before admin iframe unloads
+              // (MUST BE NESTED IN 'load', AND USE contentWindow)
+              iframe.contentWindow.addEventListener('beforeunload', function() {
               $("#"+iframe.id+"_loading").fadeIn(250);
-              //console.log(iframe.id + ' un-loading');
-              };
-              
+              });
           
           });
       
-      
     });
-    
 
+
+	/////////////////////////////////////////////////////////////////////////////////////////////////////
+	
+	
+    // Before page unload
+    window.addEventListener('beforeunload', function (e) {
+        
+    // (suppress the 'loading' subsection for iframes from showing, when leaving the admin area)
+    // (worse case is cancelled, and 'loading...' doesn't show for admin iframes again until parent page reload)
+    $("div#admin_tab_content div div.iframe_loading_placeholder").html('');
+    $("div#admin_tab_content div div.iframe_loading_placeholder").removeClass("loading");
+    
+    // Scroll position for secondary user area pages
+    store_scroll_position(); 
+        
+        // If background tasks are still running, force a browser confirmation to refresh / leave / close
+        if ( window.background_tasks_status == 'wait' ) {
+        $("#background_loading_span").html("Please wait, finishing background tasks...").css("color", "#ff4747", "important");
+        event.preventDefault();
+        e.returnValue = '';
+        }
+        
+    }); 
+
+
+	/////////////////////////////////////////////////////////////////////////////////////////////////////
+	
+	
     // Page zoom support for chrome 
     // (firefox skews the entire page, safari untested)
     if ( app_edition == 'desktop' ) {
@@ -81,164 +245,55 @@ $(document).ready(function(){
         });
         
     } // END page zoom logic
-    
-    
-// PHP used instead for logging / alerts, but leave here in case we want to use pure-javascript
-// cookie creation some day (which could help pre-detect too-large headers that crash an HTTP server)
-// console.log( array_byte_size(document.cookie) );
 
 
-    // Trading notes
-	if ( typeof notes_storage != 'undefined' && localStorage.getItem(notes_storage) && $("#notes").length ) {
-    document.getElementById("notes").value = localStorage.getItem(notes_storage);
-	}
+	/////////////////////////////////////////////////////////////////////////////////////////////////////
+	
+	
+	// For each set of user area tabs, we want to keep track of
+	// which tab is active and it's associated content
+	$('#top_tab_nav').each(function(){
 		
-    
-    // If all cookie data is above threshold trigger, warn end-user in UI
-    if ( typeof cookies_size_warning != 'undefined' && cookies_size_warning != 'none' ) {
-    $("#header_size_warning").css({ "display": "block" });
-    $("#header_size_warning").html(cookies_size_warning + '. (warning thresholds are adjustable in the Admin Config Power User section)');
-    }
-        
-    
-privacy_mode(); // Privacy mode for assets held
-	
+	var $active, $content, $links = $(this).find('a');
 
-    // See if any alerts are present
-    if ( $('#app_error_alert').html() == '' ) {
-    $('#app_error_alert').html('No new runtime alerts.');
-    }
-    else {
-    $("#alert_bell_image").attr("src","templates/interface/media/images/auto-preloaded/notification-" + theme_selected + "-fill.png");
-    }
+	// If the location.hash matches one of the links, use that as the active tab.
+	// If no match is found, use the first link as the initial active tab.
+	$active = $($links.filter('[href="'+location.hash+'"]')[0] || $links[0]);
+	$active.addClass('active');
 
+	$content = $($active[0].hash);
 
-// Mirror hidden errors output in the footer over to the alert bell area with javascript
-// Run AFTER check to see if alerts are present
-$('#alert_bell_area').html( "<span class='bitcoin'>Current UTC time:</span> <span class='utc_timestamp red'></span><br />" + $('#app_error_alert').html() );
-	
+	    // Hide the remaining content
+	    $links.not($active).each(function () {
+	    $(this.hash).hide();
+	    });
 
-    if ( $("#admin_login").length ) {
-    
-    	setTimeout(function(){
-        $("#admin_username").filter(':visible').focus();
-    	}, 1000); 
-    
-    }
-    else if ( $("#set_admin").length ) {
-    
-    	setTimeout(function(){
-        $("#set_username").filter(':visible').focus();
-    	}, 1000);
-    
-    }
-    else if ( $("#reset_admin").length ) {
-    
-    	setTimeout(function(){
-        $("#reset_username").filter(':visible').focus();
-    	}, 1000);
-    
-    }
-
-
-    window.addEventListener('beforeunload', function (e) {
-    
-    store_scroll_position(); 
-        
-        // If background tasks are still running, force a browser confirmation to refresh / leave / close
-        if ( window.background_tasks_status == 'wait' ) {
-        $("#background_loading_span").html("Please wait, finishing background tasks...").css("color", "#ff4747", "important");
-        event.preventDefault();
-        e.returnValue = '';
-        }
-        else {
-        //alert('done');
-        }
-        
-        //console.log(e);
-        //console.log( window.background_tasks_status );
-        
-    });
-
-
-    // Show "app loading" placeholder when submitting ANY form JQUERY SUBMIT METHOD, OR CLICKING A SUBMIT BUTTON
-    // (does NOT affect a standard javascript ELEMENT.submit() call)
-    $("form").submit(function(event) { 
-    
-        // We have to run app_reloading_check() here, 
-        if ( app_reloading_check(1) == 'no' ) {
-        event.preventDefault();
-        return false;
-        }
-        
-    });
-
-
-// Render interface after loading (with transition effects)
-$("#app_loading").hide(250, 'linear'); // 0.25 seconds
-
-$("#content_wrapper").show(250, 'linear'); // 0.25 seconds
-$("#content_wrapper").css('display','inline'); // MUST display inline to center itself cross-browser
+	    // Bind the click event handler
+	    $(this).on('click', 'a', function(e){
+	    // Make the old tab inactive.
+	    $active.removeClass('active');
+	    $content.hide();
   
-// Charts background / border
-$(".chart_wrapper").css({ "background-color": window.charts_background });
-$(".chart_wrapper").css({ "border": '2px solid ' + window.charts_border });
-
-// Dynamic table header updating
-$("span.btc_prim_currency_pair").html(window.btc_prim_currency_pair); 
-
-
-//////////////////////////////////////////////////////////////////////////////
-
-
-    // We only want to load our vertical scroll position on secondary start pages that are't background-loading AFTER page load
-    // (WE ALREADY LOAD get_scroll_position() in charts_loading_check() AND feeds_loading_check() FOR THE DYNAMIC PAGE LOADING)
-    if ( $(location).attr('hash') != '' && $(location).attr('hash') != '#news' && $(location).attr('hash') != '#charts' ) {
-    get_scroll_position('init'); // Run AFTER showing content
-    }
-
-random_tips(); // https://codepen.io/kkoutoup/pen/zxmGLE
-
-start_utc_time(); // Show UTC time count in logs UI sections
-
-window.autosize_target = document.querySelector('textarea[data-autoresize]');
-
-var autosize_textarea = autosize(window.autosize_target);
-
-
-    if ( autosize_textarea ) {
-        autosize_textarea.addEventListener('autosize:resized', function(){
-        //console.log('textarea height updated');
-        });
-    }
-
-
-///////////////////////////////////////////////////////////////////////////////
-
+	    // Update the variables with the new link and content
+	    $active = $(this);
+	    $content = $(this.hash);
   
-    // Dynamically adjust admin tab content width
-    $('.admin_change_width').click(function() {
+	    // Make the tab active.
+	    $active.addClass('active');
+	    $content.show();
   
-      	if ( $(this).data('width') == 'full' ) {
-      	$("#admin_wrapper").css('max-width','100%');
-      	$("#admin_tab_content").css('max-width','100%');
-      	}
-      	else {
-      	$("#admin_wrapper").css('max-width','1200px');
-      	$("#admin_tab_content").css('max-width','1200px');
-      	}
-  
-    });
+	    // Prevent the anchor's default click action
+	    e.preventDefault();
+	    });
+	  
+	
+	});
 
 
-	//////////////////////////////////////////////////////////
+	/////////////////////////////////////////////////////////////////////////////////////////////////////
 	
-	if ( getCookie("coin_reload") ) {
-	auto_reload();
-	}
 	
-	//////////////////////////////////////////////////////////
-	
+	// Table data sorter config
 	if ( document.getElementById("coins_table") ) {
 		
 		$("#coins_table").tablesorter({
@@ -299,50 +354,9 @@ var autosize_textarea = autosize(window.autosize_target);
 	
 	
 	}
-	    
-	//////////////////////////////////////////////////////////
-  
-  
-	$('#top_tab_nav').each(function(){
-		
-	// For each set of tabs, we want to keep track of
-	// which tab is active and it's associated content
-	var $active, $content, $links = $(this).find('a');
 
-	// If the location.hash matches one of the links, use that as the active tab.
-	// If no match is found, use the first link as the initial active tab.
-	$active = $($links.filter('[href="'+location.hash+'"]')[0] || $links[0]);
-	$active.addClass('active');
 
-	$content = $($active[0].hash);
-
-	    // Hide the remaining content
-	    $links.not($active).each(function () {
-	    $(this.hash).hide();
-	    });
-
-	    // Bind the click event handler
-	    $(this).on('click', 'a', function(e){
-	    // Make the old tab inactive.
-	    $active.removeClass('active');
-	    $content.hide();
-  
-	    // Update the variables with the new link and content
-	    $active = $(this);
-	    $content = $(this.hash);
-  
-	    // Make the tab active.
-	    $active.addClass('active');
-	    $content.show();
-  
-	    // Prevent the anchor's default click action
-	    e.preventDefault();
-	    });
-	  
-	
-	});
+	/////////////////////////////////////////////////////////////////////////////////////////////////////
 	
 	
-	//////////////////////////////////////////////////////////
-
 });
