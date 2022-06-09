@@ -5482,6 +5482,8 @@ MIGRATE YOUR EXISTING SETTINGS TO THE NEW FORMAT.
 
 -INITIAL BUILDOUT (in-progress) of upcoming admin config interface sections
 
+-Light (time interval) charts reset button, on admin config reset page
+
 v5.12.2 and higher renames the admin config array. ALL CONFIGURATION SETTING
 VARIABLE NAMES ARE NOW DIFFERENT, USE THE LATEST/UPGRADED CONFIG.PHP, AND
 MIGRATE YOUR EXISTING SETTINGS TO THE NEW FORMAT.

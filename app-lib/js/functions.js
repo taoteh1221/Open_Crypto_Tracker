@@ -31,6 +31,15 @@ return new Blob([JSON.stringify(val)]).size;
 /////////////////////////////////////////////////////////////
 
 
+function iframe_adjust_height(elm) {
+extra = elm.id == 'iframe_system_stats' ? 1000 : 100;
+elm.height = (elm.contentWindow.document.body.scrollHeight + extra) + "px";
+}
+
+
+/////////////////////////////////////////////////////////////
+
+
 function set_target_action(obj_id, set_target, set_action) {
 document.getElementById(obj_id).target = set_target;
 document.getElementById(obj_id).action = set_action;
@@ -121,18 +130,6 @@ sort_target = $(node).find(".app_sort_filter").text();
 // Remove any commas from number sorting
 return sort_target.replace(/,/g, '');
 
-}
-
-
-/////////////////////////////////////////////////////////////
-
-
-function iframe_adjust_height(elm) {
-    
-extra = elm.id == 'iframe_system_stats' ? 1000 : 100;
-      
-elm.height = (elm.contentWindow.document.body.scrollHeight + extra) + "px";
-      
 }
 
 

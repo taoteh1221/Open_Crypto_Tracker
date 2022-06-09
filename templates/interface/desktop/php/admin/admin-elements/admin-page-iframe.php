@@ -229,11 +229,7 @@ header('Content-type: text/html; charset=' . $ct_conf['dev']['charset_default'])
 
 // Wait until the DOM has loaded before running DOM-related scripting
 $(document).ready(function(){
-    
 //console.log('admin iframe "<?=$_GET['section']?>" loaded.'); // DEBUGGING
-
-$("#<?=$_GET['section']?>_loading").fadeOut(250);
-
 });
 
 </script>
@@ -251,9 +247,6 @@ padding: 0px;
 
 </head>
 <body class='iframe_wrapper'>
-
-
-    <div id='<?=$_GET['section']?>_loading' class='align_center loading bitcoin'><img src="templates/interface/media/images/auto-preloaded/loader.gif" height='17' alt="" style='vertical-align: middle;' /> Loading...<span id='background_loading_span'></span></div>
     
     
     <?php
@@ -265,8 +258,6 @@ padding: 0px;
     }
     ?>
 
-
-	
 	
 <script>
 
@@ -297,6 +288,7 @@ $refresh_admin = explode(',', $_GET['refresh']);
 });
 
 </script>
+
 
 </body>
 </html>

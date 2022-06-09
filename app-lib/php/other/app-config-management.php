@@ -246,8 +246,12 @@ $cached_lite_chart_struct = trim( file_get_contents($base_dir . '/cache/vars/lit
 }
 
 
-// Check if we need to rebuild lite charts from changes to their structure
-if ( $conf_lite_chart_struct != $cached_lite_chart_struct ) {
+// Check if we need to rebuild lite charts from changes to their structure,
+// OR a user-requested light chart reset
+if (
+$conf_lite_chart_struct != $cached_lite_chart_struct
+|| $_POST['reset_lite_charts'] == 1 && $ct_gen->admin_hashed_nonce('reset_lite_charts') != false && $_POST['admin_hashed_nonce'] == $ct_gen->admin_hashed_nonce('reset_lite_charts')
+) {
 $ct_cache->remove_dir($base_dir . '/cache/charts/spot_price_24hr_volume/lite');
 $ct_cache->remove_dir($base_dir . '/cache/charts/system/lite');
 $ct_cache->save_file($base_dir . '/cache/vars/lite_chart_struct.dat', $conf_lite_chart_struct);
