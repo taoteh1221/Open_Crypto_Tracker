@@ -10,44 +10,41 @@ window.zingAlert= function(){
 // Wait until the DOM has loaded before running DOM-related scripting
 $(document).ready(function(){ 
     
+    
 // PHP used instead for logging / alerts, but leave here in case we want to use pure-javascript
 // cookie creation some day (which could help pre-detect too-large headers that crash an HTTP server)
 // console.log( array_byte_size(document.cookie) );
 
-// Check if privacy mode for assets held is enabled
-privacy_mode(); 
+
+// Render interface after loading (with transition effects)
+$("#app_loading").hide(250, 'linear'); // 0.25 seconds
+$("#content_wrapper").show(250, 'linear'); // 0.25 seconds
+$("#content_wrapper").css('display','inline'); // MUST display inline to center itself cross-browser
+
 
 // Mirror hidden errors output in the footer over to the alert bell area with javascript
 // Run AFTER check to see if alerts are present
 $('#alert_bell_area').html( "<span class='bitcoin'>Current UTC time:</span> <span class='utc_timestamp red'></span><br />" + $('#app_error_alert').html() );
 
-// Render interface after loading (with transition effects)
-$("#app_loading").hide(250, 'linear'); // 0.25 seconds
-
-$("#content_wrapper").show(250, 'linear'); // 0.25 seconds
-$("#content_wrapper").css('display','inline'); // MUST display inline to center itself cross-browser
   
 // Charts background / border
 $(".chart_wrapper").css({ "background-color": window.charts_background });
 $(".chart_wrapper").css({ "border": '2px solid ' + window.charts_border });
 
+
 // Dynamic table header updating
 $("span.btc_prim_currency_pair").html(window.btc_prim_currency_pair); 
 
-random_tips(); // https://codepen.io/kkoutoup/pen/zxmGLE
 
-start_utc_time(); // Show UTC time count in logs UI sections
+// Check if privacy mode for assets held is enabled
+privacy_mode(); 
 
-// Auto-size for trading notes textarea, etc
-window.autosize_target = document.querySelector('textarea[data-autoresize]');
-////
-var autosize_textarea = autosize(window.autosize_target);
+// Random tips on the update page 
+// https://codepen.io/kkoutoup/pen/zxmGLE
+random_tips(); 
 
-    if ( autosize_textarea ) {
-        autosize_textarea.addEventListener('autosize:resized', function(){
-        //console.log('textarea height updated');
-        });
-    }
+// Show UTC time count in logs UI sections
+start_utc_time(); 
 
 
 	/////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -216,7 +213,7 @@ var autosize_textarea = autosize(window.autosize_target);
 	/////////////////////////////////////////////////////////////////////////////////////////////////////
 	
 	
-    // Page zoom support for chrome 
+    // Page zoom support for chrome (only shown in desktop app) 
     // (firefox skews the entire page, safari untested)
     if ( app_edition == 'desktop' ) {
     
@@ -354,6 +351,17 @@ var autosize_textarea = autosize(window.autosize_target);
 	
 	
 	}
+
+
+	/////////////////////////////////////////////////////////////////////////////////////////////////////
+	
+
+    // #MUST# BE THE #LAST RUN LOGIC# IN INIT.JS!
+    $('textarea[data-autoresize]').each(function(){
+      autosize(this);
+    }).on('autosize:resized', function(){
+      //console.log('textarea height updated');
+    });
 
 
 	/////////////////////////////////////////////////////////////////////////////////////////////////////
