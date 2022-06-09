@@ -20,29 +20,33 @@ $(document).ready(function(){
     // Monitor admin iframes for load / unload events
     const admin_iframe_load = document.querySelectorAll('.admin_iframe');
     admin_iframe_load.forEach(function(iframe) {
+          
        
-      // When admin iframe loads
-      iframe.addEventListener('load', function() {
-          
-      $("#"+iframe.id+"_loading").fadeOut(250);
-      iframe_adjust_height(iframe);
-      //console.log(iframe.id + ' loaded');
-          
-          // Detect admin iframe unloading
-          document.getElementById(iframe.id).contentWindow.onbeforeunload = function () {
-          $("#"+iframe.id+"_loading").fadeIn(250);
-          //console.log(iframe.id + ' un-loading');
-          };
-          
-          // Detect PARENT window unloading
-          // (suppress the 'loading' subsection for iframes from showing)
-          window.onbeforeunload = function () {
-          $("#"+iframe.id+"_loading").html('');
-          $("#"+iframe.id+"_loading").removeClass("loading");
+          // When admin iframe loads
+          iframe.addEventListener('load', function() {
+              
           $("#"+iframe.id+"_loading").fadeOut(250);
-          };
-      
-      });
+          iframe_adjust_height(iframe);
+          //console.log(iframe.id + ' loaded');
+          
+          
+              // Detect PARENT window unloading
+              // (suppress the 'loading' subsection for iframes from showing)
+              window.onbeforeunload = function () {
+              $("#"+iframe.id+"_loading").html('');
+              $("#"+iframe.id+"_loading").removeClass("loading");
+              //$("#"+iframe.id+"_loading").fadeOut(250);
+              };
+              
+              
+              // Detect admin iframe unloading
+              document.getElementById(iframe.id).contentWindow.onbeforeunload = function () {
+              $("#"+iframe.id+"_loading").fadeIn(250);
+              //console.log(iframe.id + ' un-loading');
+              };
+              
+          
+          });
       
       
     });
