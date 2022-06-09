@@ -1549,8 +1549,10 @@ zingchart.bind('marketcap_chart', 'label_click', function(e){
          ?>
          <script>
          
-         document.getElementById('sys_stats_quick_link').classList.add("red");
-         document.getElementById('sys_stats_quick_link_info').style.display = 'inline';
+                 if ( document.getElementById('sys_stats_quick_link') ) {
+                 document.getElementById('sys_stats_quick_link').classList.add("red");
+                 document.getElementById('sys_stats_quick_link_info').style.display = 'inline';
+                 }
 
 			var sys_stats_quick_link_info_content = '<h5 class="red tooltip_title">System Stats Alerts</h5>'
 			

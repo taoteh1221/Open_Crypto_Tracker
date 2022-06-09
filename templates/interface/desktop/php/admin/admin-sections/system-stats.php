@@ -19,9 +19,9 @@
          
          <script>
          
-         $('#sys_stats_admin_link a').addClass("red_background");
+         $('#sys_stats_admin_link a', parent.document).addClass("red_background");
          
-         document.getElementById('sys_stats_admin_link_info').style.display = 'inline';
+         parent.document.getElementById('sys_stats_admin_link_info').style.display = 'inline';
 
 			var sys_stats_admin_link_info_content = '<h5 class="red tooltip_title">System Stats Alerts</h5>'
 			
@@ -36,7 +36,7 @@
 			+'';
 		
 		
-			$('#sys_stats_admin_link_info').balloon({
+			$('#sys_stats_admin_link_info', parent.document).balloon({
 			html: true,
 			position: "right",
   			classname: 'balloon-tooltips',

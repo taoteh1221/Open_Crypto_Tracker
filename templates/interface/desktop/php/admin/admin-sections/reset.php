@@ -22,7 +22,7 @@
 	<!-- Submit button must be OUTSIDE form tags here, or it runs improperly -->
 	<button id='reset_api_button' class='force_button_style' onclick='
 	
-	var int_api_key_reset = confirm("Resetting the API key will stop any external \napps from accessing the Internal API with the current key. \n\nPress OK to reset the API key, or CANCEL to keep the current API key. ");
+	var int_api_key_reset = confirm("Resetting the API key will stop any external apps \nfrom accessing the Internal API with the current key. \n\nPress OK to reset the API key, or CANCEL to keep the current API key. ");
 	
 		if ( int_api_key_reset ) {
 		document.getElementById("reset_api_button").disable = true;
