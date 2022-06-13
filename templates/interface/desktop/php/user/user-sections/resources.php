@@ -324,6 +324,8 @@
 	    <ul>
 	        
 	        
+	        <li class='links_list'><a href='https://book.anchor-lang.com/' target='_blank'>Anchor</a>   <span class='yellow'>(Solana program development tools)</span></li>
+	        
 	        <li class='links_list'><a href='https://bitcoinops.org/' target='_blank'>Bitcoin Optech</a></li>
 	        
 	        <li class='links_list'><a href='https://www.blockchain.com/api' target='_blank'>Blockchain.com APIs</a></li>
@@ -334,7 +336,13 @@
 	        
 	        <li class='links_list'><a href='https://programmingbitcoin.com/' target='_blank'>Programming Bitcoin</a></li>
 	        
+	        <li class='links_list'><a href='https://remix.ethereum.org/' target='_blank'>Remix</a>   <span class='yellow'>(Ethereum development online IDE)</span></li>
+	        
 	        <li class='links_list'><a href='https://docs.solana.com/cluster/rpc-endpoints' target='_blank'>Solana API Endpoints / Documentation</a></li>
+	        
+	        <li class='links_list'><a href='https://solanacookbook.com/' target='_blank'>Solana Cook Book</a>   <span class='yellow'>(Solana program development resources)</span></li>
+	        
+	        <li class='links_list'><a href='https://beta.solpg.io/' target='_blank'>Solana Playground</a>   <span class='yellow'>(Solana program development online IDE)</span></li>
 	        
 	        <li class='links_list'><a href='https://bitcoin.stackexchange.com/' target='_blank'>StackExchange - Bitcoin</a></li>
 	        
