@@ -1486,6 +1486,7 @@ private_data = document.getElementsByClassName('private_data');
                     }
                     else {
                     alert("Wrong PIN, please try again.");
+                    return;
                     }
                 
                 
@@ -1504,30 +1505,37 @@ private_data = document.getElementsByClassName('private_data');
     
 
             pw_prompt({
+                
                 lm:"Create PIN <span style='font-weight: bold;' class='bitcoin'>(requires / uses cookies)</span>:", 
                 callback: function(pin) {
-
-                    if ( isInt(pin) == false || pin.length != 6 ) {
+                    
+                    
+                    // If page reload before entering pin (or left blank), or non-numeric, or less than 6 numbers
+                    if ( typeof pin == 'undefined' || isInt(pin) == false || pin.length != 6 ) {
                     alert("PIN must be 6 numeric characters, please try again.");
+                    return;
                     }
                     else {
                     
 
                         pw_prompt({
+                            
                             lm:"Verify PIN:", 
                             callback: function(pin_check) {
                                 
         
-                                if ( pin != null && pin == pin_check ) {
+                                if ( pin == pin_check ) {
                                 setCookie('priv_sec', btoa(pin), 365);
                                 privacy_mode(click);
                                 }
                                 else {
                                 alert("PIN mis-match, please try again.");
+                                return;
                                 }
     
     
                             }
+                            
                         });
                         
                     

@@ -5495,6 +5495,8 @@ MIGRATE YOUR EXISTING SETTINGS TO THE NEW FORMAT.
 -------------------------------------------------------------------
 5.15.1:
 
+-BUG FIX: Setting 'privacy mode' pin as blank is now fixed (cannot happen anymore)
+
 -BUG FIX: Admin category 'loading...' messages fixed to work properly
 
 -Housekeeping / code cleanup and optimization
