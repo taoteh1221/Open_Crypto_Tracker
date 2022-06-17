@@ -167,14 +167,14 @@ $market_val = $ct_var->num_to_str( $ct_api->market($market_asset, $market_exchan
   	// Message parameter added for desired comm methods (leave any comm method blank to skip sending via that method)
   				
   	// Minimize function calls
-  	$encoded_text_msg = $ct_gen->charset_encode($text_msg); // Unicode support included for text messages (emojis / asian characters / etc )
+  	$text_msg = $ct_gen->detect_unicode($text_msg); 
   				
     $send_params = array(
           					'notifyme' => $notifyme_msg,
           					'telegram' => $email_msg,
           					'text' => array(
-          									'message' => $encoded_text_msg['content_output'],
-          									'charset' => $encoded_text_msg['charset']
+          									'message' => $text_msg['content'],
+          									'charset' => $text_msg['charset']
           									),
           					'email' => array(
           									'subject' => $market_asset . ' / ' . strtoupper($market_pair) . ' Price Target Alert (' . $target_direction . ')',

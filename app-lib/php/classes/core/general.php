@@ -831,6 +831,41 @@ var $ct_array = array();
    ////////////////////////////////////////////////////////
    
    
+   function detect_unicode($content) {
+      
+   global $ct_conf;
+   
+   // Changs only if non-UTF-8 / non-ASCII characters are detected further down in this function
+   $set_charset = $ct_conf['dev']['charset_default'];
+   
+   $words = explode(" ", $content);
+      
+      
+      foreach ( $words as $scan_key => $scan_val ) {
+         
+      $scan_val = trim($scan_val);
+      $scan_charset = ( mb_detect_encoding($scan_val, 'auto') != false ? mb_detect_encoding($scan_val, 'auto') : null );
+      
+         if ( isset($scan_charset) && !preg_match("/" . $ct_conf['dev']['charset_default'] . "/i", $scan_charset) && !preg_match("/ASCII/i", $scan_charset) ) {
+         $set_charset = $ct_conf['dev']['charset_unicode'];
+         }
+      
+      }
+      
+   
+   $result['charset'] = $set_charset;
+   
+   $result['content'] = $content; // We don't change anything on the content (just detect content's charset)
+   
+   return $result;
+   
+   }
+   
+   
+   ////////////////////////////////////////////////////////
+   ////////////////////////////////////////////////////////
+   
+   
    // Return the TLD only (no subdomain)
    function get_tld_or_ip($url) {
    
@@ -856,6 +891,45 @@ var $ct_array = array();
    
    
    return strtolower( trim($host) );
+   
+   }
+    
+   
+   ////////////////////////////////////////////////////////
+   ////////////////////////////////////////////////////////
+   
+    
+    // For captcha image
+    // Credit to: https://code.tutsplus.com/tutorials/build-your-own-captcha-and-contact-form-in-php--net-5362
+   function captcha_str($input, $strength=10) {
+      
+   $input_length = strlen($input);
+   $random_str = '';
+           
+            $count = 0;
+            while ( $count < $strength ) {
+                  
+            $rand_case = rand(1, 2);
+                  
+               if( $rand_case % 2 == 0 ){ 
+               // Even number  
+               $random_char = strtoupper( $input[mt_rand(0, $input_length - 1)] );
+               } 
+               else { 
+               // Odd number
+               $random_char = strtolower( $input[mt_rand(0, $input_length - 1)] );
+               } 
+            
+            
+               if ( stristr($random_str, $random_char) == false ) {
+               $random_str .= $random_char;
+               $count = $count + 1;
+               }
+
+            
+            }
+           
+   return $random_str;
    
    }
    
@@ -927,6 +1001,86 @@ var $ct_array = array();
          
          
    return $stats_info_array;
+   
+   }
+   
+   
+   ////////////////////////////////////////////////////////
+   ////////////////////////////////////////////////////////
+   
+   
+   function valid_username($username) {
+   
+   global $ct_conf;
+   
+       if ( mb_strlen($username, $ct_conf['dev']['charset_default']) < 4 ) {
+       $error .= "requires 4 minimum characters; ";
+       }
+       
+       if ( mb_strlen($username, $ct_conf['dev']['charset_default']) > 30 ) {
+       $error .= "requires 30 maximum characters; ";
+       }
+       
+       if ( !preg_match("/^[a-z]([a-z0-9]+)$/", $username) ) {
+       $error .= "lowercase letters and numbers only (lowercase letters first, then optionally numbers, no spaces); ";
+       }
+       
+       if ( preg_match('/\s/',$username) ) {
+       $error .= "no spaces allowed; ";
+       }
+   
+   
+       if( $error ){
+       return 'valid_username_error: ' . $error;
+       }
+       else {
+       return 'valid';
+       }
+   
+   }
+   
+   
+   ////////////////////////////////////////////////////////
+   ////////////////////////////////////////////////////////
+   
+   
+   function smtp_mail($to, $subj, $msg, $content_type='text/plain', $charset=null) {
+   
+   // Using 3rd party SMTP class, initiated already as global var $smtp
+   global $ct_conf, $smtp;
+   
+      if ( $charset == null ) {
+      $charset = $ct_conf['dev']['charset_default'];
+      }
+      
+      
+      // Fallback, if no From email set in app config
+      if ( $this->valid_email($ct_conf['comms']['from_email']) == 'valid' ) {
+      $from_email = $ct_conf['comms']['from_email'];
+      }
+      else {
+      $temp_data = explode("||", $ct_conf['comms']['smtp_login']);
+      $from_email = $temp_data[0];
+      }
+   
+   
+   $smtp->From('Open Crypto Tracker <' . $from_email . '>'); 
+   $smtp->singleTo($to); 
+   $smtp->Subject($subj);
+   $smtp->Charset($charset);
+   
+   
+      if ( $content_type == 'text/plain' ) {
+      $smtp->Text($msg);
+      $smtp->Body(null);
+      }
+      elseif ( $content_type == 'text/html' ) {
+      $smtp->Body($msg);
+      $smtp->Text(null);
+      }
+   
+   
+   return $smtp->Send();
    
    }
    
@@ -1027,295 +1181,6 @@ var $ct_array = array();
    ////////////////////////////////////////////////////////
    
    
-   function valid_username($username) {
-   
-   global $ct_conf;
-   
-       if ( mb_strlen($username, $ct_conf['dev']['charset_default']) < 4 ) {
-       $error .= "requires 4 minimum characters; ";
-       }
-       
-       if ( mb_strlen($username, $ct_conf['dev']['charset_default']) > 30 ) {
-       $error .= "requires 30 maximum characters; ";
-       }
-       
-       if ( !preg_match("/^[a-z]([a-z0-9]+)$/", $username) ) {
-       $error .= "lowercase letters and numbers only (lowercase letters first, then optionally numbers, no spaces); ";
-       }
-       
-       if ( preg_match('/\s/',$username) ) {
-       $error .= "no spaces allowed; ";
-       }
-   
-   
-       if( $error ){
-       return 'valid_username_error: ' . $error;
-       }
-       else {
-       return 'valid';
-       }
-   
-   }
-    
-   
-   ////////////////////////////////////////////////////////
-   ////////////////////////////////////////////////////////
-   
-    
-    // For captcha image
-    // Credit to: https://code.tutsplus.com/tutorials/build-your-own-captcha-and-contact-form-in-php--net-5362
-   function captcha_str($input, $strength=10) {
-      
-   $input_length = strlen($input);
-   $random_str = '';
-           
-            $count = 0;
-            while ( $count < $strength ) {
-                  
-            $rand_case = rand(1, 2);
-                  
-               if( $rand_case % 2 == 0 ){ 
-               // Even number  
-               $random_char = strtoupper( $input[mt_rand(0, $input_length - 1)] );
-               } 
-               else { 
-               // Odd number
-               $random_char = strtolower( $input[mt_rand(0, $input_length - 1)] );
-               } 
-            
-            
-               if ( stristr($random_str, $random_char) == false ) {
-               $random_str .= $random_char;
-               $count = $count + 1;
-               }
-
-            
-            }
-           
-   return $random_str;
-   
-   }
-
-   
-   ////////////////////////////////////////////////////////
-   ////////////////////////////////////////////////////////
-   
-   
-   function preferred_comms($preferred_comms, $available_params) {
-   
-   $chosen_params = array();
-   
-   
-    	// Message parameters added to $chosen_params for preferred comm methods
-    	if ( $preferred_comms == 'all' ) {
-    		
-    	$chosen_params = array(
-                                'notifyme' => $available_params['notifyme'],
-                                'telegram' => $available_params['telegram'],
-                                'text' => array(
-                                               'message' => $available_params['text']['message'],
-                                               'charset' => $available_params['text']['charset']
-                                               ),
-                                'email' => array(
-                                                'subject' => $available_params['email']['subject'],
-                                                'message' => $available_params['email']['message']
-                                                )
-                                );
-    	
-    	}
-    	elseif ( $preferred_comms == 'email' ) {
-    		
-    	$chosen_params['email'] = array(
-            			'subject' => $available_params['email']['subject'],
-            			'message' => $available_params['email']['message']
-            			);
-    	
-    	}
-    	elseif ( $preferred_comms == 'text' ) {
-    	
-    	$chosen_params['text'] = array(
-    			       'message' => $available_params['text']['message'],
-    			       'charset' => $available_params['text']['charset']
-    			       );
-    	
-    	}
-    	elseif ( $preferred_comms == 'notifyme' ) {
-    	$chosen_params['notifyme'] = $available_params['notifyme'];
-    	}
-    	elseif ( $preferred_comms == 'telegram' ) {
-    	$chosen_params['telegram'] = $available_params['telegram'];
-    	}					
-
-
-   return $chosen_params;
-   
-   }
-   
-   
-   ////////////////////////////////////////////////////////
-   ////////////////////////////////////////////////////////
-   
-   
-   function throttled_warning_log($type) {
-   
-   global $ct_conf, $ct_cache, $base_dir, $system_info, $system_warnings, $system_warnings_cron_interval;
-   
-   
-	  // Minus 1 minute, to try keeping daily / hourly recurrences at same exact runtime (instead of moving up the runtime daily / hourly)
-      if ( $ct_cache->update_cache($base_dir . '/cache/events/system/warning-' . $type . '.dat', ($system_warnings_cron_interval[$type] * 60) -1 ) == true ) {
-          
-      $this->log('system_warning', $system_warnings[$type]);
-      
-          if ( isset($system_info['distro_name']) ) {
-          $system_info = "\n\nApp Server System Info: " . $system_info['distro_name'] . ( isset($system_info['distro_version']) ? ' ' . $system_info['distro_version'] : '' );
-          }
-      
-      $email_msg = 'Open Crypto Tracker detected an app server issue: ' . $system_warnings[$type] . '. (warning thresholds are adjustable in the Admin Config Power User section) ' . $system_info;
-               
-      // Were're just adding a human-readable timestamp to smart home (audio) alerts
-      $notifyme_msg = $email_msg . ' Timestamp: ' . $this->time_date_format($ct_conf['gen']['loc_time_offset'], 'pretty_time') . '.';
-      
-      $text_msg = 'Open Crypto Tracker app server issue: ' . $system_warnings[$type] . '.';
-               
-      // Minimize function calls
-      $encoded_text_msg = $this->charset_encode($text_msg); // Unicode support included for text messages (emojis / asian characters / etc )
-      
-                    
-      // Message parameter added for desired comm methods (leave any comm method blank to skip sending via that method)
-                        
-      $send_params = array(
-                  
-                           'notifyme' => $notifyme_msg,
-                                    
-                           'telegram' => $email_msg,
-                                    
-                           'text' => array(
-                                           'message' => $encoded_text_msg['content_output'],
-                                           'charset' => $encoded_text_msg['charset']
-                                           ),
-                                                    
-                           'email' => array(
-                                            'subject' => 'App Server Issue (' . preg_replace("/_/", " ", $type) . ')',
-                                            'message' => $email_msg
-                                            )
-                                                       
-                             );
-                    
-                    
-      // Send notifications
-      @$ct_cache->queue_notify($send_params);
-                        
-      
-      $ct_cache->save_file($base_dir . '/cache/events/system/warning-' . $type . '.dat', $this->time_date_format(false, 'pretty_date_time') );
-      
-      }
-   
-   
-   }
-       
-   
-   ////////////////////////////////////////////////////////
-   ////////////////////////////////////////////////////////
-   
-   
-   function subarray_ct_conf_upgrade($cat_key, $conf_key, $skip_upgrading) {
-   
-   global $upgraded_ct_conf, $cached_ct_conf, $check_default_ct_conf, $default_ct_conf;
-   
-      // Check for new variables, and add them
-      foreach ( $default_ct_conf[$cat_key][$conf_key] as $setting_key => $setting_val ) {
-      
-         if ( is_array($setting_val) ) {
-         $this->log('conf_error', 'Sub-array depth to deep for app config upgrade parser');
-         }
-         elseif ( !in_array($setting_key, $skip_upgrading) && !isset($upgraded_ct_conf[$cat_key][$conf_key][$setting_key]) ) {
-         	
-         $upgraded_ct_conf[$cat_key][$conf_key][$setting_key] = $default_ct_conf[$cat_key][$conf_key][$setting_key];
-         
-         $this->log(
-         			'conf_error',
-         			'Outdated app config, upgraded parameter ct_conf[' . $cat_key . '][' . $conf_key . '][' . $setting_key . '] imported (default value: ' . $default_ct_conf[$cat_key][$conf_key][$setting_key] . ')'
-         			);
-         
-         $conf_upgraded = 1;
-         
-         }
-            
-      }
-      
-      // Check for depreciated variables, and remove them
-      foreach ( $cached_ct_conf[$cat_key][$conf_key] as $setting_key => $setting_val ) {
-      
-         if ( is_array($setting_val) ) {
-         $this->log('conf_error', 'Sub-array depth to deep for app config upgrade parser');
-         }
-         elseif ( !in_array($setting_key, $skip_upgrading) && !isset($default_ct_conf[$cat_key][$conf_key][$setting_key]) ) {
-         	
-         unset($upgraded_ct_conf[$cat_key][$conf_key][$setting_key]);
-         
-         $this->log(
-         			'conf_error',
-         			'Depreciated app config, parameter ct_conf[' . $cat_key . '][' . $conf_key . '][' . $setting_key . '] removed'
-         			);
-         
-         $conf_upgraded = 1;
-         
-         }
-            
-      }
-      
-   }
-   
-   
-   ////////////////////////////////////////////////////////
-   ////////////////////////////////////////////////////////
-   
-   
-   function smtp_mail($to, $subj, $msg, $content_type='text/plain', $charset=null) {
-   
-   // Using 3rd party SMTP class, initiated already as global var $smtp
-   global $ct_conf, $smtp;
-   
-      if ( $charset == null ) {
-      $charset = $ct_conf['dev']['charset_default'];
-      }
-      
-      
-      // Fallback, if no From email set in app config
-      if ( $this->valid_email($ct_conf['comms']['from_email']) == 'valid' ) {
-      $from_email = $ct_conf['comms']['from_email'];
-      }
-      else {
-      $temp_data = explode("||", $ct_conf['comms']['smtp_login']);
-      $from_email = $temp_data[0];
-      }
-   
-   
-   $smtp->From('Open Crypto Tracker <' . $from_email . '>'); 
-   $smtp->singleTo($to); 
-   $smtp->Subject($subj);
-   $smtp->Charset($charset);
-   
-   
-      if ( $content_type == 'text/plain' ) {
-      $smtp->Text($msg);
-      $smtp->Body(null);
-      }
-      elseif ( $content_type == 'text/html' ) {
-      $smtp->Body($msg);
-      $smtp->Text(null);
-      }
-   
-   
-   return $smtp->Send();
-   
-   }
-   
-   
-   ////////////////////////////////////////////////////////
-   ////////////////////////////////////////////////////////
-   
-   
    function log($log_type, $log_msg, $verbose_tracing=false, $hashcheck=false, $overwrite=false) {
    
    global $runtime_mode, $ct_conf, $log_array;
@@ -1347,74 +1212,6 @@ var $ct_array = array();
       $log_array[$log_type] .= '[' . date('Y-m-d H:i:s') . '] ' . $runtime_mode . ' => ' . $category . ': ' . $log_msg . ( $verbose_tracing != false ? '; [ '  . $verbose_tracing . ' ]' : ';' ) . " <br /> \n";
       }
    
-   
-   }
-   
-   
-   ////////////////////////////////////////////////////////
-   ////////////////////////////////////////////////////////
-   
-   
-   function key_to_name($str) {
-   
-   global $ct_conf;
-   
-   // Uppercase every word, and remove underscore between them
-   $str = ucwords(preg_replace("/_/i", " ", $str));
-   
-   
-      // Pretty up the individual words as needed
-      $words = explode(" ",$str);
-      foreach($words as $key => $val) {
-      
-         if ( $val == 'Us' ) {
-         $words[$key] = strtoupper($val); // All uppercase US
-         }
-      
-      $pretty_str .= $words[$key] . ' ';
-      
-      }
-   
-      
-      // Pretty up all secondary asset market symbols
-      foreach($ct_conf['power']['crypto_pair_pref_mrkts'] as $key => $unused) {
-      $pretty_str = preg_replace("/".strtolower($key)."/i", strtoupper($key), $pretty_str);
-      }
-   
-      foreach($ct_conf['power']['btc_currency_mrkts'] as $key => $unused) {
-      $pretty_str = preg_replace("/".strtolower($key)."/i", strtoupper($key), $pretty_str);
-      }
-   
-   $pretty_str = preg_replace("/btc/i", 'BTC', $pretty_str);
-   $pretty_str = preg_replace("/nft/i", 'NFT', $pretty_str);
-   $pretty_str = preg_replace("/coin/i", 'Coin', $pretty_str);
-   $pretty_str = preg_replace("/bitcoin/i", 'Bitcoin', $pretty_str);
-   $pretty_str = preg_replace("/exchange/i", 'Exchange', $pretty_str);
-   $pretty_str = preg_replace("/market/i", 'Market', $pretty_str);
-   $pretty_str = preg_replace("/base/i", 'Base', $pretty_str);
-   $pretty_str = preg_replace("/forex/i", 'Forex', $pretty_str);
-   $pretty_str = preg_replace("/finex/i", 'Finex', $pretty_str);
-   $pretty_str = preg_replace("/stamp/i", 'Stamp', $pretty_str);
-   $pretty_str = preg_replace("/flyer/i", 'Flyer', $pretty_str);
-   $pretty_str = preg_replace("/panda/i", 'Panda', $pretty_str);
-   $pretty_str = preg_replace("/pay/i", 'Pay', $pretty_str);
-   $pretty_str = preg_replace("/swap/i", 'Swap', $pretty_str);
-   $pretty_str = preg_replace("/iearn/i", 'iEarn', $pretty_str);
-   $pretty_str = preg_replace("/pulse/i", 'Pulse', $pretty_str);
-   $pretty_str = preg_replace("/defi/i", 'DeFi', $pretty_str);
-   $pretty_str = preg_replace("/ring/i", 'Ring', $pretty_str);
-   $pretty_str = preg_replace("/amm/i", 'AMM', $pretty_str);
-   $pretty_str = preg_replace("/ico/i", 'ICO', $pretty_str);
-   $pretty_str = preg_replace("/erc20/i", 'ERC-20', $pretty_str);
-   $pretty_str = preg_replace("/okex/i", 'OKex', $pretty_str);
-   $pretty_str = preg_replace("/mart/i", 'Mart', $pretty_str);
-   $pretty_str = preg_replace("/ftx/i", 'FTX', $pretty_str);
-   $pretty_str = preg_replace("/dcx/i", 'DCX', $pretty_str);
-   $pretty_str = preg_replace("/gateio/i", 'Gate.io', $pretty_str);
-   $pretty_str = preg_replace("/dex/i", 'DEX', $pretty_str);
-   
-   
-   return trim($pretty_str);
    
    }
     
@@ -1792,6 +1589,305 @@ var $ct_array = array();
    $vars['cfg_app_version'] = $app_version; // Open Crypto Tracker version
    
    return $vars;
+   
+   }
+
+   
+   ////////////////////////////////////////////////////////
+   ////////////////////////////////////////////////////////
+   
+   
+   function preferred_comms($preferred_comms, $available_params) {
+   
+   $chosen_params = array();
+   
+   
+    	// Message parameters added to $chosen_params for preferred comm methods
+    	if ( $preferred_comms == 'all' ) {
+    		
+    	$chosen_params = array(
+                                'notifyme' => $available_params['notifyme'],
+                                'telegram' => $available_params['telegram'],
+                                'text' => array(
+                                               'message' => $available_params['text']['message'],
+                                               'charset' => $available_params['text']['charset']
+                                               ),
+                                'email' => array(
+                                                'subject' => $available_params['email']['subject'],
+                                                'message' => $available_params['email']['message']
+                                                )
+                                );
+    	
+    	}
+    	elseif ( $preferred_comms == 'email' ) {
+    		
+    	$chosen_params['email'] = array(
+            			'subject' => $available_params['email']['subject'],
+            			'message' => $available_params['email']['message']
+            			);
+    	
+    	}
+    	elseif ( $preferred_comms == 'text' ) {
+    	
+    	$chosen_params['text'] = array(
+    			       'message' => $available_params['text']['message'],
+    			       'charset' => $available_params['text']['charset']
+    			       );
+    	
+    	}
+    	elseif ( $preferred_comms == 'notifyme' ) {
+    	$chosen_params['notifyme'] = $available_params['notifyme'];
+    	}
+    	elseif ( $preferred_comms == 'telegram' ) {
+    	$chosen_params['telegram'] = $available_params['telegram'];
+    	}					
+
+
+   return $chosen_params;
+   
+   }
+   
+   
+   ////////////////////////////////////////////////////////
+   ////////////////////////////////////////////////////////
+   
+   
+   function start_page_html($page) {
+      
+      if ( isset($_GET['start_page']) && $_GET['start_page'] != '' ) {
+      $border_highlight = '_red';
+      $text_class = 'red';
+      }
+      
+   ?>
+   <span class='start_page_menu<?=$border_highlight?>'> 
+      
+      <select class='browser-default custom-select' title='Sets alternate start pages, and saves your scroll position on alternate start pages during reloads.' class='<?=$text_class?>' onchange='
+      
+         if ( this.value == "index.php?start_page=<?=$page?>" ) {
+         var anchor = "#<?=$page?>";
+         }
+         else {
+         var anchor = "";
+         sessionStorage["scroll_position"] = 0;
+         }
+      
+      // This start page method saves portfolio data during the session, even without cookie data enabled
+      var set_action = this.value + anchor;
+      set_target_action("coin_amnts", "_self", set_action);
+      $("#coin_amnts").submit();
+      
+      '>
+         <option value='index.php'> Show Portfolio Page First </option>
+         <?php
+         if ( isset($_GET['start_page']) && $_GET['start_page'] != '' && $_GET['start_page'] != $page ) {
+         $another_set = 1;
+         ?>
+         <option value='index.php?start_page=<?=$_GET['start_page']?>' selected > Show <?=ucwords( preg_replace("/_/i", " ", $_GET['start_page']) )?> Page First </option>
+         <?php
+         }
+         ?>
+         <option value='index.php?start_page=<?=$page?>' <?=( $_GET['start_page'] == $page ? 'selected' : '' )?> > Show <?=ucwords( preg_replace("/_/i", " ", $page) )?> Page First </option>
+      </select> 
+      
+   </span>
+   
+      <?php
+      if ( $another_set == 1 ) {
+      ?>
+      <span class='red'>&nbsp;(this other secondary page is currently the start page)</span>
+       <br class='clear_both' />
+      <?php
+      }
+      elseif ( $_GET['start_page'] == $page ) {
+      ?>
+      <span class='red'>&nbsp;(this page is currently the start page)</span>
+       <br class='clear_both' />
+      <?php
+      }
+      
+   }
+   
+   
+   ////////////////////////////////////////////////////////
+   ////////////////////////////////////////////////////////
+   
+   
+   function throttled_warning_log($type) {
+   
+   global $ct_conf, $ct_cache, $base_dir, $system_info, $system_warnings, $system_warnings_cron_interval;
+   
+   
+	  // Minus 1 minute, to try keeping daily / hourly recurrences at same exact runtime (instead of moving up the runtime daily / hourly)
+      if ( $ct_cache->update_cache($base_dir . '/cache/events/system/warning-' . $type . '.dat', ($system_warnings_cron_interval[$type] * 60) -1 ) == true ) {
+          
+      $this->log('system_warning', $system_warnings[$type]);
+      
+          if ( isset($system_info['distro_name']) ) {
+          $system_info = "\n\nApp Server System Info: " . $system_info['distro_name'] . ( isset($system_info['distro_version']) ? ' ' . $system_info['distro_version'] : '' );
+          }
+      
+      $email_msg = 'Open Crypto Tracker detected an app server issue: ' . $system_warnings[$type] . '. (warning thresholds are adjustable in the Admin Config Power User section) ' . $system_info;
+               
+      // Were're just adding a human-readable timestamp to smart home (audio) alerts
+      $notifyme_msg = $email_msg . ' Timestamp: ' . $this->time_date_format($ct_conf['gen']['loc_time_offset'], 'pretty_time') . '.';
+      
+      $text_msg = 'Open Crypto Tracker app server issue: ' . $system_warnings[$type] . '.';
+               
+      // Minimize function calls
+      $text_msg = $this->detect_unicode($text_msg); 
+      
+                    
+      // Message parameter added for desired comm methods (leave any comm method blank to skip sending via that method)
+                        
+      $send_params = array(
+                  
+                           'notifyme' => $notifyme_msg,
+                                    
+                           'telegram' => $email_msg,
+                                    
+                           'text' => array(
+                                           'message' => $text_msg['content'],
+                                           'charset' => $text_msg['charset']
+                                           ),
+                                                    
+                           'email' => array(
+                                            'subject' => 'App Server Issue (' . preg_replace("/_/", " ", $type) . ')',
+                                            'message' => $email_msg
+                                            )
+                                                       
+                             );
+                    
+                    
+      // Send notifications
+      @$ct_cache->queue_notify($send_params);
+                        
+      
+      $ct_cache->save_file($base_dir . '/cache/events/system/warning-' . $type . '.dat', $this->time_date_format(false, 'pretty_date_time') );
+      
+      }
+   
+   
+   }
+       
+   
+   ////////////////////////////////////////////////////////
+   ////////////////////////////////////////////////////////
+   
+   
+   function subarray_ct_conf_upgrade($cat_key, $conf_key, $skip_upgrading) {
+   
+   global $upgraded_ct_conf, $cached_ct_conf, $check_default_ct_conf, $default_ct_conf;
+   
+      // Check for new variables, and add them
+      foreach ( $default_ct_conf[$cat_key][$conf_key] as $setting_key => $setting_val ) {
+      
+         if ( is_array($setting_val) ) {
+         $this->log('conf_error', 'Sub-array depth to deep for app config upgrade parser');
+         }
+         elseif ( !in_array($setting_key, $skip_upgrading) && !isset($upgraded_ct_conf[$cat_key][$conf_key][$setting_key]) ) {
+         	
+         $upgraded_ct_conf[$cat_key][$conf_key][$setting_key] = $default_ct_conf[$cat_key][$conf_key][$setting_key];
+         
+         $this->log(
+         			'conf_error',
+         			'Outdated app config, upgraded parameter ct_conf[' . $cat_key . '][' . $conf_key . '][' . $setting_key . '] imported (default value: ' . $default_ct_conf[$cat_key][$conf_key][$setting_key] . ')'
+         			);
+         
+         $conf_upgraded = 1;
+         
+         }
+            
+      }
+      
+      // Check for depreciated variables, and remove them
+      foreach ( $cached_ct_conf[$cat_key][$conf_key] as $setting_key => $setting_val ) {
+      
+         if ( is_array($setting_val) ) {
+         $this->log('conf_error', 'Sub-array depth to deep for app config upgrade parser');
+         }
+         elseif ( !in_array($setting_key, $skip_upgrading) && !isset($default_ct_conf[$cat_key][$conf_key][$setting_key]) ) {
+         	
+         unset($upgraded_ct_conf[$cat_key][$conf_key][$setting_key]);
+         
+         $this->log(
+         			'conf_error',
+         			'Depreciated app config, parameter ct_conf[' . $cat_key . '][' . $conf_key . '][' . $setting_key . '] removed'
+         			);
+         
+         $conf_upgraded = 1;
+         
+         }
+            
+      }
+      
+   }
+   
+   
+   ////////////////////////////////////////////////////////
+   ////////////////////////////////////////////////////////
+   
+   
+   function key_to_name($str) {
+   
+   global $ct_conf;
+   
+   // Uppercase every word, and remove underscore between them
+   $str = ucwords(preg_replace("/_/i", " ", $str));
+   
+   
+      // Pretty up the individual words as needed
+      $words = explode(" ",$str);
+      foreach($words as $key => $val) {
+      
+         if ( $val == 'Us' ) {
+         $words[$key] = strtoupper($val); // All uppercase US
+         }
+      
+      $pretty_str .= $words[$key] . ' ';
+      
+      }
+   
+      
+      // Pretty up all secondary asset market symbols
+      foreach($ct_conf['power']['crypto_pair_pref_mrkts'] as $key => $unused) {
+      $pretty_str = preg_replace("/".strtolower($key)."/i", strtoupper($key), $pretty_str);
+      }
+   
+      foreach($ct_conf['power']['btc_currency_mrkts'] as $key => $unused) {
+      $pretty_str = preg_replace("/".strtolower($key)."/i", strtoupper($key), $pretty_str);
+      }
+   
+   $pretty_str = preg_replace("/btc/i", 'BTC', $pretty_str);
+   $pretty_str = preg_replace("/nft/i", 'NFT', $pretty_str);
+   $pretty_str = preg_replace("/coin/i", 'Coin', $pretty_str);
+   $pretty_str = preg_replace("/bitcoin/i", 'Bitcoin', $pretty_str);
+   $pretty_str = preg_replace("/exchange/i", 'Exchange', $pretty_str);
+   $pretty_str = preg_replace("/market/i", 'Market', $pretty_str);
+   $pretty_str = preg_replace("/base/i", 'Base', $pretty_str);
+   $pretty_str = preg_replace("/forex/i", 'Forex', $pretty_str);
+   $pretty_str = preg_replace("/finex/i", 'Finex', $pretty_str);
+   $pretty_str = preg_replace("/stamp/i", 'Stamp', $pretty_str);
+   $pretty_str = preg_replace("/flyer/i", 'Flyer', $pretty_str);
+   $pretty_str = preg_replace("/panda/i", 'Panda', $pretty_str);
+   $pretty_str = preg_replace("/pay/i", 'Pay', $pretty_str);
+   $pretty_str = preg_replace("/swap/i", 'Swap', $pretty_str);
+   $pretty_str = preg_replace("/iearn/i", 'iEarn', $pretty_str);
+   $pretty_str = preg_replace("/pulse/i", 'Pulse', $pretty_str);
+   $pretty_str = preg_replace("/defi/i", 'DeFi', $pretty_str);
+   $pretty_str = preg_replace("/ring/i", 'Ring', $pretty_str);
+   $pretty_str = preg_replace("/amm/i", 'AMM', $pretty_str);
+   $pretty_str = preg_replace("/ico/i", 'ICO', $pretty_str);
+   $pretty_str = preg_replace("/erc20/i", 'ERC-20', $pretty_str);
+   $pretty_str = preg_replace("/okex/i", 'OKex', $pretty_str);
+   $pretty_str = preg_replace("/mart/i", 'Mart', $pretty_str);
+   $pretty_str = preg_replace("/ftx/i", 'FTX', $pretty_str);
+   $pretty_str = preg_replace("/dcx/i", 'DCX', $pretty_str);
+   $pretty_str = preg_replace("/gateio/i", 'Gate.io', $pretty_str);
+   $pretty_str = preg_replace("/dex/i", 'DEX', $pretty_str);
+   
+   
+   return trim($pretty_str);
    
    }
     
@@ -2195,15 +2291,15 @@ var $ct_array = array();
    // Message parameter added for desired comm methods (leave any comm method blank to skip sending via that method)
                        
    // Minimize function calls
-   $encoded_text_msg = $this->charset_encode($text_msg); // Unicode support included for text messages (emojis / asian characters / etc )
+   $text_msg = $this->detect_unicode($text_msg); 
                        
    $send_params = array(
    
                         'notifyme' => $notifyme_msg,
                         'telegram' => $email_msg,
                         'text' => array(
-                                        'message' => $encoded_text_msg['content_output'],
-                                        'charset' => $encoded_text_msg['charset']
+                                        'message' => $text_msg['content'],
+                                        'charset' => $text_msg['charset']
                                         ),
                         'email' => array(
                                          'subject' => 'Price Alert Fixed Reset Processed For ' . $count . ' Alert(s)',
@@ -2264,13 +2360,13 @@ var $ct_array = array();
        // Message parameter added for desired comm methods (leave any comm method blank to skip sending via that method)
                   
        // Minimize function calls
-       $encoded_text_alert = $this->charset_encode($text_msg); // Unicode support included for text messages (emojis / asian characters / etc )
+       $encoded_text_alert = $this->detect_unicode($text_msg); 
     			
        $admin_login_send_params = array(
                                         'notifyme' => $notifyme_msg,
                                         'telegram' => $email_msg . $app_location,
                                         'text' => array(
-                                                       'message' => $encoded_text_alert['content_output'],
+                                                       'message' => $encoded_text_alert['content'],
                                                        'charset' => $encoded_text_alert['charset']
                                                        ),
                                         'email' => array(
@@ -2497,100 +2593,6 @@ var $ct_array = array();
       
       }
    
-   
-   }
-   
-   
-   ////////////////////////////////////////////////////////
-   ////////////////////////////////////////////////////////
-   
-   
-   function charset_encode($content) {
-      
-   global $ct_conf;
-   
-   
-   // Charsets we want to try and detect here
-   // (SAVE HERE FOR POSSIBLE FUTURE USE)
-   $charset_array = array(
-                           'ASCII',
-                           'UCS-2',
-                           'UCS-2BE',
-                           'UTF-16BE',
-                           'UTF-16LE',
-                           'UTF-16',
-                           'UTF-8',
-                           );
-   
-   
-   // Changs only if non-UTF-8 / non-ASCII characters are detected further down in this function
-   $set_charset = $ct_conf['dev']['charset_default'];
-   
-   $words = explode(" ", $content);
-      
-      
-      foreach ( $words as $scan_key => $scan_val ) {
-         
-      $scan_val = trim($scan_val);
-      
-      $scan_charset = ( mb_detect_encoding($scan_val, 'auto') != false ? mb_detect_encoding($scan_val, 'auto') : null );
-      
-         if ( isset($scan_charset) && !preg_match("/" . $ct_conf['dev']['charset_default'] . "/i", $scan_charset) && !preg_match("/ASCII/i", $scan_charset) ) {
-         $set_charset = $ct_conf['dev']['charset_unicode'];
-         }
-      
-      }
-   
-      
-      foreach ( $words as $word_key => $word_val ) {
-         
-      $word_val = trim($word_val);
-      
-      $word_charset = ( mb_detect_encoding($word_val, 'auto') != false ? mb_detect_encoding($word_val, 'auto') : null );
-      
-      $result['debug_original_charset'] .= ( isset($word_charset) ? $word_charset . ' ' : 'unknown_charset ' );
-      
-         if ( isset($word_charset) && strtolower($word_charset) == strtolower($set_charset) ) {
-         $temp = $word_val . ' ';
-         }
-         elseif ( isset($word_charset) && strtolower($set_charset) != strtolower($word_charset) ) {
-         $temp = mb_convert_encoding($word_val . ' ', $set_charset, $word_charset);
-         }
-         elseif ( !isset($word_charset) ) {
-         $temp = mb_convert_encoding($word_val . ' ', $set_charset);
-         }
-         
-         $temp_converted .= $temp;
-         
-      }
-      
-   
-   $temp_converted = trim($temp_converted);
-      
-   $result['debug_original_charset'] = trim($result['debug_original_charset']);
-   
-   $result['debug_temp_converted'] = $temp_converted;
-   
-   $result['charset'] = $set_charset;
-      
-   $result['length'] = mb_strlen($temp_converted, $set_charset); // Get character length AFTER trim() / BEFORE bin2hex() processing
-         
-      
-      if ( $set_charset == $ct_conf['dev']['charset_unicode'] ) {
-         
-         for($i =0; $i < strlen($temp_converted); $i++) {
-         //$content_converted .= ' ' . strtoupper(bin2hex($temp_converted[$i])); // Spacing between characters
-         $content_converted .= strtoupper(bin2hex($temp_converted[$i])); // No spacing
-         }
-      
-      $result['content_output'] = trim($content_converted);
-      }
-      else {
-      $result['content_output'] = $temp_converted;
-      }
-      
-   
-   return $result;
    
    }
    
@@ -3008,67 +3010,6 @@ var $ct_array = array();
    ////////////////////////////////////////////////////////
    
    
-   function start_page_html($page) {
-      
-      if ( isset($_GET['start_page']) && $_GET['start_page'] != '' ) {
-      $border_highlight = '_red';
-      $text_class = 'red';
-      }
-      
-   ?>
-   <span class='start_page_menu<?=$border_highlight?>'> 
-      
-      <select class='browser-default custom-select' title='Sets alternate start pages, and saves your scroll position on alternate start pages during reloads.' class='<?=$text_class?>' onchange='
-      
-         if ( this.value == "index.php?start_page=<?=$page?>" ) {
-         var anchor = "#<?=$page?>";
-         }
-         else {
-         var anchor = "";
-         sessionStorage["scroll_position"] = 0;
-         }
-      
-      // This start page method saves portfolio data during the session, even without cookie data enabled
-      var set_action = this.value + anchor;
-      set_target_action("coin_amnts", "_self", set_action);
-      $("#coin_amnts").submit();
-      
-      '>
-         <option value='index.php'> Show Portfolio Page First </option>
-         <?php
-         if ( isset($_GET['start_page']) && $_GET['start_page'] != '' && $_GET['start_page'] != $page ) {
-         $another_set = 1;
-         ?>
-         <option value='index.php?start_page=<?=$_GET['start_page']?>' selected > Show <?=ucwords( preg_replace("/_/i", " ", $_GET['start_page']) )?> Page First </option>
-         <?php
-         }
-         ?>
-         <option value='index.php?start_page=<?=$page?>' <?=( $_GET['start_page'] == $page ? 'selected' : '' )?> > Show <?=ucwords( preg_replace("/_/i", " ", $page) )?> Page First </option>
-      </select> 
-      
-   </span>
-   
-      <?php
-      if ( $another_set == 1 ) {
-      ?>
-      <span class='red'>&nbsp;(this other secondary page is currently the start page)</span>
-       <br class='clear_both' />
-      <?php
-      }
-      elseif ( $_GET['start_page'] == $page ) {
-      ?>
-      <span class='red'>&nbsp;(this page is currently the start page)</span>
-       <br class='clear_both' />
-      <?php
-      }
-      
-   }
-   
-   
-   ////////////////////////////////////////////////////////
-   ////////////////////////////////////////////////////////
-   
-   
    function safe_mail($to, $subj, $msg, $content_type='text/plain', $charset=null) {
       
    global $app_version, $ct_conf;
@@ -3347,13 +3288,13 @@ var $ct_array = array();
          if ( $misconfigured == 1 || $ct_conf['comms']['proxy_alert_checkup_ok'] == 'include' ) {
              
          // Minimize function calls
-         $encoded_text_alert = $this->charset_encode($text_alert); // Unicode support included for text messages (emojis / asian characters / etc )
+         $encoded_text_alert = $this->detect_unicode($text_alert); 
                            
          $send_params = array(
                              'notifyme' => $notifyme_alert,
                              'telegram' => $email_alert,
                              'text' => array(
-                                   'message' => $encoded_text_alert['content_output'],
+                                   'message' => $encoded_text_alert['content'],
                                    'charset' => $encoded_text_alert['charset']
                                    ),
                              'email' => array(

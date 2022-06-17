@@ -21,11 +21,6 @@ $("#app_loading").hide(250, 'linear'); // 0.25 seconds
 $("#content_wrapper").show(250, 'linear'); // 0.25 seconds
 $("#content_wrapper").css('display','inline'); // MUST display inline to center itself cross-browser
 
-
-// Mirror hidden errors output in the footer over to the alert bell area with javascript
-// Run AFTER check to see if alerts are present
-$('#alert_bell_area').html( "<span class='bitcoin'>Current UTC time:</span> <span class='utc_timestamp red'></span><br />" + $('#app_error_alert').html() );
-
   
 // Charts background / border
 $(".chart_wrapper").css({ "background-color": window.charts_background });
@@ -104,6 +99,11 @@ start_utc_time();
     else {
     $("#alert_bell_image").attr("src","templates/interface/media/images/auto-preloaded/notification-" + theme_selected + "-fill.png");
     }
+
+
+// Mirror hidden errors output in the footer over to the alert bell area with javascript
+// Run AFTER check to see if alerts are present
+$('#alert_bell_area').html( "<span class='bitcoin'>Current UTC time:</span> <span class='utc_timestamp red'></span><br />" + $('#app_error_alert').html() );
 
 
 	/////////////////////////////////////////////////////////////////////////////////////////////////////

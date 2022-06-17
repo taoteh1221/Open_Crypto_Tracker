@@ -1905,7 +1905,7 @@ var $ct_array1 = array();
                // Message parameter added for desired comm methods (leave any comm method blank to skip sending via that method)
                         
                // Minimize function calls
-               $encoded_text_msg = $ct_gen->charset_encode($text_msg); // Unicode support included for text messages (emojis / asian characters / etc )
+               $text_msg = $ct_gen->detect_unicode($text_msg); 
                         
                $send_params = array(
                   
@@ -1914,8 +1914,8 @@ var $ct_array1 = array();
                                     'telegram' => ( $whale_alert == 1 ? '🐳 ' : '' ) . $email_msg, // Add emoji here, so it's not sent with alexa alerts
                                     
                                     'text' => array(
-                                                    'message' => $encoded_text_msg['content_output'],
-                                                    'charset' => $encoded_text_msg['charset']
+                                                    'message' => $text_msg['content'],
+                                                    'charset' => $text_msg['charset']
                                                     ),
                                                     
                                     'email' => array(

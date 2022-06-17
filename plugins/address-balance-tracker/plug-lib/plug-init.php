@@ -222,7 +222,7 @@ $pair_btc_val = $ct_asset->pair_btc_val($asset);
   	// Message parameter added for desired comm methods (leave any comm method blank to skip sending via that method)
   				
   	// Minimize function calls
-  	$encoded_text_msg = $ct_gen->charset_encode($text_msg); // Unicode support included for text messages (emojis / asian characters / etc )
+  	$text_msg = $ct_gen->detect_unicode($text_msg); 
   				
     $send_params = array(
    
@@ -231,8 +231,8 @@ $pair_btc_val = $ct_asset->pair_btc_val($asset);
           				'telegram' => $email_msg,
           				
           				'text' => array(
-          								'message' => $encoded_text_msg['content_output'],
-          								'charset' => $encoded_text_msg['charset']
+          								'message' => $text_msg['content'],
+          								'charset' => $text_msg['charset']
           								),
           								
           				'email' => array(

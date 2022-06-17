@@ -127,7 +127,7 @@ $in_minutes_offset = ( $in_minutes >= 20 ? ($in_minutes - 1) : $in_minutes );
   		// Message parameter added for desired comm methods (leave any comm method blank to skip sending via that method)
   					
   		// Minimize function calls
-  		$encoded_text_msg = $ct_gen->charset_encode($format_msg); // Unicode support included for text messages (emojis / asian characters / etc )
+  		$text_msg = $ct_gen->detect_unicode($format_msg); 
   					
   	 	$send_params = array(
 
@@ -136,8 +136,8 @@ $in_minutes_offset = ( $in_minutes >= 20 ? ($in_minutes - 1) : $in_minutes );
   	        						'telegram' => $format_msg,
   	        						
   	        						'text' => array(
-  	        										'message' => $encoded_text_msg['content_output'],
-  	        										'charset' => $encoded_text_msg['charset']
+  	        										'message' => $text_msg['content'],
+  	        										'charset' => $text_msg['charset']
   	        										),
   	        										
   	        						'email' => array(

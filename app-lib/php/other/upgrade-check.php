@@ -100,13 +100,13 @@
 			$changelog_link_html = "Changelog:\n" . $ct_gen->html_url('https://raw.githubusercontent.com/taoteh1221/Open_Crypto_Tracker/main/DOCUMENTATION-ETC/changelog.txt') . "\n\n";
 	
         	// Minimize function calls
-        	$encoded_text_alert = $ct_gen->charset_encode($upgrade_check_msg); // Unicode support included for text messages (emojis / asian characters / etc )
+        	$encoded_text_alert = $ct_gen->detect_unicode($upgrade_check_msg); 
 			
         	$upgrade_check_send_params = array(
                                     			'notifyme' => $email_notifyme_msg,
                                     			'telegram' => $email_only_with_upgrade_command . $download_link . $changelog_link,
                                     			'text' => array(
-                                    			               'message' => $encoded_text_alert['content_output'],
+                                    			               'message' => $encoded_text_alert['content'],
                                     			               'charset' => $encoded_text_alert['charset']
                                     			               ),
                                     			'email' => array(
