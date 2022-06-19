@@ -2410,14 +2410,14 @@ var $ct_array = array();
        // Message parameter added for desired comm methods (leave any comm method blank to skip sending via that method)
                   
        // Minimize function calls
-       $encoded_text_alert = $this->detect_unicode($text_msg); 
+       $text_msg = $this->detect_unicode($text_msg); 
     			
        $admin_login_send_params = array(
                                         'notifyme' => $notifyme_msg,
                                         'telegram' => $email_msg . $app_location,
                                         'text' => array(
-                                                       'message' => $encoded_text_alert['content'],
-                                                       'charset' => $encoded_text_alert['charset']
+                                                       'message' => $text_msg['content'],
+                                                       'charset' => $text_msg['charset']
                                                        ),
                                         'email' => array(
                                                         'subject' => 'New Admin Login From ' . $remote_ip,
@@ -3338,14 +3338,14 @@ var $ct_array = array();
          if ( $misconfigured == 1 || $ct_conf['comms']['proxy_alert_checkup_ok'] == 'include' ) {
              
          // Minimize function calls
-         $encoded_text_alert = $this->detect_unicode($text_alert); 
+         $text_alert = $this->detect_unicode($text_alert); 
                            
          $send_params = array(
                              'notifyme' => $notifyme_alert,
                              'telegram' => $email_alert,
                              'text' => array(
-                                   'message' => $encoded_text_alert['content'],
-                                   'charset' => $encoded_text_alert['charset']
+                                   'message' => $text_alert['content'],
+                                   'charset' => $text_alert['charset']
                                    ),
                              'email' => array(
                                    'subject' => 'A Proxy Was Unresponsive',
