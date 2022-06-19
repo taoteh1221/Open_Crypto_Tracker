@@ -65,6 +65,9 @@ ADMIN IFRAME BUILDOUT NOTES:
 ```````````````````````````````````````````````````````````````````````````````````````````````````````````````
 
 
+Solana stackexchange was just approved 2022/6, add it to the developer links on the resources page and RSS feeds whenever it goes live
+
+
 Check logs to make sure we cleaned up update_lite_chart() function calls, so they don't flip with write errors from resetting light charts mid-flight with chart-restore-auto-detection
 
 
