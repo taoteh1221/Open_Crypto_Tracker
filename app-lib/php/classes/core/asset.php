@@ -1626,12 +1626,14 @@ var $ct_array1 = array();
         
          foreach ( $ct_conf['power']['lite_chart_day_intervals'] as $light_chart_days ) {
            
-         // Primary currency lite charts
-         $ct_cache->update_lite_chart($prim_currency_chart_path, $prim_currency_chart_data, $light_chart_days); // WITHOUT newline (var passing)
+               // Primary currency lite charts
+	           if ( $fiat_light_chart_result != 'reset' ) {
+               $fiat_light_chart_result = $ct_cache->update_lite_chart($prim_currency_chart_path, $prim_currency_chart_data, $light_chart_days); // WITHOUT newline (var passing)
+               }
              
 	           // Crypto / secondary currency pair lite charts
-	           if ( $pair != strtolower($default_btc_prim_currency_pair) ) {
-	           $ct_cache->update_lite_chart($crypto_secondary_currency_chart_path, $crypto_secondary_currency_chart_data, $light_chart_days); // WITHOUT newline (var passing)
+	           if ( $pair != strtolower($default_btc_prim_currency_pair) && $crypto_light_chart_result != 'reset' ) {
+	           $crypto_light_chart_result = $ct_cache->update_lite_chart($crypto_secondary_currency_chart_path, $crypto_secondary_currency_chart_data, $light_chart_days); // WITHOUT newline (var passing)
 	           }
          
          }

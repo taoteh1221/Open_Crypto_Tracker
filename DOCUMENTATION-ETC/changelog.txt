@@ -5499,6 +5499,16 @@ MIGRATE YOUR EXISTING SETTINGS TO THE NEW FORMAT.
 
 -BUG FIX: Admin category 'loading...' messages fixed to work properly
 
+-BUG FIX: When manually restoring charts from backups, file permissions are adjusted automatically
+
+-BUG FIX: Proper "auto-detecting" light (interval) chart updating better when restoring from older archival data (overwriting archival data and having light charts detect that change)
+
+-BUG FIXES: Edge-case / Miscellaneous
+
+-Tightened file permission defaults (on linux systems)
+
+-Miscellaneous user experience improvements
+
 -Housekeeping / code cleanup and optimization
 
 v5.12.2 and higher renames the admin config array. ALL CONFIGURATION SETTING

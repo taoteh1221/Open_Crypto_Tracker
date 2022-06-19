@@ -156,7 +156,11 @@ $ct_cache->save_file($sys_stats_path, $sys_stats_data . "\n", "append", false); 
 usleep(120000); // Wait 0.12 seconds
 		
 	foreach ( $ct_conf['power']['lite_chart_day_intervals'] as $light_chart_days ) {
-	$ct_cache->update_lite_chart($sys_stats_path, $sys_stats_data, $light_chart_days); // WITHOUT newline (var passing)
+	    
+	    if ( $system_light_chart_result != 'reset' ) {
+        $system_light_chart_result = $ct_cache->update_lite_chart($sys_stats_path, $sys_stats_data, $light_chart_days); // WITHOUT newline (var passing)
+        }
+	
 	}
 		
 }

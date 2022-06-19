@@ -99,6 +99,29 @@ var $ct_array1 = array();
       }
    
    }
+
+   
+   ////////////////////////////////////////////////////////
+   ////////////////////////////////////////////////////////
+   
+   
+   function chart_cache($file=false) {
+      
+   global $base_dir, $ct_gen, $this_plug;
+         
+      // This plugin's events chart directory
+      if ( $ct_gen->dir_struct($base_dir . '/cache/charts/plugin_charts/'.$this_plug.'/') != true ) {
+      $ct_gen->log('system_error', 'Could not create directory: /cache/charts/plugin_charts/'.$this_plug.'/');
+      }
+      
+      if ( $file == false ) {
+      return $base_dir . '/cache/charts/plugin_charts/'.$this_plug;
+      }
+      else {
+      return $base_dir . '/cache/charts/plugin_charts/'.$this_plug.'/' . $file;
+      }
+   
+   }
    
    
    ////////////////////////////////////////////////////////

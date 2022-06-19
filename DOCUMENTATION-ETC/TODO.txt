@@ -73,9 +73,6 @@ Port the new fine-grained decimal control feature in the ticker app over to this
 Add config setting to set which asset price light chart shows by default.
 
 
-Look into "auto-detecting" light chart updating better when restoring from older archival data (overwriting archival data and having light charts detect that change).
-
-
 Add remote IP address data to ALL relevant security error logging everywhere in the app.
 
 
@@ -184,6 +181,10 @@ Look into laptop touchscreen zingchart js error on Ubuntu 20.04 / Chrome, when h
 ///////////////////////////////////////////////////////
 API INTEGRATION SECTION
 ///////////////////////////////////////////////////////
+
+
+For transaction fees plugin (the solana data):
+https://public-api.solscan.io/transaction/last
 
 
 Jupiter Aggregator (Solana DEXs)

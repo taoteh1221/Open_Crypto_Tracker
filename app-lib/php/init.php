@@ -146,6 +146,8 @@ require_once('app-lib/php/core-classes-loader.php');
 
 // Initial BLANK arrays
 
+$change_dir_perm = array();
+
 $sel_opt = array();
 
 $runtime_data = array();

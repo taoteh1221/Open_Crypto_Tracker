@@ -476,13 +476,19 @@ var $ct_array1 = array();
       if ( $ct_conf['dev']['debug'] == 'off' ) {
       return false;
       }
+    
+    
+      foreach ( $log_array['notify_debug'] as $debugging ) {
+      $debug_log .= strip_tags($debugging); // Remove any HTML formatting used in UI alerts
+      }
+  
   
   // Combine all debugging logged
+  $debug_log .= strip_tags($log_array['security_debug']); // Remove any HTML formatting used in UI alerts
+  
   $debug_log .= strip_tags($log_array['system_debug']); // Remove any HTML formatting used in UI alerts
   
   $debug_log .= strip_tags($log_array['conf_debug']); // Remove any HTML formatting used in UI alerts
-  
-  $debug_log .= strip_tags($log_array['security_debug']); // Remove any HTML formatting used in UI alerts
   
   $debug_log .= strip_tags($log_array['ext_data_debug']); // Remove any HTML formatting used in UI alerts
   
@@ -494,10 +500,6 @@ var $ct_array1 = array();
   
   
       foreach ( $log_array['cache_debug'] as $debugging ) {
-      $debug_log .= strip_tags($debugging); // Remove any HTML formatting used in UI alerts
-      }
-    
-      foreach ( $log_array['notify_debug'] as $debugging ) {
       $debug_log .= strip_tags($debugging); // Remove any HTML formatting used in UI alerts
       }
   
@@ -567,15 +569,21 @@ var $ct_array1 = array();
   function error_log() {
   
   global $base_dir, $ct_conf, $log_array;
+
+  
+      foreach ( $log_array['notify_error'] as $error ) {
+      $error_log .= strip_tags($error); // Remove any HTML formatting used in UI alerts
+      }
+      
   
   // Combine all errors logged
+  $error_log .= strip_tags($log_array['security_error']); // Remove any HTML formatting used in UI alerts
+  
   $error_log .= strip_tags($log_array['system_warning']); // Remove any HTML formatting used in UI alerts
   
   $error_log .= strip_tags($log_array['system_error']); // Remove any HTML formatting used in UI alerts
   
   $error_log .= strip_tags($log_array['conf_error']); // Remove any HTML formatting used in UI alerts
-  
-  $error_log .= strip_tags($log_array['security_error']); // Remove any HTML formatting used in UI alerts
   
   $error_log .= strip_tags($log_array['ext_data_error']); // Remove any HTML formatting used in UI alerts
   
@@ -585,12 +593,8 @@ var $ct_array1 = array();
   
   $error_log .= strip_tags($log_array['other_error']); // Remove any HTML formatting used in UI alerts
   
-  
-      foreach ( $log_array['cache_error'] as $error ) {
-      $error_log .= strip_tags($error); // Remove any HTML formatting used in UI alerts
-      }
      
-      foreach ( $log_array['notify_error'] as $error ) {
+      foreach ( $log_array['cache_error'] as $error ) {
       $error_log .= strip_tags($error); // Remove any HTML formatting used in UI alerts
       }
     
@@ -706,7 +710,8 @@ var $ct_array1 = array();
    
     // We ALWAYS set .htaccess files to a more secure $ct_conf['dev']['chmod_index_sec'] permission AFTER EDITING, 
     // so we TEMPORARILY set .htaccess to $ct_conf['dev']['chmod_cache_file'] for NEW EDITING...
-    if ( strstr($file, '.htaccess') != false || strstr($file, '.user.ini') != false || strstr($file, 'index.php') != false ) {
+    // (anything else stays weaker write security permissions, for UX)
+    if ( strstr($file, '.dat') != false || strstr($file, '.htaccess') != false || strstr($file, '.user.ini') != false || strstr($file, 'index.php') != false ) {
      
     $chmod_setting = octdec($ct_conf['dev']['chmod_cache_file']);
     
@@ -828,17 +833,34 @@ var $ct_array1 = array();
     }
    
    
-    // Get LAST line of lite chart data (determines newest lite timestamp)
+    // Get FIRST AND LAST line of lite chart data (determines newest lite timestamp)
     if ( file_exists($lite_path) ) {
+    
+    $fopen_lite = fopen($lite_path, 'r');
+      
+        if ($fopen_lite) {
+            
+        $first_lite_line = fgets($fopen_lite);
+        fclose($fopen_lite);
+       
+        $first_lite_array = explode("||", $first_lite_line);
+        $oldest_lite_timestamp = $ct_var->num_to_str($first_lite_array[0]);
+      
+        gc_collect_cycles(); // Clean memory cache
+        
+        }
+        
     $last_lite_line = $this->tail_custom($lite_path);
     $last_lite_array = explode("||", $last_lite_line);
     $newest_lite_timestamp = ( isset($last_lite_array[0]) ? $ct_var->num_to_str($last_lite_array[0]) : false );
+    
     }
     else {
     $newest_lite_timestamp = false;
     }
   
   
+  // WE PRESUME ARCHIVAL CHART FILES EXIST, BECAUSE IT IS WRITTEN TO #RIGHT BEFORE# THIS LIGHT CHARTS FUNCTION IS CALLED
   // Get LAST line of archival chart data (we save SIGNIFICANTLY on runtime / resource usage, if this var is passed into this function already)
   // (determines newest archival timestamp)
   $last_arch_line = ( $newest_arch_data != false ? $newest_arch_data : $this->tail_custom($archive_path) );
@@ -850,13 +872,37 @@ var $ct_array1 = array();
   $fopen_archive = fopen($archive_path, 'r');
   
     if ($fopen_archive) {
+        
     $first_arch_line = fgets($fopen_archive);
     fclose($fopen_archive);
-    gc_collect_cycles(); // Clean memory cache
-    }
    
-  $first_arch_array = explode("||", $first_arch_line);
-  $oldest_arch_timestamp = $ct_var->num_to_str($first_arch_array[0]);
+    $first_arch_array = explode("||", $first_arch_line);
+    $oldest_arch_timestamp = $ct_var->num_to_str($first_arch_array[0]);
+  
+    gc_collect_cycles(); // Clean memory cache
+    
+    }
+    
+    
+    // If we don't have any valid archival data, return false
+    if ( !$oldest_arch_timestamp ) {
+    $ct_gen->log('cache_error', 'Archival chart data not found ('.$archive_path.')');
+    return false;
+    }
+    // If we recently restored to OLDER / LARGER archival data sets, RESET ALL LIGHT CHARTS
+    // (EVERY LIGHT CHART, JUST TO BE SAFE)
+    elseif (
+    $days_span == 'all'
+    && isset($oldest_arch_timestamp)
+    && isset($oldest_lite_timestamp)
+    && trim($oldest_arch_timestamp) != ''
+    && $oldest_arch_timestamp != $oldest_lite_timestamp
+    ) {
+    $ct_gen->log('cache_error', 'Archival chart data appears recently restored, resetting ALL light charts');
+    $this->remove_dir($base_dir . '/cache/charts/spot_price_24hr_volume/lite');
+    $this->remove_dir($base_dir . '/cache/charts/system/lite');
+    return 'reset';
+    }
    
      
     // Oldest base timestamp we can use (only applies for x days charts, not 'all')
@@ -986,9 +1032,27 @@ var $ct_array1 = array();
       $data_point_array[0] = $ct_var->num_to_str($data_point_array[0]);
         
         if ( !$next_timestamp || isset($next_timestamp) && $data_point_array[0] <= $next_timestamp ) {
-        $new_lite_data = $arch_data[$loop] . $new_lite_data;// WITHOUT newline, since file() maintains those by default
+            
+        $new_lite_data = $arch_data[$loop] . $new_lite_data; // WITHOUT newline, since file() maintains those by default
         $next_timestamp = $data_point_array[0] - $min_data_interval;
         $data_points = $data_points + 1;
+        
+            if ( $loop == ( sizeof($arch_data) - 1 ) ) {
+            $lastline_added = true;
+            }
+            else {
+            $lastline_added = false;
+            }
+        
+        }
+        
+        // If this is the LAST ALLOWED DATA POINT value AND last array value hasn't been added yet, AND it's the 'all' light chart,
+        // we ALWAYS want to ALSO include THIS VERY FIRST ARCHIVAL data point TOO (which is the last value in this reversed array),
+        // so we can detect if a user ever restores archival charts WITH OLDER / LARGER data sets
+        // (so we know if we need to reset light charts, by comparing the first data point on the 'all' light charts to archival charts)
+        if ( $days_span == 'all' && !$lastline_added && $data_points > $ct_conf['power']['lite_chart_data_points_max'] ) {
+        $new_lite_data = $arch_data[ ( sizeof($arch_data) - 1 ) ] . $new_lite_data; // WITHOUT newline, since file() maintains those by default
+        $data_points = $ct_conf['power']['lite_chart_data_points_max'] + 1; // Guarantee the loop will end, since we are force-adding last array value
         }
      
       $loop = $loop + 1;
@@ -998,6 +1062,7 @@ var $ct_array1 = array();
     // Store the lite chart data (rebuild)
     $result = $this->save_file($lite_path, $new_lite_data);  // WITHOUT newline, since file() maintains those by default (file write)
     $lite_mode_logging = 'REBUILD';
+    
     
       // Update the 'all' lite chart rebuild event tracking, IF THE LITE CHART UPDATED SUCESSFULLY
       if ( $days_span == 'all' && $result == true ) {
@@ -1088,10 +1153,10 @@ var $ct_array1 = array();
     else {
         
         if ( file_exists($archive_path) ) {
-        $ct_gen->log( 'cache_error', 'Lite chart ' . $lite_mode_logging . ' FAILED, data from archive file ' . $archive_path . ' could not be read. Check cache directory permissions.');
+        $ct_gen->log( 'cache_error', 'Lite chart ' . $lite_mode_logging . ' FAILED, data from archive file ' . $archive_path . ' could not be read. Check file AND cache directory permissions');
         }
         else {
-        $ct_gen->log( 'cache_error', 'Lite chart ' . $lite_mode_logging . ' FAILED for ' . $lite_path . ', archival data not created yet (for new installs please wait a few hours, then check cache directory permissions if this error continues beyond then).');
+        $ct_gen->log( 'cache_error', 'Lite chart ' . $lite_mode_logging . ' FAILED for ' . $lite_path . ', archival data not created yet (for new installs please wait a few hours, then check cache directory permissions if this error continues beyond then)');
         }
     
     }

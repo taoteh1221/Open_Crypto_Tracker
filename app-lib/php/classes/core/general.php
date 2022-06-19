@@ -61,7 +61,9 @@ var $ct_array = array();
    // Using 3rd party Telegram class, initiated already as global var $telegram_messaging
    global $telegram_messaging;
    
-   return $telegram_messaging->send->chat($chat_id)->text($msg)->send();
+      if ( $telegram_messaging ) {
+      return $telegram_messaging->send->chat($chat_id)->text($msg)->send();
+      }
    
    }
    
@@ -603,6 +605,40 @@ var $ct_array = array();
    ////////////////////////////////////////////////////////
    
    
+   function dir_struct($path) {
+   
+   global $ct_conf, $possible_http_users, $http_runtime_user;
+   
+      // If path does not exist
+      if ( !is_dir($path) ) {
+      
+         // Run cache compatibility on certain PHP setups
+         if ( !$http_runtime_user || in_array($http_runtime_user, $possible_http_users) ) {
+         $oldmask = umask(0);
+         $result = mkdir($path, octdec($ct_conf['dev']['chmod_cache_dir']), true); // Recursively create whatever path depth desired if non-existent
+         umask($oldmask);
+         return $result;
+         }
+         else {
+         return  mkdir($path, octdec($ct_conf['dev']['chmod_cache_dir']), true); // Recursively create whatever path depth desired if non-existent
+         }
+      
+      }
+      // If path is not writable, AND the chmod setting is not the app's default 
+      elseif ( !is_writable($path) && substr( sprintf( '%o' , fileperms($path) ) , -4 ) != $ct_conf['dev']['chmod_cache_dir'] ) {
+      return $this->chmod_path($path, $ct_conf['dev']['chmod_cache_dir']);
+      }
+      else {
+      return true;
+      }
+   
+   }
+   
+   
+   ////////////////////////////////////////////////////////
+   ////////////////////////////////////////////////////////
+   
+   
    // Install id (10 character hash, based off base url)
    function id() {
       
@@ -673,35 +709,6 @@ var $ct_array = array();
    ////////////////////////////////////////////////////////
    
    
-   function dir_struct($path) {
-   
-   global $ct_conf, $possible_http_users, $http_runtime_user;
-   
-      if ( !is_dir($path) ) {
-      
-         // Run cache compatibility on certain PHP setups
-         if ( !$http_runtime_user || in_array($http_runtime_user, $possible_http_users) ) {
-         $oldmask = umask(0);
-         $result = mkdir($path, octdec($ct_conf['dev']['chmod_cache_dir']), true); // Recursively create whatever path depth desired if non-existent
-         umask($oldmask);
-         return $result;
-         }
-         else {
-         return  mkdir($path, octdec($ct_conf['dev']['chmod_cache_dir']), true); // Recursively create whatever path depth desired if non-existent
-         }
-      
-      }
-      else {
-      return true;
-      }
-   
-   }
-   
-   
-   ////////////////////////////////////////////////////////
-   ////////////////////////////////////////////////////////
-   
-   
    function pepper_hashed_pass($password) {
    
    global $password_pepper;
@@ -723,6 +730,32 @@ var $ct_array = array();
          }
       
       }
+   
+   }
+   
+   
+   ////////////////////////////////////////////////////////
+   ////////////////////////////////////////////////////////
+   
+   
+   function obfusc_url_data($url) {
+      
+   global $ct_conf, $ct_var;
+   
+   // Keep our color-coded logs in the admin UI pretty, remove '//' and put in parenthesis
+   $url = preg_replace("/:\/\//i", ") ", $url);
+   
+      // Etherscan
+      if ( preg_match("/etherscan/i", $url) ) {
+      $url = str_replace($ct_conf['gen']['etherscan_key'], $ct_var->obfusc_str($ct_conf['gen']['etherscan_key'], 2), $url);
+      }
+      // Telegram
+      elseif ( preg_match("/telegram/i", $url) ) {
+      $url = str_replace($ct_conf['comms']['telegram_bot_token'], $ct_var->obfusc_str($ct_conf['comms']['telegram_bot_token'], 2), $url); 
+      }
+   
+   // Keep our color-coded logs in the admin UI pretty, remove '//' and put in parenthesis
+   return '('.$url;
    
    }
    
@@ -805,32 +838,6 @@ var $ct_array = array();
    ////////////////////////////////////////////////////////
    
    
-   function obfusc_url_data($url) {
-      
-   global $ct_conf, $ct_var;
-   
-   // Keep our color-coded logs in the admin UI pretty, remove '//' and put in parenthesis
-   $url = preg_replace("/:\/\//i", ") ", $url);
-   
-      // Etherscan
-      if ( preg_match("/etherscan/i", $url) ) {
-      $url = str_replace($ct_conf['gen']['etherscan_key'], $ct_var->obfusc_str($ct_conf['gen']['etherscan_key'], 2), $url);
-      }
-      // Telegram
-      elseif ( preg_match("/telegram/i", $url) ) {
-      $url = str_replace($ct_conf['comms']['telegram_bot_token'], $ct_var->obfusc_str($ct_conf['comms']['telegram_bot_token'], 2), $url); 
-      }
-   
-   // Keep our color-coded logs in the admin UI pretty, remove '//' and put in parenthesis
-   return '('.$url;
-   
-   }
-   
-   
-   ////////////////////////////////////////////////////////
-   ////////////////////////////////////////////////////////
-   
-   
    function detect_unicode($content) {
       
    global $ct_conf;
@@ -859,6 +866,44 @@ var $ct_array = array();
    
    return $result;
    
+   }
+   
+   
+   ////////////////////////////////////////////////////////
+   ////////////////////////////////////////////////////////
+   
+   
+   function chmod_path($path, $perm) {
+       
+   global $change_dir_perm, $http_runtime_user;
+
+   $perm = octdec($perm);
+     
+   $result = chmod($path, $perm);
+
+       
+     if ( $result ) {
+     
+     $dir = new DirectoryIterator($path);
+    
+         foreach ($dir as $item) {
+            
+            if ($item->isDir() && !$item->isDot()) {
+            $this->chmod_path($item->getPathname(), $perm);
+            }
+            
+         }
+     
+     return true;
+     
+     }
+     else {
+     $chmod_val = substr( sprintf( '%o' , fileperms($path) ) , -4 );
+     $change_dir_perm[] = $path . ':' . substr($chmod_val, 1);
+     return false;
+     }
+     
+    
    }
    
    
@@ -1064,23 +1109,28 @@ var $ct_array = array();
       }
    
    
-   $smtp->From('Open Crypto Tracker <' . $from_email . '>'); 
-   $smtp->singleTo($to); 
-   $smtp->Subject($subj);
-   $smtp->Charset($charset);
-   
-   
-      if ( $content_type == 'text/plain' ) {
-      $smtp->Text($msg);
-      $smtp->Body(null);
+      if ( $smtp ) {
+      
+       $smtp->From('Open Crypto Tracker <' . $from_email . '>'); 
+       $smtp->singleTo($to); 
+       $smtp->Subject($subj);
+       $smtp->Charset($charset);
+       
+       
+          if ( $content_type == 'text/plain' ) {
+          $smtp->Text($msg);
+          $smtp->Body(null);
+          }
+          elseif ( $content_type == 'text/html' ) {
+          $smtp->Body($msg);
+          $smtp->Text(null);
+          }
+       
+       
+       return $smtp->Send();
+      
       }
-      elseif ( $content_type == 'text/html' ) {
-      $smtp->Body($msg);
-      $smtp->Text(null);
-      }
-   
-   
-   return $smtp->Send();
+      
    
    }
    

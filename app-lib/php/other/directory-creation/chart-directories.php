@@ -17,14 +17,14 @@ foreach ( $ct_conf['charts_alerts']['tracked_mrkts'] as $key => $val ) {
 	if ( $asset_cache_params[2] == 'chart' || $asset_cache_params[2] == 'both' ) {
 		
 		// Archival charts
-		if ( $ct_gen->dir_struct($base_dir . '/cache/charts/spot_price_24hr_volume/archival/'.$asset_dir.'/') != TRUE ) { // Attempt to create directory if it doesn't exist
+		if ( $ct_gen->dir_struct($base_dir . '/cache/charts/spot_price_24hr_volume/archival/'.$asset_dir.'/') != true ) { // Attempt to create directory if it doesn't exist
 		$disabled_caching = 1;
 		}
 		
 		// Lite charts
 		foreach( $ct_conf['power']['lite_chart_day_intervals'] as $lite_chart_days ) {
 			
-			if ( $ct_gen->dir_struct($base_dir . '/cache/charts/spot_price_24hr_volume/lite/'.$lite_chart_days.'_days/'.$asset_dir.'/') != TRUE ) { // Attempt to create directory if it doesn't exist
+			if ( $ct_gen->dir_struct($base_dir . '/cache/charts/spot_price_24hr_volume/lite/'.$lite_chart_days.'_days/'.$asset_dir.'/') != true ) { // Attempt to create directory if it doesn't exist
 			$disabled_caching = 1;
 			}
 			
@@ -37,14 +37,29 @@ foreach ( $ct_conf['charts_alerts']['tracked_mrkts'] as $key => $val ) {
 // LITE CHARTS FOR SYSTEM STATS
 foreach( $ct_conf['power']['lite_chart_day_intervals'] as $lite_chart_days ) {
 			
-	if ( $ct_gen->dir_struct($base_dir . '/cache/charts/system/lite/'.$lite_chart_days.'_days/') != TRUE ) { // Attempt to create directory if it doesn't exist
+	if ( $ct_gen->dir_struct($base_dir . '/cache/charts/system/lite/'.$lite_chart_days.'_days/') != true ) { // Attempt to create directory if it doesn't exist
 	$disabled_caching = 1;
 	}
 			
 }
 
 if ( $disabled_caching == 1 ) {
-echo "Improper directory permissions on the '/cache/charts/' sub-directories, cannot create new sub-directories. Make sure the folder '/cache/charts/' AND ANY SUB-DIRECTORIES IN IT have read / write permissions (and further sub-directories WITHIN THESE should be created automatically)";
+    
+    foreach ( $change_dir_perm as $dir ) {
+    $dir_error_detail = explode(':', $dir);
+    $dir_errors = $dir_error_detail[0] .  ' (CURRENT permission: '.$dir_error_detail[1].')<br />';
+    }
+	
+	
+$system_error = 'Cannot create these sub-directories WITH THE PROPER PERMISSIONS (chmod 770 on unix / linux systems, "writable/readable" on Windows): <br /><br /> ' . $dir_errors . ' <br /> ADDITIONALLY, please ALSO make sure the primary sub-directories "/cache/" and "/plugins/" are created, and have FULL read / write permissions (chmod 770 on unix / linux systems, "writable/readable" on Windows), so the required files and secondary sub-directories can be created automatically. <br /><br />';
+
+$ct_gen->log('system_error', $system_error);
+
+echo $system_error;
+
+// Log errors before exiting
+$ct_cache->error_log();
+
 exit;
 }
 ///////////////////////////////////////////////////////////////////////////

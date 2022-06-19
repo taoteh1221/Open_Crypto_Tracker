@@ -199,7 +199,7 @@ SEE <a href='https://github.com/taoteh1221/Open_Crypto_Tracker/tree/main/DOCUMEN
 	      
 	      
 	        
-	        Just upload this app's files to your PHP-based web server (with an FTP client like <a href='https://filezilla-project.org/download.php?type=client' target='_blank'>FileZilla</a>) and you should be all set, unless your host is a strict setup related to file writing permissions, in which case the 'cache' directory permissions should be set to '777' chmod on unix / linux systems (or 'readable / writable' on windows systems). 
+	        Just upload this app's files to your PHP-based web server (with an FTP client like <a href='https://filezilla-project.org/download.php?type=client' target='_blank'>FileZilla</a>) and you should be all set, unless your host is a strict setup related to file writing permissions, in which case the 'cache' directory permissions should be set to '770' chmod on unix / linux systems (or 'readable / writable' on windows systems). 
 	    <br /><br />
 	        
 	        Your web host must have CURL modules activated on your HTTP server. Most web hosting companies provide this "out-of-the-box" already. This app will detect whether or not CURL is setup on your website server (and also alert you to any other missing required system components / configurations). 
@@ -291,7 +291,7 @@ If your system DOES NOT have the directory /etc/cron.d/ on it, then NEARLY the s
 <span class='bitcoin'>Important Cron Job Notes:</span> 
 	    <br />
 
-MAKE SURE YOU ONLY USE EITHER /etc/cron.d/, or 'crontab -e', NOT BOTH...ANY OLD DUPLICATE CRONTAB ENTRIES WILL RUN YOUR CRON JOB TOO OFTEN. If everything is setup properly, and the cron job still does NOT run, your particular server may require the cron.php file permissions to be set as 'executable' ('755' chmod on unix / linux systems) to allow running it.
+MAKE SURE YOU ONLY USE EITHER /etc/cron.d/, or 'crontab -e', NOT BOTH...ANY OLD DUPLICATE CRONTAB ENTRIES WILL RUN YOUR CRON JOB TOO OFTEN. If everything is setup properly, and the cron job still does NOT run, your particular server may require the cron.php file permissions to be set as 'executable' ('750' chmod on unix / linux systems) to allow running it.
 	        
 	      </div>
 	    </div>
@@ -630,7 +630,7 @@ SMTP email sending is REQUIRED if you are running this app on a home network, or
 	      <div class="card-body">
 	      
 	         
-If you are getting a lot of messages in the error logs like "file_write_error: File write failed for file X", you may need to free up disk space quota on your device, OR change directory permissions on your /cache/ folder. Check to make sure you have not used up all your ALLOWED disk space quota, AND that your /cache/ folder permissions are readable / writable (777 on unix / linux systems).
+If you are getting a lot of messages in the error logs like "file_write_error: File write failed for file X", you may need to free up disk space quota on your device, OR change directory permissions on your /cache/ folder. Check to make sure you have not used up all your ALLOWED disk space quota, AND that your /cache/ folder permissions are readable / writable (770 on unix / linux systems).
 <br /><br />
 If you already have plenty of disk space quota freed up / your cache folder permissions are readable / writable, and you still have file write issues on linux-based operating systems, you MAY need to setup a higher "open files" limit for your website user account. If you have shell access you can login and run this command to check your current limits:
 <br /><br />

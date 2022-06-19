@@ -8,6 +8,7 @@
 
 
 
+
 ///////////////////////////////////////////////////////////////////////////////////////////////
 /////////////////// PRIMARY CONFIGURATIONS -START- ////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////
@@ -1521,13 +1522,13 @@ $ct_conf['dev']['charset_unicode'] = 'UTF-16';
 // Cache directories / files and .htaccess / index.php files permissions (CHANGE WITH #EXTREME# CARE, to adjust security for your PARTICULAR setup)
 // THESE PERMISSIONS ARE !ALREADY! CALLED THROUGH THE octdec() FUNCTION WITHIN THE APP WHEN USED
 // Cache directories permissions
-$ct_conf['dev']['chmod_cache_dir'] = '0777'; // (default = '0777')
+$ct_conf['dev']['chmod_cache_dir'] = '0770'; // (default = '0770' [owner/group read/write/exec])
 ////
 // Cache files permissions
-$ct_conf['dev']['chmod_cache_file'] = '0666'; // (default = '0666')
+$ct_conf['dev']['chmod_cache_file'] = '0660'; // (default = '0660' [owner/group read/write])
 ////
 // .htaccess / index.php index security files permissions
-$ct_conf['dev']['chmod_index_sec'] = '0664'; // (default = '0664')
+$ct_conf['dev']['chmod_index_sec'] = '0660'; // (default = '0660' [owner/group read/write])
 			
 									
 // !!!!! BE #VERY CAREFUL# LOWERING MAXIMUM EXECUTION TIMES BELOW, #OR YOU MAY CRASH THE RUNNING PROCESSES EARLY, 
@@ -3542,10 +3543,6 @@ $ct_conf['assets'] = array(
 ///////////////////////////////////////////////////////////////////////////////////////////////
 /////////////////// PORTFOLIO ASSETS CONFIGURATION -END- //////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////
-
-
-
-
 
 
 

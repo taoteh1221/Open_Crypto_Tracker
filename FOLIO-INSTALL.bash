@@ -904,10 +904,10 @@ EOF
 
 			sleep 1
 			
-        	chmod 775 $DOC_ROOT
+        	chmod 770 $DOC_ROOT
 			
         	echo " "
-        	echo "${cyan}Document root access is completed (chmod 775, owner:group set to '$APP_USER'), please wait...${reset}"
+        	echo "${cyan}Document root access is completed (chmod 770, owner:group set to '$APP_USER'), please wait...${reset}"
 
 			sleep 1
         
@@ -1238,8 +1238,12 @@ select opt in $OPTIONS; do
 				
 				rm -rf DFD-Cryptocoin-Values-TEMP
 				
-				chmod 777 $DOC_ROOT/cache
-				chmod 755 $DOC_ROOT/cron.php
+				# Group read/write/exec
+				chmod 770 $DOC_ROOT/cache
+				chmod 770 $DOC_ROOT/plugins
+				
+				# Group exec
+				chmod 750 $DOC_ROOT/cron.php
 
 				sleep 1
 				
