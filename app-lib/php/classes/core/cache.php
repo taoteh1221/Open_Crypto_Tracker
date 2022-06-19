@@ -834,26 +834,17 @@ var $ct_array1 = array();
     }
    
    
-    // Get FIRST AND LAST line of lite chart data (determines newest lite timestamp)
+    // Get FIRST AND LAST line of lite chart data (determines oldest / newest lite timestamp)
     if ( file_exists($lite_path) ) {
     
-    $fopen_lite = fopen($lite_path, 'r');
-      
-        if ($fopen_lite) {
-            
-        $first_lite_line = fgets($fopen_lite);
-        fclose($fopen_lite);
-       
-        $first_lite_array = explode("||", $first_lite_line);
-        $oldest_lite_timestamp = $ct_var->num_to_str($first_lite_array[0]);
-      
-        gc_collect_cycles(); // Clean memory cache
-        
-        }
+    $oldest_lite_array = explode("||", file($lite_path)[0]);
+    $oldest_lite_timestamp = $ct_var->num_to_str( $oldest_lite_array[0] );
         
     $last_lite_line = $this->tail_custom($lite_path);
     $last_lite_array = explode("||", $last_lite_line);
     $newest_lite_timestamp = ( isset($last_lite_array[0]) ? $ct_var->num_to_str($last_lite_array[0]) : false );
+    
+    gc_collect_cycles(); // Clean memory cache
     
     }
     else {
@@ -876,21 +867,13 @@ var $ct_array1 = array();
   $last_arch_line = ( $newest_arch_data != false ? $newest_arch_data : $this->tail_custom($archive_path) );
   $last_arch_array = explode("||", $last_arch_line);
   $newest_arch_timestamp = $ct_var->num_to_str($last_arch_array[0]);
-     
-     
-  // Get FIRST line of archival chart data (determines oldest archival timestamp)
-  $fopen_archive = fopen($archive_path, 'r');
   
-    if ($fopen_archive) {
-        
-    $first_arch_line = fgets($fopen_archive);
-    fclose($fopen_archive);
-   
-    $first_arch_array = explode("||", $first_arch_line);
-    $oldest_arch_timestamp = $ct_var->num_to_str($first_arch_array[0]);
   
+    // Get FIRST line of archival chart data (determines oldest archival timestamp)
+    if ( file_exists($archive_path) ) {
+    $oldest_arch_array = explode("||", file($archive_path)[0]);
+    $oldest_arch_timestamp = $ct_var->num_to_str( $oldest_arch_array[0] );
     gc_collect_cycles(); // Clean memory cache
-    
     }
     
     
@@ -1046,11 +1029,11 @@ var $ct_array1 = array();
       $data_point_array = explode("||", $arch_data[$loop]);
       $data_point_array[0] = $ct_var->num_to_str($data_point_array[0]);
         
-        if ( !$next_timestamp || isset($next_timestamp) && $data_point_array[0] <= $next_timestamp ) {
+         if ( !$next_timestamp || isset($next_timestamp) && $data_point_array[0] <= $next_timestamp ) {
             
-        $new_lite_data = $arch_data[$loop] . $new_lite_data; // WITHOUT newline, since file() maintains those by default
-        $next_timestamp = $data_point_array[0] - $min_data_interval;
-        $data_points = $data_points + 1;
+         $new_lite_data = $arch_data[$loop] . $new_lite_data; // WITHOUT newline, since file() maintains those by default
+         $next_timestamp = $data_point_array[0] - $min_data_interval;
+         $data_points = $data_points + 1;
         
             if ( $loop == ( sizeof($arch_data) - 1 ) ) {
             $lastline_added = true;
@@ -1059,18 +1042,19 @@ var $ct_array1 = array();
             $lastline_added = false;
             }
         
-        }
-        
-        // If this is the LAST ALLOWED DATA POINT value AND last array value hasn't been added yet, AND it's the 'all' light chart,
-        // we ALWAYS want to ALSO include THIS VERY FIRST ARCHIVAL data point TOO (which is the last value in this reversed array),
-        // so we can detect if a user ever restores archival charts WITH OLDER / LARGER data sets
-        // (so we know if we need to reset light charts, by comparing the first data point on the 'all' light charts to archival charts)
-        if ( $days_span == 'all' && !$lastline_added && $data_points > $ct_conf['power']['lite_chart_data_points_max'] ) {
-        $new_lite_data = $arch_data[ ( sizeof($arch_data) - 1 ) ] . $new_lite_data; // WITHOUT newline, since file() maintains those by default
-        $data_points = $ct_conf['power']['lite_chart_data_points_max'] + 1; // Guarantee the loop will end, since we are force-adding last array value
-        }
+         }
      
       $loop = $loop + 1;
+      }
+        
+        
+        
+      // If last array value hasn't been added yet, AND it's the 'all' light chart,
+      // we ALWAYS want to ALSO include THIS VERY FIRST ARCHIVAL data point TOO (which is the last value in this reversed array),
+      // so we can detect if a user ever restores archival charts WITH OLDER / LARGER data sets
+      // (so we know if we need to reset light charts, by comparing the first data point on the 'all' light charts to archival charts)
+      if ( $days_span == 'all' && !$lastline_added ) {
+      $new_lite_data = $arch_data[ ( sizeof($arch_data) - 1 ) ] . $new_lite_data; // WITHOUT newline, since file() maintains those by default
       }
      
     
