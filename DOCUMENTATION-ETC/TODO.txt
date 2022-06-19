@@ -64,6 +64,16 @@ ADMIN IFRAME BUILDOUT NOTES:
 
 ```````````````````````````````````````````````````````````````````````````````````````````````````````````````
 
+Find out why days has 2 decimals (text notify, email and telegram are fine):
+ Text Notify / SHDW / BTC @ Generic BTC decreased -9.27% in USD value to $0.68269 over 1..04 days. 24 Hour USD Volume: $1,064,959 (-1.54% pair volume)
+ 
+
+Have the lite chart function create a cached var array in json (in cache/vars/ folder), and everytime a new chart system uses it, add it's BASE cache path as an array value. Then we just need to feed this array into a light charts reset function / logic that resets all KNOWN chart systems in the app that use the light charts system (including plugins)
+
+
+Change the 'leny slides down hills' meme tweet (in update page's disclaimer section), as the previous retweet I did was deleted:
+https://twitter.com/taoteh1221/status/1538567185232273408
+
 
 Solana stackexchange was just approved 2022/6, add it to the developer links on the resources page and RSS feeds whenever it goes live
 
