@@ -34,6 +34,7 @@ foreach ( $ct_conf['charts_alerts']['tracked_mrkts'] as $key => $val ) {
 	
 }
 
+
 // LITE CHARTS FOR SYSTEM STATS
 foreach( $ct_conf['power']['lite_chart_day_intervals'] as $lite_chart_days ) {
 			
@@ -43,6 +44,8 @@ foreach( $ct_conf['power']['lite_chart_day_intervals'] as $lite_chart_days ) {
 			
 }
 
+
+// Report if errors 
 if ( $disabled_caching == 1 ) {
     
     foreach ( $change_dir_perm as $dir ) {
@@ -55,12 +58,12 @@ $system_error = 'Cannot create these sub-directories WITH THE PROPER PERMISSIONS
 
 $ct_gen->log('system_error', $system_error);
 
-echo $system_error;
-
-// Log errors before exiting
-$ct_cache->error_log();
-
-exit;
+    if ( !$skip_exit ) {
+    echo $system_error;
+    $ct_cache->error_log(); // Log errors before exiting
+    exit;
+    }
+    
 }
 ///////////////////////////////////////////////////////////////////////////
 // END chart sub-directory creation

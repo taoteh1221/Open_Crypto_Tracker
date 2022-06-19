@@ -898,10 +898,20 @@ var $ct_array1 = array();
     && trim($oldest_arch_timestamp) != ''
     && $oldest_arch_timestamp != $oldest_lite_timestamp
     ) {
+        
     $ct_gen->log('cache_error', 'Archival chart data appears recently restored, resetting ALL light charts');
+    
+    // Delete ALL light charts (this will automatically trigger a re-build)
     $this->remove_dir($base_dir . '/cache/charts/spot_price_24hr_volume/lite');
     $this->remove_dir($base_dir . '/cache/charts/system/lite');
+
+    // Chart sub-directory RE-creation (MUST RUN AFTER app config management logic)
+    usleep(150000); // Wait 0.15 seconds before re-creating lite chart directories
+    $skip_exit = true; // Suppress app exit logic within the chart-directories.php file 
+    require_once($base_dir . '/app-lib/php/other/directory-creation/chart-directories.php');
+    
     return 'reset';
+    
     }
    
      
