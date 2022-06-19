@@ -48,6 +48,7 @@ foreach( $ct_conf['power']['lite_chart_day_intervals'] as $lite_chart_days ) {
 // Report if errors 
 if ( $disabled_caching == 1 ) {
     
+    
     foreach ( $change_dir_perm as $dir ) {
     $dir_error_detail = explode(':', $dir);
     $dir_errors = $dir_error_detail[0] .  ' (CURRENT permission: '.$dir_error_detail[1].')<br />';

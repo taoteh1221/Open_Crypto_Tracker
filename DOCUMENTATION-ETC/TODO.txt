@@ -65,6 +65,9 @@ ADMIN IFRAME BUILDOUT NOTES:
 ```````````````````````````````````````````````````````````````````````````````````````````````````````````````
 
 
+Check logs to make sure we cleaned up update_lite_chart() function calls, so they don't flip with write errors from resetting light charts mid-flight with chart-restore-auto-detection
+
+
 See what the best way is to have ALL log entries be in chronological order (currently we group by category when logging)
 
 

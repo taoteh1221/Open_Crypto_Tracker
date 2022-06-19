@@ -821,6 +821,7 @@ var $ct_array1 = array();
   $arch_data = array();
   $queued_arch_lines = array();
   $new_lite_data = null;
+  
   // Lite chart file path
   $lite_path = preg_replace("/archival/i", 'lite/' . $days_span . '_days', $archive_path);
   
@@ -856,7 +857,16 @@ var $ct_array1 = array();
     
     }
     else {
+    
+        if ( $ct_gen->dir_struct( dirname($lite_path) ) != true ) {
+        $ct_gen->log('system_error', 'Unable to create light chart directory structure ('.dirname($lite_path).')');
+        return false;
+        }
+        
     $newest_lite_timestamp = false;
+    
+    usleep(150000); // Wait 0.15 seconds, since we just re-created the light chart path (likely after a mid-flight reset)
+    
     }
   
   
@@ -904,11 +914,6 @@ var $ct_array1 = array();
     // Delete ALL light charts (this will automatically trigger a re-build)
     $this->remove_dir($base_dir . '/cache/charts/spot_price_24hr_volume/lite');
     $this->remove_dir($base_dir . '/cache/charts/system/lite');
-
-    // Chart sub-directory RE-creation (MUST RUN AFTER app config management logic)
-    usleep(150000); // Wait 0.15 seconds before re-creating lite chart directories
-    $skip_exit = true; // Suppress app exit logic within the chart-directories.php file 
-    require_once($base_dir . '/app-lib/php/other/directory-creation/chart-directories.php');
     
     return 'reset';
     

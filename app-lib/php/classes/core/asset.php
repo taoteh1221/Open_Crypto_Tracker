@@ -1626,13 +1626,16 @@ var $ct_array1 = array();
         
          foreach ( $ct_conf['power']['lite_chart_day_intervals'] as $light_chart_days ) {
            
-               // Primary currency lite charts
-	           if ( $fiat_light_chart_result != 'reset' ) {
-               $fiat_light_chart_result = $ct_cache->update_lite_chart($prim_currency_chart_path, $prim_currency_chart_data, $light_chart_days); // WITHOUT newline (var passing)
-               }
+	           // If we reset light charts, just skip the rest of this update session
+	           if ( $fiat_light_chart_result == 'reset' || $crypto_light_chart_result == 'reset' ) {
+	           continue;
+	           }
+	           
+         // Primary currency lite charts
+         $fiat_light_chart_result = $ct_cache->update_lite_chart($prim_currency_chart_path, $prim_currency_chart_data, $light_chart_days); // WITHOUT newline (var passing)
              
-	           // Crypto / secondary currency pair lite charts
-	           if ( $pair != strtolower($default_btc_prim_currency_pair) && $crypto_light_chart_result != 'reset' ) {
+	           // Crypto / secondary currency pair lite charts (IF fiat light chart run didn't trigger a light chart reset)
+	           if ( $pair != strtolower($default_btc_prim_currency_pair) && $fiat_light_chart_result != 'reset' ) {
 	           $crypto_light_chart_result = $ct_cache->update_lite_chart($crypto_secondary_currency_chart_path, $crypto_secondary_currency_chart_data, $light_chart_days); // WITHOUT newline (var passing)
 	           }
          
