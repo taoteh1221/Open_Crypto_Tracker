@@ -1113,7 +1113,7 @@ var $ct_array1 = array();
     }
     // No lite data to update
     else {
-    $result = false;
+    $result = 'no_update';
     }
    
   
@@ -1150,15 +1150,18 @@ var $ct_array1 = array();
       }
       
     }
-    else {
+    elseif ( $result == false ) {
         
-        if ( file_exists($archive_path) ) {
+        if ( !is_readable($archive_path) ) {
         $ct_gen->log( 'cache_error', 'Lite chart ' . $lite_mode_logging . ' FAILED, data from archive file ' . $archive_path . ' could not be read. Check file AND cache directory permissions');
         }
-        else {
+        elseif ( !file_exists($archive_path) ) {
         $ct_gen->log( 'cache_error', 'Lite chart ' . $lite_mode_logging . ' FAILED for ' . $lite_path . ', archival data not created yet (for new installs please wait a few hours, then check cache directory permissions if this error continues beyond then)');
         }
     
+    }
+    elseif ( $result == 'no_update' ) {
+    // Do nothing
     }
   
    

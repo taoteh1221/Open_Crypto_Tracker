@@ -173,7 +173,7 @@ $ct_cache->save_file($base_dir . '/cache/events/scan-htaccess-security.dat', $ct
 
 // Exit, if server / app setup requirements not met
 if ( $force_exit == 1 ) {
-$system_error = 'Server / app setup requirements not met (SEE LOGGED SETUP DEFICIENCIES), exiting application...';
+$system_error = 'Server / app setup requirements not met (SEE LOGGED SETUP DEFICIENCIES), exiting application';
 $ct_gen->log('system_error', $system_error);
 echo $system_error;
 // Log errors before exiting
