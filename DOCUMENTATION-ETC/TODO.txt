@@ -64,6 +64,10 @@ ADMIN IFRAME BUILDOUT NOTES:
 
 ```````````````````````````````````````````````````````````````````````````````````````````````````````````````
 
+
+See what the best way is to have ALL log entries be in chronological order (currently we group by category when logging)
+
+
 Just like chart crosshair positions, some info bubble positions are WAAAAY off when using the zoom feature in desktop editions. Put a red info icon to the left of the zoom setting, with a warning about both these positioning issues, and POTENTIALLY EVEN MORE unoticed issues from zooming. We don't have a choice beyond this as a 'solution', because we don't build the container software we are using for the desktop editions (PHPdesktop), and those devs have not implemented a 'normal' browser zoom feature.
 
 
