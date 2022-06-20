@@ -459,6 +459,10 @@ echo " "
 echo "${red}VERY IMPORTANT UPGRADE NOTES:${reset}"
 echo " "
 
+echo "v5.15.1 and higher resets light (time period) charts ONCE AFTER UPGRADING FROM v5.15.0 AND EARLIER VERSIONS"
+echo " "
+echo " "
+
 echo "v5.12.2 and higher renames the admin config array. ALL CONFIGURATION SETTING"
 echo "VARIABLE NAMES ARE NOW DIFFERENT, USE THE LATEST/UPGRADED CONFIG.PHP, AND"
 echo "MIGRATE YOUR EXISTING SETTINGS TO THE NEW FORMAT."
