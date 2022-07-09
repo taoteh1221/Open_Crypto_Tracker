@@ -67,6 +67,9 @@ ADMIN IFRAME BUILDOUT NOTES:
 Find out why days has 2 decimals (text notify, email and telegram are fine):
  Text Notify / SHDW / BTC @ Generic BTC decreased -9.27% in USD value to $0.68269 over 1..04 days. 24 Hour USD Volume: $1,064,959 (-1.54% pair volume)
  
+ 
+Use bootstrap's built-in alert closeable pop-in to indicate 'configuration saved' inside each admin iframe.
+
 
 Have the lite chart function create a cached var array in json (in cache/vars/ folder), and everytime a new chart system uses it, add it's BASE cache path as an array value. Then we just need to feed this array into a light charts reset function / logic that resets all KNOWN chart systems in the app that use the light charts system (including plugins)
 
