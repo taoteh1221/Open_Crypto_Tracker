@@ -1840,7 +1840,7 @@ var $ct_array1 = array();
                         
                // Pretty numbers UX on PRIMARY CURRENCY CONFIG asset value
               	     
-               $thres_dec = $ct_gen->thres_dec($asset_prim_currency_val_raw, 'u'); // Units mode
+               $thres_dec = $ct_gen->thres_dec($asset_prim_currency_val_raw, 'u', 'fiat'); // Units mode
                $asset_prim_currency_text = $ct_var->num_pretty($asset_prim_currency_val_raw, $thres_dec['max_dec'], false, $thres_dec['min_dec']);
                         
                $vol_prim_currency_text = $ct_conf['power']['btc_currency_mrkts'][$default_btc_prim_currency_pair] . number_format($vol_prim_currency_raw, 0, '.', ',');

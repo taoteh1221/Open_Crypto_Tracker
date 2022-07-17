@@ -12,8 +12,8 @@ var $ct_var2;
 var $ct_var3;
 
 var $ct_array = array();
-   
-   
+
+
    ////////////////////////////////////////////////////////
    ////////////////////////////////////////////////////////
    
@@ -1141,26 +1141,25 @@ var $ct_array = array();
    
    // Pretty decimals calculation (ONLY returns num of decimals to use)
    // (NO DECIMALS OVER 100 IN UNIT VALUE, MAX 2 DECIMALS OVER 1, #AND MIN 2 DECIMALS# UNDER, FOR INTERFACE UX)
-   function thres_dec($num, $mode) {
+   function thres_dec($num, $mode, $type=false) {
        
    global $ct_conf;
    
    $result = array();
    
       // Unit
-      if ( $mode == 'u' ) {
+      if ( $mode == 'u' && $type != false ) {
+          
+      $result['max_dec'] = $this->dyn_max_decimals( abs($num) , $type); // MUST BE PASSED AS ABSOLUTE
    
-   		  if ( abs($num) >= 100 ) {
-          $result['max_dec'] = 0;
-          $result['min_dec'] = 0;
+          if ( $ct_conf['gen']['price_round_fixed_decimals'] == 'on' ) {
+          $result['min_dec'] = $result['max_dec'];
           }
-		  elseif ( abs($num) >= 1 ) {
-          $result['max_dec'] = 2;
-          $result['min_dec'] = 0;
+   		  elseif ( $type == 'fiat' ) {
+          $result['min_dec'] = 2;
           }
           else {
-          $result['max_dec'] = $ct_conf['gen']['prim_currency_dec_max'];
-          $result['min_dec'] = 2;
+          $result['min_dec'] = 0;
           }
           
       }
@@ -2074,6 +2073,85 @@ var $ct_array = array();
         
         return $data;
         
+   }
+
+   
+   ////////////////////////////////////////////////////////
+   ////////////////////////////////////////////////////////
+   
+
+   function dyn_max_decimals($price_raw, $type) {
+       
+   global $ct_conf;
+        
+        
+        if ( $ct_conf['gen']['price_round_percent'] == 'one' ) {
+        $x = 1;
+        }
+        else if ( $ct_conf['gen']['price_round_percent'] == 'tenth' ) {
+        $x = 0.1;
+        }
+        else if ( $ct_conf['gen']['price_round_percent'] == 'hundredth' ) {
+        $x = 0.01;
+        }
+        else if ( $ct_conf['gen']['price_round_percent'] == 'thousandth' ) {
+        $x = 0.001;
+        }
+        
+        
+    $unit_percent = ($price_raw / 100) * $x;
+    
+        
+        // 8 decimals rounding
+        if ( $unit_percent <= 0.00000004994 ) {
+        $decimals = 8;
+        }
+        // 7 decimals rounding
+        else if ( $unit_percent <= 0.0000004994 ) {
+        $decimals = 7;
+        }
+        // 6 decimals rounding
+        else if ( $unit_percent <= 0.000004994 ) {
+        $decimals = 6;
+        }
+        // 5 decimals rounding
+        else if ( $unit_percent <= 0.00004994 ) {
+        $decimals = 5;
+        }
+        // 4 decimals rounding
+        else if ( $unit_percent <= 0.0004994 ) {
+        $decimals = 4;
+        }
+        // 3 decimals rounding
+        else if ( $unit_percent <= 0.004994 ) {
+        $decimals = 3;
+        }
+        // 2 decimals rounding
+        else if ( $unit_percent <= 0.04994 ) {
+        $decimals = 2;
+        }
+        // 1 decimals rounding
+        else if ( $unit_percent <= 0.4994 ) {
+        $decimals = 1;
+        }
+        // 0 decimals rounding
+        else {
+        $decimals = 0;
+        }
+        
+    
+        // Use min/max decimals if applicable
+        if ( $type == 'fiat' && $decimals > $ct_conf['gen']['prim_currency_dec_max'] ) {
+        return $ct_conf['gen']['prim_currency_dec_max'];
+        }
+        else if ( $type == 'crypto' && $decimals > 8 ) {
+        return 8;
+        }
+        else {
+        return $decimals;
+        }
+        
+    
    }
   
   

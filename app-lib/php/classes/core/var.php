@@ -361,10 +361,9 @@ var $ct_array1 = array();
    $raw_val_to_pretty = $this->rem_num_format($val_to_pretty);
    
    
-      // IF MAX DECIMAL == 2, WE #AUTOMATICALLY# FORCE #MIN# DECIMAL TO SAME (PRESUMING COMMON FIAT ROUNDING)
-      // ALSO, IF MIN DECIMAL IS SET HIGHER THAN MAX DECIMAL, AUTO-CORRECT IT (AS IT'S AN INVALID PARAMETER SETTING)
-      if ( $dec_max == 2 || $dec_min > $dec_max ) {
-      $dec_min = $dec_max;
+      // IF MIN DECIMAL IS SET HIGHER THAN MAX DECIMAL, UP MAX DECIMAL TO MATCH MIN DECIMAL
+      if ( $dec_min > $dec_max ) {
+      $dec_max = $dec_min;
       }
    
    
@@ -382,13 +381,20 @@ var $ct_array1 = array();
       // IF #MIN# DECIMAL ALLOWED IS SET, THEN WE RE-PROCESS AGAIN, TO #FORCE# ANY NEEDED ZERO DECIMALS ONTO THE RIGHT SIDE
       // (skip WATCH-ONLY flag values)
       if ( $dec_min != false && $small_unlimited != true ) {
+          
+          if ( stristr($raw_val_to_pretty, '.') == false && $dec_min > 0 ) {
+          $raw_val_to_pretty = number_format($raw_val_to_pretty, $dec_min, '.', '');
+          }
+          else {
       
-      $decimal_check = preg_replace("/(.*)\./", "", $raw_val_to_pretty);
-        
-        // #ONLY IF# amount of decimals is LESS the min decimal, FORCE NEEDED ZEROS TO RIGHT SIDE
-        if ( iconv_strlen($decimal_check, 'utf-8') < $dec_min ) {
-        $raw_val_to_pretty = number_format($raw_val_to_pretty, $dec_min, '.', '');
-        }
+          $decimal_check = preg_replace("/(.*)\./", "", $raw_val_to_pretty);
+            
+            // #ONLY IF# amount of decimals is LESS the min decimal, FORCE NEEDED ZEROS TO RIGHT SIDE
+            if ( iconv_strlen($decimal_check, 'utf-8') < $dec_min ) {
+            $raw_val_to_pretty = number_format($raw_val_to_pretty, $dec_min, '.', '');
+            }
+          
+          }
       
       }
       

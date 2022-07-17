@@ -135,21 +135,19 @@ $market_val = $ct_var->num_to_str( $ct_api->market($market_asset, $market_exchan
    	    // Pretty numbers UX on target / market values, for alert messages
    	    
    	    // Fiat-eqiv
-   	    if ( array_key_exists($market_pair, $ct_conf['power']['btc_currency_mrkts']) && !array_key_exists($market_pair, $ct_conf['power']['crypto_pair']) ) {
-   		
-   		$thres_dec = $ct_gen->thres_dec($target_val, 'u'); // Units mode
-   		$target_val_text = $ct_var->num_pretty($target_val, $thres_dec['max_dec'], false, $thres_dec['min_dec']);
-		
-   		$thres_dec = $ct_gen->thres_dec($market_val, 'u'); // Units mode
-   		$market_val_text = $ct_var->num_pretty($market_val, $thres_dec['max_dec'], false, $thres_dec['min_dec']);
-		
-		
+   	    if ( array_key_exists($market_pair, $ct_conf['power']['btc_currency_mrkts']) ) {
+   		$thres_dec_target = $ct_gen->thres_dec($target_val, 'u', 'fiat'); // Units mode
+   		$thres_dec_market = $ct_gen->thres_dec($market_val, 'u', 'fiat'); // Units mode
 		}
 		// Crypto
 		else {
-		$target_val_text = $ct_var->num_pretty($target_val, 8);
-		$market_val_text = $ct_var->num_pretty($market_val, 8);
+   		$thres_dec_target = $ct_gen->thres_dec($target_val, 'u', 'crypto'); // Units mode
+   		$thres_dec_market = $ct_gen->thres_dec($market_val, 'u', 'crypto'); // Units mode
 		}
+    
+    
+   	$target_val_text = $ct_var->num_pretty($target_val, $thres_dec_target['max_dec'], false, $thres_dec_target['min_dec']);
+   	$market_val_text = $ct_var->num_pretty($market_val, $thres_dec_market['max_dec'], false, $thres_dec_market['min_dec']);
     
     
     // Message formatting

@@ -17,16 +17,6 @@ if ( $runtime_mode != 'cron' && $ct_cache->update_cache($base_dir . '/cache/even
 	// Maintenance to run only if cron is setup and running
 	////////////////////////////////////////////////////////////
 	if ( $runtime_mode == 'cron' ) {
-    
-    
-    	// Re-cache RSS feeds for faster UI runtimes later
-    	foreach($ct_conf['power']['news_feed'] as $feed_item) {
-    	    
-    		if ( isset($feed_item["url"]) && trim($feed_item["url"]) != '' ) {
-    	 	$ct_api->rss($feed_item["url"], 'no_theme', 0, true);
-    	 	}
-    	 	
-    	}
 	
 	
 		// Chart backups...run before any price checks to avoid any potential file lock issues

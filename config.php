@@ -256,6 +256,19 @@ $ct_conf['gen']['btc_prim_exchange'] = 'kraken';  // PUT INSIDE SINGLE QUOTES ('
 $ct_conf['gen']['prim_currency_dec_max'] = 5; // Whole numbers only (represents number of decimals maximum to use)
 
 
+// PRICE PERCENTAGE to round off interface price IN DECIMALS (DYNAMIC / RELATIVE to price amount)
+// (FINE-GRAINED CONTROL OVER INTERFACE PRICE ROUNDING #AMOUNT OF DECIMALS SHOWN#)
+// (interface examples: one = 1000, tenth = 1000, hundredth = 1000.9, thousandth = 1000.09)
+// (interface examples: one = 100, tenth = 100.9, hundredth = 100.09, thousandth = 100.009)
+// (interface examples: one = 10.9, tenth = 10.09, hundredth = 10.009, thousandth = 10.0009)
+// #FIAT# CURRENCY VALUES UNDER 100 #ARE FORCED TO 2 DECIMALS MINUMUM#
+$ct_conf['gen']['price_round_percent'] = 'tenth'; // (OF A PERCENT) 'one', 'tenth', 'hundredth', 'thousandth'
+////
+// FORCE a FIXED MINIMUM amount of decimals on interface price, CALCULATED OFF ABOVE price_round_percent SETTING
+// (ALWAYS SAME AMOUNT OF DECIMALS, #EVEN IF IT INCLUDES TRAILING ZEROS#) 
+$ct_conf['gen']['price_round_fixed_decimals'] = 'off'; // 'off', 'on'
+
+
 // Your local time offset IN HOURS, COMPARED TO UTC TIME. Can be negative or positive.
 // (Used for user experience 'pretty' timestamping in interface logic ONLY, WILL NOT change or screw up UTC log times etc if you change this)
 $ct_conf['gen']['loc_time_offset'] = -4; // example: -5 or 5, -5.5 or 5.75 (#CAN BE DECIMAL# TO SUPPORT 30 / 45 MINUTE TIME ZONES)

@@ -39,13 +39,12 @@ $plug_conf[$this_plug]['alerts_freq_max'] = 30; // Can be 0, to have no limits (
 $plug_conf[$this_plug]['price_targets'] = array(
 																	
 												// 'asset-pair-exchange' => '123.4567', // NO COMMAS ALLOWED IN PRICE, ONLY DECIMALS
-												'btc-usd-coinbase' => '55100',
-												'eth-btc-binance' => '0.085',
-												'eth-usdt-binance' => '3950',
-												'sol-eth-binance' => '0.045',
-												'sol-usd-coinbase' => '125',
-												'slc-usd-generic_usd' => '0.75',
-												'luna-usd-ftx' => '0.25',
+												'btc-usd-coinbase' => '22600',
+												'eth-btc-binance' => '0.071',
+												'eth-usdt-binance' => '1600',
+												'sol-eth-binance' => '0.036',
+												'sol-usd-coinbase' => '56.50',
+												'slc-usd-generic_usd' => '0.076',
 													
 												); // END price targets array
 

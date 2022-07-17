@@ -476,12 +476,15 @@ $altcoin_dominance = $ct_var->max_100($altcoin_dominance);
 						echo ( $loop > 0 ? ' &nbsp;/&nbsp; ' : '' );
 					
 							if ( $key == 'btc' ) {
-							echo '<span class="'.$key.'" title="'.strtoupper($key).'">'.$val.' ' . $total_btc_worth . '</span>';
+						    $thres_dec = $ct_gen->thres_dec($total_btc_worth, 'u', 'crypto'); // Units mode
+							echo '<span class="'.$key.'" title="'.strtoupper($key).'">'.$val.' ' . $ct_var->num_pretty($total_btc_worth, $thres_dec['max_dec'], false, $thres_dec['min_dec']) . '</span>';
 							}
 							else {
 							    
 							   if ( $ct_asset->pair_btc_val($key) > 0 ) {
-							   echo '<span class="'.$key.'" title="'.strtoupper($key).'">'.$val.' ' . number_format( ( $total_btc_worth_raw / $ct_asset->pair_btc_val($key) ) , 4) . '</span>';
+							   $total_crypto_worth = ( $total_btc_worth_raw / $ct_asset->pair_btc_val($key) );
+						       $thres_dec = $ct_gen->thres_dec($total_crypto_worth, 'u', 'crypto'); // Units mode
+							   echo '<span class="'.$key.'" title="'.strtoupper($key).'">'.$val.' ' . $ct_var->num_pretty($total_crypto_worth, $thres_dec['max_dec'], false, $thres_dec['min_dec']) . '</span>';
 							   }
 							   else {
 							   echo '<span class="'.$key.'" title="'.strtoupper($key).'">'.$val.' ' . number_format(0, 4) . '</span>';
@@ -559,9 +562,9 @@ $altcoin_dominance = $ct_var->max_100($altcoin_dominance);
 			<?php
 			
 		
-        $thres_dec = $ct_gen->thres_dec($total_prim_currency_worth, 'u'); // Units mode
+        $thres_dec = $ct_gen->thres_dec($total_prim_currency_worth, 'u', 'fiat'); // Units mode
 		// Fiat value of portfolio
-		echo '<span class="black">' . strtoupper($ct_conf['gen']['btc_prim_currency_pair']) . ' Value:</span> <span class="private_data">' . $ct_conf['power']['btc_currency_mrkts'][ $ct_conf['gen']['btc_prim_currency_pair'] ] . number_format($total_prim_currency_worth, $thres_dec['max_dec'], '.', ',') . '</span>';
+		echo '<span class="black">' . strtoupper($ct_conf['gen']['btc_prim_currency_pair']) . ' Value:</span> <span class="private_data">' . $ct_conf['power']['btc_currency_mrkts'][ $ct_conf['gen']['btc_prim_currency_pair'] ] . $ct_var->num_pretty($total_prim_currency_worth, $thres_dec['max_dec'], false, $thres_dec['min_dec']) . '</span>';
 		
 		?>
 		
@@ -663,8 +666,8 @@ var fiat_val_content = '<h5 class="yellow tooltip_title">Primary Currency (<?=st
 					
 						if ( $ct_var->num_to_str($val['coin_paid']) >= 0.00000001 ) {
 							
-                        $thres_dec_1 = $ct_gen->thres_dec($val['gain_loss_total'], 'u'); // Units mode
-						$parsed_gain_loss = preg_replace("/-/", "-" . $ct_conf['power']['btc_currency_mrkts'][ $ct_conf['gen']['btc_prim_currency_pair'] ], number_format( $val['gain_loss_total'], $thres_dec_1['max_dec'], '.', ',' ) );
+                        $thres_dec_1 = $ct_gen->thres_dec($val['gain_loss_total'], 'u', 'fiat'); // Units mode
+						$parsed_gain_loss = preg_replace("/-/", "-" . $ct_conf['power']['btc_currency_mrkts'][ $ct_conf['gen']['btc_prim_currency_pair'] ], $ct_var->num_pretty($val['gain_loss_total'], $thres_dec_1['max_dec'], false, $thres_dec_1['min_dec']) );
 		
 		
                         $thres_dec_2 = $ct_gen->thres_dec($val['gain_loss_percent_total'], 'p'); // Percentage mode
