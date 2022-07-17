@@ -413,7 +413,7 @@ $ct_conf['charts_alerts']['tracked_mrkts'] = array(
 					
 					
 					// DAI
-					'dai' => 'coinbase||usdc||both',
+					'dai' => 'coinbase||usd||both',
 					'dai-2' => 'kraken||usd||none',
 					'dai-3' => 'bittrex||btc||none',
 					
@@ -2536,7 +2536,6 @@ $ct_conf['assets'] = array(
                                                     
                                     'usdc' => array(
                                           'binance' => 'ETHUSDC',
-                                          'coinbase' => 'ETH-USDC',
                                           'kraken' => 'ETHUSDC',
                                           'kucoin' => 'ETH-USDC',
                                           'loopring_amm' => 'AMM-ETH-USDC',
@@ -2850,7 +2849,6 @@ $ct_conf['assets'] = array(
 
                                                     
                                     'usdc' => array(
-                                    	'coinbase' => 'DAI-USDC',
                                         'hitbtc' => 'DAIUSDC',
                                                     ),
 
@@ -2880,13 +2878,11 @@ $ct_conf['assets'] = array(
 
                                                     
                                     'eur' => array(
-                                    	 'coinbase' => 'USDC-EUR',
                                     	 'kraken' => 'USDCEUR',
                                                     ),
 
                                                     
                                     'gbp' => array(
-                                    	 'coinbase' => 'USDC-GBP',
                                     	 'kraken' => 'USDCGBP',
                                                     ),
 
@@ -2952,8 +2948,8 @@ $ct_conf['assets'] = array(
                                                     ),
 
                                                     
-                                    'usdc' => array(
-                                          'coinbase' => 'MANA-USDC',
+                                    'usd' => array(
+                                          'coinbase' => 'MANA-USD',
                                                     ),
 
                                                     
