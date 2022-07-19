@@ -45,8 +45,8 @@ header('Content-type: text/html; charset=' . $ct_conf['dev']['charset_default'])
 	var background_tasks_recheck; // Default
 	
 	var reload_recheck; // Default
-	
-	is_admin = false; // Default
+    
+    window.is_admin = false; // Default
 	
 	window.reload_countdown = false; // Default
 	
@@ -159,9 +159,6 @@ header('Content-type: text/html; charset=' . $ct_conf['dev']['charset_default'])
 	?>
 	
 	<script>
-    
-    
-    window.is_admin = false; // Default
 	
 	<?php
 	// Flag admin area in js
