@@ -38,38 +38,50 @@ require("config.php");
 //////////////////////////////////////////////
 
 
-// Charts and price alerts
+///////////////////////////////////////////////////////////////////////////////////////
+// Only run below logic if cron has run for the first time already (for better new install UX)
+///////////////////////////////////////////////////////////////////////////////////////
+if ( file_exists($base_dir . '/cache/events/cron-first-run.dat') ) {
+
 $_SESSION['lite_charts_updated'] = 0;
 
-foreach ( $ct_conf['charts_alerts']['tracked_mrkts'] as $key => $val ) {
 
-$val = explode("||",$val); // Convert $val into an array
+    // Charts and price alerts
+    foreach ( $ct_conf['charts_alerts']['tracked_mrkts'] as $key => $val ) {
+    
+    $val = explode("||",$val); // Convert $val into an array
+    
+    $exchange = $val[0];
+    $pair = $val[1];
+    $mode = $val[2];
+    
+    // ALWAYS RUN even if $mode != 'none' etc, as charts_price_alerts() is optimized to run UX logic scanning
+    // (such as as removing STALE EXISTING ALERT CACHE FILES THAT WERE PREVIOUSLY-ENABLED,
+    // THEN USER-DISABLED...IN CASE USER RE-ENABLES, THE ALERT STATS / ETC REMAIN UP-TO-DATE)
+    $ct_asset->charts_price_alerts($key, $exchange, $pair, $mode);
+    
+    }
 
-$exchange = $val[0];
-$pair = $val[1];
-$mode = $val[2];
 
-// ALWAYS RUN even if $mode != 'none' etc, as charts_price_alerts() is optimized to run UX logic scanning
-// (such as as removing STALE EXISTING ALERT CACHE FILES THAT WERE PREVIOUSLY-ENABLED,
-// THEN USER-DISABLED...IN CASE USER RE-ENABLES, THE ALERT STATS / ETC REMAIN UP-TO-DATE)
-$ct_asset->charts_price_alerts($key, $exchange, $pair, $mode);
-
-}
-
-
-// Checkup on each failed proxy
-if ( $ct_conf['comms']['proxy_alert'] != 'off' ) {
-	
-	foreach ( $proxy_checkup as $problem_proxy ) {
-	$ct_gen->test_proxy($problem_proxy);
-	sleep(1);
-	}
-
-}
-
+    // Checkup on each failed proxy
+    if ( $ct_conf['comms']['proxy_alert'] != 'off' ) {
+    	
+    	foreach ( $proxy_checkup as $problem_proxy ) {
+    	$ct_gen->test_proxy($problem_proxy);
+    	sleep(1);
+    	}
+    
+    }
+    
 
 // Queue notifications if there were any price alert resets, BEFORE $ct_cache->send_notifications() runs
 $ct_gen->reset_price_alert_notice();
+
+
+} 
+///////////////////////////////////////////////////////////////////////////////////////
+// END after first-run only
+///////////////////////////////////////////////////////////////////////////////////////
 
 
 // Calculate script runtime length (BEFORE system stats logging)

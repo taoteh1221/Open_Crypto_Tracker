@@ -43,7 +43,7 @@
 		 */
 		var total = function () {
 		    calc_total = $(target).find(settings.itemContainer).length;
-		    console.log(calc_total);
+		    //console.log(calc_total); // DEBUGGING ONLY
 			return calc_total;
 		}();
 
