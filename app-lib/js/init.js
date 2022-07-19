@@ -143,6 +143,32 @@ $('#alert_bell_area').html( "<span class='bitcoin'>Current UTC time:</span> <spa
 	/////////////////////////////////////////////////////////////////////////////////////////////////////
 	
 	
+    // Set proper body zoom for desktop editions
+    if ( app_edition == 'desktop' ) {
+        
+         // Page zoom logic
+         if ( localStorage.getItem('currzoom') ) {
+         currzoom = localStorage.getItem('currzoom');
+         }
+         else {
+         currzoom = 100;
+         }
+        
+    // Just zoom body / show new zoom level in GUI,
+    // and reset #topnav and #app_loading and #change_font_size to 100% beforehand
+    // (iframes zoom onload in other init logic)
+    $('#topnav').css('zoom', ' ' + 100 + '%');
+    $('#change_font_size').css('zoom', ' ' + 100 + '%');
+    $('#app_loading').css('zoom', ' ' + 100 + '%');
+    $('body').css('zoom', ' ' + currzoom + '%');
+    $("#zoom_show_ui").html(currzoom + '%');
+                     
+    }
+
+
+	/////////////////////////////////////////////////////////////////////////////////////////////////////
+	
+	
     // Auto-focus admin authentication form's username feild
     if ( $("#admin_login").length ) {
     	setTimeout(function(){
@@ -171,8 +197,8 @@ $('#alert_bell_area').html( "<span class='bitcoin'>Current UTC time:</span> <spa
        
           // When admin iframe loads
           iframe.addEventListener('load', function() {
-              
-          iframe_adjust_height(iframe);
+    
+          iframe_adjust(iframe);
           $("#"+iframe.id+"_loading").fadeOut(250);
           
               // Before admin iframe unloads
@@ -208,40 +234,6 @@ $('#alert_bell_area').html( "<span class='bitcoin'>Current UTC time:</span> <spa
         }
         
     }); 
-
-
-	/////////////////////////////////////////////////////////////////////////////////////////////////////
-	
-	
-    // Page zoom support for chrome (only shown in desktop app) 
-    // (firefox skews the entire page, safari untested)
-    if ( app_edition == 'desktop' ) {
-    
-        $('#plusBtn').on('click',function(){
-        
-        var step = 2;
-        currzoom = parseFloat(currzoom) + step; 
-        $('body').css('zoom', ' ' + currzoom + '%');
-        
-        localStorage.setItem('currzoom', currzoom);
-        $("#zoom_show_ui").html(currzoom + '%');
-        //console.log(currzoom);
-        
-        });
-    
-        $('#minusBtn').on('click',function(){
-        
-        var step = 2;
-        currzoom = parseFloat(currzoom) - step; 
-        $('body').css('zoom', ' ' + currzoom + '%');
-        
-        localStorage.setItem('currzoom', currzoom);
-        $("#zoom_show_ui").html(currzoom + '%');
-        //console.log(currzoom);
-        
-        });
-        
-    } // END page zoom logic
 
 
 	/////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -290,6 +282,54 @@ $('#alert_bell_area').html( "<span class='bitcoin'>Current UTC time:</span> <spa
 	/////////////////////////////////////////////////////////////////////////////////////////////////////
 	
 	
+    // Page zoom support for chrome (only shown in desktop app) 
+    // (firefox skews the entire page, safari untested)
+    if ( app_edition == 'desktop' ) {
+    
+        // Plus button
+        $('#plusBtn').on('click',function(){
+        
+        var step = 2;
+        currzoom = parseFloat(currzoom) + step; 
+        $('body').css('zoom', ' ' + currzoom + '%');
+        
+        localStorage.setItem('currzoom', currzoom);
+        $("#zoom_show_ui").html(currzoom + '%');
+        //console.log(currzoom);
+        
+            if ( window.is_admin == true ) {
+                admin_iframe_load.forEach(function(iframe) {
+                iframe_adjust(iframe);
+                });
+            }
+        
+        });
+    
+        // Minus button
+        $('#minusBtn').on('click',function(){
+        
+        var step = 2;
+        currzoom = parseFloat(currzoom) - step; 
+        $('body').css('zoom', ' ' + currzoom + '%');
+        
+        localStorage.setItem('currzoom', currzoom);
+        $("#zoom_show_ui").html(currzoom + '%');
+        //console.log(currzoom);
+        
+            if ( window.is_admin == true ) {
+                admin_iframe_load.forEach(function(iframe) {
+                iframe_adjust(iframe);
+                });
+            }
+        
+        });
+        
+    } // END page zoom logic
+
+
+	/////////////////////////////////////////////////////////////////////////////////////////////////////
+	
+	
 	// Table data sorter config
 	if ( document.getElementById("coins_table") ) {
 		
@@ -299,7 +339,7 @@ $('#alert_bell_area').html( "<span class='bitcoin'>Current UTC time:</span> <spa
 			theme : theme_selected, // theme "jui" and "bootstrap" override the uitheme widget option in v2.7+
 			textExtraction: sort_extraction,
 			widgets: ['zebra'],
-		  headers: {
+		    headers: {
 				
 			// disable sorting of the first column (we can use zero or the header class name)
 			  '.no-sort' : {

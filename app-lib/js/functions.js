@@ -31,15 +31,6 @@ return new Blob([JSON.stringify(val)]).size;
 /////////////////////////////////////////////////////////////
 
 
-function iframe_adjust_height(elm) {
-extra = elm.id == 'iframe_system_stats' ? 1000 : 100;
-elm.height = (elm.contentWindow.document.body.scrollHeight + extra) + "px";
-}
-
-
-/////////////////////////////////////////////////////////////
-
-
 function set_target_action(obj_id, set_target, set_action) {
 document.getElementById(obj_id).target = set_target;
 document.getElementById(obj_id).action = set_action;
@@ -101,6 +92,25 @@ d = new Date();
 d.setTime(d.getTime() + (exdays*24*60*60*1000));
 expires = "expires="+d.toUTCString();
 document.cookie = cname + "=" + cvalue + "; SameSite=Strict; " + expires;
+}
+
+
+/////////////////////////////////////////////////////////////
+
+
+function iframe_adjust(elm) {
+
+    // Set proper page zoom on the iframe
+    if ( app_edition == 'desktop' ) {
+    elm.contentWindow.document.body.style.zoom = currzoom + '%';
+    }
+
+// Now that we've set any required zoom level, adjust the height
+
+extra = elm.id == 'iframe_system_stats' ? 1000 : 100;
+
+elm.height = (elm.contentWindow.document.body.scrollHeight + extra) + "px";
+              
 }
 
 
@@ -192,7 +202,7 @@ const iframe_adjuster = new IntersectionObserver(entries => {
     const intersecting = entry.isIntersecting;
       
         if ( intersecting ) {
-        iframe_adjust_height(entry.target);
+        iframe_adjust(entry.target);
         //console.log(entry.target.id + ' showing.');
         }
         

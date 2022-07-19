@@ -106,11 +106,15 @@ require("templates/interface/desktop/php/header.php");
 
 ?>
 
+
+
 <script>
 
+// If we are in an iframe, break out of it
+this.top.location !== this.location && (this.top.location = this.location);
 
 
-		var admin_cookies = '<h5 class="align_center bitcoin tooltip_title">Admin Login Requires Browser Cookies</h5>'
+var admin_cookies = '<h5 class="align_center bitcoin tooltip_title">Admin Login Requires Browser Cookies</h5>'
 			
 			
 			+'<p class="coin_info extra_margins" style="white-space: normal; max-width: 600px;"><span class="bitcoin">For greater security after a SUCCESSFUL admin login (with the correct username and password), a 32-byte random key is saved inside a cookie in your web browser. A DIFFERENT 32-byte random key is saved on the app server in temporary session data, along with the result of concatenating the two 32-byte keys together and getting a digest (fingerprint) hash, which is your login authorization.</span></p>'
@@ -212,7 +216,7 @@ if (
 ) {
 ?>
 
-	<form id='reset_admin' action='' target="_PARENT" method ='post'>
+	<form id='reset_admin' action='' method ='post'>
 				
     <div style="display: inline-block; text-align: right; width: 400px;">
 

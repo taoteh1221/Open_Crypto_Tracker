@@ -46,6 +46,8 @@ header('Content-type: text/html; charset=' . $ct_conf['dev']['charset_default'])
 	
 	var reload_recheck; // Default
 	
+	is_admin = false; // Default
+	
 	window.reload_countdown = false; // Default
 	
 	// Preload /images/auto-preloaded/ images VIA JAVASCRIPT TOO (WAY MORE RELIABLE THAN META TAG PRELOAD)
@@ -83,9 +85,11 @@ header('Content-type: text/html; charset=' . $ct_conf['dev']['charset_default'])
 	<?php
 	if ( $is_admin ) {
 	?>
+	
 	<link rel="stylesheet" href="templates/interface/desktop/css/admin.css" type="text/css" />
 	
 	<link rel="stylesheet" href="templates/interface/desktop/css/<?=$sel_opt['theme_selected']?>.admin.css" type="text/css" />
+	
 	<?php
 	}
 	?>
@@ -155,7 +159,7 @@ header('Content-type: text/html; charset=' . $ct_conf['dev']['charset_default'])
 	?>
 	
 	<script>
-
+    
     
     window.is_admin = false; // Default
 	
@@ -287,22 +291,6 @@ header('Content-type: text/html; charset=' . $ct_conf['dev']['charset_default'])
         if ( $app_edition == 'desktop' ) {
         ?>
         <div class='blue' id='change_font_size'>Zoom (<span id='zoom_show_ui'></span>): <span id='minusBtn' class='red'>-</span> <span id='plusBtn' class='green'>+</span></div>
-        <script>
-        
-        // Page zoom logic
-        if ( localStorage.getItem('currzoom') ) {
-        currzoom = localStorage.getItem('currzoom');
-        }
-        else {
-        currzoom = 100;
-        }
-        
-        //console.log(currzoom);
-        
-        $('body').css('zoom', ' ' + currzoom + '%');
-        $("#zoom_show_ui").html(currzoom + '%');
-        
-        </script>
         <?php
         }
         ?>
@@ -397,6 +385,31 @@ header('Content-type: text/html; charset=' . $ct_conf['dev']['charset_default'])
 	 	<div class='align_center loading bitcoin' id='app_loading'>
 	 	<img src="templates/interface/media/images/auto-preloaded/loader.gif" height='57' alt="" style='vertical-align: middle;' /> <span id='app_loading_span'>Loading...</span>
 	 	</div>
+	 	
+	 	<script>
+	 	
+        // For UX, set proper page zoom for 'loading...' and zoom GUI on desktop editions
+        // (we can't set body zoom until it's fully loaded, which we do via init.js)
+        if ( app_edition == 'desktop' ) {
+            
+             // Page zoom logic
+             if ( localStorage.getItem('currzoom') ) {
+             currzoom = localStorage.getItem('currzoom');
+             }
+             else {
+             currzoom = 100;
+             }
+            
+        // Just zoom #topnav and #app_loading and #change_font_size / show zoom level in GUI
+        // (we'll reset them to 100% before we zoom the whole body in init.js)
+        $('#topnav').css('zoom', ' ' + currzoom + '%');
+        $('#change_font_size').css('zoom', ' ' + currzoom + '%');
+        $('#app_loading').css('zoom', ' ' + currzoom + '%');
+        $("#zoom_show_ui").html(currzoom + '%');
+                         
+        }
+    
+	 	</script>
 	 
 		
 		<div class='align_left' id='content_wrapper'>

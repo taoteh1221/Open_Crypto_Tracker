@@ -272,7 +272,7 @@ if ( $_GET['refresh'] ) {
 $refresh_admin = explode(',', $_GET['refresh']);
 
     foreach ( $refresh_admin as $refresh ) {
-        
+
         if ( isset($refresh) && trim($refresh) != '' ) {
         ?>
         parent.document.getElementById('<?=$refresh?>').contentWindow.location.reload(true);
