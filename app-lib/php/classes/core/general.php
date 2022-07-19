@@ -2082,7 +2082,7 @@ var $ct_array = array();
 
    function dyn_max_decimals($price_raw, $type) {
        
-   global $ct_conf;
+   global $ct_conf, $ct_var;
         
         
         if ( $ct_conf['gen']['price_round_percent'] == 'one' ) {
@@ -2099,7 +2099,7 @@ var $ct_array = array();
         }
         
         
-    $unit_percent = ($price_raw / 100) * $x;
+    $unit_percent = $ct_var->num_to_str( ($price_raw / 100) * $x );
     
         
         // 8 decimals rounding

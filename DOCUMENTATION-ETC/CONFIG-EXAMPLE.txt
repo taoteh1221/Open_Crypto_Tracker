@@ -82,7 +82,7 @@ $ct_conf['comms']['logs_email'] = 3; // (default = 3)
 // 0 to disable. Email to / from !MUST BE SET!
 $ct_conf['comms']['news_feed_email_freq'] = 3; // (default = 3)
 ////
-// MAXIMUM #NEW# RSS feed entries to include (per-feed) in news feed email (less then 'news_feed_email_freq' days old)
+// MAXIMUM #NEW# RSS feed entries to include (per-feed) in news feed EMAIL (less then 'news_feed_email_freq' days old)
 $ct_conf['comms']['news_feed_email_entries_show'] = 20; // (default = 20)
 
 
@@ -106,15 +106,15 @@ $ct_conf['comms']['proxy_alert_checkup_ok'] = 'include'; // 'include' / 'ignore'
 // If SMTP credentials / configuration is filled in, BUT not setup properly, APP EMAILING WILL FAIL!
 // !!USE A THROWAWAY ACCOUNT ONLY!! If web server is hacked, HACKER WOULD THEN HAVE ACCESS YOUR EMAIL LOGIN FROM THIS FILE!!
 // CAN BE BLANK (PHP's built-in mail function will be automatically used to send email instead)
-$ct_conf['comms']['smtp_login'] = ''; //  CAN BE BLANK. This format MUST be used: 'username||password'
+$ct_conf['comms']['smtp_login'] = ''; // This format MUST be used: 'username||password'
 ////
 // SMTP Server examples (protocol auto-detected / used based off port number): 
 // 'example.com:25' (non-encrypted), 'example.com:465' (ssl-encrypted), 'example.com:587' (tls-encrypted)
 $ct_conf['comms']['smtp_server'] = ''; // CAN BE BLANK. This format MUST be used: 'domain_or_ip:port_number' 
 
 
-// IF SMTP EMAIL SENDING --NOT-- USED, FROM email should be REAL address on the website domain, or risk having email sent to junk folder
-// IF SMTP EMAIL SENDING --IS-- USED, FROM EMAIL MUST MATCH EMAIL ADDRESS associated with SMTP login (SMTP Email configuration is below this setting)
+// IF SMTP EMAIL SENDING --NOT-- USED, FROM email should be REAL address on the server domain, or risk having email sent to junk folder
+// IF SMTP EMAIL SENDING --IS-- USED, FROM EMAIL MUST MATCH EMAIL ADDRESS associated with SMTP login (SMTP Email configuration is above this setting)
 $ct_conf['comms']['from_email'] = ''; // #SHOULD BE SET# to avoid email going to spam / junk
 ////
 $ct_conf['comms']['to_email'] = ''; // #MUST BE SET# for price alerts and other email features
@@ -212,7 +212,7 @@ $ct_conf['gen']['prim_mcap_site'] = 'coingecko';
 // inr / irr / jmd / jod / jpy / kes / krw / kwd / kzt / lkr / mad / mur / mwk / mxn / myr 
 // ngn / nis / nok / nzd / pab / pen / php / pkr / pln / pyg / qar / ron / rsd / rub / rwf 
 // sar / sek / sgd / thb / try / tusd / twd / tzs / uah / ugx / usdc / usdt / uyu / ves / vnd / xaf / xof / zar / zmw
-// SEE THE $ct_conf['assets'] CONFIGURATION NEAR THE BOTTOM OF THIS CONFIG FILE, FOR THE PROPER (CORRESPONDING)
+// SEE THE $ct_conf['assets']['BTC'] CONFIGURATION NEAR THE BOTTOM OF THIS CONFIG FILE, FOR THE PROPER (CORRESPONDING)
 // CURRENCY PAIR VALUE NEEDED FOR YOUR CHOSEN 'BTC' EXCHANGE (set in $ct_conf['gen']['btc_prim_exchange'] directly below)
 $ct_conf['gen']['btc_prim_currency_pair'] = 'usd'; // PUT INSIDE SINGLE QUOTES ('selection')
 
@@ -223,9 +223,9 @@ $ct_conf['gen']['btc_prim_currency_pair'] = 'usd'; // PUT INSIDE SINGLE QUOTES (
 // bittrex / bittrex_global / btcmarkets / btcturk / buyucoin / cex / coinbase / coindcx / coinspot 
 // gemini / generic_usd / hitbtc / huobi / korbit / kraken / kucoin / liquid / localbitcoins 
 // loopring_amm / luno / okcoin / okex / southxchange / unocoin / upbit / wazirx
-// SEE THE $ct_conf['assets'] CONFIGURATION NEAR THE BOTTOM OF THIS CONFIG FILE, FOR THE PROPER (CORRESPONDING)
+// SEE THE $ct_conf['assets']['BTC'] CONFIGURATION NEAR THE BOTTOM OF THIS CONFIG FILE, FOR THE PROPER (CORRESPONDING)
 // MARKET PAIR VALUE NEEDED FOR YOUR CHOSEN 'BTC' EXCHANGE (to populate $ct_conf['gen']['btc_prim_currency_pair'] directly above with)
-// SEE THE $ct_conf['dev']['limited_apis'] SETTING MUCH FURTHER DOWN, FOR EXCHANGES !NOT RECOMMENDED FOR USAGE HERE!
+// SEE THE $ct_conf['dev']['limited_apis'] SETTING FURTHER DOWN IN THE DEVELOPER SECTION, FOR EXCHANGES !NOT RECOMMENDED FOR USAGE HERE!
 $ct_conf['gen']['btc_prim_exchange'] = 'kraken';  // PUT INSIDE SINGLE QUOTES ('selection')
 
 
@@ -241,8 +241,10 @@ $ct_conf['gen']['prim_currency_dec_max'] = 5; // Whole numbers only (represents 
 // (interface examples: one = 1000, tenth = 1000, hundredth = 1000.9, thousandth = 1000.09)
 // (interface examples: one = 100, tenth = 100.9, hundredth = 100.09, thousandth = 100.009)
 // (interface examples: one = 10.9, tenth = 10.09, hundredth = 10.009, thousandth = 10.0009)
-// #FIAT# CURRENCY VALUES UNDER 100 #ARE FORCED TO 2 DECIMALS MINUMUM#
-$ct_conf['gen']['price_round_percent'] = 'tenth'; // (OF A PERCENT) 'one', 'tenth', 'hundredth', 'thousandth'
+// #FIAT# CURRENCY VALUES UNDER 100 #ARE ALWAYS FORCED TO 2 DECIMALS MINUMUM#
+// #FIAT# CURRENCY VALUES UNDER 1 #ARE ALWAYS FORCED TO 'prim_currency_dec_max' DECIMALS MAXIMUM#
+// THIS SETTING ONLY AFFECTS INTERFACE / COMMS PRICE DISPLAY ROUNDING, IT DOES #NOT# AFFECT BACKGROUND CALCULATIONS
+$ct_conf['gen']['price_round_percent'] = 'thousandth'; // (OF A PERCENT) 'one', 'tenth', 'hundredth', 'thousandth'
 ////
 // FORCE a FIXED MINIMUM amount of decimals on interface price, CALCULATED OFF ABOVE price_round_percent SETTING
 // (ALWAYS SAME AMOUNT OF DECIMALS, #EVEN IF IT INCLUDES TRAILING ZEROS#) 

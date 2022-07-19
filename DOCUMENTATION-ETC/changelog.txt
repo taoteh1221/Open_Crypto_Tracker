@@ -5532,7 +5532,9 @@ MIGRATE YOUR EXISTING SETTINGS TO THE NEW FORMAT.
 
 -Cleaned up default demo markets
 
--Quicker first-time run for new installs
+-RSS feeds more evenly pre-cached during background task runtimes
+
+-Quicker first-time run for new installs background tasks
 
 v5.15.1 and higher resets light (time period) charts ONCE AFTER UPGRADING FROM v5.15.0 AND EARLIER VERSIONS
 
