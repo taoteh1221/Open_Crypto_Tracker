@@ -212,7 +212,7 @@ if (
 ) {
 ?>
 
-				<form id='reset_admin' action='' method ='post'>
+	<form id='reset_admin' action='' target="_PARENT" method ='post'>
 				
     <div style="display: inline-block; text-align: right; width: 400px;">
 

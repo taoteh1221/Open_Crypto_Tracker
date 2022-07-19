@@ -194,7 +194,7 @@ echo '?';
             }
             ?>
     
-        +'<p class="coin_info balloon_notation yellow">*Current config setting retrieves the top <?=$ct_conf['power']['mcap_ranks_max']?> rankings.</p>';
+        +'<p class="coin_info balloon_notation bitcoin">*Current config setting retrieves the top <?=$ct_conf['power']['mcap_ranks_max']?> rankings.</p>';
     
         <?php
         

@@ -449,8 +449,8 @@ $altcoin_dominance = $ct_var->max_100($altcoin_dominance);
 	  
 	  // Notice that margin leverage is NOT included !!WITHIN!! BTC / PAIR TOTALS EVER (for UX's sake, too confusing to included in anything other than gain / loss stats)
 	  // We only include data in parenthesis NEXT TO THE BTC / PAIR PORTFOLIO SUMMARIES
-	  $leverage_text1 = ( $purchase_price_added == 1 && $leverage_added == 1 && is_numeric($gain_loss_total) == TRUE ? ' <p class="coin_info balloon_notation red" style="max-width: 600px; white-space: normal;"> *Includes adjusted long deposits, <i><u>not</u></i> leverage.</p>' : '' );
-	  $leverage_text2 = ( $purchase_price_added == 1 && $leverage_added == 1 && is_numeric($gain_loss_total) == TRUE ? ' <p class="coin_info balloon_notation red" style="max-width: 600px; white-space: normal;"> *Includes adjusted short / long deposits, <i><u>not</u></i> leverage.</p>' : '' );
+	  $leverage_text1 = ( $purchase_price_added == 1 && $leverage_added == 1 && is_numeric($gain_loss_total) == TRUE ? ' <p class="coin_info balloon_notation bitcoin" style="max-width: 600px; white-space: normal;"> *Includes adjusted long deposits, <i><u>not</u></i> leverage.</p>' : '' );
+	  $leverage_text2 = ( $purchase_price_added == 1 && $leverage_added == 1 && is_numeric($gain_loss_total) == TRUE ? ' <p class="coin_info balloon_notation bitcoin" style="max-width: 600px; white-space: normal;"> *Includes adjusted short / long deposits, <i><u>not</u></i> leverage.</p>' : '' );
 
 
 
@@ -628,7 +628,7 @@ var fiat_val_content = '<h5 class="yellow tooltip_title">Primary Currency (<?=st
           
 		
 		// Notice that we include margin leverage in gain / loss stats (for UX's sake, too confusing to included in anything other than gain / loss stats)
-		$leverage_text3 = ( $leverage_added == 1 ? '<p class="coin_info balloon_notation red" style="max-width: 600px; white-space: normal;"> *Includes leverage.</p>' : '' );
+		$leverage_text3 = ( $leverage_added == 1 ? '<p class="coin_info balloon_notation bitcoin" style="max-width: 600px; white-space: normal;"> *Includes leverage.</p>' : '' );
 	
 	?>
 	
@@ -682,7 +682,7 @@ var fiat_val_content = '<h5 class="yellow tooltip_title">Primary Currency (<?=st
 		
 			+'<?=$leverage_text3?>'
 				
-			+'<p class="coin_info balloon_notation yellow">*<?=( $leverage_added == 1 ? 'Leverage / ' : '' )?>Gain / Loss stats only include assets where you have set the<br />"Average Paid (per-token)" value on the Update page.</p>';
+			+'<p class="coin_info balloon_notation bitcoin">*<?=( $leverage_added == 1 ? 'Leverage / ' : '' )?>Gain / Loss stats only include assets where you have set the<br />"Average Paid (per-token)" value on the Update page.</p>';
 		
 		
 			$('#portfolio_gain_loss').balloon({

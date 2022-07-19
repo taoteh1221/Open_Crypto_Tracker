@@ -158,8 +158,8 @@
 				}
 			 ?>
   
-  <p class="coin_info balloon_notation red"><?=( $_GET['leverage_added'] == 1 ? '*Does <u>not</u> adjust for any type of leverage' : '' )?><?=(  $_GET['short_added'] == 1 ? ', or short deposit(s) gain / loss' : '' )?><?=( $_GET['leverage_added'] == 1 ? '.' : '' )?></p>
+  <p class="coin_info balloon_notation bitcoin"><?=( $_GET['leverage_added'] == 1 ? '*Does <u>not</u> adjust for any type of leverage' : '' )?><?=(  $_GET['short_added'] == 1 ? ', or short deposit(s) gain / loss' : '' )?><?=( $_GET['leverage_added'] == 1 ? '.' : '' )?></p>
   
-  <p class="coin_info balloon_notation yellow">*All decimals are rounded to 2 places, and therefore may be slightly off up to 0.005%.</p>
+  <p class="coin_info balloon_notation bitcoin">*All decimals are rounded to 2 places, and therefore may be slightly off up to 0.005%.</p>
 			 
 			 

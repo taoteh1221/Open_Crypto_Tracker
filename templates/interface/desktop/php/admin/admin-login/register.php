@@ -212,7 +212,7 @@ document.write("<p class='red align_center' style='font-size: 19px; font-weight:
 if ( !$_POST['submit_registration'] || is_array($register_result['error']) && sizeof($register_result['error']) > 0 ) {
 ?>
 
-<form name='set_admin' id='set_admin' action='' method='post'>
+<form name='set_admin' id='set_admin' action='' target="_PARENT" method='post'>
 
 
     <div style="display: inline-block; text-align: right; width: 400px;">
