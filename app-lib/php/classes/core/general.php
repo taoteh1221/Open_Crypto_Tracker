@@ -2140,7 +2140,7 @@ var $ct_array = array();
         }
         
     
-        // Use min/max decimals if applicable
+        // Force to max decimals if applicable
         if ( $type == 'fiat' && $decimals > $ct_conf['gen']['prim_currency_dec_max'] ) {
         return $ct_conf['gen']['prim_currency_dec_max'];
         }

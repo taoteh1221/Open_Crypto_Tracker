@@ -267,7 +267,7 @@ $ct_cache->send_notifications();
 }
 
 
-// Flag as first run of cron job, if needed (to improve speed of first time run of cron tasks, skipping uneeded pre-caching)
+// Flag if we have run the first cron job (for logic to improve speed of first time run of cron tasks, skipping uneeded pre-caching etc)
 if ( !file_exists($base_dir . '/cache/events/cron-first-run.dat') ) {
 $ct_cache->save_file($base_dir . '/cache/events/cron-first-run.dat', $ct_gen->time_date_format(false, 'pretty_date_time') );
 }
