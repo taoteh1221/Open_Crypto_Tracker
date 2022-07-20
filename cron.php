@@ -63,6 +63,12 @@ $_SESSION['lite_charts_updated'] = 0;
     }
 
 
+// Flag if we have run the first alerts / charts job (for logic to improve speed of first time run of cron tasks, skipping uneeded pre-caching etc)
+if ( !file_exists($base_dir . '/cache/events/charts-first-run.dat') ) {
+$ct_cache->save_file($base_dir . '/cache/events/charts-first-run.dat', $ct_gen->time_date_format(false, 'pretty_date_time') );
+}
+
+
     // Checkup on each failed proxy
     if ( $ct_conf['comms']['proxy_alert'] != 'off' ) {
     	

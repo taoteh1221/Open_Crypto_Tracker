@@ -13,8 +13,8 @@ if ( $runtime_mode == 'cron' ) {
 $_SESSION[$fetched_feeds] = false;
     
     
-    // Only run if cron has run for the first time already (for better new install UX)
-    if ( file_exists($base_dir . '/cache/events/cron-first-run.dat') ) {
+    // Only run if charts / alerts has run for the first time already (for better new install UX)
+    if ( file_exists($base_dir . '/cache/events/charts-first-run.dat') ) {
     
     	// Re-cache RSS feeds for faster UI runtimes later
     	foreach($ct_conf['power']['news_feed'] as $feed_item) {
