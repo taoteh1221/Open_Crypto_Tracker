@@ -44,8 +44,6 @@ $base_dir = preg_replace("/\/app-lib(.*)/i", "", $file_loc );
 
 $refresh_cached_ct_conf = 0;
 
-$is_cached_ct_conf = 0;
-
 $log_array = array();
 
 $plug_conf =  array();
@@ -75,7 +73,7 @@ $default_ct_conf = $ct_conf;
 // Load cached config (user-edited via admin interface), unless it's corrupt json 
 // (if corrupt, it will reset from hard-coded default config in config.php)
 // SEE upgrade_cache_ct_conf() AND subarray_ct_conf_upgrade(), #WHEN WE SWITCH ON USING THE CACHED USER EDITED CONFIG# 
-$ct_gen->load_cached_config();
+$is_cached_ct_conf = $ct_gen->load_cached_config();
 
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -94,7 +92,7 @@ if ( $ct_conf['dev']['debug'] != 'off' ) {
 error_reporting(-1); 
 }
 else {
-error_reporting($ct_conf['init']['error_reporting']); 
+error_reporting($ct_conf['dev']['error_reporting']); 
 }
 
 
@@ -190,6 +188,8 @@ else {
 
 
 // Initial BLANK arrays
+
+$admin_ui_menus = array();
 
 $change_dir_perm = array();
 

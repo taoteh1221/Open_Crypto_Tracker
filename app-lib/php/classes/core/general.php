@@ -1756,69 +1756,6 @@ var $ct_array = array();
       }
       
    }
-
-
-   ////////////////////////////////////////////////////////
-   ////////////////////////////////////////////////////////
-   
-   
-   function load_cached_config() {
-   
-   global $ct_conf, $base_dir, $check_default_ct_conf, $default_ct_conf, $refresh_cached_ct_conf, $is_cached_ct_conf;
-   
-   // Secured cache files global variable for app config (getting captcha settings)
-   $secured_cache_files = $this->sort_files($base_dir . '/cache/secured', 'dat', 'desc');
-        
-        
-        foreach( $secured_cache_files as $secured_file ) {
-        
-        
-        	// App config
-        	if ( preg_match("/ct_conf_/i", $secured_file) ) {
-		
-		
-        		// If we already loaded the newest modified file, delete any stale ones
-        		if ( $newest_cached_ct_conf == 1 ) {
-        		unlink($base_dir . '/cache/secured/' . $secured_file);
-        		$this->log('conf_error', 'OLD CACHED ct_conf found, deleting');
-        		}
-        		else {
-        		
-        		$newest_cached_ct_conf = 1;
-        			
-        		$cached_ct_conf = json_decode( trim( file_get_contents($base_dir . '/cache/secured/' . $secured_file) ) , TRUE);
-        			
-        		
-        			if ( $check_default_ct_conf == md5(serialize($default_ct_conf)) && $cached_ct_conf == true ) {
-        			$is_cached_ct_conf = 1; // KEEP #ABOVE# $ct_conf = $cached_ct_conf, OTHERWISE A WEIRD PHP BUG DOESN'T UPDATE $is_cached_ct_conf
-        			$ct_conf = $cached_ct_conf; // Use cached ct_conf if it exists, seems intact, and DEFAULT Admin Config (in config.php) hasn't been revised since last check
-        			// $this->log('conf_error', 'CACHED ct_conf OK'); // DEBUGGING ONLY
-        			}
-        			elseif ( $check_default_ct_conf != md5(serialize($default_ct_conf)) ) {
-        			$refresh_cached_ct_conf = 1;
-        			unlink($base_dir . '/cache/secured/' . $secured_file);
-        			$this->log('conf_error', 'CACHED ct_conf outdated (DEFAULT ct_conf updated), refreshing from DEFAULT ct_conf');
-        			}
-        			elseif ( $cached_ct_conf != true ) {
-        			$refresh_cached_ct_conf = 1;
-        			unlink($base_dir . '/cache/secured/' . $secured_file);
-        			$this->log('conf_error', 'CACHED ct_conf appears corrupt, refreshing from DEFAULT ct_conf');
-        			}
-        			else {
-        			$this->log('conf_error', 'unknown error, refreshing from DEFAULT ct_conf');
-        			}
-        			
-        			
-        		}
-		
-	
-        	}
-        	
-        	
-        }
-
-
-   }
    
    
    ////////////////////////////////////////////////////////
@@ -1894,8 +1831,9 @@ var $ct_array = array();
       // Check for new variables, and add them
       foreach ( $default_ct_conf[$cat_key][$conf_key] as $setting_key => $setting_val ) {
       
-         if ( is_array($setting_val) ) {
-         $this->log('conf_error', 'Sub-array depth to deep for app config upgrade parser');
+         // Skip this array depth if it's yet another subarray, UNLESS this is the plugin configs
+         if ( is_array($setting_val) && $cat_key != 'plug_conf' ) {
+         $this->log('conf_error', 'ct_conf[' .$cat_key . ']['. $conf_key . '][' . $setting_key . '] config upgrade not needed (skipping)');
          }
          elseif ( !in_array($setting_key, $skip_upgrading) && !isset($upgraded_ct_conf[$cat_key][$conf_key][$setting_key]) ) {
          	
@@ -1915,8 +1853,9 @@ var $ct_array = array();
       // Check for depreciated variables, and remove them
       foreach ( $cached_ct_conf[$cat_key][$conf_key] as $setting_key => $setting_val ) {
       
-         if ( is_array($setting_val) ) {
-         $this->log('conf_error', 'Sub-array depth to deep for app config upgrade parser');
+         // Skip this array depth if it's yet another subarray, UNLESS this is the plugin configs
+         if ( is_array($setting_val) && $cat_key != 'plug_conf' ) {
+         $this->log('conf_error', 'ct_conf[' .$cat_key . ']['. $conf_key . '][' . $setting_key . '] config upgrade not needed (skipping)');
          }
          elseif ( !in_array($setting_key, $skip_upgrading) && !isset($default_ct_conf[$cat_key][$conf_key][$setting_key]) ) {
          	
@@ -2166,35 +2105,35 @@ var $ct_array = array();
     
         
         // 8 decimals rounding
-        if ( $unit_percent <= 0.00000004994 ) {
+        if ( $unit_percent <= 0.00000005 ) {
         $decimals = 8;
         }
         // 7 decimals rounding
-        else if ( $unit_percent <= 0.0000004994 ) {
+        else if ( $unit_percent <= 0.0000005 ) {
         $decimals = 7;
         }
         // 6 decimals rounding
-        else if ( $unit_percent <= 0.000004994 ) {
+        else if ( $unit_percent <= 0.000005 ) {
         $decimals = 6;
         }
         // 5 decimals rounding
-        else if ( $unit_percent <= 0.00004994 ) {
+        else if ( $unit_percent <= 0.00005 ) {
         $decimals = 5;
         }
         // 4 decimals rounding
-        else if ( $unit_percent <= 0.0004994 ) {
+        else if ( $unit_percent <= 0.0005 ) {
         $decimals = 4;
         }
         // 3 decimals rounding
-        else if ( $unit_percent <= 0.004994 ) {
+        else if ( $unit_percent <= 0.005 ) {
         $decimals = 3;
         }
         // 2 decimals rounding
-        else if ( $unit_percent <= 0.04994 ) {
+        else if ( $unit_percent <= 0.05 ) {
         $decimals = 2;
         }
         // 1 decimals rounding
-        else if ( $unit_percent <= 0.4994 ) {
+        else if ( $unit_percent <= 0.5 ) {
         $decimals = 1;
         }
         // 0 decimals rounding
@@ -2682,6 +2621,131 @@ var $ct_array = array();
    return $result;
    
    }
+
+
+   ////////////////////////////////////////////////////////
+   ////////////////////////////////////////////////////////
+   
+   
+   function load_cached_config() {
+   
+   global $ct_conf, $ct_cache, $base_dir, $check_default_ct_conf, $default_ct_conf, $refresh_cached_ct_conf;
+   
+   // Secured cache files
+   $files = $this->sort_files($base_dir . '/cache/secured', 'dat', 'desc');
+        
+        
+        foreach( $files as $secured_file ) {
+        
+        
+        	// App config
+        	if ( preg_match("/ct_conf_/i", $secured_file) ) {
+		
+		
+        		// If we already loaded the newest modified file, delete any stale ones
+        		if ( $newest_cached_ct_conf == 1 ) {
+        		unlink($base_dir . '/cache/secured/' . $secured_file);
+        		$this->log('conf_error', 'OLD CACHED ct_conf found, deleting');
+        		}
+        		else {
+        		
+        		$newest_cached_ct_conf = 1;
+        			
+        		$cached_ct_conf = json_decode( trim( file_get_contents($base_dir . '/cache/secured/' . $secured_file) ) , TRUE);
+        			
+        		    // "null" in quotes as the actual value is returned sometimes
+        			if ( $check_default_ct_conf == md5(serialize($default_ct_conf)) && $cached_ct_conf != false && $cached_ct_conf != null && $cached_ct_conf != "null" ) {
+        			$ct_conf = $cached_ct_conf; // Use cached ct_conf if it exists, seems intact, and DEFAULT Admin Config (in config.php) hasn't been revised since last check
+        			// $this->log('conf_error', 'CACHED ct_conf OK'); // DEBUGGING ONLY
+        			return 1;
+        			}
+        			elseif ( $check_default_ct_conf != md5(serialize($default_ct_conf)) ) {
+        			$refresh_cached_ct_conf = 1;
+        			unlink($base_dir . '/cache/secured/' . $secured_file);
+        			$this->log('conf_error', 'CACHED ct_conf outdated (DEFAULT ct_conf updated), refreshing from DEFAULT ct_conf');
+        			}
+        			elseif ( $cached_ct_conf != true ) {
+        			$refresh_cached_ct_conf = 1;
+        			unlink($base_dir . '/cache/secured/' . $secured_file);
+        			$this->log('conf_error', 'CACHED ct_conf appears corrupt, refreshing from DEFAULT ct_conf');
+        			}
+        			else {
+        			$refresh_cached_ct_conf = 1;
+        			unlink($base_dir . '/cache/secured/' . $secured_file);
+        			$this->log('conf_error', 'unknown error, refreshing from DEFAULT ct_conf');
+        			}
+        			
+        			
+        		}
+		
+	
+        	}
+        	
+        	
+        }
+        	
+        	
+        if ( !isset($newest_cached_ct_conf) ) {
+        $refresh_cached_ct_conf = 1;
+        $this->log('conf_error', 'CACHED ct_conf not found, refreshing from DEFAULT ct_conf');
+        }
+
+
+        //////////////////////////////////////////////////////////////////////////////////////////////////////////
+        
+        
+        // If no valid cached_ct_conf, or if DEFAULT Admin Config (in config.php) variables have been changed
+        if ( $refresh_cached_ct_conf == 1 ) {
+        	
+        $secure_128bit_hash = $this->rand_hash(16); // 128-bit (16-byte) hash converted to hexadecimal, used for suffix
+        	
+        	
+        	// Halt the process if an issue is detected safely creating a random hash
+        	if ( $secure_128bit_hash == false ) {
+        		
+        	$this->log(
+        				'security_error', 
+        				'Cryptographically secure pseudo-random bytes could not be generated for cached ct_conf array (secured cache storage) suffix, cached ct_conf array creation aborted to preserve security'
+        				);
+        	
+        	}
+        	else {
+        	
+        	
+        	// Check to see if we need to upgrade the CACHED app config (NEW / DEPRECIATED CORE VARIABLES ONLY, NOT OVERWRITING EXISTING CORE VARIABLES)
+        	// WORK IN-PROGRESS, KEEP DISABLED FOR RELEASES, UNTIL ADMIN UI IS FULLY BUILT OUT / FEATURE IS FULLY TESTED AND DEBUGGED
+        	//$upgrade_cache_ct_conf = $this->upgrade_cache_ct_conf();
+        	
+        	// UNTIL APP CONFIG UPGRADE FEATURE / ADMIN UI ARE FULLY BUILT OUT AND TORTURE-TESTED, USE THIS INSTEAD OF ABOVE UPGRADE LOGIC
+        	// (REFRESHES CACHED APP CONFIG TO EXACTLY MIRROR THE HARD-CODED VARIABLES IN CONFIG.PHP, IF CONFIG.PHP IS CHANGED IN EVEN THE SLIGHTEST WAY)
+        	$upgrade_cache_ct_conf = $ct_conf;
+        	
+        	
+        	// Check that the app config is valid / not corrupt
+        	$store_cached_ct_conf = json_encode($upgrade_cache_ct_conf, JSON_PRETTY_PRINT);
+        	
+        		// If there was an issue updating the cached app config
+		        // Need to check a few different possible results for no data found ("null" in quotes as the actual value is returned sometimes)
+        		if ( $store_cached_ct_conf == false || $store_cached_ct_conf == null || $store_cached_ct_conf == "null" ) {
+        		$this->log('conf_error', 'ct_conf data could not be saved (to secured cache storage) in json format');
+        		}
+        		// If cached app config updated successfully
+        		else {
+        		$this->log('conf_error', 'ct_conf cache update triggered, refreshed successfully (' . $refresh_cached_ct_conf . ')'); // Keep var num at end of error log
+        		$ct_conf = $upgrade_cache_ct_conf;
+        		$ct_cache->save_file($base_dir . '/cache/secured/ct_conf_'.$secure_128bit_hash.'.dat', $store_cached_ct_conf);
+        		$ct_cache->save_file($base_dir . '/cache/vars/default_ct_conf_md5.dat', md5(serialize($default_ct_conf))); // For checking later, if DEFAULT Admin Config (in config.php) values are updated we save to json again
+        		}
+        		
+        	
+        	}
+        
+        
+        }
+   
+   return 0;
+
+   }
    
    
    ////////////////////////////////////////////////////////
@@ -2709,7 +2773,6 @@ var $ct_array = array();
                            'mob_net_txt_gateways',
                            'assets',
                            'news_feed',
-                           'plug_conf',
                            );
    
    
@@ -2737,13 +2800,16 @@ var $ct_array = array();
                   
                   $this->log(
                   			'conf_error',
-                  			'Outdated app config, upgraded parameter $ct_conf[' . $cat_key . '][' . $conf_key . '] imported (default value: ' . $default_ct_conf[$cat_key][$conf_key] . ')'
+                  			'Outdated app config, upgraded parameter ct_conf[' . $cat_key . '][' . $conf_key . '] imported (default value: ' . $default_ct_conf[$cat_key][$conf_key] . ')'
                   			);
                   						
                   $conf_upgraded = 1;
                   
                   }
             
+               }
+               else {
+               $this->log('conf_error', 'ct_conf[' .$cat_key . ']['. $conf_key . '] config upgrade not needed (skipping)');
                }
             
             }
@@ -2767,13 +2833,16 @@ var $ct_array = array();
                   
                   $this->log(
                   			'conf_error',
-                  			'Depreciated app config parameter $ct_conf[' . $cached_cat_key . '][' . $cached_conf_key . '] removed'
+                  			'Depreciated app config parameter ct_conf[' . $cached_cat_key . '][' . $cached_conf_key . '] removed'
                   			);
                   
                   $conf_upgraded = 1;
                   
                   }
                   
+               }
+               else {
+               $this->log('conf_error', 'ct_conf[' .$cat_key . ']['. $conf_key . '] config upgrade not needed (skipping)');
                }
                
             }

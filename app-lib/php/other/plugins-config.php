@@ -25,6 +25,7 @@ foreach ( $ct_conf['power']['activate_plugins'] as $key => $val ) {
 		$plug_conf[$this_plug] = array();
 		
 		
+		    // If this plugin has not been added to the ACTIVELY-USED ct_conf yet, add it now
 		    if ( !isset($ct_conf['plug_conf'][$this_plug]) ) {
 		    require_once($plug_conf_file);
 		    $ct_conf['plug_conf'][$this_plug] = $plug_conf[$this_plug]; // Add each plugin's config into the GLOBAL app config

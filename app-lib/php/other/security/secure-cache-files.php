@@ -61,7 +61,7 @@ $activation_files = $ct_gen->sort_files($base_dir . '/cache/secured/activation',
 //////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
-// Secured cache files global variables
+// Secured cache files
 $secured_cache_files = $ct_gen->sort_files($base_dir . '/cache/secured', 'dat', 'desc');
 
 // WE LOAD ct_conf WAY EARLIER, SO IT'S NOT INCLUDED HERE
@@ -91,11 +91,12 @@ foreach( $secured_cache_files as $secured_file ) {
 			}
 			
 			
-			if ( $cached_telegram_user_data == true ) {
+			// "null" in quotes as the actual value is returned sometimes
+			if ( $cached_telegram_user_data != false && $cached_telegram_user_data != null && $cached_telegram_user_data != "null" ) {
 			$telegram_user_data = $cached_telegram_user_data;
 			$is_cached_telegram_user_data = 1;
 			}
-			elseif ( $cached_telegram_user_data != true ) {
+			else {
 			$ct_gen->log('conf_error', 'Cached telegram_user_data appears corrupted, deleting cached telegram_user_data (refresh will happen automatically)');
 			unlink($base_dir . '/cache/secured/' . $secured_file);
 			$refresh_cached_telegram_user_data = 1;
@@ -204,64 +205,6 @@ foreach( $secured_cache_files as $secured_file ) {
 	
 	}
 	
-	
-	// Any outdated var names we no longer use are safe to delete
-	else {
-	unlink($base_dir . '/cache/secured/' . $secured_file);
-	}
-	
-
-}
-
-
-//////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-
-// If no valid cached_ct_conf, or if DEFAULT Admin Config (in config.php) variables have been changed
-if ( $refresh_cached_ct_conf == 1 || $is_cached_ct_conf != 1 ) {
-	
-$secure_128bit_hash = $ct_gen->rand_hash(16); // 128-bit (16-byte) hash converted to hexadecimal, used for suffix
-	
-	
-	// Halt the process if an issue is detected safely creating a random hash
-	if ( $secure_128bit_hash == false ) {
-		
-	$ct_gen->log(
-				'security_error', 
-				'Cryptographically secure pseudo-random bytes could not be generated for cached ct_conf array (secured cache storage) suffix, cached ct_conf array creation aborted to preserve security'
-				);
-	
-	}
-	else {
-	
-	
-	// Check to see if we need to upgrade the CACHED app config (NEW / DEPRECIATED CORE VARIABLES ONLY, NOT OVERWRITING EXISTING CORE VARIABLES)
-	// WORK IN-PROGRESS, KEEP DISABLED FOR RELEASES, UNTIL ADMIN UI IS FULLY BUILT OUT / FEATURE IS FULLY TESTED AND DEBUGGED
-	//$upgrade_cache_ct_conf = $ct_gen->upgrade_cache_ct_conf();
-	
-	// UNTIL APP CONFIG UPGRADE FEATURE / ADMIN UI ARE FULLY BUILT OUT AND TORTURE-TESTED, USE THIS INSTEAD OF ABOVE UPGRADE LOGIC
-	// (REFRESHES CACHED APP CONFIG TO EXACTLY MIRROR THE HARD-CODED VARIABLES IN CONFIG.PHP, IF CONFIG.PHP IS CHANGED IN EVEN THE SLIGHTEST WAY)
-	$upgrade_cache_ct_conf = $ct_conf;
-	
-	
-	// Check that the app config is valid / not corrupt
-	$store_cached_ct_conf = json_encode($upgrade_cache_ct_conf, JSON_PRETTY_PRINT);
-	
-		// If there was an issue updating the cached app config
-		if ( $store_cached_ct_conf == false ) {
-		$ct_gen->log('conf_error', 'ct_conf data could not be saved (to secured cache storage) in json format');
-		}
-		// If cached app config updated successfully
-		else {
-		$ct_gen->log('conf_error', 'ct_conf cache update triggered, refreshed successfully');
-		$ct_conf = $upgrade_cache_ct_conf;
-		$ct_cache->save_file($base_dir . '/cache/secured/ct_conf_'.$secure_128bit_hash.'.dat', $store_cached_ct_conf);
-		$ct_cache->save_file($base_dir . '/cache/vars/default_ct_conf_md5.dat', md5(serialize($default_ct_conf))); // For checking later, if DEFAULT Admin Config (in config.php) values are updated we save to json again
-		}
-		
-	
-	}
-
 
 }
 
@@ -296,7 +239,8 @@ $secure_128bit_hash = $ct_gen->rand_hash(16); // 128-bit (16-byte) hash converte
 		
 		// Need to check a few different possible results for no data found ("null" in quotes as the actual value is returned sometimes)
 		if ( $store_cached_telegram_user_data == false || $store_cached_telegram_user_data == null || $store_cached_telegram_user_data == "null" ) {
-		$ct_gen->log('conf_error', 'CURRENT telegram configuration could not be checked, PLEASE RE-ENTER "/start" IN THE BOT CHATROOM, IN THE TELEGRAM APP');
+		// Keep var num at end of error log
+		$ct_gen->log('conf_error', 'CURRENT telegram configuration could not be checked, PLEASE RE-ENTER "/start" IN THE BOT CHATROOM, IN THE TELEGRAM APP (' . $is_cached_ct_conf . ')');
 		}
 		else {
 		$ct_cache->save_file($base_dir . '/cache/secured/telegram_user_data_'.$secure_128bit_hash.'.dat', $store_cached_telegram_user_data);

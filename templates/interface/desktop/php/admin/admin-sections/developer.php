@@ -4,6 +4,25 @@
  */
 
 
+// HTML field formatting CONFIGs for admin settings
+
+$admin_ui_menus['dev']['dropdown'] = array(
+
+                                           'error_reporting' => array(
+                                                                     'PHP Error Reporting' => array(
+                                                                                                   'Off' => 0,
+                                                                                                   'On' => -1
+                                                                                                   )
+                                                                     ),
+                                                                     
+                                                                     
+                                           );
+
+// END of $admin_ui_menus['dev']['dropdown']
+                                           
+
+//var_dump($admin_ui_menus);
+
 ?>
 	
 	<div class='bitcoin align_center' style='margin-bottom: 20px;'>(advanced configuration, handle with care)</div>

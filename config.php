@@ -4,25 +4,16 @@
  * Copyright 2014-2022 GPLv3, Open Crypto Tracker by Mike Kilday: Mike@DragonFrugal.com
  */
 
-
 //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 ///////////////////////////////////////////////////////////////////////////////////////////////
-
 // Forbid direct INTERNET access to this file
 if ( isset($_SERVER['REQUEST_METHOD']) && realpath(__FILE__) == realpath($_SERVER['SCRIPT_FILENAME']) ) {
 header('HTTP/1.0 403 Forbidden', TRUE, 403);
 exit;
 }
-
 $ct_conf = array(); // REQUIRED, DON'T DELETE BY ACCIDENT
-
-// https://www.php.net/manual/en/function.error-reporting.php
-$ct_conf['init']['error_reporting'] = 0; // 0 == off / -1 == on
-
-error_reporting($ct_conf['init']['error_reporting']);
-
+error_reporting(0); // 0 = off, -1 = on
 //apc_clear_cache(); apcu_clear_cache(); opcache_reset();  // DEBUGGING ONLY
-
 ///////////////////////////////////////////////////////////////////////////////////////////////
 //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 // !!! WHEN RE-CONFIGURING APP, LEAVE THIS CODE ABOVE HERE, DON'T DELETE ABOVE THESE LINES !!!!
@@ -1432,6 +1423,11 @@ $ct_conf['power']['news_feed'] = array(
 /////////////////////////////////////////////////////////////////////////////
 // !START! DEVELOPER-ONLY CONFIGURATION, !CHANGE WITH #EXTREME# CARE, OR YOU CAN BREAK THE APP!
 /////////////////////////////////////////////////////////////////////////////
+
+
+// Enable / disable PHP error reporting (to error logs on the web server)
+// https://www.php.net/manual/en/function.error-reporting.php
+$ct_conf['dev']['error_reporting'] = 0; // 0 == off / -1 == on
 
 
 // $ct_conf['dev']['debug'] enabled runs unit tests during ui runtimes (during webpage load),
