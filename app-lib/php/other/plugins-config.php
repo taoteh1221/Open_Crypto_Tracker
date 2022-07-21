@@ -23,8 +23,17 @@ foreach ( $ct_conf['power']['activate_plugins'] as $key => $val ) {
 		$this_plug = $key;
 		
 		$plug_conf[$this_plug] = array();
-			
-		require_once($plug_conf_file);
+		
+		
+		    if ( !isset($ct_conf['plug_conf'][$this_plug]) ) {
+		    require_once($plug_conf_file);
+		    $ct_conf['plug_conf'][$this_plug] = $plug_conf[$this_plug]; // Add each plugin's config into the GLOBAL app config
+		    //$refresh_cached_ct_conf = 1;  // LEAVE DISABLED, #UNTIL WE SWITCH ON USING THE CACHED USER EDITED CONFIG#
+		    }
+			else {
+			$plug_conf[$this_plug] = $ct_conf['plug_conf'][$this_plug];
+			}
+		
 		
 			// Each plugin is allowed to run in more than one runtime, if configured for that (some plugins may run in the UI and cron runtimes, etc)
 		
@@ -40,10 +49,13 @@ foreach ( $ct_conf['power']['activate_plugins'] as $key => $val ) {
 			ksort($activated_plugins['ui']); // Alphabetical order (for admin UI)
 			}
 		
-		$ct_conf['plug_conf'][$this_plug] = $plug_conf[$this_plug]; // Add each plugin's config into the GLOBAL app config
-		
 		$this_plug = null; // Reset
 		
+		}
+		// If plugin has been removed, then remove any ct_conf entry
+		else {
+		unset($ct_conf['plug_conf'][$this_plug]);
+		$refresh_cached_ct_conf = 1;
 		}
 	
 	

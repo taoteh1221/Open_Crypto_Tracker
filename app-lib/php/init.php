@@ -30,6 +30,55 @@ $app_platform = 'web';
 
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////
+///////////////////// C O N F I G   I N I T   S E T T I N G S ///////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+// Load app classes VERY EARLY (before loading cached conf)
+require_once('app-lib/php/core-classes-loader.php');
+
+
+// Register the base directory of this app (MUST BE SET BEFORE !ANY! init logic calls)
+$file_loc = str_replace('\\', '/', dirname(__FILE__) ); // Windows compatibility (convert backslashes)
+$base_dir = preg_replace("/\/app-lib(.*)/i", "", $file_loc );
+
+$refresh_cached_ct_conf = 0;
+
+$is_cached_ct_conf = 0;
+
+$log_array = array();
+
+$plug_conf =  array();
+
+$plug_class = array();
+
+$activated_plugins =  array();
+
+// Set as global, to update in / out of functions as needed
+$upgraded_ct_conf = array();
+
+$check_default_ct_conf = trim( file_get_contents($base_dir . '/cache/vars/default_ct_conf_md5.dat') );
+
+
+// Plugins config
+// (MUST RUN #BEFORE# load_cached_config(), #UNTIL WE SWITCH ON USING THE CACHED USER EDITED CONFIG#,
+// THE WE MUST RUN IT #AFTER# INSTEAD)
+// RE-ENABLE $refresh_cached_ct_conf IN THIS FILE, #WHEN WE SWITCH ON USING THE CACHED USER EDITED CONFIG#
+require_once('app-lib/php/other/plugins-config.php');
+
+
+// SET default ct_conf array BEFORE load_cached_config(), and BEFORE dynamic app config management
+// (ALSO MUST BE #AFTER# PLUGINS CONFIG, #UNTIL WE SWITCH ON USING THE CACHED USER EDITED CONFIG#)
+$default_ct_conf = $ct_conf; 
+
+
+// Load cached config (user-edited via admin interface), unless it's corrupt json 
+// (if corrupt, it will reset from hard-coded default config in config.php)
+// SEE upgrade_cache_ct_conf() AND subarray_ct_conf_upgrade(), #WHEN WE SWITCH ON USING THE CACHED USER EDITED CONFIG# 
+$ct_gen->load_cached_config();
+
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////
 ///////////////////// S Y S T E M   I N I T   S E T T I N G S ///////////////////////////////////////
 /////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -140,10 +189,6 @@ else {
 ///////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
-// Load app classes
-require_once('app-lib/php/core-classes-loader.php');
-
-
 // Initial BLANK arrays
 
 $change_dir_perm = array();
@@ -157,8 +202,6 @@ $runtime_data['performance_stats'] = array();
 $system_warnings = array();
 
 $system_warnings_cron_interval = array();
-
-$log_array = array();
 
 $rand_color_ranged =  array();
 
@@ -190,15 +233,6 @@ $proxy_checkup = array();
 
 $proxies_checked = array();
 
-$plug_conf =  array();
-
-$plug_class = array();
-
-$activated_plugins =  array();
-
-// Set as global, to update in / out of functions as needed
-$upgraded_ct_conf = array();
-
 
 // Initial BLANK strings
 
@@ -222,11 +256,6 @@ $generic_assets = null;
 //////////////////////////////////////////////////////////////
 // Set PRIMARY global runtime app arrays / vars...
 //////////////////////////////////////////////////////////////
-
-
-// Register the base directory of this app (MUST BE SET BEFORE !ANY! init logic calls)
-$file_loc = str_replace('\\', '/', dirname(__FILE__) ); // Windows compatibility (convert backslashes)
-$base_dir = preg_replace("/\/app-lib(.*)/i", "", $file_loc );
 
 
 //!!!!!!!!!! IMPORTANT, ALWAYS LEAVE THIS HERE !!!!!!!!!!!!!!!
@@ -556,12 +585,6 @@ require_once('app-lib/php/other/debugging/system-checks.php');
 
 // Coinmarketcap supported currencies array (run before non-system-related inits)
 require_once('app-lib/php/other/coinmarketcap-currencies.php');
-
-// Plugins config (MUST RUN AFTER system checks and BEFORE secure cache files)
-require_once('app-lib/php/other/plugins-config.php');
-
-// SET original ct_conf array AFTER plugins config, BEFORE secure cache files, and BEFORE dynamic app config management
-$default_ct_conf = $ct_conf; 
 
 // SECURED cache files management (MUST RUN AFTER system checks and AFTER plugins config)
 require_once('app-lib/php/other/security/secure-cache-files.php');

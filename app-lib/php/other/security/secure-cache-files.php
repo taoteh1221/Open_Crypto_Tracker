@@ -64,50 +64,13 @@ $activation_files = $ct_gen->sort_files($base_dir . '/cache/secured/activation',
 // Secured cache files global variables
 $secured_cache_files = $ct_gen->sort_files($base_dir . '/cache/secured', 'dat', 'desc');
 
-$check_default_ct_conf = trim( file_get_contents($base_dir . '/cache/vars/default_ct_conf_md5.dat') );
-
+// WE LOAD ct_conf WAY EARLIER, SO IT'S NOT INCLUDED HERE
 
 foreach( $secured_cache_files as $secured_file ) {
 
-	// App config
-	if ( preg_match("/ct_conf_/i", $secured_file) ) {
-		
-		
-		// If we already loaded the newest modified file, delete any stale ones
-		if ( $newest_cached_ct_conf == 1 ) {
-		unlink($base_dir . '/cache/secured/' . $secured_file);
-		}
-		else {
-		
-		$newest_cached_ct_conf = 1;
-			
-		$cached_ct_conf = json_decode( trim( file_get_contents($base_dir . '/cache/secured/' . $secured_file) ) , TRUE);
-			
-		
-			if ( $check_default_ct_conf == md5(serialize($default_ct_conf)) && $cached_ct_conf == true ) {
-			$ct_conf = $cached_ct_conf; // Use cached ct_conf if it exists, seems intact, and DEFAULT Admin Config (in config.php) hasn't been revised since last check
-			$is_cached_ct_conf = 1;
-			}
-			elseif ( $check_default_ct_conf != md5(serialize($default_ct_conf)) ) {
-			$ct_gen->log('conf_error', 'CACHED ct_conf outdated (DEFAULT ct_conf updated), refreshing from DEFAULT ct_conf');
-			unlink($base_dir . '/cache/secured/' . $secured_file);
-			$refresh_cached_ct_conf = 1;
-			}
-			elseif ( $cached_ct_conf != true ) {
-			$ct_gen->log('conf_error', 'CACHED ct_conf appears corrupt, refreshing from DEFAULT ct_conf');
-			unlink($base_dir . '/cache/secured/' . $secured_file);
-			$refresh_cached_ct_conf = 1;
-			}
-			
-			
-		}
-		
-	
-	}
 
-	
 	// Telegram user data
-	elseif ( preg_match("/telegram_user_data_/i", $secured_file) ) {
+	if ( preg_match("/telegram_user_data_/i", $secured_file) ) {
 		
 		// If we already loaded the newest modified telegram SECURED CACHE config file
 		// DON'T WORRY ABOUT REFRESHING TELEGRAM DATA WHEN APP CONFIG IS REFRESHING, AS WE CAN'T DO THAT RELIABLY IN THIS LOOP
@@ -290,6 +253,7 @@ $secure_128bit_hash = $ct_gen->rand_hash(16); // 128-bit (16-byte) hash converte
 		}
 		// If cached app config updated successfully
 		else {
+		$ct_gen->log('conf_error', 'ct_conf cache update triggered, refreshed successfully');
 		$ct_conf = $upgrade_cache_ct_conf;
 		$ct_cache->save_file($base_dir . '/cache/secured/ct_conf_'.$secure_128bit_hash.'.dat', $store_cached_ct_conf);
 		$ct_cache->save_file($base_dir . '/cache/vars/default_ct_conf_md5.dat', md5(serialize($default_ct_conf))); // For checking later, if DEFAULT Admin Config (in config.php) values are updated we save to json again

@@ -64,6 +64,10 @@ ADMIN IFRAME BUILDOUT NOTES:
 
 ```````````````````````````````````````````````````````````````````````````````````````````````````````````````
 
+
+SEE TOP OF INIT.PHP, FOR NOTES ON TAKING THE CACHED CONFIG OUT OF PROOF-OF-CONCEPT MODE, WHEN READY TO START BUILDING OUT THE ADMIN INTERFACING
+
+
 Find out why days has 2 decimals (text notify, email and telegram are fine):
  Text Notify / SHDW / BTC @ Generic BTC decreased -9.27% in USD value to $0.68269 over 1..04 days. 24 Hour USD Volume: $1,064,959 (-1.54% pair volume)
  
@@ -94,9 +98,6 @@ Add config setting to set which asset price light chart shows by default.
 
 
 Add remote IP address data to ALL relevant security error logging everywhere in the app.
-
-
-$ct_conf will EVENTUALLY be populated ENTIRELY by the JSON config read logic we currently have in app-lib/php/other/security/secure-cache-files.php. RIGHT NOW alot of init.php is DEPENDING ON $ct_conf values WAAAY BEFORE WE RUN secure-cache-files.php (from what will eventually just be the DEFAULT config within config.php). This is ok for now, BUT after the admin interface has been fully populated WE'LL NEED LOGIC LIKE secure-cache-files.php RUN BEFORE #ANY# $ct_conf LOGIC IS USED. To significantly reduce the required amount of refactoring, we may be able to run logic similar to app-lib/php/other/sub-init/minimized-sub-init.php VERY EARLY WITHIN INIT.PHP? We do check for a corrupt JSON config in minimized-sub-init.php, so this may be reliable to call early? In this case, some (if not all) the logic in secure-cache-files.php AND minimized-sub-init.php should be consolidated into one file for effiency / clarity AS MUCH AS POSSIBLE.
 
 
 When importing a CSV spreadsheet in linux desktop edition with cookies enabled, UNLESS we manually save the portflio data on the update page AFTER importing, the portfolio data is lost when we close the app. See if this also affects windows desktop edition, and server edition.
