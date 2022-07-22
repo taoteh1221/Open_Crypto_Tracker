@@ -126,7 +126,7 @@ After downloading, unzip the contents of the download to your desktop or other p
 	        <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapse_<?=$accord_var?>"
 	          aria-expanded="false" aria-controls="collapse_<?=$accord_var?>">
 	          
-Automatic Setup For 'Server Edition' On Ubuntu / DietPi OS / RaspberryPi OS, On Home / Internal Network <span class='red' style="display: block;">(recommended way to PRIVATELY / CHEAPLY use this app)</span>
+Automatic Setup For 'Server Edition' With Debian / Ubuntu / DietPi OS / RaspberryPi OS / Armbian, On Home / Internal Network <span class='red' style="display: block;">(recommended way to PRIVATELY / CHEAPLY use this app)</span>
 	          
 	          
 	        </button>
@@ -153,7 +153,7 @@ Automatic Setup For 'Server Edition' On Ubuntu / DietPi OS / RaspberryPi OS, On 
     
 	    <br /><br />
 	      
-	       To install / upgrade everything automatically on <a href='https://ubuntu.com/#download' target='_blank' title='Download Ubuntu operating system for your PC.'>Ubuntu</a> / <a href='https://www.raspberrypi.org/products/' target='_blank' title='View RaspberryPi Hardware Products.'>RaspberryPi OS</a> / <a href='https://dietpi.com/docs/hardware/' target='_blank' title='View Hardware Products Supported By DietPi.'>DietPi OS</a>, copy => paste => run the command below in a terminal program (using the 'Terminal' app in the system menu, or over remote SSH), while logged in AS THE USER THAT WILL RUN THE APP (user must have sudo privileges):
+	       To install / upgrade everything automatically on <a href='https://www.debian.org/download' target='_blank' title='Download Debian operating system for your PC.'>Debian</a> / <a href='https://ubuntu.com/#download' target='_blank' title='Download Ubuntu operating system for your PC.'>Ubuntu</a> / <a href='https://www.raspberrypi.org/products/' target='_blank' title='View RaspberryPi Hardware Products.'>RaspberryPi OS</a> / <a href='https://dietpi.com/docs/hardware/' target='_blank' title='View Hardware Products Supported By DietPi.'>DietPi OS</a> / <a href='https://www.armbian.com/download/' target='_blank' title='Download Armbian operating system for your PC.'>Armbian</a>, copy => paste => run the command below in a terminal program (using the 'Terminal' app in the system menu, or over remote SSH), while logged in AS THE USER THAT WILL RUN THE APP (user must have sudo privileges):
 	       
 
 	    <br /><br />

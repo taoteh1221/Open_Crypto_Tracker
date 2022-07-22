@@ -54,13 +54,13 @@ After downloading, unzip the contents of the download to your desktop or other p
 	    
 =========================================================================================================================================
 
-  Automatic Setup For 'Server Edition' On Ubuntu / DietPi OS / RaspberryPi OS, On Home / Internal Network (recommended way to PRIVATELY / CHEAPLY use this app)
+  Automatic Setup For 'Server Edition' With Debian / Ubuntu / DietPi OS / RaspberryPi OS / Armbian, On Home / Internal Network (recommended way to PRIVATELY / CHEAPLY use this app)
   
 -----------------------------------------------------------------------------------------------------------------------------------------
 
 Recommended MINIMUM system specs: 1 Gigahertz CPU / 512 Megabytes RAM / HIGH QUALITY 32 Gigabyte MicroSD card (running Nginx or Apache headless with PHP v7.2+)
 
-To install / upgrade everything automatically on Ubuntu / DietPi OS / RaspberryPi OS, copy => paste => run the command below in a terminal program (using the 'Terminal' app in the system menu, or over remote SSH), while logged in AS THE USER THAT WILL RUN THE APP (user must have sudo privileges):
+To install / upgrade everything automatically on Debian / Ubuntu / DietPi OS / RaspberryPi OS / Armbian, copy => paste => run the command below in a terminal program (using the 'Terminal' app in the system menu, or over remote SSH), while logged in AS THE USER THAT WILL RUN THE APP (user must have sudo privileges):
 
 wget --no-cache -O FOLIO-INSTALL.bash https://git.io/JoDFD;chmod +x FOLIO-INSTALL.bash;sudo ./FOLIO-INSTALL.bash
 
