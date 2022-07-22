@@ -2657,7 +2657,7 @@ var $ct_array = array();
         			if ( $check_default_ct_conf == md5(serialize($default_ct_conf)) && $cached_ct_conf != false && $cached_ct_conf != null && $cached_ct_conf != "null" ) {
         			$ct_conf = $cached_ct_conf; // Use cached ct_conf if it exists, seems intact, and DEFAULT Admin Config (in config.php) hasn't been revised since last check
         			// $this->log('conf_error', 'CACHED ct_conf OK'); // DEBUGGING ONLY
-        			return 1;
+        			return true;
         			}
         			elseif ( $check_default_ct_conf != md5(serialize($default_ct_conf)) ) {
         			$refresh_cached_ct_conf = 1;
@@ -2791,8 +2791,7 @@ var $ct_array = array();
         
         
         }
-   
-   return 0;
+        
 
    }
    

@@ -82,10 +82,10 @@ if ( file_exists($base_dir . '/cache/events/cron-first-run.dat') ) {
     }
 
 
-// Flag if we have run the first alerts / charts job (for logic to improve speed of first time run of cron tasks, skipping uneeded pre-caching etc)
-if ( !file_exists($base_dir . '/cache/events/charts-first-run.dat') ) {
-$ct_cache->save_file($base_dir . '/cache/events/charts-first-run.dat', $ct_gen->time_date_format(false, 'pretty_date_time') );
-}
+    // Flag if we have run the first alerts / charts job (for logic to improve speed of first time run of cron tasks, skipping uneeded pre-caching etc)
+    if ( !file_exists($base_dir . '/cache/events/charts-first-run.dat') ) {
+    $ct_cache->save_file($base_dir . '/cache/events/charts-first-run.dat', $ct_gen->time_date_format(false, 'pretty_date_time') );
+    }
 
 
     // Checkup on each failed proxy
@@ -103,7 +103,7 @@ $ct_cache->save_file($base_dir . '/cache/events/charts-first-run.dat', $ct_gen->
 $ct_gen->reset_price_alert_notice();
 
 
-} 
+}
 ///////////////////////////////////////////////////////////////////////////////////////
 // END after first-run only
 ///////////////////////////////////////////////////////////////////////////////////////
@@ -116,68 +116,69 @@ $time = $time[1] + $time[0];
 $total_runtime = round( ($time - $start_runtime) , 3);
 
 
-    // System stats, chart the 15 min load avg / temperature / free partition space / free memory [mb/percent] / portfolio cache size / runtime length
-    // RUN BEFORE plugins (in case custom plugin crashes)
+// System stats, chart the 15 min load avg / temperature / free partition space / free memory [mb/percent] / portfolio cache size / runtime length
+// RUN BEFORE plugins (in case custom plugin crashes)
 
-	if ( trim($system_load) >= 0 ) {
-	$chart_data_set .= '||' . trim($system_load);
-	}
-	else {
-	$chart_data_set .= '||NO_DATA';
-	}
-	
-	
-	if ( trim($system_temp) > 0 ) {
-	$chart_data_set .= '||' . trim($system_temp);
-	}
-	else {
-	$chart_data_set .= '||NO_DATA';
-	}
-	
-	
-	if ( $system_info['memory_used_megabytes'] >= 0 ) {
-	$chart_data_set .= '||' . round( $system_info['memory_used_megabytes'] / 1000 , 4); // Gigabytes, for chart UX
-	}
-	else {
-	$chart_data_set .= '||NO_DATA';
-	}
-	
-	
-	if ( $system_info['memory_used_percent'] >= 0 ) {
-	$chart_data_set .= '||' . $system_info['memory_used_percent'];
-	}
-	else {
-	$chart_data_set .= '||NO_DATA';
-	}
-	
-	
-	if ( trim($system_free_space_mb) >= 0 ) {
-	$chart_data_set .= '||' . round( trim($system_free_space_mb) / 1000000 , 4); // Terabytes, for chart stats UX
-	}
-	else {
-	$chart_data_set .= '||NO_DATA';
-	}
-	
-	
-	if ( trim($portfolio_cache_size_mb) >= 0 ) {
-	$chart_data_set .= '||' . round( trim($portfolio_cache_size_mb) / 1000 , 4); // Gigabytes, for chart UX
-	}
-	else {
-	$chart_data_set .= '||NO_DATA';
-	}
-	
-	
-	if ( trim($total_runtime) >= 0 ) {
-	$chart_data_set .= '||' . trim($total_runtime);
-	}
-	else {
-	$chart_data_set .= '||NO_DATA';
-	}
+if ( trim($system_load) >= 0 ) {
+$chart_data_set .= '||' . trim($system_load);
+}
+else {
+$chart_data_set .= '||NO_DATA';
+}
+
+
+if ( trim($system_temp) > 0 ) {
+$chart_data_set .= '||' . trim($system_temp);
+}
+else {
+$chart_data_set .= '||NO_DATA';
+}
+
+
+if ( $system_info['memory_used_megabytes'] >= 0 ) {
+$chart_data_set .= '||' . round( $system_info['memory_used_megabytes'] / 1000 , 4); // Gigabytes, for chart UX
+}
+else {
+$chart_data_set .= '||NO_DATA';
+}
+
+
+if ( $system_info['memory_used_percent'] >= 0 ) {
+$chart_data_set .= '||' . $system_info['memory_used_percent'];
+}
+else {
+$chart_data_set .= '||NO_DATA';
+}
+
+
+if ( trim($system_free_space_mb) >= 0 ) {
+$chart_data_set .= '||' . round( trim($system_free_space_mb) / 1000000 , 4); // Terabytes, for chart stats UX
+}
+else {
+$chart_data_set .= '||NO_DATA';
+}
+
+
+if ( trim($portfolio_cache_size_mb) >= 0 ) {
+$chart_data_set .= '||' . round( trim($portfolio_cache_size_mb) / 1000 , 4); // Gigabytes, for chart UX
+}
+else {
+$chart_data_set .= '||NO_DATA';
+}
+
+
+if ( trim($total_runtime) >= 0 ) {
+$chart_data_set .= '||' . trim($total_runtime);
+}
+else {
+$chart_data_set .= '||NO_DATA';
+}
 	
 
 // In case a rare error occured from power outage / corrupt memory / etc, we'll check the timestamp (in a non-resource-intensive way)
 // (#SEEMED# TO BE A REAL ISSUE ON A RASPI ZERO AFTER MULTIPLE POWER OUTAGES [ONE TIMESTAMP HAD PREPENDED CORRUPT DATA])
 $now = time();
+
 
 // (WE DON'T WANT TO STORE DATA WITH A CORRUPT TIMESTAMP)
 if ( $now > 0 ) {
@@ -215,7 +216,6 @@ $ct_gen->log(
 }
 		
 // SYSTEM STATS END
-
 		
 
 // If debug mode is on
@@ -240,7 +240,6 @@ $ct_gen->log(
 			);
 
 }
-
 
 
 // Log errors / debugging, send notifications

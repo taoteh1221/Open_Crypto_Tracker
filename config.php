@@ -582,11 +582,11 @@ $ct_conf['power']['chainstats_cache_time'] = 90;  // (default = 90)
 
 
 // MINUTES to cache marketcap rankings...start high and test lower, it can be strict
-$ct_conf['power']['mcap_cache_time'] = 90;  // (default = 90)
+$ct_conf['power']['mcap_cache_time'] = 120;  // (default = 120)
 ////
 // Number of marketcap rankings to request from API.
-// 500 rankings is a safe maximum to start with, to avoid getting your API requests throttled / blocked
-$ct_conf['power']['mcap_ranks_max'] = 500; // (default = 500)
+// 300 rankings is a safe maximum to start with, to avoid getting your API requests throttled / blocked
+$ct_conf['power']['mcap_ranks_max'] = 300; // (default = 300)
 
 
 // Maximum margin leverage available in the user interface ('Update' page, etc)
