@@ -55,7 +55,7 @@ FEATURES
 
 -Desktop / Server Editions available (see README.txt for differences / usage documentation)
 
--Automated and user-friendly installation / upgrade script for Ubuntu / DietPi OS / RaspberryPi OS app setup (server edition) on your home / internal network or website.
+-Automated and user-friendly installation / upgrade script for Debian device (Ubuntu / DietPi / RaspberryPi / Armbian / Etc) app setup (server edition), on your home / internal network or website.
 
 -PRIVATELY connects DIRECTLY to APIs / servers for data and comms (no "phoning home" to a middleman server), with optional proxy support for API connections.
 
