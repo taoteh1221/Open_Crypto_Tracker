@@ -67,6 +67,9 @@ ADMIN IFRAME BUILDOUT NOTES:
 ```````````````````````````````````````````````````````````````````````````````````````````````````````````````
 
 
+When a user-edited admin config cache file is created or changed, IF it is valid JSON AND runs all configs OK, save a second copy to backup, and in the interface show an option to REVERT back to the LAST WORKING CONFIGURATION using this backup file. Also include info on this as an option if a config save fails (in the error message or in the interface).
+
+
 SEE TOP OF INIT.PHP, FOR NOTES ON TAKING THE CACHED CONFIG OUT OF PROOF-OF-CONCEPT MODE, WHEN READY TO START BUILDING OUT THE ADMIN INTERFACING
 
 

@@ -311,7 +311,7 @@ var $ct_array = array();
       
       // WE NEED A SEPERATE FUNCTION $this->nonce_digest(), SO WE DON'T #ENDLESSLY LOOP# FROM OUR
       // $this->admin_logged_in() CALL (WHICH ALSO USES $this->nonce_digest() INSTEAD OF $this->admin_hashed_nonce())
-      if ( $this->admin_logged_in() || $force ) {
+      if ( $this->admin_logged_in() || $force != false ) {
       return $this->nonce_digest($key);
       }
       else {
