@@ -6,7 +6,7 @@
 
 // HTML field formatting CONFIGs for admin settings
 
-$admin_ui_menus['dev']['dropdown'] = array(
+$admin_ui_menus['dev']['radio'] = array(
 
                                            'error_reporting' => array(
                                                                      'PHP Error Reporting' => array(
@@ -18,7 +18,7 @@ $admin_ui_menus['dev']['dropdown'] = array(
                                                                      
                                            );
 
-// END of $admin_ui_menus['dev']['dropdown']
+// END of $admin_ui_menus['dev']['radio']
                                            
 
 //var_dump($admin_ui_menus);

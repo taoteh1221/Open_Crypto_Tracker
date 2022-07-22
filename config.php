@@ -1359,6 +1359,12 @@ $ct_conf['power']['news_feed'] = array(
     
     
         				array(
+            			"title" => "Youtube - CryptoWendyO",
+            			"url" => "https://www.youtube.com/feeds/videos.xml?channel_id=UCla2jS8BrfLJj7kbKyy5_ew"
+        						),
+    
+    
+        				array(
             			"title" => "Youtube - DataDash",
             			"url" => "https://www.youtube.com/feeds/videos.xml?channel_id=UCCatR7nWbYrkVXdxXb4cGXw"
         						),
