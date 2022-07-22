@@ -66,7 +66,8 @@ require_once('app-lib/php/other/plugins-config.php');
 
 
 // SET default ct_conf array BEFORE load_cached_config(), and BEFORE dynamic app config management
-// (ALSO MUST BE #AFTER# PLUGINS CONFIG, #UNTIL WE SWITCH ON USING THE CACHED USER EDITED CONFIG#)
+// (ALSO MUST BE #AFTER# PLUGINS CONFIG)
+// #MUST# BE COMPLETELY REMOVED FROM ALL LOGIC, #WHEN WE SWITCH ON USING THE CACHED USER EDITED CONFIG#
 $default_ct_conf = $ct_conf; 
 
 

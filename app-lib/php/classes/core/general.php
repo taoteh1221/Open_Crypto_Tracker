@@ -1824,9 +1824,9 @@ var $ct_array = array();
    ////////////////////////////////////////////////////////
    
    
-   function subarray_ct_conf_upgrade($cat_key, $conf_key, $skip_upgrading) {
+   function subarray_ct_conf_upgrade($conf, $cat_key, $conf_key, $skip_upgrading) {
    
-   global $upgraded_ct_conf, $cached_ct_conf, $default_ct_conf;
+   global $upgraded_ct_conf, $default_ct_conf;
    
       // Check for new variables, and add them
       foreach ( $default_ct_conf[$cat_key][$conf_key] as $setting_key => $setting_val ) {
@@ -1851,7 +1851,7 @@ var $ct_array = array();
       }
       
       // Check for depreciated variables, and remove them
-      foreach ( $cached_ct_conf[$cat_key][$conf_key] as $setting_key => $setting_val ) {
+      foreach ( $conf[$cat_key][$conf_key] as $setting_key => $setting_val ) {
       
          // Skip this array depth if it's yet another subarray, UNLESS this is the plugin configs
          if ( is_array($setting_val) && $cat_key != 'plug_conf' ) {
@@ -2680,6 +2680,22 @@ var $ct_array = array();
 		
 	
         	}
+        	// Restore config
+        	elseif ( preg_match("/restore_conf_/i", $secured_file) ) {
+		
+		
+        		// If we already loaded the newest modified file, delete any stale ones
+        		if ( $newest_cached_restore_conf == 1 ) {
+        		unlink($base_dir . '/cache/secured/' . $secured_file);
+        		$this->log('conf_error', 'OLD CACHED restore_conf found, deleting');
+        		}
+        		else {
+        		$newest_cached_restore_conf = 1;
+	            $restore_conf_path = $base_dir . '/cache/secured/' . $secured_file;
+        		}
+		
+	
+        	}
         	
         	
         }
@@ -2711,29 +2727,62 @@ var $ct_array = array();
         	}
         	else {
         	
-        	
         	// Check to see if we need to upgrade the CACHED app config (NEW / DEPRECIATED CORE VARIABLES ONLY, NOT OVERWRITING EXISTING CORE VARIABLES)
         	// WORK IN-PROGRESS, KEEP DISABLED FOR RELEASES, UNTIL ADMIN UI IS FULLY BUILT OUT / FEATURE IS FULLY TESTED AND DEBUGGED
-        	//$upgrade_cache_ct_conf = $this->upgrade_cache_ct_conf();
+        	//$upgrade_cache_ct_conf = $this->upgrade_cache_ct_conf($cached_ct_conf);
         	
         	// UNTIL APP CONFIG UPGRADE FEATURE / ADMIN UI ARE FULLY BUILT OUT AND TORTURE-TESTED, USE THIS INSTEAD OF ABOVE UPGRADE LOGIC
         	// (REFRESHES CACHED APP CONFIG TO EXACTLY MIRROR THE HARD-CODED VARIABLES IN CONFIG.PHP, IF CONFIG.PHP IS CHANGED IN EVEN THE SLIGHTEST WAY)
         	$upgrade_cache_ct_conf = $ct_conf;
         	
-        	
         	// Check that the app config is valid / not corrupt
         	$store_cached_ct_conf = json_encode($upgrade_cache_ct_conf, JSON_PRETTY_PRINT);
+        	
         	
         		// If there was an issue updating the cached app config
 		        // Need to check a few different possible results for no data found ("null" in quotes as the actual value is returned sometimes)
         		if ( $store_cached_ct_conf == false || $store_cached_ct_conf == null || $store_cached_ct_conf == "null" ) {
-        		$this->log('conf_error', 'ct_conf data could not be saved (to secured cache storage) in json format');
+        		    
+        		$this->log('conf_error', 'updated ct_conf data could not be saved (to secured cache storage) in json format');
+        	
+                // Attempt to restore last-known good config        			
+        		$cached_restore_conf = json_decode( trim( file_get_contents($restore_conf_path) ) , TRUE);
+        		
+        		    if ( $cached_restore_conf != false && $cached_restore_conf != null && $cached_restore_conf != "null" ) {
+        	
+                	// Check to see if we need to upgrade the CACHED app config (NEW / DEPRECIATED CORE VARIABLES ONLY, NOT OVERWRITING EXISTING CORE VARIABLES)
+                	// WORK IN-PROGRESS, KEEP DISABLED FOR RELEASES, UNTIL ADMIN UI IS FULLY BUILT OUT / FEATURE IS FULLY TESTED AND DEBUGGED
+                	//$upgrade_cache_ct_conf = $this->upgrade_cache_ct_conf($cached_restore_conf);
+                	
+                	// UNTIL APP CONFIG UPGRADE FEATURE / ADMIN UI ARE FULLY BUILT OUT AND TORTURE-TESTED, USE THIS INSTEAD OF ABOVE UPGRADE LOGIC
+                	// (REFRESHES CACHED APP CONFIG TO EXACTLY MIRROR THE HARD-CODED VARIABLES IN CONFIG.PHP, IF CONFIG.PHP IS CHANGED IN EVEN THE SLIGHTEST WAY)
+                	$upgrade_cache_ct_conf = $cached_restore_conf;
+                	
+                	// Check that the app config is valid / not corrupt
+                	$store_cached_ct_conf = json_encode($upgrade_cache_ct_conf, JSON_PRETTY_PRINT);
+                	
+                		// If there was an issue updating the cached app config
+        		        // Need to check a few different possible results for no data found ("null" in quotes as the actual value is returned sometimes)
+                		if ( $store_cached_ct_conf == false || $store_cached_ct_conf == null || $store_cached_ct_conf == "null" ) {
+        		        $this->log('conf_error', 'ct_conf data could not be restored from last-known working config');
+        		        }
+        		        // If resoring last-known working config was successfull
+        		        else {
+                		$this->log('conf_error', 'ct_conf cache restore from last-known working config triggered, refreshed successfully (' . $refresh_cached_ct_conf . ')'); // Keep var num at end of error log
+                		$ct_conf = $upgrade_cache_ct_conf;
+                		$ct_cache->save_file($base_dir . '/cache/secured/ct_conf_'.$secure_128bit_hash.'.dat', $store_cached_ct_conf);
+                		$ct_cache->save_file($base_dir . '/cache/vars/default_ct_conf_md5.dat', md5(serialize($default_ct_conf))); // For checking later, if DEFAULT Admin Config (in config.php) values are updated we save to json again
+        		        }
+        		   
+        		    }
+        		
         		}
         		// If cached app config updated successfully
         		else {
         		$this->log('conf_error', 'ct_conf cache update triggered, refreshed successfully (' . $refresh_cached_ct_conf . ')'); // Keep var num at end of error log
         		$ct_conf = $upgrade_cache_ct_conf;
         		$ct_cache->save_file($base_dir . '/cache/secured/ct_conf_'.$secure_128bit_hash.'.dat', $store_cached_ct_conf);
+        		$ct_cache->save_file($base_dir . '/cache/secured/restore_conf_'.$secure_128bit_hash.'.dat', $store_cached_ct_conf);
         		$ct_cache->save_file($base_dir . '/cache/vars/default_ct_conf_md5.dat', md5(serialize($default_ct_conf))); // For checking later, if DEFAULT Admin Config (in config.php) values are updated we save to json again
         		}
         		
@@ -2753,11 +2802,11 @@ var $ct_array = array();
    
    
    // Check to see if we need to upgrade the app config (add new primary vars / remove depreciated primary vars)
-   function upgrade_cache_ct_conf() {
+   function upgrade_cache_ct_conf($conf) {
    
-   global $upgraded_ct_conf, $cached_ct_conf, $check_default_ct_conf, $default_ct_conf;
+   global $upgraded_ct_conf, $check_default_ct_conf, $default_ct_conf;
    
-   $upgraded_ct_conf = $cached_ct_conf;
+   $upgraded_ct_conf = $conf;
    
    
    // WE LEAVE THE SUB-ARRAYS FOR PROXIES / CHARTS / TEXT GATEWAYS / PORTFOLIO ASSETS / ETC / ETC ALONE
@@ -2777,7 +2826,7 @@ var $ct_array = array();
    
    
       // If no cached app config or it's corrupt, just use full default app config
-      if ( $cached_ct_conf != true ) {
+      if ( $conf != true ) {
       return $default_ct_conf;
       }
       // If the default app config has changed since last check (from upgrades / end user editing)
@@ -2792,7 +2841,7 @@ var $ct_array = array();
                if ( !in_array($cat_key, $skip_upgrading) && !in_array($conf_key, $skip_upgrading) ) {
                   
                   if ( is_array($conf_val) ) {
-                  $this->subarray_ct_conf_upgrade($cat_key, $conf_key, $skip_upgrading);
+                  $this->subarray_ct_conf_upgrade($conf, $cat_key, $conf_key, $skip_upgrading);
                   }
                   elseif ( !isset($upgraded_ct_conf[$cat_key][$conf_key]) ) {
                   	
@@ -2818,14 +2867,14 @@ var $ct_array = array();
          
          
          // Check for depreciated variables, and remove them
-         foreach ( $cached_ct_conf as $cached_cat_key => $cached_cat_val ) {
+         foreach ( $conf as $cached_cat_key => $cached_cat_val ) {
             
             foreach ( $cached_cat_val as $cached_conf_key => $cached_conf_val ) {
          
                if ( !in_array($cached_cat_key, $skip_upgrading) && !in_array($cached_conf_key, $skip_upgrading) ) {
                
                   if ( is_array($cached_conf_val) ) {
-                  $this->subarray_ct_conf_upgrade($cached_cat_key, $cached_conf_key, $skip_upgrading);
+                  $this->subarray_ct_conf_upgrade($conf, $cached_cat_key, $cached_conf_key, $skip_upgrading);
                   }
                   elseif ( !isset($default_ct_conf[$cached_cat_key][$cached_conf_key]) ) {
                   	
