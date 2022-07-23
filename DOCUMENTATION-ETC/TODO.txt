@@ -67,6 +67,9 @@ ADMIN IFRAME BUILDOUT NOTES:
 ```````````````````````````````````````````````````````````````````````````````````````````````````````````````
 
 
+After refreshing the portfolio page #with privacy mode ON#, if you turn it off, your trading notes won't show UNTIL YOU REFRESH THE PAGE AGAIN.
+
+
 Add a temp var called $beta_v6_admin_pages = 'on|off' at the top of init.php for v6.00.0, with a warning that enabling it may cause buggy behavior, and save the setting as a cache file in the cache vars folder. Add it on the first admin page shown after login, as a radio button field.
 
 
