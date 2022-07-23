@@ -49,16 +49,22 @@
 
 	
 	
-			var portfolio_data_privacy = '<h5 class="align_center bitcoin tooltip_title">How is my portfolio data stored by this app?</h5>'
+			var portfolio_data_privacy = '<h5 class="align_center bitcoin tooltip_title">How is my data stored by this app?</h5>'
 			
 			
-			+'<p class="coin_info extra_margins" style="white-space: normal; max-width: 600px;"><i class="bitcoin">TLDR: <u>NOBODY EXCEPT YOU ON YOUR COMPUTER</u> CAN SEE THE INFORMATION YOU ENTER IN THIS APP (<u>NO DATA</u> IS STORED REMOTELY).</i></p>'
+			+'<p class="coin_info extra_margins" style="white-space: normal; max-width: 600px;"><i class="bitcoin">TLDR: <u>NOBODY EXCEPT YOU ON YOUR COMPUTER</u> CAN SEE THE PORTFOLIO DATA YOU ENTER IN THIS APP (<u>NO PORTFOLIO DATA</u> IS STORED REMOTELY).</i></p>'
 			
 			
-			+'<p class="coin_info extra_margins" style="white-space: normal; max-width: 600px;"><i class="bitcoin"><u>TRADING NOTES are kept in LOCAL STORAGE</u></i> within your web browser, which is saved PERMANENTLY between browser sessions. Soon user-selected price chart / news feed options will be kept in local storage too.</p>'
+			+'<p class="coin_info extra_margins" style="white-space: normal; max-width: 600px;"><i class="bitcoin"><u>ADMIN AND PLUGIN CONFIG SETTINGS are the only data stored in the app</u></i>, everything else is stored temporarily or semi-permanently in the web browser on your computer that you use to access the app with (even the "Desktop Edition" is an embedded web browser).</p>'
 			
 			
-			+'<p class="coin_info extra_margins" style="white-space: normal; max-width: 600px;"><i class="bitcoin"><u>Your portfolio data is NEVER stored in the app</u></i>, it is ONLY stored on your computer in your web browser (either temporarily in the web browser temporary files cache, or semi-permanently in web browser cookies IF YOU MANUALLY ENABLE COOKIES ON THE SETTINGS PAGE).</p>'
+			+'<p class="coin_info extra_margins" style="white-space: normal; max-width: 600px;"><i class="bitcoin"><u>TRADING NOTES are kept in LOCAL STORAGE</u></i> within your web browser, which is saved PERMANENTLY between browser sessions. Soon user-selected price chart / news feed options will be kept in local storage too (instead of in cookie data).</p>'
+			
+			
+			+'<p class="coin_info extra_margins" style="white-space: normal; max-width: 600px;"><i class="bitcoin"><u>IMPORTED SPREADSHEETS are DELETED AFTER THE IMPORT HAS COMPLETED</u></i> processing your portfolio data, and nothing related to the imported data remains anywhere other than in your web browser afterwards.</p>'
+			
+			
+			+'<p class="coin_info extra_margins" style="white-space: normal; max-width: 600px;"><i class="bitcoin"><u>YOUR PORTFOLIO DATA is NEVER stored in the app</u></i>, it is ONLY stored on your computer in the web browser used to access it (either temporarily in the web browser temporary files cache, or semi-permanently in web browser cookies IF YOU MANUALLY ENABLE COOKIES ON THE SETTINGS PAGE).</p>'
 			
 			
 			
@@ -207,7 +213,7 @@
 		</div>
 		
 		
-	<p style='margin-top: 20px;'><span style='font-weight: bold;' class='bitcoin'>How is my portfolio data stored by this app?</span> 
+	<p style='margin-top: 20px;'><span style='font-weight: bold;' class='bitcoin'>How is my data stored by this app?</span> 
 	     
 		<img id='portfolio_data_privacy' src='templates/interface/media/images/info-orange.png' alt='' width='30' style='position: relative; left: -5px;' /> </p>
 		
