@@ -93,7 +93,7 @@ $ct_app_id = $ct_gen->id();
 
 // Session start
 session_start(); // New session start
-
+////
 // Give our session a unique name 
 // MUST BE SET AFTER $ct_app_id / first $ct_gen->id() call
 session_name( $ct_gen->id() );
@@ -113,37 +113,6 @@ $_SESSION['nonce'] = $ct_gen->rand_hash(32); // 32 byte
 
 // Nonce for unique runtime logic
 $runtime_nonce = $ct_gen->rand_hash(16); // 16 byte
-
-
-// Current runtime user
-if ( function_exists('posix_getpwuid') && function_exists('posix_geteuid') ) {
-$current_runtime_user = posix_getpwuid(posix_geteuid())['name'];
-}
-else {
-$current_runtime_user = get_current_user();
-}
-
-
-// Get WEBSERVER runtime user (from cache if currently running from CLI)
-// MUST BE SET BEFORE CACHE STRUCTURE CREATION, TO RUN IN COMPATIBILITY MODE (IF NEEDED) FOR THIS PARTICULAR SERVER'S SETUP
-// WE HAVE FALLBACKS IF THIS IS NULL IN $ct_cache->save_file() WHEN WE STORE CACHE FILES, SO A BRAND NEW INTALL RUN FIRST VIA CRON IS #OK#
-$http_runtime_user = ( $runtime_mode != 'cron' ? $current_runtime_user : trim( file_get_contents('cache/vars/http_runtime_user.dat') ) );
-
-					
-// HTTP SERVER setup detection variables (for cache compatibility auto-configuration)
-// MUST BE SET BEFORE CACHE STRUCTURE CREATION, TO RUN IN COMPATIBILITY MODE FOR THIS PARTICULAR SERVER'S SETUP
-$possible_http_users = array(
-						'www-data',
-						'apache',
-						'apache2',
-						'httpd',
-						'httpd2',
-							);
-
-
-// Create cache directories AS EARLY AS POSSIBLE (if needed), REQUIRES $http_runtime_user determined further above 
-// (for cache compatibility on certain PHP setups)
-require_once('app-lib/php/other/directory-creation/cache-directories.php');
 
 
 $system_info = $ct_gen->system_info(); // MUST RUN AFTER SETTING $base_dir

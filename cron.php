@@ -119,7 +119,7 @@ $total_runtime = round( ($time - $start_runtime) , 3);
 // System stats, chart the 15 min load avg / temperature / free partition space / free memory [mb/percent] / portfolio cache size / runtime length
 // RUN BEFORE plugins (in case custom plugin crashes)
 
-if ( trim($system_load) >= 0 ) {
+if ( isset($system_info['system_load']) ) {
 $chart_data_set .= '||' . trim($system_load);
 }
 else {
@@ -127,7 +127,7 @@ $chart_data_set .= '||NO_DATA';
 }
 
 
-if ( trim($system_temp) > 0 ) {
+if ( isset($system_info['system_temp']) ) {
 $chart_data_set .= '||' . trim($system_temp);
 }
 else {
@@ -135,7 +135,7 @@ $chart_data_set .= '||NO_DATA';
 }
 
 
-if ( $system_info['memory_used_megabytes'] >= 0 ) {
+if ( isset($system_info['memory_used_megabytes']) ) {
 $chart_data_set .= '||' . round( $system_info['memory_used_megabytes'] / 1000 , 4); // Gigabytes, for chart UX
 }
 else {
@@ -143,7 +143,7 @@ $chart_data_set .= '||NO_DATA';
 }
 
 
-if ( $system_info['memory_used_percent'] >= 0 ) {
+if ( isset($system_info['memory_used_percent']) ) {
 $chart_data_set .= '||' . $system_info['memory_used_percent'];
 }
 else {
@@ -151,7 +151,7 @@ $chart_data_set .= '||NO_DATA';
 }
 
 
-if ( trim($system_free_space_mb) >= 0 ) {
+if ( isset($system_info['free_partition_space']) ) {
 $chart_data_set .= '||' . round( trim($system_free_space_mb) / 1000000 , 4); // Terabytes, for chart stats UX
 }
 else {
@@ -159,7 +159,7 @@ $chart_data_set .= '||NO_DATA';
 }
 
 
-if ( trim($portfolio_cache_size_mb) >= 0 ) {
+if ( isset($system_info['portfolio_cache']) ) {
 $chart_data_set .= '||' . round( trim($portfolio_cache_size_mb) / 1000 , 4); // Gigabytes, for chart UX
 }
 else {

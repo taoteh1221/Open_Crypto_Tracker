@@ -123,7 +123,7 @@
 	     
 						<p class='red' style='font-weight: bold;'>
 						
-						Assets in the default examples / demo list DO NOT indicate ANY endorsement OR recommendation of these assets (AND removal indicates NO anti-endorsement / anti-recommendation). These crypto-assets <i>are only used as examples for demoing usage of features in this application</i>, <a href='README.txt' target='_blank'>before you install it on your Ubuntu / DietPi OS / RaspberryPi OS / Windows 10 device or website server, and change the list to your favorite assets</a>. 
+						Assets in the default examples / demo list DO NOT indicate ANY endorsement OR recommendation of these assets (AND removal indicates NO anti-endorsement / anti-recommendation). These crypto-assets <i>are only used as examples for demoing usage of features in this application</i>, <a href='README.txt' target='_blank'>before you install it on your Debian / Ubuntu / DietPi OS / RaspberryPi OS / Armbian / Windows 10 device or website server, and change the list to your favorite assets</a>. 
 						
 						<br /><br />Consult a financial advisor and / or do <i>your own due diligence, to evaluate investment risk / reward</i> of ANY cryptocurrencies, based on THEIR / YOUR OWN determinations before buying. Even AFTER buying ANY cryptocurrency, ALWAYS CONTINUE to do your due diligence, investigating whether you are engaging in trading within acceptable risk levels for your <i>NET</i> worth. ALWAYS consult a financial advisor, if you are unaware of what risks are present. 
 						

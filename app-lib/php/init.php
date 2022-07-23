@@ -10,7 +10,7 @@
 
 
 // Application version
-$app_version = '5.15.3';  // 2022/JULY/19TH
+$app_version = '5.15.4';  // 2022/JULY/22ND
 
 
 // Detect if we are running the desktop or server edition
@@ -36,14 +36,15 @@ $app_platform = 'web';
 
 // SINCE WE RUN THE CONFIG FROM A CACHED JSON FILE, THIS MUST RUN BEFORE #ANY# INIT LOGIC
 
-// Load app classes VERY EARLY (before loading cached conf)
-require_once('app-lib/php/core-classes-loader.php');
 
 // Register the base directory of this app (MUST BE SET BEFORE !ANY! init logic calls)
 $file_loc = str_replace('\\', '/', dirname(__FILE__) ); // Windows compatibility (convert backslashes)
 $base_dir = preg_replace("/\/app-lib(.*)/i", "", $file_loc );
 
-$refresh_cached_ct_conf = 0;
+
+// Load app classes VERY EARLY (before loading cached conf)
+require_once('app-lib/php/core-classes-loader.php');
+
 
 $log_array = array();
 
@@ -53,10 +54,48 @@ $plug_class = array();
 
 $activated_plugins =  array();
 
-// Set as global, to update in / out of functions as needed
 $upgraded_ct_conf = array();
 
-$check_default_ct_conf = trim( file_get_contents($base_dir . '/cache/vars/default_ct_conf_md5.dat') );
+$refresh_cached_ct_conf = 0;
+
+$check_default_ct_conf = trim( file_get_contents('cache/vars/default_ct_conf_md5.dat') );
+
+
+// Current runtime user
+if ( function_exists('posix_getpwuid') && function_exists('posix_geteuid') ) {
+$current_runtime_user = posix_getpwuid(posix_geteuid())['name'];
+}
+elseif ( function_exists('get_current_user') ) {
+$current_runtime_user = get_current_user();
+}
+else {
+$current_runtime_user = null;
+}
+
+
+// Get WEBSERVER runtime user (from cache if currently running from CLI)
+// MUST BE SET BEFORE CACHE STRUCTURE CREATION, TO RUN IN COMPATIBILITY MODE (IF NEEDED) FOR THIS PARTICULAR SERVER'S SETUP
+// WE HAVE FALLBACKS IF THIS IS NULL IN $ct_cache->save_file() WHEN WE STORE CACHE FILES, SO A BRAND NEW INTALL RUN FIRST VIA CRON IS #OK#
+$http_runtime_user = ( $runtime_mode != 'cron' ? $current_runtime_user : trim( file_get_contents('cache/vars/http_runtime_user.dat') ) );
+
+					
+// HTTP SERVER setup detection variables (for cache compatibility auto-configuration)
+// MUST BE SET BEFORE CACHE STRUCTURE CREATION, TO RUN IN COMPATIBILITY MODE FOR THIS PARTICULAR SERVER'S SETUP
+$possible_http_users = array(
+    						'www-data',
+    						'apache',
+    						'apache2',
+    						'httpd',
+    						'httpd2',
+							);
+
+
+// Create cache directories AS EARLY AS POSSIBLE (if needed)
+// REQUIRES $http_runtime_user determined further above (for cache compatibility on certain PHP setups)
+// Uses HARD-CODED $ct_conf['dev']['chmod_cache_dir'], BUT IF THE DIRECTORIES DON'T EXIST YET, A CACHED CONFIG PROBABLY DOESN'T EITHER
+// (#MUST# RUN BEFORE load_cached_config(), OR IT THROWS A FATAL ERROR ON WIN11 / PHP 8.X)
+require_once('app-lib/php/other/directory-creation/cache-directories.php');
+
 
 // Plugins config
 // (MUST RUN #BEFORE# load_cached_config(), #UNTIL WE SWITCH ON USING THE CACHED USER EDITED CONFIG#,
@@ -64,10 +103,12 @@ $check_default_ct_conf = trim( file_get_contents($base_dir . '/cache/vars/defaul
 // RE-ENABLE $refresh_cached_ct_conf IN THIS FILE, #WHEN WE SWITCH ON USING THE CACHED USER EDITED CONFIG#
 require_once('app-lib/php/other/plugins-config.php');
 
+
 // SET default ct_conf array BEFORE load_cached_config(), and BEFORE dynamic app config management
 // (ALSO MUST BE #AFTER# PLUGINS CONFIG)
 // #MUST# BE COMPLETELY REMOVED FROM ALL LOGIC, #WHEN WE SWITCH ON USING THE CACHED USER EDITED CONFIG#
 $default_ct_conf = $ct_conf; 
+
 
 // Load cached config (user-edited via admin interface), unless it's corrupt json 
 // (if corrupt, it will reset from hard-coded default config in config.php)
