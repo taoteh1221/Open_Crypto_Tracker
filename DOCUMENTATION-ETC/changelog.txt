@@ -5580,6 +5580,8 @@ MIGRATE YOUR EXISTING SETTINGS TO THE NEW FORMAT.
 
 -Upgraded tablesorter library to fork by Rob Garrison
 
+-Code cleanup / optimization
+
 v5.15.1 and higher resets light (time period) charts ONCE AFTER UPGRADING FROM v5.15.0 AND EARLIER VERSIONS
 
 v5.12.2 and higher renames the admin config array. ALL CONFIGURATION SETTING

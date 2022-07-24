@@ -4,6 +4,56 @@
  */
 
 
+//////////////////////////////////////////////////
+// CONFIG-BASED SYSTEM SETTINGS
+//////////////////////////////////////////////////
+
+
+// If debugging is enabled, turn on all PHP error reporting (BEFORE ANYTHING ELSE RUNS)
+if ( $ct_conf['dev']['debug'] != 'off' ) {
+error_reporting(-1); 
+}
+else {
+error_reporting($ct_conf['dev']['error_reporting']); 
+}
+
+
+// Set a max execution time (if the system lets us), TO AVOID RUNAWAY PROCESSES FREEZING THE SERVER
+if ( $ct_conf['dev']['debug'] != 'off' ) {
+$max_exec_time = 600; // 10 minutes in debug mode
+}
+elseif ( $runtime_mode == 'ui' ) {
+$max_exec_time = $ct_conf['dev']['ui_max_exec_time'];
+}
+elseif ( $runtime_mode == 'ajax' ) {
+$max_exec_time = $ct_conf['dev']['ajax_max_exec_time'];
+}
+elseif ( $runtime_mode == 'cron' ) {
+$max_exec_time = $ct_conf['dev']['cron_max_exec_time'];
+}
+elseif ( $runtime_mode == 'int_api' ) {
+$max_exec_time = $ct_conf['dev']['int_api_max_exec_time'];
+}
+elseif ( $runtime_mode == 'webhook' ) {
+$max_exec_time = $ct_conf['dev']['webhook_max_exec_time'];
+}
+
+
+// If the script timeout var wasn't set properly / is not a whole number 3600 or less
+if ( !ctype_digit($max_exec_time) || $max_exec_time > 3600 ) {
+$max_exec_time = 120; // 120 seconds default
+}
+
+
+// Maximum time script can run (may OR may not be overridden by operating system values, BUT we want this if the system allows it)
+ini_set('max_exec_time', $max_exec_time);
+
+
+//////////////////////////////////////////////////
+// #END# CONFIG-BASED SYSTEM SETTINGS
+//////////////////////////////////////////////////
+
+
 // Initial BLANK arrays
 
 $admin_ui_menus = array();
@@ -75,47 +125,9 @@ $generic_assets = null;
 //////////////////////////////////////////////////////////////
 
 
-//!!!!!!!!!! IMPORTANT, ALWAYS LEAVE THIS HERE !!!!!!!!!!!!!!!
-// FOR #UI LOGIN / LOGOUT SECURITY#, WE NEED THIS SET #VERY EARLY# IN INIT TOO,
-// EVEN THOUGH WE RUN LOGIC AGAIN FURTHER DOWN IN INIT TO SET THIS UNDER
-// ALL CONDITIONS (EVEN CRON RUNTIMES), AND REFRESH VAR CACHE FOR CRON LOGIC
-if ( $runtime_mode != 'cron' ) {
-$base_url = $ct_gen->base_url();
-}
-
-
-// Set $ct_app_id as a global (MUST BE SET AFTER $base_url / $base_dir)
-// (a 10 character install ID hash, created from the base URL or base dir [if cron])
-// AFTER THIS IS SET, WE CAN USE EITHER $ct_app_id OR $ct_gen->id() RELIABLY / EFFICIENTLY ANYWHERE
-// $ct_gen->id() can then be used in functions WITHOUT NEEDING ANY $ct_app_id GLOBAL DECLARED.
-$ct_app_id = $ct_gen->id();
-
-
-// Session start
-session_start(); // New session start
-////
-// Give our session a unique name 
-// MUST BE SET AFTER $ct_app_id / first $ct_gen->id() call
-session_name( $ct_gen->id() );
-
-
-// Session array
-if ( !isset( $_SESSION ) ) {
-$_SESSION = array();
-}
-
-
-// Nonce (CSRF attack protection) for user GET links (downloads etc) / admin login session logic WHEN NOT RUNNING AS CRON
-if ( $runtime_mode != 'cron' && !isset( $_SESSION['nonce'] ) ) {
-$_SESSION['nonce'] = $ct_gen->rand_hash(32); // 32 byte
-}
-
-
-// Nonce for unique runtime logic
-$runtime_nonce = $ct_gen->rand_hash(16); // 16 byte
-
-
 $system_info = $ct_gen->system_info(); // MUST RUN AFTER SETTING $base_dir
+
+$remote_ip = ( isset($_SERVER['REMOTE_ADDR']) ? $_SERVER['REMOTE_ADDR'] : 'localhost' );
 
 
 // To be safe, don't use trim() on certain strings with arbitrary non-alphanumeric characters here

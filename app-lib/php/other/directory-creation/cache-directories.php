@@ -4,6 +4,35 @@
  */
 
 
+// Current runtime user (to determine how we want to set directory / file permissions)
+if ( function_exists('posix_getpwuid') && function_exists('posix_geteuid') ) {
+$current_runtime_user = posix_getpwuid(posix_geteuid())['name'];
+}
+elseif ( function_exists('get_current_user') ) {
+$current_runtime_user = get_current_user();
+}
+else {
+$current_runtime_user = null;
+}
+
+
+// Get WEBSERVER runtime user (from cache if currently running from CLI)
+// MUST BE SET BEFORE CACHE STRUCTURE CREATION, TO RUN IN COMPATIBILITY MODE (IF NEEDED) FOR THIS PARTICULAR SERVER'S SETUP
+// WE HAVE FALLBACKS IF THIS IS NULL IN $ct_cache->save_file() WHEN WE STORE CACHE FILES, SO A BRAND NEW INTALL RUN FIRST VIA CRON IS #OK#
+$http_runtime_user = ( $runtime_mode != 'cron' ? $current_runtime_user : trim( file_get_contents('cache/vars/http_runtime_user.dat') ) );
+
+					
+// HTTP SERVER setup detection variables (for cache compatibility auto-configuration)
+// MUST BE SET BEFORE CACHE STRUCTURE CREATION, TO RUN IN COMPATIBILITY MODE FOR THIS PARTICULAR SERVER'S SETUP
+$possible_http_users = array(
+    						'www-data',
+    						'apache',
+    						'apache2',
+    						'httpd',
+    						'httpd2',
+							);
+
+
 // Check for cache directory path creation, create if needed...if it fails, flag a force exit and alert end-user
 
 if ( $ct_gen->dir_struct('cache/alerts/fiat_price/') != true

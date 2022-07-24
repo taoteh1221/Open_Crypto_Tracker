@@ -8,6 +8,14 @@
 // PLUGINS CONFIG
 //////////////////////////////////////////////////////////////////
 
+
+$plug_conf =  array();
+////
+$plug_class = array();
+////
+$activated_plugins =  array();
+
+
 // Configs for any plugins activated in ct_conf
 foreach ( $ct_conf['power']['activate_plugins'] as $key => $val ) {
 	
