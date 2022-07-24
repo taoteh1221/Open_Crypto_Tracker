@@ -44,7 +44,7 @@ $plug_conf[$this_plug]['price_targets'] = array(
 												'eth-usdt-binance' => '2280',
 												'sol-eth-binance' => '0.036',
 												'sol-usd-coinbase' => '53.65',
-												'slc-usd-generic_usd' => '0.0735',
+												'slc-usd-coingecko_usd' => '0.0735',
 													
 												); // END price targets array
 

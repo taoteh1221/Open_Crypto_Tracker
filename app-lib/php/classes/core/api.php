@@ -629,7 +629,7 @@ var $ct_array1 = array();
    // We only need $pair data if our function call needs 24hr trade volumes, so it's optional overhead
    function market($asset_symb, $sel_exchange, $market_id, $pair=false) {
    
-   global $ct_conf, $ct_var, $ct_cache, $ct_gen, $ct_asset, $sel_opt, $kraken_pairs, $upbit_pairs, $generic_pairs, $generic_assets;
+   global $ct_conf, $ct_var, $ct_cache, $ct_gen, $ct_asset, $sel_opt, $kraken_pairs, $upbit_pairs, $coingecko_pairs, $coingecko_assets;
     
     
     ////////////////////////////////////////////////////////////////////////////////////////////////
@@ -2675,15 +2675,15 @@ var $ct_array1 = array();
     
     
     
-      elseif ( stristr( strtolower($sel_exchange) , 'generic_') ) {
+      elseif ( stristr( strtolower($sel_exchange) , 'coingecko_') ) {
           
             
             // If not set globally yet (for faster runtime / less API calls),
-            // set the $generic_pairs / $generic_assets vars for coingecko API calls
-            if ( $generic_pairs == null || $generic_assets == null ) {
+            // set the $coingecko_pairs / $coingecko_assets vars for coingecko API calls
+            if ( $coingecko_pairs == null || $coingecko_assets == null ) {
         
-            $generic_pairs = null;
-            $generic_assets = null;
+            $coingecko_pairs = null;
+            $coingecko_assets = null;
                 
             $check_pairs = array();
             $check_assets = array();
@@ -2695,18 +2695,18 @@ var $ct_array1 = array();
                   
             	         foreach ( $pair_conf as $exchange_key => $exchange_val ) {
             	            
-            		        if ( stristr($exchange_key, 'generic_') != false && trim($exchange_val) != '' ) { // In case user messes up Admin Config, this helps
+            		        if ( stristr($exchange_key, 'coingecko_') != false && trim($exchange_val) != '' ) { // In case user messes up Admin Config, this helps
             		        
                             $paired_conf = explode('_', strtolower($exchange_key) );
                             $paired_conf = $paired_conf[1];
       
             		           if ( !in_array($paired_conf, $check_pairs) ) {
-            		           $generic_pairs .= $paired_conf . ',';
+            		           $coingecko_pairs .= $paired_conf . ',';
             		           $check_pairs[] = $paired_conf;
             		           }
       
             		           if ( !in_array($exchange_val, $check_assets) ) {
-            		           $generic_assets .= $exchange_val . ',';
+            		           $coingecko_assets .= $exchange_val . ',';
             		           $check_assets[] = $exchange_val;
             		           }
             		        
@@ -2719,13 +2719,13 @@ var $ct_array1 = array();
                   }
             
             
-             $generic_pairs = substr($generic_pairs, 0, -1);
-             $generic_assets = substr($generic_assets, 0, -1);
+             $coingecko_pairs = substr($coingecko_pairs, 0, -1);
+             $coingecko_assets = substr($coingecko_assets, 0, -1);
              
              }
           
 	         
-      $url = 'https://api.coingecko.com/api/v3/simple/price?ids=' . $generic_assets . '&vs_currencies='.$generic_pairs.'&include_24hr_vol=true';
+      $url = 'https://api.coingecko.com/api/v3/simple/price?ids=' . $coingecko_assets . '&vs_currencies='.$coingecko_pairs.'&include_24hr_vol=true';
          
       $response = @$ct_cache->ext_data('url', $url, $ct_conf['power']['last_trade_cache_time']);
          

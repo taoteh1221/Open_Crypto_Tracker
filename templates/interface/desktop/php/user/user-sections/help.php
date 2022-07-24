@@ -343,7 +343,7 @@ Support for over 80 trading pairs (country fiat currency or secondary crypto, co
 Support for over 40 exchanges (contact me to request more): 
 	    <br /><br />
 
-<span class='blue'>bigone / binance / binance_us / bit2c / bitbns / bitfinex / bitflyer / bitmart / bitmex / bitmex_u20 / bitmex_z20 / bitpanda / bitso / bitstamp / bittrex / bittrex_global / btcmarkets / btcturk / buyucoin / bybit / cex / coinbase / coindcx / coinex / coinspot / crypto.com / cryptofresh / ethfinex / ftx / ftx_us / gateio / gemini / generic_btc / generic_eth / generic_eur / generic_gbp / generic_usd / hitbtc / hotbit / huobi / jupiter_ag / korbit / kraken / kucoin / liquid / localbitcoins / loopring / loopring_amm / luno / okcoin / okex / poloniex / southxchange / unocoin / upbit / wazirx / zebpay</span>
+<span class='blue'>bigone / binance / binance_us / bit2c / bitbns / bitfinex / bitflyer / bitmart / bitmex / bitmex_u20 / bitmex_z20 / bitpanda / bitso / bitstamp / bittrex / bittrex_global / btcmarkets / btcturk / buyucoin / bybit / cex / coinbase / coindcx / coinex / coinspot / crypto.com / cryptofresh / ethfinex / ftx / ftx_us / gateio / gemini / coingecko_btc / coingecko_eth / coingecko_eur / coingecko_gbp / coingecko_usd / hitbtc / hotbit / huobi / jupiter_ag / korbit / kraken / kucoin / liquid / localbitcoins / loopring / loopring_amm / luno / okcoin / okex / poloniex / southxchange / unocoin / upbit / wazirx / zebpay</span>
 	    <br /><br />
 
 
@@ -380,7 +380,7 @@ Ethereum ICO subtoken support (pre-exchange listing) has been built in (values a
                                   // GENERIC PAIR PRICE (IF NO EXHANGE APIs AVAILABLE)
                                   // USE COINGECKO'S API ID FOR THIS ASSET (SEE COINGECKO ASSET PAGE'S INFO SECTION) 
                                   // LOWERCASE_PAIR_ABRV MUST BE SUPPORTED BY COINGECKO'S 'vs_currencies' API PARAMETER!
-                                  'generic_LOWERCASE_PAIR_ABRV' => 'coingecko_api_id_here',
+                                  'coingecko_LOWERCASE_PAIR_ABRV' => 'coingecko_api_id_here',
                                   ),
                                             
                                             
@@ -394,35 +394,35 @@ Ethereum ICO subtoken support (pre-exchange listing) has been built in (values a
                                   'ico_erc20_value' => 'ETHSUBTOKENNAME', 
                                   // GENERIC ETH PRICE (IF NO EXHANGE APIs AVAILABLE)
                                   // USE COINGECKO'S API ID FOR THIS ASSET (SEE COINGECKO ASSET PAGE'S INFO SECTION)
-                                  'generic_eth' => 'coingecko_api_id_here',
+                                  'coingecko_eth' => 'coingecko_api_id_here',
                                   ),
 
                                                     
                         'btc' => array(
                                   // GENERIC BTC PRICE (IF NO EXHANGE APIs AVAILABLE)
                                   // USE SET COINGECKO'S API ID FOR THIS ASSET (SEE COINGECKO ASSET PAGE'S INFO SECTION) 
-                                  'generic_btc' => 'coingecko_api_id_here',
+                                  'coingecko_btc' => 'coingecko_api_id_here',
                                   ),
 
                                                     
                         'usd' => array(
                                   // GENERIC USD PRICE (IF NO EXHANGE APIs AVAILABLE)
                                   // USE COINGECKO'S API ID FOR THIS ASSET (SEE COINGECKO ASSET PAGE'S INFO SECTION) 
-                                  'generic_usd' => 'coingecko_api_id_here',
+                                  'coingecko_usd' => 'coingecko_api_id_here',
                                   ),
 
                                                     
                         'eur' => array(
                                   // GENERIC EUR PRICE (IF NO EXHANGE APIs AVAILABLE)
                                   // USE COINGECKO'S API ID FOR THIS ASSET (SEE COINGECKO ASSET PAGE'S INFO SECTION) 
-                                  'generic_eur' => 'coingecko_api_id_here',
+                                  'coingecko_eur' => 'coingecko_api_id_here',
                                   ),
 
                                                     
                         'gbp' => array(
                                   // GENERIC GBP PRICE (IF NO EXHANGE APIs AVAILABLE)
                                   // USE COINGECKO'S API ID FOR THIS ASSET (SEE COINGECKO ASSET PAGE'S INFO SECTION) 
-                                  'generic_gbp' => 'coingecko_api_id_here',
+                                  'coingecko_gbp' => 'coingecko_api_id_here',
                                   ),
 
                                             

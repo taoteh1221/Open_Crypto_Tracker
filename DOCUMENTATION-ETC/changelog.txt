@@ -4846,7 +4846,7 @@ MIGRATE YOUR EXISTING SETTINGS TO THE NEW FORMAT.
 -Bug fix for admin area display when privacy mode is on
 
 
--'generic_usd' market, for assets with no known exchange-specific available API markets yet (but are listed on marketcap sites)
+-'coingecko_usd' market, for assets with no known exchange-specific available API markets yet (but are listed on marketcap sites)
 
 
 -Misc. UX
@@ -4865,7 +4865,7 @@ MIGRATE YOUR EXISTING SETTINGS TO THE NEW FORMAT.
 5.04.0:
 
 
--'generic_btc' market, for assets with no known exchange-specific available API markets yet (but are listed on marketcap sites)
+-'coingecko_btc' market, for assets with no known exchange-specific available API markets yet (but are listed on marketcap sites)
 
 
 -SPL (Solana) sub-token support in address-balance-tracker plugin
@@ -4950,10 +4950,10 @@ MIGRATE YOUR EXISTING SETTINGS TO THE NEW FORMAT.
 -Better Windows 10 task scheduler support
 
 
--Better 'generic_usd' / 'generic_btc' market support (via coingecko using asset API IDs)
+-Better 'coingecko_usd' / 'coingecko_btc' market support (via coingecko using asset API IDs)
 
 
--Added 'generic_X' market ability for adding coin markets (see README.txt / Help page)
+-Added 'coingecko_X' market ability for adding coin markets (see README.txt / Help page)
 
 
 -Optimizations
@@ -5575,6 +5575,10 @@ MIGRATE YOUR EXISTING SETTINGS TO THE NEW FORMAT.
 -BUG FIX: Fixed proper system chart data detection and storage on Windows 10 / 11 systems
 
 -BUG FIX: Fixed edge case where turning off privacy mode didn't properly check / reset the trading notes text area auto-height
+
+-BUG FIX: Fixed detection of error responses from API data requests (when the word 'error' ocurrs more than once)
+
+-Changed semantic naming of CoinGecko-derived market data from 'Generic' to 'CoinGecko', to comply with attribution requirements of their free API tier
 
 -Disabled sorting on holdings data columns (after page reload) when privacy mode is on
 

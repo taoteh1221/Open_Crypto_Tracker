@@ -2010,7 +2010,7 @@ var $ct_array1 = array();
             // MUST RUN BEFORE FALLBACK ATTEMPT TO CACHED DATA
             // If response seems to contain an error message ('error' only found once, no words containing 'error')
             // DON'T ADD TOO MANY CHECKS HERE, OR RUNTIME WILL SLOW SIGNIFICANTLY!!
-            if ( $ct_var->substri_count($data, 'error') == 1 && !preg_match("/terror/i", $data) ) {
+            if ( $ct_var->substri_count($data, 'error') > 0 && !preg_match("/terror/i", $data) ) {
              
             // Log full results to file, WITH UNIQUE TIMESTAMP IN FILENAME TO AVOID OVERWRITES (FOR ADEQUATE DEBUGGING REVIEW)
             $error_response_log = '/cache/logs/error/external_data/error-response-'.preg_replace("/\./", "_", $endpoint_tld_or_ip).'-hash-'.$hash_check.'-timestamp-'.time().'.log';
@@ -2030,7 +2030,6 @@ var $ct_array1 = array();
             }
         
         
-        }
         ////////////////////////////////////////////////////////////////
        
         ////////////////////////////////////////////////////////////////
@@ -2039,7 +2038,6 @@ var $ct_array1 = array();
         // If response is seen to NOT contain USUAL data, use cache if available
        
         // Check that we didn't detect as a false positive already
-        if ( $false_positive != 1 ) {
        
         
             // !!!!!DON'T ADD TOO MANY CHECKS HERE, OR RUNTIME WILL SLOW SIGNIFICANTLY!!!!!
@@ -2048,6 +2046,7 @@ var $ct_array1 = array();
             // Generic
             preg_match("/cf-error/i", $data) // Cloudflare (DDOS protection service)
             || preg_match("/cf-browser/i", $data) // Cloudflare (DDOS protection service)
+            || preg_match("/{\"status\":{\"error_code\":/i", $data) // Bittrex.com / generic
             || preg_match("/scheduled maintenance/i", $data) // Bittrex.com / generic
             || preg_match("/Service Unavailable/i", $data) // Bittrex.com / generic
             || preg_match("/temporarily unavailable/i", $data) // Bitfinex.com / generic
@@ -2101,12 +2100,6 @@ var $ct_array1 = array();
             							
             			'requested_from: server (' . $ct_conf['power']['remote_api_timeout'] . ' second timeout); live_request_time: ' . $api_total_time . ' seconds; mode: ' . $mode . '; received: ' . $data_bytes_ux . '; proxy: ' .( $current_proxy ? $current_proxy : 'none' ) . '; btc_prim_currency_pair: ' . $ct_conf['gen']['btc_prim_currency_pair'] . '; btc_prim_exchange: ' . $ct_conf['gen']['btc_prim_exchange'] . '; sel_btc_prim_currency_val: ' . $ct_var->num_to_str($sel_opt['sel_btc_prim_currency_val']) . '; hash_check: ' . $ct_var->obfusc_str($hash_check, 4) . ';'
             			);
-            
-                
-                // Delete any 'possible error' cached error file, since we just confirmed it is indeed an error
-                if ( $error_response_log ) {
-                unlink($base_dir . $error_response_log);
-                }
              
            
             }

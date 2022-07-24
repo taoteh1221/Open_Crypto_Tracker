@@ -1883,6 +1883,9 @@ var $ct_array = array();
    
    global $ct_conf;
    
+   // Change coingecko_X to coingecko
+   $str = preg_replace("/coingecko_(.*)/i", "coingecko", $str);
+   
    // Uppercase every word, and remove underscore between them
    $str = ucwords(preg_replace("/_/i", " ", $str));
    
@@ -1936,6 +1939,7 @@ var $ct_array = array();
    $pretty_str = preg_replace("/dcx/i", 'DCX', $pretty_str);
    $pretty_str = preg_replace("/gateio/i", 'Gate.io', $pretty_str);
    $pretty_str = preg_replace("/dex/i", 'DEX', $pretty_str);
+   $pretty_str = preg_replace("/coingecko/i", 'CoinGecko', $pretty_str);
    
    
    return trim($pretty_str);

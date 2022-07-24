@@ -115,9 +115,9 @@ $kraken_pairs = null;
         
 $upbit_pairs = null;
         
-$generic_pairs = null;
+$coingecko_pairs = null;
         
-$generic_assets = null;
+$coingecko_assets = null;
 
 
 //////////////////////////////////////////////////////////////

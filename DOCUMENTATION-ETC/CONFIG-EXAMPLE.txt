@@ -220,7 +220,7 @@ $ct_conf['gen']['btc_prim_currency_pair'] = 'usd'; // PUT INSIDE SINGLE QUOTES (
 // (set for default Bitcoin market, and charts / price alert primary-currency-equivalent value determination [example: usd value of btc/ltc market, etc])
 // binance / binance_us / bit2c / bitbns / bitfinex / bitflyer / bitmex / bitpanda / bitso / bitstamp 
 // bittrex / bittrex_global / btcmarkets / btcturk / buyucoin / cex / coinbase / coindcx / coinspot 
-// gemini / generic_usd / hitbtc / huobi / korbit / kraken / kucoin / liquid / localbitcoins 
+// gemini / coingecko_usd / hitbtc / huobi / korbit / kraken / kucoin / liquid / localbitcoins 
 // loopring_amm / luno / okcoin / okex / southxchange / unocoin / upbit / wazirx
 // SEE THE $ct_conf['assets']['BTC'] CONFIGURATION NEAR THE BOTTOM OF THIS CONFIG FILE, FOR THE PROPER (CORRESPONDING)
 // MARKET PAIR VALUE NEEDED FOR YOUR CHOSEN 'BTC' EXCHANGE (to populate $ct_conf['gen']['btc_prim_currency_pair'] directly above with)
@@ -427,7 +427,7 @@ $ct_conf['charts_alerts']['tracked_mrkts'] = array(
 					
 					// ATLAS
 					'atlas' => 'ftx||usd||both',
-					'atlas-2' => 'generic_btc||btc||chart',
+					'atlas-2' => 'coingecko_btc||btc||chart',
 					
 					
 					// RNDR
@@ -437,7 +437,7 @@ $ct_conf['charts_alerts']['tracked_mrkts'] = array(
 					
 					// RAY
 					'ray' => 'ftx||usd||both',
-					'ray-2' => 'generic_btc||btc||chart',
+					'ray-2' => 'coingecko_btc||btc||chart',
 					
 					
 					// SRM
@@ -452,37 +452,37 @@ $ct_conf['charts_alerts']['tracked_mrkts'] = array(
 					
 					// BIT
 					'bit' => 'ftx||usd||both',
-					'bit-2' => 'generic_btc||btc||chart',
+					'bit-2' => 'coingecko_btc||btc||chart',
 					
 					
 					// GRAPE
-					'grape' => 'generic_usd||usd||both',
-					'grape-2' => 'generic_btc||btc||chart',
-					'grape-3' => 'generic_eth||eth||chart',
-					'grape-4' => 'generic_eur||eur||none',
-					'grape-5' => 'generic_gbp||gbp||none',
+					'grape' => 'coingecko_usd||usd||both',
+					'grape-2' => 'coingecko_btc||btc||chart',
+					'grape-3' => 'coingecko_eth||eth||chart',
+					'grape-4' => 'coingecko_eur||eur||none',
+					'grape-5' => 'coingecko_gbp||gbp||none',
 					
 					
 					// SLC
-					'slc' => 'generic_btc||btc||chart',
+					'slc' => 'coingecko_btc||btc||chart',
 					'slc-2' => 'gateio||usdt||both',
-					'slc-3' => 'generic_eth||eth||chart',
+					'slc-3' => 'coingecko_eth||eth||chart',
 					
 					
 					// ZBC
-					'zbc' => 'generic_btc||btc||chart',
-					'zbc-2' => 'generic_eth||eth||chart',
+					'zbc' => 'coingecko_btc||btc||chart',
+					'zbc-2' => 'coingecko_eth||eth||chart',
 					'zbc-3' => 'gateio||usdt||both',
 					
 					
 					// SHDW
-					'shdw' => 'generic_btc||btc||both',
-					'shdw-2' => 'generic_eth||eth||chart',
+					'shdw' => 'coingecko_btc||btc||both',
+					'shdw-2' => 'coingecko_eth||eth||chart',
 					
 					
 					// BOP
-					'bop' => 'generic_btc||btc||both',
-					'bop-2' => 'generic_eth||eth||chart',
+					'bop' => 'coingecko_btc||btc||both',
+					'bop-2' => 'coingecko_eth||eth||chart',
 					
 					
 					// HNT
@@ -498,11 +498,11 @@ $ct_conf['charts_alerts']['tracked_mrkts'] = array(
 					// SAMO
 					'samo' => 'gateio||usdt||both',
 					'samo-2' => 'gateio||eth||chart',
-					'samo-3' => 'generic_btc||btc||chart',
+					'samo-3' => 'coingecko_btc||btc||chart',
 					
 					
 					// acUSD
-					'acusd' => 'generic_usd||usd||chart',
+					'acusd' => 'coingecko_usd||usd||chart',
 					'acusd-2' => 'jupiter_ag||usdc||both',
 					
 					
@@ -727,8 +727,8 @@ $ct_conf['power']['crypto_pair_pref_mrkts'] = array(
 							'sol' => 'binance',  // WAY MORE volume , WAY BETTER price discovery than ALL alternatives
 							'uni' => 'binance',  // WAY MORE volume , WAY BETTER price discovery than ALL alternatives
 							'mkr' => 'binance',  // WAY MORE volume , WAY BETTER price discovery than ALL alternatives
-							'slc' => 'generic_btc',  // coingecko global average price IN BTC
-							'samo' => 'generic_btc',  // coingecko global average price IN BTC
+							'slc' => 'coingecko_btc',  // coingecko global average price IN BTC
+							'samo' => 'coingecko_btc',  // coingecko global average price IN BTC
 							);
 
 
@@ -2298,7 +2298,7 @@ $ct_conf['assets'] = array(
 
                                                     
                                     'usd' => array(
-                                          'generic_usd' => 'bitcoin',
+                                          'coingecko_usd' => 'bitcoin',
                                           'coinbase' => 'BTC-USD',
                                           'binance_us' => 'BTCUSD',
                                           'bitstamp' => 'btcusd',
@@ -2507,7 +2507,7 @@ $ct_conf['assets'] = array(
 
                                                     
                                     'usd' => array(
-                                          'generic_usd' => 'ethereum',
+                                          'coingecko_usd' => 'ethereum',
                                           'coinbase' => 'ETH-USD',
                                           'kraken' => 'XETHZUSD',
                                           'bitstamp' => 'ethusd',
@@ -2684,7 +2684,7 @@ $ct_conf['assets'] = array(
                                                     
                                     'usd' => array(
                                     	 'ftx' => 'MSOL/USD',
-                                    	 'generic_usd' => 'msol',
+                                    	 'coingecko_usd' => 'msol',
                                                     ),
 
                                                     
@@ -2981,14 +2981,14 @@ $ct_conf['assets'] = array(
 
                                                     
                                     'btc' => array(
-                                        'generic_btc' => 'star-atlas',
+                                        'coingecko_btc' => 'star-atlas',
                                                     ),
 
                                                     
                                     'usd' => array(
                                     	 'ftx' => 'ATLAS/USD',
                                          'okcoin' => 'ATLAS-USD',
-                                    	 'generic_usd' => 'star-atlas',
+                                    	 'coingecko_usd' => 'star-atlas',
                                                     ),
 
                                                     
@@ -3056,7 +3056,7 @@ $ct_conf['assets'] = array(
 
                         
                                     'btc' => array(
-                                        'generic_btc' => 'raydium',
+                                        'coingecko_btc' => 'raydium',
                                                     ),
 
                                                     
@@ -3216,7 +3216,7 @@ $ct_conf['assets'] = array(
 
                                                     
                                     'btc' => array(
-                                        'generic_btc' => 'bitdao',
+                                        'coingecko_btc' => 'bitdao',
                                                     ),
 
                                                     
@@ -3252,27 +3252,27 @@ $ct_conf['assets'] = array(
 
                                                     
                                     'btc' => array(
-                                          'generic_btc' => 'grape-2',
+                                          'coingecko_btc' => 'grape-2',
                                                     ),
 
                         
                                     'eth' => array(
-                                          'generic_eth' => 'grape-2',
+                                          'coingecko_eth' => 'grape-2',
                                                     ),
 
                                                     
                                     'eur' => array(
-                                          'generic_eur' => 'grape-2',
+                                          'coingecko_eur' => 'grape-2',
                                                     ),
 
                                                     
                                     'gbp' => array(
-                                          'generic_gbp' => 'grape-2',
+                                          'coingecko_gbp' => 'grape-2',
                                                     ),
 
                                                     
                                     'usd' => array(
-                                          'generic_usd' => 'grape-2',
+                                          'coingecko_usd' => 'grape-2',
                                                     ),
 
                                                     
@@ -3293,18 +3293,18 @@ $ct_conf['assets'] = array(
 
                                                     
                                     'btc' => array(
-                                        'generic_btc' => 'solice',
+                                        'coingecko_btc' => 'solice',
                                                     ),
 
                                                     
                                     'eth' => array(
-                                        'generic_eth' => 'solice',
+                                        'coingecko_eth' => 'solice',
                                         'gateio' => 'SLC_ETH',
                                                     ),
 
                                                     
                                     'usd' => array(
-                                        'generic_usd' => 'solice',
+                                        'coingecko_usd' => 'solice',
                                                     ),
 
                                                     
@@ -3331,12 +3331,12 @@ $ct_conf['assets'] = array(
 
                                                     
                                     'btc' => array(
-                                        'generic_btc' => 'zebec-protocol',
+                                        'coingecko_btc' => 'zebec-protocol',
                                                     ),
 
                                                     
                                     'eth' => array(
-                                        'generic_eth' => 'zebec-protocol',
+                                        'coingecko_eth' => 'zebec-protocol',
                                                     ),
 
                                                     
@@ -3367,17 +3367,17 @@ $ct_conf['assets'] = array(
 
                                                     
                                     'btc' => array(
-                                        'generic_btc' => 'genesysgo-shadow',
+                                        'coingecko_btc' => 'genesysgo-shadow',
                                                     ),
 
                                                     
                                     'eth' => array(
-                                        'generic_eth' => 'genesysgo-shadow',
+                                        'coingecko_eth' => 'genesysgo-shadow',
                                                     ),
 
                                                     
                                     'usd' => array(
-                                        'generic_usd' => 'genesysgo-shadow',
+                                        'coingecko_usd' => 'genesysgo-shadow',
                                                     ),
 
                                                     
@@ -3398,17 +3398,17 @@ $ct_conf['assets'] = array(
 
                                                     
                                     'btc' => array(
-                                        'generic_btc' => 'boring-protocol',
+                                        'coingecko_btc' => 'boring-protocol',
                                                     ),
 
                                                     
                                     'eth' => array(
-                                        'generic_eth' => 'boring-protocol',
+                                        'coingecko_eth' => 'boring-protocol',
                                                     ),
 
                                                     
                                     'usd' => array(
-                                        'generic_usd' => 'boring-protocol',
+                                        'coingecko_usd' => 'boring-protocol',
                                                     ),
 
                                                     
@@ -3509,7 +3509,7 @@ $ct_conf['assets'] = array(
 
                         
                                     'btc' => array(
-                                        'generic_btc' => 'samoyedcoin',
+                                        'coingecko_btc' => 'samoyedcoin',
                                                     ),
 
                         
@@ -3540,7 +3540,7 @@ $ct_conf['assets'] = array(
 
                         
                                     'usd' => array(
-                                        'generic_usd' => 'wrapped-cusd-allbridge-from-celo',
+                                        'coingecko_usd' => 'wrapped-cusd-allbridge-from-celo',
                                                     ),
 
                         
