@@ -1,13 +1,14 @@
-/* Tablesorter Custom Bootstrap LESS Theme by Rob Garrison
+/* Tablesorter Custom Bootstrap v3 LESS Theme by Rob Garrison
 
 To create your own theme, modify the code below and run it through
 a LESS compiler, like this one: http://leafo.net/lessphp/editor.html
 or download less.js from http://lesscss.org/
 
-Test out these custom less files live
- Basic Theme : http://codepen.io/Mottie/pen/eqBbn
- Bootstrap   : http://codepen.io/Mottie/pen/Ltzpi
- Metro Style : http://codepen.io/Mottie/pen/gCslk
+Test out these customization files live
+ Basic LESS Theme : http://codepen.io/Mottie/pen/eqBbn
+ Bootstrap LESS   : http://codepen.io/Mottie/pen/Ltzpi
+ Metro LESS Style : http://codepen.io/Mottie/pen/gCslk
+ Basic SCSS       : http://codepen.io/Mottie/pen/LbXdNR
 
 */
 
@@ -53,22 +54,22 @@ Test out these custom less files live
 
 /* zebra striping */
 .allRows {
-	background: @bodyBackground;
+	background-color: @bodyBackground;
 	color: @bodyTextColor;
 }
 .evenRows {
-	background: lighten(@headerBackground, 35%);
+	background-color: lighten(@headerBackground, 35%);
 }
 .oddRows {
-	background: lighten(@headerBackground, 18%);
+	background-color: lighten(@headerBackground, 18%);
 }
 
 /* hovered rows */
 .oddHovered {
-	background: desaturate(@headerBackground, 60%);
+	background-color: desaturate(@headerBackground, 60%);
 }
 .evenHovered {
-	background: lighten( desaturate(@headerBackground, 60%), 10% );
+	background-color: lighten( desaturate(@headerBackground, 60%), 10% );
 }
 
 /* Columns widget */
@@ -101,10 +102,10 @@ Test out these custom less files live
 }
 
 /* black */
-@unsortedBlack : url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAsAAAAOCAMAAADOvxanAAAAVFBMVEUAAABCQkJZWVkZGRnJyckgICAZGRkZGRn8/PweHh4dHR0aGhoaGhpUVFQbGxvQ0NDc3NxMTExSUlIbGxvr6+s4ODhKSkogICAtLS00NDQzMzMnJydSEPrQAAAAGHRSTlMA1ssZRLgdAQbDyisqsZo8QdXUq0r9xPepSRwiAAAAX0lEQVQI13XHSQKAIAwEwQAKxn13Ev7/T2Pu9qmarJKPXIicI4PH4hxaKNrhm2S8bJK5h4YzKHrzJNtK6yYT/TdXzpS5zuYg4MSQYF6i4IHExdw1UVRi05HPrrvT53a+qyMFC9t04gcAAAAASUVORK5CYII=);
+@unsortedBlack : url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAsAAAAOCAYAAAD5YeaVAAAA20lEQVR4AWJABpKSkoxALCstLb0aUAsZaCAMhVEY6B0amx8YZWDDEDSBa2AGe7XeIiAAClYwVGBvsAcIllsf/mvcC9DgOOd8h90fxWvngVEUbZIkuWRZZlE8eQjcisgZMM9zi+LJ6ZfwegmWZflZDugdHMfxTcGqql7TNBlUB/QObtv2VBSFrev6OY7jngzFk9OT/fn73fWYpqnlXNyXDMWT0zuYx/Bvel9ej+LJ6R08DMOu67q7DkTkrSA5vYPneV71fX/QASdTkJwezhs0TfMARn0wMDDGXEPgF4oijqwM5YjNAAAAAElFTkSuQmCC);
 
 /* white */
-@unsortedWhite : url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAsAAAAOBAMAAAALT/umAAAAKlBMVEUAAAD///////////////////////////////////////////////////+Gu8ovAAAADXRSTlMA4EXKBtQqvR0+sxmalc142gAAAFdJREFUCNdjYGDoamAAAjZbMxCVfvd6AgMDd+3du9UMDKx3hWSvMjBwXZww8RYDGuC53NB8h4GB8a617UUGBs7Yu3cjGRhYVO9eVQFKOskKOQApFmUgBwBZ+xXRTttNdAAAAABJRU5ErkJggg==);
+@unsortedWhite : url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAsAAAAOCAYAAAD5YeaVAAAAe0lEQVR4AbXQoRWDMBiF0Sh2QLAAQ8SxJGugWSA6A2STW1PxTsnB9cnkfuYvv8OGC1t5G3Y0QMP+Bm857keAdQIzWBP3+Bw4MADQE18B6/etRnCV/w9nnGuLezfAmXhABGtAGIkruvk6auIFRwQJDywllsEAjCecB20GP59BQQ+gtlRLAAAAAElFTkSuQmCC);
 
 /* automatically choose the correct arrow/text color */
 .headerText (@a) when (lightness(@a) >= 50%) {
@@ -157,14 +158,19 @@ Test out these custom less files live
 	}
 
 	/* bootstrap uses <i> for icons */
-	.tablesorter-header-inner i {
+	.tablesorter-header-inner i.tablesorter-icon {
 		.iconPosition
 	}
 
 	.tablesorter-header.sorter-false {
-		background-image: none;
 		cursor: default;
-		
+
+		i.tablesorter-icon {
+			display: none;
+		}
+		.tablesorter-header-inner {
+			padding: @overallPadding;
+		}
 	}
 
 	.tablesorter-headerAsc {
@@ -204,10 +210,10 @@ Test out these custom less files live
 		}
 
 		/* Zebra Widget - row alternating colors */
-		tr.odd td {
+		tr.odd > td {
 			.oddRows;
 		}
-		tr.even td {
+		tr.even > td {
 			.evenRows;
 		}
 
@@ -217,14 +223,17 @@ Test out these custom less files live
 	you'll need to add additional lines for
 	rows with more than 2 child rows
 	*/
-	tbody > tr:hover td,
+	tbody > tr.hover > td,
+	tbody > tr:hover > td,
 	tbody > tr:hover + tr.tablesorter-childRow > td,
 	tbody > tr:hover + tr.tablesorter-childRow + tr.tablesorter-childRow > td,
+	tbody > tr.even.hover > td,
 	tbody > tr.even:hover > td,
 	tbody > tr.even:hover + tr.tablesorter-childRow > td,
 	tbody > tr.even:hover + tr.tablesorter-childRow + tr.tablesorter-childRow > td {
 		.evenHovered;
 	}
+	tbody > tr.odd.hover > td,
 	tbody > tr.odd:hover > td,
 	tbody > tr.odd:hover + tr.tablesorter-childRow > td,
 	tbody > tr.odd:hover + tr.tablesorter-childRow + tr.tablesorter-childRow > td {
@@ -260,7 +269,7 @@ Test out these custom less files live
 
 	/* caption (non-theme matching) */
 	caption {
-		background: @captionBackground ;
+		background-color: @captionBackground ;
 	}
 
 	/* filter widget */
@@ -270,16 +279,19 @@ Test out these custom less files live
 		margin: 0;
 		padding: @overallPadding;
 		color: @filterElementTextColor;
-		background: @filterElementBkgd;
+		background-color: @filterElementBkgd;
 		border: @filterElementBorder;
 		-webkit-box-sizing: border-box;
 		-moz-box-sizing: border-box;
 		box-sizing: border-box;
 		.filterWidgetTransition;
 	}
+	.tablesorter-filter-row {
+		background-color: @filterCellBackground;
+	}
 	.tablesorter-filter-row td {
 		text-align: center;
-		background: @filterCellBackground;
+		background-color: @filterCellBackground;
 		line-height: normal;
 		text-align: center; /* center the input */
 		.filterWidgetTransition;
@@ -291,7 +303,7 @@ Test out these custom less files live
 		line-height: 0;
 		cursor: pointer;
 	}
-	.tablesorter-filter-row.hideme .tablesorter-filter {
+	.tablesorter-filter-row.hideme * {
 		height: 1px;
 		min-height: 0;
 		border: 0;

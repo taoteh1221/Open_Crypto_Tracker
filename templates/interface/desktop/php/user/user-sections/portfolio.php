@@ -75,17 +75,17 @@ if ( $_POST['submit_check'] == 1 || $run_csv_import || $ui_cookies ) {
 <table border='0' cellpadding='10' cellspacing='0' id="coins_table">
  <thead>
     <tr>
-<th class='border_lt'>Rank</th>
+<th class='border_lt num-sort'>Rank</th>
 <th class='border_lt blue al_right'><span>Asset Name</span></th>
-<th class='border_t'>Unit Value</th>
+<th class='border_t num-sort'>Unit Value</th>
 <th class='border_lt blue'>Exchange</th>
-<th class='border_t al_right'>Trade Value</th>
+<th class='border_t al_right num-sort'>Trade Value</th>
 <th class='border_t blue'>Market</th>
-<th class='border_t'>24 Hour Volume</th>
-<th class='border_lt blue al_right'>Holdings</th>
+<th class='border_t num-sort'>24 Hour Volume</th>
+<th class='border_lt blue al_right num-sort'>Holdings</th>
 <th class='border_t'>Ticker</th>
-<th class='border_t blue'>Holdings Value</th>
-<th class='border_rt blue'>Subtotal</th>
+<th class='border_t blue num-sort'>Holdings Value</th>
+<th class='border_rt blue num-sort'>Subtotal</th>
     </tr>
   </thead>
  <tbody>

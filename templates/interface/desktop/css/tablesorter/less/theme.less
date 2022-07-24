@@ -8,6 +8,7 @@ Test out these custom less files live
  Basic Theme : http://codepen.io/Mottie/pen/eqBbn
  Bootstrap   : http://codepen.io/Mottie/pen/Ltzpi
  Metro Style : http://codepen.io/Mottie/pen/gCslk
+ Basic SCSS  : http://codepen.io/Mottie/pen/LbXdNR
 
  */
 
@@ -52,24 +53,24 @@ Test out these custom less files live
 
 /* zebra striping */
 .allRows {
-	background: @bodyBackground;
+	background-color: @bodyBackground;
 	color: @bodyTextColor;
 }
 .evenRows {
-	background: lighten(@headerBackground, 40%);
+	background-color: lighten(@headerBackground, 40%);
 	color: @bodyTextColor;
 }
 .oddRows {
-	background: lighten(@headerBackground, 20%);
+	background-color: lighten(@headerBackground, 20%);
 }
 
 /* hovered rows */
 .oddHovered {
-	background: desaturate(@headerBackground, 60%);
+	background-color: desaturate(@headerBackground, 60%);
 	color: @bodyTextColor;
 }
 .evenHovered {
-	background: lighten( desaturate(@headerBackground, 60%), 10% );
+	background-color: lighten( desaturate(@headerBackground, 60%), 10% );
 	color: @bodyTextColor;
 }
 
@@ -90,7 +91,7 @@ Test out these custom less files live
 }
 
 /*** Arrows ***/
-@arrowPosition : 95% center;
+@arrowPosition : right 5px center;
 
 /* black */
 @unsortedBlack : url(data:image/gif;base64,R0lGODlhFQAJAIAAACMtMP///yH5BAEAAAEALAAAAAAVAAkAAAIXjI+AywnaYnhUMoqt3gZXPmVg94yJVQAAOw==);
@@ -210,10 +211,10 @@ Test out these custom less files live
 		}
 
 		/* Zebra Widget - row alternating colors */
-		tr.odd td {
+		tr.odd > td {
 			.oddRows;
 		}
-		tr.even td {
+		tr.even > td {
 			.evenRows;
 		}
 
@@ -223,14 +224,17 @@ Test out these custom less files live
 	   you'll need to add additional lines for
 	   rows with more than 2 child rows
 	*/
+	tbody > tr.hover td,
 	tbody > tr:hover td,
 	tbody > tr:hover + tr.tablesorter-childRow > td,
 	tbody > tr:hover + tr.tablesorter-childRow + tr.tablesorter-childRow > td,
+	tbody > tr.even.hover > td,
 	tbody > tr.even:hover > td,
 	tbody > tr.even:hover + tr.tablesorter-childRow > td,
 	tbody > tr.even:hover + tr.tablesorter-childRow + tr.tablesorter-childRow > td {
 		.evenHovered;
 	}
+	tbody > tr.odd.hover > td,
 	tbody > tr.odd:hover > td,
 	tbody > tr.odd:hover + tr.tablesorter-childRow > td,
 	tbody > tr.odd:hover + tr.tablesorter-childRow + tr.tablesorter-childRow > td {
@@ -266,27 +270,30 @@ Test out these custom less files live
 
 	/* caption (non-theme matching) */
 	caption {
-		background: @captionBackground ;
+		background-color: @captionBackground ;
 	}
 
 	/* filter widget */
 	.tablesorter-filter-row input,
-	.tablesorter-filter-row select{
+	.tablesorter-filter-row select {
 		width: 98%;
 		height: auto;
 		margin: 0;
 		padding: @overallPadding;
 		color: @filterElementTextColor;
-		background: @filterElementBkgd;
+		background-color: @filterElementBkgd;
 		border: @filterElementBorder;
 		-webkit-box-sizing: border-box;
 		-moz-box-sizing: border-box;
 		box-sizing: border-box;
 		.filterWidgetTransition;
 	}
+	.tablesorter-filter-row {
+		background-color: @filterCellBackground;
+	}
 	.tablesorter-filter-row td {
 		text-align: center;
-		background: @filterCellBackground;
+		background-color: @filterCellBackground;
 		line-height: normal;
 		text-align: center; /* center the input */
 		.filterWidgetTransition;
@@ -298,7 +305,7 @@ Test out these custom less files live
 		line-height: 0;
 		cursor: pointer;
 	}
-	.tablesorter-filter-row.hideme .tablesorter-filter {
+	.tablesorter-filter-row.hideme * {
 		height: 1px;
 		min-height: 0;
 		border: 0;

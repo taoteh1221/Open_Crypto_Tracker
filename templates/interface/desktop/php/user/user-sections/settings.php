@@ -136,6 +136,22 @@
 			    </select>
 			    
 			</p>
+			
+			
+			<div id='sorting_alert' class='bitcoin_dotted bitcoin'></div>
+				    
+		 <script>
+
+					if ( getCookie('priv_toggle') == 'on' ) {
+				    $("#sorting_alert").html("Sorting by the Holdings / Holdings Value / Subtotal columns is currently disabled, as Privacy Mode is turned ON.");
+				    $("#sorting_alert").show(250, "linear"); // 0.25 seconds
+				    }
+				    else {
+				    $("#sorting_alert").html("");
+				    $("#sorting_alert").hide(250, "linear"); // 0.25 seconds
+				    }
+		
+		 </script>
 			    
 			    
 			
@@ -477,7 +493,7 @@
 				    
 		 <script>
 
-					 if ( $("#percent_change_alert_type").val() == "visual_audio" ) {
+					if ( $("#percent_change_alert_type").val() == "visual_audio" ) {
 				    $("#percent_change_alert_type_alert").html("For security, some browsers may require occasional interaction to allow media auto-play (clicking on page etc), or changes to per-site auto-play preferences. <br /><br />Chrome users can open chrome://settings/content/sound, enable \"Sites can play sound\", and under \"Allowed to play sound\" add the address: <?=$app_host?>");
 				    $("#percent_change_alert_type_alert").show(250, "linear"); // 0.25 seconds
 				    }

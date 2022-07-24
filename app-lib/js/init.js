@@ -31,9 +31,6 @@ $(".chart_wrapper").css({ "border": '2px solid ' + window.charts_border });
 $("span.btc_prim_currency_pair").html(window.btc_prim_currency_pair); 
 
 
-// Check if privacy mode for assets held is enabled
-privacy_mode(); 
-
 // Random tips on the update page 
 // https://codepen.io/kkoutoup/pen/zxmGLE
 random_tips(); 
@@ -65,7 +62,7 @@ start_utc_time();
 	
     // Trading notes
 	if ( typeof notes_storage != 'undefined' && localStorage.getItem(notes_storage) && $("#notes").length ) {
-    document.getElementById("notes").value = localStorage.getItem(notes_storage);
+    $("#notes").val( localStorage.getItem(notes_storage) );
 	}
 
 
@@ -330,67 +327,11 @@ $('#alert_bell_area').html( "<span class='bitcoin'>Current UTC time:</span> <spa
 	/////////////////////////////////////////////////////////////////////////////////////////////////////
 	
 	
-	// Table data sorter config
-	if ( document.getElementById("coins_table") ) {
-		
-		$("#coins_table").tablesorter({
-			
-			sortList: [ [sorted_by_col, sorted_asc_desc] ],
-			theme : theme_selected, // theme "jui" and "bootstrap" override the uitheme widget option in v2.7+
-			textExtraction: sort_extraction,
-			widgets: ['zebra'],
-		    headers: {
-				
-			// disable sorting of the first column (we can use zero or the header class name)
-			  '.no-sort' : {
-			  // disable it by setting the property sorter to false
-			  sorter: false
-			  },
-					0: { 
-					sorter:'sortprices' 
-					},
-					2: { 
-					sorter:'sortprices' 
-					},
-					3: { 
-					sorter:'sortprices' 
-					},
-					6: { 
-					sorter:'sortprices' 
-					},
-					7: { 
-					sorter:'sortprices' 
-					},
-					9: { 
-					sorter:'sortprices' 
-					},
-					10: { 
-					sorter:'sortprices' 
-					}
-			
-			}
-			
-		});
-		
-		
-		// add parser through the tablesorter addParser method 
-		$.tablesorter.addParser({ 
-			// set a unique id 
-			id: 'sortprices', 
-			is: function(s) { 
-			// return false so this parser is not auto detected 
-			return false; 
-			}, 
-			format: function(s) { 
-			// format your data for normalization 
-			return s.toLowerCase().replace(/\,/,'').replace(/ggggg/,'').replace(/\W+/,''); 
-			}, 
-			// set type, either numeric or text 
-			type: 'numeric' 
-		}); 
-	
-	
-	}
+// Check if privacy mode for assets held is enabled (#MUST# RUN AFTER INIT.JS HAS SET ALL DYN VARS)
+privacy_mode(); 
+
+// Sort the portfolio AFTER checking for privacy mode
+sorting_portfolio_table();
 
 
 	/////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -405,6 +346,7 @@ $('#alert_bell_area').html( "<span class='bitcoin'>Current UTC time:</span> <spa
 
 
 	/////////////////////////////////////////////////////////////////////////////////////////////////////
+	
 	
 	
 });

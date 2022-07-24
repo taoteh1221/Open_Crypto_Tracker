@@ -846,7 +846,7 @@ border: 2px solid #dd7c0d !important;
 }
 
 
-#prim_currency_mrkts_alert, #percent_change_alert_type_alert {
+#prim_currency_mrkts_alert, #percent_change_alert_type_alert, #sorting_alert {
 display: none;
 font-weight: bold;
 margin: 20px;

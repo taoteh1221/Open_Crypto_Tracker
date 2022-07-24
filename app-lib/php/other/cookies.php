@@ -183,11 +183,6 @@ $ct_gen->store_cookie('prim_currency_market_standalone', '', time()-3600); // De
 $reset_all_cookies = true;
 }
 
-if ( $_COOKIE['notes'] ) {
-$ct_gen->store_cookie('notes', '', time()-3600); // Delete
-$reset_all_cookies = false;
-}
-
 
 // If cookies are enabled or not, update accordingly
 if ( $_POST['submit_check'] == 1 && $_POST['use_cookies'] != 1 || $reset_all_cookies ) {

@@ -3,7 +3,6 @@
 
 
 
-
 /////////////////////////////////////////////////////////////
 
 
@@ -87,30 +86,25 @@ el.src = imgURL + queryString;
 /////////////////////////////////////////////////////////////
 
 
-function setCookie(cname, cvalue, exdays) {
-d = new Date();
-d.setTime(d.getTime() + (exdays*24*60*60*1000));
-expires = "expires="+d.toUTCString();
-document.cookie = cname + "=" + cvalue + "; SameSite=Strict; " + expires;
+function autoresize_update() {
+    
+const all_autosize_textareas = document.querySelectorAll("[data-autoresize]");
+
+    all_autosize_textareas.forEach(function(textarea) {
+    autosize.update(textarea);
+    });
+
 }
 
 
 /////////////////////////////////////////////////////////////
 
 
-function iframe_adjust(elm) {
-
-    // Set proper page zoom on the iframe
-    if ( app_edition == 'desktop' ) {
-    elm.contentWindow.document.body.style.zoom = currzoom + '%';
-    }
-
-// Now that we've set any required zoom level, adjust the height
-
-extra = elm.id == 'iframe_system_stats' ? 1000 : 100;
-
-elm.height = (elm.contentWindow.document.body.scrollHeight + extra) + "px";
-              
+function setCookie(cname, cvalue, exdays) {
+d = new Date();
+d.setTime(d.getTime() + (exdays*24*60*60*1000));
+expires = "expires="+d.toUTCString();
+document.cookie = cname + "=" + cvalue + "; SameSite=Strict; " + expires;
 }
 
 
@@ -189,6 +183,42 @@ $(topElement).addClass(CssClass);
                  addCSSClassRecursively($(this), CssClass);
             });
             
+}
+
+/////////////////////////////////////////////////////////////
+
+
+// https://mottie.github.io/tablesorter/docs/
+function reset_tablesorter(priv_pmode) {
+    
+col = priv_pmode == 'on' ? 0 : sorted_by_col;
+
+$("#coins_table").find("th:eq("+col+")").trigger("sort");
+
+    // Reverse the sort, if it's decending (1)
+    if ( priv_pmode != 'on' && sorted_asc_desc > 0 ) {
+    $("#coins_table").find("th:eq("+col+")").trigger("sort");
+    }
+
+}
+
+
+/////////////////////////////////////////////////////////////
+
+
+function iframe_adjust(elm) {
+
+    // Set proper page zoom on the iframe
+    if ( app_edition == 'desktop' ) {
+    elm.contentWindow.document.body.style.zoom = currzoom + '%';
+    }
+
+// Now that we've set any required zoom level, adjust the height
+
+extra = elm.id == 'iframe_system_stats' ? 1000 : 100;
+
+elm.height = (elm.contentWindow.document.body.scrollHeight + extra) + "px";
+              
 }
 
 
@@ -965,15 +995,15 @@ target_total_prim_currency = ( (to_trade_amnt * num_total) * btc_prim_currency_v
 
 
 	document.getElementById("target_prim_currency").innerHTML = target_prim_currency.toLocaleString(undefined, {
-   minimumFractionDigits: 8,
-   maximumFractionDigits: 8
+    minimumFractionDigits: 8,
+    maximumFractionDigits: 8
 	});
 
 document.getElementById("target_btc").innerHTML = num_total;
 
 	document.getElementById("target_total_prim_currency").innerHTML = target_total_prim_currency.toLocaleString(undefined, {
-   minimumFractionDigits: 2,
-   maximumFractionDigits: 2
+    minimumFractionDigits: 2,
+    maximumFractionDigits: 2
 	});
 
 document.getElementById("target_total_btc").innerHTML = (to_trade_amnt * num_total).toFixed(8);
@@ -1025,6 +1055,66 @@ badColor = "#ff4747";
     message.innerHTML = ui_name + " OK.";
 	return true;
 	}
+
+}
+
+
+/////////////////////////////////////////////////////////////
+
+
+function sorting_portfolio_table() {
+
+	
+    // https://mottie.github.io/tablesorter/docs/
+	// Table data sorter config
+	if ( document.getElementById("coins_table") ) {
+	        
+	// Set default sort, based on whether privacy mode is on        
+	set_sort_list = getCookie('priv_toggle') == 'on' ? [0,0] : [sorted_by_col, sorted_asc_desc];
+		
+		
+    	$("#coins_table").tablesorter({
+    			
+    			sortList: [ set_sort_list ],
+    			theme : theme_selected, // theme "jui" and "bootstrap" override the uitheme widget option in v2.7+
+    			textExtraction: sort_extraction,
+    			widgets: ['zebra'],
+    		    headers: {
+    				
+            			// disable sorting (we can use column number or the header class name)
+            			'.no-sort' : {
+            			// disable it by setting the property sorter to false
+            			sorter: false
+            			},
+            			// disable sorting (we can use column number or the header class name)
+            			'.num-sort' : {
+            			sorter: 'sortprices'
+            			}
+    			
+    			}
+    			
+    	});
+		
+		
+		// add parser through the tablesorter addParser method 
+		$.tablesorter.addParser({ 
+			// set a unique id 
+			id: 'sortprices', 
+			is: function(s) { 
+			// return false so this parser is not auto detected 
+			return false; 
+			}, 
+			format: function(s) { 
+			// format your data for normalization 
+			return s.toLowerCase().replace(/\,/,'').replace(/ggggg/,'').replace(/\W+/,''); 
+			}, 
+			// set type, either numeric or text 
+			type: 'numeric' 
+		}); 
+	
+	
+	}
+
 
 }
 
@@ -1397,10 +1487,6 @@ function privacy_mode(click=false) {
     
     
 private_data = document.getElementsByClassName('private_data');
-    
-//console.log('hide_show');
-
-//console.log('priv_toggle cookie: ' + getCookie('priv_toggle') );
 
 
     if ( getCookie('priv_toggle') == 'on' && click == true ) {
@@ -1443,7 +1529,8 @@ private_data = document.getElementsByClassName('private_data');
                     	    private_data[element].innerHTML = decrypted.toString(CryptoJS.enc.Utf8);
         
                     		}
-                    		
+                        
+                        // Show
                         private_data[element].classList.remove("obfuscated");
                     			
                     	});
@@ -1477,7 +1564,19 @@ private_data = document.getElementsByClassName('private_data');
                     safe_add_remove_class('hidden', 'fiat_val', 'remove');
                     safe_add_remove_class('hidden', 'portfolio_gain_loss', 'remove');
                     safe_add_remove_class('hidden', 'balance_stats', 'remove');
-       
+                    
+                    // https://mottie.github.io/tablesorter/docs/
+                    $("#coins_table").find("th:eq(7)").removeClass("no-sort");
+                    $("#coins_table").find("th:eq(9)").removeClass("no-sort");
+                    $("#coins_table").find("th:eq(10)").removeClass("no-sort");
+                    
+                    $("#coins_table").find("th:eq(7)").addClass("num-sort");
+                    $("#coins_table").find("th:eq(9)").addClass("num-sort");
+                    $("#coins_table").find("th:eq(10)").addClass("num-sort");
+                    
+                    //$("#coins_table").find("th:eq(10)").data('sorter', 'sortprices');
+                    
+                    reset_tablesorter('off');
                     
                     var leverage_info = document.querySelectorAll(".leverage_info");
                         
@@ -1488,8 +1587,7 @@ private_data = document.getElementsByClassName('private_data');
                         
                     document.oncontextmenu = document.body.oncontextmenu = function() {return true;};
                     
-                    autosize.update(window.autosize_target); // Textarea auto resizing
-                    
+                    autoresize_update();
         
                     $("#pm_link").text('Privacy Mode Is Off');
                                 
@@ -1584,7 +1682,9 @@ private_data = document.getElementsByClassName('private_data');
             	    private_data[element].innerHTML = CryptoJS.AES.encrypt(private_data[element].innerHTML, pin);
 
             		}
-            		
+            
+            
+            // Hide 
             private_data[element].classList.add("obfuscated");
             			
             });
@@ -1613,7 +1713,19 @@ private_data = document.getElementsByClassName('private_data');
         safe_add_remove_class('hidden', 'fiat_val', 'add');
         safe_add_remove_class('hidden', 'portfolio_gain_loss', 'add');
         safe_add_remove_class('hidden', 'balance_stats', 'add');
-
+        
+        // https://mottie.github.io/tablesorter/docs/
+        $("#coins_table").find("th:eq(7)").addClass("no-sort");
+        $("#coins_table").find("th:eq(9)").addClass("no-sort");
+        $("#coins_table").find("th:eq(10)").addClass("no-sort");
+                    
+        $("#coins_table").find("th:eq(7)").removeClass("num-sort");
+        $("#coins_table").find("th:eq(9)").removeClass("num-sort");
+        $("#coins_table").find("th:eq(10)").removeClass("num-sort");
+                    
+        //$("#coins_table").find("th:eq(10)").data('sorter', false);
+        
+        reset_tablesorter('on');
                     
         var leverage_info = document.querySelectorAll(".leverage_info");
                         
