@@ -13,6 +13,21 @@ $_POST[$scan_post_key] = $ct_gen->sanitize_requests('post', $scan_post_key, $_PO
 }
 
 
+// If user is logging out (run immediately after setting PRIMARY vars, for quick runtime)
+if ( $_GET['logout'] == 1 && $ct_gen->admin_hashed_nonce('logout') != false && $_GET['admin_hashed_nonce'] == $ct_gen->admin_hashed_nonce('logout') ) {
+	
+// Try to avoid edge-case bug where sessions don't delete, using our hardened function logic
+$ct_gen->hardy_sess_clear(); 
+
+// Delete admin login cookie
+$ct_gen->store_cookie('admin_auth_' . $ct_gen->id(), '', time()-3600); // Delete
+
+header("Location: index.php");
+exit;
+
+}
+
+
 // A bit of DOS attack mitigation for bogus / bot login attempts
 // Speed up runtime SIGNIFICANTLY by checking EARLY for a bad / non-existent captcha code, and rendering the related form again...
 // A BIT STATEMENT-INTENSIVE ON PURPOSE, AS IT KEEPS RUNTIME SPEED MUCH HIGHER
