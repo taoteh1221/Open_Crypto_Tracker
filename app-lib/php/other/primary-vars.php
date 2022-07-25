@@ -37,16 +37,14 @@ $max_exec_time = $ct_conf['dev']['int_api_max_exec_time'];
 elseif ( $runtime_mode == 'webhook' ) {
 $max_exec_time = $ct_conf['dev']['webhook_max_exec_time'];
 }
-
-
+////
 // If the script timeout var wasn't set properly / is not a whole number 3600 or less
 if ( !ctype_digit($max_exec_time) || $max_exec_time > 3600 ) {
 $max_exec_time = 250; // 250 seconds default
 }
-
-
+////
 // Maximum time script can run (may OR may not be overridden by operating system values, BUT we want this if the system allows it)
-ini_set('max_exec_time', $max_exec_time);
+set_time_limit($max_exec_time); // Doc suggest this may be more reliable than ini_set max_exec_time?
 
 
 //////////////////////////////////////////////////
