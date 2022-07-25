@@ -1573,10 +1573,10 @@ $ct_conf['dev']['chmod_index_sec'] = '0660'; // (default = '0660' [owner/group r
 // (ALL execution times are automatically 600 IN DEBUG MODE)
 ////
 // Maximum execution time for interface runtime in seconds (how long it's allowed to run before automatically killing the process)
-$ct_conf['dev']['ui_max_exec_time'] = 120; // (default = 120)
+$ct_conf['dev']['ui_max_exec_time'] = 250; // (default = 250)
 ////
 // Maximum execution time for ajax runtime in seconds (how long it's allowed to run before automatically killing the process)
-$ct_conf['dev']['ajax_max_exec_time'] = 120; // (default = 120)
+$ct_conf['dev']['ajax_max_exec_time'] = 250; // (default = 250)
 ////
 // Maximum execution time for cron job runtime in seconds (how long it's allowed to run before automatically killing the process)
 $ct_conf['dev']['cron_max_exec_time'] = 500; // (default = 500)

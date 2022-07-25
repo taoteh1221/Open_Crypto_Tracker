@@ -5596,6 +5596,21 @@ MIGRATE YOUR EXISTING SETTINGS TO THE NEW FORMAT.
 
 
 
+-------------------------------------------------------------------
+5.15.5:
+
+-BUG FIX: Fixed default maximum-allowed execution time, so emulated cron jobs / scheduled tasks don't timeout before completion (in Desktop Editions)
+
+v5.15.1 and higher resets light (time period) charts ONCE AFTER UPGRADING FROM v5.15.0 AND EARLIER VERSIONS
+
+v5.12.2 and higher renames the admin config array. ALL CONFIGURATION SETTING
+VARIABLE NAMES ARE NOW DIFFERENT, USE THE LATEST/UPGRADED CONFIG.PHP, AND
+MIGRATE YOUR EXISTING SETTINGS TO THE NEW FORMAT.
+
+-------------------------------------------------------------------
+
+
+
 
 
 

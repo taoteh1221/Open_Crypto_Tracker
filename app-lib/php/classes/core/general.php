@@ -2770,12 +2770,17 @@ var $ct_array = array();
                 		if ( $store_cached_ct_conf == false || $store_cached_ct_conf == null || $store_cached_ct_conf == "null" ) {
         		        $this->log('conf_error', 'ct_conf data could not be restored from last-known working config');
         		        }
-        		        // If resoring last-known working config was successfull
+        		        // If restoring last-known working config was successfull
         		        else {
                 		$this->log('conf_error', 'ct_conf cache restore from last-known working config triggered, refreshed successfully (' . $refresh_cached_ct_conf . ')'); // Keep var num at end of error log
                 		$ct_conf = $upgrade_cache_ct_conf;
                 		$ct_cache->save_file($base_dir . '/cache/secured/ct_conf_'.$secure_128bit_hash.'.dat', $store_cached_ct_conf);
-                		$ct_cache->save_file($base_dir . '/cache/vars/default_ct_conf_md5.dat', md5(serialize($default_ct_conf))); // For checking later, if DEFAULT Admin Config (in config.php) values are updated we save to json again
+                		// For checking later, if DEFAULT Admin Config (in config.php) values are updated we save to json again
+                		$ct_cache->save_file($base_dir . '/cache/vars/default_ct_conf_md5.dat', md5(serialize($default_ct_conf))); 
+                		// Refresh any custom .htaccess / php.ini settings (deleting will trigger a restore)
+        		        unlink($base_dir . '/.htaccess');
+        		        unlink($base_dir . '/.user.ini');
+        		        unlink($base_dir . '/cache/secured/.app_htpasswd');
         		        }
         		   
         		    }
@@ -2787,7 +2792,12 @@ var $ct_array = array();
         		$ct_conf = $upgrade_cache_ct_conf;
         		$ct_cache->save_file($base_dir . '/cache/secured/ct_conf_'.$secure_128bit_hash.'.dat', $store_cached_ct_conf);
         		$ct_cache->save_file($base_dir . '/cache/secured/restore_conf_'.$secure_128bit_hash.'.dat', $store_cached_ct_conf);
-        		$ct_cache->save_file($base_dir . '/cache/vars/default_ct_conf_md5.dat', md5(serialize($default_ct_conf))); // For checking later, if DEFAULT Admin Config (in config.php) values are updated we save to json again
+        		// For checking later, if DEFAULT Admin Config (in config.php) values are updated we save to json again
+        		$ct_cache->save_file($base_dir . '/cache/vars/default_ct_conf_md5.dat', md5(serialize($default_ct_conf))); 
+                // Refresh any custom .htaccess / php.ini settings (deleting will trigger a restore)
+        		unlink($base_dir . '/.htaccess');
+        		unlink($base_dir . '/.user.ini');
+        		unlink($base_dir . '/cache/secured/.app_htpasswd');
         		}
         		
         	

@@ -68,7 +68,7 @@ var $ct_array1 = array();
   
     // If the UI timeout var wasn't set properly / is not a whole number 3600 or less
     if ( !ctype_digit($ui_exec_time) || $ui_exec_time > 3600 ) {
-    $ui_exec_time = 120; // Default
+    $ui_exec_time = 250; // Default
     }
   
   return preg_replace("/\[PHP_TIMEOUT\]/i", $ui_exec_time, file_get_contents($base_dir . '/templates/back-end/root-app-directory-user-ini.template') );
@@ -88,7 +88,7 @@ var $ct_array1 = array();
   
     // If the UI timeout var wasn't set properly / is not a whole number 3600 or less
     if ( !ctype_digit($ui_exec_time) || $ui_exec_time > 3600 ) {
-    $ui_exec_time = 120; // Default
+    $ui_exec_time = 250; // Default
     }
   
   return preg_replace("/\[PHP_TIMEOUT\]/i", $ui_exec_time, file_get_contents($base_dir . '/templates/back-end/root-app-directory-htaccess.template') );
