@@ -690,22 +690,6 @@ var $ct_array1 = array();
     return false;
     
     }
-  
-  
-  $path_parts = pathinfo($file);
-  
-    if ( function_exists('posix_getpwuid') ) {
-    $file_owner_info = posix_getpwuid(fileowner($file));
-    }
-    else {
-    $file_owner_info = get_current_user();
-    }
-  
-  
-    // Does the current runtime user own this file (or will they own it after creating a non-existent file)?
-    if ( isset($file) && file_exists($file) == false || isset($current_runtime_user) && isset($file_owner_info['name']) && $current_runtime_user == $file_owner_info['name'] ) {
-    $is_file_owner = 1;
-    }
    
    
     // We ALWAYS set .htaccess files to a more secure $ct_conf['dev']['chmod_index_sec'] permission AFTER EDITING, 
@@ -715,31 +699,11 @@ var $ct_array1 = array();
      
     $chmod_setting = octdec($ct_conf['dev']['chmod_cache_file']);
     
-    
-     // Run chmod compatibility on certain PHP setups (if we can because we are running as the file owner)
-     // In this case only if the file exists, as we are chmod BEFORE editing it (.htaccess files)
-     if ( file_exists($file) == true && $is_file_owner == 1 && !$http_runtime_user 
-     || file_exists($file) == true && $is_file_owner == 1 && isset($http_runtime_user) && in_array($http_runtime_user, $possible_http_users) ) {
-      
-     $oldmask = umask(0);
-     
-     $did_chmod = chmod($file, $chmod_setting);
-     
-      if ( !$did_chmod ) {
-      	
-      $ct_gen->log(
-      			'system_error',
-      							
-      			'Chmod failed for file "' . $ct_gen->obfusc_path_data($file) . '" (check permissions for the path "' . $ct_gen->obfusc_path_data($path_parts['dirname']) . '", and the file "' . $ct_var->obfusc_str($path_parts['basename'], 5) . '")',
-      							
-      			'chmod_setting: ' . $chmod_setting . '; current_runtime_user: ' . $current_runtime_user . '; file_owner: ' . $file_owner_info['name'] . ';'
-      			);
-      
-      }
-     
-     umask($oldmask);
-     
-     }
+         // Run chmod compatibility on certain PHP setups (if we can because we are running as the file owner)
+         // In this case only if the file exists, as we are chmod BEFORE editing it (.htaccess files)
+         if ( file_exists($file) == true ) {
+         $ct_gen->ct_chmod($file, $chmod_setting);
+         }
     
     }
    
@@ -780,30 +744,7 @@ var $ct_array1 = array();
     $chmod_setting = octdec($ct_conf['dev']['chmod_cache_file']);
     }
    
-   
-    // Run chmod compatibility on certain PHP setups (if we can because we are running as the file owner)
-    if ( $is_file_owner == 1 && !$http_runtime_user || $is_file_owner == 1 && isset($http_runtime_user) && in_array($http_runtime_user, $possible_http_users) ) {
-     
-    $oldmask = umask(0);
-    
-    $did_chmod = chmod($file, $chmod_setting);
-     
-     if ( !$did_chmod ) {
-     	
-     $ct_gen->log(
-     			'system_error',
-     								
-     			'Chmod failed for file "' . $ct_gen->obfusc_path_data($file) . '" (check permissions for the path "' . $ct_gen->obfusc_path_data($path_parts['dirname']) . '", and the file "' . $ct_var->obfusc_str($path_parts['basename'], 5) . '")',
-     								
-     			'chmod_setting: ' . $chmod_setting . '; current_runtime_user: ' . $current_runtime_user . '; file_owner: ' . $file_owner_info['name'] . ';'
-     			);
-     
-     }
-     
-    umask($oldmask);
-    
-    }
-   
+    $ct_gen->ct_chmod($file, $chmod_setting);
    
   return $result;
   
@@ -1237,7 +1178,7 @@ var $ct_array1 = array();
      
       if ( flock($fp, LOCK_EX) ) {  // If we are allowed a file lock, we can proceed
       
-      ////////////START//////////////////////
+      ////////////FILE LOCK START//////////////////////
       
       
         // Sleep for 2 seconds before starting ANY consecutive message send, to help avoid being blocked / throttled by external server
@@ -1518,59 +1459,24 @@ var $ct_array1 = array();
       
       
       
-      ////////////END//////////////////////
+      ////////////FILE LOCK END//////////////////////
       
+      $result = true;
       
       
       // We are done processing the queue, so we can release the lock
       fwrite($fp, $ct_gen->time_date_format(false, 'pretty_date_time'). " UTC (with file lock)\n");
       fflush($fp);            // flush output before releasing the lock
       flock($fp, LOCK_UN);    // release the lock
-      $result = true;
-      } 
-      else {
-      fwrite($fp, $ct_gen->time_date_format(false, 'pretty_date_time'). " UTC (no file lock)\n");
-      $result = false; // Another runtime instance was already processing the queue, so skip processing and return false
+    
+      $chmod_setting = octdec($ct_conf['dev']['chmod_cache_file']);
+      $ct_gen->ct_chmod($queued_msgs_processing_lock_file, $chmod_setting);
+      
       }
      
+     
     fclose($fp);
-   
     gc_collect_cycles(); // Clean memory cache
-    
-    
-    // MAKE SURE we have good chmod file permissions for less-sophisticated server setups
-    $path_parts = pathinfo($queued_msgs_processing_lock_file);
-    $file_owner_info = posix_getpwuid(fileowner($queued_msgs_processing_lock_file));
-       
-      // Does the current runtime user own this file?
-      if ( isset($current_runtime_user) && $current_runtime_user == $file_owner_info['name'] ) {
-      
-      $chmod_setting = octdec($ct_conf['dev']['chmod_cache_file']);
-      
-        // Run chmod compatibility on certain PHP setups
-        if ( !$http_runtime_user || isset($http_runtime_user) && in_array($http_runtime_user, $possible_http_users) ) {
-         
-        $oldmask = umask(0);
-        
-        $did_chmod = chmod($queued_msgs_processing_lock_file, $chmod_setting);
-       
-          if ( !$did_chmod ) {
-          	
-          $ct_gen->log(
-          			'system_error',
-          							
-          			'Chmod failed for file "' . $queued_msgs_processing_lock_file . '" (check permissions for the path "' . $path_parts['dirname'] . '", and the file "' . $path_parts['basename'] . '")',
-          							
-          			'chmod_setting: ' . $chmod_setting . '; current_runtime_user: ' . $current_runtime_user . '; file_owner: ' . $file_owner_info['name'] . ';'
-          			);
-          
-          }
-       
-        umask($oldmask);
-        
-        }
-      
-      }
        
     return $result;
     

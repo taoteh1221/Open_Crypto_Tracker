@@ -5599,7 +5599,9 @@ MIGRATE YOUR EXISTING SETTINGS TO THE NEW FORMAT.
 -------------------------------------------------------------------
 5.15.5:
 
--BUG FIX: Fixed default maximum-allowed execution time, so emulated cron jobs / scheduled tasks don't timeout before completion (in Desktop Editions)
+-BUG FIX: Fixed default maximum-allowed execution time (in Desktop Editions), so emulated cron jobs / scheduled tasks don't timeout before completion
+
+-Emulated cron jobs / scheduled tasks (on Desktop Editions) is more reliable with file lock logic (to prevent more than one instance from running, if also viewed in a normal web browser)
 
 v5.15.1 and higher resets light (time period) charts ONCE AFTER UPGRADING FROM v5.15.0 AND EARLIER VERSIONS
 

@@ -666,6 +666,60 @@ var $ct_array = array();
       }
    
    }
+
+
+   ////////////////////////////////////////////////////////
+   ////////////////////////////////////////////////////////
+   
+   
+   function ct_chmod($file, $chmod) {
+   
+   global $ct_gen, $current_runtime_user, $http_runtime_user, $possible_http_users;
+  
+  
+        if ( file_exists($file) && function_exists('posix_getpwuid') ) {
+        $file_info = posix_getpwuid(fileowner($file));
+        }
+  
+  
+        // Does the current runtime user own this file (or will they own it after creating a non-existent file)?
+        if ( file_exists($file) == false || isset($current_runtime_user) && isset($file_info['name']) && $current_runtime_user == $file_info['name'] ) {
+        $is_file_owner = 1;
+        }
+   
+   
+        if ( $is_file_owner == 1 && !$http_runtime_user 
+        || $is_file_owner == 1 && isset($http_runtime_user) && in_array($http_runtime_user, $possible_http_users) ) {
+        // Continue, all is good
+        }
+        else {
+        return false; // Not good, so we return false
+        }
+   
+   
+   $path_parts = pathinfo($file);
+   
+   $oldmask = umask(0);
+        
+   $did_chmod = chmod($file, $chmod);
+       
+       
+          if ( !$did_chmod ) {
+          	
+          $ct_gen->log(
+          			'system_error',
+          							
+          			'Chmod failed for file "' . $file . '" (check permissions for the path "' . $path_parts['dirname'] . '", and the file "' . $path_parts['basename'] . '")',
+          							
+          			'chmod_setting: ' . $chmod . '; current_runtime_user: ' . $current_runtime_user . '; file_owner: ' . $file_info['name'] . ';'
+          			);
+          
+          }
+          
+       
+   umask($oldmask);
+   
+   }
    
    
    ////////////////////////////////////////////////////////
