@@ -53,7 +53,7 @@ $sel_opt['show_secondary_trade_val'] = ( $_POST['show_secondary_trade_val'] != '
 	if ( isset($sel_opt['show_secondary_trade_val']) && !array_key_exists($sel_opt['show_secondary_trade_val'], $ct_conf['power']['crypto_pair']) ) {
 	unset($sel_opt['show_secondary_trade_val']);
 	unset($_POST['show_secondary_trade_val']);  
-	$ct_gen->store_cookie("show_secondary_trade_val", "", time()-3600);  
+	$ct_gen->store_cookie("show_secondary_trade_val", "", time()-3600);  // Delete cookie -3600 seconds (expired)
 	}
 
 

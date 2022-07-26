@@ -1169,8 +1169,6 @@ var $ct_array1 = array();
      
     
     // ONLY process queued messages IF they are NOT already being processed by another runtime instance
-    // Use file locking with flock() to do this
-     
     $queued_msgs_processing_lock_file = $base_dir . '/cache/events/notifications-queue-processing-lock.dat';
     
     

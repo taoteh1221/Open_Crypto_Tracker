@@ -5607,6 +5607,8 @@ MIGRATE YOUR EXISTING SETTINGS TO THE NEW FORMAT.
 
 -Emulated cron jobs / scheduled tasks (on Desktop Editions) are more reliable with file-lock logic (to prevent more than one instance from running, IF also viewed in a normal web browser on localhost port 22345)
 
+-Miscellaneous minor user experience improvements
+
 -Miscellaneous minor bug fixes
 
 -Market cleanup in default demo config

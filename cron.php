@@ -38,14 +38,15 @@ require("config.php");
 //////////////////////////////////////////////
 
   
-// ONLY run cron if it is allowed, AND is #NOT# being run by another runtime instance
-// Use file locking with flock() to do this
+// ONLY run cron if it is allowed
 if ( $run_cron == true ) {
      
 $cron_run_lock_file = $base_dir . '/cache/events/emulated-cron-lock.dat';
     
     
     // If we find no file lock (OR if there is a VERY stale file lock [OVER 9 MINUTES OLD]), we can proceed
+    // (we don't want Desktop Editions to run multiple cron runtimes at the same time, if they are also
+    // viewing in a regular browser on localhost port 22345)
     if ( $ct_cache->update_cache($cron_run_lock_file, 9) == true ) {  
     
     // Re-save new file lock
