@@ -677,9 +677,9 @@ function copy_text(elm_id, alert_id) {
 function emulated_cron() {
     
 window.cron_loaded = false;
+
 background_tasks_check(); 
-            
-//console.log( "cron emulation: STARTED at " + human_time( new Date().getTime() ) );
+
 
       $.ajax({
             type: 'GET',
@@ -688,16 +688,18 @@ background_tasks_check();
             contentType: "application/json",
             dataType: 'json',
             success: function(response) {
-            
-            //console.log( "cron emulation: ENDED at " + human_time( new Date().getTime() ) );
                 
-                if ( response.result ) {
+                if ( typeof response.result != 'undefined' ) {
                 console.log( "cron emulation RESULT: " + response.result + ', at ' + human_time( new Date().getTime() ) );
                 }
-                
-            // future UI logic here?
             
             window.cron_loaded = true;
+            
+                // If flagged to display error in GUI
+                if ( typeof response.display_error != 'undefined' ) {
+                $('#alert_bell_area').html( $('#alert_bell_area').html() + '<br />' + response.result );
+                $("#alert_bell_image").attr("src","templates/interface/media/images/auto-preloaded/notification-" + theme_selected + "-fill.png");
+                }
             
             background_tasks_check();  
             

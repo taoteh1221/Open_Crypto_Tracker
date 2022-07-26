@@ -364,7 +364,7 @@ $fp = fopen($cron_run_lock_file, "w+");
     $ct_cache->debug_log();
     $ct_cache->send_notifications();
     
-    $exit_result = array('result' => $exit_result_text);
+    $exit_result = array('display_error' => 1, 'result' => $exit_result_text);
     
     }
 
