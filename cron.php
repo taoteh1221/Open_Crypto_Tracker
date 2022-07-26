@@ -43,12 +43,18 @@ require("config.php");
 if ( $run_cron == true ) {
      
 $cron_run_lock_file = $base_dir . '/cache/events/emulated-cron-lock.dat';
-$fp = fopen($cron_run_lock_file, "w+");
     
-     
-    if ( flock($fp, LOCK_EX) ) {  // If we are allowed a file lock, we can proceed
-      
-    ////////////FILE LOCK START//////////////////////
+    
+    // If we find no file lock (OR if there is a VERY stale file lock [OVER 9 MINUTES OLD]), we can proceed
+    if ( $ct_cache->update_cache($cron_run_lock_file, 9) == true ) {  
+    
+    // Re-save new file lock
+    $ct_cache->save_file($cron_run_lock_file, $ct_gen->time_date_format(false, 'pretty_date_time') );
+    
+    /////////////////////////////////////////////////
+    ////////////FILE-LOCKED START////////////////////
+    /////////////////////////////////////////////////
+    
         
         if ( $ct_cache->update_cache($base_dir . '/cache/events/emulated-cron.dat', $ct_conf['power']['desktop_cron_interval']) == false ) {
         
@@ -342,16 +348,12 @@ $fp = fopen($cron_run_lock_file, "w+");
     $exit_result = array('result' => "Emulated cron job has finished running");
 
       
-    ////////////FILE LOCK END//////////////////////
-      
+    /////////////////////////////////////////////////
+    ////////////FILE-LOCKED END//////////////////////
+    /////////////////////////////////////////////////
       
     // We are done running cron, so we can release the lock
-    fwrite($fp, $ct_gen->time_date_format(false, 'pretty_date_time'). " UTC (with file lock)\n");
-    fflush($fp);            // flush output before releasing the lock
-    flock($fp, LOCK_UN);    // release the lock
-    
-    $chmod_setting = octdec($ct_conf['dev']['chmod_cache_file']);
-    $ct_gen->ct_chmod($cron_run_lock_file, $chmod_setting);
+    unlink($cron_run_lock_file);
     
     }
     else {
@@ -369,7 +371,6 @@ $fp = fopen($cron_run_lock_file, "w+");
     }
 
 
-fclose($fp);
 gc_collect_cycles(); // Clean memory cache
     
     

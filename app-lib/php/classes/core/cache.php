@@ -1171,14 +1171,18 @@ var $ct_array1 = array();
     // ONLY process queued messages IF they are NOT already being processed by another runtime instance
     // Use file locking with flock() to do this
      
-    $queued_msgs_processing_lock_file = $base_dir . '/cache/events/notifications-queue-processing.dat';
-     
-    $fp = fopen($queued_msgs_processing_lock_file, "w+");
+    $queued_msgs_processing_lock_file = $base_dir . '/cache/events/notifications-queue-processing-lock.dat';
     
-     
-      if ( flock($fp, LOCK_EX) ) {  // If we are allowed a file lock, we can proceed
+    
+      // If we find no file lock (OR if there is a VERY stale file lock [OVER 9 MINUTES OLD]), we can proceed
+      if ( $this->update_cache($queued_msgs_processing_lock_file, 9) == true ) {  
       
-      ////////////FILE LOCK START//////////////////////
+      // Re-save new file lock
+      $this->save_file($queued_msgs_processing_lock_file, $ct_gen->time_date_format(false, 'pretty_date_time') );
+      
+      /////////////////////////////////////////////////
+      ////////////FILE-LOCKED START////////////////////
+      /////////////////////////////////////////////////
       
       
         // Sleep for 2 seconds before starting ANY consecutive message send, to help avoid being blocked / throttled by external server
@@ -1458,24 +1462,18 @@ var $ct_array1 = array();
         }
       
       
-      
-      ////////////FILE LOCK END//////////////////////
+      /////////////////////////////////////////////////
+      ////////////FILE-LOCKED END//////////////////////
+      /////////////////////////////////////////////////
       
       $result = true;
       
-      
-      // We are done processing the queue, so we can release the lock
-      fwrite($fp, $ct_gen->time_date_format(false, 'pretty_date_time'). " UTC (with file lock)\n");
-      fflush($fp);            // flush output before releasing the lock
-      flock($fp, LOCK_UN);    // release the lock
-    
-      $chmod_setting = octdec($ct_conf['dev']['chmod_cache_file']);
-      $ct_gen->ct_chmod($queued_msgs_processing_lock_file, $chmod_setting);
+      // We are done running cron, so we can release the lock
+      unlink($queued_msgs_processing_lock_file);
       
       }
      
      
-    fclose($fp);
     gc_collect_cycles(); // Clean memory cache
        
     return $result;

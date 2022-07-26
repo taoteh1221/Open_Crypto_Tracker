@@ -1187,11 +1187,6 @@ select opt in $OPTIONS; do
 				sleep 3
 				
   				# Files
-				rm $DOC_ROOT/DOCUMENTATION-ETC/CONFIG.EXAMPLE.txt > /dev/null 2>&1
-				rm $DOC_ROOT/DOCUMENTATION-ETC/CRON_PLUGINS_README.txt > /dev/null 2>&1
-				rm $DOC_ROOT/DOCUMENTATION-ETC/CRON-PLUGINS-README.txt > /dev/null 2>&1
-				rm $DOC_ROOT/DOCUMENTATION-ETC/RASPBERRY-PI-HEADLESS-WIFI-SSH.txt > /dev/null 2>&1
-				rm $DOC_ROOT/DOCUMENTATION-ETC/RASPBERRY-PI-SECURITY.txt > /dev/null 2>&1
 				rm $DOC_ROOT/CONFIG.EXAMPLE.txt > /dev/null 2>&1
 				rm $DOC_ROOT/HELP-FAQ.txt > /dev/null 2>&1
 				rm $DOC_ROOT/PORTFOLIO-IMPORT-EXAMPLE-SPREADSHEET.csv > /dev/null 2>&1
@@ -1199,6 +1194,9 @@ select opt in $OPTIONS; do
 				rm $DOC_ROOT/webhook.php > /dev/null 2>&1
 				rm $DOC_ROOT/rest-api.php > /dev/null 2>&1
 				rm $DOC_ROOT/logs.php > /dev/null 2>&1
+				rm $DOC_ROOT/cache/events/notifications-queue-processing.dat > /dev/null 2>&1
+				rm $DOC_ROOT/cache/logs/errors.log > /dev/null 2>&1
+				rm $DOC_ROOT/cache/logs/debugging.log > /dev/null 2>&1
 				rm $DOC_ROOT/cache/vars/app_config_md5.dat > /dev/null 2>&1
 				rm $DOC_ROOT/cache/vars/default_app_config_md5.dat > /dev/null 2>&1
 				rm $DOC_ROOT/cache/vars/default_ocpt_conf_md5.dat > /dev/null 2>&1
@@ -1206,9 +1204,12 @@ select opt in $OPTIONS; do
 				rm $DOC_ROOT/cache/vars/default_oct_conf_md5.dat > /dev/null 2>&1
 				rm $DOC_ROOT/cache/vars/lite_chart_structure.dat > /dev/null 2>&1
 				rm $DOC_ROOT/cache/vars/default_btc_prim_curr_pairing.dat > /dev/null 2>&1
-				rm $DOC_ROOT/cache/logs/errors.log > /dev/null 2>&1
-				rm $DOC_ROOT/cache/logs/debugging.log > /dev/null 2>&1
 				rm $DOC_ROOT/cache/vars/default_btc_prim_currency_pairing.dat > /dev/null 2>&1
+				rm $DOC_ROOT/DOCUMENTATION-ETC/CONFIG.EXAMPLE.txt > /dev/null 2>&1
+				rm $DOC_ROOT/DOCUMENTATION-ETC/CRON_PLUGINS_README.txt > /dev/null 2>&1
+				rm $DOC_ROOT/DOCUMENTATION-ETC/CRON-PLUGINS-README.txt > /dev/null 2>&1
+				rm $DOC_ROOT/DOCUMENTATION-ETC/RASPBERRY-PI-HEADLESS-WIFI-SSH.txt > /dev/null 2>&1
+				rm $DOC_ROOT/DOCUMENTATION-ETC/RASPBERRY-PI-SECURITY.txt > /dev/null 2>&1
 				
 				# Force-resets script timeout from config.php (automatically / dynamically re-created by app)
 				rm $DOC_ROOT/.htaccess > /dev/null 2>&1 

@@ -282,7 +282,6 @@ var_dump($api_data_array);
 <pre class='rounded'><code class='hide-x-scroll json' style='width: auto; height: auto;'>
 {
     "exchange_list": [
-        "bigone",
         "binance",
         "binance_us",
         "bit2c",

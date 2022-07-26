@@ -634,47 +634,9 @@ var $ct_array1 = array();
     
     ////////////////////////////////////////////////////////////////////////////////////////////////
       
-      
-      if ( strtolower($sel_exchange) == 'bigone' ) {
-         
-      $url = 'https://big.one/api/v3/asset_pairs/tickers';
-         
-      $response = @$ct_cache->ext_data('url', $url, $ct_conf['power']['last_trade_cache_time']);
-         
-      $data = json_decode($response, true);
-       
-      $data = $data['data'];
-      
-      
-	          if ( is_array($data) ) {
-	      
-	            foreach ($data as $key => $val) {
-	              
-	               if ( isset($val["asset_pair_name"]) && $val["asset_pair_name"] == $market_id ) {
-	               
-	               $result = array(
-	                              'last_trade' => $val["close"],
-	                              '24hr_asset_vol' => $val["volume"],
-	                              '24hr_pair_vol' => null // Unavailable, set null
-	                     		    );
-	               
-	               }
-	            
-	          
-	            }
-	          
-	          }
-      
-      
-      }
-     
-     
-     
-     ////////////////////////////////////////////////////////////////////////////////////////////////
-      
     
     
-      elseif ( strtolower($sel_exchange) == 'binance' ) {
+      if ( strtolower($sel_exchange) == 'binance' ) {
          
       $url = 'https://www.binance.com/api/v3/ticker/24hr';
          
@@ -1259,7 +1221,7 @@ var $ct_array1 = array();
     
       elseif ( strtolower($sel_exchange) == 'cex' ) {
          
-      $url = 'https://cex.io/api/tickers/BTC/USD/USDT/RUB/EUR/GBP';
+      $url = 'https://cex.io/api/tickers/BTC/USD/USDT/EUR/GBP';
          
       $response = @$ct_cache->ext_data('url', $url, $ct_conf['power']['last_trade_cache_time']);
          
@@ -1468,43 +1430,6 @@ var $ct_array1 = array();
 	            }
 	          
 	          }
-      
-      
-      }
-     
-     
-     
-     ////////////////////////////////////////////////////////////////////////////////////////////////
-      
-    
-    
-      elseif ( strtolower($sel_exchange) == 'cryptofresh' ) {
-      
-      $url = 'https://cryptofresh.com/api/asset/markets?asset=' . $market_id;
-      
-      $response = @$ct_cache->ext_data('url', $url, $ct_conf['power']['last_trade_cache_time']);
-        
-      $data = json_decode($response, true);
-      
-      
-           if ( preg_match("/BRIDGE/", $market_id) ) {
-     		          
-           $result = array(
-     		            'last_trade' => number_format( $data['BRIDGE.BTC']['price'], 8, '.', ''),
-     		            '24hr_asset_vol' => $data['BRIDGE.BTC']['volume24'],
-     		            '24hr_pair_vol' => null // Unavailable, set null
-     		            );
-     		                  
-     	 }
-           elseif ( preg_match("/OPEN/", $market_id) ) {
-     		          
-           $result = array(
-     		            'last_trade' => number_format( $data['OPEN.BTC']['price'], 8, '.', ''),
-     		            '24hr_asset_vol' => $data['OPEN.BTC']['volume24'],
-     		            '24hr_pair_vol' => null // Unavailable, set null
-     		            );
-     		                  
-           }
       
       
       }
@@ -2202,23 +2127,25 @@ var $ct_array1 = array();
     
       elseif ( strtolower($sel_exchange) == 'okex' ) {
       
-      $url = 'https://www.okex.com/api/spot/v3/instruments/ticker';
+      $url = 'https://www.okx.com/api/v5/market/tickers?instType=SPOT';
       
       $response = @$ct_cache->ext_data('url', $url, $ct_conf['power']['last_trade_cache_time']);
         
       $data = json_decode($response, true);
+      
+      $data = $data['data'];
        
       
           if ( is_array($data) ) {
       
             foreach ($data as $key => $val) {
               
-              if ( isset($val['instrument_id']) && $val['instrument_id'] == $market_id ) {
+              if ( isset($val['instId']) && $val['instId'] == $market_id ) {
                
               $result = array(
                               'last_trade' => $val["last"],
-                              '24hr_asset_vol' => $val["base_volume_24h"],
-                              '24hr_pair_vol' => $val['quote_volume_24h']
+                              '24hr_asset_vol' => 0, // Unavailable, set 0 to avoid 'price_alert_block_vol_error' supression
+                              '24hr_pair_vol' => $val['volCcy24h']
                      		  );
      
               }
