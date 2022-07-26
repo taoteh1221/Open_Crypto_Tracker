@@ -204,7 +204,7 @@
 						</ul>
 						
 						
-						<br /><br /><a href="https://twitter.com/taoteh1221/status/1192997965952094208" target="_blank"><img src='templates/interface/media/images/twitter-1192997965952094208.jpg' width='425' class='image_border' alt='' /></a>
+						<br /><br /><a href="https://twitter.com/taoteh1221/status/1538567185232273408" target="_blank"><img src='templates/interface/media/images/twitter-1192997965952094208.jpg' width='425' class='image_border' alt='' /></a>
 						
 						</div>
 	

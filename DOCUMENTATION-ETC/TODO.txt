@@ -86,10 +86,6 @@ Use bootstrap's built-in alert closeable pop-in to indicate 'configuration saved
 Have the lite chart function create a cached var array in json (in cache/vars/ folder), and everytime a new chart system uses it, add it's BASE cache path as an array value. Then we just need to feed this array into a light charts reset function / logic that resets all KNOWN chart systems in the app that use the light charts system (including plugins)
 
 
-Change the 'leny slides down hills' meme tweet (in update page's disclaimer section), as the previous retweet I did was deleted:
-https://twitter.com/taoteh1221/status/1538567185232273408
-
-
 Solana stackexchange was just approved 2022/6, add it to the developer links on the resources page and RSS feeds whenever it goes live
 
 
@@ -97,9 +93,6 @@ Check logs to make sure we cleaned up update_lite_chart() function calls, so the
 
 
 See what the best way is to have ALL log entries be in chronological order (currently we group by category when logging)
-
-
-Just like chart crosshair positions, some info bubble positions are WAAAAY off when using the zoom feature in desktop editions. Put a red info icon to the left of the zoom setting, with a warning about both these positioning issues, and POTENTIALLY EVEN MORE unoticed issues from zooming. We don't have a choice beyond this as a 'solution', because we don't build the container software we are using for the desktop editions (PHPdesktop), and those devs have not implemented a 'normal' browser zoom feature.
 
 
 Add config setting to set which asset price light chart shows by default.

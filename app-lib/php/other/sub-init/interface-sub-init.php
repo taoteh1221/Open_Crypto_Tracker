@@ -50,9 +50,9 @@ $sel_opt['show_crypto_val'] = explode(',', rtrim( ( $_POST['show_crypto_val'] !=
 $sel_opt['show_secondary_trade_val'] = ( $_POST['show_secondary_trade_val'] != '' ? $_POST['show_secondary_trade_val'] : $_COOKIE['show_secondary_trade_val'] );
 
 	// Remove any stale secondary trade value
-	if ( !array_key_exists($sel_opt['show_secondary_trade_val'], $ct_conf['power']['crypto_pair']) ) {
-	$sel_opt['show_secondary_trade_val'] = null;
-	$_POST['show_secondary_trade_val'] = null;  
+	if ( isset($sel_opt['show_secondary_trade_val']) && !array_key_exists($sel_opt['show_secondary_trade_val'], $ct_conf['power']['crypto_pair']) ) {
+	unset($sel_opt['show_secondary_trade_val']);
+	unset($_POST['show_secondary_trade_val']);  
 	$ct_gen->store_cookie("show_secondary_trade_val", "", time()-3600);  
 	}
 

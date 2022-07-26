@@ -287,7 +287,53 @@ header('Content-type: text/html; charset=' . $ct_conf['dev']['charset_default'])
         <?php
         if ( $app_edition == 'desktop' ) {
         ?>
-        <div class='blue' id='change_font_size'>Zoom (<span id='zoom_show_ui'></span>): <span id='minusBtn' class='red'>-</span> <span id='plusBtn' class='green'>+</span></div>
+        
+        <div class='blue' id='change_font_size'>
+        
+        <img id="zoom_info" src="templates/interface/media/images/info-red.png" alt="" width="30" style="position: relative; right: -5px;" />
+        
+        Zoom (<span id='zoom_show_ui'></span>): <span id='minusBtn' class='red'>-</span> <span id='plusBtn' class='green'>+</span>
+        
+        </div>
+        
+        
+        <script>
+        
+        
+        		
+        			var zoom_info_content = '<h5 class="yellow tooltip_title">Desktop Edition Page Zoom</h5>'
+        			
+        			+'<p class="coin_info" style="max-width: 600px; white-space: normal;">This zoom feature allows Desktop Editions to zoom the app interface to be larger or smaller.</p>'
+        			
+        			+'<p class="coin_info bitcoin" style="max-width: 600px; white-space: normal;">Chart crosshairs and tooltip windows may be significantly off-center, if you go too far above or below the 100% zoom level. Hopefully someday we will have a fix for this, but for now just be aware of what effects the current zoom feature has on the app.</p>';
+        			
+        		
+        			$('#zoom_info').balloon({
+        			html: true,
+        			position: "bottom",
+          			classname: 'balloon-tooltips',
+        			contents: zoom_info_content,
+        			css: {
+        					fontSize: ".8rem",
+        					minWidth: "450px",
+        					padding: ".3rem .7rem",
+        					border: "2px solid rgba(212, 212, 212, .4)",
+        					borderRadius: "6px",
+        					boxShadow: "3px 3px 6px #555",
+        					color: "#eee",
+        					backgroundColor: "#111",
+        					opacity: "0.99",
+        					zIndex: "32767",
+        					textAlign: "left"
+        					}
+        			});
+        		
+        
+        
+        </script>
+
+
+        
         <?php
         }
         ?>
