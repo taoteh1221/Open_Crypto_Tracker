@@ -56,22 +56,30 @@ $cron_run_lock_file = $base_dir . '/cache/events/emulated-cron-lock.dat';
     ////////////FILE-LOCKED START////////////////////
     /////////////////////////////////////////////////
     
-        
-        if ( $ct_cache->update_cache($base_dir . '/cache/events/emulated-cron.dat', $ct_conf['power']['desktop_cron_interval']) == false ) {
-        
-        $exit_result = array('result' => "Too early to re-run EMULATED cron job");
-        
-        // Log errors / debugging, send notifications
-        $ct_cache->error_log();
-        $ct_cache->debug_log();
-        $ct_cache->send_notifications();
-        
-        echo json_encode($exit_result, JSON_PRETTY_PRINT);
-        exit; // Force exit runtime now
     
-        }
-        else {
-        $ct_cache->save_file($base_dir . '/cache/events/emulated-cron.dat', $ct_gen->time_date_format(false, 'pretty_date_time') );
+        // If we are running EMULATED cron, we track when to run it with /cache/events/emulated-cron.dat
+        if ( isset($_GET['cron_emulate']) && $ct_conf['power']['desktop_cron_interval'] > 0 ) {
+            
+            
+            if ( $ct_cache->update_cache($base_dir . '/cache/events/emulated-cron.dat', $ct_conf['power']['desktop_cron_interval']) == false ) {
+            
+            $exit_result = array('result' => "Too early to re-run EMULATED cron job");
+            
+            // Log errors / debugging, send notifications
+            $ct_cache->error_log();
+            $ct_cache->debug_log();
+            $ct_cache->send_notifications();
+            
+            echo json_encode($exit_result, JSON_PRETTY_PRINT);
+            exit; // Force exit runtime now
+        
+            }
+            else {
+            // We run this EARLY in the cron logic, so we have fairly consistant emulated cron job intervals
+            $ct_cache->save_file($base_dir . '/cache/events/emulated-cron.dat', $ct_gen->time_date_format(false, 'pretty_date_time') );
+            }
+        
+        
         }
       
 
