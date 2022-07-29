@@ -5638,6 +5638,17 @@ MIGRATE YOUR EXISTING SETTINGS TO THE NEW FORMAT.
 
 
 
+-------------------------------------------------------------------
+6.00.0:
+
+-BETA MODE (highly experimental still) of admin config editing via the admin interface (toggled on / off in admin area, disabled by default) 
+
+-News feeds cleanup in default demo config
+
+-------------------------------------------------------------------
+
+
+
 
 
 

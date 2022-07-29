@@ -934,7 +934,7 @@ $ct_conf['power']['mining_calculators'] = array(
 			
 
 
-// NEWS FEED (RSS) SETTINGS
+// NEWS FEED SETTINGS (ATOM / RSS formats supported)
 // RSS feed entries to show (per-feed) on News page (without needing to click the "show more / less" link)
 $ct_conf['power']['news_feed_entries_show'] = 10; // (default = 10)
 ////
@@ -1001,12 +1001,6 @@ $ct_conf['power']['news_feed'] = array(
         				array(
             			"title" => "Blog - ConsenSys",
             			"url" => "https://media.consensys.net/feed"
-        						),
-        
-        
-        				array(
-            			"title" => "Blog - Decentralized Wireless Alliance (Helium Foundation)",
-            			"url" => "https://dewialliance.medium.com/feed"
         						),
         
         
@@ -1197,12 +1191,6 @@ $ct_conf['power']['news_feed'] = array(
     
     
         				array(
-            			"title" => "Newsletter - The Solana Grapevine",
-            			"url" => "https://thesolanagrapevine.substack.com/feed"
-        						),
-    
-    
-        				array(
             			"title" => "Newsletter - Week In Ethereum",
             			"url" => "https://weekinethereumnews.com/feed/"
         						),
@@ -1223,12 +1211,6 @@ $ct_conf['power']['news_feed'] = array(
         				array(
             			"title" => "Podcast - Into the Ether",
             			"url" => "https://podcast.ethhub.io/rss"
-        						),
-    
-    
-        				array(
-            			"title" => "Podcast - Let's Talk Bitcoin",
-            			"url" => "https://letstalkbitcoin.com/rss/feed/blog"
         						),
         
         
