@@ -936,12 +936,6 @@ $ct_conf['power']['news_feed'] = array(
     					/////////////////////////////////////////////////////
     					// STANDARD RSS #AND# ATOM FORMAT ARE SUPPORTED
     					/////////////////////////////////////////////////////
-        
-        
-        				array(
-            			"title" => "Blog - Aptos (Layer 1 Smart Contract Network)",
-            			"url" => "https://medium.com/feed/aptoslabs"
-        						),
 
         
         				array(
