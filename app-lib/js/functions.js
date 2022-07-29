@@ -479,22 +479,19 @@ function feeds_loading_check(feeds_loaded) {
 
 function get_scroll_position(tracing) {
 
-	 // If we are using a different start page than the portfolio page,
-	 // RETRIEVE any stored scroll position we were at before the page reload
+	// If we are using a different start page than the portfolio page,
+	// RETRIEVE any stored scroll position we were at before the page reload
     if ( $(location).attr('hash') != '' && !isNaN(sessionStorage['scroll_position']) ) {
-	 //console.log(' retrieved page scroll = ' + sessionStorage['scroll_position'] ); 
-    		$('html, body').animate({
+        
+    	$('html, body').animate({
        	scrollTop: sessionStorage['scroll_position']
-    		}, 'slow');
+    	}, 'slow');
+    		
     }
     // Reset if we're NOT starting on a secondary page
     else {
-	 sessionStorage['scroll_position'] = 0;
-
-     //console.log('scroll_position set to zero'); // DEBUGGING ONLY
+	sessionStorage['scroll_position'] = 0;
     }
-
-//console.log('get_scroll_position ('+tracing+')'); // DEBUGGING ONLY
 
 }
 
@@ -697,8 +694,16 @@ background_tasks_check();
             
                 // If flagged to display error in GUI
                 if ( typeof response.display_error != 'undefined' ) {
-                $('#alert_bell_area').html( $('#alert_bell_area').html() + '<br />' + response.result );
+                
+                    if ( $('#alert_bell_area').html() == 'No new runtime alerts.' ) {
+                    $('#alert_bell_area').html( response.result );
+                    }
+                    else {
+                    $('#alert_bell_area').html( $('#alert_bell_area').html() + '<br />' + response.result );
+                    }
+                
                 $("#alert_bell_image").attr("src","templates/interface/media/images/auto-preloaded/notification-" + theme_selected + "-fill.png");
+                
                 }
             
             background_tasks_check();  
