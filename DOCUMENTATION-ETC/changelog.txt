@@ -5639,9 +5639,15 @@ MIGRATE YOUR EXISTING SETTINGS TO THE NEW FORMAT.
 
 
 -------------------------------------------------------------------
-6.00.0:
+6.00.1:
 
--BETA MODE (highly experimental still) of admin config editing via the admin interface (toggled on / off in admin area, disabled by default) 
+-BUG FIX: Fixed bug in system charts rendering (could cause blank charts under edge-case scenarios)
+
+-BUG FIX: Added error logging / comms processing to admin iframe loading runtimes
+
+-OPTIONAL V6 BETA MODE (disabled by default, highly experimental still) of admin config editing via the admin interface (toggled on / off in admin area comms section) 
+
+-Miscellaneous optimizations / code cleanup
 
 -News feeds cleanup in default demo config
 

@@ -67,7 +67,12 @@ ADMIN IFRAME BUILDOUT NOTES:
 ```````````````````````````````````````````````````````````````````````````````````````````````````````````````
 
 
-Add a temp var called $beta_v6_admin_pages = 'on|off' at the top of init.php for v6.00.0, with a warning that enabling it may cause buggy behavior, and save the setting as a cache file in the cache vars folder. Add it on the first admin page shown after login, as a radio button field.
+$ct_conf = $ct_gen->refresh_cached_ct_conf($ct_conf, 'upgrade_checks'); at the end of plugins-config-check.php is throwing this error (so it's commented-out for now):
+[2022-08-03 03:30:40] ui => conf: updated ct_conf data could not be saved (to secured cache storage) in json format;  
+[2022-08-03 03:30:40] ui => conf: ct_conf data could not be restored from last-known working config;  
+
+
+Test turning password protection on/off on the interface (NOT admin area), since the location of the logic has been changed.
 
 
 To avoid having the "re-enter /start" telegram error message unless truly needed, take an md5 digest of all telegram settings concatenated together, and save as a var in the vars cache folder. Only run a telegram setting update if this md5 digest ever changes.

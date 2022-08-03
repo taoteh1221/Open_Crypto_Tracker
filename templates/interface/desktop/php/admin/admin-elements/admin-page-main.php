@@ -14,7 +14,7 @@
 		<!-- set data-width="full", to have the tab width be 100% of the screen -->
 		<ul class="nav nav-tabs-vertical align_center" id="admin_tabs" role="tablist">
 		  <li class="nav-item">
-			<a class="nav-link admin_change_width" data-toggle="tab" data-width="fixed_max" href="#admin_comms" role="tab" aria-controls="admin_comms">Communications</a>
+			<a class="nav-link admin_change_width <?=( $beta_v6_admin_pages == 'on' ? 'active' : '' )?>" data-toggle="tab" data-width="fixed_max" href="#admin_comms" role="tab" aria-controls="admin_comms">Communications</a>
 		  </li>
 		  <li class="nav-item">
 			<a class="nav-link admin_change_width" data-toggle="tab" data-width="fixed_max" href="#admin_general" role="tab" aria-controls="admin_general">General</a>
@@ -42,7 +42,7 @@
 			<a class="nav-link admin_change_width" data-toggle="tab" data-width="fixed_max" href="#admin_developer_only" role="tab" aria-controls="admin_developer_only">Developer Only</a>
 		  </li>
 		  <li class="nav-item">
-			<a class="nav-link admin_change_width active" data-toggle="tab" data-width="fixed_max" href="#admin_api" role="tab" aria-controls="admin_api">API</a>
+			<a class="nav-link admin_change_width <?=( $beta_v6_admin_pages == 'on' ? '' : 'active' )?>" data-toggle="tab" data-width="fixed_max" href="#admin_api" role="tab" aria-controls="admin_api">API</a>
 		  </li>
 		  <li class="nav-item">
 			<a class="nav-link admin_change_width" data-toggle="tab" data-width="fixed_max" href="#admin_webhook" role="tab" aria-controls="admin_webhook">Webhook</a>
@@ -68,7 +68,7 @@
 		<!-- #admin_tab_content START -->
 		<div id='admin_tab_content' class="tab-content align_left">
 		
-		  <div class="tab-pane" id="admin_comms" role="tabpanel">
+		  <div class="tab-pane <?=( $beta_v6_admin_pages == 'on' ? 'active' : '' )?>" id="admin_comms" role="tabpanel">
 
                 <div class='max_1200px_wrapper'>
 
@@ -184,7 +184,7 @@
 		  </div>
 		  
 		  
-		  <div class="tab-pane active" id="admin_api" role="tabpanel">
+		  <div class="tab-pane <?=( $beta_v6_admin_pages == 'on' ? '' : 'active' )?>" id="admin_api" role="tabpanel">
 
                 <div class='max_1200px_wrapper'>
                 	

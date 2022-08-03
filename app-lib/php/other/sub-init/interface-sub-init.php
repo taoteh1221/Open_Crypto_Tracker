@@ -63,7 +63,7 @@ $sel_opt['show_secondary_trade_val'] = ( $_POST['show_secondary_trade_val'] != '
 $sel_opt['show_feeds'] = explode(',', rtrim( ( $_POST['show_feeds'] != '' ? $_POST['show_feeds'] : $_COOKIE['show_feeds'] ) , ',') );
 
 	// Alphabetically order AND remove stale feeds
-	// (since we already alphabetically ordered $ct_conf['power']['news_feed'] in app-config-management.php BEFOREHAND)
+	// (since we already alphabetically ordered $ct_conf['power']['news_feed'] in config-auto-adjust.php BEFOREHAND)
 	$temp_show_feeds = array();
 	$scan_feeds = $sel_opt['show_feeds'];
 	$scan_feeds = array_map( array($ct_var, 'strip_brackets') , $scan_feeds); // Strip brackets

@@ -87,20 +87,36 @@ start_utc_time();
 
 
 	/////////////////////////////////////////////////////////////////////////////////////////////////////
+
+    
+    // Mirror hidden errors output in the footer over to the alert bell area with javascript
+    // Run AFTER check to see if alerts are present
+    if ( window.is_iframe == false ) {
 	
-	
-    // See if any alerts are present
-    if ( $('#app_error_alert').html() == '' ) {
-    $('#app_error_alert').html('No new runtime alerts.');
+        // See if any alerts are present
+        if ( $('#app_error_alert').html() == '' ) {
+        $('#app_error_alert').html('No new runtime alerts.');
+        }
+        else {
+        $("#alert_bell_image").attr("src","templates/interface/media/images/auto-preloaded/notification-" + theme_selected + "-fill.png");
+        }
+        
+        
+    $('#alert_bell_area').html( "<span class='bitcoin'>Current UTC time:</span> <span class='utc_timestamp red'></span><br />" + $('#app_error_alert').html() );
+    
     }
     else {
-    $("#alert_bell_image").attr("src","templates/interface/media/images/auto-preloaded/notification-" + theme_selected + "-fill.png");
+        
+        if ( $('#app_error_alert', window.parent.document).html() == 'No new runtime alerts.' && $('#iframe_error_alert').html() != '' ) {
+        $('#alert_bell_area', window.parent.document).html( "<span class='bitcoin'>Current UTC time:</span> <span class='utc_timestamp red'></span><br />" + $('#iframe_error_alert').html() );
+        $("#alert_bell_image", window.parent.document).attr("src","templates/interface/media/images/auto-preloaded/notification-" + theme_selected + "-fill.png");
+        }
+        else if ( $('#iframe_error_alert').html() != '' ) {
+        $('#alert_bell_area', window.parent.document).html( "<span class='bitcoin'>Current UTC time:</span> <span class='utc_timestamp red'></span><br />" + $('#app_error_alert', window.parent.document).html() + $('#iframe_error_alert').html() );
+        $("#alert_bell_image", window.parent.document).attr("src","templates/interface/media/images/auto-preloaded/notification-" + theme_selected + "-fill.png");
+        }
+        
     }
-
-
-// Mirror hidden errors output in the footer over to the alert bell area with javascript
-// Run AFTER check to see if alerts are present
-$('#alert_bell_area').html( "<span class='bitcoin'>Current UTC time:</span> <span class='utc_timestamp red'></span><br />" + $('#app_error_alert').html() );
 
 
 	/////////////////////////////////////////////////////////////////////////////////////////////////////

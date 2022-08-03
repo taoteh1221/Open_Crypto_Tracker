@@ -445,9 +445,6 @@
     	echo '<p class="align_center '.( $total_runtime > 25 ? 'red' : 'green' ).'"> Runtime: '.$total_runtime.' seconds</p>';
     	
 
-flush(); // Clean memory output buffer for echo
-gc_collect_cycles(); // Clean memory cache
-    
     ?>
         
         
@@ -481,10 +478,11 @@ echo nl2br($ui_upgrade_alert['message']);
  */ -->
  
  <?php
+ 
+flush(); // Clean memory output buffer for echo
+gc_collect_cycles(); // Clean memory cache
+
  // In case we are redirected to a login template, we include this exit...
  // IN #ANY# CASE, WE SHOULD BE COMPLETELY DONE RENDERING AT THIS POINT
  exit;
  ?>
- 
- 
- 

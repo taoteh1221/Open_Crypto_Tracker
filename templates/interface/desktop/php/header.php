@@ -159,6 +159,9 @@ header('Content-type: text/html; charset=' . $ct_conf['dev']['charset_default'])
 	?>
 	
 	<script>
+
+	
+	window.is_iframe = false;
 	
 	<?php
 	// Flag admin area in js

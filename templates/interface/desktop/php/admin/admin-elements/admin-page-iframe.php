@@ -149,6 +149,8 @@ header('Content-type: text/html; charset=' . $ct_conf['dev']['charset_default'])
 	
 	<script>
 
+	
+	window.is_iframe = true;
     
     window.is_admin = false; // Default
 	
@@ -224,17 +226,6 @@ header('Content-type: text/html; charset=' . $ct_conf['dev']['charset_default'])
 	<script src="app-lib/js/init.js"></script>
 
 
-
-<script>
-
-// Wait until the DOM has loaded before running DOM-related scripting
-$(document).ready(function(){
-//console.log('admin iframe "<?=$_GET['section']?>" loaded.'); // DEBUGGING
-});
-
-</script>
-
-
 <style>
 
 html, body {
@@ -249,20 +240,97 @@ padding: 0px;
 <body class='iframe_wrapper'>
     
     
-    <?php
-    if ( isset($_GET['section']) ) {
-    require("templates/interface/desktop/php/admin/admin-elements/iframe-content-category.php");
-    }
-    elseif ( isset($_GET['plugin']) ) {
-    require("templates/interface/desktop/php/admin/admin-elements/iframe-content-plugin.php");
-    }
+<?php
+
+
+// Admin template to use    
+if ( isset($_GET['section']) ) {
+require("templates/interface/desktop/php/admin/admin-elements/iframe-content-category.php");
+}
+elseif ( isset($_GET['plugin']) ) {
+require("templates/interface/desktop/php/admin/admin-elements/iframe-content-plugin.php");
+}
+    	
+    	
+// Proxy alerts (if setup by user, and any of them failed, test the failed proxies and log/alert if they seem offline)
+if ( $ct_conf['comms']['proxy_alert'] != 'off' ) {
+	
+	foreach ( $proxy_checkup as $problem_proxy ) {
+	$ct_gen->test_proxy($problem_proxy);
+	sleep(1);
+	}
+
+}
+          	
+	
+	$bundle_error_logs .= $log_array['system_warning'];
+	
+	$bundle_error_logs .= $log_array['system_error'];
+	
+	$bundle_error_logs .= $log_array['conf_error'];
+	
+	$bundle_error_logs .= $log_array['security_error'];
+	
+	$bundle_error_logs .= $log_array['ext_data_error'];
+	
+	$bundle_error_logs .= $log_array['int_api_error'];
+	
+	$bundle_error_logs .= $log_array['market_error'];
+	
+	$bundle_error_logs .= $log_array['other_error'];
+
+
+	foreach ( $log_array['cache_error'] as $error ) {
+	$bundle_error_logs .= $error;
+	}
+
+	foreach ( $log_array['notify_error'] as $error ) {
+	$bundle_error_logs .= $error;
+	}
+	
+	
+	if ( $ct_conf['dev']['debug'] != 'off' ) {
+	
+	$bundle_error_logs .= $log_array['system_debug'];
+	
+	$bundle_error_logs .= $log_array['conf_debug'];
+	
+	$bundle_error_logs .= $log_array['security_debug'];
+	
+	$bundle_error_logs .= $log_array['ext_data_debug'];
+	
+	$bundle_error_logs .= $log_array['int_api_debug'];
+	
+	$bundle_error_logs .= $log_array['market_debug'];
+	
+	$bundle_error_logs .= $log_array['other_debug'];
+	
+	
+		foreach ( $log_array['cache_debug'] as $error ) {
+		$bundle_error_logs .= $error;
+		}
+	
+		foreach ( $log_array['notify_debug'] as $error ) {
+		$bundle_error_logs .= $error;
+		}
+		
+	
+	}
+    
+    
     ?>
+
+
+            	
+<div id="iframe_error_alert" style='display: none;'><?=$bundle_error_logs?></div>
 
 	
 <script>
 
 // Wait until the DOM has loaded before running DOM-related scripting
-$(document).ready(function(){
+$(document).ready(function() {
+    
+//console.log('admin iframe "<?=$_GET['section']?>" loaded.'); // DEBUGGING
     
 <?php
 
@@ -287,8 +355,27 @@ $refresh_admin = explode(',', $_GET['refresh']);
 
 });
 
-</script>
+</script>  	
 
-
+<!-- https://v4-alpha.getbootstrap.com/getting-started/introduction/#starter-template -->
+<script src="app-lib/js/jquery/bootstrap.min.js"></script>
 </body>
 </html>
+
+<!-- /*
+ * Copyright 2014-2022 GPLv3, Open Crypto Tracker by Mike Kilday: Mike@DragonFrugal.com
+ */ -->
+ 
+ <?php
+          	
+// Log errors, send notifications
+$error_log = $ct_cache->error_log();
+$ct_cache->send_notifications();
+ 
+flush(); // Clean memory output buffer for echo
+gc_collect_cycles(); // Clean memory cache
+
+ // In case we are redirected to a login template, we include this exit...
+ // IN #ANY# CASE, WE SHOULD BE COMPLETELY DONE RENDERING AT THIS POINT
+ exit;
+ ?>

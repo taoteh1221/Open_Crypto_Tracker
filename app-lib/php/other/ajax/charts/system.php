@@ -127,7 +127,7 @@ $check_chart_val = $ct_var->num_to_str( $ct_var->delimited_str_sample($chart_val
 	
 	// Include load average no matter what (it can be zero on a low-load setup, and should be supported by nearly every linux system?)
 	// Also always include free disk space (WE WANT TO KNOW IF IT'S ZERO)
-	if ( $chart_key != 'time' && $check_chart_val != 'NO_DATA' && $check_chart_val > 0.000000 || $chart_key == 'load_average_15_minutes' || $chart_key == 'free_disk_space_terabytes' ) {
+	if ( $chart_key != 'time' && $check_chart_val > 0.000000 || $chart_key == 'load_average_15_minutes' || $chart_key == 'free_disk_space_terabytes' ) {
 		
 	$check_chart_val_key = $ct_var->num_to_str($check_chart_val * 100000000); // To RELIABLY sort integers AND decimals, via ksort()
 	
@@ -166,17 +166,14 @@ if ( $key == 1 ) {
 		foreach ( $chart_array as $chart_key => $chart_val ) {
 		
 			if ( $counted < $num_in_first_chart && $chart_key != 'time' ) {
+			
 			$counted = $counted + 1;
 			
-				// If there are no data retrieval errors
-				// WE STILL COUNT THIS, SO LET COUNT RUN ABOVE
-				if ( !preg_match("/NO_DATA/i", $chart_val, $matches) ) {
-			
-                $choose_rand = ( is_array($sorted_by_last_chart_data) ? sizeof($sorted_by_last_chart_data) : 0 );
+            $choose_rand = ( is_array($sorted_by_last_chart_data) ? sizeof($sorted_by_last_chart_data) : 0 );
     
-				$rand_color = '#' . $ct_gen->rand_color($choose_rand)['hex'];
+			$rand_color = '#' . $ct_gen->rand_color($choose_rand)['hex'];
 					
-				$chart_conf = "{
+			$chart_conf = "{
 			  text: '".$ct_gen->key_to_name($chart_key)."',
 			  values: [".$chart_val."],
 			  lineColor: '".$rand_color."',
@@ -194,13 +191,11 @@ if ( $key == 1 ) {
 			},
 			" . $chart_conf;
 			
-				}
-			
 			}
 	
 		}
 		
-   $loop = $loop + 1;
+    $loop = $loop + 1;
 	}
 
 }
@@ -213,15 +208,12 @@ elseif ( $key == 2 ) {
 		foreach ( $chart_array as $chart_key => $chart_val ) {
 		
 			if ( $counted >= $num_in_first_chart && $chart_key != 'time' ) {
+			
 			$counted = $counted + 1;
 			
-				// If there are no data retrieval errors
-				// WE STILL COUNT THIS, SO LET COUNT RUN ABOVE
-				if ( !preg_match("/NO_DATA/i", $chart_val, $matches) ) {
-			
-                $choose_rand = ( is_array($sorted_by_last_chart_data) ? sizeof($sorted_by_last_chart_data) : 0 );
+			$choose_rand = ( is_array($sorted_by_last_chart_data) ? sizeof($sorted_by_last_chart_data) : 0 );
     
-			    $rand_color = '#' . $ct_gen->rand_color($choose_rand)['hex'];
+			$rand_color = '#' . $ct_gen->rand_color($choose_rand)['hex'];
 	
 			$chart_conf = "{
 			  text: '".$ct_gen->key_to_name($chart_key)."',
@@ -240,8 +232,6 @@ elseif ( $key == 2 ) {
 			  }
 			},
 			" . $chart_conf;
-				
-				}
 		  
 			}
 			elseif ( $chart_key != 'time' ) {
@@ -250,7 +240,7 @@ elseif ( $key == 2 ) {
 	
 		}
 		
-   $loop = $loop + 1;
+    $loop = $loop + 1;
 	}
 
 }

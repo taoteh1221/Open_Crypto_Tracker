@@ -18,6 +18,31 @@ var $ct_array = array();
    ////////////////////////////////////////////////////////
    
    
+   function admin_v6_check() {
+       
+   global $default_ct_conf, $check_default_ct_conf, $beta_v6_admin_pages;
+   
+      if ( $beta_v6_admin_pages == 'off' ) {
+      
+         if ( $check_default_ct_conf == md5(serialize($default_ct_conf)) ) {
+         return true;
+         }
+         else {
+         return false;
+         }
+      
+      }
+      elseif ( $beta_v6_admin_pages == 'on' ) {
+      return true;
+      }
+   
+   }
+
+
+   ////////////////////////////////////////////////////////
+   ////////////////////////////////////////////////////////
+   
+   
    function titles_usort_alpha($a, $b) {
    return strcmp( strtolower($a["title"]) , strtolower($b["title"]) ); // Case-insensitive equivelent comparision via strtolower()
    }
@@ -674,7 +699,7 @@ var $ct_array = array();
    
    function ct_chmod($file, $chmod) {
    
-   global $ct_gen, $current_runtime_user, $http_runtime_user, $possible_http_users;
+   global $current_runtime_user, $http_runtime_user, $possible_http_users;
   
   
         if ( file_exists($file) && function_exists('posix_getpwuid') ) {
@@ -706,7 +731,7 @@ var $ct_array = array();
        
           if ( !$did_chmod ) {
           	
-          $ct_gen->log(
+          $this->log(
           			'system_error',
           							
           			'Chmod failed for file "' . $file . '" (check permissions for the path "' . $path_parts['dirname'] . '", and the file "' . $path_parts['basename'] . '")',
@@ -1880,7 +1905,7 @@ var $ct_array = array();
    
    function subarray_ct_conf_upgrade($conf, $cat_key, $conf_key, $skip_upgrading) {
    
-   global $upgraded_ct_conf, $default_ct_conf;
+   global $default_ct_conf;
    
       // Check for new variables, and add them
       foreach ( $default_ct_conf[$cat_key][$conf_key] as $setting_key => $setting_val ) {
@@ -1889,9 +1914,9 @@ var $ct_array = array();
          if ( is_array($setting_val) && $cat_key != 'plug_conf' ) {
          $this->log('conf_error', 'ct_conf[' .$cat_key . ']['. $conf_key . '][' . $setting_key . '] config upgrade not needed (skipping)');
          }
-         elseif ( !in_array($setting_key, $skip_upgrading) && !isset($upgraded_ct_conf[$cat_key][$conf_key][$setting_key]) ) {
+         elseif ( !in_array($setting_key, $skip_upgrading) && !isset($conf[$cat_key][$conf_key][$setting_key]) ) {
          	
-         $upgraded_ct_conf[$cat_key][$conf_key][$setting_key] = $default_ct_conf[$cat_key][$conf_key][$setting_key];
+         $conf[$cat_key][$conf_key][$setting_key] = $default_ct_conf[$cat_key][$conf_key][$setting_key];
          
          $this->log(
          			'conf_error',
@@ -1913,7 +1938,7 @@ var $ct_array = array();
          }
          elseif ( !in_array($setting_key, $skip_upgrading) && !isset($default_ct_conf[$cat_key][$conf_key][$setting_key]) ) {
          	
-         unset($upgraded_ct_conf[$cat_key][$conf_key][$setting_key]);
+         unset($conf[$cat_key][$conf_key][$setting_key]);
          
          $this->log(
          			'conf_error',
@@ -2290,6 +2315,127 @@ var $ct_array = array();
       }
       
    
+   }
+
+
+   ////////////////////////////////////////////////////////
+   ////////////////////////////////////////////////////////
+   
+   
+   function load_cached_config() {
+   
+   global $ct_conf, $ct_cache, $base_dir, $beta_v6_admin_pages, $restore_conf_path, $telegram_user_data;
+   
+   // Secured cache files
+   $files = $this->sort_files($base_dir . '/cache/secured', 'dat', 'desc');
+        
+        
+        foreach( $files as $secured_file ) {
+        
+        
+        	// Restore config
+        	if ( preg_match("/restore_conf_/i", $secured_file) ) {
+		
+		
+        		// If we already loaded the newest modified file, delete any stale ones
+        		if ( $newest_cached_restore_conf == 1 ) {
+        		unlink($base_dir . '/cache/secured/' . $secured_file);
+        		$this->log('conf_error', 'OLD CACHED restore_conf found, deleting');
+        		}
+        		else {
+        		$newest_cached_restore_conf = 1;
+	            $restore_conf_path = $base_dir . '/cache/secured/' . $secured_file;
+        		}
+		
+	
+        	}
+        	// Telegram user data
+        	elseif ( preg_match("/telegram_user_data_/i", $secured_file) ) {
+        		
+        		// If we already loaded the newest modified telegram SECURED CACHE config file
+        		// DON'T WORRY ABOUT REFRESHING TELEGRAM DATA WHEN APP CONFIG IS REFRESHING, AS WE CAN'T DO THAT RELIABLY IN THIS LOOP
+        		// AND IT'S DONE AFTER THE LOOP ANYWAY (WE JUST CLEANUP ANY STALE TELEGRAM CONFIGS IN THIS LOOP)
+        		if ( $newest_cached_telegram_user_data == 1 ) {
+        		unlink($base_dir . '/cache/secured/' . $secured_file);
+        		}
+        		else {
+        		
+        		$newest_cached_telegram_user_data = 1;
+        		
+        		$cached_telegram_user_data = json_decode( trim( file_get_contents($base_dir . '/cache/secured/' . $secured_file) ) , TRUE);
+        			
+        			
+        			// "null" in quotes as the actual value is returned sometimes
+        			if ( $cached_telegram_user_data != false && $cached_telegram_user_data != null && $cached_telegram_user_data != "null" ) {
+        			$telegram_user_data = $cached_telegram_user_data;
+        			}
+        			else {
+        			$ct_gen->log('conf_error', 'Cached telegram_user_data non-existant or corrupted (refresh will happen automatically)');
+        			unlink($base_dir . '/cache/secured/' . $secured_file);
+        			}
+        		
+        		
+        		}
+        	
+        	
+        	}
+        	// App config
+        	elseif ( preg_match("/ct_conf_/i", $secured_file) ) {
+		
+		
+        		// If we already loaded the newest modified file, delete any stale ones
+        		if ( $newest_cached_ct_conf == 1 ) {
+        		unlink($base_dir . '/cache/secured/' . $secured_file);
+        		$this->log('conf_error', 'OLD CACHED ct_conf found, deleting');
+        		}
+        		else {
+        		
+        		$newest_cached_ct_conf = 1;
+        			
+        		$cached_ct_conf = json_decode( trim( file_get_contents($base_dir . '/cache/secured/' . $secured_file) ) , TRUE);
+        			
+        		    // "null" in quotes as the actual value is returned sometimes
+        			if ( $this->admin_v6_check() == true && $cached_ct_conf != false && $cached_ct_conf != null && $cached_ct_conf != "null" ) {
+        			$ct_conf = $cached_ct_conf; // Use cached ct_conf if it exists, seems intact, and DEFAULT Admin Config (in config.php) hasn't been revised since last check
+        			// $this->log('conf_error', 'CACHED ct_conf OK'); // DEBUGGING ONLY
+        			$config_ok = true;
+        			}
+        			elseif ( $cached_ct_conf != true ) {
+        			unlink($base_dir . '/cache/secured/' . $secured_file);
+        			$this->log('conf_error', 'CACHED ct_conf appears corrupt, refreshing from DEFAULT or RESTORE ct_conf');
+        			$refresh_config = true;
+        			}
+        			elseif ( $this->admin_v6_check() == false ) {
+        			unlink($base_dir . '/cache/secured/' . $secured_file);
+        			$this->log('conf_error', 'CACHED ct_conf outdated (DEFAULT ct_conf updated), refreshing from DEFAULT ct_conf');
+        			$refresh_config = true;
+        			}
+        			
+        			
+        		}
+		
+	
+        	}
+        	
+        	
+        }
+        	
+        	
+        if ( !isset($newest_cached_ct_conf) ) {
+        $this->log('conf_error', 'CACHED ct_conf not found, refreshing from DEFAULT or RESTORE ct_conf');
+        $refresh_config = true;
+        }
+
+
+        // We use the $refresh_config flag, so we can wait for the GLOBAL $restore_conf_path which may be set above (if a restore file exists)
+        // (allowing config restoration from last known working config)
+        if ( $refresh_config == true ) {
+        $ct_conf = $this->refresh_cached_ct_conf(false);
+        }
+        
+        
+   gc_collect_cycles(); // Clean memory cache
+
    }
    
    
@@ -2679,189 +2825,6 @@ var $ct_array = array();
    return $result;
    
    }
-
-
-   ////////////////////////////////////////////////////////
-   ////////////////////////////////////////////////////////
-   
-   
-   function load_cached_config() {
-   
-   global $ct_conf, $ct_cache, $base_dir, $check_default_ct_conf, $default_ct_conf, $refresh_cached_ct_conf;
-   
-   // Secured cache files
-   $files = $this->sort_files($base_dir . '/cache/secured', 'dat', 'desc');
-        
-        
-        foreach( $files as $secured_file ) {
-        
-        
-        	// App config
-        	if ( preg_match("/ct_conf_/i", $secured_file) ) {
-		
-		
-        		// If we already loaded the newest modified file, delete any stale ones
-        		if ( $newest_cached_ct_conf == 1 ) {
-        		unlink($base_dir . '/cache/secured/' . $secured_file);
-        		$this->log('conf_error', 'OLD CACHED ct_conf found, deleting');
-        		}
-        		else {
-        		
-        		$newest_cached_ct_conf = 1;
-        			
-        		$cached_ct_conf = json_decode( trim( file_get_contents($base_dir . '/cache/secured/' . $secured_file) ) , TRUE);
-        			
-        		    // "null" in quotes as the actual value is returned sometimes
-        			if ( $check_default_ct_conf == md5(serialize($default_ct_conf)) && $cached_ct_conf != false && $cached_ct_conf != null && $cached_ct_conf != "null" ) {
-        			$ct_conf = $cached_ct_conf; // Use cached ct_conf if it exists, seems intact, and DEFAULT Admin Config (in config.php) hasn't been revised since last check
-        			// $this->log('conf_error', 'CACHED ct_conf OK'); // DEBUGGING ONLY
-        			return true;
-        			}
-        			elseif ( $check_default_ct_conf != md5(serialize($default_ct_conf)) ) {
-        			$refresh_cached_ct_conf = 1;
-        			unlink($base_dir . '/cache/secured/' . $secured_file);
-        			$this->log('conf_error', 'CACHED ct_conf outdated (DEFAULT ct_conf updated), refreshing from DEFAULT ct_conf');
-        			}
-        			elseif ( $cached_ct_conf != true ) {
-        			$refresh_cached_ct_conf = 1;
-        			unlink($base_dir . '/cache/secured/' . $secured_file);
-        			$this->log('conf_error', 'CACHED ct_conf appears corrupt, refreshing from DEFAULT ct_conf');
-        			}
-        			else {
-        			$refresh_cached_ct_conf = 1;
-        			unlink($base_dir . '/cache/secured/' . $secured_file);
-        			$this->log('conf_error', 'unknown error, refreshing from DEFAULT ct_conf');
-        			}
-        			
-        			
-        		}
-		
-	
-        	}
-        	// Restore config
-        	elseif ( preg_match("/restore_conf_/i", $secured_file) ) {
-		
-		
-        		// If we already loaded the newest modified file, delete any stale ones
-        		if ( $newest_cached_restore_conf == 1 ) {
-        		unlink($base_dir . '/cache/secured/' . $secured_file);
-        		$this->log('conf_error', 'OLD CACHED restore_conf found, deleting');
-        		}
-        		else {
-        		$newest_cached_restore_conf = 1;
-	            $restore_conf_path = $base_dir . '/cache/secured/' . $secured_file;
-        		}
-		
-	
-        	}
-        	
-        	
-        }
-        	
-        	
-        if ( !isset($newest_cached_ct_conf) ) {
-        $refresh_cached_ct_conf = 1;
-        $this->log('conf_error', 'CACHED ct_conf not found, refreshing from DEFAULT ct_conf');
-        }
-
-
-        //////////////////////////////////////////////////////////////////////////////////////////////////////////
-        
-        
-        // If no valid cached_ct_conf, or if DEFAULT Admin Config (in config.php) variables have been changed
-        if ( $refresh_cached_ct_conf == 1 ) {
-        	
-        $secure_128bit_hash = $this->rand_hash(16); // 128-bit (16-byte) hash converted to hexadecimal, used for suffix
-        	
-        	
-        	// Halt the process if an issue is detected safely creating a random hash
-        	if ( $secure_128bit_hash == false ) {
-        		
-        	$this->log(
-        				'security_error', 
-        				'Cryptographically secure pseudo-random bytes could not be generated for cached ct_conf array (secured cache storage) suffix, cached ct_conf array creation aborted to preserve security'
-        				);
-        	
-        	}
-        	else {
-        	
-        	// Check to see if we need to upgrade the CACHED app config (NEW / DEPRECIATED CORE VARIABLES ONLY, NOT OVERWRITING EXISTING CORE VARIABLES)
-        	// WORK IN-PROGRESS, KEEP DISABLED FOR RELEASES, UNTIL ADMIN UI IS FULLY BUILT OUT / FEATURE IS FULLY TESTED AND DEBUGGED
-        	//$upgrade_cache_ct_conf = $this->upgrade_cache_ct_conf($cached_ct_conf);
-        	
-        	// UNTIL APP CONFIG UPGRADE FEATURE / ADMIN UI ARE FULLY BUILT OUT AND TORTURE-TESTED, USE THIS INSTEAD OF ABOVE UPGRADE LOGIC
-        	// (REFRESHES CACHED APP CONFIG TO EXACTLY MIRROR THE HARD-CODED VARIABLES IN CONFIG.PHP, IF CONFIG.PHP IS CHANGED IN EVEN THE SLIGHTEST WAY)
-        	$upgrade_cache_ct_conf = $ct_conf;
-        	
-        	// Check that the app config is valid / not corrupt
-        	$store_cached_ct_conf = json_encode($upgrade_cache_ct_conf, JSON_PRETTY_PRINT);
-        	
-        	
-        		// If there was an issue updating the cached app config
-		        // Need to check a few different possible results for no data found ("null" in quotes as the actual value is returned sometimes)
-        		if ( $store_cached_ct_conf == false || $store_cached_ct_conf == null || $store_cached_ct_conf == "null" ) {
-        		    
-        		$this->log('conf_error', 'updated ct_conf data could not be saved (to secured cache storage) in json format');
-        	
-                // Attempt to restore last-known good config        			
-        		$cached_restore_conf = json_decode( trim( file_get_contents($restore_conf_path) ) , TRUE);
-        		
-        		    if ( $cached_restore_conf != false && $cached_restore_conf != null && $cached_restore_conf != "null" ) {
-        	
-                	// Check to see if we need to upgrade the CACHED app config (NEW / DEPRECIATED CORE VARIABLES ONLY, NOT OVERWRITING EXISTING CORE VARIABLES)
-                	// WORK IN-PROGRESS, KEEP DISABLED FOR RELEASES, UNTIL ADMIN UI IS FULLY BUILT OUT / FEATURE IS FULLY TESTED AND DEBUGGED
-                	//$upgrade_cache_ct_conf = $this->upgrade_cache_ct_conf($cached_restore_conf);
-                	
-                	// UNTIL APP CONFIG UPGRADE FEATURE / ADMIN UI ARE FULLY BUILT OUT AND TORTURE-TESTED, USE THIS INSTEAD OF ABOVE UPGRADE LOGIC
-                	// (REFRESHES CACHED APP CONFIG TO EXACTLY MIRROR THE HARD-CODED VARIABLES IN CONFIG.PHP, IF CONFIG.PHP IS CHANGED IN EVEN THE SLIGHTEST WAY)
-                	$upgrade_cache_ct_conf = $cached_restore_conf;
-                	
-                	// Check that the app config is valid / not corrupt
-                	$store_cached_ct_conf = json_encode($upgrade_cache_ct_conf, JSON_PRETTY_PRINT);
-                	
-                		// If there was an issue updating the cached app config
-        		        // Need to check a few different possible results for no data found ("null" in quotes as the actual value is returned sometimes)
-                		if ( $store_cached_ct_conf == false || $store_cached_ct_conf == null || $store_cached_ct_conf == "null" ) {
-        		        $this->log('conf_error', 'ct_conf data could not be restored from last-known working config');
-        		        }
-        		        // If restoring last-known working config was successfull
-        		        else {
-                		$this->log('conf_error', 'ct_conf cache restore from last-known working config triggered, refreshed successfully (' . $refresh_cached_ct_conf . ')'); // Keep var num at end of error log
-                		$ct_conf = $upgrade_cache_ct_conf;
-                		$ct_cache->save_file($base_dir . '/cache/secured/ct_conf_'.$secure_128bit_hash.'.dat', $store_cached_ct_conf);
-                		// For checking later, if DEFAULT Admin Config (in config.php) values are updated we save to json again
-                		$ct_cache->save_file($base_dir . '/cache/vars/default_ct_conf_md5.dat', md5(serialize($default_ct_conf))); 
-                		// Refresh any custom .htaccess / php.ini settings (deleting will trigger a restore)
-        		        unlink($base_dir . '/.htaccess');
-        		        unlink($base_dir . '/.user.ini');
-        		        unlink($base_dir . '/cache/secured/.app_htpasswd');
-        		        }
-        		   
-        		    }
-        		
-        		}
-        		// If cached app config updated successfully
-        		else {
-        		$this->log('conf_error', 'ct_conf cache update triggered, refreshed successfully (' . $refresh_cached_ct_conf . ')'); // Keep var num at end of error log
-        		$ct_conf = $upgrade_cache_ct_conf;
-        		$ct_cache->save_file($base_dir . '/cache/secured/ct_conf_'.$secure_128bit_hash.'.dat', $store_cached_ct_conf);
-        		$ct_cache->save_file($base_dir . '/cache/secured/restore_conf_'.$secure_128bit_hash.'.dat', $store_cached_ct_conf);
-        		// For checking later, if DEFAULT Admin Config (in config.php) values are updated we save to json again
-        		$ct_cache->save_file($base_dir . '/cache/vars/default_ct_conf_md5.dat', md5(serialize($default_ct_conf))); 
-                // Refresh any custom .htaccess / php.ini settings (deleting will trigger a restore)
-        		unlink($base_dir . '/.htaccess');
-        		unlink($base_dir . '/.user.ini');
-        		unlink($base_dir . '/cache/secured/.app_htpasswd');
-        		}
-        		
-        	
-        	}
-        
-        
-        }
-        
-
-   }
    
    
    ////////////////////////////////////////////////////////
@@ -2871,9 +2834,7 @@ var $ct_array = array();
    // Check to see if we need to upgrade the app config (add new primary vars / remove depreciated primary vars)
    function upgrade_cache_ct_conf($conf) {
    
-   global $upgraded_ct_conf, $check_default_ct_conf, $default_ct_conf;
-   
-   $upgraded_ct_conf = $conf;
+   global $check_default_ct_conf, $default_ct_conf;
    
    
    // WE LEAVE THE SUB-ARRAYS FOR PROXIES / CHARTS / TEXT GATEWAYS / PORTFOLIO ASSETS / ETC / ETC ALONE
@@ -2910,9 +2871,9 @@ var $ct_array = array();
                   if ( is_array($conf_val) ) {
                   $this->subarray_ct_conf_upgrade($conf, $cat_key, $conf_key, $skip_upgrading);
                   }
-                  elseif ( !isset($upgraded_ct_conf[$cat_key][$conf_key]) ) {
+                  elseif ( !isset($conf[$cat_key][$conf_key]) ) {
                   	
-                  $upgraded_ct_conf[$cat_key][$conf_key] = $default_ct_conf[$cat_key][$conf_key];
+                  $conf[$cat_key][$conf_key] = $default_ct_conf[$cat_key][$conf_key];
                   
                   $this->log(
                   			'conf_error',
@@ -2945,7 +2906,7 @@ var $ct_array = array();
                   }
                   elseif ( !isset($default_ct_conf[$cached_cat_key][$cached_conf_key]) ) {
                   	
-                  unset($upgraded_ct_conf[$cached_cat_key][$cached_conf_key]);
+                  unset($conf[$cached_cat_key][$cached_conf_key]);
                   
                   $this->log(
                   			'conf_error',
@@ -2966,7 +2927,7 @@ var $ct_array = array();
          }
          
       
-      return $upgraded_ct_conf;
+      return $conf;
       
       }
    
@@ -3130,16 +3091,44 @@ var $ct_array = array();
          
             if ( $system_statistics_chart ) {
             
-            $data['temperature_celsius'] .= trim($result[2]) . ',';
-            $data['used_memory_percentage'] .= trim($result[4]) . ',';
-            $data['cron_core_runtime_seconds'] .= trim($result[7]) . ',';
-            $data['used_memory_gigabytes'] .= trim($result[3]) . ',';
-            $data['load_average_15_minutes'] .= trim($result[1]) . ',';
-            $data['free_disk_space_terabytes'] .= trim($result[5]) . ',';
-            $data['portfolio_cache_size_gigabytes'] .= trim($result[6]) . ',';
+            
+                if ( trim($result[1]) != 'NO_DATA' ) {
+                $data['load_average_15_minutes'] .= trim($result[1]) . ',';
+                }
+            
+            
+                if ( trim($result[2]) != 'NO_DATA' ) {
+                $data['temperature_celsius'] .= trim($result[2]) . ',';
+                }
+            
+            
+                if ( trim($result[3]) != 'NO_DATA' ) {
+                $data['used_memory_gigabytes'] .= trim($result[3]) . ',';
+                }
+            
+            
+                if ( trim($result[4]) != 'NO_DATA' ) {
+                $data['used_memory_percentage'] .= trim($result[4]) . ',';
+                }
+            
+            
+                if ( trim($result[5]) != 'NO_DATA' ) {
+                $data['free_disk_space_terabytes'] .= trim($result[5]) . ',';
+                }
+            
+            
+                if ( trim($result[6]) != 'NO_DATA' ) {
+                $data['portfolio_cache_size_gigabytes'] .= trim($result[6]) . ',';
+                }
+            
+            
+                if ( trim($result[7]) != 'NO_DATA' ) {
+                $data['cron_core_runtime_seconds'] .= trim($result[7]) . ',';
+                }
+                
             
             }
-            elseif ( $asset_perf_chart ) {
+            elseif ( $asset_perf_chart && trim($result[1]) != 'NO_DATA' ) {
       
                if ( !$runtime_data['performance_stats'][$asset]['start_val'] ) {
                $runtime_data['performance_stats'][$asset]['start_val'] = $result[1];
@@ -3160,7 +3149,7 @@ var $ct_array = array();
                }
             
             }
-            else {
+            elseif ( trim($result[1]) != 'NO_DATA' && trim($result[2]) != 'NO_DATA' ) {
             
                // Format or round primary currency price depending on value (non-stablecoin crypto values are already stored in the format we want for the interface)
                if ( $fiat_formatting ) {
@@ -3204,15 +3193,6 @@ var $ct_array = array();
       else {
       $data['spot'] = rtrim($data['spot'],',');
       $data['volume'] = rtrim($data['volume'],',');
-      }
-   
-   
-      foreach ( $data as $check_key => $check_value ) {
-      
-        if ( $check_value == 'NO_DATA' || $check_value == '' ) {
-        unset($data[$check_key]);
-        }
-      
       }
       
    
@@ -3948,6 +3928,207 @@ var $ct_array = array();
       
    
    return $system;
+   
+   }
+
+
+   ////////////////////////////////////////////////////////
+   ////////////////////////////////////////////////////////
+   
+   
+   function refresh_cached_ct_conf($passed_config, $mode='no_upgrade') {
+   
+   global $ct_conf, $ct_cache, $base_dir, $default_ct_conf, $restore_conf_path, $beta_v6_admin_pages, $telegram_activated, $telegram_user_data, $htaccess_username, $htaccess_password;
+
+
+   // If no valid cached_ct_conf, or if DEFAULT Admin Config (in config.php) variables have been changed...
+   
+   
+        // If no valid config was passed to use for this refresh, attempt to get the last known working cached config
+        if ( $passed_config == false ) {
+            
+        $passed_config = json_decode( trim( file_get_contents($restore_conf_path) ) , TRUE);
+        
+             if ( $passed_config == false || $beta_v6_admin_pages == 'off' ) {
+             $passed_config = $ct_conf;
+    		 $this->log('conf_error', 'ct_conf will be refreshed using the DEFAULT ct_conf');
+             }
+             else {
+    		 $this->log('conf_error', 'ct_conf will be restored using the last-known working ct_conf');
+             }
+        
+        }
+   
+    	
+   $secure_128bit_hash = $this->rand_hash(16); // 128-bit (16-byte) hash converted to hexadecimal, used for suffix
+    	
+    	
+    	// Halt the process if an issue is detected safely creating a random hash
+    	if ( $secure_128bit_hash == false ) {
+    		
+    	$this->log(
+    				'security_error', 
+    				'Cryptographically secure pseudo-random bytes could not be generated for cached ct_conf array (secured cache storage) suffix, cached ct_conf array creation aborted to preserve security'
+    				);
+    	
+    	}
+    	else {
+    	
+    	
+        	// Check to see if we need to upgrade the CACHED app config (NEW / DEPRECIATED CORE VARIABLES ONLY, NOT OVERWRITING EXISTING CORE VARIABLES)
+        	// WORK IN-PROGRESS, KEEP DISABLED FOR RELEASES, UNTIL ADMIN UI IS FULLY BUILT OUT / FEATURE IS FULLY TESTED AND DEBUGGED
+    	    if ( $beta_v6_admin_pages == 'on' && $mode == 'upgrade_checks' ) {
+    	    $upgrade_cache_ct_conf = $this->upgrade_cache_ct_conf($passed_config);
+    	    }
+        	// UNTIL APP CONFIG UPGRADE FEATURE / ADMIN UI ARE FULLY BUILT OUT AND TORTURE-TESTED, USE THIS INSTEAD OF ABOVE UPGRADE LOGIC
+        	// (REFRESHES CACHED APP CONFIG TO EXACTLY MIRROR THE HARD-CODED VARIABLES IN CONFIG.PHP, IF CONFIG.PHP IS CHANGED IN EVEN THE SLIGHTEST WAY)
+    	    else {
+    	    $upgrade_cache_ct_conf = $ct_conf;
+    	    }
+    	
+    	
+    	// Check that the app config is valid / not corrupt
+    	$store_cached_ct_conf = json_encode($upgrade_cache_ct_conf, JSON_PRETTY_PRINT);
+    	
+    	
+    		// If there was an issue updating the cached app config
+    		// Need to check a few different possible results for no data found ("null" in quotes as the actual value is returned sometimes)
+    		if ( $store_cached_ct_conf == false || $store_cached_ct_conf == null || $store_cached_ct_conf == "null" ) {
+    		    
+    		$this->log('conf_error', 'updated ct_conf data could not be saved (to secured cache storage) in json format');
+    	
+            // Attempt to restore last-known good config			
+    		$cached_restore_conf = json_decode( trim( file_get_contents($restore_conf_path) ) , TRUE);
+    		
+    		
+    		    if ( $cached_restore_conf != false && $cached_restore_conf != null && $cached_restore_conf != "null" ) {
+    	
+    	
+                	// Check to see if we need to upgrade the CACHED app config (NEW / DEPRECIATED CORE VARIABLES ONLY, NOT OVERWRITING EXISTING CORE VARIABLES)
+                	// WORK IN-PROGRESS, KEEP DISABLED FOR RELEASES, UNTIL ADMIN UI IS FULLY BUILT OUT / FEATURE IS FULLY TESTED AND DEBUGGED
+            	    if ( $beta_v6_admin_pages == 'on' && $mode == 'upgrade_checks' ) {
+            	    $upgrade_cache_ct_conf = $this->upgrade_cache_ct_conf($cached_restore_conf);
+            	    }
+                	// UNTIL APP CONFIG UPGRADE FEATURE / ADMIN UI ARE FULLY BUILT OUT AND TORTURE-TESTED, USE THIS INSTEAD OF ABOVE UPGRADE LOGIC
+                	// (REFRESHES CACHED APP CONFIG TO EXACTLY MIRROR THE HARD-CODED VARIABLES IN CONFIG.PHP, IF CONFIG.PHP IS CHANGED IN EVEN THE SLIGHTEST WAY)
+            	    else {
+            	    $upgrade_cache_ct_conf = $cached_restore_conf;
+            	    }
+            	     
+            	
+            	// Check that the app config is valid / not corrupt
+            	$store_cached_ct_conf = json_encode($upgrade_cache_ct_conf, JSON_PRETTY_PRINT);
+            	
+            	
+            		// If there was an issue updating the cached app config
+            		// Need to check a few different possible results for no data found ("null" in quotes as the actual value is returned sometimes)
+            		if ( $store_cached_ct_conf == false || $store_cached_ct_conf == null || $store_cached_ct_conf == "null" ) {
+            		$this->log('conf_error', 'ct_conf data could not be restored from last-known working config');
+            		}
+            		// If restoring last-known working config was successfull
+            		else {
+            		    
+            		$this->log('conf_error', 'ct_conf cache restore from last-known working config triggered, refreshed successfully'); 
+            		$ct_conf = $upgrade_cache_ct_conf;
+            		$ct_cache->save_file($base_dir . '/cache/secured/ct_conf_'.$secure_128bit_hash.'.dat', $store_cached_ct_conf);
+            		
+            		
+            		    // CAN BE REMOVED #AFTER# V6 ADMIN PAGES ARE OUT OF BETA
+            		    if ( $beta_v6_admin_pages == 'off' ) {
+                		// For checking later, if DEFAULT Admin Config (in config.php) values are updated we save to json again
+                		$ct_cache->save_file($base_dir . '/cache/vars/default_ct_conf_md5.dat', md5(serialize($default_ct_conf))); 
+            		    }
+            		
+            		
+            		// Refresh any custom .htaccess / php.ini settings (deleting will trigger a restore)
+            		unlink($base_dir . '/.htaccess');
+            		unlink($base_dir . '/.user.ini');
+            		unlink($base_dir . '/cache/secured/.app_htpasswd');
+            		
+            		}
+            		
+    		   
+    		    }
+    		    
+    		
+    		}
+    		// If cached app config updated successfully
+    		else {
+    		    
+    		$this->log('conf_error', 'ct_conf cache update triggered, refreshed successfully');
+    		$ct_conf = $upgrade_cache_ct_conf;
+    		$ct_cache->save_file($base_dir . '/cache/secured/ct_conf_'.$secure_128bit_hash.'.dat', $store_cached_ct_conf);
+    		$ct_cache->save_file($base_dir . '/cache/secured/restore_conf_'.$secure_128bit_hash.'.dat', $store_cached_ct_conf);
+    		
+    		
+                 // CAN BE REMOVED #AFTER# V6 ADMIN PAGES ARE OUT OF BETA
+            	 if ( $beta_v6_admin_pages == 'off' ) {
+                 // For checking later, if DEFAULT Admin Config (in config.php) values are updated we save to json again
+                 $ct_cache->save_file($base_dir . '/cache/vars/default_ct_conf_md5.dat', md5(serialize($default_ct_conf))); 
+    		     }
+    		    
+    		
+            // Refresh any custom .htaccess / php.ini settings (deleting will trigger a restore)
+    		unlink($base_dir . '/.htaccess');
+    		unlink($base_dir . '/.user.ini');
+    		unlink($base_dir . '/cache/secured/.app_htpasswd');
+    		
+    		}
+    		
+    	
+    	}
+        
+        
+        //////////////
+        
+
+        // .htaccess password protection enabled / disabled, based on app config settings (parsed into $htaccess_username / $htaccess_password)
+        // To be safe, don't use trim() on certain strings with arbitrary non-alphanumeric characters here
+        if ( isset($htaccess_username) && isset($htaccess_password) && $htaccess_username != '' && $htaccess_password != '' ) {
+        
+        	// If NO SETUP password protection exists
+        	if ( !preg_match("/Require valid-user/i", $htaccess_protection_check) ) {
+        		
+        	$password_protection_enabled = $ct_cache->htaccess_dir_protection();
+        	
+        		if ( !$password_protection_enabled ) {
+        			
+        		// Default htaccess root file, WITH NO PASSWORD PROTECTION
+        		$restore_default_htaccess = $ct_cache->save_file($base_dir . '/.htaccess', $ct_cache->htaccess_dir_defaults() ); 
+        			
+        			// Avoid error 500 if htaccess update fails
+        			if ( $restore_default_htaccess == true ) {
+        			@unlink($base_dir . '/cache/secured/.app_htpasswd'); 
+        			}
+        		
+        		}
+        	
+        	}
+        
+        }
+        // No password protection
+        elseif ( $htaccess_username == '' || $htaccess_password == '' ) {
+        
+        	// If ALREADY SETUP password protection exists
+        	if ( preg_match("/Require valid-user/i", $htaccess_protection_check) ) {
+        		
+        	// Default htaccess root file, WITH NO PASSWORD PROTECTION
+        	$restore_default_htaccess = $ct_cache->save_file($base_dir . '/.htaccess', $ct_cache->htaccess_dir_defaults() ); 
+        	
+        		// Avoid error 500 if htaccess update fails
+        		if ( $restore_default_htaccess == true ) {
+        		@unlink($base_dir . '/cache/secured/.app_htpasswd');
+        		}
+        	
+        	}
+        		
+        }
+
+
+   gc_collect_cycles(); // Clean memory cache
+   
+   // Return $ct_conf, EVEN THOUGH IT'S A GLOBAL, AS WE ARE SOMETIMES UPDATING IT MORE THAN ONCE IN load_cached_config()
+   return $ct_conf;
    
    }
    

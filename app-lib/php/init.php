@@ -10,7 +10,7 @@
 
 
 // Application version
-$app_version = '6.00.0';  // 2022/JULY/29TH
+$app_version = '6.00.1';  // 2022/AUGUST/2ND
 
 
 // Detect if we are running the desktop or server edition
@@ -36,7 +36,6 @@ $app_platform = 'web';
 
 // Load app classes VERY EARLY (before loading cached conf)
 require_once('app-lib/php/core-classes-loader.php');
-
 
 // System config VERY EARLY (after classes loader)
 require_once('app-lib/php/other/config/system-config.php');
@@ -94,25 +93,70 @@ $runtime_nonce = $ct_gen->rand_hash(16); // 16 byte
 
 
 //////////////////////////////////////////////////////////
-// #END# ESSENTIAL VARS / ARRAYS
+// ESSENTIAL INIT LOGIC
 //////////////////////////////////////////////////////////
 
 
+// #MUST# BE SET BEFORE cache-directory checks
+require_once('app-lib/php/other/empty-vars.php');
+
+
 // Create cache directories AS EARLY AS POSSIBLE
-// (#MUST# RUN BEFORE plugins-config.php / app-config.php, OR IT THROWS A FATAL ERROR ON WIN11 / PHP 8.X)
-// Uses HARD-CODED $ct_conf['dev']['chmod_cache_dir'], BUT IF THE DIRECTORIES DON'T EXIST YET, A CACHED CONFIG PROBABLY DOESN'T EITHER
+// (#MUST# RUN BEFORE plugins-config-check.php / cached-global-config.php
+// Uses HARD-CODED $ct_conf['dev']['chmod_cache_dir'], BUT IF THE DIRECTORIES DON'T EXIST YET, A CACHED CONFIG PROBABLY DOESN'T EXIST EITHER
 require_once('app-lib/php/other/directory-creation/cache-directories.php');
 
 
-// Plugins config
-// (MUST RUN #BEFORE# app-config.php, #UNTIL WE SWITCH ON USING THE CACHED USER EDITED CONFIG#,
+// Toggle to enable / disable the BETA V6 ADMIN INTERFACES, if 'set_v6_beta' from authenticated admin is verified
+// (#MUST# BE SET BEFORE BOTH cached-global-config.php AND plugins-config-check.php)
+if ( isset($_POST['set_v6_beta']) && $ct_gen->admin_hashed_nonce('toggle_v6_beta') != false && $_POST['admin_hashed_nonce'] == $ct_gen->admin_hashed_nonce('toggle_v6_beta') ) {
+$beta_v6_admin_pages = $_POST['set_v6_beta'];
+$ct_cache->save_file($base_dir . '/cache/vars/beta_v6_admin_pages.dat', $_POST['set_v6_beta']);
+}
+// If not updating, and cached var already exists
+elseif ( file_exists($base_dir . '/cache/vars/beta_v6_admin_pages.dat') ) {
+$beta_v6_admin_pages = trim( file_get_contents($base_dir . '/cache/vars/beta_v6_admin_pages.dat') );
+}
+// Else, default to off
+else {
+$beta_v6_admin_pages = 'off';
+$ct_cache->save_file($base_dir . '/cache/vars/beta_v6_admin_pages.dat', $beta_v6_admin_pages);
+}
+
+
+// Default config, used for upgrade checks
+// (#MUST# BE SET BEFORE BOTH cached-global-config.php AND plugins-config-check.php)
+// (SEE NOTES IN THIS FILE, RELEATED TO THE V6 SWITCHOVER)
+// WE MODIFY / RUN THIS AND UPGRADE LOGIC, AT THE END OF plugins-config-check.php
+// $default_ct_conf #SHOULD# BE COMPLETELY REMOVED FROM ALL LOGIC #EXCEPT# CONFIG UPGRADING LOGIC,
+// #WHEN WE SWITCH ON PERMENENTLY USING THE CACHED USER EDITED CONFIG, AFTER BETA TESTING IS DONE#
+$default_ct_conf = $ct_conf; 
+////
+// Used for quickening runtimes on app config upgrading checks
+// (#MUST# BE SET BEFORE BOTH cached-global-config.php AND plugins-config-check.php)
+$check_default_ct_conf = trim( file_get_contents('cache/vars/default_ct_conf_md5.dat') );
+
+
+// plugins-config-check.php
+// (MUST RUN #BEFORE# cached-global-config.php, #UNTIL WE SWITCH ON USING THE CACHED USER EDITED CONFIG#,
 // THE WE MUST RUN IT #AFTER# INSTEAD)
-// RE-ENABLE $refresh_cached_ct_conf IN THIS FILE, #WHEN WE SWITCH ON USING THE CACHED USER EDITED CONFIG#
-require_once('app-lib/php/other/config/plugins-config.php');
+////
+// cached-global-config.php (SEE NOTES IN THIS FILE, RELEATED TO THE V6 SWITCHOVER)
+////
+if ( $beta_v6_admin_pages == 'on' ) {
+require_once('app-lib/php/other/config/cached-global-config.php');
+require_once('app-lib/php/other/config/plugins-config-check.php');
+}
+else {
+require_once('app-lib/php/other/config/plugins-config-check.php');
+require_once('app-lib/php/other/config/cached-global-config.php');
+}
 
+// Dynamic app config auto-adjust (MUST RUN AS EARLY AS POSSIBLE AFTER ct_conf setup)
+require_once('app-lib/php/other/config/config-auto-adjust.php');
 
-// App config (SEE NOTES IN THIS FILE, RELEATED TO THE V6 SWITCHOVER)
-require_once('app-lib/php/other/config/app-config.php');
+// Load any activated 3RD PARTY classes (MUST RUN AS EARLY AS POSSIBLE AFTER APP config auto-adjust#)
+require_once('app-lib/php/3rd-party-classes-loader.php');
 
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -123,11 +167,14 @@ require_once('app-lib/php/other/config/app-config.php');
 // Set / populate primary app vars / arrays FIRST
 require_once('app-lib/php/other/primary-vars.php');
 
-// Logins, protection from different types of attacks, #MUST# run BEFORE any heavy init logic, AFTER setting vars
+// Logins, protection from different types of attacks, #MUST# run BEFORE any heavy init logic, AFTER setting primary vars
 require_once('app-lib/php/other/security/attack-protection.php');
 
 // Fast runtimes, MUST run AFTER attack protection, BUT EARLY AS POSSIBLE
 require_once('app-lib/php/other/fast-runtimes.php');
+
+// Chart sub-directory creation (if needed...MUST RUN AFTER app config auto-adjust)
+require_once('app-lib/php/other/directory-creation/chart-directories.php');
 
 // Directory security check (MUST run AFTER directory structure creation check, AND BEFORE system checks)
 require_once('app-lib/php/other/security/directory-security.php');
@@ -138,31 +185,22 @@ require_once('app-lib/php/other/system-info.php');
 // Basic system checks (before allowing app to run ANY FURTHER, MUST RUN AFTER directory creation check / http server user vars / user agent var)
 require_once('app-lib/php/other/debugging/system-checks.php');
 
-// SECURED cache files management (MUST RUN AFTER system checks and AFTER plugins config)
+// SECURED cache files management (MUST RUN AFTER system checks)
 require_once('app-lib/php/other/security/secure-cache-files.php');
 
-// Dynamic app config management (MUST RUN AFTER secure cache files FOR CACHED / config.php ct_conf comparison)
-require_once('app-lib/php/other/config/app-config-management.php');
-
-// Load any activated 3RD PARTY classes (MUST RUN AS EARLY AS POSSIBLE #AFTER SECURE CACHE FILES / APP CONFIG MANAGEMENT#)
-require_once('app-lib/php/3rd-party-classes-loader.php');
-
-// Chart sub-directory creation (if needed...MUST RUN AFTER app config management)
-require_once('app-lib/php/other/directory-creation/chart-directories.php');
-
-// Password protection management (MUST RUN AFTER system checks / secure cache files / app config management)
+// Password protection management (MUST RUN AFTER system checks / secure cache files)
 require_once('app-lib/php/other/security/password-protection.php');
 
-// Primary Bitcoin markets (MUST RUN AFTER app config management)
+// Primary Bitcoin markets (MUST RUN AFTER app config auto-adjust)
 require_once('app-lib/php/other/primary-bitcoin-markets.php');
 
-// Misc dynamic interface vars (MUST RUN AFTER app config management)
+// Misc dynamic interface vars (MUST RUN AFTER app config auto-adjust)
 require_once('app-lib/php/other/sub-init/interface-sub-init.php');
 
-// Misc cron logic (MUST RUN AFTER app config management)
+// Misc cron logic (MUST RUN AFTER app config auto-adjust)
 require_once('app-lib/php/other/sub-init/cron-sub-init.php');
 
-// App configuration checks (MUST RUN AFTER app config management / primary bitcoin markets / sub inits)
+// App configuration checks (MUST RUN AFTER app config auto-adjust / primary bitcoin markets / sub inits)
 require_once('app-lib/php/other/debugging/config-checks.php');
 
 // Scheduled maintenance  (MUST RUN AFTER EVERYTHING IN INIT.PHP, EXCEPT DEBUGGING)

@@ -32,16 +32,21 @@ foreach ( $ct_conf['power']['activate_plugins'] as $key => $val ) {
 		
 		$plug_conf[$this_plug] = array();
 		
+		require_once($plug_conf_file); // Populate $plug_conf[$this_plug] with the defaults
+		
+		$default_ct_conf['plug_conf'][$this_plug] = $plug_conf[$this_plug]; // Add each plugin's config into the DEFAULT app config
+		
 		
 		    // If this plugin has not been added to the ACTIVELY-USED ct_conf yet, add it now
 		    if ( !isset($ct_conf['plug_conf'][$this_plug]) ) {
-		    require_once($plug_conf_file);
+		        
 		    $ct_conf['plug_conf'][$this_plug] = $plug_conf[$this_plug]; // Add each plugin's config into the GLOBAL app config
-		    //$refresh_cached_ct_conf = 1;  // LEAVE DISABLED, #UNTIL WE SWITCH ON USING THE CACHED USER EDITED CONFIG#
+		    
+		        if ( $beta_v6_admin_pages == 'on' ) {
+                $refresh_config = true;
+		        }
+		        
 		    }
-			else {
-			$plug_conf[$this_plug] = $ct_conf['plug_conf'][$this_plug];
-			}
 		
 		
 			// Each plugin is allowed to run in more than one runtime, if configured for that (some plugins may run in the UI and cron runtimes, etc)
@@ -61,10 +66,11 @@ foreach ( $ct_conf['power']['activate_plugins'] as $key => $val ) {
 		$this_plug = null; // Reset
 		
 		}
-		// If plugin has been removed, then remove any ct_conf entry
-		else {
+		// If plugin has been removed AND we are running the BETA admin pages, then remove any ct_conf entry
+		// (THIS AUTOMATICALLY #CANNOT# HAPPEN IF WE ARE #NOT# IN BETA ADMIN MODE)
+		elseif ( $beta_v6_admin_pages == 'on' ) {
 		unset($ct_conf['plug_conf'][$this_plug]);
-		$refresh_cached_ct_conf = 1;
+        $refresh_config = true;
 		}
 	
 	
@@ -73,6 +79,18 @@ foreach ( $ct_conf['power']['activate_plugins'] as $key => $val ) {
 	}
 
 }
+
+
+// We use the $refresh_config flag, to avoid multiple calls in the loop
+if ( $refresh_config == true ) {
+$ct_conf = $ct_gen->refresh_cached_ct_conf($ct_conf);
+unset($refresh_config); // Unset, since this is an inline global var
+}
+// Otherwise we are clear to check for and run any upgrades instead, on the CACHED ct_conf (if in v6 beta mode)
+elseif ( $beta_v6_admin_pages == 'on' ) {
+//$ct_conf = $ct_gen->refresh_cached_ct_conf($ct_conf, 'upgrade_checks');
+}
+        
 
 //////////////////////////////////////////////////////////////////
 // END PLUGINS CONFIG

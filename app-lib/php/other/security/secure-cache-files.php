@@ -67,49 +67,10 @@ $secured_cache_files = $ct_gen->sort_files($base_dir . '/cache/secured', 'dat', 
 // WE LOAD ct_conf WAY EARLIER, SO IT'S NOT INCLUDED HERE
 
 foreach( $secured_cache_files as $secured_file ) {
-
-
-	// Telegram user data
-	if ( preg_match("/telegram_user_data_/i", $secured_file) ) {
-		
-		// If we already loaded the newest modified telegram SECURED CACHE config file
-		// DON'T WORRY ABOUT REFRESHING TELEGRAM DATA WHEN APP CONFIG IS REFRESHING, AS WE CAN'T DO THAT RELIABLY IN THIS LOOP
-		// AND IT'S DONE AFTER THE LOOP ANYWAY (WE JUST CLEANUP ANY STALE TELEGRAM CONFIGS IN THIS LOOP)
-		if ( $newest_cached_telegram_user_data == 1 ) {
-		unlink($base_dir . '/cache/secured/' . $secured_file);
-		}
-		else {
-		
-		$newest_cached_telegram_user_data = 1;
-			
-			// If $cached_telegram_user_data already is set, delete any older instances (since we sort by timestamp desc here)
-			if ( $cached_telegram_user_data == true ) {
-			unlink($base_dir . '/cache/secured/' . $secured_file);
-			}
-			else {
-			$cached_telegram_user_data = json_decode( trim( file_get_contents($base_dir . '/cache/secured/' . $secured_file) ) , TRUE);
-			}
-			
-			
-			// "null" in quotes as the actual value is returned sometimes
-			if ( $cached_telegram_user_data != false && $cached_telegram_user_data != null && $cached_telegram_user_data != "null" ) {
-			$telegram_user_data = $cached_telegram_user_data;
-			}
-			else {
-			$refresh_cached_telegram_user_data = 1;
-			$ct_gen->log('conf_error', 'Cached telegram_user_data appears corrupted, deleting cached telegram_user_data (refresh will happen automatically)');
-			unlink($base_dir . '/cache/secured/' . $secured_file);
-			}
-		
-		
-		}
-	
-	
-	}
 	
 	
 	// Pepper var (for secure hashed password storage)
-	elseif ( preg_match("/pepper_var_/i", $secured_file) ) {
+	if ( preg_match("/pepper_var_/i", $secured_file) ) {
 		
 		
 		// If we already loaded the newest modified file, delete any stale ones
@@ -286,47 +247,6 @@ $secure_256bit_hash = $ct_gen->rand_hash(32); // 256-bit (32-byte) hash converte
 	else {
 	$ct_cache->save_file($base_dir . '/cache/secured/int_api_key_'.$secure_128bit_hash.'.dat', $secure_256bit_hash);
 	$api_key = $secure_256bit_hash;
-	}
-
-
-}
-
-
-//////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-
-// If telegram messaging is activated, and there is no valid cached_telegram_user_data
-// OR if cached ct_conf was flagged to be updated
-if ( $telegram_activated == 1 && $refresh_cached_telegram_user_data == 1 
-|| $telegram_activated == 1 && $refresh_cached_ct_conf == 1 ) {
-	
-$secure_128bit_hash = $ct_gen->rand_hash(16); // 128-bit (16-byte) hash converted to hexadecimal, used for suffix
-	
-	
-	// Halt the process if an issue is detected safely creating a random hash
-	if ( $secure_128bit_hash == false ) {
-		
-	$ct_gen->log(
-				'security_error', 
-				'Cryptographically secure pseudo-random bytes could not be generated for cached telegram_user_data array (secured cache storage) suffix, cached telegram_user_data array creation aborted to preserve security'
-				);
-	
-	}
-	else {
-	
-	$telegram_user_data = $ct_api->telegram('updates');
-		
-	$store_cached_telegram_user_data = json_encode($telegram_user_data, JSON_PRETTY_PRINT);
-		
-		// Need to check a few different possible results for no data found ("null" in quotes as the actual value is returned sometimes)
-		if ( $store_cached_telegram_user_data == false || $store_cached_telegram_user_data == null || $store_cached_telegram_user_data == "null" ) {
-		// Keep var num at end of error log
-		$ct_gen->log('conf_error', 'CURRENT telegram configuration could not be checked, PLEASE RE-ENTER "/start" IN THE BOT CHATROOM, IN THE TELEGRAM APP');
-		}
-		else {
-		$ct_cache->save_file($base_dir . '/cache/secured/telegram_user_data_'.$secure_128bit_hash.'.dat', $store_cached_telegram_user_data);
-		}
-	
 	}
 
 

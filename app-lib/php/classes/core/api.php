@@ -157,12 +157,12 @@ var $ct_array1 = array();
       
               // Overwrites any earlier value while looping, so we have the latest data
               if ( $telegram_chatroom[$chat_key]['message']['chat']['username'] == trim($ct_conf['comms']['telegram_your_username']) ) {
-              $telegram_user_data = $telegram_chatroom[$chat_key];
+              $user_data = $telegram_chatroom[$chat_key];
               }
       
           }
    
-      return $telegram_user_data;
+      return $user_data;
       
       }
       elseif ( $mode == 'webhook' ) {

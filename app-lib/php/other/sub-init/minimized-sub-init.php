@@ -7,9 +7,9 @@
 // FOR WHEN WE WANT RELATIVELY QUICK RUNTIMES, WITH MINIMAL INIT LOGIC (captcha / charts / etc)
 
 // Since we don't run the full init.php for speed, so load some additional required sub-inits...
-require_once('app-lib/php/other/config/app-config-management.php');
+require_once('app-lib/php/other/config/config-auto-adjust.php');
 
-// Primary Bitcoin markets for charts (MUST RUN AFTER app config management)
+// Primary Bitcoin markets for charts (MUST RUN AFTER app config auto-adjust)
 if ( $is_charts ) {
 require_once('app-lib/php/other/primary-bitcoin-markets.php');
 }

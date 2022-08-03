@@ -5,30 +5,21 @@
 
 
 //////////////////////////////////////////////////////////////////
-// APP CONFIG
+// CACHED CONFIG
 //////////////////////////////////////////////////////////////////
 
 
-// Cached config
-$refresh_cached_ct_conf = 0;
-////
-$upgraded_ct_conf = array();
-////
-$check_default_ct_conf = trim( file_get_contents('cache/vars/default_ct_conf_md5.dat') );
-////
-// SET default ct_conf array BEFORE load_cached_config(), and BEFORE dynamic app config management
-// (ALSO MUST BE #AFTER# PLUGINS CONFIG)
-// #MUST# BE COMPLETELY REMOVED FROM ALL LOGIC, #WHEN WE SWITCH ON USING THE CACHED USER EDITED CONFIG#
-$default_ct_conf = $ct_conf; 
-////
+// Global set in load_cached_config(), if a restore config is backed up
+$restore_conf_path = null;
+
 // Load cached config (user-edited via admin interface), unless it's corrupt json 
-// (if corrupt, it will reset from hard-coded default config in config.php)
+// (if corrupt, it will reset from hard-coded default config in config.php, OR a restore config if available)
 // SEE upgrade_cache_ct_conf() AND subarray_ct_conf_upgrade(), #WHEN WE SWITCH ON USING THE CACHED USER EDITED CONFIG# 
 $ct_gen->load_cached_config();
 
 
 //////////////////////////////////////////////////////////////////
-// END APP CONFIG
+// END CACHED CONFIG
 //////////////////////////////////////////////////////////////////
 
 // DON'T LEAVE ANY WHITESPACE AFTER THE CLOSING PHP TAG!
