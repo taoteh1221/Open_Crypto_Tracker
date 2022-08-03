@@ -4077,52 +4077,6 @@ var $ct_array = array();
     		
     	
     	}
-        
-        
-        //////////////
-        
-
-        // .htaccess password protection enabled / disabled, based on app config settings (parsed into $htaccess_username / $htaccess_password)
-        // To be safe, don't use trim() on certain strings with arbitrary non-alphanumeric characters here
-        if ( isset($htaccess_username) && isset($htaccess_password) && $htaccess_username != '' && $htaccess_password != '' ) {
-        
-        	// If NO SETUP password protection exists
-        	if ( !preg_match("/Require valid-user/i", $htaccess_protection_check) ) {
-        		
-        	$password_protection_enabled = $ct_cache->htaccess_dir_protection();
-        	
-        		if ( !$password_protection_enabled ) {
-        			
-        		// Default htaccess root file, WITH NO PASSWORD PROTECTION
-        		$restore_default_htaccess = $ct_cache->save_file($base_dir . '/.htaccess', $ct_cache->htaccess_dir_defaults() ); 
-        			
-        			// Avoid error 500 if htaccess update fails
-        			if ( $restore_default_htaccess == true ) {
-        			@unlink($base_dir . '/cache/secured/.app_htpasswd'); 
-        			}
-        		
-        		}
-        	
-        	}
-        
-        }
-        // No password protection
-        elseif ( $htaccess_username == '' || $htaccess_password == '' ) {
-        
-        	// If ALREADY SETUP password protection exists
-        	if ( preg_match("/Require valid-user/i", $htaccess_protection_check) ) {
-        		
-        	// Default htaccess root file, WITH NO PASSWORD PROTECTION
-        	$restore_default_htaccess = $ct_cache->save_file($base_dir . '/.htaccess', $ct_cache->htaccess_dir_defaults() ); 
-        	
-        		// Avoid error 500 if htaccess update fails
-        		if ( $restore_default_htaccess == true ) {
-        		@unlink($base_dir . '/cache/secured/.app_htpasswd');
-        		}
-        	
-        	}
-        		
-        }
 
 
    gc_collect_cycles(); // Clean memory cache
