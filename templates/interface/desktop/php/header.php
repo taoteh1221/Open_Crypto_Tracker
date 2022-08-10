@@ -313,7 +313,7 @@ header('Content-type: text/html; charset=' . $ct_conf['dev']['charset_default'])
         		
         			$('#zoom_info').balloon({
         			html: true,
-        			position: "bottom",
+        			position: "left",
           			classname: 'balloon-tooltips',
         			contents: zoom_info_content,
         			css: {
