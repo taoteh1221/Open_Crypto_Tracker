@@ -107,11 +107,11 @@ require_once('app-lib/php/other/empty-vars.php');
 require_once('app-lib/php/other/directory-creation/cache-directories.php');
 
 
-// Toggle to enable / disable the BETA V6 ADMIN INTERFACES, if 'set_v6_beta' from authenticated admin is verified
+// Toggle to enable / disable the BETA V6 ADMIN INTERFACES, if 'opt_v6_beta' from authenticated admin is verified
 // (#MUST# BE SET BEFORE BOTH cached-global-config.php AND plugins-config-check.php)
-if ( isset($_POST['set_v6_beta']) && $ct_gen->admin_hashed_nonce('toggle_v6_beta') != false && $_POST['admin_hashed_nonce'] == $ct_gen->admin_hashed_nonce('toggle_v6_beta') ) {
-$beta_v6_admin_pages = $_POST['set_v6_beta'];
-$ct_cache->save_file($base_dir . '/cache/vars/beta_v6_admin_pages.dat', $_POST['set_v6_beta']);
+if ( isset($_POST['opt_v6_beta']) && $ct_gen->admin_hashed_nonce('toggle_v6_beta') != false && $_POST['admin_hashed_nonce'] == $ct_gen->admin_hashed_nonce('toggle_v6_beta') ) {
+$beta_v6_admin_pages = $_POST['opt_v6_beta'];
+$ct_cache->save_file($base_dir . '/cache/vars/beta_v6_admin_pages.dat', $_POST['opt_v6_beta']);
 }
 // If not updating, and cached var already exists
 elseif ( file_exists($base_dir . '/cache/vars/beta_v6_admin_pages.dat') ) {
