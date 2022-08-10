@@ -283,7 +283,7 @@
 	
 	<div> &nbsp; </div>
 	
-	<p><a style='font-weight: bold;' href='README.txt' target='_blank'>Editing The Portfolio Assets List, and Enabling Email / Text / Telegram / Alexa Price Alerts (installation on Ubuntu / DietPi OS / RaspberryPi OS / Windows 10, or website)</a></p>
+	<p><a style='font-weight: bold;' href='README.txt' target='_blank'>Editing The Portfolio Assets List, and Enabling Email / Text / Telegram / Alexa Price Alerts (installation on Debian / Ubuntu / DietPi OS / RaspberryPi OS / Armbian / Windows 10, or website)</a></p>
 	
 				
 			
