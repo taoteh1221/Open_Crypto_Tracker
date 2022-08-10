@@ -49,7 +49,10 @@ $default_btc_prim_exchange = $ct_conf['gen']['btc_prim_exchange'];
 
 // RUN AFTER SETTING $default_btc_prim_currency_pair ABOVE
 // If $default_btc_prim_currency_pair has changed, or never been set in cache vars, delete all potentially mismatched data and set in cache vars
-if ( $default_btc_prim_currency_pair != trim( file_get_contents($base_dir . '/cache/vars/default_btc_prim_currency_pair.dat') ) ) {
+if (
+!file_exists($base_dir . '/cache/vars/default_btc_prim_currency_pair.dat')
+|| $default_btc_prim_currency_pair != trim( file_get_contents($base_dir . '/cache/vars/default_btc_prim_currency_pair.dat') )
+) {
 
 // Delete all fiat price alerts cache data
 $ct_gen->del_all_files($base_dir . '/cache/alerts/fiat_price'); 

@@ -134,7 +134,12 @@ $default_ct_conf = $ct_conf;
 ////
 // Used for quickening runtimes on app config upgrading checks
 // (#MUST# BE SET BEFORE BOTH cached-global-config.php AND plugins-config-check.php)
-$check_default_ct_conf = trim( file_get_contents('cache/vars/default_ct_conf_md5.dat') );
+if ( file_exists($base_dir . '/cache/vars/default_ct_conf_md5.dat') ) {
+$check_default_ct_conf = trim( file_get_contents($base_dir . '/cache/vars/default_ct_conf_md5.dat') );
+}
+else {
+$check_default_ct_conf = null;
+}
 
 
 // plugins-config-check.php

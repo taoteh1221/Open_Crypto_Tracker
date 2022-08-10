@@ -464,7 +464,9 @@ header('Content-type: text/html; charset=' . $ct_conf['dev']['charset_default'])
 
                 // If we are queued to run a UI alert that an upgrade is available
                 // VAR MUST BE SET RIGHT BEFORE CHECK ON DATA FROM THIS CACHE FILE, AS IT CAN BE UPDATED #AFTER# APP INIT!
+                if ( file_exists($base_dir . '/cache/events/ui_upgrade_alert.dat') ) {
                 $ui_upgrade_alert = json_decode( file_get_contents($base_dir . '/cache/events/ui_upgrade_alert.dat') , true);
+                }
                 
                 
 				if ( isset($ui_upgrade_alert) && $ui_upgrade_alert['run'] == 'yes' ) {

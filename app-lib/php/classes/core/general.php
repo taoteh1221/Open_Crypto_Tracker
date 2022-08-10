@@ -3886,10 +3886,12 @@ var $ct_array = array();
    $system['portfolio_cookies'] = $this->all_cookies_size();
    
    
-   // Portfolio cache size (cached for efficiency)
-   $portfolio_cache = trim( file_get_contents($base_dir . '/cache/vars/cache_size.dat') );
-   $system['portfolio_cache'] = ( $ct_var->num_to_str($portfolio_cache) > 0 ? $portfolio_cache : 0 );
-   
+      // Portfolio cache size (cached for efficiency)
+      if ( file_exists($base_dir . '/cache/vars/cache_size.dat') ) {
+      $portfolio_cache = trim( file_get_contents($base_dir . '/cache/vars/cache_size.dat') );
+      $system['portfolio_cache'] = ( $ct_var->num_to_str($portfolio_cache) > 0 ? $portfolio_cache : 0 );
+      }
+      
    
    // Software
    $system['software'] = 'Open_Crypto_Tracker/' . $app_version . ' - PHP/' . phpversion();
@@ -3945,7 +3947,8 @@ var $ct_array = array();
    
    
         // If no valid config was passed to use for this refresh, attempt to get the last known working cached config
-        if ( $passed_config == false ) {
+        // (IF IT EXISTS)
+        if ( $passed_config == false && file_exists($restore_conf_path) ) {
             
         $passed_config = json_decode( trim( file_get_contents($restore_conf_path) ) , TRUE);
         
@@ -3997,8 +4000,10 @@ var $ct_array = array();
     		    
     		$this->log('conf_error', 'updated ct_conf data could not be saved (to secured cache storage) in json format');
     	
-            // Attempt to restore last-known good config			
-    		$cached_restore_conf = json_decode( trim( file_get_contents($restore_conf_path) ) , TRUE);
+                // Attempt to restore last-known good config (if it exists)	
+                if ( file_exists($restore_conf_path) ) {
+    		    $cached_restore_conf = json_decode( trim( file_get_contents($restore_conf_path) ) , TRUE);
+    		    }
     		
     		
     		    if ( $cached_restore_conf != false && $cached_restore_conf != null && $cached_restore_conf != "null" ) {
