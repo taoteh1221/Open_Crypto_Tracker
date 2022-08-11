@@ -601,7 +601,7 @@ $ct_conf['power']['backup_arch_del_old'] = 10;
 $ct_conf['power']['logs_purge'] = 6; // (default = 6)
 
 
-// Lite charts (load just as quickly for any time interval, 7 day / 30 day / 365 day / etc)
+// Lite charts (load just as quickly for any time period, 7 day / 30 day / 365 day / etc)
 // Structure of lite charts #IN DAYS# (X days time period charts)
 // Interface will auto-detect and display days as 365 = 1Y, 180 = 6M, 7 = 1W, etc
 // (LOWER TIME PERIODS [UNDER 180 DAYS] #SHOULD BE KEPT SOMEWHAT MINIMAL#, TO REDUCE RUNTIME LOAD / DISK WRITES DURING CRON JOBS)

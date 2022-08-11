@@ -1385,7 +1385,7 @@ app doing the data requests, not a malicious bot)
 -------------------------------------------------------------------
 3.18.3:
 -Bug fix for layout error when no portfolio added yet
--Bug fix for chart interval detection (for chart time interval preset buttons)
+-Bug fix for chart interval detection (for chart time period preset buttons)
 -Additions to TROUBLESHOOTING.txt / Help page
 -Import / Export portfolio from CSV file
 -------------------------------------------------------------------
@@ -5482,7 +5482,7 @@ MIGRATE YOUR EXISTING SETTINGS TO THE NEW FORMAT.
 
 -INITIAL BUILDOUT (in-progress) of upcoming admin config interface sections
 
--Light (time interval) charts reset button, on admin config reset page
+-Light (time period) charts reset button, on admin config reset page
 
 v5.12.2 and higher renames the admin config array. ALL CONFIGURATION SETTING
 VARIABLE NAMES ARE NOW DIFFERENT, USE THE LATEST/UPGRADED CONFIG.PHP, AND

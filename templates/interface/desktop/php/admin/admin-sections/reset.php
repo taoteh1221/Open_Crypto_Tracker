@@ -82,7 +82,7 @@
 	<!-- Submit button must be OUTSIDE form tags here, or it runs improperly -->
 	<button id='reset_lite_charts_button' class='force_button_style' onclick='
 	
-	var lite_charts_reset = confirm("Resetting the \"light charts\" will rebuild any existing \ntime interval chart data from the archival charts. \n\nPress OK to reset light chart data, or CANCEL to keep the current light charts. ");
+	var lite_charts_reset = confirm("Resetting the \"light charts\" will rebuild any existing \ntime period chart data from the archival charts. \n\nPress OK to reset light chart data, or CANCEL to keep the current light charts. ");
 	
 		if ( lite_charts_reset ) {
 		document.getElementById("reset_lite_charts_button").disable = true;
@@ -90,7 +90,7 @@
 		document.getElementById("reset_lite_charts_button").innerHTML = ajax_placeholder(15, "center", "Submitting...");
 		}
 	
-	'>Reset Light (time interval) Charts</button>
+	'>Reset Light (time period) Charts</button>
 	
 	</div>
 				

@@ -21,11 +21,6 @@ width: auto;
 }
 
 
-img { 
-border: 0; 
-}
-
-
 table {
 border-collapse: separate;
 }
@@ -44,16 +39,19 @@ padding-right: 28px;
 }
 
 
-p, h3 { 
-word-break: normal;
-margin-bottom: 15px;
+img { 
+border: 0; 
 }
 
 
-textarea {
-box-sizing: border-box;
-resize: none;
-border: 1px solid #808080;
+a {
+text-decoration: underline;
+}
+
+
+p, h3 { 
+word-break: normal;
+margin-bottom: 15px;
 }
 
 
@@ -62,6 +60,13 @@ line-height: 15px !important;
 height: 25px !important;
 width: auto !important;
 padding: .07rem 1.4rem .07rem .5rem !important;
+}
+
+
+textarea {
+box-sizing: border-box;
+resize: none;
+border: 1px solid #808080;
 }
 
 
@@ -85,12 +90,6 @@ textarea[data-autoresize] {
 	background:-webkit-linear-gradient(#e5e3e3, #f2f2f2);
 	overflow: auto;
 	overflow-y: scroll;
-}
-
-
-html, p, td.data, td.data span.data, td select, td.data span, input, select, textarea, input[type=submit], input[type=button], .force_button_style, .btn-link, .btn-link a, .btn-link:hover {	
-font-family: sans-serif !important;
-font-size: 15px !important;
 }
 
 
@@ -124,11 +123,6 @@ button, input[type=submit], input[type=button], .force_button_style {
 }
 
 
-a {
-text-decoration: underline;
-}
-
-
 fieldset {
     width: auto;
     padding: 25px; /* To give a bit of padding on the left and right */
@@ -159,6 +153,12 @@ padding: .5em !important;
 code {
 padding: 0em !important;
 margin: 0px;
+}
+
+
+html, p, td.data, td.data span.data, td select, td.data span, input, select, textarea, input[type=submit], input[type=button], .force_button_style, .btn-link, .btn-link a, .btn-link:hover {	
+font-family: sans-serif !important;
+font-size: 15px !important;
 }
 
 
@@ -631,11 +631,6 @@ top: 150px;
 }
 
 
-.hidden {
-display: none;
-}
-
-
 .underline_pointer {
 text-decoration: underline;
 cursor: pointer;
@@ -669,7 +664,7 @@ min-width: 1150px !important;
 
 
 .bitcoin_dotted, .green_dotted, .red_dotted, .start_page_menu, .start_page_menu_red, #watch_only, #charts_error, #system_charts_error {
-border-radius: 5px !important;
+border-radius: 6px !important;
 }
 
 
@@ -911,7 +906,7 @@ cursor: pointer;
 }
 
 
-#alert_source, #percent_change_amnt, #percent_change_filter, #percent_change_time, #percent_change_alert_type, #show_chart_settings, #show_feed_settings, #show_portfolio_stats, #show_system_stats, #show_access_stats, #show_logs, #coins_table, #sys_stats_quick_link_info, #sys_stats_admin_link_info, #header_size_warning {
+#alert_source, #percent_change_amnt, #percent_change_filter, #percent_change_time, #percent_change_alert_type, #show_chart_settings, #show_feed_settings, #show_portfolio_stats, #show_system_stats, #show_access_stats, #show_logs, #coins_table, #sys_stats_quick_link_info, #sys_stats_admin_link_info, #header_size_warning, .hidden {
 display: none;
 }
 

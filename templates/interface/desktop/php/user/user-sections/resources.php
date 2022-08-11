@@ -448,8 +448,6 @@
 	        
 	        <li class='links_list'><a href='https://www.youtube.com/user/cointelegraph/featured' target='_blank'>Cointelegraph</a></li>
 	        
-	        <li class='links_list'><a href='https://www.youtube.com/user/obham001/featured' target='_blank'>Crypt0</a></li>
-	        
 	        <li class='links_list'><a href='https://www.youtube.com/channel/UCCatR7nWbYrkVXdxXb4cGXw/featured' target='_blank'>DataDash</a></li>
 	        
 	        <li class='links_list'><a href='https://www.youtube.com/channel/UCu7Sre5A1NMV8J3s2FhluCw' target='_blank'>Crypto Love</a></li>
@@ -468,7 +466,7 @@
 	        
 	        <li class='links_list'><a href='https://www.youtube.com/channel/UCSuHzQ3GrHSzoBbwrIq3LLA' target='_blank'>Naomi Brockwell</a></li>
 	        
-	        <li class='links_list'><a href='https://www.youtube.com/c/Solanalabs/featured' target='_blank'>Solana Labs</a></li>
+	        <li class='links_list'><a href='https://www.youtube.com/c/SolanaFndn/featured' target='_blank'>Solana Foundation</a></li>
 	        
 	        <li class='links_list'><a href='https://www.youtube.com/channel/UCWiiMnsnw5Isc2PP1to9nNw/featured' target='_blank'>Unchained Podcast</a></li>
 	        
