@@ -183,7 +183,7 @@ color: #10d602 !important;
 
 .green_dotted {
 padding: 10px;
-border: 2px dotted #10d602 !important;
+border: 3px dotted #10d602 !important;
 }
 
 
@@ -204,7 +204,7 @@ color: black;
 
 
 .start_page_menu {
-border: 2px dotted white; 
+border: 3px dotted white; 
 }
 
 
@@ -257,12 +257,22 @@ background-color: #ff4747 !important;
 
 .red_dotted {
 padding: 10px;
-border: 2px dotted #ff4747 !important;
+border: 3px dotted #ff4747 !important;
 }
 
 
 .red, #app_error_alert {
 color: #ff4747 !important;
+}
+
+
+/* //////////////////////////////
+IDs
+////////////////////////////// */
+
+
+#watch_only {
+border: 3px dotted white;
 }
 
 
@@ -274,11 +284,6 @@ border: 4px dotted #ff4747;
 #header_size_warning {
 color: #ff4747;
 }
-
-
-/* //////////////////////////////
-IDs
-////////////////////////////// */
 
 
 #admin_nav .dropdown-menu {

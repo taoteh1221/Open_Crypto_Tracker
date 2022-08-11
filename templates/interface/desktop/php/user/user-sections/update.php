@@ -349,7 +349,7 @@
 	
 	<div> &nbsp; </div>
 		
-	<div style='display: inline-block; border: 2px dotted black; padding: 7px; margin-left: 0px; margin-top: 15px; margin-bottom: 15px;'>
+	<div id='watch_only'>
 	
 		<div class='align_center' style='font-weight: bold;'>Watch Only</div>
 	

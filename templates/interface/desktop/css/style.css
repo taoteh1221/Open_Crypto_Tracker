@@ -231,8 +231,8 @@ text-decoration-style: dotted;
 .captcha_container {
 margin-top: 25px;
 margin-top: 25px;
-    text-align: left;
-    display: inline-block;
+text-align: left;
+display: inline-block;
 }
 
 
@@ -243,12 +243,12 @@ padding-top: 15px;
 
 .captcha_container img {    
 display: inline-block;
-    margin: 7px;
+margin: 7px;
 }
 
 
 .card {
-    border: 1px solid #808080 !important;
+border: 1px solid #808080 !important;
 }
 
 
@@ -446,7 +446,7 @@ color: #dd7c0d !important;
 
 .bitcoin_dotted {
 padding: 10px;
-border: 2px dotted #dd7c0d !important;
+border: 3px dotted #dd7c0d !important;
 }
 
 
@@ -668,9 +668,23 @@ min-width: 1150px !important;
 }
 
 
+.bitcoin_dotted, .green_dotted, .red_dotted, .start_page_menu, .start_page_menu_red, #watch_only, #charts_error, #system_charts_error {
+border-radius: 5px !important;
+}
+
+
 /* //////////////////////////////
 IDs
 ////////////////////////////// */
+
+
+#watch_only {
+display: inline-block; 
+padding: 7px; 
+margin-left: 0px; 
+margin-top: 15px; 
+margin-bottom: 15px;
+}
 
 
 #pm_link {

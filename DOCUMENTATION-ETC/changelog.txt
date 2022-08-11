@@ -5655,6 +5655,19 @@ MIGRATE YOUR EXISTING SETTINGS TO THE NEW FORMAT.
 
 
 
+-------------------------------------------------------------------
+6.00.2:
+
+-BUG FIX: Fixed system chart "Show / Hide" menus, so it doesn't show unavailable telemetry items
+
+-BUG FIX: Fixed showing system chart #2, even if there was no telemetry data to show in it (it now will hide if no data exists to show in it) 
+
+-Miscellaneous user experience improvements
+
+-------------------------------------------------------------------
+
+
+
 
 
 
