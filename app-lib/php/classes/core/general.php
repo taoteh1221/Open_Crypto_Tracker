@@ -2939,110 +2939,110 @@ var $ct_array = array();
    ////////////////////////////////////////////////////////
    
    
-   function light_chart_time_period($lite_chart_days, $mode) {
+   function light_chart_time_period($light_chart_days, $mode) {
       
       
       if ( $mode == 'short' ) {
    
-         if ( $lite_chart_days == 'all' ) {
-         $time_period_text = strtoupper($lite_chart_days);
+         if ( $light_chart_days == 'all' ) {
+         $time_period_text = strtoupper($light_chart_days);
          }
-         elseif ( $lite_chart_days == 7 ) {
+         elseif ( $light_chart_days == 7 ) {
          $time_period_text = '1W';
          }
-         elseif ( $lite_chart_days == 14 ) {
+         elseif ( $light_chart_days == 14 ) {
          $time_period_text = '2W';
          }
-         elseif ( $lite_chart_days == 21 ) {
+         elseif ( $light_chart_days == 21 ) {
          $time_period_text = '3W';
          }
-         elseif ( $lite_chart_days == 30 ) {
+         elseif ( $light_chart_days == 30 ) {
          $time_period_text = '1M';
          }
-         elseif ( $lite_chart_days == 60 ) {
+         elseif ( $light_chart_days == 60 ) {
          $time_period_text = '2M';
          }
-         elseif ( $lite_chart_days == 90 ) {
+         elseif ( $light_chart_days == 90 ) {
          $time_period_text = '3M';
          }
-         elseif ( $lite_chart_days == 120 ) {
+         elseif ( $light_chart_days == 120 ) {
          $time_period_text = '4M';
          }
-         elseif ( $lite_chart_days == 150 ) {
+         elseif ( $light_chart_days == 150 ) {
          $time_period_text = '5M';
          }
-         elseif ( $lite_chart_days == 180 ) {
+         elseif ( $light_chart_days == 180 ) {
          $time_period_text = '6M';
          }
-         elseif ( $lite_chart_days == 365 ) {
+         elseif ( $light_chart_days == 365 ) {
          $time_period_text = '1Y';
          }
-         elseif ( $lite_chart_days == 730 ) {
+         elseif ( $light_chart_days == 730 ) {
          $time_period_text = '2Y';
          }
-         elseif ( $lite_chart_days == 1095 ) {
+         elseif ( $light_chart_days == 1095 ) {
          $time_period_text = '3Y';
          }
-         elseif ( $lite_chart_days == 1460 ) {
+         elseif ( $light_chart_days == 1460 ) {
          $time_period_text = '4Y';
          }
-         elseif ( $lite_chart_days == 1825 ) {
+         elseif ( $light_chart_days == 1825 ) {
          $time_period_text = '5Y';
          }
          else {
-         $time_period_text = $lite_chart_days . 'D';
+         $time_period_text = $light_chart_days . 'D';
          }
       
       }
       elseif ( $mode == 'long' ) {
    
-         if ( $lite_chart_days == 'all' ) {
-         $time_period_text = ucfirst($lite_chart_days);
+         if ( $light_chart_days == 'all' ) {
+         $time_period_text = ucfirst($light_chart_days);
          }
-         elseif ( $lite_chart_days == 7 ) {
+         elseif ( $light_chart_days == 7 ) {
          $time_period_text = '1 Week';
          }
-         elseif ( $lite_chart_days == 14 ) {
+         elseif ( $light_chart_days == 14 ) {
          $time_period_text = '2 Weeks';
          }
-         elseif ( $lite_chart_days == 21 ) {
+         elseif ( $light_chart_days == 21 ) {
          $time_period_text = '3 Weeks';
          }
-         elseif ( $lite_chart_days == 30 ) {
+         elseif ( $light_chart_days == 30 ) {
          $time_period_text = '1 Month';
          }
-         elseif ( $lite_chart_days == 60 ) {
+         elseif ( $light_chart_days == 60 ) {
          $time_period_text = '2 Months';
          }
-         elseif ( $lite_chart_days == 90 ) {
+         elseif ( $light_chart_days == 90 ) {
          $time_period_text = '3 Months';
          }
-         elseif ( $lite_chart_days == 120 ) {
+         elseif ( $light_chart_days == 120 ) {
          $time_period_text = '4 Months';
          }
-         elseif ( $lite_chart_days == 150 ) {
+         elseif ( $light_chart_days == 150 ) {
          $time_period_text = '5 Months';
          }
-         elseif ( $lite_chart_days == 180 ) {
+         elseif ( $light_chart_days == 180 ) {
          $time_period_text = '6 Months';
          }
-         elseif ( $lite_chart_days == 365 ) {
+         elseif ( $light_chart_days == 365 ) {
          $time_period_text = '1 Year';
          }
-         elseif ( $lite_chart_days == 730 ) {
+         elseif ( $light_chart_days == 730 ) {
          $time_period_text = '2 Years';
          }
-         elseif ( $lite_chart_days == 1095 ) {
+         elseif ( $light_chart_days == 1095 ) {
          $time_period_text = '3 Years';
          }
-         elseif ( $lite_chart_days == 1460 ) {
+         elseif ( $light_chart_days == 1460 ) {
          $time_period_text = '4 Years';
          }
-         elseif ( $lite_chart_days == 1825 ) {
+         elseif ( $light_chart_days == 1825 ) {
          $time_period_text = '5 Years';
          }
          else {
-         $time_period_text = $lite_chart_days . ' Days';
+         $time_period_text = $light_chart_days . ' Days';
          }
       
       }

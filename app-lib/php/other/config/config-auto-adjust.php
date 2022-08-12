@@ -58,12 +58,12 @@ $ct_conf['mob_net_txt_gateways'] = $cleaned_mobile_networks;
 // (so we activate it here instead of in Admin Config, for good UX adding ONLY altcoin markets dynamically there)
 $ct_conf['power']['crypto_pair'] = array('btc' => 'Ƀ ') + $ct_conf['power']['crypto_pair']; // ADD TO #BEGINNING# OF ARRAY, FOR UX
 
-// Numericly sort lite chart intervals (in case end user didn't do them in order)
+// Numericly sort light chart intervals (in case end user didn't do them in order)
 // DO BEFORE ADDING 'all' BELOW
-sort($ct_conf['power']['lite_chart_day_intervals']);
+sort($ct_conf['power']['light_chart_day_intervals']);
 
-// Default lite chart mode 'all' (we activate it here instead of in Admin Config, for good UX adding ONLY day intervals there)
-$ct_conf['power']['lite_chart_day_intervals'][] = 'all';
+// Default light chart mode 'all' (we activate it here instead of in Admin Config, for good UX adding ONLY day intervals there)
+$ct_conf['power']['light_chart_day_intervals'][] = 'all';
 
 
 // Idiot-proof maximum of +-35 on captcha text contrast
@@ -234,31 +234,31 @@ $backup_arch_pass = false;
 }
 
 
-// Light chart config tracking / updating (checking for changes to lite chart app config, to trigger lite chart rebuilds)
-$conf_lite_chart_struct = md5( serialize($ct_conf['power']['lite_chart_day_intervals']) . $ct_conf['power']['lite_chart_data_points_max'] );
+// Light chart config tracking / updating (checking for changes to light chart app config, to trigger light chart rebuilds)
+$conf_light_chart_struct = md5( serialize($ct_conf['power']['light_chart_day_intervals']) . $ct_conf['power']['light_chart_data_points_max'] );
 
-if ( !file_exists($base_dir . '/cache/vars/lite_chart_struct.dat') ) {
-$ct_cache->save_file($base_dir . '/cache/vars/lite_chart_struct.dat', $conf_lite_chart_struct);
-$cached_lite_chart_struct = $conf_lite_chart_struct;
+if ( !file_exists($base_dir . '/cache/vars/light_chart_struct.dat') ) {
+$ct_cache->save_file($base_dir . '/cache/vars/light_chart_struct.dat', $conf_light_chart_struct);
+$cached_light_chart_struct = $conf_light_chart_struct;
 }
 else {
-$cached_lite_chart_struct = trim( file_get_contents($base_dir . '/cache/vars/lite_chart_struct.dat') );
+$cached_light_chart_struct = trim( file_get_contents($base_dir . '/cache/vars/light_chart_struct.dat') );
 }
 
 
-// Check if we need to rebuild lite charts from changes to their structure,
+// Check if we need to rebuild light charts from changes to their structure,
 // OR a user-requested light chart reset
 if (
-$conf_lite_chart_struct != $cached_lite_chart_struct
-|| $_POST['reset_lite_charts'] == 1 && $ct_gen->admin_hashed_nonce('reset_lite_charts') != false && $_POST['admin_hashed_nonce'] == $ct_gen->admin_hashed_nonce('reset_lite_charts')
+$conf_light_chart_struct != $cached_light_chart_struct
+|| $_POST['reset_light_charts'] == 1 && $ct_gen->admin_hashed_nonce('reset_light_charts') != false && $_POST['admin_hashed_nonce'] == $ct_gen->admin_hashed_nonce('reset_light_charts')
 ) {
 
 // Delete ALL light charts (this will automatically trigger a re-build)
-$ct_cache->remove_dir($base_dir . '/cache/charts/spot_price_24hr_volume/lite');
-$ct_cache->remove_dir($base_dir . '/cache/charts/system/lite');
+$ct_cache->remove_dir($base_dir . '/cache/charts/spot_price_24hr_volume/light');
+$ct_cache->remove_dir($base_dir . '/cache/charts/system/light');
 
 // Cache the new light chart structure
-$ct_cache->save_file($base_dir . '/cache/vars/lite_chart_struct.dat', $conf_lite_chart_struct);
+$ct_cache->save_file($base_dir . '/cache/vars/light_chart_struct.dat', $conf_light_chart_struct);
 
 }
 

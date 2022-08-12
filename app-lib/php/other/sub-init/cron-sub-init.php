@@ -13,7 +13,7 @@ if ( $runtime_mode == 'cron' ) {
 // Reset feed fetch telemetry 
 $_SESSION[$fetched_feeds] = false;
 	
-$_SESSION['lite_charts_updated'] = 0;
+$_SESSION['light_charts_updated'] = 0;
     
     
     // EXIT IF CRON IS NOT RUNNING IN THE PROPER CONFIGURATION

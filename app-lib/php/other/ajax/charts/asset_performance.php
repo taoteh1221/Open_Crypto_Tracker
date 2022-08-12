@@ -18,7 +18,7 @@ $attributes = explode("||", $val);
 			
 		$analyzed_assets[$asset] = $key;
 		
-		$chart_file = $base_dir . '/cache/charts/spot_price_24hr_volume/lite/' . $_GET['time_period'] . '_days/'.strtoupper($asset).'/'.$key.'_chart_'.$default_btc_prim_currency_pair.'.dat';
+		$chart_file = $base_dir . '/cache/charts/spot_price_24hr_volume/light/' . $_GET['time_period'] . '_days/'.strtoupper($asset).'/'.$key.'_chart_'.$default_btc_prim_currency_pair.'.dat';
 						
 			if ( file_exists($chart_file) ) {
 			$runtime_data['performance_stats'][strtoupper($asset)]['data'] = $ct_gen->chart_data($chart_file, 'performance', $_GET['start_time']); // NO EARLIER THAN A CERTAIN TIMESTAMP
@@ -68,7 +68,7 @@ gui: {
 },
    type: "area",
    noData: {
-     text: "No '<?=ucfirst($_GET['time_period'])?> day(s)' lite chart data for any assets yet, please check back in awhile.",
+     text: "No '<?=ucfirst($_GET['time_period'])?> day(s)' light chart data for any assets yet, please check back in awhile.",
   	  fontColor: "black",
      backgroundColor: "#808080",
      fontSize: 20,

@@ -1619,24 +1619,24 @@ var $ct_array1 = array();
          }
         
         
-      // Lite charts (update time dynamically determined in $ct_cache->update_lite_chart() logic)
-      // Wait 0.05 seconds before updating lite charts (which reads archival data)
+      // Light charts (update time dynamically determined in $ct_cache->update_light_chart() logic)
+      // Wait 0.05 seconds before updating light charts (which reads archival data)
       usleep(50000); // Wait 0.05 seconds
         
         
-         foreach ( $ct_conf['power']['lite_chart_day_intervals'] as $light_chart_days ) {
+         foreach ( $ct_conf['power']['light_chart_day_intervals'] as $light_chart_days ) {
            
 	           // If we reset light charts, just skip the rest of this update session
 	           if ( $fiat_light_chart_result == 'reset' || $crypto_light_chart_result == 'reset' ) {
 	           continue;
 	           }
 	           
-         // Primary currency lite charts
-         $fiat_light_chart_result = $ct_cache->update_lite_chart($prim_currency_chart_path, $prim_currency_chart_data, $light_chart_days); // WITHOUT newline (var passing)
+         // Primary currency light charts
+         $fiat_light_chart_result = $ct_cache->update_light_chart($prim_currency_chart_path, $prim_currency_chart_data, $light_chart_days); // WITHOUT newline (var passing)
              
-	           // Crypto / secondary currency pair lite charts (IF fiat light chart run didn't trigger a light chart reset)
+	           // Crypto / secondary currency pair light charts (IF fiat light chart run didn't trigger a light chart reset)
 	           if ( $pair != strtolower($default_btc_prim_currency_pair) && $fiat_light_chart_result != 'reset' ) {
-	           $crypto_light_chart_result = $ct_cache->update_lite_chart($crypto_secondary_currency_chart_path, $crypto_secondary_currency_chart_data, $light_chart_days); // WITHOUT newline (var passing)
+	           $crypto_light_chart_result = $ct_cache->update_light_chart($crypto_secondary_currency_chart_path, $crypto_secondary_currency_chart_data, $light_chart_days); // WITHOUT newline (var passing)
 	           }
          
          }

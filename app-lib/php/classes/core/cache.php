@@ -755,47 +755,47 @@ var $ct_array1 = array();
   ////////////////////////////////////////////////////////
   
   
-  function update_lite_chart($archive_path, $newest_arch_data=false, $days_span=1) {
+  function update_light_chart($archive_path, $newest_arch_data=false, $days_span=1) {
   
   global $ct_conf, $base_dir, $ct_var, $ct_gen;
   
   $arch_data = array();
   $queued_arch_lines = array();
-  $new_lite_data = null;
+  $new_light_data = null;
   
-  // Lite chart file path
-  $lite_path = preg_replace("/archival/i", 'lite/' . $days_span . '_days', $archive_path);
+  // Light chart file path
+  $light_path = preg_replace("/archival/i", 'light/' . $days_span . '_days', $archive_path);
   
   
-    // Hash of lite path, AND random X hours update threshold, to spread out and event-track 'all' chart rebuilding
+    // Hash of light path, AND random X hours update threshold, to spread out and event-track 'all' chart rebuilding
     if ( $days_span == 'all' ) {
-    $lite_path_hash = md5($lite_path);
+    $light_path_hash = md5($light_path);
     $thres_range = explode(',', $ct_conf['dev']['all_chart_rebuild_min_max']);
     $all_chart_rebuild_thres = rand($thres_range[0], $thres_range[1]); // Randomly within the min/max range, to spead the load across multiple runtimes
     }
    
    
-    // Get FIRST AND LAST line of lite chart data (determines oldest / newest lite timestamp)
-    if ( file_exists($lite_path) ) {
+    // Get FIRST AND LAST line of light chart data (determines oldest / newest light timestamp)
+    if ( file_exists($light_path) ) {
     
-    $oldest_lite_array = explode("||", file($lite_path)[0]);
-    $oldest_lite_timestamp = $ct_var->num_to_str( $oldest_lite_array[0] );
+    $oldest_light_array = explode("||", file($light_path)[0]);
+    $oldest_light_timestamp = $ct_var->num_to_str( $oldest_light_array[0] );
         
-    $last_lite_line = $this->tail_custom($lite_path);
-    $last_lite_array = explode("||", $last_lite_line);
-    $newest_lite_timestamp = ( isset($last_lite_array[0]) ? $ct_var->num_to_str($last_lite_array[0]) : false );
+    $last_light_line = $this->tail_custom($light_path);
+    $last_light_array = explode("||", $last_light_line);
+    $newest_light_timestamp = ( isset($last_light_array[0]) ? $ct_var->num_to_str($last_light_array[0]) : false );
     
     gc_collect_cycles(); // Clean memory cache
     
     }
     else {
     
-        if ( $ct_gen->dir_struct( dirname($lite_path) ) != true ) {
-        $ct_gen->log('system_error', 'Unable to create light chart directory structure ('.dirname($lite_path).')');
+        if ( $ct_gen->dir_struct( dirname($light_path) ) != true ) {
+        $ct_gen->log('system_error', 'Unable to create light chart directory structure ('.dirname($light_path).')');
         return false;
         }
         
-    $newest_lite_timestamp = false;
+    $newest_light_timestamp = false;
     
     usleep(150000); // Wait 0.15 seconds, since we just re-created the light chart path (likely after a mid-flight reset)
     
@@ -828,16 +828,16 @@ var $ct_array1 = array();
     elseif (
     $days_span == 'all'
     && isset($oldest_arch_timestamp)
-    && isset($oldest_lite_timestamp)
+    && isset($oldest_light_timestamp)
     && trim($oldest_arch_timestamp) != ''
-    && $oldest_arch_timestamp != $oldest_lite_timestamp
+    && $oldest_arch_timestamp != $oldest_light_timestamp
     ) {
         
     $ct_gen->log('cache_error', 'Archival chart data appears recently restored, resetting ALL light charts');
     
     // Delete ALL light charts (this will automatically trigger a re-build)
-    $this->remove_dir($base_dir . '/cache/charts/spot_price_24hr_volume/lite');
-    $this->remove_dir($base_dir . '/cache/charts/system/lite');
+    $this->remove_dir($base_dir . '/cache/charts/spot_price_24hr_volume/light');
+    $this->remove_dir($base_dir . '/cache/charts/system/light');
     
     return 'reset';
     
@@ -849,53 +849,53 @@ var $ct_array1 = array();
     $base_min_timestamp = $ct_var->num_to_str( strtotime('-'.$days_span.' day', $newest_arch_timestamp) );
     }
     
-    // If it's the 'all' lite chart, OR the oldest archival timestamp is newer than oldest base timestamp we can use
+    // If it's the 'all' light chart, OR the oldest archival timestamp is newer than oldest base timestamp we can use
     if ( $days_span == 'all' || $days_span != 'all' && $oldest_arch_timestamp > $base_min_timestamp ) {
     $oldest_allowed_timestamp = $oldest_arch_timestamp;
     }
-    // If it's an X days lite chart (not 'all'), and we have archival timestamps that are older than oldest base timestamp we can use
+    // If it's an X days light chart (not 'all'), and we have archival timestamps that are older than oldest base timestamp we can use
     elseif ( $days_span != 'all' ) {
     $oldest_allowed_timestamp = $base_min_timestamp;  
     }
    
    
-    // Minimum time interval between data points in lite chart
+    // Minimum time interval between data points in light chart
     if ( $days_span == 'all' ) {
-    $min_data_interval = round( ($newest_arch_timestamp - $oldest_arch_timestamp) / $ct_conf['power']['lite_chart_data_points_max'] ); // Dynamic
+    $min_data_interval = round( ($newest_arch_timestamp - $oldest_arch_timestamp) / $ct_conf['power']['light_chart_data_points_max'] ); // Dynamic
     }
     else {
-    $min_data_interval = round( ($days_span * 86400) / $ct_conf['power']['lite_chart_data_points_max'] ); // Fixed X days (86400 seconds per day)
+    $min_data_interval = round( ($days_span * 86400) / $ct_conf['power']['light_chart_data_points_max'] ); // Fixed X days (86400 seconds per day)
     }
   
   
-    // #INITIALLY# (if no lite data exists yet) we randomly spread the load across multiple cron jobs
+    // #INITIALLY# (if no light data exists yet) we randomly spread the load across multiple cron jobs
     // THEN IT #REMAINS RANDOMLY SPREAD# ACROSS CRON JOBS #WITHOUT DOING ANYTHING AFTER# THE INITIAL RANDOMNESS
-    if ( $newest_lite_timestamp == false ) {
-    $lite_data_update_thres = rand( (time() - 3333) , (time() + 6666) ); // 1/3 of all lite charts REBUILDS update on average, per runtime
+    if ( $newest_light_timestamp == false ) {
+    $light_data_update_thres = rand( (time() - 3333) , (time() + 6666) ); // 1/3 of all light charts REBUILDS update on average, per runtime
     }
-    // Update threshold calculated from pre-existing lite data
+    // Update threshold calculated from pre-existing light data
     else {
-    $lite_data_update_thres = $newest_lite_timestamp + $min_data_interval;
+    $light_data_update_thres = $newest_light_timestamp + $min_data_interval;
     }
   
   
   // Large number support (NOT scientific format), since we manipulated these
   $min_data_interval = $ct_var->num_to_str($min_data_interval); 
-  $lite_data_update_thres = $ct_var->num_to_str($lite_data_update_thres); 
+  $light_data_update_thres = $ct_var->num_to_str($light_data_update_thres); 
   
   
-     // If we are queued to update an existing lite chart, get the data points we want to add 
+     // If we are queued to update an existing light chart, get the data points we want to add 
      // (may be multiple data points, if the last update had network errors / system reboot / etc)
-     if ( isset($newest_lite_timestamp) && $lite_data_update_thres <= $newest_arch_timestamp ) {
+     if ( isset($newest_light_timestamp) && $light_data_update_thres <= $newest_arch_timestamp ) {
      
         // If we are only adding the newest archival data point (passed into this function), 
         // #we save BIGTIME on resource usage# (used EVERYTIME, other than very rare FALLBACKS)
         // CHECKS IF UPDATE THRESHOLD IS GREATER THAN NEWEST ARCHIVAL DATA POINT TIMESTAMP, 
         // #WHEN ADDING AN EXTRA# $min_data_interval (so we know to only add one data point)
-        if ( $ct_var->num_to_str($lite_data_update_thres + $min_data_interval) > $newest_arch_timestamp ) {
+        if ( $ct_var->num_to_str($light_data_update_thres + $min_data_interval) > $newest_arch_timestamp ) {
         $queued_arch_lines[] = $last_arch_line;
         }
-       // If multiple lite chart data points missing (from any very rare FALLBACK instances, like network / load / disk / runtime issues, etc)
+       // If multiple light chart data points missing (from any very rare FALLBACK instances, like network / load / disk / runtime issues, etc)
         else {
         
        $tail_arch_lines = $this->tail_custom($archive_path, 20); // Grab last 20 lines, to be safe
@@ -907,7 +907,7 @@ var $ct_array1 = array();
           $arch_line_array = explode('||', $arch_line);
           $arch_line_array[0] = $ct_var->num_to_str($arch_line_array[0]);
            
-             if ( !$added_arch_timestamp && $lite_data_update_thres <= $arch_line_array[0]
+             if ( !$added_arch_timestamp && $light_data_update_thres <= $arch_line_array[0]
              || isset($added_arch_timestamp) && $ct_var->num_to_str($added_arch_timestamp + $min_data_interval) <= $arch_line_array[0] ) {
              $queued_arch_lines[] = $arch_line;
              $added_arch_timestamp = $arch_line_array[0];
@@ -932,18 +932,18 @@ var $ct_array1 = array();
   
   
     ////////////////////////////////////////////////////////////////////////////////////////////////
-    // Not time to update / rebuild this lite chart yet
+    // Not time to update / rebuild this light chart yet
     ////////////////////////////////////////////////////////////////////////////////////////////////
-    if ( $lite_data_update_thres > $newest_arch_timestamp ) {
+    if ( $light_data_update_thres > $newest_arch_timestamp ) {
     gc_collect_cycles(); // Clean memory cache
     return false;
     }
     ////////////////////////////////////////////////////////////////////////////////////////////////
-    // If no lite chart exists yet, OR it's time to RESET intervals in the 'all' chart, rebuild from scratch
+    // If no light chart exists yet, OR it's time to RESET intervals in the 'all' chart, rebuild from scratch
     // (we STILL check $queued_arch_lines for new data, to see if we should SKIP an 'all' charts full rebuild now)
     ////////////////////////////////////////////////////////////////////////////////////////////////
-    elseif ( !$newest_lite_timestamp 
-    || $days_span == 'all' && is_array($queued_arch_lines) && sizeof($queued_arch_lines) > 0 && $this->update_cache($base_dir . '/cache/events/lite_chart_rebuilds/all_days_chart_'.$lite_path_hash.'.dat', (60 * $all_chart_rebuild_thres) ) == true ) {
+    elseif ( !$newest_light_timestamp 
+    || $days_span == 'all' && is_array($queued_arch_lines) && sizeof($queued_arch_lines) > 0 && $this->update_cache($base_dir . '/cache/events/light_chart_rebuilds/all_days_chart_'.$light_path_hash.'.dat', (60 * $all_chart_rebuild_thres) ) == true ) {
    
     $archive_file_data = file($archive_path);
     $archive_file_data = array_reverse($archive_file_data); // Save time, only loop / read last lines needed
@@ -965,14 +965,14 @@ var $ct_array1 = array();
       $loop = 0;
       $data_points = 0;
       // $data_points <= is INTENTIONAL, as we can have max data points slightly under without it
-      while ( isset($arch_data[$loop]) && $data_points <= $ct_conf['power']['lite_chart_data_points_max'] ) {
+      while ( isset($arch_data[$loop]) && $data_points <= $ct_conf['power']['light_chart_data_points_max'] ) {
        
       $data_point_array = explode("||", $arch_data[$loop]);
       $data_point_array[0] = $ct_var->num_to_str($data_point_array[0]);
         
          if ( !$next_timestamp || isset($next_timestamp) && $data_point_array[0] <= $next_timestamp ) {
             
-         $new_lite_data = $arch_data[$loop] . $new_lite_data; // WITHOUT newline, since file() maintains those by default
+         $new_light_data = $arch_data[$loop] . $new_light_data; // WITHOUT newline, since file() maintains those by default
          $next_timestamp = $data_point_array[0] - $min_data_interval;
          $data_points = $data_points + 1;
         
@@ -995,63 +995,63 @@ var $ct_array1 = array();
       // so we can detect if a user ever restores archival charts WITH OLDER / LARGER data sets
       // (so we know if we need to reset light charts, by comparing the first data point on the 'all' light charts to archival charts)
       if ( $days_span == 'all' && !$lastline_added ) {
-      $new_lite_data = $arch_data[ ( sizeof($arch_data) - 1 ) ] . $new_lite_data; // WITHOUT newline, since file() maintains those by default
+      $new_light_data = $arch_data[ ( sizeof($arch_data) - 1 ) ] . $new_light_data; // WITHOUT newline, since file() maintains those by default
       }
      
     
-    // Store the lite chart data (rebuild)
-    $result = $this->save_file($lite_path, $new_lite_data);  // WITHOUT newline, since file() maintains those by default (file write)
-    $lite_mode_logging = 'REBUILD';
+    // Store the light chart data (rebuild)
+    $result = $this->save_file($light_path, $new_light_data);  // WITHOUT newline, since file() maintains those by default (file write)
+    $light_mode_logging = 'REBUILD';
     
     
-      // Update the 'all' lite chart rebuild event tracking, IF THE LITE CHART UPDATED SUCESSFULLY
+      // Update the 'all' light chart rebuild event tracking, IF THE LIGHT CHART UPDATED SUCESSFULLY
       if ( $days_span == 'all' && $result == true ) {
-      $this->save_file($base_dir . '/cache/events/lite_chart_rebuilds/all_days_chart_'.$lite_path_hash.'.dat', $ct_gen->time_date_format(false, 'pretty_date_time') );
+      $this->save_file($base_dir . '/cache/events/light_chart_rebuilds/all_days_chart_'.$light_path_hash.'.dat', $ct_gen->time_date_format(false, 'pretty_date_time') );
       }
      
    
     }
     ////////////////////////////////////////////////////////////////////////////////////////////////
-    // If the lite chart has existing data, then $queued_arch_lines should be populated (IF we have new data to append to it).
+    // If the light chart has existing data, then $queued_arch_lines should be populated (IF we have new data to append to it).
     // We also trim out X first lines of stale data (earlier then the X days time range)
     ////////////////////////////////////////////////////////////////////////////////////////////////
     elseif ( is_array($queued_arch_lines) && sizeof($queued_arch_lines) > 0 ) {
      
     $queued_arch_data = implode("\n", $queued_arch_lines);
     
-    // Current lite chart lines, plus new archival lines queued to be added
-    $check_lite_data_lines = $ct_gen->get_lines($lite_path) + sizeof($queued_arch_lines);
+    // Current light chart lines, plus new archival lines queued to be added
+    $check_light_data_lines = $ct_gen->get_lines($light_path) + sizeof($queued_arch_lines);
      
-    // Get FIRST line of lite chart data (determines oldest lite timestamp)
-    $fopen_lite = fopen($lite_path, 'r');
+    // Get FIRST line of light chart data (determines oldest light timestamp)
+    $fopen_light = fopen($light_path, 'r');
     
-      if ($fopen_lite) {
-      $first_lite_line = fgets($fopen_lite);
-      fclose($fopen_lite);
+      if ($fopen_light) {
+      $first_light_line = fgets($fopen_light);
+      fclose($fopen_light);
       usleep(20000); // Wait 0.02 seconds, since we'll be writing data to this file momentarily
       gc_collect_cycles(); // Clean memory cache
       }
        
-    $first_lite_array = explode("||", $first_lite_line);
-    $oldest_lite_timestamp = $ct_var->num_to_str($first_lite_array[0]);
+    $first_light_array = explode("||", $first_light_line);
+    $oldest_light_timestamp = $ct_var->num_to_str($first_light_array[0]);
      
-      // If our oldest lite timestamp is older than allowed, remove the stale data points
-      if ( $oldest_lite_timestamp < $oldest_allowed_timestamp ) {
-      $lite_data_removed_outdated_lines = $ct_gen->prune_first_lines($lite_path, 0, $oldest_allowed_timestamp);
+      // If our oldest light timestamp is older than allowed, remove the stale data points
+      if ( $oldest_light_timestamp < $oldest_allowed_timestamp ) {
+      $light_data_removed_outdated_lines = $ct_gen->prune_first_lines($light_path, 0, $oldest_allowed_timestamp);
       
       // ONLY APPEND A LINE BREAK TO THE NEW ARCHIVAL DATA, since $ct_gen->prune_first_lines() maintains the existing line breaks
-      $result = $this->save_file($lite_path, $lite_data_removed_outdated_lines['data'] . $queued_arch_data . "\n");  // WITH newline for NEW data (file write)
-      $lite_mode_logging = 'OVERWRITE_' . $lite_data_removed_outdated_lines['lines_removed'] . '_OUTDATED_PRUNED_' . $added_arch_mode;
+      $result = $this->save_file($light_path, $light_data_removed_outdated_lines['data'] . $queued_arch_data . "\n");  // WITH newline for NEW data (file write)
+      $light_mode_logging = 'OVERWRITE_' . $light_data_removed_outdated_lines['lines_removed'] . '_OUTDATED_PRUNED_' . $added_arch_mode;
       }
       // If we're clear to just append the latest data
       else {
-      $result = $this->save_file($lite_path, $queued_arch_data . "\n", "append");  // WITH newline (file write)
-      $lite_mode_logging = 'APPEND_' . $added_arch_mode;
+      $result = $this->save_file($light_path, $queued_arch_data . "\n", "append");  // WITH newline (file write)
+      $light_mode_logging = 'APPEND_' . $added_arch_mode;
       }
      
    
     }
-    // No lite data to update
+    // No light data to update
     else {
     $result = 'no_update';
     }
@@ -1061,17 +1061,17 @@ var $ct_array1 = array();
     // Logging results
     if ( $result == true ) {
      
-    $_SESSION['lite_charts_updated'] = $_SESSION['lite_charts_updated'] + 1;
+    $_SESSION['light_charts_updated'] = $_SESSION['light_charts_updated'] + 1;
       
       if ( 
       $ct_conf['dev']['debug'] == 'all'
       || $ct_conf['dev']['debug'] == 'all_telemetry'
-      || $ct_conf['dev']['debug'] == 'lite_chart_telemetry' 
+      || $ct_conf['dev']['debug'] == 'light_chart_telemetry' 
       ) {
       	
       $ct_gen->log(
       			'cache_debug',
-      			'Lite chart ' . $lite_mode_logging . ' COMPLETED ('.$_SESSION['lite_charts_updated'].') for ' . $lite_path
+      			'Light chart ' . $light_mode_logging . ' COMPLETED ('.$_SESSION['light_charts_updated'].') for ' . $light_path
       			);
       
       }
@@ -1084,7 +1084,7 @@ var $ct_array1 = array();
       	
       $ct_gen->log(
       			'system_debug',
-      			$_SESSION['lite_charts_updated'] . ' lite charts updated, CURRENT script memory usage is ' . $ct_gen->conv_bytes(memory_get_usage(), 1) . ', PEAK script memory usage is ' . $ct_gen->conv_bytes(memory_get_peak_usage(), 1) . ', php_sapi_name is "' . php_sapi_name() . '"'
+      			$_SESSION['light_charts_updated'] . ' light charts updated, CURRENT script memory usage is ' . $ct_gen->conv_bytes(memory_get_usage(), 1) . ', PEAK script memory usage is ' . $ct_gen->conv_bytes(memory_get_peak_usage(), 1) . ', php_sapi_name is "' . php_sapi_name() . '"'
       			);
      
       }
@@ -1093,10 +1093,10 @@ var $ct_array1 = array();
     elseif ( $result == false ) {
         
         if ( !is_readable($archive_path) ) {
-        $ct_gen->log( 'cache_error', 'Lite chart ' . $lite_mode_logging . ' FAILED, data from archive file ' . $archive_path . ' could not be read. Check file AND cache directory permissions');
+        $ct_gen->log( 'cache_error', 'Light chart ' . $light_mode_logging . ' FAILED, data from archive file ' . $archive_path . ' could not be read. Check file AND cache directory permissions');
         }
         elseif ( !file_exists($archive_path) ) {
-        $ct_gen->log( 'cache_error', 'Lite chart ' . $lite_mode_logging . ' FAILED for ' . $lite_path . ', archival data not created yet (for new installs please wait a few hours, then check cache directory permissions if this error continues beyond then)');
+        $ct_gen->log( 'cache_error', 'Light chart ' . $light_mode_logging . ' FAILED for ' . $light_path . ', archival data not created yet (for new installs please wait a few hours, then check cache directory permissions if this error continues beyond then)');
         }
     
     }

@@ -11,7 +11,7 @@ require_once($base_dir . '/app-lib/php/other/sub-init/minimized-sub-init.php');
 // Charts library
 
 $font_width = 9; // NOT MONOSPACE, SO WE GUESS AN AVERAGE
-$link_spacer = 65; // Space beetween lite chart links
+$link_spacer = 65; // Space beetween light chart links
 
 
 // ASSET PRICE CHARTS

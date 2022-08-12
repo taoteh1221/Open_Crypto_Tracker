@@ -15,7 +15,7 @@
 	}
 	
 	
-$x_coord = 75; // Start position (absolute) for lite chart links
+$x_coord = 75; // Start position (absolute) for light chart links
 	
 
 	foreach ( $ct_conf['charts_alerts']['tracked_mrkts'] as $key => $val ) {
@@ -57,7 +57,7 @@ $x_coord = 75; // Start position (absolute) for lite chart links
 			
 		
 			// Have this script send the UI alert messages, and not load any chart code (to not leave the page endlessly loading) if cache data is not present
-			if ( !file_exists('cache/charts/spot_price_24hr_volume/lite/' . $_GET['days'] . '_days/'.$chart_asset.'/'.$key.'_chart_'.$charted_val.'.dat') ) {
+			if ( !file_exists('cache/charts/spot_price_24hr_volume/light/' . $_GET['days'] . '_days/'.$chart_asset.'/'.$key.'_chart_'.$charted_val.'.dat') ) {
 			?>
 			
 {
@@ -90,7 +90,7 @@ gui: {
 },
    type: "area",
    noData: {
-     text: "No data for the '<?=ucfirst($_GET['days'])?> day(s)' lite chart yet, please check back in awhile.",
+     text: "No data for this '<?=ucfirst($_GET['days'])?> day(s)' light chart yet, please check back in awhile.",
   	  fontColor: "<?=$ct_conf['power']['charts_text']?>",
      backgroundColor: "#808080",
      fontSize: 20,
@@ -116,25 +116,25 @@ gui: {
    }],
 	labels: [
 	<?php
-	foreach ($ct_conf['power']['lite_chart_day_intervals'] as $lite_chart_days) {
-	$lite_chart_text = $ct_gen->light_chart_time_period($lite_chart_days, 'short');
+	foreach ($ct_conf['power']['light_chart_day_intervals'] as $light_chart_days) {
+	$light_chart_text = $ct_gen->light_chart_time_period($light_chart_days, 'short');
 	?>
 		{
 	    x: <?=$x_coord?>,
 	    y: 11,
-	    id: '<?=$lite_chart_days?>',
-	    fontColor: "<?=($_GET['days'] == $lite_chart_days ? $ct_conf['power']['charts_text'] : $ct_conf['power']['charts_link'] )?>",
+	    id: '<?=$light_chart_days?>',
+	    fontColor: "<?=($_GET['days'] == $light_chart_days ? $ct_conf['power']['charts_text'] : $ct_conf['power']['charts_link'] )?>",
 	    fontSize: "22",
 	    fontFamily: "Open Sans",
 	    cursor: "hand",
-	    text: "<?=$lite_chart_text?>"
+	    text: "<?=$light_chart_text?>"
 	  	},
 	<?php
 	
 		// Account for more / less digits with absolute positioning
-		// Take into account INCREASE OR DECREASE of characters in $lite_chart_text
-		if ( strlen($last_lite_chart_text) > 0 && strlen($last_lite_chart_text) != strlen($lite_chart_text) ) {
-		$difference = $difference + ( strlen($lite_chart_text) - strlen($last_lite_chart_text) ); 
+		// Take into account INCREASE OR DECREASE of characters in $light_chart_text
+		if ( strlen($last_light_chart_text) > 0 && strlen($last_light_chart_text) != strlen($light_chart_text) ) {
+		$difference = $difference + ( strlen($light_chart_text) - strlen($last_light_chart_text) ); 
 		$x_coord = $x_coord + ( $difference * $font_width ); 
 		}
 		elseif ( isset($difference) ) {
@@ -142,7 +142,7 @@ gui: {
 		}
 	
 	$x_coord = $x_coord + $link_spacer;
-	$last_lite_chart_text = $lite_chart_text;
+	$last_light_chart_text = $light_chart_text;
 	}
 	?>
 	]
@@ -154,7 +154,7 @@ gui: {
 			}
 			
 		
-		$chart_data = $ct_gen->chart_data('cache/charts/spot_price_24hr_volume/lite/' . $_GET['days'] . '_days/'.$chart_asset.'/'.$key.'_chart_'.$charted_val.'.dat', $market_parse[1]);
+		$chart_data = $ct_gen->chart_data('cache/charts/spot_price_24hr_volume/light/' . $_GET['days'] . '_days/'.$chart_asset.'/'.$key.'_chart_'.$charted_val.'.dat', $market_parse[1]);
 		
 		
 		$price_sample_oldest = $ct_var->num_to_str( $ct_var->delimited_str_sample($chart_data['spot'], ',', 'first') );
@@ -345,25 +345,25 @@ graphset:[
 	],
 	labels: [
 	<?php
-	foreach ($ct_conf['power']['lite_chart_day_intervals'] as $lite_chart_days) {
-	$lite_chart_text = $ct_gen->light_chart_time_period($lite_chart_days, 'short');
+	foreach ($ct_conf['power']['light_chart_day_intervals'] as $light_chart_days) {
+	$light_chart_text = $ct_gen->light_chart_time_period($light_chart_days, 'short');
 	?>
 		{
 	    x: <?=$x_coord?>,
 	    y: 11,
-	    id: '<?=$lite_chart_days?>',
-	    fontColor: "<?=($_GET['days'] == $lite_chart_days ? $ct_conf['power']['charts_text'] : $ct_conf['power']['charts_link'] )?>",
+	    id: '<?=$light_chart_days?>',
+	    fontColor: "<?=($_GET['days'] == $light_chart_days ? $ct_conf['power']['charts_text'] : $ct_conf['power']['charts_link'] )?>",
 	    fontSize: "22",
 	    fontFamily: "Open Sans",
 	    cursor: "hand",
-	    text: "<?=$lite_chart_text?>"
+	    text: "<?=$light_chart_text?>"
 	  	},
 	<?php
 	
 		// Account for more / less digits with absolute positioning
-		// Take into account INCREASE OR DECREASE of characters in $lite_chart_text
-		if ( strlen($last_lite_chart_text) > 0 && strlen($last_lite_chart_text) != strlen($lite_chart_text) ) {
-		$difference = $difference + ( strlen($lite_chart_text) - strlen($last_lite_chart_text) ); 
+		// Take into account INCREASE OR DECREASE of characters in $light_chart_text
+		if ( strlen($last_light_chart_text) > 0 && strlen($last_light_chart_text) != strlen($light_chart_text) ) {
+		$difference = $difference + ( strlen($light_chart_text) - strlen($last_light_chart_text) ); 
 		$x_coord = $x_coord + ( $difference * $font_width ); 
 		}
 		elseif ( isset($difference) ) {
@@ -371,7 +371,7 @@ graphset:[
 		}
 	
 	$x_coord = $x_coord + $link_spacer;
-	$last_lite_chart_text = $lite_chart_text;
+	$last_light_chart_text = $light_chart_text;
 	}
 	?>
 	]

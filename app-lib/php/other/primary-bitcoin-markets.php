@@ -57,8 +57,8 @@ if (
 // Delete all fiat price alerts cache data
 $ct_gen->del_all_files($base_dir . '/cache/alerts/fiat_price'); 
 
-// Delete all lite charts SPOT PRICE data (automatically will trigger a lite chart rebuild)
-$ct_cache->remove_dir($base_dir . '/cache/charts/spot_price_24hr_volume/lite');
+// Delete all light charts SPOT PRICE data (automatically will trigger a light chart rebuild)
+$ct_cache->remove_dir($base_dir . '/cache/charts/spot_price_24hr_volume/light');
 
 	// Delete show_charts cookie data
 	if ( isset($_COOKIE['show_charts']) ) {

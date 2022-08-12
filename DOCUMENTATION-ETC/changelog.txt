@@ -3277,7 +3277,7 @@ MAJOR IMPROVEMENTS TO THE USER EXPERIENCE HAVE BEEN MADE, WHICH ARE !NOT! BACKWA
 
 -Minor documentation revisions
 
--Lite charts (for fast load times)
+-Light charts (for fast load times)
 
 -Youtube RSS feeds
 
@@ -3311,9 +3311,9 @@ MAJOR IMPROVEMENTS TO THE USER EXPERIENCE HAVE BEEN MADE, WHICH ARE !NOT! BACKWA
 
 -More RSS feeds to choose from
 
--Dynamic lite chart settings in config.php
+-Dynamic light chart settings in config.php
 
--Optimized lite chart structuring
+-Optimized light chart structuring
 
 IMPORTANT UPGRADE NOTES: 
 
@@ -3341,7 +3341,7 @@ MAJOR IMPROVEMENTS TO THE USER EXPERIENCE HAVE BEEN MADE, WHICH ARE !NOT! BACKWA
 -------------------------------------------------------------------
 4.13.1:
 
--Bug fix / optimizations for lite charts excessive disk writes
+-Bug fix / optimizations for light charts excessive disk writes
 
 -Misc. UX improvements
 
@@ -3405,7 +3405,7 @@ MAJOR IMPROVEMENTS TO THE USER EXPERIENCE HAVE BEEN MADE, WHICH ARE !NOT! BACKWA
 
 -Bug fix for telegram alerts in 3rd party PHP class (default setting was hard-coded ips for api.telegram.org, now switched to dynamic ip resolving via normal DNS)
 
--Lite chart support for system stats
+-Light chart support for system stats
 
 IMPORTANT UPGRADE NOTES: 
 
@@ -3477,7 +3477,7 @@ MAJOR IMPROVEMENTS TO THE USER EXPERIENCE HAVE BEEN MADE, WHICH ARE !NOT! BACKWA
 
 -Bug fix for user-initiated chart zoom (reset user-initiated zoom before loading a new time interval chart like 1W / 1M / etc)
 
--Lite chart scaling optimizations (less disk writes AND faster runtimes)
+-Light chart scaling optimizations (less disk writes AND faster runtimes)
 
 -Misc. optimizations / UX improvements / cleanup
 
@@ -3489,7 +3489,7 @@ MAJOR IMPROVEMENTS TO THE USER EXPERIENCE HAVE BEEN MADE, WHICH ARE !NOT! BACKWA
 
 IMPORTANT UPGRADE NOTES: 
 
-v4.14.3 HAS MAJOR OVERHAULS TO LITE CHART (1W / 1M / ETC) SCALING OPTIMIZATIONS, WHICH MAY SKEW A FEW (NOT MANY THOUGH) CHART TIME INTERVALS #INITIALLY IF YOU ARE UPGRADING FROM A PREVIOUS VERSION# (BUT WILL RETURN TO NORMAL IMMEDIATELY AFTER THE FIRST NEW DATA POINT #AFTER# UPGRADING)
+v4.14.3 HAS MAJOR OVERHAULS TO LIGHT CHART (1W / 1M / ETC) SCALING OPTIMIZATIONS, WHICH MAY SKEW A FEW (NOT MANY THOUGH) CHART TIME INTERVALS #INITIALLY IF YOU ARE UPGRADING FROM A PREVIOUS VERSION# (BUT WILL RETURN TO NORMAL IMMEDIATELY AFTER THE FIRST NEW DATA POINT #AFTER# UPGRADING)
 
 v4.06.0 / v4.07.7 / v4.10.1 HAVE MAJOR OVERHAULS TO CONFIGURATION VARIABLE NAMES (FOR MODULARITY, SEMANTICS, AND EASY-TO-UNDERSTAND NAMES). MIGRATE ANY PRE-EXISTING CUSTOM CONFIGURATION TO THE #NEW# VARIABLE NAMES
 
@@ -3517,13 +3517,13 @@ MAJOR IMPROVEMENTS TO THE USER EXPERIENCE HAVE BEEN MADE, WHICH ARE !NOT! BACKWA
 
 -Bug fix for too many selected news feeds crashing the web server (feeds are now loaded individually in the background, like charts are)
 
--Bug fix for lite charts (correctly pruning lite charts with low time spans / data points less than allowed maximum)
+-Bug fix for light charts (correctly pruning light charts with low time spans / data points less than allowed maximum)
 
 -Misc. optimizations / UX improvements / cleanup
 
 IMPORTANT UPGRADE NOTES: 
 
-v4.14.3 HAS MAJOR OVERHAULS TO LITE CHART (1W / 1M / ETC) SCALING OPTIMIZATIONS, WHICH MAY SKEW A FEW (NOT MANY THOUGH) CHART TIME INTERVALS #INITIALLY IF YOU ARE UPGRADING FROM A PREVIOUS VERSION# (BUT WILL RETURN TO NORMAL IMMEDIATELY AFTER THE FIRST NEW DATA POINT #AFTER# UPGRADING)
+v4.14.3 HAS MAJOR OVERHAULS TO LIGHT CHART (1W / 1M / ETC) SCALING OPTIMIZATIONS, WHICH MAY SKEW A FEW (NOT MANY THOUGH) CHART TIME INTERVALS #INITIALLY IF YOU ARE UPGRADING FROM A PREVIOUS VERSION# (BUT WILL RETURN TO NORMAL IMMEDIATELY AFTER THE FIRST NEW DATA POINT #AFTER# UPGRADING)
 
 v4.06.0 / v4.07.7 / v4.10.1 HAVE MAJOR OVERHAULS TO CONFIGURATION VARIABLE NAMES (FOR MODULARITY, SEMANTICS, AND EASY-TO-UNDERSTAND NAMES). MIGRATE ANY PRE-EXISTING CUSTOM CONFIGURATION TO THE #NEW# VARIABLE NAMES
 
@@ -3553,7 +3553,7 @@ MAJOR IMPROVEMENTS TO THE USER EXPERIENCE HAVE BEEN MADE, WHICH ARE !NOT! BACKWA
 
 IMPORTANT UPGRADE NOTES: 
 
-v4.14.3 HAS MAJOR OVERHAULS TO LITE CHART (1W / 1M / ETC) SCALING OPTIMIZATIONS, WHICH MAY SKEW A FEW (NOT MANY THOUGH) CHART TIME INTERVALS #INITIALLY IF YOU ARE UPGRADING FROM A PREVIOUS VERSION# (BUT WILL RETURN TO NORMAL IMMEDIATELY AFTER THE FIRST NEW DATA POINT #AFTER# UPGRADING)
+v4.14.3 HAS MAJOR OVERHAULS TO LIGHT CHART (1W / 1M / ETC) SCALING OPTIMIZATIONS, WHICH MAY SKEW A FEW (NOT MANY THOUGH) CHART TIME INTERVALS #INITIALLY IF YOU ARE UPGRADING FROM A PREVIOUS VERSION# (BUT WILL RETURN TO NORMAL IMMEDIATELY AFTER THE FIRST NEW DATA POINT #AFTER# UPGRADING)
 
 v4.06.0 / v4.07.7 / v4.10.1 HAVE MAJOR OVERHAULS TO CONFIGURATION VARIABLE NAMES (FOR MODULARITY, SEMANTICS, AND EASY-TO-UNDERSTAND NAMES). MIGRATE ANY PRE-EXISTING CUSTOM CONFIGURATION TO THE #NEW# VARIABLE NAMES
 
@@ -3579,7 +3579,7 @@ MAJOR IMPROVEMENTS TO THE USER EXPERIENCE HAVE BEEN MADE, WHICH ARE !NOT! BACKWA
 -------------------------------------------------------------------
 4.14.6:
 
--Bug fix for lite chart updating logic (added missing "fclose" logic for initial chart inspections)
+-Bug fix for light chart updating logic (added missing "fclose" logic for initial chart inspections)
 
 -Bug fixes (revised) / optimizations (revised) / documentation for low memory devices (Raspberry Pi Zero, Pine64, etc) crashing when too many news feeds / price charts are chosen
 
@@ -3591,7 +3591,7 @@ IMPORTANT UPGRADE NOTES:
 
 v4.14.6 AND HIGHER REQUIRES PHP-FPM (FastCGI) v7.2 OR HIGHER (if you auto-installed, FULLY re-install EVERYTHING with the latest auto-install script: https://git.io/JoDFD)
 
-v4.14.3 HAS MAJOR OVERHAULS TO LITE CHART (1W / 1M / ETC) SCALING OPTIMIZATIONS, WHICH MAY SKEW A FEW (NOT MANY THOUGH) CHART TIME INTERVALS #INITIALLY IF YOU ARE UPGRADING FROM A PREVIOUS VERSION# (BUT WILL RETURN TO NORMAL IMMEDIATELY AFTER THE FIRST NEW DATA POINT #AFTER# UPGRADING)
+v4.14.3 HAS MAJOR OVERHAULS TO LIGHT CHART (1W / 1M / ETC) SCALING OPTIMIZATIONS, WHICH MAY SKEW A FEW (NOT MANY THOUGH) CHART TIME INTERVALS #INITIALLY IF YOU ARE UPGRADING FROM A PREVIOUS VERSION# (BUT WILL RETURN TO NORMAL IMMEDIATELY AFTER THE FIRST NEW DATA POINT #AFTER# UPGRADING)
 
 v4.06.0 / v4.07.7 / v4.10.1 HAVE MAJOR OVERHAULS TO CONFIGURATION VARIABLE NAMES (FOR MODULARITY, SEMANTICS, AND EASY-TO-UNDERSTAND NAMES). MIGRATE ANY PRE-EXISTING CUSTOM CONFIGURATION TO THE #NEW# VARIABLE NAMES
 
@@ -3617,7 +3617,7 @@ MAJOR IMPROVEMENTS TO THE USER EXPERIENCE HAVE BEEN MADE, WHICH ARE !NOT! BACKWA
 -------------------------------------------------------------------
 4.14.7:
 
--MANY bug fixes and optimizations for lite chart updating logic
+-MANY bug fixes and optimizations for light chart updating logic
 
 -Bug fix (revised, finally found root cause) for news feeds logic crashing server
 
@@ -3639,7 +3639,7 @@ IMPORTANT UPGRADE NOTES:
 
 v4.14.6 AND HIGHER WILL #FORCEFULLY RECOMMEND# PHP-FPM (FastCGI) v7.2 OR HIGHER. This warning can be disabled in the developer settings in config.php as of v4.14.7. If you auto-installed, you can auto-upgrade if you FULLY re-install EVERYTHING with the latest auto-install script: https://git.io/JoDFD
 
-v4.14.3 HAS MAJOR OVERHAULS TO LITE CHART (1W / 1M / ETC) SCALING OPTIMIZATIONS, WHICH MAY SKEW A FEW (NOT MANY THOUGH) CHART TIME INTERVALS #INITIALLY IF YOU ARE UPGRADING FROM A PREVIOUS VERSION# (BUT WILL RETURN TO NORMAL IMMEDIATELY AFTER THE FIRST NEW DATA POINT #AFTER# UPGRADING)
+v4.14.3 HAS MAJOR OVERHAULS TO LIGHT CHART (1W / 1M / ETC) SCALING OPTIMIZATIONS, WHICH MAY SKEW A FEW (NOT MANY THOUGH) CHART TIME INTERVALS #INITIALLY IF YOU ARE UPGRADING FROM A PREVIOUS VERSION# (BUT WILL RETURN TO NORMAL IMMEDIATELY AFTER THE FIRST NEW DATA POINT #AFTER# UPGRADING)
 
 v4.06.0 / v4.07.7 / v4.10.1 HAVE MAJOR OVERHAULS TO CONFIGURATION VARIABLE NAMES (FOR MODULARITY, SEMANTICS, AND EASY-TO-UNDERSTAND NAMES). MIGRATE ANY PRE-EXISTING CUSTOM CONFIGURATION TO THE #NEW# VARIABLE NAMES
 
@@ -3667,7 +3667,7 @@ MAJOR IMPROVEMENTS TO THE USER EXPERIENCE HAVE BEEN MADE, WHICH ARE !NOT! BACKWA
 
 -Bug fix for overhauled charts / news feeds loading logic, which delayed page loading times
 
--Bug fix for system stats lite charts (forgot to convert some logic to new optimized format)
+-Bug fix for system stats light charts (forgot to convert some logic to new optimized format)
 
 -Bug fix for coingecko not fetching more than 199 marketcap rankings
 
@@ -3679,11 +3679,11 @@ MAJOR IMPROVEMENTS TO THE USER EXPERIENCE HAVE BEEN MADE, WHICH ARE !NOT! BACKWA
 
 IMPORTANT UPGRADE NOTES: 
 
-v4.14.8 AND HIGHER FIXES SYSTEM STATS LITE CHARTS NOT UPDATING IN A TIMELY MANNER. You may need to delete you system stats lite chart directory to force a lite chart rebuild (from archival data) at: /cache/charts/system/lite/
+v4.14.8 AND HIGHER FIXES SYSTEM STATS LIGHT CHARTS NOT UPDATING IN A TIMELY MANNER. You may need to delete you system stats light chart directory to force a light chart rebuild (from archival data) at: /cache/charts/system/light/
 
 v4.14.6 AND HIGHER WILL #FORCEFULLY RECOMMEND# PHP-FPM (FastCGI) v7.2 OR HIGHER. This warning can be disabled in the developer settings in config.php as of v4.14.7. If you auto-installed, you can auto-upgrade if you FULLY re-install EVERYTHING with the latest auto-install script: https://git.io/JoDFD
 
-v4.14.3 HAS MAJOR OVERHAULS TO LITE CHART (1W / 1M / ETC) SCALING OPTIMIZATIONS, WHICH MAY SKEW A FEW (NOT MANY THOUGH) CHART TIME INTERVALS #INITIALLY IF YOU ARE UPGRADING FROM A PREVIOUS VERSION# (BUT WILL RETURN TO NORMAL IMMEDIATELY AFTER THE FIRST NEW DATA POINT #AFTER# UPGRADING)
+v4.14.3 HAS MAJOR OVERHAULS TO LIGHT CHART (1W / 1M / ETC) SCALING OPTIMIZATIONS, WHICH MAY SKEW A FEW (NOT MANY THOUGH) CHART TIME INTERVALS #INITIALLY IF YOU ARE UPGRADING FROM A PREVIOUS VERSION# (BUT WILL RETURN TO NORMAL IMMEDIATELY AFTER THE FIRST NEW DATA POINT #AFTER# UPGRADING)
 
 v4.06.0 / v4.07.7 / v4.10.1 HAVE MAJOR OVERHAULS TO CONFIGURATION VARIABLE NAMES (FOR MODULARITY, SEMANTICS, AND EASY-TO-UNDERSTAND NAMES). MIGRATE ANY PRE-EXISTING CUSTOM CONFIGURATION TO THE #NEW# VARIABLE NAMES
 
@@ -3709,21 +3709,21 @@ MAJOR IMPROVEMENTS TO THE USER EXPERIENCE HAVE BEEN MADE, WHICH ARE !NOT! BACKWA
 -------------------------------------------------------------------
 4.14.9:
 
--Bug fix for "all" time period lite charts (now they dynamically prune every 6 to 12 hours)
+-Bug fix for "all" time period light charts (now they dynamically prune every 6 to 12 hours)
 
 -Bug fix for bitmex API (getting stale price data)
 
--Default config optimizations for lite charts
+-Default config optimizations for light charts
 
 -Minor misc bug fixes / code cleanup
 
 IMPORTANT UPGRADE NOTES: 
 
-v4.14.8 AND HIGHER FIXES SYSTEM STATS LITE CHARTS NOT UPDATING IN A TIMELY MANNER. You may need to delete you system stats lite chart directory to force a lite chart rebuild (from archival data) at: /cache/charts/system/lite/
+v4.14.8 AND HIGHER FIXES SYSTEM STATS LIGHT CHARTS NOT UPDATING IN A TIMELY MANNER. You may need to delete you system stats light chart directory to force a light chart rebuild (from archival data) at: /cache/charts/system/light/
 
 v4.14.6 AND HIGHER WILL #FORCEFULLY RECOMMEND# PHP-FPM (FastCGI) v7.2 OR HIGHER. This warning can be disabled in the developer settings in config.php as of v4.14.7. If you auto-installed, you can auto-upgrade if you FULLY re-install EVERYTHING with the latest auto-install script: https://git.io/JoDFD
 
-v4.14.3 HAS MAJOR OVERHAULS TO LITE CHART (1W / 1M / ETC) SCALING OPTIMIZATIONS, WHICH MAY SKEW A FEW (NOT MANY THOUGH) CHART TIME INTERVALS #INITIALLY IF YOU ARE UPGRADING FROM A PREVIOUS VERSION# (BUT WILL RETURN TO NORMAL IMMEDIATELY AFTER THE FIRST NEW DATA POINT #AFTER# UPGRADING)
+v4.14.3 HAS MAJOR OVERHAULS TO LIGHT CHART (1W / 1M / ETC) SCALING OPTIMIZATIONS, WHICH MAY SKEW A FEW (NOT MANY THOUGH) CHART TIME INTERVALS #INITIALLY IF YOU ARE UPGRADING FROM A PREVIOUS VERSION# (BUT WILL RETURN TO NORMAL IMMEDIATELY AFTER THE FIRST NEW DATA POINT #AFTER# UPGRADING)
 
 v4.06.0 / v4.07.7 / v4.10.1 HAVE MAJOR OVERHAULS TO CONFIGURATION VARIABLE NAMES (FOR MODULARITY, SEMANTICS, AND EASY-TO-UNDERSTAND NAMES). MIGRATE ANY PRE-EXISTING CUSTOM CONFIGURATION TO THE #NEW# VARIABLE NAMES
 
@@ -3757,11 +3757,11 @@ MAJOR IMPROVEMENTS TO THE USER EXPERIENCE HAVE BEEN MADE, WHICH ARE !NOT! BACKWA
 
 IMPORTANT UPGRADE NOTES: 
 
-v4.14.8 AND HIGHER FIXES SYSTEM STATS LITE CHARTS NOT UPDATING IN A TIMELY MANNER. You may need to delete you system stats lite chart directory to force a lite chart rebuild (from archival data) at: /cache/charts/system/lite/
+v4.14.8 AND HIGHER FIXES SYSTEM STATS LIGHT CHARTS NOT UPDATING IN A TIMELY MANNER. You may need to delete you system stats light chart directory to force a light chart rebuild (from archival data) at: /cache/charts/system/light/
 
 v4.14.6 AND HIGHER WILL #FORCEFULLY RECOMMEND# PHP-FPM (FastCGI) v7.2 OR HIGHER. This warning can be disabled in the developer settings in config.php as of v4.14.7. If you auto-installed, you can auto-upgrade if you FULLY re-install EVERYTHING with the latest auto-install script: https://git.io/JoDFD
 
-v4.14.3 HAS MAJOR OVERHAULS TO LITE CHART (1W / 1M / ETC) SCALING OPTIMIZATIONS, WHICH MAY SKEW A FEW (NOT MANY THOUGH) CHART TIME INTERVALS #INITIALLY IF YOU ARE UPGRADING FROM A PREVIOUS VERSION# (BUT WILL RETURN TO NORMAL IMMEDIATELY AFTER THE FIRST NEW DATA POINT #AFTER# UPGRADING)
+v4.14.3 HAS MAJOR OVERHAULS TO LIGHT CHART (1W / 1M / ETC) SCALING OPTIMIZATIONS, WHICH MAY SKEW A FEW (NOT MANY THOUGH) CHART TIME INTERVALS #INITIALLY IF YOU ARE UPGRADING FROM A PREVIOUS VERSION# (BUT WILL RETURN TO NORMAL IMMEDIATELY AFTER THE FIRST NEW DATA POINT #AFTER# UPGRADING)
 
 v4.06.0 / v4.07.7 / v4.10.1 HAVE MAJOR OVERHAULS TO CONFIGURATION VARIABLE NAMES (FOR MODULARITY, SEMANTICS, AND EASY-TO-UNDERSTAND NAMES). MIGRATE ANY PRE-EXISTING CUSTOM CONFIGURATION TO THE #NEW# VARIABLE NAMES
 
@@ -3789,7 +3789,7 @@ MAJOR IMPROVEMENTS TO THE USER EXPERIENCE HAVE BEEN MADE, WHICH ARE !NOT! BACKWA
 
 -Bug fix for notifyme / alexa and text service APIs (recently introduced in v4.14.10 code overhaul, sorry fixed now)
 
--Bug fix for light charts (was not always checking for oldest lite chart timestamp before updating, and was pruning too much on occasion as a result)
+-Bug fix for light charts (was not always checking for oldest light chart timestamp before updating, and was pruning too much on occasion as a result)
 
 -Error / debugging alerts moved into more visible header icon dropdown (bell icon turns red when error notices exist, shows new logged errors / debugging when clicked)
 
@@ -3805,11 +3805,11 @@ MAJOR IMPROVEMENTS TO THE USER EXPERIENCE HAVE BEEN MADE, WHICH ARE !NOT! BACKWA
 
 IMPORTANT UPGRADE NOTES: 
 
-v4.14.8 AND HIGHER FIXES SYSTEM STATS LITE CHARTS NOT UPDATING IN A TIMELY MANNER. You may need to delete you system stats lite chart directory to force a lite chart rebuild (from archival data) at: /cache/charts/system/lite/
+v4.14.8 AND HIGHER FIXES SYSTEM STATS LIGHT CHARTS NOT UPDATING IN A TIMELY MANNER. You may need to delete you system stats light chart directory to force a light chart rebuild (from archival data) at: /cache/charts/system/light/
 
 v4.14.6 AND HIGHER WILL #FORCEFULLY RECOMMEND# PHP-FPM (FastCGI) v7.2 OR HIGHER. This warning can be disabled in the developer settings in config.php as of v4.14.7. If you auto-installed, you can auto-upgrade if you FULLY re-install EVERYTHING with the latest auto-install script: https://git.io/JoDFD
 
-v4.14.3 HAS MAJOR OVERHAULS TO LITE CHART (1W / 1M / ETC) SCALING OPTIMIZATIONS, WHICH MAY SKEW A FEW (NOT MANY THOUGH) CHART TIME INTERVALS #INITIALLY IF YOU ARE UPGRADING FROM A PREVIOUS VERSION# (BUT WILL RETURN TO NORMAL IMMEDIATELY AFTER THE FIRST NEW DATA POINT #AFTER# UPGRADING)
+v4.14.3 HAS MAJOR OVERHAULS TO LIGHT CHART (1W / 1M / ETC) SCALING OPTIMIZATIONS, WHICH MAY SKEW A FEW (NOT MANY THOUGH) CHART TIME INTERVALS #INITIALLY IF YOU ARE UPGRADING FROM A PREVIOUS VERSION# (BUT WILL RETURN TO NORMAL IMMEDIATELY AFTER THE FIRST NEW DATA POINT #AFTER# UPGRADING)
 
 v4.06.0 / v4.07.7 / v4.10.1 HAVE MAJOR OVERHAULS TO CONFIGURATION VARIABLE NAMES (FOR MODULARITY, SEMANTICS, AND EASY-TO-UNDERSTAND NAMES). MIGRATE ANY PRE-EXISTING CUSTOM CONFIGURATION TO THE #NEW# VARIABLE NAMES
 
@@ -3837,7 +3837,7 @@ MAJOR IMPROVEMENTS TO THE USER EXPERIENCE HAVE BEEN MADE, WHICH ARE !NOT! BACKWA
 
 -Bug fix for excessive system resource usage during cron jobs
 
--Bug fix for lite charts creating too many lines breaks in the data file
+-Bug fix for light charts creating too many lines breaks in the data file
 
 -Bug fix for news and charts pages correctly restoring current vertical scroll position on reload (if set as the start page)
 
@@ -3845,11 +3845,11 @@ MAJOR IMPROVEMENTS TO THE USER EXPERIENCE HAVE BEEN MADE, WHICH ARE !NOT! BACKWA
 
 IMPORTANT UPGRADE NOTES: 
 
-v4.14.8 AND HIGHER FIXES SYSTEM STATS LITE CHARTS NOT UPDATING IN A TIMELY MANNER. You may need to delete you system stats lite chart directory to force a lite chart rebuild (from archival data) at: /cache/charts/system/lite/
+v4.14.8 AND HIGHER FIXES SYSTEM STATS LIGHT CHARTS NOT UPDATING IN A TIMELY MANNER. You may need to delete you system stats light chart directory to force a light chart rebuild (from archival data) at: /cache/charts/system/light/
 
 v4.14.6 AND HIGHER WILL #FORCEFULLY RECOMMEND# PHP-FPM (FastCGI) v7.2 OR HIGHER. This warning can be disabled in the developer settings in config.php as of v4.14.7. If you auto-installed, you can auto-upgrade if you FULLY re-install EVERYTHING with the latest auto-install script: https://git.io/JoDFD
 
-v4.14.3 HAS MAJOR OVERHAULS TO LITE CHART (1W / 1M / ETC) SCALING OPTIMIZATIONS, WHICH MAY SKEW A FEW (NOT MANY THOUGH) CHART TIME INTERVALS #INITIALLY IF YOU ARE UPGRADING FROM A PREVIOUS VERSION# (BUT WILL RETURN TO NORMAL IMMEDIATELY AFTER THE FIRST NEW DATA POINT #AFTER# UPGRADING)
+v4.14.3 HAS MAJOR OVERHAULS TO LIGHT CHART (1W / 1M / ETC) SCALING OPTIMIZATIONS, WHICH MAY SKEW A FEW (NOT MANY THOUGH) CHART TIME INTERVALS #INITIALLY IF YOU ARE UPGRADING FROM A PREVIOUS VERSION# (BUT WILL RETURN TO NORMAL IMMEDIATELY AFTER THE FIRST NEW DATA POINT #AFTER# UPGRADING)
 
 v4.06.0 / v4.07.7 / v4.10.1 HAVE MAJOR OVERHAULS TO CONFIGURATION VARIABLE NAMES (FOR MODULARITY, SEMANTICS, AND EASY-TO-UNDERSTAND NAMES). MIGRATE ANY PRE-EXISTING CUSTOM CONFIGURATION TO THE #NEW# VARIABLE NAMES
 
@@ -3883,11 +3883,11 @@ MAJOR IMPROVEMENTS TO THE USER EXPERIENCE HAVE BEEN MADE, WHICH ARE !NOT! BACKWA
 
 IMPORTANT UPGRADE NOTES: 
 
-v4.14.8 AND HIGHER FIXES SYSTEM STATS LITE CHARTS NOT UPDATING IN A TIMELY MANNER. You may need to delete you system stats lite chart directory to force a lite chart rebuild (from archival data) at: /cache/charts/system/lite/
+v4.14.8 AND HIGHER FIXES SYSTEM STATS LIGHT CHARTS NOT UPDATING IN A TIMELY MANNER. You may need to delete you system stats light chart directory to force a light chart rebuild (from archival data) at: /cache/charts/system/light/
 
 v4.14.6 AND HIGHER WILL #FORCEFULLY RECOMMEND# PHP-FPM (FastCGI) v7.2 OR HIGHER. This warning can be disabled in the developer settings in config.php as of v4.14.7. If you auto-installed, you can auto-upgrade if you FULLY re-install EVERYTHING with the latest auto-install script: https://git.io/JoDFD
 
-v4.14.3 HAS MAJOR OVERHAULS TO LITE CHART (1W / 1M / ETC) SCALING OPTIMIZATIONS, WHICH MAY SKEW A FEW (NOT MANY THOUGH) CHART TIME INTERVALS #INITIALLY IF YOU ARE UPGRADING FROM A PREVIOUS VERSION# (BUT WILL RETURN TO NORMAL IMMEDIATELY AFTER THE FIRST NEW DATA POINT #AFTER# UPGRADING)
+v4.14.3 HAS MAJOR OVERHAULS TO LIGHT CHART (1W / 1M / ETC) SCALING OPTIMIZATIONS, WHICH MAY SKEW A FEW (NOT MANY THOUGH) CHART TIME INTERVALS #INITIALLY IF YOU ARE UPGRADING FROM A PREVIOUS VERSION# (BUT WILL RETURN TO NORMAL IMMEDIATELY AFTER THE FIRST NEW DATA POINT #AFTER# UPGRADING)
 
 v4.06.0 / v4.07.7 / v4.10.1 HAVE MAJOR OVERHAULS TO CONFIGURATION VARIABLE NAMES (FOR MODULARITY, SEMANTICS, AND EASY-TO-UNDERSTAND NAMES). MIGRATE ANY PRE-EXISTING CUSTOM CONFIGURATION TO THE #NEW# VARIABLE NAMES
 
@@ -3923,11 +3923,11 @@ MAJOR IMPROVEMENTS TO THE USER EXPERIENCE HAVE BEEN MADE, WHICH ARE !NOT! BACKWA
 
 IMPORTANT UPGRADE NOTES: 
 
-v4.14.8 AND HIGHER FIXES SYSTEM STATS LITE CHARTS NOT UPDATING IN A TIMELY MANNER. You may need to delete you system stats lite chart directory to force a lite chart rebuild (from archival data) at: /cache/charts/system/lite/
+v4.14.8 AND HIGHER FIXES SYSTEM STATS LIGHT CHARTS NOT UPDATING IN A TIMELY MANNER. You may need to delete you system stats light chart directory to force a light chart rebuild (from archival data) at: /cache/charts/system/light/
 
 v4.14.6 AND HIGHER WILL #FORCEFULLY RECOMMEND# PHP-FPM (FastCGI) v7.2 OR HIGHER. This warning can be disabled in the developer settings in config.php as of v4.14.7. If you auto-installed, you can auto-upgrade if you FULLY re-install EVERYTHING with the latest auto-install script: https://git.io/JoDFD
 
-v4.14.3 HAS MAJOR OVERHAULS TO LITE CHART (1W / 1M / ETC) SCALING OPTIMIZATIONS, WHICH MAY SKEW A FEW (NOT MANY THOUGH) CHART TIME INTERVALS #INITIALLY IF YOU ARE UPGRADING FROM A PREVIOUS VERSION# (BUT WILL RETURN TO NORMAL IMMEDIATELY AFTER THE FIRST NEW DATA POINT #AFTER# UPGRADING)
+v4.14.3 HAS MAJOR OVERHAULS TO LIGHT CHART (1W / 1M / ETC) SCALING OPTIMIZATIONS, WHICH MAY SKEW A FEW (NOT MANY THOUGH) CHART TIME INTERVALS #INITIALLY IF YOU ARE UPGRADING FROM A PREVIOUS VERSION# (BUT WILL RETURN TO NORMAL IMMEDIATELY AFTER THE FIRST NEW DATA POINT #AFTER# UPGRADING)
 
 v4.06.0 / v4.07.7 / v4.10.1 HAVE MAJOR OVERHAULS TO CONFIGURATION VARIABLE NAMES (FOR MODULARITY, SEMANTICS, AND EASY-TO-UNDERSTAND NAMES). MIGRATE ANY PRE-EXISTING CUSTOM CONFIGURATION TO THE #NEW# VARIABLE NAMES
 
@@ -5662,7 +5662,11 @@ MIGRATE YOUR EXISTING SETTINGS TO THE NEW FORMAT.
 
 -BUG FIX: Fixed showing system chart #2, even if there was no telemetry data to show in it (it now will hide if no data exists to show in it) 
 
+-Changed semantic naming for 'lite' (time period) charts over to 'light'
+
 -Miscellaneous user experience improvements
+
+v6.00.2 AND HIGHER RESETS LIGHT (TIME PERIOD) CHARTS FROM ARCHIVAL DATA, ONE-TIME DURING UPGRADES FROM V6.00.1 OR LOWER.
 
 -------------------------------------------------------------------
 

@@ -459,13 +459,8 @@ echo " "
 echo "${red}VERY IMPORTANT UPGRADE NOTES:${reset}"
 echo " "
 
-echo "v5.15.1 and higher resets light (time period) charts ONCE AFTER UPGRADING FROM v5.15.0 AND EARLIER VERSIONS"
-echo " "
-echo " "
-
-echo "v5.12.2 and higher renames the admin config array. ALL CONFIGURATION SETTING"
-echo "VARIABLE NAMES ARE NOW DIFFERENT, USE THE LATEST/UPGRADED CONFIG.PHP, AND"
-echo "MIGRATE YOUR EXISTING SETTINGS TO THE NEW FORMAT."
+echo "v6.00.2 AND HIGHER RESETS LIGHT (TIME PERIOD) CHARTS FROM ARCHIVAL DATA,"
+echo "ONE-TIME DURING UPGRADES FROM V6.00.1 OR LOWER."
 echo " "
 echo " "
 
@@ -1176,6 +1171,9 @@ select opt in $OPTIONS; do
   				rm -rf $DOC_ROOT/cache/queue > /dev/null 2>&1
   				rm -rf $DOC_ROOT/cache/rest-api > /dev/null 2>&1
   				rm -rf $DOC_ROOT/cache/secured/apis > /dev/null 2>&1
+  				rm -rf $DOC_ROOT/cache/events/lite_chart_rebuilds > /dev/null 2>&1
+  				rm -rf $DOC_ROOT/cache/charts/system/lite > /dev/null 2>&1
+  				rm -rf $DOC_ROOT/cache/charts/spot_price_24hr_volume/lite > /dev/null 2>&1
   				rm -rf $DOC_ROOT/misc-docs-etc > /dev/null 2>&1
   				rm -rf $DOC_ROOT/templates > /dev/null 2>&1
   				rm -rf $DOC_ROOT/ui-templates > /dev/null 2>&1
@@ -1202,9 +1200,10 @@ select opt in $OPTIONS; do
 				rm $DOC_ROOT/cache/vars/default_ocpt_conf_md5.dat > /dev/null 2>&1
 				rm $DOC_ROOT/cache/vars/default_pt_conf_md5.dat > /dev/null 2>&1
 				rm $DOC_ROOT/cache/vars/default_oct_conf_md5.dat > /dev/null 2>&1
-				rm $DOC_ROOT/cache/vars/lite_chart_structure.dat > /dev/null 2>&1
 				rm $DOC_ROOT/cache/vars/default_btc_prim_curr_pairing.dat > /dev/null 2>&1
 				rm $DOC_ROOT/cache/vars/default_btc_prim_currency_pairing.dat > /dev/null 2>&1
+				rm $DOC_ROOT/cache/vars/lite_chart_structure.dat > /dev/null 2>&1
+				rm $DOC_ROOT/cache/vars/lite_chart_struct.data > /dev/null 2>&1
 				rm $DOC_ROOT/DOCUMENTATION-ETC/CONFIG.EXAMPLE.txt > /dev/null 2>&1
 				rm $DOC_ROOT/DOCUMENTATION-ETC/CRON_PLUGINS_README.txt > /dev/null 2>&1
 				rm $DOC_ROOT/DOCUMENTATION-ETC/CRON-PLUGINS-README.txt > /dev/null 2>&1
@@ -1298,7 +1297,7 @@ select opt in $OPTIONS; do
                     echo " "
                     echo "${yellow}Options for choosing a time interval to run the background task (cron job)..."
                     echo " "
-                    echo "${red}IT'S RECOMMENDED TO GO #NO LOWER THAN# EVERY 20 MINUTES FOR CHART DATA, OTHERWISE LITE CHART"
+                    echo "${red}IT'S RECOMMENDED TO GO #NO LOWER THAN# EVERY 20 MINUTES FOR CHART DATA, OTHERWISE LIGHT CHART"
                     echo "DISK WRITES MAY BE EXCESSIVE FOR LOWER END HARDWARE (Raspberry PI MicroSD cards etc)."
                     echo " "
                     echo "${yellow}Enter the time interval in minutes to run this cron job:"

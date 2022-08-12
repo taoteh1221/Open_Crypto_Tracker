@@ -72,12 +72,6 @@ $ct_conf = $ct_gen->refresh_cached_ct_conf($ct_conf, 'upgrade_checks'); at the e
 [2022-08-03 03:30:40] ui => conf: ct_conf data could not be restored from last-known working config;  
 
 
-Build auto-detection into the second system chart, so it knows if it should skip rendering a blank second chart (when there is no data within it's range). 
-
-
-The "Hide / Show" menus in System charts need auto-detection to skip items in that side menu that have no data on the current system (example: "Load Average 15 Minutes" on Windows).
-
-
 Test turning password protection on/off on the interface (NOT admin area), I messed with it BUT changed it back.
 
 
@@ -94,13 +88,13 @@ Find out why days has 2 decimals (text notify, email and telegram are fine):
 Use bootstrap's built-in alert closeable pop-in to indicate 'configuration saved' inside each admin iframe.
 
 
-Have the lite chart function create a cached var array in json (in cache/vars/ folder), and everytime a new chart system uses it, add it's BASE cache path as an array value. Then we just need to feed this array into a light charts reset function / logic that resets all KNOWN chart systems in the app that use the light charts system (including plugins)
+Have the light chart function create a cached var array in json (in cache/vars/ folder), and everytime a new chart system uses it, add it's BASE cache path as an array value. Then we just need to feed this array into a light charts reset function / logic that resets all KNOWN chart systems in the app that use the light charts system (including plugins)
 
 
 Solana stackexchange was just approved 2022/6, add it to the developer links on the resources page and RSS feeds whenever it goes live
 
 
-Check logs to make sure we cleaned up update_lite_chart() function calls, so they don't flip with write errors from resetting light charts mid-flight with chart-restore-auto-detection
+Check logs to make sure we cleaned up update_light_chart() function calls, so they don't flip with write errors from resetting light charts mid-flight with chart-restore-auto-detection
 
 
 See what the best way is to have ALL log entries be in chronological order (currently we group by category when logging)
@@ -291,7 +285,7 @@ On admin "assets" page, add a button atop the page called " Add New Asset Or Mar
 The upcoming 'add new asset market' admin interface feature should be a "wizard" with a few "steps", to have a decent user experience AND break the logic up into different checks / steps under the hood as well. 1) Asset name and symbol, 2) Choose from a list of exchanges and pairs available for that asset, 3) Enable charts and or alerts for different exchanges and pairs.
 
 
-On 'more stats' page, add a 'market volume' chart, showing a multi-line chart (like asset comparison chart) of all [charts-fiat-conversion-currency] volumes for an asset's configured markets THAT HAVE CHARTS ENABLED (so we grab values from lite chart data). Default to showing Bitcoin, allow using different lite chart time periods (like asset comparison chart).
+On 'more stats' page, add a 'market volume' chart, showing a multi-line chart (like asset comparison chart) of all [charts-fiat-conversion-currency] volumes for an asset's configured markets THAT HAVE CHARTS ENABLED (so we grab values from light chart data). Default to showing Bitcoin, allow using different light chart time periods (like asset comparison chart).
 
 
 Add logic to offer securing the computer in the auto-install. Add subsections "Requiring Password For Sudo (Admin)" / "Disabling Bluetooth" / "Enabling firewall" inside a main prompt "Would you like to secure your computer against hacks?" For the bluetooth disabling section, include a commented section so we know if we've already APPENDED (>> IN BASH, NOT >) to boot/config.txt (like we do for htaccess). For firewall setup add a loop that you add new ports to open and quit the loop when finished...AND AUTOMATICALLY OPEN PORTS 80 / 443 FOR THIS APP, AND SSH STUFF TOO IF DETECTED AS INSTALLED ON THE SYSTEM!
@@ -300,7 +294,7 @@ Add logic to offer securing the computer in the auto-install. Add subsections "R
 Create a power user config option to toggle between plain text and HTML email. We can have the $ct_cache->queue_notify() function detect if HTML email is enabled, and run email messages through PHP's built-in nl2br() function if so, which converts newlines to <br /> tags.
 
 
-Add a "Reset lite charts" button on the admin 'Reset' page, to trigger rebuilding lite charts.
+Add a "Reset light charts" button on the admin 'Reset' page, to trigger rebuilding light charts.
 
 
 Fully include all leverage in all portfolio summaries, with "(X% leverage)" next to each summary.

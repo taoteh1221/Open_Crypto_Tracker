@@ -37,10 +37,10 @@ $possible_http_users = array(
 
 if ( $ct_gen->dir_struct('cache/alerts/fiat_price/') != true
 || $ct_gen->dir_struct('cache/charts/spot_price_24hr_volume/archival/') != true
-|| $ct_gen->dir_struct('cache/charts/spot_price_24hr_volume/lite/') != true
+|| $ct_gen->dir_struct('cache/charts/spot_price_24hr_volume/light/') != true
 || $ct_gen->dir_struct('cache/charts/system/archival/') != true
-|| $ct_gen->dir_struct('cache/charts/system/lite/') != true
-|| $ct_gen->dir_struct('cache/events/lite_chart_rebuilds/') != true
+|| $ct_gen->dir_struct('cache/charts/system/light/') != true
+|| $ct_gen->dir_struct('cache/events/light_chart_rebuilds/') != true
 || $ct_gen->dir_struct('cache/events/system/') != true
 || $ct_gen->dir_struct('cache/events/throttling/') != true
 || $ct_gen->dir_struct('cache/internal_api/') != true

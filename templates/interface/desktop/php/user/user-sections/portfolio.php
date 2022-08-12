@@ -905,9 +905,9 @@ var fiat_val_content = '<h5 class="yellow tooltip_title">Primary Currency (<?=st
     
     ">
 	<?php
-	foreach ($ct_conf['power']['lite_chart_day_intervals'] as $lite_chart_days) {
+	foreach ($ct_conf['power']['light_chart_day_intervals'] as $light_chart_days) {
 	?>
-    <option value='<?=$lite_chart_days?>' <?=( $lite_chart_days == 'all' ? 'selected' : '' )?>> <?=$ct_gen->light_chart_time_period($lite_chart_days, 'long')?> </option>
+    <option value='<?=$light_chart_days?>' <?=( $light_chart_days == 'all' ? 'selected' : '' )?>> <?=$ct_gen->light_chart_time_period($light_chart_days, 'long')?> </option>
 	<?php
 	}
 	?>

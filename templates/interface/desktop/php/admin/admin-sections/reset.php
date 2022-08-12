@@ -67,34 +67,34 @@
 	<!-- RESET webhook key END -->
 
 
-	<!-- RESET lite_charts key START -->
+	<!-- RESET light_charts key START -->
 
 	<div style='margin: 25px;'>
 	
-	<form name='reset_lite_charts' id='reset_lite_charts' action='admin.php?iframe=<?=$ct_gen->admin_hashed_nonce('iframe_reset')?>&section=reset&refresh=iframe_charts_alerts' method='post'>
+	<form name='reset_light_charts' id='reset_light_charts' action='admin.php?iframe=<?=$ct_gen->admin_hashed_nonce('iframe_reset')?>&section=reset&refresh=iframe_charts_alerts' method='post'>
 	
-	<input type='hidden' name='admin_hashed_nonce' value='<?=$ct_gen->admin_hashed_nonce('reset_lite_charts')?>' />
+	<input type='hidden' name='admin_hashed_nonce' value='<?=$ct_gen->admin_hashed_nonce('reset_light_charts')?>' />
 	
-	<input type='hidden' name='reset_lite_charts' value='1' />
+	<input type='hidden' name='reset_light_charts' value='1' />
 	
 	</form>
 	
 	<!-- Submit button must be OUTSIDE form tags here, or it runs improperly -->
-	<button id='reset_lite_charts_button' class='force_button_style' onclick='
+	<button id='reset_light_charts_button' class='force_button_style' onclick='
 	
-	var lite_charts_reset = confirm("Resetting the \"light charts\" will rebuild any existing \ntime period chart data from the archival charts. \n\nPress OK to reset light chart data, or CANCEL to keep the current light charts. ");
+	var light_charts_reset = confirm("Resetting the \"light charts\" will rebuild any existing \ntime period chart data from the archival charts. \n\nPress OK to reset light chart data, or CANCEL to keep the current light charts. ");
 	
-		if ( lite_charts_reset ) {
-		document.getElementById("reset_lite_charts_button").disable = true;
-		$("#reset_lite_charts").submit(); // Triggers "app reloading" sequence
-		document.getElementById("reset_lite_charts_button").innerHTML = ajax_placeholder(15, "center", "Submitting...");
+		if ( light_charts_reset ) {
+		document.getElementById("reset_light_charts_button").disable = true;
+		$("#reset_light_charts").submit(); // Triggers "app reloading" sequence
+		document.getElementById("reset_light_charts_button").innerHTML = ajax_placeholder(15, "center", "Submitting...");
 		}
 	
 	'>Reset Light (time period) Charts</button>
 	
 	</div>
 				
-	<!-- RESET lite_charts key END -->
+	<!-- RESET light_charts key END -->
 
 
 		    

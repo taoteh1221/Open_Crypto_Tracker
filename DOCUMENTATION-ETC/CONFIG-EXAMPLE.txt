@@ -589,15 +589,15 @@ $ct_conf['power']['backup_arch_del_old'] = 10;
 $ct_conf['power']['logs_purge'] = 6; // (default = 6)
 
 
-// Lite charts (load just as quickly for any time period, 7 day / 30 day / 365 day / etc)
-// Structure of lite charts #IN DAYS# (X days time period charts)
+// Light charts (load just as quickly for any time period, 7 day / 30 day / 365 day / etc)
+// Structure of light charts #IN DAYS# (X days time period charts)
 // Interface will auto-detect and display days as 365 = 1Y, 180 = 6M, 7 = 1W, etc
 // (LOWER TIME PERIODS [UNDER 180 DAYS] #SHOULD BE KEPT SOMEWHAT MINIMAL#, TO REDUCE RUNTIME LOAD / DISK WRITES DURING CRON JOBS)
-$ct_conf['power']['lite_chart_day_intervals'] = array(10, 30, 90, 180, 365, 730, 1460); // (default = 10, 30, 90, 180, 365, 730, 1460)
+$ct_conf['power']['light_chart_day_intervals'] = array(10, 30, 90, 180, 365, 730, 1460); // (default = 10, 30, 90, 180, 365, 730, 1460)
 ////
-// The maximum number of data points allowed in each lite chart 
+// The maximum number of data points allowed in each light chart 
 // (saves on disk storage / speeds up chart loading times SIGNIFICANTLY #WITH A NUMBER OF 500 OR LESS#)
-$ct_conf['power']['lite_chart_data_points_max'] = 500; // (default = 500), ADJUST WITH CARE!!!
+$ct_conf['power']['light_chart_data_points_max'] = 500; // (default = 500), ADJUST WITH CARE!!!
 
 
 // Number of decimals for price chart CRYPTO 24 hour volumes (NOT USED FOR FIAT VOLUMES, 4 decimals example: 24 hr vol = 91.3874 BTC)
@@ -1425,7 +1425,7 @@ $ct_conf['dev']['error_reporting'] = 0; // 0 == off / -1 == on
 // ### TELEMETRY ###
 ////
 // 'all_telemetry' (ALL in-app telemetry), 
-// 'lite_chart_telemetry' (lite chart caching),
+// 'light_chart_telemetry' (light chart caching),
 // 'memory_usage_telemetry' (PHP system memory usage),
 // 'ext_data_live_telemetry' (external API requests from server),
 // 'ext_data_cache_telemetry' (external API requests from cache),

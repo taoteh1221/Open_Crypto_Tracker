@@ -227,24 +227,24 @@ $cron_run_lock_file = $base_dir . '/cache/events/emulated-cron-lock.dat';
         // (WE DON'T WANT TO STORE DATA WITH A CORRUPT TIMESTAMP)
         if ( $now > 0 ) {
         
-        // Store system data to archival / lite charts
+        // Store system data to archival / light charts
         $sys_stats_path = $base_dir . '/cache/charts/system/archival/system_stats.dat';
         $sys_stats_data = $now . $chart_data_set;
         
         $ct_cache->save_file($sys_stats_path, $sys_stats_data . "\n", "append", false); // WITH newline (UNLOCKED file write)
             		
-        // Lite charts (update time dynamically determined in $ct_cache->update_lite_chart() logic)
-        // Try to assure file locking from archival chart updating has been released, wait 0.12 seconds before updating lite charts
+        // Light charts (update time dynamically determined in $ct_cache->update_light_chart() logic)
+        // Try to assure file locking from archival chart updating has been released, wait 0.12 seconds before updating light charts
         usleep(120000); // Wait 0.12 seconds
         		
-        	foreach ( $ct_conf['power']['lite_chart_day_intervals'] as $light_chart_days ) {
+        	foreach ( $ct_conf['power']['light_chart_day_intervals'] as $light_chart_days ) {
         	    
         	    // If we reset light charts, just skip the rest of this update session
         	    if ( $system_light_chart_result == 'reset' ) {
         	    continue;
         	    }
         	           
-        	$system_light_chart_result = $ct_cache->update_lite_chart($sys_stats_path, $sys_stats_data, $light_chart_days); // WITHOUT newline (var passing)
+        	$system_light_chart_result = $ct_cache->update_light_chart($sys_stats_path, $sys_stats_data, $light_chart_days); // WITHOUT newline (var passing)
         	
         	}
         		
