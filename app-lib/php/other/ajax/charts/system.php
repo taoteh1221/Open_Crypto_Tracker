@@ -165,7 +165,9 @@ if ( $key == 1 ) {
 		
 		foreach ( $chart_array as $chart_key => $chart_val ) {
 		
-			if ( $counted < $num_in_first_chart && $chart_key != 'time' ) {
+			if ( isset($chart_val) && trim($chart_val) != '' && $counted < $num_in_first_chart && $chart_key != 'time' ) {
+			    
+			$is_chart_data = true;
 			
 			$counted = $counted + 1;
 			
@@ -207,7 +209,9 @@ elseif ( $key == 2 ) {
 		
 		foreach ( $chart_array as $chart_key => $chart_val ) {
 		
-			if ( $counted >= $num_in_first_chart && $chart_key != 'time' ) {
+			if ( isset($chart_val) && trim($chart_val) != '' && $counted >= $num_in_first_chart && $chart_key != 'time' ) {
+			    
+			$is_chart_data = true;
 			
 			$counted = $counted + 1;
 			
@@ -250,6 +254,9 @@ $chart_conf = rtrim($chart_conf,',');
 
 header('Content-type: text/html; charset=' . $ct_conf['dev']['charset_default']);
 
+
+// Chart data output
+if ( $is_chart_data == true ) {
 ?>
 
 { 
@@ -447,5 +454,10 @@ gui: {
   
 }
 
+<?php
+}
+// END Chart data output
+unset($is_chart_data); // Reset
+?>
 
 
