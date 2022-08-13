@@ -242,8 +242,6 @@ foreach ( $chart_data as $chart_key => $chart_val ) {
 // Check last value
 $check_chart_val = $ct_var->num_to_str( $ct_var->delimited_str_sample($chart_val, ',', 'last') );
 	
-	// Include load average no matter what (it can be zero on a low-load setup, and should be supported by nearly every linux system?)
-	// Also always include free disk space (WE WANT TO KNOW IF IT'S ZERO)
 	if ( $chart_key != 'time' && $check_chart_val > 0.0000000000 ) {
 		
 	$check_chart_val_key = $ct_var->num_to_str($check_chart_val * 100000000); // To RELIABLY sort integers AND decimals, via ksort()
