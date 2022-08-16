@@ -1323,6 +1323,12 @@ $ct_conf['power']['news_feed'] = array(
     
     
         				array(
+            			"title" => "StackExchange - Solana (hot)",
+            			"url" => "https://solana.stackexchange.com/feeds/hot"
+        						),
+    
+    
+        				array(
             			"title" => "Youtube - Andreas Antonopoulos",
             			"url" => "https://www.youtube.com/feeds/videos.xml?channel_id=UCJWCJCWOxBYSi5DhCieLOLQ"
         						),
@@ -2579,6 +2585,7 @@ $ct_conf['assets'] = array(
                         
                                     'btc' => array(
                                     	'coinbase' => 'SOL-BTC',
+                                        'bittrex' => 'SOL-BTC',
                                         'binance' => 'SOLBTC',
                                         'huobi' => 'solbtc',
                                     	'ftx' => 'SOL/BTC',
@@ -2623,6 +2630,7 @@ $ct_conf['assets'] = array(
                                                     
                                     'usd' => array(
                                     	 'coinbase' => 'SOL-USD',
+                                         'bittrex' => 'SOL-USD',
                                     	 'ftx' => 'SOL/USD',
                                     	 'ftx_us' => 'SOL/USD',
                                     	 'kraken' => 'SOLUSD',
@@ -2643,6 +2651,7 @@ $ct_conf['assets'] = array(
                                                     
                                     'usdt' => array(
                                     	'coinbase' => 'SOL-USDT',
+                                        'bittrex' => 'SOL-USDT',
                                         'binance' => 'SOLUSDT',
                                     	'ftx' => 'SOL/USDT',
                                     	'ftx_us' => 'SOL/USDT',

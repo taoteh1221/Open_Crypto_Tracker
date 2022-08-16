@@ -91,9 +91,6 @@ Use bootstrap's built-in alert closeable pop-in to indicate 'configuration saved
 Have the light chart function create a cached var array in json (in cache/vars/ folder), and everytime a new chart system uses it, add it's BASE cache path as an array value. Then we just need to feed this array into a light charts reset function / logic that resets all KNOWN chart systems in the app that use the light charts system (including plugins)
 
 
-Solana stackexchange was just approved 2022/6, add it to the developer links on the resources page and RSS feeds whenever it goes live
-
-
 Check logs to make sure we cleaned up update_light_chart() function calls, so they don't flip with write errors from resetting light charts mid-flight with chart-restore-auto-detection
 
 
