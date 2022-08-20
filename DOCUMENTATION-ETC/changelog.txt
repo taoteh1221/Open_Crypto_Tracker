@@ -5681,6 +5681,8 @@ v6.00.2 AND HIGHER RESETS LIGHT (TIME PERIOD) CHARTS FROM ARCHIVAL DATA, ONE-TIM
 
 -Better user experience when editing the main config.php file manually (in a text editor...no init code at top / bottom anymore)
 
+-Code cleanup / optimizations
+
 v6.00.2 AND HIGHER RESETS LIGHT (TIME PERIOD) CHARTS FROM ARCHIVAL DATA, ONE-TIME DURING UPGRADES FROM V6.00.1 OR LOWER.
 
 -------------------------------------------------------------------

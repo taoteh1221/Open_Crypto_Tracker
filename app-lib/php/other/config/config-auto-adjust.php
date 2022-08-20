@@ -281,6 +281,7 @@ if ( $conf_php_timeout != $cached_php_timeout ) {
 // Delete ROOT .htaccess / .user.ini
 unlink($base_dir . '/.htaccess');
 unlink($base_dir . '/.user.ini');
+unlink($base_dir . '/cache/secured/.app_htpasswd');
 
 // Cache the new PHP timeout
 $ct_cache->save_file($base_dir . '/cache/vars/php_timeout.dat', $conf_php_timeout);

@@ -4,9 +4,6 @@
  */
 
 
-require_once($base_dir . '/app-lib/php/other/sub-init/minimized-sub-init.php');
-
-
 // Captcha image library...
 // Credit to: https://code.tutsplus.com/tutorials/build-your-own-captcha-and-contact-form-in-php--net-5362
  

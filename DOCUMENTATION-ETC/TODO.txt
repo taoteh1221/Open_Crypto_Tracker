@@ -67,6 +67,14 @@ ADMIN IFRAME BUILDOUT NOTES:
 ```````````````````````````````````````````````````````````````````````````````````````````````````````````````
 
 
+A FEW CHARTS ARE NOT FULLY LOADING ON THE #VPS SERVER INSTALL#, BUT #WORK FINE ON MY RASPBERRY PI INSTALL#. FIND OUT WHY?
+
+
+MAY BE A GOOD WAY TO RE-RUN init.php IF USER CORRUPTS config.php (#AFTER# backing up / overwriting the corrupt config.php with /templates/back-end/main-config.template):
+https://stackoverflow.com/questions/17160851/is-there-any-way-to-skip-fatal-error-from-include-file-in-php
+https://www.php.net/manual/en/function.register-shutdown-function.php
+
+
 $ct_conf = $ct_gen->refresh_cached_ct_conf($ct_conf, 'upgrade_checks'); at the end of plugins-config-check.php is throwing this error (so it's commented-out for now):
 [2022-08-03 03:30:40] ui => conf: updated ct_conf data could not be saved (to secured cache storage) in json format;  
 [2022-08-03 03:30:40] ui => conf: ct_conf data could not be restored from last-known working config;  

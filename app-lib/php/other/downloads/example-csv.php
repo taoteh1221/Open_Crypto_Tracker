@@ -4,9 +4,6 @@
  */
 
 
-require_once($base_dir . '/app-lib/php/other/sub-init/minimized-sub-init.php');
-
-
 // CSV header
 $example_download_array[] = array(
 	        							'Asset Symbol',

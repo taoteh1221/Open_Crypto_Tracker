@@ -9,6 +9,21 @@
 //////////////////////////////////////////////////////////////////
 if ( $runtime_mode != 'cron' ) {
 	
+	
+	// Have UI / HTTP runtime mode RE-CACHE the runtime_user data every 24 hours, since CLI runtime cannot determine the UI / HTTP runtime_user 
+	if ( $ct_cache->update_cache('cache/vars/http_runtime_user.dat', (60 * 24) ) == true ) {
+	$ct_cache->save_file('cache/vars/http_runtime_user.dat', $http_runtime_user); // ALREADY SET FURTHER UP IN INIT.PHP
+	}
+
+
+	// Have UI runtime mode RE-CACHE the app URL data every 24 hours, since CLI runtime cannot determine the app URL (for sending backup link emails during backups, etc)
+	if ( $ct_cache->update_cache('cache/vars/base_url.dat', (60 * 24) ) == true ) {
+	$ct_cache->save_file('cache/vars/base_url.dat', $base_url);
+	}
+
+
+///////////////////////////////////////////////////////////////////////
+	
 
 $sel_opt['alert_percent'] = explode("|", ( $_POST['use_alert_percent'] != '' ? $_POST['use_alert_percent'] : $_COOKIE['alert_percent'] ) );
 

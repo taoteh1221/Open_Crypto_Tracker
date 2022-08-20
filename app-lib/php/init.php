@@ -3,6 +3,7 @@
  * Copyright 2014-2022 GPLv3, Open Crypto Tracker by Mike Kilday: Mike@DragonFrugal.com
  */
 
+
 // Forbid direct INTERNET access to this file
 if ( isset($_SERVER['REQUEST_METHOD']) && realpath(__FILE__) == realpath($_SERVER['SCRIPT_FILENAME']) ) {
 header('HTTP/1.0 403 Forbidden', TRUE, 403);
@@ -10,221 +11,42 @@ exit;
 }
 
 
-// DEBUGGING
-$dev_debug_php_errors = 0; // 0 = off, -1 = on (IF SET TO -1, THIS #OVERRIDES# PHP DEBUG SETTINGS IN THE APP'S CONFIG)
-error_reporting($dev_debug_php_errors); 
-
-//apc_clear_cache(); apcu_clear_cache(); opcache_reset(); // DEBUGGING ONLY
-
-
-// REQUIRED #BEFORE# config.php
-$ct_conf = array(); 
-
-// Load the hard-coded (default) config BEFORE #ANYTHING AT ALL#
-require_once("config.php");
-
-
-/////////////////////////////////////////////////////////////////////////////////////////////////////
-///////////////////// A P P   V E R S I O N  /  E D I T I O N  /  P L A T F O R M  //////////////////
-/////////////////////////////////////////////////////////////////////////////////////////////////////
+// #DEV# DEBUGGING
+$dev_debug_php_errors = 0; // 0 = off, -1 = on (IF SET TO -1, THIS #OVERRIDES# PHP ERROR DEBUG SETTINGS IN THE APP'S CONFIG)
+error_reporting($dev_debug_php_errors); // PHP errror reporting
 
 
 // Application version
 $app_version = '6.00.3';  // 2022/AUGUST/20TH
 
 
-// Detect if we are running the desktop or server edition
-// (MUST BE SET #AFTER# APP VERSION NUMBER, AND #BEFORE# EVERYTHING ELSE!)
-if ( file_exists('../libcef.so') ) {
-$app_edition = 'desktop';  // 'desktop' (LOWERCASE)
-$app_platform = 'linux';
-}
-else if ( file_exists('../libcef.dll') ) {
-$app_edition = 'desktop';  // 'desktop' (LOWERCASE)
-$app_platform = 'windows';
-}
-else {
-$app_edition = 'server';  // 'server' (LOWERCASE)
-$app_platform = 'web';
-}
+// App init libraries...
 
+// Primary init logic (#MUST# RUN #BEFORE# #EVERYTHING# ELSE)
+require_once('app-lib/php/other/init/primary-init.php');
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////
-///////// S Y S T E M  /  C O N F I G   I N I T   S E T T I N G S  /  L O G I C /////////////////////
-/////////////////////////////////////////////////////////////////////////////////////////////////////
+// Config init logic (#MUST# RUN IMMEADIATELY #AFTER# primary-init.php)
+require_once('app-lib/php/other/init/config-init.php');
 
-
-// Load app classes VERY EARLY (before loading cached conf)
-require_once('app-lib/php/core-classes-loader.php');
-
-// System config VERY EARLY (after classes loader)
-require_once('app-lib/php/other/config/system-config.php');
-
-
-//////////////////////////////////////////////////////////
-// ESSENTIAL VARS / ARRAYS
-//////////////////////////////////////////////////////////
-
-
-$log_array = array();
-
-// Register the base directory of this app (MUST BE SET BEFORE !ANY! init logic calls)
-$file_loc = str_replace('\\', '/', dirname(__FILE__) ); // Windows compatibility (convert backslashes)
-$base_dir = preg_replace("/\/app-lib(.*)/i", "", $file_loc );
-////
-//!!!!!!!!!! IMPORTANT, ALWAYS LEAVE THIS HERE !!!!!!!!!!!!!!!
-// FOR #UI LOGIN / LOGOUT SECURITY#, WE NEED THIS SET #VERY EARLY# IN INIT FOR APP ID / ETC,
-// EVEN THOUGH WE RUN LOGIC AGAIN FURTHER DOWN IN INIT TO SET THIS UNDER
-// ALL CONDITIONS (EVEN CRON RUNTIMES), AND REFRESH VAR CACHE FOR CRON LOGIC
-if ( $runtime_mode != 'cron' ) {
-$base_url = $ct_gen->base_url();
-}
-
-
-// Set $ct_app_id as a global (MUST BE SET AFTER $base_url / $base_dir)
-// (a 10 character install ID hash, created from the base URL or base dir [if cron])
-// AFTER THIS IS SET, WE CAN USE EITHER $ct_app_id OR $ct_gen->id() RELIABLY / EFFICIENTLY ANYWHERE
-// $ct_gen->id() can then be used in functions WITHOUT NEEDING ANY $ct_app_id GLOBAL DECLARED.
-$ct_app_id = $ct_gen->id();
-
-
-// Session start
-session_start(); // New session start
-////
-// Give our session a unique name 
-// MUST BE SET AFTER $ct_app_id / first $ct_gen->id() call
-session_name( $ct_gen->id() );
-
-
-// Session array
-if ( !isset( $_SESSION ) ) {
-$_SESSION = array();
-}
-
-
-// Nonce (CSRF attack protection) for user GET links (downloads etc) / admin login session logic WHEN NOT RUNNING AS CRON
-if ( $runtime_mode != 'cron' && !isset( $_SESSION['nonce'] ) ) {
-$_SESSION['nonce'] = $ct_gen->rand_hash(32); // 32 byte
-}
-
-
-// Nonce for unique runtime logic
-$runtime_nonce = $ct_gen->rand_hash(16); // 16 byte
-
-
-//////////////////////////////////////////////////////////
-// ESSENTIAL INIT LOGIC
-//////////////////////////////////////////////////////////
-
-
-// #MUST# BE SET BEFORE cache-directory checks
-require_once('app-lib/php/other/empty-vars.php');
-
-
-// Create cache directories AS EARLY AS POSSIBLE
-// (#MUST# RUN BEFORE plugins-config-check.php / cached-global-config.php
-// Uses HARD-CODED $ct_conf['dev']['chmod_cache_dir'], BUT IF THE DIRECTORIES DON'T EXIST YET, A CACHED CONFIG PROBABLY DOESN'T EXIST EITHER
-require_once('app-lib/php/other/directory-creation/cache-directories.php');
-
-
-// Toggle to enable / disable the BETA V6 ADMIN INTERFACES, if 'opt_admin_sec' from authenticated admin is verified
-// (#MUST# BE SET BEFORE BOTH cached-global-config.php AND plugins-config-check.php)
-if ( isset($_POST['opt_admin_sec']) && $ct_gen->admin_hashed_nonce('toggle_v6_beta') != false && $_POST['admin_hashed_nonce'] == $ct_gen->admin_hashed_nonce('toggle_v6_beta') ) {
-$admin_area_sec_level = $_POST['opt_admin_sec'];
-$ct_cache->save_file($base_dir . '/cache/vars/admin_area_sec_level.dat', $_POST['opt_admin_sec']);
-}
-// If not updating, and cached var already exists
-elseif ( file_exists($base_dir . '/cache/vars/admin_area_sec_level.dat') ) {
-$admin_area_sec_level = trim( file_get_contents($base_dir . '/cache/vars/admin_area_sec_level.dat') );
-}
-// Else, default to high admin security
-else {
-$admin_area_sec_level = 'high';
-$ct_cache->save_file($base_dir . '/cache/vars/admin_area_sec_level.dat', $admin_area_sec_level);
-}
-
-
-// Default config, used for upgrade checks
-// (#MUST# BE SET BEFORE BOTH cached-global-config.php AND plugins-config-check.php)
-// (SEE NOTES IN THIS FILE, RELEATED TO THE V6 SWITCHOVER)
-// WE MODIFY / RUN THIS AND UPGRADE LOGIC, AT THE END OF plugins-config-check.php
-// $default_ct_conf #SHOULD# BE COMPLETELY REMOVED FROM ALL LOGIC #EXCEPT# CONFIG UPGRADING LOGIC,
-// #WHEN WE SWITCH ON PERMENENTLY USING THE CACHED USER EDITED CONFIG, AFTER BETA TESTING IS DONE#
-$default_ct_conf = $ct_conf; 
-////
-// Used for quickening runtimes on app config upgrading checks
-// (#MUST# BE SET BEFORE BOTH cached-global-config.php AND plugins-config-check.php)
-if ( file_exists($base_dir . '/cache/vars/default_ct_conf_md5.dat') ) {
-$check_default_ct_conf = trim( file_get_contents($base_dir . '/cache/vars/default_ct_conf_md5.dat') );
-}
-else {
-$check_default_ct_conf = null;
-}
-
-
-// plugins-config-check.php MUST RUN #BEFORE# cached-global-config.php, #IN HIGH ADMIN SECURITY MODE#
-// (AND THE OPPOSITE WAY AROUND #IN NORMAL ADMIN SECURITY MODE#)
-if ( $admin_area_sec_level == 'normal' ) {
-require_once('app-lib/php/other/config/cached-global-config.php');
-require_once('app-lib/php/other/config/plugins-config-check.php');
-}
-else {
-require_once('app-lib/php/other/config/plugins-config-check.php');
-require_once('app-lib/php/other/config/cached-global-config.php');
-}
-
-// Dynamic app config auto-adjust (MUST RUN AS EARLY AS POSSIBLE AFTER ct_conf setup)
-require_once('app-lib/php/other/config/config-auto-adjust.php');
-
-// Load any activated 3RD PARTY classes (MUST RUN AS EARLY AS POSSIBLE AFTER APP config auto-adjust#)
-require_once('app-lib/php/3rd-party-classes-loader.php');
-
-
-///////////////////////////////////////////////////////////////////////////////////////////////////////
-///////////////////// A P P   I N I T   L O G I C /////////////////////////////////////////////////////
-///////////////////////////////////////////////////////////////////////////////////////////////////////
-
-
-// Set / populate primary app vars / arrays FIRST
-require_once('app-lib/php/other/primary-vars.php');
-
-// Logins, protection from different types of attacks, #MUST# run BEFORE any heavy init logic, AFTER setting primary vars
-require_once('app-lib/php/other/security/attack-protection.php');
-
-// Fast runtimes, MUST run AFTER attack protection, BUT EARLY AS POSSIBLE
+// Fast runtimes, MUST run AFTER config-init.php, AND AS EARLY AS POSSIBLE
 require_once('app-lib/php/other/fast-runtimes.php');
 
-// Chart sub-directory creation (if needed...MUST RUN AFTER app config auto-adjust)
-require_once('app-lib/php/other/directory-creation/chart-directories.php');
-
-// Directory security check (MUST run AFTER directory structure creation check, AND BEFORE system checks)
-require_once('app-lib/php/other/security/directory-security.php');
-
-// Get / check system info for debugging / stats (MUST run AFTER directory structure creation check, AND BEFORE system checks)
-require_once('app-lib/php/other/system-info.php');
-
-// Basic system checks (before allowing app to run ANY FURTHER, MUST RUN AFTER directory creation check / http server user vars / user agent var)
+// Basic system checks (MUST RUN AFTER config-init.php)
 require_once('app-lib/php/other/debugging/system-checks.php');
 
 // SECURED cache files management (MUST RUN AFTER system checks)
 require_once('app-lib/php/other/security/secure-cache-files.php');
 
-// Password protection management (MUST RUN AFTER system checks / secure cache files)
+// Load any activated 3RD PARTY classes (MUST RUN AS EARLY AS POSSIBLE AFTER secure-cache-files.php)
+require_once('app-lib/php/3rd-party-classes-loader.php');
+
+// Set / populate secondary app vars / arrays IMMEADIATELY AFTER loading 3rd party classes
+require_once('app-lib/php/other/secondary-vars.php');
+
+// Password protection management (MUST RUN AFTER secure cache files)
 require_once('app-lib/php/other/security/password-protection.php');
 
-// Primary Bitcoin markets (MUST RUN AFTER app config auto-adjust)
-require_once('app-lib/php/other/primary-bitcoin-markets.php');
-
-// Misc dynamic interface vars (MUST RUN AFTER app config auto-adjust)
-require_once('app-lib/php/other/sub-init/interface-sub-init.php');
-
-// Misc cron logic (MUST RUN AFTER app config auto-adjust)
-require_once('app-lib/php/other/sub-init/cron-sub-init.php');
-
-// App configuration checks (MUST RUN AFTER app config auto-adjust / primary bitcoin markets / sub inits)
-require_once('app-lib/php/other/debugging/config-checks.php');
-
-// Scheduled maintenance  (MUST RUN AFTER EVERYTHING IN INIT.PHP, EXCEPT DEBUGGING)
+// Scheduled maintenance  (MUST RUN AFTER EVERYTHING IN INIT.PHP, #EXCEPT# DEBUGGING)
 require_once('app-lib/php/other/scheduled-maintenance.php');
 
 

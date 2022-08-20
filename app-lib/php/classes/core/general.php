@@ -3979,11 +3979,13 @@ var $ct_array = array();
     	
     	
         	// Check to see if we need to upgrade the CACHED app config (NEW / DEPRECIATED CORE VARIABLES ONLY, NOT OVERWRITING EXISTING CORE VARIABLES)
-        	// WORK IN-PROGRESS, KEEP DISABLED FOR RELEASES, UNTIL ADMIN UI IS FULLY BUILT OUT / FEATURE IS FULLY TESTED AND DEBUGGED
     	    if ( $admin_area_sec_level == 'normal' && $mode == 'upgrade_checks' ) {
     	    $upgrade_cache_ct_conf = $this->upgrade_cache_ct_conf($passed_config);
     	    }
-        	// UNTIL APP CONFIG UPGRADE FEATURE / ADMIN UI ARE FULLY BUILT OUT AND TORTURE-TESTED, USE THIS INSTEAD OF ABOVE UPGRADE LOGIC
+            // CACHED WITH NO UPGRADE FLAG
+    	    elseif ( $admin_area_sec_level == 'normal' ) {
+    	    $upgrade_cache_ct_conf = $passed_config;
+    	    }
         	// (REFRESHES CACHED APP CONFIG TO EXACTLY MIRROR THE HARD-CODED VARIABLES IN CONFIG.PHP, IF CONFIG.PHP IS CHANGED IN EVEN THE SLIGHTEST WAY)
     	    else {
     	    $upgrade_cache_ct_conf = $ct_conf;
@@ -4010,11 +4012,13 @@ var $ct_array = array();
     	
     	
                 	// Check to see if we need to upgrade the CACHED app config (NEW / DEPRECIATED CORE VARIABLES ONLY, NOT OVERWRITING EXISTING CORE VARIABLES)
-                	// WORK IN-PROGRESS, KEEP DISABLED FOR RELEASES, UNTIL ADMIN UI IS FULLY BUILT OUT / FEATURE IS FULLY TESTED AND DEBUGGED
             	    if ( $admin_area_sec_level == 'normal' && $mode == 'upgrade_checks' ) {
             	    $upgrade_cache_ct_conf = $this->upgrade_cache_ct_conf($cached_restore_conf);
             	    }
-                	// UNTIL APP CONFIG UPGRADE FEATURE / ADMIN UI ARE FULLY BUILT OUT AND TORTURE-TESTED, USE THIS INSTEAD OF ABOVE UPGRADE LOGIC
+            	    // CACHED WITH NO UPGRADE FLAG
+            	    elseif ( $admin_area_sec_level == 'normal' ) {
+            	    $upgrade_cache_ct_conf = $cached_restore_conf;
+            	    }
                 	// (REFRESHES CACHED APP CONFIG TO EXACTLY MIRROR THE HARD-CODED VARIABLES IN CONFIG.PHP, IF CONFIG.PHP IS CHANGED IN EVEN THE SLIGHTEST WAY)
             	    else {
             	    $upgrade_cache_ct_conf = $cached_restore_conf;

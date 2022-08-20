@@ -73,8 +73,10 @@ var $ct_array1 = array();
          
           $url = 'https://api.coingecko.com/api/v3/coins/markets?per_page=' . $ct_conf['dev']['coingecko_api_batched_max'] . '&page=' . ($loop + 1) . '&vs_currency=' . $coingecko_prim_currency . '&price_change_percentage=1h,24h,7d,14d,30d,200d,1y';
             
+              // Wait 6.55 seconds between consecutive calls, to avoid being blocked / throttled by external server
+              // (coingecko #ABSOLUTELY HATES# DATA CENTER IPS [DEDICATED / VPS SERVERS], BUT GOES EASY ON RESIDENTIAL IPS)
               if ( $loop > 0 && $ct_cache->update_cache($base_dir . '/cache/secured/external_data/' . md5($url) . '.dat', $ct_conf['power']['mcap_cache_time']) == true ) {
-              usleep(2250000); // Wait 2.25 seconds between consecutive calls, to avoid being blocked / throttled by external server
+              usleep(6550000); 
               }
          
           $response = @$ct_cache->ext_data('url', $url, $ct_conf['power']['mcap_cache_time']);

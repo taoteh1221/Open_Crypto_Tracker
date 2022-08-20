@@ -7,6 +7,8 @@
 
 // Initial BLANK arrays
 
+$log_array = array();
+
 $admin_ui_menus = array();
 
 $change_dir_perm = array();
