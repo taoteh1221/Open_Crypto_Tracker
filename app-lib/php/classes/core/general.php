@@ -20,9 +20,9 @@ var $ct_array = array();
    
    function admin_v6_check() {
        
-   global $default_ct_conf, $check_default_ct_conf, $beta_v6_admin_pages;
+   global $default_ct_conf, $check_default_ct_conf, $admin_area_sec_level;
    
-      if ( $beta_v6_admin_pages == 'off' ) {
+      if ( $admin_area_sec_level == 'high' ) {
       
          if ( $check_default_ct_conf == md5(serialize($default_ct_conf)) ) {
          return true;
@@ -32,7 +32,7 @@ var $ct_array = array();
          }
       
       }
-      elseif ( $beta_v6_admin_pages == 'on' ) {
+      elseif ( $admin_area_sec_level == 'normal' ) {
       return true;
       }
    
@@ -2324,7 +2324,7 @@ var $ct_array = array();
    
    function load_cached_config() {
    
-   global $ct_conf, $ct_cache, $base_dir, $beta_v6_admin_pages, $restore_conf_path, $telegram_user_data;
+   global $ct_conf, $ct_cache, $base_dir, $restore_conf_path, $telegram_user_data;
    
    // Secured cache files
    $files = $this->sort_files($base_dir . '/cache/secured', 'dat', 'desc');
@@ -3940,7 +3940,7 @@ var $ct_array = array();
    
    function refresh_cached_ct_conf($passed_config, $mode='no_upgrade') {
    
-   global $ct_conf, $ct_cache, $base_dir, $default_ct_conf, $restore_conf_path, $beta_v6_admin_pages, $telegram_activated, $telegram_user_data, $htaccess_username, $htaccess_password;
+   global $ct_conf, $ct_cache, $base_dir, $default_ct_conf, $restore_conf_path, $admin_area_sec_level, $telegram_activated, $telegram_user_data, $htaccess_username, $htaccess_password;
 
 
    // If no valid cached_ct_conf, or if DEFAULT Admin Config (in config.php) variables have been changed...
@@ -3952,7 +3952,7 @@ var $ct_array = array();
             
         $passed_config = json_decode( trim( file_get_contents($restore_conf_path) ) , TRUE);
         
-             if ( $passed_config == false || $beta_v6_admin_pages == 'off' ) {
+             if ( $passed_config == false || $admin_area_sec_level == 'high' ) {
              $passed_config = $ct_conf;
     		 $this->log('conf_error', 'ct_conf will be refreshed using the DEFAULT ct_conf');
              }
@@ -3980,7 +3980,7 @@ var $ct_array = array();
     	
         	// Check to see if we need to upgrade the CACHED app config (NEW / DEPRECIATED CORE VARIABLES ONLY, NOT OVERWRITING EXISTING CORE VARIABLES)
         	// WORK IN-PROGRESS, KEEP DISABLED FOR RELEASES, UNTIL ADMIN UI IS FULLY BUILT OUT / FEATURE IS FULLY TESTED AND DEBUGGED
-    	    if ( $beta_v6_admin_pages == 'on' && $mode == 'upgrade_checks' ) {
+    	    if ( $admin_area_sec_level == 'normal' && $mode == 'upgrade_checks' ) {
     	    $upgrade_cache_ct_conf = $this->upgrade_cache_ct_conf($passed_config);
     	    }
         	// UNTIL APP CONFIG UPGRADE FEATURE / ADMIN UI ARE FULLY BUILT OUT AND TORTURE-TESTED, USE THIS INSTEAD OF ABOVE UPGRADE LOGIC
@@ -4011,7 +4011,7 @@ var $ct_array = array();
     	
                 	// Check to see if we need to upgrade the CACHED app config (NEW / DEPRECIATED CORE VARIABLES ONLY, NOT OVERWRITING EXISTING CORE VARIABLES)
                 	// WORK IN-PROGRESS, KEEP DISABLED FOR RELEASES, UNTIL ADMIN UI IS FULLY BUILT OUT / FEATURE IS FULLY TESTED AND DEBUGGED
-            	    if ( $beta_v6_admin_pages == 'on' && $mode == 'upgrade_checks' ) {
+            	    if ( $admin_area_sec_level == 'normal' && $mode == 'upgrade_checks' ) {
             	    $upgrade_cache_ct_conf = $this->upgrade_cache_ct_conf($cached_restore_conf);
             	    }
                 	// UNTIL APP CONFIG UPGRADE FEATURE / ADMIN UI ARE FULLY BUILT OUT AND TORTURE-TESTED, USE THIS INSTEAD OF ABOVE UPGRADE LOGIC
@@ -4038,9 +4038,8 @@ var $ct_array = array();
             		$ct_cache->save_file($base_dir . '/cache/secured/ct_conf_'.$secure_128bit_hash.'.dat', $store_cached_ct_conf);
             		
             		
-            		    // CAN BE REMOVED #AFTER# V6 ADMIN PAGES ARE OUT OF BETA
-            		    if ( $beta_v6_admin_pages == 'off' ) {
                 		// For checking later, if DEFAULT Admin Config (in config.php) values are updated we save to json again
+            		    if ( $admin_area_sec_level == 'high' ) {
                 		$ct_cache->save_file($base_dir . '/cache/vars/default_ct_conf_md5.dat', md5(serialize($default_ct_conf))); 
             		    }
             		
@@ -4066,9 +4065,8 @@ var $ct_array = array();
     		$ct_cache->save_file($base_dir . '/cache/secured/restore_conf_'.$secure_128bit_hash.'.dat', $store_cached_ct_conf);
     		
     		
-                 // CAN BE REMOVED #AFTER# V6 ADMIN PAGES ARE OUT OF BETA
-            	 if ( $beta_v6_admin_pages == 'off' ) {
                  // For checking later, if DEFAULT Admin Config (in config.php) values are updated we save to json again
+            	 if ( $admin_area_sec_level == 'high' ) {
                  $ct_cache->save_file($base_dir . '/cache/vars/default_ct_conf_md5.dat', md5(serialize($default_ct_conf))); 
     		     }
     		    

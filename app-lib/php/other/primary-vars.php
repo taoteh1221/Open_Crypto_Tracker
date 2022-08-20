@@ -10,7 +10,7 @@
 
 
 // If debugging is enabled, turn on all PHP error reporting (BEFORE ANYTHING ELSE RUNS)
-if ( $ct_conf['dev']['debug'] != 'off' ) {
+if ( $ct_conf['dev']['debug'] != 'off' || $dev_debug_php_errors == -1 ) {
 error_reporting(-1); 
 }
 else {

@@ -5672,6 +5672,21 @@ v6.00.2 AND HIGHER RESETS LIGHT (TIME PERIOD) CHARTS FROM ARCHIVAL DATA, ONE-TIM
 
 
 
+-------------------------------------------------------------------
+6.00.3:
+
+-BUG FIX: Changing #GUI# PHP timeout setting config now properly updates the .htaccess / .user.ini files that control that
+
+-New admin security level feature (if end-users prefer editing all config files manually, and avoid displaying setting values in the admin interface)
+
+-Better user experience when editing the main config.php file manually (in a text editor...no init code at top / bottom anymore)
+
+v6.00.2 AND HIGHER RESETS LIGHT (TIME PERIOD) CHARTS FROM ARCHIVAL DATA, ONE-TIME DURING UPGRADES FROM V6.00.1 OR LOWER.
+
+-------------------------------------------------------------------
+
+
+
 
 
 

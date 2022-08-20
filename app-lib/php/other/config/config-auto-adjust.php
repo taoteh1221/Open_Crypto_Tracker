@@ -263,6 +263,31 @@ $ct_cache->save_file($base_dir . '/cache/vars/light_chart_struct.dat', $conf_lig
 }
 
 
+// #GUI# PHP TIMEOUT tracking / updating (checking for changes to the config value)
+$conf_php_timeout = $ct_conf['dev']['ui_max_exec_time'];
+
+if ( !file_exists($base_dir . '/cache/vars/php_timeout.dat') ) {
+$ct_cache->save_file($base_dir . '/cache/vars/php_timeout.dat', $conf_php_timeout);
+$cached_php_timeout = $conf_php_timeout;
+}
+else {
+$cached_php_timeout = trim( file_get_contents($base_dir . '/cache/vars/php_timeout.dat') );
+}
+
+
+// Check if we need to rebuild ROOT .htaccess / .user.ini
+if ( $conf_php_timeout != $cached_php_timeout ) {
+
+// Delete ROOT .htaccess / .user.ini
+unlink($base_dir . '/.htaccess');
+unlink($base_dir . '/.user.ini');
+
+// Cache the new PHP timeout
+$ct_cache->save_file($base_dir . '/cache/vars/php_timeout.dat', $conf_php_timeout);
+
+}
+
+
 //////////////////////////////////////////////////////////////////
 // END APP CONFIG DYNAMIC MANAGEMENT
 //////////////////////////////////////////////////////////////////

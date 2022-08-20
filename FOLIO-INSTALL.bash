@@ -1203,7 +1203,8 @@ select opt in $OPTIONS; do
 				rm $DOC_ROOT/cache/vars/default_btc_prim_curr_pairing.dat > /dev/null 2>&1
 				rm $DOC_ROOT/cache/vars/default_btc_prim_currency_pairing.dat > /dev/null 2>&1
 				rm $DOC_ROOT/cache/vars/lite_chart_structure.dat > /dev/null 2>&1
-				rm $DOC_ROOT/cache/vars/lite_chart_struct.data > /dev/null 2>&1
+				rm $DOC_ROOT/cache/vars/lite_chart_struct.dat > /dev/null 2>&1
+				rm $DOC_ROOT/cache/vars/beta_v6_admin_pages.dat > /dev/null 2>&1
 				rm $DOC_ROOT/DOCUMENTATION-ETC/CONFIG.EXAMPLE.txt > /dev/null 2>&1
 				rm $DOC_ROOT/DOCUMENTATION-ETC/CRON_PLUGINS_README.txt > /dev/null 2>&1
 				rm $DOC_ROOT/DOCUMENTATION-ETC/CRON-PLUGINS-README.txt > /dev/null 2>&1

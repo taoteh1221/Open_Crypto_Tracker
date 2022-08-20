@@ -359,19 +359,19 @@ function ajax_placeholder(px_size, align, message=null, display_mode=null){
 
 function set_v6_beta(obj) {
 
-		if ( obj.value == "on" ) {
-	    var int_api_key_reset = confirm("Activating these BETA features MAY LEAD TO ISSUES UPDATING YOUR APP CONFIGURATION (editing from the PHP config files will be DISABLED).\n\nYou can RE-disable these BETA features AFTER activating them, and you will be able to update your app configuration from the PHP config files again.");
+		if ( obj.value == "normal" ) {
+	    var int_api_key_reset = confirm("'Normal' admin security mode is currently a BETA (TEST) FEATURE, AND USING IT MAY LEAD TO ISSUES UPDATING YOUR APP CONFIGURATION (editing from the PHP config files will be DISABLED).\n\nYou can RE-DISABLE this BETA feature AFTER activating it, and you will be able to update your app configuration from the PHP config files again.");
 		}
 		else {
-	    var int_api_key_reset = confirm("If you disable the BETA features, you will have to update your app configuration from the PHP config files.");
+	    var int_api_key_reset = confirm("High security admin mode requires you to update your app configuration from the PHP config files.");
 		}
 		
 		if ( int_api_key_reset ) {
 		$("#toggle_v6_beta").submit(); // Triggers iframe "reloading" sequence
 		}
 		else {
-		$('input[name=opt_v6_beta]:checked').prop('checked',false);
-		$('#opt_v6_beta_' + $("#sel_v6_beta").val() ).prop('checked',true);
+		$('input[name=opt_admin_sec]:checked').prop('checked',false);
+		$('#opt_admin_sec_' + $("#sel_v6_beta").val() ).prop('checked',true);
 		}
 
 }

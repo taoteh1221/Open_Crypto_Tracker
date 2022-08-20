@@ -3,6 +3,26 @@
  * Copyright 2014-2022 GPLv3, Open Crypto Tracker by Mike Kilday: Mike@DragonFrugal.com
  */
 
+// Forbid direct INTERNET access to this file
+if ( isset($_SERVER['REQUEST_METHOD']) && realpath(__FILE__) == realpath($_SERVER['SCRIPT_FILENAME']) ) {
+header('HTTP/1.0 403 Forbidden', TRUE, 403);
+exit;
+}
+
+
+// DEBUGGING
+$dev_debug_php_errors = 0; // 0 = off, -1 = on (IF SET TO -1, THIS #OVERRIDES# PHP DEBUG SETTINGS IN THE APP'S CONFIG)
+error_reporting($dev_debug_php_errors); 
+
+//apc_clear_cache(); apcu_clear_cache(); opcache_reset(); // DEBUGGING ONLY
+
+
+// REQUIRED #BEFORE# config.php
+$ct_conf = array(); 
+
+// Load the hard-coded (default) config BEFORE #ANYTHING AT ALL#
+require_once("config.php");
+
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////
 ///////////////////// A P P   V E R S I O N  /  E D I T I O N  /  P L A T F O R M  //////////////////
@@ -10,7 +30,7 @@
 
 
 // Application version
-$app_version = '6.00.2';  // 2022/AUGUST/10TH
+$app_version = '6.00.3';  // 2022/AUGUST/20TH
 
 
 // Detect if we are running the desktop or server edition
@@ -107,20 +127,20 @@ require_once('app-lib/php/other/empty-vars.php');
 require_once('app-lib/php/other/directory-creation/cache-directories.php');
 
 
-// Toggle to enable / disable the BETA V6 ADMIN INTERFACES, if 'opt_v6_beta' from authenticated admin is verified
+// Toggle to enable / disable the BETA V6 ADMIN INTERFACES, if 'opt_admin_sec' from authenticated admin is verified
 // (#MUST# BE SET BEFORE BOTH cached-global-config.php AND plugins-config-check.php)
-if ( isset($_POST['opt_v6_beta']) && $ct_gen->admin_hashed_nonce('toggle_v6_beta') != false && $_POST['admin_hashed_nonce'] == $ct_gen->admin_hashed_nonce('toggle_v6_beta') ) {
-$beta_v6_admin_pages = $_POST['opt_v6_beta'];
-$ct_cache->save_file($base_dir . '/cache/vars/beta_v6_admin_pages.dat', $_POST['opt_v6_beta']);
+if ( isset($_POST['opt_admin_sec']) && $ct_gen->admin_hashed_nonce('toggle_v6_beta') != false && $_POST['admin_hashed_nonce'] == $ct_gen->admin_hashed_nonce('toggle_v6_beta') ) {
+$admin_area_sec_level = $_POST['opt_admin_sec'];
+$ct_cache->save_file($base_dir . '/cache/vars/admin_area_sec_level.dat', $_POST['opt_admin_sec']);
 }
 // If not updating, and cached var already exists
-elseif ( file_exists($base_dir . '/cache/vars/beta_v6_admin_pages.dat') ) {
-$beta_v6_admin_pages = trim( file_get_contents($base_dir . '/cache/vars/beta_v6_admin_pages.dat') );
+elseif ( file_exists($base_dir . '/cache/vars/admin_area_sec_level.dat') ) {
+$admin_area_sec_level = trim( file_get_contents($base_dir . '/cache/vars/admin_area_sec_level.dat') );
 }
-// Else, default to off
+// Else, default to high admin security
 else {
-$beta_v6_admin_pages = 'off';
-$ct_cache->save_file($base_dir . '/cache/vars/beta_v6_admin_pages.dat', $beta_v6_admin_pages);
+$admin_area_sec_level = 'high';
+$ct_cache->save_file($base_dir . '/cache/vars/admin_area_sec_level.dat', $admin_area_sec_level);
 }
 
 
@@ -142,13 +162,9 @@ $check_default_ct_conf = null;
 }
 
 
-// plugins-config-check.php
-// (MUST RUN #BEFORE# cached-global-config.php, #UNTIL WE SWITCH ON USING THE CACHED USER EDITED CONFIG#,
-// THE WE MUST RUN IT #AFTER# INSTEAD)
-////
-// cached-global-config.php (SEE NOTES IN THIS FILE, RELEATED TO THE V6 SWITCHOVER)
-////
-if ( $beta_v6_admin_pages == 'on' ) {
+// plugins-config-check.php MUST RUN #BEFORE# cached-global-config.php, #IN HIGH ADMIN SECURITY MODE#
+// (AND THE OPPOSITE WAY AROUND #IN NORMAL ADMIN SECURITY MODE#)
+if ( $admin_area_sec_level == 'normal' ) {
 require_once('app-lib/php/other/config/cached-global-config.php');
 require_once('app-lib/php/other/config/plugins-config-check.php');
 }

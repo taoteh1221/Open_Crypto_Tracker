@@ -9,7 +9,7 @@ $runtime_mode = 'webhook';
 
 
 // Load app config / etc
-require("config.php");
+require("app-lib/php/init.php");
 
 
 // Webhook security check (hash must match our concatenated [service name + webhook key]'s hash, or we abort runtime)

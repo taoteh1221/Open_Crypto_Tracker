@@ -30,7 +30,7 @@ $start_runtime = $time;
 $runtime_mode = 'cron';
 
 // Load app config / etc
-require("config.php");
+require("app-lib/php/init.php");
 
 
 //////////////////////////////////////////////

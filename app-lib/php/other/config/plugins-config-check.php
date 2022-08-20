@@ -42,7 +42,7 @@ foreach ( $ct_conf['power']['activate_plugins'] as $key => $val ) {
 		        
 		    $ct_conf['plug_conf'][$this_plug] = $plug_conf[$this_plug]; // Add each plugin's config into the GLOBAL app config
 		    
-		        if ( $beta_v6_admin_pages == 'on' ) {
+		        if ( $admin_area_sec_level == 'normal' ) {
                 $refresh_config = true;
 		        }
 		        
@@ -66,9 +66,9 @@ foreach ( $ct_conf['power']['activate_plugins'] as $key => $val ) {
 		$this_plug = null; // Reset
 		
 		}
-		// If plugin has been removed AND we are running the BETA admin pages, then remove any ct_conf entry
-		// (THIS AUTOMATICALLY #CANNOT# HAPPEN IF WE ARE #NOT# IN BETA ADMIN MODE)
-		elseif ( $beta_v6_admin_pages == 'on' ) {
+		// If plugin has been removed AND we are running the NORMAL SECURITY admin pages, then remove any ct_conf entry
+		// (THIS AUTOMATICALLY #CANNOT# HAPPEN IF WE ARE #NOT# IN NORMAL SECURITY ADMIN MODE)
+		elseif ( $admin_area_sec_level == 'normal' ) {
 		unset($ct_conf['plug_conf'][$this_plug]);
         $refresh_config = true;
 		}
@@ -86,8 +86,8 @@ if ( $refresh_config == true ) {
 $ct_conf = $ct_gen->refresh_cached_ct_conf($ct_conf);
 unset($refresh_config); // Unset, since this is an inline global var
 }
-// Otherwise we are clear to check for and run any upgrades instead, on the CACHED ct_conf (if in v6 beta mode)
-elseif ( $beta_v6_admin_pages == 'on' ) {
+// Otherwise we are clear to check for and run any upgrades instead, on the CACHED ct_conf (if in NORMAL admin security mode)
+elseif ( $admin_area_sec_level == 'normal' ) {
 //$ct_conf = $ct_gen->refresh_cached_ct_conf($ct_conf, 'upgrade_checks');
 }
         

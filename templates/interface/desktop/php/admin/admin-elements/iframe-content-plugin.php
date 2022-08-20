@@ -31,19 +31,33 @@ $this_plug = $_GET['plugin'];
         
         ?>
 	
-	
-	<p class='bitcoin bitcoin_dotted' style='display: <?=( $beta_v6_admin_pages == 'on' ? 'block' : 'none' )?>;'>
-	
-	These sections / category pages will be INCREMENTALLY populated with the corrisponding admin configuration options, over a period of time AFTER the initial v6.00.x releases (versions 6.00.x will only test the back-end / under-the-hood stability of THE ON / OFF MODES OF THE BETA v6 Admin Interface). <br /><br />You may need to turn off the BETA v6 Admin Interface to edit any UNFINISHED SECTIONS by hand in the config files (config.php in the app install folder, and any plug-conf.php files in the plugins folder).
-	
-	</p>
-	
 
+        <?php
+        if ( $admin_area_sec_level == 'normal' ) {
+        ?>
+        	
+        	<p> Coming Soon&trade; </p>
+        	
+        	<p class='bitcoin bitcoin_dotted'>
+        	
+        	These sections / category pages will be INCREMENTALLY populated with the corrisponding admin configuration options, over a period of time AFTER the initial v6.00.x releases (versions 6.00.x will only test the back-end / under-the-hood stability of HIGH / NORMAL MODES of the Admin Interface security levels). <br /><br />You may need to turn off "Normal" mode of the Admin Interface security level (at the top of the "Communications" section in this admin area), to edit any UNFINISHED SECTIONS by hand in the config files (config.php in the app install folder, and any plug-conf.php files in the plugins folders).
+        	
+        	</p>
+        	
+        <?php
+        }
+        else {
+        ?>
+        	
+        	<p class='bitcoin bitcoin_dotted'>
+        	
+        	YOU ARE IN HIGH SECURITY ADMIN MODE. <br /><br />Editing plugin config settings is <i>done manually</i> IN HIGH SECURITY ADMIN MODE, by updating the file plug-conf.php (in this plugin's directory: <?=$base_dir?>/plugins/<?=$this_plug?>) with a text editor.
+        	
+        	</p>
         
-        
-        <p> Coming Soon&trade; </p>
-        				
-        <p class='bitcoin'> Editing these settings is <i>currently only available manually (UNLESS you turn on the BETA v6 Admin Interface)</i>, by updating the file plug-conf.php (in this plugin's directory: <?=$base_dir?>/plugins/<?=$this_plug?>) with a text editor.</p>
+        <?php
+        }
+        ?>	
         
         				
         <?php

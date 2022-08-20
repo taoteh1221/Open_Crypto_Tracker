@@ -13,7 +13,7 @@ $is_csv_export = true;
 }
 
 
-require("config.php");
+require("app-lib/php/init.php");
 
 
 // Backups download

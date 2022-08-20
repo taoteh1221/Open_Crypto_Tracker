@@ -10,6 +10,6 @@ $runtime_mode = 'captcha';
 chdir("../../../../");
 
 // FOR SPEED, $runtime_mode 'captcha' only gets app config vars, some init.php, then the captcha library
-require("config.php");
+require("app-lib/php/init.php");
 
 ?>

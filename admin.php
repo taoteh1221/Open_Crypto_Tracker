@@ -16,7 +16,7 @@ $runtime_mode = 'ui';
 
 $is_admin = true;
 
-require("config.php");
+require("app-lib/php/init.php");
 
 
 // If an activated password reset is in progress or no admin login has been set yet, prompt user to create an admin user / pass

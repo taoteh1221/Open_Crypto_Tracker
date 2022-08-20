@@ -20,7 +20,7 @@ $is_password_reset = 1;
 
 
 // Load app config / etc
-require("config.php");
+require("app-lib/php/init.php");
 
 
 // If an activated password reset is in progress or no admin login has been set yet, prompt user to create an admin user / pass

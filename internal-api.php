@@ -9,7 +9,7 @@ $runtime_mode = 'int_api';
 
 
 // Load app config / etc
-require("config.php");
+require("app-lib/php/init.php");
 
 
 // Ip address information

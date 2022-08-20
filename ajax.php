@@ -20,7 +20,7 @@ $is_charts = true;
 
 // FOR SPEED, $is_logs / $is_charts above triggers only getting app config vars, VERY LITTLE init.php, then EXITING after running the logs / charts library routines
 
-require("config.php");
+require("app-lib/php/init.php");
 
 
 // Running AFTER calling config.php

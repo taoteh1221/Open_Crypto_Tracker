@@ -78,9 +78,6 @@ Test turning password protection on/off on the interface (NOT admin area), I mes
 To avoid having the "re-enter /start" telegram error message unless truly needed, take an md5 digest of all telegram settings concatenated together, and save as a var in the vars cache folder. Only run a telegram setting update if this md5 digest ever changes.
 
 
-SEE TOP OF INIT.PHP, FOR NOTES ON TAKING THE CACHED CONFIG OUT OF PROOF-OF-CONCEPT MODE, WHEN READY TO START BUILDING OUT THE ADMIN INTERFACING
-
-
 Find out why days has 2 decimals (text notify, email and telegram are fine):
  Text Notify / SHDW / BTC @ Generic BTC decreased -9.27% in USD value to $0.68269 over 1..04 days. 24 Hour USD Volume: $1,064,959 (-1.54% pair volume)
  
@@ -89,9 +86,6 @@ Use bootstrap's built-in alert closeable pop-in to indicate 'configuration saved
 
 
 Have the light chart function create a cached var array in json (in cache/vars/ folder), and everytime a new chart system uses it, add it's BASE cache path as an array value. Then we just need to feed this array into a light charts reset function / logic that resets all KNOWN chart systems in the app that use the light charts system (including plugins)
-
-
-Check logs to make sure we cleaned up update_light_chart() function calls, so they don't flip with write errors from resetting light charts mid-flight with chart-restore-auto-detection
 
 
 See what the best way is to have ALL log entries be in chronological order (currently we group by category when logging)
@@ -261,6 +255,9 @@ FEATURES / STRUCTURING SECTION
 For mobile templates, we are completely ditching the desktop layout, for a design similar to mobile app portfolio tracking layouts. Hopefully we can still do sorting by marketcap, held amount, most volume, etc, AND add in sorting by gain / loss (which may also be useful in the desktop layout).
 
 
+Create mobile devices templates, have the portfolio data rows show each piece of data on its own line the entire width of the screen (like android asset trackers do). We may need to create header / footer for mobile as well.
+
+
 For the language translation cache (to avoid asking API for a translation if we already did once), include a hash digest of the original English text used to translate. That way if the hash changes for the current English text used (English is never translated as it's the default), we know we need to re-translate with a fresh API call, and also save the new hash digest of the current English text as well.
 
 
@@ -270,7 +267,7 @@ Add a dedicated system chart file for plugin cron stats ONLY (runtime seconds, e
 Add ability to choose what decimal and thousands seperators to use.
 
 
-Look into adding temp monitoring upport for systems other than raspi devices: https://phoenixnap.com/kb/linux-cpu-temp
+Look into adding temp monitoring support for systems other than raspi devices: https://phoenixnap.com/kb/linux-cpu-temp
 
 
 For admin area pages / sections, consider doing subsections in a modal subwindow, with iframes for loading through 'wizard' steps or opening different categories. It would possibly keep a native app 'feel' while also reducing admin page load times. Think it over, figure out the best solution here for a great UX.
@@ -291,19 +288,10 @@ Add logic to offer securing the computer in the auto-install. Add subsections "R
 Create a power user config option to toggle between plain text and HTML email. We can have the $ct_cache->queue_notify() function detect if HTML email is enabled, and run email messages through PHP's built-in nl2br() function if so, which converts newlines to <br /> tags.
 
 
-Add a "Reset light charts" button on the admin 'Reset' page, to trigger rebuilding light charts.
-
-
 Fully include all leverage in all portfolio summaries, with "(X% leverage)" next to each summary.
 
 
-Store the php timeout as a cached var, and compare the CACHED app config to it at runtime. If they differ from each other, delete the root htaccess and user.ini files to trigger recreating them with an updated php timeout. Also make sure the php timeout setting and updating logic / functions are using the CACHED app config.
-
-
 Store visitor access data in A SEPERATE flat file / json format PER IP ADDRESS (so mulitiple values can be read back into the app before updating, then updated values saved back in json overwriting previously saved values, BUT AVOIDS MULTIPLE IP ADDRESES OVERWRITING SAME DATA). Last X unique ip addresses (as a power user config setting), showing ip address's last user agent / last visit time (AND HISTORY OF DIFFERENT USER AGENTS / LAST VISITS) / total visits count. Drop any over X ip addresses off the list based on oldest LAST VISIT timestamps. Store visitor data (user agent, etc) in a SECURED CACHE filename based off MD5 HASH of ip address. INITIAL BUILDOUT SHOULD ONLY BE FOR 'ui' RUNTIME DATA ONLY.
-
-
-Create mobile devices templates, have the portfolio data rows show each piece of data on its own line the entire width of the screen (like android asset trackers do). We may need to create header / footer for mobile as well.
 
 
 Add additional ability to do telegram webhooks, to query asset prices at different exchanges through telegram chat with the chat bot. Example: "/price ETH/USDT @ Binance"
