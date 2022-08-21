@@ -371,7 +371,7 @@ function set_admin_security(obj) {
 		}
 		else {
 		$('input[name=opt_admin_sec]:checked').prop('checked',false);
-		$('#opt_admin_sec_' + $("#sel_v6_beta").val() ).prop('checked',true);
+		$('#opt_admin_sec_' + $("#sel_admin_sec").val() ).prop('checked',true);
 		}
 
 }

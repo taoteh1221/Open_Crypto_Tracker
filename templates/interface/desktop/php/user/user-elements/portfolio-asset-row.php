@@ -83,7 +83,7 @@ echo '?';
 
 			var cmc_content = '<p class="coin_info" style="white-space: normal; max-width: 600px;"><span class="red"><?=ucfirst($ct_conf['gen']['prim_mcap_site'])?> API may be offline / under heavy load, marketcap range not set high enough (current range is top <?=$ct_conf['power']['mcap_ranks_max']?> marketcaps), or API timeout set too low (current timeout is <?=$ct_conf['power']['remote_api_timeout']?> seconds). Configuration adjustments can be made in the Admin Config POWER USER section.</span></p>'
             
-            +'<p class="coin_info bitcoin" style="white-space: normal; max-width: 600px;">Please check back in awhile, OR <i>switch to an alternate marketcap data provider</i> in the Admin Config GENERAL section, AND in the Portfolio area\'s SETTINGS section..</p>';
+            +'<p class="coin_info bitcoin" style="white-space: normal; max-width: 600px;">Please check back in awhile, OR <i>switch to an alternate marketcap data provider</i> in the Admin Config GENERAL section, AND in the Portfolio area\'s SETTINGS section.</p>';
 	
 			<?php
 			}
