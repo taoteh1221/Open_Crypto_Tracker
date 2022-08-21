@@ -680,9 +680,9 @@ var $ct_array1 = array();
      $ct_gen->log(
      			'ext_data_error',
      								
-     			'POSSIBLE api timeout' . ( $ct_conf['dev']['remote_api_strict_ssl'] == 'on' ? ' or strict_ssl' : '' ) . ' issue for cache file "' . $ct_gen->obfusc_path_data($file) . '" (IF ISSUE PERSISTS, TRY INCREASING "remote_api_timeout" IN Admin Config POWER USER SECTION' . ( $ct_conf['dev']['remote_api_strict_ssl'] == 'on' ? ', OR SETTING "remote_api_strict_ssl" to "off" IN Admin Config DEVELOPER SECTION' : '' ) . ')',
+     			'POSSIBLE api timeout' . ( $ct_conf['sec']['remote_api_strict_ssl'] == 'on' ? ' or strict_ssl' : '' ) . ' issue for cache file "' . $ct_gen->obfusc_path_data($file) . '" (IF ISSUE PERSISTS, TRY INCREASING "remote_api_timeout" IN Admin Config POWER USER SECTION' . ( $ct_conf['sec']['remote_api_strict_ssl'] == 'on' ? ', OR SETTING "remote_api_strict_ssl" to "off" IN Admin Config DEVELOPER SECTION' : '' ) . ')',
      								
-     			'remote_api_timeout: '.$ct_conf['power']['remote_api_timeout'].' seconds; remote_api_strict_ssl: ' . $ct_conf['dev']['remote_api_strict_ssl'] . ';'
+     			'remote_api_timeout: '.$ct_conf['power']['remote_api_timeout'].' seconds; remote_api_strict_ssl: ' . $ct_conf['sec']['remote_api_strict_ssl'] . ';'
      			);
      
      }
@@ -692,12 +692,12 @@ var $ct_array1 = array();
     }
    
    
-    // We ALWAYS set .htaccess files to a more secure $ct_conf['dev']['chmod_index_sec'] permission AFTER EDITING, 
-    // so we TEMPORARILY set .htaccess to $ct_conf['dev']['chmod_cache_file'] for NEW EDITING...
+    // We ALWAYS set .htaccess files to a more secure $ct_conf['sec']['chmod_index_sec'] permission AFTER EDITING, 
+    // so we TEMPORARILY set .htaccess to $ct_conf['sec']['chmod_cache_file'] for NEW EDITING...
     // (anything else stays weaker write security permissions, for UX)
     if ( strstr($file, '.dat') != false || strstr($file, '.htaccess') != false || strstr($file, '.user.ini') != false || strstr($file, 'index.php') != false ) {
      
-    $chmod_setting = octdec($ct_conf['dev']['chmod_cache_file']);
+    $chmod_setting = octdec($ct_conf['sec']['chmod_cache_file']);
     
          // Run chmod compatibility on certain PHP setups (if we can because we are running as the file owner)
          // In this case only if the file exists, as we are chmod BEFORE editing it (.htaccess files)
@@ -737,11 +737,11 @@ var $ct_array1 = array();
     
     // For security, NEVER make an .htaccess file writable by any user not in the group
     if ( strstr($file, '.htaccess') != false || strstr($file, '.user.ini') != false || strstr($file, 'index.php') != false ) {
-    $chmod_setting = octdec($ct_conf['dev']['chmod_index_sec']);
+    $chmod_setting = octdec($ct_conf['sec']['chmod_index_sec']);
     }
     // All other files
     else {
-    $chmod_setting = octdec($ct_conf['dev']['chmod_cache_file']);
+    $chmod_setting = octdec($ct_conf['sec']['chmod_cache_file']);
     }
    
     $ct_gen->ct_chmod($file, $chmod_setting);
@@ -1766,7 +1766,7 @@ var $ct_array1 = array();
         
         }
         else {
-        $remote_api_strict_ssl = $ct_conf['dev']['remote_api_strict_ssl'];
+        $remote_api_strict_ssl = $ct_conf['sec']['remote_api_strict_ssl'];
         }
        
       

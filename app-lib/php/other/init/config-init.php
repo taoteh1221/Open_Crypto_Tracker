@@ -82,7 +82,7 @@ set_time_limit($max_exec_time); // Doc suggest this may be more reliable than in
 
 
 // htaccess login...SET BEFORE system checks
-$interface_login_array = explode("||", $ct_conf['gen']['interface_login']);
+$interface_login_array = explode("||", $ct_conf['sec']['interface_login']);
 $htaccess_username = $interface_login_array[0];
 $htaccess_password = $interface_login_array[1];
 

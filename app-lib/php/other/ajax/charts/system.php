@@ -4,10 +4,25 @@
  */
 
 
+header('Content-type: text/html; charset=' . $ct_conf['dev']['charset_default']);
+
+header('Access-Control-Allow-Headers: *'); // Allow ALL headers
+
+// Allow access from ANY SERVER (primarily in case the end-user has a server misconfiguration)
+if ( $ct_conf['sec']['access_control_origin'] == 'any' ) {
+header('Access-Control-Allow-Origin: *');
+}
+// Strict access from THIS APP SERVER ONLY (provides tighter security)
+else {
+header('Access-Control-Allow-Origin: ' . $app_host_address);
+}
+
+
 	// Have this script not load any code if system stats are not turned on, or key GET request corrupt
 	if ( !$ct_gen->admin_logged_in() || !is_numeric($_GET['key']) ) {
 	exit;
 	}
+
 
 $key = $_GET['key'];
 
@@ -366,8 +381,6 @@ elseif ( $key == 2 ) {
 
 $chart_conf = trim($chart_conf);
 $chart_conf = rtrim($chart_conf,',');
-
-header('Content-type: text/html; charset=' . $ct_conf['dev']['charset_default']);
 
 
 // Chart data output

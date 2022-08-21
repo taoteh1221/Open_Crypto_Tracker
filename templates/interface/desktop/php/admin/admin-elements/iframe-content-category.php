@@ -4,7 +4,10 @@
  */
 
 
-    if ( $_GET['section'] == 'comms' ) {
+    if ( $_GET['section'] == 'security' ) {
+    require("templates/interface/desktop/php/admin/admin-sections/security.php");
+    }
+    elseif ( $_GET['section'] == 'comms' ) {
     require("templates/interface/desktop/php/admin/admin-sections/comms.php");
     }
     elseif ( $_GET['section'] == 'general' ) {

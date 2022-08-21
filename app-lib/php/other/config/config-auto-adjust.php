@@ -21,7 +21,7 @@ $ct_conf['dev']['log_verb'] = $ct_var->auto_correct_str($ct_conf['dev']['log_ver
 $ct_conf['gen']['default_theme'] = $ct_var->auto_correct_str($ct_conf['gen']['default_theme'], 'lower');
 $ct_conf['gen']['prim_mcap_site'] = $ct_var->auto_correct_str($ct_conf['gen']['prim_mcap_site'], 'lower');
 $ct_conf['comms']['price_alert_block_vol_error'] = $ct_var->auto_correct_str($ct_conf['comms']['price_alert_block_vol_error'], 'lower');
-$ct_conf['dev']['remote_api_strict_ssl'] = $ct_var->auto_correct_str($ct_conf['dev']['remote_api_strict_ssl'], 'lower');
+$ct_conf['sec']['remote_api_strict_ssl'] = $ct_var->auto_correct_str($ct_conf['sec']['remote_api_strict_ssl'], 'lower');
 $ct_conf['gen']['asset_charts_toggle'] = $ct_var->auto_correct_str($ct_conf['gen']['asset_charts_toggle'], 'lower');
 $ct_conf['comms']['proxy_alert'] = $ct_var->auto_correct_str($ct_conf['comms']['proxy_alert'], 'lower');
 $ct_conf['comms']['proxy_alert_runtime'] = $ct_var->auto_correct_str($ct_conf['comms']['proxy_alert_runtime'], 'lower');
@@ -67,13 +67,13 @@ $ct_conf['power']['light_chart_day_intervals'][] = 'all';
 
 
 // Idiot-proof maximum of +-35 on captcha text contrast
-if ( abs($ct_conf['power']['captcha_text_contrast']) > 35 ) {
-$ct_conf['power']['captcha_text_contrast'] = 35;
+if ( abs($ct_conf['sec']['captcha_text_contrast']) > 35 ) {
+$ct_conf['sec']['captcha_text_contrast'] = 35;
 }
 
 // Idiot-proof maximum of 35 degrees on captcha text angle-offset
-if ( abs($ct_conf['power']['captcha_text_angle']) > 35 || $ct_conf['power']['captcha_text_angle'] < 0 ) {
-$ct_conf['power']['captcha_text_angle'] = 35;
+if ( abs($ct_conf['sec']['captcha_text_angle']) > 35 || $ct_conf['sec']['captcha_text_angle'] < 0 ) {
+$ct_conf['sec']['captcha_text_angle'] = 35;
 }
 
 
@@ -226,8 +226,8 @@ $ct_conf['power']['hivepower_yearly_interest'] = $ct_var->num_to_str($ct_conf['p
 
 
 // Backup archive password protection / encryption
-if ( $ct_conf['gen']['backup_arch_pass'] != '' ) {
-$backup_arch_pass = $ct_conf['gen']['backup_arch_pass'];
+if ( $ct_conf['sec']['backup_arch_pass'] != '' ) {
+$backup_arch_pass = $ct_conf['sec']['backup_arch_pass'];
 }
 else {
 $backup_arch_pass = false;

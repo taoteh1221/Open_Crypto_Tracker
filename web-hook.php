@@ -12,6 +12,14 @@ $runtime_mode = 'webhook';
 require("app-lib/php/init.php");
 
 
+header('Content-type: text/html; charset=' . $ct_conf['dev']['charset_default']);
+
+header('Access-Control-Allow-Headers: *'); // Allow ALL headers
+
+// Allow access from ANY SERVER (AS THIS IS A WEBHOOK ACCESS POINT)
+header('Access-Control-Allow-Origin: *');
+
+
 // Webhook security check (hash must match our concatenated [service name + webhook key]'s hash, or we abort runtime)
 // Using the hash of the concatenated [service name + webhook key] keeps our webhook key a secret, that only we know (for security)!
 $webhook_hash = explode('/', $_GET['webhook_hash']); // Remove any data after the webhook hash

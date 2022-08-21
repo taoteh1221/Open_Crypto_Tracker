@@ -12,6 +12,14 @@ $runtime_mode = 'int_api';
 require("app-lib/php/init.php");
 
 
+header('Content-type: text/html; charset=' . $ct_conf['dev']['charset_default']);
+
+header('Access-Control-Allow-Headers: *'); // Allow ALL headers
+
+// Allow access from ANY SERVER (AS THIS IS AN API ACCESS POINT)
+header('Access-Control-Allow-Origin: *');
+
+
 // Ip address information
 $store_ip = preg_replace("/\./", "_", $remote_ip);
 $ip_access = trim( file_get_contents($base_dir . '/cache/events/throttling/local_api_incoming_ip_' . $store_ip . '.dat') );

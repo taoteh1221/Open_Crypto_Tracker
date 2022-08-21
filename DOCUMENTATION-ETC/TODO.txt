@@ -67,9 +67,6 @@ ADMIN IFRAME BUILDOUT NOTES:
 ```````````````````````````````````````````````````````````````````````````````````````````````````````````````
 
 
-A FEW CHARTS ARE NOT FULLY LOADING ON THE #VPS SERVER INSTALL#, BUT #WORK FINE ON MY RASPBERRY PI INSTALL#. FIND OUT WHY?
-
-
 MAY BE A GOOD WAY TO RE-RUN init.php IF USER CORRUPTS config.php (#AFTER# backing up / overwriting the corrupt config.php with /templates/back-end/main-config.template):
 https://stackoverflow.com/questions/17160851/is-there-any-way-to-skip-fatal-error-from-include-file-in-php
 https://www.php.net/manual/en/function.register-shutdown-function.php
@@ -323,7 +320,7 @@ Add market stats summaries from chart data, like bar charts for exchange volume 
 Auto-update feature like WordPress has (downloads a zip file upgrade from github, and exctracts it overwriting the old app files).
 
 
-Option to use new zip file encryption password feature to encrypt portfolio spreadsheet exports when downloading exported portfolio data (with password entered in the UI, #NOT# $ct_conf['gen']['backup_arch_pass']).
+Option to use new zip file encryption password feature to encrypt portfolio spreadsheet exports when downloading exported portfolio data (with password entered in the UI, #NOT# $ct_conf['sec']['backup_arch_pass']).
 
 
 For each cat_key => cat_val loop app config, to automate categorizing new admin settings tabs...selects for arrays, text fields for strings. Maybe certain key names get checkbox / radio button fields.

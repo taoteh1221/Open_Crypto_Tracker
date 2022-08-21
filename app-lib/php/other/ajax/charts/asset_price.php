@@ -2,6 +2,20 @@
 /*
  * Copyright 2014-2022 GPLv3, Open Crypto Tracker by Mike Kilday: Mike@DragonFrugal.com
  */
+			
+
+header('Content-type: text/html; charset=' . $ct_conf['dev']['charset_default']);
+
+header('Access-Control-Allow-Headers: *'); // Allow ALL headers
+
+// Allow access from ANY SERVER (primarily in case the end-user has a server misconfiguration)
+if ( $ct_conf['sec']['access_control_origin'] == 'any' ) {
+header('Access-Control-Allow-Origin: *');
+}
+// Strict access from THIS APP SERVER ONLY (provides tighter security)
+else {
+header('Access-Control-Allow-Origin: ' . $app_host_address);
+}
 
 
 	// Have this script not load any code if asset charts are not turned on
@@ -54,7 +68,7 @@ $x_coord = 75; // Start position (absolute) for light chart links
 			else {
 			$currency_symb = strtoupper($charted_val) . ' ';
 			}
-			
+
 		
 			// Have this script send the UI alert messages, and not load any chart code (to not leave the page endlessly loading) if cache data is not present
 			if ( !file_exists('cache/charts/spot_price_24hr_volume/light/' . $_GET['days'] . '_days/'.$chart_asset.'/'.$key.'_chart_'.$charted_val.'.dat') ) {
@@ -175,8 +189,6 @@ gui: {
 			$force_dec = 'decimals: ' . $spot_price_dec . ',';
 			}
 		
-
-header('Content-type: text/html; charset=' . $ct_conf['dev']['charset_default']);
 
 			if ( $chart_asset ) {
 ?>

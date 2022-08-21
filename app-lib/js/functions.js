@@ -357,7 +357,7 @@ function ajax_placeholder(px_size, align, message=null, display_mode=null){
 /////////////////////////////////////////////////////////////
 
 
-function set_v6_beta(obj) {
+function set_admin_security(obj) {
 
 		if ( obj.value == "normal" ) {
 	    var int_api_key_reset = confirm("'Normal' admin security mode is currently a BETA (TEST) FEATURE, AND USING IT MAY LEAD TO ISSUES UPDATING YOUR APP CONFIGURATION (editing from the PHP config files will be DISABLED).\n\nYou can RE-DISABLE this BETA feature AFTER activating it, and you will be able to update your app configuration from the PHP config files again.");
@@ -367,7 +367,7 @@ function set_v6_beta(obj) {
 		}
 		
 		if ( int_api_key_reset ) {
-		$("#toggle_v6_beta").submit(); // Triggers iframe "reloading" sequence
+		$("#toggle_admin_security").submit(); // Triggers iframe "reloading" sequence
 		}
 		else {
 		$('input[name=opt_admin_sec]:checked').prop('checked',false);

@@ -640,18 +640,18 @@ var $ct_array = array();
          // Run cache compatibility on certain PHP setups
          if ( !$http_runtime_user || in_array($http_runtime_user, $possible_http_users) ) {
          $oldmask = umask(0);
-         $result = mkdir($path, octdec($ct_conf['dev']['chmod_cache_dir']), true); // Recursively create whatever path depth desired if non-existent
+         $result = mkdir($path, octdec($ct_conf['sec']['chmod_cache_dir']), true); // Recursively create whatever path depth desired if non-existent
          umask($oldmask);
          return $result;
          }
          else {
-         return  mkdir($path, octdec($ct_conf['dev']['chmod_cache_dir']), true); // Recursively create whatever path depth desired if non-existent
+         return  mkdir($path, octdec($ct_conf['sec']['chmod_cache_dir']), true); // Recursively create whatever path depth desired if non-existent
          }
       
       }
       // If path is not writable, AND the chmod setting is not the app's default 
-      elseif ( !is_writable($path) && substr( sprintf( '%o' , fileperms($path) ) , -4 ) != $ct_conf['dev']['chmod_cache_dir'] ) {
-      return $this->chmod_path($path, $ct_conf['dev']['chmod_cache_dir']);
+      elseif ( !is_writable($path) && substr( sprintf( '%o' , fileperms($path) ) , -4 ) != $ct_conf['sec']['chmod_cache_dir'] ) {
+      return $this->chmod_path($path, $ct_conf['sec']['chmod_cache_dir']);
       }
       else {
       return true;
@@ -1713,7 +1713,7 @@ var $ct_array = array();
    $vars['cfg_username'] = $smtp_user;
    $vars['cfg_password'] = $smtp_password;
    $vars['cfg_debug_mode'] = $ct_conf['dev']['debug']; // Open Crypto Tracker debug mode setting
-   $vars['cfg_strict_ssl'] = $ct_conf['dev']['smtp_strict_ssl']; // Open Crypto Tracker strict SSL setting
+   $vars['cfg_strict_ssl'] = $ct_conf['sec']['smtp_strict_ssl']; // Open Crypto Tracker strict SSL setting
    $vars['cfg_app_version'] = $app_version; // Open Crypto Tracker version
    
    return $vars;
@@ -2666,13 +2666,13 @@ var $ct_array = array();
 				
    $cookie_nonce = $this->rand_hash(32); // 32 byte
 		
-   $this->store_cookie('admin_auth_' . $this->id(), $cookie_nonce, time() + ($ct_conf['power']['admin_cookie_expire'] * 3600) );
+   $this->store_cookie('admin_auth_' . $this->id(), $cookie_nonce, time() + ($ct_conf['sec']['admin_cookie_expire'] * 3600) );
 				
    $_SESSION['admin_logged_in']['auth_hash'] = $this->admin_hashed_nonce($cookie_nonce, 'force'); // Force set, as we're not logged in fully yet
    
    
        // If server edition, and admin login notifications are on
-       if ( $app_edition == 'server' && $ct_conf['comms']['login_alert'] != 'off' ) {
+       if ( $app_edition == 'server' && $ct_conf['sec']['login_alert'] != 'off' ) {
 
       
             if ( isset($system_info['distro_name']) ) {
@@ -2710,8 +2710,8 @@ var $ct_array = array();
                                         );
     				
     		    
-       // Only send to comm channels the user prefers, based off the config setting $ct_conf['comms']['login_alert']
-       $preferred_comms = $this->preferred_comms($ct_conf['comms']['login_alert'], $admin_login_send_params);
+       // Only send to comm channels the user prefers, based off the config setting $ct_conf['sec']['login_alert']
+       $preferred_comms = $this->preferred_comms($ct_conf['sec']['login_alert'], $admin_login_send_params);
     			
        // Queue notifications
        @$ct_cache->queue_notify($preferred_comms);

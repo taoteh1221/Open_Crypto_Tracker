@@ -41,6 +41,7 @@ $apache_modules = apache_get_modules();
 
 // Cookie defaults (only used if cookies are set)
 $url_parts = pathinfo($_SERVER['REQUEST_URI']);
+
 if ( substr($url_parts['dirname'], -1) != '/' ) {
 $rel_http_path = $url_parts['dirname'] . '/';
 }

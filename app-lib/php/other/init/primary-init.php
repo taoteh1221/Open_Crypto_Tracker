@@ -63,8 +63,16 @@ $base_url = trim( file_get_contents('cache/vars/base_url.dat') );
 
 // Our FINAL $base_url logic has run, so set app host var
 if ( isset($base_url) ) {
+    
 $parse_temp = parse_url($base_url);
+
+    if ( isset($parse_temp['port']) ) {
+    $app_port = ':' . $parse_temp['port'];
+    }
+
 $app_host = $parse_temp['host'];
+$app_host_address = $parse_temp['scheme'] . "://" . $app_host . $app_port;
+
 }
 
 
@@ -114,7 +122,7 @@ $upgrade_check_latest_version = trim( file_get_contents('cache/vars/upgrade_chec
 
 // Create cache directories AS EARLY AS POSSIBLE
 // (#MUST# RUN BEFORE plugins-config-check.php / cached-global-config.php
-// Uses HARD-CODED $ct_conf['dev']['chmod_cache_dir'], BUT IF THE DIRECTORIES DON'T EXIST YET, A CACHED CONFIG PROBABLY DOESN'T EXIST EITHER
+// Uses HARD-CODED $ct_conf['sec']['chmod_cache_dir'], BUT IF THE DIRECTORIES DON'T EXIST YET, A CACHED CONFIG PROBABLY DOESN'T EXIST EITHER
 require_once('app-lib/php/other/directory-creation/cache-directories.php');
 
 // Logins, protection from different types of attacks, #MUST# run BEFORE any heavy init logic, #AFTER# directory creation (for error logging)
@@ -127,9 +135,9 @@ require_once('app-lib/php/other/security/directory-security.php');
 require_once('app-lib/php/other/system-info.php');
 
 
-// Toggle to enable / disable the BETA V6 ADMIN INTERFACES, if 'opt_admin_sec' from authenticated admin is verified
+// Toggle to set the admin interface security level, if 'opt_admin_sec' from authenticated admin is verified
 // (#MUST# BE SET BEFORE BOTH cached-global-config.php AND plugins-config-check.php)
-if ( isset($_POST['opt_admin_sec']) && $ct_gen->admin_hashed_nonce('toggle_v6_beta') != false && $_POST['admin_hashed_nonce'] == $ct_gen->admin_hashed_nonce('toggle_v6_beta') ) {
+if ( isset($_POST['opt_admin_sec']) && $ct_gen->admin_hashed_nonce('toggle_admin_security') != false && $_POST['admin_hashed_nonce'] == $ct_gen->admin_hashed_nonce('toggle_admin_security') ) {
 $admin_area_sec_level = $_POST['opt_admin_sec'];
 $ct_cache->save_file($base_dir . '/cache/vars/admin_area_sec_level.dat', $_POST['opt_admin_sec']);
 }

@@ -14,7 +14,10 @@
 		<!-- set data-width="full", to have the tab width be 100% of the screen -->
 		<ul class="nav nav-tabs-vertical align_center" id="admin_tabs" role="tablist">
 		  <li class="nav-item">
-			<a class="nav-link admin_change_width active" data-toggle="tab" data-width="fixed_max" href="#admin_comms" role="tab" aria-controls="admin_comms">Communications</a>
+			<a class="nav-link admin_change_width active" data-toggle="tab" data-width="fixed_max" href="#admin_security" role="tab" aria-controls="admin_security">Security</a>
+		  </li>
+		  <li class="nav-item">
+			<a class="nav-link admin_change_width" data-toggle="tab" data-width="fixed_max" href="#admin_comms" role="tab" aria-controls="admin_comms">Communications</a>
 		  </li>
 		  <li class="nav-item">
 			<a class="nav-link admin_change_width" data-toggle="tab" data-width="fixed_max" href="#admin_general" role="tab" aria-controls="admin_general">General</a>
@@ -68,7 +71,19 @@
 		<!-- #admin_tab_content START -->
 		<div id='admin_tab_content' class="tab-content align_left">
 		
-		  <div class="tab-pane active" id="admin_comms" role="tabpanel">
+		  <div class="tab-pane active" id="admin_security" role="tabpanel">
+
+                <div class='max_1200px_wrapper'>
+
+                   <div id='iframe_security_loading' class='align_center loading iframe_loading_placeholder bitcoin'><img src="templates/interface/media/images/auto-preloaded/loader.gif" height='17' alt="" style='vertical-align: middle;' /> Loading...<span id='background_loading_span'></span></div>
+                
+                	<iframe id="iframe_security" src="admin.php?iframe=<?=$ct_gen->admin_hashed_nonce('iframe_security')?>&section=security" loading="lazy" frameborder="0" class="admin_iframe"></iframe>
+                	
+                </div> 
+		  
+		  </div>
+		
+		  <div class="tab-pane" id="admin_comms" role="tabpanel">
 
                 <div class='max_1200px_wrapper'>
 

@@ -27,17 +27,99 @@ exit;
 
 
 ////////////////////////////////////////
+// !START! SECURITY CONFIGURATION
+////////////////////////////////////////
+
+
+// Interface login protection (htaccess user/password required to view this portfolio app's web interface)
+// Username MUST BE at least 4 characters, beginning with ONLY LOWERCASE letters (may contain numbers AFTER first letter), NO SPACES
+// Password MUST BE EXACTLY 8 characters, AND contain one number, one UPPER AND LOWER CASE letter, and one symbol, NO SPACES
+// (ENABLES / UPDATES automatically, when a valid username / password are filled in or updated here)
+// (DISABLES automatically, when username / password are blank '' OR invalid) 
+// (!ONLY #UPDATES OR DISABLES# AUTOMATICALLY #AFTER# LOGGING IN ONCE WITH YOUR #OLD LOGIN# [or if a cron job runs with the new config]!)
+// #IF THIS SETTING GIVES YOU ISSUES# ON YOUR SYSTEM, BLANK IT OUT TO '', AND DELETE '.htaccess' IN THE MAIN DIRECTORY OF 
+// THIS APP (TO RESTORE PAGE ACCESS), AND PLEASE REPORT IT HERE: https://github.com/taoteh1221/Open_Crypto_Tracker/issues
+$ct_conf['sec']['interface_login'] = ''; // Leave blank to disable requiring an interface login. This format MUST be used: 'username||password'
+
+
+// Password protection / encryption security for backup archives (REQUIRED for app config backup archives, NOT USED FOR CHART BACKUPS)
+$ct_conf['sec']['backup_arch_pass'] = ''; // LEAVE BLANK TO DISABLE
+
+
+// Enable / disable admin login alerts (DEFAULT: ALL USER-ACTIVATED COMM CHANNELS)
+// Choosing 'all' will send to all properly-configured communication channels, (and automatically skip any not properly setup)
+$ct_conf['sec']['login_alert'] = 'all'; // 'off' (disabled) / 'all' / 'email' / 'text' / 'notifyme' / 'telegram'
+							
+							
+// HOURS until admin login cookie expires (requiring you to login again)
+// The lower number the better for higher security, epecially if the app server temporary session data 
+// doesn't auto-clear too often (that also logs you off automatically, REGARDLESS of this setting's attribute)
+$ct_conf['sec']['admin_cookie_expire'] = 8; // (default = 8)
+		
+
+// CONTRAST of CAPTCHA IMAGE text against background (on login pages)
+// 0 for neutral contrast, positive for more contrast, negative for less contrast (MAXIMUM OF +-35)
+$ct_conf['sec']['captcha_text_contrast'] = -8; // example: -5 or 5 (default = -8)
+////
+// MAX OFF-ANGLE DEGREES (tilted backward / forward) of CAPTCHA IMAGE text characters (MAXIMUM OF 35)
+$ct_conf['sec']['captcha_text_angle'] = 35; // (default = 35)
+////		
+// Configuration for advanced CAPTCHA image settings on all admin login / reset pages
+$ct_conf['sec']['captcha_image_width'] = 525; // Image width (default = 525)
+////
+$ct_conf['sec']['captcha_image_height'] = 135; // Image height (default = 135)
+////
+$ct_conf['sec']['captcha_text_margin'] = 10; // MINIMUM margin of text from edge of image (approximate / average) (default = 10)
+////
+$ct_conf['sec']['captcha_text_size'] = 50; // Text size (default = 50)
+////
+$ct_conf['sec']['captcha_chars_length'] = 7; // Number of characters in captcha image (default = 7)
+////
+// ONLY MOST READABLE characters allowed for use in captcha image 
+$ct_conf['sec']['captcha_permitted_chars'] = 'ABCDEFHJKMNPRSTUVWXYZ23456789'; // (default = 'ABCDEFHJKMNPRSTUVWXYZ23456789')
+
+
+// 'on' verifies ALL SMTP server certificates for secure SMTP connections, 'off' verifies NOTHING 
+// Set to 'off' if the SMTP server has an invalid certificate setup (which stops email sending, but you still want to send email through that server)
+$ct_conf['sec']['smtp_strict_ssl'] = 'off'; // (DEFAULT IS 'off', TO ASSURE SMTP EMAIL SENDING STILL WORKS THROUGH MISCONFIGURED SMTP SERVERS)
+
+
+// 'on' verifies ALL REMOTE API server certificates for secure API connections, 'off' verifies NOTHING 
+// Set to 'off' if some exchange's API servers have invalid certificates (which stops price data retrieval...but you still want to get price data from them)
+$ct_conf['sec']['remote_api_strict_ssl'] = 'off'; // (default = 'off')
+
+
+// Set CORS 'Access-Control-Allow-Origin' (controls what web domains can load this app's AJAX scripts, etc)
+// Set to 'any' if this web server's domain can vary / redirect (some INITIAL visits are 'www.mywebsite.com', AND some are 'mywebsite.com')
+// Set to 'strict' if this web server's domain CANNOT VARY / REDIRECT (it's always 'mywebsite.com', EVERY VISIT #WITHOUT EXCEPTIONS#)
+// #CHANGE WITH CAUTION#, AS 'strict' #CAN BREAK CHARTS / LOGS# / ETC FROM LOADING
+$ct_conf['sec']['access_control_origin'] = 'any'; // 'any' / 'strict' (default = 'any')
+
+
+// Cache directories / files and .htaccess / index.php files permissions (CHANGE WITH #EXTREME# CARE, to adjust security for your PARTICULAR setup)
+// THESE PERMISSIONS ARE !ALREADY! CALLED THROUGH THE octdec() FUNCTION WITHIN THE APP WHEN USED
+// Cache directories permissions
+$ct_conf['sec']['chmod_cache_dir'] = '0770'; // (default = '0770' [owner/group read/write/exec])
+////
+// Cache files permissions
+$ct_conf['sec']['chmod_cache_file'] = '0660'; // (default = '0660' [owner/group read/write])
+////
+// .htaccess / index.php index security files permissions
+$ct_conf['sec']['chmod_index_sec'] = '0660'; // (default = '0660' [owner/group read/write])
+
+
+////////////////////////////////////////
+// !END! SECURITY CONFIGURATION
+////////////////////////////////////////
+
+
+////////////////////////////////////////
 // !START! COMMUNICATIONS CONFIGURATION
 ////////////////////////////////////////
 
 
 // Pause sending out ALL communications (email / text / telegram / alexa / etc), so they are NOT sent to you anymore UNTIL you un-pause them
 $ct_conf['comms']['comms_pause'] = 'off'; // 'on' / 'off' (Default = 'off' [comms are sent out normally])
-
-
-// Enable / disable admin login alerts (DEFAULT: ALL USER-ACTIVATED COMM CHANNELS)
-// Choosing 'all' will send to all properly-configured communication channels, (and automatically skip any not properly setup)
-$ct_conf['comms']['login_alert'] = 'all'; // 'off' (disabled) / 'all' / 'email' / 'text' / 'notifyme' / 'telegram'
 
 
 // Enable / disable daily upgrade checks / alerts (DEFAULT: ALL USER-ACTIVATED COMM CHANNELS)
@@ -181,19 +263,19 @@ $ct_conf['comms']['telegram_bot_token'] = '';  // Your bot's access token
 ////////////////////////////////////////
 
 
-// Interface login protection (htaccess user/password required to view this portfolio app's web interface)
-// Username MUST BE at least 4 characters, beginning with ONLY LOWERCASE letters (may contain numbers AFTER first letter), NO SPACES
-// Password MUST BE EXACTLY 8 characters, AND contain one number, one UPPER AND LOWER CASE letter, and one symbol, NO SPACES
-// (ENABLES / UPDATES automatically, when a valid username / password are filled in or updated here)
-// (DISABLES automatically, when username / password are blank '' OR invalid) 
-// (!ONLY #UPDATES OR DISABLES# AUTOMATICALLY #AFTER# LOGGING IN ONCE WITH YOUR #OLD LOGIN# [or if a cron job runs with the new config]!)
-// #IF THIS SETTING GIVES YOU ISSUES# ON YOUR SYSTEM, BLANK IT OUT TO '', AND DELETE '.htaccess' IN THE MAIN DIRECTORY OF 
-// THIS APP (TO RESTORE PAGE ACCESS), AND PLEASE REPORT IT HERE: https://github.com/taoteh1221/Open_Crypto_Tracker/issues
-$ct_conf['gen']['interface_login'] = ''; // Leave blank to disable requiring an interface login. This format MUST be used: 'username||password'
+// Your local time offset IN HOURS, COMPARED TO UTC TIME. Can be negative or positive.
+// (Used for user experience 'pretty' timestamping in interface logic ONLY, WILL NOT change or screw up UTC log times etc if you change this)
+$ct_conf['gen']['loc_time_offset'] = -4; // example: -5 or 5, -5.5 or 5.75 (#CAN BE DECIMAL# TO SUPPORT 30 / 45 MINUTE TIME ZONES)
 
 
-// Password protection / encryption security for backup archives (REQUIRED for app config backup archives, NOT USED FOR CHART BACKUPS)
-$ct_conf['gen']['backup_arch_pass'] = ''; // LEAVE BLANK TO DISABLE
+// Configure which interface theme you want as the default theme (also can be manually switched later, on the settings page in the interface)
+$ct_conf['gen']['default_theme'] = 'dark'; // 'dark' or 'light'
+
+
+// ENABLING CHARTS REQUIRES A CRON JOB SETUP (see README.txt for cron job setup information)
+// Enables a charts tab / page, and caches real-time updated historical market price chart data on your device's storage drive
+// Disabling will disable EVERYTHING related to the price charts (price charts tab / page, and price chart data caching)
+$ct_conf['gen']['asset_charts_toggle'] = 'on'; // 'on' / 'off'
 
 
 // API key for etherscan.io (required unfortunately, but a FREE level is available): https://etherscan.io/apis
@@ -252,21 +334,6 @@ $ct_conf['gen']['price_round_percent'] = 'thousandth'; // (OF A PERCENT) 'one', 
 // FORCE a FIXED MINIMUM amount of decimals on interface price, CALCULATED OFF ABOVE price_round_percent SETTING
 // (ALWAYS SAME AMOUNT OF DECIMALS, #EVEN IF IT INCLUDES TRAILING ZEROS#) 
 $ct_conf['gen']['price_round_fixed_decimals'] = 'off'; // 'off', 'on'
-
-
-// Your local time offset IN HOURS, COMPARED TO UTC TIME. Can be negative or positive.
-// (Used for user experience 'pretty' timestamping in interface logic ONLY, WILL NOT change or screw up UTC log times etc if you change this)
-$ct_conf['gen']['loc_time_offset'] = -4; // example: -5 or 5, -5.5 or 5.75 (#CAN BE DECIMAL# TO SUPPORT 30 / 45 MINUTE TIME ZONES)
-
-
-// Configure which interface theme you want as the default theme (also can be manually switched later, on the settings page in the interface)
-$ct_conf['gen']['default_theme'] = 'dark'; // 'dark' or 'light'
-
-
-// ENABLING CHARTS REQUIRES A CRON JOB SETUP (see README.txt for cron job setup information)
-// Enables a charts tab / page, and caches real-time updated historical chart data on your device's storage drive
-// Disabling will disable EVERYTHING related to the price charts (price charts tab / page, and price chart data caching)
-$ct_conf['gen']['asset_charts_toggle'] = 'on'; // 'on' / 'off'
 
 
 ////////////////////////////////////////
@@ -556,12 +623,6 @@ $ct_conf['power']['desktop_cron_interval'] = 20; // (default = 20, 0 disables th
 // RECOMMENDED MINIMUM OF 60 FOR INSTALLS BEHIND #LOW BANDWIDTH# NETWORKS 
 // (which may need an even higher timeout above 60 if data still isn't FULLY received from all APIs)
 $ct_conf['power']['remote_api_timeout'] = 35; // (default = 35)
-							
-							
-// HOURS until admin login cookie expires (requiring you to login again)
-// The lower number the better for higher security, epecially if the app server temporary session data 
-// doesn't auto-clear too often (that also logs you off automatically, REGARDLESS of this setting's attribute)
-$ct_conf['power']['admin_cookie_expire'] = 8; // (default = 8)
 
 
 // MINUTES to cache real-time exchange price data...can be zero to skip cache, but set to at least 1 minute TO AVOID YOUR IP ADDRESS GETTING BLOCKED
@@ -631,14 +692,6 @@ $ct_conf['power']['sys_stats_first_chart_max_scale'] = 1; // (default = 1)
 // Highest allowed sensor value to scale vertical axis for, in the SECOND system information chart (out of two)
 // (to prevent anomaly results from scaling vertical axis TOO HIGH to read LESSER-VALUE sensor data...only used IF CRON JOB IS SETUP)
 $ct_conf['power']['sys_stats_second_chart_max_scale'] = 150; // (default = 150) 
-		
-
-// CONTRAST of CAPTCHA IMAGE text against background (on login pages)
-// 0 for neutral contrast, positive for more contrast, negative for less contrast (MAXIMUM OF +-35)
-$ct_conf['power']['captcha_text_contrast'] = -8; // example: -5 or 5 (default = -8)
-////
-// MAX OFF-ANGLE DEGREES (tilted backward / forward) of CAPTCHA IMAGE text characters (MAXIMUM OF 35)
-$ct_conf['power']['captcha_text_angle'] = 35; // (default = 35)
 			
 			
 // Configuration for system resource warning thresholds (logs to error log, and sends comms alerts to any activated comms)
@@ -1470,16 +1523,6 @@ $ct_conf['dev']['debug'] = 'off';
 $ct_conf['dev']['log_verb'] = 'normal'; // 'normal' / 'verbose'
 
 
-// 'on' verifies ALL SMTP server certificates for secure SMTP connections, 'off' verifies NOTHING 
-// Set to 'off' if the SMTP server has an invalid certificate setup (which stops email sending, but you still want to send email through that server)
-$ct_conf['dev']['smtp_strict_ssl'] = 'off'; // (DEFAULT IS 'off', TO ASSURE SMTP EMAIL SENDING STILL WORKS THROUGH MISCONFIGURED SMTP SERVERS)
-
-
-// 'on' verifies ALL REMOTE API server certificates for secure API connections, 'off' verifies NOTHING 
-// Set to 'off' if some exchange's API servers have invalid certificates (which stops price data retrieval...but you still want to get price data from them)
-$ct_conf['dev']['remote_api_strict_ssl'] = 'off'; // (default = 'off')
-
-
 // Ignore warning to use PHP-FPM (#PHP-FPM HELPS PREVENT RUNTIME CRASHES# ON LOW POWER DEVICES OR HIGH TRAFFIC INSTALLS)
 $ct_conf['dev']['ignore_php_fpm_warning'] = 'yes'; // (default = 'no', options are 'yes' / 'no')
 
@@ -1501,21 +1544,6 @@ $ct_conf['dev']['news_feed_cache_min_max'] = '90,180'; // 'min,max' (default = '
 // Randomly rebuild the 'ALL' chart between the minimum and maximum HOURS set here  (so they don't refresh all at once, for faster runtimes)
 // LARGER AVERAGE TIME SPREAD IS EASIER ON LOW POWER DEVICES (TO ONLY UPDATE A FEW AT A TIME)!!
 $ct_conf['dev']['all_chart_rebuild_min_max'] = '4,12'; // 'min,max' (default = '4,12'), ADJUST WITH CARE!!!
-			
-			
-// Configuration for advanced CAPTCHA image settings on all admin login / reset pages
-$ct_conf['dev']['captcha_image_width'] = 525; // Image width (default = 525)
-////
-$ct_conf['dev']['captcha_image_height'] = 135; // Image height (default = 135)
-////
-$ct_conf['dev']['captcha_text_margin'] = 10; // MINIMUM margin of text from edge of image (approximate / average) (default = 10)
-////
-$ct_conf['dev']['captcha_text_size'] = 50; // Text size (default = 50)
-////
-$ct_conf['dev']['captcha_chars_length'] = 7; // Number of characters in captcha image (default = 7)
-////
-// ONLY MOST READABLE characters allowed for use in captcha image 
-$ct_conf['dev']['captcha_permitted_chars'] = 'ABCDEFHJKMNPRSTUVWXYZ23456789'; // (default = 'ABCDEFHJKMNPRSTUVWXYZ23456789')
 
 
 // Local / internal API rate limit (maximum of once every X SECONDS, per ip address) for accepting remote requests
@@ -1531,7 +1559,7 @@ $ct_conf['dev']['local_api_cache_time'] = 4; // (default = 4)
 
 // If you want to override the default user agent string (sent with API requests, etc)
 // Adding a string here automatically enables that as the custom user agent
-// LEAVING BLANK '' USES THE DEFAULT USER AGENT LOGIC BUILT-IN TO THIS APP (INCLUDES BASIC SYSTEM CONFIGURATION STATS)
+// LEAVING BLANK '' USES THE DEFAULT USER AGENT LOGIC BUILT-IN TO THIS APP (INCLUDES ONLY BASIC SYSTEM CONFIGURATION STATS)
 $ct_conf['dev']['override_user_agent'] = ''; 
 
 
@@ -1542,18 +1570,6 @@ $ct_conf['dev']['charset_default'] = 'UTF-8';
 // UCS-2 is outdated as it only covers 65536 characters of Unicode
 // UTF-16BE / UTF-16LE / UTF-16 / UCS-2BE can represent ALL Unicode characters
 $ct_conf['dev']['charset_unicode'] = 'UTF-16'; 
-
-
-// Cache directories / files and .htaccess / index.php files permissions (CHANGE WITH #EXTREME# CARE, to adjust security for your PARTICULAR setup)
-// THESE PERMISSIONS ARE !ALREADY! CALLED THROUGH THE octdec() FUNCTION WITHIN THE APP WHEN USED
-// Cache directories permissions
-$ct_conf['dev']['chmod_cache_dir'] = '0770'; // (default = '0770' [owner/group read/write/exec])
-////
-// Cache files permissions
-$ct_conf['dev']['chmod_cache_file'] = '0660'; // (default = '0660' [owner/group read/write])
-////
-// .htaccess / index.php index security files permissions
-$ct_conf['dev']['chmod_index_sec'] = '0660'; // (default = '0660' [owner/group read/write])
 			
 									
 // !!!!! BE #VERY CAREFUL# LOWERING MAXIMUM EXECUTION TIMES BELOW, #OR YOU MAY CRASH THE RUNNING PROCESSES EARLY, 

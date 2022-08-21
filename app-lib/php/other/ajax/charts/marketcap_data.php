@@ -4,6 +4,20 @@
  */
 
 
+header('Content-type: text/html; charset=' . $ct_conf['dev']['charset_default']);
+
+header('Access-Control-Allow-Headers: *'); // Allow ALL headers
+
+// Allow access from ANY SERVER (primarily in case the end-user has a server misconfiguration)
+if ( $ct_conf['sec']['access_control_origin'] == 'any' ) {
+header('Access-Control-Allow-Origin: *');
+}
+// Strict access from THIS APP SERVER ONLY (provides tighter security)
+else {
+header('Access-Control-Allow-Origin: ' . $app_host_address);
+}
+
+
 if ( $_GET['mcap_compare_diff'] != 'none' ) {
 	
 // Consolidate function calls for runtime speed improvement
@@ -90,7 +104,6 @@ $mcap_data = $ct_asset->mcap_data($key, 'usd'); // For marketcap bar chart, we A
 
 
 }
-
 
 
 
@@ -231,8 +244,6 @@ $plot_conf = explode('|', $_GET['plot_conf']);
 	}
 		
 			
-
-header('Content-type: text/html; charset=' . $ct_conf['dev']['charset_default']);
 		
 			?>
 			
