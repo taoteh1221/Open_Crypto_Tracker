@@ -18,31 +18,6 @@ var $ct_array = array();
    ////////////////////////////////////////////////////////
    
    
-   function admin_v6_check() {
-       
-   global $default_ct_conf, $check_default_ct_conf, $admin_area_sec_level;
-   
-      if ( $admin_area_sec_level == 'high' ) {
-      
-         if ( $check_default_ct_conf == md5(serialize($default_ct_conf)) ) {
-         return true;
-         }
-         else {
-         return false;
-         }
-      
-      }
-      elseif ( $admin_area_sec_level == 'normal' ) {
-      return true;
-      }
-   
-   }
-
-
-   ////////////////////////////////////////////////////////
-   ////////////////////////////////////////////////////////
-   
-   
    function titles_usort_alpha($a, $b) {
    return strcmp( strtolower($a["title"]) , strtolower($b["title"]) ); // Case-insensitive equivelent comparision via strtolower()
    }
@@ -239,6 +214,31 @@ var $ct_array = array();
       }
       else {
       return false;
+      }
+   
+   }
+
+
+   ////////////////////////////////////////////////////////
+   ////////////////////////////////////////////////////////
+   
+   
+   function admin_security_level_check() {
+       
+   global $default_ct_conf, $check_default_ct_conf, $admin_area_sec_level;
+   
+      if ( $admin_area_sec_level == 'high' ) {
+      
+         if ( $check_default_ct_conf == md5(serialize($default_ct_conf)) ) {
+         return true;
+         }
+         else {
+         return false;
+         }
+      
+      }
+      elseif ( $admin_area_sec_level == 'normal' ) {
+      return true;
       }
    
    }
@@ -843,37 +843,6 @@ var $ct_array = array();
    ////////////////////////////////////////////////////////
    
    
-   function delete_all_cookies() {
-   
-     
-    // Portfolio
-   $this->store_cookie('coin_amnts', '', time()-3600); // Delete
-   $this->store_cookie('coin_pairs', '', time()-3600); // Delete
-   $this->store_cookie('coin_mrkts', '', time()-3600); // Delete
-   $this->store_cookie('coin_paid', '', time()-3600); // Delete
-   $this->store_cookie('coin_lvrg', '', time()-3600); // Delete
-   $this->store_cookie('coin_mrgntyp', '', time()-3600); // Delete
-     
-     
-   // Settings
-   $this->store_cookie('coin_reload', '', time()-3600); // Delete
-   $this->store_cookie('show_charts', '', time()-3600); // Delete
-   $this->store_cookie('show_crypto_val', '', time()-3600); // Delete
-   $this->store_cookie('show_secondary_trade_val', '', time()-3600); // Delete
-   $this->store_cookie('show_feeds', '', time()-3600); // Delete
-   $this->store_cookie('theme_selected', '', time()-3600); // Delete
-   $this->store_cookie('sort_by', '', time()-3600); // Delete
-   $this->store_cookie('alert_percent', '', time()-3600); // Delete
-   $this->store_cookie('prim_currency_mrkt_standalone', '', time()-3600); // Delete
-    
-    
-   }
-   
-   
-   ////////////////////////////////////////////////////////
-   ////////////////////////////////////////////////////////
-   
-   
    function obfusc_path_data($path) {
       
    global $ct_var;
@@ -997,24 +966,28 @@ var $ct_array = array();
    
    $urlData = parse_url($url);
       
+      
       // If this is an ip address, then we can return that as the result now
       if ( $this->test_ipv4($urlData['host']) != false || $this->test_ipv6($urlData['host']) != false ) {
       return $urlData['host'];
       }
-   
-   $hostData = explode('.', $urlData['host']);
-   $hostData = array_reverse($hostData);
-   
-   
-      if ( array_search($hostData[1] . '.' . $hostData[0], $ct_conf['dev']['top_level_domain_map']) !== false ) {
-      $host = $hostData[2] . '.' . $hostData[1] . '.' . $hostData[0];
-      } 
-      elseif ( array_search($hostData[0], $ct_conf['dev']['top_level_domain_map']) !== false ) {
-      $host = $hostData[1] . '.' . $hostData[0];
+      
+       
+   // If this is a TLD or local alphanumeric name
+   $array = explode(".", $urlData['host']);
+      
+      
+      // Retrieve last 2 sections (the TLD), OR the local name
+      if ( sizeof($array) >= 2 ) {
+      return $array[( sizeof($array) - 2 )] . '.' . $array[( sizeof($array) - 1 )];
       }
-   
-   
-   return strtolower( trim($host) );
+      elseif ( sizeof($array) == 1 ) {
+      return $array[0];
+      }
+      else {
+      return false;
+      }
+      
    
    }
     
@@ -1265,22 +1238,75 @@ var $ct_array = array();
    ////////////////////////////////////////////////////////
    
    
+   function delete_all_cookies() {
+     
+    // Portfolio
+   unset($_COOKIE['coin_amnts']);
+   unset($_COOKIE['coin_pairs']);
+   unset($_COOKIE['coin_mrkts']);
+   unset($_COOKIE['coin_paid']);
+   unset($_COOKIE['coin_lvrg']);
+   unset($_COOKIE['coin_mrgntyp']);
+   
+   $this->store_cookie('coin_amnts', '', time()-3600); // Delete
+   $this->store_cookie('coin_pairs', '', time()-3600); // Delete
+   $this->store_cookie('coin_mrkts', '', time()-3600); // Delete
+   $this->store_cookie('coin_paid', '', time()-3600); // Delete
+   $this->store_cookie('coin_lvrg', '', time()-3600); // Delete
+   $this->store_cookie('coin_mrgntyp', '', time()-3600); // Delete
+     
+     
+   // Settings
+   unset($_COOKIE['coin_reload']);
+   unset($_COOKIE['show_charts']);
+   unset($_COOKIE['show_crypto_val']);
+   unset($_COOKIE['show_secondary_trade_val']);
+   unset($_COOKIE['show_feeds']);
+   unset($_COOKIE['theme_selected']);
+   unset($_COOKIE['sort_by']);
+   unset($_COOKIE['alert_percent']);
+   unset($_COOKIE['prim_currency_mrkt_standalone']);
+   
+   $this->store_cookie('coin_reload', '', time()-3600); // Delete
+   $this->store_cookie('show_charts', '', time()-3600); // Delete
+   $this->store_cookie('show_crypto_val', '', time()-3600); // Delete
+   $this->store_cookie('show_secondary_trade_val', '', time()-3600); // Delete
+   $this->store_cookie('show_feeds', '', time()-3600); // Delete
+   $this->store_cookie('theme_selected', '', time()-3600); // Delete
+   $this->store_cookie('sort_by', '', time()-3600); // Delete
+   $this->store_cookie('alert_percent', '', time()-3600); // Delete
+   $this->store_cookie('prim_currency_mrkt_standalone', '', time()-3600); // Delete
+    
+   }
+   
+   
+   ////////////////////////////////////////////////////////
+   ////////////////////////////////////////////////////////
+   
+   
    function store_cookie($name, $val, $time) {
+   
+   global $app_edition, $app_host, $app_path;
+   
+   $secure = ( $app_edition == 'server' ? true : false );
+      
       
       if ( PHP_VERSION_ID >= 70300 ) {
+        
+      $arr_cookie_options = array (
+                                    'expires' => $time,
+                                    'path' => $app_path,
+                                    'domain' => $app_host,
+                                    'secure' => $secure,
+                                    'httponly' => false,
+                     	            'samesite' => 'Strict', // Strict for high privacy
+                                    );
          
-      $result = setcookie(
-              			  $name,
-              			  $val,
-              			     [
-         	                 'samesite' => 'Strict', // Strict for high privacy
-            	             'expires' => $time,
-                             ]
-                          );
+      $result = setcookie($name, $val, $arr_cookie_options);
       
       }
       else {
-      $result = setcookie($name, $val, $time);
+      $result = setcookie($name, $val, $time, $app_path . '; samesite=Strict', $app_host, $secure, false);
       }
    
       
@@ -2395,7 +2421,7 @@ var $ct_array = array();
         		$cached_ct_conf = json_decode( trim( file_get_contents($base_dir . '/cache/secured/' . $secured_file) ) , TRUE);
         			
         		    // "null" in quotes as the actual value is returned sometimes
-        			if ( $this->admin_v6_check() == true && $cached_ct_conf != false && $cached_ct_conf != null && $cached_ct_conf != "null" ) {
+        			if ( $this->admin_security_level_check() == true && $cached_ct_conf != false && $cached_ct_conf != null && $cached_ct_conf != "null" ) {
         			$ct_conf = $cached_ct_conf; // Use cached ct_conf if it exists, seems intact, and DEFAULT Admin Config (in config.php) hasn't been revised since last check
         			// $this->log('conf_error', 'CACHED ct_conf OK'); // DEBUGGING ONLY
         			$config_ok = true;
@@ -2405,7 +2431,7 @@ var $ct_array = array();
         			$this->log('conf_error', 'CACHED ct_conf appears corrupt, refreshing from DEFAULT or RESTORE ct_conf');
         			$refresh_config = true;
         			}
-        			elseif ( $this->admin_v6_check() == false ) {
+        			elseif ( $this->admin_security_level_check() == false ) {
         			unlink($base_dir . '/cache/secured/' . $secured_file);
         			$this->log('conf_error', 'CACHED ct_conf outdated (DEFAULT ct_conf updated), refreshing from DEFAULT ct_conf');
         			$refresh_config = true;
@@ -3224,6 +3250,7 @@ var $ct_array = array();
             $this->store_cookie("show_charts", $_POST['show_charts'], time()+31536000);
             }
             else {
+            unset($_COOKIE['show_charts']);
             $this->store_cookie('show_charts', '', time()-3600); // Delete
             }
                   
@@ -3231,6 +3258,7 @@ var $ct_array = array();
             $this->store_cookie("show_crypto_val", $_POST['show_crypto_val'], time()+31536000);
             }
             else {
+            unset($_COOKIE['show_crypto_val']);
             $this->store_cookie('show_crypto_val', '', time()-3600); // Delete
             }
                   
@@ -3238,6 +3266,7 @@ var $ct_array = array();
             $this->store_cookie("show_secondary_trade_val", $_POST['show_secondary_trade_val'], time()+31536000);
             }
             else {
+            unset($_COOKIE['show_secondary_trade_val']);
             $this->store_cookie('show_secondary_trade_val', '', time()-3600); // Delete
             }
                   
@@ -3245,6 +3274,7 @@ var $ct_array = array();
             $this->store_cookie("show_feeds", $_POST['show_feeds'], time()+31536000);
             }
             else {
+            unset($_COOKIE['show_feeds']);
             $this->store_cookie('show_feeds', '', time()-3600); // Delete
             }
                  
@@ -3252,6 +3282,7 @@ var $ct_array = array();
             $this->store_cookie("theme_selected", $_POST['theme_selected'], time()+31536000);
             }
             else {
+            unset($_COOKIE['theme_selected']);
             $this->store_cookie('theme_selected', '', time()-3600); // Delete
             }
                   
@@ -3259,6 +3290,7 @@ var $ct_array = array();
             $this->store_cookie("sort_by", $_POST['sort_by'], time()+31536000);
             }
             else {
+            unset($_COOKIE['sort_by']);
             $this->store_cookie('sort_by', '', time()-3600); // Delete
             }
                  
@@ -3266,6 +3298,7 @@ var $ct_array = array();
             $this->store_cookie("alert_percent", $_POST['use_alert_percent'], time()+31536000);
             }
             else {
+            unset($_COOKIE['alert_percent']);
             $this->store_cookie('alert_percent', '', time()-3600); // Delete
             }
                  
@@ -3273,6 +3306,7 @@ var $ct_array = array();
             $this->store_cookie("prim_currency_mrkt_standalone", $_POST['prim_currency_mrkt_standalone'], time()+31536000);
             }
             else {
+            unset($_COOKIE['prim_currency_mrkt_standalone']);
             $this->store_cookie('prim_currency_mrkt_standalone', '', time()-3600); // Delete
             }
               

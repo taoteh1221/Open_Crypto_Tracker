@@ -5,9 +5,9 @@
 
 
 //////////////////////////////////////////////////////////////////
-// Only need below init logic IF NOT RUNNING AS CRON
+// INTERFACE SUB-INIT (IF NOT RUNNING AS CRON OR CAPTCHA)
 //////////////////////////////////////////////////////////////////
-if ( $runtime_mode != 'cron' ) {
+if ( $runtime_mode != 'cron' && $runtime_mode != 'captcha' ) {
 	
 	
 	// Have UI / HTTP runtime mode RE-CACHE the runtime_user data every 24 hours, since CLI runtime cannot determine the UI / HTTP runtime_user 
@@ -25,15 +25,15 @@ if ( $runtime_mode != 'cron' ) {
 ///////////////////////////////////////////////////////////////////////
 	
 
-$sel_opt['alert_percent'] = explode("|", ( $_POST['use_alert_percent'] != '' ? $_POST['use_alert_percent'] : $_COOKIE['alert_percent'] ) );
+$sel_opt['alert_percent'] = explode("|", ( isset($_POST['use_alert_percent']) ? $_POST['use_alert_percent'] : $_COOKIE['alert_percent'] ) );
 
-$ct_conf['gen']['prim_mcap_site'] = ( $sel_opt['alert_percent'][0] != '' ? $sel_opt['alert_percent'][0] : $ct_conf['gen']['prim_mcap_site'] );
+$ct_conf['gen']['prim_mcap_site'] = ( isset($sel_opt['alert_percent'][0]) ? $sel_opt['alert_percent'][0] : $ct_conf['gen']['prim_mcap_site'] );
 
 
 ///////////////////////////////////////////////////////////////////////
 
 
-$sel_opt['show_crypto_val'] = explode(',', rtrim( ( $_POST['show_crypto_val'] != '' ? $_POST['show_crypto_val'] : $_COOKIE['show_crypto_val'] ) , ',') );
+$sel_opt['show_crypto_val'] = explode(',', rtrim( ( isset($_POST['show_crypto_val']) ? $_POST['show_crypto_val'] : $_COOKIE['show_crypto_val'] ) , ',') );
 
 		
 		// Remove any stale crypto value
@@ -51,23 +51,24 @@ $sel_opt['show_crypto_val'] = explode(',', rtrim( ( $_POST['show_crypto_val'] !=
 		$implode_crypto_val = implode(',', $sel_opt['show_crypto_val']) . ',';
 	
 		// Update POST and / or COOKIE data too
-		if( $_POST['show_crypto_val'] ) {
+		if( isset($_POST['show_crypto_val']) ) {
 		$_POST['show_crypto_val'] = $implode_crypto_val;
 		}
 	
-		if( $_COOKIE['show_crypto_val'] ) {
+		if( isset($_COOKIE['show_crypto_val']) ) {
 		$ct_gen->store_cookie("show_crypto_val", $implode_crypto_val, time()+31536000);
 		}
 
 ///////////////////////////////////////////////////////////////////////
 
 
-$sel_opt['show_secondary_trade_val'] = ( $_POST['show_secondary_trade_val'] != '' ? $_POST['show_secondary_trade_val'] : $_COOKIE['show_secondary_trade_val'] );
+$sel_opt['show_secondary_trade_val'] = ( isset($_POST['show_secondary_trade_val']) ? $_POST['show_secondary_trade_val'] : $_COOKIE['show_secondary_trade_val'] );
 
 	// Remove any stale secondary trade value
 	if ( isset($sel_opt['show_secondary_trade_val']) && !array_key_exists($sel_opt['show_secondary_trade_val'], $ct_conf['power']['crypto_pair']) ) {
 	unset($sel_opt['show_secondary_trade_val']);
 	unset($_POST['show_secondary_trade_val']);  
+	unset($_COOKIE['show_secondary_trade_val']);  
 	$ct_gen->store_cookie("show_secondary_trade_val", "", time()-3600);  // Delete cookie -3600 seconds (expired)
 	}
 
@@ -75,7 +76,7 @@ $sel_opt['show_secondary_trade_val'] = ( $_POST['show_secondary_trade_val'] != '
 ///////////////////////////////////////////////////////////////////////
 
 
-$sel_opt['show_feeds'] = explode(',', rtrim( ( $_POST['show_feeds'] != '' ? $_POST['show_feeds'] : $_COOKIE['show_feeds'] ) , ',') );
+$sel_opt['show_feeds'] = explode(',', rtrim( ( isset($_POST['show_feeds']) ? $_POST['show_feeds'] : $_COOKIE['show_feeds'] ) , ',') );
 
 	// Alphabetically order AND remove stale feeds
 	// (since we already alphabetically ordered $ct_conf['power']['news_feed'] in config-auto-adjust.php BEFOREHAND)
@@ -92,11 +93,11 @@ $sel_opt['show_feeds'] = explode(',', rtrim( ( $_POST['show_feeds'] != '' ? $_PO
 	$implode_feeds = implode(',', $sel_opt['show_feeds']) . ',';
 	
 	// Update POST and / or COOKIE data too
-	if( $_POST['show_feeds'] ) {
+	if( isset($_POST['show_feeds']) ) {
 	$_POST['show_feeds'] = $implode_feeds;
 	}
 	
-	if( $_COOKIE['show_feeds'] ) {
+	if( isset($_COOKIE['show_feeds']) ) {
 	$ct_gen->store_cookie("show_feeds", $implode_feeds, time()+31536000);
 	}
 
@@ -107,7 +108,7 @@ $sel_opt['show_feeds'] = explode(',', rtrim( ( $_POST['show_feeds'] != '' ? $_PO
 	// Only set from cookie / post values if charts are enabled
 	if ( $ct_conf['gen']['asset_charts_toggle'] == 'on' ) {
 		
-	$sel_opt['show_charts'] = explode(',', rtrim( ( $_POST['show_charts'] != '' ? $_POST['show_charts'] : $_COOKIE['show_charts'] ) , ',') );
+	$sel_opt['show_charts'] = explode(',', rtrim( ( isset($_POST['show_charts']) ? $_POST['show_charts'] : $_COOKIE['show_charts'] ) , ',') );
 		
 		// Remove stale charts
 		$temp_show_charts = array();
@@ -138,11 +139,11 @@ $sel_opt['show_feeds'] = explode(',', rtrim( ( $_POST['show_feeds'] != '' ? $_PO
 		$implode_charts = implode(',', $sel_opt['show_charts']) . ',';
 	
 		// Update POST and / or COOKIE data too
-		if( $_POST['show_charts'] ) {
+		if( isset($_POST['show_charts']) ) {
 		$_POST['show_charts'] = $implode_charts;
 		}
 	
-		if( $_COOKIE['show_charts'] ) {
+		if( isset($_COOKIE['show_charts']) ) {
 		$ct_gen->store_cookie("show_charts", $implode_charts, time()+31536000);
 		}
 	
@@ -155,7 +156,7 @@ $sel_opt['show_feeds'] = explode(',', rtrim( ( $_POST['show_feeds'] != '' ? $_PO
 ///////////////////////////////////////////////////////////////////////
 
 
-$sort_array = explode("|", ( $_COOKIE['sort_by'] ? $_COOKIE['sort_by'] : $_POST['sort_by'] ) );
+$sort_array = explode("|", ( isset($_POST['sort_by']) ? $_POST['sort_by'] : $_COOKIE['sort_by'] ) );
 
 $sel_opt['sorted_by_col'] = $sort_array[0];
 $sel_opt['sorted_asc_desc'] = $sort_array[1];
@@ -170,15 +171,15 @@ $sel_opt['sorted_asc_desc'] = $sort_array[1];
 
 
 	// We can safely dismiss alerts with cookies enabled, without losing data
-	if ( $_COOKIE['coin_amnts'] != '' ) {
+	if ( isset($_COOKIE['coin_amnts']) ) {
 	$dismiss_alert = ' <br /><br /><a href="'.$ct_gen->start_page($_GET['start_page'], 'href').'">Dismiss Alert</a>';
 	}
 	
 
-	if ( $_COOKIE['theme_selected'] != null ) {
+	if ( isset($_COOKIE['theme_selected']) ) {
 	$sel_opt['theme_selected'] = $_COOKIE['theme_selected'];
 	}
-	elseif ( $_POST['theme_selected'] != null ) {
+	elseif ( isset($_POST['theme_selected']) ) {
 	$sel_opt['theme_selected'] = $_POST['theme_selected'];
 	}
 	else {
@@ -188,12 +189,19 @@ $sel_opt['sorted_asc_desc'] = $sort_array[1];
 	if ( $sel_opt['theme_selected'] != 'light' && $sel_opt['theme_selected'] != 'dark' ) {
 		
 	$ct_gen->log(
-								'security_error',
-								'Injected theme path value attack',
-								'Requested theme value: "' . $sel_opt['theme_selected'] . '";'
-								);
+				'security_error',
+				'Injected theme path value attack',
+				'Requested theme value: "' . $sel_opt['theme_selected'] . '";'
+				);
 	
-	$ct_cache->error_log();
+ 
+    // Log errors / debugging, send notifications
+    $ct_cache->error_log();
+    $ct_cache->debug_log();
+    $ct_cache->send_notifications();
+    
+    flush(); // Clean memory output buffer for echo
+    gc_collect_cycles(); // Clean memory cache
 	
 	exit;
 	
@@ -230,13 +238,14 @@ $sel_opt['sorted_asc_desc'] = $sort_array[1];
 	}
 	
 	
+
 // Now that $run_csv_import has been determined ABOVE, we can call our cookie logic
 require_once($base_dir . "/app-lib/php/other/cookies.php");
 
 
 }
 //////////////////////////////////////////////////////////////////
-// END UI-ONLY INIT LOGIC
+// END INTERFACE SUB-INIT
 //////////////////////////////////////////////////////////////////
 
 // DON'T LEAVE ANY WHITESPACE AFTER THE CLOSING PHP TAG!

@@ -91,9 +91,18 @@ header('Access-Control-Allow-Origin: *');
 else {
 header('Access-Control-Allow-Origin: ' . $app_host_address);
 }
+ 
+ 
+// Log errors / debugging, send notifications
+$ct_cache->error_log();
+$ct_cache->debug_log();
+$ct_cache->send_notifications();
 
 imagepng($image);
 imagedestroy($image);
+
+flush(); // Clean memory output buffer for echo
+gc_collect_cycles(); // Clean memory cache
 
 // DON'T LEAVE ANY WHITESPACE AFTER THE CLOSING PHP TAG!
 

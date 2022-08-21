@@ -20,6 +20,7 @@ if ( $_GET['logout'] == 1 && $ct_gen->admin_hashed_nonce('logout') != false && $
 $ct_gen->hardy_sess_clear(); 
 
 // Delete admin login cookie
+unset($_COOKIE['admin_auth_' . $ct_gen->id()]);
 $ct_gen->store_cookie('admin_auth_' . $ct_gen->id(), '', time()-3600); // Delete
 
 header("Location: index.php");

@@ -329,13 +329,14 @@ $set_asset_vals = ( $set_asset_vals != NULL ? $set_asset_vals : ' ' ); // Initia
 
 // 'cookie_name' => cookie_value
 $cookie_params = array(
-								'coin_amnts' => $set_asset_vals,
-								'coin_pairs' => $set_pair_vals,
-								'coin_mrkts' => $set_mrkt_vals,
-								'coin_paid' => $set_paid_vals,
-								'coin_lvrg' => $set_lvrg_vals,
-								'coin_mrgntyp' => $set_mrgntyp_vals,
-								);
+						'coin_amnts' => $set_asset_vals,
+						'coin_pairs' => $set_pair_vals,
+						'coin_mrkts' => $set_mrkt_vals,
+						'coin_paid' => $set_paid_vals,
+						'coin_lvrg' => $set_lvrg_vals,
+						'coin_mrgntyp' => $set_mrgntyp_vals,
+						);
+
 
 $ct_gen->update_all_cookies($cookie_params);
 

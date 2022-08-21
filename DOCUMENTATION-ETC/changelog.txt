@@ -5675,17 +5675,25 @@ v6.00.2 AND HIGHER RESETS LIGHT (TIME PERIOD) CHARTS FROM ARCHIVAL DATA, ONE-TIM
 -------------------------------------------------------------------
 6.00.3:
 
--BUG FIX: Changing #GUI# PHP timeout setting config now properly updates the .htaccess / .user.ini files that control that
-
 -BUG FIX: Fixed edge-case where charts / logs / news feeds may not load, due to CORS 'Access-Control-Allow-Origin' and incompatible server configurations (redirects)
 
--New Admin Config section for Security settings (and moved all security-related settings into it)
+-BUG FIX: 'Samesite=Strict' cookie configuration fixed (just click 'Save Updated Settings' on the Settings page, WITH COOKIES ENABLED) 
 
--New admin security level feature (if end-users prefer editing all config files manually, and avoid displaying setting values in the admin interface)
+-BUG FIX: Changing #GUI# PHP timeout setting config now properly updates the .htaccess / .user.ini files that control that
+
+-'Secure' cookies configuration added FOR SERVER EDITIONS (only allowed to be sent over a secure HTTPS connection...just click 'Save Updated Settings' on the Settings page, WITH COOKIES ENABLED)
+
+-New admin security level feature (if end-users prefer editing all config files manually, to avoid the need to display setting values in the admin interface pages)
+
+-Better user experience when editing the main config.php file manually (in a text editor...no init code at top / bottom anymore)
+
+-More reliable top-level domain name checks (no need to map TLD extensions in the Admin Config 'Developer' section anymore)
 
 -New CORS 'Access-Control-Allow-Origin' setting (controls what web domains can load this app's AJAX scripts, etc)
 
--Better user experience when editing the main config.php file manually (in a text editor...no init code at top / bottom anymore)
+-New Admin Config section for Security settings (and moved all security-related settings into it)
+
+-More reliable cookie configuration (on varying server setups)
 
 -Code cleanup / optimizations
 

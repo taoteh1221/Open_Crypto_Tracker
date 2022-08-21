@@ -3,18 +3,9 @@
  * Copyright 2014-2022 GPLv3, Open Crypto Tracker by Mike Kilday: Mike@DragonFrugal.com
  */
 
-header('Content-type: text/html; charset=' . $ct_conf['dev']['charset_default']);
 
 header('Access-Control-Allow-Headers: *'); // Allow ALL headers
-
-// Allow access from ANY SERVER (primarily in case the end-user has a server misconfiguration)
-if ( $ct_conf['sec']['access_control_origin'] == 'any' ) {
-header('Access-Control-Allow-Origin: *');
-}
-// Strict access from THIS APP SERVER ONLY (provides tighter security)
-else {
-header('Access-Control-Allow-Origin: ' . $app_host_address);
-}
+header('Access-Control-Allow-Origin: *'); // Allow ALL origins, since we don't load init.php here
 
 ?>
 

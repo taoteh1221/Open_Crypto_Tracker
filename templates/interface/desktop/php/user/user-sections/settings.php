@@ -636,7 +636,7 @@
          else {
 			document.getElementById("use_cookies").value = "";
          }
-         ' <?php echo ( $_COOKIE['coin_amnts'] != '' ? 'checked' : ''); ?> /> <span class='bitcoin'>(un-checking this box <i>deletes ALL previously-saved cookie data <u>permanently</u></i>)</span>
+         ' <?php echo ( isset($_COOKIE['coin_amnts']) ? 'checked' : ''); ?> /> <span class='bitcoin'>(un-checking this box <i>deletes ALL previously-saved cookie data <u>permanently</u></i>)</span>
          
          </p>
 			

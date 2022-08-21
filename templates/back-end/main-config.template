@@ -55,28 +55,6 @@ $ct_conf['sec']['login_alert'] = 'all'; // 'off' (disabled) / 'all' / 'email' / 
 // The lower number the better for higher security, epecially if the app server temporary session data 
 // doesn't auto-clear too often (that also logs you off automatically, REGARDLESS of this setting's attribute)
 $ct_conf['sec']['admin_cookie_expire'] = 8; // (default = 8)
-		
-
-// CONTRAST of CAPTCHA IMAGE text against background (on login pages)
-// 0 for neutral contrast, positive for more contrast, negative for less contrast (MAXIMUM OF +-35)
-$ct_conf['sec']['captcha_text_contrast'] = -8; // example: -5 or 5 (default = -8)
-////
-// MAX OFF-ANGLE DEGREES (tilted backward / forward) of CAPTCHA IMAGE text characters (MAXIMUM OF 35)
-$ct_conf['sec']['captcha_text_angle'] = 35; // (default = 35)
-////		
-// Configuration for advanced CAPTCHA image settings on all admin login / reset pages
-$ct_conf['sec']['captcha_image_width'] = 525; // Image width (default = 525)
-////
-$ct_conf['sec']['captcha_image_height'] = 135; // Image height (default = 135)
-////
-$ct_conf['sec']['captcha_text_margin'] = 10; // MINIMUM margin of text from edge of image (approximate / average) (default = 10)
-////
-$ct_conf['sec']['captcha_text_size'] = 50; // Text size (default = 50)
-////
-$ct_conf['sec']['captcha_chars_length'] = 7; // Number of characters in captcha image (default = 7)
-////
-// ONLY MOST READABLE characters allowed for use in captcha image 
-$ct_conf['sec']['captcha_permitted_chars'] = 'ABCDEFHJKMNPRSTUVWXYZ23456789'; // (default = 'ABCDEFHJKMNPRSTUVWXYZ23456789')
 
 
 // 'on' verifies ALL SMTP server certificates for secure SMTP connections, 'off' verifies NOTHING 
@@ -92,8 +70,31 @@ $ct_conf['sec']['remote_api_strict_ssl'] = 'off'; // (default = 'off')
 // Set CORS 'Access-Control-Allow-Origin' (controls what web domains can load this app's AJAX scripts, etc)
 // Set to 'any' if this web server's domain can vary / redirect (some INITIAL visits are 'www.mywebsite.com', AND some are 'mywebsite.com')
 // Set to 'strict' if this web server's domain CANNOT VARY / REDIRECT (it's always 'mywebsite.com', EVERY VISIT #WITHOUT EXCEPTIONS#)
-// #CHANGE WITH CAUTION#, AS 'strict' #CAN BREAK CHARTS / LOGS# / ETC FROM LOADING
+// #CHANGE WITH CAUTION#, AS 'strict' #CAN BREAK CHARTS / LOGS / ETC FROM LOADING# ON SOME SETUPS!
 $ct_conf['sec']['access_control_origin'] = 'any'; // 'any' / 'strict' (default = 'any')
+		
+
+// CONTRAST of CAPTCHA IMAGE text against background (on login pages)
+// 0 for neutral contrast, positive for more contrast, negative for less contrast (MAXIMUM OF +-35)
+$ct_conf['sec']['captcha_text_contrast'] = -8; // example: -5 or 5 (default = -8)
+////
+// MAX OFF-ANGLE DEGREES (tilted backward / forward) of CAPTCHA IMAGE text characters (MAXIMUM OF 35)
+$ct_conf['sec']['captcha_text_angle'] = 35; // (default = 35)
+////
+$ct_conf['sec']['captcha_text_size'] = 50; // Text size (default = 50)
+////
+$ct_conf['sec']['captcha_chars_length'] = 7; // Number of characters in captcha image (default = 7)
+////
+// Configuration for advanced CAPTCHA image settings on all admin login / reset pages
+$ct_conf['sec']['captcha_image_width'] = 525; // Image width (default = 525)
+////
+$ct_conf['sec']['captcha_image_height'] = 135; // Image height (default = 135)
+////
+$ct_conf['sec']['captcha_text_margin'] = 10; // MINIMUM margin of text from edge of image (approximate / average) (default = 10)
+////		
+// Only allow the MOST READABLE characters for use in captcha image 
+// (DON'T SET TOO LOW, OR BOTS CAN GUESS THE CAPTCHA CODE EASIER)
+$ct_conf['sec']['captcha_permitted_chars'] = 'ABCDEFHJKMNPRSTUVWXYZ23456789'; // (default = 'ABCDEFHJKMNPRSTUVWXYZ23456789')
 
 
 // Cache directories / files and .htaccess / index.php files permissions (CHANGE WITH #EXTREME# CARE, to adjust security for your PARTICULAR setup)
@@ -1613,37 +1614,6 @@ $ct_conf['dev']['limited_apis'] = array(
                 						'gemini.com',
                 						'jup.ag',
 							            );
-
-
-// TLD-extensions-only mapping (Top Level Domain extensions only, supported in the $ct_gen->get_tld_or_ip() function, which removes subdomains for tld checks)
-// IF YOU ADD A NEW API, !MAKE SURE IT'S DOMAIN EXTENSION EXISTS HERE!
-// (NO LEADING DOTS, !MUST BE LOWERCASE!)
-$ct_conf['dev']['top_level_domain_map'] = array(
-                                                // TLD
-                            					'ag',
-                            					'co',
-                            					'co.il',
-                            					'co.uk',
-                            					'com', 
-                            					'com.au',
-                            					'fm',
-                            					'info',
-                            					'io',
-                            					'market',
-                            					'net',
-                            					'net.au',
-                            					'net.uk',
-                            					'one',
-                            					'org',
-                            					'org.au',
-                            					'org.uk',
-                            					'pro',
-                            					'us',
-                            					'xyz',
-                            					// internal / intranet / etc...
-                            					'local', 
-                            					'network', 
-					                             );
 				
 
 ////////////////////////////////////////

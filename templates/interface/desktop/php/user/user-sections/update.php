@@ -769,19 +769,19 @@
 	
 	<input type='hidden' id='sort_by' name='sort_by' value='<?=($sel_opt['sorted_by_col'])?>|<?=($sel_opt['sorted_asc_desc'])?>' />
 	
-	<input type='hidden' id='use_cookies' name='use_cookies' value='<?php echo ( $_COOKIE['coin_amnts'] != '' ? '1' : ''); ?>' />
+	<input type='hidden' id='use_cookies' name='use_cookies' value='<?php echo ( isset($_COOKIE['coin_amnts']) ? '1' : ''); ?>' />
 	
-	<input type='hidden' id='use_alert_percent' name='use_alert_percent' value='<?=( $_POST['use_alert_percent'] != '' ? $_POST['use_alert_percent'] : $_COOKIE['alert_percent'] )?>' />
+	<input type='hidden' id='use_alert_percent' name='use_alert_percent' value='<?=( isset($_POST['use_alert_percent']) ? $_POST['use_alert_percent'] : $_COOKIE['alert_percent'] )?>' />
 	
-	<input type='hidden' id='show_charts' name='show_charts' value='<?=( $_POST['show_charts'] != '' ? $_POST['show_charts'] : $_COOKIE['show_charts'] )?>' />
+	<input type='hidden' id='show_charts' name='show_charts' value='<?=( isset($_POST['show_charts']) ? $_POST['show_charts'] : $_COOKIE['show_charts'] )?>' />
 	
-	<input type='hidden' id='show_crypto_val' name='show_crypto_val' value='<?=( $_POST['show_crypto_val'] != '' ? $_POST['show_crypto_val'] : $_COOKIE['show_crypto_val'] )?>' />
+	<input type='hidden' id='show_crypto_val' name='show_crypto_val' value='<?=( isset($_POST['show_crypto_val']) ? $_POST['show_crypto_val'] : $_COOKIE['show_crypto_val'] )?>' />
 	
-	<input type='hidden' id='show_secondary_trade_val' name='show_secondary_trade_val' value='<?=( $_POST['show_secondary_trade_val'] != '' ? $_POST['show_secondary_trade_val'] : $_COOKIE['show_secondary_trade_val'] )?>' />
+	<input type='hidden' id='show_secondary_trade_val' name='show_secondary_trade_val' value='<?=( isset($_POST['show_secondary_trade_val']) ? $_POST['show_secondary_trade_val'] : $_COOKIE['show_secondary_trade_val'] )?>' />
 	
-	<input type='hidden' id='show_feeds' name='show_feeds' value='<?=( $_POST['show_feeds'] != '' ? $_POST['show_feeds'] : $_COOKIE['show_feeds'] )?>' />
+	<input type='hidden' id='show_feeds' name='show_feeds' value='<?=( isset($_POST['show_feeds']) ? $_POST['show_feeds'] : $_COOKIE['show_feeds'] )?>' />
 	
-	<input type='hidden' id='prim_currency_mrkt_standalone' name='prim_currency_mrkt_standalone' value='<?=( $_POST['prim_currency_mrkt_standalone'] != '' ? $_POST['prim_currency_mrkt_standalone'] : $_COOKIE['prim_currency_mrkt_standalone'] )?>' />
+	<input type='hidden' id='prim_currency_mrkt_standalone' name='prim_currency_mrkt_standalone' value='<?=( isset($_POST['prim_currency_mrkt_standalone']) ? $_POST['prim_currency_mrkt_standalone'] : $_COOKIE['prim_currency_mrkt_standalone'] )?>' />
 			
 	<p><input type='submit' value='Save Updated Portfolio' /></p>
 	

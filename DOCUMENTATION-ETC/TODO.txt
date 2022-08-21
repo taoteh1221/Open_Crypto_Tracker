@@ -67,6 +67,9 @@ ADMIN IFRAME BUILDOUT NOTES:
 ```````````````````````````````````````````````````````````````````````````````````````````````````````````````
 
 
+Put a title at the top of each admin iframe, so it's clearly obvious what page your on, even if it's tab is way down in the side menu.
+
+
 MAY BE A GOOD WAY TO RE-RUN init.php IF USER CORRUPTS config.php (#AFTER# backing up / overwriting the corrupt config.php with /templates/back-end/main-config.template):
 https://stackoverflow.com/questions/17160851/is-there-any-way-to-skip-fatal-error-from-include-file-in-php
 https://www.php.net/manual/en/function.register-shutdown-function.php

@@ -62,6 +62,7 @@ $ct_cache->remove_dir($base_dir . '/cache/charts/spot_price_24hr_volume/light');
 
 	// Delete show_charts cookie data
 	if ( isset($_COOKIE['show_charts']) ) {
+	unset($_COOKIE['show_charts']);
     $ct_gen->store_cookie('show_charts', '', time()-3600); // Delete 
 	}
 

@@ -45,38 +45,7 @@ require_once('app-lib/php/other/config/system-config.php');
 
 // ESSENTIAL VARS / ARRAYS / INITS SET #BEFORE# config-init.php...
 
-// Register the base directory of this app (MUST BE SET BEFORE !ANY! init logic calls)
-$file_loc = str_replace('\\', '/', dirname(__FILE__) ); // Windows compatibility (convert backslashes)
-$base_dir = preg_replace("/\/app-lib(.*)/i", "", $file_loc );
-////
-//!!!!!!!!!! IMPORTANT, ALWAYS LEAVE THIS HERE !!!!!!!!!!!!!!!
-// FOR #UI LOGIN / LOGOUT SECURITY#, WE NEED THIS SET #VERY EARLY# IN INIT FOR APP ID / ETC,
-// EVEN THOUGH WE RUN LOGIC AGAIN FURTHER DOWN IN INIT TO SET THIS UNDER
-// ALL CONDITIONS (EVEN CRON RUNTIMES), AND REFRESH VAR CACHE FOR CRON LOGIC
-if ( $runtime_mode != 'cron' ) {
-$base_url = $ct_gen->base_url();
-}
-else {
-$base_url = trim( file_get_contents('cache/vars/base_url.dat') );
-}
-
-
-// Our FINAL $base_url logic has run, so set app host var
-if ( isset($base_url) ) {
-    
-$parse_temp = parse_url($base_url);
-
-    if ( isset($parse_temp['port']) ) {
-    $app_port = ':' . $parse_temp['port'];
-    }
-
-$app_host = $parse_temp['host'];
-$app_host_address = $parse_temp['scheme'] . "://" . $app_host . $app_port;
-
-}
-
-
-// Set $ct_app_id as a global (MUST BE SET AFTER $base_url / $base_dir)
+// Set $ct_app_id as a global (MUST BE SET AFTER system-config.php)
 // (a 10 character install ID hash, created from the base URL or base dir [if cron])
 // AFTER THIS IS SET, WE CAN USE EITHER $ct_app_id OR $ct_gen->id() RELIABLY / EFFICIENTLY ANYWHERE
 // $ct_gen->id() can then be used in functions WITHOUT NEEDING ANY $ct_app_id GLOBAL DECLARED.
