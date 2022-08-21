@@ -15,7 +15,6 @@ header('Access-Control-Allow-Origin: ' . $app_host_address);
 
 ?><!DOCTYPE html>
 <html lang="en">
-
 <!-- /*
  * Copyright 2014-2022 GPLv3, Open Crypto Tracker by Mike Kilday: Mike@DragonFrugal.com
  */ -->

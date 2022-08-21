@@ -27,7 +27,7 @@ if ( $runtime_mode != 'cron' && $runtime_mode != 'captcha' ) {
 
 $sel_opt['alert_percent'] = explode("|", ( isset($_POST['use_alert_percent']) ? $_POST['use_alert_percent'] : $_COOKIE['alert_percent'] ) );
 
-$ct_conf['gen']['prim_mcap_site'] = ( isset($sel_opt['alert_percent'][0]) ? $sel_opt['alert_percent'][0] : $ct_conf['gen']['prim_mcap_site'] );
+$ct_conf['gen']['prim_mcap_site'] = ( isset($sel_opt['alert_percent'][0]) && $sel_opt['alert_percent'][0] != '' ? $sel_opt['alert_percent'][0] : $ct_conf['gen']['prim_mcap_site'] );
 
 
 ///////////////////////////////////////////////////////////////////////

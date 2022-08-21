@@ -177,18 +177,16 @@
 				    
 				    exchange_name = exchange_name_ui.toLowerCase();
 				    
+				    exchange_name = exchange_name.replace(/coingecko.com/gi, "coingecko");
+				    
 				    exchange_name_check = exchange_name.replace(" ", "_");
 				    
 				    if ( window.limited_apis.indexOf(exchange_name) != -1 ) { // MSIE-compatible
-				    $("#prim_currency_mrkts_alert").text("The " + exchange_name_ui + " exchange API is less reliable than some others (by NOT consolidating multiple / different asset price requests into one single call per session).\n\nIf you experience issues with primary currency values NOT displaying in this app when using the " + exchange_name_ui + " exchange marketplace, try a different exchange for your preferred primary currency market, and the issue should go away.");
-				    $("#prim_currency_mrkts_alert").show(250, "linear"); // 0.25 seconds
-				    }
-					 else if ( window.pref_bitcoin_mrkts[btc_prim_currency] && window.pref_bitcoin_mrkts[btc_prim_currency].length > 0 && window.pref_bitcoin_mrkts[btc_prim_currency] != exchange_name_check ) {
-				    $("#prim_currency_mrkts_alert").text("It is recommended to use the " + render_names(window.pref_bitcoin_mrkts[btc_prim_currency]) + " marketplace, as there MAY be occasional issues with other BTC / " + btc_prim_currency.toUpperCase() + " marketplaces.\n\nIf you experience issues with primary currency values NOT displaying in this app when using the " + exchange_name_ui + " exchange marketplace, try a different exchange for your preferred primary currency market, and the issue should go away.");
+				    $("#prim_currency_mrkts_alert").html("The " + exchange_name_ui + " exchange API is less reliable than some others (by NOT consolidating enough API requests into one single call per session). It is recommended to use the " + render_names(window.pref_bitcoin_mrkts[btc_prim_currency]) + " marketplace, as there MAY be occasional issues with other BTC / " + btc_prim_currency.toUpperCase() + " marketplaces.<br /><br />If you experience issues with primary currency values NOT displaying in this app when using the " + exchange_name_ui + " marketplace, try a different exchange for your preferred primary currency market, and the issue should go away.");
 				    $("#prim_currency_mrkts_alert").show(250, "linear"); // 0.25 seconds
 				    }
 				    else {
-				    $("#prim_currency_mrkts_alert").text("");
+				    $("#prim_currency_mrkts_alert").html("");
 				    $("#prim_currency_mrkts_alert").hide(250, "linear"); // 0.25 seconds
 				    }
 				    
@@ -264,21 +262,19 @@
 				    
 				    exchange_name = exchange_name_ui.toLowerCase();
 				    
+				    exchange_name = exchange_name.replace(/coingecko.com/gi, "coingecko");
+				    
 				    exchange_name_check = exchange_name.replace(" ", "_");
 				    
 				    btc_prim_currency = $("#btc_prim_currency").val();
 					 prim_currency_mrkt = this.value;
 				    
 				    if ( window.limited_apis.indexOf(exchange_name) != -1 ) { // MSIE-compatible
-				    $("#prim_currency_mrkts_alert").text("The " + exchange_name_ui + " exchange API is less reliable than some others (by NOT consolidating multiple / different asset price requests into one single call per session).\n\nIf you experience issues with primary currency values NOT displaying in this app when using the " + exchange_name_ui + " exchange marketplace, try a different exchange for your preferred primary currency market, and the issue should go away.");
-				    $("#prim_currency_mrkts_alert").show(250, "linear"); // 0.25 seconds
-				    }
-					 else if ( window.pref_bitcoin_mrkts[btc_prim_currency] && window.pref_bitcoin_mrkts[btc_prim_currency].length > 0 && window.pref_bitcoin_mrkts[btc_prim_currency] != exchange_name_check ) {
-				    $("#prim_currency_mrkts_alert").text("It is recommended to use the " + render_names(window.pref_bitcoin_mrkts[btc_prim_currency]) + " marketplace, as there MAY be occasional issues with other BTC / " + btc_prim_currency.toUpperCase() + " marketplaces.\n\nIf you experience issues with primary currency values NOT displaying in this app when using the " + exchange_name_ui + " exchange marketplace, try a different exchange for your preferred primary currency market, and the issue should go away.");
+				    $("#prim_currency_mrkts_alert").html("The " + exchange_name_ui + " exchange API is less reliable than some others (by NOT consolidating enough API requests into one single call per session). It is recommended to use the " + render_names(window.pref_bitcoin_mrkts[btc_prim_currency]) + " marketplace, as there MAY be occasional issues with other BTC / " + btc_prim_currency.toUpperCase() + " marketplaces.<br /><br />If you experience issues with primary currency values NOT displaying in this app when using the " + exchange_name_ui + " marketplace, try a different exchange for your preferred primary currency market, and the issue should go away.");
 				    $("#prim_currency_mrkts_alert").show(250, "linear"); // 0.25 seconds
 				    }
 				    else {
-				    $("#prim_currency_mrkts_alert").text("");
+				    $("#prim_currency_mrkts_alert").html("");
 				    $("#prim_currency_mrkts_alert").hide(250, "linear"); // 0.25 seconds
 				    }
 					 
@@ -377,21 +373,19 @@
 
 			exchange_name = exchange_name_ui.toLowerCase();
 				    
+		    exchange_name = exchange_name.replace(/coingecko.com/gi, "coingecko");
+				    
 			exchange_name_check = exchange_name.replace(" ", "_");
 
 			btc_prim_currency = btc_prim_currency_pair.toLowerCase();
 			
 
 				    if ( window.limited_apis.indexOf(exchange_name) != -1 ) { // MSIE-compatible
-				    $('#prim_currency_mrkts_alert').text("The " + exchange_name_ui + " exchange API is less reliable than some others (by NOT consolidating multiple / different asset price requests into one single call per session).\n\nIf you experience issues with primary currency values NOT displaying in this app when using the " + exchange_name_ui + " exchange marketplace, try a different exchange for your preferred primary currency market, and the issue should go away.");
-				    $("#prim_currency_mrkts_alert").show(250, "linear"); // 0.25 seconds
-				    }
-					 else if ( window.pref_bitcoin_mrkts[btc_prim_currency] && window.pref_bitcoin_mrkts[btc_prim_currency].length > 0 && window.pref_bitcoin_mrkts[btc_prim_currency] != exchange_name_check ) {
-				    $("#prim_currency_mrkts_alert").text("It is recommended to use the " + render_names(window.pref_bitcoin_mrkts[btc_prim_currency]) + " marketplace, as there MAY be occasional issues with other BTC / " + btc_prim_currency.toUpperCase() + " marketplaces.\n\nIf you experience issues with primary currency values NOT displaying in this app when using the " + exchange_name_ui + " exchange marketplace, try a different exchange for your preferred primary currency market, and the issue should go away.");
+				    $('#prim_currency_mrkts_alert').html("The " + exchange_name_ui + " exchange API is less reliable than some others (by NOT consolidating enough API requests into one single call per session). It is recommended to use the " + render_names(window.pref_bitcoin_mrkts[btc_prim_currency]) + " marketplace, as there MAY be occasional issues with other BTC / " + btc_prim_currency.toUpperCase() + " marketplaces.<br /><br />If you experience issues with primary currency values NOT displaying in this app when using the " + exchange_name_ui + " marketplace, try a different exchange for your preferred primary currency market, and the issue should go away.");
 				    $("#prim_currency_mrkts_alert").show(250, "linear"); // 0.25 seconds
 				    }
 				    else {
-				    $('#prim_currency_mrkts_alert').text("");
+				    $('#prim_currency_mrkts_alert').html("");
 				    $("#prim_currency_mrkts_alert").hide(250, "linear"); // 0.25 seconds
 				    }
 		
@@ -438,8 +432,8 @@
 			     
 			     
 			    <select class='browser-default custom-select' name='alert_source' id='alert_source' onchange='update_alert_percent();'>
-			    <option value='coingecko' <?=( $sel_opt['alert_percent'][0] == 'coingecko' ? ' selected ' : '' )?>> Coingecko.com </option>
-			    <option value='coinmarketcap' <?=( $sel_opt['alert_percent'][0] == 'coinmarketcap' ? ' selected ' : '' )?>> Coinmarketcap.com </option>
+			    <option value='coingecko' <?=( $ct_conf['gen']['prim_mcap_site'] == 'coingecko' ? ' selected ' : '' )?>> Coingecko.com </option>
+			    <option value='coinmarketcap' <?=( $ct_conf['gen']['prim_mcap_site'] == 'coinmarketcap' ? ' selected ' : '' )?>> Coinmarketcap.com </option>
 			    </select>  
 			    
 			    

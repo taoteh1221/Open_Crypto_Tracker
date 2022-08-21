@@ -65,7 +65,7 @@ echo '?';
  	
  		?>
  		
- <a href='https://<?=$asset_pagebase?><?=$mkcap_render_data?>/' target='_blank' class='blue app_sort_filter' title='View <?=ucfirst($ct_conf['gen']['prim_mcap_site'])?> Information Page For <?=$asset_symb?>'><?=$asset_name?></a> <img id='<?=$mkcap_render_data?>' src='templates/interface/media/images/<?=$info_icon?>' alt='' style='position: relative; vertical-align:middle; height: 30px; width: 30px;' /> 
+ <a href='https://<?=$asset_pagebase?><?=$mkcap_render_data?>/' target='_blank' class='blue app_sort_filter' title='View <?=ucfirst($ct_conf['gen']['prim_mcap_site'])?>.com Information Page For <?=$asset_symb?>'><?=$asset_name?></a> <img id='<?=$mkcap_render_data?>' src='templates/interface/media/images/<?=$info_icon?>' alt='' style='position: relative; vertical-align:middle; height: 30px; width: 30px;' /> 
  <script>
 
 		<?php
@@ -81,7 +81,9 @@ echo '?';
 			else {
 			?>
 
-			var cmc_content = '<p class="coin_info"><span class="red"><?=ucfirst($ct_conf['gen']['prim_mcap_site'])?> API may be offline / under heavy load, <br />marketcap range not set high enough (current range is top <?=$ct_conf['power']['mcap_ranks_max']?> marketcaps), <br />or API timeout set too low (current timeout is <?=$ct_conf['power']['remote_api_timeout']?> seconds). <br /><br />Configuration adjustments can be made in the Admin Config POWER USER section.</span></p>';
+			var cmc_content = '<p class="coin_info" style="white-space: normal; max-width: 600px;"><span class="red"><?=ucfirst($ct_conf['gen']['prim_mcap_site'])?> API may be offline / under heavy load, marketcap range not set high enough (current range is top <?=$ct_conf['power']['mcap_ranks_max']?> marketcaps), or API timeout set too low (current timeout is <?=$ct_conf['power']['remote_api_timeout']?> seconds). Configuration adjustments can be made in the Admin Config POWER USER section.</span></p>'
+            
+            +'<p class="coin_info bitcoin" style="white-space: normal; max-width: 600px;">Please check back in awhile, OR <i>switch to an alternate marketcap data provider</i> in the Admin Config GENERAL section, AND in the Portfolio area\'s SETTINGS section..</p>';
 	
 			<?php
 			}

@@ -128,7 +128,7 @@ gui: {
 },
    type: "area",
    noData: {
-     text: "No marketcap data found for any assets, please check back in awhile.",
+     text: "No marketcap data found for any assets. Please check back in awhile,\n\nOR switch to an alternate marketcap data provider in the Admin Config 'General' section,\n\nAND in the Portfolio area's 'Settings' section.",
   	  fontColor: "black",
      backgroundColor: "#808080",
      fontSize: 20,
