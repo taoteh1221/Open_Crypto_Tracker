@@ -4,21 +4,23 @@
  */
 
 
+$api_base_endpoint = ( $app_edition == 'server' ? 'api/' : 'internal-api.php?data_set=' );
+
 ?>
 
 		<p>This app has a built-in (internal) REST API available, so other external apps can connect to it and receive market data, including market conversion (converting the market values to their equivalent value in country fiat currencies and secondary cryptocurrency market pairs).</p>
 		
-		<p>To see a list of the supported assets in the API, use the endpoint: "<span class='bitcoin'>/api/asset_list</span>"</p>
+		<p>To see a list of the supported assets in the API, use the endpoint: "<span class='bitcoin'>/<?=$api_base_endpoint?>asset_list</span>"</p>
 		
-		<p>To see a list of the supported exchanges in the API, use the endpoint: "<span class='bitcoin'>/api/exchange_list</span>"</p>
+		<p>To see a list of the supported exchanges in the API, use the endpoint: "<span class='bitcoin'>/<?=$api_base_endpoint?>exchange_list</span>"</p>
 		
-		<p>To see a list of the supported markets for a particular exchange in the API, use the endpoint: "<span class='bitcoin'>/api/market_list/[exchange name]</span>"</p>
+		<p>To see a list of the supported markets for a particular exchange in the API, use the endpoint: "<span class='bitcoin'>/<?=$api_base_endpoint?>market_list/[exchange name]</span>"</p>
 		
-		<p>To see a list of the supported conversion currencies (market values converted to these currency values) in the API, use the endpoint: "<span class='bitcoin'>/api/conversion_list</span>"</p>
+		<p>To see a list of the supported conversion currencies (market values converted to these currency values) in the API, use the endpoint: "<span class='bitcoin'>/<?=$api_base_endpoint?>conversion_list</span>"</p>
 		
-		<p>To get raw market values AND also get a market conversion to a supported conversion currency (see ALL requested market values also converted to values in this currency) in the API, use the endpoint: "<span class='bitcoin'>/api/market_conversion/[conversion currency]/[exchange1-asset1-pair1],[exchange2-asset2-pair2],[exchange3-asset3-pair3]</span>"</p>
+		<p>To get raw market values AND also get a market conversion to a supported conversion currency (see ALL requested market values also converted to values in this currency) in the API, use the endpoint: "<span class='bitcoin'>/<?=$api_base_endpoint?>market_conversion/[conversion currency]/[exchange1-asset1-pair1],[exchange2-asset2-pair2],[exchange3-asset3-pair3]</span>"</p>
 		
-		<p><i>To skip conversions and just receive raw market values</i> in the API, you can use the endpoint: "<span class='bitcoin'>/api/market_conversion/market_only/[exchange1-asset1-pair1],[exchange2-asset2-pair2],[exchange3-asset3-pair3]</span>"</p>
+		<p><i>To skip conversions and just receive raw market values</i> in the API, you can use the endpoint: "<span class='bitcoin'>/<?=$api_base_endpoint?>market_conversion/market_only/[exchange1-asset1-pair1],[exchange2-asset2-pair2],[exchange3-asset3-pair3]</span>"</p>
 		
 		<p>For security, the API requires a key / token to access it. This key must be named "api_key", and must be sent with the "POST" data method.</p>
 	
@@ -33,7 +35,7 @@
 # Add --insecure to the command, if your app's SSL certificate
 # is SELF-SIGNED (not CA issued), #OR THE COMMAND WON'T WORK#
 
-curl<?=( isset($htaccess_username) && isset($htaccess_password) && $htaccess_username != '' && $htaccess_password != '' ? ' -u "' . $htaccess_username . ':' . $htaccess_password . '"' : '' )?> -d "api_key=<?=$api_key?>" -X POST <?=$base_url?>api/market_conversion/eur/kraken-btc-usd,coinbase-dai-usdc,coinbase-eth-usd
+curl<?=( isset($htaccess_username) && isset($htaccess_password) && $htaccess_username != '' && $htaccess_password != '' ? ' -u "' . $htaccess_username . ':' . $htaccess_password . '"' : '' )?> -d "api_key=<?=$api_key?>" -X POST <?=$base_url?><?=$api_base_endpoint?>market_conversion/eur/kraken-btc-usd,coinbase-dai-usdc,coinbase-eth-usd
 </code></pre>
 	        
 	        
@@ -50,7 +52,7 @@ if ( isset($htaccess_username) && isset($htaccess_password) && $htaccess_usernam
 
 var htaccess_login = new XMLHttpRequest();
 
-htaccess_login.open("GET", "<?=$base_url?>api/market_conversion", true);
+htaccess_login.open("GET", "<?=$base_url?><?=$api_base_endpoint?>market_conversion", true);
 
 htaccess_login.withCredentials = true;
 htaccess_login.setRequestHeader("Authorization", 'Basic ' + btoa('<?=$htaccess_username?>:<?=$htaccess_password?>'));
@@ -68,7 +70,7 @@ htaccess_login.send();
 
 var api_request = new XMLHttpRequest();
 
-api_request.open("POST", "<?=$base_url?>api/market_conversion/eur/kraken-btc-usd,coinbase-dai-usdc,coinbase-eth-usd", true);
+api_request.open("POST", "<?=$base_url?><?=$api_base_endpoint?>market_conversion/eur/kraken-btc-usd,coinbase-dai-usdc,coinbase-eth-usd", true);
 
 var params = "api_key=<?=$api_key?>";
 
@@ -118,7 +120,7 @@ exit;
 }
 
 // Initiate CURL
-$ch = curl_init('<?=$base_url?>api/market_conversion/eur/kraken-btc-usd,coinbase-dai-usdc,coinbase-eth-usd');
+$ch = curl_init('<?=$base_url?><?=$api_base_endpoint?>market_conversion/eur/kraken-btc-usd,coinbase-dai-usdc,coinbase-eth-usd');
 
 $params = array('api_key' => '<?=$api_key?>');
 
@@ -170,7 +172,7 @@ var_dump($api_data_array);
 	
 	    <fieldset class='subsection_fieldset'><legend class='subsection_legend'> Example API Responses (JSON format) </legend>
 	        
-	    <p class='bitcoin'>/api/market_conversion/eur/kraken-btc-usd,coinbase-dai-usdc,coinbase-eth-usd</p>
+	    <p class='bitcoin'>/<?=$api_base_endpoint?>market_conversion/eur/kraken-btc-usd,coinbase-dai-usdc,coinbase-eth-usd</p>
 	        	        
 <pre class='rounded'><code class='hide-x-scroll json' style='width: auto; height: auto;'>
 {
@@ -223,7 +225,7 @@ var_dump($api_data_array);
 }
 </code></pre>
 
-	    <p class='bitcoin' style='margin-top: 45px;'>/api/market_conversion/market_only/kraken-btc-usd,coinbase-dai-usdc,coinbase-eth-usd</p>
+	    <p class='bitcoin' style='margin-top: 45px;'>/<?=$api_base_endpoint?>market_conversion/market_only/kraken-btc-usd,coinbase-dai-usdc,coinbase-eth-usd</p>
 	        	        
 <pre class='rounded'><code class='hide-x-scroll json' style='width: auto; height: auto;'>
 {
@@ -257,7 +259,7 @@ var_dump($api_data_array);
 }
 </code></pre>
 	        
-	    <p class='bitcoin' style='margin-top: 45px;'>/api/asset_list</p>
+	    <p class='bitcoin' style='margin-top: 45px;'>/<?=$api_base_endpoint?>asset_list</p>
 	        	        
 <pre class='rounded'><code class='hide-x-scroll json' style='width: auto; height: auto;'>
 {
@@ -277,7 +279,7 @@ var_dump($api_data_array);
 </code></pre>
 	        
 	        
-	    <p class='bitcoin' style='margin-top: 45px;'>/api/exchange_list</p>
+	    <p class='bitcoin' style='margin-top: 45px;'>/<?=$api_base_endpoint?>exchange_list</p>
 	        	        
 <pre class='rounded'><code class='hide-x-scroll json' style='width: auto; height: auto;'>
 {
@@ -327,7 +329,7 @@ var_dump($api_data_array);
 </code></pre>
 	        
 	        
-	    <p class='bitcoin' style='margin-top: 45px;'>/api/market_list/binance</p>
+	    <p class='bitcoin' style='margin-top: 45px;'>/<?=$api_base_endpoint?>market_list/binance</p>
 	        	        
 <pre class='rounded'><code class='hide-x-scroll json' style='width: auto; height: auto;'>
 {
@@ -349,7 +351,7 @@ var_dump($api_data_array);
 </code></pre>
 	        
 	        
-	    <p class='bitcoin' style='margin-top: 45px;'>/api/conversion_list</p>
+	    <p class='bitcoin' style='margin-top: 45px;'>/<?=$api_base_endpoint?>conversion_list</p>
 	        	        
 <pre class='rounded'><code class='hide-x-scroll json' style='width: auto; height: auto;'>
 {
