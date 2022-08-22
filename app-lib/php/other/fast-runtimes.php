@@ -33,7 +33,7 @@ elseif ( $is_csv_export ) {
 	require_once('app-lib/php/other/downloads/example-csv.php');
 	}
 	// Portfolio export download (CSRF security / logging is in export-csv.php)
-	elseif ( is_array($ct_conf['assets']) ) {
+	else {
 	require_once('app-lib/php/other/downloads/export-csv.php');
 	}
 

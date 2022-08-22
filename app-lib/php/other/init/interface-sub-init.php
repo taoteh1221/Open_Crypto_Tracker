@@ -5,10 +5,10 @@
 
 
 //////////////////////////////////////////////////////////////////
-// INTERFACE SUB-INIT (IF NOT RUNNING AS CRON OR CAPTCHA)
+// INTERFACE SUB-INIT (IF NOT RUNNING AS CRON OR FAST RUNTIME)
 //////////////////////////////////////////////////////////////////
-if ( $runtime_mode != 'cron' && $runtime_mode != 'captcha' ) {
-	
+if ( $runtime_mode != 'cron' && !$is_fast_runtime ) {
+    
 	
 	// Have UI / HTTP runtime mode RE-CACHE the runtime_user data every 24 hours, since CLI runtime cannot determine the UI / HTTP runtime_user 
 	if ( $ct_cache->update_cache('cache/vars/http_runtime_user.dat', (60 * 24) ) == true ) {
@@ -236,7 +236,6 @@ $sel_opt['sorted_asc_desc'] = $sort_array[1];
    	
    
 	}
-	
 	
 
 // Now that $run_csv_import has been determined ABOVE, we can call our cookie logic

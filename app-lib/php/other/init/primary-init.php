@@ -70,6 +70,12 @@ $_SESSION = array();
 if ( $runtime_mode != 'cron' && !isset( $_SESSION['nonce'] ) ) {
 $_SESSION['nonce'] = $ct_gen->rand_hash(32); // 32 byte
 }
+	
+	
+// Flag this as a fast runtime if it is, to skip certain logic later in the runtime
+if ( $is_csv_export || $is_charts || $is_logs || $runtime_mode == 'captcha' ) {
+$is_fast_runtime = true;
+}
 
 
 // Nonce for unique runtime logic

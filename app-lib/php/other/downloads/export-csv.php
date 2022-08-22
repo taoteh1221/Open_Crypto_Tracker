@@ -17,14 +17,14 @@ $csv_download_array = array();
 
 // CSV header
 $csv_download_array[] = array(
-	        							'Asset Symbol',
-	        							'Holdings',
-	        							'Average Paid (per-token)',
-	        							'Margin Leverage',
-	        							'Long or Short',
-	        							'Exchange ID',
-	        							'Market Pair'
-	        							);
+	        					'Asset Symbol',
+	        					'Holdings',
+	        					'Average Paid (per-token)',
+	        					'Margin Leverage',
+	        					'Long or Short',
+	        					'Exchange ID',
+	        					'Market Pair'
+	        				  );
 	    
 	    
 	foreach ( $ct_conf['assets'] as $asset_array_key => $asset_array_val ) {
