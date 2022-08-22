@@ -197,11 +197,11 @@ document.write("<p class='red align_center' style='font-size: 19px; font-weight:
 <?php
 
 	foreach ( $reset_result['error'] as $error ) {
-	echo "<br clear='all' /><div class='red' style='display: inline-block;  font-weight: bold; padding: 15px; margin: 15px; font-size: 21px; border: 4px dotted #ff4747;'> $error </div>";
+	echo "<br clear='all' /><div class='red admin_login_alerts' style='border: 4px dotted #ff4747;'> $error </div>";
 	}
 	
 	foreach ( $reset_result['success'] as $success ) {
-	echo "<br clear='all' /><div class='green_bright' style='display: inline-block;  font-weight: bold; padding: 15px; margin: 15px; font-size: 21px; border: 4px dotted #10d602;'> $success </div>";
+	echo "<br clear='all' /><div class='green_bright admin_login_alerts' style='border: 4px dotted #10d602;'> $success </div>";
 	}
 	
 ?>

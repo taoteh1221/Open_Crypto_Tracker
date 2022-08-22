@@ -119,7 +119,7 @@ document.write("<p class='red align_center' style='font-size: 19px; font-weight:
 	<div style='font-weight: bold;' id='login_alert'>
 <?php
 	foreach ( $login_result['error'] as $error ) {
-	echo "<br clear='all' /><div class='red' style='display: inline-block;  font-weight: bold; padding: 15px; margin: 15px; font-size: 21px; border: 4px dotted #ff4747;'> $error </div>";
+	echo "<br clear='all' /><div class='red admin_login_alerts' style='border: 4px dotted #ff4747;'> $error </div>";
 	}
 ?>
 	</div>

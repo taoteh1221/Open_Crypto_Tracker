@@ -663,7 +663,16 @@ min-width: 1150px !important;
 }
 
 
-.bitcoin_dotted, .green_dotted, .red_dotted, .start_page_menu, .start_page_menu_red, #watch_only, #charts_error, #system_charts_error {
+.admin_login_alerts {
+display: inline-block;
+font-weight: bold;
+padding: 15px;
+margin: 15px;
+font-size: 21px; 
+}
+
+
+.bitcoin_dotted, .green_dotted, .red_dotted, .start_page_menu, .start_page_menu_red, #watch_only, #charts_error, #system_charts_error, .admin_login_alerts {
 border-radius: 6px !important;
 }
 
