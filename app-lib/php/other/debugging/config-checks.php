@@ -384,7 +384,7 @@ if ( $ct_conf['comms']['logs_email'] > 0 && trim($ct_conf['comms']['from_email']
 
 
 // Email backup archives configs
-if ( $ct_conf['gen']['asset_charts_toggle'] == 'on' && $ct_conf['power']['charts_backup_freq'] > 0 && trim($ct_conf['comms']['from_email']) != '' && trim($ct_conf['comms']['to_email']) != '' ) {
+if ( $ct_conf['gen']['asset_charts_toggle'] == 'on' && $ct_conf['gen']['charts_backup_freq'] > 0 && trim($ct_conf['comms']['from_email']) != '' && trim($ct_conf['comms']['to_email']) != '' ) {
 					
 	// Config error check(s)
    if ( $validate_from_email != 'valid' ) {

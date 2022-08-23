@@ -688,10 +688,10 @@ var $ct_array1 = array();
       }
       
       
-      // Return error message if the markets lists is more markets than allowed by $ct_conf['dev']['local_api_mrkt_limit']
-      if ( is_array($all_mrkts_data_array) && sizeof($all_mrkts_data_array) > $ct_conf['dev']['local_api_mrkt_limit'] ) {
+      // Return error message if the markets lists is more markets than allowed by $ct_conf['power']['local_api_mrkt_limit']
+      if ( is_array($all_mrkts_data_array) && sizeof($all_mrkts_data_array) > $ct_conf['power']['local_api_mrkt_limit'] ) {
       	
-      $result['error'] = 'Exceeded maximum of ' . $ct_conf['dev']['local_api_mrkt_limit'] . ' markets allowed per request (' . sizeof($all_mrkts_data_array) . ').';
+      $result['error'] = 'Exceeded maximum of ' . $ct_conf['power']['local_api_mrkt_limit'] . ' markets allowed per request (' . sizeof($all_mrkts_data_array) . ').';
       
       $ct_gen->log(
       			'int_api_error',
@@ -1545,8 +1545,8 @@ var $ct_array1 = array();
    // Round PRIMARY CURRENCY CONFIG volume to nullify insignificant decimal amounts / for prettier numbers UX, and to save on data set / storage size
    $vol_prim_currency_raw = ( isset($vol_prim_currency_raw) ? round($vol_prim_currency_raw) : null );		
      
-   // Round PAIR volume to only keep $ct_conf['power']['chart_crypto_vol_dec'] decimals max (for crypto volume etc), to save on data set / storage size
-   $pair_vol_raw = ( isset($pair_vol_raw) ? round($pair_vol_raw, ( $fiat_eqiv == 1 ? 0 : $ct_conf['power']['chart_crypto_vol_dec'] ) ) : null );	
+   // Round PAIR volume to only keep $ct_conf['gen']['chart_crypto_vol_dec'] decimals max (for crypto volume etc), to save on data set / storage size
+   $pair_vol_raw = ( isset($pair_vol_raw) ? round($pair_vol_raw, ( $fiat_eqiv == 1 ? 0 : $ct_conf['gen']['chart_crypto_vol_dec'] ) ) : null );	
      
      
    // Round PRIMARY CURRENCY CONFIG asset price to only keep $ct_conf['gen']['prim_currency_dec_max'] decimals maximum 
@@ -1765,7 +1765,7 @@ var $ct_array1 = array();
                   
                   
                // Whale alert (price change average of X or greater over X day(s) or less, with X percent pair volume increase average that is at least a X primary currency volume increase average)
-               $whale_alert_thres = explode("||", $ct_conf['charts_alerts']['price_alert_whale_thres']);
+               $whale_alert_thres = explode("||", $ct_conf['power']['price_alert_whale_thres']);
         
                if ( trim($whale_alert_thres[0]) != '' && trim($whale_alert_thres[1]) != '' && trim($whale_alert_thres[2]) != '' && trim($whale_alert_thres[3]) != '' ) {
                   
@@ -1813,7 +1813,7 @@ var $ct_array1 = array();
                                 
               	// Message formatting for display to end user
                     
-               $desc_alert_type = ( $ct_conf['charts_alerts']['price_alert_fixed_reset'] > 0 ? 'reset' : 'alert' );
+               $desc_alert_type = ( $ct_conf['power']['price_alert_fixed_reset'] > 0 ? 'reset' : 'alert' );
                   
                     
                      // IF PRIMARY CURRENCY CONFIG volume was between 0 and 1 last alert / reset, for UX sake 
@@ -1955,8 +1955,8 @@ var $ct_array1 = array();
         	 // Config setting set to ALWAYS reset every X days (and X days threshold has been met)
 			 // 1439 minutes instead (minus 1 minute), to try keeping daily recurrences at same exact runtime (instead of moving up the runtime daily)
         	 elseif ( 
-        	 $ct_conf['charts_alerts']['price_alert_fixed_reset'] >= 1 
-        	 && $ct_cache->update_cache('cache/alerts/fiat_price/'.$asset_data.'.dat', ( $ct_conf['charts_alerts']['price_alert_fixed_reset'] * 1439 ) ) == true
+        	 $ct_conf['power']['price_alert_fixed_reset'] >= 1 
+        	 && $ct_cache->update_cache('cache/alerts/fiat_price/'.$asset_data.'.dat', ( $ct_conf['power']['price_alert_fixed_reset'] * 1439 ) ) == true
         	 ) {
           
         	 $ct_cache->save_file($base_dir . '/cache/alerts/fiat_price/'.$asset_data.'.dat', $alert_cache_contents); 

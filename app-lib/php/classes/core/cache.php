@@ -385,8 +385,8 @@ var $ct_array1 = array();
   global $base_dir, $ct_conf, $ct_gen, $telegram_activated;
   
      
-     // Abort queueing comms for sending out notifications, if comms pause is on
-     if ( $ct_conf['comms']['comms_pause'] == 'on' ) {
+     // Abort queueing comms for sending out notifications, if allowing comms is disabled
+     if ( $ct_conf['comms']['allow_comms'] == 'off' ) {
      return;
      }
   

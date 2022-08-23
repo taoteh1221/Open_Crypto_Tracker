@@ -2643,7 +2643,7 @@ var $ct_array = array();
    
    $text_msg = $count . ' ' . strtoupper($default_btc_prim_currency_pair) . ' Price Alert Fixed Resets: ' . $reset_list;
    
-   $email_msg = 'The following ' . $count . ' ' . strtoupper($default_btc_prim_currency_pair) . ' price alert fixed resets (run every ' . $ct_conf['charts_alerts']['price_alert_fixed_reset'] . ' days) have been processed, with the latest spot price data: ' . $reset_list;
+   $email_msg = 'The following ' . $count . ' ' . strtoupper($default_btc_prim_currency_pair) . ' price alert fixed resets (run every ' . $ct_conf['power']['price_alert_fixed_reset'] . ' days) have been processed, with the latest spot price data: ' . $reset_list;
    
    $notifyme_msg = $email_msg . ' Timestamp is ' . $this->time_date_format($ct_conf['gen']['loc_time_offset'], 'pretty_time') . '.';
    
@@ -3185,7 +3185,7 @@ var $ct_array = array();
                // Non-stablecoin crypto
                else {
                $data['spot'] .= $result[1] . ',';
-               $data['volume'] .= round($result[2], $ct_conf['power']['chart_crypto_vol_dec']) . ',';
+               $data['volume'] .= round($result[2], $ct_conf['gen']['chart_crypto_vol_dec']) . ',';
                }
             
             }

@@ -32,13 +32,13 @@
 // Password MUST BE EXACTLY 8 characters, AND contain one number, one UPPER AND LOWER CASE letter, and one symbol, NO SPACES
 // (ENABLES / UPDATES automatically, when a valid username / password are filled in or updated here)
 // (DISABLES automatically, when username / password are blank '' OR invalid) 
-// (!ONLY #UPDATES OR DISABLES# AUTOMATICALLY #AFTER# LOGGING IN ONCE WITH YOUR #OLD LOGIN# [or if a cron job runs with the new config]!)
+// (!ONLY #UPDATES OR DISABLES# AUTOMATICALLY #AFTER# LOGGING IN ONCE WITH YOUR #OLD LOGIN# [or if a cron job / scheduled task runs with the new config]!)
 // #IF THIS SETTING GIVES YOU ISSUES# ON YOUR SYSTEM, BLANK IT OUT TO '', AND DELETE '.htaccess' IN THE MAIN DIRECTORY OF 
 // THIS APP (TO RESTORE PAGE ACCESS), AND PLEASE REPORT IT HERE: https://github.com/taoteh1221/Open_Crypto_Tracker/issues
 $ct_conf['sec']['interface_login'] = ''; // Leave blank to disable requiring an interface login. This format MUST be used: 'username||password'
 
 
-// Password protection / encryption security for backup archives (REQUIRED for app config backup archives, NOT USED FOR CHART BACKUPS)
+// Password protection / encryption security for backup archives (REQUIRED for app config backup archives, #NOT# USED FOR CHART BACKUPS)
 $ct_conf['sec']['backup_arch_pass'] = ''; // LEAVE BLANK TO DISABLE
 
 
@@ -49,7 +49,7 @@ $ct_conf['sec']['login_alert'] = 'all'; // 'off' (disabled) / 'all' / 'email' / 
 							
 // HOURS until admin login cookie expires (requiring you to login again)
 // The lower number the better for higher security, epecially if the app server temporary session data 
-// doesn't auto-clear too often (that also logs you off automatically, REGARDLESS of this setting's attribute)
+// doesn't auto-clear too often (that also logs you off automatically, REGARDLESS of this setting's value)
 $ct_conf['sec']['admin_cookie_expire'] = 8; // (default = 8)
 
 
@@ -95,6 +95,7 @@ $ct_conf['sec']['captcha_permitted_chars'] = 'ABCDEFHJKMNPRSTUVWXYZ23456789'; //
 
 // Cache directories / files and .htaccess / index.php files permissions (CHANGE WITH #EXTREME# CARE, to adjust security for your PARTICULAR setup)
 // THESE PERMISSIONS ARE !ALREADY! CALLED THROUGH THE octdec() FUNCTION WITHIN THE APP WHEN USED
+////
 // Cache directories permissions
 $ct_conf['sec']['chmod_cache_dir'] = '0770'; // (default = '0770' [owner/group read/write/exec])
 ////
@@ -115,11 +116,11 @@ $ct_conf['sec']['chmod_index_sec'] = '0660'; // (default = '0660' [owner/group r
 ////////////////////////////////////////
 
 
-// Pause sending out ALL communications (email / text / telegram / alexa / etc), so they are NOT sent to you anymore UNTIL you un-pause them
-$ct_conf['comms']['comms_pause'] = 'off'; // 'on' / 'off' (Default = 'off' [comms are sent out normally])
+// Allow or disallow sending out ANY communications (email / text / telegram / alexa / etc), so no comms are sent to you unless allowed here
+$ct_conf['comms']['allow_comms'] = 'on'; // 'on' / 'off' (Default = 'on' [comms are sent out normally])
 
 
-// Enable / disable daily upgrade checks / alerts (DEFAULT: ALL USER-ACTIVATED COMM CHANNELS)
+// Enable / disable upgrade checks / alerts (DEFAULT: ALL USER-ACTIVATED COMM CHANNELS)
 // (Checks latest release version via github.com API endpoint value "tag_name" 
 // @ https://api.github.com/repos/taoteh1221/Open_Crypto_Tracker/releases/latest)
 // Choosing 'all' will send to all properly-configured communication channels (and automatically skip any not properly setup)
@@ -129,39 +130,39 @@ $ct_conf['comms']['upgrade_alert'] = 'all'; // 'off' (disabled) / 'all' / 'ui' (
 $ct_conf['comms']['upgrade_alert_reminder'] = 7; // (only used if upgrade check is enabled above)
 
 
+// PRICE ALERTS SETUP REQUIRES A CRON JOB / SCHEDULED TASK RUNNING ON YOUR WEB SERVER (see README.txt for setup information) 
+///
 // Enable / disable price alerts (DEFAULT: ALL USER-ACTIVATED COMM CHANNELS)
 // Choosing 'all' will send to all properly-configured communication channels, (and automatically skip any not properly setup)
 $ct_conf['comms']['price_alert'] = 'all'; // 'off' (disabled) / 'all' / 'email' / 'text' / 'notifyme' / 'telegram'
 ////
-// PRICE ALERTS SETUP REQUIRES A CRON JOB RUNNING ON YOUR WEB SERVER (see README.txt for cron job setup information) 
-// Price alerts will send to all properly-configured communication channels, and automatically skip any not properly setup
 // Price percent change to send alerts for (WITHOUT percent sign: 15.75 = 15.75%). Sends alerts when percent change reached (up or down)
 $ct_conf['comms']['price_alert_thres'] = 8.75; // CAN BE 0 TO DISABLE PRICE ALERTS
 ////
-// Re-allow SAME asset price alert(s) messages after X HOURS (per alert config, set higher if sent to junk folder / API blocking or throttling)
-// Price alerts AUTOMATICALLY will send to all properly-configured communication channels, and automatically skip any not properly setup
+// Re-allow SAME asset price alert(s) messages after X HOURS (per alert config)
+// Set higher if sent to email junk folder / other comms APIs are blocking or throttling your alert messeges 
 $ct_conf['comms']['price_alert_freq_max'] = 1; // Can be 0, to have no limits
 ////
 // Block an asset price alert if price retrieved, BUT failed retrieving pair volume (not even a zero was retrieved, nothing)
 // Good for BLOCKING QUESTIONABLE EXCHANGES from bugging you with price alerts, especially when used in combination with the minimum volume filter
-// (EXCHANGES WITH NO TRADE VOLUME API ARE EXCLUDED [VOLUME SET TO ZERO BEFORE THIS FILTER RUNS])
+// (EXCHANGES WITH NO TRADE VOLUME API ARE EXCLUDED [VOLUME IS SET TO ZERO BEFORE THIS FILTER RUNS])
 $ct_conf['comms']['price_alert_block_vol_error'] = 'off'; // 'on' / 'off' 
 ////
 // Minimum 24 hour trade volume filter. Only allows sending price alerts if minimum 24 hour trade volume reached
 // CAN BE 0 TO DISABLE MINIMUM VOLUME FILTERING, NO DECIMALS OR SEPARATORS, NUMBERS ONLY, WITHOUT the [primary currency] prefix symbol
 // THIS FILTER WILL AUTO-DISABLE IF THERE IS ANY ERROR RETRIEVING VOLUME DATA ON A CERTAIN MARKET (NOT EVEN A ZERO IS RECEIVED ON VOLUME API)
-// WARNING: IF AN EXCHANGE DOES #NOT# PROVIDE TRADE VOLUME API DATA FOR MARKETS, SETTING THIS ABOVE 0 WILL 
+// !!WARNING!!: IF AN EXCHANGE DOES #NOT# PROVIDE TRADE VOLUME API DATA FOR MARKETS, SETTING THIS ABOVE 0 WILL 
 // #DISABLE ANY CONFIGURED PRICE ALERTS# FOR MARKETS ON THAT EXCHANGE, SO USE WITH CARE!
-$ct_conf['comms']['price_alert_min_vol'] = 0;
+$ct_conf['comms']['price_alert_min_vol'] = 0; // (default = 0)
 
 
 // Email logs every X days. 
-// 0 to disable. Email to / from !MUST BE SET!, MAY NOT SEND IN TIMELY FASHION WITHOUT A CRON JOB
+// 0 to disable. Email to / from !MUST BE SET IN COMMS CHANNELS SETUP!, MAY NOT SEND IN TIMELY FASHION WITHOUT A CRON JOB / SCHEDULED TASK
 $ct_conf['comms']['logs_email'] = 3; // (default = 3)
 
 
 // Every X days email a list of #NEW# RSS feed posts. 
-// 0 to disable. Email to / from !MUST BE SET!
+// 0 to disable. Email to / from !MUST BE SET IN COMMS CHANNELS SETUP!
 $ct_conf['comms']['news_feed_email_freq'] = 3; // (default = 3)
 ////
 // MAXIMUM #NEW# RSS feed entries to include (per-feed) in news feed EMAIL (less then 'news_feed_email_freq' days old)
@@ -186,7 +187,7 @@ $ct_conf['comms']['proxy_alert_checkup_ok'] = 'include'; // 'include' / 'ignore'
 // Use SMTP authentication TO SEND EMAIL, if your IP has no reverse lookup that matches the email domain name (on your home network etc)
 // #REQUIRED WHEN INSTALLED ON A HOME NETWORK#, OR ALL YOUR EMAIL ALERTS WILL BE BLACKHOLED / SEEN AS SPAM EMAIL BY EMAIL SERVERS!
 // If SMTP credentials / configuration is filled in, BUT not setup properly, APP EMAILING WILL FAIL!
-// !!USE A THROWAWAY ACCOUNT ONLY!! If web server is hacked, HACKER WOULD THEN HAVE ACCESS YOUR EMAIL LOGIN FROM THIS FILE!!
+// !!USE A THROWAWAY ACCOUNT ONLY!! If this web server is hacked, HACKER WOULD THEN HAVE ACCESS YOUR EMAIL LOGIN FROM THIS FILE!!
 // CAN BE BLANK (PHP's built-in mail function will be automatically used to send email instead)
 $ct_conf['comms']['smtp_login'] = ''; // This format MUST be used: 'username||password'
 ////
@@ -195,7 +196,7 @@ $ct_conf['comms']['smtp_login'] = ''; // This format MUST be used: 'username||pa
 $ct_conf['comms']['smtp_server'] = ''; // CAN BE BLANK. This format MUST be used: 'domain_or_ip:port_number' 
 
 
-// IF SMTP EMAIL SENDING --NOT-- USED, FROM email should be REAL address on the server domain, or risk having email sent to junk folder
+// IF SMTP EMAIL SENDING --NOT-- USED, FROM email should be a REAL address on the server domain, or risk having email sent to junk folder
 // IF SMTP EMAIL SENDING --IS-- USED, FROM EMAIL MUST MATCH EMAIL ADDRESS associated with SMTP login (SMTP Email configuration is above this setting)
 $ct_conf['comms']['from_email'] = ''; // #SHOULD BE SET# to avoid email going to spam / junk
 ////
@@ -229,7 +230,7 @@ $ct_conf['comms']['textlocal_account'] = ''; // This format MUST be used: 'usern
 // For notifyme / alexa notifications (sending Alexa devices notifications for free). 
 // CAN BE BLANK. Setup: http://www.thomptronics.com/notify-me
 // (NOTE: THIS APP'S BUILT-IN QUEUE SYSTEM THROTTLES / SENDS OUT ONLY 5 ALERTS EVERY 5 MINUTES MAXIMUM FOR NOTIFYME ALERTS,
-// TO STAY WITHIN NOTIFYME API MESSAGE LIMITS, SO YOU ALWAYS #STILL GET ALL YOUR ALERTS#, JUST SLIGHTLY DELAYED)
+// TO STAY WITHIN NOTIFYME API MESSAGE LIMITS, SO YOU WILL ALWAYS #STILL GET ALL YOUR QUEUED NOTIFYME ALERTS#, JUST SLIGHTLY DELAYED)
 $ct_conf['comms']['notifyme_accesscode'] = '';
 
 
@@ -237,10 +238,10 @@ $ct_conf['comms']['notifyme_accesscode'] = '';
 // (USEFUL IF YOU HAVE ISSUES SETTING UP MOBILE TEXT ALERTS, INCLUDING EMOJI / UNICODE CHARACTER ENCODING)
 // Setup: https://core.telegram.org/bots , OR JUST SEARCH / VISIT "BotFather" in the telegram app
 // YOU MUST SETUP A TELEGRAM USERNAME #FIRST / BEFORE SETTING UP THE BOT#, IF YOU HAVEN'T ALREADY (IN THE TELEGRAM APP SETTINGS)
-// SET UP YOUR BOT WITH "BotFather", AND SAVE YOUR BOT NAME / USERNAME / ACCESS TOKEN / BOT CHATROOM LINK
-// VISIT THE BOT CHATROOM, #SEND THE MESSAGE "/start" TO THIS CHATROOM# (THIS WILL CREATE USER CHAT DATA THE APP NEEDS)
-// THE USER CHAT DATA #IS REQUIRED# FOR THIS APP TO INITIALLY DETERMINE AND SECURELY SAVE YOU TELEGRAM USER'S CHAT ID
-// #DO NOT DELETE THE BOT CHATROOM IN THE TELEGRAM APP, OR YOU WILL STOP RECEIVING MESSAGES FROM THE BOT#
+// SET UP YOUR BOT WITH "BotFather", AND SAVE YOUR BOT NAME / USERNAME / ACCESS TOKEN / BOT'S CHATROOM IN TELEGRAM APP
+// VISIT THE BOT'S CHATROOM IN TELEGRAM APP, #SEND THE MESSAGE "/start" TO THIS CHATROOM# (THIS WILL CREATE USER CHAT DATA THIS APP NEEDS)
+// THE USER CHAT DATA #IS REQUIRED# FOR THIS APP TO DETERMINE / SECURELY SAVE YOUR TELEGRAM USER'S CHAT ID WITH THE BOT YOU CREATED
+// #DO NOT DELETE THE BOT CHATROOM IN THE TELEGRAM APP, OR YOU WILL STOP RECEIVING MESSAGES FROM THE BOT!#
 $ct_conf['comms']['telegram_your_username'] = ''; // Your telegram username (REQUIRED, setup in telegram app settings)
 ////
 $ct_conf['comms']['telegram_bot_username'] = '';  // Your bot's username
@@ -260,17 +261,17 @@ $ct_conf['comms']['telegram_bot_token'] = '';  // Your bot's access token
 ////////////////////////////////////////
 
 
-// Your local time offset IN HOURS, COMPARED TO UTC TIME. Can be negative or positive.
+// Your local time offset IN HOURS COMPARED TO UTC TIME (#CAN BE DECIMAL# TO SUPPORT 30 / 45 MINUTE TIME ZONES). Can be negative or positive.
 // (Used for user experience 'pretty' timestamping in interface logic ONLY, WILL NOT change or screw up UTC log times etc if you change this)
-$ct_conf['gen']['loc_time_offset'] = -4; // example: -5 or 5, -5.5 or 5.75 (#CAN BE DECIMAL# TO SUPPORT 30 / 45 MINUTE TIME ZONES)
+$ct_conf['gen']['loc_time_offset'] = -4; // example: -5 or 5, -5.5 or 5.75
 
 
 // Configure which interface theme you want as the default theme (also can be manually switched later, on the settings page in the interface)
 $ct_conf['gen']['default_theme'] = 'dark'; // 'dark' or 'light'
 
 
-// ENABLING CHARTS REQUIRES A CRON JOB SETUP (see README.txt for cron job setup information)
-// Enables a charts tab / page, and caches real-time updated historical market price chart data on your device's storage drive
+// ENABLING CHARTS REQUIRES A CRON JOB / TASK SCHEDULER SETUP (see README.txt for setup information)
+// Enables a charts tab / page, and caches real-time updated spot price / 24 hour trade volume chart data on your device's storage drive
 // Disabling will disable EVERYTHING related to the price charts (price charts tab / page, and price chart data caching)
 $ct_conf['gen']['asset_charts_toggle'] = 'on'; // 'on' / 'off'
 
@@ -289,36 +290,36 @@ $ct_conf['gen']['prim_mcap_site'] = 'coingecko';
 
 // Default BITCOIN market currencies (80+ currencies supported)
 // (set for default Bitcoin market, and charts / price alert primary-currency-equivalent value determination [example: usd value of btc/ltc market, etc])
-// aed / ars / aud / bam / bdt / bob / brl / bwp / byn / cad / chf / clp / cny / cop / crc 
-// czk / dai / dkk / dop / egp / eth / eur / gbp / gel / ghs / gtq / hkd / huf / idr / ils 
-// inr / irr / jmd / jod / jpy / kes / krw / kwd / kzt / lkr / mad / mur / mwk / mxn / myr 
-// ngn / nis / nok / nzd / pab / pen / php / pkr / pln / pyg / qar / ron / rsd / rub / rwf 
-// sar / sek / sgd / thb / try / tusd / twd / tzs / uah / ugx / usdc / usdt / uyu / ves / vnd / xaf / xof / zar / zmw
+// aed / ars / aud / bam / bdt / bob / brl / bwp / byn / cad / chf / clp / cny / cop / crc / czk / dai 
+// dkk / dop / egp / eth / eur / gbp / gel / ghs / gtq / hkd / huf / idr / ils / inr / irr / jmd / jod 
+// jpy / kes / krw / kwd / kzt / lkr / mad / mur / mwk / mxn / myr / ngn / nis / nok / nzd / pab / pen 
+// php / pkr / pln / pyg / qar / ron / rsd / rub / rwf / sar / sek / sgd / thb / try / tusd / twd / tzs 
+// uah / ugx / usd / usdc / usdt / uyu / ves / vnd / xaf / xof / zar / zmw
 // SEE THE $ct_conf['assets']['BTC'] CONFIGURATION NEAR THE BOTTOM OF THIS CONFIG FILE, FOR THE PROPER (CORRESPONDING)
-// CURRENCY PAIR VALUE NEEDED FOR YOUR CHOSEN 'BTC' EXCHANGE (set in $ct_conf['gen']['btc_prim_exchange'] directly below)
+// MARKET PAIR VALUE NEEDED FOR YOUR CHOSEN 'BTC' EXCHANGE (set in $ct_conf['gen']['btc_prim_exchange'] directly below)
 $ct_conf['gen']['btc_prim_currency_pair'] = 'usd'; // PUT INSIDE SINGLE QUOTES ('selection')
 
 
 // Default BITCOIN market exchanges (30+ bitcoin exchanges supported)
 // (set for default Bitcoin market, and charts / price alert primary-currency-equivalent value determination [example: usd value of btc/ltc market, etc])
 // binance / binance_us / bit2c / bitbns / bitfinex / bitflyer / bitmex / bitpanda / bitso / bitstamp 
-// bittrex / bittrex_global / btcmarkets / btcturk / buyucoin / cex / coinbase / coindcx / coinspot 
-// gemini / coingecko_usd / hitbtc / huobi / korbit / kraken / kucoin / liquid / localbitcoins 
-// loopring_amm / luno / okcoin / okex / southxchange / unocoin / upbit / wazirx
+// bittrex / bittrex_global / btcmarkets / btcturk / buyucoin / cex / coinbase / coindcx / coingecko_usd 
+// coinspot / gemini / hitbtc / huobi / korbit / kraken / kucoin / liquid / localbitcoins / loopring_amm 
+// luno / okcoin / okex / southxchange / unocoin / upbit / wazirx
 // SEE THE $ct_conf['assets']['BTC'] CONFIGURATION NEAR THE BOTTOM OF THIS CONFIG FILE, FOR THE PROPER (CORRESPONDING)
-// MARKET PAIR VALUE NEEDED FOR YOUR CHOSEN 'BTC' EXCHANGE (to populate $ct_conf['gen']['btc_prim_currency_pair'] directly above with)
+// 'BTC' EXCHANGE VALUE NEEDED FOR YOUR CHOSEN MARKET PAIR (set in $ct_conf['gen']['btc_prim_currency_pair'] directly above)
 // SEE THE $ct_conf['dev']['limited_apis'] SETTING FURTHER DOWN IN THE DEVELOPER SECTION, FOR EXCHANGES !NOT RECOMMENDED FOR USAGE HERE!
 $ct_conf['gen']['btc_prim_exchange'] = 'kraken';  // PUT INSIDE SINGLE QUOTES ('selection')
 
 
-// Maximum decimal places for [primary currency] values, of coins worth under 1 fiat value unit [usd/gbp/eur/jpy/brl/rub/etc],
+// Maximum decimal places for [primary currency] values, of coins worth under 1.00 in unit value [usd/gbp/eur/jpy/brl/rub/etc],
 // for prettier / less-cluttered interface. IF YOU ADJUST $ct_conf['gen']['btc_prim_currency_pair'] ABOVE, 
-// YOU MAY NEED TO ADJUST THIS ACCORDINGLY FOR !PRETTY / FUNCTIONAL! CHARTS / ALERTS FOR YOUR PRIMARY CURRENCY
+// YOU MAY NEED TO ADJUST THIS ACCORDINGLY FOR !PRETTY / FUNCTIONAL! CHARTS / ALERTS FOR YOUR CHOSEN PRIMARY CURRENCY
 // ALSO KEEP THIS NUMBER AS LOW AS IS FEASIBLE, TO SAVE ON CHART DATA STORAGE SPACE / MAINTAIN QUICK CHART LOAD TIMES
 $ct_conf['gen']['prim_currency_dec_max'] = 5; // Whole numbers only (represents number of decimals maximum to use)
 
 
-// PRICE PERCENTAGE to round off interface price IN DECIMALS (DYNAMIC / RELATIVE to price amount)
+// PRICE PERCENTAGE to round off INTERFACE-DISPLAYED price IN DECIMALS (DYNAMIC / RELATIVE to price amount)
 // (FINE-GRAINED CONTROL OVER INTERFACE PRICE ROUNDING #AMOUNT OF DECIMALS SHOWN#)
 // (interface examples: one = 1000, tenth = 1000, hundredth = 1000.9, thousandth = 1000.09)
 // (interface examples: one = 100, tenth = 100.9, hundredth = 100.09, thousandth = 100.009)
@@ -333,6 +334,14 @@ $ct_conf['gen']['price_round_percent'] = 'thousandth'; // (OF A PERCENT) 'one', 
 $ct_conf['gen']['price_round_fixed_decimals'] = 'off'; // 'off', 'on'
 
 
+// Number of decimals for price chart CRYPTO 24 hour volumes (NOT USED FOR FIAT VOLUMES, 4 decimals example: 24 hr vol = 91.3874 BTC)
+// KEEP THIS NUMBER AS LOW AS IS FEASIBLE, TO SAVE ON CHART DATA STORAGE SPACE / MAINTAIN QUICK CHART LOAD TIMES
+$ct_conf['gen']['chart_crypto_vol_dec'] = 4;  // (default = 4)
+////
+// Every X days backup chart data. 0 disables backups. Email to / from !MUST BE SET! (a download link is emailed to you of the chart data archive)
+$ct_conf['gen']['charts_backup_freq'] = 1; 
+
+
 ////////////////////////////////////////
 // !END! GENERAL CONFIGURATION
 ////////////////////////////////////////
@@ -343,17 +352,17 @@ $ct_conf['gen']['price_round_fixed_decimals'] = 'off'; // 'off', 'on'
 ////////////////////////////////////////
 
 
-// If using proxies and login is required
-// Adding a user / pass here will automatically send login details for proxy connections
-// CAN BE BLANK. IF using ip address authentication instead, MUST BE LEFT BLANK
-$ct_conf['proxy']['proxy_login'] = ''; // Use format: 'username||password'
-////
 // If using proxies, add the ip address / port number here for each one, like examples below (without the double slashes in front enables the code)
 // CAN BE BLANK. Adding proxies here will automatically choose one randomly for each API request
 $ct_conf['proxy']['proxy_list'] = array(
 					// 'ipaddress1:portnumber1',
 					// 'ipaddress2:portnumber2',
 					);
+////
+// If using proxies and login is required
+// Adding a user / pass here will automatically send login details for proxy connections
+// CAN BE BLANK. IF using ip address authentication instead, MUST BE LEFT BLANK
+$ct_conf['proxy']['proxy_login'] = ''; // Use format: 'username||password'
 
 
 ////////////////////////////////////////
@@ -362,31 +371,16 @@ $ct_conf['proxy']['proxy_list'] = array(
 
 
 ////////////////////////////////////////
-// !START! CHART AND PRICE ALERT CONFIGURATION
+// !START! CHART AND PRICE ALERT MARKETS
 ////////////////////////////////////////
 
 
-// CHARTS / PRICE ALERTS SETUP REQUIRES A CRON JOB RUNNING ON YOUR WEB SERVER (see README.txt for cron job setup information) 
-
-// Asset price alert configuration
-// Only used if $ct_conf['charts_alerts']['tracked_mrkts'] is filled in properly below, AND a cron job is setup (see README.txt for cron job setup information) 
+// CHARTS / PRICE ALERTS SETUP REQUIRES A CRON JOB OR SCHEDULED TASK RUNNING ON YOUR WEB SERVER (see README.txt for setup information) 
 ////
-// Fixed time interval RESET of cached comparison asset prices every X days (since last price reset / alert) with the current latest spot prices
-// Helpful if you only want price alerts for a certain time window. Resets also send alerts that reset occurred, with summary of price changes since last reset
-// Can be 0 to disable fixed time interval resetting (IN WHICH CASE RESETS WILL ONLY OCCUR DYNAMICALLY when the next price alert is triggered / sent out)
-$ct_conf['charts_alerts']['price_alert_fixed_reset'] = 0; // (default = 0)
-////
-// Whale alert (adds "WHALE ALERT" to beginning of alexa / email / telegram alert text, and spouting whale emoji to email / text / telegram)
-// Format: 'max_days_to_24hr_avg_over||min_price_percent_change_24hr_avg||min_vol_percent_incr_24hr_avg||min_vol_currency_incr_24hr_avg'
-// ("min_price_percent_change_24hr_avg" should be the same value or higher as $ct_conf['comms']['price_alert_thres'] to work properly)
-// Leave BLANK '' TO DISABLE. DECIMALS ARE SUPPORTED, USE NUMBERS ONLY (NO CURRENCY SYMBOLS / COMMAS, ETC)
-$ct_conf['charts_alerts']['price_alert_whale_thres'] = '1.25||9.75||12.75||25000'; // (default: '1.25||9.75||12.75||25000')
-////
-// Markets you want charts or asset price change alerts for (alerts sent when default [primary currency] 
-// [$ct_conf['gen']['btc_prim_currency_pair'] at top of this config] value change is equal to or above / below $ct_conf['comms']['price_alert_thres']) 
+// Markets you want charts or asset price change alerts for (see the COMMUNICATIONS section for price alerts threshold settings) 
 // NOTE: This list must only contain assets / exchanges / trading pairs included in the primary portfolio assets list configuration further down in this config file
 // TO ADD MULTIPLE CHARTS / ALERTS FOR SAME ASSET (FOR DIFFERENT EXCHANGES / TRADE PAIRS), FORMAT LIKE SO: symbol, symbol-1, symbol-2, symbol-3, etc.
-// TO DISABLE CHART AND ALERT = none, TO ENABLE CHART AND ALERT = both, TO ENABLE CHART ONLY = chart, TO ENABLE ALERT ONLY = alert
+// TO DISABLE A CHART / ALERT = none, TO ENABLE CHART AND ALERT = both, TO ENABLE CHART ONLY = chart, TO ENABLE ALERT ONLY = alert
 $ct_conf['charts_alerts']['tracked_mrkts'] = array(
 
 
@@ -580,7 +574,7 @@ $ct_conf['charts_alerts']['tracked_mrkts'] = array(
 
 
 ////////////////////////////////////////
-// !END! CHART AND PRICE ALERT CONFIGURATION
+// !END! CHART AND PRICE ALERT MARKETS
 ////////////////////////////////////////
 
 
@@ -589,12 +583,12 @@ $ct_conf['charts_alerts']['tracked_mrkts'] = array(
 /////////////////////////////////////////////////////////////////////////////
 
 
-// Activate any built-in included / custom plugins you've created (that run from the /plugins/ directory)
+// Activate any built-in included plugins / custom plugins you've created (that run from the /plugins/ directory)
 // SEE /DOCUMENTATION-ETC/PLUGINS-README.txt for creating your own custom plugins
 // ADD ANY NEW PLUGIN HERE BY USING THE FOLDER NAME THE NEW PLUGIN IS LOCATED IN
 // !!NEVER ADD A PLUGIN SOMEBODY ELSE WROTE, UNLESS YOU OR SOMEONE YOU TRUST 
 // HAVE REVIEWED THE CODE AND ARE ABSOLUTELY SURE IT IS NOT MALICIOUS!!
-// PLUGINS *MAY REQUIRE* A CRON JOB RUNNING ON YOUR WEB SERVER (if built for cron jobs...see README.txt for cron job setup information)
+// PLUGINS *MAY REQUIRE* A CRON JOB / SCHEDULED TASK RUNNING ON YOUR WEB SERVER (if built for cron jobs...see README.txt for setup information)
 // PLUGIN CONFIGS are in the /plugins/ directory associated with that plugin
 // CHANGE 'off' to 'on' FOR THE PLUGIN YOU WANT ACTIVATED 
 $ct_conf['power']['activate_plugins'] = array(
@@ -602,7 +596,7 @@ $ct_conf['power']['activate_plugins'] = array(
             								  'debt-tracker' => 'on',  // Track how much you pay in TOTAL interest MONTHLY on ALL your debt (credit cards, auto / personal / mortgage loan, etc)
             								  'recurring-reminder' => 'off',  // Recurring Reminder plugin (alert yourself every X days to do something)
             								  'price-target-alert' => 'off',  // Price target alert plugin (alert yourself when an asset's price target is reached)
-            								  'address-balance-tracker' => 'off',  // Alerts for BTC / ETH / [SOL|SPL Token] / HNT address balance changes (when new coins are sent / recieved)
+            								  'address-balance-tracker' => 'off',  // Alerts for BTC / ETH / [SOL|SPL Token] / HNT address balance changes (when coins are sent / recieved)
             								  );
 							
 							
@@ -610,8 +604,7 @@ $ct_conf['power']['activate_plugins'] = array(
 // (HOW OFTEN BACKGROUND TASKS ARE RUN...#NOT# USED IN SERVER EDITION)
 // SET TO ZERO DISABLES EMULATED CRON JOBS ON #DESKTOP EDITIONS#
 // DON'T SET TOO LOW, OR EXCHANGE PRICE DATA MAY BE BLOCKED / THROTTLED TEMPORARILY ON OCASSION!
-// IF USING ADD-WIN10-SCHEDULER-JOB.bat INSTEAD (IN MAIN INSTALL FOLDER) ON WINDOWS 10,
-// THEN #THIS SETTING SHOULD BE DISABLED# TO AVOID RUNNING 2 INSTANCES AT THE SAME TIME!
+// IF USING ADD-WIN10-SCHEDULER-JOB.bat, #THIS SETTING NEEDS TO BE DISABLED# OR THE SCHEDULED TASK WILL #NOT# BE ALLOWED TO RUN!
 $ct_conf['power']['desktop_cron_interval'] = 20; // (default = 20, 0 disables this feature)
 							
 							
@@ -623,7 +616,7 @@ $ct_conf['power']['remote_api_timeout'] = 35; // (default = 35)
 
 
 // MINUTES to cache real-time exchange price data...can be zero to skip cache, but set to at least 1 minute TO AVOID YOUR IP ADDRESS GETTING BLOCKED
-// SOME APIS PREFER THIS SET TO AT LEAST A FEW MINUTES, SO HIGHLY RECOMMENDED TO KEEP FAIRLY HIGH
+// SOME APIS PREFER THIS SET TO AT LEAST A FEW MINUTES, SO IT'S RECOMMENDED TO KEEP FAIRLY HIGH
 $ct_conf['power']['last_trade_cache_time'] = 4; // (default = 4)
 
 
@@ -653,23 +646,15 @@ $ct_conf['power']['backup_arch_del_old'] = 10;
 $ct_conf['power']['logs_purge'] = 6; // (default = 6)
 
 
-// Light charts (load just as quickly for any time period, 7 day / 30 day / 365 day / etc)
+// (Light) time period charts (load just as quickly for any time period, 7 day / 30 day / 365 day / etc)
 // Structure of light charts #IN DAYS# (X days time period charts)
-// Interface will auto-detect and display days as 365 = 1Y, 180 = 6M, 7 = 1W, etc
+// Interface will auto-detect and display days IN THE INTERFACE as: 365 = 1Y, 180 = 6M, 30 = 1M, 7 = 1W, etc
 // (LOWER TIME PERIODS [UNDER 180 DAYS] #SHOULD BE KEPT SOMEWHAT MINIMAL#, TO REDUCE RUNTIME LOAD / DISK WRITES DURING CRON JOBS)
 $ct_conf['power']['light_chart_day_intervals'] = array(10, 30, 90, 180, 365, 730, 1460); // (default = 10, 30, 90, 180, 365, 730, 1460)
 ////
 // The maximum number of data points allowed in each light chart 
 // (saves on disk storage / speeds up chart loading times SIGNIFICANTLY #WITH A NUMBER OF 500 OR LESS#)
 $ct_conf['power']['light_chart_data_points_max'] = 500; // (default = 500), ADJUST WITH CARE!!!
-
-
-// Number of decimals for price chart CRYPTO 24 hour volumes (NOT USED FOR FIAT VOLUMES, 4 decimals example: 24 hr vol = 91.3874 BTC)
-// KEEP THIS NUMBER AS LOW AS IS FEASIBLE, TO SAVE ON CHART DATA STORAGE SPACE / MAINTAIN QUICK CHART LOAD TIMES
-$ct_conf['power']['chart_crypto_vol_dec'] = 4;  // (default = 4)
-////
-// Every X days backup chart data. 0 disables backups. Email to / from !MUST BE SET! (a download link is emailed to you of the chart data archive)
-$ct_conf['power']['charts_backup_freq'] = 1; 
 
 
 // Default settings for Asset Performance chart height / menu size (in the 'View More Stats' modal window, linked at bottom of Portfolio page)
@@ -689,10 +674,23 @@ $ct_conf['power']['sys_stats_first_chart_max_scale'] = 1; // (default = 1)
 // Highest allowed sensor value to scale vertical axis for, in the SECOND system information chart (out of two)
 // (to prevent anomaly results from scaling vertical axis TOO HIGH to read LESSER-VALUE sensor data...only used IF CRON JOB IS SETUP)
 $ct_conf['power']['sys_stats_second_chart_max_scale'] = 150; // (default = 150) 
+
+																		
+// Fixed time interval RESET of cached comparison asset prices every X days (since last price reset / alert), compared with the current latest spot prices
+// Helpful if you only want price alerts for a certain time window. Resets also send alerts that reset occurred, with summary of price changes since last reset
+// Can be 0 to disable fixed time interval resetting (IN WHICH CASE RESETS WILL ONLY OCCUR DYNAMICALLY when the next price alert is triggered / sent out)
+$ct_conf['power']['price_alert_fixed_reset'] = 0; // (default = 0)
+////
+// Whale alert (adds "WHALE ALERT" to beginning of alexa / email / telegram alert text, and spouting whale emoji to email / text / telegram)
+// Format: 'max_days_to_24hr_avg_over||min_price_percent_change_24hr_avg||min_vol_percent_increase_24hr_avg||min_vol_currency_increase_24hr_avg'
+// ("min_price_percent_change_24hr_avg" should be the same value or higher as $ct_conf['comms']['price_alert_thres'] to work properly)
+// Leave BLANK '' TO DISABLE. DECIMALS ARE SUPPORTED, USE NUMBERS ONLY (NO CURRENCY SYMBOLS / COMMAS, ETC)
+$ct_conf['power']['price_alert_whale_thres'] = '1.25||9.75||12.75||25000'; // (default: '1.25||9.75||12.75||25000')	
 			
 			
 // Configuration for system resource warning thresholds (logs to error log, and sends comms alerts to any activated comms)
-// (WHEN THE SYSTEM RESOURCES REACH THESE VALUES, THE WARNINGS ARE TRIGGERED TO BE LOGGED / SENT TO ADMIN COMMS)
+// (WHEN THE SYSTEM RESOURCES REACH THESE VALUES [and it's been hours_between_alerts since last alert],
+// THE WARNINGS ARE TRIGGERED TO BE LOGGED / SENT TO ADMIN COMMS)
 // !!LEAVE YOURSELF SOME #EXTRA ROOM# ON THESE VALUES, TO BE ALERTED #BEFORE# YOUR SYSTEM WOULD RISK CRASHING!!
 ////
 // If SYSTEM UPTIME has only been up X DAYS (or less), trigger warning
@@ -715,12 +713,12 @@ $ct_conf['power']['free_partition_space_warning'] = '1000||24'; // 'free_space_m
 $ct_conf['power']['portfolio_cache_warning'] = '2000||72'; // 'portfolio_cache_megabytes||hours_between_alerts' (default = '2000||72')
 ////
 // If ALL COOKIES TOTAL DATA SIZE is X BYTES (or more), trigger warning
-// Because the header data MAY be approaching the server limit (CRASHING THIS APP!!)
+// Because the header data MAY be approaching the server limit (WHICH CAN CRASH THIS APP!!)
 // STANDARD SERVER HEADER SIZE LIMITS (IN BYTES)...Apache: 8000, NGINX: 4000 - 8000, IIS: 8000 - 16000, Tomcat: 8000 - 48000
 $ct_conf['power']['cookies_size_warning'] = '7000||6'; // 'cookies_size_bytes||hours_between_alerts' (default = '7000||6')
 
-																					
-// ASSET MARKETS chart colors (https://www.w3schools.com/colors/colors_picker.asp)
+
+// PRICE CHARTS colors (https://www.w3schools.com/colors/colors_picker.asp)
 ////
 // Charts border color
 $ct_conf['power']['charts_border'] = '#808080'; // (default: '#808080')
@@ -745,7 +743,17 @@ $ct_conf['power']['charts_tooltip_background'] = '#bbbbbb'; // (default: '#bbbbb
 ////
 // Charts tooltip text color
 $ct_conf['power']['charts_tooltip_text'] = '#222222'; // (default: '#222222')
-							
+
+
+// Local / internal REST API rate limit (maximum of once every X SECONDS, per ip address) for accepting remote requests
+// Can be 0 to disable rate limiting (unlimited)
+$ct_conf['power']['local_api_rate_limit'] = 5; // (default = 5)
+////
+// Local / internal REST API market limit (maximum number of MARKETS requested per call)
+$ct_conf['power']['local_api_mrkt_limit'] = 25; // (default = 25)
+////
+// Local / internal REST API cache time (MINUTES that previous requests are cached for)
+$ct_conf['power']['local_api_cache_time'] = 1; // (default = 1)
 							
 
 // Auto-activate support for ALTCOIN PAIRED MARKETS (like glm/eth or mkr/eth, etc...markets where the base pair is an altcoin)
@@ -765,7 +773,7 @@ $ct_conf['power']['crypto_pair'] = array(
 						'mkr' => '𐌼 ',
 						'slc' => 'Ŝ ',
 						'samo' => '🐶 ',
-						//....
+						//...
 							);
 
 
@@ -777,7 +785,7 @@ $ct_conf['power']['crypto_pair'] = array(
 // AND #THE EXCHANGE NAME MUST BE IN THAT 'btc' LIST#
 // #USE LIBERALLY#, AS YOU WANT THE BEST PRICE DISCOVERY FOR THIS CRYPTO'S VALUE
 $ct_conf['power']['crypto_pair_pref_mrkts'] = array(
-						//'lowercase_btc_mrkt_or_stablecoin_pair' => 'PREFERRED_MRKT',
+						    //'lowercase_btc_mrkt_or_stablecoin_pair' => 'PREFERRED_MRKT',
 							'eth' => 'binance',  // WAY MORE volume , WAY BETTER price discovery than ALL alternatives
 							'hnt' => 'binance',  // WAY MORE volume , WAY BETTER price discovery than ALL alternatives
 							'sol' => 'binance',  // WAY MORE volume , WAY BETTER price discovery than ALL alternatives
@@ -883,7 +891,7 @@ $ct_conf['power']['btc_currency_mrkts'] = array(
 // Preferred BITCOIN market(s) for getting a certain currency's value
 // (when other exchanges for this currency have poor api / volume / price discovery / etc)
 // EACH CURRENCY LISTED HERE MUST EXIST IN $ct_conf['power']['btc_currency_mrkts'] ABOVE
-// #USE CONSERVATIVELY#, AS YOU'LL BE RECOMMENDING IN THE INTERFACE TO END-USERS TO AVOID USING ANY OTHER MARKETS FOR THIS CURRENCY
+// #USE LIBERALLY#, AS YOU WANT THE BEST PRICE DISCOVERY FOR THIS CURRENCY'S VALUE
 $ct_conf['power']['btc_pref_currency_mrkts'] = array(
 						//'lowercase_btc_mrkt_or_stablecoin_pair' => 'PREFERRED_MRKT',
 							'aud' => 'kraken',  // WAY BETTER api than ALL alternatives
@@ -921,7 +929,7 @@ $ct_conf['power']['hivepower_yearly_interest'] = 1.05; // (Default = 1.05 as of 
 
 // Mining calculator configs for different crypto networks (SEMI-AUTOMATICALLY adds mining calculators to the Mining page)
 // FOR #DYNAMIC# CHAIN STATS (height / difficuly / rewards / etc), API CALL FUNCTIONS NEED TO BE CUSTOM-WRITTEN FOR ANY #CUSTOM# ASSETS ADDED HERE,
-// AND CALLED WITHIN THE 'Update dynamic mining data' SECTION OF THE FILE: /app-lib/php/other/app-config-managment.php
+// AND CALLED WITHIN THE 'Update dynamic mining data' SECTION OF THE FILE: /app-lib/php/other/config/config-auto-adjust.php
 // 'mining_time_formula' ALSO NEEDS TO BE DYNAMICALLY ADDED IN THAT SAME SECTION, #OR YOUR CUSTOM CALCULATOR WILL NOT WORK AT ALL#
 // ('PLACEHOLDER' values are dynamically populated during app runtime)
 $ct_conf['power']['mining_calculators'] = array(
@@ -939,7 +947,7 @@ $ct_conf['power']['mining_calculators'] = array(
 									'exchange_mrkt' => 'BTCUSDT', // Market pair name (for price data)
 									'measure_semantic' => 'difficulty',  // (difficulty, nethashrate, etc)
 									'block_reward' => 6.25, // Mining block reward (OPTIONAL, can be made dynamic with code, like below)
-									// EVERYTHING BELOW #MUST BE# updated in /app-lib/php/other/app-config-managment.php, since we run a cached config)
+									// EVERYTHING BELOW #MUST BE# updated in /app-lib/php/other/config/config-auto-adjust.php, since we run a cached config)
 									'mining_time_formula' => 'PLACEHOLDER', // Mining time formula calculation (REQUIRED)
 									'height' => 'PLACEHOLDER', // Block height (OPTIONAL)
 									'difficulty' => 'PLACEHOLDER', // Mining network difficulty (OPTIONAL)
@@ -955,7 +963,7 @@ $ct_conf['power']['mining_calculators'] = array(
 									'exchange_mrkt' => 'ETHBTC', // Market pair name (for price data)
 									'measure_semantic' => 'difficulty',  // (difficulty, nethashrate, etc)
 									'block_reward' => 2, // Mining block reward (OPTIONAL, can be made dynamic with code, like below)
-									// EVERYTHING BELOW #MUST BE# updated in /app-lib/php/other/app-config-managment.php, since we run a cached config)
+									// EVERYTHING BELOW #MUST BE# updated in /app-lib/php/other/config/config-auto-adjust.php, since we run a cached config)
 									'mining_time_formula' => 'PLACEHOLDER', // Mining time formula calculation (REQUIRED)
 									'height' => 'PLACEHOLDER', // Block height (OPTIONAL)
 									'difficulty' => 'PLACEHOLDER', // Mining network difficulty (OPTIONAL)
@@ -1475,7 +1483,7 @@ $ct_conf['dev']['error_reporting'] = 0; // 0 == off / -1 == on
 
 
 // $ct_conf['dev']['debug'] enabled runs unit tests during ui runtimes (during webpage load),
-// errors detected are error-logged and printed as alerts in footer
+// errors detected are error-logged and printed as alerts in header alert bell area
 // It also logs ui / cron runtime telemetry to /cache/logs/debug.log, AND /cache/logs/debug/
 ////////////////////////////////////////////////////////////////////////////////////////////
 ////
@@ -1507,8 +1515,8 @@ $ct_conf['dev']['error_reporting'] = 0; // 0 == off / -1 == on
 ////
 ////////////////////////////////////////////////////////////////////////////////////////////
 // UNIT TESTS ('CHECKS' SECTION) WILL ONLY RUN DURING WEB PAGE LOAD. MAY REQUIRE SETTING MAXIMUM ALLOWED 
-// PHP EXECUTION TIME TO 120 SECONDS TEMPORARILY, FOR ALL UNIT TESTS TO FULLY COMPLETE RUNNING, 
-// IF YOU GET AN ERROR 500. OPTIONALLY, TRY RUNNING ONE TEST PER PAGE LOAD, TO AVOID THIS.
+// PHP EXECUTION TIME TO 120 SECONDS OR HIGHER TEMPORARILY, FOR ALL UNIT TESTS TO FULLY COMPLETE RUNNING, 
+// OTHERWISE YOU MAY GET AN ERROR 500. OPTIONALLY, TRY RUNNING ONE TEST PER PAGE LOAD, TO AVOID THIS.
 // DON'T LEAVE DEBUGGING ENABLED AFTER USING IT, THE /cache/logs/debug.log AND /cache/logs/debug/
 // LOG FILES !CAN GROW VERY QUICKLY IN SIZE! EVEN AFTER JUST A FEW RUNTIMES
 $ct_conf['dev']['debug'] = 'off'; 
@@ -1521,42 +1529,32 @@ $ct_conf['dev']['log_verb'] = 'normal'; // 'normal' / 'verbose'
 
 
 // Ignore warning to use PHP-FPM (#PHP-FPM HELPS PREVENT RUNTIME CRASHES# ON LOW POWER DEVICES OR HIGH TRAFFIC INSTALLS)
-$ct_conf['dev']['ignore_php_fpm_warning'] = 'yes'; // (default = 'no', options are 'yes' / 'no')
+$ct_conf['dev']['ignore_php_fpm_warning'] = 'yes'; // (default = 'yes', options are 'yes' / 'no')
 
 
 // Maximum number of BATCHED coingecko marketcap data results to fetch, per API call (during multiple / paginated calls) 
-$ct_conf['dev']['coingecko_api_batched_max'] = 100; // (default = 100), ADJUST WITH CARE!!!
+// (coingecko #ABSOLUTELY HATES# DATA CENTER IPS [DEDICATED / VPS SERVERS], BUT GOES EASY ON RESIDENTIAL IPS)
+$ct_conf['dev']['coingecko_api_batched_max'] = 90; // (default = 90), ADJUST WITH CARE!!!
 
 
 // Maximum number of BATCHED news feed fetches / re-caches per ajax OR cron runtime 
-// (#TO HELP PREVENT RUNTIME CRASHES# ON LOW POWER DEVICES OR HIGH TRAFFIC INSTALLS, WITH A LOW NUMBER OF 20 OR LESS)
+// (#TO HELP PREVENT RUNTIME CRASHES# ON LOW POWER DEVICES OR HIGH TRAFFIC INSTALLS, USE A LOW NUMBER OF 20 OR LESS)
 $ct_conf['dev']['news_feed_batched_max'] = 20; // (default = 20), ADJUST WITH CARE!!!
 ////
 // Minutes to cache RSS feeds for News page
 // Randomly cache each RSS feed between the minimum and maximum MINUTES set here (so they don't refresh all at once, for faster runtimes)
-// THE WIDER THE GAP BETWEEN THE NUMBERS, MORE SPLIT UP / FASTER THE FEEDS WILL LOAD IN THE INTERFACE
+// THE WIDER THE GAP BETWEEN THE NUMBERS, MORE SPLIT UP / FASTER THE FEEDS WILL LOAD IN THE INTERFACE #CONSISTANTLY#
 $ct_conf['dev']['news_feed_cache_min_max'] = '90,180'; // 'min,max' (default = '90,180'), ADJUST WITH CARE!!!
 
 
 // Randomly rebuild the 'ALL' chart between the minimum and maximum HOURS set here  (so they don't refresh all at once, for faster runtimes)
-// LARGER AVERAGE TIME SPREAD IS EASIER ON LOW POWER DEVICES (TO ONLY UPDATE A FEW AT A TIME)!!
+// LARGER AVERAGE TIME SPREAD IS EASIER ON LOW POWER DEVICES (TO ONLY UPDATE A FEW AT A TIME), FOR A MORE CONSISTANT CRON JOB RUNTIME SPEED!!
 $ct_conf['dev']['all_chart_rebuild_min_max'] = '4,12'; // 'min,max' (default = '4,12'), ADJUST WITH CARE!!!
-
-
-// Local / internal API rate limit (maximum of once every X SECONDS, per ip address) for accepting remote requests
-// Can be 0 to disable rate limiting (unlimited)
-$ct_conf['dev']['local_api_rate_limit'] = 3; // (default = 3)
-////
-// Local / internal API market limit (maximum number of MARKETS requested per call)
-$ct_conf['dev']['local_api_mrkt_limit'] = 15; // (default = 15)
-////
-// Local / internal API cache time (MINUTES that previous requests are cached for)
-$ct_conf['dev']['local_api_cache_time'] = 4; // (default = 4)
 
 
 // If you want to override the default user agent string (sent with API requests, etc)
 // Adding a string here automatically enables that as the custom user agent
-// LEAVING BLANK '' USES THE DEFAULT USER AGENT LOGIC BUILT-IN TO THIS APP (INCLUDES ONLY BASIC SYSTEM CONFIGURATION STATS)
+// LEAVING BLANK '' USES THE DEFAULT USER AGENT LOGIC BUILT-IN TO THIS APP (WHICH INCLUDES ONLY BASIC SYSTEM CONFIGURATION STATS)
 $ct_conf['dev']['override_user_agent'] = ''; 
 
 
@@ -1594,8 +1592,9 @@ $ct_conf['dev']['webhook_max_exec_time'] = 60; // (default = 60)
 // (ANY EXCHANGES LISTED HERE ARE !NOT! RECOMMENDED TO BE USED AS THE PRIMARY CURRENCY MARKET IN THIS APP,
 // AS ON OCCASION THEY CAN BE !UNRELIABLE! IF HIT WITH TOO MANY SEPARATE API CALLS FOR MULTIPLE COINS / ASSETS)
 // !MUST BE LOWERCASE!
+// #DON'T ADD ANY WEIRD TLD HERE LIKE 'xxxxx.co.il'#, AS DETECTING TLD DOMAINS WITH MORE THAN ONE PERIOD IN THEM ISN'T SUPPORTED
+// WE DON'T WANT THE REQUIRED EXTRA LOGIC TO PARSE THESE DOUBLE-PERIOD TLDs BOGGING DOWN / CLUTTERING APP CODE, FOR JUST ONE TINY FEATURE
 $ct_conf['dev']['limited_apis'] = array(
-                						'bit2c.co.il',
                 						'bitforex.com',
                 						'bitflyer.com',
                 						'bitmex.com',
@@ -1629,7 +1628,7 @@ $ct_conf['dev']['limited_apis'] = array(
 
 /*
 
-Below are the mobile networks supported by DFD Cryptocoin Value's email-to-mobile-text functionality. 
+Below are the mobile networks supported by Open Crypto Tracker's email-to-mobile-text functionality. 
 
 Using your corresponding "Network Name Key" (case-sensitive) listed below, 
 add that EXACT name in this config file further above within the $ct_conf['comms']['to_mobile_text'] setting as the text network name variable,
@@ -1645,12 +1644,6 @@ https://github.com/taoteh1221/Open_Crypto_Tracker/issues
 // All supported mobile network email-to-text gateway (domain name) configurations
 // Network name keys MUST BE LOWERCASE (for reliability / consistency, 
 // as these name keys are always called from (forced) lowercase name key lookups)
-
-// SEE /DOCUMENTATION-ETC/CONFIG-EXAMPLE.txt FOR A FULL EXAMPLE OF THE DEFAULT CONFIGURATION (ESPECIALLY IF YOU MESS UP config.php, lol)
-
-// See TROUBLESHOOTING.txt for tips / troubleshooting FAQs.
-
-// TYPOS LIKE MISSED COMMAS / MISSED QUOTES / ETC !!!!WILL BREAK THE APP!!!!, BE CAREFUL EDITING THIS CONFIG FILE!
 
 // DUPLICATE NETWORK NAME KEYS --WILL CANCEL EACH OTHER OUT--, !!USE A UNIQUE NAME FOR EACH KEY!!
 
@@ -1675,28 +1668,29 @@ $ct_conf['mob_net_txt_gateways'] = array(
                         
                         
                         // [MISCELLANEOUS COUNTRIES]
-                        'beeline' => 'sms.beemail.ru',          // Russia
-                        'china_mobile' => '139.com',            // China
-                        'claro_pr' => 'vtexto.com',             // Puerto Rico
-                        'csl' => 'mgw.mmsc1.hkcsl.com',         // Hong Kong
-                        'digicel' => 'digitextdm.com',          // Dominica
-                        'emtel' => 'emtelworld.net',            // Mauritius
-                        'guyana_tt' => 'sms.cellinkgy.com',     // Guyana
-                        'ice' => 'sms.ice.cr',                  // Costa Rica
-                        'm1' => 'm1.com.sg',                    // Singapore
-                        'mas_movil' => 'cwmovil.com',           // Panama
-                        'mobiltel' => 'sms.mtel.net',           // Bulgaria
-                        'mobitel' => 'sms.mobitel.lk',          // Sri Lanka
                         'movistar_ar' => 'sms.movistar.net.ar', // Argentina
-                        'movistar_uy' => 'sms.movistar.com.uy', // Uruguay
                         'setar' => 'mas.aw',                    // Aruba
-                        'sunrise_ch' => 'gsm.sunrise.ch',       // Switzerland
+                        'mobiltel' => 'sms.mtel.net',           // Bulgaria
+                        'china_mobile' => '139.com',            // China
+                        'ice' => 'sms.ice.cr',                  // Costa Rica
                         'tmobile_hr' => 'sms.t-mobile.hr',      // Croatia
+                        'digicel' => 'digitextdm.com',          // Dominica
+                        'tellus_talk' => 'esms.nu',             // Europe
+                        'guyana_tt' => 'sms.cellinkgy.com',     // Guyana
+                        'csl' => 'mgw.mmsc1.hkcsl.com',         // Hong Kong
+                        'vodafone_it' => 'sms.vodafone.it',     // Italy
                         'tele2_lv' => 'sms.tele2.lv',           // Latvia
-                        'tele2_se' => 'sms.tele2.se',           // Sweden
+                        'emtel' => 'emtelworld.net',            // Mauritius
                         'telcel' => 'itelcel.com',              // Mexico
                         'tmobile_nl' => 'gin.nl',               // Netherlands
-                        'vodafone_it' => 'sms.vodafone.it',     // Italy
+                        'mas_movil' => 'cwmovil.com',           // Panama
+                        'claro_pr' => 'vtexto.com',             // Puerto Rico
+                        'beeline' => 'sms.beemail.ru',          // Russia
+                        'm1' => 'm1.com.sg',                    // Singapore
+                        'mobitel' => 'sms.mobitel.lk',          // Sri Lanka
+                        'tele2_se' => 'sms.tele2.se',           // Sweden
+                        'sunrise_ch' => 'gsm.sunrise.ch',       // Switzerland
+                        'movistar_uy' => 'sms.movistar.com.uy', // Uruguay
                         
                         
                         // [AUSTRALIA]
@@ -1716,9 +1710,7 @@ $ct_conf['mob_net_txt_gateways'] = array(
                         // [CANADA]
                         'bell' => 'txt.bell.ca',
                         'bell_mts' => 'text.mts.net',
-                        'fido' => 'sms.fido.ca',
                         'koodo' => 'msg.telus.com',
-                        'lynx' => 'sms.lynxmobility.com',
                         'pc_telecom' => 'mobiletxt.ca',
                         'rogers_ca' => 'pcs.rogers.com',
                         'sasktel' => 'pcs.sasktelmobility.com',
@@ -1730,10 +1722,6 @@ $ct_conf['mob_net_txt_gateways'] = array(
                         // [COLUMBIA]
                         'claro_co' => 'iclaro.com.co',
                         'movistar_co' => 'movistar.com.co',
-                        
-                        
-                        // [EUROPE]
-                        'tellus_talk' => 'esms.nu',
                         
                         
                         // [FRANCE]
@@ -1757,7 +1745,6 @@ $ct_conf['mob_net_txt_gateways'] = array(
                         'aircel' => 'aircel.co.in',
                         'airtel' => 'airtelmail.com',
                         'airtel_kerala' => 'airtelkerala.com',
-                        'escotel' => 'escotelmobile.com',
                         
                         
                         // [NEW ZEALAND]
@@ -1768,6 +1755,12 @@ $ct_conf['mob_net_txt_gateways'] = array(
                         // [NORWAY]
                         'sendega' => 'sendega.com',
                         'teletopia' => 'sms.teletopiasms.no',
+                        
+                        
+                        // [POLAND]
+                        'orange_pl' => 'orange.pl',
+                        'plus' => 'text.plusgsm.pl',
+                        'polkomtel' => 'text.plusgsm.pl',
                         
                         
                         // [SOUTH AFRICA]
@@ -1781,12 +1774,6 @@ $ct_conf['mob_net_txt_gateways'] = array(
                         'vodafone_es' => 'vodafone.es',
                         
                         
-                        // [POLAND]
-                        'orange_pl' => 'orange.pl',
-                        'plus' => 'text.plusgsm.pl',
-                        'polkomtel' => 'text.plusgsm.pl',
-                        
-                        
                         // [UNITED KINGDOM]
                         'media_burst' => 'sms.mediaburst.co.uk',
                         'txt_local' => 'txtlocal.co.uk',
@@ -1795,7 +1782,6 @@ $ct_conf['mob_net_txt_gateways'] = array(
                         
                         
                         // [UNITED STATES]
-                        'alaska_comm' => 'msg.acsalaska.com',
                         'att' => 'txt.att.net',
                         'bluegrass' => 'mms.myblueworks.com',
                         'boost' => 'myboostmobile.com',

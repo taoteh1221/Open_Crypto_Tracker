@@ -83,10 +83,10 @@ api_request.setRequestHeader("Content-type", "application/x-www-form-urlencoded"
 <?php
 if ( isset($htaccess_username) && isset($htaccess_password) && $htaccess_username != '' && $htaccess_password != '' ) {
 ?>
-// Our API has a rate limit of once every <?=$ct_conf['dev']['local_api_rate_limit']?> seconds,
-// so we must wait to reconnect after the htaccess authentication (<?=$ct_conf['dev']['local_api_rate_limit']?> + 1 seconds)
+// Our API has a rate limit of once every <?=$ct_conf['power']['local_api_rate_limit']?> seconds,
+// so we must wait to reconnect after the htaccess authentication (<?=$ct_conf['power']['local_api_rate_limit']?> + 1 seconds)
 // ANY CONSECUTIVE CALLS #DON'T NEED# THE TIMEOUT (since htaccess is already logged in): api_request.send(params);
-setTimeout(function(){ api_request.send(params); }, <?=( ($ct_conf['dev']['local_api_rate_limit'] + 1) * 1000)?>);
+setTimeout(function(){ api_request.send(params); }, <?=( ($ct_conf['power']['local_api_rate_limit'] + 1) * 1000)?>);
 <?php
 }
 else {

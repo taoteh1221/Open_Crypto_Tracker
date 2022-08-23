@@ -5685,6 +5685,8 @@ v6.00.2 AND HIGHER RESETS LIGHT (TIME PERIOD) CHARTS FROM ARCHIVAL DATA, ONE-TIM
 
 -BUG FIX: Fixed CSV (spreadsheet) exporting of portfolio data
 
+-BUG FIX: Fixed 'markets_conf' debug mode
+
 -'Secure' cookies configuration added FOR SERVER EDITIONS (only allowed to be sent over a secure HTTPS connection...just click 'Save Updated Settings' on the Settings page, WITH COOKIES ENABLED)
 
 -New admin security level feature (if end-users prefer editing all config files manually, to avoid the need to display setting values in the admin interface pages)
@@ -5702,6 +5704,8 @@ v6.00.2 AND HIGHER RESETS LIGHT (TIME PERIOD) CHARTS FROM ARCHIVAL DATA, ONE-TIM
 -Miscellaneous user experience improvements
 
 -Code cleanup / optimizations
+
+-New / improved documentation
 
 v6.00.2 AND HIGHER RESETS LIGHT (TIME PERIOD) CHARTS FROM ARCHIVAL DATA, ONE-TIME DURING UPGRADES FROM V6.00.1 OR LOWER.
 

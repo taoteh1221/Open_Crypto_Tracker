@@ -26,10 +26,10 @@ $ip_access = trim( file_get_contents($base_dir . '/cache/events/throttling/local
 
 
 
-// Throttle ip addresses reconnecting before $ct_conf['dev']['local_api_rate_limit'] interval passes
-if ( $ct_cache->update_cache($base_dir . '/cache/events/throttling/local_api_incoming_ip_' . $store_ip . '.dat', ($ct_conf['dev']['local_api_rate_limit'] / 60) ) == false ) {
+// Throttle ip addresses reconnecting before $ct_conf['power']['local_api_rate_limit'] interval passes
+if ( $ct_cache->update_cache($base_dir . '/cache/events/throttling/local_api_incoming_ip_' . $store_ip . '.dat', ($ct_conf['power']['local_api_rate_limit'] / 60) ) == false ) {
 
-$result = array('error' => "Rate limit (maximum of once every " . $ct_conf['dev']['local_api_rate_limit'] . " seconds) reached for ip address: " . $remote_ip);
+$result = array('error' => "Rate limit (maximum of once every " . $ct_conf['power']['local_api_rate_limit'] . " seconds) reached for ip address: " . $remote_ip);
 
 $ct_gen->log(
 							'int_api_error',
@@ -78,7 +78,7 @@ $hash_check = md5($_GET['data_set']);
 
 
 	// If a cache exists for this request that's NOT OUTDATED, use cache to speed things up
-	if ( $ct_cache->update_cache($base_dir . '/cache/internal_api/'.$hash_check.'.dat', $ct_conf['dev']['local_api_cache_time']) == false ) {
+	if ( $ct_cache->update_cache($base_dir . '/cache/internal_api/'.$hash_check.'.dat', $ct_conf['power']['local_api_cache_time']) == false ) {
 		
 	$json_result = trim( file_get_contents($base_dir . '/cache/internal_api/'.$hash_check.'.dat') );
 
@@ -143,7 +143,7 @@ $hash_check = md5($_GET['data_set']);
 		}
 
 
-	$result['minutes_cached'] = $ct_conf['dev']['local_api_cache_time'];
+	$result['minutes_cached'] = $ct_conf['power']['local_api_cache_time'];
 	
 	
 	// JSON-encode results

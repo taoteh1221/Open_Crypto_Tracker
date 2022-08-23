@@ -20,8 +20,8 @@ if ( $runtime_mode != 'cron' && $ct_cache->update_cache($base_dir . '/cache/even
 	
 	
 		// Chart backups...run before any price checks to avoid any potential file lock issues
-		if ( $ct_conf['gen']['asset_charts_toggle'] == 'on' && $ct_conf['power']['charts_backup_freq'] > 0 ) {
-		$ct_cache->backup_archive('charts-data', $base_dir . '/cache/charts/', $ct_conf['power']['charts_backup_freq']); // No $backup_arch_pass extra param here (waste of time / energy to encrypt charts data backups)
+		if ( $ct_conf['gen']['asset_charts_toggle'] == 'on' && $ct_conf['gen']['charts_backup_freq'] > 0 ) {
+		$ct_cache->backup_archive('charts-data', $base_dir . '/cache/charts/', $ct_conf['gen']['charts_backup_freq']); // No $backup_arch_pass extra param here (waste of time / energy to encrypt charts data backups)
 		}
     
     
