@@ -386,7 +386,7 @@ var $ct_array1 = array();
   
      
      // Abort queueing comms for sending out notifications, if allowing comms is disabled
-     if ( $ct_conf['comms']['allow_comms'] == 'off' ) {
+     if ( $ct_conf['comms']['allow_comms'] != 'on' ) {
      return;
      }
   
