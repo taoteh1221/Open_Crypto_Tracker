@@ -162,11 +162,11 @@ You can setup price charts or price alerts in your app install. Price alerts can
 	    
 Running price charts or price alerts requires setting up a cron job or scheduled task on the Debian / Ubuntu / DietPi OS / RaspberryPi OS / Armbian / Windows 10 machine or website server (this is automated for Debian / Ubuntu / DietPi OS / RaspberryPi OS / Armbian users using the automated FOLIO-INSTALL.bash script / Windows 10 users who run the ADD-WIN10-SCHEDULER-JOB.bat file), otherwise charts / alerts will not work. Also see the related settings in Admin Config for charts / alerts. 
 
-Once a cron job is setup, there is no need to keep your PC / Laptop turned on. The price charts and price alerts run automatically from your Open Crypto Tracker app server installation. If you encounter errors or the charts / alerts don't work during setup, check the error logs file at /cache/logs/error.log for errors in your configuration setup. Basic checks are performed and errors are reported there, and on the Settings page. 
+Once a cron job or scheduled task is setup ON YOUR APP SERVER, there is no need to keep your PC / Laptop turned on. The price charts and price alerts run automatically from your Open Crypto Tracker app server installation. If you encounter errors or the charts / alerts don't work during setup, check the error logs file at /cache/logs/error.log for errors in your configuration setup. Basic checks are performed and errors are reported there, and on the Settings page. 
 
-If you want to turn on these cron job based features and more (chart data backups, new RSS news feed entries emails, error log emails / etc), then the file cron.php (located in the primary directory of this app) must be setup as a cron job on your Debian / Ubuntu / DietPi OS / RaspberryPi OS / Armbian / Windows 10 / website server device. 
+If you decide to turn on cron job / scheduled task based features (chart data backups, new RSS news feed entries emails, error log emails / etc), then the file cron.php (located in the primary directory of this app) must be setup as a cron job or scheduled task on your Debian / Ubuntu / DietPi OS / RaspberryPi OS / Armbian / Windows 10 / website server device. 
 
-As mentioned previously, if you run the automated setup / install script for Debian / Ubuntu / DietPi OS / RaspberryPi OS / Armbian / Windows 10 devices on home / internal networks, automatic cron job setup is offered as an option during this process. If you are using a full stack website host for hosting a TLD website domain name remotely, consult your web server host's documentation or help desk for their particular method of setting up a cron job.
+As mentioned previously, if you run the automated setup / install script for Debian / Ubuntu / DietPi OS / RaspberryPi OS / Armbian / Windows 10 devices on home / internal networks, automatic cron job / scheduled task setup is offered as an option during this process. If you are using a full stack website host for hosting a TLD website domain name remotely, consult your web server host's documentation or help desk for their particular method of setting up a cron job.
 
 Note that you should have the cron job run every 5, 10, 15, 20, or 30 minutes 24/7, based on how often you want chart data points / alerts / any other cron based features to run. Setting up the cron job to run every 20 minutes is the RECOMMENDED lowest time interval. IF SET BELOW 20 MINUTES, light chart disk writes may be excessive for lower end hardware (Raspberry PI MicroSD cards etc). IF SET #VERY LOW# (5 / 10 minutes), the free exchange APIs may throttle / block your data requests temporarily on occasion for requesting data too frequently (negatively affecting your alerts / charts). 
 
@@ -211,7 +211,11 @@ To skip conversions and just receive raw market values in the API, you can use t
 For security, the API requires a key / token to access it. This key must be named "api_key", and must be sent with the "POST" data method.
 
 
-// SEE /DOCUMENTATION-ETC/REST-API-EXAMPLES.txt FOR EXAMPLES OF CALLING THE API WITH CURL, JAVASCRIPT, AND PHP
+IMPORTANT REST API NOTES: 
+
+The 'Desktop Edition' of this app has a slightly different endpoint format for the internal REST API (due to unavoidable feature restrictions). Login to your 'Desktop Edition' Admin Config area, and see the 'API' section, for the example code required to use the internal REST API.
+
+SEE /DOCUMENTATION-ETC/REST-API-EXAMPLES.txt FOR EXAMPLES OF CALLING THE API WITH CURL, JAVASCRIPT, AND PHP
 
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -222,7 +226,7 @@ IMPORTANT NOTE: IN THE v6 RELEASE (Coming Soon™), DOING THIS MANUALLY IN A TEX
 
 Below is an example for editing your assets / markets into the portfolio assets in the file config.php (located in the primary directory of this app), in the PORTFOLIO ASSETS section. It's very quick / easy to do (after you get the hang of it, lol). Also see the text file /DOCUMENTATION-ETC/CONFIG-EXAMPLE.txt, for a pre-configured set of default settings and example assets / markets. 
 
-Contact any supported exchange's help desk if you are unaware of the correct formatting of the trading pair naming you are adding in the configuration file (examples: Kraken has arbitrary Xs inserted in SOME older pair names, HitBTC sometimes has tether pair without the "T" in the symbol name).
+Contact any supported exchange's help desk if you are unaware of the correct formatting of the trading pair naming you are adding in the configuration file (examples: Kraken has arbitrary Xs inserted in SOME older pair names, HitBTC sometimes has tether pairs without the "T" in the symbol name).
 
 
 Support for over 80 trading pairs (country fiat currency or secondary crypto, contact me to request more): 

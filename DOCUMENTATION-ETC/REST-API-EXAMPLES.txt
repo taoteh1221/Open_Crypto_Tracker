@@ -122,4 +122,10 @@ var_dump($api_data_array);
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
+!!!!!IMPORTANT REST API NOTES!!!!! 
+
+The 'Desktop Edition' of this app has a slightly different endpoint format for the internal REST API (due to unavoidable feature restrictions). Login to your 'Desktop Edition' Admin Config area, and see the 'API' section, for the example code required to use the internal REST API.
+
+
+
 
