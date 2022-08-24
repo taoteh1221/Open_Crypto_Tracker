@@ -133,7 +133,7 @@ Automatic Setup For 'Server Edition' On Debian / Ubuntu / DietPi OS / RaspberryP
 
 To install / upgrade everything automatically on Debian / Ubuntu / DietPi OS / RaspberryPi OS / Armbian, copy => paste => run the command below in a terminal program (using the 'Terminal' app in the system menu, or over remote SSH), while logged in AS THE USER THAT WILL RUN THE APP (user must have sudo privileges):
 
-wget --no-cache -O FOLIO-INSTALL.bash https://git.io/JoDFD;chmod +x FOLIO-INSTALL.bash;sudo ./FOLIO-INSTALL.bash
+wget --no-cache -O FOLIO-INSTALL.bash https://tinyurl.com/install-crypto-tracker;chmod +x FOLIO-INSTALL.bash;sudo ./FOLIO-INSTALL.bash
 
 Follow the prompts. This automated script gives you the options to: install / uninstall a PHP web server automatically, download / install / configure / uninstall the latest version of the Open Crypto Tracker app automatically, setup a cron job automatically (for price alerts / price charts), and setup SSH (to update / install web site files remotely to the web server via SFTP) automatically. 
 

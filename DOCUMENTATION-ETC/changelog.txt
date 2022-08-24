@@ -3583,13 +3583,13 @@ MAJOR IMPROVEMENTS TO THE USER EXPERIENCE HAVE BEEN MADE, WHICH ARE !NOT! BACKWA
 
 -Bug fixes (revised) / optimizations (revised) / documentation for low memory devices (Raspberry Pi Zero, Pine64, etc) crashing when too many news feeds / price charts are chosen
 
--PHP FastCGI mode is now REQUIRED for greater system stability (if you auto-installed, FULLY re-install EVERYTHING with the latest auto-install script: https://git.io/JoDFD)
+-PHP FastCGI mode is now REQUIRED for greater system stability (if you auto-installed, FULLY re-install EVERYTHING with the latest auto-install script: https://tinyurl.com/install-crypto-tracker)
 
 -Suppress web browser from sending referral data when clicking external links (privacy, so external sites don't see where you visited them from) 
 
 IMPORTANT UPGRADE NOTES: 
 
-v4.14.6 AND HIGHER REQUIRES PHP-FPM (FastCGI) v7.2 OR HIGHER (if you auto-installed, FULLY re-install EVERYTHING with the latest auto-install script: https://git.io/JoDFD)
+v4.14.6 AND HIGHER REQUIRES PHP-FPM (FastCGI) v7.2 OR HIGHER (if you auto-installed, FULLY re-install EVERYTHING with the latest auto-install script: https://tinyurl.com/install-crypto-tracker)
 
 v4.14.3 HAS MAJOR OVERHAULS TO LIGHT CHART (1W / 1M / ETC) SCALING OPTIMIZATIONS, WHICH MAY SKEW A FEW (NOT MANY THOUGH) CHART TIME INTERVALS #INITIALLY IF YOU ARE UPGRADING FROM A PREVIOUS VERSION# (BUT WILL RETURN TO NORMAL IMMEDIATELY AFTER THE FIRST NEW DATA POINT #AFTER# UPGRADING)
 
@@ -3637,7 +3637,7 @@ MAJOR IMPROVEMENTS TO THE USER EXPERIENCE HAVE BEEN MADE, WHICH ARE !NOT! BACKWA
 
 IMPORTANT UPGRADE NOTES: 
 
-v4.14.6 AND HIGHER WILL #FORCEFULLY RECOMMEND# PHP-FPM (FastCGI) v7.2 OR HIGHER. This warning can be disabled in the developer settings in config.php as of v4.14.7. If you auto-installed, you can auto-upgrade if you FULLY re-install EVERYTHING with the latest auto-install script: https://git.io/JoDFD
+v4.14.6 AND HIGHER WILL #FORCEFULLY RECOMMEND# PHP-FPM (FastCGI) v7.2 OR HIGHER. This warning can be disabled in the developer settings in config.php as of v4.14.7. If you auto-installed, you can auto-upgrade if you FULLY re-install EVERYTHING with the latest auto-install script: https://tinyurl.com/install-crypto-tracker
 
 v4.14.3 HAS MAJOR OVERHAULS TO LIGHT CHART (1W / 1M / ETC) SCALING OPTIMIZATIONS, WHICH MAY SKEW A FEW (NOT MANY THOUGH) CHART TIME INTERVALS #INITIALLY IF YOU ARE UPGRADING FROM A PREVIOUS VERSION# (BUT WILL RETURN TO NORMAL IMMEDIATELY AFTER THE FIRST NEW DATA POINT #AFTER# UPGRADING)
 
@@ -3681,7 +3681,7 @@ IMPORTANT UPGRADE NOTES:
 
 v4.14.8 AND HIGHER FIXES SYSTEM STATS LIGHT CHARTS NOT UPDATING IN A TIMELY MANNER. You may need to delete you system stats light chart directory to force a light chart rebuild (from archival data) at: /cache/charts/system/light/
 
-v4.14.6 AND HIGHER WILL #FORCEFULLY RECOMMEND# PHP-FPM (FastCGI) v7.2 OR HIGHER. This warning can be disabled in the developer settings in config.php as of v4.14.7. If you auto-installed, you can auto-upgrade if you FULLY re-install EVERYTHING with the latest auto-install script: https://git.io/JoDFD
+v4.14.6 AND HIGHER WILL #FORCEFULLY RECOMMEND# PHP-FPM (FastCGI) v7.2 OR HIGHER. This warning can be disabled in the developer settings in config.php as of v4.14.7. If you auto-installed, you can auto-upgrade if you FULLY re-install EVERYTHING with the latest auto-install script: https://tinyurl.com/install-crypto-tracker
 
 v4.14.3 HAS MAJOR OVERHAULS TO LIGHT CHART (1W / 1M / ETC) SCALING OPTIMIZATIONS, WHICH MAY SKEW A FEW (NOT MANY THOUGH) CHART TIME INTERVALS #INITIALLY IF YOU ARE UPGRADING FROM A PREVIOUS VERSION# (BUT WILL RETURN TO NORMAL IMMEDIATELY AFTER THE FIRST NEW DATA POINT #AFTER# UPGRADING)
 
@@ -3721,7 +3721,7 @@ IMPORTANT UPGRADE NOTES:
 
 v4.14.8 AND HIGHER FIXES SYSTEM STATS LIGHT CHARTS NOT UPDATING IN A TIMELY MANNER. You may need to delete you system stats light chart directory to force a light chart rebuild (from archival data) at: /cache/charts/system/light/
 
-v4.14.6 AND HIGHER WILL #FORCEFULLY RECOMMEND# PHP-FPM (FastCGI) v7.2 OR HIGHER. This warning can be disabled in the developer settings in config.php as of v4.14.7. If you auto-installed, you can auto-upgrade if you FULLY re-install EVERYTHING with the latest auto-install script: https://git.io/JoDFD
+v4.14.6 AND HIGHER WILL #FORCEFULLY RECOMMEND# PHP-FPM (FastCGI) v7.2 OR HIGHER. This warning can be disabled in the developer settings in config.php as of v4.14.7. If you auto-installed, you can auto-upgrade if you FULLY re-install EVERYTHING with the latest auto-install script: https://tinyurl.com/install-crypto-tracker
 
 v4.14.3 HAS MAJOR OVERHAULS TO LIGHT CHART (1W / 1M / ETC) SCALING OPTIMIZATIONS, WHICH MAY SKEW A FEW (NOT MANY THOUGH) CHART TIME INTERVALS #INITIALLY IF YOU ARE UPGRADING FROM A PREVIOUS VERSION# (BUT WILL RETURN TO NORMAL IMMEDIATELY AFTER THE FIRST NEW DATA POINT #AFTER# UPGRADING)
 
@@ -3759,7 +3759,7 @@ IMPORTANT UPGRADE NOTES:
 
 v4.14.8 AND HIGHER FIXES SYSTEM STATS LIGHT CHARTS NOT UPDATING IN A TIMELY MANNER. You may need to delete you system stats light chart directory to force a light chart rebuild (from archival data) at: /cache/charts/system/light/
 
-v4.14.6 AND HIGHER WILL #FORCEFULLY RECOMMEND# PHP-FPM (FastCGI) v7.2 OR HIGHER. This warning can be disabled in the developer settings in config.php as of v4.14.7. If you auto-installed, you can auto-upgrade if you FULLY re-install EVERYTHING with the latest auto-install script: https://git.io/JoDFD
+v4.14.6 AND HIGHER WILL #FORCEFULLY RECOMMEND# PHP-FPM (FastCGI) v7.2 OR HIGHER. This warning can be disabled in the developer settings in config.php as of v4.14.7. If you auto-installed, you can auto-upgrade if you FULLY re-install EVERYTHING with the latest auto-install script: https://tinyurl.com/install-crypto-tracker
 
 v4.14.3 HAS MAJOR OVERHAULS TO LIGHT CHART (1W / 1M / ETC) SCALING OPTIMIZATIONS, WHICH MAY SKEW A FEW (NOT MANY THOUGH) CHART TIME INTERVALS #INITIALLY IF YOU ARE UPGRADING FROM A PREVIOUS VERSION# (BUT WILL RETURN TO NORMAL IMMEDIATELY AFTER THE FIRST NEW DATA POINT #AFTER# UPGRADING)
 
@@ -3807,7 +3807,7 @@ IMPORTANT UPGRADE NOTES:
 
 v4.14.8 AND HIGHER FIXES SYSTEM STATS LIGHT CHARTS NOT UPDATING IN A TIMELY MANNER. You may need to delete you system stats light chart directory to force a light chart rebuild (from archival data) at: /cache/charts/system/light/
 
-v4.14.6 AND HIGHER WILL #FORCEFULLY RECOMMEND# PHP-FPM (FastCGI) v7.2 OR HIGHER. This warning can be disabled in the developer settings in config.php as of v4.14.7. If you auto-installed, you can auto-upgrade if you FULLY re-install EVERYTHING with the latest auto-install script: https://git.io/JoDFD
+v4.14.6 AND HIGHER WILL #FORCEFULLY RECOMMEND# PHP-FPM (FastCGI) v7.2 OR HIGHER. This warning can be disabled in the developer settings in config.php as of v4.14.7. If you auto-installed, you can auto-upgrade if you FULLY re-install EVERYTHING with the latest auto-install script: https://tinyurl.com/install-crypto-tracker
 
 v4.14.3 HAS MAJOR OVERHAULS TO LIGHT CHART (1W / 1M / ETC) SCALING OPTIMIZATIONS, WHICH MAY SKEW A FEW (NOT MANY THOUGH) CHART TIME INTERVALS #INITIALLY IF YOU ARE UPGRADING FROM A PREVIOUS VERSION# (BUT WILL RETURN TO NORMAL IMMEDIATELY AFTER THE FIRST NEW DATA POINT #AFTER# UPGRADING)
 
@@ -3847,7 +3847,7 @@ IMPORTANT UPGRADE NOTES:
 
 v4.14.8 AND HIGHER FIXES SYSTEM STATS LIGHT CHARTS NOT UPDATING IN A TIMELY MANNER. You may need to delete you system stats light chart directory to force a light chart rebuild (from archival data) at: /cache/charts/system/light/
 
-v4.14.6 AND HIGHER WILL #FORCEFULLY RECOMMEND# PHP-FPM (FastCGI) v7.2 OR HIGHER. This warning can be disabled in the developer settings in config.php as of v4.14.7. If you auto-installed, you can auto-upgrade if you FULLY re-install EVERYTHING with the latest auto-install script: https://git.io/JoDFD
+v4.14.6 AND HIGHER WILL #FORCEFULLY RECOMMEND# PHP-FPM (FastCGI) v7.2 OR HIGHER. This warning can be disabled in the developer settings in config.php as of v4.14.7. If you auto-installed, you can auto-upgrade if you FULLY re-install EVERYTHING with the latest auto-install script: https://tinyurl.com/install-crypto-tracker
 
 v4.14.3 HAS MAJOR OVERHAULS TO LIGHT CHART (1W / 1M / ETC) SCALING OPTIMIZATIONS, WHICH MAY SKEW A FEW (NOT MANY THOUGH) CHART TIME INTERVALS #INITIALLY IF YOU ARE UPGRADING FROM A PREVIOUS VERSION# (BUT WILL RETURN TO NORMAL IMMEDIATELY AFTER THE FIRST NEW DATA POINT #AFTER# UPGRADING)
 
@@ -3885,7 +3885,7 @@ IMPORTANT UPGRADE NOTES:
 
 v4.14.8 AND HIGHER FIXES SYSTEM STATS LIGHT CHARTS NOT UPDATING IN A TIMELY MANNER. You may need to delete you system stats light chart directory to force a light chart rebuild (from archival data) at: /cache/charts/system/light/
 
-v4.14.6 AND HIGHER WILL #FORCEFULLY RECOMMEND# PHP-FPM (FastCGI) v7.2 OR HIGHER. This warning can be disabled in the developer settings in config.php as of v4.14.7. If you auto-installed, you can auto-upgrade if you FULLY re-install EVERYTHING with the latest auto-install script: https://git.io/JoDFD
+v4.14.6 AND HIGHER WILL #FORCEFULLY RECOMMEND# PHP-FPM (FastCGI) v7.2 OR HIGHER. This warning can be disabled in the developer settings in config.php as of v4.14.7. If you auto-installed, you can auto-upgrade if you FULLY re-install EVERYTHING with the latest auto-install script: https://tinyurl.com/install-crypto-tracker
 
 v4.14.3 HAS MAJOR OVERHAULS TO LIGHT CHART (1W / 1M / ETC) SCALING OPTIMIZATIONS, WHICH MAY SKEW A FEW (NOT MANY THOUGH) CHART TIME INTERVALS #INITIALLY IF YOU ARE UPGRADING FROM A PREVIOUS VERSION# (BUT WILL RETURN TO NORMAL IMMEDIATELY AFTER THE FIRST NEW DATA POINT #AFTER# UPGRADING)
 
@@ -3925,7 +3925,7 @@ IMPORTANT UPGRADE NOTES:
 
 v4.14.8 AND HIGHER FIXES SYSTEM STATS LIGHT CHARTS NOT UPDATING IN A TIMELY MANNER. You may need to delete you system stats light chart directory to force a light chart rebuild (from archival data) at: /cache/charts/system/light/
 
-v4.14.6 AND HIGHER WILL #FORCEFULLY RECOMMEND# PHP-FPM (FastCGI) v7.2 OR HIGHER. This warning can be disabled in the developer settings in config.php as of v4.14.7. If you auto-installed, you can auto-upgrade if you FULLY re-install EVERYTHING with the latest auto-install script: https://git.io/JoDFD
+v4.14.6 AND HIGHER WILL #FORCEFULLY RECOMMEND# PHP-FPM (FastCGI) v7.2 OR HIGHER. This warning can be disabled in the developer settings in config.php as of v4.14.7. If you auto-installed, you can auto-upgrade if you FULLY re-install EVERYTHING with the latest auto-install script: https://tinyurl.com/install-crypto-tracker
 
 v4.14.3 HAS MAJOR OVERHAULS TO LIGHT CHART (1W / 1M / ETC) SCALING OPTIMIZATIONS, WHICH MAY SKEW A FEW (NOT MANY THOUGH) CHART TIME INTERVALS #INITIALLY IF YOU ARE UPGRADING FROM A PREVIOUS VERSION# (BUT WILL RETURN TO NORMAL IMMEDIATELY AFTER THE FIRST NEW DATA POINT #AFTER# UPGRADING)
 

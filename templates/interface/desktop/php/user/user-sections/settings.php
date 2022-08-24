@@ -19,7 +19,7 @@
           ?>
           	<p class='settings_sections'><b><?=$price_alert_type_text?> price alerts</b> are <i>enabled</i> in the configuration file (upon <?=$ct_conf['comms']['price_alert_thres']?>% or more <?=strtoupper($default_btc_prim_currency_pair)?> price change<?=( $ct_conf['comms']['price_alert_freq_max'] > 0 ? ' / max every ' . $ct_conf['comms']['price_alert_freq_max'] . ' hours per-alert' : '' )?><?=( $ct_conf['comms']['price_alert_min_vol'] > 0 ? ' / ' . $ct_conf['power']['btc_currency_mrkts'][$default_btc_prim_currency_pair] . number_format($ct_conf['comms']['price_alert_min_vol'], 0, '.', ',') . ' minumum volume filter enabled' : '' )?><?=( $ct_conf['power']['price_alert_fixed_reset'] > 0 ? ' / comparison price fixed-reset after ' . $ct_conf['power']['price_alert_fixed_reset'] . ' days' : '' )?>). 
           	
-          	<br /><i>Enable <a href='README.txt' target='_blank'>a cron job on your web server</a>, or this feature will not work AT ALL.</i> 
+          	<br /><i>Enable <a href='README.txt' target='_blank'>a cron job / scheduled task on your web server</a>, or this feature will not work AT ALL.</i> 
           	
           		<?=( isset($price_change_conf_alert) && $price_change_conf_alert != '' ? '<br />' . $price_change_conf_alert : '' )?>
           		
@@ -49,7 +49,7 @@
           ?>
           	<p class='settings_sections'><b>Emailing logs</b> is <i>enabled</i> in the configuration file (sent out every <?=$ct_conf['comms']['logs_email']?> days, log files purged every <?=$ct_conf['power']['logs_purge']?> days).
           	
-          	<br /><i>Enable <a href='README.txt' target='_blank'>a cron job on your web server</a>, or this feature will not work RELIABLY.</i> 
+          	<br /><i>Enable <a href='README.txt' target='_blank'>a cron job / scheduled task on your web server</a>, or this feature will not work RELIABLY.</i> 
           	
           		<?=( isset($logs_conf_alert) && $logs_conf_alert != '' ? '<br />' . $logs_conf_alert : '' )?>
           	
@@ -61,7 +61,7 @@
           ?>
           	<p class='settings_sections'><b>Chart Backups</b> are <i>enabled</i> in the configuration file (run every <?=$ct_conf['gen']['charts_backup_freq']?> days, purged after <?=$ct_conf['power']['backup_arch_del_old']?> days old).
           	
-          	<br /><i>Enable <a href='README.txt' target='_blank'>a cron job on your web server</a>, or this feature will not work AT ALL.</i> 
+          	<br /><i>Enable <a href='README.txt' target='_blank'>a cron job / scheduled task on your web server</a>, or this feature will not work AT ALL.</i> 
           	
           		<?=( isset($backuparchive_conf_alert) && $backuparchive_conf_alert != '' ? '<br />' . $backuparchive_conf_alert : '' )?>
           	
