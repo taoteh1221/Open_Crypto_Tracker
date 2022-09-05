@@ -476,6 +476,17 @@ ALWAYS TEST YOUR CODE, TO MAKE SURE IT DOESN'T CRASH THE APP.
 
 =========================================================================================================================================
 
+  About Open Crypto Tracker
+  
+-----------------------------------------------------------------------------------------------------------------------------------------
+
+Open Crypto Tracker (previously known as 'DFD Cryptocoin Values') has been in active development since August of 2014. The source code was released on github.com later in September of 2015, under the GPLv3 license. 
+	       
+The primary goal of this project is to provide a 100% FREE / Open Source cryptocurrency tracker to the crypto community, that 'just works' AND maintains a high level of user privacy / security. More information on project ethos and contributing to this project can be found in CONTRIBUTING.txt (in the app's main directory).
+
+
+=========================================================================================================================================
+
 
 
 

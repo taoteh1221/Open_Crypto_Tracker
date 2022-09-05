@@ -93,7 +93,7 @@
 	        </button>
 	      </h5>
 	    </div>
-	    <div id="collapse_<?=$accord_var?>" class="collapse" aria-labelledby="heading_<?=$accord_var?>"
+	    <div id="collapse_<?=$accord_var?>" class="faq_bg collapse" aria-labelledby="heading_<?=$accord_var?>"
 	      data-parent="#accordionHelp">
 	      <div class="card-body">
 
@@ -132,7 +132,7 @@ Automatic Setup For 'Server Edition' With Debian / Ubuntu / DietPi OS / Raspberr
 	        </button>
 	      </h5>
 	    </div>
-	    <div id="collapse_<?=$accord_var?>" class="collapse" aria-labelledby="heading_<?=$accord_var?>"
+	    <div id="collapse_<?=$accord_var?>" class="faq_bg collapse" aria-labelledby="heading_<?=$accord_var?>"
 	      data-parent="#accordionHelp">
 	      <div class="card-body">
 	      
@@ -193,7 +193,7 @@ SEE <a href='https://github.com/taoteh1221/Open_Crypto_Tracker/tree/main/DOCUMEN
 	        </button>
 	      </h5>
 	    </div>
-	    <div id="collapse_<?=$accord_var?>" class="collapse" aria-labelledby="heading_<?=$accord_var?>"
+	    <div id="collapse_<?=$accord_var?>" class="faq_bg collapse" aria-labelledby="heading_<?=$accord_var?>"
 	      data-parent="#accordionHelp">
 	      <div class="card-body">
 	      
@@ -235,7 +235,7 @@ Setting Up Price Charts And Email / Text / Telegram / Alexa Price Alerts
 	        </button>
 	      </h5>
 	    </div>
-	    <div id="collapse_<?=$accord_var?>" class="collapse" aria-labelledby="heading_<?=$accord_var?>"
+	    <div id="collapse_<?=$accord_var?>" class="faq_bg collapse" aria-labelledby="heading_<?=$accord_var?>"
 	      data-parent="#accordionHelp">
 	      <div class="card-body">
 	      
@@ -316,7 +316,7 @@ MAKE SURE YOU ONLY USE EITHER /etc/cron.d/, or 'crontab -e', NOT BOTH...ANY OLD 
 	        </button>
 	      </h5>
 	    </div>
-	    <div id="collapse_<?=$accord_var?>" class="collapse" aria-labelledby="heading_<?=$accord_var?>"
+	    <div id="collapse_<?=$accord_var?>" class="faq_bg collapse" aria-labelledby="heading_<?=$accord_var?>"
 	      data-parent="#accordionHelp">
 	      <div class="card-body">
 	      
@@ -460,7 +460,7 @@ Ethereum ICO subtoken support (pre-exchange listing) has been built in (values a
 	        </button>
 	      </h5>
 	    </div>
-	    <div id="collapse_<?=$accord_var?>" class="collapse" aria-labelledby="heading_<?=$accord_var?>"
+	    <div id="collapse_<?=$accord_var?>" class="faq_bg collapse" aria-labelledby="heading_<?=$accord_var?>"
 	      data-parent="#accordionHelp">
 	      <div class="card-body">
 	      
@@ -498,7 +498,7 @@ Ethereum ICO subtoken support (pre-exchange listing) has been built in (values a
 	        </button>
 	      </h5>
 	    </div>
-	    <div id="collapse_<?=$accord_var?>" class="collapse" aria-labelledby="heading_<?=$accord_var?>"
+	    <div id="collapse_<?=$accord_var?>" class="faq_bg collapse" aria-labelledby="heading_<?=$accord_var?>"
 	      data-parent="#accordionHelp">
 	      <div class="card-body">
 	      
@@ -528,7 +528,7 @@ Ethereum ICO subtoken support (pre-exchange listing) has been built in (values a
 	        </button>
 	      </h5>
 	    </div>
-	    <div id="collapse_<?=$accord_var?>" class="collapse" aria-labelledby="heading_<?=$accord_var?>"
+	    <div id="collapse_<?=$accord_var?>" class="faq_bg collapse" aria-labelledby="heading_<?=$accord_var?>"
 	      data-parent="#accordionHelp">
 	      <div class="card-body">
 	      
@@ -567,7 +567,7 @@ SMTP email sending is REQUIRED if you are running this app on a home network, or
 	        </button>
 	      </h5>
 	    </div>
-	    <div id="collapse_<?=$accord_var?>" class="collapse" aria-labelledby="heading_<?=$accord_var?>"
+	    <div id="collapse_<?=$accord_var?>" class="faq_bg collapse" aria-labelledby="heading_<?=$accord_var?>"
 	      data-parent="#accordionHelp">
 	      <div class="card-body">
 	      
@@ -597,7 +597,7 @@ SMTP email sending is REQUIRED if you are running this app on a home network, or
 	        </button>
 	      </h5>
 	    </div>
-	    <div id="collapse_<?=$accord_var?>" class="collapse" aria-labelledby="heading_<?=$accord_var?>"
+	    <div id="collapse_<?=$accord_var?>" class="faq_bg collapse" aria-labelledby="heading_<?=$accord_var?>"
 	      data-parent="#accordionHelp">
 	      <div class="card-body">
 	      
@@ -625,7 +625,7 @@ SMTP email sending is REQUIRED if you are running this app on a home network, or
 	        </button>
 	      </h5>
 	    </div>
-	    <div id="collapse_<?=$accord_var?>" class="collapse" aria-labelledby="heading_<?=$accord_var?>"
+	    <div id="collapse_<?=$accord_var?>" class="faq_bg collapse" aria-labelledby="heading_<?=$accord_var?>"
 	      data-parent="#accordionHelp">
 	      <div class="card-body">
 	      
@@ -664,7 +664,7 @@ Running a google search for "set permanently ulimit -n linux", you'll find tons 
 	        </button>
 	      </h5>
 	    </div>
-	    <div id="collapse_<?=$accord_var?>" class="collapse" aria-labelledby="heading_<?=$accord_var?>"
+	    <div id="collapse_<?=$accord_var?>" class="faq_bg collapse" aria-labelledby="heading_<?=$accord_var?>"
 	      data-parent="#accordionHelp">
 	      <div class="card-body">
 	      
@@ -695,7 +695,7 @@ Running a google search for "set permanently ulimit -n linux", you'll find tons 
 	        </button>
 	      </h5>
 	    </div>
-	    <div id="collapse_<?=$accord_var?>" class="collapse" aria-labelledby="heading_<?=$accord_var?>"
+	    <div id="collapse_<?=$accord_var?>" class="faq_bg collapse" aria-labelledby="heading_<?=$accord_var?>"
 	      data-parent="#accordionHelp">
 	      <div class="card-body">
 	      
@@ -723,7 +723,7 @@ Running a google search for "set permanently ulimit -n linux", you'll find tons 
 	        </button>
 	      </h5>
 	    </div>
-	    <div id="collapse_<?=$accord_var?>" class="collapse" aria-labelledby="heading_<?=$accord_var?>"
+	    <div id="collapse_<?=$accord_var?>" class="faq_bg collapse" aria-labelledby="heading_<?=$accord_var?>"
 	      data-parent="#accordionHelp">
 	      <div class="card-body">
 	      
@@ -910,6 +910,47 @@ CRON-DESIGNATED PLUGINS (PLUGINS FLAGGED TO RUN DURING CRON JOBS) DO RUN #LAST# 
 	      </div>
 	    </div>
 	  </div>
+	  
+	
+	<?php
+	$accord_var = 'about';
+	?>
+	
+	  <div class="card z-depth-0 bordered">
+	    <div class="card-header" id="heading_<?=$accord_var?>">
+	      <h5 class="mb-0">
+	        <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapse_<?=$accord_var?>"
+	          aria-expanded="false" aria-controls="collapse_<?=$accord_var?>">
+	          
+	          About Open Crypto Tracker
+	          
+	        </button>
+	      </h5>
+	    </div>
+	    <div id="collapse_<?=$accord_var?>" class="faq_bg collapse" aria-labelledby="heading_<?=$accord_var?>"
+	      data-parent="#accordionHelp">
+	      <div class="card-body">
+	      
+	         
+	       <div style='float:left; position: relative; padding-right: 20px; padding-bottom: 20px;'>
+	       <a href="https://twitter.com/taoteh1221/status/1562521606895050752" target="_blank"><img src='templates/interface/media/images/twitter-1562521606895050752.jpg' style='display: block;' width='425' class='image_border' alt='' /></a>
+	       </div>
+	      
+	         
+	       <div style=''>
+	       
+	       Open Crypto Tracker (previously known as 'DFD Cryptocoin Values') has been in active development since August of 2014. The source code was <a href='https://github.com/taoteh1221/Open_Crypto_Tracker' target='_blank'>released on github.com</a> later in September of 2015, under the GPLv3 license. 
+	       
+	       <br /><br />The primary goal of this project is to provide a 100% FREE / Open Source cryptocurrency tracker to the crypto community, that 'just works' AND maintains a high level of user privacy / security. More information on project ethos and contributing to this project can be found in <a href='CONTRIBUTING.txt' target='_blank'>CONTRIBUTING.txt</a> (in the app's main directory).
+	       
+	       </div>
+	        
+	        
+	      </div>
+	    </div>
+	  </div>
+	  
+	
 	  
 	  
 	  

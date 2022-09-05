@@ -219,7 +219,7 @@ border-top: 2px solid black;
 }
 
 
-.card-body {
+.card-body, .faq_bg {
     color: #000 !important;
     background: #fff !important;
 }

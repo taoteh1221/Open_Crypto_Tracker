@@ -224,7 +224,7 @@ border-top: 2px solid white;
 }
 
 
-.card-body {
+.card-body, .faq_bg {
     color: #fff !important;
     background: #4f4f4f !important;
 }
