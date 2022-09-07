@@ -46,7 +46,7 @@
 	        
 	        <span class='bitcoin'>Discord:</span> <a href='https://discord.gg/WZVK2nm' target='_blank'>https://discord.gg/WZVK2nm</a><br /><br />
 	        
-	        <span class='bitcoin'>Telegram:</span> <a href='https://t.me/joinchat/Oo2XZRS2HsOXSMGejgSO0A' target='_blank'>https://t.me/joinchat/Oo2XZRS2HsOXSMGejgSO0A</a><br /><br />
+	        <span class='bitcoin'>Telegram:</span> <a href='https://t.me/dragonfrugal' target='_blank'>https://t.me/dragonfrugal</a><br /><br />
 	        
 	        <span class='bitcoin'>Twitter:</span> <a href='https://twitter.com/taoteh1221' target='_blank'>https://twitter.com/taoteh1221</a><br /><br />
 	        

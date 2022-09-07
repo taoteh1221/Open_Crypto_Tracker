@@ -20,7 +20,7 @@ Issue Reporting (Features / Issues / Help): https://github.com/taoteh1221/Open_C
 
 Discord: https://discord.gg/WZVK2nm
 
-Telegram: https://t.me/joinchat/Oo2XZRS2HsOXSMGejgSO0A
+Telegram: https://t.me/dragonfrugal
 
 Twitter: https://twitter.com/taoteh1221
 
