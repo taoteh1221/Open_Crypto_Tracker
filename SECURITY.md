@@ -9,4 +9,4 @@
 
 ## Reporting a Vulnerability
 
-Please DON'T report security vulnerabilities DIRECTLY on github, telegram, or in discord! 😱  Please either request a DM on telegram / discord, or on Twitter / Skype (to user: taoteh1221).
+Please DON'T report security vulnerabilities PUBLICLY on github, telegram, or in discord! 😱  Please either request a DM on discord, or on Twitter / Skype / Telegram (to user: taoteh1221).
