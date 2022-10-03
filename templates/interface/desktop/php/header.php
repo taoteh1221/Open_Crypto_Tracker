@@ -59,6 +59,8 @@ header('Access-Control-Allow-Origin: ' . $app_host_address);
 	var reload_recheck; // Default
     
     window.is_admin = false; // Default
+    
+    window.form_submit_queued = false; // Default
 	
 	window.reload_countdown = false; // Default
 	

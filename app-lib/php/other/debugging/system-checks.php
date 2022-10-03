@@ -132,11 +132,11 @@ if ( $runtime_mode != 'cron' && $app_edition == 'server' ) {
 
 
 
-// Check htaccess security (checked once every 60 minutes maximum)
-if ( $ct_cache->update_cache($base_dir . '/cache/events/scan-htaccess-security.dat', 60) == true && $app_edition == 'server' ) {
+// Check htaccess security (checked once every 120 minutes maximum)
+if ( $ct_cache->update_cache($base_dir . '/cache/events/scan-htaccess-security.dat', 120) == true && $app_edition == 'server' ) {
 	
 	
-	// Only run the check if the base url is set (runs every ~10 minutes, so we'll be checking again anyway, and it should set AFTER first UI run)
+	// Only run the check if the base url is set (since we'll be checking again anyway, and it should set AFTER first UI run)
 	if ( trim($base_url) != '' ) {
 		
 	// HTTPS CHECK ONLY (for security if htaccess user/pass activated), don't cache API data
@@ -154,7 +154,7 @@ if ( $ct_cache->update_cache($base_dir . '/cache/events/scan-htaccess-security.d
 	
 		if ( preg_match("/TEST_HTACCESS_SECURITY_123_TEST/i", $htaccess_cache_test)
 		|| preg_match("/TEST_HTACCESS_SECURITY_123_TEST/i", $htaccess_plugins_test) ) {
-		$system_error = "HTTP server 'htaccess' support has NOT been enabled on this web server for the 'cache' and 'plugins' sub-directories. 'htaccess' support is required to SAFELY run this application (htaccess security checks are throttled to a maximum of once every hour). <br /><br />";
+		$system_error = "HTTP server 'htaccess' support has NOT been enabled on this web server for the 'cache' and 'plugins' sub-directories. 'htaccess' support is required to SAFELY run this application (htaccess security checks are throttled to a maximum of once every 2 hours). <br /><br />";
 		$ct_gen->log('system_error', $system_error);
 		echo $system_error;
 		$force_exit = 1;

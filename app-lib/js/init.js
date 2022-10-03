@@ -126,6 +126,8 @@ start_utc_time();
     // (does NOT affect a standard javascript ELEMENT.submit() call)
     $("form").submit(function(event) { 
     
+    window.form_submit_queued = true;
+    
         // We have to run app_reloading_check() here, 
         if ( app_reloading_check(1) == 'no' ) {
         event.preventDefault();
@@ -241,9 +243,16 @@ start_utc_time();
         
         // If background tasks are still running, force a browser confirmation to refresh / leave / close
         if ( window.background_tasks_status == 'wait' ) {
+            
+            if ( window.form_submit_queued == true ) {
+            window.form_submit_queued = false;
+            }
+            
         $("#background_loading_span").html("Please wait, finishing background tasks...").css("color", "#ff4747", "important");
+        
         event.preventDefault();
         e.returnValue = '';
+        
         }
         
     }); 

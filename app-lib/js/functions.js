@@ -185,6 +185,7 @@ $(topElement).addClass(CssClass);
             
 }
 
+
 /////////////////////////////////////////////////////////////
 
 
@@ -424,15 +425,15 @@ return false;
 /////////////////////////////////////////////////////////////
 
 
-function app_reloading_check(data_submission=0) {
+function app_reloading_check(form_submission=0) {
         
     // Disable form updating in privacy mode
-    if ( getCookie('priv_toggle') == 'on' && data_submission == 1 ) {
+    if ( getCookie('priv_toggle') == 'on' && form_submission == 1 ) {
     alert('Submitting data is not allowed in privacy mode.');
     return 'no'; // WE NORMALLY DON'T RETURN DATA HERE BECAUSE WE ARE REFRESHING OR SUBMITTING, SO WE CANNOT USE RETURN FALSE RELIABLY
     }
     else {
-    app_reload(data_submission);
+    app_reload(form_submission);
     }
 
 }
@@ -747,7 +748,7 @@ setTimeout(emulated_cron, 60000); // Re-check every minute (in milliseconds...cr
 /////////////////////////////////////////////////////////////
 
 
-function app_reload(data_submission) {
+function app_reload(form_submission) {
     
     
     // Wait if anything is running in the background
@@ -756,7 +757,7 @@ function app_reload(data_submission) {
         
     $("#background_loading_span").html("Please wait, finishing background tasks...").css("color", "#ff4747", "important");
             
-    reload_recheck = setTimeout(app_reload, 1500, data_submission);  // Re-check every 1.5 seconds (in milliseconds)
+    reload_recheck = setTimeout(app_reload, 1500, form_submission);  // Re-check every 1.5 seconds (in milliseconds)
     
     return false;
     
@@ -764,28 +765,33 @@ function app_reload(data_submission) {
     // ADD ANY LOGIC HERE, TO RUN BEFORE THE APP RELOADS
     else if ( window.background_tasks_status == 'done' ) {
     
-    $("#app_loading").show(250, 'linear'); // 0.25 seconds
-    $("#app_loading_span").html("Reloading...");
-        
-    // Transition effects
-    $("#content_wrapper").hide(250, 'linear'); // 0.25 seconds
-        
-    // Close any open modal windows
-    $(".show_chart_settings").modaal("close");
-    $(".show_feed_settings").modaal("close");
-    $(".show_portfolio_stats").modaal("close");
-    $(".show_system_stats").modaal("close");
-    $(".show_access_stats").modaal("close");
-    $(".show_logs").modaal("close");
-    
     clearTimeout(reload_recheck);
     
-    //console.log('data_submission=' + data_submission);
     
-        // Reload, ONLY IF WE ARE NOT ALREADY RELOADING VIA SUBMITTING DATA (so we don't cancel data submission!)
-        if ( data_submission == 0 ) {
+        if ( form_submission == 0 || window.form_submit_queued == true ) {
+            
+        $("#app_loading").show(250, 'linear'); // 0.25 seconds
+        $("#app_loading_span").html("Reloading...");
+            
+        // Transition effects
+        $("#content_wrapper").hide(250, 'linear'); // 0.25 seconds
+            
+        // Close any open modal windows
+        $(".show_chart_settings").modaal("close");
+        $(".show_feed_settings").modaal("close");
+        $(".show_portfolio_stats").modaal("close");
+        $(".show_system_stats").modaal("close");
+        $(".show_access_stats").modaal("close");
+        $(".show_logs").modaal("close");
+        
+        }
+    
+    
+        // Reload, ONLY IF WE ARE NOT #ALREADY RELOADING# VIA SUBMITTING DATA (so we don't cancel data submission!)
+        if ( form_submission == 0 ) {
         location.reload(true);
         }
+    
     
     }
     
