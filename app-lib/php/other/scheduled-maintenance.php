@@ -100,7 +100,7 @@ $logs_cache_cleanup = array(
 							$base_dir . '/cache/logs/error/external_data',
 							);
 									
-$ct_cache->delete_old_files($logs_cache_cleanup, $ct_conf['power']['logs_purge'], 'dat'); // Purge app LOGS cache files older than $ct_conf['power']['logs_purge'] day(s)
+$ct_cache->delete_old_files($logs_cache_cleanup, $ct_conf['power']['logs_purge'], 'log'); // Purge app LOG cache files older than $ct_conf['power']['logs_purge'] day(s)
 
 
     // Purge any error logging in the desktop version every 6 hours

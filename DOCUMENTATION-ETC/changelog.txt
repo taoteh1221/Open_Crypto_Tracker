@@ -5718,6 +5718,8 @@ v6.00.2 AND HIGHER RESETS LIGHT (TIME PERIOD) CHARTS FROM ARCHIVAL DATA, ONE-TIM
 
 -BUG FIX: Fixed edge-case when cancelling updating of user data, while background tasks are still running (no longer hangs on 'reloading...' notice)
 
+-BUG FIX: Fixed removing old / stale error and debugging log files saved in /cache/logs/error/ and /cache/logs/debug/
+
 -Miscellaneous user experience improvements
 
 -Cleanup in default demo config

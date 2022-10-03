@@ -141,7 +141,7 @@ var $ct_array1 = array();
            
             if ( is_file($file) ) {
               
-              if ( time() - filemtime($file) >= 60 * 60 * 24 * $days ) {
+              if ( time() - filemtime($file) >= (60 * 60 * 24 * $days) ) {
                
               $result = unlink($file);
               
