@@ -3454,7 +3454,6 @@ $ct_conf['assets'] = array(
                                     'btc' => array(
                                         'binance' => 'HIVEBTC',
                                         'bittrex' => 'HIVE-BTC',
-                                        'huobi' => 'hivebtc',
                                         'hotbit' => 'HIVE_BTC',
                                                     ),
 
