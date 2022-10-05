@@ -328,7 +328,7 @@ var $ct_array1 = array();
    // Credit: https://www.alexkras.com/simple-rss-reader-in-85-lines-of-php/
    function rss($url, $theme_selected, $feed_size, $cache_only=false, $email_only=false) {
       
-   global $base_dir, $ct_conf, $ct_var, $ct_cache, $ct_gen, $fetched_feeds, $runtime_mode;
+   global $base_dir, $ct_conf, $ct_var, $ct_cache, $ct_gen, $fetched_feeds, $precache_feeds_count, $runtime_mode;
    
    
       if ( !isset($_SESSION[$fetched_feeds]['all']) ) {
@@ -338,6 +338,10 @@ var $ct_array1 = array();
       // to avoid overloading low resource devices (raspi / pine64 / etc) and creating long feed load times
       elseif ( $_SESSION[$fetched_feeds]['all'] >= $ct_conf['dev']['news_feed_batched_max'] && $cache_only == false && $runtime_mode != 'cron' ) {
       return '<span class="red">Live data fetching limit reached (' . $_SESSION[$fetched_feeds]['all'] . ').</span>';
+      }
+      // Avoid overloading low power devices with the precache hard limit
+      elseif ( $cache_only == true && $precache_feeds_count >= $ct_conf['dev']['news_feed_cache_hard_limit'] ) {
+      return false;
       }
       
    
@@ -594,6 +598,10 @@ var $ct_array1 = array();
       $html_hidden .= '</ul>';
       $show_more_less = "<p><a id='".$rand_id."' href='javascript: show_more(\"".md5($url)."\", \"".$rand_id."\");' style='font-weight: bold;' title='Show more / less RSS feed entries.'>Show More</a></p>";
          
+      }
+      // IF WE ARE PRECACHING, COUNT TO STOP AT THE MAX LIMIT
+      else {
+      $precache_feeds_count = $precache_feeds_count + 1;
       }
       
       

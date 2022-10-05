@@ -5732,6 +5732,19 @@ v6.00.2 AND HIGHER RESETS LIGHT (TIME PERIOD) CHARTS FROM ARCHIVAL DATA, ONE-TIM
 
 
 
+-------------------------------------------------------------------
+6.00.5:
+
+-BUG FIX: Fixed background tasks overloading low power devices on fresh installations
+
+-Miscellaneous user experience improvements
+
+v6.00.2 AND HIGHER RESETS LIGHT (TIME PERIOD) CHARTS FROM ARCHIVAL DATA, ONE-TIME DURING UPGRADES FROM V6.00.1 OR LOWER.
+
+-------------------------------------------------------------------
+
+
+
 
 
 

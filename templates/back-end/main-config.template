@@ -1163,12 +1163,6 @@ $ct_conf['power']['news_feed'] = array(
         
         
         				array(
-            			"title" => "Blog - Terra Money (algorithmic stablecoin network)",
-            			"url" => "https://medium.com/feed/terra-money"
-        						),
-        
-        
-        				array(
             			"title" => "Blog - ZkSync (Ethereum Layer 2 Network)",
             			"url" => "https://medium.com/feed/matter-labs"
         						),
@@ -1195,6 +1189,12 @@ $ct_conf['power']['news_feed'] = array(
         				array(
             			"title" => "News - What's New In Eth2",
             			"url" => "http://benjaminion.xyz/newineth2/rss_feed.xml"
+        						),
+    
+    
+        				array(
+            			"title" => "Newsletter - Alpha Please",
+            			"url" => "https://alphapls.substack.com/feed"
         						),
     					
     					
@@ -1549,11 +1549,18 @@ $ct_conf['dev']['news_feed_batched_max'] = 20; // (default = 20), ADJUST WITH CA
 // Randomly cache each RSS feed between the minimum and maximum MINUTES set here (so they don't refresh all at once, for faster runtimes)
 // THE WIDER THE GAP BETWEEN THE NUMBERS, MORE SPLIT UP / FASTER THE FEEDS WILL LOAD IN THE INTERFACE #CONSISTANTLY#
 $ct_conf['dev']['news_feed_cache_min_max'] = '90,180'; // 'min,max' (default = '90,180'), ADJUST WITH CARE!!!
+////
+// Maximum number of news feeds allowed to be pre-cached during background tasks (to avoid overloading low power devices)
+$ct_conf['dev']['news_feed_cache_hard_limit'] = 20; // (default = 20), ADJUST WITH CARE!!!
 
 
 // Randomly rebuild the 'ALL' chart between the minimum and maximum HOURS set here  (so they don't refresh all at once, for faster runtimes)
 // LARGER AVERAGE TIME SPREAD IS EASIER ON LOW POWER DEVICES (TO ONLY UPDATE A FEW AT A TIME), FOR A MORE CONSISTANT CRON JOB RUNTIME SPEED!!
 $ct_conf['dev']['all_chart_rebuild_min_max'] = '4,12'; // 'min,max' (default = '4,12'), ADJUST WITH CARE!!!
+////
+// Maximum number of light chart FULL BUILDS / REBUILDS ('all' chart OR reset / new) allowed during background tasks
+// (to avoid overloading low power devices)
+$ct_conf['dev']['light_chart_rebuild_hard_limit'] = 20; // (default = 20), ADJUST WITH CARE!!!
 
 
 // If you want to override the default user agent string (sent with API requests, etc)
@@ -1582,7 +1589,7 @@ $ct_conf['dev']['ui_max_exec_time'] = 250; // (default = 250)
 $ct_conf['dev']['ajax_max_exec_time'] = 250; // (default = 250)
 ////
 // Maximum execution time for cron job runtime in seconds (how long it's allowed to run before automatically killing the process)
-$ct_conf['dev']['cron_max_exec_time'] = 500; // (default = 500)
+$ct_conf['dev']['cron_max_exec_time'] = 800; // (default = 800)
 ////
 // Maximum execution time for internal API runtime in seconds (how long it's allowed to run before automatically killing the process)
 $ct_conf['dev']['int_api_max_exec_time'] = 60; // (default = 60)

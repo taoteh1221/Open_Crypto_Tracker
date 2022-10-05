@@ -921,6 +921,12 @@ EOF
         
 			echo " "
 			echo "${green}PHP web server configuration is complete.${reset}"
+
+            echo "${red}You MUST RESTART YOUR DEVICE (#after# you finish running this auto-install script) TO ALLOW THE SYSTEM TO PROPERLY RUN THE PHP WEB SERVER CONFIGURATIONS DONE (or you may get configuration errors), by running this command:"
+            echo " "
+            echo "sudo reboot"
+            echo "${reset} "
+        
         
         	######################################
          
@@ -1034,7 +1040,7 @@ select opt in $OPTIONS; do
 				sleep 2
 				
 				echo " "
-				echo "Extracting download archive, please wait..."
+				echo "${cyan}Extracting download archive, please wait...${reset}"
 				echo " "
 				
 				bsdtar --strip-components=1 -xvf DFD-Cryptocoin-Values-TEMP.zip
@@ -1265,10 +1271,10 @@ select opt in $OPTIONS; do
             
             
 				echo " "
-            echo "If you want to use price alerts or charts, you'll need to setup a cron job for that."
+            echo "If you want to use price alerts or charts, you'll need to setup a background task (cron job) for that."
             echo " "
             
-            echo "${yellow}Select 1 or 2 to choose whether to setup a cron job for price alerts / charts, or skip it.${reset}"
+            echo "${yellow}Select 1 or 2 to choose whether to setup a background task (cron job) for price alerts / charts, or skip it.${reset}"
             echo " "
             
             OPTIONS="auto_setup_cron skip"
@@ -1346,7 +1352,7 @@ select opt in $OPTIONS; do
                       
                     
                     echo " "
-                    echo "${green}A cron job has been setup for user '$APP_USER',"
+                    echo "${green}A background task (cron job) has been setup for user '$APP_USER',"
                     echo "as a command in /etc/cron.d/cryptocoin:"
                     echo " "
                     echo "$CRONJOB"
@@ -1524,7 +1530,7 @@ echo "${reset} "
     
     if [ "$CRON_SETUP" = "1" ]; then
     
-    echo "${green}A cron job has been setup for user '$APP_USER', as a command in /etc/cron.d/cryptocoin:"
+    echo "${green}A background task (cron job) has been setup for user '$APP_USER', as a command in /etc/cron.d/cryptocoin:"
 	echo " "
     echo "$CRONJOB"
     echo "${reset} "

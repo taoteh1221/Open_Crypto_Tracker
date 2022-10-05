@@ -89,6 +89,10 @@ $remote_ip = ( isset($_SERVER['REMOTE_ADDR']) ? $_SERVER['REMOTE_ADDR'] : 'local
 
 $fetched_feeds = 'fetched_feeds_' . $runtime_mode; // Unique feed fetch telemetry SESSION KEY (so related runtime BROWSER SESSION logic never accidentally clashes)
 
+$precache_feeds_count = 0; 
+
+$light_chart_rebuild_count = 0; 
+
 // If upgrade check enabled / cached var set, set the runtime var for any configured alerts
 $upgrade_check_latest_version = trim( file_get_contents('cache/vars/upgrade_check_latest_version.dat') );
 
