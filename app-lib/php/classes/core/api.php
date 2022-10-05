@@ -352,8 +352,14 @@ var $ct_array1 = array();
    $rss_feed_cache_time = rand($news_feed_cache_min_max[0], $news_feed_cache_min_max[1]);
                                     
          
-      // If we will be updating the feed
+      // If we will be updating the feed (live data will be retreived)
       if ( $ct_cache->update_cache($base_dir . '/cache/secured/external_data/' . md5($url) . '.dat', $rss_feed_cache_time) == true ) {
+          
+          
+          // IF WE ARE PRECACHING, COUNT TO STOP AT THE HARD LIMIT
+          if ( $cache_only == true ) {
+          $precache_feeds_count = $precache_feeds_count + 1;
+          }
       
       
       $_SESSION[$fetched_feeds]['all'] = $_SESSION[$fetched_feeds]['all'] + 1; // Mark as a fetched feed, since it's going to update
@@ -598,10 +604,6 @@ var $ct_array1 = array();
       $html_hidden .= '</ul>';
       $show_more_less = "<p><a id='".$rand_id."' href='javascript: show_more(\"".md5($url)."\", \"".$rand_id."\");' style='font-weight: bold;' title='Show more / less RSS feed entries.'>Show More</a></p>";
          
-      }
-      // IF WE ARE PRECACHING, COUNT TO STOP AT THE MAX LIMIT
-      else {
-      $precache_feeds_count = $precache_feeds_count + 1;
       }
       
       
