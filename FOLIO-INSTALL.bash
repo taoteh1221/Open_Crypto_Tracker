@@ -921,6 +921,7 @@ EOF
         
 			echo " "
 			echo "${green}PHP web server configuration is complete.${reset}"
+        	echo " "
 
             echo "${red}You MUST RESTART YOUR DEVICE (#after# you finish running this auto-install script) TO ALLOW THE SYSTEM TO PROPERLY RUN THE PHP WEB SERVER CONFIGURATIONS DONE (or you may get configuration errors), by running this command:"
             echo " "
@@ -976,6 +977,7 @@ echo "(Server Edition) from Github.com, and install / configure it?"
 echo " "
 
 echo "${yellow}Select 1, 2, or 3 to choose whether to auto-install / remove Open Crypto Tracker (Server Edition), or skip.${reset}"
+echo " "
 echo "${red}(!WARNING!: REMOVING Open Crypto Tracker WILL DELETE *EVERYTHING* IN $DOC_ROOT !!)${reset}"
 echo " "
 
