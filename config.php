@@ -1543,7 +1543,7 @@ $ct_conf['dev']['news_feed_precache_hard_limit'] = 35; // (default = 35), ADJUST
 // LARGER AVERAGE TIME SPREAD IS EASIER ON LOW POWER DEVICES (TO ONLY UPDATE A FEW AT A TIME), FOR A MORE CONSISTANT CRON JOB RUNTIME SPEED!!
 $ct_conf['dev']['all_chart_rebuild_min_max'] = '4,12'; // 'min,max' (default = '4,12'), ADJUST WITH CARE!!!
 ////
-// Maximum number of light chart FULL BUILDS / REBUILDS ('all' chart OR reset / new) allowed during background tasks
+// Maximum number of light chart NEW BUILDS (only reset / new, NOT the 'all' chart rebuilds) allowed during background tasks
 // (to avoid overloading low power devices)
 $ct_conf['dev']['light_chart_first_build_hard_limit'] = 20; // (default = 20), ADJUST WITH CARE!!!
 
