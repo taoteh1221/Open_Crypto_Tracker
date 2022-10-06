@@ -91,7 +91,7 @@ $fetched_feeds = 'fetched_feeds_' . $runtime_mode; // Unique feed fetch telemetr
 
 $precache_feeds_count = 0; 
 
-$light_chart_rebuild_count = 0; 
+$light_chart_first_build_count = 0; 
 
 // If upgrade check enabled / cached var set, set the runtime var for any configured alerts
 $upgrade_check_latest_version = trim( file_get_contents('cache/vars/upgrade_check_latest_version.dat') );

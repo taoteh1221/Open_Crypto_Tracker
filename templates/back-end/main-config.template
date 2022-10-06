@@ -1536,7 +1536,7 @@ $ct_conf['dev']['news_feed_batched_max'] = 20; // (default = 20), ADJUST WITH CA
 $ct_conf['dev']['news_feed_cache_min_max'] = '90,180'; // 'min,max' (default = '90,180'), ADJUST WITH CARE!!!
 ////
 // Maximum number of news feeds allowed to be pre-cached during background tasks (to avoid overloading low power devices)
-$ct_conf['dev']['news_feed_cache_hard_limit'] = 25; // (default = 25), ADJUST WITH CARE!!!
+$ct_conf['dev']['news_feed_precache_hard_limit'] = 35; // (default = 35), ADJUST WITH CARE!!!
 
 
 // Randomly rebuild the 'ALL' chart between the minimum and maximum HOURS set here  (so they don't refresh all at once, for faster runtimes)
@@ -1545,7 +1545,7 @@ $ct_conf['dev']['all_chart_rebuild_min_max'] = '4,12'; // 'min,max' (default = '
 ////
 // Maximum number of light chart FULL BUILDS / REBUILDS ('all' chart OR reset / new) allowed during background tasks
 // (to avoid overloading low power devices)
-$ct_conf['dev']['light_chart_rebuild_hard_limit'] = 15; // (default = 15), ADJUST WITH CARE!!!
+$ct_conf['dev']['light_chart_first_build_hard_limit'] = 20; // (default = 20), ADJUST WITH CARE!!!
 
 
 // If you want to override the default user agent string (sent with API requests, etc)

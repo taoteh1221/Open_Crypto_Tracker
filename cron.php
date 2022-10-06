@@ -48,7 +48,7 @@ $cron_run_lock_file = $base_dir . '/cache/events/emulated-cron-lock.dat';
     // (we don't want Desktop Editions to run multiple cron runtimes at the same time, if they are also
     // viewing in a regular browser on localhost port 22345, OR duplicates on Server Edition from taking
     // very long to finish running on low power hardware)
-    if ( $ct_cache->update_cache($cron_run_lock_file, ($ct_conf['dev']['cron_max_exec_time'] / 60) ) == true ) {
+    if ( $ct_cache->update_cache($cron_run_lock_file, ceil($ct_conf['dev']['cron_max_exec_time'] / 60) ) == true ) {
     
     // Re-save new file lock
     $ct_cache->save_file($cron_run_lock_file, $ct_gen->time_date_format(false, 'pretty_date_time') );

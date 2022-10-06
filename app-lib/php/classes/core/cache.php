@@ -757,7 +757,7 @@ var $ct_array1 = array();
   
   function update_light_chart($archive_path, $newest_arch_data=false, $days_span=1) {
   
-  global $ct_conf, $ct_var, $ct_gen, $base_dir, $light_chart_rebuild_count;
+  global $ct_conf, $ct_var, $ct_gen, $base_dir, $light_chart_first_build_count;
   
   $arch_data = array();
   $queued_arch_lines = array();
@@ -948,9 +948,13 @@ var $ct_array1 = array();
     ) {
     
       
-      // Avoid overloading low power devices with the full build / rebuild hard limit
-      if ( $light_chart_rebuild_count >= $ct_conf['dev']['light_chart_rebuild_hard_limit'] ) {
+      // Avoid overloading low power devices with the first build hard limit
+      if ( !$newest_light_timestamp && $light_chart_first_build_count >= $ct_conf['dev']['light_chart_first_build_hard_limit'] ) {
       return false;
+      }
+      // Count first builds, to enforce first build hard limit
+      elseif ( !$newest_light_timestamp ) {
+      $light_chart_first_build_count = $light_chart_first_build_count + 1;
       }
       
    
@@ -1018,8 +1022,6 @@ var $ct_array1 = array();
       $this->save_file($base_dir . '/cache/events/light_chart_rebuilds/all_days_chart_'.$light_path_hash.'.dat', $ct_gen->time_date_format(false, 'pretty_date_time') );
       }
     
-    
-    $light_chart_rebuild_count = $light_chart_rebuild_count + 1;
    
     }
     ////////////////////////////////////////////////////////////////////////////////////////////////

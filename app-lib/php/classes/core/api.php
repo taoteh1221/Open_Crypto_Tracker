@@ -340,7 +340,7 @@ var $ct_array1 = array();
       return '<span class="red">Live data fetching limit reached (' . $_SESSION[$fetched_feeds]['all'] . ').</span>';
       }
       // Avoid overloading low power devices with the precache hard limit
-      elseif ( $cache_only == true && $precache_feeds_count >= $ct_conf['dev']['news_feed_cache_hard_limit'] ) {
+      elseif ( $cache_only == true && $precache_feeds_count >= $ct_conf['dev']['news_feed_precache_hard_limit'] ) {
       return false;
       }
       
