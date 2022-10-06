@@ -951,27 +951,12 @@ $ct_conf['power']['mining_calculators'] = array(
 									'exchange_mrkt' => 'BTCUSDT', // Market pair name (for price data)
 									'measure_semantic' => 'difficulty',  // (difficulty, nethashrate, etc)
 									'block_reward' => 6.25, // Mining block reward (OPTIONAL, can be made dynamic with code, like below)
-									// EVERYTHING BELOW #MUST BE# updated in /app-lib/php/other/config/config-auto-adjust.php, since we run a cached config)
+									// EVERYTHING BELOW #MUST BE DYNAMICALLY# UPDATED IN:
+									// app-lib/php/other/calculators/mining/pow/dynamic-settings.php (so we can run a cached config)
 									'mining_time_formula' => 'PLACEHOLDER', // Mining time formula calculation (REQUIRED)
 									'height' => 'PLACEHOLDER', // Block height (OPTIONAL)
 									'difficulty' => 'PLACEHOLDER', // Mining network difficulty (OPTIONAL)
 									'other_network_data' => '', // Leave blank to skip (OPTIONAL)
-									),
-					
-					
-					// ETH
-					'eth' => array(
-									'name' => 'Ethereum', // Coin name
-									'symbol' => 'eth', // Coin symbol (lowercase)
-									'exchange_name' => 'binance', // Exchange name (for price data, lowercase)
-									'exchange_mrkt' => 'ETHBTC', // Market pair name (for price data)
-									'measure_semantic' => 'difficulty',  // (difficulty, nethashrate, etc)
-									'block_reward' => 2, // Mining block reward (OPTIONAL, can be made dynamic with code, like below)
-									// EVERYTHING BELOW #MUST BE# updated in /app-lib/php/other/config/config-auto-adjust.php, since we run a cached config)
-									'mining_time_formula' => 'PLACEHOLDER', // Mining time formula calculation (REQUIRED)
-									'height' => 'PLACEHOLDER', // Block height (OPTIONAL)
-									'difficulty' => 'PLACEHOLDER', // Mining network difficulty (OPTIONAL)
-									'other_network_data' => 'PLACEHOLDER', // Leave blank to skip (OPTIONAL)
 									),
 					
 					
