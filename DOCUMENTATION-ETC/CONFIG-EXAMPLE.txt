@@ -669,11 +669,11 @@ $ct_conf['power']['asset_mcap_chart_defaults'] = '700||10'; // 'chart_height||me
 
 // Highest allowed sensor value to scale vertical axis for, in the FIRST system information chart  (out of two)
 // (higher sensor data is moved into the second chart, to keep ranges easily readable between both charts...only used IF CRON JOB IS SETUP)
-$ct_conf['power']['sys_stats_first_chart_max_scale'] = 1; // (default = 1) 
+$ct_conf['power']['sys_stats_first_chart_max_scale'] = 2.5; // (default = 2.50) 
 ////
 // Highest allowed sensor value to scale vertical axis for, in the SECOND system information chart (out of two)
 // (to prevent anomaly results from scaling vertical axis TOO HIGH to read LESSER-VALUE sensor data...only used IF CRON JOB IS SETUP)
-$ct_conf['power']['sys_stats_second_chart_max_scale'] = 150; // (default = 150) 
+$ct_conf['power']['sys_stats_second_chart_max_scale'] = 250; // (default = 250) 
 
 																		
 // Fixed time interval RESET of cached comparison asset prices every X days (since last price reset / alert), compared with the current latest spot prices
