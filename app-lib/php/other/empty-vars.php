@@ -55,6 +55,8 @@ $proxies_checked = array();
 
 $telegram_user_data = array();
 
+$last_valid_chart_data = array();
+
 
 // Initial BLANK strings
 

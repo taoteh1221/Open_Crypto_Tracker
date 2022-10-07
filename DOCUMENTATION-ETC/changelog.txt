@@ -5737,6 +5737,8 @@ v6.00.2 AND HIGHER RESETS LIGHT (TIME PERIOD) CHARTS FROM ARCHIVAL DATA, ONE-TIM
 
 -BUG FIX: Fixed background tasks overloading low power devices on fresh installations
 
+-BUG FIX: Fixed edge case where system chart timestamps did not report correctly (if a 'NO_DATA' response ocurred in past data)
+
 -Cleanup and additions in default demo config
 
 -Miscellaneous user experience improvements

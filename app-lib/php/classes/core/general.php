@@ -3085,7 +3085,7 @@ var $ct_array = array();
    
    function chart_data($file, $chart_format, $start_timestamp=0) {
    
-   global $ct_conf, $ct_var, $default_btc_prim_currency_pair, $runtime_nonce, $runtime_data;
+   global $ct_conf, $ct_var, $default_btc_prim_currency_pair, $runtime_nonce, $runtime_data, $last_valid_chart_data;
    
    $data = array();
    
@@ -3120,36 +3120,71 @@ var $ct_array = array();
             
                 if ( trim($result[1]) != 'NO_DATA' ) {
                 $data['load_average_15_minutes'] .= trim($result[1]) . ',';
+                $last_valid_chart_data['load_average_15_minutes'] = $result[1];
+                }
+                // Just repeat any last valid data if available, so zingchart timestamps in GUI charts correctly
+                elseif ( isset($last_valid_chart_data['load_average_15_minutes']) ) {
+                $data['load_average_15_minutes'] .= trim($last_valid_chart_data['load_average_15_minutes']) . ',';
                 }
             
             
                 if ( trim($result[2]) != 'NO_DATA' ) {
                 $data['temperature_celsius'] .= trim($result[2]) . ',';
+                $last_valid_chart_data['temperature_celsius'] = $result[2];
+                }
+                // Just repeat any last valid data if available, so zingchart timestamps in GUI charts correctly
+                elseif ( isset($last_valid_chart_data['temperature_celsius']) ) {
+                $data['temperature_celsius'] .= trim($last_valid_chart_data['temperature_celsius']) . ',';
                 }
             
             
                 if ( trim($result[3]) != 'NO_DATA' ) {
                 $data['used_memory_gigabytes'] .= trim($result[3]) . ',';
+                $last_valid_chart_data['used_memory_gigabytes'] = $result[3];
+                }
+                // Just repeat any last valid data if available, so zingchart timestamps in GUI charts correctly
+                elseif ( isset($last_valid_chart_data['used_memory_gigabytes']) ) {
+                $data['used_memory_gigabytes'] .= trim($last_valid_chart_data['used_memory_gigabytes']) . ',';
                 }
             
             
                 if ( trim($result[4]) != 'NO_DATA' ) {
                 $data['used_memory_percentage'] .= trim($result[4]) . ',';
+                $last_valid_chart_data['used_memory_percentage'] = $result[4];
+                }
+                // Just repeat any last valid data if available, so zingchart timestamps in GUI charts correctly
+                elseif ( isset($last_valid_chart_data['used_memory_percentage']) ) {
+                $data['used_memory_percentage'] .= trim($last_valid_chart_data['used_memory_percentage']) . ',';
                 }
             
             
                 if ( trim($result[5]) != 'NO_DATA' ) {
                 $data['free_disk_space_terabytes'] .= trim($result[5]) . ',';
+                $last_valid_chart_data['free_disk_space_terabytes'] = $result[5];
+                }
+                // Just repeat any last valid data if available, so zingchart timestamps in GUI charts correctly
+                elseif ( isset($last_valid_chart_data['free_disk_space_terabytes']) ) {
+                $data['free_disk_space_terabytes'] .= trim($last_valid_chart_data['free_disk_space_terabytes']) . ',';
                 }
             
             
                 if ( trim($result[6]) != 'NO_DATA' ) {
                 $data['portfolio_cache_size_gigabytes'] .= trim($result[6]) . ',';
+                $last_valid_chart_data['portfolio_cache_size_gigabytes'] = $result[6];
+                }
+                // Just repeat any last valid data if available, so zingchart timestamps in GUI charts correctly
+                elseif ( isset($last_valid_chart_data['portfolio_cache_size_gigabytes']) ) {
+                $data['portfolio_cache_size_gigabytes'] .= trim($last_valid_chart_data['portfolio_cache_size_gigabytes']) . ',';
                 }
             
             
                 if ( trim($result[7]) != 'NO_DATA' ) {
                 $data['cron_core_runtime_seconds'] .= trim($result[7]) . ',';
+                $last_valid_chart_data['cron_core_runtime_seconds'] = $result[7];
+                }
+                // Just repeat any last valid data if available, so zingchart timestamps in GUI charts correctly
+                elseif ( isset($last_valid_chart_data['cron_core_runtime_seconds']) ) {
+                $data['cron_core_runtime_seconds'] .= trim($last_valid_chart_data['cron_core_runtime_seconds']) . ',';
                 }
                 
             
