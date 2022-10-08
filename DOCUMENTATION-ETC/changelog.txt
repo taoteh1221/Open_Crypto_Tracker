@@ -5749,6 +5749,19 @@ v6.00.2 AND HIGHER RESETS LIGHT (TIME PERIOD) CHARTS FROM ARCHIVAL DATA, ONE-TIM
 
 
 
+-------------------------------------------------------------------
+6.00.6:
+
+-BUG FIX (only for #LINUX# Desktop Edition): Updated custom PHP binary for compatibility with latest debian-based kernels / operating systems
+
+-Documentation on troubleshooting LINUX Desktop Edition startup issues
+
+v6.00.2 AND HIGHER RESETS LIGHT (TIME PERIOD) CHARTS FROM ARCHIVAL DATA, ONE-TIME DURING UPGRADES FROM V6.00.1 OR LOWER.
+
+-------------------------------------------------------------------
+
+
+
 
 
 
