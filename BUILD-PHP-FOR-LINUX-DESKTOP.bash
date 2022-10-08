@@ -57,16 +57,6 @@ fi
 
 ######################################
 
-echo " "
-        
-if [ "$EUID" == 0 ]; then 
- echo "${red}Please run #WITHOUT# 'sudo' PERMISSIONS.${reset}"
- echo " "
- echo "${cyan}Exiting...${reset}"
- echo " "
- exit
-fi
-
 
 # Get logged-in username (if sudo, this works best with logname)
 TERMINAL_USERNAME=$(logname)
@@ -124,6 +114,35 @@ else
     # Fall back to uname, e.g. "Linux <version>", also works for BSD, etc.
     OS=$(uname -s)
     VER=$(uname -r)
+fi
+
+
+######################################
+
+
+echo " "
+
+        
+if [ "$EUID" == 0 ]; then 
+ echo "${red}Please run #WITHOUT# 'sudo' PERMISSIONS.${reset}"
+ echo " "
+ echo "${cyan}Exiting...${reset}"
+ echo " "
+ exit
+fi
+
+
+if [ -f "/etc/debian_version" ]; then
+echo "${cyan}Your system has been detected as Debian-based, which is compatible with this automated installation script."
+echo " "
+echo "Continuing...${reset}"
+echo " "
+else
+echo "${red}Your system has been detected as NOT BEING Debian-based. Your system is NOT compatible with this automated installation script."
+echo " "
+echo "Exiting...${reset}"
+echo " "
+exit
 fi
 
 
@@ -283,33 +302,25 @@ fi
 
 # For setting user agent header in curl, since some API servers !REQUIRE! a set user agent OR THEY BLOCK YOU
 CUSTOM_CURL_USER_AGENT_HEADER="User-Agent: Curl (${OS}/$VER; compatible;)"
-
-echo " "
-
-if [ -f "/etc/debian_version" ]; then
-echo "${cyan}Your system has been detected as Debian-based, which is compatible with this automated installation script."
-echo " "
-echo "Continuing...${reset}"
-echo " "
-else
-echo "${red}Your system has been detected as NOT BEING Debian-based. Your system is NOT compatible with this automated installation script."
-echo " "
-echo "Exiting...${reset}"
-echo " "
-exit
-fi
 				
             
 ######################################
 
 
-if [ -d "$SCRIPT_LOCATION/INSTALL_CRYPTO_TRACKER_HERE" ]; then
-DEFAULT_LOCATION="$SCRIPT_LOCATION"
-else
-DEFAULT_LOCATION="/home/$TERMINAL_USERNAME/Desktop/Open_Crypto_Tracker-linux-desktop"
-fi
+if [ -d "$SCRIPT_LOCATION/INSTALL_CRYPTO_TRACKER_HERE" ] && [ -f $SCRIPT_LOCATION/libcef.so ]; then
 
-			
+APP_ROOT="$SCRIPT_LOCATION"
+
+echo " "
+echo "${green}Using auto-detected Desktop Edition location:"
+echo " "
+echo "$SCRIPT_LOCATION${reset}"
+echo " "
+
+else
+
+DEFAULT_LOCATION="/home/$TERMINAL_USERNAME/Desktop/Open_Crypto_Tracker-linux-desktop"
+
 echo " "
 echo "${yellow}Enter the FULL SYSTEM PATH to the Desktop Edition main folder:"
 echo "(DO !NOT! INCLUDE A #TRAILING# FORWARD SLASH)"
@@ -320,16 +331,22 @@ echo " "
 read APP_ROOT
 echo " "
         
-if [ -z "$APP_ROOT" ]; then
-APP_ROOT="$DEFAULT_LOCATION"
-echo "${green}Using default Desktop Edition location:"
-echo "$APP_ROOT${reset}"
-else
-echo "${green}Using custom Desktop Edition location:"
-echo "$APP_ROOT${reset}"
-fi
+        
+    if [ -z "$APP_ROOT" ]; then
+    APP_ROOT="$DEFAULT_LOCATION"
+    echo "${green}Using default Desktop Edition location:"
+    echo " "
+    echo "$APP_ROOT${reset}"
+    echo " "
+    else
+    echo "${green}Using custom Desktop Edition location:"
+    echo " "
+    echo "$APP_ROOT${reset}"
+    echo " "
+    fi
 
-echo " "
+
+fi
 
 
 if [ ! -d "$APP_ROOT" ]; then

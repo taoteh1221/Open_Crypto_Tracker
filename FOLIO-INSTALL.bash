@@ -160,6 +160,20 @@ if [ "$EUID" -ne 0 ] || [ "$TERMINAL_USERNAME" == "root" ]; then
 fi
 
 
+if [ -f "/etc/debian_version" ]; then
+echo "${cyan}Your system has been detected as Debian-based, which is compatible with this automated installation script."
+echo " "
+echo "Continuing...${reset}"
+echo " "
+else
+echo "${red}Your system has been detected as NOT BEING Debian-based. Your system is NOT compatible with this automated installation script."
+echo " "
+echo "Exiting...${reset}"
+echo " "
+exit
+fi
+
+
 ######################################
 
 
@@ -426,19 +440,6 @@ echo " "
 echo "${red}If you already have unrelated web site files located at $DOC_ROOT on your system, they may be affected."
 echo "Please back up any important pre-existing files in that directory before proceeding.${reset}"
 echo " "
-
-if [ -f "/etc/debian_version" ]; then
-echo "${cyan}Your system has been detected as Debian-based, which is compatible with this automated installation script."
-echo " "
-echo "Continuing...${reset}"
-echo " "
-else
-echo "${red}Your system has been detected as NOT BEING Debian-based. Your system is NOT compatible with this automated installation script."
-echo " "
-echo "Exiting...${reset}"
-echo " "
-exit
-fi
 				
 				
 if [ -f $DOC_ROOT/config.php ]; then
