@@ -284,6 +284,21 @@ fi
 # For setting user agent header in curl, since some API servers !REQUIRE! a set user agent OR THEY BLOCK YOU
 CUSTOM_CURL_USER_AGENT_HEADER="User-Agent: Curl (${OS}/$VER; compatible;)"
 
+echo " "
+
+if [ -f "/etc/debian_version" ]; then
+echo "${cyan}Your system has been detected as Debian-based, which is compatible with this automated installation script."
+echo " "
+echo "Continuing...${reset}"
+echo " "
+else
+echo "${red}Your system has been detected as NOT BEING Debian-based. Your system is NOT compatible with this automated installation script."
+echo " "
+echo "Exiting...${reset}"
+echo " "
+exit
+fi
+				
             
 ######################################
 
