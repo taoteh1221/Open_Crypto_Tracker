@@ -740,7 +740,19 @@ If you see an error like this below, you system is NOT compatible with the inclu
 <pre class='rounded' style='display: inline-block;<?=( $ct_gen->is_msie() == false ? ' padding-top: 1em !important;' : '' )?>'><code class='hide-x-scroll less' style='white-space: nowrap; width: auto; display: inline-block;'>./php-cgi-custom: error while loading shared libraries: XXXXX.so.X: cannot open shared object file: No such file or directory</code></pre>
 	    <br /><br />
 
-Documentation for building custom PHP binaries on linux can be found here (as well as the source code to download to build it with):
+Try running the script "BUILD-PHP-FOR-LINUX-DESKTOP.bash" in the Desktop Edition main folder, which should fix things automatically for you. Just make sure it's file permissions are set to "executable" (chmod +x, OR chmod 755 should do that). 
+	    <br /><br />
+
+Open a terminal and use the "cd" (change directory) command to go to the main directory of the Desktop Edition, and then type this command:
+	    <br /><br />
+
+<pre class='rounded' style='display: inline-block;<?=( $ct_gen->is_msie() == false ? ' padding-top: 1em !important;' : '' )?>'><code class='hide-x-scroll less' style='white-space: nowrap; width: auto; display: inline-block;'>./BUILD-PHP-FOR-LINUX-DESKTOP.bash</code></pre>
+	    <br /><br />
+
+If this automated script gives you issues, see manual PHP build instructions below...
+	    <br /><br />
+
+Documentation for manually building custom PHP binaries on linux can be found here (as well as the source code to download to build it with):
 	    <br /><br />
 
 <a href='https://github.com/php/php-src/blob/master/README.md' target='_blank'>https://github.com/php/php-src/blob/master/README.md</a>

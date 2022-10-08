@@ -24,4 +24,4 @@
   --with-zlib \
   --with-libxml \
   --with-freetype \
-  --prefix=$HOME/customphp8
+  --prefix=$HOME/customphp
