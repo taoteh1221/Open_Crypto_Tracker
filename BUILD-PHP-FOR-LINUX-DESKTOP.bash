@@ -516,7 +516,7 @@ make install
 
 
 echo " "
-echo "${green} The old PHP CGI binary '$APP_ROOT/php-cgi-custom' within your Desktop Edition has been replaced with a new custom PHP CGI binary, that should be compatible with your system. Try to run linux Desktop Edition of this crypto tracker now, and it should work, IF it was indeed a shared library issue.${reset}"
+echo "${cyan}UNLESS YOU SEE ANY ERRORS ABOVE, ${green}the old PHP CGI binary '$APP_ROOT/php-cgi-custom' within your Desktop Edition should have just been replaced with a new custom PHP CGI binary, that should be compatible with your system. Try to run linux Desktop Edition of this crypto tracker now, and it should work...IF it was indeed a shared library issue.${reset}"
 echo " "
 echo "PLEASE REPORT ANY ISSUES HERE: https://github.com/taoteh1221/Open_Crypto_Tracker/issues"
 echo " "
