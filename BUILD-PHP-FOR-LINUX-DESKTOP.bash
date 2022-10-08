@@ -388,7 +388,7 @@ echo "${cyan}Proceeding with required component installation, please wait...${re
 echo " "
 
 # bsdtar installs may fail (essentially the same package as libarchive-tools),
-# SO WE RUN BOTH SEPERATELY IN CASE AN ERROR THROWS, SO OTHER PACKAGES INSTALL OK AFTERWARDS
+# SO WE RUN BOTH SEPERATELY IN CASE AN ERROR THROWS, SO OTHER PACKAGES STILL INSTALL OK AFTERWARDS
 
 echo "${yellow}(you can safely ignore any upcoming 'bsdtar' install errors, if 'libarchive-tools'"
 echo "installs OK...and visa versa, as they are essentially the same package)${reset}"
@@ -404,8 +404,26 @@ sudo apt-get install libarchive-tools -y
 
 sleep 3
 
+# Dev libs (including for the extensions we want to add)
+# WE RUN SEPERATELY IN CASE AN ERROR THROWS, SO OTHER PACKAGES STILL INSTALL OK AFTERWARDS
+sudo apt-get install libssl-dev -y
+sleep 1
+sudo apt-get install libcurl4-openssl-dev -y
+sleep 1
+sudo apt-get install libzip-dev -y
+sleep 1
+sudo apt-get install libbz2-dev -y
+sleep 1
+sudo apt-get install libxml2-dev -y
+sleep 1
+sudo apt-get install libsqlite3-dev -y
+sleep 1
+sudo apt-get install libonig-dev -y
+
+sleep 3
+
 # Safely install other packages seperately, so they aren't cancelled by 'package missing' errors
-sudo apt-get install pkg-config build-essential autoconf bison re2c libxml2-dev libsqlite3-dev -y
+sudo apt-get install pkg-config build-essential autoconf bison re2c -y
 
 sleep 3
 
