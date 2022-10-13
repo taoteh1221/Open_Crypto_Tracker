@@ -17,7 +17,7 @@ error_reporting($dev_debug_php_errors); // PHP errror reporting
 
 
 // Application version
-$app_version = '6.00.6';  // 2022/OCTOBER/7TH
+$app_version = '6.00.7';  // 2022/OCTOBER/13TH
 
 
 // App init libraries...

@@ -104,19 +104,21 @@
 	        
 	        <li class='links_list'><a href='https://binance.us' target='_blank'>Binance.us</a></li>
 	        
+	        <li class='links_list'><a href='https://gemini.com/' target='_blank'>Gemini.com</a></li>
+	        
 	        <li class='links_list'><a href='https://www.kucoin.com/' target='_blank'>Kucoin.com</a></li>
 	        
 	        <li class='links_list'><a href='https://www.gate.io/' target='_blank'>Gate.io</a></li>
-	        
-	        <li class='links_list'><a href='https://gemini.com/' target='_blank'>Gemini.com</a></li>
 	        
 	        <li class='links_list'><a href='https://www.bitstamp.net/' target='_blank'>Bitstamp.net</a></li>
 	        
 	        <li class='links_list'><a href='https://www.bitfinex.com/' target='_blank'>Bitfinex.com</a></li>
 	        
-	        <li class='links_list'><a href='https://uniswap.org/' target='_blank'>Uniswap.org</a>  <span class='yellow'>(NON-CUSTODIAL markets ANYBODY can trade)</span></li>
+	        <li class='links_list'><a href='https://uniswap.org/' target='_blank'>Uniswap.org</a>  <span class='yellow'>(NON-CUSTODIAL markets ANYBODY can trade on Ethereum)</span></li>
 	        
-	        <li class='links_list'><a href='https://zksync.io/' target='_blank'>ZKsync.io</a>  <span class='yellow'>(#EARLY BETA TESTING# Layer 2 [low TX fee] NON-CUSTODIAL markets ANYBODY can trade)</span></li>
+	        <li class='links_list'><a href='https://jup.ag/' target='_blank'>Jupiter Aggregator</a>  <span class='yellow'>(#AUTOMATIC BEST SPOT PRICE# NON-CUSTODIAL markets ANYBODY can trade on Solana)</span></li>
+	        
+	        <li class='links_list'><a href='https://zksync.io/' target='_blank'>ZKsync.io</a>  <span class='yellow'>(#EARLY BETA TESTING# Ethereum Layer 2 [low TX fee] NON-CUSTODIAL markets ANYBODY can trade)</span></li>
 	        
 	        
 	        

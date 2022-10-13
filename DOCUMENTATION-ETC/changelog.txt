@@ -5764,6 +5764,20 @@ v6.00.2 AND HIGHER RESETS LIGHT (TIME PERIOD) CHARTS FROM ARCHIVAL DATA, ONE-TIM
 
 
 
+-------------------------------------------------------------------
+6.00.7:
+
+-BUG FIXES (minor / miscellaneous)
+
+-Revised resources page
+
+v6.00.2 AND HIGHER RESETS LIGHT (TIME PERIOD) CHARTS FROM ARCHIVAL DATA, ONE-TIME DURING UPGRADES FROM V6.00.1 OR LOWER.
+
+-------------------------------------------------------------------
+
+
+
+
 
 
 

@@ -1819,8 +1819,11 @@ var $ct_array1 = array();
                      // IF PRIMARY CURRENCY CONFIG volume was between 0 and 1 last alert / reset, for UX sake 
                      // we use current PRIMARY CURRENCY CONFIG volume instead of pair volume (for percent up, so it's not up 70,000% for altcoins lol)
                      if ( $cached_prim_currency_vol >= 0 && $cached_prim_currency_vol <= 1 ) {
+                         
                      $vol_describe = strtoupper($default_btc_prim_currency_pair) . ' volume was ' . $ct_conf['power']['btc_currency_mrkts'][$default_btc_prim_currency_pair] . $cached_prim_currency_vol . ' last price ' . $desc_alert_type . ', and ';
+                     
                      $vol_describe_mobile = strtoupper($default_btc_prim_currency_pair) . ' volume up from ' . $ct_conf['power']['btc_currency_mrkts'][$default_btc_prim_currency_pair] . $cached_prim_currency_vol . ' last ' . $desc_alert_type;
+                     
                      }
                      // Best we can do feasibly for UX on volume reporting errors
                      elseif ( $cached_prim_currency_vol == -1 ) { // ONLY PRIMARY CURRENCY CONFIG VOLUME CALCULATION RETURNS -1 ON EXCHANGE VOLUME ERROR
@@ -1864,7 +1867,7 @@ var $ct_array1 = array();
                      
                      // Volume filter skipped message, only if filter is on and error getting trade volume data (otherwise is NULL)
                      if ( $vol_prim_currency_raw == null && $ct_conf['comms']['price_alert_min_vol'] > 0 || $vol_prim_currency_raw < 1 && $ct_conf['comms']['price_alert_min_vol'] > 0 ) {
-                     $vol_filter_skipped_text = 'no trade volume detected, so volume filter was skipped';
+                     $vol_filter_skipped_text = ' (no trade volume detected, so volume filter was skipped)';
                      }
                      else {
                      $vol_filter_skipped_text = null;
@@ -1887,7 +1890,7 @@ var $ct_array1 = array();
                      // BUT current reported volume is zero (temporary error on exchange side etc, NOT on our app's side),
                      // inform end-user of this probable volume discrepancy being detected.
                      elseif ( $vol_prim_currency_raw >= 0 ) {
-                     $email_vol_summary = '24 hour ' . $vol_describe . $vol_change_text . ' ' . $vol_prim_currency_text . ( $vol_prim_currency_raw == 0 ? ' (' . $vol_filter_skipped_text . ')' : '' ) . '.'; 
+                     $email_vol_summary = '24 hour ' . $vol_describe . $vol_change_text . ' ' . $vol_prim_currency_text . ( $vol_prim_currency_raw == 0 ? $vol_filter_skipped_text : '' ) . '.'; 
                      }
                         
                         
