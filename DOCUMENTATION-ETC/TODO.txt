@@ -70,6 +70,9 @@ ADMIN IFRAME BUILDOUT NOTES:
 Put a title at the top of each admin iframe, so it's clearly obvious what page your on, even if it's tab is way down in the side menu.
 
 
+Look into Aptos support for the 'address-balance-tracker' plugin (see the API notes section for public endpoints REST API docs).
+
+
 MAY BE A GOOD WAY TO RE-RUN init.php IF USER CORRUPTS config.php (#AFTER# backing up / overwriting the corrupt config.php with /templates/back-end/main-config.template):
 https://stackoverflow.com/questions/17160851/is-there-any-way-to-skip-fatal-error-from-include-file-in-php
 https://www.php.net/manual/en/function.register-shutdown-function.php
@@ -209,6 +212,10 @@ API INTEGRATION SECTION
 ///////////////////////////////////////////////////////
 
 
+https://aptos.dev/nodes/aptos-deployments/
+https://fullnode.devnet.aptoslabs.com/v1/spec#/
+
+
 For transaction fees plugin (the solana data):
 https://public-api.solscan.io/transaction/last
 
@@ -258,6 +265,9 @@ https://zksync.io/api/v0.1.html
 ///////////////////////////////////////////////////////
 FEATURES / STRUCTURING SECTION
 ///////////////////////////////////////////////////////
+
+
+Add a check (every X days with a config setting), to see if a market's trade value has NOT changed in a long time (assure accuracy with resetting a 'no_change' count [store delimited with market value] if change is detected). Add an alert threshold config setting (after no change has been detected X times), which sends comms alerts if the threshold has been met. This way end users can be informed if a market seems to have stale trade values from lack of trades / taken offline. HAVE THIS HAPPEN IN THE BACKGROUND #ONLY WHEN LIVE DATA IS FETCHED# WITHIN $ct_cache->ext_data(), VIA USER-INRTERACTION OR A BACKGROUND TASK (DOES NOT CHECK MARKETS THAT ARE NOT USED BY END USERS OR THE BACKGROUND TASKS).
 
 
 For mobile templates, we are completely ditching the desktop layout, for a design similar to mobile app portfolio tracking layouts. Hopefully we can still do sorting by marketcap, held amount, most volume, etc, AND add in sorting by gain / loss (which may also be useful in the desktop layout).

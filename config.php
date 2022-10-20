@@ -456,6 +456,13 @@ $ct_conf['charts_alerts']['tracked_mrkts'] = array(
 					'sol-4' => 'binance||eth||chart',
 					
 					
+					// APT
+					'apt' => 'coinbase||usd||both',
+					'apt-2' => 'kraken||eur||chart',
+					'apt-3' => 'binance||btc||chart',
+					'apt-4' => 'gateio||eth||chart',
+					
+					
 					// MSOL
 					'msol' => 'ftx||usd||chart',
 					
@@ -506,11 +513,6 @@ $ct_conf['charts_alerts']['tracked_mrkts'] = array(
 					'ray-2' => 'coingecko_btc||btc||chart',
 					
 					
-					// SRM
-					'srm' => 'ftx||usd||both',
-					'srm-2' => 'binance||btc||chart',
-					
-					
 					// SLRS
 					'slrs' => 'ftx||usd||both',
 					'slrs-2' => 'gateio||eth||chart',
@@ -546,13 +548,7 @@ $ct_conf['charts_alerts']['tracked_mrkts'] = array(
 					'shdw-2' => 'coingecko_eth||eth||chart',
 					
 					
-					// BOP
-					'bop' => 'coingecko_btc||btc||both',
-					'bop-2' => 'coingecko_eth||eth||chart',
-					
-					
 					// HNT
-					'hnt' => 'binance||btc||chart',
 					'hnt-2' => 'binance_us||usd||both',
 					'hnt-3' => 'gateio||eth||none',
 					
@@ -772,6 +768,7 @@ $ct_conf['power']['crypto_pair'] = array(
 						// Native chains...
 						'eth' => 'Ξ ',
 						'sol' => '◎ ',
+						'apt' => 'Ⓐ ',
 						// ERC-20 tokens on Ethereum / SPL tokens on Solana, etc etc...
 						'uni' => '🦄 ',
 						'mkr' => '𐌼 ',
@@ -1022,12 +1019,6 @@ $ct_conf['power']['news_feed'] = array(
         
         
         				array(
-            			"title" => "Blog - Bonifida (Data, Analytics, GUIs for Serum / Solana)",
-            			"url" => "https://bonfida.medium.com/feed"
-        						),
-        
-        
-        				array(
             			"title" => "Blog - Coinbase",
             			"url" => "https://medium.com/feed/the-coinbase-blog"
         						),
@@ -1042,12 +1033,6 @@ $ct_conf['power']['news_feed'] = array(
         				array(
             			"title" => "Blog - ConsenSys",
             			"url" => "https://media.consensys.net/feed"
-        						),
-        
-        
-        				array(
-            			"title" => "Blog - Enterprise Ethereum Alliance",
-            			"url" => "https://entethalliance.org/feed/"
         						),
         
         
@@ -1172,12 +1157,6 @@ $ct_conf['power']['news_feed'] = array(
     
     
         				array(
-            			"title" => "News - What's New In Eth2",
-            			"url" => "http://benjaminion.xyz/newineth2/rss_feed.xml"
-        						),
-    
-    
-        				array(
             			"title" => "Newsletter - Alpha Please",
             			"url" => "https://alphapls.substack.com/feed"
         						),
@@ -1252,12 +1231,6 @@ $ct_conf['power']['news_feed'] = array(
         				array(
             			"title" => "Podcast - Into the Ether",
             			"url" => "https://podcast.ethhub.io/rss"
-        						),
-        
-        
-        				array(
-            			"title" => "Podcast - POV Crypto",
-            			"url" => "http://povcryptopod.libsyn.com/rss"
         						),
     					
     					
@@ -1378,12 +1351,6 @@ $ct_conf['power']['news_feed'] = array(
         				array(
             			"title" => "Youtube - Anthony Pompliano",
             			"url" => "https://www.youtube.com/feeds/videos.xml?channel_id=UCevXpeL8cNyAnww-NqJ4m2w"
-        						),
-    
-    
-        				array(
-            			"title" => "Youtube - Boring Protocol (dVPN on Solana)",
-            			"url" => "https://www.youtube.com/feeds/videos.xml?channel_id=UCTx39_CFaov2O6ZLv7Y5oEA"
         						),
     
     
@@ -2668,6 +2635,69 @@ $ct_conf['assets'] = array(
                     ////////////////////////////////////////////////////////////////////
                     
                     
+                    // APT
+                    'APT' => array(
+                        
+                        'name' => 'Aptos',
+                        'mcap_slug' => 'aptos',
+                        'pair' => array(
+
+                                                    
+                                    'btc' => array(
+                                        'binance' => 'APTBTC',
+                                        'gateio' => 'APT_BTC',
+                                                    ),
+
+                                                    
+                                    'eth' => array(
+                                        'gateio' => 'APT_ETH',
+                                                    ),
+
+                                                    
+                                    'eur' => array(
+                                         'binance' => 'APTEUR',
+                                    	 'kraken' => 'APTEUR',
+                                                    ),
+
+                                                    
+                                    'try' => array(
+                                         'binance' => 'APTTRY',
+                                                    ),
+
+                                                    
+                                    'usd' => array(
+                                    	 'coinbase' => 'APT-USD',
+                                    	 'ftx' => 'APT/USD',
+                                    	 'kraken' => 'APTUSD',
+                                    	 'bitfinex' => 'tAPTUSD',
+                                                    ),
+
+                                                    
+                                    'usdc' => array(
+                                        'okex' => 'APT-USDC',
+                                        'huobi' => 'aptusdc',
+                                                    ),
+
+                                                    
+                                    'usdt' => array(
+                                        'binance' => 'APTUSDT',
+                                    	'ftx' => 'APT/USDT',
+                                        'okex' => 'APT-USDT',
+                                        'huobi' => 'aptusdt',
+                                        'kucoin' => 'APT-USDT',
+                                        'bybit' => 'APTUSDT',
+                                        'gateio' => 'APT_USDT',
+                                                    ),
+
+                                                    
+                        ) // pair END
+                                        
+                    ), // Asset END
+                    
+                    
+                    ////////////////////////////////////////////////////////////////////
+                    
+                    
                     // UNI
                     'UNI' => array(
                         
@@ -3063,86 +3093,6 @@ $ct_conf['assets'] = array(
                     ////////////////////////////////////////////////////////////////////
                     
                     
-                    // SRM
-                    'SRM' => array(
-                        
-                        'name' => 'Serum',
-                        'mcap_slug' => 'serum',
-                        'pair' => array(
-
-                        
-                                    'btc' => array(
-                                        'binance' => 'SRMBTC',
-                                        'kraken' => 'SRMXBT',
-                                        'okex' => 'SRM-BTC',
-                                        'huobi' => 'srmbtc',
-                                        'kucoin' => 'SRM-BTC',
-                                        'upbit' => 'BTC-SRM',
-                                        'hitbtc' => 'SRMBTC',
-                                        'poloniex' => 'BTC_SRM',
-                                                    ),
-
-                                                    
-                                    'eth' => array(
-                                        'gateio' => 'SRM_ETH',
-                                                    ),
-
-                                                    
-                                    'eur' => array(
-                                    	 'kraken' => 'SRMEUR',
-                                                    ),
-
-                                                    
-                                    'gbp' => array(
-                                    	'kraken' => 'SRMGBP',
-                                                    ),
-
-                                                    
-                                    'krw' => array(
-                                          'upbit' => 'KRW-SRM',
-                                                    ),
-
-                                                    
-                                    'usd' => array(
-                                    	'ftx' => 'SRM/USD',
-                                    	'kraken' => 'SRMUSD',
-                                        'gateio' => 'SRM_USD',
-                                    	'bitfinex' => 'tSRMUSD',
-                                        'hitbtc' => 'SRMUSD',
-                                        'cex' => 'SRM:USD',
-                                                    ),
-
-                                                    
-                                    'usdc' => array(
-                                    	'crypto.com' => 'SRM_USDC',
-                                        'poloniex' => 'USDC_SRM',
-                                        'coinex' => 'SRMUSDC',
-                                                    ),
-
-                                                    
-                                    'usdt' => array(
-                                        'binance' => 'SRMUSDT',
-                                        'okex' => 'SRM-USDT',
-                                        'huobi' => 'srmusdt',
-                                        'kucoin' => 'SRM-USDT',
-                                        'poloniex' => 'USDT_SRM',
-                                        'coinex' => 'SRMUSDT',
-                                        'hotbit' => 'SRM_USDT',
-                                        'gateio' => 'SRM_USDT',
-                                        'wazirx' => 'srmusdt',
-                                        'bitmart' => 'SRM_USDT',
-                                        'cex' => 'SRM:USDT',
-                                                    ),
-
-                                                    
-                        ) // pair END
-                                        
-                    ), // Asset END
-                    
-                    
-                    ////////////////////////////////////////////////////////////////////
-                    
-                    
                     // SLRS
                     'SLRS' => array(
                         
@@ -3344,37 +3294,6 @@ $ct_conf['assets'] = array(
                                                     
                                     'usd' => array(
                                         'coingecko_usd' => 'genesysgo-shadow',
-                                                    ),
-
-                                                    
-                        ) // pair END
-                        
-                    ), // Asset END
-                    
-                    
-                    ////////////////////////////////////////////////////////////////////
-                    
-                    
-                    // BOP
-                    'BOP' => array(
-                        
-                        'name' => 'Boring Protocol',
-                        'mcap_slug' => 'boring-protocol',
-                        'pair' => array(
-
-                                                    
-                                    'btc' => array(
-                                        'coingecko_btc' => 'boring-protocol',
-                                                    ),
-
-                                                    
-                                    'eth' => array(
-                                        'coingecko_eth' => 'boring-protocol',
-                                                    ),
-
-                                                    
-                                    'usd' => array(
-                                        'coingecko_usd' => 'boring-protocol',
                                                     ),
 
                                                     

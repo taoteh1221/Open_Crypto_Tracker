@@ -131,6 +131,8 @@
 	    <ul>
 	        
 	        
+	        <li class='links_list'><a href='https://explorer.aptoslabs.com/' target='_blank'>Aptos Explorer</a></li>
+	        
 	        <li class='links_list'><a href='https://beaconscan.com/' target='_blank'>BeaconScan.io - Ethereum v2.0 Explorer</a></li>
 	        
 	        <li class='links_list'><a href='https://www.blockchain.com/explorer?view=btc' target='_blank'>Blockchain.com - Bitcoin Explorer</a></li>
@@ -187,6 +189,8 @@
 	        <li class='links_list'><a href='https://phantom.app/' target='_blank'>Phantom Wallet App</a>   <span class='yellow'>(Solana software wallet browser extension, with hardware wallet support)</span></li>
 	        
 	        <li class='links_list'><a href='https://solflare.com/' target='_blank'>Solflare Wallet App</a>   <span class='yellow'>(Solana software wallet browser extension, with hardware wallet support)</span></li>
+	        
+	        <li class='links_list'><a href='https://aptos.dev/guides/install-petra-wallet-extension/' target='_blank'>Petra Wallet App</a>   <span class='yellow'>(Aptos software wallet browser extension, NO HARDWARE WALLET SUPPORT as of 10/20/2022)</span></li>
 	        
 	        <li class='links_list'><a href='https://specter.solutions/' target='_blank'>Specter Desktop</a>   <span class='yellow'>(Bitcoin software for hardware wallets)</span></li>
 	        
@@ -251,8 +255,6 @@
 	        <li class='links_list'><a href='https://open.spotify.com/show/2CNyWXgKVxTqTlmLhc8A5m' target='_blank'>Into The Ether Podcast (by EthHub)</a></li>
 	        
 	        <li class='links_list'><a href='https://open.spotify.com/show/2QwpFjzJ0ZteqmMqw2xIfA' target='_blank'>Off The Chain With Anthony Pompliano</a></li>
-	        
-	        <li class='links_list'><a href='https://open.spotify.com/show/4OxfZixGspVVpn0mx8FPcg' target='_blank'>POV Crypto</a></li>
 	        
 	        <li class='links_list'><a href='https://open.spotify.com/show/3ObwKoyqttA1OLNhInnrbx' target='_blank'>Rekt</a></li>
 	        
@@ -325,6 +327,8 @@
 	    <fieldset class='subsection_fieldset'><legend class='subsection_legend'> <strong>Blockchain Developer Resources</strong> </legend>
 	    <ul>
 	        
+	        
+	        <li class='links_list'><a href='https://aptos.dev/' target='_blank'>Aptos Developer Documentation</a></li>
 	        
 	        <li class='links_list'><a href='https://book.anchor-lang.com/' target='_blank'>Anchor</a>   <span class='yellow'>(Solana program development tools)</span></li>
 	        

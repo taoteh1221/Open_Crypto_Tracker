@@ -5769,7 +5769,11 @@ v6.00.2 AND HIGHER RESETS LIGHT (TIME PERIOD) CHARTS FROM ARCHIVAL DATA, ONE-TIM
 
 -BUG FIXES (minor / miscellaneous)
 
--Revised resources page
+-Aptos markets / resource page links
+
+-Miscellaneous cleanup and additions in default demo config
+
+-Miscellaneous resources page revisions
 
 v6.00.2 AND HIGHER RESETS LIGHT (TIME PERIOD) CHARTS FROM ARCHIVAL DATA, ONE-TIME DURING UPGRADES FROM V6.00.1 OR LOWER.
 
