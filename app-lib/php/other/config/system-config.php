@@ -70,36 +70,6 @@ $app_path = $parse_temp['path'];
 }
 
 
-// PHP session cookie defaults
-
-$php_sess_time = time() + 31536000;
-$php_sess_secure = ( $app_edition == 'server' ? true : false );
-
-if ( PHP_VERSION_ID >= 70300 ) {
-	
-	session_set_cookie_params([
-                                'lifetime' => $php_sess_time,
-                                'path' => $app_path,
-                                'domain' => $app_host,
-                                'secure' => $php_sess_secure,
-                                'httponly' => false,
-                                'samesite' => 'Strict',
-                    	       ]);
-
-}
-else {
-	
-	session_set_cookie_params([
-                                $php_sess_time,
-                                $app_path . '; samesite=Strict',
-                                $app_host,
-                                $php_sess_secure, // secure
-                                false, //httponly
-                              ]);
-
-}
-
-
 //////////////////////////////////////////////////////////////////
 // END SYSTEM CONFIG
 //////////////////////////////////////////////////////////////////

@@ -5769,6 +5769,8 @@ v6.00.2 AND HIGHER RESETS LIGHT (TIME PERIOD) CHARTS FROM ARCHIVAL DATA, ONE-TIM
 
 -BUG FIXES (minor / miscellaneous)
 
+-Security config setting for controlling PHP session length
+
 -Aptos markets / resource page links
 
 -Miscellaneous cleanup and additions in default demo config

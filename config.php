@@ -53,8 +53,14 @@ $ct_conf['sec']['login_alert'] = 'all'; // 'off' (disabled) / 'all' / 'email' / 
 							
 // HOURS until admin login cookie expires (requiring you to login again)
 // The lower number the better for higher security, epecially if the app server temporary session data 
-// doesn't auto-clear too often (that also logs you off automatically, REGARDLESS of this setting's value)
-$ct_conf['sec']['admin_cookie_expire'] = 8; // (default = 8)
+// doesn't auto-clear often (that also logs you off automatically, REGARDLESS of this setting's value)
+$ct_conf['sec']['admin_cookie_expire'] = 3; // (default = 3)
+							
+							
+// HOURS until PHP session data expires (requiring you to login again / user area security tokens reset)
+// The lower number the better for higher security, epecially if the app server temporary session data 
+// doesn't auto-clear often (that also logs you off automatically, REGARDLESS of this setting's value)
+$ct_conf['sec']['session_expire'] = 3; // (default = 3, MAXIMUM OF 8)
 
 
 // 'on' verifies ALL SMTP server certificates for secure SMTP connections, 'off' verifies NOTHING 

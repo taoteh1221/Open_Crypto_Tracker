@@ -52,6 +52,40 @@ error_reporting($ct_conf['dev']['error_reporting']);
 }
 
 
+// server should keep session data for AT LEAST $ct_conf['sec']['session_expire'] hours
+ini_set('session.gc_maxlifetime', ($ct_conf['sec']['session_expire'] * 3600) );
+
+
+// PHP session cookie defaults
+// each client should remember their session id for EXACTLY $ct_conf['sec']['session_expire'] hours
+$php_sess_time = ($ct_conf['sec']['session_expire'] * 3600);
+$php_sess_secure = ( $app_edition == 'server' ? true : false );
+
+if ( PHP_VERSION_ID >= 70300 ) {
+	
+	session_set_cookie_params([
+                                'lifetime' => $php_sess_time,
+                                'path' => $app_path,
+                                'domain' => $app_host,
+                                'secure' => $php_sess_secure,
+                                'httponly' => false,
+                                'samesite' => 'Strict',
+                    	       ]);
+
+}
+else {
+	
+	session_set_cookie_params([
+                                $php_sess_time,
+                                $app_path . '; samesite=Strict',
+                                $app_host,
+                                $php_sess_secure, // secure
+                                false, //httponly
+                              ]);
+
+}
+
+
 // Set a max execution time (if the system lets us), TO AVOID RUNAWAY PROCESSES FREEZING THE SERVER
 if ( $ct_conf['dev']['debug'] != 'off' ) {
 $max_exec_time = 600; // 10 minutes in debug mode

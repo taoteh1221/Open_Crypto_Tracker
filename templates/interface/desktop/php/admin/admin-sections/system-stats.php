@@ -38,7 +38,7 @@
 		
 			$('#sys_stats_admin_link_info', parent.document).balloon({
 			html: true,
-			position: "right",
+			position: "top",
   			classname: 'balloon-tooltips',
 			contents: sys_stats_admin_link_info_content,
 			css: {

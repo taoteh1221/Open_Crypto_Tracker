@@ -73,6 +73,9 @@ Put a title at the top of each admin iframe, so it's clearly obvious what page y
 Look into Aptos support for the 'address-balance-tracker' plugin (see the API notes section for public endpoints REST API docs).
 
 
+Add more Jupiter agg markets to Solana coins in demo config, and in price target plugin.
+
+
 MAY BE A GOOD WAY TO RE-RUN init.php IF USER CORRUPTS config.php (#AFTER# backing up / overwriting the corrupt config.php with /templates/back-end/main-config.template):
 https://stackoverflow.com/questions/17160851/is-there-any-way-to-skip-fatal-error-from-include-file-in-php
 https://www.php.net/manual/en/function.register-shutdown-function.php
@@ -324,7 +327,7 @@ Add webhook keys on admin page.
 Do a gains / losses bar chart for the gains / losses summary (tooltip, like balance stats chart).
 
 
-On 'more stats' page, have a 'market comparison stats' chart for arbitrage on one asset (picked from dropdown menu), with default showing BTC / All pair's markets, with USD conversion. Make it a bar chart, based off the marketcap chart template. Have 3 drop-down menus: Asset, Pair (with an All option), Primary Currency (conversion). Looping through asset pairs / markets should be a straight forward algo that does the job.
+On 'more stats' page, have a 'market comparison stats' chart for arbitrage on one asset (picked from dropdown menu), with default showing All pair's markets, with USD conversion. Make it a bar chart, based off the marketcap chart template. Have 3 drop-down menus: Asset, Pair (with an All option), Primary Currency (conversion). Looping through asset pairs / markets should be a straight forward algo that does the job.
 
 
 Add market stats summaries from chart data, like bar charts for exchange volume on certain assets / pairs (on 'view more stats' page).
