@@ -1559,7 +1559,7 @@ $ct_conf['dev']['ui_max_exec_time'] = 250; // (default = 250)
 $ct_conf['dev']['ajax_max_exec_time'] = 250; // (default = 250)
 ////
 // Maximum execution time for cron job runtime in seconds (how long it's allowed to run before automatically killing the process)
-$ct_conf['dev']['cron_max_exec_time'] = 900; // (default = 900)
+$ct_conf['dev']['cron_max_exec_time'] = 1260; // (default = 1260)
 ////
 // Maximum execution time for internal API runtime in seconds (how long it's allowed to run before automatically killing the process)
 $ct_conf['dev']['int_api_max_exec_time'] = 60; // (default = 60)

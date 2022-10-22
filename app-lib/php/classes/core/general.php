@@ -1890,10 +1890,10 @@ var $ct_array = array();
       $this->log('system_warning', $system_warnings[$type]);
       
           if ( isset($system_info['distro_name']) ) {
-          $system_info = "\n\nApp Server System Info: " . $system_info['distro_name'] . ( isset($system_info['distro_version']) ? ' ' . $system_info['distro_version'] : '' );
+          $system_info_summary = "\n\nApp Server System Info: " . $system_info['distro_name'] . ( isset($system_info['distro_version']) ? ' ' . $system_info['distro_version'] : '' );
           }
       
-      $email_msg = 'Open Crypto Tracker detected an app server issue: ' . $system_warnings[$type] . '. (warning thresholds are adjustable in the Admin Config Power User section) ' . $system_info;
+      $email_msg = 'Open Crypto Tracker detected an app server issue: ' . $system_warnings[$type] . '. (warning thresholds are adjustable in the Admin Config Power User section) ' . $system_info_summary;
                
       // Were're just adding a human-readable timestamp to smart home (audio) alerts
       $notifyme_msg = $email_msg . ' Timestamp: ' . $this->time_date_format($ct_conf['gen']['loc_time_offset'], 'pretty_time') . '.';
@@ -2430,10 +2430,12 @@ var $ct_array = array();
         unlink($base_dir . '/' . $domain_check_filename);
         	
         	
+        	// If it's a possible hostname header attack
         	if ( !preg_match("/" . $set_256bit_hash . "/i", $domain_check_test) ) {
         	unlink($base_dir . '/cache/vars/base_url.dat'); // Delete any base URL var that was stored for cron runtimes
         	return array('security_error' => true, 'checked_url' => $domain_check_test_url, 'response_output' => $domain_check_test);
         	}
+        	// If all looks good
             else { 
             // Update the detected domain security check event tracking BEFORE RETURNING
             $ct_cache->save_file($base_dir . '/cache/events/check-domain-security.dat', $ct_gen->time_date_format(false, 'pretty_date_time') );
@@ -2808,13 +2810,13 @@ var $ct_array = array();
 
       
             if ( isset($system_info['distro_name']) ) {
-            $system_info = "\n\nApp Server System Info: " . $system_info['distro_name'] . ( isset($system_info['distro_version']) ? ' ' . $system_info['distro_version'] : '' );
+            $system_info_summary = "\n\nApp Server System Info: " . $system_info['distro_name'] . ( isset($system_info['distro_version']) ? ' ' . $system_info['distro_version'] : '' );
             }
               
                             
        // Build the different messages, configure comm methods, and send messages
                             
-       $email_msg = 'New admin login from: ' . $remote_ip . $system_info;
+       $email_msg = 'New admin login from: ' . $remote_ip . $system_info_summary;
                             
        // Were're just adding a human-readable timestamp to smart home (audio) alerts
        $notifyme_msg = $email_msg . ' Timestamp: ' . $this->time_date_format($ct_conf['gen']['loc_time_offset'], 'pretty_time') . '.';
