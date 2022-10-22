@@ -995,7 +995,7 @@ $ct_conf['power']['news_feed'] = array(
         
         
         				array(
-            			"title" => "Blog - Aptos (Layer 1 Smart Contract Network)",
+            			"title" => "Blog - Aptos (Layer 1 High-Speed Smart Contract Network)",
             			"url" => "https://medium.com/feed/aptoslabs"
         						),
 
@@ -1088,6 +1088,12 @@ $ct_conf['power']['news_feed'] = array(
             			"title" => "Blog - Marinade Finance (mSOL liquid staking on Solana)",
             			"url" => "https://medium.com/feed/marinade-finance"
         						),
+        
+        
+        				array(
+            			"title" => "Blog - Misten Labs (creators of the 'Sui' high-speed smart contract network)",
+            			"url" => "https://medium.com/feed/mysten-labs"
+        						),
     
     
         				array(
@@ -1153,6 +1159,12 @@ $ct_conf['power']['news_feed'] = array(
         				array(
             			"title" => "News - CoinTelegraph",
             			"url" => "https://cointelegraph.com/feed"
+        						),
+        
+        
+        				array(
+            			"title" => "News - Decrypt",
+            			"url" => "https://decrypt.co/feed"
         						),
     
     

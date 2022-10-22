@@ -1190,6 +1190,7 @@ select opt in $OPTIONS; do
   				rm -rf $DOC_ROOT/plugins/address-balance-tracker/plugin-lib > /dev/null 2>&1
   				rm -rf $DOC_ROOT/plugins/price-target-alert/plugin-lib > /dev/null 2>&1
   				rm -rf $DOC_ROOT/plugins/recurring-reminder/plugin-lib > /dev/null 2>&1
+  				rm -rf $DOC_ROOT/plugins/transaction-fee-charts > /dev/null 2>&1
 
 				sleep 3
 				

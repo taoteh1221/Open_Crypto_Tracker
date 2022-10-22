@@ -27,7 +27,7 @@ $plug_conf[$this_plug]['ui_location'] = 'more_stats'; // 'tools', 'more_stats' (
 
 
 // If running in the UI, set the preferred plugin name that should show for end-users
-$plug_conf[$this_plug]['ui_name'] = 'Transaction Fee Charts'; // (defaults to $this_plug if not set)
+$plug_conf[$this_plug]['ui_name'] = 'On-Chain Stats'; // (defaults to $this_plug if not set)
 
 
 // DON'T LEAVE ANY WHITESPACE AFTER THE CLOSING PHP TAG!

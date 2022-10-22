@@ -17,8 +17,9 @@ if ( $runtime_mode != 'cron' && !$is_fast_runtime ) {
 
 
 	// Have UI runtime mode RE-CACHE the app URL data every 24 hours, since CLI runtime cannot determine the app URL (for sending backup link emails during backups, etc)
-	if ( $ct_cache->update_cache('cache/vars/base_url.dat', (60 * 24) ) == true ) {
-	$ct_cache->save_file('cache/vars/base_url.dat', $base_url);
+	// (USING SECONDARY VAR '$base_url_check' HERE PREVENTS HOSTNAME HEADER SPOOFING INJECTION [checked for in ct_gen->base_url() AND final-preflight-checks.php])
+	if ( $ct_cache->update_cache('cache/vars/base_url.dat', (60 * 24) ) == true && isset($base_url_check) && trim($base_url_check) != '' && !isset($base_url_check['security_error']) ) {
+	$ct_cache->save_file('cache/vars/base_url.dat', $base_url_check);
 	}
 
 
@@ -30,130 +31,140 @@ $sel_opt['alert_percent'] = explode("|", ( isset($_POST['use_alert_percent']) ? 
 $ct_conf['gen']['prim_mcap_site'] = ( isset($sel_opt['alert_percent'][0]) && $sel_opt['alert_percent'][0] != '' ? $sel_opt['alert_percent'][0] : $ct_conf['gen']['prim_mcap_site'] );
 
 
-///////////////////////////////////////////////////////////////////////
-
-
-$sel_opt['show_crypto_val'] = explode(',', rtrim( ( isset($_POST['show_crypto_val']) ? $_POST['show_crypto_val'] : $_COOKIE['show_crypto_val'] ) , ',') );
-
-		
-		// Remove any stale crypto value
-		$temp_show_crypto_val = array();
-		$scan_crypto_val = $sel_opt['show_crypto_val'];
-		$scan_crypto_val = array_map( array($ct_var, 'strip_brackets') , $scan_crypto_val); // Strip brackets
-		$loop = 0;
-		foreach ($scan_crypto_val as $key) {
-			if ( array_key_exists($key, $ct_conf['power']['crypto_pair']) ) {
-			$temp_show_crypto_val[$loop] = $sel_opt['show_crypto_val'][$loop];
-			}
-		$loop = $loop + 1;
-		}
-		$sel_opt['show_crypto_val'] = $temp_show_crypto_val;
-		$implode_crypto_val = implode(',', $sel_opt['show_crypto_val']) . ',';
-	
-		// Update POST and / or COOKIE data too
-		if( isset($_POST['show_crypto_val']) ) {
-		$_POST['show_crypto_val'] = $implode_crypto_val;
-		}
-	
-		if( isset($_COOKIE['show_crypto_val']) ) {
-		$ct_gen->store_cookie("show_crypto_val", $implode_crypto_val, time()+31536000);
-		}
-
-///////////////////////////////////////////////////////////////////////
-
-
-$sel_opt['show_secondary_trade_val'] = ( isset($_POST['show_secondary_trade_val']) ? $_POST['show_secondary_trade_val'] : $_COOKIE['show_secondary_trade_val'] );
-
-	// Remove any stale secondary trade value
-	if ( isset($sel_opt['show_secondary_trade_val']) && !array_key_exists($sel_opt['show_secondary_trade_val'], $ct_conf['power']['crypto_pair']) ) {
-	unset($sel_opt['show_secondary_trade_val']);
-	unset($_POST['show_secondary_trade_val']);  
-	unset($_COOKIE['show_secondary_trade_val']);  
-	$ct_gen->store_cookie("show_secondary_trade_val", "", time()-3600);  // Delete cookie -3600 seconds (expired)
-	}
-
-
-///////////////////////////////////////////////////////////////////////
-
-
-$sel_opt['show_feeds'] = explode(',', rtrim( ( isset($_POST['show_feeds']) ? $_POST['show_feeds'] : $_COOKIE['show_feeds'] ) , ',') );
-
-	// Alphabetically order AND remove stale feeds
-	// (since we already alphabetically ordered $ct_conf['power']['news_feed'] in config-auto-adjust.php BEFOREHAND)
-	$temp_show_feeds = array();
-	$scan_feeds = $sel_opt['show_feeds'];
-	$scan_feeds = array_map( array($ct_var, 'strip_brackets') , $scan_feeds); // Strip brackets
-	foreach ($ct_conf['power']['news_feed'] as $feed) {
-	$feed_id = $ct_gen->digest($feed["title"], 5);
-		if ( in_array($feed_id, $scan_feeds) ) {
-		$temp_show_feeds[] = '[' . $feed_id . ']';
-		}
-	}
-	$sel_opt['show_feeds'] = $temp_show_feeds;
-	$implode_feeds = implode(',', $sel_opt['show_feeds']) . ',';
-	
-	// Update POST and / or COOKIE data too
-	if( isset($_POST['show_feeds']) ) {
-	$_POST['show_feeds'] = $implode_feeds;
-	}
-	
-	if( isset($_COOKIE['show_feeds']) ) {
-	$ct_gen->store_cookie("show_feeds", $implode_feeds, time()+31536000);
-	}
-
-
-///////////////////////////////////////////////////////////////////////
-
-
-	// Only set from cookie / post values if charts are enabled
-	if ( $ct_conf['gen']['asset_charts_toggle'] == 'on' ) {
-		
-	$sel_opt['show_charts'] = explode(',', rtrim( ( isset($_POST['show_charts']) ? $_POST['show_charts'] : $_COOKIE['show_charts'] ) , ',') );
-		
-		// Remove stale charts
-		$temp_show_charts = array();
-		$scan_charts = $sel_opt['show_charts'];
-		$scan_charts = array_map( array($ct_var, 'strip_brackets') , $scan_charts); // Strip brackets
-		$scan_charts = array_map( array($ct_var, 'strip_underscore_and_after') , $scan_charts); // Strip underscore, and everything after
-		$loop = 0;
-		foreach ($scan_charts as $market_key) {
-			
-			// IF asset exists in charts app config, AND $sel_opt['show_charts'] UI key format is latest iteration (fiat conversion charts USED TO have no underscore)
-			if ( array_key_exists($market_key, $ct_conf['charts_alerts']['tracked_mrkts']) && stristr($sel_opt['show_charts'][$loop], '_') ) {
-				
-			$chart_params = explode('_', $ct_var->strip_brackets($sel_opt['show_charts'][$loop]) );
-			
-			$chart_conf_check = explode('||', $ct_conf['charts_alerts']['tracked_mrkts'][$market_key]);
-				
-				// If pair properly matches OR it's a conversion chart, we're good to keep this $sel_opt['show_charts'] array value 
-				if ( $chart_params[1] == $chart_conf_check[1] || $chart_params[1] == $default_btc_prim_currency_pair ) {
-				$temp_show_charts[$loop] = $sel_opt['show_charts'][$loop];
-				}
-				
-			}
-			
-		$loop = $loop + 1;
-		
-		}
-		$sel_opt['show_charts'] = $temp_show_charts;
-		$implode_charts = implode(',', $sel_opt['show_charts']) . ',';
-	
-		// Update POST and / or COOKIE data too
-		if( isset($_POST['show_charts']) ) {
-		$_POST['show_charts'] = $implode_charts;
-		}
-	
-		if( isset($_COOKIE['show_charts']) ) {
-		$ct_gen->store_cookie("show_charts", $implode_charts, time()+31536000);
-		}
-	
-	}
-	else {
-	$sel_opt['show_charts'] = array();
-	}
-
-
-///////////////////////////////////////////////////////////////////////
+    ///////////////////////////////////////////////////////////////////////
+    // 'ui' RUNTIME ONLY (OTHERWISE COOKIE DATA MAY BE OVERWRITTEN / UPDATED UNNECESSARILY!!)
+    ///////////////////////////////////////////////////////////////////////
+    
+    
+    if ( $runtime_mode == 'ui' ) {
+    
+    $sel_opt['show_crypto_val'] = explode(',', rtrim( ( isset($_POST['show_crypto_val']) ? $_POST['show_crypto_val'] : $_COOKIE['show_crypto_val'] ) , ',') );
+    
+    		
+    		// Remove any stale crypto value
+    		$temp_show_crypto_val = array();
+    		$scan_crypto_val = $sel_opt['show_crypto_val'];
+    		$scan_crypto_val = array_map( array($ct_var, 'strip_brackets') , $scan_crypto_val); // Strip brackets
+    		$loop = 0;
+    		foreach ($scan_crypto_val as $key) {
+    			if ( array_key_exists($key, $ct_conf['power']['crypto_pair']) ) {
+    			$temp_show_crypto_val[$loop] = $sel_opt['show_crypto_val'][$loop];
+    			}
+    		$loop = $loop + 1;
+    		}
+    		$sel_opt['show_crypto_val'] = $temp_show_crypto_val;
+    		$implode_crypto_val = implode(',', $sel_opt['show_crypto_val']) . ',';
+    	
+    		// Update POST and / or COOKIE data too
+    		if( isset($_POST['show_crypto_val']) ) {
+    		$_POST['show_crypto_val'] = $implode_crypto_val;
+    		}
+    	
+    		if( isset($_COOKIE['show_crypto_val']) ) {
+    		$ct_gen->store_cookie("show_crypto_val", $implode_crypto_val, time()+31536000);
+    		}
+    
+    
+    ////////////////////////////////
+    
+    
+    $sel_opt['show_secondary_trade_val'] = ( isset($_POST['show_secondary_trade_val']) ? $_POST['show_secondary_trade_val'] : $_COOKIE['show_secondary_trade_val'] );
+    
+    	// Remove any stale secondary trade value
+    	if ( isset($sel_opt['show_secondary_trade_val']) && !array_key_exists($sel_opt['show_secondary_trade_val'], $ct_conf['power']['crypto_pair']) ) {
+    	unset($sel_opt['show_secondary_trade_val']);
+    	unset($_POST['show_secondary_trade_val']);  
+    	unset($_COOKIE['show_secondary_trade_val']);  
+    	$ct_gen->store_cookie("show_secondary_trade_val", "", time()-3600);  // Delete cookie -3600 seconds (expired)
+    	}
+    
+    
+    ////////////////////////////////
+    
+    
+    $sel_opt['show_feeds'] = explode(',', rtrim( ( isset($_POST['show_feeds']) ? $_POST['show_feeds'] : $_COOKIE['show_feeds'] ) , ',') );
+    
+    	// Alphabetically order AND remove stale feeds
+    	// (since we already alphabetically ordered $ct_conf['power']['news_feed'] in config-auto-adjust.php BEFOREHAND)
+    	$temp_show_feeds = array();
+    	$scan_feeds = $sel_opt['show_feeds'];
+    	$scan_feeds = array_map( array($ct_var, 'strip_brackets') , $scan_feeds); // Strip brackets
+    	foreach ($ct_conf['power']['news_feed'] as $feed) {
+    	$feed_id = $ct_gen->digest($feed["title"], 5);
+    		if ( in_array($feed_id, $scan_feeds) ) {
+    		$temp_show_feeds[] = '[' . $feed_id . ']';
+    		}
+    	}
+    	$sel_opt['show_feeds'] = $temp_show_feeds;
+    	$implode_feeds = implode(',', $sel_opt['show_feeds']) . ',';
+    	
+    	// Update POST and / or COOKIE data too
+    	if( isset($_POST['show_feeds']) ) {
+    	$_POST['show_feeds'] = $implode_feeds;
+    	}
+    	
+    	if( isset($_COOKIE['show_feeds']) ) {
+    	$ct_gen->store_cookie("show_feeds", $implode_feeds, time()+31536000);
+    	}
+    
+    
+    ////////////////////////////////
+    
+    
+    	// Only set from cookie / post values if charts are enabled
+    	if ( $ct_conf['gen']['asset_charts_toggle'] == 'on' ) {
+    		
+    	$sel_opt['show_charts'] = explode(',', rtrim( ( isset($_POST['show_charts']) ? $_POST['show_charts'] : $_COOKIE['show_charts'] ) , ',') );
+    		
+    		// Remove stale charts
+    		$temp_show_charts = array();
+    		$scan_charts = $sel_opt['show_charts'];
+    		$scan_charts = array_map( array($ct_var, 'strip_brackets') , $scan_charts); // Strip brackets
+    		$scan_charts = array_map( array($ct_var, 'strip_underscore_and_after') , $scan_charts); // Strip underscore, and everything after
+    		$loop = 0;
+    		foreach ($scan_charts as $market_key) {
+    			
+    			// IF asset exists in charts app config, AND $sel_opt['show_charts'] UI key format is latest iteration (fiat conversion charts USED TO have no underscore)
+    			if ( array_key_exists($market_key, $ct_conf['charts_alerts']['tracked_mrkts']) && stristr($sel_opt['show_charts'][$loop], '_') ) {
+    				
+    			$chart_params = explode('_', $ct_var->strip_brackets($sel_opt['show_charts'][$loop]) );
+    			
+    			$chart_conf_check = explode('||', $ct_conf['charts_alerts']['tracked_mrkts'][$market_key]);
+    				
+    				// If pair properly matches OR it's a conversion chart, we're good to keep this $sel_opt['show_charts'] array value 
+    				if ( $chart_params[1] == $chart_conf_check[1] || $chart_params[1] == $default_btc_prim_currency_pair ) {
+    				$temp_show_charts[$loop] = $sel_opt['show_charts'][$loop];
+    				}
+    				
+    			}
+    			
+    		$loop = $loop + 1;
+    		
+    		}
+    		$sel_opt['show_charts'] = $temp_show_charts;
+    		$implode_charts = implode(',', $sel_opt['show_charts']) . ',';
+    	
+    		// Update POST and / or COOKIE data too
+    		if( isset($_POST['show_charts']) ) {
+    		$_POST['show_charts'] = $implode_charts;
+    		}
+    	
+    		if( isset($_COOKIE['show_charts']) ) {
+    		$ct_gen->store_cookie("show_charts", $implode_charts, time()+31536000);
+    		}
+    	
+    	}
+    	else {
+    	$sel_opt['show_charts'] = array();
+    	}
+    
+    
+    }
+    
+    
+    ///////////////////////////////////////////////////////////////////////
+    // END 'ui' RUNTIME ONLY
+    ///////////////////////////////////////////////////////////////////////
 
 
 $sort_array = explode("|", ( isset($_POST['sort_by']) ? $_POST['sort_by'] : $_COOKIE['sort_by'] ) );

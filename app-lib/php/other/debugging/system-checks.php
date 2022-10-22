@@ -25,16 +25,6 @@ $force_exit = 1;
 
 
 
-// Make sure we are using FastCGI
-if ( $runtime_mode != 'cron' && !stristr( php_sapi_name() , 'fcgi') && $ct_conf['dev']['ignore_php_fpm_warning'] != 'yes' ) {
-$system_error = "{Set 'ignore_php_fpm_warning' to 'yes' in Admin Config DEVELOPER section to disable this warning} <br /><br /> PHP is currently running as '" . php_sapi_name() . "', PHP-FPM (fcgi) mode is not running. PHP-FPM v7.2 or higher is HIGHLY RECOMMENDED to avoid low power devices OR high traffic installs from crashing. If you auto-installed, you can auto-upgrade if you FULLY re-install EVERYTHING with the latest auto-install script: https://tinyurl.com/install-crypto-tracker <br /><br />";
-$ct_gen->log('system_error', $system_error);
-echo $system_error;
-$force_exit = 1;
-}
-
-
-
 // Check for curl
 if ( !extension_loaded('curl') ) {
 $system_error = "PHP extension 'php-curl' not installed. 'php-curl' is required to run this application. <br /><br />";
@@ -127,45 +117,6 @@ if ( $runtime_mode != 'cron' && $app_edition == 'server' ) {
 	echo $system_error;
 	$force_exit = 1;
 	}
-
-}
-
-
-
-// Check htaccess security (checked once every 120 minutes maximum)
-if ( $ct_cache->update_cache($base_dir . '/cache/events/scan-htaccess-security.dat', 120) == true && $app_edition == 'server' ) {
-	
-	
-	// Only run the check if the base url is set (since we'll be checking again anyway, and it should set AFTER first UI run)
-	if ( trim($base_url) != '' ) {
-		
-	// HTTPS CHECK ONLY (for security if htaccess user/pass activated), don't cache API data
-	
-	// cache check
-	$htaccess_cache_test_url = $base_url . 'cache/htaccess_security_check.dat';
-
-	$htaccess_cache_test = trim( @$ct_cache->ext_data('url', $htaccess_cache_test_url, 0) ); 
-	
-	// plugins check
-	$htaccess_plugins_test_url = $base_url . 'plugins/htaccess_security_check.dat';
-
-	$htaccess_plugins_test = trim( @$ct_cache->ext_data('url', $htaccess_plugins_test_url, 0) ); 
-	
-	
-		if ( preg_match("/TEST_HTACCESS_SECURITY_123_TEST/i", $htaccess_cache_test)
-		|| preg_match("/TEST_HTACCESS_SECURITY_123_TEST/i", $htaccess_plugins_test) ) {
-		$system_error = "HTTP server 'htaccess' support has NOT been enabled on this web server for the 'cache' and 'plugins' sub-directories. 'htaccess' support is required to SAFELY run this application (htaccess security checks are throttled to a maximum of once every 2 hours). <br /><br />";
-		$ct_gen->log('system_error', $system_error);
-		echo $system_error;
-		$force_exit = 1;
-		}
-	
-	
-	}
-	
-	
-// Update the htaccess security scan event tracking
-$ct_cache->save_file($base_dir . '/cache/events/scan-htaccess-security.dat', $ct_gen->time_date_format(false, 'pretty_date_time') );
 
 }
 

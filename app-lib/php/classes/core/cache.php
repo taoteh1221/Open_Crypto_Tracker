@@ -1756,7 +1756,6 @@ var $ct_array1 = array();
       // If this is an SSL connection, add SSL parameters
       if ( preg_match("/https:\/\//i", $api_endpoint) ) {
       
-      
       // We don't want strict SSL checks if this is our app calling itself (as we may be running our own self-signed certificate)
       // (app running an external check on its htaccess, etc)
       $regex_base_url = $ct_gen->regex_compat_url($base_url);
@@ -1767,13 +1766,18 @@ var $ct_array1 = array();
        
         if ( isset($scan_base_url) && preg_match("/".$scan_base_url."/i", $api_endpoint) ) {
         
-        $is_self_security_test = 1;
+        
+          if ( preg_match("/htaccess_security_check/i", $api_endpoint) ) {
+          $is_self_security_test = 1;
+          }
+          
          
           // If we have password protection on in the app
           if ( isset($htaccess_username) && isset($htaccess_password) && $htaccess_username != '' && $htaccess_password != '' ) {
           curl_setopt($ch, CURLOPT_HTTPAUTH, CURLAUTH_ANY);
           curl_setopt($ch, CURLOPT_USERPWD, $htaccess_username . ':' . $htaccess_password); // DO NOT ENCAPSULATE PHP USER/PASS VARS IN QUOTES, IT BREAKS THE FEATURE
           }
+         
          
         $remote_api_strict_ssl = 'off';
         

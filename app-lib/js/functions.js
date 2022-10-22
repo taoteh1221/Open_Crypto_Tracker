@@ -274,6 +274,12 @@ show_charts = $("#show_charts").val();
 	$("#show_charts").val( show_charts.replace("[" + obj_var.value + "],", "") );
 	}
 	
+  
+show_charts = $("#show_charts").val(); // Reset var with any new data
+
+// Error checking
+$("#show_charts").val( show_charts.replace(",,", ",") );
+	
 }
 
 
@@ -291,6 +297,12 @@ show_crypto_val = $("#show_crypto_val").val();
 	$("#show_crypto_val").val( show_crypto_val.replace("[" + obj_var.value + "],", "") );
 	}
 	
+  
+show_crypto_val = $("#show_crypto_val").val(); // Reset var with any new data
+
+// Error checking
+$("#show_crypto_val").val( show_crypto_val.replace(",,", ",") );
+	
 }
 
 
@@ -307,6 +319,12 @@ show_feeds = $("#show_feeds").val();
 	else {
 	$("#show_feeds").val( show_feeds.replace("[" + obj_var.value + "],", "") );
 	}
+	
+  
+show_feeds = $("#show_feeds").val(); // Reset var with any new data
+
+// Error checking
+$("#show_feeds").val( show_feeds.replace(",,", ",") );
 	
 }
 

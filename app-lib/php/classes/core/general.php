@@ -1286,7 +1286,7 @@ var $ct_array = array();
    
    function store_cookie($name, $val, $time) {
    
-   global $app_edition, $app_host, $app_path;
+   global $app_edition, $app_path;
    
    $secure = ( $app_edition == 'server' ? true : false );
       
@@ -1296,17 +1296,24 @@ var $ct_array = array();
       $arr_cookie_options = array (
                                     'expires' => $time,
                                     'path' => $app_path,
-                                    'domain' => $app_host,
+                                    'domain' => '', // LEAVE DOMAIN BLANK, SO setcookie AUTO-SETS PROPERLY (IN CASE OF EDGE-CASE REDIRECTS)
                                     'secure' => $secure,
                                     'httponly' => false,
                      	            'samesite' => 'Strict', // Strict for high privacy
                                     );
-         
+      
+      $this->remove_cookie_before_v6008($name); // Backwards compatibility
+      
       $result = setcookie($name, $val, $arr_cookie_options);
       
       }
       else {
-      $result = setcookie($name, $val, $time, $app_path . '; samesite=Strict', $app_host, $secure, false);
+      
+      $this->remove_cookie_before_v6008($name); // Backwards compatibility
+      
+       // LEAVE DOMAIN BLANK, SO setcookie AUTO-SETS PROPERLY (IN CASE OF EDGE-CASE REDIRECTS)
+      $result = setcookie($name, $val, $time, $app_path . '; samesite=Strict', '', $secure, false);
+      
       }
    
       
@@ -1322,7 +1329,52 @@ var $ct_array = array();
       }
       
       if ( $result == false ) {
-      $this->log('system_error', 'Cookie creation failed for cookie "' . $name . '"');
+      $this->log('system_error', 'Cookie modification / creation failed for cookie "' . $name . '"');
+      }
+      
+      
+   return $result;
+   
+   }
+   
+   
+   ////////////////////////////////////////////////////////
+   ////////////////////////////////////////////////////////
+   
+   
+   // Remove old cookies from before v6.00.8, that still have the domain EXPLICITLY set
+   // (these are less reliable [on some server setups] than auto-set domain cookies, which are now used in v6.00.8 and higher)
+   // DON'T USE unset($_COOKIE['namehere']) WITHIN THIS FUNCTION, AS IT DOESN'T REGISTER ANY RE-CREATING IT IMMEADIATELY AFTERWARDS FOR SOME REASON
+   function remove_cookie_before_v6008($name) {
+   
+   global $app_edition, $app_path, $app_host;
+   
+   $secure = ( $app_edition == 'server' ? true : false );
+   
+   $time = (time()-3600);
+      
+      
+      if ( PHP_VERSION_ID >= 70300 ) {
+        
+      $arr_cookie_options = array (
+                                    'expires' => $time,
+                                    'path' => $app_path,
+                                    'domain' => $app_host,
+                                    'secure' => $secure,
+                                    'httponly' => false,
+                     	            'samesite' => 'Strict', // Strict for high privacy
+                                    );
+      
+      
+      $result = setcookie($name, '', $arr_cookie_options);
+      
+      }
+      else {
+      $result = setcookie($name, '', $time, $app_path . '; samesite=Strict', $app_host, $secure, false);
+      }
+      
+      if ( $result == false ) {
+      $this->log('system_error', 'Cookie modification / creation failed for cookie "' . $name . '"');
       }
       
       
@@ -1407,46 +1459,6 @@ var $ct_array = array();
        
 
    return $result;
-   
-   }
-   
-   
-   ////////////////////////////////////////////////////////
-   ////////////////////////////////////////////////////////
-   
-   
-   function base_url($atRoot=false, $atCore=false, $parse=false) {
-      
-   // WARNING: THIS ONLY WORKS WELL FOR HTTP-BASED RUNTIME, ----NOT CLI---!
-   // CACHE IT TO FILE DURING UI RUNTIME FOR CLI TO USE LATER ;-)
-   
-      if ( isset($_SERVER['HTTP_HOST']) ) {
-            
-      $http = isset($_SERVER['HTTPS']) && strtolower($_SERVER['HTTPS']) !== 'off' ? 'https' : 'http';
-      $hostname = $_SERVER['HTTP_HOST'];
-      $dir =  str_replace(basename($_SERVER['SCRIPT_NAME']), '', $_SERVER['SCRIPT_NAME']);
-   
-      $core = preg_split('@/@', str_replace($_SERVER['DOCUMENT_ROOT'], '', realpath(dirname(__FILE__))), null, PREG_SPLIT_NO_EMPTY);
-      $core = $core[0];
-   
-      $tmplt = $atRoot ? ($atCore ? "%s://%s/%s/" : "%s://%s/") : ($atCore ? "%s://%s/%s/" : "%s://%s%s");
-      $end = $atRoot ? ($atCore ? $core : $hostname) : ($atCore ? $core : $dir);
-      $base_url = sprintf( $tmplt, $http, $hostname, $end );
-               
-      }
-      else $base_url = 'http://localhost/';
-      
-   
-      if ($parse) {
-      	
-      $base_url = parse_url($base_url);
-      
-          if (isset($base_url['path'])) if ($base_url['path'] == '/') $base_url['path'] = '';
-              
-      }
-   
-   
-   return $base_url;
    
    }
    
@@ -2167,7 +2179,7 @@ var $ct_array = array();
         
            // Exit function if html or scripting is detected
            if ( $count > 0 ) {
-           $this->log('security_error', 'Possible code injection blocked in request data (from ' . $remote_ip . '): ["' . $ext_key . '"]');
+           $this->log('security_error', 'Possible code injection blocked in request data (' . $remote_ip . '): ["' . $ext_key . '"]');
            return 'code_not_allowed';
            }
            
@@ -2340,6 +2352,100 @@ var $ct_array = array();
       
       }
       
+   
+   }
+   
+   
+   ////////////////////////////////////////////////////////
+   ////////////////////////////////////////////////////////
+   
+   
+   function base_url($forceResult=false, $atRoot=false, $atCore=false, $parse=false) {
+       
+   global $ct_gen, $ct_cache, $base_dir;
+      
+   // WARNING: THIS ONLY WORKS WELL FOR HTTP-BASED RUNTIME, ----NOT CLI---!
+   // CACHE IT TO FILE DURING UI RUNTIME FOR CLI TO USE LATER ;-)
+
+        
+        // Detect base URL
+        if ( isset($_SERVER['HTTP_HOST']) ) {
+                
+          $http = isset($_SERVER['HTTPS']) && strtolower($_SERVER['HTTPS']) !== 'off' ? 'https' : 'http';
+          $hostname = $_SERVER['HTTP_HOST'];
+          $dir =  str_replace(basename($_SERVER['SCRIPT_NAME']), '', $_SERVER['SCRIPT_NAME']);
+       
+          $core = preg_split('@/@', str_replace($_SERVER['DOCUMENT_ROOT'], '', realpath(dirname(__FILE__))), null, PREG_SPLIT_NO_EMPTY);
+          $core = $core[0];
+       
+          $tmplt = $atRoot ? ($atCore ? "%s://%s/%s/" : "%s://%s/") : ($atCore ? "%s://%s/%s/" : "%s://%s%s");
+          $end = $atRoot ? ($atCore ? $core : $hostname) : ($atCore ? $core : $dir);
+          $set_url = sprintf( $tmplt, $http, $hostname, $end );
+                   
+        }
+        else $set_url = 'https://localhost/';
+          
+       
+        if ($parse) {
+          	
+        $set_url = parse_url($set_url);
+          
+              if (isset($set_url['path'])) if ($set_url['path'] == '/') $set_url['path'] = '';
+                  
+        }
+
+
+        // Check detected base URL security (checked once every 25 minutes maximum VIA NON-CRON RUNTIMES [in system-config.php])
+        // https://expressionengine.com/blog/http-host-and-server-name-security-issues (HOSTNAME HEADER CAN BE SPOOFED FROM CLIENT)
+        if ( $ct_cache->update_cache($base_dir . '/cache/events/check-domain-security.dat', 25) == true && isset($set_url) && trim($set_url) != '' && $forceResult == false ) {
+	
+        $set_128bit_hash = $ct_gen->rand_hash(16); // 128-bit (16-byte) hash converted to hexadecimal, used for suffix
+        $set_256bit_hash = $ct_gen->rand_hash(32); // 256-bit (32-byte) hash converted to hexadecimal, used for var
+        
+        $domain_check_filename = 'domain_check_' . $set_128bit_hash.'.dat';
+        	
+        	
+        	// Halt the process if an issue is detected safely creating a random hash
+        	if ( $set_128bit_hash == false || $set_256bit_hash == false ) {
+        		
+        	$ct_gen->log(
+        				'security_error',
+        				'Cryptographically secure pseudo-random bytes could not be generated for API key (in secured cache storage), API key creation aborted to preserve security'
+        				);
+        	
+        	}
+        	else {
+        	$ct_cache->save_file($base_dir . '/' . $domain_check_filename, $set_256bit_hash);
+        	}
+
+        		
+        // HTTPS CHECK ONLY (for security if htaccess user/pass activated), don't cache API data
+        	
+        // domain check
+        $domain_check_test_url = $set_url . $domain_check_filename;
+        
+        $domain_check_test = trim( @$ct_cache->ext_data('url', $domain_check_test_url, 0) );
+        
+        // Delete domain check test file
+        unlink($base_dir . '/' . $domain_check_filename);
+        	
+        	
+        	if ( !preg_match("/" . $set_256bit_hash . "/i", $domain_check_test) ) {
+        	unlink($base_dir . '/cache/vars/base_url.dat'); // Delete any base URL var that was stored for cron runtimes
+        	return array('security_error' => true, 'checked_url' => $domain_check_test_url, 'response_output' => $domain_check_test);
+        	}
+            else { 
+            // Update the detected domain security check event tracking BEFORE RETURNING
+            $ct_cache->save_file($base_dir . '/cache/events/check-domain-security.dat', $ct_gen->time_date_format(false, 'pretty_date_time') );
+            return $set_url;
+            }
+        	
+        
+        }
+        else {
+        return $set_url;
+        }
+        
    
    }
 

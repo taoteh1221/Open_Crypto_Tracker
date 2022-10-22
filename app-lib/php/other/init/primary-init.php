@@ -84,9 +84,6 @@ $runtime_nonce = $ct_gen->rand_hash(16); // 16 byte
 // System info
 $system_info = $ct_gen->system_info(); // MUST RUN AFTER SETTING $base_dir
 
-// Remote IP
-$remote_ip = ( isset($_SERVER['REMOTE_ADDR']) ? $_SERVER['REMOTE_ADDR'] : 'localhost' );
-
 $fetched_feeds = 'fetched_feeds_' . $runtime_mode; // Unique feed fetch telemetry SESSION KEY (so related runtime BROWSER SESSION logic never accidentally clashes)
 
 $precache_feeds_count = 0; 
