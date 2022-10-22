@@ -1764,7 +1764,7 @@ var $ct_array1 = array();
       $scan_base_url = ( isset($regex_base_url) && $regex_base_url != '' ? $regex_base_url : $ct_gen->rand_hash(8) );
       
        
-        if ( isset($scan_base_url) && preg_match("/".$scan_base_url."/i", $api_endpoint) ) {
+        if ( isset($scan_base_url) && $scan_base_url != '' && preg_match("/".$scan_base_url."/i", $api_endpoint) ) {
         
         
           if ( preg_match("/htaccess_security_check/i", $api_endpoint) ) {
