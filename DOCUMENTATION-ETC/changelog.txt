@@ -5786,11 +5786,11 @@ v6.00.2 AND HIGHER RESETS LIGHT (TIME PERIOD) CHARTS FROM ARCHIVAL DATA, ONE-TIM
 -------------------------------------------------------------------
 6.00.8:
 
+-SECURITY BUG FIX (MODERATE ALERT): Security checks on base URL / hostname detection (to prevent hostname header spoofing attacks)
+
 -BUG FIX: Fixed edge-case where a web server redirect set the wrong domain for cookies (now auto-sets cookie's domain via PHP's setcookie function)
 
 -BUG FIXES (minor / miscellaneous)
-
--Security checks on base URL / hostname detection (to prevent hostname header spoofing attacks)
 
 -Miscellaneous code cleanup / refactoring / optimizing
 
