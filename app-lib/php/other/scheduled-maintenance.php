@@ -83,9 +83,11 @@ $ct_cache->delete_old_files($base_dir . '/cache/secured/backups', $ct_conf['powe
 
 // Stale cache files cleanup...
 
-$ct_cache->delete_old_files($base_dir . '/cache/events/throttling', 1, 'dat'); // Delete throttling event tracking cache files older than 1 day
-
 $ct_cache->delete_old_files($base_dir . '/cache/events/light_chart_rebuilds', 4, 'dat'); // Delete light chart rebuild event tracking cache files older than 4 days
+
+$ct_cache->delete_old_files($base_dir . '/cache/secured/messages', 4, 'queue'); // Delete UNSENT message queue files older than 4 days
+
+$ct_cache->delete_old_files($base_dir . '/cache/events/throttling', 1, 'dat'); // Delete throttling event tracking cache files older than 1 day
 
 $ct_cache->delete_old_files($base_dir . '/cache/secured/activation', 1, 'dat'); // Delete activation cache files older than 1 day
 
@@ -99,7 +101,7 @@ $logs_cache_cleanup = array(
 							$base_dir . '/cache/logs/debug/external_data',
 							$base_dir . '/cache/logs/error/external_data',
 							);
-									
+////								
 $ct_cache->delete_old_files($logs_cache_cleanup, $ct_conf['power']['logs_purge'], 'log'); // Purge app LOG cache files older than $ct_conf['power']['logs_purge'] day(s)
 
 

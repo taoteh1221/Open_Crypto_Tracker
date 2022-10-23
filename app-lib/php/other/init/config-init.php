@@ -39,6 +39,9 @@ require_once('app-lib/php/other/config/cached-global-config.php');
 // Dynamic app config auto-adjust (MUST RUN AS EARLY AS POSSIBLE AFTER #FULL# ct_conf setup)
 require_once('app-lib/php/other/config/config-auto-adjust.php');
 
+// Load any activated 3RD PARTY classes (MUST RUN AS EARLY AS POSSIBLE AFTER app config auto-adjust)
+require_once('app-lib/php/classes/3rd-party-classes-loader.php');
+
 
 // Essential vars / arrays / inits that can only be set AFTER config-auto-adjust...
 
@@ -54,7 +57,7 @@ error_reporting($ct_conf['dev']['error_reporting']);
 
 // Set a max execution time (if the system lets us), TO AVOID RUNAWAY PROCESSES FREEZING THE SERVER
 if ( $ct_conf['dev']['debug'] != 'off' ) {
-$max_exec_time = 600; // 10 minutes in debug mode
+$max_exec_time = 900; // 15 minutes in debug mode
 }
 elseif ( $runtime_mode == 'ui' ) {
 $max_exec_time = $ct_conf['dev']['ui_max_exec_time'];
@@ -120,6 +123,9 @@ require_once('app-lib/php/other/init/cron-sub-init.php');
 
 // Final configuration checks (MUST RUN AFTER app config auto-adjust / final-preflight-checks / primary bitcoin markets / sub inits)
 require_once('app-lib/php/other/debugging/final-config-checks.php');
+
+// Password protection management (MUST RUN AFTER setting htaccess user login vars / final-config-checks)
+require_once('app-lib/php/other/security/password-protection.php');
 
 
 //////////////////////////////////////////////////////////////////

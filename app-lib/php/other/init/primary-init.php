@@ -9,6 +9,9 @@
 //////////////////////////////////////////////////////////////////
 
 
+error_reporting($dev_debug_php_errors); // PHP error reporting
+
+
 // Detect if we are running the desktop or server edition
 // (MUST BE SET #AFTER# APP VERSION NUMBER, AND #BEFORE# EVERYTHING ELSE!)
 if ( file_exists('../libcef.so') ) {
@@ -34,13 +37,16 @@ $ct_conf = array();
 require_once("config.php");
 
 // Load app classes VERY EARLY (before loading cached conf, after config.php)
-require_once('app-lib/php/core-classes-loader.php');
+require_once('app-lib/php/classes/core-classes-loader.php');
 
-// #MUST# BE SET AFTER loading core classes
-require_once('app-lib/php/other/empty-vars.php');
+// PRIMARY vars, #MUST# BE SET IMMEADIATELY AFTER loading core classes
+require_once('app-lib/php/other/vars/empty-vars.php');
 
-// System config VERY EARLY (after loading empty vars)
+// System config VERY EARLY (after loading PRIMARY vars)
 require_once('app-lib/php/other/config/system-config.php');
+
+// Set / populate SECONDARY app vars / arrays
+require_once('app-lib/php/other/vars/secondary-vars.php');
 
 
 // ESSENTIAL VARS / ARRAYS / INITS SET #BEFORE# config-init.php...
@@ -56,8 +62,8 @@ $ct_app_id = $ct_gen->id();
 session_start(); // New session start
 ////
 // Give our session a unique name 
-// MUST BE SET AFTER $ct_app_id / first $ct_gen->id() call
-session_name( $ct_gen->id() );
+// MUST BE SET AFTER $ct_app_id
+session_name($ct_app_id);
 
 
 // Session array
@@ -78,17 +84,10 @@ $is_fast_runtime = true;
 }
 
 
-// Nonce for unique runtime logic
+// Nonce for unique runtime logic (avoids potential clashes between multiple runtimes on the same machine)
 $runtime_nonce = $ct_gen->rand_hash(16); // 16 byte
 
-// System info
-$system_info = $ct_gen->system_info(); // MUST RUN AFTER SETTING $base_dir
-
 $fetched_feeds = 'fetched_feeds_' . $runtime_mode; // Unique feed fetch telemetry SESSION KEY (so related runtime BROWSER SESSION logic never accidentally clashes)
-
-$precache_feeds_count = 0; 
-
-$light_chart_first_build_count = 0; 
 
 // If upgrade check enabled / cached var set, set the runtime var for any configured alerts
 $upgrade_check_latest_version = trim( file_get_contents('cache/vars/upgrade_check_latest_version.dat') );
@@ -101,13 +100,14 @@ $upgrade_check_latest_version = trim( file_get_contents('cache/vars/upgrade_chec
 // Uses HARD-CODED $ct_conf['sec']['chmod_cache_dir'], BUT IF THE DIRECTORIES DON'T EXIST YET, A CACHED CONFIG PROBABLY DOESN'T EXIST EITHER
 require_once('app-lib/php/other/directory-creation/cache-directories.php');
 
-// Logins, protection from different types of attacks, #MUST# run BEFORE any heavy init logic, #AFTER# directory creation (for error logging)
+// Logins, protection from different types of attacks
+// #MUST# run BEFORE any heavy init logic (for good security), #AFTER# directory creation (for error logging)
 require_once('app-lib/php/other/security/attack-protection.php');
 
 // Directory security check (MUST run AFTER directory structure creation check, AND BEFORE system checks)
 require_once('app-lib/php/other/security/directory-security.php');
 
-// Get / check system info for debugging / stats (MUST run AFTER directory structure creation check, AND BEFORE system checks)
+// Get / check system info for debugging / stats (MUST run AFTER directory creation [for error logging], AND BEFORE system checks)
 require_once('app-lib/php/other/system-info.php');
 
 

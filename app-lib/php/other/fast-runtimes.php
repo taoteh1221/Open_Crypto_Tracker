@@ -17,7 +17,7 @@ exit;
 }
 // If we are just running chart retrieval, ONLY run charts library for runtime speed (exit after)
 elseif ( $is_charts ) {
-require_once('app-lib/php/other/ajax/charts.php');
+require_once('app-lib/php/other/ajax/charts/charts-init.php');
 exit;
 }
 // If we are just running log retrieval, ONLY run logs library for runtime speed (exit after)

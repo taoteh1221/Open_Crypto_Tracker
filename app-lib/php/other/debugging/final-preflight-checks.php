@@ -27,7 +27,7 @@ $base_url_check = $ct_gen->base_url();
     
     $log_error_message = 'Domain security check for "' . $base_url_check['checked_url'] . '" FAILED (' . $remote_ip . '). POSSIBLE hostname header spoofing attack blocked, exiting app...';
                 
-    $email_msg = $log_error_message . ' ' . $system_info_summary . ' Timestamp: ' . $ct_gen->time_date_format($ct_conf['gen']['loc_time_offset'], 'pretty_time') . '.';
+    $email_msg = $log_error_message . ' ' . $system_info_summary . "\n\n" . ' Timestamp: ' . $ct_gen->time_date_format($ct_conf['gen']['loc_time_offset'], 'pretty_time') . '.';
                 
     // Were're just adding a human-readable timestamp to smart home (audio) alerts
     $notifyme_msg = $email_msg;

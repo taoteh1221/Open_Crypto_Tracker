@@ -265,13 +265,13 @@ if (
   	 
   	 <p><img id='captcha_image' src='templates/interface/media/images/captcha.php' alt='' title='CAPTCHA image text contrast / maximum angle can be adjusted in Admin Config, within the "Security" section.
 
-Custom TTF fonts can be automatically added by placing them in the /templates/interface/fonts/ folder.
+Custom TTF fonts can be automatically added by placing them in the /templates/interface/media/fonts/ folder.
 
 Google Fonts is supported (fonts.google.com).' class='image_border' />
   	 <br />
   	 <a href='javascript: refreshImage("captcha_image", "templates/interface/media/images/captcha.php");' class='bitcoin' style='font-weight: bold;' title='CAPTCHA image text contrast / maximum angle can be adjusted in Admin Config, within the "Security" section.
 
-Custom TTF fonts can be automatically added by placing them in the /templates/interface/fonts/ folder.
+Custom TTF fonts can be automatically added by placing them in the /templates/interface/media/fonts/ folder.
 
 Google Fonts is supported (fonts.google.com).'>Get A Different Image</a>
   	 </p>

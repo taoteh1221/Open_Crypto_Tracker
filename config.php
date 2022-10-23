@@ -1508,29 +1508,29 @@ $ct_conf['dev']['ignore_php_fpm_warning'] = 'yes'; // (default = 'yes', options 
 
 // Maximum number of BATCHED coingecko marketcap data results to fetch, per API call (during multiple / paginated calls) 
 // (coingecko #ABSOLUTELY HATES# DATA CENTER IPS [DEDICATED / VPS SERVERS], BUT GOES EASY ON RESIDENTIAL IPS)
-$ct_conf['dev']['coingecko_api_batched_max'] = 90; // (default = 90), ADJUST WITH CARE!!!
+$ct_conf['dev']['coingecko_api_batched_max'] = 100; // (default = 100), ADJUST WITH CARE!!!
 
 
 // Maximum number of BATCHED news feed fetches / re-caches per ajax OR cron runtime 
 // (#TO HELP PREVENT RUNTIME CRASHES# ON LOW POWER DEVICES OR HIGH TRAFFIC INSTALLS, USE A LOW NUMBER OF 20 OR LESS)
-$ct_conf['dev']['news_feed_batched_max'] = 20; // (default = 20), ADJUST WITH CARE!!!
+$ct_conf['dev']['news_feed_batched_max'] = 25; // (default = 25), ADJUST WITH CARE!!!
 ////
 // Minutes to cache RSS feeds for News page
 // Randomly cache each RSS feed between the minimum and maximum MINUTES set here (so they don't refresh all at once, for faster runtimes)
 // THE WIDER THE GAP BETWEEN THE NUMBERS, MORE SPLIT UP / FASTER THE FEEDS WILL LOAD IN THE INTERFACE #CONSISTANTLY#
-$ct_conf['dev']['news_feed_cache_min_max'] = '90,180'; // 'min,max' (default = '90,180'), ADJUST WITH CARE!!!
+$ct_conf['dev']['news_feed_cache_min_max'] = '80,160'; // 'min,max' (default = '80,160'), ADJUST WITH CARE!!!
 ////
 // Maximum number of news feeds allowed to be pre-cached during background tasks (to avoid overloading low power devices)
-$ct_conf['dev']['news_feed_precache_hard_limit'] = 35; // (default = 35), ADJUST WITH CARE!!!
+$ct_conf['dev']['news_feed_precache_hard_limit'] = 45; // (default = 45), ADJUST WITH CARE!!!
 
 
 // Randomly rebuild the 'ALL' chart between the minimum and maximum HOURS set here  (so they don't refresh all at once, for faster runtimes)
 // LARGER AVERAGE TIME SPREAD IS EASIER ON LOW POWER DEVICES (TO ONLY UPDATE A FEW AT A TIME), FOR A MORE CONSISTANT CRON JOB RUNTIME SPEED!!
-$ct_conf['dev']['all_chart_rebuild_min_max'] = '4,12'; // 'min,max' (default = '4,12'), ADJUST WITH CARE!!!
+$ct_conf['dev']['all_chart_rebuild_min_max'] = '6,12'; // 'min,max' (default = '6,12'), ADJUST WITH CARE!!!
 ////
 // Maximum number of light chart NEW BUILDS (only reset / new, NOT the 'all' chart rebuilds) allowed during background tasks
 // (to avoid overloading low power devices)
-$ct_conf['dev']['light_chart_first_build_hard_limit'] = 20; // (default = 20), ADJUST WITH CARE!!!
+$ct_conf['dev']['light_chart_first_build_hard_limit'] = 25; // (default = 25), ADJUST WITH CARE!!!
 
 
 // If you want to override the default user agent string (sent with API requests, etc)
@@ -1550,7 +1550,7 @@ $ct_conf['dev']['charset_unicode'] = 'UTF-16';
 									
 // !!!!! BE #VERY CAREFUL# LOWERING MAXIMUM EXECUTION TIMES BELOW, #OR YOU MAY CRASH THE RUNNING PROCESSES EARLY, 
 // OR CAUSE MEMORY LEAKS THAT ALSO CRASH YOUR !ENTIRE SYSTEM!#
-// (ALL execution times are automatically 600 IN DEBUG MODE)
+// (ALL maximum execution times are automatically 900 seconds [15 minutes] IN DEBUG MODE)
 ////
 // Maximum execution time for interface runtime in seconds (how long it's allowed to run before automatically killing the process)
 $ct_conf['dev']['ui_max_exec_time'] = 250; // (default = 250)
@@ -1559,13 +1559,13 @@ $ct_conf['dev']['ui_max_exec_time'] = 250; // (default = 250)
 $ct_conf['dev']['ajax_max_exec_time'] = 250; // (default = 250)
 ////
 // Maximum execution time for cron job runtime in seconds (how long it's allowed to run before automatically killing the process)
-$ct_conf['dev']['cron_max_exec_time'] = 1260; // (default = 1260)
+$ct_conf['dev']['cron_max_exec_time'] = 1320; // (default = 1320)
 ////
 // Maximum execution time for internal API runtime in seconds (how long it's allowed to run before automatically killing the process)
-$ct_conf['dev']['int_api_max_exec_time'] = 60; // (default = 60)
+$ct_conf['dev']['int_api_max_exec_time'] = 90; // (default = 90)
 ////
 // Maximum execution time for webhook runtime in seconds (how long it's allowed to run before automatically killing the process)
-$ct_conf['dev']['webhook_max_exec_time'] = 60; // (default = 60)
+$ct_conf['dev']['webhook_max_exec_time'] = 90; // (default = 90)
 							
 
 // TLD-only (Top Level Domain only, NO SUBDOMAINS) for each API service that UN-EFFICIENTLY requires multiple calls (for each market / data set)

@@ -77,6 +77,13 @@ $coingecko_pairs = null;
 $coingecko_assets = null;
 
 
+// Initial zero-set strings
+
+$precache_feeds_count = 0; 
+
+$light_chart_first_build_count = 0; 
+
+
 // DON'T LEAVE ANY WHITESPACE AFTER THE CLOSING PHP TAG!
  
 ?>

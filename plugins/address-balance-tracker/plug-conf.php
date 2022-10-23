@@ -55,6 +55,7 @@ $plug_conf[$this_plug]['tracking'] = array(
 																			
 																			
 											    // ETH EXAMPLE
+											    // (REQUIRES AN API KEY FOR ETHERSCAN!! [SETUP IN GENERAL SECTION OF ADMIN CONFIG])
 												array(
 													'asset' => 'eth', // Asset symbol (LOWERCASE)
 													'address' => '0x644343e8D0A4cF33eee3E54fE5d5B8BFD0285EF8', // ETH address

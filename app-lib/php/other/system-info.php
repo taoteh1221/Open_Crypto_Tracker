@@ -3,6 +3,10 @@
  * Copyright 2014-2022 GPLv3, Open Crypto Tracker by Mike Kilday: Mike@DragonFrugal.com
  */
 
+
+// Fetch ALL system info
+$system_info = $ct_gen->system_info(); // MUST RUN AFTER SETTING $base_dir
+////
     			
 $system_load_all = $system_info['system_load'];
 

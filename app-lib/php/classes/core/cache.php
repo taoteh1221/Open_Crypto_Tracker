@@ -1150,18 +1150,17 @@ var $ct_array1 = array();
       }
       
       
-      // If it's been well over 5 minutes since a notifyme alert was sent 
+      // If it's been over 5 minutes since a notifyme alert was sent 
       // (we use 6 minutes, safely over the 5 minute limit for the maximum 5 requests), 
       // and no session count is set, set session count to zero
       // Don't update the file-cached count here, that will happen automatically from resetting the session count to zero 
       // (if there are notifyme messages queued to send)
-      if ( !isset($processed_msgs['notifyme_count']) && $this->update_cache($base_dir . '/cache/events/throttling/notifyme-alerts-sent.dat', 6) == true ) {
+      if ( !isset($processed_msgs['notifyme_count']) && $this->update_cache($base_dir . '/cache/events/throttling/notifyme-alerts-sent.dat', 5) == true ) {
       $processed_msgs['notifyme_count'] = 0;
       }
-      // If it hasn't been well over 5 minutes since the last notifyme send
-      // (we use 6 minutes, safely over the 5 minute limit for the maximum 5 requests), and there is no session count, 
+      // If it hasn't been over 5 minutes since the last notifyme send, and there is no session count, 
       // use the file-cached count for the session count starting point
-      elseif ( !isset($processed_msgs['notifyme_count']) && $this->update_cache($base_dir . '/cache/events/throttling/notifyme-alerts-sent.dat', 6) == false ) {
+      elseif ( !isset($processed_msgs['notifyme_count']) && $this->update_cache($base_dir . '/cache/events/throttling/notifyme-alerts-sent.dat', 5) == false ) {
       $processed_msgs['notifyme_count'] = trim( file_get_contents($base_dir . '/cache/events/throttling/notifyme-alerts-sent.dat') );
       }
       

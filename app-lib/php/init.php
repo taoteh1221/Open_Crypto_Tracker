@@ -11,13 +11,14 @@ exit;
 }
 
 
-// #DEV# DEBUGGING
-$dev_debug_php_errors = 0; // 0 = off, -1 = on (IF SET TO -1, THIS #OVERRIDES# PHP ERROR DEBUG SETTINGS IN THE APP'S CONFIG)
-error_reporting($dev_debug_php_errors); // PHP errror reporting
-
-
 // Application version
 $app_version = '6.00.8';  // 2022/OCTOBER/21ST
+
+
+// #DEV# DEBUGGING
+// Can take any setting shown here: https://www.php.net/manual/en/function.error-reporting.php
+// 0 = off, -1 = on (IF SET TO -1, THIS #OVERRIDES# PHP ERROR DEBUG SETTINGS IN THE APP'S USER CONFIG SETTINGS)
+$dev_debug_php_errors = 0; 
 
 
 // App init libraries...
@@ -36,15 +37,6 @@ require_once('app-lib/php/other/debugging/system-checks.php');
 
 // SECURED cache files management (MUST RUN AFTER system checks)
 require_once('app-lib/php/other/security/secure-cache-files.php');
-
-// Load any activated 3RD PARTY classes (MUST RUN AS EARLY AS POSSIBLE AFTER secure-cache-files.php)
-require_once('app-lib/php/3rd-party-classes-loader.php');
-
-// Set / populate secondary app vars / arrays IMMEADIATELY AFTER loading 3rd party classes
-require_once('app-lib/php/other/secondary-vars.php');
-
-// Password protection management (MUST RUN AFTER secure cache files)
-require_once('app-lib/php/other/security/password-protection.php');
 
 // Scheduled maintenance  (MUST RUN AFTER EVERYTHING IN INIT.PHP, #EXCEPT# DEBUGGING)
 require_once('app-lib/php/other/scheduled-maintenance.php');

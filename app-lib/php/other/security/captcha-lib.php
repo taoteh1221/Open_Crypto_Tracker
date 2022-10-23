@@ -37,7 +37,7 @@ for ( $i = 0; $i < round($ct_conf['sec']['captcha_text_size'] / 1.35); $i++ ) {
 }
 
 
-$font_dir = $base_dir . '/templates/interface/fonts/';
+$font_dir = $base_dir . '/templates/interface/media/fonts/';
 $font_files = array_diff(scandir($font_dir), array('.', '..'));
 
 $fonts = array();

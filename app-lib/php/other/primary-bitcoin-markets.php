@@ -16,10 +16,10 @@
 if ( stristr($ct_conf['gen']['btc_prim_exchange'], 'bitmex_') != false ) {
 	
 $ct_gen->log(
-							'conf_error',
-							'btc_prim_exchange variable not properly set (futures markets are not allowed)',
-							'btc_prim_exchange: ' . $ct_conf['gen']['btc_prim_exchange'] . ';'
-							);
+			'conf_error',
+			'btc_prim_exchange variable not properly set (futures markets are not allowed)',
+			'btc_prim_exchange: ' . $ct_conf['gen']['btc_prim_exchange'] . ';'
+			);
 
 $ct_conf['gen']['btc_prim_exchange'] = 'futures_mrkts_not_allowed'; // DISABLE
 
@@ -30,9 +30,7 @@ $ct_conf['gen']['btc_prim_exchange'] = 'futures_mrkts_not_allowed'; // DISABLE
 // (for UX, to override the pre-existing value...if we have set this as the global default currency market, we obviously prefer it)
 // SHOULD ONLY BE STATIC, NOT MANIPULATEBLE DYNAMICALLY IN THE INTERFACE...SO WE JUST RUN EARLY HERE ONLY IN INIT.
 if ( isset($ct_conf['power']['btc_pref_currency_mrkts'][ $ct_conf['gen']['btc_prim_currency_pair'] ]) ) {
-	
 $ct_conf['power']['btc_pref_currency_mrkts'][ $ct_conf['gen']['btc_prim_currency_pair'] ] = $ct_conf['gen']['btc_prim_exchange'];
-
 }
 
 
@@ -93,29 +91,29 @@ $default_btc_prim_currency_val = $ct_api->market('BTC', $default_btc_prim_exchan
     if ( !$ct_conf['assets']['BTC']['pair'][$default_btc_prim_currency_pair] ) {
     	
     $ct_gen->log(
-    							'conf_error',
-    							'primary-bitcoin-markets.php Charts / alerts btc_prim_currency_pair variable not properly set',
-    							'btc_prim_currency_pair: ' . $default_btc_prim_currency_pair . ';'
-    							);
+    			'conf_error',
+    			'primary-bitcoin-markets.php Charts / alerts btc_prim_currency_pair variable not properly set',
+    			'btc_prim_currency_pair: ' . $default_btc_prim_currency_pair . ';'
+    			);
     
     }
     elseif ( !$ct_conf['assets']['BTC']['pair'][$default_btc_prim_currency_pair][$default_btc_prim_exchange] ) {
     	
     $ct_gen->log(
-    							'conf_error',
-    							'primary-bitcoin-markets.php Charts / alerts btc_prim_exchange variable not properly set',
-    							'btc_prim_exchange: ' . $default_btc_prim_exchange . ';'
-    							);
+    			'conf_error',
+    			'primary-bitcoin-markets.php Charts / alerts btc_prim_exchange variable not properly set',
+    			'btc_prim_exchange: ' . $default_btc_prim_exchange . ';'
+    			);
     
     }
     
     if ( !isset($default_btc_prim_currency_val) || $default_btc_prim_currency_val == 0 ) {
     	
     $ct_gen->log(
-    							'market_error',
-    							'primary-bitcoin-markets.php Charts / alerts Bitcoin primary currency market value not properly set',
-    							'btc_prim_currency_pair: ' . $default_btc_prim_currency_pair . '; exchange: ' . $default_btc_prim_exchange . '; pair_id: ' . $default_btc_pair_id . '; value: ' . $default_btc_prim_currency_val
-    							);
+    			'market_error',
+    			'primary-bitcoin-markets.php Charts / alerts Bitcoin primary currency market value not properly set',
+    			'btc_prim_currency_pair: ' . $default_btc_prim_currency_pair . '; exchange: ' . $default_btc_prim_exchange . '; pair_id: ' . $default_btc_pair_id . '; value: ' . $default_btc_prim_currency_val
+    			);
     
     }
 
@@ -169,19 +167,19 @@ $sel_opt['sel_btc_prim_currency_val'] = $ct_api->market('BTC', $ct_conf['gen']['
     if ( !$ct_conf['assets']['BTC']['pair'][ $ct_conf['gen']['btc_prim_currency_pair'] ] ) {
     	
     $ct_gen->log(
-    							'conf_error',
-    							'primary-bitcoin-markets.php btc_prim_currency_pair variable not properly set', 
-    							'btc_prim_currency_pair: ' . $ct_conf['gen']['btc_prim_currency_pair'] . ';'
-    							);
+    			'conf_error',
+    			'primary-bitcoin-markets.php btc_prim_currency_pair variable not properly set', 
+    			'btc_prim_currency_pair: ' . $ct_conf['gen']['btc_prim_currency_pair'] . ';'
+    			);
     
     }
     elseif ( !$ct_conf['assets']['BTC']['pair'][ $ct_conf['gen']['btc_prim_currency_pair'] ][ $ct_conf['gen']['btc_prim_exchange'] ] ) {
     	
     $ct_gen->log(
-    							'conf_error',
-    							'primary-bitcoin-markets.php btc_prim_exchange variable not properly set',
-    							'btc_prim_exchange: ' . $ct_conf['gen']['btc_prim_exchange'] . ';'
-    							);
+    			'conf_error',
+    			'primary-bitcoin-markets.php btc_prim_exchange variable not properly set',
+    			'btc_prim_exchange: ' . $ct_conf['gen']['btc_prim_exchange'] . ';'
+    			);
     
     }
     
@@ -189,10 +187,10 @@ $sel_opt['sel_btc_prim_currency_val'] = $ct_api->market('BTC', $ct_conf['gen']['
     if ( !isset($sel_opt['sel_btc_prim_currency_val']) || $sel_opt['sel_btc_prim_currency_val'] == 0 ) {
     	
     $ct_gen->log(
-    							'market_error',
-    							'init.php Bitcoin primary currency market value not properly set',
-    							'btc_prim_currency_pair: ' . $ct_conf['gen']['btc_prim_currency_pair'] . '; exchange: ' . $ct_conf['gen']['btc_prim_exchange'] . '; pair_id: ' . $sel_opt['sel_btc_pair_id'] . '; value: ' . $sel_opt['sel_btc_prim_currency_val']
-    							);
+    			'market_error',
+    			'init.php Bitcoin primary currency market value not properly set',
+    			'btc_prim_currency_pair: ' . $ct_conf['gen']['btc_prim_currency_pair'] . '; exchange: ' . $ct_conf['gen']['btc_prim_exchange'] . '; pair_id: ' . $sel_opt['sel_btc_pair_id'] . '; value: ' . $sel_opt['sel_btc_prim_currency_val']
+    			);
     
     }
 
