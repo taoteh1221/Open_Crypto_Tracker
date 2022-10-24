@@ -522,4 +522,33 @@ echo "PLEASE REPORT ANY ISSUES HERE: https://github.com/taoteh1221/Open_Crypto_T
 echo " "
 
 
+######################################
+
+
+echo "${yellow} "
+read -n1 -s -r -p $"ONE LAST THING: Press d to delete the temporary CUSTOM PHP source / binaries we created at $HOME/php-source / $HOME/php-binaries, (or press k if you prefer to keep them [we don't need them to run the app])..." key
+echo "${reset} "
+
+    if [ "$key" = 'd' ] || [ "$key" = 'D' ]; then
+    echo " "
+    echo "${cyan}Deleting CUSTOM PHP source / binaries, please wait...${reset}"
+    echo " "
+    
+    rm -rf $HOME/php-binaries
+    rm -rf $HOME/php-source
+    
+    echo "${green}CUSTOM PHP source / binaries were deleted, now exiting this script...${reset}"
+    echo " "
+
+
+    else
+    echo " "
+    echo "${green}Skipping deletion of CUSTOM PHP source / binaries, now exiting this script...${reset}"
+    echo " "
+    exit
+    fi
+
+echo " "
+
+
 

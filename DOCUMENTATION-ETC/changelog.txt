@@ -5786,13 +5786,17 @@ v6.00.2 AND HIGHER RESETS LIGHT (TIME PERIOD) CHARTS FROM ARCHIVAL DATA, ONE-TIM
 -------------------------------------------------------------------
 6.00.8:
 
--SECURITY BUG FIX (MODERATE ALERT): Security checks on base URL / hostname detection (to prevent hostname header spoofing attacks)
+-SECURITY BUG FIX (MODERATE STATUS): Security checks are now performed on the app's base URL / hostname detection (to block any hostname header injection attacks...includes comms alerts so you are informed when a blocking incident happens)
 
--BUG FIX: Fixed edge-case where a web server redirect set the wrong domain for cookies (now auto-sets cookie's domain via PHP's setcookie function)
+-BUG FIX: Fixed edge-case where a web server with page redirects configured set the wrong domain for cookies (now cookie's domain is auto-chosen via PHP's setcookie function)
 
 -BUG FIXES (minor / miscellaneous)
 
+-More secure / reliable (on varying server setups) cookie data storage format
+
 -Miscellaneous code cleanup / refactoring / optimizing
+
+v6.00.8 AND HIGHER MIGRATES / UPGRADES ANY SET COOKIE DATA TO A MORE SECURE / RELIABLE FORMAT, ONE-TIME DURING UPGRADES FROM V6.00.7 OR LOWER.
 
 v6.00.2 AND HIGHER RESETS LIGHT (TIME PERIOD) CHARTS FROM ARCHIVAL DATA, ONE-TIME DURING UPGRADES FROM V6.00.1 OR LOWER.
 
