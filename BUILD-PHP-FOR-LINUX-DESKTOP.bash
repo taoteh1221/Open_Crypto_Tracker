@@ -526,7 +526,8 @@ echo " "
 
 
 echo "${yellow} "
-read -n1 -s -r -p $"ONE LAST THING: Press d to delete the temporary CUSTOM PHP source / binaries we created at $HOME/php-source / $HOME/php-binaries, (or press k if you prefer to keep them [we don't need them to run the app])..." key
+read -n1 -s -r -p $"ONE LAST THING: Press d to delete the temporary CUSTOM PHP source / binaries we created at $HOME/php-source AND $HOME/php-binaries, (or press k if you prefer to keep them [we don't need them to run the app])..." key
+echo " "
 echo "${reset} "
 
     if [ "$key" = 'd' ] || [ "$key" = 'D' ]; then
