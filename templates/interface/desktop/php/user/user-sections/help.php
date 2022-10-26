@@ -902,11 +902,11 @@ Example: "/plugins/my-app-plugin/plug-lib/plug-class.php" (must be lowercase)
 
 
 
-<span class='blue'>6)</span> All ADDED LOGIC in the "plug-class.php" file can be AUTO-INCLUDED IN A NEW CLASS NAMED "$plug_class[$this_plug]" USING THIS FORMAT BELOW:
+<span class='blue'>6)</span> All ADDED LOGIC in this "plug-class.php" file is AUTO-INCLUDED IN A NEW CLASS NAMED "$plug_class[$this_plug]" USING THIS FORMAT BELOW...
 <br /><br />
 
 
-CREATE THIS PLUGIN'S CLASS OBJECT DYNAMICALLY AS:
+CREATES THIS PLUGIN'S CLASS OBJECT DYNAMICALLY AS:
 <br /><br />
 
 <pre class='rounded'><code class='hide-x-scroll less' style='width: auto; height: auto;'>

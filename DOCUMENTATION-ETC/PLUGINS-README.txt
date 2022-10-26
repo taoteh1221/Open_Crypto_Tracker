@@ -46,10 +46,10 @@ Example: "/plugins/my-app-plugin/plug-lib/plug-class.php" (must be lowercase)
 
 
 
-6) All ADDED LOGIC in the "plug-class.php" file can be AUTO-INCLUDED IN A NEW CLASS NAMED "$plug_class[$this_plug]" USING THIS FORMAT BELOW:
+6) All ADDED LOGIC in this "plug-class.php" file is AUTO-INCLUDED IN A NEW CLASS NAMED "$plug_class[$this_plug]" USING THIS FORMAT BELOW...
 
 
-// CREATE THIS PLUGIN'S CLASS OBJECT DYNAMICALLY AS:
+// CREATES THIS PLUGIN'S CLASS OBJECT DYNAMICALLY AS:
 
 $plug_class[$this_plug] = new class() {
 
