@@ -1163,7 +1163,7 @@ var $ct_array = array();
    
       if ( $smtp ) {
       
-       $smtp->From('Open Crypto Tracker <' . $from_email . '>'); 
+       $smtp->From($from_email); 
        $smtp->singleTo($to); 
        $smtp->Subject($subj);
        $smtp->Charset($charset);
@@ -3581,7 +3581,7 @@ var $ct_array = array();
             if ( $this->valid_email($ct_conf['comms']['from_email']) == 'valid' ) {
             
             $headers = array(
-                        'From' => 'From: Open Crypto Tracker <' . $ct_conf['comms']['from_email'] . '>',
+                        'From' => 'From: ' . $ct_conf['comms']['from_email'],
                         'X-Mailer' => 'Open_Crypto_Tracker/' . $app_version . ' - PHP/' . phpversion(),
                         'Content-Type' => $content_type . '; charset=' . $charset
                            );
@@ -3602,7 +3602,7 @@ var $ct_array = array();
             // Fallback, if no From email set in app config
             if ( $this->valid_email($ct_conf['comms']['from_email']) == 'valid' ) {
             
-            $headers = 'From: Open Crypto Tracker <' . $ct_conf['comms']['from_email'] . ">\r\n" .
+            $headers = 'From: ' . $ct_conf['comms']['from_email'] . "\r\n" .
             'X-Mailer: Open_Crypto_Tracker/' . $app_version . ' - PHP/' . phpversion() . "\r\n" .
             'Content-Type: ' . $content_type . '; charset=' . $charset;
          

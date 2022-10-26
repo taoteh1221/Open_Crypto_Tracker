@@ -5798,11 +5798,24 @@ v6.00.2 AND HIGHER RESETS LIGHT (TIME PERIOD) CHARTS FROM ARCHIVAL DATA, ONE-TIM
 
 -Better user experience navigating admin area (fixed / sticky titles at top of each section)
 
--Better user experience running automated PHP binary installer fpr Linux Desktop Editions
+-Better user experience running automated PHP binary installer for Linux Desktop Editions
 
 -More troubleshooting documentation (in 'help' page and TROUBLESHOOTING.txt)
 
 -Miscellaneous code cleanup / refactoring / optimizing
+
+v6.00.8 AND HIGHER MIGRATES / UPGRADES ANY SET COOKIE DATA TO A MORE SECURE / RELIABLE FORMAT, ONE-TIME DURING UPGRADES FROM V6.00.7 OR LOWER.
+
+v6.00.2 AND HIGHER RESETS LIGHT (TIME PERIOD) CHARTS FROM ARCHIVAL DATA, ONE-TIME DURING UPGRADES FROM V6.00.1 OR LOWER.
+
+-------------------------------------------------------------------
+
+
+
+-------------------------------------------------------------------
+6.00.9:
+
+-BUG FIX: More compatible / reliable email 'from' header format now used, for outgoing email app alerts (includes email-to-text gatways)
 
 v6.00.8 AND HIGHER MIGRATES / UPGRADES ANY SET COOKIE DATA TO A MORE SECURE / RELIABLE FORMAT, ONE-TIME DURING UPGRADES FROM V6.00.7 OR LOWER.
 
