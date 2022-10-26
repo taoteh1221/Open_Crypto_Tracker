@@ -19,6 +19,22 @@ CLASSES
 overflow: hidden;
 width: 100%; 
 position: relative;
+padding-top: 20px;
+}
+
+
+.admin_title {
+    text-align: center;
+    display: inline;
+    position: sticky;
+    position: -webkit-sticky;
+    top: 20px;
+    z-index: 5;
+    border-radius: 8px;
+    padding-top: 8px;
+    padding-left: 35px;
+    padding-right: 35px;
+    padding-bottom: 8px;
 }
 
 
@@ -29,11 +45,15 @@ position: relative;
 
 
 .tab-content > div {
-padding: 35px !important;
+padding-top: 20px !important;
+padding-left: 35px !important;
+padding-right: 35px !important;
+padding-bottom: 35px !important;
 }
 
 
 .tab-content>.active {
+    text-align: center;
     border-top: 2px solid #808080;
     border-left: 2px solid #808080;
     border-right: 2px solid #808080;

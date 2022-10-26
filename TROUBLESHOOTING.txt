@@ -342,6 +342,20 @@ Restart the device running this app. If this fixes the problem, you may have cro
 
 =========================================================================================================================================
 
+  Server Edition Error: "Captcha image code was not correct"
+  
+-----------------------------------------------------------------------------------------------------------------------------------------
+
+If you cannot register a new admin user during a new installation of the SERVER EDITION of this app, because you ALWAYS get the error alert "Captcha image code was not correct" NO MATTER WHAT YOU DO, the issue is most-likely an error in the way you web host provider configured the directory for saving PHP SESSION DATA FILES. 
+
+Luckily EVEN ON SHARED HOSTING some web host companies allow you to set the PHP sessions directory location. See the screenshot in /DOCUMENTATION-ETC/PHP-SESSIONS-DIRECTORY-SETTING.png in the main directory of this app, for details on using your own directory (AFTER YOU CREATE IT IN A FILE MANAGER) on the correct php.ini setting.
+
+
+=========================================================================================================================================
+
+
+=========================================================================================================================================
+
   LINUX Desktop Edition Error: "CGI program sent malformed or too big"
   
 -----------------------------------------------------------------------------------------------------------------------------------------

@@ -307,6 +307,10 @@ CUSTOM_CURL_USER_AGENT_HEADER="User-Agent: Curl (${OS}/$VER; compatible;)"
 ######################################
 
 
+# Parent directory of the script location
+PARENT_DIR="$(dirname "$SCRIPT_LOCATION")"
+
+
 if [ -d "$SCRIPT_LOCATION/INSTALL_CRYPTO_TRACKER_HERE" ] && [ -f $SCRIPT_LOCATION/libcef.so ]; then
 
 APP_ROOT="$SCRIPT_LOCATION"
@@ -315,6 +319,16 @@ echo " "
 echo "${green}Using auto-detected Desktop Edition location:"
 echo " "
 echo "$SCRIPT_LOCATION${reset}"
+echo " "
+
+elif [ -d "$PARENT_DIR/INSTALL_CRYPTO_TRACKER_HERE" ] && [ -f $PARENT_DIR/libcef.so ]; then
+
+APP_ROOT="$PARENT_DIR"
+
+echo " "
+echo "${green}Using auto-detected Desktop Edition location:"
+echo " "
+echo "$PARENT_DIR${reset}"
 echo " "
 
 else
@@ -344,7 +358,6 @@ echo " "
     echo "$APP_ROOT${reset}"
     echo " "
     fi
-
 
 fi
 

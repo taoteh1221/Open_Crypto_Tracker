@@ -85,14 +85,6 @@ echo $system_error;
 $force_exit = 1;
 }
 
-// Check for mod_ssl
-if ( is_array($apache_modules) && !in_array('mod_ssl', $apache_modules) ) {
-$system_error = "HTTP web server Apache module 'mod_ssl' is NOT installed on this web server. 'mod_ssl' is required to SAFELY run this application ( debian install command: a2enmod ssl;a2ensite default-ssl;/etc/init.d/apache2 restart ). <br /><br />";
-$ct_gen->log('system_error', $system_error);
-echo $system_error;
-$force_exit = 1;
-}
-
 
 
 // IF WE ARE NOT RUNNING AS CRON, detect if we are running on a secure HTTPS (SSL) connection

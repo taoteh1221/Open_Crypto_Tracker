@@ -709,6 +709,37 @@ Running a google search for "set permanently ulimit -n linux", you'll find tons 
 	  
 	
 	<?php
+	$accord_var = 'php_session_issues';
+	?>
+	
+	  <div class="card z-depth-0 bordered">
+	    <div class="card-header" id="heading_<?=$accord_var?>">
+	      <h5 class="mb-0">
+	        <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapse_<?=$accord_var?>"
+	          aria-expanded="false" aria-controls="collapse_<?=$accord_var?>">
+	          
+	          Server Edition Error: "Captcha image code was not correct"
+	          
+	        </button>
+	      </h5>
+	    </div>
+	    <div id="collapse_<?=$accord_var?>" class="faq_bg collapse" aria-labelledby="heading_<?=$accord_var?>"
+	      data-parent="#accordionHelp">
+	      <div class="card-body">
+	      
+	         
+	        If you cannot register a new admin user during a new installation of the SERVER EDITION of this app, because you ALWAYS get the error alert "Captcha image code was not correct" NO MATTER WHAT YOU DO, the issue is most-likely an error in the way you web host provider configured the directory for saving PHP SESSION DATA FILES.
+<br /><br /> 
+
+Luckily EVEN ON SHARED HOSTING some web host companies allow you to set the PHP sessions directory location. See the screenshot in <a href='https://raw.githubusercontent.com/taoteh1221/Open_Crypto_Tracker/main/DOCUMENTATION-ETC/PHP-SESSIONS-DIRECTORY-SETTING.png' target='_blank'>/DOCUMENTATION-ETC/PHP-SESSIONS-DIRECTORY-SETTING.png</a> in the main directory of this app, for details on using your own directory (AFTER YOU CREATE IT IN A FILE MANAGER) on the correct php.ini setting.
+	        
+	        
+	      </div>
+	    </div>
+	  </div>
+	  
+	
+	<?php
 	$accord_var = 'shared_library_issues';
 	?>
 	

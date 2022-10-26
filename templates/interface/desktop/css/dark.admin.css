@@ -15,6 +15,12 @@ CLASSES
 ////////////////////////////// */
 
 
+.admin_title {
+    background: #202020;
+    border: 1px dotted #3f3838 !important;
+}
+
+
 .tab-content>.active, .iframe_wrapper {
 background-color: #202020;
 color: #fff;

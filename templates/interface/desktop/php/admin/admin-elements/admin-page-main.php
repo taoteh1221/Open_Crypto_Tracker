@@ -72,6 +72,8 @@
 		<div id='admin_tab_content' class="tab-content align_left">
 		
 		  <div class="tab-pane active" id="admin_security" role="tabpanel">
+	
+	            <h2 class='bitcoin admin_title'>Security</h2>
 
                 <div class='max_1200px_wrapper'>
 
@@ -84,6 +86,8 @@
 		  </div>
 		
 		  <div class="tab-pane" id="admin_comms" role="tabpanel">
+	
+	            <h2 class='bitcoin admin_title'>Communications</h2>
 
                 <div class='max_1200px_wrapper'>
 
@@ -97,6 +101,8 @@
 		  
 		  
 		  <div class="tab-pane" id="admin_general" role="tabpanel">
+	
+	            <h2 class='bitcoin admin_title'>General</h2>
 
                 <div class='max_1200px_wrapper'>
                 	
@@ -110,6 +116,8 @@
 		  
 		  
 		  <div class="tab-pane" id="admin_portfolio_assets" role="tabpanel">
+	
+	            <h2 class='bitcoin admin_title'>Portfolio Assets</h2>
 
                 <div class='max_1200px_wrapper'>
                 	
@@ -122,6 +130,8 @@
 		  
 		  
 		  <div class="tab-pane" id="admin_charts_alerts" role="tabpanel">
+	
+	            <h2 class='bitcoin admin_title'>Charts and Alerts</h2>
 
                 <div class='max_1200px_wrapper'>
                 	
@@ -135,6 +145,8 @@
 		  
 		  
 		  <div class="tab-pane" id="admin_plugins" role="tabpanel">
+	
+	            <h2 class='bitcoin admin_title'>Plugins</h2>
 
                 <div class='max_1200px_wrapper'>
                 	
@@ -148,6 +160,8 @@
 		  
 		  
 		  <div class="tab-pane" id="admin_power_user" role="tabpanel">
+	
+	            <h2 class='bitcoin admin_title'>Power User</h2>
 
                 <div class='max_1200px_wrapper'>
                 	
@@ -161,6 +175,8 @@
 		  
 		  
 		  <div class="tab-pane" id="admin_text_gateways" role="tabpanel">
+	
+	            <h2 class='bitcoin admin_title'>Text Gateways</h2>
 
                 <div class='max_1200px_wrapper'>
                 	
@@ -174,6 +190,8 @@
 		  
 		  
 		  <div class="tab-pane" id="admin_proxy" role="tabpanel">
+	
+	            <h2 class='bitcoin admin_title'>Proxy</h2>
 
                 <div class='max_1200px_wrapper'>
                 	
@@ -187,6 +205,8 @@
 		  
 		  
 		  <div class="tab-pane" id="admin_developer_only" role="tabpanel">
+	
+	            <h2 class='bitcoin admin_title'>Developer Only</h2>
 
                 <div class='max_1200px_wrapper'>
                 	
@@ -200,6 +220,8 @@
 		  
 		  
 		  <div class="tab-pane" id="admin_api" role="tabpanel">
+	
+	            <h2 class='bitcoin admin_title'>API</h2>
 
                 <div class='max_1200px_wrapper'>
                 	
@@ -213,6 +235,8 @@
 		  
 		  
 		  <div class="tab-pane" id="admin_webhook" role="tabpanel">
+	
+	            <h2 class='bitcoin admin_title'>Webhook</h2>
 
                 <div class='max_1200px_wrapper'>
                 	
@@ -226,6 +250,8 @@
 		  
 		  
 		  <div class="tab-pane" id="admin_system_stats" role="tabpanel">
+	
+	            <h2 class='bitcoin admin_title'>System Stats</h2>
 
                 <div class='full_width_wrapper'>
                 	
@@ -239,6 +265,8 @@
 		  
 		  
 		  <div class="tab-pane" id="admin_access_stats" role="tabpanel">
+	
+	            <h2 class='bitcoin admin_title'>Access Stats</h2>
 
                 <div class='full_width_wrapper'>
                 	
@@ -252,6 +280,8 @@
 		  
 		  
 		  <div class="tab-pane" id="admin_logs" role="tabpanel">
+	
+	            <h2 class='bitcoin admin_title'>App Logs</h2>
 
                 <div class='full_width_wrapper'>
                 	
@@ -265,6 +295,8 @@
 		  
 		  
 		  <div class="tab-pane" id="admin_backup_restore" role="tabpanel">
+	
+	            <h2 class='bitcoin admin_title'>Backup / Restore</h2>
 
                 <div class='max_1200px_wrapper'>
                 	
@@ -278,6 +310,8 @@
 		  
 		  
 		  <div class="tab-pane" id="admin_reset" role="tabpanel">
+	
+	            <h2 class='bitcoin admin_title'>Reset</h2>
 
                 <div class='max_1200px_wrapper'>
                 	

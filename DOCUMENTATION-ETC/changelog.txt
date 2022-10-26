@@ -5790,9 +5790,17 @@ v6.00.2 AND HIGHER RESETS LIGHT (TIME PERIOD) CHARTS FROM ARCHIVAL DATA, ONE-TIM
 
 -BUG FIX: Fixed edge-case where a web server with page redirects configured set the wrong domain for cookies (now cookie's domain is auto-chosen via PHP's setcookie function)
 
+-BUG FIX: Fixed the app's system check that assures a secure HTTPS / SSL connection in the Server Edition (no longer says 'mod_ssl is required', as long as a secure connection is detected)
+
 -BUG FIXES (minor / miscellaneous)
 
 -More secure / reliable (on varying server setups) cookie data storage format
+
+-Better user experience navigating admin area (fixed / sticky titles at top of each section)
+
+-Better user experience running automated PHP binary installer fpr Linux Desktop Editions
+
+-More troubleshooting documentation (in 'help' page and TROUBLESHOOTING.txt)
 
 -Miscellaneous code cleanup / refactoring / optimizing
 
