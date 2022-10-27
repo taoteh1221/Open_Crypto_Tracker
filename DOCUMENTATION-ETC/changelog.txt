@@ -5815,7 +5815,7 @@ v6.00.2 AND HIGHER RESETS LIGHT (TIME PERIOD) CHARTS FROM ARCHIVAL DATA, ONE-TIM
 -------------------------------------------------------------------
 6.00.9:
 
--BUG FIX: More compatible / reliable email 'from' header format now used, for outgoing email app alerts (includes email-to-text gatways)
+-BUG FIX: More compatible / reliable email 'from' header format now used, for outgoing email app alerts (includes email-to-text gateways)
 
 v6.00.8 AND HIGHER MIGRATES / UPGRADES ANY SET COOKIE DATA TO A MORE SECURE / RELIABLE FORMAT, ONE-TIME DURING UPGRADES FROM V6.00.7 OR LOWER.
 

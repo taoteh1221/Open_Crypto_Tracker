@@ -270,6 +270,11 @@ FEATURES / STRUCTURING SECTION
 ///////////////////////////////////////////////////////
 
 
+For the in-development 'on-chain-stats' plugin:
+Have it display on the 'more stats' page
+Use the 'usd asset comparision' chart template...different chains are in place of the assets, the telemetry items in place of the time period options.
+
+
 Add a check (every X days with a config setting), to see if a market's trade value has NOT changed in a long time (assure accuracy with resetting a 'no_change' count [store delimited with market value] if change is detected). Add an alert threshold config setting (after no change has been detected X times), which sends comms alerts if the threshold has been met. This way end users can be informed if a market seems to have stale trade values from lack of trades / taken offline. HAVE THIS HAPPEN IN THE BACKGROUND #ONLY WHEN LIVE DATA IS FETCHED# WITHIN $ct_cache->ext_data(), VIA USER-INRTERACTION OR A BACKGROUND TASK (DOES NOT CHECK MARKETS THAT ARE NOT USED BY END USERS OR THE BACKGROUND TASKS).
 
 
