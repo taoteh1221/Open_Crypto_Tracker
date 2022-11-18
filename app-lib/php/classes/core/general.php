@@ -2052,7 +2052,6 @@ var $ct_array = array();
    $pretty_str = preg_replace("/erc20/i", 'ERC-20', $pretty_str);
    $pretty_str = preg_replace("/okex/i", 'OKex', $pretty_str);
    $pretty_str = preg_replace("/mart/i", 'Mart', $pretty_str);
-   $pretty_str = preg_replace("/ftx/i", 'FTX', $pretty_str);
    $pretty_str = preg_replace("/dcx/i", 'DCX', $pretty_str);
    $pretty_str = preg_replace("/gateio/i", 'Gate.io', $pretty_str);
    $pretty_str = preg_replace("/dex/i", 'DEX', $pretty_str);

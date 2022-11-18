@@ -922,7 +922,6 @@ render = render.replace(/ico/gi, "ICO");
 render = render.replace(/erc20/gi, "ERC-20");
 render = render.replace(/okex/gi, "OKex");
 render = render.replace(/mart/gi, "Mart");
-render = render.replace(/ftx/gi, "FTX");
 render = render.replace(/gateio/gi, "Gate.io");
 render = render.replace(/dex/gi, "DEX");
 render = render.replace(/coingecko/gi, "CoinGecko.com");

@@ -273,7 +273,7 @@ $ct_conf['comms']['telegram_bot_token'] = '';  // Your bot's access token
 
 // Your local time offset IN HOURS COMPARED TO UTC TIME (#CAN BE DECIMAL# TO SUPPORT 30 / 45 MINUTE TIME ZONES). Can be negative or positive.
 // (Used for user experience 'pretty' timestamping in interface logic ONLY, WILL NOT change or screw up UTC log times etc if you change this)
-$ct_conf['gen']['loc_time_offset'] = -4; // example: -5 or 5, -5.5 or 5.75
+$ct_conf['gen']['loc_time_offset'] = -5; // example: -5 or 5, -5.5 or 5.75
 
 
 // Configure which interface theme you want as the default theme (also can be manually switched later, on the settings page in the interface)
@@ -457,8 +457,8 @@ $ct_conf['charts_alerts']['tracked_mrkts'] = array(
 					
 					// SOL
 					'sol' => 'binance||btc||none',
-					'sol-2' => 'coinbase||usd||chart',
-					'sol-3' => 'ftx_us||btc||both',
+					'sol-2' => 'coinbase||usd||both',
+					'sol-3' => 'coinbase||btc||chart',
 					'sol-4' => 'binance||eth||chart',
 					
 					
@@ -470,7 +470,7 @@ $ct_conf['charts_alerts']['tracked_mrkts'] = array(
 					
 					
 					// MSOL
-					'msol' => 'ftx||usd||chart',
+					'msol' => 'coingecko_usd||usd||chart',
 					
 					
 					// UNI
@@ -505,7 +505,7 @@ $ct_conf['charts_alerts']['tracked_mrkts'] = array(
 					
 					
 					// ATLAS
-					'atlas' => 'ftx||usd||both',
+					'atlas' => 'gateio||usdt||both',
 					'atlas-2' => 'coingecko_btc||btc||chart',
 					
 					
@@ -515,17 +515,17 @@ $ct_conf['charts_alerts']['tracked_mrkts'] = array(
 					
 					
 					// RAY
-					'ray' => 'ftx||usd||both',
+					'ray' => 'binance||usdt||both',
 					'ray-2' => 'coingecko_btc||btc||chart',
 					
 					
 					// SLRS
-					'slrs' => 'ftx||usd||both',
+					'slrs' => 'gateio||usdt||both',
 					'slrs-2' => 'gateio||eth||chart',
 					
 					
 					// BIT
-					'bit' => 'ftx||usd||both',
+					'bit' => 'gateio||usdt||both',
 					'bit-2' => 'coingecko_btc||btc||chart',
 					
 					
@@ -1223,6 +1223,12 @@ $ct_conf['power']['news_feed'] = array(
     
     
         				array(
+            			"title" => "Newsletter - The Daily Degen",
+            			"url" => "https://thedailydegen.substack.com/feed"
+        						),
+    
+    
+        				array(
             			"title" => "Newsletter - The Daily Gwei",
             			"url" => "https://thedailygwei.substack.com/feed"
         						),
@@ -1273,6 +1279,12 @@ $ct_conf['power']['news_feed'] = array(
         				array(
             			"title" => "Podcast - The Cove",
             			"url" => "https://anchor.fm/s/61f93a88/podcast/rss"
+        						),
+    
+    
+        				array(
+            			"title" => "Podcast - The Hotspot (Helium network related)",
+            			"url" => "https://feeds.simplecast.com/oCtSqusy"
         						),
     
     
@@ -2533,8 +2545,6 @@ $ct_conf['assets'] = array(
                                         'bittrex' => 'SOL-BTC',
                                         'binance' => 'SOLBTC',
                                         'huobi' => 'solbtc',
-                                    	'ftx' => 'SOL/BTC',
-                                    	'ftx_us' => 'SOL/BTC',
                                         'okex' => 'SOL-BTC',
                                     	'crypto.com' => 'SOL_BTC',
                                         'hitbtc' => 'SOLBTC',
@@ -2576,8 +2586,6 @@ $ct_conf['assets'] = array(
                                     'usd' => array(
                                     	 'coinbase' => 'SOL-USD',
                                          'bittrex' => 'SOL-USD',
-                                    	 'ftx' => 'SOL/USD',
-                                    	 'ftx_us' => 'SOL/USD',
                                     	 'kraken' => 'SOLUSD',
                                     	 'binance_us' => 'SOLUSD',
                                     	 'bitfinex' => 'tSOLUSD',
@@ -2598,8 +2606,6 @@ $ct_conf['assets'] = array(
                                     	'coinbase' => 'SOL-USDT',
                                         'bittrex' => 'SOL-USDT',
                                         'binance' => 'SOLUSDT',
-                                    	'ftx' => 'SOL/USDT',
-                                    	'ftx_us' => 'SOL/USDT',
                                         'okex' => 'SOL-USDT',
                                         'huobi' => 'solusdt',
                                     	'binance_us' => 'SOLUSDT',
@@ -2635,7 +2641,6 @@ $ct_conf['assets'] = array(
 
                                                     
                                     'usd' => array(
-                                    	 'ftx' => 'MSOL/USD',
                                     	 'coingecko_usd' => 'msol',
                                                     ),
 
@@ -2685,7 +2690,6 @@ $ct_conf['assets'] = array(
                                                     
                                     'usd' => array(
                                     	 'coinbase' => 'APT-USD',
-                                    	 'ftx' => 'APT/USD',
                                     	 'kraken' => 'APTUSD',
                                     	 'bitfinex' => 'tAPTUSD',
                                                     ),
@@ -2699,7 +2703,6 @@ $ct_conf['assets'] = array(
                                                     
                                     'usdt' => array(
                                         'binance' => 'APTUSDT',
-                                    	'ftx' => 'APT/USDT',
                                         'okex' => 'APT-USDT',
                                         'huobi' => 'aptusdt',
                                         'kucoin' => 'APT-USDT',
@@ -2999,7 +3002,6 @@ $ct_conf['assets'] = array(
 
                                                     
                                     'usd' => array(
-                                    	 'ftx' => 'ATLAS/USD',
                                          'okcoin' => 'ATLAS-USD',
                                     	 'coingecko_usd' => 'star-atlas',
                                                     ),
@@ -3088,7 +3090,6 @@ $ct_conf['assets'] = array(
 
                                                     
                                     'usd' => array(
-                                    	'ftx' => 'RAY/USD',
                                     	'kraken' => 'RAYUSD',
                                         'gateio' => 'RAY_USD',
                                                     ),
@@ -3124,11 +3125,6 @@ $ct_conf['assets'] = array(
                                                     ),
 
                                                     
-                                    'usd' => array(
-                                    	 'ftx' => 'SLRS/USD',
-                                                    ),
-
-                                                    
                                     'usdt' => array(
                                         'gateio' => 'SLRS_USDT',
                                         'coinex' => 'SLRSUSDT',
@@ -3157,7 +3153,6 @@ $ct_conf['assets'] = array(
 
                                                     
                                     'usd' => array(
-                                    	'ftx' => 'BIT/USD',
                                         'bybit' => 'BITUSD',
                                                     ),
 
@@ -3348,14 +3343,12 @@ $ct_conf['assets'] = array(
 
                                                     
                                     'usd' => array(
-                                    	 'ftx' => 'HNT/USD',
                                     	 'binance_us' => 'HNTUSD',
                                                     ),
 
                                                     
                                     'usdt' => array(
                                         'binance' => 'HNTUSDT',
-                                    	'ftx' => 'HNT/USDT',
                                     	'binance_us' => 'HNTUSDT',
                                     	'crypto.com' => 'HNT_USDT',
                                         'hotbit' => 'HNT_USDT',
