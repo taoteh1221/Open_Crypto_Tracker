@@ -1,7 +1,7 @@
 
 ############################################################################################################################
 
-Open Crypto Tracker - Developed by Michael Kilday <mike@dragonfrugal.com> (Copyright 2014-2022 GPLv3)
+Open Crypto Tracker - Developed by Michael Kilday <mike@dragonfrugal.com> (Copyright 2014-2023 GPLv3)
 
 
 100% FREE / open source / PRIVATE cryptocurrency portfolio tracker. Email / text / Alexa / Telegram price alerts, price charts,  mining calculators, leverage / gain / loss / balance stats, news feeds + more. Privately track Bitcoin / Ethereum / unlimited cryptocurrencies. Customize as many assets / markets / alerts / charts as you want. 

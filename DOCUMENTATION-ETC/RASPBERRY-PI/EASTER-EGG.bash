@@ -3,7 +3,7 @@
 ########################################################################################################################
 ########################################################################################################################
 
-# Copyright 2022 GPLv3, Bluetooth Internet Radio By Mike Kilday: Mike@DragonFrugal.com
+# Copyright 2022-2023 GPLv3, Bluetooth Internet Radio By Mike Kilday: Mike@DragonFrugal.com
 
 # https://github.com/taoteh1221/Bluetooth_Internet_Radio
 
@@ -51,7 +51,7 @@
 
 
 # Version of this script
-APP_VERSION="1.03.0" # 2022/OCTOBER/8TH
+APP_VERSION="1.04.0" # 2022/NOVEMBER/20TH
 
 
 # If parameters are added via command line
@@ -606,7 +606,7 @@ echo " "
 echo "${yellow}Enter the NUMBER next to your chosen option:${reset}"
 echo " "
 
-OPTIONS="upgrade_check pulseaudio_install pulseaudio_fix pulseaudio_status pyradio_install pyradio_fix pyradio_on pyradio_off bluetooth_scan bluetooth_connect bluetooth_remove bluetooth_devices sound_test volume_adjust troubleshoot syslog_logs journal_logs restart_computer exit_app other_apps about_this_app"
+OPTIONS="upgrade_check pulseaudio_install pulseaudio_fix pulseaudio_status pyradio_install pyradio_fix pyradio_on pyradio_off bluetooth_scan bluetooth_connect bluetooth_remove bluetooth_devices bluetooth_status sound_test volume_adjust troubleshoot syslog_logs journal_logs restart_computer exit_app other_apps about_this_app"
 
 
 # start options
@@ -1455,6 +1455,45 @@ select opt in $OPTIONS; do
         exit
         
         break    
+        
+        ##################################################################################################################
+        ##################################################################################################################
+        
+        elif [ "$opt" = "bluetooth_status" ]; then
+        
+        
+        ######################################
+        
+        echo " "
+        
+            if [ "$EUID" -ne 0 ] || [ "$TERMINAL_USERNAME" == "root" ]; then 
+             echo "${red}Please run #WITH# 'sudo' PERMISSIONS.${reset}"
+             echo " "
+             echo "${cyan}Exiting...${reset}"
+             echo " "
+             exit
+            fi
+        
+        ######################################
+        
+            
+            # If 'pulseaudio' was found, start it
+            if [ -f "$PULSEAUDIO_PATH" ]; then
+                    
+            echo "${yellow}bluetooth status: ${red}(HOLD Ctrl+c KEYS DOWN TO EXIT)${yellow}:"
+            echo "${reset} "
+            sudo systemctl status bluetooth.service
+            exit
+            
+            else
+            
+            echo "PulseAudio not found, must be installed first, please re-run this script and choose that option."
+            echo " "
+                    
+            fi
+
+        
+        break
         
         ##################################################################################################################
         ##################################################################################################################

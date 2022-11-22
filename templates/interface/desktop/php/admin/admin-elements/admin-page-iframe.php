@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2014-2022 GPLv3, Open Crypto Tracker by Mike Kilday: Mike@DragonFrugal.com
+ * Copyright 2014-2023 GPLv3, Open Crypto Tracker by Mike Kilday: Mike@DragonFrugal.com
  */
  
 
@@ -21,7 +21,7 @@ header('Access-Control-Allow-Origin: ' . $app_host_address);
 <html lang="en">
 
 <!-- /*
- * Copyright 2014-2022 GPLv3, Open Crypto Tracker by Mike Kilday: Mike@DragonFrugal.com
+ * Copyright 2014-2023 GPLv3, Open Crypto Tracker by Mike Kilday: Mike@DragonFrugal.com
  */ -->
 
 <head>
@@ -375,7 +375,7 @@ $refresh_admin = explode(',', $_GET['refresh']);
 </html>
 
 <!-- /*
- * Copyright 2014-2022 GPLv3, Open Crypto Tracker by Mike Kilday: Mike@DragonFrugal.com
+ * Copyright 2014-2023 GPLv3, Open Crypto Tracker by Mike Kilday: Mike@DragonFrugal.com
  */ -->
  
  <?php

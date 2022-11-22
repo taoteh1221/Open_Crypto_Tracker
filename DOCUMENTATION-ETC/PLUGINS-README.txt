@@ -5,7 +5,7 @@ CREATING CUSTOM PLUGINS
 ##########################################################################################
 
 
-IMPORTANT NOTICE: PLUGINS *MAY REQUIRE* A CRON JOB RUNNING ON YOUR WEB SERVER (see README.txt for cron job setup information).
+IMPORTANT NOTICE: PLUGINS *MAY REQUIRE* A CRON JOB (OR SCHEDULED TASK) RUNNING ON YOUR WEB SERVER (see README.txt for cron job setup information).
 
 
 Take advantage of this app's built-in functions / classes, and your config settings (alert comm channels setup, etc) to create your own custom plugins WITH MINIMAL CODING REQUIRED, to add features to this app.
@@ -110,7 +110,7 @@ Example: $plug_conf[$this_plug]['ui_name'] = 'My Plugin Name';
 12) We are now done setting up plugin files, now we need to activate the new plugin. IN THE MAIN APP "Admin Config" POWER USER section. Locate the configuration variable named: 'activate_plugins'
 
 
-13) To add / activate your new plugin, add your plugin name (example: 'my-app-plugin') as a new value within 'activate_plugins', and set to 'on'...ALSO INCLUDE A COMMA AT THE END.
+13) To add / activate your new plugin, add your plugin MAIN FOLDER name (example: 'my-app-plugin') as a new value within 'activate_plugins', and set to 'on'...ALSO INCLUDE A COMMA AT THE END.
 
 Example: 'my-app-plugin' => 'on',
 

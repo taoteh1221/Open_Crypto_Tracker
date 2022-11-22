@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2014-2022 GPLv3, Open Crypto Tracker by Mike Kilday: Mike@DragonFrugal.com
+ * Copyright 2014-2023 GPLv3, Open Crypto Tracker by Mike Kilday: Mike@DragonFrugal.com
  */
 
 
@@ -12,7 +12,7 @@ exit;
 
 
 // Application version
-$app_version = '6.00.9';  // 2022/OCTOBER/26TH
+$app_version = '6.00.10';  // 2022/NOVEMBER/22ND
 
 
 // #DEV# DEBUGGING

@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2014-2022 GPLv3, Open Crypto Tracker by Mike Kilday: Mike@DragonFrugal.com
+ * Copyright 2014-2023 GPLv3, Open Crypto Tracker by Mike Kilday: Mike@DragonFrugal.com
  */
 
 
@@ -849,7 +849,7 @@ After using the above configuration, and then running "make", when you then run 
 	      <div class="card-body">
 	      
 
-<span class='bitcoin'>IMPORTANT NOTICE:</span> PLUGINS *MAY REQUIRE* A CRON JOB RUNNING ON YOUR WEB SERVER (see <a href='README.txt' target='_blank'>README.txt</a> for cron job setup information).
+<span class='bitcoin'>IMPORTANT NOTICE:</span> PLUGINS *MAY REQUIRE* A CRON JOB (OR SCHEDULED TASK) RUNNING ON YOUR WEB SERVER (see <a href='README.txt' target='_blank'>README.txt</a> for cron job setup information).
 <br /><br />
 
 
@@ -997,7 +997,7 @@ $plug_conf[$this_plug]['SETTING_NAME_HERE'] = array('mysetting1', 'mysetting2');
 <br /><br />
 
 
-<span class='blue'>13)</span> To add / activate your new plugin, add your plugin name (example: 'my-app-plugin') as a new value within 'activate_plugins', and set to 'on'...ALSO INCLUDE A COMMA AT THE END.
+<span class='blue'>13)</span> To add / activate your new plugin, add your plugin MAIN FOLDER name (example: 'my-app-plugin') as a new value within 'activate_plugins', and set to 'on'...ALSO INCLUDE A COMMA AT THE END.
 <br /><br />
 
 <pre class='rounded' style='display: inline-block;<?=( $ct_gen->is_msie() == false ? ' padding-top: 1em !important;' : '' )?>'><code class='hide-x-scroll less' style='white-space: nowrap; width: auto; display: inline-block;'>'my-app-plugin' => 'on',</code></pre>

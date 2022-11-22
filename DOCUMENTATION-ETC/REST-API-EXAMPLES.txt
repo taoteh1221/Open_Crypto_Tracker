@@ -1,6 +1,6 @@
 
 /*
- * Copyright 2014-2022 GPLv3, Open Crypto Tracker by Mike Kilday: Mike@DragonFrugal.com
+ * Copyright 2014-2023 GPLv3, Open Crypto Tracker by Mike Kilday: Mike@DragonFrugal.com
  */
  
 
@@ -34,7 +34,7 @@ THE API ADMIN SECTION IN THE APP GIVES YOU CUSTOMIZED CODE EXAMPLES (AUTO-INCLUD
 # Add --insecure to the command, if your app's SSL certificate
 # is SELF-SIGNED (not CA issued), #OR THE COMMAND WON'T WORK#
 
-curl -d "api_key=XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX" -X POST https://YOUR-WEB-ADDRESS.COM/api/market_conversion/eur/kraken-btc-usd,coinbase-dai-usdc,coinbase-eth-usd
+curl -d "api_key=XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX" -X POST https://YOUR-WEB-ADDRESS.COM/api/market_conversion/eur/kraken-btc-usd,coinbase-dai-usd,coinbase-eth-usd
 
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -46,7 +46,7 @@ curl -d "api_key=XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX" -X PO
 
 var api_request = new XMLHttpRequest();
 
-api_request.open("POST", "https://YOUR-WEB-ADDRESS.COM/api/market_conversion/eur/kraken-btc-usd,coinbase-dai-usdc,coinbase-eth-usd", true);
+api_request.open("POST", "https://YOUR-WEB-ADDRESS.COM/api/market_conversion/eur/kraken-btc-usd,coinbase-dai-usd,coinbase-eth-usd", true);
 
 var params = "api_key=XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX";
 
@@ -83,7 +83,7 @@ exit;
 
 
 // Initiate CURL
-$ch = curl_init('https://YOUR-WEB-ADDRESS.COM/api/market_conversion/eur/kraken-btc-usd,coinbase-dai-usdc,coinbase-eth-usd');
+$ch = curl_init('https://YOUR-WEB-ADDRESS.COM/api/market_conversion/eur/kraken-btc-usd,coinbase-dai-usd,coinbase-eth-usd');
 
 $params = array('api_key' => 'XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX');
 

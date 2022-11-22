@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2014-2022 GPLv3, Open Crypto Tracker by Mike Kilday: Mike@DragonFrugal.com
+ * Copyright 2014-2023 GPLv3, Open Crypto Tracker by Mike Kilday: Mike@DragonFrugal.com
  */
 
 
@@ -35,7 +35,7 @@ $api_base_endpoint = ( $app_edition == 'server' ? 'api/' : 'internal-api.php?dat
 # Add --insecure to the command, if your app's SSL certificate
 # is SELF-SIGNED (not CA issued), #OR THE COMMAND WON'T WORK#
 
-curl<?=( isset($htaccess_username) && isset($htaccess_password) && $htaccess_username != '' && $htaccess_password != '' ? ' -u "' . $htaccess_username . ':' . $htaccess_password . '"' : '' )?> -d "api_key=<?=$api_key?>" -X POST <?=$base_url?><?=$api_base_endpoint?>market_conversion/eur/kraken-btc-usd,coinbase-dai-usdc,coinbase-eth-usd
+curl<?=( isset($htaccess_username) && isset($htaccess_password) && $htaccess_username != '' && $htaccess_password != '' ? ' -u "' . $htaccess_username . ':' . $htaccess_password . '"' : '' )?> -d "api_key=<?=$api_key?>" -X POST <?=$base_url?><?=$api_base_endpoint?>market_conversion/eur/kraken-btc-usd,coinbase-dai-usd,coinbase-eth-usd
 </code></pre>
 	        
 	        
@@ -70,7 +70,7 @@ htaccess_login.send();
 
 var api_request = new XMLHttpRequest();
 
-api_request.open("POST", "<?=$base_url?><?=$api_base_endpoint?>market_conversion/eur/kraken-btc-usd,coinbase-dai-usdc,coinbase-eth-usd", true);
+api_request.open("POST", "<?=$base_url?><?=$api_base_endpoint?>market_conversion/eur/kraken-btc-usd,coinbase-dai-usd,coinbase-eth-usd", true);
 
 var params = "api_key=<?=$api_key?>";
 
@@ -120,7 +120,7 @@ exit;
 }
 
 // Initiate CURL
-$ch = curl_init('<?=$base_url?><?=$api_base_endpoint?>market_conversion/eur/kraken-btc-usd,coinbase-dai-usdc,coinbase-eth-usd');
+$ch = curl_init('<?=$base_url?><?=$api_base_endpoint?>market_conversion/eur/kraken-btc-usd,coinbase-dai-usd,coinbase-eth-usd');
 
 $params = array('api_key' => '<?=$api_key?>');
 
@@ -172,7 +172,7 @@ var_dump($api_data_array);
 	
 	    <fieldset class='subsection_fieldset'><legend class='subsection_legend'> Example API Responses (JSON format) </legend>
 	        
-	    <p class='bitcoin'>/<?=$api_base_endpoint?>market_conversion/eur/kraken-btc-usd,coinbase-dai-usdc,coinbase-eth-usd</p>
+	    <p class='bitcoin'>/<?=$api_base_endpoint?>market_conversion/eur/kraken-btc-usd,coinbase-dai-usd,coinbase-eth-usd</p>
 	        	        
 <pre class='rounded'><code class='hide-x-scroll json' style='width: auto; height: auto;'>
 {
@@ -191,7 +191,7 @@ var_dump($api_data_array);
                 }
             }
         },
-        "coinbase-dai-usdc": {
+        "coinbase-dai-usd": {
             "market": {
                 "usdc": {
                     "spot_price": 1.01,
@@ -225,7 +225,7 @@ var_dump($api_data_array);
 }
 </code></pre>
 
-	    <p class='bitcoin' style='margin-top: 45px;'>/<?=$api_base_endpoint?>market_conversion/market_only/kraken-btc-usd,coinbase-dai-usdc,coinbase-eth-usd</p>
+	    <p class='bitcoin' style='margin-top: 45px;'>/<?=$api_base_endpoint?>market_conversion/market_only/kraken-btc-usd,coinbase-dai-usd,coinbase-eth-usd</p>
 	        	        
 <pre class='rounded'><code class='hide-x-scroll json' style='width: auto; height: auto;'>
 {
@@ -238,7 +238,7 @@ var_dump($api_data_array);
                 }
             }
         },
-        "coinbase-dai-usdc": {
+        "coinbase-dai-usd": {
             "market": {
                 "usdc": {
                     "spot_price": 1.01,
@@ -264,15 +264,29 @@ var_dump($api_data_array);
 <pre class='rounded'><code class='hide-x-scroll json' style='width: auto; height: auto;'>
 {
     "asset_list": [
+        "acusd",
+        "apt",
+        "atlas",
+        "bit",
         "btc",
         "dai",
-        "data",
         "eth",
-        "gnt",
+        "grape",
         "hive",
+        "hnt",
         "mana",
         "mkr",
-        "myst"
+        "msol",
+        "ray",
+        "rndr",
+        "samo",
+        "shdw",
+        "slc",
+        "slrs",
+        "sol",
+        "uni",
+        "usdc",
+        "zbc"
     ],
     "minutes_cached": 4
 }
@@ -290,7 +304,10 @@ var_dump($api_data_array);
         "bitbns",
         "bitfinex",
         "bitflyer",
-        "bitforex",
+        "bitmart",
+        "bitmex",
+        "bitmex_u20",
+        "bitmex_z20",
         "bitpanda",
         "bitso",
         "bitstamp",
@@ -299,29 +316,39 @@ var_dump($api_data_array);
         "btcmarkets",
         "btcturk",
         "buyucoin",
+        "bybit",
         "cex",
         "coinbase",
+        "coindcx",
         "coinex",
-        "cryptofresh",
+        "coingecko_btc",
+        "coingecko_eth",
+        "coingecko_eur",
+        "coingecko_gbp",
+        "coingecko_usd",
+        "coinspot",
+        "crypto.com",
         "ethfinex",
         "gateio",
         "gemini",
         "hitbtc",
         "hotbit",
         "huobi",
-        "idex",
+        "jupiter_ag",
         "korbit",
         "kraken",
         "kucoin",
-        "livecoin",
+        "liquid",
         "localbitcoins",
+        "loopring_amm",
         "luno",
         "okcoin",
         "okex",
         "poloniex",
         "southxchange",
-        "tradeogre",
+        "unocoin",
         "upbit",
+        "wazirx",
         "zebpay"
     ],
     "minutes_cached": 4
@@ -335,15 +362,39 @@ var_dump($api_data_array);
 {
     "market_list": {
         "binance": [
+            "binance-apt-btc",
+            "binance-apt-eur",
+            "binance-apt-try",
+            "binance-apt-usdt",
+            "binance-btc-dai",
+            "binance-btc-tusd",
             "binance-btc-usdc",
             "binance-btc-usdt",
-            "binance-data-btc",
-            "binance-data-eth",
             "binance-eth-btc",
+            "binance-eth-dai",
+            "binance-eth-tusd",
             "binance-eth-usdc",
             "binance-eth-usdt",
+            "binance-hive-btc",
+            "binance-hnt-btc",
+            "binance-hnt-usdt",
             "binance-mana-btc",
-            "binance-mana-eth"
+            "binance-mana-eth",
+            "binance-mkr-btc",
+            "binance-mkr-usdt",
+            "binance-ray-usdt",
+            "binance-sol-aud",
+            "binance-sol-brl",
+            "binance-sol-btc",
+            "binance-sol-eth",
+            "binance-sol-eur",
+            "binance-sol-rub",
+            "binance-sol-try",
+            "binance-sol-usdc",
+            "binance-sol-usdt",
+            "binance-uni-btc",
+            "binance-uni-usdt",
+            "binance-usdc-usdt"
         ]
     },
     "minutes_cached": 4
@@ -430,8 +481,8 @@ var_dump($api_data_array);
         "usdc",
         "usdt",
         "uyu",
-        "vnd",
         "ves",
+        "vnd",
         "xaf",
         "xof",
         "zar",

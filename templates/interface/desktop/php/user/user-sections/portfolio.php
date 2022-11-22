@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2014-2022 GPLv3, Open Crypto Tracker by Mike Kilday: Mike@DragonFrugal.com
+ * Copyright 2014-2023 GPLv3, Open Crypto Tracker by Mike Kilday: Mike@DragonFrugal.com
  */
 
 
@@ -1660,8 +1660,11 @@ zingchart.bind('marketcap_chart', 'label_click', function(e){
 
 
 var server_header_defaults_content = '<h5 class="yellow tooltip_title">Average Server Header Size Limits</h5>'
-
-			+'<p class="coin_info extra_margins" style="max-width: 600px; white-space: normal;">Web servers have a pre-set header size limit (which can be adjusted within it\'s own server configuration), which varies depending on the server software you are using. <span class="bitcoin">IF THIS APP GOES OVER THOSE HEADER SIZE LIMITS, IT WILL CRASH!</span></p>'
+            
+            			+'<p class="coin_info extra_margins" style="max-width: 600px; white-space: normal;">Web servers have a pre-set header size limit (which can be adjusted within it\'s own server configuration), which varies depending on the server software you are using.</p>'
+            
+            			+'<p class="coin_info extra_margins" style="max-width: 600px; white-space: normal;"><span class="bitcoin">IF THIS APP GOES OVER THOSE HEADER SIZE LIMITS, IT WILL CRASH!</span></p>'
+            
 
 			+'<p class="coin_info extra_margins" style="max-width: 600px; white-space: normal;"><span class="bitcoin">STANDARD SERVER HEADER SIZE LIMITS (IN KILOBYTES)...</span><br />Apache: 8kb<br />NGINX: 4kb - 8kb<br />IIS: 8kb - 16kb<br />Tomcat: 8kb - 48kb</p>';
 		

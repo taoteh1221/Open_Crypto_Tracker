@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2014-2022 GPLv3, Open Crypto Tracker by Mike Kilday: Mike@DragonFrugal.com
+ * Copyright 2014-2023 GPLv3, Open Crypto Tracker by Mike Kilday: Mike@DragonFrugal.com
  */
 			
 echo ( isset($pow_asset_data['height']) ? '<p><b>Block height:</b> ' . number_format( $pow_asset_data['height'] ) . '</p>' : '' );
