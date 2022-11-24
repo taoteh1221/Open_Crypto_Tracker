@@ -33,6 +33,7 @@
 // (ENABLES / UPDATES automatically, when a valid username / password are filled in or updated here)
 // (DISABLES automatically, when username / password are blank '' OR invalid) 
 // (!ONLY #UPDATES OR DISABLES# AUTOMATICALLY #AFTER# LOGGING IN ONCE WITH YOUR #OLD LOGIN# [or if a cron job / scheduled task runs with the new config]!)
+// DOES #NOT# WORK ON #DESKTOP EDITIONS# (ONLY WORKS ON #SERVER EDITION#)
 // #IF THIS SETTING GIVES YOU ISSUES# ON YOUR SYSTEM, BLANK IT OUT TO '', AND DELETE '.htaccess' IN THE MAIN DIRECTORY OF 
 // THIS APP (TO RESTORE PAGE ACCESS), AND PLEASE REPORT IT HERE: https://github.com/taoteh1221/Open_Crypto_Tracker/issues
 $ct_conf['sec']['interface_login'] = ''; // Leave blank to disable requiring an interface login. This format MUST be used: 'username||password'
@@ -1536,8 +1537,8 @@ $ct_conf['dev']['news_feed_precache_hard_limit'] = 45; // (default = 45), ADJUST
 // LARGER AVERAGE TIME SPREAD IS EASIER ON LOW POWER DEVICES (TO ONLY UPDATE A FEW AT A TIME), FOR A MORE CONSISTANT CRON JOB RUNTIME SPEED!!
 $ct_conf['dev']['all_chart_rebuild_min_max'] = '6,12'; // 'min,max' (default = '6,12'), ADJUST WITH CARE!!!
 ////
-// Maximum number of light chart NEW BUILDS (only reset / new, NOT the 'all' chart rebuilds) allowed during background tasks
-// (to avoid overloading low power devices)
+// Maximum number of light chart NEW BUILDS allowed during background tasks (only reset / new, NOT the 'all' chart REbuilds)
+// (multiplied by number of CPU cores [if detected], avoids overloading low power devices / still builds fast on multi-core)
 $ct_conf['dev']['light_chart_first_build_hard_limit'] = 25; // (default = 25), ADJUST WITH CARE!!!
 
 
