@@ -498,7 +498,10 @@ var $ct_array1 = array();
    $data = array();
    
    
-     if ( $ct_conf['gen']['prim_mcap_site'] == 'coingecko' ) {
+     if ( preg_match("/stock/i", $symbol) ) {
+     // Do nothing for stocks, as we currently don't support stock stats beyond spot price / volume
+     }
+     elseif ( $ct_conf['gen']['prim_mcap_site'] == 'coingecko' ) {
      
        
          // Check for currency support, fallback to USD if needed

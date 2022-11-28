@@ -642,7 +642,46 @@ var $ct_array1 = array();
       
     
     
-      if ( strtolower($sel_exchange) == 'binance' ) {
+      if ( strtolower($sel_exchange) == 'alphavantage_stock' ) {
+         
+      $url = 'https://www.alphavantage.co/query?function=GLOBAL_QUOTE&symbol=' . $market_id . '&apikey=' . $ct_conf['gen']['alphavantage_key'];
+         
+      $response = @$ct_cache->ext_data('url', $url, $ct_conf['power']['last_trade_cache_time']);
+         
+      $data = json_decode($response, true);
+      
+      $data = $data["Global Quote"];
+       
+      
+	          if ( is_array($data) ) {
+	      
+	            foreach ($data as $key => $val) {
+	              
+	              
+	              if ( $key == '05. price' && trim($val) != '' ) {
+	               
+	              $result = array(
+	                              'last_trade' => $val,
+	                              '24hr_asset_vol' => null,
+	                              '24hr_pair_vol' => $data["06. volume"]
+	                     		    );
+	     
+	              }
+	            
+	          
+	            }
+	          
+	          }
+      
+      
+      }
+    
+    
+    ////////////////////////////////////////////////////////////////////////////////////////////////
+      
+    
+    
+      elseif ( strtolower($sel_exchange) == 'binance' ) {
          
       $url = 'https://www.binance.com/api/v3/ticker/24hr';
          

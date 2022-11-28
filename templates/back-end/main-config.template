@@ -287,6 +287,11 @@ $ct_conf['gen']['default_theme'] = 'dark'; // 'dark' or 'light'
 $ct_conf['gen']['asset_charts_toggle'] = 'on'; // 'on' / 'off'
 
 
+// API key for Alpha Vantage (global stock APIs as well as foreign exchange rates (forex) and cryptocurrency data feeds)
+// (required unfortunately, but a FREE level is available): https://www.alphavantage.co/support/#api-key
+$ct_conf['gen']['alphavantage_key'] = '';
+
+
 // API key for etherscan.io (required unfortunately, but a FREE level is available): https://etherscan.io/apis
 $ct_conf['gen']['etherscan_key'] = '';
 
@@ -461,6 +466,14 @@ $ct_conf['charts_alerts']['tracked_mrkts'] = array(
 					'sol-2' => 'coinbase||usd||both',
 					'sol-3' => 'coinbase||btc||chart',
 					'sol-4' => 'binance||eth||chart',
+					
+					
+					// AMZNSTOCK
+					'amznstock' => 'alphavantage_stock||usd||both',
+					
+					
+					// GOOGLSTOCK
+					'googlstock' => 'alphavantage_stock||usd||both',
 					
 					
 					// APT
@@ -2622,6 +2635,48 @@ $ct_conf['assets'] = array(
                                                     
                         ) // pair END
                                         
+                    ), // Asset END
+                    
+                    
+                    ////////////////////////////////////////////////////////////////////
+                    
+                    
+                    // AMZNSTOCK
+                    'AMZNSTOCK' => array(
+                        
+                        'name' => 'Amazon, Inc.',
+                        'mcap_slug' => 'AMZN:NASDAQ',
+                        'pair' => array(
+
+                        
+                                    'usd' => array(
+                                        'alphavantage_stock' => 'AMZN',
+                                                    ),
+
+                                                    
+                        ) // pair END
+                        
+                    ), // Asset END
+                    
+                    
+                    ////////////////////////////////////////////////////////////////////
+                    
+                    
+                    // GOOGLSTOCK
+                    'GOOGLSTOCK' => array(
+                        
+                        'name' => 'Alphabet Inc Class A',
+                        'mcap_slug' => 'GOOGL:NASDAQ',
+                        'pair' => array(
+
+                        
+                                    'usd' => array(
+                                        'alphavantage_stock' => 'GOOGL',
+                                                    ),
+
+                                                    
+                        ) // pair END
+                        
                     ), // Asset END
                     
                     

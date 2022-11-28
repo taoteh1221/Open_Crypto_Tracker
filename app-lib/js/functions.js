@@ -925,6 +925,7 @@ render = render.replace(/mart/gi, "Mart");
 render = render.replace(/gateio/gi, "Gate.io");
 render = render.replace(/dex/gi, "DEX");
 render = render.replace(/coingecko/gi, "CoinGecko.com");
+render = render.replace(/alphavantage/gi, "AlphaVantage");
 
 return render;
 
