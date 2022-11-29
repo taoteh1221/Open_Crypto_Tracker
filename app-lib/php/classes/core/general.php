@@ -832,6 +832,10 @@ var $ct_array = array();
       elseif ( preg_match("/telegram/i", $url) ) {
       $url = str_replace($ct_conf['comms']['telegram_bot_token'], $ct_var->obfusc_str($ct_conf['comms']['telegram_bot_token'], 2), $url); 
       }
+      // AlphaVantage
+      elseif ( preg_match("/alphavantage/i", $url) ) {
+      $url = str_replace($ct_conf['gen']['alphavantage_key'], $ct_var->obfusc_str($ct_conf['gen']['alphavantage_key'], 2), $url); 
+      }
    
    // Keep our color-coded logs in the admin UI pretty, remove '//' and put in parenthesis
    return '('.$url;

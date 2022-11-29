@@ -643,6 +643,21 @@ var $ct_array1 = array();
     
     
       if ( strtolower($sel_exchange) == 'alphavantage_stock' ) {
+   
+   
+          if ( trim($ct_conf['gen']['alphavantage_key']) == null ) {
+          	
+          $ct_gen->log(
+          		    'notify_error',
+          		    '"alphavantage_key" (free API key) is not configured in Admin Config GENERAL section',
+          		    false,
+          		    'alphavantage_key'
+          		    );
+          
+          return false;
+          
+          }
+      
          
       $url = 'https://www.alphavantage.co/query?function=GLOBAL_QUOTE&symbol=' . $market_id . '&apikey=' . $ct_conf['gen']['alphavantage_key'];
          

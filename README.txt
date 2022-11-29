@@ -251,8 +251,8 @@ USAGE (ADDING / UPDATING COINS):
  
  
  
-                    // UPPERCASE_COIN_ABRV_HERE
-                    'UPPERCASE_COIN_ABRV_HERE' => array(
+                    // UPPERCASE_COIN_TICKER_HERE
+                    'UPPERCASE_COIN_TICKER_HERE' => array(
                         
                         'name' => 'COIN_NAME_HERE',
                         // Website slug (URL data) on coinmarketcap / coingecko, leave blank if not listed there
@@ -319,7 +319,62 @@ USAGE (ADDING / UPDATING COINS):
                        	) // pair END
                         
                     ), // Asset END
-                    
+ 
+ 
+ 
+                    // UPPERCASE_STOCK_TICKER_HERESTOCK
+                    // (*ALWAYS* APPEND WORD "STOCK" TO THE TICKER HERE, to designate as a stock [NOT crypto / fiat])
+                    'UPPERCASE_STOCK_TICKER_HERESTOCK' => array(
+                        
+                        'name' => 'STOCK_NAME_HERE',
+                        // Website slug (URL data) on Google Finance, leave blank if not listed there
+                        'mcap_slug' => 'UPPERCASE_STOCK_TICKER_HERE:EXCHANGE_NAME_HERE', 
+                        // MARKET IDS ARE CASE-SENSITIVE!
+                        'pair' => array(
+
+                        
+                                'usd' => array(
+                                        'alphavantage_stock' => 'ALPHAVANTAGE_TICKER_ID_HERE',
+                                               ),
+                                       
+                                       
+                        /*
+                        ///////////////////////////////////////////////////
+                        'ALPHAVANTAGE_TICKER_ID_HERE' EXAMPLES FOR STOCKS...
+                        (SEE EXAMPLES IN CONFIG.PHP FOR MORE DETAILS ON ADDING STOCKS)
+                        ///////////////////////////////////////////////////
+                        
+                        IBM (United States):
+                        IBM
+                        
+                        Tesco PLC (UK - London Stock Exchange):
+                        TSCO.LON
+                        
+                        Shopify Inc (Canada - Toronto Stock Exchange):
+                        SHOP.TR
+                        
+                        GreenPower Motor Company Inc (Canada - Toronto Venture Exchange):
+                        GPV.TRV
+                        
+                        Daimler Truck Holding AG (Germany - XETRA):
+                        DTG.DEX
+                        
+                        Reliance Industries Limited (India - BSE):
+                        RELIANCE.BSE
+                        
+                        SAIC Motor Corporation (China - Shanghai Stock Exchange):
+                        600104.SHH
+                        
+                        China Vanke Company Ltd (China - Shenzhen Stock Exchange):
+                        000002.SHZ
+                        
+                        ///////////////////////////////////////////////////
+                        */
+
+                                         
+                       	) // pair END
+                        
+                    ), // Asset END
       
  
     

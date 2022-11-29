@@ -41,11 +41,13 @@ $asset_stats_array = array();
 
 $asset_tracking =  array();
 
-$btc_worth_array = array();
-
 $btc_pair_mrkts = array();
 
 $btc_pair_mrkts_excluded = array();
+
+$btc_worth_array = array();
+
+$stocks_btc_worth_array = array();
 
 $price_alert_fixed_reset_array = array();
 

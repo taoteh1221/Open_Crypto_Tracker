@@ -48,7 +48,7 @@ $plug_conf[$this_plug]['tracking'] = array(
 																	
 												// BTC EXAMPLE
 												array(
-													'asset' => 'btc', // Asset symbol (LOWERCASE)
+													'asset' => 'btc', // Ticker Key (LOWERCASE)
 													'address' => '3Nw6cvSgnLEFmQ1V4e8RSBG23G7pDjF3hW', // BTC address
 													'label' => 'Crypto Tracker BTC Donations' // Description of address
 													),
@@ -57,7 +57,7 @@ $plug_conf[$this_plug]['tracking'] = array(
 											    // ETH EXAMPLE
 											    // (REQUIRES AN API KEY FOR ETHERSCAN!! [SETUP IN GENERAL SECTION OF ADMIN CONFIG])
 												array(
-													'asset' => 'eth', // Asset symbol (LOWERCASE)
+													'asset' => 'eth', // Ticker Key (LOWERCASE)
 													'address' => '0x644343e8D0A4cF33eee3E54fE5d5B8BFD0285EF8', // ETH address
 													'label' => 'Crypto Tracker ETH Donations' // Description of address
 													),
@@ -65,7 +65,7 @@ $plug_conf[$this_plug]['tracking'] = array(
 												
 											    // HNT EXAMPLE
 												array(
-													'asset' => 'hnt', // Asset symbol (LOWERCASE)
+													'asset' => 'hnt', // Ticker Key (LOWERCASE)
 													'address' => '13xs559435FGkh39qD9kXasaAnB8JRF8KowqPeUmKHWU46VYG1h', // HNT address
 													'label' => 'Crypto Tracker HNT Donations' // Description of address
 													),
@@ -73,7 +73,7 @@ $plug_conf[$this_plug]['tracking'] = array(
 												
 											    // SOL EXAMPLE
 												array(
-													'asset' => 'sol', // Asset symbol (LOWERCASE)
+													'asset' => 'sol', // Ticker Key (LOWERCASE)
 													'address' => 'GvX4AU4V9atTBof9dT9oBnLPmPiz3mhoXBdqcxyRuQnU', // SOL address
 													'label' => 'Crypto Tracker SOL Donations' // Description of address
 													),

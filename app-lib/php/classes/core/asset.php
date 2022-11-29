@@ -63,6 +63,23 @@ var $ct_array1 = array();
    ////////////////////////////////////////////////////////
    
    
+   function stocks_bitcoin_total() {
+     
+   global $stocks_btc_worth_array;
+   
+     foreach ( $stocks_btc_worth_array as $key => $val ) {
+     $result = ($result + $val);
+     }
+     
+   return $result;
+   
+   }
+   
+   
+   ////////////////////////////////////////////////////////
+   ////////////////////////////////////////////////////////
+   
+   
    function coin_stats_data($request) {
    
    global $asset_stats_array;
@@ -1164,7 +1181,7 @@ var $ct_array1 = array();
    function ui_asset_row($asset_name, $asset_symb, $asset_amnt, $all_pair_mrkts, $sel_pair, $sel_exchange, $purchase_price=null, $leverage_level, $sel_mrgntyp) {
    
    // Globals
-   global $base_dir, $ct_conf, $ct_gen, $ct_var, $ct_api, $sel_opt, $btc_worth_array, $asset_stats_array, $td_color_zebra, $mcap_data_force_usd, $coingecko_api, $coinmarketcap_api;
+   global $base_dir, $ct_conf, $ct_gen, $ct_var, $ct_api, $sel_opt, $btc_worth_array, $stocks_btc_worth_array, $asset_stats_array, $td_color_zebra, $mcap_data_force_usd, $coingecko_api, $coinmarketcap_api;
    
        
    $original_mrkt = $sel_exchange;
@@ -1318,8 +1335,14 @@ var $ct_array1 = array();
          $btc_worth_array[$asset_symb] = $asset_amnt;
          }
          else {
+             
          $btc_trade_eqiv_raw = number_format( ($asset_val_raw * $pair_btc_val) , 8, '.', '');
          $btc_worth_array[$asset_symb] = $ct_var->num_to_str($asset_val_total_raw * $pair_btc_val);
+         
+            if ( preg_match("/stock/i", $asset_symb) ) {
+            $stocks_btc_worth_array[$asset_symb] = $ct_var->num_to_str($asset_val_total_raw * $pair_btc_val);
+            }
+         
          }
          
          

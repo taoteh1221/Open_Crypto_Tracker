@@ -40,7 +40,7 @@ $x_coord = 75; // Start position (absolute) for light chart links
 		
 
 			
-			// Unicode asset symbols
+			// Unicode symbols for an asset
 			// Crypto
 			if ( array_key_exists($charted_val, $ct_conf['power']['crypto_pair']) ) {
 			$currency_symb = $ct_conf['power']['crypto_pair'][$charted_val];

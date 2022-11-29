@@ -26,8 +26,10 @@
 <?php 
 
 //echo $sort_order;
-
-if ( isset($mcap_data['rank']) ) {
+if ( preg_match("/stock/i", $asset_symb) ) {
+echo 'N/A';
+}
+elseif ( isset($mcap_data['rank']) ) {
 echo '#' . $mcap_data['rank'];
 }
 else {

@@ -17,7 +17,7 @@ $csv_download_array = array();
 
 // CSV header
 $csv_download_array[] = array(
-	        					'Asset Symbol',
+	        					'Ticker Key',
 	        					'Holdings',
 	        					'Average Paid (per-token)',
 	        					'Margin Leverage',

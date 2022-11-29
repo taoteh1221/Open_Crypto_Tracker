@@ -362,9 +362,8 @@ Ethereum ICO subtoken support (pre-exchange listing) has been built in (values a
  
  
 <pre class='rounded'><code class='hide-x-scroll less' style='width: 100%; height: 750px;'>
-
-            // UPPERCASE_COIN_ABRV_HERE
-            'UPPERCASE_COIN_ABRV_HERE' => array(
+            // UPPERCASE_COIN_TICKER_HERE
+            'UPPERCASE_COIN_TICKER_HERE' => array(
                 
                 'name' => 'COIN_NAME_HERE',
                 // Website slug (URL data) on coinmarketcap / coingecko, leave blank if not listed there
@@ -430,6 +429,62 @@ Ethereum ICO subtoken support (pre-exchange listing) has been built in (values a
                                             
                 ) // pair END
             	   
+            ), // Asset END
+ 
+ 
+ 
+            // UPPERCASE_STOCK_TICKER_HERESTOCK
+            // (*ALWAYS* APPEND WORD "STOCK" TO THE TICKER HERE, to designate as a stock [NOT crypto / fiat])
+            'UPPERCASE_STOCK_TICKER_HERESTOCK' => array(
+                        
+                'name' => 'STOCK_NAME_HERE',
+                // Website slug (URL data) on Google Finance, leave blank if not listed there
+                'mcap_slug' => 'UPPERCASE_STOCK_TICKER_HERE:EXCHANGE_NAME_HERE', 
+                // MARKET IDS ARE CASE-SENSITIVE!
+                'pair' => array(
+
+                        
+                        'usd' => array(
+                                 'alphavantage_stock' => 'ALPHAVANTAGE_TICKER_ID_HERE',
+                                       ),
+                                       
+                                       
+                /*
+                ///////////////////////////////////////////////////
+                'ALPHAVANTAGE_TICKER_ID_HERE' EXAMPLES FOR STOCKS...
+                (SEE EXAMPLES IN CONFIG.PHP FOR MORE DETAILS ON ADDING STOCKS)
+                ///////////////////////////////////////////////////
+                
+                IBM (United States):
+                IBM
+                
+                Tesco PLC (UK - London Stock Exchange):
+                TSCO.LON
+                
+                Shopify Inc (Canada - Toronto Stock Exchange):
+                SHOP.TR
+                
+                GreenPower Motor Company Inc (Canada - Toronto Venture Exchange):
+                GPV.TRV
+                
+                Daimler Truck Holding AG (Germany - XETRA):
+                DTG.DEX
+                
+                Reliance Industries Limited (India - BSE):
+                RELIANCE.BSE
+                
+                SAIC Motor Corporation (China - Shanghai Stock Exchange):
+                600104.SHH
+                
+                China Vanke Company Ltd (China - Shenzhen Stock Exchange):
+                000002.SHZ
+                
+                ///////////////////////////////////////////////////
+                */
+
+                                                    
+                ) // pair END
+                        
             ), // Asset END
 </code></pre>
       
@@ -505,7 +560,7 @@ Ethereum ICO subtoken support (pre-exchange listing) has been built in (values a
 	      <div class="card-body">
 	      
 	       
-	        Either the asset has not been added to <a href='https://coinmarketcap.com' target='_blank'>Coinmarketcap.com</a> or <a href='https://Coingecko.com' target='_blank'>Coingecko.com</a> yet, you forgot to add the URL slug in it's config section, or you need to increase the number of rankings to fetch in Admin Config in the POWER USER section (500 rankings is the safe maximum to avoid getting your API requests throttled / blocked). 
+	        Either the asset has not been added to <a href='https://coinmarketcap.com' target='_blank'>Coinmarketcap.com</a> or <a href='https://Coingecko.com' target='_blank'>Coingecko.com</a> yet, you forgot to add the URL slug in it's config section, or you need to increase the number of rankings to fetch in Admin Config in the POWER USER section (300 rankings is the safe maximum to avoid getting your API requests throttled / blocked). 
 	        
 	        
 	      </div>
