@@ -345,7 +345,7 @@ Support for over 80 trading pairs (country fiat currency or secondary crypto, co
 Support for over 40 exchanges (contact me to request more): 
 	    <br /><br />
 
-<span class='blue'>binance / binance_us / bit2c / bitbns / bitfinex / bitflyer / bitmart / bitmex / bitmex_u20 / bitmex_z20 / bitpanda / bitso / bitstamp / bittrex / bittrex_global / btcmarkets / btcturk / buyucoin / bybit / cex / coinbase / coindcx / coinex / coingecko_btc / coingecko_eth / coingecko_eur / coingecko_gbp / coingecko_usd / coinspot / crypto.com / ethfinex / gateio / gemini / hitbtc / hotbit / huobi / jupiter_ag / korbit / kraken / kucoin / liquid / localbitcoins / localbitcoins / loopring_amm / luno / okcoin / okex / poloniex / southxchange / unocoin / upbit / wazirx / zebpay</span>
+<span class='blue'>alphavantage_stock binance / binance_us / bit2c / bitbns / bitfinex / bitflyer / bitmart / bitmex / bitmex_u20 / bitmex_z20 / bitpanda / bitso / bitstamp / bittrex / bittrex_global / btcmarkets / btcturk / buyucoin / bybit / cex / coinbase / coindcx / coinex / coingecko_btc / coingecko_eth / coingecko_eur / coingecko_gbp / coingecko_usd / coinspot / crypto.com / ethfinex / gateio / gemini / hitbtc / hotbit / huobi / jupiter_ag / korbit / kraken / kucoin / liquid / localbitcoins / localbitcoins / loopring_amm / luno / okcoin / okex / poloniex / southxchange / unocoin / upbit / wazirx / zebpay</span>
 	    <br /><br />
 
 

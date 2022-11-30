@@ -1435,7 +1435,7 @@ var $ct_array1 = array();
    function charts_price_alerts($asset_data, $exchange, $pair, $mode) {
    
    // Globals
-   global $base_dir, $ct_conf, $ct_cache, $ct_var, $ct_gen, $ct_api, $default_btc_prim_exchange, $default_btc_prim_currency_val, $default_btc_prim_currency_pair, $price_alert_fixed_reset_array;
+   global $base_dir, $ct_conf, $ct_cache, $ct_var, $ct_gen, $ct_api, $api_throttle_flag, $default_btc_prim_exchange, $default_btc_prim_currency_val, $default_btc_prim_currency_pair, $price_alert_fixed_reset_array;
    
       
       // For UX, scan to remove any old stale price alert entries that are now disabled / disabled GLOBALLY 
@@ -1601,13 +1601,32 @@ var $ct_array1 = array();
    
    /////////////////////////////////////////////////////////////////
    
+   
+      // If we should skip storing chart data, because of API limits reached (to save on storage space / using same repetitive cached API price data)
+      if ( $exchange == 'alphavantage_stock' && $api_throttle_flag['alphavantage.co'] == true ) {
+          
+      $halt_chart_storage = true;
+      
+      $ct_gen->log(
+          		  'notify_error',
+          		  'skipping "'.$exchange.'" chart storage, it was rate-limited to avoid going over it\'s API limits (it used cache-only data)',
+          		  false,
+          		  $exchange . '_skip_charts'
+          		  );
+          		  
+      }
+      else {
+      $halt_chart_storage = false;
+      }
      
    
       // Charts (WE DON'T WANT TO STORE DATA WITH A CORRUPT TIMESTAMP)
       /////////////////////////////////////////////////////////////////
       // If the charts page is enabled in Admin Config, save latest chart data for assets with price alerts configured on them
-      if ( $mode == 'both' && $ct_var->num_to_str($asset_prim_currency_val_raw) >= 0.00000001 && $ct_conf['gen']['asset_charts_toggle'] == 'on'
-      || $mode == 'chart' && $ct_var->num_to_str($asset_prim_currency_val_raw) >= 0.00000001 && $ct_conf['gen']['asset_charts_toggle'] == 'on' ) {
+      if (
+      !$halt_chart_storage && $mode == 'both' && $ct_var->num_to_str($asset_prim_currency_val_raw) >= 0.00000001 && $ct_conf['gen']['asset_charts_toggle'] == 'on'
+      || !$halt_chart_storage && $mode == 'chart' && $ct_var->num_to_str($asset_prim_currency_val_raw) >= 0.00000001 && $ct_conf['gen']['asset_charts_toggle'] == 'on'
+      ) {
       
       // In case a rare error occured from power outage / corrupt memory / etc, we'll check the timestamp (in a non-resource-intensive way)
       // (#SEEMED# TO BE A REAL ISSUE ON A RASPI ZERO AFTER MULTIPLE POWER OUTAGES [ONE TIMESTAMP HAD PREPENDED CORRUPT DATA])

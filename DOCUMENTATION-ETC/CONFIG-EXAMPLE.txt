@@ -288,8 +288,11 @@ $ct_conf['gen']['asset_charts_toggle'] = 'on'; // 'on' / 'off'
 $ct_conf['gen']['alphavantage_key'] = '';
 ////
 // If you DON'T have premium Alpha Vantage API access, this app will automatically limit your API requests to 5 PER-MINUTE / 20 PER-HOUR
-// (SO YOU DON'T GO OVER YOUR 5 REQUESTS *PER-MINUTE* / 500 REQUESTS *PER-DAY* LIMIT FOR FREE ACCESS)
+// (SO YOU DON'T GO OVER YOUR 5 REQUESTS *PER-MINUTE* / 500 REQUESTS *PER-DAY* LIMIT FOR *FREE* ACCESS)
 $ct_conf['gen']['alphavantage_premium'] = 'no'; // 'no' / 'yes'
+////
+// The requests-per-minute limit on your Alpha Vantage API key (varies depending on you free / paid member level)
+$ct_conf['gen']['alphavantage_per_minute_limit'] = 5; // (default = 5 [FOR FREE SERVICE])
 
 
 // API key for etherscan.io (required unfortunately, but a FREE level is available): https://etherscan.io/apis
@@ -672,7 +675,7 @@ $ct_conf['power']['asset_perf_chart_defaults'] = '800||10'; // 'chart_height||me
 
 // Default settings for Marketcap Comparison chart height / menu size (in the 'View More Stats' modal window, linked at bottom of Portfolio page)
 // CHART HEIGHT MIN/MAX = 400/900 (increments of 100), MENU SIZE MIN/MAX (increments of 1) = 7/16
-$ct_conf['power']['asset_mcap_chart_defaults'] = '600||10'; // 'chart_height||menu_size' (default = '700||10')
+$ct_conf['power']['asset_mcap_chart_defaults'] = '600||10'; // 'chart_height||menu_size' (default = '600||10')
 
 
 // Highest allowed sensor value to scale vertical axis for, in the FIRST system information chart  (out of two)
@@ -1081,12 +1084,6 @@ $ct_conf['power']['news_feed'] = array(
         
         
         				array(
-            			"title" => "Blog - GenesysGo (managed validator / RPC nodes on Solana)",
-            			"url" => "https://genesysgo.medium.com/feed"
-        						),
-        
-        
-        				array(
             			"title" => "Blog - Marinade Finance (mSOL liquid staking on Solana)",
             			"url" => "https://medium.com/feed/marinade-finance"
         						),
@@ -1119,12 +1116,6 @@ $ct_conf['power']['news_feed'] = array(
         				array(
             			"title" => "Blog - RNDR Network (Blockchain-Distributed GPU Rendering)",
             			"url" => "https://medium.com/feed/render-token"
-        						),
-        
-        
-        				array(
-            			"title" => "Blog - SamoyedCoin (Popular Dog Meme Coin on Solana)",
-            			"url" => "https://officialsamoyedcoin.medium.com/feed"
         						),
         
         
@@ -1580,6 +1571,29 @@ $ct_conf['dev']['int_api_max_exec_time'] = 90; // (default = 90)
 ////
 // Maximum execution time for webhook runtime in seconds (how long it's allowed to run before automatically killing the process)
 $ct_conf['dev']['webhook_max_exec_time'] = 90; // (default = 90)
+     
+     
+// Servers with STRICT CONSECUTIVE CONNECT limits (we add 0.11 seconds to the wait between consecutive connections)
+$ct_conf['dev']['strict_cosecutive_connect_servers'] = array(
+                                      						'test654321.com',
+                                      						);
+     
+     
+// Servers requiring TRACKED THROTTLE-LIMITING, due to limited-allowed minute / hour / daily requests
+// (are processed by ct_cache->api_throttling(), to avoid using up daily request limits)
+$ct_conf['dev']['tracked_throttle_limited_servers'] = array(
+                                      						'alphavantage.co',
+                                      						);
+    
+     
+// RSS feed services that are a bit funky with allowed user agents, so we need to let them know this is a real feed parser (not just a spammy bot)
+// (user agent string is EXPLICITLY SET AS A CUSTOM FEED PARSER)
+$ct_conf['dev']['strict_news_feed_servers'] = array(
+                                                  'medium.com',
+                                                  'reddit.com',
+                                                  'whatbitcoindid.com',
+                                                  'simplecast.com',
+                                                  );
 							
 
 // TLD-only (Top Level Domain only, NO SUBDOMAINS) for each API service that UN-EFFICIENTLY requires multiple calls (for each market / data set)

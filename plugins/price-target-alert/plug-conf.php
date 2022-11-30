@@ -40,7 +40,7 @@ $plug_conf[$this_plug]['price_targets'] = array(
 																	
 												// 'asset-pair-exchange' => '123.4567', // NO COMMAS ALLOWED IN PRICE, ONLY DECIMALS
 												'btc-usd-coinbase' => '24600',
-												'eth-btc-binance' => '0.075',
+												'eth-btc-binance' => '0.08167',
 												'eth-usdt-binance' => '2280',
 												'sol-eth-binance' => '0.036',
 												'sol-usd-coinbase' => '53.65',

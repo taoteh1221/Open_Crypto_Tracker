@@ -59,6 +59,10 @@ $telegram_user_data = array();
 
 $last_valid_chart_data = array();
 
+$api_throttle_count = array();
+
+$api_throttle_flag = array();
+
 
 // Initial BLANK strings
 

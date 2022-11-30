@@ -12,7 +12,6 @@ var $ct_var1;
 var $ct_var2;
 var $ct_var3;
 var $ct_array1 = array();
-
   
   
   ////////////////////////////////////////////////////////
@@ -304,6 +303,87 @@ var $ct_array1 = array();
   gc_collect_cycles(); // Clean memory cache
   
   return trim($output);
+  
+  }
+  
+  
+  ////////////////////////////////////////////////////////
+  ////////////////////////////////////////////////////////
+  
+  
+  function api_throttling($tld_or_ip) {
+  
+  global $ct_conf, $ct_gen, $base_dir, $api_throttle_count, $api_throttle_flag;
+  
+  // We wait until we are in this fuction, to grab any cached data at the last minute,
+  // to assure we get anything written recently by other runtimes
+  $api_throttle_count_check = json_decode( trim( file_get_contents($base_dir . '/cache/events/throttling/' . $tld_or_ip . '.dat') ) , TRUE);
+  
+  
+     // If we haven't initiated yet this runtime, AND there is ALREADY valid data cached, import it as the $api_throttle_count array
+     if ( !isset($api_throttle_flag['init']) && $api_throttle_count_check != false && $api_throttle_count_check != null && $api_throttle_count_check != "null" ) {
+     $api_throttle_count = $api_throttle_count_check;
+     }
+     
+     
+     $api_throttle_flag['init'] = true; // Flag as initiated this runtime (AFTER above logic)
+
+     
+     // Set OR reset MINUTE start time / counts, if needed
+     if (
+     !isset($api_throttle_count[$tld_or_ip]['minute_count']['start'])
+     || isset($api_throttle_count[$tld_or_ip]['minute_count']['start']) && $api_throttle_count[$tld_or_ip]['minute_count']['start'] <= ( time() - 60 )
+     ) {
+     $api_throttle_count[$tld_or_ip]['minute_count']['start'] = time();
+     $api_throttle_count[$tld_or_ip]['minute_count']['count'] = 0;
+     }
+     
+     
+     // Set OR reset HOUR start time / counts, if needed
+     if (
+     !isset($api_throttle_count[$tld_or_ip]['hour_count']['start'])
+     || isset($api_throttle_count[$tld_or_ip]['hour_count']['start']) && $api_throttle_count[$tld_or_ip]['hour_count']['start'] <= ( time() - 3600 )
+     ) {
+     $api_throttle_count[$tld_or_ip]['hour_count']['start'] = time();
+     $api_throttle_count[$tld_or_ip]['hour_count']['count'] = 0;
+     }
+     
+     
+     // Thresholds for API servers
+     if (
+     $tld_or_ip == 'alphavantage.co' && $api_throttle_count[$tld_or_ip]['minute_count']['count'] >= $ct_conf['gen']['alphavantage_per_minute_limit']
+     || $tld_or_ip == 'alphavantage.co' && $ct_conf['gen']['alphavantage_premium'] == 'no' && $api_throttle_count[$tld_or_ip]['hour_count']['count'] >= floor(500 / 24)
+     ) {
+         
+     $api_throttle_flag[$tld_or_ip] = true;
+          
+     $ct_gen->log(
+          		  'notify_error',
+          		  'throttling threshold met for API server "' . $tld_or_ip . '" (minute_requests='.$api_throttle_count[$tld_or_ip]['minute_count']['count'].',hour_requests='.$api_throttle_count[$tld_or_ip]['hour_count']['count'].')',
+          		  false,
+          		  md5($tld_or_ip) . '_throttle_flagged' // unique key with no symbols
+          		  );
+                  
+     $store_api_throttle_count = json_encode($api_throttle_count, JSON_PRETTY_PRINT);
+     $store_file_contents = $this->save_file($base_dir . '/cache/events/throttling/' . $tld_or_ip . '.dat', $store_api_throttle_count);
+     
+     return true;
+     
+     }
+     else {
+         
+     unset($api_throttle_flag[$tld_or_ip]);
+         
+     $api_throttle_count[$tld_or_ip]['minute_count']['count'] = $api_throttle_count[$tld_or_ip]['minute_count']['count'] + 1;
+     $api_throttle_count[$tld_or_ip]['hour_count']['count'] = $api_throttle_count[$tld_or_ip]['hour_count']['count'] + 1;
+                  
+     $store_api_throttle_count = json_encode($api_throttle_count, JSON_PRETTY_PRINT);
+     $store_file_contents = $this->save_file($base_dir . '/cache/events/throttling/' . $tld_or_ip . '.dat', $store_api_throttle_count);
+     
+     return false;
+     
+     }
+  
   
   }
   
@@ -1517,7 +1597,7 @@ var $ct_array1 = array();
   
   // $ct_conf['gen']['btc_prim_currency_pair'] / $ct_conf['gen']['btc_prim_exchange'] / $sel_opt['sel_btc_prim_currency_val'] USED FOR TRACE DEBUGGING (TRACING)
   
-  global $base_dir, $base_url, $ct_conf, $ct_var, $ct_gen, $sel_opt, $proxy_checkup, $log_array, $limited_api_calls, $api_runtime_cache, $user_agent, $api_connections, $htaccess_username, $htaccess_password;
+  global $app_version, $base_dir, $base_url, $ct_conf, $ct_var, $ct_gen, $sel_opt, $proxy_checkup, $log_array, $limited_api_calls, $api_runtime_cache, $user_agent, $api_connections, $htaccess_username, $htaccess_password;
   
   $cookie_jar = tempnam('/tmp','cookie');
    
@@ -1633,15 +1713,47 @@ var $ct_array1 = array();
     $api_time = explode(' ', $api_time);
     $api_time = $api_time[1] + $api_time[0];
     $api_start_time = $api_time;
-     
-     
-    // Servers with STRICT reconnect limits
-    $strict_reconnect_servers = array(
-              						'test654321.com',
-              						);
               
+      
+      // Servers requiring TRACKED THROTTLE-LIMITING, due to limited-allowed minute / hour / daily requests
+      // (are processed by this->api_throttling(), to avoid using up daily request limits)
+      if ( in_array($endpoint_tld_or_ip, $ct_conf['dev']['tracked_throttle_limited_servers']) && $this->api_throttling($endpoint_tld_or_ip) == true ) {
               
-      if ( in_array($endpoint_tld_or_ip, $strict_reconnect_servers) ) {
+            
+      // Set $data var with any cached value (null / false result is OK), as we don't want to cache any PROBABLE error response
+      // (will be set / reset as 'none' further down in the logic and cached / recached for a TTL cycle, if no cached data exists to fallback on)
+      $data = trim( file_get_contents($base_dir . '/cache/secured/external_data/'.$hash_check.'.dat') );
+      
+      // DON'T USE isset(), use != '' to store as 'none' reliably (so we don't keep hitting a server that may be throttling us, UNTIL cache TTL runs out)
+      $api_runtime_cache[$hash_check] = ( isset($data) && $data != '' ? $data : 'none' ); 
+             
+                
+          // Flag if cache fallback succeeded
+          if ( isset($data) && $data != '' && $data != 'none' ) {
+          $fallback_cache_data = true;
+          }
+          
+      
+          // Fallback just needs 'modified time' updated with touch()
+          if ( isset($fallback_cache_data) ) {
+          $store_file_contents = touch($base_dir . '/cache/secured/external_data/'.$hash_check.'.dat');
+          $ct_gen->log('ext_data_error', 'cache fallback SUCCEEDED during throttling of API for: ' . $endpoint_tld_or_ip);
+          }
+          else {
+          $store_file_contents = $this->save_file($base_dir . '/cache/secured/external_data/'.$hash_check.'.dat', $api_runtime_cache[$hash_check]);
+          $ct_gen->log('ext_data_error', 'cache fallback FAILED during throttling of API for: ' . $endpoint_tld_or_ip);
+          }
+                
+                
+      gc_collect_cycles(); // Clean memory cache
+      return $data;
+                
+                
+      }
+              
+      
+      // Servers with STRICT CONSECUTIVE CONNECT limits (we add 0.11 seconds to the wait between consecutive connections)
+      if ( in_array($endpoint_tld_or_ip, $ct_conf['dev']['strict_cosecutive_connect_servers']) ) {
         
       $api_connections[$tld_session_prefix] = $api_connections[$tld_session_prefix] + 1;
       
@@ -1745,18 +1857,10 @@ var $ct_array1 = array();
     curl_setopt($ch, CURLOPT_MAXREDIRS, 5);
     curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, $ct_conf['power']['remote_api_timeout']);
     curl_setopt($ch, CURLOPT_TIMEOUT, $ct_conf['power']['remote_api_timeout']);
-    
-     
-     // Medium / Reddit (and maybe whatbitcoindid) are a bit funky with allowed user agents, so we need to let them know this is a real feed parser (not just a spammy bot)
-     $strict_feed_servers = array(
-              'medium.com',
-              'reddit.com',
-              'whatbitcoindid.com',
-              'simplecast.com',
-              );
               
      
-      if ( in_array($endpoint_tld_or_ip, $strict_feed_servers) ) {
+      // RSS feed services that are a bit funky with allowed user agents, so we need to let them know this is a real feed parser (not just a spammy bot)
+      if ( in_array($endpoint_tld_or_ip, $ct_conf['dev']['strict_news_feed_servers']) ) {
       curl_setopt($ch, CURLOPT_USERAGENT, 'Custom_Feed_Parser/1.0 (compatible; Open_Crypto_Tracker/' . $app_version . '; +https://github.com/taoteh1221/Open_Crypto_Tracker)');
       }
       else {

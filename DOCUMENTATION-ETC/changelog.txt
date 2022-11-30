@@ -5838,7 +5838,7 @@ v6.00.2 AND HIGHER RESETS LIGHT (TIME PERIOD) CHARTS FROM ARCHIVAL DATA, ONE-TIM
 
 -Support for global stock market spot price / volume (via the Alpha Vantage stock API)
 
--Miscellaneous (small) user experience improvements
+-Miscellaneous (small) fixes / user experience improvements / optimizations
 
 -Documentation additions / revisions
 
