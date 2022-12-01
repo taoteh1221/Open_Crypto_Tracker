@@ -315,7 +315,7 @@ var $ct_array1 = array();
   
   global $ct_conf, $ct_gen, $base_dir, $api_throttle_count, $api_throttle_flag;
   
-  // We wait until we are in this fuction, to grab any cached data at the last minute,
+  // We wait until we are in this function, to grab any cached data at the last minute,
   // to assure we get anything written recently by other runtimes
   $api_throttle_count_check = json_decode( trim( file_get_contents($base_dir . '/cache/events/throttling/' . $tld_or_ip . '.dat') ) , TRUE);
   
@@ -350,6 +350,7 @@ var $ct_array1 = array();
      
      
      // Thresholds for API servers
+     // (alphavantage FREE plan is limited to 500 requests daily, so we round down 500 divided by 24, to have reliable updated data HOURLY)
      if (
      $tld_or_ip == 'alphavantage.co' && $api_throttle_count[$tld_or_ip]['minute_count']['count'] >= $ct_conf['gen']['alphavantage_per_minute_limit']
      || $tld_or_ip == 'alphavantage.co' && $ct_conf['gen']['alphavantage_premium'] == 'no' && $api_throttle_count[$tld_or_ip]['hour_count']['count'] >= floor(500 / 24)
