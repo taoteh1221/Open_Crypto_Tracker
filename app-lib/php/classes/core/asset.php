@@ -1438,6 +1438,12 @@ var $ct_array1 = array();
    global $base_dir, $ct_conf, $ct_cache, $ct_var, $ct_gen, $ct_api, $api_throttle_flag, $default_btc_prim_exchange, $default_btc_prim_currency_val, $default_btc_prim_currency_pair, $price_alert_fixed_reset_array;
    
       
+      // Skip completely, if it's an alphavantage market, AND the end-user has NOT added an alphavantage API key
+      if ( $exchange == 'alphavantage_stock' && trim($ct_conf['gen']['alphavantage_key']) == '' ) {
+      return false;
+      }
+      
+      
       // For UX, scan to remove any old stale price alert entries that are now disabled / disabled GLOBALLY 
       // Return false if there is no charting on this entry (to optimize runtime)
       if ( $mode != 'alert' && $mode != 'both' || $ct_conf['comms']['price_alert_thres'] == 0 ) {
