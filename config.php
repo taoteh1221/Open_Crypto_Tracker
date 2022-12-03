@@ -487,6 +487,14 @@ $ct_conf['charts_alerts']['tracked_mrkts'] = array(
 					'googlstock' => 'alphavantage_stock||usd||both',
 					
 					
+					// GPVSTOCK (GreenPower Motor Company stock)
+					'gpvstock' => 'alphavantage_stock||cad||both',
+					
+					
+					// DTGSTOCK (Daimler Truck Holding stock)
+					'dtgstock' => 'alphavantage_stock||eur||both',
+					
+					
 					// APT
 					'apt' => 'coinbase||usd||both',
 					'apt-2' => 'kraken||eur||chart',
@@ -530,8 +538,14 @@ $ct_conf['charts_alerts']['tracked_mrkts'] = array(
 					
 					
 					// ATLAS
-					'atlas' => 'gateio||usdt||both',
+					'atlas' => 'gateio||usdt||chart',
 					'atlas-2' => 'coingecko_btc||btc||chart',
+					'atlas-3' => 'kraken||usd||both',
+					
+					
+					// POLIS
+					'polis' => 'coingecko_btc||btc||chart',
+					'polis-2' => 'kraken||usd||both',
 					
 					
 					// RAY
@@ -1316,38 +1330,38 @@ $ct_conf['power']['news_feed'] = array(
     
     
         				array(
-            			"title" => "Reddit - Bitcoin (top)",
-            			"url" => "https://www.reddit.com/r/Bitcoin/top/.rss?format=xml"
+            			"title" => "Reddit - Bitcoin (hot)",
+            			"url" => "https://www.reddit.com/r/Bitcoin/hot/.rss?format=xml"
         						),
     
     
         				array(
-            			"title" => "Reddit - Ethereum (top)",
-            			"url" => "https://www.reddit.com/r/Ethereum/top/.rss?format=xml"
+            			"title" => "Reddit - Ethereum (hot)",
+            			"url" => "https://www.reddit.com/r/Ethereum/hot/.rss?format=xml"
         						),
     
     
         				array(
-            			"title" => "Reddit - EthFinance (top)",
-            			"url" => "https://www.reddit.com/r/EthFinance/top/.rss?format=xml"
+            			"title" => "Reddit - EthFinance (hot)",
+            			"url" => "https://www.reddit.com/r/EthFinance/hot/.rss?format=xml"
         						),
     
     
         				array(
-            			"title" => "Reddit - Helium Network (top)",
-            			"url" => "https://www.reddit.com/r/heliumnetwork/top/.rss?format=xml"
+            			"title" => "Reddit - Helium Network (hot)",
+            			"url" => "https://www.reddit.com/r/heliumnetwork/hot/.rss?format=xml"
         						),
     
     
         				array(
-            			"title" => "Reddit - Solana (top)",
-            			"url" => "https://www.reddit.com/r/solana/top/.rss?format=xml"
+            			"title" => "Reddit - Solana (hot)",
+            			"url" => "https://www.reddit.com/r/solana/hot/.rss?format=xml"
         						),
     
     
         				array(
-            			"title" => "Reddit - ZKsync (top)",
-            			"url" => "https://www.reddit.com/r/zksync/top/.rss?format=xml"
+            			"title" => "Reddit - ZKsync (hot)",
+            			"url" => "https://www.reddit.com/r/zksync/hot/.rss?format=xml"
         						),
     
     
@@ -1366,6 +1380,24 @@ $ct_conf['power']['news_feed'] = array(
         				array(
             			"title" => "StackExchange - Solana (hot)",
             			"url" => "https://solana.stackexchange.com/feeds/hot"
+        						),
+    
+    
+        				array(
+            			"title" => "Stocks - CNBC: US Top News and Analysis",
+            			"url" => "https://search.cnbc.com/rs/search/combinedcms/view.xml?partnerId=wrss01&id=100003114"
+        						),
+    
+    
+        				array(
+            			"title" => "Stocks - AlphaStreet",
+            			"url" => "https://news.alphastreet.com/feed/"
+        						),
+    
+    
+        				array(
+            			"title" => "Stocks - Investing.com: News",
+            			"url" => "https://www.investing.com/rss/news.rss"
         						),
     
     
@@ -1581,6 +1613,13 @@ $ct_conf['dev']['webhook_max_exec_time'] = 90; // (default = 90)
 $ct_conf['dev']['strict_cosecutive_connect_servers'] = array(
                                       						'test654321.com',
                                       						);
+     
+     
+// Servers which are known to block API access by location / jurasdiction
+// (we alert end-users in error logs, when a corrisponding API server connection fails [one-time notice per-runtime])
+$ct_conf['dev']['location_blocked_servers'] = array(
+                                      				'binance.com',
+                                      				);
      
      
 // Servers requiring TRACKED THROTTLE-LIMITING, due to limited-allowed minute / hour / daily requests
@@ -3127,7 +3166,14 @@ $ct_conf['assets'] = array(
                                                     ),
 
                                                     
+                                    'eur' => array(
+                                    	 'kraken' => 'ATLASEUR',
+                                                    ),
+
+                                                    
                                     'usd' => array(
+                                    	 'kraken' => 'ATLASUSD',
+                                    	 'bitfinex' => 'tATLAS:USD',
                                          'okcoin' => 'ATLAS-USD',
                                     	 'coingecko_usd' => 'star-atlas',
                                                     ),
@@ -3137,6 +3183,46 @@ $ct_conf['assets'] = array(
                                         'gateio' => 'ATLAS_USDT',
                                         'coinex' => 'ATLASUSDT',
                                         'hotbit' => 'ATLAS_USDT',
+                                        'bitmart' => 'ATLAS_USDT',
+                                                    ),
+
+                                                    
+                        ) // pair END
+                                        
+                    ), // Asset END
+                    
+                    
+                    ////////////////////////////////////////////////////////////////////
+                    
+                    
+                    // POLIS
+                    'POLIS' => array(
+                        
+                        'name' => 'Star Atlas DAO',
+                        'mcap_slug' => 'star-atlas-dao',
+                        'pair' => array(
+
+                                                    
+                                    'btc' => array(
+                                        'coingecko_btc' => 'star-atlas-dao',
+                                                    ),
+
+                                                    
+                                    'eur' => array(
+                                    	 'kraken' => 'POLISEUR',
+                                                    ),
+
+                                                    
+                                    'usd' => array(
+                                    	 'kraken' => 'POLISUSD',
+                                    	 'bitfinex' => 'tPOLIS:USD',
+                                                    ),
+
+                                                    
+                                    'usdt' => array(
+                                        'gateio' => 'POLIS_USDT',
+                                        'coinex' => 'POLISUSDT',
+                                        'hotbit' => 'POLIS_USDT',
                                         'bitmart' => 'ATLAS_USDT',
                                                     ),
 
@@ -3463,7 +3549,7 @@ $ct_conf['assets'] = array(
                     'HIVE' => array(
                         
                         'name' => 'Hive',
-                        'mcap_slug' => 'hive-blockchain',
+                        'mcap_slug' => 'hive',
                         'pair' => array(
 
                         

@@ -668,6 +668,34 @@ SMTP email sending is REQUIRED if you are running this app on a home network, or
 	  
 	
 	<?php
+	$accord_var = 'binance_markets';
+	?>
+	
+	  <div class="card z-depth-0 bordered">
+	    <div class="card-header" id="heading_<?=$accord_var?>">
+	      <h5 class="mb-0">
+	        <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapse_<?=$accord_var?>"
+	          aria-expanded="false" aria-controls="collapse_<?=$accord_var?>">
+	          
+	          Binance Markets Do Not Work
+	          
+	        </button>
+	      </h5>
+	    </div>
+	    <div id="collapse_<?=$accord_var?>" class="faq_bg collapse" aria-labelledby="heading_<?=$accord_var?>"
+	      data-parent="#accordionHelp">
+	      <div class="card-body">
+	      
+	         
+	        Binance started blocking access to some of their price APIs in certain jurasdictions in November of 2022. Check with them in their support channels, if you are unsure if your jurasdiction has been blocked or not.
+	        
+	        
+	      </div>
+	    </div>
+	  </div>
+	  
+	
+	<?php
 	$accord_var = 10;
 	?>
 	

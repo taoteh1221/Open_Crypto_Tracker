@@ -2006,6 +2006,20 @@ var $ct_array1 = array();
       							
       			'requested_from: server (' . $ct_conf['power']['remote_api_timeout'] . ' second timeout); live_request_time: ' . $api_total_time . ' seconds; mode: ' . $mode . '; received: ' . $data_bytes_ux . '; proxy: ' .( $current_proxy ? $current_proxy : 'none' ) . '; hash_check: ' . $ct_var->obfusc_str($hash_check, 4) . ';'
       			);
+      			
+      			
+        // Servers which are known to block API access by location / jurasdiction
+        // (we alert end-users in error logs, when a corrisponding API server connection fails [one-time notice per-runtime])
+        if ( in_array($endpoint_tld_or_ip, $ct_conf['dev']['location_blocked_servers']) ) {
+            
+        $ct_gen->log(
+          		    'notify_error',
+          		    'your SERVER\'S IP ADDRESS location / jurasdiction *MAY* be blocked from accessing the "'.$endpoint_tld_or_ip.'" API, *IF* THIS ERROR REPEATS *VERY OFTEN*',
+          		    false,
+          		    md5($endpoint_tld_or_ip) . '_possibly_blocked'
+          		    );
+          		    
+        }
       
       
         if ( is_array($ct_conf['proxy']['proxy_list']) && sizeof($ct_conf['proxy']['proxy_list']) > 0 && isset($current_proxy) && $current_proxy != '' && $mode != 'proxy-check' ) { // Avoid infinite loops doing proxy checks

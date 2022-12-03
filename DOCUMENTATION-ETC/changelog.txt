@@ -5836,9 +5836,17 @@ v6.00.2 AND HIGHER RESETS LIGHT (TIME PERIOD) CHARTS FROM ARCHIVAL DATA, ONE-TIM
 
 -Better user experience during import / restore of large price chart data sets (on low power AND high power devices...multiplies the "light_chart_first_build_hard_limit" value set in the developer config section, by the number of CPU cores IF detected) 
 
+-New throttle-limiting system for limited APIs (like Alpha Vantage stock API), which keeps hourly LIVE price requests throttled to allow live requests to happen reliably every hour of the day (and skips storing chart data IF it's just using already-cached price data)
+
+-New error alert system, alerts end-users in error logs IF an API connection fails AND that server is known to block access by ip address location / jurasdiction (like binance.com seems to have started rolling out across it's APIs)
+
 -Support for global stock market spot price / volume (via the Alpha Vantage stock API)
 
 -Miscellaneous (small) fixes / user experience improvements / optimizations
+
+-Stock related News Feeds added to News page's demo config
+
+-Miscellaneous revised DEMO configuration
 
 -Documentation additions / revisions
 

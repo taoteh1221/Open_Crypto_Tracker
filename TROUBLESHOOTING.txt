@@ -357,6 +357,16 @@ This app will automatically detect and alert you if your system doesn't support 
 
 =========================================================================================================================================
 
+
+  Binance Markets Do Not Work
+  
+-----------------------------------------------------------------------------------------------------------------------------------------
+
+Binance started blocking access to some of their price APIs in certain jurasdictions in November of 2022. Check with them in their support channels, if you are unsure if your jurasdiction has been blocked or not.
+
+
+=========================================================================================================================================
+
   Write Errors In Error Log For Charts / Other Data
   
 -----------------------------------------------------------------------------------------------------------------------------------------
