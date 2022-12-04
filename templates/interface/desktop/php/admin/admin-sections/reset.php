@@ -7,34 +7,34 @@
 ?>
 
 
-	<!-- RESET API key START -->
+	<!-- RESET internal API key START -->
 
 	<div style='margin: 25px;'>
 	
-	<form name='reset_api' id='reset_api' action='admin.php?iframe=<?=$ct_gen->admin_hashed_nonce('iframe_reset')?>&section=reset&refresh=iframe_api' method='post'>
+	<form name='reset_int_api' id='reset_int_api' action='admin.php?iframe=<?=$ct_gen->admin_hashed_nonce('iframe_reset')?>&section=reset&refresh=iframe_int_api' method='post'>
 	
-	<input type='hidden' name='admin_hashed_nonce' value='<?=$ct_gen->admin_hashed_nonce('reset_api_key')?>' />
+	<input type='hidden' name='admin_hashed_nonce' value='<?=$ct_gen->admin_hashed_nonce('reset_int_api_key')?>' />
 	
-	<input type='hidden' name='reset_api_key' value='1' />
+	<input type='hidden' name='reset_int_api_key' value='1' />
 	
 	</form>
 	
 	<!-- Submit button must be OUTSIDE form tags here, or it runs improperly -->
-	<button id='reset_api_button' class='force_button_style' onclick='
+	<button id='reset_int_api_button' class='force_button_style' onclick='
 	
-	var int_api_key_reset = confirm("Resetting the API key will stop any external apps \nfrom accessing the Internal API with the current key. \n\nPress OK to reset the API key, or CANCEL to keep the current API key. ");
+	var int_api_key_reset = confirm("Resetting the internal API key will stop any external apps \nfrom accessing the internal API with the current key. \n\nPress OK to reset, or CANCEL to keep the current key. ");
 	
 		if ( int_api_key_reset ) {
-		document.getElementById("reset_api_button").disable = true;
-		$("#reset_api").submit(); // Triggers "app reloading" sequence
-		document.getElementById("reset_api_button").innerHTML = ajax_placeholder(15, "center", "Submitting...");
+		document.getElementById("reset_int_api_button").disable = true;
+		$("#reset_int_api").submit(); // Triggers "app reloading" sequence
+		document.getElementById("reset_int_api_button").innerHTML = ajax_placeholder(15, "center", "Submitting...");
 		}
 	
-	'>Reset API Key</button>
+	'>Reset Internal API Key</button>
 	
 	</div>
 				
-	<!-- RESET API key END -->
+	<!-- RESET internal API key END -->
 
 
 	<!-- RESET webhook key START -->

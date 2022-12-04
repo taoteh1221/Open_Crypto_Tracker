@@ -184,11 +184,11 @@ var $ct_array1 = array();
     
    global $base_dir, $ct_conf, $ct_cache;
    
-      if ( trim($ct_conf['gen']['etherscan_key']) == '' ) {
+      if ( trim($ct_conf['ext_api']['etherscan_key']) == '' ) {
       return false;
       }
    
-   $url = 'https://api.etherscan.io/api?module=proxy&action=eth_blockNumber&apikey=' . $ct_conf['gen']['etherscan_key'];
+   $url = 'https://api.etherscan.io/api?module=proxy&action=eth_blockNumber&apikey=' . $ct_conf['ext_api']['etherscan_key'];
      
    $response = @$ct_cache->ext_data('url', $url, $ct_conf['power']['chainstats_cache_time']);
        
@@ -205,7 +205,7 @@ var $ct_array1 = array();
           // Non-dynamic cache file name, because filename would change every recache and create cache bloat
           if ( $ct_cache->update_cache('cache/secured/external_data/eth-stats.dat', $ct_conf['power']['chainstats_cache_time'] ) == true ) {
             
-          $url = 'https://api.etherscan.io/api?module=proxy&action=eth_getBlockByNumber&tag='.$block_number.'&boolean=true&apikey=' . $ct_conf['gen']['etherscan_key'];
+          $url = 'https://api.etherscan.io/api?module=proxy&action=eth_getBlockByNumber&tag='.$block_number.'&boolean=true&apikey=' . $ct_conf['ext_api']['etherscan_key'];
           $response = @$ct_cache->ext_data('url', $url, 0); // ZERO TO NOT CACHE DATA (WOULD CREATE CACHE BLOAT)
             
           $ct_cache->save_file($base_dir . '/cache/secured/external_data/eth-stats.dat', $response);
@@ -242,13 +242,13 @@ var $ct_array1 = array();
    $result = array();
    
    
-      if ( trim($ct_conf['gen']['cmc_key']) == null ) {
+      if ( trim($ct_conf['ext_api']['coinmarketcap_key']) == null ) {
       	
       $ct_gen->log(
       		    'notify_error',
-      		    '"cmc_key" (free API key) is not configured in Admin Config GENERAL section',
+      		    '"coinmarketcap_key" (free API key) is not configured in Admin Config API section',
       		    false,
-      		    'cmc_key'
+      		    'coinmarketcap_key'
       		    );
       
       return false;
@@ -278,7 +278,7 @@ var $ct_array1 = array();
       
    $headers = [
                'Accepts: application/json',
-               'X-CMC_PRO_API_KEY: ' . $ct_conf['gen']['cmc_key']
+               'X-CMC_PRO_API_KEY: ' . $ct_conf['ext_api']['coinmarketcap_key']
       	      ];
    
       
@@ -645,11 +645,11 @@ var $ct_array1 = array();
       if ( strtolower($sel_exchange) == 'alphavantage_stock' ) {
    
    
-          if ( trim($ct_conf['gen']['alphavantage_key']) == null ) {
+          if ( trim($ct_conf['ext_api']['alphavantage_key']) == null ) {
           	
           $ct_gen->log(
           		    'notify_error',
-          		    '"alphavantage_key" (free API key) is not configured in Admin Config GENERAL section',
+          		    '"alphavantage_key" (free API key) is not configured in Admin Config API section',
           		    false,
           		    'alphavantage_key'
           		    );
@@ -659,7 +659,7 @@ var $ct_array1 = array();
           }
       
          
-      $url = 'https://www.alphavantage.co/query?function=GLOBAL_QUOTE&symbol=' . $market_id . '&apikey=' . $ct_conf['gen']['alphavantage_key'];
+      $url = 'https://www.alphavantage.co/query?function=GLOBAL_QUOTE&symbol=' . $market_id . '&apikey=' . $ct_conf['ext_api']['alphavantage_key'];
          
       $response = @$ct_cache->ext_data('url', $url, $ct_conf['power']['last_trade_cache_time']);
          

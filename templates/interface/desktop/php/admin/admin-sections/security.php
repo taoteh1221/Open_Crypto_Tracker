@@ -11,7 +11,7 @@
 
 	<div class='red red_dotted' style='font-size: 20px; margin-bottom: 20px;'>
 	
-	<form name='toggle_admin_security' id='toggle_admin_security' action='admin.php?iframe=<?=$ct_gen->admin_hashed_nonce('iframe_security')?>&section=security&refresh=iframe_comms,iframe_general,iframe_portfolio_assets,iframe_charts_alerts,iframe_plugins,iframe_power_user,iframe_text_gateways,iframe_proxy,iframe_developer,iframe_api,iframe_webhook,iframe_system_stats,iframe_access_stats,iframe_logs,iframe_backup_restore,iframe_reset' method='post'>
+	<form name='toggle_admin_security' id='toggle_admin_security' action='admin.php?iframe=<?=$ct_gen->admin_hashed_nonce('iframe_security')?>&section=security&refresh=iframe_comms,iframe_ext_api,iframe_general,iframe_portfolio_assets,iframe_charts_alerts,iframe_plugins,iframe_power_user,iframe_text_gateways,iframe_proxy,iframe_developer,iframe_int_api,iframe_webhook,iframe_system_stats,iframe_access_stats,iframe_logs,iframe_backup_restore,iframe_reset' method='post'>
 	
 	<input type='hidden' name='admin_hashed_nonce' value='<?=$ct_gen->admin_hashed_nonce('toggle_admin_security')?>' />
 	

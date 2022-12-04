@@ -123,6 +123,90 @@ $ct_conf['sec']['chmod_index_sec'] = '0660'; // (default = '0660' [owner/group r
 
 
 ////////////////////////////////////////
+// !START! GENERAL CONFIGURATION
+////////////////////////////////////////
+
+
+// Your local time offset IN HOURS COMPARED TO UTC TIME (#CAN BE DECIMAL# TO SUPPORT 30 / 45 MINUTE TIME ZONES). Can be negative or positive.
+// (Used for user experience 'pretty' timestamping in interface logic ONLY, WILL NOT change or screw up UTC log times etc if you change this)
+$ct_conf['gen']['loc_time_offset'] = -5; // example: -5 or 5, -5.5 or 5.75
+
+
+// Configure which interface theme you want as the default theme (also can be manually switched later, on the settings page in the interface)
+$ct_conf['gen']['default_theme'] = 'dark'; // 'dark' or 'light'
+
+
+// ENABLING CHARTS REQUIRES A CRON JOB / TASK SCHEDULER SETUP (see README.txt for setup information)
+// Enables a charts tab / page, and caches real-time updated spot price / 24 hour trade volume chart data on your device's storage drive
+// Disabling will disable EVERYTHING related to the price charts (price charts tab / page, and price chart data caching)
+$ct_conf['gen']['asset_charts_toggle'] = 'on'; // 'on' / 'off'
+
+
+// Default BITCOIN market currencies (80+ currencies supported)
+// (set for default Bitcoin market, and charts / price alert primary-currency-equivalent value determination [example: usd value of btc/ltc market, etc])
+// aed / ars / aud / bam / bdt / bob / brl / bwp / byn / cad / chf / clp / cny / cop / crc / czk / dai 
+// dkk / dop / egp / eth / eur / gbp / gel / ghs / gtq / hkd / huf / idr / ils / inr / irr / jmd / jod 
+// jpy / kes / krw / kwd / kzt / lkr / mad / mur / mwk / mxn / myr / ngn / nis / nok / nzd / pab / pen 
+// php / pkr / pln / pyg / qar / ron / rsd / rub / rwf / sar / sek / sgd / thb / try / tusd / twd / tzs 
+// uah / ugx / usd / usdc / usdt / uyu / ves / vnd / xaf / xof / zar / zmw
+// SEE THE $ct_conf['assets']['BTC'] CONFIGURATION NEAR THE BOTTOM OF THIS CONFIG FILE, FOR THE PROPER (CORRESPONDING)
+// MARKET PAIR VALUE NEEDED FOR YOUR CHOSEN 'BTC' EXCHANGE (set in $ct_conf['gen']['btc_prim_exchange'] directly below)
+$ct_conf['gen']['btc_prim_currency_pair'] = 'usd'; // PUT INSIDE SINGLE QUOTES ('selection')
+
+
+// Default BITCOIN market exchanges (30+ bitcoin exchanges supported)
+// (set for default Bitcoin market, and charts / price alert primary-currency-equivalent value determination [example: usd value of btc/ltc market, etc])
+// binance / binance_us / bit2c / bitbns / bitfinex / bitflyer / bitmex / bitpanda / bitso / bitstamp 
+// bittrex / bittrex_global / btcmarkets / btcturk / buyucoin / cex / coinbase / coindcx / coingecko_usd 
+// coinspot / gemini / hitbtc / huobi / korbit / kraken / kucoin / liquid / localbitcoins / loopring_amm 
+// luno / okcoin / okex / southxchange / unocoin / upbit / wazirx
+// SEE THE $ct_conf['assets']['BTC'] CONFIGURATION NEAR THE BOTTOM OF THIS CONFIG FILE, FOR THE PROPER (CORRESPONDING)
+// 'BTC' EXCHANGE VALUE NEEDED FOR YOUR CHOSEN MARKET PAIR (set in $ct_conf['gen']['btc_prim_currency_pair'] directly above)
+// SEE THE $ct_conf['dev']['limited_apis'] SETTING FURTHER DOWN IN THE DEVELOPER SECTION, FOR EXCHANGES !NOT RECOMMENDED FOR USAGE HERE!
+$ct_conf['gen']['btc_prim_exchange'] = 'kraken';  // PUT INSIDE SINGLE QUOTES ('selection')
+
+
+// Default marketcap data source: 'coingecko', or 'coinmarketcap'
+// (COINMARKETCAP REQUIRES A #FREE# API KEY, SEE $ct_conf['ext_api']['coinmarketcap_key'] ABOVE in the APIs section)
+$ct_conf['gen']['prim_mcap_site'] = 'coingecko'; 
+
+
+// Maximum decimal places for [primary currency] values, of coins worth under 1.00 in unit value [usd/gbp/eur/jpy/brl/rub/etc],
+// for prettier / less-cluttered interface. IF YOU ADJUST $ct_conf['gen']['btc_prim_currency_pair'] ABOVE, 
+// YOU MAY NEED TO ADJUST THIS ACCORDINGLY FOR !PRETTY / FUNCTIONAL! CHARTS / ALERTS FOR YOUR CHOSEN PRIMARY CURRENCY
+// ALSO KEEP THIS NUMBER AS LOW AS IS FEASIBLE, TO SAVE ON CHART DATA STORAGE SPACE / MAINTAIN QUICK CHART LOAD TIMES
+$ct_conf['gen']['prim_currency_dec_max'] = 5; // Whole numbers only (represents number of decimals maximum to use)
+
+
+// PRICE PERCENTAGE to round off INTERFACE-DISPLAYED price IN DECIMALS (DYNAMIC / RELATIVE to price amount)
+// (FINE-GRAINED CONTROL OVER INTERFACE PRICE ROUNDING #AMOUNT OF DECIMALS SHOWN#)
+// (interface examples: one = 1000, tenth = 1000, hundredth = 1000.9, thousandth = 1000.09)
+// (interface examples: one = 100, tenth = 100.9, hundredth = 100.09, thousandth = 100.009)
+// (interface examples: one = 10.9, tenth = 10.09, hundredth = 10.009, thousandth = 10.0009)
+// #FIAT# CURRENCY VALUES UNDER 100 #ARE ALWAYS FORCED TO 2 DECIMALS MINUMUM#
+// #FIAT# CURRENCY VALUES UNDER 1 #ARE ALWAYS FORCED TO 'prim_currency_dec_max' DECIMALS MAXIMUM#
+// THIS SETTING ONLY AFFECTS INTERFACE / COMMS PRICE DISPLAY ROUNDING, IT DOES #NOT# AFFECT BACKGROUND CALCULATIONS
+$ct_conf['gen']['price_round_percent'] = 'thousandth'; // (OF A PERCENT) 'one', 'tenth', 'hundredth', 'thousandth'
+////
+// FORCE a FIXED MINIMUM amount of decimals on interface price, CALCULATED OFF ABOVE price_round_percent SETTING
+// (ALWAYS SAME AMOUNT OF DECIMALS, #EVEN IF IT INCLUDES TRAILING ZEROS#) 
+$ct_conf['gen']['price_round_fixed_decimals'] = 'off'; // 'off', 'on'
+
+
+// Number of decimals for price chart CRYPTO 24 hour volumes (NOT USED FOR FIAT VOLUMES, 4 decimals example: 24 hr vol = 91.3874 BTC)
+// KEEP THIS NUMBER AS LOW AS IS FEASIBLE, TO SAVE ON CHART DATA STORAGE SPACE / MAINTAIN QUICK CHART LOAD TIMES
+$ct_conf['gen']['chart_crypto_vol_dec'] = 4;  // (default = 4)
+////
+// Every X days backup chart data. 0 disables backups. Email to / from !MUST BE SET! (a download link is emailed to you of the chart data archive)
+$ct_conf['gen']['charts_backup_freq'] = 1; 
+
+
+////////////////////////////////////////
+// !END! GENERAL CONFIGURATION
+////////////////////////////////////////
+
+
+////////////////////////////////////////
 // !START! COMMUNICATIONS CONFIGURATION
 ////////////////////////////////////////
 
@@ -268,105 +352,32 @@ $ct_conf['comms']['telegram_bot_token'] = '';  // Your bot's access token
 
 
 ////////////////////////////////////////
-// !START! GENERAL CONFIGURATION
+// !START! EXTERNAL API CONFIGURATION
 ////////////////////////////////////////
 
 
-// Your local time offset IN HOURS COMPARED TO UTC TIME (#CAN BE DECIMAL# TO SUPPORT 30 / 45 MINUTE TIME ZONES). Can be negative or positive.
-// (Used for user experience 'pretty' timestamping in interface logic ONLY, WILL NOT change or screw up UTC log times etc if you change this)
-$ct_conf['gen']['loc_time_offset'] = -5; // example: -5 or 5, -5.5 or 5.75
+// API key for etherscan.io (required unfortunately, but a FREE level is available): https://etherscan.io/apis
+$ct_conf['ext_api']['etherscan_key'] = '';
 
 
-// Configure which interface theme you want as the default theme (also can be manually switched later, on the settings page in the interface)
-$ct_conf['gen']['default_theme'] = 'dark'; // 'dark' or 'light'
-
-
-// ENABLING CHARTS REQUIRES A CRON JOB / TASK SCHEDULER SETUP (see README.txt for setup information)
-// Enables a charts tab / page, and caches real-time updated spot price / 24 hour trade volume chart data on your device's storage drive
-// Disabling will disable EVERYTHING related to the price charts (price charts tab / page, and price chart data caching)
-$ct_conf['gen']['asset_charts_toggle'] = 'on'; // 'on' / 'off'
+// API key for coinmarketcap.com Pro API (required unfortunately, but a FREE level is available): https://coinmarketcap.com/api
+$ct_conf['ext_api']['coinmarketcap_key'] = '';
 
 
 // API key for Alpha Vantage (global stock APIs as well as foreign exchange rates (forex) and cryptocurrency data feeds)
 // (required unfortunately, but a FREE level is available [paid premium also available]): https://www.alphavantage.co/support/#api-key
-$ct_conf['gen']['alphavantage_key'] = '';
+$ct_conf['ext_api']['alphavantage_key'] = '';
 ////
-// If you DON'T have premium Alpha Vantage API access, this app will automatically limit your API requests to 5 PER-MINUTE / 20 PER-HOUR
-// (SO YOU DON'T GO OVER YOUR 5 REQUESTS *PER-MINUTE* / 500 REQUESTS *PER-DAY* LIMIT FOR *FREE* ACCESS)
-$ct_conf['gen']['alphavantage_premium'] = 'no'; // 'no' / 'yes'
-////
-// The requests-per-minute limit on your Alpha Vantage API key (varies depending on you free / paid member level)
-$ct_conf['gen']['alphavantage_per_minute_limit'] = 5; // (default = 5 [FOR FREE SERVICE])
-
-
-// API key for etherscan.io (required unfortunately, but a FREE level is available): https://etherscan.io/apis
-$ct_conf['gen']['etherscan_key'] = '';
-
-
-// API key for coinmarketcap.com Pro API (required unfortunately, but a FREE level is available): https://coinmarketcap.com/api
-$ct_conf['gen']['cmc_key'] = '';
-
-
-// Default marketcap data source: 'coingecko', or 'coinmarketcap' (COINMARKETCAP REQUIRES A #FREE# API KEY, SEE $ct_conf['gen']['cmc_key'] ABOVE)
-$ct_conf['gen']['prim_mcap_site'] = 'coingecko'; 
-
-
-// Default BITCOIN market currencies (80+ currencies supported)
-// (set for default Bitcoin market, and charts / price alert primary-currency-equivalent value determination [example: usd value of btc/ltc market, etc])
-// aed / ars / aud / bam / bdt / bob / brl / bwp / byn / cad / chf / clp / cny / cop / crc / czk / dai 
-// dkk / dop / egp / eth / eur / gbp / gel / ghs / gtq / hkd / huf / idr / ils / inr / irr / jmd / jod 
-// jpy / kes / krw / kwd / kzt / lkr / mad / mur / mwk / mxn / myr / ngn / nis / nok / nzd / pab / pen 
-// php / pkr / pln / pyg / qar / ron / rsd / rub / rwf / sar / sek / sgd / thb / try / tusd / twd / tzs 
-// uah / ugx / usd / usdc / usdt / uyu / ves / vnd / xaf / xof / zar / zmw
-// SEE THE $ct_conf['assets']['BTC'] CONFIGURATION NEAR THE BOTTOM OF THIS CONFIG FILE, FOR THE PROPER (CORRESPONDING)
-// MARKET PAIR VALUE NEEDED FOR YOUR CHOSEN 'BTC' EXCHANGE (set in $ct_conf['gen']['btc_prim_exchange'] directly below)
-$ct_conf['gen']['btc_prim_currency_pair'] = 'usd'; // PUT INSIDE SINGLE QUOTES ('selection')
-
-
-// Default BITCOIN market exchanges (30+ bitcoin exchanges supported)
-// (set for default Bitcoin market, and charts / price alert primary-currency-equivalent value determination [example: usd value of btc/ltc market, etc])
-// binance / binance_us / bit2c / bitbns / bitfinex / bitflyer / bitmex / bitpanda / bitso / bitstamp 
-// bittrex / bittrex_global / btcmarkets / btcturk / buyucoin / cex / coinbase / coindcx / coingecko_usd 
-// coinspot / gemini / hitbtc / huobi / korbit / kraken / kucoin / liquid / localbitcoins / loopring_amm 
-// luno / okcoin / okex / southxchange / unocoin / upbit / wazirx
-// SEE THE $ct_conf['assets']['BTC'] CONFIGURATION NEAR THE BOTTOM OF THIS CONFIG FILE, FOR THE PROPER (CORRESPONDING)
-// 'BTC' EXCHANGE VALUE NEEDED FOR YOUR CHOSEN MARKET PAIR (set in $ct_conf['gen']['btc_prim_currency_pair'] directly above)
-// SEE THE $ct_conf['dev']['limited_apis'] SETTING FURTHER DOWN IN THE DEVELOPER SECTION, FOR EXCHANGES !NOT RECOMMENDED FOR USAGE HERE!
-$ct_conf['gen']['btc_prim_exchange'] = 'kraken';  // PUT INSIDE SINGLE QUOTES ('selection')
-
-
-// Maximum decimal places for [primary currency] values, of coins worth under 1.00 in unit value [usd/gbp/eur/jpy/brl/rub/etc],
-// for prettier / less-cluttered interface. IF YOU ADJUST $ct_conf['gen']['btc_prim_currency_pair'] ABOVE, 
-// YOU MAY NEED TO ADJUST THIS ACCORDINGLY FOR !PRETTY / FUNCTIONAL! CHARTS / ALERTS FOR YOUR CHOSEN PRIMARY CURRENCY
-// ALSO KEEP THIS NUMBER AS LOW AS IS FEASIBLE, TO SAVE ON CHART DATA STORAGE SPACE / MAINTAIN QUICK CHART LOAD TIMES
-$ct_conf['gen']['prim_currency_dec_max'] = 5; // Whole numbers only (represents number of decimals maximum to use)
-
-
-// PRICE PERCENTAGE to round off INTERFACE-DISPLAYED price IN DECIMALS (DYNAMIC / RELATIVE to price amount)
-// (FINE-GRAINED CONTROL OVER INTERFACE PRICE ROUNDING #AMOUNT OF DECIMALS SHOWN#)
-// (interface examples: one = 1000, tenth = 1000, hundredth = 1000.9, thousandth = 1000.09)
-// (interface examples: one = 100, tenth = 100.9, hundredth = 100.09, thousandth = 100.009)
-// (interface examples: one = 10.9, tenth = 10.09, hundredth = 10.009, thousandth = 10.0009)
-// #FIAT# CURRENCY VALUES UNDER 100 #ARE ALWAYS FORCED TO 2 DECIMALS MINUMUM#
-// #FIAT# CURRENCY VALUES UNDER 1 #ARE ALWAYS FORCED TO 'prim_currency_dec_max' DECIMALS MAXIMUM#
-// THIS SETTING ONLY AFFECTS INTERFACE / COMMS PRICE DISPLAY ROUNDING, IT DOES #NOT# AFFECT BACKGROUND CALCULATIONS
-$ct_conf['gen']['price_round_percent'] = 'thousandth'; // (OF A PERCENT) 'one', 'tenth', 'hundredth', 'thousandth'
-////
-// FORCE a FIXED MINIMUM amount of decimals on interface price, CALCULATED OFF ABOVE price_round_percent SETTING
-// (ALWAYS SAME AMOUNT OF DECIMALS, #EVEN IF IT INCLUDES TRAILING ZEROS#) 
-$ct_conf['gen']['price_round_fixed_decimals'] = 'off'; // 'off', 'on'
-
-
-// Number of decimals for price chart CRYPTO 24 hour volumes (NOT USED FOR FIAT VOLUMES, 4 decimals example: 24 hr vol = 91.3874 BTC)
-// KEEP THIS NUMBER AS LOW AS IS FEASIBLE, TO SAVE ON CHART DATA STORAGE SPACE / MAINTAIN QUICK CHART LOAD TIMES
-$ct_conf['gen']['chart_crypto_vol_dec'] = 4;  // (default = 4)
-////
-// Every X days backup chart data. 0 disables backups. Email to / from !MUST BE SET! (a download link is emailed to you of the chart data archive)
-$ct_conf['gen']['charts_backup_freq'] = 1; 
+// The below settings will automatically limit your API requests to NEVER go over your DAILY Alpha Vantage API requests limit
+// (CONTACT ALPHA VANTAGE SUPPORT, IF YOU ARE UNAWARE OF WHAT YOUR MINUTE / DAILY LIMITS ARE [IF you have a PAID PREMIUM plan])
+// The requests-per-MINUTE limit on your Alpha Vantage API key (varies depending on you free / paid member level)
+$ct_conf['ext_api']['alphavantage_per_minute_limit'] = 5; // (default = 5 [FOR FREE SERVICE])
+// The requests-per-DAY limit on your Alpha Vantage API key (varies depending on you free / paid member level)
+$ct_conf['ext_api']['alphavantage_per_day_limit'] = 500; // (default = 500 [FOR FREE SERVICE])
 
 
 ////////////////////////////////////////
-// !END! GENERAL CONFIGURATION
+// !END! EXTERNAL API CONFIGURATION
 ////////////////////////////////////////
 
 

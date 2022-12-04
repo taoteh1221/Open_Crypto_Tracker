@@ -17,10 +17,13 @@
 			<a class="nav-link admin_change_width active" data-toggle="tab" data-width="fixed_max" href="#admin_security" role="tab" aria-controls="admin_security">Security</a>
 		  </li>
 		  <li class="nav-item">
+			<a class="nav-link admin_change_width" data-toggle="tab" data-width="fixed_max" href="#admin_general" role="tab" aria-controls="admin_general">General</a>
+		  </li>
+		  <li class="nav-item">
 			<a class="nav-link admin_change_width" data-toggle="tab" data-width="fixed_max" href="#admin_comms" role="tab" aria-controls="admin_comms">Communications</a>
 		  </li>
 		  <li class="nav-item">
-			<a class="nav-link admin_change_width" data-toggle="tab" data-width="fixed_max" href="#admin_general" role="tab" aria-controls="admin_general">General</a>
+			<a class="nav-link admin_change_width" data-toggle="tab" data-width="fixed_max" href="#admin_ext_api" role="tab" aria-controls="admin_ext_api">External API</a>
 		  </li>
 		  <li class="nav-item">
 			<a class="nav-link admin_change_width" data-toggle="tab" data-width="fixed_max" href="#admin_portfolio_assets" role="tab" aria-controls="admin_portfolio_assets">Portfolio Assets</a>
@@ -45,7 +48,7 @@
 			<a class="nav-link admin_change_width" data-toggle="tab" data-width="fixed_max" href="#admin_developer_only" role="tab" aria-controls="admin_developer_only">Developer Only</a>
 		  </li>
 		  <li class="nav-item">
-			<a class="nav-link admin_change_width" data-toggle="tab" data-width="fixed_max" href="#admin_api" role="tab" aria-controls="admin_api">API</a>
+			<a class="nav-link admin_change_width" data-toggle="tab" data-width="fixed_max" href="#admin_int_api" role="tab" aria-controls="admin_int_api">Internal API</a>
 		  </li>
 		  <li class="nav-item">
 			<a class="nav-link admin_change_width" data-toggle="tab" data-width="fixed_max" href="#admin_webhook" role="tab" aria-controls="admin_webhook">Webhook</a>
@@ -84,6 +87,21 @@
                 </div> 
 		  
 		  </div>
+		  
+		  
+		  <div class="tab-pane" id="admin_general" role="tabpanel">
+	
+	            <h2 class='bitcoin admin_title'>General</h2>
+
+                <div class='max_1200px_wrapper'>
+                	
+                   <div id='iframe_general_loading' class='align_center loading iframe_loading_placeholder bitcoin'><img src="templates/interface/media/images/auto-preloaded/loader.gif" height='17' alt="" style='vertical-align: middle;' /> Loading...<span id='background_loading_span'></span></div>
+                
+                	<iframe id="iframe_general" src="admin.php?iframe=<?=$ct_gen->admin_hashed_nonce('iframe_general')?>&section=general" loading="lazy" frameborder="0" class="admin_iframe"></iframe>
+                	
+                </div> 
+		  
+		  </div>
 		
 		  <div class="tab-pane" id="admin_comms" role="tabpanel">
 	
@@ -100,15 +118,15 @@
 		  </div>
 		  
 		  
-		  <div class="tab-pane" id="admin_general" role="tabpanel">
+		  <div class="tab-pane" id="admin_ext_api" role="tabpanel">
 	
-	            <h2 class='bitcoin admin_title'>General</h2>
+	            <h2 class='bitcoin admin_title'>External API</h2>
 
                 <div class='max_1200px_wrapper'>
                 	
-                   <div id='iframe_general_loading' class='align_center loading iframe_loading_placeholder bitcoin'><img src="templates/interface/media/images/auto-preloaded/loader.gif" height='17' alt="" style='vertical-align: middle;' /> Loading...<span id='background_loading_span'></span></div>
+                   <div id='iframe_ext_api_loading' class='align_center loading iframe_loading_placeholder bitcoin'><img src="templates/interface/media/images/auto-preloaded/loader.gif" height='17' alt="" style='vertical-align: middle;' /> Loading...<span id='background_loading_span'></span></div>
                 
-                	<iframe id="iframe_general" src="admin.php?iframe=<?=$ct_gen->admin_hashed_nonce('iframe_general')?>&section=general" loading="lazy" frameborder="0" class="admin_iframe"></iframe>
+                	<iframe id="iframe_ext_api" src="admin.php?iframe=<?=$ct_gen->admin_hashed_nonce('iframe_ext_api')?>&section=ext_api" loading="lazy" frameborder="0" class="admin_iframe"></iframe>
                 	
                 </div> 
 		  
@@ -219,15 +237,15 @@
 		  </div>
 		  
 		  
-		  <div class="tab-pane" id="admin_api" role="tabpanel">
+		  <div class="tab-pane" id="admin_int_api" role="tabpanel">
 	
-	            <h2 class='bitcoin admin_title'>API</h2>
+	            <h2 class='bitcoin admin_title'>Internal API</h2>
 
                 <div class='max_1200px_wrapper'>
                 	
-                   <div id='iframe_api_loading' class='align_center loading iframe_loading_placeholder bitcoin'><img src="templates/interface/media/images/auto-preloaded/loader.gif" height='17' alt="" style='vertical-align: middle;' /> Loading...<span id='background_loading_span'></span></div>
+                   <div id='iframe_int_api_loading' class='align_center loading iframe_loading_placeholder bitcoin'><img src="templates/interface/media/images/auto-preloaded/loader.gif" height='17' alt="" style='vertical-align: middle;' /> Loading...<span id='background_loading_span'></span></div>
                 
-                	<iframe id="iframe_api" src="admin.php?iframe=<?=$ct_gen->admin_hashed_nonce('iframe_api')?>&section=api" loading="lazy" frameborder="0" class="admin_iframe"></iframe>
+                	<iframe id="iframe_int_api" src="admin.php?iframe=<?=$ct_gen->admin_hashed_nonce('iframe_int_api')?>&section=int_api" loading="lazy" frameborder="0" class="admin_iframe"></iframe>
                 	
                 </div> 
 		  

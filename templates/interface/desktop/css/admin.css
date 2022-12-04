@@ -62,7 +62,7 @@ padding-bottom: 35px !important;
 	 border-bottom-right-radius: 8px;
 	 border-bottom-left-radius: 8px;
     display: block;
-    min-height: 1100px;
+    min-height: 1225px; /* IF ADMIN SIDE-MENU LINKS ARE ADDED, THIS MUST BE INCREASED */
 }
 
 

@@ -35,7 +35,7 @@ $api_base_endpoint = ( $app_edition == 'server' ? 'api/' : 'internal-api.php?dat
 # Add --insecure to the command, if your app's SSL certificate
 # is SELF-SIGNED (not CA issued), #OR THE COMMAND WON'T WORK#
 
-curl<?=( isset($htaccess_username) && isset($htaccess_password) && $htaccess_username != '' && $htaccess_password != '' ? ' -u "' . $htaccess_username . ':' . $htaccess_password . '"' : '' )?> -d "api_key=<?=$api_key?>" -X POST <?=$base_url?><?=$api_base_endpoint?>market_conversion/eur/kraken-btc-usd,coinbase-dai-usd,coinbase-eth-usd
+curl<?=( isset($htaccess_username) && isset($htaccess_password) && $htaccess_username != '' && $htaccess_password != '' ? ' -u "' . $htaccess_username . ':' . $htaccess_password . '"' : '' )?> -d "api_key=<?=$int_api_key?>" -X POST <?=$base_url?><?=$api_base_endpoint?>market_conversion/eur/kraken-btc-usd,coinbase-dai-usd,coinbase-eth-usd
 </code></pre>
 	        
 	        
@@ -72,7 +72,7 @@ var api_request = new XMLHttpRequest();
 
 api_request.open("POST", "<?=$base_url?><?=$api_base_endpoint?>market_conversion/eur/kraken-btc-usd,coinbase-dai-usd,coinbase-eth-usd", true);
 
-var params = "api_key=<?=$api_key?>";
+var params = "api_key=<?=$int_api_key?>";
 
 api_request.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
 
@@ -122,7 +122,7 @@ exit;
 // Initiate CURL
 $ch = curl_init('<?=$base_url?><?=$api_base_endpoint?>market_conversion/eur/kraken-btc-usd,coinbase-dai-usd,coinbase-eth-usd');
 
-$params = array('api_key' => '<?=$api_key?>');
+$params = array('api_key' => '<?=$int_api_key?>');
 
 curl_setopt($ch, CURLOPT_POST, true);
 curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);

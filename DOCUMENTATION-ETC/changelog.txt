@@ -5846,6 +5846,8 @@ v6.00.2 AND HIGHER RESETS LIGHT (TIME PERIOD) CHARTS FROM ARCHIVAL DATA, ONE-TIM
 
 -Stock related News Feeds added to News page's demo config
 
+-New 'External API' section in admin area / config.php
+
 -Miscellaneous revised DEMO configuration
 
 -Documentation additions / revisions
