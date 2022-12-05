@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2014-2022 GPLv3, Open Crypto Tracker by Mike Kilday: Mike@DragonFrugal.com
+ * Copyright 2014-2023 GPLv3, Open Crypto Tracker by Mike Kilday: Mike@DragonFrugal.com
  */
 
 
@@ -50,9 +50,9 @@ elseif ( $webhook_hash[0] == $ct_gen->nonce_digest('telegram', $webhook_key) ) {
 // Test only
 elseif ( $webhook_hash[0] == $ct_gen->nonce_digest('test-only', $webhook_key) ) {
 
-$test_params = array('api_key' => $api_key);
+$test_params = array('api_key' => $int_api_key);
 						
-$test_data = @$ct_cache->ext_data('params', $test_params, 0, $base_url . 'api/market_conversion/eur/kraken-btc-usd,coinbase-dai-usdc,coinbase-eth-usd', 2);
+$test_data = @$ct_cache->ext_data('params', $test_params, 0, $base_url . 'api/market_conversion/eur/kraken-btc-usd,coinbase-dai-usd,coinbase-eth-usd', 2);
 
 // Already json-encoded
 echo $test_data;

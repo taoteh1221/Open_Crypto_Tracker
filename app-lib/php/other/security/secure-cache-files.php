@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2014-2022 GPLv3, Open Crypto Tracker by Mike Kilday: Mike@DragonFrugal.com
+ * Copyright 2014-2023 GPLv3, Open Crypto Tracker by Mike Kilday: Mike@DragonFrugal.com
  */
 
 
@@ -117,18 +117,18 @@ foreach( $secured_cache_files as $secured_file ) {
 	}
 	
 	
-	// API key (for secure API communications)
+	// Internal API key (for secure API communications with other apps)
 	elseif ( preg_match("/int_api_key_/i", $secured_file) ) {
 		
 		
 		// If we already loaded the newest modified file, delete any stale ones
-		if ( $newest_cached_api_key == 1 ) {
+		if ( $newest_cached_int_api_key == 1 ) {
 		unlink($base_dir . '/cache/secured/' . $secured_file);
 		}
 		else {
 			
-			// If an API key reset from authenticated admin is verified
-			if ( $_POST['reset_api_key'] == 1 && $ct_gen->admin_hashed_nonce('reset_api_key') != false && $_POST['admin_hashed_nonce'] == $ct_gen->admin_hashed_nonce('reset_api_key') ) {
+			// If an internal API key reset from authenticated admin is verified
+			if ( $_POST['reset_int_api_key'] == 1 && $ct_gen->admin_hashed_nonce('reset_int_api_key') != false && $_POST['admin_hashed_nonce'] == $ct_gen->admin_hashed_nonce('reset_int_api_key') ) {
 				
 			unlink($base_dir . '/cache/secured/' . $secured_file);
 			
@@ -138,8 +138,8 @@ foreach( $secured_cache_files as $secured_file ) {
 			
 			}
 			else {
-			$newest_cached_api_key = 1;
-			$api_key = trim( file_get_contents($base_dir . '/cache/secured/' . $secured_file) );
+			$newest_cached_int_api_key = 1;
+			$int_api_key = trim( file_get_contents($base_dir . '/cache/secured/' . $secured_file) );
 			}
 		
 		}
@@ -228,8 +228,8 @@ $secure_256bit_hash = $ct_gen->rand_hash(32); // 256-bit (32-byte) hash converte
 //////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
-// If no API key
-if ( !$api_key ) {
+// If no internal API key
+if ( !$int_api_key ) {
 	
 $secure_128bit_hash = $ct_gen->rand_hash(16); // 128-bit (16-byte) hash converted to hexadecimal, used for suffix
 $secure_256bit_hash = $ct_gen->rand_hash(32); // 256-bit (32-byte) hash converted to hexadecimal, used for var
@@ -240,13 +240,13 @@ $secure_256bit_hash = $ct_gen->rand_hash(32); // 256-bit (32-byte) hash converte
 		
 	$ct_gen->log(
 				'security_error',
-				'Cryptographically secure pseudo-random bytes could not be generated for API key (in secured cache storage), API key creation aborted to preserve security'
+				'Cryptographically secure pseudo-random bytes could not be generated for internal API key (in secured cache storage), key creation aborted to preserve security'
 				);
 	
 	}
 	else {
 	$ct_cache->save_file($base_dir . '/cache/secured/int_api_key_'.$secure_128bit_hash.'.dat', $secure_256bit_hash);
-	$api_key = $secure_256bit_hash;
+	$int_api_key = $secure_256bit_hash;
 	}
 
 

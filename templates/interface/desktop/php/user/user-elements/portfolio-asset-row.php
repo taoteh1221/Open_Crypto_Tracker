@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2014-2022 GPLv3, Open Crypto Tracker by Mike Kilday: Mike@DragonFrugal.com
+ * Copyright 2014-2023 GPLv3, Open Crypto Tracker by Mike Kilday: Mike@DragonFrugal.com
  */
 
 
@@ -26,8 +26,10 @@
 <?php 
 
 //echo $sort_order;
-
-if ( isset($mcap_data['rank']) ) {
+if ( preg_match("/stock/i", $asset_symb) ) {
+echo 'N/A';
+}
+elseif ( isset($mcap_data['rank']) ) {
 echo '#' . $mcap_data['rank'];
 }
 else {
@@ -49,13 +51,16 @@ echo '?';
  
  $mkcap_render_data = trim($ct_conf['assets'][$asset_symb]['mcap_slug']);
  
- $info_icon = ( !$mcap_data['rank'] && $asset_symb != 'MISCASSETS' && $asset_symb != 'ETHNFTS' && $asset_symb != 'SOLNFTS' ? 'info-red.png' : 'info.png' );
+ $info_icon = ( !$mcap_data['rank'] && $asset_symb != 'MISCASSETS' && $asset_symb != 'ETHNFTS' && $asset_symb != 'SOLNFTS' && !preg_match("/stock/i", $asset_symb) ? 'info-red.png' : 'info.png' );
  
  
 	if ( isset($mkcap_render_data) && $mkcap_render_data != '' ) {
  	
  
- 		if ( $ct_conf['gen']['prim_mcap_site'] == 'coinmarketcap' ) {
+ 		if ( preg_match("/stock/i", $asset_symb) ) {
+ 		$asset_pagebase = 'www.google.com/finance/quote/';
+ 		}
+ 		elseif ( $ct_conf['gen']['prim_mcap_site'] == 'coinmarketcap' ) {
  		$asset_pagebase = 'coinmarketcap.com/currencies/';
  		}
  		elseif ( $ct_conf['gen']['prim_mcap_site'] == 'coingecko' ) {
@@ -65,13 +70,22 @@ echo '?';
  	
  		?>
  		
- <a href='https://<?=$asset_pagebase?><?=$mkcap_render_data?>/' target='_blank' class='blue app_sort_filter' title='View <?=ucfirst($ct_conf['gen']['prim_mcap_site'])?>.com Information Page For <?=$asset_symb?>'><?=$asset_name?></a> <img id='<?=$mkcap_render_data?>' src='templates/interface/media/images/<?=$info_icon?>' alt='' style='position: relative; vertical-align:middle; height: 30px; width: 30px;' /> 
+ <a href='https://<?=$asset_pagebase?><?=$mkcap_render_data?>' target='_blank' class='blue app_sort_filter' title='View Information Page For <?=$asset_symb?>'><?=$asset_name?></a> <img id='<?=preg_replace("/\:/", "", $mkcap_render_data)?>' src='templates/interface/media/images/<?=$info_icon?>' alt='' style='position: relative; vertical-align:middle; height: 30px; width: 30px;' /> 
  <script>
 
 		<?php
 		if ( !$mcap_data['rank'] ) {
 			
-			if ( $ct_conf['gen']['prim_mcap_site'] == 'coinmarketcap' && trim($ct_conf['gen']['cmc_key']) == null ) {
+			if ( preg_match("/stock/i", $asset_symb) ) {
+			?>
+
+			var cmc_content = '<h5 class="yellow align_center tooltip_title"><?=$asset_name?> (<?=$asset_symb?>)</h5>'
+    
+        +'<p class="coin_info" style="white-space: normal; max-width: 600px;"><span class="yellow">Stock market data is provided with <a href="https://www.alphavantage.co/" target="_blank">Alpha Vantage\'s API</a>.</span></p>';
+	
+			<?php
+			}
+			elseif ( $ct_conf['gen']['prim_mcap_site'] == 'coinmarketcap' && trim($ct_conf['ext_api']['coinmarketcap_key']) == null ) {
 			?>
 
 			var cmc_content = '<p class="coin_info"><span class="red"><?=ucfirst($ct_conf['gen']['prim_mcap_site'])?> API key is required. <br />Configuration adjustments can be made in the Admin Config GENERAL section.</span></p>';
@@ -203,7 +217,7 @@ echo '?';
         }
         ?>
     
-        $('#<?=$mkcap_render_data?>').balloon({
+        $('#<?=preg_replace("/\:/", "", $mkcap_render_data)?>').balloon({
         html: true,
         position: "right",
   		  classname: 'balloon-tooltips',
@@ -278,6 +292,7 @@ echo '?';
   ?>
   
   <span class='blue app_sort_filter'><?=$asset_name?></span> <img id='<?=$rand_id?>' src='templates/interface/media/images/<?=$info_icon?>' alt='' style='position: relative; vertical-align:middle; height: 30px; width: 30px;' /> 
+  
  <script>
  
  			<?php

@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2014-2022 GPLv3, Open Crypto Tracker by Mike Kilday: Mike@DragonFrugal.com
+ * Copyright 2014-2023 GPLv3, Open Crypto Tracker by Mike Kilday: Mike@DragonFrugal.com
  */
 
 
@@ -826,11 +826,15 @@ var $ct_array = array();
    
       // Etherscan
       if ( preg_match("/etherscan/i", $url) ) {
-      $url = str_replace($ct_conf['gen']['etherscan_key'], $ct_var->obfusc_str($ct_conf['gen']['etherscan_key'], 2), $url);
+      $url = str_replace($ct_conf['ext_api']['etherscan_key'], $ct_var->obfusc_str($ct_conf['ext_api']['etherscan_key'], 2), $url);
       }
       // Telegram
       elseif ( preg_match("/telegram/i", $url) ) {
       $url = str_replace($ct_conf['comms']['telegram_bot_token'], $ct_var->obfusc_str($ct_conf['comms']['telegram_bot_token'], 2), $url); 
+      }
+      // AlphaVantage
+      elseif ( preg_match("/alphavantage/i", $url) ) {
+      $url = str_replace($ct_conf['ext_api']['alphavantage_key'], $ct_var->obfusc_str($ct_conf['ext_api']['alphavantage_key'], 2), $url); 
       }
    
    // Keep our color-coded logs in the admin UI pretty, remove '//' and put in parenthesis
@@ -2056,6 +2060,7 @@ var $ct_array = array();
    $pretty_str = preg_replace("/gateio/i", 'Gate.io', $pretty_str);
    $pretty_str = preg_replace("/dex/i", 'DEX', $pretty_str);
    $pretty_str = preg_replace("/coingecko/i", 'CoinGecko.com', $pretty_str);
+   $pretty_str = preg_replace("/alphavantage/i", 'AlphaVantage', $pretty_str);
    
    
    return trim($pretty_str);

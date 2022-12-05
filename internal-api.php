@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2014-2022 GPLv3, Open Crypto Tracker by Mike Kilday: Mike@DragonFrugal.com
+ * Copyright 2014-2023 GPLv3, Open Crypto Tracker by Mike Kilday: Mike@DragonFrugal.com
  */
 
 
@@ -42,7 +42,7 @@ $json_result = json_encode($result, JSON_PRETTY_PRINT);
 }
 // API security check (key request var must match our stored API key, or we abort runtime)
 // (POST DATA #ONLY#, FOR HIGH SECURITY OF API KEY TRANSMISSION)
-elseif ( !isset($_POST['api_key']) || isset($_POST['api_key']) && $_POST['api_key'] != $api_key ) {
+elseif ( !isset($_POST['api_key']) || isset($_POST['api_key']) && $_POST['api_key'] != $int_api_key ) {
 	
 	if ( isset($_POST['api_key']) ) {
 	$result = array('error' => "Incorrect API key: " . $_POST['api_key']);

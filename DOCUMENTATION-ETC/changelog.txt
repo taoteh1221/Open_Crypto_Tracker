@@ -5829,6 +5829,39 @@ v6.00.2 AND HIGHER RESETS LIGHT (TIME PERIOD) CHARTS FROM ARCHIVAL DATA, ONE-TIM
 
 
 
+-------------------------------------------------------------------
+6.00.10:
+
+-BUG FIX: Fixes AND better user experience running "ADD-WIN10-SCHEDULER-JOB.bat" to create a scheduled background task on Windows
+
+-Better user experience during import / restore of large price chart data sets (on low power AND high power devices...multiplies the "light_chart_first_build_hard_limit" value set in the developer config section, by the number of CPU cores IF detected) 
+
+-New throttle-limiting system for limited APIs (like Alpha Vantage stock API), which keeps hourly LIVE price requests throttled to allow live requests to happen reliably every hour of the day (and skips storing chart data IF it's just using already-cached price data)
+
+-New error alert system, alerts end-users in error logs IF an API connection fails AND that server is known to block access by ip address location / jurasdiction (like binance.com seems to have started rolling out across it's APIs)
+
+-Support for global stock market spot price / volume (via the Alpha Vantage stock API)
+
+-Miscellaneous (small) fixes / user experience improvements / optimizations
+
+-Stock related News Feeds added to News page's demo config
+
+-New 'External API' section in admin area / config.php
+
+-Miscellaneous revised DEMO configuration
+
+-Documentation additions / revisions
+
+v6.00.9 AND HIGHER RESETS ANY *DEFAULT DEMO* LIGHT (TIME PERIOD) CHARTS FROM ARCHIVAL DATA, ONE-TIME DURING UPGRADES FROM V6.00.8 OR LOWER.
+
+v6.00.8 AND HIGHER MIGRATES / UPGRADES ANY SET COOKIE DATA TO A MORE SECURE / RELIABLE FORMAT, ONE-TIME DURING UPGRADES FROM V6.00.7 OR LOWER.
+
+v6.00.2 AND HIGHER RESETS LIGHT (TIME PERIOD) CHARTS FROM ARCHIVAL DATA, ONE-TIME DURING UPGRADES FROM V6.00.1 OR LOWER.
+
+-------------------------------------------------------------------
+
+
+
 
 
 

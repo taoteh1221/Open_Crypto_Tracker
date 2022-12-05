@@ -1,5 +1,5 @@
 
-// Copyright 2014-2022 GPLv3, Open Crypto Tracker by Mike Kilday: Mike@DragonFrugal.com
+// Copyright 2014-2023 GPLv3, Open Crypto Tracker by Mike Kilday: Mike@DragonFrugal.com
 
 
 
@@ -925,6 +925,7 @@ render = render.replace(/mart/gi, "Mart");
 render = render.replace(/gateio/gi, "Gate.io");
 render = render.replace(/dex/gi, "DEX");
 render = render.replace(/coingecko/gi, "CoinGecko.com");
+render = render.replace(/alphavantage/gi, "AlphaVantage");
 
 return render;
 

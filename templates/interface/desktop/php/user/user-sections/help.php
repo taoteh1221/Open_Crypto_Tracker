@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2014-2022 GPLv3, Open Crypto Tracker by Mike Kilday: Mike@DragonFrugal.com
+ * Copyright 2014-2023 GPLv3, Open Crypto Tracker by Mike Kilday: Mike@DragonFrugal.com
  */
 
 
@@ -345,7 +345,7 @@ Support for over 80 trading pairs (country fiat currency or secondary crypto, co
 Support for over 40 exchanges (contact me to request more): 
 	    <br /><br />
 
-<span class='blue'>binance / binance_us / bit2c / bitbns / bitfinex / bitflyer / bitmart / bitmex / bitmex_u20 / bitmex_z20 / bitpanda / bitso / bitstamp / bittrex / bittrex_global / btcmarkets / btcturk / buyucoin / bybit / cex / coinbase / coindcx / coinex / coingecko_btc / coingecko_eth / coingecko_eur / coingecko_gbp / coingecko_usd / coinspot / crypto.com / ethfinex / gateio / gemini / hitbtc / hotbit / huobi / jupiter_ag / korbit / kraken / kucoin / liquid / localbitcoins / localbitcoins / loopring_amm / luno / okcoin / okex / poloniex / southxchange / unocoin / upbit / wazirx / zebpay</span>
+<span class='blue'>alphavantage_stock binance / binance_us / bit2c / bitbns / bitfinex / bitflyer / bitmart / bitmex / bitmex_u20 / bitmex_z20 / bitpanda / bitso / bitstamp / bittrex / bittrex_global / btcmarkets / btcturk / buyucoin / bybit / cex / coinbase / coindcx / coinex / coingecko_btc / coingecko_eth / coingecko_eur / coingecko_gbp / coingecko_usd / coinspot / crypto.com / ethfinex / gateio / gemini / hitbtc / hotbit / huobi / jupiter_ag / korbit / kraken / kucoin / liquid / localbitcoins / localbitcoins / loopring_amm / luno / okcoin / okex / poloniex / southxchange / unocoin / upbit / wazirx / zebpay</span>
 	    <br /><br />
 
 
@@ -362,9 +362,8 @@ Ethereum ICO subtoken support (pre-exchange listing) has been built in (values a
  
  
 <pre class='rounded'><code class='hide-x-scroll less' style='width: 100%; height: 750px;'>
-
-            // UPPERCASE_COIN_ABRV_HERE
-            'UPPERCASE_COIN_ABRV_HERE' => array(
+            // UPPERCASE_COIN_TICKER_HERE
+            'UPPERCASE_COIN_TICKER_HERE' => array(
                 
                 'name' => 'COIN_NAME_HERE',
                 // Website slug (URL data) on coinmarketcap / coingecko, leave blank if not listed there
@@ -430,6 +429,62 @@ Ethereum ICO subtoken support (pre-exchange listing) has been built in (values a
                                             
                 ) // pair END
             	   
+            ), // Asset END
+ 
+ 
+ 
+            // UPPERCASE_STOCK_TICKER_HERESTOCK
+            // (*ALWAYS* APPEND WORD "STOCK" TO THE TICKER HERE, to designate as a stock [NOT crypto / fiat])
+            'UPPERCASE_STOCK_TICKER_HERESTOCK' => array(
+                        
+                'name' => 'STOCK_NAME_HERE',
+                // Website slug (URL data) on Google Finance, leave blank if not listed there
+                'mcap_slug' => 'UPPERCASE_STOCK_TICKER_HERE:EXCHANGE_NAME_HERE', 
+                // MARKET IDS ARE CASE-SENSITIVE!
+                'pair' => array(
+
+                        
+                        'usd' => array(
+                                 'alphavantage_stock' => 'ALPHAVANTAGE_TICKER_ID_HERE',
+                                       ),
+                                       
+                                       
+                /*
+                ///////////////////////////////////////////////////
+                'ALPHAVANTAGE_TICKER_ID_HERE' EXAMPLES FOR STOCKS...
+                (SEE EXAMPLES IN CONFIG.PHP FOR MORE DETAILS ON ADDING STOCKS)
+                ///////////////////////////////////////////////////
+                
+                IBM (United States):
+                IBM
+                
+                Tesco PLC (UK - London Stock Exchange):
+                TSCO.LON
+                
+                Shopify Inc (Canada - Toronto Stock Exchange):
+                SHOP.TR
+                
+                GreenPower Motor Company Inc (Canada - Toronto Venture Exchange):
+                GPV.TRV
+                
+                Daimler Truck Holding AG (Germany - XETRA):
+                DTG.DEX
+                
+                Reliance Industries Limited (India - BSE):
+                RELIANCE.BSE
+                
+                SAIC Motor Corporation (China - Shanghai Stock Exchange):
+                600104.SHH
+                
+                China Vanke Company Ltd (China - Shenzhen Stock Exchange):
+                000002.SHZ
+                
+                ///////////////////////////////////////////////////
+                */
+
+                                                    
+                ) // pair END
+                        
             ), // Asset END
 </code></pre>
       
@@ -505,7 +560,7 @@ Ethereum ICO subtoken support (pre-exchange listing) has been built in (values a
 	      <div class="card-body">
 	      
 	       
-	        Either the asset has not been added to <a href='https://coinmarketcap.com' target='_blank'>Coinmarketcap.com</a> or <a href='https://Coingecko.com' target='_blank'>Coingecko.com</a> yet, you forgot to add the URL slug in it's config section, or you need to increase the number of rankings to fetch in Admin Config in the POWER USER section (500 rankings is the safe maximum to avoid getting your API requests throttled / blocked). 
+	        Either the asset has not been added to <a href='https://coinmarketcap.com' target='_blank'>Coinmarketcap.com</a> or <a href='https://Coingecko.com' target='_blank'>Coingecko.com</a> yet, you forgot to add the URL slug in it's config section, or you need to increase the number of rankings to fetch in Admin Config in the POWER USER section (300 rankings is the safe maximum to avoid getting your API requests throttled / blocked). 
 	        
 	        
 	      </div>
@@ -605,6 +660,34 @@ SMTP email sending is REQUIRED if you are running this app on a home network, or
 	      
 	         
 	        This app will automatically detect and alert you if your system doesn't support zip file creating or secure random number generation, which are both used in creating the zip archive backups. So if you have issues with your backup archives working, it's most likely related to file / folder permissions. Make sure the /cache/secured/backups/ directory access permissions are set to readable and writable. This assures the ZIP archive has permission to be created in this directory.
+	        
+	        
+	      </div>
+	    </div>
+	  </div>
+	  
+	
+	<?php
+	$accord_var = 'binance_markets';
+	?>
+	
+	  <div class="card z-depth-0 bordered">
+	    <div class="card-header" id="heading_<?=$accord_var?>">
+	      <h5 class="mb-0">
+	        <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapse_<?=$accord_var?>"
+	          aria-expanded="false" aria-controls="collapse_<?=$accord_var?>">
+	          
+	          Binance Markets Do Not Work
+	          
+	        </button>
+	      </h5>
+	    </div>
+	    <div id="collapse_<?=$accord_var?>" class="faq_bg collapse" aria-labelledby="heading_<?=$accord_var?>"
+	      data-parent="#accordionHelp">
+	      <div class="card-body">
+	      
+	         
+	        Binance started blocking access to some of their price APIs in certain jurasdictions in November of 2022. Check with them in their support channels, if you are unsure if your jurasdiction has been blocked or not.
 	        
 	        
 	      </div>
@@ -849,7 +932,7 @@ After using the above configuration, and then running "make", when you then run 
 	      <div class="card-body">
 	      
 
-<span class='bitcoin'>IMPORTANT NOTICE:</span> PLUGINS *MAY REQUIRE* A CRON JOB RUNNING ON YOUR WEB SERVER (see <a href='README.txt' target='_blank'>README.txt</a> for cron job setup information).
+<span class='bitcoin'>IMPORTANT NOTICE:</span> PLUGINS *MAY REQUIRE* A CRON JOB (OR SCHEDULED TASK) RUNNING ON YOUR WEB SERVER (see <a href='README.txt' target='_blank'>README.txt</a> for cron job setup information).
 <br /><br />
 
 
@@ -997,7 +1080,7 @@ $plug_conf[$this_plug]['SETTING_NAME_HERE'] = array('mysetting1', 'mysetting2');
 <br /><br />
 
 
-<span class='blue'>13)</span> To add / activate your new plugin, add your plugin name (example: 'my-app-plugin') as a new value within 'activate_plugins', and set to 'on'...ALSO INCLUDE A COMMA AT THE END.
+<span class='blue'>13)</span> To add / activate your new plugin, add your plugin MAIN FOLDER name (example: 'my-app-plugin') as a new value within 'activate_plugins', and set to 'on'...ALSO INCLUDE A COMMA AT THE END.
 <br /><br />
 
 <pre class='rounded' style='display: inline-block;<?=( $ct_gen->is_msie() == false ? ' padding-top: 1em !important;' : '' )?>'><code class='hide-x-scroll less' style='white-space: nowrap; width: auto; display: inline-block;'>'my-app-plugin' => 'on',</code></pre>

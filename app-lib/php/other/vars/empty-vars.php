@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2014-2022 GPLv3, Open Crypto Tracker by Mike Kilday: Mike@DragonFrugal.com
+ * Copyright 2014-2023 GPLv3, Open Crypto Tracker by Mike Kilday: Mike@DragonFrugal.com
  */
 
 
@@ -41,11 +41,13 @@ $asset_stats_array = array();
 
 $asset_tracking =  array();
 
-$btc_worth_array = array();
-
 $btc_pair_mrkts = array();
 
 $btc_pair_mrkts_excluded = array();
+
+$btc_worth_array = array();
+
+$stocks_btc_worth_array = array();
 
 $price_alert_fixed_reset_array = array();
 
@@ -56,6 +58,10 @@ $proxies_checked = array();
 $telegram_user_data = array();
 
 $last_valid_chart_data = array();
+
+$api_throttle_count = array();
+
+$api_throttle_flag = array();
 
 
 // Initial BLANK strings

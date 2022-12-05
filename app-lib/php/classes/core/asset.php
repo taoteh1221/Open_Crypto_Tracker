@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2014-2022 GPLv3, Open Crypto Tracker by Mike Kilday: Mike@DragonFrugal.com
+ * Copyright 2014-2023 GPLv3, Open Crypto Tracker by Mike Kilday: Mike@DragonFrugal.com
  */
 
 
@@ -51,6 +51,23 @@ var $ct_array1 = array();
    global $btc_worth_array;
    
      foreach ( $btc_worth_array as $key => $val ) {
+     $result = ($result + $val);
+     }
+     
+   return $result;
+   
+   }
+   
+   
+   ////////////////////////////////////////////////////////
+   ////////////////////////////////////////////////////////
+   
+   
+   function stocks_bitcoin_total() {
+     
+   global $stocks_btc_worth_array;
+   
+     foreach ( $stocks_btc_worth_array as $key => $val ) {
      $result = ($result + $val);
      }
      
@@ -498,7 +515,10 @@ var $ct_array1 = array();
    $data = array();
    
    
-     if ( $ct_conf['gen']['prim_mcap_site'] == 'coingecko' ) {
+     if ( preg_match("/stock/i", $symbol) ) {
+     // Do nothing for stocks, as we currently don't support stock stats beyond spot price / volume
+     }
+     elseif ( $ct_conf['gen']['prim_mcap_site'] == 'coingecko' ) {
      
        
          // Check for currency support, fallback to USD if needed
@@ -1161,7 +1181,7 @@ var $ct_array1 = array();
    function ui_asset_row($asset_name, $asset_symb, $asset_amnt, $all_pair_mrkts, $sel_pair, $sel_exchange, $purchase_price=null, $leverage_level, $sel_mrgntyp) {
    
    // Globals
-   global $base_dir, $ct_conf, $ct_gen, $ct_var, $ct_api, $sel_opt, $btc_worth_array, $asset_stats_array, $td_color_zebra, $mcap_data_force_usd, $coingecko_api, $coinmarketcap_api;
+   global $base_dir, $ct_conf, $ct_gen, $ct_var, $ct_api, $sel_opt, $btc_worth_array, $stocks_btc_worth_array, $asset_stats_array, $td_color_zebra, $mcap_data_force_usd, $coingecko_api, $coinmarketcap_api;
    
        
    $original_mrkt = $sel_exchange;
@@ -1315,8 +1335,14 @@ var $ct_array1 = array();
          $btc_worth_array[$asset_symb] = $asset_amnt;
          }
          else {
+             
          $btc_trade_eqiv_raw = number_format( ($asset_val_raw * $pair_btc_val) , 8, '.', '');
          $btc_worth_array[$asset_symb] = $ct_var->num_to_str($asset_val_total_raw * $pair_btc_val);
+         
+            if ( preg_match("/stock/i", $asset_symb) ) {
+            $stocks_btc_worth_array[$asset_symb] = $ct_var->num_to_str($asset_val_total_raw * $pair_btc_val);
+            }
+         
          }
          
          
@@ -1409,8 +1435,14 @@ var $ct_array1 = array();
    function charts_price_alerts($asset_data, $exchange, $pair, $mode) {
    
    // Globals
-   global $base_dir, $ct_conf, $ct_cache, $ct_var, $ct_gen, $ct_api, $default_btc_prim_exchange, $default_btc_prim_currency_val, $default_btc_prim_currency_pair, $price_alert_fixed_reset_array;
+   global $base_dir, $ct_conf, $ct_cache, $ct_var, $ct_gen, $ct_api, $api_throttle_flag, $default_btc_prim_exchange, $default_btc_prim_currency_val, $default_btc_prim_currency_pair, $price_alert_fixed_reset_array;
    
+      
+      // Skip completely, if it's an alphavantage market, AND the end-user has NOT added an alphavantage API key
+      if ( $exchange == 'alphavantage_stock' && trim($ct_conf['ext_api']['alphavantage_key']) == '' ) {
+      return false;
+      }
+      
       
       // For UX, scan to remove any old stale price alert entries that are now disabled / disabled GLOBALLY 
       // Return false if there is no charting on this entry (to optimize runtime)
@@ -1575,13 +1607,32 @@ var $ct_array1 = array();
    
    /////////////////////////////////////////////////////////////////
    
+   
+      // If we should skip storing chart data, because of API limits reached (to save on storage space / using same repetitive cached API price data)
+      if ( $exchange == 'alphavantage_stock' && $api_throttle_flag['alphavantage.co'] == true ) {
+          
+      $halt_chart_storage = true;
+      
+      $ct_gen->log(
+          		  'notify_error',
+          		  'skipping "'.$exchange.'" chart storage, it was rate-limited to avoid going over it\'s API limits (it used cache-only data)',
+          		  false,
+          		  $exchange . '_skip_charts'
+          		  );
+          		  
+      }
+      else {
+      $halt_chart_storage = false;
+      }
      
    
       // Charts (WE DON'T WANT TO STORE DATA WITH A CORRUPT TIMESTAMP)
       /////////////////////////////////////////////////////////////////
       // If the charts page is enabled in Admin Config, save latest chart data for assets with price alerts configured on them
-      if ( $mode == 'both' && $ct_var->num_to_str($asset_prim_currency_val_raw) >= 0.00000001 && $ct_conf['gen']['asset_charts_toggle'] == 'on'
-      || $mode == 'chart' && $ct_var->num_to_str($asset_prim_currency_val_raw) >= 0.00000001 && $ct_conf['gen']['asset_charts_toggle'] == 'on' ) {
+      if (
+      !$halt_chart_storage && $mode == 'both' && $ct_var->num_to_str($asset_prim_currency_val_raw) >= 0.00000001 && $ct_conf['gen']['asset_charts_toggle'] == 'on'
+      || !$halt_chart_storage && $mode == 'chart' && $ct_var->num_to_str($asset_prim_currency_val_raw) >= 0.00000001 && $ct_conf['gen']['asset_charts_toggle'] == 'on'
+      ) {
       
       // In case a rare error occured from power outage / corrupt memory / etc, we'll check the timestamp (in a non-resource-intensive way)
       // (#SEEMED# TO BE A REAL ISSUE ON A RASPI ZERO AFTER MULTIPLE POWER OUTAGES [ONE TIMESTAMP HAD PREPENDED CORRUPT DATA])
@@ -1892,20 +1943,23 @@ var $ct_array1 = array();
                      elseif ( $vol_prim_currency_raw >= 0 ) {
                      $email_vol_summary = '24 hour ' . $vol_describe . $vol_change_text . ' ' . $vol_prim_currency_text . ( $vol_prim_currency_raw == 0 ? $vol_filter_skipped_text : '' ) . '.'; 
                      }
-                        
+                     
+                     
+                     // UX on stock symbols in alert messages (especially for alexa speaking alerts)
+                     $asset_text = preg_replace("/stock/i", " STOCK", $asset);
                         
                         
                         
                // Build the different messages, configure comm methods, and send messages
                         
-               $email_msg = ( $whale_alert == 1 ? 'WHALE ALERT: ' : '' ) . 'The ' . $asset . ' trade value in the ' . strtoupper($pair) . ' market at the ' . $exchange_text . ' exchange has ' . $increase_decrease . ' ' . $change_symb . $percent_change_text . '% in ' . strtoupper($default_btc_prim_currency_pair) . ' value to ' . $ct_conf['power']['btc_currency_mrkts'][$default_btc_prim_currency_pair] . $asset_prim_currency_text . ' over the past ' . $last_cached_time . ' since the last price ' . $desc_alert_type . '. ' . $email_vol_summary;
+               $email_msg = ( $whale_alert == 1 ? 'WHALE ALERT: ' : '' ) . 'The ' . $asset_text . ' trade value in the ' . strtoupper($pair) . ' market at the ' . $exchange_text . ' exchange has ' . $increase_decrease . ' ' . $change_symb . $percent_change_text . '% in ' . strtoupper($default_btc_prim_currency_pair) . ' value to ' . $ct_conf['power']['btc_currency_mrkts'][$default_btc_prim_currency_pair] . $asset_prim_currency_text . ' over the past ' . $last_cached_time . ' since the last price ' . $desc_alert_type . '. ' . $email_vol_summary;
                         
                         
                // Were're just adding a human-readable timestamp to smart home (audio) alerts
                $notifyme_msg = $email_msg . ' Timestamp: ' . $ct_gen->time_date_format($ct_conf['gen']['loc_time_offset'], 'pretty_time') . '.';
                         
                         
-               $text_msg = ( $whale_alert == 1 ? '🐳 ' : '' ) . $asset . ' / ' . strtoupper($pair) . ' @ ' . $exchange_text . ' ' . $increase_decrease . ' ' . $change_symb . $percent_change_text . '% in ' . strtoupper($default_btc_prim_currency_pair) . ' value to ' . $ct_conf['power']['btc_currency_mrkts'][$default_btc_prim_currency_pair] . $asset_prim_currency_text . ' over ' . $last_cached_time . '. 24 Hour ' . strtoupper($default_btc_prim_currency_pair) . ' Volume: ' . $vol_prim_currency_text . ' ' . $vol_change_text_mobile;
+               $text_msg = ( $whale_alert == 1 ? '🐳 ' : '' ) . $asset_text . ' / ' . strtoupper($pair) . ' @ ' . $exchange_text . ' ' . $increase_decrease . ' ' . $change_symb . $percent_change_text . '% in ' . strtoupper($default_btc_prim_currency_pair) . ' value to ' . $ct_conf['power']['btc_currency_mrkts'][$default_btc_prim_currency_pair] . $asset_prim_currency_text . ' over ' . $last_cached_time . '. 24 Hour ' . strtoupper($default_btc_prim_currency_pair) . ' Volume: ' . $vol_prim_currency_text . ' ' . $vol_change_text_mobile;
                         
                         
                     

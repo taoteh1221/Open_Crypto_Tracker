@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2014-2022 GPLv3, Open Crypto Tracker by Mike Kilday: Mike@DragonFrugal.com
+ * Copyright 2014-2023 GPLv3, Open Crypto Tracker by Mike Kilday: Mike@DragonFrugal.com
  */
 
 
@@ -9,6 +9,9 @@
     }
     elseif ( $_GET['section'] == 'comms' ) {
     require("templates/interface/desktop/php/admin/admin-sections/comms.php");
+    }
+    elseif ( $_GET['section'] == 'ext_api' ) {
+    require("templates/interface/desktop/php/admin/admin-sections/ext-api.php");
     }
     elseif ( $_GET['section'] == 'general' ) {
     require("templates/interface/desktop/php/admin/admin-sections/general.php");
@@ -34,8 +37,8 @@
     elseif ( $_GET['section'] == 'developer' ) {
     require("templates/interface/desktop/php/admin/admin-sections/developer.php");
     }
-    elseif ( $_GET['section'] == 'api' ) {
-    require("templates/interface/desktop/php/admin/admin-sections/api.php");
+    elseif ( $_GET['section'] == 'int_api' ) {
+    require("templates/interface/desktop/php/admin/admin-sections/int-api.php");
     }
     elseif ( $_GET['section'] == 'webhook' ) {
     require("templates/interface/desktop/php/admin/admin-sections/webhook.php");

@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2014-2022 GPLv3, Open Crypto Tracker by Mike Kilday: Mike@DragonFrugal.com
+ * Copyright 2014-2023 GPLv3, Open Crypto Tracker by Mike Kilday: Mike@DragonFrugal.com
  */
  
 
@@ -40,7 +40,7 @@ $x_coord = 75; // Start position (absolute) for light chart links
 		
 
 			
-			// Unicode asset symbols
+			// Unicode symbols for an asset
 			// Crypto
 			if ( array_key_exists($charted_val, $ct_conf['power']['crypto_pair']) ) {
 			$currency_symb = $ct_conf['power']['crypto_pair'][$charted_val];

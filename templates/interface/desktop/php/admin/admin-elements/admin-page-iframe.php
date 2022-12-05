@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2014-2022 GPLv3, Open Crypto Tracker by Mike Kilday: Mike@DragonFrugal.com
+ * Copyright 2014-2023 GPLv3, Open Crypto Tracker by Mike Kilday: Mike@DragonFrugal.com
  */
  
 
@@ -21,7 +21,7 @@ header('Access-Control-Allow-Origin: ' . $app_host_address);
 <html lang="en">
 
 <!-- /*
- * Copyright 2014-2022 GPLv3, Open Crypto Tracker by Mike Kilday: Mike@DragonFrugal.com
+ * Copyright 2014-2023 GPLv3, Open Crypto Tracker by Mike Kilday: Mike@DragonFrugal.com
  */ -->
 
 <head>
@@ -349,7 +349,34 @@ $(document).ready(function() {
 // If we need to refresh an admin iframe, to show the updated data
 if ( $_GET['refresh'] ) {
     
-$refresh_admin = explode(',', $_GET['refresh']);
+    
+    if ( $_GET['refresh'] == 'all' ) {
+    
+    $refresh_admin = array(
+                            'iframe_comms',
+                            'iframe_ext_api',
+                            'iframe_general',
+                            'iframe_portfolio_assets',
+                            'iframe_charts_alerts',
+                            'iframe_plugins',
+                            'iframe_power_user',
+                            'iframe_text_gateways',
+                            'iframe_proxy',
+                            'iframe_developer',
+                            'iframe_int_api',
+                            'iframe_webhook',
+                            'iframe_system_stats',
+                            'iframe_access_stats',
+                            'iframe_logs',
+                            'iframe_backup_restore',
+                            'iframe_reset',
+                           );
+    
+    }
+    else {
+    $refresh_admin = explode(',', $_GET['refresh']);
+    }
+    
 
     foreach ( $refresh_admin as $refresh ) {
 
@@ -360,6 +387,7 @@ $refresh_admin = explode(',', $_GET['refresh']);
         }
     
     }
+    
 
 }
 
@@ -375,7 +403,7 @@ $refresh_admin = explode(',', $_GET['refresh']);
 </html>
 
 <!-- /*
- * Copyright 2014-2022 GPLv3, Open Crypto Tracker by Mike Kilday: Mike@DragonFrugal.com
+ * Copyright 2014-2023 GPLv3, Open Crypto Tracker by Mike Kilday: Mike@DragonFrugal.com
  */ -->
  
  <?php

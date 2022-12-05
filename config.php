@@ -2,7 +2,7 @@
 // DON'T LEAVE ANY WHITESPACE ABOVE THE OPENING PHP TAG!
 
 /*
- * Copyright 2014-2022 GPLv3, Open Crypto Tracker by Mike Kilday: Mike@DragonFrugal.com
+ * Copyright 2014-2023 GPLv3, Open Crypto Tracker by Mike Kilday: Mike@DragonFrugal.com
  */
 
 // Forbid direct INTERNET access to this file
@@ -37,6 +37,7 @@ exit;
 // (ENABLES / UPDATES automatically, when a valid username / password are filled in or updated here)
 // (DISABLES automatically, when username / password are blank '' OR invalid) 
 // (!ONLY #UPDATES OR DISABLES# AUTOMATICALLY #AFTER# LOGGING IN ONCE WITH YOUR #OLD LOGIN# [or if a cron job / scheduled task runs with the new config]!)
+// DOES #NOT# WORK ON #DESKTOP EDITIONS# (ONLY WORKS ON #SERVER EDITION#)
 // #IF THIS SETTING GIVES YOU ISSUES# ON YOUR SYSTEM, BLANK IT OUT TO '', AND DELETE '.htaccess' IN THE MAIN DIRECTORY OF 
 // THIS APP (TO RESTORE PAGE ACCESS), AND PLEASE REPORT IT HERE: https://github.com/taoteh1221/Open_Crypto_Tracker/issues
 $ct_conf['sec']['interface_login'] = ''; // Leave blank to disable requiring an interface login. This format MUST be used: 'username||password'
@@ -118,6 +119,90 @@ $ct_conf['sec']['chmod_index_sec'] = '0660'; // (default = '0660' [owner/group r
 
 ////////////////////////////////////////
 // !END! SECURITY CONFIGURATION
+////////////////////////////////////////
+
+
+////////////////////////////////////////
+// !START! GENERAL CONFIGURATION
+////////////////////////////////////////
+
+
+// Your local time offset IN HOURS COMPARED TO UTC TIME (#CAN BE DECIMAL# TO SUPPORT 30 / 45 MINUTE TIME ZONES). Can be negative or positive.
+// (Used for user experience 'pretty' timestamping in interface logic ONLY, WILL NOT change or screw up UTC log times etc if you change this)
+$ct_conf['gen']['loc_time_offset'] = -5; // example: -5 or 5, -5.5 or 5.75
+
+
+// Configure which interface theme you want as the default theme (also can be manually switched later, on the settings page in the interface)
+$ct_conf['gen']['default_theme'] = 'dark'; // 'dark' or 'light'
+
+
+// ENABLING CHARTS REQUIRES A CRON JOB / TASK SCHEDULER SETUP (see README.txt for setup information)
+// Enables a charts tab / page, and caches real-time updated spot price / 24 hour trade volume chart data on your device's storage drive
+// Disabling will disable EVERYTHING related to the price charts (price charts tab / page, and price chart data caching)
+$ct_conf['gen']['asset_charts_toggle'] = 'on'; // 'on' / 'off'
+
+
+// Default BITCOIN market currencies (80+ currencies supported)
+// (set for default Bitcoin market, and charts / price alert primary-currency-equivalent value determination [example: usd value of btc/ltc market, etc])
+// aed / ars / aud / bam / bdt / bob / brl / bwp / byn / cad / chf / clp / cny / cop / crc / czk / dai 
+// dkk / dop / egp / eth / eur / gbp / gel / ghs / gtq / hkd / huf / idr / ils / inr / irr / jmd / jod 
+// jpy / kes / krw / kwd / kzt / lkr / mad / mur / mwk / mxn / myr / ngn / nis / nok / nzd / pab / pen 
+// php / pkr / pln / pyg / qar / ron / rsd / rub / rwf / sar / sek / sgd / thb / try / tusd / twd / tzs 
+// uah / ugx / usd / usdc / usdt / uyu / ves / vnd / xaf / xof / zar / zmw
+// SEE THE $ct_conf['assets']['BTC'] CONFIGURATION NEAR THE BOTTOM OF THIS CONFIG FILE, FOR THE PROPER (CORRESPONDING)
+// MARKET PAIR VALUE NEEDED FOR YOUR CHOSEN 'BTC' EXCHANGE (set in $ct_conf['gen']['btc_prim_exchange'] directly below)
+$ct_conf['gen']['btc_prim_currency_pair'] = 'usd'; // PUT INSIDE SINGLE QUOTES ('selection')
+
+
+// Default BITCOIN market exchanges (30+ bitcoin exchanges supported)
+// (set for default Bitcoin market, and charts / price alert primary-currency-equivalent value determination [example: usd value of btc/ltc market, etc])
+// binance / binance_us / bit2c / bitbns / bitfinex / bitflyer / bitmex / bitpanda / bitso / bitstamp 
+// bittrex / bittrex_global / btcmarkets / btcturk / buyucoin / cex / coinbase / coindcx / coingecko_usd 
+// coinspot / gemini / hitbtc / huobi / korbit / kraken / kucoin / liquid / localbitcoins / loopring_amm 
+// luno / okcoin / okex / southxchange / unocoin / upbit / wazirx
+// SEE THE $ct_conf['assets']['BTC'] CONFIGURATION NEAR THE BOTTOM OF THIS CONFIG FILE, FOR THE PROPER (CORRESPONDING)
+// 'BTC' EXCHANGE VALUE NEEDED FOR YOUR CHOSEN MARKET PAIR (set in $ct_conf['gen']['btc_prim_currency_pair'] directly above)
+// SEE THE $ct_conf['dev']['limited_apis'] SETTING FURTHER DOWN IN THE DEVELOPER SECTION, FOR EXCHANGES !NOT RECOMMENDED FOR USAGE HERE!
+$ct_conf['gen']['btc_prim_exchange'] = 'kraken';  // PUT INSIDE SINGLE QUOTES ('selection')
+
+
+// Default marketcap data source: 'coingecko', or 'coinmarketcap'
+// (COINMARKETCAP REQUIRES A #FREE# API KEY, SEE $ct_conf['ext_api']['coinmarketcap_key'] ABOVE in the APIs section)
+$ct_conf['gen']['prim_mcap_site'] = 'coingecko'; 
+
+
+// Maximum decimal places for [primary currency] values, of coins worth under 1.00 in unit value [usd/gbp/eur/jpy/brl/rub/etc],
+// for prettier / less-cluttered interface. IF YOU ADJUST $ct_conf['gen']['btc_prim_currency_pair'] ABOVE, 
+// YOU MAY NEED TO ADJUST THIS ACCORDINGLY FOR !PRETTY / FUNCTIONAL! CHARTS / ALERTS FOR YOUR CHOSEN PRIMARY CURRENCY
+// ALSO KEEP THIS NUMBER AS LOW AS IS FEASIBLE, TO SAVE ON CHART DATA STORAGE SPACE / MAINTAIN QUICK CHART LOAD TIMES
+$ct_conf['gen']['prim_currency_dec_max'] = 5; // Whole numbers only (represents number of decimals maximum to use)
+
+
+// PRICE PERCENTAGE to round off INTERFACE-DISPLAYED price IN DECIMALS (DYNAMIC / RELATIVE to price amount)
+// (FINE-GRAINED CONTROL OVER INTERFACE PRICE ROUNDING #AMOUNT OF DECIMALS SHOWN#)
+// (interface examples: one = 1000, tenth = 1000, hundredth = 1000.9, thousandth = 1000.09)
+// (interface examples: one = 100, tenth = 100.9, hundredth = 100.09, thousandth = 100.009)
+// (interface examples: one = 10.9, tenth = 10.09, hundredth = 10.009, thousandth = 10.0009)
+// #FIAT# CURRENCY VALUES UNDER 100 #ARE ALWAYS FORCED TO 2 DECIMALS MINUMUM#
+// #FIAT# CURRENCY VALUES UNDER 1 #ARE ALWAYS FORCED TO 'prim_currency_dec_max' DECIMALS MAXIMUM#
+// THIS SETTING ONLY AFFECTS INTERFACE / COMMS PRICE DISPLAY ROUNDING, IT DOES #NOT# AFFECT BACKGROUND CALCULATIONS
+$ct_conf['gen']['price_round_percent'] = 'thousandth'; // (OF A PERCENT) 'one', 'tenth', 'hundredth', 'thousandth'
+////
+// FORCE a FIXED MINIMUM amount of decimals on interface price, CALCULATED OFF ABOVE price_round_percent SETTING
+// (ALWAYS SAME AMOUNT OF DECIMALS, #EVEN IF IT INCLUDES TRAILING ZEROS#) 
+$ct_conf['gen']['price_round_fixed_decimals'] = 'off'; // 'off', 'on'
+
+
+// Number of decimals for price chart CRYPTO 24 hour volumes (NOT USED FOR FIAT VOLUMES, 4 decimals example: 24 hr vol = 91.3874 BTC)
+// KEEP THIS NUMBER AS LOW AS IS FEASIBLE, TO SAVE ON CHART DATA STORAGE SPACE / MAINTAIN QUICK CHART LOAD TIMES
+$ct_conf['gen']['chart_crypto_vol_dec'] = 4;  // (default = 4)
+////
+// Every X days backup chart data. 0 disables backups. Email to / from !MUST BE SET! (a download link is emailed to you of the chart data archive)
+$ct_conf['gen']['charts_backup_freq'] = 1; 
+
+
+////////////////////////////////////////
+// !END! GENERAL CONFIGURATION
 ////////////////////////////////////////
 
 
@@ -267,93 +352,32 @@ $ct_conf['comms']['telegram_bot_token'] = '';  // Your bot's access token
 
 
 ////////////////////////////////////////
-// !START! GENERAL CONFIGURATION
+// !START! EXTERNAL API CONFIGURATION
 ////////////////////////////////////////
-
-
-// Your local time offset IN HOURS COMPARED TO UTC TIME (#CAN BE DECIMAL# TO SUPPORT 30 / 45 MINUTE TIME ZONES). Can be negative or positive.
-// (Used for user experience 'pretty' timestamping in interface logic ONLY, WILL NOT change or screw up UTC log times etc if you change this)
-$ct_conf['gen']['loc_time_offset'] = -5; // example: -5 or 5, -5.5 or 5.75
-
-
-// Configure which interface theme you want as the default theme (also can be manually switched later, on the settings page in the interface)
-$ct_conf['gen']['default_theme'] = 'dark'; // 'dark' or 'light'
-
-
-// ENABLING CHARTS REQUIRES A CRON JOB / TASK SCHEDULER SETUP (see README.txt for setup information)
-// Enables a charts tab / page, and caches real-time updated spot price / 24 hour trade volume chart data on your device's storage drive
-// Disabling will disable EVERYTHING related to the price charts (price charts tab / page, and price chart data caching)
-$ct_conf['gen']['asset_charts_toggle'] = 'on'; // 'on' / 'off'
 
 
 // API key for etherscan.io (required unfortunately, but a FREE level is available): https://etherscan.io/apis
-$ct_conf['gen']['etherscan_key'] = '';
+$ct_conf['ext_api']['etherscan_key'] = '';
 
 
 // API key for coinmarketcap.com Pro API (required unfortunately, but a FREE level is available): https://coinmarketcap.com/api
-$ct_conf['gen']['cmc_key'] = '';
+$ct_conf['ext_api']['coinmarketcap_key'] = '';
 
 
-// Default marketcap data source: 'coingecko', or 'coinmarketcap' (COINMARKETCAP REQUIRES A #FREE# API KEY, SEE $ct_conf['gen']['cmc_key'] ABOVE)
-$ct_conf['gen']['prim_mcap_site'] = 'coingecko'; 
-
-
-// Default BITCOIN market currencies (80+ currencies supported)
-// (set for default Bitcoin market, and charts / price alert primary-currency-equivalent value determination [example: usd value of btc/ltc market, etc])
-// aed / ars / aud / bam / bdt / bob / brl / bwp / byn / cad / chf / clp / cny / cop / crc / czk / dai 
-// dkk / dop / egp / eth / eur / gbp / gel / ghs / gtq / hkd / huf / idr / ils / inr / irr / jmd / jod 
-// jpy / kes / krw / kwd / kzt / lkr / mad / mur / mwk / mxn / myr / ngn / nis / nok / nzd / pab / pen 
-// php / pkr / pln / pyg / qar / ron / rsd / rub / rwf / sar / sek / sgd / thb / try / tusd / twd / tzs 
-// uah / ugx / usd / usdc / usdt / uyu / ves / vnd / xaf / xof / zar / zmw
-// SEE THE $ct_conf['assets']['BTC'] CONFIGURATION NEAR THE BOTTOM OF THIS CONFIG FILE, FOR THE PROPER (CORRESPONDING)
-// MARKET PAIR VALUE NEEDED FOR YOUR CHOSEN 'BTC' EXCHANGE (set in $ct_conf['gen']['btc_prim_exchange'] directly below)
-$ct_conf['gen']['btc_prim_currency_pair'] = 'usd'; // PUT INSIDE SINGLE QUOTES ('selection')
-
-
-// Default BITCOIN market exchanges (30+ bitcoin exchanges supported)
-// (set for default Bitcoin market, and charts / price alert primary-currency-equivalent value determination [example: usd value of btc/ltc market, etc])
-// binance / binance_us / bit2c / bitbns / bitfinex / bitflyer / bitmex / bitpanda / bitso / bitstamp 
-// bittrex / bittrex_global / btcmarkets / btcturk / buyucoin / cex / coinbase / coindcx / coingecko_usd 
-// coinspot / gemini / hitbtc / huobi / korbit / kraken / kucoin / liquid / localbitcoins / loopring_amm 
-// luno / okcoin / okex / southxchange / unocoin / upbit / wazirx
-// SEE THE $ct_conf['assets']['BTC'] CONFIGURATION NEAR THE BOTTOM OF THIS CONFIG FILE, FOR THE PROPER (CORRESPONDING)
-// 'BTC' EXCHANGE VALUE NEEDED FOR YOUR CHOSEN MARKET PAIR (set in $ct_conf['gen']['btc_prim_currency_pair'] directly above)
-// SEE THE $ct_conf['dev']['limited_apis'] SETTING FURTHER DOWN IN THE DEVELOPER SECTION, FOR EXCHANGES !NOT RECOMMENDED FOR USAGE HERE!
-$ct_conf['gen']['btc_prim_exchange'] = 'kraken';  // PUT INSIDE SINGLE QUOTES ('selection')
-
-
-// Maximum decimal places for [primary currency] values, of coins worth under 1.00 in unit value [usd/gbp/eur/jpy/brl/rub/etc],
-// for prettier / less-cluttered interface. IF YOU ADJUST $ct_conf['gen']['btc_prim_currency_pair'] ABOVE, 
-// YOU MAY NEED TO ADJUST THIS ACCORDINGLY FOR !PRETTY / FUNCTIONAL! CHARTS / ALERTS FOR YOUR CHOSEN PRIMARY CURRENCY
-// ALSO KEEP THIS NUMBER AS LOW AS IS FEASIBLE, TO SAVE ON CHART DATA STORAGE SPACE / MAINTAIN QUICK CHART LOAD TIMES
-$ct_conf['gen']['prim_currency_dec_max'] = 5; // Whole numbers only (represents number of decimals maximum to use)
-
-
-// PRICE PERCENTAGE to round off INTERFACE-DISPLAYED price IN DECIMALS (DYNAMIC / RELATIVE to price amount)
-// (FINE-GRAINED CONTROL OVER INTERFACE PRICE ROUNDING #AMOUNT OF DECIMALS SHOWN#)
-// (interface examples: one = 1000, tenth = 1000, hundredth = 1000.9, thousandth = 1000.09)
-// (interface examples: one = 100, tenth = 100.9, hundredth = 100.09, thousandth = 100.009)
-// (interface examples: one = 10.9, tenth = 10.09, hundredth = 10.009, thousandth = 10.0009)
-// #FIAT# CURRENCY VALUES UNDER 100 #ARE ALWAYS FORCED TO 2 DECIMALS MINUMUM#
-// #FIAT# CURRENCY VALUES UNDER 1 #ARE ALWAYS FORCED TO 'prim_currency_dec_max' DECIMALS MAXIMUM#
-// THIS SETTING ONLY AFFECTS INTERFACE / COMMS PRICE DISPLAY ROUNDING, IT DOES #NOT# AFFECT BACKGROUND CALCULATIONS
-$ct_conf['gen']['price_round_percent'] = 'thousandth'; // (OF A PERCENT) 'one', 'tenth', 'hundredth', 'thousandth'
+// API key for Alpha Vantage (global stock APIs as well as foreign exchange rates (forex) and cryptocurrency data feeds)
+// (required unfortunately, but a FREE level is available [paid premium also available]): https://www.alphavantage.co/support/#api-key
+$ct_conf['ext_api']['alphavantage_key'] = '';
 ////
-// FORCE a FIXED MINIMUM amount of decimals on interface price, CALCULATED OFF ABOVE price_round_percent SETTING
-// (ALWAYS SAME AMOUNT OF DECIMALS, #EVEN IF IT INCLUDES TRAILING ZEROS#) 
-$ct_conf['gen']['price_round_fixed_decimals'] = 'off'; // 'off', 'on'
-
-
-// Number of decimals for price chart CRYPTO 24 hour volumes (NOT USED FOR FIAT VOLUMES, 4 decimals example: 24 hr vol = 91.3874 BTC)
-// KEEP THIS NUMBER AS LOW AS IS FEASIBLE, TO SAVE ON CHART DATA STORAGE SPACE / MAINTAIN QUICK CHART LOAD TIMES
-$ct_conf['gen']['chart_crypto_vol_dec'] = 4;  // (default = 4)
-////
-// Every X days backup chart data. 0 disables backups. Email to / from !MUST BE SET! (a download link is emailed to you of the chart data archive)
-$ct_conf['gen']['charts_backup_freq'] = 1; 
+// The below settings will automatically limit your API requests to NEVER go over your DAILY Alpha Vantage API requests limit
+// (CONTACT ALPHA VANTAGE SUPPORT, IF YOU ARE UNAWARE OF WHAT YOUR MINUTE / DAILY LIMITS ARE [IF you have a PAID PREMIUM plan])
+// The requests-per-MINUTE limit on your Alpha Vantage API key (varies depending on you free / paid member level)
+$ct_conf['ext_api']['alphavantage_per_minute_limit'] = 5; // (default = 5 [FOR FREE SERVICE])
+// The requests-per-DAY limit on your Alpha Vantage API key (varies depending on you free / paid member level)
+$ct_conf['ext_api']['alphavantage_per_day_limit'] = 500; // (default = 500 [FOR FREE SERVICE])
 
 
 ////////////////////////////////////////
-// !END! GENERAL CONFIGURATION
+// !END! EXTERNAL API CONFIGURATION
 ////////////////////////////////////////
 
 
@@ -462,15 +486,31 @@ $ct_conf['charts_alerts']['tracked_mrkts'] = array(
 					'sol-4' => 'binance||eth||chart',
 					
 					
+					// COINSTOCK (Coinbase stock)
+					'coinstock' => 'alphavantage_stock||usd||both',
+					
+					
+					// AMZNSTOCK (Amazon stock)
+					'amznstock' => 'alphavantage_stock||usd||both',
+					
+					
+					// GOOGLSTOCK (Google stock)
+					'googlstock' => 'alphavantage_stock||usd||both',
+					
+					
+					// GPVSTOCK (GreenPower Motor Company stock)
+					'gpvstock' => 'alphavantage_stock||cad||both',
+					
+					
+					// DTGSTOCK (Daimler Truck Holding stock)
+					'dtgstock' => 'alphavantage_stock||eur||both',
+					
+					
 					// APT
 					'apt' => 'coinbase||usd||both',
 					'apt-2' => 'kraken||eur||chart',
 					'apt-3' => 'binance||btc||chart',
 					'apt-4' => 'gateio||eth||chart',
-					
-					
-					// MSOL
-					'msol' => 'coingecko_usd||usd||chart',
 					
 					
 					// UNI
@@ -496,6 +536,10 @@ $ct_conf['charts_alerts']['tracked_mrkts'] = array(
 					'usdc-2' => 'binance_us||usd||none',
 					
 					
+					// MSOL
+					'msol' => 'coingecko_usd||usd||chart',
+					
+					
 					// MANA
 					'mana' => 'bittrex||btc||chart',
 					'mana-2' => 'binance||btc||both',
@@ -505,13 +549,14 @@ $ct_conf['charts_alerts']['tracked_mrkts'] = array(
 					
 					
 					// ATLAS
-					'atlas' => 'gateio||usdt||both',
+					'atlas' => 'gateio||usdt||chart',
 					'atlas-2' => 'coingecko_btc||btc||chart',
+					'atlas-3' => 'kraken||usd||both',
 					
 					
-					// RNDR
-					'rndr' => 'huobi||btc||both',
-					'rndr-2' => 'gateio||usdt||none',
+					// POLIS
+					'polis' => 'coingecko_btc||btc||chart',
+					'polis-2' => 'kraken||usd||both',
 					
 					
 					// RAY
@@ -529,6 +574,22 @@ $ct_conf['charts_alerts']['tracked_mrkts'] = array(
 					'bit-2' => 'coingecko_btc||btc||chart',
 					
 					
+					// HNT
+					'hnt-2' => 'binance_us||usd||both',
+					'hnt-3' => 'gateio||eth||none',
+					
+					
+					// RNDR
+					'rndr' => 'huobi||btc||both',
+					'rndr-2' => 'gateio||usdt||none',
+					
+					
+					// ZBC
+					'zbc' => 'coingecko_btc||btc||chart',
+					'zbc-2' => 'coingecko_eth||eth||chart',
+					'zbc-3' => 'gateio||usdt||both',
+					
+					
 					// GRAPE
 					'grape' => 'coingecko_usd||usd||both',
 					'grape-2' => 'coingecko_btc||btc||chart',
@@ -543,35 +604,8 @@ $ct_conf['charts_alerts']['tracked_mrkts'] = array(
 					'slc-3' => 'coingecko_eth||eth||chart',
 					
 					
-					// ZBC
-					'zbc' => 'coingecko_btc||btc||chart',
-					'zbc-2' => 'coingecko_eth||eth||chart',
-					'zbc-3' => 'gateio||usdt||both',
-					
-					
-					// SHDW
-					'shdw' => 'coingecko_btc||btc||both',
-					'shdw-2' => 'coingecko_eth||eth||chart',
-					
-					
-					// HNT
-					'hnt-2' => 'binance_us||usd||both',
-					'hnt-3' => 'gateio||eth||none',
-					
-					
 					// HIVE
 					'hive' => 'bittrex||btc||both',
-					
-					
-					// SAMO
-					'samo' => 'gateio||usdt||both',
-					'samo-2' => 'gateio||eth||chart',
-					'samo-3' => 'coingecko_btc||btc||chart',
-					
-					
-					// acUSD
-					'acusd' => 'coingecko_usd||usd||chart',
-					'acusd-2' => 'jupiter_ag||usdc||both',
 					
 					
 					);
@@ -632,12 +666,12 @@ $ct_conf['power']['chainstats_cache_time'] = 90;  // (default = 90)
 
 // MINUTES to cache marketcap rankings...START HIGH and test lower, it can be STRICT
 // (coingecko #ABSOLUTELY HATES# DATA CENTER IPS [DEDICATED / VPS SERVERS], BUT GOES EASY ON RESIDENTIAL IPS)
-$ct_conf['power']['mcap_cache_time'] = 150;  // (default = 150)
+$ct_conf['power']['mcap_cache_time'] = 120;  // (default = 120)
 ////
 // Number of marketcap rankings to request from API.
 // 200 rankings is a safe maximum to START WITH, to avoid getting your API requests THROTTLED / BLOCKED
 // (coingecko #ABSOLUTELY HATES# DATA CENTER IPS [DEDICATED / VPS SERVERS], BUT GOES EASY ON RESIDENTIAL IPS)
-$ct_conf['power']['mcap_ranks_max'] = 200; // (default = 200)
+$ct_conf['power']['mcap_ranks_max'] = 300; // (default = 300)
 
 
 // Maximum margin leverage available in the user interface ('Update' page, etc)
@@ -665,12 +699,12 @@ $ct_conf['power']['light_chart_data_points_max'] = 500; // (default = 500), ADJU
 
 // Default settings for Asset Performance chart height / menu size (in the 'View More Stats' modal window, linked at bottom of Portfolio page)
 // CHART HEIGHT MIN/MAX = 400/900 (increments of 100), MENU SIZE MIN/MAX (increments of 1) = 7/16
-$ct_conf['power']['asset_perf_chart_defaults'] = '700||10'; // 'chart_height||menu_size' (default = '700||10')
+$ct_conf['power']['asset_perf_chart_defaults'] = '800||10'; // 'chart_height||menu_size' (default = '800||10')
 
 
 // Default settings for Marketcap Comparison chart height / menu size (in the 'View More Stats' modal window, linked at bottom of Portfolio page)
 // CHART HEIGHT MIN/MAX = 400/900 (increments of 100), MENU SIZE MIN/MAX (increments of 1) = 7/16
-$ct_conf['power']['asset_mcap_chart_defaults'] = '700||10'; // 'chart_height||menu_size' (default = '700||10')
+$ct_conf['power']['asset_mcap_chart_defaults'] = '600||10'; // 'chart_height||menu_size' (default = '600||10')
 
 
 // Highest allowed sensor value to scale vertical axis for, in the FIRST system information chart  (out of two)
@@ -768,7 +802,7 @@ $ct_conf['power']['local_api_cache_time'] = 1; // (default = 1)
 // THIS ALSO ADDS THESE ASSETS AS OPTIONS IN THE "Show Crypto Value Of ENTIRE Portfolio In" SETTING, ON THE SETTINGS PAGE,
 // AND IN THE "Show Secondary Trade / Holdings Value" SETTING, ON THE SETTINGS PAGE TOO
 // !!!!!TRY TO #NOT# ADD STABLECOINS HERE!!!!!, FIRST TRY $ct_conf['power']['btc_currency_mrkts'] INSTEAD (TO AUTO-CLIP UN-NEEDED DECIMAL POINTS) 
-// !!!!!BTC IS ALREADY ADDED AUTOMATICALLY, NO NEED TO ADD IT HERE!!!!!
+// !!!!!BTC IS ALREADY ADDED *AUTOMATICALLY*, NO NEED TO ADD IT HERE!!!!!
 $ct_conf['power']['crypto_pair'] = array(
 						//'lowercase_altcoin_ticker' => 'UNICODE_SYMBOL', // Add whitespace after the symbol, if you prefer that
 						// Native chains...
@@ -778,8 +812,8 @@ $ct_conf['power']['crypto_pair'] = array(
 						// ERC-20 tokens on Ethereum / SPL tokens on Solana, etc etc...
 						'uni' => '🦄 ',
 						'mkr' => '𐌼 ',
-						'slc' => 'Ŝ ',
-						'samo' => '🐶 ',
+						'ray' => 'Ｒ ',
+						'hnt' => 'Ȟ ',
 						//...
 							);
 
@@ -794,12 +828,12 @@ $ct_conf['power']['crypto_pair'] = array(
 $ct_conf['power']['crypto_pair_pref_mrkts'] = array(
 						    //'lowercase_btc_mrkt_or_stablecoin_pair' => 'PREFERRED_MRKT',
 							'eth' => 'binance',  // WAY MORE volume , WAY BETTER price discovery than ALL alternatives
-							'hnt' => 'binance',  // WAY MORE volume , WAY BETTER price discovery than ALL alternatives
 							'sol' => 'binance',  // WAY MORE volume , WAY BETTER price discovery than ALL alternatives
+							'apt' => 'binance',  // WAY MORE volume , WAY BETTER price discovery than ALL alternatives
 							'uni' => 'binance',  // WAY MORE volume , WAY BETTER price discovery than ALL alternatives
 							'mkr' => 'binance',  // WAY MORE volume , WAY BETTER price discovery than ALL alternatives
-							'slc' => 'coingecko_btc',  // coingecko global average price IN BTC
-							'samo' => 'coingecko_btc',  // coingecko global average price IN BTC
+							'ray' => 'coingecko_btc',  // coingecko global average price IN BTC
+							'hnt' => 'coingecko_btc',  // coingecko global average price IN BTC
 							);
 
 
@@ -1079,12 +1113,6 @@ $ct_conf['power']['news_feed'] = array(
         
         
         				array(
-            			"title" => "Blog - GenesysGo (managed validator / RPC nodes on Solana)",
-            			"url" => "https://genesysgo.medium.com/feed"
-        						),
-        
-        
-        				array(
             			"title" => "Blog - Marinade Finance (mSOL liquid staking on Solana)",
             			"url" => "https://medium.com/feed/marinade-finance"
         						),
@@ -1117,12 +1145,6 @@ $ct_conf['power']['news_feed'] = array(
         				array(
             			"title" => "Blog - RNDR Network (Blockchain-Distributed GPU Rendering)",
             			"url" => "https://medium.com/feed/render-token"
-        						),
-        
-        
-        				array(
-            			"title" => "Blog - SamoyedCoin (Popular Dog Meme Coin on Solana)",
-            			"url" => "https://officialsamoyedcoin.medium.com/feed"
         						),
         
         
@@ -1319,38 +1341,38 @@ $ct_conf['power']['news_feed'] = array(
     
     
         				array(
-            			"title" => "Reddit - Bitcoin (top)",
-            			"url" => "https://www.reddit.com/r/Bitcoin/top/.rss?format=xml"
+            			"title" => "Reddit - Bitcoin (hot)",
+            			"url" => "https://www.reddit.com/r/Bitcoin/hot/.rss?format=xml"
         						),
     
     
         				array(
-            			"title" => "Reddit - Ethereum (top)",
-            			"url" => "https://www.reddit.com/r/Ethereum/top/.rss?format=xml"
+            			"title" => "Reddit - Ethereum (hot)",
+            			"url" => "https://www.reddit.com/r/Ethereum/hot/.rss?format=xml"
         						),
     
     
         				array(
-            			"title" => "Reddit - EthFinance (top)",
-            			"url" => "https://www.reddit.com/r/EthFinance/top/.rss?format=xml"
+            			"title" => "Reddit - EthFinance (hot)",
+            			"url" => "https://www.reddit.com/r/EthFinance/hot/.rss?format=xml"
         						),
     
     
         				array(
-            			"title" => "Reddit - Helium Network (top)",
-            			"url" => "https://www.reddit.com/r/heliumnetwork/top/.rss?format=xml"
+            			"title" => "Reddit - Helium Network (hot)",
+            			"url" => "https://www.reddit.com/r/heliumnetwork/hot/.rss?format=xml"
         						),
     
     
         				array(
-            			"title" => "Reddit - Solana (top)",
-            			"url" => "https://www.reddit.com/r/solana/top/.rss?format=xml"
+            			"title" => "Reddit - Solana (hot)",
+            			"url" => "https://www.reddit.com/r/solana/hot/.rss?format=xml"
         						),
     
     
         				array(
-            			"title" => "Reddit - ZKsync (top)",
-            			"url" => "https://www.reddit.com/r/zksync/top/.rss?format=xml"
+            			"title" => "Reddit - ZKsync (hot)",
+            			"url" => "https://www.reddit.com/r/zksync/hot/.rss?format=xml"
         						),
     
     
@@ -1369,6 +1391,24 @@ $ct_conf['power']['news_feed'] = array(
         				array(
             			"title" => "StackExchange - Solana (hot)",
             			"url" => "https://solana.stackexchange.com/feeds/hot"
+        						),
+    
+    
+        				array(
+            			"title" => "Stocks - CNBC: US Top News and Analysis",
+            			"url" => "https://search.cnbc.com/rs/search/combinedcms/view.xml?partnerId=wrss01&id=100003114"
+        						),
+    
+    
+        				array(
+            			"title" => "Stocks - AlphaStreet",
+            			"url" => "https://news.alphastreet.com/feed/"
+        						),
+    
+    
+        				array(
+            			"title" => "Stocks - Investing.com: News",
+            			"url" => "https://www.investing.com/rss/news.rss"
         						),
     
     
@@ -1540,8 +1580,8 @@ $ct_conf['dev']['news_feed_precache_hard_limit'] = 45; // (default = 45), ADJUST
 // LARGER AVERAGE TIME SPREAD IS EASIER ON LOW POWER DEVICES (TO ONLY UPDATE A FEW AT A TIME), FOR A MORE CONSISTANT CRON JOB RUNTIME SPEED!!
 $ct_conf['dev']['all_chart_rebuild_min_max'] = '6,12'; // 'min,max' (default = '6,12'), ADJUST WITH CARE!!!
 ////
-// Maximum number of light chart NEW BUILDS (only reset / new, NOT the 'all' chart rebuilds) allowed during background tasks
-// (to avoid overloading low power devices)
+// Maximum number of light chart NEW BUILDS allowed during background tasks (only reset / new, NOT the 'all' chart REbuilds)
+// (multiplied by number of CPU cores [if detected], avoids overloading low power devices / still builds fast on multi-core)
 $ct_conf['dev']['light_chart_first_build_hard_limit'] = 25; // (default = 25), ADJUST WITH CARE!!!
 
 
@@ -1578,6 +1618,36 @@ $ct_conf['dev']['int_api_max_exec_time'] = 90; // (default = 90)
 ////
 // Maximum execution time for webhook runtime in seconds (how long it's allowed to run before automatically killing the process)
 $ct_conf['dev']['webhook_max_exec_time'] = 90; // (default = 90)
+     
+     
+// Servers with STRICT CONSECUTIVE CONNECT limits (we add 0.11 seconds to the wait between consecutive connections)
+$ct_conf['dev']['strict_cosecutive_connect_servers'] = array(
+                                      						'test654321.com',
+                                      						);
+     
+     
+// Servers which are known to block API access by location / jurasdiction
+// (we alert end-users in error logs, when a corrisponding API server connection fails [one-time notice per-runtime])
+$ct_conf['dev']['location_blocked_servers'] = array(
+                                      				'binance.com',
+                                      				);
+     
+     
+// Servers requiring TRACKED THROTTLE-LIMITING, due to limited-allowed minute / hour / daily requests
+// (are processed by ct_cache->api_throttling(), to avoid using up daily request limits)
+$ct_conf['dev']['tracked_throttle_limited_servers'] = array(
+                                      						'alphavantage.co',
+                                      						);
+    
+     
+// RSS feed services that are a bit funky with allowed user agents, so we need to let them know this is a real feed parser (not just a spammy bot)
+// (user agent string is EXPLICITLY SET AS A CUSTOM FEED PARSER)
+$ct_conf['dev']['strict_news_feed_servers'] = array(
+                                                  'medium.com',
+                                                  'reddit.com',
+                                                  'whatbitcoindid.com',
+                                                  'simplecast.com',
+                                                  );
 							
 
 // TLD-only (Top Level Domain only, NO SUBDOMAINS) for each API service that UN-EFFICIENTLY requires multiple calls (for each market / data set)
@@ -1588,6 +1658,7 @@ $ct_conf['dev']['webhook_max_exec_time'] = 90; // (default = 90)
 // #DON'T ADD ANY WEIRD TLD HERE LIKE 'xxxxx.co.il'#, AS DETECTING TLD DOMAINS WITH MORE THAN ONE PERIOD IN THEM ISN'T SUPPORTED
 // WE DON'T WANT THE REQUIRED EXTRA LOGIC TO PARSE THESE DOUBLE-PERIOD TLDs BOGGING DOWN / CLUTTERING APP CODE, FOR JUST ONE TINY FEATURE
 $ct_conf['dev']['limited_apis'] = array(
+                						'alphavantage.co',
                 						'bitforex.com',
                 						'bitflyer.com',
                 						'bitmex.com',
@@ -2627,31 +2698,105 @@ $ct_conf['assets'] = array(
                     ////////////////////////////////////////////////////////////////////
                     
                     
-                    // MSOL
-                    'MSOL' => array(
+                    // COINSTOCK
+                    'COINSTOCK' => array(
                         
-                        'name' => 'Marinade Solana',
-                        'mcap_slug' => 'marinade-staked-sol',
+                        'name' => 'Coinbase Global Inc',
+                        'mcap_slug' => 'COIN:NASDAQ',
                         'pair' => array(
 
-                                                    
-                                    'eth' => array(
-                                        'gateio' => 'MSOL_ETH',
-                                                    ),
-
-                                                    
+                        
                                     'usd' => array(
-                                    	 'coingecko_usd' => 'msol',
-                                                    ),
-
-                                                    
-                                    'usdt' => array(
-                                        'gateio' => 'MSOL_USDT',
+                                        'alphavantage_stock' => 'COIN',
                                                     ),
 
                                                     
                         ) // pair END
-                                        
+                        
+                    ), // Asset END
+                    
+                    
+                    ////////////////////////////////////////////////////////////////////
+                    
+                    
+                    // AMZNSTOCK
+                    'AMZNSTOCK' => array(
+                        
+                        'name' => 'Amazon Inc',
+                        'mcap_slug' => 'AMZN:NASDAQ',
+                        'pair' => array(
+
+                        
+                                    'usd' => array(
+                                        'alphavantage_stock' => 'AMZN',
+                                                    ),
+
+                                                    
+                        ) // pair END
+                        
+                    ), // Asset END
+                    
+                    
+                    ////////////////////////////////////////////////////////////////////
+                    
+                    
+                    // GOOGLSTOCK
+                    'GOOGLSTOCK' => array(
+                        
+                        'name' => 'Alphabet Inc Class A',
+                        'mcap_slug' => 'GOOGL:NASDAQ',
+                        'pair' => array(
+
+                        
+                                    'usd' => array(
+                                        'alphavantage_stock' => 'GOOGL',
+                                                    ),
+
+                                                    
+                        ) // pair END
+                        
+                    ), // Asset END
+                    
+                    
+                    ////////////////////////////////////////////////////////////////////
+                    
+                    
+                    // GPVSTOCK
+                    'GPVSTOCK' => array(
+                        
+                        'name' => 'GreenPower Motor Company Inc',
+                        'mcap_slug' => 'GPV:CVE',
+                        'pair' => array(
+
+                        
+                                    'cad' => array(
+                                        'alphavantage_stock' => 'GPV.TRV',
+                                                    ),
+
+                                                    
+                        ) // pair END
+                        
+                    ), // Asset END
+                    
+                    
+                    ////////////////////////////////////////////////////////////////////
+                    
+                    
+                    // DTGSTOCK
+                    'DTGSTOCK' => array(
+                        
+                        'name' => 'Daimler Truck Holding AG',
+                        'mcap_slug' => 'DTG:ETR',
+                        'pair' => array(
+
+                        
+                                    'eur' => array(
+                                        'alphavantage_stock' => 'DTG.DEX',
+                                                    ),
+
+                                                    
+                        ) // pair END
+                        
                     ), // Asset END
                     
                     
@@ -2930,6 +3075,37 @@ $ct_conf['assets'] = array(
                     ////////////////////////////////////////////////////////////////////
                     
                     
+                    // MSOL
+                    'MSOL' => array(
+                        
+                        'name' => 'Marinade Solana',
+                        'mcap_slug' => 'marinade-staked-sol',
+                        'pair' => array(
+
+                                                    
+                                    'eth' => array(
+                                        'gateio' => 'MSOL_ETH',
+                                                    ),
+
+                                                    
+                                    'usd' => array(
+                                    	 'coingecko_usd' => 'msol',
+                                                    ),
+
+                                                    
+                                    'usdt' => array(
+                                        'gateio' => 'MSOL_USDT',
+                                                    ),
+
+                                                    
+                        ) // pair END
+                                        
+                    ), // Asset END
+                    
+                    
+                    ////////////////////////////////////////////////////////////////////
+                    
+                    
                     // MANA
                     'MANA' => array(
                         
@@ -3001,7 +3177,14 @@ $ct_conf['assets'] = array(
                                                     ),
 
                                                     
+                                    'eur' => array(
+                                    	 'kraken' => 'ATLASEUR',
+                                                    ),
+
+                                                    
                                     'usd' => array(
+                                    	 'kraken' => 'ATLASUSD',
+                                    	 'bitfinex' => 'tATLAS:USD',
                                          'okcoin' => 'ATLAS-USD',
                                     	 'coingecko_usd' => 'star-atlas',
                                                     ),
@@ -3023,43 +3206,40 @@ $ct_conf['assets'] = array(
                     ////////////////////////////////////////////////////////////////////
                     
                     
-                    // RNDR
-                    'RNDR' => array(
+                    // POLIS
+                    'POLIS' => array(
                         
-                        'name' => 'Render Token',
-                        'mcap_slug' => 'render-token',
+                        'name' => 'Star Atlas DAO',
+                        'mcap_slug' => 'star-atlas-dao',
                         'pair' => array(
 
                                                     
                                     'btc' => array(
-                                        'huobi' => 'rndrbtc',
-                                        'kucoin' => 'RNDR-BTC',
-                                        'hitbtc' => 'RNDRBTC',
+                                        'coingecko_btc' => 'star-atlas-dao',
                                                     ),
 
                                                     
-                                    'eth' => array(
-                                        'huobi' => 'rndreth',
-                                        'gateio' => 'RNDR_ETH',
+                                    'eur' => array(
+                                    	 'kraken' => 'POLISEUR',
                                                     ),
 
                                                     
                                     'usd' => array(
-                                        'hitbtc' => 'RNDRUSD',
+                                    	 'kraken' => 'POLISUSD',
+                                    	 'bitfinex' => 'tPOLIS:USD',
                                                     ),
 
                                                     
                                     'usdt' => array(
-                                        'huobi' => 'rndrusdt',
-                                        'gateio' => 'RNDR_USDT',
-                                        'kucoin' => 'RNDR-USDT',
-                                        'hotbit' => 'RNDR_USDT',
-                                        'coinex' => 'RNDRUSDT',
+                                        'gateio' => 'POLIS_USDT',
+                                        'coinex' => 'POLISUSDT',
+                                        'hotbit' => 'POLIS_USDT',
+                                        'bitmart' => 'ATLAS_USDT',
                                                     ),
 
                                                     
                         ) // pair END
-                        
+                                        
                     ), // Asset END
                     
                     
@@ -3173,6 +3353,130 @@ $ct_conf['assets'] = array(
                     ////////////////////////////////////////////////////////////////////
                     
                     
+                    // HNT
+                    'HNT' => array(
+                        
+                        'name' => 'Helium',
+                        'mcap_slug' => 'helium',
+                        'pair' => array(
+
+                        
+                                    'btc' => array(
+                                        'coingecko_btc' => 'helium',
+                                        'hotbit' => 'HNT_BTC',
+                                                    ),
+
+                                                    
+                                    'eth' => array(
+                                        'gateio' => 'HNT_ETH',
+                                                    ),
+
+                                                    
+                                    'inr' => array(
+                                        'wazirx' => 'hntinr',
+                                                    ),
+
+                                                    
+                                    'usd' => array(
+                                    	 'binance_us' => 'HNTUSD',
+                                                    ),
+
+                                                    
+                                    'usdt' => array(
+                                    	'binance_us' => 'HNTUSDT',
+                                    	'crypto.com' => 'HNT_USDT',
+                                        'hotbit' => 'HNT_USDT',
+                                        'gateio' => 'HNT_USDT',
+                                        'wazirx' => 'hntusdt',
+                                                    ),
+
+                                                    
+                        ) // pair END
+                                        
+                    ), // Asset END
+                    
+                    
+                    ////////////////////////////////////////////////////////////////////
+                    
+                    
+                    // RNDR
+                    'RNDR' => array(
+                        
+                        'name' => 'Render Token',
+                        'mcap_slug' => 'render-token',
+                        'pair' => array(
+
+                                                    
+                                    'btc' => array(
+                                        'huobi' => 'rndrbtc',
+                                        'kucoin' => 'RNDR-BTC',
+                                        'hitbtc' => 'RNDRBTC',
+                                                    ),
+
+                                                    
+                                    'eth' => array(
+                                        'huobi' => 'rndreth',
+                                        'gateio' => 'RNDR_ETH',
+                                                    ),
+
+                                                    
+                                    'usd' => array(
+                                        'hitbtc' => 'RNDRUSD',
+                                                    ),
+
+                                                    
+                                    'usdt' => array(
+                                        'huobi' => 'rndrusdt',
+                                        'gateio' => 'RNDR_USDT',
+                                        'kucoin' => 'RNDR-USDT',
+                                        'hotbit' => 'RNDR_USDT',
+                                        'coinex' => 'RNDRUSDT',
+                                                    ),
+
+                                                    
+                        ) // pair END
+                        
+                    ), // Asset END
+                    
+                    
+                    ////////////////////////////////////////////////////////////////////
+                    
+                    
+                    // ZBC
+                    'ZBC' => array(
+                        
+                        'name' => 'Zebec Protocol',
+                        'mcap_slug' => 'zebec-protocol',
+                        'pair' => array(
+
+                                                    
+                                    'btc' => array(
+                                        'coingecko_btc' => 'zebec-protocol',
+                                                    ),
+
+                                                    
+                                    'eth' => array(
+                                        'coingecko_eth' => 'zebec-protocol',
+                                                    ),
+
+                                                    
+                                    'usdt' => array(
+                                    	'crypto.com' => 'ZBC_USDT',
+                                        'huobi' => 'zbcusdt',
+                                        'gateio' => 'ZBC_USDT',
+                                        'bitmart' => 'ZBC_USDT',
+                                        'coinex' => 'ZBCUSDT',
+                                                    ),
+
+                                                    
+                        ) // pair END
+                        
+                    ), // Asset END
+                    
+                    
+                    ////////////////////////////////////////////////////////////////////
+                    
+                    
                     // GRAPE
                     'GRAPE' => array(
                         
@@ -3252,124 +3556,11 @@ $ct_conf['assets'] = array(
                     ////////////////////////////////////////////////////////////////////
                     
                     
-                    // ZBC
-                    'ZBC' => array(
-                        
-                        'name' => 'Zebec Protocol',
-                        'mcap_slug' => 'zebec-protocol',
-                        'pair' => array(
-
-                                                    
-                                    'btc' => array(
-                                        'coingecko_btc' => 'zebec-protocol',
-                                                    ),
-
-                                                    
-                                    'eth' => array(
-                                        'coingecko_eth' => 'zebec-protocol',
-                                                    ),
-
-                                                    
-                                    'usdt' => array(
-                                    	'crypto.com' => 'ZBC_USDT',
-                                        'huobi' => 'zbcusdt',
-                                        'gateio' => 'ZBC_USDT',
-                                        'bitmart' => 'ZBC_USDT',
-                                        'coinex' => 'ZBCUSDT',
-                                                    ),
-
-                                                    
-                        ) // pair END
-                        
-                    ), // Asset END
-                    
-                    
-                    ////////////////////////////////////////////////////////////////////
-                    
-                    
-                    // SHDW
-                    'SHDW' => array(
-                        
-                        'name' => 'GenesysGo Shadow',
-                        'mcap_slug' => 'genesysgo-shadow',
-                        'pair' => array(
-
-                                                    
-                                    'btc' => array(
-                                        'coingecko_btc' => 'genesysgo-shadow',
-                                                    ),
-
-                                                    
-                                    'eth' => array(
-                                        'coingecko_eth' => 'genesysgo-shadow',
-                                                    ),
-
-                                                    
-                                    'usd' => array(
-                                        'coingecko_usd' => 'genesysgo-shadow',
-                                                    ),
-
-                                                    
-                        ) // pair END
-                        
-                    ), // Asset END
-                    
-                    
-                    ////////////////////////////////////////////////////////////////////
-                    
-                    
-                    // HNT
-                    'HNT' => array(
-                        
-                        'name' => 'Helium',
-                        'mcap_slug' => 'helium',
-                        'pair' => array(
-
-                        
-                                    'btc' => array(
-                                        'binance' => 'HNTBTC',
-                                        'hotbit' => 'HNT_BTC',
-                                                    ),
-
-                                                    
-                                    'eth' => array(
-                                        'gateio' => 'HNT_ETH',
-                                                    ),
-
-                                                    
-                                    'inr' => array(
-                                        'wazirx' => 'hntinr',
-                                                    ),
-
-                                                    
-                                    'usd' => array(
-                                    	 'binance_us' => 'HNTUSD',
-                                                    ),
-
-                                                    
-                                    'usdt' => array(
-                                        'binance' => 'HNTUSDT',
-                                    	'binance_us' => 'HNTUSDT',
-                                    	'crypto.com' => 'HNT_USDT',
-                                        'hotbit' => 'HNT_USDT',
-                                        'gateio' => 'HNT_USDT',
-                                        'wazirx' => 'hntusdt',
-                                                    ),
-
-                                                    
-                        ) // pair END
-                                        
-                    ), // Asset END
-                    
-                    
-                    ////////////////////////////////////////////////////////////////////
-                    
-                    
                     // HIVE
                     'HIVE' => array(
                         
                         'name' => 'Hive',
-                        'mcap_slug' => 'hive-blockchain',
+                        'mcap_slug' => 'hive',
                         'pair' => array(
 
                         
@@ -3384,63 +3575,6 @@ $ct_conf['assets'] = array(
                                         'huobi' => 'hiveusdt',
                                         'hotbit' => 'HIVE_USDT',
                                         'wazirx' => 'hiveusdt',
-                                                    ),
-
-                                                    
-                        ) // pair END
-                        
-                    ), // Asset END
-                    
-                    
-                    ////////////////////////////////////////////////////////////////////
-                    
-                    
-                    // SAMO
-                    'SAMO' => array(
-                        
-                        'name' => 'Samoyedcoin',
-                        'mcap_slug' => 'samoyedcoin',
-                        'pair' => array(
-
-                        
-                                    'btc' => array(
-                                        'coingecko_btc' => 'samoyedcoin',
-                                                    ),
-
-                        
-                                    'eth' => array(
-                                        'gateio' => 'SAMO_ETH',
-                                                    ),
-
-                                                    
-                                    'usdt' => array(
-                                        'gateio' => 'SAMO_USDT',
-                                                    ),
-
-                                                    
-                        ) // pair END
-                        
-                    ), // Asset END
-                    
-                    
-                    ////////////////////////////////////////////////////////////////////
-                    
-                    
-                    // ACUSD
-                    'ACUSD' => array(
-                        
-                        'name' => 'Wrapped CUSD',
-                        'mcap_slug' => 'wrapped-cusd-allbridge-from-celo',
-                        'pair' => array(
-
-                        
-                                    'usd' => array(
-                                        'coingecko_usd' => 'wrapped-cusd-allbridge-from-celo',
-                                                    ),
-
-                        
-                                    'usdc' => array(
-                                        'jupiter_ag' => 'acUSD/USDC',
                                                     ),
 
                                                     

@@ -3,7 +3,7 @@
 ########################################################################################################################
 ########################################################################################################################
 
-# Copyright 2022 GPLv3, Bluetooth Internet Radio By Mike Kilday: Mike@DragonFrugal.com
+# Copyright 2022-2023 GPLv3, Bluetooth Internet Radio By Mike Kilday: Mike@DragonFrugal.com
 
 # https://github.com/taoteh1221/Bluetooth_Internet_Radio
 
@@ -22,7 +22,7 @@
 # A command line parameter can be passed to auto-select menu choices. Multi sub-option selecting is available too,
 # by seperating each sub-option with a space, AND ecapsulating everything in quotes like "option1 sub-option2 sub-sub-option3".
 
-# Running normally (diplays options to choose from):
+# Running normally (displays options to choose from):
 
 # ~/radio
  
@@ -31,8 +31,8 @@
 # ~/radio "1 y"
 # (checks for / confirms script upgrade)
  
-# ~/radio "7 1 b"
-# (plays pyradio default station in background)
+# ~/radio "7 1 b3"
+# (plays pyradio 3rd station in background)
  
 # ~/radio 8
 # (stops pyradio background playing)
@@ -51,7 +51,7 @@
 
 
 # Version of this script
-APP_VERSION="1.03.0" # 2022/OCTOBER/8TH
+APP_VERSION="1.05.0" # 2022/NOVEMBER/29TH
 
 
 # If parameters are added via command line
@@ -570,7 +570,7 @@ echo "Shortcut to this script: ${green}~/radio${cyan}"
 echo " "
 echo "Paired bluetooth reconnects (if disconnected) when you start a terminal session"
 echo " "
-echo "Running normally (diplays options to choose from):"
+echo "Running normally (displays options to choose from):"
 echo " "
 echo "${green}~/radio${cyan}"
 echo " "
@@ -579,8 +579,8 @@ echo " "
 echo "${green}~/radio \"1 y\"${cyan}"
 echo "(checks for / confirms script upgrade)"
 echo " "
-echo "${green}~/radio \"7 1 b\"${cyan}"
-echo "(plays pyradio default station in background)"
+echo "${green}~/radio \"7 1 b3\"${cyan}"
+echo "(plays pyradio 3rd station in background)"
 echo " "
 echo "${green}~/radio 8${cyan}"
 echo "(stops pyradio background playing)"
@@ -606,7 +606,7 @@ echo " "
 echo "${yellow}Enter the NUMBER next to your chosen option:${reset}"
 echo " "
 
-OPTIONS="upgrade_check pulseaudio_install pulseaudio_fix pulseaudio_status pyradio_install pyradio_fix pyradio_on pyradio_off bluetooth_scan bluetooth_connect bluetooth_remove bluetooth_devices sound_test volume_adjust troubleshoot syslog_logs journal_logs restart_computer exit_app other_apps about_this_app"
+OPTIONS="upgrade_check pulseaudio_install pulseaudio_fix pulseaudio_status pyradio_install pyradio_fix pyradio_on pyradio_off bluetooth_scan bluetooth_connect bluetooth_remove bluetooth_devices bluetooth_status sound_test volume_adjust troubleshoot syslog_logs journal_logs restart_computer exit_app other_apps about_this_app"
 
 
 # start options
@@ -661,11 +661,11 @@ select opt in $OPTIONS; do
             echo "${yellow}Do you want to upgrade to v${LATEST_VERSION} now?${reset}"
             
             echo "${yellow} "
-            read -n1 -s -r -p $"Press y to upgrade (or press n to cancel)..." key
+            read -n1 -s -r -p $"Press y to upgrade (or press n to cancel)..." keystroke
             echo "${reset} "
                     
                     
-                if [ "$key" = 'y' ] || [ "$key" = 'Y' ]; then
+                if [ "$keystroke" = 'y' ] || [ "$keystroke" = 'Y' ]; then
                       
                 echo " "
                 echo "${cyan}Initiating upgrade, please wait...${reset}"
@@ -779,10 +779,10 @@ select opt in $OPTIONS; do
                 echo "You #CAN# SAFELY REBOOT if asked to, and RUN THE PULSEAUDIO INSTALL OPTION #AGAIN# AFTERWARDS."
                 
                 echo "${yellow} "
-                read -n1 -s -r -p $'Press y to run dietpi-config (or #IF# YOU DID THIS ALREADY press n to skip)...\n' key
+                read -n1 -s -r -p $'Press y to run dietpi-config (or #IF# YOU DID THIS ALREADY press n to skip)...\n' keystroke
                 echo "${reset} "
         
-                    if [ "$key" = 'y' ] || [ "$key" = 'Y' ]; then
+                    if [ "$keystroke" = 'y' ] || [ "$keystroke" = 'Y' ]; then
                 
     				echo " "
     				echo "${cyan}Initiating dietpi-config, please wait...${reset}"
@@ -1252,7 +1252,7 @@ select opt in $OPTIONS; do
         pkill -o pyradio > /dev/null 2>&1
         fi
         
-        bt_autoconnect_check
+        bt_autoconnect_check > /dev/null 2>&1
         
         echo " "
         echo "${yellow}Select 1 or 2 to choose whether to load a custom stations file, or the default one.${reset}"
@@ -1330,10 +1330,10 @@ select opt in $OPTIONS; do
             echo "${reset} "
             
             echo "${yellow} "
-            read -n1 -s -r -p $'Press y to run pyradio first-time setup (or press n to cancel)...\n' key
+            read -n1 -s -r -p $'Press y to run pyradio first-time setup (or press n to cancel)...\n' keystroke
             echo "${reset} "
         
-                if [ "$key" = 'y' ] || [ "$key" = 'Y' ]; then
+                if [ "$keystroke" = 'y' ] || [ "$keystroke" = 'Y' ]; then
             
     		    echo " "
     			echo "${cyan}Initiating pyradio first-time setup, please wait...${reset}"
@@ -1375,20 +1375,32 @@ select opt in $OPTIONS; do
             
                 fi
             
-            
-            echo "${reset}${yellow} "
-            read -n1 -s -r -p $'Press b to run pyradio in the background, or s to show on-screen...\n' key
+        
+            echo "${yellow} "
+            echo "Enter b to run pyradio in the background, or s to show on-screen..." 
+            echo "(to include the playlist number, enter b[num] / s[num] instead, eg: b2)"
             echo "${reset} "
-    
-                if [ "$key" = 'b' ] || [ "$key" = 'B' ]; then
             
+            read keystroke
+                
+            PLAY_NUM="${keystroke:1}"
+            
+                
+                # If playlist number WAS NOT included 
+                if [ -z "$PLAY_NUM" ]; then
                 echo "${yellow} "
                 read -p 'Enter playlist number: ' PLAY_NUM
                 echo "${reset} "
+                fi
+            
                 
-                    if [ -z "$PLAY_NUM" ]; then
-                    PLAY_NUM=1
-                    fi
+                # If playlist number STILL WAS NOT included, set to 1
+                if [ -z "$PLAY_NUM" ]; then
+                PLAY_NUM=1
+                fi
+    
+    
+                if [[ ${keystroke:0:1} == "b" ]] || [[ ${keystroke:0:1} == "B" ]]; then
                 
                 echo " "
                 echo "${green}Tuning pyradio to playlist ${PLAY_NUM}...${reset}"
@@ -1399,9 +1411,9 @@ select opt in $OPTIONS; do
                 export LOAD_CUSTOM_STATIONS=$LOAD_CUSTOM_STATIONS
                 screen -dmS pyradio bash -c 'pyradio --play ${PLAY_NUM} ${LOAD_CUSTOM_STATIONS}'
             
-                elif [ "$key" = 's' ] || [ "$key" = 'S' ]; then
+                elif [[ ${keystroke:0:1} == "s" ]] || [[ ${keystroke:0:1} == "S" ]]; then
                 
-                pyradio --play $LOAD_CUSTOM_STATIONS
+                pyradio --play $PLAY_NUM $LOAD_CUSTOM_STATIONS
                 
                 echo " "
                 echo "${cyan}Exited pyradio.${reset}"
@@ -1413,6 +1425,7 @@ select opt in $OPTIONS; do
                 echo " "
             
                 fi
+
                 
             fi
             
@@ -1459,6 +1472,45 @@ select opt in $OPTIONS; do
         ##################################################################################################################
         ##################################################################################################################
         
+        elif [ "$opt" = "bluetooth_status" ]; then
+        
+        
+        ######################################
+        
+        echo " "
+        
+            if [ "$EUID" -ne 0 ] || [ "$TERMINAL_USERNAME" == "root" ]; then 
+             echo "${red}Please run #WITH# 'sudo' PERMISSIONS.${reset}"
+             echo " "
+             echo "${cyan}Exiting...${reset}"
+             echo " "
+             exit
+            fi
+        
+        ######################################
+        
+            
+            # If 'pulseaudio' was found, start it
+            if [ -f "$PULSEAUDIO_PATH" ]; then
+                    
+            echo "${yellow}bluetooth status: ${red}(HOLD Ctrl+c KEYS DOWN TO EXIT)${yellow}:"
+            echo "${reset} "
+            sudo systemctl status bluetooth.service
+            exit
+            
+            else
+            
+            echo "PulseAudio not found, must be installed first, please re-run this script and choose that option."
+            echo " "
+                    
+            fi
+
+        
+        break
+        
+        ##################################################################################################################
+        ##################################################################################################################
+        
         elif [ "$opt" = "bluetooth_scan" ]; then
         
         
@@ -1485,10 +1537,10 @@ select opt in $OPTIONS; do
         echo "${red}WHEN YOU ARE DONE: hold down the 2 keys Ctrl+c at the same time, until you exit this script.${reset}"
         
         echo "${yellow} "
-        read -n1 -s -r -p $'Press y to run the bluetooth scan (or press n to cancel)...\n' key
+        read -n1 -s -r -p $'Press y to run the bluetooth scan (or press n to cancel)...\n' keystroke
         echo "${reset} "
 
-            if [ "$key" = 'y' ] || [ "$key" = 'Y' ]; then
+            if [ "$keystroke" = 'y' ] || [ "$keystroke" = 'Y' ]; then
         
             bluetoothctl scan on
             echo " "
@@ -1719,7 +1771,7 @@ select opt in $OPTIONS; do
         
         ######################################
         
-        bt_autoconnect_check
+        bt_autoconnect_check > /dev/null 2>&1
         
         sleep 2
        
@@ -2021,7 +2073,7 @@ select opt in $OPTIONS; do
         echo "by seperating each sub-option with a space, AND ecapsulating everything in quotes like \"option1 sub-option2 sub-sub-option3\"."
         echo " "
         
-        echo "Running normally (diplays options to choose from):"
+        echo "Running normally (displays options to choose from):"
         echo " "
         echo "${green}~/radio${cyan}"
         echo " "
@@ -2030,8 +2082,8 @@ select opt in $OPTIONS; do
         echo "${green}~/radio \"1 y\"${cyan}"
         echo "(checks for / confirms script upgrade)"
         echo " "
-        echo "${green}~/radio \"7 1 b\"${cyan}"
-        echo "(plays pyradio default station in background)"
+        echo "${green}~/radio \"7 1 b3\"${cyan}"
+        echo "(plays pyradio 3rd station in background)"
         echo " "
         echo "${green}~/radio 8${cyan}"
         echo "(stops pyradio background playing)"

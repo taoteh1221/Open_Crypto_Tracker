@@ -1,12 +1,12 @@
 <?php
 /*
- * Copyright 2014-2022 GPLv3, Open Crypto Tracker by Mike Kilday: Mike@DragonFrugal.com
+ * Copyright 2014-2023 GPLv3, Open Crypto Tracker by Mike Kilday: Mike@DragonFrugal.com
  */
 
 
 // CSV header
 $example_download_array[] = array(
-	        							'Asset Symbol',
+	        							'Ticker Key',
 	        							'Holdings',
 	        							'Average Paid (per-token)',
 	        							'Margin Leverage',
