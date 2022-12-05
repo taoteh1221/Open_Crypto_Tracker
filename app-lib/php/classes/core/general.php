@@ -21,6 +21,15 @@ var $ct_array = array();
    function titles_usort_alpha($a, $b) {
    return strcmp( strtolower($a["title"]) , strtolower($b["title"]) ); // Case-insensitive equivelent comparision via strtolower()
    }
+
+
+   ////////////////////////////////////////////////////////
+   ////////////////////////////////////////////////////////
+   
+   
+   function timestamps_usort_num($a, $b) {
+   return strcmp($a['timestamp'], $b['timestamp']); 
+   }
    
    
    ////////////////////////////////////////////////////////
@@ -667,24 +676,30 @@ var $ct_array = array();
    function sort_log($log) {
        
       
-      if ( isset($log) && trim($log) != '' ) {
+      if ( isset($log) && $log != '' ) {
+          
+      $result = null;
       
       $sortable_array = array();
        
-      $log_array = explode("__LOG__", $log);
+      $log_array = explode("[LOG]", $log);
        
           // Put logs in an array we can sort by timestamp
           foreach( $log_array as $entry ) {
-          $entry_array = explode("__TIMESTAMP__", $entry);
-          $sortable_array[$entry_array[0]] = $entry_array[1];
+              
+              if ( stristr($entry, '[TIMESTAMP]') ) {
+              $entry_array = explode("[TIMESTAMP]", $entry);
+              $sortable_array[] = array('timestamp' => $entry_array[0], 'entry' => $entry_array[1]);
+              }
+
           }
        
       // Sort by timestamp
-      ksort($sortable_array);
+      usort($sortable_array, array($this, 'timestamps_usort_num') );
        
           // Return to normal string, after sorting logs by timestamp
           foreach( $sortable_array as $val ) {
-          $result .= $val;
+          $result .= $val['entry'];
           }
        
       return $result;
@@ -1430,11 +1445,12 @@ var $ct_array = array();
    
    function log($log_type, $log_msg, $verbose_tracing=false, $hashcheck=false, $overwrite=false) {
    
-   global $runtime_mode, $ct_conf, $log_array;
+   global $runtime_mode, $ct_conf, $ct_var, $log_array;
    
    $formatted_time = date('Y-m-d H:i:s');
    
-   $now = time();
+   // Since we sort by timestamp, we want millisecond accuracy (if possible), for ordering logs before output
+   $timestamp_milliseconds = $ct_var->num_to_str( floor(microtime(true) * 1000) );
    
    
    // Less verbose log category
@@ -1450,17 +1466,17 @@ var $ct_array = array();
    
    
       if ( $hashcheck != false ) {
-      $log_array[$log_type][$hashcheck] = '__LOG__'.$now.'__TIMESTAMP__[' . $formatted_time . '] ' . $runtime_mode . ' => ' . $category . ': ' . $log_msg . ( $verbose_tracing != false ? '; [ '  . $verbose_tracing . ' ]' : ';' ) . " <br /> \n";
+      $log_array[$log_type][$hashcheck] = '[LOG]'.$timestamp_milliseconds.'[TIMESTAMP][' . $formatted_time . '] ' . $runtime_mode . ' => ' . $category . ': ' . $log_msg . ( $verbose_tracing != false ? '; [ '  . $verbose_tracing . ' ]' : ';' ) . " <br /> \n";
       }
       // We parse cache errors as array entries (like when hashcheck is included, BUT NO ARRAY KEY)
       elseif ( $category == 'cache' ) {
-      $log_array[$log_type][] = '__LOG__'.$now.'__TIMESTAMP__[' . $formatted_time . '] ' . $runtime_mode . ' => ' . $category . ': ' . $log_msg . ( $verbose_tracing != false ? '; [ '  . $verbose_tracing . ' ]' : ';' ) . " <br /> \n";
+      $log_array[$log_type][] = '[LOG]'.$timestamp_milliseconds.'[TIMESTAMP][' . $formatted_time . '] ' . $runtime_mode . ' => ' . $category . ': ' . $log_msg . ( $verbose_tracing != false ? '; [ '  . $verbose_tracing . ' ]' : ';' ) . " <br /> \n";
       }
       elseif ( $overwrite != false ) {
-      $log_array[$log_type] = '__LOG__'.$now.'__TIMESTAMP__[' . $formatted_time . '] ' . $runtime_mode . ' => ' . $category . ': ' . $log_msg . ( $verbose_tracing != false ? '; [ '  . $verbose_tracing . ' ]' : ';' ) . " <br /> \n";
+      $log_array[$log_type] = '[LOG]'.$timestamp_milliseconds.'[TIMESTAMP][' . $formatted_time . '] ' . $runtime_mode . ' => ' . $category . ': ' . $log_msg . ( $verbose_tracing != false ? '; [ '  . $verbose_tracing . ' ]' : ';' ) . " <br /> \n";
       }
       else {
-      $log_array[$log_type] .= '__LOG__'.$now.'__TIMESTAMP__[' . $formatted_time . '] ' . $runtime_mode . ' => ' . $category . ': ' . $log_msg . ( $verbose_tracing != false ? '; [ '  . $verbose_tracing . ' ]' : ';' ) . " <br /> \n";
+      $log_array[$log_type] .= '[LOG]'.$timestamp_milliseconds.'[TIMESTAMP][' . $formatted_time . '] ' . $runtime_mode . ' => ' . $category . ': ' . $log_msg . ( $verbose_tracing != false ? '; [ '  . $verbose_tracing . ' ]' : ';' ) . " <br /> \n";
       }
    
    
