@@ -61,6 +61,10 @@
 		
 	
 	}
+      
+  
+// Sort logs by timestamp
+$bundle_error_logs = $ct_gen->sort_log($bundle_error_logs);
 
 
 ?>

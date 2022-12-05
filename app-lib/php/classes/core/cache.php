@@ -551,7 +551,7 @@ var $ct_array1 = array();
   
   function debug_log() {
   
-  global $base_dir, $ct_conf, $log_array;
+  global $base_dir, $ct_conf, $ct_gen, $log_array;
   
       if ( $ct_conf['dev']['debug'] == 'off' ) {
       return false;
@@ -582,6 +582,10 @@ var $ct_array1 = array();
       foreach ( $log_array['cache_debug'] as $debugging ) {
       $debug_log .= strip_tags($debugging); // Remove any HTML formatting used in UI alerts
       }
+      
+  
+  // Sort logs by timestamp
+  $debug_log = $ct_gen->sort_log($debug_log);
   
   
       // If it's time to email debugging logs...
@@ -648,7 +652,7 @@ var $ct_array1 = array();
   
   function error_log() {
   
-  global $base_dir, $ct_conf, $log_array;
+  global $base_dir, $ct_conf, $ct_gen, $log_array;
 
   
       foreach ( $log_array['notify_error'] as $error ) {
@@ -677,6 +681,10 @@ var $ct_array1 = array();
       foreach ( $log_array['cache_error'] as $error ) {
       $error_log .= strip_tags($error); // Remove any HTML formatting used in UI alerts
       }
+      
+  
+  // Sort logs by timestamp
+  $error_log = $ct_gen->sort_log($error_log);
     
     
       // If it's time to email error logs...
