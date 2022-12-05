@@ -5865,7 +5865,7 @@ v6.00.2 AND HIGHER RESETS LIGHT (TIME PERIOD) CHARTS FROM ARCHIVAL DATA, ONE-TIM
 -------------------------------------------------------------------
 6.00.11:
 
--BUG FIX: Logs are now correctly ordered by their timestamps (proper chronological order in which events ocurred)
+-BUG FIX: Logs are now accurately ordered using MILLISECOND timestamps "under the hood" (for proper chronological ordering of when events ocurred, down to the millisecond)
 
 v6.00.9 AND HIGHER RESETS ANY *DEFAULT DEMO* LIGHT (TIME PERIOD) CHARTS FROM ARCHIVAL DATA, ONE-TIME DURING UPGRADES FROM V6.00.8 OR LOWER.
 
