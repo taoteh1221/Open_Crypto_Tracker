@@ -7,7 +7,9 @@
 
 // Initial BLANK arrays
 
-$log_array = array();
+$log_errors = array();
+
+$log_debugging = array();
 
 $admin_ui_menus = array();
 
@@ -65,6 +67,10 @@ $api_throttle_flag = array();
 
 
 // Initial BLANK strings
+
+$alerts_gui_errors = null;
+
+$alerts_gui_debugging = null;
 
 $cmc_notes = null;
 

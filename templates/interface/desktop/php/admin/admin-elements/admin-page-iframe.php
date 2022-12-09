@@ -254,7 +254,6 @@ padding: 0px;
     
 <?php
 
-
 // Admin template to use    
 if ( isset($_GET['section']) ) {
 require("templates/interface/desktop/php/admin/admin-elements/iframe-content-category.php");
@@ -273,68 +272,11 @@ if ( $ct_conf['comms']['proxy_alert'] != 'off' ) {
 	}
 
 }
-          	
-	
-	$bundle_error_logs .= $log_array['system_warning'];
-	
-	$bundle_error_logs .= $log_array['system_error'];
-	
-	$bundle_error_logs .= $log_array['conf_error'];
-	
-	$bundle_error_logs .= $log_array['security_error'];
-	
-	$bundle_error_logs .= $log_array['ext_data_error'];
-	
-	$bundle_error_logs .= $log_array['int_api_error'];
-	
-	$bundle_error_logs .= $log_array['market_error'];
-	
-	$bundle_error_logs .= $log_array['other_error'];
 
-
-	foreach ( $log_array['cache_error'] as $error ) {
-	$bundle_error_logs .= $error;
-	}
-
-	foreach ( $log_array['notify_error'] as $error ) {
-	$bundle_error_logs .= $error;
-	}
-	
-	
-	if ( $ct_conf['dev']['debug'] != 'off' ) {
-	
-	$bundle_error_logs .= $log_array['system_debug'];
-	
-	$bundle_error_logs .= $log_array['conf_debug'];
-	
-	$bundle_error_logs .= $log_array['security_debug'];
-	
-	$bundle_error_logs .= $log_array['ext_data_debug'];
-	
-	$bundle_error_logs .= $log_array['int_api_debug'];
-	
-	$bundle_error_logs .= $log_array['market_debug'];
-	
-	$bundle_error_logs .= $log_array['other_debug'];
-	
-	
-		foreach ( $log_array['cache_debug'] as $error ) {
-		$bundle_error_logs .= $error;
-		}
-	
-		foreach ( $log_array['notify_debug'] as $error ) {
-		$bundle_error_logs .= $error;
-		}
-		
-	
-	}
-    
-    
-    ?>
-
+?>
 
             	
-<div id="iframe_error_alert" style='display: none;'><?=$bundle_error_logs?></div>
+<div id="iframe_error_alert" style='display: none;'><?php echo $alerts_gui_errors . ( isset($alerts_gui_debugging) && $alerts_gui_debugging != '' ? '<br />============<br />DEBUGGING:<br />============<br />' . $alerts_gui_debugging : '' ); ?></div>
 
 	
 <script>

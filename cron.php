@@ -294,15 +294,10 @@ $cron_run_lock_file = $base_dir . '/cache/events/emulated-cron-lock.dat';
         $ct_cache->send_notifications();
         
         
-        // If any plugins are activated, RESET $log_array for plugin logging, SO WE DON'T GET DUPLICATE LOGGING
-        if ( is_array($activated_plugins['cron']) && sizeof($activated_plugins['cron']) > 0 ) {
-            
-        $log_array = array();
-        
         // Give a bit of time for the "core runtime" error / debugging logs to 
         // close their file locks, before we append "plugin runtime" log data
+        if ( is_array($activated_plugins['cron']) && sizeof($activated_plugins['cron']) > 0 ) {
         sleep(1); 
-        			
         }
         
         

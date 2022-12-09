@@ -50,8 +50,6 @@ var $ct_array1 = array();
   $this->error_log();
   $this->debug_log();
   
-  $log_array = array(); // Clear queued log array after processing
-  
   }
    
   
@@ -551,41 +549,48 @@ var $ct_array1 = array();
   
   function debug_log() {
   
-  global $base_dir, $ct_conf, $ct_gen, $log_array;
+  global $runtime_mode, $base_dir, $ct_conf, $ct_gen, $log_debugging, $alerts_gui_debugging;
+  
   
       if ( $ct_conf['dev']['debug'] == 'off' ) {
       return false;
       }
     
     
-      foreach ( $log_array['notify_debug'] as $debugging ) {
+      foreach ( $log_debugging['notify_debug'] as $debugging ) {
       $debug_log .= strip_tags($debugging); // Remove any HTML formatting used in UI alerts
       }
   
   
   // Combine all debugging logged
-  $debug_log .= strip_tags($log_array['security_debug']); // Remove any HTML formatting used in UI alerts
+  $debug_log .= strip_tags($log_debugging['security_debug']); // Remove any HTML formatting used in UI alerts
   
-  $debug_log .= strip_tags($log_array['system_debug']); // Remove any HTML formatting used in UI alerts
+  $debug_log .= strip_tags($log_debugging['system_debug']); // Remove any HTML formatting used in UI alerts
   
-  $debug_log .= strip_tags($log_array['conf_debug']); // Remove any HTML formatting used in UI alerts
+  $debug_log .= strip_tags($log_debugging['conf_debug']); // Remove any HTML formatting used in UI alerts
   
-  $debug_log .= strip_tags($log_array['ext_data_debug']); // Remove any HTML formatting used in UI alerts
+  $debug_log .= strip_tags($log_debugging['ext_data_debug']); // Remove any HTML formatting used in UI alerts
   
-  $debug_log .= strip_tags($log_array['int_api_debug']); // Remove any HTML formatting used in UI alerts
+  $debug_log .= strip_tags($log_debugging['int_api_debug']); // Remove any HTML formatting used in UI alerts
   
-  $debug_log .= strip_tags($log_array['market_debug']); // Remove any HTML formatting used in UI alerts
+  $debug_log .= strip_tags($log_debugging['market_debug']); // Remove any HTML formatting used in UI alerts
   
-  $debug_log .= strip_tags($log_array['other_debug']); // Remove any HTML formatting used in UI alerts
+  $debug_log .= strip_tags($log_debugging['other_debug']); // Remove any HTML formatting used in UI alerts
   
   
-      foreach ( $log_array['cache_debug'] as $debugging ) {
+      foreach ( $log_debugging['cache_debug'] as $debugging ) {
       $debug_log .= strip_tags($debugging); // Remove any HTML formatting used in UI alerts
       }
       
   
   // Sort logs by timestamp
   $debug_log = $ct_gen->sort_log($debug_log);
+      
+      
+      // Save a copy for interface alerts
+      if ( $runtime_mode == 'ui') {
+      $alerts_gui_debugging = nl2br($debug_log);
+      }
   
   
       // If it's time to email debugging logs...
@@ -633,8 +638,8 @@ var $ct_array1 = array();
           if ( $store_file_contents != true ) {
           return 'Debugging logs write error for "' . $base_dir . '/cache/logs/debug.log" (MAKE SURE YOUR DISK ISN\'T FULL), data_size_bytes: ' . strlen($debug_log) . ' bytes';
           }
-          // DEBUGGING ONLY (rules out issues other than full disk)
-          elseif ( $ct_conf['dev']['debug'] == 'all' || $ct_conf['dev']['debug'] == 'all_telemetry' ) {
+          else {
+          $log_debugging = array(); // RESET DEBUG LOGS ARRAY (clears logs from memory, that we just wrote to disk)
           return 'Debugging logs write success for "' . $base_dir . '/cache/logs/debug.log", data_size_bytes: ' . strlen($debug_log) . ' bytes';
           }
         
@@ -652,39 +657,45 @@ var $ct_array1 = array();
   
   function error_log() {
   
-  global $base_dir, $ct_conf, $ct_gen, $log_array;
+  global $runtime_mode, $base_dir, $ct_conf, $ct_gen, $log_errors, $alerts_gui_errors;
 
   
-      foreach ( $log_array['notify_error'] as $error ) {
+      foreach ( $log_errors['notify_error'] as $error ) {
       $error_log .= strip_tags($error); // Remove any HTML formatting used in UI alerts
       }
       
   
   // Combine all errors logged
-  $error_log .= strip_tags($log_array['security_error']); // Remove any HTML formatting used in UI alerts
+  $error_log .= strip_tags($log_errors['security_error']); // Remove any HTML formatting used in UI alerts
   
-  $error_log .= strip_tags($log_array['system_warning']); // Remove any HTML formatting used in UI alerts
+  $error_log .= strip_tags($log_errors['system_warning']); // Remove any HTML formatting used in UI alerts
   
-  $error_log .= strip_tags($log_array['system_error']); // Remove any HTML formatting used in UI alerts
+  $error_log .= strip_tags($log_errors['system_error']); // Remove any HTML formatting used in UI alerts
   
-  $error_log .= strip_tags($log_array['conf_error']); // Remove any HTML formatting used in UI alerts
+  $error_log .= strip_tags($log_errors['conf_error']); // Remove any HTML formatting used in UI alerts
   
-  $error_log .= strip_tags($log_array['ext_data_error']); // Remove any HTML formatting used in UI alerts
+  $error_log .= strip_tags($log_errors['ext_data_error']); // Remove any HTML formatting used in UI alerts
   
-  $error_log .= strip_tags($log_array['int_api_error']); // Remove any HTML formatting used in UI alerts
+  $error_log .= strip_tags($log_errors['int_api_error']); // Remove any HTML formatting used in UI alerts
   
-  $error_log .= strip_tags($log_array['market_error']); // Remove any HTML formatting used in UI alerts
+  $error_log .= strip_tags($log_errors['market_error']); // Remove any HTML formatting used in UI alerts
   
-  $error_log .= strip_tags($log_array['other_error']); // Remove any HTML formatting used in UI alerts
+  $error_log .= strip_tags($log_errors['other_error']); // Remove any HTML formatting used in UI alerts
   
      
-      foreach ( $log_array['cache_error'] as $error ) {
+      foreach ( $log_errors['cache_error'] as $error ) {
       $error_log .= strip_tags($error); // Remove any HTML formatting used in UI alerts
       }
       
   
   // Sort logs by timestamp
   $error_log = $ct_gen->sort_log($error_log);
+      
+      
+      // Save a copy for interface alerts
+      if ( $runtime_mode == 'ui') {
+      $alerts_gui_errors = nl2br($error_log);
+      }
     
     
       // If it's time to email error logs...
@@ -732,8 +743,8 @@ var $ct_array1 = array();
           if ( $store_file_contents != true ) {
           return 'Error logs write error for "' . $base_dir . '/cache/logs/error.log" (MAKE SURE YOUR DISK ISN\'T FULL), data_size_bytes: ' . strlen($error_log) . ' bytes';
           }
-          // DEBUGGING ONLY (rules out issues other than full disk)
-          elseif ( $ct_conf['dev']['debug'] == 'all' || $ct_conf['dev']['debug'] == 'all_telemetry' ) {
+          else {
+          $log_errors = array(); // RESET ERROR LOGS ARRAY (clears logs from memory, that we just wrote to disk)
           return 'Error logs write success for "' . $base_dir . '/cache/logs/error.log", data_size_bytes: ' . strlen($error_log) . ' bytes';
           }
       
@@ -1605,7 +1616,7 @@ var $ct_array1 = array();
   
   // $ct_conf['gen']['btc_prim_currency_pair'] / $ct_conf['gen']['btc_prim_exchange'] / $sel_opt['sel_btc_prim_currency_val'] USED FOR TRACE DEBUGGING (TRACING)
   
-  global $app_version, $base_dir, $base_url, $ct_conf, $ct_var, $ct_gen, $sel_opt, $proxy_checkup, $log_array, $limited_api_calls, $api_runtime_cache, $user_agent, $api_connections, $htaccess_username, $htaccess_password;
+  global $app_version, $base_dir, $base_url, $ct_conf, $ct_var, $ct_gen, $sel_opt, $proxy_checkup, $log_errors, $log_debugging, $limited_api_calls, $api_runtime_cache, $user_agent, $api_connections, $htaccess_username, $htaccess_password;
   
   $cookie_jar = tempnam('/tmp','cookie');
    
@@ -1661,11 +1672,11 @@ var $ct_array1 = array();
       $data_bytes_ux = 'data flagged as none'; // OVERWRITE 
       
       
-        if ( !$log_array['error_duplicates'][$hash_check] ) {
-        $log_array['error_duplicates'][$hash_check] = 1; 
+        if ( !$log_errors['error_duplicates'][$hash_check] ) {
+        $log_errors['error_duplicates'][$hash_check] = 1; 
         }
         else {
-        $log_array['error_duplicates'][$hash_check] = $log_array['error_duplicates'][$hash_check] + 1;
+        $log_errors['error_duplicates'][$hash_check] = $log_errors['error_duplicates'][$hash_check] + 1;
         }
        
        
@@ -1676,7 +1687,7 @@ var $ct_array1 = array();
       							
       			'no RUNTIME CACHE data from failure with ' . ( $mode == 'params' ? 'server at ' : 'endpoint at ' ) . $ct_gen->obfusc_url_data($api_endpoint),
       							
-      			'requested_from: cache ('.$log_array['error_duplicates'][$hash_check].' runtime instances); mode: ' . $mode . '; received: ' . $data_bytes_ux . '; proxy: ' .( $current_proxy ? $current_proxy : 'none' ) . '; hash_check: ' . $ct_var->obfusc_str($hash_check, 4) . ';',
+      			'requested_from: cache ('.$log_errors['error_duplicates'][$hash_check].' runtime instances); mode: ' . $mode . '; received: ' . $data_bytes_ux . '; proxy: ' .( $current_proxy ? $current_proxy : 'none' ) . '; hash_check: ' . $ct_var->obfusc_str($hash_check, 4) . ';',
       							
       			$hash_check
       			);
@@ -1685,11 +1696,11 @@ var $ct_array1 = array();
       elseif ( $ct_conf['dev']['debug'] == 'all' || $ct_conf['dev']['debug'] == 'all_telemetry' || $ct_conf['dev']['debug'] == 'ext_data_cache_telemetry' ) {
       
       
-        if ( !$log_array['debug_duplicates'][$hash_check] ) {
-        $log_array['debug_duplicates'][$hash_check] = 1; 
+        if ( !$log_debugging['debug_duplicates'][$hash_check] ) {
+        $log_debugging['debug_duplicates'][$hash_check] = 1; 
         }
         else {
-        $log_array['debug_duplicates'][$hash_check] = $log_array['debug_duplicates'][$hash_check] + 1;
+        $log_debugging['debug_duplicates'][$hash_check] = $log_debugging['debug_duplicates'][$hash_check] + 1;
         }
        
        
@@ -1700,7 +1711,7 @@ var $ct_array1 = array();
       							
       			'RUNTIME CACHE request for ' . ( $mode == 'params' ? 'server at ' : 'endpoint at ' ) . $ct_gen->obfusc_url_data($api_endpoint),
       							
-      			'requested_from: cache ('.$log_array['debug_duplicates'][$hash_check].' runtime instances); mode: ' . $mode . '; received: ' . $data_bytes_ux . '; proxy: ' .( $current_proxy ? $current_proxy : 'none' ) . '; hash_check: ' . $ct_var->obfusc_str($hash_check, 4) . ';',
+      			'requested_from: cache ('.$log_debugging['debug_duplicates'][$hash_check].' runtime instances); mode: ' . $mode . '; received: ' . $data_bytes_ux . '; proxy: ' .( $current_proxy ? $current_proxy : 'none' ) . '; hash_check: ' . $ct_var->obfusc_str($hash_check, 4) . ';',
       							
       			$hash_check
       			);
@@ -2294,11 +2305,11 @@ var $ct_array1 = array();
       // for logging UX (avoid exessive log entries EVERY RUNTIME that is using cached data)
       if ( $data == '' ) {
       
-        if ( !$log_array['error_duplicates'][$hash_check] ) {
-        $log_array['error_duplicates'][$hash_check] = 1; 
+        if ( !$log_errors['error_duplicates'][$hash_check] ) {
+        $log_errors['error_duplicates'][$hash_check] = 1; 
         }
         else {
-        $log_array['error_duplicates'][$hash_check] = $log_array['error_duplicates'][$hash_check] + 1;
+        $log_errors['error_duplicates'][$hash_check] = $log_errors['error_duplicates'][$hash_check] + 1;
         }
        
       // Don't log this error again during THIS runtime, as it would be a duplicate...just overwrite same error message, BUT update the error count in it
@@ -2308,7 +2319,7 @@ var $ct_array1 = array();
       							
       			'no FILE CACHE data from recent failure with ' . ( $mode == 'params' ? 'server at ' : 'endpoint at ' ) . $ct_gen->obfusc_url_data($api_endpoint),
       							
-      			'requested_from: cache ('.$log_array['error_duplicates'][$hash_check].' runtime instances); mode: ' . $mode . '; received: ' . $data_bytes_ux . '; proxy: ' .( $current_proxy ? $current_proxy : 'none' ) . '; hash_check: ' . $ct_var->obfusc_str($hash_check, 4) . ';',
+      			'requested_from: cache ('.$log_errors['error_duplicates'][$hash_check].' runtime instances); mode: ' . $mode . '; received: ' . $data_bytes_ux . '; proxy: ' .( $current_proxy ? $current_proxy : 'none' ) . '; hash_check: ' . $ct_var->obfusc_str($hash_check, 4) . ';',
       							
       			$hash_check
       			);
@@ -2316,11 +2327,11 @@ var $ct_array1 = array();
       }
       elseif ( $ct_conf['dev']['debug'] == 'all' || $ct_conf['dev']['debug'] == 'all_telemetry' || $ct_conf['dev']['debug'] == 'ext_data_cache_telemetry' ) {
       
-        if ( !$log_array['debug_duplicates'][$hash_check] ) {
-        $log_array['debug_duplicates'][$hash_check] = 1; 
+        if ( !$log_debugging['debug_duplicates'][$hash_check] ) {
+        $log_debugging['debug_duplicates'][$hash_check] = 1; 
         }
         else {
-        $log_array['debug_duplicates'][$hash_check] = $log_array['debug_duplicates'][$hash_check] + 1;
+        $log_debugging['debug_duplicates'][$hash_check] = $log_debugging['debug_duplicates'][$hash_check] + 1;
         }
         
         
@@ -2336,7 +2347,7 @@ var $ct_array1 = array();
       							
       			'FILE CACHE request for ' . ( $mode == 'params' ? 'server at ' : 'endpoint at ' ) . $ct_gen->obfusc_url_data($api_endpoint) . $log_append,
       							
-      			'requested_from: cache ('.$log_array['debug_duplicates'][$hash_check].' runtime instances); mode: ' . $mode . '; received: ' . $data_bytes_ux . '; proxy: ' .( $current_proxy ? $current_proxy : 'none' ) . '; hash_check: ' . $ct_var->obfusc_str($hash_check, 4) . ';',
+      			'requested_from: cache ('.$log_debugging['debug_duplicates'][$hash_check].' runtime instances); mode: ' . $mode . '; received: ' . $data_bytes_ux . '; proxy: ' .( $current_proxy ? $current_proxy : 'none' ) . '; hash_check: ' . $ct_var->obfusc_str($hash_check, 4) . ';',
       							
       			$hash_check
       			);

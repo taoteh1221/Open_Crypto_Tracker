@@ -1445,7 +1445,7 @@ var $ct_array = array();
    
    function log($log_type, $log_msg, $verbose_tracing=false, $hashcheck=false, $overwrite=false) {
    
-   global $runtime_mode, $ct_conf, $ct_var, $log_array;
+   global $runtime_mode, $ct_conf, $ct_var, $log_errors, $log_debugging;
    
    $formatted_time = date('Y-m-d H:i:s');
    
@@ -1463,20 +1463,45 @@ var $ct_array = array();
       if ( $ct_conf['dev']['log_verb'] == 'normal' ) {
       $verbose_tracing = false;
       }
+      
+      
+      if ( preg_match("/_debug/i", "", $log_type) ) {
+          
    
-   
-      if ( $hashcheck != false ) {
-      $log_array[$log_type][$hashcheck] = '[LOG]'.$timestamp_milliseconds.'[TIMESTAMP][' . $formatted_time . '] ' . $runtime_mode . ' => ' . $category . ': ' . $log_msg . ( $verbose_tracing != false ? '; [ '  . $verbose_tracing . ' ]' : ';' ) . " <br /> \n";
-      }
-      // We parse cache errors as array entries (like when hashcheck is included, BUT NO ARRAY KEY)
-      elseif ( $category == 'cache' ) {
-      $log_array[$log_type][] = '[LOG]'.$timestamp_milliseconds.'[TIMESTAMP][' . $formatted_time . '] ' . $runtime_mode . ' => ' . $category . ': ' . $log_msg . ( $verbose_tracing != false ? '; [ '  . $verbose_tracing . ' ]' : ';' ) . " <br /> \n";
-      }
-      elseif ( $overwrite != false ) {
-      $log_array[$log_type] = '[LOG]'.$timestamp_milliseconds.'[TIMESTAMP][' . $formatted_time . '] ' . $runtime_mode . ' => ' . $category . ': ' . $log_msg . ( $verbose_tracing != false ? '; [ '  . $verbose_tracing . ' ]' : ';' ) . " <br /> \n";
+          if ( $hashcheck != false ) {
+          $log_debugging[$log_type][$hashcheck] = '[LOG]'.$timestamp_milliseconds.'[TIMESTAMP][' . $formatted_time . '] ' . $runtime_mode . ' => ' . $category . ': ' . $log_msg . ( $verbose_tracing != false ? '; [ '  . $verbose_tracing . ' ]' : ';' ) . " <br /> \n";
+          }
+          // We parse cache errors as array entries (like when hashcheck is included, BUT NO ARRAY KEY)
+          elseif ( $category == 'cache' ) {
+          $log_debugging[$log_type][] = '[LOG]'.$timestamp_milliseconds.'[TIMESTAMP][' . $formatted_time . '] ' . $runtime_mode . ' => ' . $category . ': ' . $log_msg . ( $verbose_tracing != false ? '; [ '  . $verbose_tracing . ' ]' : ';' ) . " <br /> \n";
+          }
+          elseif ( $overwrite != false ) {
+          $log_debugging[$log_type] = '[LOG]'.$timestamp_milliseconds.'[TIMESTAMP][' . $formatted_time . '] ' . $runtime_mode . ' => ' . $category . ': ' . $log_msg . ( $verbose_tracing != false ? '; [ '  . $verbose_tracing . ' ]' : ';' ) . " <br /> \n";
+          }
+          else {
+          $log_debugging[$log_type] .= '[LOG]'.$timestamp_milliseconds.'[TIMESTAMP][' . $formatted_time . '] ' . $runtime_mode . ' => ' . $category . ': ' . $log_msg . ( $verbose_tracing != false ? '; [ '  . $verbose_tracing . ' ]' : ';' ) . " <br /> \n";
+          }
+      
+      
       }
       else {
-      $log_array[$log_type] .= '[LOG]'.$timestamp_milliseconds.'[TIMESTAMP][' . $formatted_time . '] ' . $runtime_mode . ' => ' . $category . ': ' . $log_msg . ( $verbose_tracing != false ? '; [ '  . $verbose_tracing . ' ]' : ';' ) . " <br /> \n";
+          
+   
+          if ( $hashcheck != false ) {
+          $log_errors[$log_type][$hashcheck] = '[LOG]'.$timestamp_milliseconds.'[TIMESTAMP][' . $formatted_time . '] ' . $runtime_mode . ' => ' . $category . ': ' . $log_msg . ( $verbose_tracing != false ? '; [ '  . $verbose_tracing . ' ]' : ';' ) . " <br /> \n";
+          }
+          // We parse cache errors as array entries (like when hashcheck is included, BUT NO ARRAY KEY)
+          elseif ( $category == 'cache' ) {
+          $log_errors[$log_type][] = '[LOG]'.$timestamp_milliseconds.'[TIMESTAMP][' . $formatted_time . '] ' . $runtime_mode . ' => ' . $category . ': ' . $log_msg . ( $verbose_tracing != false ? '; [ '  . $verbose_tracing . ' ]' : ';' ) . " <br /> \n";
+          }
+          elseif ( $overwrite != false ) {
+          $log_errors[$log_type] = '[LOG]'.$timestamp_milliseconds.'[TIMESTAMP][' . $formatted_time . '] ' . $runtime_mode . ' => ' . $category . ': ' . $log_msg . ( $verbose_tracing != false ? '; [ '  . $verbose_tracing . ' ]' : ';' ) . " <br /> \n";
+          }
+          else {
+          $log_errors[$log_type] .= '[LOG]'.$timestamp_milliseconds.'[TIMESTAMP][' . $formatted_time . '] ' . $runtime_mode . ' => ' . $category . ': ' . $log_msg . ( $verbose_tracing != false ? '; [ '  . $verbose_tracing . ' ]' : ';' ) . " <br /> \n";
+          }
+      
+      
       }
    
    
