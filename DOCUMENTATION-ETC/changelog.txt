@@ -5867,7 +5867,11 @@ v6.00.2 AND HIGHER RESETS LIGHT (TIME PERIOD) CHARTS FROM ARCHIVAL DATA, ONE-TIM
 
 -BUG FIX: Logs are now accurately ordered using MILLISECOND timestamps "under the hood" (for proper chronological ordering of when events ocurred, down to the millisecond)
 
--Refactored error / debug logging, to be clearer and more reliable
+-BUG FIX: Fixed debug mode for running tests on price chart / alert user configurations
+
+-Refactored error / debug logging AND unit tests, to be clearer and more reliable
+
+-Cleaned up stale markets in demo configurations
 
 v6.00.9 AND HIGHER RESETS ANY *DEFAULT DEMO* LIGHT (TIME PERIOD) CHARTS FROM ARCHIVAL DATA, ONE-TIME DURING UPGRADES FROM V6.00.8 OR LOWER.
 

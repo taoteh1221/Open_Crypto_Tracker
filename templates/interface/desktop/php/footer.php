@@ -1,3 +1,57 @@
+<?php
+
+
+    	// Proxy alerts (if setup by user, and any of them failed, test the failed proxies and log/alert if they seem offline)
+		if ( $ct_conf['comms']['proxy_alert'] != 'off' ) {
+	
+			foreach ( $proxy_checkup as $problem_proxy ) {
+			$ct_gen->test_proxy($problem_proxy);
+			sleep(1);
+			}
+
+		}
+          	
+          	
+		// Log errors, send notifications BEFORE runtime stats
+		$error_log = $ct_cache->error_log();
+		$ct_cache->send_notifications();
+		
+		
+		// Calculate script runtime length
+		$time = microtime();
+		$time = explode(' ', $time);
+		$time = $time[1] + $time[0];
+		$total_runtime = round( ($time - $start_runtime) , 3);
+
+
+		// If debug mode is 'all' / 'all_telemetry' / 'stats'
+		if ( $ct_conf['dev']['debug'] == 'all' || $ct_conf['dev']['debug'] == 'all_telemetry' || $ct_conf['dev']['debug'] == 'stats' ) {
+		
+			foreach ( $system_info as $key => $val ) {
+			$system_telemetry .= $key . ': ' . $val . '; ';
+			}
+			
+		// Log system stats
+		$ct_gen->log(
+					'system_debug',
+					'Hardware / software stats (requires log_verbosity set to verbose)',
+					$system_telemetry
+					);
+			
+		// Log user agent
+		$ct_gen->log('system_debug', 'USER AGENT is "' . $_SERVER['HTTP_USER_AGENT'] . '"');
+			
+		// Log runtime stats
+		$ct_gen->log('system_debug', strtoupper($runtime_mode).' runtime was ' . $total_runtime . ' seconds');
+		
+		}
+		
+		
+		// Process debugging logs AFTER runtime stats
+		$debug_log = $ct_cache->debug_log();
+        
+
+?>
 
     <!-- footer.php START -->
     
@@ -5,7 +59,7 @@
     
     <p class='align_center' style='margin: 15px;'><a href='javascript:scroll(0,0);' title='Return to the top of the page.'>Back To Top</a></p>
             	
-    <div id="app_error_alert" style='display: none;'><?php echo $alerts_gui_errors . ( isset($alerts_gui_debugging) && $alerts_gui_debugging != '' ? '<br />============<br />DEBUGGING:<br />============<br />' . $alerts_gui_debugging : '' ); ?></div>
+    <div id="app_error_alert" style='display: none;'><?php echo $alerts_gui_errors . ( isset($alerts_gui_debugging) && $alerts_gui_debugging != '' ? '============<br />DEBUGGING:<br />============<br />' . $alerts_gui_debugging : '' ); ?></div>
             	
     <p class='align_center'><a href='https://taoteh1221.github.io' target='_blank' title='Check for upgrades to the latest version here.'>Running <?=ucfirst($app_edition)?> Edition<?=( $ct_gen->admin_logged_in() ? ' v' . $app_version : '' )?></a>
     
@@ -317,22 +371,7 @@
      
     <?php
           
-    	
-    	// Proxy alerts (if setup by user, and any of them failed, test the failed proxies and log/alert if they seem offline)
-		if ( $ct_conf['comms']['proxy_alert'] != 'off' ) {
-	
-			foreach ( $proxy_checkup as $problem_proxy ) {
-			$ct_gen->test_proxy($problem_proxy);
-			sleep(1);
-			}
-
-		}
-          	
-          	
-          	
-		// Log errors, send notifications BEFORE runtime stats
-		$error_log = $ct_cache->error_log();
-		$ct_cache->send_notifications();
+        // IF WE HAVE A LOG WRITE ERROR FOR ANY LOGS, PRINT IT IN THE FOOTER HERE
 		
 		if ( $error_log != true ) {
 		?>
@@ -340,42 +379,6 @@
 		<?php
 		}
 		
-		
-		
-		// Calculate script runtime length
-		$time = microtime();
-		$time = explode(' ', $time);
-		$time = $time[1] + $time[0];
-		$total_runtime = round( ($time - $start_runtime) , 3);
-
-
-
-		// If debug mode is 'all' / 'all_telemetry' / 'stats'
-		if ( $ct_conf['dev']['debug'] == 'all' || $ct_conf['dev']['debug'] == 'all_telemetry' || $ct_conf['dev']['debug'] == 'stats' ) {
-		
-			foreach ( $system_info as $key => $val ) {
-			$system_telemetry .= $key . ': ' . $val . '; ';
-			}
-			
-		// Log system stats
-		$ct_gen->log(
-									'system_debug',
-									'Hardware / software stats (requires log_verbosity set to verbose)',
-									$system_telemetry
-									);
-			
-		// Log user agent
-		$ct_gen->log('system_debug', 'USER AGENT is "' . $_SERVER['HTTP_USER_AGENT'] . '"');
-			
-		// Log runtime stats
-		$ct_gen->log('system_debug', strtoupper($runtime_mode).' runtime was ' . $total_runtime . ' seconds');
-		
-		}
-		
-		
-		// Process debugging logs AFTER runtime stats
-		$debug_log = $ct_cache->debug_log();
-    		
 		if ( $ct_conf['dev']['debug'] != 'off' && $debug_log != true ) {
 		?>
 		<div class="red" style='font-weight: bold;'><?=$debug_log?></div>
@@ -384,7 +387,6 @@
     		
     	echo '<p class="align_center '.( $total_runtime > 25 ? 'red' : 'green' ).'"> Runtime: '.$total_runtime.' seconds</p>';
     	
-
     ?>
         
         

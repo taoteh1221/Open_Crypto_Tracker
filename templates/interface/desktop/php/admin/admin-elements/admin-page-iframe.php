@@ -272,11 +272,32 @@ if ( $ct_conf['comms']['proxy_alert'] != 'off' ) {
 	}
 
 }
+          	
+// Log errors, send notifications
+$error_log = $ct_cache->error_log();
+$debug_log = $ct_cache->debug_log();
+$ct_cache->send_notifications();
+
+
+// IF WE HAVE A LOG WRITE ERROR FOR ANY LOGS, PRINT IT IN THE FOOTER HERE
+		
+if ( $error_log != true ) {
+?>
+<div class="red" style='font-weight: bold;'><?=$error_log?></div>
+<?php
+}
+		
+if ( $ct_conf['dev']['debug'] != 'off' && $debug_log != true ) {
+?>
+<div class="red" style='font-weight: bold;'><?=$debug_log?></div>
+<?php
+}
+    		
 
 ?>
 
             	
-<div id="iframe_error_alert" style='display: none;'><?php echo $alerts_gui_errors . ( isset($alerts_gui_debugging) && $alerts_gui_debugging != '' ? '<br />============<br />DEBUGGING:<br />============<br />' . $alerts_gui_debugging : '' ); ?></div>
+<div id="iframe_error_alert" style='display: none;'><?php echo $alerts_gui_errors . ( isset($alerts_gui_debugging) && $alerts_gui_debugging != '' ? '============<br />DEBUGGING:<br />============<br />' . $alerts_gui_debugging : '' ); ?></div>
 
 	
 <script>
@@ -349,10 +370,6 @@ if ( $_GET['refresh'] ) {
  */ -->
  
  <?php
-          	
-// Log errors, send notifications
-$error_log = $ct_cache->error_log();
-$ct_cache->send_notifications();
  
 flush(); // Clean memory output buffer for echo
 gc_collect_cycles(); // Clean memory cache

@@ -634,12 +634,13 @@ var $ct_array1 = array();
       if ( $debug_log != null ) {
         
       $store_file_contents = $this->save_file($base_dir . '/cache/logs/debug.log', $debug_log, "append");
+      $log_debugging = array(); // RESET DEBUG LOGS ARRAY (clears logs from memory, that we just wrote to disk)
         
           if ( $store_file_contents != true ) {
           return 'Debugging logs write error for "' . $base_dir . '/cache/logs/debug.log" (MAKE SURE YOUR DISK ISN\'T FULL), data_size_bytes: ' . strlen($debug_log) . ' bytes';
           }
-          else {
-          $log_debugging = array(); // RESET DEBUG LOGS ARRAY (clears logs from memory, that we just wrote to disk)
+          // DEBUGGING ONLY (rules out issues other than full disk)
+          elseif ( $ct_conf['dev']['debug'] == 'all' || $ct_conf['dev']['debug'] == 'all_telemetry' ) {
           return 'Debugging logs write success for "' . $base_dir . '/cache/logs/debug.log", data_size_bytes: ' . strlen($debug_log) . ' bytes';
           }
         
@@ -739,12 +740,13 @@ var $ct_array1 = array();
       if ( $error_log != null ) {
         
       $store_file_contents = $this->save_file($base_dir . '/cache/logs/error.log', $error_log, "append");
+      $log_errors = array(); // RESET ERROR LOGS ARRAY (clears logs from memory, that we just wrote to disk)
         
           if ( $store_file_contents != true ) {
           return 'Error logs write error for "' . $base_dir . '/cache/logs/error.log" (MAKE SURE YOUR DISK ISN\'T FULL), data_size_bytes: ' . strlen($error_log) . ' bytes';
           }
-          else {
-          $log_errors = array(); // RESET ERROR LOGS ARRAY (clears logs from memory, that we just wrote to disk)
+          // DEBUGGING ONLY (rules out issues other than full disk)
+          elseif ( $ct_conf['dev']['debug'] == 'all' || $ct_conf['dev']['debug'] == 'all_telemetry' ) {
           return 'Error logs write success for "' . $base_dir . '/cache/logs/error.log", data_size_bytes: ' . strlen($error_log) . ' bytes';
           }
       

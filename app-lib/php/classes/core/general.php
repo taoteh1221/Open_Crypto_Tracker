@@ -986,26 +986,26 @@ var $ct_array = array();
    $result = chmod($path, $perm);
 
        
-     if ( $result ) {
-     
-     $dir = new DirectoryIterator($path);
-    
-         foreach ($dir as $item) {
-            
-            if ($item->isDir() && !$item->isDot()) {
-            $this->chmod_path($item->getPathname(), $perm);
-            }
-            
+         if ( $result ) {
+         
+         $dir = new DirectoryIterator($path);
+        
+             foreach ($dir as $item) {
+                
+                if ($item->isDir() && !$item->isDot()) {
+                $this->chmod_path($item->getPathname(), $perm);
+                }
+                
+             }
+         
+         return true;
+         
          }
-     
-     return true;
-     
-     }
-     else {
-     $chmod_val = substr( sprintf( '%o' , fileperms($path) ) , -4 );
-     $change_dir_perm[] = $path . ':' . substr($chmod_val, 1);
-     return false;
-     }
+         else {
+         $chmod_val = substr( sprintf( '%o' , fileperms($path) ) , -4 );
+         $change_dir_perm[] = $path . ':' . substr($chmod_val, 1);
+         return false;
+         }
      
     
    }
@@ -1059,8 +1059,8 @@ var $ct_array = array();
    $input_length = strlen($input);
    $random_str = '';
            
-            $count = 0;
-            while ( $count < $strength ) {
+          $count = 0;
+          while ( $count < $strength ) {
                   
             $rand_case = rand(1, 2);
                   
@@ -1080,7 +1080,7 @@ var $ct_array = array();
                }
 
             
-            }
+          }
            
    return $random_str;
    
@@ -1465,7 +1465,7 @@ var $ct_array = array();
       }
       
       
-      if ( preg_match("/_debug/i", "", $log_type) ) {
+      if ( preg_match("/_debug/i", $log_type) ) {
           
    
           if ( $hashcheck != false ) {

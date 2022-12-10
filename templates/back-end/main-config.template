@@ -456,7 +456,7 @@ $ct_conf['charts_alerts']['tracked_mrkts'] = array(
 					'btc-21' => 'localbitcoins||nzd||none',
 					'btc-22' => 'localbitcoins||rub||none',
 					'btc-24' => 'btcturk||try||none',
-					'btc-25' => 'localbitcoins||twd||none',
+					'btc-25' => 'coingecko_twd||twd||none',
 					'btc-26' => 'luno||zar||none',
 					'btc-27' => 'kraken||dai||none',
 					'btc-28' => 'bitmex||usd||both',
@@ -1407,6 +1407,12 @@ $ct_conf['power']['news_feed'] = array(
     
     
         				array(
+            			"title" => "Stocks - Grit Capital",
+            			"url" => "https://gritcapital.substack.com/feed"
+        						),
+    
+    
+        				array(
             			"title" => "Stocks - Investing.com: News",
             			"url" => "https://www.investing.com/rss/news.rss"
         						),
@@ -2062,7 +2068,6 @@ $ct_conf['assets'] = array(
                                           'coinbase' => 'BTC-EUR',
                                           'kraken' => 'XXBTZEUR',
                                           'bitstamp' => 'btceur',
-                                          'okcoin' => 'BTC-EUR',
                                           'bittrex_global' => 'BTC-EUR',
                                           'bitpanda' => 'BTC_EUR',
                                           'bitflyer' => 'BTC_EUR',
@@ -2289,7 +2294,7 @@ $ct_conf['assets'] = array(
                                                     
                                     'sgd' => array(
                                           'localbitcoins' => 'SGD',
-                                          'okcoin' => 'BTC-SGD',
+                                          'coingecko_sgd' => 'bitcoin',
                                                     ),
 
                                                     
@@ -2304,13 +2309,9 @@ $ct_conf['assets'] = array(
                                                     ),
 
                                                     
-                                    'tusd' => array(
-                                          'binance' => 'BTCTUSD',
-                                                    ),
-
-                                                    
                                     'twd' => array(
                                           'localbitcoins' => 'TWD',
+                                          'coingecko_twd' => 'bitcoin',
                                                     ),
 
                                                     
@@ -2350,7 +2351,6 @@ $ct_conf['assets'] = array(
 
                                                     
                                     'usdc' => array(
-                                          'binance' => 'BTCUSDC',
                                           'kraken' => 'XBTUSDC',
                                           'southxchange' => 'BTC/USDC',
                                                     ),
@@ -2359,7 +2359,6 @@ $ct_conf['assets'] = array(
                                     'usdt' => array(
                                           'binance' => 'BTCUSDT',
                                     	  'kraken' => 'XBTUSDT',
-                                          'okcoin' => 'BTC-USDT',
                                           'bittrex' => 'BTC-USDT',
                                           'btcturk' => 'BTCUSDT',
                                           'huobi' => 'btcusdt',
@@ -2476,7 +2475,6 @@ $ct_conf['assets'] = array(
                                           'coinbase' => 'ETH-EUR',
                                           'kraken' => 'XETHZEUR',
                                           'bitstamp' => 'etheur',
-                                          'okcoin' => 'ETH-EUR',
                                           'bittrex_global' => 'ETH-EUR',
                                           'cex' => 'ETH:EUR',
                                                     ),
@@ -2524,12 +2522,7 @@ $ct_conf['assets'] = array(
 
                                                     
                                     'sgd' => array(
-                                          'okcoin' => 'ETH-SGD',
-                                                    ),
-
-                                                    
-                                    'tusd' => array(
-                                          'binance' => 'ETHTUSD',
+                                          'coingecko_sgd' => 'ethereum',
                                                     ),
 
                                                     
@@ -2572,7 +2565,6 @@ $ct_conf['assets'] = array(
 
                                                     
                                     'usdc' => array(
-                                          'binance' => 'ETHUSDC',
                                           'kraken' => 'ETHUSDC',
                                           'kucoin' => 'ETH-USDC',
                                           'loopring_amm' => 'AMM-ETH-USDC',
@@ -2660,16 +2652,9 @@ $ct_conf['assets'] = array(
                                     	 'kraken' => 'SOLUSD',
                                     	 'binance_us' => 'SOLUSD',
                                     	 'bitfinex' => 'tSOLUSD',
-                                         'okcoin' => 'SOL-USD',
                                          'gateio' => 'SOL_USD',
                                          'hitbtc' => 'SOLUSD',
                                          'cex' => 'SOL:USD',
-                                                    ),
-
-                                                    
-                                    'usdc' => array(
-                                        'binance' => 'SOLUSDC',
-                                    	'crypto.com' => 'SOL_USDC',
                                                     ),
 
                                                     
@@ -3008,7 +2993,6 @@ $ct_conf['assets'] = array(
                                     	'coinbase' => 'DAI-USD',
                                     	'kraken' => 'DAIUSD',
                                         'binance_us' => 'DAIUSD',
-                                        'okcoin' => 'DAI-USD',
                                     	'bitfinex' => 'tDAIUSD',
                                         'bittrex' => 'DAI-USD',
                                         'gemini' => 'daiusd',
@@ -3060,7 +3044,6 @@ $ct_conf['assets'] = array(
 
                                                     
                                     'usdt' => array(
-                                        'binance' => 'USDCUSDT',
                                     	'kraken' => 'USDCUSDT',
                                         'huobi' => 'usdcusdt',
                                         'kucoin' => 'USDC-USDT',
@@ -3185,7 +3168,6 @@ $ct_conf['assets'] = array(
                                     'usd' => array(
                                     	 'kraken' => 'ATLASUSD',
                                     	 'bitfinex' => 'tATLAS:USD',
-                                         'okcoin' => 'ATLAS-USD',
                                     	 'coingecko_usd' => 'star-atlas',
                                                     ),
 
@@ -3305,9 +3287,13 @@ $ct_conf['assets'] = array(
                                                     ),
 
                                                     
+                                    'usd' => array(
+                                        'coingecko_usd' => 'solrise-finance',
+                                                    ),
+
+                                                    
                                     'usdt' => array(
                                         'gateio' => 'SLRS_USDT',
-                                        'coinex' => 'SLRSUSDT',
                                                     ),
 
                                                     
@@ -3384,7 +3370,6 @@ $ct_conf['assets'] = array(
                                                     
                                     'usdt' => array(
                                     	'binance_us' => 'HNTUSDT',
-                                    	'crypto.com' => 'HNT_USDT',
                                         'hotbit' => 'HNT_USDT',
                                         'gateio' => 'HNT_USDT',
                                         'wazirx' => 'hntusdt',
@@ -3461,7 +3446,6 @@ $ct_conf['assets'] = array(
 
                                                     
                                     'usdt' => array(
-                                    	'crypto.com' => 'ZBC_USDT',
                                         'huobi' => 'zbcusdt',
                                         'gateio' => 'ZBC_USDT',
                                         'bitmart' => 'ZBC_USDT',
