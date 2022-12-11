@@ -338,14 +338,14 @@ Contact any supported exchange's help desk if you are unaware of the correct for
 Support for over 80 trading pairs (country fiat currency or secondary crypto, contact me to request more): 
 	    <br /><br />
 
-<span class='blue'>AED / ARS / AUD / BAM / BDT / BOB / BRL / BTC / BWP / BYN / CAD / CHF / CLP / CNY / COP / CRC / CZK / DAI / DKK / DOP / EGP / ETH / EUR / GBP / GEL / GHS / GTQ / HKD / HUF / IDR / ILS / INR / IRR / JMD / JOD / JPY / KES / KRW / KWD / KZT / LKR / MAD / MKR / MUR / MWK / MXN / MYR / NGN / NIS / NOK / NZD / PAB / PEN / PHP / PKR / PLN / PYG / QAR / RON / RSD / RUB / RWF / SAMO / SAR / SEK / SGD / SLC / SOL / THB / TRY / TUSD / TWD / TZS / UAH / UGX / UNI / USD / USDC / USDT / UYU / VES / VND / XAF / XOF / ZAR / ZMW</span>
+<span class='blue'>AED / APT / ARS / AUD / BAM / BDT / BOB / BRL / BTC / BWP / BYN / CAD / CHF / CLP / CNY / COP / CRC / CZK / DAI / DKK / DOP / EGP / ETH / EUR / GBP / GEL / GHS / GTQ / HKD / HNT / HUF / IDR / ILS / INR / IRR / JMD / JOD / JPY / KES / KRW / KWD / KZT / LKR / MAD / MKR / MUR / MWK / MXN / MYR / NGN / NIS / NOK / NZD / PAB / PEN / PHP / PKR / PLN / PYG / QAR / RAY / RON / RSD / RUB / RWF / SAR / SEK / SGD / SOL / THB / TRY / TUSD / TWD / TZS / UAH / UGX / UNI / USD / USDC / USDT / UYU / VES / VND / XAF / XOF / ZAR / ZMW</span>
 
 	    <br /><br />
 
 Support for over 40 exchanges (contact me to request more): 
 	    <br /><br />
 
-<span class='blue'>alphavantage_stock / binance / binance_us / bit2c / bitbns / bitfinex / bitflyer / bitmart / bitmex / bitmex_u20 / bitmex_z20 / bitpanda / bitso / bitstamp / bittrex / bittrex_global / btcmarkets / btcturk / buyucoin / bybit / cex / coinbase / coindcx / coinex / coingecko_btc / coingecko_eth / coingecko_eur / coingecko_gbp / coingecko_usd / coinspot / crypto.com / ethfinex / gateio / gemini / hitbtc / hotbit / huobi / jupiter_ag / korbit / kraken / kucoin / liquid / localbitcoins / localbitcoins / loopring_amm / luno / okcoin / okex / poloniex / southxchange / unocoin / upbit / wazirx / zebpay</span>
+<span class='blue'>alphavantage_stock / binance / binance_us / bit2c / bitbns / bitfinex / bitflyer / bitmart / bitmex / bitmex_u20 / bitmex_z20 / bitpanda / bitso / bitstamp / bittrex / bittrex_global / btcmarkets / btcturk / buyucoin / bybit / cex / coinbase / coindcx / coinex / coingecko_btc / coingecko_eth / coingecko_eur / coingecko_gbp / coingecko_sgd / coingecko_twd / coingecko_usd / coinspot / crypto.com / ethfinex / gateio / gemini / hitbtc / hotbit / huobi / korbit / kraken / kucoin / liquid / localbitcoins / localbitcoins / loopring_amm / luno / okcoin / okex / poloniex / southxchange / unocoin / upbit / wazirx / zebpay</span>
 	    <br /><br />
 
 

@@ -153,9 +153,9 @@ $ct_conf['gen']['btc_prim_currency_pair'] = 'usd'; // PUT INSIDE SINGLE QUOTES (
 // Default BITCOIN market exchanges (30+ bitcoin exchanges supported)
 // (set for default Bitcoin market, and charts / price alert primary-currency-equivalent value determination [example: usd value of btc/ltc market, etc])
 // binance / binance_us / bit2c / bitbns / bitfinex / bitflyer / bitmex / bitpanda / bitso / bitstamp 
-// bittrex / bittrex_global / btcmarkets / btcturk / buyucoin / cex / coinbase / coindcx / coingecko_usd 
-// coinspot / gemini / hitbtc / huobi / korbit / kraken / kucoin / liquid / localbitcoins / loopring_amm 
-// luno / okcoin / okex / southxchange / unocoin / upbit / wazirx
+// bittrex / bittrex_global / btcmarkets / btcturk / buyucoin / cex / coinbase / coindcx / coingecko_sgd 
+// coingecko_twd / coingecko_usd / coinspot / gemini / hitbtc / huobi / korbit / kraken / kucoin / liquid 
+// localbitcoins / loopring_amm / luno / okcoin / okex / southxchange / unocoin / upbit / wazirx
 // SEE THE $ct_conf['assets']['BTC'] CONFIGURATION NEAR THE BOTTOM OF THIS CONFIG FILE, FOR THE PROPER (CORRESPONDING)
 // 'BTC' EXCHANGE VALUE NEEDED FOR YOUR CHOSEN MARKET PAIR (set in $ct_conf['gen']['btc_prim_currency_pair'] directly above)
 // SEE THE $ct_conf['dev']['limited_apis'] SETTING FURTHER DOWN IN THE DEVELOPER SECTION, FOR EXCHANGES !NOT RECOMMENDED FOR USAGE HERE!
@@ -1205,12 +1205,6 @@ $ct_conf['power']['news_feed'] = array(
     
     
         				array(
-            			"title" => "Newsletter - EthHub",
-            			"url" => "https://ethhub.substack.com/feed"
-        						),
-    
-    
-        				array(
             			"title" => "Newsletter - Lightning Labs (Bitcoin Layer 2 Network)",
             			"url" => "https://lightninglabs.substack.com/feed"
         						),
@@ -1267,12 +1261,6 @@ $ct_conf['power']['news_feed'] = array(
         				array(
             			"title" => "Podcast - Citadel Dispatch",
             			"url" => "https://anchor.fm/s/45563e80/podcast/rss"
-        						),
-    
-    
-        				array(
-            			"title" => "Podcast - Into the Ether",
-            			"url" => "https://podcast.ethhub.io/rss"
         						),
     					
     					

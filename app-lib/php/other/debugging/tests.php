@@ -28,7 +28,12 @@ if ( $runtime_mode == 'ui' ) {
 		// Consolidate function calls for runtime speed improvement
 		$charts_test_data = $ct_api->market($check_asset, $check_asset_params[0], $check_market_id, $check_asset_params[1]);
 		
-			if ( !isset($charts_test_data['last_trade']) || $ct_var->num_to_str($charts_test_data['last_trade']) < 0.0000000000000001 ) {
+		
+			if ( isset($charts_test_data['last_trade']) && $ct_var->num_to_str($charts_test_data['last_trade']) >= 0.0000000000000001 ) {
+			// DO NOTHING (IS SET / AT LEAST 0.0000000000000001 IN VALUE)
+			}
+			// TEST FAILURE
+			else {
 				
 			$ct_gen->log(
 						'market_debug',
@@ -38,7 +43,12 @@ if ( $runtime_mode == 'ui' ) {
 			
 			}
 			
-			if ( !isset($charts_test_data['24hr_prim_currency_vol']) || $ct_var->num_to_str($charts_test_data['24hr_prim_currency_vol']) < 1 ) {
+			
+			if ( isset($charts_test_data['24hr_prim_currency_vol']) && $ct_var->num_to_str($charts_test_data['24hr_prim_currency_vol']) >= 1 ) {
+			// DO NOTHING (IS SET / AT LEAST 1 IN VALUE)
+			}
+			// TEST FAILURE
+			else {
 				
 			$ct_gen->log(
 						'market_debug',
@@ -100,7 +110,12 @@ if ( $runtime_mode == 'ui' ) {
 					// Consolidate function calls for runtime speed improvement
 					$markets_test_data = $ct_api->market( strtoupper($asset_key) , $key, $val, $pair_key);
 				
-						if ( !isset($markets_test_data['last_trade']) || !is_numeric($markets_test_data['last_trade']) || $ct_var->num_to_str($markets_test_data['last_trade']) < 0.0000000000000001 ) {
+				
+						if ( isset($markets_test_data['last_trade']) && $ct_var->num_to_str($markets_test_data['last_trade']) >= 0.0000000000000001 ) {
+            			// DO NOTHING (IS SET / AT LEAST 0.0000000000000001 IN VALUE)
+            			}
+            			// TEST FAILURE
+            			else {
 							
 						$ct_gen->log(
 									'market_debug',
@@ -109,7 +124,12 @@ if ( $runtime_mode == 'ui' ) {
 						
 						}
 					
-						if ( !isset($markets_test_data['24hr_prim_currency_vol']) || !is_numeric($markets_test_data['24hr_prim_currency_vol']) || $markets_test_data['24hr_prim_currency_vol'] < 1 ) {
+					
+						if ( isset($markets_test_data['24hr_prim_currency_vol']) && $ct_var->num_to_str($markets_test_data['24hr_prim_currency_vol']) >= 1 ) {
+            			// DO NOTHING (IS SET / AT LEAST 1 IN VALUE)
+            			}
+            			// TEST FAILURE
+            			else {
 							
 						$ct_gen->log(
 									'market_debug',
@@ -117,6 +137,7 @@ if ( $runtime_mode == 'ui' ) {
 									);
 						
 						}
+						
 					
 					}
 				

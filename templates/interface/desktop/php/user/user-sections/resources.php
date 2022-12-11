@@ -213,8 +213,6 @@
 	        
 	        <li class='links_list'><a href='http://newsletter.coingecko.com/landing/subscribe' target='_blank'>Coingecko Newsletter</a></li>
 	        
-	        <li class='links_list'><a href='https://ethhub.substack.com/' target='_blank'>EthHub Newsletter</a></li>
-	        
 	        <li class='links_list'><a href='https://lightninglabs.substack.com' target='_blank'>Lightning Labs</a></li>  
 	        
 	        <li class='links_list'><a href='https://ournetwork.substack.com/' target='_blank'>Our Network</a></li>  
@@ -251,8 +249,6 @@
 	        <li class='links_list'><a href='https://open.spotify.com/show/5pBuPJdMabzdDaZEyUZopi' target='_blank'>Epicenter Bitcoin</a></li>
 	        
 	        <li class='links_list'><a href='https://open.spotify.com/show/2CLetGT20MFsHqfeBN3fYl' target='_blank'>H4SHR8 Crypto Mining</a></li>
-	        
-	        <li class='links_list'><a href='https://open.spotify.com/show/2CNyWXgKVxTqTlmLhc8A5m' target='_blank'>Into The Ether Podcast (by EthHub)</a></li>
 	        
 	        <li class='links_list'><a href='https://open.spotify.com/show/2QwpFjzJ0ZteqmMqw2xIfA' target='_blank'>Off The Chain With Anthony Pompliano</a></li>
 	        

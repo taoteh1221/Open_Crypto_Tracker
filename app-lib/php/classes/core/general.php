@@ -1447,10 +1447,13 @@ var $ct_array = array();
    
    global $runtime_mode, $ct_conf, $ct_var, $log_errors, $log_debugging;
    
-   $formatted_time = date('Y-m-d H:i:s');
-   
    // Since we sort by timestamp, we want millisecond accuracy (if possible), for ordering logs before output
    $timestamp_milliseconds = $ct_var->num_to_str( floor(microtime(true) * 1000) );
+   
+   // Get millisecond decimals for log human-readable timestamps
+   $decimals_milliseconds = '.' . substr($timestamp_milliseconds, -3);
+   
+   $formatted_time = date('Y-m-d H:i:s') . $decimals_milliseconds;
    
    
    // Less verbose log category

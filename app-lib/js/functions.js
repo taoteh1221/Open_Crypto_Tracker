@@ -163,7 +163,7 @@ today = new Date();
 date = today.getUTCFullYear() + '-' + force_2_digits(today.getUTCMonth() + 1) + '-' + force_2_digits( today.getUTCDate() );
 time = force_2_digits( today.getUTCHours() ) + ":" + force_2_digits( today.getUTCMinutes() ) + ":" + force_2_digits( today.getUTCSeconds() );
 
-$("span.utc_timestamp").text('[' + date + ' ' + time + ']');
+$("span.utc_timestamp").text('[' + date + ' ' + time + '.000]');
 
 utc_time = setTimeout(start_utc_time, 1000);
 
