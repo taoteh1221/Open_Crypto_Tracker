@@ -47,6 +47,9 @@ OPTIMIZATIONS / BUGS / TESTS / UX / QA / OTHER SECTION
 ///////////////////////////////////////////////////////
 
 
+Create an "Enhanced" security level in the admin security section (between high / normal), that protects from CSRF page scraping attacks (trying to steal user-entered data), by requiring a post submission to view each admin section (with a "View Settings" submit button). Require a hidden token feild like we already do for all post submissions, with a key semantically named to match the security feature. We then ALSO ADDITIONALLY require this same key to be a hidden feild in ALL admin post submissions, WHEN THIS SECURITY LEVEL IS ENABLED (a new function to add it if enabled can be used to control the output to a page's code). Then run a check if enabled, to see if this key's token value is present / a valid match.
+
+
 ADMIN IFRAME BUILDOUT NOTES:
 
 -COMPLETED: Should NOT load until tab clicked (for fast load of initial showing section)
