@@ -25,14 +25,14 @@ $check_default_ct_conf = null;
 
 
 // plugins-config-check.php MUST RUN #BEFORE# cached-global-config.php, #IN HIGH ADMIN SECURITY MODE#
-// (AND THE OPPOSITE WAY AROUND #IN NORMAL ADMIN SECURITY MODE#)
-if ( $admin_area_sec_level == 'normal' ) {
-require_once('app-lib/php/other/config/cached-global-config.php');
+// (AND THE OPPOSITE WAY AROUND #IN ENHANCED / NORMAL ADMIN SECURITY MODE#)
+if ( $admin_area_sec_level == 'high' ) {
 require_once('app-lib/php/other/config/plugins-config-check.php');
+require_once('app-lib/php/other/config/cached-global-config.php');
 }
 else {
-require_once('app-lib/php/other/config/plugins-config-check.php');
 require_once('app-lib/php/other/config/cached-global-config.php');
+require_once('app-lib/php/other/config/plugins-config-check.php');
 }
 
 

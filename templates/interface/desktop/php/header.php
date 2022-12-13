@@ -39,6 +39,8 @@ header('Content-type: text/html; charset=' . $ct_conf['dev']['charset_default'])
 	
 	var app_edition = '<?=$app_edition?>';
 	
+	var logs_csrf_sec_token = '<?=base64_encode( $ct_gen->admin_hashed_nonce('logs_csrf_security') )?>';
+	
 	var notes_storage = ct_id + "notes";
 	
 	var background_tasks_status = 'wait'; // Default
@@ -121,6 +123,8 @@ header('Content-type: text/html; charset=' . $ct_conf['dev']['charset_default'])
     <script src="app-lib/js/jquery/jquery.repeatable.js"></script>
 
 	<script src="app-lib/js/modaal.js"></script>
+
+	<script src="app-lib/js/base64-decode.js"></script>
 
 	<script src="app-lib/js/autosize.min.js"></script>
 	

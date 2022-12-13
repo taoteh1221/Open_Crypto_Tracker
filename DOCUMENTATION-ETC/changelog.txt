@@ -5869,9 +5869,13 @@ v6.00.2 AND HIGHER RESETS LIGHT (TIME PERIOD) CHARTS FROM ARCHIVAL DATA, ONE-TIM
 
 -BUG FIX: Fixed debug mode for running tests on price chart / alert user configurations
 
+-New 'Enhanced' admin security mode, that still shows settings in the admin area so you can easily edit them, BUT additionally requires end-users to click a 'View Settings' button within each section to allow the display of settings, which protects against CSRF attacks from 'page scraping' sensitive user settings (a very rare / advanced attack requiring hacker knows your install's web address, AND must trick YOU into visiting a malicious website which they control)
+
 -Refactored error / debug logging AND unit tests, to be clearer and more reliable
 
 -Cleaned up stale markets in demo configurations
+
+-CSRF attack protection for logs ajax requests
 
 v6.00.9 AND HIGHER RESETS ANY *DEFAULT DEMO* LIGHT (TIME PERIOD) CHARTS FROM ARCHIVAL DATA, ONE-TIME DURING UPGRADES FROM V6.00.8 OR LOWER.
 

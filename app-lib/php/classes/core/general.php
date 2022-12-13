@@ -232,6 +232,24 @@ var $ct_array = array();
    ////////////////////////////////////////////////////////
    
    
+   function pass_sec_check($val, $hash_key) {
+   
+   global $admin_area_sec_level;
+   
+      if ( isset($val) && trim($val) != '' && $this->admin_hashed_nonce($hash_key) != false && $val == $this->admin_hashed_nonce($hash_key) ) {
+      return true;
+      }
+      else {
+      return false;
+      }
+   
+   }
+
+
+   ////////////////////////////////////////////////////////
+   ////////////////////////////////////////////////////////
+   
+   
    function admin_security_level_check() {
        
    global $default_ct_conf, $check_default_ct_conf, $admin_area_sec_level;
@@ -246,7 +264,8 @@ var $ct_array = array();
          }
       
       }
-      elseif ( $admin_area_sec_level == 'normal' ) {
+      // Enhanced / Normal security modes
+      else {
       return true;
       }
    
@@ -4245,11 +4264,11 @@ var $ct_array = array();
     	
     	
         	// Check to see if we need to upgrade the CACHED app config (NEW / DEPRECIATED CORE VARIABLES ONLY, NOT OVERWRITING EXISTING CORE VARIABLES)
-    	    if ( $admin_area_sec_level == 'normal' && $mode == 'upgrade_checks' ) {
+    	    if ( $admin_area_sec_level != 'high' && $mode == 'upgrade_checks' ) {
     	    $upgrade_cache_ct_conf = $this->upgrade_cache_ct_conf($passed_config);
     	    }
             // CACHED WITH NO UPGRADE FLAG
-    	    elseif ( $admin_area_sec_level == 'normal' ) {
+    	    elseif ( $admin_area_sec_level != 'high' ) {
     	    $upgrade_cache_ct_conf = $passed_config;
     	    }
         	// (REFRESHES CACHED APP CONFIG TO EXACTLY MIRROR THE HARD-CODED VARIABLES IN CONFIG.PHP, IF CONFIG.PHP IS CHANGED IN EVEN THE SLIGHTEST WAY)
@@ -4278,11 +4297,11 @@ var $ct_array = array();
     	
     	
                 	// Check to see if we need to upgrade the CACHED app config (NEW / DEPRECIATED CORE VARIABLES ONLY, NOT OVERWRITING EXISTING CORE VARIABLES)
-            	    if ( $admin_area_sec_level == 'normal' && $mode == 'upgrade_checks' ) {
+            	    if ( $admin_area_sec_level != 'high' && $mode == 'upgrade_checks' ) {
             	    $upgrade_cache_ct_conf = $this->upgrade_cache_ct_conf($cached_restore_conf);
             	    }
             	    // CACHED WITH NO UPGRADE FLAG
-            	    elseif ( $admin_area_sec_level == 'normal' ) {
+            	    elseif ( $admin_area_sec_level != 'high' ) {
             	    $upgrade_cache_ct_conf = $cached_restore_conf;
             	    }
                 	// (REFRESHES CACHED APP CONFIG TO EXACTLY MIRROR THE HARD-CODED VARIABLES IN CONFIG.PHP, IF CONFIG.PHP IS CHANGED IN EVEN THE SLIGHTEST WAY)

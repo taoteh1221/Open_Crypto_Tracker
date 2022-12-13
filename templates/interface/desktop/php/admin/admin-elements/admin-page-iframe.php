@@ -53,6 +53,10 @@ header('Access-Control-Allow-Origin: ' . $app_host_address);
 	
 	var app_edition = '<?=$app_edition?>';
 	
+	var admin_area_sec_level = '<?=$admin_area_sec_level?>';
+	
+	var logs_csrf_sec_token = '<?=base64_encode( $ct_gen->admin_hashed_nonce('logs_csrf_security') )?>';
+	
 	// Preload /images/auto-preloaded/ images VIA JAVASCRIPT TOO (WAY MORE RELIABLE THAN META TAG PRELOAD)
 	
 	<?php
@@ -119,6 +123,8 @@ header('Access-Control-Allow-Origin: ' . $app_host_address);
     <script src="app-lib/js/jquery/jquery.repeatable.js"></script>
 
 	<script src="app-lib/js/modaal.js"></script>
+
+	<script src="app-lib/js/base64-decode.js"></script>
 
 	<script src="app-lib/js/autosize.min.js"></script>
 	
@@ -247,6 +253,57 @@ padding: 0px;
 
 </style>
 
+<script>
+
+// Dynamically add 'enhanced_security_nonce' to ALL admin forms, IF enhanced security mode is being used
+$(document).ready(function(){
+
+
+    if ( admin_area_sec_level == 'enhanced' ) {
+
+    var forms_array = document.getElementsByTagName("form");
+    
+    
+        for (var form_count = 0; form_count < forms_array.length; form_count++) {
+                
+        has_enhanced_security_nonce = false;
+            
+        inputs_array = forms_array[form_count].getElementsByTagName("input");
+            
+            
+            for (var input_count = 0; input_count < inputs_array.length; input_count++) {
+                
+                if ( inputs_array[input_count].name == 'enhanced_security_nonce' ) {
+                has_enhanced_security_nonce = true;
+                }
+            
+            }
+            
+            
+            if ( has_enhanced_security_nonce == false ) {
+                
+            new_input = document.createElement("input");
+        
+            new_input.setAttribute("type", "hidden");
+            
+            new_input.setAttribute("name", "enhanced_security_nonce");
+            
+            new_input.setAttribute("value", "<?=$ct_gen->admin_hashed_nonce('enhanced_security_mode')?>");
+            
+            forms_array[form_count].appendChild(new_input);
+            
+            }
+            
+        
+        }
+        
+    
+    }
+    
+	
+});
+
+</script>
 
 </head>
 <body class='iframe_wrapper'>
@@ -255,7 +312,10 @@ padding: 0px;
 <?php
 
 // Admin template to use    
-if ( isset($_GET['section']) ) {
+if ( $admin_area_sec_level == 'enhanced' && !$ct_gen->pass_sec_check($_POST['enhanced_security_nonce'], 'enhanced_security_mode') ) {
+require("templates/interface/desktop/php/admin/admin-elements/iframe-security-mode.php");
+}
+elseif ( isset($_GET['section']) ) {
 require("templates/interface/desktop/php/admin/admin-elements/iframe-content-category.php");
 }
 elseif ( isset($_GET['plugin']) ) {
