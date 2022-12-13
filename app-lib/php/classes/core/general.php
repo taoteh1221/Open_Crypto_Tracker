@@ -234,8 +234,6 @@ var $ct_array = array();
    
    function pass_sec_check($val, $hash_key) {
    
-   global $admin_area_sec_level;
-   
       if ( isset($val) && trim($val) != '' && $this->admin_hashed_nonce($hash_key) != false && $val == $this->admin_hashed_nonce($hash_key) ) {
       return true;
       }

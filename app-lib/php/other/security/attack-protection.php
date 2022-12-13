@@ -65,9 +65,9 @@ if ( $_POST['admin_submit_register'] || $_POST['admin_submit_login'] || $_POST['
 // CSRF attack protection for downloads EXCEPT backup downloads (which require the nonce 
 // in the filename [which we do already], since backup links are created during cron runtimes)
 if ( $runtime_mode == 'download' && !isset($_GET['backup']) && $_GET['token'] != $ct_gen->nonce_digest('download') ) {
-$ct_gen->log('security_error', 'aborted, security token mis-match/stale from ' . $_SERVER['REMOTE_ADDR'] . ', for request: ' . $_SERVER['REQUEST_URI']);
+$ct_gen->log('security_error', 'aborted, security token mis-match/stale from ' . $_SERVER['REMOTE_ADDR'] . ', for request: ' . $_SERVER['REQUEST_URI'] . ' (try reloading the app)');
 $ct_cache->error_log();
-echo "Aborted, security token mis-match/stale.";
+echo "Aborted, security token mis-match/stale. Try reloading the app.";
 exit;
 }
 
