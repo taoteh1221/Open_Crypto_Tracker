@@ -70,10 +70,11 @@ $ct_conf['sec']['smtp_strict_ssl'] = 'off'; // (DEFAULT IS 'off', TO ASSURE SMTP
 $ct_conf['sec']['remote_api_strict_ssl'] = 'off'; // (default = 'off')
 
 
-// Set CORS 'Access-Control-Allow-Origin' (controls what web domains can load this app's AJAX scripts, etc)
-// Set to 'any' if this web server's domain can vary / redirect (some INITIAL visits are 'www.mywebsite.com', AND some are 'mywebsite.com')
+// Set CORS 'Access-Control-Allow-Origin' (controls what web domains can load this app's admin / user pages, AJAX scripts, etc)
+// Set to 'any' if this web server's domain can vary / redirect (eg: some INITIAL visits are 'www.mywebsite.com', AND some are 'mywebsite.com')
 // Set to 'strict' if this web server's domain CANNOT VARY / REDIRECT (it's always 'mywebsite.com', EVERY VISIT #WITHOUT EXCEPTIONS#)
-// #CHANGE WITH CAUTION#, AS 'strict' #CAN BREAK CHARTS / LOGS / ETC FROM LOADING# ON SOME SETUPS!
+// 'strict' mode blocks all CSRF / XSS attacks on resources using this setting, ALTHOUGH NOT REALLY NEEDED AS SERVER EDITIONS USE STRICT / SECURE COOKIES
+// #CHANGE WITH CAUTION#, AS 'strict' #CAN BREAK CHARTS / LOGS / NEWS FEEDS / ADMIN SECTIONS / ETC FROM LOADING# ON SOME SETUPS!
 $ct_conf['sec']['access_control_origin'] = 'any'; // 'any' / 'strict' (default = 'any')
 		
 

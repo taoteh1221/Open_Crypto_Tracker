@@ -5871,6 +5871,8 @@ v6.00.2 AND HIGHER RESETS LIGHT (TIME PERIOD) CHARTS FROM ARCHIVAL DATA, ONE-TIM
 
 -New 'Enhanced' admin security mode, that still shows settings in the admin area so you can easily edit them, BUT additionally requires end-users to click a 'View Settings' button within each section to allow the display of settings, which protects against CSRF attacks from 'page scraping' sensitive user settings (a very rare / advanced attack requiring hacker knows your install's web address, AND must trick YOU into visiting a malicious website which they control, AND you must be logged into the app's admin area)
 
+-Access-Control-Allow-Origin also added to main header (user / admin areas...for use with 'access_control_origin' setting in Admin Config security section)
+
 -Refactored error / debug logging AND unit tests, to be clearer and more reliable
 
 -Cleaned up stale markets in demo configurations
