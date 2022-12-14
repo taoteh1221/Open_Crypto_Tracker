@@ -3,24 +3,6 @@
  * Copyright 2014-2023 GPLv3, Open Crypto Tracker by Mike Kilday: Mike@DragonFrugal.com
  */
 
-// HTML field formatting CONFIGs for admin settings
-
-$admin_ui_menus['dev']['radio'] = array(
-
-                                           'error_reporting' => array(
-                                                                     'PHP Error Reporting' => array(
-                                                                                                   'Off' => 0,
-                                                                                                   'On' => -1
-                                                                                                   )
-                                                                     ),
-                                                                     
-                                                                     
-                                           );
-
-// END of $admin_ui_menus['dev']['radio']
-                                           
-
-//var_dump($admin_ui_menus);
 
 ?>
 	

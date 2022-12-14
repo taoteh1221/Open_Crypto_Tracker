@@ -70,7 +70,7 @@ ADMIN IFRAME BUILDOUT NOTES:
 
 -TODO: CURRENT admin config should be BACKED-UP #RIGHT BEFORE# UPDATING VIA THE INTERFACE (after a validity check), IN CASE THE END-USER WANTS / NEEDS TO REVERT TO LAST KNOWN WORKING CONFIG
 
--TODO: Build the HTML rendering CONFIGs for each admin config setting's fields, based off initial work at the top off the file: /templates/interface/desktop/php/admin/admin-sections/developer.php
+-TODO: "Build the HTML rendering CONFIGs for each admin config setting's fields" SHOULD NOT BE USED (AS ORIGINALLY THOUGHT), RENDER THEM STATICALLY INSTEAD, AS IT AVOIDS OVER-COMPLICATING THE REQUIRED CUSTOMIZATION NEEDED PER-SETTING (INCLUDING ERROR CHECKS BEFORE SUBMISSION)
 
 
 ```````````````````````````````````````````````````````````````````````````````````````````````````````````````
