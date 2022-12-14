@@ -2,6 +2,17 @@
 
 header('Content-type: text/html; charset=' . $ct_conf['dev']['charset_default']);
 
+header('Access-Control-Allow-Headers: *'); // Allow ALL headers
+
+// Allow access from ANY SERVER (primarily in case the end-user has a server misconfiguration)
+if ( $ct_conf['sec']['access_control_origin'] == 'any' ) {
+header('Access-Control-Allow-Origin: *');
+}
+// Strict access from THIS APP SERVER ONLY (provides tighter security)
+else {
+header('Access-Control-Allow-Origin: ' . $app_host_address);
+}
+
 ?><!DOCTYPE html>
 <html lang="en">
 <!-- /*
@@ -38,6 +49,8 @@ header('Content-type: text/html; charset=' . $ct_conf['dev']['charset_default'])
 	var ct_id = '<?=$ct_gen->id()?>';
 	
 	var app_edition = '<?=$app_edition?>';
+	
+	var logs_csrf_sec_token = '<?=base64_encode( $ct_gen->admin_hashed_nonce('logs_csrf_security') )?>';
 	
 	var notes_storage = ct_id + "notes";
 	
@@ -121,6 +134,8 @@ header('Content-type: text/html; charset=' . $ct_conf['dev']['charset_default'])
     <script src="app-lib/js/jquery/jquery.repeatable.js"></script>
 
 	<script src="app-lib/js/modaal.js"></script>
+
+	<script src="app-lib/js/base64-decode.js"></script>
 
 	<script src="app-lib/js/autosize.min.js"></script>
 	

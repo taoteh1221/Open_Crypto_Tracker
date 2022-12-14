@@ -21,9 +21,11 @@ header('Access-Control-Allow-Origin: ' . $app_host_address);
 }
 
 
-if ( !$ct_gen->admin_logged_in() ) {
+// If we are not admin logged in, OR fail the CSRF security token check, exit
+if ( !$ct_gen->admin_logged_in() || !$ct_gen->pass_sec_check($_GET['token'], 'logs_csrf_security') ) {
 exit;
 }
+
 
 $filename = $base_dir . '/cache/logs/' . $_GET['logfile'];
 

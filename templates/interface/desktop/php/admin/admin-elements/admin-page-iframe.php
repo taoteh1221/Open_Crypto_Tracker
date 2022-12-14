@@ -53,6 +53,10 @@ header('Access-Control-Allow-Origin: ' . $app_host_address);
 	
 	var app_edition = '<?=$app_edition?>';
 	
+	var admin_area_sec_level = '<?=$admin_area_sec_level?>';
+	
+	var logs_csrf_sec_token = '<?=base64_encode( $ct_gen->admin_hashed_nonce('logs_csrf_security') )?>';
+	
 	// Preload /images/auto-preloaded/ images VIA JAVASCRIPT TOO (WAY MORE RELIABLE THAN META TAG PRELOAD)
 	
 	<?php
@@ -119,6 +123,8 @@ header('Access-Control-Allow-Origin: ' . $app_host_address);
     <script src="app-lib/js/jquery/jquery.repeatable.js"></script>
 
 	<script src="app-lib/js/modaal.js"></script>
+
+	<script src="app-lib/js/base64-decode.js"></script>
 
 	<script src="app-lib/js/autosize.min.js"></script>
 	
@@ -247,6 +253,57 @@ padding: 0px;
 
 </style>
 
+<script>
+
+// Dynamically add 'enhanced_security_nonce' to ALL admin forms, IF enhanced security mode is being used
+$(document).ready(function(){
+
+
+    if ( admin_area_sec_level == 'enhanced' ) {
+
+    var forms_array = document.getElementsByTagName("form");
+    
+    
+        for (var form_count = 0; form_count < forms_array.length; form_count++) {
+                
+        has_enhanced_security_nonce = false;
+            
+        inputs_array = forms_array[form_count].getElementsByTagName("input");
+            
+            
+            for (var input_count = 0; input_count < inputs_array.length; input_count++) {
+                
+                if ( inputs_array[input_count].name == 'enhanced_security_nonce' ) {
+                has_enhanced_security_nonce = true;
+                }
+            
+            }
+            
+            
+            if ( has_enhanced_security_nonce == false ) {
+                
+            new_input = document.createElement("input");
+        
+            new_input.setAttribute("type", "hidden");
+            
+            new_input.setAttribute("name", "enhanced_security_nonce");
+            
+            new_input.setAttribute("value", "<?=$ct_gen->admin_hashed_nonce('enhanced_security_mode')?>");
+            
+            forms_array[form_count].appendChild(new_input);
+            
+            }
+            
+        
+        }
+        
+    
+    }
+    
+	
+});
+
+</script>
 
 </head>
 <body class='iframe_wrapper'>
@@ -254,9 +311,11 @@ padding: 0px;
     
 <?php
 
-
 // Admin template to use    
-if ( isset($_GET['section']) ) {
+if ( $admin_area_sec_level == 'enhanced' && !$ct_gen->pass_sec_check($_POST['enhanced_security_nonce'], 'enhanced_security_mode') ) {
+require("templates/interface/desktop/php/admin/admin-elements/iframe-security-mode.php");
+}
+elseif ( isset($_GET['section']) ) {
 require("templates/interface/desktop/php/admin/admin-elements/iframe-content-category.php");
 }
 elseif ( isset($_GET['plugin']) ) {
@@ -274,67 +333,31 @@ if ( $ct_conf['comms']['proxy_alert'] != 'off' ) {
 
 }
           	
-	
-	$bundle_error_logs .= $log_array['system_warning'];
-	
-	$bundle_error_logs .= $log_array['system_error'];
-	
-	$bundle_error_logs .= $log_array['conf_error'];
-	
-	$bundle_error_logs .= $log_array['security_error'];
-	
-	$bundle_error_logs .= $log_array['ext_data_error'];
-	
-	$bundle_error_logs .= $log_array['int_api_error'];
-	
-	$bundle_error_logs .= $log_array['market_error'];
-	
-	$bundle_error_logs .= $log_array['other_error'];
+// Log errors, send notifications
+$error_log = $ct_cache->error_log();
+$debug_log = $ct_cache->debug_log();
+$ct_cache->send_notifications();
 
 
-	foreach ( $log_array['cache_error'] as $error ) {
-	$bundle_error_logs .= $error;
-	}
-
-	foreach ( $log_array['notify_error'] as $error ) {
-	$bundle_error_logs .= $error;
-	}
-	
-	
-	if ( $ct_conf['dev']['debug'] != 'off' ) {
-	
-	$bundle_error_logs .= $log_array['system_debug'];
-	
-	$bundle_error_logs .= $log_array['conf_debug'];
-	
-	$bundle_error_logs .= $log_array['security_debug'];
-	
-	$bundle_error_logs .= $log_array['ext_data_debug'];
-	
-	$bundle_error_logs .= $log_array['int_api_debug'];
-	
-	$bundle_error_logs .= $log_array['market_debug'];
-	
-	$bundle_error_logs .= $log_array['other_debug'];
-	
-	
-		foreach ( $log_array['cache_debug'] as $error ) {
-		$bundle_error_logs .= $error;
-		}
-	
-		foreach ( $log_array['notify_debug'] as $error ) {
-		$bundle_error_logs .= $error;
-		}
+// IF WE HAVE A LOG WRITE ERROR FOR ANY LOGS, PRINT IT IN THE FOOTER HERE
 		
-	
-	}
-    
-    
-    ?>
+if ( $error_log != true ) {
+?>
+<div class="red" style='font-weight: bold;'><?=$error_log?></div>
+<?php
+}
+		
+if ( $ct_conf['dev']['debug'] != 'off' && $debug_log != true ) {
+?>
+<div class="red" style='font-weight: bold;'><?=$debug_log?></div>
+<?php
+}
+    		
 
+?>
 
             	
-<div id="iframe_error_alert" style='display: none;'><?=$bundle_error_logs?></div>
+<div id="iframe_error_alert" style='display: none;'><?php echo $alerts_gui_errors . ( isset($alerts_gui_debugging) && $alerts_gui_debugging != '' ? '============<br />DEBUGGING:<br />============<br />' . $alerts_gui_debugging : '' ); ?></div>
 
 	
 <script>
@@ -407,10 +430,6 @@ if ( $_GET['refresh'] ) {
  */ -->
  
  <?php
-          	
-// Log errors, send notifications
-$error_log = $ct_cache->error_log();
-$ct_cache->send_notifications();
  
 flush(); // Clean memory output buffer for echo
 gc_collect_cycles(); // Clean memory cache

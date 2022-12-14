@@ -21,6 +21,15 @@ var $ct_array = array();
    function titles_usort_alpha($a, $b) {
    return strcmp( strtolower($a["title"]) , strtolower($b["title"]) ); // Case-insensitive equivelent comparision via strtolower()
    }
+
+
+   ////////////////////////////////////////////////////////
+   ////////////////////////////////////////////////////////
+   
+   
+   function timestamps_usort_num($a, $b) {
+   return strcmp($a['timestamp'], $b['timestamp']); 
+   }
    
    
    ////////////////////////////////////////////////////////
@@ -223,6 +232,22 @@ var $ct_array = array();
    ////////////////////////////////////////////////////////
    
    
+   function pass_sec_check($val, $hash_key) {
+   
+      if ( isset($val) && trim($val) != '' && $this->admin_hashed_nonce($hash_key) != false && $val == $this->admin_hashed_nonce($hash_key) ) {
+      return true;
+      }
+      else {
+      return false;
+      }
+   
+   }
+
+
+   ////////////////////////////////////////////////////////
+   ////////////////////////////////////////////////////////
+   
+   
    function admin_security_level_check() {
        
    global $default_ct_conf, $check_default_ct_conf, $admin_area_sec_level;
@@ -237,7 +262,8 @@ var $ct_array = array();
          }
       
       }
-      elseif ( $admin_area_sec_level == 'normal' ) {
+      // Enhanced / Normal security modes
+      else {
       return true;
       }
    
@@ -658,6 +684,49 @@ var $ct_array = array();
       }
    
    }
+
+
+   ////////////////////////////////////////////////////////
+   ////////////////////////////////////////////////////////
+   
+   
+   function sort_log($log) {
+       
+      
+      if ( isset($log) && $log != '' ) {
+          
+      $result = null;
+      
+      $sortable_array = array();
+       
+      $log_array = explode("[LOG]", $log);
+       
+          // Put logs in an array we can sort by timestamp
+          foreach( $log_array as $entry ) {
+              
+              if ( stristr($entry, '[TIMESTAMP]') ) {
+              $entry_array = explode("[TIMESTAMP]", $entry);
+              $sortable_array[] = array('timestamp' => $entry_array[0], 'entry' => $entry_array[1]);
+              }
+
+          }
+       
+      // Sort by timestamp
+      usort($sortable_array, array($this, 'timestamps_usort_num') );
+       
+          // Return to normal string, after sorting logs by timestamp
+          foreach( $sortable_array as $val ) {
+          $result .= $val['entry'];
+          }
+       
+      return $result;
+      }
+      else {
+      return false;
+      }
+      
+   
+   }
    
    
    ////////////////////////////////////////////////////////
@@ -934,26 +1003,26 @@ var $ct_array = array();
    $result = chmod($path, $perm);
 
        
-     if ( $result ) {
-     
-     $dir = new DirectoryIterator($path);
-    
-         foreach ($dir as $item) {
-            
-            if ($item->isDir() && !$item->isDot()) {
-            $this->chmod_path($item->getPathname(), $perm);
-            }
-            
+         if ( $result ) {
+         
+         $dir = new DirectoryIterator($path);
+        
+             foreach ($dir as $item) {
+                
+                if ($item->isDir() && !$item->isDot()) {
+                $this->chmod_path($item->getPathname(), $perm);
+                }
+                
+             }
+         
+         return true;
+         
          }
-     
-     return true;
-     
-     }
-     else {
-     $chmod_val = substr( sprintf( '%o' , fileperms($path) ) , -4 );
-     $change_dir_perm[] = $path . ':' . substr($chmod_val, 1);
-     return false;
-     }
+         else {
+         $chmod_val = substr( sprintf( '%o' , fileperms($path) ) , -4 );
+         $change_dir_perm[] = $path . ':' . substr($chmod_val, 1);
+         return false;
+         }
      
     
    }
@@ -1007,8 +1076,8 @@ var $ct_array = array();
    $input_length = strlen($input);
    $random_str = '';
            
-            $count = 0;
-            while ( $count < $strength ) {
+          $count = 0;
+          while ( $count < $strength ) {
                   
             $rand_case = rand(1, 2);
                   
@@ -1028,7 +1097,7 @@ var $ct_array = array();
                }
 
             
-            }
+          }
            
    return $random_str;
    
@@ -1393,7 +1462,15 @@ var $ct_array = array();
    
    function log($log_type, $log_msg, $verbose_tracing=false, $hashcheck=false, $overwrite=false) {
    
-   global $runtime_mode, $ct_conf, $log_array;
+   global $runtime_mode, $ct_conf, $ct_var, $log_errors, $log_debugging;
+   
+   // Since we sort by timestamp, we want millisecond accuracy (if possible), for ordering logs before output
+   $timestamp_milliseconds = $ct_var->num_to_str( floor(microtime(true) * 1000) );
+   
+   // Get millisecond decimals for log human-readable timestamps
+   $decimals_milliseconds = '.' . substr($timestamp_milliseconds, -3);
+   
+   $formatted_time = date('Y-m-d H:i:s') . $decimals_milliseconds;
    
    
    // Less verbose log category
@@ -1406,20 +1483,45 @@ var $ct_array = array();
       if ( $ct_conf['dev']['log_verb'] == 'normal' ) {
       $verbose_tracing = false;
       }
+      
+      
+      if ( preg_match("/_debug/i", $log_type) ) {
+          
    
-   
-      if ( $hashcheck != false ) {
-      $log_array[$log_type][$hashcheck] = '[' . date('Y-m-d H:i:s') . '] ' . $runtime_mode . ' => ' . $category . ': ' . $log_msg . ( $verbose_tracing != false ? '; [ '  . $verbose_tracing . ' ]' : ';' ) . " <br /> \n";
-      }
-      // We parse cache errors as array entries (like when hashcheck is included, BUT NO ARRAY KEY)
-      elseif ( $category == 'cache' ) {
-      $log_array[$log_type][] = '[' . date('Y-m-d H:i:s') . '] ' . $runtime_mode . ' => ' . $category . ': ' . $log_msg . ( $verbose_tracing != false ? '; [ '  . $verbose_tracing . ' ]' : ';' ) . " <br /> \n";
-      }
-      elseif ( $overwrite != false ) {
-      $log_array[$log_type] = '[' . date('Y-m-d H:i:s') . '] ' . $runtime_mode . ' => ' . $category . ': ' . $log_msg . ( $verbose_tracing != false ? '; [ '  . $verbose_tracing . ' ]' : ';' ) . " <br /> \n";
+          if ( $hashcheck != false ) {
+          $log_debugging[$log_type][$hashcheck] = '[LOG]'.$timestamp_milliseconds.'[TIMESTAMP][' . $formatted_time . '] ' . $runtime_mode . ' => ' . $category . ': ' . $log_msg . ( $verbose_tracing != false ? '; [ '  . $verbose_tracing . ' ]' : ';' ) . " <br /> \n";
+          }
+          // We parse cache errors as array entries (like when hashcheck is included, BUT NO ARRAY KEY)
+          elseif ( $category == 'cache' ) {
+          $log_debugging[$log_type][] = '[LOG]'.$timestamp_milliseconds.'[TIMESTAMP][' . $formatted_time . '] ' . $runtime_mode . ' => ' . $category . ': ' . $log_msg . ( $verbose_tracing != false ? '; [ '  . $verbose_tracing . ' ]' : ';' ) . " <br /> \n";
+          }
+          elseif ( $overwrite != false ) {
+          $log_debugging[$log_type] = '[LOG]'.$timestamp_milliseconds.'[TIMESTAMP][' . $formatted_time . '] ' . $runtime_mode . ' => ' . $category . ': ' . $log_msg . ( $verbose_tracing != false ? '; [ '  . $verbose_tracing . ' ]' : ';' ) . " <br /> \n";
+          }
+          else {
+          $log_debugging[$log_type] .= '[LOG]'.$timestamp_milliseconds.'[TIMESTAMP][' . $formatted_time . '] ' . $runtime_mode . ' => ' . $category . ': ' . $log_msg . ( $verbose_tracing != false ? '; [ '  . $verbose_tracing . ' ]' : ';' ) . " <br /> \n";
+          }
+      
+      
       }
       else {
-      $log_array[$log_type] .= '[' . date('Y-m-d H:i:s') . '] ' . $runtime_mode . ' => ' . $category . ': ' . $log_msg . ( $verbose_tracing != false ? '; [ '  . $verbose_tracing . ' ]' : ';' ) . " <br /> \n";
+          
+   
+          if ( $hashcheck != false ) {
+          $log_errors[$log_type][$hashcheck] = '[LOG]'.$timestamp_milliseconds.'[TIMESTAMP][' . $formatted_time . '] ' . $runtime_mode . ' => ' . $category . ': ' . $log_msg . ( $verbose_tracing != false ? '; [ '  . $verbose_tracing . ' ]' : ';' ) . " <br /> \n";
+          }
+          // We parse cache errors as array entries (like when hashcheck is included, BUT NO ARRAY KEY)
+          elseif ( $category == 'cache' ) {
+          $log_errors[$log_type][] = '[LOG]'.$timestamp_milliseconds.'[TIMESTAMP][' . $formatted_time . '] ' . $runtime_mode . ' => ' . $category . ': ' . $log_msg . ( $verbose_tracing != false ? '; [ '  . $verbose_tracing . ' ]' : ';' ) . " <br /> \n";
+          }
+          elseif ( $overwrite != false ) {
+          $log_errors[$log_type] = '[LOG]'.$timestamp_milliseconds.'[TIMESTAMP][' . $formatted_time . '] ' . $runtime_mode . ' => ' . $category . ': ' . $log_msg . ( $verbose_tracing != false ? '; [ '  . $verbose_tracing . ' ]' : ';' ) . " <br /> \n";
+          }
+          else {
+          $log_errors[$log_type] .= '[LOG]'.$timestamp_milliseconds.'[TIMESTAMP][' . $formatted_time . '] ' . $runtime_mode . ' => ' . $category . ': ' . $log_msg . ( $verbose_tracing != false ? '; [ '  . $verbose_tracing . ' ]' : ';' ) . " <br /> \n";
+          }
+      
+      
       }
    
    
@@ -4160,11 +4262,11 @@ var $ct_array = array();
     	
     	
         	// Check to see if we need to upgrade the CACHED app config (NEW / DEPRECIATED CORE VARIABLES ONLY, NOT OVERWRITING EXISTING CORE VARIABLES)
-    	    if ( $admin_area_sec_level == 'normal' && $mode == 'upgrade_checks' ) {
+    	    if ( $admin_area_sec_level != 'high' && $mode == 'upgrade_checks' ) {
     	    $upgrade_cache_ct_conf = $this->upgrade_cache_ct_conf($passed_config);
     	    }
             // CACHED WITH NO UPGRADE FLAG
-    	    elseif ( $admin_area_sec_level == 'normal' ) {
+    	    elseif ( $admin_area_sec_level != 'high' ) {
     	    $upgrade_cache_ct_conf = $passed_config;
     	    }
         	// (REFRESHES CACHED APP CONFIG TO EXACTLY MIRROR THE HARD-CODED VARIABLES IN CONFIG.PHP, IF CONFIG.PHP IS CHANGED IN EVEN THE SLIGHTEST WAY)
@@ -4193,11 +4295,11 @@ var $ct_array = array();
     	
     	
                 	// Check to see if we need to upgrade the CACHED app config (NEW / DEPRECIATED CORE VARIABLES ONLY, NOT OVERWRITING EXISTING CORE VARIABLES)
-            	    if ( $admin_area_sec_level == 'normal' && $mode == 'upgrade_checks' ) {
+            	    if ( $admin_area_sec_level != 'high' && $mode == 'upgrade_checks' ) {
             	    $upgrade_cache_ct_conf = $this->upgrade_cache_ct_conf($cached_restore_conf);
             	    }
             	    // CACHED WITH NO UPGRADE FLAG
-            	    elseif ( $admin_area_sec_level == 'normal' ) {
+            	    elseif ( $admin_area_sec_level != 'high' ) {
             	    $upgrade_cache_ct_conf = $cached_restore_conf;
             	    }
                 	// (REFRESHES CACHED APP CONFIG TO EXACTLY MIRROR THE HARD-CODED VARIABLES IN CONFIG.PHP, IF CONFIG.PHP IS CHANGED IN EVEN THE SLIGHTEST WAY)

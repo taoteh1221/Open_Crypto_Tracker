@@ -6,10 +6,7 @@
 
 
 // UNIT TESTS
-
-
-// ONLY RUN THESE UNIT TESTS IF RUNTIME IS UI (web page loading)
-// RUN DURING 'ui' ONLY
+// ONLY RUN THESE UNIT TESTS IF RUNTIME IS UI (main web page loading)
 if ( $runtime_mode == 'ui' ) {
 
 
@@ -26,27 +23,37 @@ if ( $runtime_mode == 'ui' ) {
 		
 		$check_asset_params = explode("||", $val);
 		
-		$check_pair_name = $ct_conf['assets'][$check_asset]['pair'][ $check_asset_params[1] ][ $check_asset_params[0] ];
+		$check_market_id = $ct_conf['assets'][$check_asset]['pair'][ $check_asset_params[1] ][ $check_asset_params[0] ];
 		
 		// Consolidate function calls for runtime speed improvement
-		$charts_test_data = $ct_api->market($check_asset, $check_asset_params[0], $check_pair_name, $check_asset_params[1]);
+		$charts_test_data = $ct_api->market($check_asset, $check_asset_params[0], $check_market_id, $check_asset_params[1]);
 		
-			if ( !isset($charts_test_data['last_trade']) || !is_numeric($charts_test_data['last_trade']) || $ct_var->num_to_str($charts_test_data['last_trade']) < 0.0000000000000001 ) {
+		
+			if ( isset($charts_test_data['last_trade']) && $ct_var->num_to_str($charts_test_data['last_trade']) >= 0.0000000000000001 ) {
+			// DO NOTHING (IS SET / AT LEAST 0.0000000000000001 IN VALUE)
+			}
+			// TEST FAILURE
+			else {
 				
 			$ct_gen->log(
-						'market_error',
-						'No chart / alert price data available',
-						'chart_key: ' . $key . '; market: ' . $check_asset . ' / ' . strtoupper($check_asset_params[1]) . ' @ ' . ucfirst($check_asset_params[0])
+						'market_debug',
+						'No chart / alert price data available: (conf_key='.$key.',last_trade='.$ct_var->num_to_str($charts_test_data['last_trade']).')',
+						'market: ' . $check_asset . ' / ' . strtoupper($check_asset_params[1]) . ' @ ' . ucfirst($check_asset_params[0])
 						);
 			
 			}
 			
-			if ( !isset($charts_test_data['$charts_test_data']) || !is_numeric($charts_test_data['24hr_prim_currency_vol']) || $charts_test_data['24hr_prim_currency_vol'] < 1 ) {
+			
+			if ( isset($charts_test_data['24hr_prim_currency_vol']) && $ct_var->num_to_str($charts_test_data['24hr_prim_currency_vol']) >= 1 ) {
+			// DO NOTHING (IS SET / AT LEAST 1 IN VALUE)
+			}
+			// TEST FAILURE
+			else {
 				
 			$ct_gen->log(
-						'market_error',
-						'No chart / alert volume data available',
-						'chart_key: ' . $key . '; market: ' . $check_asset . ' / ' . strtoupper($check_asset_params[1]) . ' @ ' . ucfirst($check_asset_params[0])
+						'market_debug',
+						'No chart / alert trade volume data available: (conf_key='.$key.',trade_volume='.$ct_var->num_to_str($charts_test_data['24hr_prim_currency_vol']).')',
+						'market: ' . $check_asset . ' / ' . strtoupper($check_asset_params[1]) . ' @ ' . ucfirst($check_asset_params[0])
 						);
 			
 			}
@@ -71,7 +78,7 @@ if ( $runtime_mode == 'ui' ) {
 				if ( $test_result != 'valid' ) {
 					
 				$ct_gen->log(
-							'other_error',
+							'other_debug',
 							'email-to-mobile-text gateway '.trim($val).' does not appear valid',
 							'key: ' . $key . '; gateway: ' . trim($val) . '; result: ' . $test_result
 							);
@@ -103,23 +110,34 @@ if ( $runtime_mode == 'ui' ) {
 					// Consolidate function calls for runtime speed improvement
 					$markets_test_data = $ct_api->market( strtoupper($asset_key) , $key, $val, $pair_key);
 				
-						if ( !isset($markets_test_data['last_trade']) || !is_numeric($markets_test_data['last_trade']) || $ct_var->num_to_str($markets_test_data['last_trade']) < 0.0000000000000001 ) {
+				
+						if ( isset($markets_test_data['last_trade']) && $ct_var->num_to_str($markets_test_data['last_trade']) >= 0.0000000000000001 ) {
+            			// DO NOTHING (IS SET / AT LEAST 0.0000000000000001 IN VALUE)
+            			}
+            			// TEST FAILURE
+            			else {
 							
 						$ct_gen->log(
-									'market_error',
+									'market_debug',
 									'No market price data available for ' . strtoupper($asset_key) . ' / ' . strtoupper($pair_key) . ' @ ' . $ct_gen->key_to_name($key)
 									);
 						
 						}
 					
-						if ( !isset($markets_test_data['24hr_prim_currency_vol']) || !is_numeric($markets_test_data['24hr_prim_currency_vol']) || $markets_test_data['24hr_prim_currency_vol'] < 1 ) {
+					
+						if ( isset($markets_test_data['24hr_prim_currency_vol']) && $ct_var->num_to_str($markets_test_data['24hr_prim_currency_vol']) >= 1 ) {
+            			// DO NOTHING (IS SET / AT LEAST 1 IN VALUE)
+            			}
+            			// TEST FAILURE
+            			else {
 							
 						$ct_gen->log(
-									'market_error',
+									'market_debug',
 									'No market volume data available for ' . strtoupper($asset_key) . ' / ' . strtoupper($pair_key) . ' @ ' . $ct_gen->key_to_name($key)
 									);
 						
 						}
+						
 					
 					}
 				

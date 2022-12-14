@@ -70,10 +70,11 @@ $ct_conf['sec']['smtp_strict_ssl'] = 'off'; // (DEFAULT IS 'off', TO ASSURE SMTP
 $ct_conf['sec']['remote_api_strict_ssl'] = 'off'; // (default = 'off')
 
 
-// Set CORS 'Access-Control-Allow-Origin' (controls what web domains can load this app's AJAX scripts, etc)
-// Set to 'any' if this web server's domain can vary / redirect (some INITIAL visits are 'www.mywebsite.com', AND some are 'mywebsite.com')
+// Set CORS 'Access-Control-Allow-Origin' (controls what web domains can load this app's admin / user pages, AJAX scripts, etc)
+// Set to 'any' if this web server's domain can vary / redirect (eg: some INITIAL visits are 'www.mywebsite.com', AND some are 'mywebsite.com')
 // Set to 'strict' if this web server's domain CANNOT VARY / REDIRECT (it's always 'mywebsite.com', EVERY VISIT #WITHOUT EXCEPTIONS#)
-// #CHANGE WITH CAUTION#, AS 'strict' #CAN BREAK CHARTS / LOGS / ETC FROM LOADING# ON SOME SETUPS!
+// 'strict' mode blocks all CSRF / XSS attacks on resources using this setting, ALTHOUGH NOT REALLY NEEDED AS SERVER EDITIONS USE STRICT / SECURE COOKIES
+// #CHANGE WITH CAUTION#, AS 'strict' #CAN BREAK CHARTS / LOGS / NEWS FEEDS / ADMIN SECTIONS / ETC FROM LOADING# ON SOME SETUPS!
 $ct_conf['sec']['access_control_origin'] = 'any'; // 'any' / 'strict' (default = 'any')
 		
 
@@ -153,9 +154,9 @@ $ct_conf['gen']['btc_prim_currency_pair'] = 'usd'; // PUT INSIDE SINGLE QUOTES (
 // Default BITCOIN market exchanges (30+ bitcoin exchanges supported)
 // (set for default Bitcoin market, and charts / price alert primary-currency-equivalent value determination [example: usd value of btc/ltc market, etc])
 // binance / binance_us / bit2c / bitbns / bitfinex / bitflyer / bitmex / bitpanda / bitso / bitstamp 
-// bittrex / bittrex_global / btcmarkets / btcturk / buyucoin / cex / coinbase / coindcx / coingecko_usd 
-// coinspot / gemini / hitbtc / huobi / korbit / kraken / kucoin / liquid / localbitcoins / loopring_amm 
-// luno / okcoin / okex / southxchange / unocoin / upbit / wazirx
+// bittrex / bittrex_global / btcmarkets / btcturk / buyucoin / cex / coinbase / coindcx / coingecko_sgd 
+// coingecko_twd / coingecko_usd / coinspot / gemini / hitbtc / huobi / korbit / kraken / kucoin / liquid 
+// localbitcoins / loopring_amm / luno / okcoin / okex / southxchange / unocoin / upbit / wazirx
 // SEE THE $ct_conf['assets']['BTC'] CONFIGURATION NEAR THE BOTTOM OF THIS CONFIG FILE, FOR THE PROPER (CORRESPONDING)
 // 'BTC' EXCHANGE VALUE NEEDED FOR YOUR CHOSEN MARKET PAIR (set in $ct_conf['gen']['btc_prim_currency_pair'] directly above)
 // SEE THE $ct_conf['dev']['limited_apis'] SETTING FURTHER DOWN IN THE DEVELOPER SECTION, FOR EXCHANGES !NOT RECOMMENDED FOR USAGE HERE!
@@ -452,7 +453,7 @@ $ct_conf['charts_alerts']['tracked_mrkts'] = array(
 					'btc-21' => 'localbitcoins||nzd||none',
 					'btc-22' => 'localbitcoins||rub||none',
 					'btc-24' => 'btcturk||try||none',
-					'btc-25' => 'localbitcoins||twd||none',
+					'btc-25' => 'coingecko_twd||twd||none',
 					'btc-26' => 'luno||zar||none',
 					'btc-27' => 'kraken||dai||none',
 					'btc-28' => 'bitmex||usd||both',
@@ -1205,12 +1206,6 @@ $ct_conf['power']['news_feed'] = array(
     
     
         				array(
-            			"title" => "Newsletter - EthHub",
-            			"url" => "https://ethhub.substack.com/feed"
-        						),
-    
-    
-        				array(
             			"title" => "Newsletter - Lightning Labs (Bitcoin Layer 2 Network)",
             			"url" => "https://lightninglabs.substack.com/feed"
         						),
@@ -1267,12 +1262,6 @@ $ct_conf['power']['news_feed'] = array(
         				array(
             			"title" => "Podcast - Citadel Dispatch",
             			"url" => "https://anchor.fm/s/45563e80/podcast/rss"
-        						),
-    
-    
-        				array(
-            			"title" => "Podcast - Into the Ether",
-            			"url" => "https://podcast.ethhub.io/rss"
         						),
     					
     					
@@ -1399,6 +1388,12 @@ $ct_conf['power']['news_feed'] = array(
         				array(
             			"title" => "Stocks - AlphaStreet",
             			"url" => "https://news.alphastreet.com/feed/"
+        						),
+    
+    
+        				array(
+            			"title" => "Stocks - Grit Capital",
+            			"url" => "https://gritcapital.substack.com/feed"
         						),
     
     
@@ -2058,7 +2053,6 @@ $ct_conf['assets'] = array(
                                           'coinbase' => 'BTC-EUR',
                                           'kraken' => 'XXBTZEUR',
                                           'bitstamp' => 'btceur',
-                                          'okcoin' => 'BTC-EUR',
                                           'bittrex_global' => 'BTC-EUR',
                                           'bitpanda' => 'BTC_EUR',
                                           'bitflyer' => 'BTC_EUR',
@@ -2285,7 +2279,7 @@ $ct_conf['assets'] = array(
                                                     
                                     'sgd' => array(
                                           'localbitcoins' => 'SGD',
-                                          'okcoin' => 'BTC-SGD',
+                                          'coingecko_sgd' => 'bitcoin',
                                                     ),
 
                                                     
@@ -2300,13 +2294,9 @@ $ct_conf['assets'] = array(
                                                     ),
 
                                                     
-                                    'tusd' => array(
-                                          'binance' => 'BTCTUSD',
-                                                    ),
-
-                                                    
                                     'twd' => array(
                                           'localbitcoins' => 'TWD',
+                                          'coingecko_twd' => 'bitcoin',
                                                     ),
 
                                                     
@@ -2346,7 +2336,6 @@ $ct_conf['assets'] = array(
 
                                                     
                                     'usdc' => array(
-                                          'binance' => 'BTCUSDC',
                                           'kraken' => 'XBTUSDC',
                                           'southxchange' => 'BTC/USDC',
                                                     ),
@@ -2355,7 +2344,6 @@ $ct_conf['assets'] = array(
                                     'usdt' => array(
                                           'binance' => 'BTCUSDT',
                                     	  'kraken' => 'XBTUSDT',
-                                          'okcoin' => 'BTC-USDT',
                                           'bittrex' => 'BTC-USDT',
                                           'btcturk' => 'BTCUSDT',
                                           'huobi' => 'btcusdt',
@@ -2472,7 +2460,6 @@ $ct_conf['assets'] = array(
                                           'coinbase' => 'ETH-EUR',
                                           'kraken' => 'XETHZEUR',
                                           'bitstamp' => 'etheur',
-                                          'okcoin' => 'ETH-EUR',
                                           'bittrex_global' => 'ETH-EUR',
                                           'cex' => 'ETH:EUR',
                                                     ),
@@ -2520,12 +2507,7 @@ $ct_conf['assets'] = array(
 
                                                     
                                     'sgd' => array(
-                                          'okcoin' => 'ETH-SGD',
-                                                    ),
-
-                                                    
-                                    'tusd' => array(
-                                          'binance' => 'ETHTUSD',
+                                          'coingecko_sgd' => 'ethereum',
                                                     ),
 
                                                     
@@ -2568,7 +2550,6 @@ $ct_conf['assets'] = array(
 
                                                     
                                     'usdc' => array(
-                                          'binance' => 'ETHUSDC',
                                           'kraken' => 'ETHUSDC',
                                           'kucoin' => 'ETH-USDC',
                                           'loopring_amm' => 'AMM-ETH-USDC',
@@ -2656,16 +2637,9 @@ $ct_conf['assets'] = array(
                                     	 'kraken' => 'SOLUSD',
                                     	 'binance_us' => 'SOLUSD',
                                     	 'bitfinex' => 'tSOLUSD',
-                                         'okcoin' => 'SOL-USD',
                                          'gateio' => 'SOL_USD',
                                          'hitbtc' => 'SOLUSD',
                                          'cex' => 'SOL:USD',
-                                                    ),
-
-                                                    
-                                    'usdc' => array(
-                                        'binance' => 'SOLUSDC',
-                                    	'crypto.com' => 'SOL_USDC',
                                                     ),
 
                                                     
@@ -3004,7 +2978,6 @@ $ct_conf['assets'] = array(
                                     	'coinbase' => 'DAI-USD',
                                     	'kraken' => 'DAIUSD',
                                         'binance_us' => 'DAIUSD',
-                                        'okcoin' => 'DAI-USD',
                                     	'bitfinex' => 'tDAIUSD',
                                         'bittrex' => 'DAI-USD',
                                         'gemini' => 'daiusd',
@@ -3056,7 +3029,6 @@ $ct_conf['assets'] = array(
 
                                                     
                                     'usdt' => array(
-                                        'binance' => 'USDCUSDT',
                                     	'kraken' => 'USDCUSDT',
                                         'huobi' => 'usdcusdt',
                                         'kucoin' => 'USDC-USDT',
@@ -3181,7 +3153,6 @@ $ct_conf['assets'] = array(
                                     'usd' => array(
                                     	 'kraken' => 'ATLASUSD',
                                     	 'bitfinex' => 'tATLAS:USD',
-                                         'okcoin' => 'ATLAS-USD',
                                     	 'coingecko_usd' => 'star-atlas',
                                                     ),
 
@@ -3301,9 +3272,13 @@ $ct_conf['assets'] = array(
                                                     ),
 
                                                     
+                                    'usd' => array(
+                                        'coingecko_usd' => 'solrise-finance',
+                                                    ),
+
+                                                    
                                     'usdt' => array(
                                         'gateio' => 'SLRS_USDT',
-                                        'coinex' => 'SLRSUSDT',
                                                     ),
 
                                                     
@@ -3380,7 +3355,6 @@ $ct_conf['assets'] = array(
                                                     
                                     'usdt' => array(
                                     	'binance_us' => 'HNTUSDT',
-                                    	'crypto.com' => 'HNT_USDT',
                                         'hotbit' => 'HNT_USDT',
                                         'gateio' => 'HNT_USDT',
                                         'wazirx' => 'hntusdt',
@@ -3457,7 +3431,6 @@ $ct_conf['assets'] = array(
 
                                                     
                                     'usdt' => array(
-                                    	'crypto.com' => 'ZBC_USDT',
                                         'huobi' => 'zbcusdt',
                                         'gateio' => 'ZBC_USDT',
                                         'bitmart' => 'ZBC_USDT',

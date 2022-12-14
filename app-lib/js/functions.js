@@ -163,7 +163,7 @@ today = new Date();
 date = today.getUTCFullYear() + '-' + force_2_digits(today.getUTCMonth() + 1) + '-' + force_2_digits( today.getUTCDate() );
 time = force_2_digits( today.getUTCHours() ) + ":" + force_2_digits( today.getUTCMinutes() ) + ":" + force_2_digits( today.getUTCSeconds() );
 
-$("span.utc_timestamp").text('[' + date + ' ' + time + ']');
+$("span.utc_timestamp").text('[' + date + ' ' + time + '.000]');
 
 utc_time = setTimeout(start_utc_time, 1000);
 
@@ -209,14 +209,21 @@ $("#coins_table").find("th:eq("+col+")").trigger("sort");
 
 function iframe_adjust(elm) {
 
+
     // Set proper page zoom on the iframe
     if ( app_edition == 'desktop' ) {
     elm.contentWindow.document.body.style.zoom = currzoom + '%';
     }
 
-// Now that we've set any required zoom level, adjust the height
 
-extra = elm.id == 'iframe_system_stats' ? 1000 : 100;
+    // Now that we've set any required zoom level, adjust the height
+    if ( elm.id == 'iframe_system_stats' || elm.id == 'iframe_security' ) {
+    extra = 1000;
+    }
+    else {
+    extra = 100;
+    }
+
 
 elm.height = (elm.contentWindow.document.body.scrollHeight + extra) + "px";
               
@@ -378,8 +385,8 @@ function ajax_placeholder(px_size, align, message=null, display_mode=null){
 
 function set_admin_security(obj) {
 
-		if ( obj.value == "normal" ) {
-	    var int_api_key_reset = confirm("'Normal' admin security mode is currently a BETA (TEST) FEATURE, AND USING IT MAY LEAD TO ISSUES UPDATING YOUR APP CONFIGURATION (editing from the PHP config files will be DISABLED).\n\nYou can RE-DISABLE this BETA feature AFTER activating it, and you will be able to update your app configuration from the PHP config files again.");
+		if ( obj.value == "normal" || obj.value == "enhanced" ) {
+	    var int_api_key_reset = confirm("'Enhanced' and 'Normal' admin security modes are currently BETA (TEST) FEATURES, AND USING THEM MAY LEAD TO ISSUES UPDATING YOUR APP CONFIGURATION (editing from the PHP config files will be DISABLED).\n\nYou can RE-DISABLE these BETA features AFTER activating them (by setting the security mode back to 'High'), and you will be able to update your app configuration from the PHP config files again.");
 		}
 		else {
 	    var int_api_key_reset = confirm("High security admin mode requires you to update your app configuration from the PHP config files.");
@@ -1203,7 +1210,7 @@ not_whole_num = (log_lines - Math.floor(log_lines)) !== 0;
     	  
     	  	
    // Get log data
-	$.getJSON("ajax.php?type=log&logfile=" + log_file + '&lines=' + set_lines, function( data ) {
+	$.getJSON("ajax.php?token=" + Base64.decode(logs_csrf_sec_token) + "&type=log&logfile=" + log_file + '&lines=' + set_lines, function( data ) {
       
    	data_length = data.length;
    	

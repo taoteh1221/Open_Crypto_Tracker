@@ -56,7 +56,7 @@ require("templates/interface/desktop/php/admin/admin-elements/admin-page-iframe.
 }
 // Security monitoring
 else {
-$security_error = 'Admin nonce expired / incorrect (' . $remote_ip . ')';
+$security_error = 'Admin nonce expired / incorrect (' . $remote_ip . '). Try reloading the app.';
 $ct_gen->log('security_error', $security_error);
 echo $security_error;
 // Log errors before exiting

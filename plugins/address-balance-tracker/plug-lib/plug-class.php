@@ -194,10 +194,10 @@ var $array1 = array();
    
     function obfusc_addr($address) {
       
-    global $ct_var, $log_array;
+    global $ct_var, $log_errors;
     
-       foreach ( $log_array as $key => $val ) {
-       $log_array[$key] = str_replace($address, $ct_var->obfusc_str($address, 1), $log_array[$key]);
+       foreach ( $log_errors as $key => $val ) {
+       $log_errors[$key] = str_replace($address, $ct_var->obfusc_str($address, 1), $log_errors[$key]);
        }
    
     }

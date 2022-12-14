@@ -47,6 +47,15 @@ OPTIMIZATIONS / BUGS / TESTS / UX / QA / OTHER SECTION
 ///////////////////////////////////////////////////////
 
 
+HUGE 'TONS OF COOKIE DATA' ISSUE ON SERVERS ALREADY RUNNING #OTHER# WEB APPS (LIKE WORDPRESS) #AT THE SAME TIME / ON SAME DOMAIN# (AS IT CAN GO OVER THE SERVER HEADER LIMIT AND CRASH THE WEB APP LOADING BOTH APP'S COOKIES INTO THE HEADER): Since we already wait for the page to load for initiating batch-grabbing news feeds(?), maybe we can store the user-selected feeds in local storage, since the data set is potentially VERY large (to save alot on cookie header data)? Look over the batch loading logic, and see if we can do it more with JavaScript instead of PHP (except for the ajax calls to the server AFTER we know what was user-chosen). Same should generally go for price charts (as we ALSO load after the page has loaded), so look into that too.
+
+
+Look into Aptos support for the 'address-balance-tracker' plugin (see the API notes section for public endpoints REST API docs).
+
+
+Add more Jupiter agg markets to Solana coins in demo config, and in price target plugin.
+
+
 ADMIN IFRAME BUILDOUT NOTES:
 
 -COMPLETED: Should NOT load until tab clicked (for fast load of initial showing section)
@@ -61,22 +70,10 @@ ADMIN IFRAME BUILDOUT NOTES:
 
 -TODO: CURRENT admin config should be BACKED-UP #RIGHT BEFORE# UPDATING VIA THE INTERFACE (after a validity check), IN CASE THE END-USER WANTS / NEEDS TO REVERT TO LAST KNOWN WORKING CONFIG
 
--TODO: Build the HTML rendering CONFIGs for each admin config setting's fields, based off initial work at the top off the file: /templates/interface/desktop/php/admin/admin-sections/developer.php
+-TODO: "Build the HTML rendering CONFIGs for each admin config setting's fields" SHOULD NOT BE USED (AS ORIGINALLY THOUGHT), RENDER THEM STATICALLY INSTEAD, AS IT AVOIDS OVER-COMPLICATING THE REQUIRED CUSTOMIZATION NEEDED PER-SETTING (INCLUDING ERROR CHECKS BEFORE SUBMISSION)
 
 
 ```````````````````````````````````````````````````````````````````````````````````````````````````````````````
-
-
-HUGE 'TONS OF COOKIE DATA' ISSUE ON SERVERS ALREADY RUNNING #OTHER# WEB APPS (LIKE WORDPRESS) #AT THE SAME TIME / ON SAME DOMAIN# (AS IT CAN GO OVER THE SERVER HEADER LIMIT AND CRASH THE WEB APP LOADING BOTH APP'S COOKIES INTO THE HEADER): Since we already wait for the page to load for initiating batch-grabbing news feeds(?), maybe we can store the user-selected feeds in local storage, since the data set is potentially VERY large (to save alot on cookie header data)? Look over the batch loading logic, and see if we can do it more with JavaScript instead of PHP (except for the ajax calls to the server AFTER we know what was user-chosen). Same should generally go for price charts (as we ALSO load after the page has loaded), so look into that too.
-
-
-Put a title at the top of each admin iframe, so it's clearly obvious what page your on, even if it's tab is way down in the side menu.
-
-
-Look into Aptos support for the 'address-balance-tracker' plugin (see the API notes section for public endpoints REST API docs).
-
-
-Add more Jupiter agg markets to Solana coins in demo config, and in price target plugin.
 
 
 MAY BE A GOOD WAY TO RE-RUN init.php IF USER CORRUPTS config.php (#AFTER# backing up / overwriting the corrupt config.php with /templates/back-end/main-config.template):
@@ -103,9 +100,6 @@ Use bootstrap's built-in alert closeable pop-in to indicate 'configuration saved
 
 
 Have the light chart function create a cached var array in json (in cache/vars/ folder), and everytime a new chart system uses it, add it's BASE cache path as an array value. Then we just need to feed this array into a light charts reset function / logic that resets all KNOWN chart systems in the app that use the light charts system (including plugins)
-
-
-See what the best way is to have ALL log entries be in chronological order (currently we group by category when logging)
 
 
 Add config setting to set which asset price light chart shows by default.
