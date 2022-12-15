@@ -47,6 +47,11 @@ OPTIMIZATIONS / BUGS / TESTS / UX / QA / OTHER SECTION
 ///////////////////////////////////////////////////////
 
 
+IMPORTANT NOTES FOR BELOW-RELATED WIN11 EMAIL SENDING ISSUES: 
+
+Recurring reminder plugin demo alerts went through FINE by email / text / alexa / telegram, THEN EMAILS SEEMED TO GET DENIED A SOCKET BY WIN11 FOR CONNECTING TO THE SMTP SERVER?? THEN ALL OUTGOING COMMS MAY HAVE BEEN BLOCKED AFTER THAT?? Look into firewall / windows defender as possible culprits that may be presuming malicious activity falsely?
+
+
 Login alerts OF ANY KIND are not working in windows desktop edition, smtp error logs contained this:
 
 2022-12-15 17:15:49 UTC | smtp_error: 
