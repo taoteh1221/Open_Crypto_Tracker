@@ -67,7 +67,7 @@ $ct_conf['power']['light_chart_day_intervals'][] = 'all';
 
 
 // Idiot-proof PHP session timeout
-if ( !ctype_digit($ct_conf['sec']['session_expire']) || $ct_conf['sec']['session_expire'] <= 0 ) {
+if ( !$ct_var->whole_int($ct_conf['sec']['session_expire']) || $ct_conf['sec']['session_expire'] <= 0 ) {
 $ct_conf['sec']['session_expire'] = 1;
 }
 elseif ( $ct_conf['sec']['session_expire'] > 8 ) {

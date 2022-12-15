@@ -1645,6 +1645,9 @@ zingchart.bind('marketcap_chart', 'label_click', function(e){
     		if ( isset($system_info['model_name']) ) {
     		echo '<div class="sys_stats"><span class="bitcoin"><b>CPU:</b></span> <span class="blue"> '.$system_info['model_name'].'</span> ' . ( $system_info['cpu_threads'] > 0 ? '(' . $system_info['cpu_threads'] . ' threads)' : '' ) . ' </div>';
     		}
+    		elseif ( isset($system_info['cpu_threads']) ) {
+    		echo '<div class="sys_stats"><span class="bitcoin"><b>CPU:</b></span> <span class="blue"> '.$system_info['cpu_threads'].' threads</span> </div>';
+    		}
     		
     		if ( isset($system_info['uptime']) ) {
     		echo '<div class="sys_stats"><span class="bitcoin"><b>Uptime:</b></span> <span class="'.( isset($system_warnings['uptime']) ? 'red' : 'green' ).'"> '.$system_info['uptime'].'</span> </div>';

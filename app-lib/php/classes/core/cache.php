@@ -51,44 +51,24 @@ var $ct_array1 = array();
   $this->debug_log();
   
   }
-   
+  
   
   ////////////////////////////////////////////////////////
   ////////////////////////////////////////////////////////
   
   
-  function user_ini_defaults() {
+  function php_timeout_defaults($dir_var) {
    
-  global $base_dir, $ct_conf;
+  global $ct_conf, $ct_var;
   
   $ui_exec_time = $ct_conf['dev']['ui_max_exec_time']; // Don't overwrite globals
   
     // If the UI timeout var wasn't set properly / is not a whole number 3600 or less
-    if ( !ctype_digit($ui_exec_time) || $ui_exec_time > 3600 ) {
+    if ( !$ct_var->whole_int($ui_exec_time) || $ui_exec_time > 3600 ) {
     $ui_exec_time = 250; // Default
     }
   
-  return preg_replace("/\[PHP_TIMEOUT\]/i", $ui_exec_time, file_get_contents($base_dir . '/templates/back-end/root-app-directory-user-ini.template') );
-  
-  }
-  
-  
-  ////////////////////////////////////////////////////////
-  ////////////////////////////////////////////////////////
-  
-  
-  function htaccess_dir_defaults() {
-   
-  global $base_dir, $ct_conf;
-  
-  $ui_exec_time = $ct_conf['dev']['ui_max_exec_time']; // Don't overwrite globals
-  
-    // If the UI timeout var wasn't set properly / is not a whole number 3600 or less
-    if ( !ctype_digit($ui_exec_time) || $ui_exec_time > 3600 ) {
-    $ui_exec_time = 250; // Default
-    }
-  
-  return preg_replace("/\[PHP_TIMEOUT\]/i", $ui_exec_time, file_get_contents($base_dir . '/templates/back-end/root-app-directory-htaccess.template') );
+  return preg_replace("/\[PHP_TIMEOUT\]/i", $ui_exec_time, file_get_contents($dir_var) );
   
   }
   
@@ -213,7 +193,7 @@ var $ct_array1 = array();
       
        	if ( $password_set == true ) {
        
-       	$htaccess_contents = $this->htaccess_dir_defaults() . 
+       	$htaccess_contents = $this->php_timeout_defaults($base_dir . '/templates/back-end/root-app-directory-htaccess.template') . 
     		preg_replace("/\[BASE_DIR\]/i", $base_dir, file_get_contents($base_dir . '/templates/back-end/enable-password-htaccess.template') );
       
        	$htaccess_set = $this->save_file($base_dir . '/.htaccess', $htaccess_contents);
@@ -2255,7 +2235,7 @@ var $ct_array1 = array();
       $ct_gen->log(
       			'notify_error',
       							
-      			'Remote API timeout near OR exceeded for ' . ( $mode == 'params' ? 'server at ' : 'endpoint at ' ) . $ct_gen->obfusc_url_data($api_endpoint) . ' (' . $api_total_time . ' seconds / received ' . $data_bytes_ux . '), consider setting "remote_api_timeout" higher in POWER USER config if this persists OFTEN',
+      			'Remote API timeout near OR exceeded for ' . ( $mode == 'params' ? 'server at ' : 'endpoint at ' ) . $ct_gen->obfusc_url_data($api_endpoint) . ' (' . $api_total_time . ' seconds / received ' . $data_bytes_ux . '), consider setting "remote_api_timeout" higher in POWER USER config *IF* this persists OFTEN',
       							
       			'remote_api_timeout: ' . $ct_conf['power']['remote_api_timeout'] . ' seconds; live_request_time: ' . $api_total_time . ' seconds; mode: ' . $mode . '; received: ' . $data_bytes_ux . ';',
       							

@@ -12,7 +12,7 @@ exit;
 
 
 // Application version
-$app_version = '6.00.11';  // 2022/DECEMBER/5TH
+$app_version = '6.00.12';  // 2022/DECEMBER/15TH
 
 
 // #DEV# DEBUGGING

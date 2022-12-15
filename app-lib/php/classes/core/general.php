@@ -4034,7 +4034,7 @@ var $ct_array = array();
       }
       
       
-      // CPU stats
+      // CPU stats on Linux
       if ( is_readable('/proc/cpuinfo') ) {
       
       $cpu['cpu_info'] = $this->system_stats_file('/proc/cpuinfo', "\n", ":");
@@ -4062,6 +4062,19 @@ var $ct_array = array();
          $system['cpu_threads'] = 1; // Presume only one, if nothing parsed
          }
          
+      
+      }
+      // CPU core count on Windows
+      elseif ( PHP_OS_FAMILY == 'Windows' ) {
+      
+      $win_cpu_cores = getenv("NUMBER_OF_PROCESSORS") + 0;
+      
+         if ( $win_cpu_cores > 0 ) {
+         $system['cpu_threads'] = $win_cpu_cores;
+         }
+         else {
+         $system['cpu_threads'] = 1; // Presume only one, if nothing parsed
+         }
       
       }
    

@@ -47,6 +47,39 @@ OPTIMIZATIONS / BUGS / TESTS / UX / QA / OTHER SECTION
 ///////////////////////////////////////////////////////
 
 
+Login alerts OF ANY KIND are not working in windows desktop edition, smtp error logs contained this:
+
+2022-12-15 17:15:49 UTC | smtp_error: 
+ =========SMTP error log START================================================== 
+ Array
+(
+    [0] => Socket connection error for host: ssl://mail.dragonfrugal.org:465. Make sure your hostname and firewall settings are correct.
+    [1] => Socket connection error for host: ssl://mail.dragonfrugal.org:465. Make sure your hostname and firewall settings are correct.
+    [2] => Socket connection error for host: ssl://mail.dragonfrugal.org:465. Make sure your hostname and firewall settings are correct.
+    [3] => Socket connection error for host: ssl://mail.dragonfrugal.org:465. Make sure your hostname and firewall settings are correct.
+)
+ 
+ =========SMTP error log END================================================== 
+
+
+Emailing alerts on windows desktop edition does NOT work on win 11, find out why (it doesn't SEEM to be cacert.pem in the chache folder, BUT maybe we are getting an outdated copy downloaded from our current source?). TELEGRAM / ALEXA PRICE ALERTS DO WORK OK.
+
+
+In admin iframes when errors are printed to the parent page to show in the alerts section, they always OVERWRITE (NEVER JUST APPEND...so any OLDER alerts are removed, NOT also left there). Build detection to just append, IF errors have already been printed to the alerts section.
+
+
+Write documentation for windows users running the tash scheduler, that they no longer need to leave the windows desktop edition app open, that the backgound tasks will now run directly through the task manager.
+
+
+Add notes next to "desktop_cron_interval" config setting, that when this setting is changed, the user *MUST* RESTART / RELOAD THE APP *AFTERWARDS*
+
+
+Have countdown auto-reload pause / wait IF A BACKGROUND TASK IS RUNNING IN DESKTOP EDITIONS (then auto-reload when it's finished).
+
+
+Make advanced admin security mode 'view settings' button and notice 'sticky' positioning, like the admin section titles.
+
+
 HUGE 'TONS OF COOKIE DATA' ISSUE ON SERVERS ALREADY RUNNING #OTHER# WEB APPS (LIKE WORDPRESS) #AT THE SAME TIME / ON SAME DOMAIN# (AS IT CAN GO OVER THE SERVER HEADER LIMIT AND CRASH THE WEB APP LOADING BOTH APP'S COOKIES INTO THE HEADER): Since we already wait for the page to load for initiating batch-grabbing news feeds(?), maybe we can store the user-selected feeds in local storage, since the data set is potentially VERY large (to save alot on cookie header data)? Look over the batch loading logic, and see if we can do it more with JavaScript instead of PHP (except for the ajax calls to the server AFTER we know what was user-chosen). Same should generally go for price charts (as we ALSO load after the page has loaded), so look into that too.
 
 
