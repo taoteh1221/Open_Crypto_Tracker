@@ -64,7 +64,7 @@
 				<option value='1800' <?=( $_COOKIE['coin_reload'] == '1800' ? 'selected' : '' )?>> Every 30 Minutes </option>
 			</select> &nbsp;<span id='reload_countdown' class='red'></span>
 					
-			<p>                        
+			<p>
                             
 <?php
 // Start outputting results

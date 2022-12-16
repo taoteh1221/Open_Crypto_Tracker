@@ -166,9 +166,6 @@ header('Access-Control-Allow-Origin: ' . $app_host_address);
 	?>
 	
 	<script>
-
-	
-	window.is_iframe = true;
     
     window.is_admin = false; // Default
 	

@@ -113,7 +113,7 @@ require_once('app-lib/php/other/system-info.php');
 
 // Toggle to set the admin interface security level, if 'opt_admin_sec' from authenticated admin is verified
 // (#MUST# BE SET BEFORE BOTH cached-global-config.php AND plugins-config-check.php)
-if ( isset($_POST['opt_admin_sec']) && $ct_gen->admin_hashed_nonce('toggle_admin_security') != false && $_POST['admin_hashed_nonce'] == $ct_gen->admin_hashed_nonce('toggle_admin_security') ) {
+if ( isset($_POST['opt_admin_sec']) && $ct_gen->pass_sec_check($_POST['admin_hashed_nonce'], 'toggle_admin_security') ) {
 $admin_area_sec_level = $_POST['opt_admin_sec'];
 $ct_cache->save_file($base_dir . '/cache/vars/admin_area_sec_level.dat', $_POST['opt_admin_sec']);
 }

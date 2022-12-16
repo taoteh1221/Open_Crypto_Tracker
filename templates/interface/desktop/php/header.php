@@ -177,9 +177,8 @@ header('Access-Control-Allow-Origin: ' . $app_host_address);
 	?>
 	
 	<script>
-
-	
-	window.is_iframe = false;
+    
+    window.is_admin = false; // Default
 	
 	<?php
 	// Flag admin area in js

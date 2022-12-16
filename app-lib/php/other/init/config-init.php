@@ -76,7 +76,7 @@ $max_exec_time = $ct_conf['dev']['webhook_max_exec_time'];
 }
 ////
 // If the script timeout var wasn't set properly / is not a whole number 3600 or less
-if ( !ctype_digit($max_exec_time) || $max_exec_time > 3600 ) {
+if ( !$ct_var->whole_int($max_exec_time) || $max_exec_time > 3600 ) {
 $max_exec_time = 250; // 250 seconds default
 }
 ////

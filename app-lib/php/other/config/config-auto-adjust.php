@@ -226,7 +226,7 @@ $cached_light_chart_struct = trim( file_get_contents($base_dir . '/cache/vars/li
 // OR a user-requested light chart reset
 if (
 $conf_light_chart_struct != $cached_light_chart_struct
-|| $_POST['reset_light_charts'] == 1 && $ct_gen->admin_hashed_nonce('reset_light_charts') != false && $_POST['admin_hashed_nonce'] == $ct_gen->admin_hashed_nonce('reset_light_charts')
+|| $_POST['reset_light_charts'] == 1 && $ct_gen->pass_sec_check($_POST['admin_hashed_nonce'], 'reset_light_charts')
 ) {
 
 // Delete ALL light charts (this will automatically trigger a re-build)
