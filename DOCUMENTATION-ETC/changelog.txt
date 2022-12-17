@@ -5900,6 +5900,8 @@ v6.00.2 AND HIGHER RESETS LIGHT (TIME PERIOD) CHARTS FROM ARCHIVAL DATA, ONE-TIM
 
 -Miscellaneous user experience improvements
 
+-Miscellaneous code cleanup / optimizations
+
 -Documentation additions / revisions
 
 v6.00.9 AND HIGHER RESETS ANY *DEFAULT DEMO* LIGHT (TIME PERIOD) CHARTS FROM ARCHIVAL DATA, ONE-TIME DURING UPGRADES FROM V6.00.8 OR LOWER.
