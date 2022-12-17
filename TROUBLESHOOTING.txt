@@ -60,7 +60,7 @@ After downloading, unzip the contents of the download to your desktop or other p
   
 -----------------------------------------------------------------------------------------------------------------------------------------
 
-Recommended MINIMUM system specs: 1 Gigahertz CPU / 512 Megabytes RAM / HIGH QUALITY 32 Gigabyte MicroSD card (running Nginx or Apache headless with PHP v7.2+)
+Recommended MINIMUM system specs: 1 Gigahertz CPU / 512 Megabytes RAM / HIGH QUALITY 16 Gigabyte MicroSD card (running Nginx or Apache headless with PHP v7.2+)
 
 To install / upgrade everything automatically on Debian / Ubuntu / DietPi OS / RaspberryPi OS / Armbian, copy => paste => run the command below in a terminal program (using the 'Terminal' app in the system menu, or over remote SSH), while logged in AS THE USER THAT WILL RUN THE APP (user must have sudo privileges):
 
@@ -621,9 +621,17 @@ ALWAYS TEST YOUR CODE, TO MAKE SURE IT DOESN'T CRASH THE APP.
   
 -----------------------------------------------------------------------------------------------------------------------------------------
 
-Open Crypto Tracker (previously known as 'DFD Cryptocoin Values') has been in active development since August of 2014. The source code was released on github.com later in September of 2015, under the GPLv3 license. 
+
+100% FREE / open source / PRIVATE cryptocurrency portfolio tracker. Email / text / Alexa / Telegram price alerts, price charts,  mining calculators, leverage / gain / loss / balance stats, news feeds + more. Privately track Bitcoin / Ethereum / unlimited cryptocurrencies. Customize as many assets / markets / alerts / charts as you want. 
+
+
+The primary goal of the Open Crypto Tracker project is to provide a 100% FREE / PRIVATE / Open Source cryptocurrency tracker to the crypto community, that 'just works', is easy to use, AND maintains a high level of user privacy / security.
 	       
-The primary goal of this project is to provide a 100% FREE / Open Source cryptocurrency tracker to the crypto community, that 'just works' AND maintains a high level of user privacy / security. More information on project ethos and contributing to this project can be found in CONTRIBUTING.txt (in the app's main directory).
+	       
+Previously known as 'DFD Cryptocoin Values', Open Crypto Tracker has been in active development since August of 2014. The source code was released on github.com ( https://github.com/taoteh1221/Open_Crypto_Tracker ) later in September of 2015, under the "Open Source" GPL (version 3) license. 
+	       
+	       
+Anybody can FULLY audit the security of this app's codebase (or hire someone to do so for them), and report or fix any issues found, or contribute new features. You can even 'fork' your own version of the codebase, as long as you leave licensing / attribution in place within your fork. More information on project ethos and contributing to this project can be found in CONTRIBUTING.txt (in the app's main directory).
 
 
 =========================================================================================================================================

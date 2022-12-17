@@ -36,8 +36,11 @@
 	    <div id="collapse_<?=$accord_var?>" class="collapse show" aria-labelledby="heading_<?=$accord_var?>"
 	      data-parent="#accordionHelp">
 	      <div class="card-body">
+
+
+              Please review the possible solutions below for any issues you may have, before contacting the developers for support. If you are still having issues after trying everything relevant in this document, please reach out to the developers for help in the comm channels listed below. Any feedback is GREATLY appreciated, as it helps make this app better for everyone! :)
 	        
-			  Web server setup / install (for Server Edition) is available for $30 hourly if needed (see 'Manual Install' section for managed hosting, or try the auto-install bash script for self-hosted). PM me on Twitter / Skype / Telegram @ taoteh1221, or get a hold of me using the below-listed contact methods.<br /><br />
+			  <br /><br />Web server setup / install (for Server Edition) is available for $30 hourly if needed (see 'Manual Install' section for managed hosting, or try the auto-install bash script for self-hosted). PM me on Twitter / Skype / Telegram @ taoteh1221, or get a hold of me using the below-listed contact methods.<br /><br />
 	      
 	      
 	        <span class='blue'>Have a question, feature you'd like to see added, or an issue to report? You can do that at the following URLs...</span><br /><br />
@@ -142,7 +145,7 @@ Automatic Setup For 'Server Edition' With Debian / Ubuntu / DietPi OS / Raspberr
 
 	<div align='center'>
 	
-	<h5><span class='bitcoin'>Recommended MINIMUM system specs:</span> <span class='blue' style="display: block;">1 Gigahertz CPU / 512 Megabytes RAM / HIGH QUALITY 32 Gigabyte MicroSD card</span> <span style="display: block;">(running Nginx or Apache headless with PHP v7.2+)</span></h5>
+	<h5><span class='bitcoin'>Recommended MINIMUM system specs:</span> <span class='blue' style="display: block;">1 Gigahertz CPU / 512 Megabytes RAM / HIGH QUALITY 16 Gigabyte MicroSD card</span> <span style="display: block;">(running Nginx or Apache headless with PHP v7.2+)</span></h5>
 	    <br />
 	 
 	 <a href='https://www.raspberrypi.org/products/raspberry-pi-zero-w/' target='_blank' title='Visit the Raspberry Pi Zero W product page.'><img class='image_border' src='templates/interface/media/images/pi-zero.jpg' width='550' alt='' /></a> 
@@ -1142,10 +1145,15 @@ CRON-DESIGNATED PLUGINS (PLUGINS FLAGGED TO RUN DURING CRON JOBS) DO RUN #LAST# 
 	      
 	         
 	       <div style=''>
+
+
+           100% FREE / open source / PRIVATE cryptocurrency portfolio tracker. Email / text / Alexa / Telegram price alerts, price charts,  mining calculators, leverage / gain / loss / balance stats, news feeds + more. Privately track Bitcoin / Ethereum / unlimited cryptocurrencies. Customize as many assets / markets / alerts / charts as you want. 
 	       
-	       Open Crypto Tracker (previously known as 'DFD Cryptocoin Values') has been in active development since August of 2014. The source code was <a href='https://github.com/taoteh1221/Open_Crypto_Tracker' target='_blank'>released on github.com</a> later in September of 2015, under the GPLv3 license. 
+	       <br /><br />The primary goal of the Open Crypto Tracker project is to provide a 100% FREE / PRIVATE / Open Source cryptocurrency tracker to the crypto community, that 'just works', is easy to use, AND maintains a high level of user privacy / security.
 	       
-	       <br /><br />The primary goal of this project is to provide a 100% FREE / Open Source cryptocurrency tracker to the crypto community, that 'just works' AND maintains a high level of user privacy / security. More information on project ethos and contributing to this project can be found in <a href='CONTRIBUTING.txt' target='_blank'>CONTRIBUTING.txt</a> (in the app's main directory).
+	       <br /><br />Previously known as 'DFD Cryptocoin Values', Open Crypto Tracker has been in active development since August of 2014. The source code was <a href='https://github.com/taoteh1221/Open_Crypto_Tracker' target='_blank'>released on github.com</a> later in September of 2015, under the "Open Source" GPL (version 3) license. 
+	       
+	       <br /><br />Anybody can FULLY audit the security of this app's codebase (or hire someone to do so for them), and report or fix any issues found, or contribute new features. You can even 'fork' your own version of the codebase, as long as you leave licensing / attribution in place within your fork. More information on project ethos and contributing to this project can be found in <a href='CONTRIBUTING.txt' target='_blank'>CONTRIBUTING.txt</a> (in the app's main directory).
 	       
 	       </div>
 	        

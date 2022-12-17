@@ -1,13 +1,28 @@
 
 ############################################################################################################################
-
 Open Crypto Tracker - Developed by Michael Kilday <mike@dragonfrugal.com> (Copyright 2014-2023 GPLv3)
+############################################################################################################################
 
 
 100% FREE / open source / PRIVATE cryptocurrency portfolio tracker. Email / text / Alexa / Telegram price alerts, price charts,  mining calculators, leverage / gain / loss / balance stats, news feeds + more. Privately track Bitcoin / Ethereum / unlimited cryptocurrencies. Customize as many assets / markets / alerts / charts as you want. 
 
 
-Web server setup / install (for Server Edition) is available for $30 hourly if needed (see 'Manual Install' section for managed hosting, or try the auto-install bash script for self-hosted). PM me on Twitter / Skype @ taoteh1221, or get a hold of me using the below-listed contact methods.
+The primary goal of the Open Crypto Tracker project is to provide a 100% FREE / PRIVATE / Open Source cryptocurrency tracker to the crypto community, that 'just works', is easy to use, AND maintains a high level of user privacy / security.
+	       
+	       
+Previously known as 'DFD Cryptocoin Values', Open Crypto Tracker has been in active development since August of 2014. The source code was released on github.com ( https://github.com/taoteh1221/Open_Crypto_Tracker ) later in September of 2015, under the "Open Source" GPL (version 3) license. 
+	       
+	       
+Anybody can FULLY audit the security of this app's codebase (or hire someone to do so for them), and report or fix any issues found, or contribute new features. You can even 'fork' your own version of the codebase, as long as you leave licensing / attribution in place within your fork. More information on project ethos and contributing to this project can be found in CONTRIBUTING.txt (in the app's main directory).
+
+
+############################################################################################################################
+
+
+Please review the possible solutions below for any issues you may have, before contacting the developers for support. If you are still having issues after trying everything relevant in this document, please reach out to the developers for help in the comm channels listed below. Any feedback is GREATLY appreciated, as it helps make this app better for everyone! :)
+
+
+Web server setup / install (for Server Edition) is available for $30 hourly if needed (see 'Manual Install' section for managed hosting, or try the auto-install bash script for self-hosted). PM me on Twitter / Skype / Telegram @ taoteh1221, or get a hold of me using the below-listed contact methods.
 
 
 Project Website: https://taoteh1221.github.io
@@ -15,6 +30,9 @@ Project Website: https://taoteh1221.github.io
 LIVE PUBLIC DEMO: https://dragonfrugal.com/coin-prices
 
 Download Latest Version: https://github.com/taoteh1221/Open_Crypto_Tracker/releases
+
+
+Have a question, feature you'd like to see added, or an issue to report? You can do that at the following URLs...
 
 Issue Reporting (Features / Issues / Help): https://github.com/taoteh1221/Open_Crypto_Tracker/issues
 
@@ -117,7 +135,7 @@ INSTALLATION AND SETUP
 
 IMPORTANT NOTES: YOU WILL BE PROMPTED TO CREATE AN ADMIN LOGIN (FOR SECURITY OF THE ADMIN AREA), #WHEN YOU FIRST RUN THIS APP#. IT'S #HIGHLY RECOMMENDED TO DO THIS IMMEDIATELY#, ESPECIALLY ON PUBLIC FACING / KNOWN SERVERS, #OR SOMEBODY ELSE MAY BEAT YOU TO IT#.
 
-Recommended MINIMUM system specs: 1 Gigahertz CPU / 512 Megabytes RAM / HIGH QUALITY 32 Gigabyte MicroSD card (running Nginx or Apache headless with PHP v7.2+)
+Recommended MINIMUM system specs: 1 Gigahertz CPU / 512 Megabytes RAM / HIGH QUALITY 16 Gigabyte MicroSD card (running Nginx or Apache headless with PHP v7.2+)
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 Setting Up The 'Desktop Edition' (runs very easily, like any other normally-downloaded native app)

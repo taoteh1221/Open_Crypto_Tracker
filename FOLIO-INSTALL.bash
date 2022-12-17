@@ -434,7 +434,7 @@ echo " "
 
 echo "${red}Recommended MINIMUM system specs:${reset}"
 echo " "
-echo "${yellow}1 Gigahertz CPU / 512 Megabytes RAM / HIGH QUALITY 32 Gigabyte MicroSD card (running Nginx or Apache headless with PHP v7.2+)${reset}"
+echo "${yellow}1 Gigahertz CPU / 512 Megabytes RAM / HIGH QUALITY 16 Gigabyte MicroSD card (running Nginx or Apache headless with PHP v7.2+)${reset}"
 echo " "
 
 echo "${red}If you already have unrelated web site files located at $DOC_ROOT on your system, they may be affected."
