@@ -1857,7 +1857,7 @@ var $ct_array = array();
    $vars['cfg_secure']   = $smtp_secure;
    $vars['cfg_username'] = $smtp_user;
    $vars['cfg_password'] = $smtp_password;
-   $vars['cfg_debug_mode'] = $ct_conf['dev']['debug']; // Open Crypto Tracker debug mode setting
+   $vars['cfg_debug_mode'] = $ct_conf['dev']['debug_mode']; // Open Crypto Tracker debug mode setting
    $vars['cfg_strict_ssl'] = $ct_conf['sec']['smtp_strict_ssl']; // Open Crypto Tracker strict SSL setting
    $vars['cfg_app_version'] = $app_version; // Open Crypto Tracker version
    

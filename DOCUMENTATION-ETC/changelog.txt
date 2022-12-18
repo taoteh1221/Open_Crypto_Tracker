@@ -5892,19 +5892,19 @@ v6.00.2 AND HIGHER RESETS LIGHT (TIME PERIOD) CHARTS FROM ARCHIVAL DATA, ONE-TIM
 -------------------------------------------------------------------
 6.00.12:
 
--BUG FIX: Windows Desktop Edition now properly detects the number of CPU threads available (used for auto-determining rate limits for restoring / importing price chart backups)
+-BUG FIX: Windows 10 / 11 systems now properly detect CPU model / number of threads available (threads number used for auto-determining rate limits for restoring / importing price chart backups)
 
--BUG FIX: System check logic fixed for 'mbstring' extension detection (now correctly alerts end-user if it is missing)
+-BUG FIX: Price charts backup archive creation now works properly on Windows 10 / 11 systems (backup files show properly in archive lists)
 
--BUG FIX: Price charts backup archive creation now works properly on Windows 10 / 11 systems
+-BUG FIX: System checks logic fixed for required extensions detection (now correctly alerts end-user if extensions are missing)
 
--BUG FIX: Miscellaneous (small) fixes
+-BUG FIX: Miscellaneous (smaller) fixes
 
 -Better user experience and compatibility for Windows 10 / 11 systems (for both Desktop and Server Editions)
 
--Miscellaneous user experience improvements
+-Miscellaneous code cleanup / optimizations / semantic improvements
 
--Miscellaneous code cleanup / optimizations
+-Miscellaneous user experience improvements
 
 -Documentation additions / revisions
 

@@ -532,7 +532,7 @@ var $ct_array1 = array();
   global $runtime_mode, $base_dir, $ct_conf, $ct_gen, $log_debugging, $alerts_gui_debugging;
   
   
-      if ( $ct_conf['dev']['debug'] == 'off' ) {
+      if ( $ct_conf['dev']['debug_mode'] == 'off' ) {
       return false;
       }
     
@@ -620,7 +620,7 @@ var $ct_array1 = array();
           return 'Debugging logs write error for "' . $base_dir . '/cache/logs/debug.log" (MAKE SURE YOUR DISK ISN\'T FULL), data_size_bytes: ' . strlen($debug_log) . ' bytes';
           }
           // DEBUGGING ONLY (rules out issues other than full disk)
-          elseif ( $ct_conf['dev']['debug'] == 'all' || $ct_conf['dev']['debug'] == 'all_telemetry' ) {
+          elseif ( $ct_conf['dev']['debug_mode'] == 'all' || $ct_conf['dev']['debug_mode'] == 'all_telemetry' ) {
           return 'Debugging logs write success for "' . $base_dir . '/cache/logs/debug.log", data_size_bytes: ' . strlen($debug_log) . ' bytes';
           }
         
@@ -726,7 +726,7 @@ var $ct_array1 = array();
           return 'Error logs write error for "' . $base_dir . '/cache/logs/error.log" (MAKE SURE YOUR DISK ISN\'T FULL), data_size_bytes: ' . strlen($error_log) . ' bytes';
           }
           // DEBUGGING ONLY (rules out issues other than full disk)
-          elseif ( $ct_conf['dev']['debug'] == 'all' || $ct_conf['dev']['debug'] == 'all_telemetry' ) {
+          elseif ( $ct_conf['dev']['debug_mode'] == 'all' || $ct_conf['dev']['debug_mode'] == 'all_telemetry' ) {
           return 'Error logs write success for "' . $base_dir . '/cache/logs/error.log", data_size_bytes: ' . strlen($error_log) . ' bytes';
           }
       
@@ -1170,9 +1170,9 @@ var $ct_array1 = array();
     $_SESSION['light_charts_updated'] = $_SESSION['light_charts_updated'] + 1;
       
       if ( 
-      $ct_conf['dev']['debug'] == 'all'
-      || $ct_conf['dev']['debug'] == 'all_telemetry'
-      || $ct_conf['dev']['debug'] == 'light_chart_telemetry' 
+      $ct_conf['dev']['debug_mode'] == 'all'
+      || $ct_conf['dev']['debug_mode'] == 'all_telemetry'
+      || $ct_conf['dev']['debug_mode'] == 'light_chart_telemetry' 
       ) {
       	
       $ct_gen->log(
@@ -1183,9 +1183,9 @@ var $ct_array1 = array();
       }
        
       if ( 
-      $ct_conf['dev']['debug'] == 'all'
-      || $ct_conf['dev']['debug'] == 'all_telemetry'
-      || $ct_conf['dev']['debug'] == 'memory_usage_telemetry' 
+      $ct_conf['dev']['debug_mode'] == 'all'
+      || $ct_conf['dev']['debug_mode'] == 'all_telemetry'
+      || $ct_conf['dev']['debug_mode'] == 'memory_usage_telemetry' 
       ) {
       	
       $ct_gen->log(
@@ -1348,7 +1348,7 @@ var $ct_array1 = array();
               
               $this->save_file($base_dir . '/cache/events/throttling/notifyme-alerts-sent.dat', $processed_msgs['notifyme_count']); 
               
-                if ( $ct_conf['dev']['debug'] == 'all' || $ct_conf['dev']['debug'] == 'all_telemetry' || $ct_conf['dev']['debug'] == 'api_comms_telemetry' ) {
+                if ( $ct_conf['dev']['debug_mode'] == 'all' || $ct_conf['dev']['debug_mode'] == 'all_telemetry' || $ct_conf['dev']['debug_mode'] == 'api_comms_telemetry' ) {
                 $this->save_file($base_dir . '/cache/logs/debug/external_data/last-response-notifyme.log', $notifyme_response);
                 }
               
@@ -1378,7 +1378,7 @@ var $ct_array1 = array();
           
           $msg_sent = 1;
             
-            if ( $ct_conf['dev']['debug'] == 'all' || $ct_conf['dev']['debug'] == 'all_telemetry' || $ct_conf['dev']['debug'] == 'api_comms_telemetry' ) {
+            if ( $ct_conf['dev']['debug_mode'] == 'all' || $ct_conf['dev']['debug_mode'] == 'all_telemetry' || $ct_conf['dev']['debug_mode'] == 'api_comms_telemetry' ) {
             $this->save_file($base_dir . '/cache/logs/debug/external_data/last-response-textbelt.log', $textbelt_response);
             }
           
@@ -1405,7 +1405,7 @@ var $ct_array1 = array();
           
           $msg_sent = 1;
             
-            if ( $ct_conf['dev']['debug'] == 'all' || $ct_conf['dev']['debug'] == 'all_telemetry' || $ct_conf['dev']['debug'] == 'api_comms_telemetry' ) {
+            if ( $ct_conf['dev']['debug_mode'] == 'all' || $ct_conf['dev']['debug_mode'] == 'all_telemetry' || $ct_conf['dev']['debug_mode'] == 'api_comms_telemetry' ) {
             $this->save_file($base_dir . '/cache/logs/debug/external_data/last-response-textlocal.log', $textlocal_response);
             }
           
@@ -1438,7 +1438,7 @@ var $ct_array1 = array();
              }
               
             
-             if ( $ct_conf['dev']['debug'] == 'all' || $ct_conf['dev']['debug'] == 'all_telemetry' || $ct_conf['dev']['debug'] == 'api_comms_telemetry' ) {
+             if ( $ct_conf['dev']['debug_mode'] == 'all' || $ct_conf['dev']['debug_mode'] == 'all_telemetry' || $ct_conf['dev']['debug_mode'] == 'api_comms_telemetry' ) {
              $this->save_file($base_dir . '/cache/logs/debug/external_data/last-response-telegram.log', $telegram_response);
              }
           
@@ -1675,7 +1675,7 @@ var $ct_array1 = array();
       			);
        
       }
-      elseif ( $ct_conf['dev']['debug'] == 'all' || $ct_conf['dev']['debug'] == 'all_telemetry' || $ct_conf['dev']['debug'] == 'ext_data_cache_telemetry' ) {
+      elseif ( $ct_conf['dev']['debug_mode'] == 'all' || $ct_conf['dev']['debug_mode'] == 'all_telemetry' || $ct_conf['dev']['debug_mode'] == 'ext_data_cache_telemetry' ) {
       
       
         if ( !$log_debugging['debug_duplicates'][$hash_check] ) {
@@ -2163,7 +2163,7 @@ var $ct_array1 = array();
       
       
         // Data debugging telemetry
-        if ( $ct_conf['dev']['debug'] == 'all' || $ct_conf['dev']['debug'] == 'all_telemetry' || $ct_conf['dev']['debug'] == 'ext_data_live_telemetry' ) {
+        if ( $ct_conf['dev']['debug_mode'] == 'all' || $ct_conf['dev']['debug_mode'] == 'all_telemetry' || $ct_conf['dev']['debug_mode'] == 'ext_data_live_telemetry' ) {
          
         // LOG-SAFE VERSION (no post data with API keys etc)
         $ct_gen->log(
@@ -2307,7 +2307,7 @@ var $ct_array1 = array();
       			);
        
       }
-      elseif ( $ct_conf['dev']['debug'] == 'all' || $ct_conf['dev']['debug'] == 'all_telemetry' || $ct_conf['dev']['debug'] == 'ext_data_cache_telemetry' ) {
+      elseif ( $ct_conf['dev']['debug_mode'] == 'all' || $ct_conf['dev']['debug_mode'] == 'all_telemetry' || $ct_conf['dev']['debug_mode'] == 'ext_data_cache_telemetry' ) {
       
         if ( !$log_debugging['debug_duplicates'][$hash_check] ) {
         $log_debugging['debug_duplicates'][$hash_check] = 1; 

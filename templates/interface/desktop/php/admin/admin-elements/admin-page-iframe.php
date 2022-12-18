@@ -344,7 +344,7 @@ if ( $error_log != true ) {
 <?php
 }
 		
-if ( $ct_conf['dev']['debug'] != 'off' && $debug_log != true ) {
+if ( $ct_conf['dev']['debug_mode'] != 'off' && $debug_log != true ) {
 ?>
 <div class="red" style='font-weight: bold;'><?=$debug_log?></div>
 <?php

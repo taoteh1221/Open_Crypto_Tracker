@@ -265,7 +265,7 @@ $cron_run_lock_file = $base_dir . '/cache/events/emulated-cron-lock.dat';
         
         // If debug mode is on
         // RUN BEFORE plugins (in case custom plugin crashes)
-        if ( $ct_conf['dev']['debug'] == 'all' || $ct_conf['dev']['debug'] == 'all_telemetry' || $ct_conf['dev']['debug'] == 'stats' ) {
+        if ( $ct_conf['dev']['debug_mode'] == 'all' || $ct_conf['dev']['debug_mode'] == 'all_telemetry' || $ct_conf['dev']['debug_mode'] == 'stats' ) {
         		
         	foreach ( $system_info as $key => $val ) {
         	$system_telemetry .= $key . ': ' . $val . '; ';

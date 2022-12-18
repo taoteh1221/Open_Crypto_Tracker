@@ -110,7 +110,14 @@ To install as a normal native app on your laptop / desktop, download the "Deskto
 
 	    <br /><br />
 
-After downloading, unzip the contents of the download to your desktop or other preferred file location (it doesn't matter, put it wherever you want to). Now use your operating system's file browser to enter the app's main directory, and click on "RUN_CRYPTO_TRACKER" to launch the app. <span class='red'>TO USE PRICE CHARTS AND PRICE ALERTS TO EMAIL / TEXT / ALEXA / TELEGRAM, YOU #MUST# LEAVE THE APP RUNNING UNLESS YOU MANUALLY SETUP A CRON JOB! (see: "Setting Up Price Charts And Email / Text / Telegram / Alexa Price Alerts")</span>
+After downloading, unzip the contents of the download to your desktop or other preferred file location (it doesn't matter, put it wherever you want to). Now use your operating system's file browser to enter the app's main directory, and click on "RUN_CRYPTO_TRACKER" to launch the app. <span class='red'>TO USE PRICE CHARTS AND PRICE ALERTS TO EMAIL / TEXT / ALEXA / TELEGRAM, YOU #MUST# LEAVE THE APP RUNNING UNLESS YOU MANUALLY SETUP A CRON JOB / SCHEDULED TASK! (see: "Setting Up Price Charts And Email / Text / Telegram / Alexa Price Alerts")</span>
+
+	    <br /><br />
+
+<span class='bitcoin'>IMPORTANT NOTE FOR WINDOWS 10 / 11 USERS:</span> 
+
+	    <br /><br />
+THE 'SERVER EDITION' IS CURRENTLY MORE RELIABLE THAN THE 'DESKTOP EDITION' ON WINDOWS MACHINES. CONSIDER READING THE 'Installing On A Web Server / Manual Installation' SECTION FURTHER DOWN HERE, IF YOU HAVE ISSUES WITH THE WINDOWS 'DESKTOP EDITION'. WE RELY ON ANOTHER OPEN SOURCE PROJECT CALLED '<a href='https://github.com/cztomczak/phpdesktop' target='_blank'>PHPdesktop</a>' FOR THE DESKTOP EDITIONS, AND THE WINDOWS VERSION IS CURRENTLY VERY OUT-DATED.
 	        
 	        
 	      </div>
@@ -193,7 +200,7 @@ SEE <a href='https://github.com/taoteh1221/Open_Crypto_Tracker/tree/main/DOCUMEN
 	        <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapse_<?=$accord_var?>"
 	          aria-expanded="false" aria-controls="collapse_<?=$accord_var?>">
 	          
-	          Installing On A Website / Manual Installation <span class='bitcoin'>('Server Edition')</span>
+	          Installing On A Web Server / Manual Installation <span class='bitcoin'>('Server Edition')</span>
 	          
 	        </button>
 	      </h5>
@@ -204,15 +211,15 @@ SEE <a href='https://github.com/taoteh1221/Open_Crypto_Tracker/tree/main/DOCUMEN
 	      
 	      
 	        
-	        Just upload this app's files to your PHP-based web server (with an FTP client like <a href='https://filezilla-project.org/download.php?type=client' target='_blank'>FileZilla</a>) and you should be all set, unless your host is a strict setup related to file writing permissions, in which case the 'cache' directory permissions should be set to '770' chmod on unix / linux systems (or 'readable / writable' on windows systems). 
+	        Just upload / move this app's files to your PHP-based web server directory (with an FTP client like <a href='https://filezilla-project.org/download.php?type=client' target='_blank'>FileZilla</a>) and you should be all set, unless your host is a strict setup related to file writing permissions, in which case the 'cache' directory permissions should be set to '770' chmod on unix / linux systems (or 'readable / writable' on windows systems). 
 	    <br /><br />
 	        
 	        Your web host must have CURL modules activated on your HTTP server. Most web hosting companies provide this "out-of-the-box" already. This app will detect whether or not CURL is setup on your website server (and also alert you to any other missing required system components / configurations). 
 	    <br /><br />
 
-WINDOWS 10 USERS WHO ARE USING XAMPP WILL NEED TO ENABLE GD FOR PHP (FOR THE ADMIN LOGIN CAPTCHA SECURITY) BEFORE USING THIS APP. PLEASE SEE THE SCREENSHOT LOCATED AT <a href='https://raw.githubusercontent.com/taoteh1221/Open_Crypto_Tracker/main/DOCUMENTATION-ETC/XAMPP-ENABLE-GD.png' target='_blank'>/DOCUMENTATION-ETC/XAMPP-ENABLE-GD.png</a> FOR A VISUAL ON SETTING THIS UP EASILY.<br /><br />
+WINDOWS 10 / 11 USERS WHO ARE USING XAMPP WILL NEED TO ENABLE GD FOR PHP (FOR THE ADMIN LOGIN CAPTCHA SECURITY) BEFORE USING THIS APP. PLEASE SEE THE SCREENSHOT LOCATED AT <a href='https://raw.githubusercontent.com/taoteh1221/Open_Crypto_Tracker/main/DOCUMENTATION-ETC/XAMPP-ENABLE-GD.png' target='_blank'>/DOCUMENTATION-ETC/XAMPP-ENABLE-GD.png</a> FOR A VISUAL ON SETTING THIS UP EASILY.<br /><br />
 
-See "<span class='bitcoin'>Setting Up Price Charts And Email / Text / Telegram / Alexa Price Alerts</span>"</a>, for how to setup a cron job for additional features. 
+See "<span class='bitcoin'>Setting Up Price Charts And Email / Text / Telegram / Alexa Price Alerts</span>"</a>, for how to setup a cron job / scheduled task for additional features. 
 	        
 	      </div>
 	    </div>
@@ -265,7 +272,7 @@ As mentioned previously, if you run the automated setup / install script for Deb
 Note that you should have the cron job run every 5, 10, 15, 20, or 30 minutes 24/7, based on how often you want chart data points / alerts / any other cron based features to run. Setting up the cron job to run every 20 minutes is the RECOMMENDED lowest time interval. IF SET BELOW 20 MINUTES, light chart disk writes may be excessive for lower end hardware (Raspberry PI MicroSD cards etc). IF SET #VERY LOW# (5 / 10 minutes), the free exchange APIs may throttle / block your data requests temporarily on occasion for requesting data too frequently (negatively affecting your alerts / charts). 
 	    <br /><br />
 
-FOR WINDOWS 10 USERS, just click / run the file 'ADD-WIN10-SCHEDULER-JOB.bat' found in the main directory of the app, follow the prompts, and everything will be automatically setup for you. As long as you login into your Windows account after system startup, the scheduled task will run until your computer is shut off OR you logout of that user account (SO YOU *NO LONGER* NEED TO LEAVE THE DESKTOP EDITION APP RUNNING ANYMORE FOR SCHEDULED TASKS). ADDITIONALLY, IF YOU ARE RUNNING THE *DESKTOP EDITION*, YOU'LL *ALSO* NEED TO SET 'desktop_cron_interval' TO ZERO (IN THE ADMIN CONFIG "POWER USER" SECTION), AND RESTART / RELOAD THE DESKTOP APP.<br /><br />
+FOR WINDOWS 10 / 11 USERS, just click / run the file 'ADD-WIN10-SCHEDULER-JOB.bat' found in the main directory of the app, follow the prompts, and everything will be automatically setup for you (if PHP-CLI isn't auto-detected, it allows you to manually enter the path to it). As long as you login into your Windows account after system startup, the scheduled task will run until your computer is shut off OR you logout of that user account (SO YOU *NO LONGER* NEED TO LEAVE THE DESKTOP EDITION APP RUNNING ANYMORE FOR SCHEDULED TASKS [if you use that edition]). ADDITIONALLY, IF YOU ARE RUNNING THE *DESKTOP EDITION*, YOU'LL *ALSO* NEED TO SET 'desktop_cron_interval' TO ZERO (IN THE ADMIN CONFIG "POWER USER" SECTION), AND RESTART / RELOAD THE DESKTOP APP.<br /><br />
 
 FOR LINUX / MAC USERS, here is an example cron job command line for reference below (NOT including any cron parameters your host interface may require), to setup as the "command" within a cron job. Replace system paths in the example with the correct ones for your server (TIP - A very common path to PHP on a server is /usr/bin/php):
 	    <br /><br />

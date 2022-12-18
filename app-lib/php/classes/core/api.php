@@ -367,7 +367,7 @@ var $ct_array1 = array();
       $endpoint_tld_or_ip = $ct_gen->get_tld_or_ip($url);
    
          
-          if ( $ct_conf['dev']['debug'] == 'all' || $ct_conf['dev']['debug'] == 'all_telemetry' || $ct_conf['dev']['debug'] == 'memory_usage_telemetry' ) {
+          if ( $ct_conf['dev']['debug_mode'] == 'all' || $ct_conf['dev']['debug_mode'] == 'all_telemetry' || $ct_conf['dev']['debug_mode'] == 'memory_usage_telemetry' ) {
          	
           $ct_gen->log(
          			  'system_debug',
