@@ -4159,15 +4159,18 @@ var $ct_array = array();
       
       
       if ( isset($_ENV['SERVER_SOFTWARE']) && trim($_ENV['SERVER_SOFTWARE']) != '' ) {
-      $server_info = $_ENV['SERVER_SOFTWARE'];
+      $server_soft = $_ENV['SERVER_SOFTWARE'];
+      }
+      elseif ( isset($_SERVER['SERVER_SOFTWARE']) && trim($_SERVER['SERVER_SOFTWARE']) != '' ) {
+      $server_soft = $_SERVER['SERVER_SOFTWARE'];
       }
       else {
-      $server_info = '';
+      $server_soft = '';
       }
       
    
    // Software
-   $system['software'] = 'Open_Crypto_Tracker/' . $app_version . ' - PHP/' . phpversion() . ( $server_info != '' ? ' - ' . $server_info : '' );
+   $system['software'] = 'Open_Crypto_Tracker/' . $app_version . ' - PHP/' . phpversion() . ( $server_soft != '' ? ' - ' . $server_soft : '' );
       
    
    return $system;
