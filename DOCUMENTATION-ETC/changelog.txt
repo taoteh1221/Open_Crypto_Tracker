@@ -5299,7 +5299,7 @@ MIGRATE YOUR EXISTING SETTINGS TO THE NEW FORMAT.
 
 -BUG FIX: more potential PHPv8 edge case "fatal errors" fixes
 
--BUG FIX: Strict SSL support in the Windows Desktop Edition (auto-install root certs to: /cache/cacert.pem)
+-BUG FIX: Strict SSL support in the Windows Desktop Edition (auto-install root certs to: /cache/other/win_curl_cacert.pem)
 
 -BUG FIX: Emulated cron / regular cron logic properly merged now (no more missing comms emails on certain logic routines)
 
@@ -5894,9 +5894,13 @@ v6.00.2 AND HIGHER RESETS LIGHT (TIME PERIOD) CHARTS FROM ARCHIVAL DATA, ONE-TIM
 
 -BUG FIX: Windows Desktop Edition now properly detects the number of CPU threads available (used for auto-determining rate limits for restoring / importing price chart backups)
 
+-BUG FIX: System check logic fixed for 'mbstring' extension detection (now correctly alerts end-user if it is missing)
+
+-BUG FIX: Price charts backup archive creation now works properly on Windows 10 / 11 systems
+
 -BUG FIX: Miscellaneous (small) fixes
 
--Better user experience / support for Windows Desktop Edition
+-Better user experience and compatibility for Windows 10 / 11 systems (for both Desktop and Server Editions)
 
 -Miscellaneous user experience improvements
 

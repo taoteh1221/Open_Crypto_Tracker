@@ -164,13 +164,14 @@ var $ct_array = array();
    ////////////////////////////////////////////////////////
    
    
-   function regex_compat_url($url) {
+   function regex_compat_path($path) {
       
-   $regex_url = trim($url);
-   $regex_url = preg_replace("/(http|https|ftp|tcp|ssl):\/\//i", "", $regex_url);
-   $regex_url = preg_replace("/\//i", "\/", $regex_url);
+   $regex_path = trim($path);
+   $regex_path = preg_replace("/(http|https|ftp|tcp|ssl):\/\//i", "", $regex_path); // Internet protocols
+   $regex_path = preg_replace("/[a-zA-Z]:\//i", "", $regex_path); // Windows drive paths (using forwardslashes instead [which PHP allows])
+   $regex_path = preg_replace("/\//i", "\/", $regex_path);
    
-   return $regex_url;
+   return $regex_path;
    
    }
    
@@ -3563,86 +3564,6 @@ var $ct_array = array();
       }
               
     
-   }
-   
-   
-   ////////////////////////////////////////////////////////
-   ////////////////////////////////////////////////////////
-   
-   
-   function zip_recursively($source, $destination, $password=false) {
-      
-         
-         if ( !extension_loaded('zip') ) {
-         return 'no_extension';
-         }
-         elseif ( !file_exists($source) ) {
-         return 'no_source';
-         }
-      
-      
-   $zip = new ZipArchive();
-         
-         
-         if ( !$zip->open($destination, ZIPARCHIVE::CREATE) ) {
-         return 'no_open_dest';
-         }
-         
-         
-         // If we are password-protecting
-         if ( $password != false ) {
-         $zip->setPassword($password);
-         }
-      
-      
-   $source = str_replace('\\', '/', realpath($source));
-      
-      
-         if ( is_dir($source) === true ) {
-            
-            $files = new RecursiveIteratorIterator(new RecursiveDirectoryIterator($source), RecursiveIteratorIterator::SELF_FIRST);
-      
-            foreach ($files as $file) {
-               
-               $file = str_replace('\\', '/', $file);
-      
-               // Ignore "." and ".." folders
-               if ( in_array( substr($file, strrpos($file, '/')+1) , array('.', '..') ) )
-                  continue;
-      
-               $file = realpath($file);
-      
-               if (is_dir($file) === true) {
-               $zip->addEmptyDir(str_replace($source . '/', '', $file . '/'));
-               }
-               elseif (is_file($file) === true) {
-                  
-               $zip->addFromString(str_replace($source . '/', '', $file), file_get_contents($file));
-                  
-                  // If we are password-protecting
-                  if ( $password != false ) {
-                  $zip->setEncryptionName(str_replace($source . '/', '', $file), ZipArchive::EM_AES_256);
-                  }
-                  
-               }
-               
-            }
-            
-         }
-         elseif ( is_file($source) === true ) {
-            
-         $zip->addFromString(basename($source), file_get_contents($source));
-            
-            // If we are password-protecting
-            if ( $password != false ) {
-            $zip->setEncryptionName(basename($source), ZipArchive::EM_AES_256);
-            }
-            
-         }
-      
-      
-   return $zip->close();      
-       
    }
    
    

@@ -1212,6 +1212,7 @@ select opt in $OPTIONS; do
 				rm $DOC_ROOT/webhook.php > /dev/null 2>&1
 				rm $DOC_ROOT/rest-api.php > /dev/null 2>&1
 				rm $DOC_ROOT/logs.php > /dev/null 2>&1
+				rm $DOC_ROOT/cache/cacert.pem > /dev/null 2>&1
 				rm $DOC_ROOT/cache/events/notifications-queue-processing.dat > /dev/null 2>&1
 				rm $DOC_ROOT/cache/logs/errors.log > /dev/null 2>&1
 				rm $DOC_ROOT/cache/logs/debugging.log > /dev/null 2>&1

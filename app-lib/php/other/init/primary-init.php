@@ -37,6 +37,7 @@ $ct_conf = array();
 require_once("config.php");
 
 // Load app classes VERY EARLY (before loading cached conf, after config.php)
+require_once('app-lib/php/classes/extended-classes-loader.php');
 require_once('app-lib/php/classes/core-classes-loader.php');
 
 // PRIMARY vars, #MUST# BE SET IMMEADIATELY AFTER loading core classes
@@ -100,6 +101,9 @@ $upgrade_check_latest_version = trim( file_get_contents('cache/vars/upgrade_chec
 // Uses HARD-CODED $ct_conf['sec']['chmod_cache_dir'], BUT IF THE DIRECTORIES DON'T EXIST YET, A CACHED CONFIG PROBABLY DOESN'T EXIST EITHER
 require_once('app-lib/php/other/directory-creation/cache-directories.php');
 
+// Basic system checks (MUST RUN *FIRST* IN ESSENTIAL INIT LOGIC *AFTER* CACHE DIRECTORIES [FOR ERROR LOGGING])
+require_once('app-lib/php/other/debugging/system-checks.php');
+
 // Logins, protection from different types of attacks
 // #MUST# run BEFORE any heavy init logic (for good security), #AFTER# directory creation (for error logging)
 require_once('app-lib/php/other/security/attack-protection.php');
@@ -107,7 +111,7 @@ require_once('app-lib/php/other/security/attack-protection.php');
 // Directory security check (MUST run AFTER directory structure creation check, AND BEFORE system checks)
 require_once('app-lib/php/other/security/directory-security.php');
 
-// Get / check system info for debugging / stats (MUST run AFTER directory creation [for error logging], AND BEFORE system checks)
+// Get / check system info for debugging / stats (MUST run AFTER directory creation [for error logging], AND AFTER system checks)
 require_once('app-lib/php/other/system-info.php');
 
 

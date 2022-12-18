@@ -370,9 +370,9 @@ var $ct_array1 = array();
   ////////////////////////////////////////////////////////
   
   
-  function backup_archive($backup_prefix, $backup_target, $interval, $password=false) {
+  function backup_archive($backup_prefix, $backup_target, $interval, $password='no') {
   
-  global $ct_conf, $ct_gen, $base_dir, $base_url;
+  global $ct_conf, $ct_gen, $ext_zip, $base_dir, $base_url;
   
   
 	  // 1439 minutes instead (minus 1 minute), to try keeping daily recurrences at same exact runtime (instead of moving up the runtime daily)
@@ -397,10 +397,10 @@ var $ct_array1 = array();
           $backup_dest = $base_dir . '/cache/secured/backups/' . $backup_file;
            
           // Zip archive
-          $backup_results = $ct_gen->zip_recursively($backup_target, $backup_dest, $password);
+          $backup_results = $ext_zip->zip_recursively($backup_target, $backup_dest, $password, ZipArchive::CREATE);
            
            
-              if ( $backup_results == 1 ) {
+              if ( $backup_results == 'done' ) {
                
               $this->save_file($base_dir . '/cache/events/backup-'.$backup_prefix.'.dat', $ct_gen->time_date_format(false, 'pretty_date_time') );
                
@@ -1785,8 +1785,8 @@ var $ct_array1 = array();
      
      
       // If this is a windows desktop edition
-      if ( file_exists($base_dir . '/cache/cacert.pem') ) {
-      curl_setopt($ch, CURLOPT_CAINFO, $base_dir . '/cache/cacert.pem');
+      if ( file_exists($base_dir . '/cache/other/win_curl_cacert.pem') ) {
+      curl_setopt($ch, CURLOPT_CAINFO, $base_dir . '/cache/other/win_curl_cacert.pem');
       }
      
      
@@ -1874,7 +1874,7 @@ var $ct_array1 = array();
       
       // We don't want strict SSL checks if this is our app calling itself (as we may be running our own self-signed certificate)
       // (app running an external check on its htaccess, etc)
-      $regex_base_url = $ct_gen->regex_compat_url($base_url);
+      $regex_base_url = $ct_gen->regex_compat_path($base_url);
        
       // Secure random hash to nullify any preg_match() below, as we are submitting out htaccess user/pass if setup
       $scan_base_url = ( isset($regex_base_url) && $regex_base_url != '' ? $regex_base_url : $ct_gen->rand_hash(8) );

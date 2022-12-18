@@ -32,9 +32,6 @@ require_once('app-lib/php/other/init/config-init.php');
 // Fast runtimes, MUST run AFTER config-init.php, AND AS EARLY AS POSSIBLE
 require_once('app-lib/php/other/fast-runtimes.php');
 
-// Basic system checks (MUST RUN AFTER config-init.php)
-require_once('app-lib/php/other/debugging/system-checks.php');
-
 // SECURED cache files management (MUST RUN AFTER system checks)
 require_once('app-lib/php/other/security/secure-cache-files.php');
 

@@ -293,9 +293,11 @@ header('Access-Control-Allow-Origin: ' . $app_host_address);
 	<link rel="shortcut icon" href="templates/interface/media/images/favicon.png">
 	<link rel="icon" href="templates/interface/media/images/favicon.png">
 
+
 </head>
 <body>
-    
+
+
     <audio preload="metadata" id="audio_alert">
       <source src="templates/interface/media/audio/Intruder_Alert-SoundBible.com-867759995.mp3">
       <source src="templates/interface/media/audio/Intruder_Alert-SoundBible.com-867759995.ogg">

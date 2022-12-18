@@ -49,10 +49,10 @@ OPTIMIZATIONS / BUGS / TESTS / UX / QA / OTHER SECTION
 
 IMPORTANT NOTES FOR BELOW-RELATED WIN11 EMAIL SENDING ISSUES: 
 
-Recurring reminder plugin demo alerts went through FINE by email / text / alexa / telegram, THEN EMAILS SEEMED TO GET DENIED A SOCKET BY WIN11 FOR CONNECTING TO THE SMTP SERVER?? THEN ALL OUTGOING COMMS MAY HAVE BEEN BLOCKED AFTER THAT?? Look into firewall / windows defender as possible culprits that may be presuming malicious activity falsely?
+Recurring reminder plugin demo alerts went through FINE by email / text / alexa / telegram ON WINDOWS DESKTOP EDITION, THEN EMAILS SEEMED TO GET DENIED A SOCKET BY WIN11 FOR CONNECTING TO THE SMTP SERVER?? THEN ALL OUTGOING COMMS MAY HAVE BEEN BLOCKED AFTER THAT?? Look into firewall / windows defender as possible culprits that may be presuming malicious activity falsely? EVERYTHING *WORKS GREAT* WITH SERVER EDITION ON WIN11.
 
 
-Login alerts OF ANY KIND are not working in windows desktop edition, smtp error logs contained this:
+Login alerts OF ANY KIND are not working in windows DESKTOP edition (SERVER EDITION ON WINDOWS WORKS FINE), smtp error logs contained this:
 
 2022-12-15 17:15:49 UTC | smtp_error: 
  =========SMTP error log START================================================== 
@@ -67,7 +67,7 @@ Login alerts OF ANY KIND are not working in windows desktop edition, smtp error 
  =========SMTP error log END================================================== 
 
 
-Emailing alerts on windows desktop edition does NOT work on win 11, find out why (it doesn't SEEM to be cacert.pem in the chache folder, BUT maybe we are getting an outdated copy downloaded from our current source?). TELEGRAM / ALEXA PRICE ALERTS DO WORK OK.
+Emailing alerts on windows desktop edition does NOT work on win 11 for DESKTOP EDITION (SERVER EDITION IN XAMPP ON WIN11 WORKS PERFECTLY), find out why. TELEGRAM / ALEXA PRICE ALERTS DO WORK OK.
 
 
 HUGE 'TONS OF COOKIE DATA' ISSUE ON SERVERS ALREADY RUNNING #OTHER# WEB APPS (LIKE WORDPRESS) #AT THE SAME TIME / ON SAME DOMAIN# (AS IT CAN GO OVER THE SERVER HEADER LIMIT AND CRASH THE WEB APP LOADING BOTH APP'S COOKIES INTO THE HEADER): Since we already wait for the page to load for initiating batch-grabbing news feeds(?), maybe we can store the user-selected feeds in local storage, since the data set is potentially VERY large (to save alot on cookie header data)? Look over the batch loading logic, and see if we can do it more with JavaScript instead of PHP (except for the ajax calls to the server AFTER we know what was user-chosen). Same should generally go for price charts (as we ALSO load after the page has loaded), so look into that too.
