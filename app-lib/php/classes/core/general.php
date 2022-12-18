@@ -3941,17 +3941,27 @@ var $ct_array = array();
          
       
       }
-      elseif ( preg_match("/windows 11/i", $system['operating_system']) ) {
-      $system['distro_name'] = 'Windows 11';
-      }
-      elseif ( preg_match("/windows 10/i", $system['operating_system']) ) {
-      $system['distro_name'] = 'Windows 10';
-      }
-      elseif ( preg_match("/windows nt/i", $system['operating_system']) ) {
-      $system['distro_name'] = 'Windows NT';
-      }
-      elseif ( preg_match("/windows/i", $system['operating_system']) ) {
-      $system['distro_name'] = 'Windows';
+      elseif ( PHP_OS_FAMILY == 'Windows' ) {
+          
+          if ( preg_match("/windows 11/i", $system['operating_system']) ) {
+          $win_ver = '11';
+          }
+          elseif ( preg_match("/windows 10/i", $system['operating_system']) ) {
+          $win_ver = '10';
+          }
+          elseif ( preg_match("/windows server/i", $system['operating_system']) ) {
+          $win_ver = 'Server';
+          }
+          elseif ( preg_match("/windows nt/i", $system['operating_system']) ) {
+          $win_ver = 'NT';
+          }
+          
+      $system['distro_name'] = 'Windows' . ( isset($win_ver) && trim($win_ver) != '' ? ' ' . $win_ver : '' );
+      
+      $win_os = getenv("OS");
+      
+      $system['distro_version'] = ( isset($win_os) && trim($win_os) != '' ? '['.$win_os.']' : '' );
+         
       }
       
       
@@ -3987,6 +3997,12 @@ var $ct_array = array();
       }
       // CPU core count on Windows
       elseif ( PHP_OS_FAMILY == 'Windows' ) {
+      
+      $win_cpu_model = getenv("PROCESSOR_IDENTIFIER");
+      
+         if ( isset($win_cpu_model) && trim($win_cpu_model) != '' ) {
+         $system['model_name'] = $win_cpu_model;
+         }
       
       $win_cpu_cores = getenv("NUMBER_OF_PROCESSORS") + 0;
       
