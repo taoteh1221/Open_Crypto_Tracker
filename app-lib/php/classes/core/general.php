@@ -3573,7 +3573,7 @@ var $ct_array = array();
    
    function safe_mail($to, $subj, $msg, $content_type='text/plain', $charset=null) {
       
-   global $app_version, $ct_conf;
+   global $ct_conf, $system_info;
    
       if ( $charset == null ) {
       $charset = $ct_conf['dev']['charset_default'];
@@ -3609,7 +3609,7 @@ var $ct_array = array();
             
             $headers = array(
                         'From' => 'From: ' . $ct_conf['comms']['from_email'],
-                        'X-Mailer' => 'Open_Crypto_Tracker/' . $app_version . ' - PHP/' . phpversion(),
+                        'X-Mailer' => $system_info['software'],
                         'Content-Type' => $content_type . '; charset=' . $charset
                            );
             
@@ -3617,7 +3617,7 @@ var $ct_array = array();
             else {
             
             $headers = array(
-                        'X-Mailer' => 'Open_Crypto_Tracker/' . $app_version . ' - PHP/' . phpversion(),
+                        'X-Mailer' => $system_info['software'],
                         'Content-Type' => $content_type . '; charset=' . $charset
                            );
             
@@ -3630,13 +3630,13 @@ var $ct_array = array();
             if ( $this->valid_email($ct_conf['comms']['from_email']) == 'valid' ) {
             
             $headers = 'From: ' . $ct_conf['comms']['from_email'] . "\r\n" .
-            'X-Mailer: Open_Crypto_Tracker/' . $app_version . ' - PHP/' . phpversion() . "\r\n" .
+            'X-Mailer: ' . $system_info['software'] . "\r\n" .
             'Content-Type: ' . $content_type . '; charset=' . $charset;
          
             }
             else {
             
-            $headers = 'X-Mailer: Open_Crypto_Tracker/' . $app_version . ' - PHP/' . phpversion() . "\r\n" .
+            $headers = 'X-Mailer: ' . $system_info['software'] . "\r\n" .
             'Content-Type: ' . $content_type . '; charset=' . $charset;
          
             }
@@ -4124,10 +4124,6 @@ var $ct_array = array();
       $portfolio_cache = trim( file_get_contents($base_dir . '/cache/vars/cache_size.dat') );
       $system['portfolio_cache'] = ( $ct_var->num_to_str($portfolio_cache) > 0 ? $portfolio_cache : 0 );
       }
-      
-   
-   // Software
-   $system['software'] = 'Open_Crypto_Tracker/' . $app_version . ' - PHP/' . phpversion();
    
    
       // Server stats
@@ -4157,9 +4153,21 @@ var $ct_array = array();
          
          }
       
-      $server['server_info'] = $server_info_array;
+      $system['server_info'] = $server_info_array;
       
       }
+      
+      
+      if ( isset($_ENV['SERVER_SOFTWARE']) && trim($_ENV['SERVER_SOFTWARE']) != '' ) {
+      $server_info = $_ENV['SERVER_SOFTWARE'];
+      }
+      else {
+      $server_info = '';
+      }
+      
+   
+   // Software
+   $system['software'] = 'Open_Crypto_Tracker/' . $app_version . ' - PHP/' . phpversion() . ( $server_info != '' ? ' - ' . $server_info : '' );
       
    
    return $system;
