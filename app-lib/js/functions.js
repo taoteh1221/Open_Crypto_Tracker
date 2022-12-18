@@ -475,7 +475,7 @@ function cron_loading_check(cron_loaded) {
 	return 'done';
 	}
 	else {
-	background_loading_notices("Checking For Scheduled Tasks...");
+	background_loading_notices("Checking / Running Scheduled Tasks...");
 	$("#background_loading").show(250); // 0.25 seconds
 	return 'active';
 	}
@@ -784,7 +784,7 @@ function app_reload(form_submission) {
             
     reload_recheck = setTimeout(app_reload, 1500, form_submission);  // Re-check every 1.5 seconds (in milliseconds)
     
-    return false;
+    return;
     
     }
     // ADD ANY LOGIC HERE, TO RUN BEFORE THE APP RELOADS

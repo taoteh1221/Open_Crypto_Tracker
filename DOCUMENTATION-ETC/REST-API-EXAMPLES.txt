@@ -33,6 +33,7 @@ THE API ADMIN SECTION IN THE APP GIVES YOU CUSTOMIZED CODE EXAMPLES (AUTO-INCLUD
 # CURL command line example
 # Add --insecure to the command, if your app's SSL certificate
 # is SELF-SIGNED (not CA issued), #OR THE COMMAND WON'T WORK#
+# WINDOWS USERS: REMOVE THE "Invoke-WebRequest" CURL ALIAS FIRST: Remove-item alias:curl
 
 curl -d "api_key=XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX" -X POST https://YOUR-WEB-ADDRESS.COM/api/market_conversion/eur/kraken-btc-usd,coinbase-dai-usd,coinbase-eth-usd
 

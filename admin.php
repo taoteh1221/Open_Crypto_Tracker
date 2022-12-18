@@ -41,16 +41,8 @@ require("templates/interface/desktop/php/footer.php");
 }
 // Iframe admin pages
 elseif (
-isset($_GET['section'])
-&& trim($_GET['section']) != ''
-&& isset($_GET['iframe'])
-&& trim($_GET['iframe']) != ''
-&& $_GET['iframe'] == $ct_gen->admin_hashed_nonce('iframe_' . $_GET['section'])
-|| isset($_GET['plugin'])
-&& trim($_GET['plugin']) != ''
-&& isset($_GET['iframe'])
-&& trim($_GET['iframe']) != ''
-&& $_GET['iframe'] == $ct_gen->admin_hashed_nonce('iframe_' . $_GET['plugin'])
+isset($_GET['section']) && trim($_GET['section']) != '' && $ct_gen->pass_sec_check($_GET['iframe'], 'iframe_' . $_GET['section'])
+|| isset($_GET['plugin']) && trim($_GET['plugin']) != '' && $ct_gen->pass_sec_check($_GET['iframe'], 'iframe_' . $_GET['plugin'])
 ) {
 require("templates/interface/desktop/php/admin/admin-elements/admin-page-iframe.php");
 }

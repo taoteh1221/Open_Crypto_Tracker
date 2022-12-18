@@ -211,7 +211,8 @@ var $ct_array1 = array();
    
    // See if $val is a whole number without decimals
    function whole_int($val) {
-      
+   
+   // We need the number to be a string to test it with ctype_digit()
    $val = strval($val);
    $val = str_replace('-', '', $val);
    

@@ -12,7 +12,7 @@ $htaccess_protection_check = file_get_contents($base_dir . '/.htaccess');
 // (CAUSING INTERFACE TO CRASH WITH ERROR 500)
 if ( preg_match("/Require valid-user/i", $htaccess_protection_check) && !is_readable($base_dir . '/cache/secured/.app_htpasswd') ) {
 // Default htaccess root file, WITH NO PASSWORD PROTECTION
-$restore_default_htaccess = $ct_cache->save_file($base_dir . '/.htaccess', $ct_cache->htaccess_dir_defaults() ); 
+$restore_default_htaccess = $ct_cache->save_file($base_dir . '/.htaccess', $ct_cache->php_timeout_defaults($base_dir . '/templates/back-end/root-app-directory-htaccess.template') ); 
 }
 
 
@@ -27,7 +27,7 @@ if ( isset($htaccess_username) && isset($htaccess_password) && $htaccess_usernam
 		if ( !$password_protection_enabled ) {
 			
 		// Default htaccess root file, WITH NO PASSWORD PROTECTION
-		$restore_default_htaccess = $ct_cache->save_file($base_dir . '/.htaccess', $ct_cache->htaccess_dir_defaults() ); 
+		$restore_default_htaccess = $ct_cache->save_file($base_dir . '/.htaccess', $ct_cache->php_timeout_defaults($base_dir . '/templates/back-end/root-app-directory-htaccess.template') ); 
 			
 			// Avoid error 500 if htaccess update fails
 			if ( $restore_default_htaccess == true ) {
@@ -46,7 +46,7 @@ elseif ( $htaccess_username == '' || $htaccess_password == '' ) {
 	if ( preg_match("/Require valid-user/i", $htaccess_protection_check) ) {
 		
 	// Default htaccess root file, WITH NO PASSWORD PROTECTION
-	$restore_default_htaccess = $ct_cache->save_file($base_dir . '/.htaccess', $ct_cache->htaccess_dir_defaults() ); 
+	$restore_default_htaccess = $ct_cache->save_file($base_dir . '/.htaccess', $ct_cache->php_timeout_defaults($base_dir . '/templates/back-end/root-app-directory-htaccess.template') ); 
 	
 		// Avoid error 500 if htaccess update fails
 		if ( $restore_default_htaccess == true ) {

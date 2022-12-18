@@ -36,8 +36,11 @@
 	    <div id="collapse_<?=$accord_var?>" class="collapse show" aria-labelledby="heading_<?=$accord_var?>"
 	      data-parent="#accordionHelp">
 	      <div class="card-body">
+
+
+              Please review the possible solutions below for any issues you may have, before contacting the developers for support. If you are still having issues after trying everything relevant in this document, please reach out to the developers for help in the comm channels listed below. Any feedback is GREATLY appreciated, as it helps make this app better for everyone! :)
 	        
-			  Web server setup / install (for Server Edition) is available for $30 hourly if needed (see 'Manual Install' section for managed hosting, or try the auto-install bash script for self-hosted). PM me on Twitter / Skype / Telegram @ taoteh1221, or get a hold of me using the below-listed contact methods.<br /><br />
+			  <br /><br />Web server setup / install (for Server Edition) is available for $30 hourly if needed (see 'Manual Install' section for managed hosting, or try the auto-install bash script for self-hosted). PM me on Twitter / Skype / Telegram @ taoteh1221, or get a hold of me using the below-listed contact methods.<br /><br />
 	      
 	      
 	        <span class='blue'>Have a question, feature you'd like to see added, or an issue to report? You can do that at the following URLs...</span><br /><br />
@@ -107,7 +110,14 @@ To install as a normal native app on your laptop / desktop, download the "Deskto
 
 	    <br /><br />
 
-After downloading, unzip the contents of the download to your desktop or other preferred file location (it doesn't matter, put it wherever you want to). Now use your operating system's file browser to enter the app's main directory, and click on "RUN_CRYPTO_TRACKER" to launch the app. <span class='red'>TO USE PRICE CHARTS AND PRICE ALERTS TO EMAIL / TEXT / ALEXA / TELEGRAM, YOU #MUST# LEAVE THE APP RUNNING UNLESS YOU MANUALLY SETUP A CRON JOB! (see: "Setting Up Price Charts And Email / Text / Telegram / Alexa Price Alerts")</span>
+After downloading, unzip the contents of the download to your desktop or other preferred file location (it doesn't matter, put it wherever you want to). Now use your operating system's file browser to enter the app's main directory, and click on "RUN_CRYPTO_TRACKER" to launch the app. <span class='red'>TO USE PRICE CHARTS AND PRICE ALERTS TO EMAIL / TEXT / ALEXA / TELEGRAM, YOU #MUST# LEAVE THE APP RUNNING UNLESS YOU MANUALLY SETUP A CRON JOB / SCHEDULED TASK! (see: "Setting Up Price Charts And Email / Text / Telegram / Alexa Price Alerts")</span>
+
+	    <br /><br />
+
+<span class='bitcoin'>IMPORTANT NOTE FOR WINDOWS 10 / 11 USERS:</span> 
+
+	    <br /><br />
+THE 'SERVER EDITION' IS CURRENTLY MORE RELIABLE THAN THE 'DESKTOP EDITION' ON WINDOWS MACHINES. CONSIDER READING THE 'Installing On A Web Server / Manual Installation' SECTION FURTHER DOWN HERE, IF YOU HAVE ISSUES WITH THE WINDOWS 'DESKTOP EDITION'. WE RELY ON ANOTHER OPEN SOURCE PROJECT CALLED '<a href='https://github.com/cztomczak/phpdesktop' target='_blank'>PHPdesktop</a>' FOR THE DESKTOP EDITIONS, AND THE WINDOWS VERSION IS CURRENTLY VERY OUT-DATED.
 	        
 	        
 	      </div>
@@ -142,7 +152,7 @@ Automatic Setup For 'Server Edition' With Debian / Ubuntu / DietPi OS / Raspberr
 
 	<div align='center'>
 	
-	<h5><span class='bitcoin'>Recommended MINIMUM system specs:</span> <span class='blue' style="display: block;">1 Gigahertz CPU / 512 Megabytes RAM / HIGH QUALITY 32 Gigabyte MicroSD card</span> <span style="display: block;">(running Nginx or Apache headless with PHP v7.2+)</span></h5>
+	<h5><span class='bitcoin'>Recommended MINIMUM system specs:</span> <span class='blue' style="display: block;">1 Gigahertz CPU / 512 Megabytes RAM / HIGH QUALITY 16 Gigabyte MicroSD card</span> <span style="display: block;">(running Nginx or Apache headless with PHP v7.2+)</span></h5>
 	    <br />
 	 
 	 <a href='https://www.raspberrypi.org/products/raspberry-pi-zero-w/' target='_blank' title='Visit the Raspberry Pi Zero W product page.'><img class='image_border' src='templates/interface/media/images/pi-zero.jpg' width='550' alt='' /></a> 
@@ -190,7 +200,7 @@ SEE <a href='https://github.com/taoteh1221/Open_Crypto_Tracker/tree/main/DOCUMEN
 	        <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapse_<?=$accord_var?>"
 	          aria-expanded="false" aria-controls="collapse_<?=$accord_var?>">
 	          
-	          Installing On A Website / Manual Installation <span class='bitcoin'>('Server Edition')</span>
+	          Installing On A Web Server / Manual Installation <span class='bitcoin'>('Server Edition')</span>
 	          
 	        </button>
 	      </h5>
@@ -201,15 +211,15 @@ SEE <a href='https://github.com/taoteh1221/Open_Crypto_Tracker/tree/main/DOCUMEN
 	      
 	      
 	        
-	        Just upload this app's files to your PHP-based web server (with an FTP client like <a href='https://filezilla-project.org/download.php?type=client' target='_blank'>FileZilla</a>) and you should be all set, unless your host is a strict setup related to file writing permissions, in which case the 'cache' directory permissions should be set to '770' chmod on unix / linux systems (or 'readable / writable' on windows systems). 
+	        Just upload / move this app's files to your PHP-based web server directory (with an FTP client like <a href='https://filezilla-project.org/download.php?type=client' target='_blank'>FileZilla</a>) and you should be all set, unless your host is a strict setup related to file writing permissions, in which case the 'cache' directory permissions should be set to '770' chmod on unix / linux systems (or 'readable / writable' on windows systems). 
 	    <br /><br />
 	        
 	        Your web host must have CURL modules activated on your HTTP server. Most web hosting companies provide this "out-of-the-box" already. This app will detect whether or not CURL is setup on your website server (and also alert you to any other missing required system components / configurations). 
 	    <br /><br />
 
-WINDOWS 10 USERS WHO ARE USING XAMPP WILL NEED TO ENABLE GD FOR PHP (FOR THE ADMIN LOGIN CAPTCHA SECURITY) BEFORE USING THIS APP. PLEASE SEE THE SCREENSHOT LOCATED AT <a href='https://raw.githubusercontent.com/taoteh1221/Open_Crypto_Tracker/main/DOCUMENTATION-ETC/XAMPP-ENABLE-GD.png' target='_blank'>/DOCUMENTATION-ETC/XAMPP-ENABLE-GD.png</a> FOR A VISUAL ON SETTING THIS UP EASILY.<br /><br />
+WINDOWS 10 / 11 USERS WHO ARE USING XAMPP WILL NEED TO ENABLE GD FOR PHP (FOR THE ADMIN LOGIN CAPTCHA SECURITY) BEFORE USING THIS APP. PLEASE SEE THE SCREENSHOT LOCATED AT <a href='https://raw.githubusercontent.com/taoteh1221/Open_Crypto_Tracker/main/DOCUMENTATION-ETC/XAMPP-ENABLE-GD.png' target='_blank'>/DOCUMENTATION-ETC/XAMPP-ENABLE-GD.png</a> FOR A VISUAL ON SETTING THIS UP EASILY.<br /><br />
 
-See "<span class='bitcoin'>Setting Up Price Charts And Email / Text / Telegram / Alexa Price Alerts</span>"</a>, for how to setup a cron job for additional features. 
+See "<span class='bitcoin'>Setting Up Price Charts And Email / Text / Telegram / Alexa Price Alerts</span>"</a>, for how to setup a cron job / scheduled task for additional features. 
 	        
 	      </div>
 	    </div>
@@ -241,7 +251,7 @@ Setting Up Price Charts And Email / Text / Telegram / Alexa Price Alerts
 	      data-parent="#accordionHelp">
 	      <div class="card-body">
 	      
-          <span class='red'>IMPORTANT NOTES: THIS IS FOR 'SERVER EDITION' ONLY, UNLESS YOU DISABLE 'desktop_cron_interval' IN THE POWER USER CONFIG IN THE 'DESKTOP EDITION'...IN WHICH CASE READ THE MANUAL CRON JOB INSTALL SECTIONS BELOW THAT ARE RELEVANT TO YOUR OPERATING SYSTEM.</span>
+          <span class='red'>IMPORTANT NOTES: THIS IS FOR 'SERVER EDITION' ONLY, UNLESS YOU DISABLE 'desktop_cron_interval' (AND reload / restart app) IN THE POWER USER CONFIG IN THE 'DESKTOP EDITION'...IN WHICH CASE READ THE MANUAL CRON JOB INSTALL SECTIONS BELOW THAT ARE RELEVANT TO YOUR OPERATING SYSTEM.</span>
 	    <br /><br />
 
 	      You can setup price charts or price alerts in your app install. Price alerts can be sent to email, mobile phone text, Telegram, and Alexa notifications. You will be alerted when the [configured default primary currency] price of an asset goes up or down a certain percent or more (whatever percent you choose in the settings), for specific exchange / base pair combinations for that asset. You can even setup alerts and charts for multiple exchanges / base pairs for the same asset.
@@ -262,7 +272,7 @@ As mentioned previously, if you run the automated setup / install script for Deb
 Note that you should have the cron job run every 5, 10, 15, 20, or 30 minutes 24/7, based on how often you want chart data points / alerts / any other cron based features to run. Setting up the cron job to run every 20 minutes is the RECOMMENDED lowest time interval. IF SET BELOW 20 MINUTES, light chart disk writes may be excessive for lower end hardware (Raspberry PI MicroSD cards etc). IF SET #VERY LOW# (5 / 10 minutes), the free exchange APIs may throttle / block your data requests temporarily on occasion for requesting data too frequently (negatively affecting your alerts / charts). 
 	    <br /><br />
 
-FOR WINDOWS 10 USERS, just click / run the file 'ADD-WIN10-SCHEDULER-JOB.bat' found in the main directory of the app, follow the prompts, and everything will be automatically setup for you. As long as you login into your Windows account after system startup, the scheduled task will run until your computer is shut off OR you logout of that user account.<br /><br />
+FOR WINDOWS 10 / 11 USERS, just click / run the file 'ADD-WIN10-SCHEDULER-JOB.bat' found in the main directory of the app, follow the prompts, and everything will be automatically setup for you (if PHP-CLI isn't auto-detected, it allows you to manually enter the path to it). As long as you login into your Windows account after system startup, the scheduled task will run until your computer is shut off OR you logout of that user account (SO YOU *NO LONGER* NEED TO LEAVE THE DESKTOP EDITION APP RUNNING ANYMORE FOR SCHEDULED TASKS [if you use that edition]). ADDITIONALLY, IF YOU ARE RUNNING THE *DESKTOP EDITION*, YOU'LL *ALSO* NEED TO SET 'desktop_cron_interval' TO ZERO (IN THE ADMIN CONFIG "POWER USER" SECTION), AND RESTART / RELOAD THE DESKTOP APP.<br /><br />
 
 FOR LINUX / MAC USERS, here is an example cron job command line for reference below (NOT including any cron parameters your host interface may require), to setup as the "command" within a cron job. Replace system paths in the example with the correct ones for your server (TIP - A very common path to PHP on a server is /usr/bin/php):
 	    <br /><br />
@@ -856,7 +866,7 @@ If you see an error like this below, you system is NOT compatible with the inclu
 <pre class='rounded' style='display: inline-block;<?=( $ct_gen->is_msie() == false ? ' padding-top: 1em !important;' : '' )?>'><code class='hide-x-scroll less' style='white-space: nowrap; width: auto; display: inline-block;'>./php-cgi-custom: error while loading shared libraries: XXXXX.so.X: cannot open shared object file: No such file or directory</code></pre>
 	    <br /><br />
 
-Try running the script "BUILD-PHP-FOR-LINUX-DESKTOP.bash" in the Desktop Edition main folder, which should fix things automatically for you. Just make sure it's file permissions are set to "executable" (chmod +x, OR chmod 755 should do that). 
+Try running the script "BUILD-PHP-FOR-LINUX-DESKTOP.bash" in the Desktop Edition main folder, which should fix things automatically for you. Just make sure it's file permissions are set to "executable" (chmod +x, OR chmod 755 should do that). <span class='red'>IMPORTANT NOTE:</span> YOU *MUST* SHUT DOWN THE DESKTOP EDITION OF THIS APP *BEFOREHAND*, OTHERWISE THIS SCRIPT *CANNOT* INSTALL THE CREATED PHP BINARY IT BUILDS!
 	    <br /><br />
 
 Open a terminal and use the "cd" (change directory) command to go to the main directory of the Desktop Edition, and then type this command:
@@ -1142,10 +1152,15 @@ CRON-DESIGNATED PLUGINS (PLUGINS FLAGGED TO RUN DURING CRON JOBS) DO RUN #LAST# 
 	      
 	         
 	       <div style=''>
+
+
+           100% FREE / open source / PRIVATE cryptocurrency portfolio tracker. Email / text / Alexa / Telegram price alerts, price charts,  mining calculators, leverage / gain / loss / balance stats, news feeds + more. Privately track Bitcoin / Ethereum / unlimited cryptocurrencies. Customize as many assets / markets / alerts / charts as you want. 
 	       
-	       Open Crypto Tracker (previously known as 'DFD Cryptocoin Values') has been in active development since August of 2014. The source code was <a href='https://github.com/taoteh1221/Open_Crypto_Tracker' target='_blank'>released on github.com</a> later in September of 2015, under the GPLv3 license. 
+	       <br /><br />The primary goal of the Open Crypto Tracker project is to provide a 100% FREE / PRIVATE / Open Source cryptocurrency tracker to the crypto community, that 'just works', is easy to use, AND maintains a high level of user privacy / security.
 	       
-	       <br /><br />The primary goal of this project is to provide a 100% FREE / Open Source cryptocurrency tracker to the crypto community, that 'just works' AND maintains a high level of user privacy / security. More information on project ethos and contributing to this project can be found in <a href='CONTRIBUTING.txt' target='_blank'>CONTRIBUTING.txt</a> (in the app's main directory).
+	       <br /><br />Previously known as 'DFD Cryptocoin Values', Open Crypto Tracker has been in active development since August of 2014. The source code was <a href='https://github.com/taoteh1221/Open_Crypto_Tracker' target='_blank'>released on github.com</a> later in September of 2015, under the "Open Source" GPL (version 3) license. 
+	       
+	       <br /><br />Anybody can FULLY audit the security of this app's codebase (or hire someone to do so for them), and report or fix any issues found, or contribute new features. You can even 'fork' your own version of the codebase, as long as you leave licensing / attribution in place within your fork. More information on project ethos and contributing to this project can be found in <a href='CONTRIBUTING.txt' target='_blank'>CONTRIBUTING.txt</a> (in the app's main directory).
 	       
 	       </div>
 	        

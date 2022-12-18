@@ -434,7 +434,7 @@ echo " "
 
 echo "${red}Recommended MINIMUM system specs:${reset}"
 echo " "
-echo "${yellow}1 Gigahertz CPU / 512 Megabytes RAM / HIGH QUALITY 32 Gigabyte MicroSD card (running Nginx or Apache headless with PHP v7.2+)${reset}"
+echo "${yellow}1 Gigahertz CPU / 512 Megabytes RAM / HIGH QUALITY 16 Gigabyte MicroSD card (running Nginx or Apache headless with PHP v7.2+)${reset}"
 echo " "
 
 echo "${red}If you already have unrelated web site files located at $DOC_ROOT on your system, they may be affected."
@@ -1212,6 +1212,7 @@ select opt in $OPTIONS; do
 				rm $DOC_ROOT/webhook.php > /dev/null 2>&1
 				rm $DOC_ROOT/rest-api.php > /dev/null 2>&1
 				rm $DOC_ROOT/logs.php > /dev/null 2>&1
+				rm $DOC_ROOT/cache/cacert.pem > /dev/null 2>&1
 				rm $DOC_ROOT/cache/events/notifications-queue-processing.dat > /dev/null 2>&1
 				rm $DOC_ROOT/cache/logs/errors.log > /dev/null 2>&1
 				rm $DOC_ROOT/cache/logs/debugging.log > /dev/null 2>&1

@@ -25,7 +25,7 @@
 
 
 		// If debug mode is 'all' / 'all_telemetry' / 'stats'
-		if ( $ct_conf['dev']['debug'] == 'all' || $ct_conf['dev']['debug'] == 'all_telemetry' || $ct_conf['dev']['debug'] == 'stats' ) {
+		if ( $ct_conf['dev']['debug_mode'] == 'all' || $ct_conf['dev']['debug_mode'] == 'all_telemetry' || $ct_conf['dev']['debug_mode'] == 'stats' ) {
 		
 			foreach ( $system_info as $key => $val ) {
 			$system_telemetry .= $key . ': ' . $val . '; ';
@@ -379,7 +379,7 @@
 		<?php
 		}
 		
-		if ( $ct_conf['dev']['debug'] != 'off' && $debug_log != true ) {
+		if ( $ct_conf['dev']['debug_mode'] != 'off' && $debug_log != true ) {
 		?>
 		<div class="red" style='font-weight: bold;'><?=$debug_log?></div>
 		<?php

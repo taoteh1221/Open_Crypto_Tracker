@@ -51,7 +51,7 @@
 	    </fieldset>
 				
 	<?php
-	if ( $ct_conf['dev']['debug'] != 'off' || is_readable($base_dir . '/cache/logs/debug.log') ) {
+	if ( $ct_conf['dev']['debug_mode'] != 'off' || is_readable($base_dir . '/cache/logs/debug.log') ) {
 	?>
 	    <fieldset class='subsection_fieldset'><legend class='subsection_legend'> Debugging Log </legend>
 	        

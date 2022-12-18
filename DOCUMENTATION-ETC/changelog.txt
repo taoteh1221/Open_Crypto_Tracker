@@ -5299,7 +5299,7 @@ MIGRATE YOUR EXISTING SETTINGS TO THE NEW FORMAT.
 
 -BUG FIX: more potential PHPv8 edge case "fatal errors" fixes
 
--BUG FIX: Strict SSL support in the Windows Desktop Edition (auto-install root certs to: /cache/cacert.pem)
+-BUG FIX: Strict SSL support in the Windows Desktop Edition (auto-install root certs to: /cache/other/win_curl_cacert.pem)
 
 -BUG FIX: Emulated cron / regular cron logic properly merged now (no more missing comms emails on certain logic routines)
 
@@ -5878,6 +5878,35 @@ v6.00.2 AND HIGHER RESETS LIGHT (TIME PERIOD) CHARTS FROM ARCHIVAL DATA, ONE-TIM
 -Cleaned up stale markets in demo configurations
 
 -CSRF attack protection for logs ajax requests
+
+v6.00.9 AND HIGHER RESETS ANY *DEFAULT DEMO* LIGHT (TIME PERIOD) CHARTS FROM ARCHIVAL DATA, ONE-TIME DURING UPGRADES FROM V6.00.8 OR LOWER.
+
+v6.00.8 AND HIGHER MIGRATES / UPGRADES ANY SET COOKIE DATA TO A MORE SECURE / RELIABLE FORMAT, ONE-TIME DURING UPGRADES FROM V6.00.7 OR LOWER.
+
+v6.00.2 AND HIGHER RESETS LIGHT (TIME PERIOD) CHARTS FROM ARCHIVAL DATA, ONE-TIME DURING UPGRADES FROM V6.00.1 OR LOWER.
+
+-------------------------------------------------------------------
+
+
+
+-------------------------------------------------------------------
+6.00.12:
+
+-BUG FIX: Windows 10 / 11 systems now properly detect CPU model / number of threads available (threads number used for auto-determining rate limits for restoring / importing price chart backups)
+
+-BUG FIX: Price charts backup archive creation now works properly on Windows 10 / 11 systems (backup files show properly in archive lists)
+
+-BUG FIX: System checks logic fixed for required extensions detection (now correctly alerts end-user if extensions are missing)
+
+-BUG FIX: Miscellaneous (smaller) fixes
+
+-Better user experience and compatibility for Windows 10 / 11 systems (for both Desktop and Server Editions)
+
+-Miscellaneous code cleanup / optimizations / semantic improvements
+
+-Miscellaneous user experience improvements
+
+-Documentation additions / revisions
 
 v6.00.9 AND HIGHER RESETS ANY *DEFAULT DEMO* LIGHT (TIME PERIOD) CHARTS FROM ARCHIVAL DATA, ONE-TIME DURING UPGRADES FROM V6.00.8 OR LOWER.
 

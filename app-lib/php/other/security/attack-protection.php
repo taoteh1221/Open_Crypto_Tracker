@@ -14,7 +14,7 @@ $_POST[$scan_post_key] = $ct_gen->sanitize_requests('post', $scan_post_key, $_PO
 
 
 // If user is logging out (run immediately after setting PRIMARY vars, for quick runtime)
-if ( $_GET['logout'] == 1 && $ct_gen->admin_hashed_nonce('logout') != false && $_GET['admin_hashed_nonce'] == $ct_gen->admin_hashed_nonce('logout') ) {
+if ( $_GET['logout'] == 1 && $ct_gen->pass_sec_check($_GET['admin_hashed_nonce'], 'logout') ) {
 	
 // Try to avoid edge-case bug where sessions don't delete, using our hardened function logic
 $ct_gen->hardy_sess_clear(); 

@@ -1023,7 +1023,7 @@ var $ct_array1 = array();
 			            if ( stristr($market_key, 'bitmex_') == false && $ct_var->num_to_str($btc_pair_mrkts[$pair.'_btc']) >= 0.00000001 ) {
 			              
 				              // Data debugging telemetry
-				              if ( $ct_conf['dev']['debug'] == 'all' || $ct_conf['dev']['debug'] == 'all_telemetry' ) {
+				              if ( $ct_conf['dev']['debug_mode'] == 'all' || $ct_conf['dev']['debug_mode'] == 'all_telemetry' ) {
 				              	
 				              $ct_gen->log(
 				              			'market_debug',
@@ -1126,7 +1126,7 @@ var $ct_array1 = array();
 			            if ( stristr($market_key, 'bitmex_') == false && $ct_var->num_to_str($btc_pair_mrkts[$pair.'_btc']) >= 0.0000000000000000000000001 ) { // FUTURE-PROOF FIAT ROUNDING WITH 25 DECIMALS, IN CASE BITCOIN MOONS HARD
 			                  
 				              // Data debugging telemetry
-				              if ( $ct_conf['dev']['debug'] == 'all' || $ct_conf['dev']['debug'] == 'all_telemetry' ) {
+				              if ( $ct_conf['dev']['debug_mode'] == 'all' || $ct_conf['dev']['debug_mode'] == 'all_telemetry' ) {
 				              	
 				              $ct_gen->log(
 				              			'market_debug',

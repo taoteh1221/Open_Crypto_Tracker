@@ -30,8 +30,8 @@
 	   foreach ( $upgrade_download_array as $asset ) {
 	       
 	       if ( isset($asset['browser_download_url']) ) {
-    	   $upgrade_download .= $asset['browser_download_url'] . "\n";
-    	   $upgrade_download_html .= $ct_gen->html_url($asset['browser_download_url']) . "<br />";
+    	   $upgrade_download .= $asset['browser_download_url'] . "\n\n";
+    	   $upgrade_download_html .= $ct_gen->html_url($asset['browser_download_url']) . "<br /><br />";
 	       }
 	       
 	   }
@@ -89,11 +89,11 @@
 			
 			$email_notifyme_msg = $upgrade_check_msg . ' (you have upgrade reminders triggered every '.$ct_conf['comms']['upgrade_alert_reminder'].' days in the configuration settings)';
 			
-			$email_only_with_upgrade_command = $email_notifyme_msg . "\n\n" . 'Quick / easy upgrading for the SERVER EDITION can be done by copying / pasting / running this command, using the "Terminal" app in your Debian / Ubuntu / DietPi OS / RaspberryPi OS / Armbian system menu (Windows 10 requires manual upgrading), or logging in remotely from another device via SSH (user must have sudo privileges):' . "\n\n" . 'wget --no-cache -O FOLIO-INSTALL.bash https://tinyurl.com/install-crypto-tracker;chmod +x FOLIO-INSTALL.bash;sudo ./FOLIO-INSTALL.bash' . "\n\nUpgrade Description:\n\n" . $upgrade_description . "\n\n";
+			$email_only_with_upgrade_command = $email_notifyme_msg . "\n\n" . 'Quick / easy upgrading for the SERVER EDITION can be done by copying / pasting / running this command, using the "Terminal" app in your Debian / Ubuntu / DietPi OS / RaspberryPi OS / Armbian system menu (Windows 10 requires manual upgrading), or logging in remotely from another device via SSH (user must have sudo privileges):' . "\n\n" . 'wget --no-cache -O FOLIO-INSTALL.bash https://tinyurl.com/install-crypto-tracker;chmod +x FOLIO-INSTALL.bash;sudo ./FOLIO-INSTALL.bash' . "\n\nIF ANYTHING STOPS WORKING AFTER UPGRADING, CLEAR YOUR BROWSER CACHE (temporary files), AND RELOAD OR RESTART THE APP. This will load the latest Javascript / Style Sheet upgrades properly.\n\nUpgrade Description:\n\n" . $upgrade_description . "\n\n";
 			
-			$download_link = "Manual Download Links (SERVER and DESKTOP edition upgrading):\n" . $upgrade_download . "\n\n";
+			$download_link = "Manual Download Links (SERVER and DESKTOP edition upgrading):\n\n" . $upgrade_download . "\n\n";
 			
-			$download_link_html = "Manual Download Links (SERVER and DESKTOP edition upgrading):\n" . $upgrade_download_html . "\n\n";
+			$download_link_html = "Manual Download Links (SERVER and DESKTOP edition upgrading):\n\n" . $upgrade_download_html . "\n\n";
 			
 			$changelog_link = "Changelog:\nhttps://raw.githubusercontent.com/taoteh1221/Open_Crypto_Tracker/main/DOCUMENTATION-ETC/changelog.txt\n\n";
 			

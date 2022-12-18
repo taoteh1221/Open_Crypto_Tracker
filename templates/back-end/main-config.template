@@ -646,6 +646,7 @@ $ct_conf['power']['activate_plugins'] = array(
 // SET TO ZERO DISABLES EMULATED CRON JOBS ON #DESKTOP EDITIONS#
 // DON'T SET TOO LOW, OR EXCHANGE PRICE DATA MAY BE BLOCKED / THROTTLED TEMPORARILY ON OCASSION!
 // IF USING ADD-WIN10-SCHEDULER-JOB.bat, #THIS SETTING NEEDS TO BE DISABLED# OR THE SCHEDULED TASK WILL #NOT# BE ALLOWED TO RUN!
+// IF YOU CHANGE THIS SETTING, YOU *MUST* RESTART / RELOAD THE APP *AFTERWARDS*!
 $ct_conf['power']['desktop_cron_interval'] = 20; // (default = 20, 0 disables this feature)
 							
 							
@@ -1500,10 +1501,10 @@ $ct_conf['power']['news_feed'] = array(
 
 // Enable / disable PHP error reporting (to error logs on the web server)
 // https://www.php.net/manual/en/function.error-reporting.php
-$ct_conf['dev']['error_reporting'] = 0; // 0 == off / -1 == on
+$ct_conf['dev']['php_error_reporting'] = 0; // 0 == off / -1 == on
 
 
-// $ct_conf['dev']['debug'] enabled runs unit tests during ui runtimes (during webpage load),
+// $ct_conf['dev']['debug_mode'] enabled runs unit tests during ui runtimes (during webpage load),
 // errors detected are error-logged and printed as alerts in header alert bell area
 // It also logs ui / cron runtime telemetry to /cache/logs/debug.log, AND /cache/logs/debug/
 ////////////////////////////////////////////////////////////////////////////////////////////
@@ -1540,7 +1541,7 @@ $ct_conf['dev']['error_reporting'] = 0; // 0 == off / -1 == on
 // OTHERWISE YOU MAY GET AN ERROR 500. OPTIONALLY, TRY RUNNING ONE TEST PER PAGE LOAD, TO AVOID THIS.
 // DON'T LEAVE DEBUGGING ENABLED AFTER USING IT, THE /cache/logs/debug.log AND /cache/logs/debug/
 // LOG FILES !CAN GROW VERY QUICKLY IN SIZE! EVEN AFTER JUST A FEW RUNTIMES
-$ct_conf['dev']['debug'] = 'off'; 
+$ct_conf['dev']['debug_mode'] = 'off'; 
 
 
 // Level of detail / verbosity in log files. 'normal' logs minimal details (basic information), 

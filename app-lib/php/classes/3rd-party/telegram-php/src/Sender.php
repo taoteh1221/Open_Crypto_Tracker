@@ -752,8 +752,8 @@ class Sender {
      
      
           // If this is a windows desktop edition
-          if ( file_exists($base_dir . '/cache/cacert.pem') ) {
-          curl_setopt($handle, CURLOPT_CAINFO, $base_dir . '/cache/cacert.pem');
+          if ( file_exists($base_dir . '/cache/other/win_curl_cacert.pem') ) {
+          curl_setopt($handle, CURLOPT_CAINFO, $base_dir . '/cache/other/win_curl_cacert.pem');
           }
       
       

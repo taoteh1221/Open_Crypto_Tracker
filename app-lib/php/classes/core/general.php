@@ -164,13 +164,14 @@ var $ct_array = array();
    ////////////////////////////////////////////////////////
    
    
-   function regex_compat_url($url) {
+   function regex_compat_path($path) {
       
-   $regex_url = trim($url);
-   $regex_url = preg_replace("/(http|https|ftp|tcp|ssl):\/\//i", "", $regex_url);
-   $regex_url = preg_replace("/\//i", "\/", $regex_url);
+   $regex_path = trim($path);
+   $regex_path = preg_replace("/(http|https|ftp|tcp|ssl):\/\//i", "", $regex_path); // Internet protocols
+   $regex_path = preg_replace("/[a-zA-Z]:\//i", "", $regex_path); // Windows drive paths (using forwardslashes instead [which PHP allows])
+   $regex_path = preg_replace("/\//i", "\/", $regex_path);
    
-   return $regex_url;
+   return $regex_path;
    
    }
    
@@ -1856,7 +1857,7 @@ var $ct_array = array();
    $vars['cfg_secure']   = $smtp_secure;
    $vars['cfg_username'] = $smtp_user;
    $vars['cfg_password'] = $smtp_password;
-   $vars['cfg_debug_mode'] = $ct_conf['dev']['debug']; // Open Crypto Tracker debug mode setting
+   $vars['cfg_debug_mode'] = $ct_conf['dev']['debug_mode']; // Open Crypto Tracker debug mode setting
    $vars['cfg_strict_ssl'] = $ct_conf['sec']['smtp_strict_ssl']; // Open Crypto Tracker strict SSL setting
    $vars['cfg_app_version'] = $app_version; // Open Crypto Tracker version
    
@@ -3570,89 +3571,9 @@ var $ct_array = array();
    ////////////////////////////////////////////////////////
    
    
-   function zip_recursively($source, $destination, $password=false) {
-      
-         
-         if ( !extension_loaded('zip') ) {
-         return 'no_extension';
-         }
-         elseif ( !file_exists($source) ) {
-         return 'no_source';
-         }
-      
-      
-   $zip = new ZipArchive();
-         
-         
-         if ( !$zip->open($destination, ZIPARCHIVE::CREATE) ) {
-         return 'no_open_dest';
-         }
-         
-         
-         // If we are password-protecting
-         if ( $password != false ) {
-         $zip->setPassword($password);
-         }
-      
-      
-   $source = str_replace('\\', '/', realpath($source));
-      
-      
-         if ( is_dir($source) === true ) {
-            
-            $files = new RecursiveIteratorIterator(new RecursiveDirectoryIterator($source), RecursiveIteratorIterator::SELF_FIRST);
-      
-            foreach ($files as $file) {
-               
-               $file = str_replace('\\', '/', $file);
-      
-               // Ignore "." and ".." folders
-               if ( in_array( substr($file, strrpos($file, '/')+1) , array('.', '..') ) )
-                  continue;
-      
-               $file = realpath($file);
-      
-               if (is_dir($file) === true) {
-               $zip->addEmptyDir(str_replace($source . '/', '', $file . '/'));
-               }
-               elseif (is_file($file) === true) {
-                  
-               $zip->addFromString(str_replace($source . '/', '', $file), file_get_contents($file));
-                  
-                  // If we are password-protecting
-                  if ( $password != false ) {
-                  $zip->setEncryptionName(str_replace($source . '/', '', $file), ZipArchive::EM_AES_256);
-                  }
-                  
-               }
-               
-            }
-            
-         }
-         elseif ( is_file($source) === true ) {
-            
-         $zip->addFromString(basename($source), file_get_contents($source));
-            
-            // If we are password-protecting
-            if ( $password != false ) {
-            $zip->setEncryptionName(basename($source), ZipArchive::EM_AES_256);
-            }
-            
-         }
-      
-      
-   return $zip->close();      
-       
-   }
-   
-   
-   ////////////////////////////////////////////////////////
-   ////////////////////////////////////////////////////////
-   
-   
    function safe_mail($to, $subj, $msg, $content_type='text/plain', $charset=null) {
       
-   global $app_version, $ct_conf;
+   global $ct_conf, $system_info;
    
       if ( $charset == null ) {
       $charset = $ct_conf['dev']['charset_default'];
@@ -3688,7 +3609,7 @@ var $ct_array = array();
             
             $headers = array(
                         'From' => 'From: ' . $ct_conf['comms']['from_email'],
-                        'X-Mailer' => 'Open_Crypto_Tracker/' . $app_version . ' - PHP/' . phpversion(),
+                        'X-Mailer' => $system_info['software'],
                         'Content-Type' => $content_type . '; charset=' . $charset
                            );
             
@@ -3696,7 +3617,7 @@ var $ct_array = array();
             else {
             
             $headers = array(
-                        'X-Mailer' => 'Open_Crypto_Tracker/' . $app_version . ' - PHP/' . phpversion(),
+                        'X-Mailer' => $system_info['software'],
                         'Content-Type' => $content_type . '; charset=' . $charset
                            );
             
@@ -3709,13 +3630,13 @@ var $ct_array = array();
             if ( $this->valid_email($ct_conf['comms']['from_email']) == 'valid' ) {
             
             $headers = 'From: ' . $ct_conf['comms']['from_email'] . "\r\n" .
-            'X-Mailer: Open_Crypto_Tracker/' . $app_version . ' - PHP/' . phpversion() . "\r\n" .
+            'X-Mailer: ' . $system_info['software'] . "\r\n" .
             'Content-Type: ' . $content_type . '; charset=' . $charset;
          
             }
             else {
             
-            $headers = 'X-Mailer: Open_Crypto_Tracker/' . $app_version . ' - PHP/' . phpversion() . "\r\n" .
+            $headers = 'X-Mailer: ' . $system_info['software'] . "\r\n" .
             'Content-Type: ' . $content_type . '; charset=' . $charset;
          
             }
@@ -4020,21 +3941,31 @@ var $ct_array = array();
          
       
       }
-      elseif ( preg_match("/windows 11/i", $system['operating_system']) ) {
-      $system['distro_name'] = 'Windows 11';
-      }
-      elseif ( preg_match("/windows 10/i", $system['operating_system']) ) {
-      $system['distro_name'] = 'Windows 10';
-      }
-      elseif ( preg_match("/windows nt/i", $system['operating_system']) ) {
-      $system['distro_name'] = 'Windows NT';
-      }
-      elseif ( preg_match("/windows/i", $system['operating_system']) ) {
-      $system['distro_name'] = 'Windows';
+      elseif ( PHP_OS_FAMILY == 'Windows' ) {
+          
+          if ( preg_match("/windows 11/i", $system['operating_system']) ) {
+          $win_ver = '11';
+          }
+          elseif ( preg_match("/windows 10/i", $system['operating_system']) ) {
+          $win_ver = '10';
+          }
+          elseif ( preg_match("/windows server/i", $system['operating_system']) ) {
+          $win_ver = 'Server';
+          }
+          elseif ( preg_match("/windows nt/i", $system['operating_system']) ) {
+          $win_ver = 'NT';
+          }
+          
+      $system['distro_name'] = 'Windows' . ( isset($win_ver) && trim($win_ver) != '' ? ' ' . $win_ver : '' );
+      
+      $win_os = getenv("OS");
+      
+      $system['distro_version'] = ( isset($win_os) && trim($win_os) != '' ? '['.$win_os.']' : '' );
+         
       }
       
       
-      // CPU stats
+      // CPU stats on Linux
       if ( is_readable('/proc/cpuinfo') ) {
       
       $cpu['cpu_info'] = $this->system_stats_file('/proc/cpuinfo', "\n", ":");
@@ -4062,6 +3993,25 @@ var $ct_array = array();
          $system['cpu_threads'] = 1; // Presume only one, if nothing parsed
          }
          
+      
+      }
+      // CPU core count on Windows
+      elseif ( PHP_OS_FAMILY == 'Windows' ) {
+      
+      $win_cpu_model = getenv("PROCESSOR_IDENTIFIER");
+      
+         if ( isset($win_cpu_model) && trim($win_cpu_model) != '' ) {
+         $system['model_name'] = $win_cpu_model;
+         }
+      
+      $win_cpu_cores = getenv("NUMBER_OF_PROCESSORS") + 0;
+      
+         if ( $win_cpu_cores > 0 ) {
+         $system['cpu_threads'] = $win_cpu_cores;
+         }
+         else {
+         $system['cpu_threads'] = 1; // Presume only one, if nothing parsed
+         }
       
       }
    
@@ -4174,10 +4124,6 @@ var $ct_array = array();
       $portfolio_cache = trim( file_get_contents($base_dir . '/cache/vars/cache_size.dat') );
       $system['portfolio_cache'] = ( $ct_var->num_to_str($portfolio_cache) > 0 ? $portfolio_cache : 0 );
       }
-      
-   
-   // Software
-   $system['software'] = 'Open_Crypto_Tracker/' . $app_version . ' - PHP/' . phpversion();
    
    
       // Server stats
@@ -4207,9 +4153,24 @@ var $ct_array = array();
          
          }
       
-      $server['server_info'] = $server_info_array;
+      $system['server_info'] = $server_info_array;
       
       }
+      
+      
+      if ( isset($_ENV['SERVER_SOFTWARE']) && trim($_ENV['SERVER_SOFTWARE']) != '' ) {
+      $server_soft = $_ENV['SERVER_SOFTWARE'];
+      }
+      elseif ( isset($_SERVER['SERVER_SOFTWARE']) && trim($_SERVER['SERVER_SOFTWARE']) != '' ) {
+      $server_soft = $_SERVER['SERVER_SOFTWARE'];
+      }
+      else {
+      $server_soft = '';
+      }
+      
+   
+   // Software
+   $system['software'] = 'Open_Crypto_Tracker/' . $app_version . ' - PHP/' . phpversion() . ( $server_soft != '' ? ' - ' . $server_soft : '' );
       
    
    return $system;

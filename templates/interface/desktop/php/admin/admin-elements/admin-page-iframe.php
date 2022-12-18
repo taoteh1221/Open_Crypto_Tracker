@@ -53,7 +53,7 @@ header('Access-Control-Allow-Origin: ' . $app_host_address);
 	
 	var app_edition = '<?=$app_edition?>';
 	
-	var admin_area_sec_level = '<?=$admin_area_sec_level?>';
+	var admin_area_sec_level = '<?=base64_encode( $admin_area_sec_level )?>';
 	
 	var logs_csrf_sec_token = '<?=base64_encode( $ct_gen->admin_hashed_nonce('logs_csrf_security') )?>';
 	
@@ -166,9 +166,6 @@ header('Access-Control-Allow-Origin: ' . $app_host_address);
 	?>
 	
 	<script>
-
-	
-	window.is_iframe = true;
     
     window.is_admin = false; // Default
 	
@@ -259,7 +256,7 @@ padding: 0px;
 $(document).ready(function(){
 
 
-    if ( admin_area_sec_level == 'enhanced' ) {
+    if ( Base64.decode(admin_area_sec_level) == 'enhanced' ) {
 
     var forms_array = document.getElementsByTagName("form");
     
@@ -347,7 +344,7 @@ if ( $error_log != true ) {
 <?php
 }
 		
-if ( $ct_conf['dev']['debug'] != 'off' && $debug_log != true ) {
+if ( $ct_conf['dev']['debug_mode'] != 'off' && $debug_log != true ) {
 ?>
 <div class="red" style='font-weight: bold;'><?=$debug_log?></div>
 <?php

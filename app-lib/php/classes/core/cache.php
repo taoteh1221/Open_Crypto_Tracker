@@ -51,44 +51,24 @@ var $ct_array1 = array();
   $this->debug_log();
   
   }
-   
+  
   
   ////////////////////////////////////////////////////////
   ////////////////////////////////////////////////////////
   
   
-  function user_ini_defaults() {
+  function php_timeout_defaults($dir_var) {
    
-  global $base_dir, $ct_conf;
+  global $ct_conf, $ct_var;
   
   $ui_exec_time = $ct_conf['dev']['ui_max_exec_time']; // Don't overwrite globals
   
     // If the UI timeout var wasn't set properly / is not a whole number 3600 or less
-    if ( !ctype_digit($ui_exec_time) || $ui_exec_time > 3600 ) {
+    if ( !$ct_var->whole_int($ui_exec_time) || $ui_exec_time > 3600 ) {
     $ui_exec_time = 250; // Default
     }
   
-  return preg_replace("/\[PHP_TIMEOUT\]/i", $ui_exec_time, file_get_contents($base_dir . '/templates/back-end/root-app-directory-user-ini.template') );
-  
-  }
-  
-  
-  ////////////////////////////////////////////////////////
-  ////////////////////////////////////////////////////////
-  
-  
-  function htaccess_dir_defaults() {
-   
-  global $base_dir, $ct_conf;
-  
-  $ui_exec_time = $ct_conf['dev']['ui_max_exec_time']; // Don't overwrite globals
-  
-    // If the UI timeout var wasn't set properly / is not a whole number 3600 or less
-    if ( !ctype_digit($ui_exec_time) || $ui_exec_time > 3600 ) {
-    $ui_exec_time = 250; // Default
-    }
-  
-  return preg_replace("/\[PHP_TIMEOUT\]/i", $ui_exec_time, file_get_contents($base_dir . '/templates/back-end/root-app-directory-htaccess.template') );
+  return preg_replace("/\[PHP_TIMEOUT\]/i", $ui_exec_time, file_get_contents($dir_var) );
   
   }
   
@@ -213,7 +193,7 @@ var $ct_array1 = array();
       
        	if ( $password_set == true ) {
        
-       	$htaccess_contents = $this->htaccess_dir_defaults() . 
+       	$htaccess_contents = $this->php_timeout_defaults($base_dir . '/templates/back-end/root-app-directory-htaccess.template') . 
     		preg_replace("/\[BASE_DIR\]/i", $base_dir, file_get_contents($base_dir . '/templates/back-end/enable-password-htaccess.template') );
       
        	$htaccess_set = $this->save_file($base_dir . '/.htaccess', $htaccess_contents);
@@ -390,9 +370,9 @@ var $ct_array1 = array();
   ////////////////////////////////////////////////////////
   
   
-  function backup_archive($backup_prefix, $backup_target, $interval, $password=false) {
+  function backup_archive($backup_prefix, $backup_target, $interval, $password='no') {
   
-  global $ct_conf, $ct_gen, $base_dir, $base_url;
+  global $ct_conf, $ct_gen, $ext_zip, $base_dir, $base_url;
   
   
 	  // 1439 minutes instead (minus 1 minute), to try keeping daily recurrences at same exact runtime (instead of moving up the runtime daily)
@@ -417,10 +397,10 @@ var $ct_array1 = array();
           $backup_dest = $base_dir . '/cache/secured/backups/' . $backup_file;
            
           // Zip archive
-          $backup_results = $ct_gen->zip_recursively($backup_target, $backup_dest, $password);
+          $backup_results = $ext_zip->zip_recursively($backup_target, $backup_dest, $password, ZipArchive::CREATE);
            
            
-              if ( $backup_results == 1 ) {
+              if ( $backup_results == 'done' ) {
                
               $this->save_file($base_dir . '/cache/events/backup-'.$backup_prefix.'.dat', $ct_gen->time_date_format(false, 'pretty_date_time') );
                
@@ -552,7 +532,7 @@ var $ct_array1 = array();
   global $runtime_mode, $base_dir, $ct_conf, $ct_gen, $log_debugging, $alerts_gui_debugging;
   
   
-      if ( $ct_conf['dev']['debug'] == 'off' ) {
+      if ( $ct_conf['dev']['debug_mode'] == 'off' ) {
       return false;
       }
     
@@ -640,7 +620,7 @@ var $ct_array1 = array();
           return 'Debugging logs write error for "' . $base_dir . '/cache/logs/debug.log" (MAKE SURE YOUR DISK ISN\'T FULL), data_size_bytes: ' . strlen($debug_log) . ' bytes';
           }
           // DEBUGGING ONLY (rules out issues other than full disk)
-          elseif ( $ct_conf['dev']['debug'] == 'all' || $ct_conf['dev']['debug'] == 'all_telemetry' ) {
+          elseif ( $ct_conf['dev']['debug_mode'] == 'all' || $ct_conf['dev']['debug_mode'] == 'all_telemetry' ) {
           return 'Debugging logs write success for "' . $base_dir . '/cache/logs/debug.log", data_size_bytes: ' . strlen($debug_log) . ' bytes';
           }
         
@@ -746,7 +726,7 @@ var $ct_array1 = array();
           return 'Error logs write error for "' . $base_dir . '/cache/logs/error.log" (MAKE SURE YOUR DISK ISN\'T FULL), data_size_bytes: ' . strlen($error_log) . ' bytes';
           }
           // DEBUGGING ONLY (rules out issues other than full disk)
-          elseif ( $ct_conf['dev']['debug'] == 'all' || $ct_conf['dev']['debug'] == 'all_telemetry' ) {
+          elseif ( $ct_conf['dev']['debug_mode'] == 'all' || $ct_conf['dev']['debug_mode'] == 'all_telemetry' ) {
           return 'Error logs write success for "' . $base_dir . '/cache/logs/error.log", data_size_bytes: ' . strlen($error_log) . ' bytes';
           }
       
@@ -1190,9 +1170,9 @@ var $ct_array1 = array();
     $_SESSION['light_charts_updated'] = $_SESSION['light_charts_updated'] + 1;
       
       if ( 
-      $ct_conf['dev']['debug'] == 'all'
-      || $ct_conf['dev']['debug'] == 'all_telemetry'
-      || $ct_conf['dev']['debug'] == 'light_chart_telemetry' 
+      $ct_conf['dev']['debug_mode'] == 'all'
+      || $ct_conf['dev']['debug_mode'] == 'all_telemetry'
+      || $ct_conf['dev']['debug_mode'] == 'light_chart_telemetry' 
       ) {
       	
       $ct_gen->log(
@@ -1203,9 +1183,9 @@ var $ct_array1 = array();
       }
        
       if ( 
-      $ct_conf['dev']['debug'] == 'all'
-      || $ct_conf['dev']['debug'] == 'all_telemetry'
-      || $ct_conf['dev']['debug'] == 'memory_usage_telemetry' 
+      $ct_conf['dev']['debug_mode'] == 'all'
+      || $ct_conf['dev']['debug_mode'] == 'all_telemetry'
+      || $ct_conf['dev']['debug_mode'] == 'memory_usage_telemetry' 
       ) {
       	
       $ct_gen->log(
@@ -1368,7 +1348,7 @@ var $ct_array1 = array();
               
               $this->save_file($base_dir . '/cache/events/throttling/notifyme-alerts-sent.dat', $processed_msgs['notifyme_count']); 
               
-                if ( $ct_conf['dev']['debug'] == 'all' || $ct_conf['dev']['debug'] == 'all_telemetry' || $ct_conf['dev']['debug'] == 'api_comms_telemetry' ) {
+                if ( $ct_conf['dev']['debug_mode'] == 'all' || $ct_conf['dev']['debug_mode'] == 'all_telemetry' || $ct_conf['dev']['debug_mode'] == 'api_comms_telemetry' ) {
                 $this->save_file($base_dir . '/cache/logs/debug/external_data/last-response-notifyme.log', $notifyme_response);
                 }
               
@@ -1398,7 +1378,7 @@ var $ct_array1 = array();
           
           $msg_sent = 1;
             
-            if ( $ct_conf['dev']['debug'] == 'all' || $ct_conf['dev']['debug'] == 'all_telemetry' || $ct_conf['dev']['debug'] == 'api_comms_telemetry' ) {
+            if ( $ct_conf['dev']['debug_mode'] == 'all' || $ct_conf['dev']['debug_mode'] == 'all_telemetry' || $ct_conf['dev']['debug_mode'] == 'api_comms_telemetry' ) {
             $this->save_file($base_dir . '/cache/logs/debug/external_data/last-response-textbelt.log', $textbelt_response);
             }
           
@@ -1425,7 +1405,7 @@ var $ct_array1 = array();
           
           $msg_sent = 1;
             
-            if ( $ct_conf['dev']['debug'] == 'all' || $ct_conf['dev']['debug'] == 'all_telemetry' || $ct_conf['dev']['debug'] == 'api_comms_telemetry' ) {
+            if ( $ct_conf['dev']['debug_mode'] == 'all' || $ct_conf['dev']['debug_mode'] == 'all_telemetry' || $ct_conf['dev']['debug_mode'] == 'api_comms_telemetry' ) {
             $this->save_file($base_dir . '/cache/logs/debug/external_data/last-response-textlocal.log', $textlocal_response);
             }
           
@@ -1458,7 +1438,7 @@ var $ct_array1 = array();
              }
               
             
-             if ( $ct_conf['dev']['debug'] == 'all' || $ct_conf['dev']['debug'] == 'all_telemetry' || $ct_conf['dev']['debug'] == 'api_comms_telemetry' ) {
+             if ( $ct_conf['dev']['debug_mode'] == 'all' || $ct_conf['dev']['debug_mode'] == 'all_telemetry' || $ct_conf['dev']['debug_mode'] == 'api_comms_telemetry' ) {
              $this->save_file($base_dir . '/cache/logs/debug/external_data/last-response-telegram.log', $telegram_response);
              }
           
@@ -1695,7 +1675,7 @@ var $ct_array1 = array();
       			);
        
       }
-      elseif ( $ct_conf['dev']['debug'] == 'all' || $ct_conf['dev']['debug'] == 'all_telemetry' || $ct_conf['dev']['debug'] == 'ext_data_cache_telemetry' ) {
+      elseif ( $ct_conf['dev']['debug_mode'] == 'all' || $ct_conf['dev']['debug_mode'] == 'all_telemetry' || $ct_conf['dev']['debug_mode'] == 'ext_data_cache_telemetry' ) {
       
       
         if ( !$log_debugging['debug_duplicates'][$hash_check] ) {
@@ -1805,8 +1785,8 @@ var $ct_array1 = array();
      
      
       // If this is a windows desktop edition
-      if ( file_exists($base_dir . '/cache/cacert.pem') ) {
-      curl_setopt($ch, CURLOPT_CAINFO, $base_dir . '/cache/cacert.pem');
+      if ( file_exists($base_dir . '/cache/other/win_curl_cacert.pem') ) {
+      curl_setopt($ch, CURLOPT_CAINFO, $base_dir . '/cache/other/win_curl_cacert.pem');
       }
      
      
@@ -1894,7 +1874,7 @@ var $ct_array1 = array();
       
       // We don't want strict SSL checks if this is our app calling itself (as we may be running our own self-signed certificate)
       // (app running an external check on its htaccess, etc)
-      $regex_base_url = $ct_gen->regex_compat_url($base_url);
+      $regex_base_url = $ct_gen->regex_compat_path($base_url);
        
       // Secure random hash to nullify any preg_match() below, as we are submitting out htaccess user/pass if setup
       $scan_base_url = ( isset($regex_base_url) && $regex_base_url != '' ? $regex_base_url : $ct_gen->rand_hash(8) );
@@ -2183,7 +2163,7 @@ var $ct_array1 = array();
       
       
         // Data debugging telemetry
-        if ( $ct_conf['dev']['debug'] == 'all' || $ct_conf['dev']['debug'] == 'all_telemetry' || $ct_conf['dev']['debug'] == 'ext_data_live_telemetry' ) {
+        if ( $ct_conf['dev']['debug_mode'] == 'all' || $ct_conf['dev']['debug_mode'] == 'all_telemetry' || $ct_conf['dev']['debug_mode'] == 'ext_data_live_telemetry' ) {
          
         // LOG-SAFE VERSION (no post data with API keys etc)
         $ct_gen->log(
@@ -2255,7 +2235,7 @@ var $ct_array1 = array();
       $ct_gen->log(
       			'notify_error',
       							
-      			'Remote API timeout near OR exceeded for ' . ( $mode == 'params' ? 'server at ' : 'endpoint at ' ) . $ct_gen->obfusc_url_data($api_endpoint) . ' (' . $api_total_time . ' seconds / received ' . $data_bytes_ux . '), consider setting "remote_api_timeout" higher in POWER USER config if this persists OFTEN',
+      			'Remote API timeout near OR exceeded for ' . ( $mode == 'params' ? 'server at ' : 'endpoint at ' ) . $ct_gen->obfusc_url_data($api_endpoint) . ' (' . $api_total_time . ' seconds / received ' . $data_bytes_ux . '), consider setting "remote_api_timeout" higher in POWER USER config *IF* this persists OFTEN',
       							
       			'remote_api_timeout: ' . $ct_conf['power']['remote_api_timeout'] . ' seconds; live_request_time: ' . $api_total_time . ' seconds; mode: ' . $mode . '; received: ' . $data_bytes_ux . ';',
       							
@@ -2327,7 +2307,7 @@ var $ct_array1 = array();
       			);
        
       }
-      elseif ( $ct_conf['dev']['debug'] == 'all' || $ct_conf['dev']['debug'] == 'all_telemetry' || $ct_conf['dev']['debug'] == 'ext_data_cache_telemetry' ) {
+      elseif ( $ct_conf['dev']['debug_mode'] == 'all' || $ct_conf['dev']['debug_mode'] == 'all_telemetry' || $ct_conf['dev']['debug_mode'] == 'ext_data_cache_telemetry' ) {
       
         if ( !$log_debugging['debug_duplicates'][$hash_check] ) {
         $log_debugging['debug_duplicates'][$hash_check] = 1; 

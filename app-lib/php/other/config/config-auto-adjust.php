@@ -13,7 +13,7 @@
 // START CONFIG CLEANUP (auto-correct any basic end user data entry errors in possibly user-customized DEFAULTS in config.php)
 
 // Cleaning lowercase alphanumeric string values, and auto-correct minor errors
-$ct_conf['dev']['debug'] = $ct_var->auto_correct_str($ct_conf['dev']['debug'], 'lower');
+$ct_conf['dev']['debug_mode'] = $ct_var->auto_correct_str($ct_conf['dev']['debug_mode'], 'lower');
 $ct_conf['comms']['upgrade_alert'] = $ct_var->auto_correct_str($ct_conf['comms']['upgrade_alert'], 'lower');
 $ct_conf['gen']['btc_prim_currency_pair'] = $ct_var->auto_correct_str($ct_conf['gen']['btc_prim_currency_pair'], 'lower');
 $ct_conf['gen']['btc_prim_exchange'] = $ct_var->auto_correct_str($ct_conf['gen']['btc_prim_exchange'], 'lower');
@@ -67,7 +67,7 @@ $ct_conf['power']['light_chart_day_intervals'][] = 'all';
 
 
 // Idiot-proof PHP session timeout
-if ( !ctype_digit($ct_conf['sec']['session_expire']) || $ct_conf['sec']['session_expire'] <= 0 ) {
+if ( !$ct_var->whole_int($ct_conf['sec']['session_expire']) || $ct_conf['sec']['session_expire'] <= 0 ) {
 $ct_conf['sec']['session_expire'] = 1;
 }
 elseif ( $ct_conf['sec']['session_expire'] > 8 ) {
@@ -226,7 +226,7 @@ $cached_light_chart_struct = trim( file_get_contents($base_dir . '/cache/vars/li
 // OR a user-requested light chart reset
 if (
 $conf_light_chart_struct != $cached_light_chart_struct
-|| $_POST['reset_light_charts'] == 1 && $ct_gen->admin_hashed_nonce('reset_light_charts') != false && $_POST['admin_hashed_nonce'] == $ct_gen->admin_hashed_nonce('reset_light_charts')
+|| $_POST['reset_light_charts'] == 1 && $ct_gen->pass_sec_check($_POST['admin_hashed_nonce'], 'reset_light_charts')
 ) {
 
 // Delete ALL light charts (this will automatically trigger a re-build)

@@ -97,7 +97,7 @@ foreach( $secured_cache_files as $secured_file ) {
 		else {
 			
 			// If an webhook secret key reset from authenticated admin is verified
-			if ( $_POST['reset_webhook_key'] == 1 && $ct_gen->admin_hashed_nonce('reset_webhook_key') != false && $_POST['admin_hashed_nonce'] == $ct_gen->admin_hashed_nonce('reset_webhook_key') ) {
+			if ( $_POST['reset_webhook_key'] == 1 && $ct_gen->pass_sec_check($_POST['admin_hashed_nonce'], 'reset_webhook_key') ) {
 				
 			unlink($base_dir . '/cache/secured/' . $secured_file);
 			
@@ -128,7 +128,7 @@ foreach( $secured_cache_files as $secured_file ) {
 		else {
 			
 			// If an internal API key reset from authenticated admin is verified
-			if ( $_POST['reset_int_api_key'] == 1 && $ct_gen->admin_hashed_nonce('reset_int_api_key') != false && $_POST['admin_hashed_nonce'] == $ct_gen->admin_hashed_nonce('reset_int_api_key') ) {
+			if ( $_POST['reset_int_api_key'] == 1 && $ct_gen->pass_sec_check($_POST['admin_hashed_nonce'], 'reset_int_api_key') ) {
 				
 			unlink($base_dir . '/cache/secured/' . $secured_file);
 			

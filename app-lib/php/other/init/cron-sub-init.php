@@ -42,7 +42,7 @@ $_SESSION['light_charts_updated'] = 0;
     // If end-user did not disable emulated cron, BEFORE setting up and running regular cron
     elseif ( $app_edition == 'desktop' && $ct_conf['power']['desktop_cron_interval'] > 0 && php_sapi_name() == 'cli' ) {
         
-    $exit_result_text = 'you must disable EMULATED cron BEFORE running REGULAR cron (set "desktop_cron_interval" to zero in power user config)';
+    $exit_result_text = 'you must disable EMULATED cron BEFORE running REGULAR cron (set "desktop_cron_interval" to zero in power user config, AND THEN YOU *MUST* RESTART / RELOAD THE APP *AFTERWARDS*)';
     
     $ct_gen->log('conf_error', $exit_result_text);
     

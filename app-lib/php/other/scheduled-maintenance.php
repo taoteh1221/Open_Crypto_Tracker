@@ -116,7 +116,7 @@ $ct_cache->delete_old_files($logs_cache_cleanup, $ct_conf['power']['logs_purge']
     
     // Get root CA certificates for windows desktop edition if we haven't yet, as we need them...
     
-    $save_file = $base_dir . '/cache/cacert.pem';
+    $save_file = $base_dir . '/cache/other/win_curl_cacert.pem';
     
     if ( $app_platform == 'windows' && !file_exists($save_file) ) {
     

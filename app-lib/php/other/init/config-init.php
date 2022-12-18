@@ -46,17 +46,14 @@ require_once('app-lib/php/classes/3rd-party-classes-loader.php');
 // Essential vars / arrays / inits that can only be set AFTER config-auto-adjust...
 
 
-// If debugging is enabled, turn on all PHP error reporting (BEFORE ANYTHING ELSE RUNS)
-if ( $ct_conf['dev']['debug'] != 'off' || $dev_debug_php_errors == -1 ) {
-error_reporting(-1); 
-}
-else {
-error_reporting($ct_conf['dev']['error_reporting']); 
+// PHP error logging on / off, VIA END-USER CONFIG SETTING, *ONLY IF* THE HARD-CODED DEV PHP DEBUGGING IN INIT.PHP IS OFF
+if ( $dev_debug_php_errors == 0 ) {
+error_reporting($ct_conf['dev']['php_error_reporting']); 
 }
 
 
 // Set a max execution time (if the system lets us), TO AVOID RUNAWAY PROCESSES FREEZING THE SERVER
-if ( $ct_conf['dev']['debug'] != 'off' ) {
+if ( $ct_conf['dev']['debug_mode'] != 'off' ) {
 $max_exec_time = 900; // 15 minutes in debug mode
 }
 elseif ( $runtime_mode == 'ui' ) {
@@ -76,7 +73,7 @@ $max_exec_time = $ct_conf['dev']['webhook_max_exec_time'];
 }
 ////
 // If the script timeout var wasn't set properly / is not a whole number 3600 or less
-if ( !ctype_digit($max_exec_time) || $max_exec_time > 3600 ) {
+if ( !$ct_var->whole_int($max_exec_time) || $max_exec_time > 3600 ) {
 $max_exec_time = 250; // 250 seconds default
 }
 ////
@@ -99,7 +96,7 @@ elseif ( is_array($ct_conf['proxy']['proxy_list']) && sizeof($ct_conf['proxy']['
 $user_agent = 'Curl/' .$curl_setup["version"]. ' ('.PHP_OS.'; compatible;)';  // If proxies in use, preserve some privacy
 }
 else {
-$user_agent = 'Curl/' .$curl_setup["version"]. ' ('.PHP_OS.'; ' . $_SERVER['SERVER_SOFTWARE'] . '; PHP/' .phpversion(). '; Open_Crypto_Tracker/' . $app_version . '; +https://github.com/taoteh1221/Open_Crypto_Tracker)';
+$user_agent = 'Curl/' .$curl_setup["version"]. ' ('.PHP_OS.'; ' . ( isset($_SERVER['SERVER_SOFTWARE']) && trim($_SERVER['SERVER_SOFTWARE']) != '' ? $_SERVER['SERVER_SOFTWARE'] . '; ' : '' ) . 'PHP/' .phpversion(). '; Open_Crypto_Tracker/' . $app_version . '; +https://github.com/taoteh1221/Open_Crypto_Tracker)';
 }
 
 
