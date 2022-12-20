@@ -4167,10 +4167,15 @@ var $ct_array = array();
       else {
       $server_soft = '';
       }
+
       
+      if ( !preg_match("/".$this->regex_compat_path( phpversion() )."/i", $server_soft) ) {
+      $server_soft .= ' PHP/' . phpversion();
+      }
+   
    
    // Software
-   $system['software'] = 'Open_Crypto_Tracker/' . $app_version . ' - PHP/' . phpversion() . ( $server_soft != '' ? ' - ' . $server_soft : '' );
+   $system['software'] = ( isset($server_soft) && $server_soft != '' ? $server_soft . ' - ' : ' - ' ) . 'Open_Crypto_Tracker/' . $app_version;
       
    
    return $system;

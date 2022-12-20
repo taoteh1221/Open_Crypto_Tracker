@@ -96,7 +96,7 @@ elseif ( is_array($ct_conf['proxy']['proxy_list']) && sizeof($ct_conf['proxy']['
 $user_agent = 'Curl/' .$curl_setup["version"]. ' ('.PHP_OS.'; compatible;)';  // If proxies in use, preserve some privacy
 }
 else {
-$user_agent = 'Curl/' .$curl_setup["version"]. ' ('.PHP_OS.'; ' . ( isset($_SERVER['SERVER_SOFTWARE']) && trim($_SERVER['SERVER_SOFTWARE']) != '' ? $_SERVER['SERVER_SOFTWARE'] . '; ' : '' ) . 'PHP/' .phpversion(). '; Open_Crypto_Tracker/' . $app_version . '; +https://github.com/taoteh1221/Open_Crypto_Tracker)';
+$user_agent = 'Curl/' .$curl_setup["version"]. ' ('.PHP_OS.'; ' . ( isset($_SERVER['SERVER_SOFTWARE']) && trim($_SERVER['SERVER_SOFTWARE']) != '' ? $_SERVER['SERVER_SOFTWARE'] . '; ' : '' ) . ' Open_Crypto_Tracker/' . $app_version . '; +https://github.com/taoteh1221/Open_Crypto_Tracker)';
 }
 
 
