@@ -1584,7 +1584,7 @@ $ct_conf['dev']['light_chart_first_build_hard_limit'] = 25; // (default = 25), A
 // If you want to override the default user agent string (sent with API requests, etc)
 // Adding a string here automatically enables that as the custom user agent
 // LEAVING BLANK '' USES THE DEFAULT USER AGENT LOGIC BUILT-IN TO THIS APP (WHICH INCLUDES ONLY BASIC SYSTEM CONFIGURATION STATS)
-$ct_conf['dev']['override_user_agent'] = ''; 
+$ct_conf['dev']['override_curl_user_agent'] = ''; 
 
 
 // Default charset used

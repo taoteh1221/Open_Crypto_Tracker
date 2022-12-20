@@ -89,14 +89,14 @@ $htaccess_password = $interface_login_array[1];
 
 // User agent (MUST BE SET VERY EARLY [AFTER primary-init / CONFIG-AUTO-ADJUST], 
 // FOR ANY API CALLS WHERE USER AGENT IS REQUIRED BY THE API SERVER)
-if ( trim($ct_conf['dev']['override_user_agent']) != '' ) {
-$user_agent = $ct_conf['dev']['override_user_agent'];  // Custom user agent
+if ( trim($ct_conf['dev']['override_curl_user_agent']) != '' ) {
+$curl_user_agent = $ct_conf['dev']['override_curl_user_agent'];  // Custom user agent
 }
 elseif ( is_array($ct_conf['proxy']['proxy_list']) && sizeof($ct_conf['proxy']['proxy_list']) > 0 ) {
-$user_agent = 'Curl/' .$curl_setup["version"]. ' ('.PHP_OS.'; compatible;)';  // If proxies in use, preserve some privacy
+$curl_user_agent = 'Curl/' .$curl_setup["version"]. ' ('.PHP_OS.'; compatible;)';  // If proxies in use, preserve some privacy
 }
 else {
-$user_agent = 'Curl/' .$curl_setup["version"]. ' ('.PHP_OS.'; ' . ( isset($_SERVER['SERVER_SOFTWARE']) && trim($_SERVER['SERVER_SOFTWARE']) != '' ? $_SERVER['SERVER_SOFTWARE'] . '; ' : '' ) . ' Open_Crypto_Tracker/' . $app_version . '; +https://github.com/taoteh1221/Open_Crypto_Tracker)';
+$curl_user_agent = 'Curl/' .$curl_setup["version"]. ' ('.PHP_OS.'; ' . $system_info['software'] . '; +https://github.com/taoteh1221/Open_Crypto_Tracker)';
 }
 
 

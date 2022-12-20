@@ -1598,7 +1598,7 @@ var $ct_array1 = array();
   
   // $ct_conf['gen']['btc_prim_currency_pair'] / $ct_conf['gen']['btc_prim_exchange'] / $sel_opt['sel_btc_prim_currency_val'] USED FOR TRACE DEBUGGING (TRACING)
   
-  global $app_version, $base_dir, $base_url, $ct_conf, $ct_var, $ct_gen, $sel_opt, $proxy_checkup, $log_errors, $log_debugging, $limited_api_calls, $api_runtime_cache, $user_agent, $api_connections, $htaccess_username, $htaccess_password;
+  global $app_version, $base_dir, $base_url, $ct_conf, $ct_var, $ct_gen, $sel_opt, $proxy_checkup, $log_errors, $log_debugging, $limited_api_calls, $api_runtime_cache, $curl_user_agent, $api_connections, $htaccess_username, $htaccess_password;
   
   $cookie_jar = tempnam('/tmp','cookie');
    
@@ -1865,7 +1865,7 @@ var $ct_array1 = array();
       curl_setopt($ch, CURLOPT_USERAGENT, 'Custom_Feed_Parser/1.0 (compatible; Open_Crypto_Tracker/' . $app_version . '; +https://github.com/taoteh1221/Open_Crypto_Tracker)');
       }
       else {
-      curl_setopt($ch, CURLOPT_USERAGENT, $user_agent);
+      curl_setopt($ch, CURLOPT_USERAGENT, $curl_user_agent);
       }
      
      
