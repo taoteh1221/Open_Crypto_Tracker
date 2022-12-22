@@ -3181,54 +3181,24 @@ var $ct_array = array();
    
    
    function light_chart_time_period($light_chart_days, $mode) {
+       
+   global $ct_var;
       
+   // Whole integer time periods only (otherwise UI shows "day[s]")
       
       if ( $mode == 'short' ) {
    
          if ( $light_chart_days == 'all' ) {
          $time_period_text = strtoupper($light_chart_days);
          }
-         elseif ( $light_chart_days == 7 ) {
-         $time_period_text = '1W';
+         elseif ( $ct_var->whole_int($light_chart_days / 365) ) {
+         $time_period_text = ($light_chart_days / 365) . 'Y';
          }
-         elseif ( $light_chart_days == 14 ) {
-         $time_period_text = '2W';
+         elseif ( $ct_var->whole_int($light_chart_days / 30) ) {
+         $time_period_text = ($light_chart_days / 30) . 'M';
          }
-         elseif ( $light_chart_days == 21 ) {
-         $time_period_text = '3W';
-         }
-         elseif ( $light_chart_days == 30 ) {
-         $time_period_text = '1M';
-         }
-         elseif ( $light_chart_days == 60 ) {
-         $time_period_text = '2M';
-         }
-         elseif ( $light_chart_days == 90 ) {
-         $time_period_text = '3M';
-         }
-         elseif ( $light_chart_days == 120 ) {
-         $time_period_text = '4M';
-         }
-         elseif ( $light_chart_days == 150 ) {
-         $time_period_text = '5M';
-         }
-         elseif ( $light_chart_days == 180 ) {
-         $time_period_text = '6M';
-         }
-         elseif ( $light_chart_days == 365 ) {
-         $time_period_text = '1Y';
-         }
-         elseif ( $light_chart_days == 730 ) {
-         $time_period_text = '2Y';
-         }
-         elseif ( $light_chart_days == 1095 ) {
-         $time_period_text = '3Y';
-         }
-         elseif ( $light_chart_days == 1460 ) {
-         $time_period_text = '4Y';
-         }
-         elseif ( $light_chart_days == 1825 ) {
-         $time_period_text = '5Y';
+         elseif ( $ct_var->whole_int($light_chart_days / 7) ) {
+         $time_period_text = ($light_chart_days / 7) . 'W';
          }
          else {
          $time_period_text = $light_chart_days . 'D';
@@ -3240,50 +3210,21 @@ var $ct_array = array();
          if ( $light_chart_days == 'all' ) {
          $time_period_text = ucfirst($light_chart_days);
          }
-         elseif ( $light_chart_days == 7 ) {
-         $time_period_text = '1 Week';
+         elseif ( $ct_var->whole_int($light_chart_days / 365) ) {
+         $plural = ( ($light_chart_days / 365) > 1 ? 's' : '' );
+         $time_period_text = ($light_chart_days / 365) . ' Year' . $plural;
          }
-         elseif ( $light_chart_days == 14 ) {
-         $time_period_text = '2 Weeks';
+         elseif ( $ct_var->whole_int($light_chart_days / 30) ) {
+         $plural = ( ($light_chart_days / 30) > 1 ? 's' : '' );
+         $time_period_text = ($light_chart_days / 30) . ' Month' . $plural;
          }
-         elseif ( $light_chart_days == 21 ) {
-         $time_period_text = '3 Weeks';
-         }
-         elseif ( $light_chart_days == 30 ) {
-         $time_period_text = '1 Month';
-         }
-         elseif ( $light_chart_days == 60 ) {
-         $time_period_text = '2 Months';
-         }
-         elseif ( $light_chart_days == 90 ) {
-         $time_period_text = '3 Months';
-         }
-         elseif ( $light_chart_days == 120 ) {
-         $time_period_text = '4 Months';
-         }
-         elseif ( $light_chart_days == 150 ) {
-         $time_period_text = '5 Months';
-         }
-         elseif ( $light_chart_days == 180 ) {
-         $time_period_text = '6 Months';
-         }
-         elseif ( $light_chart_days == 365 ) {
-         $time_period_text = '1 Year';
-         }
-         elseif ( $light_chart_days == 730 ) {
-         $time_period_text = '2 Years';
-         }
-         elseif ( $light_chart_days == 1095 ) {
-         $time_period_text = '3 Years';
-         }
-         elseif ( $light_chart_days == 1460 ) {
-         $time_period_text = '4 Years';
-         }
-         elseif ( $light_chart_days == 1825 ) {
-         $time_period_text = '5 Years';
+         elseif ( $ct_var->whole_int($light_chart_days / 7) ) {
+         $plural = ( ($light_chart_days / 7) > 1 ? 's' : '' );
+         $time_period_text = ($light_chart_days / 7) . ' Week' . $plural;
          }
          else {
-         $time_period_text = $light_chart_days . ' Days';
+         $plural = ( $light_chart_days > 1 ? 's' : '' );
+         $time_period_text = $light_chart_days . ' Day' . $plural;
          }
       
       }

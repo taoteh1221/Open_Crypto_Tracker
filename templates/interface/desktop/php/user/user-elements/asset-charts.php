@@ -128,43 +128,8 @@ store_scroll_position();
   }
   
   
-		if ( days == 'all' ) {
-		light_chart_text = days.toUpperCase();
-		}
-		else if ( days == 7 ) {
-		light_chart_text = '1 week';
-		}
-		else if ( days == 14 ) {
-		light_chart_text = '2 week';
-		}
-		else if ( days == 30 ) {
-		light_chart_text = '1 month';
-		}
-		else if ( days == 60 ) {
-		light_chart_text = '2 month';
-		}
-		else if ( days == 90 ) {
-		light_chart_text = '3 month';
-		}
-		else if ( days == 180 ) {
-		light_chart_text = '6 month';
-		}
-		else if ( days == 365 ) {
-		light_chart_text = '1 year';
-		}
-		else if ( days == 730 ) {
-		light_chart_text = '2 year';
-		}
-		else if ( days == 1095 ) {
-		light_chart_text = '3 year';
-		}
-		else if ( days == 1460 ) {
-		light_chart_text = '4 year';
-		}
-		else {
-		light_chart_text = days + ' day';
-		}
-		
+  light_chart_text = '<?=$ct_gen->light_chart_time_period($light_chart_days, 'long')?>';	
+  
   
   $("#<?=strtolower($key)?>_<?=$charted_val?>_chart div.chart_reload div.chart_reload_msg").html("Loading " + light_chart_text + " chart for <?=$chart_asset?> / <?=strtoupper($alerts_mrkt_parse[1])?> @ <?=$ct_gen->key_to_name($alerts_mrkt_parse[0])?><?=( $chart_mode != 'pair' ? ' \(' . strtoupper($charted_val) . ' Value\)' : '' )?>...");
   

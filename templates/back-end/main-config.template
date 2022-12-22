@@ -55,13 +55,13 @@ $ct_conf['sec']['login_alert'] = 'all'; // 'off' (disabled) / 'all' / 'email' / 
 // HOURS until admin login cookie expires (requiring you to login again)
 // The lower number the better for higher security, epecially if the app server temporary session data 
 // doesn't auto-clear often (that also logs you off automatically, REGARDLESS of this setting's value)
-$ct_conf['sec']['admin_cookie_expire'] = 3; // (default = 3)
+$ct_conf['sec']['admin_cookie_expire'] = 6; // (default = 6)
 							
 							
 // HOURS until PHP session data expires (requiring you to login again / user area security tokens reset)
 // The lower number the better for higher security, epecially if the app server temporary session data 
 // doesn't auto-clear often (that also logs you off automatically, REGARDLESS of this setting's value)
-$ct_conf['sec']['session_expire'] = 3; // (default = 3, MAXIMUM OF 8)
+$ct_conf['sec']['session_expire'] = 6; // (default = 6, MAXIMUM OF 8 ALLOWED)
 
 
 // 'on' verifies ALL SMTP server certificates for secure SMTP connections, 'off' verifies NOTHING 
@@ -106,7 +106,7 @@ $ct_conf['sec']['captcha_permitted_chars'] = 'ABCDEFHJKMNPRSTUVWXYZ23456789'; //
 
 
 // Cache directories / files and .htaccess / index.php files permissions (CHANGE WITH #EXTREME# CARE, to adjust security for your PARTICULAR setup)
-// THESE PERMISSIONS ARE !ALREADY! CALLED THROUGH THE octdec() FUNCTION WITHIN THE APP WHEN USED
+// THESE PERMISSIONS ARE !ALREADY! CALLED THROUGH THE octdec() FUNCTION *WITHIN THE APP WHEN USED*
 ////
 // Cache directories permissions
 $ct_conf['sec']['chmod_cache_dir'] = '0770'; // (default = '0770' [owner/group read/write/exec])
@@ -226,6 +226,14 @@ $ct_conf['comms']['upgrade_alert'] = 'all'; // 'off' (disabled) / 'all' / 'ui' (
 $ct_conf['comms']['upgrade_alert_reminder'] = 7; // (only used if upgrade check is enabled above)
 
 
+// Every X days email a list of #NEW# RSS feed posts. 
+// 0 to disable. Email to / from !MUST BE SET IN COMMS CHANNELS SETUP!
+$ct_conf['comms']['news_feed_email_freq'] = 1; // (default = 1)
+////
+// MAXIMUM #NEW# RSS feed entries to include (per-feed) in news feed EMAIL (less then 'news_feed_email_freq' days old)
+$ct_conf['comms']['news_feed_email_entries_show'] = 15; // (default = 15)
+
+
 // PRICE ALERTS SETUP REQUIRES A CRON JOB / SCHEDULED TASK RUNNING ON YOUR WEB SERVER (see README.txt for setup information) 
 ///
 // Enable / disable price alerts (DEFAULT: ALL USER-ACTIVATED COMM CHANNELS)
@@ -255,14 +263,6 @@ $ct_conf['comms']['price_alert_min_vol'] = 0; // (default = 0)
 // Email logs every X days. 
 // 0 to disable. Email to / from !MUST BE SET IN COMMS CHANNELS SETUP!, MAY NOT SEND IN TIMELY FASHION WITHOUT A CRON JOB / SCHEDULED TASK
 $ct_conf['comms']['logs_email'] = 3; // (default = 3)
-
-
-// Every X days email a list of #NEW# RSS feed posts. 
-// 0 to disable. Email to / from !MUST BE SET IN COMMS CHANNELS SETUP!
-$ct_conf['comms']['news_feed_email_freq'] = 3; // (default = 3)
-////
-// MAXIMUM #NEW# RSS feed entries to include (per-feed) in news feed EMAIL (less then 'news_feed_email_freq' days old)
-$ct_conf['comms']['news_feed_email_entries_show'] = 20; // (default = 20)
 
 
 // Alerts for failed proxy data connections (#ONLY USED# IF proxies are enabled further down in PROXY CONFIGURATION). 
@@ -639,6 +639,14 @@ $ct_conf['power']['activate_plugins'] = array(
             								  'price-target-alert' => 'off',  // Price target alert plugin (alert yourself when an asset's price target is reached)
             								  'address-balance-tracker' => 'off',  // Alerts for BTC / ETH / [SOL|SPL Token] / HNT address balance changes (when coins are sent / recieved)
             								  );
+
+
+// NEWS FEED SETTINGS (ATOM / RSS formats supported)
+// RSS feed entries to show (per-feed) on News page (without needing to click the "show more / less" link)
+$ct_conf['power']['news_feed_entries_show'] = 15; // (default = 15)
+////
+// RSS feed entries under X DAYS old are marked as 'new' on the news page
+$ct_conf['power']['news_feed_entries_new'] = 1; // (default = 1)
 							
 							
 // MINUTES to wait until running consecutive desktop edition emulated cron jobs
@@ -654,7 +662,7 @@ $ct_conf['power']['desktop_cron_interval'] = 20; // (default = 20, 0 disables th
 // Set too low you won't get ALL data (partial or zero bytes), set too high the interface can take a long time loading if an API server hangs up
 // RECOMMENDED MINIMUM OF 60 FOR INSTALLS BEHIND #LOW BANDWIDTH# NETWORKS 
 // (which may need an even higher timeout above 60 if data still isn't FULLY received from all APIs)
-$ct_conf['power']['remote_api_timeout'] = 35; // (default = 35)
+$ct_conf['power']['remote_api_timeout'] = 30; // (default = 30)
 
 
 // MINUTES to cache real-time exchange price data...can be zero to skip cache, but set to at least 1 minute TO AVOID YOUR IP ADDRESS GETTING BLOCKED
@@ -663,17 +671,17 @@ $ct_conf['power']['last_trade_cache_time'] = 4; // (default = 4)
 
 
 // MINUTES to cache blockchain stats (for mining calculators). Set high initially, it can be strict
-$ct_conf['power']['chainstats_cache_time'] = 90;  // (default = 90)
+$ct_conf['power']['chainstats_cache_time'] = 60;  // (default = 60)
 
 
 // MINUTES to cache marketcap rankings...START HIGH and test lower, it can be STRICT
 // (coingecko #ABSOLUTELY HATES# DATA CENTER IPS [DEDICATED / VPS SERVERS], BUT GOES EASY ON RESIDENTIAL IPS)
-$ct_conf['power']['mcap_cache_time'] = 120;  // (default = 120)
+$ct_conf['power']['mcap_cache_time'] = 60;  // (default = 60)
 ////
 // Number of marketcap rankings to request from API.
-// 200 rankings is a safe maximum to START WITH, to avoid getting your API requests THROTTLED / BLOCKED
+// 500 rankings is a safe maximum to START WITH, to avoid getting your API requests THROTTLED / BLOCKED
 // (coingecko #ABSOLUTELY HATES# DATA CENTER IPS [DEDICATED / VPS SERVERS], BUT GOES EASY ON RESIDENTIAL IPS)
-$ct_conf['power']['mcap_ranks_max'] = 300; // (default = 300)
+$ct_conf['power']['mcap_ranks_max'] = 500; // (default = 500)
 
 
 // Maximum margin leverage available in the user interface ('Update' page, etc)
@@ -681,22 +689,24 @@ $ct_conf['power']['margin_lvrg_max'] = 150;
 
 
 // Days TO WAIT UNTIL DELETING OLD backup archives (chart data archives, etc)
-$ct_conf['power']['backup_arch_del_old'] = 10; 
+$ct_conf['power']['backup_arch_del_old'] = 14; 
 
 
 // Keep logs X DAYS before purging (fully deletes logs every X days). Start low (especially when using proxies)
-$ct_conf['power']['logs_purge'] = 6; // (default = 6)
+$ct_conf['power']['logs_purge'] = 7; // (default = 7)
 
 
 // (Light) time period charts (load just as quickly for any time period, 7 day / 30 day / 365 day / etc)
 // Structure of light charts #IN DAYS# (X days time period charts)
 // Interface will auto-detect and display days IN THE INTERFACE as: 365 = 1Y, 180 = 6M, 30 = 1M, 7 = 1W, etc
+// (JUST MAKE SURE YOU USE 365 / 30 / 7 *MULTIPLIED BY THE NUMBER OF* YEARS / MONTHS / WEEKS FOR PROPER AUTO-DETECTION/CONVERSION)
 // (LOWER TIME PERIODS [UNDER 180 DAYS] #SHOULD BE KEPT SOMEWHAT MINIMAL#, TO REDUCE RUNTIME LOAD / DISK WRITES DURING CRON JOBS)
-$ct_conf['power']['light_chart_day_intervals'] = array(10, 30, 90, 180, 365, 730, 1460); // (default = 10, 30, 90, 180, 365, 730, 1460)
+$ct_conf['power']['light_chart_day_intervals'] = array(14, 30, 90, 180, 365, 730, 1460);
+// (default = 14, 30, 90, 180, 365, 730, 1460)
 ////
 // The maximum number of data points allowed in each light chart 
-// (saves on disk storage / speeds up chart loading times SIGNIFICANTLY #WITH A NUMBER OF 500 OR LESS#)
-$ct_conf['power']['light_chart_data_points_max'] = 500; // (default = 500), ADJUST WITH CARE!!!
+// (saves on disk storage / speeds up chart loading times SIGNIFICANTLY #WITH A NUMBER OF 1000 OR LESS#)
+$ct_conf['power']['light_chart_data_points_max'] = 1000; // (default = 1000), ADJUST WITH CARE!!!
 
 
 // Default settings for Asset Performance chart height / menu size (in the 'View More Stats' modal window, linked at bottom of Portfolio page)
@@ -711,11 +721,11 @@ $ct_conf['power']['asset_mcap_chart_defaults'] = '600||10'; // 'chart_height||me
 
 // Highest allowed sensor value to scale vertical axis for, in the FIRST system information chart  (out of two)
 // (higher sensor data is moved into the second chart, to keep ranges easily readable between both charts...only used IF CRON JOB IS SETUP)
-$ct_conf['power']['sys_stats_first_chart_max_scale'] = 2.5; // (default = 2.50) 
+$ct_conf['power']['sys_stats_first_chart_max_scale'] = 3.25; // (default = 3.25) 
 ////
 // Highest allowed sensor value to scale vertical axis for, in the SECOND system information chart (out of two)
 // (to prevent anomaly results from scaling vertical axis TOO HIGH to read LESSER-VALUE sensor data...only used IF CRON JOB IS SETUP)
-$ct_conf['power']['sys_stats_second_chart_max_scale'] = 250; // (default = 250) 
+$ct_conf['power']['sys_stats_second_chart_max_scale'] = 325; // (default = 325) 
 
 																		
 // Fixed time interval RESET of cached comparison asset prices every X days (since last price reset / alert), compared with the current latest spot prices
@@ -736,7 +746,7 @@ $ct_conf['power']['price_alert_whale_thres'] = '1.25||9.75||12.75||25000'; // (d
 // !!LEAVE YOURSELF SOME #EXTRA ROOM# ON THESE VALUES, TO BE ALERTED #BEFORE# YOUR SYSTEM WOULD RISK CRASHING!!
 ////
 // If SYSTEM UPTIME has only been up X DAYS (or less), trigger warning
-$ct_conf['power']['system_uptime_warning'] = '0||25'; // 'days_uptime||hours_between_alerts' (default = '0||25')
+$ct_conf['power']['system_uptime_warning'] = '0||36'; // 'days_uptime||hours_between_alerts' (default = '0||36')
 ////
 // SYSTEM LOAD warning default is 2x number of cores your app server has (1 core system = load level 2.00 would trigger an alert)
 // SYSTEM LOAD THRESHOLD MULTIPLIER allows you to adjust when warning is triggered (0.5 is half default, 2.00 is 2x default, etc)
@@ -789,10 +799,10 @@ $ct_conf['power']['charts_tooltip_text'] = '#222222'; // (default: '#222222')
 
 // Local / internal REST API rate limit (maximum of once every X SECONDS, per ip address) for accepting remote requests
 // Can be 0 to disable rate limiting (unlimited)
-$ct_conf['power']['local_api_rate_limit'] = 5; // (default = 5)
+$ct_conf['power']['local_api_rate_limit'] = 1; // (default = 1)
 ////
 // Local / internal REST API market limit (maximum number of MARKETS requested per call)
-$ct_conf['power']['local_api_mrkt_limit'] = 25; // (default = 25)
+$ct_conf['power']['local_api_mrkt_limit'] = 35; // (default = 35)
 ////
 // Local / internal REST API cache time (MINUTES that previous requests are cached for)
 $ct_conf['power']['local_api_cache_time'] = 1; // (default = 1)
@@ -1014,13 +1024,6 @@ $ct_conf['power']['mining_calculators'] = array(
 			
 
 
-// NEWS FEED SETTINGS (ATOM / RSS formats supported)
-// RSS feed entries to show (per-feed) on News page (without needing to click the "show more / less" link)
-$ct_conf['power']['news_feed_entries_show'] = 10; // (default = 10)
-////
-// RSS feed entries under X DAYS old are marked as 'new' on the news page
-$ct_conf['power']['news_feed_entries_new'] = 3; // (default = 3)
-////
 // RSS news feeds available on the News page
 $ct_conf['power']['news_feed'] = array(
     
@@ -1566,7 +1569,7 @@ $ct_conf['dev']['news_feed_batched_max'] = 25; // (default = 25), ADJUST WITH CA
 // Minutes to cache RSS feeds for News page
 // Randomly cache each RSS feed between the minimum and maximum MINUTES set here (so they don't refresh all at once, for faster runtimes)
 // THE WIDER THE GAP BETWEEN THE NUMBERS, MORE SPLIT UP / FASTER THE FEEDS WILL LOAD IN THE INTERFACE #CONSISTANTLY#
-$ct_conf['dev']['news_feed_cache_min_max'] = '80,160'; // 'min,max' (default = '80,160'), ADJUST WITH CARE!!!
+$ct_conf['dev']['news_feed_cache_min_max'] = '60,120'; // 'min,max' (default = '60,120'), ADJUST WITH CARE!!!
 ////
 // Maximum number of news feeds allowed to be pre-cached during background tasks (to avoid overloading low power devices)
 $ct_conf['dev']['news_feed_precache_hard_limit'] = 45; // (default = 45), ADJUST WITH CARE!!!
@@ -1574,16 +1577,16 @@ $ct_conf['dev']['news_feed_precache_hard_limit'] = 45; // (default = 45), ADJUST
 
 // Randomly rebuild the 'ALL' chart between the minimum and maximum HOURS set here  (so they don't refresh all at once, for faster runtimes)
 // LARGER AVERAGE TIME SPREAD IS EASIER ON LOW POWER DEVICES (TO ONLY UPDATE A FEW AT A TIME), FOR A MORE CONSISTANT CRON JOB RUNTIME SPEED!!
-$ct_conf['dev']['all_chart_rebuild_min_max'] = '6,12'; // 'min,max' (default = '6,12'), ADJUST WITH CARE!!!
+$ct_conf['dev']['all_chart_rebuild_min_max'] = '4,8'; // 'min,max' (default = '4,8'), ADJUST WITH CARE!!!
 ////
-// Maximum number of light chart NEW BUILDS allowed during background tasks (only reset / new, NOT the 'all' chart REbuilds)
-// (multiplied by number of CPU cores [if detected], avoids overloading low power devices / still builds fast on multi-core)
+// Maximum number of light chart NEW BUILDS allowed during background tasks, PER CPU CORE (only reset / new, NOT the 'all' chart REbuilds)
+// (THIS IS MULTIPLIED BY THE NUMBER OF CPU CORES [if detected], avoids overloading low power devices / still builds fast on multi-core)
 $ct_conf['dev']['light_chart_first_build_hard_limit'] = 25; // (default = 25), ADJUST WITH CARE!!!
 
 
-// If you want to override the default user agent string (sent with API requests, etc)
-// Adding a string here automatically enables that as the custom user agent
-// LEAVING BLANK '' USES THE DEFAULT USER AGENT LOGIC BUILT-IN TO THIS APP (WHICH INCLUDES ONLY BASIC SYSTEM CONFIGURATION STATS)
+// If you want to override the default CURL user agent string (sent with API requests, etc)
+// Adding a string here automatically enables that as the custom curl user agent
+// LEAVING BLANK '' USES THE DEFAULT CURL USER AGENT LOGIC BUILT-IN TO THIS APP (WHICH INCLUDES ONLY BASIC SYSTEM CONFIGURATION STATS)
 $ct_conf['dev']['override_curl_user_agent'] = ''; 
 
 
@@ -1610,10 +1613,10 @@ $ct_conf['dev']['ajax_max_exec_time'] = 250; // (default = 250)
 $ct_conf['dev']['cron_max_exec_time'] = 1320; // (default = 1320)
 ////
 // Maximum execution time for internal API runtime in seconds (how long it's allowed to run before automatically killing the process)
-$ct_conf['dev']['int_api_max_exec_time'] = 90; // (default = 90)
+$ct_conf['dev']['int_api_max_exec_time'] = 120; // (default = 120)
 ////
 // Maximum execution time for webhook runtime in seconds (how long it's allowed to run before automatically killing the process)
-$ct_conf['dev']['webhook_max_exec_time'] = 90; // (default = 90)
+$ct_conf['dev']['webhook_max_exec_time'] = 120; // (default = 120)
      
      
 // Servers with STRICT CONSECUTIVE CONNECT limits (we add 0.11 seconds to the wait between consecutive connections)
