@@ -77,18 +77,7 @@ zingchart.bind('sys_stats_chart_<?=$chart_mode?>', 'label_click', function(e){
 	?>	
 	
     case '<?=$light_chart_days?>':
-    	<?php
-    	if ( $light_chart_days == 'all' ) {
-    	?>
-      var days = '<?=$light_chart_days?>';
-    	<?php
-    	}
-    	else {
-    	?>
-      var days = <?=$light_chart_days?>;
-    	<?php
-    	}
-    	?>
+    var days = '<?=$light_chart_days?>';
     break;
     
 	<?php
@@ -102,7 +91,7 @@ zingchart.bind('sys_stats_chart_<?=$chart_mode?>', 'label_click', function(e){
   }
   
   
-  light_chart_text = '<?=$ct_gen->light_chart_time_period($light_chart_days, 'long')?>';	
+  light_chart_text = light_chart_time_period(days, 'long');	
   
   
   $("#sys_stats_chart_<?=$chart_mode?> div.chart_reload div.chart_reload_msg").html("Loading " + light_chart_text + " chart for System Chart #<?=$chart_mode?>...");

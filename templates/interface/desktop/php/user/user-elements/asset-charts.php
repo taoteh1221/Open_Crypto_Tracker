@@ -50,7 +50,7 @@ var light_state_<?=$js_key?> = {
 };
  
 
-$("#<?=$key?>_<?=$charted_val?>_chart span.chart_loading").html(' &nbsp; <img src="templates/interface/media/images/auto-preloaded/loader.gif" height="16" alt="" style="vertical-align: middle;" /> Loading ALL chart for <?=$chart_asset?> / <?=strtoupper($alerts_mrkt_parse[1])?> @ <?=$ct_gen->key_to_name($alerts_mrkt_parse[0])?><?=( $chart_mode != 'pair' ? ' \(' . strtoupper($charted_val) . ' Value\)' : '' )?>...');
+$("#<?=$key?>_<?=$charted_val?>_chart span.chart_loading").html(' &nbsp; <img src="templates/interface/media/images/auto-preloaded/loader.gif" height="16" alt="" style="vertical-align: middle;" /> Loading All chart for <?=$chart_asset?> / <?=strtoupper($alerts_mrkt_parse[1])?> @ <?=$ct_gen->key_to_name($alerts_mrkt_parse[0])?><?=( $chart_mode != 'pair' ? ' \(' . strtoupper($charted_val) . ' Value\)' : '' )?>...');
 	
   
 zingchart.bind('<?=strtolower($key)?>_<?=$charted_val?>_chart', 'load', function() {
@@ -103,18 +103,7 @@ store_scroll_position();
 	?>	
 	
     case '<?=$light_chart_days?>':
-    	<?php
-    	if ( $light_chart_days == 'all' ) {
-    	?>
-      var days = '<?=$light_chart_days?>';
-    	<?php
-    	}
-    	else {
-    	?>
-      var days = <?=$light_chart_days?>;
-    	<?php
-    	}
-    	?>
+    var days = '<?=$light_chart_days?>';
     break;
     
 	<?php
@@ -128,7 +117,7 @@ store_scroll_position();
   }
   
   
-  light_chart_text = '<?=$ct_gen->light_chart_time_period($light_chart_days, 'long')?>';	
+  light_chart_text = light_chart_time_period(days, 'long');	
   
   
   $("#<?=strtolower($key)?>_<?=$charted_val?>_chart div.chart_reload div.chart_reload_msg").html("Loading " + light_chart_text + " chart for <?=$chart_asset?> / <?=strtoupper($alerts_mrkt_parse[1])?> @ <?=$ct_gen->key_to_name($alerts_mrkt_parse[0])?><?=( $chart_mode != 'pair' ? ' \(' . strtoupper($charted_val) . ' Value\)' : '' )?>...");

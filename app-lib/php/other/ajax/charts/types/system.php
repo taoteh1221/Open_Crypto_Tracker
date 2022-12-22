@@ -53,7 +53,7 @@ gui: {
     {
       type: 'line',
       noData: {
-         text: "No data exists for this '<?=ucfirst($_GET['days'])?> day(s)' light chart yet, please check back in awhile.",
+         text: "No data exists for this '<?=$ct_gen->light_chart_time_period($_GET['days'], 'long')?>' light chart yet, please check back in awhile.",
       	  fontColor: "#e8e8e8",
          backgroundColor: "#808080",
          fontSize: 20,
@@ -609,7 +609,7 @@ gui: {
     {
       type: 'line',
       noData: {
-         text: "No data exists for this '<?=ucfirst($_GET['days'])?> day(s)' light chart yet, please check back in awhile.",
+         text: "No data exists for this '<?=$ct_gen->light_chart_time_period($_GET['days'], 'long')?>' light chart yet, please check back in awhile.",
       	  fontColor: "#e8e8e8",
          backgroundColor: "#808080",
          fontSize: 20,

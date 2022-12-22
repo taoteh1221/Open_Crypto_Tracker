@@ -3191,13 +3191,13 @@ var $ct_array = array();
          if ( $light_chart_days == 'all' ) {
          $time_period_text = strtoupper($light_chart_days);
          }
-         elseif ( $ct_var->whole_int($light_chart_days / 365) ) {
+         elseif ( $light_chart_days >= 365 && $ct_var->whole_int($light_chart_days / 365) ) {
          $time_period_text = ($light_chart_days / 365) . 'Y';
          }
-         elseif ( $ct_var->whole_int($light_chart_days / 30) ) {
+         elseif ( $light_chart_days >= 30 && $ct_var->whole_int($light_chart_days / 30) ) {
          $time_period_text = ($light_chart_days / 30) . 'M';
          }
-         elseif ( $ct_var->whole_int($light_chart_days / 7) ) {
+         elseif ( $light_chart_days >= 7 && $ct_var->whole_int($light_chart_days / 7) ) {
          $time_period_text = ($light_chart_days / 7) . 'W';
          }
          else {
@@ -3210,15 +3210,15 @@ var $ct_array = array();
          if ( $light_chart_days == 'all' ) {
          $time_period_text = ucfirst($light_chart_days);
          }
-         elseif ( $ct_var->whole_int($light_chart_days / 365) ) {
+         elseif ( $light_chart_days >= 365 && $ct_var->whole_int($light_chart_days / 365) ) {
          $plural = ( ($light_chart_days / 365) > 1 ? 's' : '' );
          $time_period_text = ($light_chart_days / 365) . ' Year' . $plural;
          }
-         elseif ( $ct_var->whole_int($light_chart_days / 30) ) {
+         elseif ( $light_chart_days >= 30 && $ct_var->whole_int($light_chart_days / 30) ) {
          $plural = ( ($light_chart_days / 30) > 1 ? 's' : '' );
          $time_period_text = ($light_chart_days / 30) . ' Month' . $plural;
          }
-         elseif ( $ct_var->whole_int($light_chart_days / 7) ) {
+         elseif ( $light_chart_days >= 7 && $ct_var->whole_int($light_chart_days / 7) ) {
          $plural = ( ($light_chart_days / 7) > 1 ? 's' : '' );
          $time_period_text = ($light_chart_days / 7) . ' Week' . $plural;
          }
