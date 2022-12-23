@@ -54,7 +54,7 @@ error_reporting($ct_conf['dev']['php_error_reporting']);
 
 // Set a max execution time (if the system lets us), TO AVOID RUNAWAY PROCESSES FREEZING THE SERVER
 if ( $ct_conf['dev']['debug_mode'] != 'off' ) {
-$max_exec_time = 900; // 15 minutes in debug mode
+$max_exec_time = 1320; // 22 minutes in debug mode
 }
 elseif ( $runtime_mode == 'ui' ) {
 $max_exec_time = $ct_conf['dev']['ui_max_exec_time'];

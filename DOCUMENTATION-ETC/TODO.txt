@@ -9,106 +9,57 @@ GENERAL NOTES SECTION
 ///////////////////////////////////////////////////////
 
 
-Always set bluefish to "4 spaces" as a tab indentation, and enabling indentation of selected text. INDENTING SPACING IN FILES #CHANGES AUTOMATICALLY# WHEN "BLUEFISH => PREFERENCES => INITIAL DOCUMENT SETTINGS => TAB WIDTH" IS CHANGED, SO BE CAREFUL WHEN FIXING!!
+ALWAYS do everything in the bugs / tests / ux / qa / other section of this list FIRST, before adding ANY new features (find every flaming turd before we start a dumpster fire).
 
 
-Try sticking with small infrastructure changes, and breaking up large changes into small milestones, then plenty of time is spent on UX / testing / logging / debugging.
+Stick with small infrastructure changes, and breaking up large changes into small milestones, then plenty of time is spent on UX / testing / logging / debugging.
 
 
-Always test in a WebKit-based browser [Epiphany|Safari|Midori], Firefox, and Chromium.
+Always set bluefish to "4 spaces" as a tab indentation, and enabling indentation of selected text. THE AMOUNT OF INDENTED SPACING IN FILES #CHANGES AUTOMATICALLY# WHEN "BLUEFISH => PREFERENCES => INITIAL DOCUMENT SETTINGS => TAB WIDTH" IS CHANGED, SO BE CAREFUL WHEN ADJUSTING!!
 
 
 Post on hive, telegram, discord, Twitter, Facebook (and r/CryptoMarkets and r/CryptoCurrency on MAJOR RELEASES) whenever there is a new release of the app.
 
 
-ALWAYS do everything in the optimizations / bugs / tests / ux / qa / other section of this list FIRST, before adding ANY new features (find every flaming turd before we start a dumpster fire).
-
-
 Youtube channels on the resources page, that MAY BE DYING (keep an eye on them): (none right now)
 
 
-Don't require any higher than PHP v7.2 until 2023 or later, as Ubuntu 18 only packages PHP 7.2.x by default as of right now. We don't want to hold back some users capability to run the app easily.
+Don't require any higher than PHP v7.2 until 2025 or later, as Ubuntu 18 only packages PHP 7.2.x by default as of right now. We don't want to hold back some users capability to run the app easily.
 
 
-Use new internal api function calls as much as possible for the tests logic we had already built.
+Keep github price chart bootstrap download updated weekly if not daily!
 
 
-Keep github price chart bootstrap download updated weekly!
+Use SQLite for any data storage that needs query capability (can also be used in PHPDesktop versions, as it supports SQLite).
 
 
-ALWAYS bundle desktop and server downloads with releases from now on (NOT just source code archives). The secondary Desktop Edition github repo is just for backups and staging. Keep it simple.
+Always test in a WebKit-based browser [Epiphany|Safari|Midori], Firefox, and Chromium.
 
 
-Prioritize building the mobile templates / language translation modules / admin interface / native app "desktop editions" (via PHPdesktop) above all other infrastructure. Then it's the most useful for the maximum number of people as it can be going forward.
+Prioritize building the admin interface / mobile templates / language translation modules above all other infrastructure. Then it's the most useful for the maximum number of people as it can be going forward.
 
 
 ///////////////////////////////////////////////////////
-OPTIMIZATIONS / BUGS / TESTS / UX / QA / OTHER SECTION
-///////////////////////////////////////////////////////
-
-
-Write unit tests to check all apis and news feed endpoints, to see if they still exist (put in /php/other/debugging/tests.php). 
-
-
-HUGE 'TONS OF COOKIE DATA' ISSUE ON SERVERS ALREADY RUNNING #OTHER# WEB APPS (LIKE WORDPRESS) #AT THE SAME TIME / ON SAME DOMAIN# (AS IT CAN GO OVER THE SERVER HEADER LIMIT AND CRASH THE WEB APP LOADING BOTH APP'S COOKIES INTO THE HEADER): Since we already wait for the page to load for initiating batch-grabbing news feeds(?), maybe we can store the user-selected feeds in local storage, since the data set is potentially VERY large (to save alot on cookie header data)? Look over the batch loading logic, and see if we can do it more with JavaScript instead of PHP (except for the ajax calls to the server AFTER we know what was user-chosen). Same should generally go for price charts (as we ALSO load after the page has loaded), so look into that too.
-
-
-Look into Aptos support for the 'address-balance-tracker' plugin (see the API notes section for public endpoints REST API docs).
-
-
-Add more Jupiter agg markets to Solana coins in demo config, and in price target plugin.
-
-
-ADMIN IFRAME BUILDOUT NOTES:
-
--COMPLETED: Should NOT load until tab clicked (for fast load of initial showing section)
-
--COMPLETED: Should properly auto-size iframe height on load / reload / page change, based off iframe's body scroll height (after EVERYTHING is rendered)
-
--COMPLETED: Optional GET parameter (comma-delimited to include multiple values), to ALSO reload OTHER admin sections AFTER UPDATING ANOTHER (eg: after an API reset on the 'reset' page, we also reload the 'api' page)
-
--TODO: Should have CSS position set as 'sticky' for the 'Save' button (like reload countdown on secondary user tabs)
-
--TODO: Onblur of iframe (clicking another tab, etc) should pause click actions and warn IF CHANGES HAVE BEEN MADE TO SETTINGS WITHIN THE IFRAME
-
--TODO: CURRENT admin config should be BACKED-UP #RIGHT BEFORE# UPDATING VIA THE INTERFACE (after a validity check), IN CASE THE END-USER WANTS / NEEDS TO REVERT TO LAST KNOWN WORKING CONFIG
-
--TODO: "Build the HTML rendering CONFIGs for each admin config setting's fields" SHOULD NOT BE USED (AS ORIGINALLY THOUGHT), RENDER THEM STATICALLY INSTEAD, AS IT AVOIDS OVER-COMPLICATING THE REQUIRED CUSTOMIZATION NEEDED PER-SETTING (INCLUDING ERROR CHECKS BEFORE SUBMISSION)
-
-
-```````````````````````````````````````````````````````````````````````````````````````````````````````````````
-
-
-MAY BE A GOOD WAY TO RE-RUN init.php IF USER CORRUPTS config.php (#AFTER# backing up / overwriting the corrupt config.php with /templates/back-end/main-config.template):
-https://stackoverflow.com/questions/17160851/is-there-any-way-to-skip-fatal-error-from-include-file-in-php
-https://www.php.net/manual/en/function.register-shutdown-function.php
-
-
-$ct_conf = $ct_gen->refresh_cached_ct_conf($ct_conf, 'upgrade_checks'); at the end of plugins-config-check.php is throwing this error (so it's commented-out for now):
-[2022-08-03 03:30:40] ui => conf: updated ct_conf data could not be saved (to secured cache storage) in json format;  
-[2022-08-03 03:30:40] ui => conf: ct_conf data could not be restored from last-known working config;  
+BUGS / TESTS / UX / QA / OTHER SECTION
+/////////////////////////////////////////////////////// 
 
 
 Test turning password protection on/off on the interface (NOT admin area), I messed with it BUT changed it back.
 
 
-To avoid having the "re-enter /start" telegram error message unless truly needed, take an md5 digest of all telegram settings concatenated together, and save as a var in the vars cache folder. Only run a telegram setting update if this md5 digest ever changes.
+Add more Jupiter agg markets to Solana coins in demo config, and in price target plugin.
 
 
-Find out why days has 2 decimals (text notify, email and telegram are fine):
- Text Notify / SHDW / BTC @ Generic BTC decreased -9.27% in USD value to $0.68269 over 1..04 days. 24 Hour USD Volume: $1,064,959 (-1.54% pair volume)
- 
- 
-Use bootstrap's built-in alert closeable pop-in to indicate 'configuration saved' inside each admin iframe.
+Add openserum markets support.
 
 
-Have the light chart function create a cached var array in json (in cache/vars/ folder), and everytime a new chart system uses it, add it's BASE cache path as an array value. Then we just need to feed this array into a light charts reset function / logic that resets all KNOWN chart systems in the app that use the light charts system (including plugins)
+$ct_conf = $ct_gen->refresh_cached_ct_conf($ct_conf, 'upgrade_checks'); at the end of plugins-config-check.php is throwing this error (so it's commented-out for now):
+[2022-08-03 03:30:40] ui => conf: updated ct_conf data could not be saved (to secured cache storage) in json format;  
+[2022-08-03 03:30:40] ui => conf: ct_conf data could not be restored from last-known working config; 
 
 
-Add config setting to set which asset price light chart shows by default.
-
-
-Add remote IP address data to ALL relevant security error logging everywhere in the app.
+Find out why days has 2 decimals RANDOMLY IN TEXT MESSAGES (text notify, email and telegram are fine):
+"SHDW / BTC @ Generic BTC decreased -9.27% in USD value to $0.68269 over 1..04 days. 24 Hour USD Volume: $1,064,959 (-1.54% pair volume)"
 
 
 When importing a CSV spreadsheet in linux desktop edition with cookies enabled, UNLESS we manually save the portflio data on the update page AFTER importing, the portfolio data is lost when we close the app. See if this also affects windows desktop edition, and server edition.
@@ -117,58 +68,10 @@ When importing a CSV spreadsheet in linux desktop edition with cookies enabled, 
 "CSV import suceeded" has a 'dismiss' link that doesn't work...when clicked, it reloads a blank portfolio page. But when the normal 'refresh' link is used INSTEAD atop the portfolio page, the imported data stays just fine. Funny thing is the "CSV import suceeded" message ALSO PERSISTS THIS WAY. Figure out whats going on there. Also check the "Your CSV import upload failed." logic. Start tests with Windows Desktop Edition.
 
 
-Look into merging all our classes in the portfolio app like so: https://stackoverflow.com/questions/2374828/how-to-merge-two-class-in-php  Then it is more programmer-friendly, as all functions can then be called from something like $ct->my_object() for simplicity sake.
-
-
-For 'Desktop Edition' (using phpdesktop), look into using docker images for cross-platform compatibility (Windows / Mac / Linux).
-
-
-AFTER the admin config GUI has been built out, make sure plugin configs are re-loaded AFTER 'activate_plugins' in the power user section has been updated.
-
-
 Update Portfolio page screenshots, since we added the 'Rank' column AND REBRANDED app name.
 
 
-Consider adding some SPECIFIC filenames that are sensitive data to obfusc_path_data() via the $file = basename($path) method. Not sure if needed for log security, BUT right now obfusc_path_data() DOES #NOT# OBFUSCATE THE FILENAME AT ALL (just path up to the file).
-
-
-Make all coin configs (assets and price alerts / charts) CASE-INSENSITIVE. Most efficient way to do this would be by auto-correcting in other/config/config-auto-adjust.php, to be the correct case even if a user editing config.php used the wrong case.
-
-
-Add bonifida / serum markets support.
-
-
-Remember when restoring charts from archive, if you delete instead of overwrite, the file permissions may be incorrect when restoring (as its not default permissions same as the app sets).
-
-
-Add 'cancel' button on privacy mode PIN modal, and adjust the background color / border color / border width to 'pop out' better in the light / dark themes.
-
-
-Consolidate CSV import / post data importing that are near the top of the update and portfolio page UI rendering files, into just one subroutine BEFORE the UI is rendered...like we ALREADY DID for cookie data in those sections.
-
-
 Make sure everything STILL runs smoothly with the charts page turned off.
-
-
-Add same logic we have for internal API request throttling to the admin login / reset attempts, make setting configurable.
-
-
-Write debugging tests for rss feeds.
-
-
-Overhaul / optimize config checks.
-
-
-Consider moving the error log alerts for "email not configured" under the new "notify" category (which avoids duplicate messages).
-
-
-Add power failure corruption checks (like chart price data has), to system charts and price alerts file cache data.
-
-
-Check optimization by enabling "telemetry" debug mode, and reviewing debugging logs.
-
-
-Check log formatting for every debug mode.
 
 
 Consolidate num_to_str() calls, to speed up runtime.
@@ -182,29 +85,13 @@ leverage_ to lvrg_
 Research whether POST data size affects header size like cookie data size does.
 
 
-Breakup numerous function call parameters for calls like ui_asset_row() into a param array, like we did for update_all_cookies(). Also do line breaks like we do for arrays on any large string inputs into function calls, like we did for log().
-
-
 Cross-browser test RTL (right to left) effects from middle eastern currency symbols being injected into the interface output for those currencies
-
-
-Think over what other "faq" entries would be helpful.
-
-
-Create github wiki with the current documentation for the portfolio app.
-
-
-May come in handy for writing PHP unit tests: https://stackoverflow.com/questions/861254/iterate-over-properties-of-a-php-class
 
 
 Investigate / report to PHP devs (IF IT'S NOT A FILE READ ISSUE) the .htaccess password bug (/classes/core/cache.php, line 189) issue on Windows 10 / XAMPP 3.3.0 / PHP 7.4.24: $htaccess_password = crypt( $htaccess_password, base64_encode($htaccess_password) );
 
 
 Look into laptop touchscreen zingchart js error on Ubuntu 20.04 / Chrome, when hiding / showing assets in performance chart (but is fine on Ubuntu 20.04 / Chrome on desktop). IT DOESN'T SEEM TO BE MY CODE, SO REPORT IT TO THE ZINGCHART TEAM.
-
-
-///////////////////////////////////////////////////////
-///////////////////////////////////////////////////////
 
 
 ///////////////////////////////////////////////////////
@@ -224,8 +111,6 @@ Jupiter Aggregator (Solana DEXs)
 https://price.jup.ag/v1/price?id=SOL&vsToken=USDC
 https://docs.jup.ag/jupiter-api/jupiter-price-api-beta
 
-
-https://docs.bonfida.com/#introduction (solana dex API??)
 
 https://docs.solana.com/cluster/rpc-endpoints
 https://docs.solana.com/developing/clients/jsonrpc-api#getbalance
@@ -255,42 +140,32 @@ Build tool that finds localbitcoins markets not added yet
 Add twilio.com and clicksend.com mobile text messaging support
 
 
-https://zksync.io/api/v0.1.html
+https://zksync.io/api/v0.1.html (KEEP AN EYE OUT FOR V2 DOCS AS WELL)
 
 
 ///////////////////////////////////////////////////////
+FEATURES / NEW INFRASTRUCTURE SECTION
 ///////////////////////////////////////////////////////
 
 
-///////////////////////////////////////////////////////
-FEATURES / STRUCTURING SECTION
-///////////////////////////////////////////////////////
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 
-For the in-development 'on-chain-stats' plugin:
-Have it display on the 'more stats' page
-Use the 'usd asset comparision' chart template...different chains are in place of the assets, the telemetry items in place of the time period options.
+ADMIN IFRAME SUBSECTIONS BUILDOUT NOTES:
 
 
-Add a check (every X days with a config setting), to see if a market's trade value has NOT changed in a long time (assure accuracy with resetting a 'no_change' count [store delimited with market value] if change is detected). Add an alert threshold config setting (after no change has been detected X times), which sends comms alerts if the threshold has been met. This way end users can be informed if a market seems to have stale trade values from lack of trades / taken offline. HAVE THIS HAPPEN IN THE BACKGROUND #ONLY WHEN LIVE DATA IS FETCHED# WITHIN $ct_cache->ext_data(), VIA USER-INRTERACTION OR A BACKGROUND TASK (DOES NOT CHECK MARKETS THAT ARE NOT USED BY END USERS OR THE BACKGROUND TASKS).
+-TODO: Should have CSS position set as 'sticky' for the 'Save' button (like reload countdown on secondary user tabs)
+
+-TODO: Onblur of iframe (clicking another tab, etc) should pause click actions and warn IF CHANGES HAVE BEEN MADE TO SETTINGS WITHIN THE IFRAME
+
+-TODO: CURRENT admin config should be BACKED-UP #RIGHT BEFORE# UPDATING VIA THE INTERFACE (after a validity check), IN CASE THE END-USER WANTS / NEEDS TO REVERT TO LAST KNOWN WORKING CONFIG
+
+-TODO: "Build the HTML rendering CONFIGs for each admin config setting's fields" SHOULD NOT BE USED (AS ORIGINALLY THOUGHT), RENDER THEM STATICALLY INSTEAD, AS IT AVOIDS OVER-COMPLICATING THE REQUIRED CUSTOMIZATION NEEDED PER-SETTING (INCLUDING ERROR CHECKS BEFORE SUBMISSION)
+ 
+-TODO: Use bootstrap's built-in alert closeable pop-in to indicate 'configuration saved' inside each admin iframe.
 
 
-For mobile templates, we are completely ditching the desktop layout, for a design similar to mobile app portfolio tracking layouts. Hopefully we can still do sorting by marketcap, held amount, most volume, etc, AND add in sorting by gain / loss (which may also be useful in the desktop layout).
-
-
-Create mobile devices templates, have the portfolio data rows show each piece of data on its own line the entire width of the screen (like android asset trackers do). We may need to create header / footer for mobile as well.
-
-
-For the language translation cache (to avoid asking API for a translation if we already did once), include a hash digest of the original English text used to translate. That way if the hash changes for the current English text used (English is never translated as it's the default), we know we need to re-translate with a fresh API call, and also save the new hash digest of the current English text as well.
-
-
-Add a dedicated system chart file for plugin cron stats ONLY (runtime seconds, etc).
-
-
-Add ability to choose what decimal and thousands seperators to use.
-
-
-Look into adding temp monitoring support for systems other than raspi devices: https://phoenixnap.com/kb/linux-cpu-temp
+OTHER ADMIN BUILDOUT NOTES:
 
 
 For admin area pages / sections, consider doing subsections in a modal subwindow, with iframes for loading through 'wizard' steps or opening different categories. It would possibly keep a native app 'feel' while also reducing admin page load times. Think it over, figure out the best solution here for a great UX.
@@ -302,7 +177,154 @@ On admin "assets" page, add a button atop the page called " Add New Asset Or Mar
 The upcoming 'add new asset market' admin interface feature should be a "wizard" with a few "steps", to have a decent user experience AND break the logic up into different checks / steps under the hood as well. 1) Asset name and symbol, 2) Choose from a list of exchanges and pairs available for that asset, 3) Enable charts and or alerts for different exchanges and pairs.
 
 
+On admin config tabs, add logic to have onchange update a tracking value FOR THAT TAB ONLY, so if a user changes a setting and DOESN'T SAVE IT AND CLICKS ANOTHER SECTION / TAB / LINK they get an alert to confirm leaving the tab without saving their changes. Include on exiting admin config area (returning to portfolio page / closing tab).
+
+
+Once an admin interface is fully built out, permanently switch out the app config upgrade logic for our new logic (already built, just enable in secured cache logic).
+
+
+On admin config reset tab, have "reset app config to default settings" button (with js confirm alert when pushed) that refreshes ALL the cached ct_conf from config.php settings.
+
+
+Admin import / export of settings (consider security implications CAREFULLY...include an optional / mandatory checkbox to encrypt to zip file with our new zip encryption feature).
+
+
+Add admin settings feature to restore chart data from the zip archive backups (with admin authentication ONLY).
+
+
+Create help page modal for explanations on all config.php settings, that we can link to / open specific sections from a click next to that setting in the admin GUI. Then we can run this through the upcoming lang_translate() function as well.
+
+
+AFTER the admin config GUI has been built out, make sure plugin configs are re-loaded AFTER 'activate_plugins' in the power user section has been updated.
+
+
+END OF ADMIN BUILDOUT NOTES
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+For mobile templates, we are completely ditching the desktop layout, for a design similar to mobile app portfolio tracking layouts. Hopefully we can still do sorting by marketcap, held amount, most volume, etc, AND add in sorting by gain / loss (which may also be useful in the desktop layout).
+
+
+Create mobile devices templates, have the portfolio data rows show each piece of data on its own line the entire width of the screen (like android asset trackers do). We may need to create header / footer for mobile as well.
+
+
+Wrap all interface English within a "placeholder" lang_translate() function call. Then from a developer perspective you can still fully see the interface logic, and build out translation logic over time later. 
+
+
+Add Google or Microsoft translate API as options to translate the english defaults.
+
+
+For the language translation cache (to avoid asking API for a translation if we already did once), include a hash digest of the original English text used to translate. That way if the hash changes for the current English text used (English is never translated as it's the default), we know we need to re-translate with a fresh API call (instead of using cached data), and also save the new hash digest of the current English text as well.
+
+
+For the in-development 'on-chain-stats' plugin:
+Have it display on the 'more stats' page
+Use the 'usd asset comparision' chart template...different chains are in place of the assets, the telemetry items in place of the time period options.
+
+
+Use new internal api function calls as much as possible for the tests logic we had already built.
+
+
+Create github wiki with the current documentation for the portfolio app.
+
+
+Think over what other "faq" entries would be helpful.
+
+
+Add 'cancel' button on privacy mode PIN modal, and adjust the background color / border color / border width to 'pop out' better in the light / dark themes.
+
+
+Look into merging all our classes in the portfolio app like so: https://stackoverflow.com/questions/2374828/how-to-merge-two-class-in-php  Then it is more programmer-friendly, as all functions can then be called from something like $ct->my_object() for simplicity sake.
+
+
+Add remote IP address data to ALL relevant security error logging everywhere in the app.
+
+
+Look into Aptos support for the 'address-balance-tracker' plugin (see the API notes section for public endpoints REST API docs).
+
+
+May come in handy for writing PHP unit tests: https://stackoverflow.com/questions/861254/iterate-over-properties-of-a-php-class
+
+
+To avoid having the "re-enter /start" telegram error message unless truly needed, take an md5 digest of all telegram settings concatenated together, and save as a var in the vars cache folder. Only run a telegram setting update if this md5 digest ever changes.
+
+
+Add config setting to set which asset price light chart shows by default.
+
+
+Change the 'eth_erc20_icos' => 'ico_erc20_value' config settings to 'token_presales' => 'presale_value', AND support any base pair as the pairing (NOT just 'ETH').
+
+
+Write unit tests to check all apis and news feed endpoints, to see if they still exist (put in /php/other/debugging/tests.php). 
+
+
+MAY BE A GOOD WAY TO RE-RUN init.php IF USER CORRUPTS config.php (#AFTER# backing up / overwriting the corrupt config.php with /templates/back-end/main-config.template):
+https://stackoverflow.com/questions/17160851/is-there-any-way-to-skip-fatal-error-from-include-file-in-php
+https://www.php.net/manual/en/function.register-shutdown-function.php
+
+
+HUGE 'TONS OF COOKIE DATA' ISSUE ON SERVERS ALREADY RUNNING #OTHER# WEB APPS (LIKE WORDPRESS) #AT THE SAME TIME / ON SAME DOMAIN# (AS IT CAN GO OVER THE SERVER HEADER LIMIT AND CRASH THE WEB APP LOADING BOTH APP'S COOKIES INTO THE HEADER): Since we already wait for the page to load for initiating batch-grabbing news feeds(?), maybe we can store the user-selected feeds in local storage, since the data set is potentially VERY large (to save alot on cookie header data)? Look over the batch loading logic, and see if we can do it more with JavaScript instead of PHP (except for the ajax calls to the server AFTER we know what was user-chosen). Same should generally go for price charts (as we ALSO load after the page has loaded), so look into that too.
+
+
+On 'more stats' page, have a 'market comparison stats' chart for arbitrage on one asset (picked from dropdown menu), with default showing All pair's markets, with USD conversion. Make it a bar chart, based off the marketcap chart template. Have 3 drop-down menus: Asset, Pair (with an All option), Primary Currency (conversion). Looping through asset pairs / markets should be a straight forward algo that does the job.
+
+
+Auto-update feature like WordPress has (downloads a zip file upgrade from github, and exctracts it overwriting the old app files).
+
+
+Option to use new zip file encryption password feature to encrypt portfolio spreadsheet exports when downloading exported portfolio data (with password entered in the UI, #NOT# $ct_conf['sec']['backup_arch_pass']).
+
+
+Create "Export your feeds" link on News page, to XML / JSON format file download (that can import into news readers).
+
+
+Breakup numerous function call parameters for calls like ui_asset_row() into a param array, like we did for update_all_cookies(). Also do line breaks like we do for arrays on any large string inputs into function calls, like we did for log().
+
+
+Consider moving the error log alerts for "email not configured" under the new "notify" category (which avoids duplicate messages).
+
+
+Add power failure corruption checks (like chart price data has), to system charts and price alerts file cache data.
+
+
+Add same logic we have for internal API request throttling to the admin login / reset attempts, make setting configurable.
+
+
+Write debugging tests for rss feeds.
+
+
+Overhaul / optimize config checks.
+
+
+Consolidate CSV import / post data importing that are near the top of the update and portfolio page UI rendering files, into just one subroutine BEFORE the UI is rendered...like we ALREADY DID for cookie data in those sections.
+
+
+Consider adding some SPECIFIC filenames that are sensitive data to obfusc_path_data() via the $file = basename($path) method. Not sure if needed for log security, BUT right now obfusc_path_data() DOES #NOT# OBFUSCATE THE FILENAME AT ALL (just path up to the file).
+
+
+Make all coin configs (assets and price alerts / charts) CASE-INSENSITIVE. Most efficient way to do this would be by auto-correcting in other/config/config-auto-adjust.php, to be the correct case even if a user editing config.php used the wrong case.
+
+
+Add a check (every X days with a config setting), to see if a market's trade value has NOT changed in a long time (assure accuracy with resetting a 'no_change' count [store delimited with market value] if change is detected). Add an alert threshold config setting (after no change has been detected X times), which sends comms alerts if the threshold has been met. This way end users can be informed if a market seems to have stale trade values from lack of trades / taken offline. HAVE THIS HAPPEN IN THE BACKGROUND #ONLY WHEN LIVE DATA IS FETCHED# WITHIN $ct_cache->ext_data(), VIA USER-INRTERACTION OR A BACKGROUND TASK (DOES NOT CHECK MARKETS THAT ARE NOT USED BY END USERS OR THE BACKGROUND TASKS).
+
+
+Add a dedicated system chart file for plugin cron stats ONLY (runtime seconds, etc).
+
+
+Add ability to choose what decimal and thousands seperators to use.
+
+
+Have the light chart function create a cached var array in json (in cache/vars/ folder), and everytime a new chart system uses it, add it's BASE cache path as an array value. Then we just need to feed this array into a light charts reset function / logic that resets all KNOWN chart systems in the app that use the light charts system (including plugins)
+
+
+Look into adding temp monitoring support for systems other than raspi devices: https://phoenixnap.com/kb/linux-cpu-temp
+
+
 On 'more stats' page, add a 'market volume' chart, showing a multi-line chart (like asset comparison chart) of all [charts-fiat-conversion-currency] volumes for an asset's configured markets THAT HAVE CHARTS ENABLED (so we grab values from light chart data). Default to showing Bitcoin, allow using different light chart time periods (like asset comparison chart).
+
+
+Add market stats summaries from chart data, like bar charts for exchange volume on certain assets / pairs (on 'view more stats' page).
 
 
 Add logic to offer securing the computer in the auto-install. Add subsections "Requiring Password For Sudo (Admin)" / "Disabling Bluetooth" / "Enabling firewall" inside a main prompt "Would you like to secure your computer against hacks?" For the bluetooth disabling section, include a commented section so we know if we've already APPENDED (>> IN BASH, NOT >) to boot/config.txt (like we do for htaccess). For firewall setup add a loop that you add new ports to open and quit the loop when finished...AND AUTOMATICALLY OPEN PORTS 80 / 443 FOR THIS APP, AND SSH STUFF TOO IF DETECTED AS INSTALLED ON THE SYSTEM!
@@ -312,9 +334,6 @@ Create a power user config option to toggle between plain text and HTML email. W
 
 
 Fully include all leverage in all portfolio summaries, with "(X% leverage)" next to each summary.
-
-
-Store visitor access data in A SEPERATE flat file / json format PER IP ADDRESS (so mulitiple values can be read back into the app before updating, then updated values saved back in json overwriting previously saved values, BUT AVOIDS MULTIPLE IP ADDRESES OVERWRITING SAME DATA). Last X unique ip addresses (as a power user config setting), showing ip address's last user agent / last visit time (AND HISTORY OF DIFFERENT USER AGENTS / LAST VISITS) / total visits count. Drop any over X ip addresses off the list based on oldest LAST VISIT timestamps. Store visitor data (user agent, etc) in a SECURED CACHE filename based off MD5 HASH of ip address. INITIAL BUILDOUT SHOULD ONLY BE FOR 'ui' RUNTIME DATA ONLY.
 
 
 Add additional ability to do telegram webhooks, to query asset prices at different exchanges through telegram chat with the chat bot. Example: "/price ETH/USDT @ Binance"
@@ -329,55 +348,13 @@ Add webhook keys on admin page.
 Do a gains / losses bar chart for the gains / losses summary (tooltip, like balance stats chart).
 
 
-On 'more stats' page, have a 'market comparison stats' chart for arbitrage on one asset (picked from dropdown menu), with default showing All pair's markets, with USD conversion. Make it a bar chart, based off the marketcap chart template. Have 3 drop-down menus: Asset, Pair (with an All option), Primary Currency (conversion). Looping through asset pairs / markets should be a straight forward algo that does the job.
-
-
-Add market stats summaries from chart data, like bar charts for exchange volume on certain assets / pairs (on 'view more stats' page).
-
-
-Auto-update feature like WordPress has (downloads a zip file upgrade from github, and exctracts it overwriting the old app files).
-
-
-Option to use new zip file encryption password feature to encrypt portfolio spreadsheet exports when downloading exported portfolio data (with password entered in the UI, #NOT# $ct_conf['sec']['backup_arch_pass']).
-
-
-For each cat_key => cat_val loop app config, to automate categorizing new admin settings tabs...selects for arrays, text fields for strings. Maybe certain key names get checkbox / radio button fields.
-
-
-On admin config tabs, add logic to have onchange update a tracking value FOR THAT TAB ONLY, so if a user changes a setting and DOESN'T SAVE IT AND CLICKS ANOTHER SECTION / TAB / LINK they get an alert to confirm leaving the tab without saving their changes. Include on exiting admin config area (returning to portfolio page / closing tab).
-
-
-Once an admin interface is fully built out, permanently switch out the app config upgrade logic for our new logic (already built, just enable in secured cache logic).
-
-
 Add force reset logic for app config, if cached app version number is non-existent or below a certain version, so we force a complete reset for non-backwards-compatible upgrades.
 
 
-On admin config reset tab, have "reset app config to default settings" button (with js confirm alert when pushed) that refreshes ALL the cached ct_conf from config.php settings.
-
-
-Admin import / export of settings (consider security implications CAREFULLY...include an optional / mandatory checkbox to encrypt to zip file with our new zip encryption feature).
-
-
-When cached app config is independent of config.php updating-wise, use the show / hide link to have an optional email field on the admin registration page, and mention it enables password resetting via email.
-
-
-Add admin settings feature to restore chart data from the zip archive backups (with admin authentication ONLY). Chart restore by prepending, so any existing data remains, BUT only if timestamp is newer than newest backups timestamp. Trigger restore from newest backups folder backup by placing a blank file named RESTORE_CHARTS in the queue directory.
-
-
-Give plugins a dedicated admin page (if any are activated), for UI settings etc.
-
-
-Create help page modal for explanations on all config.php settings, that we can link to / open specific sections from a click next to that setting in the admin GUI. Then we can run this through the upcoming lang_translate() function as well.
-
-
-Wrap all interface English within a "placeholder" lang_translate() function call. Then from a developer perspective you can still fully see the interface logic, and build out translation logic over time later. 
-
-
-Add Google or Microsoft translate API as options to translate the portfolio interface and price alerts.
-
-
 Simple trading bot, to run as a cron plugin (with web UI for configuration / stats / etc)
+
+
+Look into using docker images for cross-platform compatibility (Windows / Mac / Linux).
 
 
 ///////////////////////////////////////////////////////
@@ -401,13 +378,7 @@ Add an OPTIONAL 'cron_plugins_runtime' stat in system charts (save as NO_DATA if
 Add drop-down menu feature next to "Save Updated Portfolio" buttons for "save as": cookie data | only post data.
 
 
-Create "Export your feeds" link on News page, to XML / JSON format file download (like exporting portfolio logic).
-
-
 In debug mode, maybe add our new 'used ram' stat instead (that doesn't include buffers / cached ram).
-
-
-Use SQLite for any data storage that needs query capability (can also be used in PHPDesktop version, as it supports SQLite).
 
 
 Make default btc exchange in config.php optional, and auto-configure if invalid or left blank, based off the default primary currency setting (still log errors though). Additionally, consider defaulting to USD if the primary currency setting is invalid / blank as well (as long as we also error log any detected issues there too)??
@@ -425,9 +396,6 @@ Maintain sql-based config as completely separate module(s) from the file-based c
 Convert all long hand javascript to jquery?
 
 
-Save trading notes via the new ajax.php logic (rather than reload the entire app)?
-
-
 Add memory limit to all runtimes?
 
 
@@ -435,9 +403,6 @@ Maybe add feature to auto-detect new / removed markets?
 
 
 Alerts if NOT admin ip address visiting (admin ip stored in config setting)?
-
-
-
 
 
 ############################################################################################################################
