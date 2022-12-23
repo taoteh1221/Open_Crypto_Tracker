@@ -77,18 +77,7 @@ zingchart.bind('sys_stats_chart_<?=$chart_mode?>', 'label_click', function(e){
 	?>	
 	
     case '<?=$light_chart_days?>':
-    	<?php
-    	if ( $light_chart_days == 'all' ) {
-    	?>
-      var days = '<?=$light_chart_days?>';
-    	<?php
-    	}
-    	else {
-    	?>
-      var days = <?=$light_chart_days?>;
-    	<?php
-    	}
-    	?>
+    var days = '<?=$light_chart_days?>';
     break;
     
 	<?php
@@ -102,43 +91,8 @@ zingchart.bind('sys_stats_chart_<?=$chart_mode?>', 'label_click', function(e){
   }
   
   
-		if ( days == 'all' ) {
-		light_chart_text = days.toUpperCase();
-		}
-		else if ( days == 7 ) {
-		light_chart_text = '1 week';
-		}
-		else if ( days == 14 ) {
-		light_chart_text = '2 week';
-		}
-		else if ( days == 30 ) {
-		light_chart_text = '1 month';
-		}
-		else if ( days == 60 ) {
-		light_chart_text = '2 month';
-		}
-		else if ( days == 90 ) {
-		light_chart_text = '3 month';
-		}
-		else if ( days == 180 ) {
-		light_chart_text = '6 month';
-		}
-		else if ( days == 365 ) {
-		light_chart_text = '1 year';
-		}
-		else if ( days == 730 ) {
-		light_chart_text = '2 year';
-		}
-		else if ( days == 1095 ) {
-		light_chart_text = '3 year';
-		}
-		else if ( days == 1460 ) {
-		light_chart_text = '4 year';
-		}
-		else {
-		light_chart_text = days + ' day';
-		}
-		
+  light_chart_text = light_chart_time_period(days, 'long');	
+  
   
   $("#sys_stats_chart_<?=$chart_mode?> div.chart_reload div.chart_reload_msg").html("Loading " + light_chart_text + " chart for System Chart #<?=$chart_mode?>...");
 	$("#sys_stats_chart_<?=$chart_mode?> div.chart_reload").fadeIn(100); // 0.1 seconds

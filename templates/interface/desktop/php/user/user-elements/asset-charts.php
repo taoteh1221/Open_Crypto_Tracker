@@ -50,7 +50,7 @@ var light_state_<?=$js_key?> = {
 };
  
 
-$("#<?=$key?>_<?=$charted_val?>_chart span.chart_loading").html(' &nbsp; <img src="templates/interface/media/images/auto-preloaded/loader.gif" height="16" alt="" style="vertical-align: middle;" /> Loading ALL chart for <?=$chart_asset?> / <?=strtoupper($alerts_mrkt_parse[1])?> @ <?=$ct_gen->key_to_name($alerts_mrkt_parse[0])?><?=( $chart_mode != 'pair' ? ' \(' . strtoupper($charted_val) . ' Value\)' : '' )?>...');
+$("#<?=$key?>_<?=$charted_val?>_chart span.chart_loading").html(' &nbsp; <img src="templates/interface/media/images/auto-preloaded/loader.gif" height="16" alt="" style="vertical-align: middle;" /> Loading All chart for <?=$chart_asset?> / <?=strtoupper($alerts_mrkt_parse[1])?> @ <?=$ct_gen->key_to_name($alerts_mrkt_parse[0])?><?=( $chart_mode != 'pair' ? ' \(' . strtoupper($charted_val) . ' Value\)' : '' )?>...');
 	
   
 zingchart.bind('<?=strtolower($key)?>_<?=$charted_val?>_chart', 'load', function() {
@@ -103,18 +103,7 @@ store_scroll_position();
 	?>	
 	
     case '<?=$light_chart_days?>':
-    	<?php
-    	if ( $light_chart_days == 'all' ) {
-    	?>
-      var days = '<?=$light_chart_days?>';
-    	<?php
-    	}
-    	else {
-    	?>
-      var days = <?=$light_chart_days?>;
-    	<?php
-    	}
-    	?>
+    var days = '<?=$light_chart_days?>';
     break;
     
 	<?php
@@ -128,43 +117,8 @@ store_scroll_position();
   }
   
   
-		if ( days == 'all' ) {
-		light_chart_text = days.toUpperCase();
-		}
-		else if ( days == 7 ) {
-		light_chart_text = '1 week';
-		}
-		else if ( days == 14 ) {
-		light_chart_text = '2 week';
-		}
-		else if ( days == 30 ) {
-		light_chart_text = '1 month';
-		}
-		else if ( days == 60 ) {
-		light_chart_text = '2 month';
-		}
-		else if ( days == 90 ) {
-		light_chart_text = '3 month';
-		}
-		else if ( days == 180 ) {
-		light_chart_text = '6 month';
-		}
-		else if ( days == 365 ) {
-		light_chart_text = '1 year';
-		}
-		else if ( days == 730 ) {
-		light_chart_text = '2 year';
-		}
-		else if ( days == 1095 ) {
-		light_chart_text = '3 year';
-		}
-		else if ( days == 1460 ) {
-		light_chart_text = '4 year';
-		}
-		else {
-		light_chart_text = days + ' day';
-		}
-		
+  light_chart_text = light_chart_time_period(days, 'long');	
+  
   
   $("#<?=strtolower($key)?>_<?=$charted_val?>_chart div.chart_reload div.chart_reload_msg").html("Loading " + light_chart_text + " chart for <?=$chart_asset?> / <?=strtoupper($alerts_mrkt_parse[1])?> @ <?=$ct_gen->key_to_name($alerts_mrkt_parse[0])?><?=( $chart_mode != 'pair' ? ' \(' . strtoupper($charted_val) . ' Value\)' : '' )?>...");
   

@@ -1,7 +1,6 @@
 
 // Copyright 2014-2023 GPLv3, Open Crypto Tracker by Mike Kilday: Mike@DragonFrugal.com
-
-
+   
 
 /////////////////////////////////////////////////////////////
 
@@ -714,6 +713,62 @@ function copy_text(elm_id, alert_id) {
 	 document.getElementById(alert_id).innerHTML = 'Copied to clipboard.';
   }
   
+}
+   
+
+/////////////////////////////////////////////////////////////
+
+
+function light_chart_time_period(light_chart_days, mode) {
+      
+// Whole integer time periods only (otherwise UI shows "day[s]")
+      
+      if ( mode == 'short' ) {
+   
+         if ( light_chart_days == 'all' ) {
+         time_period_text = light_chart_days.toUpperCase();
+         }
+         else if ( light_chart_days >= 365 && Number.isInteger(light_chart_days / 365) ) {
+         time_period_text = (light_chart_days / 365) + 'Y';
+         }
+         else if ( light_chart_days >= 30 && Number.isInteger(light_chart_days / 30) ) {
+         time_period_text = (light_chart_days / 30) + 'M';
+         }
+         else if ( light_chart_days >= 7 && Number.isInteger(light_chart_days / 7) ) {
+         time_period_text = (light_chart_days / 7) + 'W';
+         }
+         else {
+         time_period_text = light_chart_days + 'D';
+         }
+      
+      }
+      else if ( mode == 'long' ) {
+   
+         if ( light_chart_days == 'all' ) {
+         time_period_text = light_chart_days.charAt(0).toUpperCase() + light_chart_days.slice(1);
+         }
+         else if ( light_chart_days >= 365 && Number.isInteger(light_chart_days / 365) ) {
+         plural = ( (light_chart_days / 365) > 1 ? 's' : '' );
+         time_period_text = (light_chart_days / 365) + ' Year' + plural;
+         }
+         else if ( light_chart_days >= 30 && Number.isInteger(light_chart_days / 30) ) {
+         plural = ( (light_chart_days / 30) > 1 ? 's' : '' );
+         time_period_text = (light_chart_days / 30) + ' Month' + plural;
+         }
+         else if ( light_chart_days >= 7 && Number.isInteger(light_chart_days / 7) ) {
+         plural = ( (light_chart_days / 7) > 1 ? 's' : '' );
+         time_period_text = (light_chart_days / 7) + ' Week' + plural;
+         }
+         else {
+         plural = ( light_chart_days > 1 ? 's' : '' );
+         time_period_text = light_chart_days + ' Day' + plural;
+         }
+      
+      }
+   
+   
+return time_period_text;
+   
 }
 
 

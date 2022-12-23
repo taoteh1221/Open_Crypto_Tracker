@@ -91,7 +91,7 @@ gui: {
 },
    type: "area",
    noData: {
-     text: "No data for this '<?=ucfirst($_GET['days'])?> day(s)' light chart yet, please check back in awhile.",
+     text: "No data for this '<?=$ct_gen->light_chart_time_period($_GET['days'], 'long')?>' light chart yet, please check back in awhile.",
   	  fontColor: "<?=$ct_conf['power']['charts_text']?>",
      backgroundColor: "#808080",
      fontSize: 20,
