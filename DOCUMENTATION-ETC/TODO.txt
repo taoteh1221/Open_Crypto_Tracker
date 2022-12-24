@@ -250,9 +250,6 @@ May come in handy for writing PHP unit tests: https://stackoverflow.com/question
 To avoid having the "re-enter /start" telegram error message unless truly needed, take an md5 digest of all telegram settings concatenated together, and save as a var in the vars cache folder. Only run a telegram setting update if this md5 digest ever changes.
 
 
-Add config setting to set which asset price light chart shows by default.
-
-
 Change the 'eth_erc20_icos' => 'ico_erc20_value' config settings to 'token_presales' => 'presale_value', AND support any base pair as the pairing (NOT just 'ETH').
 
 
