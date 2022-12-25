@@ -98,7 +98,7 @@ var admin_cookies = '<h5 class="align_center bitcoin tooltip_title">Admin Login 
 			
 			+'<p class="coin_info extra_margins" style="white-space: normal; max-width: 600px;"><span class="bitcoin">Whenever you visit the Admin Config page / view the "Admin Config - Quick Links" on the Portfolio page / etc, the app asks your browser for it\s 32-byte key to prove you are logged in.</span></p>'
 			
-			+'<p class="coin_info extra_margins" style="white-space: normal; max-width: 600px;"><span class="bitcoin">By splitting the secured login credentials between your web browser cookie data and the app server\'s temporary session data, it makes it a bit harder for a hacker to view your login area, at least if your app server automatically clears all it\'s temporary session data a few times per day (this app attempts to clear your session data EVERY <?=$ct_conf['sec']['session_expire']?> HOURS [adjustable in the Admin Config SECURITY section]).</span></p>'
+			+'<p class="coin_info extra_margins" style="white-space: normal; max-width: 600px;"><span class="bitcoin">By splitting the secured login credentials between your web browser cookie data and the app server\'s temporary session data, it makes it a bit harder for a hacker to view your login area, at least if your app server automatically clears all it\'s temporary session data a few times per day (this app attempts to clear your session data EVERY 6 HOURS).</span></p>'
 			
 			+'<p class="coin_info extra_margins" style="white-space: normal; max-width: 600px;"><span class="bitcoin">REGARDLESS as to whether your particular app server automatically clears it\'s temporary session data or not, whenever you logout the 32-byte key in your browser is deleted, along with all the session data on the app server.</span></p>'
 			
@@ -196,7 +196,7 @@ else {
 
 <script>
 
-if ( getCookie('priv_toggle') == 'on' ) {
+if ( get_cookie('priv_toggle') == 'on' ) {
 
 document.write("<p class='red align_center' style='font-size: 19px; font-weight: bold;'>"
 
@@ -261,7 +261,7 @@ Custom TTF fonts can be automatically added by placing them in the /templates/in
 
 Google Fonts is supported (fonts.google.com).' class='image_border' />
   	 <br />
-  	 <a href='javascript: refreshImage("captcha_image", "templates/interface/media/images/captcha.php");' class='bitcoin' style='font-weight: bold;' title='CAPTCHA image text contrast / maximum angle can be adjusted in Admin Config, within the "Security" section.
+  	 <a href='javascript: refresh_image("captcha_image", "templates/interface/media/images/captcha.php");' class='bitcoin' style='font-weight: bold;' title='CAPTCHA image text contrast / maximum angle can be adjusted in Admin Config, within the "Security" section.
 
 Custom TTF fonts can be automatically added by placing them in the /templates/interface/media/fonts/ folder.
 
@@ -304,7 +304,7 @@ if ( isset($_GET['new_reset_key']) ) {
 // Remove any previous submission error notices (captcha error etc)
 document.getElementById("login_alert").style.display = "none";
 
-if ( alphanumeric("user_alert", "set_username", "Username") == true && check_pass("pass_alert", "set_password", "set_password2") == true ) {
+if ( string_check("user_alert", "set_username", "Username") == true && check_pass("pass_alert", "set_password", "set_password2") == true ) {
 
 var captcha_code = document.getElementById("captcha_code");
 var captcha_alert = document.getElementById("captcha_alert");

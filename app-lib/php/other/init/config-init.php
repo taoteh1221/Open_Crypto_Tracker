@@ -103,9 +103,6 @@ $curl_user_agent = 'Curl/' .$curl_setup["version"]. ' ('.PHP_OS.'; ' . $system_i
 // Final preflight checks (MUST RUN AFTER app config auto-adjust / htaccess user login / user agent)
 require_once('app-lib/php/other/debugging/final-preflight-checks.php');
 
-// Sessions config (MUST RUN AFTER app config auto-adjust / final-preflight-checks)
-require_once('app-lib/php/other/config/sessions-config.php');
-
 // Chart sub-directory creation (if needed...MUST RUN AFTER app config auto-adjust / final-preflight-checks)
 require_once('app-lib/php/other/directory-creation/chart-directories.php');
 

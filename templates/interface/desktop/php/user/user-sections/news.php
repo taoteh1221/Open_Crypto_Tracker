@@ -104,7 +104,7 @@
 	
 	<p><input type='checkbox' onclick='
 	
-		selectAll(this, "activate_feeds");
+		select_all(this, "activate_feeds");
 		
 		if ( this.checked == false ) {
 		$("#show_feeds").val("");

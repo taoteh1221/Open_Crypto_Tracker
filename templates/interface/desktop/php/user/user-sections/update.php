@@ -301,7 +301,7 @@
 	    
 	    <span id='file_upload'><input style='margin-left: 85px;' name="csv_file" type="file" /></span>
 	    
-	    <input type="button" onclick='validateForm("csv_import", "csv_file");' value="Import Portfolio From CSV File" />
+	    <input type="button" onclick='validate_form("csv_import", "csv_file");' value="Import Portfolio From CSV File" />
 	    
 		</form>
 		
@@ -353,7 +353,7 @@
 	
 		<div class='align_center' style='font-weight: bold;'>Watch Only</div>
 	
-		<div style='margin-left: 6px;'><input type='checkbox' onclick='selectAll(this, "coin_amnts");' /> <b>Select / Unselect All <i><u>Unheld</u> Assets</i></b>	</div>
+		<div style='margin-left: 6px;'><input type='checkbox' onclick='select_all(this, "coin_amnts");' /> <b>Select / Unselect All <i><u>Unheld</u> Assets</i></b>	</div>
 		
 	
 	</div>

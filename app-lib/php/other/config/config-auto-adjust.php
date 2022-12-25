@@ -66,15 +66,6 @@ sort($ct_conf['power']['light_chart_day_intervals']);
 $ct_conf['power']['light_chart_day_intervals'][] = 'all';
 
 
-// Idiot-proof PHP session timeout
-if ( !$ct_var->whole_int($ct_conf['sec']['session_expire']) || $ct_conf['sec']['session_expire'] <= 0 ) {
-$ct_conf['sec']['session_expire'] = 1;
-}
-elseif ( $ct_conf['sec']['session_expire'] > 8 ) {
-$ct_conf['sec']['session_expire'] = 8;
-}
-
-
 // Idiot-proof maximum of +-35 on captcha text contrast
 if ( abs($ct_conf['sec']['captcha_text_contrast']) > 35 ) {
 $ct_conf['sec']['captcha_text_contrast'] = 35;

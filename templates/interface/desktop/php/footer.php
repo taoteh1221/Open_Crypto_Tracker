@@ -109,7 +109,7 @@
     		 	var btc_container = $("#btc_donate");
     		 	
     		 	// Add 'leave_open' class to parent / all child elements reursively
-    		 	addCSSClassRecursively( $(".btc_click_to_open") , 'btc_leave_open');
+    		 	add_css_class_recursively( $(".btc_click_to_open") , 'btc_leave_open');
 
     		 		if ( !btc_container.is(e.target) && btc_container.has(e.target).length === 0 && $(e.target).hasClass('btc_leave_open') == false ) {
         	 		btc_container.hideBalloon();
@@ -180,7 +180,7 @@
     		 	var eth_container = $("#eth_donate");
     		 	
     		 	// Add 'leave_open' class to parent / all child elements reursively
-    		 	addCSSClassRecursively( $(".eth_click_to_open") , 'eth_leave_open');
+    		 	add_css_class_recursively( $(".eth_click_to_open") , 'eth_leave_open');
 
     		 		if ( !eth_container.is(e.target) && eth_container.has(e.target).length === 0 && $(e.target).hasClass('eth_leave_open') == false ) {
         	 		eth_container.hideBalloon();
@@ -248,7 +248,7 @@
     		 	var hnt_container = $("#hnt_donate");
     		 	
     		 	// Add 'leave_open' class to parent / all child elements reursively
-    		 	addCSSClassRecursively( $(".hnt_click_to_open") , 'hnt_leave_open');
+    		 	add_css_class_recursively( $(".hnt_click_to_open") , 'hnt_leave_open');
 
     		 		if ( !hnt_container.is(e.target) && hnt_container.has(e.target).length === 0 && $(e.target).hasClass('hnt_leave_open') == false ) {
         	 		hnt_container.hideBalloon();
@@ -316,7 +316,7 @@
     		 	var sol_container = $("#sol_donate");
     		 	
     		 	// Add 'leave_open' class to parent / all child elements reursively
-    		 	addCSSClassRecursively( $(".sol_click_to_open") , 'sol_leave_open');
+    		 	add_css_class_recursively( $(".sol_click_to_open") , 'sol_leave_open');
 
     		 		if ( !sol_container.is(e.target) && sol_container.has(e.target).length === 0 && $(e.target).hasClass('sol_leave_open') == false ) {
         	 		sol_container.hideBalloon();

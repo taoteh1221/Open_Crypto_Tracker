@@ -43,7 +43,7 @@ start_utc_time();
 	
 	
 	// Activate auto-reload
-	if ( getCookie("coin_reload") ) {
+	if ( get_cookie("coin_reload") ) {
 	auto_reload();
 	}
 

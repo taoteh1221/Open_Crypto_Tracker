@@ -87,7 +87,7 @@
 	
 	<b>Default Chart Time Period:</b> <select class='custom-select' id='pref_chart_time_period' name='pref_chart_time_period' onchange="
 	
-	if ( !getCookie('pref_chart_time_period') ) {
+	if ( !get_cookie('pref_chart_time_period') ) {
 	time_period_cookie = confirm('This feature requires using cookie data.');
 	}
 	else {
@@ -95,7 +95,7 @@
 	}
 			
 	if ( time_period_cookie == true ) {
-	setCookie('pref_chart_time_period', this.value, 365);
+	set_cookie('pref_chart_time_period', this.value, 365);
 	$('#alert_pref_chart_time_period').html('&nbsp;&nbsp;&nbsp;(<a class=\'red\' href=\'javascript:app_reloading_check(0);\'>reload app to apply changes</a>)').addClass('red');
 	}
 	else {
@@ -196,7 +196,7 @@
 	
 	<p><input type='checkbox' onclick='
 	
-		selectAll(this, "activate_charts");
+		select_all(this, "activate_charts");
 		
 		if ( this.checked == false ) {
 		$("#show_charts").val("");
