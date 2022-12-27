@@ -44,6 +44,13 @@ BUGS / TESTS / UX / QA / OTHER SECTION
 /////////////////////////////////////////////////////// 
 
 
+Change interface upgrade alert to only display on admin login.
+
+
+Convert all javascript functions into classes, for cleaner code:
+https://javascript.info/class
+
+
 Test turning password protection on/off on the interface (NOT admin area), I messed with it BUT changed it back.
 
 
