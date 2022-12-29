@@ -44,9 +44,6 @@ BUGS / TESTS / UX / QA / OTHER SECTION
 /////////////////////////////////////////////////////// 
 
 
-Change interface upgrade alert to only display on admin login.
-
-
 Convert all javascript functions into classes, for cleaner code:
 https://javascript.info/class
 

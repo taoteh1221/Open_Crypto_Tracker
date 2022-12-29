@@ -5946,6 +5946,8 @@ v6.00.2 AND HIGHER RESETS LIGHT (TIME PERIOD) CHARTS FROM ARCHIVAL DATA, ONE-TIM
 
 -Users can change the default time period for price charts (which time period loads initially)
 
+-Interface upgrade alert only shows on admin login
+
 -Code cleanup
 
 -v6.00.13 AND HIGHER RESETS LIGHT (TIME PERIOD) CHARTS FROM ARCHIVAL DATA, ONE-TIME DURING UPGRADES FROM V6.00.12 OR LOWER.
