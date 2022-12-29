@@ -5937,6 +5937,27 @@ v6.00.2 AND HIGHER RESETS LIGHT (TIME PERIOD) CHARTS FROM ARCHIVAL DATA, ONE-TIM
 
 
 
+-------------------------------------------------------------------
+6.00.14:
+
+-BUG FIX: Fixed PHP session cookie to be samesite=strict (all editions) and secure-only (if server edition)
+
+-BUG FIX: Fixed javascript set_cookie() function to use secure cookies (if server edition)
+
+-Users can change the default time period for price charts (which time period loads initially)
+
+-Interface upgrade alert only shows on admin login
+
+-Code cleanup
+
+-v6.00.13 AND HIGHER RESETS LIGHT (TIME PERIOD) CHARTS FROM ARCHIVAL DATA, ONE-TIME DURING UPGRADES FROM V6.00.12 OR LOWER.
+
+-v6.00.8 AND HIGHER MIGRATES / UPGRADES ANY SET COOKIE DATA TO A MORE SECURE / RELIABLE FORMAT, ONE-TIME DURING UPGRADES FROM V6.00.7 OR LOWER.
+
+-------------------------------------------------------------------
+
+
+
 
 
 

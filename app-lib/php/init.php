@@ -12,7 +12,7 @@ exit;
 
 
 // Application version
-$app_version = '6.00.13';  // 2022/DECEMBER/20TH
+$app_version = '6.00.14';  // 2022/DECEMBER/24TH
 
 
 // #PHP# ERROR LOGGING

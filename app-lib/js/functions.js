@@ -38,7 +38,7 @@ document.getElementById(obj_id).action = set_action;
 /////////////////////////////////////////////////////////////
 
 
-function toTimestamp(year,month,day,hour,minute,second) {
+function to_timestamp(year,month,day,hour,minute,second) {
  var datum = new Date(Date.UTC(year,month-1,day,hour,minute,second));
  return datum.getTime()/1000;
 }
@@ -59,19 +59,21 @@ function background_loading_notices(message) {
 /////////////////////////////////////////////////////////////
 
 
-function isInt(value) {
+function is_int(value) {
+  
   if (isNaN(value)) {
-    return false;
+  return false;
   }
-  var x = parseFloat(value);
-  return (x | 0) === x;
+
+return Number.isInteger( parseFloat(value) );
+
 }
 
 
 /////////////////////////////////////////////////////////////
 
 
-function refreshImage(imgElement, imgURL) {   
+function refresh_image(imgElement, imgURL) {   
      
 // create a new timestamp, to force-refresh image
 timestamp = new Date().getTime();        
@@ -99,11 +101,12 @@ const all_autosize_textareas = document.querySelectorAll("[data-autoresize]");
 /////////////////////////////////////////////////////////////
 
 
-function setCookie(cname, cvalue, exdays) {
+function set_cookie(cname, cvalue, exdays) {
 d = new Date();
 d.setTime(d.getTime() + (exdays*24*60*60*1000));
+is_secure = app_edition == 'server' ? ' Secure' : '';
 expires = "expires="+d.toUTCString();
-document.cookie = cname + "=" + cvalue + "; SameSite=Strict; " + expires;
+document.cookie = cname + "=" + cvalue + "; " + expires + "; SameSite=Strict;" + is_secure;
 }
 
 
@@ -172,14 +175,14 @@ utc_time = setTimeout(start_utc_time, 1000);
 /////////////////////////////////////////////////////////////
 
 
-function addCSSClassRecursively(topElement, CssClass) {
+function add_css_class_recursively(topElement, CssClass) {
 
 $(topElement).addClass(CssClass);
 
     $(topElement).children().each(
             function() {
                  $(this).addClass(CssClass);
-                 addCSSClassRecursively($(this), CssClass);
+                 add_css_class_recursively($(this), CssClass);
             });
             
 }
@@ -206,32 +209,6 @@ $("#coins_table").find("th:eq("+col+")").trigger("sort");
 /////////////////////////////////////////////////////////////
 
 
-function iframe_adjust(elm) {
-
-
-    // Set proper page zoom on the iframe
-    if ( app_edition == 'desktop' ) {
-    elm.contentWindow.document.body.style.zoom = currzoom + '%';
-    }
-
-
-    // Now that we've set any required zoom level, adjust the height
-    if ( elm.id == 'iframe_system_stats' || elm.id == 'iframe_security' ) {
-    extra = 1000;
-    }
-    else {
-    extra = 100;
-    }
-
-
-elm.height = (elm.contentWindow.document.body.scrollHeight + extra) + "px";
-              
-}
-
-
-/////////////////////////////////////////////////////////////
-
-
 const iframe_adjuster = new IntersectionObserver(entries => {
     
     entries.forEach(entry => {
@@ -251,7 +228,7 @@ const iframe_adjuster = new IntersectionObserver(entries => {
 /////////////////////////////////////////////////////////////
 
 
-function validateForm(form_id, field) {
+function validate_form(form_id, field) {
 	
 x = document.forms[form_id][field].value;
 
@@ -358,53 +335,6 @@ return datevalues[0] + '/' + datevalues[1] + '/' + datevalues[2] + ' @ ' + datev
 /////////////////////////////////////////////////////////////
 
 
-function ajax_placeholder(px_size, align, message=null, display_mode=null){
-    
-    
-    if ( display_mode ) {
-    display_mode = 'display: ' + display_mode + '; ';
-    }
-
-
-	if ( message ) {
-	img_height = px_size - 2;
-	return '<div class="align_' + align + '" style="'+display_mode+'white-space: nowrap; font-size: ' + px_size + 'px;"><img src="templates/interface/media/images/auto-preloaded/loader.gif" height="' + img_height + '" alt="" style="position: relative; vertical-align:middle;" /> ' + message + ' </div>';
-	}
-	else {
-	img_height = px_size;
-	return '<div class="align_' + align + '" style="'+display_mode+'"><img src="templates/interface/media/images/auto-preloaded/loader.gif" height="' + img_height + '" alt="" /></div>';
-	}
-	
-
-}
-
-
-/////////////////////////////////////////////////////////////
-
-
-function set_admin_security(obj) {
-
-		if ( obj.value == "normal" || obj.value == "enhanced" ) {
-	    var int_api_key_reset = confirm("'Enhanced' and 'Normal' admin security modes are currently BETA (TEST) FEATURES, AND USING THEM MAY LEAD TO ISSUES UPDATING YOUR APP CONFIGURATION (editing from the PHP config files will be DISABLED).\n\nYou can RE-DISABLE these BETA features AFTER activating them (by setting the security mode back to 'High'), and you will be able to update your app configuration from the PHP config files again.");
-		}
-		else {
-	    var int_api_key_reset = confirm("High security admin mode requires you to update your app configuration from the PHP config files.");
-		}
-		
-		if ( int_api_key_reset ) {
-		$("#toggle_admin_security").submit(); // Triggers iframe "reloading" sequence
-		}
-		else {
-		$('input[name=opt_admin_sec]:checked').prop('checked',false);
-		$('#opt_admin_sec_' + $("#sel_admin_sec").val() ).prop('checked',true);
-		}
-
-}
-
-
-/////////////////////////////////////////////////////////////
-
-
 function show_more(id, change_text=0) {
 	
 	if ( $("#"+id).is(":visible") ) {
@@ -430,7 +360,7 @@ function show_more(id, change_text=0) {
 // JAVASCRIPT COOKIE ENCODING / DECODING IS #NOT# COMPATIBLE 
 // WITH PHP COOKIE AUTO ENCODING / DECODING!! 
 // ONLY USE THIS FOR CHECKS ON COOKIE VALS EXISTING ETC ETC!!
-function getCookie(cname) {
+function get_cookie(cname) {
 	
 name = cname + "=";
 ca = document.cookie.split(';');
@@ -452,7 +382,7 @@ return false;
 function app_reloading_check(form_submission=0) {
         
     // Disable form updating in privacy mode
-    if ( getCookie('priv_toggle') == 'on' && form_submission == 1 ) {
+    if ( get_cookie('priv_toggle') == 'on' && form_submission == 1 ) {
     alert('Submitting data is not allowed in privacy mode.');
     return 'no'; // WE NORMALLY DON'T RETURN DATA HERE BECAUSE WE ARE REFRESHING OR SUBMITTING, SO WE CANNOT USE RETURN FALSE RELIABLY
     }
@@ -598,6 +528,79 @@ function safe_add_remove_class(class_name, element, mode) {
 /////////////////////////////////////////////////////////////
 
 
+function iframe_adjust(elm) {
+
+
+    // Set proper page zoom on the iframe
+    if ( app_edition == 'desktop' ) {
+    elm.contentWindow.document.body.style.zoom = currzoom + '%';
+    }
+
+
+    // Now that we've set any required zoom level, adjust the height
+    if ( elm.id == 'iframe_system_stats' || elm.id == 'iframe_security' ) {
+    extra = 1000;
+    }
+    else {
+    extra = 100;
+    }
+
+
+elm.height = (elm.contentWindow.document.body.scrollHeight + extra) + "px";
+              
+}
+
+
+/////////////////////////////////////////////////////////////
+
+
+function ajax_placeholder(px_size, align, message=null, display_mode=null){
+    
+    
+    if ( display_mode ) {
+    display_mode = 'display: ' + display_mode + '; ';
+    }
+
+
+	if ( message ) {
+	img_height = px_size - 2;
+	return '<div class="align_' + align + '" style="'+display_mode+'white-space: nowrap; font-size: ' + px_size + 'px;"><img src="templates/interface/media/images/auto-preloaded/loader.gif" height="' + img_height + '" alt="" style="position: relative; vertical-align:middle;" /> ' + message + ' </div>';
+	}
+	else {
+	img_height = px_size;
+	return '<div class="align_' + align + '" style="'+display_mode+'"><img src="templates/interface/media/images/auto-preloaded/loader.gif" height="' + img_height + '" alt="" /></div>';
+	}
+	
+
+}
+
+
+/////////////////////////////////////////////////////////////
+
+
+function set_admin_security(obj) {
+
+		if ( obj.value == "normal" || obj.value == "enhanced" ) {
+	    var int_api_key_reset = confirm("'Enhanced' and 'Normal' admin security modes are currently BETA (TEST) FEATURES, AND USING THEM MAY LEAD TO ISSUES UPDATING YOUR APP CONFIGURATION (editing from the PHP config files will be DISABLED).\n\nYou can RE-DISABLE these BETA features AFTER activating them (by setting the security mode back to 'High'), and you will be able to update your app configuration from the PHP config files again.");
+		}
+		else {
+	    var int_api_key_reset = confirm("High security admin mode requires you to update your app configuration from the PHP config files.");
+		}
+		
+		if ( int_api_key_reset ) {
+		$("#toggle_admin_security").submit(); // Triggers iframe "reloading" sequence
+		}
+		else {
+		$('input[name=opt_admin_sec]:checked').prop('checked',false);
+		$('#opt_admin_sec_' + $("#sel_admin_sec").val() ).prop('checked',true);
+		}
+
+}
+
+
+/////////////////////////////////////////////////////////////
+
+
 function text_to_download(textToWrite, fileNameToSaveAs)
     {
     	var textFileAsBlob = new Blob([textToWrite], {type:'text/plain'}); 
@@ -658,7 +661,7 @@ audio_alert = document.getElementById('audio_alert');
 /////////////////////////////////////////////////////////////
 
 
-function selectAll(toggle, form_name) {
+function select_all(toggle, form_name) {
 	
     var checkbox, i=0;
     while ( checkbox=document.getElementById(form_name).elements[i++] ) {
@@ -690,6 +693,39 @@ function selectAll(toggle, form_name) {
 /////////////////////////////////////////////////////////////
 
 
+function watch_toggle(obj_var) {
+	
+num_val = $("#"+obj_var.value+"_amnt").val();
+num_val = num_val.replace(/,/g, '');
+		
+		if ( obj_var.checked == true ) {
+			
+			// If there is a valid coin amount OR this is MISCASSETS, uncheck it
+			if ( num_val >= 0.00000001 || obj_var.value == 'miscassets' || obj_var.value == 'ethnfts' || obj_var.value == 'solnfts' ) {
+			obj_var.checked = false;
+			}
+			else {
+			$("#"+obj_var.value+"_amnt").val("0.000000001");
+			$("#"+obj_var.value+"_amnt").attr("readonly", "readonly");
+			}
+		
+		}
+		else {
+			
+			if ( num_val < 0.00000001 ) {
+			$("#"+obj_var.value+"_amnt").val("");
+			}
+			
+		$("#"+obj_var.value+"_amnt").removeAttr("readonly");
+		$("#"+obj_var.value+"_amnt").val( $("#"+obj_var.value+"_restore").val() );
+		}
+	
+}
+
+
+/////////////////////////////////////////////////////////////
+
+
 function copy_text(elm_id, alert_id) {
 	
   elm = document.getElementById(elm_id);
@@ -713,6 +749,42 @@ function copy_text(elm_id, alert_id) {
 	 document.getElementById(alert_id).innerHTML = 'Copied to clipboard.';
   }
   
+}
+
+
+/////////////////////////////////////////////////////////////
+
+
+// https://codepen.io/kkoutoup/pen/zxmGLE
+function random_tips() {
+	
+	if ( typeof quoteSource == 'undefined' ) {
+	return;
+	}
+	
+//getting a new random number to attach to a quote and setting a limit
+randomNumber= Math.floor(Math.random() * quoteSource.length);
+			
+//set a new quote
+
+newQuoteText = quoteSource[randomNumber].quote;
+newQuoteGenius = quoteSource[randomNumber].name;
+			
+quoteContainer = $('#quoteContainer');
+      
+quoteContainer.html( ajax_placeholder(15, 'left') );
+
+	//fade out animation with callback
+   quoteContainer.fadeOut(250, function(){
+	
+	quoteContainer.html('<p>'+newQuoteText+'</p>'+'<p id="quoteGenius">'+'-'+newQuoteGenius+'</p>');
+   
+   //fadein animation.
+   quoteContainer.fadeIn(250);
+        
+   });  
+
+
 }
    
 
@@ -875,75 +947,6 @@ function app_reload(form_submission) {
     
     }
     
-
-}
-
-
-/////////////////////////////////////////////////////////////
-
-
-function watch_toggle(obj_var) {
-	
-num_val = $("#"+obj_var.value+"_amnt").val();
-num_val = num_val.replace(/,/g, '');
-		
-		if ( obj_var.checked == true ) {
-			
-			// If there is a valid coin amount OR this is MISCASSETS, uncheck it
-			if ( num_val >= 0.00000001 || obj_var.value == 'miscassets' || obj_var.value == 'ethnfts' || obj_var.value == 'solnfts' ) {
-			obj_var.checked = false;
-			}
-			else {
-			$("#"+obj_var.value+"_amnt").val("0.000000001");
-			$("#"+obj_var.value+"_amnt").attr("readonly", "readonly");
-			}
-		
-		}
-		else {
-			
-			if ( num_val < 0.00000001 ) {
-			$("#"+obj_var.value+"_amnt").val("");
-			}
-			
-		$("#"+obj_var.value+"_amnt").removeAttr("readonly");
-		$("#"+obj_var.value+"_amnt").val( $("#"+obj_var.value+"_restore").val() );
-		}
-	
-}
-
-
-/////////////////////////////////////////////////////////////
-
-
-// https://codepen.io/kkoutoup/pen/zxmGLE
-function random_tips() {
-	
-	if ( typeof quoteSource == 'undefined' ) {
-	return;
-	}
-	
-//getting a new random number to attach to a quote and setting a limit
-randomNumber= Math.floor(Math.random() * quoteSource.length);
-			
-//set a new quote
-
-newQuoteText = quoteSource[randomNumber].quote;
-newQuoteGenius = quoteSource[randomNumber].name;
-			
-quoteContainer = $('#quoteContainer');
-      
-quoteContainer.html( ajax_placeholder(15, 'left') );
-
-	//fade out animation with callback
-   quoteContainer.fadeOut(250, function(){
-	
-	quoteContainer.html('<p>'+newQuoteText+'</p>'+'<p id="quoteGenius">'+'-'+newQuoteGenius+'</p>');
-   
-   //fadein animation.
-   quoteContainer.fadeIn(250);
-        
-   });  
-
 
 }
 	
@@ -1131,7 +1134,7 @@ document.getElementById("target_total_btc").innerHTML = (to_trade_amnt * num_tot
 /////////////////////////////////////////////////////////////
 
 
-function alphanumeric(doc_id_alert, elm_id, ui_name) { 
+function string_check(doc_id_alert, elm_id, ui_name) { 
 
 regex_is_lowercase_alphanumeric = /^[0-9a-z]+$/;
 regex_starts_letter = /^[a-z]/;
@@ -1187,7 +1190,7 @@ function sorting_portfolio_table() {
 	if ( document.getElementById("coins_table") ) {
 	        
 	// Set default sort, based on whether privacy mode is on        
-	set_sort_list = getCookie('priv_toggle') == 'on' ? [0,0] : [sorted_by_col, sorted_asc_desc];
+	set_sort_list = get_cookie('priv_toggle') == 'on' ? [0,0] : [sorted_by_col, sorted_asc_desc];
 		
 		
     	$("#coins_table").tablesorter({
@@ -1487,8 +1490,8 @@ function auto_reload() {
 	if ( window.reload_time ) {
 	time = window.reload_time;
 	}
-	else if ( getCookie("coin_reload") ) {
-	time = getCookie("coin_reload");
+	else if ( get_cookie("coin_reload") ) {
+	time = get_cookie("coin_reload");
 	}
 	else {
 	return;
@@ -1512,7 +1515,7 @@ function auto_reload() {
 			
 				if ( use_cookies == true ) {
 					
-				setCookie("coin_reload", time, 365);
+				set_cookie("coin_reload", time, 365);
 				
 				$("#use_cookies").val(1);
 				
@@ -1539,7 +1542,7 @@ function auto_reload() {
                 }
                 else {
                    
-               	setCookie("coin_reload", time, 365);
+               	set_cookie("coin_reload", time, 365);
                	
     				int_time = time - 1; // Remove a second for the 1000 millisecond (1 second) recheck interval
     			
@@ -1578,7 +1581,7 @@ function auto_reload() {
 		
 		}
 		else {
-		setCookie("coin_reload", '', 365);
+		set_cookie("coin_reload", '', 365);
 		$("#reload_countdown").html(""); // Portfolio page
 		$("span.countdown_notice").html(""); // Secondary pages
 		}
@@ -1598,7 +1601,7 @@ function privacy_mode(click=false) {
     
     
     // Failsafe (if no PIN cookie, delete toggle cookie)
-    if ( getCookie('priv_sec') == false ) {
+    if ( get_cookie('priv_sec') == false ) {
     delete_cookie('priv_toggle');
     }
     
@@ -1606,10 +1609,10 @@ function privacy_mode(click=false) {
 private_data = document.getElementsByClassName('private_data');
 
 
-    if ( getCookie('priv_toggle') == 'on' && click == true ) {
+    if ( get_cookie('priv_toggle') == 'on' && click == true ) {
         
         
-        if ( getCookie('priv_sec') == null ) {
+        if ( get_cookie('priv_sec') == null ) {
         delete_cookie('priv_toggle');
         }
         else {
@@ -1620,7 +1623,7 @@ private_data = document.getElementsByClassName('private_data');
                 callback: function(pin_check) {
                 
 
-                    if ( atob( getCookie('priv_sec') ) == pin_check ) {
+                    if ( atob( get_cookie('priv_sec') ) == pin_check ) {
                         
                         
                     	// Put configged markets into a multi-dimensional array, calculate number of markets total
@@ -1655,7 +1658,7 @@ private_data = document.getElementsByClassName('private_data');
                 
                     //console.log('Privacy Mode: Off');
                     
-                    setCookie('priv_toggle', 'off', 365); 
+                    set_cookie('priv_toggle', 'off', 365); 
 
 
                         // Any stats are added to document title
@@ -1726,7 +1729,7 @@ private_data = document.getElementsByClassName('private_data');
     else {
         
         
-        if ( getCookie('priv_sec') == false && click == true ) {
+        if ( get_cookie('priv_sec') == false && click == true ) {
     
 
             pw_prompt({
@@ -1736,7 +1739,7 @@ private_data = document.getElementsByClassName('private_data');
                     
                     
                     // If page reload before entering pin (or left blank), or non-numeric, or less than 6 numbers
-                    if ( typeof pin == 'undefined' || isInt(pin) == false || pin.length != 6 ) {
+                    if ( typeof pin == 'undefined' || is_int(pin) == false || pin.length != 6 ) {
                     alert("PIN must be 6 numeric characters, please try again.");
                     return;
                     }
@@ -1750,7 +1753,7 @@ private_data = document.getElementsByClassName('private_data');
                                 
         
                                 if ( pin == pin_check ) {
-                                setCookie('priv_sec', btoa(pin), 365);
+                                set_cookie('priv_sec', btoa(pin), 365);
                                 privacy_mode(click);
                                 }
                                 else {
@@ -1775,9 +1778,9 @@ private_data = document.getElementsByClassName('private_data');
         
         
         // Check again, that 'priv_sec' cookie set
-        if ( getCookie('priv_sec') != false && click == true || getCookie('priv_sec') != false && click == false && getCookie('priv_toggle') == 'on' ) {
+        if ( get_cookie('priv_sec') != false && click == true || get_cookie('priv_sec') != false && click == false && get_cookie('priv_toggle') == 'on' ) {
                     
-        pin = atob( getCookie('priv_sec') );
+        pin = atob( get_cookie('priv_sec') );
         
             
             // Put configged markets into a multi-dimensional array, calculate number of markets total
@@ -1809,7 +1812,7 @@ private_data = document.getElementsByClassName('private_data');
         
         //console.log('Privacy Mode: On');
         
-        setCookie('priv_toggle', 'on', 365);
+        set_cookie('priv_toggle', 'on', 365);
         
         document.title = ''; // Blank out document title
             		

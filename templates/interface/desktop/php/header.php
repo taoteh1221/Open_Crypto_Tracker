@@ -488,43 +488,39 @@ header('Access-Control-Allow-Origin: ' . $app_host_address);
                 }
                 
                 
-				if ( isset($ui_upgrade_alert) && $ui_upgrade_alert['run'] == 'yes' ) {
+			    // show the upgrade notice one time until the next reminder period, IF ADMIN LOGGED IN
+				if ( isset($ui_upgrade_alert) && $ui_upgrade_alert['run'] == 'yes' && $ct_gen->admin_logged_in() ) {
 				    
-					
-					// If this isn't google or bing spidering the web, show the upgrade notice one time until the next reminder period
-					if ( stristr($_SERVER['HTTP_USER_AGENT'], 'googlebot') == false && stristr($_SERVER['HTTP_USER_AGENT'], 'bingbot') == false ) {
-				
-                    // Workaround for #VERY ODD# PHP v8.0.1 BUG, WHEN TRYING TO ECHO $ui_upgrade_alert['message'] IN HEADER.PHP
-                    // (so we render it in footer.php, near the end of rendering)
-    				$display_upgrade_alert = true;
-				    ?>
+                // Workaround for #VERY ODD# PHP v8.0.1 BUG, WHEN TRYING TO ECHO $ui_upgrade_alert['message'] IN HEADER.PHP
+                // (so we render it in footer.php, near the end of rendering)
+    			$display_upgrade_alert = true;
+    			
+				?>
 				    
-                	<script>
-                	// Render after page loads
-                	$(document).ready(function(){
-                    $('#ui_upgrade_message').html( $('#app_upgrade_alert').html() );
-                    });
-                	</script>
+                <script>
+                // Render after page loads
+                $(document).ready(function(){
+                $('#ui_upgrade_message').html( $('#app_upgrade_alert').html() );
+                });
+                </script>
 	
-    				<div class="alert alert-warning" role="alert">
-      					<button type="button" class="close" data-dismiss="alert" aria-label="Close">
-        					<span aria-hidden="true">&times;</span>
-      					</button>
-    				  	<div id='ui_upgrade_message'></div>
-    				</div>
+    			<div class="alert alert-warning" role="alert">
+      				<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+        				<span aria-hidden="true">&times;</span>
+      				</button>
+    			  	<div id='ui_upgrade_message'></div>
+    			</div>
 				
-				    <?php
+			    <?php
 				
-    				// Set back to 'run' => 'no' 
-    				// (will automatically re-activate in upgrade-check.php at a later date, if another reminder is needed after X days)
-    				$ui_upgrade_alert['run'] = 'no';
+    			// Set back to 'run' => 'no' 
+    			// (will automatically re-activate in upgrade-check.php at a later date, if another reminder is needed after X days)
+    			$ui_upgrade_alert['run'] = 'no';
     						
-    				$ct_cache->save_file($base_dir . '/cache/events/ui_upgrade_alert.dat', json_encode($ui_upgrade_alert, JSON_PRETTY_PRINT) );
-				
-					}
-					
+    			$ct_cache->save_file($base_dir . '/cache/events/ui_upgrade_alert.dat', json_encode($ui_upgrade_alert, JSON_PRETTY_PRINT) );
 					
 				}
+				
 				?>
 		 
 				<div id='background_loading' class='align_center loading bitcoin'><img src="templates/interface/media/images/auto-preloaded/loader.gif" height='17' alt="" style='vertical-align: middle;' /> <span id='background_loading_span'></span></div>

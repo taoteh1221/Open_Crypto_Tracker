@@ -873,7 +873,7 @@ var fiat_val_content = '<h5 class="yellow tooltip_title">Primary Currency (<?=st
 	<script>
 	// We want ONLY WATCHED ASSETS SHOWN for privacy mode, so nobody easily
 	// becomes interested in what we are NOT watching on the update page
-	if ( getCookie('priv_toggle') == 'on' ) {
+	if ( get_cookie('priv_toggle') == 'on' ) {
 	zingchart_privacy = '&privacy=on';
 	}
 	else {
@@ -1009,7 +1009,7 @@ var fiat_val_content = '<h5 class="yellow tooltip_title">Primary Currency (<?=st
 	
 	date_array = to_timestamp.split('/');
 	
-	date_timestamp = toTimestamp(date_array[0],date_array[1],date_array[2],0,0,0) + timestamp_offset;
+	date_timestamp = to_timestamp(date_array[0],date_array[1],date_array[2],0,0,0) + timestamp_offset;
   
   // 'resize' MUST run before 'load'
   zingchart.exec('performance_chart', 'resize', {
@@ -1531,7 +1531,7 @@ zingchart.bind('marketcap_chart', 'label_click', function(e){
 	
 		<button onclick='
 		
-		if ( getCookie("priv_toggle") == "on" ) {
+		if ( get_cookie("priv_toggle") == "on" ) {
 		alert("Submitting data is not allowed in privacy mode.");
 		}
 		else {

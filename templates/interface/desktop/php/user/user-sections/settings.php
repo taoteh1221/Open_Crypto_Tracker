@@ -142,7 +142,7 @@
 				    
 		 <script>
 
-					if ( getCookie('priv_toggle') == 'on' ) {
+					if ( get_cookie('priv_toggle') == 'on' ) {
 				    $("#sorting_alert").html("Sorting by the Holdings / Holdings Value / Subtotal columns is currently disabled, as Privacy Mode is turned ON.");
 				    $("#sorting_alert").show(250, "linear"); // 0.25 seconds
 				    }

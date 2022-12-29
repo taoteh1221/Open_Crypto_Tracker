@@ -10,13 +10,13 @@
 //////////////////////////////////////////////////////////////////
 
 
-// server should keep session data for AT LEAST $ct_conf['sec']['session_expire'] hours
-ini_set('session.gc_maxlifetime', ($ct_conf['sec']['session_expire'] * 3600) );
+// server should keep session data for AT LEAST 6 hours
+ini_set('session.gc_maxlifetime', (6 * 3600) );
 
 
 // PHP session cookie defaults
-// each client should remember their session id for EXACTLY $ct_conf['sec']['session_expire'] hours
-$php_sess_time = ($ct_conf['sec']['session_expire'] * 3600);
+// each client should remember their session id for EXACTLY 6 hours
+$php_sess_time = (6 * 3600);
 $php_sess_secure = ( $app_edition == 'server' ? true : false );
 
 if ( PHP_VERSION_ID >= 70300 ) {

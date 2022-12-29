@@ -79,7 +79,50 @@
    </ul>
    
 				
-	<p style='margin-top: 25px;'><button class="show_chart_settings force_button_style">Select Charts</button></p>
+	<p style='margin-top: 25px;'>
+	
+	<button class="show_chart_settings force_button_style">Select Charts</button>
+	
+	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+	
+	<b>Default Chart Time Period:</b> <select class='custom-select' id='pref_chart_time_period' name='pref_chart_time_period' onchange="
+	
+	if ( !get_cookie('pref_chart_time_period') ) {
+	time_period_cookie = confirm('This feature requires using cookie data.');
+	}
+	else {
+	time_period_cookie = true;
+	}
+			
+	if ( time_period_cookie == true ) {
+	set_cookie('pref_chart_time_period', this.value, 365);
+	$('#alert_pref_chart_time_period').html('&nbsp;&nbsp;&nbsp;(<a class=\'red\' href=\'javascript:app_reloading_check(0);\'>reload app to apply changes</a>)').addClass('red');
+	}
+	else {
+    $(this).val(pref_chart_time_period);
+    return false;
+	}
+	
+	">
+    <option value='all'> All </option>
+    <?php
+    foreach ( $ct_conf['power']['light_chart_day_intervals'] as $days ) {
+       if ( $days != 'all' ) {
+    ?>
+    <option value='<?=$days?>'<?=( $_COOKIE['pref_chart_time_period'] == $days ? ' selected' : '' )?>> <?=$ct_gen->light_chart_time_period($days, 'long')?> </option>
+    <?php
+       }
+    }
+    ?>
+    </select> 
+    
+    <span id='alert_pref_chart_time_period'></span>
+    
+    <script>
+    var pref_chart_time_period = $('#pref_chart_time_period').val();
+    </script>
+    
+	</p>
 	
 	<br clear='all' />
 	
@@ -153,7 +196,7 @@
 	
 	<p><input type='checkbox' onclick='
 	
-		selectAll(this, "activate_charts");
+		select_all(this, "activate_charts");
 		
 		if ( this.checked == false ) {
 		$("#show_charts").val("");

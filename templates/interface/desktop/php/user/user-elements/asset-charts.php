@@ -12,10 +12,11 @@ $charted_val = ( $chart_mode == 'pair' ? $alerts_mrkt_parse[1] : $default_btc_pr
 		
 // Strip non-alphanumeric characters to use in js vars, to isolate logic for each separate chart
 $js_key = preg_replace("/-/", "", $key) . '_' . $charted_val;
-		
+
+$pref_chart_time_period = ( isset($_COOKIE['pref_chart_time_period']) ? $_COOKIE['pref_chart_time_period'] : 'all' );
 		
 	// Have this script send the UI alert messages, and not load any chart code (to not leave the page endlessly loading) if cache data is not present
-	if ( file_exists('cache/charts/spot_price_24hr_volume/light/all_days/'.$chart_asset.'/'.$key.'_chart_'.$charted_val.'.dat') != 1
+	if ( file_exists('cache/charts/spot_price_24hr_volume/light/'.$pref_chart_time_period.'_days/'.$chart_asset.'/'.$key.'_chart_'.$charted_val.'.dat') != 1
 	|| $alerts_mrkt_parse[2] != 'chart' && $alerts_mrkt_parse[2] != 'both' ) {
 		
 		// If we have disabled this chart AFTER adding it at some point earlier (fixes "loading charts" not closing)
@@ -46,11 +47,11 @@ $js_key = preg_replace("/-/", "", $key) . '_' . $charted_val;
 
 
 var light_state_<?=$js_key?> = {
-  current: 'all'
+  current: '<?=$pref_chart_time_period?>'
 };
  
 
-$("#<?=$key?>_<?=$charted_val?>_chart span.chart_loading").html(' &nbsp; <img src="templates/interface/media/images/auto-preloaded/loader.gif" height="16" alt="" style="vertical-align: middle;" /> Loading All chart for <?=$chart_asset?> / <?=strtoupper($alerts_mrkt_parse[1])?> @ <?=$ct_gen->key_to_name($alerts_mrkt_parse[0])?><?=( $chart_mode != 'pair' ? ' \(' . strtoupper($charted_val) . ' Value\)' : '' )?>...');
+$("#<?=$key?>_<?=$charted_val?>_chart span.chart_loading").html(' &nbsp; <img src="templates/interface/media/images/auto-preloaded/loader.gif" height="16" alt="" style="vertical-align: middle;" /> Loading <?=$ct_gen->light_chart_time_period($pref_chart_time_period, 'long')?> chart for <?=$chart_asset?> / <?=strtoupper($alerts_mrkt_parse[1])?> @ <?=$ct_gen->key_to_name($alerts_mrkt_parse[0])?><?=( $chart_mode != 'pair' ? ' \(' . strtoupper($charted_val) . ' Value\)' : '' )?>...');
 	
   
 zingchart.bind('<?=strtolower($key)?>_<?=$charted_val?>_chart', 'load', function() {
@@ -60,7 +61,7 @@ $("#<?=$key?>_<?=$charted_val?>_chart span.chart_loading").hide(); // Hide "Load
 
 zingchart.TOUCHZOOM = 'pinch'; /* mobile compatibility */
 
-$.get( "ajax.php?type=chart&mode=asset_price&asset_data=<?=$key?>&charted_val=<?=$chart_mode?>&days=all", function( json_data ) {
+$.get( "ajax.php?type=chart&mode=asset_price&asset_data=<?=$key?>&charted_val=<?=$chart_mode?>&days=<?=$pref_chart_time_period?>", function( json_data ) {
  
 
 	// Mark chart as loaded after it has rendered

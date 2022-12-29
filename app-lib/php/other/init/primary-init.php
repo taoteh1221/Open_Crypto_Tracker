@@ -49,6 +49,9 @@ require_once('app-lib/php/other/config/system-config.php');
 // Set / populate SECONDARY app vars / arrays
 require_once('app-lib/php/other/vars/secondary-vars.php');
 
+// Sessions config (MUST RUN BEFORE starting the PHP session)
+require_once('app-lib/php/other/config/sessions-config.php');
+
 
 // ESSENTIAL VARS / ARRAYS / INITS SET #BEFORE# config-init.php...
 
