@@ -17,7 +17,7 @@ if ( $runtime_mode != 'cron' && !$is_fast_runtime ) {
 
 
 	// Have UI runtime mode RE-CACHE the app URL data every 24 hours, since CLI runtime cannot determine the app URL (for sending backup link emails during backups, etc)
-	// (USING SECONDARY VAR '$base_url_check' HERE PREVENTS HOSTNAME HEADER SPOOFING INJECTION [checked for in ct_gen->base_url() AND final-preflight-checks.php])
+	// (USING SECONDARY VAR '$base_url_check' HERE PREVENTS HOSTNAME HEADER SPOOFING INJECTION [checked for in ct_gen->base_url() AND preflight-security-checks.php])
 	if ( $ct_cache->update_cache('cache/vars/base_url.dat', (60 * 24) ) == true && isset($base_url_check) && trim($base_url_check) != '' && !isset($base_url_check['security_error']) ) {
 	$ct_cache->save_file('cache/vars/base_url.dat', $base_url_check);
 	}
@@ -250,7 +250,7 @@ $sel_opt['sorted_asc_desc'] = $sort_array[1];
 	
 
 // Now that $run_csv_import has been determined ABOVE, we can call our cookie logic
-require_once($base_dir . "/app-lib/php/other/cookies.php");
+require_once($base_dir . "/app-lib/php/inline/other/cookies.php");
 
 
 }

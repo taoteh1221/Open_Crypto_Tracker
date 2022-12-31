@@ -27,23 +27,23 @@ $link_spacer = 65; // Space beetween light chart links
 
 // ASSET PRICE CHARTS
 if ( $_GET['mode'] == 'asset_price' ) {
-require_once($base_dir . '/app-lib/php/other/ajax/charts/types/asset_price.php');
+require_once($base_dir . '/app-lib/php/inline/ajax/charts/types/asset_price.php');
 }
 // ASSET BALANCE CHART
 elseif ( $_GET['mode'] == 'asset_balance' ) {
-require_once($base_dir . '/app-lib/php/other/ajax/charts/types/asset_balance.php');
+require_once($base_dir . '/app-lib/php/inline/ajax/charts/types/asset_balance.php');
 }
 // ASSET PERFORMANCE CHART
 elseif ( $_GET['mode'] == 'asset_performance' ) {
-require_once($base_dir . '/app-lib/php/other/ajax/charts/types/asset_performance.php');
+require_once($base_dir . '/app-lib/php/inline/ajax/charts/types/asset_performance.php');
 }
 // MARKETCAP DATA
 elseif ( $_GET['mode'] == 'marketcap_data' ) {
-require_once($base_dir . '/app-lib/php/other/ajax/charts/types/marketcap_data.php');
+require_once($base_dir . '/app-lib/php/inline/ajax/charts/types/marketcap_data.php');
 }
 // SYSTEM CHARTS
 elseif ( $_GET['mode'] == 'system' ) {
-require_once($base_dir . '/app-lib/php/other/ajax/charts/types/system.php');
+require_once($base_dir . '/app-lib/php/inline/ajax/charts/types/system.php');
 }
  
  

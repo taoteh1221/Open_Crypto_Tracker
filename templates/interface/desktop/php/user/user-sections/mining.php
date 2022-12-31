@@ -31,7 +31,7 @@
 			<fieldset class='subsection_fieldset'>
 				<legend class='subsection_legend'> <b><?=$pow_asset_data['name']?> Mining Calculator</b> </legend>
 		    
-				<?php require("app-lib/php/other/calculators/mining/pow/render.php"); ?>
+				<?php require("app-lib/php/inline/calculators/mining/pow/render.php"); ?>
 				
 				
 			</fieldset>
@@ -43,7 +43,7 @@
 			<fieldset class='subsection_fieldset'>
 				<legend class='subsection_legend'> <b>HIVE Power Interest Rate / Power Down Weekly Payout Calculator</b> </legend>
 				
-				<?php require("app-lib/php/other/calculators/mining/pos/hive-power-interest-calculator.php"); ?>
+				<?php require("app-lib/php/inline/calculators/mining/pos/hive-power-interest-calculator.php"); ?>
 				
 			</fieldset>
 		    

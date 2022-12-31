@@ -15,9 +15,9 @@ if ( $_POST[$pow_asset_data['symbol'].'_submitted'] ) {
 <p class='green'>
 
 <?php
-include('app-lib/php/other/calculators/mining/pow/time-calculation.php');
-include('app-lib/php/other/calculators/mining/pow/profit-calculation.php');
-include('app-lib/php/other/calculators/mining/pow/earned-daily.php');
+include('app-lib/php/inline/calculators/mining/pow/time-calculation.php');
+include('app-lib/php/inline/calculators/mining/pow/profit-calculation.php');
+include('app-lib/php/inline/calculators/mining/pow/earned-daily.php');
 ?>
 
 </p>

@@ -976,7 +976,7 @@ $ct_conf['power']['hivepower_yearly_interest'] = 1.05; // (Default = 1.05 as of 
 
 // Mining calculator configs for different crypto networks (SEMI-AUTOMATICALLY adds mining calculators to the Mining page)
 // FOR #DYNAMIC# CHAIN STATS (height / difficuly / rewards / etc), API CALL FUNCTIONS NEED TO BE CUSTOM-WRITTEN FOR ANY #CUSTOM# ASSETS ADDED HERE,
-// AND CALLED WITHIN THE 'Update dynamic mining data' SECTION OF THE FILE: /app-lib/php/other/config/config-auto-adjust.php
+// AND CALLED WITHIN THE 'Update dynamic mining data' SECTION OF THE FILE: /app-lib/php/inline/config/config-auto-adjust.php
 // 'mining_time_formula' ALSO NEEDS TO BE DYNAMICALLY ADDED IN THAT SAME SECTION, #OR YOUR CUSTOM CALCULATOR WILL NOT WORK AT ALL#
 // ('PLACEHOLDER' values are dynamically populated during app runtime)
 $ct_conf['power']['mining_calculators'] = array(
@@ -995,7 +995,7 @@ $ct_conf['power']['mining_calculators'] = array(
 									'measure_semantic' => 'difficulty',  // (difficulty, nethashrate, etc)
 									'block_reward' => 6.25, // Mining block reward (OPTIONAL, can be made dynamic with code, like below)
 									// EVERYTHING BELOW #MUST BE DYNAMICALLY# UPDATED IN:
-									// app-lib/php/other/calculators/mining/pow/dynamic-settings.php (so we can run a cached config)
+									// app-lib/php/inline/calculators/mining/pow/dynamic-settings.php (so we can run a cached config)
 									'mining_time_formula' => 'PLACEHOLDER', // Mining time formula calculation (REQUIRED)
 									'height' => 'PLACEHOLDER', // Block height (OPTIONAL)
 									'difficulty' => 'PLACEHOLDER', // Mining network difficulty (OPTIONAL)
@@ -1545,10 +1545,6 @@ $ct_conf['dev']['debug_mode'] = 'off';
 // 'verbose' logs maximum details (additional information IF AVAILABLE, for heavy debugging / tracing / etc)
 // IF DEBUGGING IS ENABLED ABOVE, LOGS ARE AUTOMATICALLY VERBOSE #WITHOUT THE NEED TO ADJUST THIS SETTING#
 $ct_conf['dev']['log_verb'] = 'normal'; // 'normal' / 'verbose'
-
-
-// Ignore warning to use PHP-FPM (#PHP-FPM HELPS PREVENT RUNTIME CRASHES# ON LOW POWER DEVICES OR HIGH TRAFFIC INSTALLS)
-$ct_conf['dev']['ignore_php_fpm_warning'] = 'yes'; // (default = 'yes', options are 'yes' / 'no')
 
 
 // Maximum number of BATCHED coingecko marketcap data results to fetch, per API call (during multiple / paginated calls) 

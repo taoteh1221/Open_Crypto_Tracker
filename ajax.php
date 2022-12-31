@@ -27,7 +27,7 @@ require('app-lib/php/init.php');
 
 // RSS feed retrieval
 if ( $_GET['type'] == 'rss' ) {
-require_once($base_dir . '/app-lib/php/other/ajax/rss.php');
+require_once($base_dir . '/app-lib/php/inline/ajax/rss.php');
 }
 
 

@@ -222,6 +222,9 @@ Add Google or Microsoft translate API as options to translate the english defaul
 For the language translation cache (to avoid asking API for a translation if we already did once), include a hash digest of the original English text used to translate. That way if the hash changes for the current English text used (English is never translated as it's the default), we know we need to re-translate with a fresh API call (instead of using cached data), and also save the new hash digest of the current English text as well.
 
 
+Each webhook should be re-settable (have it's own unique random hash), WITHOUT HAVING TO RESET THE MASTER WEBHOOK KEY. That said, we should still keep the master key, so all webhooks can be reset instantly with it (for UX / security)
+
+
 For the in-development 'on-chain-stats' plugin:
 Have it display on the 'more stats' page
 Use the 'usd asset comparision' chart template...different chains are in place of the assets, the telemetry items in place of the time period options.
@@ -257,7 +260,7 @@ To avoid having the "re-enter /start" telegram error message unless truly needed
 Change the 'eth_erc20_icos' => 'ico_erc20_value' config settings to 'token_presales' => 'presale_value', AND support any base pair as the pairing (NOT just 'ETH').
 
 
-Write unit tests to check all apis and news feed endpoints, to see if they still exist (put in /php/other/debugging/tests.php). 
+Write unit tests to check all apis and news feed endpoints, to see if they still exist (put in /php/inline/debugging/tests.php). 
 
 
 MAY BE A GOOD WAY TO RE-RUN init.php IF USER CORRUPTS config.php (#AFTER# backing up / overwriting the corrupt config.php with /templates/back-end/main-config.template):

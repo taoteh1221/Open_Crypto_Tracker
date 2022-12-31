@@ -12,7 +12,7 @@ exit;
 
 
 // Application version
-$app_version = '6.00.14';  // 2022/DECEMBER/24TH
+$app_version = '6.00.15';  // 2022/DECEMBER/31ST
 
 
 // #PHP# ERROR LOGGING
@@ -25,25 +25,25 @@ $dev_debug_php_errors = (0);
 // App init libraries...
 
 // Primary init logic (#MUST# RUN #BEFORE# #EVERYTHING# ELSE)
-require_once('app-lib/php/other/init/primary-init.php');
+require_once('app-lib/php/inline/init/primary-init.php');
 
 // Config init logic (#MUST# RUN IMMEADIATELY #AFTER# primary-init.php)
-require_once('app-lib/php/other/init/config-init.php');
+require_once('app-lib/php/inline/init/config-init.php');
 
 // Fast runtimes, MUST run AFTER config-init.php, AND AS EARLY AS POSSIBLE
-require_once('app-lib/php/other/fast-runtimes.php');
+require_once('app-lib/php/inline/other/fast-runtimes.php');
 
 // SECURED cache files management (MUST RUN AFTER system checks)
-require_once('app-lib/php/other/security/secure-cache-files.php');
+require_once('app-lib/php/inline/security/secure-cache-files.php');
 
 // Scheduled maintenance  (MUST RUN AFTER EVERYTHING IN INIT.PHP, #EXCEPT# DEBUGGING)
-require_once('app-lib/php/other/scheduled-maintenance.php');
+require_once('app-lib/php/inline/maintenance/scheduled-maintenance.php');
 
 
 // Unit tests to run in debug mode (MUST RUN AT THE VERY END OF INIT.PHP)
 if ( $ct_conf['dev']['debug_mode'] != 'off' ) {
-require_once('app-lib/php/other/debugging/tests.php');
-require_once('app-lib/php/other/debugging/exchange-and-pair-info.php');
+require_once('app-lib/php/inline/debugging/tests.php');
+require_once('app-lib/php/inline/debugging/exchange-and-pair-info.php');
 }
 
 

@@ -27,17 +27,17 @@ $check_default_ct_conf = null;
 // plugins-config-check.php MUST RUN #BEFORE# cached-global-config.php, #IN HIGH ADMIN SECURITY MODE#
 // (AND THE OPPOSITE WAY AROUND #IN ENHANCED / NORMAL ADMIN SECURITY MODE#)
 if ( $admin_area_sec_level == 'high' ) {
-require_once('app-lib/php/other/config/plugins-config-check.php');
-require_once('app-lib/php/other/config/cached-global-config.php');
+require_once('app-lib/php/inline/config/plugins-config-check.php');
+require_once('app-lib/php/inline/config/cached-global-config.php');
 }
 else {
-require_once('app-lib/php/other/config/cached-global-config.php');
-require_once('app-lib/php/other/config/plugins-config-check.php');
+require_once('app-lib/php/inline/config/cached-global-config.php');
+require_once('app-lib/php/inline/config/plugins-config-check.php');
 }
 
 
 // Dynamic app config auto-adjust (MUST RUN AS EARLY AS POSSIBLE AFTER #FULL# ct_conf setup)
-require_once('app-lib/php/other/config/config-auto-adjust.php');
+require_once('app-lib/php/inline/config/config-auto-adjust.php');
 
 // Load any activated 3RD PARTY classes (MUST RUN AS EARLY AS POSSIBLE AFTER app config auto-adjust)
 require_once('app-lib/php/classes/3rd-party-classes-loader.php');
@@ -101,25 +101,26 @@ $curl_user_agent = 'Curl/' .$curl_setup["version"]. ' ('.PHP_OS.'; ' . $system_i
 
 
 // Final preflight checks (MUST RUN AFTER app config auto-adjust / htaccess user login / user agent)
-require_once('app-lib/php/other/debugging/final-preflight-checks.php');
+// (AS WE ARE RUNNING SELF-TESTS WITH $ct_cache->ext_data() ETC)
+require_once('app-lib/php/inline/security/final-preflight-security-checks.php');
 
-// Chart sub-directory creation (if needed...MUST RUN AFTER app config auto-adjust / final-preflight-checks)
-require_once('app-lib/php/other/directory-creation/chart-directories.php');
+// Password protection management (MUST RUN AFTER setting htaccess user login vars / preflight-security-checks)
+require_once('app-lib/php/inline/security/password-protection.php');
 
-// Primary Bitcoin markets (MUST RUN AFTER app config auto-adjust / final-preflight-checks)
-require_once('app-lib/php/other/primary-bitcoin-markets.php');
+// Chart sub-directory creation (if needed...MUST RUN AFTER app config auto-adjust / preflight-security-checks)
+require_once('app-lib/php/inline/directory-creation/chart-directories.php');
 
-// Misc dynamic interface vars (MUST RUN AFTER app config auto-adjust / final-preflight-checks)
-require_once('app-lib/php/other/init/interface-sub-init.php');
+// Primary Bitcoin markets (MUST RUN AFTER app config auto-adjust / preflight-security-checks)
+require_once('app-lib/php/inline/config/primary-bitcoin-markets-config.php');
 
-// Misc cron logic (MUST RUN AFTER app config auto-adjust / final-preflight-checks)
-require_once('app-lib/php/other/init/cron-sub-init.php');
+// Misc dynamic interface vars (MUST RUN AFTER app config auto-adjust / primary bitcoin markets conf / preflight-security-checks)
+require_once('app-lib/php/inline/init/interface-sub-init.php');
 
-// Final configuration checks (MUST RUN AFTER app config auto-adjust / final-preflight-checks / primary bitcoin markets / sub inits)
-require_once('app-lib/php/other/debugging/final-config-checks.php');
+// Misc cron logic (MUST RUN AFTER app config auto-adjust / primary bitcoin markets conf / preflight-security-checks)
+require_once('app-lib/php/inline/init/cron-sub-init.php');
 
-// Password protection management (MUST RUN AFTER setting htaccess user login vars / final-config-checks)
-require_once('app-lib/php/other/security/password-protection.php');
+// Final configuration checks (MUST RUN AFTER app config auto-adjust / preflight-security-checks / primary bitcoin markets conf / sub inits)
+require_once('app-lib/php/inline/config/final-preflight-config-checks.php');
 
 
 //////////////////////////////////////////////////////////////////

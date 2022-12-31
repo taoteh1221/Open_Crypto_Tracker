@@ -51,7 +51,7 @@
 
 
 # Version of this script
-APP_VERSION="1.05.0" # 2022/NOVEMBER/29TH
+APP_VERSION="1.06.0" # 2022/DECEMBER/30TH
 
 
 # If parameters are added via command line
@@ -749,7 +749,28 @@ select opt in $OPTIONS; do
             fi
         
         ######################################
+
+        echo "${red} "
+        echo "NOTICE: YOUR COMPUTER WILL REBOOT AFTER CONFIGURATION OF THIS COMPONENT!"
+        echo " "
+        read -n1 -s -r -p $"Press y to continue (or press n to exit)..." key
+        echo "${reset} "
         
+            if [ "$key" = 'y' ] || [ "$key" = 'Y' ]; then
+            echo " "
+            echo "${green}Continuing...${reset}"
+            echo " "
+            else
+            echo " "
+            echo "${green}Exiting...${reset}"
+            echo " "
+            exit
+            fi
+        
+        echo " "
+        
+        ######################################
+
         
         echo "${cyan}Making sure your system is updated before installation, please wait...${reset}"
         
@@ -917,6 +938,27 @@ select opt in $OPTIONS; do
              echo " "
              exit
             fi
+        
+        ######################################
+
+        echo "${red} "
+        echo "NOTICE: YOUR COMPUTER WILL REBOOT AFTER CONFIGURATION OF THIS COMPONENT!"
+        echo " "
+        read -n1 -s -r -p $"Press y to continue (or press n to exit)..." key
+        echo "${reset} "
+        
+            if [ "$key" = 'y' ] || [ "$key" = 'Y' ]; then
+            echo " "
+            echo "${green}Continuing...${reset}"
+            echo " "
+            else
+            echo " "
+            echo "${green}Exiting...${reset}"
+            echo " "
+            exit
+            fi
+        
+        echo " "
         
         ######################################
         
@@ -1095,6 +1137,27 @@ select opt in $OPTIONS; do
              echo " "
              exit
             fi
+        
+        ######################################
+
+        echo "${red} "
+        echo "NOTICE: YOUR COMPUTER WILL REBOOT AFTER CONFIGURATION OF THIS COMPONENT!"
+        echo " "
+        read -n1 -s -r -p $"Press y to continue (or press n to exit)..." key
+        echo "${reset} "
+        
+            if [ "$key" = 'y' ] || [ "$key" = 'Y' ]; then
+            echo " "
+            echo "${green}Continuing...${reset}"
+            echo " "
+            else
+            echo " "
+            echo "${green}Exiting...${reset}"
+            echo " "
+            exit
+            fi
+        
+        echo " "
         
         ######################################
         
