@@ -50,9 +50,9 @@ $base_dir = preg_replace("/\/app-lib\/php(.*)/i", "", $base_dir);
 //!!!!!!!!!! IMPORTANT, ALWAYS LEAVE THIS HERE !!!!!!!!!!!!!!!
 // WE NEED THIS SET #VERY EARLY# IN INIT FOR THE APP ID
 if ( $runtime_mode != 'cron' ) {
-// Skip security check with base_url(true) flag, until later in runtime when the full app config is processed
+// Skip security check with base_url(false) flag, until later in runtime when the full app config is processed
 // (WE CAN'T CHECK FOR HEADER HOSTNAME SPOOFING ATTACKS UNTIL AFTER config-auto-adjust.php [in final-preflight-security-checks.php])
-$base_url = $ct_gen->base_url(true); 
+$base_url = $ct_gen->base_url(false); 
 }
 else {
 $base_url = trim( file_get_contents('cache/vars/base_url.dat') );

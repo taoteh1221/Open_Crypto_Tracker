@@ -201,6 +201,12 @@ $backup_arch_pass = false;
 }
 
 
+// Admin login MAX expiration time
+if ( !$ct_var->whole_int($ct_conf['sec']['admin_cookie_expire']) || $ct_conf['sec']['admin_cookie_expire'] > 6 ) {
+$ct_conf['sec']['admin_cookie_expire'] = 6;
+}
+
+
 // Light chart config tracking / updating (checking for changes to light chart app config, to trigger light chart rebuilds)
 $conf_light_chart_struct = md5( serialize($ct_conf['power']['light_chart_day_intervals']) . $ct_conf['power']['light_chart_data_points_max'] );
 

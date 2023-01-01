@@ -62,7 +62,7 @@ require_once('app-lib/php/inline/config/sessions-config.php');
 $ct_app_id = $ct_gen->id();
 
 
-// Give our session a unique name 
+// Give our session a unique name (TO SUPPORT MULTIPLE INSTALLS ON SAME DOMAIN HAVING SEPERATE SESSION DATA SETS)
 // MUST BE SET AFTER $ct_app_id, AND BEFORE session_start()
 session_name($ct_app_id);
 ////

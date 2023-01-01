@@ -408,7 +408,68 @@ echo nl2br($ui_upgrade_alert['message']);
 }
 ?>
 </div>
-    
+
+
+<!-- https://jsfiddle.net/TheAL/ednxgwrj/ -->
+
+<style>
+
+.cookies_button {
+    background: none;
+    padding: 0;
+    border: none;
+}
+.cookies_button:hover {
+    text-decoration: underline;
+    cursor: pointer;
+}
+.cookie-notice {
+    font-size: 15px;
+    line-height: 30px;
+    padding: 10px 5px;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    display: none;
+    width: 100%;
+    text-align: center;
+    color: #000;
+    background: #efc551;
+    z-index: 9999;
+}
+.cookie-notice .cookies_button {
+    display: inline-block;
+    line-height: 30px;
+    margin-left: 10px;
+    padding: 0 15px;
+    color: #000;
+    background: #b9ff35;
+}
+
+</style>
+
+<div class="cookie-notice">This web app requires cookies for admin logins (browser cookie / server session). The option to ENABLE ADDITIONAL FEATURES requiring cookies is also available on the SETTINGS page.<button class='cookies_button'>I Understand</button></div>
+
+<script>
+
+/**
+ * Creates Cookie notice
+ */
+
+var cookies_notice_status = localStorage.cookies_notice_status;
+var cookies_notice = $('.cookie-notice');
+
+if (cookies_notice_status != "agreed") {
+    cookies_notice.slideDown(500);
+}
+
+$('.cookie-notice .cookies_button').click(function () {
+    cookies_notice.slideUp(500);
+    localStorage.cookies_notice_status = "agreed";
+});
+
+</script>
+
 
 <!-- https://v4-alpha.getbootstrap.com/getting-started/introduction/#starter-template -->
 <script src="app-lib/js/jquery/bootstrap.min.js"></script>
