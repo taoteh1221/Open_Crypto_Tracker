@@ -27,97 +27,6 @@ exit;
 
 
 ////////////////////////////////////////
-// !START! SECURITY CONFIGURATION
-////////////////////////////////////////
-
-
-// Interface login protection (htaccess user/password required to view this portfolio app's web interface)
-// Username MUST BE at least 4 characters, beginning with ONLY LOWERCASE letters (may contain numbers AFTER first letter), NO SPACES
-// Password MUST BE EXACTLY 8 characters, AND contain one number, one UPPER AND LOWER CASE letter, and one symbol, NO SPACES
-// (ENABLES / UPDATES automatically, when a valid username / password are filled in or updated here)
-// (DISABLES automatically, when username / password are blank '' OR invalid) 
-// (!ONLY #UPDATES OR DISABLES# AUTOMATICALLY #AFTER# LOGGING IN ONCE WITH YOUR #OLD LOGIN# [or if a cron job / scheduled task runs with the new config]!)
-// DOES #NOT# WORK ON #DESKTOP EDITIONS# (ONLY WORKS ON #SERVER EDITION#)
-// #IF THIS SETTING GIVES YOU ISSUES# ON YOUR SYSTEM, BLANK IT OUT TO '', AND DELETE '.htaccess' IN THE MAIN DIRECTORY OF 
-// THIS APP (TO RESTORE PAGE ACCESS), AND PLEASE REPORT IT HERE: https://github.com/taoteh1221/Open_Crypto_Tracker/issues
-$ct_conf['sec']['interface_login'] = ''; // Leave blank to disable requiring an interface login. This format MUST be used: 'username||password'
-
-
-// Password protection / encryption security for backup archives (REQUIRED for app config backup archives, #NOT# USED FOR CHART BACKUPS)
-$ct_conf['sec']['backup_arch_pass'] = ''; // LEAVE BLANK TO DISABLE
-
-
-// Enable / disable admin login alerts (DEFAULT: ALL USER-ACTIVATED COMM CHANNELS)
-// Choosing 'all' will send to all properly-configured communication channels, (and automatically skip any not properly setup)
-$ct_conf['sec']['login_alert'] = 'all'; // 'off' (disabled) / 'all' / 'email' / 'text' / 'notifyme' / 'telegram'
-							
-							
-// HOURS until admin login cookie expires (requiring you to login again)
-// The lower number the better for higher security, epecially if the app server temporary session data 
-// doesn't auto-clear often (that also logs you off automatically, REGARDLESS of this setting's value)
-$ct_conf['sec']['admin_cookie_expire'] = 6; // (default = 6)
-
-
-// 'on' verifies ALL SMTP server certificates for secure SMTP connections, 'off' verifies NOTHING 
-// Set to 'off' if the SMTP server has an invalid certificate setup (which stops email sending, but you still want to send email through that server)
-$ct_conf['sec']['smtp_strict_ssl'] = 'off'; // (DEFAULT IS 'off', TO ASSURE SMTP EMAIL SENDING STILL WORKS THROUGH MISCONFIGURED SMTP SERVERS)
-
-
-// 'on' verifies ALL REMOTE API server certificates for secure API connections, 'off' verifies NOTHING 
-// Set to 'off' if some exchange's API servers have invalid certificates (which stops price data retrieval...but you still want to get price data from them)
-$ct_conf['sec']['remote_api_strict_ssl'] = 'off'; // (default = 'off')
-
-
-// Set CORS 'Access-Control-Allow-Origin' (controls what web domains can load this app's admin / user pages, AJAX scripts, etc)
-// Set to 'any' if this web server's domain can vary / redirect (eg: some INITIAL visits are 'www.mywebsite.com', AND some are 'mywebsite.com')
-// Set to 'strict' if this web server's domain CANNOT VARY / REDIRECT (it's always 'mywebsite.com', EVERY VISIT #WITHOUT EXCEPTIONS#)
-// 'strict' mode blocks all CSRF / XSS attacks on resources using this setting, ALTHOUGH NOT REALLY NEEDED AS SERVER EDITIONS USE STRICT / SECURE COOKIES
-// #CHANGE WITH CAUTION#, AS 'strict' #CAN BREAK CHARTS / LOGS / NEWS FEEDS / ADMIN SECTIONS / ETC FROM LOADING# ON SOME SETUPS!
-$ct_conf['sec']['access_control_origin'] = 'any'; // 'any' / 'strict' (default = 'any')
-		
-
-// CONTRAST of CAPTCHA IMAGE text against background (on login pages)
-// 0 for neutral contrast, positive for more contrast, negative for less contrast (MAXIMUM OF +-35)
-$ct_conf['sec']['captcha_text_contrast'] = -8; // example: -5 or 5 (default = -8)
-////
-// MAX OFF-ANGLE DEGREES (tilted backward / forward) of CAPTCHA IMAGE text characters (MAXIMUM OF 35)
-$ct_conf['sec']['captcha_text_angle'] = 35; // (default = 35)
-////
-$ct_conf['sec']['captcha_text_size'] = 50; // Text size (default = 50)
-////
-$ct_conf['sec']['captcha_chars_length'] = 7; // Number of characters in captcha image (default = 7)
-////
-// Configuration for advanced CAPTCHA image settings on all admin login / reset pages
-$ct_conf['sec']['captcha_image_width'] = 525; // Image width (default = 525)
-////
-$ct_conf['sec']['captcha_image_height'] = 135; // Image height (default = 135)
-////
-$ct_conf['sec']['captcha_text_margin'] = 10; // MINIMUM margin of text from edge of image (approximate / average) (default = 10)
-////		
-// Only allow the MOST READABLE characters for use in captcha image 
-// (DON'T SET TOO LOW, OR BOTS CAN GUESS THE CAPTCHA CODE EASIER)
-$ct_conf['sec']['captcha_permitted_chars'] = 'ABCDEFHJKMNPRSTUVWXYZ23456789'; // (default = 'ABCDEFHJKMNPRSTUVWXYZ23456789')
-
-
-// Cache directories / files and .htaccess / index.php files permissions (CHANGE WITH #EXTREME# CARE, to adjust security for your PARTICULAR setup)
-// THESE PERMISSIONS ARE !ALREADY! CALLED THROUGH THE octdec() FUNCTION *WITHIN THE APP WHEN USED*
-////
-// Cache directories permissions
-$ct_conf['sec']['chmod_cache_dir'] = '0770'; // (default = '0770' [owner/group read/write/exec])
-////
-// Cache files permissions
-$ct_conf['sec']['chmod_cache_file'] = '0660'; // (default = '0660' [owner/group read/write])
-////
-// .htaccess / index.php index security files permissions
-$ct_conf['sec']['chmod_index_sec'] = '0660'; // (default = '0660' [owner/group read/write])
-
-
-////////////////////////////////////////
-// !END! SECURITY CONFIGURATION
-////////////////////////////////////////
-
-
-////////////////////////////////////////
 // !START! GENERAL CONFIGURATION
 ////////////////////////////////////////
 
@@ -162,7 +71,7 @@ $ct_conf['gen']['btc_prim_exchange'] = 'kraken';  // PUT INSIDE SINGLE QUOTES ('
 
 
 // Default marketcap data source: 'coingecko', or 'coinmarketcap'
-// (COINMARKETCAP REQUIRES A #FREE# API KEY, SEE $ct_conf['ext_api']['coinmarketcap_key'] ABOVE in the APIs section)
+// (COINMARKETCAP REQUIRES A #FREE# API KEY, SEE $ct_conf['ext_api']['coinmarketcap_key'] BELOW in the APIs section)
 $ct_conf['gen']['prim_mcap_site'] = 'coingecko'; 
 
 
@@ -207,6 +116,7 @@ $ct_conf['gen']['charts_backup_freq'] = 1;
 
 
 // Allow or disallow sending out ANY communications (email / text / telegram / alexa / etc), so no comms are sent to you unless allowed here
+// (PAUSES ALL COMMS IF SET TO 'off')
 $ct_conf['comms']['allow_comms'] = 'on'; // 'on' / 'off' (Default = 'on' [comms are sent out normally])
 
 
@@ -373,6 +283,97 @@ $ct_conf['ext_api']['alphavantage_per_day_limit'] = 500; // (default = 500 [FOR 
 
 ////////////////////////////////////////
 // !END! EXTERNAL API CONFIGURATION
+////////////////////////////////////////
+
+
+////////////////////////////////////////
+// !START! SECURITY CONFIGURATION
+////////////////////////////////////////
+
+
+// Interface login protection (htaccess user/password required to view this portfolio app's web interface)
+// Username MUST BE at least 4 characters, beginning with ONLY LOWERCASE letters (may contain numbers AFTER first letter), NO SPACES
+// Password MUST BE EXACTLY 8 characters, AND contain one number, one UPPER AND LOWER CASE letter, and one symbol, NO SPACES
+// (ENABLES / UPDATES automatically, when a valid username / password are filled in or updated here)
+// (DISABLES automatically, when username / password are blank '' OR invalid) 
+// (!ONLY #UPDATES OR DISABLES# AUTOMATICALLY #AFTER# LOGGING IN ONCE WITH YOUR #OLD LOGIN# [or if a cron job / scheduled task runs with the new config]!)
+// DOES #NOT# WORK ON #DESKTOP EDITIONS# (ONLY WORKS ON #SERVER EDITION#)
+// #IF THIS SETTING GIVES YOU ISSUES# ON YOUR SYSTEM, BLANK IT OUT TO '', AND DELETE '.htaccess' IN THE MAIN DIRECTORY OF 
+// THIS APP (TO RESTORE PAGE ACCESS), AND PLEASE REPORT IT HERE: https://github.com/taoteh1221/Open_Crypto_Tracker/issues
+$ct_conf['sec']['interface_login'] = ''; // Leave blank to disable requiring an interface login. This format MUST be used: 'username||password'
+
+
+// Password protection / encryption security for backup archives (REQUIRED for app config backup archives, #NOT# USED FOR CHART BACKUPS)
+$ct_conf['sec']['backup_arch_pass'] = ''; // LEAVE BLANK TO DISABLE
+
+
+// Enable / disable admin login alerts (DEFAULT: ALL USER-ACTIVATED COMM CHANNELS)
+// Choosing 'all' will send to all properly-configured communication channels, (and automatically skip any not properly setup)
+$ct_conf['sec']['login_alert'] = 'all'; // 'off' (disabled) / 'all' / 'email' / 'text' / 'notifyme' / 'telegram'
+							
+							
+// HOURS until admin login cookie expires (requiring you to login again)
+// The lower number the better for higher security, epecially if the app server temporary session data 
+// doesn't auto-clear often (that also logs you off automatically, REGARDLESS of this setting's value)
+$ct_conf['sec']['admin_cookie_expire'] = 6; // (default = 6, MAX ALLOWED IS 6)
+
+
+// 'on' verifies ALL SMTP server certificates for secure SMTP connections, 'off' verifies NOTHING 
+// Set to 'off' if the SMTP server has an invalid certificate setup (which stops email sending, but you still want to send email through that server)
+$ct_conf['sec']['smtp_strict_ssl'] = 'off'; // (DEFAULT IS 'off', TO ASSURE SMTP EMAIL SENDING STILL WORKS THROUGH MISCONFIGURED SMTP SERVERS)
+
+
+// 'on' verifies ALL REMOTE API server certificates for secure API connections, 'off' verifies NOTHING 
+// Set to 'off' if some exchange's API servers have invalid certificates (which stops price data retrieval...but you still want to get price data from them)
+$ct_conf['sec']['remote_api_strict_ssl'] = 'off'; // (default = 'off')
+
+
+// Set CORS 'Access-Control-Allow-Origin' (controls what web domains can load this app's admin / user pages, AJAX scripts, etc)
+// Set to 'any' if this web server's domain can vary / redirect (eg: some INITIAL visits are 'www.mywebsite.com', AND some are 'mywebsite.com')
+// Set to 'strict' if this web server's domain CANNOT VARY / REDIRECT (it's always 'mywebsite.com', EVERY VISIT #WITHOUT EXCEPTIONS#)
+// 'strict' mode blocks all CSRF / XSS attacks on resources using this setting, ALTHOUGH NOT REALLY NEEDED AS SERVER EDITIONS USE STRICT / SECURE COOKIES
+// #CHANGE WITH CAUTION#, AS 'strict' #CAN BREAK CHARTS / LOGS / NEWS FEEDS / ADMIN SECTIONS / ETC FROM LOADING# ON SOME SETUPS!
+$ct_conf['sec']['access_control_origin'] = 'any'; // 'any' / 'strict' (default = 'any')
+		
+
+// CONTRAST of CAPTCHA IMAGE text against background (on login pages)
+// 0 for neutral contrast, positive for more contrast, negative for less contrast (MAXIMUM OF +-35)
+$ct_conf['sec']['captcha_text_contrast'] = -8; // example: -5 or 5 (default = -8)
+////
+// MAX OFF-ANGLE DEGREES (tilted backward / forward) of CAPTCHA IMAGE text characters (MAXIMUM OF 35)
+$ct_conf['sec']['captcha_text_angle'] = 35; // (default = 35)
+////
+$ct_conf['sec']['captcha_text_size'] = 50; // Text size (default = 50)
+////
+$ct_conf['sec']['captcha_chars_length'] = 7; // Number of characters in captcha image (default = 7)
+////
+// Configuration for advanced CAPTCHA image settings on all admin login / reset pages
+$ct_conf['sec']['captcha_image_width'] = 525; // Image width (default = 525)
+////
+$ct_conf['sec']['captcha_image_height'] = 135; // Image height (default = 135)
+////
+$ct_conf['sec']['captcha_text_margin'] = 10; // MINIMUM margin of text from edge of image (approximate / average) (default = 10)
+////		
+// Only allow the MOST READABLE characters for use in captcha image 
+// (DON'T SET TOO LOW, OR BOTS CAN GUESS THE CAPTCHA CODE EASIER)
+$ct_conf['sec']['captcha_permitted_chars'] = 'ABCDEFHJKMNPRSTUVWXYZ23456789'; // (default = 'ABCDEFHJKMNPRSTUVWXYZ23456789')
+
+
+// Cache directories / files and .htaccess / index.php files permissions (CHANGE WITH #EXTREME# CARE, to adjust security for your PARTICULAR setup)
+// THESE PERMISSIONS ARE !ALREADY! CALLED THROUGH THE octdec() FUNCTION *WITHIN THE APP WHEN USED*
+////
+// Cache directories permissions
+$ct_conf['sec']['chmod_cache_dir'] = '0770'; // (default = '0770' [owner/group read/write/exec])
+////
+// Cache files permissions
+$ct_conf['sec']['chmod_cache_file'] = '0660'; // (default = '0660' [owner/group read/write])
+////
+// .htaccess / index.php index security files permissions
+$ct_conf['sec']['chmod_index_sec'] = '0660'; // (default = '0660' [owner/group read/write])
+
+
+////////////////////////////////////////
+// !END! SECURITY CONFIGURATION
 ////////////////////////////////////////
 
 
@@ -656,6 +657,7 @@ $ct_conf['power']['desktop_cron_interval'] = 20; // (default = 20, 0 disables th
 // Set too low you won't get ALL data (partial or zero bytes), set too high the interface can take a long time loading if an API server hangs up
 // RECOMMENDED MINIMUM OF 60 FOR INSTALLS BEHIND #LOW BANDWIDTH# NETWORKS 
 // (which may need an even higher timeout above 60 if data still isn't FULLY received from all APIs)
+// YOU WILL GET ALERTS IN THE ERROR LOGS IF YOU NEED TO ADJUST THIS
 $ct_conf['power']['remote_api_timeout'] = 30; // (default = 30)
 
 
@@ -699,8 +701,8 @@ $ct_conf['power']['light_chart_day_intervals'] = array(14, 30, 90, 180, 365, 730
 // (default = 14, 30, 90, 180, 365, 730, 1460)
 ////
 // The maximum number of data points allowed in each light chart 
-// (saves on disk storage / speeds up chart loading times SIGNIFICANTLY #WITH A NUMBER OF 1000 OR LESS#)
-$ct_conf['power']['light_chart_data_points_max'] = 1000; // (default = 1000), ADJUST WITH CARE!!!
+// (saves on disk storage / speeds up chart loading times SIGNIFICANTLY #WITH A NUMBER OF 750 OR LESS#)
+$ct_conf['power']['light_chart_data_points_max'] = 750; // (default = 750), ADJUST WITH CARE!!!
 
 
 // Default settings for Asset Performance chart height / menu size (in the 'View More Stats' modal window, linked at bottom of Portfolio page)
@@ -968,15 +970,15 @@ $ct_conf['power']['eth_erc20_icos'] = array(
 // Weeks to power down all HIVE Power holdings
 $ct_conf['power']['hive_powerdown_time'] = 13; 
 ////
-// HIVE Power yearly interest rate START 11/29/2021 (1.05%, decreasing every year by roughly 0.075% until it hits a minimum of 0.075% and stays there)
-// (DO NOT INCLUDE PERCENT SIGN) the first year at 11/29/2021 refactored rates, see above for manual yearly adjustment
-$ct_conf['power']['hivepower_yearly_interest'] = 1.05; // (Default = 1.05 as of 11/29/21)
+// HIVE Power yearly interest rate AS OF 11/29/2022 (0.975%, decreasing every year by roughly 0.075% until it hits a minimum of 0.075% and stays there)
+// (DO NOT INCLUDE PERCENT SIGN), see above for manual yearly adjustment
+$ct_conf['power']['hivepower_yearly_interest'] = 0.975; // (Default = 0.975 as of 11/29/22)
 
 
 
 // Mining calculator configs for different crypto networks (SEMI-AUTOMATICALLY adds mining calculators to the Mining page)
 // FOR #DYNAMIC# CHAIN STATS (height / difficuly / rewards / etc), API CALL FUNCTIONS NEED TO BE CUSTOM-WRITTEN FOR ANY #CUSTOM# ASSETS ADDED HERE,
-// AND CALLED WITHIN THE 'Update dynamic mining data' SECTION OF THE FILE: /app-lib/php/other/config/config-auto-adjust.php
+// AND CALLED WITHIN THE 'Update dynamic mining data' SECTION OF THE FILE: /app-lib/php/inline/config/config-auto-adjust.php
 // 'mining_time_formula' ALSO NEEDS TO BE DYNAMICALLY ADDED IN THAT SAME SECTION, #OR YOUR CUSTOM CALCULATOR WILL NOT WORK AT ALL#
 // ('PLACEHOLDER' values are dynamically populated during app runtime)
 $ct_conf['power']['mining_calculators'] = array(
@@ -995,7 +997,7 @@ $ct_conf['power']['mining_calculators'] = array(
 									'measure_semantic' => 'difficulty',  // (difficulty, nethashrate, etc)
 									'block_reward' => 6.25, // Mining block reward (OPTIONAL, can be made dynamic with code, like below)
 									// EVERYTHING BELOW #MUST BE DYNAMICALLY# UPDATED IN:
-									// app-lib/php/other/calculators/mining/pow/dynamic-settings.php (so we can run a cached config)
+									// app-lib/php/inline/calculators/mining/pow/dynamic-settings.php (so we can run a cached config)
 									'mining_time_formula' => 'PLACEHOLDER', // Mining time formula calculation (REQUIRED)
 									'height' => 'PLACEHOLDER', // Block height (OPTIONAL)
 									'difficulty' => 'PLACEHOLDER', // Mining network difficulty (OPTIONAL)
@@ -1060,18 +1062,6 @@ $ct_conf['power']['news_feed'] = array(
         				array(
             			"title" => "Blog - Coinbase",
             			"url" => "https://medium.com/feed/the-coinbase-blog"
-        						),
-        
-        
-        				array(
-            			"title" => "Blog - CoinGecko",
-            			"url" => "https://blog.coingecko.com/feed/"
-        						),
-        
-        
-        				array(
-            			"title" => "Blog - ConsenSys",
-            			"url" => "https://media.consensys.net/feed"
         						),
         
         
@@ -1148,12 +1138,6 @@ $ct_conf['power']['news_feed'] = array(
         
         
         				array(
-            			"title" => "Blog - Solana Labs (High-Speed Smart Contracts Network)",
-            			"url" => "https://medium.com/feed/solana-labs"
-        						),
-        
-        
-        				array(
             			"title" => "Blog - Solice (Virtual World / Metaverse on Solana)",
             			"url" => "https://medium.com/feed/@solice_io"
         						),
@@ -1214,12 +1198,6 @@ $ct_conf['power']['news_feed'] = array(
     
     
         				array(
-            			"title" => "Newsletter - Misaka (MEV expert)",
-            			"url" => "https://misaka.substack.com/feed"
-        						),
-    
-    
-        				array(
             			"title" => "Newsletter - Our Network",
             			"url" => "https://ournetwork.substack.com/feed"
         						),
@@ -1232,20 +1210,8 @@ $ct_conf['power']['news_feed'] = array(
     
     
         				array(
-            			"title" => "Newsletter - reSync: zkSync Biweekly",
-            			"url" => "https://pseudotheos.substack.com/feed"
-        						),
-    
-    
-        				array(
             			"title" => "Newsletter - The Daily Degen",
             			"url" => "https://thedailydegen.substack.com/feed"
-        						),
-    
-    
-        				array(
-            			"title" => "Newsletter - The Daily Gwei",
-            			"url" => "https://thedailygwei.substack.com/feed"
         						),
     
     
@@ -1276,24 +1242,6 @@ $ct_conf['power']['news_feed'] = array(
         				array(
             			"title" => "Podcast - Tales From The Crypt",
             			"url" => "http://talesfromthecrypt.libsyn.com/rss"
-        						),
-
-    					
-        				array(
-            			"title" => "Podcast - The Bitcoin Podcast Network",
-            			"url" => "https://feeds.simplecast.com/xCQr3ykc"
-        						),
-    
-    
-        				array(
-            			"title" => "Podcast - The Cove",
-            			"url" => "https://anchor.fm/s/61f93a88/podcast/rss"
-        						),
-    
-    
-        				array(
-            			"title" => "Podcast - The Hotspot (Helium network related)",
-            			"url" => "https://feeds.simplecast.com/oCtSqusy"
         						),
     
     
@@ -1406,12 +1354,6 @@ $ct_conf['power']['news_feed'] = array(
     
     
         				array(
-            			"title" => "Youtube - Andreas Antonopoulos",
-            			"url" => "https://www.youtube.com/feeds/videos.xml?channel_id=UCJWCJCWOxBYSi5DhCieLOLQ"
-        						),
-    
-    
-        				array(
             			"title" => "Youtube - Anthony Pompliano",
             			"url" => "https://www.youtube.com/feeds/videos.xml?channel_id=UCevXpeL8cNyAnww-NqJ4m2w"
         						),
@@ -1472,14 +1414,14 @@ $ct_conf['power']['news_feed'] = array(
     
     
         				array(
-            			"title" => "Youtube - Naomi Brockwell",
-            			"url" => "https://www.youtube.com/feeds/videos.xml?channel_id=UCSuHzQ3GrHSzoBbwrIq3LLA"
+            			"title" => "Youtube - Solana Labs",
+            			"url" => "https://www.youtube.com/feeds/videos.xml?channel_id=UC9AdQPUe4BdVJ8M9X7wxHUA"
         						),
     
     
         				array(
-            			"title" => "Youtube - Solana Labs",
-            			"url" => "https://www.youtube.com/feeds/videos.xml?channel_id=UC9AdQPUe4BdVJ8M9X7wxHUA"
+            			"title" => "Youtube - The Daily Gwei",
+            			"url" => "https://www.youtube.com/feeds/videos.xml?channel_id=UCvCp6vKY5jDr87htKH6hgDA"
         						),
         
         
@@ -1545,10 +1487,6 @@ $ct_conf['dev']['debug_mode'] = 'off';
 // 'verbose' logs maximum details (additional information IF AVAILABLE, for heavy debugging / tracing / etc)
 // IF DEBUGGING IS ENABLED ABOVE, LOGS ARE AUTOMATICALLY VERBOSE #WITHOUT THE NEED TO ADJUST THIS SETTING#
 $ct_conf['dev']['log_verb'] = 'normal'; // 'normal' / 'verbose'
-
-
-// Ignore warning to use PHP-FPM (#PHP-FPM HELPS PREVENT RUNTIME CRASHES# ON LOW POWER DEVICES OR HIGH TRAFFIC INSTALLS)
-$ct_conf['dev']['ignore_php_fpm_warning'] = 'yes'; // (default = 'yes', options are 'yes' / 'no')
 
 
 // Maximum number of BATCHED coingecko marketcap data results to fetch, per API call (during multiple / paginated calls) 

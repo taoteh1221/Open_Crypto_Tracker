@@ -12,17 +12,17 @@
 
 // If we are just running a captcha image, ONLY run captcha library for runtime speed (exit after)
 if ( $runtime_mode == 'captcha' ) {
-require_once('app-lib/php/other/security/captcha-lib.php');
+require_once('app-lib/php/inline/security/captcha-lib.php');
 exit;
 }
 // If we are just running chart retrieval, ONLY run charts library for runtime speed (exit after)
 elseif ( $is_charts ) {
-require_once('app-lib/php/other/ajax/charts/charts-init.php');
+require_once('app-lib/php/inline/ajax/charts/charts-init.php');
 exit;
 }
 // If we are just running log retrieval, ONLY run logs library for runtime speed (exit after)
 elseif ( $is_logs ) {
-require_once('app-lib/php/other/ajax/logs.php');
+require_once('app-lib/php/inline/ajax/logs.php');
 exit;
 }
 // If we are just running CSV exporting, ONLY run csv export libraries for runtime speed / avoiding excess logic (exit after)
@@ -30,11 +30,11 @@ elseif ( $is_csv_export ) {
 
 	// Example template download (SAFE FROM CSRF ATTACKS, since it's just example data)
 	if ( $_GET['example_template'] == 1 ) {
-	require_once('app-lib/php/other/downloads/example-csv.php');
+	require_once('app-lib/php/inline/downloads/example-csv.php');
 	}
 	// Portfolio export download (CSRF security / logging is in export-csv.php)
 	else {
-	require_once('app-lib/php/other/downloads/export-csv.php');
+	require_once('app-lib/php/inline/downloads/export-csv.php');
 	}
 
 exit;

@@ -5958,6 +5958,27 @@ v6.00.2 AND HIGHER RESETS LIGHT (TIME PERIOD) CHARTS FROM ARCHIVAL DATA, ONE-TIM
 
 
 
+-------------------------------------------------------------------
+6.00.15:
+
+-BUG FIX: Fixed PHP session init / clearing logic (now properly supports multiple installs on same domain)
+
+-Revised / optimized DEMO config
+
+-Code cleanup / refactoring
+
+-Revised resources page
+
+-Cookies notice banner
+
+-v6.00.15 AND HIGHER RESETS LIGHT (TIME PERIOD) CHARTS FROM ARCHIVAL DATA, ONE-TIME DURING UPGRADES FROM V6.00.14 OR LOWER.
+
+-v6.00.8 AND HIGHER MIGRATES / UPGRADES ANY SET COOKIE DATA TO A MORE SECURE / RELIABLE FORMAT, ONE-TIME DURING UPGRADES FROM V6.00.7 OR LOWER.
+
+-------------------------------------------------------------------
+
+
+
 
 
 

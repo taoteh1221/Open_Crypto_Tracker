@@ -58,7 +58,7 @@ if ( $runtime_mode != 'cron' && $ct_cache->update_cache($base_dir . '/cache/even
 	
 
 // Upgrade check
-require($base_dir . '/app-lib/php/other/upgrade-check.php');
+require($base_dir . '/app-lib/php/inline/maintenance/upgrade-check.php');
 
 
 // Update cached vars...

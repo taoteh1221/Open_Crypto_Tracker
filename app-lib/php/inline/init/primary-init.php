@@ -41,16 +41,16 @@ require_once('app-lib/php/classes/extended-classes-loader.php');
 require_once('app-lib/php/classes/core-classes-loader.php');
 
 // PRIMARY vars, #MUST# BE SET IMMEADIATELY AFTER loading core classes
-require_once('app-lib/php/other/vars/empty-vars.php');
+require_once('app-lib/php/inline/vars/empty-vars.php');
 
 // System config VERY EARLY (after loading PRIMARY vars)
-require_once('app-lib/php/other/config/system-config.php');
+require_once('app-lib/php/inline/config/system-config.php');
 
 // Set / populate SECONDARY app vars / arrays
-require_once('app-lib/php/other/vars/secondary-vars.php');
+require_once('app-lib/php/inline/vars/secondary-vars.php');
 
 // Sessions config (MUST RUN BEFORE starting the PHP session)
-require_once('app-lib/php/other/config/sessions-config.php');
+require_once('app-lib/php/inline/config/sessions-config.php');
 
 
 // ESSENTIAL VARS / ARRAYS / INITS SET #BEFORE# config-init.php...
@@ -62,18 +62,12 @@ require_once('app-lib/php/other/config/sessions-config.php');
 $ct_app_id = $ct_gen->id();
 
 
+// Give our session a unique name (TO SUPPORT MULTIPLE INSTALLS ON SAME DOMAIN HAVING SEPERATE SESSION DATA SETS)
+// MUST BE SET AFTER $ct_app_id, AND BEFORE session_start()
+session_name($ct_app_id);
+////
 // Session start
 session_start(); // New session start
-////
-// Give our session a unique name 
-// MUST BE SET AFTER $ct_app_id
-session_name($ct_app_id);
-
-
-// Session array
-if ( !isset( $_SESSION ) ) {
-$_SESSION = array();
-}
 
 
 // Nonce (CSRF attack protection) for user GET links (downloads etc) / admin login session logic WHEN NOT RUNNING AS CRON
@@ -102,20 +96,20 @@ $upgrade_check_latest_version = trim( file_get_contents('cache/vars/upgrade_chec
 // Create cache directories AS EARLY AS POSSIBLE
 // (#MUST# RUN BEFORE plugins-config-check.php / cached-global-config.php
 // Uses HARD-CODED $ct_conf['sec']['chmod_cache_dir'], BUT IF THE DIRECTORIES DON'T EXIST YET, A CACHED CONFIG PROBABLY DOESN'T EXIST EITHER
-require_once('app-lib/php/other/directory-creation/cache-directories.php');
+require_once('app-lib/php/inline/directory-creation/cache-directories.php');
 
 // Basic system checks (MUST RUN *FIRST* IN ESSENTIAL INIT LOGIC *AFTER* CACHE DIRECTORIES [FOR ERROR LOGGING])
-require_once('app-lib/php/other/debugging/system-checks.php');
+require_once('app-lib/php/inline/system/system-checks.php');
+
+// Get / check system info for debugging / stats (MUST run AFTER directory creation [for error logging], AND AFTER system checks)
+require_once('app-lib/php/inline/system/system-info.php');
+
+// Directory security check (MUST run AFTER directory structure creation check, AND BEFORE system checks)
+require_once('app-lib/php/inline/security/directory-security.php');
 
 // Logins, protection from different types of attacks
 // #MUST# run BEFORE any heavy init logic (for good security), #AFTER# directory creation (for error logging)
-require_once('app-lib/php/other/security/attack-protection.php');
-
-// Directory security check (MUST run AFTER directory structure creation check, AND BEFORE system checks)
-require_once('app-lib/php/other/security/directory-security.php');
-
-// Get / check system info for debugging / stats (MUST run AFTER directory creation [for error logging], AND AFTER system checks)
-require_once('app-lib/php/other/system-info.php');
+require_once('app-lib/php/inline/security/attack-protection.php');
 
 
 // Toggle to set the admin interface security level, if 'opt_admin_sec' from authenticated admin is verified

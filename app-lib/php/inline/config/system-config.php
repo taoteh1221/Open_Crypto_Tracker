@@ -43,15 +43,16 @@ $apache_modules = apache_get_modules();
 $remote_ip = ( isset($_SERVER['REMOTE_ADDR']) ? $_SERVER['REMOTE_ADDR'] : 'localhost' );
 
 // Register the base directory of this app (MUST BE SET BEFORE !ANY! init logic calls)
-$file_loc = str_replace('\\', '/', dirname(__FILE__) ); // Windows compatibility (convert backslashes)
-$base_dir = preg_replace("/\/app-lib(.*)/i", "", $file_loc);
+$base_dir = str_replace('\\', '/', dirname(__FILE__) ); // Windows compatibility (convert backslashes)
+// WITH dirname(__FILE__), WE ONLY NEED TO COVER THE app-lib/php PATH (AS WE ALWAYS GET THE PATH TO THIS CURRENT FILE)
+$base_dir = preg_replace("/\/app-lib\/php(.*)/i", "", $base_dir);
 ////
 //!!!!!!!!!! IMPORTANT, ALWAYS LEAVE THIS HERE !!!!!!!!!!!!!!!
 // WE NEED THIS SET #VERY EARLY# IN INIT FOR THE APP ID
 if ( $runtime_mode != 'cron' ) {
-// Skip security check with base_url(true) flag, until later in runtime when the full app config is processed
-// (WE CAN'T CHECK FOR HEADER HOSTNAME SPOOFING ATTACKS UNTIL AFTER config-auto-adjust.php [in config-init.php])
-$base_url = $ct_gen->base_url(true); 
+// Skip security check with base_url(false) flag, until later in runtime when the full app config is processed
+// (WE CAN'T CHECK FOR HEADER HOSTNAME SPOOFING ATTACKS UNTIL AFTER config-auto-adjust.php [in final-preflight-security-checks.php])
+$base_url = $ct_gen->base_url(false); 
 }
 else {
 $base_url = trim( file_get_contents('cache/vars/base_url.dat') );

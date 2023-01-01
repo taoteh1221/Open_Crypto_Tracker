@@ -5,7 +5,7 @@
 
 
 //////////////////////////////////////////////////////////////////
-// FINAL PREFLIGHT CHECKS
+// FINAL PREFLIGHT SECURITY CHECKS
 //////////////////////////////////////////////////////////////////
 
 
@@ -101,18 +101,9 @@ $ct_cache->save_file($base_dir . '/cache/events/scan-htaccess-security.dat', $ct
 }
 
 
-// Make sure we are using FastCGI
-if ( $runtime_mode != 'cron' && !stristr( php_sapi_name() , 'fcgi') && $ct_conf['dev']['ignore_php_fpm_warning'] != 'yes' ) {
-$log_error_message = "{Set 'ignore_php_fpm_warning' to 'yes' in Admin Config DEVELOPER section to disable this warning} <br /><br /> PHP is currently running as '" . php_sapi_name() . "', PHP-FPM (fcgi) mode is not running. PHP-FPM v7.2 or higher is HIGHLY RECOMMENDED to avoid low power devices OR high traffic installs from crashing. If you auto-installed, you can auto-upgrade if you FULLY re-install EVERYTHING with the latest auto-install script: https://tinyurl.com/install-crypto-tracker <br /><br />";
-$ct_gen->log('system_error', $log_error_message);
-echo $log_error_message;
-$force_exit = 1;
-}
-
-
-// Exit, if server / app setup requirements not met
+// Exit, if server / app security requirements not met
 if ( $force_exit == 1 ) {
-$system_error = 'Server OR app setup issues detected (SEE LOGGED SETUP ISSUES), exiting application';
+$system_error = 'Server OR app SECURITY issues detected (SEE LOGGED SETUP ISSUES), exiting application';
 $ct_gen->log('system_error', $system_error);
 echo $system_error;
 // Log errors before exiting
@@ -121,7 +112,7 @@ $ct_cache->send_notifications();
 exit;
 }
 //////////////////////////////////////////////////////////////////
-// END FINAL PREFLIGHT CHECKS
+// END FINAL PREFLIGHT SECURITY CHECKS
 //////////////////////////////////////////////////////////////////
 
 // DON'T LEAVE ANY WHITESPACE AFTER THE CLOSING PHP TAG!

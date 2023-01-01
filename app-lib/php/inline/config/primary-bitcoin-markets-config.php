@@ -92,7 +92,7 @@ $default_btc_prim_currency_val = $ct_api->market('BTC', $default_btc_prim_exchan
     	
     $ct_gen->log(
     			'conf_error',
-    			'primary-bitcoin-markets.php Charts / alerts btc_prim_currency_pair variable not properly set',
+    			'primary-bitcoin-markets-config.php Charts / alerts btc_prim_currency_pair variable not properly set',
     			'btc_prim_currency_pair: ' . $default_btc_prim_currency_pair . ';'
     			);
     
@@ -101,7 +101,7 @@ $default_btc_prim_currency_val = $ct_api->market('BTC', $default_btc_prim_exchan
     	
     $ct_gen->log(
     			'conf_error',
-    			'primary-bitcoin-markets.php Charts / alerts btc_prim_exchange variable not properly set',
+    			'primary-bitcoin-markets-config.php Charts / alerts btc_prim_exchange variable not properly set',
     			'btc_prim_exchange: ' . $default_btc_prim_exchange . ';'
     			);
     
@@ -111,7 +111,7 @@ $default_btc_prim_currency_val = $ct_api->market('BTC', $default_btc_prim_exchan
     	
     $ct_gen->log(
     			'market_error',
-    			'primary-bitcoin-markets.php Charts / alerts Bitcoin primary currency market value not properly set',
+    			'primary-bitcoin-markets-config.php Charts / alerts Bitcoin primary currency market value not properly set',
     			'btc_prim_currency_pair: ' . $default_btc_prim_currency_pair . '; exchange: ' . $default_btc_prim_exchange . '; pair_id: ' . $default_btc_pair_id . '; value: ' . $default_btc_prim_currency_val
     			);
     
@@ -168,7 +168,7 @@ $sel_opt['sel_btc_prim_currency_val'] = $ct_api->market('BTC', $ct_conf['gen']['
     	
     $ct_gen->log(
     			'conf_error',
-    			'primary-bitcoin-markets.php btc_prim_currency_pair variable not properly set', 
+    			'primary-bitcoin-markets-config.php btc_prim_currency_pair variable not properly set', 
     			'btc_prim_currency_pair: ' . $ct_conf['gen']['btc_prim_currency_pair'] . ';'
     			);
     
@@ -177,7 +177,7 @@ $sel_opt['sel_btc_prim_currency_val'] = $ct_api->market('BTC', $ct_conf['gen']['
     	
     $ct_gen->log(
     			'conf_error',
-    			'primary-bitcoin-markets.php btc_prim_exchange variable not properly set',
+    			'primary-bitcoin-markets-config.php btc_prim_exchange variable not properly set',
     			'btc_prim_exchange: ' . $ct_conf['gen']['btc_prim_exchange'] . ';'
     			);
     

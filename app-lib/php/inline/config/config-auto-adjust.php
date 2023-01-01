@@ -151,7 +151,7 @@ if ( is_array($ct_conf['assets']) ) {
 
 // Update dynamic mining calculator settings (DURING 'ui' ONLY), since we are running the app's main settings from a cache
 if ( $runtime_mode == 'ui' && is_array($ct_conf['power']['mining_calculators']) ) {
-require('app-lib/php/other/calculators/mining/pow/dynamic-settings.php');
+require('app-lib/php/inline/calculators/mining/pow/dynamic-settings.php');
 }
 
 
@@ -198,6 +198,12 @@ $backup_arch_pass = $ct_conf['sec']['backup_arch_pass'];
 }
 else {
 $backup_arch_pass = false;
+}
+
+
+// Admin login MAX expiration time
+if ( !$ct_var->whole_int($ct_conf['sec']['admin_cookie_expire']) || $ct_conf['sec']['admin_cookie_expire'] > 6 ) {
+$ct_conf['sec']['admin_cookie_expire'] = 6;
 }
 
 

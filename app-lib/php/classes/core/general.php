@@ -425,11 +425,7 @@ var $ct_array = array();
    
    function hardy_sess_clear() {
    
-   // Deleting all session data can fail on occasion, and wreak havoc.
-   // This helps according to one programmer on php.net
-   session_start();
-   session_name( $this->id() );
-   $_SESSION = array();
+   // This logic below helps assure session data is cleared
    session_unset();
    session_destroy();
    session_write_close();
@@ -743,17 +739,18 @@ var $ct_array = array();
       if ( isset($ct_app_id) ) {
       return $ct_app_id;
       }
+      // ALWAYS BEGINS WITH 'PHPSESS_', SO SE CAN USE IT AS A VAR NAME IN PHP (MUST START WITH A LETTER)
       // DESKTOP EDITION
       elseif ( $app_edition == 'desktop' ) {
-      return substr( md5('desktop') , 0, 10); // First 10 characters;
+      return 'PHPSESS_'.substr( md5('desktop') , 0, 10); // First 10 characters;
       }
       // NOT CRON
       elseif ( $runtime_mode != 'cron' && trim($base_url) != '' ) {
-      return substr( md5($base_url) , 0, 10); // First 10 characters
+      return 'PHPSESS_'.substr( md5($base_url) , 0, 10); // First 10 characters
       }
       // CRON
       elseif ( $runtime_mode == 'cron' && trim($base_dir) != '' ) {
-      return substr( md5($base_dir) , 0, 10); // First 10 characters
+      return 'PHPSESS_'.substr( md5($base_dir) , 0, 10); // First 10 characters
       }
       // SET FAILED
       else {
@@ -2467,7 +2464,7 @@ var $ct_array = array();
    ////////////////////////////////////////////////////////
    
    
-   function base_url($forceResult=false, $atRoot=false, $atCore=false, $parse=false) {
+   function base_url($SecurityCheck=true, $atRoot=false, $atCore=false, $parse=false) {
        
    global $ct_gen, $ct_cache, $base_dir;
       
@@ -2500,11 +2497,21 @@ var $ct_array = array();
               if (isset($set_url['path'])) if ($set_url['path'] == '/') $set_url['path'] = '';
                   
         }
+        
+        
+   // Strip any URI component out
+   // COVER ALL POSSIBLE PATHS IN CORE ONLY (NOT PLUGINS DIR)
+   $set_url = preg_replace("/\/app-lib\/php(.*)/i", "/", $set_url);
+   $set_url = preg_replace("/\/templates\/interface(.*)/i", "/", $set_url);
 
 
-        // Check detected base URL security (checked once every 25 minutes maximum VIA NON-CRON RUNTIMES [in system-config.php])
+        // Check detected base URL security
+        // (checked once every 25 minutes maximum [VIA NON-CRON RUNTIMES in system-config.php], OR FORCE-CHECKED IN interface-sub-init.php DURING RE-CACHES)
         // https://expressionengine.com/blog/http-host-and-server-name-security-issues (HOSTNAME HEADER CAN BE SPOOFED FROM CLIENT)
-        if ( $ct_cache->update_cache($base_dir . '/cache/events/check-domain-security.dat', 25) == true && isset($set_url) && trim($set_url) != '' && $forceResult == false ) {
+        if (
+        $ct_cache->update_cache($base_dir . '/cache/events/check-domain-security.dat', 25) == true && isset($set_url) && trim($set_url) != '' && $SecurityCheck != false
+        || $SecurityCheck == 'forced_sec_check'
+        ) {
 	
         $set_128bit_hash = $ct_gen->rand_hash(16); // 128-bit (16-byte) hash converted to hexadecimal, used for suffix
         $set_256bit_hash = $ct_gen->rand_hash(32); // 256-bit (32-byte) hash converted to hexadecimal, used for var
@@ -2546,15 +2553,13 @@ var $ct_array = array();
             else { 
             // Update the detected domain security check event tracking BEFORE RETURNING
             $ct_cache->save_file($base_dir . '/cache/events/check-domain-security.dat', $ct_gen->time_date_format(false, 'pretty_date_time') );
-            return $set_url;
             }
         	
         
         }
-        else {
-        return $set_url;
-        }
-        
+   
+   
+   return $set_url;
    
    }
 
