@@ -2500,8 +2500,9 @@ var $ct_array = array();
         
         
    // Strip any URI component out
-   $set_url = preg_replace("/\/app-lib(.*)/i", "/", $set_url);
-   $set_url = preg_replace("/\/templates(.*)/i", "/", $set_url);
+   // COVER ALL POSSIBLE PATHS IN CORE ONLY (NOT PLUGINS DIR)
+   $set_url = preg_replace("/\/app-lib\/php(.*)/i", "/", $set_url);
+   $set_url = preg_replace("/\/templates\/interface(.*)/i", "/", $set_url);
 
 
         // Check detected base URL security (checked once every 25 minutes maximum VIA NON-CRON RUNTIMES [in system-config.php])
