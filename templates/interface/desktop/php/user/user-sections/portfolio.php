@@ -1755,7 +1755,7 @@ var server_header_defaults_content = '<h5 class="yellow tooltip_title">Average S
 	$all_chart_rebuild_min_max = explode(',', $ct_conf['dev']['all_chart_rebuild_min_max']);
 	?>
 	
-	<p class='sys_stats red' style='font-weight: bold;'>*The "Portfolio Cookies Size" telemetry data above <i>is not tracked in the system charts, because it's ONLY available in the user interface runtime (NOT the cron job runtime)</i>.</p>				
+	<p class='sys_stats red' style='font-weight: bold;'>*The "Server Cookies Size" telemetry data above <i>is not tracked in the system charts, because it's ONLY available in the user interface runtime (NOT the cron job runtime)</i>.</p>				
 	
 	<p class='sys_stats red' style='font-weight: bold;'>*The "CRON Core Runtime Seconds" telemetry data <i>may vary per time period chart</i> (10D / 2W / 1M / 1Y / etc etc), as time period charts are updated during CRON runtimes, and some time period charts (including asset price charts) can take longer to update than others. Additionally, recent "ALL" chart data may show higher CRON runtimes, and average out in older data.</p>		
 	

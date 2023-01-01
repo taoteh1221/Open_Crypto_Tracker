@@ -1066,18 +1066,6 @@ $ct_conf['power']['news_feed'] = array(
         
         
         				array(
-            			"title" => "Blog - CoinGecko",
-            			"url" => "https://blog.coingecko.com/feed/"
-        						),
-        
-        
-        				array(
-            			"title" => "Blog - ConsenSys",
-            			"url" => "https://media.consensys.net/feed"
-        						),
-        
-        
-        				array(
             			"title" => "Blog - Ethereum.org (community-driven on-chain smart contracts)",
             			"url" => "https://blog.ethereum.org/feed.xml"
         						),
@@ -1150,12 +1138,6 @@ $ct_conf['power']['news_feed'] = array(
         
         
         				array(
-            			"title" => "Blog - Solana Labs (High-Speed Smart Contracts Network)",
-            			"url" => "https://medium.com/feed/solana-labs"
-        						),
-        
-        
-        				array(
             			"title" => "Blog - Solice (Virtual World / Metaverse on Solana)",
             			"url" => "https://medium.com/feed/@solice_io"
         						),
@@ -1216,12 +1198,6 @@ $ct_conf['power']['news_feed'] = array(
     
     
         				array(
-            			"title" => "Newsletter - Misaka (MEV expert)",
-            			"url" => "https://misaka.substack.com/feed"
-        						),
-    
-    
-        				array(
             			"title" => "Newsletter - Our Network",
             			"url" => "https://ournetwork.substack.com/feed"
         						),
@@ -1234,20 +1210,8 @@ $ct_conf['power']['news_feed'] = array(
     
     
         				array(
-            			"title" => "Newsletter - reSync: zkSync Biweekly",
-            			"url" => "https://pseudotheos.substack.com/feed"
-        						),
-    
-    
-        				array(
             			"title" => "Newsletter - The Daily Degen",
             			"url" => "https://thedailydegen.substack.com/feed"
-        						),
-    
-    
-        				array(
-            			"title" => "Newsletter - The Daily Gwei",
-            			"url" => "https://thedailygwei.substack.com/feed"
         						),
     
     
@@ -1278,24 +1242,6 @@ $ct_conf['power']['news_feed'] = array(
         				array(
             			"title" => "Podcast - Tales From The Crypt",
             			"url" => "http://talesfromthecrypt.libsyn.com/rss"
-        						),
-
-    					
-        				array(
-            			"title" => "Podcast - The Bitcoin Podcast Network",
-            			"url" => "https://feeds.simplecast.com/xCQr3ykc"
-        						),
-    
-    
-        				array(
-            			"title" => "Podcast - The Cove",
-            			"url" => "https://anchor.fm/s/61f93a88/podcast/rss"
-        						),
-    
-    
-        				array(
-            			"title" => "Podcast - The Hotspot (Helium network related)",
-            			"url" => "https://feeds.simplecast.com/oCtSqusy"
         						),
     
     
@@ -1408,12 +1354,6 @@ $ct_conf['power']['news_feed'] = array(
     
     
         				array(
-            			"title" => "Youtube - Andreas Antonopoulos",
-            			"url" => "https://www.youtube.com/feeds/videos.xml?channel_id=UCJWCJCWOxBYSi5DhCieLOLQ"
-        						),
-    
-    
-        				array(
             			"title" => "Youtube - Anthony Pompliano",
             			"url" => "https://www.youtube.com/feeds/videos.xml?channel_id=UCevXpeL8cNyAnww-NqJ4m2w"
         						),
@@ -1474,14 +1414,14 @@ $ct_conf['power']['news_feed'] = array(
     
     
         				array(
-            			"title" => "Youtube - Naomi Brockwell",
-            			"url" => "https://www.youtube.com/feeds/videos.xml?channel_id=UCSuHzQ3GrHSzoBbwrIq3LLA"
+            			"title" => "Youtube - Solana Labs",
+            			"url" => "https://www.youtube.com/feeds/videos.xml?channel_id=UC9AdQPUe4BdVJ8M9X7wxHUA"
         						),
     
     
         				array(
-            			"title" => "Youtube - Solana Labs",
-            			"url" => "https://www.youtube.com/feeds/videos.xml?channel_id=UC9AdQPUe4BdVJ8M9X7wxHUA"
+            			"title" => "Youtube - The Daily Gwei",
+            			"url" => "https://www.youtube.com/feeds/videos.xml?channel_id=UCvCp6vKY5jDr87htKH6hgDA"
         						),
         
         

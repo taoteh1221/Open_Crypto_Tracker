@@ -70,8 +70,7 @@
 	        
 	        <li class='links_list'><a href='https://etherscan.io/chart/tx' target='_blank'>Ethereum Transactions Per Day</a></li>
 	        
-	        <li class='links_list'><a href='https://etherscan.io/chart/hashrate' target='_blank'>Ethereum Hashrate (mining)</a></li>
-	        
+	        <li class='links_list'><a href='https://analytics.solscan.io/' target='_blank'>Solana Network Statistics</a></li>
 	        
 	        
 	    </ul>
@@ -133,17 +132,15 @@
 	        
 	        <li class='links_list'><a href='https://explorer.aptoslabs.com/' target='_blank'>Aptos Explorer</a></li>
 	        
-	        <li class='links_list'><a href='https://beaconscan.com/' target='_blank'>BeaconScan.io - Ethereum v2.0 Explorer</a></li>
+	        <li class='links_list'><a href='https://beaconscan.com/' target='_blank'>BeaconScan.io - Ethereum Staking Explorer</a></li>
 	        
 	        <li class='links_list'><a href='https://www.blockchain.com/explorer?view=btc' target='_blank'>Blockchain.com - Bitcoin Explorer</a></li>
 	        
-	        <li class='links_list'><a href='https://etherscan.io/' target='_blank'>EtherScan.io - Ethereum v1.0 Explorer</a></li>
-	        
-	        <li class='links_list'><a href='https://solanabeach.io/' target='_blank'>Solana Beach - Solana Explorer</a></li>
+	        <li class='links_list'><a href='https://etherscan.io/' target='_blank'>EtherScan.io - Ethereum Explorer</a></li>
 	        
 	        <li class='links_list'><a href='https://solscan.io/' target='_blank'>SolScan.io - Solana Explorer</a></li>
 	        
-	        <li class='links_list'><a href='https://zkscan.io/' target='_blank'>ZKscan.io - ZKsync Explorer <span class='yellow'>(Ethereum layer 2)</span></a></li>
+	        <li class='links_list'><a href='https://zkscan.io/' target='_blank'>ZKscan.io - ZKsync Explorer</a> <span class='yellow'>(Ethereum layer 2)</span></li>
 	        
 	        
 	        
@@ -180,7 +177,7 @@
 	        
 	        <li class='links_list'><a href='https://coldcardwallet.com/' target='_blank'>Coldcard</a>   <span class='yellow'>(open source Bitcoin hardware wallet [uses fork of trezor software interface])</span></li>
 	        
-	        <li class='links_list'><a href='https://github.com/gnosis/MultiSigWallet/releases' target='_blank'>Gnosis Multisig Wallet</a>   <span class='yellow'>(Ethereum software wallet, with hardware wallet support)</span></li>
+	        <li class='links_list'><a href='https://safe.global/' target='_blank'>Gnosis Safe Multisig Wallet</a>   <span class='yellow'>(Ethereum web wallet, with hardware wallet support)</span></li>
 	        
 	        <li class='links_list'><a href='https://metamask.io/' target='_blank'>Metamask</a>   <span class='yellow'>(Ethereum software wallet browser extension, with hardware wallet support)</span></li>
 	        
@@ -194,7 +191,7 @@
 	        
 	        <li class='links_list'><a href='https://specter.solutions/' target='_blank'>Specter Desktop</a>   <span class='yellow'>(Bitcoin software for hardware wallets)</span></li>
 	        
-	        <li class='links_list'><a href='https://zap.jackmallers.com/download' target='_blank'>Zap</a>  <span class='yellow'>(Bitcoin Lightning network on multiple devices [WARNING: Lightning network is still VERY EXPERIMENTAL, AND MAY STILL HAVE SIGNIFICANT BUGS])</span></li>
+	        <li class='links_list'><a href='https://strike.me/' target='_blank'>Strike</a>    <span class='yellow'>(Bitcoin lightning network wallet services)</span></li>
 	        
 	        
 	        
@@ -209,15 +206,9 @@
 	        
 	        <li class='links_list'><a href='https://bitcoinops.org/en/newsletters/' target='_blank'>Bitcoin Optech Newsletter</a></li>
 	        
-	        <li class='links_list'><a href='https://bncdaily.com/' target='_blank'>Brave New Coin Daily</a></li>
-	        
-	        <li class='links_list'><a href='http://newsletter.coingecko.com/landing/subscribe' target='_blank'>Coingecko Newsletter</a></li>
-	        
 	        <li class='links_list'><a href='https://lightninglabs.substack.com' target='_blank'>Lightning Labs</a></li>  
 	        
 	        <li class='links_list'><a href='https://ournetwork.substack.com/' target='_blank'>Our Network</a></li>  
-	        
-	        <li class='links_list'><a href='https://unbankd.co/' target='_blank'>Unbankd</a></li>
 	        
 	        <li class='links_list'><a href='https://theblockcrypto.substack.com/' target='_blank'>The Block Newsletter</a></li>
 	        
@@ -249,10 +240,6 @@
 	        <li class='links_list'><a href='https://open.spotify.com/show/5pBuPJdMabzdDaZEyUZopi' target='_blank'>Epicenter Bitcoin</a></li>
 	        
 	        <li class='links_list'><a href='https://open.spotify.com/show/2CLetGT20MFsHqfeBN3fYl' target='_blank'>H4SHR8 Crypto Mining</a></li>
-	        
-	        <li class='links_list'><a href='https://open.spotify.com/show/2QwpFjzJ0ZteqmMqw2xIfA' target='_blank'>Off The Chain With Anthony Pompliano</a></li>
-	        
-	        <li class='links_list'><a href='https://open.spotify.com/show/3ObwKoyqttA1OLNhInnrbx' target='_blank'>Rekt</a></li>
 	        
 	        <li class='links_list'><a href='https://open.spotify.com/show/3mFUF9kSYpvrCGWLbskRr8' target='_blank'>Stephan Livera</a></li>
 	        
@@ -369,8 +356,6 @@
 	        
 	        <li class='links_list'><a href='https://btcpayserver.org/' target='_blank'>BTCPay Server</a>    <span class='yellow'>(Self-hosted Bitcoin payment processor)</span></li>
 	        
-	        <li class='links_list'><a href='https://grid.ethereum.org/' target='_blank'>Grid</a>    <span class='yellow'>(Ethereum node implementations and tools)</span></li>
-	        
 	        <li class='links_list'><a href='https://mynodebtc.com/' target='_blank'>MyNode</a>    <span class='yellow'>(Bitcoin / Lightning nodes and tools)</span></li>
 	        
 	        <li class='links_list'><a href='https://www.opennode.com/' target='_blank'>OpenNode</a>    <span class='yellow'>(Bitcoin / Lightning ecommerce gateway services)</span></li>
@@ -379,7 +364,7 @@
 	        
 	        <li class='links_list'><a href='https://solanapay.com/' target='_blank'>SolanaPay</a>    <span class='yellow'>(Solana ecommerce gateway services)</span></li>
 	        
-	        <li class='links_list'><a href='https://zap.jackmallers.com/download' target='_blank'>Zap</a>    <span class='yellow'>(Bitcoin Lightning node on multiple devices)</span></li>
+	        <li class='links_list'><a href='https://strike.me/' target='_blank'>Strike</a>    <span class='yellow'>(Bitcoin lightning network wallet services)</span></li>
 	      
 	        
 	        
@@ -412,15 +397,11 @@
 	        
 	        <li class='links_list'><a href='https://sourceforge.net/projects/dfd-crypto-ticker/' target='_blank'>Raspberry PI Real-Time / Multi-Crypto Slideshow Price Ticker</a> <span class='yellow'>(a side project of mine)</span></li>
 	        
-	        <li class='links_list'><a href='https://www.sec.gov/ICO' target='_blank'>SEC.gov Crypto Scam Awareness Site</a></li>
-	        
 	        <li class='links_list'><a href='https://www.reddit.com/r/solana/' target='_blank'>Solana Subreddit</a></li>
 	        
 	        <li class='links_list'><a href='https://txstreet.com/' target='_blank'>TxStreet.com</a> <span class='yellow'>(Blockchain Transaction Visualizer)</span></li>
 	        
 	        <li class='links_list'><a href='https://usdsat.com/' target='_blank'>USDsat.com</a> <span class='yellow'>(US Dollar vs Bitcoin's smallest unit of measure)</span></li>
-	        
-	        <li class='links_list'><a href='https://watchtheburn.com' target='_blank'>Watch The Burn</a> <span class='yellow'>(watch ETH transaction fees get burned)</span></li>
 	        
 	        <li class='links_list'><a href='https://whale-alert.io/' target='_blank'>Whale Alert</a> <span class='yellow'>(cryptocurrency transaction alerts)</span></li>
 	        
@@ -433,8 +414,6 @@
 	
 	    <fieldset class='subsection_fieldset'><legend class='subsection_legend'> <strong>Youtube Channels</strong> </legend>
 	    <ul>
-	        
-	        <li class='links_list'><a href='https://www.youtube.com/user/aantonop/featured' target='_blank'>Andreas Antonopoulos</a></li>
 	        
 	        <li class='links_list'><a href='https://www.youtube.com/channel/UCevXpeL8cNyAnww-NqJ4m2w' target='_blank'>Anthony Pompliano</a></li>
 	        
@@ -468,13 +447,9 @@
 	        
 	        <li class='links_list'><a href='https://www.youtube.com/channel/UC5rV0QEGbv0Y-umDwshs_HA/featured' target='_blank'>Kripto Sözlük (turkish)</a></li>
 	        
-	        <li class='links_list'><a href='https://www.youtube.com/channel/UCSuHzQ3GrHSzoBbwrIq3LLA' target='_blank'>Naomi Brockwell</a></li>
-	        
 	        <li class='links_list'><a href='https://www.youtube.com/c/SolanaFndn/featured' target='_blank'>Solana Foundation</a></li>
 	        
 	        <li class='links_list'><a href='https://www.youtube.com/channel/UCWiiMnsnw5Isc2PP1to9nNw/featured' target='_blank'>Unchained Podcast</a></li>
-	        
-	        <li class='links_list'><a href='https://www.youtube.com/user/WorldCryptoNetwork/featured' target='_blank'>World Crypto Network</a></li>
 	        
 	        
 	        
