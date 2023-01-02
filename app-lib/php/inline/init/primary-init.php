@@ -104,10 +104,7 @@ require_once('app-lib/php/inline/system/system-checks.php');
 // Get / check system info for debugging / stats (MUST run AFTER directory creation [for error logging], AND AFTER system checks)
 require_once('app-lib/php/inline/system/system-info.php');
 
-// Directory security check (MUST run AFTER directory structure creation check, AND BEFORE system checks)
-require_once('app-lib/php/inline/security/directory-security.php');
-
-// Logins, protection from different types of attacks
+// Logouts, protection from different types of attacks
 // #MUST# run BEFORE any heavy init logic (for good security), #AFTER# directory creation (for error logging)
 require_once('app-lib/php/inline/security/attack-protection.php');
 

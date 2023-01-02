@@ -100,6 +100,10 @@ $curl_user_agent = 'Curl/' .$curl_setup["version"]. ' ('.PHP_OS.'; ' . $system_i
 }
 
 
+// Directory security check
+// (MUST run AFTER app config auto-adjust [as we may need to refresh MAIN .htaccess / user.ini], AND BEFORE final-preflight-security-checks.php)
+require_once('app-lib/php/inline/security/directory-security.php');
+
 // Final preflight checks (MUST RUN AFTER app config auto-adjust / htaccess user login / user agent)
 // (AS WE ARE RUNNING SELF-TESTS WITH $ct_cache->ext_data() ETC)
 require_once('app-lib/php/inline/security/final-preflight-security-checks.php');

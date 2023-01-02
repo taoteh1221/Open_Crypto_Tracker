@@ -4,6 +4,13 @@
  */
 
 
+// MAY HELP, SINCE WE USE SAMESITE=STRICT COOKIES (ESPECIALLY ON SERVERS WITH DOMAIN REDIRECTS)
+if ( !preg_match("/index\.php/i", $_SERVER['REQUEST_URI']) ) {
+header("Location: index.php");
+exit;
+}
+
+
 // Calculate script runtime length
 $time = microtime();
 $time = explode(' ', $time);

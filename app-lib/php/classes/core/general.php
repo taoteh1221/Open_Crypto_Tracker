@@ -4149,10 +4149,10 @@ var $ct_array = array();
         
              if ( $passed_config == false || $admin_area_sec_level == 'high' ) {
              $passed_config = $ct_conf;
-    		 $this->log('conf_error', 'ct_conf will be refreshed using the DEFAULT ct_conf');
+    		 $this->log('conf_error', 'ct_conf reset, it will be refreshed using the DEFAULT ct_conf');
              }
              else {
-    		 $this->log('conf_error', 'ct_conf will be restored using the last-known working ct_conf');
+    		 $this->log('conf_error', 'ct_conf reset, it will be restored using the LAST-KNOWN WORKING ct_conf');
              }
         
         }
