@@ -5984,7 +5984,11 @@ v6.00.2 AND HIGHER RESETS LIGHT (TIME PERIOD) CHARTS FROM ARCHIVAL DATA, ONE-TIM
 
 -BUG FIX: Fixed bug introduced in v6.00.15 refactoring, related to timely re-creation of MAIN .htaccess / user.ini files upon app config revisions
 
+-New setting on admin Reset page, to reset the ENTIRE Admin Config (back to the hard-coded defaults in the PHP configuration files)
+
 -Miscellaneous optimizations / user experience improvements
+
+-Code cleanup / refactoring
 
 -v6.00.16 AND HIGHER RESETS LIGHT (TIME PERIOD) CHARTS FROM ARCHIVAL DATA, ONE-TIME DURING UPGRADES FROM V6.00.15 OR LOWER.
 

@@ -40,14 +40,12 @@ require_once("config.php");
 require_once('app-lib/php/classes/extended-classes-loader.php');
 require_once('app-lib/php/classes/core-classes-loader.php');
 
-// PRIMARY vars, #MUST# BE SET IMMEADIATELY AFTER loading core classes
+// Vars, #MUST# BE SET IMMEADIATELY AFTER loading core classes
 require_once('app-lib/php/inline/vars/empty-vars.php');
+require_once('app-lib/php/inline/vars/static-vars.php');
 
-// System config VERY EARLY (after loading PRIMARY vars)
+// System config VERY EARLY (after loading vars)
 require_once('app-lib/php/inline/config/system-config.php');
-
-// Set / populate SECONDARY app vars / arrays
-require_once('app-lib/php/inline/vars/secondary-vars.php');
 
 // Sessions config (MUST RUN BEFORE starting the PHP session)
 require_once('app-lib/php/inline/config/sessions-config.php');
@@ -94,23 +92,23 @@ $upgrade_check_latest_version = trim( file_get_contents('cache/vars/upgrade_chec
 // ESSENTIAL INIT LOGIC...
 
 // Create cache directories AS EARLY AS POSSIBLE
-// (#MUST# RUN BEFORE plugins-config-check.php / cached-global-config.php
+// (#MUST# RUN BEFORE load-config-by-security-level.php
 // Uses HARD-CODED $ct_conf['sec']['chmod_cache_dir'], BUT IF THE DIRECTORIES DON'T EXIST YET, A CACHED CONFIG PROBABLY DOESN'T EXIST EITHER
-require_once('app-lib/php/inline/directory-creation/cache-directories.php');
+require_once('app-lib/php/inline/directory/cache-directories.php');
 
 // Basic system checks (MUST RUN *FIRST* IN ESSENTIAL INIT LOGIC *AFTER* CACHE DIRECTORIES [FOR ERROR LOGGING])
 require_once('app-lib/php/inline/system/system-checks.php');
 
+// Logouts, protection from different types of attacks
+// #MUST# run BEFORE any heavy init logic (for good security), #AFTER# directory creation (for error logging), and AFTER system checks
+require_once('app-lib/php/inline/security/early-security-logic.php');
+
 // Get / check system info for debugging / stats (MUST run AFTER directory creation [for error logging], AND AFTER system checks)
 require_once('app-lib/php/inline/system/system-info.php');
 
-// Logouts, protection from different types of attacks
-// #MUST# run BEFORE any heavy init logic (for good security), #AFTER# directory creation (for error logging)
-require_once('app-lib/php/inline/security/attack-protection.php');
-
 
 // Toggle to set the admin interface security level, if 'opt_admin_sec' from authenticated admin is verified
-// (#MUST# BE SET BEFORE BOTH cached-global-config.php AND plugins-config-check.php)
+// (#MUST# BE SET BEFORE load-config-by-security-level.php)
 if ( isset($_POST['opt_admin_sec']) && $ct_gen->pass_sec_check($_POST['admin_hashed_nonce'], 'toggle_admin_security') ) {
 $admin_area_sec_level = $_POST['opt_admin_sec'];
 $ct_cache->save_file($base_dir . '/cache/vars/admin_area_sec_level.dat', $_POST['opt_admin_sec']);
@@ -123,6 +121,13 @@ $admin_area_sec_level = trim( file_get_contents($base_dir . '/cache/vars/admin_a
 else {
 $admin_area_sec_level = 'high';
 $ct_cache->save_file($base_dir . '/cache/vars/admin_area_sec_level.dat', $admin_area_sec_level);
+}
+
+
+// If a ct_conf reset from authenticated admin is verified, refresh CACHED ct_conf with the DEFAULT ct_conf
+// (!!MUST RUN *BEFORE* load-config-by-security-level.php ADDS PLUGIN CONFIGS TO $default_ct_conf AND $ct_conf!!)
+if ( $_POST['reset_ct_conf'] == 1 && $ct_gen->pass_sec_check($_POST['admin_hashed_nonce'], 'reset_ct_conf') ) {
+$reset_ct_conf = true;
 }
 
 

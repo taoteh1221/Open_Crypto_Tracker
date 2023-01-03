@@ -27,7 +27,7 @@ Web server setup / install (for Server Edition) is available for $30 hourly if n
 
 Project Website: https://taoteh1221.github.io
 
-LIVE PUBLIC DEMO: https://dragonfrugal.org/coin-prices
+LIVE PUBLIC DEMO: https://dragonfrugal.org/open-crypto-tracker
 
 Download Latest Version: https://github.com/taoteh1221/Open_Crypto_Tracker/releases
 

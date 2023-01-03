@@ -9,32 +9,8 @@
 //////////////////////////////////////////////////////////////////
 
 
-// Default config, used for upgrade checks
-// (#MUST# BE SET BEFORE BOTH cached-global-config.php AND plugins-config-check.php)
-// WE MODIFY / RUN THIS AND UPGRADE LOGIC, AT THE END OF plugins-config-check.php
-$default_ct_conf = $ct_conf; 
-////
-// Used for quickening runtimes on app config upgrading checks
-// (#MUST# BE SET BEFORE BOTH cached-global-config.php AND plugins-config-check.php)
-if ( file_exists($base_dir . '/cache/vars/default_ct_conf_md5.dat') ) {
-$check_default_ct_conf = trim( file_get_contents($base_dir . '/cache/vars/default_ct_conf_md5.dat') );
-}
-else {
-$check_default_ct_conf = null;
-}
-
-
-// plugins-config-check.php MUST RUN #BEFORE# cached-global-config.php, #IN HIGH ADMIN SECURITY MODE#
-// (AND THE OPPOSITE WAY AROUND #IN ENHANCED / NORMAL ADMIN SECURITY MODE#)
-if ( $admin_area_sec_level == 'high' ) {
-require_once('app-lib/php/inline/config/plugins-config-check.php');
-require_once('app-lib/php/inline/config/cached-global-config.php');
-}
-else {
-require_once('app-lib/php/inline/config/cached-global-config.php');
-require_once('app-lib/php/inline/config/plugins-config-check.php');
-}
-
+// Load config type based on admin security level
+require_once('app-lib/php/inline/config/load-config-by-security-level.php');
 
 // Dynamic app config auto-adjust (MUST RUN AS EARLY AS POSSIBLE AFTER #FULL# ct_conf setup)
 require_once('app-lib/php/inline/config/config-auto-adjust.php');
@@ -43,8 +19,7 @@ require_once('app-lib/php/inline/config/config-auto-adjust.php');
 require_once('app-lib/php/classes/3rd-party-classes-loader.php');
 
 
-// Essential vars / arrays / inits that can only be set AFTER config-auto-adjust...
-
+// Essential vars / arrays / inits that can only be dynamically set AFTER config-auto-adjust...
 
 // PHP error logging on / off, VIA END-USER CONFIG SETTING, *ONLY IF* THE HARD-CODED DEV PHP DEBUGGING IN INIT.PHP IS OFF
 if ( $dev_debug_php_errors == 0 ) {
@@ -71,12 +46,14 @@ $max_exec_time = $ct_conf['dev']['int_api_max_exec_time'];
 elseif ( $runtime_mode == 'webhook' ) {
 $max_exec_time = $ct_conf['dev']['webhook_max_exec_time'];
 }
-////
+
+
 // If the script timeout var wasn't set properly / is not a whole number 3600 or less
 if ( !$ct_var->whole_int($max_exec_time) || $max_exec_time > 3600 ) {
 $max_exec_time = 250; // 250 seconds default
 }
-////
+
+
 // Maximum time script can run (may OR may not be overridden by operating system values, BUT we want this if the system allows it)
 set_time_limit($max_exec_time); // Doc suggest this may be more reliable than ini_set max_exec_time?
 
@@ -100,19 +77,13 @@ $curl_user_agent = 'Curl/' .$curl_setup["version"]. ' ('.PHP_OS.'; ' . $system_i
 }
 
 
-// Directory security check
-// (MUST run AFTER app config auto-adjust [as we may need to refresh MAIN .htaccess / user.ini], AND BEFORE final-preflight-security-checks.php)
-require_once('app-lib/php/inline/security/directory-security.php');
-
 // Final preflight checks (MUST RUN AFTER app config auto-adjust / htaccess user login / user agent)
 // (AS WE ARE RUNNING SELF-TESTS WITH $ct_cache->ext_data() ETC)
+// (as we may need to refresh MAIN .htaccess / user.ini)
 require_once('app-lib/php/inline/security/final-preflight-security-checks.php');
 
-// Password protection management (MUST RUN AFTER setting htaccess user login vars / preflight-security-checks)
-require_once('app-lib/php/inline/security/password-protection.php');
-
 // Chart sub-directory creation (if needed...MUST RUN AFTER app config auto-adjust / preflight-security-checks)
-require_once('app-lib/php/inline/directory-creation/chart-directories.php');
+require_once('app-lib/php/inline/directory/chart-directories.php');
 
 // Primary Bitcoin markets (MUST RUN AFTER app config auto-adjust / preflight-security-checks)
 require_once('app-lib/php/inline/config/primary-bitcoin-markets-config.php');

@@ -255,7 +255,7 @@ $sel_opt['sorted_asc_desc'] = $sort_array[1];
 	
 
 // Now that $run_csv_import has been determined ABOVE, we can call our cookie logic
-require_once($base_dir . "/app-lib/php/inline/other/cookies.php");
+require_once($base_dir . "/app-lib/php/inline/vars/cookies.php");
 
 
 }

@@ -5,15 +5,31 @@
 
 
 //////////////////////////////////////////////////////////////////
-// PLUGINS CONFIG
+// LOAD CONFIG
 //////////////////////////////////////////////////////////////////
 
 
-$plug_conf =  array();
-////
-$plug_class = array();
-////
-$activated_plugins =  array();
+// Default config, used for upgrade checks
+// (#MUST# BE SET BEFORE load-config-by-security-level.php)
+// WE MODIFY / RUN THIS AND UPGRADE LOGIC, WITHIN load-config-by-security-level.php
+$default_ct_conf = $ct_conf; 
+
+
+// Used for quickening runtimes on app config upgrading checks
+// (#MUST# BE SET BEFORE load-config-by-security-level.php)
+if ( file_exists($base_dir . '/cache/vars/default_ct_conf_md5.dat') ) {
+$check_default_ct_conf = trim( file_get_contents($base_dir . '/cache/vars/default_ct_conf_md5.dat') );
+}
+else {
+$check_default_ct_conf = null;
+}
+
+
+// load_cached_config() LOADS *BEFORE* PLUGIN CONFIGS IN *ENHANCED / NORMAL* ADMIN SECURITY MODES
+// (UNLESS IT'S A CT_CONF USER-INITIATED RESET)
+if ( $admin_area_sec_level != 'high' && !$reset_ct_conf ) {
+$ct_gen->load_cached_config();
+}
 
 
 // Configs for any plugins activated in ct_conf
@@ -42,7 +58,8 @@ foreach ( $ct_conf['power']['activate_plugins'] as $key => $val ) {
 		        
 		    $ct_conf['plug_conf'][$this_plug] = $plug_conf[$this_plug]; // Add each plugin's config into the GLOBAL app config
 		    
-		        if ( $admin_area_sec_level != 'high' ) {
+		        if ( $admin_area_sec_level != 'high' && !$reset_ct_conf ) {
+    		    $ct_gen->log('conf_error', 'plugin "'.$this_plug.'" ADDED, refreshing CACHED ct_conf');
                 $refresh_config = true;
 		        }
 		        
@@ -68,8 +85,10 @@ foreach ( $ct_conf['power']['activate_plugins'] as $key => $val ) {
 		}
 		// If plugin has been removed AND we are running the NORMAL SECURITY admin pages, then remove any ct_conf entry
 		// (THIS AUTOMATICALLY #CANNOT# HAPPEN IF WE ARE #NOT# IN NORMAL SECURITY ADMIN MODE)
-		elseif ( $admin_area_sec_level != 'high' ) {
+        // (if NO USER-INITIATED CT_CONF RESET)
+		elseif ( $admin_area_sec_level != 'high' && !$reset_ct_conf ) {
 		unset($ct_conf['plug_conf'][$this_plug]);
+    	$ct_gen->log('conf_error', 'plugin "'.$this_plug.'" REMOVED, refreshing CACHED ct_conf');
         $refresh_config = true;
 		}
 	
@@ -81,19 +100,31 @@ foreach ( $ct_conf['power']['activate_plugins'] as $key => $val ) {
 }
 
 
+// IF ADMIN-USER-INITIATED ct_conf CACHE RESET (ALSO LOADS CT_CONF [WITH ACTIVATED PLUGIN CONFIGS])
+if ( $reset_ct_conf ) {
+$ct_conf = $ct_gen->refresh_cached_ct_conf(false, false, true); // Admin-user-initiated reset flag
+sleep(2); // Give recache file save a couple seconds breather, BEFORE load_cached_config() READS FROM IT
+}
 // We use the $refresh_config flag, to avoid multiple calls in the loop
-if ( $refresh_config == true ) {
+elseif ( $refresh_config == true ) {
 $ct_conf = $ct_gen->refresh_cached_ct_conf($ct_conf);
 unset($refresh_config); // Unset, since this is an inline global var
 }
-// Otherwise we are clear to check for and run any upgrades instead, on the CACHED ct_conf (if in NORMAL admin security mode)
+// Otherwise we are clear to check for and run any upgrades instead, on the CACHED ct_conf
 elseif ( $admin_area_sec_level != 'high' ) {
-//$ct_conf = $ct_gen->refresh_cached_ct_conf($ct_conf, 'upgrade_checks');
+//$ct_conf = $ct_gen->refresh_cached_ct_conf($ct_conf, true); // NOT NEEDED YET / THROWS ERROR...SEE TODO.txt
 }
-        
+
+
+// load_cached_config() LOADS *AFTER* PLUGIN CONFIGS IN *HIGH* ADMIN SECURITY MODE
+// (AND IF THERE IS A USER-INITIATED CT_CONF RESET)
+if ( $admin_area_sec_level == 'high' || $reset_ct_conf ) {
+$ct_gen->load_cached_config();
+}
+
 
 //////////////////////////////////////////////////////////////////
-// END PLUGINS CONFIG
+// END LOAD CONFIG
 //////////////////////////////////////////////////////////////////
 
 // DON'T LEAVE ANY WHITESPACE AFTER THE CLOSING PHP TAG!

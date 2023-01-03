@@ -33,9 +33,6 @@ require_once('app-lib/php/inline/init/config-init.php');
 // Fast runtimes, MUST run AFTER config-init.php, AND AS EARLY AS POSSIBLE
 require_once('app-lib/php/inline/other/fast-runtimes.php');
 
-// SECURED cache files management (MUST RUN AFTER system checks)
-require_once('app-lib/php/inline/security/secure-cache-files.php');
-
 // Scheduled maintenance  (MUST RUN AFTER EVERYTHING IN INIT.PHP, #EXCEPT# DEBUGGING)
 require_once('app-lib/php/inline/maintenance/scheduled-maintenance.php');
 

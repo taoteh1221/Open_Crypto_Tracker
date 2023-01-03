@@ -2670,7 +2670,7 @@ var $ct_array = array();
         if ( !isset($newest_cached_ct_conf) ) {
         $this->log('conf_error', 'CACHED ct_conf not found, refreshing from DEFAULT or RESTORE ct_conf');
         $refresh_config = true;
-        }
+        }			 
 
 
         // We use the $refresh_config flag, so we can wait for the GLOBAL $restore_conf_path which may be set above (if a restore file exists)
@@ -4133,7 +4133,7 @@ var $ct_array = array();
    ////////////////////////////////////////////////////////
    
    
-   function refresh_cached_ct_conf($passed_config, $mode='no_upgrade') {
+   function refresh_cached_ct_conf($passed_config, $upgrade_mode=false, $user_reset=false) {
    
    global $ct_conf, $ct_cache, $base_dir, $default_ct_conf, $restore_conf_path, $admin_area_sec_level, $telegram_activated, $telegram_user_data, $htaccess_username, $htaccess_password;
 
@@ -4141,19 +4141,28 @@ var $ct_array = array();
    // If no valid cached_ct_conf, or if DEFAULT Admin Config (in config.php) variables have been changed...
    
    
-        // If no valid config was passed to use for this refresh, attempt to get the last known working cached config
-        // (IF IT EXISTS)
-        if ( $passed_config == false && file_exists($restore_conf_path) ) {
-            
-        $passed_config = json_decode( trim( file_get_contents($restore_conf_path) ) , TRUE);
+        // If no ct_conf (IN PHP ARRAY FORM) was passed into this function, to use for this refresh
+        // (VALUE false WAS EXPLICITLY PASSED TO TRIGGER A RESET)
+        if ( !$passed_config ) {
         
-             if ( $passed_config == false || $admin_area_sec_level == 'high' ) {
-             $passed_config = $ct_conf;
-    		 $this->log('conf_error', 'ct_conf reset, it will be refreshed using the DEFAULT ct_conf');
-             }
+        
+			 // If no reset ct_conf flag, try loading last working config (before falling back on default ct_conf)
+			 if ( !$user_reset ) {
+             $passed_config = json_decode( trim( file_get_contents($restore_conf_path) ) , TRUE);
+			 }
+				
+             
+             // If NO valid last working config, IS high security mode, IS a user-initiated reset to ct_conf defaults,
+             // WE USE THE DEFAULT CT_CONF (FROM THE PHP CONFIGURATION FILES)
+             if ( !$passed_config || $admin_area_sec_level == 'high' || $user_reset ) {
+             $passed_config = $default_ct_conf;
+    		 $this->log('conf_error', 'ct_conf RESET, it will be refreshed using the DEFAULT ct_conf');
+    		 }
+             // All other conditions
              else {
-    		 $this->log('conf_error', 'ct_conf reset, it will be restored using the LAST-KNOWN WORKING ct_conf');
+    		 $this->log('conf_error', 'ct_conf RESET, it will be restored using the LAST-KNOWN WORKING ct_conf');
              }
+             
         
         }
    
@@ -4174,7 +4183,7 @@ var $ct_array = array();
     	
     	
         	// Check to see if we need to upgrade the CACHED app config (NEW / DEPRECIATED CORE VARIABLES ONLY, NOT OVERWRITING EXISTING CORE VARIABLES)
-    	    if ( $admin_area_sec_level != 'high' && $mode == 'upgrade_checks' ) {
+    	    if ( $admin_area_sec_level != 'high' && $upgrade_mode == true ) {
     	    $upgrade_cache_ct_conf = $this->upgrade_cache_ct_conf($passed_config);
     	    }
             // CACHED WITH NO UPGRADE FLAG
@@ -4207,7 +4216,7 @@ var $ct_array = array();
     	
     	
                 	// Check to see if we need to upgrade the CACHED app config (NEW / DEPRECIATED CORE VARIABLES ONLY, NOT OVERWRITING EXISTING CORE VARIABLES)
-            	    if ( $admin_area_sec_level != 'high' && $mode == 'upgrade_checks' ) {
+            	    if ( $admin_area_sec_level != 'high' && $upgrade_mode == true ) {
             	    $upgrade_cache_ct_conf = $this->upgrade_cache_ct_conf($cached_restore_conf);
             	    }
             	    // CACHED WITH NO UPGRADE FLAG
@@ -4232,7 +4241,7 @@ var $ct_array = array();
             		// If restoring last-known working config was successfull
             		else {
             		    
-            		$this->log('conf_error', 'ct_conf cache restore from last-known working config triggered, refreshed successfully'); 
+            		$this->log('conf_error', 'ct_conf CACHE restore from last-known working config triggered, refreshed successfully'); 
             		$ct_conf = $upgrade_cache_ct_conf;
             		$ct_cache->save_file($base_dir . '/cache/secured/ct_conf_'.$secure_128bit_hash.'.dat', $store_cached_ct_conf);
             		
@@ -4258,7 +4267,7 @@ var $ct_array = array();
     		// If cached app config updated successfully
     		else {
     		    
-    		$this->log('conf_error', 'ct_conf cache update triggered, refreshed successfully');
+    		$this->log('conf_error', 'ct_conf CACHE update triggered, refreshed successfully');
     		$ct_conf = $upgrade_cache_ct_conf;
     		$ct_cache->save_file($base_dir . '/cache/secured/ct_conf_'.$secure_128bit_hash.'.dat', $store_cached_ct_conf);
     		$ct_cache->save_file($base_dir . '/cache/secured/restore_conf_'.$secure_128bit_hash.'.dat', $store_cached_ct_conf);
@@ -4279,9 +4288,7 @@ var $ct_array = array();
     		
     	
     	}
-
-
-   gc_collect_cycles(); // Clean memory cache
+    	
    
    // Return $ct_conf, EVEN THOUGH IT'S A GLOBAL, AS WE ARE SOMETIMES UPDATING IT MORE THAN ONCE IN load_cached_config()
    return $ct_conf;

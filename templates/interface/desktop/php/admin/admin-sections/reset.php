@@ -97,4 +97,34 @@
 	<!-- RESET light_charts key END -->
 
 
+	<!-- RESET ct_conf key START -->
+
+	<div style='margin: 25px;'>
+	
+	<form name='reset_ct_conf' id='reset_ct_conf' action='admin.php?iframe=<?=$ct_gen->admin_hashed_nonce('iframe_reset')?>&section=reset&refresh=all' method='post'>
+	
+	<input type='hidden' name='admin_hashed_nonce' value='<?=$ct_gen->admin_hashed_nonce('reset_ct_conf')?>' />
+	
+	<input type='hidden' name='reset_ct_conf' value='1' />
+	
+	</form>
+	
+	<!-- Submit button must be OUTSIDE form tags here, or it runs improperly -->
+	<button id='reset_ct_conf_button' class='force_button_style' onclick='
+	
+	var ct_conf_reset = confirm("Resetting the ENTIRE Admin Config will erase ALL customized settings you revised in the admin interface, and reset them to the default settings (found in the hard-coded configuration files). \n\nPress OK to reset the ENTIRE Admin Config, or CANCEL to keep your current settings. ");
+	
+		if ( ct_conf_reset ) {
+		document.getElementById("reset_ct_conf_button").disable = true;
+		$("#reset_ct_conf").submit(); // Triggers "app reloading" sequence
+		document.getElementById("reset_ct_conf_button").innerHTML = ajax_placeholder(15, "center", "Submitting...");
+		}
+	
+	'>Reset ENTIRE Admin Config (to default settings)</button>
+	
+	</div>
+				
+	<!-- RESET ct_conf key END -->
+
+
 		    

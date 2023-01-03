@@ -65,6 +65,12 @@ $api_throttle_count = array();
 
 $api_throttle_flag = array();
 
+$plug_conf =  array();
+
+$plug_class = array();
+
+$activated_plugins =  array();
+
 
 // Initial BLANK strings
 
@@ -87,6 +93,8 @@ $upbit_pairs = null;
 $coingecko_pairs = null;
         
 $coingecko_assets = null;
+
+$restore_conf_path = null;
 
 
 // Initial zero-set strings

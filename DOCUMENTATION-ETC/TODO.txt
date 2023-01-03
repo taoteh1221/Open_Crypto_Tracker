@@ -57,7 +57,7 @@ Add more Jupiter agg markets to Solana coins in demo config, and in price target
 Add openserum markets support.
 
 
-$ct_conf = $ct_gen->refresh_cached_ct_conf($ct_conf, 'upgrade_checks'); at the end of plugins-config-check.php is throwing this error (so it's commented-out for now):
+$ct_conf = $ct_gen->refresh_cached_ct_conf($ct_conf, true); at the end of load-config-by-security-level.php is throwing this error (so it's commented-out for now):
 [2022-08-03 03:30:40] ui => conf: updated ct_conf data could not be saved (to secured cache storage) in json format;  
 [2022-08-03 03:30:40] ui => conf: ct_conf data could not be restored from last-known working config; 
 
@@ -185,9 +185,6 @@ On admin config tabs, add logic to have onchange update a tracking value FOR THA
 
 
 Once an admin interface is fully built out, permanently switch out the app config upgrade logic for our new logic (already built, just enable in secured cache logic).
-
-
-On admin config reset tab, have "reset app config to default settings" button (with js confirm alert when pushed) that refreshes ALL the cached ct_conf from config.php settings.
 
 
 Admin import / export of settings (consider security implications CAREFULLY...include an optional / mandatory checkbox to encrypt to zip file with our new zip encryption feature).
