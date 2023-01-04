@@ -28,7 +28,7 @@ $check_default_ct_conf = null;
 // load_cached_config() LOADS *BEFORE* PLUGIN CONFIGS IN *ENHANCED / NORMAL* ADMIN SECURITY MODES
 // (UNLESS IT'S A CT_CONF USER-INITIATED RESET)
 if ( $admin_area_sec_level != 'high' && !$reset_ct_conf ) {
-$ct_gen->load_cached_config();
+$ct_cache->load_cached_config();
 }
 
 
@@ -102,24 +102,24 @@ foreach ( $ct_conf['power']['activate_plugins'] as $key => $val ) {
 
 // IF ADMIN-USER-INITIATED ct_conf CACHE RESET (ALSO LOADS CT_CONF [WITH ACTIVATED PLUGIN CONFIGS])
 if ( $reset_ct_conf ) {
-$ct_conf = $ct_gen->refresh_cached_ct_conf(false, false, true); // Admin-user-initiated reset flag
+$ct_conf = $ct_cache->refresh_cached_ct_conf(false, false, true); // Admin-user-initiated reset flag
 sleep(2); // Give recache file save a couple seconds breather, BEFORE load_cached_config() READS FROM IT
 }
 // We use the $refresh_config flag, to avoid multiple calls in the loop
 elseif ( $refresh_config == true ) {
-$ct_conf = $ct_gen->refresh_cached_ct_conf($ct_conf);
+$ct_conf = $ct_cache->refresh_cached_ct_conf($ct_conf);
 unset($refresh_config); // Unset, since this is an inline global var
 }
 // Otherwise we are clear to check for and run any upgrades instead, on the CACHED ct_conf
 elseif ( $admin_area_sec_level != 'high' ) {
-//$ct_conf = $ct_gen->refresh_cached_ct_conf($ct_conf, true); // NOT NEEDED YET / THROWS ERROR...SEE TODO.txt
+//$ct_conf = $ct_cache->refresh_cached_ct_conf($ct_conf, true); // NOT NEEDED YET / THROWS ERROR...SEE TODO.txt
 }
 
 
 // load_cached_config() LOADS *AFTER* PLUGIN CONFIGS IN *HIGH* ADMIN SECURITY MODE
 // (AND IF THERE IS A USER-INITIATED CT_CONF RESET)
 if ( $admin_area_sec_level == 'high' || $reset_ct_conf ) {
-$ct_gen->load_cached_config();
+$ct_cache->load_cached_config();
 }
 
 

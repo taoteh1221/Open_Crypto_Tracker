@@ -997,7 +997,7 @@ $ct_conf['power']['mining_calculators'] = array(
 									'measure_semantic' => 'difficulty',  // (difficulty, nethashrate, etc)
 									'block_reward' => 6.25, // Mining block reward (OPTIONAL, can be made dynamic with code, like below)
 									// EVERYTHING BELOW #MUST BE DYNAMICALLY# UPDATED IN:
-									// app-lib/php/inline/calculators/mining/pow/dynamic-settings.php (so we can run a cached config)
+									// app-lib/php/inline/coin-mining-staking/pow/dynamic-settings.php (so we can run a cached config)
 									'mining_time_formula' => 'PLACEHOLDER', // Mining time formula calculation (REQUIRED)
 									'height' => 'PLACEHOLDER', // Block height (OPTIONAL)
 									'difficulty' => 'PLACEHOLDER', // Mining network difficulty (OPTIONAL)

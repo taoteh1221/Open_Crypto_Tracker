@@ -5986,6 +5986,8 @@ v6.00.2 AND HIGHER RESETS LIGHT (TIME PERIOD) CHARTS FROM ARCHIVAL DATA, ONE-TIM
 
 -New setting on admin Reset page, to reset the ENTIRE Admin Config (back to the hard-coded defaults in the PHP configuration files)
 
+-Added full webhook capability via the plugins system (see /DOCUMENTATION-ETC/PLUGINS-README.txt)
+
 -Miscellaneous optimizations / user experience improvements
 
 -Code cleanup / refactoring

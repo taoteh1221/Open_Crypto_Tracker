@@ -9,6 +9,30 @@
 //////////////////////////////////////////////////////////////////
 
 
+// Toggle to set the admin interface security level, if 'opt_admin_sec' from authenticated admin is verified
+// (#MUST# BE SET BEFORE load-config-by-security-level.php)
+if ( isset($_POST['opt_admin_sec']) && $ct_gen->pass_sec_check($_POST['admin_hashed_nonce'], 'toggle_admin_security') ) {
+$admin_area_sec_level = $_POST['opt_admin_sec'];
+$ct_cache->save_file($base_dir . '/cache/vars/admin_area_sec_level.dat', $_POST['opt_admin_sec']);
+}
+// If not updating, and cached var already exists
+elseif ( file_exists($base_dir . '/cache/vars/admin_area_sec_level.dat') ) {
+$admin_area_sec_level = trim( file_get_contents($base_dir . '/cache/vars/admin_area_sec_level.dat') );
+}
+// Else, default to high admin security
+else {
+$admin_area_sec_level = 'high';
+$ct_cache->save_file($base_dir . '/cache/vars/admin_area_sec_level.dat', $admin_area_sec_level);
+}
+
+
+// If a ct_conf reset from authenticated admin is verified, refresh CACHED ct_conf with the DEFAULT ct_conf
+// (!!MUST RUN *BEFORE* load-config-by-security-level.php ADDS PLUGIN CONFIGS TO $default_ct_conf AND $ct_conf!!)
+if ( $_POST['reset_ct_conf'] == 1 && $ct_gen->pass_sec_check($_POST['admin_hashed_nonce'], 'reset_ct_conf') ) {
+$reset_ct_conf = true;
+}
+
+
 // Load config type based on admin security level
 require_once('app-lib/php/inline/config/load-config-by-security-level.php');
 
@@ -82,20 +106,11 @@ $curl_user_agent = 'Curl/' .$curl_setup["version"]. ' ('.PHP_OS.'; ' . $system_i
 // (as we may need to refresh MAIN .htaccess / user.ini)
 require_once('app-lib/php/inline/security/final-preflight-security-checks.php');
 
-// Chart sub-directory creation (if needed...MUST RUN AFTER app config auto-adjust / preflight-security-checks)
-require_once('app-lib/php/inline/directory/chart-directories.php');
-
 // Primary Bitcoin markets (MUST RUN AFTER app config auto-adjust / preflight-security-checks)
 require_once('app-lib/php/inline/config/primary-bitcoin-markets-config.php');
 
-// Misc dynamic interface vars (MUST RUN AFTER app config auto-adjust / primary bitcoin markets conf / preflight-security-checks)
-require_once('app-lib/php/inline/init/interface-sub-init.php');
-
-// Misc cron logic (MUST RUN AFTER app config auto-adjust / primary bitcoin markets conf / preflight-security-checks)
-require_once('app-lib/php/inline/init/cron-sub-init.php');
-
-// Final configuration checks (MUST RUN AFTER app config auto-adjust / preflight-security-checks / primary bitcoin markets conf / sub inits)
-require_once('app-lib/php/inline/config/final-preflight-config-checks.php');
+// Chart sub-directory creation (if needed...MUST RUN AFTER app config auto-adjust / preflight-security-checks)
+require_once('app-lib/php/inline/config/chart-directories-config.php');
 
 
 //////////////////////////////////////////////////////////////////

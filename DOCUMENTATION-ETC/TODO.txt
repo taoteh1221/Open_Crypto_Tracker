@@ -57,7 +57,7 @@ Add more Jupiter agg markets to Solana coins in demo config, and in price target
 Add openserum markets support.
 
 
-$ct_conf = $ct_gen->refresh_cached_ct_conf($ct_conf, true); at the end of load-config-by-security-level.php is throwing this error (so it's commented-out for now):
+$ct_conf = $ct_cache->refresh_cached_ct_conf($ct_conf, true); at the end of load-config-by-security-level.php is throwing this error (so it's commented-out for now):
 [2022-08-03 03:30:40] ui => conf: updated ct_conf data could not be saved (to secured cache storage) in json format;  
 [2022-08-03 03:30:40] ui => conf: ct_conf data could not be restored from last-known working config; 
 

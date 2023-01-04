@@ -632,9 +632,9 @@ Example: $plug_conf[$this_plug]['SETTING_NAME_HERE'] = array('mysetting1', 'myse
 
 
 
-9) The "plug-conf.php" PLUGIN CONFIG SETTING 'runtime_mode' IS MANDATORY, to determine WHEN the plugin should run (during cron jobs / user interface loading / all runtimes / etc).
+9) The "plug-conf.php" PLUGIN CONFIG SETTING 'runtime_mode' IS MANDATORY, to determine WHEN the plugin should run (as a webhook / during cron jobs / user interface loading / all runtimes / etc).
 
-Example: $plug_conf[$this_plug]['runtime_mode'] = 'cron'; // 'cron', 'ui', 'all'
+Example: $plug_conf[$this_plug]['runtime_mode'] = 'cron'; // 'cron', 'webhook', 'ui', 'all'
 
 
 
