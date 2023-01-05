@@ -44,6 +44,9 @@ BUGS / TESTS / UX / QA / OTHER SECTION
 /////////////////////////////////////////////////////// 
 
 
+LOCAL JAVASCRIPT STORAGE keeps deleting content in my trade notes textarea, find out why
+
+
 Convert all javascript functions into classes, for cleaner code:
 https://javascript.info/class
 
