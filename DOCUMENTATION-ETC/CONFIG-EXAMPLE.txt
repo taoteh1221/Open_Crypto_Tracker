@@ -636,7 +636,7 @@ $ct_conf['power']['activate_plugins'] = array(
 
             								  'address-balance-tracker' => 'off',  // Alerts for BTC / ETH / [SOL|SPL Token] / HNT address balance changes (when coins are sent / recieved)
 
-            								  'telegram-bot' => 'off', // WORK-IN-PROGRESS, NOT FUNTIONAL YET!
+            								  'crypto-data-bot' => 'off', // WORK-IN-PROGRESS, NOT FUNTIONAL YET!
 
             								  'on-chain-stats' => 'off', // WORK-IN-PROGRESS, NOT FUNTIONAL YET!
 

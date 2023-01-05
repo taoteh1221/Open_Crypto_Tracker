@@ -129,7 +129,7 @@
 	<!-- Submit button must be OUTSIDE form tags here, or it runs improperly -->
 	<button id='reset_webhook_master_button' class='force_button_style' onclick='
 	
-	var webhook_master_key_reset = confirm("Resetting the MASTER webhook secret key will stop ALL external apps from accessing ALL webhooks with their current webhook app key(s). \n\nPress OK to reset the MASTER webhook secret key, or CANCEL to keep the current one. ");
+	var webhook_master_key_reset = confirm("Resetting the MASTER webhook secret key will stop ALL external apps from accessing ALL webhooks with their current webhook app key(s). \n\nPress OK to reset this webhook secret key, or CANCEL to keep the current one. ");
 	
 		if ( webhook_master_key_reset ) {
 		document.getElementById("reset_webhook_master_button").disable = true;
@@ -169,15 +169,15 @@
 	<!-- Submit button must be OUTSIDE form tags here, or it runs improperly -->
 	<button id='<?=$webhook_plug?>_webhook_button' class='force_button_style' onclick='
 	
-	var <?=$js_safe_var?>_webhook_key_reset = confirm("Resetting the \"<?=$webhook_plug?>\" plugin webhook secret key will stop ALL external apps from accessing the \"<?=$webhook_plug?>\" plugin webhook with their current webhook app key. \n\nPress OK to reset the \"<?=$webhook_plug?>\" plugin webhook secret key, or CANCEL to keep the current one. ");
+	var a_<?=$js_safe_var?>_webhook_key_reset = confirm("Resetting the \"<?=$plug_conf[$webhook_plug]['ui_name']?>\" plugin webhook secret key will stop ALL external apps from accessing its plugin webhook with their current webhook app key. \n\nPress OK to reset this webhook secret key, or CANCEL to keep the current one. ");
 	
-		if ( <?=$js_safe_var?>_webhook_key_reset ) {
+		if ( a_<?=$js_safe_var?>_webhook_key_reset ) {
 		document.getElementById("<?=$webhook_plug?>_webhook_button").disable = true;
 		$("#<?=$webhook_plug?>_webhook").submit(); // Triggers "app reloading" sequence
 		document.getElementById("<?=$webhook_plug?>_webhook_button").innerHTML = ajax_placeholder(15, "center", "Submitting...");
 		}
 	
-	'>Reset "<?=$webhook_plug?>" Plugin Webhook Key</button>
+	'>Reset "<?=$plug_conf[$webhook_plug]['ui_name']?>" Plugin Webhook Key</button>
 	
 	</div>
 				

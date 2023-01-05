@@ -656,6 +656,7 @@ var $ct_array = array();
    function dir_struct($path) {
    
    global $ct_conf, $possible_http_users, $http_runtime_user;
+
    
       // If path does not exist
       if ( !is_dir($path) ) {
@@ -672,13 +673,14 @@ var $ct_array = array();
          }
       
       }
-      // If path is not writable, AND the chmod setting is not the app's default 
+      // If path is not writable, AND the chmod setting is not the app's default,
+      // ATTEMPT TO CHMOD TO PROPER PERMISSIONS (IT'S OK IF IT DOESN'T WORK, WE'LL GET WRITE ERROR LOGS IF ANY REAL ISSUES EXIST)
       elseif ( !is_writable($path) && substr( sprintf( '%o' , fileperms($path) ) , -4 ) != $ct_conf['sec']['chmod_cache_dir'] ) {
-      return $this->chmod_path($path, $ct_conf['sec']['chmod_cache_dir']);
+      $this->chmod_path($path, $ct_conf['sec']['chmod_cache_dir']);
       }
-      else {
-      return true;
-      }
+      
+      
+   return true; // If we made it this far, we can safely return true
    
    }
 
@@ -733,9 +735,18 @@ var $ct_array = array();
    // Install id (10 character hash, based off base url)
    function id() {
       
-   global $runtime_mode, $app_edition, $base_url, $base_dir, $ct_app_id;
+   global $runtime_mode, $app_edition, $base_dir, $ct_app_id;
    
-      // ALWAYS BEGINS WITH 'PHPSESS_', SO SE CAN USE IT AS A VAR NAME IN PHP (MUST START WITH A LETTER)
+   
+      if ( isset($base_dir) && trim($base_dir) != '' ) {
+      // DO NOTHING
+      }
+      else {
+      return false;
+      }
+   
+   
+      // ALWAYS BEGINS WITH 'SESSX_', SO SE CAN USE IT AS A VAR NAME IN PHP (MUST START WITH A LETTER)
       // ALREADY SET
       if ( isset($ct_app_id) ) {
       return $ct_app_id;
@@ -746,24 +757,21 @@ var $ct_array = array();
       // (THIS KEEPS THE OTHER RUNTIME SESSIONS SEPERATED FROM THESE TWO, SO NO FORCED ADMIN LOGOUTS OR OTHER MISSING SESSION
       // DATA ISSUES WITH THE OTHER RUNTIMES, AFTER ACCESSING /api/ OR /hook/ ENDPOINTS WITH JAVASCRIPT OR DIRECTLY IN BROWSER)
       elseif ( $runtime_mode == 'webhook' || $runtime_mode == 'int_api' ) {
-      return 'PHPSESS_'.substr( md5('seperate_session') , 0, 7); // First 7 characters;
+      return 'SESS2_'.substr( md5('secondary_session' . $base_dir) , 0, 10); // First 10 characters;
       }
       // DESKTOP EDITION (when not running the above condition of webhook / internal api runtimes)
       elseif ( $app_edition == 'desktop' ) {
-      return 'PHPSESS_'.substr( md5('desktop') , 0, 10); // First 10 characters;
-      }
-      // EVERYTHING ELSE THAT'S *NOT* CRON
-      elseif ( $runtime_mode != 'cron' && isset($base_url) && trim($base_url) != '' ) {
-      return 'PHPSESS_'.substr( md5($base_url) , 0, 10); // First 10 characters
+      return 'SESSD_'.substr( md5('desktop_session' . $base_dir) , 0, 10); // First 10 characters;
       }
       // CRON
-      elseif ( $runtime_mode == 'cron' && isset($base_dir) && trim($base_dir) != '' ) {
-      return 'PHPSESS_'.substr( md5($base_dir) , 0, 10); // First 10 characters
+      elseif ( $runtime_mode == 'cron' ) {
+      return 'SESSC_'.substr( md5('cron_session' . $base_dir) , 0, 10); // First 10 characters
       }
-      // SET FAILED
+      // EVERYTHING ELSE
       else {
-      return false;
+      return 'SESS1_'.substr( md5('primary_session' . $base_dir) , 0, 10); // First 10 characters
       }
+      
    
    }
 

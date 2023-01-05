@@ -14,13 +14,23 @@
 
 
 $test_params = array('api_key' => $int_api_key);
-						
-$test_data = @$ct_cache->ext_data('params', $test_params, 0, $base_url . 'api/market_conversion/eur/kraken-btc-usd,coinbase-dai-usd,coinbase-eth-usd', 2);
 
-//echo $ct_gen->nonce_digest($this_plug, $webhook_master_key) . ' -- ';
 
-// Already json-encoded
-echo $test_data;
+if ( $webhook_params[0] == 'discord' ) {
+echo $plug_class[$this_plug]->discord_data($test_params);
+}
+elseif ( $webhook_params[0] == 'telegram' ) {
+echo $plug_class[$this_plug]->telegram_data($test_params);
+}
+elseif ( !isset($webhook_params[0]) ) {
+$result = array('error' => "No service specified, please include AT LEAST ONE forwardslash-delimited parameter designating the service being used (telegram / discord / etc) like so: /hook/" . $webhook_key . "/telegram/PARAM2/PARAM3/ETC");
+echo json_encode($result, JSON_PRETTY_PRINT);
+}
+else {
+$result = array('error' => "No service match for: " . $webhook_params[0]);
+echo json_encode($result, JSON_PRETTY_PRINT);
+}
+
 
 // DEBUGGING ONLY (checking logging capability)
 //$ct_cache->check_log('plugins/' . $this_plug . '/plug-lib/plug-init.php:end');

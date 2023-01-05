@@ -27,7 +27,7 @@ $plug_conf[$this_plug]['ui_location'] = 'tools'; // 'tools', 'more_stats' (defau
 
 
 // If running in the UI, set the preferred plugin name that should show for end-users
-$plug_conf[$this_plug]['ui_name'] = 'My Plugin Name'; // (defaults to $this_plug if not set)
+$plug_conf[$this_plug]['ui_name'] = 'Price Target Alert'; // (defaults to $this_plug if not set)
 
 
 // Re-allow SAME asset price target alert(s) messages after X MINUTES (per alert config)
