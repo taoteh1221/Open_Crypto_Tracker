@@ -34,6 +34,9 @@ $ct_cache->load_cached_config();
 
 // Configs for any plugins activated in ct_conf
 foreach ( $ct_conf['power']['activate_plugins'] as $key => $val ) {
+			
+$this_plug = $key;
+
 	
 	if ( $val == 'on' ) {
 		
@@ -43,8 +46,6 @@ foreach ( $ct_conf['power']['activate_plugins'] as $key => $val ) {
 
 
 		if ( file_exists($plug_conf_file) ) {
-			
-		$this_plug = $key;
 		
 		$plug_conf[$this_plug] = array();
 		
@@ -116,22 +117,23 @@ foreach ( $ct_conf['power']['activate_plugins'] as $key => $val ) {
 			}
 		
 		
-		unset($this_plug);  // Reset
-		
 		}
 		// If plugin has been removed AND we are running the NORMAL SECURITY admin pages, then remove any ct_conf entry
 		// (THIS AUTOMATICALLY #CANNOT# HAPPEN IF WE ARE #NOT# IN NORMAL SECURITY ADMIN MODE)
-        // (if NO USER-INITIATED CT_CONF RESET)
+          // (if NO USER-INITIATED CT_CONF RESET)
 		elseif ( $admin_area_sec_level != 'high' && !$reset_ct_conf ) {
 		unset($ct_conf['plug_conf'][$this_plug]);
-    	$ct_gen->log('conf_error', 'plugin "'.$this_plug.'" REMOVED, refreshing CACHED ct_conf');
-        $refresh_config = true;
+    	     $ct_gen->log('conf_error', 'plugin "'.$this_plug.'" REMOVED, refreshing CACHED ct_conf');
+          $refresh_config = true;
 		}
 	
 	
 	$plug_conf_file = null; // Reset
 	
 	}
+
+
+unset($this_plug);  // Reset
 
 }
 
