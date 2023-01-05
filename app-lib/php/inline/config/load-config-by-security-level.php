@@ -128,7 +128,7 @@ $this_plug = $key;
 		}
 	
 	
-	$plug_conf_file = null; // Reset
+	unset($plug_conf_file); // Reset
 	
 	}
 
