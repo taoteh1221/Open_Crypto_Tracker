@@ -824,21 +824,21 @@ var $ct_array1 = array();
         if ( !$passed_config ) {
         
         
-			 // If no reset ct_conf flag, try loading last working config (before falling back on default ct_conf)
-			 if ( !$user_reset ) {
+	        // If no reset ct_conf flag, try loading last working config (if it exists, before falling back on default ct_conf)
+	        if ( !$user_reset && file_exists($restore_conf_path) ) {
              $passed_config = json_decode( trim( file_get_contents($restore_conf_path) ) , TRUE);
-			 }
+	        }
 				
              
              // If NO valid last working config, IS high security mode, IS a user-initiated reset to ct_conf defaults,
              // WE USE THE DEFAULT CT_CONF (FROM THE PHP CONFIGURATION FILES)
              if ( !$passed_config || $admin_area_sec_level == 'high' || $user_reset ) {
              $passed_config = $default_ct_conf;
-    		 $ct_gen->log('conf_error', 'CACHED ct_conf RESET, it will be refreshed using the DEFAULT ct_conf');
-    		 }
+    		   $ct_gen->log('conf_error', 'CACHED ct_conf RESET, it will be refreshed using the DEFAULT ct_conf');
+    		   }
              // All other conditions
              else {
-    		 $ct_gen->log('conf_error', 'CACHED ct_conf RESET, it will be restored using the LAST-KNOWN WORKING ct_conf');
+    		   $ct_gen->log('conf_error', 'CACHED ct_conf RESET, it will be restored using the LAST-KNOWN WORKING ct_conf');
              }
              
         
@@ -884,8 +884,8 @@ var $ct_array1 = array();
     		    
     		$ct_gen->log('conf_error', 'updated ct_conf data could not be saved (to secured cache storage) in json format');
     	
-                // Attempt to restore last-known good config (if it exists)	
-                if ( file_exists($restore_conf_path) ) {
+              // Attempt to restore last-known good config (if it exists)	
+              if ( file_exists($restore_conf_path) ) {
     		    $cached_restore_conf = json_decode( trim( file_get_contents($restore_conf_path) ) , TRUE);
     		    }
     		

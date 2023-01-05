@@ -12,6 +12,7 @@
 // DEBUGGING ONLY (checking logging capability)
 //$ct_cache->check_log('plugins/' . $this_plug . '/plug-lib/plug-init.php:start');
 
+$int_api_base_endpoint = ( $app_edition == 'server' ? 'api/' : 'internal-api.php?data_set=' );
 
 $test_params = array('api_key' => $int_api_key);
 
