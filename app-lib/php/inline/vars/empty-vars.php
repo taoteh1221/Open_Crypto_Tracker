@@ -71,6 +71,8 @@ $plug_class = array();
 
 $activated_plugins =  array();
 
+$int_webhooks =  array();
+
 
 // Initial BLANK strings
 

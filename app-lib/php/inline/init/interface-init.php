@@ -17,7 +17,8 @@ if ( $runtime_mode != 'cron' && !$is_fast_runtime ) {
 
 
 	// Have UI runtime mode RE-CACHE the app URL data every 24 hours, since CLI runtime cannot determine the app URL (for sending backup link emails during backups, etc)
-	if ( $ct_cache->update_cache('cache/vars/base_url.dat', (60 * 24) ) == true ) {
+	// (ONLY DURING 'ui' RUNTIMES, TO ASSURE IT'S NEVER FROM A REWRITE [PRETTY LINK] URL LIKE /api OR /hook)
+	if ( $runtime_mode == 'ui' && $ct_cache->update_cache('cache/vars/base_url.dat', (60 * 24) ) == true ) {
 	    
 	$base_url_update = $ct_gen->base_url('forced_sec_check'); // WE FORCE A SECURITY CHECK HERE (OVERRIDES ONLY CHECKING EVERY X MINUTES)
 	

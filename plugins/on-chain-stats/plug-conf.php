@@ -19,7 +19,7 @@
 
 
 // What runtime modes this plugin should run during (MANDATORY)
-$plug_conf[$this_plug]['runtime_mode'] = 'all'; // 'cron', 'ui', 'all'
+$plug_conf[$this_plug]['runtime_mode'] = 'all'; // 'cron', 'webhook', 'ui', 'all'
 
 
 // If running in the UI, set the preferred location it should show in

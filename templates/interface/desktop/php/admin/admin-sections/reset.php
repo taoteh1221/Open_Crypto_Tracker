@@ -7,6 +7,12 @@
 ?>
 
 
+<!-- RESET GENERAL settings START -->
+
+<fieldset class='subsection_fieldset'>
+
+<legend class='subsection_legend'> General </legend>
+
 	<!-- RESET internal API key START -->
 
 	<div style='margin: 25px;'>
@@ -35,37 +41,7 @@
 	</div>
 				
 	<!-- RESET internal API key END -->
-
-
-	<!-- RESET webhook key START -->
-
-	<div style='margin: 25px;'>
 	
-	<form name='reset_webhook' id='reset_webhook' action='admin.php?iframe=<?=$ct_gen->admin_hashed_nonce('iframe_reset')?>&section=reset&refresh=iframe_webhook' method='post'>
-	
-	<input type='hidden' name='admin_hashed_nonce' value='<?=$ct_gen->admin_hashed_nonce('reset_webhook_key')?>' />
-	
-	<input type='hidden' name='reset_webhook_key' value='1' />
-	
-	</form>
-	
-	<!-- Submit button must be OUTSIDE form tags here, or it runs improperly -->
-	<button id='reset_webhook_button' class='force_button_style' onclick='
-	
-	var webhook_key_reset = confirm("Resetting the webhook secret key will stop \nany external apps from accessing webhooks \nwith their webhook app key. \n\nPress OK to reset the webhook secret key, or CANCEL to keep the current webhook secret key. ");
-	
-		if ( webhook_key_reset ) {
-		document.getElementById("reset_webhook_button").disable = true;
-		$("#reset_webhook").submit(); // Triggers "app reloading" sequence
-		document.getElementById("reset_webhook_button").innerHTML = ajax_placeholder(15, "center", "Submitting...");
-		}
-	
-	'>Reset Webhook Keys</button>
-	
-	</div>
-				
-	<!-- RESET webhook key END -->
-
 
 	<!-- RESET light_charts key START -->
 
@@ -125,6 +101,102 @@
 	</div>
 				
 	<!-- RESET ct_conf key END -->
+	
+</fieldset>
+
+<!-- RESET GENERAL settings END -->
+
+
+
+<!-- RESET DIFFERENT webhook keys START -->
+
+<fieldset class='subsection_fieldset'>
+
+<legend class='subsection_legend'> Webhook Keys </legend>
+
+	<!-- RESET webhook MASTER key START -->
+
+	<div style='margin: 25px;'>
+	
+	<form name='reset_webhook_master' id='reset_webhook_master' action='admin.php?iframe=<?=$ct_gen->admin_hashed_nonce('iframe_reset')?>&section=reset&refresh=iframe_webhook' method='post'>
+	
+	<input type='hidden' name='admin_hashed_nonce' value='<?=$ct_gen->admin_hashed_nonce('reset_webhook_master_key')?>' />
+	
+	<input type='hidden' name='reset_webhook_master_key' value='1' />
+	
+	</form>
+	
+	<!-- Submit button must be OUTSIDE form tags here, or it runs improperly -->
+	<button id='reset_webhook_master_button' class='force_button_style' onclick='
+	
+	var webhook_master_key_reset = confirm("Resetting the MASTER webhook secret key will stop ALL external apps from accessing ALL webhooks with their current webhook app key(s). \n\nPress OK to reset the MASTER webhook secret key, or CANCEL to keep the current one. ");
+	
+		if ( webhook_master_key_reset ) {
+		document.getElementById("reset_webhook_master_button").disable = true;
+		$("#reset_webhook_master").submit(); // Triggers "app reloading" sequence
+		document.getElementById("reset_webhook_master_button").innerHTML = ajax_placeholder(15, "center", "Submitting...");
+		}
+	
+	'>Reset MASTER Webhook Key</button>
+	
+	</div>
+				
+	<!-- RESET webhook MASTER key END -->
+	
+	<?php
+	foreach ( $activated_plugins['webhook'] as $plugin_key => $plugin_init ) {
+        		
+     $webhook_plug = $plugin_key;
+     
+     $js_safe_var = 'a_' . preg_replace("/[^A-Za-z0-9 ]/", '', $webhook_plug);
+        	
+          if ( file_exists($plugin_init) && isset($int_webhooks[$webhook_plug]) ) {
+	     ?>
+	
+
+	<!-- RESET <?=$webhook_plug?> webhook key START -->
+
+	<div style='margin: 25px;'>
+	
+	<form name='<?=$webhook_plug?>_webhook' id='<?=$webhook_plug?>_webhook' action='admin.php?iframe=<?=$ct_gen->admin_hashed_nonce('iframe_reset')?>&section=reset&refresh=iframe_webhook' method='post'>
+	
+	<input type='hidden' name='admin_hashed_nonce' value='<?=$ct_gen->admin_hashed_nonce('reset_' . $webhook_plug . '_webhook_key')?>' />
+	
+	<input type='hidden' name='reset_<?=$webhook_plug?>_webhook_key' value='1' />
+	
+	</form>
+	
+	<!-- Submit button must be OUTSIDE form tags here, or it runs improperly -->
+	<button id='<?=$webhook_plug?>_webhook_button' class='force_button_style' onclick='
+	
+	var <?=$js_safe_var?>_webhook_key_reset = confirm("Resetting the \"<?=$webhook_plug?>\" plugin webhook secret key will stop ALL external apps from accessing the \"<?=$webhook_plug?>\" plugin webhook with their current webhook app key. \n\nPress OK to reset the \"<?=$webhook_plug?>\" plugin webhook secret key, or CANCEL to keep the current one. ");
+	
+		if ( <?=$js_safe_var?>_webhook_key_reset ) {
+		document.getElementById("<?=$webhook_plug?>_webhook_button").disable = true;
+		$("#<?=$webhook_plug?>_webhook").submit(); // Triggers "app reloading" sequence
+		document.getElementById("<?=$webhook_plug?>_webhook_button").innerHTML = ajax_placeholder(15, "center", "Submitting...");
+		}
+	
+	'>Reset "<?=$webhook_plug?>" Plugin Webhook Key</button>
+	
+	</div>
+				
+	<!-- RESET <?=$webhook_plug?> webhook key END -->
+	
+	     <?php
+	     }
+        	
+        	
+     // Reset $webhook_plug at end of loop
+     unset($webhook_plug); 
+             
+     }
+	?>
+	
+</fieldset>
+
+<!-- RESET DIFFERENT webhook keys END -->
+
 
 
 		    

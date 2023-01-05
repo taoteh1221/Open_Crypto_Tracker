@@ -47,9 +47,6 @@ require_once('app-lib/php/inline/vars/static-vars.php');
 // System config VERY EARLY (after loading vars)
 require_once('app-lib/php/inline/config/system-config.php');
 
-// Sessions config (MUST RUN BEFORE starting the PHP session)
-require_once('app-lib/php/inline/config/sessions-config.php');
-
 
 // ESSENTIAL VARS / ARRAYS / INITS SET #BEFORE# config-init.php...
 
@@ -59,13 +56,8 @@ require_once('app-lib/php/inline/config/sessions-config.php');
 // $ct_gen->id() can then be used in functions WITHOUT NEEDING ANY $ct_app_id GLOBAL DECLARED.
 $ct_app_id = $ct_gen->id();
 
-
-// Give our session a unique name (TO SUPPORT MULTIPLE INSTALLS ON SAME DOMAIN HAVING SEPERATE SESSION DATA SETS)
-// MUST BE SET AFTER $ct_app_id, AND BEFORE session_start()
-session_name($ct_app_id);
-////
-// Session start
-session_start(); // New session start
+// Sessions config (MUST RUN AFTER setting $ct_app_id)
+require_once('app-lib/php/inline/init/session-init.php');
 
 
 // Nonce (CSRF attack protection) for user GET links (downloads etc) / admin login session logic WHEN NOT RUNNING AS CRON

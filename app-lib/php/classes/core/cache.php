@@ -834,11 +834,11 @@ var $ct_array1 = array();
              // WE USE THE DEFAULT CT_CONF (FROM THE PHP CONFIGURATION FILES)
              if ( !$passed_config || $admin_area_sec_level == 'high' || $user_reset ) {
              $passed_config = $default_ct_conf;
-    		 $ct_gen->log('conf_error', 'ct_conf RESET, it will be refreshed using the DEFAULT ct_conf');
+    		 $ct_gen->log('conf_error', 'CACHED ct_conf RESET, it will be refreshed using the DEFAULT ct_conf');
     		 }
              // All other conditions
              else {
-    		 $ct_gen->log('conf_error', 'ct_conf RESET, it will be restored using the LAST-KNOWN WORKING ct_conf');
+    		 $ct_gen->log('conf_error', 'CACHED ct_conf RESET, it will be restored using the LAST-KNOWN WORKING ct_conf');
              }
              
         

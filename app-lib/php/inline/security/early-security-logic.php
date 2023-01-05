@@ -73,11 +73,10 @@ foreach( $secured_cache_files as $secured_file ) {
 		
 		
 		// If we already loaded the newest modified file, delete any stale ones
-		if ( $newest_cached_pepper_var == 1 ) {
+		if ( $password_pepper ) {
 		unlink($base_dir . '/cache/secured/' . $secured_file);
 		}
 		else {
-		$newest_cached_pepper_var = 1;
 		$password_pepper = trim( file_get_contents($base_dir . '/cache/secured/' . $secured_file) );
 		}
 	
@@ -85,18 +84,18 @@ foreach( $secured_cache_files as $secured_file ) {
 	}
 	
 	
-	// Webhook secret key (for secure webhook communications)
-	elseif ( preg_match("/webhook_key_/i", $secured_file) ) {
+	// MASTER webhook secret key (for secure webhook communications)
+	elseif ( preg_match("/webhook_master_key_/i", $secured_file) ) {
 		
 		
 		// If we already loaded the newest modified file, delete any stale ones
-		if ( $newest_cached_webhook_key == 1 ) {
+		if ( $webhook_master_key ) {
 		unlink($base_dir . '/cache/secured/' . $secured_file);
 		}
 		else {
 			
 			// If an webhook secret key reset from authenticated admin is verified
-			if ( $_POST['reset_webhook_key'] == 1 && $ct_gen->pass_sec_check($_POST['admin_hashed_nonce'], 'reset_webhook_key') ) {
+			if ( $_POST['reset_webhook_master_key'] == 1 && $ct_gen->pass_sec_check($_POST['admin_hashed_nonce'], 'reset_webhook_master_key') ) {
 				
 			unlink($base_dir . '/cache/secured/' . $secured_file);
 			
@@ -106,12 +105,45 @@ foreach( $secured_cache_files as $secured_file ) {
 			
 			}
 			else {
-			$newest_cached_webhook_key = 1;
-			$webhook_key = trim( file_get_contents($base_dir . '/cache/secured/' . $secured_file) );
+			$webhook_master_key = trim( file_get_contents($base_dir . '/cache/secured/' . $secured_file) );
 			}
 		
 		}
 	
+	
+	}
+	
+	
+	// PER-SERVICE webhook secret keys (for secure webhook communications)
+	elseif ( preg_match("/_webhook_key_/i", $secured_file) ) {
+		
+     $webhook_plug = preg_replace("/_webhook_key_(.*)/i", "", $secured_file);
+     
+		
+		// If we already loaded the newest modified file, delete any stale ones
+		if ( $int_webhooks[$webhook_plug] ) {
+		unlink($base_dir . '/cache/secured/' . $secured_file);
+		}
+		else {
+			
+			// If an webhook secret key reset from authenticated admin is verified
+			if ( $_POST['reset_' . $webhook_plug . '_webhook_key'] == 1 && $ct_gen->pass_sec_check($_POST['admin_hashed_nonce'], 'reset_' . $webhook_plug . '_webhook_key') ) {
+				
+			unlink($base_dir . '/cache/secured/' . $secured_file);
+			
+			// Reload to avoid quirky page reloads later on
+			header("Location: " . $_SERVER['REQUEST_URI']);
+			exit;
+			
+			}
+			else {
+			$int_webhooks[$webhook_plug] = trim( file_get_contents($base_dir . '/cache/secured/' . $secured_file) );
+			}
+		
+		}
+	
+	
+	unset($webhook_plug); 
 	
 	}
 	
@@ -121,7 +153,7 @@ foreach( $secured_cache_files as $secured_file ) {
 		
 		
 		// If we already loaded the newest modified file, delete any stale ones
-		if ( $newest_cached_int_api_key == 1 ) {
+		if ( $int_api_key ) {
 		unlink($base_dir . '/cache/secured/' . $secured_file);
 		}
 		else {
@@ -137,7 +169,6 @@ foreach( $secured_cache_files as $secured_file ) {
 			
 			}
 			else {
-			$newest_cached_int_api_key = 1;
 			$int_api_key = trim( file_get_contents($base_dir . '/cache/secured/' . $secured_file) );
 			}
 		
@@ -152,11 +183,10 @@ foreach( $secured_cache_files as $secured_file ) {
 		
 		
 		// If we already loaded the newest modified file, delete any stale ones
-		if ( $newest_cached_admin_login == 1 ) {
+		if ( is_array($stored_admin_login) ) {
 		unlink($base_dir . '/cache/secured/' . $secured_file);
 		}
 		else {
-		$newest_cached_admin_login = 1;
 		$active_admin_login_path = $base_dir . '/cache/secured/' . $secured_file; // To easily delete, if we are resetting the login
 		$stored_admin_login = explode("||", trim( file_get_contents($active_admin_login_path) ) );
 		}
@@ -199,8 +229,8 @@ $secure_256bit_hash = $ct_gen->rand_hash(32); // 256-bit (32-byte) hash converte
 //////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
-// If no webhook key
-if ( !$webhook_key ) {
+// If no MASTER webhook key
+if ( !$webhook_master_key ) {
 	
 $secure_128bit_hash = $ct_gen->rand_hash(16); // 128-bit (16-byte) hash converted to hexadecimal, used for suffix
 $secure_256bit_hash = $ct_gen->rand_hash(32); // 256-bit (32-byte) hash converted to hexadecimal, used for var
@@ -216,8 +246,8 @@ $secure_256bit_hash = $ct_gen->rand_hash(32); // 256-bit (32-byte) hash converte
 	
 	}
 	else {
-	$ct_cache->save_file($base_dir . '/cache/secured/webhook_key_'.$secure_128bit_hash.'.dat', $secure_256bit_hash);
-	$webhook_key = $secure_256bit_hash;
+	$ct_cache->save_file($base_dir . '/cache/secured/webhook_master_key_'.$secure_128bit_hash.'.dat', $secure_256bit_hash);
+	$webhook_master_key = $secure_256bit_hash;
 	}
 
 

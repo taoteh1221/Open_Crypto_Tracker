@@ -615,6 +615,7 @@ $ct_conf['charts_alerts']['tracked_mrkts'] = array(
 /////////////////////////////////////////////////////////////////////////////
 
 
+
 // Activate any built-in included plugins / custom plugins you've created (that run from the /plugins/ directory)
 // SEE /DOCUMENTATION-ETC/PLUGINS-README.txt for creating your own custom plugins
 // ADD ANY NEW PLUGIN HERE BY USING THE FOLDER NAME THE NEW PLUGIN IS LOCATED IN
@@ -624,12 +625,23 @@ $ct_conf['charts_alerts']['tracked_mrkts'] = array(
 // PLUGIN CONFIGS are in the /plugins/ directory associated with that plugin
 // CHANGE 'off' to 'on' FOR THE PLUGIN YOU WANT ACTIVATED 
 $ct_conf['power']['activate_plugins'] = array(
+
             								  //'plugin-folder-name' => 'on', // (disabled example...your LOWERCASE plugin folder name in the folder: /plugins/)
+            								  
             								  'debt-tracker' => 'on',  // Track how much you pay in TOTAL interest MONTHLY on ALL your debt (credit cards, auto / personal / mortgage loan, etc)
+
             								  'recurring-reminder' => 'off',  // Recurring Reminder plugin (alert yourself every X days to do something)
+
             								  'price-target-alert' => 'off',  // Price target alert plugin (alert yourself when an asset's price target is reached)
+
             								  'address-balance-tracker' => 'off',  // Alerts for BTC / ETH / [SOL|SPL Token] / HNT address balance changes (when coins are sent / recieved)
+
+            								  'telegram-bot' => 'off', // WORK-IN-PROGRESS, NOT FUNTIONAL YET!
+
+            								  'on-chain-stats' => 'off', // WORK-IN-PROGRESS, NOT FUNTIONAL YET!
+
             								  );
+
 
 
 // NEWS FEED SETTINGS (ATOM / RSS formats supported)

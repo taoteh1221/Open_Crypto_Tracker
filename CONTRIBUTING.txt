@@ -52,7 +52,7 @@ CONTRIBUTION GUIDELINES (FOR DEVELOPERS):
 - ALL code you include in your contribution MUST BE COMPATIBLE WITH THE GPLv3 LICENSE that this app is released under. If you include any code licensed by somebody other than yourself, you MUST leave attribution for them in your contribution. Also ALWAYS include the open source license the code was ORIGINALLY released under (EVEN IF IT IS THE SAME LICENSE THIS APP IS RELEASED UNDER).
 
 
--DEV NOTES: This app was developed with bluefish on ubuntu (*NOT* the un-polished windows version) set to "4 spaces" as a tab indentation (and enabling indentation of selected text). THE AMOUNT OF INDENTED SPACING IN FILES #CHANGES AUTOMATICALLY# WHEN "BLUEFISH => PREFERENCES => INITIAL DOCUMENT SETTINGS => TAB WIDTH" IS CHANGED, JUST SO YOU KNOW WHY THE NESTED INDENTS MAY NOT LOOK GOOD ON YOUR SETUP.
+-DEV NOTES: This app was developed with bluefish on ubuntu (*NOT* the un-polished windows version) set to "5 spaces" as a tab indentation (and enabling indentation of selected text). THE AMOUNT OF INDENTED SPACING IN FILES #CHANGES AUTOMATICALLY# WHEN "BLUEFISH => PREFERENCES => INITIAL DOCUMENT SETTINGS => TAB WIDTH" IS CHANGED, JUST SO YOU KNOW WHY THE NESTED INDENTS MAY NOT LOOK GOOD ON YOUR SETUP.
 
 
 - Thank you in advance for any considerations by you, twords contributing to this app's codebase. It's much appreciated, happy coding! :)

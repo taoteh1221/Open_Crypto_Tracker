@@ -733,23 +733,31 @@ var $ct_array = array();
    // Install id (10 character hash, based off base url)
    function id() {
       
-   global $app_edition, $base_url, $base_dir, $ct_app_id;
+   global $runtime_mode, $app_edition, $base_url, $base_dir, $ct_app_id;
    
+      // ALWAYS BEGINS WITH 'PHPSESS_', SO SE CAN USE IT AS A VAR NAME IN PHP (MUST START WITH A LETTER)
       // ALREADY SET
       if ( isset($ct_app_id) ) {
       return $ct_app_id;
       }
-      // ALWAYS BEGINS WITH 'PHPSESS_', SO SE CAN USE IT AS A VAR NAME IN PHP (MUST START WITH A LETTER)
-      // DESKTOP EDITION
+      // DIFFERENT APP ID FOR INTERNAL WEBHOOK / INTERNAL API RUNTIME SESSION NAMES, AS WE USE SAMESITE=STRICT COOKIES FOR
+      // PHP SESSION COOKIE PARAMS, WHICH FOR SOME REASON CAUSES IN-BROWSER SESSION COOKIE RESETS EVERY RUNTIME FROM /api/ OR /hook/
+      // (OTHERWISE WORKS FINE ACCESSING FILE URLS DIRECTLY *WITHOUT* THE RewriteRules /api/ OR /hook/)
+      // (THIS KEEPS THE OTHER RUNTIME SESSIONS SEPERATED FROM THESE TWO, SO NO FORCED ADMIN LOGOUTS OR OTHER MISSING SESSION
+      // DATA ISSUES WITH THE OTHER RUNTIMES, AFTER ACCESSING /api/ OR /hook/ ENDPOINTS WITH JAVASCRIPT OR DIRECTLY IN BROWSER)
+      elseif ( $runtime_mode == 'webhook' || $runtime_mode == 'int_api' ) {
+      return 'PHPSESS_'.substr( md5('seperate_session') , 0, 7); // First 7 characters;
+      }
+      // DESKTOP EDITION (when not running the above condition of webhook / internal api runtimes)
       elseif ( $app_edition == 'desktop' ) {
       return 'PHPSESS_'.substr( md5('desktop') , 0, 10); // First 10 characters;
       }
-      // NOT CRON
-      elseif ( $runtime_mode != 'cron' && trim($base_url) != '' ) {
+      // EVERYTHING ELSE THAT'S *NOT* CRON
+      elseif ( $runtime_mode != 'cron' && isset($base_url) && trim($base_url) != '' ) {
       return 'PHPSESS_'.substr( md5($base_url) , 0, 10); // First 10 characters
       }
       // CRON
-      elseif ( $runtime_mode == 'cron' && trim($base_dir) != '' ) {
+      elseif ( $runtime_mode == 'cron' && isset($base_dir) && trim($base_dir) != '' ) {
       return 'PHPSESS_'.substr( md5($base_dir) , 0, 10); // First 10 characters
       }
       // SET FAILED
@@ -2445,7 +2453,7 @@ var $ct_array = array();
         
         
    // Strip any URI component out
-   // COVER ALL POSSIBLE PATHS IN CORE ONLY (NOT PLUGINS DIR)
+   // COVER ALL POSSIBLE PATHS FOR CORE ONLY (NOT PLUGINS DIR)
    $set_url = preg_replace("/\/app-lib\/php(.*)/i", "/", $set_url);
    $set_url = preg_replace("/\/templates\/interface(.*)/i", "/", $set_url);
 

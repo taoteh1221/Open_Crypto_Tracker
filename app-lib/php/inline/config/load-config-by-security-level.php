@@ -79,8 +79,44 @@ foreach ( $ct_conf['power']['activate_plugins'] as $key => $val ) {
 			$activated_plugins['ui'][$this_plug] = $base_dir . '/plugins/' . $this_plug . '/plug-lib/plug-init.php';
 			ksort($activated_plugins['ui']); // Alphabetical order (for admin UI)
 			}
+			
+			// Add to activated webhook plugins
+			if ( $plug_conf[$this_plug]['runtime_mode'] == 'webhook' || $plug_conf[$this_plug]['runtime_mode'] == 'all' ) {
+			     
+			$activated_plugins['webhook'][$this_plug] = $base_dir . '/plugins/' . $this_plug . '/plug-lib/plug-init.php';
+
+			ksort($activated_plugins['webhook']); // Alphabetical order (for admin UI)
+
+        	
+             	     // If we don't have webhook keys set yet for this webhook plugin
+                    if ( !isset($int_webhooks[$this_plug]) ) {
+               	
+                    $secure_128bit_hash = $ct_gen->rand_hash(16); // 128-bit (16-byte) hash converted to hexadecimal, used for suffix
+                    $secure_256bit_hash = $ct_gen->rand_hash(32); // 256-bit (32-byte) hash converted to hexadecimal, used for var
+                    	
+                    	
+                    	// Halt the process if an issue is detected safely creating a random hash
+                    	if ( $secure_128bit_hash == false || $secure_256bit_hash == false ) {
+                    		
+                    	$ct_gen->log(
+                    				'security_error',
+                    				'Cryptographically secure pseudo-random bytes could not be generated for webhook key (in secured cache storage), webhook key creation aborted to preserve security'
+                    				);
+                    	
+                    	}
+                    	else {
+                    	$ct_cache->save_file($base_dir . '/cache/secured/'.$this_plug.'_webhook_key_'.$secure_128bit_hash.'.dat', $secure_256bit_hash);
+                    	$int_webhooks[$this_plug] = $secure_256bit_hash;
+                    	}
+                    	
+                       	
+                    }
+                    
+
+			}
 		
-		$this_plug = null; // Reset
+		
+		unset($this_plug);  // Reset
 		
 		}
 		// If plugin has been removed AND we are running the NORMAL SECURITY admin pages, then remove any ct_conf entry

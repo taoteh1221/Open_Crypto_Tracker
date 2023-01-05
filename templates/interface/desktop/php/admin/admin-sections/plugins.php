@@ -43,6 +43,23 @@
 	</ul>
 	</div>
 	
+    <div class='bitcoin' style='padding: 10px;'>Webhook Plugins<br />
+    <ul>
+	<?php
+	if ( !isset($activated_plugins['webhook']) ) {
+	echo '<li><span class="black">None</span></li>';
+	}
+	else {
+		foreach ( $activated_plugins['webhook'] as $plugin_key => $unused ) {
+    	?>
+        <li><a href='admin.php?iframe=<?=$ct_gen->admin_hashed_nonce('iframe_' . $plugin_key)?>&plugin=<?=$plugin_key?>'><?=$plugin_key?></a></li>
+    	<?php
+    	}
+	}
+	?>
+	</ul>
+	</div>
+	
 	</fieldset>
 				    
 

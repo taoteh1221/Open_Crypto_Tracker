@@ -5982,11 +5982,15 @@ v6.00.2 AND HIGHER RESETS LIGHT (TIME PERIOD) CHARTS FROM ARCHIVAL DATA, ONE-TIM
 -------------------------------------------------------------------
 6.00.16:
 
+-BUG FIX: Fixed issue with Server Editions resetting browser's PHP session id (forcing admin logout), when using javascript to get API data from INTERNAL endpoints /api/ AND /hook/
+
 -BUG FIX: Fixed bug introduced in v6.00.15 refactoring, related to timely re-creation of MAIN .htaccess / user.ini files upon app config revisions
 
 -New setting on admin Reset page, to reset the ENTIRE Admin Config (back to the hard-coded defaults in the PHP configuration files)
 
--Added full webhook capability via the plugins system (see /DOCUMENTATION-ETC/PLUGINS-README.txt)
+-New bundled plugin 'telegram-bot' (WORK-IN-PROGRESS, NON-FUNCTIONAL...will let you setup querying this app for data in telegram chat)
+
+-Added FULL webhook capability (FINALLY!) via the plugins system (see /DOCUMENTATION-ETC/PLUGINS-README.txt)
 
 -Miscellaneous optimizations / user experience improvements
 

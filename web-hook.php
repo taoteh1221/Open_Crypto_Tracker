@@ -19,64 +19,46 @@ header('Access-Control-Allow-Headers: *'); // Allow ALL headers
 // Allow access from ANY SERVER (AS THIS IS A WEBHOOK ACCESS POINT)
 header('Access-Control-Allow-Origin: *');
 
+// Seems useful for javascript-based API connects: 
+// https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Access-Control-Allow-Credentials
+header('Access-Control-Allow-Credentials: true'); 
+
 
 // Webhook security check (hash must match our concatenated [service name + webhook key]'s hash, or we abort runtime)
 // Using the hash of the concatenated [service name + webhook key] keeps our webhook key a secret, that only we know (for security)!
-$webhook_hash = explode('/', $_GET['webhook_hash']); // Remove any data after the webhook hash
+$webhook_hash = preg_replace('#\/[^/]*$#', '', $_GET['webhook_hash']); // Remove any (forwardslash-seperated) data after the webhook hash
+        
 
-
-
-///////////////////////////////////////////////////////////////////////////////
-// Telegram
-elseif ( $webhook_hash[0] == $ct_gen->nonce_digest('telegram', $webhook_key) ) {
-
-// https://core.telegram.org/bots/api
-
-// https://core.telegram.org/bots/api#making-requests
-
-// https://api.telegram.org/bot{my_bot_token}/setWebhook?url={url_to_send_updates_to}
-
-// https://api.telegram.org/bot{my_bot_token}/deleteWebhook
-
-// https://api.telegram.org/bot{my_bot_token}/getWebhookInfo
-
-
-}
-///////////////////////////////////////////////////////////////////////////////
-
-
-
-///////////////////////////////////////////////////////////////////////////////
-// Test only
-elseif ( $webhook_hash[0] == $ct_gen->nonce_digest('test-only', $webhook_key) ) {
-
-$test_params = array('api_key' => $int_api_key);
-						
-$test_data = @$ct_cache->ext_data('params', $test_params, 0, $base_url . 'api/market_conversion/eur/kraken-btc-usd,coinbase-dai-usd,coinbase-eth-usd', 2);
-
-// Already json-encoded
-echo $test_data;
-
-}
-///////////////////////////////////////////////////////////////////////////////
-
-
-
-///////////////////////////////////////////////////////////////////////////////
-// No service
-else {
-$result = array('error' => "No service match for webhook: " . $webhook_hash[0]);
-}
-///////////////////////////////////////////////////////////////////////////////
-
-
-
-// Return any results in json format
-if ( isset($result) ) {
+if ( !isset($activated_plugins['webhook']) ) {
+$result = array('error' => "No service match for webhook: " . $webhook_hash);
 echo json_encode($result, JSON_PRETTY_PRINT);
 }
 
-//echo $ct_gen->nonce_digest('test-only', $webhook_key) . ' -- ';
+        
+foreach ( $activated_plugins['webhook'] as $plugin_key => $plugin_init ) {
+        		
+$this_plug = $plugin_key;
+        	
+    if ( file_exists($plugin_init) && isset($int_webhooks[$this_plug]) && trim($int_webhooks[$this_plug]) != '' && $webhook_hash == $ct_gen->nonce_digest($this_plug, $int_webhooks[$this_plug] . $webhook_master_key) ) {
+        	
+         // This plugin's default class (only if the file exists)
+         if ( file_exists($base_dir . '/plugins/'.$this_plug.'/plug-lib/plug-class.php') ) {
+         include($base_dir . '/plugins/'.$this_plug.'/plug-lib/plug-class.php');
+         }
+        	
+    // This plugin's plug-init.php file (runs the plugin)
+    include($plugin_init);
+        	
+    }
+    else {
+    $result = array('error' => "No service match for webhook: " . $webhook_hash);
+    echo json_encode($result, JSON_PRETTY_PRINT);
+    }
+        	
+// Reset $this_plug at end of loop
+unset($this_plug); 
+        
+}
 
 
 // Log errors / debugging, send notifications
