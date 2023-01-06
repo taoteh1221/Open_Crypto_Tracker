@@ -14,6 +14,9 @@
 
 $int_api_base_endpoint = ( $app_edition == 'server' ? 'api/' : 'internal-api.php?data_set=' );
 
+$int_webhook_base_endpoint = ( $app_edition == 'server' ? 'hook/' : 'web-hook.php?webhook_params=' );
+
+
 $test_params = array('api_key' => $int_api_key);
 
 
@@ -24,7 +27,7 @@ elseif ( $webhook_params[0] == 'telegram' ) {
 echo $plug_class[$this_plug]->telegram_data($test_params);
 }
 elseif ( !isset($webhook_params[0]) ) {
-$result = array('error' => "No service specified, please include AT LEAST ONE forwardslash-delimited parameter designating the service being used (telegram / discord / etc) like so: /hook/" . $webhook_key . "/telegram/PARAM2/PARAM3/ETC");
+$result = array('error' => "No service specified, please include AT LEAST ONE forwardslash-delimited parameter designating the service being used (telegram / discord / etc) like so: /" . $int_webhook_base_endpoint . $webhook_key . "/telegram/PARAM2/PARAM3/ETC");
 echo json_encode($result, JSON_PRETTY_PRINT);
 }
 else {

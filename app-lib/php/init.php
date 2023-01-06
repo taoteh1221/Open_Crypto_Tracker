@@ -30,13 +30,10 @@ require_once('app-lib/php/inline/init/primary-init.php');
 // Config init logic (#MUST# RUN IMMEADIATELY #AFTER# primary-init.php)
 require_once('app-lib/php/inline/init/config-init.php');
 
-// Misc dynamic interface vars (MUST RUN AFTER config-init.php)
-require_once('app-lib/php/inline/init/interface-init.php');
+// Inits based on runtime type (MUST RUN AFTER config-init.php)
+require_once('app-lib/php/inline/init/runtime-type-init.php');
 
-// Misc cron logic (MUST RUN AFTER config-init.php)
-require_once('app-lib/php/inline/init/cron-init.php');
-
-// Final configuration checks (MUST RUN AFTER runtime-specific inits run checks / clear stale data)
+// Final configuration checks (MUST RUN AFTER runtime-type inits run checks / clear stale data)
 require_once('app-lib/php/inline/config/final-preflight-config-checks.php');
 
 // Fast runtimes, MUST run AFTER final-preflight-config-checks.php, AND AS EARLY AS POSSIBLE

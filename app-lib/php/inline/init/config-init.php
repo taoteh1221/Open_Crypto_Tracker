@@ -9,23 +9,6 @@
 //////////////////////////////////////////////////////////////////
 
 
-// Toggle to set the admin interface security level, if 'opt_admin_sec' from authenticated admin is verified
-// (#MUST# BE SET BEFORE load-config-by-security-level.php)
-if ( isset($_POST['opt_admin_sec']) && $ct_gen->pass_sec_check($_POST['admin_hashed_nonce'], 'toggle_admin_security') ) {
-$admin_area_sec_level = $_POST['opt_admin_sec'];
-$ct_cache->save_file($base_dir . '/cache/vars/admin_area_sec_level.dat', $_POST['opt_admin_sec']);
-}
-// If not updating, and cached var already exists
-elseif ( file_exists($base_dir . '/cache/vars/admin_area_sec_level.dat') ) {
-$admin_area_sec_level = trim( file_get_contents($base_dir . '/cache/vars/admin_area_sec_level.dat') );
-}
-// Else, default to high admin security
-else {
-$admin_area_sec_level = 'high';
-$ct_cache->save_file($base_dir . '/cache/vars/admin_area_sec_level.dat', $admin_area_sec_level);
-}
-
-
 // If a ct_conf reset from authenticated admin is verified, refresh CACHED ct_conf with the DEFAULT ct_conf
 // (!!MUST RUN *BEFORE* load-config-by-security-level.php ADDS PLUGIN CONFIGS TO $default_ct_conf AND $ct_conf!!)
 if ( $_POST['reset_ct_conf'] == 1 && $ct_gen->pass_sec_check($_POST['admin_hashed_nonce'], 'reset_ct_conf') ) {
@@ -82,14 +65,14 @@ $max_exec_time = 250; // 250 seconds default
 set_time_limit($max_exec_time); // Doc suggest this may be more reliable than ini_set max_exec_time?
 
 
-// htaccess login...SET BEFORE system checks
+// htaccess login...SET BEFORE final-preflight-security-checks.php
 $interface_login_array = explode("||", $ct_conf['sec']['interface_login']);
 $htaccess_username = $interface_login_array[0];
 $htaccess_password = $interface_login_array[1];
 
 
 // User agent (MUST BE SET VERY EARLY [AFTER primary-init / CONFIG-AUTO-ADJUST], 
-// FOR ANY API CALLS WHERE USER AGENT IS REQUIRED BY THE API SERVER)
+// FOR ANY CURL-BASED API CALLS WHERE USER AGENT IS REQUIRED BY THE API SERVER)
 if ( trim($ct_conf['dev']['override_curl_user_agent']) != '' ) {
 $curl_user_agent = $ct_conf['dev']['override_curl_user_agent'];  // Custom user agent
 }
