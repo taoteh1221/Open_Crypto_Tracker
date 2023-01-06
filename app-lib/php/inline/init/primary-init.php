@@ -91,7 +91,7 @@ require_once('app-lib/php/inline/other/cache-directories.php');
 // Basic system checks (MUST RUN *FIRST* IN ESSENTIAL INIT LOGIC *AFTER* CACHE DIRECTORIES [FOR ERROR LOGGING])
 require_once('app-lib/php/inline/system/system-checks.php');
 
-// Logouts, protection from different types of attacks
+// Early security logic
 // #MUST# run BEFORE any heavy init logic (for good security), #AFTER# directory creation (for error logging), and AFTER system checks
 require_once('app-lib/php/inline/security/early-security-logic.php');
 

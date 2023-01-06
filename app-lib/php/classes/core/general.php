@@ -2467,7 +2467,7 @@ var $ct_array = array();
 
 
         // Check detected base URL security
-        // (checked once every 25 minutes maximum [VIA NON-CRON RUNTIMES in system-config.php], OR FORCE-CHECKED IN interface-init.php DURING RE-CACHES)
+        // (checked once every 25 minutes maximum [VIA NON-CRON RUNTIMES in system-config.php], OR FORCE-CHECKED IN runtime-type-init.php DURING RE-CACHES)
         // https://expressionengine.com/blog/http-host-and-server-name-security-issues (HOSTNAME HEADER CAN BE SPOOFED FROM CLIENT)
         if (
         $ct_cache->update_cache($base_dir . '/cache/events/check-domain-security.dat', 25) == true && isset($set_url) && trim($set_url) != '' && $SecurityCheck != false
