@@ -12,7 +12,7 @@ exit;
 
 
 // Application version
-$app_version = '6.00.15';  // 2022/DECEMBER/31ST
+$app_version = '6.00.16';  // 2023/JANUARY/2ND
 
 
 // #PHP# ERROR LOGGING
@@ -30,11 +30,14 @@ require_once('app-lib/php/inline/init/primary-init.php');
 // Config init logic (#MUST# RUN IMMEADIATELY #AFTER# primary-init.php)
 require_once('app-lib/php/inline/init/config-init.php');
 
-// Fast runtimes, MUST run AFTER config-init.php, AND AS EARLY AS POSSIBLE
-require_once('app-lib/php/inline/other/fast-runtimes.php');
+// Inits based on runtime type (MUST RUN AFTER config-init.php)
+require_once('app-lib/php/inline/init/runtime-type-init.php');
 
-// SECURED cache files management (MUST RUN AFTER system checks)
-require_once('app-lib/php/inline/security/secure-cache-files.php');
+// Final configuration checks (MUST RUN AFTER runtime-type inits run checks / clear stale data)
+require_once('app-lib/php/inline/config/final-preflight-config-checks.php');
+
+// Fast runtimes, MUST run AFTER final-preflight-config-checks.php, AND AS EARLY AS POSSIBLE
+require_once('app-lib/php/inline/other/fast-runtimes.php');
 
 // Scheduled maintenance  (MUST RUN AFTER EVERYTHING IN INIT.PHP, #EXCEPT# DEBUGGING)
 require_once('app-lib/php/inline/maintenance/scheduled-maintenance.php');

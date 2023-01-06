@@ -364,54 +364,60 @@ $(document).ready(function() {
     
 //console.log('admin iframe "<?=$_GET['section']?>" loaded.'); // DEBUGGING
     
-<?php
-
-// If we need to refresh an admin iframe, to show the updated data
-if ( $_GET['refresh'] ) {
+    function reload_iframes() {
     
-    
-    if ( $_GET['refresh'] == 'all' ) {
-    
-    $refresh_admin = array(
-                            'iframe_comms',
-                            'iframe_ext_api',
-                            'iframe_general',
-                            'iframe_portfolio_assets',
-                            'iframe_charts_alerts',
-                            'iframe_plugins',
-                            'iframe_power_user',
-                            'iframe_text_gateways',
-                            'iframe_proxy',
-                            'iframe_developer',
-                            'iframe_int_api',
-                            'iframe_webhook',
-                            'iframe_system_stats',
-                            'iframe_access_stats',
-                            'iframe_logs',
-                            'iframe_backup_restore',
-                            'iframe_reset',
-                           );
-    
-    }
-    else {
-    $refresh_admin = explode(',', $_GET['refresh']);
-    }
-    
-
-    foreach ( $refresh_admin as $refresh ) {
-
-        if ( isset($refresh) && trim($refresh) != '' ) {
-        ?>
-        parent.document.getElementById('<?=$refresh?>').contentWindow.location.reload(true);
-        <?php
+    <?php
+    // If we need to refresh an admin iframe, to show the updated data
+    if ( $_GET['refresh'] ) {
+        
+        
+        if ( $_GET['refresh'] == 'all' ) {
+        
+        $refresh_admin = array(
+                                'iframe_comms',
+                                'iframe_ext_api',
+                                'iframe_general',
+                                'iframe_portfolio_assets',
+                                'iframe_charts_alerts',
+                                'iframe_plugins',
+                                'iframe_power_user',
+                                'iframe_text_gateways',
+                                'iframe_proxy',
+                                'iframe_developer',
+                                'iframe_int_api',
+                                'iframe_webhook',
+                                'iframe_system_stats',
+                                'iframe_access_stats',
+                                'iframe_logs',
+                                'iframe_backup_restore',
+                                'iframe_reset',
+                               );
+                               
         }
+        else {
+        $refresh_admin = explode(',', $_GET['refresh']);
+        }
+        
+    
+        foreach ( $refresh_admin as $refresh ) {
+    
+            // DONT INCLUDE CURRENT PAGE (OR IT WILL *ENDLESS LOOP* RELOAD IT) 
+            if ( isset($refresh) && trim($refresh) != '' && $refresh != 'iframe_' . $_GET['section'] ) {
+            ?>
+            parent.document.getElementById('<?=$refresh?>').contentWindow.location.reload(true);
+            <?php
+            }
+        
+        }
+        
     
     }
+    ?>
     
+    }
 
-}
-
-?>
+// Reload all flagged iframes after 3.5 seconds (to give any newly-revised ct_conf time to re-cache)
+setTimeout(reload_iframes, 3500); 
 
 });
 

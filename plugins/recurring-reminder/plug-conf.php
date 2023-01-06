@@ -19,7 +19,7 @@
 
 
 // What runtime modes this plugin should run during (MANDATORY)
-$plug_conf[$this_plug]['runtime_mode'] = 'cron'; // 'cron', 'ui', 'all'
+$plug_conf[$this_plug]['runtime_mode'] = 'cron'; // 'cron', 'webhook', 'ui', 'all'
 
 
 // If running in the UI, set the preferred location it should show in
@@ -27,7 +27,7 @@ $plug_conf[$this_plug]['ui_location'] = 'tools'; // 'tools', 'more_stats' (defau
 
 
 // If running in the UI, set the preferred plugin name that should show for end-users
-$plug_conf[$this_plug]['ui_name'] = 'My Plugin Name'; // (defaults to $this_plug if not set)
+$plug_conf[$this_plug]['ui_name'] = 'Recurring Reminder'; // (defaults to $this_plug if not set)
 
 
 // Enable / disable "do not disturb" time (#24 HOUR FORMAT#, HOURS / MINUTES ONLY, SET EITHER TO BLANK '' TO DISABLE)

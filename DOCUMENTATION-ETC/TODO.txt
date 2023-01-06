@@ -15,7 +15,7 @@ ALWAYS do everything in the bugs / tests / ux / qa / other section of this list 
 Stick with small infrastructure changes, and breaking up large changes into small milestones, then plenty of time is spent on UX / testing / logging / debugging.
 
 
-Always set bluefish to "4 spaces" as a tab indentation, and enabling indentation of selected text. THE AMOUNT OF INDENTED SPACING IN FILES #CHANGES AUTOMATICALLY# WHEN "BLUEFISH => PREFERENCES => INITIAL DOCUMENT SETTINGS => TAB WIDTH" IS CHANGED, SO BE CAREFUL WHEN ADJUSTING!!
+Always set bluefish to "5 spaces" as a tab indentation, and enabling indentation of selected text. THE AMOUNT OF INDENTED SPACING IN FILES #CHANGES AUTOMATICALLY# WHEN "BLUEFISH => PREFERENCES => INITIAL DOCUMENT SETTINGS => TAB WIDTH" IS CHANGED, SO BE CAREFUL WHEN ADJUSTING!!
 
 
 Post on hive, telegram, discord, Twitter, Facebook (and r/CryptoMarkets and r/CryptoCurrency on MAJOR RELEASES) whenever there is a new release of the app.
@@ -44,6 +44,12 @@ BUGS / TESTS / UX / QA / OTHER SECTION
 /////////////////////////////////////////////////////// 
 
 
+LOCAL JAVASCRIPT STORAGE keeps deleting content in my trade notes textarea, find out why
+
+
+Purge stale data in cookies / post submission with coin portfolio data, in runtime-type-init.php (if the coin market no longer is in the config, like we already do there for feeds / charts)
+
+
 Convert all javascript functions into classes, for cleaner code:
 https://javascript.info/class
 
@@ -57,7 +63,7 @@ Add more Jupiter agg markets to Solana coins in demo config, and in price target
 Add openserum markets support.
 
 
-$ct_conf = $ct_gen->refresh_cached_ct_conf($ct_conf, 'upgrade_checks'); at the end of plugins-config-check.php is throwing this error (so it's commented-out for now):
+$ct_conf = $ct_cache->refresh_cached_ct_conf($ct_conf, true); at the end of load-config-by-security-level.php is throwing this error (so it's commented-out for now):
 [2022-08-03 03:30:40] ui => conf: updated ct_conf data could not be saved (to secured cache storage) in json format;  
 [2022-08-03 03:30:40] ui => conf: ct_conf data could not be restored from last-known working config; 
 
@@ -147,6 +153,18 @@ Add twilio.com and clicksend.com mobile text messaging support
 https://zksync.io/api/v0.1.html (KEEP AN EYE OUT FOR V2 DOCS AS WELL)
 
 
+// https://core.telegram.org/bots/api
+
+// https://core.telegram.org/bots/api#making-requests
+
+// https://api.telegram.org/bot{my_bot_token}/setWebhook?url={url_to_send_updates_to}
+
+// https://api.telegram.org/bot{my_bot_token}/deleteWebhook
+
+// https://api.telegram.org/bot{my_bot_token}/getWebhookInfo
+
+
+
 ///////////////////////////////////////////////////////
 FEATURES / NEW INFRASTRUCTURE SECTION
 ///////////////////////////////////////////////////////
@@ -187,9 +205,6 @@ On admin config tabs, add logic to have onchange update a tracking value FOR THA
 Once an admin interface is fully built out, permanently switch out the app config upgrade logic for our new logic (already built, just enable in secured cache logic).
 
 
-On admin config reset tab, have "reset app config to default settings" button (with js confirm alert when pushed) that refreshes ALL the cached ct_conf from config.php settings.
-
-
 Admin import / export of settings (consider security implications CAREFULLY...include an optional / mandatory checkbox to encrypt to zip file with our new zip encryption feature).
 
 
@@ -222,7 +237,7 @@ Add Google or Microsoft translate API as options to translate the english defaul
 For the language translation cache (to avoid asking API for a translation if we already did once), include a hash digest of the original English text used to translate. That way if the hash changes for the current English text used (English is never translated as it's the default), we know we need to re-translate with a fresh API call (instead of using cached data), and also save the new hash digest of the current English text as well.
 
 
-Each webhook should be re-settable (have it's own unique random hash), WITHOUT HAVING TO RESET THE MASTER WEBHOOK KEY. That said, we should still keep the master key, so all webhooks can be reset instantly with it (for UX / security)
+Add additional ability to do telegram / discord webhooks in the new "crypto-data-bot" plugin, to query asset prices at different exchanges through telegram chat with the chat bot. Example: "/price btc-usd-coinbase"
 
 
 For the in-development 'on-chain-stats' plugin:
@@ -338,15 +353,6 @@ Create a power user config option to toggle between plain text and HTML email. W
 
 
 Fully include all leverage in all portfolio summaries, with "(X% leverage)" next to each summary.
-
-
-Add additional ability to do telegram webhooks, to query asset prices at different exchanges through telegram chat with the chat bot. Example: "/price ETH/USDT @ Binance"
-
-
-Documentation for Webhook features.
-
-
-Add webhook keys on admin page.
 
 
 Do a gains / losses bar chart for the gains / losses summary (tooltip, like balance stats chart).

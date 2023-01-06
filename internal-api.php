@@ -19,6 +19,10 @@ header('Access-Control-Allow-Headers: *'); // Allow ALL headers
 // Allow access from ANY SERVER (AS THIS IS AN API ACCESS POINT)
 header('Access-Control-Allow-Origin: *');
 
+// Seems useful for javascript-based API connects: 
+// https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Access-Control-Allow-Credentials
+header('Access-Control-Allow-Credentials: true'); 
+
 
 // Ip address information
 $store_ip = preg_replace("/\./", "_", $remote_ip);

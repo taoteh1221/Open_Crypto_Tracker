@@ -619,6 +619,7 @@ $ct_conf['charts_alerts']['tracked_mrkts'] = array(
 /////////////////////////////////////////////////////////////////////////////
 
 
+
 // Activate any built-in included plugins / custom plugins you've created (that run from the /plugins/ directory)
 // SEE /DOCUMENTATION-ETC/PLUGINS-README.txt for creating your own custom plugins
 // ADD ANY NEW PLUGIN HERE BY USING THE FOLDER NAME THE NEW PLUGIN IS LOCATED IN
@@ -628,12 +629,23 @@ $ct_conf['charts_alerts']['tracked_mrkts'] = array(
 // PLUGIN CONFIGS are in the /plugins/ directory associated with that plugin
 // CHANGE 'off' to 'on' FOR THE PLUGIN YOU WANT ACTIVATED 
 $ct_conf['power']['activate_plugins'] = array(
+
             								  //'plugin-folder-name' => 'on', // (disabled example...your LOWERCASE plugin folder name in the folder: /plugins/)
+            								  
             								  'debt-tracker' => 'on',  // Track how much you pay in TOTAL interest MONTHLY on ALL your debt (credit cards, auto / personal / mortgage loan, etc)
+
             								  'recurring-reminder' => 'off',  // Recurring Reminder plugin (alert yourself every X days to do something)
+
             								  'price-target-alert' => 'off',  // Price target alert plugin (alert yourself when an asset's price target is reached)
+
             								  'address-balance-tracker' => 'off',  // Alerts for BTC / ETH / [SOL|SPL Token] / HNT address balance changes (when coins are sent / recieved)
+
+            								  'crypto-data-bot' => 'off', // WORK-IN-PROGRESS, NOT FUNTIONAL YET!
+
+            								  'on-chain-stats' => 'off', // WORK-IN-PROGRESS, NOT FUNTIONAL YET!
+
             								  );
+
 
 
 // NEWS FEED SETTINGS (ATOM / RSS formats supported)
@@ -701,8 +713,8 @@ $ct_conf['power']['light_chart_day_intervals'] = array(14, 30, 90, 180, 365, 730
 // (default = 14, 30, 90, 180, 365, 730, 1460)
 ////
 // The maximum number of data points allowed in each light chart 
-// (saves on disk storage / speeds up chart loading times SIGNIFICANTLY #WITH A NUMBER OF 750 OR LESS#)
-$ct_conf['power']['light_chart_data_points_max'] = 750; // (default = 750), ADJUST WITH CARE!!!
+// (saves on disk storage / speeds up chart loading times SIGNIFICANTLY #WITH A NUMBER OF 625 OR LESS#)
+$ct_conf['power']['light_chart_data_points_max'] = 625; // (default = 625), ADJUST WITH CARE!!!
 
 
 // Default settings for Asset Performance chart height / menu size (in the 'View More Stats' modal window, linked at bottom of Portfolio page)
@@ -997,7 +1009,7 @@ $ct_conf['power']['mining_calculators'] = array(
 									'measure_semantic' => 'difficulty',  // (difficulty, nethashrate, etc)
 									'block_reward' => 6.25, // Mining block reward (OPTIONAL, can be made dynamic with code, like below)
 									// EVERYTHING BELOW #MUST BE DYNAMICALLY# UPDATED IN:
-									// app-lib/php/inline/calculators/mining/pow/dynamic-settings.php (so we can run a cached config)
+									// app-lib/php/inline/coin-mining-staking/pow/dynamic-settings.php (so we can run a cached config)
 									'mining_time_formula' => 'PLACEHOLDER', // Mining time formula calculation (REQUIRED)
 									'height' => 'PLACEHOLDER', // Block height (OPTIONAL)
 									'difficulty' => 'PLACEHOLDER', // Mining network difficulty (OPTIONAL)

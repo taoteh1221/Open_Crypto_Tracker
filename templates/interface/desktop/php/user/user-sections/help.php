@@ -1062,10 +1062,22 @@ $plug_conf[$this_plug]['SETTING_NAME_HERE'] = array('mysetting1', 'mysetting2');
 
 
 
-<span class='blue'>9)</span> The "plug-conf.php" PLUGIN CONFIG SETTING 'runtime_mode' IS MANDATORY, to determine WHEN the plugin should run (during cron jobs / user interface loading / all runtimes / etc).
+<span class='blue'>9)</span> The "plug-conf.php" PLUGIN CONFIG SETTING 'runtime_mode' IS MANDATORY, to determine WHEN the plugin should run (as a webhook / during cron jobs / user interface loading / all runtimes / etc).
 <br /><br />
 
-<pre class='rounded' style='display: inline-block;<?=( $ct_gen->is_msie() == false ? ' padding-top: 1em !important;' : '' )?>'><code class='hide-x-scroll less' style='white-space: nowrap; width: auto; display: inline-block;'>$plug_conf[$this_plug]['runtime_mode'] = 'cron'; // 'cron', 'ui', 'all'</code></pre>
+<pre class='rounded' style='display: inline-block;<?=( $ct_gen->is_msie() == false ? ' padding-top: 1em !important;' : '' )?>'><code class='hide-x-scroll less' style='white-space: nowrap; width: auto; display: inline-block;'>$plug_conf[$this_plug]['runtime_mode'] = 'cron'; // 'cron', 'webhook', 'ui', 'all'</code></pre>
+<br /><br />
+
+When 'runtime_mode' is set to 'webhook', you can pass ADDITIONAL parameters (forwardslash-delimited) *AFTER* THE WEBHOOK KEY in the webhook URL:
+<br /><br />
+
+https://mydomain.com/hook/WEBHOOK_KEY/PARAM1/PARAM2/PARAM3/ETC
+<br /><br />
+
+These parameters are then automatically put into a PHP array named: $webhook_params
+<br /><br />
+
+The webhook key is also available, in the auto-created variable: $webhook_key
 <br /><br /><br />
 
 

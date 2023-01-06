@@ -632,9 +632,17 @@ Example: $plug_conf[$this_plug]['SETTING_NAME_HERE'] = array('mysetting1', 'myse
 
 
 
-9) The "plug-conf.php" PLUGIN CONFIG SETTING 'runtime_mode' IS MANDATORY, to determine WHEN the plugin should run (during cron jobs / user interface loading / all runtimes / etc).
+9) The "plug-conf.php" PLUGIN CONFIG SETTING 'runtime_mode' IS MANDATORY, to determine WHEN the plugin should run (as a webhook / during cron jobs / user interface loading / all runtimes / etc).
 
-Example: $plug_conf[$this_plug]['runtime_mode'] = 'cron'; // 'cron', 'ui', 'all'
+Example: $plug_conf[$this_plug]['runtime_mode'] = 'cron'; // 'cron', 'webhook', 'ui', 'all'
+
+When 'runtime_mode' is set to 'webhook', you can pass ADDITIONAL parameters (forwardslash-delimited) *AFTER* THE WEBHOOK KEY in the webhook URL:
+
+https://mydomain.com/hook/WEBHOOK_KEY/PARAM1/PARAM2/PARAM3/ETC
+
+These parameters are then automatically put into a PHP array named: $webhook_params
+
+The webhook key is also available, in the auto-created variable: $webhook_key
 
 
 

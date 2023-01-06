@@ -5979,6 +5979,33 @@ v6.00.2 AND HIGHER RESETS LIGHT (TIME PERIOD) CHARTS FROM ARCHIVAL DATA, ONE-TIM
 
 
 
+-------------------------------------------------------------------
+6.00.16:
+
+-BUG FIX: Fixed issue with Server Editions resetting browser's PHP session id (forcing admin logout), when using javascript to get API data from INTERNAL endpoints /api/ AND /hook/
+
+-BUG FIX: Fixed bug introduced in v6.00.15 refactoring, related to timely re-creation of MAIN .htaccess / user.ini files upon app config revisions
+
+-BUG FIX: Miscellaneous (small) fixes
+
+-New bundled plugin 'crypto-data-bot' (WORK-IN-PROGRESS, NON-FUNCTIONAL...will let you setup querying this app for data in telegram chat)
+
+-New setting on admin Reset page, to reset the ENTIRE Admin Config (back to the hard-coded defaults in the PHP configuration files)
+
+-Added FULL webhook capability (FINALLY!) via the plugins system (see /DOCUMENTATION-ETC/PLUGINS-README.txt)
+
+-Miscellaneous optimizations / user experience improvements
+
+-Code cleanup / refactoring
+
+-v6.00.16 AND HIGHER RESETS LIGHT (TIME PERIOD) CHARTS FROM ARCHIVAL DATA, ONE-TIME DURING UPGRADES FROM V6.00.15 OR LOWER.
+
+-v6.00.8 AND HIGHER MIGRATES / UPGRADES ANY SET COOKIE DATA TO A MORE SECURE / RELIABLE FORMAT, ONE-TIME DURING UPGRADES FROM V6.00.7 OR LOWER.
+
+-------------------------------------------------------------------
+
+
+
 
 
 

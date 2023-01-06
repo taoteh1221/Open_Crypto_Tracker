@@ -216,7 +216,7 @@ if (
 ) {
 ?>
 
-	<form id='reset_admin' action='' method ='post'>
+	<form id='reset_admin' action='admin.php' method ='post'>
 				
     <div style="display: inline-block; text-align: right; width: 400px;">
 

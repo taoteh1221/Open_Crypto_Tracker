@@ -4,7 +4,6 @@
  */
 
 
-
 //////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
@@ -74,11 +73,10 @@ foreach( $secured_cache_files as $secured_file ) {
 		
 		
 		// If we already loaded the newest modified file, delete any stale ones
-		if ( $newest_cached_pepper_var == 1 ) {
+		if ( $password_pepper ) {
 		unlink($base_dir . '/cache/secured/' . $secured_file);
 		}
 		else {
-		$newest_cached_pepper_var = 1;
 		$password_pepper = trim( file_get_contents($base_dir . '/cache/secured/' . $secured_file) );
 		}
 	
@@ -86,18 +84,18 @@ foreach( $secured_cache_files as $secured_file ) {
 	}
 	
 	
-	// Webhook secret key (for secure webhook communications)
-	elseif ( preg_match("/webhook_key_/i", $secured_file) ) {
+	// MASTER webhook secret key (for secure webhook communications)
+	elseif ( preg_match("/webhook_master_key_/i", $secured_file) ) {
 		
 		
 		// If we already loaded the newest modified file, delete any stale ones
-		if ( $newest_cached_webhook_key == 1 ) {
+		if ( $webhook_master_key ) {
 		unlink($base_dir . '/cache/secured/' . $secured_file);
 		}
 		else {
 			
 			// If an webhook secret key reset from authenticated admin is verified
-			if ( $_POST['reset_webhook_key'] == 1 && $ct_gen->pass_sec_check($_POST['admin_hashed_nonce'], 'reset_webhook_key') ) {
+			if ( $_POST['reset_webhook_master_key'] == 1 && $ct_gen->pass_sec_check($_POST['admin_hashed_nonce'], 'reset_webhook_master_key') ) {
 				
 			unlink($base_dir . '/cache/secured/' . $secured_file);
 			
@@ -107,12 +105,45 @@ foreach( $secured_cache_files as $secured_file ) {
 			
 			}
 			else {
-			$newest_cached_webhook_key = 1;
-			$webhook_key = trim( file_get_contents($base_dir . '/cache/secured/' . $secured_file) );
+			$webhook_master_key = trim( file_get_contents($base_dir . '/cache/secured/' . $secured_file) );
 			}
 		
 		}
 	
+	
+	}
+	
+	
+	// PER-SERVICE webhook secret keys (for secure webhook communications)
+	elseif ( preg_match("/_webhook_key_/i", $secured_file) ) {
+		
+     $webhook_plug = preg_replace("/_webhook_key_(.*)/i", "", $secured_file);
+     
+		
+		// If we already loaded the newest modified file, delete any stale ones
+		if ( $int_webhooks[$webhook_plug] ) {
+		unlink($base_dir . '/cache/secured/' . $secured_file);
+		}
+		else {
+			
+			// If an webhook secret key reset from authenticated admin is verified
+			if ( $_POST['reset_' . $webhook_plug . '_webhook_key'] == 1 && $ct_gen->pass_sec_check($_POST['admin_hashed_nonce'], 'reset_' . $webhook_plug . '_webhook_key') ) {
+				
+			unlink($base_dir . '/cache/secured/' . $secured_file);
+			
+			// Reload to avoid quirky page reloads later on
+			header("Location: " . $_SERVER['REQUEST_URI']);
+			exit;
+			
+			}
+			else {
+			$int_webhooks[$webhook_plug] = trim( file_get_contents($base_dir . '/cache/secured/' . $secured_file) );
+			}
+		
+		}
+	
+	
+	unset($webhook_plug); 
 	
 	}
 	
@@ -122,7 +153,7 @@ foreach( $secured_cache_files as $secured_file ) {
 		
 		
 		// If we already loaded the newest modified file, delete any stale ones
-		if ( $newest_cached_int_api_key == 1 ) {
+		if ( $int_api_key ) {
 		unlink($base_dir . '/cache/secured/' . $secured_file);
 		}
 		else {
@@ -138,7 +169,6 @@ foreach( $secured_cache_files as $secured_file ) {
 			
 			}
 			else {
-			$newest_cached_int_api_key = 1;
 			$int_api_key = trim( file_get_contents($base_dir . '/cache/secured/' . $secured_file) );
 			}
 		
@@ -153,11 +183,10 @@ foreach( $secured_cache_files as $secured_file ) {
 		
 		
 		// If we already loaded the newest modified file, delete any stale ones
-		if ( $newest_cached_admin_login == 1 ) {
+		if ( is_array($stored_admin_login) ) {
 		unlink($base_dir . '/cache/secured/' . $secured_file);
 		}
 		else {
-		$newest_cached_admin_login = 1;
 		$active_admin_login_path = $base_dir . '/cache/secured/' . $secured_file; // To easily delete, if we are resetting the login
 		$stored_admin_login = explode("||", trim( file_get_contents($active_admin_login_path) ) );
 		}
@@ -200,8 +229,8 @@ $secure_256bit_hash = $ct_gen->rand_hash(32); // 256-bit (32-byte) hash converte
 //////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
-// If no webhook key
-if ( !$webhook_key ) {
+// If no MASTER webhook key
+if ( !$webhook_master_key ) {
 	
 $secure_128bit_hash = $ct_gen->rand_hash(16); // 128-bit (16-byte) hash converted to hexadecimal, used for suffix
 $secure_256bit_hash = $ct_gen->rand_hash(32); // 256-bit (32-byte) hash converted to hexadecimal, used for var
@@ -217,8 +246,8 @@ $secure_256bit_hash = $ct_gen->rand_hash(32); // 256-bit (32-byte) hash converte
 	
 	}
 	else {
-	$ct_cache->save_file($base_dir . '/cache/secured/webhook_key_'.$secure_128bit_hash.'.dat', $secure_256bit_hash);
-	$webhook_key = $secure_256bit_hash;
+	$ct_cache->save_file($base_dir . '/cache/secured/webhook_master_key_'.$secure_128bit_hash.'.dat', $secure_256bit_hash);
+	$webhook_master_key = $secure_256bit_hash;
 	}
 
 
@@ -323,6 +352,91 @@ if ( $password_reset_approved || !is_array($stored_admin_login) ) {
 
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+// Sanitize any user inputs VERY EARLY (for security / compatibility)
+foreach ( $_GET as $scan_get_key => $unused ) {
+$_GET[$scan_get_key] = $ct_gen->sanitize_requests('get', $scan_get_key, $_GET[$scan_get_key]);
+}
+foreach ( $_POST as $scan_post_key => $unused ) {
+$_POST[$scan_post_key] = $ct_gen->sanitize_requests('post', $scan_post_key, $_POST[$scan_post_key]);
+}
+
+
+// If user is logging out (run immediately after setting PRIMARY vars, for quick runtime)
+if ( $_GET['logout'] == 1 && $ct_gen->pass_sec_check($_GET['admin_hashed_nonce'], 'logout') ) {
+	
+// Try to avoid edge-case bug where sessions don't delete, using our hardened function logic
+$ct_gen->hardy_sess_clear(); 
+
+// Delete admin login cookie
+unset($_COOKIE['admin_auth_' . $ct_gen->id()]);
+$ct_gen->store_cookie('admin_auth_' . $ct_gen->id(), '', time()-3600); // Delete
+
+header("Location: index.php");
+exit;
+
+}
+
+
+// A bit of DOS attack mitigation for bogus / bot login attempts
+// Speed up runtime SIGNIFICANTLY by checking EARLY for a bad / non-existent captcha code, and rendering the related form again...
+// A BIT STATEMENT-INTENSIVE ON PURPOSE, AS IT KEEPS RUNTIME SPEED MUCH HIGHER
+if ( $_POST['admin_submit_register'] || $_POST['admin_submit_login'] || $_POST['admin_submit_reset'] ) {
+
+
+	if ( trim($_POST['captcha_code']) == '' || trim($_POST['captcha_code']) != '' && strtolower( trim($_POST['captcha_code']) ) != strtolower($_SESSION['captcha_code']) ) {
+	
+	    
+	    // WE RUN SECURITY CHECKS WITHIN THE REGISTRATION PAGE, SO NOT MUCH CHECKS ARE IN THIS INIT SECTION
+		if ( $_POST['admin_submit_register'] ) {
+		$sel_opt['theme_selected'] = ( $_COOKIE['theme_selected'] ? $_COOKIE['theme_selected'] : $ct_conf['gen']['default_theme'] );
+		require("templates/interface/desktop/php/admin/admin-login/register.php");
+		exit;
+		}
+		elseif ( $_POST['admin_submit_login'] ) {
+		$sel_opt['theme_selected'] = ( $_COOKIE['theme_selected'] ? $_COOKIE['theme_selected'] : $ct_conf['gen']['default_theme'] );
+		require("templates/interface/desktop/php/admin/admin-login/login.php");
+		exit;
+		}
+		elseif ( $_POST['admin_submit_reset'] ) {
+		$sel_opt['theme_selected'] = ( $_COOKIE['theme_selected'] ? $_COOKIE['theme_selected'] : $ct_conf['gen']['default_theme'] );
+		require("templates/interface/desktop/php/admin/admin-login/reset.php");
+		exit;
+		}
+	
+	
+	}
+	
+
+}
+
+
+// CSRF attack protection for downloads EXCEPT backup downloads (which are secured by requiring the nonce 
+// in the filename already, since backup links are created during cron runtimes)
+if ( $runtime_mode == 'download' && !isset($_GET['backup']) && $_GET['token'] != $ct_gen->nonce_digest('download') ) {
+$ct_gen->log('security_error', 'aborted, security token mis-match/stale from ' . $_SERVER['REMOTE_ADDR'] . ', for request: ' . $_SERVER['REQUEST_URI'] . ' (try reloading the app)');
+$ct_cache->error_log();
+echo "Aborted, security token mis-match/stale. Try reloading the app.";
+exit;
+}
+
+
+// Toggle to set the admin interface security level, if 'opt_admin_sec' from authenticated admin is verified
+// (#MUST# BE SET BEFORE load-config-by-security-level.php)
+if ( isset($_POST['opt_admin_sec']) && $ct_gen->pass_sec_check($_POST['admin_hashed_nonce'], 'toggle_admin_security') ) {
+$admin_area_sec_level = $_POST['opt_admin_sec'];
+$ct_cache->save_file($base_dir . '/cache/vars/admin_area_sec_level.dat', $_POST['opt_admin_sec']);
+}
+// If not updating, and cached var already exists
+elseif ( file_exists($base_dir . '/cache/vars/admin_area_sec_level.dat') ) {
+$admin_area_sec_level = trim( file_get_contents($base_dir . '/cache/vars/admin_area_sec_level.dat') );
+}
+// Else, default to high admin security
+else {
+$admin_area_sec_level = 'high';
+$ct_cache->save_file($base_dir . '/cache/vars/admin_area_sec_level.dat', $admin_area_sec_level);
+}
 
 
 // DON'T LEAVE ANY WHITESPACE AFTER THE CLOSING PHP TAG!
