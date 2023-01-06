@@ -47,6 +47,9 @@ BUGS / TESTS / UX / QA / OTHER SECTION
 LOCAL JAVASCRIPT STORAGE keeps deleting content in my trade notes textarea, find out why
 
 
+Purge stale data in cookies / post submission with coin portfolio data, in runtime-type-init.php (if the coin market no longer is in the config, like we already do there for feeds / charts)
+
+
 Convert all javascript functions into classes, for cleaner code:
 https://javascript.info/class
 
