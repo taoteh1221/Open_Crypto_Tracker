@@ -44,6 +44,12 @@ BUGS / TESTS / UX / QA / OTHER SECTION
 /////////////////////////////////////////////////////// 
 
 
+Rename 'debt-tracker' plugin to 'debt-interest-tracker'
+
+
+Add directory removal for OLD plugin names (renamed debt track / chain stats plugins a couple times), within FOLIO-INSTALL.bash
+
+
 LOCAL JAVASCRIPT STORAGE keeps deleting content in my trade notes textarea, find out why
 
 
