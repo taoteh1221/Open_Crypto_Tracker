@@ -22,6 +22,9 @@ $webhook_base_endpoint = ( $app_edition == 'server' ? 'hook/' : 'web-hook.php?we
      <br /><br />
      
      The webhook key is also available, in the auto-created variable: $webhook_key
+     <br /><br />
+     
+     See the Plugins admin area, for additional settings / documentation related to each webhook plugin listed below.
 	
 	</p>
 	

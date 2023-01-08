@@ -150,7 +150,7 @@ unset($refresh_config); // Unset, since this is an inline global var
 }
 // Otherwise we are clear to check for and run any upgrades instead, on the CACHED ct_conf
 elseif ( $admin_area_sec_level != 'high' ) {
-//$ct_conf = $ct_cache->refresh_cached_ct_conf($ct_conf, true); // NOT NEEDED YET / THROWS ERROR...SEE TODO.txt
+//$ct_conf = $ct_cache->refresh_cached_ct_conf($ct_conf, true); // THROWS ERROR...SEE TODO.txt
 }
 
 
