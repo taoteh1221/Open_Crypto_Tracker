@@ -149,6 +149,9 @@ Add directory removal for OLD plugin names (renamed debt track / chain stats plu
 Add logic in FOLIO-INSTALL.bash for the NEWEST BUNDLED plugins, to backup their OLD plug-conf.php files (like we already do for older bundled plugins)
 
 
+Build fail-safes directly into the plugin CONFIG INIT for default ui_name and ui_location, as well as error log AND skip including any activated plugin with runtime_mode not set / not properly set.
+
+
 Update Portfolio page screenshots, since we added the 'Rank' column AND REBRANDED app name.
 
 

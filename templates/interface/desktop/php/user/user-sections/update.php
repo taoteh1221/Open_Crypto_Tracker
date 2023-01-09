@@ -120,7 +120,7 @@
 				<span class='red countdown_notice'></span>
 				
 				
-	<p style='margin-top: 20px;'><a style='font-weight: bold;' class='red clear_both' href='javascript: show_more("disclaimer");' title='Click to show disclaimer.'>Disclaimer!</a></p>
+	<p style='margin-top: 20px;'><a style='font-weight: bold; font-size: 25px;' class='red clear_both' href='javascript: show_more("disclaimer");' title='Click to show disclaimer.'>Disclaimer!</a> &nbsp; 👈 </p>
 	    
 	    
 	    
@@ -131,7 +131,9 @@
 						
 						Assets in the default examples / demo list DO NOT indicate ANY endorsement OR recommendation of these assets (AND removal indicates NO anti-endorsement / anti-recommendation). These crypto-assets <i>are only used as examples for demoing usage of features in this application</i>, <a href='README.txt' target='_blank'>before you install it on your Debian / Ubuntu / DietPi OS / RaspberryPi OS / Armbian / Windows 10 device or website server, and change the list to your favorite assets</a>. 
 						
-						<br /><br />Consult a financial advisor and / or do <i>your own due diligence, to evaluate investment risk / reward</i> of ANY cryptocurrencies, based on THEIR / YOUR OWN determinations before buying. Even AFTER buying ANY cryptocurrency, ALWAYS CONTINUE to do your due diligence, investigating whether you are engaging in trading within acceptable risk levels for your <i>NET</i> worth. ALWAYS consult a financial advisor, if you are unaware of what risks are present. 
+						<br /><br /><a href='https://www.google.com/search?q=financial+advisors+near+me' target='_blank'>Consult a financial advisor</a> and / or do <i>your own due diligence, to evaluate investment risk / reward</i> of ANY cryptocurrencies, based on THEIR / YOUR OWN determinations before buying. Even AFTER buying ANY cryptocurrency, ALWAYS CONTINUE to do your due diligence, investigating whether you are engaging in trading within acceptable risk levels for your <i>NET</i> worth.
+						
+						<br /><br /><i><u>*ALWAYS*</u></i> <a href='https://www.google.com/search?q=financial+advisors+near+me' target='_blank'>CONSULT A FINIANCIAL ADVISOR</a>, IF YOU ARE UNAWARE OF WHAT RISKS ARE PRESENT, *AND* YOU ARE INVESTING *SIGNIFICANT* AMOUNTS OF MONEY! 
 						
 						</p>
 	
@@ -142,11 +144,15 @@
 						<ul>
 						
 							<li class='bitcoin disclaimer'>
-								<i>LITERALLY</i> nearly 99.9% of all tokens (including NFTs) are either scams, garbage, or dead ends.
+								<i>NEVER</i> invest more than you can afford to lose.
+							</li>
+							
+							<li class='bitcoin disclaimer'>
+								<i><u>ALWAYS AVOID</u></i> <a href='https://twitter.com/hashtag/pumpndump?src=hash' target='_blank'>#pumpndump</a> / <a href='https://twitter.com/hashtag/fomo?src=hash' target='_blank'>#fomo</a> / <a href='https://twitter.com/hashtag/shitcoin?src=hash' target='_blank'>#shxtcoin</a> trading.
 							</li>
 						
 							<li class='bitcoin disclaimer'>
-								<i>NEVER</i> invest more than you can afford to lose.
+								<i>LITERALLY</i> nearly 99.9% of all tokens (including NFTs) are either scams, garbage, or dead ends.
 							</li>
 						
 							<li class='bitcoin disclaimer'>
@@ -154,7 +160,7 @@
 							</li>
 							
 							<li class='bitcoin disclaimer'>
-								<i>ALWAYS <u>buy low</u> AND <u>sell high</u></i>. (NOT the other way around!), *UNLESS* you CAREFULLY decide you've accidentally bought an asset that will probably go nowhere in value long term, relative to other assets you are interested in.
+								<i>ALWAYS <u>fully research</u></i> your planned investment beforehand (fundamentals are just as important as long term chart TA, <i>and any short term chart TA is pure BS to be ignored</i>).
 							</li>
 							
 							<li class='bitcoin disclaimer'>
@@ -162,7 +168,19 @@
 							</li>
 							
 							<li class='bitcoin disclaimer'>
-								<i>ALWAYS <u>fully research</u></i> your planned investment beforehand (fundamentals are just as important as long term chart TA, <i>and any short term chart TA is pure BS to be ignored</i>).
+								<i>Hang on tight</i> until you can't stand fully holding anymore / want to or must make a position exit percentage <i><u>OFFICIAL</u></i>. (YOU HAVEN'T "LOST" <i><u>OR</u></i> "MADE" <i><u>ANYTHING</u></i> UNTIL YOU SELL A PERCENTAGE OF IT!)
+							</li>
+						
+							<li class='bitcoin disclaimer'>
+								<i>DOLLAR-COST-AVERAGE (DCA)</i> into investments weekly OR monthly, <i>NEVER GO "ALL-IN"</i> with 100% of your cash / savings at once! You *WILL NOT* be able to handle the stress <i>if it goes down LONG TERM!</i>
+							</li>
+							
+							<li class='bitcoin disclaimer'>
+								<i>ALWAYS <u>buy low</u> AND <u>sell high</u></i>. (NOT the other way around!), *UNLESS* you CAREFULLY decide you've accidentally bought an asset that will probably go nowhere in value long term, relative to other assets you are interested in.
+							</li>
+							
+							<li class='bitcoin disclaimer'>
+								The biggest investment you will EVER make (and NEVER regret) is ALWAYS value your health and happiness more than ALL THE MONEY IN THE WORLD. NEVER let chasing after ANY AMOUNT of wealth take that from you, EVER.
 							</li>
 							
 							 <li class='bitcoin disclaimer'>
@@ -172,17 +190,9 @@
 							<li class='bitcoin disclaimer'>
 								ALWAYS have a future plan in place, of what you will buy / sell: 1) Around a certain future date in time. 2) If a certain price target has been met or exceeded. This doesn't need to be "all in" or "all out". For instance, you may want to split your capital gains between 2 tax years within a tight time period, in late December / early the following January, to avoid higher tax brackets.
 							</li>
-							
-							<li class='bitcoin disclaimer'>
-								<i><u>ALWAYS AVOID</u></i> <a href='https://twitter.com/hashtag/pumpndump?src=hash' target='_blank'>#pumpndump</a> / <a href='https://twitter.com/hashtag/fomo?src=hash' target='_blank'>#fomo</a> / <a href='https://twitter.com/hashtag/shitcoin?src=hash' target='_blank'>#shxtcoin</a> trading.
-							</li>
 						
 							<li class='bitcoin disclaimer'>
-								<i><u>ALWAYS AVOID</u></i> copycat coins (that copy / mimick already-popular networks), coins with high inflation rates (creating too many new coins infinitely), coins that are NOT on a fully decentralized network (small groups control everything), and coins with very little on-chain transaction activity (indicating low <i>REAL WORLD</i> user adoption).
-							</li>
-							
-							<li class='bitcoin disclaimer'>
-								If you insist on buying LONG SHOT (#VERY# high risk) SMALL marketcap or NEWER assets (requiring #A TON# OF DILIGENCE / PATIENCE), *HIGHLY* consider getting #NO MORE THAN# a 'moon bag' worth (#NO MORE THAN# between 1% and 5% of your portfolio PER-ASSET, AND A TOTAL OF #NO MORE THAN# 10% of your portfolio). If it goes down 50% in value and keeps going down, sell it and you don't lose much. If it goes up between 200% and 500% in value (3x to 6x original value) or higher, REBALANCE it to not be more than between 1% and 10% of your portfolio again (by selling a significant portion of it). CAREFULLY TRACK YOUR SUCCESS RATE. If you are no good at picking long shots, stick to the <i>largest AND oldest marketcaps / HIGHEST ON-CHAIN ACTIVITY</i> assets instead.
+								<i><u>ALWAYS AVOID</u></i> copycat coins (that copy / mimick already-popular networks BUT HAVE NO SIGNIFICANT FEATURE IMPROVEMENTS), coins with high inflation rates (creating too many new coins infinitely), coins that are NOT on a fully decentralized network (small groups control everything), and coins with very little on-chain transaction activity (indicating low <i>REAL WORLD</i> user adoption).
 							</li>
 							
 							<li class='bitcoin disclaimer'>
@@ -190,11 +200,7 @@
 							</li>
 							
 							<li class='bitcoin disclaimer'>
-								The biggest investment you will EVER make (and NEVER regret) is ALWAYS value your health and happiness more than ALL THE MONEY IN THE WORLD. NEVER let chasing after ANY AMOUNT of wealth take that from you, EVER.
-							</li>
-							
-							<li class='bitcoin disclaimer'>
-								<i>Hang on tight</i> until you can't stand fully holding anymore / want to or must make a position exit percentage <i><u>OFFICIAL</u></i>. (YOU HAVEN'T "LOST" <i><u>OR</u></i> "MADE" <i><u>ANYTHING</u></i> UNTIL YOU SELL A PERCENTAGE OF IT!)
+								If you insist on buying LONG SHOT (#VERY# high risk) SMALL marketcap or NEWER assets (requiring #A TON# OF DILIGENCE / PATIENCE), *HIGHLY* consider getting #NO MORE THAN# a 'moon bag' worth (#NO MORE THAN# between 1% and 5% of your portfolio PER-ASSET, AND A TOTAL OF #NO MORE THAN# 10% of your portfolio). If it goes down 50% in value and keeps going down, sell it and you don't lose much. If it goes up between 200% and 500% in value (3x to 6x original value) or higher, REBALANCE it to not be more than between 1% and 10% of your portfolio again (by selling a significant portion of it). CAREFULLY TRACK YOUR SUCCESS RATE. If you are no good at picking long shots, stick to the <i>largest AND oldest marketcaps / HIGHEST ON-CHAIN ACTIVITY</i> assets instead.
 							</li>
 							
 							<li class='bitcoin disclaimer'>
@@ -204,7 +210,7 @@
 						</ul>
 						
 						
-						<br /><br /><a href="https://twitter.com/taoteh1221/status/1538567185232273408" target="_blank"><img src='templates/interface/media/images/twitter-1192997965952094208.jpg' width='425' class='image_border' alt='' /></a>
+						<br /><a href="https://twitter.com/taoteh1221/status/1538567185232273408" target="_blank"><img src='templates/interface/media/images/twitter-1192997965952094208.jpg' width='425' class='image_border' alt='' style='margin-left: 25px;' /></a>
 						
 						</div>
 	

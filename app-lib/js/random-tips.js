@@ -69,7 +69,11 @@ var quoteSource=[
 	    	name:"Lou Simpson"
 	    },
 	    {
-	    	quote:"<i><u>ALWAYS AVOID</u></i> copycat coins (that copy / mimick already-popular networks), coins with high inflation rates (creating too many new coins infinitely), coins that are NOT on a fully decentralized network (small groups control everything), and coins with very little on-chain transaction activity (indicating low <i>REAL WORLD</i> user adoption).",
+	    	quote:"<i><u>*ALWAYS*</u></i> <a href='https://www.google.com/search?q=financial+advisors+near+me' target='_blank'>CONSULT A FINIANCIAL ADVISOR</a>, IF YOU ARE UNAWARE OF WHAT RISKS ARE PRESENT, *AND* YOU ARE INVESTING *SIGNIFICANT* AMOUNTS OF MONEY!",
+	    	name:"taoteh1221 (lead dev of this app)"
+	    },
+	    {
+	    	quote:"<i><u>ALWAYS AVOID</u></i> copycat coins (that copy / mimick already-popular networks BUT HAVE NO SIGNIFICANT FEATURE IMPROVEMENTS), coins with high inflation rates (creating too many new coins infinitely), coins that are NOT on a fully decentralized network (small groups control everything), and coins with very little on-chain transaction activity (indicating low <i>REAL WORLD</i> user adoption).",
 	    	name:"taoteh1221 (lead dev of this app)"
 	    },
 	    {
@@ -90,6 +94,10 @@ var quoteSource=[
 	    },
 	    {
 	    	quote:"<i>NEVER</i> invest more than you can afford to lose.",
+	    	name:"taoteh1221 (lead dev of this app)"
+	    },
+	    {
+	    	quote:"<i>DOLLAR-COST-AVERAGE (DCA)</i> into investments weekly OR monthly, <i>NEVER GO \"ALL-IN\"</i> with 100% of your cash / savings at once! You *WILL NOT* be able to handle the stress <i>if it goes down LONG TERM!</i>",
 	    	name:"taoteh1221 (lead dev of this app)"
 	    },
 	    {
