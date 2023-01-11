@@ -137,12 +137,6 @@ DEBUGGING / TESTS / UX / QA / OTHER
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
 
-Fix AND optimize ALL INIT / CONFIG LOGIC to only run during the required runtime modes (WE SEEM TO BE SLOWING DOWN CHART / NEWS FEED LOADTIMES CONSIDERABLY, MAYBE EVEN CRON TOO!). For instance, htaccess checks / creations and header domain spoofing attack detection ONLY NEEDS TO RUN DURING 'ui' RUNTIME MODES. Consolidate all logic related to specific runtime modes in [mode]-init.php files.
-
-
--Bump up the default config for max data points per light chart to 800, AFTER THE ABOVE INIT-OPTIMIZING IS COMPLETED.
-
-
 Add directory removal for OLD plugin names (renamed debt track / chain stats plugins a couple times), within FOLIO-INSTALL.bash
 
 
@@ -181,7 +175,7 @@ Move the error log alerts for "email not configured" under the new "notify" cate
 Purge stale data in cookies / post submission with coin portfolio data, in runtime-type-init.php (if the coin market no longer is in the config, like we already do there for feeds / charts)
 
 
-Write unit tests to check all apis and news feed endpoints, to see if they still exist (put in /php/inline/debugging/tests.php). 
+Write unit tests to check all apis and news feed endpoints, to see if they still exist (put in /php/inline/debugging/tests.php). Have news feed test look for specific news feed xml format, kinda like it does in ext_data(), but more specific (title or links etc). If none exists, flag news feed as offline.
 
 
 Look into using docker images for cross-platform compatibility (Windows / Mac / Linux).

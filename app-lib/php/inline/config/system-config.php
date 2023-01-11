@@ -51,7 +51,7 @@ $base_dir = preg_replace("/\/app-lib\/php(.*)/i", "", $base_dir);
 // WE NEED THIS SET #VERY EARLY# IN INIT FOR THE APP ID
 if ( $runtime_mode == 'ui' ) {
 // Skip security check with base_url(false) flag, until later in runtime when the full app config is processed
-// (WE CAN'T CHECK FOR HEADER HOSTNAME SPOOFING ATTACKS UNTIL AFTER config-auto-adjust.php [in final-preflight-security-checks.php])
+// (WE CAN'T CHECK FOR HEADER HOSTNAME SPOOFING ATTACKS UNTIL AFTER config-auto-adjust.php [in ui-preflight-security-checks.php])
 // (ONLY DURING 'ui' RUNTIMES, TO ASSURE IT'S NEVER FROM A REWRITE [PRETTY LINK] URL LIKE /api OR /hook)
 $base_url = $ct_gen->base_url(false); 
 }

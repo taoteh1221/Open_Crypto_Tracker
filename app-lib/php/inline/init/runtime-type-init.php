@@ -110,6 +110,11 @@ $_SESSION['light_charts_updated'] = 0;
 }
 // UI RUNTIMES NOT DESIGNATED AS A "FAST RUNTIME"
 elseif ( $runtime_mode == 'ui' && !$is_fast_runtime ) {
+
+// Final UI preflight SECURITY checks (MUST RUN AFTER app config auto-adjust / htaccess user login / user agent)
+// (AS WE ARE RUNNING SELF-TESTS WITH $ct_cache->ext_data() ETC)
+// (as we may need to refresh MAIN .htaccess / user.ini)
+require_once('app-lib/php/inline/security/ui-preflight-security-checks.php');
     
 	
 	// Have UI / HTTP runtime mode RE-CACHE the runtime_user data every 24 hours, since CLI runtime cannot determine the UI / HTTP runtime_user 

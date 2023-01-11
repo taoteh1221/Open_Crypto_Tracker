@@ -2491,6 +2491,7 @@ var $ct_array = array();
         	}
         	else {
         	$ct_cache->save_file($base_dir . '/' . $domain_check_filename, $set_256bit_hash);
+        	sleep(1); // Sleep 1 second, to complete the FILE WRITE for the check afterwards
         	}
 
         		
@@ -2500,6 +2501,7 @@ var $ct_array = array();
         $domain_check_test_url = $set_url . $domain_check_filename;
         
         $domain_check_test = trim( @$ct_cache->ext_data('url', $domain_check_test_url, 0) );
+        sleep(1); // Sleep 1 second, to complete the CHECK before deleting afterwards
         
         // Delete domain check test file
         unlink($base_dir . '/' . $domain_check_filename);

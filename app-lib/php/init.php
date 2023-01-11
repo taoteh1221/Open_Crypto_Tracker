@@ -33,11 +33,12 @@ require_once('app-lib/php/inline/init/config-init.php');
 // Inits based on runtime type (MUST RUN AFTER config-init.php)
 require_once('app-lib/php/inline/init/runtime-type-init.php');
 
-// Final configuration checks (MUST RUN AFTER runtime-type inits run checks / clear stale data)
-require_once('app-lib/php/inline/config/final-preflight-config-checks.php');
-
-// Fast runtimes, MUST run AFTER final-preflight-config-checks.php, AND AS EARLY AS POSSIBLE
+// Fast runtimes, MUST run AFTER runtime-type-init.php, AND AS EARLY AS POSSIBLE
 require_once('app-lib/php/inline/other/fast-runtimes.php');
+
+// Final configuration checks (MUST RUN AFTER runtime-type inits run checks / clear stale data,
+// AND after fast-runtimes.php [to not slow fast runtimes down])
+require_once('app-lib/php/inline/config/final-preflight-config-checks.php');
 
 // Scheduled maintenance  (MUST RUN AFTER EVERYTHING IN INIT.PHP, #EXCEPT# DEBUGGING)
 require_once('app-lib/php/inline/maintenance/scheduled-maintenance.php');

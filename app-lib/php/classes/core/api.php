@@ -345,7 +345,7 @@ var $ct_array1 = array();
       }
       
    
-   $news_feed_cache_min_max = explode(',', $ct_conf['dev']['news_feed_cache_min_max']);
+   $news_feed_cache_min_max = explode(',', $ct_conf['power']['news_feed_cache_min_max']);
    // Cleanup
    $news_feed_cache_min_max = array_map('trim', $news_feed_cache_min_max);
       

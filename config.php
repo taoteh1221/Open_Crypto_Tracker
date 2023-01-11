@@ -5,6 +5,7 @@
  * Copyright 2014-2023 GPLv3, Open Crypto Tracker by Mike Kilday: Mike@DragonFrugal.com
  */
 
+
 // Forbid direct INTERNET access to this file
 if ( isset($_SERVER['REQUEST_METHOD']) && realpath(__FILE__) == realpath($_SERVER['SCRIPT_FILENAME']) ) {
 header('HTTP/1.0 403 Forbidden', TRUE, 403);
@@ -482,6 +483,34 @@ $ct_conf['charts_alerts']['tracked_mrkts'] = array(
 					'sol-4' => 'binance||eth||chart',
 					
 					
+					// USDC
+					'usdc' => 'kraken||usd||both',
+					'usdc-2' => 'binance_us||usd||none',
+					
+					
+					// DAI
+					'dai' => 'coinbase||usd||both',
+					'dai-2' => 'kraken||usd||none',
+					'dai-3' => 'bittrex||btc||none',
+					
+					
+					// UNI
+					'uni' => 'binance||btc||both',
+					'uni-3' => 'binance||usdt||none',
+					'uni-4' => 'coinbase||usd||none',
+					
+					
+					// MKR
+					'mkr' => 'okex||btc||none',
+					'mkr-2' => 'kucoin||btc||none',
+					'mkr-3' => 'coinbase||btc||both',
+					
+					
+					// RAY
+					'ray' => 'binance||usdt||both',
+					'ray-2' => 'coingecko_btc||btc||chart',
+					
+					
 					// COINSTOCK (Coinbase stock)
 					'coinstock' => 'alphavantage_stock||usd||both',
 					
@@ -502,40 +531,6 @@ $ct_conf['charts_alerts']['tracked_mrkts'] = array(
 					'dtgstock' => 'alphavantage_stock||eur||both',
 					
 					
-					// APT
-					'apt' => 'coinbase||usd||both',
-					'apt-2' => 'kraken||eur||chart',
-					'apt-3' => 'binance||btc||chart',
-					'apt-4' => 'gateio||eth||chart',
-					
-					
-					// UNI
-					'uni' => 'binance||btc||both',
-					'uni-3' => 'binance||usdt||none',
-					'uni-4' => 'coinbase||usd||none',
-					
-					
-					// MKR
-					'mkr' => 'okex||btc||none',
-					'mkr-2' => 'kucoin||btc||none',
-					'mkr-3' => 'coinbase||btc||both',
-					
-					
-					// DAI
-					'dai' => 'coinbase||usd||both',
-					'dai-2' => 'kraken||usd||none',
-					'dai-3' => 'bittrex||btc||none',
-					
-					
-					// USDC
-					'usdc' => 'kraken||usd||both',
-					'usdc-2' => 'binance_us||usd||none',
-					
-					
-					// MSOL
-					'msol' => 'coingecko_usd||usd||chart',
-					
-					
 					// MANA
 					'mana' => 'bittrex||btc||chart',
 					'mana-2' => 'binance||btc||both',
@@ -544,20 +539,24 @@ $ct_conf['charts_alerts']['tracked_mrkts'] = array(
 					'mana-5' => 'binance||eth||none',
 					
 					
+					// POLIS
+					'polis' => 'coingecko_btc||btc||chart',
+					'polis-2' => 'kraken||usd||both',
+					
+					
 					// ATLAS
 					'atlas' => 'gateio||usdt||chart',
 					'atlas-2' => 'coingecko_btc||btc||chart',
 					'atlas-3' => 'kraken||usd||both',
 					
 					
-					// POLIS
-					'polis' => 'coingecko_btc||btc||chart',
-					'polis-2' => 'kraken||usd||both',
+					// HIVE
+					'hive' => 'bittrex||btc||both',
 					
 					
-					// RAY
-					'ray' => 'binance||usdt||both',
-					'ray-2' => 'coingecko_btc||btc||chart',
+					// BIT
+					'bit' => 'gateio||usdt||both',
+					'bit-2' => 'coingecko_btc||btc||chart',
 					
 					
 					// SLRS
@@ -565,9 +564,11 @@ $ct_conf['charts_alerts']['tracked_mrkts'] = array(
 					'slrs-2' => 'gateio||eth||chart',
 					
 					
-					// BIT
-					'bit' => 'gateio||usdt||both',
-					'bit-2' => 'coingecko_btc||btc||chart',
+					// APT
+					'apt' => 'coinbase||usd||both',
+					'apt-2' => 'kraken||eur||chart',
+					'apt-3' => 'binance||btc||chart',
+					'apt-4' => 'gateio||eth||chart',
 					
 					
 					// HNT
@@ -594,14 +595,14 @@ $ct_conf['charts_alerts']['tracked_mrkts'] = array(
 					'grape-5' => 'coingecko_gbp||gbp||none',
 					
 					
+					// MSOL
+					'msol' => 'coingecko_usd||usd||chart',
+					
+					
 					// SLC
 					'slc' => 'coingecko_btc||btc||chart',
 					'slc-2' => 'gateio||usdt||both',
 					'slc-3' => 'coingecko_eth||eth||chart',
-					
-					
-					// HIVE
-					'hive' => 'bittrex||btc||both',
 					
 					
 					);
@@ -654,6 +655,11 @@ $ct_conf['power']['news_feed_entries_show'] = 15; // (default = 15)
 ////
 // RSS feed entries under X DAYS old are marked as 'new' on the news page
 $ct_conf['power']['news_feed_entries_new'] = 1; // (default = 1)
+////
+// Minutes to cache RSS feeds for News page
+// Randomly cache each RSS feed between the minimum and maximum MINUTES set here (so they don't refresh all at once, for faster runtimes)
+// THE WIDER THE GAP BETWEEN THE NUMBERS, MORE SPLIT UP / FASTER THE FEEDS WILL LOAD IN THE INTERFACE #CONSISTANTLY#
+$ct_conf['power']['news_feed_cache_min_max'] = '100,200'; // 'min,max' (default = '100,200'), ADJUST WITH CARE!!!
 							
 							
 // MINUTES to wait until running consecutive desktop edition emulated cron jobs
@@ -1508,12 +1514,7 @@ $ct_conf['dev']['coingecko_api_batched_max'] = 100; // (default = 100), ADJUST W
 
 // Maximum number of BATCHED news feed fetches / re-caches per ajax OR cron runtime 
 // (#TO HELP PREVENT RUNTIME CRASHES# ON LOW POWER DEVICES OR HIGH TRAFFIC INSTALLS, USE A LOW NUMBER OF 20 OR LESS)
-$ct_conf['dev']['news_feed_batched_max'] = 25; // (default = 25), ADJUST WITH CARE!!!
-////
-// Minutes to cache RSS feeds for News page
-// Randomly cache each RSS feed between the minimum and maximum MINUTES set here (so they don't refresh all at once, for faster runtimes)
-// THE WIDER THE GAP BETWEEN THE NUMBERS, MORE SPLIT UP / FASTER THE FEEDS WILL LOAD IN THE INTERFACE #CONSISTANTLY#
-$ct_conf['dev']['news_feed_cache_min_max'] = '60,120'; // 'min,max' (default = '60,120'), ADJUST WITH CARE!!!
+$ct_conf['dev']['news_feed_batched_max'] = 20; // (default = 20), ADJUST WITH CARE!!!
 ////
 // Maximum number of news feeds allowed to be pre-cached during background tasks (to avoid overloading low power devices)
 $ct_conf['dev']['news_feed_precache_hard_limit'] = 45; // (default = 45), ADJUST WITH CARE!!!
@@ -2620,161 +2621,95 @@ $ct_conf['assets'] = array(
                     ////////////////////////////////////////////////////////////////////
                     
                     
-                    // COINSTOCK
-                    'COINSTOCK' => array(
+                    // USDC
+                    'USDC' => array(
                         
-                        'name' => 'Coinbase Global Inc',
-                        'mcap_slug' => 'COIN:NASDAQ',
+                        'name' => 'USD Coin',
+                        'mcap_slug' => 'usd-coin',
                         'pair' => array(
-
-                        
-                                    'usd' => array(
-                                        'alphavantage_stock' => 'COIN',
-                                                    ),
-
-                                                    
-                        ) // pair END
-                        
-                    ), // Asset END
-                    
-                    
-                    ////////////////////////////////////////////////////////////////////
-                    
-                    
-                    // AMZNSTOCK
-                    'AMZNSTOCK' => array(
-                        
-                        'name' => 'Amazon Inc',
-                        'mcap_slug' => 'AMZN:NASDAQ',
-                        'pair' => array(
-
-                        
-                                    'usd' => array(
-                                        'alphavantage_stock' => 'AMZN',
-                                                    ),
-
-                                                    
-                        ) // pair END
-                        
-                    ), // Asset END
-                    
-                    
-                    ////////////////////////////////////////////////////////////////////
-                    
-                    
-                    // GOOGLSTOCK
-                    'GOOGLSTOCK' => array(
-                        
-                        'name' => 'Alphabet Inc Class A',
-                        'mcap_slug' => 'GOOGL:NASDAQ',
-                        'pair' => array(
-
-                        
-                                    'usd' => array(
-                                        'alphavantage_stock' => 'GOOGL',
-                                                    ),
-
-                                                    
-                        ) // pair END
-                        
-                    ), // Asset END
-                    
-                    
-                    ////////////////////////////////////////////////////////////////////
-                    
-                    
-                    // GPVSTOCK
-                    'GPVSTOCK' => array(
-                        
-                        'name' => 'GreenPower Motor Company Inc',
-                        'mcap_slug' => 'GPV:CVE',
-                        'pair' => array(
-
-                        
-                                    'cad' => array(
-                                        'alphavantage_stock' => 'GPV.TRV',
-                                                    ),
-
-                                                    
-                        ) // pair END
-                        
-                    ), // Asset END
-                    
-                    
-                    ////////////////////////////////////////////////////////////////////
-                    
-                    
-                    // DTGSTOCK
-                    'DTGSTOCK' => array(
-                        
-                        'name' => 'Daimler Truck Holding AG',
-                        'mcap_slug' => 'DTG:ETR',
-                        'pair' => array(
-
-                        
-                                    'eur' => array(
-                                        'alphavantage_stock' => 'DTG.DEX',
-                                                    ),
-
-                                                    
-                        ) // pair END
-                        
-                    ), // Asset END
-                    
-                    
-                    ////////////////////////////////////////////////////////////////////
-                    
-                    
-                    // APT
-                    'APT' => array(
-                        
-                        'name' => 'Aptos',
-                        'mcap_slug' => 'aptos',
-                        'pair' => array(
-
-                                                    
-                                    'btc' => array(
-                                        'binance' => 'APTBTC',
-                                        'gateio' => 'APT_BTC',
-                                                    ),
-
-                                                    
-                                    'eth' => array(
-                                        'gateio' => 'APT_ETH',
-                                                    ),
 
                                                     
                                     'eur' => array(
-                                         'binance' => 'APTEUR',
-                                    	 'kraken' => 'APTEUR',
+                                    	 'kraken' => 'USDCEUR',
                                                     ),
 
                                                     
-                                    'try' => array(
-                                         'binance' => 'APTTRY',
+                                    'gbp' => array(
+                                    	 'kraken' => 'USDCGBP',
                                                     ),
 
                                                     
                                     'usd' => array(
-                                    	 'coinbase' => 'APT-USD',
-                                    	 'kraken' => 'APTUSD',
-                                    	 'bitfinex' => 'tAPTUSD',
-                                                    ),
-
-                                                    
-                                    'usdc' => array(
-                                        'okex' => 'APT-USDC',
-                                        'huobi' => 'aptusdc',
+                                    	 'kraken' => 'USDCUSD',
+                                    	 'binance_us' => 'USDCUSD',
                                                     ),
 
                                                     
                                     'usdt' => array(
-                                        'binance' => 'APTUSDT',
-                                        'okex' => 'APT-USDT',
-                                        'huobi' => 'aptusdt',
-                                        'kucoin' => 'APT-USDT',
-                                        'bybit' => 'APTUSDT',
-                                        'gateio' => 'APT_USDT',
+                                    	'kraken' => 'USDCUSDT',
+                                        'huobi' => 'usdcusdt',
+                                        'kucoin' => 'USDC-USDT',
+                                                    ),
+
+                                                    
+                        ) // pair END
+                                        
+                    ), // Asset END
+                    
+                    
+                    ////////////////////////////////////////////////////////////////////
+                    
+                    
+                    // DAI
+                    'DAI' => array(
+                        
+                        'name' => 'Dai',
+                        'mcap_slug' => 'dai',
+                        'pair' => array(
+
+                        
+                                    'btc' => array(
+                                        'bittrex' => 'DAI-BTC',
+                                        'upbit' => 'BTC-DAI',
+                                        'bitfinex' => 'tDAIBTC',
+                                                    ),
+
+                                                    
+                                    'eth' => array(
+                                         'bittrex' => 'DAI-ETH',
+                                    	 'bitfinex' => 'tDAIETH',
+                                                    ),
+
+                                                    
+                                    'eur' => array(
+                                    	 'kraken' => 'DAIEUR',
+                                                    ),
+
+                                                    
+                                    'krw' => array(
+                                         'korbit' => 'dai_krw',
+                                                    ),
+
+                                                    
+                                    'usd' => array(
+                                    	'coinbase' => 'DAI-USD',
+                                    	'kraken' => 'DAIUSD',
+                                        'binance_us' => 'DAIUSD',
+                                    	'bitfinex' => 'tDAIUSD',
+                                        'bittrex' => 'DAI-USD',
+                                        'gemini' => 'daiusd',
+                                                    ),
+
+                                                    
+                                    'usdc' => array(
+                                        'hitbtc' => 'DAIUSDC',
+                                                    ),
+
+                                                    
+                                    'usdt' => array(
+                                    	'kraken' => 'DAIUSDT',
+                                        'bittrex' => 'DAI-USDT',
+                                        'okex' => 'DAI-USDT',
                                                     ),
 
                                                     
@@ -2895,56 +2830,41 @@ $ct_conf['assets'] = array(
                     ////////////////////////////////////////////////////////////////////
                     
                     
-                    // DAI
-                    'DAI' => array(
+                    // RAY
+                    'RAY' => array(
                         
-                        'name' => 'Dai',
-                        'mcap_slug' => 'dai',
+                        'name' => 'Raydium',
+                        'mcap_slug' => 'raydium',
                         'pair' => array(
 
                         
                                     'btc' => array(
-                                        'bittrex' => 'DAI-BTC',
-                                        'upbit' => 'BTC-DAI',
-                                        'bitfinex' => 'tDAIBTC',
+                                        'coingecko_btc' => 'raydium',
                                                     ),
 
                                                     
                                     'eth' => array(
-                                         'bittrex' => 'DAI-ETH',
-                                    	 'bitfinex' => 'tDAIETH',
+                                        'gateio' => 'RAY_ETH',
                                                     ),
 
                                                     
                                     'eur' => array(
-                                    	 'kraken' => 'DAIEUR',
-                                                    ),
-
-                                                    
-                                    'krw' => array(
-                                         'korbit' => 'dai_krw',
+                                    	 'kraken' => 'RAYEUR',
                                                     ),
 
                                                     
                                     'usd' => array(
-                                    	'coinbase' => 'DAI-USD',
-                                    	'kraken' => 'DAIUSD',
-                                        'binance_us' => 'DAIUSD',
-                                    	'bitfinex' => 'tDAIUSD',
-                                        'bittrex' => 'DAI-USD',
-                                        'gemini' => 'daiusd',
-                                                    ),
-
-                                                    
-                                    'usdc' => array(
-                                        'hitbtc' => 'DAIUSDC',
+                                    	'kraken' => 'RAYUSD',
+                                        'gateio' => 'RAY_USD',
                                                     ),
 
                                                     
                                     'usdt' => array(
-                                    	'kraken' => 'DAIUSDT',
-                                        'bittrex' => 'DAI-USDT',
-                                        'okex' => 'DAI-USDT',
+                                        'binance' => 'RAYUSDT',
+                                        'coinex' => 'RAYUSDT',
+                                        'gateio' => 'RAY_USDT',
+                                        'wazirx' => 'rayusdt',
+                                        'bitmart' => 'RAY_USDT',
                                                     ),
 
                                                     
@@ -2956,70 +2876,105 @@ $ct_conf['assets'] = array(
                     ////////////////////////////////////////////////////////////////////
                     
                     
-                    // USDC
-                    'USDC' => array(
+                    // COINSTOCK
+                    'COINSTOCK' => array(
                         
-                        'name' => 'USD Coin',
-                        'mcap_slug' => 'usd-coin',
+                        'name' => 'Coinbase Global Inc',
+                        'mcap_slug' => 'COIN:NASDAQ',
                         'pair' => array(
 
-                                                    
-                                    'eur' => array(
-                                    	 'kraken' => 'USDCEUR',
-                                                    ),
-
-                                                    
-                                    'gbp' => array(
-                                    	 'kraken' => 'USDCGBP',
-                                                    ),
-
-                                                    
+                        
                                     'usd' => array(
-                                    	 'kraken' => 'USDCUSD',
-                                    	 'binance_us' => 'USDCUSD',
-                                                    ),
-
-                                                    
-                                    'usdt' => array(
-                                    	'kraken' => 'USDCUSDT',
-                                        'huobi' => 'usdcusdt',
-                                        'kucoin' => 'USDC-USDT',
+                                        'alphavantage_stock' => 'COIN',
                                                     ),
 
                                                     
                         ) // pair END
-                                        
+                        
                     ), // Asset END
                     
                     
                     ////////////////////////////////////////////////////////////////////
                     
                     
-                    // MSOL
-                    'MSOL' => array(
+                    // AMZNSTOCK
+                    'AMZNSTOCK' => array(
                         
-                        'name' => 'Marinade Solana',
-                        'mcap_slug' => 'marinade-staked-sol',
+                        'name' => 'Amazon Inc',
+                        'mcap_slug' => 'AMZN:NASDAQ',
                         'pair' => array(
 
-                                                    
-                                    'eth' => array(
-                                        'gateio' => 'MSOL_ETH',
-                                                    ),
-
-                                                    
+                        
                                     'usd' => array(
-                                    	 'coingecko_usd' => 'msol',
-                                                    ),
-
-                                                    
-                                    'usdt' => array(
-                                        'gateio' => 'MSOL_USDT',
+                                        'alphavantage_stock' => 'AMZN',
                                                     ),
 
                                                     
                         ) // pair END
-                                        
+                        
+                    ), // Asset END
+                    
+                    
+                    ////////////////////////////////////////////////////////////////////
+                    
+                    
+                    // GOOGLSTOCK
+                    'GOOGLSTOCK' => array(
+                        
+                        'name' => 'Alphabet Inc Class A',
+                        'mcap_slug' => 'GOOGL:NASDAQ',
+                        'pair' => array(
+
+                        
+                                    'usd' => array(
+                                        'alphavantage_stock' => 'GOOGL',
+                                                    ),
+
+                                                    
+                        ) // pair END
+                        
+                    ), // Asset END
+                    
+                    
+                    ////////////////////////////////////////////////////////////////////
+                    
+                    
+                    // GPVSTOCK
+                    'GPVSTOCK' => array(
+                        
+                        'name' => 'GreenPower Motor Company Inc',
+                        'mcap_slug' => 'GPV:CVE',
+                        'pair' => array(
+
+                        
+                                    'cad' => array(
+                                        'alphavantage_stock' => 'GPV.TRV',
+                                                    ),
+
+                                                    
+                        ) // pair END
+                        
+                    ), // Asset END
+                    
+                    
+                    ////////////////////////////////////////////////////////////////////
+                    
+                    
+                    // DTGSTOCK
+                    'DTGSTOCK' => array(
+                        
+                        'name' => 'Daimler Truck Holding AG',
+                        'mcap_slug' => 'DTG:ETR',
+                        'pair' => array(
+
+                        
+                                    'eur' => array(
+                                        'alphavantage_stock' => 'DTG.DEX',
+                                                    ),
+
+                                                    
+                        ) // pair END
+                        
                     ), // Asset END
                     
                     
@@ -3084,6 +3039,46 @@ $ct_conf['assets'] = array(
                     ////////////////////////////////////////////////////////////////////
                     
                     
+                    // POLIS
+                    'POLIS' => array(
+                        
+                        'name' => 'Star Atlas DAO',
+                        'mcap_slug' => 'star-atlas-dao',
+                        'pair' => array(
+
+                                                    
+                                    'btc' => array(
+                                        'coingecko_btc' => 'star-atlas-dao',
+                                                    ),
+
+                                                    
+                                    'eur' => array(
+                                    	 'kraken' => 'POLISEUR',
+                                                    ),
+
+                                                    
+                                    'usd' => array(
+                                    	 'kraken' => 'POLISUSD',
+                                    	 'bitfinex' => 'tPOLIS:USD',
+                                                    ),
+
+                                                    
+                                    'usdt' => array(
+                                        'gateio' => 'POLIS_USDT',
+                                        'coinex' => 'POLISUSDT',
+                                        'hotbit' => 'POLIS_USDT',
+                                        'bitmart' => 'ATLAS_USDT',
+                                                    ),
+
+                                                    
+                        ) // pair END
+                                        
+                    ), // Asset END
+                    
+                    
+                    ////////////////////////////////////////////////////////////////////
+                    
+                    
                     // ATLAS
                     'ATLAS' => array(
                         
@@ -3125,81 +3120,59 @@ $ct_conf['assets'] = array(
                     ////////////////////////////////////////////////////////////////////
                     
                     
-                    // POLIS
-                    'POLIS' => array(
+                    // HIVE
+                    'HIVE' => array(
                         
-                        'name' => 'Star Atlas DAO',
-                        'mcap_slug' => 'star-atlas-dao',
+                        'name' => 'Hive',
+                        'mcap_slug' => 'hive',
                         'pair' => array(
 
-                                                    
+                        
                                     'btc' => array(
-                                        'coingecko_btc' => 'star-atlas-dao',
+                                        'binance' => 'HIVEBTC',
+                                        'bittrex' => 'HIVE-BTC',
+                                        'hotbit' => 'HIVE_BTC',
                                                     ),
 
-                                                    
-                                    'eur' => array(
-                                    	 'kraken' => 'POLISEUR',
-                                                    ),
-
-                                                    
-                                    'usd' => array(
-                                    	 'kraken' => 'POLISUSD',
-                                    	 'bitfinex' => 'tPOLIS:USD',
-                                                    ),
-
-                                                    
+                        
                                     'usdt' => array(
-                                        'gateio' => 'POLIS_USDT',
-                                        'coinex' => 'POLISUSDT',
-                                        'hotbit' => 'POLIS_USDT',
-                                        'bitmart' => 'ATLAS_USDT',
+                                        'huobi' => 'hiveusdt',
+                                        'hotbit' => 'HIVE_USDT',
+                                        'wazirx' => 'hiveusdt',
                                                     ),
 
                                                     
                         ) // pair END
-                                        
+                        
                     ), // Asset END
                     
                     
                     ////////////////////////////////////////////////////////////////////
                     
                     
-                    // RAY
-                    'RAY' => array(
+                    // BIT
+                    'BIT' => array(
                         
-                        'name' => 'Raydium',
-                        'mcap_slug' => 'raydium',
+                        'name' => 'BitDAO',
+                        'mcap_slug' => 'bitdao',
                         'pair' => array(
 
-                        
+                                                    
                                     'btc' => array(
-                                        'coingecko_btc' => 'raydium',
-                                                    ),
-
-                                                    
-                                    'eth' => array(
-                                        'gateio' => 'RAY_ETH',
-                                                    ),
-
-                                                    
-                                    'eur' => array(
-                                    	 'kraken' => 'RAYEUR',
+                                        'coingecko_btc' => 'bitdao',
                                                     ),
 
                                                     
                                     'usd' => array(
-                                    	'kraken' => 'RAYUSD',
-                                        'gateio' => 'RAY_USD',
+                                        'bybit' => 'BITUSD',
                                                     ),
 
                                                     
                                     'usdt' => array(
-                                        'binance' => 'RAYUSDT',
-                                        'coinex' => 'RAYUSDT',
-                                        'gateio' => 'RAY_USDT',
-                                        'wazirx' => 'rayusdt',
-                                        'bitmart' => 'RAY_USDT',
+                                        'bybit' => 'BITUSDT',
+                                        'gateio' => 'BIT_USDT',
+                                        'bitmart' => 'BIT_USDT',
+                                        'hotbit' => 'BIT_USDT',
                                                     ),
 
                                                     
@@ -3242,29 +3215,56 @@ $ct_conf['assets'] = array(
                     ////////////////////////////////////////////////////////////////////
                     
                     
-                    // BIT
-                    'BIT' => array(
+                    // APT
+                    'APT' => array(
                         
-                        'name' => 'BitDAO',
-                        'mcap_slug' => 'bitdao',
+                        'name' => 'Aptos',
+                        'mcap_slug' => 'aptos',
                         'pair' => array(
 
                                                     
                                     'btc' => array(
-                                        'coingecko_btc' => 'bitdao',
+                                        'binance' => 'APTBTC',
+                                        'gateio' => 'APT_BTC',
+                                                    ),
+
+                                                    
+                                    'eth' => array(
+                                        'gateio' => 'APT_ETH',
+                                                    ),
+
+                                                    
+                                    'eur' => array(
+                                         'binance' => 'APTEUR',
+                                    	 'kraken' => 'APTEUR',
+                                                    ),
+
+                                                    
+                                    'try' => array(
+                                         'binance' => 'APTTRY',
                                                     ),
 
                                                     
                                     'usd' => array(
-                                        'bybit' => 'BITUSD',
+                                    	 'coinbase' => 'APT-USD',
+                                    	 'kraken' => 'APTUSD',
+                                    	 'bitfinex' => 'tAPTUSD',
+                                                    ),
+
+                                                    
+                                    'usdc' => array(
+                                        'okex' => 'APT-USDC',
+                                        'huobi' => 'aptusdc',
                                                     ),
 
                                                     
                                     'usdt' => array(
-                                        'bybit' => 'BITUSDT',
-                                        'gateio' => 'BIT_USDT',
-                                        'bitmart' => 'BIT_USDT',
-                                        'hotbit' => 'BIT_USDT',
+                                        'binance' => 'APTUSDT',
+                                        'okex' => 'APT-USDT',
+                                        'huobi' => 'aptusdt',
+                                        'kucoin' => 'APT-USDT',
+                                        'bybit' => 'APTUSDT',
+                                        'gateio' => 'APT_USDT',
                                                     ),
 
                                                     
@@ -3439,6 +3439,37 @@ $ct_conf['assets'] = array(
                     ////////////////////////////////////////////////////////////////////
                     
                     
+                    // MSOL
+                    'MSOL' => array(
+                        
+                        'name' => 'Marinade Solana',
+                        'mcap_slug' => 'marinade-staked-sol',
+                        'pair' => array(
+
+                                                    
+                                    'eth' => array(
+                                        'gateio' => 'MSOL_ETH',
+                                                    ),
+
+                                                    
+                                    'usd' => array(
+                                    	 'coingecko_usd' => 'msol',
+                                                    ),
+
+                                                    
+                                    'usdt' => array(
+                                        'gateio' => 'MSOL_USDT',
+                                                    ),
+
+                                                    
+                        ) // pair END
+                                        
+                    ), // Asset END
+                    
+                    
+                    ////////////////////////////////////////////////////////////////////
+                    
+                    
                     // SLC
                     'SLC' => array(
                         
@@ -3466,36 +3497,6 @@ $ct_conf['assets'] = array(
                                     'usdt' => array(
                                         'huobi' => 'slcusdt',
                                         'gateio' => 'SLC_USDT',
-                                                    ),
-
-                                                    
-                        ) // pair END
-                        
-                    ), // Asset END
-                    
-                    
-                    ////////////////////////////////////////////////////////////////////
-                    
-                    
-                    // HIVE
-                    'HIVE' => array(
-                        
-                        'name' => 'Hive',
-                        'mcap_slug' => 'hive',
-                        'pair' => array(
-
-                        
-                                    'btc' => array(
-                                        'binance' => 'HIVEBTC',
-                                        'bittrex' => 'HIVE-BTC',
-                                        'hotbit' => 'HIVE_BTC',
-                                                    ),
-
-                        
-                                    'usdt' => array(
-                                        'huobi' => 'hiveusdt',
-                                        'hotbit' => 'HIVE_USDT',
-                                        'wazirx' => 'hiveusdt',
                                                     ),
 
                                                     

@@ -14,7 +14,7 @@
 
 			<p style='margin-top: 15px; margin-bottom: 15px;'><?=$ct_gen->start_page_html('news')?></p>			
 			<?php
-			$news_feed_cache_min_max = explode(',', $ct_conf['dev']['news_feed_cache_min_max']);
+			$news_feed_cache_min_max = explode(',', $ct_conf['power']['news_feed_cache_min_max']);
 			?>
 	
     		

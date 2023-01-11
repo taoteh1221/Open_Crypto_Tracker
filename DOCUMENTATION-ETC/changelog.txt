@@ -6009,7 +6009,11 @@ v6.00.2 AND HIGHER RESETS LIGHT (TIME PERIOD) CHARTS FROM ARCHIVAL DATA, ONE-TIM
 -------------------------------------------------------------------
 6.00.17:
 
--BUG FIX: TBD
+-BUG FIX: Fixed endless loop in security check on header domain data (sorry about that!)
+
+-Optimized initiation logic to run faster in all runtime modes
+
+-Revised / optimized DEMO config
 
 -v6.00.16 AND HIGHER RESETS LIGHT (TIME PERIOD) CHARTS FROM ARCHIVAL DATA, ONE-TIME DURING UPGRADES FROM V6.00.15 OR LOWER.
 
