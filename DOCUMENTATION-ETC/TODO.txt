@@ -137,6 +137,29 @@ DEBUGGING / TESTS / UX / QA / OTHER
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
 
+############ NEXT DEBUG / TEST / QA / OTHER SCHEDULED WORK SESSION ###################################
+
+
+Rename 'debt-tracker' plugin to 'debt-interest-tracker' (app UI name too)
+
+
+market_ to mrkt_
+markets_ to mrkts_
+leverage_ to lvrg_
+
+
+Double check all base_url() calls, add bonk inu coin, add eth / sol mev links.
+
+
+Test / release v6.00.17
+
+
+######################################################################################################
+
+
+Code review ENTIRE INIT / CONFIG RUNTIME SECTION, and cleanup / optimize where needed
+
+
 Add directory removal for OLD plugin names (renamed debt track / chain stats plugins a couple times), within FOLIO-INSTALL.bash
 
 
@@ -205,22 +228,22 @@ FEATURES / NEW INFRASTRUCTURE / RESEARCH
 ///////////////////////////////////////////////////////
 
 
-Rename 'debt-tracker' plugin to 'debt-interest-tracker' (app UI name too)
+############ NEXT FEATURES / NEW INFRASTRUCTURE / RESEARCH SCHEDULED WORK SESSION ###################################
 
 
 Create AND document /plug-templates/plug-admin.php|plug-docs.php formats, to be used in the plugin system. plug-docs.php should be a "More Documentation" link at the top of the plugin's admin page, which opens as a modal window (like we do for "select charts" on the user area charts page).
 
 
-Enable the app config upgrade logic (for enhanced / normal admin sec modes, already built, just enable / test it). SEE DEBUGGING SECTION, AS WE NEED TO FIX IT BEFORE ENABLING IT.
-
-
 Research whether POST data size affects header size like cookie data size does.
 
 
-Look into adding temp monitoring support for systems other than linux devices: https://phoenixnap.com/kb/linux-cpu-temp
+######################################################################################################################
 
 
-Create github wiki with the current documentation for the portfolio app.
+Add more Jupiter agg markets to Solana coins in demo config, and in price target plugin.
+
+
+Add openserum markets support.
 
 
 Look into Aptos support for the 'address-balance-tracker' plugin (see the API notes section for public endpoints REST API docs).
@@ -232,25 +255,23 @@ Change the 'eth_erc20_icos' => 'ico_erc20_value' config settings to 'token_presa
 Consolidate num_to_str() calls, to speed up runtime.
 
 
-market_ to mrkt_
-markets_ to mrkts_
-leverage_ to lvrg_
+Convert all javascript functions into classes, for cleaner code:
+https://javascript.info/class
 
 
-Add more Jupiter agg markets to Solana coins in demo config, and in price target plugin.
+Enable the app config upgrade logic (for enhanced / normal admin sec modes, already built, just enable / test it). SEE DEBUGGING SECTION, AS WE NEED TO FIX IT BEFORE ENABLING IT.
 
 
-Add openserum markets support.
+Look into adding temp monitoring support for systems other than linux devices: https://phoenixnap.com/kb/linux-cpu-temp
+
+
+Create github wiki with the current documentation for the portfolio app.
 
 
 To avoid having the "re-enter /start" telegram error message unless truly needed, take an md5 digest of all telegram settings concatenated together, and save as a var in the vars cache folder. Only run a telegram setting update if this md5 digest ever changes.
 
 
 Add additional ability to do telegram / discord webhooks in the new "crypto-data-bot" plugin, to query asset prices at different exchanges through telegram chat with the chat bot. Example: "/price btc-usd-coinbase"
-
-
-Convert all javascript functions into classes, for cleaner code:
-https://javascript.info/class
 
 
 Auto-update feature like WordPress has (downloads a zip file upgrade from github, and exctracts it overwriting the old app files).
