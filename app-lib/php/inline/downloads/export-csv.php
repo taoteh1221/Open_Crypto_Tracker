@@ -28,7 +28,15 @@ $csv_download_array[] = array(
 	    
 	    
 	foreach ( $ct_conf['assets'] as $asset_array_key => $asset_array_val ) {
-		
+		     
+		     
+		     if ( array_key_exists( strtolower($asset_array_key), $ct_conf['power']['btc_currency_mrkts']) && !array_key_exists( strtolower($asset_array_key), $ct_conf['power']['crypto_pair']) ) {
+			$fiat_equiv = true;
+			}
+			else {
+			$fiat_equiv = false;
+			}
+
 	    
 	    $field_var_pair = strtolower($asset_array_key) . '_pair';
 	    $field_var_mrkt = strtolower($asset_array_key) . '_mrkt';
@@ -68,16 +76,11 @@ $csv_download_array[] = array(
 			}
 											
 	    
-	    	if ( strtoupper($asset_array_key) == 'MISCASSETS' ) {
-	    	$asset_amnt_dec = 2;
-	    	}
-	    	else {
-	    	$asset_amnt_dec = 8;
-	    	}
+	    $asset_amnt_dec = ( $fiat_equiv ? $ct_conf['gen']['currency_dec_max'] : $ct_conf['gen']['crypto_dec_max'] );
 	    
-	  	 $asset_amnt_val = $ct_var->num_pretty($asset_amnt_val, $asset_amnt_dec);
+	    $asset_amnt_val = $ct_var->num_pretty($asset_amnt_val, $asset_amnt_dec);
 	    
-	    $asset_paid_val = ( $ct_var->num_to_str($asset_paid_val) >= 1 ? $ct_var->num_pretty($asset_paid_val, 2) : $ct_var->num_pretty($asset_paid_val, $ct_conf['gen']['prim_currency_dec_max']) );
+	    $asset_paid_val = $ct_var->num_pretty($asset_paid_val, $ct_conf['gen']['currency_dec_max']);
 	  	 
 	    
 	   	// Asset data to array for CSV export

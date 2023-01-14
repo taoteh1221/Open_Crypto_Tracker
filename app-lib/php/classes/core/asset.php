@@ -31,12 +31,12 @@ var $ct_array1 = array();
    ////////////////////////////////////////////////////////
    
    
-   function static_erc20_price($chosen_mrkt, $market_pair) {
+   function static_erc20_price($chosen_mrkt, $mrkt_pair) {
    
    global $ct_conf;
    
      if ( strtolower($chosen_mrkt) == 'ico_erc20_value' ) {
-     return $ct_conf['power']['eth_erc20_icos'][$market_pair];
+     return $ct_conf['power']['eth_erc20_icos'][$mrkt_pair];
      }
     
    }
@@ -149,14 +149,14 @@ var $ct_array1 = array();
    
      $pair_loop = 0;
      
-     foreach ( $ct_conf['assets']['BTC']['pair'][ $ct_conf['gen']['btc_prim_currency_pair'] ] as $market_key => $market_id ) {
+     foreach ( $ct_conf['assets']['BTC']['pair'][ $ct_conf['gen']['btc_prim_currency_pair'] ] as $mrkt_key => $mrkt_id ) {
        
         // If a numeric id, return the exchange name
         if ( is_int($data) && $pair_loop == $data ) {
-        return $market_key;
+        return $mrkt_key;
         }
         // If an exchange name (alphnumeric with possible underscores), return the numeric id (used in UI html forms)
-        elseif ( preg_match("/^[A-Za-z0-9_]+$/", $data) && $market_key == $data ) {
+        elseif ( preg_match("/^[A-Za-z0-9_]+$/", $data) && $mrkt_key == $data ) {
         return $pair_loop + 1;
         }
        
@@ -215,12 +215,12 @@ var $ct_array1 = array();
    
      foreach( $ct_conf['assets'] as $asset_key => $asset_val ) {
      
-       foreach( $asset_val['pair'] as $market_pair_key => $market_pair_val ) {
+       foreach( $asset_val['pair'] as $mrkt_pair_key => $mrkt_pair_val ) {
          
-         foreach( $market_pair_val as $exchange_key => $unused ) {
+         foreach( $mrkt_pair_val as $exchange_key => $unused ) {
            
            if ( $exchange_key == $exchange ) {
-           $result[] = $exchange_key . '-' . strtolower($asset_key) . '-' . $market_pair_key;
+           $result[] = $exchange_key . '-' . strtolower($asset_key) . '-' . $mrkt_pair_key;
            }
            
          }
@@ -639,7 +639,7 @@ var $ct_array1 = array();
      
      
    // UX on number values
-   $data['price'] = ( $ct_var->num_to_str($data['price']) >= 1 ? $ct_var->num_pretty($data['price'], 2) : $ct_var->num_pretty($data['price'], $ct_conf['gen']['prim_currency_dec_max']) );
+   $data['price'] = ( $ct_var->num_to_str($data['price']) >= 1 ? $ct_var->num_pretty($data['price'], 2) : $ct_var->num_pretty($data['price'], $ct_conf['gen']['currency_dec_max']) );
    
    // Return null if we don't even detect a rank
    return ( $data['rank'] != NULL ? $data : NULL );
@@ -651,14 +651,14 @@ var $ct_array1 = array();
    ////////////////////////////////////////////////////////
    
    
-   function market_conv_int_api($market_conversion, $all_mrkts_data_array) {
+   function market_conv_int_api($mrkt_conversion, $all_mrkts_data_array) {
    
    global $ct_conf, $ct_var, $ct_gen, $ct_api, $sel_opt, $remote_ip;
    
    $result = array();
    
    // Cleanup
-   $market_conversion = strtolower($market_conversion);
+   $mrkt_conversion = strtolower($mrkt_conversion);
    $all_mrkts_data_array = array_map('trim', $all_mrkts_data_array);
    $all_mrkts_data_array = array_map('strtolower', $all_mrkts_data_array);
        
@@ -666,9 +666,9 @@ var $ct_array1 = array();
    
    
       // Return error message if there are missing parameters
-      if ( $market_conversion != 'market_only' && !$ct_conf['power']['btc_currency_mrkts'][$market_conversion] || $all_mrkts_data_array[0] == '' ) {
+      if ( $mrkt_conversion != 'market_only' && !$ct_conf['power']['btc_currency_mrkts'][$mrkt_conversion] || $all_mrkts_data_array[0] == '' ) {
          
-            if ( $market_conversion == '' ) {
+            if ( $mrkt_conversion == '' ) {
             	
             $result['error'] .= 'Missing parameter: [currency_symb|market_only]; ';
             
@@ -679,13 +679,13 @@ var $ct_array1 = array();
             			);
             
             }
-            elseif ( $market_conversion != 'market_only' && !$ct_conf['power']['btc_currency_mrkts'][$market_conversion] ) {
+            elseif ( $mrkt_conversion != 'market_only' && !$ct_conf['power']['btc_currency_mrkts'][$mrkt_conversion] ) {
             	
-            $result['error'] .= 'Conversion market does not exist: '.$market_conversion.'; ';
+            $result['error'] .= 'Conversion market does not exist: '.$mrkt_conversion.'; ';
             
             $ct_gen->log(
             			'int_api_error',
-            			'From ' . $remote_ip . ' (Conversion market does not exist: '.$market_conversion.')',
+            			'From ' . $remote_ip . ' (Conversion market does not exist: '.$mrkt_conversion.')',
             			'uri: ' . $_SERVER['REQUEST_URI'] . ';'
             			);
             
@@ -725,7 +725,7 @@ var $ct_array1 = array();
    
    
       // Loop through each set of market data
-      foreach( $all_mrkts_data_array as $market_data ) {
+      foreach( $all_mrkts_data_array as $mrkt_data ) {
    
          
            // Stop processing output and return an error message, if this is a possible dos attack
@@ -747,15 +747,15 @@ var $ct_array1 = array();
            
        
        
-       $market_data_array = explode("-", $market_data); // Market data array
+       $mrkt_data_array = explode("-", $mrkt_data); // Market data array
                    
-       $exchange = $market_data_array[0];
+       $exchange = $mrkt_data_array[0];
            
-       $asset = $market_data_array[1];
+       $asset = $mrkt_data_array[1];
            
-       $market_pair = $market_data_array[2];
+       $mrkt_pair = $mrkt_data_array[2];
            
-       $pair_id = $ct_conf['assets'][strtoupper($asset)]['pair'][$market_pair][$exchange];
+       $pair_id = $ct_conf['assets'][strtoupper($asset)]['pair'][$mrkt_pair][$exchange];
            
        
        
@@ -766,37 +766,37 @@ var $ct_array1 = array();
                  
                  // GET BTC MARKET CONVERSION VALUE #BEFORE ANYTHING ELSE#, OR WE WON'T GET PROPER VOLUME IN CURRENCY ETC
                  // IF NOT SET YET, get bitcoin market data (if we are getting converted fiat currency values)
-                 if ( $market_conversion != 'market_only' && !isset($btc_exchange) && !isset($market_conv_btc_val) ) {
+                 if ( $mrkt_conversion != 'market_only' && !isset($btc_exchange) && !isset($mrkt_conv_btc_val) ) {
                  
                    
                      // If a preferred bitcoin market is set in app config, use it...otherwise use first array key
-                     if ( isset($ct_conf['power']['btc_pref_currency_mrkts'][$market_conversion]) ) {
-                     $btc_exchange = $ct_conf['power']['btc_pref_currency_mrkts'][$market_conversion];
+                     if ( isset($ct_conf['power']['btc_pref_currency_mrkts'][$mrkt_conversion]) ) {
+                     $btc_exchange = $ct_conf['power']['btc_pref_currency_mrkts'][$mrkt_conversion];
                  	 }
                  	 else {
-                 	 $btc_exchange = key($ct_conf['assets']['BTC']['pair'][$market_conversion]);
+                 	 $btc_exchange = key($ct_conf['assets']['BTC']['pair'][$mrkt_conversion]);
                  	 }
                    
                    
-                 $btc_pair_id = $ct_conf['assets']['BTC']['pair'][$market_conversion][$btc_exchange];
+                 $btc_pair_id = $ct_conf['assets']['BTC']['pair'][$mrkt_conversion][$btc_exchange];
                  
-                 $market_conv_btc_val = $ct_api->market('BTC', $btc_exchange, $btc_pair_id)['last_trade'];
+                 $mrkt_conv_btc_val = $ct_api->market('BTC', $btc_exchange, $btc_pair_id)['last_trade'];
                  
                        
                        // FAILSAFE: If the exchange market is DOES NOT RETURN a value, 
                        // move the internal array pointer one forward, until we've tried all exchanges for this btc pair
                        $switch_exchange = true;
-                       while ( !isset($market_conv_btc_val) && $switch_exchange != false || $ct_var->num_to_str($market_conv_btc_val) < 0.00000001 && $switch_exchange != false ) {
+                       while ( !isset($mrkt_conv_btc_val) && $switch_exchange != false || $ct_var->num_to_str($mrkt_conv_btc_val) < 0.00000001 && $switch_exchange != false ) {
                          
-                       $switch_exchange = next($ct_conf['assets']['BTC']['pair'][$market_conversion]);
+                       $switch_exchange = next($ct_conf['assets']['BTC']['pair'][$mrkt_conversion]);
                        
                            if ( $switch_exchange != false ) {
                              
-                           $btc_exchange = key($ct_conf['assets']['BTC']['pair'][$market_conversion]);
+                           $btc_exchange = key($ct_conf['assets']['BTC']['pair'][$mrkt_conversion]);
                            
-                           $btc_pair_id = $ct_conf['assets']['BTC']['pair'][$market_conversion][$btc_exchange];
+                           $btc_pair_id = $ct_conf['assets']['BTC']['pair'][$mrkt_conversion][$btc_exchange];
                  
-                           $market_conv_btc_val = $ct_api->market('BTC', $btc_exchange, $btc_pair_id)['last_trade'];
+                           $mrkt_conv_btc_val = $ct_api->market('BTC', $btc_exchange, $btc_pair_id)['last_trade'];
                        
                            }
                  
@@ -804,17 +804,17 @@ var $ct_array1 = array();
            
                  
                  // OVERWRITE SELECTED BITCOIN CURRENCY MARKET GLOBALS
-                 $ct_conf['gen']['btc_prim_currency_pair'] = $market_conversion;
+                 $ct_conf['gen']['btc_prim_currency_pair'] = $mrkt_conversion;
                  $ct_conf['gen']['btc_prim_exchange'] = $btc_exchange;
                  
                  // OVERWRITE #GLOBAL# BTC PRIMARY CURRENCY VALUE (so we get correct values for volume in currency etc)
-                 $sel_opt['sel_btc_prim_currency_val'] = $market_conv_btc_val;
+                 $sel_opt['sel_btc_prim_currency_val'] = $mrkt_conv_btc_val;
                  
                  }
                  
                    
                    
-           $asset_mrkt_data = $ct_api->market(strtoupper($asset), $exchange, $pair_id, $market_pair);
+           $asset_mrkt_data = $ct_api->market(strtoupper($asset), $exchange, $pair_id, $mrkt_pair);
            
            $asset_val_raw = $asset_mrkt_data['last_trade'];
            
@@ -826,62 +826,69 @@ var $ct_array1 = array();
            
            
                  // More pretty numbers formatting
-                 if ( array_key_exists($market_pair, $ct_conf['power']['btc_currency_mrkts']) ) {
-                 $asset_val_raw = ( $ct_var->num_to_str($asset_val_raw) >= 1 ? round($asset_val_raw, 2) : round($asset_val_raw, $ct_conf['gen']['prim_currency_dec_max']) );
+                 if ( array_key_exists($mrkt_pair, $ct_conf['power']['btc_currency_mrkts']) ) {
+                 $asset_val_raw = ( $ct_var->num_to_str($asset_val_raw) >= 1 ? round($asset_val_raw, 2) : round($asset_val_raw, $ct_conf['gen']['currency_dec_max']) );
                  $vol_pair_rounded = round($pair_vol_raw);
                  }
                  else {
                  $vol_pair_rounded = round($pair_vol_raw, 3);
                  }
                  
-                 
+           
+           // Remove any trailing zeros / scientific formatting from round()
+           $asset_val_raw = $ct_var->num_to_str($asset_val_raw);
+           $vol_pair_rounded = $ct_var->num_to_str($vol_pair_rounded);
+           
                  
                  // Get converted fiat currency values if requested
-                 if ( $market_conversion != 'market_only' ) {
+                 if ( $mrkt_conversion != 'market_only' ) {
                  
                      // Value in fiat currency
-                       if ( $market_pair == 'btc' ) {
-                       $asset_prim_mrkt_worth_raw = $asset_val_raw * $market_conv_btc_val;
+                       if ( $mrkt_pair == 'btc' ) {
+                       $asset_prim_mrkt_worth_raw = $asset_val_raw * $mrkt_conv_btc_val;
                        }
                        else {
                        	
-                       $pair_btc_val = $this->pair_btc_val($market_pair);
+                       $pair_btc_val = $this->pair_btc_val($mrkt_pair);
                        
                            if ( $pair_btc_val == null ) {
                            	
                            $ct_gen->log(
                            			'market_error',
                            			'this->pair_btc_val() returned null in ct_asset->market_conv_int_api()',
-                           			'pair: ' . $market_pair
+                           			'pair: ' . $mrkt_pair
                            			);
                            
                            }
                            
-                       $asset_prim_mrkt_worth_raw = ($asset_val_raw * $pair_btc_val) * $market_conv_btc_val;
+                       $asset_prim_mrkt_worth_raw = ($asset_val_raw * $pair_btc_val) * $mrkt_conv_btc_val;
                        
                        }
                  
                  // Pretty numbers for fiat currency
-                 $asset_prim_mrkt_worth_raw = ( $ct_var->num_to_str($asset_prim_mrkt_worth_raw) >= 1 ? round($asset_prim_mrkt_worth_raw, 2) : round($asset_prim_mrkt_worth_raw, $ct_conf['gen']['prim_currency_dec_max']) );
+                 $asset_prim_mrkt_worth_raw = ( $ct_var->num_to_str($asset_prim_mrkt_worth_raw) >= 1 ? round($asset_prim_mrkt_worth_raw, 2) : round($asset_prim_mrkt_worth_raw, $ct_conf['gen']['currency_dec_max']) );
+                 
+                 // Remove any trailing zeros / scientific formatting from round()
+                 $asset_prim_mrkt_worth_raw = $ct_var->num_to_str($asset_prim_mrkt_worth_raw);
                  
                  }
            
            
            
                  // Results
-                 if ( $market_conversion != $market_pair && $market_conversion != 'market_only' ) {
+                 if ( $mrkt_conversion != $mrkt_pair && $mrkt_conversion != 'market_only' ) {
                  
                  // Flag we are doing a price conversion
                  $price_conversion = 1;
                    
-                 $result['market_conversion'][$market_data] = array(
+                 $result['market_conversion'][$mrkt_data] = array(
                  
                                                                     'market' => array( 
-                                                                    				$market_pair => array('spot_price' => $asset_val_raw, '24hr_vol' => $vol_pair_rounded)
+                                                                    				$mrkt_pair => array('spot_price' => $asset_val_raw, '24hr_vol' => $vol_pair_rounded)
                                                                     				),
                                                                     							
                                                                     'conversion' => array(
-                                                                    					$market_conversion => array('spot_price' => $asset_prim_mrkt_worth_raw, '24hr_vol' => round($asset_mrkt_data['24hr_prim_currency_vol']) )
+                                                                    					$mrkt_conversion => array('spot_price' => $asset_prim_mrkt_worth_raw, '24hr_vol' => $ct_var->num_to_str( round($asset_mrkt_data['24hr_prim_currency_vol']) ) )
                                                                     					)
                                                                     								
                                                                      );
@@ -889,9 +896,9 @@ var $ct_array1 = array();
                  }
                  else {
                    
-                 $result['market_conversion'][$market_data] = array(
+                 $result['market_conversion'][$mrkt_data] = array(
                                                                     'market' => array( 
-                                                                    				$market_pair => array('spot_price' => $asset_val_raw, '24hr_vol' => $vol_pair_rounded) 
+                                                                    				$mrkt_pair => array('spot_price' => $asset_val_raw, '24hr_vol' => $vol_pair_rounded) 
                                                                     				)
                                                                      );
                                                        
@@ -900,9 +907,9 @@ var $ct_array1 = array();
            
            
            }
-           elseif ( !is_array($market_data_array) || is_array($market_data_array) && sizeof($market_data_array) < 3 ) {
+           elseif ( !is_array($mrkt_data_array) || is_array($mrkt_data_array) && sizeof($mrkt_data_array) < 3 ) {
            	
-           $result['market_conversion'][$market_data] = array('error' => "Missing all 3 REQUIRED sub-parameters: [exchange-asset-pair]");
+           $result['market_conversion'][$mrkt_data] = array('error' => "Missing all 3 REQUIRED sub-parameters: [exchange-asset-pair]");
            
            $ct_gen->log(
            			'int_api_error',
@@ -915,11 +922,11 @@ var $ct_array1 = array();
            }
            elseif ( $pair_id == '' ) {
            	
-           $result['market_conversion'][$market_data] = array('error' => "Market does not exist: [" . $exchange . "-" . $asset . "-" . $market_pair . "]");
+           $result['market_conversion'][$mrkt_data] = array('error' => "Market does not exist: [" . $exchange . "-" . $asset . "-" . $mrkt_pair . "]");
            
            $ct_gen->log(
            			'int_api_error',
-           			'From ' . $remote_ip . ' (Market does not exist: ' . $exchange . "-" . $asset . "-" . $market_pair . ')',
+           			'From ' . $remote_ip . ' (Market does not exist: ' . $exchange . "-" . $asset . "-" . $mrkt_pair . ')',
            			'uri: ' . $_SERVER['REQUEST_URI'] . ';'
            			);
            								
@@ -932,12 +939,12 @@ var $ct_array1 = array();
    
    
       // If we did a price conversion, show market used
-      if ( $market_conversion != 'market_only' && $price_conversion == 1 ) {
+      if ( $mrkt_conversion != 'market_only' && $price_conversion == 1 ) {
       
       // Reset internal array pointer
-      reset($ct_conf['assets']['BTC']['pair'][$market_conversion]);
+      reset($ct_conf['assets']['BTC']['pair'][$mrkt_conversion]);
        
-      $result['market_conversion_source'] = $btc_exchange . '-btc-' . $market_conversion;
+      $result['market_conversion_source'] = $btc_exchange . '-btc-' . $mrkt_conversion;
       
       }
    
@@ -956,6 +963,15 @@ var $ct_array1 = array();
    global $ct_conf, $ct_var, $ct_gen, $ct_api, $btc_pair_mrkts, $btc_pair_mrkts_excluded;
    
    $pair = strtolower($pair);
+      
+      
+      $loop = 0;
+      $min_val_test = "0.";
+      while ( $loop < $ct_conf['gen']['crypto_dec_max'] ) {
+      $loop = $loop + 1;
+      $min_val_test .= ( $loop < $ct_conf['gen']['crypto_dec_max'] ? '0' : '1' );
+      }
+      $loop = 0;
    
    
       // Safeguard / cut down on runtime
@@ -987,40 +1003,41 @@ var $ct_array1 = array();
 	        }
 	        // Preferred BITCOIN market(s) for getting a certain currency's value, if in config and more than one market exists
 	        elseif ( is_array($ct_conf['assets'][strtoupper($pair)]['pair']['btc']) && sizeof($ct_conf['assets'][strtoupper($pair)]['pair']['btc']) > 1 && array_key_exists($pair, $ct_conf['power']['crypto_pair_pref_mrkts']) ) {
-	        $market_override = $ct_conf['power']['crypto_pair_pref_mrkts'][$pair];
+	        $mrkt_override = $ct_conf['power']['crypto_pair_pref_mrkts'][$pair];
 	        }
 	      
 	      
 	        // Loop until we find a market override / non-excluded pair market
-	        foreach ( $ct_conf['assets'][strtoupper($pair)]['pair']['btc'] as $market_key => $market_val ) {
+	        foreach ( $ct_conf['assets'][strtoupper($pair)]['pair']['btc'] as $mrkt_key => $mrkt_val ) {
 	            
 	            
-	              if ( is_array($btc_pair_mrkts_excluded[$pair]) && in_array($market_key, $btc_pair_mrkts_excluded[$pair]) ) {
-	              $market_blacklisted = true;
+	              if ( is_array($btc_pair_mrkts_excluded[$pair]) && in_array($mrkt_key, $btc_pair_mrkts_excluded[$pair]) ) {
+	              $mrkt_blacklisted = true;
 	              }
 	              else {
-	              $market_blacklisted = false;
+	              $mrkt_blacklisted = false;
 	              }
 	              
 	              
-	              if ( is_array($btc_pair_mrkts_excluded[$pair]) && in_array($market_override, $btc_pair_mrkts_excluded[$pair]) ) {
-	              $market_override_blacklisted = true;
+	              if ( is_array($btc_pair_mrkts_excluded[$pair]) && in_array($mrkt_override, $btc_pair_mrkts_excluded[$pair]) ) {
+	              $mrkt_override_blacklisted = true;
 	              }
 	              else {
-	              $market_override_blacklisted = false;
+	              $mrkt_override_blacklisted = false;
 	              }
 	              
 	              
 		          if ( 
-		          isset($market_override) && $market_override == $market_key && !$market_blacklisted
-		          || isset($market_override) && $market_override != $market_key && $market_override_blacklisted && !$market_blacklisted
-		          || !isset($market_override) && !$market_blacklisted
+		          isset($mrkt_override) && $mrkt_override == $mrkt_key && !$mrkt_blacklisted
+		          || isset($mrkt_override) && $mrkt_override != $mrkt_key && $mrkt_override_blacklisted && !$mrkt_blacklisted
+		          || !isset($mrkt_override) && !$mrkt_blacklisted
 		          ) {
 		            
-		          $btc_pair_mrkts[$pair.'_btc'] = $ct_api->market(strtoupper($pair), $market_key, $market_val)['last_trade'];
+		          $btc_pair_mrkts[$pair.'_btc'] = $ct_var->num_to_str( $ct_api->market(strtoupper($pair), $mrkt_key, $mrkt_val)['last_trade'] );
 		          
 			            // Fallback support IF THIS IS A FUTURES MARKET (we want a normal / current value), OR no data returned
-			            if ( stristr($market_key, 'bitmex_') == false && $ct_var->num_to_str($btc_pair_mrkts[$pair.'_btc']) >= 0.00000001 ) {
+			            // FUTURE-PROOF FIAT ROUNDING WITH $ct_conf['gen']['crypto_dec_max'] DECIMALS, IN CASE BITCOIN MOONS HARD
+			            if ( stristr($mrkt_key, 'bitmex_') == false && $btc_pair_mrkts[$pair.'_btc'] >= $min_val_test ) {
 			              
 				              // Data debugging telemetry
 				              if ( $ct_conf['dev']['debug_mode'] == 'all' || $ct_conf['dev']['debug_mode'] == 'all_telemetry' ) {
@@ -1028,12 +1045,12 @@ var $ct_array1 = array();
 				              $ct_gen->log(
 				              			'market_debug',
 				              			'this->pair_btc_val() market request succeeded for ' . $pair,
-				              			'exchange: ' . $market_key
+				              			'exchange: ' . $mrkt_key
 				              			);
 				              
 				              }
 			                
-			            return $ct_var->num_to_str($btc_pair_mrkts[$pair.'_btc']);
+			            return $btc_pair_mrkts[$pair.'_btc'];
 			            
 			            }
 			            // ONLY LOG AN ERROR IF ALL AVAILABLE MARKETS FAIL (AND RETURN NULL)
@@ -1043,7 +1060,7 @@ var $ct_array1 = array();
 			            $ct_gen->log(
 			            			'market_error',
 			            							
-			            			'this->pair_btc_val() - market request failure (all '.sizeof($btc_pair_mrkts_excluded[$pair]).' markets failed) for ' . $pair . ' / btc (' . $market_key . ')',
+			            			'this->pair_btc_val() - market request failure (all '.sizeof($btc_pair_mrkts_excluded[$pair]).' markets failed) for ' . $pair . ' / btc (' . $mrkt_key . ')',
 			            							
 			            			$pair . '_mrkts_excluded_count: ' . sizeof($btc_pair_mrkts_excluded[$pair])
 			            			);
@@ -1053,7 +1070,7 @@ var $ct_array1 = array();
 			            }
 			            else {
 			            $btc_pair_mrkts[$pair.'_btc'] = null; // Reset
-			            $btc_pair_mrkts_excluded[$pair][] = $market_key; // Market exclusion list, getting pair data from this exchange IN ANY PAIR, for this runtime only
+			            $btc_pair_mrkts_excluded[$pair][] = $mrkt_key; // Market exclusion list, getting pair data from this exchange IN ANY PAIR, for this runtime only
 			            return $this->pair_btc_val($pair);
 			            }
 		          
@@ -1083,39 +1100,39 @@ var $ct_array1 = array();
 	        }
 	        // Preferred BITCOIN market(s) for getting a certain currency's value, if in config and more than one market exists
 	        elseif ( is_array($ct_conf['assets']['BTC']['pair'][$pair]) && sizeof($ct_conf['assets']['BTC']['pair'][$pair]) > 1 && array_key_exists($pair, $ct_conf['power']['btc_pref_currency_mrkts']) ) {
-	        $market_override = $ct_conf['power']['btc_pref_currency_mrkts'][$pair];
+	        $mrkt_override = $ct_conf['power']['btc_pref_currency_mrkts'][$pair];
 	        }
 	            
 	            
 	        // Loop until we find a market override / non-excluded pair market
-	        foreach ( $ct_conf['assets']['BTC']['pair'][$pair] as $market_key => $market_val ) {
+	        foreach ( $ct_conf['assets']['BTC']['pair'][$pair] as $mrkt_key => $mrkt_val ) {
 	            
 	            
-	              if ( is_array($btc_pair_mrkts_excluded[$pair]) && in_array($market_key, $btc_pair_mrkts_excluded[$pair]) ) {
-	              $market_blacklisted = true;
+	              if ( is_array($btc_pair_mrkts_excluded[$pair]) && in_array($mrkt_key, $btc_pair_mrkts_excluded[$pair]) ) {
+	              $mrkt_blacklisted = true;
 	              }
 	              else {
-	              $market_blacklisted = false;
+	              $mrkt_blacklisted = false;
 	              }
 	              
 	              
-	              if ( is_array($btc_pair_mrkts_excluded[$pair]) && in_array($market_override, $btc_pair_mrkts_excluded[$pair]) ) {
-	              $market_override_blacklisted = true;
+	              if ( is_array($btc_pair_mrkts_excluded[$pair]) && in_array($mrkt_override, $btc_pair_mrkts_excluded[$pair]) ) {
+	              $mrkt_override_blacklisted = true;
 	              }
 	              else {
-	              $market_override_blacklisted = false;
+	              $mrkt_override_blacklisted = false;
 	              }
 	              
 	              
 		          if (
-		          isset($market_override) && $market_override == $market_key && !$market_blacklisted
-		          || isset($market_override) && $market_override != $market_key && $market_override_blacklisted && !$market_blacklisted
-		          || !isset($market_override) && !$market_blacklisted
+		          isset($mrkt_override) && $mrkt_override == $mrkt_key && !$mrkt_blacklisted
+		          || isset($mrkt_override) && $mrkt_override != $mrkt_key && $mrkt_override_blacklisted && !$mrkt_blacklisted
+		          || !isset($mrkt_override) && !$mrkt_blacklisted
 		          ) {
 		                
 		          
-        		        if ( $ct_api->market(strtoupper($pair), $market_key, $market_val)['last_trade'] > 0 ) {
-        		        $btc_pair_mrkts[$pair.'_btc'] = ( 1 / $ct_api->market(strtoupper($pair), $market_key, $market_val)['last_trade'] );
+        		        if ( $ct_api->market(strtoupper($pair), $mrkt_key, $mrkt_val)['last_trade'] > 0 ) {
+        		        $btc_pair_mrkts[$pair.'_btc'] = $ct_var->num_to_str( 1 / $ct_api->market(strtoupper($pair), $mrkt_key, $mrkt_val)['last_trade'] );
         		        }
         		        else {
         		        $btc_pair_mrkts[$pair.'_btc'] = null;
@@ -1123,7 +1140,8 @@ var $ct_array1 = array();
 		                
 		                
 			            // Fallback support IF THIS IS A FUTURES MARKET (we want a normal / current value), OR no data returned
-			            if ( stristr($market_key, 'bitmex_') == false && $ct_var->num_to_str($btc_pair_mrkts[$pair.'_btc']) >= 0.0000000000000000000000001 ) { // FUTURE-PROOF FIAT ROUNDING WITH 25 DECIMALS, IN CASE BITCOIN MOONS HARD
+			            // FUTURE-PROOF FIAT ROUNDING WITH $ct_conf['gen']['crypto_dec_max'] DECIMALS, IN CASE BITCOIN MOONS HARD
+			            if ( stristr($mrkt_key, 'bitmex_') == false && $btc_pair_mrkts[$pair.'_btc'] >= $min_val_test ) {
 			                  
 				              // Data debugging telemetry
 				              if ( $ct_conf['dev']['debug_mode'] == 'all' || $ct_conf['dev']['debug_mode'] == 'all_telemetry' ) {
@@ -1131,12 +1149,12 @@ var $ct_array1 = array();
 				              $ct_gen->log(
 				              			'market_debug',
 				              			'ct_asset->pair_btc_val() market request succeeded for ' . $pair,
-				              			'exchange: ' . $market_key
+				              			'exchange: ' . $mrkt_key
 				              			);
 				              
 				              }
 			                  
-			            return $ct_var->num_to_str($btc_pair_mrkts[$pair.'_btc']);
+			            return $btc_pair_mrkts[$pair.'_btc'];
 			                
 			            }
 			            // ONLY LOG AN ERROR IF ALL AVAILABLE MARKETS FAIL (AND RETURN NULL)
@@ -1145,7 +1163,7 @@ var $ct_array1 = array();
 			            	
 			            $ct_gen->log(
 			            			'market_error',
-			            			'this->pair_btc_val() - market request failure (all '.sizeof($btc_pair_mrkts_excluded[$pair]).' markets failed) for btc / ' . $pair . ' (' . $market_key . ')', $pair . '_mrkts_excluded_count: ' . sizeof($btc_pair_mrkts_excluded[$pair])
+			            			'this->pair_btc_val() - market request failure (all '.sizeof($btc_pair_mrkts_excluded[$pair]).' markets failed) for btc / ' . $pair . ' (' . $mrkt_key . ')', $pair . '_mrkts_excluded_count: ' . sizeof($btc_pair_mrkts_excluded[$pair])
 			            			);
 			            
 			            return null;
@@ -1153,7 +1171,7 @@ var $ct_array1 = array();
 			            }
 			            else {
 			            $btc_pair_mrkts[$pair.'_btc'] = null; // Reset	
-			            $btc_pair_mrkts_excluded[$pair][] = $market_key; // Market exclusion list, getting pair data from this exchange IN ANY PAIR, for this runtime only
+			            $btc_pair_mrkts_excluded[$pair][] = $mrkt_key; // Market exclusion list, getting pair data from this exchange IN ANY PAIR, for this runtime only
 			            return $this->pair_btc_val($pair);
 			            }
 		          
@@ -1178,7 +1196,7 @@ var $ct_array1 = array();
    ////////////////////////////////////////////////////////
    
    
-   function ui_asset_row($asset_name, $asset_symb, $asset_amnt, $all_pair_mrkts, $sel_pair, $sel_exchange, $purchase_price=null, $leverage_level, $sel_mrgntyp) {
+   function ui_asset_row($asset_name, $asset_symb, $asset_amnt, $all_pair_mrkts, $sel_pair, $sel_exchange, $purchase_price=null, $lvrg_level, $sel_mrgntyp) {
    
    // Globals
    global $base_dir, $ct_conf, $ct_gen, $ct_var, $ct_api, $sel_opt, $btc_worth_array, $stocks_btc_worth_array, $asset_stats_array, $td_color_zebra, $mcap_data_force_usd, $coingecko_api, $coinmarketcap_api;
@@ -1234,7 +1252,7 @@ var $ct_array1 = array();
          $loop = null; 
         
         
-      $market_id = $all_pair_mrkts[$sel_exchange];
+      $mrkt_id = $all_pair_mrkts[$sel_exchange];
         
         
       // Overwrite PRIMARY CURRENCY CONFIG / BTC market value, in case user changed preferred market IN THE UI
@@ -1297,12 +1315,12 @@ var $ct_array1 = array();
       // Get coin values, including non-BTC pairs
         
       // Consolidate function calls for runtime speed improvement
-      $asset_mrkt_data = $ct_api->market($asset_symb, $sel_exchange, $market_id, $sel_pair);
+      $asset_mrkt_data = $ct_api->market($asset_symb, $sel_exchange, $mrkt_id, $sel_pair);
     
     
          // ETH ICOS (OVERWRITE W/ DIFF LOGIC)
          if ( $sel_exchange == 'ico_erc20_value' ) {
-         $asset_val_raw = $this->static_erc20_price($sel_exchange, $market_id);
+         $asset_val_raw = $this->static_erc20_price($sel_exchange, $mrkt_id);
          }
          else {
          $asset_val_raw = $asset_mrkt_data['last_trade'];
@@ -1336,7 +1354,15 @@ var $ct_array1 = array();
          }
          else {
              
-         $btc_trade_eqiv_raw = number_format( ($asset_val_raw * $pair_btc_val) , 8, '.', '');
+         $btc_trade_eqiv_raw = number_format( ($asset_val_raw * $pair_btc_val) , $ct_conf['gen']['crypto_dec_max'], '.', '');
+         $btc_trade_eqiv_raw = $ct_var->num_to_str($btc_trade_eqiv_raw); // Cleanup any trailing zeros
+         
+              // DEBUGGING ONLY (for super-low value coins)
+              //if ( strtolower($asset_name) == 'bonk' ) {
+              //var_dump($pair_btc_val);
+              //var_dump($btc_trade_eqiv_raw);
+              //}
+         
          $btc_worth_array[$asset_symb] = $ct_var->num_to_str($asset_val_total_raw * $pair_btc_val);
          
             if ( preg_match("/stock/i", $asset_symb) ) {
@@ -1364,7 +1390,7 @@ var $ct_array1 = array();
             
             
                // Convert $gain_loss for shorts with leverage
-               if ( $leverage_level >= 2 && $sel_mrgntyp == 'short' ) {
+               if ( $lvrg_level >= 2 && $sel_mrgntyp == 'short' ) {
                  
                $prev_gain_loss_val = $gain_loss;
                  
@@ -1384,11 +1410,11 @@ var $ct_array1 = array();
          $gain_loss_percent = ($asset_prim_currency_worth_raw - $asset_paid_total_raw) / abs($asset_paid_total_raw) * 100;
           
          // Check for any leverage gain / loss
-         $only_lvrg_gain_loss = ( $leverage_level >= 2 ? ($gain_loss * ($leverage_level - 1) ) : 0 );
+         $only_lvrg_gain_loss = ( $lvrg_level >= 2 ? ($gain_loss * ($lvrg_level - 1) ) : 0 );
           
-         $inc_lvrg_gain_loss = ( $leverage_level >= 2 ? ($gain_loss * $leverage_level) : $gain_loss );
+         $inc_lvrg_gain_loss = ( $lvrg_level >= 2 ? ($gain_loss * $lvrg_level) : $gain_loss );
           
-         $inc_lvrg_gain_loss_percent =  ( $leverage_level >= 2 ? ($gain_loss_percent * $leverage_level) : $gain_loss_percent );
+         $inc_lvrg_gain_loss_percent =  ( $lvrg_level >= 2 ? ($gain_loss_percent * $lvrg_level) : $gain_loss_percent );
           
            
          }
@@ -1402,7 +1428,7 @@ var $ct_array1 = array();
        
       $asset_stats_array[] = array(
                                   'coin_symb' => $asset_symb, 
-                                  'coin_lvrg' => $leverage_level,
+                                  'coin_lvrg' => $lvrg_level,
                                   'selected_mrgntyp' => $sel_mrgntyp,
                                   'coin_worth_total' => $asset_prim_currency_worth_raw,
                                   'coin_total_worth_if_purchase_price' => ($no_purchase_price == 1 ? null : $asset_prim_currency_worth_raw),
@@ -1477,6 +1503,7 @@ var $ct_array1 = array();
       $fiat_eqiv = 1;
       }
       
+      
    /////////////////////////////////////////////////////////////////
    
    
@@ -1495,7 +1522,8 @@ var $ct_array1 = array();
       }
       // BTC PAIRS CONVERTED TO PRIMARY CURRENCY CONFIG (EQUIV) CHARTS
       elseif ( $pair == 'btc' ) {
-      $asset_prim_currency_val_raw = number_format( $default_btc_prim_currency_val * $asset_mrkt_data['last_trade'] , 8, '.', '');
+      $asset_prim_currency_val_raw = number_format( $default_btc_prim_currency_val * $asset_mrkt_data['last_trade'] , $ct_conf['gen']['crypto_dec_max'], '.', '');
+      $asset_prim_currency_val_raw = $ct_var->num_to_str($asset_prim_currency_val_raw); // Cleanup any trailing zeros
       }
       // OTHER PAIRS CONVERTED TO PRIMARY CURRENCY CONFIG (EQUIV) CHARTS
       else {
@@ -1512,7 +1540,8 @@ var $ct_array1 = array();
 	        
 	        }
       
-      $asset_prim_currency_val_raw = number_format( $default_btc_prim_currency_val * ( $asset_mrkt_data['last_trade'] * $pair_btc_val ) , 8, '.', '');
+      $asset_prim_currency_val_raw = number_format( $default_btc_prim_currency_val * ( $asset_mrkt_data['last_trade'] * $pair_btc_val ) , $ct_conf['gen']['crypto_dec_max'], '.', '');
+      $asset_prim_currency_val_raw = $ct_var->num_to_str($asset_prim_currency_val_raw); // Cleanup any trailing zeros
       
       }
       /////////////////////////////////////////////////////////////////
@@ -1520,10 +1549,21 @@ var $ct_array1 = array();
      
        
    /////////////////////////////////////////////////////////////////
+   
    $pair_vol_raw = $ct_var->num_to_str($asset_mrkt_data['24hr_pair_vol']); // If available, we'll use this for chart volume UX
    $vol_prim_currency_raw = $asset_mrkt_data['24hr_prim_currency_vol'];
-       
-   $asset_pair_val_raw = number_format( $asset_mrkt_data['last_trade'] , 8, '.', '');
+      
+      
+      if ( $fiat_eqiv == 1 ) {
+      $asset_pair_val_raw = number_format( $asset_mrkt_data['last_trade'] , $ct_conf['gen']['currency_dec_max'], '.', '');
+      }
+      else {
+      $asset_pair_val_raw = number_format( $asset_mrkt_data['last_trade'] , $ct_conf['gen']['crypto_dec_max'], '.', '');
+      }
+      
+      
+   $asset_pair_val_raw = $ct_var->num_to_str($asset_pair_val_raw); // Cleanup any trailing zeros
+   
    /////////////////////////////////////////////////////////////////
      
      
@@ -1581,9 +1621,9 @@ var $ct_array1 = array();
    $pair_vol_raw = ( isset($pair_vol_raw) ? round($pair_vol_raw, ( $fiat_eqiv == 1 ? 0 : $ct_conf['gen']['chart_crypto_vol_dec'] ) ) : null );	
      
      
-   // Round PRIMARY CURRENCY CONFIG asset price to only keep $ct_conf['gen']['prim_currency_dec_max'] decimals maximum 
+   // Round PRIMARY CURRENCY CONFIG asset price to only keep $ct_conf['gen']['currency_dec_max'] decimals maximum 
    // (or only 2 decimals if worth 1 unit value or more), to save on data set / storage size
-   $asset_prim_currency_val_raw = ( $ct_var->num_to_str($asset_prim_currency_val_raw) >= 1 ? round($asset_prim_currency_val_raw, 2) : round($asset_prim_currency_val_raw, $ct_conf['gen']['prim_currency_dec_max']) );
+   $asset_prim_currency_val_raw = ( $ct_var->num_to_str($asset_prim_currency_val_raw) >= 1 ? round($asset_prim_currency_val_raw, 2) : round($asset_prim_currency_val_raw, $ct_conf['gen']['currency_dec_max']) );
      
    
    // WE SET ALERT CACHE CONTENTS AS EARLY AS POSSIBLE, AS IT MAY BE DESIRED #OUTSIDE TRIGGERED ALERTS LOGIC# IN FUTURE LOGIC
@@ -1591,19 +1631,18 @@ var $ct_array1 = array();
    $alert_cache_contents = $asset_prim_currency_val_raw . '||' . $vol_prim_currency_raw . '||' . $pair_vol_raw;
      
      
-      // If fiat equivalent format, round asset price 
-      // to only keep $ct_conf['gen']['prim_currency_dec_max'] decimals maximum 
-      // (or only 2 decimals if worth 1 unit value or more), to save on data set / storage size
+      // If fiat equivalent format ONE UNIT VALUE OR GREATER, round asset price to 2 decimals, to save on data set / storage size
       if ( $fiat_eqiv == 1 ) {
-      $asset_pair_val_raw = ( $ct_var->num_to_str($asset_pair_val_raw) >= 1 ? round($asset_pair_val_raw, 2) : round($asset_pair_val_raw, $ct_conf['gen']['prim_currency_dec_max']) );
+      $asset_pair_val_raw = ( $asset_pair_val_raw >= 1 ? round($asset_pair_val_raw, 2) : $asset_pair_val_raw );
       }
    
    
-   // Remove any leading / trailing zeros from CRYPTO asset price, to save on data set / storage size
-   $asset_pair_val_raw = $ct_var->num_to_str($asset_pair_val_raw);
-   
-   // Remove any leading / trailing zeros from PAIR VOLUME, to save on data set / storage size
-   $pair_vol_raw = $ct_var->num_to_str($pair_vol_raw);
+   // Remove / RE-remove (after any rounding) any leading / trailing zeros (to save on data set / storage size),
+   // AND CONVERT FROM ANY SCIENTIFIC FORMAT TO A STRING INSTEAD
+   $vol_prim_currency_raw = ( $vol_prim_currency_raw != null ? $ct_var->num_to_str($vol_prim_currency_raw) : null );
+   $pair_vol_raw = ( $pair_vol_raw != null ? $ct_var->num_to_str($pair_vol_raw) : null );
+   $asset_prim_currency_val_raw = $ct_var->num_to_str($asset_prim_currency_val_raw); 
+   $asset_pair_val_raw = $ct_var->num_to_str($asset_pair_val_raw); 
    
    /////////////////////////////////////////////////////////////////
    
@@ -1724,7 +1763,7 @@ var $ct_array1 = array();
           }
           else {
           $cached_asset_prim_currency_val = $cached_array[0];  // PRIMARY CURRENCY CONFIG token value
-          $cached_prim_currency_vol = round($cached_array[1]); // PRIMARY CURRENCY CONFIG volume value (round PRIMARY CURRENCY CONFIG volume to nullify insignificant decimal amounts skewing checks)
+          $cached_prim_currency_vol = $ct_var->num_to_str( round($cached_array[1]) ); // PRIMARY CURRENCY CONFIG volume value (round PRIMARY CURRENCY CONFIG volume to nullify insignificant decimal amounts skewing checks)
           $cached_pair_vol = $cached_array[2]; // Crypto volume value (more accurate percent increase / decrease stats than PRIMARY CURRENCY CONFIG value fluctuations)
           }
         

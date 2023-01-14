@@ -284,6 +284,8 @@ var $ct_array1 = array();
    // Always display very large / small numbers in non-scientific format
    // Also removes any leading and trailing zeros for efficient storage / UX / etc
    function num_to_str($val) {
+        
+   global $ct_conf;
    
    // Trim any whitespace off the ends
    $val = trim($val);
@@ -302,8 +304,10 @@ var $ct_array1 = array();
       }
       
       
-      if ( $decimals > 9 ) {
-      $decimals = 9;
+      // Generally, crypto decimals are almost always higher then fiat,
+      // so have this be our ceiling
+      if ( $decimals > $ct_conf['gen']['crypto_dec_max'] ) {
+      $decimals = $ct_conf['gen']['crypto_dec_max'];
       }
       
       
@@ -362,17 +366,42 @@ var $ct_array1 = array();
    $raw_val_to_pretty = $this->rem_num_format($val_to_pretty);
    
    
-      // IF MIN DECIMAL IS SET HIGHER THAN MAX DECIMAL, UP MAX DECIMAL TO MATCH MIN DECIMAL
+   // GET INITIAL AMOUNT OF DECIMALS
+   $decimal_check = preg_replace("/(.*)\./", "", $raw_val_to_pretty);
+   $raw_dec_amount = iconv_strlen($decimal_check, 'utf-8');
+   
+   
+      // IF ORIGINAL DECIMALS IS LOWER THAN MAX DECIMALS, LOWER MAX DECIMAL TO MATCH ORIGINAL DECIMALS
+      if ( $raw_dec_amount < $dec_max ) {
+      $dec_max = $raw_dec_amount;
+      }
+      
+      // IF MIN DECIMALS IS SET HIGHER THAN MAX DECIMALS, UP MAX DECIMAL TO MATCH MIN DECIMAL
       if ( $dec_min > $dec_max ) {
       $dec_max = $dec_min;
       }
+      
+      
+      $loop = 0;
+      $min_val_test = "0.";
+      while ( $loop < $dec_max ) {
+      $loop = $loop + 1;
+      $min_val_test .= ( $loop < $dec_max ? '0' : '1' );
+      }
+      
+      
+      // If our value IS LESS THAN WHAT WOULD SHOW *AT ALL* WITH CURRENT MAX DECIMALS,
+      // THEN SET THE FLAG $small_unlimited TO DISREGARD MAX DECIMALS
+      if ( $min_val_test > $raw_val_to_pretty ) {
+      $small_unlimited = true;
+      }
    
    
-   	  // Do any MAX decimal allowed rounding that may be needed FIRST
-   	  // (skip WATCH-ONLY flag values)
-   	  if ( $small_unlimited != true ) { 
-   	  $raw_val_to_pretty = number_format($raw_val_to_pretty, $dec_max, '.', '');
-   	  }
+   	 // Do any MAX decimal allowed rounding that may be needed FIRST
+   	 // (skip WATCH-ONLY flag values)
+   	 if ( $small_unlimited != true ) { 
+   	 $raw_val_to_pretty = number_format($raw_val_to_pretty, $dec_max, '.', '');
+   	 }
    
    
    // AFTER MAX DECIMAL ROUNDING, RE-PROCESS removing leading / trailing zeros

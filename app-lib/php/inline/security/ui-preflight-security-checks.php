@@ -197,9 +197,25 @@ elseif ( $htaccess_username == '' || $htaccess_password == '' ) {
 
 
 // CHECK FOR HEADER HOSTNAME SPOOFING ATTACKS (now that we have fully processed the app config)
-    
-$base_url_check = $ct_gen->base_url();
 
+
+// Have UI runtime mode RE-CACHE the app URL data every 24 hours, since CLI runtime cannot determine the app URL (for sending backup link emails during backups, etc)
+// (ONLY DURING 'ui' RUNTIMES, TO ASSURE IT'S NEVER FROM A REWRITE [PRETTY LINK] URL LIKE /api OR /hook)
+// WE FORCE A SECURITY CHECK HERE (OVERRIDES ONLY CHECKING EVERY X MINUTES), SINCE WE ARE CACHING THE BASE URL DATA
+if ( $ct_cache->update_cache('cache/vars/base_url.dat', (60 * 24) ) == true ) {
+	    
+$base_url_check = $ct_gen->base_url('forced_sec_check'); 
+	
+    if ( !isset($base_url_check['security_error']) ) {
+    $ct_cache->save_file('cache/vars/base_url.dat', $base_url_check);
+    }
+	    
+}
+// Otherwise, just do a regular check for security against header hostname spoofing attacks
+else {
+$base_url_check = $ct_gen->base_url();
+}
+    
 
 if ( isset($base_url_check['security_error']) ) {
         

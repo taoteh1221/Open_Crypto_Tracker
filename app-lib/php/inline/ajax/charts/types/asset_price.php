@@ -29,10 +29,10 @@ $x_coord = 75; // Start position (absolute) for light chart links
 		$chart_asset = ( stristr($key, "-") == false ? $key : substr( $key, 0, mb_strpos($key, "-", 0, 'utf-8') ) );
 		$chart_asset = strtoupper($chart_asset);
 		
-		$market_parse = explode("||", $val );
+		$mrkt_parse = explode("||", $val );
 
 
-		$charted_val = ( $_GET['charted_val'] == 'pair' ? $market_parse[1] : $default_btc_prim_currency_pair );
+		$charted_val = ( $_GET['charted_val'] == 'pair' ? $mrkt_parse[1] : $default_btc_prim_currency_pair );
 		
 		
 		// Strip non-alphanumeric characters to use in js vars, to isolate logic for each separate chart
@@ -104,7 +104,7 @@ gui: {
   	x: 0, 
   	y: 0,
   	title: {
-  	  text: "<?=$chart_asset?> / <?=strtoupper($market_parse[1])?> @ <?=$ct_gen->key_to_name($market_parse[0])?> <?=( $_GET['charted_val'] != 'pair' ? '(' . strtoupper($charted_val) . ' Value)' : '' )?>",
+  	  text: "<?=$chart_asset?> / <?=strtoupper($mrkt_parse[1])?> @ <?=$ct_gen->key_to_name($mrkt_parse[0])?> <?=( $_GET['charted_val'] != 'pair' ? '(' . strtoupper($charted_val) . ' Value)' : '' )?>",
   	  fontColor: "<?=$ct_conf['power']['charts_text']?>",
   	  fontFamily: 'Open Sans',
   	  fontSize: 25,
@@ -155,7 +155,7 @@ gui: {
 			}
 			
 		
-		$chart_data = $ct_gen->chart_data('cache/charts/spot_price_24hr_volume/light/' . $_GET['days'] . '_days/'.$chart_asset.'/'.$key.'_chart_'.$charted_val.'.dat', $market_parse[1]);
+		$chart_data = $ct_gen->chart_data('cache/charts/spot_price_24hr_volume/light/' . $_GET['days'] . '_days/'.$chart_asset.'/'.$key.'_chart_'.$charted_val.'.dat', $mrkt_parse[1]);
 		
 		
 		$price_sample_oldest = $ct_var->num_to_str( $ct_var->delimited_str_sample($chart_data['spot'], ',', 'first') );
@@ -165,7 +165,7 @@ gui: {
 		$price_sample_avg = ( $price_sample_oldest + $price_sample_newest ) / 2;
 		
 		
-		$spot_price_dec = ( $fiat_equiv == 1 ? $ct_conf['gen']['prim_currency_dec_max'] : 8 );
+		$spot_price_dec = ( $fiat_equiv == 1 ? $ct_conf['gen']['currency_dec_max'] : 8 );
 		
 			
 			// Force decimals under certain conditions
@@ -262,7 +262,7 @@ graphset:[
     exact: true
   },
   title: {
-    text: "<?=$chart_asset?> / <?=strtoupper($market_parse[1])?> @ <?=$ct_gen->key_to_name($market_parse[0])?> <?=( $_GET['charted_val'] != 'pair' ? '(' . strtoupper($charted_val) . ' Value)' : '' )?>",
+    text: "<?=$chart_asset?> / <?=strtoupper($mrkt_parse[1])?> @ <?=$ct_gen->key_to_name($mrkt_parse[0])?> <?=( $_GET['charted_val'] != 'pair' ? '(' . strtoupper($charted_val) . ' Value)' : '' )?>",
     fontColor: "<?=$ct_conf['power']['charts_text']?>",
     fontFamily: 'Open Sans',
     fontSize: 25,

@@ -32,7 +32,7 @@
 
 	
 	
-			var leverage_trading_notes = '<h5 class="align_center yellow tooltip_title">Tracking Long / Short Margin Leverage Trades</h5>'
+			var lvrg_trading_notes = '<h5 class="align_center yellow tooltip_title">Tracking Long / Short Margin Leverage Trades</h5>'
 			
 			
 			+'<p class="coin_info extra_margins red" style="white-space: normal; max-width: 600px;"><b>*Leverage trading is <u>EXTREMELY RISKY</u> (and even more so in crypto markets). Never put more than ~5% of your total investment worth into leverage trades, or you will <u>RISK LOSING EVERYTHING</u>!</b></p>'
@@ -522,7 +522,7 @@
     	    
     	    }
     	    else {
-    	    $asset_paid_val = ( $ct_var->num_to_str($asset_paid_val) >= 1 ? $ct_var->num_pretty($asset_paid_val, 2) : $ct_var->num_pretty($asset_paid_val, $ct_conf['gen']['prim_currency_dec_max']) );
+    	    $asset_paid_val = ( $ct_var->num_to_str($asset_paid_val) >= 1 ? $ct_var->num_pretty($asset_paid_val, 2) : $ct_var->num_pretty($asset_paid_val, $ct_conf['gen']['currency_dec_max']) );
     	    }
 	    
 	    
@@ -567,12 +567,12 @@
 					<option value='<?=$pair_key?>' <?=( $sel_pair == $pair_key ? ' selected ' : '' )?>> <?=strtoupper(preg_replace("/_/i", " ", $pair_key))?> </option>
 					<?php
 					
-									foreach ( $asset_array_val['pair'][$pair_key] as $market_key => $market_id ) {
+									foreach ( $asset_array_val['pair'][$pair_key] as $mrkt_key => $mrkt_id ) {
 									$loop2 = $loop2 + 1;
 							
 									$html_mrkt_list[$pair_key] .= "\n<option value='".$loop2."'" . ( 
 									isset($asset_mrkt_id) && ($asset_mrkt_id) == $loop2 
-									|| !isset($asset_mrkt_id) && strtolower($asset_array_val['name']) == 'bitcoin' && $loop2 == $ct_asset->btc_mrkt($ct_conf['gen']['btc_prim_exchange']) ? ' selected ' : '' ) . ">" . $ct_gen->key_to_name($market_key) . " </option>\n";
+									|| !isset($asset_mrkt_id) && strtolower($asset_array_val['name']) == 'bitcoin' && $loop2 == $ct_asset->btc_mrkt($ct_conf['gen']['btc_prim_exchange']) ? ' selected ' : '' ) . ">" . $ct_gen->key_to_name($mrkt_key) . " </option>\n";
 								
 									}
 									$loop2 = NULL;
@@ -694,12 +694,12 @@
 	     ' <?=$disable_fields?> >
 	     <option value='0' <?=( $asset_lvrg_val == 0 || $ct_var->rem_num_format($asset_paid_val) < 0.00000001 ? 'selected' : '' )?>> None </option>
 	     <?php
-	     $leverage_count = 2;
-	     while ( $ct_conf['power']['margin_lvrg_max'] > 1 && $leverage_count <= $ct_conf['power']['margin_lvrg_max'] ) {
+	     $lvrg_count = 2;
+	     while ( $ct_conf['power']['margin_lvrg_max'] > 1 && $lvrg_count <= $ct_conf['power']['margin_lvrg_max'] ) {
 	     ?>	     
-	     <option value='<?=$leverage_count?>' <?=( $asset_lvrg_val == $leverage_count && $ct_var->rem_num_format($asset_paid_val) >= 0.00000001 ? 'selected' : '' )?>> <?=$leverage_count?>x </option>
+	     <option value='<?=$lvrg_count?>' <?=( $asset_lvrg_val == $lvrg_count && $ct_var->rem_num_format($asset_paid_val) >= 0.00000001 ? 'selected' : '' )?>> <?=$lvrg_count?>x </option>
 	     <?php
-	     $leverage_count = $leverage_count + 1;
+	     $lvrg_count = $lvrg_count + 1;
 	     }
 	     ?>
 	     </select> 
@@ -711,14 +711,14 @@
 	     </select> 
 	     
 	     
-		<img id='leverage_trading_notes_<?=$rand_id?>' src='templates/interface/media/images/info.png' alt='' width='30' style='position: relative; left: -5px;' /> 
+		<img id='lvrg_trading_notes_<?=$rand_id?>' src='templates/interface/media/images/info.png' alt='' width='30' style='position: relative; left: -5px;' /> 
 	 <script>
 		
-			$('#leverage_trading_notes_<?=$rand_id?>').balloon({
+			$('#lvrg_trading_notes_<?=$rand_id?>').balloon({
 			html: true,
 			position: "left",
   			classname: 'balloon-tooltips',
-			contents: leverage_trading_notes,
+			contents: lvrg_trading_notes,
 			css: {
 					fontSize: ".8rem",
 					minWidth: "450px",

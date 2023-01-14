@@ -228,9 +228,9 @@
 					<?php
 					
 									
-									foreach ( $ct_conf['assets']['BTC']['pair'][$pair_key] as $market_key => $market_id ) {
+									foreach ( $ct_conf['assets']['BTC']['pair'][$pair_key] as $mrkt_key => $mrkt_id ) {
 									$loop2 = $loop2 + 1;
-									$btc_mrkt_list[$pair_key] .= "\n<option value='".$loop2."'" . ( $exchange_field_id == $loop2 ? ' selected ' : '' ) . ">" . $ct_gen->key_to_name($market_key) . "</option>\n";
+									$btc_mrkt_list[$pair_key] .= "\n<option value='".$loop2."'" . ( $exchange_field_id == $loop2 ? ' selected ' : '' ) . ">" . $ct_gen->key_to_name($mrkt_key) . "</option>\n";
 									}
 									$loop2 = NULL;
 							

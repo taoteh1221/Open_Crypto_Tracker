@@ -108,10 +108,10 @@ if ( $runtime_mode == 'ui' ) {
 					if ( $key != 'misc_assets' && $key != 'eth_nfts' && $key != 'sol_nfts' ) {
 					
 					// Consolidate function calls for runtime speed improvement
-					$markets_test_data = $ct_api->market( strtoupper($asset_key) , $key, $val, $pair_key);
+					$mrkts_test_data = $ct_api->market( strtoupper($asset_key) , $key, $val, $pair_key);
 				
 				
-						if ( isset($markets_test_data['last_trade']) && $ct_var->num_to_str($markets_test_data['last_trade']) >= 0.0000000000000001 ) {
+						if ( isset($mrkts_test_data['last_trade']) && $ct_var->num_to_str($mrkts_test_data['last_trade']) >= 0.0000000000000001 ) {
             			// DO NOTHING (IS SET / AT LEAST 0.0000000000000001 IN VALUE)
             			}
             			// TEST FAILURE
@@ -125,7 +125,7 @@ if ( $runtime_mode == 'ui' ) {
 						}
 					
 					
-						if ( isset($markets_test_data['24hr_prim_currency_vol']) && $ct_var->num_to_str($markets_test_data['24hr_prim_currency_vol']) >= 1 ) {
+						if ( isset($mrkts_test_data['24hr_prim_currency_vol']) && $ct_var->num_to_str($mrkts_test_data['24hr_prim_currency_vol']) >= 1 ) {
             			// DO NOTHING (IS SET / AT LEAST 1 IN VALUE)
             			}
             			// TEST FAILURE

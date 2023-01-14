@@ -48,15 +48,14 @@ $base_dir = str_replace('\\', '/', dirname(__FILE__) ); // Windows compatibility
 $base_dir = preg_replace("/\/app-lib\/php(.*)/i", "", $base_dir);
 ////
 //!!!!!!!!!! IMPORTANT, ALWAYS LEAVE THIS HERE !!!!!!!!!!!!!!!
-// WE NEED THIS SET #VERY EARLY# IN INIT FOR THE APP ID
-if ( $runtime_mode == 'ui' ) {
+if ( file_exists('cache/vars/base_url.dat') ) {
+$base_url = trim( file_get_contents('cache/vars/base_url.dat') );
+}
+elseif ( $runtime_mode == 'ui' ) {
 // Skip security check with base_url(false) flag, until later in runtime when the full app config is processed
 // (WE CAN'T CHECK FOR HEADER HOSTNAME SPOOFING ATTACKS UNTIL AFTER config-auto-adjust.php [in ui-preflight-security-checks.php])
 // (ONLY DURING 'ui' RUNTIMES, TO ASSURE IT'S NEVER FROM A REWRITE [PRETTY LINK] URL LIKE /api OR /hook)
 $base_url = $ct_gen->base_url(false); 
-}
-else {
-$base_url = trim( file_get_contents('cache/vars/base_url.dat') );
 }
 
 

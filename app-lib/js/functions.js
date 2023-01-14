@@ -1698,9 +1698,9 @@ private_data = document.getElementsByClassName('private_data');
                     
                     reset_tablesorter('off');
                     
-                    var leverage_info = document.querySelectorAll(".leverage_info");
+                    var lvrg_info = document.querySelectorAll(".lvrg_info");
                         
-                        leverage_info.forEach(function(info, index){
+                        lvrg_info.forEach(function(info, index){
                         info.style.visibility = "visible";
                         });
                         
@@ -1847,9 +1847,9 @@ private_data = document.getElementsByClassName('private_data');
         
         reset_tablesorter('on');
                     
-        var leverage_info = document.querySelectorAll(".leverage_info");
+        var lvrg_info = document.querySelectorAll(".lvrg_info");
                         
-             leverage_info.forEach(function(info, index){
+             lvrg_info.forEach(function(info, index){
              info.style.visibility = "hidden";
              });
              

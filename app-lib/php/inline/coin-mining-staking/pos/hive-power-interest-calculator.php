@@ -42,7 +42,13 @@ if ( $_POST['hive_submitted'] ) {
 
 <p class='red' style='font-weight: bold;'>Your <i>current</i> HIVE Power interest rate results (<i><u><?=strtoupper($ct_conf['gen']['btc_prim_currency_pair'])?> values may change significantly over long periods of time</u></i>):</p>
 
-<p class='green' style='font-weight: bold;'>1 HIVE = <?=$ct_var->num_to_str($hive_mrkt)?> BTC (<?=$ct_conf['power']['btc_currency_mrkts'][ $ct_conf['gen']['btc_prim_currency_pair'] ]?><?php echo number_format( $ct_var->num_to_str( $hive_mrkt * $sel_opt['sel_btc_prim_currency_val'] ), 8, '.', ','); ?>)</p>
+<?php
+$hive_val_raw = number_format( ( $hive_mrkt * $sel_opt['sel_btc_prim_currency_val'] ) , $ct_conf['gen']['crypto_dec_max'], '.', ',');
+$hive_val_raw = $ct_var->num_to_str($hive_val_raw); // Cleanup any trailing zeros
+?>
+
+
+<p class='green' style='font-weight: bold;'>1 HIVE = <?=$ct_var->num_to_str($hive_mrkt)?> BTC (<?=$ct_conf['power']['btc_currency_mrkts'][ $ct_conf['gen']['btc_prim_currency_pair'] ]?><?php echo $hive_val_raw; ?>)</p>
 
 
 <?php

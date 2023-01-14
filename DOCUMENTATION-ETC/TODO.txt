@@ -140,15 +140,19 @@ DEBUGGING / TESTS / UX / QA / OTHER
 ############ NEXT DEBUG / TEST / QA / OTHER SCHEDULED WORK SESSION ###################################
 
 
-Rename 'debt-tracker' plugin to 'debt-interest-tracker' (app UI name too)
+EVERYTIME THE CONFIG IS UPDATED, THE HEADER-SPOOF SECURITY ALERT TRIGGERS. Find out why.
 
 
-market_ to mrkt_
-markets_ to mrkts_
-leverage_ to lvrg_
+"Secondary trade value" doesn't show for low-unit-value coins, when set to high-value coins like BTC / ETH.
 
 
-Double check all base_url() calls, add bonk inu coin, add eth / sol mev links.
+Fix price chart interface support for low-value coins (like bonk inu)
+
+
+Test pow / pos mining profit calcs (since we added new 'crypto_dec_max' config setting)
+
+
+Final review of $base_url var
 
 
 Test / release v6.00.17
@@ -158,9 +162,6 @@ Test / release v6.00.17
 
 
 Code review ENTIRE INIT / CONFIG RUNTIME SECTION, and cleanup / optimize where needed
-
-
-Add directory removal for OLD plugin names (renamed debt track / chain stats plugins a couple times), within FOLIO-INSTALL.bash
 
 
 Add logic in FOLIO-INSTALL.bash for the NEWEST BUNDLED plugins, to backup their OLD plug-conf.php files (like we already do for older bundled plugins)
@@ -252,7 +253,7 @@ Look into Aptos support for the 'address-balance-tracker' plugin (see the API no
 Change the 'eth_erc20_icos' => 'ico_erc20_value' config settings to 'token_presales' => 'presale_value', AND support any base pair as the pairing (NOT just 'ETH').
 
 
-Consolidate num_to_str() calls, to speed up runtime.
+Consolidate num_to_str() calls, to speed up runtime. REMEMBER THAT WE *REQUIRE* num_to_str() AFTER PROCESSING WITH THE PHP-NATIVE round() FUNCTION (TO REMOVE TRAILING ZEROS / CONVERT SCEINTIFIC FORMAT)
 
 
 Convert all javascript functions into classes, for cleaner code:
@@ -271,7 +272,7 @@ Create github wiki with the current documentation for the portfolio app.
 To avoid having the "re-enter /start" telegram error message unless truly needed, take an md5 digest of all telegram settings concatenated together, and save as a var in the vars cache folder. Only run a telegram setting update if this md5 digest ever changes.
 
 
-Add additional ability to do telegram / discord webhooks in the new "crypto-data-bot" plugin, to query asset prices at different exchanges through telegram chat with the chat bot. Example: "/price btc-usd-coinbase"
+Add additional ability to do telegram / discord webhooks in the new "crypto-info-bot" plugin, to query asset prices at different exchanges through telegram chat with the chat bot. Example: "/price btc-usd-coinbase"
 
 
 Auto-update feature like WordPress has (downloads a zip file upgrade from github, and exctracts it overwriting the old app files).

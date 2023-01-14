@@ -2329,8 +2329,8 @@ var $ct_array = array();
         
     
         // Force to max decimals if applicable
-        if ( $type == 'fiat' && $decimals > $ct_conf['gen']['prim_currency_dec_max'] ) {
-        return $ct_conf['gen']['prim_currency_dec_max'];
+        if ( $type == 'fiat' && $decimals > $ct_conf['gen']['currency_dec_max'] ) {
+        return $ct_conf['gen']['currency_dec_max'];
         }
         else if ( $type == 'crypto' && $decimals > 8 ) {
         return 8;
@@ -2467,10 +2467,10 @@ var $ct_array = array();
 
 
         // Check detected base URL security
-        // (checked once every 25 minutes maximum [VIA NON-CRON RUNTIMES in system-config.php], OR FORCE-CHECKED IN runtime-type-init.php DURING RE-CACHES)
+        // (checked once every 30 minutes maximum [VIA NON-CRON RUNTIMES in system-config.php], OR FORCE-CHECKED IN runtime-type-init.php DURING RE-CACHES)
         // https://expressionengine.com/blog/http-host-and-server-name-security-issues (HOSTNAME HEADER CAN BE SPOOFED FROM CLIENT)
         if (
-        $ct_cache->update_cache($base_dir . '/cache/events/check-domain-security.dat', 25) == true && isset($set_url) && trim($set_url) != '' && $SecurityCheck != false
+        $ct_cache->update_cache($base_dir . '/cache/events/check-domain-security.dat', 30) == true && isset($set_url) && trim($set_url) != '' && $SecurityCheck != false
         || $SecurityCheck == 'forced_sec_check'
         ) {
 	
@@ -2480,19 +2480,20 @@ var $ct_array = array();
         $domain_check_filename = 'domain_check_' . $set_128bit_hash.'.dat';
         	
         	
-        	// Halt the process if an issue is detected safely creating a random hash
-        	if ( $set_128bit_hash == false || $set_256bit_hash == false ) {
+        	  // Halt the process if an issue is detected safely creating a random hash
+        	  if ( $set_128bit_hash == false || $set_256bit_hash == false ) {
         		
-        	$ct_gen->log(
+        	  $ct_gen->log(
         				'security_error',
         				'Cryptographically secure pseudo-random bytes could not be generated for API key (in secured cache storage), API key creation aborted to preserve security'
         				);
         	
-        	}
-        	else {
-        	$ct_cache->save_file($base_dir . '/' . $domain_check_filename, $set_256bit_hash);
-        	sleep(1); // Sleep 1 second, to complete the FILE WRITE for the check afterwards
-        	}
+        	  return false;
+        	
+        	  }
+        	  else {
+        	  $ct_cache->save_file($base_dir . '/' . $domain_check_filename, $set_256bit_hash);
+        	  }
 
         		
         // HTTPS CHECK ONLY (for security if htaccess user/pass activated), don't cache API data
@@ -2500,19 +2501,21 @@ var $ct_array = array();
         // domain check
         $domain_check_test_url = $set_url . $domain_check_filename;
         
-        $domain_check_test = trim( @$ct_cache->ext_data('url', $domain_check_test_url, 0) );
+        sleep(1); // Sleep 1 second, to complete the FILE WRITE for the check afterwards
+        
+        $domain_check_test = @$ct_cache->ext_data('url', $domain_check_test_url, 0);
+       
         sleep(1); // Sleep 1 second, to complete the CHECK before deleting afterwards
         
         // Delete domain check test file
         unlink($base_dir . '/' . $domain_check_filename);
         	
         	
-        	// If it's a possible hostname header attack
-        	if ( !preg_match("/" . $set_256bit_hash . "/i", $domain_check_test) ) {
-        	unlink($base_dir . '/cache/vars/base_url.dat'); // Delete any base URL var that was stored for cron runtimes
-        	return array('security_error' => true, 'checked_url' => $domain_check_test_url, 'response_output' => $domain_check_test);
-        	}
-        	// If all looks good
+        	  // If it's a possible hostname header attack
+        	  if ( !preg_match("/" . $set_256bit_hash . "/i", $domain_check_test) ) {
+        	  return array('security_error' => true, 'checked_url' => $domain_check_test_url, 'response_output' => $domain_check_test);
+        	  }
+        	  // If all looks good
             else { 
             // Update the detected domain security check event tracking BEFORE RETURNING
             $ct_cache->save_file($base_dir . '/cache/events/check-domain-security.dat', $ct_gen->time_date_format(false, 'pretty_date_time') );
@@ -2522,7 +2525,7 @@ var $ct_array = array();
         }
    
    
-   return $set_url;
+   return $set_url;  // Return if we made it this far
    
    }
    
@@ -3109,7 +3112,7 @@ var $ct_array = array();
             
                // Format or round primary currency price depending on value (non-stablecoin crypto values are already stored in the format we want for the interface)
                if ( $fiat_formatting ) {
-               $data['spot'] .= ( $ct_var->num_to_str($result[1]) >= 1 ? number_format((float)$result[1], 2, '.', '')  :  round($result[1], $ct_conf['gen']['prim_currency_dec_max'])  ) . ',';
+               $data['spot'] .= ( $ct_var->num_to_str($result[1]) >= 1 ? number_format((float)$result[1], 2, '.', '')  :  round($result[1], $ct_conf['gen']['currency_dec_max'])  ) . ',';
                $data['volume'] .= round($result[2]) . ',';
                }
                // Non-stablecoin crypto

@@ -1192,6 +1192,9 @@ select opt in $OPTIONS; do
   				rm -rf $DOC_ROOT/templates > /dev/null 2>&1
   				rm -rf $DOC_ROOT/ui-templates > /dev/null 2>&1
   				rm -rf $DOC_ROOT/cron-plugins > /dev/null 2>&1
+  				rm -rf $DOC_ROOT/plugins/debt-tracker > /dev/null 2>&1
+  				rm -rf $DOC_ROOT/plugins/crypto-data-bot > /dev/null 2>&1
+  				rm -rf $DOC_ROOT/plugins/transaction-fee-charts > /dev/null 2>&1
   				rm -rf $DOC_ROOT/plugins/address-balance-tracker/plugin-lib > /dev/null 2>&1
   				rm -rf $DOC_ROOT/plugins/price-target-alert/plugin-lib > /dev/null 2>&1
   				rm -rf $DOC_ROOT/plugins/recurring-reminder/plugin-lib > /dev/null 2>&1
