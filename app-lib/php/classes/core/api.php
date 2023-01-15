@@ -1257,6 +1257,11 @@ var $ct_array1 = array();
 	            foreach ($data as $key => $val) {
 	              
 	              if ( isset($val["symbol"]) && $val["symbol"] == $mrkt_id ) {
+	                   
+	                   // If FLAGGED AS A '1000XXXXX' BYBIT MARKET ID, DIVIDE BY 1000
+	                   if ( stristr($mrkt_id, '1000') == true ) {
+	                   $val["last_price"] = $val["last_price"] / 1000;
+	                   }
 	               
 	              $result = array(
 	                              'last_trade' => $val["last_price"],

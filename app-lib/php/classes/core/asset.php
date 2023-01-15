@@ -960,18 +960,9 @@ var $ct_array1 = array();
    
    function pair_btc_val($pair) {
    
-   global $ct_conf, $ct_var, $ct_gen, $ct_api, $btc_pair_mrkts, $btc_pair_mrkts_excluded;
+   global $ct_conf, $ct_var, $ct_gen, $ct_api, $min_crypto_val_test, $btc_pair_mrkts, $btc_pair_mrkts_excluded;
    
    $pair = strtolower($pair);
-      
-      
-      $loop = 0;
-      $min_val_test = "0.";
-      while ( $loop < $ct_conf['gen']['crypto_dec_max'] ) {
-      $loop = $loop + 1;
-      $min_val_test .= ( $loop < $ct_conf['gen']['crypto_dec_max'] ? '0' : '1' );
-      }
-      $loop = 0;
    
    
       // Safeguard / cut down on runtime
@@ -1036,8 +1027,8 @@ var $ct_array1 = array();
 		          $btc_pair_mrkts[$pair.'_btc'] = $ct_var->num_to_str( $ct_api->market(strtoupper($pair), $mrkt_key, $mrkt_val)['last_trade'] );
 		          
 			            // Fallback support IF THIS IS A FUTURES MARKET (we want a normal / current value), OR no data returned
-			            // FUTURE-PROOF FIAT ROUNDING WITH $ct_conf['gen']['crypto_dec_max'] DECIMALS, IN CASE BITCOIN MOONS HARD
-			            if ( stristr($mrkt_key, 'bitmex_') == false && $btc_pair_mrkts[$pair.'_btc'] >= $min_val_test ) {
+			            // FUTURE-PROOF FIAT ROUNDING WITH $min_crypto_val_test, IN CASE BITCOIN MOONS HARD
+			            if ( stristr($mrkt_key, 'bitmex_') == false && $btc_pair_mrkts[$pair.'_btc'] >= $min_crypto_val_test ) {
 			              
 				              // Data debugging telemetry
 				              if ( $ct_conf['dev']['debug_mode'] == 'all' || $ct_conf['dev']['debug_mode'] == 'all_telemetry' ) {
@@ -1140,8 +1131,8 @@ var $ct_array1 = array();
 		                
 		                
 			            // Fallback support IF THIS IS A FUTURES MARKET (we want a normal / current value), OR no data returned
-			            // FUTURE-PROOF FIAT ROUNDING WITH $ct_conf['gen']['crypto_dec_max'] DECIMALS, IN CASE BITCOIN MOONS HARD
-			            if ( stristr($mrkt_key, 'bitmex_') == false && $btc_pair_mrkts[$pair.'_btc'] >= $min_val_test ) {
+			            // FUTURE-PROOF FIAT ROUNDING WITH $min_crypto_val_test, IN CASE BITCOIN MOONS HARD
+			            if ( stristr($mrkt_key, 'bitmex_') == false && $btc_pair_mrkts[$pair.'_btc'] >= $min_crypto_val_test ) {
 			                  
 				              // Data debugging telemetry
 				              if ( $ct_conf['dev']['debug_mode'] == 'all' || $ct_conf['dev']['debug_mode'] == 'all_telemetry' ) {
@@ -1624,7 +1615,13 @@ var $ct_array1 = array();
    // Round PRIMARY CURRENCY CONFIG asset price to only keep $ct_conf['gen']['currency_dec_max'] decimals maximum 
    // (or only 2 decimals if worth 1 unit value or more), to save on data set / storage size
    $asset_prim_currency_val_raw = ( $ct_var->num_to_str($asset_prim_currency_val_raw) >= 1 ? round($asset_prim_currency_val_raw, 2) : round($asset_prim_currency_val_raw, $ct_conf['gen']['currency_dec_max']) );
-     
+    
+   
+   // Remove trailing zeros / scientific number format (on small / large numbers) from any rounding etc above
+   $vol_prim_currency_raw = $ct_var->num_to_str($vol_prim_currency_raw);
+   $pair_vol_raw = $ct_var->num_to_str($pair_vol_raw);
+   $asset_prim_currency_val_raw = $ct_var->num_to_str($asset_prim_currency_val_raw);
+   
    
    // WE SET ALERT CACHE CONTENTS AS EARLY AS POSSIBLE, AS IT MAY BE DESIRED #OUTSIDE TRIGGERED ALERTS LOGIC# IN FUTURE LOGIC
    // WE USE PAIR VOLUME FOR VOLUME PERCENTAGE CHANGES, FOR BETTER PERCENT CHANGE ACCURACY THAN FIAT EQUIV
@@ -1762,9 +1759,9 @@ var $ct_array1 = array();
           $cached_pair_vol = -1;
           }
           else {
-          $cached_asset_prim_currency_val = $cached_array[0];  // PRIMARY CURRENCY CONFIG token value
+          $cached_asset_prim_currency_val = $ct_var->num_to_str( $cached_array[0] );  // PRIMARY CURRENCY CONFIG token value
           $cached_prim_currency_vol = $ct_var->num_to_str( round($cached_array[1]) ); // PRIMARY CURRENCY CONFIG volume value (round PRIMARY CURRENCY CONFIG volume to nullify insignificant decimal amounts skewing checks)
-          $cached_pair_vol = $cached_array[2]; // Crypto volume value (more accurate percent increase / decrease stats than PRIMARY CURRENCY CONFIG value fluctuations)
+          $cached_pair_vol = $ct_var->num_to_str( $cached_array[2] ); // Crypto volume value (more accurate percent increase / decrease stats than PRIMARY CURRENCY CONFIG value fluctuations)
           }
         
         

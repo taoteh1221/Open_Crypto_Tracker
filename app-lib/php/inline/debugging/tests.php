@@ -10,8 +10,6 @@
 if ( $runtime_mode == 'ui' ) {
 
 
-
-
 	// Check configured charts and price alerts
 	if ( $ct_conf['dev']['debug_mode'] == 'all' || $ct_conf['dev']['debug_mode'] == 'alerts_charts' ) {
 		
@@ -27,19 +25,10 @@ if ( $runtime_mode == 'ui' ) {
 		
 		// Consolidate function calls for runtime speed improvement
 		$charts_test_data = $ct_api->market($check_asset, $check_asset_params[0], $check_market_id, $check_asset_params[1]);
-      
-      
-               $loop = 0;
-               $min_val_test = "0.";
-               while ( $loop < $ct_conf['gen']['crypto_dec_max'] ) {
-               $loop = $loop + 1;
-               $min_val_test .= ( $loop < $ct_conf['gen']['crypto_dec_max'] ? '0' : '1' );
-               }
-               $loop = 0;
 		
 		
-			if ( isset($charts_test_data['last_trade']) && $ct_var->num_to_str($charts_test_data['last_trade']) >= $min_val_test ) {
-			// DO NOTHING (IS SET / AT LEAST $min_val_test IN VALUE)
+			if ( isset($charts_test_data['last_trade']) && $ct_var->num_to_str($charts_test_data['last_trade']) >= $min_crypto_val_test ) {
+			// DO NOTHING (IS SET / AT LEAST $min_crypto_val_test IN VALUE)
 			}
 			// TEST FAILURE
 			else {
@@ -118,43 +107,34 @@ if ( $runtime_mode == 'ui' ) {
 					
 					// Consolidate function calls for runtime speed improvement
 					$mrkts_test_data = $ct_api->market( strtoupper($asset_key) , $key, $val, $pair_key);
-      
-      
-                              $loop = 0;
-                              $min_val_test = "0.";
-                              while ( $loop < $ct_conf['gen']['crypto_dec_max'] ) {
-                              $loop = $loop + 1;
-                              $min_val_test .= ( $loop < $ct_conf['gen']['crypto_dec_max'] ? '0' : '1' );
-                              }
-                              $loop = 0;
 				
 				
-						if ( isset($mrkts_test_data['last_trade']) && $ct_var->num_to_str($mrkts_test_data['last_trade']) >= $min_val_test ) {
-            			// DO NOTHING (IS SET / AT LEAST $min_val_test IN VALUE)
-            			}
-            			// TEST FAILURE
-            			else {
-							
-						$ct_gen->log(
-									'market_debug',
-									'No market price data available for ' . strtoupper($asset_key) . ' / ' . strtoupper($pair_key) . ' @ ' . $ct_gen->key_to_name($key)
-									);
-						
-						}
-					
-					
-						if ( isset($mrkts_test_data['24hr_prim_currency_vol']) && $ct_var->num_to_str($mrkts_test_data['24hr_prim_currency_vol']) >= 1 ) {
-            			// DO NOTHING (IS SET / AT LEAST 1 IN VALUE)
-            			}
-            			// TEST FAILURE
-            			else {
-							
-						$ct_gen->log(
-									'market_debug',
-									'No market volume data available for ' . strtoupper($asset_key) . ' / ' . strtoupper($pair_key) . ' @ ' . $ct_gen->key_to_name($key)
-									);
-						
-						}
+     				     if ( isset($mrkts_test_data['last_trade']) && $ct_var->num_to_str($mrkts_test_data['last_trade']) >= $min_crypto_val_test ) {
+                 			// DO NOTHING (IS SET / AT LEAST $min_crypto_val_test IN VALUE)
+                 			}
+                 			// TEST FAILURE
+                 			else {
+     							
+     						$ct_gen->log(
+     									'market_debug',
+     									'No market price data available for ' . strtoupper($asset_key) . ' / ' . strtoupper($pair_key) . ' @ ' . $ct_gen->key_to_name($key)
+     									);
+     						
+     					}
+     					
+     					
+     					if ( isset($mrkts_test_data['24hr_prim_currency_vol']) && $ct_var->num_to_str($mrkts_test_data['24hr_prim_currency_vol']) >= 1 ) {
+                 			// DO NOTHING (IS SET / AT LEAST 1 IN VALUE)
+                 			}
+                 			// TEST FAILURE
+                 			else {
+     							
+     						$ct_gen->log(
+     									'market_debug',
+     									'No market volume data available for ' . strtoupper($asset_key) . ' / ' . strtoupper($pair_key) . ' @ ' . $ct_gen->key_to_name($key)
+     									);
+     						
+     					}
 						
 					
 					}

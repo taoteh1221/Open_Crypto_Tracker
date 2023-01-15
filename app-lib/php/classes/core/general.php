@@ -1294,7 +1294,7 @@ var $ct_array = array();
           if ( $ct_conf['gen']['price_round_fixed_decimals'] == 'on' ) {
           $result['min_dec'] = $result['max_dec'];
           }
-   		  elseif ( $type == 'fiat' ) {
+   		elseif ( $type == 'fiat' ) {
           $result['min_dec'] = 2;
           }
           else {
@@ -2270,7 +2270,7 @@ var $ct_array = array();
 
    function dyn_max_decimals($price_raw, $type) {
        
-   global $ct_conf, $ct_var;
+   global $ct_conf, $ct_var, $min_fiat_val_test, $min_crypto_val_test;
         
         
         if ( $ct_conf['gen']['price_round_percent'] == 'one' ) {
@@ -2288,55 +2288,85 @@ var $ct_array = array();
         
         
     $unit_percent = $ct_var->num_to_str( ($price_raw / 100) * $x );
-    
-        
-        // 8 decimals rounding
-        if ( $unit_percent <= 0.00000005 ) {
-        $decimals = 8;
-        }
-        // 7 decimals rounding
-        else if ( $unit_percent <= 0.0000005 ) {
-        $decimals = 7;
-        }
-        // 6 decimals rounding
-        else if ( $unit_percent <= 0.000005 ) {
-        $decimals = 6;
-        }
-        // 5 decimals rounding
-        else if ( $unit_percent <= 0.00005 ) {
-        $decimals = 5;
-        }
-        // 4 decimals rounding
-        else if ( $unit_percent <= 0.0005 ) {
-        $decimals = 4;
-        }
-        // 3 decimals rounding
-        else if ( $unit_percent <= 0.005 ) {
-        $decimals = 3;
-        }
-        // 2 decimals rounding
-        else if ( $unit_percent <= 0.05 ) {
-        $decimals = 2;
-        }
-        // 1 decimals rounding
-        else if ( $unit_percent <= 0.5 ) {
-        $decimals = 1;
-        }
-        // 0 decimals rounding
-        else {
-        $decimals = 0;
-        }
         
     
-        // Force to max decimals if applicable
-        if ( $type == 'fiat' && $decimals > $ct_conf['gen']['currency_dec_max'] ) {
-        return $ct_conf['gen']['currency_dec_max'];
+        if ( $type == 'fiat' ) {
+             
+        $track_target = $ct_var->num_to_str( preg_replace("/1/", "5", $min_fiat_val_test) ); // Set to 0.XXXXX5 instead of 0.XXXXX1
+        
+        
+             $loop = 0;
+             $track_decimals = $ct_conf['gen']['currency_dec_max'];
+             while ( !isset($decimals) && $loop < $ct_conf['gen']['currency_dec_max'] ) {
+
+                  // $track_decimals decimals rounding
+                  if ( !isset($decimals) && $unit_percent <= $track_target ) {
+                  $decimals = $track_decimals;
+                  }
+                  // 0 decimals rounding
+                  elseif ( !isset($decimals) && $unit_percent > 0.5 ) {
+                  $decimals = 0;
+                  }
+                  // Remove one decimal for any next try
+                  else {
+                  $track_target = $ct_var->num_to_str($track_target * 10);
+                  $track_decimals = $track_decimals - 1; 
+                  }
+        
+             $loop = $loop + 1;
+
+             }
+             unset($loop);
+             
+             
+             // Force to max decimals if applicable
+             if ( $decimals > $ct_conf['gen']['currency_dec_max'] ) {
+             return $ct_conf['gen']['currency_dec_max'];
+             }
+             else {
+             return $decimals;
+             }
+        
+        
         }
-        else if ( $type == 'crypto' && $decimals > 8 ) {
-        return 8;
-        }
-        else {
-        return $decimals;
+        else if ( $type == 'crypto' ) {
+             
+        $track_target = $ct_var->num_to_str( preg_replace("/1/", "5", $min_crypto_val_test) ); // Set to 0.XXXXX5 instead of 0.XXXXX1
+        
+        
+             $loop = 0;
+             $track_decimals = $ct_conf['gen']['currency_dec_max'];
+             while ( !isset($decimals) && $loop < $ct_conf['gen']['currency_dec_max'] ) {
+
+                  // $track_decimals decimals rounding
+                  if ( !isset($decimals) && $unit_percent <= $track_target ) {
+                  $decimals = $track_decimals;
+                  }
+                  // 0 decimals rounding
+                  elseif ( !isset($decimals) && $unit_percent > 0.5 ) {
+                  $decimals = 0;
+                  }
+                  // Remove one decimal for any next try
+                  else {
+                  $track_target = $ct_var->num_to_str($track_target * 10);
+                  $track_decimals = $track_decimals - 1; 
+                  }
+        
+             $loop = $loop + 1;
+
+             }
+             unset($loop);
+             
+             
+             // Force to max decimals if applicable
+             if ( $decimals > $ct_conf['gen']['crypto_dec_max'] ) {
+             return $ct_conf['gen']['crypto_dec_max'];
+             }
+             else {
+             return $decimals;
+             }
+
+
         }
         
     
@@ -3112,12 +3142,12 @@ var $ct_array = array();
             
                // Format or round primary currency price depending on value (non-stablecoin crypto values are already stored in the format we want for the interface)
                if ( $fiat_formatting ) {
-               $data['spot'] .= ( $ct_var->num_to_str($result[1]) >= 1 ? number_format((float)$result[1], 2, '.', '')  :  round($result[1], $ct_conf['gen']['currency_dec_max'])  ) . ',';
+               $data['spot'] .= $ct_var->num_to_str($result[1]) . ',';
                $data['volume'] .= round($result[2]) . ',';
                }
                // Non-stablecoin crypto
                else {
-               $data['spot'] .= $result[1] . ',';
+               $data['spot'] .= $ct_var->num_to_str($result[1]) . ',';
                $data['volume'] .= round($result[2], $ct_conf['gen']['chart_crypto_vol_dec']) . ',';
                }
             

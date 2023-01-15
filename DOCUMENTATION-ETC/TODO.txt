@@ -146,9 +146,6 @@ EVERYTIME THE CONFIG IS UPDATED, THE HEADER-SPOOF SECURITY ALERT TRIGGERS. Find 
 "Secondary trade value" doesn't show for low-unit-value coins, when set to high-value coins like BTC / ETH.
 
 
-Fix price chart interface support for low-value coins (like bonk inu)
-
-
 Test pow / pos mining profit calcs (since we added new 'crypto_dec_max' config setting)
 
 
@@ -159,6 +156,12 @@ Test / release v6.00.17
 
 
 ######################################################################################################
+
+
+Remove all linebreaks in javascript alert / confirm dialogue boxes, except for new paragraphs. Let the browser choose the max width on it's own (like they do nowadays)
+
+
+Double-check the chart storage optimizations after the minimum fiat/crypto decimals overhual in v6.00.17...maybe use $ct_gen->thres_dec() for chart storage, like we do for UI chart rendering in asset_price.php
 
 
 Code review ENTIRE INIT / CONFIG RUNTIME SECTION, and cleanup / optimize where needed

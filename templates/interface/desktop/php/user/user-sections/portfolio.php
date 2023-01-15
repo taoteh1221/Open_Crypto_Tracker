@@ -275,7 +275,7 @@ if ( $_POST['submit_check'] == 1 || $run_csv_import || $ui_cookies ) {
     	// We don't need $ct_var->rem_num_format() for cookie data, because it was already done creating the cookies
     	$held_temp = $ct_var->num_to_str($all_cookies_data_array[$asset_symb.'_data'][$asset_symb.'_amnt']);
     					
-            if ( $held_temp >= 0.000000001 ) {
+          if ( $held_temp >= 0.000000001 ) {
                 
         	$held_amnt = $held_temp;
         	

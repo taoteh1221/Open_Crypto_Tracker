@@ -82,6 +82,26 @@ $curl_user_agent = 'Curl/' .$curl_setup["version"]. ' ('.PHP_OS.'; compatible;)'
 else {
 $curl_user_agent = 'Curl/' .$curl_setup["version"]. ' ('.PHP_OS.'; ' . $system_info['software'] . '; +https://github.com/taoteh1221/Open_Crypto_Tracker)';
 }
+      
+
+// Set minimum CURRENCY value used in the app
+$loop = 0;
+$min_fiat_val_test = "0.";
+while ( $loop < $ct_conf['gen']['currency_dec_max'] ) {
+$loop = $loop + 1;
+$min_fiat_val_test .= ( $loop < $ct_conf['gen']['currency_dec_max'] ? '0' : '1' );
+}
+unset($loop);
+      
+
+// Set minimum CRYPTO value used in the app (important for currency conversions on very low-value coins, like BONK etc)
+$loop = 0;
+$min_crypto_val_test = "0.";
+while ( $loop < $ct_conf['gen']['crypto_dec_max'] ) {
+$loop = $loop + 1;
+$min_crypto_val_test .= ( $loop < $ct_conf['gen']['crypto_dec_max'] ? '0' : '1' );
+}
+unset($loop);
 
 
 // Primary Bitcoin markets (MUST RUN AFTER app config auto-adjust)

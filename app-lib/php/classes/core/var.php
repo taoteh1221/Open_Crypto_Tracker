@@ -361,6 +361,8 @@ var $ct_array1 = array();
    
    // Pretty number formatting, while maintaining decimals (max decimals required, min decimals optional)
    function num_pretty($val_to_pretty, $dec_max, $small_unlimited=false, $dec_min=false) {
+        
+   global $min_crypto_val_test;
    
    // Strip formatting, convert from scientific format, and remove leading / trailing zeros
    $raw_val_to_pretty = $this->rem_num_format($val_to_pretty);
@@ -382,17 +384,9 @@ var $ct_array1 = array();
       }
       
       
-      $loop = 0;
-      $min_val_test = "0.";
-      while ( $loop < $dec_max ) {
-      $loop = $loop + 1;
-      $min_val_test .= ( $loop < $dec_max ? '0' : '1' );
-      }
-      
-      
       // If our value IS LESS THAN WHAT WOULD SHOW *AT ALL* WITH CURRENT MAX DECIMALS,
       // THEN SET THE FLAG $small_unlimited TO DISREGARD MAX DECIMALS
-      if ( $min_val_test > $raw_val_to_pretty ) {
+      if ( $min_crypto_val_test > $raw_val_to_pretty ) {
       $small_unlimited = true;
       }
    
