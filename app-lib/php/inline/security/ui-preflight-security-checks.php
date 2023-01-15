@@ -201,87 +201,86 @@ elseif ( $htaccess_username == '' || $htaccess_password == '' ) {
 
 // Have UI runtime mode RE-CACHE the app URL data every 24 hours, since CLI runtime cannot determine the app URL (for sending backup link emails during backups, etc)
 // (ONLY DURING 'ui' RUNTIMES, TO ASSURE IT'S NEVER FROM A REWRITE [PRETTY LINK] URL LIKE /api OR /hook)
-// WE FORCE A SECURITY CHECK HERE (OVERRIDES ONLY CHECKING EVERY X MINUTES), SINCE WE ARE CACHING THE BASE URL DATA
+// WE FORCE A SECURITY CHECK HERE, SINCE WE ARE CACHING THE BASE URL DATA
 if ( $ct_cache->update_cache('cache/vars/base_url.dat', (60 * 24) ) == true ) {
 	    
-$base_url_check = $ct_gen->base_url('forced_sec_check'); 
+$base_url_check = $ct_gen->base_url(true); 
 	
-    if ( !isset($base_url_check['security_error']) ) {
-    $ct_cache->save_file('cache/vars/base_url.dat', $base_url_check);
-    }
+	
+     // If security check passes OK
+     if ( !isset($base_url_check['security_error']) ) {
+     $ct_cache->save_file('cache/vars/base_url.dat', $base_url_check);
+     $base_url = $base_url_check; // Use any updated value immeaditely in the app
+     }
+     // If security check fails
+     else {
+             
+           
+         if ( isset($system_info['distro_name']) ) {
+         $system_info_summary = "\n\nApp Server System Info: " . $system_info['distro_name'] . ( isset($system_info['distro_version']) ? ' ' . $system_info['distro_version'] : '' );
+         }
+             
+                     
+     // Build the different messages, configure comm methods, and send messages
+         
+     $log_error_message = 'Domain security check for "' . $base_url_check['checked_url'] . '" FAILED (' . $remote_ip . '). POSSIBLE hostname header spoofing attack blocked, exiting app...';
+                     
+     $email_msg = $log_error_message . ' ' . $system_info_summary . "\n\n" . ' Timestamp: ' . $ct_gen->time_date_format($ct_conf['gen']['loc_time_offset'], 'pretty_time') . '.';
+                     
+     // Were're just adding a human-readable timestamp to smart home (audio) alerts
+     $notifyme_msg = $email_msg;
+                     
+     $text_msg = 'Security check for "' . $base_url_check['checked_url'] . '" FAILED (' . $remote_ip . '). POSSIBLE attack blocked, exiting app...';
+                    
+     // Message parameter added for desired comm methods (leave any comm method blank to skip sending via that method)
+                 
+     // Minimize function calls
+     $text_msg = $ct_gen->detect_unicode($text_msg); 
+         			
+     $attack_alert_send_params = array(
+                                          'notifyme' => $notifyme_msg,
+                                          'telegram' => $email_msg,
+                                          'text' => array(
+                                                   'message' => $text_msg['content'],
+                                                   'charset' => $text_msg['charset']
+                                                   ),
+                                          'email' => array(
+                                                 'subject' => 'POSSIBLE Attack Blocked From ' . $remote_ip,
+                                                 'message' => $email_msg
+                                                 )
+                                      );
+         			
+     
+     // Queue notifications
+     @$ct_cache->queue_notify($attack_alert_send_params);
+             
+     $log_error_message = $log_error_message . ' <br /><br />';
+         
+     $ct_gen->log('security_error', $log_error_message);
+     	
+     echo $log_error_message;
+     	
+     $force_exit = 1;
+     	
+     }
+
 	    
-}
-// Otherwise, just do a regular check for security against header hostname spoofing attacks
-else {
-$base_url_check = $ct_gen->base_url();
-}
-    
-
-if ( isset($base_url_check['security_error']) ) {
-        
-      
-    if ( isset($system_info['distro_name']) ) {
-    $system_info_summary = "\n\nApp Server System Info: " . $system_info['distro_name'] . ( isset($system_info['distro_version']) ? ' ' . $system_info['distro_version'] : '' );
-    }
-        
-                
-// Build the different messages, configure comm methods, and send messages
-    
-$log_error_message = 'Domain security check for "' . $base_url_check['checked_url'] . '" FAILED (' . $remote_ip . '). POSSIBLE hostname header spoofing attack blocked, exiting app...';
-                
-$email_msg = $log_error_message . ' ' . $system_info_summary . "\n\n" . ' Timestamp: ' . $ct_gen->time_date_format($ct_conf['gen']['loc_time_offset'], 'pretty_time') . '.';
-                
-// Were're just adding a human-readable timestamp to smart home (audio) alerts
-$notifyme_msg = $email_msg;
-                
-$text_msg = 'Security check for "' . $base_url_check['checked_url'] . '" FAILED (' . $remote_ip . '). POSSIBLE attack blocked, exiting app...';
-               
-// Message parameter added for desired comm methods (leave any comm method blank to skip sending via that method)
-            
-// Minimize function calls
-$text_msg = $ct_gen->detect_unicode($text_msg); 
-    			
-$attack_alert_send_params = array(
-                                     'notifyme' => $notifyme_msg,
-                                     'telegram' => $email_msg,
-                                     'text' => array(
-                                              'message' => $text_msg['content'],
-                                              'charset' => $text_msg['charset']
-                                              ),
-                                     'email' => array(
-                                            'subject' => 'POSSIBLE Attack Blocked From ' . $remote_ip,
-                                            'message' => $email_msg
-                                            )
-                                 );
-    			
-
-// Queue notifications
-@$ct_cache->queue_notify($attack_alert_send_params);
-        
-$log_error_message = $log_error_message . ' <br /><br />';
-    
-$ct_gen->log('security_error', $log_error_message);
-	
-echo $log_error_message;
-	
-$force_exit = 1;
-	
 }
 
 
 // Check htaccess security (checked once every 120 minutes maximum)
-if ( $ct_cache->update_cache($base_dir . '/cache/events/scan-htaccess-security.dat', 120) == true && $app_edition == 'server' && isset($base_url_check) && trim($base_url_check) != '' && !isset($base_url_check['security_error']) ) {
+// (ONLY IF BASE URL CACHE FILE EXITS, AND THERE IS NO BASE URL CHECK SECURITY ERROR!)
+if ( $ct_cache->update_cache($base_dir . '/cache/events/scan-htaccess-security.dat', 120) == true && $app_edition == 'server' && file_exists('cache/vars/base_url.dat') && !isset($base_url_check['security_error']) ) {
 	
-		
 // HTTPS CHECK ONLY (for security if htaccess user/pass activated), don't cache API data
 	
 // cache check
-$htaccess_cache_test_url = $base_url_check . 'cache/htaccess_security_check.dat';
+$htaccess_cache_test_url = $base_url . 'cache/htaccess_security_check.dat';
 
 $htaccess_cache_test = trim( @$ct_cache->ext_data('url', $htaccess_cache_test_url, 0) ); 
 	
 // plugins check
-$htaccess_plugins_test_url = $base_url_check . 'plugins/htaccess_security_check.dat';
+$htaccess_plugins_test_url = $base_url . 'plugins/htaccess_security_check.dat';
 
 $htaccess_plugins_test = trim( @$ct_cache->ext_data('url', $htaccess_plugins_test_url, 0) ); 
 	

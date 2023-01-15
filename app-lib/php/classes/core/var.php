@@ -296,18 +296,20 @@ var $ct_array1 = array();
       // MUST ALLOW MAXIMUM OF 9 DECIMALS, TO COUNT WATCH-ONLY ASSETS
       // (ANYTHING OVER 9 DECIMALS SHOULD BE AVOIDED FOR UX)
       $detect_dec = (string)$val;
+      // Scientific
       if ( preg_match('~\.(\d+)E([+-])?(\d+)~', $detect_dec, $matches) ) {
       $decimals = $matches[2] === '-' ? strlen($matches[1]) + $matches[3] : 0;
       }
+      // Normal
       else {
       $decimals = mb_strpos( strrev($detect_dec) , '.', 0, 'utf-8');
       }
       
       
       // Generally, crypto decimals are almost always higher then fiat,
-      // so have this be our ceiling
-      if ( $decimals > $ct_conf['gen']['crypto_dec_max'] ) {
-      $decimals = $ct_conf['gen']['crypto_dec_max'];
+      // so have this be our ceiling *PLUS ONE EXTRA DECIMAL* FOR OUR 'WATCH ONLY' PORTFOLIO LOGIC
+      if ( $decimals > ($ct_conf['gen']['crypto_dec_max'] + 1) ) {
+      $decimals = ($ct_conf['gen']['crypto_dec_max'] + 1);
       }
       
       

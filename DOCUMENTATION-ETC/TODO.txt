@@ -16,7 +16,11 @@ Always set bluefish to "5 spaces" as a tab indentation, and enabling indentation
 Try to prioritize building the admin interface / mobile templates / language translation modules. Then it's the most useful for the maximum number of people as it can be going forward.
 
 
+Ocassionally re-run the debug mode that prints out all the btc / crypto exchanges and base pairs, and update the docs (project page / README / config file / etc).
+
+
 Post on hive, telegram, discord, Twitter, Facebook (and r/CryptoMarkets and r/CryptoCurrency on MAJOR RELEASES) whenever there is a new release of the app.
+
 
 
 Youtube channels on the resources page, that MAY BE DYING (keep an eye on them): (none right now)
@@ -140,31 +144,16 @@ DEBUGGING / TESTS / UX / QA / OTHER
 ############ NEXT DEBUG / TEST / QA / OTHER SCHEDULED WORK SESSION ###################################
 
 
-EVERYTIME THE CONFIG IS UPDATED, THE HEADER-SPOOF SECURITY ALERT TRIGGERS. Find out why.
-
-
-"Secondary trade value" doesn't show for low-unit-value coins, when set to high-value coins like BTC / ETH.
-
-
-Test pow / pos mining profit calcs (since we added new 'crypto_dec_max' config setting)
-
-
-Final review of $base_url var
-
-
-Test / release v6.00.17
+Final testing / release v6.00.17
 
 
 ######################################################################################################
 
 
+LOCAL JAVASCRIPT STORAGE keeps deleting content in my trade notes textarea, find out why
+
+
 Remove all linebreaks in javascript alert / confirm dialogue boxes, except for new paragraphs. Let the browser choose the max width on it's own (like they do nowadays)
-
-
-Double-check the chart storage optimizations after the minimum fiat/crypto decimals overhual in v6.00.17...maybe use $ct_gen->thres_dec() for chart storage, like we do for UI chart rendering in asset_price.php
-
-
-Code review ENTIRE INIT / CONFIG RUNTIME SECTION, and cleanup / optimize where needed
 
 
 Add logic in FOLIO-INSTALL.bash for the NEWEST BUNDLED plugins, to backup their OLD plug-conf.php files (like we already do for older bundled plugins)
@@ -182,7 +171,7 @@ Make sure everything STILL runs smoothly with the charts page turned off.
 Test turning password protection on/off on the interface (NOT admin area), I messed with it BUT changed it back.
 
 
-LOCAL JAVASCRIPT STORAGE keeps deleting content in my trade notes textarea, find out why
+Code review ENTIRE INIT / CONFIG RUNTIME SECTION, and cleanup / optimize where needed
 
 
 Add remote IP address data to ALL relevant security error logging everywhere in the app.

@@ -76,17 +76,18 @@ $ct_conf['gen']['btc_prim_exchange'] = 'kraken';  // PUT INSIDE SINGLE QUOTES ('
 $ct_conf['gen']['prim_mcap_site'] = 'coingecko'; 
 
 
-// Maximum decimal places for *CURRENCY* VALUES, of coins worth under 1.00 in unit value [usd/gbp/eur/jpy/brl/rub/etc],
+// Maximum decimal places for *CURRENCY* VALUES, of fiat currencies worth under 1.00 in unit value [usd/gbp/eur/jpy/brl/rub/etc],
 // for prettier / less-cluttered interface. IF YOU ADJUST $ct_conf['gen']['btc_prim_currency_pair'] ABOVE, 
 // YOU MAY NEED TO ADJUST THIS ACCORDINGLY FOR !PRETTY / FUNCTIONAL! CHARTS / ALERTS FOR YOUR CHOSEN PRIMARY CURRENCY
 // ALSO KEEP THIS NUMBER AS LOW AS IS FEASIBLE, TO SAVE ON CHART DATA STORAGE SPACE / MAINTAIN QUICK CHART LOAD TIMES
-$ct_conf['gen']['currency_dec_max'] = 16; // Whole numbers only (represents number of decimals maximum to use...default = 16)
+$ct_conf['gen']['currency_dec_max'] = 8; // Whole numbers only (represents number of decimals maximum to use...default = 8)
 
 
 // Maximum decimal places for *CRYPTO* VALUES ACROSS THE ENTIRE APP (*INCLUDING UNDER-THE-HOOD CALCULATIONS*)
 // LOW VALUE ALTERNATE COINS / CURRENCIES NEED THIS SET REALLY HIGH TO BE INCLUDED IN THE ASSETS LIST (TO NOT HAVE A ZERO VALUE),
 // *ESPECIALLY* SINCE WE USE BITCOIN AS OUR BASE CURRENCY *CONVERTER* (DUE TO IT'S RELIABLY HIGH LIQUIDITY ACROSS THE PLANET)
-$ct_conf['gen']['crypto_dec_max'] = 16; // Whole numbers only (represents number of decimals maximum to use...default = 16)
+// !!!IF YOU CHANGE THIS, THE 'WATCH ONLY' FLAG ON THE 'UPDATE' PAGE *WILL ALSO CHANGE* (CHANGING WHAT IS FLAGGED 'WATCH ONLY')!!!
+$ct_conf['gen']['crypto_dec_max'] = 13; // Whole numbers only (represents number of decimals maximum to use...default = 13)
 
 
 // PRICE PERCENTAGE to round off INTERFACE-DISPLAYED price IN DECIMALS (DYNAMIC / RELATIVE to price amount)
@@ -97,11 +98,11 @@ $ct_conf['gen']['crypto_dec_max'] = 16; // Whole numbers only (represents number
 // #FIAT# CURRENCY VALUES UNDER 100 #ARE ALWAYS FORCED TO 2 DECIMALS MINUMUM#
 // #FIAT# CURRENCY VALUES UNDER 1 #ARE ALWAYS FORCED TO 'currency_dec_max' DECIMALS MAXIMUM#
 // THIS SETTING ONLY AFFECTS INTERFACE / COMMS PRICE DISPLAY ROUNDING, IT DOES #NOT# AFFECT BACKGROUND CALCULATIONS
-$ct_conf['gen']['price_round_percent'] = 'thousandth'; // (OF A PERCENT) 'one', 'tenth', 'hundredth', 'thousandth'
+$ct_conf['gen']['price_round_percent'] = 'hundredth'; // (OF A PERCENT) 'one', 'tenth', 'hundredth', 'thousandth'
 ////
 // FORCE a FIXED MINIMUM amount of decimals on interface price, CALCULATED OFF ABOVE price_round_percent SETTING
 // (ALWAYS SAME AMOUNT OF DECIMALS, #EVEN IF IT INCLUDES TRAILING ZEROS#) 
-$ct_conf['gen']['price_round_fixed_decimals'] = 'off'; // 'off', 'on'
+$ct_conf['gen']['price_round_fixed_decimals'] = 'on'; // 'off', 'on'
 
 
 // Number of decimals for price chart CRYPTO 24 hour volumes (NOT USED FOR FIAT VOLUMES, 4 decimals example: 24 hr vol = 91.3874 BTC)
@@ -3507,7 +3508,7 @@ $ct_conf['assets'] = array(
 
                                                     
                                     'usdt' => array(
-                                        'bybit' => 'BONKUSDT',
+                                        'bybit' => '1000BONKUSDT', // x1000 VAL (processed in api.php to normal val [divided by 1000])
                                         'huobi' => 'bonkusdt',
                                         'gateio' => 'BONK_USDT',
                                         'bitmart' => 'BONK_USDT',

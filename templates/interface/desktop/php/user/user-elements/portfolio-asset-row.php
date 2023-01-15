@@ -445,10 +445,10 @@ $asset_val_raw = $ct_var->num_to_str($asset_val_raw);
 
 	// FIAT EQUIV
 	if ( $fiat_eqiv == 1 ) {
-    $thres_dec = $ct_gen->thres_dec($asset_val_raw, 'u', 'fiat'); // Units mode
+     $thres_dec = $ct_gen->thres_dec($asset_val_raw, 'u', 'fiat'); // Units mode
 	}
 	else {
-    $thres_dec = $ct_gen->thres_dec($asset_val_raw, 'u', 'crypto'); // Units mode
+     $thres_dec = $ct_gen->thres_dec($asset_val_raw, 'u', 'crypto'); // Units mode
 	}
 
 echo $ct_var->num_pretty($asset_val_raw, $thres_dec['max_dec'], false, $thres_dec['min_dec']);
@@ -463,29 +463,29 @@ echo $ct_var->num_pretty($asset_val_raw, $thres_dec['max_dec'], false, $thres_de
   
 		if ( $sel_opt['show_secondary_trade_val'] == 'btc' ) {
 		$secondary_trade_val_result = $ct_var->num_to_str($btc_trade_eqiv_raw);
-        $thres_dec = $ct_gen->thres_dec($secondary_trade_val_result, 'u', 'crypto'); // Units mode
+          $thres_dec = $ct_gen->thres_dec($secondary_trade_val_result, 'u', 'crypto'); // Units mode
 		}
 		else {
 		    
-		    if ( $this->pair_btc_val($sel_opt['show_secondary_trade_val']) > 0 ) {
-		    $secondary_trade_val_result = $ct_var->num_to_str( $btc_trade_eqiv_raw / $this->pair_btc_val($sel_opt['show_secondary_trade_val']) );
-		    }
-		    else {
-		    $secondary_trade_val_result = 0;
-		    }
-		   	
-		   	// Fiat-eqiv
-       	    if ( array_key_exists($sel_opt['show_secondary_trade_val'], $ct_conf['power']['btc_currency_mrkts']) ) {
-            $thres_dec = $ct_gen->thres_dec($secondary_trade_val_result, 'u', 'fiat'); // Units mode
-    		}
-    		// Crypto
-    		else {
-            $thres_dec = $ct_gen->thres_dec($secondary_trade_val_result, 'u', 'crypto'); // Units mode
-    		}
+		     if ( $this->pair_btc_val($sel_opt['show_secondary_trade_val']) > $min_crypto_val_test ) {
+		     $secondary_trade_val_result = $ct_var->num_to_str( $btc_trade_eqiv_raw / $this->pair_btc_val($sel_opt['show_secondary_trade_val']) );
+		     }
+		     else {
+		     $secondary_trade_val_result = 0;
+		     }
+     		   	
+     		// Fiat-eqiv
+            	if ( array_key_exists($sel_opt['show_secondary_trade_val'], $ct_conf['power']['btc_currency_mrkts']) ) {
+               $thres_dec = $ct_gen->thres_dec($secondary_trade_val_result, 'u', 'fiat'); // Units mode
+         		}
+         		// Crypto
+         		else {
+               $thres_dec = $ct_gen->thres_dec($secondary_trade_val_result, 'u', 'crypto'); // Units mode
+         		}
 
 		}
 		
-		if ( $secondary_trade_val_result >= 0.00000001 ) {
+		if ( $secondary_trade_val_result >= $min_crypto_val_test ) {
   		echo '<div class="crypto_worth">(' . $ct_var->num_pretty($secondary_trade_val_result, $thres_dec['max_dec'], false, $thres_dec['min_dec']) . ' '.strtoupper($sel_opt['show_secondary_trade_val']).')</div>';
 		}
   
@@ -561,18 +561,18 @@ echo $ct_var->num_pretty($asset_val_raw, $thres_dec['max_dec'], false, $thres_de
 
 	
 	if ( strtolower($asset_symb) == 'btc' ) {
-    $thres_dec = $ct_gen->thres_dec($asset_amnt, 'u', 'crypto'); // Units mode
+     $thres_dec = $ct_gen->thres_dec($asset_amnt, 'u', 'crypto'); // Units mode
 	}
 	else {
 		   	
-		// Fiat-eqiv
-       	if ( array_key_exists(strtolower($asset_symb), $ct_conf['power']['btc_currency_mrkts']) ) {
-        $thres_dec = $ct_gen->thres_dec($asset_amnt, 'u', 'fiat'); // Units mode
-    	}
-    	// Crypto
-    	else {
-        $thres_dec = $ct_gen->thres_dec($asset_amnt, 'u', 'crypto'); // Units mode
-    	}
+     	// Fiat-eqiv
+          if ( array_key_exists(strtolower($asset_symb), $ct_conf['power']['btc_currency_mrkts']) ) {
+          $thres_dec = $ct_gen->thres_dec($asset_amnt, 'u', 'fiat'); // Units mode
+         	}
+         	// Crypto
+         	else {
+          $thres_dec = $ct_gen->thres_dec($asset_amnt, 'u', 'crypto'); // Units mode
+         	}
     	
 	}
 	
@@ -641,7 +641,7 @@ echo ' <span class="blue"><span class="data app_sort_filter blue private_data">'
 
 		}
 		
-		if ( $secondary_holdings_val_result >= 0.00000001 ) {
+		if ( $secondary_holdings_val_result >= $min_crypto_val_test ) {
   		echo '<div class="crypto_worth"><span class="private_data">(' . $ct_var->num_pretty($secondary_holdings_val_result, $thres_dec['max_dec'], false, $thres_dec['min_dec']) . ' '.strtoupper($sel_opt['show_secondary_trade_val']).')</span></div>';
   		}
   		
@@ -662,9 +662,9 @@ echo ' <span class="blue"><span class="data app_sort_filter blue private_data">'
 <?php
 
 $thres_dec = $ct_gen->thres_dec($asset_prim_currency_worth_raw, 'u', 'fiat'); // Units mode
-echo '<span class="private_data ' . ( $purchase_price >= 0.00000001 && $lvrg_level >= 2 && $sel_mrgntyp == 'short' ? 'short">★ ' : 'blue">' ) . '<span class="blue">' . $ct_conf['power']['btc_currency_mrkts'][ $ct_conf['gen']['btc_prim_currency_pair'] ] . '</span><span class="app_sort_filter blue">' . $ct_var->num_pretty($asset_prim_currency_worth_raw, $thres_dec['max_dec'], false, $thres_dec['min_dec']) . '</span></span>';
+echo '<span class="private_data ' . ( $purchase_price >= $min_fiat_val_test && $lvrg_level >= 2 && $sel_mrgntyp == 'short' ? 'short">★ ' : 'blue">' ) . '<span class="blue">' . $ct_conf['power']['btc_currency_mrkts'][ $ct_conf['gen']['btc_prim_currency_pair'] ] . '</span><span class="app_sort_filter blue">' . $ct_var->num_pretty($asset_prim_currency_worth_raw, $thres_dec['max_dec'], false, $thres_dec['min_dec']) . '</span></span>';
 
-  if ( $purchase_price >= 0.00000001 && $lvrg_level >= 2 ) {
+  if ( $purchase_price >= $min_fiat_val_test && $lvrg_level >= 2 ) {
 
   $asset_worth_inc_lvrg = $asset_prim_currency_worth_raw + $only_lvrg_gain_loss;
   

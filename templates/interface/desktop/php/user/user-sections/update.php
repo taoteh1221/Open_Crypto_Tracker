@@ -464,7 +464,7 @@
                 	$asset_amnt_val_temp = $ct_var->num_to_str($all_cookies_data_array[$asset_symb.'_data'][$asset_symb.'_amnt']);
                 					
                 					
-                		if ( $asset_amnt_val_temp >= 0.000000001 ) {
+                		if ( $asset_amnt_val_temp >= $watch_only_flag_val ) {
                 		    
                     	$asset_amnt_val = $asset_amnt_val_temp;
                     	$asset_mrkt_id = $all_cookies_data_array[$asset_symb.'_data'][$asset_symb.'_mrkt'];
@@ -474,8 +474,8 @@
                 					   
     			            // If purchased amount (not just watched), AND cost basis
                     		if (
-                    		$purchase_price_temp >= 0.00000001
-                    		&& $asset_amnt_val >= 0.00000001
+                    		$purchase_price_temp >= $min_fiat_val_test
+                    		&& $asset_amnt_val >= $min_crypto_val_test
                     		) {
                 			$asset_paid_val = $purchase_price_temp;
                     		$asset_lvrg_val = $all_cookies_data_array[$asset_symb.'_data'][$asset_symb.'_lvrg'];
@@ -515,7 +515,7 @@
 	    
 	    
     	    // Set any previously-used additional feilds to default, if 'watch only' now (no amount held)
-    	    if ( $ct_var->rem_num_format($asset_amnt_val) < 0.00000001 ) {
+    	    if ( $ct_var->rem_num_format($asset_amnt_val) < $min_crypto_val_test ) {
     	    $asset_paid_val = 0;
     	    $asset_lvrg_val = 0;
     	    $asset_mrgntyp_val = 'long';
@@ -531,7 +531,7 @@
 	    <div class='<?=$zebra_stripe?> long_list_taller' style='white-space: nowrap;'> 
 	       
 	       
-	       <input type='checkbox' value='<?=strtolower($asset_array_key)?>' id='<?=$field_var_watchonly?>' onchange='watch_toggle(this);' <?=( $ct_var->rem_num_format($asset_amnt_val) > 0 && $ct_var->rem_num_format($asset_amnt_val) <= '0.000000001' ? 'checked' : '' )?> /> &nbsp;
+	       <input type='checkbox' value='<?=strtolower($asset_array_key)?>' id='<?=$field_var_watchonly?>' onchange='watch_toggle(this);' <?=( $ct_var->rem_num_format($asset_amnt_val) > 0 && $ct_var->rem_num_format($asset_amnt_val) <= $watch_only_flag_val ? 'checked' : '' )?> /> &nbsp;
 				    
 				    
 			<b class='blue'><?=$asset_array_val['name']?> (<?=strtoupper($asset_array_key)?>)</b> /  
@@ -633,7 +633,7 @@
 	     
 	     $("#<?=strtolower($asset_array_key)?>_restore").val( $("#<?=strtolower($asset_array_key)?>_amnt").val() );
 	     
-	     ' <?=( $ct_var->rem_num_format($asset_amnt_val) > 0 && $ct_var->rem_num_format($asset_amnt_val) <= '0.000000001' ? 'readonly' : '' )?> /> <span class='blue'><?=strtoupper($asset_array_key)?></span>  &nbsp;  &nbsp; 
+	     ' <?=( $ct_var->rem_num_format($asset_amnt_val) > 0 && $ct_var->rem_num_format($asset_amnt_val) <= $watch_only_flag_val ? 'readonly' : '' )?> /> <span class='blue'><?=strtoupper($asset_array_key)?></span>  &nbsp;  &nbsp; 
 			    
 			
 	     <b>Average Paid (per-token):</b> <?=$ct_conf['power']['btc_currency_mrkts'][ $ct_conf['gen']['btc_prim_currency_pair'] ]?><input class='private_data' type='text' size='10' id='<?=$field_var_paid?>' name='<?=$field_var_paid?>' value='<?=$asset_paid_val?>' <?=$disable_fields?> /> 
@@ -692,12 +692,12 @@
 	     }
 	     alert(" " + this.value + "x (" + mode + " Mode) \n Leverage trading in crypto assets is \n EXTREMELY RISKY. NEVER put more \n than ~5% of your crypto investments \n in leveraged trades EVER, OR YOU \n ###COULD LOSE EVERYTHING###. ");
 	     ' <?=$disable_fields?> >
-	     <option value='0' <?=( $asset_lvrg_val == 0 || $ct_var->rem_num_format($asset_paid_val) < 0.00000001 ? 'selected' : '' )?>> None </option>
+	     <option value='0' <?=( $asset_lvrg_val == 0 || $ct_var->rem_num_format($asset_paid_val) < $min_fiat_val_test ? 'selected' : '' )?>> None </option>
 	     <?php
 	     $lvrg_count = 2;
 	     while ( $ct_conf['power']['margin_lvrg_max'] > 1 && $lvrg_count <= $ct_conf['power']['margin_lvrg_max'] ) {
 	     ?>	     
-	     <option value='<?=$lvrg_count?>' <?=( $asset_lvrg_val == $lvrg_count && $ct_var->rem_num_format($asset_paid_val) >= 0.00000001 ? 'selected' : '' )?>> <?=$lvrg_count?>x </option>
+	     <option value='<?=$lvrg_count?>' <?=( $asset_lvrg_val == $lvrg_count && $ct_var->rem_num_format($asset_paid_val) >= $min_fiat_val_test ? 'selected' : '' )?>> <?=$lvrg_count?>x </option>
 	     <?php
 	     $lvrg_count = $lvrg_count + 1;
 	     }
@@ -738,7 +738,7 @@
 		 
 	     
 	     
-	     <input type='hidden' id='<?=$field_var_restore?>' name='<?=$field_var_restore?>' value='<?=( $ct_var->rem_num_format($asset_amnt_val) > 0 && $ct_var->rem_num_format($asset_amnt_val) <= '0.000000001' ? '' : $asset_amnt_val )?>' />
+	     <input type='hidden' id='<?=$field_var_restore?>' name='<?=$field_var_restore?>' value='<?=( $ct_var->rem_num_format($asset_amnt_val) > 0 && $ct_var->rem_num_format($asset_amnt_val) <= $watch_only_flag_val ? '' : $asset_amnt_val )?>' />
 				
 				
 	    </div>

@@ -1282,16 +1282,23 @@ var $ct_array = array();
    // (NO DECIMALS OVER 100 IN UNIT VALUE, MAX 2 DECIMALS OVER 1, #AND MIN 2 DECIMALS# UNDER, FOR INTERFACE UX)
    function thres_dec($num, $mode, $type=false) {
        
-   global $ct_conf;
+   global $ct_conf, $ct_var, $min_fiat_val_test, $min_crypto_val_test;
    
    $result = array();
+   
+   $num = $ct_var->num_to_str($num);
    
       // Unit
       if ( $mode == 'u' && $type != false ) {
           
       $result['max_dec'] = $this->dyn_max_decimals( abs($num) , $type); // MUST BE PASSED AS ABSOLUTE
+      
+      $min_val = ( $type == 'fiat' ? $min_fiat_val_test : $min_crypto_val_test );
    
-          if ( $ct_conf['gen']['price_round_fixed_decimals'] == 'on' ) {
+          if ( $num < $min_val ) {
+          $result['min_dec'] = 0;
+          }
+          elseif ( $ct_conf['gen']['price_round_fixed_decimals'] == 'on' ) {
           $result['min_dec'] = $result['max_dec'];
           }
    		elseif ( $type == 'fiat' ) {
@@ -1316,6 +1323,7 @@ var $ct_array = array();
       
       }
       
+   
    return $result;
       
    }
@@ -2135,7 +2143,7 @@ var $ct_array = array();
    
    function valid_csv_import_row($csv_row) {
       
-   global $ct_conf, $ct_var;
+   global $ct_conf, $ct_var, $min_crypto_val_test;
    
    // WE AUTO-CORRECT AS MUCH AS IS FEASIBLE, IF THE USER-INPUT IS CORRUPT / INVALID
    
@@ -2180,7 +2188,7 @@ var $ct_array = array();
       
       
       // Return false if there is no valid held amount
-      if ( $csv_row[1] >= 0.00000001 )  {
+      if ( $csv_row[1] >= $min_crypto_val_test )  {
       return $csv_row;
       }
       else {
@@ -2292,7 +2300,7 @@ var $ct_array = array();
     
         if ( $type == 'fiat' ) {
              
-        $track_target = $ct_var->num_to_str( preg_replace("/1/", "5", $min_fiat_val_test) ); // Set to 0.XXXXX5 instead of 0.XXXXX1
+        $track_target = preg_replace("/1/", "5", $min_fiat_val_test); // Set to 0.XXXXX5 instead of 0.XXXXX1
         
         
              $loop = 0;
@@ -2331,12 +2339,12 @@ var $ct_array = array();
         }
         else if ( $type == 'crypto' ) {
              
-        $track_target = $ct_var->num_to_str( preg_replace("/1/", "5", $min_crypto_val_test) ); // Set to 0.XXXXX5 instead of 0.XXXXX1
+        $track_target = preg_replace("/1/", "5", $min_crypto_val_test); // Set to 0.XXXXX5 instead of 0.XXXXX1
         
         
              $loop = 0;
-             $track_decimals = $ct_conf['gen']['currency_dec_max'];
-             while ( !isset($decimals) && $loop < $ct_conf['gen']['currency_dec_max'] ) {
+             $track_decimals = $ct_conf['gen']['crypto_dec_max'];
+             while ( !isset($decimals) && $loop < $ct_conf['gen']['crypto_dec_max'] ) {
 
                   // $track_decimals decimals rounding
                   if ( !isset($decimals) && $unit_percent <= $track_target ) {
@@ -2455,7 +2463,7 @@ var $ct_array = array();
    ////////////////////////////////////////////////////////
    
    
-   function base_url($SecurityCheck=true, $atRoot=false, $atCore=false, $parse=false) {
+   function base_url($hostCheck=false, $atRoot=false, $atCore=false, $parse=false) {
        
    global $ct_gen, $ct_cache, $base_dir;
       
@@ -2496,13 +2504,9 @@ var $ct_array = array();
    $set_url = preg_replace("/\/templates\/interface(.*)/i", "/", $set_url);
 
 
-        // Check detected base URL security
-        // (checked once every 30 minutes maximum [VIA NON-CRON RUNTIMES in system-config.php], OR FORCE-CHECKED IN runtime-type-init.php DURING RE-CACHES)
+        // Check detected base URL security in runtime-type-init.php DURING RE-CACHES
         // https://expressionengine.com/blog/http-host-and-server-name-security-issues (HOSTNAME HEADER CAN BE SPOOFED FROM CLIENT)
-        if (
-        $ct_cache->update_cache($base_dir . '/cache/events/check-domain-security.dat', 30) == true && isset($set_url) && trim($set_url) != '' && $SecurityCheck != false
-        || $SecurityCheck == 'forced_sec_check'
-        ) {
+        if ( $hostCheck == true ) {
 	
         $set_128bit_hash = $ct_gen->rand_hash(16); // 128-bit (16-byte) hash converted to hexadecimal, used for suffix
         $set_256bit_hash = $ct_gen->rand_hash(32); // 256-bit (32-byte) hash converted to hexadecimal, used for var
@@ -2539,17 +2543,12 @@ var $ct_array = array();
         
         // Delete domain check test file
         unlink($base_dir . '/' . $domain_check_filename);
-        	
+        
         	
         	  // If it's a possible hostname header attack
         	  if ( !preg_match("/" . $set_256bit_hash . "/i", $domain_check_test) ) {
         	  return array('security_error' => true, 'checked_url' => $domain_check_test_url, 'response_output' => $domain_check_test);
         	  }
-        	  // If all looks good
-            else { 
-            // Update the detected domain security check event tracking BEFORE RETURNING
-            $ct_cache->save_file($base_dir . '/cache/events/check-domain-security.dat', $ct_gen->time_date_format(false, 'pretty_date_time') );
-            }
         	
         
         }

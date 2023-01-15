@@ -104,6 +104,10 @@ $min_crypto_val_test .= ( $loop < $ct_conf['gen']['crypto_dec_max'] ? '0' : '1' 
 unset($loop);
 
 
+// Set "watch only" flag amount (sets portfolio amount one decimal MORE than allowed min value)
+$watch_only_flag_val = preg_replace("/1/", "01", $min_crypto_val_test); // Set to 0.XXXXX01 instead of 0.XXXXX1
+
+
 // Primary Bitcoin markets (MUST RUN AFTER app config auto-adjust)
 require_once('app-lib/php/inline/config/primary-bitcoin-markets-config.php');
 

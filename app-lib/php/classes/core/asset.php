@@ -653,7 +653,7 @@ var $ct_array1 = array();
    
    function market_conv_int_api($mrkt_conversion, $all_mrkts_data_array) {
    
-   global $ct_conf, $ct_var, $ct_gen, $ct_api, $sel_opt, $remote_ip;
+   global $ct_conf, $ct_var, $ct_gen, $ct_api, $min_crypto_val_test, $sel_opt, $remote_ip;
    
    $result = array();
    
@@ -786,7 +786,7 @@ var $ct_array1 = array();
                        // FAILSAFE: If the exchange market is DOES NOT RETURN a value, 
                        // move the internal array pointer one forward, until we've tried all exchanges for this btc pair
                        $switch_exchange = true;
-                       while ( !isset($mrkt_conv_btc_val) && $switch_exchange != false || $ct_var->num_to_str($mrkt_conv_btc_val) < 0.00000001 && $switch_exchange != false ) {
+                       while ( !isset($mrkt_conv_btc_val) && $switch_exchange != false || $ct_var->num_to_str($mrkt_conv_btc_val) < $min_crypto_val_test && $switch_exchange != false ) {
                          
                        $switch_exchange = next($ct_conf['assets']['BTC']['pair'][$mrkt_conversion]);
                        
@@ -1190,7 +1190,7 @@ var $ct_array1 = array();
    function ui_asset_row($asset_name, $asset_symb, $asset_amnt, $all_pair_mrkts, $sel_pair, $sel_exchange, $purchase_price=null, $lvrg_level, $sel_mrgntyp) {
    
    // Globals
-   global $base_dir, $ct_conf, $ct_gen, $ct_var, $ct_api, $sel_opt, $btc_worth_array, $stocks_btc_worth_array, $asset_stats_array, $td_color_zebra, $mcap_data_force_usd, $coingecko_api, $coinmarketcap_api;
+   global $base_dir, $ct_conf, $ct_gen, $ct_var, $ct_api, $min_fiat_val_test, $min_crypto_val_test, $watch_only_flag_val, $sel_opt, $btc_worth_array, $stocks_btc_worth_array, $asset_stats_array, $td_color_zebra, $mcap_data_force_usd, $coingecko_api, $coinmarketcap_api;
    
        
    $original_mrkt = $sel_exchange;
@@ -1272,7 +1272,7 @@ var $ct_array1 = array();
     
           
          // For watch-only, we always want only zero to show here in the UI (with no decimals)
-         if ( $asset_amnt == 0.000000001 ) {
+         if ( $asset_amnt == $watch_only_flag_val ) {
          $asset_amnt = 0;
          }
           
@@ -1371,7 +1371,7 @@ var $ct_array1 = array();
        
        
          // Calculate gain / loss if purchase price was populated, AND asset held is at least 1 satoshi
-         if ( $purchase_price >= 0.00000001 && $asset_amnt >= 0.00000001 ) {
+         if ( $purchase_price >= $min_fiat_val_test && $asset_amnt >= $min_crypto_val_test ) {
          
          //echo ' ' . $asset_symb . ': ' . $purchase_price . ' => ' . $asset_amnt . ' || ';
          
@@ -1452,7 +1452,7 @@ var $ct_array1 = array();
    function charts_price_alerts($asset_data, $exchange, $pair, $mode) {
    
    // Globals
-   global $base_dir, $ct_conf, $ct_cache, $ct_var, $ct_gen, $ct_api, $api_throttle_flag, $default_btc_prim_exchange, $default_btc_prim_currency_val, $default_btc_prim_currency_pair, $price_alert_fixed_reset_array;
+   global $base_dir, $ct_conf, $ct_cache, $ct_var, $ct_gen, $ct_api, $min_fiat_val_test, $api_throttle_flag, $default_btc_prim_exchange, $default_btc_prim_currency_val, $default_btc_prim_currency_pair, $price_alert_fixed_reset_array;
    
       
       // Skip completely, if it's an alphavantage market, AND the end-user has NOT added an alphavantage API key
@@ -1578,7 +1578,7 @@ var $ct_array1 = array();
       
       
       // Return false if we have no asset value
-      if ( $ct_var->num_to_str( trim($asset_prim_currency_val_raw) ) >= 0.00000001 ) {
+      if ( $ct_var->num_to_str( trim($asset_prim_currency_val_raw) ) >= $min_fiat_val_test ) {
       // Continue
       }
       else {
@@ -1666,8 +1666,8 @@ var $ct_array1 = array();
       /////////////////////////////////////////////////////////////////
       // If the charts page is enabled in Admin Config, save latest chart data for assets with price alerts configured on them
       if (
-      !$halt_chart_storage && $mode == 'both' && $ct_var->num_to_str($asset_prim_currency_val_raw) >= 0.00000001 && $ct_conf['gen']['asset_charts_toggle'] == 'on'
-      || !$halt_chart_storage && $mode == 'chart' && $ct_var->num_to_str($asset_prim_currency_val_raw) >= 0.00000001 && $ct_conf['gen']['asset_charts_toggle'] == 'on'
+      !$halt_chart_storage && $mode == 'both' && $ct_var->num_to_str($asset_prim_currency_val_raw) >= $min_fiat_val_test && $ct_conf['gen']['asset_charts_toggle'] == 'on'
+      || !$halt_chart_storage && $mode == 'chart' && $ct_var->num_to_str($asset_prim_currency_val_raw) >= $min_fiat_val_test && $ct_conf['gen']['asset_charts_toggle'] == 'on'
       ) {
       
       // In case a rare error occured from power outage / corrupt memory / etc, we'll check the timestamp (in a non-resource-intensive way)
@@ -1768,7 +1768,7 @@ var $ct_array1 = array();
         
           // Price checks (done early for including with price alert reset logic)
           // If cached and current price exist
-          if ( $ct_var->num_to_str( trim($cached_asset_prim_currency_val) ) >= 0.00000001 && $ct_var->num_to_str( trim($asset_prim_currency_val_raw) ) >= 0.00000001 ) {
+          if ( $ct_var->num_to_str( trim($cached_asset_prim_currency_val) ) >= $min_fiat_val_test && $ct_var->num_to_str( trim($asset_prim_currency_val_raw) ) >= $min_fiat_val_test ) {
           
           
           // PRIMARY CURRENCY CONFIG price percent change (!MUST BE! absolute value)
@@ -2038,7 +2038,7 @@ var $ct_array1 = array();
           
           }
           // If run alerts not triggered, BUT asset price exists, we run any required additional logic
-          elseif ( $ct_var->num_to_str($asset_prim_currency_val_raw) >= 0.00000001 ) {
+          elseif ( $ct_var->num_to_str($asset_prim_currency_val_raw) >= $min_fiat_val_test ) {
        
        
         	 // Not already run at least once (alert cache file not created yet)

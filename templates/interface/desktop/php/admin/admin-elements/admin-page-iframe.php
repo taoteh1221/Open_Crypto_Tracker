@@ -28,9 +28,9 @@ header('Access-Control-Allow-Origin: ' . $app_host_address);
 
 	<title></title>
 	
-   <meta charset="<?=$ct_conf['dev']['charset_default']?>">
+     <meta charset="<?=$ct_conf['dev']['charset_default']?>">
    
-   <meta name="viewport" content="width=device-width"> <!-- Mobile compatibility -->
+     <meta name="viewport" content="width=device-width"> <!-- Mobile compatibility -->
    
 	<meta name="robots" content="noindex,nofollow"> <!-- Keeps this URL private (search engines won't add this URL to their search indexes) -->
 	
@@ -52,6 +52,12 @@ header('Access-Control-Allow-Origin: ' . $app_host_address);
 	var ct_id = '<?=$ct_gen->id()?>';
 	
 	var app_edition = '<?=$app_edition?>';
+	
+	var min_fiat_val_test = '<?=$min_fiat_val_test?>';
+	
+	var min_crypto_val_test = '<?=$min_crypto_val_test?>';
+	
+	var watch_only_flag_val = '<?=$watch_only_flag_val?>';
 	
 	var admin_area_sec_level = '<?=base64_encode( $admin_area_sec_level )?>';
 	

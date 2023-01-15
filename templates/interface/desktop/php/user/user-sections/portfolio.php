@@ -134,12 +134,12 @@ if ( $_POST['submit_check'] == 1 || $run_csv_import || $ui_cookies ) {
 										
 										
 										
-											if ( $held_amnt >= 0.00000001 ) {
+											if ( $held_amnt >= $min_crypto_val_test ) {
 												
 											$assets_added = 1;
 											
 											
-												if ( $purchase_price >= 0.00000001 ) {
+												if ( $purchase_price >= $min_fiat_val_test ) {
 												$purchase_price_added = 1;
 												}
 												
@@ -223,12 +223,12 @@ if ( $_POST['submit_check'] == 1 || $run_csv_import || $ui_cookies ) {
 										
 										
 										
-											if ( $held_amnt >= 0.00000001 ) {
+											if ( $held_amnt >= $min_crypto_val_test ) {
 												
 											$assets_added = 1;
 											
 											
-												if ( $purchase_price >= 0.00000001 ) {
+												if ( $purchase_price >= $min_fiat_val_test ) {
 												$purchase_price_added = 1;
 												}
 												
@@ -275,7 +275,7 @@ if ( $_POST['submit_check'] == 1 || $run_csv_import || $ui_cookies ) {
     	// We don't need $ct_var->rem_num_format() for cookie data, because it was already done creating the cookies
     	$held_temp = $ct_var->num_to_str($all_cookies_data_array[$asset_symb.'_data'][$asset_symb.'_amnt']);
     					
-          if ( $held_temp >= 0.000000001 ) {
+          if ( $held_temp >= $watch_only_flag_val ) {
                 
         	$held_amnt = $held_temp;
         	
@@ -295,7 +295,7 @@ if ( $_POST['submit_check'] == 1 || $run_csv_import || $ui_cookies ) {
     			// If purchased amount (not just watched), AND cost basis
         		if (
         		$purchase_price_temp >= 0.00000001
-        		&& $held_amnt >= 0.00000001
+        		&& $held_amnt >= $min_crypto_val_test
         		) {
     			$purchase_price = $purchase_price_temp;
         		$lvrg_level = $all_cookies_data_array[$asset_symb.'_data'][$asset_symb.'_lvrg'];
@@ -324,7 +324,7 @@ if ( $_POST['submit_check'] == 1 || $run_csv_import || $ui_cookies ) {
     					
     					
     						
-    		if ( $held_amnt >= 0.00000001 ) {
+    		if ( $held_amnt >= $min_crypto_val_test ) {
     							
     		$assets_added = 1;
     						
@@ -415,7 +415,7 @@ $total_prim_currency_worth = $ct_asset->coin_stats_data('coin_worth_total');
     }
 
 
-$altcoin_dominance = ( $total_btc_worth_raw >= 0.00000001 ? $ct_var->num_to_str( 100 - $bitcoin_dominance - $ethereum_dominance - $solana_dominance - $miscassets_dominance - $ethnfts_dominance - $solnfts_dominance - $stocks_dominance ) : 0.00 );
+$altcoin_dominance = ( $total_btc_worth_raw >= $min_crypto_val_test ? $ct_var->num_to_str( 100 - $bitcoin_dominance - $ethereum_dominance - $solana_dominance - $miscassets_dominance - $ethnfts_dominance - $solnfts_dominance - $stocks_dominance ) : 0.00 );
 
 
 // Remove any slight decimal over 100 (100.01 etc)
@@ -681,7 +681,7 @@ var fiat_val_content = '<h5 class="yellow tooltip_title">Primary Currency (<?=st
 						}
 						
 					
-						if ( $ct_var->num_to_str($val['coin_paid']) >= 0.00000001 ) {
+						if ( $ct_var->num_to_str($val['coin_paid']) >= $min_fiat_val_test ) {
 							
                         $thres_dec_1 = $ct_gen->thres_dec($val['gain_loss_total'], 'u', 'fiat'); // Units mode
 						$parsed_gain_loss = preg_replace("/-/", "-" . $ct_conf['power']['btc_currency_mrkts'][ $ct_conf['gen']['btc_prim_currency_pair'] ], $ct_var->num_pretty($val['gain_loss_total'], $thres_dec_1['max_dec'], false, $thres_dec_1['min_dec']) );

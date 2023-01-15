@@ -6015,6 +6015,8 @@ v6.00.2 AND HIGHER RESETS LIGHT (TIME PERIOD) CHARTS FROM ARCHIVAL DATA, ONE-TIM
 
 -BUG FIX: Miscellaneous (small) fixes
 
+-New 'crypto_dec_max' admin config setting (in the GENERAL section...see notes next to setting)
+
 -Optimized initiation logic to run faster in all runtime modes
 
 -Miscellaneous optimizations / user experience improvements
