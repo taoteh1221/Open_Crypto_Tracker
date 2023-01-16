@@ -120,7 +120,8 @@ DEBUGGING / TESTS / UX / QA / OTHER
 ===> WHEN DEBUGGING / TESTING, LEAVE "$dev_debug_php_errors" IN "app-lib/php/init.php" SET 
 ===> LIKE SO, TO ALWAYS LOG ALL PARSE / FATAL PHP ERRORS DURING TESTING: (E_ERROR | E_PARSE)
 !!!!
-===> Test in a WebKit-based browser [Epiphany|Safari|Midori], and Firefox / Chromium.
+===> config.php (and plug-conf.php for plugins) MUST ONLY CONTAIN STATIC CONFIGS,
+===> as all configs are saved to / run from cache file: /cache/secured/ct_conf_XXXXXXXXX.dat
 !!!!
 ===> Use SQLite for data storage that needs query capability (PHPdesktop supports SQLite).
 !!!!                                                                                    
@@ -128,6 +129,8 @@ DEBUGGING / TESTS / UX / QA / OTHER
 ===> https://stackoverflow.com/questions/861254/iterate-over-properties-of-a-php-class
 !!!!
 ===> JS / CSS map file loading will timeout, if you load too many charts / news feeds.
+!!!!
+===> Test in a WebKit-based browser [Epiphany|Safari|Midori], and Firefox / Chromium.
 !!!!
 ===> Think over what other "FAQ page / TROUBLESHOOTING.txt" entries would be helpful.
 !!!!
@@ -146,6 +149,24 @@ DEBUGGING / TESTS / UX / QA / OTHER
 ############ NEXT DEBUG / TEST / QA / OTHER SCHEDULED WORK SESSION ###################################
 
 
+Make sure everything STILL runs smoothly with the charts page turned off.
+
+
+Test turning password protection on/off on the interface (NOT admin area), I messed with it BUT changed it back.
+
+
+LOCAL JAVASCRIPT STORAGE keeps deleting content in my trade notes textarea, find out why
+
+
+Remove all linebreaks in javascript alert / confirm dialogue boxes, except for new paragraphs. Let the browser choose the max width on it's own (like they do nowadays)
+
+
+Build fail-safes directly into the plugin CONFIG INIT for default ui_name and ui_location, as well as error log AND skip including any activated plugin with runtime_mode not set / not properly set.
+
+
+Try getting the desktop edition logs (including PHP errors) into a /logs/ directory in the main folder.
+
+
 Final testing / release v6.00.17
 
 
@@ -155,28 +176,13 @@ Final testing / release v6.00.17
 Update Portfolio page screenshots, since we added the 'Rank' column AND REBRANDED app name.
 
 
-LOCAL JAVASCRIPT STORAGE keeps deleting content in my trade notes textarea, find out why
-
-
-Make sure everything STILL runs smoothly with the charts page turned off.
-
-
-Test turning password protection on/off on the interface (NOT admin area), I messed with it BUT changed it back.
-
-
-Remove all linebreaks in javascript alert / confirm dialogue boxes, except for new paragraphs. Let the browser choose the max width on it's own (like they do nowadays)
-
-
-Add logic in FOLIO-INSTALL.bash for the NEWEST BUNDLED plugins, to backup their OLD plug-conf.php files (like we already do for older bundled plugins)
-
-
-Build fail-safes directly into the plugin CONFIG INIT for default ui_name and ui_location, as well as error log AND skip including any activated plugin with runtime_mode not set / not properly set.
-
-
 Add more checks / auto-corrects to config-auto-adjust.php (we've added alot more config settings since it's creation)
 
 
 Code review ENTIRE INIT / CONFIG RUNTIME SECTION, and cleanup / optimize where needed
+
+
+Overhaul / optimize config checks.
 
 
 Add remote IP address data to ALL relevant security error logging everywhere in the app.
@@ -191,6 +197,9 @@ Make all coin configs (assets and price alerts / charts) CASE-INSENSITIVE. Most 
 
 
 Move the error log alerts for "email not configured" under the new "notify" category (which avoids duplicate messages).
+
+
+Add power failure corruption checks (like chart price data has), to system charts and price alerts file cache data.
 
 
 Purge stale data in cookies / post submission with coin portfolio data, in runtime-type-init.php (if the coin market no longer is in the config, like we already do there for feeds / charts)
@@ -235,19 +244,22 @@ Create AND document /plug-templates/plug-admin.php|plug-docs.php formats, to be 
 Research whether POST data size affects header size like cookie data size does.
 
 
-######################################################################################################################
-
-
 Add more Jupiter agg markets to Solana coins in demo config, and in price target plugin.
 
 
 Add openserum markets support.
 
 
+######################################################################################################################
+
+
 Look into Aptos support for the 'address-balance-tracker' plugin (see the API notes section for public endpoints REST API docs).
 
 
 Change the 'eth_erc20_icos' => 'ico_erc20_value' config settings to 'token_presales' => 'presale_value', AND support any base pair as the pairing (NOT just 'ETH').
+
+
+Add additional ability to do telegram / discord webhooks in the new "crypto-info-bot" plugin, to query asset prices at different exchanges through telegram chat with the chat bot. Example: "/price btc-usd-coinbase"
 
 
 Consolidate num_to_str() calls, to speed up runtime. REMEMBER THAT WE *REQUIRE* num_to_str() AFTER PROCESSING WITH THE PHP-NATIVE round() FUNCTION (TO REMOVE TRAILING ZEROS / CONVERT SCEINTIFIC FORMAT)
@@ -260,6 +272,9 @@ https://javascript.info/class
 Enable the app config upgrade logic (for enhanced / normal admin sec modes, already built, just enable / test it). SEE DEBUGGING SECTION, AS WE NEED TO FIX IT BEFORE ENABLING IT.
 
 
+Consider bundling all the TODO charts we want to add to the "more stats" page (arbitrage etc) into a "addon-chart-stats" plugin (UI name "Additional Chart Stats"). This will help to flesh out the plugin system, and give insight into any additional requirements that should be added to it.
+
+
 Look into adding temp monitoring support for systems other than linux devices: https://phoenixnap.com/kb/linux-cpu-temp
 
 
@@ -267,9 +282,6 @@ Create github wiki with the current documentation for the portfolio app.
 
 
 To avoid having the "re-enter /start" telegram error message unless truly needed, take an md5 digest of all telegram settings concatenated together, and save as a var in the vars cache folder. Only run a telegram setting update if this md5 digest ever changes.
-
-
-Add additional ability to do telegram / discord webhooks in the new "crypto-info-bot" plugin, to query asset prices at different exchanges through telegram chat with the chat bot. Example: "/price btc-usd-coinbase"
 
 
 Auto-update feature like WordPress has (downloads a zip file upgrade from github, and exctracts it overwriting the old app files).
@@ -284,13 +296,7 @@ Create "Export your feeds" link on News page, to XML / JSON format file download
 Add 'cancel' button on privacy mode PIN modal, and adjust the background color / border color / border width to 'pop out' better in the light / dark themes.
 
 
-Add power failure corruption checks (like chart price data has), to system charts and price alerts file cache data.
-
-
 Add same logic we have for internal API request throttling to the admin login / reset attempts, make setting configurable.
-
-
-Overhaul / optimize config checks.
 
 
 Add a dedicated system chart file for plugin cron stats ONLY (runtime seconds, etc).
@@ -425,9 +431,6 @@ MAYBE SECTION
 
 
 Look into X day moving average overlay for price charts.
-
-
-Change the api key format to GET instead of POST on my portfolio app's internal REST API, so browser-based javascript implementations can work cross-site retrieving data.
 
 
 In debug mode, maybe add our new 'used ram' stat instead (that doesn't include buffers / cached ram).

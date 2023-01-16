@@ -79,6 +79,8 @@ echo $plug_class[$this_plug]->my_function_1('Kitty');
 
 Example: "/plugins/my-app-plugin/plug-conf.php" (must be lowercase)
 
+NOTES: plug-conf.php MUST only contain STATIC configs (dynamic configs are NOT allowed), as all configs are saved to / run from cache file: /cache/secured/ct_conf_XXXXXXXXX.dat That said, you CAN create a "placeholder" (empty) configuration value / array in plug-conf.php (for clean / reviewable code), and then dynamically populate it AT THE TOP OF your plug-init.php logic (BEFORE your plugin needs to use that config setting).
+
 
 
 8) All "plug-conf.php" PLUGIN CONFIG settings MUST BE INSIDE THE ARRAY "$plug_conf[$this_plug]" (sub-arrays are allowed).

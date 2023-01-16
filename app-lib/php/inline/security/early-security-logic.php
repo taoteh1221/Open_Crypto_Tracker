@@ -214,7 +214,7 @@ if ( !$is_fast_runtime ) {
           
      		
      		// If we already loaded the newest modified file, delete any stale ones
-     		if ( $int_webhooks[$webhook_plug] ) {
+     		if ( isset($int_webhooks[$webhook_plug]) ) {
      		unlink($base_dir . '/cache/secured/' . $secured_file);
      		}
      		else {

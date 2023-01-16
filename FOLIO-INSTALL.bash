@@ -1119,21 +1119,14 @@ select opt in $OPTIONS; do
   						BACKUP_CONF="/config.php"
 						cp $DOC_ROOT$BACKUP_CONF $DOC_ROOT$BACKUP_CONF.BACKUP.$DATE.$RAND_STRING > /dev/null 2>&1
 						chown $APP_USER:$APP_USER $DOC_ROOT$BACKUP_CONF.BACKUP.$DATE.$RAND_STRING > /dev/null 2>&1
-						
-  						# 'address-balance-tracker' plugin config
-  						BACKUP_CONF="/plugins/recurring-reminder/plug-conf.php"
-						cp $DOC_ROOT$BACKUP_CONF $DOC_ROOT$BACKUP_CONF.BACKUP.$DATE.$RAND_STRING > /dev/null 2>&1
-						chown $APP_USER:$APP_USER $DOC_ROOT$BACKUP_CONF.BACKUP.$DATE.$RAND_STRING > /dev/null 2>&1
-						
-  						# 'price-target-alert' plugin config
-  						BACKUP_CONF="/plugins/price-target-alert/plug-conf.php"
-						cp $DOC_ROOT$BACKUP_CONF $DOC_ROOT$BACKUP_CONF.BACKUP.$DATE.$RAND_STRING > /dev/null 2>&1
-						chown $APP_USER:$APP_USER $DOC_ROOT$BACKUP_CONF.BACKUP.$DATE.$RAND_STRING > /dev/null 2>&1
-						
-  						# 'recurring-reminder' plugin config
-  						BACKUP_CONF="/plugins/recurring-reminder/plug-conf.php"
-						cp $DOC_ROOT$BACKUP_CONF $DOC_ROOT$BACKUP_CONF.BACKUP.$DATE.$RAND_STRING > /dev/null 2>&1
-						chown $APP_USER:$APP_USER $DOC_ROOT$BACKUP_CONF.BACKUP.$DATE.$RAND_STRING > /dev/null 2>&1
+
+
+						     # Backup all plugin configs too
+                                   for plugin_dir in $DOC_ROOT/plugins/*; do
+     						cp $plugin_dir/plug-conf.php $plugin_dir/plug-conf.php.BACKUP.$DATE.$RAND_STRING > /dev/null 2>&1
+     						chown $APP_USER:$APP_USER $plugin_dir/plug-conf.php.BACKUP.$DATE.$RAND_STRING > /dev/null 2>&1
+                                   done
+                                   
 						
 						sleep 3
 						

@@ -3487,7 +3487,7 @@ $ct_conf['assets'] = array(
                     // BONK
                     'BONK' => array(
                         
-                        'name' => 'Bonk',
+                        'name' => 'Bonk Inu',
                         'mcap_slug' => 'bonk',
                         'pair' => array(
 

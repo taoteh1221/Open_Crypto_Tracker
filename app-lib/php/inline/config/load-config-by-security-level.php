@@ -89,8 +89,8 @@ $this_plug = $key;
 			ksort($activated_plugins['webhook']); // Alphabetical order (for admin UI)
 
         	
-             	     // If we don't have webhook keys set yet for this webhook plugin
-                    if ( !isset($int_webhooks[$this_plug]) ) {
+             	     // If NOT A FAST RUNTIME, and we don't have webhook keys set yet for this webhook plugin
+                    if ( !$is_fast_runtime && !isset($int_webhooks[$this_plug]) ) {
                	
                     $secure_128bit_hash = $ct_gen->rand_hash(16); // 128-bit (16-byte) hash converted to hexadecimal, used for suffix
                     $secure_256bit_hash = $ct_gen->rand_hash(32); // 256-bit (32-byte) hash converted to hexadecimal, used for var

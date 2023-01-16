@@ -6013,6 +6013,8 @@ v6.00.2 AND HIGHER RESETS LIGHT (TIME PERIOD) CHARTS FROM ARCHIVAL DATA, ONE-TIM
 
 -BUG FIX: Fixed endless loop in security check on header domain data (sorry about that!)
 
+-BUG FIX: Fixed issue with webhook keys resetting themselves
+
 -BUG FIX: Miscellaneous (small) fixes
 
 -New 'crypto_dec_max' admin config setting (in the GENERAL section...see notes next to setting)
