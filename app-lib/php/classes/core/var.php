@@ -306,10 +306,18 @@ var $ct_array1 = array();
       }
       
       
-      // Generally, crypto decimals are almost always higher then fiat,
-      // so have this be our ceiling *PLUS ONE EXTRA DECIMAL* FOR OUR 'WATCH ONLY' PORTFOLIO LOGIC
-      if ( $decimals > ($ct_conf['gen']['crypto_dec_max'] + 1) ) {
-      $decimals = ($ct_conf['gen']['crypto_dec_max'] + 1);
+      // Get max decimals from the config settings
+      if ( $ct_conf['gen']['crypto_dec_max'] >= $ct_conf['gen']['currency_dec_max'] ) {
+      $dec_max = $ct_conf['gen']['crypto_dec_max'];
+      }
+      else {
+      $dec_max = $ct_conf['gen']['currency_dec_max'];
+      }
+      
+      
+      // *PLUS ONE EXTRA DECIMAL* FOR OUR 'WATCH ONLY' PORTFOLIO LOGIC
+      if ( $decimals > ($dec_max + 1) ) {
+      $decimals = ($dec_max + 1);
       }
       
       

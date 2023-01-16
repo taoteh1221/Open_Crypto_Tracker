@@ -150,7 +150,16 @@ Final testing / release v6.00.17
 ######################################################################################################
 
 
+Update Portfolio page screenshots, since we added the 'Rank' column AND REBRANDED app name.
+
+
 LOCAL JAVASCRIPT STORAGE keeps deleting content in my trade notes textarea, find out why
+
+
+Make sure everything STILL runs smoothly with the charts page turned off.
+
+
+Test turning password protection on/off on the interface (NOT admin area), I messed with it BUT changed it back.
 
 
 Remove all linebreaks in javascript alert / confirm dialogue boxes, except for new paragraphs. Let the browser choose the max width on it's own (like they do nowadays)
@@ -162,13 +171,7 @@ Add logic in FOLIO-INSTALL.bash for the NEWEST BUNDLED plugins, to backup their 
 Build fail-safes directly into the plugin CONFIG INIT for default ui_name and ui_location, as well as error log AND skip including any activated plugin with runtime_mode not set / not properly set.
 
 
-Update Portfolio page screenshots, since we added the 'Rank' column AND REBRANDED app name.
-
-
-Make sure everything STILL runs smoothly with the charts page turned off.
-
-
-Test turning password protection on/off on the interface (NOT admin area), I messed with it BUT changed it back.
+Add more checks / auto-corrects to config-auto-adjust.php (we've added alot more config settings since it's creation)
 
 
 Code review ENTIRE INIT / CONFIG RUNTIME SECTION, and cleanup / optimize where needed
