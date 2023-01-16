@@ -149,28 +149,28 @@ DEBUGGING / TESTS / UX / QA / OTHER
 ############ NEXT DEBUG / TEST / QA / OTHER SCHEDULED WORK SESSION ###################################
 
 
+Final testing / release v6.00.17
+
+
+######################################################################################################
+
+
+Try getting the desktop edition logs (including PHP errors) into a /logs/ directory in the main folder.
+
+
 Make sure everything STILL runs smoothly with the charts page turned off.
 
 
 Test turning password protection on/off on the interface (NOT admin area), I messed with it BUT changed it back.
 
 
-LOCAL JAVASCRIPT STORAGE keeps deleting content in my trade notes textarea, find out why
-
-
 Remove all linebreaks in javascript alert / confirm dialogue boxes, except for new paragraphs. Let the browser choose the max width on it's own (like they do nowadays)
 
 
+LOCAL JAVASCRIPT STORAGE keeps deleting content in my trade notes textarea, find out why
+
+
 Build fail-safes directly into the plugin CONFIG INIT for default ui_name and ui_location, as well as error log AND skip including any activated plugin with runtime_mode not set / not properly set.
-
-
-Try getting the desktop edition logs (including PHP errors) into a /logs/ directory in the main folder.
-
-
-Final testing / release v6.00.17
-
-
-######################################################################################################
 
 
 Update Portfolio page screenshots, since we added the 'Rank' column AND REBRANDED app name.
@@ -241,9 +241,6 @@ FEATURES / NEW INFRASTRUCTURE / RESEARCH
 Create AND document /plug-templates/plug-admin.php|plug-docs.php formats, to be used in the plugin system. plug-docs.php should be a "More Documentation" link at the top of the plugin's admin page, which opens as a modal window (like we do for "select charts" on the user area charts page).
 
 
-Research whether POST data size affects header size like cookie data size does.
-
-
 Add more Jupiter agg markets to Solana coins in demo config, and in price target plugin.
 
 
@@ -257,6 +254,9 @@ Look into Aptos support for the 'address-balance-tracker' plugin (see the API no
 
 
 Change the 'eth_erc20_icos' => 'ico_erc20_value' config settings to 'token_presales' => 'presale_value', AND support any base pair as the pairing (NOT just 'ETH').
+
+
+Research whether POST data size affects header size like cookie data size does.
 
 
 Add additional ability to do telegram / discord webhooks in the new "crypto-info-bot" plugin, to query asset prices at different exchanges through telegram chat with the chat bot. Example: "/price btc-usd-coinbase"

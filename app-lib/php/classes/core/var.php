@@ -396,7 +396,8 @@ var $ct_array1 = array();
       
       // If our value IS LESS THAN WHAT WOULD SHOW *AT ALL* WITH CURRENT MAX DECIMALS,
       // THEN SET THE FLAG $small_unlimited TO DISREGARD MAX DECIMALS
-      if ( $min_crypto_val_test > $raw_val_to_pretty ) {
+      // abs() used to properly calculate with negative numbers
+      if ( $min_crypto_val_test > abs($raw_val_to_pretty) ) {
       $small_unlimited = true;
       }
    

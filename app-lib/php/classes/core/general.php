@@ -2279,7 +2279,9 @@ var $ct_array = array();
    function dyn_max_decimals($price_raw, $type) {
        
    global $ct_conf, $ct_var, $min_fiat_val_test, $min_crypto_val_test;
-        
+   
+   $price_raw = abs($price_raw); // Assure no negative number used
+   
         
         if ( $ct_conf['gen']['price_round_percent'] == 'one' ) {
         $x = 1;
@@ -3037,6 +3039,9 @@ var $ct_array = array();
       
       $result = explode("||", fgets($fn) );
       
+      $result = array_map('trim', $result); // Trim whitespace out of all array values
+      
+      
          if ( isset($result[0]) && trim($result[0]) != '' && trim($result[0]) >= $start_timestamp ) {
             
          $data['time'] .= trim($result[0]) . '000,';  // Zingchart wants 3 more zeros with unix time (milliseconds)
@@ -3045,7 +3050,7 @@ var $ct_array = array();
             if ( $system_statistics_chart ) {
             
             
-                if ( trim($result[1]) != 'NO_DATA' ) {
+                if ( isset($result[1]) && trim($result[1]) != 'NO_DATA' && trim($result[1]) != '' ) {
                 $data['load_average_15_minutes'] .= trim($result[1]) . ',';
                 $last_valid_chart_data['load_average_15_minutes'] = $result[1];
                 }
@@ -3055,7 +3060,7 @@ var $ct_array = array();
                 }
             
             
-                if ( trim($result[2]) != 'NO_DATA' ) {
+                if ( isset($result[2]) && trim($result[2]) != 'NO_DATA' && trim($result[2]) != '' ) {
                 $data['temperature_celsius'] .= trim($result[2]) . ',';
                 $last_valid_chart_data['temperature_celsius'] = $result[2];
                 }
@@ -3065,7 +3070,7 @@ var $ct_array = array();
                 }
             
             
-                if ( trim($result[3]) != 'NO_DATA' ) {
+                if ( isset($result[3]) && trim($result[3]) != 'NO_DATA' && trim($result[3]) != '' ) {
                 $data['used_memory_gigabytes'] .= trim($result[3]) . ',';
                 $last_valid_chart_data['used_memory_gigabytes'] = $result[3];
                 }
@@ -3075,7 +3080,7 @@ var $ct_array = array();
                 }
             
             
-                if ( trim($result[4]) != 'NO_DATA' ) {
+                if ( isset($result[4]) && trim($result[4]) != 'NO_DATA' && trim($result[4]) != '' ) {
                 $data['used_memory_percentage'] .= trim($result[4]) . ',';
                 $last_valid_chart_data['used_memory_percentage'] = $result[4];
                 }
@@ -3085,7 +3090,7 @@ var $ct_array = array();
                 }
             
             
-                if ( trim($result[5]) != 'NO_DATA' ) {
+                if ( isset($result[5]) && trim($result[5]) != 'NO_DATA' && trim($result[5]) != '' ) {
                 $data['free_disk_space_terabytes'] .= trim($result[5]) . ',';
                 $last_valid_chart_data['free_disk_space_terabytes'] = $result[5];
                 }
@@ -3095,7 +3100,7 @@ var $ct_array = array();
                 }
             
             
-                if ( trim($result[6]) != 'NO_DATA' ) {
+                if ( isset($result[6]) && trim($result[6]) != 'NO_DATA' && trim($result[6]) != '' ) {
                 $data['portfolio_cache_size_gigabytes'] .= trim($result[6]) . ',';
                 $last_valid_chart_data['portfolio_cache_size_gigabytes'] = $result[6];
                 }
@@ -3105,7 +3110,7 @@ var $ct_array = array();
                 }
             
             
-                if ( trim($result[7]) != 'NO_DATA' ) {
+                if ( isset($result[7]) && trim($result[7]) != 'NO_DATA' && trim($result[7]) != '' ) {
                 $data['cron_core_runtime_seconds'] .= trim($result[7]) . ',';
                 $last_valid_chart_data['cron_core_runtime_seconds'] = $result[7];
                 }
@@ -3116,7 +3121,7 @@ var $ct_array = array();
                 
             
             }
-            elseif ( $asset_perf_chart && trim($result[1]) != 'NO_DATA' ) {
+            elseif ( $asset_perf_chart && isset($result[1]) && trim($result[1]) != 'NO_DATA' && trim($result[1]) != '' ) {
       
                if ( !$runtime_data['performance_stats'][$asset]['start_val'] ) {
                $runtime_data['performance_stats'][$asset]['start_val'] = $result[1];
@@ -3137,7 +3142,7 @@ var $ct_array = array();
                }
             
             }
-            elseif ( trim($result[1]) != 'NO_DATA' && trim($result[2]) != 'NO_DATA' ) {
+            elseif ( isset($result[1]) && isset($result[2]) && trim($result[1]) != 'NO_DATA' && trim($result[2]) != 'NO_DATA' && trim($result[1]) != '' && trim($result[2]) != '' ) {
             
                // Format or round primary currency price depending on value (non-stablecoin crypto values are already stored in the format we want for the interface)
                if ( $fiat_formatting ) {

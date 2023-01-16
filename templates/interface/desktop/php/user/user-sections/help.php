@@ -336,11 +336,11 @@ MAKE SURE YOU ONLY USE EITHER /etc/cron.d/, or 'crontab -e', NOT BOTH...ANY OLD 
 	       <span class='red'>Important Note:</span> <span class='bitcoin'>In the v6 release (Coming Soon™), doing this manually in a text editor won't be necassary. You will be able to do it in the <span class='blue'>"Admin Config => Portfolio Assets"</span> interface much easier.</span>
 	    <br /><br />
 
-Below is an example for editing your assets / markets into the portfolio assets in the file config.php (located in the primary directory of this app), in the PORTFOLIO ASSETS section. It's very quick / easy to do (after you get the hang of it, lol). Also see the text file <a href='https://raw.githubusercontent.com/taoteh1221/Open_Crypto_Tracker/main/DOCUMENTATION-ETC/CONFIG-EXAMPLE.txt' target='_blank'>DOCUMENTATION-ETC/CONFIG-EXAMPLE.txt</a>, for a pre-configured set of default settings and example assets / markets. 
+Below is an example for editing your assets / markets in the file config.php (located in the primary directory of this app), within the PORTFOLIO ASSETS section. It's very quick / easy to do (after you get the hang of it, lol). Also see the text file <a href='https://raw.githubusercontent.com/taoteh1221/Open_Crypto_Tracker/main/DOCUMENTATION-ETC/CONFIG-EXAMPLE.txt' target='_blank'>DOCUMENTATION-ETC/CONFIG-EXAMPLE.txt</a>, for a pre-configured set of default settings and example assets / markets. 
 
 	    <br /><br />
 
-Contact any supported exchange's help desk if you are unaware of the correct formatting of the trading pair naming you are adding in the configuration file (examples: Kraken has arbitrary Xs inserted in SOME older pair names, HitBTC sometimes has tether pairs without the "T" in the symbol name).
+Contact any supported exchange's help desk if you are unaware of the correct formatting of the trading pair naming you are adding in the configuration file (examples: Kraken has arbitrary Xs inserted in SOME older pair names, HitBTC sometimes has tether pairs without the "T" in the symbol name, and bybit can prepend "1000" to low-unit-value coin's market IDs).
 
 	    <br /><br />
 
@@ -570,7 +570,7 @@ Ethereum ICO subtoken support (pre-exchange listing) has been built in (values a
 	      <div class="card-body">
 	      
 	       
-	        Either the asset has not been added to <a href='https://coinmarketcap.com' target='_blank'>Coinmarketcap.com</a> or <a href='https://Coingecko.com' target='_blank'>Coingecko.com</a> yet, you forgot to add the URL slug in it's config section, or you need to increase the number of rankings to fetch in Admin Config in the POWER USER section (300 rankings is the safe maximum to avoid getting your API requests throttled / blocked). 
+	        Either the asset has not been added to <a href='https://coinmarketcap.com' target='_blank'>Coinmarketcap.com</a> or <a href='https://Coingecko.com' target='_blank'>Coingecko.com</a> yet, you forgot to add the URL slug in it's config section, or you need to increase the number of rankings to fetch in Admin Config in the POWER USER section (500 rankings is the safe maximum to avoid getting your API requests throttled / blocked). 
 	        
 	        
 	      </div>
@@ -727,7 +727,7 @@ SMTP email sending is REQUIRED if you are running this app on a home network, or
 	         
 If you are getting a lot of messages in the error logs like "file_write_error: File write failed for file X", you may need to free up disk space quota on your device, OR change directory permissions on your /cache/ folder. Check to make sure you have not used up all your ALLOWED disk space quota, AND that your /cache/ folder permissions are readable / writable (770 on unix / linux systems).
 <br /><br />
-If you already have plenty of disk space quota freed up / your cache folder permissions are readable / writable, and you still have file write issues on linux-based operating systems, you MAY need to setup a higher "open files" limit for your website user account. If you have shell access you can login and run this command to check your current limits:
+If you already have plenty of disk space quota freed up / your cache folder permissions are readable / writable, and you still have file write issues on linux-based operating systems, you MAY need to setup a higher "open files" limit for your website user account (ESPECIALLY if your app server is running MUTIPLE APPS SIMULTANEOUSLY). If you have shell access you can login and run this command to check your current limits:
 <br /><br />
 <pre class='rounded' style='display: inline-block;<?=( $ct_gen->is_msie() == false ? ' padding-top: 1em !important;' : '' )?>'><code class='hide-x-scroll less' style='white-space: nowrap; width: auto; display: inline-block;'>ulimit -n</code></pre>
 
@@ -1101,8 +1101,8 @@ The webhook key is also available, in the auto-created variable: $webhook_key
 
 
 
-<span class='blue'>12)</span> We are now done setting up plugin files, now we need to activate the new plugin. IN THE MAIN APP "Admin Config" POWER USER section. Locate the configuration variable named: 'activate_plugins'
-<br /><br />
+<span class='blue'>12)</span> We are done setting up the plugin files / folders, so now we need to activate the new plugin. IN THE "Admin Config" POWER USER section, locate the configuration variable named: 'activate_plugins'
+<br /><br /><br />
 
 
 <span class='blue'>13)</span> To add / activate your new plugin, add your plugin MAIN FOLDER name (example: 'my-app-plugin') as a new value within 'activate_plugins', and set to 'on'...ALSO INCLUDE A COMMA AT THE END.
