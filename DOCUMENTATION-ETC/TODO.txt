@@ -150,13 +150,16 @@ DEBUGGING / TESTS / UX / QA / OTHER
 ############ NEXT DEBUG / TEST / QA / OTHER SCHEDULED WORK SESSION ###################################
 
 
-Update Portfolio page screenshots, since we added the 'Rank' column AND REBRANDED app name.
+Look for "0.0000" in app, for more instances we need to now be dynamic in the logic (base off new min decimal settings in the general section of the config).
+
+
+Try copy / paste bonk inu "unit value" from portfolio page over to "paid" field on update page, to try to recreate a possible issue related to invisible whitespace causing "paid" value to set as zero on form submission.
 
 
 Make sure everything STILL runs smoothly with the charts page turned off.
 
 
-Test turning password protection on/off on the interface (NOT admin area), I messed with it BUT changed it back.
+Test turning htaccess password protection on/off on the interface, I messed with it BUT changed it back.
 
 
 Change "portfolio cache size gigabytes" system chart telemetry name to "app cache size gigabytes".
@@ -172,6 +175,9 @@ Build fail-safes directly into the plugin CONFIG INIT for default ui_name and ui
 
 
 LOCAL JAVASCRIPT STORAGE keeps deleting content in my trade notes textarea, find out why
+
+
+Update Portfolio page screenshots, since we added the 'Rank' column AND REBRANDED app name.
 
 
 Add more checks / auto-corrects to config-auto-adjust.php (we've added alot more config settings since it's creation)
@@ -236,6 +242,9 @@ FEATURES / NEW INFRASTRUCTURE / RESEARCH
 ############ NEXT FEATURES / NEW INFRASTRUCTURE / RESEARCH SCHEDULED WORK SESSION ###################################
 
 
+Add https://www.reddit.com/r/StarAtlas/ to resources page / news feeds.
+
+
 Create AND document /plug-templates/plug-admin.php|plug-docs.php formats, to be used in the plugin system. plug-docs.php should be a "More Documentation" link at the top of the plugin's admin page, which opens as a modal window (like we do for "select charts" on the user area charts page).
 
 
@@ -258,9 +267,6 @@ Look into Aptos support for the 'address-balance-tracker' plugin (see the API no
 
 
 Add additional ability to do telegram / discord webhooks in the new "crypto-info-bot" plugin, to query asset prices at different exchanges through telegram chat with the chat bot. Example: "/price btc-usd-coinbase"
-
-
-Consolidate num_to_str() calls, to speed up runtime. REMEMBER THAT WE *REQUIRE* num_to_str() AFTER PROCESSING WITH THE PHP-NATIVE round() FUNCTION (TO REMOVE TRAILING ZEROS / CONVERT SCEINTIFIC FORMAT)
 
 
 Convert all javascript functions into classes, for cleaner code:
