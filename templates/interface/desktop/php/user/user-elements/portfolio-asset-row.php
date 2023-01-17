@@ -416,13 +416,13 @@ echo '?';
     '>
         <?php
         $loop = 0;
-        foreach ( $all_pair_mrkts as $market_key => $market_name ) {
+        foreach ( $all_pair_mrkts as $mrkt_key => $mrkt_name ) {
          $loop = $loop + 1;
          	if ( $original_mrkt == ($loop - 1) ) {
-         	$ui_selected_mrkt = $ct_gen->key_to_name($market_key);
+         	$ui_selected_mrkt = $ct_gen->key_to_name($mrkt_key);
          	}
         ?>
-        <option value='<?=($loop)?>' <?=( $original_mrkt == ($loop - 1) ? ' selected ' : '' )?>> <?=$ct_gen->key_to_name($market_key)?> </option>
+        <option value='<?=($loop)?>' <?=( $original_mrkt == ($loop - 1) ? ' selected ' : '' )?>> <?=$ct_gen->key_to_name($mrkt_key)?> </option>
         <?php
         }
         ?>
@@ -445,10 +445,10 @@ $asset_val_raw = $ct_var->num_to_str($asset_val_raw);
 
 	// FIAT EQUIV
 	if ( $fiat_eqiv == 1 ) {
-    $thres_dec = $ct_gen->thres_dec($asset_val_raw, 'u', 'fiat'); // Units mode
+     $thres_dec = $ct_gen->thres_dec($asset_val_raw, 'u', 'fiat'); // Units mode
 	}
 	else {
-    $thres_dec = $ct_gen->thres_dec($asset_val_raw, 'u', 'crypto'); // Units mode
+     $thres_dec = $ct_gen->thres_dec($asset_val_raw, 'u', 'crypto'); // Units mode
 	}
 
 echo $ct_var->num_pretty($asset_val_raw, $thres_dec['max_dec'], false, $thres_dec['min_dec']);
@@ -463,29 +463,29 @@ echo $ct_var->num_pretty($asset_val_raw, $thres_dec['max_dec'], false, $thres_de
   
 		if ( $sel_opt['show_secondary_trade_val'] == 'btc' ) {
 		$secondary_trade_val_result = $ct_var->num_to_str($btc_trade_eqiv_raw);
-        $thres_dec = $ct_gen->thres_dec($secondary_trade_val_result, 'u', 'crypto'); // Units mode
+          $thres_dec = $ct_gen->thres_dec($secondary_trade_val_result, 'u', 'crypto'); // Units mode
 		}
 		else {
 		    
-		    if ( $this->pair_btc_val($sel_opt['show_secondary_trade_val']) > 0 ) {
-		    $secondary_trade_val_result = $ct_var->num_to_str( $btc_trade_eqiv_raw / $this->pair_btc_val($sel_opt['show_secondary_trade_val']) );
-		    }
-		    else {
-		    $secondary_trade_val_result = 0;
-		    }
-		   	
-		   	// Fiat-eqiv
-       	    if ( array_key_exists($sel_opt['show_secondary_trade_val'], $ct_conf['power']['btc_currency_mrkts']) ) {
-            $thres_dec = $ct_gen->thres_dec($secondary_trade_val_result, 'u', 'fiat'); // Units mode
-    		}
-    		// Crypto
-    		else {
-            $thres_dec = $ct_gen->thres_dec($secondary_trade_val_result, 'u', 'crypto'); // Units mode
-    		}
+		     if ( $this->pair_btc_val($sel_opt['show_secondary_trade_val']) > $min_crypto_val_test ) {
+		     $secondary_trade_val_result = $ct_var->num_to_str( $btc_trade_eqiv_raw / $this->pair_btc_val($sel_opt['show_secondary_trade_val']) );
+		     }
+		     else {
+		     $secondary_trade_val_result = 0;
+		     }
+     		   	
+     		// Fiat-eqiv
+            	if ( array_key_exists($sel_opt['show_secondary_trade_val'], $ct_conf['power']['btc_currency_mrkts']) ) {
+               $thres_dec = $ct_gen->thres_dec($secondary_trade_val_result, 'u', 'fiat'); // Units mode
+         		}
+         		// Crypto
+         		else {
+               $thres_dec = $ct_gen->thres_dec($secondary_trade_val_result, 'u', 'crypto'); // Units mode
+         		}
 
 		}
 		
-		if ( $secondary_trade_val_result >= 0.00000001 ) {
+		if ( $secondary_trade_val_result >= $min_crypto_val_test ) {
   		echo '<div class="crypto_worth">(' . $ct_var->num_pretty($secondary_trade_val_result, $thres_dec['max_dec'], false, $thres_dec['min_dec']) . ' '.strtoupper($sel_opt['show_secondary_trade_val']).')</div>';
 		}
   
@@ -561,18 +561,18 @@ echo $ct_var->num_pretty($asset_val_raw, $thres_dec['max_dec'], false, $thres_de
 
 	
 	if ( strtolower($asset_symb) == 'btc' ) {
-    $thres_dec = $ct_gen->thres_dec($asset_amnt, 'u', 'crypto'); // Units mode
+     $thres_dec = $ct_gen->thres_dec($asset_amnt, 'u', 'crypto'); // Units mode
 	}
 	else {
 		   	
-		// Fiat-eqiv
-       	if ( array_key_exists(strtolower($asset_symb), $ct_conf['power']['btc_currency_mrkts']) ) {
-        $thres_dec = $ct_gen->thres_dec($asset_amnt, 'u', 'fiat'); // Units mode
-    	}
-    	// Crypto
-    	else {
-        $thres_dec = $ct_gen->thres_dec($asset_amnt, 'u', 'crypto'); // Units mode
-    	}
+     	// Fiat-eqiv
+          if ( array_key_exists(strtolower($asset_symb), $ct_conf['power']['btc_currency_mrkts']) ) {
+          $thres_dec = $ct_gen->thres_dec($asset_amnt, 'u', 'fiat'); // Units mode
+         	}
+         	// Crypto
+         	else {
+          $thres_dec = $ct_gen->thres_dec($asset_amnt, 'u', 'crypto'); // Units mode
+         	}
     	
 	}
 	
@@ -641,7 +641,7 @@ echo ' <span class="blue"><span class="data app_sort_filter blue private_data">'
 
 		}
 		
-		if ( $secondary_holdings_val_result >= 0.00000001 ) {
+		if ( $secondary_holdings_val_result >= $min_crypto_val_test ) {
   		echo '<div class="crypto_worth"><span class="private_data">(' . $ct_var->num_pretty($secondary_holdings_val_result, $thres_dec['max_dec'], false, $thres_dec['min_dec']) . ' '.strtoupper($sel_opt['show_secondary_trade_val']).')</span></div>';
   		}
   		
@@ -662,13 +662,13 @@ echo ' <span class="blue"><span class="data app_sort_filter blue private_data">'
 <?php
 
 $thres_dec = $ct_gen->thres_dec($asset_prim_currency_worth_raw, 'u', 'fiat'); // Units mode
-echo '<span class="private_data ' . ( $purchase_price >= 0.00000001 && $leverage_level >= 2 && $sel_mrgntyp == 'short' ? 'short">★ ' : 'blue">' ) . '<span class="blue">' . $ct_conf['power']['btc_currency_mrkts'][ $ct_conf['gen']['btc_prim_currency_pair'] ] . '</span><span class="app_sort_filter blue">' . $ct_var->num_pretty($asset_prim_currency_worth_raw, $thres_dec['max_dec'], false, $thres_dec['min_dec']) . '</span></span>';
+echo '<span class="private_data ' . ( $purchase_price >= $min_fiat_val_test && $lvrg_level >= 2 && $sel_mrgntyp == 'short' ? 'short">★ ' : 'blue">' ) . '<span class="blue">' . $ct_conf['power']['btc_currency_mrkts'][ $ct_conf['gen']['btc_prim_currency_pair'] ] . '</span><span class="app_sort_filter blue">' . $ct_var->num_pretty($asset_prim_currency_worth_raw, $thres_dec['max_dec'], false, $thres_dec['min_dec']) . '</span></span>';
 
-  if ( $purchase_price >= 0.00000001 && $leverage_level >= 2 ) {
+  if ( $purchase_price >= $min_fiat_val_test && $lvrg_level >= 2 ) {
 
   $asset_worth_inc_lvrg = $asset_prim_currency_worth_raw + $only_lvrg_gain_loss;
   
-  echo ' <span class="extra_data private_data">(' . $leverage_level . 'x ' . $sel_mrgntyp . ')</span>';
+  echo ' <span class="extra_data private_data">(' . $lvrg_level . 'x ' . $sel_mrgntyp . ')</span>';
 
   $thres_dec = $ct_gen->thres_dec($gain_loss, 'u', 'fiat'); // Units mode
   // Here we parse out negative symbols
@@ -703,16 +703,16 @@ echo '<span class="private_data ' . ( $purchase_price >= 0.00000001 && $leverage
   		$gain_loss_prim_currency = ( $gain_loss >= 0 ? '+' . $ct_conf['power']['btc_currency_mrkts'][ $ct_conf['gen']['btc_prim_currency_pair'] ] : '' );
   		
 		?> 
-		<img class='leverage_info' id='<?=$rand_id?>_lvrg' src='templates/interface/media/images/info.png' alt='' width='30' style='position: relative; left: -5px;' />
+		<img class='lvrg_info' id='<?=$rand_id?>_lvrg' src='templates/interface/media/images/info.png' alt='' width='30' style='position: relative; left: -5px;' />
 	 <script>
 	
-			var leverage_content = '<h5 class="yellow tooltip_title"><?=$leverage_level?>x <?=ucfirst($sel_mrgntyp)?> For <?=$asset_name?> (<?=$asset_symb?>)</h5>'
+			var lvrg_content = '<h5 class="yellow tooltip_title"><?=$lvrg_level?>x <?=ucfirst($sel_mrgntyp)?> For <?=$asset_name?> (<?=$asset_symb?>)</h5>'
 			
 			+'<p class="coin_info"><span class="yellow">Deposit (1x):</span> <span class="<?=$gain_loss_span_color?>"><?=$gain_loss_prim_currency?><?=$parsed_gain_loss?></span> (<?=$ct_conf['power']['btc_currency_mrkts'][ $ct_conf['gen']['btc_prim_currency_pair'] ]?><?=$pretty_asset_prim_currency_worth_raw?>)</p>'
 			
-			+'<p class="coin_info"><span class="yellow">Margin (<?=($leverage_level - 1)?>x):</span> <span class="<?=$gain_loss_span_color?>"><?=$gain_loss_prim_currency?><?=$parsed_only_lvrg_gain_loss?></span></p>'
+			+'<p class="coin_info"><span class="yellow">Margin (<?=($lvrg_level - 1)?>x):</span> <span class="<?=$gain_loss_span_color?>"><?=$gain_loss_prim_currency?><?=$parsed_only_lvrg_gain_loss?></span></p>'
 			
-			+'<p class="coin_info"><span class="yellow">Total (<?=($leverage_level)?>x):</span> <span class="<?=$gain_loss_span_color?>"><?=$gain_loss_prim_currency?><?=$parsed_inc_lvrg_gain_loss?> / <?=( $gain_loss >= 0 ? '+' : '' )?><?=$pretty_lvrg_gain_loss_percent?>%</span> (<?=( $asset_worth_inc_lvrg >= 0 ? '' : '-' )?><?=$ct_conf['power']['btc_currency_mrkts'][ $ct_conf['gen']['btc_prim_currency_pair'] ]?><?=$parsed_asset_worth_inc_lvrg?>)</p>'
+			+'<p class="coin_info"><span class="yellow">Total (<?=($lvrg_level)?>x):</span> <span class="<?=$gain_loss_span_color?>"><?=$gain_loss_prim_currency?><?=$parsed_inc_lvrg_gain_loss?> / <?=( $gain_loss >= 0 ? '+' : '' )?><?=$pretty_lvrg_gain_loss_percent?>%</span> (<?=( $asset_worth_inc_lvrg >= 0 ? '' : '-' )?><?=$ct_conf['power']['btc_currency_mrkts'][ $ct_conf['gen']['btc_prim_currency_pair'] ]?><?=$parsed_asset_worth_inc_lvrg?>)</p>'
 			
 				
 			+'<p class="coin_info"><span class="yellow"> </span></p>';
@@ -722,7 +722,7 @@ echo '<span class="private_data ' . ( $purchase_price >= 0.00000001 && $leverage
 			html: true,
 			position: "left",
   			classname: 'balloon-tooltips',
-			contents: leverage_content,
+			contents: lvrg_content,
 			css: {
 					fontSize: ".8rem",
 					minWidth: "450px",

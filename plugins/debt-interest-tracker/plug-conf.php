@@ -19,15 +19,15 @@
 
 
 // What runtime modes this plugin should run during (MANDATORY)
-$plug_conf[$this_plug]['runtime_mode'] = 'webhook'; // 'cron', 'webhook', 'ui', 'all'
+$plug_conf[$this_plug]['runtime_mode'] = 'ui'; // 'cron', 'webhook', 'ui', 'all'
 
 
 // If running in the UI, set the preferred location it should show in
-$plug_conf[$this_plug]['ui_location'] = ''; // 'tools', 'more_stats' (defaults to 'tools' if not set)
+$plug_conf[$this_plug]['ui_location'] = 'tools'; // 'tools', 'more_stats' (defaults to 'tools' if not set)
 
 
 // If running in the UI, set the preferred plugin name that should show for end-users
-$plug_conf[$this_plug]['ui_name'] = 'Crypto Data Bot'; // (defaults to $this_plug if not set)
+$plug_conf[$this_plug]['ui_name'] = 'Debt Interest Tracker'; // (defaults to $this_plug if not set)
 
 
 // DON'T LEAVE ANY WHITESPACE AFTER THE CLOSING PHP TAG!

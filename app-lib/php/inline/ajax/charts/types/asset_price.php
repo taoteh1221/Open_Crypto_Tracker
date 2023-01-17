@@ -29,10 +29,10 @@ $x_coord = 75; // Start position (absolute) for light chart links
 		$chart_asset = ( stristr($key, "-") == false ? $key : substr( $key, 0, mb_strpos($key, "-", 0, 'utf-8') ) );
 		$chart_asset = strtoupper($chart_asset);
 		
-		$market_parse = explode("||", $val );
+		$mrkt_parse = explode("||", $val );
 
 
-		$charted_val = ( $_GET['charted_val'] == 'pair' ? $market_parse[1] : $default_btc_prim_currency_pair );
+		$charted_val = ( $_GET['charted_val'] == 'pair' ? $mrkt_parse[1] : $default_btc_prim_currency_pair );
 		
 		
 		// Strip non-alphanumeric characters to use in js vars, to isolate logic for each separate chart
@@ -92,7 +92,7 @@ gui: {
    type: "area",
    noData: {
      text: "No data for this '<?=$ct_gen->light_chart_time_period($_GET['days'], 'long')?>' light chart yet, please check back in awhile.",
-  	  fontColor: "<?=$ct_conf['power']['charts_text']?>",
+  	fontColor: "<?=$ct_conf['power']['charts_text']?>",
      backgroundColor: "#808080",
      fontSize: 20,
      textAlpha: .9,
@@ -104,7 +104,7 @@ gui: {
   	x: 0, 
   	y: 0,
   	title: {
-  	  text: "<?=$chart_asset?> / <?=strtoupper($market_parse[1])?> @ <?=$ct_gen->key_to_name($market_parse[0])?> <?=( $_GET['charted_val'] != 'pair' ? '(' . strtoupper($charted_val) . ' Value)' : '' )?>",
+  	  text: "<?=$chart_asset?> / <?=strtoupper($mrkt_parse[1])?> @ <?=$ct_gen->key_to_name($mrkt_parse[0])?> <?=( $_GET['charted_val'] != 'pair' ? '(' . strtoupper($charted_val) . ' Value)' : '' )?>",
   	  fontColor: "<?=$ct_conf['power']['charts_text']?>",
   	  fontFamily: 'Open Sans',
   	  fontSize: 25,
@@ -155,7 +155,7 @@ gui: {
 			}
 			
 		
-		$chart_data = $ct_gen->chart_data('cache/charts/spot_price_24hr_volume/light/' . $_GET['days'] . '_days/'.$chart_asset.'/'.$key.'_chart_'.$charted_val.'.dat', $market_parse[1]);
+		$chart_data = $ct_gen->chart_data('cache/charts/spot_price_24hr_volume/light/' . $_GET['days'] . '_days/'.$chart_asset.'/'.$key.'_chart_'.$charted_val.'.dat', $mrkt_parse[1]);
 		
 		
 		$price_sample_oldest = $ct_var->num_to_str( $ct_var->delimited_str_sample($chart_data['spot'], ',', 'first') );
@@ -165,16 +165,9 @@ gui: {
 		$price_sample_avg = ( $price_sample_oldest + $price_sample_newest ) / 2;
 		
 		
-		$spot_price_dec = ( $fiat_equiv == 1 ? $ct_conf['gen']['prim_currency_dec_max'] : 8 );
-		
-			
-			// Force decimals under certain conditions
-			if ( $ct_var->num_to_str($price_sample_avg) >= 1 ) {
-			$force_dec = 'decimals: ' . 2 . ',';
-			}
-			elseif ( $ct_var->num_to_str($price_sample_avg) < 1 ) {
-			$force_dec = 'decimals: ' . $spot_price_dec . ',';
-			}
+		// Force decimals dynamically
+		$thres_dec_target = $ct_gen->thres_dec($price_sample_avg, 'u', ( $fiat_equiv == 1 ? 'fiat' : 'crypto' ) );		
+		$force_dec = 'decimals: ' . $thres_dec_target['max_dec'] . ',';
 		
 
 			if ( $chart_asset ) {
@@ -216,16 +209,16 @@ graphset:[
 {
   type: 'area',
   "preview":{
-  		label: {
-      color: '<?=$ct_conf['power']['charts_text']?>',
-      fontSize: '10px',
-      lineWidth: '1px',
-      lineColor: '<?=$ct_conf['power']['charts_line']?>',
-     	},
+  	  label: {
+          color: '<?=$ct_conf['power']['charts_text']?>',
+          fontSize: '10px',
+          lineWidth: '1px',
+          lineColor: '<?=$ct_conf['power']['charts_line']?>',
+       },
  	  live: true,
  	  "adjust-layout": true,
  	  "alpha-area": 0.5,
- 	  	height: 30
+ 	  height: 30
   },
   backgroundColor: "<?=$ct_conf['power']['charts_background']?>",
   height: 420,
@@ -242,16 +235,15 @@ graphset:[
       backgroundColor: "<?=$ct_conf['power']['charts_tooltip_background']?>",
       fontColor: "<?=$ct_conf['power']['charts_tooltip_text']?>",
       text: "Spot Price: <?=$currency_symb?>%v",
-	 	fontSize: "20",
+	 fontSize: "20",
       fontFamily: "Open Sans",
     	"thousands-separator":",",
       <?=$force_dec?>
-      
       y:0,
       "thousands-separator":",",
     },
     scaleLabel:{
-    	alpha: 1.0,
+    	 alpha: 1.0,
       fontColor: "<?=$ct_conf['power']['charts_tooltip_text']?>",
       fontSize: 20,
       fontFamily: "Open Sans",
@@ -262,7 +254,7 @@ graphset:[
     exact: true
   },
   title: {
-    text: "<?=$chart_asset?> / <?=strtoupper($market_parse[1])?> @ <?=$ct_gen->key_to_name($market_parse[0])?> <?=( $_GET['charted_val'] != 'pair' ? '(' . strtoupper($charted_val) . ' Value)' : '' )?>",
+    text: "<?=$chart_asset?> / <?=strtoupper($mrkt_parse[1])?> @ <?=$ct_gen->key_to_name($mrkt_parse[0])?> <?=( $_GET['charted_val'] != 'pair' ? '(' . strtoupper($charted_val) . ' Value)' : '' )?>",
     fontColor: "<?=$ct_conf['power']['charts_text']?>",
     fontFamily: 'Open Sans',
     fontSize: 25,
@@ -273,7 +265,7 @@ graphset:[
   source: {
     text: "Select area to zoom in chart, or use zoom grab bars in preview area (only horizontal axis zooming supported).",
     fontColor:"<?=$ct_conf['power']['charts_text']?>",
-	 fontSize: "13",
+    fontSize: "13",
     fontFamily: "Open Sans",
     offsetX: 110,
     offsetY: -48,
@@ -317,11 +309,11 @@ graphset:[
       lineColor: "<?=$ct_conf['power']['charts_line']?>"
     },
     values: [<?=$chart_data['time']?>],
- 	  transform: {
+    transform: {
  	    type: 'date',
  	    all: '%Y/%m/%d<br />%g:%i%a'
- 	  },
-   	zooming:{
+    },
+    zooming:{
       shared: true
     },
     item: {
@@ -337,9 +329,9 @@ graphset:[
 			lineWidth: 1,
 			backgroundColor:"<?=$ct_conf['power']['charts_text']?> <?=$ct_conf['power']['charts_price_gradient']?>", /* background gradient on graphed price area in main chart (NOT the chart background) */
 			alpha: 0.5,
-				previewState: {
-      		backgroundColor: "<?=$ct_conf['power']['charts_price_gradient']?>" /* background color on graphed price area in preview below chart (NOT the preview area background) */
-				}
+			previewState: {
+      		   backgroundColor: "<?=$ct_conf['power']['charts_price_gradient']?>" /* background color on graphed price area in preview below chart (NOT the preview area background) */
+			}
 		}
 	],
 	labels: [
@@ -395,7 +387,7 @@ graphset:[
   source: {
     text: "24 Hour Volume",
     fontColor:"<?=$ct_conf['power']['charts_text']?>",
-	 fontSize: "13",
+    fontSize: "13",
     fontFamily: "Open Sans",
     offsetX: 106,
     offsetY: -2,
@@ -405,7 +397,7 @@ graphset:[
     visible: false,
     text: "24 Hour Volume: <?=$currency_symb?>%v",
     fontColor: "<?=$ct_conf['power']['charts_tooltip_text']?>",
-	 fontSize: "20",
+    fontSize: "20",
     backgroundColor: "<?=$ct_conf['power']['charts_tooltip_background']?>",
     fontFamily: "Open Sans",
     "thousands-separator":","
@@ -424,7 +416,7 @@ graphset:[
       fontColor: "<?=$ct_conf['power']['charts_tooltip_text']?>",
       fontFamily: "Open Sans",
       text: "24 Hour Volume: <?=$currency_symb?>%v",
-	 	fontSize: "20",
+	 fontSize: "20",
       y:0,
       "thousands-separator":","
     }
@@ -455,7 +447,7 @@ graphset:[
 			values: [<?=$chart_data['volume']?>],
 			text: "24hr Volume",
 			backgroundColor: "<?=$ct_conf['power']['charts_text']?>",
-    		offsetX: 0
+    		     offsetX: 0
 		}
 	]
 }

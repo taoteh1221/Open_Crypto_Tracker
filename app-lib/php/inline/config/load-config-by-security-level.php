@@ -89,8 +89,8 @@ $this_plug = $key;
 			ksort($activated_plugins['webhook']); // Alphabetical order (for admin UI)
 
         	
-             	     // If we don't have webhook keys set yet for this webhook plugin
-                    if ( !isset($int_webhooks[$this_plug]) ) {
+             	     // If NOT A FAST RUNTIME, and we don't have webhook keys set yet for this webhook plugin
+                    if ( !$is_fast_runtime && !isset($int_webhooks[$this_plug]) ) {
                	
                     $secure_128bit_hash = $ct_gen->rand_hash(16); // 128-bit (16-byte) hash converted to hexadecimal, used for suffix
                     $secure_256bit_hash = $ct_gen->rand_hash(32); // 256-bit (32-byte) hash converted to hexadecimal, used for var
@@ -150,7 +150,7 @@ unset($refresh_config); // Unset, since this is an inline global var
 }
 // Otherwise we are clear to check for and run any upgrades instead, on the CACHED ct_conf
 elseif ( $admin_area_sec_level != 'high' ) {
-//$ct_conf = $ct_cache->refresh_cached_ct_conf($ct_conf, true); // NOT NEEDED YET / THROWS ERROR...SEE TODO.txt
+//$ct_conf = $ct_cache->refresh_cached_ct_conf($ct_conf, true); // THROWS ERROR...SEE TODO.txt
 }
 
 

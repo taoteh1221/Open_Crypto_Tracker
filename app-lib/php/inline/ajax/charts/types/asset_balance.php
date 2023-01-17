@@ -100,7 +100,7 @@ header('Access-Control-Allow-Origin: *'); // Allow ALL origins, since we don't l
       	$asset_key = strtoupper($asset_key);
       	}
       
-      	if ( $orig_key != 'mode' && $orig_key != 'type' && $orig_key != 'leverage_added' && $orig_key != 'short_added' && $asset_val >= 0.01 ) {
+      	if ( $orig_key != 'mode' && $orig_key != 'type' && $orig_key != 'lvrg_added' && $orig_key != 'short_added' && $asset_val >= 0.01 ) {
       ?>
         {
           "values": [<?=strtoupper($asset_val)?>],
@@ -151,7 +151,7 @@ header('Access-Control-Allow-Origin: *'); // Allow ALL origins, since we don't l
                   	}
       			
       
-						if ( $orig_key != 'mode' && $orig_key != 'type' && $orig_key != 'leverage_added' && $orig_key != 'short_added' && $asset_val >= 0.01 ) {
+						if ( $orig_key != 'mode' && $orig_key != 'type' && $orig_key != 'lvrg_added' && $orig_key != 'short_added' && $asset_val >= 0.01 ) {
 				?>
 			<p class="coin_info"><span class="yellow"><?=$asset_key?>:</span> <?=$asset_val?>%</p>
 			
@@ -161,7 +161,7 @@ header('Access-Control-Allow-Origin: *'); // Allow ALL origins, since we don't l
 				}
 			 ?>
   
-  <p class="coin_info balloon_notation bitcoin"><?=( $_GET['leverage_added'] == 1 ? '*Does <u>not</u> adjust for any type of leverage' : '' )?><?=(  $_GET['short_added'] == 1 ? ', or short deposit(s) gain / loss' : '' )?><?=( $_GET['leverage_added'] == 1 ? '.' : '' )?></p>
+  <p class="coin_info balloon_notation bitcoin"><?=( $_GET['lvrg_added'] == 1 ? '*Does <u>not</u> adjust for any type of leverage' : '' )?><?=(  $_GET['short_added'] == 1 ? ', or short deposit(s) gain / loss' : '' )?><?=( $_GET['lvrg_added'] == 1 ? '.' : '' )?></p>
   
   <p class="coin_info balloon_notation bitcoin">*All decimals are rounded to 2 places, and therefore may be slightly off up to 0.005%.</p>
 			 

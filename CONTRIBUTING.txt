@@ -1,4 +1,8 @@
 
+===============================================================================================================================================
+===============================================================================================================================================
+===============================================================================================================================================
+
 
 =========================
 ETHOS OF THIS PROJECT:
@@ -20,6 +24,8 @@ ETHOS OF THIS PROJECT:
 - There is no rush here to add features EVER, as this is a "passion project" (NOT for profit). There is also no "paying for a feature". If end-users want to donate twords the project, it must be a "generalized donation" not tied to any specific contract / agreement between the donors and developers. One of the primary pillars as mentioned above is "ALWAYS 100% FREE and open source". This is how the backbone of the ENTIRE underlying internet was built out in the mid / late 1990's and early 2000's. This project is HEAVILY COMMITED to this ideal. Accepting donations must NEVER prioritize development for the few over the many, PERIOD. The goal here is to create / maintain software that ANYBODY can use, redistribute, fork, and modify to their liking (WITH ATTRIBUTION / under the GPLv3 license).
 
 
+===============================================================================================================================================
+===============================================================================================================================================
 ===============================================================================================================================================
 
 
@@ -55,9 +61,64 @@ CONTRIBUTION GUIDELINES (FOR DEVELOPERS):
 -DEV NOTES: This app was developed with bluefish on ubuntu (*NOT* the un-polished windows version) set to "5 spaces" as a tab indentation (and enabling indentation of selected text). THE AMOUNT OF INDENTED SPACING IN FILES #CHANGES AUTOMATICALLY# WHEN "BLUEFISH => PREFERENCES => INITIAL DOCUMENT SETTINGS => TAB WIDTH" IS CHANGED, JUST SO YOU KNOW WHY THE NESTED INDENTS MAY NOT LOOK GOOD ON YOUR SETUP.
 
 
-- Thank you in advance for any considerations by you, twords contributing to this app's codebase. It's much appreciated, happy coding! :)
+-LAST IMPORTANT NOTES BELOW, and thank you in advance for any considerations by you on contributing to this app's codebase. It's much appreciated, happy coding! :)
 
 
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+!   D O N T   F O R G E T   T O   S Q U A S H   T H E   B U G S !   !!!!!!!!!!!!!!!!!!!!!!!!
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     ((((c,               ,7))))
+    (((((((              ))))))))
+     (((((((            ))))))))
+      ((((((@@@@@@@@@@@))))))))
+       @@@@@@@@@@@@@@@@)))))))
+    @@@@@@@@@@@@@@@@@@))))))@@@@
+   @@/,:::,\/,:::,\@@@@@@@@@@@@@@    
+   @@|:::::||:::::|@@@@@@@@@@@@@@@
+   @@\':::'/\':::'/@@@@@@@@@@@@@@
+    @@@@@@@@@@@@@@@@@@@@@@@@@@@
+      @@@@@@@@@@@@@@@@@@@@@@\
+         /    \        (     \
+        (      )        \     \
+         \    /          \        
+----------------------------------------------------------------------
+(CREDIT: https://asciiart.website/index.php?art=animals/insects/other)
+----------------------------------------------------------------------
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+!!!!                                                                                    
+===> WHEN DEBUGGING / TESTING, LEAVE "$dev_debug_php_errors" IN "app-lib/php/init.php" SET 
+===> LIKE SO, TO ALWAYS LOG ALL PARSE / FATAL PHP ERRORS DURING TESTING: (E_ERROR | E_PARSE)
+===> 'Desktop Editions' log PHP errors to: /INSTALL_CRYPTO_TRACKER_HERE/php_errors.log
+!!!!
+===> config.php (and plug-conf.php for plugins) MUST ONLY CONTAIN STATIC CONFIGS,
+===> as all configs are saved to / run from cache file: /cache/secured/ct_conf_XXXXXXXXX.dat
+!!!!
+===> Use SQLite for data storage that needs query capability (PHPdesktop supports SQLite).
+!!!!                                                                                    
+===> May come in handy for writing PHP unit tests (in /app-lib/php/inline/debugging/):
+===> https://stackoverflow.com/questions/861254/iterate-over-properties-of-a-php-class
+!!!!
+===> JS / CSS map file loading will timeout, if you load too many charts / news feeds.
+!!!!
+===> Test in a WebKit-based browser [Epiphany|Safari|Midori], and Firefox / Chromium.
+!!!!
+===> Think over what other "FAQ page / TROUBLESHOOTING.txt" entries would be helpful.
+!!!!
+===> Try to do tests / UX / QA / debugging before adding new infrastructure
+===> (find every flaming turd before we start a dumpster fire!).
+!!!!
+===> Try to break up larger changes into smaller milestones,
+===> then plenty of time is spent on UX / testing / debugging.
+!!!!
+===> Don't require any higher than PHP v7.2 until 2025.
+!!!!                                                                                   
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
+
+===============================================================================================================================================
+===============================================================================================================================================
 ===============================================================================================================================================
 
 

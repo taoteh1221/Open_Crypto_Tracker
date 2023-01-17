@@ -67,6 +67,7 @@ $_SESSION['nonce'] = $ct_gen->rand_hash(32); // 32 byte
 	
 	
 // Flag this as a fast runtime if it is, to skip certain logic later in the runtime
+// (among other things, skips setting $system_info / some secured cache vars, and skips doing system resource usage alerts)
 if ( $is_csv_export || $is_charts || $is_logs || $runtime_mode == 'captcha' ) {
 $is_fast_runtime = true;
 }

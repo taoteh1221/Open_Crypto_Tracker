@@ -307,6 +307,22 @@
 	
 	
 	
+	    <fieldset class='subsection_fieldset'><legend class='subsection_legend'> <strong>Smart Contract MEV (arbitrage) Resources</strong> </legend>
+	    <ul>
+	        
+	        
+	        <li class='links_list'><a href='https://github.com/flashbots' target='_blank'>Flashbots</a>   <span class='yellow'>(Ethereum)</span></li>
+	        
+	        <li class='links_list'><a href='https://linktr.ee/jitosol' target='_blank'>Jito Labs</a>   <span class='yellow'>(Solana)</span></li>
+	        
+	        
+	        
+	        
+	    </ul>
+	    </fieldset>
+	
+	
+	
 	    <fieldset class='subsection_fieldset'><legend class='subsection_legend'> <strong>Blockchain Developer Resources</strong> </legend>
 	    <ul>
 	        

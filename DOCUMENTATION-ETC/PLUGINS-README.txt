@@ -79,6 +79,8 @@ echo $plug_class[$this_plug]->my_function_1('Kitty');
 
 Example: "/plugins/my-app-plugin/plug-conf.php" (must be lowercase)
 
+NOTES: plug-conf.php MUST only contain STATIC configs (dynamic configs are NOT allowed), as all configs are saved to / run from cache file: /cache/secured/ct_conf_XXXXXXXXX.dat That said, you CAN create a "placeholder" (empty) configuration value / array in plug-conf.php (for clean / reviewable code), and then dynamically populate it AT THE TOP OF your plug-init.php logic (BEFORE your plugin needs to use that config setting).
+
 
 
 8) All "plug-conf.php" PLUGIN CONFIG settings MUST BE INSIDE THE ARRAY "$plug_conf[$this_plug]" (sub-arrays are allowed).
@@ -115,7 +117,7 @@ Example: $plug_conf[$this_plug]['ui_name'] = 'My Plugin Name';
 
 
 
-12) We are now done setting up plugin files, now we need to activate the new plugin. IN THE MAIN APP "Admin Config" POWER USER section. Locate the configuration variable named: 'activate_plugins'
+12) We are done setting up the plugin files / folders, so now we need to activate the new plugin. IN THE "Admin Config" POWER USER section, locate the configuration variable named: 'activate_plugins'
 
 
 13) To add / activate your new plugin, add your plugin MAIN FOLDER name (example: 'my-app-plugin') as a new value within 'activate_plugins', and set to 'on'...ALSO INCLUDE A COMMA AT THE END.

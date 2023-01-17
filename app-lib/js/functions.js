@@ -701,18 +701,18 @@ num_val = num_val.replace(/,/g, '');
 		if ( obj_var.checked == true ) {
 			
 			// If there is a valid coin amount OR this is MISCASSETS, uncheck it
-			if ( num_val >= 0.00000001 || obj_var.value == 'miscassets' || obj_var.value == 'ethnfts' || obj_var.value == 'solnfts' ) {
+			if ( num_val >= min_crypto_val_test || obj_var.value == 'miscassets' || obj_var.value == 'ethnfts' || obj_var.value == 'solnfts' ) {
 			obj_var.checked = false;
 			}
 			else {
-			$("#"+obj_var.value+"_amnt").val("0.000000001");
+			$("#"+obj_var.value+"_amnt").val(watch_only_flag_val);
 			$("#"+obj_var.value+"_amnt").attr("readonly", "readonly");
 			}
 		
 		}
 		else {
 			
-			if ( num_val < 0.00000001 ) {
+			if ( num_val < min_crypto_val_test ) {
 			$("#"+obj_var.value+"_amnt").val("");
 			}
 			
@@ -1698,9 +1698,9 @@ private_data = document.getElementsByClassName('private_data');
                     
                     reset_tablesorter('off');
                     
-                    var leverage_info = document.querySelectorAll(".leverage_info");
+                    var lvrg_info = document.querySelectorAll(".lvrg_info");
                         
-                        leverage_info.forEach(function(info, index){
+                        lvrg_info.forEach(function(info, index){
                         info.style.visibility = "visible";
                         });
                         
@@ -1847,9 +1847,9 @@ private_data = document.getElementsByClassName('private_data');
         
         reset_tablesorter('on');
                     
-        var leverage_info = document.querySelectorAll(".leverage_info");
+        var lvrg_info = document.querySelectorAll(".lvrg_info");
                         
-             leverage_info.forEach(function(info, index){
+             lvrg_info.forEach(function(info, index){
              info.style.visibility = "hidden";
              });
              

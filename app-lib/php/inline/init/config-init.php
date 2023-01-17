@@ -65,7 +65,7 @@ $max_exec_time = 250; // 250 seconds default
 set_time_limit($max_exec_time); // Doc suggest this may be more reliable than ini_set max_exec_time?
 
 
-// htaccess login...SET BEFORE final-preflight-security-checks.php
+// htaccess login...SET BEFORE ui-preflight-security-checks.php
 $interface_login_array = explode("||", $ct_conf['sec']['interface_login']);
 $htaccess_username = $interface_login_array[0];
 $htaccess_password = $interface_login_array[1];
@@ -82,17 +82,36 @@ $curl_user_agent = 'Curl/' .$curl_setup["version"]. ' ('.PHP_OS.'; compatible;)'
 else {
 $curl_user_agent = 'Curl/' .$curl_setup["version"]. ' ('.PHP_OS.'; ' . $system_info['software'] . '; +https://github.com/taoteh1221/Open_Crypto_Tracker)';
 }
+      
+
+// Set minimum CURRENCY value used in the app
+$loop = 0;
+$min_fiat_val_test = "0.";
+while ( $loop < $ct_conf['gen']['currency_dec_max'] ) {
+$loop = $loop + 1;
+$min_fiat_val_test .= ( $loop < $ct_conf['gen']['currency_dec_max'] ? '0' : '1' );
+}
+unset($loop);
+      
+
+// Set minimum CRYPTO value used in the app (important for currency conversions on very low-value coins, like BONK etc)
+$loop = 0;
+$min_crypto_val_test = "0.";
+while ( $loop < $ct_conf['gen']['crypto_dec_max'] ) {
+$loop = $loop + 1;
+$min_crypto_val_test .= ( $loop < $ct_conf['gen']['crypto_dec_max'] ? '0' : '1' );
+}
+unset($loop);
 
 
-// Final preflight checks (MUST RUN AFTER app config auto-adjust / htaccess user login / user agent)
-// (AS WE ARE RUNNING SELF-TESTS WITH $ct_cache->ext_data() ETC)
-// (as we may need to refresh MAIN .htaccess / user.ini)
-require_once('app-lib/php/inline/security/final-preflight-security-checks.php');
+// Set "watch only" flag amount (sets portfolio amount one decimal MORE than allowed min value)
+$watch_only_flag_val = preg_replace("/1/", "01", $min_crypto_val_test); // Set to 0.XXXXX01 instead of 0.XXXXX1
 
-// Primary Bitcoin markets (MUST RUN AFTER app config auto-adjust / preflight-security-checks)
+
+// Primary Bitcoin markets (MUST RUN AFTER app config auto-adjust)
 require_once('app-lib/php/inline/config/primary-bitcoin-markets-config.php');
 
-// Chart sub-directory creation (if needed...MUST RUN AFTER app config auto-adjust / preflight-security-checks)
+// Chart sub-directory creation (if needed...MUST RUN AFTER app config auto-adjust)
 require_once('app-lib/php/inline/config/chart-directories-config.php');
 
 

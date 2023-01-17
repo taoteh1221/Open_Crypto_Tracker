@@ -284,6 +284,8 @@ var $ct_array1 = array();
    // Always display very large / small numbers in non-scientific format
    // Also removes any leading and trailing zeros for efficient storage / UX / etc
    function num_to_str($val) {
+        
+   global $ct_conf;
    
    // Trim any whitespace off the ends
    $val = trim($val);
@@ -294,16 +296,28 @@ var $ct_array1 = array();
       // MUST ALLOW MAXIMUM OF 9 DECIMALS, TO COUNT WATCH-ONLY ASSETS
       // (ANYTHING OVER 9 DECIMALS SHOULD BE AVOIDED FOR UX)
       $detect_dec = (string)$val;
+      // Scientific
       if ( preg_match('~\.(\d+)E([+-])?(\d+)~', $detect_dec, $matches) ) {
       $decimals = $matches[2] === '-' ? strlen($matches[1]) + $matches[3] : 0;
       }
+      // Normal
       else {
       $decimals = mb_strpos( strrev($detect_dec) , '.', 0, 'utf-8');
       }
       
       
-      if ( $decimals > 9 ) {
-      $decimals = 9;
+      // Get max decimals from the config settings
+      if ( $ct_conf['gen']['crypto_dec_max'] >= $ct_conf['gen']['currency_dec_max'] ) {
+      $dec_max = $ct_conf['gen']['crypto_dec_max'];
+      }
+      else {
+      $dec_max = $ct_conf['gen']['currency_dec_max'];
+      }
+      
+      
+      // *PLUS ONE EXTRA DECIMAL* FOR OUR 'WATCH ONLY' PORTFOLIO LOGIC
+      if ( $decimals > ($dec_max + 1) ) {
+      $decimals = ($dec_max + 1);
       }
       
       
@@ -357,22 +371,51 @@ var $ct_array1 = array();
    
    // Pretty number formatting, while maintaining decimals (max decimals required, min decimals optional)
    function num_pretty($val_to_pretty, $dec_max, $small_unlimited=false, $dec_min=false) {
+        
+   global $min_fiat_val_test, $min_crypto_val_test;
    
    // Strip formatting, convert from scientific format, and remove leading / trailing zeros
    $raw_val_to_pretty = $this->rem_num_format($val_to_pretty);
    
    
-      // IF MIN DECIMAL IS SET HIGHER THAN MAX DECIMAL, UP MAX DECIMAL TO MATCH MIN DECIMAL
+   // GET INITIAL AMOUNT OF DECIMALS
+   $decimal_check = preg_replace("/(.*)\./", "", $raw_val_to_pretty);
+   $raw_dec_amount = iconv_strlen($decimal_check, 'utf-8');
+   
+   
+      // IF ORIGINAL DECIMALS IS LOWER THAN MAX DECIMALS, LOWER MAX DECIMAL TO MATCH ORIGINAL DECIMALS
+      if ( $raw_dec_amount < $dec_max ) {
+      $dec_max = $raw_dec_amount;
+      }
+      
+      // IF MIN DECIMALS IS SET HIGHER THAN MAX DECIMALS, UP MAX DECIMAL TO MATCH MIN DECIMAL
       if ( $dec_min > $dec_max ) {
       $dec_max = $dec_min;
       }
+      
+      
+      // Get overall MINIMUM value used, from the config settings
+      if ( $min_crypto_val_test < $min_fiat_val_test ) {
+      $min_val_test = $min_crypto_val_test;
+      }
+      else {
+      $min_val_test = $min_fiat_val_test;
+      }
+      
+      
+      // If our value IS LESS THAN WHAT WOULD SHOW *AT ALL* WITH $min_val_test,
+      // THEN SET THE FLAG $small_unlimited TO DISREGARD MAX DECIMALS (allow unlimited decimals)
+      // (abs() used to properly calculate with negative numbers)
+      if ( $min_val_test > abs($raw_val_to_pretty) ) {
+      $small_unlimited = true;
+      }
    
    
-   	  // Do any MAX decimal allowed rounding that may be needed FIRST
-   	  // (skip WATCH-ONLY flag values)
-   	  if ( $small_unlimited != true ) { 
-   	  $raw_val_to_pretty = number_format($raw_val_to_pretty, $dec_max, '.', '');
-   	  }
+   	 // Do any MAX decimal allowed rounding that may be needed FIRST
+   	 // (skip WATCH-ONLY flag values)
+   	 if ( $small_unlimited != true ) { 
+   	 $raw_val_to_pretty = number_format($raw_val_to_pretty, $dec_max, '.', '');
+   	 }
    
    
    // AFTER MAX DECIMAL ROUNDING, RE-PROCESS removing leading / trailing zeros

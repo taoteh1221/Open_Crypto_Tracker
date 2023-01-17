@@ -32,7 +32,7 @@
 
 	
 	
-			var leverage_trading_notes = '<h5 class="align_center yellow tooltip_title">Tracking Long / Short Margin Leverage Trades</h5>'
+			var lvrg_trading_notes = '<h5 class="align_center yellow tooltip_title">Tracking Long / Short Margin Leverage Trades</h5>'
 			
 			
 			+'<p class="coin_info extra_margins red" style="white-space: normal; max-width: 600px;"><b>*Leverage trading is <u>EXTREMELY RISKY</u> (and even more so in crypto markets). Never put more than ~5% of your total investment worth into leverage trades, or you will <u>RISK LOSING EVERYTHING</u>!</b></p>'
@@ -120,7 +120,7 @@
 				<span class='red countdown_notice'></span>
 				
 				
-	<p style='margin-top: 20px;'><a style='font-weight: bold;' class='red clear_both' href='javascript: show_more("disclaimer");' title='Click to show disclaimer.'>Disclaimer!</a></p>
+	<p style='margin-top: 20px;'><a style='font-weight: bold; font-size: 25px;' class='red clear_both' href='javascript: show_more("disclaimer");' title='Click to show disclaimer.'>Disclaimer!</a> &nbsp; 👈 </p>
 	    
 	    
 	    
@@ -131,7 +131,9 @@
 						
 						Assets in the default examples / demo list DO NOT indicate ANY endorsement OR recommendation of these assets (AND removal indicates NO anti-endorsement / anti-recommendation). These crypto-assets <i>are only used as examples for demoing usage of features in this application</i>, <a href='README.txt' target='_blank'>before you install it on your Debian / Ubuntu / DietPi OS / RaspberryPi OS / Armbian / Windows 10 device or website server, and change the list to your favorite assets</a>. 
 						
-						<br /><br />Consult a financial advisor and / or do <i>your own due diligence, to evaluate investment risk / reward</i> of ANY cryptocurrencies, based on THEIR / YOUR OWN determinations before buying. Even AFTER buying ANY cryptocurrency, ALWAYS CONTINUE to do your due diligence, investigating whether you are engaging in trading within acceptable risk levels for your <i>NET</i> worth. ALWAYS consult a financial advisor, if you are unaware of what risks are present. 
+						<br /><br /><a href='https://www.google.com/search?q=financial+advisors+near+me' target='_blank'>Consult a financial advisor</a> and / or do <i>your own due diligence, to evaluate investment risk / reward</i> of ANY cryptocurrencies, based on THEIR / YOUR OWN determinations before buying. Even AFTER buying ANY cryptocurrency, ALWAYS CONTINUE to do your due diligence, investigating whether you are engaging in trading within acceptable risk levels for your <i>NET</i> worth.
+						
+						<br /><br /><i><u>*ALWAYS*</u></i> <a href='https://www.google.com/search?q=financial+advisors+near+me' target='_blank'>CONSULT A FINIANCIAL ADVISOR</a>, IF YOU ARE UNAWARE OF WHAT RISKS ARE PRESENT, *AND* YOU ARE INVESTING *SIGNIFICANT* AMOUNTS OF MONEY! 
 						
 						</p>
 	
@@ -142,11 +144,15 @@
 						<ul>
 						
 							<li class='bitcoin disclaimer'>
-								<i>LITERALLY</i> nearly 99.9% of all tokens (including NFTs) are either scams, garbage, or dead ends.
+								<i>NEVER</i> invest more than you can afford to lose.
+							</li>
+							
+							<li class='bitcoin disclaimer'>
+								<i><u>ALWAYS AVOID</u></i> <a href='https://twitter.com/hashtag/pumpndump?src=hash' target='_blank'>#pumpndump</a> / <a href='https://twitter.com/hashtag/fomo?src=hash' target='_blank'>#fomo</a> / <a href='https://twitter.com/hashtag/shitcoin?src=hash' target='_blank'>#shxtcoin</a> trading.
 							</li>
 						
 							<li class='bitcoin disclaimer'>
-								<i>NEVER</i> invest more than you can afford to lose.
+								<i>LITERALLY</i> nearly 99.9% of all tokens (including NFTs) are either scams, garbage, or dead ends.
 							</li>
 						
 							<li class='bitcoin disclaimer'>
@@ -154,7 +160,7 @@
 							</li>
 							
 							<li class='bitcoin disclaimer'>
-								<i>ALWAYS <u>buy low</u> AND <u>sell high</u></i>. (NOT the other way around!), *UNLESS* you CAREFULLY decide you've accidentally bought an asset that will probably go nowhere in value long term, relative to other assets you are interested in.
+								<i>ALWAYS <u>fully research</u></i> your planned investment beforehand (fundamentals are just as important as long term chart TA, <i>and any short term chart TA is pure BS to be ignored</i>).
 							</li>
 							
 							<li class='bitcoin disclaimer'>
@@ -162,7 +168,19 @@
 							</li>
 							
 							<li class='bitcoin disclaimer'>
-								<i>ALWAYS <u>fully research</u></i> your planned investment beforehand (fundamentals are just as important as long term chart TA, <i>and any short term chart TA is pure BS to be ignored</i>).
+								<i>Hang on tight</i> until you can't stand fully holding anymore / want to or must make a position exit percentage <i><u>OFFICIAL</u></i>. (YOU HAVEN'T "LOST" <i><u>OR</u></i> "MADE" <i><u>ANYTHING</u></i> UNTIL YOU SELL A PERCENTAGE OF IT!)
+							</li>
+						
+							<li class='bitcoin disclaimer'>
+								<i>DOLLAR-COST-AVERAGE (DCA)</i> into investments weekly OR monthly, <i>NEVER GO "ALL-IN"</i> with 100% of your cash / savings at once! You *WILL NOT* be able to handle the stress <i>if it goes down LONG TERM!</i>
+							</li>
+							
+							<li class='bitcoin disclaimer'>
+								<i>ALWAYS <u>buy low</u> AND <u>sell high</u></i>. (NOT the other way around!), *UNLESS* you CAREFULLY decide you've accidentally bought an asset that will probably go nowhere in value long term, relative to other assets you are interested in.
+							</li>
+							
+							<li class='bitcoin disclaimer'>
+								The biggest investment you will EVER make (and NEVER regret) is ALWAYS value your health and happiness more than ALL THE MONEY IN THE WORLD. NEVER let chasing after ANY AMOUNT of wealth take that from you, EVER.
 							</li>
 							
 							 <li class='bitcoin disclaimer'>
@@ -172,17 +190,9 @@
 							<li class='bitcoin disclaimer'>
 								ALWAYS have a future plan in place, of what you will buy / sell: 1) Around a certain future date in time. 2) If a certain price target has been met or exceeded. This doesn't need to be "all in" or "all out". For instance, you may want to split your capital gains between 2 tax years within a tight time period, in late December / early the following January, to avoid higher tax brackets.
 							</li>
-							
-							<li class='bitcoin disclaimer'>
-								<i><u>ALWAYS AVOID</u></i> <a href='https://twitter.com/hashtag/pumpndump?src=hash' target='_blank'>#pumpndump</a> / <a href='https://twitter.com/hashtag/fomo?src=hash' target='_blank'>#fomo</a> / <a href='https://twitter.com/hashtag/shitcoin?src=hash' target='_blank'>#shxtcoin</a> trading.
-							</li>
 						
 							<li class='bitcoin disclaimer'>
-								<i><u>ALWAYS AVOID</u></i> copycat coins (that copy / mimick already-popular networks), coins with high inflation rates (creating too many new coins infinitely), coins that are NOT on a fully decentralized network (small groups control everything), and coins with very little on-chain transaction activity (indicating low <i>REAL WORLD</i> user adoption).
-							</li>
-							
-							<li class='bitcoin disclaimer'>
-								If you insist on buying LONG SHOT (#VERY# high risk) SMALL marketcap or NEWER assets (requiring #A TON# OF DILIGENCE / PATIENCE), *HIGHLY* consider getting #NO MORE THAN# a 'moon bag' worth (#NO MORE THAN# between 1% and 5% of your portfolio PER-ASSET, AND A TOTAL OF #NO MORE THAN# 10% of your portfolio). If it goes down 50% in value and keeps going down, sell it and you don't lose much. If it goes up between 200% and 500% in value (3x to 6x original value) or higher, REBALANCE it to not be more than between 1% and 10% of your portfolio again (by selling a significant portion of it). CAREFULLY TRACK YOUR SUCCESS RATE. If you are no good at picking long shots, stick to the <i>largest AND oldest marketcaps / HIGHEST ON-CHAIN ACTIVITY</i> assets instead.
+								<i><u>ALWAYS AVOID</u></i> copycat coins (that copy / mimick already-popular networks BUT HAVE NO SIGNIFICANT FEATURE IMPROVEMENTS), coins with high inflation rates (creating too many new coins infinitely), coins that are NOT on a fully decentralized network (small groups control everything), and coins with very little on-chain transaction activity (indicating low <i>REAL WORLD</i> user adoption).
 							</li>
 							
 							<li class='bitcoin disclaimer'>
@@ -190,11 +200,7 @@
 							</li>
 							
 							<li class='bitcoin disclaimer'>
-								The biggest investment you will EVER make (and NEVER regret) is ALWAYS value your health and happiness more than ALL THE MONEY IN THE WORLD. NEVER let chasing after ANY AMOUNT of wealth take that from you, EVER.
-							</li>
-							
-							<li class='bitcoin disclaimer'>
-								<i>Hang on tight</i> until you can't stand fully holding anymore / want to or must make a position exit percentage <i><u>OFFICIAL</u></i>. (YOU HAVEN'T "LOST" <i><u>OR</u></i> "MADE" <i><u>ANYTHING</u></i> UNTIL YOU SELL A PERCENTAGE OF IT!)
+								If you insist on buying LONG SHOT (#VERY# high risk) SMALL marketcap or NEWER assets (requiring #A TON# OF DILIGENCE / PATIENCE), *HIGHLY* consider getting #NO MORE THAN# a 'moon bag' worth (#NO MORE THAN# between 1% and 5% of your portfolio PER-ASSET, AND A TOTAL OF #NO MORE THAN# 10% of your portfolio). If it goes down 50% in value and keeps going down, sell it and you don't lose much. If it goes up between 200% and 500% in value (3x to 6x original value) or higher, REBALANCE it to not be more than between 1% and 10% of your portfolio again (by selling a significant portion of it). CAREFULLY TRACK YOUR SUCCESS RATE. If you are no good at picking long shots, stick to the <i>largest AND oldest marketcaps / HIGHEST ON-CHAIN ACTIVITY</i> assets instead.
 							</li>
 							
 							<li class='bitcoin disclaimer'>
@@ -204,7 +210,7 @@
 						</ul>
 						
 						
-						<br /><br /><a href="https://twitter.com/taoteh1221/status/1538567185232273408" target="_blank"><img src='templates/interface/media/images/twitter-1192997965952094208.jpg' width='425' class='image_border' alt='' /></a>
+						<br /><a href="https://twitter.com/taoteh1221/status/1538567185232273408" target="_blank"><img src='templates/interface/media/images/twitter-1192997965952094208.jpg' width='425' class='image_border' alt='' style='margin-left: 25px;' /></a>
 						
 						</div>
 	
@@ -458,7 +464,7 @@
                 	$asset_amnt_val_temp = $ct_var->num_to_str($all_cookies_data_array[$asset_symb.'_data'][$asset_symb.'_amnt']);
                 					
                 					
-                		if ( $asset_amnt_val_temp >= 0.000000001 ) {
+                		if ( $asset_amnt_val_temp >= $watch_only_flag_val ) {
                 		    
                     	$asset_amnt_val = $asset_amnt_val_temp;
                     	$asset_mrkt_id = $all_cookies_data_array[$asset_symb.'_data'][$asset_symb.'_mrkt'];
@@ -468,8 +474,8 @@
                 					   
     			            // If purchased amount (not just watched), AND cost basis
                     		if (
-                    		$purchase_price_temp >= 0.00000001
-                    		&& $asset_amnt_val >= 0.00000001
+                    		$purchase_price_temp >= $min_fiat_val_test
+                    		&& $asset_amnt_val >= $min_crypto_val_test
                     		) {
                 			$asset_paid_val = $purchase_price_temp;
                     		$asset_lvrg_val = $all_cookies_data_array[$asset_symb.'_data'][$asset_symb.'_lvrg'];
@@ -509,14 +515,14 @@
 	    
 	    
     	    // Set any previously-used additional feilds to default, if 'watch only' now (no amount held)
-    	    if ( $ct_var->rem_num_format($asset_amnt_val) < 0.00000001 ) {
+    	    if ( $ct_var->rem_num_format($asset_amnt_val) < $min_crypto_val_test ) {
     	    $asset_paid_val = 0;
     	    $asset_lvrg_val = 0;
     	    $asset_mrgntyp_val = 'long';
     	    
     	    }
     	    else {
-    	    $asset_paid_val = ( $ct_var->num_to_str($asset_paid_val) >= 1 ? $ct_var->num_pretty($asset_paid_val, 2) : $ct_var->num_pretty($asset_paid_val, $ct_conf['gen']['prim_currency_dec_max']) );
+    	    $asset_paid_val = ( $ct_var->num_to_str($asset_paid_val) >= 1 ? $ct_var->num_pretty($asset_paid_val, 2) : $ct_var->num_pretty($asset_paid_val, $ct_conf['gen']['currency_dec_max']) );
     	    }
 	    
 	    
@@ -525,7 +531,7 @@
 	    <div class='<?=$zebra_stripe?> long_list_taller' style='white-space: nowrap;'> 
 	       
 	       
-	       <input type='checkbox' value='<?=strtolower($asset_array_key)?>' id='<?=$field_var_watchonly?>' onchange='watch_toggle(this);' <?=( $ct_var->rem_num_format($asset_amnt_val) > 0 && $ct_var->rem_num_format($asset_amnt_val) <= '0.000000001' ? 'checked' : '' )?> /> &nbsp;
+	       <input type='checkbox' value='<?=strtolower($asset_array_key)?>' id='<?=$field_var_watchonly?>' onchange='watch_toggle(this);' <?=( $ct_var->rem_num_format($asset_amnt_val) > 0 && $ct_var->rem_num_format($asset_amnt_val) <= $watch_only_flag_val ? 'checked' : '' )?> /> &nbsp;
 				    
 				    
 			<b class='blue'><?=$asset_array_val['name']?> (<?=strtoupper($asset_array_key)?>)</b> /  
@@ -561,12 +567,12 @@
 					<option value='<?=$pair_key?>' <?=( $sel_pair == $pair_key ? ' selected ' : '' )?>> <?=strtoupper(preg_replace("/_/i", " ", $pair_key))?> </option>
 					<?php
 					
-									foreach ( $asset_array_val['pair'][$pair_key] as $market_key => $market_id ) {
+									foreach ( $asset_array_val['pair'][$pair_key] as $mrkt_key => $mrkt_id ) {
 									$loop2 = $loop2 + 1;
 							
 									$html_mrkt_list[$pair_key] .= "\n<option value='".$loop2."'" . ( 
 									isset($asset_mrkt_id) && ($asset_mrkt_id) == $loop2 
-									|| !isset($asset_mrkt_id) && strtolower($asset_array_val['name']) == 'bitcoin' && $loop2 == $ct_asset->btc_mrkt($ct_conf['gen']['btc_prim_exchange']) ? ' selected ' : '' ) . ">" . $ct_gen->key_to_name($market_key) . " </option>\n";
+									|| !isset($asset_mrkt_id) && strtolower($asset_array_val['name']) == 'bitcoin' && $loop2 == $ct_asset->btc_mrkt($ct_conf['gen']['btc_prim_exchange']) ? ' selected ' : '' ) . ">" . $ct_gen->key_to_name($mrkt_key) . " </option>\n";
 								
 									}
 									$loop2 = NULL;
@@ -627,7 +633,7 @@
 	     
 	     $("#<?=strtolower($asset_array_key)?>_restore").val( $("#<?=strtolower($asset_array_key)?>_amnt").val() );
 	     
-	     ' <?=( $ct_var->rem_num_format($asset_amnt_val) > 0 && $ct_var->rem_num_format($asset_amnt_val) <= '0.000000001' ? 'readonly' : '' )?> /> <span class='blue'><?=strtoupper($asset_array_key)?></span>  &nbsp;  &nbsp; 
+	     ' <?=( $ct_var->rem_num_format($asset_amnt_val) > 0 && $ct_var->rem_num_format($asset_amnt_val) <= $watch_only_flag_val ? 'readonly' : '' )?> /> <span class='blue'><?=strtoupper($asset_array_key)?></span>  &nbsp;  &nbsp; 
 			    
 			
 	     <b>Average Paid (per-token):</b> <?=$ct_conf['power']['btc_currency_mrkts'][ $ct_conf['gen']['btc_prim_currency_pair'] ]?><input class='private_data' type='text' size='10' id='<?=$field_var_paid?>' name='<?=$field_var_paid?>' value='<?=$asset_paid_val?>' <?=$disable_fields?> /> 
@@ -686,14 +692,14 @@
 	     }
 	     alert(" " + this.value + "x (" + mode + " Mode) \n Leverage trading in crypto assets is \n EXTREMELY RISKY. NEVER put more \n than ~5% of your crypto investments \n in leveraged trades EVER, OR YOU \n ###COULD LOSE EVERYTHING###. ");
 	     ' <?=$disable_fields?> >
-	     <option value='0' <?=( $asset_lvrg_val == 0 || $ct_var->rem_num_format($asset_paid_val) < 0.00000001 ? 'selected' : '' )?>> None </option>
+	     <option value='0' <?=( $asset_lvrg_val == 0 || $ct_var->rem_num_format($asset_paid_val) < $min_fiat_val_test ? 'selected' : '' )?>> None </option>
 	     <?php
-	     $leverage_count = 2;
-	     while ( $ct_conf['power']['margin_lvrg_max'] > 1 && $leverage_count <= $ct_conf['power']['margin_lvrg_max'] ) {
+	     $lvrg_count = 2;
+	     while ( $ct_conf['power']['margin_lvrg_max'] > 1 && $lvrg_count <= $ct_conf['power']['margin_lvrg_max'] ) {
 	     ?>	     
-	     <option value='<?=$leverage_count?>' <?=( $asset_lvrg_val == $leverage_count && $ct_var->rem_num_format($asset_paid_val) >= 0.00000001 ? 'selected' : '' )?>> <?=$leverage_count?>x </option>
+	     <option value='<?=$lvrg_count?>' <?=( $asset_lvrg_val == $lvrg_count && $ct_var->rem_num_format($asset_paid_val) >= $min_fiat_val_test ? 'selected' : '' )?>> <?=$lvrg_count?>x </option>
 	     <?php
-	     $leverage_count = $leverage_count + 1;
+	     $lvrg_count = $lvrg_count + 1;
 	     }
 	     ?>
 	     </select> 
@@ -705,14 +711,14 @@
 	     </select> 
 	     
 	     
-		<img id='leverage_trading_notes_<?=$rand_id?>' src='templates/interface/media/images/info.png' alt='' width='30' style='position: relative; left: -5px;' /> 
+		<img id='lvrg_trading_notes_<?=$rand_id?>' src='templates/interface/media/images/info.png' alt='' width='30' style='position: relative; left: -5px;' /> 
 	 <script>
 		
-			$('#leverage_trading_notes_<?=$rand_id?>').balloon({
+			$('#lvrg_trading_notes_<?=$rand_id?>').balloon({
 			html: true,
 			position: "left",
   			classname: 'balloon-tooltips',
-			contents: leverage_trading_notes,
+			contents: lvrg_trading_notes,
 			css: {
 					fontSize: ".8rem",
 					minWidth: "450px",
@@ -732,7 +738,7 @@
 		 
 	     
 	     
-	     <input type='hidden' id='<?=$field_var_restore?>' name='<?=$field_var_restore?>' value='<?=( $ct_var->rem_num_format($asset_amnt_val) > 0 && $ct_var->rem_num_format($asset_amnt_val) <= '0.000000001' ? '' : $asset_amnt_val )?>' />
+	     <input type='hidden' id='<?=$field_var_restore?>' name='<?=$field_var_restore?>' value='<?=( $ct_var->rem_num_format($asset_amnt_val) > 0 && $ct_var->rem_num_format($asset_amnt_val) <= $watch_only_flag_val ? '' : $asset_amnt_val )?>' />
 				
 				
 	    </div>

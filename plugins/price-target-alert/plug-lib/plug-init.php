@@ -46,17 +46,17 @@ $price_target_cache_file = $ct_plug->alert_cache($target_key . '.dat');
 
 $target_val = $ct_var->num_to_str($target_val);
 
-$market_conf = explode('-', $target_key);
+$mrkt_conf = explode('-', $target_key);
 
-$market_asset = strtoupper($market_conf[0]);
+$mrkt_asset = strtoupper($mrkt_conf[0]);
 
-$market_pair = strtolower($market_conf[1]);
+$mrkt_pair = strtolower($mrkt_conf[1]);
 
-$market_exchange = strtolower($market_conf[2]);
+$mrkt_exchange = strtolower($mrkt_conf[2]);
 
-$market_id = $ct_conf['assets'][$market_asset]['pair'][$market_pair][$market_exchange];
+$mrkt_id = $ct_conf['assets'][$mrkt_asset]['pair'][$mrkt_pair][$mrkt_exchange];
 
-$market_val = $ct_var->num_to_str( $ct_api->market($market_asset, $market_exchange, $market_id)['last_trade'] );
+$mrkt_val = $ct_var->num_to_str( $ct_api->market($mrkt_asset, $mrkt_exchange, $mrkt_id)['last_trade'] );
 		
 	
 	// Get cache data, and / or flag a cache reset
@@ -74,8 +74,8 @@ $market_val = $ct_var->num_to_str( $ct_api->market($market_asset, $market_exchan
 		// OR the market value is still getting FURTHER from the target value (so we track when the trend reversed, via file timestamp)
 		if (
 		$target_val != $cached_target_val 
-		|| $target_direction == 'increase' && $market_val < $cached_mrkt_val 
-		|| $target_direction == 'decrease' && $market_val > $cached_mrkt_val
+		|| $target_direction == 'increase' && $mrkt_val < $cached_mrkt_val 
+		|| $target_direction == 'decrease' && $mrkt_val > $cached_mrkt_val
 		) {
 		$cache_reset = true;
 		}
@@ -89,14 +89,14 @@ $market_val = $ct_var->num_to_str( $ct_api->market($market_asset, $market_exchan
 	// If a cache reset was flagged
 	if ( $cache_reset ) {
 	
-    	if ( $target_val >= $market_val ) {
+    	if ( $target_val >= $mrkt_val ) {
     	$reset_target_direction = 'increase';
     	}
     	else {
     	$reset_target_direction = 'decrease';
     	}
 		
-	$new_cache_data = $reset_target_direction . '|' . $target_val . '|' . $market_val;
+	$new_cache_data = $reset_target_direction . '|' . $target_val . '|' . $mrkt_val;
 	
 	$ct_cache->save_file($price_target_cache_file, $new_cache_data);
 	
@@ -107,10 +107,10 @@ $market_val = $ct_var->num_to_str( $ct_api->market($market_asset, $market_exchan
 	
 	
 	// If price target met, send a notification...
-	if ( $market_val <= $target_val && $target_direction == 'decrease' || $market_val >= $target_val && $target_direction == 'increase' ) {
+	if ( $mrkt_val <= $target_val && $target_direction == 'decrease' || $mrkt_val >= $target_val && $target_direction == 'increase' ) {
         
 
-    $percent_change = ($market_val - $cached_mrkt_val) / abs($cached_mrkt_val) * 100;
+    $percent_change = ($mrkt_val - $cached_mrkt_val) / abs($cached_mrkt_val) * 100;
     $percent_change = number_format( $ct_var->num_to_str($percent_change) , 2, '.', ','); // Better decimal support
 		
 		
@@ -135,27 +135,27 @@ $market_val = $ct_var->num_to_str( $ct_api->market($market_asset, $market_exchan
    	    // Pretty numbers UX on target / market values, for alert messages
    	    
    	    // Fiat-eqiv
-   	    if ( array_key_exists($market_pair, $ct_conf['power']['btc_currency_mrkts']) ) {
+   	    if ( array_key_exists($mrkt_pair, $ct_conf['power']['btc_currency_mrkts']) ) {
    		$thres_dec_target = $ct_gen->thres_dec($target_val, 'u', 'fiat'); // Units mode
-   		$thres_dec_market = $ct_gen->thres_dec($market_val, 'u', 'fiat'); // Units mode
+   		$thres_dec_market = $ct_gen->thres_dec($mrkt_val, 'u', 'fiat'); // Units mode
 		}
 		// Crypto
 		else {
    		$thres_dec_target = $ct_gen->thres_dec($target_val, 'u', 'crypto'); // Units mode
-   		$thres_dec_market = $ct_gen->thres_dec($market_val, 'u', 'crypto'); // Units mode
+   		$thres_dec_market = $ct_gen->thres_dec($mrkt_val, 'u', 'crypto'); // Units mode
 		}
     
     
    	$target_val_text = $ct_var->num_pretty($target_val, $thres_dec_target['max_dec'], false, $thres_dec_target['min_dec']);
-   	$market_val_text = $ct_var->num_pretty($market_val, $thres_dec_market['max_dec'], false, $thres_dec_market['min_dec']);
+   	$mrkt_val_text = $ct_var->num_pretty($mrkt_val, $thres_dec_market['max_dec'], false, $thres_dec_market['min_dec']);
     
     
     // Message formatting
 
-	$email_msg = "The " . $market_asset . " price target of " . $target_val_text . " " . strtoupper($market_pair) . " has been met at the " . $ct_gen->key_to_name($market_exchange) . " exchange, with a " . $percent_change . "% " . $target_direction . " over the past " . $last_cached_time . " in market value to " . $market_val_text . " " . strtoupper($market_pair) . ".";
+	$email_msg = "The " . $mrkt_asset . " price target of " . $target_val_text . " " . strtoupper($mrkt_pair) . " has been met at the " . $ct_gen->key_to_name($mrkt_exchange) . " exchange, with a " . $percent_change . "% " . $target_direction . " over the past " . $last_cached_time . " in market value to " . $mrkt_val_text . " " . strtoupper($mrkt_pair) . ".";
 
 
-	$text_msg = $market_asset . " price target of " . $target_val_text . " " . strtoupper($market_pair) . " met @ " . $ct_gen->key_to_name($market_exchange) . " (" . $percent_change . "% " . $target_direction . " over " . $last_cached_time . "): " . $market_val_text . " " . strtoupper($market_pair);
+	$text_msg = $mrkt_asset . " price target of " . $target_val_text . " " . strtoupper($mrkt_pair) . " met @ " . $ct_gen->key_to_name($mrkt_exchange) . " (" . $percent_change . "% " . $target_direction . " over " . $last_cached_time . "): " . $mrkt_val_text . " " . strtoupper($mrkt_pair);
               
               
     // Were're just adding a human-readable timestamp to smart home (audio) alerts
@@ -175,7 +175,7 @@ $market_val = $ct_var->num_to_str( $ct_api->market($market_asset, $market_exchan
           									'charset' => $text_msg['charset']
           									),
           					'email' => array(
-          									'subject' => $market_asset . ' / ' . strtoupper($market_pair) . ' Price Target Alert (' . $target_direction . ')',
+          									'subject' => $mrkt_asset . ' / ' . strtoupper($mrkt_pair) . ' Price Target Alert (' . $target_direction . ')',
           									'message' => $email_msg
           									)
           					);
@@ -186,7 +186,7 @@ $market_val = $ct_var->num_to_str( $ct_api->market($market_asset, $market_exchan
 	@$ct_cache->queue_notify($send_params);
 
 
-		if ( $target_val >= $market_val ) {
+		if ( $target_val >= $mrkt_val ) {
 		$reset_target_direction = 'increase';
 		}
 		else {
@@ -195,7 +195,7 @@ $market_val = $ct_var->num_to_str( $ct_api->market($market_asset, $market_exchan
 	
 	
 	// Cache new data
-	$new_cache_data = $reset_target_direction . '|' . $target_val . '|' . $market_val;
+	$new_cache_data = $reset_target_direction . '|' . $target_val . '|' . $mrkt_val;
 		
 	$ct_cache->save_file($price_target_cache_file, $new_cache_data);
 

@@ -188,7 +188,7 @@ After downloading, unzip the contents of the download to your desktop or other p
 
 IMPORTANT NOTES FOR WINDOWS 10 / 11 USERS: 
 
-THE 'SERVER EDITION' IS CURRENTLY MORE RELIABLE THAN THE 'DESKTOP EDITION' ON WINDOWS MACHINES. CONSIDER READING THE 'Installing On A Web Server / Manual Installation' SECTION (IN THE *SEPERATE* FILE TROUBLESHOOTING.txt), IF YOU HAVE ISSUES WITH THE WINDOWS 'DESKTOP EDITION'. WE RELY ON ANOTHER OPEN SOURCE PROJECT CALLED 'PHPdesktop' FOR THE DESKTOP EDITIONS ( https://github.com/cztomczak/phpdesktop ), AND THE WINDOWS VERSION IS CURRENTLY VERY OUT-DATED.
+THE 'SERVER EDITION' IS CURRENTLY MORE RELIABLE THAN THE 'DESKTOP EDITION' ON WINDOWS MACHINES. CONSIDER READING THE "Manual Installation For 'Server Edition'" SECTION FURTHER DOWN IN THIS README, IF YOU HAVE ISSUES WITH THE WINDOWS 'DESKTOP EDITION'. WE RELY ON ANOTHER OPEN SOURCE PROJECT CALLED 'PHPdesktop' FOR THE DESKTOP EDITIONS ( https://github.com/cztomczak/phpdesktop ), AND THE WINDOWS VERSION IS CURRENTLY VERY OUT-DATED.
 
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -334,10 +334,10 @@ Adding / editing / deleting assets and markets in the portfolio assets:
 IMPORTANT NOTE: IN THE v6 RELEASE (Coming Soon™), DOING THIS MANUALLY IN A TEXT EDITOR WON'T BE NECESSARY. YOU WILL BE ABLE TO DO IT IN THE "Admin Config => Portfolio Assets" INTERFACE MUCH EASIER.
 
 
-Below is an example for editing your assets / markets into the portfolio assets in the file config.php (located in the primary directory of this app), in the PORTFOLIO ASSETS section. It's very quick / easy to do (after you get the hang of it, lol). Also see the text file /DOCUMENTATION-ETC/CONFIG-EXAMPLE.txt, for a pre-configured set of default settings and example assets / markets. 
+Below is an example for editing your assets / markets in the file config.php (located in the primary directory of this app), within the PORTFOLIO ASSETS section. It's very quick / easy to do (after you get the hang of it, lol). Also see the text file /DOCUMENTATION-ETC/CONFIG-EXAMPLE.txt, for a pre-configured set of default settings and example assets / markets. 
 
 
-Contact any supported exchange's help desk if you are unaware of the correct formatting of the trading pair naming you are adding in the configuration file (examples: Kraken has arbitrary Xs inserted in SOME older pair names, HitBTC sometimes has tether pairs without the "T" in the symbol name).
+Contact any supported exchange's help desk if you are unaware of the correct formatting of the trading pair naming you are adding in the configuration file (examples: Kraken has arbitrary Xs inserted in SOME older pair names, HitBTC sometimes has tether pairs without the "T" in the symbol name, and bybit can prepend "1000" to low-unit-value coin's market IDs).
 
 
 Support for over 80 trading pairs (country fiat currency or secondary crypto, contact me to request more): 

@@ -1119,21 +1119,14 @@ select opt in $OPTIONS; do
   						BACKUP_CONF="/config.php"
 						cp $DOC_ROOT$BACKUP_CONF $DOC_ROOT$BACKUP_CONF.BACKUP.$DATE.$RAND_STRING > /dev/null 2>&1
 						chown $APP_USER:$APP_USER $DOC_ROOT$BACKUP_CONF.BACKUP.$DATE.$RAND_STRING > /dev/null 2>&1
-						
-  						# 'address-balance-tracker' plugin config
-  						BACKUP_CONF="/plugins/recurring-reminder/plug-conf.php"
-						cp $DOC_ROOT$BACKUP_CONF $DOC_ROOT$BACKUP_CONF.BACKUP.$DATE.$RAND_STRING > /dev/null 2>&1
-						chown $APP_USER:$APP_USER $DOC_ROOT$BACKUP_CONF.BACKUP.$DATE.$RAND_STRING > /dev/null 2>&1
-						
-  						# 'price-target-alert' plugin config
-  						BACKUP_CONF="/plugins/price-target-alert/plug-conf.php"
-						cp $DOC_ROOT$BACKUP_CONF $DOC_ROOT$BACKUP_CONF.BACKUP.$DATE.$RAND_STRING > /dev/null 2>&1
-						chown $APP_USER:$APP_USER $DOC_ROOT$BACKUP_CONF.BACKUP.$DATE.$RAND_STRING > /dev/null 2>&1
-						
-  						# 'recurring-reminder' plugin config
-  						BACKUP_CONF="/plugins/recurring-reminder/plug-conf.php"
-						cp $DOC_ROOT$BACKUP_CONF $DOC_ROOT$BACKUP_CONF.BACKUP.$DATE.$RAND_STRING > /dev/null 2>&1
-						chown $APP_USER:$APP_USER $DOC_ROOT$BACKUP_CONF.BACKUP.$DATE.$RAND_STRING > /dev/null 2>&1
+
+
+						     # Backup all plugin configs too
+                                   for plugin_dir in $DOC_ROOT/plugins/*; do
+     						cp $plugin_dir/plug-conf.php $plugin_dir/plug-conf.php.BACKUP.$DATE.$RAND_STRING > /dev/null 2>&1
+     						chown $APP_USER:$APP_USER $plugin_dir/plug-conf.php.BACKUP.$DATE.$RAND_STRING > /dev/null 2>&1
+                                   done
+                                   
 						
 						sleep 3
 						
@@ -1192,6 +1185,9 @@ select opt in $OPTIONS; do
   				rm -rf $DOC_ROOT/templates > /dev/null 2>&1
   				rm -rf $DOC_ROOT/ui-templates > /dev/null 2>&1
   				rm -rf $DOC_ROOT/cron-plugins > /dev/null 2>&1
+  				rm -rf $DOC_ROOT/plugins/debt-tracker > /dev/null 2>&1
+  				rm -rf $DOC_ROOT/plugins/crypto-data-bot > /dev/null 2>&1
+  				rm -rf $DOC_ROOT/plugins/transaction-fee-charts > /dev/null 2>&1
   				rm -rf $DOC_ROOT/plugins/address-balance-tracker/plugin-lib > /dev/null 2>&1
   				rm -rf $DOC_ROOT/plugins/price-target-alert/plugin-lib > /dev/null 2>&1
   				rm -rf $DOC_ROOT/plugins/recurring-reminder/plugin-lib > /dev/null 2>&1
@@ -1209,6 +1205,7 @@ select opt in $OPTIONS; do
 				rm $DOC_ROOT/logs.php > /dev/null 2>&1
 				rm $DOC_ROOT/cache/cacert.pem > /dev/null 2>&1
 				rm $DOC_ROOT/cache/events/notifications-queue-processing.dat > /dev/null 2>&1
+				rm $DOC_ROOT/cache/events/check-domain-security.dat > /dev/null 2>&1
 				rm $DOC_ROOT/cache/logs/errors.log > /dev/null 2>&1
 				rm $DOC_ROOT/cache/logs/debugging.log > /dev/null 2>&1
 				rm $DOC_ROOT/cache/vars/app_config_md5.dat > /dev/null 2>&1

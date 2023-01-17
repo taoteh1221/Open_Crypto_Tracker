@@ -345,7 +345,7 @@ var $ct_array1 = array();
       }
       
    
-   $news_feed_cache_min_max = explode(',', $ct_conf['dev']['news_feed_cache_min_max']);
+   $news_feed_cache_min_max = explode(',', $ct_conf['power']['news_feed_cache_min_max']);
    // Cleanup
    $news_feed_cache_min_max = array_map('trim', $news_feed_cache_min_max);
       
@@ -633,7 +633,7 @@ var $ct_array1 = array();
    
    
    // We only need $pair data if our function call needs 24hr trade volumes, so it's optional overhead
-   function market($asset_symb, $sel_exchange, $market_id, $pair=false) {
+   function market($asset_symb, $sel_exchange, $mrkt_id, $pair=false) {
    
    global $ct_conf, $ct_var, $ct_cache, $ct_gen, $ct_asset, $sel_opt, $kraken_pairs, $upbit_pairs, $coingecko_pairs, $coingecko_assets;
     
@@ -659,7 +659,7 @@ var $ct_array1 = array();
           }
       
          
-      $url = 'https://www.alphavantage.co/query?function=GLOBAL_QUOTE&symbol=' . $market_id . '&apikey=' . $ct_conf['ext_api']['alphavantage_key'];
+      $url = 'https://www.alphavantage.co/query?function=GLOBAL_QUOTE&symbol=' . $mrkt_id . '&apikey=' . $ct_conf['ext_api']['alphavantage_key'];
          
       $response = @$ct_cache->ext_data('url', $url, $ct_conf['power']['last_trade_cache_time']);
          
@@ -710,7 +710,7 @@ var $ct_array1 = array();
 	            foreach ($data as $key => $val) {
 	              
 	              
-	              if ( isset($val['symbol']) && $val['symbol'] == $market_id ) {
+	              if ( isset($val['symbol']) && $val['symbol'] == $mrkt_id ) {
 	               
 	              $result = array(
 	                              'last_trade' => $val["lastPrice"],
@@ -748,7 +748,7 @@ var $ct_array1 = array();
 	            foreach ($data as $key => $val) {
 	              
 	              
-	              if ( isset($val['symbol']) && $val['symbol'] == $market_id ) {
+	              if ( isset($val['symbol']) && $val['symbol'] == $mrkt_id ) {
 	               
 	              $result = array(
 	                              'last_trade' => $val["lastPrice"],
@@ -774,7 +774,7 @@ var $ct_array1 = array();
     
       elseif ( strtolower($sel_exchange) == 'bit2c' ) {
       
-      $url = 'https://bit2c.co.il/Exchanges/'.$market_id.'/Ticker.json';
+      $url = 'https://bit2c.co.il/Exchanges/'.$mrkt_id.'/Ticker.json';
       
       $response = @$ct_cache->ext_data('url', $url, $ct_conf['power']['last_trade_cache_time']);
       
@@ -807,7 +807,7 @@ var $ct_array1 = array();
 	      
 	            foreach ($data as $key => $val) {
 	              
-	              if ( $key == $market_id ) {
+	              if ( $key == $mrkt_id ) {
 	               
 	              $result = array(
 	                              'last_trade' => $val["last_traded_price"],
@@ -843,7 +843,7 @@ var $ct_array1 = array();
 	      
 	            foreach ( $data as $object ) {
 	              
-	              if ( is_array($object) && $object[0] == $market_id ) {
+	              if ( is_array($object) && $object[0] == $mrkt_id ) {
 	                      
 	               
 	              $result = array(
@@ -869,7 +869,7 @@ var $ct_array1 = array();
     
       elseif ( strtolower($sel_exchange) == 'bitforex' ) {
       
-      $url = 'https://api.bitforex.com/api/v1/market/ticker?symbol=' . $market_id;
+      $url = 'https://api.bitforex.com/api/v1/market/ticker?symbol=' . $mrkt_id;
       
       $response = @$ct_cache->ext_data('url', $url, $ct_conf['power']['last_trade_cache_time']);
       
@@ -891,7 +891,7 @@ var $ct_array1 = array();
     
       elseif ( strtolower($sel_exchange) == 'bitflyer' ) {
       
-      $url = 'https://api.bitflyer.com/v1/getticker?product_code=' . $market_id;
+      $url = 'https://api.bitflyer.com/v1/getticker?product_code=' . $mrkt_id;
       
       $response = @$ct_cache->ext_data('url', $url, $ct_conf['power']['last_trade_cache_time']);
       
@@ -926,7 +926,7 @@ var $ct_array1 = array();
 	      
 	            foreach ($data as $key => $val) {
 	              
-	              if ( isset($val['symbol']) && $val['symbol'] == $market_id ) {
+	              if ( isset($val['symbol']) && $val['symbol'] == $mrkt_id ) {
 	               
 	              $result = array(
 	                              'last_trade' => $val["last_price"],
@@ -952,7 +952,7 @@ var $ct_array1 = array();
       
       // GET NEWEST DATA SETS (25 one hour buckets, SINCE WE #NEED# THE CURRENT PARTIAL DATA SET, 
       // OTHERWISE WE DON'T GET THE LATEST TRADE VALUE AND CAN'T CALCULATE REAL-TIME VOLUME)
-      $url = 'https://www.bitmex.com/api/v1/trade/bucketed?binSize=1h&partial=true&count=25&symbol='.$market_id.'&reverse=true'; // Sort NEWEST first
+      $url = 'https://www.bitmex.com/api/v1/trade/bucketed?binSize=1h&partial=true&count=25&symbol='.$mrkt_id.'&reverse=true'; // Sort NEWEST first
          
       $response = @$ct_cache->ext_data('url', $url, $ct_conf['power']['last_trade_cache_time']);
          
@@ -964,12 +964,12 @@ var $ct_array1 = array();
 	             foreach ($data as $key => $val) {
 	                
 			         // We only want the FIRST data set for trade value
-			         if ( !$last_trade && isset($val['symbol']) && $val['symbol'] == $market_id ) {
+			         if ( !$last_trade && isset($val['symbol']) && $val['symbol'] == $mrkt_id ) {
 			         $last_trade = $val['close'];
 			         $asset_vol = $val['homeNotional'];
 			         $pair_vol = $val['foreignNotional'];
 			         }
-			         elseif ( isset($val['symbol']) && $val['symbol'] == $market_id ) {
+			         elseif ( isset($val['symbol']) && $val['symbol'] == $mrkt_id ) {
 			                   
 			         $asset_vol = $ct_var->num_to_str($asset_vol + $val['homeNotional']);
 			         $pair_vol = $ct_var->num_to_str($pair_vol + $val['foreignNotional']);
@@ -1018,7 +1018,7 @@ var $ct_array1 = array();
 	      
 	            foreach ($data as $key => $val) {
 	              
-	              if ( isset($val['instrument_code']) && $val['instrument_code'] == $market_id ) {
+	              if ( isset($val['instrument_code']) && $val['instrument_code'] == $mrkt_id ) {
 	               
 	              $result = array(
 	                              'last_trade' => $val["last_price"],
@@ -1043,7 +1043,7 @@ var $ct_array1 = array();
     
       elseif ( strtolower($sel_exchange) == 'bitso' ) {
       
-      $url = 'https://api.bitso.com/v3/ticker/?book='.$market_id;
+      $url = 'https://api.bitso.com/v3/ticker/?book='.$mrkt_id;
       
       $response = @$ct_cache->ext_data('url', $url, $ct_conf['power']['last_trade_cache_time']);
       
@@ -1067,17 +1067,17 @@ var $ct_array1 = array();
     
       elseif ( strtolower($sel_exchange) == 'bitstamp' ) {
       
-      $url = 'https://www.bitstamp.net/api/v2/ticker/' . $market_id;
+      $url = 'https://www.bitstamp.net/api/v2/ticker/' . $mrkt_id;
       
       $response = @$ct_cache->ext_data('url', $url, $ct_conf['power']['last_trade_cache_time']);
         
       $data = json_decode($response, true);
         
       $result = array(
-                     'last_trade' => number_format( $data['last'], 8, '.', ''),
+                     'last_trade' => number_format( $data['last'], $ct_conf['gen']['crypto_dec_max'], '.', ''),
                      '24hr_asset_vol' => $data["volume"],
                      '24hr_pair_vol' => null // Unavailable, set null
-      	              );
+      	           );
         
       }
      
@@ -1102,7 +1102,7 @@ var $ct_array1 = array();
 	      
 	            foreach ($data as $key => $val) {
 	              
-	              if ( isset($val['symbol']) && $val['symbol'] == $market_id ) {
+	              if ( isset($val['symbol']) && $val['symbol'] == $mrkt_id ) {
 	              $result['last_trade'] = $val["lastTradeRate"];
 	              }
 	          
@@ -1125,7 +1125,7 @@ var $ct_array1 = array();
 	      
 		        foreach ($data as $key => $val) {
 		              
-			       if ( isset($val['symbol']) && $val['symbol'] == $market_id ) {
+			       if ( isset($val['symbol']) && $val['symbol'] == $mrkt_id ) {
 			       $result['24hr_asset_vol'] = $val["volume"];
 			       $result['24hr_pair_vol'] = $val["quoteVolume"];
 			       }
@@ -1145,7 +1145,7 @@ var $ct_array1 = array();
     
       elseif ( strtolower($sel_exchange) == 'btcmarkets' ) {
       
-      $url = 'https://api.btcmarkets.net/market/'.$market_id.'/tick';
+      $url = 'https://api.btcmarkets.net/market/'.$mrkt_id.'/tick';
          
       $response = @$ct_cache->ext_data('url', $url, $ct_conf['power']['last_trade_cache_time']);
          
@@ -1180,7 +1180,7 @@ var $ct_array1 = array();
 	      
 	            foreach ($data as $key => $val) {
 	              
-	              if ( isset($val['pair']) && $val['pair'] == $market_id ) {
+	              if ( isset($val['pair']) && $val['pair'] == $mrkt_id ) {
 	               
 	              $result = array(
 	                              'last_trade' => $val["last"],
@@ -1218,7 +1218,7 @@ var $ct_array1 = array();
 	      
 	            foreach ($data as $key => $val) {
 	              
-	              if ( isset($val["marketName"]) && $val["marketName"] == $market_id ) {
+	              if ( isset($val["marketName"]) && $val["marketName"] == $mrkt_id ) {
 	               
 	              $result = array(
 	                              'last_trade' => $val["LTRate"],
@@ -1256,7 +1256,12 @@ var $ct_array1 = array();
 	      
 	            foreach ($data as $key => $val) {
 	              
-	              if ( isset($val["symbol"]) && $val["symbol"] == $market_id ) {
+	              if ( isset($val["symbol"]) && $val["symbol"] == $mrkt_id ) {
+	                   
+	                   // If FLAGGED AS A '1000XXXXX' BYBIT MARKET ID, DIVIDE BY 1000
+	                   if ( stristr($mrkt_id, '1000') == true ) {
+	                   $val["last_price"] = $val["last_price"] / 1000;
+	                   }
 	               
 	              $result = array(
 	                              'last_trade' => $val["last_price"],
@@ -1295,7 +1300,7 @@ var $ct_array1 = array();
 	            foreach ($data as $key => $val) {
 	              
 	              
-	              if ( isset($val["pair"]) && $val["pair"] == $market_id ) {
+	              if ( isset($val["pair"]) && $val["pair"] == $mrkt_id ) {
 	               
 	              $result = array(
 	                              'last_trade' => $val["last"],
@@ -1321,7 +1326,7 @@ var $ct_array1 = array();
     
       elseif ( strtolower($sel_exchange) == 'coinbase' ) {
       
-      $url = 'https://api.pro.coinbase.com/products/'.$market_id.'/ticker';
+      $url = 'https://api.pro.coinbase.com/products/'.$mrkt_id.'/ticker';
          
       $response = @$ct_cache->ext_data('url', $url, $ct_conf['power']['last_trade_cache_time']);
          
@@ -1356,7 +1361,7 @@ var $ct_array1 = array();
 	            foreach ($data as $key => $val) {
 	              
 	              
-	              if ( isset($val["market"]) && $val["market"] == $market_id ) {
+	              if ( isset($val["market"]) && $val["market"] == $mrkt_id ) {
 	               
 	              $result = array(
 	                              'last_trade' => $val["last_price"],
@@ -1396,7 +1401,7 @@ var $ct_array1 = array();
 	            foreach ($data as $key => $val) {
 	              
 	              
-	              if ( $key == $market_id ) {
+	              if ( $key == $mrkt_id ) {
 	               
 	              $result = array(
 	                              'last_trade' => $val["last"],
@@ -1436,7 +1441,7 @@ var $ct_array1 = array();
 	            foreach ($data as $key => $val) {
 	              
 	              
-	              if ( $key == $market_id ) {
+	              if ( $key == $mrkt_id ) {
 	               
 	              $result = array(
 	                              'last_trade' => $val["last"],
@@ -1476,7 +1481,7 @@ var $ct_array1 = array();
 	            foreach ($data as $key => $val) {
 	              
 	              
-	              if ( isset($val['i']) && $val['i'] == $market_id ) {
+	              if ( isset($val['i']) && $val['i'] == $mrkt_id ) {
 	               
 	              $result = array(
 	                              'last_trade' => $val["a"],
@@ -1513,7 +1518,7 @@ var $ct_array1 = array();
       
             foreach ($data as $key => $val) {
               
-              if ( isset($val["currency_pair"]) && $val["currency_pair"] == $market_id ) {
+              if ( isset($val["currency_pair"]) && $val["currency_pair"] == $mrkt_id ) {
                
               $result = array(
                               'last_trade' => $val["last"],
@@ -1538,7 +1543,7 @@ var $ct_array1 = array();
     
       elseif ( strtolower($sel_exchange) == 'gemini' ) {
       
-      $url = 'https://api.gemini.com/v1/pubticker/' . $market_id;
+      $url = 'https://api.gemini.com/v1/pubticker/' . $mrkt_id;
       
       $response = @$ct_cache->ext_data('url', $url, $ct_conf['power']['last_trade_cache_time']);
         
@@ -1572,11 +1577,11 @@ var $ct_array1 = array();
       
             foreach ($data as $unused) {
               
-              if ( isset($data[$market_id]) && $data[$market_id] != '' ) {
+              if ( isset($data[$mrkt_id]) && $data[$mrkt_id] != '' ) {
                
               $result = array(
-                              'last_trade' => $data[$market_id]['ticker']['last'],
-                              '24hr_asset_vol' => $data[$market_id]['ticker']['vol'],
+                              'last_trade' => $data[$mrkt_id]['ticker']['last'],
+                              '24hr_asset_vol' => $data[$mrkt_id]['ticker']['vol'],
                               '24hr_pair_vol' => null // Weird pair volume always in BTC according to array keyname, skipping
                      	      );
                
@@ -1608,7 +1613,7 @@ var $ct_array1 = array();
       
             foreach ($data as $key => $val) {
               
-              if ( isset($val["symbol"]) && $val["symbol"] == $market_id ) {
+              if ( isset($val["symbol"]) && $val["symbol"] == $mrkt_id ) {
                
               $result = array(
                               'last_trade' => $val["last"],
@@ -1646,7 +1651,7 @@ var $ct_array1 = array();
       
             foreach ($data as $key => $val) {
               
-              if ( isset($val["symbol"]) && $val["symbol"] == $market_id ) {
+              if ( isset($val["symbol"]) && $val["symbol"] == $mrkt_id ) {
                
               $result = array(
                               'last_trade' => $val["last"],
@@ -1684,7 +1689,7 @@ var $ct_array1 = array();
       
             foreach ($data as $key => $val) {
               
-              if ( isset($val["symbol"]) && $val["symbol"] == $market_id ) {
+              if ( isset($val["symbol"]) && $val["symbol"] == $mrkt_id ) {
                
               $result = array(
                               'last_trade' => $val["close"],
@@ -1721,7 +1726,7 @@ var $ct_array1 = array();
       
             foreach ($data as $key => $val) {
               
-              if ( $key == $market_id ) {
+              if ( $key == $mrkt_id ) {
                
               $result = array(
                               'last_trade' => $val["last"],
@@ -1747,7 +1752,7 @@ var $ct_array1 = array();
     
       elseif ( strtolower($sel_exchange) == 'jupiter_ag' ) {
           
-      $jup_pairs = explode('/', $market_id);
+      $jup_pairs = explode('/', $mrkt_id);
       
       $url = 'https://price.jup.ag/v1/price?id=' . $jup_pairs[0] . '&vsToken=' . $jup_pairs[1];
       
@@ -1758,10 +1763,10 @@ var $ct_array1 = array();
       $data = $data['data'];
         
       $result = array(
-                     'last_trade' => number_format( $data['price'], 8, '.', ''),
+                     'last_trade' => number_format( $data['price'], $ct_conf['gen']['crypto_dec_max'], '.', ''),
                      '24hr_asset_vol' => 0, // Unavailable, set 0 to avoid 'price_alert_block_vol_error' supression
                      '24hr_pair_vol' => null // Unavailable, set null
-      	              );
+      	            );
         
       }
      
@@ -1785,7 +1790,7 @@ var $ct_array1 = array();
       
             foreach ($data as $key => $val) {
               
-              if ( $key == $market_id ) {
+              if ( $key == $mrkt_id ) {
                
               $result = array(
                               'last_trade' => $val["last"],
@@ -1847,7 +1852,7 @@ var $ct_array1 = array();
               
                foreach ($val as $key2 => $unused) {
                  
-                 if ( $key2 == $market_id ) {
+                 if ( $key2 == $mrkt_id ) {
                   
                  $result = array(
                                  'last_trade' => $val[$key2]["c"][0],
@@ -1889,7 +1894,7 @@ var $ct_array1 = array();
       
             foreach ($data as $key => $val) {
               
-              if ( isset($val["symbol"]) && $val['symbol'] == $market_id ) {
+              if ( isset($val["symbol"]) && $val['symbol'] == $mrkt_id ) {
                
               $result = array(
                               'last_trade' => $val["last"],
@@ -1925,7 +1930,7 @@ var $ct_array1 = array();
       
             foreach ($data as $key => $val) {
               
-              if ( isset($val["currency_pair_code"]) && $val["currency_pair_code"] == $market_id ) {
+              if ( isset($val["currency_pair_code"]) && $val["currency_pair_code"] == $mrkt_id ) {
                
               $result = array(
                               'last_trade' => $val["last_traded_price"],
@@ -1961,7 +1966,7 @@ var $ct_array1 = array();
       
             foreach ($data as $key => $val) {
               
-              if ( $key == $market_id ) {
+              if ( $key == $mrkt_id ) {
                
               $result = array(
                               'last_trade' => $ct_var->num_to_str($val["rates"]["last"]), // Handle large / small values better with $ct_var->num_to_str()
@@ -1994,7 +1999,7 @@ var $ct_array1 = array();
       $data = json_decode($response, true);
          
          
-	     if ( substr($market_id, 0, 4) == "AMM-" ) {
+	     if ( substr($mrkt_id, 0, 4) == "AMM-" ) {
 	     $data = $data['pools'];
 	     }
 	     else {
@@ -2006,7 +2011,7 @@ var $ct_array1 = array();
 	      
 	         foreach ($data as $key => $val) {
 	             
-	              if ( $key == $market_id ) {
+	              if ( $key == $mrkt_id ) {
 	               
 	              $result = array(
 	                              'last_trade' => $val["last_price"],
@@ -2044,7 +2049,7 @@ var $ct_array1 = array();
       
             foreach ($data as $key => $val) {
               
-              if ( isset($val["pair"]) && $val["pair"] == $market_id ) {
+              if ( isset($val["pair"]) && $val["pair"] == $mrkt_id ) {
                
               $result = array(
                               'last_trade' => $ct_var->num_to_str($val["last_trade"]), // Handle large / small values better with $ct_var->num_to_str()
@@ -2081,7 +2086,7 @@ var $ct_array1 = array();
             foreach ($data as $key => $val) {
              
               
-              if ( isset($val['instrument_id']) && $val['instrument_id'] == $market_id ) {
+              if ( isset($val['instrument_id']) && $val['instrument_id'] == $mrkt_id ) {
                
               $result = array(
                               'last_trade' => $val['last'],
@@ -2120,7 +2125,7 @@ var $ct_array1 = array();
       
             foreach ($data as $key => $val) {
               
-              if ( isset($val['instId']) && $val['instId'] == $market_id ) {
+              if ( isset($val['instId']) && $val['instId'] == $mrkt_id ) {
                
               $result = array(
                               'last_trade' => $val["last"],
@@ -2156,7 +2161,7 @@ var $ct_array1 = array();
       
             foreach ($data as $key => $val) {
               
-              if ( $key == $market_id ) {
+              if ( $key == $mrkt_id ) {
                
               $result = array(
                               'last_trade' =>$val["last"],
@@ -2193,7 +2198,7 @@ var $ct_array1 = array();
       
             foreach ($data as $key => $val) {
               
-              if ( isset($val["Market"]) && $val["Market"] == $market_id ) {
+              if ( isset($val["Market"]) && $val["Market"] == $mrkt_id ) {
                
               $result = array(
                               'last_trade' => $val["Last"],
@@ -2229,12 +2234,12 @@ var $ct_array1 = array();
       
             foreach ($data as $key => $val) {
               
-              if ( isset($val[$market_id]) && $val[$market_id] != '' ) {
+              if ( isset($val[$mrkt_id]) && $val[$mrkt_id] != '' ) {
                
               $result = array(
-                              'last_trade' => $val[$market_id]["price"],
+                              'last_trade' => $val[$mrkt_id]["price"],
                               '24hr_asset_vol' => 0, // Unavailable, set 0 to avoid 'price_alert_block_vol_error' supression
-                              '24hr_pair_vol' => $val[$market_id]["volume"]
+                              '24hr_pair_vol' => $val[$mrkt_id]["volume"]
                      		  );
                
               }
@@ -2266,7 +2271,7 @@ var $ct_array1 = array();
 	            foreach ($data as $key => $val) {
 	              
 	              
-	              if ( $key == $market_id ) {
+	              if ( $key == $mrkt_id ) {
 	               
 	              $result = array(
 	                              'last_trade' => $val["average_price"],
@@ -2325,7 +2330,7 @@ var $ct_array1 = array();
       
             foreach ( $data as $key => $val ) {
               
-              if ( isset($val["market"]) && $val["market"] == $market_id ) {
+              if ( isset($val["market"]) && $val["market"] == $mrkt_id ) {
                
               $result = array(
                               'last_trade' => $val["trade_price"],
@@ -2361,7 +2366,7 @@ var $ct_array1 = array();
       
             foreach ($data as $key => $val) {
               
-              if ( $key == $market_id ) {
+              if ( $key == $mrkt_id ) {
                
               $result = array(
                               'last_trade' => $val["last"],
@@ -2396,7 +2401,7 @@ var $ct_array1 = array();
       
             foreach ($data as $key => $val) {
               
-              if ( isset($val['pair']) && $val['pair'] == $market_id ) {
+              if ( isset($val['pair']) && $val['pair'] == $mrkt_id ) {
                   
                   // Workaround for weird zebpay API bug, where they include a second
                   // array object with same 'pair' property, that's mostly a null data set
@@ -2433,7 +2438,7 @@ var $ct_array1 = array();
       $currency_to_btc = $ct_var->num_to_str(1 / $sel_opt['sel_btc_prim_currency_val']);	
       
          // BTC pair
-         if ( $market_id == 'btc' ) {
+         if ( $mrkt_id == 'btc' ) {
          $result = array(
      		            'last_trade' => $currency_to_btc
      		            );
@@ -2441,7 +2446,7 @@ var $ct_array1 = array();
          // All other pair
      	 else {
      		        
-         $pair_btc_val = $ct_asset->pair_btc_val($market_id);
+         $pair_btc_val = $ct_asset->pair_btc_val($mrkt_id);
      		      
      		      
           	if ( $pair_btc_val == null ) {
@@ -2449,7 +2454,7 @@ var $ct_array1 = array();
           	$ct_gen->log(
           				'market_error',
           				'ct_asset->pair_btc_val() returned null',
-          				'market_id: ' . $market_id
+          				'market_id: ' . $mrkt_id
           				);
           				          
             }
@@ -2484,7 +2489,7 @@ var $ct_array1 = array();
       $currency_to_btc = $ct_asset->pair_btc_val('eth');	
       
          // BTC pair
-         if ( $market_id == 'btc' ) {
+         if ( $mrkt_id == 'btc' ) {
          $result = array(
      		            'last_trade' => $currency_to_btc
      		            );
@@ -2492,7 +2497,7 @@ var $ct_array1 = array();
          // All other pair
      	 else {
      		        
-         $pair_btc_val = $ct_asset->pair_btc_val($market_id);
+         $pair_btc_val = $ct_asset->pair_btc_val($mrkt_id);
      		      
      		      
           	if ( $pair_btc_val == null ) {
@@ -2500,7 +2505,7 @@ var $ct_array1 = array();
           	$ct_gen->log(
           				'market_error',
           				'ct_asset->pair_btc_val() returned null',
-          				'market_id: ' . $market_id
+          				'market_id: ' . $mrkt_id
           				);
           				          
             }
@@ -2536,7 +2541,7 @@ var $ct_array1 = array();
       $currency_to_btc = $ct_asset->pair_btc_val('sol');	
       
          // BTC pair
-         if ( $market_id == 'btc' ) {
+         if ( $mrkt_id == 'btc' ) {
          $result = array(
      		            'last_trade' => $currency_to_btc
      		            );
@@ -2544,7 +2549,7 @@ var $ct_array1 = array();
          // All other pair
      	 else {
      		        
-         $pair_btc_val = $ct_asset->pair_btc_val($market_id);
+         $pair_btc_val = $ct_asset->pair_btc_val($mrkt_id);
      		      
      		      
           	if ( $pair_btc_val == null ) {
@@ -2552,7 +2557,7 @@ var $ct_array1 = array();
           	$ct_gen->log(
           				'market_error',
           				'ct_asset->pair_btc_val() returned null',
-          				'market_id: ' . $market_id
+          				'market_id: ' . $mrkt_id
           				);
           				          
             }
@@ -2596,9 +2601,9 @@ var $ct_array1 = array();
             $check_assets = array();
             
                    
-                  foreach ( $ct_conf['assets'] as $markets_conf ) {
+                  foreach ( $ct_conf['assets'] as $mrkts_conf ) {
                   
-        	         foreach ( $markets_conf['pair'] as $pair_conf ) {
+        	         foreach ( $mrkts_conf['pair'] as $pair_conf ) {
                   
             	         foreach ( $pair_conf as $exchange_key => $exchange_val ) {
             	            
@@ -2638,7 +2643,7 @@ var $ct_array1 = array();
          
       $data = json_decode($response, true);
          
-      $data = $data[$market_id];
+      $data = $data[$mrkt_id];
 
       $paired_with = explode('_', strtolower($sel_exchange) );
       $paired_with = $paired_with[1];
@@ -2686,6 +2691,11 @@ var $ct_array1 = array();
       
       }
    
+      
+   // Convert any scientific vals to string (so we can process correctly)
+   $result['last_trade'] = ( $result['last_trade'] != null ? $ct_var->num_to_str($result['last_trade']) : null );
+   $result['24hr_asset_vol'] = ( $result['24hr_asset_vol'] != null ? $ct_var->num_to_str($result['24hr_asset_vol']) : null );
+   $result['24hr_pair_vol'] = ( $result['24hr_pair_vol'] != null ? $ct_var->num_to_str($result['24hr_pair_vol']) : null );
    
    return $result;
    

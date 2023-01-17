@@ -1282,19 +1282,26 @@ var $ct_array = array();
    // (NO DECIMALS OVER 100 IN UNIT VALUE, MAX 2 DECIMALS OVER 1, #AND MIN 2 DECIMALS# UNDER, FOR INTERFACE UX)
    function thres_dec($num, $mode, $type=false) {
        
-   global $ct_conf;
+   global $ct_conf, $ct_var, $min_fiat_val_test, $min_crypto_val_test;
    
    $result = array();
+   
+   $num = $ct_var->num_to_str($num);
    
       // Unit
       if ( $mode == 'u' && $type != false ) {
           
       $result['max_dec'] = $this->dyn_max_decimals( abs($num) , $type); // MUST BE PASSED AS ABSOLUTE
+      
+      $min_val = ( $type == 'fiat' ? $min_fiat_val_test : $min_crypto_val_test );
    
-          if ( $ct_conf['gen']['price_round_fixed_decimals'] == 'on' ) {
+          if ( $num < $min_val ) {
+          $result['min_dec'] = 0;
+          }
+          elseif ( $ct_conf['gen']['price_round_fixed_decimals'] == 'on' ) {
           $result['min_dec'] = $result['max_dec'];
           }
-   		  elseif ( $type == 'fiat' ) {
+   		elseif ( $type == 'fiat' ) {
           $result['min_dec'] = 2;
           }
           else {
@@ -1316,6 +1323,7 @@ var $ct_array = array();
       
       }
       
+   
    return $result;
       
    }
@@ -2135,7 +2143,7 @@ var $ct_array = array();
    
    function valid_csv_import_row($csv_row) {
       
-   global $ct_conf, $ct_var;
+   global $ct_conf, $ct_var, $min_crypto_val_test;
    
    // WE AUTO-CORRECT AS MUCH AS IS FEASIBLE, IF THE USER-INPUT IS CORRUPT / INVALID
    
@@ -2180,7 +2188,7 @@ var $ct_array = array();
       
       
       // Return false if there is no valid held amount
-      if ( $csv_row[1] >= 0.00000001 )  {
+      if ( $csv_row[1] >= $min_crypto_val_test )  {
       return $csv_row;
       }
       else {
@@ -2270,8 +2278,10 @@ var $ct_array = array();
 
    function dyn_max_decimals($price_raw, $type) {
        
-   global $ct_conf, $ct_var;
-        
+   global $ct_conf, $ct_var, $min_fiat_val_test, $min_crypto_val_test;
+   
+   $price_raw = abs($price_raw); // Assure no negative number used
+   
         
         if ( $ct_conf['gen']['price_round_percent'] == 'one' ) {
         $x = 1;
@@ -2288,55 +2298,85 @@ var $ct_array = array();
         
         
     $unit_percent = $ct_var->num_to_str( ($price_raw / 100) * $x );
-    
-        
-        // 8 decimals rounding
-        if ( $unit_percent <= 0.00000005 ) {
-        $decimals = 8;
-        }
-        // 7 decimals rounding
-        else if ( $unit_percent <= 0.0000005 ) {
-        $decimals = 7;
-        }
-        // 6 decimals rounding
-        else if ( $unit_percent <= 0.000005 ) {
-        $decimals = 6;
-        }
-        // 5 decimals rounding
-        else if ( $unit_percent <= 0.00005 ) {
-        $decimals = 5;
-        }
-        // 4 decimals rounding
-        else if ( $unit_percent <= 0.0005 ) {
-        $decimals = 4;
-        }
-        // 3 decimals rounding
-        else if ( $unit_percent <= 0.005 ) {
-        $decimals = 3;
-        }
-        // 2 decimals rounding
-        else if ( $unit_percent <= 0.05 ) {
-        $decimals = 2;
-        }
-        // 1 decimals rounding
-        else if ( $unit_percent <= 0.5 ) {
-        $decimals = 1;
-        }
-        // 0 decimals rounding
-        else {
-        $decimals = 0;
-        }
         
     
-        // Force to max decimals if applicable
-        if ( $type == 'fiat' && $decimals > $ct_conf['gen']['prim_currency_dec_max'] ) {
-        return $ct_conf['gen']['prim_currency_dec_max'];
+        if ( $type == 'fiat' ) {
+             
+        $track_target = preg_replace("/1/", "5", $min_fiat_val_test); // Set to 0.XXXXX5 instead of 0.XXXXX1
+        
+        
+             $loop = 0;
+             $track_decimals = $ct_conf['gen']['currency_dec_max'];
+             while ( !isset($decimals) && $loop < $ct_conf['gen']['currency_dec_max'] ) {
+
+                  // $track_decimals decimals rounding
+                  if ( !isset($decimals) && $unit_percent <= $track_target ) {
+                  $decimals = $track_decimals;
+                  }
+                  // 0 decimals rounding
+                  elseif ( !isset($decimals) && $unit_percent > 0.5 ) {
+                  $decimals = 0;
+                  }
+                  // Remove one decimal for any next try
+                  else {
+                  $track_target = $ct_var->num_to_str($track_target * 10);
+                  $track_decimals = $track_decimals - 1; 
+                  }
+        
+             $loop = $loop + 1;
+
+             }
+             unset($loop);
+             
+             
+             // Force to max decimals if applicable
+             if ( $decimals > $ct_conf['gen']['currency_dec_max'] ) {
+             return $ct_conf['gen']['currency_dec_max'];
+             }
+             else {
+             return $decimals;
+             }
+        
+        
         }
-        else if ( $type == 'crypto' && $decimals > 8 ) {
-        return 8;
-        }
-        else {
-        return $decimals;
+        else if ( $type == 'crypto' ) {
+             
+        $track_target = preg_replace("/1/", "5", $min_crypto_val_test); // Set to 0.XXXXX5 instead of 0.XXXXX1
+        
+        
+             $loop = 0;
+             $track_decimals = $ct_conf['gen']['crypto_dec_max'];
+             while ( !isset($decimals) && $loop < $ct_conf['gen']['crypto_dec_max'] ) {
+
+                  // $track_decimals decimals rounding
+                  if ( !isset($decimals) && $unit_percent <= $track_target ) {
+                  $decimals = $track_decimals;
+                  }
+                  // 0 decimals rounding
+                  elseif ( !isset($decimals) && $unit_percent > 0.5 ) {
+                  $decimals = 0;
+                  }
+                  // Remove one decimal for any next try
+                  else {
+                  $track_target = $ct_var->num_to_str($track_target * 10);
+                  $track_decimals = $track_decimals - 1; 
+                  }
+        
+             $loop = $loop + 1;
+
+             }
+             unset($loop);
+             
+             
+             // Force to max decimals if applicable
+             if ( $decimals > $ct_conf['gen']['crypto_dec_max'] ) {
+             return $ct_conf['gen']['crypto_dec_max'];
+             }
+             else {
+             return $decimals;
+             }
+
+
         }
         
     
@@ -2425,7 +2465,7 @@ var $ct_array = array();
    ////////////////////////////////////////////////////////
    
    
-   function base_url($SecurityCheck=true, $atRoot=false, $atCore=false, $parse=false) {
+   function base_url($hostCheck=false, $atRoot=false, $atCore=false, $parse=false) {
        
    global $ct_gen, $ct_cache, $base_dir;
       
@@ -2466,13 +2506,9 @@ var $ct_array = array();
    $set_url = preg_replace("/\/templates\/interface(.*)/i", "/", $set_url);
 
 
-        // Check detected base URL security
-        // (checked once every 25 minutes maximum [VIA NON-CRON RUNTIMES in system-config.php], OR FORCE-CHECKED IN runtime-type-init.php DURING RE-CACHES)
+        // Check detected base URL security in runtime-type-init.php DURING RE-CACHES
         // https://expressionengine.com/blog/http-host-and-server-name-security-issues (HOSTNAME HEADER CAN BE SPOOFED FROM CLIENT)
-        if (
-        $ct_cache->update_cache($base_dir . '/cache/events/check-domain-security.dat', 25) == true && isset($set_url) && trim($set_url) != '' && $SecurityCheck != false
-        || $SecurityCheck == 'forced_sec_check'
-        ) {
+        if ( $hostCheck == true ) {
 	
         $set_128bit_hash = $ct_gen->rand_hash(16); // 128-bit (16-byte) hash converted to hexadecimal, used for suffix
         $set_256bit_hash = $ct_gen->rand_hash(32); // 256-bit (32-byte) hash converted to hexadecimal, used for var
@@ -2480,18 +2516,20 @@ var $ct_array = array();
         $domain_check_filename = 'domain_check_' . $set_128bit_hash.'.dat';
         	
         	
-        	// Halt the process if an issue is detected safely creating a random hash
-        	if ( $set_128bit_hash == false || $set_256bit_hash == false ) {
+        	  // Halt the process if an issue is detected safely creating a random hash
+        	  if ( $set_128bit_hash == false || $set_256bit_hash == false ) {
         		
-        	$ct_gen->log(
+        	  $ct_gen->log(
         				'security_error',
         				'Cryptographically secure pseudo-random bytes could not be generated for API key (in secured cache storage), API key creation aborted to preserve security'
         				);
         	
-        	}
-        	else {
-        	$ct_cache->save_file($base_dir . '/' . $domain_check_filename, $set_256bit_hash);
-        	}
+        	  return false;
+        	
+        	  }
+        	  else {
+        	  $ct_cache->save_file($base_dir . '/' . $domain_check_filename, $set_256bit_hash);
+        	  }
 
         		
         // HTTPS CHECK ONLY (for security if htaccess user/pass activated), don't cache API data
@@ -2499,28 +2537,26 @@ var $ct_array = array();
         // domain check
         $domain_check_test_url = $set_url . $domain_check_filename;
         
-        $domain_check_test = trim( @$ct_cache->ext_data('url', $domain_check_test_url, 0) );
+        sleep(1); // Sleep 1 second, to complete the FILE WRITE for the check afterwards
+        
+        $domain_check_test = @$ct_cache->ext_data('url', $domain_check_test_url, 0);
+       
+        sleep(1); // Sleep 1 second, to complete the CHECK before deleting afterwards
         
         // Delete domain check test file
         unlink($base_dir . '/' . $domain_check_filename);
+        
         	
-        	
-        	// If it's a possible hostname header attack
-        	if ( !preg_match("/" . $set_256bit_hash . "/i", $domain_check_test) ) {
-        	unlink($base_dir . '/cache/vars/base_url.dat'); // Delete any base URL var that was stored for cron runtimes
-        	return array('security_error' => true, 'checked_url' => $domain_check_test_url, 'response_output' => $domain_check_test);
-        	}
-        	// If all looks good
-            else { 
-            // Update the detected domain security check event tracking BEFORE RETURNING
-            $ct_cache->save_file($base_dir . '/cache/events/check-domain-security.dat', $ct_gen->time_date_format(false, 'pretty_date_time') );
-            }
+        	  // If it's a possible hostname header attack
+        	  if ( !preg_match("/" . $set_256bit_hash . "/i", $domain_check_test) ) {
+        	  return array('security_error' => true, 'checked_url' => $domain_check_test_url, 'response_output' => $domain_check_test);
+        	  }
         	
         
         }
    
    
-   return $set_url;
+   return $set_url;  // Return if we made it this far
    
    }
    
@@ -3003,6 +3039,9 @@ var $ct_array = array();
       
       $result = explode("||", fgets($fn) );
       
+      $result = array_map('trim', $result); // Trim whitespace out of all array values
+      
+      
          if ( isset($result[0]) && trim($result[0]) != '' && trim($result[0]) >= $start_timestamp ) {
             
          $data['time'] .= trim($result[0]) . '000,';  // Zingchart wants 3 more zeros with unix time (milliseconds)
@@ -3011,7 +3050,7 @@ var $ct_array = array();
             if ( $system_statistics_chart ) {
             
             
-                if ( trim($result[1]) != 'NO_DATA' ) {
+                if ( isset($result[1]) && trim($result[1]) != 'NO_DATA' && trim($result[1]) != '' ) {
                 $data['load_average_15_minutes'] .= trim($result[1]) . ',';
                 $last_valid_chart_data['load_average_15_minutes'] = $result[1];
                 }
@@ -3021,7 +3060,7 @@ var $ct_array = array();
                 }
             
             
-                if ( trim($result[2]) != 'NO_DATA' ) {
+                if ( isset($result[2]) && trim($result[2]) != 'NO_DATA' && trim($result[2]) != '' ) {
                 $data['temperature_celsius'] .= trim($result[2]) . ',';
                 $last_valid_chart_data['temperature_celsius'] = $result[2];
                 }
@@ -3031,7 +3070,7 @@ var $ct_array = array();
                 }
             
             
-                if ( trim($result[3]) != 'NO_DATA' ) {
+                if ( isset($result[3]) && trim($result[3]) != 'NO_DATA' && trim($result[3]) != '' ) {
                 $data['used_memory_gigabytes'] .= trim($result[3]) . ',';
                 $last_valid_chart_data['used_memory_gigabytes'] = $result[3];
                 }
@@ -3041,7 +3080,7 @@ var $ct_array = array();
                 }
             
             
-                if ( trim($result[4]) != 'NO_DATA' ) {
+                if ( isset($result[4]) && trim($result[4]) != 'NO_DATA' && trim($result[4]) != '' ) {
                 $data['used_memory_percentage'] .= trim($result[4]) . ',';
                 $last_valid_chart_data['used_memory_percentage'] = $result[4];
                 }
@@ -3051,7 +3090,7 @@ var $ct_array = array();
                 }
             
             
-                if ( trim($result[5]) != 'NO_DATA' ) {
+                if ( isset($result[5]) && trim($result[5]) != 'NO_DATA' && trim($result[5]) != '' ) {
                 $data['free_disk_space_terabytes'] .= trim($result[5]) . ',';
                 $last_valid_chart_data['free_disk_space_terabytes'] = $result[5];
                 }
@@ -3061,7 +3100,7 @@ var $ct_array = array();
                 }
             
             
-                if ( trim($result[6]) != 'NO_DATA' ) {
+                if ( isset($result[6]) && trim($result[6]) != 'NO_DATA' && trim($result[6]) != '' ) {
                 $data['portfolio_cache_size_gigabytes'] .= trim($result[6]) . ',';
                 $last_valid_chart_data['portfolio_cache_size_gigabytes'] = $result[6];
                 }
@@ -3071,7 +3110,7 @@ var $ct_array = array();
                 }
             
             
-                if ( trim($result[7]) != 'NO_DATA' ) {
+                if ( isset($result[7]) && trim($result[7]) != 'NO_DATA' && trim($result[7]) != '' ) {
                 $data['cron_core_runtime_seconds'] .= trim($result[7]) . ',';
                 $last_valid_chart_data['cron_core_runtime_seconds'] = $result[7];
                 }
@@ -3082,7 +3121,7 @@ var $ct_array = array();
                 
             
             }
-            elseif ( $asset_perf_chart && trim($result[1]) != 'NO_DATA' ) {
+            elseif ( $asset_perf_chart && isset($result[1]) && trim($result[1]) != 'NO_DATA' && trim($result[1]) != '' ) {
       
                if ( !$runtime_data['performance_stats'][$asset]['start_val'] ) {
                $runtime_data['performance_stats'][$asset]['start_val'] = $result[1];
@@ -3103,17 +3142,17 @@ var $ct_array = array();
                }
             
             }
-            elseif ( trim($result[1]) != 'NO_DATA' && trim($result[2]) != 'NO_DATA' ) {
+            elseif ( isset($result[1]) && isset($result[2]) && trim($result[1]) != 'NO_DATA' && trim($result[2]) != 'NO_DATA' && trim($result[1]) != '' && trim($result[2]) != '' ) {
             
                // Format or round primary currency price depending on value (non-stablecoin crypto values are already stored in the format we want for the interface)
                if ( $fiat_formatting ) {
-               $data['spot'] .= ( $ct_var->num_to_str($result[1]) >= 1 ? number_format((float)$result[1], 2, '.', '')  :  round($result[1], $ct_conf['gen']['prim_currency_dec_max'])  ) . ',';
+               $data['spot'] .= $ct_var->num_to_str($result[1]) . ',';
                $data['volume'] .= round($result[2]) . ',';
                }
                // Non-stablecoin crypto
                else {
-               $data['spot'] .= $result[1] . ',';
-               $data['volume'] .= round($result[2], $ct_conf['gen']['chart_crypto_vol_dec']) . ',';
+               $data['spot'] .= $ct_var->num_to_str($result[1]) . ',';
+               $data['volume'] .= $ct_var->num_to_str( round($result[2], $ct_conf['gen']['chart_crypto_vol_dec']) ) . ',';
                }
             
             }

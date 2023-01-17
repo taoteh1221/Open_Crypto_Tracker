@@ -91,6 +91,9 @@ $pair_btc_val = $ct_asset->pair_btc_val($asset);
 	}
 	
 	
+	$address_balance = $ct_var->num_to_str($address_balance);
+	
+	
 	// If we returned 'error' from a detected API error OR no address detected in config, skip this one for now
 	if ( !$address || $address_balance == 'error' ) {
 	    
@@ -135,8 +138,8 @@ $pair_btc_val = $ct_asset->pair_btc_val($asset);
 	
 	$ct_cache->save_file($balance_tracking_cache_file, $new_cache_data);
 	
-    // Obfuscate any addresses in error / debug logs
-    $plug_class[$this_plug]->obfusc_addr($address);
+     // Obfuscate any addresses in error / debug logs
+     $plug_class[$this_plug]->obfusc_addr($address);
 	
 	// Skip the rest, as this was setting / resetting cache data
 	continue;
@@ -167,16 +170,16 @@ $pair_btc_val = $ct_asset->pair_btc_val($asset);
         // Get primary currency value of the current address INCREASE / DECREASE amount only (for increased privacy in alerts)
         $asset_prim_currency_worth_raw = $ct_var->num_to_str( ($difference_amnt * $pair_btc_val) * $sel_opt['sel_btc_prim_currency_val'] );
         
-        $pretty_prim_currency_worth = $ct_var->num_pretty($asset_prim_currency_worth_raw, ( $asset_prim_currency_worth_raw >= 1.00 ? 2 : $ct_conf['gen']['prim_currency_dec_max'] ) );
+        $pretty_prim_currency_worth = $ct_var->num_pretty($asset_prim_currency_worth_raw, ( $asset_prim_currency_worth_raw >= 1.00 ? 2 : $ct_conf['gen']['currency_dec_max'] ) );
             
             
-	    $base_msg = "The " . $label . " address balance has " . $direction . "d: ". $plus_minus . $ct_conf['power']['btc_currency_mrkts'][ $ct_conf['gen']['btc_prim_currency_pair'] ] . $pretty_prim_currency_worth;
+	   $base_msg = "The " . $label . " address balance has " . $direction . "d: ". $plus_minus . $ct_conf['power']['btc_currency_mrkts'][ $ct_conf['gen']['btc_prim_currency_pair'] ] . $pretty_prim_currency_worth;
 	    
 	    
         $text_msg = $label . " address balance " . $direction . ": ". $plus_minus . $ct_conf['power']['btc_currency_mrkts'][ $ct_conf['gen']['btc_prim_currency_pair'] ] . $pretty_prim_currency_worth;
 	    
 	    
-	    $email_msg = $base_msg; // PRIVACY MODE (NO EXPLORER LINK APPENDED)
+	   $email_msg = $base_msg; // PRIVACY MODE (NO EXPLORER LINK APPENDED)
 
 	    
         }
@@ -185,9 +188,9 @@ $pair_btc_val = $ct_asset->pair_btc_val($asset);
         // Get primary currency value of the current address TOTAL balance
         $asset_prim_currency_worth_raw = $ct_var->num_to_str( ($address_balance * $pair_btc_val) * $sel_opt['sel_btc_prim_currency_val'] );
         
-        $pretty_prim_currency_worth = $ct_var->num_pretty($asset_prim_currency_worth_raw, ( $asset_prim_currency_worth_raw >= 1.00 ? 2 : $ct_conf['gen']['prim_currency_dec_max'] ) );
+        $pretty_prim_currency_worth = $ct_var->num_pretty($asset_prim_currency_worth_raw, ( $asset_prim_currency_worth_raw >= 1.00 ? 2 : $ct_conf['gen']['currency_dec_max'] ) );
         
-        $pretty_asset_amnt = $ct_var->num_pretty($address_balance, 8);
+        $pretty_asset_amnt = $ct_var->num_pretty($address_balance, $ct_conf['gen']['crypto_dec_max']);
             
             
 	    $base_msg = "The " . $label . " address balance has " . $direction . "d (" . $plus_minus . $difference_amnt . " " . strtoupper($asset) . "), to a new balance of " . $pretty_asset_amnt . " " . strtoupper($asset) . " (". $ct_conf['power']['btc_currency_mrkts'][ $ct_conf['gen']['btc_prim_currency_pair'] ] . $pretty_prim_currency_worth . ").";

@@ -10,6 +10,11 @@
 
 
 // ALL RUNTIMES
+
+// General preflight security checks (that MUST run for ANY runtime [EVEN IF IT SLOWS DOWN FAST RUNTIMES])
+require_once('app-lib/php/inline/security/general-preflight-security-checks.php');
+
+
 $ct_conf['gen']['prim_mcap_site'] = ( isset($sel_opt['alert_percent'][0]) && $sel_opt['alert_percent'][0] != '' ? $sel_opt['alert_percent'][0] : $ct_conf['gen']['prim_mcap_site'] );
 
 
@@ -43,6 +48,9 @@ gc_collect_cycles(); // Clean memory cache
 exit;
 
 }
+
+
+// END ALL RUNTIMES
 
 
 // CRON RUNTIMES
@@ -110,24 +118,20 @@ $_SESSION['light_charts_updated'] = 0;
 }
 // UI RUNTIMES NOT DESIGNATED AS A "FAST RUNTIME"
 elseif ( $runtime_mode == 'ui' && !$is_fast_runtime ) {
+
+
+// Final UI-ONLY preflight SECURITY checks (MUST RUN AFTER app config auto-adjust / htaccess user login / user agent)
+// (AS WE ARE RUNNING SELF-TESTS WITH $ct_cache->ext_data() ETC)
+// (as we may need to refresh MAIN .htaccess / user.ini)
+require_once('app-lib/php/inline/security/ui-only-preflight-security-checks.php');
     
+    
+///////////////////////////////////////////////////////////////////////
+	
 	
 	// Have UI / HTTP runtime mode RE-CACHE the runtime_user data every 24 hours, since CLI runtime cannot determine the UI / HTTP runtime_user 
 	if ( $ct_cache->update_cache('cache/vars/http_runtime_user.dat', (60 * 24) ) == true ) {
 	$ct_cache->save_file('cache/vars/http_runtime_user.dat', $http_runtime_user); // ALREADY SET FURTHER UP IN INIT.PHP
-	}
-
-
-	// Have UI runtime mode RE-CACHE the app URL data every 24 hours, since CLI runtime cannot determine the app URL (for sending backup link emails during backups, etc)
-	// (ONLY DURING 'ui' RUNTIMES, TO ASSURE IT'S NEVER FROM A REWRITE [PRETTY LINK] URL LIKE /api OR /hook)
-	if ( $ct_cache->update_cache('cache/vars/base_url.dat', (60 * 24) ) == true ) {
-	    
-	$base_url_update = $ct_gen->base_url('forced_sec_check'); // WE FORCE A SECURITY CHECK HERE (OVERRIDES ONLY CHECKING EVERY X MINUTES)
-	
-	    if ( isset($base_url_update) && trim($base_url_update) != '' && !isset($base_url_update['security_error']) ) {
-	    $ct_cache->save_file('cache/vars/base_url.dat', $base_url_update);
-	    }
-	    
 	}
 
 
@@ -247,14 +251,14 @@ $sel_opt['sorted_asc_desc'] = $sort_array[1];
      $scan_charts = array_map( array($ct_var, 'strip_brackets') , $scan_charts); // Strip brackets
      $scan_charts = array_map( array($ct_var, 'strip_underscore_and_after') , $scan_charts); // Strip underscore, and everything after
      $loop = 0;
-     foreach ($scan_charts as $market_key) {
+     foreach ($scan_charts as $mrkt_key) {
      	
      	// IF asset exists in charts app config, AND $sel_opt['show_charts'] UI key format is latest iteration (fiat conversion charts USED TO have no underscore)
-     	if ( array_key_exists($market_key, $ct_conf['charts_alerts']['tracked_mrkts']) && stristr($sel_opt['show_charts'][$loop], '_') ) {
+     	if ( array_key_exists($mrkt_key, $ct_conf['charts_alerts']['tracked_mrkts']) && stristr($sel_opt['show_charts'][$loop], '_') ) {
      		
      	$chart_params = explode('_', $ct_var->strip_brackets($sel_opt['show_charts'][$loop]) );
      	
-     	$chart_conf_check = explode('||', $ct_conf['charts_alerts']['tracked_mrkts'][$market_key]);
+     	$chart_conf_check = explode('||', $ct_conf['charts_alerts']['tracked_mrkts'][$mrkt_key]);
      		
      		// If pair properly matches OR it's a conversion chart, we're good to keep this $sel_opt['show_charts'] array value 
      		if ( $chart_params[1] == $chart_conf_check[1] || $chart_params[1] == $default_btc_prim_currency_pair ) {

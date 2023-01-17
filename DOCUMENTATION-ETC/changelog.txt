@@ -5446,7 +5446,7 @@ MIGRATE YOUR EXISTING SETTINGS TO THE NEW FORMAT.
 
 -Graphical interface capability for plugins
 
--New debt-tracker plugin (in interface on tools page, on by default)
+-New debt-interest-tracker plugin (in interface on tools page, on by default)
 
 -Housekeeping / code cleanup and optimization
 
@@ -5988,7 +5988,7 @@ v6.00.2 AND HIGHER RESETS LIGHT (TIME PERIOD) CHARTS FROM ARCHIVAL DATA, ONE-TIM
 
 -BUG FIX: Miscellaneous (small) fixes
 
--New bundled plugin 'crypto-data-bot' (WORK-IN-PROGRESS, NON-FUNCTIONAL...will let you setup querying this app for data in telegram chat)
+-New bundled plugin 'crypto-info-bot' (WORK-IN-PROGRESS, NON-FUNCTIONAL...will let you setup querying this app for data in telegram chat)
 
 -New setting on admin Reset page, to reset the ENTIRE Admin Config (back to the hard-coded defaults in the PHP configuration files)
 
@@ -6003,6 +6003,40 @@ v6.00.2 AND HIGHER RESETS LIGHT (TIME PERIOD) CHARTS FROM ARCHIVAL DATA, ONE-TIM
 -v6.00.8 AND HIGHER MIGRATES / UPGRADES ANY SET COOKIE DATA TO A MORE SECURE / RELIABLE FORMAT, ONE-TIME DURING UPGRADES FROM V6.00.7 OR LOWER.
 
 -------------------------------------------------------------------
+
+
+
+-------------------------------------------------------------------
+6.00.17:
+
+-BUG FIX: Fixed endless loop / multiple false positives / runtime slowdown in security check on header domain data (sorry about that!)
+
+-BUG FIX: Fixed low-unit-value coins (like Bonk Inu) not working (when added to the assets config)
+
+-BUG FIX: Fixed issue with webhook keys resetting themselves
+
+-BUG FIX: Miscellaneous (small / medium) fixes
+
+-New 'crypto_dec_max' admin config setting (in the GENERAL section...see notes next to setting)
+
+-Optimized initiation logic to run faster in all runtime modes
+
+-Miscellaneous optimizations / user experience improvements
+
+-Revised / optimized DEMO config
+
+-Upgraded bybit API support
+
+-Zingchart library upgrade
+
+-Updated documentation
+
+-v6.00.16 AND HIGHER RESETS LIGHT (TIME PERIOD) CHARTS FROM ARCHIVAL DATA, ONE-TIME DURING UPGRADES FROM V6.00.15 OR LOWER.
+
+-v6.00.8 AND HIGHER MIGRATES / UPGRADES ANY SET COOKIE DATA TO A MORE SECURE / RELIABLE FORMAT, ONE-TIME DURING UPGRADES FROM V6.00.7 OR LOWER.
+
+-------------------------------------------------------------------
+
 
 
 

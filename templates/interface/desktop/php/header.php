@@ -25,22 +25,74 @@ header('Access-Control-Allow-Origin: ' . $app_host_address);
 	<title>Open Crypto Tracker<?=( $is_admin ? ' - Admin Config' : '' )?></title>
     
 
-   <meta charset="<?=$ct_conf['dev']['charset_default']?>">
+     <meta charset="<?=$ct_conf['dev']['charset_default']?>">
    
-   <meta name="viewport" content="width=device-width"> <!-- Mobile compatibility -->
+     <meta name="viewport" content="width=device-width"> <!-- Mobile compatibility -->
    
 	<meta name="robots" content="noindex,nofollow"> <!-- Keeps this URL private (search engines won't add this URL to their search indexes) -->
 	
 	<meta name="referrer" content="same-origin"> <!-- Keeps this URL private (BROWSER referral data won't be sent when clicking external links) -->
 	
 	
-	<!-- Preload a few UI-related images -->
+	<!-- Preload a few UI-related files -->
 	
 	<link rel="preload" href="templates/interface/media/images/auto-preloaded/login-<?=$sel_opt['theme_selected']?>-theme.png" as="image">
 	
 	<link rel="preload" href="templates/interface/media/images/auto-preloaded/notification-<?=$sel_opt['theme_selected']?>-line.png" as="image">
 	
 	<link rel="preload" href="templates/interface/media/images/auto-preloaded/loader.gif" as="image">
+    
+    
+	<link rel="preload" href="templates/interface/desktop/css/bootstrap/bootstrap.min.css" as="style" />
+
+	<link rel="preload" href="templates/interface/desktop/css/modaal.css" as="style" />
+	
+	<link rel="preload" href="templates/interface/desktop/css/jquery-ui/jquery-ui.css" as="style" />
+	
+	<link rel="preload" href="templates/interface/desktop/css/style.css" as="style" />
+	
+	<link rel="preload" href="templates/interface/desktop/css/<?=$sel_opt['theme_selected']?>.style.css" as="style" />
+	
+	
+	<?php
+	if ( $is_admin ) {
+	?>
+	
+	<link rel="preload" href="templates/interface/desktop/css/admin.css" as="style" />
+	
+	<link rel="preload" href="templates/interface/desktop/css/<?=$sel_opt['theme_selected']?>.admin.css" as="style" />
+	
+	<?php
+	}
+	?>
+
+
+	<link rel="preload" href="app-lib/js/jquery/jquery-3.6.0.min.js" as="script" />
+
+	<link rel="preload" href="app-lib/js/jquery/jquery.tablesorter.min.js" as="script" />
+
+	<link rel="preload" href="app-lib/js/jquery/jquery.tablesorter.widgets.min.js" as="script" />
+
+	<link rel="preload" href="app-lib/js/jquery/jquery.balloon.min.js" as="script" />
+	
+	<link rel="preload" href="app-lib/js/jquery/jquery-ui/jquery-ui.js" as="script" />
+
+     <link rel="preload" href="app-lib/js/jquery/jquery.repeatable.js" as="script" />
+
+	<link rel="preload" href="app-lib/js/modaal.js" as="script" />
+
+	<link rel="preload" href="app-lib/js/base64-decode.js" as="script" />
+
+	<link rel="preload" href="app-lib/js/autosize.min.js" as="script" />
+	
+	<link rel="preload" href="app-lib/js/zingchart.min.js" as="script" />
+	
+	<link rel="preload" href="app-lib/js/crypto-js.js" as="script" />
+
+	<link rel="preload" href="app-lib/js/functions.js" as="script" />
+	
+	
+	<!-- END Preload a few UI-related files -->
 	
 	
 	<script>
@@ -49,6 +101,12 @@ header('Access-Control-Allow-Origin: ' . $app_host_address);
 	var ct_id = '<?=$ct_gen->id()?>';
 	
 	var app_edition = '<?=$app_edition?>';
+	
+	var min_fiat_val_test = '<?=$min_fiat_val_test?>';
+	
+	var min_crypto_val_test = '<?=$min_crypto_val_test?>';
+	
+	var watch_only_flag_val = '<?=$watch_only_flag_val?>';
 	
 	var logs_csrf_sec_token = '<?=base64_encode( $ct_gen->admin_hashed_nonce('logs_csrf_security') )?>';
 	
@@ -60,9 +118,9 @@ header('Access-Control-Allow-Origin: ' . $app_host_address);
 	
 	var reload_recheck; // Default
     
-    window.is_admin = false; // Default
+     window.is_admin = false; // Default
     
-    window.form_submit_queued = false; // Default
+     window.form_submit_queued = false; // Default
 	
 	window.reload_countdown = false; // Default
 	
@@ -91,12 +149,13 @@ header('Access-Control-Allow-Origin: ' . $app_host_address);
 
 	<link rel="stylesheet" href="templates/interface/desktop/css/modaal.css" type="text/css" />
 	
-	<link  href="templates/interface/desktop/css/jquery-ui/jquery-ui.css" rel="stylesheet">
+	<link rel="stylesheet" href="templates/interface/desktop/css/jquery-ui/jquery-ui.css" type="text/css" />
 	
 	<!-- Load theme styling last to over rule -->
 	<link rel="stylesheet" href="templates/interface/desktop/css/style.css" type="text/css" />
 	
 	<link rel="stylesheet" href="templates/interface/desktop/css/<?=$sel_opt['theme_selected']?>.style.css" type="text/css" />
+	
 	
 	<?php
 	if ( $is_admin ) {
@@ -110,12 +169,13 @@ header('Access-Control-Allow-Origin: ' . $app_host_address);
 	}
 	?>
 	
+	
 	<style>
 
 	@import "templates/interface/desktop/css/tablesorter/theme.<?=$sel_opt['theme_selected']?>.css";
 	
 	.tablesorter-<?=$sel_opt['theme_selected']?> .header, .tablesorter-<?=$sel_opt['theme_selected']?> .tablesorter-header {
-    white-space: nowrap;
+     white-space: nowrap;
 	}
 	
 	</style>
@@ -131,7 +191,7 @@ header('Access-Control-Allow-Origin: ' . $app_host_address);
 	
 	<script src="app-lib/js/jquery/jquery-ui/jquery-ui.js"></script>
 
-    <script src="app-lib/js/jquery/jquery.repeatable.js"></script>
+     <script src="app-lib/js/jquery/jquery.repeatable.js"></script>
 
 	<script src="app-lib/js/modaal.js"></script>
 
