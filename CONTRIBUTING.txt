@@ -89,6 +89,7 @@ CONTRIBUTION GUIDELINES (FOR DEVELOPERS):
 !!!!                                                                                    
 ===> WHEN DEBUGGING / TESTING, LEAVE "$dev_debug_php_errors" IN "app-lib/php/init.php" SET 
 ===> LIKE SO, TO ALWAYS LOG ALL PARSE / FATAL PHP ERRORS DURING TESTING: (E_ERROR | E_PARSE)
+===> 'Desktop Editions' log PHP errors to: /INSTALL_CRYPTO_TRACKER_HERE/php_errors.log
 !!!!
 ===> config.php (and plug-conf.php for plugins) MUST ONLY CONTAIN STATIC CONFIGS,
 ===> as all configs are saved to / run from cache file: /cache/secured/ct_conf_XXXXXXXXX.dat
