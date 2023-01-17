@@ -6015,7 +6015,7 @@ v6.00.2 AND HIGHER RESETS LIGHT (TIME PERIOD) CHARTS FROM ARCHIVAL DATA, ONE-TIM
 
 -BUG FIX: Fixed issue with webhook keys resetting themselves
 
--BUG FIX: Miscellaneous (small) fixes
+-BUG FIX: Miscellaneous (small / medium) fixes
 
 -New 'crypto_dec_max' admin config setting (in the GENERAL section...see notes next to setting)
 
@@ -6026,6 +6026,8 @@ v6.00.2 AND HIGHER RESETS LIGHT (TIME PERIOD) CHARTS FROM ARCHIVAL DATA, ONE-TIM
 -Revised / optimized DEMO config
 
 -Upgraded bybit API support
+
+-Zingchart library upgrade
 
 -v6.00.16 AND HIGHER RESETS LIGHT (TIME PERIOD) CHARTS FROM ARCHIVAL DATA, ONE-TIME DURING UPGRADES FROM V6.00.15 OR LOWER.
 
