@@ -17,6 +17,9 @@ $_POST[$scan_post_key] = $ct_gen->sanitize_requests('post', $scan_post_key, $_PO
 }
 
 
+//////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
 // If user is logging out (run immediately after setting PRIMARY vars, for quick runtime)
 if ( $_GET['logout'] == 1 && $ct_gen->pass_sec_check($_GET['admin_hashed_nonce'], 'logout') ) {
 	
@@ -33,13 +36,31 @@ exit;
 }
 
 
-// A bit of DOS attack mitigation for bogus / bot login attempts
+//////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+// CSRF attack protection for downloads EXCEPT backup downloads (which are secured by requiring the nonce)
+if ( $runtime_mode == 'download' && !isset($_GET['backup']) && $_GET['token'] != $ct_gen->nonce_digest('download') ) {
+$ct_gen->log('security_error', 'aborted, security token mis-match/stale from ' . $_SERVER['REMOTE_ADDR'] . ', for request: ' . $_SERVER['REQUEST_URI'] . ' (try reloading the app)');
+$ct_cache->error_log();
+echo "Aborted, security token mis-match/stale. Try reloading the app.";
+exit;
+}
+
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+// A bit of DOS / brute force login attack mitigation for bogus / bot login attempts
 // Speed up runtime SIGNIFICANTLY by checking EARLY for a bad / non-existent captcha code, and rendering the related form again...
 // A BIT STATEMENT-INTENSIVE ON PURPOSE, AS IT KEEPS RUNTIME SPEED MUCH HIGHER
 if ( $_POST['admin_submit_register'] || $_POST['admin_submit_login'] || $_POST['admin_submit_reset'] ) {
 
 
-	if ( trim($_POST['captcha_code']) == '' || trim($_POST['captcha_code']) != '' && strtolower( trim($_POST['captcha_code']) ) != strtolower($_SESSION['captcha_code']) ) {
+	if (
+	!isset($_POST['captcha_code'])
+	|| isset($_POST['captcha_code']) && strtolower( trim($_POST['captcha_code']) ) != strtolower($_SESSION['captcha_code'])
+	) {
 	
 	    
 	    // WE RUN SECURITY CHECKS WITHIN THE REGISTRATION PAGE, SO NOT MUCH CHECKS ARE IN THIS INIT SECTION
@@ -66,14 +87,7 @@ if ( $_POST['admin_submit_register'] || $_POST['admin_submit_login'] || $_POST['
 }
 
 
-// CSRF attack protection for downloads EXCEPT backup downloads (which are secured by requiring the nonce 
-// in the filename already, since backup links are created during cron runtimes)
-if ( $runtime_mode == 'download' && !isset($_GET['backup']) && $_GET['token'] != $ct_gen->nonce_digest('download') ) {
-$ct_gen->log('security_error', 'aborted, security token mis-match/stale from ' . $_SERVER['REMOTE_ADDR'] . ', for request: ' . $_SERVER['REQUEST_URI'] . ' (try reloading the app)');
-$ct_cache->error_log();
-echo "Aborted, security token mis-match/stale. Try reloading the app.";
-exit;
-}
+//////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
 // Toggle to set the admin interface security level, if 'opt_admin_sec' from authenticated admin is verified

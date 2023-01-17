@@ -10,6 +10,11 @@
 
 
 // ALL RUNTIMES
+
+// General preflight security checks (that MUST run for ANY runtime [EVEN IF IT SLOWS DOWN FAST RUNTIMES])
+require_once('app-lib/php/inline/security/general-preflight-security-checks.php');
+
+
 $ct_conf['gen']['prim_mcap_site'] = ( isset($sel_opt['alert_percent'][0]) && $sel_opt['alert_percent'][0] != '' ? $sel_opt['alert_percent'][0] : $ct_conf['gen']['prim_mcap_site'] );
 
 
@@ -43,6 +48,9 @@ gc_collect_cycles(); // Clean memory cache
 exit;
 
 }
+
+
+// END ALL RUNTIMES
 
 
 // CRON RUNTIMES
@@ -115,7 +123,7 @@ elseif ( $runtime_mode == 'ui' && !$is_fast_runtime ) {
 // Final UI-ONLY preflight SECURITY checks (MUST RUN AFTER app config auto-adjust / htaccess user login / user agent)
 // (AS WE ARE RUNNING SELF-TESTS WITH $ct_cache->ext_data() ETC)
 // (as we may need to refresh MAIN .htaccess / user.ini)
-require_once('app-lib/php/inline/security/ui-preflight-security-checks.php');
+require_once('app-lib/php/inline/security/ui-only-preflight-security-checks.php');
     
     
 ///////////////////////////////////////////////////////////////////////

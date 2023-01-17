@@ -6009,9 +6009,9 @@ v6.00.2 AND HIGHER RESETS LIGHT (TIME PERIOD) CHARTS FROM ARCHIVAL DATA, ONE-TIM
 -------------------------------------------------------------------
 6.00.17:
 
--BUG FIX: Fixed low-value coins (like Bonk Inu) not working (when added to the assets config)
+-BUG FIX: Fixed endless loop / multiple false positives / runtime slowdown in security check on header domain data (sorry about that!)
 
--BUG FIX: Fixed endless loop in security check on header domain data (sorry about that!)
+-BUG FIX: Fixed low-unit-value coins (like Bonk Inu) not working (when added to the assets config)
 
 -BUG FIX: Fixed issue with webhook keys resetting themselves
 
@@ -6028,6 +6028,8 @@ v6.00.2 AND HIGHER RESETS LIGHT (TIME PERIOD) CHARTS FROM ARCHIVAL DATA, ONE-TIM
 -Upgraded bybit API support
 
 -Zingchart library upgrade
+
+-Updated documentation
 
 -v6.00.16 AND HIGHER RESETS LIGHT (TIME PERIOD) CHARTS FROM ARCHIVAL DATA, ONE-TIME DURING UPGRADES FROM V6.00.15 OR LOWER.
 

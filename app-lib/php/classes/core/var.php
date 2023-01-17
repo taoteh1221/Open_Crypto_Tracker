@@ -372,7 +372,7 @@ var $ct_array1 = array();
    // Pretty number formatting, while maintaining decimals (max decimals required, min decimals optional)
    function num_pretty($val_to_pretty, $dec_max, $small_unlimited=false, $dec_min=false) {
         
-   global $min_crypto_val_test;
+   global $min_fiat_val_test, $min_crypto_val_test;
    
    // Strip formatting, convert from scientific format, and remove leading / trailing zeros
    $raw_val_to_pretty = $this->rem_num_format($val_to_pretty);
@@ -394,10 +394,19 @@ var $ct_array1 = array();
       }
       
       
-      // If our value IS LESS THAN WHAT WOULD SHOW *AT ALL* WITH CURRENT MAX DECIMALS,
-      // THEN SET THE FLAG $small_unlimited TO DISREGARD MAX DECIMALS
-      // abs() used to properly calculate with negative numbers
-      if ( $min_crypto_val_test > abs($raw_val_to_pretty) ) {
+      // Get overall MINIMUM value used, from the config settings
+      if ( $min_crypto_val_test < $min_fiat_val_test ) {
+      $min_val_test = $min_crypto_val_test;
+      }
+      else {
+      $min_val_test = $min_fiat_val_test;
+      }
+      
+      
+      // If our value IS LESS THAN WHAT WOULD SHOW *AT ALL* WITH $min_val_test,
+      // THEN SET THE FLAG $small_unlimited TO DISREGARD MAX DECIMALS (allow unlimited decimals)
+      // (abs() used to properly calculate with negative numbers)
+      if ( $min_val_test > abs($raw_val_to_pretty) ) {
       $small_unlimited = true;
       }
    

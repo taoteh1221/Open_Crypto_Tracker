@@ -1348,12 +1348,6 @@ var $ct_array1 = array();
          $btc_trade_eqiv_raw = number_format( ($asset_val_raw * $pair_btc_val) , $ct_conf['gen']['crypto_dec_max'], '.', '');
          $btc_trade_eqiv_raw = $ct_var->num_to_str($btc_trade_eqiv_raw); // Cleanup any trailing zeros
          
-              // DEBUGGING ONLY (for super-low value coins)
-              //if ( strtolower($asset_name) == 'bonk' ) {
-              //var_dump($pair_btc_val);
-              //var_dump($btc_trade_eqiv_raw);
-              //}
-         
          $btc_worth_array[$asset_symb] = $ct_var->num_to_str($asset_val_total_raw * $pair_btc_val);
          
             if ( preg_match("/stock/i", $asset_symb) ) {
@@ -1514,7 +1508,6 @@ var $ct_array1 = array();
       // BTC PAIRS CONVERTED TO PRIMARY CURRENCY CONFIG (EQUIV) CHARTS
       elseif ( $pair == 'btc' ) {
       $asset_prim_currency_val_raw = number_format( $default_btc_prim_currency_val * $asset_mrkt_data['last_trade'] , $ct_conf['gen']['crypto_dec_max'], '.', '');
-      $asset_prim_currency_val_raw = $ct_var->num_to_str($asset_prim_currency_val_raw); // Cleanup any trailing zeros
       }
       // OTHER PAIRS CONVERTED TO PRIMARY CURRENCY CONFIG (EQUIV) CHARTS
       else {
@@ -1532,10 +1525,13 @@ var $ct_array1 = array();
 	        }
       
       $asset_prim_currency_val_raw = number_format( $default_btc_prim_currency_val * ( $asset_mrkt_data['last_trade'] * $pair_btc_val ) , $ct_conf['gen']['crypto_dec_max'], '.', '');
-      $asset_prim_currency_val_raw = $ct_var->num_to_str($asset_prim_currency_val_raw); // Cleanup any trailing zeros
       
       }
-      /////////////////////////////////////////////////////////////////
+      
+      
+   $asset_prim_currency_val_raw = $ct_var->num_to_str($asset_prim_currency_val_raw); // Cleanup any trailing zeros
+   
+   /////////////////////////////////////////////////////////////////
      
      
        
