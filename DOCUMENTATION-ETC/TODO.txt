@@ -171,6 +171,9 @@ Remove all linebreaks in javascript alert / confirm dialogue boxes, except for n
 ######################################################################################################
 
 
+The Bitmex U20 / Z20 markets are not marked as a 'limited api' IN THE INTERFACE SETTINGS PAGE, UNDER 'PRIMARY CURRENCY MARKET'.
+
+
 Build fail-safes directly into the plugin CONFIG INIT for default ui_name and ui_location, as well as error log AND skip including any activated plugin with runtime_mode not set / not properly set.
 
 
