@@ -171,10 +171,10 @@ Remove all linebreaks in javascript alert / confirm dialogue boxes, except for n
 ######################################################################################################
 
 
+New FAQ entry "my text alerts aren't working, or are delayed"
+
+
 The Bitmex U20 / Z20 markets are not marked as a 'limited api' IN THE INTERFACE SETTINGS PAGE, UNDER 'PRIMARY CURRENCY MARKET'.
-
-
-Build fail-safes directly into the plugin CONFIG INIT for default ui_name and ui_location, as well as error log AND skip including any activated plugin with runtime_mode not set / not properly set.
 
 
 LOCAL JAVASCRIPT STORAGE keeps deleting content in my trade notes textarea, find out why
@@ -245,10 +245,16 @@ FEATURES / NEW INFRASTRUCTURE / RESEARCH
 ############ NEXT FEATURES / NEW INFRASTRUCTURE / RESEARCH SCHEDULED WORK SESSION ###################################
 
 
+Remove the requirement for a secondary crypto market needing a BTC market, by allowing a secondary crypto market if it at least has a pairing that is the same as one of Bitcoin's pairings (like USD). Then have the BTC pairing value function look for that if there is no BTC market for the asset. Within the BTC pairing function, all we then need to do is multiply this backup conversion pairing value by the last trade value of the secondary crypto market (with a recursive call in the function to get say for instance the BTC/USD trade value). Also include a new config setting "pref_backup_conversion_pair", so when we check what pairings the asset has available, we use this pairing first (like USD).
+
+
+######################################################################################################################
+
+
+Research giving a plugin it's own admin-tab|user-tab
+
+
 Add https://www.reddit.com/r/StarAtlas/ to resources page / news feeds.
-
-
-Create AND document /plug-templates/plug-admin.php|plug-docs.php formats, to be used in the plugin system. plug-docs.php should be a "More Documentation" link at the top of the plugin's admin page, which opens as a modal window (like we do for "select charts" on the user area charts page).
 
 
 Add more Jupiter agg markets to Solana coins in demo config, and in price target plugin.
@@ -258,9 +264,6 @@ Add openserum markets support.
 
 
 Research whether POST data size affects header size like cookie data size does.
-
-
-######################################################################################################################
 
 
 Change the 'eth_erc20_icos' => 'ico_erc20_value' config settings to 'token_presales' => 'presale_value', AND support any base pair as the pairing (NOT just 'ETH').

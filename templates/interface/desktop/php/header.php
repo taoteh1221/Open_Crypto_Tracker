@@ -97,6 +97,9 @@ header('Access-Control-Allow-Origin: ' . $app_host_address);
 	
 	<script>
 	
+	// Set the modal windows array (to dynamically populate)
+	var modal_windows = [];
+	
 	// Install ID (derived from this app's server path)
 	var ct_id = '<?=$ct_gen->id()?>';
 	

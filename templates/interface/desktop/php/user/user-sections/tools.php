@@ -135,14 +135,11 @@
             		
             $this_plug = $plugin_key;
   	
-            	if (
-            	file_exists($plugin_init) && !isset($plug_conf[$this_plug]['ui_location'])
-            	|| file_exists($plugin_init) && $plug_conf[$this_plug]['ui_location'] == 'tools'
-            	) {
+            	if ( file_exists($plugin_init) && $plug_conf[$this_plug]['ui_location'] == 'tools' ) {
             	
               	?>
                 <fieldset class='subsection_fieldset'>
-                	<legend class='subsection_legend'> <b><?=( isset($plug_conf[$this_plug]['ui_name']) ? $plug_conf[$this_plug]['ui_name'] : $this_plug )?></b> </legend>
+                	<legend class='subsection_legend'> <b><?=$plug_conf[$this_plug]['ui_name']?></b> </legend>
               	<?php
           		
             		// This plugin's default class (only if the file exists)

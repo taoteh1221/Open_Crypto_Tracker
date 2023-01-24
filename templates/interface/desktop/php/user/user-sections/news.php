@@ -96,7 +96,6 @@
 	
 	<!-- Submit button must be OUTSIDE form tags here, or it submits the target form improperly and loses data -->
 	<p><button class='force_button_style' onclick='
-	$(".show_feed_settings").modaal("close");
 	$("#coin_amnts").submit();
 	'>Update Selected News Feeds</button></p>
 	
@@ -151,7 +150,6 @@
 	
 		<!-- Submit button must be OUTSIDE form tags here, or it submits the target form improperly and loses data -->
 		<p><button class='force_button_style' onclick='
-		$(".show_feed_settings").modaal("close");
 		$("#coin_amnts").submit();
 		'>Update Selected News Feeds</button></p>
 		
@@ -160,8 +158,10 @@
 	
 	<script>
 	
-	$('.show_feed_settings').modaal({
-		content_source: '#show_feed_settings'
+	modal_windows.push('.show_feed_settings'); // Add to modal window tracking (for closing all dynaimically on app reloads)   
+	
+	$('.show_feed_settings').modaal({  
+	content_source: '#show_feed_settings'
 	});
   	
 	</script>

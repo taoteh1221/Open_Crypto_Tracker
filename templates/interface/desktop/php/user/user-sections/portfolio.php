@@ -1386,7 +1386,7 @@ zingchart.bind('marketcap_chart', 'label_click', function(e){
   		
       	?>
         <fieldset class='subsection_fieldset'>
-        	<legend class='subsection_legend'> <b><?=( isset($plug_conf[$this_plug]['ui_name']) ? $plug_conf[$this_plug]['ui_name'] : $this_plug )?></b> </legend>
+        	<legend class='subsection_legend'> <b><?=$plug_conf[$this_plug]['ui_name']?></b> </legend>
       	<?php
   	
   			// This plugin's default class (only if the file exists)
@@ -1429,10 +1429,14 @@ zingchart.bind('marketcap_chart', 'label_click', function(e){
 	<!-- END MORE PORTFOLIO STATS MODAL -->
 	
 	<script>
+	
+	modal_windows.push('.show_portfolio_stats'); // Add to modal window tracking (for closing all dynaimically on app reloads) 
+	
 	$('.show_portfolio_stats').modaal({
-		fullscreen: true,
-		content_source: '#show_portfolio_stats'
+	fullscreen: true,
+	content_source: '#show_portfolio_stats'
 	});
+	
 	</script>
 	
 <!-- END 'view more stats' -->
@@ -1807,10 +1811,14 @@ var server_header_defaults_content = '<h5 class="yellow tooltip_title">Average S
 	
 	
 	<script>
+	
+	modal_windows.push('.show_system_stats'); // Add to modal window tracking (for closing all dynaimically on app reloads) 
+	
 	$('.show_system_stats').modaal({
-		fullscreen: true,
-		content_source: '#show_system_stats'
+	fullscreen: true,
+	content_source: '#show_system_stats'
 	});
+
 	</script>
 	
 	
@@ -1871,10 +1879,14 @@ var server_header_defaults_content = '<h5 class="yellow tooltip_title">Average S
 	
 	
 	<script>
+	
+	modal_windows.push('.show_access_stats'); // Add to modal window tracking (for closing all dynaimically on app reloads) 
+	
 	$('.show_access_stats').modaal({
-		fullscreen: true,
-		content_source: '#show_access_stats'
+	fullscreen: true,
+	content_source: '#show_access_stats'
 	});
+
 	</script>
 	
 	
@@ -2026,10 +2038,14 @@ var server_header_defaults_content = '<h5 class="yellow tooltip_title">Average S
 	
 	
 	<script>
+	
+	modal_windows.push('.show_logs'); // Add to modal window tracking (for closing all dynaimically on app reloads) 
+	
 	$('.show_logs').modaal({
-		fullscreen: true,
-		content_source: '#show_logs'
+	fullscreen: true,
+	content_source: '#show_logs'
 	});
+
 	</script>
 	
 	<?php
