@@ -47,12 +47,15 @@ $this_plug = $key;
 
 		if ( file_exists($plug_conf_file) ) {
 		
+		// SET SIMPLIFIED / MINIMIZED PLUG_CONF ONLY FOR USE *INSIDE* PLUGIN LOGIC / PLUGIN INIT LOOPS
 		$plug_conf[$this_plug] = array();
 		
 		require_once($plug_conf_file); // Populate $plug_conf[$this_plug] with the defaults
 		
 		
 		    // Check MANDATORY 'runtime_mode' plugin config setting		
+		    // FINE TO RUN THE CHECK EARLY FROM THE HARD-CODED PLUG_CONF, AS THIS SETTING 
+		    // SHOULD NEVER BE UPDATABLE IN AN INTERFACE [ONLY BY A DEV IN: plug-conf.php]
 		    if ( !isset($plug_conf[$this_plug]['runtime_mode']) || isset($plug_conf[$this_plug]['runtime_mode']) && !in_array($plug_conf[$this_plug]['runtime_mode'], $plugin_runtime_mode_check) ) {
      	    unset($plug_conf[$this_plug]);
      	    unset($ct_conf['plug_conf'][$this_plug]);
@@ -62,33 +65,50 @@ $this_plug = $key;
 		    // Cleared for takeoff
 		    else {
 		         
-		         
-		         // Set to DEFAULT 'ui_location' IF not set
-		         if ( !isset($plug_conf[$this_plug]['ui_location']) || isset($plug_conf[$this_plug]['ui_location']) && trim($plug_conf[$this_plug]['ui_location']) == '' ) {
-		         $plug_conf[$this_plug]['ui_location'] = 'tools';
-		         }
-		         
-		         
-		         // Set to DEFAULT 'ui_name' IF not set
-		         if ( !isset($plug_conf[$this_plug]['ui_name']) || isset($plug_conf[$this_plug]['ui_name']) && trim($plug_conf[$this_plug]['ui_name']) == '' ) {
-		         $plug_conf[$this_plug]['ui_name'] = $this_plug;
-		         }
-		         
      		
-     	    $default_ct_conf['plug_conf'][$this_plug] = $plug_conf[$this_plug]; // Add each plugin's config into the DEFAULT app config
+     	    $default_ct_conf['plug_conf'][$this_plug] = $plug_conf[$this_plug]; // Add each plugin's HARD-CODED config into the DEFAULT app config
      		
      		
-     		    // If this plugin has not been added to the ACTIVELY-USED ct_conf yet, add it now
-     		    if ( !isset($ct_conf['plug_conf'][$this_plug]) ) {
+     		     // If this plugin has not been added to the ACTIVELY-USED ct_conf yet, add it now (from HARD-CODED config)
+     		     if ( !isset($ct_conf['plug_conf'][$this_plug]) ) {
      		        
-     		    $ct_conf['plug_conf'][$this_plug] = $plug_conf[$this_plug]; // Add each plugin's config into the GLOBAL app config
+     		     $ct_conf['plug_conf'][$this_plug] = $plug_conf[$this_plug]; // Add each plugin's config into the GLOBAL app config
      		    
-     		        if ( $admin_area_sec_level != 'high' && !$reset_ct_conf ) {
-         		        $ct_gen->log('conf_error', 'plugin "'.$this_plug.'" ADDED, refreshing CACHED ct_conf');
-                       $refresh_config = true;
-     		        }
+     		         if ( $admin_area_sec_level != 'high' && !$reset_ct_conf ) {
+         		         $ct_gen->log('conf_error', 'plugin "'.$this_plug.'" ADDED, refreshing CACHED ct_conf');
+                        $refresh_config = true;
+     		         }
      		        
-     		    }
+     		     }
+     		     // WE *MUST* RESET $plug_conf[$this_plug] TO USE *CACHED* CONFIG DATA HERE,
+     		     // AS IN THIS CASE WE ALREADY HAVE IT ACTIVATED IN THE *CACHED* CONFIG!
+		          // *RESET* SIMPLIFIED / MINIMIZED PLUG_CONF ONLY FOR USE *INSIDE* PLUGIN LOGIC / PLUGIN INIT LOOPS
+     		     else {
+     		     $plug_conf[$this_plug] = $ct_conf['plug_conf'][$this_plug];
+     		     }
+     		     
+     		     
+     		     
+     		     //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+		          // AT THIS POINT $ct_conf['plug_conf'][$this_plug] AND $plug_conf[$this_plug] ARE THE SAME
+		          // (ONE IS GLOBAL CT_CONF, ONE IS SIMPLIFIED / MINIMIZED PLUG_CONF ONLY FOR USE *INSIDE* PLUGIN LOGIC / PLUGIN INIT LOOPS)
+     		     //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+		         
+		         
+		          // Set to DEFAULT 'ui_location' IF not set 
+		          // (UPDATE *BOTH* GLOBAL AND PLUGIN CONFIGS FOR CLEAN / RELIABLE CODE)
+		          if ( !isset($plug_conf[$this_plug]['ui_location']) || isset($plug_conf[$this_plug]['ui_location']) && trim($plug_conf[$this_plug]['ui_location']) == '' ) {
+		          $ct_conf['plug_conf'][$this_plug]['ui_location'] = 'tools';
+		          $plug_conf[$this_plug]['ui_location'] = 'tools';
+		          }
+		         
+		         
+		          // Set to DEFAULT 'ui_name' IF not set
+		          // (UPDATE *BOTH* GLOBAL AND PLUGIN CONFIGS FOR CLEAN / RELIABLE CODE)
+		          if ( !isset($plug_conf[$this_plug]['ui_name']) || isset($plug_conf[$this_plug]['ui_name']) && trim($plug_conf[$this_plug]['ui_name']) == '' ) {
+		          $ct_conf['plug_conf'][$this_plug]['ui_name'] = $this_plug;
+		          $plug_conf[$this_plug]['ui_name'] = $this_plug;
+		          }
      		
      		
      			// Each plugin is allowed to run in more than one runtime, if configured for that (some plugins may run in the UI and cron runtimes, etc)
@@ -150,6 +170,7 @@ $this_plug = $key;
           // (if NO USER-INITIATED CT_CONF RESET)
 		elseif ( $admin_area_sec_level != 'high' && !$reset_ct_conf ) {
 		unset($ct_conf['plug_conf'][$this_plug]);
+		unset($plug_conf[$this_plug]);
     	     $ct_gen->log('conf_error', 'plugin "'.$this_plug.'" REMOVED, refreshing CACHED ct_conf');
           $refresh_config = true;
 		}

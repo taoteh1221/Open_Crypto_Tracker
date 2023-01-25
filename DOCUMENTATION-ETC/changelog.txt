@@ -6042,7 +6042,7 @@ v6.00.2 AND HIGHER RESETS LIGHT (TIME PERIOD) CHARTS FROM ARCHIVAL DATA, ONE-TIM
 -------------------------------------------------------------------
 6.00.18:
 
--BUG FIX: TBD
+-BUG FIX: Fixed issues within the plugin configuration / initiation system
 
 -Added admin / docs interface templates system for plugins (see /DOCUMENTATION-ETC/PLUGINS-README.txt)
 
