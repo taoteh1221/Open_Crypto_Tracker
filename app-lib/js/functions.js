@@ -120,8 +120,6 @@ function store_scroll_position() {
 // WE ONLY CALL THIS FUNCTION ONCE PER PAGE UNLOAD (body => onbeforeunload)
 sessionStorage['scroll_position'] = window.scrollY;
 
-//console.log('scroll_position set to: ' + window.scrollY); // DEBUGGING ONLY
-
 }
 
 
@@ -318,14 +316,15 @@ $("#show_feeds").val( show_feeds.replace(",,", ",") );
 function human_time(timestamp) {
     
 date = new Date(timestamp),
+
 datevalues = [
-   date.getFullYear(),
-   date.getMonth()+1,
-   date.getDate(),
-   date.getHours(),
-   date.getMinutes(),
-   date.getSeconds(),
-];
+             date.getFullYear(),
+             date.getMonth()+1,
+             date.getDate(),
+             date.getHours(),
+             date.getMinutes(),
+             date.getSeconds(),
+             ];
 
 return datevalues[0] + '/' + datevalues[1] + '/' + datevalues[2] + ' @ ' + datevalues[3] + ':' + datevalues[4] + ':' + datevalues[5];
 
@@ -557,9 +556,9 @@ elm.height = (elm.contentWindow.document.body.scrollHeight + extra) + "px";
 function ajax_placeholder(px_size, align, message=null, display_mode=null){
     
     
-    if ( display_mode ) {
-    display_mode = 'display: ' + display_mode + '; ';
-    }
+     if ( display_mode ) {
+     display_mode = 'display: ' + display_mode + '; ';
+     }
 
 
 	if ( message ) {
@@ -581,10 +580,10 @@ function ajax_placeholder(px_size, align, message=null, display_mode=null){
 function set_admin_security(obj) {
 
 		if ( obj.value == "normal" || obj.value == "enhanced" ) {
-	    var int_api_key_reset = confirm("'Enhanced' and 'Normal' admin security modes are currently BETA (TEST) FEATURES, AND USING THEM MAY LEAD TO ISSUES UPDATING YOUR APP CONFIGURATION (editing from the PHP config files will be DISABLED).\n\nYou can RE-DISABLE these BETA features AFTER activating them (by setting the security mode back to 'High'), and you will be able to update your app configuration from the PHP config files again.");
+	     var int_api_key_reset = confirm("'Enhanced' and 'Normal' admin security modes are currently BETA (TEST) FEATURES, AND USING THEM MAY LEAD TO ISSUES UPDATING YOUR APP CONFIGURATION (editing from the PHP config files will be DISABLED).\n\nYou can RE-DISABLE these BETA features AFTER activating them (by setting the security mode back to 'High'), and you will be able to update your app configuration from the PHP config files again.");
 		}
 		else {
-	    var int_api_key_reset = confirm("High security admin mode requires you to update your app configuration from the PHP config files.");
+	     var int_api_key_reset = confirm("High security admin mode requires you to update your app configuration from the PHP config files.");
 		}
 		
 		if ( int_api_key_reset ) {
@@ -601,12 +600,13 @@ function set_admin_security(obj) {
 /////////////////////////////////////////////////////////////
 
 
-function text_to_download(textToWrite, fileNameToSaveAs)
-    {
-    	var textFileAsBlob = new Blob([textToWrite], {type:'text/plain'}); 
-    	var downloadLink = document.createElement("a");
-    	downloadLink.download = fileNameToSaveAs;
-    	downloadLink.innerHTML = "Download File";
+function text_to_download(textToWrite, fileNameToSaveAs) {
+     
+var textFileAsBlob = new Blob([textToWrite], {type:'text/plain'}); 
+var downloadLink = document.createElement("a");
+downloadLink.download = fileNameToSaveAs;
+downloadLink.innerHTML = "Download File";
+
     	if (window.webkitURL != null)
     	{
     		// Chrome allows the link to be clicked
@@ -623,7 +623,8 @@ function text_to_download(textToWrite, fileNameToSaveAs)
     		document.body.appendChild(downloadLink);
     	}
     
-    	downloadLink.click();
+downloadLink.click();
+
 }
 
 
@@ -644,15 +645,14 @@ audio_alert = document.getElementById('audio_alert');
 				
 	
 	// If subsections are still loading, wait until they are finished
-   if ( $("#background_loading").is(":visible") ) {
-   setTimeout(play_audio_alert, 1000); // Wait 1000 millisecnds then recheck
-   return;
-   }
-   else {
+     if ( $("#background_loading").is(":visible") ) {
+     setTimeout(play_audio_alert, 1000); // Wait 1000 millisecnds then recheck
+     return;
+     }
+     else {
 	audio_alert.autoplay = true;
 	audio_alert.play();
-   }
-    				
+     }
 
 
 }
@@ -669,17 +669,17 @@ function select_all(toggle, form_name) {
         if ( checkbox.type == "checkbox" ) {
             
             if ( form_name == 'activate_charts' && checkbox.checked != toggle.checked ) {
-        		checkbox.checked = toggle.checked;
+        	  checkbox.checked = toggle.checked;
             chart_toggle(checkbox);
             }
             
             else if ( form_name == 'activate_feeds' && checkbox.checked != toggle.checked ) {
-        		checkbox.checked = toggle.checked;
+        	  checkbox.checked = toggle.checked;
             feed_toggle(checkbox);
             }
             
             else if ( form_name == 'coin_amnts' && checkbox.checked != toggle.checked ) {
-        		checkbox.checked = toggle.checked;
+        	  checkbox.checked = toggle.checked;
             watch_toggle(checkbox);
             }
             
@@ -718,6 +718,7 @@ num_val = num_val.replace(/,/g, '');
 			
 		$("#"+obj_var.value+"_amnt").removeAttr("readonly");
 		$("#"+obj_var.value+"_amnt").val( $("#"+obj_var.value+"_restore").val() );
+		
 		}
 	
 }
@@ -736,7 +737,7 @@ function copy_text(elm_id, alert_id) {
     range.moveToElementText(elm);
     range.select();
     document.execCommand("Copy");
-	 document.getElementById(alert_id).innerHTML = 'Copied to clipboard.';
+    document.getElementById(alert_id).innerHTML = 'Copied to clipboard.';
   }
   // other browsers
   else if(window.getSelection) {
@@ -746,7 +747,7 @@ function copy_text(elm_id, alert_id) {
     selection.removeAllRanges();
     selection.addRange(range);
     document.execCommand("Copy");
-	 document.getElementById(alert_id).innerHTML = 'Copied to clipboard.';
+    document.getElementById(alert_id).innerHTML = 'Copied to clipboard.';
   }
   
 }
@@ -777,7 +778,7 @@ quoteContainer.html( ajax_placeholder(15, 'left') );
 	//fade out animation with callback
    quoteContainer.fadeOut(250, function(){
 	
-	quoteContainer.html('<p>'+newQuoteText+'</p>'+'<p id="quoteGenius">'+'-'+newQuoteGenius+'</p>');
+   quoteContainer.html('<p>'+newQuoteText+'</p>'+'<p id="quoteGenius">'+'-'+newQuoteGenius+'</p>');
    
    //fadein animation.
    quoteContainer.fadeIn(250);
@@ -928,13 +929,10 @@ function app_reload(form_submission) {
         // Transition effects
         $("#content_wrapper").hide(250, 'linear'); // 0.25 seconds
             
-        // Close any open modal windows
-        $(".show_chart_settings").modaal("close");
-        $(".show_feed_settings").modaal("close");
-        $(".show_portfolio_stats").modaal("close");
-        $(".show_system_stats").modaal("close");
-        $(".show_access_stats").modaal("close");
-        $(".show_logs").modaal("close");
+           // Close any open modal windows
+     	 modal_windows.forEach(function(open_modal) {
+           $(open_modal).modaal("close");
+     	 });
         
         }
     
@@ -961,7 +959,7 @@ render = name.charAt(0).toUpperCase() + name.slice(1);
 
 	Object.keys(secondary_mrkt_currencies).forEach(function(currency) {
 	re = new RegExp(currency,"gi");
-    render = render.replace(re, currency.toUpperCase() );
+     render = render.replace(re, currency.toUpperCase() );
 	});
 		
 		
@@ -1147,32 +1145,32 @@ badColor = "#ff4747";
 
 
 	if ( !var1 ) {
-    message.style.color = badColor;
-    message.innerHTML = "Enter " + ui_name + "."
-    return false;
+     message.style.color = badColor;
+     message.innerHTML = "Enter " + ui_name + "."
+     return false;
 	}
 	else if( !var1.value.match(regex_is_lowercase_alphanumeric) ) {
-    var1.style.backgroundColor = badColor;
-    message.style.color = badColor;
+     var1.style.backgroundColor = badColor;
+     message.style.color = badColor;
 	message.innerHTML = ui_name + ' MUST contain ONLY LOWERCASE alphanumeric characters.';
 	return false;
 	}
 	else if( !var1.value.match(regex_starts_letter) ) {
-    var1.style.backgroundColor = badColor;
-    message.style.color = badColor;
+     var1.style.backgroundColor = badColor;
+     message.style.color = badColor;
 	message.innerHTML = ui_name + ' MUST START with a letter.';
 	return false;
 	}
 	else if ( var1.value.length < 4 || var1.value.length > 30 ) {
-    var1.style.backgroundColor = badColor;
-    message.style.color = badColor;
-    message.innerHTML = ui_name + ' MUST be between 4 and 30 characters long.';
-    return false;
+     var1.style.backgroundColor = badColor;
+     message.style.color = badColor;
+     message.innerHTML = ui_name + ' MUST be between 4 and 30 characters long.';
+     return false;
 	}
 	else {
-    var1.style.backgroundColor = goodColor;
-    message.style.color = goodColor;
-    message.innerHTML = ui_name + " OK.";
+     var1.style.backgroundColor = goodColor;
+     message.style.color = goodColor;
+     message.innerHTML = ui_name + " OK.";
 	return true;
 	}
 

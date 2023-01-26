@@ -26,27 +26,19 @@ Example: "/plugins/my-app-plugin/plug-lib/" (must be lowercase)
 
 
 
-3) OPTIONALLY, create a new subdirectory inside the new plugin directory created in step #1, named "plug-assets".
-
-Example: "/plugins/my-app-plugin/plug-assets/" (must be lowercase)
-
-THIS IS #REQUIRED TO BYPASS THE USUAL SECURITY# OF OTHER-NAMED DIRECTORIES, SO IMAGES / JAVASCRIPT / CSS / ETC CAN BE LOADED #ONLY FROM HERE#...OTHERWISE ANY DIFFERENT-NAMED ASSETS DIRECTORY #WILL BE DENIED ACCESS# OVER HTTP / HTTPS!
-
-
-
-4) Create a blank INIT file (plugin runtime starts here) inside the new "plug-lib" directory created in step #2, with the name "plug-init.php".
+3) Create a blank INIT file (plugin runtime starts here) inside the new "plug-lib" directory created in step #2, with the name "plug-init.php".
 
 Example: "/plugins/my-app-plugin/plug-lib/plug-init.php" (must be lowercase)
 
 
 
-5) OPTIONALLY create a blank CLASS file (custom class logic goes here), inside the new "plug-lib" directory created in step #2, with the name "plug-class.php".
+4) OPTIONALLY create a blank CLASS file (custom class logic goes here), inside the new "plug-lib" directory created in step #2, with the name "plug-class.php".
 
 Example: "/plugins/my-app-plugin/plug-lib/plug-class.php" (must be lowercase)
 
 
 
-6) All ADDED LOGIC in this "plug-class.php" file is AUTO-INCLUDED IN A NEW CLASS NAMED "$plug_class[$this_plug]" USING THIS FORMAT BELOW...
+5) All ADDED LOGIC in this "plug-class.php" file is AUTO-INCLUDED IN A NEW CLASS NAMED "$plug_class[$this_plug]" USING THIS FORMAT BELOW...
 
 
 // CREATES THIS PLUGIN'S CLASS OBJECT DYNAMICALLY AS:
@@ -75,7 +67,7 @@ echo $plug_class[$this_plug]->my_function_1('Kitty');
 
 
 
-7) Create a blank CONFIG file (plugin configs go here) inside the new plugin directory created in step #1, with the name "plug-conf.php".
+6) Create a blank CONFIG file (plugin configs go here) inside the new plugin directory created in step #1, with the name "plug-conf.php".
 
 Example: "/plugins/my-app-plugin/plug-conf.php" (must be lowercase)
 
@@ -83,7 +75,7 @@ NOTES: plug-conf.php MUST only contain STATIC configs (dynamic configs are NOT a
 
 
 
-8) All "plug-conf.php" PLUGIN CONFIG settings MUST BE INSIDE THE ARRAY "$plug_conf[$this_plug]" (sub-arrays are allowed).
+7) All "plug-conf.php" PLUGIN CONFIG settings MUST BE INSIDE THE ARRAY "$plug_conf[$this_plug]" (sub-arrays are allowed).
 
 Example: $plug_conf[$this_plug]['SETTING_NAME_HERE'] = 'mysetting';
 
@@ -91,7 +83,7 @@ Example: $plug_conf[$this_plug]['SETTING_NAME_HERE'] = array('mysetting1', 'myse
 
 
 
-9) The "plug-conf.php" PLUGIN CONFIG SETTING 'runtime_mode' IS MANDATORY, to determine WHEN the plugin should run (as a webhook / during cron jobs / user interface loading / all runtimes / etc).
+8) The "plug-conf.php" PLUGIN CONFIG SETTING 'runtime_mode' IS MANDATORY (plugin WILL NOT be allowed to activate if invalid / blank), to determine WHEN the plugin should run (as a webhook / during cron jobs / user interface loading / all runtimes / etc).
 
 Example: $plug_conf[$this_plug]['runtime_mode'] = 'cron'; // 'cron', 'webhook', 'ui', 'all'
 
@@ -105,22 +97,49 @@ The webhook key is also available, in the auto-created variable: $webhook_key
 
 
 
-10) The "plug-conf.php" PLUGIN CONFIG SETTING 'ui_location' IS OPTIONAL, to determine WHERE the plugin should run (on the tools page, in the 'more stats' section, etc...defaults to 'tools' if not set).
+9) The "plug-conf.php" PLUGIN CONFIG SETTING 'ui_location' IS OPTIONAL, to determine WHERE the plugin should run (on the tools page, in the 'more stats' section, etc...defaults to 'tools' if not set).
 
 Example: $plug_conf[$this_plug]['ui_location'] = 'tools'; // 'tools', 'more_stats'
 
 
 
-11) The "plug-conf.php" PLUGIN CONFIG SETTING 'ui_name' IS OPTIONAL, to determine THE NAME the plugin should show as to end-users (defaults to $this_plug if not set).
+10) The "plug-conf.php" PLUGIN CONFIG SETTING 'ui_name' IS OPTIONAL, to determine THE NAME the plugin should show as to end-users (defaults to $this_plug if not set).
 
 Example: $plug_conf[$this_plug]['ui_name'] = 'My Plugin Name';
 
 
 
-12) We are done setting up the plugin files / folders, so now we need to activate the new plugin. IN THE "Admin Config" POWER USER section, locate the configuration variable named: 'activate_plugins'
+11) OPTIONALLY, create a new subdirectory inside the new plugin directory created in step #1, named "plug-assets".
+
+Example: "/plugins/my-app-plugin/plug-assets/" (must be lowercase)
+
+THIS IS #REQUIRED TO BYPASS THE USUAL SECURITY# OF OTHER-NAMED DIRECTORIES, SO IMAGES / JAVASCRIPT / CSS / ETC CAN BE LOADED #ONLY FROM HERE#...OTHERWISE ANY DIFFERENT-NAMED ASSETS DIRECTORY #WILL BE DENIED ACCESS# OVER HTTP / HTTPS!
 
 
-13) To add / activate your new plugin, add your plugin MAIN FOLDER name (example: 'my-app-plugin') as a new value within 'activate_plugins', and set to 'on'...ALSO INCLUDE A COMMA AT THE END.
+
+12) OPTIONALLY, create a new subdirectory inside the new plugin directory created in step #1, named "plug-templates".
+
+Example: "/plugins/my-app-plugin/plug-templates/" (must be lowercase)
+
+
+
+13) OPTIONALLY create a blank ADMIN TEMPLATE file (admin interface settings go here), inside the new "plug-templates" directory created in step #12, with the name "plug-admin.php".
+
+Example: "/plugins/my-app-plugin/plug-templates/plug-admin.php" (must be lowercase)
+
+
+
+14) OPTIONALLY create a blank DOCUMENTATION TEMPLATE file (usage / documentation for end-user goes here [and is automatically linked at the top of this plugin's admin page]), inside the new "plug-templates" directory created in step #12, with the name "plug-docs.php".
+
+Example: "/plugins/my-app-plugin/plug-templates/plug-docs.php" (must be lowercase)
+
+
+
+15) We are done setting up the plugin files / folders, so now we need to activate the new plugin. IN THE "Admin Config" POWER USER section, locate the configuration variable named: 'activate_plugins'
+
+
+
+16) To add / activate your new plugin, add your plugin MAIN FOLDER name (example: 'my-app-plugin') as a new value within 'activate_plugins', and set to 'on'...ALSO INCLUDE A COMMA AT THE END.
 
 Example: 'my-app-plugin' => 'on',
 

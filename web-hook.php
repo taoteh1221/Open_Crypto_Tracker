@@ -44,14 +44,7 @@ $this_plug = $plugin_key;
     $webhook_params = explode("/", $_GET['webhook_params']);
     unset($webhook_params[0]); // Remove webhook key
     $webhook_params = array_values($webhook_params); // 'reindex' array
-
-
-         // This plugin's default class (only if the file exists)
-         if ( file_exists($base_dir . '/plugins/'.$this_plug.'/plug-lib/plug-class.php') ) {
-         include($base_dir . '/plugins/'.$this_plug.'/plug-lib/plug-class.php');
-         }
-         
-        	
+    
     // This plugin's plug-init.php file (runs the plugin)
     include($plugin_init);
         	

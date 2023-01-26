@@ -443,15 +443,15 @@ echo " "
 				
 				
 if [ -f $DOC_ROOT/config.php ]; then
-echo "${yellow}A configuration file from a previous install of Open Crypto Tracker (Server Edition) has been detected on your system."
+echo "${yellow}Configuration files from a previous install of Open Crypto Tracker (Server Edition) have been detected on your system."
 echo " "
-echo "${green}During this upgrade / re-install, it will be backed up to:"
+echo "${green}During this upgrade / re-install, they will be backed up to:"
 echo " "
-echo "$DOC_ROOT/config.php.BACKUP.$DATE.[random string]${reset}"
+echo "$DOC_ROOT/[filename].php.BACKUP.$DATE.[random string]${reset}"
 echo " "
-echo "This will save any custom settings within it."
+echo "This will save any custom settings within them, so you can migrate settings to the new config files MANUALLY."
 echo " "
-echo "The bundled plugin's configuration files will also be backed up in the same manner."
+echo "(ALL plugin configuration files will be backed up in the same manner)"
 echo " "
 echo "You will need to manually move any CUSTOMIZED DEFAULT settings from backup files to the NEW configuration files with a text editor,"
 echo "otherwise you can just ignore or delete the backup files."
@@ -531,7 +531,204 @@ echo "${cyan}System update completed.${reset}"
 sleep 3
 				
 echo " "
+
+
+######################################
+
+            
+echo " "
+echo "${yellow}OPTIONAL SECURITY-HARDENING:"
+echo " "
+echo "Before we install a PHP web server and Open Crypto Tracker (server edition), let's review a few OPTIONAL security-hardening configurations below. If you enable all of these security options, it will significantly improve the security of this app server (HIGHLY RECOMMENDED)...${reset}"
+echo " "
+
+
+######################################
+
+            
+echo "${yellow} "
+read -n1 -s -r -p $'Disable bluetooth, for higher app server security? (press y to run, or press n to skip)...\n' keystroke
+echo "${reset} "
         
+if [ "$keystroke" = 'y' ] || [ "$keystroke" = 'Y' ]; then
+            
+echo " "
+echo "${cyan}Disabling bluetooth, please wait...${reset}"
+                
+systemctl disable hciuart.service
+
+systemctl disable bluealsa.service
+
+systemctl disable bluetooth.service
+
+
+       # Raspberry pi devices
+       if [ -f "/usr/bin/raspi-config" ]; then
+
+         
+         # Enhanced security for raspi config
+         RASPI_CONF="/boot/config.txt"
+            
+         CHECK_RASPI_CONF=$(sed -n '/disable-bt/p' $RASPI_CONF)
+            
+            
+            # Raspi security
+            if [ "$CHECK_RASPI_CONF" == "" ]; then
+            
+            echo " "
+            echo "${cyan}Disabling bluetooth in $RASPI_CONF, please wait...${reset}"
+            echo " "
+            
+            
+            
+# Don't nest / indent, or it could malform the setting addition  
+read -r -d '' RASPI_SECURITY <<- EOF
+\r
+# Disable on-board bluetooth
+dtoverlay=disable-bt 
+\r
+EOF
+            
+            
+            # Backup config before editing, to be safe
+            \cp $RASPI_CONF $RASPI_CONF.BACKUP.$DATE
+            
+            sleep 1
+            
+            # APPEND the config
+            echo -e "$RASPI_SECURITY" >> $RASPI_CONF
+
+		  sleep 1
+                            
+            echo "${green}Disabling bluetooth in $RASPI_CONF has been completed.${reset}"
+            echo " "
+            
+            else
+            
+            echo " "
+            echo "${green}Bluetooth was already disabled in $RASPI_CONF.${reset}"
+            echo " "
+            
+            fi
+
+
+	  sleep 2
+			
+	  echo " "
+       echo " "
+         
+
+       fi
+          
+     
+echo " "
+echo "${green}Disabling bluetooth has been completed.${reset}"
+echo " "      
+echo "${red}YOU MUST RESTART the computer for this to take affect (ONLY AFTER THIS SCRIPT IS FINISHED RUNNING).${reset}"
+echo " "
+            
+else
+echo "${green}Disabling bluetooth has been skipped.${reset}"
+echo " "
+fi
+                
+
+######################################
+
+            
+echo "${yellow} "
+read -n1 -s -r -p $'Install / configure a firewall, for higher app server security? (press y to run, or press n to skip)...\n' keystroke
+echo "${reset} "
+        
+if [ "$keystroke" = 'y' ] || [ "$keystroke" = 'Y' ]; then
+            
+echo " "
+echo "${cyan}Installing / configuring a firewall, please wait...${reset}"
+                
+apt install ufw
+
+ufw allow ssh
+
+ufw limit ssh/tcp
+
+ufw allow 80
+
+ufw allow 443
+
+ufw enable
+
+echo " "
+echo "${green}Installing / configuring a firewall has been completed."
+echo " "
+echo "USER GUIDE: https://www.linux.com/training-tutorials/introduction-uncomplicated-firewall-ufw/"
+echo "${reset}"
+echo " "
+            
+else
+echo "${green}Installing / configuring a firewall has been skipped.${reset}"
+echo " "
+fi
+                
+
+######################################
+
+
+# Raspberry pi devices require sudo password
+if [ -f "/usr/bin/raspi-config" ]; then
+
+echo "${yellow} "
+read -n1 -s -r -p $'Require sudo password, for higher app server security? (press y to run, or press n to skip)...\n' keystroke
+echo "${reset} "
+        
+     if [ "$keystroke" = 'y' ] || [ "$keystroke" = 'Y' ]; then
+                 
+     echo " "
+     echo "${cyan}Setting up requiring sudo password, please wait...${reset}"
+                     
+     sed -i "s/NOPASSWD/PASSWD/g" /etc/sudoers.d/010_pi-nopasswd > /dev/null 2>&1
+     
+     echo " "
+     echo "${green}Setting up requiring sudo password has been completed.${reset}"
+     echo " "
+                 
+     else
+     echo "${green}Setting up requiring sudo password has been skipped.${reset}"
+     echo " "
+     fi
+
+fi
+                
+
+######################################
+
+            
+echo "${yellow} "
+read -n1 -s -r -p $'Make your home directory private, for higher app server security? (press y to run, or press n to skip)...\n' keystroke
+echo "${reset} "
+        
+if [ "$keystroke" = 'y' ] || [ "$keystroke" = 'Y' ]; then
+            
+echo " "
+echo "${cyan}Making your home directory private, please wait...${reset}"
+
+APP_USER_HOME="/home/$APP_USER"
+
+chmod 750 $APP_USER_HOME
+        
+HOME_RECURSIVE_CHOWN="-R ${APP_USER}:$APP_USER ${APP_USER_HOME}/*"
+        
+#$RECURSIVE_CHOWN must be in double quotes to escape the asterisk at the end
+chown $HOME_RECURSIVE_CHOWN
+
+echo " "
+echo "${green}Making your home directory private has been completed.${reset}"
+echo " "
+            
+else
+echo "${green}Making your home directory private has been skipped.${reset}"
+echo " "
+fi
+                
 
 ######################################
 
@@ -592,7 +789,7 @@ select opt in $OPTIONS; do
 			sleep 3
 			
 			# PHP FPM (fcgi), Apache, required modules, etc
-			apt-get install apache2 php php-fpm php-mbstring php-xml php-curl php-gd php-zip libapache2-mod-fcgid apache2-suexec-pristine openssl ssl-cert avahi-daemon -y
+			apt-get install apache2 php php-fpm php-mbstring php-xml php-curl php-gd php-zip libapache2-mod-fcgid apache2-suexec-custom openssl ssl-cert avahi-daemon -y
 			
 			sleep 3
 			
@@ -628,22 +825,31 @@ select opt in $OPTIONS; do
 			sleep 1
 			
 			# PHP FCGI Proxy
-			a2enmod proxy_fcgi
+			a2enmod proxy_fcgi setenvif
 			
 			sleep 1
 			
-        	CONF_FPM_VER="php${PHP_FPM_VER}-fpm"
+        	     CONF_FPM_VER="php${PHP_FPM_VER}-fpm"
         	
 			# Config PHP FPM (fcgi) version $PHP_FPM_VER
-        	a2enconf $CONF_FPM_VER
+        	     a2enconf $CONF_FPM_VER
 			
 			sleep 1
 			
 			# Suexec
 			a2enmod suexec
 			
-			# Not needed (for now)
-			#a2enmod actions
+			# Fcgid
+			a2enmod fcgid
+			
+			# actions
+			a2enmod actions
+			
+			
+			# Set PHP-FPM user to $APP_USER (to run Apache PHP as this user)
+			sed -i "s/user = .*/user = $APP_USER/g" /etc/php/$PHP_FPM_VER/fpm/pool.d/www.conf > /dev/null 2>&1
+			sed -i "s/group = .*/group = $APP_USER/g" /etc/php/$PHP_FPM_VER/fpm/pool.d/www.conf > /dev/null 2>&1
+			
 			
 			sleep 1
 			
@@ -660,6 +866,103 @@ select opt in $OPTIONS; do
 
 
 			######################################
+         
+         # Enhanced security for apache MAIN config
+         APACHE_CONF="/etc/apache2/apache2.conf"
+            
+            if [ ! -f $APACHE_CONF ]; then
+            
+            echo "${red}$APACHE_CONF could NOT be found on your system."
+            echo "Please enter the FULL path to the MAIN Apache config file:${reset}"
+            echo " "
+            
+            read APACHE_CONF
+            echo " "
+                    
+                if [ ! -f $APACHE_CONF ] || [ -z "$APACHE_CONF" ]; then
+                echo "${red}No MAIN Apache config file detected, skipping enhanced security setup.${reset}"
+                SKIP_APACHE_CONF_EDIT=1
+                else
+                echo "${green}Using MAIN Apache config file:"
+                echo "$APACHE_CONF${reset}"
+                CHECK_APACHE_1=$(sed -n '/ServerTokens/p' $APACHE_CONF)
+                CHECK_APACHE_2=$(sed -n '/ServerSignature/p' $APACHE_CONF)
+                fi
+            
+            echo " "
+            
+            else
+            
+            CHECK_APACHE_1=$(sed -n '/ServerTokens/p' $APACHE_CONF)
+            CHECK_APACHE_2=$(sed -n '/ServerSignature/p' $APACHE_CONF)
+            
+            fi
+            
+            
+            # Apache security
+            if [ "$SKIP_APACHE_CONF_EDIT" != "1" ] && [ "$CHECK_APACHE_1" == "" ] && [ "$CHECK_APACHE_2" == "" ]; then
+            
+            echo " "
+            echo "${cyan}Enabling enhanced security for the MAIN Apache config, please wait...${reset}"
+            echo " "
+            
+            
+            
+# Don't nest / indent, or it could malform the setting addition  
+read -r -d '' APACHE_SECURITY <<- EOF
+\r
+# Disable showing apache product name and version number
+ServerTokens Prod
+ServerSignature Off 
+\r
+EOF
+            
+            
+            # Backup the MAIN Apache config before editing, to be safe
+            \cp $APACHE_CONF $APACHE_CONF.BACKUP.$DATE
+            
+            sleep 1
+            
+            # APPEND the config
+            echo -e "$APACHE_SECURITY" >> $APACHE_CONF
+
+		  sleep 1
+                            
+                            
+                # Restart Apache
+                if [ -f /etc/init.d/apache2 ]; then
+                echo "${cyan}Enhanced security has been enabled for the MAIN Apache config,"
+                echo "restarting the Apache web server, please wait...${reset}"
+                /etc/init.d/apache2 restart
+                echo " "
+                else
+                echo "${red}Enhanced security has been enabled for the MAIN Apache config."
+                echo "YOU MUST RESTART the Apache web server for this to take affect.${reset}"
+                echo " "
+                fi
+            
+            
+            elif [ "$CHECK_APACHE_1" == "" ] && [ "$CHECK_APACHE_2" == "" ]; then
+            
+            echo " "
+            echo "Enhanced security NOT DETECTABLE for the MAIN Apache config."
+            
+            else
+            
+            echo " "
+            echo "Enhanced security was already enabled for the MAIN Apache config."
+            echo " "
+            
+            fi
+
+
+	    sleep 2
+			
+	    echo " "
+         echo " "
+			
+			
+         ######################################
 			
        
          # Enable HTTP (port 80) htaccess
@@ -677,8 +980,8 @@ select opt in $OPTIONS; do
             echo " "
                     
                 if [ ! -f $HTTP_CONF ] || [ -z "$HTTP_CONF" ]; then
-                echo "${red}No HTTP config file detected, skipping Apache htaccess setup for port 80, please wait...${reset}"
-                SKIP_HTTP_HTACCESS=1
+                echo "${red}No HTTP config file detected, skipping Apache config setup for port 80, please wait...${reset}"
+                SKIP_HTTP_CONF_EDIT=1
                 else
                 echo "${green}Using Apache HTTP config file:"
                 echo "$HTTP_CONF${reset}"
@@ -692,10 +995,11 @@ select opt in $OPTIONS; do
             CHECK_HTTP=$(<$HTTP_CONF)
             
             fi
+
             
             
-            
-            if [ "$SKIP_HTTP_HTACCESS" != "1" ] && [[ $CHECK_HTTP != *"cryptocoin_htaccess_80"* ]]; then
+            # Htaccess port 80
+            if [ "$SKIP_HTTP_CONF_EDIT" != "1" ] && [[ $CHECK_HTTP != *"cryptocoin_htaccess_80"* ]]; then
             
             echo " "
             
@@ -727,7 +1031,7 @@ EOF
             # Install the new HTTP config
             echo -e "$NEW_HTTP_CONF" > $HTTP_CONF
 
-				sleep 1
+		  sleep 1
                             
                             
                 # Restart Apache
@@ -752,7 +1056,7 @@ EOF
             fi
             
 
-			sleep 2
+	    sleep 2
             
          ######################################
                         
@@ -773,8 +1077,8 @@ EOF
             echo " "
                     
                 if [ ! -f $HTTPS_CONF ] || [ -z "$HTTPS_CONF" ]; then
-                echo "${red}No HTTPS config file detected, skipping Apache htaccess setup for port 443, please wait...${reset}"
-                SKIP_HTTPS_HTACCESS=1
+                echo "${red}No HTTPS config file detected, skipping Apache config setup for port 443, please wait...${reset}"
+                SKIP_HTTPS_CONF_EDIT=1
                 else
                 echo "${green}Using Apache HTTPS config file:"
                 echo "$HTTPS_CONF${reset}"
@@ -791,7 +1095,8 @@ EOF
             
             
             
-            if [ "$SKIP_HTTPS_HTACCESS" != "1" ] && [[ $CHECK_HTTPS != *"cryptocoin_htaccess_443"* ]]; then
+            # Htaccess port 443
+            if [ "$SKIP_HTTPS_CONF_EDIT" != "1" ] && [[ $CHECK_HTTPS != *"cryptocoin_htaccess_443"* ]]; then
             
             echo " "
             echo "${cyan}Enabling htaccess for HTTPS (port 443), please wait...${reset}"
@@ -848,12 +1153,9 @@ EOF
             fi
 
 
-			sleep 2
-
-			######################################
+	    sleep 2
 			
-			
-	     echo " "
+	    echo " "
          echo " "
 			
 			
@@ -893,28 +1195,47 @@ EOF
             echo "${green}The web server's user group has been declared as: $CUSTOM_GROUP${reset}"
             fi
             
-         echo " "
+            
+	    sed -i "s/${CUSTOM_GROUP}/${APP_USER}/g" /usr/lib/tmpfiles.d/php${PHP_FPM_VER}-fpm.conf > /dev/null 2>&1
+			
+			
+	    sleep 1
+			
+	    echo " "
+				
+	       if [ -f /etc/init.d/apache2 ]; then
+		  echo "${cyan}Updated /usr/lib/tmpfiles.d/php${PHP_FPM_VER}-fpm.conf, restarting the Apache web server, please wait...${reset}"
+		  /etc/init.d/apache2 restart
+		  echo " "
+		  else
+		  echo "${red}Updated /usr/lib/tmpfiles.d/php${PHP_FPM_VER}-fpm.conf, YOU MUST RESTART the Apache web server for these to activate.${reset}"
+		  echo " "
+		  fi
+            
+          echo " "
         
-        	usermod -a -G $CUSTOM_GROUP $APP_USER
-        
-        	echo " "
-        	echo "${cyan}Access for user '$APP_USER' within group '$CUSTOM_GROUP' is completed, please wait...${reset}"
+          # We no longer need to have the app user added to the web server's default group
+          # (since we now run PHP-FPM AS THE APP USER, so we remove it for TIGHTER SECURITY)
+          # PARAMS ARE *BACKWARDS* COMPARED TO "usermod -a -G"
+        	gpasswd -d $APP_USER $CUSTOM_GROUP
 
-			sleep 1
-        
+		sleep 1
+          
+          # We STILL NEED to add the web server user to the app user's default group
+          # (for access to files like .htaccess / .user.ini)
         	usermod -a -G $APP_USER $CUSTOM_GROUP
         	
         	echo " "
         	echo "${cyan}Access for user '$CUSTOM_GROUP' within group '$APP_USER' is completed, please wait...${reset}"
-
-			sleep 1
+          
+		sleep 1
 			
         	chmod 770 $DOC_ROOT
 			
         	echo " "
         	echo "${cyan}Document root access is completed (chmod 770, owner:group set to '$APP_USER'), please wait...${reset}"
 
-			sleep 1
+		sleep 1
         
         	BASE_HTDOC="$(dirname $DOC_ROOT)"
         
@@ -923,16 +1244,16 @@ EOF
         	#$RECURSIVE_CHOWN must be in double quotes to escape the asterisk at the end
         	chown $RECURSIVE_CHOWN
 
-			sleep 3
+		sleep 3
         
-			echo " "
-			echo "${green}PHP web server configuration is complete.${reset}"
+		echo " "
+		echo "${green}PHP web server configuration is complete.${reset}"
         	echo " "
 
-            echo "${red}You MUST RESTART YOUR DEVICE (#after# you finish running this auto-install script) TO ALLOW THE SYSTEM TO PROPERLY RUN THE PHP WEB SERVER CONFIGURATIONS DONE (or you may get configuration errors), by running this command:"
-            echo " "
-            echo "sudo reboot"
-            echo "${reset} "
+          echo "${red}You MUST RESTART YOUR DEVICE (#after# you finish running this auto-install script) TO ALLOW THE SYSTEM TO PROPERLY RUN THE PHP WEB SERVER CONFIGURATIONS DONE (or you may get configuration errors), by running this command:"
+          echo " "
+          echo "sudo reboot"
+          echo "${reset} "
         
         
         	######################################
@@ -955,7 +1276,7 @@ EOF
 		  sleep 3
         
         # SKIP removing openssl / ssl-cert / avahi-daemon, AS THIS WILL F!CK UP THE WHOLE SYSTEM, REMOVING ANY OTHER DEPENDANT PACKAGES TOO!!
-		  apt-get --purge remove apache2 php php-fpm php-mbstring php-xml php-curl php-gd php-zip libapache2-mod-fcgid apache2-suexec-pristine -y
+		  apt-get --purge remove apache2 php php-fpm php-mbstring php-xml php-curl php-gd php-zip libapache2-mod-fcgid apache2-suexec-pristine apache2-suexec-custom -y
         
 		  sleep 3
 			
@@ -1114,9 +1435,13 @@ select opt in $OPTIONS; do
 				
 						# NOW THAT WE'VE MIGRATED FROM OLDER FILE NAMES, PROCEED WITH BACKUPS...
 						
-						
   						# Main config
   						BACKUP_CONF="/config.php"
+						cp $DOC_ROOT$BACKUP_CONF $DOC_ROOT$BACKUP_CONF.BACKUP.$DATE.$RAND_STRING > /dev/null 2>&1
+						chown $APP_USER:$APP_USER $DOC_ROOT$BACKUP_CONF.BACKUP.$DATE.$RAND_STRING > /dev/null 2>&1
+						
+  						# Dynamic config
+  						BACKUP_CONF="/dynamic-config-only.php"
 						cp $DOC_ROOT$BACKUP_CONF $DOC_ROOT$BACKUP_CONF.BACKUP.$DATE.$RAND_STRING > /dev/null 2>&1
 						chown $APP_USER:$APP_USER $DOC_ROOT$BACKUP_CONF.BACKUP.$DATE.$RAND_STRING > /dev/null 2>&1
 
@@ -1522,9 +1847,9 @@ echo "${reset} "
 
     if [ "$CONFIG_BACKUP" = "1" ]; then
     
-    echo "${green}The previously-installed configuration file $DOC_ROOT/config.php has been backed up to:"
+    echo "${green}The previously-installed configuration files $DOC_ROOT/config.php AND $DOC_ROOT/dynamic-config-only.php have been backed up to:"
 	echo " "
-    echo "$DOC_ROOT/config.php.BACKUP.$DATE.$RAND_STRING"
+    echo "$DOC_ROOT/[filename].php.BACKUP.$DATE.$RAND_STRING"
 	echo " "
 	echo "${yellow}The bundled plugin's configuration files were also be backed up in the same manner."
 	echo " "

@@ -33,11 +33,13 @@
 	echo '<li><span class="black">None</span></li>';
 	}
 	else {
+	     
 		foreach ( $activated_plugins['cron'] as $plugin_key => $unused ) {
-    	?>
-        <li><a href='admin.php?iframe=<?=$ct_gen->admin_hashed_nonce('iframe_' . $plugin_key)?>&plugin=<?=$plugin_key?>'><?=$plug_conf[$plugin_key]['ui_name']?></a></li>
-    	<?php
-    	}
+    	     ?>
+          <li><a href='admin.php?iframe=<?=$ct_gen->admin_hashed_nonce('iframe_' . $plugin_key)?>&plugin=<?=$plugin_key?>'><?=$plug_conf[$plugin_key]['ui_name']?></a></li>
+    	     <?php
+    	     }
+    	     
 	}
 	?>
 	</ul>

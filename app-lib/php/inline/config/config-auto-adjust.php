@@ -151,7 +151,7 @@ if ( is_array($ct_conf['assets']) ) {
 
 // Update dynamic mining calculator settings (DURING 'ui' ONLY), since we are running the app's main settings from a cache
 if ( $runtime_mode == 'ui' && is_array($ct_conf['power']['mining_calculators']) ) {
-require('app-lib/php/inline/coin-mining-staking/pow/dynamic-settings.php');
+require('dynamic-config-only.php');
 }
 
 

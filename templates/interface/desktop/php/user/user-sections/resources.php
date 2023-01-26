@@ -70,7 +70,9 @@
 	        
 	        <li class='links_list'><a href='https://etherscan.io/chart/tx' target='_blank'>Ethereum Transactions Per Day</a></li>
 	        
-	        <li class='links_list'><a href='https://analytics.solscan.io/' target='_blank'>Solana Network Statistics</a></li>
+	        <li class='links_list'><a href='https://analytics.solscan.io/' target='_blank'>Solana Network Statistics</a> <span class='yellow'>(SolScan)</span></li>
+	        
+	        <li class='links_list'><a href='https://spire.fyi/' target='_blank'>Solana Network Statistics</a> <span class='yellow'>(spire.fyi)</span></li>
 	        
 	        
 	    </ul>

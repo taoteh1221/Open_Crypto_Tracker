@@ -312,17 +312,10 @@ $cron_run_lock_file = $base_dir . '/cache/events/emulated-cron-lock.dat';
         		
         $this_plug = $plugin_key;
         	
-        	if ( file_exists($plugin_init) ) {
-        	
-        		// This plugin's default class (only if the file exists)
-        		if ( file_exists($base_dir . '/plugins/'.$this_plug.'/plug-lib/plug-class.php') ) {
-                include($base_dir . '/plugins/'.$this_plug.'/plug-lib/plug-class.php');
-        		}
-        	
-        	// This plugin's plug-init.php file (runs the plugin)
-        	include($plugin_init);
-        	
-        	}
+        	 if ( file_exists($plugin_init) ) {
+        	 // This plugin's plug-init.php file (runs the plugin)
+        	 include($plugin_init);
+        	 }
         	
         // Reset $this_plug at end of loop
         unset($this_plug); 

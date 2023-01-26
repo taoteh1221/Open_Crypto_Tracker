@@ -970,18 +970,7 @@ Example: "/plugins/my-app-plugin/plug-lib/" (must be lowercase)
 
 
 
-<span class='blue'>3)</span> OPTIONALLY, create a new subdirectory inside the new plugin directory created in step #1, named "plug-assets".
-<br /><br />
-
-Example: "/plugins/my-app-plugin/plug-assets/" (must be lowercase)
-<br /><br />
-
-THIS IS #REQUIRED TO BYPASS THE USUAL SECURITY# OF OTHER-NAMED DIRECTORIES, SO IMAGES / JAVASCRIPT / CSS / ETC CAN BE LOADED #ONLY FROM HERE#...OTHERWISE ANY DIFFERENT-NAMED ASSETS DIRECTORY #WILL BE DENIED ACCESS# OVER HTTP / HTTPS!
-<br /><br /><br />
-
-
-
-<span class='blue'>4)</span> Create a blank INIT file (plugin runtime starts here) inside the new "plug-lib" directory created in step #2, with the name "plug-init.php".
+<span class='blue'>3)</span> Create a blank INIT file (plugin runtime starts here) inside the new "plug-lib" directory created in step #2, with the name "plug-init.php".
 <br /><br />
 
 Example: "/plugins/my-app-plugin/plug-lib/plug-init.php" (must be lowercase)
@@ -989,7 +978,7 @@ Example: "/plugins/my-app-plugin/plug-lib/plug-init.php" (must be lowercase)
 
 
 
-<span class='blue'>5)</span> OPTIONALLY create a blank CLASS file (custom class logic goes here), inside the new "plug-lib" directory created in step #2, with the name "plug-class.php".
+<span class='blue'>4)</span> OPTIONALLY create a blank CLASS file (custom class logic goes here), inside the new "plug-lib" directory created in step #2, with the name "plug-class.php".
 <br /><br />
 
 Example: "/plugins/my-app-plugin/plug-lib/plug-class.php" (must be lowercase)
@@ -997,7 +986,7 @@ Example: "/plugins/my-app-plugin/plug-lib/plug-class.php" (must be lowercase)
 
 
 
-<span class='blue'>6)</span> All ADDED LOGIC in this "plug-class.php" file is AUTO-INCLUDED IN A NEW CLASS NAMED "$plug_class[$this_plug]" USING THIS FORMAT BELOW...
+<span class='blue'>5)</span> All ADDED LOGIC in this "plug-class.php" file is AUTO-INCLUDED IN A NEW CLASS NAMED "$plug_class[$this_plug]" USING THIS FORMAT BELOW...
 <br /><br />
 
 
@@ -1039,7 +1028,7 @@ echo $plug_class[$this_plug]->my_function_1('Kitty');
 
 
 
-<span class='blue'>7)</span> Create a blank CONFIG file (plugin configs go here) inside the new plugin directory created in step #1, with the name "plug-conf.php".
+<span class='blue'>6)</span> Create a blank CONFIG file (plugin configs go here) inside the new plugin directory created in step #1, with the name "plug-conf.php".
 <br /><br />
 
 Example: "/plugins/my-app-plugin/plug-conf.php" (must be lowercase)
@@ -1050,7 +1039,7 @@ Example: "/plugins/my-app-plugin/plug-conf.php" (must be lowercase)
 
 
 
-<span class='blue'>8)</span> All "plug-conf.php" PLUGIN CONFIG settings MUST BE INSIDE THE ARRAY "$plug_conf[$this_plug]" (sub-arrays are allowed).
+<span class='blue'>7)</span> All "plug-conf.php" PLUGIN CONFIG settings MUST BE INSIDE THE ARRAY "$plug_conf[$this_plug]" (sub-arrays are allowed).
 <br /><br />
 
 <pre class='rounded'><code class='hide-x-scroll less' style='width: auto; height: auto;'>
@@ -1065,7 +1054,7 @@ $plug_conf[$this_plug]['SETTING_NAME_HERE'] = array('mysetting1', 'mysetting2');
 
 
 
-<span class='blue'>9)</span> The "plug-conf.php" PLUGIN CONFIG SETTING 'runtime_mode' IS MANDATORY, to determine WHEN the plugin should run (as a webhook / during cron jobs / user interface loading / all runtimes / etc).
+<span class='blue'>8)</span> The "plug-conf.php" PLUGIN CONFIG SETTING 'runtime_mode' IS MANDATORY (plugin WILL NOT be allowed to activate if invalid / blank), to determine WHEN the plugin should run (as a webhook / during cron jobs / user interface loading / all runtimes / etc).
 <br /><br />
 
 <pre class='rounded' style='display: inline-block;<?=( $ct_gen->is_msie() == false ? ' padding-top: 1em !important;' : '' )?>'><code class='hide-x-scroll less' style='white-space: nowrap; width: auto; display: inline-block;'>$plug_conf[$this_plug]['runtime_mode'] = 'cron'; // 'cron', 'webhook', 'ui', 'all'</code></pre>
@@ -1085,7 +1074,7 @@ The webhook key is also available, in the auto-created variable: $webhook_key
 
 
 
-<span class='blue'>10)</span> The "plug-conf.php" PLUGIN CONFIG SETTING 'ui_location' IS OPTIONAL, to determine WHERE the plugin should run (on the tools page, in the 'more stats' section, etc...defaults to 'tools' if not set).
+<span class='blue'>9)</span> The "plug-conf.php" PLUGIN CONFIG SETTING 'ui_location' IS OPTIONAL, to determine WHERE the plugin should run (on the tools page, in the 'more stats' section, etc...defaults to 'tools' if not set).
 <br /><br />
 
 <pre class='rounded' style='display: inline-block;<?=( $ct_gen->is_msie() == false ? ' padding-top: 1em !important;' : '' )?>'><code class='hide-x-scroll less' style='white-space: nowrap; width: auto; display: inline-block;'>$plug_conf[$this_plug]['ui_location'] = 'tools'; // 'tools', 'more_stats'</code></pre>
@@ -1093,7 +1082,7 @@ The webhook key is also available, in the auto-created variable: $webhook_key
 
 
 
-<span class='blue'>11)</span> The "plug-conf.php" PLUGIN CONFIG SETTING 'ui_name' IS OPTIONAL, to determine THE NAME the plugin should show as to end-users (defaults to $this_plug if not set).
+<span class='blue'>10)</span> The "plug-conf.php" PLUGIN CONFIG SETTING 'ui_name' IS OPTIONAL, to determine THE NAME the plugin should show as to end-users (defaults to $this_plug if not set).
 <br /><br />
 
 <pre class='rounded' style='display: inline-block;<?=( $ct_gen->is_msie() == false ? ' padding-top: 1em !important;' : '' )?>'><code class='hide-x-scroll less' style='white-space: nowrap; width: auto; display: inline-block;'>$plug_conf[$this_plug]['ui_name'] = 'My Plugin Name';</code></pre>
@@ -1101,11 +1090,46 @@ The webhook key is also available, in the auto-created variable: $webhook_key
 
 
 
-<span class='blue'>12)</span> We are done setting up the plugin files / folders, so now we need to activate the new plugin. IN THE "Admin Config" POWER USER section, locate the configuration variable named: 'activate_plugins'
+<span class='blue'>11)</span> OPTIONALLY, create a new subdirectory inside the new plugin directory created in step #1, named "plug-assets".
+<br /><br />
+
+Example: "/plugins/my-app-plugin/plug-assets/" (must be lowercase)
+<br /><br />
+
+THIS IS #REQUIRED TO BYPASS THE USUAL SECURITY# OF OTHER-NAMED DIRECTORIES, SO IMAGES / JAVASCRIPT / CSS / ETC CAN BE LOADED #ONLY FROM HERE#...OTHERWISE ANY DIFFERENT-NAMED ASSETS DIRECTORY #WILL BE DENIED ACCESS# OVER HTTP / HTTPS!
 <br /><br /><br />
 
 
-<span class='blue'>13)</span> To add / activate your new plugin, add your plugin MAIN FOLDER name (example: 'my-app-plugin') as a new value within 'activate_plugins', and set to 'on'...ALSO INCLUDE A COMMA AT THE END.
+
+<span class='blue'>12)</span> OPTIONALLY, create a new subdirectory inside the new plugin directory created in step #1, named "plug-templates".
+<br /><br />
+
+Example: "/plugins/my-app-plugin/plug-templates/" (must be lowercase)
+<br /><br /><br />
+
+
+
+<span class='blue'>13)</span> OPTIONALLY create a blank ADMIN TEMPLATE file (admin interface settings go here), inside the new "plug-templates" directory created in step #12, with the name "plug-admin.php".
+<br /><br />
+
+Example: "/plugins/my-app-plugin/plug-templates/plug-admin.php" (must be lowercase)
+<br /><br /><br />
+
+
+
+<span class='blue'>14)</span> OPTIONALLY create a blank DOCUMENTATION TEMPLATE file (usage / documentation for end-user goes here [and is automatically linked at the top of this plugin's admin page]), inside the new "plug-templates" directory created in step #12, with the name "plug-docs.php".
+<br /><br />
+
+Example: "/plugins/my-app-plugin/plug-templates/plug-docs.php" (must be lowercase)
+<br /><br /><br />
+
+
+
+<span class='blue'>15)</span> We are done setting up the plugin files / folders, so now we need to activate the new plugin. IN THE "Admin Config" POWER USER section, locate the configuration variable named: 'activate_plugins'
+<br /><br /><br />
+
+
+<span class='blue'>16)</span> To add / activate your new plugin, add your plugin MAIN FOLDER name (example: 'my-app-plugin') as a new value within 'activate_plugins', and set to 'on'...ALSO INCLUDE A COMMA AT THE END.
 <br /><br />
 
 <pre class='rounded' style='display: inline-block;<?=( $ct_gen->is_msie() == false ? ' padding-top: 1em !important;' : '' )?>'><code class='hide-x-scroll less' style='white-space: nowrap; width: auto; display: inline-block;'>'my-app-plugin' => 'on',</code></pre>

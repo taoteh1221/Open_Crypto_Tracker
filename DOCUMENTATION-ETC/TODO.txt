@@ -150,13 +150,22 @@ DEBUGGING / TESTS / UX / QA / OTHER
 ############ NEXT DEBUG / TEST / QA / OTHER SCHEDULED WORK SESSION ###################################
 
 
-Update Portfolio page screenshots, since we added the 'Rank' column AND REBRANDED app name.
+Test all the new FOLIO-INSTALL.bash features BEFORE v6.00.18 release, VIA A FRESH RASPBERRY PI OS INSTALLATION.
+
+
+Run testing on the overhauled plugin configuration / initiation system
+
+
+Look for "0.0000" in app, for more instances we need to now be dynamic in the logic (base off new min decimal settings in the general section of the config).
+
+
+Try copy / paste bonk inu "unit value" from portfolio page over to "paid" field on update page, to try to recreate a possible issue related to invisible whitespace causing "paid" value to set as zero on form submission.
 
 
 Make sure everything STILL runs smoothly with the charts page turned off.
 
 
-Test turning password protection on/off on the interface (NOT admin area), I messed with it BUT changed it back.
+Test turning htaccess password protection on/off on the interface, I messed with it BUT changed it back.
 
 
 Change "portfolio cache size gigabytes" system chart telemetry name to "app cache size gigabytes".
@@ -168,10 +177,19 @@ Remove all linebreaks in javascript alert / confirm dialogue boxes, except for n
 ######################################################################################################
 
 
-Build fail-safes directly into the plugin CONFIG INIT for default ui_name and ui_location, as well as error log AND skip including any activated plugin with runtime_mode not set / not properly set.
+Remove all forced line breaks in FOLIO-INSTALL.bash dialogue
+
+
+New FAQ entry "my text alerts aren't working, or are delayed"
+
+
+The Bitmex U20 / Z20 markets are not marked as a 'limited api' IN THE INTERFACE SETTINGS PAGE, UNDER 'PRIMARY CURRENCY MARKET'.
 
 
 LOCAL JAVASCRIPT STORAGE keeps deleting content in my trade notes textarea, find out why
+
+
+Update Portfolio page screenshots, since we added the 'Rank' column AND REBRANDED app name.
 
 
 Add more checks / auto-corrects to config-auto-adjust.php (we've added alot more config settings since it's creation)
@@ -236,7 +254,16 @@ FEATURES / NEW INFRASTRUCTURE / RESEARCH
 ############ NEXT FEATURES / NEW INFRASTRUCTURE / RESEARCH SCHEDULED WORK SESSION ###################################
 
 
-Create AND document /plug-templates/plug-admin.php|plug-docs.php formats, to be used in the plugin system. plug-docs.php should be a "More Documentation" link at the top of the plugin's admin page, which opens as a modal window (like we do for "select charts" on the user area charts page).
+Remove the requirement for a secondary crypto market needing a BTC market, by allowing a secondary crypto market if it at least has a pairing that is the same as one of Bitcoin's pairings (like USD). Then have the BTC pairing value function look for that if there is no BTC market for the asset. Within the BTC pairing function, all we then need to do is multiply this backup conversion pairing value by the last trade value of the secondary crypto market (with a recursive call in the function to get say for instance the BTC/USD trade value). Also include a new config setting "pref_backup_conversion_pair", so when we check what pairings the asset has available, we use this pairing first (like USD).
+
+
+######################################################################################################################
+
+
+Research giving a plugin it's own admin-tab|user-tab
+
+
+Add https://www.reddit.com/r/StarAtlas/ to resources page / news feeds.
 
 
 Add more Jupiter agg markets to Solana coins in demo config, and in price target plugin.
@@ -248,9 +275,6 @@ Add openserum markets support.
 Research whether POST data size affects header size like cookie data size does.
 
 
-######################################################################################################################
-
-
 Change the 'eth_erc20_icos' => 'ico_erc20_value' config settings to 'token_presales' => 'presale_value', AND support any base pair as the pairing (NOT just 'ETH').
 
 
@@ -258,9 +282,6 @@ Look into Aptos support for the 'address-balance-tracker' plugin (see the API no
 
 
 Add additional ability to do telegram / discord webhooks in the new "crypto-info-bot" plugin, to query asset prices at different exchanges through telegram chat with the chat bot. Example: "/price btc-usd-coinbase"
-
-
-Consolidate num_to_str() calls, to speed up runtime. REMEMBER THAT WE *REQUIRE* num_to_str() AFTER PROCESSING WITH THE PHP-NATIVE round() FUNCTION (TO REMOVE TRAILING ZEROS / CONVERT SCEINTIFIC FORMAT)
 
 
 Convert all javascript functions into classes, for cleaner code:

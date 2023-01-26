@@ -9,6 +9,15 @@
 //////////////////////////////////////////////////
 
 
+// For check / auto-correct of MANDATORY plugin settings
+$plugin_runtime_mode_check = array(
+                                  'cron',
+                                  'webhook',
+                                  'ui',
+                                  'all',
+                                  );
+
+
 // Currencies SUPPORTED BY coinmarketcap.com (coingecko.com can be determined differently)
 $coinmarketcap_currencies = array(
                                 'USD',

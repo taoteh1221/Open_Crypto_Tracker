@@ -5,9 +5,17 @@
  
 
 $this_plug = $_GET['plugin'];
+
+if ( isset($_GET['plugin_docs']) ) {
+$header_link = "<a class='bitcoin' href='admin.php?iframe=" . $ct_gen->admin_hashed_nonce('iframe_' . $this_plug) . "&plugin=" . $this_plug . "'>" . $plug_conf[$this_plug]['ui_name'] . "</a> -> Documentation";
+}
+else {
+$header_link = $plug_conf[$this_plug]['ui_name'];
+}
+
 ?>
         
-        <h3 style='padding-bottom: 10px;' class='bitcoin align_center'><a class='bitcoin' href='admin.php?iframe=<?=$ct_gen->admin_hashed_nonce('iframe_plugins')?>&section=plugins'>Plugins</a>: <?=$plug_conf[$this_plug]['ui_name']?></h3>
+        <h3 style='padding-bottom: 10px;' class='bitcoin align_center'><a class='bitcoin' href='admin.php?iframe=<?=$ct_gen->admin_hashed_nonce('iframe_plugins')?>&section=plugins'>Plugins</a>: <?=$header_link?></h3>
         
         
         <?php
@@ -29,11 +37,20 @@ $this_plug = $_GET['plugin'];
         //// P L U G I N   A D M I N   #S T A R T#
         /////////////////////////////////////////////////////////////////////////////////////////////////
         
+        
+        if ( !isset($_GET['plugin_docs']) && file_exists("plugins/" . $this_plug . "/plug-templates/plug-docs.php") ) {
         ?>
-	
-
+	   <p><a style='font-weight: bold; font-size: 20px;' href='admin.php?iframe=<?=$ct_gen->admin_hashed_nonce('iframe_' . $this_plug)?>&plugin=<?=$this_plug?>&plugin_docs=1'>Usage / Documentation</a></p>
         <?php
-        if ( $admin_area_sec_level == 'high' ) {
+        }
+
+        
+        // Docs (can always show, as it's only documentation [no settings])
+        if ( isset($_GET['plugin_docs']) && file_exists("plugins/" . $this_plug . "/plug-templates/plug-docs.php") ) {
+        require("plugins/" . $this_plug . "/plug-templates/plug-docs.php");
+        }
+        // Admin high security notice
+        elseif ( $admin_area_sec_level == 'high' ) {
         ?>
         	
         	<p class='bitcoin bitcoin_dotted'>
@@ -44,16 +61,14 @@ $this_plug = $_GET['plugin'];
         
         <?php
         }
+        // Admin (normal / enhanced security mode)
+        elseif ( $admin_area_sec_level != 'high' && !isset($_GET['plugin_docs']) && file_exists("plugins/" . $this_plug . "/plug-templates/plug-admin.php") ) {
+        require("plugins/" . $this_plug . "/plug-templates/plug-admin.php");
+        }
         else {
         ?>
         	
-        	<p> Coming Soon&trade; </p>
-        	
-        	<p class='bitcoin bitcoin_dotted'>
-        	
-        	These sections / category pages will be INCREMENTALLY populated with the corrisponding admin configuration options, over a period of time AFTER the initial v6.00.x releases (versions 6.00.x will only test the back-end / under-the-hood stability of HIGH / NORMAL MODES of the Admin Interface security levels). <br /><br />You may need to turn off "Enhanced" OR "Normal" mode of the Admin Interface security level (at the top of the "Security" section in this admin area), to edit any UNFINISHED SECTIONS by hand in the config files (config.php in the app install folder, and any plug-conf.php files in the plugins folders).
-        	
-        	</p>
+        	<p> No admin interface available for this plugin. </p>
         	
         <?php
         }

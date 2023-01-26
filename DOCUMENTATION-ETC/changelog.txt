@@ -6039,6 +6039,33 @@ v6.00.2 AND HIGHER RESETS LIGHT (TIME PERIOD) CHARTS FROM ARCHIVAL DATA, ONE-TIM
 
 
 
+-------------------------------------------------------------------
+6.00.18:
+
+-BUG FIX: Fixed issues within the plugin configuration / initiation system
+
+-Debian-based auto-installer (FOLIO-INSTALL.bash) now runs auto-setup for enhanced Apache security (disables apache from showing product name / version number)
+
+-Debian-based auto-installer (FOLIO-INSTALL.bash) now has multiple OPTIONAL security-hardening automation settings (lets you pick the ones you want)
+
+-Debian-based auto-installer (FOLIO-INSTALL.bash) upgraded to auto-setup Apache PHP-FPM to run as the app user (for better security / compatibility)
+
+-Optimized plugin system user experience (error checks / correcting on primary configs, classes accessible from other plugins)
+
+-"dynamic-config-only.php" added to the main directory (now houses the dynamic configs used for POW mining calculators, etc)
+
+-Added admin / docs interface templates system for plugins (see /DOCUMENTATION-ETC/PLUGINS-README.txt)
+
+-Code cleanup / housekeeping
+
+-v6.00.16 AND HIGHER RESETS LIGHT (TIME PERIOD) CHARTS FROM ARCHIVAL DATA, ONE-TIME DURING UPGRADES FROM V6.00.15 OR LOWER.
+
+-v6.00.8 AND HIGHER MIGRATES / UPGRADES ANY SET COOKIE DATA TO A MORE SECURE / RELIABLE FORMAT, ONE-TIME DURING UPGRADES FROM V6.00.7 OR LOWER.
+
+-------------------------------------------------------------------
+
+
+
 
 
 
