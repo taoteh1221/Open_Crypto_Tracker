@@ -600,13 +600,13 @@ EOF
 
 		  sleep 1
                             
-            echo "${red}YOU MUST RESTART the Raspberry Pi computer for this to take affect (ONLY AFTER THIS SCRIPT IS FINISHED RUNNING).${reset}"
+            echo "${green}Disabling bluetooth in $RASPI_CONF has been completed.${reset}"
             echo " "
             
             else
             
             echo " "
-            echo "Bluetooth was already disabled in $RASPI_CONF."
+            echo "${green}Bluetooth was already disabled in $RASPI_CONF.${reset}"
             echo " "
             
             fi
@@ -619,7 +619,13 @@ EOF
          
 
        fi
-                
+          
+     
+echo " "
+echo "${green}Disabling bluetooth has been completed.${reset}"
+echo " "      
+echo "${red}YOU MUST RESTART the computer for this to take affect (ONLY AFTER THIS SCRIPT IS FINISHED RUNNING).${reset}"
+echo " "
             
 else
 echo "${green}Disabling bluetooth has been skipped.${reset}"
@@ -874,7 +880,7 @@ select opt in $OPTIONS; do
             echo " "
                     
                 if [ ! -f $APACHE_CONF ] || [ -z "$APACHE_CONF" ]; then
-                echo "${red}No MAIN Apache config file detected, skipping enhanced security setup, please wait...${reset}"
+                echo "${red}No MAIN Apache config file detected, skipping enhanced security setup.${reset}"
                 SKIP_APACHE_CONF_EDIT=1
                 else
                 echo "${green}Using MAIN Apache config file:"
@@ -935,6 +941,11 @@ EOF
                 echo " "
                 fi
             
+            
+            elif [ "$CHECK_APACHE_1" == "" ] && [ "$CHECK_APACHE_2" == "" ]; then
+            
+            echo " "
+            echo "Enhanced security NOT DETECTABLE for the MAIN Apache config."
             
             else
             
