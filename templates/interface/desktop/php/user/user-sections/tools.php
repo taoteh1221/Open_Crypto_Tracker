@@ -136,31 +136,22 @@
             $this_plug = $plugin_key;
   	
             	if ( file_exists($plugin_init) && $plug_conf[$this_plug]['ui_location'] == 'tools' ) {
-            	
               	?>
-                <fieldset class='subsection_fieldset'>
+               <fieldset class='subsection_fieldset'>
                 	<legend class='subsection_legend'> <b><?=$plug_conf[$this_plug]['ui_name']?></b> </legend>
               	<?php
-          		
-            		// This plugin's default class (only if the file exists)
-            		if ( file_exists($base_dir . '/plugins/'.$this_plug.'/plug-lib/plug-class.php') ) {
-                    include($base_dir . '/plugins/'.$this_plug.'/plug-lib/plug-class.php');
-            		}
-            	
             	// This plugin's plug-init.php file (runs the plugin)
             	include($plugin_init);
-            	
-                ?>
-                </fieldset>
-                <?php
-            
+               ?>
+               </fieldset>
+               <?php
             	}
             	
             // Reset $this_plug at end of loop
             unset($this_plug); 
             	
-          	}
-			?>
+            }
+		  ?>
 		    
 		    
 </div> <!-- max_1200px_wrapper END -->
