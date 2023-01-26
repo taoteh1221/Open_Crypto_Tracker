@@ -150,12 +150,6 @@ DEBUGGING / TESTS / UX / QA / OTHER
 ############ NEXT DEBUG / TEST / QA / OTHER SCHEDULED WORK SESSION ###################################
 
 
-Test all the new FOLIO-INSTALL.bash features BEFORE v6.00.18 release, VIA A FRESH RASPBERRY PI OS INSTALLATION.
-
-
-Run testing on the overhauled plugin configuration / initiation system
-
-
 Look for "0.0000" in app, for more instances we need to now be dynamic in the logic (base off new min decimal settings in the general section of the config).
 
 
@@ -175,6 +169,12 @@ Remove all linebreaks in javascript alert / confirm dialogue boxes, except for n
 
 
 ######################################################################################################
+
+
+Test all the new FOLIO-INSTALL.bash features, VIA A FRESH RASPBERRY PI OS INSTALLATION.
+
+
+Run testing on the overhauled plugin configuration / initiation system
 
 
 Remove all forced line breaks in FOLIO-INSTALL.bash dialogue
