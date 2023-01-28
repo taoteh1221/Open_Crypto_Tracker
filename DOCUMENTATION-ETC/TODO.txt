@@ -171,12 +171,6 @@ Remove all linebreaks in javascript alert / confirm dialogue boxes, except for n
 ######################################################################################################
 
 
-Test all the new FOLIO-INSTALL.bash features, VIA A FRESH RASPBERRY PI OS INSTALLATION.
-
-
-Run testing on the overhauled plugin configuration / initiation system
-
-
 Remove all forced line breaks in FOLIO-INSTALL.bash dialogue
 
 
