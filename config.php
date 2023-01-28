@@ -733,8 +733,8 @@ $ct_conf['power']['light_chart_day_intervals'] = array(14, 30, 90, 180, 365, 730
 // (default = 14, 30, 90, 180, 365, 730, 1460)
 ////
 // The maximum number of data points allowed in each light chart 
-// (saves on disk storage / speeds up chart loading times SIGNIFICANTLY #WITH A NUMBER OF 625 OR LESS#)
-$ct_conf['power']['light_chart_data_points_max'] = 625; // (default = 625), ADJUST WITH CARE!!!
+// (saves on disk storage / speeds up chart loading times SIGNIFICANTLY #WITH A NUMBER OF 875 OR LESS#)
+$ct_conf['power']['light_chart_data_points_max'] = 875; // (default = 875), ADJUST WITH CARE!!!
 
 
 // Default settings for Asset Performance chart height / menu size (in the 'View More Stats' modal window, linked at bottom of Portfolio page)
@@ -1540,7 +1540,7 @@ $ct_conf['dev']['all_chart_rebuild_min_max'] = '4,8'; // 'min,max' (default = '4
 ////
 // Maximum number of light chart NEW BUILDS allowed during background tasks, PER CPU CORE (only reset / new, NOT the 'all' chart REbuilds)
 // (THIS IS MULTIPLIED BY THE NUMBER OF CPU CORES [if detected], avoids overloading low power devices / still builds fast on multi-core)
-$ct_conf['dev']['light_chart_first_build_hard_limit'] = 25; // (default = 25), ADJUST WITH CARE!!!
+$ct_conf['dev']['light_chart_first_build_hard_limit'] = 20; // (default = 20), ADJUST WITH CARE!!!
 
 
 // If you want to override the default CURL user agent string (sent with API requests, etc)
