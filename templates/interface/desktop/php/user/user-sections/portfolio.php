@@ -1008,9 +1008,9 @@ var fiat_val_content = '<h5 class="yellow tooltip_title">Primary Currency (<?=st
 	
 	});
 	
-	var to_timestamp = ( document.getElementById('performance_date').value ? document.getElementById('performance_date').value : '1970/1/1' );
+	var to_timestamp_var = ( document.getElementById('performance_date').value ? document.getElementById('performance_date').value : '1970/1/1' );
 	
-	date_array = to_timestamp.split('/');
+	date_array = to_timestamp_var.split('/');
 	
 	date_timestamp = to_timestamp(date_array[0],date_array[1],date_array[2],0,0,0) + timestamp_offset;
   

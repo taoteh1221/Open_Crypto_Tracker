@@ -178,6 +178,15 @@ fi
 
 
 # Get primary dependency apps, if we haven't yet
+
+# In case package list was ever corrupted (since we are about to rebuild it anyway...avoids possible errors)
+sudo rm -rf /var/lib/apt/lists/* -vf
+
+sleep 2
+
+sudo apt update
+
+sleep 2
     
 # Install git if needed
 GIT_PATH=$(which git)
@@ -362,10 +371,11 @@ CUSTOM_CURL_USER_AGENT_HEADER="User-Agent: Curl (${OS}/$VER; compatible;)"
          
 
 # WE NEED TO SET THIS OUTSIDE OF / BEFORE ANY OTHER SETUP LOGIC, AS WE'RE SETTING THE SYSTEM USER VAR
-echo "We need to know the SYSTEM username you'll be logging in as on this machine to edit web files..."
+echo " "
+echo "${yellow}We need to know the SYSTEM username you'll be logging in as on this machine to edit web files..."
 echo " "
         
-echo "${yellow}Enter the SYSTEM username to allow web server editing access for:"
+echo "Enter the SYSTEM username to allow web server editing access for:"
 echo "(leave blank / hit enter for default username '${TERMINAL_USERNAME}')${reset}"
 echo " "
         
@@ -1185,18 +1195,18 @@ EOF
          echo "(leave blank / hit enter to use default group '$WWW_GROUP')${reset}"
          echo " "
             
-         read CUSTOM_GROUP
+         read APACHE_USERNAME
          echo " "
                     
-            if [ -z "$CUSTOM_GROUP" ]; then
-            CUSTOM_GROUP=${1:-$WWW_GROUP}
+            if [ -z "$APACHE_USERNAME" ]; then
+            APACHE_USERNAME=${1:-$WWW_GROUP}
             echo "${green}The web server's user group has been declared as: $WWW_GROUP${reset}"
             else
-            echo "${green}The web server's user group has been declared as: $CUSTOM_GROUP${reset}"
+            echo "${green}The web server's user group has been declared as: $APACHE_USERNAME${reset}"
             fi
             
             
-	    sed -i "s/${CUSTOM_GROUP}/${APP_USER}/g" /usr/lib/tmpfiles.d/php${PHP_FPM_VER}-fpm.conf > /dev/null 2>&1
+	    sed -i "s/${APACHE_USERNAME}/${APP_USER}/g" /usr/lib/tmpfiles.d/php${PHP_FPM_VER}-fpm.conf > /dev/null 2>&1
 			
 			
 	    sleep 1
@@ -1217,16 +1227,16 @@ EOF
           # We no longer need to have the app user added to the web server's default group
           # (since we now run PHP-FPM AS THE APP USER, so we remove it for TIGHTER SECURITY)
           # PARAMS ARE *BACKWARDS* COMPARED TO "usermod -a -G"
-        	gpasswd -d $APP_USER $CUSTOM_GROUP
+        	gpasswd -d $APP_USER $APACHE_USERNAME > /dev/null 2>&1
 
 		sleep 1
           
           # We STILL NEED to add the web server user to the app user's default group
           # (for access to files like .htaccess / .user.ini)
-        	usermod -a -G $APP_USER $CUSTOM_GROUP
+        	usermod -a -G $APP_USER $APACHE_USERNAME
         	
         	echo " "
-        	echo "${cyan}Access for user '$CUSTOM_GROUP' within group '$APP_USER' is completed, please wait...${reset}"
+        	echo "${cyan}Access for user '$APACHE_USERNAME' within group '$APP_USER' is completed, please wait...${reset}"
           
 		sleep 1
 			
@@ -1254,6 +1264,8 @@ EOF
           echo " "
           echo "sudo reboot"
           echo "${reset} "
+	     
+	     SERVER_SETUP=1
         
         
         	######################################
@@ -1599,121 +1611,123 @@ select opt in $OPTIONS; do
 				echo "${green}Open Crypto Tracker (Server Edition) has been installed.${reset}"
 				
 				
-            ######################################
-            
-            
-				echo " "
-            echo "If you want to use price alerts or charts, you'll need to setup a background task (cron job) for that."
-            echo " "
-            
-            echo "${yellow}Select 1 or 2 to choose whether to setup a background task (cron job) for price alerts / charts, or skip it.${reset}"
-            echo " "
-            
-            OPTIONS="auto_setup_cron skip"
-            
-            select opt in $OPTIONS; do
-                    if [ "$opt" = "auto_setup_cron" ]; then
+                    ######################################
                     
-                    echo " "
-                    echo "${yellow}Enter the FULL system path to cron.php:"
-                    echo "(leave blank / hit enter for default of $DOC_ROOT/cron.php)${reset}"
+                    
+          		  echo " "
+                    echo "If you want to use price alerts or charts, you'll need to setup a background task (cron job) for that."
                     echo " "
                     
-                    read SYS_PATH
+                    echo "${yellow}Select 1 or 2 to choose whether to setup a background task (cron job) for price alerts / charts, or skip it.${reset}"
                     echo " "
                     
-                        if [ -z "$SYS_PATH" ]; then
-                        SYS_PATH=${1:-$DOC_ROOT/cron.php}
-                    		echo "${green}Using default system path to cron.php:"
-                    		echo " "
-                    		echo "$SYS_PATH${reset}"
-                        else
-                    		echo "${green}System path set to cron.php:"
-                    		echo " "
-                    		echo "$SYS_PATH${reset}"
-                        fi
+                    OPTIONS="auto_setup_cron skip"
                     
-                    echo " "
-                    echo "${yellow}Options for choosing a time interval to run the background task (cron job)..."
-                    echo " "
-                    echo "${red}IT'S RECOMMENDED TO GO #NO LOWER THAN# EVERY 20 MINUTES FOR CHART DATA, OTHERWISE LIGHT CHART"
-                    echo "DISK WRITES MAY BE EXCESSIVE FOR LOWER END HARDWARE (Raspberry PI MicroSD cards etc)."
-                    echo " "
-                    echo "${yellow}Enter the time interval in minutes to run this cron job:"
-                    echo "(#MUST BE# either 5, 10, 15, 20, or 30...leave blank / hit enter for default of 20)${reset}"
-                    echo " "
-                    
-                    read INTERVAL
-                    echo " "
-                    
-                        if [ -z "$INTERVAL" ]; then
-                        INTERVAL=${2:-20}
-                    		echo "${green}Using default time interval of $INTERVAL minutes.${reset}"
-                        else
-                    		echo "${green}Time interval set to $INTERVAL minutes.${reset}"
-                        fi
-                    
+                    select opt in $OPTIONS; do
+                            if [ "$opt" = "auto_setup_cron" ]; then
                             
-                    # Setup cron (to check logs after install: tail -f /var/log/syslog | grep cron -i)
+                            echo " "
+                            echo "${yellow}Enter the FULL system path to cron.php:"
+                            echo "(leave blank / hit enter for default of $DOC_ROOT/cron.php)${reset}"
+                            echo " "
+                            
+                            read SYS_PATH
+                            echo " "
+                            
+                                if [ -z "$SYS_PATH" ]; then
+                                SYS_PATH=${1:-$DOC_ROOT/cron.php}
+                            		echo "${green}Using default system path to cron.php:"
+                            		echo " "
+                            		echo "$SYS_PATH${reset}"
+                                else
+                            		echo "${green}System path set to cron.php:"
+                            		echo " "
+                            		echo "$SYS_PATH${reset}"
+                                fi
+                            
+                            echo " "
+                            echo "${yellow}Options for choosing a time interval to run the background task (cron job)..."
+                            echo " "
+                            echo "${red}IT'S RECOMMENDED TO GO #NO LOWER THAN# EVERY 20 MINUTES FOR CHART DATA, OTHERWISE LIGHT CHART"
+                            echo "DISK WRITES MAY BE EXCESSIVE FOR LOWER END HARDWARE (Raspberry PI MicroSD cards etc)."
+                            echo " "
+                            echo "${yellow}Enter the time interval in minutes to run this cron job:"
+                            echo "(#MUST BE# either 5, 10, 15, 20, or 30...leave blank / hit enter for default of 20)${reset}"
+                            echo " "
+                            
+                            read INTERVAL
+                            echo " "
+                            
+                                if [ -z "$INTERVAL" ]; then
+                                INTERVAL=${2:-20}
+                            		echo "${green}Using default time interval of $INTERVAL minutes.${reset}"
+                                else
+                            		echo "${green}Time interval set to $INTERVAL minutes.${reset}"
+                                fi
+                            
+                                    
+                            # Setup cron (to check logs after install: tail -f /var/log/syslog | grep cron -i)
+                            
+                            
+          						  # PHP FULL PATHS
+          						  PHP_FPM_PATH=$(which php${PHP_FPM_VER})
+          						  PHP_PATH=$(which php)
+                   					
+                   					# If PHP $PHP_FPM_VER specific CLI binary not found, use the standard path
+          						  		if [ -f $PHP_FPM_PATH ]; then
+          						  		CRONJOB="*/$INTERVAL * * * * $APP_USER $PHP_FPM_PATH -q $SYS_PATH > /dev/null 2>&1"
+          						  		else
+          						  		CRONJOB="*/$INTERVAL * * * * $APP_USER $PHP_PATH -q $SYS_PATH > /dev/null 2>&1"
+          						  		fi
                     
                     
-						  # PHP FULL PATHS
-						  PHP_FPM_PATH=$(which php${PHP_FPM_VER})
-						  PHP_PATH=$(which php)
-         					
-         					# If PHP $PHP_FPM_VER specific CLI binary not found, use the standard path
-						  		if [ -f $PHP_FPM_PATH ]; then
-						  		CRONJOB="*/$INTERVAL * * * * $APP_USER $PHP_FPM_PATH -q $SYS_PATH > /dev/null 2>&1"
-						  		else
-						  		CRONJOB="*/$INTERVAL * * * * $APP_USER $PHP_PATH -q $SYS_PATH > /dev/null 2>&1"
-						  		fi
-            
-            
-                    # Play it safe and be sure their is a newline after this job entry
-                    echo -e "$CRONJOB\n" > /etc/cron.d/cryptocoin
-
-						  sleep 1
-                      
-                    # cron.d entries must be a permission of 644
-                    chmod 644 /etc/cron.d/cryptocoin
-
-						  sleep 1
-                      
-                    # cron.d entries MUST BE OWNED BY ROOT, OR THEY CRASH!
-                    chown root:root /etc/cron.d/cryptocoin
-                      
+                            # Play it safe and be sure their is a newline after this job entry
+                            echo -e "$CRONJOB\n" > /etc/cron.d/cryptocoin
+          
+          						  sleep 1
+                              
+                            # cron.d entries must be a permission of 644
+                            chmod 644 /etc/cron.d/cryptocoin
+          
+          						  sleep 1
+                              
+                            # cron.d entries MUST BE OWNED BY ROOT, OR THEY CRASH!
+                            chown root:root /etc/cron.d/cryptocoin
+                              
+                            
+                            echo " "
+                            echo "${green}A background task (cron job) has been setup for user '$APP_USER',"
+                            echo "as a command in /etc/cron.d/cryptocoin:"
+                            echo " "
+                            echo "$CRONJOB"
+                            echo " "
+          				
+          				    echo " "
+          					echo "Open Crypto Tracker (Server Edition) has been configured.${reset}"
+                            
+                            CRON_SETUP=1
+                            
+                            break
+                           elif [ "$opt" = "skip" ]; then
+                           
+                            echo " "
+                            echo "${green}Skipping cron job setup.${reset}"
+                    		echo " "
                     
-                    echo " "
-                    echo "${green}A background task (cron job) has been setup for user '$APP_USER',"
-                    echo "as a command in /etc/cron.d/cryptocoin:"
-                    echo " "
-                    echo "$CRONJOB"
-                    echo " "
-				
-				    echo " "
-					echo "Open Crypto Tracker (Server Edition) has been configured.${reset}"
+                            break
+                           fi
                     
-                    CRON_SETUP=1
                     
-                    break
-                   elif [ "$opt" = "skip" ]; then
-                   
-                    echo " "
-                    echo "${green}Skipping cron job setup.${reset}"
-            		echo " "
-            
-                    break
-                   fi
-            done
-            
-            
-            ######################################
+                    done
+                    
+                    
+                    ######################################
             
 				
 	        	APP_SETUP=1
 	        	
    	     	
-  				fi
+  		     fi
 
         break
        elif [ "$opt" = "remove_portfolio_app" ]; then
@@ -1827,6 +1841,16 @@ echo "# SAVE THE INFORMATION BELOW FOR FUTURE ACCESS TO THIS APP #"
 echo "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
 echo "${reset} "
 
+
+
+if [ "$SERVER_SETUP" = "1" ]; then
+
+echo "${red}REMINDER...You MUST RESTART YOUR DEVICE (#after# you finish running this auto-install script) TO ALLOW THE SYSTEM TO PROPERLY RUN THE PHP WEB SERVER CONFIGURATIONS DONE (or you may get configuration errors), by running this command:"
+echo " "
+echo "sudo reboot"
+echo "${reset} "
+
+fi
 
 
 if [ "$APP_SETUP" = "1" ]; then

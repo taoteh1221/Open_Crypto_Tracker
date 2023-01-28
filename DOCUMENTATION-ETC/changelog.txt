@@ -6066,6 +6066,23 @@ v6.00.2 AND HIGHER RESETS LIGHT (TIME PERIOD) CHARTS FROM ARCHIVAL DATA, ONE-TIM
 
 
 
+-------------------------------------------------------------------
+6.00.19:
+
+-BUG FIX: Miscellaneous (small) fixes
+
+-Miscellaneous user experience improvements
+
+-Code cleanup
+
+-v6.00.16 AND HIGHER RESETS LIGHT (TIME PERIOD) CHARTS FROM ARCHIVAL DATA, ONE-TIME DURING UPGRADES FROM V6.00.15 OR LOWER.
+
+-v6.00.8 AND HIGHER MIGRATES / UPGRADES ANY SET COOKIE DATA TO A MORE SECURE / RELIABLE FORMAT, ONE-TIME DURING UPGRADES FROM V6.00.7 OR LOWER.
+
+-------------------------------------------------------------------
+
+
+
 
 
 
