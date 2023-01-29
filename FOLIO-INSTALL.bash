@@ -177,29 +177,46 @@ fi
 ######################################
 
 
+# apt_clear_update function START
+apt_clear_update () {
+
+     if [ "$APT_CACHE_CLEARED" != "1" ]; then
+     
+     # In case package list was ever corrupted (since we are about to rebuild it anyway...avoids possible errors)
+     sudo rm -rf /var/lib/apt/lists/* -vf
+     
+     APT_CACHE_CLEARED=1
+     
+     sleep 2
+     
+     sudo apt update
+     
+     sleep 2
+     
+     fi
+
+}
+# apt_clear_update function END
+
+
+######################################
+
+
 # Get primary dependency apps, if we haven't yet
-
-# In case package list was ever corrupted (since we are about to rebuild it anyway...avoids possible errors)
-sudo rm -rf /var/lib/apt/lists/* -vf
-
-sleep 2
-
-sudo apt update
-
-sleep 2
     
 # Install git if needed
 GIT_PATH=$(which git)
 
 if [ -z "$GIT_PATH" ]; then
 
+# Clears AND updates apt cache (IF it wasn't already this runtime session)
+apt_clear_update
+
 DEPS_MISSING=1
 
 echo " "
 echo "${cyan}Installing required component git, please wait...${reset}"
 echo " "
-
-sudo apt update
 
 sudo apt install git -y
 
@@ -211,13 +228,14 @@ CURL_PATH=$(which curl)
 
 if [ -z "$CURL_PATH" ]; then
 
+# Clears AND updates apt cache (IF it wasn't already this runtime session)
+apt_clear_update
+
 DEPS_MISSING=1
 
 echo " "
 echo "${cyan}Installing required component curl, please wait...${reset}"
 echo " "
-
-sudo apt update
 
 sudo apt install curl -y
 
@@ -229,13 +247,14 @@ JQ_PATH=$(which jq)
 
 if [ -z "$JQ_PATH" ]; then
 
+# Clears AND updates apt cache (IF it wasn't already this runtime session)
+apt_clear_update
+
 DEPS_MISSING=1
 
 echo " "
 echo "${cyan}Installing required component jq, please wait...${reset}"
 echo " "
-
-sudo apt update
 
 sudo apt install jq -y
 
@@ -247,13 +266,14 @@ WGET_PATH=$(which wget)
 
 if [ -z "$WGET_PATH" ]; then
 
+# Clears AND updates apt cache (IF it wasn't already this runtime session)
+apt_clear_update
+
 DEPS_MISSING=1
 
 echo " "
 echo "${cyan}Installing required component wget, please wait...${reset}"
 echo " "
-
-sudo apt update
 
 sudo apt install wget -y
 
@@ -265,13 +285,14 @@ SED_PATH=$(which sed)
 
 if [ -z "$SED_PATH" ]; then
 
+# Clears AND updates apt cache (IF it wasn't already this runtime session)
+apt_clear_update
+
 DEPS_MISSING=1
 
 echo " "
 echo "${cyan}Installing required component sed, please wait...${reset}"
 echo " "
-
-sudo apt update
 
 sudo apt install sed -y
 
@@ -283,13 +304,14 @@ LESS_PATH=$(which less)
 				
 if [ -z "$LESS_PATH" ]; then
 
+# Clears AND updates apt cache (IF it wasn't already this runtime session)
+apt_clear_update
+
 DEPS_MISSING=1
 
 echo " "
 echo "${cyan}Installing required component less, please wait...${reset}"
 echo " "
-
-sudo apt update
 
 sudo apt install less -y
 
@@ -301,13 +323,14 @@ EXPECT_PATH=$(which expect)
 				
 if [ -z "$EXPECT_PATH" ]; then
 
+# Clears AND updates apt cache (IF it wasn't already this runtime session)
+apt_clear_update
+
 DEPS_MISSING=1
 
 echo " "
 echo "${cyan}Installing required component expect, please wait...${reset}"
 echo " "
-
-sudo apt update
 
 sudo apt install expect -y
 
@@ -319,13 +342,14 @@ AVAHID_PATH=$(which avahi-daemon)
 
 if [ -z "$AVAHID_PATH" ]; then
 
+# Clears AND updates apt cache (IF it wasn't already this runtime session)
+apt_clear_update
+
 DEPS_MISSING=1
 
 echo " "
 echo "${cyan}Installing required component avahi-daemon, please wait...${reset}"
 echo " "
-
-sudo apt update
 
 sudo apt install avahi-daemon -y
 
@@ -337,13 +361,14 @@ BC_PATH=$(which bc)
 
 if [ -z "$BC_PATH" ]; then
 
+# Clears AND updates apt cache (IF it wasn't already this runtime session)
+apt_clear_update
+
 DEPS_MISSING=1
 
 echo " "
 echo "${cyan}Installing required component bc, please wait...${reset}"
 echo " "
-
-sudo apt update
 
 sudo apt install bc -y
 
@@ -528,11 +553,12 @@ echo " "
 echo "${cyan}Making sure your system is updated before installation, please wait...${reset}"
 
 echo " "
-			
-apt-get update
+
+# Clears AND updates apt cache (IF it wasn't already this runtime session)
+apt_clear_update
 
 #DO NOT RUN dist-upgrade, bad things can happen, lol
-apt-get upgrade -y
+apt upgrade -y
 
 echo " "
 				
@@ -651,6 +677,9 @@ read -n1 -s -r -p $'Install / configure a firewall, for higher app server securi
 echo "${reset} "
         
 if [ "$keystroke" = 'y' ] || [ "$keystroke" = 'Y' ]; then
+
+# Clears AND updates apt cache (IF it wasn't already this runtime session)
+apt_clear_update
             
 echo " "
 echo "${cyan}Installing / configuring a firewall, please wait...${reset}"
@@ -785,21 +814,24 @@ OPTIONS="install_webserver remove_webserver skip"
 
 select opt in $OPTIONS; do
         if [ "$opt" = "install_webserver" ]; then
+
+          # Clears AND updates apt cache (IF it wasn't already this runtime session)
+          apt_clear_update
          
-         echo " "
+          echo " "
 			
-			echo "${green}Proceeding with PHP web server installation, please wait...${reset}"
-			echo " "
+	     echo "${green}Proceeding with PHP web server installation, please wait...${reset}"
+		echo " "
         
 			# !!!RUN FIRST!!! PHP FPM (fcgi) version $PHP_FPM_VER, run SEPERATE in case it fails from package not found
         	INSTALL_FPM_VER="install php${PHP_FPM_VER}-fpm php${PHP_FPM_VER}-mbstring php${PHP_FPM_VER}-xml php${PHP_FPM_VER}-curl php${PHP_FPM_VER}-gd php${PHP_FPM_VER}-zip -y"
         
-        	apt-get $INSTALL_FPM_VER
+        	apt $INSTALL_FPM_VER
         	
 			sleep 3
 			
 			# PHP FPM (fcgi), Apache, required modules, etc
-			apt-get install apache2 php php-fpm php-mbstring php-xml php-curl php-gd php-zip libapache2-mod-fcgid apache2-suexec-custom openssl ssl-cert avahi-daemon -y
+			apt install apache2 php php-fpm php-mbstring php-xml php-curl php-gd php-zip libapache2-mod-fcgid apache2-suexec-custom openssl ssl-cert avahi-daemon -y
 			
 			sleep 3
 			
@@ -1273,6 +1305,9 @@ EOF
          
         break
        elif [ "$opt" = "remove_webserver" ]; then
+
+       # Clears AND updates apt cache (IF it wasn't already this runtime session)
+       apt_clear_update
        
         echo " "
         echo "${green}Removing PHP web server, please wait...${reset}"
@@ -1283,12 +1318,12 @@ EOF
 		  # !!!RUN FIRST!!! PHP FPM (fcgi) version $PHP_FPM_VER, run SEPERATE in case it fails from package not found
         REMOVE_FPM_VER="--purge remove php${PHP_FPM_VER}-fpm php${PHP_FPM_VER}-mbstring php${PHP_FPM_VER}-xml php${PHP_FPM_VER}-curl php${PHP_FPM_VER}-gd php${PHP_FPM_VER}-zip -y"
         
-        apt-get $REMOVE_FPM_VER
+        apt $REMOVE_FPM_VER
         
 		  sleep 3
         
         # SKIP removing openssl / ssl-cert / avahi-daemon, AS THIS WILL F!CK UP THE WHOLE SYSTEM, REMOVING ANY OTHER DEPENDANT PACKAGES TOO!!
-		  apt-get --purge remove apache2 php php-fpm php-mbstring php-xml php-curl php-gd php-zip libapache2-mod-fcgid apache2-suexec-pristine apache2-suexec-custom -y
+		  apt --purge remove apache2 php php-fpm php-mbstring php-xml php-curl php-gd php-zip libapache2-mod-fcgid apache2-suexec-pristine apache2-suexec-custom -y
         
 		  sleep 3
 			
@@ -1326,6 +1361,9 @@ select opt in $OPTIONS; do
         if [ "$opt" = "install_portfolio_app" ]; then
         
         		if [ ! -d "$DOC_ROOT" ]; then
+
+               # Clears AND updates apt cache (IF it wasn't already this runtime session)
+               apt_clear_update
         		
         		echo " "
 				
@@ -1346,17 +1384,17 @@ select opt in $OPTIONS; do
 				echo " "
 				
 				# Ubuntu 16.x, and other debian-based systems
-				apt-get install bsdtar -y
+				apt install bsdtar -y
 				
 				sleep 3
 				
 				# Ubuntu 18.x and higher
-				apt-get install libarchive-tools -y
+				apt install libarchive-tools -y
 				
 				sleep 3
 				
 				# Safely install other packages seperately, so they aren't cancelled by 'package missing' errors
-				apt-get install pwgen openssl -y
+				apt install pwgen openssl -y
 
 				sleep 3
 				
@@ -1802,12 +1840,15 @@ select opt in $OPTIONS; do
 				echo "${cyan}Initiating dietpi-software, please wait...${reset}"
 				dietpi-software
 				else
+
+                    # Clears AND updates apt cache (IF it wasn't already this runtime session)
+                    apt_clear_update
 				
 				echo " "
 				echo "${green}Proceeding with openssh-server installation, please wait...${reset}"
 				echo " "
 				
-				apt-get install openssh-server -y
+				apt install openssh-server -y
 				
 				sleep 3
 				

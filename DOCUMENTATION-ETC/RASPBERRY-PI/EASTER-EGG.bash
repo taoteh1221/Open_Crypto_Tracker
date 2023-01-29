@@ -1,5 +1,10 @@
 #!/bin/bash
 
+COPYRIGHT_YEARS="2022-2023"
+
+# Version of this script
+APP_VERSION="1.07.0" # 2023/JANUARY/28TH
+
 ########################################################################################################################
 ########################################################################################################################
 
@@ -29,39 +34,79 @@
 # Auto-selecting single / multi sub-option examples (MULTI SUB-OPTIONS #MUST# BE IN QUOTES!):
  
 # ~/radio "1 y"
+# ~/radio "upgrade y"
 # (checks for / confirms script upgrade)
  
 # ~/radio "7 1 b3"
-# (plays pyradio 3rd station in background)
+# ~/radio "play 1 b3"
+# (plays pyradio default playlist 3rd station in background)
  
 # ~/radio 8
-# (stops pyradio background playing)
+# ~/radio stop
+# (stops pyradio playback)
  
 # ~/radio "10 XX:XX:XX:XX:XX:XX"
+# ~/radio "connect XX:XX:XX:XX:XX:XX"
 # (connect bluetooth device by mac address)
  
 # ~/radio "11 XX:XX:XX:XX:XX:XX"
+# ~/radio "remove XX:XX:XX:XX:XX:XX"
 # (remove bluetooth device by mac address)
  
 # ~/radio "12 3"
+# ~/radio "devices paired"
 # (shows paired bluetooth devices)
 
 ########################################################################################################################
 ########################################################################################################################
 
 
-# Version of this script
-APP_VERSION="1.06.0" # 2022/DECEMBER/30TH
-
-
 # If parameters are added via command line
 # (CLEANEST WAY TO RUN PARAMETER INPUT #TO AUTO-SELECT MULTIPLE CONSECUTIVE OPTION MENUS#)
 # (WE CAN PASS THEM #IN QUOTES# AS: command "option1 sub-option2 sub-sub-option3")
 if [ "$1" != "" ] && [ "$APP_RECURSE" != "1" ]; then
+
+# Flag recursion and export it
 APP_RECURSE=1
 export APP_RECURSE=$APP_RECURSE
-printf "%s\n" $1 | ~/radio
+
+# Convert any human-readable params to their numeric counterpart(s)
+convert="$1"
+
+# Multi-options MUST be converted FIRST
+# (helps avoid mis-converting PRIMARY options [if we add a lot in the future])
+
+# devices internal
+convert=$(echo "$convert" | sed -r "s/devices internal/12 1/g")
+
+# devices available
+convert=$(echo "$convert" | sed -r "s/devices available/12 2/g")
+
+# devices paired
+convert=$(echo "$convert" | sed -r "s/devices paired/12 3/g")
+
+# devices trusted
+convert=$(echo "$convert" | sed -r "s/devices trusted/12 4/g")
+
+# upgrade
+convert=$(echo "$convert" | sed -r "s/upgrade/1/g")
+
+# play
+convert=$(echo "$convert" | sed -r "s/play/7/g")
+
+# stop
+convert=$(echo "$convert" | sed -r "s/stop/8/g")
+
+# connect
+convert=$(echo "$convert" | sed -r "s/connect/10/g")
+
+# remove
+convert=$(echo "$convert" | sed -r "s/remove/11/g")
+
+# Pipe it through
+printf "%s\n" $convert | ~/radio
 exit
+
 fi
 
 
@@ -233,7 +278,33 @@ fi
 ######################################
 
 
+# apt_clear_update function START
+apt_clear_update () {
+
+     if [ "$APT_CACHE_CLEARED" != "1" ]; then
+     
+     # In case package list was ever corrupted (since we are about to rebuild it anyway...avoids possible errors)
+     sudo rm -rf /var/lib/apt/lists/* -vf
+     
+     APT_CACHE_CLEARED=1
+     
+     sleep 2
+     
+     sudo apt update
+     
+     sleep 2
+     
+     fi
+
+}
+# apt_clear_update function END
+
+
+######################################
+
+
 # Get primary dependency apps, if we haven't yet
+    
     
 # If 'python3' wasn't found, install it
 # python3's FULL PATH (we DONT want python [which is python2])
@@ -241,11 +312,12 @@ PYTHON_PATH=$(which python3)
 
 if [ -z "$PYTHON_PATH" ]; then
 
+# Clears AND updates apt cache (IF it wasn't already this runtime session)
+apt_clear_update
+
 echo " "
 echo "${cyan}Installing required component python3, please wait...${reset}"
 echo " "
-
-sudo apt update
 
 sudo apt install python3 -y
 
@@ -257,11 +329,12 @@ XDGUSER_PATH=$(which xdg-user-dir)
 
 if [ -z "$XDGUSER_PATH" ]; then
 
+# Clears AND updates apt cache (IF it wasn't already this runtime session)
+apt_clear_update
+
 echo " "
 echo "${cyan}Installing required component xdg-user-dirs, please wait...${reset}"
 echo " "
-
-sudo apt update
 
 sudo apt install xdg-user-dirs -y
 
@@ -273,11 +346,12 @@ SYSLOG_PATH=$(which rsyslogd)
 
 if [ -z "$SYSLOG_PATH" ]; then
 
+# Clears AND updates apt cache (IF it wasn't already this runtime session)
+apt_clear_update
+
 echo " "
 echo "${cyan}Installing required component rsyslog, please wait...${reset}"
 echo " "
-
-sudo apt update
 
 sudo apt install rsyslog -y
 
@@ -289,11 +363,12 @@ GIT_PATH=$(which git)
 
 if [ -z "$GIT_PATH" ]; then
 
+# Clears AND updates apt cache (IF it wasn't already this runtime session)
+apt_clear_update
+
 echo " "
 echo "${cyan}Installing required component git, please wait...${reset}"
 echo " "
-
-sudo apt update
 
 sudo apt install git -y
 
@@ -305,11 +380,12 @@ CURL_PATH=$(which curl)
 
 if [ -z "$CURL_PATH" ]; then
 
+# Clears AND updates apt cache (IF it wasn't already this runtime session)
+apt_clear_update
+
 echo " "
 echo "${cyan}Installing required component curl, please wait...${reset}"
 echo " "
-
-sudo apt update
 
 sudo apt install curl -y
 
@@ -321,11 +397,12 @@ JQ_PATH=$(which jq)
 
 if [ -z "$JQ_PATH" ]; then
 
+# Clears AND updates apt cache (IF it wasn't already this runtime session)
+apt_clear_update
+
 echo " "
 echo "${cyan}Installing required component jq, please wait...${reset}"
 echo " "
-
-sudo apt update
 
 sudo apt install jq -y
 
@@ -337,11 +414,12 @@ WGET_PATH=$(which wget)
 
 if [ -z "$WGET_PATH" ]; then
 
+# Clears AND updates apt cache (IF it wasn't already this runtime session)
+apt_clear_update
+
 echo " "
 echo "${cyan}Installing required component wget, please wait...${reset}"
 echo " "
-
-sudo apt update
 
 sudo apt install wget -y
 
@@ -353,11 +431,12 @@ SED_PATH=$(which sed)
 
 if [ -z "$SED_PATH" ]; then
 
+# Clears AND updates apt cache (IF it wasn't already this runtime session)
+apt_clear_update
+
 echo " "
 echo "${cyan}Installing required component sed, please wait...${reset}"
 echo " "
-
-sudo apt update
 
 sudo apt install sed -y
 
@@ -369,11 +448,12 @@ LESS_PATH=$(which less)
 				
 if [ -z "$LESS_PATH" ]; then
 
+# Clears AND updates apt cache (IF it wasn't already this runtime session)
+apt_clear_update
+
 echo " "
 echo "${cyan}Installing required component less, please wait...${reset}"
 echo " "
-
-sudo apt update
 
 sudo apt install less -y
 
@@ -385,11 +465,12 @@ EXPECT_PATH=$(which expect)
 				
 if [ -z "$EXPECT_PATH" ]; then
 
+# Clears AND updates apt cache (IF it wasn't already this runtime session)
+apt_clear_update
+
 echo " "
 echo "${cyan}Installing required component expect, please wait...${reset}"
 echo " "
-
-sudo apt update
 
 sudo apt install expect -y
 
@@ -401,11 +482,12 @@ AVAHID_PATH=$(which avahi-daemon)
 
 if [ -z "$AVAHID_PATH" ]; then
 
+# Clears AND updates apt cache (IF it wasn't already this runtime session)
+apt_clear_update
+
 echo " "
 echo "${cyan}Installing required component avahi-daemon, please wait...${reset}"
 echo " "
-
-sudo apt update
 
 sudo apt install avahi-daemon -y
 
@@ -417,11 +499,12 @@ BC_PATH=$(which bc)
 
 if [ -z "$BC_PATH" ]; then
 
+# Clears AND updates apt cache (IF it wasn't already this runtime session)
+apt_clear_update
+
 echo " "
 echo "${cyan}Installing required component bc, please wait...${reset}"
 echo " "
-
-sudo apt update
 
 sudo apt install bc -y
 
@@ -447,12 +530,13 @@ bt_autoconnect_install () {
 
     # Install bluetooth-autoconnect.py if needed (AND we are #NOT# running as sudo)
     if [ ! -f "$BT_AUTOCONNECT_PATH" ] && [ "$EUID" != 0 ]; then
+
+    # Clears AND updates apt cache (IF it wasn't already this runtime session)
+    apt_clear_update
     
     echo " "
     echo "${cyan}Installing required component bluetooth-autoconnect and dependencies, please wait...${reset}"
     echo " "
-    
-    sudo apt update
     
     # Install python3 prctl
     sudo apt install python3-prctl -y
@@ -576,22 +660,28 @@ echo "${green}~/radio${cyan}"
 echo " "
 echo "Auto-selecting single / multi sub-option examples ${red}(MULTI SUB-OPTIONS #MUST# BE IN QUOTES!)${cyan}:"
 echo " "
-echo "${green}~/radio \"1 y\"${cyan}"
+echo "${green}~/radio \"1 y\""
+echo "${green}~/radio \"upgrade y\"${cyan}"
 echo "(checks for / confirms script upgrade)"
 echo " "
-echo "${green}~/radio \"7 1 b3\"${cyan}"
-echo "(plays pyradio 3rd station in background)"
+echo "${green}~/radio \"7 1 b3\""
+echo "${green}~/radio \"play 1 b3\"${cyan}"
+echo "(plays pyradio default playlist 3rd station in background)"
 echo " "
-echo "${green}~/radio 8${cyan}"
-echo "(stops pyradio background playing)"
+echo "${green}~/radio 8"
+echo "${green}~/radio stop${cyan}"
+echo "(stops pyradio playback)"
 echo " "
-echo "${green}~/radio \"10 XX:XX:XX:XX:XX:XX\"${cyan}"
+echo "${green}~/radio \"10 XX:XX:XX:XX:XX:XX\""
+echo "${green}~/radio \"connect XX:XX:XX:XX:XX:XX\"${cyan}"
 echo "(connect bluetooth device by mac address)"
 echo " "
-echo "${green}~/radio \"11 XX:XX:XX:XX:XX:XX\"${cyan}"
+echo "${green}~/radio \"11 XX:XX:XX:XX:XX:XX\""
+echo "${green}~/radio \"remove XX:XX:XX:XX:XX:XX\"${cyan}"
 echo "(remove bluetooth device by mac address)"
 echo " "
-echo "${green}~/radio \"12 3\"${cyan}"
+echo "${green}~/radio \"12 3\""
+echo "${green}~/radio \"devices paired\"${cyan}"
 echo "(shows paired bluetooth devices)"
 echo "${reset} "
 fi
@@ -775,11 +865,12 @@ select opt in $OPTIONS; do
         echo "${cyan}Making sure your system is updated before installation, please wait...${reset}"
         
         echo " "
-        			
-        apt-get update
+
+        # Clears AND updates apt cache (IF it wasn't already this runtime session)
+        apt_clear_update
         
         #DO NOT RUN dist-upgrade, bad things can happen, lol
-        apt-get upgrade -y
+        apt upgrade -y
         
         echo " "
         				
@@ -841,6 +932,9 @@ select opt in $OPTIONS; do
 				
 				fi
         
+
+        # Clears AND updates apt cache (IF it wasn't already this runtime session)
+        apt_clear_update
         				
         echo " "
         
@@ -1162,12 +1256,13 @@ select opt in $OPTIONS; do
         ######################################
         
         # https://github.com/coderholic/pyradio/blob/master/build.md
+
+        # Clears AND updates apt cache (IF it wasn't already this runtime session)
+        apt_clear_update
         
         echo " "
         echo "${green}Installing pyradio and required components, please wait...${reset}"
         echo " "
-        
-        sudo apt update
         
         sleep 1
         
@@ -1247,19 +1342,21 @@ select opt in $OPTIONS; do
                 if [ "$opt" = "connection_failed" ]; then
 
                 # mpv fails opening streams in pyradio on low power devices, unless we set the connection timeout high
-                sed -i 's/connection_timeout = .*/connection_timeout = 30/g' ~/.config/pyradio/config
+                sed -i 's/connection_timeout = .*/connection_timeout = 30/g' ~/.config/pyradio/config > /dev/null 2>&1
          
                 echo " "
                 echo "${green}Increased pyradio connection timout to 30 seconds.${reset}"
        
                 break
                elif [ "$opt" = "system_freezes" ]; then
+
+                # Clears AND updates apt cache (IF it wasn't already this runtime session)
+                apt_clear_update
                 
-                sudo apt update
                 sudo apt install mplayer -y
                 
                 # mpv crashes low power devices, mplayer does not (and vlc doesn't handle network disruption too well)
-                sed -i 's/player = .*/player = mplayer, vlc, mpv/g' ~/.config/pyradio/config
+                sed -i 's/player = .*/player = mplayer, vlc, mpv/g' ~/.config/pyradio/config > /dev/null 2>&1
                 
                 echo " "
                 echo "${green}Set mplayer to default pyradio stream player.${reset}"
@@ -1269,7 +1366,7 @@ select opt in $OPTIONS; do
                elif [ "$opt" = "mpv_low_volume" ]; then
                 
                 # mpv default volume set to 100
-                sed -i 's/volume=.*/volume=100/g' ~/.config/mpv/mpv.conf
+                sed -i 's/volume=.*/volume=100/g' ~/.config/mpv/mpv.conf > /dev/null 2>&1
                 
                 echo " "
                 echo "${green}Increased mpv volume to 100.${reset}"
@@ -1336,11 +1433,13 @@ select opt in $OPTIONS; do
                                 
                 	if [ -z "$CUSTOM_STATIONS_FILE" ]; then
                  	LOAD_CUSTOM_STATIONS=""
+                 	PLAYLIST_DESC="default"
                     echo " "
                  	echo "${green}Using default stations...${reset}"
                     echo " "
                  	else
                  	LOAD_CUSTOM_STATIONS="-s $CUSTOM_STATIONS_FILE"
+                 	PLAYLIST_DESC="custom"
                     echo " "
                     echo "${green}Using custom stations from: $CUSTOM_STATIONS_FILE${reset}"
                     echo " "
@@ -1348,6 +1447,7 @@ select opt in $OPTIONS; do
                 
                 break
                elif [ "$opt" = "default_stations" ]; then
+                PLAYLIST_DESC="default"
                 echo " "
                 echo "${green}Using default stations...${reset}"
                 echo " "
@@ -1398,12 +1498,12 @@ select opt in $OPTIONS; do
         
                 if [ "$keystroke" = 'y' ] || [ "$keystroke" = 'Y' ]; then
             
-    		    echo " "
-    			echo "${cyan}Initiating pyradio first-time setup, please wait...${reset}"
+    		      echo " "
+    			 echo "${cyan}Initiating pyradio first-time setup, please wait...${reset}"
                 
                 sleep 3
     			
-    			pyradio --play
+    			 pyradio --play
             
                 else
                 echo "${green}pyradio first-time setup has been cancelled.${reset}"
@@ -1422,15 +1522,15 @@ select opt in $OPTIONS; do
                 if [ -f "/usr/bin/raspi-config" ]; then
                 
                 # mpv crashes a raspberry pi zero, mplayer does not (and vlc doesn't handle network disruption too well)
-                sed -i 's/player = .*/player = mplayer, vlc, mpv/g' ~/.config/pyradio/config
+                sed -i 's/player = .*/player = mplayer, vlc, mpv/g' ~/.config/pyradio/config > /dev/null 2>&1
                 
                 sleep 1
 
                 # mpv fails opening streams in pyradio on raspi devices, unless we set the connection timeout high
-                sed -i 's/connection_timeout = .*/connection_timeout = 30/g' ~/.config/pyradio/config
+                sed -i 's/connection_timeout = .*/connection_timeout = 30/g' ~/.config/pyradio/config > /dev/null 2>&1
                 
                 # mpv default volume is VERY low on raspi os, so we set it to 100 instead
-                sed -i 's/volume=.*/volume=100/g' ~/.config/mpv/mpv.conf
+                sed -i 's/volume=.*/volume=100/g' ~/.config/mpv/mpv.conf > /dev/null 2>&1
          
                 echo " "
                 echo "${red}Raspberry Pi compatibility settings for pyradio have been applied.${reset}"
@@ -1466,7 +1566,7 @@ select opt in $OPTIONS; do
                 if [[ ${keystroke:0:1} == "b" ]] || [[ ${keystroke:0:1} == "B" ]]; then
                 
                 echo " "
-                echo "${green}Tuning pyradio to playlist ${PLAY_NUM}...${reset}"
+                echo "${green}Tuning pyradio to station ${PLAY_NUM}, in the ${PLAYLIST_DESC} playlist...${reset}"
                 echo " "
                 
                 # Export the vars to screen's bash session, OR IT WON'T RUN!
@@ -2109,10 +2209,12 @@ select opt in $OPTIONS; do
         
         elif [ "$opt" = "about_this_app" ]; then
        
-        echo "${cyan}"
-        echo "Copyright 2022 GPLv3, Bluetooth Internet Radio By Mike Kilday: Mike@DragonFrugal.com"
-        echo " "
+        echo "${cyan} "
+        echo "Copyright $COPYRIGHT_YEARS GPLv3, Bluetooth Internet Radio By Mike Kilday: Mike@DragonFrugal.com"
         
+        echo " "
+        echo "Version: ${APP_VERSION}"
+        echo " "
         echo "https://github.com/taoteh1221/Bluetooth_Internet_Radio"
         echo " "
         
@@ -2142,22 +2244,28 @@ select opt in $OPTIONS; do
         echo " "
         echo "Auto-selecting single / multi sub-option examples ${red}(MULTI SUB-OPTIONS #MUST# BE IN QUOTES!)${cyan}:"
         echo " "
-        echo "${green}~/radio \"1 y\"${cyan}"
+        echo "${green}~/radio \"1 y\""
+        echo "${green}~/radio \"upgrade y\"${cyan}"
         echo "(checks for / confirms script upgrade)"
         echo " "
-        echo "${green}~/radio \"7 1 b3\"${cyan}"
-        echo "(plays pyradio 3rd station in background)"
+        echo "${green}~/radio \"7 1 b3\""
+        echo "${green}~/radio \"play 1 b3\"${cyan}"
+        echo "(plays pyradio default playlist 3rd station in background)"
         echo " "
-        echo "${green}~/radio 8${cyan}"
-        echo "(stops pyradio background playing)"
+        echo "${green}~/radio 8"
+        echo "${green}~/radio stop${cyan}"
+        echo "(stops pyradio playback)"
         echo " "
-        echo "${green}~/radio \"10 XX:XX:XX:XX:XX:XX\"${cyan}"
+        echo "${green}~/radio \"10 XX:XX:XX:XX:XX:XX\""
+        echo "${green}~/radio \"connect XX:XX:XX:XX:XX:XX\"${cyan}"
         echo "(connect bluetooth device by mac address)"
         echo " "
-        echo "${green}~/radio \"11 XX:XX:XX:XX:XX:XX\"${cyan}"
+        echo "${green}~/radio \"11 XX:XX:XX:XX:XX:XX\""
+        echo "${green}~/radio \"remove XX:XX:XX:XX:XX:XX\"${cyan}"
         echo "(remove bluetooth device by mac address)"
         echo " "
-        echo "${green}~/radio \"12 3\"${cyan}"
+        echo "${green}~/radio \"12 3\""
+        echo "${green}~/radio \"devices paired\"${cyan}"
         echo "(shows paired bluetooth devices)"
         echo "${reset} "
         echo " "

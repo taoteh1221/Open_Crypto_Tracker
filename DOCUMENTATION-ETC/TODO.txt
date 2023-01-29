@@ -171,6 +171,15 @@ Remove all linebreaks in javascript alert / confirm dialogue boxes, except for n
 ######################################################################################################
 
 
+Setup XAMPP on Win10 on the DVR server, and run server edition of tracker on it for a week with PHP debug logging on.
+
+
+Write notes in TODO.txt debugging section, on setting up / viewing PHP error logging on debian Linux and in XAMPP.
+
+
+Some of our extra security automation options in FOLIO-INSTALL.bash may also be appropriate for my other auto-installer scripts (ticker / Bluetooth radio)?
+
+
 Remove all forced line breaks in FOLIO-INSTALL.bash dialogue
 
 
