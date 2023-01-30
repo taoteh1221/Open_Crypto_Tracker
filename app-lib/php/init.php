@@ -22,6 +22,13 @@ $app_version = '6.00.19';  // 2023/JANUARY/27TH
 $dev_debug_php_errors = (0); 
 
 
+// Calculate script runtime length
+$time = microtime();
+$time = explode(' ', $time);
+$time = $time[1] + $time[0];
+$start_runtime = $time;
+
+
 // App init libraries...
 
 // Primary init logic (#MUST# RUN #BEFORE# #EVERYTHING# ELSE)

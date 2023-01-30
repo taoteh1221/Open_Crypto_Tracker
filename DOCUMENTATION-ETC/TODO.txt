@@ -177,9 +177,6 @@ Setup XAMPP on Win10 on the DVR server, and run server edition of tracker on it 
 Write notes in TODO.txt debugging section, on setting up / viewing PHP error logging on debian Linux and in XAMPP.
 
 
-Some of our extra security automation options in FOLIO-INSTALL.bash may also be appropriate for my other auto-installer scripts (ticker / Bluetooth radio)?
-
-
 Remove all forced line breaks in FOLIO-INSTALL.bash dialogue
 
 
@@ -450,6 +447,9 @@ Add logic to offer securing the computer in the auto-install. Add subsections "R
 ///////////////////////////////////////////////////////
 MAYBE SECTION
 ///////////////////////////////////////////////////////
+
+
+Some of our extra security automation options in FOLIO-INSTALL.bash may also be appropriate for my other auto-installer scripts (ticker / Bluetooth radio)?
 
 
 Look into X day moving average overlay for price charts.

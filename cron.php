@@ -14,17 +14,8 @@ exit;
 // Make sure the cron job will always finish running completely
 ignore_user_abort(true); 
 
-
 // Assure CLI runtime is in install directory (server compatibility required for some PHP setups)
 chdir( dirname(__FILE__) );
-
-
-// Calculate script runtime length
-$time = microtime();
-$time = explode(' ', $time);
-$time = $time[1] + $time[0];
-$start_runtime = $time;
-
 
 // Runtime mode
 $runtime_mode = 'cron';
