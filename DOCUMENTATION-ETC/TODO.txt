@@ -251,16 +251,36 @@ FEATURES / NEW INFRASTRUCTURE / RESEARCH
 ///////////////////////////////////////////////////////
 
 
-############ NEXT FEATURES / NEW INFRASTRUCTURE / RESEARCH SCHEDULED WORK SESSION ###################################
+############ NEXT FEATURES / NEW INFRASTRUCTURE / RESEARCH SCHEDULED WORK SESSION ####################################
 
 
-Remove the requirement for a secondary crypto market needing a BTC market, by allowing a secondary crypto market if it at least has a pairing that is the same as one of Bitcoin's pairings (like USD). Then have the BTC pairing value function look for that if there is no BTC market for the asset. Within the BTC pairing function, all we then need to do is multiply this backup conversion pairing value by the last trade value of the secondary crypto market (with a recursive call in the function to get say for instance the BTC/USD trade value). Also include a new config setting "pref_backup_conversion_pair", so when we check what pairings the asset has available, we use this pairing first (like USD).
+Add new plugin standard config 'ui_display_mode':
+
+$plug_conf[$this_plug]['ui_display_mode'] = 'inline'; // 'inline', 'modal_iframe'
+
+'modal_iframe' still only displays in 'more_stats' / 'tools' sections (like 'inline' already does), BUT as a link that opens a FULL SCREEN modal window (like our 'quick links' already do), AND runs inside a FULL WIDTH / AUTO-ADJUSTING HEIGHT iframe (like the admin sections)
+
+Defaults to 'inline' if not set.
+
+Add new plugin standard config 'admin_page_width':
+
+$plug_conf[$this_plug]['admin_page_width'] = 'standard'; // 'standard', 'full'
+
+'full' makes the plugin's admin page full width (like we do for app logs / system stats admin pages already).
+
+Defaults to 'standard' if not set.
 
 
 ######################################################################################################################
 
 
-Research giving a plugin it's own admin-tab|user-tab
+Document the new plugin settings, and fully test before public release.
+
+
+Build a plugin (for the tools page, defaults to activated already), that lets you quickly calculate unlimited nft values (using text field form library used for debt interest tracker) in sol or eth value from any currency (including sol or eth, like miscassets market field), with option to populate ethnfts / solnfts portfolio fields on update page, and save updates to them.
+
+
+Remove the requirement for a secondary crypto market needing a BTC market, by allowing a secondary crypto market if it at least has a pairing that is the same as one of Bitcoin's pairings (like USD). Then have the BTC pairing value function look for that if there is no BTC market for the asset. Within the BTC pairing function, all we then need to do is multiply this backup conversion pairing value by the last trade value of the secondary crypto market (with a recursive call in the function to get say for instance the BTC/USD trade value). Also include a new config setting "pref_backup_conversion_pair", so when we check what pairings the asset has available, we use this pairing first (like USD).
 
 
 Add https://www.reddit.com/r/StarAtlas/ to resources page / news feeds.
