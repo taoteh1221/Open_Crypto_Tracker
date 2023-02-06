@@ -286,13 +286,22 @@ color: #ff4747;
 }
 
 
-#admin_nav .dropdown-menu {
+#admin_nav .dropdown-menu, #sidebar {
 background: #ccc7c7 !important;
 border: 2px solid white !important;
+color: black;
 }
 
 
-#topnav .navbar-nav .dropdown-menu a:link, #body_top_nav .navbar-nav .dropdown-menu a:visited {
+#topnav .navbar-nav .dropdown-menu a:link,
+#body_top_nav .navbar-nav .dropdown-menu a:visited,
+#sidebar ul.list-unstyled li a:link,
+#sidebar ul.list-unstyled li a:visited,
+#sidebar h3, 
+#sidebar ul.list-unstyled p,
+#sidebar ul p,
+#sidebar p
+{
 color: black;
 }
 
@@ -303,10 +312,38 @@ color: #666464 !important;
 }
 
 
-#topnav .navbar-nav .dropdown-item.active {
+#topnav .navbar-nav .dropdown-item.active,
+#sidebar ul li.sidebar-item.active a
+{
 background-color: #606060 !important;
 color: white !important;
 border-radius: 3px;
+}
+
+#sidebar ul ul a,
+#sidebar ul li.active > a,
+#sidebar a[aria-expanded="true"]
+{
+    background: #bcafaf !important;
+}
+
+
+#sidebar ul ul a:hover,
+#sidebar ul li.active a:hover,
+#sidebar ul li a:hover
+{
+    background: #aaa2a2 !important;
+}
+
+
+#sidebar ul.components {
+    border-bottom: 1px solid black;
+}
+
+
+.sidebar_secondary_link {
+    color: black !important;
+    text-decoration: underline !important;
 }
 
 

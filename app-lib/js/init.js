@@ -16,6 +16,24 @@ $(document).ready(function(){
 // console.log( array_byte_size(document.cookie) );
 
 
+    // Init sidebar
+    $("#sidebar").mCustomScrollbar({
+         theme: "minimal"
+    });
+    
+
+    $('.sidebar_toggle').on('click', function () {
+        // open or close navbar
+        $('#sidebar').toggleClass('active');
+        $('#secondary_wrapper').toggleClass('active');
+        // close dropdowns
+        $('.collapse.in').toggleClass('in');
+        // and also adjust aria-expanded attributes we use for the open/closed arrows
+        // in our CSS
+        $('a[aria-expanded=true]').attr('aria-expanded', 'false');
+    });
+
+
 // Render interface after loading (with transition effects)
 $("#app_loading").hide(250, 'linear'); // 0.25 seconds
 $("#content_wrapper").show(250, 'linear'); // 0.25 seconds

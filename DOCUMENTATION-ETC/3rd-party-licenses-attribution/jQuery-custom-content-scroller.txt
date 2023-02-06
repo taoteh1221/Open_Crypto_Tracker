@@ -1,0 +1,7 @@
+
+
+http://manos.malihu.gr/jquery-custom-content-scroller/
+
+This work is released under the MIT License.
+You are free to use, study, improve and modify it wherever and however you like.
+https://opensource.org/licenses/MIT

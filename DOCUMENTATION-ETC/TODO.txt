@@ -254,6 +254,18 @@ FEATURES / NEW INFRASTRUCTURE / RESEARCH
 ############ NEXT FEATURES / NEW INFRASTRUCTURE / RESEARCH SCHEDULED WORK SESSION ####################################
 
 
+Add ability for 'active' (first-shown) admin page to be dynamically set via GET param, AND have this GET param passed during admin logins as well (if it is set).
+
+
+Move header nav links to sidebar nav, and show ALL admin page links IF LOGGED IN (and a LOGOUT link).
+
+
+Figure out best location for alert bell, maybe opposite side of page top from the burger menu?
+
+
+######################################################################################################################
+
+
 Add new plugin standard config 'ui_display_mode':
 
 $plug_conf[$this_plug]['ui_display_mode'] = 'inline'; // 'inline', 'modal_iframe'
@@ -261,6 +273,7 @@ $plug_conf[$this_plug]['ui_display_mode'] = 'inline'; // 'inline', 'modal_iframe
 'modal_iframe' still only displays in 'more_stats' / 'tools' sections (like 'inline' already does), BUT as a link that opens a FULL SCREEN modal window (like our 'quick links' already do), AND runs inside a FULL WIDTH / AUTO-ADJUSTING HEIGHT iframe (like the admin sections)
 
 Defaults to 'inline' if not set.
+
 
 Add new plugin standard config 'admin_page_width':
 
@@ -271,10 +284,7 @@ $plug_conf[$this_plug]['admin_page_width'] = 'standard'; // 'standard', 'full'
 Defaults to 'standard' if not set.
 
 
-######################################################################################################################
-
-
-Document the new plugin settings, and fully test before public release.
+Document the ABOVE new plugin settings, and fully test before public release.
 
 
 Build a plugin (for the tools page, defaults to activated already), that lets you quickly calculate unlimited nft values (using text field form library used for debt interest tracker) in sol or eth value from any currency (including sol or eth, like miscassets market field), with option to populate ethnfts / solnfts portfolio fields on update page, and save updates to them.

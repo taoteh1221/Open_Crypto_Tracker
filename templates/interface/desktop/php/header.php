@@ -49,6 +49,10 @@ header('Access-Control-Allow-Origin: ' . $app_host_address);
 	
 	<link rel="preload" href="templates/interface/desktop/css/jquery-ui/jquery-ui.css" as="style" />
 	
+	<link rel="preload" href="templates/interface/desktop/css/jquery.mCustomScrollbar.min.css" as="style" />
+	
+	<link rel="preload" href="templates/interface/desktop/css/sidebar-style.css" as="style" />
+	
 	<link rel="preload" href="templates/interface/desktop/css/style.css" as="style" />
 	
 	<link rel="preload" href="templates/interface/desktop/css/<?=$sel_opt['theme_selected']?>.style.css" as="style" />
@@ -79,11 +83,15 @@ header('Access-Control-Allow-Origin: ' . $app_host_address);
 
      <link rel="preload" href="app-lib/js/jquery/jquery.repeatable.js" as="script" />
 
+     <link rel="preload" href="app-lib/js/jquery/jquery.mCustomScrollbar.concat.min.js" as="script" />
+
 	<link rel="preload" href="app-lib/js/modaal.js" as="script" />
 
 	<link rel="preload" href="app-lib/js/base64-decode.js" as="script" />
 
 	<link rel="preload" href="app-lib/js/autosize.min.js" as="script" />
+
+	<link rel="preload" href="app-lib/js/popper.min.js" as="script" />
 	
 	<link rel="preload" href="app-lib/js/zingchart.min.js" as="script" />
 	
@@ -154,6 +162,10 @@ header('Access-Control-Allow-Origin: ' . $app_host_address);
 	
 	<link rel="stylesheet" href="templates/interface/desktop/css/jquery-ui/jquery-ui.css" type="text/css" />
 	
+	<link rel="stylesheet" href="templates/interface/desktop/css/jquery.mCustomScrollbar.min.css" type="text/css" />
+	
+	<link rel="stylesheet" href="templates/interface/desktop/css/sidebar-style.css" type="text/css" />
+	
 	<!-- Load theme styling last to over rule -->
 	<link rel="stylesheet" href="templates/interface/desktop/css/style.css" type="text/css" />
 	
@@ -196,11 +208,15 @@ header('Access-Control-Allow-Origin: ' . $app_host_address);
 
      <script src="app-lib/js/jquery/jquery.repeatable.js"></script>
 
+	<script src="app-lib/js/jquery/jquery.mCustomScrollbar.concat.min.js"></script>
+
 	<script src="app-lib/js/modaal.js"></script>
 
 	<script src="app-lib/js/base64-decode.js"></script>
 
 	<script src="app-lib/js/autosize.min.js"></script>
+
+	<script src="app-lib/js/popper.min.js"></script>
 	
 	<script src="app-lib/js/zingchart.min.js"></script>
 	
@@ -361,13 +377,74 @@ header('Access-Control-Allow-Origin: ' . $app_host_address);
 <body>
 
 
-    <audio preload="metadata" id="audio_alert">
+<audio preload="metadata" id="audio_alert">
       <source src="templates/interface/media/audio/Intruder_Alert-SoundBible.com-867759995.mp3">
       <source src="templates/interface/media/audio/Intruder_Alert-SoundBible.com-867759995.ogg">
-    </audio>
+</audio>
+
+
+<div id="primary_wrapper" class="wrapper">
+
+   <!-- hamburger menu toggle icon -->
+   <img src='templates/interface/media/images/auto-preloaded/icons8-hamburger-menu-96-<?=$sel_opt['theme_selected']?>.png' class='sidebar_toggle' id="menu_hamburger" />
+
+
+    <!-- Sidebar -->
+    <nav id="sidebar">
+        
+        <img src='templates/interface/media/images/auto-preloaded/icons8-close-window-50-<?=$sel_opt['theme_selected']?>.png' class='sidebar_toggle' id="dismiss" />
+
+        <div class="sidebar-header">
+            <h3>Open Crypto Tracker</h3>
+        </div>
+
+        <ul class="list-unstyled components">
+            <p><i>Privately</i> track <i>ANY</i> Crypto on your home network or internet website for <a class='sidebar_secondary_link' href='https://taoteh1221.github.io/' target='_blank'><i>FREE</i></a>.</p>
+            <li class="active">
+                <a href="#homeSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle active">Home</a>
+                <ul class="collapse list-unstyled" id="homeSubmenu">
+                    <li class='sidebar-item'>
+                        <a href="#">Home 1</a>
+                    </li>
+                    <li class='sidebar-item'>
+                        <a href="#">Home 2</a>
+                    </li>
+                    <li class='sidebar-item'>
+                        <a href="#">Home 3</a>
+                    </li>
+                </ul>
+            </li>
+            <li>
+                <a href="#">About</a>
+            </li>
+            <li>
+                <a href="#pageSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Pages</a>
+                <ul class="collapse list-unstyled" id="pageSubmenu">
+                    <li class='sidebar-item'>
+                        <a href="#">Page 1</a>
+                    </li>
+                    <li class='sidebar-item'>
+                        <a href="#">Page 2</a>
+                    </li>
+                    <li class='sidebar-item'>
+                        <a href="#">Page 3</a>
+                    </li>
+                </ul>
+            </li>
+            <li class='sidebar-item active'>
+                <a href="#">Portfolio</a>
+            </li>
+            <li class='sidebar-item'>
+                <a href="#">Contact</a>
+            </li>
+        </ul>
+
+    </nav>
     
-	 
-    <div class='align_center' id='body_wrapper' style='<?=( $login_template == 1 ? 'min-width: 720px; max-width: 800px;' : '' )?>'>
+    
+    <!-- content body -->
+    <div class='align_center' id='secondary_wrapper' style='<?=( $login_template == 1 ? 'min-width: 720px; max-width: 800px;' : '' )?>'>
+    
 
         <?php
         if ( $app_edition == 'desktop' ) {
@@ -510,7 +587,7 @@ header('Access-Control-Allow-Origin: ' . $app_host_address);
 		
 		
 		</div>
-		 
+		
     
 	 	<div class='align_center loading bitcoin' id='app_loading'>
 	 	<img src="templates/interface/media/images/auto-preloaded/loader.gif" height='57' alt="" style='vertical-align: middle;' /> <span id='app_loading_span'>Loading...</span>

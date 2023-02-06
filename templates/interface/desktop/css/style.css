@@ -3,6 +3,9 @@
  */
 
 
+@import "https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700";
+
+
 /* //////////////////////////////
 ELEMENTS
 ////////////////////////////// */
@@ -16,6 +19,7 @@ padding: 0px;
 
 
 body {
+font-family: 'Poppins', sans-serif;
 margin: 0px;
 width: auto;
 }
@@ -46,6 +50,14 @@ border: 0;
 
 a {
 text-decoration: underline;
+}
+
+
+p {
+    font-family: 'Poppins', sans-serif;
+    font-size: 1.1em;
+    font-weight: 300;
+    line-height: 1.7em;
 }
 
 
@@ -682,6 +694,12 @@ IDs
 ////////////////////////////// */
 
 
+#primary_wrapper.wrapper {
+    display: flex;
+    width: 100%;
+}
+
+
 #watch_only {
 display: inline-block; 
 padding: 7px; 
@@ -721,10 +739,8 @@ margin-bottom: 60px;
 }
 
 
-#body_wrapper {
-    position: relative;
+#secondary_wrapper {
     top: 0px;
-width: 100%; 
 min-width: 1200px; 
 margin: auto;
 padding: 15px;

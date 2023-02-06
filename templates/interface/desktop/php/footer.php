@@ -53,7 +53,9 @@
 
 ?>
 
-    <!-- footer.php START -->
+
+<!-- footer.php START -->
+
     
     <br class='clear_both' />
     
@@ -393,7 +395,10 @@
         
    		 </div>
     </div>
-     <br /> <br />
+
+</div> <!-- .wrapper -->
+
+<br clear='all' /> <br />
      
             	
 <!--
