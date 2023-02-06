@@ -4,13 +4,10 @@ Open Crypto Tracker - Developed by Michael Kilday <mike@dragonfrugal.com> (Copyr
 ############################################################################################################################
 
 
-100% FREE / open source / PRIVATE cryptocurrency portfolio tracker. Email / text / Alexa / Telegram price alerts, price charts,  mining calculators, leverage / gain / loss / balance stats, news feeds + more. Privately track Bitcoin / Ethereum / unlimited cryptocurrencies. Customize as many assets / markets / alerts / charts as you want. 
+Privately track ANY Crypto on your home network or internet website for FREE. 100% FREE / open source / PRIVATE cryptocurrency portfolio tracker. Email / text / Alexa / Telegram price alerts, price charts, mining calculators, leverage / gain / loss / balance stats, news feeds + more. Privately track Bitcoin / Ethereum / unlimited cryptocurrencies. Customize as many assets / markets / alerts / charts as you want. 
 
 
-The primary goal of the Open Crypto Tracker project is to provide a 100% FREE / PRIVATE / Open Source cryptocurrency tracker to the crypto community, that 'just works', is easy to use, AND maintains a high level of user privacy / security.
-	       
-	       
-Previously known as 'DFD Cryptocoin Values', Open Crypto Tracker has been in active development since August of 2014. The source code was released on github.com ( https://github.com/taoteh1221/Open_Crypto_Tracker ) later in September of 2015, under the "Open Source" GPL (version 3) license. 
+The primary goal of the Open Crypto Tracker project is to provide a 100% FREE / PRIVATE / Open Source cryptocurrency tracker to the crypto community, that 'just works', is easy to use, AND maintains a high level of user privacy / security. Previously known as 'DFD Cryptocoin Values', Open Crypto Tracker has been in active development since August of 2014. The source code was released on github.com ( https://github.com/taoteh1221/Open_Crypto_Tracker ) later in September of 2015, under the "Open Source" GPL (version 3) license. 
 	       
 	       
 Anybody can FULLY audit the security of this app's codebase (or hire someone to do so for them), and report or fix any issues found, or contribute new features. You can even 'fork' your own version of the codebase, as long as you leave licensing / attribution in place within your fork. More information on project ethos and contributing to this project can be found in CONTRIBUTING.txt (in the app's main directory).
