@@ -54,8 +54,6 @@ header('Access-Control-Allow-Origin: ' . $app_host_address);
 	
 	<link rel="preload" href="templates/interface/css/jquery.mCustomScrollbar.min.css" as="style" />
 	
-	<link rel="preload" href="templates/interface/css/sidebar-style.css" as="style" />
-	
 	<link rel="preload" href="templates/interface/css/style.css" as="style" />
 	
 	<link rel="preload" href="templates/interface/css/<?=$sel_opt['theme_selected']?>.style.css" as="style" />
@@ -103,6 +101,8 @@ header('Access-Control-Allow-Origin: ' . $app_host_address);
 	<link rel="preload" href="app-lib/js/crypto-js.js" as="script" />
 
 	<link rel="preload" href="app-lib/js/functions.js" as="script" />
+
+	<link rel="preload" href="app-lib/js/init.js" as="script" />
 	
 	
 	<!-- END Preload a few UI-related files -->
@@ -156,8 +156,6 @@ header('Access-Control-Allow-Origin: ' . $app_host_address);
 	<link rel="stylesheet" href="templates/interface/css/jquery-ui/jquery-ui.css" type="text/css" />
 	
 	<link rel="stylesheet" href="templates/interface/css/jquery.mCustomScrollbar.min.css" type="text/css" />
-	
-	<link rel="stylesheet" href="templates/interface/css/sidebar-style.css" type="text/css" />
 	
 	<!-- Load theme styling last to over rule -->
 	<link rel="stylesheet" href="templates/interface/css/style.css" type="text/css" />

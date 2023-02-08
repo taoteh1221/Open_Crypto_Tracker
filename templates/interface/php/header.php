@@ -51,8 +51,6 @@ header('Access-Control-Allow-Origin: ' . $app_host_address);
 	
 	<link rel="preload" href="templates/interface/css/jquery.mCustomScrollbar.min.css" as="style" />
 	
-	<link rel="preload" href="templates/interface/css/sidebar-style.css" as="style" />
-	
 	<link rel="preload" href="templates/interface/css/style.css" as="style" />
 	
 	<link rel="preload" href="templates/interface/css/<?=$sel_opt['theme_selected']?>.style.css" as="style" />
@@ -100,6 +98,8 @@ header('Access-Control-Allow-Origin: ' . $app_host_address);
 	<link rel="preload" href="app-lib/js/crypto-js.js" as="script" />
 
 	<link rel="preload" href="app-lib/js/functions.js" as="script" />
+
+	<link rel="preload" href="app-lib/js/init.js" as="script" />
 	
 	
 	<!-- END Preload a few UI-related files -->
@@ -165,8 +165,6 @@ header('Access-Control-Allow-Origin: ' . $app_host_address);
 	<link rel="stylesheet" href="templates/interface/css/jquery-ui/jquery-ui.css" type="text/css" />
 	
 	<link rel="stylesheet" href="templates/interface/css/jquery.mCustomScrollbar.min.css" type="text/css" />
-	
-	<link rel="stylesheet" href="templates/interface/css/sidebar-style.css" type="text/css" />
 	
 	<!-- Load theme styling last to over rule -->
 	<link rel="stylesheet" href="templates/interface/css/style.css" type="text/css" />
@@ -428,16 +426,21 @@ header('Access-Control-Allow-Origin: ' . $app_host_address);
 
 <div id="primary_wrapper" class="wrapper">
 
+
    <!-- hamburger menu toggle icon -->
-   <img src='templates/interface/media/images/auto-preloaded/icons8-hamburger-menu-96-<?=$sel_opt['theme_selected']?>.png' class='sidebar_toggle' id="menu_hamburger" />
+   <img src='templates/interface/media/images/auto-preloaded/icons8-hamburger-menu-96-<?=$sel_opt['theme_selected']?>.png' class='sidebar_toggle' id="sidebar_hamburger" />
 
 
     <!-- Sidebar -->
     <nav id="sidebar">
     
-        <img src='templates/interface/media/images/auto-preloaded/notification-light-line.png' height='45' border='0' id='sb_alerts' />
+    
+        <!-- alerts toggle icon -->
+        <img src='templates/interface/media/images/auto-preloaded/notification-<?=$sel_opt['theme_selected']?>-line.png' height='45' border='0' id='sb_alerts' />
         
+        <!-- close sidebar toggle icon -->
         <img src='templates/interface/media/images/auto-preloaded/icons8-close-window-50-<?=$sel_opt['theme_selected']?>.png' class='sidebar_toggle' id="dismiss" />
+
 
         <div class="sidebar-top">
         
@@ -493,82 +496,83 @@ header('Access-Control-Allow-Origin: ' . $app_host_address);
         
 
         <div class="sidebar-header">
-            <h2 class='align_center' style='margin-bottom: 5px;'>Open Crypto Tracker</h2>
+            <h3 class='align_center' style='margin-bottom: 5px;'>Open Crypto Tracker</h3>
         </div>
         
         <div class="sidebar-slogan align_center">
         
-        <i>Privately</i> track <i>ANY</i> Crypto on your home network or internet website for <a class='sidebar_secondary_link' href='https://taoteh1221.github.io/' target='_blank'><i>FREE</i></a>.
+        <i>Privately</i> track <i>ANY</i> Crypto on your home network or internet website, for <a class='sidebar_secondary_link' href='https://taoteh1221.github.io/' target='_blank'><i>FREE</i></a>.
         
         </div>
 
+
         <ul id='sidebar_menu' class="list-unstyled components">
+        
+            <!-- START #ACTIVE# category (currently-viewed page should be in here) -->
             <li class="active">
+                
                 <a href="#homeSubmenu" data-bs-toggle="collapse" aria-expanded="false" class="dropdown-toggle active">Home</a>
+                
                 <ul class="collapse list-unstyled" id="homeSubmenu">
+                
                     <li class='sidebar-item'>
-                        <a href="#">Home 1</a>
-                    </li>
-                    <li class='sidebar-item'>
-                        <a href="#">Home 2</a>
-                    </li>
-                    <li class='sidebar-item'>
-                        <a href="#">Home 3</a>
+                        <a href="#1">Home 1</a>
                     </li>
                     
+                    <li class='sidebar-item'>
+                        <a href="#2">Home 2</a>
+                    </li>
                     
+                    <li class='sidebar-item'>
+                        <a href="#3">Home 3</a>
+                    </li>
                     
-                    <li class="nav-item dropdown">
-    <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-      Dropdown
-    </a>
-    <ul class="dropdown-menu">
-      <li><a class="dropdown-item" href="#">Action</a></li>
-      <li><a class="dropdown-item" href="#">Another action</a></li>
-      <li><hr class="dropdown-divider"></li>
-      <li class="nav-item dropdown">
-        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-          Dropdown
-        </a>
-        <ul class="dropdown-menu">
-          <li><a class="dropdown-item" href="#">Action</a></li>
-          <li><a class="dropdown-item" href="#">Another action</a></li>
-          <li><hr class="dropdown-divider"></li>
-          <li><a class="dropdown-item" href="#">Something else here</a></li>
-        </ul>
-      </li>
-    </ul>
-</li>
-
-
+                    <!-- START custom 3-deep config -->
+                    <li class="nav-item dropdown custom-3deep open-first">
+                        <a class="nav-link dropdown-toggle" href="#4" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                          Dropdown
+                        </a>
+                        <ul class="dropdown-menu">
+                          <li><a class="dropdown-item" href="#5">Action</a></li>
+                          <li><a class="dropdown-item" href="#6">Another action</a></li>
+                          <!-- <li><hr class="dropdown-divider"></li> -->
                     
-                    
+                        </ul>
+                    </li>
+                    <!-- END custom 3-deep config -->
                     
                 </ul>
+                
             </li>
-            <li>
-                <a href="#">About</a>
+            <!-- END #ACTIVE# category (currently-viewed page should be in here) -->
+            
+            <li class='sidebar-item'>
+                <a href="#7">About</a>
             </li>
+            
             <li>
                 <a href="#pageSubmenu" data-bs-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Pages</a>
                 <ul class="collapse list-unstyled" id="pageSubmenu">
                     <li class='sidebar-item'>
-                        <a href="#">Page 1</a>
+                        <a href="#8">Page 1</a>
                     </li>
                     <li class='sidebar-item'>
-                        <a href="#">Page 2</a>
+                        <a href="#9">Page 2</a>
                     </li>
                     <li class='sidebar-item'>
-                        <a href="#">Page 3</a>
+                        <a href="#10">Page 3</a>
                     </li>
                 </ul>
             </li>
+            
             <li class='sidebar-item active'>
-                <a href="#">Portfolio</a>
+                <a href="#11">Portfolio</a> <!-- EXAMPLE for styling the currently-viewed page -->
             </li>
+            
             <li class='sidebar-item'>
-                <a href="#">Contact</a>
+                <a href="#12">Contact</a>
             </li>
+            
         </ul>
 
         

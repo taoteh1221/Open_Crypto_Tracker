@@ -6075,6 +6075,8 @@ v6.00.2 AND HIGHER RESETS LIGHT (TIME PERIOD) CHARTS FROM ARCHIVAL DATA, ONE-TIM
 
 -New upgrades to the page templates system, to a RESPONSIVE layout (auto-adjusts to ANY screen size, including mobile / tablet)
 
+-New config setting for using ANY google font ( https://fonts.google.com ) as the interface font
+
 -Miscellaneous user experience improvements
 
 -Optimized default configuration

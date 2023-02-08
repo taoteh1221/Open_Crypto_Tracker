@@ -6,6 +6,7 @@
 var iframe_text_val;
 var iframe_height_adjuster;
 var iframe_text_adjuster;
+var custom_3deep_menu_on = false;
 
 window.zingAlert= function(){
   window.alert("PRIVACY ALERT!\n\nUsing the 'Download [filetype]' menu links sends the chart data to export.zingchart.com, to create the download file.\n\nTo preserve privacy, CHOOSE 'View As PNG' INSTEAD, then opposite-click over the chart and choose 'Save Image As', to save the PNG image to your computer.")
@@ -21,105 +22,6 @@ $(document).ready(function(){
 // console.log( array_byte_size(document.cookie) );
 //plugin bootstrap minus and plus
 //http://jsfiddle.net/laelitenetwork/puJ6G/
-
-
-
-// Plus-minus elements (font size / zoom / etc)
-$('.btn-number').click(function(e){
-    e.preventDefault();
-    
-    fieldName = $(this).attr('data-field');
-    type      = $(this).attr('data-type');
-    var input = $("input[name='"+fieldName+"']");
-    var currentVal = parseInt(input.val());
-    if (!isNaN(currentVal)) {
-        if(type == 'minus') {
-            
-            if(currentVal > input.attr('min')) {
-                input.val(currentVal - 1).change();
-            } 
-            if(parseInt(input.val()) == input.attr('min')) {
-                $(this).attr('disabled', true);
-            }
-
-        } else if(type == 'plus') {
-
-            if(currentVal < input.attr('max')) {
-                input.val(currentVal + 1).change();
-            }
-            if(parseInt(input.val()) == input.attr('max')) {
-                $(this).attr('disabled', true);
-            }
-
-        }
-    } else {
-        input.val(0);
-    }
-});
-$('.input-number').focusin(function(){
-   $(this).data('oldValue', $(this).val());
-});
-$('.input-number').change(function() {
-    
-    minValue =  parseInt($(this).attr('min'));
-    maxValue =  parseInt($(this).attr('max'));
-    valueCurrent = parseInt($(this).val());
-    
-    name = $(this).attr('name');
-    if(valueCurrent >= minValue) {
-        $(".btn-number[data-type='minus'][data-field='"+name+"']").removeAttr('disabled')
-    } else {
-        alert('Sorry, the minimum value was reached');
-        $(this).val($(this).data('oldValue'));
-    }
-    if(valueCurrent <= maxValue) {
-        $(".btn-number[data-type='plus'][data-field='"+name+"']").removeAttr('disabled')
-    } else {
-        alert('Sorry, the maximum value was reached');
-        $(this).val($(this).data('oldValue'));
-    }
-    
-    
-});
-$(".input-number").keydown(function (e) {
-        // Allow: backspace, delete, tab, escape, enter and .
-        if ($.inArray(e.keyCode, [46, 8, 9, 27, 13, 190]) !== -1 ||
-             // Allow: Ctrl+A
-            (e.keyCode == 65 && e.ctrlKey === true) || 
-             // Allow: home, end, left, right
-            (e.keyCode >= 35 && e.keyCode <= 39)) {
-                 // let it happen, don't do anything
-                 return;
-        }
-        // Ensure that it is a number and stop the keypress
-        if ((e.shiftKey || (e.keyCode < 48 || e.keyCode > 57)) && (e.keyCode < 96 || e.keyCode > 105)) {
-            e.preventDefault();
-        }
-    });
-    
-    
-    
-    // Init sidebar
-    // NOT IFRAME
-    if ( $("#iframe_error_alert").length == 0 ) {
-         
-         $("#sidebar").mCustomScrollbar({
-              theme: "minimal"
-         });
-         
-     
-         $('.sidebar_toggle').on('click', function () {
-             // open or close navbar
-             $('#sidebar').toggleClass('active');
-             $('#secondary_wrapper').toggleClass('active');
-             // close dropdowns
-             $('.collapse.in').toggleClass('in');
-             // and also adjust aria-expanded attributes we use for the open/closed arrows
-             // in our CSS
-             $('a[aria-expanded=true]').attr('aria-expanded', 'false');
-         });
-    
-    }
 
 
 // Render interface after loading (with transition effects)
@@ -454,6 +356,161 @@ start_utc_time();
         
     } // END page zoom logic
 
+
+
+	/////////////////////////////////////////////////////////////////////////////////////////////////////
+	
+
+    // Init sidebar (IF NOT IFRAME)
+    if ( $("#iframe_error_alert").length == 0 ) {
+         
+         
+         $("#sidebar").mCustomScrollbar({
+              theme: "minimal"
+         });
+         
+         
+         // KEEP OPEN ON CLICK Custom 3-deep (last) sub-menu
+         // ALSO RESET OPEN ON CLICK Custom 3-deep (last) sub-menu
+         $('#sidebar_menu .dropdown-menu').on({
+              "click":function(e){
+              custom_3deep_menu_on = false;
+              e.stopPropagation();
+              }
+          });
+         
+         
+         // RESET OPEN ON CLICK Custom 3-deep (last) sub-menu
+         $('.sidebar-item :not(.custom-3deep)').on({
+              "click":function(e){
+              custom_3deep_menu_on = false;
+              }
+          });
+          
+          
+          // OPEN MAIN LINK ON CLICK (Custom 3-deep (last) sub-menu),
+          // #ONLY AFTER# IT HAS OPENED THE SUBMENU
+          $('li.custom-3deep').on('click', function() {
+           
+           var $el = $(this);
+           
+              if ( $el.hasClass('open-first') ) {
+              
+              var $a = $el.children('a.dropdown-toggle');
+              
+                  if ( $a.length && $a.attr('href') && custom_3deep_menu_on != false ) {
+                  custom_3deep_menu_on = false;
+                  location.href = $a.attr('href');
+                  }
+                  else if ( $a.length && $a.attr('href') ) {
+                  custom_3deep_menu_on = true;
+                  }
+                  else if ( !$a.hasClass('show') ) {
+                  custom_3deep_menu_on = false;
+                  }
+                  
+              }
+              
+          });
+          
+     
+         $('.sidebar_toggle').on('click', function () {
+             // open or close navbar
+             $('#sidebar').toggleClass('active');
+             $('#secondary_wrapper').toggleClass('active');
+             // close dropdowns
+             $('.collapse.in').toggleClass('in');
+             // and also adjust aria-expanded attributes we use for the open/closed arrows
+             // in our CSS
+             $('a[aria-expanded=true]').attr('aria-expanded', 'false');
+         });
+         
+    
+    }
+
+
+	/////////////////////////////////////////////////////////////////////////////////////////////////////
+	
+	
+     // Plus-minus elements (font size / zoom / etc)
+     $('.btn-number').click(function(e){
+         e.preventDefault();
+         
+         fieldName = $(this).attr('data-field');
+         type      = $(this).attr('data-type');
+         var input = $("input[name='"+fieldName+"']");
+         var currentVal = parseInt(input.val());
+         if (!isNaN(currentVal)) {
+             if(type == 'minus') {
+                 
+                 if(currentVal > input.attr('min')) {
+                     input.val(currentVal - 1).change();
+                 } 
+                 if(parseInt(input.val()) == input.attr('min')) {
+                     $(this).attr('disabled', true);
+                 }
+     
+             } else if(type == 'plus') {
+     
+                 if(currentVal < input.attr('max')) {
+                     input.val(currentVal + 1).change();
+                 }
+                 if(parseInt(input.val()) == input.attr('max')) {
+                     $(this).attr('disabled', true);
+                 }
+     
+             }
+         } else {
+             input.val(0);
+         }
+     });
+     ////
+     ////
+     $('.input-number').focusin(function(){
+        $(this).data('oldValue', $(this).val());
+     });
+     ////
+     ////
+     $('.input-number').change(function() {
+         
+         minValue =  parseInt($(this).attr('min'));
+         maxValue =  parseInt($(this).attr('max'));
+         valueCurrent = parseInt($(this).val());
+         
+         name = $(this).attr('name');
+         if(valueCurrent >= minValue) {
+             $(".btn-number[data-type='minus'][data-field='"+name+"']").removeAttr('disabled')
+         } else {
+             alert('Sorry, the minimum value was reached');
+             $(this).val($(this).data('oldValue'));
+         }
+         if(valueCurrent <= maxValue) {
+             $(".btn-number[data-type='plus'][data-field='"+name+"']").removeAttr('disabled')
+         } else {
+             alert('Sorry, the maximum value was reached');
+             $(this).val($(this).data('oldValue'));
+         }
+         
+         
+     });
+     ////
+     ////
+     $(".input-number").keydown(function (e) {
+             // Allow: backspace, delete, tab, escape, enter and .
+             if ($.inArray(e.keyCode, [46, 8, 9, 27, 13, 190]) !== -1 ||
+                  // Allow: Ctrl+A
+                 (e.keyCode == 65 && e.ctrlKey === true) || 
+                  // Allow: home, end, left, right
+                 (e.keyCode >= 35 && e.keyCode <= 39)) {
+                      // let it happen, don't do anything
+                      return;
+             }
+             // Ensure that it is a number and stop the keypress
+             if ((e.shiftKey || (e.keyCode < 48 || e.keyCode > 57)) && (e.keyCode < 96 || e.keyCode > 105)) {
+                 e.preventDefault();
+             }
+         });
+    
 
 	/////////////////////////////////////////////////////////////////////////////////////////////////////
 	

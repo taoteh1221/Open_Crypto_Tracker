@@ -266,6 +266,12 @@ color: #ff4747 !important;
 }
 
 
+.sidebar_secondary_link {
+    color: black !important;
+    text-decoration: underline !important;
+}
+
+
 /* //////////////////////////////
 IDs
 ////////////////////////////// */
@@ -286,9 +292,19 @@ color: #ff4747;
 }
 
 
+#minusBtn {
+border: 1px solid #ff4747;
+}
+
+
+#plusBtn {
+border: 1px solid #10d602;
+}
+
+
 #admin_nav .dropdown-menu, #sidebar {
 background: #ccc7c7 !important;
-border: 2px solid white !important;
+border: 3px solid white !important;
 color: black;
 }
 
@@ -336,23 +352,31 @@ border-radius: 3px;
 }
 
 
+/* Custom 3-deep (last) sub-menu */
+#sidebar_menu .dropdown-menu {
+background-color: #7c7676;
+border: 3px solid black;
+}
+
+
+/* Custom 3-deep (last) sub-menu */
+#sidebar_menu ul.dropdown-menu a,
+#sidebar_menu ul.dropdown-menu li.active > a,
+#sidebar_menu ul.dropdown-menu a[aria-expanded="true"]
+{
+    background: #7c7676 !important;
+}
+
+
 #sidebar ul.components {
-    border-bottom: 1px solid black;
+    border-bottom: 3px solid white;
 }
 
 
-.sidebar_secondary_link {
-    color: black !important;
-    text-decoration: underline !important;
+#sidebar .line {
+    border-bottom: 3px dashed white;
 }
 
 
-#minusBtn {
-border: 1px solid #ff4747;
-}
 
-
-#plusBtn {
-border: 1px solid #10d602;
-}
 

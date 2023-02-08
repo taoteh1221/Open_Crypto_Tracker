@@ -282,19 +282,16 @@ The tags 'h1' through 'h6' should be made to user-adjust text size too (could be
 Move remaining font-size / line-height logic in style.css AND ELSEWHERE into our dynamic CSS header logic.
 
 
-Some NON-HEADING-SIZE text MAY NOT RESIZE EVEN AFTER COMPLETING THE TASK DIRECTLY ABOVE THIS ONE, find out why.
+Some NON-HEADING-SIZE text MAY NOT RESIZE EVEN AFTER COMPLETING THE TASKS DIRECTLY ABOVE THIS ONE, find out why.
 
 
 Cleanup non-existant ids / classes in stylesheets, AFTER converting the templates to a responsive layout.
 
 
-Add ability for 'active' (first-shown) admin page to be dynamically set via GET param, AND have this GET param passed during admin logins as well (if it is set).
+Add ability for 'active' (first-shown) admin page to be dynamically set via GET param, AND have this GET param passed during admin logins as well (if it is set). 
 
 
 Move header nav links to sidebar nav, and show ALL admin page links IF LOGGED IN (and a LOGOUT link).
-
-
-Figure out best location for alert bell, maybe opposite side of page top from the burger menu?
 
 
 ######################################################################################################################

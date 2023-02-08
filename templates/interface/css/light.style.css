@@ -274,6 +274,12 @@ color: #D61F00 !important;
 }
 
 
+.sidebar_secondary_link {
+    color: white !important;
+    text-decoration: underline !important;
+}
+
+
 /* //////////////////////////////
 IDs
 ////////////////////////////// */
@@ -294,9 +300,19 @@ color: #D61F00;
 }
 
 
+#minusBtn {
+border: 1px solid #D61F00;
+}
+
+
+#plusBtn {
+border: 1px solid #066000;
+}
+
+
 #admin_nav .dropdown-menu, #sidebar {
 background: #545353 !important;
-border: 2px solid black !important;
+border: 3px solid black !important;
 color: white;
 }
 
@@ -336,6 +352,22 @@ border-radius: 3px;
 }
 
 
+/* Custom 3-deep (last) sub-menu */
+#sidebar_menu .dropdown-menu {
+background-color: #939292;
+border: 3px solid white;
+}
+
+
+/* Custom 3-deep (last) sub-menu */
+#sidebar_menu ul.dropdown-menu a,
+#sidebar_menu ul.dropdown-menu li.active > a,
+#sidebar_menu ul.dropdown-menu a[aria-expanded="true"]
+{
+    background: #939292 !important;
+}
+
+
 #sidebar ul ul a:hover,
 #sidebar ul li.active a:hover,
 #sidebar ul li a:hover
@@ -345,23 +377,12 @@ border-radius: 3px;
 
 
 #sidebar ul.components {
-    border-bottom: 1px solid white;
+    border-bottom: 3px solid black;
 }
 
 
-.sidebar_secondary_link {
-    color: white !important;
-    text-decoration: underline !important;
-}
-
-
-#minusBtn {
-border: 1px solid #D61F00;
-}
-
-
-#plusBtn {
-border: 1px solid #066000;
+#sidebar .line {
+    border-bottom: 3px dashed black;
 }
 
 
