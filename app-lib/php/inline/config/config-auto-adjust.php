@@ -262,6 +262,50 @@ $ct_cache->save_file($base_dir . '/cache/vars/php_timeout.dat', $conf_php_timeou
 }
 
 
+// Configged google font
+if ( isset($ct_conf['gen']['google_font']) && trim($ct_conf['gen']['google_font']) != '' ) {
+          
+$google_font_name = trim($ct_conf['gen']['google_font']);
+     
+$font_name_url_formatting = $google_font_name;
+$font_name_url_formatting = preg_replace("/  /", " ", $font_name_url_formatting);
+$font_name_url_formatting = preg_replace("/  /", " ", $font_name_url_formatting);
+$font_name_url_formatting = preg_replace("/ /", "+", $font_name_url_formatting);
+
+}
+
+
+// Configged font size
+if ( isset($_COOKIE['font_size']) ) {
+$default_font_size = $_COOKIE['font_size']; // Already 'em' scale format
+}
+elseif ( $ct_var->whole_int($ct_conf['gen']['default_font_size']) ) {
+$default_font_size = round( ($ct_conf['gen']['default_font_size'] * 0.01) , 3);
+}
+else {
+$default_font_size = 1; // 'em' scale format
+}
+
+
+// Enforce min / max allowed values on the default font size
+// (IN 'em' CSS-COMPATIBLE SCALING WE SWITCHED TO ABOVE)
+if ( $default_font_size > 3 ) {
+$default_font_size = 3;
+}
+elseif ( $default_font_size < 0.3 ) {
+$default_font_size = 0.3;
+}
+
+
+$default_font_line_height = round( ($default_font_size * 1.35) , 3); // 135% of $default_font_size
+     
+$default_medium_font_size = round( ($default_font_size * 0.75) , 3); // 75% of $default_font_size
+$default_medium_font_line_height = round( ($default_medium_font_size * 1.35) , 3); // 135% of $default_medium_font_size
+     
+$default_tiny_font_size = round( ($default_font_size * 0.55) , 3); // 55% of $default_font_size
+$default_tiny_font_line_height = round( ($default_tiny_font_size * 1.35) , 3); // 135% of $default_tiny_font_size
+
+
 //////////////////////////////////////////////////////////////////
 // END APP CONFIG DYNAMIC MANAGEMENT
 //////////////////////////////////////////////////////////////////

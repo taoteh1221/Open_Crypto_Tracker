@@ -1,6 +1,6 @@
 
 // Copyright 2014-2023 GPLv3, Open Crypto Tracker by Mike Kilday: Mike@DragonFrugal.com
-   
+
 
 /////////////////////////////////////////////////////////////
 
@@ -207,20 +207,31 @@ $("#coins_table").find("th:eq("+col+")").trigger("sort");
 /////////////////////////////////////////////////////////////
 
 
-const iframe_adjuster = new IntersectionObserver(entries => {
-    
-    entries.forEach(entry => {
-      
-    const intersecting = entry.isIntersecting;
-      
-        if ( intersecting ) {
-        iframe_adjust(entry.target);
-        //console.log(entry.target.id + ' showing.');
-        }
-        
-    });
+function reset_iframe_heights() {
 
-});
+
+     iframe_height_adjuster = new IntersectionObserver(entries => {
+         
+         entries.forEach(entry => {
+           
+         const intersecting = entry.isIntersecting;
+           
+             if ( intersecting ) {
+             iframe_height_adjust(entry.target);
+             //console.log(entry.target.id + ' showing.');
+             }
+             
+         });
+     
+     });
+     
+     
+    $(".admin_iframe").each(function(){
+    iframe_height_adjuster.observe(this);
+    });
+    
+
+}
 
 
 /////////////////////////////////////////////////////////////
@@ -527,7 +538,7 @@ function safe_add_remove_class(class_name, element, mode) {
 /////////////////////////////////////////////////////////////
 
 
-function iframe_adjust(elm) {
+function iframe_height_adjust(elm) {
 
 
     // Set proper page zoom on the iframe
@@ -1234,6 +1245,124 @@ function sorting_portfolio_table() {
 	}
 
 
+}
+
+
+/////////////////////////////////////////////////////////////
+
+
+function interface_font_percent(val) {
+     
+font_size = val * 0.01;
+font_size = font_size.toFixed(3);
+     
+line_height = font_size * 1.35;
+line_height = line_height.toFixed(3);
+     
+medium_font_size = font_size * 0.75;
+medium_font_size = medium_font_size.toFixed(3);
+     
+medium_line_height = medium_font_size * 1.35;
+medium_line_height = medium_line_height.toFixed(3);
+     
+small_font_size = font_size * 0.55;
+small_font_size = small_font_size.toFixed(3);
+     
+small_line_height = small_font_size * 1.35;
+small_line_height = small_line_height.toFixed(3);
+
+
+set_cookie("font_size", font_size, 365);
+
+
+// Standard (we skip sidebar HEADER area)
+$( "#secondary_wrapper, #sidebar_menu, #admin_wrapper, .iframe_wrapper" ).attr('style', function(i,s) { return (s || '') + "font-size: " + font_size + "em !important;" });
+////
+$( "#secondary_wrapper, #sidebar_menu, #admin_wrapper, .iframe_wrapper" ).attr('style', function(i,s) { return (s || '') + "line-height : " + line_height + "em !important;" });
+
+
+// Medium
+$( ".balloon_notation, #change_font_size, #header_size_warning, #admin_conf_quick_links fieldset legend, #admin_conf_quick_links fieldset, #admin_conf_quick_links, .extra_data, td.data span.extra_data, td.data div.extra_data span, .extra_data span, td.data div.extra_data span, .loss, td.data span.loss, td.data div.loss span, .short, td.data span.short, td.data div.short span" ).attr('style', function(i,s) { return (s || '') + "font-size: " + medium_font_size + "em !important;" });
+////
+$( ".balloon_notation, #change_font_size, #header_size_warning, #admin_conf_quick_links fieldset legend, #admin_conf_quick_links fieldset, #admin_conf_quick_links, .extra_data, td.data span.extra_data, td.data div.extra_data span, .extra_data span, td.data div.extra_data span, .loss, td.data span.loss, td.data div.loss span, .short, td.data span.short, td.data div.short span" ).attr('style', function(i,s) { return (s || '') + "line-height : " + medium_line_height + "em !important;" });
+
+
+// Small
+$( ".gain, td.data span.gain, td.data div.gain span, .crypto_worth, .crypto_worth span, td.data div.crypto_worth span" ).attr('style', function(i,s) { return (s || '') + "font-size: " + small_font_size + "em !important;" });
+////
+$( ".gain, td.data span.gain, td.data div.gain span, .crypto_worth, .crypto_worth span, td.data div.crypto_worth span" ).attr('style', function(i,s) { return (s || '') + "line-height : " + small_line_height + "em !important;" });
+
+        
+     if ( window.is_admin == true ) {
+          
+     iframe_text_val = val; // ALREADY A GLOBAL, DON'T USE 'var x'
+
+
+          iframe_text_adjuster = new IntersectionObserver(entries => {
+              
+              entries.forEach(entry => {
+              iframe_text_adjust(entry.target);
+              });
+          
+          });
+          
+          
+          $(".admin_iframe").each(function(){
+          iframe_text_adjuster.observe(this);
+          });
+          
+     
+     // Reset iframe heights after 3.5 seconds (to give above loops time to finish)
+     setTimeout(reset_iframe_heights, 3500);
+     
+     }
+     
+
+}
+
+
+/////////////////////////////////////////////////////////////
+
+
+function iframe_text_adjust(elm) {
+     
+font_size = iframe_text_val * 0.01;
+font_size = font_size.toFixed(3);
+     
+line_height = font_size * 1.35;
+line_height = line_height.toFixed(3);
+     
+medium_font_size = font_size * 0.75;
+medium_font_size = medium_font_size.toFixed(3);
+     
+medium_line_height = medium_font_size * 1.35;
+medium_line_height = medium_line_height.toFixed(3);
+     
+small_font_size = font_size * 0.55;
+small_font_size = small_font_size.toFixed(3);
+     
+small_line_height = small_font_size * 1.35;
+small_line_height = small_line_height.toFixed(3);
+
+
+// Standard (we skip sidebar HEADER area)
+$( "#secondary_wrapper, #sidebar_menu, #admin_wrapper, .iframe_wrapper", elm.contentWindow.document ).attr('style', function(i,s) { return (s || '') + "font-size: " + font_size + "em !important;" });
+////
+$( "#secondary_wrapper, #sidebar_menu, #admin_wrapper, .iframe_wrapper", elm.contentWindow.document ).attr('style', function(i,s) { return (s || '') + "line-height : " + line_height + "em !important;" });
+
+
+// Medium
+$( ".balloon_notation, #change_font_size, #header_size_warning, #admin_conf_quick_links fieldset legend, #admin_conf_quick_links fieldset, #admin_conf_quick_links, .extra_data, td.data span.extra_data, td.data div.extra_data span, .extra_data span, td.data div.extra_data span, .loss, td.data span.loss, td.data div.loss span, .short, td.data span.short, td.data div.short span", elm.contentWindow.document ).attr('style', function(i,s) { return (s || '') + "font-size: " + medium_font_size + "em !important;" });
+////
+$( ".balloon_notation, #change_font_size, #header_size_warning, #admin_conf_quick_links fieldset legend, #admin_conf_quick_links fieldset, #admin_conf_quick_links, .extra_data, td.data span.extra_data, td.data div.extra_data span, .extra_data span, td.data div.extra_data span, .loss, td.data span.loss, td.data div.loss span, .short, td.data span.short, td.data div.short span", elm.contentWindow.document ).attr('style', function(i,s) { return (s || '') + "line-height : " + medium_line_height + "em !important;" });
+
+
+// Small
+$( ".gain, td.data span.gain, td.data div.gain span, .crypto_worth, .crypto_worth span, td.data div.crypto_worth span", elm.contentWindow.document ).attr('style', function(i,s) { return (s || '') + "font-size: " + small_font_size + "em !important;" });
+////
+$( ".gain, td.data span.gain, td.data div.gain span, .crypto_worth, .crypto_worth span, td.data div.crypto_worth span", elm.contentWindow.document ).attr('style', function(i,s) { return (s || '') + "line-height : " + small_line_height + "em !important;" });
+
+              
 }
 
 

@@ -66,17 +66,17 @@ if ( $_POST['admin_submit_register'] || $_POST['admin_submit_login'] || $_POST['
 	    // WE RUN SECURITY CHECKS WITHIN THE REGISTRATION PAGE, SO NOT MUCH CHECKS ARE IN THIS INIT SECTION
 		if ( $_POST['admin_submit_register'] ) {
 		$sel_opt['theme_selected'] = ( $_COOKIE['theme_selected'] ? $_COOKIE['theme_selected'] : $ct_conf['gen']['default_theme'] );
-		require("templates/interface/desktop/php/admin/admin-login/register.php");
+		require("templates/interface/php/admin/admin-login/register.php");
 		exit;
 		}
 		elseif ( $_POST['admin_submit_login'] ) {
 		$sel_opt['theme_selected'] = ( $_COOKIE['theme_selected'] ? $_COOKIE['theme_selected'] : $ct_conf['gen']['default_theme'] );
-		require("templates/interface/desktop/php/admin/admin-login/login.php");
+		require("templates/interface/php/admin/admin-login/login.php");
 		exit;
 		}
 		elseif ( $_POST['admin_submit_reset'] ) {
 		$sel_opt['theme_selected'] = ( $_COOKIE['theme_selected'] ? $_COOKIE['theme_selected'] : $ct_conf['gen']['default_theme'] );
-		require("templates/interface/desktop/php/admin/admin-login/reset.php");
+		require("templates/interface/php/admin/admin-login/reset.php");
 		exit;
 		}
 	

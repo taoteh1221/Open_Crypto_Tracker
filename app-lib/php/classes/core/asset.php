@@ -1431,7 +1431,7 @@ var $ct_array1 = array();
       
       // Rendering webpage UI output
       // DON'T USE require_once(), as we are looping here!
-      require($base_dir . '/templates/interface/desktop/php/user/user-elements/portfolio-asset-row.php');
+      require($base_dir . '/templates/interface/php/user/user-elements/portfolio-asset-row.php');
       
       }
    

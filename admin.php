@@ -14,12 +14,12 @@ require("app-lib/php/init.php");
 
 // If an activated password reset is in progress or no admin login has been set yet, prompt user to create an admin user / pass
 if ( $password_reset_approved || !is_array($stored_admin_login) ) {
-require("templates/interface/desktop/php/admin/admin-login/register.php");
+require("templates/interface/php/admin/admin-login/register.php");
 exit;
 }
 // If NOT logged in
 elseif ( $ct_gen->admin_logged_in() == false ) {
-require("templates/interface/desktop/php/admin/admin-login/login.php");
+require("templates/interface/php/admin/admin-login/login.php");
 exit;
 }
 
@@ -28,16 +28,16 @@ exit;
 
 // Main admin page
 if ( !isset($_GET['plugin']) && !isset($_GET['iframe']) ) {
-require("templates/interface/desktop/php/header.php");
-require("templates/interface/desktop/php/admin/admin-elements/admin-page-main.php");
-require("templates/interface/desktop/php/footer.php");
+require("templates/interface/php/header.php");
+require("templates/interface/php/admin/admin-elements/admin-page-main.php");
+require("templates/interface/php/footer.php");
 }
 // Iframe admin pages
 elseif (
 isset($_GET['section']) && trim($_GET['section']) != '' && $ct_gen->pass_sec_check($_GET['iframe'], 'iframe_' . $_GET['section'])
 || isset($_GET['plugin']) && trim($_GET['plugin']) != '' && $ct_gen->pass_sec_check($_GET['iframe'], 'iframe_' . $_GET['plugin'])
 ) {
-require("templates/interface/desktop/php/admin/admin-elements/admin-page-iframe.php");
+require("templates/interface/php/admin/admin-elements/admin-page-iframe.php");
 }
 // Security monitoring
 else {

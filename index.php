@@ -20,11 +20,11 @@ require("app-lib/php/init.php");
 
 // If an activated password reset is in progress or no admin login has been set yet, prompt user to create an admin user / pass
 if ( $password_reset_approved || !is_array($stored_admin_login) ) {
-require("templates/interface/desktop/php/admin/admin-login/register.php");
+require("templates/interface/php/admin/admin-login/register.php");
 exit;
 }
 else {
-require("templates/interface/desktop/php/header.php");
+require("templates/interface/php/header.php");
 }
 
 ?>
@@ -50,50 +50,50 @@ require("templates/interface/desktop/php/header.php");
 		
 		
 		<div id='portfolio' class='tabdiv'>
-			<?php require("templates/interface/desktop/php/user/user-sections/portfolio.php"); ?>
+			<?php require("templates/interface/php/user/user-sections/portfolio.php"); ?>
 		</div>
 		
 		<div id='update' class='tabdiv'>
-			<?php require("templates/interface/desktop/php/user/user-sections/update.php"); ?>
+			<?php require("templates/interface/php/user/user-sections/update.php"); ?>
 		</div>
 		
 		<div id='settings' class='tabdiv'>
-			<?php require("templates/interface/desktop/php/user/user-sections/settings.php"); ?>
+			<?php require("templates/interface/php/user/user-sections/settings.php"); ?>
 		</div>
 		
 			<?php
 			if ( $ct_conf['gen']['asset_charts_toggle'] == 'on' ) {
 			?>
 		<div id='charts' class='tabdiv container-fluid'>
-			<?php require("templates/interface/desktop/php/user/user-sections/charts.php"); ?>
+			<?php require("templates/interface/php/user/user-sections/charts.php"); ?>
 		</div>
 			<?php
 			}
 			?>
 		
 		<div id='news' class='tabdiv'>
-			<?php require("templates/interface/desktop/php/user/user-sections/news.php"); ?>
+			<?php require("templates/interface/php/user/user-sections/news.php"); ?>
 		</div>
 			
 		<div id='tools' class='tabdiv'>
-			<?php require("templates/interface/desktop/php/user/user-sections/tools.php"); ?>
+			<?php require("templates/interface/php/user/user-sections/tools.php"); ?>
 		</div>
 		
 		<div id='mining' class='tabdiv'>
-			<?php require("templates/interface/desktop/php/user/user-sections/mining.php"); ?>
+			<?php require("templates/interface/php/user/user-sections/mining.php"); ?>
 		</div>
 		
 		<div id='resources' class='tabdiv'>
-			<?php require("templates/interface/desktop/php/user/user-sections/resources.php"); ?>
+			<?php require("templates/interface/php/user/user-sections/resources.php"); ?>
 		</div>
 		
 		<div id='help' class='tabdiv'>
-			<?php require("templates/interface/desktop/php/user/user-sections/help.php"); ?>
+			<?php require("templates/interface/php/user/user-sections/help.php"); ?>
 		</div>
 
 
 <?php
-require("templates/interface/desktop/php/footer.php");
+require("templates/interface/php/footer.php");
 
 // DON'T LEAVE ANY WHITESPACE AFTER THE CLOSING PHP TAG!
 

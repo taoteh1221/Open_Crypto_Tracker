@@ -37,6 +37,17 @@ exit;
 $ct_conf['gen']['loc_time_offset'] = -5; // example: -5 or 5, -5.5 or 5.75
 
 
+// Displays interface text in ANY google font found at: https://fonts.google.com
+// Set as '' (blank) for default bootstrap / system / browser font
+// 'font' OR 'font name' IN QUOTES for ANY google font, OR '' to skip
+$ct_conf['gen']['google_font'] = 'Poppins'; // 'Poppins' / 'Varela Round' / etc any google font (default = 'Poppins')
+
+
+// DEFAULT font size PERCENTAGE (*WITHOUT* THE PERCENT SYMBOL!)
+// LIMITS: MINIMUM OF 30 / MAXIMUM OF 300
+$ct_conf['gen']['default_font_size'] = 100; // Default = 100 (equal to 100%)
+
+
 // Configure which interface theme you want as the default theme (also can be manually switched later, on the settings page in the interface)
 $ct_conf['gen']['default_theme'] = 'dark'; // 'dark' or 'light'
 
@@ -1822,7 +1833,7 @@ $ct_conf['mob_net_txt_gateways'] = array(
                         'sprint' => 'messaging.sprintpcs.com',
                         'tmobile_us' => 'tmomail.net',
                         'telus' => 'mms.telusmobility.com',
-                        'trac_fone' => 'mmst5.tracfone.com',
+                        'tracfone' => 'mmst5.tracfone.com',
                         'union' => 'union-tel.com',
                         'us_cellular' => 'email.uscc.net',
                         'verizon' => 'vtext.com',

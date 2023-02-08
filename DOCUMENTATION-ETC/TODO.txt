@@ -150,6 +150,11 @@ DEBUGGING / TESTS / UX / QA / OTHER
 ############ NEXT DEBUG / TEST / QA / OTHER SCHEDULED WORK SESSION ###################################
 
 
+All NON-GLOBAL variables inside functions should be started as 'var my_var_name': 
+
+https://stackoverflow.com/questions/10872006/how-do-i-change-the-value-of-a-global-variable-inside-of-a-function/10874509#10874509
+
+
 Look for "0.0000" in app, for more instances we need to now be dynamic in the logic (base off new min decimal settings in the general section of the config).
 
 
@@ -169,6 +174,9 @@ Remove all linebreaks in javascript alert / confirm dialogue boxes, except for n
 
 
 ######################################################################################################
+
+
+Look into doing bootstrap modals instead of the current library we use.
 
 
 Setup XAMPP on Win10 on the DVR server, and run server edition of tracker on it for a week with PHP debug logging on.
@@ -252,6 +260,27 @@ FEATURES / NEW INFRASTRUCTURE / RESEARCH
 
 
 ############ NEXT FEATURES / NEW INFRASTRUCTURE / RESEARCH SCHEDULED WORK SESSION ####################################
+
+
+SEE PUBLIC DEMO FOR GUIDANCE ON MIGRATING A FEW ITEMS BELOW (AS WE ARE NOT UPDATING THE PUBLIC DEMO UNTIL WE COMPLETE THE TEMPLATE OVERHAUL)!
+
+
+Migrate our custom FAQ page styling (backgounds / text colors) to be bootstrap-v5-compatible (since we just upgraded to bootstrap v5)
+
+
+Migrate our custom select/option menu styling (rounded corners / custom drop-down arrow) to be bootstrap-v5-compatible (since we just upgraded to bootstrap v5)
+
+
+The tags 'h1' through 'h6' should be made to user-adjust text size too (could be a bit tricky, be careful).
+
+
+Move remaining font-size / line-height logic in style.css AND ELSEWHERE into our dynamic CSS header logic.
+
+
+Some NON-HEADING-SIZE text MAY NOT RESIZE EVEN AFTER COMPLETING THE TASK DIRECTLY ABOVE THIS ONE, find out why.
+
+
+Cleanup non-existant ids / classes in stylesheets, AFTER converting the templates to a responsive layout.
 
 
 Add ability for 'active' (first-shown) admin page to be dynamically set via GET param, AND have this GET param passed during admin logins as well (if it is set).
