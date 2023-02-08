@@ -282,7 +282,14 @@ The tags 'h1' through 'h6' should be made to user-adjust text size too (could be
 Move remaining font-size / line-height logic in style.css AND ELSEWHERE into our dynamic CSS header logic.
 
 
-Some NON-HEADING-SIZE text MAY NOT RESIZE EVEN AFTER COMPLETING THE TASKS DIRECTLY ABOVE THIS ONE, find out why.
+Some NON-HEADING-SIZE text MAY NOT RESIZE EVEN AFTER COMPLETING THE TASKS DIRECTLY ABOVE THIS ONE, find out why. THIS OLD CODE BELOW MAY COME IN HANDY FOR DEBUGGING THAT:
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+html, p, td.data, td.data span.data, td select, td.data span, input, select, textarea, input[type=submit], input[type=button], .force_button_style, .btn-link, .btn-link a, .btn-link:hover {	
+font-family: sans-serif !important;
+font-size: 15px !important;
+}
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 
 Cleanup non-existant ids / classes in stylesheets, AFTER converting the templates to a responsive layout.

@@ -666,6 +666,11 @@ border-radius: 6px !important;
 }
 
 
+.sidebar_secondary_link {
+    text-decoration: underline !important;
+}
+
+
 /* //////////////////////////////
 IDs
 ////////////////////////////// */

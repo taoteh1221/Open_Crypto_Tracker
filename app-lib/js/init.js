@@ -20,8 +20,6 @@ $(document).ready(function(){
 // PHP used instead for logging / alerts, but leave here in case we want to use pure-javascript
 // cookie creation some day (which could help pre-detect too-large headers that crash an HTTP server)
 // console.log( array_byte_size(document.cookie) );
-//plugin bootstrap minus and plus
-//http://jsfiddle.net/laelitenetwork/puJ6G/
 
 
 // Render interface after loading (with transition effects)
@@ -312,8 +310,7 @@ start_utc_time();
 	/////////////////////////////////////////////////////////////////////////////////////////////////////
 	
 	
-    // Page zoom support for chrome (only shown in desktop app) 
-    // (firefox skews the entire page, safari untested)
+     // Plus-minus elements (DESKTOP EDITION'S zoom in / out interface ONLY)
     if ( app_edition == 'desktop' ) {
     
         // Plus button
@@ -389,7 +386,7 @@ start_utc_time();
           
           
           // OPEN MAIN LINK ON CLICK (Custom 3-deep (last) sub-menu),
-          // #ONLY AFTER# IT HAS OPENED THE SUBMENU
+          // #ONLY AFTER# IT HAS OPENED THE SUBMENU AT LEAST ONCE
           $('li.custom-3deep').on('click', function() {
            
            var $el = $(this);
@@ -432,7 +429,7 @@ start_utc_time();
 	/////////////////////////////////////////////////////////////////////////////////////////////////////
 	
 	
-     // Plus-minus elements (font size / zoom / etc)
+     // Plus-minus elements (font size interface ONLY)
      $('.btn-number').click(function(e){
          e.preventDefault();
          

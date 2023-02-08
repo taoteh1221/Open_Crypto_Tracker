@@ -575,28 +575,8 @@ header('Access-Control-Allow-Origin: ' . $app_host_address);
             
         </ul>
 
-        
 
     </nav>
-    
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
     
     <!-- content body -->
