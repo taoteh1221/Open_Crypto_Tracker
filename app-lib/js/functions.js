@@ -406,11 +406,11 @@ function app_reloading_check(form_submission=0) {
 /////////////////////////////////////////////////////////////
 
 
-function cron_loading_check(cron_loaded) {
+function cron_loading_check(cron_already_run) {
 	
 //console.log('loaded charts = ' + window.charts_loaded.length + ', all charts = ' + window.charts_num);
 
-	if ( window.cron_loaded == true ) {
+	if ( cron_already_run == true ) {
 	return 'done';
 	}
 	else {
@@ -430,7 +430,7 @@ function charts_loading_check(charts_loaded) {
 //console.log('loaded charts = ' + window.charts_loaded.length + ', all charts = ' + window.charts_num);
 
     // NOT IN ADMIN AREA (UNLIKE CRON EMULATION)
-	if ( charts_loaded.length >= window.charts_num || window.is_admin == true ) {
+	if ( charts_loaded.length >= window.charts_num || is_admin == true ) {
 	return 'done';
 	}
 	else {
@@ -450,7 +450,7 @@ function feeds_loading_check(feeds_loaded) {
 //console.log('loaded feeds = ' + window.feeds_loaded.length + ', all feeds = ' + window.feeds_num);
 
     // NOT IN ADMIN AREA (UNLIKE CRON EMULATION)
-	if ( feeds_loaded.length >= window.feeds_num || window.is_admin == true ) {
+	if ( feeds_loaded.length >= window.feeds_num || is_admin == true ) {
 	return 'done';
 	}
 	else {
@@ -861,7 +861,7 @@ return time_period_text;
 
 function emulated_cron() {
     
-window.cron_loaded = false;
+cron_already_run = false;
 
 background_tasks_check(); 
 
@@ -878,7 +878,7 @@ background_tasks_check();
                 console.log( "cron emulation RESULT: " + response.result + ', at ' + human_time( new Date().getTime() ) );
                 }
             
-            window.cron_loaded = true;
+            cron_already_run = true;
             
                 // If flagged to display error in GUI
                 if ( typeof response.display_error != 'undefined' ) {
@@ -899,7 +899,7 @@ background_tasks_check();
             },
             error: function(e) {
             console.log( "cron emulation: ERROR at " + human_time( new Date().getTime() ) );
-            window.cron_loaded = true;
+            cron_already_run = true;
             background_tasks_check(); 
             }
         });
@@ -932,7 +932,7 @@ function app_reload(form_submission) {
     clearTimeout(reload_recheck);
     
     
-        if ( form_submission == 0 || window.form_submit_queued == true ) {
+        if ( form_submission == 0 || form_submit_queued == true ) {
             
         $("#app_loading").show(250, 'linear'); // 0.25 seconds
         $("#app_loading_span").html("Reloading...");
@@ -1013,7 +1013,7 @@ function background_tasks_check() {
         
         
         if (
-		feeds_loading_check(window.feeds_loaded) == 'done' && charts_loading_check(window.charts_loaded) == 'done' && cron_loading_check(window.cron_loaded) == 'done'
+		feeds_loading_check(window.feeds_loaded) == 'done' && charts_loading_check(window.charts_loaded) == 'done' && cron_loading_check(cron_already_run) == 'done'
 		) {
 		    
 		$("#background_loading").hide(250); // 0.25 seconds
@@ -1251,57 +1251,66 @@ function sorting_portfolio_table() {
 /////////////////////////////////////////////////////////////
 
 
-function interface_font_percent(val) {
+function interface_font_percent(font_val, iframe_elm=false) {
      
-font_size = val * 0.01;
-font_size = font_size.toFixed(3);
+var font_size = font_val * 0.01;
+var font_size = font_size.toFixed(3);
      
-line_height = font_size * 1.35;
-line_height = line_height.toFixed(3);
+var line_height = font_size * 1.35;
+var line_height = line_height.toFixed(3);
      
-medium_font_size = font_size * 0.75;
-medium_font_size = medium_font_size.toFixed(3);
+var medium_font_size = font_size * 0.75;
+var medium_font_size = medium_font_size.toFixed(3);
      
-medium_line_height = medium_font_size * 1.35;
-medium_line_height = medium_line_height.toFixed(3);
+var medium_line_height = medium_font_size * 1.35;
+var medium_line_height = medium_line_height.toFixed(3);
      
-small_font_size = font_size * 0.55;
-small_font_size = small_font_size.toFixed(3);
+var small_font_size = font_size * 0.55;
+var small_font_size = small_font_size.toFixed(3);
      
-small_line_height = small_font_size * 1.35;
-small_line_height = small_line_height.toFixed(3);
+var small_line_height = small_font_size * 1.35;
+var small_line_height = small_line_height.toFixed(3);
 
 
-set_cookie("font_size", font_size, 365);
+     if ( iframe_elm != false ) {
+     var font_elements = $(font_size_css_selector);
+     var medium_font_elements = $(medium_font_size_css_selector);
+     var small_font_elements = $(small_font_size_css_selector);
+     }
+     else {
+     var font_elements = $(font_size_css_selector, iframe_elm.contentWindow.document);
+     var medium_font_elements = $(medium_font_size_css_selector, iframe_elm.contentWindow.document);
+     var small_font_elements = $(small_font_size_css_selector, iframe_elm.contentWindow.document);
+     }
 
 
 // Standard (we skip sidebar HEADER area)
-$( "#secondary_wrapper, #sidebar_menu, #admin_wrapper, .iframe_wrapper" ).attr('style', function(i,s) { return (s || '') + "font-size: " + font_size + "em !important;" });
+font_elements.attr('style', function(i,s) { return (s || '') + "font-size: " + font_size + "em !important;" });
 ////
-$( "#secondary_wrapper, #sidebar_menu, #admin_wrapper, .iframe_wrapper" ).attr('style', function(i,s) { return (s || '') + "line-height : " + line_height + "em !important;" });
+font_elements.attr('style', function(i,s) { return (s || '') + "line-height : " + line_height + "em !important;" });
 
 
 // Medium
-$( ".balloon_notation, #change_font_size, #header_size_warning, #admin_conf_quick_links fieldset legend, #admin_conf_quick_links fieldset, #admin_conf_quick_links, .extra_data, td.data span.extra_data, td.data div.extra_data span, .extra_data span, td.data div.extra_data span, .loss, td.data span.loss, td.data div.loss span, .short, td.data span.short, td.data div.short span" ).attr('style', function(i,s) { return (s || '') + "font-size: " + medium_font_size + "em !important;" });
+medium_font_elements.attr('style', function(i,s) { return (s || '') + "font-size: " + medium_font_size + "em !important;" });
 ////
-$( ".balloon_notation, #change_font_size, #header_size_warning, #admin_conf_quick_links fieldset legend, #admin_conf_quick_links fieldset, #admin_conf_quick_links, .extra_data, td.data span.extra_data, td.data div.extra_data span, .extra_data span, td.data div.extra_data span, .loss, td.data span.loss, td.data div.loss span, .short, td.data span.short, td.data div.short span" ).attr('style', function(i,s) { return (s || '') + "line-height : " + medium_line_height + "em !important;" });
+medium_font_elements.attr('style', function(i,s) { return (s || '') + "line-height : " + medium_line_height + "em !important;" });
 
 
 // Small
-$( ".gain, td.data span.gain, td.data div.gain span, .crypto_worth, .crypto_worth span, td.data div.crypto_worth span" ).attr('style', function(i,s) { return (s || '') + "font-size: " + small_font_size + "em !important;" });
+small_font_elements.attr('style', function(i,s) { return (s || '') + "font-size: " + small_font_size + "em !important;" });
 ////
-$( ".gain, td.data span.gain, td.data div.gain span, .crypto_worth, .crypto_worth span, td.data div.crypto_worth span" ).attr('style', function(i,s) { return (s || '') + "line-height : " + small_line_height + "em !important;" });
+small_font_elements.attr('style', function(i,s) { return (s || '') + "line-height : " + small_line_height + "em !important;" });
 
         
-     if ( window.is_admin == true ) {
+     if ( iframe_elm = false && is_admin == true ) {
           
-     iframe_text_val = val; // ALREADY A GLOBAL, DON'T USE 'var x'
+     iframe_font_val = font_val; // ALREADY A GLOBAL, DON'T USE 'var x'
 
 
           iframe_text_adjuster = new IntersectionObserver(entries => {
               
               entries.forEach(entry => {
-              iframe_text_adjust(entry.target);
+              interface_font_percent(iframe_font_val, entry.target);
               });
           
           });
@@ -1316,53 +1325,13 @@ $( ".gain, td.data span.gain, td.data div.gain span, .crypto_worth, .crypto_wort
      setTimeout(reset_iframe_heights, 3500);
      
      }
+     // We don't want to re-set the cookie everytime an iframe is processed,
+     // So just set when adjusting the main document
+     else {
+     set_cookie("font_size", font_size, 365);
+     }
      
 
-}
-
-
-/////////////////////////////////////////////////////////////
-
-
-function iframe_text_adjust(elm) {
-     
-font_size = iframe_text_val * 0.01;
-font_size = font_size.toFixed(3);
-     
-line_height = font_size * 1.35;
-line_height = line_height.toFixed(3);
-     
-medium_font_size = font_size * 0.75;
-medium_font_size = medium_font_size.toFixed(3);
-     
-medium_line_height = medium_font_size * 1.35;
-medium_line_height = medium_line_height.toFixed(3);
-     
-small_font_size = font_size * 0.55;
-small_font_size = small_font_size.toFixed(3);
-     
-small_line_height = small_font_size * 1.35;
-small_line_height = small_line_height.toFixed(3);
-
-
-// Standard (we skip sidebar HEADER area)
-$( "#secondary_wrapper, #sidebar_menu, #admin_wrapper, .iframe_wrapper", elm.contentWindow.document ).attr('style', function(i,s) { return (s || '') + "font-size: " + font_size + "em !important;" });
-////
-$( "#secondary_wrapper, #sidebar_menu, #admin_wrapper, .iframe_wrapper", elm.contentWindow.document ).attr('style', function(i,s) { return (s || '') + "line-height : " + line_height + "em !important;" });
-
-
-// Medium
-$( ".balloon_notation, #change_font_size, #header_size_warning, #admin_conf_quick_links fieldset legend, #admin_conf_quick_links fieldset, #admin_conf_quick_links, .extra_data, td.data span.extra_data, td.data div.extra_data span, .extra_data span, td.data div.extra_data span, .loss, td.data span.loss, td.data div.loss span, .short, td.data span.short, td.data div.short span", elm.contentWindow.document ).attr('style', function(i,s) { return (s || '') + "font-size: " + medium_font_size + "em !important;" });
-////
-$( ".balloon_notation, #change_font_size, #header_size_warning, #admin_conf_quick_links fieldset legend, #admin_conf_quick_links fieldset, #admin_conf_quick_links, .extra_data, td.data span.extra_data, td.data div.extra_data span, .extra_data span, td.data div.extra_data span, .loss, td.data span.loss, td.data div.loss span, .short, td.data span.short, td.data div.short span", elm.contentWindow.document ).attr('style', function(i,s) { return (s || '') + "line-height : " + medium_line_height + "em !important;" });
-
-
-// Small
-$( ".gain, td.data span.gain, td.data div.gain span, .crypto_worth, .crypto_worth span, td.data div.crypto_worth span", elm.contentWindow.document ).attr('style', function(i,s) { return (s || '') + "font-size: " + small_font_size + "em !important;" });
-////
-$( ".gain, td.data span.gain, td.data div.gain span, .crypto_worth, .crypto_worth span, td.data div.crypto_worth span", elm.contentWindow.document ).attr('style', function(i,s) { return (s || '') + "line-height : " + small_line_height + "em !important;" });
-
-              
 }
 
 
@@ -1628,8 +1597,8 @@ function auto_reload() {
 	if ( document.getElementById("set_use_cookies") ) {
 		
 		
-		if ( window.reload_countdown ) {
-		clearInterval(window.reload_countdown);
+		if ( reload_countdown ) {
+		clearInterval(reload_countdown);
 		}
 
 		
@@ -1673,7 +1642,7 @@ function auto_reload() {
                	
     				int_time = time - 1; // Remove a second for the 1000 millisecond (1 second) recheck interval
     			
-                	window.reload_countdown = setInterval(function () {
+                	reload_countdown = setInterval(function () {
                           
                     
                     	if ( int_time >= 60 ) {
@@ -1695,7 +1664,7 @@ function auto_reload() {
             				}
                 
                 
-                 	int_time-- || clearInterval(window.reload_countdown);  // Clear if 0 reached
+                 	int_time-- || clearInterval(reload_countdown);  // Clear if 0 reached
                  
                  	}, 1000);
     	    

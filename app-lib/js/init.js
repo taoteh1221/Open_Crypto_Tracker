@@ -2,11 +2,92 @@
 // Copyright 2014-2023 GPLv3, Open Crypto Tracker by Mike Kilday: Mike@DragonFrugal.com
 
 
-// Global vars
-var iframe_text_val;
+// Set global vars...
+
+// Arrays
+
+var modal_windows = new Array(); // Set the modal windows array (to dynamically populate)
+
+var feeds_loaded = new Array();
+
+var charts_loaded = new Array();
+	
+var pref_bitcoin_mrkts = new Array();
+
+var limited_apis = new Array();
+
+var secondary_mrkt_currencies = new Array();
+
+// Strings
+
+var ct_id; // Install ID (derived from this app's server path)
+	
+var app_edition;
+	
+var min_fiat_val_test;
+	
+var min_crypto_val_test;
+	
+var watch_only_flag_val;
+	
+var logs_csrf_sec_token;
+	
+var background_tasks_recheck;
+
+var reload_countdown;
+	
+var reload_recheck;
+
+var notes_storage;
+
+var cookies_size_warning;
+	
+var theme_selected;
+
+var iframe_font_val;
+
 var iframe_height_adjuster;
+
 var iframe_text_adjuster;
+
+var admin_area_sec_level;
+	
+var feeds_num;
+	
+var charts_num;
+	
+var sorted_by_col;
+
+var sorted_asc_desc;
+	
+var charts_background;
+
+var charts_border;
+	
+var btc_prim_currency_val;
+
+var btc_prim_currency_pair;
+
+var font_size_css_selector;
+
+var medium_font_size_css_selector;
+
+var small_font_size_css_selector;
+
+// With defaults
+	
+var cron_already_run = true; // Register as no-action-needed (saying it's already loaded turns off UI notices)
+
 var custom_3deep_menu_on = false;
+
+var is_admin = false;
+
+var is_iframe = false;
+
+var form_submit_queued = false;
+	
+var background_tasks_status = 'wait';
+
 
 window.zingAlert= function(){
   window.alert("PRIVACY ALERT!\n\nUsing the 'Download [filetype]' menu links sends the chart data to export.zingchart.com, to create the download file.\n\nTo preserve privacy, CHOOSE 'View As PNG' INSTEAD, then opposite-click over the chart and choose 'Save Image As', to save the PNG image to your computer.")
@@ -95,7 +176,7 @@ start_utc_time();
     // Mirror hidden errors output in the footer over to the alert bell area with javascript
     // Run AFTER check to see if alerts are present
     // NOT IFRAME
-    if ( $("#iframe_error_alert").length == 0 ) {
+    if ( !is_iframe ) {
 	
         // See if any alerts are present
         if ( $('#app_error_alert').html() == '' ) {
@@ -132,7 +213,7 @@ start_utc_time();
     // (does NOT affect a standard javascript ELEMENT.submit() call)
     $("form").submit(function(event) { 
     
-    window.form_submit_queued = true;
+    form_submit_queued = true;
     
         // We have to run app_reloading_check() here, 
         if ( app_reloading_check(1) == 'no' ) {
@@ -250,8 +331,8 @@ start_utc_time();
         // If background tasks are still running, force a browser confirmation to refresh / leave / close
         if ( window.background_tasks_status == 'wait' ) {
             
-            if ( window.form_submit_queued == true ) {
-            window.form_submit_queued = false;
+            if ( form_submit_queued == true ) {
+            form_submit_queued = false;
             }
             
         $("#background_loading_span").html("Please wait, finishing background tasks...").css("color", "#ff4747", "important");
@@ -324,7 +405,7 @@ start_utc_time();
         $("#zoom_show_ui").html(currzoom + '%');
         //console.log(currzoom);
         
-            if ( window.is_admin == true ) {
+            if ( is_admin == true ) {
                 admin_iframe_load.forEach(function(iframe) {
                 iframe_height_adjust(iframe);
                 });
@@ -343,7 +424,7 @@ start_utc_time();
         $("#zoom_show_ui").html(currzoom + '%');
         //console.log(currzoom);
         
-            if ( window.is_admin == true ) {
+            if ( is_admin == true ) {
                 admin_iframe_load.forEach(function(iframe) {
                 iframe_height_adjust(iframe);
                 });
@@ -359,7 +440,7 @@ start_utc_time();
 	
 
     // Init sidebar (IF NOT IFRAME)
-    if ( $("#iframe_error_alert").length == 0 ) {
+    if ( !is_iframe ) {
          
          
          $("#sidebar").mCustomScrollbar({
@@ -389,20 +470,20 @@ start_utc_time();
           // #ONLY AFTER# IT HAS OPENED THE SUBMENU AT LEAST ONCE
           $('li.custom-3deep').on('click', function() {
            
-           var $el = $(this);
+           var $cust_men_el = $(this);
            
-              if ( $el.hasClass('open-first') ) {
+              if ( $cust_men_el.hasClass('open-first') ) {
               
-              var $a = $el.children('a.dropdown-toggle');
+              var $cust_men_a = $cust_men_el.children('a.dropdown-toggle');
               
-                  if ( $a.length && $a.attr('href') && custom_3deep_menu_on != false ) {
+                  if ( $cust_men_a.length && $cust_men_a.attr('href') && custom_3deep_menu_on != false ) {
                   custom_3deep_menu_on = false;
-                  location.href = $a.attr('href');
+                  location.href = $cust_men_a.attr('href');
                   }
-                  else if ( $a.length && $a.attr('href') ) {
+                  else if ( $cust_men_a.length && $cust_men_a.attr('href') ) {
                   custom_3deep_menu_on = true;
                   }
-                  else if ( !$a.hasClass('show') ) {
+                  else if ( !$cust_men_a.hasClass('show') ) {
                   custom_3deep_menu_on = false;
                   }
                   

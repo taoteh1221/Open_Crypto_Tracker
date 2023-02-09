@@ -1,5 +1,8 @@
 <?php
-
+/*
+ * Copyright 2014-2023 GPLv3, Open Crypto Tracker by Mike Kilday: Mike@DragonFrugal.com
+ */
+ 
 header('Content-type: text/html; charset=' . $ct_conf['dev']['charset_default']);
 
 header('Access-Control-Allow-Headers: *'); // Allow ALL headers
@@ -14,13 +17,16 @@ header('Access-Control-Allow-Origin: ' . $app_host_address);
 }
 
 ?><!DOCTYPE html>
+
 <html lang="en">
+
 <!-- /*
  * Copyright 2014-2023 GPLv3, Open Crypto Tracker by Mike Kilday: Mike@DragonFrugal.com
  */ -->
 
-<head>
+<?=( isset($system_info['portfolio_cookies']) ? '<!-- CURRENT COOKIES SIZE TOTAL: ' . $ct_var->num_pretty( ($system_info['portfolio_cookies'] / 1000) , 2) . ' kilobytes -->' : '' )?>	
 
+<head>
 
 	<title>Open Crypto Tracker<?=( $is_admin ? ' - Admin Config' : '' )?></title>
     
@@ -104,38 +110,117 @@ header('Access-Control-Allow-Origin: ' . $app_host_address);
 	
 	<!-- END Preload a few UI-related files -->
 
+
+	<script src="app-lib/js/jquery/jquery-3.6.0.min.js"></script>
+
+	<script src="app-lib/js/jquery/jquery.tablesorter.min.js"></script>
+
+	<script src="app-lib/js/jquery/jquery.tablesorter.widgets.min.js"></script>
+
+	<script src="app-lib/js/jquery/jquery.balloon.min.js"></script>
+	
+	<script src="app-lib/js/jquery/jquery-ui/jquery-ui.js"></script>
+
+     <script src="app-lib/js/jquery/jquery.repeatable.js"></script>
+
+	<script src="app-lib/js/jquery/jquery.mCustomScrollbar.concat.min.js"></script>
+
+	<script src="app-lib/js/modaal.js"></script>
+
+	<script src="app-lib/js/base64-decode.js"></script>
+
+	<script src="app-lib/js/autosize.min.js"></script>
+
+	<script src="app-lib/js/popper.min.js"></script>
+	
+	<script src="app-lib/js/zingchart.min.js"></script>
+	
+	<script src="app-lib/js/crypto-js.js"></script>
+
+	<script src="app-lib/js/functions.js"></script>
+
+	<script src="app-lib/js/init.js"></script>
+
+	<script src="app-lib/js/random-tips.js"></script>
+	
 	
 	<script>
 	
-	// Set the modal windows array (to dynamically populate)
-	var modal_windows = [];
+
+	// Set the global JSON config to asynchronous 
+	// (so JSON requests run in the background, without pausing any of the page render scripting)
+	$.ajaxSetup({
+     async: true
+	});
 	
-	// Install ID (derived from this app's server path)
-	var ct_id = '<?=$ct_gen->id()?>';
 	
-	var app_edition = '<?=$app_edition?>';
+	// Javascript var inits / configs
 	
-	var min_fiat_val_test = '<?=$min_fiat_val_test?>';
+	ct_id = '<?=$ct_gen->id()?>';
 	
-	var min_crypto_val_test = '<?=$min_crypto_val_test?>';
+	app_edition = '<?=$app_edition?>';
 	
-	var watch_only_flag_val = '<?=$watch_only_flag_val?>';
+	theme_selected = '<?=$sel_opt['theme_selected']?>';
 	
-	var logs_csrf_sec_token = '<?=base64_encode( $ct_gen->admin_hashed_nonce('logs_csrf_security') )?>';
+	min_fiat_val_test = '<?=$min_fiat_val_test?>';
 	
-	var notes_storage = ct_id + "notes";
+	min_crypto_val_test = '<?=$min_crypto_val_test?>';
 	
-	var background_tasks_status = 'wait'; // Default
+	watch_only_flag_val = '<?=$watch_only_flag_val?>';
 	
-	var background_tasks_recheck; // Default
+	charts_background = '<?=$ct_conf['power']['charts_background']?>';
 	
-	var reload_recheck; // Default
-    
-     window.is_admin = false; // Default
-    
-     window.form_submit_queued = false; // Default
+	charts_border = '<?=$ct_conf['power']['charts_border']?>';
 	
-	window.reload_countdown = false; // Default
+	btc_prim_currency_val = '<?=number_format( $sel_opt['sel_btc_prim_currency_val'], 2, '.', '' )?>';
+	
+	btc_prim_currency_pair = '<?=strtoupper($ct_conf['gen']['btc_prim_currency_pair'])?>';
+	
+	cookies_size_warning = '<?=( isset($system_warnings['portfolio_cookies_size']) ? $system_warnings['portfolio_cookies_size'] : 'none' )?>';
+	
+	feeds_num = <?=( isset($sel_opt['show_feeds'][0]) && $sel_opt['show_feeds'][0] != '' ? sizeof($sel_opt['show_feeds']) : 0 )?>;
+	
+	charts_num = <?=( isset($sel_opt['show_charts'][0]) && $sel_opt['show_charts'][0] != '' ? sizeof($sel_opt['show_charts']) : 0 )?>;
+	
+	sorted_by_col = <?=( $sel_opt['sorted_by_col'] ? $sel_opt['sorted_by_col'] : 0 )?>;
+	
+	sorted_asc_desc = <?=( $sel_opt['sorted_asc_desc'] ? $sel_opt['sorted_asc_desc'] : 0 )?>;
+	
+	
+	<?php
+	if ( !$is_iframe ) {
+	?>
+	
+	is_iframe = true;
+	
+	<?php
+	}
+	else {
+	?>
+	
+	notes_storage = ct_id + "notes";
+	
+	<?php
+	}
+	
+	if ( $is_admin ) {
+	?>
+     
+     is_admin = true;
+     
+	admin_area_sec_level = '<?=base64_encode( $admin_area_sec_level )?>';
+	
+	logs_csrf_sec_token = '<?=base64_encode( $ct_gen->admin_hashed_nonce('logs_csrf_security') )?>';
+	
+	<?php
+	}
+	?>
+	
+	font_size_css_selector = "<?=$font_size_css_selector?>";
+	
+	medium_font_size_css_selector = "<?=$medium_font_size_css_selector?>";
+	
+	small_font_size_css_selector = "<?=$small_font_size_css_selector?>";
 	
 	// Preload /images/auto-preloaded/ images VIA JAVASCRIPT TOO (WAY MORE RELIABLE THAN META TAG PRELOAD)
 	
@@ -155,6 +240,58 @@ header('Access-Control-Allow-Origin: ' . $app_host_address);
 	}
 	?>
 	
+	
+	<?php
+	foreach ( $ct_conf['dev']['limited_apis'] as $api ) {
+	$js_limited_apis .= '"'.strtolower( preg_replace("/\.(.*)/i", "", $api) ).'", ';
+	}
+	$js_limited_apis = trim($js_limited_apis);
+	$js_limited_apis = rtrim($js_limited_apis,',');
+	$js_limited_apis = trim($js_limited_apis);
+	$js_limited_apis = '['.$js_limited_apis.']';
+	?>
+
+	limited_apis = <?=$js_limited_apis?>;
+	
+	<?php
+	foreach ( $ct_conf['power']['crypto_pair_pref_mrkts'] as $key => $unused ) {
+	$secondary_mrkt_currencies .= '"'.strtolower($key).'", ';
+	}
+	foreach ( $ct_conf['power']['btc_currency_mrkts'] as $key => $unused ) {
+	$secondary_mrkt_currencies .= '"'.strtolower($key).'", ';
+	}
+	$secondary_mrkt_currencies = trim($secondary_mrkt_currencies);
+	$secondary_mrkt_currencies = rtrim($secondary_mrkt_currencies,',');
+	$secondary_mrkt_currencies = trim($secondary_mrkt_currencies);
+	$secondary_mrkt_currencies = '['.$secondary_mrkt_currencies.']';
+	?>
+
+	secondary_mrkt_currencies = <?=$secondary_mrkt_currencies?>;
+	
+	<?php
+	foreach ( $ct_conf['power']['btc_pref_currency_mrkts'] as $pref_bitcoin_mrkts_key => $pref_bitcoin_mrkts_val ) {
+	?>
+	pref_bitcoin_mrkts["<?=strtolower( $pref_bitcoin_mrkts_key )?>"] = "<?=strtolower( $pref_bitcoin_mrkts_val )?>";
+	<?php
+	}
+	// If desktop edition, cron emulation is enabled, and NOT on login form submission pages, run emulated cron
+	if ( $app_edition == 'desktop' && $ct_conf['power']['desktop_cron_interval'] > 0 && !$is_login_form ) {
+	?>	
+	
+     // Emulate a cron job every X minutes...
+     cron_loaded = false;
+    
+     emulated_cron(); // Initial load (RELOADS from WITHIN it's OWN logic every minute AFTER)
+	
+	<?php
+	}
+	?>
+	
+	
+	// 'Loading X...' UI notices
+	background_tasks_check();
+    
+    
 	</script>
     
     
@@ -216,54 +353,26 @@ header('Access-Control-Allow-Origin: ' . $app_host_address);
      
      <style>
 
-     /* font size (standard...we skip sidebar HEADER area) */
-     #secondary_wrapper, #sidebar_menu, #admin_wrapper, .iframe_wrapper {
+     /* standard font size CSS selector (we skip sidebar HEADER area) */
+     <?=$font_size_css_selector?> {
      font-size: <?=$default_font_size?>em !important;
      line-height: <?=$default_font_line_height?>em !important;
      }
 
-     /* font size (medium) */
-     .balloon_notation, #change_font_size, #header_size_warning, #admin_conf_quick_links fieldset legend, #admin_conf_quick_links fieldset, #admin_conf_quick_links, .extra_data, td.data span.extra_data, td.data div.extra_data span, .extra_data span, td.data div.extra_data span, .loss, td.data span.loss, td.data div.loss span, .short, td.data span.short, td.data div.short span {
+     /* medium font size CSS selector (we skip sidebar HEADER area) */
+     <?=$medium_font_size_css_selector?> {
      font-size: <?=$default_medium_font_size?>em !important;
      line-height: <?=$default_medium_font_line_height?>em !important;
      }
 
-     /* font size (small) */
-     .gain, td.data span.gain, td.data div.gain span, .crypto_worth, .crypto_worth span, td.data div.crypto_worth span {
+     /* small font size CSS selector (we skip sidebar HEADER area) */
+     <?=$small_font_size_css_selector?> {
      font-size: <?=$default_tiny_font_size?>em !important;
      line-height: <?=$default_tiny_font_line_height?>em !important;
      }
      
      </style>
-
-
-	<script src="app-lib/js/jquery/jquery-3.6.0.min.js"></script>
-
-	<script src="app-lib/js/jquery/jquery.tablesorter.min.js"></script>
-
-	<script src="app-lib/js/jquery/jquery.tablesorter.widgets.min.js"></script>
-
-	<script src="app-lib/js/jquery/jquery.balloon.min.js"></script>
-	
-	<script src="app-lib/js/jquery/jquery-ui/jquery-ui.js"></script>
-
-     <script src="app-lib/js/jquery/jquery.repeatable.js"></script>
-
-	<script src="app-lib/js/jquery/jquery.mCustomScrollbar.concat.min.js"></script>
-
-	<script src="app-lib/js/modaal.js"></script>
-
-	<script src="app-lib/js/base64-decode.js"></script>
-
-	<script src="app-lib/js/autosize.min.js"></script>
-
-	<script src="app-lib/js/popper.min.js"></script>
-	
-	<script src="app-lib/js/zingchart.min.js"></script>
-	
-	<script src="app-lib/js/crypto-js.js"></script>
-
-	<script src="app-lib/js/functions.js"></script>
+     
 	
 	<?php
 	// MSIE doesn't like highlightjs (LOL)
@@ -294,127 +403,89 @@ header('Access-Control-Allow-Origin: ' . $app_host_address);
 	</style>
 	<?php
 	}
+	
+	if ( $is_iframe ) {
 	?>
 	
-	<script>
-    
-    window.is_admin = false; // Default
-	
-	<?php
-	// Flag admin area in js
-	if ( $is_admin == true ) {
-	?>	
-	
-    window.is_admin = true;
-	
+     <style>
+     
+     html, body {
+     margin: 0px;
+     padding: 0px;
+     }
+     
+     </style>
+     
+     <script>
+     
+     // Dynamically add 'enhanced_security_nonce' to ALL admin forms, IF enhanced security mode is being used
+     $(document).ready(function(){
+     
+     
+         if ( Base64.decode(admin_area_sec_level) == 'enhanced' ) {
+     
+         var forms_array = document.getElementsByTagName("form");
+         
+         
+             for (var form_count = 0; form_count < forms_array.length; form_count++) {
+                     
+             has_enhanced_security_nonce = false;
+                 
+             inputs_array = forms_array[form_count].getElementsByTagName("input");
+                 
+                 
+                 for (var input_count = 0; input_count < inputs_array.length; input_count++) {
+                     
+                     if ( inputs_array[input_count].name == 'enhanced_security_nonce' ) {
+                     has_enhanced_security_nonce = true;
+                     }
+                 
+                 }
+                 
+                 
+                 if ( has_enhanced_security_nonce == false ) {
+                     
+                 new_input = document.createElement("input");
+             
+                 new_input.setAttribute("type", "hidden");
+                 
+                 new_input.setAttribute("name", "enhanced_security_nonce");
+                 
+                 new_input.setAttribute("value", "<?=$ct_gen->admin_hashed_nonce('enhanced_security_mode')?>");
+                 
+                 forms_array[form_count].appendChild(new_input);
+                 
+                 }
+                 
+             
+             }
+             
+         
+         }
+         
+     	
+     });
+     
+     </script>
+
 	<?php
 	}
 	?>
 	
-	// Set the global JSON config to asynchronous 
-	// (so JSON requests run in the background, without pausing any of the page render scripting)
-	$.ajaxSetup({
-    async: true
-	});
-	
-
-	<?=( isset($system_info['portfolio_cookies']) ? '// CURRENT COOKIES SIZE TOTAL: ' . $ct_var->num_pretty( ($system_info['portfolio_cookies'] / 1000) , 2) . ' kilobytes' : '' )?>
-	
-	
-	// Main js vars
-	var cookies_size_warning = '<?=( isset($system_warnings['portfolio_cookies_size']) ? $system_warnings['portfolio_cookies_size'] : 'none' )?>';
-	
-	var theme_selected = '<?=$sel_opt['theme_selected']?>';
-	
-	var feeds_num = <?=( isset($sel_opt['show_feeds'][0]) && $sel_opt['show_feeds'][0] != '' ? sizeof($sel_opt['show_feeds']) : 0 )?>;
-	var feeds_loaded = new Array();
-	
-	var charts_num = <?=( isset($sel_opt['show_charts'][0]) && $sel_opt['show_charts'][0] != '' ? sizeof($sel_opt['show_charts']) : 0 )?>;
-	var charts_loaded = new Array();
-	
-	var sorted_by_col = <?=( $sel_opt['sorted_by_col'] ? $sel_opt['sorted_by_col'] : 0 )?>;
-	var sorted_asc_desc = <?=( $sel_opt['sorted_asc_desc'] ? $sel_opt['sorted_asc_desc'] : 0 )?>;
-	
-	var charts_background = '<?=$ct_conf['power']['charts_background']?>';
-	var charts_border = '<?=$ct_conf['power']['charts_border']?>';
-	
-	var btc_prim_currency_val = '<?=number_format( $sel_opt['sel_btc_prim_currency_val'], 2, '.', '' )?>';
-	var btc_prim_currency_pair = '<?=strtoupper($ct_conf['gen']['btc_prim_currency_pair'])?>';
-	
-	
-	<?php
-	foreach ( $ct_conf['dev']['limited_apis'] as $api ) {
-	$js_limited_apis .= '"'.strtolower( preg_replace("/\.(.*)/i", "", $api) ).'", ';
-	}
-	$js_limited_apis = trim($js_limited_apis);
-	$js_limited_apis = rtrim($js_limited_apis,',');
-	$js_limited_apis = trim($js_limited_apis);
-	$js_limited_apis = '['.$js_limited_apis.']';
-	?>
-
-	var limited_apis = <?=$js_limited_apis?>;
-	
-	<?php
-	foreach ( $ct_conf['power']['crypto_pair_pref_mrkts'] as $key => $unused ) {
-	$secondary_mrkt_currencies .= '"'.strtolower($key).'", ';
-	}
-	foreach ( $ct_conf['power']['btc_currency_mrkts'] as $key => $unused ) {
-	$secondary_mrkt_currencies .= '"'.strtolower($key).'", ';
-	}
-	$secondary_mrkt_currencies = trim($secondary_mrkt_currencies);
-	$secondary_mrkt_currencies = rtrim($secondary_mrkt_currencies,',');
-	$secondary_mrkt_currencies = trim($secondary_mrkt_currencies);
-	$secondary_mrkt_currencies = '['.$secondary_mrkt_currencies.']';
-	?>
-
-	var secondary_mrkt_currencies = <?=$secondary_mrkt_currencies?>;
-	
-	var pref_bitcoin_mrkts = []; // Set the array
-	
-	<?php
-	foreach ( $ct_conf['power']['btc_pref_currency_mrkts'] as $pref_bitcoin_mrkts_key => $pref_bitcoin_mrkts_val ) {
-	?>
-	pref_bitcoin_mrkts["<?=strtolower( $pref_bitcoin_mrkts_key )?>"] = "<?=strtolower( $pref_bitcoin_mrkts_val )?>";
-	<?php
-	}
-	// If desktop edition, cron emulation is enabled, and NOT on login form submission pages, run emulated cron
-	if ( $app_edition == 'desktop' && $ct_conf['power']['desktop_cron_interval'] > 0 && !$is_login_form ) {
-	?>	
-	
-    // Emulate a cron job every 20 minutes...
-    var cron_loaded = false;
-    
-    emulated_cron(); // Initial load (RELOADS from WITHIN it's OWN logic every minute AFTER)
-	
-	<?php
-	}
-	else {
-	?>
-	
-	// Register as no-action-needed (saying it's already loaded turns off UI notices)
-    var cron_loaded = true;
-    
-	<?php
-	}	
-	?>
-	
-	
-	// 'Loading X...' UI notices
-	background_tasks_check();
-    
-	
-	</script>
-
-	<script src="app-lib/js/init.js"></script>
-
-	<script src="app-lib/js/random-tips.js"></script>
-
 
 	<link rel="shortcut icon" href="templates/interface/media/images/favicon.png">
 	<link rel="icon" href="templates/interface/media/images/favicon.png">
 
 
 </head>
+<?php
+if ( $is_iframe ) {
+?>
+<body class='iframe_wrapper'>
+<?php
+}
+else {
+?>
 <body>
 
 
@@ -808,3 +879,8 @@ header('Access-Control-Allow-Origin: ' . $app_host_address);
 		<!-- header.php END -->
 			
 	
+
+<?php
+}
+?>
+

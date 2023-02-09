@@ -262,6 +262,12 @@ FEATURES / NEW INFRASTRUCTURE / RESEARCH
 ############ NEXT FEATURES / NEW INFRASTRUCTURE / RESEARCH SCHEDULED WORK SESSION ####################################
 
 
+Try to shrink up the sidebar width as much as possible, without squishing the top nav together too much.
+
+
+For the domain header spoofing check, try writing the test file AS EARLY AS POSSIBLE in the runtime, and check it at the last second when inits / configs are done (and feature logic is about to run).
+
+
 MIGRATION TO BOOTSTRAP V5:
 
 https://getbootstrap.com/docs/5.0/migration/
@@ -299,6 +305,9 @@ Add ability for 'active' (first-shown) admin page to be dynamically set via GET 
 
 
 Move header nav links to sidebar nav, and show ALL admin page links IF LOGGED IN (and a LOGOUT link).
+
+
+The 3 sections in each portfolio data row (asset, market, holdings) should each break onto a newline as screen width decreases, that is to say each entire section should remain wholly on one line, at least until very tiny scren sizes.
 
 
 ######################################################################################################################
