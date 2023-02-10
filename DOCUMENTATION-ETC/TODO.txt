@@ -265,6 +265,9 @@ FEATURES / NEW INFRASTRUCTURE / RESEARCH
 Try to shrink up the sidebar width as much as possible, without squishing the top nav together too much.
 
 
+Tweak sizes / colors / positioning in sidebar, until it feels just right.
+
+
 For the domain header spoofing check, try writing the test file AS EARLY AS POSSIBLE in the runtime, and check it at the last second when inits / configs are done (and feature logic is about to run).
 
 

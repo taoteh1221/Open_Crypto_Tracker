@@ -60,6 +60,8 @@ header('Access-Control-Allow-Origin: ' . $app_host_address);
 	<link rel="preload" href="templates/interface/css/style.css" as="style" />
 	
 	<link rel="preload" href="templates/interface/css/<?=$sel_opt['theme_selected']?>.style.css" as="style" />
+
+	<link rel="preload" href="templates/interface/css/highlightjs.min.css" as="style" />
 	
 	
 	<?php
@@ -75,15 +77,15 @@ header('Access-Control-Allow-Origin: ' . $app_host_address);
 	?>
 
 
-	<link rel="preload" href="app-lib/js/jquery/jquery-3.6.0.min.js" as="script" />
+	<link rel="preload" href="app-lib/js/jquery/jquery-3.6.3.min.js" as="script" />
+	
+	<link rel="preload" href="app-lib/js/jquery/jquery-ui/jquery-ui.js" as="script" />
 
 	<link rel="preload" href="app-lib/js/jquery/jquery.tablesorter.min.js" as="script" />
 
 	<link rel="preload" href="app-lib/js/jquery/jquery.tablesorter.widgets.min.js" as="script" />
 
 	<link rel="preload" href="app-lib/js/jquery/jquery.balloon.min.js" as="script" />
-	
-	<link rel="preload" href="app-lib/js/jquery/jquery-ui/jquery-ui.js" as="script" />
 
      <link rel="preload" href="app-lib/js/jquery/jquery.repeatable.js" as="script" />
 
@@ -103,23 +105,29 @@ header('Access-Control-Allow-Origin: ' . $app_host_address);
 	
 	<link rel="preload" href="app-lib/js/crypto-js.js" as="script" />
 
+	<link rel="preload" href="app-lib/js/var_defaults.js" as="script" />
+
 	<link rel="preload" href="app-lib/js/functions.js" as="script" />
 
+	<link rel="preload" href="app-lib/js/random-tips.js" as="script" />
+
 	<link rel="preload" href="app-lib/js/init.js" as="script" />
+
+	<link rel="preload" href="app-lib/js/highlight.min.js" as="script" />
 	
 	
 	<!-- END Preload a few UI-related files -->
 
 
-	<script src="app-lib/js/jquery/jquery-3.6.0.min.js"></script>
+	<script src="app-lib/js/jquery/jquery-3.6.3.min.js"></script>
+	
+	<script src="app-lib/js/jquery/jquery-ui/jquery-ui.js"></script>
 
 	<script src="app-lib/js/jquery/jquery.tablesorter.min.js"></script>
 
 	<script src="app-lib/js/jquery/jquery.tablesorter.widgets.min.js"></script>
 
 	<script src="app-lib/js/jquery/jquery.balloon.min.js"></script>
-	
-	<script src="app-lib/js/jquery/jquery-ui/jquery-ui.js"></script>
 
      <script src="app-lib/js/jquery/jquery.repeatable.js"></script>
 
@@ -137,9 +145,9 @@ header('Access-Control-Allow-Origin: ' . $app_host_address);
 	
 	<script src="app-lib/js/crypto-js.js"></script>
 
-	<script src="app-lib/js/functions.js"></script>
+	<script src="app-lib/js/var_defaults.js"></script>
 
-	<script src="app-lib/js/init.js"></script>
+	<script src="app-lib/js/functions.js"></script>
 
 	<script src="app-lib/js/random-tips.js"></script>
 	
@@ -156,7 +164,7 @@ header('Access-Control-Allow-Origin: ' . $app_host_address);
 	
 	// Javascript var inits / configs
 	
-	ct_id = '<?=$ct_gen->id()?>';
+	ct_id = '<?=base64_encode( $ct_gen->id() )?>';
 	
 	app_edition = '<?=$app_edition?>';
 	
@@ -188,7 +196,7 @@ header('Access-Control-Allow-Origin: ' . $app_host_address);
 	
 	
 	<?php
-	if ( !$is_iframe ) {
+	if ( $is_iframe ) {
 	?>
 	
 	is_iframe = true;
@@ -198,7 +206,7 @@ header('Access-Control-Allow-Origin: ' . $app_host_address);
 	else {
 	?>
 	
-	notes_storage = ct_id + "notes";
+	notes_storage = Base64.decode(ct_id) + "notes";
 	
 	<?php
 	}
@@ -209,6 +217,15 @@ header('Access-Control-Allow-Origin: ' . $app_host_address);
      is_admin = true;
      
 	admin_area_sec_level = '<?=base64_encode( $admin_area_sec_level )?>';
+     
+	enhanced_sec_token = "<?=base64_encode( $ct_gen->admin_hashed_nonce('enhanced_security_mode') )?>";
+	
+	<?php
+	}
+	
+	// Include any admin-logged-in stuff in ANY area
+	if ( $ct_gen->admin_logged_in() == true ) {
+	?>
 	
 	logs_csrf_sec_token = '<?=base64_encode( $ct_gen->admin_hashed_nonce('logs_csrf_security') )?>';
 	
@@ -221,6 +238,7 @@ header('Access-Control-Allow-Origin: ' . $app_host_address);
 	medium_font_size_css_selector = "<?=$medium_font_size_css_selector?>";
 	
 	small_font_size_css_selector = "<?=$small_font_size_css_selector?>";
+	
 	
 	// Preload /images/auto-preloaded/ images VIA JAVASCRIPT TOO (WAY MORE RELIABLE THAN META TAG PRELOAD)
 	
@@ -278,21 +296,18 @@ header('Access-Control-Allow-Origin: ' . $app_host_address);
 	if ( $app_edition == 'desktop' && $ct_conf['power']['desktop_cron_interval'] > 0 && !$is_login_form ) {
 	?>	
 	
-     // Emulate a cron job every X minutes...
-     cron_loaded = false;
-    
-     emulated_cron(); // Initial load (RELOADS from WITHIN it's OWN logic every minute AFTER)
-	
+     emulated_cron_enabled = true;
+     
 	<?php
 	}
 	?>
 	
-	
-	// 'Loading X...' UI notices
-	background_tasks_check();
-    
     
 	</script>
+
+
+     <!-- ALL CORE JAVASCRIPT VARS MUST BE INITED / CONFIGGED BEFORE LOADING INIT.JS! -->
+	<script src="app-lib/js/init.js"></script>
     
     
 	<link rel="stylesheet" href="templates/interface/css/bootstrap/bootstrap.min.css" type="text/css" />
@@ -329,15 +344,12 @@ header('Access-Control-Allow-Origin: ' . $app_host_address);
 	.tablesorter-<?=$sel_opt['theme_selected']?> .header, .tablesorter-<?=$sel_opt['theme_selected']?> .tablesorter-header {
      white-space: nowrap;
 	}
-	
-	</style>
 
 
      <?php
      // IF there is a configged google font
      if ( isset($google_font_name) ) {
      ?>
-     <style>
      
      @import "https://fonts.googleapis.com/css?family=<?=$font_name_url_formatting?>&display=swap";
 
@@ -346,13 +358,20 @@ header('Access-Control-Allow-Origin: ' . $app_host_address);
          font-weight: 300 !important;
      }
      
-     </style>
+     <?php
+     }
+     else {
+     ?>
+     
+     html, body {	
+         font-family: sans-serif !important;	
+         font-weight: 300 !important;
+     }
+     
      <?php
      }
      ?>
      
-     <style>
-
      /* standard font size CSS selector (we skip sidebar HEADER area) */
      <?=$font_size_css_selector?> {
      font-size: <?=$default_font_size?>em !important;
@@ -371,14 +390,25 @@ header('Access-Control-Allow-Origin: ' . $app_host_address);
      line-height: <?=$default_tiny_font_line_height?>em !important;
      }
      
-     </style>
-     
 	
 	<?php
-	// MSIE doesn't like highlightjs (LOL)
-	if ( $ct_gen->is_msie() == false ) {
+	if ( $is_iframe ) {
 	?>
 	
+	/* iframes */
+     html, body {
+     margin: 0px;
+     padding: 0px;
+     }
+
+	<?php
+	}
+	?>
+	
+     </style>
+     
+     
+     <!-- ONLY RUN HIGHTLIGHTJS SCRIPT / CSS #AFTER# ALL OTHER SCRIPT / CSS! -->
 	<link rel="stylesheet" href="templates/interface/css/highlightjs.min.css" type="text/css" />
 	
 	<script src="app-lib/js/highlight.min.js"></script>
@@ -388,89 +418,6 @@ header('Access-Control-Allow-Origin: ' . $app_host_address);
 	hljs.configure({useBR: false}); // Don't use  <br /> between lines
 	hljs.initHighlightingOnLoad(); // Load on page load
 	</script>
-	
-	<?php
-	}
-	// Fix some minor MSIE CSS stuff
-	else {
-	?>
-	<style>
-	
-	pre {
-	color: #808080;
-	}
-	
-	</style>
-	<?php
-	}
-	
-	if ( $is_iframe ) {
-	?>
-	
-     <style>
-     
-     html, body {
-     margin: 0px;
-     padding: 0px;
-     }
-     
-     </style>
-     
-     <script>
-     
-     // Dynamically add 'enhanced_security_nonce' to ALL admin forms, IF enhanced security mode is being used
-     $(document).ready(function(){
-     
-     
-         if ( Base64.decode(admin_area_sec_level) == 'enhanced' ) {
-     
-         var forms_array = document.getElementsByTagName("form");
-         
-         
-             for (var form_count = 0; form_count < forms_array.length; form_count++) {
-                     
-             has_enhanced_security_nonce = false;
-                 
-             inputs_array = forms_array[form_count].getElementsByTagName("input");
-                 
-                 
-                 for (var input_count = 0; input_count < inputs_array.length; input_count++) {
-                     
-                     if ( inputs_array[input_count].name == 'enhanced_security_nonce' ) {
-                     has_enhanced_security_nonce = true;
-                     }
-                 
-                 }
-                 
-                 
-                 if ( has_enhanced_security_nonce == false ) {
-                     
-                 new_input = document.createElement("input");
-             
-                 new_input.setAttribute("type", "hidden");
-                 
-                 new_input.setAttribute("name", "enhanced_security_nonce");
-                 
-                 new_input.setAttribute("value", "<?=$ct_gen->admin_hashed_nonce('enhanced_security_mode')?>");
-                 
-                 forms_array[form_count].appendChild(new_input);
-                 
-                 }
-                 
-             
-             }
-             
-         
-         }
-         
-     	
-     });
-     
-     </script>
-
-	<?php
-	}
-	?>
 	
 
 	<link rel="shortcut icon" href="templates/interface/media/images/favicon.png">

@@ -406,7 +406,7 @@ function app_reloading_check(form_submission=0) {
 /////////////////////////////////////////////////////////////
 
 
-function cron_loading_check(cron_already_run) {
+function cron_loading_check() {
 	
 //console.log('loaded charts = ' + window.charts_loaded.length + ', all charts = ' + window.charts_num);
 
@@ -878,8 +878,6 @@ background_tasks_check();
                 console.log( "cron emulation RESULT: " + response.result + ', at ' + human_time( new Date().getTime() ) );
                 }
             
-            cron_already_run = true;
-            
                 // If flagged to display error in GUI
                 if ( typeof response.display_error != 'undefined' ) {
                 
@@ -893,6 +891,9 @@ background_tasks_check();
                 $("#alert_bell_image").attr("src","templates/interface/media/images/auto-preloaded/notification-" + theme_selected + "-fill.png");
                 
                 }
+            
+            
+            cron_already_run = true;
             
             background_tasks_check();  
             
@@ -1013,7 +1014,7 @@ function background_tasks_check() {
         
         
         if (
-		feeds_loading_check(window.feeds_loaded) == 'done' && charts_loading_check(window.charts_loaded) == 'done' && cron_loading_check(cron_already_run) == 'done'
+		feeds_loading_check(window.feeds_loaded) == 'done' && charts_loading_check(window.charts_loaded) == 'done' && cron_loading_check() == 'done'
 		) {
 		    
 		$("#background_loading").hide(250); // 0.25 seconds
@@ -1273,14 +1274,14 @@ var small_line_height = small_line_height.toFixed(3);
 
 
      if ( iframe_elm != false ) {
-     var font_elements = $(font_size_css_selector);
-     var medium_font_elements = $(medium_font_size_css_selector);
-     var small_font_elements = $(small_font_size_css_selector);
-     }
-     else {
      var font_elements = $(font_size_css_selector, iframe_elm.contentWindow.document);
      var medium_font_elements = $(medium_font_size_css_selector, iframe_elm.contentWindow.document);
      var small_font_elements = $(small_font_size_css_selector, iframe_elm.contentWindow.document);
+     }
+     else {
+     var font_elements = $(font_size_css_selector);
+     var medium_font_elements = $(medium_font_size_css_selector);
+     var small_font_elements = $(small_font_size_css_selector);
      }
 
 
@@ -1302,7 +1303,7 @@ small_font_elements.attr('style', function(i,s) { return (s || '') + "font-size:
 small_font_elements.attr('style', function(i,s) { return (s || '') + "line-height : " + small_line_height + "em !important;" });
 
         
-     if ( iframe_elm = false && is_admin == true ) {
+     if ( iframe_elm == false && is_admin == true ) {
           
      iframe_font_val = font_val; // ALREADY A GLOBAL, DON'T USE 'var x'
 
@@ -1955,7 +1956,7 @@ private_data = document.getElementsByClassName('private_data');
         
         // Delete any existing admin auth (login) cookie
         // (we force admin logout when privacy mode is on)
-        delete_cookie('admin_auth_' + ct_id); 
+        delete_cookie( 'admin_auth_' + Base64.decode(ct_id) ); 
             
         
         }

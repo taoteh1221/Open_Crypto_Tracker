@@ -6081,7 +6081,9 @@ v6.00.2 AND HIGHER RESETS LIGHT (TIME PERIOD) CHARTS FROM ARCHIVAL DATA, ONE-TIM
 
 -Optimized default configuration
 
--Upgraded to bootstrap v5
+-Upgraded to BootStrap v5
+
+-Upgraded to jQuery v3.6.3
 
 -Code cleanup
 

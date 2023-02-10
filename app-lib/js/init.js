@@ -2,93 +2,6 @@
 // Copyright 2014-2023 GPLv3, Open Crypto Tracker by Mike Kilday: Mike@DragonFrugal.com
 
 
-// Set global vars...
-
-// Arrays
-
-var modal_windows = new Array(); // Set the modal windows array (to dynamically populate)
-
-var feeds_loaded = new Array();
-
-var charts_loaded = new Array();
-	
-var pref_bitcoin_mrkts = new Array();
-
-var limited_apis = new Array();
-
-var secondary_mrkt_currencies = new Array();
-
-// Strings
-
-var ct_id; // Install ID (derived from this app's server path)
-	
-var app_edition;
-	
-var min_fiat_val_test;
-	
-var min_crypto_val_test;
-	
-var watch_only_flag_val;
-	
-var logs_csrf_sec_token;
-	
-var background_tasks_recheck;
-
-var reload_countdown;
-	
-var reload_recheck;
-
-var notes_storage;
-
-var cookies_size_warning;
-	
-var theme_selected;
-
-var iframe_font_val;
-
-var iframe_height_adjuster;
-
-var iframe_text_adjuster;
-
-var admin_area_sec_level;
-	
-var feeds_num;
-	
-var charts_num;
-	
-var sorted_by_col;
-
-var sorted_asc_desc;
-	
-var charts_background;
-
-var charts_border;
-	
-var btc_prim_currency_val;
-
-var btc_prim_currency_pair;
-
-var font_size_css_selector;
-
-var medium_font_size_css_selector;
-
-var small_font_size_css_selector;
-
-// With defaults
-	
-var cron_already_run = true; // Register as no-action-needed (saying it's already loaded turns off UI notices)
-
-var custom_3deep_menu_on = false;
-
-var is_admin = false;
-
-var is_iframe = false;
-
-var form_submit_queued = false;
-	
-var background_tasks_status = 'wait';
-
-
 window.zingAlert= function(){
   window.alert("PRIVACY ALERT!\n\nUsing the 'Download [filetype]' menu links sends the chart data to export.zingchart.com, to create the download file.\n\nTo preserve privacy, CHOOSE 'View As PNG' INSTEAD, then opposite-click over the chart and choose 'Save Image As', to save the PNG image to your computer.")
 }
@@ -102,7 +15,7 @@ $(document).ready(function(){
 // cookie creation some day (which could help pre-detect too-large headers that crash an HTTP server)
 // console.log( array_byte_size(document.cookie) );
 
-
+    
 // Render interface after loading (with transition effects)
 $("#app_loading").hide(250, 'linear'); // 0.25 seconds
 $("#content_wrapper").show(250, 'linear'); // 0.25 seconds
@@ -124,6 +37,9 @@ random_tips();
 
 // Show UTC time count in logs UI sections
 start_utc_time(); 
+	
+// 'Loading X...' UI notices
+background_tasks_check();
 
 
 	/////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -144,11 +60,23 @@ start_utc_time();
 	/////////////////////////////////////////////////////////////////////////////////////////////////////
 	
 	
-    // Trading notes
+     // Trading notes
 	if ( typeof notes_storage != 'undefined' && localStorage.getItem(notes_storage) && $("#notes").length ) {
-    $("#notes").val( localStorage.getItem(notes_storage) );
+     $("#notes").val( localStorage.getItem(notes_storage) );
 	}
 
+
+	/////////////////////////////////////////////////////////////////////////////////////////////////////
+	
+	
+	if ( emulated_cron_enabled ) {
+	
+     // Emulate a cron job every X minutes...
+     cron_already_run = false;
+    
+     emulated_cron(); // Initial load (RELOADS from WITHIN it's OWN logic every minute AFTER)
+	
+	}
 
 	/////////////////////////////////////////////////////////////////////////////////////////////////////
 	
@@ -167,42 +95,6 @@ start_utc_time();
     // (WE ALREADY LOAD get_scroll_position() in charts_loading_check() AND feeds_loading_check() FOR THE DYNAMIC PAGE LOADING)
     if ( $(location).attr('hash') != '' && $(location).attr('hash') != '#news' && $(location).attr('hash') != '#charts' ) {
     get_scroll_position('init'); // Run AFTER showing content
-    }
-
-
-	/////////////////////////////////////////////////////////////////////////////////////////////////////
-
-    
-    // Mirror hidden errors output in the footer over to the alert bell area with javascript
-    // Run AFTER check to see if alerts are present
-    // NOT IFRAME
-    if ( !is_iframe ) {
-	
-        // See if any alerts are present
-        if ( $('#app_error_alert').html() == '' ) {
-        $('#app_error_alert').html('No new runtime alerts.');
-        }
-        else {
-        $("#alert_bell_image").attr("src","templates/interface/media/images/auto-preloaded/notification-" + theme_selected + "-fill.png");
-        }
-        
-    $('#alert_bell_area').html( "<span class='bitcoin'>Current UTC time:</span> <span class='utc_timestamp red'></span><br />" + $('#app_error_alert').html() );
-    
-    }
-    // IS IFRAME
-    else {
-        
-        if ( $('#app_error_alert', window.parent.document).html() == 'No new runtime alerts.' && $('#iframe_error_alert').html() != '' ) {
-        $('#app_error_alert', window.parent.document).html( $('#iframe_error_alert').html() );
-        $("#alert_bell_image", window.parent.document).attr("src","templates/interface/media/images/auto-preloaded/notification-" + theme_selected + "-fill.png");
-        }
-        else if ( $('#iframe_error_alert').html() != '' ) {
-        $('#app_error_alert', window.parent.document).html( $('#app_error_alert', window.parent.document).html() + $('#iframe_error_alert').html() );
-        $("#alert_bell_image", window.parent.document).attr("src","templates/interface/media/images/auto-preloaded/notification-" + theme_selected + "-fill.png");
-        }
-        
-    $('#alert_bell_area', window.parent.document).html( "<span class='bitcoin'>Current UTC time:</span> <span class='utc_timestamp red'></span><br />" + $('#app_error_alert', window.parent.document).html() );
-        
     }
 
 
@@ -343,6 +235,42 @@ start_utc_time();
         }
         
     }); 
+
+
+	/////////////////////////////////////////////////////////////////////////////////////////////////////
+
+    
+    // Mirror hidden errors output in the footer over to the alert bell area with javascript
+    // Run AFTER check to see if alerts are present
+    // NOT IFRAME
+    if ( !is_iframe ) {
+	
+        // See if any alerts are present
+        if ( $('#app_error_alert').html() == '' ) {
+        $('#app_error_alert').html('No new runtime alerts.');
+        }
+        else {
+        $("#alert_bell_image").attr("src","templates/interface/media/images/auto-preloaded/notification-" + theme_selected + "-fill.png");
+        }
+        
+    $('#alert_bell_area').html( "<span class='bitcoin'>Current UTC time:</span> <span class='utc_timestamp red'></span><br />" + $('#app_error_alert').html() );
+    
+    }
+    // IS IFRAME
+    else {
+        
+        if ( $('#app_error_alert', window.parent.document).html() == 'No new runtime alerts.' && $('#iframe_error_alert').html() != '' ) {
+        $('#app_error_alert', window.parent.document).html( $('#iframe_error_alert').html() );
+        $("#alert_bell_image", window.parent.document).attr("src","templates/interface/media/images/auto-preloaded/notification-" + theme_selected + "-fill.png");
+        }
+        else if ( $('#iframe_error_alert').html() != '' ) {
+        $('#app_error_alert', window.parent.document).html( $('#app_error_alert', window.parent.document).html() + $('#iframe_error_alert').html() );
+        $("#alert_bell_image", window.parent.document).attr("src","templates/interface/media/images/auto-preloaded/notification-" + theme_selected + "-fill.png");
+        }
+        
+    $('#alert_bell_area', window.parent.document).html( "<span class='bitcoin'>Current UTC time:</span> <span class='utc_timestamp red'></span><br />" + $('#app_error_alert', window.parent.document).html() );
+        
+    }
 
 
 	/////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -505,6 +433,57 @@ start_utc_time();
          
     
     }
+
+
+	/////////////////////////////////////////////////////////////////////////////////////////////////////
+	
+	
+    // Admin hashed nonce inserted in admin iframe forms
+    if ( is_iframe && is_admin ) {
+    
+     
+         if ( Base64.decode(admin_area_sec_level) == 'enhanced' ) {
+     
+         var forms_array = document.getElementsByTagName("form");
+         
+         
+             for (var form_count = 0; form_count < forms_array.length; form_count++) {
+                     
+             has_enhanced_security_nonce = false;
+                 
+             inputs_array = forms_array[form_count].getElementsByTagName("input");
+                 
+                 
+                 for (var input_count = 0; input_count < inputs_array.length; input_count++) {
+                     
+                     if ( inputs_array[input_count].name == 'enhanced_security_nonce' ) {
+                     has_enhanced_security_nonce = true;
+                     }
+                 
+                 }
+                 
+                 
+                 if ( has_enhanced_security_nonce == false ) {
+                     
+                 new_input = document.createElement("input");
+             
+                 new_input.setAttribute("type", "hidden");
+                 
+                 new_input.setAttribute("name", "enhanced_security_nonce");
+                 
+                 new_input.setAttribute("value", Base64.decode(enhanced_sec_token) );
+                 
+                 forms_array[form_count].appendChild(new_input);
+                 
+                 }
+                 
+             
+             }
+             
+         
+         }
+         
+     }
 
 
 	/////////////////////////////////////////////////////////////////////////////////////////////////////
