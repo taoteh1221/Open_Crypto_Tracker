@@ -2,7 +2,21 @@
 // Copyright 2014-2023 GPLv3, Open Crypto Tracker by Mike Kilday: Mike@DragonFrugal.com
 
 
-// Set global vars...
+// Set ALL global vars (EVEN BLANK ONES)...
+
+/*************************************************************************************************************************************
+**************************************************************************************************************************************
+*
+* Javascript is unfortunately very nuanced in setting variables that are either GLOBAL (available EVERYWHERE in an app),
+* or LOCAL (are 'sandboxed' inside functions, NOT CLASHING WITH SIMILAR-NAMED GLOBAL VARIABLES). That is why we EXPLICITLY DECLARE our
+* GLOBAL variables / arrays VERY EARLY by putting them in this file (EVEN IF THEY ARE BLANK, AS THIS SETS THEM AS GLOBAL).
+*
+* DON'T FORGET TO ALWAYS DECLARE YOUR *LOCAL* VARIABLES / ARRAYS *INSIDE FUNCTIONS* (FOR SAFETY), USING THIS FORMAT: var my_variable
+*
+* https://stackoverflow.com/questions/10872006/how-do-i-change-the-value-of-a-global-variable-inside-of-a-function/10874509#10874509
+*
+**************************************************************************************************************************************
+*************************************************************************************************************************************/
 
 // Arrays
 

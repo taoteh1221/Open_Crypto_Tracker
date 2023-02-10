@@ -637,7 +637,9 @@ else {
         			
         			+'<p class="coin_info bitcoin" style="max-width: 600px; white-space: normal;">Chart crosshairs and tooltip windows may be significantly off-center, if you go too far above or below the 100% zoom level. Hopefully someday we will have a fix for this, but for now just be aware of what effects the current zoom feature has on the app.</p>'
         			
-        			+'<p class="coin_info red" style="max-width: 600px; white-space: normal;">We depend on the 3rd-party Open Source project <a href="https://github.com/cztomczak/phpdesktop" target="_blank">PHPdesktop</a>, for the Desktop Editions.</p>';
+        			+'<p class="coin_info red" style="max-width: 600px; white-space: normal;">We depend on the 3rd-party Open Source project <a href="https://github.com/cztomczak/phpdesktop" target="_blank">PHPdesktop</a>, for the Desktop Editions.</p>'
+        			
+        			+'<?=( $app_platform == 'windows' ? '<p class="coin_info red" style="max-width: 600px; white-space: normal;">The Windows Desktop Edition depends on a very outdated (March 2017) version of <a href="https://github.com/cztomczak/phpdesktop" target="_blank">PHPdesktop</a>. It is HIGHLY RECOMMENDED to install <a href="https://www.apachefriends.org/" target="_blank">XAMPP for Windows</a> INSTEAD, and then unzip the <a href="https://github.com/taoteh1221/Open_Crypto_Tracker/releases/" target="_blank">Server Edition of Open Crypto Tracker</a> into "C\:/xampp/htdocs" (and visit "https://localhost" in your web browser). <br /><br />Additionally, if you double-click the file located at "C\:/xampp/htdocs/ADD-WIN10-SCHEDULER-JOB.bat", you can automatically setup a scheduled task to enable price charts / price alerts (see <a href="README.txt" target="_blank">README.txt</a> OR the Help section of this app for more information).</p>' : '' )?>';
         			
         		
         			$('#zoom_info').balloon({

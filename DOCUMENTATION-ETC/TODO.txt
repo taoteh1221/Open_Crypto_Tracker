@@ -94,9 +94,9 @@ DEBUGGING / TESTS / UX / QA / OTHER
 ///////////////////////////////////////////////////////
 
 
-!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-!   D O N T   F O R G E T   T O   S Q U A S H   T H E   B U G S !   !!!!!!!!!!!!!!!!!!!!!!!!
-!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+!   D O N T   F O R G E T   T O   S Q U A S H   T H E   B U G S !   !!!!!!!!!!!!!!!!!!!!!!!!!!
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
      ((((c,               ,7))))
     (((((((              ))))))))
      (((((((            ))))))))
@@ -114,12 +114,15 @@ DEBUGGING / TESTS / UX / QA / OTHER
 ----------------------------------------------------------------------
 (CREDIT: https://asciiart.website/index.php?art=animals/insects/other)
 ----------------------------------------------------------------------
-!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 !!!!                                                                                    
-===> WHEN DEBUGGING / TESTING, LEAVE "$dev_debug_php_errors" IN "app-lib/php/init.php" SET 
+===> WHEN DEBUGGING / TESTING PHP, LEAVE "$dev_debug_php_errors" IN "app-lib/php/init.php" SET
 ===> LIKE SO, TO ALWAYS LOG ALL PARSE / FATAL PHP ERRORS DURING TESTING: (E_ERROR | E_PARSE)
 ===> 'Desktop Editions' log PHP errors to: /INSTALL_CRYPTO_TRACKER_HERE/php_errors.log
+!!!!
+===> See top of the file "/app-lib/js/var_defaults.js", for notes on declaring global / local
+===> variables inside javascript-based app logic IN A PROPER MANNER.
 !!!!
 ===> config.php (and plug-conf.php for plugins) MUST ONLY CONTAIN STATIC CONFIGS,
 ===> as all configs are saved to / run from cache file: /cache/secured/ct_conf_XXXXXXXXX.dat
@@ -143,16 +146,11 @@ DEBUGGING / TESTS / UX / QA / OTHER
 !!!!
 ===> Don't require any higher than PHP v7.2 until 2025.
 !!!!                                                                                   
-!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
 
 ############ NEXT DEBUG / TEST / QA / OTHER SCHEDULED WORK SESSION ###################################
-
-
-All NON-GLOBAL variables inside functions should be started as 'var my_var_name': 
-
-https://stackoverflow.com/questions/10872006/how-do-i-change-the-value-of-a-global-variable-inside-of-a-function/10874509#10874509
 
 
 Look for "0.0000" in app, for more instances we need to now be dynamic in the logic (base off new min decimal settings in the general section of the config).
@@ -262,10 +260,27 @@ FEATURES / NEW INFRASTRUCTURE / RESEARCH
 ############ NEXT FEATURES / NEW INFRASTRUCTURE / RESEARCH SCHEDULED WORK SESSION ####################################
 
 
+Move alert bell dropdown TOGGLE to sidebar, BUT have it display centered at top of right side area.
+
+
+Add ability for 'active' (first-shown) admin page to be dynamically set via GET param, AND have this GET param passed during admin logins as well (if it is set). Consider adding this ability to the current user area linking subsystem too, if it gives any issues in the sidebar setup (visiting from admin pages).
+
+
+Move ALL nav links to sidebar nav, and show ALL admin page links IF LOGGED IN (and a LOGOUT link)...and remove header nav links / user nav links / main content border (decide which background shades to keep).
+
+
+All NON-GLOBAL variables inside JAVASCRIPT functions should be started as 'var my_var_name': 
+
+https://stackoverflow.com/questions/10872006/how-do-i-change-the-value-of-a-global-variable-inside-of-a-function/10874509#10874509
+
+
 Try to shrink up the sidebar width as much as possible, without squishing the top nav together too much.
 
 
 Tweak sizes / colors / positioning in sidebar, until it feels just right.
+
+
+Move remaining font-size / line-height logic in style.css AND ELSEWHERE into our dynamic CSS header logic.
 
 
 For the domain header spoofing check, try writing the test file AS EARLY AS POSSIBLE in the runtime, and check it at the last second when inits / configs are done (and feature logic is about to run).
@@ -285,12 +300,6 @@ Migrate our custom FAQ page styling (backgounds / text colors) to be bootstrap-v
 Migrate our custom select/option menu styling (rounded corners / custom drop-down arrow) to be bootstrap-v5-compatible (since we just upgraded to bootstrap v5)
 
 
-The tags 'h1' through 'h6' should be made to user-adjust text size too (could be a bit tricky, be careful).
-
-
-Move remaining font-size / line-height logic in style.css AND ELSEWHERE into our dynamic CSS header logic.
-
-
 Some NON-HEADING-SIZE text MAY NOT RESIZE EVEN AFTER COMPLETING THE TASKS DIRECTLY ABOVE THIS ONE, find out why. THIS OLD CODE BELOW MAY COME IN HANDY FOR DEBUGGING THAT:
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -301,19 +310,19 @@ font-size: 15px !important;
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 
+######################################################################################################################
+
+
+Remove localbitcoins support (they are closing shop).
+
+
+The tags 'h1' through 'h6' should be made to user-adjust text size too (could be a bit tricky, be careful).
+
+
 Cleanup non-existant ids / classes in stylesheets, AFTER converting the templates to a responsive layout.
 
 
-Add ability for 'active' (first-shown) admin page to be dynamically set via GET param, AND have this GET param passed during admin logins as well (if it is set). 
-
-
-Move header nav links to sidebar nav, and show ALL admin page links IF LOGGED IN (and a LOGOUT link).
-
-
 The 3 sections in each portfolio data row (asset, market, holdings) should each break onto a newline as screen width decreases, that is to say each entire section should remain wholly on one line, at least until very tiny scren sizes.
-
-
-######################################################################################################################
 
 
 Add new plugin standard config 'ui_display_mode':

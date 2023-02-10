@@ -492,6 +492,9 @@ echo "You will need to manually move any CUSTOMIZED DEFAULT settings from backup
 echo "otherwise you can just ignore or delete the backup files."
 echo " "
 
+echo "${red}IF ANYTHING STOPS WORKING AFTER UPGRADING, CLEAR YOUR BROWSER CACHE (temporary files), AND RELOAD OR RESTART THE APP. This will load the latest Javascript / Style Sheet upgrades properly.${reset}"
+echo " "
+
 echo "${red}VERY IMPORTANT UPGRADE NOTES:${reset}"
 echo " "
 
@@ -1912,15 +1915,18 @@ echo "${reset} "
 
     if [ "$CONFIG_BACKUP" = "1" ]; then
     
-    echo "${green}The previously-installed configuration files $DOC_ROOT/config.php AND $DOC_ROOT/dynamic-config-only.php have been backed up to:"
+     echo "${green}The previously-installed configuration files $DOC_ROOT/config.php AND $DOC_ROOT/dynamic-config-only.php have been backed up to:"
 	echo " "
-    echo "$DOC_ROOT/[filename].php.BACKUP.$DATE.$RAND_STRING"
+     echo "$DOC_ROOT/[filename].php.BACKUP.$DATE.$RAND_STRING"
 	echo " "
 	echo "${yellow}The bundled plugin's configuration files were also be backed up in the same manner."
 	echo " "
 	echo "You will need to manually move any CUSTOMIZED DEFAULT settings from backup files to the NEW configuration files with a text editor,"
 	echo "otherwise you can just ignore or delete the backup files."
-    echo "${reset} "
+     echo "${reset} "
+
+     echo "${red}IF ANYTHING STOPS WORKING AFTER UPGRADING, CLEAR YOUR BROWSER CACHE (temporary files), AND RELOAD OR RESTART THE APP. This will load the latest Javascript / Style Sheet upgrades properly.${reset}"
+     echo " "
     
     fi
     
@@ -1928,7 +1934,7 @@ echo "${reset} "
     if [ "$CRON_SETUP" = "1" ]; then
     
     echo "${green}A background task (cron job) has been setup for user '$APP_USER', as a command in /etc/cron.d/cryptocoin:"
-	echo " "
+    echo " "
     echo "$CRONJOB"
     echo "${reset} "
     
