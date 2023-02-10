@@ -1228,9 +1228,9 @@ var $ct_array1 = array();
 		               ?>
 		               
 		               <script>
-		               window.btc_prim_currency_val = '<?=$ct_api->market('BTC', $key, $ct_conf['assets']['BTC']['pair'][$sel_pair][$key])['last_trade']?>';
+		               btc_prim_currency_val = '<?=$ct_api->market('BTC', $key, $ct_conf['assets']['BTC']['pair'][$sel_pair][$key])['last_trade']?>';
 		               
-		               window.btc_prim_currency_pair = '<?=strtoupper($sel_pair)?>';
+		               btc_prim_currency_pair = '<?=strtoupper($sel_pair)?>';
 		               </script>
 		               
 		               <?php

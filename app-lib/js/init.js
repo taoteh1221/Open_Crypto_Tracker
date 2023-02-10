@@ -23,12 +23,12 @@ $("#content_wrapper").css('display','inline'); // MUST display inline to center 
 
   
 // Charts background / border
-$(".chart_wrapper").css({ "background-color": window.charts_background });
-$(".chart_wrapper").css({ "border": '2px solid ' + window.charts_border });
+$(".chart_wrapper").css({ "background-color": charts_background });
+$(".chart_wrapper").css({ "border": '2px solid ' + charts_border });
 
 
 // Dynamic table header updating
-$("span.btc_prim_currency_pair").html(window.btc_prim_currency_pair); 
+$("span.btc_prim_currency_pair").html(btc_prim_currency_pair); 
 
 
 // Random tips on the update page 
@@ -72,7 +72,7 @@ background_tasks_check();
 	if ( emulated_cron_enabled ) {
 	
      // Emulate a cron job every X minutes...
-     cron_already_run = false;
+     cron_already_ran = false;
     
      emulated_cron(); // Initial load (RELOADS from WITHIN it's OWN logic every minute AFTER)
 	
@@ -221,7 +221,7 @@ background_tasks_check();
     store_scroll_position(); 
         
         // If background tasks are still running, force a browser confirmation to refresh / leave / close
-        if ( window.background_tasks_status == 'wait' ) {
+        if ( background_tasks_status == 'wait' ) {
             
             if ( form_submit_queued == true ) {
             form_submit_queued = false;

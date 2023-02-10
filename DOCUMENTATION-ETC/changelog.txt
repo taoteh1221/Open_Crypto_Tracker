@@ -6081,11 +6081,11 @@ v6.00.2 AND HIGHER RESETS LIGHT (TIME PERIOD) CHARTS FROM ARCHIVAL DATA, ONE-TIM
 
 -Optimized default configuration
 
--Upgraded to BootStrap v5
+-Code cleanup / optimization
 
 -Upgraded to jQuery v3.6.3
 
--Code cleanup
+-Upgraded to BootStrap v5
 
 -v6.00.19 AND HIGHER RESETS LIGHT (TIME PERIOD) CHARTS FROM ARCHIVAL DATA, ONE-TIME DURING UPGRADES FROM V6.00.18 OR LOWER.
 

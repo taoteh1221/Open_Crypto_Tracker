@@ -54,7 +54,7 @@
 			?>  &nbsp; &nbsp; &nbsp; <a href='javascript:app_reloading_check(0);' class='bitcoin' style='font-weight: bold;' title='<?=$refresh_link_title?>'>Refresh</a> <span><b>(<?=$ct_conf['power']['last_trade_cache_time']?> minute cache)</b></span>
 			
 			 &nbsp;<select title='Auto-Refresh MAY NOT WORK properly on mobile devices (phone / laptop / tablet / etc), or inactive tabs.' class='browser-default custom-select' name='select_auto_refresh' id='select_auto_refresh' onchange='
-			 window.reload_time = this.value;
+			 reload_time = this.value;
 			 auto_reload();
 			 '>
 				<option value='0'> Manually </option>

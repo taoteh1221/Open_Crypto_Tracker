@@ -148,8 +148,6 @@ header('Access-Control-Allow-Origin: ' . $app_host_address);
 	<script src="app-lib/js/var_defaults.js"></script>
 
 	<script src="app-lib/js/functions.js"></script>
-
-	<script src="app-lib/js/random-tips.js"></script>
 	
 	
 	<script>
@@ -216,9 +214,18 @@ header('Access-Control-Allow-Origin: ' . $app_host_address);
      
      is_admin = true;
      
-	admin_area_sec_level = '<?=base64_encode( $admin_area_sec_level )?>';
-     
-	enhanced_sec_token = "<?=base64_encode( $ct_gen->admin_hashed_nonce('enhanced_security_mode') )?>";
+          <?php
+          // DON'T SHOW ON LOGIN FORMS!
+          if ( !$is_login_form ) {
+          ?>
+          
+     	admin_area_sec_level = '<?=base64_encode( $admin_area_sec_level )?>';
+          
+     	enhanced_sec_token = "<?=base64_encode( $ct_gen->admin_hashed_nonce('enhanced_security_mode') )?>";
+     	
+          <?php
+          }
+          ?>
 	
 	<?php
 	}
@@ -306,8 +313,11 @@ header('Access-Control-Allow-Origin: ' . $app_host_address);
 	</script>
 
 
-     <!-- ALL CORE JAVASCRIPT VARS MUST BE INITED / CONFIGGED BEFORE LOADING INIT.JS! -->
+     <!-- ALL CORE JAVASCRIPT VARS MUST BE INIT'D / CONFIG'D BEFORE LOADING INIT.JS AND RANDOM-TIPS.JS! -->
+     
 	<script src="app-lib/js/init.js"></script>
+
+	<script src="app-lib/js/random-tips.js"></script>
     
     
 	<link rel="stylesheet" href="templates/interface/css/bootstrap/bootstrap.min.css" type="text/css" />
@@ -429,6 +439,9 @@ header('Access-Control-Allow-Origin: ' . $app_host_address);
 if ( $is_iframe ) {
 ?>
 <body class='iframe_wrapper'>
+					
+<!-- header.php END -->
+			
 <?php
 }
 else {
@@ -823,11 +836,9 @@ else {
 				<div id='background_loading' class='align_center loading bitcoin'><img src="templates/interface/media/images/auto-preloaded/loader.gif" height='17' alt="" style='vertical-align: middle;' /> <span id='background_loading_span'></span></div>
 		
 					
-		<!-- header.php END -->
+<!-- header.php END -->
 			
-	
 
 <?php
 }
 ?>
-

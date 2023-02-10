@@ -224,12 +224,12 @@
 								$feeds_array = explode(',', $batched_feeds_keys);
 								foreach ($feeds_array as $feed_hash) {
 								?>
-								window.feeds_loaded.push("<?=$feed_hash?>");
+								feeds_loaded.push("<?=$feed_hash?>");
 								<?php
 								}
 								?>
 							 
-							feeds_loading_check(window.feeds_loaded);
+							feeds_loading_check();
 							
 							}
 							else if(statusTxt == "error") {
@@ -240,12 +240,12 @@
 								$feeds_array = explode(',', $batched_feeds_keys);
 								foreach ($feeds_array as $feed_hash) {
 								?>
-								window.feeds_loaded.push("<?=$feed_hash?>");
+								feeds_loaded.push("<?=$feed_hash?>");
 								<?php
 								}
 								?>
 							 
-							feeds_loading_check(window.feeds_loaded);
+							feeds_loading_check();
 							
 							}
 						

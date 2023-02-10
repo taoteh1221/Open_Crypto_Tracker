@@ -406,11 +406,11 @@ function app_reloading_check(form_submission=0) {
 /////////////////////////////////////////////////////////////
 
 
-function cron_loading_check() {
+function cron_run_check() {
 	
-//console.log('loaded charts = ' + window.charts_loaded.length + ', all charts = ' + window.charts_num);
+//console.log('loaded charts = ' + charts_loaded.length + ', all charts = ' + charts_num);
 
-	if ( cron_already_run == true ) {
+	if ( cron_already_ran == true ) {
 	return 'done';
 	}
 	else {
@@ -425,12 +425,12 @@ function cron_loading_check() {
 /////////////////////////////////////////////////////////////
 
 
-function charts_loading_check(charts_loaded) {
+function charts_loading_check() {
 	
-//console.log('loaded charts = ' + window.charts_loaded.length + ', all charts = ' + window.charts_num);
+//console.log('loaded charts = ' + charts_loaded.length + ', all charts = ' + charts_num);
 
     // NOT IN ADMIN AREA (UNLIKE CRON EMULATION)
-	if ( charts_loaded.length >= window.charts_num || is_admin == true ) {
+	if ( charts_loaded.length >= charts_num || is_admin == true ) {
 	return 'done';
 	}
 	else {
@@ -445,12 +445,12 @@ function charts_loading_check(charts_loaded) {
 /////////////////////////////////////////////////////////////
 
 
-function feeds_loading_check(feeds_loaded) {
+function feeds_loading_check() {
 	
-//console.log('loaded feeds = ' + window.feeds_loaded.length + ', all feeds = ' + window.feeds_num);
+//console.log('loaded feeds = ' + feeds_loaded.length + ', all feeds = ' + feeds_num);
 
     // NOT IN ADMIN AREA (UNLIKE CRON EMULATION)
-	if ( feeds_loaded.length >= window.feeds_num || is_admin == true ) {
+	if ( feeds_loaded.length >= feeds_num || is_admin == true ) {
 	return 'done';
 	}
 	else {
@@ -861,7 +861,7 @@ return time_period_text;
 
 function emulated_cron() {
     
-cron_already_run = false;
+cron_already_ran = false;
 
 background_tasks_check(); 
 
@@ -893,14 +893,14 @@ background_tasks_check();
                 }
             
             
-            cron_already_run = true;
+            cron_already_ran = true;
             
             background_tasks_check();  
             
             },
             error: function(e) {
             console.log( "cron emulation: ERROR at " + human_time( new Date().getTime() ) );
-            cron_already_run = true;
+            cron_already_ran = true;
             background_tasks_check(); 
             }
         });
@@ -918,7 +918,7 @@ function app_reload(form_submission) {
     
     // Wait if anything is running in the background
     // (emulated cron / charts / news feeds / etc)
-    if ( window.background_tasks_status == 'wait' ) {
+    if ( background_tasks_status == 'wait' ) {
         
     $("#background_loading_span").html("Please wait, finishing background tasks...").css("color", "#ff4747", "important");
             
@@ -928,7 +928,7 @@ function app_reload(form_submission) {
     
     }
     // ADD ANY LOGIC HERE, TO RUN BEFORE THE APP RELOADS
-    else if ( window.background_tasks_status == 'done' ) {
+    else if ( background_tasks_status == 'done' ) {
     
     clearTimeout(reload_recheck);
     
@@ -1014,7 +1014,7 @@ function background_tasks_check() {
         
         
         if (
-		feeds_loading_check(window.feeds_loaded) == 'done' && charts_loading_check(window.charts_loaded) == 'done' && cron_loading_check() == 'done'
+		feeds_loading_check() == 'done' && charts_loading_check() == 'done' && cron_run_check() == 'done'
 		) {
 		    
 		$("#background_loading").hide(250); // 0.25 seconds
@@ -1030,7 +1030,7 @@ function background_tasks_check() {
     		get_scroll_position('charts'); 
     		}
     	
-    	window.background_tasks_status = 'done';
+    	background_tasks_status = 'done';
     	
     	clearTimeout(background_tasks_recheck);
 		
@@ -1039,12 +1039,12 @@ function background_tasks_check() {
 		    
 		background_tasks_recheck = setTimeout(background_tasks_check, 1000); // Re-check every 1 seconds (in milliseconds)
 	
-    	window.background_tasks_status = 'wait';
+    	background_tasks_status = 'wait';
     
 		}
 		
     	
-//console.log('background_tasks_check: ' + window.background_tasks_status);
+//console.log('background_tasks_check: ' + background_tasks_status);
 
 }
 
@@ -1509,32 +1509,32 @@ function row_alert(tr_id, alert_type, color, theme) {
 		 
 			if ( color != 'no_cmc' ) {
 			
-				if ( color == 'yellow' && !window.alert_color_loss ) {
-				window.alert_color_loss = zebra_odd_loss;
+				if ( color == 'yellow' && !alert_color_loss ) {
+				alert_color_loss = zebra_odd_loss;
 				}
 				
 				
-				if ( color == 'green' && !window.alert_color_gain ) {
-				window.alert_color_gain = zebra_odd_gain;
+				if ( color == 'green' && !alert_color_gain ) {
+				alert_color_gain = zebra_odd_gain;
 				}
 					
 				
 				if ( color == 'yellow' ) {
 				
-				$('.tablesorter tr#' + tr_id).css("background", window.alert_color_loss);
-				$('.tablesorter tr#' + tr_id + ' td').css("background", window.alert_color_loss);
-				$('.tablesorter tr#' + tr_id).css("background-color", window.alert_color_loss);
-				$('.tablesorter tr#' + tr_id + ' td').css("background-color", window.alert_color_loss);
+				$('.tablesorter tr#' + tr_id).css("background", alert_color_loss);
+				$('.tablesorter tr#' + tr_id + ' td').css("background", alert_color_loss);
+				$('.tablesorter tr#' + tr_id).css("background-color", alert_color_loss);
+				$('.tablesorter tr#' + tr_id + ' td').css("background-color", alert_color_loss);
 				
 				}
 				
 				
 				if ( color == 'green' ) {
 				
-				$('.tablesorter tr#' + tr_id).css("background", window.alert_color_gain);
-				$('.tablesorter tr#' + tr_id + ' td').css("background", window.alert_color_gain);
-				$('.tablesorter tr#' + tr_id).css("background-color", window.alert_color_gain);
-				$('.tablesorter tr#' + tr_id + ' td').css("background-color", window.alert_color_gain);
+				$('.tablesorter tr#' + tr_id).css("background", alert_color_gain);
+				$('.tablesorter tr#' + tr_id + ' td').css("background", alert_color_gain);
+				$('.tablesorter tr#' + tr_id).css("background-color", alert_color_gain);
+				$('.tablesorter tr#' + tr_id + ' td').css("background-color", alert_color_gain);
 				
 				}
 					
@@ -1542,30 +1542,30 @@ function row_alert(tr_id, alert_type, color, theme) {
 				// Zebra stripes
 				if ( color == 'yellow' ) {
 				
-					if ( window.alert_color_loss == zebra_odd_loss ) {
-					window.alert_color_loss = zebra_even_loss;
+					if ( alert_color_loss == zebra_odd_loss ) {
+					alert_color_loss = zebra_even_loss;
 					}
-					else if ( window.alert_color_loss == zebra_even_loss ) {
-					window.alert_color_loss = zebra_odd_loss;
+					else if ( alert_color_loss == zebra_even_loss ) {
+					alert_color_loss = zebra_odd_loss;
 					}
 				
 				}
 				else if ( color == 'green' ) {
 				
-					if ( window.alert_color_gain == zebra_odd_gain ) {
-					window.alert_color_gain = zebra_even_gain;
+					if ( alert_color_gain == zebra_odd_gain ) {
+					alert_color_gain = zebra_even_gain;
 					}
-					else if ( window.alert_color_gain == zebra_even_gain ) {
-					window.alert_color_gain = zebra_odd_gain;
+					else if ( alert_color_gain == zebra_even_gain ) {
+					alert_color_gain = zebra_odd_gain;
 					}
 					
 				}
 				
 			
 				// Audio, if chosen in settings
-				if ( !window.is_alerted && alert_type == 'visual_audio' ) {
+				if ( !audio_alert_played && alert_type == 'visual_audio' ) {
+				audio_alert_played = true;
 				play_audio_alert();
-				window.is_alerted = 1;
 				}
 			
 			
@@ -1584,8 +1584,8 @@ function row_alert(tr_id, alert_type, color, theme) {
 function auto_reload() {
 
 
-	if ( window.reload_time ) {
-	time = window.reload_time;
+	if ( reload_time ) {
+	time = reload_time;
 	}
 	else if ( get_cookie("coin_reload") ) {
 	time = get_cookie("coin_reload");
@@ -1633,7 +1633,7 @@ function auto_reload() {
 				
 
                 // If subsections are still loading, wait until they are finished
-                if ( $("#background_loading").is(":visible") || window.charts_loaded.length < window.charts_num || window.feeds_loaded.length < window.feeds_num ) {
+                if ( $("#background_loading").is(":visible") || charts_loaded.length < charts_num || feeds_loaded.length < feeds_num ) {
                 setTimeout(auto_reload, 1000); // Wait 1000 milliseconds then recheck
                 return;
                 }
