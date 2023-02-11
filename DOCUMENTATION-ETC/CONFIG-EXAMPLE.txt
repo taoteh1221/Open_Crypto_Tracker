@@ -1523,6 +1523,7 @@ $ct_conf['dev']['php_error_reporting'] = 0; // 0 == off / -1 == on
 // 'ext_data_cache_telemetry' (external API requests from cache),
 // 'smtp_telemetry' (smtp server responses to: /cache/logs/smtp_debug.log),
 // 'api_comms_telemetry' (API comms responses to: /cache/logs/debug/external_data/last-response-[service].log),
+// 'cron_telemetry' (cron runtime telemetry to: /cache/logs/debug/cron/cron_runtime_telemetry.log),
 ////
 // ### CHECKS ###
 ////
