@@ -228,22 +228,45 @@ $ct_conf['comms']['to_email'] = ''; // #MUST BE SET# for price alerts and other 
 // SEE FURTHER DOWN IN THIS CONFIG FILE, FOR A LIST OF SUPPORTED MOBILE TEXTING NETWORK PROVIDER NAMES 
 // IN THE EMAIL-TO-MOBILE-TEXT CONFIG SECTION (the "network name keys" in the $ct_conf['mob_net_txt_gateways'] variables array)
 // CAN BE BLANK. Country code format MAY NEED TO BE USED (depending on your mobile network)
-// skip_network_name SHOULD BE USED IF USING textbelt / textlocal BELOW
+// skip_network_name SHOULD BE USED IF USING a texting (SMS) SERVICE FURTHER BELOW
 // 'phone_number||network_name_key' (examples: '12223334444||virgin_us' / '12223334444||skip_network_name')
 $ct_conf['comms']['to_mobile_text'] = '';
 
 
-// Do NOT use textbelt AND textlocal together. Leave one setting blank, #OR IT WILL DISABLE# USING BOTH.
-// LEAVE textbelt AND textlocal BOTH BLANK to use a mobile text gateway set ABOVE
+// Do NOT use MORE THAN ONE texting (SMS) service below. Only fill in settings for one, or it will DISABLE THEM ALL.
+// LEAVE ALL BLANK to use a mobile text gateway set ABOVE
+
+
+// CAN BE BLANK. For asset price alert twilio notifications. Setup: https://twilio.com/
+// YOU MUST SET $ct_conf['comms']['to_mobile_text'] ABOVE IN THE SERVICE PROVIDER AREA TO: skip_network_name
+////
+// Twilio acount phone number (Format: '12223334444' [no plus symbol])
+$ct_conf['comms']['twilio_number'] = '';
+////
+// Twilio account SID
+$ct_conf['comms']['twilio_sid'] = '';
+////
+// Twilio account auth token
+$ct_conf['comms']['twilio_token'] = '';
+
+
 
 // CAN BE BLANK. For asset price alert textbelt notifications. Setup: https://textbelt.com/
-// SET $ct_conf['comms']['to_mobile_text'] ABOVE IN THE SERVICE PROVIDER AREA TO: skip_network_name
+// YOU MUST SET $ct_conf['comms']['to_mobile_text'] ABOVE IN THE SERVICE PROVIDER AREA TO: skip_network_name
+// CONTACT support@textbelt.com IF YOUR MESSAGES DON'T GO THROUGH, THEY ARE USUALLY *VERY* RESPONSIVE
 $ct_conf['comms']['textbelt_apikey'] = '';
 
 
 // CAN BE BLANK. For asset price alert textlocal notifications. Setup: https://www.textlocal.com/integrations/api/
-// SET $ct_conf['comms']['to_mobile_text'] ABOVE IN THE SERVICE PROVIDER AREA TO: skip_network_name
-$ct_conf['comms']['textlocal_account'] = ''; // This format MUST be used: 'username||hash_code'
+// DOES NOT SEEM TO WORK OUTSIDE THE UNITED KINGDOM! (account dashboard says it was sent, but it's NEVER recieved)
+// YOU MUST SET $ct_conf['comms']['to_mobile_text'] ABOVE IN THE SERVICE PROVIDER AREA TO: skip_network_name
+////
+// Textlocal human-readable sender name (eg: 'J. Smith'), REQUIRED IF USING TEXTLOCAL TO SEND TEXTS!
+// THIS SHOULD MATCH THE SENDER NAME YOU ALREADY SETUP IN YOUR TEXTLOCAL ACCOUNT
+$ct_conf['comms']['textlocal_sender'] = '';
+////
+// API Key
+$ct_conf['comms']['textlocal_apikey'] = '';
 
 
 // For notifyme / alexa notifications (sending Alexa devices notifications for free). 

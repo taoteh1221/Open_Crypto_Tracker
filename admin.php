@@ -9,6 +9,17 @@ $runtime_mode = 'ui';
 
 $is_admin = true;
 
+
+// The $is_iframe flag (if required) has to be toggled before init.php
+// (no need for security checks here, we are just saying if this is an iframe)
+if (
+isset($_GET['section']) && trim($_GET['section']) != ''
+|| isset($_GET['plugin']) && trim($_GET['plugin']) != ''
+) {
+$is_iframe = true;
+}
+
+
 require("app-lib/php/init.php");
 
 
@@ -37,7 +48,6 @@ elseif (
 isset($_GET['section']) && trim($_GET['section']) != '' && $ct_gen->pass_sec_check($_GET['iframe'], 'iframe_' . $_GET['section'])
 || isset($_GET['plugin']) && trim($_GET['plugin']) != '' && $ct_gen->pass_sec_check($_GET['iframe'], 'iframe_' . $_GET['plugin'])
 ) {
-$is_iframe = true;
 require("templates/interface/php/admin/admin-elements/admin-page-iframe.php");
 }
 // Security monitoring

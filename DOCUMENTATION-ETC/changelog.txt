@@ -6079,6 +6079,8 @@ v6.00.2 AND HIGHER RESETS LIGHT (TIME PERIOD) CHARTS FROM ARCHIVAL DATA, ONE-TIM
 
 -Miscellaneous user experience improvements
 
+-Added Twilio texting (SMS) API support
+
 -Optimized default configuration
 
 -Code cleanup / optimization
@@ -6086,6 +6088,8 @@ v6.00.2 AND HIGHER RESETS LIGHT (TIME PERIOD) CHARTS FROM ARCHIVAL DATA, ONE-TIM
 -Upgraded to jQuery v3.6.3
 
 -Upgraded to BootStrap v5
+
+-Upgraded TextLocal API
 
 -v6.00.19 AND HIGHER RESETS LIGHT (TIME PERIOD) CHARTS FROM ARCHIVAL DATA, ONE-TIME DURING UPGRADES FROM V6.00.18 OR LOWER.
 

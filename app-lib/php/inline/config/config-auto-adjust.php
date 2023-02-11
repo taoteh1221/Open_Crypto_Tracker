@@ -306,6 +306,57 @@ $default_tiny_font_size = round( ($default_font_size * 0.55) , 3); // 55% of $de
 $default_tiny_font_line_height = round( ($default_tiny_font_size * 1.35) , 3); // 135% of $default_tiny_font_size
 
 
+// Texting (SMS) services check
+// (if MORE THAN ONE is activated, keep ALL disabled to avoid a texting firestorm)
+
+
+if ( isset($ct_conf['comms']['textbelt_apikey']) && trim($ct_conf['comms']['textbelt_apikey']) != '' ) {
+$activated_sms_services[] = 'textbelt';
+}
+
+
+if (
+isset($ct_conf['comms']['twilio_number']) && trim($ct_conf['comms']['twilio_number']) != ''
+&& isset($ct_conf['comms']['twilio_sid']) && trim($ct_conf['comms']['twilio_sid']) != ''
+&& isset($ct_conf['comms']['twilio_token']) && trim($ct_conf['comms']['twilio_token']) != ''
+) {
+$activated_sms_services[] = 'twilio';
+}
+
+
+// To be safe, don't use trim() on certain strings with arbitrary non-alphanumeric characters here
+if (
+isset($ct_conf['comms']['textlocal_sender'])
+&& trim($ct_conf['comms']['textlocal_sender']) != ''
+&& isset($ct_conf['comms']['textlocal_apikey'])
+&& $ct_conf['comms']['textlocal_apikey'] != ''
+) {
+$activated_sms_services[] = 'textlocal';
+}
+
+
+$text_email_gateway_check = explode("||", trim($ct_conf['comms']['to_mobile_text']) );
+
+
+if (
+isset($text_email_gateway_check[0])
+&& isset($text_email_gateway_check[1])
+&& trim($text_email_gateway_check[0]) != ''
+&& trim($text_email_gateway_check[1]) != ''
+&& trim($text_email_gateway_check[1]) != 'skip_network_name'
+) {
+$activated_sms_services[] = 'email_gateway';
+}
+
+
+if ( sizeof($activated_sms_services) == 1 ) {
+$sms_service = $activated_sms_services[0];
+}
+elseif ( sizeof($activated_sms_services) > 1 ) {
+$ct_gen->log( 'conf_error', 'only one SMS service is allowed, please deactivate ALL BUT ONE of the following: ' . implode(", ", $activated_sms_services) );
+}
+
+
 //////////////////////////////////////////////////////////////////
 // END APP CONFIG DYNAMIC MANAGEMENT
 //////////////////////////////////////////////////////////////////
