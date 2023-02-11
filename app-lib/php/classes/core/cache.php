@@ -2503,13 +2503,22 @@ var $ct_array1 = array();
         // Servers which are known to block API access by location / jurasdiction
         // (we alert end-users in error logs, when a corrisponding API server connection fails [one-time notice per-runtime])
         if ( in_array($endpoint_tld_or_ip, $ct_conf['dev']['location_blocked_servers']) ) {
+
+             
+             if ( is_array($ct_conf['proxy']['proxy_list']) && sizeof($ct_conf['proxy']['proxy_list']) > 0 ) {
+             $blocked_description = 'SERVER';
+             }
+             else {
+             $blocked_description = 'PROXY';
+             }
+
             
         $ct_gen->log(
-          		    'notify_error',
-          		    'your SERVER\'S IP ADDRESS location / jurasdiction *MAY* be blocked from accessing the "'.$endpoint_tld_or_ip.'" API, *IF* THIS ERROR REPEATS *VERY OFTEN*',
-          		    false,
-          		    md5($endpoint_tld_or_ip) . '_possibly_blocked'
-          		    );
+          		'notify_error',
+          		'your ' . $blocked_description . '\'S IP ADDRESS location / jurasdiction *MAY* be blocked from accessing the "'.$endpoint_tld_or_ip.'" API, *IF* THIS ERROR REPEATS *VERY OFTEN*',
+          		false,
+          		md5($endpoint_tld_or_ip) . '_possibly_blocked'
+          		);
           		    
         }
       
