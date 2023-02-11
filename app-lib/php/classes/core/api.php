@@ -70,7 +70,8 @@ var $ct_array1 = array();
               // Wait 6.55 seconds between consecutive calls, to avoid being blocked / throttled by external server
               // (coingecko #ABSOLUTELY HATES# DATA CENTER IPS [DEDICATED / VPS SERVERS], BUT GOES EASY ON RESIDENTIAL IPS)
               if ( $loop > 0 && $ct_cache->update_cache($base_dir . '/cache/secured/external_data/' . md5($url) . '.dat', $ct_conf['power']['mcap_cache_time']) == true ) {
-              usleep(6550000); 
+              sleep(6);
+              usleep(550000); 
               }
          
           $response = @$ct_cache->ext_data('url', $url, $ct_conf['power']['mcap_cache_time']);
@@ -388,7 +389,8 @@ var $ct_array1 = array();
           elseif ( $_SESSION[$fetched_feeds][$tld_session] > 0 ) {
             
               if ( $endpoint_tld_or_ip == 'reddit.com' ) {
-              usleep(7100000); // 7.1 seconds (Reddit only allows rss feed connections every 7 seconds from ip addresses ACCORDING TO THEM)
+              sleep(7);
+              usleep(100000); // 0.1 seconds (Reddit only allows rss feed connections every 7 seconds from ip addresses ACCORDING TO THEM)
               }
               else {
               usleep(550000); // 0.55 seconds
