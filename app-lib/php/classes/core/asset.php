@@ -1450,7 +1450,7 @@ var $ct_array1 = array();
    
       
       // Skip completely, if it's an alphavantage market, AND the end-user has NOT added an alphavantage API key
-      if ( $exchange == 'alphavantage_stock' && trim($ct_conf['ext_api']['alphavantage_key']) == '' ) {
+      if ( $exchange == 'alphavantage_stock' && trim($ct_conf['other_api']['alphavantage_key']) == '' ) {
       return false;
       }
       

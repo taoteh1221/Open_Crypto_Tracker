@@ -20,7 +20,10 @@
 			<a class="nav-link admin_change_width" data-bs-toggle="tab" data-width="fixed_max" href="#admin_comms" role="tab" aria-controls="admin_comms">Communications</a>
 		  </li>
 		  <li class="nav-item">
-			<a class="nav-link admin_change_width" data-bs-toggle="tab" data-width="fixed_max" href="#admin_ext_api" role="tab" aria-controls="admin_ext_api">External API</a>
+			<a class="nav-link admin_change_width" data-bs-toggle="tab" data-width="fixed_max" href="#admin_other_api" role="tab" aria-controls="admin_other_api">Other APIs</a>
+		  </li>
+		  <li class="nav-item">
+			<a class="nav-link admin_change_width" data-bs-toggle="tab" data-width="fixed_max" href="#admin_proxy" role="tab" aria-controls="admin_proxy">Proxies</a>
 		  </li>
 		  <li class="nav-item">
 			<a class="nav-link admin_change_width active" data-bs-toggle="tab" data-width="fixed_max" href="#admin_security" role="tab" aria-controls="admin_security">Security</a>
@@ -31,7 +34,6 @@
 		  <li class="nav-item">
 			<a class="nav-link admin_change_width" data-bs-toggle="tab" data-width="fixed_max" href="#admin_charts_alerts" role="tab" aria-controls="admin_charts_alerts"><?=( $ct_conf['gen']['asset_charts_toggle'] == 'on' ? 'Charts and ' : 'Price ' )?>Alerts</a>
 		  </li>
-		  </li>
 		  <li class="nav-item">
 			<a class="nav-link admin_change_width" data-bs-toggle="tab" data-width="fixed_max" href="#admin_plugins" role="tab" aria-controls="admin_plugins">Plugins</a>
 		  </li>
@@ -39,19 +41,16 @@
 			<a class="nav-link admin_change_width" data-bs-toggle="tab" data-width="fixed_max" href="#admin_power_user" role="tab" aria-controls="admin_power_user">Power User</a>
 		  </li>
 		  <li class="nav-item">
-			<a class="nav-link admin_change_width" data-bs-toggle="tab" data-width="fixed_max" href="#admin_text_gateways" role="tab" aria-controls="admin_text_gateways">Text Gateways</a>
-		  </li>
-		  <li class="nav-item">
-			<a class="nav-link admin_change_width" data-bs-toggle="tab" data-width="fixed_max" href="#admin_proxy" role="tab" aria-controls="admin_proxy">Proxy</a>
-		  </li>
-		  <li class="nav-item">
-			<a class="nav-link admin_change_width" data-bs-toggle="tab" data-width="fixed_max" href="#admin_developer_only" role="tab" aria-controls="admin_developer_only">Developer Only</a>
-		  </li>
-		  <li class="nav-item">
 			<a class="nav-link admin_change_width" data-bs-toggle="tab" data-width="fixed_max" href="#admin_int_api" role="tab" aria-controls="admin_int_api">Internal API</a>
 		  </li>
 		  <li class="nav-item">
 			<a class="nav-link admin_change_width" data-bs-toggle="tab" data-width="fixed_max" href="#admin_webhook" role="tab" aria-controls="admin_webhook">Webhook</a>
+		  </li>
+		  <li class="nav-item">
+			<a class="nav-link admin_change_width" data-bs-toggle="tab" data-width="fixed_max" href="#admin_text_gateways" role="tab" aria-controls="admin_text_gateways">Text Gateways</a>
+		  </li>
+		  <li class="nav-item">
+			<a class="nav-link admin_change_width" data-bs-toggle="tab" data-width="fixed_max" href="#admin_developer_only" role="tab" aria-controls="admin_developer_only">Developer Only</a>
 		  </li>
 		  <li class="nav-item" id="sys_stats_admin_link">
 			<a class="nav-link admin_change_width" data-bs-toggle="tab" data-width="full" href="#admin_system_stats" role="tab" aria-controls="admin_system_stats">System Stats<img id='sys_stats_admin_link_info' src='templates/interface/media/images/info-red.png' alt='' width='30' style='position: relative;' /></a>
@@ -105,15 +104,30 @@
 		  </div>
 		  
 		  
-		  <div class="tab-pane" id="admin_ext_api" role="tabpanel">
+		  <div class="tab-pane" id="admin_other_api" role="tabpanel">
 	
-	            <h2 class='bitcoin admin_title'>External API</h2>
+	            <h2 class='bitcoin admin_title'>Other APIs</h2>
 
                 <div class='max_1200px_wrapper'>
                 	
-                   <div id='iframe_ext_api_loading' class='align_center loading iframe_loading_placeholder bitcoin'><img src="templates/interface/media/images/auto-preloaded/loader.gif" height='17' alt="" style='vertical-align: middle;' /> Loading...<span id='background_loading_span'></span></div>
+                   <div id='iframe_other_api_loading' class='align_center loading iframe_loading_placeholder bitcoin'><img src="templates/interface/media/images/auto-preloaded/loader.gif" height='17' alt="" style='vertical-align: middle;' /> Loading...<span id='background_loading_span'></span></div>
                 
-                	<iframe id="iframe_ext_api" src="admin.php?iframe=<?=$ct_gen->admin_hashed_nonce('iframe_ext_api')?>&section=ext_api" loading="lazy" frameborder="0" class="admin_iframe"></iframe>
+                	<iframe id="iframe_other_api" src="admin.php?iframe=<?=$ct_gen->admin_hashed_nonce('iframe_other_api')?>&section=other_api" loading="lazy" frameborder="0" class="admin_iframe"></iframe>
+                	
+                </div> 
+		  
+		  </div>
+		  
+		  
+		  <div class="tab-pane" id="admin_proxy" role="tabpanel">
+	
+	            <h2 class='bitcoin admin_title'>Proxies</h2>
+
+                <div class='max_1200px_wrapper'>
+                	
+                   <div id='iframe_proxy_loading' class='align_center loading iframe_loading_placeholder bitcoin'><img src="templates/interface/media/images/auto-preloaded/loader.gif" height='17' alt="" style='vertical-align: middle;' /> Loading...<span id='background_loading_span'></span></div>
+                
+                	<iframe id="iframe_proxy" src="admin.php?iframe=<?=$ct_gen->admin_hashed_nonce('iframe_proxy')?>&section=proxy" loading="lazy" frameborder="0" class="admin_iframe"></iframe>
                 	
                 </div> 
 		  
@@ -151,7 +165,7 @@
 		  
 		  <div class="tab-pane" id="admin_charts_alerts" role="tabpanel">
 	
-	            <h2 class='bitcoin admin_title'>Charts and Alerts</h2>
+	            <h2 class='bitcoin admin_title'><?=( $ct_conf['gen']['asset_charts_toggle'] == 'on' ? 'Charts and ' : 'Price ' )?>Alerts</h2>
 
                 <div class='max_1200px_wrapper'>
                 	
@@ -194,51 +208,6 @@
 		  </div>
 		  
 		  
-		  <div class="tab-pane" id="admin_text_gateways" role="tabpanel">
-	
-	            <h2 class='bitcoin admin_title'>Text Gateways</h2>
-
-                <div class='max_1200px_wrapper'>
-                	
-                   <div id='iframe_text_gateways_loading' class='align_center loading iframe_loading_placeholder bitcoin'><img src="templates/interface/media/images/auto-preloaded/loader.gif" height='17' alt="" style='vertical-align: middle;' /> Loading...<span id='background_loading_span'></span></div>
-                
-                	<iframe id="iframe_text_gateways" src="admin.php?iframe=<?=$ct_gen->admin_hashed_nonce('iframe_text_gateways')?>&section=text_gateways" loading="lazy" frameborder="0" class="admin_iframe"></iframe>
-                	
-                </div> 
-		  
-		  </div>
-		  
-		  
-		  <div class="tab-pane" id="admin_proxy" role="tabpanel">
-	
-	            <h2 class='bitcoin admin_title'>Proxy</h2>
-
-                <div class='max_1200px_wrapper'>
-                	
-                   <div id='iframe_proxy_loading' class='align_center loading iframe_loading_placeholder bitcoin'><img src="templates/interface/media/images/auto-preloaded/loader.gif" height='17' alt="" style='vertical-align: middle;' /> Loading...<span id='background_loading_span'></span></div>
-                
-                	<iframe id="iframe_proxy" src="admin.php?iframe=<?=$ct_gen->admin_hashed_nonce('iframe_proxy')?>&section=proxy" loading="lazy" frameborder="0" class="admin_iframe"></iframe>
-                	
-                </div> 
-		  
-		  </div>
-		  
-		  
-		  <div class="tab-pane" id="admin_developer_only" role="tabpanel">
-	
-	            <h2 class='bitcoin admin_title'>Developer Only</h2>
-
-                <div class='max_1200px_wrapper'>
-                	
-                   <div id='iframe_developer_loading' class='align_center loading iframe_loading_placeholder bitcoin'><img src="templates/interface/media/images/auto-preloaded/loader.gif" height='17' alt="" style='vertical-align: middle;' /> Loading...<span id='background_loading_span'></span></div>
-                
-                	<iframe id="iframe_developer" src="admin.php?iframe=<?=$ct_gen->admin_hashed_nonce('iframe_developer')?>&section=developer" loading="lazy" frameborder="0" class="admin_iframe"></iframe>
-                	
-                </div> 
-		  
-		  </div>
-		  
-		  
 		  <div class="tab-pane" id="admin_int_api" role="tabpanel">
 	
 	            <h2 class='bitcoin admin_title'>Internal API</h2>
@@ -263,6 +232,36 @@
                    <div id='iframe_webhook_loading' class='align_center loading iframe_loading_placeholder bitcoin'><img src="templates/interface/media/images/auto-preloaded/loader.gif" height='17' alt="" style='vertical-align: middle;' /> Loading...<span id='background_loading_span'></span></div>
                 
                 	<iframe id="iframe_webhook" src="admin.php?iframe=<?=$ct_gen->admin_hashed_nonce('iframe_webhook')?>&section=webhook" loading="lazy" frameborder="0" class="admin_iframe"></iframe>
+                	
+                </div> 
+		  
+		  </div>
+		  
+		  
+		  <div class="tab-pane" id="admin_text_gateways" role="tabpanel">
+	
+	            <h2 class='bitcoin admin_title'>Text Gateways</h2>
+
+                <div class='max_1200px_wrapper'>
+                	
+                   <div id='iframe_text_gateways_loading' class='align_center loading iframe_loading_placeholder bitcoin'><img src="templates/interface/media/images/auto-preloaded/loader.gif" height='17' alt="" style='vertical-align: middle;' /> Loading...<span id='background_loading_span'></span></div>
+                
+                	<iframe id="iframe_text_gateways" src="admin.php?iframe=<?=$ct_gen->admin_hashed_nonce('iframe_text_gateways')?>&section=text_gateways" loading="lazy" frameborder="0" class="admin_iframe"></iframe>
+                	
+                </div> 
+		  
+		  </div>
+		  
+		  
+		  <div class="tab-pane" id="admin_developer_only" role="tabpanel">
+	
+	            <h2 class='bitcoin admin_title'>Developer Only</h2>
+
+                <div class='max_1200px_wrapper'>
+                	
+                   <div id='iframe_developer_loading' class='align_center loading iframe_loading_placeholder bitcoin'><img src="templates/interface/media/images/auto-preloaded/loader.gif" height='17' alt="" style='vertical-align: middle;' /> Loading...<span id='background_loading_span'></span></div>
+                
+                	<iframe id="iframe_developer" src="admin.php?iframe=<?=$ct_gen->admin_hashed_nonce('iframe_developer')?>&section=developer" loading="lazy" frameborder="0" class="admin_iframe"></iframe>
                 	
                 </div> 
 		  

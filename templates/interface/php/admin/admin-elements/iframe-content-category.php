@@ -10,8 +10,8 @@
     elseif ( $_GET['section'] == 'comms' ) {
     require("templates/interface/php/admin/admin-sections/comms.php");
     }
-    elseif ( $_GET['section'] == 'ext_api' ) {
-    require("templates/interface/php/admin/admin-sections/ext-api.php");
+    elseif ( $_GET['section'] == 'other_api' ) {
+    require("templates/interface/php/admin/admin-sections/other-api.php");
     }
     elseif ( $_GET['section'] == 'general' ) {
     require("templates/interface/php/admin/admin-sections/general.php");

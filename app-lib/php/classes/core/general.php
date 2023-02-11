@@ -909,7 +909,7 @@ var $ct_array = array();
    
       // Etherscan
       if ( preg_match("/etherscan/i", $url) ) {
-      $url = str_replace($ct_conf['ext_api']['etherscan_key'], $ct_var->obfusc_str($ct_conf['ext_api']['etherscan_key'], 2), $url);
+      $url = str_replace($ct_conf['other_api']['etherscan_key'], $ct_var->obfusc_str($ct_conf['other_api']['etherscan_key'], 2), $url);
       }
       // Telegram
       elseif ( preg_match("/telegram/i", $url) ) {
@@ -917,7 +917,7 @@ var $ct_array = array();
       }
       // AlphaVantage
       elseif ( preg_match("/alphavantage/i", $url) ) {
-      $url = str_replace($ct_conf['ext_api']['alphavantage_key'], $ct_var->obfusc_str($ct_conf['ext_api']['alphavantage_key'], 2), $url); 
+      $url = str_replace($ct_conf['other_api']['alphavantage_key'], $ct_var->obfusc_str($ct_conf['other_api']['alphavantage_key'], 2), $url); 
       }
    
    // Keep our color-coded logs in the admin UI pretty, remove '//' and put in parenthesis

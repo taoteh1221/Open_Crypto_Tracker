@@ -83,7 +83,7 @@ $ct_conf['gen']['btc_prim_exchange'] = 'kraken';  // PUT INSIDE SINGLE QUOTES ('
 
 
 // Default marketcap data source: 'coingecko', or 'coinmarketcap'
-// (COINMARKETCAP REQUIRES A #FREE# API KEY, SEE $ct_conf['ext_api']['coinmarketcap_key'] BELOW in the APIs section)
+// (COINMARKETCAP REQUIRES A #FREE# API KEY, SEE $ct_conf['other_api']['coinmarketcap_key'] BELOW in the APIs section)
 $ct_conf['gen']['prim_mcap_site'] = 'coingecko'; 
 
 
@@ -299,32 +299,55 @@ $ct_conf['comms']['telegram_bot_token'] = '';  // Your bot's access token
 
 
 ////////////////////////////////////////
-// !START! EXTERNAL API CONFIGURATION
+// !START! OTHER APIs CONFIGURATION
 ////////////////////////////////////////
 
 
 // API key for etherscan.io (required unfortunately, but a FREE level is available): https://etherscan.io/apis
-$ct_conf['ext_api']['etherscan_key'] = '';
+$ct_conf['other_api']['etherscan_key'] = '';
 
 
 // API key for coinmarketcap.com Pro API (required unfortunately, but a FREE level is available): https://coinmarketcap.com/api
-$ct_conf['ext_api']['coinmarketcap_key'] = '';
+$ct_conf['other_api']['coinmarketcap_key'] = '';
 
 
 // API key for Alpha Vantage (global stock APIs as well as foreign exchange rates (forex) and cryptocurrency data feeds)
 // (required unfortunately, but a FREE level is available [paid premium also available]): https://www.alphavantage.co/support/#api-key
-$ct_conf['ext_api']['alphavantage_key'] = '';
+$ct_conf['other_api']['alphavantage_key'] = '';
 ////
 // The below settings will automatically limit your API requests to NEVER go over your DAILY Alpha Vantage API requests limit
 // (CONTACT ALPHA VANTAGE SUPPORT, IF YOU ARE UNAWARE OF WHAT YOUR MINUTE / DAILY LIMITS ARE [IF you have a PAID PREMIUM plan])
 // The requests-per-MINUTE limit on your Alpha Vantage API key (varies depending on you free / paid member level)
-$ct_conf['ext_api']['alphavantage_per_minute_limit'] = 5; // (default = 5 [FOR FREE SERVICE])
+$ct_conf['other_api']['alphavantage_per_minute_limit'] = 5; // (default = 5 [FOR FREE SERVICE])
 // The requests-per-DAY limit on your Alpha Vantage API key (varies depending on you free / paid member level)
-$ct_conf['ext_api']['alphavantage_per_day_limit'] = 500; // (default = 500 [FOR FREE SERVICE])
+$ct_conf['other_api']['alphavantage_per_day_limit'] = 500; // (default = 500 [FOR FREE SERVICE])
 
 
 ////////////////////////////////////////
-// !END! EXTERNAL API CONFIGURATION
+// !END! OTHER APIs CONFIGURATION
+////////////////////////////////////////
+
+
+////////////////////////////////////////
+// !START! PROXIES CONFIGURATION
+////////////////////////////////////////
+
+
+// If using proxies, add the ip address / port number here for each one, like examples below (without the double slashes in front enables the code)
+// CAN BE BLANK. Adding proxies here will automatically choose one randomly for each API request
+$ct_conf['proxy']['proxy_list'] = array(
+					// 'ipaddress1:portnumber1',
+					// 'ipaddress2:portnumber2',
+					);
+////
+// If using proxies and login is required
+// Adding a user / pass here will automatically send login details for proxy connections
+// CAN BE BLANK. IF using ip address authentication instead, MUST BE LEFT BLANK
+$ct_conf['proxy']['proxy_login'] = ''; // Use format: 'username||password'
+
+
+////////////////////////////////////////
+// !END! PROXIES CONFIGURATION
 ////////////////////////////////////////
 
 
@@ -416,29 +439,6 @@ $ct_conf['sec']['chmod_index_sec'] = '0660'; // (default = '0660' [owner/group r
 
 ////////////////////////////////////////
 // !END! SECURITY CONFIGURATION
-////////////////////////////////////////
-
-
-////////////////////////////////////////
-// !START! PROXY CONFIGURATION
-////////////////////////////////////////
-
-
-// If using proxies, add the ip address / port number here for each one, like examples below (without the double slashes in front enables the code)
-// CAN BE BLANK. Adding proxies here will automatically choose one randomly for each API request
-$ct_conf['proxy']['proxy_list'] = array(
-					// 'ipaddress1:portnumber1',
-					// 'ipaddress2:portnumber2',
-					);
-////
-// If using proxies and login is required
-// Adding a user / pass here will automatically send login details for proxy connections
-// CAN BE BLANK. IF using ip address authentication instead, MUST BE LEFT BLANK
-$ct_conf['proxy']['proxy_login'] = ''; // Use format: 'username||password'
-
-
-////////////////////////////////////////
-// !END! PROXY CONFIGURATION
 ////////////////////////////////////////
 
 

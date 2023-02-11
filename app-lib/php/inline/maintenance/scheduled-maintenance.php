@@ -26,7 +26,7 @@ if ( $runtime_mode != 'cron' && $ct_cache->update_cache($base_dir . '/cache/even
     
     
     	// If coinmarketcap API key is added, re-cache data for faster UI runtimes later
-    	if ( trim($ct_conf['ext_api']['coinmarketcap_key']) != null ) {
+    	if ( trim($ct_conf['other_api']['coinmarketcap_key']) != null ) {
     	$coinmarketcap_api = $ct_api->coinmarketcap();
     	}
     	 

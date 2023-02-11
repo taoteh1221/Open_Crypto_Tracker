@@ -85,7 +85,7 @@ echo '?';
 	
 			<?php
 			}
-			elseif ( $ct_conf['gen']['prim_mcap_site'] == 'coinmarketcap' && trim($ct_conf['ext_api']['coinmarketcap_key']) == null ) {
+			elseif ( $ct_conf['gen']['prim_mcap_site'] == 'coinmarketcap' && trim($ct_conf['other_api']['coinmarketcap_key']) == null ) {
 			?>
 
 			var cmc_content = '<p class="coin_info"><span class="red"><?=ucfirst($ct_conf['gen']['prim_mcap_site'])?> API key is required. <br />Configuration adjustments can be made in the Admin Config GENERAL section.</span></p>';

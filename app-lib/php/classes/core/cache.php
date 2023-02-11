@@ -384,8 +384,8 @@ var $ct_array1 = array();
      
      // Thresholds for API servers (we throttle-limit, to have reliable LIVE data EVERY HOUR OF THE DAY)
      if (
-     $tld_or_ip == 'alphavantage.co' && $api_throttle_count[$tld_or_ip]['minute_count']['count'] >= $ct_conf['ext_api']['alphavantage_per_minute_limit']
-     || $tld_or_ip == 'alphavantage.co' && $api_throttle_count[$tld_or_ip]['hour_count']['count'] >= floor($ct_conf['ext_api']['alphavantage_per_day_limit'] / 24)
+     $tld_or_ip == 'alphavantage.co' && $api_throttle_count[$tld_or_ip]['minute_count']['count'] >= $ct_conf['other_api']['alphavantage_per_minute_limit']
+     || $tld_or_ip == 'alphavantage.co' && $api_throttle_count[$tld_or_ip]['hour_count']['count'] >= floor($ct_conf['other_api']['alphavantage_per_day_limit'] / 24)
      ) {
          
      $api_throttle_flag[$tld_or_ip] = true;

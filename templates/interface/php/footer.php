@@ -69,7 +69,7 @@ $(document).ready(function() {
              
              $refresh_admin = array(
                                      'iframe_comms',
-                                     'iframe_ext_api',
+                                     'iframe_other_api',
                                      'iframe_general',
                                      'iframe_portfolio_assets',
                                      'iframe_charts_alerts',
