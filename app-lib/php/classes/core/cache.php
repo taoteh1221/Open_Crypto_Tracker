@@ -2506,10 +2506,10 @@ var $ct_array1 = array();
 
              
              if ( is_array($ct_conf['proxy']['proxy_list']) && sizeof($ct_conf['proxy']['proxy_list']) > 0 ) {
-             $blocked_description = 'SERVER';
+             $ip_description = 'PROXY';
              }
              else {
-             $blocked_description = 'PROXY';
+             $ip_description = 'SERVER';
              }
 
             
