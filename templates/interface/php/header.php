@@ -440,7 +440,7 @@ if ( $is_iframe ) {
 ?>
 <body class='iframe_wrapper'>
 					
-<!-- header.php END -->
+<!-- IFRAME header.php END -->
 			
 <?php
 }
@@ -838,7 +838,7 @@ else {
 				<div id='background_loading' class='align_center loading bitcoin'><img src="templates/interface/media/images/auto-preloaded/loader.gif" height='17' alt="" style='vertical-align: middle;' /> <span id='background_loading_span'></span></div>
 		
 					
-<!-- header.php END -->
+<!-- PRIMARY header.php END -->
 			
 
 <?php
