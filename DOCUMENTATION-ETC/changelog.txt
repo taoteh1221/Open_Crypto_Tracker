@@ -6069,6 +6069,8 @@ v6.00.2 AND HIGHER RESETS LIGHT (TIME PERIOD) CHARTS FROM ARCHIVAL DATA, ONE-TIM
 -------------------------------------------------------------------
 6.00.19:
 
+-BUG FIX: Fixed issue with activation of proxies crashing the app
+
 -BUG FIX: Miscellaneous (small) fixes
 
 -New settings for adjusting font sizes (default size in admin config GENERAL section / user-adjustable size at top of new side bar)

@@ -94,9 +94,9 @@ DEBUGGING / TESTS / UX / QA / OTHER
 ///////////////////////////////////////////////////////
 
 
-!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-!   D O N T   F O R G E T   T O   S Q U A S H   T H E   B U G S !   !!!!!!!!!!!!!!!!!!!!!!!!!!
-!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+!   D O N T   F O R G E T   T O   S Q U A S H   T H E   B U G S !   !!!!!!!!!!!!!!!!!!!!!!!!!!!!
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
      ((((c,               ,7))))
     (((((((              ))))))))
      (((((((            ))))))))
@@ -114,12 +114,18 @@ DEBUGGING / TESTS / UX / QA / OTHER
 ----------------------------------------------------------------------
 (CREDIT: https://asciiart.website/index.php?art=animals/insects/other)
 ----------------------------------------------------------------------
-!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 !!!!                                                                                    
 ===> WHEN DEBUGGING / TESTING PHP, LEAVE "$dev_debug_php_errors" IN "app-lib/php/init.php" SET
 ===> LIKE SO, TO ALWAYS LOG ALL PARSE / FATAL PHP ERRORS DURING TESTING: (E_ERROR | E_PARSE)
-===> 'Desktop Editions' log PHP errors to: /INSTALL_CRYPTO_TRACKER_HERE/php_errors.log
+!!!!
+===> Set PHP-CLI (for cron) "/etc/php/X.X/cli/php.ini": error_log = /var/log/php_errors.log
+===> (run: "sudo touch /var/log/php_errors.log" / "sudo chmod 666 /var/log/php_errors.log")
+!!!!
+===> Desktop Editions log all PHP errors to: /INSTALL_CRYPTO_TRACKER_HERE/php_errors.log
+!!!!
+===> Server Edition (on debian) logs Apache PHP errors to: /var/log/apache2/error.log
 !!!!
 ===> See top of the file "/app-lib/js/var_defaults.js", for notes on declaring global / local
 ===> variables inside javascript-based app logic IN A PROPER MANNER.
@@ -144,10 +150,10 @@ DEBUGGING / TESTS / UX / QA / OTHER
 ===> Try to break up larger changes into smaller milestones,
 ===> then plenty of time is spent on UX / testing / debugging.
 !!!!
-===> Don't require any higher than PHP v7.2 until 2025.
+===> Don't require any higher than PHP v7.2 until PHP v9.
 !!!!                                                                                   
-!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
 
 ############ NEXT DEBUG / TEST / QA / OTHER SCHEDULED WORK SESSION ###################################
@@ -180,7 +186,7 @@ Look into doing bootstrap modals instead of the current library we use.
 Setup XAMPP on Win10 on the DVR server, and run server edition of tracker on it for a week with PHP debug logging on.
 
 
-Write notes in TODO.txt debugging section, on setting up / viewing PHP error logging on debian Linux and in XAMPP.
+Write notes in TODO.txt debugging section, on setting up / viewing PHP error logging in XAMPP on Windows.
 
 
 Remove all forced line breaks in FOLIO-INSTALL.bash dialogue

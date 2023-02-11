@@ -3517,7 +3517,7 @@ var $ct_array = array();
       // SESSION VAR first, to avoid duplicate alerts at runtime (and longer term cache file locked for writing further down, after logs creation)
       $proxies_checked[] = $cache_filename;
        
-      $response = @$this->ext_data('proxy-check', $proxy_test_url, 0, '', '', $problem_proxy);
+      $response = @$ct_cache->ext_data('proxy-check', $proxy_test_url, 0, '', '', $problem_proxy);
       
       $data = json_decode($response, true);
       
@@ -3564,7 +3564,7 @@ var $ct_array = array();
       
      
       // Update alerts cache for this proxy (to prevent running alerts for this proxy too often)
-      $this->save_file($base_dir . '/cache/alerts/proxy-check-'.$cache_filename.'.dat', $cached_logs);
+      $ct_cache->save_file($base_dir . '/cache/alerts/proxy-check-'.$cache_filename.'.dat', $cached_logs);
         
            
       $email_alert = " The proxy " . $problem_proxy . " recently did not receive data when accessing this endpoint: \n " . $obfusc_url_data . " \n \n A check on this proxy was performed at " . $proxy_test_url . ", and results logged: \n ============================================================== \n " . $cached_logs . " \n ============================================================== \n \n ";
