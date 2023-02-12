@@ -108,16 +108,6 @@ $cookies_size_warning = explode('||', $ct_conf['power']['cookies_size_warning'])
      }
 
 
-     // Log errors / send email alerts for any system warnings, if time interval has passed since any previous runs
-     if ( is_array($system_warnings) && sizeof($system_warnings) > 0 ) {
-         
-         foreach ( $system_warnings as $key => $unused ) {
-         $ct_gen->throttled_warning_log($key);
-         }
-     
-     }
-
-
 }
 else {
 $system_info = array(); // BLANK if fast runtimes

@@ -161,7 +161,7 @@ $conf_parse_error[] = 'Charts and price alerts cannot run properly, because the 
 
           
 // Check other charts/price alerts configs
-if ( trim($ct_conf['comms']['from_email']) != '' || trim($ct_conf['comms']['to_email']) != '' || $sms_service != null || trim($ct_conf['comms']['notifyme_accesscode']) != '' ) {
+if ( trim($ct_conf['comms']['from_email']) != '' || trim($ct_conf['comms']['to_email']) != '' || $sms_service != null || $notifyme_activated ) {
           
           
 	 // Email
@@ -204,13 +204,13 @@ if ( trim($ct_conf['comms']['from_email']) != '' || trim($ct_conf['comms']['to_e
           	
           	
       // Notifyme (alexa)
-      if ( trim($ct_conf['comms']['notifyme_accesscode']) != '' ) {
+      if ( $notifyme_activated ) {
       $alerts_enabled_types[] = 'Alexa';
       }
           	
           	
       // Telegram
-      if ( $telegram_activated == 1 ) {
+      if ( $telegram_activated ) {
       $alerts_enabled_types[] = 'Telegram';
       }
           	

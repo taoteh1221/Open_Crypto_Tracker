@@ -495,7 +495,7 @@ var $ct_array1 = array();
   
   function queue_notify($send_params) {
   
-  global $base_dir, $ct_conf, $ct_gen, $telegram_activated, $sms_service;
+  global $base_dir, $ct_conf, $ct_gen, $telegram_activated, $notifyme_activated, $sms_service;
   
      
      // Abort queueing comms for sending out notifications, if allowing comms is disabled
@@ -507,37 +507,31 @@ var $ct_array1 = array();
    // Queue messages
    
    // RANDOM HASH SHOULD BE CALLED PER-STATEMENT, OTHERWISE FOR SOME REASON SEEMS TO REUSE SAME HASH FOR THE WHOLE RUNTIME INSTANCE (if set as a variable beforehand)
+
    
      // Notifyme
-     if ( isset($send_params['notifyme']) && $send_params['notifyme'] != '' && trim($ct_conf['comms']['notifyme_accesscode']) != '' ) {
+     if ( isset($send_params['notifyme']) && $send_params['notifyme'] != '' && $notifyme_activated ) {
    	 $this->save_file($base_dir . '/cache/secured/messages/notifyme-' . $ct_gen->rand_hash(8) . '.queue', $send_params['notifyme']);
      }
+
+   
+     // Telegram
+     if ( isset($send_params['telegram']) && $send_params['telegram'] != '' && $telegram_activated ) {
+     $this->save_file($base_dir . '/cache/secured/messages/telegram-' . $ct_gen->rand_hash(8) . '.queue', $send_params['telegram']);
+     }
     
-     // Twilio
+    
+     // SMS service
      if ( isset($send_params['text']['message']) && $send_params['text']['message'] != '' && $sms_service == 'twilio' ) { 
      $this->save_file($base_dir . '/cache/secured/messages/twilio-' . $ct_gen->rand_hash(8) . '.queue', $send_params['text']['message']);
      }
-    
-     // Textbelt
-     if ( isset($send_params['text']['message']) && $send_params['text']['message'] != '' && $sms_service == 'textbelt' ) { 
+     elseif ( isset($send_params['text']['message']) && $send_params['text']['message'] != '' && $sms_service == 'textbelt' ) { 
      $this->save_file($base_dir . '/cache/secured/messages/textbelt-' . $ct_gen->rand_hash(8) . '.queue', $send_params['text']['message']);
      }
-    
-     // Textlocal
-     if ( isset($send_params['text']['message']) && $send_params['text']['message'] != '' && $sms_service == 'textlocal' ) { 
+     elseif ( isset($send_params['text']['message']) && $send_params['text']['message'] != '' && $sms_service == 'textlocal' ) { 
      $this->save_file($base_dir . '/cache/secured/messages/textlocal-' . $ct_gen->rand_hash(8) . '.queue', $send_params['text']['message']);
      }
-   
-     // Telegram
-     if ( isset($send_params['telegram']) && $send_params['telegram'] != '' && $telegram_activated == 1 ) {
-     $this->save_file($base_dir . '/cache/secured/messages/telegram-' . $ct_gen->rand_hash(8) . '.queue', $send_params['telegram']);
-     }
-     
-             
-     // Text email
-     // To be safe, don't use trim() on certain strings with arbitrary non-alphanumeric characters here
-     // Only use text-to-email if other text services aren't configured
-     if ( isset($send_params['text']['message']) && $send_params['text']['message'] != '' && $ct_gen->valid_email( $ct_gen->text_email($ct_conf['comms']['to_mobile_text']) ) == 'valid' && $sms_service == 'email_gateway' ) { 
+     elseif ( isset($send_params['text']['message']) && $send_params['text']['message'] != '' && $sms_service == 'email_gateway' ) { 
      
      // $send_params['text_charset'] SHOULD ALWAYS BE SET FROM THE CALL TO HERE (for emojis, or other unicode characters to send via text message properly)
      // SUBJECT !!MUST BE SET!! OR SOME TEXT SERVICES WILL NOT ACCEPT THE MESSAGE!
@@ -1676,7 +1670,7 @@ var $ct_array1 = array();
   
   function send_notifications() {
   
-  global $base_dir, $ct_conf, $ct_var, $ct_gen, $processed_msgs, $possible_http_users, $http_runtime_user, $current_runtime_user, $telegram_user_data, $telegram_activated, $sms_service;
+  global $base_dir, $ct_conf, $ct_var, $ct_gen, $processed_msgs, $possible_http_users, $http_runtime_user, $current_runtime_user, $telegram_user_data, $telegram_activated, $notifyme_activated, $sms_service;
   
   
   // Array of currently queued messages in the cache
@@ -1746,32 +1740,46 @@ var $ct_array1 = array();
         }
       
       
-      $notifyme_params = array(
-              'notification' => null, // Setting this right before sending
-              'accessCode' => $ct_conf['comms']['notifyme_accesscode']
-                );
+        // Notifyme params
+        if ( $notifyme_activated ) {
+        
+        $notifyme_params = array(
+                                'notification' => null, // Setting this right before sending
+                                'accessCode' => $ct_conf['comms']['notifyme_accesscode']
+                                );
                 
-                
-      $twilio_params = array(
-                           'Body' => null, // Setting this right before sending
-                           'To' => '+' . $ct_gen->mob_number($ct_conf['comms']['to_mobile_text']),
-                           'From' => '+' . $ct_conf['comms']['twilio_number']
-                            );
-          
-          
-      $textbelt_params = array(
-              'message' => null, // Setting this right before sending
-              'phone' => $ct_gen->mob_number($ct_conf['comms']['to_mobile_text']),
-              'key' => $ct_conf['comms']['textbelt_apikey']
-             );
-          
-          
-      $textlocal_params = array(
-               'message' => null, // Setting this right before sending
-               'sender' => $ct_conf['comms']['textlocal_sender'],
-               'apikey' => $ct_conf['comms']['textlocal_apikey'],
-               'numbers' => $ct_gen->mob_number($ct_conf['comms']['to_mobile_text'])
-                );
+        }
+      
+        
+        // SMS service params 
+        if ( $sms_service == 'twilio' ) {
+        
+        $twilio_params = array(
+                              'Body' => null, // Setting this right before sending
+                              'To' => '+' . $ct_gen->mob_number($ct_conf['comms']['to_mobile_text']),
+                              'From' => '+' . $ct_conf['comms']['twilio_number']
+                               );
+                            
+        }
+        elseif ( $sms_service == 'textbelt' ) {
+            
+        $textbelt_params = array(
+                                  'message' => null, // Setting this right before sending
+                                  'phone' => $ct_gen->mob_number($ct_conf['comms']['to_mobile_text']),
+                                  'key' => $ct_conf['comms']['textbelt_apikey']
+                                 );
+                            
+        }
+        elseif ( $sms_service == 'textlocal' ) {
+            
+        $textlocal_params = array(
+                                   'message' => null, // Setting this right before sending
+                                   'sender' => $ct_conf['comms']['textlocal_sender'],
+                                   'apikey' => $ct_conf['comms']['textlocal_apikey'],
+                                   'numbers' => $ct_gen->mob_number($ct_conf['comms']['to_mobile_text'])
+                                    );
+                            
+        }
       
       
        
@@ -1781,263 +1789,272 @@ var $ct_array1 = array();
         
         $msg_data = trim( file_get_contents($base_dir . '/cache/secured/messages/' . $queued_cache_file) );
         
-         
-          // If 0 bytes from system / network issues, just delete it to keep the directory contents clean
-          if ( filesize($base_dir . '/cache/secured/messages/' . $queued_cache_file) == 0 ) {
-          unlink($base_dir . '/cache/secured/messages/' . $queued_cache_file);
-          }
-          
-          
-          // Notifyme
-          elseif ( isset($msg_data) && $msg_data != '' && trim($ct_conf['comms']['notifyme_accesscode']) != '' && preg_match("/notifyme/i", $queued_cache_file) ) {
-            
-            $notifyme_params['notification'] = $msg_data;
-            
-          // Sleep for 1 second EXTRA on EACH consecutive notifyme message, to throttle MANY outgoing messages, to help avoid being blocked / throttled by external server
-          $notifyme_sleep = 1 * ( $processed_msgs['notifyme_count'] > 0 ? $processed_msgs['notifyme_count'] : 1 );
-          sleep($notifyme_sleep);
-          
-           
-              // Only 5 notifyme messages allowed per minute
-              if ( $processed_msgs['notifyme_count'] < 5 ) {
-              
-              $notifyme_response = @$this->ext_data('params', $notifyme_params, 0, 'https://api.notifymyecho.com/v1/NotifyMe');
-             
-              $processed_msgs['notifyme_count'] = $processed_msgs['notifyme_count'] + 1;
-              
-              $msg_sent = 1;
-              
-              $this->save_file($base_dir . '/cache/events/throttling/notifyme-alerts-sent.dat', $processed_msgs['notifyme_count']); 
-              
-                if ( $ct_conf['dev']['debug_mode'] == 'all' || $ct_conf['dev']['debug_mode'] == 'all_telemetry' || $ct_conf['dev']['debug_mode'] == 'api_comms_telemetry' ) {
-                $this->save_file($base_dir . '/cache/logs/debug/external_data/last-response-notifyme.log', $notifyme_response);
-                }
-              
-              unlink($base_dir . '/cache/secured/messages/' . $queued_cache_file);
-              
-              }
-          
-          
-          }
-          
-          
-          
-          // Twilio
-          elseif ( isset($msg_data) && $msg_data != '' && $sms_service == 'twilio' && preg_match("/twilio/i", $queued_cache_file) ) {
-            
-          $twilio_params['Body'] = $msg_data;
-            
-          // Sleep for 1 second EXTRA on EACH consecutive text message, to throttle MANY outgoing messages, to help avoid being blocked / throttled by external server
-          $text_sleep = 1 * ( $processed_msgs['text_count'] > 0 ? $processed_msgs['text_count'] : 1 );
-          sleep($text_sleep);
-          usleep(500000); // Wait 0.5 seconds EXTRA, as standard twilio pay-as-you-go plans are 1 text per second (so play it safe)
-            
-          $twilio_response = @$this->ext_data('params', $twilio_params, 0, 'https://api.twilio.com/2010-04-01/Accounts/' . $ct_conf['comms']['twilio_sid'] . '/Messages.json', 2);
-            
-          $processed_msgs['text_count'] = $processed_msgs['text_count'] + 1;
-          
-          $msg_sent = 1;
-            
-            if ( $ct_conf['dev']['debug_mode'] == 'all' || $ct_conf['dev']['debug_mode'] == 'all_telemetry' || $ct_conf['dev']['debug_mode'] == 'api_comms_telemetry' ) {
-            $this->save_file($base_dir . '/cache/logs/debug/external_data/last-response-twilio.log', $twilio_response);
-            }
-          
-          unlink($base_dir . '/cache/secured/messages/' . $queued_cache_file);
-          
-          }
-          
-          
-          
-          // Textbelt
-          elseif ( isset($msg_data) && $msg_data != '' && $sms_service == 'textbelt' && preg_match("/textbelt/i", $queued_cache_file) ) {
-            
-          $textbelt_params['message'] = $msg_data;
-            
-          // Sleep for 1 second EXTRA on EACH consecutive text message, to throttle MANY outgoing messages, to help avoid being blocked / throttled by external server
-          $text_sleep = 1 * ( $processed_msgs['text_count'] > 0 ? $processed_msgs['text_count'] : 1 );
-          sleep($text_sleep);
-            
-          $textbelt_response = @$this->ext_data('params', $textbelt_params, 0, 'https://textbelt.com/text', 2);
-            
-          $processed_msgs['text_count'] = $processed_msgs['text_count'] + 1;
-          
-          $msg_sent = 1;
-            
-            if ( $ct_conf['dev']['debug_mode'] == 'all' || $ct_conf['dev']['debug_mode'] == 'all_telemetry' || $ct_conf['dev']['debug_mode'] == 'api_comms_telemetry' ) {
-            $this->save_file($base_dir . '/cache/logs/debug/external_data/last-response-textbelt.log', $textbelt_response);
-            }
-          
-          unlink($base_dir . '/cache/secured/messages/' . $queued_cache_file);
-          
-          }
-          
-          
-          
-          // Textlocal
-          elseif ( isset($msg_data) && $msg_data != '' && $sms_service == 'textlocal' && preg_match("/textlocal/i", $queued_cache_file) ) {  
-            
-          $textlocal_params['message'] = $msg_data;
-            
-          // Sleep for 1 second EXTRA on EACH consecutive text message, to throttle MANY outgoing messages, to help avoid being blocked / throttled by external server
-          $text_sleep = 1 * ( $processed_msgs['text_count'] > 0 ? $processed_msgs['text_count'] : 1 );
-          sleep($text_sleep);
-            
-          $textlocal_response = @$this->ext_data('params', $textlocal_params, 0, 'https://api.txtlocal.com/send/', 1);
-            
-          $processed_msgs['text_count'] = $processed_msgs['text_count'] + 1;
-          
-          $msg_sent = 1;
-            
-            if ( $ct_conf['dev']['debug_mode'] == 'all' || $ct_conf['dev']['debug_mode'] == 'all_telemetry' || $ct_conf['dev']['debug_mode'] == 'api_comms_telemetry' ) {
-            $this->save_file($base_dir . '/cache/logs/debug/external_data/last-response-textlocal.log', $textlocal_response);
-            }
-          
-          unlink($base_dir . '/cache/secured/messages/' . $queued_cache_file);
-          
-          }
-          
-          
-          
-          // Telegram
-          elseif ( $telegram_activated == 1 && preg_match("/telegram/i", $queued_cache_file) ) {
-            
-          // Sleep for 1 second EXTRA on EACH consecutive telegram message, to throttle MANY outgoing messages, to help avoid being blocked / throttled by external server
-          $telegram_sleep = 1 * ( $processed_msgs['telegram_count'] > 0 ? $processed_msgs['telegram_count'] : 1 );
-          sleep($telegram_sleep);
-            
-          $telegram_response = $ct_gen->telegram_msg($msg_data, $telegram_user_data['message']['chat']['id']);
-          
-             if ( $telegram_response != false ) {
-              
-             $processed_msgs['telegram_count'] = $processed_msgs['telegram_count'] + 1;
-             
-            $msg_sent = 1;
-           
-            unlink($base_dir . '/cache/secured/messages/' . $queued_cache_file);
-              
-             }
-             else {
-             $ct_gen->log( 'system_error', 'Telegram sending failed', $telegram_response);
-             }
-              
-            
-             if ( $ct_conf['dev']['debug_mode'] == 'all' || $ct_conf['dev']['debug_mode'] == 'all_telemetry' || $ct_conf['dev']['debug_mode'] == 'api_comms_telemetry' ) {
-             $this->save_file($base_dir . '/cache/logs/debug/external_data/last-response-telegram.log', $telegram_response);
-             }
-          
-          }
-           
-             
-           // SEND EMAILS LAST, IN CASE OF SMTP METHOD FAILURE AND RUNTIME EXIT
-          
-          
-          // Text email
-          // To be safe, don't use trim() on certain strings with arbitrary non-alphanumeric characters here
-          // Only use text-to-email if other text services aren't configured
-          elseif ( $ct_gen->valid_email( $ct_gen->text_email($ct_conf['comms']['to_mobile_text']) ) == 'valid' && $sms_service == 'email_gateway' && preg_match("/textemail/i", $queued_cache_file) ) {
-            
-          $textemail_array = json_decode($msg_data, true);
-            
-          $restore_text_charset = $textemail_array['charset'];
-            
-              // json_encode() only accepts UTF-8, SO CONVERT BACK TO ORIGINAL CHARSET
-              if ( strtolower($restore_text_charset) != 'utf-8' ) {
-              
-                foreach( $textemail_array as $textemail_key => $textemail_val ) {
-                // Leave charset / content_type vars UTF-8
-                $textemail_array[$textemail_key] = ( $textemail_key == 'charset' || $textemail_key == 'content_type' ? $textemail_val : mb_convert_encoding($textemail_val, $restore_text_charset, 'UTF-8') );
-                }
-          
-              }
-         
-            
-              if ( isset($textemail_array['subject']) && isset($textemail_array['message']) && $textemail_array['subject'] != '' && $textemail_array['message'] != '' ) {
-               
-              // Sleep for 1 second EXTRA on EACH consecutive text message, to throttle MANY outgoing messages, to help avoid being blocked / throttled by external server
-              $text_sleep = 1 * ( $processed_msgs['text_count'] > 0 ? $processed_msgs['text_count'] : 1 );
-              sleep($text_sleep);
-               
-              $result = @$ct_gen->safe_mail( $ct_gen->text_email($ct_conf['comms']['to_mobile_text']) , $textemail_array['subject'], $textemail_array['message'], $textemail_array['content_type'], $textemail_array['charset']);
-               
-                 if ( $result == true ) {
-                 
-                 $processed_msgs['text_count'] = $processed_msgs['text_count'] + 1;
-                
-                 $msg_sent = 1;
-              
-                 unlink($base_dir . '/cache/secured/messages/' . $queued_cache_file);
-                 
-                 }
-                 else {
-                 	
-                 $ct_gen->log(
-                 			'system_error',
-                 			'Email-to-mobile-text sending failed',
-                 			'to_text_email: ' . $ct_gen->text_email($ct_conf['comms']['to_mobile_text']) . '; from: ' . $ct_conf['comms']['from_email'] . '; subject: ' . $textemail_array['subject'] . '; function_response: ' . $result . ';'
-                 			);
-                 
-                 }
-              
-              
-              }
-          
-          
-          }
-            
-            
-            
-          // Normal email
-          elseif ( $ct_gen->valid_email($ct_conf['comms']['to_email']) == 'valid' && preg_match("/normalemail/i", $queued_cache_file) ) {
-            
-          $email_array = json_decode($msg_data, true);
-            
-          $restore_email_charset = $email_array['charset'];
-            
-              // json_encode() only accepts UTF-8, SO CONVERT BACK TO ORIGINAL CHARSET
-              if ( strtolower($restore_email_charset) != 'utf-8' ) {
-              
-                foreach( $email_array as $email_key => $email_val ) {
-                // Leave charset / content_type vars UTF-8
-                $email_array[$email_key] = ( $email_key == 'charset' || $email_key == 'content_type' ? $email_val : mb_convert_encoding($email_val, $restore_email_charset, 'UTF-8') );
-                }
-          
-              }
-            
-            
-              if ( isset($email_array['subject']) && isset($email_array['message']) && $email_array['subject'] != '' && $email_array['message'] != '' ) {
-               
-              // Sleep for 1 second EXTRA on EACH consecutive email message, to throttle MANY outgoing messages, to help avoid being blocked / throttled by external server
-              $email_sleep = 1 * ( $processed_msgs['email_count'] > 0 ? $processed_msgs['email_count'] : 1 );
-              sleep($email_sleep);
-               
-              $result = @$ct_gen->safe_mail($ct_conf['comms']['to_email'], $email_array['subject'], $email_array['message'], $email_array['content_type'], $email_array['charset']);
-               
-                 if ( $result == true ) {
-                 
-                 $processed_msgs['email_count'] = $processed_msgs['email_count'] + 1;
-                
-                 $msg_sent = 1;
-              
-                 unlink($base_dir . '/cache/secured/messages/' . $queued_cache_file);
-                 
-                 }
-                 else {
-                 	
-                 $ct_gen->log(
-                 			'system_error',
-                 			'Email sending failed',
-                 			'to_email: ' . $ct_conf['comms']['to_email'] . '; from: ' . $ct_conf['comms']['from_email'] . '; subject: ' . $email_array['subject'] . '; function_response: ' . $result . ';'
-                 			);
-                 
-                 }
-                 
-              
-              }
-          
-          
-          }
-           
         
+          if ( isset($msg_data) && $msg_data != '' ) {
+             
+              
+               // If 0 bytes from system / network issues, just delete it to keep the directory contents clean
+               if ( filesize($base_dir . '/cache/secured/messages/' . $queued_cache_file) == 0 ) {
+               unlink($base_dir . '/cache/secured/messages/' . $queued_cache_file);
+               }
+               
+               
+               // Notifyme
+               elseif ( $notifyme_activated && preg_match("/notifyme/i", $queued_cache_file) ) {
+                 
+                 $notifyme_params['notification'] = $msg_data;
+                 
+               // Sleep for 1 second EXTRA on EACH consecutive notifyme message, to throttle MANY outgoing messages, to help avoid being blocked / throttled by external server
+               $notifyme_sleep = 1 * ( $processed_msgs['notifyme_count'] > 0 ? $processed_msgs['notifyme_count'] : 1 );
+               sleep($notifyme_sleep);
+               
+                
+                   // Only 5 notifyme messages allowed per minute
+                   if ( $processed_msgs['notifyme_count'] < 5 ) {
+                   
+                   $notifyme_response = @$this->ext_data('params', $notifyme_params, 0, 'https://api.notifymyecho.com/v1/NotifyMe');
+                  
+                   $processed_msgs['notifyme_count'] = $processed_msgs['notifyme_count'] + 1;
+                   
+                   $msg_sent = 1;
+                   
+                   $this->save_file($base_dir . '/cache/events/throttling/notifyme-alerts-sent.dat', $processed_msgs['notifyme_count']); 
+                   
+                     if ( $ct_conf['dev']['debug_mode'] == 'all' || $ct_conf['dev']['debug_mode'] == 'all_telemetry' || $ct_conf['dev']['debug_mode'] == 'api_comms_telemetry' ) {
+                     $this->save_file($base_dir . '/cache/logs/debug/external_data/last-response-notifyme.log', $notifyme_response);
+                     }
+                   
+                   unlink($base_dir . '/cache/secured/messages/' . $queued_cache_file);
+                   
+                   }
+               
+               
+               }
+               
+               
+               
+               // Telegram
+               elseif ( $telegram_activated && preg_match("/telegram/i", $queued_cache_file) ) {
+                 
+               // Sleep for 1 second EXTRA on EACH consecutive telegram message, to throttle MANY outgoing messages, to help avoid being blocked / throttled by external server
+               $telegram_sleep = 1 * ( $processed_msgs['telegram_count'] > 0 ? $processed_msgs['telegram_count'] : 1 );
+               sleep($telegram_sleep);
+                 
+               $telegram_response = $ct_gen->telegram_msg($msg_data, $telegram_user_data['message']['chat']['id']);
+               
+                  if ( $telegram_response != false ) {
+                   
+                  $processed_msgs['telegram_count'] = $processed_msgs['telegram_count'] + 1;
+                  
+                 $msg_sent = 1;
+                
+                 unlink($base_dir . '/cache/secured/messages/' . $queued_cache_file);
+                   
+                  }
+                  else {
+                  $ct_gen->log( 'system_error', 'Telegram sending failed', $telegram_response);
+                  }
+                   
+                 
+                  if ( $ct_conf['dev']['debug_mode'] == 'all' || $ct_conf['dev']['debug_mode'] == 'all_telemetry' || $ct_conf['dev']['debug_mode'] == 'api_comms_telemetry' ) {
+                  $this->save_file($base_dir . '/cache/logs/debug/external_data/last-response-telegram.log', $telegram_response);
+                  }
+               
+               }
+               
+               
+               
+               // Twilio
+               elseif ( $sms_service == 'twilio' && preg_match("/twilio/i", $queued_cache_file) ) {
+                 
+               $twilio_params['Body'] = $msg_data;
+                 
+               // Sleep for 1 second EXTRA on EACH consecutive text message, to throttle MANY outgoing messages, to help avoid being blocked / throttled by external server
+               $text_sleep = 1 * ( $processed_msgs['text_count'] > 0 ? $processed_msgs['text_count'] : 1 );
+               sleep($text_sleep);
+               usleep(500000); // Wait 0.5 seconds EXTRA, as standard twilio pay-as-you-go plans are 1 text per second (so play it safe)
+                 
+               $twilio_response = @$this->ext_data('params', $twilio_params, 0, 'https://api.twilio.com/2010-04-01/Accounts/' . $ct_conf['comms']['twilio_sid'] . '/Messages.json', 2);
+                 
+               $processed_msgs['text_count'] = $processed_msgs['text_count'] + 1;
+               
+               $msg_sent = 1;
+                 
+                 if ( $ct_conf['dev']['debug_mode'] == 'all' || $ct_conf['dev']['debug_mode'] == 'all_telemetry' || $ct_conf['dev']['debug_mode'] == 'api_comms_telemetry' ) {
+                 $this->save_file($base_dir . '/cache/logs/debug/external_data/last-response-twilio.log', $twilio_response);
+                 }
+               
+               unlink($base_dir . '/cache/secured/messages/' . $queued_cache_file);
+               
+               }
+               
+               
+               
+               // Textbelt
+               elseif ( $sms_service == 'textbelt' && preg_match("/textbelt/i", $queued_cache_file) ) {
+                 
+               $textbelt_params['message'] = $msg_data;
+                 
+               // Sleep for 1 second EXTRA on EACH consecutive text message, to throttle MANY outgoing messages, to help avoid being blocked / throttled by external server
+               $text_sleep = 1 * ( $processed_msgs['text_count'] > 0 ? $processed_msgs['text_count'] : 1 );
+               sleep($text_sleep);
+                 
+               $textbelt_response = @$this->ext_data('params', $textbelt_params, 0, 'https://textbelt.com/text', 2);
+                 
+               $processed_msgs['text_count'] = $processed_msgs['text_count'] + 1;
+               
+               $msg_sent = 1;
+                 
+                 if ( $ct_conf['dev']['debug_mode'] == 'all' || $ct_conf['dev']['debug_mode'] == 'all_telemetry' || $ct_conf['dev']['debug_mode'] == 'api_comms_telemetry' ) {
+                 $this->save_file($base_dir . '/cache/logs/debug/external_data/last-response-textbelt.log', $textbelt_response);
+                 }
+               
+               unlink($base_dir . '/cache/secured/messages/' . $queued_cache_file);
+               
+               }
+               
+               
+               
+               // Textlocal
+               elseif ( $sms_service == 'textlocal' && preg_match("/textlocal/i", $queued_cache_file) ) {  
+                 
+               $textlocal_params['message'] = $msg_data;
+                 
+               // Sleep for 1 second EXTRA on EACH consecutive text message, to throttle MANY outgoing messages, to help avoid being blocked / throttled by external server
+               $text_sleep = 1 * ( $processed_msgs['text_count'] > 0 ? $processed_msgs['text_count'] : 1 );
+               sleep($text_sleep);
+                 
+               $textlocal_response = @$this->ext_data('params', $textlocal_params, 0, 'https://api.txtlocal.com/send/', 1);
+                 
+               $processed_msgs['text_count'] = $processed_msgs['text_count'] + 1;
+               
+               $msg_sent = 1;
+                 
+                 if ( $ct_conf['dev']['debug_mode'] == 'all' || $ct_conf['dev']['debug_mode'] == 'all_telemetry' || $ct_conf['dev']['debug_mode'] == 'api_comms_telemetry' ) {
+                 $this->save_file($base_dir . '/cache/logs/debug/external_data/last-response-textlocal.log', $textlocal_response);
+                 }
+               
+               unlink($base_dir . '/cache/secured/messages/' . $queued_cache_file);
+               
+               }
+                
+                  
+                // SEND EMAILS LAST, IN CASE OF SMTP METHOD FAILURE AND RUNTIME EXIT
+               
+               
+               // Text email
+               // To be safe, don't use trim() on certain strings with arbitrary non-alphanumeric characters here
+               // Only use text-to-email if other text services aren't configured
+               elseif ( $sms_service == 'email_gateway' && preg_match("/textemail/i", $queued_cache_file) ) {
+                 
+               $textemail_array = json_decode($msg_data, true);
+                 
+               $restore_text_charset = $textemail_array['charset'];
+                 
+                   // json_encode() only accepts UTF-8, SO CONVERT BACK TO ORIGINAL CHARSET
+                   if ( strtolower($restore_text_charset) != 'utf-8' ) {
+                   
+                     foreach( $textemail_array as $textemail_key => $textemail_val ) {
+                     // Leave charset / content_type vars UTF-8
+                     $textemail_array[$textemail_key] = ( $textemail_key == 'charset' || $textemail_key == 'content_type' ? $textemail_val : mb_convert_encoding($textemail_val, $restore_text_charset, 'UTF-8') );
+                     }
+               
+                   }
+              
+                 
+                   if ( isset($textemail_array['subject']) && isset($textemail_array['message']) && $textemail_array['subject'] != '' && $textemail_array['message'] != '' ) {
+                    
+                   // Sleep for 1 second EXTRA on EACH consecutive text message, to throttle MANY outgoing messages, to help avoid being blocked / throttled by external server
+                   $text_sleep = 1 * ( $processed_msgs['text_count'] > 0 ? $processed_msgs['text_count'] : 1 );
+                   sleep($text_sleep);
+                    
+                   $result = @$ct_gen->safe_mail( $ct_gen->text_email($ct_conf['comms']['to_mobile_text']) , $textemail_array['subject'], $textemail_array['message'], $textemail_array['content_type'], $textemail_array['charset']);
+                    
+                      if ( $result == true ) {
+                      
+                      $processed_msgs['text_count'] = $processed_msgs['text_count'] + 1;
+                     
+                      $msg_sent = 1;
+                   
+                      unlink($base_dir . '/cache/secured/messages/' . $queued_cache_file);
+                      
+                      }
+                      else {
+                      	
+                      $ct_gen->log(
+                      			'system_error',
+                      			'Email-to-mobile-text sending failed',
+                      			'to_text_email: ' . $ct_gen->text_email($ct_conf['comms']['to_mobile_text']) . '; from: ' . $ct_conf['comms']['from_email'] . '; subject: ' . $textemail_array['subject'] . '; function_response: ' . $result . ';'
+                      			);
+                      
+                      }
+                   
+                   
+                   }
+               
+               
+               }
+                 
+                 
+                 
+               // Normal email
+               elseif ( $ct_gen->valid_email($ct_conf['comms']['to_email']) == 'valid' && preg_match("/normalemail/i", $queued_cache_file) ) {
+                 
+               $email_array = json_decode($msg_data, true);
+                 
+               $restore_email_charset = $email_array['charset'];
+                 
+                   // json_encode() only accepts UTF-8, SO CONVERT BACK TO ORIGINAL CHARSET
+                   if ( strtolower($restore_email_charset) != 'utf-8' ) {
+                   
+                     foreach( $email_array as $email_key => $email_val ) {
+                     // Leave charset / content_type vars UTF-8
+                     $email_array[$email_key] = ( $email_key == 'charset' || $email_key == 'content_type' ? $email_val : mb_convert_encoding($email_val, $restore_email_charset, 'UTF-8') );
+                     }
+               
+                   }
+                 
+                 
+                   if ( isset($email_array['subject']) && isset($email_array['message']) && $email_array['subject'] != '' && $email_array['message'] != '' ) {
+                    
+                   // Sleep for 1 second EXTRA on EACH consecutive email message, to throttle MANY outgoing messages, to help avoid being blocked / throttled by external server
+                   $email_sleep = 1 * ( $processed_msgs['email_count'] > 0 ? $processed_msgs['email_count'] : 1 );
+                   sleep($email_sleep);
+                    
+                   $result = @$ct_gen->safe_mail($ct_conf['comms']['to_email'], $email_array['subject'], $email_array['message'], $email_array['content_type'], $email_array['charset']);
+                    
+                      if ( $result == true ) {
+                      
+                      $processed_msgs['email_count'] = $processed_msgs['email_count'] + 1;
+                     
+                      $msg_sent = 1;
+                   
+                      unlink($base_dir . '/cache/secured/messages/' . $queued_cache_file);
+                      
+                      }
+                      else {
+                      	
+                      $ct_gen->log(
+                      			'system_error',
+                      			'Email sending failed',
+                      			'to_email: ' . $ct_conf['comms']['to_email'] . '; from: ' . $ct_conf['comms']['from_email'] . '; subject: ' . $email_array['subject'] . '; function_response: ' . $result . ';'
+                      			);
+                      
+                      }
+                      
+                   
+                   }
+               
+               
+               }
+                
+                
+          }
+          // No data in message queue file
+          else {
+          unlink($base_dir . '/cache/secured/messages/' . $queued_cache_file);
+          }
+
         
         }
        
