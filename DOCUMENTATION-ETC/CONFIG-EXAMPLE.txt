@@ -1133,12 +1133,6 @@ $ct_conf['power']['news_feed'] = array(
         
         
         				array(
-            			"title" => "Blog - Ethereum EIPs (Last Call Review)",
-            			"url" => "https://eips.ethereum.org/last-call.xml"
-        						),
-        
-        
-        				array(
             			"title" => "Blog - Ethereum Solidity (smart contract programming language)",
             			"url" => "https://solidity.ethereum.org/feed.xml"
         						),

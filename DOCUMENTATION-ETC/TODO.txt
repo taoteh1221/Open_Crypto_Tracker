@@ -159,6 +159,9 @@ DEBUGGING / TESTS / UX / QA / OTHER
 ############ NEXT DEBUG / TEST / QA / OTHER SCHEDULED WORK SESSION ###################################
 
 
+Change the last option in the ext_data() function to a humn-readable value, to save time on new API integrations (url_encode, json_encode, etc).
+
+
 Look for "0.0000" in app, for more instances we need to now be dynamic in the logic (base off new min decimal settings in the general section of the config).
 
 
@@ -171,7 +174,7 @@ Make sure everything STILL runs smoothly with the charts page turned off.
 Test turning htaccess password protection on/off on the interface, I messed with it BUT changed it back.
 
 
-Change "portfolio cache size gigabytes" system chart telemetry name to "app cache size gigabytes".
+Change "portfolio cache size gigabytes" system chart telemetry name to "tracker cache size gigabytes".
 
 
 Remove all linebreaks in javascript alert / confirm dialogue boxes, except for new paragraphs. Let the browser choose the max width on it's own (like they do nowadays)

@@ -596,9 +596,13 @@ SMTP email sending is REQUIRED if you are running this app on a home network, or
            <div class="accordion-body">
            
            
-             If page loads are sluggish or throw API connection errors without clearing up, and you have enabled proxy ip addresses, check the error logs file at /cache/logs/error.log for error responses from the proxy server connection attempt(s). If there are no errors log entries related to the issue that help diagnose the problem, disable using proxies (in the Admin Config PROXY section) and try loading the web page again.
+             If page loads OR cron / background task runtimes are slow / sluggish / COMPLETELY UNRESPONSIVE, or throw API connection errors without clearing up, and you have enabled proxy ip addresses, check the error logs file at /cache/logs/error.log for error responses from the server connection attempt(s). If you notice any "connection failed (0 bytes received)" log entries, disable using proxies (in the Admin Config PROXY section), try loading the web page again, AND let cron / background tasks run for a few hours.
 	    <br /><br />
-	      If it is a bad or misconfigured proxy setup causing the issue, and everything runs great after disabling proxies, you probably have either (a) a bad proxy or proxy configuration, or (b) an API server / endpoint address is not responding properly when routed through proxies (example: HTTP used instead of HTTPS can cause this error). <i>If you are absolutely sure your proxy setup is ok</i>, and that an API connection built-in to this app is the issue, please <a href='https://github.com/taoteh1221/Open_Crypto_Tracker/issues' target='_blank'>report it</a>. 
+	    
+	      If everything runs great AFTER disabling proxies, you probably have either a bad / misconfigured / low quality proxy, or an API server / endpoint address is not responding properly when routed through proxies (example: HTTP used instead of HTTPS can cause this error). If you are absolutely sure your proxy setup is ok / high quality, and that an API connection built-in to this app is the issue, please <a href='https://github.com/taoteh1221/Open_Crypto_Tracker/issues' target='_blank'>report it</a>. 
+	    <br /><br />
+	    
+	    <span class='bitcoin'>ADDITIONAL NOTES:</span> Recieving alerts by email / text / Alexa / Telegram when a proxy connection FAILS is available in the Admin Config COMMS (communications) section. When a proxy connection fails, this app will run a checkup on that proxy, and send you the results.
 	        
 	        
 	      </div>

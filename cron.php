@@ -38,7 +38,7 @@ if ( $run_cron == true ) {
     $cron_runtime_id = $ct_gen->rand_hash(8);         
          
     // WITH newline (UNLOCKED file write)
-    $ct_cache->save_file($base_dir . '/cache/logs/debug/cron/cron_runtime_telemetry.log', 'STARTED cron.php runtime (runtime_id = ' . $cron_runtime_id . ') at: ' . $ct_gen->time_date_format(false, 'pretty_date_time') . "\n ........running........ \n", "append", false);     
+    $ct_cache->save_file($base_dir . '/cache/logs/debug/cron/cron_runtime_telemetry.log', 'STARTED cron.php runtime (runtime_id = ' . $cron_runtime_id . ') on: ' . $ct_gen->time_date_format(false, 'pretty_date_time') . "\n ........running........ \n", "append", false);     
 
     }
     
@@ -375,7 +375,7 @@ gc_collect_cycles(); // Clean memory cache
 
     if ( $ct_conf['dev']['debug_mode'] == 'all' || $ct_conf['dev']['debug_mode'] == 'all_telemetry' || $ct_conf['dev']['debug_mode'] == 'cron_telemetry' ) {
     // WITH newline (UNLOCKED file write)
-    $ct_cache->save_file($base_dir . '/cache/logs/debug/cron/cron_runtime_telemetry.log', 'FULLY COMPLETED cron.php runtime (runtime_id = ' . $cron_runtime_id . ') at: ' . $ct_gen->time_date_format(false, 'pretty_date_time') . "\n\n\n\n", "append", false);     
+    $ct_cache->save_file($base_dir . '/cache/logs/debug/cron/cron_runtime_telemetry.log', 'FULLY COMPLETED cron.php runtime (runtime_id = ' . $cron_runtime_id . ') on: ' . $ct_gen->time_date_format(false, 'pretty_date_time') . "\n\n\n\n", "append", false);     
     }
 
 exit; // For extra security, force exit at end of this script file
