@@ -9,6 +9,119 @@
 //////////////////////////////////////////////////////////////////
 
 
+// Activating an existing admin password reset session 
+// (MUST RUN #AFTER GETTING CACHED APP CONFIG)
+if ( isset($_GET['new_reset_key']) && trim($_GET['new_reset_key']) != '' ) {
+     
+// Secured activation code data
+$activation_files = $ct_gen->sort_files($base_dir . '/cache/secured/activation', 'dat', 'desc');
+     
+     
+     foreach( $activation_files as $activation_file ) {
+     	
+         if ( preg_match("/password_reset_/i", $activation_file) ) {
+     		
+     	    // If we already loaded the newest modified file, delete any stale ones
+     	    if ( $newest_cached_password_reset == 1 ) {
+     	    unlink($base_dir . '/cache/secured/activation/' . $activation_file);
+     	    }
+     	    else {
+     	    $newest_cached_password_reset = 1;
+     	    $stored_reset_key = trim( file_get_contents($base_dir . '/cache/secured/activation/' . $activation_file) );
+     	    $stored_reset_key_path = $base_dir . '/cache/secured/activation/' . $activation_file; // To easily delete, if admin reset
+     	    }
+     	
+         }
+     	
+     }
+     
+     	
+     // If reset security key checks pass and a valid admin 'to' email exists, flag as an activated reset in progress (to trigger logic later in runtime)
+     if ( isset($stored_reset_key) && trim($stored_reset_key) != '' && $_GET['new_reset_key'] == $stored_reset_key && $valid_to_email ) {
+         
+         // One last check for password resets
+         if ( isset($_POST['new_reset_key']) && $_POST['new_reset_key'] != $_GET['new_reset_key'] ) {
+         $password_reset_denied = 1;
+         }
+         else {
+         $password_reset_approved = 1;
+         }
+     	
+     }
+     else {
+     $password_reset_denied = 1; // For reset page UI
+     }
+     
+     
+}
+     	
+     
+// If no admin login or an activated reset, valid user / pass are submitted, AND CAPTCHA MATCHES, store the new admin login
+if ( $password_reset_approved || !is_array($stored_admin_login) ) {
+         
+         
+     if (
+     $ct_gen->valid_username( trim($_POST['set_username']) ) == 'valid' 
+     && $ct_gen->pass_strength($_POST['set_password'], 12, 40) == 'valid' 
+     && $_POST['set_password'] == $_POST['set_password2'] 
+     && trim($_POST['captcha_code']) != ''
+     && strtolower( trim($_POST['captcha_code']) ) == strtolower($_SESSION['captcha_code'])
+     ) {
+     	
+     	
+     $secure_128bit_hash = $ct_gen->rand_hash(16); // 128-bit (16-byte) hash converted to hexadecimal, used for suffix
+     $secure_password_hash = $ct_gen->pepper_hashed_pass($_POST['set_password']); // Peppered password hash
+     	
+     	
+     	// (random hash) Halt the process if an issue is detected safely creating a random hash
+     	if ( $secure_128bit_hash == false ) {
+     			
+     	$ct_gen->log(
+     				'security_error',
+     				'Cryptographically secure pseudo-random bytes could not be generated for admin login (in secured cache storage), admin login creation aborted to preserve security'
+     				);
+     		
+     	}
+     	// (peppered password) Halt the process if an issue is detected safely creating a random hash
+     	elseif ( $secure_password_hash == false ) {
+     	$ct_gen->log('security_error', 'A peppered password hash could not be generated for admin login, admin login creation aborted to preserve security');
+     	}
+     	else {
+     	$ct_cache->save_file($base_dir . '/cache/secured/admin_login_'.$secure_128bit_hash.'.dat', trim($_POST['set_username']) . '||' . $secure_password_hash);
+     	$stored_admin_login = array( trim($_POST['set_username']), $secure_password_hash);
+     	$admin_login_updated = 1;
+     	}
+     
+     		
+     		
+     	// If the admin login update was a success, delete old data file / login / redirect
+     	if ( $ct_gen->id() != false && isset($_SESSION['nonce']) && $admin_login_updated ) {
+     		
+     		// Delete any previous active admin login data file
+     		if ( $active_admin_login_path ) {
+     		unlink($active_admin_login_path);
+     		}
+     			
+     		// Delete any stored reset key
+     		if ( $stored_reset_key_path ) {
+     		unlink($stored_reset_key_path);
+     		}
+     			
+     		
+     	$ct_gen->do_admin_login();
+     		
+     	}
+     	else {
+     	$ct_gen->log('security_error', 'Admin login could not be updated', 'remote_address: ' . $remote_ip);
+     	}
+     	
+     
+     }
+     	
+     	
+}
+     
+
 // Recreate /cache/.htaccess to restrict web snooping of cache contents, if the cache directory was deleted / recreated
 if ( !file_exists($base_dir . '/cache/.htaccess') ) {
 $ct_cache->save_file($base_dir . '/cache/.htaccess', file_get_contents($base_dir . '/templates/back-end/deny-all-htaccess.template') ); 

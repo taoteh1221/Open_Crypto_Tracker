@@ -13,6 +13,7 @@
 // START CONFIG CLEANUP (auto-correct any basic end user data entry errors in possibly user-customized DEFAULTS in config.php)
 
 // Cleaning lowercase alphanumeric string values, and auto-correct minor errors
+$ct_conf['comms']['to_email'] = $ct_var->auto_correct_str($ct_conf['comms']['to_email'], 'lower');
 $ct_conf['dev']['debug_mode'] = $ct_var->auto_correct_str($ct_conf['dev']['debug_mode'], 'lower');
 $ct_conf['comms']['upgrade_alert'] = $ct_var->auto_correct_str($ct_conf['comms']['upgrade_alert'], 'lower');
 $ct_conf['gen']['btc_prim_currency_pair'] = $ct_var->auto_correct_str($ct_conf['gen']['btc_prim_currency_pair'], 'lower');

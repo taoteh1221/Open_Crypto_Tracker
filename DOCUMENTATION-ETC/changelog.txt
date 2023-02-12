@@ -6075,6 +6075,8 @@ v6.00.2 AND HIGHER RESETS LIGHT (TIME PERIOD) CHARTS FROM ARCHIVAL DATA, ONE-TIM
 
 -BUG FIX: Miscellaneous (small) fixes
 
+-BUG FIX: Fixed password reset page
+
 -New settings for adjusting font sizes (default size in admin config GENERAL section / user-adjustable size at top of new side bar)
 
 -New upgrades to the page templates system, to a RESPONSIVE layout (auto-adjusts to ANY screen size, including mobile / tablet)

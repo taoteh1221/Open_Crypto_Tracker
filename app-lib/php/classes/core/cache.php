@@ -495,7 +495,7 @@ var $ct_array1 = array();
   
   function queue_notify($send_params) {
   
-  global $base_dir, $ct_conf, $ct_gen, $telegram_activated, $notifyme_activated, $sms_service;
+  global $base_dir, $ct_conf, $ct_gen, $valid_to_email, $telegram_activated, $notifyme_activated, $sms_service;
   
      
      // Abort queueing comms for sending out notifications, if allowing comms is disabled
@@ -552,7 +552,7 @@ var $ct_array1 = array();
      
             
      // Normal email
-     if ( isset($send_params['email']['message']) && $send_params['email']['message'] != '' && $ct_gen->valid_email($ct_conf['comms']['to_email']) == 'valid' ) {
+     if ( isset($send_params['email']['message']) && $send_params['email']['message'] != '' && $valid_to_email ) {
      
      $email_array = array('subject' => $send_params['email']['subject'], 'message' => $send_params['email']['message'], 'content_type' => ( $send_params['email']['content_type'] ? $send_params['email']['content_type'] : 'text/plain' ), 'charset' => ( $send_params['email']['charset'] ? $send_params['email']['charset'] : $ct_conf['dev']['charset_default'] ) );
      
@@ -1670,7 +1670,7 @@ var $ct_array1 = array();
   
   function send_notifications() {
   
-  global $base_dir, $ct_conf, $ct_var, $ct_gen, $processed_msgs, $possible_http_users, $http_runtime_user, $current_runtime_user, $telegram_user_data, $telegram_activated, $notifyme_activated, $sms_service;
+  global $base_dir, $ct_conf, $ct_var, $ct_gen, $processed_msgs, $possible_http_users, $http_runtime_user, $current_runtime_user, $telegram_user_data, $valid_to_email, $telegram_activated, $notifyme_activated, $sms_service;
   
   
   // Array of currently queued messages in the cache
@@ -1998,7 +1998,7 @@ var $ct_array1 = array();
                  
                  
                // Normal email
-               elseif ( $ct_gen->valid_email($ct_conf['comms']['to_email']) == 'valid' && preg_match("/normalemail/i", $queued_cache_file) ) {
+               elseif ( $valid_to_email && preg_match("/normalemail/i", $queued_cache_file) ) {
                  
                $email_array = json_decode($msg_data, true);
                  

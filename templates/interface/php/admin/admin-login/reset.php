@@ -215,8 +215,8 @@ if (
 || is_array($reset_result['error']) && sizeof($reset_result['error']) > 0 && !$no_password_reset
 ) {
 ?>
-
-	<form id='reset_admin' action='admin.php' method ='post'>
+ 
+	<form id='reset_admin' action='' method ='post'>
 				
     <div style="display: inline-block; text-align: right; width: 400px;">
 

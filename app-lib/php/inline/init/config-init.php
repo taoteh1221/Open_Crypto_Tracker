@@ -110,6 +110,12 @@ $ct_cache->save_file($base_dir . '/cache/vars/php_timeout.dat', $conf_php_timeou
 }
 
 
+// Email TO service check
+if ( isset($ct_conf['comms']['to_email']) && $ct_gen->valid_email($ct_conf['comms']['to_email']) == 'valid' ) {
+$valid_to_email = true;
+}
+
+
 // Notifyme service check
 if ( isset($ct_conf['comms']['notifyme_accesscode']) && trim($ct_conf['comms']['notifyme_accesscode']) != '' ) {
 $notifyme_activated = true;
