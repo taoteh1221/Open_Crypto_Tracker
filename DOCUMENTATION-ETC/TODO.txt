@@ -159,7 +159,7 @@ DEBUGGING / TESTS / UX / QA / OTHER
 ############ NEXT DEBUG / TEST / QA / OTHER SCHEDULED WORK SESSION ###################################
 
 
-Change the last option in the ext_data() function to a humn-readable value, to save time on new API integrations (url_encode, json_encode, etc).
+Change the last option in the ext_data() function to a human-readable value, to save time on new API integrations (url_encode, json_encode, etc).
 
 
 Look for "0.0000" in app, for more instances we need to now be dynamic in the logic (base off new min decimal settings in the general section of the config).
@@ -177,10 +177,10 @@ Test turning htaccess password protection on/off on the interface, I messed with
 Change "portfolio cache size gigabytes" system chart telemetry name to "tracker cache size gigabytes".
 
 
-Remove all linebreaks in javascript alert / confirm dialogue boxes, except for new paragraphs. Let the browser choose the max width on it's own (like they do nowadays)
-
-
 ######################################################################################################
+
+
+Remove all linebreaks in javascript alert / confirm dialogue boxes, except for new paragraphs. Let the browser choose the max width on it's own (like they do nowadays)
 
 
 Look into doing bootstrap modals instead of the current library we use.
@@ -269,10 +269,13 @@ FEATURES / NEW INFRASTRUCTURE / RESEARCH
 ############ NEXT FEATURES / NEW INFRASTRUCTURE / RESEARCH SCHEDULED WORK SESSION ####################################
 
 
-Move alert bell dropdown TOGGLE to sidebar, BUT have it display centered at top of right side area.
-
-
 Add ability for 'active' (first-shown) admin page to be dynamically set via GET param, AND have this GET param passed during admin logins as well (if it is set). Consider adding this ability to the current user area linking subsystem too, if it gives any issues in the sidebar setup (visiting from admin pages).
+
+
+######################################################################################################################
+
+
+Move alert bell dropdown TOGGLE to sidebar, BUT have it display centered at top of right side area.
 
 
 Move ALL nav links to sidebar nav, and show ALL admin page links IF LOGGED IN (and a LOGOUT link)...and remove header nav links / user nav links / main content border (decide which background shades to keep).
@@ -317,9 +320,6 @@ font-family: sans-serif !important;
 font-size: 15px !important;
 }
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-
-######################################################################################################################
 
 
 Remove localbitcoins support (they are closing shop).
