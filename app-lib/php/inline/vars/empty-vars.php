@@ -73,6 +73,8 @@ $activated_plugins =  array();
 
 $int_webhooks =  array();
 
+$activated_sms_services =  array();
+
 
 // Initial BLANK strings
 
@@ -97,6 +99,8 @@ $coingecko_pairs = null;
 $coingecko_assets = null;
 
 $restore_conf_path = null;
+
+$sms_service = null;
 
 
 // Initial zero-set strings

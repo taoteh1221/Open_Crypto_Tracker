@@ -70,7 +70,8 @@ var $ct_array1 = array();
               // Wait 6.55 seconds between consecutive calls, to avoid being blocked / throttled by external server
               // (coingecko #ABSOLUTELY HATES# DATA CENTER IPS [DEDICATED / VPS SERVERS], BUT GOES EASY ON RESIDENTIAL IPS)
               if ( $loop > 0 && $ct_cache->update_cache($base_dir . '/cache/secured/external_data/' . md5($url) . '.dat', $ct_conf['power']['mcap_cache_time']) == true ) {
-              usleep(6550000); 
+              sleep(6);
+              usleep(550000); 
               }
          
           $response = @$ct_cache->ext_data('url', $url, $ct_conf['power']['mcap_cache_time']);
@@ -184,11 +185,11 @@ var $ct_array1 = array();
     
    global $base_dir, $ct_conf, $ct_cache;
    
-      if ( trim($ct_conf['ext_api']['etherscan_key']) == '' ) {
+      if ( trim($ct_conf['other_api']['etherscan_key']) == '' ) {
       return false;
       }
    
-   $url = 'https://api.etherscan.io/api?module=proxy&action=eth_blockNumber&apikey=' . $ct_conf['ext_api']['etherscan_key'];
+   $url = 'https://api.etherscan.io/api?module=proxy&action=eth_blockNumber&apikey=' . $ct_conf['other_api']['etherscan_key'];
      
    $response = @$ct_cache->ext_data('url', $url, $ct_conf['power']['chainstats_cache_time']);
        
@@ -205,7 +206,7 @@ var $ct_array1 = array();
           // Non-dynamic cache file name, because filename would change every recache and create cache bloat
           if ( $ct_cache->update_cache('cache/secured/external_data/eth-stats.dat', $ct_conf['power']['chainstats_cache_time'] ) == true ) {
             
-          $url = 'https://api.etherscan.io/api?module=proxy&action=eth_getBlockByNumber&tag='.$block_number.'&boolean=true&apikey=' . $ct_conf['ext_api']['etherscan_key'];
+          $url = 'https://api.etherscan.io/api?module=proxy&action=eth_getBlockByNumber&tag='.$block_number.'&boolean=true&apikey=' . $ct_conf['other_api']['etherscan_key'];
           $response = @$ct_cache->ext_data('url', $url, 0); // ZERO TO NOT CACHE DATA (WOULD CREATE CACHE BLOAT)
             
           $ct_cache->save_file($base_dir . '/cache/secured/external_data/eth-stats.dat', $response);
@@ -242,7 +243,7 @@ var $ct_array1 = array();
    $result = array();
    
    
-      if ( trim($ct_conf['ext_api']['coinmarketcap_key']) == null ) {
+      if ( trim($ct_conf['other_api']['coinmarketcap_key']) == null ) {
       	
       $ct_gen->log(
       		    'notify_error',
@@ -278,7 +279,7 @@ var $ct_array1 = array();
       
    $headers = [
                'Accepts: application/json',
-               'X-CMC_PRO_API_KEY: ' . $ct_conf['ext_api']['coinmarketcap_key']
+               'X-CMC_PRO_API_KEY: ' . $ct_conf['other_api']['coinmarketcap_key']
       	      ];
    
       
@@ -388,7 +389,8 @@ var $ct_array1 = array();
           elseif ( $_SESSION[$fetched_feeds][$tld_session] > 0 ) {
             
               if ( $endpoint_tld_or_ip == 'reddit.com' ) {
-              usleep(7100000); // 7.1 seconds (Reddit only allows rss feed connections every 7 seconds from ip addresses ACCORDING TO THEM)
+              sleep(7);
+              usleep(100000); // 0.1 seconds (Reddit only allows rss feed connections every 7 seconds from ip addresses ACCORDING TO THEM)
               }
               else {
               usleep(550000); // 0.55 seconds
@@ -645,7 +647,7 @@ var $ct_array1 = array();
       if ( strtolower($sel_exchange) == 'alphavantage_stock' ) {
    
    
-          if ( trim($ct_conf['ext_api']['alphavantage_key']) == null ) {
+          if ( trim($ct_conf['other_api']['alphavantage_key']) == null ) {
           	
           $ct_gen->log(
           		    'notify_error',
@@ -659,7 +661,7 @@ var $ct_array1 = array();
           }
       
          
-      $url = 'https://www.alphavantage.co/query?function=GLOBAL_QUOTE&symbol=' . $mrkt_id . '&apikey=' . $ct_conf['ext_api']['alphavantage_key'];
+      $url = 'https://www.alphavantage.co/query?function=GLOBAL_QUOTE&symbol=' . $mrkt_id . '&apikey=' . $ct_conf['other_api']['alphavantage_key'];
          
       $response = @$ct_cache->ext_data('url', $url, $ct_conf['power']['last_trade_cache_time']);
          

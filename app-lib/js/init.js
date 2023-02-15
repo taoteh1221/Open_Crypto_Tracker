@@ -15,7 +15,7 @@ $(document).ready(function(){
 // cookie creation some day (which could help pre-detect too-large headers that crash an HTTP server)
 // console.log( array_byte_size(document.cookie) );
 
-
+    
 // Render interface after loading (with transition effects)
 $("#app_loading").hide(250, 'linear'); // 0.25 seconds
 $("#content_wrapper").show(250, 'linear'); // 0.25 seconds
@@ -23,12 +23,12 @@ $("#content_wrapper").css('display','inline'); // MUST display inline to center 
 
   
 // Charts background / border
-$(".chart_wrapper").css({ "background-color": window.charts_background });
-$(".chart_wrapper").css({ "border": '2px solid ' + window.charts_border });
+$(".chart_wrapper").css({ "background-color": charts_background });
+$(".chart_wrapper").css({ "border": '2px solid ' + charts_border });
 
 
 // Dynamic table header updating
-$("span.btc_prim_currency_pair").html(window.btc_prim_currency_pair); 
+$("span.btc_prim_currency_pair").html(btc_prim_currency_pair); 
 
 
 // Random tips on the update page 
@@ -37,6 +37,9 @@ random_tips();
 
 // Show UTC time count in logs UI sections
 start_utc_time(); 
+	
+// 'Loading X...' UI notices
+background_tasks_check();
 
 
 	/////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -52,19 +55,28 @@ start_utc_time();
 	
 	
     // Monitor admin iframes for auto-height adjustment WHEN THEY SHOW
-    $(".admin_iframe").each(function(){
-    iframe_adjuster.observe(this);
-    });
+    reset_iframe_heights();
+
+	/////////////////////////////////////////////////////////////////////////////////////////////////////
+	
+	
+     // Trading notes
+	if ( typeof notes_storage != 'undefined' && localStorage.getItem(notes_storage) && $("#notes").length ) {
+     $("#notes").val( localStorage.getItem(notes_storage) );
+	}
 
 
 	/////////////////////////////////////////////////////////////////////////////////////////////////////
 	
 	
-    // Trading notes
-	if ( typeof notes_storage != 'undefined' && localStorage.getItem(notes_storage) && $("#notes").length ) {
-    $("#notes").val( localStorage.getItem(notes_storage) );
+	if ( emulated_cron_enabled ) {
+	
+     // Emulate a cron job every X minutes...
+     cron_already_ran = false;
+    
+     emulated_cron(); // Initial load (RELOADS from WITHIN it's OWN logic every minute AFTER)
+	
 	}
-
 
 	/////////////////////////////////////////////////////////////////////////////////////////////////////
 	
@@ -87,49 +99,13 @@ start_utc_time();
 
 
 	/////////////////////////////////////////////////////////////////////////////////////////////////////
-
-    
-    // Mirror hidden errors output in the footer over to the alert bell area with javascript
-    // Run AFTER check to see if alerts are present
-    // NOT IFRAME
-    if ( $("#iframe_error_alert").length == 0 ) {
-	
-        // See if any alerts are present
-        if ( $('#app_error_alert').html() == '' ) {
-        $('#app_error_alert').html('No new runtime alerts.');
-        }
-        else {
-        $("#alert_bell_image").attr("src","templates/interface/media/images/auto-preloaded/notification-" + theme_selected + "-fill.png");
-        }
-        
-    $('#alert_bell_area').html( "<span class='bitcoin'>Current UTC time:</span> <span class='utc_timestamp red'></span><br />" + $('#app_error_alert').html() );
-    
-    }
-    // IS IFRAME
-    else {
-        
-        if ( $('#app_error_alert', window.parent.document).html() == 'No new runtime alerts.' && $('#iframe_error_alert').html() != '' ) {
-        $('#app_error_alert', window.parent.document).html( $('#iframe_error_alert').html() );
-        $("#alert_bell_image", window.parent.document).attr("src","templates/interface/media/images/auto-preloaded/notification-" + theme_selected + "-fill.png");
-        }
-        else if ( $('#iframe_error_alert').html() != '' ) {
-        $('#app_error_alert', window.parent.document).html( $('#app_error_alert', window.parent.document).html() + $('#iframe_error_alert').html() );
-        $("#alert_bell_image", window.parent.document).attr("src","templates/interface/media/images/auto-preloaded/notification-" + theme_selected + "-fill.png");
-        }
-        
-    $('#alert_bell_area', window.parent.document).html( "<span class='bitcoin'>Current UTC time:</span> <span class='utc_timestamp red'></span><br />" + $('#app_error_alert', window.parent.document).html() );
-        
-    }
-
-
-	/////////////////////////////////////////////////////////////////////////////////////////////////////
 	
 	
     // Show "app loading" placeholder when submitting ANY form JQUERY SUBMIT METHOD, OR CLICKING A SUBMIT BUTTON
     // (does NOT affect a standard javascript ELEMENT.submit() call)
     $("form").submit(function(event) { 
     
-    window.form_submit_queued = true;
+    form_submit_queued = true;
     
         // We have to run app_reloading_check() here, 
         if ( app_reloading_check(1) == 'no' ) {
@@ -216,7 +192,7 @@ start_utc_time();
           // When admin iframe loads
           iframe.addEventListener('load', function() {
     
-          iframe_adjust(iframe);
+          iframe_height_adjust(iframe);
           $("#"+iframe.id+"_loading").fadeOut(250);
           
               // Before admin iframe unloads
@@ -245,10 +221,10 @@ start_utc_time();
     store_scroll_position(); 
         
         // If background tasks are still running, force a browser confirmation to refresh / leave / close
-        if ( window.background_tasks_status == 'wait' ) {
+        if ( background_tasks_status == 'wait' ) {
             
-            if ( window.form_submit_queued == true ) {
-            window.form_submit_queued = false;
+            if ( form_submit_queued == true ) {
+            form_submit_queued = false;
             }
             
         $("#background_loading_span").html("Please wait, finishing background tasks...").css("color", "#ff4747", "important");
@@ -259,6 +235,42 @@ start_utc_time();
         }
         
     }); 
+
+
+	/////////////////////////////////////////////////////////////////////////////////////////////////////
+
+    
+    // Mirror hidden errors output in the footer over to the alert bell area with javascript
+    // Run AFTER check to see if alerts are present
+    // NOT IFRAME
+    if ( !is_iframe ) {
+	
+        // See if any alerts are present
+        if ( $('#app_error_alert').html() == '' ) {
+        $('#app_error_alert').html('No new runtime alerts.');
+        }
+        else {
+        $("#alert_bell_image").attr("src","templates/interface/media/images/auto-preloaded/notification-" + theme_selected + "-fill.png");
+        }
+        
+    $('#alert_bell_area').html( "<span class='bitcoin'>Current UTC time:</span> <span class='utc_timestamp red'></span><br />" + $('#app_error_alert').html() );
+    
+    }
+    // IS IFRAME
+    else {
+        
+        if ( $('#app_error_alert', window.parent.document).html() == 'No new runtime alerts.' && $('#iframe_error_alert').html() != '' ) {
+        $('#app_error_alert', window.parent.document).html( $('#iframe_error_alert').html() );
+        $("#alert_bell_image", window.parent.document).attr("src","templates/interface/media/images/auto-preloaded/notification-" + theme_selected + "-fill.png");
+        }
+        else if ( $('#iframe_error_alert').html() != '' ) {
+        $('#app_error_alert', window.parent.document).html( $('#app_error_alert', window.parent.document).html() + $('#iframe_error_alert').html() );
+        $("#alert_bell_image", window.parent.document).attr("src","templates/interface/media/images/auto-preloaded/notification-" + theme_selected + "-fill.png");
+        }
+        
+    $('#alert_bell_area', window.parent.document).html( "<span class='bitcoin'>Current UTC time:</span> <span class='utc_timestamp red'></span><br />" + $('#app_error_alert', window.parent.document).html() );
+        
+    }
 
 
 	/////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -307,8 +319,7 @@ start_utc_time();
 	/////////////////////////////////////////////////////////////////////////////////////////////////////
 	
 	
-    // Page zoom support for chrome (only shown in desktop app) 
-    // (firefox skews the entire page, safari untested)
+     // Plus-minus elements (DESKTOP EDITION'S zoom in / out interface ONLY)
     if ( app_edition == 'desktop' ) {
     
         // Plus button
@@ -322,9 +333,9 @@ start_utc_time();
         $("#zoom_show_ui").html(currzoom + '%');
         //console.log(currzoom);
         
-            if ( window.is_admin == true ) {
+            if ( is_admin == true ) {
                 admin_iframe_load.forEach(function(iframe) {
-                iframe_adjust(iframe);
+                iframe_height_adjust(iframe);
                 });
             }
         
@@ -341,9 +352,9 @@ start_utc_time();
         $("#zoom_show_ui").html(currzoom + '%');
         //console.log(currzoom);
         
-            if ( window.is_admin == true ) {
+            if ( is_admin == true ) {
                 admin_iframe_load.forEach(function(iframe) {
-                iframe_adjust(iframe);
+                iframe_height_adjust(iframe);
                 });
             }
         
@@ -351,6 +362,212 @@ start_utc_time();
         
     } // END page zoom logic
 
+
+
+	/////////////////////////////////////////////////////////////////////////////////////////////////////
+	
+
+    // Init sidebar (IF NOT IFRAME)
+    if ( !is_iframe ) {
+         
+         
+         $("#sidebar").mCustomScrollbar({
+              theme: "minimal"
+         });
+         
+         
+         // KEEP OPEN ON CLICK Custom 3-deep (last) sub-menu
+         // ALSO RESET OPEN ON CLICK Custom 3-deep (last) sub-menu
+         $('#sidebar_menu .dropdown-menu').on({
+              "click":function(e){
+              custom_3deep_menu_on = false;
+              e.stopPropagation();
+              }
+          });
+         
+         
+         // RESET OPEN ON CLICK Custom 3-deep (last) sub-menu
+         $('.sidebar-item :not(.custom-3deep)').on({
+              "click":function(e){
+              custom_3deep_menu_on = false;
+              }
+          });
+          
+          
+          // OPEN MAIN LINK ON CLICK (Custom 3-deep (last) sub-menu),
+          // #ONLY AFTER# IT HAS OPENED THE SUBMENU AT LEAST ONCE
+          $('li.custom-3deep').on('click', function() {
+           
+           var $cust_men_el = $(this);
+           
+              if ( $cust_men_el.hasClass('open-first') ) {
+              
+              var $cust_men_a = $cust_men_el.children('a.dropdown-toggle');
+              
+                  if ( $cust_men_a.length && $cust_men_a.attr('href') && custom_3deep_menu_on != false ) {
+                  custom_3deep_menu_on = false;
+                  location.href = $cust_men_a.attr('href');
+                  }
+                  else if ( $cust_men_a.length && $cust_men_a.attr('href') ) {
+                  custom_3deep_menu_on = true;
+                  }
+                  else if ( !$cust_men_a.hasClass('show') ) {
+                  custom_3deep_menu_on = false;
+                  }
+                  
+              }
+              
+          });
+          
+     
+         $('.sidebar_toggle').on('click', function () {
+             // open or close navbar
+             $('#sidebar').toggleClass('active');
+             $('#secondary_wrapper').toggleClass('active');
+             // close dropdowns
+             $('.collapse.in').toggleClass('in');
+             // and also adjust aria-expanded attributes we use for the open/closed arrows
+             // in our CSS
+             $('a[aria-expanded=true]').attr('aria-expanded', 'false');
+         });
+         
+    
+    }
+
+
+	/////////////////////////////////////////////////////////////////////////////////////////////////////
+	
+	
+    // Admin hashed nonce inserted in admin iframe forms
+    if ( is_iframe && is_admin ) {
+    
+     
+         if ( Base64.decode(admin_area_sec_level) == 'enhanced' ) {
+     
+         var forms_array = document.getElementsByTagName("form");
+         
+         
+             for (var form_count = 0; form_count < forms_array.length; form_count++) {
+                     
+             has_enhanced_security_nonce = false;
+                 
+             inputs_array = forms_array[form_count].getElementsByTagName("input");
+                 
+                 
+                 for (var input_count = 0; input_count < inputs_array.length; input_count++) {
+                     
+                     if ( inputs_array[input_count].name == 'enhanced_security_nonce' ) {
+                     has_enhanced_security_nonce = true;
+                     }
+                 
+                 }
+                 
+                 
+                 if ( has_enhanced_security_nonce == false ) {
+                     
+                 new_input = document.createElement("input");
+             
+                 new_input.setAttribute("type", "hidden");
+                 
+                 new_input.setAttribute("name", "enhanced_security_nonce");
+                 
+                 new_input.setAttribute("value", Base64.decode(enhanced_sec_token) );
+                 
+                 forms_array[form_count].appendChild(new_input);
+                 
+                 }
+                 
+             
+             }
+             
+         
+         }
+         
+     }
+
+
+	/////////////////////////////////////////////////////////////////////////////////////////////////////
+	
+	
+     // Plus-minus elements (font size interface ONLY)
+     $('.btn-number').click(function(e){
+         e.preventDefault();
+         
+         fieldName = $(this).attr('data-field');
+         type      = $(this).attr('data-type');
+         var input = $("input[name='"+fieldName+"']");
+         var currentVal = parseInt(input.val());
+         if (!isNaN(currentVal)) {
+             if(type == 'minus') {
+                 
+                 if(currentVal > input.attr('min')) {
+                     input.val(currentVal - 1).change();
+                 } 
+                 if(parseInt(input.val()) == input.attr('min')) {
+                     $(this).attr('disabled', true);
+                 }
+     
+             } else if(type == 'plus') {
+     
+                 if(currentVal < input.attr('max')) {
+                     input.val(currentVal + 1).change();
+                 }
+                 if(parseInt(input.val()) == input.attr('max')) {
+                     $(this).attr('disabled', true);
+                 }
+     
+             }
+         } else {
+             input.val(0);
+         }
+     });
+     ////
+     ////
+     $('.input-number').focusin(function(){
+        $(this).data('oldValue', $(this).val());
+     });
+     ////
+     ////
+     $('.input-number').change(function() {
+         
+         minValue =  parseInt($(this).attr('min'));
+         maxValue =  parseInt($(this).attr('max'));
+         valueCurrent = parseInt($(this).val());
+         
+         name = $(this).attr('name');
+         if(valueCurrent >= minValue) {
+             $(".btn-number[data-type='minus'][data-field='"+name+"']").removeAttr('disabled')
+         } else {
+             alert('Sorry, the minimum value was reached');
+             $(this).val($(this).data('oldValue'));
+         }
+         if(valueCurrent <= maxValue) {
+             $(".btn-number[data-type='plus'][data-field='"+name+"']").removeAttr('disabled')
+         } else {
+             alert('Sorry, the maximum value was reached');
+             $(this).val($(this).data('oldValue'));
+         }
+         
+         
+     });
+     ////
+     ////
+     $(".input-number").keydown(function (e) {
+             // Allow: backspace, delete, tab, escape, enter and .
+             if ($.inArray(e.keyCode, [46, 8, 9, 27, 13, 190]) !== -1 ||
+                  // Allow: Ctrl+A
+                 (e.keyCode == 65 && e.ctrlKey === true) || 
+                  // Allow: home, end, left, right
+                 (e.keyCode >= 35 && e.keyCode <= 39)) {
+                      // let it happen, don't do anything
+                      return;
+             }
+             // Ensure that it is a number and stop the keypress
+             if ((e.shiftKey || (e.keyCode < 48 || e.keyCode > 57)) && (e.keyCode < 96 || e.keyCode > 105)) {
+                 e.preventDefault();
+             }
+         });
+    
 
 	/////////////////////////////////////////////////////////////////////////////////////////////////////
 	

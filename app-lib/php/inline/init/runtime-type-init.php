@@ -9,14 +9,14 @@
 //////////////////////////////////////////////////////////////////
 
 
-// ALL RUNTIMES
+// *ALL* RUNTIMES
 
 // General preflight security checks (that MUST run for ANY runtime [EVEN IF IT SLOWS DOWN FAST RUNTIMES])
 require_once('app-lib/php/inline/security/general-preflight-security-checks.php');
 
 
 $ct_conf['gen']['prim_mcap_site'] = ( isset($sel_opt['alert_percent'][0]) && $sel_opt['alert_percent'][0] != '' ? $sel_opt['alert_percent'][0] : $ct_conf['gen']['prim_mcap_site'] );
-
+     
 
 if ( isset($_COOKIE['theme_selected']) ) {
 $sel_opt['theme_selected'] = $_COOKIE['theme_selected'];
@@ -50,7 +50,28 @@ exit;
 }
 
 
-// END ALL RUNTIMES
+// *ALL* RUNTIMES *NOT* DESIGNATED AS A "FAST RUNTIME"
+if ( !$is_fast_runtime ) {
+
+
+     // Log errors / send email alerts for any system warnings, if time interval has passed since any previous runs
+     // (WE DON'T LOAD SYSTEM INFO DATA FOR FAST RUNTIMES)
+     if ( is_array($system_warnings) && sizeof($system_warnings) > 0 ) {
+              
+         foreach ( $system_warnings as $key => $unused ) {
+         $ct_gen->throttled_warning_log($key);
+         }
+          
+     }
+     
+     
+}
+
+
+// END *ALL* RUNTIMES
+
+
+// EXPLICIT RUNTIMES...
 
 
 // CRON RUNTIMES
@@ -116,7 +137,7 @@ $_SESSION['light_charts_updated'] = 0;
     
 
 }
-// UI RUNTIMES NOT DESIGNATED AS A "FAST RUNTIME"
+// UI RUNTIMES *NOT* DESIGNATED AS A "FAST RUNTIME"
 elseif ( $runtime_mode == 'ui' && !$is_fast_runtime ) {
 
 

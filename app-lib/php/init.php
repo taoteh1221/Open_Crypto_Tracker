@@ -3,6 +3,12 @@
  * Copyright 2014-2023 GPLv3, Open Crypto Tracker by Mike Kilday: Mike@DragonFrugal.com
  */
 
+// Calculate script runtime length
+$time = microtime();
+$time = explode(' ', $time);
+$time = $time[1] + $time[0];
+$start_runtime = $time;
+
 
 // Forbid direct INTERNET access to this file
 if ( isset($_SERVER['REQUEST_METHOD']) && realpath(__FILE__) == realpath($_SERVER['SCRIPT_FILENAME']) ) {
@@ -12,7 +18,17 @@ exit;
 
 
 // Application version
-$app_version = '6.00.18';  // 2023/JANUARY/17TH
+$app_version = '6.00.19';  // 2023/JANUARY/27TH
+
+
+// standard font size CSS selector (we skip sidebar HEADER area)
+$font_size_css_selector = "#secondary_wrapper, #sidebar_menu, #admin_wrapper, .iframe_wrapper";
+
+// medium font size CSS selector (we skip sidebar HEADER area)
+$medium_font_size_css_selector = ".balloon_notation, #change_font_size, #header_size_warning, #admin_conf_quick_links fieldset legend, #admin_conf_quick_links fieldset, #admin_conf_quick_links, .extra_data, td.data span.extra_data, td.data div.extra_data span, .extra_data span, td.data div.extra_data span, .loss, td.data span.loss, td.data div.loss span, .short, td.data span.short, td.data div.short span";
+
+// small font size CSS selector (we skip sidebar HEADER area)
+$small_font_size_css_selector = ".gain, td.data span.gain, td.data div.gain span, .crypto_worth, .crypto_worth span, td.data div.crypto_worth span";
 
 
 // #PHP# ERROR LOGGING

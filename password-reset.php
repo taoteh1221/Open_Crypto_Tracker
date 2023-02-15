@@ -4,15 +4,6 @@
  */
 
 
-
-// Calculate script runtime length
-$time = microtime();
-$time = explode(' ', $time);
-$time = $time[1] + $time[0];
-$start_runtime = $time;
-
-
-
 // Runtime mode
 $runtime_mode = 'ui';
 
@@ -25,11 +16,11 @@ require("app-lib/php/init.php");
 
 // If an activated password reset is in progress or no admin login has been set yet, prompt user to create an admin user / pass
 if ( $password_reset_approved || !is_array($stored_admin_login) ) {
-require($base_dir . '/templates/interface/desktop/php/admin/admin-login/register.php');
+require($base_dir . '/templates/interface/php/admin/admin-login/register.php');
 exit;
 }
 else {
-require($base_dir . '/templates/interface/desktop/php/admin/admin-login/reset.php'); 
+require($base_dir . '/templates/interface/php/admin/admin-login/reset.php'); 
 exit;
 }
 

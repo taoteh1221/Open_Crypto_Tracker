@@ -45,6 +45,7 @@ if ( $ct_gen->dir_struct('cache/alerts/fiat_price/') != true
 || $ct_gen->dir_struct('cache/events/throttling/') != true
 || $ct_gen->dir_struct('cache/internal_api/') != true
 || $ct_gen->dir_struct('cache/logs/debug/external_data/') != true
+|| $ct_gen->dir_struct('cache/logs/debug/cron/') != true
 || $ct_gen->dir_struct('cache/logs/error/external_data/') != true
 || $ct_gen->dir_struct('cache/secured/activation/') != true
 || $ct_gen->dir_struct('cache/secured/backups/') != true

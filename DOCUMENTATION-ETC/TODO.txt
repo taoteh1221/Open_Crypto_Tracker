@@ -72,7 +72,7 @@ Add localcryptos API support whenever their API is out of private testing.
 Build tool that finds localbitcoins markets not added yet
 
 
-Add twilio.com and clicksend.com mobile text messaging support
+Add clicksend.com mobile text messaging support
 
 
 https://zksync.io/api/v0.1.html (KEEP AN EYE OUT FOR V2 DOCS AS WELL)
@@ -94,9 +94,9 @@ DEBUGGING / TESTS / UX / QA / OTHER
 ///////////////////////////////////////////////////////
 
 
-!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-!   D O N T   F O R G E T   T O   S Q U A S H   T H E   B U G S !   !!!!!!!!!!!!!!!!!!!!!!!!
-!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+!   D O N T   F O R G E T   T O   S Q U A S H   T H E   B U G S !   !!!!!!!!!!!!!!!!!!!!!!!!!!!!
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
      ((((c,               ,7))))
     (((((((              ))))))))
      (((((((            ))))))))
@@ -114,12 +114,21 @@ DEBUGGING / TESTS / UX / QA / OTHER
 ----------------------------------------------------------------------
 (CREDIT: https://asciiart.website/index.php?art=animals/insects/other)
 ----------------------------------------------------------------------
-!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 !!!!                                                                                    
-===> WHEN DEBUGGING / TESTING, LEAVE "$dev_debug_php_errors" IN "app-lib/php/init.php" SET 
+===> WHEN DEBUGGING / TESTING PHP, LEAVE "$dev_debug_php_errors" IN "app-lib/php/init.php" SET
 ===> LIKE SO, TO ALWAYS LOG ALL PARSE / FATAL PHP ERRORS DURING TESTING: (E_ERROR | E_PARSE)
-===> 'Desktop Editions' log PHP errors to: /INSTALL_CRYPTO_TRACKER_HERE/php_errors.log
+!!!!
+===> Set PHP-CLI (for cron) "/etc/php/X.X/cli/php.ini": error_log = /var/log/php_errors.log
+===> (run: "sudo touch /var/log/php_errors.log" / "sudo chmod 666 /var/log/php_errors.log")
+!!!!
+===> Desktop Editions log all PHP errors to: /INSTALL_CRYPTO_TRACKER_HERE/php_errors.log
+!!!!
+===> Server Edition (on debian) logs Apache PHP errors to: /var/log/apache2/error.log
+!!!!
+===> See top of the file "/app-lib/js/var_defaults.js", for notes on declaring global / local
+===> variables inside javascript-based app logic IN A PROPER MANNER.
 !!!!
 ===> config.php (and plug-conf.php for plugins) MUST ONLY CONTAIN STATIC CONFIGS,
 ===> as all configs are saved to / run from cache file: /cache/secured/ct_conf_XXXXXXXXX.dat
@@ -141,19 +150,16 @@ DEBUGGING / TESTS / UX / QA / OTHER
 ===> Try to break up larger changes into smaller milestones,
 ===> then plenty of time is spent on UX / testing / debugging.
 !!!!
-===> Don't require any higher than PHP v7.2 until 2025.
+===> Don't require any higher than PHP v7.2 until PHP v9.
 !!!!                                                                                   
-!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
 
 ############ NEXT DEBUG / TEST / QA / OTHER SCHEDULED WORK SESSION ###################################
 
 
-Test all the new FOLIO-INSTALL.bash features BEFORE v6.00.18 release, VIA A FRESH RASPBERRY PI OS INSTALLATION.
-
-
-Run testing on the overhauled plugin configuration / initiation system
+Change the last option in the ext_data() function to a human-readable value, to save time on new API integrations (url_encode, json_encode, etc).
 
 
 Look for "0.0000" in app, for more instances we need to now be dynamic in the logic (base off new min decimal settings in the general section of the config).
@@ -168,13 +174,22 @@ Make sure everything STILL runs smoothly with the charts page turned off.
 Test turning htaccess password protection on/off on the interface, I messed with it BUT changed it back.
 
 
-Change "portfolio cache size gigabytes" system chart telemetry name to "app cache size gigabytes".
+Change "portfolio cache size gigabytes" system chart telemetry name to "tracker cache size gigabytes".
+
+
+######################################################################################################
 
 
 Remove all linebreaks in javascript alert / confirm dialogue boxes, except for new paragraphs. Let the browser choose the max width on it's own (like they do nowadays)
 
 
-######################################################################################################
+Look into doing bootstrap modals instead of the current library we use.
+
+
+Setup XAMPP on Win10 on the DVR server, and run server edition of tracker on it for a week with PHP debug logging on.
+
+
+Write notes in TODO.txt debugging section, on setting up / viewing PHP error logging in XAMPP on Windows.
 
 
 Remove all forced line breaks in FOLIO-INSTALL.bash dialogue
@@ -251,16 +266,99 @@ FEATURES / NEW INFRASTRUCTURE / RESEARCH
 ///////////////////////////////////////////////////////
 
 
-############ NEXT FEATURES / NEW INFRASTRUCTURE / RESEARCH SCHEDULED WORK SESSION ###################################
+############ NEXT FEATURES / NEW INFRASTRUCTURE / RESEARCH SCHEDULED WORK SESSION ####################################
 
 
-Remove the requirement for a secondary crypto market needing a BTC market, by allowing a secondary crypto market if it at least has a pairing that is the same as one of Bitcoin's pairings (like USD). Then have the BTC pairing value function look for that if there is no BTC market for the asset. Within the BTC pairing function, all we then need to do is multiply this backup conversion pairing value by the last trade value of the secondary crypto market (with a recursive call in the function to get say for instance the BTC/USD trade value). Also include a new config setting "pref_backup_conversion_pair", so when we check what pairings the asset has available, we use this pairing first (like USD).
+Add ability for 'active' (first-shown) admin page to be dynamically set via GET param, AND have this GET param passed during admin logins as well (if it is set). Consider adding this ability to the current user area linking subsystem too, if it gives any issues in the sidebar setup (visiting from admin pages).
 
 
 ######################################################################################################################
 
 
-Research giving a plugin it's own admin-tab|user-tab
+Move alert bell dropdown TOGGLE to sidebar, BUT have it display centered at top of right side area.
+
+
+Move ALL nav links to sidebar nav, and show ALL admin page links IF LOGGED IN (and a LOGOUT link)...and remove header nav links / user nav links / main content border (decide which background shades to keep).
+
+
+All NON-GLOBAL variables inside JAVASCRIPT functions should be started as 'var my_var_name': 
+
+https://stackoverflow.com/questions/10872006/how-do-i-change-the-value-of-a-global-variable-inside-of-a-function/10874509#10874509
+
+
+Try to shrink up the sidebar width as much as possible, without squishing the top nav together too much.
+
+
+Tweak sizes / colors / positioning in sidebar, until it feels just right.
+
+
+Move remaining font-size / line-height logic in style.css AND ELSEWHERE into our dynamic CSS header logic.
+
+
+For the domain header spoofing check, try writing the test file AS EARLY AS POSSIBLE in the runtime, and check it at the last second when inits / configs are done (and feature logic is about to run).
+
+
+MIGRATION TO BOOTSTRAP V5:
+
+https://getbootstrap.com/docs/5.0/migration/
+
+
+SEE PUBLIC DEMO FOR GUIDANCE ON MIGRATING A FEW ITEMS BELOW (AS WE ARE NOT UPDATING THE PUBLIC DEMO UNTIL WE COMPLETE THE TEMPLATE OVERHAUL)!
+
+
+Migrate our custom FAQ page styling (backgounds / text colors) to be bootstrap-v5-compatible (since we just upgraded to bootstrap v5)
+
+
+Migrate our custom select/option menu styling (rounded corners / custom drop-down arrow) to be bootstrap-v5-compatible (since we just upgraded to bootstrap v5)
+
+
+Some NON-HEADING-SIZE text MAY NOT RESIZE EVEN AFTER COMPLETING THE TASKS DIRECTLY ABOVE THIS ONE, find out why. THIS OLD CODE BELOW MAY COME IN HANDY FOR DEBUGGING THAT:
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+html, p, td.data, td.data span.data, td select, td.data span, input, select, textarea, input[type=submit], input[type=button], .force_button_style, .btn-link, .btn-link a, .btn-link:hover {	
+font-family: sans-serif !important;
+font-size: 15px !important;
+}
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+Remove localbitcoins support (they are closing shop).
+
+
+The tags 'h1' through 'h6' should be made to user-adjust text size too (could be a bit tricky, be careful).
+
+
+Cleanup non-existant ids / classes in stylesheets, AFTER converting the templates to a responsive layout.
+
+
+The 3 sections in each portfolio data row (asset, market, holdings) should each break onto a newline as screen width decreases, that is to say each entire section should remain wholly on one line, at least until very tiny scren sizes.
+
+
+Add new plugin standard config 'ui_display_mode':
+
+$plug_conf[$this_plug]['ui_display_mode'] = 'inline'; // 'inline', 'modal_iframe'
+
+'modal_iframe' still only displays in 'more_stats' / 'tools' sections (like 'inline' already does), BUT as a link that opens a FULL SCREEN modal window (like our 'quick links' already do), AND runs inside a FULL WIDTH / AUTO-ADJUSTING HEIGHT iframe (like the admin sections)
+
+Defaults to 'inline' if not set.
+
+
+Add new plugin standard config 'admin_page_width':
+
+$plug_conf[$this_plug]['admin_page_width'] = 'standard'; // 'standard', 'full'
+
+'full' makes the plugin's admin page full width (like we do for app logs / system stats admin pages already).
+
+Defaults to 'standard' if not set.
+
+
+Document the ABOVE new plugin settings, and fully test before public release.
+
+
+Build a plugin (for the tools page, defaults to activated already), that lets you quickly calculate unlimited nft values (using text field form library used for debt interest tracker) in sol or eth value from any currency (including sol or eth, like miscassets market field), with option to populate ethnfts / solnfts portfolio fields on update page, and save updates to them.
+
+
+Remove the requirement for a secondary crypto market needing a BTC market, by allowing a secondary crypto market if it at least has a pairing that is the same as one of Bitcoin's pairings (like USD). Then have the BTC pairing value function look for that if there is no BTC market for the asset. Within the BTC pairing function, all we then need to do is multiply this backup conversion pairing value by the last trade value of the secondary crypto market (with a recursive call in the function to get say for instance the BTC/USD trade value). Also include a new config setting "pref_backup_conversion_pair", so when we check what pairings the asset has available, we use this pairing first (like USD).
 
 
 Add https://www.reddit.com/r/StarAtlas/ to resources page / news feeds.
@@ -447,6 +545,9 @@ Add logic to offer securing the computer in the auto-install. Add subsections "R
 ///////////////////////////////////////////////////////
 MAYBE SECTION
 ///////////////////////////////////////////////////////
+
+
+Some of our extra security automation options in FOLIO-INSTALL.bash may also be appropriate for my other auto-installer scripts (ticker / Bluetooth radio)?
 
 
 Look into X day moving average overlay for price charts.

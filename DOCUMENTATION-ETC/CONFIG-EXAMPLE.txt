@@ -32,6 +32,17 @@
 $ct_conf['gen']['loc_time_offset'] = -5; // example: -5 or 5, -5.5 or 5.75
 
 
+// Displays interface text in ANY google font found at: https://fonts.google.com
+// Set as '' (blank) for default bootstrap / system / browser font
+// 'font' OR 'font name' IN QUOTES for ANY google font, OR '' to skip
+$ct_conf['gen']['google_font'] = 'Poppins'; // 'Poppins' / 'Varela Round' / etc any google font (default = 'Poppins')
+
+
+// DEFAULT font size PERCENTAGE (*WITHOUT* THE PERCENT SYMBOL!)
+// LIMITS: MINIMUM OF 30 / MAXIMUM OF 300
+$ct_conf['gen']['default_font_size'] = 100; // Default = 100 (equal to 100%)
+
+
 // Configure which interface theme you want as the default theme (also can be manually switched later, on the settings page in the interface)
 $ct_conf['gen']['default_theme'] = 'dark'; // 'dark' or 'light'
 
@@ -67,7 +78,7 @@ $ct_conf['gen']['btc_prim_exchange'] = 'kraken';  // PUT INSIDE SINGLE QUOTES ('
 
 
 // Default marketcap data source: 'coingecko', or 'coinmarketcap'
-// (COINMARKETCAP REQUIRES A #FREE# API KEY, SEE $ct_conf['ext_api']['coinmarketcap_key'] BELOW in the APIs section)
+// (COINMARKETCAP REQUIRES A #FREE# API KEY, SEE $ct_conf['other_api']['coinmarketcap_key'] BELOW in the APIs section)
 $ct_conf['gen']['prim_mcap_site'] = 'coingecko'; 
 
 
@@ -212,22 +223,45 @@ $ct_conf['comms']['to_email'] = ''; // #MUST BE SET# for price alerts and other 
 // SEE FURTHER DOWN IN THIS CONFIG FILE, FOR A LIST OF SUPPORTED MOBILE TEXTING NETWORK PROVIDER NAMES 
 // IN THE EMAIL-TO-MOBILE-TEXT CONFIG SECTION (the "network name keys" in the $ct_conf['mob_net_txt_gateways'] variables array)
 // CAN BE BLANK. Country code format MAY NEED TO BE USED (depending on your mobile network)
-// skip_network_name SHOULD BE USED IF USING textbelt / textlocal BELOW
+// skip_network_name SHOULD BE USED IF USING a texting (SMS) SERVICE FURTHER BELOW
 // 'phone_number||network_name_key' (examples: '12223334444||virgin_us' / '12223334444||skip_network_name')
 $ct_conf['comms']['to_mobile_text'] = '';
 
 
-// Do NOT use textbelt AND textlocal together. Leave one setting blank, #OR IT WILL DISABLE# USING BOTH.
-// LEAVE textbelt AND textlocal BOTH BLANK to use a mobile text gateway set ABOVE
+// Do NOT use MORE THAN ONE texting (SMS) service below. Only fill in settings for one, or it will DISABLE THEM ALL.
+// LEAVE ALL BLANK to use a mobile text gateway set ABOVE
+
+
+// CAN BE BLANK. For asset price alert twilio notifications. Setup: https://twilio.com/
+// YOU MUST SET $ct_conf['comms']['to_mobile_text'] ABOVE IN THE SERVICE PROVIDER AREA TO: skip_network_name
+////
+// Twilio acount phone number (Format: '12223334444' [no plus symbol])
+$ct_conf['comms']['twilio_number'] = '';
+////
+// Twilio account SID
+$ct_conf['comms']['twilio_sid'] = '';
+////
+// Twilio account auth token
+$ct_conf['comms']['twilio_token'] = '';
+
+
 
 // CAN BE BLANK. For asset price alert textbelt notifications. Setup: https://textbelt.com/
-// SET $ct_conf['comms']['to_mobile_text'] ABOVE IN THE SERVICE PROVIDER AREA TO: skip_network_name
+// YOU MUST SET $ct_conf['comms']['to_mobile_text'] ABOVE IN THE SERVICE PROVIDER AREA TO: skip_network_name
+// CONTACT support@textbelt.com IF YOUR MESSAGES DON'T GO THROUGH, THEY ARE USUALLY *VERY* RESPONSIVE
 $ct_conf['comms']['textbelt_apikey'] = '';
 
 
 // CAN BE BLANK. For asset price alert textlocal notifications. Setup: https://www.textlocal.com/integrations/api/
-// SET $ct_conf['comms']['to_mobile_text'] ABOVE IN THE SERVICE PROVIDER AREA TO: skip_network_name
-$ct_conf['comms']['textlocal_account'] = ''; // This format MUST be used: 'username||hash_code'
+// DOES NOT SEEM TO WORK OUTSIDE THE UNITED KINGDOM! (account dashboard says it was sent, but it's NEVER recieved)
+// YOU MUST SET $ct_conf['comms']['to_mobile_text'] ABOVE IN THE SERVICE PROVIDER AREA TO: skip_network_name
+////
+// Textlocal human-readable sender name (eg: 'J. Smith'), REQUIRED IF USING TEXTLOCAL TO SEND TEXTS!
+// THIS SHOULD MATCH THE SENDER NAME YOU ALREADY SETUP IN YOUR TEXTLOCAL ACCOUNT
+$ct_conf['comms']['textlocal_sender'] = '';
+////
+// API Key
+$ct_conf['comms']['textlocal_apikey'] = '';
 
 
 // For notifyme / alexa notifications (sending Alexa devices notifications for free). 
@@ -260,32 +294,55 @@ $ct_conf['comms']['telegram_bot_token'] = '';  // Your bot's access token
 
 
 ////////////////////////////////////////
-// !START! EXTERNAL API CONFIGURATION
+// !START! OTHER APIs CONFIGURATION
 ////////////////////////////////////////
 
 
 // API key for etherscan.io (required unfortunately, but a FREE level is available): https://etherscan.io/apis
-$ct_conf['ext_api']['etherscan_key'] = '';
+$ct_conf['other_api']['etherscan_key'] = '';
 
 
 // API key for coinmarketcap.com Pro API (required unfortunately, but a FREE level is available): https://coinmarketcap.com/api
-$ct_conf['ext_api']['coinmarketcap_key'] = '';
+$ct_conf['other_api']['coinmarketcap_key'] = '';
 
 
 // API key for Alpha Vantage (global stock APIs as well as foreign exchange rates (forex) and cryptocurrency data feeds)
 // (required unfortunately, but a FREE level is available [paid premium also available]): https://www.alphavantage.co/support/#api-key
-$ct_conf['ext_api']['alphavantage_key'] = '';
+$ct_conf['other_api']['alphavantage_key'] = '';
 ////
 // The below settings will automatically limit your API requests to NEVER go over your DAILY Alpha Vantage API requests limit
 // (CONTACT ALPHA VANTAGE SUPPORT, IF YOU ARE UNAWARE OF WHAT YOUR MINUTE / DAILY LIMITS ARE [IF you have a PAID PREMIUM plan])
 // The requests-per-MINUTE limit on your Alpha Vantage API key (varies depending on you free / paid member level)
-$ct_conf['ext_api']['alphavantage_per_minute_limit'] = 5; // (default = 5 [FOR FREE SERVICE])
+$ct_conf['other_api']['alphavantage_per_minute_limit'] = 5; // (default = 5 [FOR FREE SERVICE])
 // The requests-per-DAY limit on your Alpha Vantage API key (varies depending on you free / paid member level)
-$ct_conf['ext_api']['alphavantage_per_day_limit'] = 500; // (default = 500 [FOR FREE SERVICE])
+$ct_conf['other_api']['alphavantage_per_day_limit'] = 500; // (default = 500 [FOR FREE SERVICE])
 
 
 ////////////////////////////////////////
-// !END! EXTERNAL API CONFIGURATION
+// !END! OTHER APIs CONFIGURATION
+////////////////////////////////////////
+
+
+////////////////////////////////////////
+// !START! PROXIES CONFIGURATION
+////////////////////////////////////////
+
+
+// If using proxies, add the ip address / port number here for each one, like examples below (without the double slashes in front enables the code)
+// CAN BE BLANK. Adding proxies here will automatically choose one randomly for each API request
+$ct_conf['proxy']['proxy_list'] = array(
+					// 'ipaddress1:portnumber1',
+					// 'ipaddress2:portnumber2',
+					);
+////
+// If using proxies and login is required
+// Adding a user / pass here will automatically send login details for proxy connections
+// CAN BE BLANK. IF using ip address authentication instead, MUST BE LEFT BLANK
+$ct_conf['proxy']['proxy_login'] = ''; // Use format: 'username||password'
+
+
+////////////////////////////////////////
+// !END! PROXIES CONFIGURATION
 ////////////////////////////////////////
 
 
@@ -377,29 +434,6 @@ $ct_conf['sec']['chmod_index_sec'] = '0660'; // (default = '0660' [owner/group r
 
 ////////////////////////////////////////
 // !END! SECURITY CONFIGURATION
-////////////////////////////////////////
-
-
-////////////////////////////////////////
-// !START! PROXY CONFIGURATION
-////////////////////////////////////////
-
-
-// If using proxies, add the ip address / port number here for each one, like examples below (without the double slashes in front enables the code)
-// CAN BE BLANK. Adding proxies here will automatically choose one randomly for each API request
-$ct_conf['proxy']['proxy_list'] = array(
-					// 'ipaddress1:portnumber1',
-					// 'ipaddress2:portnumber2',
-					);
-////
-// If using proxies and login is required
-// Adding a user / pass here will automatically send login details for proxy connections
-// CAN BE BLANK. IF using ip address authentication instead, MUST BE LEFT BLANK
-$ct_conf['proxy']['proxy_login'] = ''; // Use format: 'username||password'
-
-
-////////////////////////////////////////
-// !END! PROXY CONFIGURATION
 ////////////////////////////////////////
 
 
@@ -728,8 +762,8 @@ $ct_conf['power']['light_chart_day_intervals'] = array(14, 30, 90, 180, 365, 730
 // (default = 14, 30, 90, 180, 365, 730, 1460)
 ////
 // The maximum number of data points allowed in each light chart 
-// (saves on disk storage / speeds up chart loading times SIGNIFICANTLY #WITH A NUMBER OF 625 OR LESS#)
-$ct_conf['power']['light_chart_data_points_max'] = 625; // (default = 625), ADJUST WITH CARE!!!
+// (saves on disk storage / speeds up chart loading times SIGNIFICANTLY #WITH A NUMBER OF 875 OR LESS#)
+$ct_conf['power']['light_chart_data_points_max'] = 875; // (default = 875), ADJUST WITH CARE!!!
 
 
 // Default settings for Asset Performance chart height / menu size (in the 'View More Stats' modal window, linked at bottom of Portfolio page)
@@ -1095,12 +1129,6 @@ $ct_conf['power']['news_feed'] = array(
         				array(
             			"title" => "Blog - Ethereum.org (community-driven on-chain smart contracts)",
             			"url" => "https://blog.ethereum.org/feed.xml"
-        						),
-        
-        
-        				array(
-            			"title" => "Blog - Ethereum EIPs (Last Call Review)",
-            			"url" => "https://eips.ethereum.org/last-call.xml"
         						),
         
         
@@ -1489,6 +1517,7 @@ $ct_conf['dev']['php_error_reporting'] = 0; // 0 == off / -1 == on
 // 'ext_data_cache_telemetry' (external API requests from cache),
 // 'smtp_telemetry' (smtp server responses to: /cache/logs/smtp_debug.log),
 // 'api_comms_telemetry' (API comms responses to: /cache/logs/debug/external_data/last-response-[service].log),
+// 'cron_telemetry' (cron runtime telemetry to: /cache/logs/debug/cron/cron_runtime_telemetry.log),
 ////
 // ### CHECKS ###
 ////
@@ -1535,7 +1564,7 @@ $ct_conf['dev']['all_chart_rebuild_min_max'] = '4,8'; // 'min,max' (default = '4
 ////
 // Maximum number of light chart NEW BUILDS allowed during background tasks, PER CPU CORE (only reset / new, NOT the 'all' chart REbuilds)
 // (THIS IS MULTIPLIED BY THE NUMBER OF CPU CORES [if detected], avoids overloading low power devices / still builds fast on multi-core)
-$ct_conf['dev']['light_chart_first_build_hard_limit'] = 25; // (default = 25), ADJUST WITH CARE!!!
+$ct_conf['dev']['light_chart_first_build_hard_limit'] = 20; // (default = 20), ADJUST WITH CARE!!!
 
 
 // If you want to override the default CURL user agent string (sent with API requests, etc)
@@ -1817,7 +1846,7 @@ $ct_conf['mob_net_txt_gateways'] = array(
                         'sprint' => 'messaging.sprintpcs.com',
                         'tmobile_us' => 'tmomail.net',
                         'telus' => 'mms.telusmobility.com',
-                        'trac_fone' => 'mmst5.tracfone.com',
+                        'tracfone' => 'mmst5.tracfone.com',
                         'union' => 'union-tel.com',
                         'us_cellular' => 'email.uscc.net',
                         'verizon' => 'vtext.com',

@@ -1,6 +1,6 @@
 
 // Copyright 2014-2023 GPLv3, Open Crypto Tracker by Mike Kilday: Mike@DragonFrugal.com
-   
+
 
 /////////////////////////////////////////////////////////////
 
@@ -207,20 +207,31 @@ $("#coins_table").find("th:eq("+col+")").trigger("sort");
 /////////////////////////////////////////////////////////////
 
 
-const iframe_adjuster = new IntersectionObserver(entries => {
-    
-    entries.forEach(entry => {
-      
-    const intersecting = entry.isIntersecting;
-      
-        if ( intersecting ) {
-        iframe_adjust(entry.target);
-        //console.log(entry.target.id + ' showing.');
-        }
-        
-    });
+function reset_iframe_heights() {
 
-});
+
+     iframe_height_adjuster = new IntersectionObserver(entries => {
+         
+         entries.forEach(entry => {
+           
+         const intersecting = entry.isIntersecting;
+           
+             if ( intersecting ) {
+             iframe_height_adjust(entry.target);
+             //console.log(entry.target.id + ' showing.');
+             }
+             
+         });
+     
+     });
+     
+     
+    $(".admin_iframe").each(function(){
+    iframe_height_adjuster.observe(this);
+    });
+    
+
+}
 
 
 /////////////////////////////////////////////////////////////
@@ -395,11 +406,11 @@ function app_reloading_check(form_submission=0) {
 /////////////////////////////////////////////////////////////
 
 
-function cron_loading_check(cron_loaded) {
+function cron_run_check() {
 	
-//console.log('loaded charts = ' + window.charts_loaded.length + ', all charts = ' + window.charts_num);
+//console.log('loaded charts = ' + charts_loaded.length + ', all charts = ' + charts_num);
 
-	if ( window.cron_loaded == true ) {
+	if ( cron_already_ran == true ) {
 	return 'done';
 	}
 	else {
@@ -414,12 +425,12 @@ function cron_loading_check(cron_loaded) {
 /////////////////////////////////////////////////////////////
 
 
-function charts_loading_check(charts_loaded) {
+function charts_loading_check() {
 	
-//console.log('loaded charts = ' + window.charts_loaded.length + ', all charts = ' + window.charts_num);
+//console.log('loaded charts = ' + charts_loaded.length + ', all charts = ' + charts_num);
 
     // NOT IN ADMIN AREA (UNLIKE CRON EMULATION)
-	if ( charts_loaded.length >= window.charts_num || window.is_admin == true ) {
+	if ( charts_loaded.length >= charts_num || is_admin == true ) {
 	return 'done';
 	}
 	else {
@@ -434,12 +445,12 @@ function charts_loading_check(charts_loaded) {
 /////////////////////////////////////////////////////////////
 
 
-function feeds_loading_check(feeds_loaded) {
+function feeds_loading_check() {
 	
-//console.log('loaded feeds = ' + window.feeds_loaded.length + ', all feeds = ' + window.feeds_num);
+//console.log('loaded feeds = ' + feeds_loaded.length + ', all feeds = ' + feeds_num);
 
     // NOT IN ADMIN AREA (UNLIKE CRON EMULATION)
-	if ( feeds_loaded.length >= window.feeds_num || window.is_admin == true ) {
+	if ( feeds_loaded.length >= feeds_num || is_admin == true ) {
 	return 'done';
 	}
 	else {
@@ -527,7 +538,7 @@ function safe_add_remove_class(class_name, element, mode) {
 /////////////////////////////////////////////////////////////
 
 
-function iframe_adjust(elm) {
+function iframe_height_adjust(elm) {
 
 
     // Set proper page zoom on the iframe
@@ -850,7 +861,7 @@ return time_period_text;
 
 function emulated_cron() {
     
-window.cron_loaded = false;
+cron_already_ran = false;
 
 background_tasks_check(); 
 
@@ -867,8 +878,6 @@ background_tasks_check();
                 console.log( "cron emulation RESULT: " + response.result + ', at ' + human_time( new Date().getTime() ) );
                 }
             
-            window.cron_loaded = true;
-            
                 // If flagged to display error in GUI
                 if ( typeof response.display_error != 'undefined' ) {
                 
@@ -883,12 +892,15 @@ background_tasks_check();
                 
                 }
             
+            
+            cron_already_ran = true;
+            
             background_tasks_check();  
             
             },
             error: function(e) {
             console.log( "cron emulation: ERROR at " + human_time( new Date().getTime() ) );
-            window.cron_loaded = true;
+            cron_already_ran = true;
             background_tasks_check(); 
             }
         });
@@ -906,7 +918,7 @@ function app_reload(form_submission) {
     
     // Wait if anything is running in the background
     // (emulated cron / charts / news feeds / etc)
-    if ( window.background_tasks_status == 'wait' ) {
+    if ( background_tasks_status == 'wait' ) {
         
     $("#background_loading_span").html("Please wait, finishing background tasks...").css("color", "#ff4747", "important");
             
@@ -916,12 +928,12 @@ function app_reload(form_submission) {
     
     }
     // ADD ANY LOGIC HERE, TO RUN BEFORE THE APP RELOADS
-    else if ( window.background_tasks_status == 'done' ) {
+    else if ( background_tasks_status == 'done' ) {
     
     clearTimeout(reload_recheck);
     
     
-        if ( form_submission == 0 || window.form_submit_queued == true ) {
+        if ( form_submission == 0 || form_submit_queued == true ) {
             
         $("#app_loading").show(250, 'linear'); // 0.25 seconds
         $("#app_loading_span").html("Reloading...");
@@ -1002,7 +1014,7 @@ function background_tasks_check() {
         
         
         if (
-		feeds_loading_check(window.feeds_loaded) == 'done' && charts_loading_check(window.charts_loaded) == 'done' && cron_loading_check(window.cron_loaded) == 'done'
+		feeds_loading_check() == 'done' && charts_loading_check() == 'done' && cron_run_check() == 'done'
 		) {
 		    
 		$("#background_loading").hide(250); // 0.25 seconds
@@ -1018,7 +1030,7 @@ function background_tasks_check() {
     		get_scroll_position('charts'); 
     		}
     	
-    	window.background_tasks_status = 'done';
+    	background_tasks_status = 'done';
     	
     	clearTimeout(background_tasks_recheck);
 		
@@ -1027,12 +1039,12 @@ function background_tasks_check() {
 		    
 		background_tasks_recheck = setTimeout(background_tasks_check, 1000); // Re-check every 1 seconds (in milliseconds)
 	
-    	window.background_tasks_status = 'wait';
+    	background_tasks_status = 'wait';
     
 		}
 		
     	
-//console.log('background_tasks_check: ' + window.background_tasks_status);
+//console.log('background_tasks_check: ' + background_tasks_status);
 
 }
 
@@ -1240,6 +1252,93 @@ function sorting_portfolio_table() {
 /////////////////////////////////////////////////////////////
 
 
+function interface_font_percent(font_val, iframe_elm=false) {
+     
+var font_size = font_val * 0.01;
+var font_size = font_size.toFixed(3);
+     
+var line_height = font_size * 1.35;
+var line_height = line_height.toFixed(3);
+     
+var medium_font_size = font_size * 0.75;
+var medium_font_size = medium_font_size.toFixed(3);
+     
+var medium_line_height = medium_font_size * 1.35;
+var medium_line_height = medium_line_height.toFixed(3);
+     
+var small_font_size = font_size * 0.55;
+var small_font_size = small_font_size.toFixed(3);
+     
+var small_line_height = small_font_size * 1.35;
+var small_line_height = small_line_height.toFixed(3);
+
+
+     if ( iframe_elm != false ) {
+     var font_elements = $(font_size_css_selector, iframe_elm.contentWindow.document);
+     var medium_font_elements = $(medium_font_size_css_selector, iframe_elm.contentWindow.document);
+     var small_font_elements = $(small_font_size_css_selector, iframe_elm.contentWindow.document);
+     }
+     else {
+     var font_elements = $(font_size_css_selector);
+     var medium_font_elements = $(medium_font_size_css_selector);
+     var small_font_elements = $(small_font_size_css_selector);
+     }
+
+
+// Standard (we skip sidebar HEADER area)
+font_elements.attr('style', function(i,s) { return (s || '') + "font-size: " + font_size + "em !important;" });
+////
+font_elements.attr('style', function(i,s) { return (s || '') + "line-height : " + line_height + "em !important;" });
+
+
+// Medium
+medium_font_elements.attr('style', function(i,s) { return (s || '') + "font-size: " + medium_font_size + "em !important;" });
+////
+medium_font_elements.attr('style', function(i,s) { return (s || '') + "line-height : " + medium_line_height + "em !important;" });
+
+
+// Small
+small_font_elements.attr('style', function(i,s) { return (s || '') + "font-size: " + small_font_size + "em !important;" });
+////
+small_font_elements.attr('style', function(i,s) { return (s || '') + "line-height : " + small_line_height + "em !important;" });
+
+        
+     if ( iframe_elm == false && is_admin == true ) {
+          
+     iframe_font_val = font_val; // ALREADY A GLOBAL, DON'T USE 'var x'
+
+
+          iframe_text_adjuster = new IntersectionObserver(entries => {
+              
+              entries.forEach(entry => {
+              interface_font_percent(iframe_font_val, entry.target);
+              });
+          
+          });
+          
+          
+          $(".admin_iframe").each(function(){
+          iframe_text_adjuster.observe(this);
+          });
+          
+     
+     // Reset iframe heights after 3.5 seconds (to give above loops time to finish)
+     setTimeout(reset_iframe_heights, 3500);
+     
+     }
+     // We don't want to re-set the cookie everytime an iframe is processed,
+     // So just set when adjusting the main document
+     else {
+     set_cookie("font_size", font_size, 365);
+     }
+     
+
+}
+
+
+/////////////////////////////////////////////////////////////
+
+
 function system_logs(elm_id) {
 
 $('#' + elm_id + '_alert').text('Refreshing, please wait...');
@@ -1410,32 +1509,32 @@ function row_alert(tr_id, alert_type, color, theme) {
 		 
 			if ( color != 'no_cmc' ) {
 			
-				if ( color == 'yellow' && !window.alert_color_loss ) {
-				window.alert_color_loss = zebra_odd_loss;
+				if ( color == 'yellow' && !alert_color_loss ) {
+				alert_color_loss = zebra_odd_loss;
 				}
 				
 				
-				if ( color == 'green' && !window.alert_color_gain ) {
-				window.alert_color_gain = zebra_odd_gain;
+				if ( color == 'green' && !alert_color_gain ) {
+				alert_color_gain = zebra_odd_gain;
 				}
 					
 				
 				if ( color == 'yellow' ) {
 				
-				$('.tablesorter tr#' + tr_id).css("background", window.alert_color_loss);
-				$('.tablesorter tr#' + tr_id + ' td').css("background", window.alert_color_loss);
-				$('.tablesorter tr#' + tr_id).css("background-color", window.alert_color_loss);
-				$('.tablesorter tr#' + tr_id + ' td').css("background-color", window.alert_color_loss);
+				$('.tablesorter tr#' + tr_id).css("background", alert_color_loss);
+				$('.tablesorter tr#' + tr_id + ' td').css("background", alert_color_loss);
+				$('.tablesorter tr#' + tr_id).css("background-color", alert_color_loss);
+				$('.tablesorter tr#' + tr_id + ' td').css("background-color", alert_color_loss);
 				
 				}
 				
 				
 				if ( color == 'green' ) {
 				
-				$('.tablesorter tr#' + tr_id).css("background", window.alert_color_gain);
-				$('.tablesorter tr#' + tr_id + ' td').css("background", window.alert_color_gain);
-				$('.tablesorter tr#' + tr_id).css("background-color", window.alert_color_gain);
-				$('.tablesorter tr#' + tr_id + ' td').css("background-color", window.alert_color_gain);
+				$('.tablesorter tr#' + tr_id).css("background", alert_color_gain);
+				$('.tablesorter tr#' + tr_id + ' td').css("background", alert_color_gain);
+				$('.tablesorter tr#' + tr_id).css("background-color", alert_color_gain);
+				$('.tablesorter tr#' + tr_id + ' td').css("background-color", alert_color_gain);
 				
 				}
 					
@@ -1443,30 +1542,30 @@ function row_alert(tr_id, alert_type, color, theme) {
 				// Zebra stripes
 				if ( color == 'yellow' ) {
 				
-					if ( window.alert_color_loss == zebra_odd_loss ) {
-					window.alert_color_loss = zebra_even_loss;
+					if ( alert_color_loss == zebra_odd_loss ) {
+					alert_color_loss = zebra_even_loss;
 					}
-					else if ( window.alert_color_loss == zebra_even_loss ) {
-					window.alert_color_loss = zebra_odd_loss;
+					else if ( alert_color_loss == zebra_even_loss ) {
+					alert_color_loss = zebra_odd_loss;
 					}
 				
 				}
 				else if ( color == 'green' ) {
 				
-					if ( window.alert_color_gain == zebra_odd_gain ) {
-					window.alert_color_gain = zebra_even_gain;
+					if ( alert_color_gain == zebra_odd_gain ) {
+					alert_color_gain = zebra_even_gain;
 					}
-					else if ( window.alert_color_gain == zebra_even_gain ) {
-					window.alert_color_gain = zebra_odd_gain;
+					else if ( alert_color_gain == zebra_even_gain ) {
+					alert_color_gain = zebra_odd_gain;
 					}
 					
 				}
 				
 			
 				// Audio, if chosen in settings
-				if ( !window.is_alerted && alert_type == 'visual_audio' ) {
+				if ( !audio_alert_played && alert_type == 'visual_audio' ) {
+				audio_alert_played = true;
 				play_audio_alert();
-				window.is_alerted = 1;
 				}
 			
 			
@@ -1485,8 +1584,8 @@ function row_alert(tr_id, alert_type, color, theme) {
 function auto_reload() {
 
 
-	if ( window.reload_time ) {
-	time = window.reload_time;
+	if ( reload_time ) {
+	time = reload_time;
 	}
 	else if ( get_cookie("coin_reload") ) {
 	time = get_cookie("coin_reload");
@@ -1499,8 +1598,8 @@ function auto_reload() {
 	if ( document.getElementById("set_use_cookies") ) {
 		
 		
-		if ( window.reload_countdown ) {
-		clearInterval(window.reload_countdown);
+		if ( reload_countdown ) {
+		clearInterval(reload_countdown);
 		}
 
 		
@@ -1534,7 +1633,7 @@ function auto_reload() {
 				
 
                 // If subsections are still loading, wait until they are finished
-                if ( $("#background_loading").is(":visible") || window.charts_loaded.length < window.charts_num || window.feeds_loaded.length < window.feeds_num ) {
+                if ( $("#background_loading").is(":visible") || charts_loaded.length < charts_num || feeds_loaded.length < feeds_num ) {
                 setTimeout(auto_reload, 1000); // Wait 1000 milliseconds then recheck
                 return;
                 }
@@ -1544,7 +1643,7 @@ function auto_reload() {
                	
     				int_time = time - 1; // Remove a second for the 1000 millisecond (1 second) recheck interval
     			
-                	window.reload_countdown = setInterval(function () {
+                	reload_countdown = setInterval(function () {
                           
                     
                     	if ( int_time >= 60 ) {
@@ -1566,7 +1665,7 @@ function auto_reload() {
             				}
                 
                 
-                 	int_time-- || clearInterval(window.reload_countdown);  // Clear if 0 reached
+                 	int_time-- || clearInterval(reload_countdown);  // Clear if 0 reached
                  
                  	}, 1000);
     	    
@@ -1857,7 +1956,7 @@ private_data = document.getElementsByClassName('private_data');
         
         // Delete any existing admin auth (login) cookie
         // (we force admin logout when privacy mode is on)
-        delete_cookie('admin_auth_' + ct_id); 
+        delete_cookie( 'admin_auth_' + Base64.decode(ct_id) ); 
             
         
         }

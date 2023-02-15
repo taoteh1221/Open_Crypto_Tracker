@@ -1228,9 +1228,9 @@ var $ct_array1 = array();
 		               ?>
 		               
 		               <script>
-		               window.btc_prim_currency_val = '<?=$ct_api->market('BTC', $key, $ct_conf['assets']['BTC']['pair'][$sel_pair][$key])['last_trade']?>';
+		               btc_prim_currency_val = '<?=$ct_api->market('BTC', $key, $ct_conf['assets']['BTC']['pair'][$sel_pair][$key])['last_trade']?>';
 		               
-		               window.btc_prim_currency_pair = '<?=strtoupper($sel_pair)?>';
+		               btc_prim_currency_pair = '<?=strtoupper($sel_pair)?>';
 		               </script>
 		               
 		               <?php
@@ -1431,7 +1431,7 @@ var $ct_array1 = array();
       
       // Rendering webpage UI output
       // DON'T USE require_once(), as we are looping here!
-      require($base_dir . '/templates/interface/desktop/php/user/user-elements/portfolio-asset-row.php');
+      require($base_dir . '/templates/interface/php/user/user-elements/portfolio-asset-row.php');
       
       }
    
@@ -1450,7 +1450,7 @@ var $ct_array1 = array();
    
       
       // Skip completely, if it's an alphavantage market, AND the end-user has NOT added an alphavantage API key
-      if ( $exchange == 'alphavantage_stock' && trim($ct_conf['ext_api']['alphavantage_key']) == '' ) {
+      if ( $exchange == 'alphavantage_stock' && trim($ct_conf['other_api']['alphavantage_key']) == '' ) {
       return false;
       }
       

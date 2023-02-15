@@ -42,7 +42,7 @@ $smtp = new SMTPMailer();
 // MUST RUN #AS SOON AS POSSIBLE IN APP INIT#, SO TELEGRAM COMMS ARE ENABLED FOR #ALL# FOLLOWING LOGIC!
 if ( trim($ct_conf['comms']['telegram_your_username']) != '' && trim($ct_conf['comms']['telegram_bot_name']) != '' && trim($ct_conf['comms']['telegram_bot_username']) != '' && $ct_conf['comms']['telegram_bot_token'] != '' ) {
     
-$telegram_activated = 1;
+$telegram_activated = true;
 
 // Load class files
 require_once($base_dir . '/app-lib/php/classes/3rd-party/telegram-php/src/Autoloader.php');

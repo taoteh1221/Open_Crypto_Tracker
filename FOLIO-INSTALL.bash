@@ -177,6 +177,91 @@ fi
 ######################################
 
 
+echo "${yellow}Does the Operating System on this device update using the \"Rolling Release\" model (Kali, Manjaro, Ubuntu Rolling Rhino, Debian Unstable, etc), or the \"Long-Term Release\" model (Ubuntu, Raspberry Pi OS, Armbian Stable, Diet Pi, etc)?"
+echo " "
+echo "${red}(You can SEVERLY MESS UP a \"Rolling Release\" Operating System IF YOU DO NOT CHOOSE CORRECTLY HERE! In that case, you can SAFELY choose \"I don't know\".)${reset}"
+echo " "
+
+echo "Enter the NUMBER next to your chosen option.${reset}"
+
+echo " "
+
+OPTIONS="rolling long_term i_dont_know"
+
+select opt in $OPTIONS; do
+        if [ "$opt" = "long_term" ]; then
+        ALLOW_APT_UPGRADE="yes"
+        echo " "
+        echo "${green}Allowing system-wide updates before installs.${reset}"
+        break
+       else
+        ALLOW_APT_UPGRADE="no"
+        echo " "
+        echo "${green}Disabling system-wide updates before installs.${reset}"
+        break
+       fi
+done
+       
+echo " "
+
+
+######################################
+
+
+# clean_system_update function START
+clean_system_update () {
+
+     if [ "$APT_CACHE_CLEARED" != "1" ]; then
+
+     echo "${cyan}Making sure your APT sources list is updated before installations, please wait...${reset}"
+     
+     echo " "
+     
+     # In case package list was ever corrupted (since we are about to rebuild it anyway...avoids possible errors)
+     sudo rm -rf /var/lib/apt/lists/* -vf > /dev/null 2>&1
+     
+     APT_CACHE_CLEARED=1
+     
+     sleep 2
+     
+     sudo apt update
+     
+     sleep 2
+     
+     echo " "
+
+     echo "${cyan}APT sources list update complete.${reset}"
+     
+     echo " "
+     
+          if [ "$ALLOW_APT_UPGRADE" == "yes" ]; then
+
+          echo "${cyan}Making sure your system is updated before installations, please wait...${reset}"
+          
+          echo " "
+          
+          #DO NOT RUN dist-upgrade, bad things can happen, lol
+          apt upgrade -y
+          				
+          sleep 2
+          
+          echo " "
+          				
+          echo "${cyan}System updated.${reset}"
+          				
+          echo " "
+          
+          fi
+     
+     fi
+
+}
+# clean_system_update function END
+
+
+######################################
+
+
 # Get primary dependency apps, if we haven't yet
     
 # Install git if needed
@@ -184,13 +269,14 @@ GIT_PATH=$(which git)
 
 if [ -z "$GIT_PATH" ]; then
 
+# Clears / updates apt cache, then upgrades (if NOT a rolling release)
+clean_system_update
+
 DEPS_MISSING=1
 
 echo " "
 echo "${cyan}Installing required component git, please wait...${reset}"
 echo " "
-
-sudo apt update
 
 sudo apt install git -y
 
@@ -202,13 +288,14 @@ CURL_PATH=$(which curl)
 
 if [ -z "$CURL_PATH" ]; then
 
+# Clears / updates apt cache, then upgrades (if NOT a rolling release)
+clean_system_update
+
 DEPS_MISSING=1
 
 echo " "
 echo "${cyan}Installing required component curl, please wait...${reset}"
 echo " "
-
-sudo apt update
 
 sudo apt install curl -y
 
@@ -220,13 +307,14 @@ JQ_PATH=$(which jq)
 
 if [ -z "$JQ_PATH" ]; then
 
+# Clears / updates apt cache, then upgrades (if NOT a rolling release)
+clean_system_update
+
 DEPS_MISSING=1
 
 echo " "
 echo "${cyan}Installing required component jq, please wait...${reset}"
 echo " "
-
-sudo apt update
 
 sudo apt install jq -y
 
@@ -238,13 +326,14 @@ WGET_PATH=$(which wget)
 
 if [ -z "$WGET_PATH" ]; then
 
+# Clears / updates apt cache, then upgrades (if NOT a rolling release)
+clean_system_update
+
 DEPS_MISSING=1
 
 echo " "
 echo "${cyan}Installing required component wget, please wait...${reset}"
 echo " "
-
-sudo apt update
 
 sudo apt install wget -y
 
@@ -256,13 +345,14 @@ SED_PATH=$(which sed)
 
 if [ -z "$SED_PATH" ]; then
 
+# Clears / updates apt cache, then upgrades (if NOT a rolling release)
+clean_system_update
+
 DEPS_MISSING=1
 
 echo " "
 echo "${cyan}Installing required component sed, please wait...${reset}"
 echo " "
-
-sudo apt update
 
 sudo apt install sed -y
 
@@ -274,13 +364,14 @@ LESS_PATH=$(which less)
 				
 if [ -z "$LESS_PATH" ]; then
 
+# Clears / updates apt cache, then upgrades (if NOT a rolling release)
+clean_system_update
+
 DEPS_MISSING=1
 
 echo " "
 echo "${cyan}Installing required component less, please wait...${reset}"
 echo " "
-
-sudo apt update
 
 sudo apt install less -y
 
@@ -292,13 +383,14 @@ EXPECT_PATH=$(which expect)
 				
 if [ -z "$EXPECT_PATH" ]; then
 
+# Clears / updates apt cache, then upgrades (if NOT a rolling release)
+clean_system_update
+
 DEPS_MISSING=1
 
 echo " "
 echo "${cyan}Installing required component expect, please wait...${reset}"
 echo " "
-
-sudo apt update
 
 sudo apt install expect -y
 
@@ -310,13 +402,14 @@ AVAHID_PATH=$(which avahi-daemon)
 
 if [ -z "$AVAHID_PATH" ]; then
 
+# Clears / updates apt cache, then upgrades (if NOT a rolling release)
+clean_system_update
+
 DEPS_MISSING=1
 
 echo " "
 echo "${cyan}Installing required component avahi-daemon, please wait...${reset}"
 echo " "
-
-sudo apt update
 
 sudo apt install avahi-daemon -y
 
@@ -328,13 +421,14 @@ BC_PATH=$(which bc)
 
 if [ -z "$BC_PATH" ]; then
 
+# Clears / updates apt cache, then upgrades (if NOT a rolling release)
+clean_system_update
+
 DEPS_MISSING=1
 
 echo " "
 echo "${cyan}Installing required component bc, please wait...${reset}"
 echo " "
-
-sudo apt update
 
 sudo apt install bc -y
 
@@ -362,10 +456,11 @@ CUSTOM_CURL_USER_AGENT_HEADER="User-Agent: Curl (${OS}/$VER; compatible;)"
          
 
 # WE NEED TO SET THIS OUTSIDE OF / BEFORE ANY OTHER SETUP LOGIC, AS WE'RE SETTING THE SYSTEM USER VAR
-echo "We need to know the SYSTEM username you'll be logging in as on this machine to edit web files..."
+echo " "
+echo "${yellow}We need to know the SYSTEM username you'll be logging in as on this machine to edit web files..."
 echo " "
         
-echo "${yellow}Enter the SYSTEM username to allow web server editing access for:"
+echo "Enter the SYSTEM username to allow web server editing access for:"
 echo "(leave blank / hit enter for default username '${TERMINAL_USERNAME}')${reset}"
 echo " "
         
@@ -457,11 +552,14 @@ echo "You will need to manually move any CUSTOMIZED DEFAULT settings from backup
 echo "otherwise you can just ignore or delete the backup files."
 echo " "
 
+echo "${red}IF ANYTHING STOPS WORKING AFTER UPGRADING, CLEAR YOUR BROWSER CACHE (temporary files), AND RELOAD OR RESTART THE APP. This will load the latest Javascript / Style Sheet upgrades properly.${reset}"
+echo " "
+
 echo "${red}VERY IMPORTANT UPGRADE NOTES:${reset}"
 echo " "
 
-echo "v6.00.16 AND HIGHER RESETS LIGHT (TIME PERIOD) CHARTS FROM ARCHIVAL DATA,"
-echo "ONE-TIME DURING UPGRADES FROM V6.00.15 OR LOWER."
+echo "v6.00.19 AND HIGHER RESETS LIGHT (TIME PERIOD) CHARTS FROM ARCHIVAL DATA,"
+echo "ONE-TIME DURING UPGRADES FROM V6.00.18 OR LOWER."
 echo " "
 echo " "
 
@@ -515,22 +613,8 @@ echo " "
 
 echo " "
 
-echo "${cyan}Making sure your system is updated before installation, please wait...${reset}"
-
-echo " "
-			
-apt-get update
-
-#DO NOT RUN dist-upgrade, bad things can happen, lol
-apt-get upgrade -y
-
-echo " "
-				
-echo "${cyan}System update completed.${reset}"
-				
-sleep 3
-				
-echo " "
+# Clears / updates apt cache, then upgrades (if NOT a rolling release)
+clean_system_update
 
 
 ######################################
@@ -641,11 +725,14 @@ read -n1 -s -r -p $'Install / configure a firewall, for higher app server securi
 echo "${reset} "
         
 if [ "$keystroke" = 'y' ] || [ "$keystroke" = 'Y' ]; then
+
+# Clears / updates apt cache, then upgrades (if NOT a rolling release)
+clean_system_update
             
 echo " "
 echo "${cyan}Installing / configuring a firewall, please wait...${reset}"
                 
-apt install ufw
+apt install ufw -y
 
 ufw allow ssh
 
@@ -775,21 +862,24 @@ OPTIONS="install_webserver remove_webserver skip"
 
 select opt in $OPTIONS; do
         if [ "$opt" = "install_webserver" ]; then
+
+          # Clears / updates apt cache, then upgrades (if NOT a rolling release)
+          clean_system_update
          
-         echo " "
+          echo " "
 			
-			echo "${green}Proceeding with PHP web server installation, please wait...${reset}"
-			echo " "
+	     echo "${green}Proceeding with PHP web server installation, please wait...${reset}"
+		echo " "
         
 			# !!!RUN FIRST!!! PHP FPM (fcgi) version $PHP_FPM_VER, run SEPERATE in case it fails from package not found
         	INSTALL_FPM_VER="install php${PHP_FPM_VER}-fpm php${PHP_FPM_VER}-mbstring php${PHP_FPM_VER}-xml php${PHP_FPM_VER}-curl php${PHP_FPM_VER}-gd php${PHP_FPM_VER}-zip -y"
         
-        	apt-get $INSTALL_FPM_VER
+        	apt $INSTALL_FPM_VER
         	
 			sleep 3
 			
 			# PHP FPM (fcgi), Apache, required modules, etc
-			apt-get install apache2 php php-fpm php-mbstring php-xml php-curl php-gd php-zip libapache2-mod-fcgid apache2-suexec-custom openssl ssl-cert avahi-daemon -y
+			apt install apache2 php php-fpm php-mbstring php-xml php-curl php-gd php-zip libapache2-mod-fcgid apache2-suexec-custom openssl ssl-cert avahi-daemon -y
 			
 			sleep 3
 			
@@ -1185,18 +1275,18 @@ EOF
          echo "(leave blank / hit enter to use default group '$WWW_GROUP')${reset}"
          echo " "
             
-         read CUSTOM_GROUP
+         read APACHE_USERNAME
          echo " "
                     
-            if [ -z "$CUSTOM_GROUP" ]; then
-            CUSTOM_GROUP=${1:-$WWW_GROUP}
+            if [ -z "$APACHE_USERNAME" ]; then
+            APACHE_USERNAME=${1:-$WWW_GROUP}
             echo "${green}The web server's user group has been declared as: $WWW_GROUP${reset}"
             else
-            echo "${green}The web server's user group has been declared as: $CUSTOM_GROUP${reset}"
+            echo "${green}The web server's user group has been declared as: $APACHE_USERNAME${reset}"
             fi
             
             
-	    sed -i "s/${CUSTOM_GROUP}/${APP_USER}/g" /usr/lib/tmpfiles.d/php${PHP_FPM_VER}-fpm.conf > /dev/null 2>&1
+	    sed -i "s/${APACHE_USERNAME}/${APP_USER}/g" /usr/lib/tmpfiles.d/php${PHP_FPM_VER}-fpm.conf > /dev/null 2>&1
 			
 			
 	    sleep 1
@@ -1217,16 +1307,16 @@ EOF
           # We no longer need to have the app user added to the web server's default group
           # (since we now run PHP-FPM AS THE APP USER, so we remove it for TIGHTER SECURITY)
           # PARAMS ARE *BACKWARDS* COMPARED TO "usermod -a -G"
-        	gpasswd -d $APP_USER $CUSTOM_GROUP
+        	gpasswd -d $APP_USER $APACHE_USERNAME > /dev/null 2>&1
 
 		sleep 1
           
           # We STILL NEED to add the web server user to the app user's default group
           # (for access to files like .htaccess / .user.ini)
-        	usermod -a -G $APP_USER $CUSTOM_GROUP
+        	usermod -a -G $APP_USER $APACHE_USERNAME
         	
         	echo " "
-        	echo "${cyan}Access for user '$CUSTOM_GROUP' within group '$APP_USER' is completed, please wait...${reset}"
+        	echo "${cyan}Access for user '$APACHE_USERNAME' within group '$APP_USER' is completed, please wait...${reset}"
           
 		sleep 1
 			
@@ -1245,6 +1335,20 @@ EOF
         	chown $RECURSIVE_CHOWN
 
 		sleep 3
+		
+		OS_INFO=$(lsb_release -a)
+		
+		
+		     # If Kali OS, set apache and php-fpm to run at boot (as they won't by default)
+		     IS_KALI='Kali'
+               if [[ "$OS_INFO" == *"$IS_KALI"* ]]; then
+		     echo " "
+		     echo "${cyan}Telling Kali to start Apache / PHP-FPM at boot, please wait...${reset}"
+		     echo " "
+               update-rc.d apache2 enable
+               systemctl enable php${PHP_FPM_VER}-fpm
+               fi
+        
         
 		echo " "
 		echo "${green}PHP web server configuration is complete.${reset}"
@@ -1254,6 +1358,8 @@ EOF
           echo " "
           echo "sudo reboot"
           echo "${reset} "
+	     
+	     SERVER_SETUP=1
         
         
         	######################################
@@ -1261,6 +1367,9 @@ EOF
          
         break
        elif [ "$opt" = "remove_webserver" ]; then
+
+       # Clears / updates apt cache, then upgrades (if NOT a rolling release)
+       clean_system_update
        
         echo " "
         echo "${green}Removing PHP web server, please wait...${reset}"
@@ -1271,12 +1380,12 @@ EOF
 		  # !!!RUN FIRST!!! PHP FPM (fcgi) version $PHP_FPM_VER, run SEPERATE in case it fails from package not found
         REMOVE_FPM_VER="--purge remove php${PHP_FPM_VER}-fpm php${PHP_FPM_VER}-mbstring php${PHP_FPM_VER}-xml php${PHP_FPM_VER}-curl php${PHP_FPM_VER}-gd php${PHP_FPM_VER}-zip -y"
         
-        apt-get $REMOVE_FPM_VER
+        apt $REMOVE_FPM_VER
         
 		  sleep 3
         
         # SKIP removing openssl / ssl-cert / avahi-daemon, AS THIS WILL F!CK UP THE WHOLE SYSTEM, REMOVING ANY OTHER DEPENDANT PACKAGES TOO!!
-		  apt-get --purge remove apache2 php php-fpm php-mbstring php-xml php-curl php-gd php-zip libapache2-mod-fcgid apache2-suexec-pristine apache2-suexec-custom -y
+		  apt --purge remove apache2 php php-fpm php-mbstring php-xml php-curl php-gd php-zip libapache2-mod-fcgid apache2-suexec-pristine apache2-suexec-custom -y
         
 		  sleep 3
 			
@@ -1314,6 +1423,9 @@ select opt in $OPTIONS; do
         if [ "$opt" = "install_portfolio_app" ]; then
         
         		if [ ! -d "$DOC_ROOT" ]; then
+
+               # Clears / updates apt cache, then upgrades (if NOT a rolling release)
+               clean_system_update
         		
         		echo " "
 				
@@ -1334,17 +1446,17 @@ select opt in $OPTIONS; do
 				echo " "
 				
 				# Ubuntu 16.x, and other debian-based systems
-				apt-get install bsdtar -y
+				apt install bsdtar -y
 				
 				sleep 3
 				
 				# Ubuntu 18.x and higher
-				apt-get install libarchive-tools -y
+				apt install libarchive-tools -y
 				
 				sleep 3
 				
 				# Safely install other packages seperately, so they aren't cancelled by 'package missing' errors
-				apt-get install pwgen openssl -y
+				apt install pwgen openssl -y
 
 				sleep 3
 				
@@ -1599,121 +1711,123 @@ select opt in $OPTIONS; do
 				echo "${green}Open Crypto Tracker (Server Edition) has been installed.${reset}"
 				
 				
-            ######################################
-            
-            
-				echo " "
-            echo "If you want to use price alerts or charts, you'll need to setup a background task (cron job) for that."
-            echo " "
-            
-            echo "${yellow}Select 1 or 2 to choose whether to setup a background task (cron job) for price alerts / charts, or skip it.${reset}"
-            echo " "
-            
-            OPTIONS="auto_setup_cron skip"
-            
-            select opt in $OPTIONS; do
-                    if [ "$opt" = "auto_setup_cron" ]; then
+                    ######################################
                     
-                    echo " "
-                    echo "${yellow}Enter the FULL system path to cron.php:"
-                    echo "(leave blank / hit enter for default of $DOC_ROOT/cron.php)${reset}"
+                    
+          		  echo " "
+                    echo "If you want to use price alerts or charts, you'll need to setup a background task (cron job) for that."
                     echo " "
                     
-                    read SYS_PATH
+                    echo "${yellow}Select 1 or 2 to choose whether to setup a background task (cron job) for price alerts / charts, or skip it.${reset}"
                     echo " "
                     
-                        if [ -z "$SYS_PATH" ]; then
-                        SYS_PATH=${1:-$DOC_ROOT/cron.php}
-                    		echo "${green}Using default system path to cron.php:"
-                    		echo " "
-                    		echo "$SYS_PATH${reset}"
-                        else
-                    		echo "${green}System path set to cron.php:"
-                    		echo " "
-                    		echo "$SYS_PATH${reset}"
-                        fi
+                    OPTIONS="auto_setup_cron skip"
                     
-                    echo " "
-                    echo "${yellow}Options for choosing a time interval to run the background task (cron job)..."
-                    echo " "
-                    echo "${red}IT'S RECOMMENDED TO GO #NO LOWER THAN# EVERY 20 MINUTES FOR CHART DATA, OTHERWISE LIGHT CHART"
-                    echo "DISK WRITES MAY BE EXCESSIVE FOR LOWER END HARDWARE (Raspberry PI MicroSD cards etc)."
-                    echo " "
-                    echo "${yellow}Enter the time interval in minutes to run this cron job:"
-                    echo "(#MUST BE# either 5, 10, 15, 20, or 30...leave blank / hit enter for default of 20)${reset}"
-                    echo " "
-                    
-                    read INTERVAL
-                    echo " "
-                    
-                        if [ -z "$INTERVAL" ]; then
-                        INTERVAL=${2:-20}
-                    		echo "${green}Using default time interval of $INTERVAL minutes.${reset}"
-                        else
-                    		echo "${green}Time interval set to $INTERVAL minutes.${reset}"
-                        fi
-                    
+                    select opt in $OPTIONS; do
+                            if [ "$opt" = "auto_setup_cron" ]; then
                             
-                    # Setup cron (to check logs after install: tail -f /var/log/syslog | grep cron -i)
+                            echo " "
+                            echo "${yellow}Enter the FULL system path to cron.php:"
+                            echo "(leave blank / hit enter for default of $DOC_ROOT/cron.php)${reset}"
+                            echo " "
+                            
+                            read SYS_PATH
+                            echo " "
+                            
+                                if [ -z "$SYS_PATH" ]; then
+                                SYS_PATH=${1:-$DOC_ROOT/cron.php}
+                            		echo "${green}Using default system path to cron.php:"
+                            		echo " "
+                            		echo "$SYS_PATH${reset}"
+                                else
+                            		echo "${green}System path set to cron.php:"
+                            		echo " "
+                            		echo "$SYS_PATH${reset}"
+                                fi
+                            
+                            echo " "
+                            echo "${yellow}Options for choosing a time interval to run the background task (cron job)..."
+                            echo " "
+                            echo "${red}IT'S RECOMMENDED TO GO #NO LOWER THAN# EVERY 20 MINUTES FOR CHART DATA, OTHERWISE LIGHT CHART"
+                            echo "DISK WRITES MAY BE EXCESSIVE FOR LOWER END HARDWARE (Raspberry PI MicroSD cards etc)."
+                            echo " "
+                            echo "${yellow}Enter the time interval in minutes to run this cron job:"
+                            echo "(#MUST BE# either 5, 10, 15, 20, or 30...leave blank / hit enter for default of 20)${reset}"
+                            echo " "
+                            
+                            read INTERVAL
+                            echo " "
+                            
+                                if [ -z "$INTERVAL" ]; then
+                                INTERVAL=${2:-20}
+                            		echo "${green}Using default time interval of $INTERVAL minutes.${reset}"
+                                else
+                            		echo "${green}Time interval set to $INTERVAL minutes.${reset}"
+                                fi
+                            
+                                    
+                            # Setup cron (to check logs after install: tail -f /var/log/syslog | grep cron -i)
+                            
+                            
+          						  # PHP FULL PATHS
+          						  PHP_FPM_PATH=$(which php${PHP_FPM_VER})
+          						  PHP_PATH=$(which php)
+                   					
+                   					# If PHP $PHP_FPM_VER specific CLI binary not found, use the standard path
+          						  		if [ -f $PHP_FPM_PATH ]; then
+          						  		CRONJOB="*/$INTERVAL * * * * $APP_USER $PHP_FPM_PATH -q $SYS_PATH > /dev/null 2>&1"
+          						  		else
+          						  		CRONJOB="*/$INTERVAL * * * * $APP_USER $PHP_PATH -q $SYS_PATH > /dev/null 2>&1"
+          						  		fi
                     
                     
-						  # PHP FULL PATHS
-						  PHP_FPM_PATH=$(which php${PHP_FPM_VER})
-						  PHP_PATH=$(which php)
-         					
-         					# If PHP $PHP_FPM_VER specific CLI binary not found, use the standard path
-						  		if [ -f $PHP_FPM_PATH ]; then
-						  		CRONJOB="*/$INTERVAL * * * * $APP_USER $PHP_FPM_PATH -q $SYS_PATH > /dev/null 2>&1"
-						  		else
-						  		CRONJOB="*/$INTERVAL * * * * $APP_USER $PHP_PATH -q $SYS_PATH > /dev/null 2>&1"
-						  		fi
-            
-            
-                    # Play it safe and be sure their is a newline after this job entry
-                    echo -e "$CRONJOB\n" > /etc/cron.d/cryptocoin
-
-						  sleep 1
-                      
-                    # cron.d entries must be a permission of 644
-                    chmod 644 /etc/cron.d/cryptocoin
-
-						  sleep 1
-                      
-                    # cron.d entries MUST BE OWNED BY ROOT, OR THEY CRASH!
-                    chown root:root /etc/cron.d/cryptocoin
-                      
+                            # Play it safe and be sure their is a newline after this job entry
+                            echo -e "$CRONJOB\n" > /etc/cron.d/cryptocoin
+          
+          						  sleep 1
+                              
+                            # cron.d entries must be a permission of 644
+                            chmod 644 /etc/cron.d/cryptocoin
+          
+          						  sleep 1
+                              
+                            # cron.d entries MUST BE OWNED BY ROOT, OR THEY CRASH!
+                            chown root:root /etc/cron.d/cryptocoin
+                              
+                            
+                            echo " "
+                            echo "${green}A background task (cron job) has been setup for user '$APP_USER',"
+                            echo "as a command in /etc/cron.d/cryptocoin:"
+                            echo " "
+                            echo "$CRONJOB"
+                            echo " "
+          				
+          				    echo " "
+          					echo "Open Crypto Tracker (Server Edition) has been configured.${reset}"
+                            
+                            CRON_SETUP=1
+                            
+                            break
+                           elif [ "$opt" = "skip" ]; then
+                           
+                            echo " "
+                            echo "${green}Skipping cron job setup.${reset}"
+                    		echo " "
                     
-                    echo " "
-                    echo "${green}A background task (cron job) has been setup for user '$APP_USER',"
-                    echo "as a command in /etc/cron.d/cryptocoin:"
-                    echo " "
-                    echo "$CRONJOB"
-                    echo " "
-				
-				    echo " "
-					echo "Open Crypto Tracker (Server Edition) has been configured.${reset}"
+                            break
+                           fi
                     
-                    CRON_SETUP=1
                     
-                    break
-                   elif [ "$opt" = "skip" ]; then
-                   
-                    echo " "
-                    echo "${green}Skipping cron job setup.${reset}"
-            		echo " "
-            
-                    break
-                   fi
-            done
-            
-            
-            ######################################
+                    done
+                    
+                    
+                    ######################################
             
 				
 	        	APP_SETUP=1
 	        	
    	     	
-  				fi
+  		     fi
 
         break
        elif [ "$opt" = "remove_portfolio_app" ]; then
@@ -1788,12 +1902,15 @@ select opt in $OPTIONS; do
 				echo "${cyan}Initiating dietpi-software, please wait...${reset}"
 				dietpi-software
 				else
+
+                    # Clears / updates apt cache, then upgrades (if NOT a rolling release)
+                    clean_system_update
 				
 				echo " "
 				echo "${green}Proceeding with openssh-server installation, please wait...${reset}"
 				echo " "
 				
-				apt-get install openssh-server -y
+				apt install openssh-server -y
 				
 				sleep 3
 				
@@ -1829,6 +1946,16 @@ echo "${reset} "
 
 
 
+if [ "$SERVER_SETUP" = "1" ]; then
+
+echo "${red}REMINDER...You MUST RESTART YOUR DEVICE (#after# you finish running this auto-install script) TO ALLOW THE SYSTEM TO PROPERLY RUN THE PHP WEB SERVER CONFIGURATIONS DONE (or you may get configuration errors), by running this command:"
+echo " "
+echo "sudo reboot"
+echo "${reset} "
+
+fi
+
+
 if [ "$APP_SETUP" = "1" ]; then
 
 echo "${cyan}Web server setup and installation / configuration of Open Crypto Tracker (Server Edition)"
@@ -1847,15 +1974,18 @@ echo "${reset} "
 
     if [ "$CONFIG_BACKUP" = "1" ]; then
     
-    echo "${green}The previously-installed configuration files $DOC_ROOT/config.php AND $DOC_ROOT/dynamic-config-only.php have been backed up to:"
+     echo "${green}The previously-installed configuration files $DOC_ROOT/config.php AND $DOC_ROOT/dynamic-config-only.php have been backed up to:"
 	echo " "
-    echo "$DOC_ROOT/[filename].php.BACKUP.$DATE.$RAND_STRING"
+     echo "$DOC_ROOT/[filename].php.BACKUP.$DATE.$RAND_STRING"
 	echo " "
 	echo "${yellow}The bundled plugin's configuration files were also be backed up in the same manner."
 	echo " "
 	echo "You will need to manually move any CUSTOMIZED DEFAULT settings from backup files to the NEW configuration files with a text editor,"
 	echo "otherwise you can just ignore or delete the backup files."
-    echo "${reset} "
+     echo "${reset} "
+
+     echo "${red}IF ANYTHING STOPS WORKING AFTER UPGRADING, CLEAR YOUR BROWSER CACHE (temporary files), AND RELOAD OR RESTART THE APP. This will load the latest Javascript / Style Sheet upgrades properly.${reset}"
+     echo " "
     
     fi
     
@@ -1863,7 +1993,7 @@ echo "${reset} "
     if [ "$CRON_SETUP" = "1" ]; then
     
     echo "${green}A background task (cron job) has been setup for user '$APP_USER', as a command in /etc/cron.d/cryptocoin:"
-	echo " "
+    echo " "
     echo "$CRONJOB"
     echo "${reset} "
     
@@ -1946,10 +2076,13 @@ echo " "
 echo "A #VERY HIGH# port number is recommended (NON-STANDARD is above 1,023 / UNREGISTERED is from 49,152 to 65,535),"
 echo "to help avoid port scanning bots from detecting your machine (and then starting hack attempts on your bound port)."
 echo " "
+
+if [ "$ALLOW_APT_UPGRADE" == "yes" ]; then
 echo "${red}FOR ADDED SECURITY, YOU SHOULD #ALWAYS KEEP THIS OPERATING SYSTEM UP-TO-DATE# WITH THIS TERMINAL COMMAND:"
 echo " "
 echo "${green}sudo apt update;sudo apt upgrade -y"
 echo " "
+fi
 
 echo "${yellow}SEE /DOCUMENTATION-ETC/RASPBERRY-PI/ for additional information on securing and setting"
 echo "up Raspberry Pi OS (disabling bluetooth, firewall setup, remote login, hostname, etc)."

@@ -909,7 +909,7 @@ var $ct_array = array();
    
       // Etherscan
       if ( preg_match("/etherscan/i", $url) ) {
-      $url = str_replace($ct_conf['ext_api']['etherscan_key'], $ct_var->obfusc_str($ct_conf['ext_api']['etherscan_key'], 2), $url);
+      $url = str_replace($ct_conf['other_api']['etherscan_key'], $ct_var->obfusc_str($ct_conf['other_api']['etherscan_key'], 2), $url);
       }
       // Telegram
       elseif ( preg_match("/telegram/i", $url) ) {
@@ -917,7 +917,7 @@ var $ct_array = array();
       }
       // AlphaVantage
       elseif ( preg_match("/alphavantage/i", $url) ) {
-      $url = str_replace($ct_conf['ext_api']['alphavantage_key'], $ct_var->obfusc_str($ct_conf['ext_api']['alphavantage_key'], 2), $url); 
+      $url = str_replace($ct_conf['other_api']['alphavantage_key'], $ct_var->obfusc_str($ct_conf['other_api']['alphavantage_key'], 2), $url); 
       }
    
    // Keep our color-coded logs in the admin UI pretty, remove '//' and put in parenthesis
@@ -1484,7 +1484,7 @@ var $ct_array = array();
    
    function log($log_type, $log_msg, $verbose_tracing=false, $hashcheck=false, $overwrite=false) {
    
-   global $runtime_mode, $ct_conf, $ct_var, $log_errors, $log_debugging;
+   global $runtime_mode, $ct_conf, $ct_var, $log_errors, $log_debugging, $is_iframe;
    
    // Since we sort by timestamp, we want millisecond accuracy (if possible), for ordering logs before output
    $timestamp_milliseconds = $ct_var->num_to_str( floor(microtime(true) * 1000) );
@@ -1507,21 +1507,31 @@ var $ct_array = array();
       }
       
       
+      // Flag the runtime mode in logs if it's an iframe's runtime (for cleaner / less-confusing logs)
+      // Change var name to avoid changing the GLOBAL value
+      if ( $is_iframe ) {
+      $logged_runtime_mode = $runtime_mode . ' (iframe)';
+      }
+      else {
+      $logged_runtime_mode = $runtime_mode;
+      }
+      
+      
       if ( preg_match("/_debug/i", $log_type) ) {
           
    
           if ( $hashcheck != false ) {
-          $log_debugging[$log_type][$hashcheck] = '[LOG]'.$timestamp_milliseconds.'[TIMESTAMP][' . $formatted_time . '] ' . $runtime_mode . ' => ' . $category . ': ' . $log_msg . ( $verbose_tracing != false ? '; [ '  . $verbose_tracing . ' ]' : ';' ) . " <br /> \n";
+          $log_debugging[$log_type][$hashcheck] = '[LOG]'.$timestamp_milliseconds.'[TIMESTAMP][' . $formatted_time . '] ' . $logged_runtime_mode . ' => ' . $category . ': ' . $log_msg . ( $verbose_tracing != false ? '; [ '  . $verbose_tracing . ' ]' : ';' ) . " <br /> \n";
           }
           // We parse cache errors as array entries (like when hashcheck is included, BUT NO ARRAY KEY)
           elseif ( $category == 'cache' ) {
-          $log_debugging[$log_type][] = '[LOG]'.$timestamp_milliseconds.'[TIMESTAMP][' . $formatted_time . '] ' . $runtime_mode . ' => ' . $category . ': ' . $log_msg . ( $verbose_tracing != false ? '; [ '  . $verbose_tracing . ' ]' : ';' ) . " <br /> \n";
+          $log_debugging[$log_type][] = '[LOG]'.$timestamp_milliseconds.'[TIMESTAMP][' . $formatted_time . '] ' . $logged_runtime_mode . ' => ' . $category . ': ' . $log_msg . ( $verbose_tracing != false ? '; [ '  . $verbose_tracing . ' ]' : ';' ) . " <br /> \n";
           }
           elseif ( $overwrite != false ) {
-          $log_debugging[$log_type] = '[LOG]'.$timestamp_milliseconds.'[TIMESTAMP][' . $formatted_time . '] ' . $runtime_mode . ' => ' . $category . ': ' . $log_msg . ( $verbose_tracing != false ? '; [ '  . $verbose_tracing . ' ]' : ';' ) . " <br /> \n";
+          $log_debugging[$log_type] = '[LOG]'.$timestamp_milliseconds.'[TIMESTAMP][' . $formatted_time . '] ' . $logged_runtime_mode . ' => ' . $category . ': ' . $log_msg . ( $verbose_tracing != false ? '; [ '  . $verbose_tracing . ' ]' : ';' ) . " <br /> \n";
           }
           else {
-          $log_debugging[$log_type] .= '[LOG]'.$timestamp_milliseconds.'[TIMESTAMP][' . $formatted_time . '] ' . $runtime_mode . ' => ' . $category . ': ' . $log_msg . ( $verbose_tracing != false ? '; [ '  . $verbose_tracing . ' ]' : ';' ) . " <br /> \n";
+          $log_debugging[$log_type] .= '[LOG]'.$timestamp_milliseconds.'[TIMESTAMP][' . $formatted_time . '] ' . $logged_runtime_mode . ' => ' . $category . ': ' . $log_msg . ( $verbose_tracing != false ? '; [ '  . $verbose_tracing . ' ]' : ';' ) . " <br /> \n";
           }
       
       
@@ -1530,17 +1540,17 @@ var $ct_array = array();
           
    
           if ( $hashcheck != false ) {
-          $log_errors[$log_type][$hashcheck] = '[LOG]'.$timestamp_milliseconds.'[TIMESTAMP][' . $formatted_time . '] ' . $runtime_mode . ' => ' . $category . ': ' . $log_msg . ( $verbose_tracing != false ? '; [ '  . $verbose_tracing . ' ]' : ';' ) . " <br /> \n";
+          $log_errors[$log_type][$hashcheck] = '[LOG]'.$timestamp_milliseconds.'[TIMESTAMP][' . $formatted_time . '] ' . $logged_runtime_mode . ' => ' . $category . ': ' . $log_msg . ( $verbose_tracing != false ? '; [ '  . $verbose_tracing . ' ]' : ';' ) . " <br /> \n";
           }
           // We parse cache errors as array entries (like when hashcheck is included, BUT NO ARRAY KEY)
           elseif ( $category == 'cache' ) {
-          $log_errors[$log_type][] = '[LOG]'.$timestamp_milliseconds.'[TIMESTAMP][' . $formatted_time . '] ' . $runtime_mode . ' => ' . $category . ': ' . $log_msg . ( $verbose_tracing != false ? '; [ '  . $verbose_tracing . ' ]' : ';' ) . " <br /> \n";
+          $log_errors[$log_type][] = '[LOG]'.$timestamp_milliseconds.'[TIMESTAMP][' . $formatted_time . '] ' . $logged_runtime_mode . ' => ' . $category . ': ' . $log_msg . ( $verbose_tracing != false ? '; [ '  . $verbose_tracing . ' ]' : ';' ) . " <br /> \n";
           }
           elseif ( $overwrite != false ) {
-          $log_errors[$log_type] = '[LOG]'.$timestamp_milliseconds.'[TIMESTAMP][' . $formatted_time . '] ' . $runtime_mode . ' => ' . $category . ': ' . $log_msg . ( $verbose_tracing != false ? '; [ '  . $verbose_tracing . ' ]' : ';' ) . " <br /> \n";
+          $log_errors[$log_type] = '[LOG]'.$timestamp_milliseconds.'[TIMESTAMP][' . $formatted_time . '] ' . $logged_runtime_mode . ' => ' . $category . ': ' . $log_msg . ( $verbose_tracing != false ? '; [ '  . $verbose_tracing . ' ]' : ';' ) . " <br /> \n";
           }
           else {
-          $log_errors[$log_type] .= '[LOG]'.$timestamp_milliseconds.'[TIMESTAMP][' . $formatted_time . '] ' . $runtime_mode . ' => ' . $category . ': ' . $log_msg . ( $verbose_tracing != false ? '; [ '  . $verbose_tracing . ' ]' : ';' ) . " <br /> \n";
+          $log_errors[$log_type] .= '[LOG]'.$timestamp_milliseconds.'[TIMESTAMP][' . $formatted_time . '] ' . $logged_runtime_mode . ' => ' . $category . ': ' . $log_msg . ( $verbose_tracing != false ? '; [ '  . $verbose_tracing . ' ]' : ';' ) . " <br /> \n";
           }
       
       
@@ -2810,8 +2820,6 @@ var $ct_array = array();
        $notifyme_msg = $email_msg . ' Timestamp: ' . $this->time_date_format($ct_conf['gen']['loc_time_offset'], 'pretty_time') . '.';
                             
        $text_msg = $email_msg;
-       
-       $app_location = "\n\n" . 'App Server Web Address: ' . $base_url;
                         
        // Message parameter added for desired comm methods (leave any comm method blank to skip sending via that method)
                   
@@ -2820,14 +2828,14 @@ var $ct_array = array();
     			
        $admin_login_send_params = array(
                                         'notifyme' => $notifyme_msg,
-                                        'telegram' => $email_msg . $app_location,
+                                        'telegram' => $email_msg,
                                         'text' => array(
                                                        'message' => $text_msg['content'],
                                                        'charset' => $text_msg['charset']
                                                        ),
                                         'email' => array(
                                                         'subject' => 'New Admin Login From ' . $remote_ip,
-                                                        'message' => $email_msg . $app_location
+                                                        'message' => $email_msg
                                                         )
                                         );
     				
@@ -3509,7 +3517,7 @@ var $ct_array = array();
       // SESSION VAR first, to avoid duplicate alerts at runtime (and longer term cache file locked for writing further down, after logs creation)
       $proxies_checked[] = $cache_filename;
        
-      $response = @$this->ext_data('proxy-check', $proxy_test_url, 0, '', '', $problem_proxy);
+      $response = @$ct_cache->ext_data('proxy-check', $proxy_test_url, 0, '', '', $problem_proxy);
       
       $data = json_decode($response, true);
       
@@ -3556,7 +3564,7 @@ var $ct_array = array();
       
      
       // Update alerts cache for this proxy (to prevent running alerts for this proxy too often)
-      $this->save_file($base_dir . '/cache/alerts/proxy-check-'.$cache_filename.'.dat', $cached_logs);
+      $ct_cache->save_file($base_dir . '/cache/alerts/proxy-check-'.$cache_filename.'.dat', $cached_logs);
         
            
       $email_alert = " The proxy " . $problem_proxy . " recently did not receive data when accessing this endpoint: \n " . $obfusc_url_data . " \n \n A check on this proxy was performed at " . $proxy_test_url . ", and results logged: \n ============================================================== \n " . $cached_logs . " \n ============================================================== \n \n ";
