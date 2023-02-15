@@ -177,13 +177,48 @@ fi
 ######################################
 
 
-# apt_clear_update function START
-apt_clear_update () {
+echo "${yellow}Does the Operating System on this device update using the \"Rolling Release\" model (Kali, Manjaro, Ubuntu Rolling Rhino, Debian Unstable, etc), or the \"Long-Term Release\" model (Ubuntu, Raspberry Pi OS, Armbian Stable, Diet Pi, etc)?"
+echo " "
+echo "${red}(You can SEVERLY MESS UP a \"Rolling Release\" Operating System IF YOU DO NOT CHOOSE CORRECTLY HERE! In that case, you can SAFELY choose \"I don't know\".)${reset}"
+echo " "
+
+echo "Enter the NUMBER next to your chosen option.${reset}"
+
+echo " "
+
+OPTIONS="rolling long_term i_dont_know"
+
+select opt in $OPTIONS; do
+        if [ "$opt" = "long_term" ]; then
+        ALLOW_APT_UPGRADE="yes"
+        echo " "
+        echo "${green}Allowing system-wide updates before installs.${reset}"
+        break
+       else
+        ALLOW_APT_UPGRADE="no"
+        echo " "
+        echo "${green}Disabling system-wide updates before installs.${reset}"
+        break
+       fi
+done
+       
+echo " "
+
+
+######################################
+
+
+# clean_system_update function START
+clean_system_update () {
 
      if [ "$APT_CACHE_CLEARED" != "1" ]; then
+
+     echo "${cyan}Making sure your APT sources list is updated before installations, please wait...${reset}"
+     
+     echo " "
      
      # In case package list was ever corrupted (since we are about to rebuild it anyway...avoids possible errors)
-     sudo rm -rf /var/lib/apt/lists/* -vf
+     sudo rm -rf /var/lib/apt/lists/* -vf > /dev/null 2>&1
      
      APT_CACHE_CLEARED=1
      
@@ -193,10 +228,35 @@ apt_clear_update () {
      
      sleep 2
      
+     echo " "
+
+     echo "${cyan}APT sources list update complete.${reset}"
+     
+     echo " "
+     
+          if [ "$ALLOW_APT_UPGRADE" == "yes" ]; then
+
+          echo "${cyan}Making sure your system is updated before installations, please wait...${reset}"
+          
+          echo " "
+          
+          #DO NOT RUN dist-upgrade, bad things can happen, lol
+          apt upgrade -y
+          				
+          sleep 2
+          
+          echo " "
+          				
+          echo "${cyan}System updated.${reset}"
+          				
+          echo " "
+          
+          fi
+     
      fi
 
 }
-# apt_clear_update function END
+# clean_system_update function END
 
 
 ######################################
@@ -209,8 +269,8 @@ GIT_PATH=$(which git)
 
 if [ -z "$GIT_PATH" ]; then
 
-# Clears AND updates apt cache (IF it wasn't already this runtime session)
-apt_clear_update
+# Clears / updates apt cache, then upgrades (if NOT a rolling release)
+clean_system_update
 
 DEPS_MISSING=1
 
@@ -228,8 +288,8 @@ CURL_PATH=$(which curl)
 
 if [ -z "$CURL_PATH" ]; then
 
-# Clears AND updates apt cache (IF it wasn't already this runtime session)
-apt_clear_update
+# Clears / updates apt cache, then upgrades (if NOT a rolling release)
+clean_system_update
 
 DEPS_MISSING=1
 
@@ -247,8 +307,8 @@ JQ_PATH=$(which jq)
 
 if [ -z "$JQ_PATH" ]; then
 
-# Clears AND updates apt cache (IF it wasn't already this runtime session)
-apt_clear_update
+# Clears / updates apt cache, then upgrades (if NOT a rolling release)
+clean_system_update
 
 DEPS_MISSING=1
 
@@ -266,8 +326,8 @@ WGET_PATH=$(which wget)
 
 if [ -z "$WGET_PATH" ]; then
 
-# Clears AND updates apt cache (IF it wasn't already this runtime session)
-apt_clear_update
+# Clears / updates apt cache, then upgrades (if NOT a rolling release)
+clean_system_update
 
 DEPS_MISSING=1
 
@@ -285,8 +345,8 @@ SED_PATH=$(which sed)
 
 if [ -z "$SED_PATH" ]; then
 
-# Clears AND updates apt cache (IF it wasn't already this runtime session)
-apt_clear_update
+# Clears / updates apt cache, then upgrades (if NOT a rolling release)
+clean_system_update
 
 DEPS_MISSING=1
 
@@ -304,8 +364,8 @@ LESS_PATH=$(which less)
 				
 if [ -z "$LESS_PATH" ]; then
 
-# Clears AND updates apt cache (IF it wasn't already this runtime session)
-apt_clear_update
+# Clears / updates apt cache, then upgrades (if NOT a rolling release)
+clean_system_update
 
 DEPS_MISSING=1
 
@@ -323,8 +383,8 @@ EXPECT_PATH=$(which expect)
 				
 if [ -z "$EXPECT_PATH" ]; then
 
-# Clears AND updates apt cache (IF it wasn't already this runtime session)
-apt_clear_update
+# Clears / updates apt cache, then upgrades (if NOT a rolling release)
+clean_system_update
 
 DEPS_MISSING=1
 
@@ -342,8 +402,8 @@ AVAHID_PATH=$(which avahi-daemon)
 
 if [ -z "$AVAHID_PATH" ]; then
 
-# Clears AND updates apt cache (IF it wasn't already this runtime session)
-apt_clear_update
+# Clears / updates apt cache, then upgrades (if NOT a rolling release)
+clean_system_update
 
 DEPS_MISSING=1
 
@@ -361,8 +421,8 @@ BC_PATH=$(which bc)
 
 if [ -z "$BC_PATH" ]; then
 
-# Clears AND updates apt cache (IF it wasn't already this runtime session)
-apt_clear_update
+# Clears / updates apt cache, then upgrades (if NOT a rolling release)
+clean_system_update
 
 DEPS_MISSING=1
 
@@ -553,23 +613,8 @@ echo " "
 
 echo " "
 
-echo "${cyan}Making sure your system is updated before installation, please wait...${reset}"
-
-echo " "
-
-# Clears AND updates apt cache (IF it wasn't already this runtime session)
-apt_clear_update
-
-#DO NOT RUN dist-upgrade, bad things can happen, lol
-apt upgrade -y
-
-echo " "
-				
-echo "${cyan}System update completed.${reset}"
-				
-sleep 3
-				
-echo " "
+# Clears / updates apt cache, then upgrades (if NOT a rolling release)
+clean_system_update
 
 
 ######################################
@@ -681,13 +726,13 @@ echo "${reset} "
         
 if [ "$keystroke" = 'y' ] || [ "$keystroke" = 'Y' ]; then
 
-# Clears AND updates apt cache (IF it wasn't already this runtime session)
-apt_clear_update
+# Clears / updates apt cache, then upgrades (if NOT a rolling release)
+clean_system_update
             
 echo " "
 echo "${cyan}Installing / configuring a firewall, please wait...${reset}"
                 
-apt install ufw
+apt install ufw -y
 
 ufw allow ssh
 
@@ -818,8 +863,8 @@ OPTIONS="install_webserver remove_webserver skip"
 select opt in $OPTIONS; do
         if [ "$opt" = "install_webserver" ]; then
 
-          # Clears AND updates apt cache (IF it wasn't already this runtime session)
-          apt_clear_update
+          # Clears / updates apt cache, then upgrades (if NOT a rolling release)
+          clean_system_update
          
           echo " "
 			
@@ -1290,6 +1335,20 @@ EOF
         	chown $RECURSIVE_CHOWN
 
 		sleep 3
+		
+		OS_INFO=$(lsb_release -a)
+		
+		
+		     # If Kali OS, set apache to run at boot (as it won't by default)
+		     IS_KALI='Kali'
+               if [[ "$OS_INFO" == *"$IS_KALI"* ]]; then
+		     echo " "
+		     echo "${cyan}Telling Kali to start Apache / PHP-FPM at boot, please wait...${reset}"
+		     echo " "
+               update-rc.d apache2 enable
+               systemctl enable php${PHP_FPM_VER}-fpm
+               fi
+        
         
 		echo " "
 		echo "${green}PHP web server configuration is complete.${reset}"
@@ -1309,8 +1368,8 @@ EOF
         break
        elif [ "$opt" = "remove_webserver" ]; then
 
-       # Clears AND updates apt cache (IF it wasn't already this runtime session)
-       apt_clear_update
+       # Clears / updates apt cache, then upgrades (if NOT a rolling release)
+       clean_system_update
        
         echo " "
         echo "${green}Removing PHP web server, please wait...${reset}"
@@ -1365,8 +1424,8 @@ select opt in $OPTIONS; do
         
         		if [ ! -d "$DOC_ROOT" ]; then
 
-               # Clears AND updates apt cache (IF it wasn't already this runtime session)
-               apt_clear_update
+               # Clears / updates apt cache, then upgrades (if NOT a rolling release)
+               clean_system_update
         		
         		echo " "
 				
@@ -1844,8 +1903,8 @@ select opt in $OPTIONS; do
 				dietpi-software
 				else
 
-                    # Clears AND updates apt cache (IF it wasn't already this runtime session)
-                    apt_clear_update
+                    # Clears / updates apt cache, then upgrades (if NOT a rolling release)
+                    clean_system_update
 				
 				echo " "
 				echo "${green}Proceeding with openssh-server installation, please wait...${reset}"
@@ -2017,10 +2076,13 @@ echo " "
 echo "A #VERY HIGH# port number is recommended (NON-STANDARD is above 1,023 / UNREGISTERED is from 49,152 to 65,535),"
 echo "to help avoid port scanning bots from detecting your machine (and then starting hack attempts on your bound port)."
 echo " "
+
+if [ "$ALLOW_APT_UPGRADE" == "yes" ]; then
 echo "${red}FOR ADDED SECURITY, YOU SHOULD #ALWAYS KEEP THIS OPERATING SYSTEM UP-TO-DATE# WITH THIS TERMINAL COMMAND:"
 echo " "
 echo "${green}sudo apt update;sudo apt upgrade -y"
 echo " "
+fi
 
 echo "${yellow}SEE /DOCUMENTATION-ETC/RASPBERRY-PI/ for additional information on securing and setting"
 echo "up Raspberry Pi OS (disabling bluetooth, firewall setup, remote login, hostname, etc)."
