@@ -159,6 +159,9 @@ DEBUGGING / TESTS / UX / QA / OTHER
 ############ NEXT DEBUG / TEST / QA / OTHER SCHEDULED WORK SESSION ###################################
 
 
+CLEARLY LABLE ARCH LINUX SUPPORT AS A "WORK-IN-PROGRESS".
+
+
 Change the last option in the ext_data() function to a human-readable value, to save time on new API integrations (url_encode, json_encode, etc).
 
 
@@ -353,6 +356,9 @@ Defaults to 'standard' if not set.
 
 
 Document the ABOVE new plugin settings, and fully test before public release.
+
+
+Work more on Arch Linux support for the auto-installer.
 
 
 Build a plugin (for the tools page, defaults to activated already), that lets you quickly calculate unlimited nft values (using text field form library used for debt interest tracker) in sol or eth value from any currency (including sol or eth, like miscassets market field), with option to populate ethnfts / solnfts portfolio fields on update page, and save updates to them.

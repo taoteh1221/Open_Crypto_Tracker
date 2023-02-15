@@ -6089,6 +6089,8 @@ v6.00.2 AND HIGHER RESETS LIGHT (TIME PERIOD) CHARTS FROM ARCHIVAL DATA, ONE-TIM
 
 -Added Twilio texting (SMS) API support
 
+-Kali Linux support for auto-installer
+
 -Optimized default configuration
 
 -Code cleanup / optimization

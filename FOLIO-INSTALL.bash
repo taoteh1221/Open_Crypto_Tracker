@@ -36,6 +36,19 @@ fi
 
 ######################################
 
+
+# Path to app
+get_app_path() {
+app_path_result=$(whereis -b $1)
+app_path_result="${app_path_result#*$1: }"
+app_path_result=${app_path_result%%[[:space:]]*}
+app_path_result="${app_path_result#*$1:}"
+echo "$app_path_result"
+}
+
+
+######################################
+
 # https://stackoverflow.com/questions/5947742/how-to-change-the-output-color-of-echo-in-linux
 
 if hash tput > /dev/null 2>&1; then
@@ -89,9 +102,6 @@ TIME=$(date '+%H:%M:%S')
 # Current timestamp
 CURRENT_TIMESTAMP=$(date +%s)
 
-# Get the host ip address
-IP=`hostname -I` 
-
 
 # If a symlink, get link target for script location
  # WE ALWAYS WANT THE FULL PATH!
@@ -104,14 +114,6 @@ fi
 # Now set path / file vars, after setting SCRIPT_LOCATION
 SCRIPT_PATH="$( cd -- "$(dirname "$SCRIPT_LOCATION")" >/dev/null 2>&1 ; pwd -P )"
 SCRIPT_NAME=$(basename "$SCRIPT_LOCATION")
-
-
-# Get a list of PHP packages THAT ARE ALREADY INSTALLED
-PHP_INSTALLED=$(dpkg --get-selections | grep -i php)
-
-
-# Get a list of PHP-FPM packages THAT ARE AVAILABLE TO INSTALL
-PHP_FPM_LIST=$(apt-cache search php-fpm)
 
 
 # Get the operating system and version
@@ -162,6 +164,15 @@ fi
 
 if [ -f "/etc/debian_version" ]; then
 echo "${cyan}Your system has been detected as Debian-based, which is compatible with this automated installation script."
+PACKAGE_INSTALL="apt install"
+PACKAGE_REMOVE="apt --purge remove"
+echo " "
+echo "Continuing...${reset}"
+echo " "
+elif [ -f "/etc/arch-release" ]; then
+echo "${cyan}Your system has been detected as Arch-based, which is compatible with this automated installation script."
+PACKAGE_INSTALL="pacman -S"
+PACKAGE_REMOVE="pacman -R"
 echo " "
 echo "Continuing...${reset}"
 echo " "
@@ -169,7 +180,6 @@ else
 echo "${red}Your system has been detected as NOT BEING Debian-based. Your system is NOT compatible with this automated installation script."
 echo " "
 echo "Exiting...${reset}"
-echo " "
 exit
 fi
 
@@ -190,12 +200,12 @@ OPTIONS="rolling long_term i_dont_know"
 
 select opt in $OPTIONS; do
         if [ "$opt" = "long_term" ]; then
-        ALLOW_APT_UPGRADE="yes"
+        ALLOW_FULL_UPGRADE="yes"
         echo " "
         echo "${green}Allowing system-wide updates before installs.${reset}"
         break
        else
-        ALLOW_APT_UPGRADE="no"
+        ALLOW_FULL_UPGRADE="no"
         echo " "
         echo "${green}Disabling system-wide updates before installs.${reset}"
         break
@@ -211,38 +221,50 @@ echo " "
 # clean_system_update function START
 clean_system_update () {
 
-     if [ "$APT_CACHE_CLEARED" != "1" ]; then
+     if [ "$PACKAGE_CACHE_REFRESHED" != "1" ]; then
+     
+     PACKAGE_CACHE_REFRESHED=1
 
-     echo "${cyan}Making sure your APT sources list is updated before installations, please wait...${reset}"
-     
-     echo " "
-     
-     # In case package list was ever corrupted (since we are about to rebuild it anyway...avoids possible errors)
-     sudo rm -rf /var/lib/apt/lists/* -vf > /dev/null 2>&1
-     
-     APT_CACHE_CLEARED=1
-     
-     sleep 2
-     
-     sudo apt update
-     
-     sleep 2
-     
-     echo " "
 
-     echo "${cyan}APT sources list update complete.${reset}"
+          if [ -f "/etc/debian_version" ]; then
+
+          echo "${cyan}Making sure your APT sources list is updated before installations, please wait...${reset}"
+          
+          echo " "
+          
+          # In case package list was ever corrupted (since we are about to rebuild it anyway...avoids possible errors)
+          sudo rm -rf /var/lib/apt/lists/* -vf > /dev/null 2>&1
+          
+          sleep 2
+          
+          sudo apt update
+          
+          sleep 2
+          
+          echo " "
      
-     echo " "
+          echo "${cyan}APT sources list update complete.${reset}"
+          
+          echo " "
      
-          if [ "$ALLOW_APT_UPGRADE" == "yes" ]; then
+          fi
+          
+     
+          if [ "$ALLOW_FULL_UPGRADE" == "yes" ]; then
 
           echo "${cyan}Making sure your system is updated before installations, please wait...${reset}"
           
           echo " "
           
-          #DO NOT RUN dist-upgrade, bad things can happen, lol
-          apt upgrade -y
-          				
+          
+               if [ -f "/etc/debian_version" ]; then
+               #DO NOT RUN dist-upgrade, bad things can happen, lol
+               apt upgrade -y
+               elif [ -f "/etc/arch-release" ]; then
+               sudo pacman -Syu
+               fi
+          
+          
           sleep 2
           
           echo " "
@@ -262,179 +284,250 @@ clean_system_update () {
 ######################################
 
 
-# Get primary dependency apps, if we haven't yet
+# Get SIMILAR (CROSS-DISTRO) primary dependency apps, if we haven't yet
     
 # Install git if needed
-GIT_PATH=$(which git)
+GIT_PATH=$(get_app_path "git")
 
 if [ -z "$GIT_PATH" ]; then
 
 # Clears / updates apt cache, then upgrades (if NOT a rolling release)
 clean_system_update
 
-DEPS_MISSING=1
-
 echo " "
 echo "${cyan}Installing required component git, please wait...${reset}"
 echo " "
 
-sudo apt install git -y
+$PACKAGE_INSTALL git -y
 
 fi
 
 
 # Install curl if needed
-CURL_PATH=$(which curl)
+CURL_PATH=$(get_app_path "curl")
 
 if [ -z "$CURL_PATH" ]; then
 
 # Clears / updates apt cache, then upgrades (if NOT a rolling release)
 clean_system_update
 
-DEPS_MISSING=1
-
 echo " "
 echo "${cyan}Installing required component curl, please wait...${reset}"
 echo " "
 
-sudo apt install curl -y
+$PACKAGE_INSTALL curl -y
 
 fi
 
 
 # Install jq if needed
-JQ_PATH=$(which jq)
+JQ_PATH=$(get_app_path "jq")
 
 if [ -z "$JQ_PATH" ]; then
 
 # Clears / updates apt cache, then upgrades (if NOT a rolling release)
 clean_system_update
 
-DEPS_MISSING=1
-
 echo " "
 echo "${cyan}Installing required component jq, please wait...${reset}"
 echo " "
 
-sudo apt install jq -y
+$PACKAGE_INSTALL jq -y
 
 fi
 
 
 # Install wget if needed
-WGET_PATH=$(which wget)
+WGET_PATH=$(get_app_path "wget")
 
 if [ -z "$WGET_PATH" ]; then
 
 # Clears / updates apt cache, then upgrades (if NOT a rolling release)
 clean_system_update
 
-DEPS_MISSING=1
-
 echo " "
 echo "${cyan}Installing required component wget, please wait...${reset}"
 echo " "
 
-sudo apt install wget -y
+$PACKAGE_INSTALL wget -y
 
 fi
 
 
 # Install sed if needed
-SED_PATH=$(which sed)
+SED_PATH=$(get_app_path "sed")
 
 if [ -z "$SED_PATH" ]; then
 
 # Clears / updates apt cache, then upgrades (if NOT a rolling release)
 clean_system_update
 
-DEPS_MISSING=1
-
 echo " "
 echo "${cyan}Installing required component sed, please wait...${reset}"
 echo " "
 
-sudo apt install sed -y
+$PACKAGE_INSTALL sed -y
 
 fi
 
 
 # Install less if needed
-LESS_PATH=$(which less)
+LESS_PATH=$(get_app_path "less")
 				
 if [ -z "$LESS_PATH" ]; then
 
 # Clears / updates apt cache, then upgrades (if NOT a rolling release)
 clean_system_update
 
-DEPS_MISSING=1
-
 echo " "
 echo "${cyan}Installing required component less, please wait...${reset}"
 echo " "
 
-sudo apt install less -y
+$PACKAGE_INSTALL less -y
 
 fi
 
 
 # Install expect if needed
-EXPECT_PATH=$(which expect)
+EXPECT_PATH=$(get_app_path "expect")
 				
 if [ -z "$EXPECT_PATH" ]; then
 
 # Clears / updates apt cache, then upgrades (if NOT a rolling release)
 clean_system_update
 
-DEPS_MISSING=1
-
 echo " "
 echo "${cyan}Installing required component expect, please wait...${reset}"
 echo " "
 
-sudo apt install expect -y
+$PACKAGE_INSTALL expect -y
 
 fi
 
 
 # Install avahi-daemon if needed (for .local names on internal / home network)
-AVAHID_PATH=$(which avahi-daemon)
+AVAHID_PATH=$(get_app_path "avahi-daemon")
 
 if [ -z "$AVAHID_PATH" ]; then
 
 # Clears / updates apt cache, then upgrades (if NOT a rolling release)
 clean_system_update
 
-DEPS_MISSING=1
-
 echo " "
 echo "${cyan}Installing required component avahi-daemon, please wait...${reset}"
 echo " "
 
-sudo apt install avahi-daemon -y
+$PACKAGE_INSTALL avahi-daemon -y
 
 fi
 
 
 # Install bc if needed (for decimal math in bash)
-BC_PATH=$(which bc)
+BC_PATH=$(get_app_path "bc")
 
 if [ -z "$BC_PATH" ]; then
 
 # Clears / updates apt cache, then upgrades (if NOT a rolling release)
 clean_system_update
 
-DEPS_MISSING=1
-
 echo " "
 echo "${cyan}Installing required component bc, please wait...${reset}"
 echo " "
 
-sudo apt install bc -y
+$PACKAGE_INSTALL bc -y
 
 fi
 
-# dependency check END
+# SIMILAR (CROSS-DISTRO) dependency check END
+
+
+######################################
+
+
+# Install bsdtar if needed (for opening archives)
+BSDTAR_PATH=$(get_app_path "bsdtar")
+
+
+# Distro-specific logic, to set variables, get dependencies, etc
+if [ -f "/etc/debian_version" ]; then
+
+# Get the host ip address
+IP=`hostname -I` 
+
+# Get a list of PHP-FPM packages THAT ARE AVAILABLE TO INSTALL
+PHP_FPM_LIST=$(apt-cache search php-fpm)
+
+FPM_PACKAGE=`expr match "$PHP_FPM_LIST" '.*\(php[0-9][.][0-9]-fpm\)'`
+
+FPM_PACKAGE_VER=`expr match "$FPM_PACKAGE" '.*\([0-9][.][0-9]\)'`
+				
+
+     if [ -z "$BSDTAR_PATH" ]; then
+     
+     # Clears / updates apt cache, then upgrades (if NOT a rolling release)
+     clean_system_update
+     
+     echo " "
+     echo "${cyan}Installing required component libarchive-tools, please wait...${reset}"
+     echo " "
+     
+     # Ubuntu 18.x and higher
+     $PACKAGE_INSTALL libarchive-tools -y
+     
+     fi
+     
+
+elif [ -f "/etc/arch-release" ]; then
+
+# Get the host ip address
+IP=$(ip -json route get 8.8.8.8 | jq -r '.[].prefsrc') 
+
+# Get a list of PHP-FPM packages THAT ARE AVAILABLE TO INSTALL
+PHP_FPM_LIST=$(pacman --sync --search php-fpm)
+
+FPM_PACKAGE=`expr match "$PHP_FPM_LIST" '.*\(php-fpm [0-9][.][0-9]\)'`
+
+FPM_PACKAGE_VER=`expr match "$FPM_PACKAGE" '.*\([0-9][.][0-9]\)'`
+				
+
+     if [ -z "$BSDTAR_PATH" ]; then
+     
+     # Clears / updates apt cache, then upgrades (if NOT a rolling release)
+     clean_system_update
+     
+     echo " "
+     echo "${cyan}Installing required component libarchive, please wait...${reset}"
+     echo " "
+     
+     # Ubuntu 18.x and higher
+     $PACKAGE_INSTALL libarchive -y
+     
+     fi
+
+
+# Install cronie if needed (for a crond impementation)
+CRONIE_PATH=$(get_app_path "crond")	
+
+
+     if [ -z "$CRONIE_PATH" ]; then
+     
+     # Clears / updates apt cache, then upgrades (if NOT a rolling release)
+     clean_system_update
+     
+     echo " "
+     echo "${cyan}Installing required component cronie, please wait...${reset}"
+     echo " "
+     
+     $PACKAGE_INSTALL cronie -y
+     
+     sleep 3
+     
+     systemctl enable --now cronie.service
+     
+     fi
+     
+
+fi
 
 
 ######################################
@@ -515,11 +608,11 @@ fi
 echo " "
 echo "${yellow}TECHNICAL NOTE:"
 echo " "
-echo "This script was designed to install on popular Debian-based operating systems (Ubuntu, Raspberry Pi OS [Raspbian], Armbian, DietPi, etc),"
+echo "This script was designed to install on popular Debian-based / Arch-based operating systems (Ubuntu, Raspberry Pi OS [Raspbian], Armbian, DietPi, Arch, Manjaro, etc),"
 echo "for running as an app server WHICH IS LEFT TURNED ON 24/7 (ALL THE TIME).${reset}"
 echo " "
 
-echo "${yellow}This script MAY NOT work on ALL Debian-based system setups.${reset}"
+echo "${yellow}This script MAY NOT work on ALL Debian-based / Arch-based system setups.${reset}"
 echo " "
 
 echo "${cyan}Your operating system has been detected as:"
@@ -732,7 +825,7 @@ clean_system_update
 echo " "
 echo "${cyan}Installing / configuring a firewall, please wait...${reset}"
                 
-apt install ufw -y
+$PACKAGE_INSTALL ufw -y
 
 ufw allow ssh
 
@@ -820,6 +913,7 @@ fi
 ######################################
 
 
+
 echo "We need to know which version of PHP-FPM (fcgi) to use."
 echo "Please select a PHP-FPM version NUMBER from the list below..."
 echo "(PHP-FPM version 7.2 or greater is REQUIRED)"
@@ -828,28 +922,44 @@ echo " "
 echo "$PHP_FPM_LIST"
 echo " "
 
-FPM_PACKAGE=`expr match "$PHP_FPM_LIST" '.*\(php[0-9][.][0-9]-fpm\)'`
-
-FPM_PACKAGE_VER=`expr match "$FPM_PACKAGE" '.*\([0-9][.][0-9]\)'`
-
 echo "${yellow}#PREFERRED# PHP-FPM package auto-detected: $FPM_PACKAGE"
 echo " "
-        
+   
 echo "Enter the PHP-FPM version (numeric only) that you want to install / uninstall:"
 echo "(leave blank / hit enter for default of '$FPM_PACKAGE_VER')${reset}"
 echo " "
-        
+   
 read PHP_FPM_VER
 echo " "
-                
+ 
 	if [ -z "$PHP_FPM_VER" ]; then
  	PHP_FPM_VER=${1:-$FPM_PACKAGE_VER}
  	echo "${green}Using default PHP-FPM version: $PHP_FPM_VER${reset}"
  	else
  	echo "${green}Using custom PHP-FPM version: $PHP_FPM_VER${reset}"
  	fi
-        
+   
 echo " "
+
+INSTALL_FPM_VER="php${PHP_FPM_VER}-fpm php${PHP_FPM_VER}-mbstring php${PHP_FPM_VER}-xml php${PHP_FPM_VER}-curl php${PHP_FPM_VER}-gd php${PHP_FPM_VER}-zip -y"
+
+INSTALL_APACHE="apache2 php php-fpm php-mbstring php-xml php-curl php-gd php-zip libapache2-mod-fcgid apache2-suexec-custom ssl-cert -y"
+
+# There are #NOT# PHP-FPM version choices on arch-based systems
+if [ -f "/etc/arch-release" ]; then
+
+#PHP_FPM_VER="${PHP_FPM_VER//./}"
+PHP_FPM_VER=""
+
+echo " "
+echo "${cyan}php${PHP_FPM_VER} packages will be installed on your system.${reset}"
+echo " "
+
+INSTALL_FPM_VER="php php-fpm php-cgi php-gd php-xsl -y"
+
+INSTALL_APACHE="apache php-apache -y"
+
+fi
 
 
 ######################################
@@ -871,15 +981,14 @@ select opt in $OPTIONS; do
 	     echo "${green}Proceeding with PHP web server installation, please wait...${reset}"
 		echo " "
         
-			# !!!RUN FIRST!!! PHP FPM (fcgi) version $PHP_FPM_VER, run SEPERATE in case it fails from package not found
-        	INSTALL_FPM_VER="install php${PHP_FPM_VER}-fpm php${PHP_FPM_VER}-mbstring php${PHP_FPM_VER}-xml php${PHP_FPM_VER}-curl php${PHP_FPM_VER}-gd php${PHP_FPM_VER}-zip -y"
+		# !!!RUN FIRST!!! PHP FPM (fcgi) version $PHP_FPM_VER, run SEPERATE in case it fails from package not found
         
-        	apt $INSTALL_FPM_VER
+        	$PACKAGE_INSTALL $INSTALL_FPM_VER
         	
 			sleep 3
 			
 			# PHP FPM (fcgi), Apache, required modules, etc
-			apt install apache2 php php-fpm php-mbstring php-xml php-curl php-gd php-zip libapache2-mod-fcgid apache2-suexec-custom openssl ssl-cert avahi-daemon -y
+			$PACKAGE_INSTALL $INSTALL_APACHE
 			
 			sleep 3
 			
@@ -897,6 +1006,8 @@ select opt in $OPTIONS; do
 			
 			# Regenerate new self-signed SSL cert keys with ssl-cert (for secure HTTPS web pages)
 			make-ssl-cert generate-default-snakeoil --force-overwrite
+			
+			#https://www.digitalocean.com/community/tutorials/how-to-create-a-ssl-certificate-on-apache-on-arch-linux
 
 			echo "${cyan}New SSL certificate keys have been self-signed, please wait...${reset}"
 			echo " "
@@ -1378,14 +1489,14 @@ EOF
         # WE USE --purge TO REMOVE ANY MISCONFIGURATIONS, IN CASE SOMEBODY IS TRYING A UN-INSTALL / RE-INSTALL TO FIX THINGS
         
 		  # !!!RUN FIRST!!! PHP FPM (fcgi) version $PHP_FPM_VER, run SEPERATE in case it fails from package not found
-        REMOVE_FPM_VER="--purge remove php${PHP_FPM_VER}-fpm php${PHP_FPM_VER}-mbstring php${PHP_FPM_VER}-xml php${PHP_FPM_VER}-curl php${PHP_FPM_VER}-gd php${PHP_FPM_VER}-zip -y"
+        REMOVE_FPM_VER="php${PHP_FPM_VER}-fpm php${PHP_FPM_VER}-mbstring php${PHP_FPM_VER}-xml php${PHP_FPM_VER}-curl php${PHP_FPM_VER}-gd php${PHP_FPM_VER}-zip -y"
         
-        apt $REMOVE_FPM_VER
+        $PACKAGE_REMOVE $REMOVE_FPM_VER
         
 		  sleep 3
         
         # SKIP removing openssl / ssl-cert / avahi-daemon, AS THIS WILL F!CK UP THE WHOLE SYSTEM, REMOVING ANY OTHER DEPENDANT PACKAGES TOO!!
-		  apt --purge remove apache2 php php-fpm php-mbstring php-xml php-curl php-gd php-zip libapache2-mod-fcgid apache2-suexec-pristine apache2-suexec-custom -y
+		  $PACKAGE_REMOVE apache2 php php-fpm php-mbstring php-xml php-curl php-gd php-zip libapache2-mod-fcgid apache2-suexec-pristine apache2-suexec-custom -y
         
 		  sleep 3
 			
@@ -1446,17 +1557,17 @@ select opt in $OPTIONS; do
 				echo " "
 				
 				# Ubuntu 16.x, and other debian-based systems
-				apt install bsdtar -y
+				$PACKAGE_INSTALL bsdtar -y
 				
 				sleep 3
 				
 				# Ubuntu 18.x and higher
-				apt install libarchive-tools -y
+				$PACKAGE_INSTALL libarchive-tools -y
 				
 				sleep 3
 				
 				# Safely install other packages seperately, so they aren't cancelled by 'package missing' errors
-				apt install pwgen openssl -y
+				$PACKAGE_INSTALL pwgen openssl -y
 
 				sleep 3
 				
@@ -1910,7 +2021,7 @@ select opt in $OPTIONS; do
 				echo "${green}Proceeding with openssh-server installation, please wait...${reset}"
 				echo " "
 				
-				apt install openssh-server -y
+				$PACKAGE_INSTALL openssh-server -y
 				
 				sleep 3
 				
@@ -2077,7 +2188,7 @@ echo "A #VERY HIGH# port number is recommended (NON-STANDARD is above 1,023 / UN
 echo "to help avoid port scanning bots from detecting your machine (and then starting hack attempts on your bound port)."
 echo " "
 
-if [ "$ALLOW_APT_UPGRADE" == "yes" ]; then
+if [ "$ALLOW_FULL_UPGRADE" == "yes" ]; then
 echo "${red}FOR ADDED SECURITY, YOU SHOULD #ALWAYS KEEP THIS OPERATING SYSTEM UP-TO-DATE# WITH THIS TERMINAL COMMAND:"
 echo " "
 echo "${green}sudo apt update;sudo apt upgrade -y"
