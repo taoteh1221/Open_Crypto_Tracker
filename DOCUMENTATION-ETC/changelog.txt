@@ -6083,6 +6083,8 @@ v6.00.2 AND HIGHER RESETS LIGHT (TIME PERIOD) CHARTS FROM ARCHIVAL DATA, ONE-TIM
 
 -New config setting for using ANY google font ( https://fonts.google.com ) as the interface font
 
+-Arch Linux support (UNSTABLE) for auto-installer
+
 -"Rolling Release" support for auto-installer
 
 -Miscellaneous user experience improvements

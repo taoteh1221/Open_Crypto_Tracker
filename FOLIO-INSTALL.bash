@@ -164,15 +164,15 @@ fi
 
 if [ -f "/etc/debian_version" ]; then
 echo "${cyan}Your system has been detected as Debian-based, which is compatible with this automated installation script."
-PACKAGE_INSTALL="apt install"
-PACKAGE_REMOVE="apt --purge remove"
+PACKAGE_INSTALL="sudo apt install"
+PACKAGE_REMOVE="sudo apt --purge remove"
 echo " "
 echo "Continuing...${reset}"
 echo " "
 elif [ -f "/etc/arch-release" ]; then
 echo "${cyan}Your system has been detected as Arch-based, which is compatible with this automated installation script."
-PACKAGE_INSTALL="pacman -S"
-PACKAGE_REMOVE="pacman -R"
+PACKAGE_INSTALL="sudo pacman -S"
+PACKAGE_REMOVE="sudo pacman -R"
 echo " "
 echo "Continuing...${reset}"
 echo " "
@@ -187,39 +187,41 @@ fi
 ######################################
 
 
-echo "${yellow}Does the Operating System on this device update using the \"Rolling Release\" model (Kali, Manjaro, Ubuntu Rolling Rhino, Debian Unstable, etc), or the \"Long-Term Release\" model (Ubuntu, Raspberry Pi OS, Armbian Stable, Diet Pi, etc)?"
-echo " "
-echo "${red}(You can SEVERLY MESS UP a \"Rolling Release\" Operating System IF YOU DO NOT CHOOSE CORRECTLY HERE! In that case, you can SAFELY choose \"I don't know\".)${reset}"
-echo " "
-
-echo "Enter the NUMBER next to your chosen option.${reset}"
-
-echo " "
-
-OPTIONS="rolling long_term i_dont_know"
-
-select opt in $OPTIONS; do
-        if [ "$opt" = "long_term" ]; then
-        ALLOW_FULL_UPGRADE="yes"
-        echo " "
-        echo "${green}Allowing system-wide updates before installs.${reset}"
-        break
-       else
-        ALLOW_FULL_UPGRADE="no"
-        echo " "
-        echo "${green}Disabling system-wide updates before installs.${reset}"
-        break
-       fi
-done
-       
-echo " "
-
-
-######################################
-
-
 # clean_system_update function START
 clean_system_update () {
+
+
+     if [ -z "$ALLOW_FULL_UPGRADE" ]; then
+     
+     echo "${yellow}Does the Operating System on this device update using the \"Rolling Release\" model (Kali, Manjaro, Ubuntu Rolling Rhino, Debian Unstable, etc), or the \"Long-Term Release\" model (Ubuntu, Raspberry Pi OS, Armbian Stable, Diet Pi, etc)?"
+     echo " "
+     echo "${red}(You can SEVERLY MESS UP a \"Rolling Release\" Operating System IF YOU DO NOT CHOOSE CORRECTLY HERE! In that case, you can SAFELY choose \"I don't know\".)${reset}"
+     echo " "
+     
+     echo "Enter the NUMBER next to your chosen option.${reset}"
+     
+     echo " "
+     
+          OPTIONS="rolling long_term i_dont_know"
+          
+          select opt in $OPTIONS; do
+                  if [ "$opt" = "long_term" ]; then
+                  ALLOW_FULL_UPGRADE="yes"
+                  echo " "
+                  echo "${green}Allowing system-wide updates before installs.${reset}"
+                  break
+                 else
+                  ALLOW_FULL_UPGRADE="no"
+                  echo " "
+                  echo "${green}Disabling system-wide updates before installs.${reset}"
+                  break
+                 fi
+          done
+            
+     echo " "
+     
+     fi
+
 
      if [ "$PACKAGE_CACHE_REFRESHED" != "1" ]; then
      
@@ -259,7 +261,7 @@ clean_system_update () {
           
                if [ -f "/etc/debian_version" ]; then
                #DO NOT RUN dist-upgrade, bad things can happen, lol
-               apt upgrade -y
+               sudo apt upgrade -y
                elif [ -f "/etc/arch-release" ]; then
                sudo pacman -Syu
                fi
@@ -608,7 +610,7 @@ fi
 echo " "
 echo "${yellow}TECHNICAL NOTE:"
 echo " "
-echo "This script was designed to install on popular Debian-based / Arch-based operating systems (Ubuntu, Raspberry Pi OS [Raspbian], Armbian, DietPi, Arch, Manjaro, etc),"
+echo "This script was designed to install on popular Debian-based (MATURE / STABLE) / Arch-based (STILL UNSTABLE!!) operating systems (Ubuntu, Raspberry Pi OS [Raspbian], Armbian, DietPi, Arch, Manjaro, etc),"
 echo "for running as an app server WHICH IS LEFT TURNED ON 24/7 (ALL THE TIME).${reset}"
 echo " "
 

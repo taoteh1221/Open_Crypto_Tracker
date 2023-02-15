@@ -159,9 +159,6 @@ DEBUGGING / TESTS / UX / QA / OTHER
 ############ NEXT DEBUG / TEST / QA / OTHER SCHEDULED WORK SESSION ###################################
 
 
-CLEARLY LABLE ARCH LINUX SUPPORT AS A "WORK-IN-PROGRESS".
-
-
 Change the last option in the ext_data() function to a human-readable value, to save time on new API integrations (url_encode, json_encode, etc).
 
 
