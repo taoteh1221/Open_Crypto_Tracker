@@ -7,10 +7,6 @@
 
 // Run some basic configuration file checks
 
-$validate_from_email = $ct_gen->valid_email($ct_conf['comms']['from_email']);
-      
-$validate_to_email = $ct_gen->valid_email($ct_conf['comms']['to_email']);
-
 
 // Proxy configuration check
 if ( is_array($ct_conf['proxy']['proxy_list']) && sizeof($ct_conf['proxy']['proxy_list']) > 0 ) {
@@ -25,13 +21,13 @@ $proxy_parse_errors = 0;
           if ( trim($ct_conf['comms']['from_email']) != '' && trim($ct_conf['comms']['to_email']) != '' ) { 	
      					
      	    // Config error check(s)
-              if ( $validate_from_email != 'valid' ) {
-              $conf_parse_error[] = 'FROM email not configured properly for proxy alerts (' . $validate_from_email . ')';
+              if ( $valid_from_email != 'valid' ) {
+              $conf_parse_error[] = 'FROM email not configured properly for proxy alerts (' . $valid_from_email . ')';
               $proxy_parse_errors = $proxy_parse_errors + 1;
               }
                		
-              if ( $validate_to_email != 'valid' ) {
-              $conf_parse_error[] = 'TO email not configured properly for proxy alerts (' . $validate_to_email . ')';
+              if ( $valid_to_email != 'valid' ) {
+              $conf_parse_error[] = 'TO email not configured properly for proxy alerts (' . $valid_to_email . ')';
               $proxy_parse_errors = $proxy_parse_errors + 1;
               }
                	
@@ -170,12 +166,12 @@ if ( trim($ct_conf['comms']['from_email']) != '' || trim($ct_conf['comms']['to_e
       $alerts_enabled_types[] = 'Email';
 					
 			// Config error check(s)
-         if ( $validate_from_email != 'valid' ) {
-         $conf_parse_error[] = 'FROM email not configured properly for price alerts (' . $validate_from_email . ')';
+         if ( $valid_from_email != 'valid' ) {
+         $conf_parse_error[] = 'FROM email not configured properly for price alerts (' . $valid_from_email . ')';
          }
           		
-         if ( $validate_to_email != 'valid' ) {
-         $conf_parse_error[] = 'TO email not configured properly for price alerts (' . $validate_to_email . ')';
+         if ( $valid_to_email != 'valid' ) {
+         $conf_parse_error[] = 'TO email not configured properly for price alerts (' . $valid_to_email . ')';
          }
           	
 	 }
@@ -329,12 +325,12 @@ if ( $ct_conf['comms']['logs_email'] > 0 && trim($ct_conf['comms']['from_email']
 					
 					
    // Config error check(s)
-   if ( $validate_from_email != 'valid' ) {
-   $conf_parse_error[] = 'FROM email not configured properly for emailing error logs (' . $validate_from_email . ')';
+   if ( $valid_from_email != 'valid' ) {
+   $conf_parse_error[] = 'FROM email not configured properly for emailing error logs (' . $valid_from_email . ')';
    }
           		
-   if ( $validate_to_email != 'valid' ) {
-   $conf_parse_error[] = 'TO email not configured properly for emailing error logs (' . $validate_to_email . ')';
+   if ( $valid_to_email != 'valid' ) {
+   $conf_parse_error[] = 'TO email not configured properly for emailing error logs (' . $valid_to_email . ')';
    }
 
 
@@ -371,12 +367,12 @@ $conf_parse_error = NULL; // Blank it out for any other config checks
 if ( $ct_conf['gen']['asset_charts_toggle'] == 'on' && $ct_conf['gen']['charts_backup_freq'] > 0 && trim($ct_conf['comms']['from_email']) != '' && trim($ct_conf['comms']['to_email']) != '' ) {
 					
    // Config error check(s)
-   if ( $validate_from_email != 'valid' ) {
-   $conf_parse_error[] = 'FROM email not configured properly for emailing backup archive notice / link (' . $validate_from_email . ')';
+   if ( $valid_from_email != 'valid' ) {
+   $conf_parse_error[] = 'FROM email not configured properly for emailing backup archive notice / link (' . $valid_from_email . ')';
    }
           		
-   if ( $validate_to_email != 'valid' ) {
-   $conf_parse_error[] = 'TO email not configured properly for emailing backup archive notice / link (' . $validate_to_email . ')';
+   if ( $valid_to_email != 'valid' ) {
+   $conf_parse_error[] = 'TO email not configured properly for emailing backup archive notice / link (' . $valid_to_email . ')';
    }
 
 

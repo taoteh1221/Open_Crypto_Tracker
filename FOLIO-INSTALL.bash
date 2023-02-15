@@ -1339,7 +1339,7 @@ EOF
 		OS_INFO=$(lsb_release -a)
 		
 		
-		     # If Kali OS, set apache to run at boot (as it won't by default)
+		     # If Kali OS, set apache and php-fpm to run at boot (as they won't by default)
 		     IS_KALI='Kali'
                if [[ "$OS_INFO" == *"$IS_KALI"* ]]; then
 		     echo " "

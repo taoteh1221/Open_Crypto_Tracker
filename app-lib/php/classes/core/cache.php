@@ -2532,7 +2532,7 @@ var $ct_array1 = array();
             
         $ct_gen->log(
           		'notify_error',
-          		'your ' . $blocked_description . '\'S IP ADDRESS location / jurasdiction *MAY* be blocked from accessing the "'.$endpoint_tld_or_ip.'" API, *IF* THIS ERROR REPEATS *VERY OFTEN*',
+          		'your ' . $ip_description . '\'S IP ADDRESS location / jurasdiction *MAY* be blocked from accessing the "'.$endpoint_tld_or_ip.'" API, *IF* THIS ERROR REPEATS *VERY OFTEN*',
           		false,
           		md5($endpoint_tld_or_ip) . '_possibly_blocked'
           		);

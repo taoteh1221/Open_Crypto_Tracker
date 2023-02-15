@@ -116,6 +116,12 @@ $valid_to_email = true;
 }
 
 
+// Email FROM service check
+if ( isset($ct_conf['comms']['from_email']) && $ct_gen->valid_email($ct_conf['comms']['from_email']) == 'valid' ) {
+$valid_from_email = true;
+}
+
+
 // Notifyme service check
 if ( isset($ct_conf['comms']['notifyme_accesscode']) && trim($ct_conf['comms']['notifyme_accesscode']) != '' ) {
 $notifyme_activated = true;
