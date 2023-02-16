@@ -37,7 +37,7 @@ fi
 ######################################
 
 
-# Path to app
+# Path to app (CROSS-DISTRO-COMPATIBLE)
 get_app_path() {
 app_path_result=$(whereis -b $1)
 app_path_result="${app_path_result#*$1: }"
@@ -193,6 +193,7 @@ clean_system_update () {
 
      if [ -z "$ALLOW_FULL_UPGRADE" ]; then
      
+     echo " "
      echo "${yellow}Does the Operating System on this device update using the \"Rolling Release\" model (Kali, Manjaro, Ubuntu Rolling Rhino, Debian Unstable, etc), or the \"Long-Term Release\" model (Ubuntu, Raspberry Pi OS, Armbian Stable, Diet Pi, etc)?"
      echo " "
      echo "${red}(You can SEVERLY MESS UP a \"Rolling Release\" Operating System IF YOU DO NOT CHOOSE CORRECTLY HERE! In that case, you can SAFELY choose \"I don't know\".)${reset}"
@@ -293,7 +294,7 @@ GIT_PATH=$(get_app_path "git")
 
 if [ -z "$GIT_PATH" ]; then
 
-# Clears / updates apt cache, then upgrades (if NOT a rolling release)
+# Clears / updates cache, then upgrades (if NOT a rolling release)
 clean_system_update
 
 echo " "
@@ -310,7 +311,7 @@ CURL_PATH=$(get_app_path "curl")
 
 if [ -z "$CURL_PATH" ]; then
 
-# Clears / updates apt cache, then upgrades (if NOT a rolling release)
+# Clears / updates cache, then upgrades (if NOT a rolling release)
 clean_system_update
 
 echo " "
@@ -327,7 +328,7 @@ JQ_PATH=$(get_app_path "jq")
 
 if [ -z "$JQ_PATH" ]; then
 
-# Clears / updates apt cache, then upgrades (if NOT a rolling release)
+# Clears / updates cache, then upgrades (if NOT a rolling release)
 clean_system_update
 
 echo " "
@@ -344,7 +345,7 @@ WGET_PATH=$(get_app_path "wget")
 
 if [ -z "$WGET_PATH" ]; then
 
-# Clears / updates apt cache, then upgrades (if NOT a rolling release)
+# Clears / updates cache, then upgrades (if NOT a rolling release)
 clean_system_update
 
 echo " "
@@ -361,7 +362,7 @@ SED_PATH=$(get_app_path "sed")
 
 if [ -z "$SED_PATH" ]; then
 
-# Clears / updates apt cache, then upgrades (if NOT a rolling release)
+# Clears / updates cache, then upgrades (if NOT a rolling release)
 clean_system_update
 
 echo " "
@@ -378,7 +379,7 @@ LESS_PATH=$(get_app_path "less")
 				
 if [ -z "$LESS_PATH" ]; then
 
-# Clears / updates apt cache, then upgrades (if NOT a rolling release)
+# Clears / updates cache, then upgrades (if NOT a rolling release)
 clean_system_update
 
 echo " "
@@ -395,7 +396,7 @@ EXPECT_PATH=$(get_app_path "expect")
 				
 if [ -z "$EXPECT_PATH" ]; then
 
-# Clears / updates apt cache, then upgrades (if NOT a rolling release)
+# Clears / updates cache, then upgrades (if NOT a rolling release)
 clean_system_update
 
 echo " "
@@ -412,7 +413,7 @@ AVAHID_PATH=$(get_app_path "avahi-daemon")
 
 if [ -z "$AVAHID_PATH" ]; then
 
-# Clears / updates apt cache, then upgrades (if NOT a rolling release)
+# Clears / updates cache, then upgrades (if NOT a rolling release)
 clean_system_update
 
 echo " "
@@ -429,7 +430,7 @@ BC_PATH=$(get_app_path "bc")
 
 if [ -z "$BC_PATH" ]; then
 
-# Clears / updates apt cache, then upgrades (if NOT a rolling release)
+# Clears / updates cache, then upgrades (if NOT a rolling release)
 clean_system_update
 
 echo " "
@@ -466,7 +467,7 @@ FPM_PACKAGE_VER=`expr match "$FPM_PACKAGE" '.*\([0-9][.][0-9]\)'`
 
      if [ -z "$BSDTAR_PATH" ]; then
      
-     # Clears / updates apt cache, then upgrades (if NOT a rolling release)
+     # Clears / updates cache, then upgrades (if NOT a rolling release)
      clean_system_update
      
      echo " "
@@ -494,7 +495,7 @@ FPM_PACKAGE_VER=`expr match "$FPM_PACKAGE" '.*\([0-9][.][0-9]\)'`
 
      if [ -z "$BSDTAR_PATH" ]; then
      
-     # Clears / updates apt cache, then upgrades (if NOT a rolling release)
+     # Clears / updates cache, then upgrades (if NOT a rolling release)
      clean_system_update
      
      echo " "
@@ -513,7 +514,7 @@ CRONIE_PATH=$(get_app_path "crond")
 
      if [ -z "$CRONIE_PATH" ]; then
      
-     # Clears / updates apt cache, then upgrades (if NOT a rolling release)
+     # Clears / updates cache, then upgrades (if NOT a rolling release)
      clean_system_update
      
      echo " "
@@ -708,7 +709,7 @@ echo " "
 
 echo " "
 
-# Clears / updates apt cache, then upgrades (if NOT a rolling release)
+# Clears / updates cache, then upgrades (if NOT a rolling release)
 clean_system_update
 
 
@@ -821,7 +822,7 @@ echo "${reset} "
         
 if [ "$keystroke" = 'y' ] || [ "$keystroke" = 'Y' ]; then
 
-# Clears / updates apt cache, then upgrades (if NOT a rolling release)
+# Clears / updates cache, then upgrades (if NOT a rolling release)
 clean_system_update
             
 echo " "
@@ -975,7 +976,7 @@ OPTIONS="install_webserver remove_webserver skip"
 select opt in $OPTIONS; do
         if [ "$opt" = "install_webserver" ]; then
 
-          # Clears / updates apt cache, then upgrades (if NOT a rolling release)
+          # Clears / updates cache, then upgrades (if NOT a rolling release)
           clean_system_update
          
           echo " "
@@ -1481,7 +1482,7 @@ EOF
         break
        elif [ "$opt" = "remove_webserver" ]; then
 
-       # Clears / updates apt cache, then upgrades (if NOT a rolling release)
+       # Clears / updates cache, then upgrades (if NOT a rolling release)
        clean_system_update
        
         echo " "
@@ -1537,7 +1538,7 @@ select opt in $OPTIONS; do
         
         		if [ ! -d "$DOC_ROOT" ]; then
 
-               # Clears / updates apt cache, then upgrades (if NOT a rolling release)
+               # Clears / updates cache, then upgrades (if NOT a rolling release)
                clean_system_update
         		
         		echo " "
@@ -2016,7 +2017,7 @@ select opt in $OPTIONS; do
 				dietpi-software
 				else
 
-                    # Clears / updates apt cache, then upgrades (if NOT a rolling release)
+                    # Clears / updates cache, then upgrades (if NOT a rolling release)
                     clean_system_update
 				
 				echo " "
