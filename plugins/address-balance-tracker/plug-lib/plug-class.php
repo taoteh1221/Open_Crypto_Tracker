@@ -41,7 +41,7 @@ var $array1 = array();
 		}
 		elseif ( !isset($data['address']) ) {
 			
-    	$ct_gen->log(
+    	     $ct_gen->log(
     				'ext_data_error',
     				'BTC address balance retrieval failed in the "' . $this_plug . '" plugin, no API data received'
     				);
@@ -77,7 +77,7 @@ var $array1 = array();
 		}
 		elseif ( !isset($data['message']) ) {
 			
-    	$ct_gen->log(
+    	     $ct_gen->log(
     				'ext_data_error',
     				'ETH address balance retrieval failed in the "' . $this_plug . '" plugin, no API data received'
     				);
@@ -115,7 +115,7 @@ var $array1 = array();
 		}
 		elseif ( !isset($data['address']) ) {
 			
-    	$ct_gen->log(
+    	     $ct_gen->log(
     				'ext_data_error',
     				'HNT address balance retrieval failed in the "' . $this_plug . '" plugin, no API data received'
     				);
@@ -175,7 +175,7 @@ var $array1 = array();
 		}
 		elseif ( !isset($data['context']) ) {
 			
-    	$ct_gen->log(
+    	     $ct_gen->log(
     				'ext_data_error',
     				( $spl_token == false ? 'SOL' : strtoupper($spl_token) ) . ' address balance retrieval failed in the "' . $this_plug . '" plugin, no API data received'
     				);

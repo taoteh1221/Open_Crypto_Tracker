@@ -944,9 +944,9 @@ echo " "
    
 echo " "
 
-INSTALL_FPM_VER="php${PHP_FPM_VER}-fpm php${PHP_FPM_VER}-mbstring php${PHP_FPM_VER}-xml php${PHP_FPM_VER}-curl php${PHP_FPM_VER}-gd php${PHP_FPM_VER}-zip -y"
+INSTALL_FPM_VER="php${PHP_FPM_VER}-fpm php${PHP_FPM_VER}-mbstring php${PHP_FPM_VER}-xml php${PHP_FPM_VER}-curl php${PHP_FPM_VER}-gd php${PHP_FPM_VER}-zip php${PHP_FPM_VER}-mysql -y"
 
-INSTALL_APACHE="apache2 php php-fpm php-mbstring php-xml php-curl php-gd php-zip libapache2-mod-fcgid apache2-suexec-custom ssl-cert -y"
+INSTALL_APACHE="apache2 php php-fpm php-db php-mbstring php-xml php-curl php-gd php-zip libapache2-mod-fcgid apache2-suexec-custom ssl-cert -y"
 
 # There are #NOT# PHP-FPM version choices on arch-based systems
 if [ -f "/etc/arch-release" ]; then
@@ -1952,6 +1952,8 @@ select opt in $OPTIONS; do
         rm /etc/cron.d/cryptocoin > /dev/null 2>&1
 		  
         rm $DOC_ROOT/.htaccess > /dev/null 2>&1
+	   
+	   rm $DOC_ROOT/.user.ini > /dev/null 2>&1
         
         rm -rf $DOC_ROOT/* > /dev/null 2>&1
 

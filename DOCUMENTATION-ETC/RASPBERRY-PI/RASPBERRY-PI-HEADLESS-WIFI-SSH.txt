@@ -40,6 +40,7 @@ Step #6) Copy / paste the following code into the file 'wpa_supplicant.conf':
 
 
 ctrl_interface=DIR=/var/run/wpa_supplicant GROUP=netdev
+update_config=1
 network={
     ssid="YOUR_WIFI_NAME"
     psk="YOUR_WIFI_PASSWORD"
