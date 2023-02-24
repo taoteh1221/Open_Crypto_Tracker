@@ -595,21 +595,15 @@ $ct_conf['charts_alerts']['tracked_mrkts'] = array(
 					'bit-2' => 'coingecko_btc||btc||chart',
 					
 					
+					// ZBC
+					'zbc' => 'coingecko_btc||btc||chart',
+					'zbc-2' => 'coingecko_eth||eth||chart',
+					'zbc-3' => 'gateio||usdt||both',
+					
+					
 					// SLRS
 					'slrs' => 'gateio||usdt||both',
 					'slrs-2' => 'gateio||eth||chart',
-					
-					
-					// APT
-					'apt' => 'coinbase||usd||both',
-					'apt-2' => 'kraken||eur||chart',
-					'apt-3' => 'binance||btc||chart',
-					'apt-4' => 'gateio||eth||chart',
-					
-					
-					// HNT
-					'hnt-2' => 'binance_us||usd||both',
-					'hnt-3' => 'gateio||eth||none',
 					
 					
 					// RNDR
@@ -617,10 +611,9 @@ $ct_conf['charts_alerts']['tracked_mrkts'] = array(
 					'rndr-2' => 'gateio||usdt||none',
 					
 					
-					// ZBC
-					'zbc' => 'coingecko_btc||btc||chart',
-					'zbc-2' => 'coingecko_eth||eth||chart',
-					'zbc-3' => 'gateio||usdt||both',
+					// HNT
+					'hnt-2' => 'binance_us||usd||both',
+					'hnt-3' => 'gateio||eth||none',
 					
 					
 					// GRAPE
@@ -633,6 +626,13 @@ $ct_conf['charts_alerts']['tracked_mrkts'] = array(
 					
 					// MSOL
 					'msol' => 'coingecko_usd||usd||chart',
+					
+					
+					// APT
+					'apt' => 'coinbase||usd||both',
+					'apt-2' => 'kraken||eur||chart',
+					'apt-3' => 'binance||btc||chart',
+					'apt-4' => 'gateio||eth||chart',
 					
 					
 					// BONK
@@ -871,20 +871,19 @@ $ct_conf['power']['local_api_cache_time'] = 1; // (default = 1)
 // THIS ALSO ADDS THESE ASSETS AS OPTIONS IN THE "Show Crypto Value Of ENTIRE Portfolio In" SETTING, ON THE SETTINGS PAGE,
 // AND IN THE "Show Secondary Trade / Holdings Value" SETTING, ON THE SETTINGS PAGE TOO
 // !!!!!TRY TO #NOT# ADD STABLECOINS HERE!!!!!, FIRST TRY $ct_conf['power']['btc_currency_mrkts'] INSTEAD (TO AUTO-CLIP UN-NEEDED DECIMAL POINTS) 
-// !!!!!BTC IS ALREADY ADDED *AUTOMATICALLY*, NO NEED TO ADD IT HERE!!!!!
 $ct_conf['power']['crypto_pair'] = array(
-						//'lowercase_altcoin_ticker' => 'UNICODE_SYMBOL', // Add whitespace after the symbol, if you prefer that
-						// Native chains...
-						'eth' => 'Ξ ',
-						'sol' => '◎ ',
-						'apt' => 'Ⓐ ',
-						// ERC-20 tokens on Ethereum / SPL tokens on Solana, etc etc...
-						'uni' => '🦄 ',
-						'mkr' => '𐌼 ',
-						'ray' => 'Ｒ ',
-						'hnt' => 'Ȟ ',
-						//...
-							);
+                                        // !!!!!BTC IS ALREADY ADDED *AUTOMATICALLY*, NO NEED TO ADD IT HERE!!!!!
+                                        ////
+          						//'lowercase_altcoin_ticker' => 'UNICODE_SYMBOL', // Add whitespace after the symbol, if you prefer that
+          						////
+          						// Bluechip native tokens...
+          						'eth' => 'Ξ ',
+          						'sol' => '◎ ',
+          						// Bluechip ERC-20 tokens on Ethereum / SPL tokens on Solana, etc...
+          						'uni' => '🦄 ',
+          						'mkr' => '𐌼 ',
+          						'ray' => 'Ｒ ',
+							     );
 
 
 
@@ -895,15 +894,14 @@ $ct_conf['power']['crypto_pair'] = array(
 // AND #THE EXCHANGE NAME MUST BE IN THAT 'btc' LIST#
 // #USE LIBERALLY#, AS YOU WANT THE BEST PRICE DISCOVERY FOR THIS CRYPTO'S VALUE
 $ct_conf['power']['crypto_pair_pref_mrkts'] = array(
-						    //'lowercase_btc_mrkt_or_stablecoin_pair' => 'PREFERRED_MRKT',
-							'eth' => 'binance',  // WAY MORE volume , WAY BETTER price discovery than ALL alternatives
-							'sol' => 'binance',  // WAY MORE volume , WAY BETTER price discovery than ALL alternatives
-							'apt' => 'binance',  // WAY MORE volume , WAY BETTER price discovery than ALL alternatives
-							'uni' => 'binance',  // WAY MORE volume , WAY BETTER price discovery than ALL alternatives
-							'mkr' => 'binance',  // WAY MORE volume , WAY BETTER price discovery than ALL alternatives
-							'ray' => 'coingecko_btc',  // coingecko global average price IN BTC
-							'hnt' => 'coingecko_btc',  // coingecko global average price IN BTC
-							);
+               						     //'lowercase_btc_mrkt_or_stablecoin_pair' => 'PREFERRED_MRKT',
+               							'eth' => 'binance',  // WAY MORE volume , WAY BETTER price discovery than ALL alternatives
+               							'sol' => 'binance',  // WAY MORE volume , WAY BETTER price discovery than ALL alternatives
+               							'uni' => 'binance',  // WAY MORE volume , WAY BETTER price discovery than ALL alternatives
+               							'mkr' => 'binance',  // WAY MORE volume , WAY BETTER price discovery than ALL alternatives
+               							'ray' => 'coingecko_btc',  // coingecko global average price IN BTC
+               							'hnt' => 'coingecko_btc',  // coingecko global average price IN BTC
+							               );
 
 
 
@@ -3222,6 +3220,40 @@ $ct_conf['assets'] = array(
                     ////////////////////////////////////////////////////////////////////
                     
                     
+                    // ZBC
+                    'ZBC' => array(
+                        
+                        'name' => 'Zebec Protocol',
+                        'mcap_slug' => 'zebec-protocol',
+                        'pair' => array(
+
+                                                    
+                                    'btc' => array(
+                                        'coingecko_btc' => 'zebec-protocol',
+                                                    ),
+
+                                                    
+                                    'eth' => array(
+                                        'coingecko_eth' => 'zebec-protocol',
+                                                    ),
+
+                                                    
+                                    'usdt' => array(
+                                        'huobi' => 'zbcusdt',
+                                        'gateio' => 'ZBC_USDT',
+                                        'bitmart' => 'ZBC_USDT',
+                                        'coinex' => 'ZBCUSDT',
+                                                    ),
+
+                                                    
+                        ) // pair END
+                        
+                    ), // Asset END
+                    
+                    
+                    ////////////////////////////////////////////////////////////////////
+                    
+                    
                     // SLRS
                     'SLRS' => array(
                         
@@ -3247,112 +3279,6 @@ $ct_conf['assets'] = array(
                                                     
                         ) // pair END
                         
-                    ), // Asset END
-                    
-                    
-                    ////////////////////////////////////////////////////////////////////
-                    
-                    
-                    // APT
-                    'APT' => array(
-                        
-                        'name' => 'Aptos',
-                        'mcap_slug' => 'aptos',
-                        'pair' => array(
-
-                                                    
-                                    'btc' => array(
-                                        'binance' => 'APTBTC',
-                                        'gateio' => 'APT_BTC',
-                                                    ),
-
-                                                    
-                                    'eth' => array(
-                                        'gateio' => 'APT_ETH',
-                                                    ),
-
-                                                    
-                                    'eur' => array(
-                                         'binance' => 'APTEUR',
-                                    	 'kraken' => 'APTEUR',
-                                                    ),
-
-                                                    
-                                    'try' => array(
-                                         'binance' => 'APTTRY',
-                                                    ),
-
-                                                    
-                                    'usd' => array(
-                                    	 'coinbase' => 'APT-USD',
-                                    	 'kraken' => 'APTUSD',
-                                    	 'bitfinex' => 'tAPTUSD',
-                                                    ),
-
-                                                    
-                                    'usdc' => array(
-                                        'okex' => 'APT-USDC',
-                                        'huobi' => 'aptusdc',
-                                                    ),
-
-                                                    
-                                    'usdt' => array(
-                                        'binance' => 'APTUSDT',
-                                        'okex' => 'APT-USDT',
-                                        'huobi' => 'aptusdt',
-                                        'kucoin' => 'APT-USDT',
-                                        'bybit' => 'APTUSDT',
-                                        'gateio' => 'APT_USDT',
-                                                    ),
-
-                                                    
-                        ) // pair END
-                                        
-                    ), // Asset END
-                    
-                    
-                    ////////////////////////////////////////////////////////////////////
-                    
-                    
-                    // HNT
-                    'HNT' => array(
-                        
-                        'name' => 'Helium',
-                        'mcap_slug' => 'helium',
-                        'pair' => array(
-
-                        
-                                    'btc' => array(
-                                        'coingecko_btc' => 'helium',
-                                        'hotbit' => 'HNT_BTC',
-                                                    ),
-
-                                                    
-                                    'eth' => array(
-                                        'gateio' => 'HNT_ETH',
-                                                    ),
-
-                                                    
-                                    'inr' => array(
-                                        'wazirx' => 'hntinr',
-                                                    ),
-
-                                                    
-                                    'usd' => array(
-                                    	 'binance_us' => 'HNTUSD',
-                                                    ),
-
-                                                    
-                                    'usdt' => array(
-                                    	'binance_us' => 'HNTUSDT',
-                                        'hotbit' => 'HNT_USDT',
-                                        'gateio' => 'HNT_USDT',
-                                        'wazirx' => 'hntusdt',
-                                                    ),
-
-                                                    
-                        ) // pair END
-                                        
                     ), // Asset END
                     
                     
@@ -3402,34 +3328,45 @@ $ct_conf['assets'] = array(
                     ////////////////////////////////////////////////////////////////////
                     
                     
-                    // ZBC
-                    'ZBC' => array(
+                    // HNT
+                    'HNT' => array(
                         
-                        'name' => 'Zebec Protocol',
-                        'mcap_slug' => 'zebec-protocol',
+                        'name' => 'Helium',
+                        'mcap_slug' => 'helium',
                         'pair' => array(
 
-                                                    
+                        
                                     'btc' => array(
-                                        'coingecko_btc' => 'zebec-protocol',
+                                        'coingecko_btc' => 'helium',
+                                        'hotbit' => 'HNT_BTC',
                                                     ),
 
                                                     
                                     'eth' => array(
-                                        'coingecko_eth' => 'zebec-protocol',
+                                        'gateio' => 'HNT_ETH',
+                                                    ),
+
+                                                    
+                                    'inr' => array(
+                                        'wazirx' => 'hntinr',
+                                                    ),
+
+                                                    
+                                    'usd' => array(
+                                    	 'binance_us' => 'HNTUSD',
                                                     ),
 
                                                     
                                     'usdt' => array(
-                                        'huobi' => 'zbcusdt',
-                                        'gateio' => 'ZBC_USDT',
-                                        'bitmart' => 'ZBC_USDT',
-                                        'coinex' => 'ZBCUSDT',
+                                    	'binance_us' => 'HNTUSDT',
+                                        'hotbit' => 'HNT_USDT',
+                                        'gateio' => 'HNT_USDT',
+                                        'wazirx' => 'hntusdt',
                                                     ),
 
                                                     
                         ) // pair END
-                        
+                                        
                     ), // Asset END
                     
                     
@@ -3497,6 +3434,67 @@ $ct_conf['assets'] = array(
                                                     
                                     'usdt' => array(
                                         'gateio' => 'MSOL_USDT',
+                                                    ),
+
+                                                    
+                        ) // pair END
+                                        
+                    ), // Asset END
+                    
+                    
+                    ////////////////////////////////////////////////////////////////////
+                    
+                    
+                    // APT
+                    'APT' => array(
+                        
+                        'name' => 'Aptos',
+                        'mcap_slug' => 'aptos',
+                        'pair' => array(
+
+                                                    
+                                    'btc' => array(
+                                        'binance' => 'APTBTC',
+                                        'gateio' => 'APT_BTC',
+                                                    ),
+
+                                                    
+                                    'eth' => array(
+                                        'gateio' => 'APT_ETH',
+                                                    ),
+
+                                                    
+                                    'eur' => array(
+                                         'binance' => 'APTEUR',
+                                    	 'kraken' => 'APTEUR',
+                                                    ),
+
+                                                    
+                                    'try' => array(
+                                         'binance' => 'APTTRY',
+                                                    ),
+
+                                                    
+                                    'usd' => array(
+                                    	 'coinbase' => 'APT-USD',
+                                    	 'kraken' => 'APTUSD',
+                                    	 'bitfinex' => 'tAPTUSD',
+                                                    ),
+
+                                                    
+                                    'usdc' => array(
+                                        'okex' => 'APT-USDC',
+                                        'huobi' => 'aptusdc',
+                                                    ),
+
+                                                    
+                                    'usdt' => array(
+                                        'binance' => 'APTUSDT',
+                                        'okex' => 'APT-USDT',
+                                        'huobi' => 'aptusdt',
+                                        'kucoin' => 'APT-USDT',
+                                        'bybit' => 'APTUSDT',
+                                        'gateio' => 'APT_USDT',
                                                     ),
 
                                                     
