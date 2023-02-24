@@ -1,0 +1,413 @@
+
+
+A Raspberry Pi v4 is a GREAT computer for setting up an in-house server on your internal network (home / business internet, etc). Your going to want a case that can hold a fast M2 drive, and dissapates heat well, so the pi4 stays cool. The "Argon ONE M.2 Aluminum Case for Raspberry Pi 4" has your back, keeping your pi4 at 55c or lower, UNDER FULL LOAD:
+
+https://www.amazon.com/gp/product/B08MJ3CSW7
+
+
+Now, time to setup Webmin and Virtualmin open source / FREE server control panel software. You need access to a command terminal on the pi4 (the terminal app in the desktop menu, or remotely over SSH).
+
+
+wget https://raw.githubusercontent.com/webmin/webmin/master/setup-repos.sh
+
+sudo sh setup-repos.sh
+
+sudo apt install webmin usermin ufw samba samba-common-bin apache2 php php-fpm bind9 procmail libapache2-mod-fcgid jailkit php-mbstring php-xml php-curl php-gd php-zip libapache2-mod-fcgid apache2-suexec-custom ssl-cert dovecot-core dovecot-imapd dovecot-pop3d dovecot-mysql dovecot-sqlite spamassassin spamc libamazon-s3-perl webalizer
+
+# See what php-fpm php versions are available, then set this var by cli:
+PHP_FPM_VER=PHP_VERSION_HERE
+
+sudo apt install php${PHP_FPM_VER}-fpm php${PHP_FPM_VER}-mbstring php${PHP_FPM_VER}-xml php${PHP_FPM_VER}-curl php${PHP_FPM_VER}-gd php${PHP_FPM_VER}-zip
+
+
+sudo nano /etc/php/${PHP_FPM_VER}/fpm/php.ini:
+
+error_log = /var/log/php_errors.log
+
+
+sudo touch /var/log/php_errors.log
+
+sudo chmod 666 /var/log/php_errors.log
+
+
+Hit "refresh modules" at bottom of sidebar, to enable server interface modules.
+
+
+-----------------------------------------------------------------------------------------
+
+
+Webmin -> Webmin Configuration -> Webmin modules:
+
+Install the ".wbm.gz" virtualmin module listed at: https://webmin.com/virtualmin/
+
+Run: sudo virtualmin setup-repos
+
+
+Webmin -> Servers -> Apache webserver -> Global configuration -> Configure apache modules -> Enable:
+
+access_compat
+actions
+alias
+auth_basic
+authn_core
+authn_file
+authz_host
+authz_user
+autoindex
+deflate
+dir
+env
+expires
+fcgid
+filter
+http2
+mime
+mpm_event
+negotiation
+proxy
+proxy_fcgi
+reqtimeout
+rewrite
+setenvif
+socache_shmcb
+ssl
+status
+vhost_alias
+xml2enc
+
+
+Webmin -> Software packages:
+
+Install any other server software
+
+
+Hit "refresh modules" at bottom of sidebar AGAIN, to enable ANY NEW server interface modules.
+
+
+Virtualmin -> System settings -> recheck configuration
+
+Virtualmin -> System settings -> rerun install wizard
+
+Virtualmin -> Server configuration -> PHP options -> Enable PHP-FPM
+
+Virtualmin -> Server configuration -> PHP options -> Custom log file = /var/log/php_errors.log
+
+Virtualmin -> Server configuration -> Website options -> Redirect all requests to SSL
+
+Virtualmin -> Server configuration -> Website options -> Default website for ip address
+
+Virtualmin -> Server configuration -> Website options -> Website matches all sub-domains = No
+
+Virtualmin -> Server configuration -> Website options -> allow SSI = No
+
+Webmin -> System -> Software package updates -> Scheduled upgrades:
+
+Check = every day, action = install any updates
+
+
+-----------------------------------------------------------------------------------
+
+
+HARDEN POSTFIX (https://linux-audit.com/postfix-hardening-guide-for-security-and-privacy/):
+
+sudo postconf -e disable_vrfy_command=yes
+
+sudo postconf -e mynetworks="127.0.0.0/8 [::ffff:127.0.0.0]/104 [::1]/128"
+
+sudo postconf -e smtpd_helo_required=yes
+
+sudo postconf -e smtp_tls_loglevel=1
+
+IF WE ARE A CLOSED SYSTEM (NOT RECIEVING INBOUND EMAIL, ONLY SENDING OUTGOING EMAIL), LIKE ON AN INTERNAL NETWORK WHERE YOU CANNOT SETUP THE GATEWAY IP ADDRESS'S REVERSE DNS TO MATCH THE EMAIL DOMAIN (HOME INTERNET, ETC):
+
+postconf -e inet_interfaces=loopback-only
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+postfix main.cf needs these lines ADDED MANUALLY:
+
+virtual_alias_maps = hash:/etc/postfix/virtual
+
+mailbox_command = /usr/bin/procmail -o -a $DOMAIN -d $LOGNAME
+
+relayhost = [YOUR_DOMAIN_NAME_GOES_HERE]:587
+
+smtp_sasl_auth_enable = yes
+
+smtp_sasl_security_options = noanonymous
+
+RECHECK main.cf AFTER ALL THE ABOVE, TO MAKE SURE NEW LINES WERE ADDED BEFORE EACH OF THE NEW CONFIGS!
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Run these commands, TO SET PROPER OWNERSHIP ON THE PROCMAIL BINARY:
+
+sudo chgrp -v root /usr/bin/procmail
+sudo chmod 6755 /usr/bin/procmail
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Any Roundcube install you do needs this added to /config/config.inc.php, to login with your email address as the username:
+
+// Enables possibility to log in using email address from user identities
+$config['user_aliases'] = true;
+
+-----------------------------------------------------------------------------------
+
+
+SETUP FIREWALL RULES / ENABLE...
+
+
+ALLOW SSH, BUT LIMIT HACK ATTEMPTS:
+sudo ufw allow ssh
+sudo ufw limit ssh/tcp
+
+
+ALLOW *SECURE* DNS:
+sudo ufw allow 853
+
+
+ALLOW HTTP / HTTPS:
+sudo ufw allow 80
+sudo ufw allow 443
+
+
+ALLOW *SECURE* SMTP:
+sudo ufw allow 2525
+sudo ufw allow 465
+sudo ufw allow 587
+
+
+ALLOW *SECURE* POP3:
+sudo ufw allow 995
+
+
+ALLOW *SECURE* IMAP:
+sudo ufw allow 993
+
+
+ALLOW WEBMIN / USERMIN:
+sudo ufw allow 10000
+sudo ufw allow 20000
+
+
+ALLOW SAMBA (ON LOCAL NETWORK ONLY):
+sudo ufw allow proto udp to any port 137 from 192.168.1.0/24
+sudo ufw allow proto udp to any port 138 from 192.168.1.0/24
+sudo ufw allow proto tcp to any port 139 from 192.168.1.0/24
+sudo ufw allow proto tcp to any port 445 from 192.168.1.0/24
+
+
+CUSTOM:
+sudo ufw allow PORT_NUMER_HERE
+
+
+DELETING:
+sudo ufw delete allow PORT_NUMER_HERE
+
+
+ENABLE NOW AND AT BOOT:
+sudo ufw enable
+
+
+Webmin -> Linux firewall -> settings (top left) -> ip4 / ip6 config:
+
+Directly edit firewall rules = No (allows VIEWING ufw rules)
+
+
+---------------------------------------------------------------------------------------
+
+
+SETUP SAMBA (WINDOWS FILE SHARES):
+
+Creating a system / samba user named 'sambauser', and setting a password:
+
+sudo useradd -m sambauser
+
+sudo passwd sambauser
+
+sudo smbpasswd -a sambauser
+
+sudo mkdir -p /home/sambauser/shared/publicshare
+
+sudo mkdir -p /home/sambauser/shared/privateshare
+
+sudo chown -R sambauser:sambauser /home/sambauser/shared
+
+sudo chmod -R 777 /home/sambauser/shared
+
+
+sudo nano /etc/samba/smb.conf:
+
+[publicshare]
+path = /home/sambauser/shared/publicshare
+writeable=Yes
+create mask=0777
+directory mask=0777
+public=yes
+
+[privateshare]
+path = /home/sambauser/shared/privateshare
+writeable=Yes
+create mask=0777
+directory mask=0777
+public=no
+
+
+RESTART SAMBA AFTER MAKING CHANGES:
+
+sudo systemctl restart smbd
+
+
+---------------------------------------------------------------------------------------
+
+
+=======================================================
+Increasing Swap Space (virtual / backup system memory on disk)
+=======================================================
+
+
+IMPORTANT NOTES: INCREASING SWAP SPACE IS BEST DONE ONLY IF YOUR BOOTABLE DRIVE #NOT A MICROSD CARD#. A LARGE SWAP SPACE ON A MICROSD CARD MIGHT NOT PERFORM VERY WELL!
+
+
+1) Shut down the current swap file:
+
+sudo dphys-swapfile swapoff
+
+
+2) Open the swap configuration file:
+
+sudo nano /etc/dphys-swapfile
+
+
+3) Find this in the configuration file:
+
+CONF_SWAPSIZE=100
+
+
+4) Change it to the size you want (in megabytes):
+
+CONF_SWAPSIZE=2048
+
+
+5) Hold down the Ctrl key and X key at the same time, choose Y, hit enter to save / exit editing the config.
+
+
+6) Run the swap setup command:
+
+sudo dphys-swapfile setup
+
+
+7) Then re-activate the new swap space:
+
+sudo dphys-swapfile swapon
+
+
+8) Reboot the pi, so all the running programs know about the new swap size:
+
+sudo reboot
+
+
+---------------------------------------------------------------------------------------
+
+
+Virtualmin -> Backup and restore -> Scheduled backups...
+
+S3 bucket or file path : YOUR-S3-BUCKET/backups-%Y-%m-%d
+
+File under bucket : One per domain
+
+Do strftime-style time substitutions on file or directory name  : Checked
+
+Delete old backups : After X days (whatever schedule you like)
+
+These tell Virtualmin to create a new date-based bucket for each backup session, and to put one file per domain in there. Buckets older than X days will be deleted.
+
+
+---------------------------------------------------------------------------------------
+
+
+=======================================================
+Disable Apache Web Server Revealing Itself (and version)
+=======================================================
+
+
+1) Open the 'Terminal' app from the menu, or login with a remote terminal (SSH).
+
+
+2) Open the Apache config with this command:
+
+sudo nano /etc/apache2/apache2.conf
+
+
+3) At the bottom of that file, add these lines:
+
+# Disable showing apache product name and version number
+ServerTokens Prod
+ServerSignature Off 
+
+
+4) Hold down the Ctrl key and X key at the same time, choose Y, hit enter to save / exit editing the config.
+
+
+5) Reboot Apache:
+
+sudo systemctl restart apache2
+
+
+=======================================================
+Securing User Directories (REGULAR USER DIRECTORIES, THAT DO *NOT* CONTAIN HTDOC / WEBSITE DIRECTORIES!)
+=======================================================
+
+
+1) Open the 'Terminal' app from the menu, or login with a remote terminal (SSH).
+
+
+2) Run this command to secure a specific user directory from other users ability to spy / snoop around: 
+
+sudo chmod 750 /home/YOUR_USER_NAME_HERE
+
+
+=======================================================
+Make sudo require a password (IF ON RASPBERRY PI OS)
+=======================================================
+
+
+1) Open the 'Terminal' app from the menu, or login with a remote terminal (SSH).
+
+
+2) Run the command: 
+
+sudo nano /etc/sudoers.d/010_pi-nopasswd
+
+
+3) Change "NOPASSWD" to "PASSWD"
+
+
+4) Hold down the Ctrl key and X key at the same time, choose Y, hit enter to save / exit editing the config.
+
+
+5) Reboot the Pi:
+
+sudo reboot
+
+
+---------------------------------------------------------------------------------------
+
+
+FOR HOME INTERNET WITH DYNAMIC DNS SETUP...
+
+Buy the premium version of your preferred dynamic DNS service, and ENABLE WILDCARD SUB-DOMAINS. Then you can setup sub-sub-domains on your Virtualin virtual server at "Virtualmin -> Create virtual server -> Sub-server", like so:
+
+files.yourusername.dyndns.org
+
+blog.yourusername.dyndns.org
+
+Now all you have to do is setup port forwarding on your router, to enable viewing these web addresses from anywhere on the internet.
+
+---------------------------------------------------------------------------------------
+
+
+
+
+
