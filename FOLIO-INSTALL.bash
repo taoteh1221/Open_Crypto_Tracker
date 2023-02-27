@@ -691,9 +691,18 @@ read -n1 -s -r -p $"Press y to continue (or press n to exit)..." key
 echo "${reset} "
 
     if [ "$key" = 'y' ] || [ "$key" = 'Y' ]; then
+    
     echo " "
     echo "${green}Continuing...${reset}"
+         
+    # If all clear for takeoff, make sure a group exists with same name as user,
+    # AND user is a member of it (believe it or not, I've seen this not always hold true!)
+    groupadd -f $APP_USER > /dev/null 2>&1
+    sleep 3
+    usermod -a -G $APP_USER $APP_USER > /dev/null 2>&1
+
     echo " "
+
     else
     echo " "
     echo "${green}Exiting...${reset}"

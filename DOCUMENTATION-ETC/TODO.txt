@@ -159,6 +159,9 @@ DEBUGGING / TESTS / UX / QA / OTHER
 ############ NEXT DEBUG / TEST / QA / OTHER SCHEDULED WORK SESSION ###################################
 
 
+For the domain header spoofing check, try writing the test file AS EARLY AS POSSIBLE in the runtime, and check it at the last second when inits / configs are done (and feature logic is about to run). Besides what we already have planned to fix the header domain spoofing attack check, since we never run the check more than once every 24 hours, add a 5 second sleep RIGHT BEFORE WE CHECK THE FILE WE WROTE.
+
+
 Change the last option in the ext_data() function to a human-readable value, to save time on new API integrations (url_encode, json_encode, etc).
 
 
@@ -178,6 +181,9 @@ Change "portfolio cache size gigabytes" system chart telemetry name to "tracker 
 
 
 ######################################################################################################
+
+
+On admin login on safari browser, have a JavaScript pop-up alert saying safari is not supported in the admin interface.
 
 
 Remove all linebreaks in javascript alert / confirm dialogue boxes, except for new paragraphs. Let the browser choose the max width on it's own (like they do nowadays)
@@ -269,6 +275,9 @@ FEATURES / NEW INFRASTRUCTURE / RESEARCH
 ############ NEXT FEATURES / NEW INFRASTRUCTURE / RESEARCH SCHEDULED WORK SESSION ####################################
 
 
+Add feature to address balance tracker plugin to set minimum time to wait before re-sending the same address alert (in hours). Default it to a high number like 8 hours, so any shitty API servers don't send endless alerts as they send bs results (like helium network API).
+
+
 Add ability for 'active' (first-shown) admin page to be dynamically set via GET param, AND have this GET param passed during admin logins as well (if it is set). Consider adding this ability to the current user area linking subsystem too, if it gives any issues in the sidebar setup (visiting from admin pages).
 
 
@@ -279,6 +288,9 @@ Move alert bell dropdown TOGGLE to sidebar, BUT have it display centered at top 
 
 
 Move ALL nav links to sidebar nav, and show ALL admin page links IF LOGGED IN (and a LOGOUT link)...and remove header nav links / user nav links / main content border (decide which background shades to keep).
+
+
+Convert Arch linux support in auto-installer over to redhat (yum), as Arch does have much pakage support for libraries we use.
 
 
 All NON-GLOBAL variables inside JAVASCRIPT functions should be started as 'var my_var_name': 
@@ -293,9 +305,6 @@ Tweak sizes / colors / positioning in sidebar, until it feels just right.
 
 
 Move remaining font-size / line-height logic in style.css AND ELSEWHERE into our dynamic CSS header logic.
-
-
-For the domain header spoofing check, try writing the test file AS EARLY AS POSSIBLE in the runtime, and check it at the last second when inits / configs are done (and feature logic is about to run).
 
 
 MIGRATION TO BOOTSTRAP V5:
@@ -353,9 +362,6 @@ Defaults to 'standard' if not set.
 
 
 Document the ABOVE new plugin settings, and fully test before public release.
-
-
-Work more on Arch Linux support for the auto-installer.
 
 
 Build a plugin (for the tools page, defaults to activated already), that lets you quickly calculate unlimited nft values (using text field form library used for debt interest tracker) in sol or eth value from any currency (including sol or eth, like miscassets market field), with option to populate ethnfts / solnfts portfolio fields on update page, and save updates to them.
