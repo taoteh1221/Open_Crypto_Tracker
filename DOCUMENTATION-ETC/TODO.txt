@@ -183,7 +183,7 @@ Change "portfolio cache size gigabytes" system chart telemetry name to "tracker 
 ######################################################################################################
 
 
-On admin login on safari browser, have a JavaScript pop-up alert saying safari is not supported in the admin interface.
+On admin login on safari browser, have a alert (like the cookies notice) saying safari is not supported in the admin interface.
 
 
 Remove all linebreaks in javascript alert / confirm dialogue boxes, except for new paragraphs. Let the browser choose the max width on it's own (like they do nowadays)
@@ -275,27 +275,19 @@ FEATURES / NEW INFRASTRUCTURE / RESEARCH
 ############ NEXT FEATURES / NEW INFRASTRUCTURE / RESEARCH SCHEDULED WORK SESSION ####################################
 
 
-Add feature to address balance tracker plugin to set minimum time to wait before re-sending the same address alert (in hours). Default it to a high number like 8 hours, so any shitty API servers don't send endless alerts as they send bs results (like helium network API).
+Help / FAQ page link should be moved to bottom of sidebar, with a questionmark icon next to it. It ALSO should be a MODAL WINDOW (like 'more stats'), that is hidden in footer.php, so it can be opened in the user and admin areas just as easily.
 
 
-Add ability for 'active' (first-shown) admin page to be dynamically set via GET param, AND have this GET param passed during admin logins as well (if it is set). Consider adding this ability to the current user area linking subsystem too, if it gives any issues in the sidebar setup (visiting from admin pages).
+When the sidebar is closed, a 'mini sidebar' should show in it's place (with same colors / border stylings). This mini sidebar should only be as wide as the menu icon (with a TINY bit of margin space around icons), and an alert bell icon / help icon should be directly belw the menu icon too (vertically aligned). The 'X' in the large sidebar should be changed to a '<-" left arrow (signifying shrinking the sidebar to the left).
+
+
+Move alert bell dropdown TOGGLE to sidebar / mini sidebar. The alert messages popin window should be the ENTIRE WIDTH of the top right-side area, with a small margin for left / top / right sides.
+
+
+Move existing nav links to sidebar nav, and remove header nav links / user nav links / main content border (decide which background shades to keep).
 
 
 ######################################################################################################################
-
-
-Move alert bell dropdown TOGGLE to sidebar, BUT have it display centered at top of right side area.
-
-
-Move ALL nav links to sidebar nav, and show ALL admin page links IF LOGGED IN (and a LOGOUT link)...and remove header nav links / user nav links / main content border (decide which background shades to keep).
-
-
-Convert Arch linux support in auto-installer over to redhat (yum), as Arch does have much pakage support for libraries we use.
-
-
-All NON-GLOBAL variables inside JAVASCRIPT functions should be started as 'var my_var_name': 
-
-https://stackoverflow.com/questions/10872006/how-do-i-change-the-value-of-a-global-variable-inside-of-a-function/10874509#10874509
 
 
 Try to shrink up the sidebar width as much as possible, without squishing the top nav together too much.
@@ -304,7 +296,13 @@ Try to shrink up the sidebar width as much as possible, without squishing the to
 Tweak sizes / colors / positioning in sidebar, until it feels just right.
 
 
+Add ability for 'active' (first-shown) admin page to be dynamically set via GET param, AND have this GET param passed during admin logins as well (if it is set). Consider adding this ability to the current user area linking subsystem too, if it gives any issues in the sidebar setup (visiting from admin pages). Then show ALL admin page links in sidebar, IF LOGGED IN (and a LOGOUT link)
+
+
 Move remaining font-size / line-height logic in style.css AND ELSEWHERE into our dynamic CSS header logic.
+
+
+Add feature to address balance tracker plugin to set minimum time to wait before re-sending the same address alert (in hours). Default it to a high number like 8 hours, so any shitty API servers don't send endless alerts as they send bs results (like helium network API).
 
 
 MIGRATION TO BOOTSTRAP V5:
@@ -331,10 +329,21 @@ font-size: 15px !important;
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 
+The tags 'h1' through 'h6' should be made to user-adjust text size too (could be a bit tricky, be careful).
+
+
 Remove localbitcoins support (they are closing shop).
 
 
-The tags 'h1' through 'h6' should be made to user-adjust text size too (could be a bit tricky, be careful).
+Add to resources page: https://solana.sec3.dev/
+
+
+Convert Arch linux support in auto-installer over to redhat (yum), as Arch does have much pakage support for libraries we use.
+
+
+All NON-GLOBAL variables inside JAVASCRIPT functions should be started as 'var my_var_name': 
+
+https://stackoverflow.com/questions/10872006/how-do-i-change-the-value-of-a-global-variable-inside-of-a-function/10874509#10874509
 
 
 Cleanup non-existant ids / classes in stylesheets, AFTER converting the templates to a responsive layout.
