@@ -152,6 +152,10 @@
 							</li>
 						
 							<li class='bitcoin disclaimer'>
+								<i>REMEMBER</i>, the <a href="https://www.google.com/search?q=barbell+portfolio+strategy" target="_blank">Barbell Portfolio Strategy</a> works VERY WELL for MANY investors that use it!
+							</li>
+						
+							<li class='bitcoin disclaimer'>
 								<i>LITERALLY</i> nearly 99.9% of all tokens (including NFTs) are either scams, garbage, or dead ends.
 							</li>
 						

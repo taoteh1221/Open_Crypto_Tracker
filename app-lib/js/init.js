@@ -14,8 +14,8 @@ $(document).ready(function(){
 // PHP used instead for logging / alerts, but leave here in case we want to use pure-javascript
 // cookie creation some day (which could help pre-detect too-large headers that crash an HTTP server)
 // console.log( array_byte_size(document.cookie) );
-
     
+	
 // Render interface after loading (with transition effects)
 $("#app_loading").hide(250, 'linear'); // 0.25 seconds
 $("#content_wrapper").show(250, 'linear'); // 0.25 seconds
@@ -40,6 +40,7 @@ start_utc_time();
 	
 // 'Loading X...' UI notices
 background_tasks_check();
+
 
 
 	/////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -101,6 +102,21 @@ background_tasks_check();
 	/////////////////////////////////////////////////////////////////////////////////////////////////////
 	
 	
+    $('.toggle_alerts').on('click', function () {
+             // open or close alerts
+             $('#alert_bell_area').toggleClass('hidden');
+    });
+	
+	
+    $('#alert_bell_area').on('click', function () {
+             // open or close alerts
+             $('#alert_bell_area').toggleClass('hidden');
+    });
+
+
+	/////////////////////////////////////////////////////////////////////////////////////////////////////
+	
+	
     // Show "app loading" placeholder when submitting ANY form JQUERY SUBMIT METHOD, OR CLICKING A SUBMIT BUTTON
     // (does NOT affect a standard javascript ELEMENT.submit() call)
     $("form").submit(function(event) { 
@@ -141,8 +157,8 @@ background_tasks_check();
     if ( app_edition == 'desktop' ) {
         
          // Page zoom logic
-         if ( localStorage.getItem('currzoom') ) {
-         currzoom = localStorage.getItem('currzoom');
+         if ( localStorage.getItem(desktop_zoom_storage) ) {
+         currzoom = localStorage.getItem(desktop_zoom_storage);
          }
          else {
          currzoom = 100;
@@ -250,7 +266,7 @@ background_tasks_check();
         $('#app_error_alert').html('No new runtime alerts.');
         }
         else {
-        $("#alert_bell_image").attr("src","templates/interface/media/images/auto-preloaded/notification-" + theme_selected + "-fill.png");
+        $(".toggle_alerts").attr("src","templates/interface/media/images/auto-preloaded/notification-" + theme_selected + "-fill.png");
         }
         
     $('#alert_bell_area').html( "<span class='bitcoin'>Current UTC time:</span> <span class='utc_timestamp red'></span><br />" + $('#app_error_alert').html() );
@@ -261,11 +277,11 @@ background_tasks_check();
         
         if ( $('#app_error_alert', window.parent.document).html() == 'No new runtime alerts.' && $('#iframe_error_alert').html() != '' ) {
         $('#app_error_alert', window.parent.document).html( $('#iframe_error_alert').html() );
-        $("#alert_bell_image", window.parent.document).attr("src","templates/interface/media/images/auto-preloaded/notification-" + theme_selected + "-fill.png");
+        $(".toggle_alerts", window.parent.document).attr("src","templates/interface/media/images/auto-preloaded/notification-" + theme_selected + "-fill.png");
         }
         else if ( $('#iframe_error_alert').html() != '' ) {
         $('#app_error_alert', window.parent.document).html( $('#app_error_alert', window.parent.document).html() + $('#iframe_error_alert').html() );
-        $("#alert_bell_image", window.parent.document).attr("src","templates/interface/media/images/auto-preloaded/notification-" + theme_selected + "-fill.png");
+        $(".toggle_alerts", window.parent.document).attr("src","templates/interface/media/images/auto-preloaded/notification-" + theme_selected + "-fill.png");
         }
         
     $('#alert_bell_area', window.parent.document).html( "<span class='bitcoin'>Current UTC time:</span> <span class='utc_timestamp red'></span><br />" + $('#app_error_alert', window.parent.document).html() );
@@ -329,7 +345,7 @@ background_tasks_check();
         currzoom = parseFloat(currzoom) + step; 
         $('body').css('zoom', ' ' + currzoom + '%');
         
-        localStorage.setItem('currzoom', currzoom);
+        localStorage.setItem(desktop_zoom_storage, currzoom);
         $("#zoom_show_ui").html(currzoom + '%');
         //console.log(currzoom);
         
@@ -348,7 +364,7 @@ background_tasks_check();
         currzoom = parseFloat(currzoom) - step; 
         $('body').css('zoom', ' ' + currzoom + '%');
         
-        localStorage.setItem('currzoom', currzoom);
+        localStorage.setItem(desktop_zoom_storage, currzoom);
         $("#zoom_show_ui").html(currzoom + '%');
         //console.log(currzoom);
         
@@ -369,7 +385,7 @@ background_tasks_check();
 
     // Init sidebar (IF NOT IFRAME)
     if ( !is_iframe ) {
-         
+    
          
          $("#sidebar").mCustomScrollbar({
               theme: "minimal"
@@ -421,14 +437,20 @@ background_tasks_check();
           
      
          $('.sidebar_toggle').on('click', function () {
-             // open or close navbar
-             $('#sidebar').toggleClass('active');
-             $('#secondary_wrapper').toggleClass('active');
-             // close dropdowns
-             $('.collapse.in').toggleClass('in');
-             // and also adjust aria-expanded attributes we use for the open/closed arrows
-             // in our CSS
-             $('a[aria-expanded=true]').attr('aria-expanded', 'false');
+               
+          // Toggle sidebar
+          toggle_sidebar();
+               
+          // Save user's last preferred sidebar mode (for next app load)
+          var sidebar_check = $('#sidebar').css('margin-left');
+               
+              if ( sidebar_check == '0px' ) {
+              localStorage.setItem(sidebar_toggle_storage, "closed");
+              }
+              else {
+              localStorage.setItem(sidebar_toggle_storage, "open");
+              }
+            
          });
          
     
@@ -570,7 +592,7 @@ background_tasks_check();
     
 
 	/////////////////////////////////////////////////////////////////////////////////////////////////////
-	
+    
 	
 // Check if privacy mode for assets held is enabled (#MUST# RUN AFTER INIT.JS HAS SET ALL DYN VARS)
 privacy_mode(); 

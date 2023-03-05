@@ -516,9 +516,12 @@ else {
         
         
    		 </div>
-    </div>
+   		 
+   		 
+    </div> <!-- #secondary_wrapper -->
 
-</div> <!-- .wrapper -->
+
+</div> <!-- #primary_wrapper.wrapper -->
 
 <br clear='all' /> <br />
      
@@ -583,16 +586,15 @@ echo nl2br($ui_upgrade_alert['message']);
  * Creates Cookie notice
  */
 
-var cookies_notice_status = localStorage.cookies_notice_status;
 var cookies_notice = $('.cookie-notice');
 
-if (cookies_notice_status != "agreed") {
+if ( localStorage.getItem(cookies_notice_storage) != "agreed" ) {
     cookies_notice.slideDown(500);
 }
 
 $('.cookie-notice .cookies_button').click(function () {
     cookies_notice.slideUp(500);
-    localStorage.cookies_notice_status = "agreed";
+    localStorage.setItem(cookies_notice_storage, "agreed");
 });
 
 </script>
@@ -604,6 +606,7 @@ $('.cookie-notice .cookies_button').click(function () {
 
 <!-- https://getbootstrap.com/docs/5.3/getting-started/download/ -->
 <script src="app-lib/js/bootstrap/bootstrap.min.js"></script>
+
 </body>
 </html>
 

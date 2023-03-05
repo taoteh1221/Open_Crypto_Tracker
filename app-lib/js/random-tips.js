@@ -73,6 +73,10 @@ var quoteSource=[
 	    	name:"taoteh1221 (lead dev of this app)"
 	    },
 	    {
+	    	quote:"<i>REMEMBER</i>, the <a href='https://www.google.com/search?q=barbell+portfolio+strategy' target='_blank'>Barbell Portfolio Strategy</a> works VERY WELL for MANY investors that use it!",
+	    	name:"taoteh1221 (lead dev of this app)"
+	    },
+	    {
 	    	quote:"<i><u>ALWAYS AVOID</u></i> copycat coins (that copy / mimick already-popular networks BUT HAVE NO SIGNIFICANT FEATURE IMPROVEMENTS), coins with high inflation rates (creating too many new coins infinitely), coins that are NOT on a fully decentralized network (small groups control everything), and coins with very little on-chain transaction activity (indicating low <i>REAL WORLD</i> user adoption).",
 	    	name:"taoteh1221 (lead dev of this app)"
 	    },

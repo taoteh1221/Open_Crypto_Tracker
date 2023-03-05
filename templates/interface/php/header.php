@@ -204,7 +204,13 @@ header('Access-Control-Allow-Origin: ' . $app_host_address);
 	else {
 	?>
 	
-	notes_storage = Base64.decode(ct_id) + "notes";
+	sidebar_toggle_storage = storage_app_id("sidebar_toggle");
+	
+	scroll_position_storage = storage_app_id("scroll_position");
+	
+	cookies_notice_storage = storage_app_id("cookies_notice");
+	
+	notes_storage = storage_app_id("notes");
 	
 	<?php
 	}
@@ -307,8 +313,14 @@ header('Access-Control-Allow-Origin: ' . $app_host_address);
      
 	<?php
 	}
+	elseif ( $app_edition == 'desktop' ) {
 	?>
 	
+	desktop_zoom_storage = storage_app_id("zoom");
+	
+	<?php
+	}
+	?>
     
 	</script>
 
@@ -458,19 +470,52 @@ else {
 <div id="primary_wrapper" class="wrapper">
 
 
-   <!-- hamburger menu toggle icon -->
-   <img src='templates/interface/media/images/auto-preloaded/icons8-hamburger-menu-96-<?=$sel_opt['theme_selected']?>.png' class='sidebar_toggle' id="sidebar_hamburger" />
+   <!-- collapsed sidebar -->
+   <div id="collapsed_sidebar">
+   
+   
+   <img src='templates/interface/media/images/auto-preloaded/icons8-hamburger-menu-96-<?=$sel_opt['theme_selected']?>.png' width='45' class='sidebar_toggle' id="sidebar_hamburger" title='Show FULL SIZED side bar.' />
+   
+   
+   <img src='templates/interface/media/images/auto-preloaded/notification-<?=$sel_opt['theme_selected']?>-line.png' width='45' border='0' class='toggle_alerts' title='View app alerts.' />
+   
+   
+   <a href="admin.php"><img src='templates/interface/media/images/auto-preloaded/icons8-services-100-<?=$sel_opt['theme_selected']?>.png' width='45' border='0' title='Admin Config area.' /></a>
+   
+   
+   <a href="index.php"><img src='templates/interface/media/images/auto-preloaded/icons8-user-96-<?=$sel_opt['theme_selected']?>.png' width='45' border='0' title='User area.' /></a>
+   
+   
+   <img src='templates/interface/media/images/auto-preloaded/icons8-questions-100-<?=$sel_opt['theme_selected']?>.png' width='45' border='0' title='FAQ / Help?' />
 
+        
+   <?php
+   if ( $ct_gen->admin_logged_in() ) {
+   ?>
+   <a href="?logout=1&admin_hashed_nonce=<?=$ct_gen->admin_hashed_nonce('logout')?>"><img src='templates/interface/media/images/auto-preloaded/icons8-logout-58-<?=$sel_opt['theme_selected']?>.png' width='45' border='0' title='Logout of Admin Config area.' /></a>
+   <?php
+   }
+   ?>
+   
+   
+   <img src='templates/interface/media/images/auto-preloaded/icons8-add-96.png' width='45' border='0' id='' class='btn-number' data-type="plus" data-field="quant_font_percent" title='Increase text size.' />
+   
+   
+   <img src='templates/interface/media/images/auto-preloaded/icons8-minus-96.png' width='45' border='0' id='' class='btn-number' data-type="minus" data-field="quant_font_percent" title='Decrease text size.' />
+   
+
+   </div>
+   
 
     <!-- Sidebar -->
     <nav id="sidebar">
     
     
         <!-- alerts toggle icon -->
-        <img src='templates/interface/media/images/auto-preloaded/notification-<?=$sel_opt['theme_selected']?>-line.png' height='45' border='0' id='sb_alerts' />
+        <img src='templates/interface/media/images/auto-preloaded/notification-<?=$sel_opt['theme_selected']?>-line.png' height='45' border='0' id='sb_alerts' class='toggle_alerts' title='View app alerts.' />
         
         <!-- close sidebar toggle icon -->
-        <img src='templates/interface/media/images/auto-preloaded/icons8-close-window-50-<?=$sel_opt['theme_selected']?>.png' class='sidebar_toggle' id="dismiss" />
+        <img src='templates/interface/media/images/auto-preloaded/icons8-close-window-50-<?=$sel_opt['theme_selected']?>.png' class='sidebar_toggle' id="dismiss" title='Show COMPACT side bar.' />
 
 
         <div class="sidebar-top">
@@ -478,7 +523,7 @@ else {
              <div class="plus_minus">
               <div class="input-group">
                     <span class="input-group-btn">
-                       <button type="button" class="btn btn-danger btn-number"  data-type="minus" data-field="quant_font_percent">
+                       <button type="button" class="btn btn-danger btn-number"  data-type="minus" data-field="quant_font_percent" title='Decrease text size.'>
                           <span class="plus_minus_buttons"> - </span>
                         </button>
                     </span>
@@ -515,7 +560,7 @@ else {
                    </script>
                    
                     <span class="input-group-btn">
-                        <button type="button" class="btn btn-success btn-number" data-type="plus" data-field="quant_font_percent">
+                        <button type="button" class="btn btn-success btn-number" data-type="plus" data-field="quant_font_percent" title='Increase text size.'>
                             <span class="plus_minus_buttons"> + </span>
                         </button>
                     </span>
@@ -542,12 +587,12 @@ else {
             <!-- START #ACTIVE# category (currently-viewed page should be in here) -->
             <li class="active">
                 
-                <a href="#homeSubmenu" data-bs-toggle="collapse" aria-expanded="false" class="dropdown-toggle active">Home</a>
+                <a href="#homeSubmenu" data-bs-toggle="collapse" aria-expanded="false" class="dropdown-toggle active">Admin</a>
                 
                 <ul class="collapse list-unstyled" id="homeSubmenu">
                 
                     <li class='sidebar-item'>
-                        <a href="#1">Home 1</a>
+                        <a href="admin.php">General</a>
                     </li>
                     
                     <li class='sidebar-item'>
@@ -557,6 +602,7 @@ else {
                     <li class='sidebar-item'>
                         <a href="#3">Home 3</a>
                     </li>
+                    
                     
                     <!-- START custom 3-deep config -->
                     <li class="nav-item dropdown custom-3deep open-first">
@@ -571,21 +617,29 @@ else {
                         </ul>
                     </li>
                     <!-- END custom 3-deep config -->
+
+        
+                    <?php
+                    if ( $ct_gen->admin_logged_in() ) {
+                    ?>
+                    <li class='sidebar-item'>
+                        <a href="?logout=1&admin_hashed_nonce=<?=$ct_gen->admin_hashed_nonce('logout')?>">Logout</a>
+                    </li>
+                    <?php
+                    }
+                    ?>
                     
                 </ul>
                 
             </li>
             <!-- END #ACTIVE# category (currently-viewed page should be in here) -->
             
-            <li class='sidebar-item'>
-                <a href="#7">About</a>
-            </li>
             
             <li>
-                <a href="#pageSubmenu" data-bs-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Pages</a>
+                <a href="#pageSubmenu" data-bs-toggle="collapse" aria-expanded="false" class="dropdown-toggle">User</a>
                 <ul class="collapse list-unstyled" id="pageSubmenu">
                     <li class='sidebar-item'>
-                        <a href="#8">Page 1</a>
+                        <a href="index.php">Portfolio</a>
                     </li>
                     <li class='sidebar-item'>
                         <a href="#9">Page 2</a>
@@ -596,12 +650,8 @@ else {
                 </ul>
             </li>
             
-            <li class='sidebar-item active'>
-                <a href="#11">Portfolio</a> <!-- EXAMPLE for styling the currently-viewed page -->
-            </li>
-            
             <li class='sidebar-item'>
-                <a href="#12">Contact</a>
+                <a href="#12">FAQ / Help?</a>
             </li>
             
         </ul>
@@ -612,6 +662,18 @@ else {
     
     <!-- content body -->
     <div class='align_center' id='secondary_wrapper' style='<?=( $login_template == 1 ? 'min-width: 720px; max-width: 800px;' : '' )?>'>
+    
+
+    <script>
+    
+    // If the user had the sidebar closed last app load
+    // MUST RUN IMMEDIATELY AFTER LOADING #secondary_wrapper START TAG,
+    // AND BEFORE INIT.JS (so there is no 'flickering' closing the sidebar)
+    if ( localStorage.getItem(sidebar_toggle_storage) == "closed" ) {
+    toggle_sidebar();    
+    }    
+    
+    </script>
     
 
         <?php
@@ -625,7 +687,7 @@ else {
         Zoom (<span id='zoom_show_ui'></span>): <span id='minusBtn' class='red'>-</span> <span id='plusBtn' class='green'>+</span>
         
         </div>
-        
+  
         
         <script>
         
@@ -672,91 +734,18 @@ else {
         }
         ?>
         
+        
         <div id='header_size_warning'></div>
-    
-    
-		<div class='align_center' id='body_top_nav' style='<?=( $login_template == 1 ? 'min-width: 720px; max-width: 800px;' : '' )?>'>
-		
-		
-			<!-- START #topnav-content -->
-			<nav id='topnav' class="navbar navbar-expand align_center" style='<?=( $login_template == 1 ? 'min-width: 720px; max-width: 800px;' : '' )?>'>
-			   
-				<?php
-				// Filename info, to dynamically render active menu link displaying
-			   $script_file_info = pathinfo($_SERVER['SCRIPT_FILENAME']);
-				?>
-				
-			  	<div class="container collapse navbar-collapse" id="navbarSupportedContent">
-			  
-					<ul id='admin_nav' class="navbar-nav" style='right: 4px; bottom: 4px;'>
-					
-				  		<li class="nav-item dropdown align_center">
-					
-							<a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><img src='templates/interface/media/images/auto-preloaded/login-<?=$sel_opt['theme_selected']?>-theme.png' height='27' border='0' /></a>
-					
-							<div class="dropdown-menu shadow-lg p-3 mb-5 bg-white rounded" aria-labelledby="navbarDropdown">
-							
-					  			<a class="dropdown-item<?=( $script_file_info['basename'] == 'admin.php' ? ' active' : '' )?>" href="admin.php">Admin Config</a>
-					  			
-					  			<a class="dropdown-item<?=( $script_file_info['basename'] == 'index.php' ? ' active' : '' )?>" href="index.php">Portfolio</a>
-					  			
-					  			<?php
-					  			if ( $ct_gen->admin_logged_in() ) {
-					  			?>
-					  			<a class="dropdown-item" href="?logout=1&admin_hashed_nonce=<?=$ct_gen->admin_hashed_nonce('logout')?>">Logout</a>
-					  			<?php
-					  			}
-					 			?>
-					  
-							</div>
-					
-				  		</li>
-				  		
-					</ul>
-				
-				
-				<h2>Open Crypto Tracker<?=( $is_admin ? ' - Admin Config' : '' )?></h2>
-				
-				
-					<div id="navbarDropdownBell" class="navbar-nav dropleft" style='left: 12px;'>
-				
-  						<a class="nav-link" href="#" id="navbarDropdown2" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><img id='alert_bell_image' src='templates/interface/media/images/auto-preloaded/notification-<?=$sel_opt['theme_selected']?>-line.png' height='30' border='0' /></a>
+  						
+  						
+  	   <!-- Alerts div centering wrapper -->
+  	   <div id='alert_bell_wrapper' style='position:absolute; left: 0px; top: 0px; width: 100%; margin: 0px; padding: 0px;'>
   
-  						<!-- Alerts div centering wrapper -->
-  						<div id='alert_bell_wrapper' style='position:absolute; top: 46px; left: 50%;'>
-  
-  							<div id='alert_bell_area' class="dropdown-menu red" aria-labelledby="navbarDropdown2">
- 							<!-- alerts output dynamically here -->
-  							</div>
+  			<div id='alert_bell_area' class='hidden'>
+ 			<!-- alerts output dynamically here -->
+  		     </div>
   	
-  						</div>
-  
-					</div>
-				
-			  	</div>
-				
-			</nav>
-  	
-  	
-  	<script>
-  	
-  	// Get how far from left edge of PARENT containers we are, on relevent containers
-  	var pos_topnav = document.getElementById('topnav').getBoundingClientRect();
-  	var pos_bell = document.getElementById('navbarDropdownBell').getBoundingClientRect();
-	
-	 // Amount left of #navbarDropdownBell from #topnav edge, MINUS amount left of #topnav from page edge
-	var alerts_window_to_left = Math.round(pos_bell.left - pos_topnav.left);
-	
-	// Dynamically move alerts window further left (using left position, MINUS left MORE)
-	$("#alert_bell_wrapper").css({ "left": '-' + alerts_window_to_left + 'px' });
-	
-  	</script>
-  	
-  	
-				<!-- END #topnav-content -->
-		
-		
-		</div>
+  	   </div>
 		
     
 	 	<div class='align_center loading bitcoin' id='app_loading'>
@@ -770,8 +759,8 @@ else {
         if ( app_edition == 'desktop' ) {
             
              // Page zoom logic
-             if ( localStorage.getItem('currzoom') ) {
-             currzoom = localStorage.getItem('currzoom');
+             if ( localStorage.getItem(desktop_zoom_storage) ) {
+             currzoom = localStorage.getItem(desktop_zoom_storage);
              }
              else {
              currzoom = 100;

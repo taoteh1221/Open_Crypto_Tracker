@@ -540,6 +540,8 @@ $altcoin_dominance = $ct_var->max_100($altcoin_dominance);
 			+'<p class="coin_info" style="max-width: 600px; white-space: normal;">The value of your ENTIRE portfolio, in the cryptocurrencies you selected in the "Show Crypto Value Of ENTIRE Portfolio In" setting, on the Settings page.</p>'
 			
 			+'<p class="coin_info bitcoin" style="max-width: 600px; white-space: normal;">If these values are skewed often, it\'s because the market(s) being used to determine the values are trading at different prices compared to the markets you chose in this interface. You can force certain markets to be used for this calculation with the "crypto_pair_pref_mrkts" setting, in the Admin Config POWER USER section.</p>'
+			
+			+'<p class="coin_info red_bright" style="max-width: 600px; white-space: normal;">It\'s HIGHLY RECOMMENDED to only add Bluechip / relatively lower risk crypto assets here! Remember, the <a href="https://www.google.com/search?q=barbell+portfolio+strategy" target="_blank">Barbell Portfolio Strategy</a> works VERY WELL for MANY investors that use it!</p>'
 		
 			+'<?=$lvrg_text1?>';
 		

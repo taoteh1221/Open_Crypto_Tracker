@@ -8,6 +8,14 @@
 function force_2_digits(num) {
 return ("0" + num).slice(-2);
 }
+
+
+/////////////////////////////////////////////////////////////
+
+
+function storage_app_id(var_name) {
+return Base64.decode(ct_id) + "_" + var_name;
+}
 	
 
 /////////////////////////////////////////////////////////////
@@ -118,7 +126,7 @@ function store_scroll_position() {
 // IN CASE we are loading / POSTING DATA ON a different start page than the portfolio page,
 // STORE the current scroll position before the page reload
 // WE ONLY CALL THIS FUNCTION ONCE PER PAGE UNLOAD (body => onbeforeunload)
-sessionStorage['scroll_position'] = window.scrollY;
+localStorage.setItem(scroll_position_storage, window.scrollY);
 
 }
 
@@ -200,6 +208,25 @@ $("#coins_table").find("th:eq("+col+")").trigger("sort");
     if ( priv_pmode != 'on' && sorted_asc_desc > 0 ) {
     $("#coins_table").find("th:eq("+col+")").trigger("sort");
     }
+
+}
+
+
+/////////////////////////////////////////////////////////////
+
+
+function toggle_sidebar() {
+
+// open or close navbar
+$('#sidebar').toggleClass('active');
+$('#secondary_wrapper').toggleClass('active');
+              
+// close dropdowns
+$('.collapse.in').toggleClass('in');
+              
+// and also adjust aria-expanded attributes we use for the open/closed arrows
+// in our CSS
+$('a[aria-expanded=true]').attr('aria-expanded', 'false');
 
 }
 
@@ -469,16 +496,16 @@ function get_scroll_position(tracing) {
 
 	// If we are using a different start page than the portfolio page,
 	// RETRIEVE any stored scroll position we were at before the page reload
-    if ( $(location).attr('hash') != '' && !isNaN(sessionStorage['scroll_position']) ) {
+    if ( $(location).attr('hash') != '' && !isNaN( localStorage.getItem(scroll_position_storage) ) ) {
         
     	$('html, body').animate({
-       	scrollTop: sessionStorage['scroll_position']
+       	scrollTop: localStorage.getItem(scroll_position_storage)
     	}, 'slow');
     		
     }
     // Reset if we're NOT starting on a secondary page
     else {
-	sessionStorage['scroll_position'] = 0;
+	localStorage.setItem(scroll_position_storage, 0);
     }
 
 }
@@ -888,7 +915,7 @@ background_tasks_check();
                     $('#alert_bell_area').html( $('#alert_bell_area').html() + '<br />' + response.result );
                     }
                 
-                $("#alert_bell_image").attr("src","templates/interface/media/images/auto-preloaded/notification-" + theme_selected + "-fill.png");
+                $(".toggle_alerts").attr("src","templates/interface/media/images/auto-preloaded/notification-" + theme_selected + "-fill.png");
                 
                 }
             

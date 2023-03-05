@@ -301,7 +301,7 @@ border: 1px solid #10d602;
 }
 
 
-#admin_nav .dropdown-menu, #sidebar {
+#admin_nav .dropdown-menu, #sidebar, #collapsed_sidebar {
 background: #545353 !important;
 border: 3px solid #808080 !important;
 color: white;
@@ -309,7 +309,6 @@ color: white;
 
 
 #topnav .navbar-nav .dropdown-menu a:link,
-#body_top_nav .navbar-nav .dropdown-menu a:visited,
 #sidebar ul.list-unstyled li a:link,
 #sidebar ul.list-unstyled li a:visited,
 #sidebar h3, 
@@ -374,6 +373,16 @@ border: 3px solid #808080 !important;
 
 #sidebar .line {
     border-bottom: 3px dashed #808080;
+}
+
+
+/* ---------------------------------------------------
+    *COLLAPSED* SIDEBAR STYLE
+----------------------------------------------------- */
+
+
+#collapsed_sidebar {
+
 }
 
 

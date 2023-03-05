@@ -98,8 +98,8 @@ $pair_btc_val = $ct_asset->pair_btc_val($asset);
 	if ( !$address || $address_balance == 'error' ) {
 	    
 	    if ( $address != '' ) {
-        // Obfuscate any addresses in error / debug logs
-        $plug_class[$this_plug]->obfusc_addr($address);
+         // Obfuscate any addresses in error / debug logs
+         $plug_class[$this_plug]->obfusc_addr($address);
 	    }
 	    
 	continue;
