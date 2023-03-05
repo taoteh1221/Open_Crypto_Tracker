@@ -189,7 +189,7 @@ On admin login on safari browser, have a alert (like the cookies notice) saying 
 Remove all linebreaks in javascript alert / confirm dialogue boxes, except for new paragraphs. Let the browser choose the max width on it's own (like they do nowadays)
 
 
-Look into doing bootstrap modals instead of the current library we use.
+Look into doing bootstrap modals instead of the current library we use. Maybe it's better?
 
 
 Setup XAMPP on Win10 on the DVR server, and run server edition of tracker on it for a week with PHP debug logging on.
@@ -275,13 +275,13 @@ FEATURES / NEW INFRASTRUCTURE / RESEARCH
 Add secondary submenu support for the COMPACT sidebar (and 3-deep support if possible easily enough)
 
 
-Help / FAQ page link should be moved to bottom of sidebar, with a questionmark icon next to it. It ALSO should be a MODAL WINDOW (like 'more stats'), that is hidden in footer.php, so it can be opened in the user and admin areas just as easily.
-
-
 Move all existing user nav links links to sidebar nav, remove main content border (decide which background shades to keep), and remove width limits on user area.
 
 
 ######################################################################################################################
+
+
+Help / FAQ page link should be moved to bottom of sidebar, with a questionmark icon next to it. It ALSO should be a MODAL WINDOW (like 'more stats'), that is hidden in footer.php, so it can be opened in the user and admin areas just as easily.
 
 
 Add ability for 'active' (first-shown) admin page to be dynamically set via GET param, AND have this GET param passed during admin logins as well (if it is set). Consider adding this ability to the current user area linking subsystem too, if it gives any issues in the sidebar setup (visiting from admin pages). Then show ALL admin page links in sidebar, IF LOGGED IN (and a LOGOUT link)
