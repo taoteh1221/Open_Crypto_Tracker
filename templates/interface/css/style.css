@@ -703,7 +703,7 @@ margin-right: 6px;
 display: none;
 width: 100%;
 max-width: 1200px; 
-margin-top: 0px;
+margin-top: 10px;
 font-size: 21px;
 min-height: 23px; 
 }
@@ -723,7 +723,7 @@ margin-bottom: 60px;
 
 #secondary_wrapper {
     position: absolute;
-    top: 0;
+    top: 15px;
     right: 0;
     width: calc(100% - 350px);
      min-width: 1200px; 
@@ -736,24 +736,13 @@ margin-bottom: 60px;
 
 
 #secondary_wrapper.active {
-    width: 100%;
+    width: calc(100% - 80px);
 }
 
 
 #admin_wrapper, .max_1200px_wrapper {
 position: relative;
 max-width: 1200px;
-}
-
-
-#body_top_nav {
-position: relative;
-display: block;
-width: 100%; 
-min-width: 1200px; 
-white-space: nowrap;
-margin: auto;
-padding-top: 8px;
 }
 
 
@@ -829,7 +818,7 @@ max-width: 1200px;
 }
 
 
-#topnav .navbar-nav .dropdown-menu a:link, #body_top_nav .navbar-nav .dropdown-menu a:visited {
+#topnav .navbar-nav .dropdown-menu a:link {
 padding: 10px;
 font-size: 21px;
 text-decoration: none;
@@ -855,17 +844,21 @@ display: inline-flex !important;
 
 #alert_bell_area {
 position:relative;
-left: 0px;
-min-width: 1150px; /* -50px of usual min/max width, for FF compatibility */
-max-width: 1150px; /* -50px of usual min/max width, for FF compatibility */
-min-height: 45px; 
-padding: 15px;
+z-index: 9999999;
+    width: calc(100% - 30px);
+    text-align: left;
+    min-height: 45px;
+    margin: 15px;
+    margin-top: 0px;
+    padding: 15px;
 font-weight: bold; 
 line-height: 35px;
 white-space: normal;
 word-wrap: break-word;
 background: #ededa6 !important;
 border: 2px solid #dd7c0d !important; 
+border-radius: 6px;
+color: #ff4747;
 }
 
 
@@ -929,15 +922,6 @@ display: none;
 
 
 #sidebar_hamburger {
-    width: 45px;
-    height: 45px;
-    line-height: 45px;
-    text-align: center;
-    position: absolute;
-    top: 15px;
-    left: 15px;
-    cursor: pointer;
-    z-index: 5;
     -webkit-transition: all 0.3s;
     -o-transition: all 0.3s;
     transition: all 0.3s;
@@ -1127,19 +1111,46 @@ max-width: 337px;
     #sidebar.active {
         margin-left: 0;
     }
+    
+    
     #secondary_wrapper {
-        width: 100%;
+        width: calc(100% - 80px);
     }
     #secondary_wrapper.active {
         width: calc(100% - 350px);
     }
+    
+    
     #sidebarCollapse span {
         display: none;
     }
     
+    
 }
 
 
+/* ---------------------------------------------------
+    *COLLAPSED* SIDEBAR STYLE
+----------------------------------------------------- */
+
+
+#collapsed_sidebar {
+position: fixed; 
+top: 0px; 
+left: 0px; 
+z-index: 5;
+padding-left: 15px;
+padding-right: 15px;
+padding-bottom: 25px;
+height: 100%;
+}
+
+
+#collapsed_sidebar img {
+display: block;
+margin-top: 25px;
+cursor: pointer; 
+}
 
 
 
