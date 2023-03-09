@@ -223,7 +223,7 @@ background_tasks_check();
      $('#adminSubmenu').toggleClass('show');
 
 	}
-	else {
+	else if ( !is_iframe ) {
 	     
 	var nav_selector = $('.user-nav-wrapper');
 	
@@ -234,14 +234,18 @@ background_tasks_check();
 	}
 	
 	
-	nav_selector.each(function(){
-	$(this).addClass('active');
-	});
+	if ( !is_iframe ) {
+	     
+     	nav_selector.each(function(){
+     	$(this).addClass('active');
+     	});
+     	
+     	
+     	nav_unselector.each(function(){
+     	$(this).removeClass('active');
+     	});
 	
-	
-	nav_unselector.each(function(){
-	$(this).removeClass('active');
-	});
+	}
 	
 
 	/////////////////////////////////////////////////////////////////////////////////////////////////////
