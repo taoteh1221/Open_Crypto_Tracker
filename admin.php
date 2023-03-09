@@ -4,6 +4,13 @@
  */
 
 
+// MAY HELP, SINCE WE USE SAMESITE=STRICT COOKIES (ESPECIALLY ON SERVERS WITH DOMAIN REDIRECTS)
+if ( !preg_match("/admin\.php/i", $_SERVER['REQUEST_URI']) ) {
+header("Location: admin.php");
+exit;
+}
+
+
 // Runtime mode
 $runtime_mode = 'ui';
 

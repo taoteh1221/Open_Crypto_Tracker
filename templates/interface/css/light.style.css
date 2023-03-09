@@ -14,7 +14,7 @@ color: #000;
 }
 
 
-table, .long_list_even, div.tabdiv, .tabs a.active {
+table, .long_list_even, div.tabdiv {
 background-color: #f2f2f2;
 color: #000;
 }
@@ -76,11 +76,6 @@ color: #898888;
 /* //////////////////////////////
 CLASSES
 ////////////////////////////// */
-
-
-.disable_click{
-background: #ea6b1c !important;
-}
 
 
 .pw_prompt {
@@ -189,12 +184,6 @@ color: #ea6b1c !important;
 
 .blue, td.blue, td.blue span.blue, td select, .btn-link, .btn-link a, .btn-link:hover {
 color: #1a1696 !important;
-}
-
-
-.tabs a {
-background: #808080;
-color: white;
 }
 
 
@@ -316,7 +305,22 @@ color: black;
 }
 
 
-#topnav .navbar-nav .dropdown-menu a:link,
+#collapsed_sidebar .dropdown-menu {
+background: #ccc7c7 !important;
+border-left: 0px solid #ccc7c7 !important;
+border-top: 3px solid #808080 !important;
+border-right: 3px solid #808080 !important;
+border-bottom: 3px solid #808080 !important;
+color: black;
+}
+
+
+#collapsed_sidebar div.active .dropdown-menu {
+background: #bcafaf !important;
+border-left: 0px solid #bcafaf !important;
+}
+
+
 #sidebar ul.list-unstyled li a:link,
 #sidebar ul.list-unstyled li a:visited,
 #sidebar h3, 
@@ -328,31 +332,29 @@ color: black;
 }
 
 
-#topnav .navbar-nav .dropdown-item:hover {
-background-color: #ccc7c7 !important;
-color: #666464 !important;
-}
-
-
-#topnav .navbar-nav .dropdown-item.active,
-#sidebar ul li.sidebar-item.active a
+#sidebar ul li.sidebar-item a.active,
+.user-nav a.active,
+.admin-nav a.active
 {
 background-color: #606060 !important;
 color: white !important;
 border-radius: 3px;
 }
 
+
 #sidebar ul ul a,
 #sidebar ul li.active > a,
+#collapsed_sidebar div.active,
 #sidebar a[aria-expanded="true"]
 {
-    background: #bcafaf !important;
+    background: #bcafaf;
 }
 
 
 #sidebar ul ul a:hover,
 #sidebar ul li.active a:hover,
-#sidebar ul li a:hover
+#sidebar ul li a:hover,
+#collapsed_sidebar .dropdown-menu a:hover
 {
     background: #aaa2a2 !important;
 }
@@ -374,25 +376,25 @@ border: 3px solid #808080 !important;
 }
 
 
-#sidebar ul.components {
-    border-bottom: 3px solid #808080;
-}
-
-
-#sidebar .line {
-    border-bottom: 3px dashed #808080;
-}
-
-
 /* ---------------------------------------------------
     *COLLAPSED* SIDEBAR STYLE
 ----------------------------------------------------- */
 
 
-#collapsed_sidebar {
-
+#collapsed_sidebar .dropdown-menu a {
+color: black;
 }
 
+
+
+/* ---------------------------------------------------
+    FORCE OVERRIDE (BY RUNNING AT END OF THIS STYLESHEET)
+----------------------------------------------------- */
+
+
+.disable_click{
+background: #ea6b1c !important;
+}
 
 
 
