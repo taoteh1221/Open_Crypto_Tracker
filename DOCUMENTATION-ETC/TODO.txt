@@ -183,6 +183,9 @@ Change "portfolio cache size gigabytes" system chart telemetry name to "tracker 
 ######################################################################################################
 
 
+In firefox, there is A TON of margin / padding in each portfolio data row's data cells. Reduce it to match chrome.
+
+
 On admin login on safari browser, have a alert (like the cookies notice) saying safari is not supported in the admin interface.
 
 
@@ -293,6 +296,9 @@ Privacy mode toggle should also be moved to bottom of sidebar.
 On smaller screens (mobile etc), the COMPACT sidebar should be transformed into a top bar (horizontal across top, instead of vertical down the side, with DROP-downs OR SLIDE-downs for secondary submenus [like my biz site on mobile...whichever has a better 'feel']). Have each menu category be an icon that when clicked does a drop-down menu below it, THAT IS THE ENTIRE WIDTH OF THE SCREEN. Skip supporting 3-deep subnav here, unless we can make it work using the entire screen width for 2-deep subnav entries (for small screen tapping UX / less confusion). When each main drop-down is clicked, any other main drop-down should close automatically.
 
 
+Sidebar menu item text should be bold, and maybe even larger (than content area text).
+
+
 Try to shrink up the sidebar width as much as possible, without squishing the top nav together too much.
 
 
@@ -338,7 +344,7 @@ The tags 'h1' through 'h6' should be made to user-adjust text size too (could be
 Remove localbitcoins support (they are closing shop).
 
 
-Add to resources page: https://solana.sec3.dev/
+Add to resources page: https://solana.sec3.dev/ AND https://solana.fm/
 
 
 Convert Arch linux support in auto-installer over to redhat (yum), as Arch does have much pakage support for libraries we use.
