@@ -14,6 +14,11 @@ $(document).ready(function(){
 // PHP used instead for logging / alerts, but leave here in case we want to use pure-javascript
 // cookie creation some day (which could help pre-detect too-large headers that crash an HTTP server)
 // console.log( array_byte_size(document.cookie) );
+
+
+// Main submit form ACTION should ALWAYS MATCH the browser window location
+// (for UX of loading back to same page AFTER form submission)
+$("#coin_amnts").attr('action', window.location);
     
 	
 // Render interface after loading (with transition effects)

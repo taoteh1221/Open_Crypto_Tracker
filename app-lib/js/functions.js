@@ -1854,6 +1854,8 @@ function nav_menu($chosen_menu) {
                                // ONLY IF NO START PAGE IS EXPLICITLY SET!
                                if ( get_url_param('start_page') == null ) {
                                window.location = $area_file + $curr_content_id; 
+                               // MAIN submit form too (also stores and updates chosen charts / news feeds / etc)
+                               $("#coin_amnts").attr('action', $area_file + $curr_content_id);
                                }
                                   
                          }
