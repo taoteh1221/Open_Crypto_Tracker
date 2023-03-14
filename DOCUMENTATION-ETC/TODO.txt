@@ -278,6 +278,9 @@ FEATURES / NEW INFRASTRUCTURE / RESEARCH
 ############ NEXT FEATURES / NEW INFRASTRUCTURE / RESEARCH SCHEDULED WORK SESSION ####################################
 
 
+Onsubmit in init.js should detect if the "update" hash (when on update page) is present. If so, change it to "portfolio" so it shows the portfolio page on reload. Also, we don't need to auto-set the start page when submitting data on mining / tools pages anymore (as we leave the hash in the URL now).
+
+
 window.location = $area_file + $curr_content_id; in functions.js makes the page auto-scroll down from the top just a few pixels (in both admin and user areas). See if we can make it NOT auto-scroll AT ALL.
 
 
@@ -347,7 +350,18 @@ The tags 'h1' through 'h6' should be made to user-adjust text size too (could be
 Remove localbitcoins support (they are closing shop).
 
 
-Add to resources page: https://solana.sec3.dev/ AND https://solana.fm/
+Add to resources page: 
+
+https://solana.sec3.dev/
+
+https://solana.fm/
+
+https://squads.so/
+
+https://stakewiz.com/
+
+
+Add OPTIONAL Coingecko PRO API support: https://apiguide.coingecko.com/exclusive-endpoints/pro-api
 
 
 Convert Arch linux support in auto-installer over to redhat (yum), as Arch does have much pakage support for libraries we use.
