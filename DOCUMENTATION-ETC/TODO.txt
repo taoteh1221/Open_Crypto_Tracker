@@ -278,6 +278,9 @@ FEATURES / NEW INFRASTRUCTURE / RESEARCH
 ############ NEXT FEATURES / NEW INFRASTRUCTURE / RESEARCH SCHEDULED WORK SESSION ####################################
 
 
+COLLAPSED SIDEBAR should show ACTIVE menu on page load / reload.
+
+
 Onsubmit in init.js should detect if the "update" hash (when on update page) is present. If so, change it to "portfolio" so it shows the portfolio page on reload. Also, we don't need to auto-set the start page when submitting data on mining / tools pages anymore (as we leave the hash in the URL now).
 
 
@@ -309,6 +312,12 @@ Try to shrink up the sidebar width as much as possible, without squishing the to
 
 
 Tweak sizes / colors / positioning in sidebar, until it feels just right.
+
+
+Remove localbitcoins support (they are closing shop).
+
+
+Remove binance.us HNT markets (closing 3/21/23)
 
 
 Add Bitcoin NFT support.
@@ -345,9 +354,6 @@ font-size: 15px !important;
 
 
 The tags 'h1' through 'h6' should be made to user-adjust text size too (could be a bit tricky, be careful).
-
-
-Remove localbitcoins support (they are closing shop).
 
 
 Add to resources page: 
