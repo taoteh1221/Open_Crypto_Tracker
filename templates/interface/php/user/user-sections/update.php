@@ -180,11 +180,15 @@
 							</li>
 							
 							<li class='bitcoin disclaimer'>
-								<i>ALWAYS <u>buy low</u> AND <u>sell high</u></i>. (NOT the other way around!), *UNLESS* you CAREFULLY decide you've accidentally bought an asset that will probably go nowhere in value long term, relative to other assets you are interested in.
+								Leverage trading is <u>EXTREMELY RISKY</u> (and even more so in crypto markets). <i>NEVER</i> put more than ~5% of your total investment worth into ALL your leverage trades COMBINED, or you will <u>RISK LOSING EVERYTHING</u>!
 							</li>
 							
 							<li class='bitcoin disclaimer'>
 								The biggest investment you will EVER make (and NEVER regret) is ALWAYS value your health and happiness more than ALL THE MONEY IN THE WORLD. NEVER let chasing after ANY AMOUNT of wealth take that from you, EVER.
+							</li>
+							
+							<li class='bitcoin disclaimer'>
+								<i>ALWAYS <u>buy low</u> AND <u>sell high</u></i>. (NOT the other way around!), *UNLESS* you CAREFULLY decide you've accidentally bought an asset that will probably go nowhere in value long term, relative to other assets you are interested in.
 							</li>
 							
 							 <li class='bitcoin disclaimer'>
@@ -193,6 +197,10 @@
 							
 							<li class='bitcoin disclaimer'>
 								ALWAYS have a future plan in place, of what you will buy / sell: 1) Around a certain future date in time. 2) If a certain price target has been met or exceeded. This doesn't need to be "all in" or "all out". For instance, you may want to split your capital gains between 2 tax years within a tight time period, in late December / early the following January, to avoid higher tax brackets.
+							</li>
+							
+							<li class='bitcoin disclaimer'>
+								Speculating on popular "meme coins" (dog / cat / ape / frog coins, etc) is <u>EXTREMELY RISKY</u>. <i>NEVER</i> put more than ~5% of your total investment worth into ALL your meme coin assets COMBINED (AKA small "moon bags"), or you will <u>RISK LOSING EVERYTHING</u>! They are EXTREMELY VOLITILE becuase they are HEAVILY SPECULATED ON (NOT long term investments for many traders).
 							</li>
 						
 							<li class='bitcoin disclaimer'>
