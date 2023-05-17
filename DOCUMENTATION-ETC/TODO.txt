@@ -359,6 +359,8 @@ https://squads.so/
 
 https://stakewiz.com/
 
+https://solanacompass.com/
+
 
 Add OPTIONAL Coingecko PRO API support: https://apiguide.coingecko.com/exclusive-endpoints/pro-api
 
