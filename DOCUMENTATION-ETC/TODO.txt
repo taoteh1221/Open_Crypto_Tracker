@@ -283,6 +283,17 @@ FEATURES / NEW INFRASTRUCTURE / RESEARCH
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
+Integrate google authenticator / microsoft authenticator / authy / etc BEING REQUIRED TO CHANGE THE ADMIN SECURITY LEVEL FROM HIGH TO A LOWER LEVEL (and also make it OPTIONAL for login security):
+
+https://www.google.com/search?q=php+one+time+password+google+authenticator
+
+https://www.rafaelwendel.com/en/2021/05/two-step-verification-with-php-and-google-authenticator/
+
+https://github.com/sonata-project/GoogleAuthenticator
+
+https://stackoverflow.com/questions/tagged/sonata
+
+
 COLLAPSED SIDEBAR should show ACTIVE menu on page load / reload.
 
 
