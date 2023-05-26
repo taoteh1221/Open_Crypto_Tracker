@@ -109,7 +109,7 @@ $ct_conf['gen']['crypto_dec_max'] = 13; // Whole numbers only (represents number
 // #FIAT# CURRENCY VALUES UNDER 100 #ARE ALWAYS FORCED TO 2 DECIMALS MINUMUM#
 // #FIAT# CURRENCY VALUES UNDER 1 #ARE ALWAYS FORCED TO 'currency_dec_max' DECIMALS MAXIMUM#
 // THIS SETTING ONLY AFFECTS INTERFACE / COMMS PRICE DISPLAY ROUNDING, IT DOES #NOT# AFFECT BACKGROUND CALCULATIONS
-$ct_conf['gen']['price_round_percent'] = 'hundredth'; // (OF A PERCENT) 'one', 'tenth', 'hundredth', 'thousandth'
+$ct_conf['gen']['price_round_percent'] = 'thousandth'; // (OF A PERCENT) 'one', 'tenth', 'hundredth', 'thousandth'
 ////
 // FORCE a FIXED MINIMUM amount of decimals on interface price, CALCULATED OFF ABOVE price_round_percent SETTING
 // (ALWAYS SAME AMOUNT OF DECIMALS, #EVEN IF IT INCLUDES TRAILING ZEROS#) 
