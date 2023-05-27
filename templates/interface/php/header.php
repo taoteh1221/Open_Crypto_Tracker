@@ -523,7 +523,7 @@ else {
                     ?>
                     
                     <li>
-                    <a class="dropdown-item" href="admin.php">Login</a>
+                    <a class="dropdown-item" href="admin.php">Admin Login</a>
                     </li>
 
                     <?php
