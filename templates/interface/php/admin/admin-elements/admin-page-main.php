@@ -26,7 +26,7 @@
 			<a class="nav-link admin_change_width" data-bs-toggle="tab" data-width="fixed_max" href="#admin_proxy" role="tab" aria-controls="admin_proxy">Proxies</a>
 		  </li>
 		  <li class="nav-item">
-			<a class="nav-link admin_change_width active" data-bs-toggle="tab" data-width="fixed_max" href="#admin_security" role="tab" aria-controls="admin_security">Security</a>
+			<a class="nav-link admin_change_width" data-bs-toggle="tab" data-width="fixed_max" href="#admin_security" role="tab" aria-controls="admin_security">Security</a>
 		  </li>
 		  <li class="nav-item">
 			<a class="nav-link admin_change_width" data-bs-toggle="tab" data-width="fixed_max" href="#admin_portfolio_assets" role="tab" aria-controls="admin_portfolio_assets">Portfolio Assets</a>
@@ -134,7 +134,7 @@
 		  </div>
 		
 		
-		  <div class="tab-pane active" id="admin_security" role="tabpanel">
+		  <div class="tab-pane" id="admin_security" role="tabpanel">
 	
 	            <h2 class='bitcoin admin_title'>Security</h2>
 

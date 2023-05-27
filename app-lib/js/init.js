@@ -14,6 +14,11 @@ $(document).ready(function(){
 // PHP used instead for logging / alerts, but leave here in case we want to use pure-javascript
 // cookie creation some day (which could help pre-detect too-large headers that crash an HTTP server)
 // console.log( array_byte_size(document.cookie) );
+
+
+// Main submit form ACTION should ALWAYS MATCH the browser window location
+// (for UX of loading back to same page AFTER form submission)
+$("#coin_amnts").attr('action', window.location);
     
 	
 // Render interface after loading (with transition effects)
@@ -70,14 +75,12 @@ background_tasks_check();
 	/////////////////////////////////////////////////////////////////////////////////////////////////////
 	
 	
-	if ( emulated_cron_enabled ) {
-	
-     // Emulate a cron job every X minutes...
-     cron_already_ran = false;
+    // We only want to load our vertical scroll position on secondary start pages that are't background-loading AFTER page load
+    // (WE ALREADY LOAD get_scroll_position() in charts_loading_check() AND feeds_loading_check() FOR THE DYNAMIC PAGE LOADING)
+    if ( $(location).attr('hash') != '' && $(location).attr('hash') != '#news' && $(location).attr('hash') != '#charts' ) {
+    get_scroll_position('init'); // Run AFTER showing content
+    }
     
-     emulated_cron(); // Initial load (RELOADS from WITHIN it's OWN logic every minute AFTER)
-	
-	}
 
 	/////////////////////////////////////////////////////////////////////////////////////////////////////
 	
@@ -90,13 +93,29 @@ background_tasks_check();
 
 
 	/////////////////////////////////////////////////////////////////////////////////////////////////////
+	     
+	
+	// For ALL nav menus (normal / compact sidebars, mobile top nav bar), we want to keep track of which
+	// nav item is active and it's associated content, and display it / mark nav links as active in interface
+	if ( is_admin == true ) {
+	nav_menu('.admin-nav');
+	}
+	else {
+	nav_menu('.user-nav');
+	}
+
+
+	/////////////////////////////////////////////////////////////////////////////////////////////////////
 	
 	
-    // We only want to load our vertical scroll position on secondary start pages that are't background-loading AFTER page load
-    // (WE ALREADY LOAD get_scroll_position() in charts_loading_check() AND feeds_loading_check() FOR THE DYNAMIC PAGE LOADING)
-    if ( $(location).attr('hash') != '' && $(location).attr('hash') != '#news' && $(location).attr('hash') != '#charts' ) {
-    get_scroll_position('init'); // Run AFTER showing content
-    }
+	if ( emulated_cron_enabled ) {
+	
+     // Emulate a cron job every X minutes...
+     cron_already_ran = false;
+    
+     emulated_cron(); // Initial load (RELOADS from WITHIN it's OWN logic every minute AFTER)
+	
+	}
 
 
 	/////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -123,7 +142,12 @@ background_tasks_check();
     
     form_submit_queued = true;
     
-        // We have to run app_reloading_check() here, 
+        // Redirect reloaded page to show portfolio, IF we saved user settings OR updated the portfolio
+        if ( $(location).attr('hash') == '#update' || $(location).attr('hash') == '#settings' ) {
+        this.action = 'index.php';
+        }
+    
+        // We have to run app_reloading_check(1) here, 
         if ( app_reloading_check(1) == 'no' ) {
         event.preventDefault();
         return false;
@@ -165,9 +189,8 @@ background_tasks_check();
          }
         
     // Just zoom body / show new zoom level in GUI,
-    // and reset #topnav and #app_loading and #change_font_size to 100% beforehand
+    // and reset #app_loading and #change_font_size to 100% beforehand
     // (iframes zoom onload in other init logic)
-    $('#topnav').css('zoom', ' ' + 100 + '%');
     $('#change_font_size').css('zoom', ' ' + 100 + '%');
     $('#app_loading').css('zoom', ' ' + 100 + '%');
     $('body').css('zoom', ' ' + currzoom + '%');
@@ -196,6 +219,44 @@ background_tasks_check();
     	}, 1000);
     }
 
+
+	/////////////////////////////////////////////////////////////////////////////////////////////////////
+	
+	
+	// Mark correct nav wrapper as active in interface
+	if ( is_admin == true && !is_iframe ) {
+
+	var nav_selector = $('.admin-nav-wrapper');
+
+	var nav_unselector = $('.user-nav-wrapper');
+	
+     $('#adminSubmenu').toggleClass('show');
+
+	}
+	else if ( !is_iframe ) {
+	     
+	var nav_selector = $('.user-nav-wrapper');
+	
+	var nav_unselector = $('.admin-nav-wrapper');
+	
+     $('#userSubmenu').toggleClass('show');
+
+	}
+	
+	
+	if ( !is_iframe ) {
+	     
+     	nav_selector.each(function(){
+     	$(this).addClass('active');
+     	});
+     	
+     	
+     	nav_unselector.each(function(){
+     	$(this).removeClass('active');
+     	});
+	
+	}
+	
 
 	/////////////////////////////////////////////////////////////////////////////////////////////////////
 	
@@ -292,49 +353,6 @@ background_tasks_check();
 	/////////////////////////////////////////////////////////////////////////////////////////////////////
 	
 	
-	// For each set of user area tabs, we want to keep track of
-	// which tab is active and it's associated content
-	$('#top_tab_nav').each(function(){
-		
-	var $active, $content, $links = $(this).find('a');
-
-	// If the location.hash matches one of the links, use that as the active tab.
-	// If no match is found, use the first link as the initial active tab.
-	$active = $($links.filter('[href="'+location.hash+'"]')[0] || $links[0]);
-	$active.addClass('active');
-
-	$content = $($active[0].hash);
-
-	    // Hide the remaining content
-	    $links.not($active).each(function () {
-	    $(this.hash).hide();
-	    });
-
-	    // Bind the click event handler
-	    $(this).on('click', 'a', function(e){
-	    // Make the old tab inactive.
-	    $active.removeClass('active');
-	    $content.hide();
-  
-	    // Update the variables with the new link and content
-	    $active = $(this);
-	    $content = $(this.hash);
-  
-	    // Make the tab active.
-	    $active.addClass('active');
-	    $content.show();
-  
-	    // Prevent the anchor's default click action
-	    e.preventDefault();
-	    });
-	  
-	
-	});
-
-
-	/////////////////////////////////////////////////////////////////////////////////////////////////////
-	
-	
      // Plus-minus elements (DESKTOP EDITION'S zoom in / out interface ONLY)
     if ( app_edition == 'desktop' ) {
     
@@ -377,84 +395,6 @@ background_tasks_check();
         });
         
     } // END page zoom logic
-
-
-
-	/////////////////////////////////////////////////////////////////////////////////////////////////////
-	
-
-    // Init sidebar (IF NOT IFRAME)
-    if ( !is_iframe ) {
-    
-         
-         $("#sidebar").mCustomScrollbar({
-              theme: "minimal"
-         });
-         
-         
-         // KEEP OPEN ON CLICK Custom 3-deep (last) sub-menu
-         // ALSO RESET OPEN ON CLICK Custom 3-deep (last) sub-menu
-         $('#sidebar_menu .dropdown-menu').on({
-              "click":function(e){
-              custom_3deep_menu_on = false;
-              e.stopPropagation();
-              }
-          });
-         
-         
-         // RESET OPEN ON CLICK Custom 3-deep (last) sub-menu
-         $('.sidebar-item :not(.custom-3deep)').on({
-              "click":function(e){
-              custom_3deep_menu_on = false;
-              }
-          });
-          
-          
-          // OPEN MAIN LINK ON CLICK (Custom 3-deep (last) sub-menu),
-          // #ONLY AFTER# IT HAS OPENED THE SUBMENU AT LEAST ONCE
-          $('li.custom-3deep').on('click', function() {
-           
-           var $cust_men_el = $(this);
-           
-              if ( $cust_men_el.hasClass('open-first') ) {
-              
-              var $cust_men_a = $cust_men_el.children('a.dropdown-toggle');
-              
-                  if ( $cust_men_a.length && $cust_men_a.attr('href') && custom_3deep_menu_on != false ) {
-                  custom_3deep_menu_on = false;
-                  location.href = $cust_men_a.attr('href');
-                  }
-                  else if ( $cust_men_a.length && $cust_men_a.attr('href') ) {
-                  custom_3deep_menu_on = true;
-                  }
-                  else if ( !$cust_men_a.hasClass('show') ) {
-                  custom_3deep_menu_on = false;
-                  }
-                  
-              }
-              
-          });
-          
-     
-         $('.sidebar_toggle').on('click', function () {
-               
-          // Toggle sidebar
-          toggle_sidebar();
-               
-          // Save user's last preferred sidebar mode (for next app load)
-          var sidebar_check = $('#sidebar').css('margin-left');
-               
-              if ( sidebar_check == '0px' ) {
-              localStorage.setItem(sidebar_toggle_storage, "closed");
-              }
-              else {
-              localStorage.setItem(sidebar_toggle_storage, "open");
-              }
-            
-         });
-         
-    
-    }
 
 
 	/////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -589,6 +529,232 @@ background_tasks_check();
                  e.preventDefault();
              }
          });
+
+
+
+	/////////////////////////////////////////////////////////////////////////////////////////////////////
+	
+
+    // Init sidebar (IF NOT IFRAME)
+    if ( !is_iframe ) {
+    
+         
+         
+         // RESET OPEN ON CLICK REGULAR sidebar 3-deep (last) sub-menu
+         $('.sidebar-item :not(.custom-3deep)').on({
+              "click":function(e){
+              custom_3deep_menu_on = false;
+              }
+          });
+         
+
+         
+         // KEEP OPEN ON CLICK: COMPACT sidebar 2-deep (last) sub-menu
+         $('#collapsed_sidebar .dropdown-menu').on({
+              "click":function(e){
+              e.stopPropagation();
+              }
+          });
+         
+         
+         
+         // KEEP OPEN ON CLICK REGULAR sidebar 3-deep (last) sub-menu
+         // ALSO RESET OPEN ON CLICK Custom 3-deep (last) sub-menu
+         $('#sidebar_menu .dropdown-menu').on({
+              "click":function(e){
+              custom_3deep_menu_on = false;
+              e.stopPropagation();
+              }
+          });
+         
+         
+         
+         // https://manos.malihu.gr/jquery-custom-content-scroller/
+         // https://github.com/malihu/malihu-custom-scrollbar-plugin/issues/329
+         // (SCROLLING FOR WIDE SIDEBAR [WHEN A SUBMENU IS LONGER THAN THE SCREEN HEIGHT])
+         $("#sidebar").mCustomScrollbar({
+              
+              theme: "minimal",
+              scrollInertia: 100,
+              mouseWheel:{
+                          scrollAmount: 50,
+                          normalizeDelta: true
+                          },
+                          
+         });
+       
+         
+         
+         // SET ADMIN AREA ACTIVE: ALL sidebars 2-deep sub-menu
+         // (SYNCES WITH ANY OTHER MENU SELECTING)
+         $('.admin-nav-wrapper a[aria-expanded="false"]').on({
+              "click":function(e){
+	
+               	$('.admin-nav-wrapper').each(function(){
+               	$(this).addClass('active');
+               	});
+               	
+               	
+               	$('.user-nav-wrapper').each(function(){
+               	$(this).removeClass('active');
+               	});    
+                   
+              }
+          });
+          
+          
+     
+          // Toggle sidebar
+         $('.sidebar_toggle').on('click', function () {
+               
+          toggle_sidebar();
+               
+          // Save user's last preferred sidebar mode (for next app load)
+          var sidebar_check = $('#sidebar').css('margin-left');
+               
+              if ( sidebar_check == '0px' ) {
+              localStorage.setItem(sidebar_toggle_storage, "closed");
+              }
+              else {
+              localStorage.setItem(sidebar_toggle_storage, "open");
+              }
+            
+         });
+         
+         
+
+         // SET USER AREA ACTIVE: ALL sidebars 2-deep sub-menu
+         // (SYNCES WITH ANY OTHER MENU SELECTING)
+         $('.user-nav-wrapper a[aria-expanded="false"]').on({
+              "click":function(e){
+	
+               	$('.user-nav-wrapper').each(function(){
+               	$(this).addClass('active');
+               	});
+               	
+               	
+               	$('.admin-nav-wrapper').each(function(){
+               	$(this).removeClass('active');
+               	});    
+                   
+              }
+          });
+          
+          
+          
+          // OPEN MAIN LINK ON CLICK (REGULAR sidebar 3-deep (last) sub-menu),
+          // #ONLY AFTER# IT HAS OPENED THE SUBMENU AT LEAST ONCE
+          $('li.custom-3deep').on('click', function() {
+           
+           var $cust_men_el = $(this);
+           
+              if ( $cust_men_el.hasClass('open-first') ) {
+              
+              var $cust_men_a = $cust_men_el.children('a.dropdown-toggle');
+              
+                  if ( $cust_men_a.length && $cust_men_a.attr('href') && custom_3deep_menu_on != false ) {
+                  custom_3deep_menu_on = false;
+                  location.href = $cust_men_a.attr('href');
+                  }
+                  else if ( $cust_men_a.length && $cust_men_a.attr('href') ) {
+                  custom_3deep_menu_on = true;
+                  }
+                  else if ( !$cust_men_a.hasClass('show') ) {
+                  custom_3deep_menu_on = false;
+                  }
+                  
+              }
+              
+          });
+
+         
+         
+         // Reload placeholder when changing nav areas: ALL sidebars
+         $('.all-nav a').on({
+              "click":function(e){
+              
+              var scan_href = $(this).attr('href');
+              scan_href = scan_href.split('/').pop();         
+              
+              
+                  if (scan_href.indexOf("#") > 0) {
+                  scan_href = scan_href.substring(0, scan_href.indexOf("#"));
+                  }
+              
+              
+                  if (
+                  is_admin && scan_href != 'admin.php'
+                  || !is_admin && scan_href == 'admin.php'
+                  ) {
+                  app_reloading_check(0, 1);
+                  }
+              
+              
+              }
+          });
+         
+         
+
+         // Admin submenu
+         $('.admin-nav-wrapper a[aria-expanded]').on({
+              "click":function(e){
+              
+                   if ( $(this).hasClass("active") != true ) {
+                        
+                   $(this).addClass("active");
+                   
+                   $('.user-nav-wrapper').removeClass("active");
+                   
+                   $('.user-nav-wrapper a[aria-expanded]').removeClass("active");
+
+                   $('.user-nav-wrapper a[aria-expanded="true"]').attr('aria-expanded', 'false');
+                   
+                        $("#adminSubmenu").fadeIn(250, function() {
+                        $(this).addClass("show");
+                        });
+                        
+                        $("#userSubmenu").fadeOut(250, function() {
+                        $(this).removeClass("show");
+                        });
+                   
+                   }
+                   
+              }
+          });
+         
+         
+         
+         // User submenu
+         $('.user-nav-wrapper a[aria-expanded]').on({
+              "click":function(e){
+              
+                   if ( $(this).hasClass("active") != true ) {
+                   
+                   $(this).addClass("active");
+
+                   $('.admin-nav-wrapper').removeClass("active");
+
+                   $('.admin-nav-wrapper a[aria-expanded]').removeClass("active");
+
+                   $('.admin-nav-wrapper a[aria-expanded="true"]').attr('aria-expanded', 'false');
+                   
+                        $("#userSubmenu").fadeIn(250, function() {
+                        $(this).addClass("show");
+                        });
+                        
+                        
+                        $("#adminSubmenu").fadeOut(250, function() {
+                        $(this).removeClass("show");
+                        });
+
+                   }
+                   
+              }
+          });
+         
+    
+    
+    }
     
 
 	/////////////////////////////////////////////////////////////////////////////////////////////////////

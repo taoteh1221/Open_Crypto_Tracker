@@ -5,6 +5,10 @@
 
 
 ?>
+
+<div class='full_width_wrapper align_center'>
+
+
     
 			<span id='pm_link' class='bitcoin' onclick='privacy_mode(true);' title='Turn privacy mode ON. This encrypts / hides RENDERED personal portfolio data with the PIN you setup (BUT DOES #NOT# encrypt RAW source code). It ALSO disables opposite-clicking / data submission, and logs out any active admin login.'>Privacy Mode Is Off</span> 
 			<?php
@@ -51,7 +55,7 @@
 			$refresh_link_title = 'The current real-time exchange data re-cache (refresh from live data instead of cached data) setting in the Admin Config GENERAL section is set to '. $ct_conf['power']['last_trade_cache_time'] . ' minute(s).';
 			}
 			
-			?>  &nbsp; &nbsp; &nbsp; <a href='javascript:app_reloading_check(0);' class='bitcoin' style='font-weight: bold;' title='<?=$refresh_link_title?>'>Refresh</a> <span><b>(<?=$ct_conf['power']['last_trade_cache_time']?> minute cache)</b></span>
+			?>  &nbsp; &nbsp; &nbsp; <a href='javascript:app_reloading_check();' class='bitcoin' style='font-weight: bold;' title='<?=$refresh_link_title?>'>Refresh</a> <span><b>(<?=$ct_conf['power']['last_trade_cache_time']?> minute cache)</b></span>
 			
 			 &nbsp;<select title='Auto-Refresh MAY NOT WORK properly on mobile devices (phone / laptop / tablet / etc), or inactive tabs.' class='browser-default custom-select' name='select_auto_refresh' id='select_auto_refresh' onchange='
 			 reload_time = this.value;
@@ -72,7 +76,7 @@ if ( $_POST['submit_check'] == 1 || $run_csv_import || $ui_cookies ) {
 ?>
 
 
-<table border='0' cellpadding='10' cellspacing='0' id="coins_table">
+<table border='0' cellpadding='10' cellspacing='0' id="coins_table" class="align_center">
  <thead>
     <tr>
 <th class='border_lt num-sort'>Rank</th>
@@ -430,7 +434,7 @@ $altcoin_dominance = $ct_var->max_100($altcoin_dominance);
 	
 		
 ?>
-<div class="show_asset_vals bold_1 blue"><!-- Summary START -->
+<div class="portfolio_footer align_left show_asset_vals bold_1 blue"><!-- Summary START -->
 <?php
 		
 		// Run BEFORE output of BTC / PAIR portfolio values, to include any margin / leverage summaries in parentheses NEXT TO THEM (NOT in the actual BTC / PAIR amounts, for UX's sake)
@@ -687,13 +691,14 @@ var fiat_val_content = '<h5 class="yellow tooltip_title">Primary Currency (<?=st
 							
                               $thres_dec_1 = $ct_gen->thres_dec($val['gain_loss_total'], 'u', 'fiat'); // Units mode
                               
-						$parsed_gain_loss = preg_replace("/-/", "-" . $ct_conf['power']['btc_currency_mrkts'][ $ct_conf['gen']['btc_prim_currency_pair'] ], $ct_var->num_pretty($val['gain_loss_total'], $thres_dec_1['max_dec'], false, $thres_dec_1['min_dec']) );
+						$parsed_gain_loss = preg_replace("/-/", "", $ct_var->num_pretty($val['gain_loss_total'], $thres_dec_1['max_dec'], false, $thres_dec_1['min_dec']) );
 		
 		
                               $thres_dec_2 = $ct_gen->thres_dec($val['gain_loss_percent_total'], 'p'); // Percentage mode
 				          
 				          ?>
-			+'<p class="coin_info"><span class="yellow"><?=$val['coin_symb']?>:</span> <span class="<?=( $val['gain_loss_total'] >= 0 ? 'green">+' . $ct_conf['power']['btc_currency_mrkts'][ $ct_conf['gen']['btc_prim_currency_pair'] ] : 'red">' )?><?=$parsed_gain_loss?> (<?=( $val['gain_loss_total'] >= 0 ? '+' : '' )?><?=number_format($val['gain_loss_percent_total'], $thres_dec_2['max_dec'], '.', ',')?>%<?=( $val['coin_lvrg'] >= 2 ? ', ' . $val['coin_lvrg'] . 'x ' . $val['selected_mrgntyp'] : '' )?>)</span></p>'
+				          
+			+'<p class="coin_info"><span class="yellow"><?=$val['coin_symb']?>:</span> <span class="<?=( $val['gain_loss_total'] >= 0 ? 'green">+' : 'red">-' )?><?=$ct_conf['power']['btc_currency_mrkts'][ $ct_conf['gen']['btc_prim_currency_pair'] ]?><?=$parsed_gain_loss?> (<?=( $val['gain_loss_total'] >= 0 ? '+' : '' )?><?=number_format($val['gain_loss_percent_total'], $thres_dec_2['max_dec'], '.', ',')?>%<?=( $val['coin_lvrg'] >= 2 ? ', ' . $val['coin_lvrg'] . 'x ' . $val['selected_mrgntyp'] : '' )?>)</span></p>'
 			
 			    <?php
 						}
@@ -1493,6 +1498,8 @@ zingchart.bind('marketcap_chart', 'label_click', function(e){
 	<style>
 	.show_asset_vals, #admin_conf_quick_links, #coins_table {
 	display: block;
+	width: fit-content;
+	margin: auto;
 	}
 	</style>
 	
@@ -1512,7 +1519,7 @@ zingchart.bind('marketcap_chart', 'label_click', function(e){
 	?>
 	
 	
-	<div style='margin-top: 10px; height: auto;'>
+	<div class='portfolio_footer' style='margin-top: 10px; height: auto;'>
 	
 		<b class='black private_data'>&nbsp;Trading Notes (<a href='javascript: return false;' target='_blank' onclick='
 		
@@ -2044,6 +2051,15 @@ var server_header_defaults_content = '<h5 class="yellow tooltip_title">Average S
 	<?php
 		}
     ?>
+	
+				
+				
+				
+</div> <!-- portfolio_page_wrapper END -->
+
+
+
+
 	
 	
 	

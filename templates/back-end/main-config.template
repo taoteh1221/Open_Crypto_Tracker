@@ -34,7 +34,7 @@ exit;
 
 // Your local time offset IN HOURS COMPARED TO UTC TIME (#CAN BE DECIMAL# TO SUPPORT 30 / 45 MINUTE TIME ZONES). Can be negative or positive.
 // (Used for user experience 'pretty' timestamping in interface logic ONLY, WILL NOT change or screw up UTC log times etc if you change this)
-$ct_conf['gen']['loc_time_offset'] = -5; // example: -5 or 5, -5.5 or 5.75
+$ct_conf['gen']['loc_time_offset'] = -4; // example: -5 or 5, -5.5 or 5.75
 
 
 // Displays interface text in ANY google font found at: https://fonts.google.com
@@ -109,7 +109,7 @@ $ct_conf['gen']['crypto_dec_max'] = 13; // Whole numbers only (represents number
 // #FIAT# CURRENCY VALUES UNDER 100 #ARE ALWAYS FORCED TO 2 DECIMALS MINUMUM#
 // #FIAT# CURRENCY VALUES UNDER 1 #ARE ALWAYS FORCED TO 'currency_dec_max' DECIMALS MAXIMUM#
 // THIS SETTING ONLY AFFECTS INTERFACE / COMMS PRICE DISPLAY ROUNDING, IT DOES #NOT# AFFECT BACKGROUND CALCULATIONS
-$ct_conf['gen']['price_round_percent'] = 'hundredth'; // (OF A PERCENT) 'one', 'tenth', 'hundredth', 'thousandth'
+$ct_conf['gen']['price_round_percent'] = 'thousandth'; // (OF A PERCENT) 'one', 'tenth', 'hundredth', 'thousandth'
 ////
 // FORCE a FIXED MINIMUM amount of decimals on interface price, CALCULATED OFF ABOVE price_round_percent SETTING
 // (ALWAYS SAME AMOUNT OF DECIMALS, #EVEN IF IT INCLUDES TRAILING ZEROS#) 
@@ -629,28 +629,11 @@ $ct_conf['charts_alerts']['tracked_mrkts'] = array(
 					'grape-5' => 'coingecko_gbp||gbp||none',
 					
 					
-					// MSOL
-					'msol' => 'coingecko_usd||usd||chart',
-					
-					
-					// APT
-					'apt' => 'coinbase||usd||both',
-					'apt-2' => 'kraken||eur||chart',
-					'apt-3' => 'binance||btc||chart',
-					'apt-4' => 'gateio||eth||chart',
-					
-					
 					// BONK
 					'bonk' => 'huobi||usdt||chart',
 					'bonk-2' => 'gateio||usdt||both',
 					'bonk-3' => 'coingecko_btc||btc||chart',
 					'bonk-4' => 'coingecko_eth||eth||chart',
-					
-					
-					// SLC
-					'slc' => 'coingecko_btc||btc||chart',
-					'slc-2' => 'gateio||usdt||both',
-					'slc-3' => 'coingecko_eth||eth||chart',
 					
 					
 					);
@@ -1094,12 +1077,6 @@ $ct_conf['power']['news_feed'] = array(
         
         
         				array(
-            			"title" => "Blog - Aptos (Layer 1 High-Speed Smart Contract Network)",
-            			"url" => "https://medium.com/feed/aptoslabs"
-        						),
-
-        
-        				array(
             			"title" => "Blog - BitcoinCore.org",
             			"url" => "https://bitcoincore.org/en/rss.xml"
         						),
@@ -1157,18 +1134,6 @@ $ct_conf['power']['news_feed'] = array(
             			"title" => "Blog - Kraken",
             			"url" => "https://blog.kraken.com/feed/"
         						),
-        
-        
-        				array(
-            			"title" => "Blog - Marinade Finance (mSOL liquid staking on Solana)",
-            			"url" => "https://medium.com/feed/marinade-finance"
-        						),
-        
-        
-        				array(
-            			"title" => "Blog - Misten Labs (creators of the 'Sui' high-speed smart contract network)",
-            			"url" => "https://medium.com/feed/mysten-labs"
-        						),
     
     
         				array(
@@ -1192,12 +1157,6 @@ $ct_conf['power']['news_feed'] = array(
         				array(
             			"title" => "Blog - RNDR Network (Blockchain-Distributed GPU Rendering)",
             			"url" => "https://medium.com/feed/render-token"
-        						),
-        
-        
-        				array(
-            			"title" => "Blog - Solice (Virtual World / Metaverse on Solana)",
-            			"url" => "https://medium.com/feed/@solice_io"
         						),
         
         
@@ -3419,98 +3378,6 @@ $ct_conf['assets'] = array(
                     ////////////////////////////////////////////////////////////////////
                     
                     
-                    // MSOL
-                    'MSOL' => array(
-                        
-                        'name' => 'Marinade Solana',
-                        'mcap_slug' => 'marinade-staked-sol',
-                        'pair' => array(
-
-                                                    
-                                    'eth' => array(
-                                        'gateio' => 'MSOL_ETH',
-                                                    ),
-
-                                                    
-                                    'usd' => array(
-                                    	 'coingecko_usd' => 'msol',
-                                                    ),
-
-                                                    
-                                    'usdt' => array(
-                                        'gateio' => 'MSOL_USDT',
-                                                    ),
-
-                                                    
-                        ) // pair END
-                                        
-                    ), // Asset END
-                    
-                    
-                    ////////////////////////////////////////////////////////////////////
-                    
-                    
-                    // APT
-                    'APT' => array(
-                        
-                        'name' => 'Aptos',
-                        'mcap_slug' => 'aptos',
-                        'pair' => array(
-
-                                                    
-                                    'btc' => array(
-                                        'binance' => 'APTBTC',
-                                        'gateio' => 'APT_BTC',
-                                                    ),
-
-                                                    
-                                    'eth' => array(
-                                        'gateio' => 'APT_ETH',
-                                                    ),
-
-                                                    
-                                    'eur' => array(
-                                         'binance' => 'APTEUR',
-                                    	 'kraken' => 'APTEUR',
-                                                    ),
-
-                                                    
-                                    'try' => array(
-                                         'binance' => 'APTTRY',
-                                                    ),
-
-                                                    
-                                    'usd' => array(
-                                    	 'coinbase' => 'APT-USD',
-                                    	 'kraken' => 'APTUSD',
-                                    	 'bitfinex' => 'tAPTUSD',
-                                                    ),
-
-                                                    
-                                    'usdc' => array(
-                                        'okex' => 'APT-USDC',
-                                        'huobi' => 'aptusdc',
-                                                    ),
-
-                                                    
-                                    'usdt' => array(
-                                        'binance' => 'APTUSDT',
-                                        'okex' => 'APT-USDT',
-                                        'huobi' => 'aptusdt',
-                                        'kucoin' => 'APT-USDT',
-                                        'bybit' => 'APTUSDT',
-                                        'gateio' => 'APT_USDT',
-                                                    ),
-
-                                                    
-                        ) // pair END
-                                        
-                    ), // Asset END
-                    
-                    
-                    ////////////////////////////////////////////////////////////////////
-                    
-                    
                     // BONK
                     'BONK' => array(
                         
@@ -3542,44 +3409,6 @@ $ct_conf['assets'] = array(
                                         'coinex' => 'BONKUSDT',
                                         'hotbit' => 'BONK_USDT',
                                         'bitforex' => 'coin-usdt-bonk',
-                                                    ),
-
-                                                    
-                        ) // pair END
-                        
-                    ), // Asset END
-                    
-                    
-                    ////////////////////////////////////////////////////////////////////
-                    
-                    
-                    // SLC
-                    'SLC' => array(
-                        
-                        'name' => 'Solice',
-                        'mcap_slug' => 'solice',
-                        'pair' => array(
-
-                                                    
-                                    'btc' => array(
-                                        'coingecko_btc' => 'solice',
-                                                    ),
-
-                                                    
-                                    'eth' => array(
-                                        'coingecko_eth' => 'solice',
-                                        'gateio' => 'SLC_ETH',
-                                                    ),
-
-                                                    
-                                    'usd' => array(
-                                        'coingecko_usd' => 'solice',
-                                                    ),
-
-                                                    
-                                    'usdt' => array(
-                                        'huobi' => 'slcusdt',
-                                        'gateio' => 'SLC_USDT',
                                                     ),
 
                                                     

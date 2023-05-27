@@ -4,7 +4,6 @@
 
 /////////////////////////////////////////////////////////////
 
-
 function force_2_digits(num) {
 return ("0" + num).slice(-2);
 }
@@ -74,6 +73,20 @@ function is_int(value) {
   }
 
 return Number.isInteger( parseFloat(value) );
+
+}
+
+
+/////////////////////////////////////////////////////////////
+
+
+function get_url_param($key) {
+
+var queryString = window.location.search;
+
+var urlParams = new URLSearchParams(queryString);
+
+return urlParams.get($key);
 
 }
 
@@ -226,7 +239,7 @@ $('.collapse.in').toggleClass('in');
               
 // and also adjust aria-expanded attributes we use for the open/closed arrows
 // in our CSS
-$('a[aria-expanded=true]').attr('aria-expanded', 'false');
+$('a[aria-expanded="true"]').attr('aria-expanded', 'false');
 
 }
 
@@ -416,7 +429,7 @@ return false;
 /////////////////////////////////////////////////////////////
 
 
-function app_reloading_check(form_submission=0) {
+function app_reloading_check(form_submission=0, new_location=0) {
         
     // Disable form updating in privacy mode
     if ( get_cookie('priv_toggle') == 'on' && form_submission == 1 ) {
@@ -424,7 +437,7 @@ function app_reloading_check(form_submission=0) {
     return 'no'; // WE NORMALLY DON'T RETURN DATA HERE BECAUSE WE ARE REFRESHING OR SUBMITTING, SO WE CANNOT USE RETURN FALSE RELIABLY
     }
     else {
-    app_reload(form_submission);
+    app_reload(form_submission, new_location);
     }
 
 }
@@ -632,6 +645,37 @@ function set_admin_security(obj) {
 		$('#opt_admin_sec_' + $("#sel_admin_sec").val() ).prop('checked',true);
 		}
 
+}
+
+
+/////////////////////////////////////////////////////////////
+
+
+function isScrolledIntoView(elem, emulate_sticky=0) {
+
+var docViewTop = $(window).scrollTop();
+var docViewBottom = docViewTop + $(window).height();
+
+var elemTop = $(elem).offset().top;
+var elemBottom = elemTop + $(elem).height();
+
+var result = ((elemBottom <= docViewBottom) && (elemTop >= docViewTop));
+
+var top = Math.round(docViewTop);
+
+     
+     // Emulating sticky CSS positioning
+     if ( emulate_sticky == 1 ) {
+     $(elem).css({ "top": top + 'px' });
+     }
+     // If element isnt in scrolled view, AND we are NOT emulating sticky CSS positioning
+     else if ( result == false ) {
+     // Do something here
+     }
+     
+
+//console.log(top);
+    
 }
 
 
@@ -940,7 +984,7 @@ setTimeout(emulated_cron, 60000); // Re-check every minute (in milliseconds...cr
 /////////////////////////////////////////////////////////////
 
 
-function app_reload(form_submission) {
+function app_reload(form_submission, new_location) {
     
     
     // Wait if anything is running in the background
@@ -960,10 +1004,12 @@ function app_reload(form_submission) {
     clearTimeout(reload_recheck);
     
     
-        if ( form_submission == 0 || form_submit_queued == true ) {
+        if ( form_submission == 0 || new_location == 1 || form_submit_queued == true ) {
+             
+        var loading_message = new_location == 1 ? 'Loading...' : 'Reloading...';
             
         $("#app_loading").show(250, 'linear'); // 0.25 seconds
-        $("#app_loading_span").html("Reloading...");
+        $("#app_loading_span").html(loading_message);
             
         // Transition effects
         $("#content_wrapper").hide(250, 'linear'); // 0.25 seconds
@@ -976,9 +1022,13 @@ function app_reload(form_submission) {
         }
     
     
-        // Reload, ONLY IF WE ARE NOT #ALREADY RELOADING# VIA SUBMITTING DATA (so we don't cancel data submission!)
-        if ( form_submission == 0 ) {
-        location.reload(true);
+        // Reload, ONLY IF WE ARE NOT #ALREADY RELOADING# VIA SUBMITTING DATA (so we don't cancel data submission!),
+        // OR IF WE ARE LOADING A #NEW# LOCATION
+        if ( form_submission == 0 && new_location == 1 ) {
+        // Do nothing, as we are already loading a new location
+        }
+        else if ( form_submission == 0 ) {
+        window.location.reload(true); // Reload same location
         }
     
     
@@ -1688,7 +1738,7 @@ function auto_reload() {
                     	}
             				
             				if ( int_time == 0 ) {
-                 		    app_reloading_check(0);
+                 		    app_reloading_check();
             				}
                 
                 
@@ -1713,6 +1763,118 @@ function auto_reload() {
 	
 	}
 
+
+}
+
+
+/////////////////////////////////////////////////////////////
+
+
+// For ALL nav menus (normal / compact sidebars, mobile top nav bar), we want to keep track of which
+// nav item is active and it's associated content, and display it / mark nav links as active in interface
+function nav_menu($chosen_menu) {
+
+
+     	$($chosen_menu).each(function(){
+     		
+     	var $active, $content, $curr_content_id, $links = $(this).find('a');
+     	
+     	var $area_file = is_admin == true ? 'admin.php' : 'index.php';
+     
+     	// If the location.hash matches one of the links, use that as the active nav item.
+     	// If no match is found, use the first link as the initial active nav item.
+     	
+     	$active = $($links.filter('[href="' + $area_file + location.hash + '"]')[0] || $links[0]);
+     	
+     	$active.addClass('active'); // Show INITIAL nav element
+     
+     	$content = $($active[0].hash);
+     
+         
+     	    // Hide all other content
+     	    $links.not($active).each(function () {
+              $(this).removeClass('active');
+     	    $(this.hash).hide();
+     	    });
+     	
+     	
+     	    // Get CURRENT content ID (if the attribute exists)
+     	    if ( typeof $content.attr('id') !== 'undefined' ) {
+     	    $curr_content_id = '#' + $content.attr('id');
+     	    }
+              // Otherwise, CLEANLY force value as undefined
+              else {
+              $curr_content_id = (function () { return; })();
+              console.log('could not find CURRENT content id!');
+              }
+     	    
+     	
+     	// Show INITIAL content element
+     	$($curr_content_id).addClass('active');
+     	$($curr_content_id).show();
+     
+     
+     	    // Bind the click event handling for clicking different nav item's 'a' tags
+     	    $(this).on('click', 'a', function(e){
+       
+     	    // Update the variables with the new link and content
+     	    $active = $(this);
+     	    $content = $(this.hash);
+     
+         
+     	    // Hide all other content
+              $($chosen_menu + ' a').removeClass('active');
+              
+              
+          	    $links.not($active).each(function () {
+                   $(this).removeClass('active');
+          	    $(this.hash).hide();
+          	    });
+     	
+     	
+     	         // Get NEW content ID (if the attribute exists)
+          	    if ( typeof $content.attr('id') !== 'undefined' ) {
+          	    $curr_content_id = '#' + $content.attr('id');
+          	    }
+          	    // Otherwise, CLEANLY force values as undefined
+          	    else {
+          	    $curr_content_id = (function () { return; })();
+          	    console.log('could not find NEW content id!');
+          	    }
+     
+     	         
+            	    // Make the NEW content element / active nav items active IN ALL NAV MENUS, and show it
+                   $($chosen_menu + " a").each(function() {
+               	         
+               	     if ( $(this).attr('href') == $area_file + $curr_content_id ) {
+                                  
+                         $(this).addClass('active');
+                             
+                               // Saves current page (if BROWSER closed BUT TAB still open),
+                               // ONLY IF NO START PAGE IS EXPLICITLY SET!
+                               if ( get_url_param('start_page') == null ) {
+                               window.location = $area_file + $curr_content_id; 
+                               // MAIN submit form too (also stores and updates chosen charts / news feeds / etc)
+                               $("#coin_amnts").attr('action', $area_file + $curr_content_id);
+                               }
+                                  
+                         }
+                             
+                   });
+     
+                   
+              // Show NEW content element
+              $($curr_content_id).addClass('active');
+              $($curr_content_id).show();
+                   
+     	    // Prevent the anchor's default click action
+     	    e.preventDefault();
+     	    
+     	    });
+     	  
+     	
+     	});
+     	
 
 }
 
@@ -1798,11 +1960,10 @@ private_data = document.getElementsByClassName('private_data');
                         document.getElementById("pm_link").setAttribute('title', 'Turn privacy mode ON. This encrypts / hides RENDERED personal portfolio data with the PIN you setup (BUT DOES #NOT# encrypt RAW source code). It ALSO disables opposite-clicking.');
                         }
                     
-                    safe_add_remove_class('disable_click', 'update_link', 'remove');
+                    safe_add_remove_class('disable_click', 'update_link_1', 'remove');
+                    safe_add_remove_class('disable_click', 'update_link_2', 'remove');
                     
-                        if ( document.getElementById("update_link") ) {
-                        document.getElementById("update_link").setAttribute('title', 'Update your portfolio data.');
-                        }
+                    $('.update_portfolio_link').attr('title', 'Update your portfolio data.');
         
                     safe_add_remove_class('hidden', 'crypto_val', 'remove');
                     safe_add_remove_class('hidden', 'fiat_val', 'remove');
@@ -1947,11 +2108,10 @@ private_data = document.getElementsByClassName('private_data');
             document.getElementById("pm_link").setAttribute('title', 'Turn privacy mode OFF. This reveals your personal portfolio data, using the PIN you setup. It ALSO re-enables opposite-clicking / data submission, and allows admin logins.');
             }
                     
-        safe_add_remove_class('disable_click', 'update_link', 'add');
+        safe_add_remove_class('disable_click', 'update_link_1', 'add');
+        safe_add_remove_class('disable_click', 'update_link_2', 'add');
                     
-            if ( document.getElementById("update_link") ) {
-            document.getElementById("update_link").setAttribute('title', 'Disabled in privacy mode.');
-            }
+        $('.update_portfolio_link').attr('title', 'Disabled in privacy mode.');
         
         safe_add_remove_class('hidden', 'crypto_val', 'add');
         safe_add_remove_class('hidden', 'fiat_val', 'add');

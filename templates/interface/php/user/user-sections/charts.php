@@ -96,7 +96,7 @@
 			
 	if ( time_period_cookie == true ) {
 	set_cookie('pref_chart_time_period', this.value, 365);
-	$('#alert_pref_chart_time_period').html('&nbsp;&nbsp;&nbsp;(<a class=\'red\' href=\'javascript:app_reloading_check(0);\'>reload app to apply changes</a>)').addClass('red');
+	$('#alert_pref_chart_time_period').html('&nbsp;&nbsp;&nbsp;(<a class=\'red\' href=\'javascript:app_reloading_check();\'>reload app to apply changes</a>)').addClass('red');
 	}
 	else {
      $(this).val(pref_chart_time_period);

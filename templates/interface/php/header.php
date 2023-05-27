@@ -458,7 +458,7 @@ if ( $is_iframe ) {
 }
 else {
 ?>
-<body>
+<body onscroll="isScrolledIntoView( document.getElementById('alert_bell_area'), 1 )">
 
 
 <audio preload="metadata" id="audio_alert">
@@ -474,34 +474,137 @@ else {
    <div id="collapsed_sidebar">
    
    
-   <img src='templates/interface/media/images/auto-preloaded/icons8-hamburger-menu-96-<?=$sel_opt['theme_selected']?>.png' width='45' class='sidebar_toggle' id="sidebar_hamburger" title='Show FULL SIZED side bar.' />
+   <div class="align_center"><img src='templates/interface/media/images/auto-preloaded/icons8-hamburger-menu-96-<?=$sel_opt['theme_selected']?>.png' width='45' class='sidebar_toggle' id="sidebar_hamburger" title='Show FULL SIZED side bar.' /></div>
    
    
-   <img src='templates/interface/media/images/auto-preloaded/notification-<?=$sel_opt['theme_selected']?>-line.png' width='45' border='0' class='toggle_alerts' title='View app alerts.' />
+   <div class="smallnav_spacer"></div>
+
+   
+   <div class="align_center"><img src='templates/interface/media/images/auto-preloaded/notification-<?=$sel_opt['theme_selected']?>-line.png' width='45' border='0' class='toggle_alerts' title='View app alerts.' /></div>
+
+   
+   <div class="smallnav_spacer"></div>
    
    
-   <a href="admin.php"><img src='templates/interface/media/images/auto-preloaded/icons8-services-100-<?=$sel_opt['theme_selected']?>.png' width='45' border='0' title='Admin Config area.' /></a>
+   <!-- Admin area -->
+     <div class="admin-nav-wrapper btn-group dropend">
+     
+          <a href="admin.php" class="dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false"><img src='templates/interface/media/images/auto-preloaded/icons8-services-100-<?=$sel_opt['theme_selected']?>.png' width='45' border='0' title='Admin Config area.' /></a>
+     
+          <ul class="admin-nav all-nav dropdown-menu" style="" role="tablist">
+
+        
+                    <?php
+                    if ( $ct_gen->admin_logged_in() ) {
+                         
+                    // Links won't work in NON-ADMIN AREAS without this logic
+                    $content_toggle = ( preg_match("/admin\.php/i", $_SERVER['REQUEST_URI']) ? 'data-bs-toggle="tab"' : '' );
+                    
+                    ?>
+
+
+                    <li>
+                        <a <?=$content_toggle?> class="dropdown-item admin_change_width" data-width="fixed_max" role="tab" aria-controls="admin_general" href="admin.php#admin_general">General</a>
+                    </li>
+
+                    <li>
+                        <a <?=$content_toggle?> class="dropdown-item admin_change_width" data-width="fixed_max" role="tab" aria-controls="admin_comms" href="admin.php#admin_comms">Communications</a>
+                    </li>
+                    
+                    
+                    <li>
+                    <a class="dropdown-item" href="?logout=1&admin_hashed_nonce=<?=$ct_gen->admin_hashed_nonce('logout')?>">Logout</a>
+                    </li>
+
+
+                    <?php
+                    }
+                    else {
+                    ?>
+                    
+                    <li>
+                    <a class="dropdown-item" href="admin.php">Admin Login</a>
+                    </li>
+
+                    <?php
+                    }
+                    ?>
+                    
+
+          </ul>
+      
+     </div>
+
+   
+   <div class="smallnav_spacer"></div>
    
    
-   <a href="index.php"><img src='templates/interface/media/images/auto-preloaded/icons8-user-96-<?=$sel_opt['theme_selected']?>.png' width='45' border='0' title='User area.' /></a>
+   <!-- User area -->
+     <div class="user-nav-wrapper btn-group dropend">
+     
+          <a href="index.php" class="dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false"><img src='templates/interface/media/images/auto-preloaded/icons8-user-96-<?=$sel_opt['theme_selected']?>.png' width='45' border='0' title='User area.' /></a>
+     
+          <ul class="user-nav all-nav dropdown-menu" style="">
+          
+           <li><a class="dropdown-item" href='index.php#portfolio' title='View your portfolio.'>Show Portfolio</a></li>
+           
+           <li class='update_portfolio_link'><a class="dropdown-item update_portfolio_link" id='update_link_1' href='index.php#update' title='Update your portfolio data.'>Update Portfolio</a></li>
+
+           <li><a class="dropdown-item" href='index.php#settings' title='Update your user settings.'>User Settings</a></li>			
+           
+           <?php
+		 if ( $ct_conf['gen']['asset_charts_toggle'] == 'on' ) {
+		 ?>
+           <li><a class="dropdown-item" href='index.php#charts' title='View price charts.'>Price Charts</a></li>
+		 <?php
+		 }
+		 ?>
+		 
+           <li><a class="dropdown-item" href='index.php#news' title='View News Feeds.'>News Feeds</a></li>
+           
+           <li><a class="dropdown-item" href='index.php#tools' title='Use various crypto tools.'>Tools</a></li>
+
+           <li><a class="dropdown-item" href='index.php#mining' title='Calculate coin mining profits.'>Coin Staking / Mining</a></li>
+
+           <li><a class="dropdown-item" href='index.php#resources' title='View 3rd party resources.'>Third Party Resources</a></li>
+
+           <li><a class="dropdown-item" href='index.php#help' title='Get help using this app.'>FAQ / Help?</a></li>
+           
+          </ul>
+      
+     </div>
+
+   
+   <div class="smallnav_spacer"></div>
    
    
-   <img src='templates/interface/media/images/auto-preloaded/icons8-questions-100-<?=$sel_opt['theme_selected']?>.png' width='45' border='0' title='FAQ / Help?' />
+   <div class="align_center"><img src='templates/interface/media/images/auto-preloaded/icons8-questions-100-<?=$sel_opt['theme_selected']?>.png' width='45' border='0' title='FAQ / Help?' /></div>
+
+   
+   <div class="smallnav_spacer"></div>
 
         
    <?php
    if ( $ct_gen->admin_logged_in() ) {
    ?>
-   <a href="?logout=1&admin_hashed_nonce=<?=$ct_gen->admin_hashed_nonce('logout')?>"><img src='templates/interface/media/images/auto-preloaded/icons8-logout-58-<?=$sel_opt['theme_selected']?>.png' width='45' border='0' title='Logout of Admin Config area.' /></a>
+   
+   <div class="align_center"><a href="?logout=1&admin_hashed_nonce=<?=$ct_gen->admin_hashed_nonce('logout')?>"><img src='templates/interface/media/images/auto-preloaded/icons8-logout-58-<?=$sel_opt['theme_selected']?>.png' width='45' border='0' title='Logout of Admin Config area.' /></a></div>
+
+   
+   <div class="smallnav_spacer"></div>
+   
    <?php
    }
    ?>
    
    
-   <img src='templates/interface/media/images/auto-preloaded/icons8-add-96.png' width='45' border='0' id='' class='btn-number' data-type="plus" data-field="quant_font_percent" title='Increase text size.' />
+   <div class="align_center"><img src='templates/interface/media/images/auto-preloaded/icons8-add-96.png' width='45' border='0' id='' class='btn-number' data-type="plus" data-field="quant_font_percent" title='Increase text size.' /></div>
+
+   
+   <div class="smallnav_spacer"></div>
    
    
-   <img src='templates/interface/media/images/auto-preloaded/icons8-minus-96.png' width='45' border='0' id='' class='btn-number' data-type="minus" data-field="quant_font_percent" title='Decrease text size.' />
+   <div class="align_center"><img src='templates/interface/media/images/auto-preloaded/icons8-minus-96.png' width='45' border='0' id='' class='btn-number' data-type="minus" data-field="quant_font_percent" title='Decrease text size.' /></div>
    
 
    </div>
@@ -584,23 +687,29 @@ else {
 
         <ul id='sidebar_menu' class="list-unstyled components">
         
-            <!-- START #ACTIVE# category (currently-viewed page should be in here) -->
-            <li class="active">
+            <!-- Admin area -->
+            <li class="admin-nav-wrapper">
                 
-                <a href="#homeSubmenu" data-bs-toggle="collapse" aria-expanded="false" class="dropdown-toggle active">Admin</a>
+                <a href="#adminSubmenu" data-bs-toggle="collapse" aria-expanded="false" class="dropdown-toggle <?=( preg_match("/admin\.php/i", $_SERVER['REQUEST_URI']) ? 'active' : '' )?>">Admin Area</a>
                 
-                <ul class="collapse list-unstyled" id="homeSubmenu">
+                <ul class="admin-nav all-nav collapse list-unstyled" id="adminSubmenu" role="tablist">
                 
-                    <li class='sidebar-item'>
-                        <a href="admin.php">General</a>
-                    </li>
+        
+                    <?php
+                    if ( $ct_gen->admin_logged_in() ) {
+                         
+                    // Links won't work in NON-ADMIN AREAS without this logic
+                    $content_toggle = ( preg_match("/admin\.php/i", $_SERVER['REQUEST_URI']) ? 'data-bs-toggle="tab"' : '' );
                     
-                    <li class='sidebar-item'>
-                        <a href="#2">Home 2</a>
+                    ?>
+
+
+                    <li class='sidebar-item nav-item'>
+                        <a <?=$content_toggle?> class="nav-link admin_change_width" data-width="fixed_max" role="tab" aria-controls="admin_general" href="admin.php#admin_general">General</a>
                     </li>
-                    
-                    <li class='sidebar-item'>
-                        <a href="#3">Home 3</a>
+
+                    <li class='sidebar-item nav-item'>
+                        <a <?=$content_toggle?> class="nav-link admin_change_width" data-width="fixed_max" role="tab" aria-controls="admin_comms" href="admin.php#admin_comms">Communications</a>
                     </li>
                     
                     
@@ -617,37 +726,65 @@ else {
                         </ul>
                     </li>
                     <!-- END custom 3-deep config -->
-
-        
-                    <?php
-                    if ( $ct_gen->admin_logged_in() ) {
-                    ?>
+                    
+                    
                     <li class='sidebar-item'>
                         <a href="?logout=1&admin_hashed_nonce=<?=$ct_gen->admin_hashed_nonce('logout')?>">Logout</a>
                     </li>
+
+
+                    <?php
+                    }
+                    else {
+                    ?>
+                    
+                    <li class='sidebar-item'>
+                        <a href="admin.php">Login</a>
+                    </li>
+
                     <?php
                     }
                     ?>
                     
+                    
                 </ul>
                 
             </li>
-            <!-- END #ACTIVE# category (currently-viewed page should be in here) -->
             
             
-            <li>
-                <a href="#pageSubmenu" data-bs-toggle="collapse" aria-expanded="false" class="dropdown-toggle">User</a>
-                <ul class="collapse list-unstyled" id="pageSubmenu">
-                    <li class='sidebar-item'>
-                        <a href="index.php">Portfolio</a>
-                    </li>
-                    <li class='sidebar-item'>
-                        <a href="#9">Page 2</a>
-                    </li>
-                    <li class='sidebar-item'>
-                        <a href="#10">Page 3</a>
-                    </li>
+            <!-- User area -->
+            <li class="user-nav-wrapper">
+            
+                <a href="#userSubmenu" data-bs-toggle="collapse" aria-expanded="false" class="dropdown-toggle <?=( preg_match("/index\.php/i", $_SERVER['REQUEST_URI']) ? 'active' : '' )?>">User Area</a>
+                
+                <ul class="user-nav all-nav collapse list-unstyled" id="userSubmenu">
+          
+                <li class='sidebar-item'><a href='index.php#portfolio' title='View your portfolio.'>Show Portfolio</a></li>
+                
+                <li class='sidebar-item update_portfolio_link'><a class='update_portfolio_link' id='update_link_2' href='index.php#update' title='Update your portfolio data.'>Update Portfolio</a></li>
+     
+                <li class='sidebar-item'><a href='index.php#settings' title='Update your user settings.'>User Settings</a></li>			
+                
+                <?php
+     		 if ( $ct_conf['gen']['asset_charts_toggle'] == 'on' ) {
+     		 ?>
+                <li class='sidebar-item'><a href='index.php#charts' title='View price charts.'>Price Charts</a></li>
+     		 <?php
+     		 }
+     		 ?>
+     		 
+                <li class='sidebar-item'><a href='index.php#news' title='View News Feeds.'>News Feeds</a></li>
+                
+                <li class='sidebar-item'><a href='index.php#tools' title='Use various crypto tools.'>Tools</a></li>
+     
+                <li class='sidebar-item'><a href='index.php#mining' title='Calculate coin mining profits.'>Coin Staking / Mining</a></li>
+     
+                <li class='sidebar-item'><a href='index.php#resources' title='View 3rd party resources.'>Third Party Resources</a></li>
+     
+                <li class='sidebar-item'><a href='index.php#help' title='Get help using this app.'>FAQ / Help?</a></li>
+                
                 </ul>
+                
             </li>
             
             <li class='sidebar-item'>
@@ -766,9 +903,8 @@ else {
              currzoom = 100;
              }
             
-        // Just zoom #topnav and #app_loading and #change_font_size / show zoom level in GUI
+        // Just zoom #app_loading and #change_font_size / show zoom level in GUI
         // (we'll reset them to 100% before we zoom the whole body in init.js)
-        $('#topnav').css('zoom', ' ' + currzoom + '%');
         $('#change_font_size').css('zoom', ' ' + currzoom + '%');
         $('#app_loading').css('zoom', ' ' + currzoom + '%');
         $("#zoom_show_ui").html(currzoom + '%');

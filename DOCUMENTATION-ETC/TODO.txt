@@ -5,9 +5,23 @@ TO-DO NOTES
 ############################################################################################################################
 
 
-///////////////////////////////////////////////////////
-GENERAL
-///////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+NEXT SCHEDULED WORK SESSION (DEBUGGING AND / OR INFRASTRUCTURE)
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+For the domain header spoofing check, try writing the test file AS EARLY AS POSSIBLE in the runtime, and check it at the last second when inits / configs are done (and feature logic is about to run). Besides what we already have planned to fix the header domain spoofing attack check, since we never run the check more than once every 24 hours, add a 5 second sleep RIGHT BEFORE WE CHECK THE FILE WE WROTE. Set a var with the full file path when creating the check file, and delete it in the footer logic (since w only run this check in UI runtimes).
+
+
+Strip old admin nav out, after migrating ALL admin links over to new sidebar navs.
+
+
+We need a title at top of each page in the user area, like the admin area has (scrolls with page).
+
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+GENERAL REMINDERS
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
 Always set bluefish to "5 spaces" as a tab indentation, and enabling indentation of selected text. THE AMOUNT OF INDENTED SPACING IN FILES #CHANGES AUTOMATICALLY# WHEN "BLUEFISH => PREFERENCES => INITIAL DOCUMENT SETTINGS => TAB WIDTH" IS CHANGED, SO BE CAREFUL WHEN ADJUSTING!!
@@ -29,9 +43,9 @@ Youtube channels on the resources page, that MAY BE DYING (keep an eye on them):
 Keep github price chart bootstrap download updated weekly if not daily!
 
 
-///////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 API INTEGRATION 
-///////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
 https://aptos.dev/nodes/aptos-deployments/
@@ -89,9 +103,9 @@ https://zksync.io/api/v0.1.html (KEEP AN EYE OUT FOR V2 DOCS AS WELL)
 // https://api.telegram.org/bot{my_bot_token}/getWebhookInfo
 
 
-///////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 DEBUGGING / TESTS / UX / QA / OTHER
-///////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -156,10 +170,10 @@ DEBUGGING / TESTS / UX / QA / OTHER
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
 
-############ NEXT DEBUG / TEST / QA / OTHER SCHEDULED WORK SESSION ###################################
+We don't need to auto-set the start page when submitting data on mining / tools pages anymore (as we leave the hash in the URL now).
 
 
-For the domain header spoofing check, try writing the test file AS EARLY AS POSSIBLE in the runtime, and check it at the last second when inits / configs are done (and feature logic is about to run). Besides what we already have planned to fix the header domain spoofing attack check, since we never run the check more than once every 24 hours, add a 5 second sleep RIGHT BEFORE WE CHECK THE FILE WE WROTE.
+Change semantic naming of 'coin_amnts' form id, as it now also handles charts / news feeds / etc.
 
 
 Change the last option in the ext_data() function to a human-readable value, to save time on new API integrations (url_encode, json_encode, etc).
@@ -180,7 +194,7 @@ Test turning htaccess password protection on/off on the interface, I messed with
 Change "portfolio cache size gigabytes" system chart telemetry name to "tracker cache size gigabytes".
 
 
-######################################################################################################
+In firefox, there is A TON of margin / padding in each portfolio data row's data cells. Reduce it to match chrome.
 
 
 On admin login on safari browser, have a alert (like the cookies notice) saying safari is not supported in the admin interface.
@@ -189,7 +203,7 @@ On admin login on safari browser, have a alert (like the cookies notice) saying 
 Remove all linebreaks in javascript alert / confirm dialogue boxes, except for new paragraphs. Let the browser choose the max width on it's own (like they do nowadays)
 
 
-Look into doing bootstrap modals instead of the current library we use.
+Look into doing bootstrap modals instead of the current library we use. Maybe it's better?
 
 
 Setup XAMPP on Win10 on the DVR server, and run server edition of tracker on it for a week with PHP debug logging on.
@@ -264,36 +278,53 @@ Investigate / report to PHP devs (IF IT'S NOT A FILE READ ISSUE) the .htaccess p
 Look into laptop touchscreen zingchart js error on Ubuntu 20.04 / Chrome, when hiding / showing assets in performance chart (but is fine on Ubuntu 20.04 / Chrome on desktop). IT DOESN'T SEEM TO BE MY CODE, SO REPORT IT TO THE ZINGCHART TEAM.
 
 
-///////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 FEATURES / NEW INFRASTRUCTURE / RESEARCH
-///////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
-############ NEXT FEATURES / NEW INFRASTRUCTURE / RESEARCH SCHEDULED WORK SESSION ####################################
+Integrate google authenticator / microsoft authenticator / authy / etc BEING REQUIRED TO CHANGE THE ADMIN SECURITY LEVEL FROM HIGH TO A LOWER LEVEL (and also make it OPTIONAL for login security):
+
+https://www.google.com/search?q=php+one+time+password+google+authenticator
+
+https://www.rafaelwendel.com/en/2021/05/two-step-verification-with-php-and-google-authenticator/
+
+https://github.com/sonata-project/GoogleAuthenticator
+
+https://stackoverflow.com/questions/tagged/sonata
 
 
-Add secondary submenu support for the COMPACT sidebar (and 3-deep support if possible easily enough)
+COLLAPSED SIDEBAR should show ACTIVE menu on page load / reload.
 
 
-Help / FAQ page link should be moved to bottom of sidebar, with a questionmark icon next to it. It ALSO should be a MODAL WINDOW (like 'more stats'), that is hidden in footer.php, so it can be opened in the user and admin areas just as easily.
+window.location = $area_file + $curr_content_id; in functions.js makes the page auto-scroll down from the top just a few pixels (in both admin and user areas). See if we can make it NOT auto-scroll AT ALL.
 
 
-Move all existing user nav links links to sidebar nav, remove main content border (decide which background shades to keep), and remove width limits on user area.
+Help / FAQ page link should be moved to bottom of sidebar, with a questionmark icon next to it. It ALSO should be a MODAL WINDOW (like 'more stats'), that is hidden in footer.php, so it can be opened in the user and admin areas just as easily. 
 
 
-######################################################################################################################
+Privacy mode toggle should also be moved to bottom of sidebar.
 
 
-Add ability for 'active' (first-shown) admin page to be dynamically set via GET param, AND have this GET param passed during admin logins as well (if it is set). Consider adding this ability to the current user area linking subsystem too, if it gives any issues in the sidebar setup (visiting from admin pages). Then show ALL admin page links in sidebar, IF LOGGED IN (and a LOGOUT link)
+On smaller screens (mobile etc), the COMPACT sidebar should be transformed into a top bar (horizontal across top, instead of vertical down the side, with DROP-downs OR SLIDE-downs for secondary submenus [like my biz site on mobile...whichever has a better 'feel']). Have each menu category be an icon that when clicked does a drop-down menu below it, THAT IS THE ENTIRE WIDTH OF THE SCREEN. Skip supporting 3-deep subnav here, unless we can make it work using the entire screen width for 2-deep subnav entries (for small screen tapping UX / less confusion). When each main drop-down is clicked, any other main drop-down should close automatically.
 
 
-On smaller screens (mobile etc), the COMPACT sidebar should be transformed into a top bar (horizontal across top, instead of vertical down the side, with SLIDE-downs for secondary submenus [like my biz site on mobile...NOT DROP-downs]).
+Sidebar menu item text should be bold, and maybe even larger (than content area text).
 
 
 Try to shrink up the sidebar width as much as possible, without squishing the top nav together too much.
 
 
 Tweak sizes / colors / positioning in sidebar, until it feels just right.
+
+
+Remove localbitcoins support (they are closing shop).
+
+
+Remove binance.us HNT markets (closing 3/21/23)
+
+
+Add Bitcoin NFT support.
 
 
 Move remaining font-size / line-height logic in style.css AND ELSEWHERE into our dynamic CSS header logic.
@@ -329,10 +360,27 @@ font-size: 15px !important;
 The tags 'h1' through 'h6' should be made to user-adjust text size too (could be a bit tricky, be careful).
 
 
-Remove localbitcoins support (they are closing shop).
+Add to resources page: 
+
+https://solana.sec3.dev/
+
+https://solana.fm/
+
+https://squads.so/
+
+https://stakewiz.com/
+
+https://solanacompass.com/
+
+https://analytics.step.finance/
 
 
-Add to resources page: https://solana.sec3.dev/
+Add to news feeds:
+
+https://stepdata.substack.com/
+
+
+Add OPTIONAL Coingecko PRO API support: https://apiguide.coingecko.com/exclusive-endpoints/pro-api
 
 
 Convert Arch linux support in auto-installer over to redhat (yum), as Arch does have much pakage support for libraries we use.
@@ -509,6 +557,9 @@ END OF ADMIN BUILDOUT NOTES
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 
+Look into adding the infrastructure for "chrome push alerts".
+
+
 For mobile templates, we are completely ditching the desktop layout, for a design similar to mobile app portfolio tracking layouts. Hopefully we can still do sorting by marketcap, held amount, most volume, etc, AND add in sorting by gain / loss (which may also be useful in the desktop layout).
 
 
@@ -553,13 +604,9 @@ Have the light chart function create a cached var array in json (in cache/vars/ 
 Add logic to offer securing the computer in the auto-install. Add subsections "Requiring Password For Sudo (Admin)" / "Disabling Bluetooth" / "Enabling firewall" inside a main prompt "Would you like to secure your computer against hacks?" For the bluetooth disabling section, include a commented section so we know if we've already APPENDED (>> IN BASH, NOT >) to boot/config.txt (like we do for htaccess). For firewall setup add a loop that you add new ports to open and quit the loop when finished...AND AUTOMATICALLY OPEN PORTS 80 / 443 FOR THIS APP, AND SSH STUFF TOO IF DETECTED AS INSTALLED ON THE SYSTEM!
 
 
-///////////////////////////////////////////////////////
-///////////////////////////////////////////////////////
-
-
-///////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 MAYBE SECTION
-///////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
 Some of our extra security automation options in FOLIO-INSTALL.bash may also be appropriate for my other auto-installer scripts (ticker / Bluetooth radio)?

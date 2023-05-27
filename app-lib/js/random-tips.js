@@ -93,7 +93,11 @@ var quoteSource=[
 	    	name:"taoteh1221 (lead dev of this app)"
 	    },
 	    {
-	    	quote:"Leverage trading is <u>EXTREMELY RISKY</u> (and even more so in crypto markets). <i>NEVER</i> put more than ~5% of your total investment worth into leverage trades, or you will <u>RISK LOSING EVERYTHING</u>!",
+	    	quote:"Leverage trading is <u>EXTREMELY RISKY</u> (and even more so in crypto markets). <i>NEVER</i> put more than ~5% of your total investment worth into ALL your leverage trades COMBINED, or you will <u>RISK LOSING EVERYTHING</u>!",
+	    	name:"taoteh1221 (lead dev of this app)"
+	    },
+	    {
+	    	quote:"Speculating on popular \"meme coins\" (dog / cat / ape / frog coins, etc) is <u>EXTREMELY RISKY</u>. <i>NEVER</i> put more than ~5% of your total investment worth into ALL your meme coin assets COMBINED (AKA small \"moon bags\"), or you will <u>RISK LOSING EVERYTHING</u>! They are EXTREMELY VOLITILE becuase they are HEAVILY SPECULATED ON (NOT long term investments for many traders).",
 	    	name:"taoteh1221 (lead dev of this app)"
 	    },
 	    {
