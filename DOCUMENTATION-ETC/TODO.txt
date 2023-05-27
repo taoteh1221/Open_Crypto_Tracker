@@ -10,13 +10,13 @@ NEXT SCHEDULED WORK SESSION (DEBUGGING AND / OR INFRASTRUCTURE)
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
-For the domain header spoofing check, try writing the test file AS EARLY AS POSSIBLE in the runtime, and check it at the last second when inits / configs are done (and feature logic is about to run). Besides what we already have planned to fix the header domain spoofing attack check, since we never run the check more than once every 24 hours, add a 5 second sleep RIGHT BEFORE WE CHECK THE FILE WE WROTE. Set a var with the full file path when creating the check file, and delete it in the footer logic (since w only run this check in UI runtimes).
-
-
 Strip old admin nav out, after migrating ALL admin links over to new sidebar navs.
 
 
 We need a title at top of each page in the user area, like the admin area has (scrolls with page).
+
+
+For the domain header spoofing check, try writing the test file AS EARLY AS POSSIBLE in the runtime, and check it at the last second when inits / configs are done (and feature logic is about to run). Besides what we already have planned to fix the header domain spoofing attack check, since we never run the check more than once every 24 hours, add a 5 second sleep RIGHT BEFORE WE CHECK THE FILE WE WROTE. Set a var with the full file path when creating the check file, and delete it in the footer logic (since w only run this check in UI runtimes).
 
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
