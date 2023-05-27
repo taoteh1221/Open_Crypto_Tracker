@@ -463,18 +463,12 @@ margin-bottom: 2px;
 div.tabdiv {
 padding: 15px;
 min-width: 1200px;
-max-width: 1700px;
 min-height: 150px;
 display: inline-block;
-border: 2px solid #808080;
 }
 
 
 .tabdiv {
-border-top-left-radius: 15px !important;
-border-top-right-radius: 15px !important;
-border-bottom-left-radius: 15px !important;
-border-bottom-right-radius: 15px !important;
 border-collapse: separate !important;
 }
 
@@ -629,6 +623,12 @@ border-radius: 6px !important;
 }
 
 
+.portfolio_footer {
+     text-align: left;
+margin-top: 40px !important;
+}
+
+
 /* //////////////////////////////
 IDs
 ////////////////////////////// */
@@ -661,7 +661,7 @@ margin-right: 6px;
 display: none;
 width: 100%;
 max-width: 1200px; 
-margin-top: 10px;
+margin-top: 45px;
 font-size: 21px;
 min-height: 23px; 
 }
@@ -681,14 +681,12 @@ margin-bottom: 60px;
 
 #secondary_wrapper {
     position: absolute;
-    top: 15px;
     right: 0;
     width: calc(100% - 350px);
      min-width: 1200px; 
     min-height: 100vh;
      margin: auto;
-    padding: 40px;
-     padding-top: 0px;
+     padding: 0px;
     transition: all 0.3s;
 }
 
@@ -743,8 +741,8 @@ margin: 20px;
 }
 
 
-#charts.tabdiv {
-max-width: 100%;
+.tabdiv {
+width: 100% !important;
 }
 
 

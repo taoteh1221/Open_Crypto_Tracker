@@ -5,6 +5,10 @@
 
 
 ?>
+
+<div class='full_width_wrapper align_center'>
+
+
     
 			<span id='pm_link' class='bitcoin' onclick='privacy_mode(true);' title='Turn privacy mode ON. This encrypts / hides RENDERED personal portfolio data with the PIN you setup (BUT DOES #NOT# encrypt RAW source code). It ALSO disables opposite-clicking / data submission, and logs out any active admin login.'>Privacy Mode Is Off</span> 
 			<?php
@@ -72,7 +76,7 @@ if ( $_POST['submit_check'] == 1 || $run_csv_import || $ui_cookies ) {
 ?>
 
 
-<table border='0' cellpadding='10' cellspacing='0' id="coins_table">
+<table border='0' cellpadding='10' cellspacing='0' id="coins_table" class="align_center">
  <thead>
     <tr>
 <th class='border_lt num-sort'>Rank</th>
@@ -430,7 +434,7 @@ $altcoin_dominance = $ct_var->max_100($altcoin_dominance);
 	
 		
 ?>
-<div class="show_asset_vals bold_1 blue"><!-- Summary START -->
+<div class="portfolio_footer align_left show_asset_vals bold_1 blue"><!-- Summary START -->
 <?php
 		
 		// Run BEFORE output of BTC / PAIR portfolio values, to include any margin / leverage summaries in parentheses NEXT TO THEM (NOT in the actual BTC / PAIR amounts, for UX's sake)
@@ -1494,6 +1498,8 @@ zingchart.bind('marketcap_chart', 'label_click', function(e){
 	<style>
 	.show_asset_vals, #admin_conf_quick_links, #coins_table {
 	display: block;
+	width: fit-content;
+	margin: auto;
 	}
 	</style>
 	
@@ -1513,7 +1519,7 @@ zingchart.bind('marketcap_chart', 'label_click', function(e){
 	?>
 	
 	
-	<div style='margin-top: 10px; height: auto;'>
+	<div class='portfolio_footer' style='margin-top: 10px; height: auto;'>
 	
 		<b class='black private_data'>&nbsp;Trading Notes (<a href='javascript: return false;' target='_blank' onclick='
 		
@@ -2045,6 +2051,15 @@ var server_header_defaults_content = '<h5 class="yellow tooltip_title">Average S
 	<?php
 		}
     ?>
+	
+				
+				
+				
+</div> <!-- portfolio_page_wrapper END -->
+
+
+
+
 	
 	
 	

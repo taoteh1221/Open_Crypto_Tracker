@@ -8,13 +8,7 @@ ELEMENTS
 ////////////////////////////// */
 
 
-body {
-background-color: #080808;
-color: #fff;
-}
-
-
-table, div.tabdiv {
+body, table, div.tabdiv {
 background: #202020;
 color: white;
 }

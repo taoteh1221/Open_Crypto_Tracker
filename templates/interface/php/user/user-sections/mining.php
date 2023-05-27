@@ -6,7 +6,7 @@
 
 ?>
 
-<div class='max_1200px_wrapper'>
+<div class='full_width_wrapper'>
 
 			
 				

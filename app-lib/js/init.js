@@ -142,6 +142,11 @@ background_tasks_check();
     
     form_submit_queued = true;
     
+        // Redirect reloaded page to show portfolio, IF we saved user settings OR updated the portfolio
+        if ( $(location).attr('hash') == '#update' || $(location).attr('hash') == '#settings' ) {
+        this.action = 'index.php';
+        }
+    
         // We have to run app_reloading_check(1) here, 
         if ( app_reloading_check(1) == 'no' ) {
         event.preventDefault();

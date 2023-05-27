@@ -8,13 +8,7 @@ ELEMENTS
 ////////////////////////////// */
 
 
-body {
-background-color: #d6d6d6;
-color: #000;
-}
-
-
-table, .long_list_even, div.tabdiv {
+body, table, .long_list_even, div.tabdiv {
 background-color: #f2f2f2;
 color: #000;
 }

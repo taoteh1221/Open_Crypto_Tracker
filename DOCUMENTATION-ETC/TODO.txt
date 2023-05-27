@@ -13,13 +13,10 @@ NEXT SCHEDULED WORK SESSION (DEBUGGING AND / OR INFRASTRUCTURE)
 For the domain header spoofing check, try writing the test file AS EARLY AS POSSIBLE in the runtime, and check it at the last second when inits / configs are done (and feature logic is about to run). Besides what we already have planned to fix the header domain spoofing attack check, since we never run the check more than once every 24 hours, add a 5 second sleep RIGHT BEFORE WE CHECK THE FILE WE WROTE. Set a var with the full file path when creating the check file, and delete it in the footer logic (since w only run this check in UI runtimes).
 
 
-Onsubmit in init.js should detect if the "update" hash (when on update page) is present. If so, change it to "portfolio" so it shows the portfolio page on reload. Also, we don't need to auto-set the start page when submitting data on mining / tools pages anymore (as we leave the hash in the URL now).
-
-
 Strip old admin nav out, after migrating ALL admin links over to new sidebar navs.
 
 
-Remove width limits on user / admin area pages, and REMOVE main content border. We also need a title at top of each page in the user area, like the admin area has (scrolls with page).
+We need a title at top of each page in the user area, like the admin area has (scrolls with page).
 
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -171,6 +168,9 @@ DEBUGGING / TESTS / UX / QA / OTHER
 !!!!                                                                                   
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
+
+We don't need to auto-set the start page when submitting data on mining / tools pages anymore (as we leave the hash in the URL now).
 
 
 Change semantic naming of 'coin_amnts' form id, as it now also handles charts / news feeds / etc.
@@ -371,6 +371,13 @@ https://squads.so/
 https://stakewiz.com/
 
 https://solanacompass.com/
+
+https://analytics.step.finance/
+
+
+Add to news feeds:
+
+https://stepdata.substack.com/
 
 
 Add OPTIONAL Coingecko PRO API support: https://apiguide.coingecko.com/exclusive-endpoints/pro-api
