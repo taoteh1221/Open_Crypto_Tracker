@@ -19,6 +19,15 @@ Strip old admin nav out, after migrating ALL admin links over to new sidebar nav
 We need a title at top of each page in the user area, like the admin area has (scrolls with page).
 
 
+Sidebar menu item text should be bold, and maybe even larger (than content area text).
+
+
+Try to shrink up the sidebar width as much as possible, without squishing the top nav together too much.
+
+
+Tweak sizes / colors / positioning in sidebar, until it feels just right.
+
+
 For the domain header spoofing check, try writing the test file AS EARLY AS POSSIBLE in the runtime, and check it at the last second when inits / configs are done (and feature logic is about to run). Besides what we already have planned to fix the header domain spoofing attack check, since we never run the check more than once every 24 hours, add a 5 second sleep RIGHT BEFORE WE CHECK THE FILE WE WROTE. Set a var with the full file path when creating the check file, and delete it in the footer logic (since w only run this check in UI runtimes).
 
 
@@ -312,19 +321,7 @@ Privacy mode toggle should also be moved to bottom of sidebar.
 On smaller screens (mobile etc), the COMPACT sidebar should be transformed into a top bar (horizontal across top, instead of vertical down the side, with DROP-downs OR SLIDE-downs for secondary submenus [like my biz site on mobile...whichever has a better 'feel']). Have each menu category be an icon that when clicked does a drop-down menu below it, THAT IS THE ENTIRE WIDTH OF THE SCREEN. Skip supporting 3-deep subnav here, unless we can make it work using the entire screen width for 2-deep subnav entries (for small screen tapping UX / less confusion). When each main drop-down is clicked, any other main drop-down should close automatically.
 
 
-Sidebar menu item text should be bold, and maybe even larger (than content area text).
-
-
-Try to shrink up the sidebar width as much as possible, without squishing the top nav together too much.
-
-
-Tweak sizes / colors / positioning in sidebar, until it feels just right.
-
-
 Remove localbitcoins support (they are closing shop).
-
-
-Remove binance.us HNT markets (closing 3/21/23)
 
 
 Add Bitcoin NFT support.
