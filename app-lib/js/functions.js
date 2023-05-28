@@ -1870,6 +1870,10 @@ function nav_menu($chosen_menu) {
      	    // Prevent the anchor's default click action
      	    e.preventDefault();
      	    
+     	    // Do any textarea autoresizes, now that this content is showing
+     	    // (since it may not have been showing on app load)
+     	    autoresize_update(); 
+     	    
      	    });
      	  
      	

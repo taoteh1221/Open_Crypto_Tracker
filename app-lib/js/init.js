@@ -36,6 +36,12 @@ $(".chart_wrapper").css({ "border": '2px solid ' + charts_border });
 $("span.btc_prim_currency_pair").html(btc_prim_currency_pair); 
 
 
+// Portfolio footer width should match table width (minus 70)
+$(".portfolio_footer").css({ "width": Math.round( $("#coins_table").width() - 70 ) + 'px' });
+$(".portfolio_footer").css({ "max-width": Math.round( $("#coins_table").width() - 70 ) + 'px' });
+
+
+
 // Random tips on the update page 
 // https://codepen.io/kkoutoup/pen/zxmGLE
 random_tips(); 

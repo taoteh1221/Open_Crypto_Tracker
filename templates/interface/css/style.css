@@ -512,15 +512,11 @@ text-decoration: none;
 }
 
 
-.max_full_width_wrapper {
-position: relative;
-max-width: 100%;
-}
-
-
 .full_width_wrapper {
 position: relative;
 width: 100%;
+padding-left: 25px;
+padding-right: 25px;
 }
 
 
@@ -625,6 +621,7 @@ border-radius: 6px !important;
 
 .portfolio_footer {
      text-align: left;
+     margin: auto;
 margin-top: 30px !important;
 }
 
@@ -715,7 +712,7 @@ position: relative;
 float: right;
 max-width: 30%;
 margin: 0px;
-margin-right: 5px;
+margin-right: 5px !important;
 }
 
 

@@ -612,7 +612,7 @@ $ct_conf['charts_alerts']['tracked_mrkts'] = array(
 					
 					
 					// RNDR
-					'rndr' => 'huobi||btc||both',
+					'rndr' => 'kucoin||btc||both',
 					'rndr-2' => 'gateio||usdt||none',
 					
 					
@@ -721,12 +721,12 @@ $ct_conf['power']['chainstats_cache_time'] = 60;  // (default = 60)
 
 // MINUTES to cache marketcap rankings...START HIGH and test lower, it can be STRICT
 // (coingecko #ABSOLUTELY HATES# DATA CENTER IPS [DEDICATED / VPS SERVERS], BUT GOES EASY ON RESIDENTIAL IPS)
-$ct_conf['power']['mcap_cache_time'] = 60;  // (default = 60)
+$ct_conf['power']['mcap_cache_time'] = 90;  // (default = 90)
 ////
 // Number of marketcap rankings to request from API.
 // 500 rankings is a safe maximum to START WITH, to avoid getting your API requests THROTTLED / BLOCKED
 // (coingecko #ABSOLUTELY HATES# DATA CENTER IPS [DEDICATED / VPS SERVERS], BUT GOES EASY ON RESIDENTIAL IPS)
-$ct_conf['power']['mcap_ranks_max'] = 500; // (default = 500)
+$ct_conf['power']['mcap_ranks_max'] = 300; // (default = 300)
 
 
 // Maximum margin leverage available in the user interface ('Update' page, etc)

@@ -434,7 +434,12 @@ $altcoin_dominance = $ct_var->max_100($altcoin_dominance);
 	
 		
 ?>
-<div class="portfolio_footer align_left show_asset_vals bold_1 blue"><!-- Summary START -->
+
+<!-- .portfolio_footer START -->
+<div class="portfolio_footer">
+
+<!-- Summary START -->
+<div class="align_left show_asset_vals bold_1 blue">
 <?php
 		
 		// Run BEFORE output of BTC / PAIR portfolio values, to include any margin / leverage summaries in parentheses NEXT TO THEM (NOT in the actual BTC / PAIR amounts, for UX's sake)
@@ -1452,7 +1457,8 @@ zingchart.bind('marketcap_chart', 'label_click', function(e){
 		?>
 		
 		
-</div><!-- Summary END -->
+</div>
+<!-- Summary END -->
 
 
 
@@ -1486,6 +1492,9 @@ zingchart.bind('marketcap_chart', 'label_click', function(e){
 
 	</div>
 <br class='clear_both' />
+
+</div>
+<!-- .portfolio_footer END -->
 
 
 	<?php	
