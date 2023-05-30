@@ -210,6 +210,8 @@ header('Access-Control-Allow-Origin: ' . $app_host_address);
 	
 	cookies_notice_storage = storage_app_id("cookies_notice");
 	
+	refresh_cache_upgrade_notice_storage = storage_app_id("refresh_cache_upgrade_notice_storage");
+	
 	notes_storage = storage_app_id("notes");
 	
 	<?php
@@ -918,44 +920,79 @@ else {
 				
 				<?php
 
-                // If we are queued to run a UI alert that an upgrade is available
-                // VAR MUST BE SET RIGHT BEFORE CHECK ON DATA FROM THIS CACHE FILE, AS IT CAN BE UPDATED #AFTER# APP INIT!
-                if ( file_exists($base_dir . '/cache/events/ui_upgrade_alert.dat') ) {
-                $ui_upgrade_alert = json_decode( file_get_contents($base_dir . '/cache/events/ui_upgrade_alert.dat') , true);
-                }
+                     // If we are queued to run a UI alert that an upgrade is available
+                     // VAR MUST BE SET RIGHT BEFORE CHECK ON DATA FROM THIS CACHE FILE, AS IT CAN BE UPDATED #AFTER# APP INIT!
+                     if ( file_exists($base_dir . '/cache/events/ui_upgrade_alert.dat') ) {
+                     $ui_upgrade_alert = json_decode( file_get_contents($base_dir . '/cache/events/ui_upgrade_alert.dat') , true);
+                     }
                 
                 
-			    // show the upgrade notice one time until the next reminder period, IF ADMIN LOGGED IN
-				if ( isset($ui_upgrade_alert) && $ui_upgrade_alert['run'] == 'yes' && $ct_gen->admin_logged_in() ) {
+			      // show the upgrade notice one time until the next reminder period, IF ADMIN LOGGED IN
+				 if ( isset($ui_upgrade_alert) && $ui_upgrade_alert['run'] == 'yes' && $ct_gen->admin_logged_in() ) {
 				    
-                // Workaround for #VERY ODD# PHP v8.0.1 BUG, WHEN TRYING TO ECHO $ui_upgrade_alert['message'] IN HEADER.PHP
-                // (so we render it in footer.php, near the end of rendering)
-    			$display_upgrade_alert = true;
+                     // Workaround for #VERY ODD# PHP v8.0.1 BUG, WHEN TRYING TO ECHO $ui_upgrade_alert['message'] IN HEADER.PHP
+                     // (so we render it in footer.php, near the end of rendering)
+         			 $display_upgrade_alert = true;
     			
 				?>
 				    
-                <script>
-                // Render after page loads
-                $(document).ready(function(){
-                $('#ui_upgrade_message').html( $('#app_upgrade_alert').html() );
-                });
-                </script>
-	
-    			<div class="alert alert-warning" role="alert">
-      				<button type="button" class="close" data-dismiss="alert" aria-label="Close">
-        				<span aria-hidden="true">&times;</span>
-      				</button>
-    			  	<div id='ui_upgrade_message'></div>
-    			</div>
+                     <script>
+                     // Render after page loads
+                     $(document).ready(function(){
+                     $('#ui_upgrade_message').html( $('#app_upgrade_alert').html() );
+                     });
+                     </script>
+     	
+         			<div class="alert alert-warning" role="alert">
+           				<button type="button" class="close" data-bs-dismiss="alert" aria-label="Close">
+             				<span aria-hidden="true">&times;</span>
+           				</button>
+         			  	<div id='ui_upgrade_message'></div>
+         			</div>
 				
 			    <?php
 				
-    			// Set back to 'run' => 'no' 
-    			// (will automatically re-activate in upgrade-check.php at a later date, if another reminder is needed after X days)
-    			$ui_upgrade_alert['run'] = 'no';
-    						
-    			$ct_cache->save_file($base_dir . '/cache/events/ui_upgrade_alert.dat', json_encode($ui_upgrade_alert, JSON_PRETTY_PRINT) );
-					
+         			 // Set back to 'run' => 'no' 
+         			 // (will automatically re-activate in upgrade-check.php at a later date, if another reminder is needed after X days)
+         			 $ui_upgrade_alert['run'] = 'no';
+         						
+         			 $ct_cache->save_file($base_dir . '/cache/events/ui_upgrade_alert.dat', json_encode($ui_upgrade_alert, JSON_PRETTY_PRINT) );
+     					
+				 }
+				 // Otherwise, IF we just upgraded to a new version, show an alert to user that they may need to
+				 // refresh the page or clear the browser cache for any upgraded JS / CSS files to load properly
+				 elseif ( isset($cached_app_version) && trim($cached_app_version) != '' && trim($cached_app_version) != $app_version ) {
+				 ?>
+				 
+                     <script>
+                     // Render after page loads
+                     $(document).ready(function(){
+                     
+                     // Make sure local storage data is parsed as an integer (for javascript to run math on it)
+                     var upgrade_cache_refresh_last_notice = parseInt( localStorage.getItem(refresh_cache_upgrade_notice_storage) , 10);
+                     
+                         // If it's been 3 days since last notice (or never), then show it    
+                         if ( Date.now() > ( upgrade_cache_refresh_last_notice + 259200000 ) ) {
+                         $('#refresh_cache_upgrade_message').show();
+                         localStorage.setItem(refresh_cache_upgrade_notice_storage, Date.now() );
+                         }
+                     
+                     });
+                     </script>
+     	
+     	
+         			<div id='refresh_cache_upgrade_message' class="alert alert-warning" role="alert" style='display: none;'>
+           				<button type="button" class="close" data-bs-dismiss="alert" aria-label="Close">
+             				<span aria-hidden="true">&times;</span>
+           				</button>
+         			  	<div>
+         			  	
+         			  	It appears you recently upgraded Open Crypto Tracker. You MAY need to refresh / reload this page (with the recycle arrow button at the top of your browser), OR clear your browser temporary files cache within it's settings area, so any UPGRADED Javascript / CSS files can properly display and run this app's interface. Otherwise, you MAY encounter errors (until your browser cache refreshes on it's own).
+         			  	
+         			  	</div>
+         			</div>
+				
+			     <?php
 				}
 				
 				?>

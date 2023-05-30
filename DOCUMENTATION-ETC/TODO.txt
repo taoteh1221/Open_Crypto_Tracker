@@ -13,6 +13,9 @@ NEXT SCHEDULED WORK SESSION (DEBUGGING AND / OR INFRASTRUCTURE)
 Add slight top margin for alerts popin window.
 
 
+Center privacy mode modal in new right-side content area system.
+
+
 Strip old admin nav out, after migrating ALL admin links over to new sidebar navs.
 
 
@@ -180,9 +183,6 @@ DEBUGGING / TESTS / UX / QA / OTHER
 !!!!                                                                                   
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-
-
-We don't need to auto-set the start page when submitting data on mining / tools pages anymore (as we leave the hash in the URL now).
 
 
 Change semantic naming of 'coin_amnts' form id, as it now also handles charts / news feeds / etc.

@@ -60,6 +60,8 @@ var sidebar_toggle_storage;
 
 var cookies_notice_storage;
 
+var refresh_cache_upgrade_notice_storage;
+
 var scroll_position_storage;
 
 var notes_storage;

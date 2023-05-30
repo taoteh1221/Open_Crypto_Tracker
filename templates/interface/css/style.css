@@ -160,6 +160,17 @@ CLASSES
 ////////////////////////////// */
 
 
+.alert-warning {
+margin: 15px !important;
+}
+
+
+.alert-warning div {
+margin: 25px !important;
+}
+
+
+
 .disable_click{
 pointer-events: none !important;
 }

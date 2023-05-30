@@ -81,6 +81,10 @@ $fetched_feeds = 'fetched_feeds_' . $runtime_mode; // Unique feed fetch telemetr
 // If upgrade check enabled / cached var set, set the runtime var for any configured alerts
 $upgrade_check_latest_version = trim( file_get_contents('cache/vars/upgrade_check_latest_version.dat') );
 
+// If CACHED app version set, set the runtime var for any configured alerts
+$cached_app_version = trim( file_get_contents('cache/vars/app_version.dat') );
+
+
 
 // ESSENTIAL INIT LOGIC...
 
