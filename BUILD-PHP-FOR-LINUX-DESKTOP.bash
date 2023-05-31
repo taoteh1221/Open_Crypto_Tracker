@@ -28,6 +28,19 @@ fi
 
 ######################################
 
+
+# Path to app (CROSS-DISTRO-COMPATIBLE)
+get_app_path() {
+app_path_result=$(whereis -b $1)
+app_path_result="${app_path_result#*$1: }"
+app_path_result=${app_path_result%%[[:space:]]*}
+app_path_result="${app_path_result#*$1:}"
+echo "$app_path_result"
+}
+
+
+######################################
+
 # https://stackoverflow.com/questions/5947742/how-to-change-the-output-color-of-echo-in-linux
 
 if hash tput > /dev/null 2>&1; then
@@ -134,14 +147,22 @@ fi
 
 if [ -f "/etc/debian_version" ]; then
 echo "${cyan}Your system has been detected as Debian-based, which is compatible with this automated installation script."
+PACKAGE_INSTALL="$PACKAGE_INSTALL"
+PACKAGE_REMOVE="sudo apt --purge remove"
+echo " "
+echo "Continuing...${reset}"
+echo " "
+elif [ -f "/etc/redhat-release" ]; then
+echo "${cyan}Your system has been detected as Redhat-based, which is compatible with this automated installation script."
+PACKAGE_INSTALL="sudo yum install"
+PACKAGE_REMOVE="sudo yum remove"
 echo " "
 echo "Continuing...${reset}"
 echo " "
 else
-echo "${red}Your system has been detected as NOT BEING Debian-based. Your system is NOT compatible with this automated installation script."
+echo "${red}Your system has been detected as NOT BEING Debian-based OR Redhat-based. Your system is NOT compatible with this automated installation script."
 echo " "
 echo "Exiting...${reset}"
-echo " "
 exit
 fi
 
@@ -149,155 +170,319 @@ fi
 ######################################
 
 
-# Get primary dependency apps, if we haven't yet
+# clean_system_update function START
+clean_system_update () {
+
+
+     if [ -z "$ALLOW_FULL_UPGRADE" ]; then
+     
+     echo " "
+     echo "${yellow}Does the Operating System on this device update using the \"Rolling Release\" model (Kali, Manjaro, Ubuntu Rolling Rhino, Debian Unstable, etc), or the \"Long-Term Release\" model (Ubuntu, Raspberry Pi OS, Armbian Stable, Diet Pi, etc)?"
+     echo " "
+     echo "${red}(You can SEVERLY MESS UP a \"Rolling Release\" Operating System IF YOU DO NOT CHOOSE CORRECTLY HERE! In that case, you can SAFELY choose \"I don't know\".)${reset}"
+     echo " "
+     
+     echo "Enter the NUMBER next to your chosen option.${reset}"
+     
+     echo " "
+     
+          OPTIONS="rolling long_term i_dont_know"
+          
+          select opt in $OPTIONS; do
+                  if [ "$opt" = "long_term" ]; then
+                  ALLOW_FULL_UPGRADE="yes"
+                  echo " "
+                  echo "${green}Allowing system-wide updates before installs.${reset}"
+                  break
+                 else
+                  ALLOW_FULL_UPGRADE="no"
+                  echo " "
+                  echo "${green}Disabling system-wide updates before installs.${reset}"
+                  break
+                 fi
+          done
+            
+     echo " "
+     
+     fi
+
+
+     if [ "$PACKAGE_CACHE_REFRESHED" != "1" ]; then
+     
+     PACKAGE_CACHE_REFRESHED=1
+
+
+          if [ -f "/etc/debian_version" ]; then
+
+          echo "${cyan}Making sure your APT sources list is updated before installations, please wait...${reset}"
+          
+          echo " "
+          
+          # In case package list was ever corrupted (since we are about to rebuild it anyway...avoids possible errors)
+          sudo rm -rf /var/lib/apt/lists/* -vf > /dev/null 2>&1
+          
+          sleep 2
+          
+          # Clears / updates cache, then upgrades (if NOT a rolling release)
+          clean_system_update
+          
+          sleep 2
+          
+          echo " "
+     
+          echo "${cyan}APT sources list update complete.${reset}"
+          
+          echo " "
+     
+          fi
+          
+     
+          if [ "$ALLOW_FULL_UPGRADE" == "yes" ]; then
+
+          echo "${cyan}Making sure your system is updated before installations, please wait...${reset}"
+          
+          echo " "
+          
+          
+               if [ -f "/etc/debian_version" ]; then
+               #DO NOT RUN dist-upgrade, bad things can happen, lol
+               sudo apt upgrade -y
+               elif [ -f "/etc/redhat-release" ]; then
+               sudo yum upgrade -y
+               fi
+          
+          
+          sleep 2
+          
+          echo " "
+          				
+          echo "${cyan}System updated.${reset}"
+          				
+          echo " "
+          
+          fi
+     
+     fi
+
+}
+# clean_system_update function END
+
+
+######################################
+
+
+# Get SIMILAR (CROSS-DISTRO) primary dependency apps, if we haven't yet
     
 # Install git if needed
-GIT_PATH=$(which git)
+GIT_PATH=$(get_app_path "git")
 
 if [ -z "$GIT_PATH" ]; then
 
-DEPS_MISSING=1
+# Clears / updates cache, then upgrades (if NOT a rolling release)
+clean_system_update
 
 echo " "
 echo "${cyan}Installing required component git, please wait...${reset}"
 echo " "
 
-sudo apt update
-
-sudo apt install git -y
+$PACKAGE_INSTALL git -y
 
 fi
 
 
 # Install curl if needed
-CURL_PATH=$(which curl)
+CURL_PATH=$(get_app_path "curl")
 
 if [ -z "$CURL_PATH" ]; then
 
-DEPS_MISSING=1
+# Clears / updates cache, then upgrades (if NOT a rolling release)
+clean_system_update
 
 echo " "
 echo "${cyan}Installing required component curl, please wait...${reset}"
 echo " "
 
-sudo apt update
-
-sudo apt install curl -y
+$PACKAGE_INSTALL curl -y
 
 fi
 
 
 # Install jq if needed
-JQ_PATH=$(which jq)
+JQ_PATH=$(get_app_path "jq")
 
 if [ -z "$JQ_PATH" ]; then
 
-DEPS_MISSING=1
+# Clears / updates cache, then upgrades (if NOT a rolling release)
+clean_system_update
 
 echo " "
 echo "${cyan}Installing required component jq, please wait...${reset}"
 echo " "
 
-sudo apt update
-
-sudo apt install jq -y
+$PACKAGE_INSTALL jq -y
 
 fi
 
 
 # Install wget if needed
-WGET_PATH=$(which wget)
+WGET_PATH=$(get_app_path "wget")
 
 if [ -z "$WGET_PATH" ]; then
 
-DEPS_MISSING=1
+# Clears / updates cache, then upgrades (if NOT a rolling release)
+clean_system_update
 
 echo " "
 echo "${cyan}Installing required component wget, please wait...${reset}"
 echo " "
 
-sudo apt update
-
-sudo apt install wget -y
+$PACKAGE_INSTALL wget -y
 
 fi
 
 
 # Install sed if needed
-SED_PATH=$(which sed)
+SED_PATH=$(get_app_path "sed")
 
 if [ -z "$SED_PATH" ]; then
 
-DEPS_MISSING=1
+# Clears / updates cache, then upgrades (if NOT a rolling release)
+clean_system_update
 
 echo " "
 echo "${cyan}Installing required component sed, please wait...${reset}"
 echo " "
 
-sudo apt update
-
-sudo apt install sed -y
+$PACKAGE_INSTALL sed -y
 
 fi
 
 
 # Install less if needed
-LESS_PATH=$(which less)
+LESS_PATH=$(get_app_path "less")
 				
 if [ -z "$LESS_PATH" ]; then
 
-DEPS_MISSING=1
+# Clears / updates cache, then upgrades (if NOT a rolling release)
+clean_system_update
 
 echo " "
 echo "${cyan}Installing required component less, please wait...${reset}"
 echo " "
 
-sudo apt update
-
-sudo apt install less -y
+$PACKAGE_INSTALL less -y
 
 fi
 
 
 # Install expect if needed
-EXPECT_PATH=$(which expect)
+EXPECT_PATH=$(get_app_path "expect")
 				
 if [ -z "$EXPECT_PATH" ]; then
 
-DEPS_MISSING=1
+# Clears / updates cache, then upgrades (if NOT a rolling release)
+clean_system_update
 
 echo " "
 echo "${cyan}Installing required component expect, please wait...${reset}"
 echo " "
 
-sudo apt update
+$PACKAGE_INSTALL expect -y
 
-sudo apt install expect -y
+fi
+
+
+# Install avahi-daemon if needed (for .local names on internal / home network)
+AVAHID_PATH=$(get_app_path "avahi-daemon")
+
+if [ -z "$AVAHID_PATH" ]; then
+
+# Clears / updates cache, then upgrades (if NOT a rolling release)
+clean_system_update
+
+echo " "
+echo "${cyan}Installing required component avahi-daemon, please wait...${reset}"
+echo " "
+
+$PACKAGE_INSTALL avahi-daemon -y
 
 fi
 
 
 # Install bc if needed (for decimal math in bash)
-BC_PATH=$(which bc)
+BC_PATH=$(get_app_path "bc")
 
 if [ -z "$BC_PATH" ]; then
 
-DEPS_MISSING=1
+# Clears / updates cache, then upgrades (if NOT a rolling release)
+clean_system_update
 
 echo " "
 echo "${cyan}Installing required component bc, please wait...${reset}"
 echo " "
 
-sudo apt update
-
-sudo apt install bc -y
+$PACKAGE_INSTALL bc -y
 
 fi
 
-# dependency check END
+# SIMILAR (CROSS-DISTRO) dependency check END
 
 
 ######################################
+
+
+# Install bsdtar if needed (for opening archives)
+BSDTAR_PATH=$(get_app_path "bsdtar")
+
+
+# Distro-specific logic, to set variables, get dependencies, etc
+if [ -f "/etc/debian_version" ]; then
+
+# Get the host ip address
+IP=`hostname -I` 
+				
+
+     if [ -z "$BSDTAR_PATH" ]; then
+     
+     # Clears / updates cache, then upgrades (if NOT a rolling release)
+     clean_system_update
+     
+     echo " "
+     echo "${cyan}Installing required component libarchive-tools, please wait...${reset}"
+     echo " "
+     
+     # Ubuntu 18.x and higher
+     $PACKAGE_INSTALL libarchive-tools -y
+     
+     fi
+     
+
+elif [ -f "/etc/redhat-release" ]; then
+
+# Get the host ip address
+IP=$(ip -json route get 8.8.8.8 | jq -r '.[].prefsrc')
+				
+
+     if [ -z "$BSDTAR_PATH" ]; then
+     
+     # Clears / updates cache, then upgrades (if NOT a rolling release)
+     clean_system_update
+     
+     echo " "
+     echo "${cyan}Installing required component libarchive, please wait...${reset}"
+     echo " "
+     
+     # Ubuntu 18.x and higher
+     $PACKAGE_INSTALL libarchive -y
+     
+     fi
+     
+
+fi
+
+
+######################################
+
 
 
 # For setting user agent header in curl, since some API servers !REQUIRE! a set user agent OR THEY BLOCK YOU
@@ -395,26 +580,18 @@ echo " "
 ######################################
 
 
-echo " "
+# Clears / updates cache, then upgrades (if NOT a rolling release)
+clean_system_update
 
-echo "${cyan}Making sure your system is updated before installation, please wait...${reset}"
-
-echo " "
-			
-sudo apt-get update
-
-#DO NOT RUN dist-upgrade, bad things can happen, lol
-sudo apt-get upgrade -y
-
-echo " "
-				
-echo "${cyan}System update completed.${reset}"
-				
-sleep 3
 				
 echo " "
 echo "${cyan}Proceeding with required component installation, please wait...${reset}"
+echo " "
 
+
+if [ -f "/etc/debian_version" ]; then
+
+echo "${yellow}(Debian-based system detected)${reset}"
 echo " "
 
 # bsdtar installs may fail (essentially the same package as libarchive-tools),
@@ -425,35 +602,76 @@ echo "installs OK...and visa versa, as they are essentially the same package)${r
 echo " "
 
 # Ubuntu 16.x, and other debian-based systems
-sudo apt-get install bsdtar -y
+$PACKAGE_INSTALL bsdtar -y
 
 sleep 3
 
 # Ubuntu 18.x and higher
-sudo apt-get install libarchive-tools -y
+$PACKAGE_INSTALL libarchive-tools -y
 
 sleep 3
 
 # Dev libs (including for the extensions we want to add)
 # WE RUN SEPERATELY IN CASE AN ERROR THROWS, SO OTHER PACKAGES STILL INSTALL OK AFTERWARDS
-sudo apt-get install libssl-dev -y
+$PACKAGE_INSTALL libssl-dev -y
 sleep 1
-sudo apt-get install libcurl4-openssl-dev -y
+$PACKAGE_INSTALL libcurl4-openssl-dev -y
 sleep 1
-sudo apt-get install libzip-dev -y
+$PACKAGE_INSTALL libzip-dev -y
 sleep 1
-sudo apt-get install libbz2-dev -y
+$PACKAGE_INSTALL libbz2-dev -y
 sleep 1
-sudo apt-get install libxml2-dev -y
+$PACKAGE_INSTALL libxml2-dev -y
 sleep 1
-sudo apt-get install libsqlite3-dev -y
+$PACKAGE_INSTALL libsqlite3-dev -y
 sleep 1
-sudo apt-get install libonig-dev -y
+$PACKAGE_INSTALL libonig-dev -y
 
 sleep 3
 
 # Safely install other packages seperately, so they aren't cancelled by 'package missing' errors
-sudo apt-get install pkg-config build-essential autoconf bison re2c -y
+$PACKAGE_INSTALL pkg-config build-essential autoconf bison re2c -y
+
+
+elif [ -f "/etc/redhat-release" ]; then
+
+echo "${yellow}(Redhat-based system detected)${reset}"
+echo " "
+
+$PACKAGE_INSTALL libarchive -y
+
+sleep 3
+
+# Dev libs (including for the extensions we want to add)
+# WE RUN SEPERATELY IN CASE AN ERROR THROWS, SO OTHER PACKAGES STILL INSTALL OK AFTERWARDS
+$PACKAGE_INSTALL openssl-devel -y
+sleep 1
+$PACKAGE_INSTALL libcurl-devel -y
+sleep 1
+$PACKAGE_INSTALL libzip libzip-devel -y
+sleep 1
+$PACKAGE_INSTALL bzip2-libs bzip2-devel -y
+sleep 1
+$PACKAGE_INSTALL libxml2-devel -y
+sleep 1
+$PACKAGE_INSTALL sqlite-devel -y
+sleep 1
+$PACKAGE_INSTALL oniguruma-devel -y
+sleep 1
+$PACKAGE_INSTALL libpng-devel -y
+sleep 1
+$PACKAGE_INSTALL freetype-devel -y
+
+sleep 3
+
+sudo yum groupinstall 'Development Tools' -y
+
+# Safely install other packages seperately, so they aren't cancelled by 'package missing' errors
+$PACKAGE_INSTALL autoconf bison re2c -y
+
+
+fi
+
 
 sleep 3
 
