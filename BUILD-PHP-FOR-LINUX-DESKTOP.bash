@@ -147,7 +147,7 @@ fi
 
 if [ -f "/etc/debian_version" ]; then
 echo "${cyan}Your system has been detected as Debian-based, which is compatible with this automated installation script."
-PACKAGE_INSTALL="$PACKAGE_INSTALL"
+PACKAGE_INSTALL="sudo apt install"
 PACKAGE_REMOVE="sudo apt --purge remove"
 echo " "
 echo "Continuing...${reset}"
