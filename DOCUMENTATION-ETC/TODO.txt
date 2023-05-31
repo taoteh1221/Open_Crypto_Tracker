@@ -383,7 +383,7 @@ https://stepdata.substack.com/
 Add OPTIONAL Coingecko PRO API support: https://apiguide.coingecko.com/exclusive-endpoints/pro-api
 
 
-Convert Arch linux support in auto-installer over to redhat (yum), as Arch does NOT have much package / setup support for libraries we use. WE ALREADY CONVERTED "BUILD-PHP-FOR-LINUX-DESKTOP.bash" OVER TO BE REDHAT COMPATIBLE, so use it as a template to integrate into FOLIO-INSTALL.bash.
+Convert Arch linux support in auto-installer over to redhat (yum), as Arch does NOT have much package / setup support for libraries we use. WE ALREADY CONVERTED "BUILD-PHP-FOR-LINUX-DESKTOP.bash" OVER TO BE REDHAT COMPATIBLE, so use it as a template to integrate into FOLIO-INSTALL.bash. ALSO REMOVE ARCH DOCUMENTATION AND REPLACE WITH FEDORA DOCS.
 
 
 All NON-GLOBAL variables inside JAVASCRIPT functions should be started as 'var my_var_name': 
