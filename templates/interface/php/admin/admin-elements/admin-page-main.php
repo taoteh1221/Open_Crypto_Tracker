@@ -78,7 +78,7 @@
 	
 	            <h2 class='bitcoin admin_title'>General</h2>
 
-                <div class='max_1200px_wrapper'>
+                <div>
                 	
                    <div id='iframe_general_loading' class='align_center loading iframe_loading_placeholder bitcoin'><img src="templates/interface/media/images/auto-preloaded/loader.gif" height='17' alt="" style='vertical-align: middle;' /> Loading...<span id='background_loading_span'></span></div>
                 
@@ -93,7 +93,7 @@
 	
 	            <h2 class='bitcoin admin_title'>Communications</h2>
 
-                <div class='max_1200px_wrapper'>
+                <div>
 
                    <div id='iframe_comms_loading' class='align_center loading iframe_loading_placeholder bitcoin'><img src="templates/interface/media/images/auto-preloaded/loader.gif" height='17' alt="" style='vertical-align: middle;' /> Loading...<span id='background_loading_span'></span></div>
                 
@@ -108,7 +108,7 @@
 	
 	            <h2 class='bitcoin admin_title'>Other APIs</h2>
 
-                <div class='max_1200px_wrapper'>
+                <div>
                 	
                    <div id='iframe_other_api_loading' class='align_center loading iframe_loading_placeholder bitcoin'><img src="templates/interface/media/images/auto-preloaded/loader.gif" height='17' alt="" style='vertical-align: middle;' /> Loading...<span id='background_loading_span'></span></div>
                 
@@ -123,7 +123,7 @@
 	
 	            <h2 class='bitcoin admin_title'>Proxies</h2>
 
-                <div class='max_1200px_wrapper'>
+                <div>
                 	
                    <div id='iframe_proxy_loading' class='align_center loading iframe_loading_placeholder bitcoin'><img src="templates/interface/media/images/auto-preloaded/loader.gif" height='17' alt="" style='vertical-align: middle;' /> Loading...<span id='background_loading_span'></span></div>
                 
@@ -138,7 +138,7 @@
 	
 	            <h2 class='bitcoin admin_title'>Security</h2>
 
-                <div class='max_1200px_wrapper'>
+                <div>
 
                    <div id='iframe_security_loading' class='align_center loading iframe_loading_placeholder bitcoin'><img src="templates/interface/media/images/auto-preloaded/loader.gif" height='17' alt="" style='vertical-align: middle;' /> Loading...<span id='background_loading_span'></span></div>
                 
@@ -153,7 +153,7 @@
 	
 	            <h2 class='bitcoin admin_title'>Portfolio Assets</h2>
 
-                <div class='max_1200px_wrapper'>
+                <div>
                 	
                    <div id='iframe_portfolio_assets_loading' class='align_center loading iframe_loading_placeholder bitcoin'><img src="templates/interface/media/images/auto-preloaded/loader.gif" height='17' alt="" style='vertical-align: middle;' /> Loading...<span id='background_loading_span'></span></div>
                 
@@ -167,7 +167,7 @@
 	
 	            <h2 class='bitcoin admin_title'><?=( $ct_conf['gen']['asset_charts_toggle'] == 'on' ? 'Charts and ' : 'Price ' )?>Alerts</h2>
 
-                <div class='max_1200px_wrapper'>
+                <div>
                 	
                    <div id='iframe_charts_alerts_loading' class='align_center loading iframe_loading_placeholder bitcoin'><img src="templates/interface/media/images/auto-preloaded/loader.gif" height='17' alt="" style='vertical-align: middle;' /> Loading...<span id='background_loading_span'></span></div>
                 
@@ -182,7 +182,7 @@
 	
 	            <h2 class='bitcoin admin_title'>Plugins</h2>
 
-                <div class='max_1200px_wrapper'>
+                <div>
                 	
                    <div id='iframe_plugins_loading' class='align_center loading iframe_loading_placeholder bitcoin'><img src="templates/interface/media/images/auto-preloaded/loader.gif" height='17' alt="" style='vertical-align: middle;' /> Loading...<span id='background_loading_span'></span></div>
                 
@@ -197,7 +197,7 @@
 	
 	            <h2 class='bitcoin admin_title'>Power User</h2>
 
-                <div class='max_1200px_wrapper'>
+                <div>
                 	
                    <div id='iframe_power_user_loading' class='align_center loading iframe_loading_placeholder bitcoin'><img src="templates/interface/media/images/auto-preloaded/loader.gif" height='17' alt="" style='vertical-align: middle;' /> Loading...<span id='background_loading_span'></span></div>
                 
@@ -212,7 +212,7 @@
 	
 	            <h2 class='bitcoin admin_title'>Internal API</h2>
 
-                <div class='max_1200px_wrapper'>
+                <div>
                 	
                    <div id='iframe_int_api_loading' class='align_center loading iframe_loading_placeholder bitcoin'><img src="templates/interface/media/images/auto-preloaded/loader.gif" height='17' alt="" style='vertical-align: middle;' /> Loading...<span id='background_loading_span'></span></div>
                 
@@ -227,7 +227,7 @@
 	
 	            <h2 class='bitcoin admin_title'>Webhook</h2>
 
-                <div class='max_1200px_wrapper'>
+                <div>
                 	
                    <div id='iframe_webhook_loading' class='align_center loading iframe_loading_placeholder bitcoin'><img src="templates/interface/media/images/auto-preloaded/loader.gif" height='17' alt="" style='vertical-align: middle;' /> Loading...<span id='background_loading_span'></span></div>
                 
@@ -242,7 +242,7 @@
 	
 	            <h2 class='bitcoin admin_title'>Text Gateways</h2>
 
-                <div class='max_1200px_wrapper'>
+                <div>
                 	
                    <div id='iframe_text_gateways_loading' class='align_center loading iframe_loading_placeholder bitcoin'><img src="templates/interface/media/images/auto-preloaded/loader.gif" height='17' alt="" style='vertical-align: middle;' /> Loading...<span id='background_loading_span'></span></div>
                 
@@ -257,7 +257,7 @@
 	
 	            <h2 class='bitcoin admin_title'>Developer Only</h2>
 
-                <div class='max_1200px_wrapper'>
+                <div>
                 	
                    <div id='iframe_developer_loading' class='align_center loading iframe_loading_placeholder bitcoin'><img src="templates/interface/media/images/auto-preloaded/loader.gif" height='17' alt="" style='vertical-align: middle;' /> Loading...<span id='background_loading_span'></span></div>
                 
@@ -317,7 +317,7 @@
 	
 	            <h2 class='bitcoin admin_title'>Backup / Restore</h2>
 
-                <div class='max_1200px_wrapper'>
+                <div>
                 	
                    <div id='iframe_backup_restore_loading' class='align_center loading iframe_loading_placeholder bitcoin'><img src="templates/interface/media/images/auto-preloaded/loader.gif" height='17' alt="" style='vertical-align: middle;' /> Loading...<span id='background_loading_span'></span></div>
                 
@@ -332,7 +332,7 @@
 	
 	            <h2 class='bitcoin admin_title'>Reset</h2>
 
-                <div class='max_1200px_wrapper'>
+                <div>
                 	
                    <div id='iframe_reset_loading' class='align_center loading iframe_loading_placeholder bitcoin'><img src="templates/interface/media/images/auto-preloaded/loader.gif" height='17' alt="" style='vertical-align: middle;' /> Loading...<span id='background_loading_span'></span></div>
                 

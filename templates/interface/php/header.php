@@ -654,7 +654,7 @@ else {
                	}
                     
                     '>
-                    <label class='pl_mn_lab' for="quant_font_percent">Text Size %</label>
+                    <label class='pl_mn_lab' for="quant_font_percent">Text %</label>
                     
                     </div>
                    

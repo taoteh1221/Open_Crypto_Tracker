@@ -53,6 +53,15 @@ function to_timestamp(year,month,day,hour,minute,second) {
 
 /////////////////////////////////////////////////////////////
 
+function resize_portfolio_footer() {
+// Portfolio footer width should match table width (minus 70)
+$(".portfolio_footer").css({ "width": Math.round( $("#coins_table").width() - 70 ) + 'px' });
+$(".portfolio_footer").css({ "max-width": Math.round( $("#coins_table").width() - 70 ) + 'px' });
+}
+
+
+/////////////////////////////////////////////////////////////
+
 
 function background_loading_notices(message) {
 
@@ -60,6 +69,18 @@ function background_loading_notices(message) {
     $("#background_loading_span").html(message).css("color", "#dd7c0d", "important");
     }
 
+}
+
+
+/////////////////////////////////////////////////////////////
+
+
+function scroll_left(elm) {
+
+     setTimeout(function() {
+     $(elm).scrollLeft(0);
+     }, 1500);
+     
 }
 
 
@@ -240,6 +261,9 @@ $('.collapse.in').toggleClass('in');
 // and also adjust aria-expanded attributes we use for the open/closed arrows
 // in our CSS
 $('a[aria-expanded="true"]').attr('aria-expanded', 'false');
+
+// Scroll left, if we are wider than the page (for UX)
+scroll_left("#secondary_wrapper");
 
 }
 
@@ -1409,6 +1433,9 @@ small_font_elements.attr('style', function(i,s) { return (s || '') + "line-heigh
      set_cookie("font_size", font_size, 365);
      }
      
+     
+// Match portfolio width for summary area
+resize_portfolio_footer();
 
 }
 
@@ -1869,6 +1896,9 @@ function nav_menu($chosen_menu) {
                    
      	    // Prevent the anchor's default click action
      	    e.preventDefault();
+     	    
+              // Scroll left, if we are wider than the page (for UX)
+              scroll_left("#secondary_wrapper");
      	    
      	    // Do any textarea autoresizes, now that this content is showing
      	    // (since it may not have been showing on app load)

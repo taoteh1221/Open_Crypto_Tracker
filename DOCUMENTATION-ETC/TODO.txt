@@ -10,6 +10,9 @@ NEXT SCHEDULED WORK SESSION (DEBUGGING AND / OR INFRASTRUCTURE)
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
+We had to add overflow: scroll to force-scroll secondary_wrapper. ODDLY ENOUGH IT WORKS *BUT* REMOVES THE HORIZONTAL SCROLL BAR. Try and find a way to still force-scroll left (if wider than the page, for UX), AND keep the horizontal scrollbar that should show if we are wider than the page.
+
+
 Add slight top margin for alerts popin window.
 
 

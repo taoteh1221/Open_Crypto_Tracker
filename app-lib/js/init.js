@@ -36,10 +36,8 @@ $(".chart_wrapper").css({ "border": '2px solid ' + charts_border });
 $("span.btc_prim_currency_pair").html(btc_prim_currency_pair); 
 
 
-// Portfolio footer width should match table width (minus 70)
-$(".portfolio_footer").css({ "width": Math.round( $("#coins_table").width() - 70 ) + 'px' });
-$(".portfolio_footer").css({ "max-width": Math.round( $("#coins_table").width() - 70 ) + 'px' });
-
+// Match portfolio width for summary area
+resize_portfolio_footer();
 
 
 // Random tips on the update page 
@@ -171,10 +169,6 @@ background_tasks_check();
       	if ( $(this).data('width') == 'full' ) {
       	$("#admin_wrapper").css('max-width','100%');
       	$("#admin_tab_content").css('max-width','100%');
-      	}
-      	else {
-      	$("#admin_wrapper").css('max-width','1200px');
-      	$("#admin_tab_content").css('max-width','1200px');
       	}
   
     });
