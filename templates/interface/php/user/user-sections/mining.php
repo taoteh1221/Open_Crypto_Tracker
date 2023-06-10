@@ -6,10 +6,13 @@
 
 ?>
 
+	
+<h2 class='bitcoin page_title'>Staking / Mining</h2>
+	            
+
 <div class='full_width_wrapper'>
 
-			
-				
+    
 				<span class='red countdown_notice'></span>
 			
 
@@ -48,6 +51,6 @@
 			</fieldset>
 		    
 		    
-</div> <!-- max_1200px_wrapper END -->
+</div> <!-- full_width_wrapper END -->
 
 

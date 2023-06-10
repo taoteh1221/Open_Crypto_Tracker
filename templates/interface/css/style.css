@@ -56,6 +56,7 @@ margin-bottom: 15px;
 
 
 select {
+appearance: none !important;  /* for hiding default arrow */
 line-height: 15px !important;
 height: 25px !important;
 min-width: 95px !important;
@@ -129,8 +130,9 @@ fieldset {
 }
 
 legend {
+    float: none !important;
     width:auto;
-    padding:6px 6px; /* To give a bit of padding on the left and right */
+    padding: 6px 6px !important; /* To give a bit of padding on the left and right */
     border-bottom:none;
     margin-bottom: 0px;
 }
@@ -158,6 +160,22 @@ margin: 0px;
 /* //////////////////////////////
 CLASSES
 ////////////////////////////// */
+
+
+.page_title {
+text-transform: uppercase;
+writing-mode: vertical-lr;
+text-orientation: upright;
+    text-align: center;
+    display: inline;
+    position: absolute;
+    margin: 0px;
+    margin-top: 8px;
+    left: 8px;
+    z-index: 2;
+    border-radius: 8px;
+    padding: 4px;
+}
 
 
 .alert-warning {
@@ -474,6 +492,7 @@ margin-bottom: 2px;
 div.tabdiv {
 min-height: 150px;
 display: inline-block;
+min-width: 100%;
 }
 
 
@@ -524,7 +543,7 @@ text-decoration: none;
 .full_width_wrapper {
 position: relative;
 width: 100%;
-padding-left: 25px;
+padding-left: 75px;
 padding-right: 25px;
 }
 
@@ -536,8 +555,6 @@ position: absolute; /* To set top / right below, AND backwards compatibility (if
 top: 20px;
 right: 0px;
 z-index: 5;
-position: sticky;
-position: -webkit-sticky;
 border-radius: 5px;
 padding: 2px;
 }
@@ -663,6 +680,7 @@ margin-right: 6px;
 
 
 #background_loading, .chart_reload {
+position: relative;
 display: none;
 padding: 6px;
 width: 100%;
@@ -671,6 +689,7 @@ min-height: 23px;
 margin: auto;
 margin-top: 3px;
 margin-bottom: 13px;
+z-index: 3;
 }
 
 
@@ -692,7 +711,7 @@ margin: auto;
     transition: all 0.3s;
     width: calc(100% - 278px);
     left: 278px !important;
-  overflow: scroll;
+    overflow: auto;
 }
 
 

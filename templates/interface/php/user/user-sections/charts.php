@@ -5,9 +5,13 @@
 
 ?>
 
+
+<h2 class='bitcoin page_title'>Price Charts</h2>
+	            
+
 <div class='full_width_wrapper'>
-	
-	
+
+    
 				<span class='red countdown_notice'></span>
 			
 	
@@ -379,7 +383,7 @@
 				
 				
 				
-</div> <!-- charts_page_wrapper END -->
+</div> <!-- full_width_wrapper END -->
 
 
 

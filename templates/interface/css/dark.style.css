@@ -72,6 +72,12 @@ CLASSES
 ////////////////////////////// */
 
 
+.page_title {
+    background: #202020;
+    border: 4px dotted #3f3838 !important;
+}
+
+
 .pw_prompt {
     border: 3px solid white;
     background: #777575 !important;

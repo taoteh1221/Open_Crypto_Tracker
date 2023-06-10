@@ -6,8 +6,11 @@
 
 ?>
 
-<div class='full_width_wrapper align_center'>
+	
+<h2 class='bitcoin page_title'>My Portfolio</h2>
 
+
+<div class='full_width_wrapper align_center'>
 
     
 			<span id='pm_link' class='bitcoin' onclick='privacy_mode(true);' title='Turn privacy mode ON. This encrypts / hides RENDERED personal portfolio data with the PIN you setup (BUT DOES #NOT# encrypt RAW source code). It ALSO disables opposite-clicking / data submission, and logs out any active admin login.'>Privacy Mode Is Off</span> 
@@ -2064,7 +2067,7 @@ var server_header_defaults_content = '<h5 class="yellow tooltip_title">Average S
 				
 				
 				
-</div> <!-- portfolio_page_wrapper END -->
+</div> <!-- full_width_wrapper END -->
 
 
 

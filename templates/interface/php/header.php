@@ -460,7 +460,7 @@ if ( $is_iframe ) {
 }
 else {
 ?>
-<body onscroll="isScrolledIntoView( document.getElementById('alert_bell_area'), 1 )">
+<body>
 
 
 <audio preload="metadata" id="audio_alert">
@@ -548,7 +548,7 @@ else {
      
           <ul class="user-nav all-nav dropdown-menu" style="">
           
-           <li><a class="dropdown-item" href='index.php#portfolio' title='View your portfolio.'>Show Portfolio</a></li>
+           <li><a class="dropdown-item" href='index.php#portfolio' title='View your portfolio.'>My Portfolio</a></li>
            
            <li class='update_portfolio_link'><a class="dropdown-item update_portfolio_link" id='update_link_1' href='index.php#update' title='Update your portfolio data.'>Update Portfolio</a></li>
 
@@ -566,11 +566,11 @@ else {
            
            <li><a class="dropdown-item" href='index.php#tools' title='Use various crypto tools.'>Tools</a></li>
 
-           <li><a class="dropdown-item" href='index.php#mining' title='Calculate coin mining profits.'>Coin Staking / Mining</a></li>
+           <li><a class="dropdown-item" href='index.php#mining' title='Calculate coin mining profits.'>Staking / Mining</a></li>
 
-           <li><a class="dropdown-item" href='index.php#resources' title='View 3rd party resources.'>Third Party Resources</a></li>
+           <li><a class="dropdown-item" href='index.php#resources' title='View 3rd party resources.'>Other Resources</a></li>
 
-           <li><a class="dropdown-item" href='index.php#help' title='Get help using this app.'>FAQ / Help?</a></li>
+           <li><a class="dropdown-item" href='index.php#help' title='Get help with running and setting up this app.'>Help</a></li>
            
           </ul>
       
@@ -580,10 +580,7 @@ else {
    <div class="smallnav_spacer"></div>
    
    
-   <div class="align_center"><img src='templates/interface/media/images/auto-preloaded/icons8-questions-100-<?=$sel_opt['theme_selected']?>.png' width='45' border='0' title='FAQ / Help?' /></div>
-
-   
-   <div class="smallnav_spacer"></div>
+   <div class="align_center"><img src='templates/interface/media/images/auto-preloaded/icons8-questions-100-<?=$sel_opt['theme_selected']?>.png' width='45' border='0' title='Get help with running and setting up this app.' /></div>
 
         
    <?php
@@ -761,7 +758,7 @@ else {
                 
                 <ul class="user-nav all-nav collapse list-unstyled" id="userSubmenu">
           
-                <li class='sidebar-item'><a href='index.php#portfolio' title='View your portfolio.'>Show Portfolio</a></li>
+                <li class='sidebar-item'><a href='index.php#portfolio' title='View your portfolio.'>My Portfolio</a></li>
                 
                 <li class='sidebar-item update_portfolio_link'><a class='update_portfolio_link' id='update_link_2' href='index.php#update' title='Update your portfolio data.'>Update Portfolio</a></li>
      
@@ -779,18 +776,22 @@ else {
                 
                 <li class='sidebar-item'><a href='index.php#tools' title='Use various crypto tools.'>Tools</a></li>
      
-                <li class='sidebar-item'><a href='index.php#mining' title='Calculate coin mining profits.'>Coin Staking / Mining</a></li>
+                <li class='sidebar-item'><a href='index.php#mining' title='Calculate coin mining profits.'>Staking / Mining</a></li>
      
-                <li class='sidebar-item'><a href='index.php#resources' title='View 3rd party resources.'>Third Party Resources</a></li>
+                <li class='sidebar-item'><a href='index.php#resources' title='View 3rd party resources.'>Other Resources</a></li>
      
-                <li class='sidebar-item'><a href='index.php#help' title='Get help using this app.'>FAQ / Help?</a></li>
+                <li class='sidebar-item'><a href='index.php#help' title='Get help with running and setting up this app.'>Help</a></li>
                 
                 </ul>
                 
             </li>
             
             <li class='sidebar-item'>
-                <a href="#12">FAQ / Help?</a>
+                <a href="#12" title='Get help with running and setting up this app.'>Help</a>
+            </li>
+
+            <li class='sidebar-item'>
+                <a href='javascript:' title='Return to the top of the menu.'>Back To Top</a>
             </li>
             
         </ul>

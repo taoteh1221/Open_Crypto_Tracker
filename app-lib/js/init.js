@@ -50,7 +50,7 @@ start_utc_time();
 // 'Loading X...' UI notices
 background_tasks_check();
 
-
+	
 
 	/////////////////////////////////////////////////////////////////////////////////////////////////////
 	
@@ -120,6 +120,23 @@ background_tasks_check();
      emulated_cron(); // Initial load (RELOADS from WITHIN it's OWN logic every minute AFTER)
 	
 	}
+
+
+	/////////////////////////////////////////////////////////////////////////////////////////////////////
+	
+	
+	// Emulate sticky-positioned elements in #secondary_wrapper,
+	// because we set overflow: auto; CSS to automate controlling left scroll positioning
+	// (which DISABLES a container from having functional sticky-positioned elements within it)
+     window.addEventListener('scroll', function (e) {
+
+     emulate_sticky( $('#alert_bell_area') );
+
+     emulate_sticky( $('.page_title') );
+
+     emulate_sticky( $('.countdown_notice') );
+     
+     });
 
 
 	/////////////////////////////////////////////////////////////////////////////////////////////////////

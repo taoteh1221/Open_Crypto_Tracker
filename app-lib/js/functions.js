@@ -75,18 +75,6 @@ function background_loading_notices(message) {
 /////////////////////////////////////////////////////////////
 
 
-function scroll_left(elm) {
-
-     setTimeout(function() {
-     $(elm).scrollLeft(0);
-     }, 1500);
-     
-}
-
-
-/////////////////////////////////////////////////////////////
-
-
 function is_int(value) {
   
   if (isNaN(value)) {
@@ -263,7 +251,7 @@ $('.collapse.in').toggleClass('in');
 $('a[aria-expanded="true"]').attr('aria-expanded', 'false');
 
 // Scroll left, if we are wider than the page (for UX)
-scroll_left("#secondary_wrapper");
+scroll_start("left", "#secondary_wrapper");
 
 }
 
@@ -675,30 +663,20 @@ function set_admin_security(obj) {
 /////////////////////////////////////////////////////////////
 
 
-function isScrolledIntoView(elem, emulate_sticky=0) {
+function emulate_sticky(elm) {
 
 var docViewTop = $(window).scrollTop();
 var docViewBottom = docViewTop + $(window).height();
 
-var elemTop = $(elem).offset().top;
-var elemBottom = elemTop + $(elem).height();
+var elmTop = $(elm).offset().top;
+var elmBottom = elmTop + $(elm).height();
 
-var result = ((elemBottom <= docViewBottom) && (elemTop >= docViewTop));
+var result = ((elmBottom <= docViewBottom) && (elmTop >= docViewTop));
 
 var top = Math.round(docViewTop);
 
-     
-     // Emulating sticky CSS positioning
-     if ( emulate_sticky == 1 ) {
-     $(elem).css({ "top": top + 'px' });
-     }
-     // If element isnt in scrolled view, AND we are NOT emulating sticky CSS positioning
-     else if ( result == false ) {
-     // Do something here
-     }
-     
-
-//console.log(top);
+// Emulating sticky CSS positioning
+$(elm).css({ "top": top + 'px' });
     
 }
 
@@ -892,6 +870,48 @@ quoteContainer.html( ajax_placeholder(15, 'left') );
    });  
 
 
+}
+
+
+/////////////////////////////////////////////////////////////
+
+
+// !!! WARNING !!!
+// NEEDS overflow: scroll; CSS, which DISABLES sticky elements in the container we are scrolling
+// (so we MUST emulate sticky positioning with emulate_sticky() in containers using this)
+function scroll_start(direction, elm) {
+     
+var scroll_width = $(elm).width();
+var scroll_height = $(elm).height();
+
+
+     setTimeout(function() {
+     
+     
+        if ( typeof scroll_width == 'undefined' ) {
+        return;
+        }
+        else if ( direction == 'left' ) {
+        $(elm).scrollLeft(0);
+        }
+        else if ( direction == 'right' ) {
+        $(elm).scrollLeft(scroll_width);
+        }
+     
+     
+        if ( typeof scroll_height == 'undefined' ) {
+        return;
+        }
+        else if ( direction == 'top' ) {
+        $(elm).scrollTop(0);
+        }
+        else if ( direction == 'bottom' ) {
+        $(elm).scrollTop(scroll_height);
+        }
+        
+     
+     }, 350);
+     
 }
    
 
@@ -1131,16 +1151,16 @@ function background_tasks_check() {
     		get_scroll_position('charts'); 
     		}
     	
-    	background_tasks_status = 'done';
-    	
-    	clearTimeout(background_tasks_recheck);
+         	background_tasks_status = 'done';
+         	
+         	clearTimeout(background_tasks_recheck);
 		
 		}
 		else {
 		    
 		background_tasks_recheck = setTimeout(background_tasks_check, 1000); // Re-check every 1 seconds (in milliseconds)
 	
-    	background_tasks_status = 'wait';
+    	     background_tasks_status = 'wait';
     
 		}
 		
@@ -1898,7 +1918,7 @@ function nav_menu($chosen_menu) {
      	    e.preventDefault();
      	    
               // Scroll left, if we are wider than the page (for UX)
-              scroll_left("#secondary_wrapper");
+              scroll_start("left", "#secondary_wrapper");
      	    
      	    // Do any textarea autoresizes, now that this content is showing
      	    // (since it may not have been showing on app load)

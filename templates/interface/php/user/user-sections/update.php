@@ -7,9 +7,13 @@
 
 ?>
 
+	
+<h2 class='bitcoin page_title'>Update Portfolio</h2>
+	            
+
 <div class='full_width_wrapper'>
 
-
+    
 <!--  !START! RE-USED INFO BUBBLE DATA  -->
 <script>
 

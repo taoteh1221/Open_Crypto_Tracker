@@ -10,28 +10,19 @@ NEXT SCHEDULED WORK SESSION (DEBUGGING AND / OR INFRASTRUCTURE)
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
-We had to add overflow: scroll to force-scroll secondary_wrapper. ODDLY ENOUGH IT WORKS *BUT* REMOVES THE HORIZONTAL SCROLL BAR. Try and find a way to still force-scroll left (if wider than the page, for UX), AND keep the horizontal scrollbar that should show if we are wider than the page.
-
-
 Add slight top margin for alerts popin window.
-
-
-Center privacy mode modal in new right-side content area system.
-
-
-Strip old admin nav out, after migrating ALL admin links over to new sidebar navs.
-
-
-We need a title at top of each page in the user area, like the admin area has (scrolls with page).
 
 
 Sidebar menu item text should be bold, and maybe even larger (than content area text).
 
 
-Try to shrink up the sidebar width as much as possible, without squishing the top nav together too much.
-
-
 Tweak sizes / colors / positioning in sidebar, until it feels just right.
+
+
+Strip old admin nav out, after migrating ALL admin links over to new sidebar navs.
+
+
+Center privacy mode modal in new right-side content area system.
 
 
 For the domain header spoofing check, try writing the test file AS EARLY AS POSSIBLE in the runtime, and check it at the last second when inits / configs are done (and feature logic is about to run). Besides what we already have planned to fix the header domain spoofing attack check, since we never run the check more than once every 24 hours, add a 5 second sleep RIGHT BEFORE WE CHECK THE FILE WE WROTE. Set a var with the full file path when creating the check file, and delete it in the footer logic (since w only run this check in UI runtimes).
@@ -186,6 +177,9 @@ DEBUGGING / TESTS / UX / QA / OTHER
 !!!!                                                                                   
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
+
+We had to add overflow: scroll to force-scroll secondary_wrapper. ODDLY ENOUGH IT WORKS *BUT* REMOVES THE HORIZONTAL SCROLL BAR. Try and find a way to still force-scroll left (if wider than the page, for UX), AND keep the horizontal scrollbar that should show if we are wider than the page.
 
 
 Change semantic naming of 'coin_amnts' form id, as it now also handles charts / news feeds / etc.

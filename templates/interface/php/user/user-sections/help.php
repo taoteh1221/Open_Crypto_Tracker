@@ -6,8 +6,13 @@
 
 ?>
 
+	
+<h2 class='bitcoin page_title'>Help</h2>
+	            
+
 <div class='full_width_wrapper'>
-				
+
+    
 				<span class='red countdown_notice'></span>
 			
 	
@@ -1142,7 +1147,7 @@ CRON-DESIGNATED PLUGINS (PLUGINS FLAGGED TO RUN DURING CRON JOBS) DO RUN #LAST# 
 	
 			    
 			    
-</div> <!-- max_1200px_wrapper END -->
+</div> <!-- full_width_wrapper END -->
 
 
 
