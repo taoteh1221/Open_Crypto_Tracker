@@ -11,12 +11,6 @@
 	            
 
 <div class='full_width_wrapper'>
-
-    
-				<span class='red countdown_notice'></span>
-			
-	
-	<p style='margin-top: 15px; margin-bottom: 15px;'> &nbsp; </p>		
 			
 	
 	<div class="accordion" id="accordionHelp" style='margin: 20px; margin-top: 35px;'> <!-- Accordion START -->

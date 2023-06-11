@@ -53,15 +53,6 @@ function to_timestamp(year,month,day,hour,minute,second) {
 
 /////////////////////////////////////////////////////////////
 
-function resize_portfolio_footer() {
-// Portfolio footer width should match table width (minus 70)
-$(".portfolio_footer").css({ "width": Math.round( $("#coins_table").width() - 70 ) + 'px' });
-$(".portfolio_footer").css({ "max-width": Math.round( $("#coins_table").width() - 70 ) + 'px' });
-}
-
-
-/////////////////////////////////////////////////////////////
-
 
 function background_loading_notices(message) {
 
@@ -251,7 +242,7 @@ $('.collapse.in').toggleClass('in');
 $('a[aria-expanded="true"]').attr('aria-expanded', 'false');
 
 // Scroll left, if we are wider than the page (for UX)
-scroll_start("left", "#secondary_wrapper");
+scroll_start();
 
 }
 
@@ -877,30 +868,29 @@ quoteContainer.html( ajax_placeholder(15, 'left') );
 
 
 // !!! WARNING !!!
-// NEEDS overflow: scroll; CSS, which DISABLES sticky elements in the container we are scrolling
-// (so we MUST emulate sticky positioning with emulate_sticky() in containers using this)
-function scroll_start(direction, elm) {
-     
-var scroll_width = $(elm).width();
-var scroll_height = $(elm).height();
+// NEEDS overflow: auto; CSS ***UNLESS USING 'defaults'***, which DISABLES sticky elements in the container we are scrolling
+// (so we MUST emulate sticky positioning with emulate_sticky() in containers using scrollLeft|Top)
+function scroll_start(direction='defaults', elm=false) {  
+       
+       
+     if ( elm != false ) {
+     var scroll_width = $(elm).width();
+     var scroll_height = $(elm).height();
+     }
 
 
      setTimeout(function() {
      
      
-        if ( typeof scroll_width == 'undefined' ) {
-        return;
+        if ( direction == 'defaults' || typeof scroll_width == 'undefined' || typeof scroll_height == 'undefined' ) {
+        scroll(0,0); // Defaults
+        console.log('Scroll defaults used.');
         }
         else if ( direction == 'left' ) {
         $(elm).scrollLeft(0);
         }
         else if ( direction == 'right' ) {
         $(elm).scrollLeft(scroll_width);
-        }
-     
-     
-        if ( typeof scroll_height == 'undefined' ) {
-        return;
         }
         else if ( direction == 'top' ) {
         $(elm).scrollTop(0);
@@ -910,7 +900,7 @@ var scroll_height = $(elm).height();
         }
         
      
-     }, 350);
+     }, 250);
      
 }
    
@@ -1453,9 +1443,6 @@ small_font_elements.attr('style', function(i,s) { return (s || '') + "line-heigh
      set_cookie("font_size", font_size, 365);
      }
      
-     
-// Match portfolio width for summary area
-resize_portfolio_footer();
 
 }
 
@@ -1740,7 +1727,7 @@ function auto_reload() {
 				
 				$("#use_cookies").val(1);
 				
-				document.getElementById("reload_countdown").innerHTML = "(reloading app, please wait...)";
+				document.getElementById("reload_notice").innerHTML = "(reloading app, please wait...)";
 				
 					setTimeout(function () {
 						$("#coin_amnts").submit();
@@ -1775,12 +1762,10 @@ function auto_reload() {
                     	round_min = Math.floor(int_time / 60);
                     	sec = ( int_time - (round_min * 60) );
                     
-                   	    $("#reload_countdown").html("<b>(" + round_min + " minutes " + sec + " seconds)</b>"); // Portfolio page
                    	    $("span.countdown_notice").html("<b>(auto-reload in " + round_min + " minutes " + sec + " seconds)</b>"); // Secondary pages
                       
                     	}
                     	else {
-                    	$("#reload_countdown").html("<b>(" + int_time + " seconds)</b>"); // Portfolio page
                     	$("span.countdown_notice").html("<b>(auto-reload in " + int_time + " seconds)</b>"); // Secondary pages
                     	}
             				
@@ -1803,7 +1788,6 @@ function auto_reload() {
 		}
 		else {
 		set_cookie("coin_reload", '', 365);
-		$("#reload_countdown").html(""); // Portfolio page
 		$("span.countdown_notice").html(""); // Secondary pages
 		}
 	
@@ -1918,7 +1902,8 @@ function nav_menu($chosen_menu) {
      	    e.preventDefault();
      	    
               // Scroll left, if we are wider than the page (for UX)
-              scroll_start("left", "#secondary_wrapper");
+              scroll_start();
+     	    
      	    
      	    // Do any textarea autoresizes, now that this content is showing
      	    // (since it may not have been showing on app load)

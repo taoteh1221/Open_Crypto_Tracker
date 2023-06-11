@@ -170,11 +170,11 @@ text-orientation: upright;
     display: inline;
     position: absolute;
     margin: 0px;
-    margin-top: 8px;
-    left: 8px;
+    margin-top: 3px;
+    left: 3px;
     z-index: 2;
-    border-radius: 8px;
-    padding: 4px;
+    border-radius: 9px;
+    padding: 0px;
 }
 
 
@@ -411,7 +411,7 @@ font-weight: normal;
 
 .long_linebreak { 
 display: inline-block;
-max-width: 278px;
+max-width: 258px;
 white-space: normal;
 word-wrap: break-word;
 text-align: center;
@@ -491,12 +491,8 @@ margin-bottom: 2px;
 
 div.tabdiv {
 min-height: 150px;
-display: inline-block;
+display: none;
 min-width: 100%;
-}
-
-
-.tabdiv {
 border-collapse: separate !important;
 }
 
@@ -543,8 +539,8 @@ text-decoration: none;
 .full_width_wrapper {
 position: relative;
 width: 100%;
-padding-left: 75px;
-padding-right: 25px;
+padding-left: 60px;
+padding-right: 18px;
 }
 
 
@@ -552,9 +548,11 @@ padding-right: 25px;
 display: inline;
 float: right;
 position: absolute; /* To set top / right below, AND backwards compatibility (if browser doesn't support 'sticky') */
-top: 20px;
-right: 0px;
+top: 0px;
+right: 5px;
 z-index: 5;
+position: sticky;
+position: -webkit-sticky;
 border-radius: 5px;
 padding: 2px;
 }
@@ -662,6 +660,30 @@ IDs
 }
 
 
+#content_wrapper {
+display: none;
+margin: 0px; 
+}
+
+
+#secondary_wrapper {
+    position: absolute;
+     margin: auto;
+    min-height: 100vh;
+     padding: 20px;
+     padding-top: 10px;
+    transition: all 0.3s;
+    width: calc(100% - 258px);
+    left: 258px !important;
+}
+
+
+#secondary_wrapper.active {
+    width: calc(100% - 60px);
+    left: 60px !important;
+}
+
+
 #watch_only {
 display: inline-block; 
 padding: 7px; 
@@ -700,30 +722,6 @@ width: 100%;
 white-space: nowrap;
 font-size: 60px;
 margin: auto;
-}
-
-
-#secondary_wrapper {
-    position: absolute;
-     margin: auto;
-    min-height: 100vh;
-     padding: 20px;
-    transition: all 0.3s;
-    width: calc(100% - 278px);
-    left: 278px !important;
-    overflow: auto;
-}
-
-
-#secondary_wrapper.active {
-    width: calc(100% - 60px);
-    left: 60px !important;
-}
-
-
-#content_wrapper {
-display: none;
-margin: 0px; 
 }
 
 
@@ -791,7 +789,6 @@ z-index: 9999999;
     text-align: left;
     min-height: 45px;
     margin: 15px;
-    margin-top: 0px;
     padding: 15px;
 font-weight: bold; 
 line-height: 35px;
@@ -866,7 +863,7 @@ display: none;
 
 
 #sidebar {
-    width: 278px;
+    width: 258px;
     position: fixed;
     top: 0;
     left: 0;
@@ -877,7 +874,7 @@ display: none;
 
 
 #sidebar.active {
-    margin-left: -278px;
+    margin-left: -258px;
 }
 
 
@@ -897,9 +894,8 @@ display: none;
 
 
 #sidebar .plus_minus {
-width: 135px;
   margin-top: 18px;
-  margin-left: 66px;
+  margin-left: 64px;
   margin-right: 0px;
   margin-bottom: 0px;
 }
@@ -917,14 +913,14 @@ width: 135px;
 
 #sidebar label.pl_mn_lab {
 color: red;
-transform: scale(.85) translateY(0rem) translateX(1.06rem);
+transform: scale(.85) translateY(0rem) translateX(0.5rem);
 padding: 0rem;
 }
 
 
 #sidebar #quant_font_percent {
 height: calc(1.5rem + calc(var(--bs-border-width) * 2));
-    padding-left: 1.8rem;
+    padding-left: 0.5rem;
 }
 
 
@@ -963,11 +959,12 @@ height: calc(1.5rem + calc(var(--bs-border-width) * 2));
 
 #sidebar .sidebar-slogan {
      position: relative;
-    padding-top: 14px;
+    padding-top: 5px;
     padding-left: 7px;
     padding-right: 7px;
-    padding-bottom: 7px;
+    padding-bottom: 0px;
     margin: auto;
+    font-size: 13px !important;
 }
 
 
@@ -1017,6 +1014,7 @@ max-width: 337px;
 #sidebar a,
 #sidebar a:hover,
 #sidebar a:focus {
+    font-weight: bold !important;
     text-decoration: none;
     transition: all 0.3s;
 }
@@ -1043,7 +1041,7 @@ max-width: 337px;
 @media (max-width: 768px) {
      
     #sidebar {
-        margin-left: -278px;
+        margin-left: -258px;
     }
     #sidebar.active {
         margin-left: 0;
@@ -1055,8 +1053,8 @@ max-width: 337px;
         left: 60px !important;
     }
     #secondary_wrapper.active {
-        width: calc(100% - 278px);
-        left: 278px !important;
+        width: calc(100% - 258px);
+        left: 258px !important;
     }
     
     

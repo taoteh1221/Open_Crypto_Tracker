@@ -12,6 +12,7 @@
 
 <div class='full_width_wrapper align_center'>
 
+<div style='min-height: 25px;'></div>
     
 			<span id='pm_link' class='bitcoin' onclick='privacy_mode(true);' title='Turn privacy mode ON. This encrypts / hides RENDERED personal portfolio data with the PIN you setup (BUT DOES #NOT# encrypt RAW source code). It ALSO disables opposite-clicking / data submission, and logs out any active admin login.'>Privacy Mode Is Off</span> 
 			<?php
@@ -69,7 +70,7 @@
 				<option value='600' <?=( $_COOKIE['coin_reload'] == '600' ? 'selected' : '' )?>> Every 10 Minutes </option>
 				<option value='900' <?=( $_COOKIE['coin_reload'] == '900' ? 'selected' : '' )?>> Every 15 Minutes </option>
 				<option value='1800' <?=( $_COOKIE['coin_reload'] == '1800' ? 'selected' : '' )?>> Every 30 Minutes </option>
-			</select> &nbsp;<span id='reload_countdown' class='red'></span>
+			</select> &nbsp;<span id='reload_notice' class='red'></span>
 					
 			<p>
                             

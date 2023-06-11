@@ -11,9 +11,6 @@
 	            
 
 <div class='full_width_wrapper'>
-
-    
-				<span class='red countdown_notice'></span>
 			
 			
 			

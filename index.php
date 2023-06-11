@@ -29,18 +29,24 @@ require("templates/interface/php/header.php");
 
 ?>
 
-		
+    
+   <span class='red countdown_notice'></span>
+
+
 		<div id='portfolio' class='tabdiv'>
 			<?php require("templates/interface/php/user/user-sections/portfolio.php"); ?>
 		</div>
+		
 		
 		<div id='update' class='tabdiv'>
 			<?php require("templates/interface/php/user/user-sections/update.php"); ?>
 		</div>
 		
+		
 		<div id='settings' class='tabdiv'>
 			<?php require("templates/interface/php/user/user-sections/settings.php"); ?>
 		</div>
+		
 		
 			<?php
 			if ( $ct_conf['gen']['asset_charts_toggle'] == 'on' ) {
@@ -52,27 +58,32 @@ require("templates/interface/php/header.php");
 			}
 			?>
 		
+		
 		<div id='news' class='tabdiv'>
 			<?php require("templates/interface/php/user/user-sections/news.php"); ?>
 		</div>
+			
 			
 		<div id='tools' class='tabdiv'>
 			<?php require("templates/interface/php/user/user-sections/tools.php"); ?>
 		</div>
 		
+		
 		<div id='mining' class='tabdiv'>
 			<?php require("templates/interface/php/user/user-sections/mining.php"); ?>
 		</div>
+		
 		
 		<div id='resources' class='tabdiv'>
 			<?php require("templates/interface/php/user/user-sections/resources.php"); ?>
 		</div>
 		
+		
 		<div id='help' class='tabdiv'>
 			<?php require("templates/interface/php/user/user-sections/help.php"); ?>
 		</div>
 
-
+    
 <?php
 require("templates/interface/php/footer.php");
 

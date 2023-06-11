@@ -11,14 +11,8 @@
 	            
 
 <div class='full_width_wrapper'>
-
-    
-				<span class='red countdown_notice'></span>
 			
-	
-	<p style='margin-top: 15px; margin-bottom: 15px;'> &nbsp; </p>		
 			
-	
 	    <fieldset class='subsection_fieldset'><legend class='subsection_legend'> <strong>Marketcap Stats</strong> </legend>
 	        
 			<p><a style='font-weight: bold;' class='red' href='javascript: show_more("newbiewarning");' title='Click to show newbie warning.'><b>Newbie Warning!</b></a></p>

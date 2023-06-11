@@ -10,15 +10,6 @@ NEXT SCHEDULED WORK SESSION (DEBUGGING AND / OR INFRASTRUCTURE)
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
-Add slight top margin for alerts popin window.
-
-
-Sidebar menu item text should be bold, and maybe even larger (than content area text).
-
-
-Tweak sizes / colors / positioning in sidebar, until it feels just right.
-
-
 Strip old admin nav out, after migrating ALL admin links over to new sidebar navs.
 
 
@@ -179,7 +170,10 @@ DEBUGGING / TESTS / UX / QA / OTHER
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
 
-We had to add overflow: scroll to force-scroll secondary_wrapper. ODDLY ENOUGH IT WORKS *BUT* REMOVES THE HORIZONTAL SCROLL BAR. Try and find a way to still force-scroll left (if wider than the page, for UX), AND keep the horizontal scrollbar that should show if we are wider than the page.
+Make the app look a bit nicer in firefox if possible (WITHOUT FF-specific code).
+
+
+Darken up OR thicken up the light-theme text, so it's got better readability.
 
 
 Change semantic naming of 'coin_amnts' form id, as it now also handles charts / news feeds / etc.

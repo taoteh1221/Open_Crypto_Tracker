@@ -120,10 +120,6 @@
 				
 				
 				
-				
-				<span class='red countdown_notice'></span>
-				
-				
 	<p style='margin-top: 20px;'><a style='font-weight: bold; font-size: 25px;' class='red clear_both' href='javascript: show_more("disclaimer");' title='Click to show disclaimer.'>Disclaimer!</a> &nbsp; 👈 </p>
 	    
 	    

@@ -623,7 +623,7 @@ else {
         <div class="sidebar-top">
         
              <div class="plus_minus">
-              <div class="input-group">
+              <div class="input-group" style='width: 120px;'>
                     <span class="input-group-btn">
                        <button type="button" class="btn btn-danger btn-number"  data-type="minus" data-field="quant_font_percent" title='Decrease text size.'>
                           <span class="plus_minus_buttons"> - </span>
@@ -674,7 +674,7 @@ else {
         
 
         <div class="sidebar-header">
-            <h3 class='align_center' style='margin-bottom: 5px;'>Open Crypto Tracker</h3>
+            <h4 class='align_center' style='margin-bottom: 0px;'>Open Crypto Tracker</h4>
         </div>
         
         <div class="sidebar-slogan align_center">
@@ -801,8 +801,8 @@ else {
 
     
     <!-- content body -->
-    <div class='align_center' id='secondary_wrapper' style='<?=( $login_template == 1 ? 'min-width: 720px; max-width: 800px;' : '' )?>'>
-    
+    <div class='align_center' id='secondary_wrapper'>
+				
 
     <script>
     
