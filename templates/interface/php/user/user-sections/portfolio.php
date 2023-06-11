@@ -882,7 +882,7 @@ var fiat_val_content = '<h5 class="yellow tooltip_title">Primary Currency (<?=st
 		
 		<h3 style='display: inline;'>More Portfolio Stats</h3>
 	
-				<span style='z-index: 99999; margin-right: 55px;' class='red countdown_notice'></span>
+				<span style='z-index: 99999; margin-right: 55px;' class='red countdown_notice_modal'></span>
 	
 	<br clear='all' />
 	
@@ -1583,7 +1583,7 @@ zingchart.bind('marketcap_chart', 'label_click', function(e){
 		
 		<h3 style='display: inline;'>System Stats</h3>
 	
-				<span style='z-index: 99999; margin-right: 55px;' class='red countdown_notice'></span>
+				<span style='z-index: 99999; margin-right: 55px;' class='red countdown_notice_modal'></span>
 	
 	<br clear='all' />
 	<br clear='all' />
@@ -1840,7 +1840,7 @@ var server_header_defaults_content = '<h5 class="yellow tooltip_title">Average S
 		
 		<h3 style='display: inline;'>Access Stats</h3>
 	
-				<span style='z-index: 99999; margin-right: 55px;' class='red countdown_notice'></span>
+				<span style='z-index: 99999; margin-right: 55px;' class='red countdown_notice_modal'></span>
 	
 	<br clear='all' />
 	<br clear='all' />
@@ -1909,7 +1909,7 @@ var server_header_defaults_content = '<h5 class="yellow tooltip_title">Average S
 		
 		<h3 style='display: inline;'>App Logs</h3>
 	
-				<span style='z-index: 99999; margin-right: 55px;' class='red countdown_notice'></span>
+				<span style='z-index: 99999; margin-right: 55px;' class='red countdown_notice_modal'></span>
 	
 	<br clear='all' />
 	<br clear='all' />

@@ -41,7 +41,7 @@
 		
 		<h4 style='display: inline;'>Select News Feeds</h4>
 	
-				<span style='z-index: 99999;' class='red countdown_notice'></span>
+				<span style='z-index: 99999;' class='red countdown_notice_modal'></span>
 	
 	<br clear='all' />
 	<br clear='all' />

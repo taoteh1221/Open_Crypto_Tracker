@@ -29,9 +29,6 @@ require("templates/interface/php/header.php");
 
 ?>
 
-    
-   <span class='red countdown_notice'></span>
-
 
 		<div id='portfolio' class='tabdiv'>
 			<?php require("templates/interface/php/user/user-sections/portfolio.php"); ?>

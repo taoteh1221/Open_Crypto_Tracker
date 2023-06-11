@@ -234,7 +234,7 @@ border: 2px solid #d4d8d3;
 }
 
 
-.countdown_notice {
+.countdown_notice, .countdown_notice_modal {
 background: #202020;
 }
 

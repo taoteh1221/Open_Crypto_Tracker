@@ -1762,11 +1762,13 @@ function auto_reload() {
                     	round_min = Math.floor(int_time / 60);
                     	sec = ( int_time - (round_min * 60) );
                     
-                   	    $("span.countdown_notice").html("<b>(auto-reload in " + round_min + " minutes " + sec + " seconds)</b>"); // Secondary pages
+                   	     $("span.countdown_notice").html("<b>(auto-reload in " + round_min + " minutes " + sec + " seconds)</b>"); // Main pages
+                   	     $("span.countdown_notice_modal").html("<b>(auto-reload in " + round_min + " minutes " + sec + " seconds)</b>"); // Modal pages
                       
                     	}
                     	else {
-                    	$("span.countdown_notice").html("<b>(auto-reload in " + int_time + " seconds)</b>"); // Secondary pages
+                    	$("span.countdown_notice").html("<b>(auto-reload in " + int_time + " seconds)</b>"); // Main pages
+                    	$("span.countdown_notice_modal").html("<b>(auto-reload in " + int_time + " seconds)</b>"); // Modal pages
                     	}
             				
             				if ( int_time == 0 ) {
@@ -1788,7 +1790,8 @@ function auto_reload() {
 		}
 		else {
 		set_cookie("coin_reload", '', 365);
-		$("span.countdown_notice").html(""); // Secondary pages
+		$("span.countdown_notice").html(""); // Main pages
+		$("span.countdown_notice_modal").html(""); // Modal pages
 		}
 	
 	

@@ -802,6 +802,9 @@ else {
     
     <!-- content body -->
     <div class='align_center' id='secondary_wrapper'>
+
+    
+    <span class='red countdown_notice'></span>
 				
 
     <script>

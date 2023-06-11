@@ -130,6 +130,8 @@ random_tips();
      emulate_sticky('#alert_bell_area');
 
      emulate_sticky('.page_title');
+
+     emulate_sticky('.countdown_notice');
      
      });
 

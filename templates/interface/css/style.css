@@ -551,6 +551,18 @@ position: absolute; /* To set top / right below, AND backwards compatibility (if
 top: 0px;
 right: 5px;
 z-index: 5;
+border-radius: 5px;
+padding: 2px;
+}
+
+
+.countdown_notice_modal {
+display: inline;
+float: right;
+position: absolute; /* To set top / right below, AND backwards compatibility (if browser doesn't support 'sticky') */
+top: 0px;
+right: 5px;
+z-index: 5;
 position: sticky;
 position: -webkit-sticky;
 border-radius: 5px;

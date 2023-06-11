@@ -229,7 +229,7 @@ border: 2px solid #606060;
 }
 
 
-.countdown_notice {
+.countdown_notice, .countdown_notice_modal {
 background: #f2f2f2;
 }
 
