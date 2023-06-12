@@ -13,6 +13,12 @@ NEXT SCHEDULED WORK SESSION (DEBUGGING AND / OR INFRASTRUCTURE)
 Strip old admin nav out, after migrating ALL admin links over to new sidebar navs.
 
 
+Investing.com cryptocurrency news feed is titled incorrectly.
+
+
+Add Linux desktop notes for building PHP binary in general documentation.
+
+
 Center privacy mode modal in new right-side content area system.
 
 
