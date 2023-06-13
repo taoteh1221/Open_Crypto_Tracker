@@ -2418,7 +2418,7 @@ var $ct_array = array();
         		$result = $ct_api->rss($feed_item["url"], false, $ct_conf['comms']['news_feed_email_entries_show'], false, true);
         		
         		  if ( trim($result) != '<ul></ul>' ) {
-        		  $html .= '<div style="padding: 30px;"><fieldset><legend style="font-weight: bold; color: #00b6db;"> ' . $feed_item["title"] . ' </legend>' . "\n\n";
+        		  $html .= '<div style="padding: 30px;"><fieldset><legend style="font-weight: bold; color: black;"> ' . $feed_item["title"] . ' </legend>' . "\n\n";
         	 	  $html .= $result . "\n\n";
         		  $html .= '</fieldset></div>' . "\n\n";
         	 	  $num_posts++;  
@@ -2429,7 +2429,7 @@ var $ct_array = array();
         	}         
                
         	
-      $top .= '<h2 style="color: #00b6db;">' . $num_posts . ' Updated RSS Feeds (over ' . $ct_conf['comms']['news_feed_email_freq'] . ' days)</h3>' . "\n\n";
+      $top .= '<h2 style="color: black;">' . $num_posts . ' Updated RSS Feeds (over ' . $ct_conf['comms']['news_feed_email_freq'] . ' days)</h3>' . "\n\n";
         	
         	if ( $app_edition == 'server' ) {
             $top .= '<p><a style="color: #00b6db;" title="View the news feeds page in the Open Crypto Tracker app here." target="_blank" href="' . $base_url . 'index.php?start_page=news#news">View All News Feeds Here</a></p>' . "\n\n";
