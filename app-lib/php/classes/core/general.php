@@ -2446,6 +2446,9 @@ var $ct_array = array();
       
       $email_body = '<div style="padding: 15px;">' . $top . $html . '</div>';
       
+      // Convert any CSS for red coloring (without a class)
+      $email_body = preg_replace("/class=\"red\"/i", "style=\"color: red;\"", $email_body); 
+      
                
       $send_params = array(
                                                     

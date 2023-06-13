@@ -13,7 +13,7 @@ NEXT SCHEDULED WORK SESSION (DEBUGGING AND / OR INFRASTRUCTURE)
 Strip old admin nav out, after migrating ALL admin links over to new sidebar navs.
 
 
-Investing.com cryptocurrency news feed is titled incorrectly.
+Investing.com cryptocurrency news feed is titled incorrectly (wrong feed), AND Etheruem solidity feed is throwing errors.
 
 
 Add Linux desktop notes for building PHP binary in general documentation.
