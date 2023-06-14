@@ -2428,8 +2428,6 @@ var $ct_array = array();
         	 	
         	}         
                
-        	
-      $top .= '<style> li {margin: 8px;} </style>' . "\n\n";
       
       $top .= '<h2 style="color: black;">' . $num_posts . ' Updated RSS Feeds (over ' . $ct_conf['comms']['news_feed_email_freq'] . ' days)</h3>' . "\n\n";
         	
@@ -2446,10 +2444,10 @@ var $ct_array = array();
 	  $top .= '<p>Entries are sorted newest to oldest.</p>' . "\n\n";
       
       
-      $email_html = '<div style="padding: 15px;">' . $top . $content_html . '</div>';
+      $email_html = '<style> li {margin: 8px;} </style>' . "\n\n" . '<div style="padding: 15px;">' . $top . $content_html . '</div>';
       
-      // Convert any CSS for red coloring (without a class)
-      $email_html = preg_replace("/class=\"red\"/i", "style=\"color: red;\"", $email_html); 
+      // Convert any CSS for red coloring (without a class) on feed error messages, AND create a large margin around it
+      $email_html = preg_replace("/class=\"red\"/i", "style=\"margin: 15px; color: red;\"", $email_html); 
       
                
       $send_params = array(

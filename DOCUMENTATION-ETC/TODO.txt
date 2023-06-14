@@ -152,17 +152,19 @@ DEBUGGING / TESTS / UX / QA / OTHER
 !!!!
 ===> config.php (and plug-conf.php for plugins) MUST ONLY CONTAIN STATIC CONFIGS,
 ===> as all configs are saved to / run from cache file: /cache/secured/ct_conf_XXXXXXXXX.dat
-!!!!
-===> Use SQLite for data storage that needs query capability (PHPdesktop supports SQLite).
 !!!!                                                                                    
 ===> May come in handy for writing PHP unit tests (in /app-lib/php/inline/debugging/):
 ===> https://stackoverflow.com/questions/861254/iterate-over-properties-of-a-php-class
 !!!!
+===> Use SQLite for data storage that needs query capability (PHPdesktop supports SQLite).
+!!!!                    
 ===> JS / CSS map file loading will timeout, if you load too many charts / news feeds.
 !!!!
 ===> Test in a WebKit-based browser [Epiphany|Safari|Midori], and Firefox / Chromium.
 !!!!
 ===> Think over what other "FAQ page / TROUBLESHOOTING.txt" entries would be helpful.
+!!!!
+===> Zingchart UPGRADES ARE FROZEN @ v2.9.10, DUR TO AN INTRODUCED RENDERING BUG
 !!!!
 ===> Try to do tests / UX / QA / debugging before adding new infrastructure
 ===> (find every flaming turd before we start a dumpster fire!).
@@ -171,7 +173,7 @@ DEBUGGING / TESTS / UX / QA / OTHER
 ===> then plenty of time is spent on UX / testing / debugging.
 !!!!
 ===> Don't require any higher than PHP v7.2 until PHP v9.
-!!!!                                                                                   
+!!!!                                                            
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 

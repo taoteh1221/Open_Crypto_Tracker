@@ -609,7 +609,7 @@ var fiat_val_content = '<h5 class="yellow tooltip_title">Primary Currency (<?=st
 			
 			+'<p class="coin_info" style="max-width: 600px; white-space: normal;">The value of your ENTIRE portfolio, based off your selected primary currency (<?=strtoupper($ct_conf['gen']['btc_prim_currency_pair'])?>), in the "Primary Currency Market" setting, on the Settings page.</p>'
 			
-			+'<p class="coin_info" style="max-width: 600px; white-space: normal;">Selected Primary Currency Market: <span class="yellow">BTC / <?=strtoupper($ct_conf['gen']['btc_prim_currency_pair'])?> @ <?=$ct_gen->key_to_name($ct_conf['gen']['btc_prim_exchange'])?> (<?=$ct_conf['power']['btc_currency_mrkts'][ $ct_conf['gen']['btc_prim_currency_pair'] ]?><?=number_format( $sel_opt['sel_btc_prim_currency_val'], 0, '.', ',')?>)</span></p>'
+			+'<p class="coin_info" style="max-width: 600px; white-space: normal;">Selected Primary Currency Market: <span class="bitcoin">BTC / <?=strtoupper($ct_conf['gen']['btc_prim_currency_pair'])?> @ <?=$ct_gen->key_to_name($ct_conf['gen']['btc_prim_exchange'])?> (<?=$ct_conf['power']['btc_currency_mrkts'][ $ct_conf['gen']['btc_prim_currency_pair'] ]?><?=number_format( $sel_opt['sel_btc_prim_currency_val'], 0, '.', ',')?>)</span></p>'
 		
 			+'<?=$lvrg_text2?>';
 		
@@ -707,7 +707,7 @@ var fiat_val_content = '<h5 class="yellow tooltip_title">Primary Currency (<?=st
 				          
 				          ?>
 				          
-			+'<p class="coin_info"><span class="yellow"><?=$val['coin_symb']?>:</span> <span class="<?=( $val['gain_loss_total'] >= 0 ? 'green">+' : 'red">-' )?><?=$ct_conf['power']['btc_currency_mrkts'][ $ct_conf['gen']['btc_prim_currency_pair'] ]?><?=$parsed_gain_loss?> (<?=( $val['gain_loss_total'] >= 0 ? '+' : '' )?><?=number_format($val['gain_loss_percent_total'], $thres_dec_2['max_dec'], '.', ',')?>%<?=( $val['coin_lvrg'] >= 2 ? ', ' . $val['coin_lvrg'] . 'x ' . $val['selected_mrgntyp'] : '' )?>)</span></p>'
+			+'<p class="coin_info"><span class="bitcoin"><?=$val['coin_symb']?>:</span> <span class="<?=( $val['gain_loss_total'] >= 0 ? 'green">+' : 'red">-' )?><?=$ct_conf['power']['btc_currency_mrkts'][ $ct_conf['gen']['btc_prim_currency_pair'] ]?><?=$parsed_gain_loss?> (<?=( $val['gain_loss_total'] >= 0 ? '+' : '' )?><?=number_format($val['gain_loss_percent_total'], $thres_dec_2['max_dec'], '.', ',')?>%<?=( $val['coin_lvrg'] >= 2 ? ', ' . $val['coin_lvrg'] . 'x ' . $val['selected_mrgntyp'] : '' )?>)</span></p>'
 			
 			    <?php
 						}

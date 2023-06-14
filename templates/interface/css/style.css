@@ -599,7 +599,8 @@ margin-right: auto;
 
 
 .chart_reload {
-top: 150px;
+top: 150px !important;
+position: absolute !important;
 }
 
 

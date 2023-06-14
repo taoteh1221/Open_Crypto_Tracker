@@ -81,7 +81,7 @@ echo '?';
 
 			var cmc_content = '<h5 class="yellow align_center tooltip_title"><?=$asset_name?> (<?=$asset_symb?>)</h5>'
     
-        +'<p class="coin_info" style="white-space: normal; max-width: 600px;"><span class="yellow">Stock market data is provided with <a href="https://www.alphavantage.co/" target="_blank">Alpha Vantage\'s API</a>.</span></p>';
+        +'<p class="coin_info" style="white-space: normal; max-width: 600px;"><span class="bitcoin">Stock market data is provided with <a href="https://www.alphavantage.co/" target="_blank">Alpha Vantage\'s API</a>.</span></p>';
 	
 			<?php
 			}
@@ -136,76 +136,76 @@ echo '?';
             }
         		?>
         
-        +'<p class="coin_info"><span class="yellow">Ranking:</span> #<?=$mcap_data['rank']?></p>'
-        +'<p class="coin_info"><span class="yellow">Marketcap (circulating):</span> <?=$mcap_prim_currency_symb?><?=number_format($mcap_data['market_cap'],0,".",",")?></p>'
+        +'<p class="coin_info"><span class="bitcoin">Ranking:</span> #<?=$mcap_data['rank']?></p>'
+        +'<p class="coin_info"><span class="bitcoin">Marketcap (circulating):</span> <?=$mcap_prim_currency_symb?><?=number_format($mcap_data['market_cap'],0,".",",")?></p>'
         
         <?php
             if ( $mcap_data['market_cap_total'] > 0 ) {
             ?>
-        +'<p class="coin_info"><span class="yellow">Marketcap (total):</span> <?=$mcap_prim_currency_symb?><?=number_format($mcap_data['market_cap_total'],0,".",",")?></p>'
+        +'<p class="coin_info"><span class="bitcoin">Marketcap (total):</span> <?=$mcap_prim_currency_symb?><?=number_format($mcap_data['market_cap_total'],0,".",",")?></p>'
         <?php
             }
             if ( $mcap_data['circulating_supply'] > 0 ) {
             ?>
-        +'<p class="coin_info"><span class="yellow">Circulating Supply:</span> <?=number_format($mcap_data['circulating_supply'], 0, '.', ',')?></p>'
+        +'<p class="coin_info"><span class="bitcoin">Circulating Supply:</span> <?=number_format($mcap_data['circulating_supply'], 0, '.', ',')?></p>'
         <?php
             }
             if ( $mcap_data['total_supply'] > 0 ) {
             ?>
-        +'<p class="coin_info"><span class="yellow">Total Supply:</span> <?=number_format($mcap_data['total_supply'], 0, '.', ',')?></p>'
+        +'<p class="coin_info"><span class="bitcoin">Total Supply:</span> <?=number_format($mcap_data['total_supply'], 0, '.', ',')?></p>'
         <?php
             }
             if ( $mcap_data['max_supply'] > 0 ) {
             ?>
-        +'<p class="coin_info"><span class="yellow">Maximum Supply:</span> <?=number_format($mcap_data['max_supply'], 0, '.', ',')?></p>'
+        +'<p class="coin_info"><span class="bitcoin">Maximum Supply:</span> <?=number_format($mcap_data['max_supply'], 0, '.', ',')?></p>'
         <?php
             }
             ?>
-        +'<p class="coin_info"><span class="yellow">Unit Value (global average):</span> <?=$mcap_prim_currency_symb?><?=$mcap_data['price']?></p>'
-        +'<p class="coin_info"><span class="yellow">24 Hour Volume (global):</span> <?=$mcap_prim_currency_symb?><?=number_format($mcap_data['vol_24h'],0,".",",")?></p>'
+        +'<p class="coin_info"><span class="bitcoin">Unit Value (global average):</span> <?=$mcap_prim_currency_symb?><?=$mcap_data['price']?></p>'
+        +'<p class="coin_info"><span class="bitcoin">24 Hour Volume (global):</span> <?=$mcap_prim_currency_symb?><?=number_format($mcap_data['vol_24h'],0,".",",")?></p>'
         <?php
             if ( $mcap_data['percent_change_1h'] != null ) {
             ?>
-        +'<p class="coin_info"><span class="yellow">1 Hour Change:</span> <?=( stristr($mcap_data['percent_change_1h'], '-') != false ? '<span class="red">'.$mcap_data['percent_change_1h'].'%</span>' : '<span class="green">+'.$mcap_data['percent_change_1h'].'%</span>' )?></p>'
+        +'<p class="coin_info"><span class="bitcoin">1 Hour Change:</span> <?=( stristr($mcap_data['percent_change_1h'], '-') != false ? '<span class="red">'.$mcap_data['percent_change_1h'].'%</span>' : '<span class="green">+'.$mcap_data['percent_change_1h'].'%</span>' )?></p>'
         <?php
             }
             ?>
-        +'<p class="coin_info"><span class="yellow">24 Hour Change:</span> <?=( stristr($mcap_data['percent_change_24h'], '-') != false ? '<span class="red">'.$mcap_data['percent_change_24h'].'%</span>' : '<span class="green">+'.$mcap_data['percent_change_24h'].'%</span>' )?></p>'
+        +'<p class="coin_info"><span class="bitcoin">24 Hour Change:</span> <?=( stristr($mcap_data['percent_change_24h'], '-') != false ? '<span class="red">'.$mcap_data['percent_change_24h'].'%</span>' : '<span class="green">+'.$mcap_data['percent_change_24h'].'%</span>' )?></p>'
         <?php
             if ( $mcap_data['percent_change_7d'] != null ) {
             ?>
-        +'<p class="coin_info"><span class="yellow">7 Day Change:</span> <?=( stristr($mcap_data['percent_change_7d'], '-') != false ? '<span class="red">'.$mcap_data['percent_change_7d'].'%</span>' : '<span class="green">+'.$mcap_data['percent_change_7d'].'%</span>' )?></p>'
+        +'<p class="coin_info"><span class="bitcoin">7 Day Change:</span> <?=( stristr($mcap_data['percent_change_7d'], '-') != false ? '<span class="red">'.$mcap_data['percent_change_7d'].'%</span>' : '<span class="green">+'.$mcap_data['percent_change_7d'].'%</span>' )?></p>'
         <?php
             }
             if ( $mcap_data['percent_change_14d'] != null ) {
             ?>
-        +'<p class="coin_info"><span class="yellow">14 Day Change:</span> <?=( stristr($mcap_data['percent_change_14d'], '-') != false ? '<span class="red">'.$mcap_data['percent_change_14d'].'%</span>' : '<span class="green">+'.$mcap_data['percent_change_14d'].'%</span>' )?></p>'
+        +'<p class="coin_info"><span class="bitcoin">14 Day Change:</span> <?=( stristr($mcap_data['percent_change_14d'], '-') != false ? '<span class="red">'.$mcap_data['percent_change_14d'].'%</span>' : '<span class="green">+'.$mcap_data['percent_change_14d'].'%</span>' )?></p>'
         <?php
             }
             if ( $mcap_data['percent_change_30d'] != null ) {
             ?>
-        +'<p class="coin_info"><span class="yellow">30 Day Change:</span> <?=( stristr($mcap_data['percent_change_30d'], '-') != false ? '<span class="red">'.$mcap_data['percent_change_30d'].'%</span>' : '<span class="green">+'.$mcap_data['percent_change_30d'].'%</span>' )?></p>'
+        +'<p class="coin_info"><span class="bitcoin">30 Day Change:</span> <?=( stristr($mcap_data['percent_change_30d'], '-') != false ? '<span class="red">'.$mcap_data['percent_change_30d'].'%</span>' : '<span class="green">+'.$mcap_data['percent_change_30d'].'%</span>' )?></p>'
         <?php
             }
             if ( $mcap_data['percent_change_90d'] != null ) {
             ?>
-        +'<p class="coin_info"><span class="yellow">90 Day Change:</span> <?=( stristr($mcap_data['percent_change_90d'], '-') != false ? '<span class="red">'.$mcap_data['percent_change_90d'].'%</span>' : '<span class="green">+'.$mcap_data['percent_change_90d'].'%</span>' )?></p>'
+        +'<p class="coin_info"><span class="bitcoin">90 Day Change:</span> <?=( stristr($mcap_data['percent_change_90d'], '-') != false ? '<span class="red">'.$mcap_data['percent_change_90d'].'%</span>' : '<span class="green">+'.$mcap_data['percent_change_90d'].'%</span>' )?></p>'
         <?php
             }
             if ( $mcap_data['percent_change_200d'] != null ) {
             ?>
-        +'<p class="coin_info"><span class="yellow">200 Day Change:</span> <?=( stristr($mcap_data['percent_change_200d'], '-') != false ? '<span class="red">'.$mcap_data['percent_change_200d'].'%</span>' : '<span class="green">+'.$mcap_data['percent_change_200d'].'%</span>' )?></p>'
+        +'<p class="coin_info"><span class="bitcoin">200 Day Change:</span> <?=( stristr($mcap_data['percent_change_200d'], '-') != false ? '<span class="red">'.$mcap_data['percent_change_200d'].'%</span>' : '<span class="green">+'.$mcap_data['percent_change_200d'].'%</span>' )?></p>'
         <?php
             }
             if ( $mcap_data['percent_change_1y'] != null ) {
             ?>
-        +'<p class="coin_info"><span class="yellow">1 Year Change:</span> <?=( stristr($mcap_data['percent_change_1y'], '-') != false ? '<span class="red">'.$mcap_data['percent_change_1y'].'%</span>' : '<span class="green">+'.$mcap_data['percent_change_1y'].'%</span>' )?></p>'
+        +'<p class="coin_info"><span class="bitcoin">1 Year Change:</span> <?=( stristr($mcap_data['percent_change_1y'], '-') != false ? '<span class="red">'.$mcap_data['percent_change_1y'].'%</span>' : '<span class="green">+'.$mcap_data['percent_change_1y'].'%</span>' )?></p>'
         <?php
             }
             if ( isset($mcap_data['last_updated']) && $mcap_data['last_updated'] != '' ) {
             ?>
-        +'<p class="coin_info"><span class="yellow">Data Timestamp (UTC):</span> <?=gmdate("Y-M-d\ \\a\\t g:ia", $mcap_data['last_updated'])?></p>'
-        +'<p class="coin_info"><span class="yellow">App Cache Time:</span> <?=$ct_conf['power']['mcap_cache_time']?> minute(s)</p>'
+        +'<p class="coin_info"><span class="bitcoin">Data Timestamp (UTC):</span> <?=gmdate("Y-M-d\ \\a\\t g:ia", $mcap_data['last_updated'])?></p>'
+        +'<p class="coin_info"><span class="bitcoin">App Cache Time:</span> <?=$ct_conf['power']['mcap_cache_time']?> minute(s)</p>'
         <?php
             }
             ?>
@@ -301,11 +301,11 @@ echo '?';
 
 			var cmc_content = '<h5 class="yellow align_center tooltip_title"><?=$asset_name?> (<?=$asset_symb?>)</h5>'
     
-        +'<p class="coin_info" style="white-space: normal; max-width: 600px;"><span class="yellow">Miscellaneous <?=strtoupper($ct_conf['gen']['btc_prim_currency_pair'])?> value can be included in you portfolio stats, by entering it under the "MISCASSETS" asset on the "Update" page.</span></p>'
+        +'<p class="coin_info" style="white-space: normal; max-width: 600px;"><span class="bitcoin">Miscellaneous <?=strtoupper($ct_conf['gen']['btc_prim_currency_pair'])?> value can be included in you portfolio stats, by entering it under the "MISCASSETS" asset on the "Update" page.</span></p>'
         
-        +'<p class="coin_info" style="white-space: normal; max-width: 600px;"><span class="yellow">This can be useful for including <?=strtoupper($ct_conf['gen']['btc_prim_currency_pair'])?> Checking / Savings accounts at banks, stable coin holdings, etc.</span></p>'
+        +'<p class="coin_info" style="white-space: normal; max-width: 600px;"><span class="bitcoin">This can be useful for including <?=strtoupper($ct_conf['gen']['btc_prim_currency_pair'])?> Checking / Savings accounts at banks, stable coin holdings, etc.</span></p>'
         
-        +'<p class="coin_info" style="white-space: normal; max-width: 600px;"><span class="yellow">Additionally, you can see it\'s potential market value in another asset by changing the "Market" value on the "Portfolio" page to an asset other than <?=strtoupper($ct_conf['gen']['btc_prim_currency_pair'])?>.</span></p>';
+        +'<p class="coin_info" style="white-space: normal; max-width: 600px;"><span class="bitcoin">Additionally, you can see it\'s potential market value in another asset by changing the "Market" value on the "Portfolio" page to an asset other than <?=strtoupper($ct_conf['gen']['btc_prim_currency_pair'])?>.</span></p>';
 	
 			<?php
 			}
@@ -314,11 +314,11 @@ echo '?';
 
 			var cmc_content = '<h5 class="yellow align_center tooltip_title"><?=$asset_name?> (<?=$asset_symb?>)</h5>'
     
-        +'<p class="coin_info" style="white-space: normal; max-width: 600px;"><span class="yellow">ETH value of NFTS can be included in you portfolio stats, by entering it under the "ETHNFTS" asset on the "Update" page.</span></p>'
+        +'<p class="coin_info" style="white-space: normal; max-width: 600px;"><span class="bitcoin">ETH value of NFTS can be included in you portfolio stats, by entering it under the "ETHNFTS" asset on the "Update" page.</span></p>'
     
-        +'<p class="coin_info" style="white-space: normal; max-width: 600px;"><span class="yellow">If you are unsure of the value of any of your NFTs, you can use the \'Floor Price\' (if available) for that NFT collection found on NFT marketplace(s).</span></p>'
+        +'<p class="coin_info" style="white-space: normal; max-width: 600px;"><span class="bitcoin">If you are unsure of the value of any of your NFTs, you can use the \'Floor Price\' (if available) for that NFT collection found on NFT marketplace(s).</span></p>'
         
-        +'<p class="coin_info" style="white-space: normal; max-width: 600px;"><span class="yellow">Additionally, you can see it\'s potential market value in another asset by changing the "Market" value on the "Portfolio" page to an asset other than <?=strtoupper($ct_conf['gen']['btc_prim_currency_pair'])?>.</span></p>';
+        +'<p class="coin_info" style="white-space: normal; max-width: 600px;"><span class="bitcoin">Additionally, you can see it\'s potential market value in another asset by changing the "Market" value on the "Portfolio" page to an asset other than <?=strtoupper($ct_conf['gen']['btc_prim_currency_pair'])?>.</span></p>';
 	
 			<?php
 			}
@@ -327,11 +327,11 @@ echo '?';
 
 			var cmc_content = '<h5 class="yellow align_center tooltip_title"><?=$asset_name?> (<?=$asset_symb?>)</h5>'
     
-        +'<p class="coin_info" style="white-space: normal; max-width: 600px;"><span class="yellow">SOL value of NFTS can be included in you portfolio stats, by entering it under the "SOLNFTS" asset on the "Update" page.</span></p>'
+        +'<p class="coin_info" style="white-space: normal; max-width: 600px;"><span class="bitcoin">SOL value of NFTS can be included in you portfolio stats, by entering it under the "SOLNFTS" asset on the "Update" page.</span></p>'
     
-        +'<p class="coin_info" style="white-space: normal; max-width: 600px;"><span class="yellow">If you are unsure of the value of any of your NFTs, you can use the \'Floor Price\' (if available) for that NFT collection found on NFT marketplace(s).</span></p>'
+        +'<p class="coin_info" style="white-space: normal; max-width: 600px;"><span class="bitcoin">If you are unsure of the value of any of your NFTs, you can use the \'Floor Price\' (if available) for that NFT collection found on NFT marketplace(s).</span></p>'
         
-        +'<p class="coin_info" style="white-space: normal; max-width: 600px;"><span class="yellow">Additionally, you can see it\'s potential market value in another asset by changing the "Market" value on the "Portfolio" page to an asset other than <?=strtoupper($ct_conf['gen']['btc_prim_currency_pair'])?>.</span></p>';
+        +'<p class="coin_info" style="white-space: normal; max-width: 600px;"><span class="bitcoin">Additionally, you can see it\'s potential market value in another asset by changing the "Market" value on the "Portfolio" page to an asset other than <?=strtoupper($ct_conf['gen']['btc_prim_currency_pair'])?>.</span></p>';
 	
 			<?php
 			}
@@ -708,14 +708,14 @@ echo '<span class="private_data ' . ( $purchase_price >= $min_fiat_val_test && $
 	
 			var lvrg_content = '<h5 class="yellow tooltip_title"><?=$lvrg_level?>x <?=ucfirst($sel_mrgntyp)?> For <?=$asset_name?> (<?=$asset_symb?>)</h5>'
 			
-			+'<p class="coin_info"><span class="yellow">Deposit (1x):</span> <span class="<?=$gain_loss_span_color?>"><?=$gain_loss_prim_currency?><?=$parsed_gain_loss?></span> (<?=$ct_conf['power']['btc_currency_mrkts'][ $ct_conf['gen']['btc_prim_currency_pair'] ]?><?=$pretty_asset_prim_currency_worth_raw?>)</p>'
+			+'<p class="coin_info"><span class="bitcoin">Deposit (1x):</span> <span class="<?=$gain_loss_span_color?>"><?=$gain_loss_prim_currency?><?=$parsed_gain_loss?></span> (<?=$ct_conf['power']['btc_currency_mrkts'][ $ct_conf['gen']['btc_prim_currency_pair'] ]?><?=$pretty_asset_prim_currency_worth_raw?>)</p>'
 			
-			+'<p class="coin_info"><span class="yellow">Margin (<?=($lvrg_level - 1)?>x):</span> <span class="<?=$gain_loss_span_color?>"><?=$gain_loss_prim_currency?><?=$parsed_only_lvrg_gain_loss?></span></p>'
+			+'<p class="coin_info"><span class="bitcoin">Margin (<?=($lvrg_level - 1)?>x):</span> <span class="<?=$gain_loss_span_color?>"><?=$gain_loss_prim_currency?><?=$parsed_only_lvrg_gain_loss?></span></p>'
 			
-			+'<p class="coin_info"><span class="yellow">Total (<?=($lvrg_level)?>x):</span> <span class="<?=$gain_loss_span_color?>"><?=$gain_loss_prim_currency?><?=$parsed_inc_lvrg_gain_loss?> / <?=( $gain_loss >= 0 ? '+' : '' )?><?=$pretty_lvrg_gain_loss_percent?>%</span> (<?=( $asset_worth_inc_lvrg >= 0 ? '' : '-' )?><?=$ct_conf['power']['btc_currency_mrkts'][ $ct_conf['gen']['btc_prim_currency_pair'] ]?><?=$parsed_asset_worth_inc_lvrg?>)</p>'
+			+'<p class="coin_info"><span class="bitcoin">Total (<?=($lvrg_level)?>x):</span> <span class="<?=$gain_loss_span_color?>"><?=$gain_loss_prim_currency?><?=$parsed_inc_lvrg_gain_loss?> / <?=( $gain_loss >= 0 ? '+' : '' )?><?=$pretty_lvrg_gain_loss_percent?>%</span> (<?=( $asset_worth_inc_lvrg >= 0 ? '' : '-' )?><?=$ct_conf['power']['btc_currency_mrkts'][ $ct_conf['gen']['btc_prim_currency_pair'] ]?><?=$parsed_asset_worth_inc_lvrg?>)</p>'
 			
 				
-			+'<p class="coin_info"><span class="yellow"> </span></p>';
+			+'<p class="coin_info"><span class="bitcoin"> </span></p>';
 		
 		
 			$('#<?=$rand_id?>_lvrg').balloon({
