@@ -6,11 +6,11 @@
 
 ?>
 
-<div class='full_width_wrapper'>
+	
+<h2 class='bitcoin page_title'>User Settings</h2>
+	            
 
-				
-				
-				<span class='red countdown_notice'></span>
+<div class='full_width_wrapper'>
 			
 			
 			
@@ -661,7 +661,7 @@
                         
 		    
 		    
-</div> <!-- max_1200px_wrapper END -->
+</div> <!-- full_width_wrapper END -->
 
 
 

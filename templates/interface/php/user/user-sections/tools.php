@@ -6,13 +6,14 @@
 
 ?>
 
-<div class='full_width_wrapper'>
+	
+<h2 class='bitcoin page_title'>Tools</h2>
+	            
 
-				
-				<span class='red countdown_notice'></span>
+<div class='full_width_wrapper'>
 			
 
-			<p style='margin-top: 15px; margin-bottom: 15px;'><?=$ct_gen->start_page_html('tools')?></p>			
+			<p style='margin-top: 35px; margin-bottom: 15px;'><?=$ct_gen->start_page_html('tools')?></p>			
 			
 	  
 	<p style='margin-top: 25px;'><a style='font-weight: bold;' class='red' href='javascript: show_more("toolsnotice");' title='Click to show notices about how tools on this page run within this app.'><b>Tools Notices / Information</b></a></p>
@@ -154,7 +155,7 @@
 		  ?>
 		    
 		    
-</div> <!-- max_1200px_wrapper END -->
+</div> <!-- full_width_wrapper END -->
 
 
 

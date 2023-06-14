@@ -2564,7 +2564,8 @@ var $ct_array1 = array();
         preg_match("/xml version/i", $data) // RSS feeds (that are likely intact)
         || preg_match("/invalid vs_currency/i", $data) // Coingecko (we fallback to USD in this case anyways, and error would repeat every cache refresh cluttering logs)
         || preg_match("/\"error\":\[\],/i", $data) // kraken.com / generic
-        || preg_match("/\"error_code\":0/i", $data) 
+        || preg_match("/warning-icon/i", $data)  // Medium.com RSS feeds
+        || preg_match("/\"error_code\":0/i", $data) // Generic
         ) { // coinmarketcap.com / generic
         $false_positive = 1;
         }

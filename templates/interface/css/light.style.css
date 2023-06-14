@@ -72,6 +72,12 @@ CLASSES
 ////////////////////////////// */
 
 
+.page_title {
+    background: #fff;
+    border: 4px dotted #dbd9d9 !important;
+}
+
+
 .pw_prompt {
     border: 3px solid black;
     background: #777575 !important;
@@ -223,7 +229,7 @@ border: 2px solid #606060;
 }
 
 
-.countdown_notice {
+.countdown_notice, .countdown_notice_modal {
 background: #f2f2f2;
 }
 

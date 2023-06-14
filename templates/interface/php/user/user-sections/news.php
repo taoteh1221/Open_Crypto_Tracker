@@ -6,13 +6,14 @@
 
 ?>
 
-<div class='full_width_wrapper'>
+	
+<h2 class='bitcoin page_title'>News Feeds</h2>
+	            
 
-				
-				<span class='red countdown_notice'></span>
+<div class='full_width_wrapper'>
 			
 
-			<p style='margin-top: 15px; margin-bottom: 15px;'><?=$ct_gen->start_page_html('news')?></p>			
+			<p style='margin-top: 35px; margin-bottom: 15px;'><?=$ct_gen->start_page_html('news')?></p>			
 			<?php
 			$news_feed_cache_min_max = explode(',', $ct_conf['power']['news_feed_cache_min_max']);
 			?>
@@ -40,7 +41,7 @@
 		
 		<h4 style='display: inline;'>Select News Feeds</h4>
 	
-				<span style='z-index: 99999;' class='red countdown_notice'></span>
+				<span style='z-index: 99999;' class='red countdown_notice_modal'></span>
 	
 	<br clear='all' />
 	<br clear='all' />
@@ -287,7 +288,7 @@
 	?>
 		    
 	
-</div> <!-- max_1200px_wrapper END -->
+</div> <!-- full_width_wrapper END -->
 
 
 

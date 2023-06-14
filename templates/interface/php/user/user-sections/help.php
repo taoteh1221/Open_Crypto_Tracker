@@ -6,12 +6,11 @@
 
 ?>
 
-<div class='full_width_wrapper'>
-				
-				<span class='red countdown_notice'></span>
-			
 	
-	<p style='margin-top: 15px; margin-bottom: 15px;'> &nbsp; </p>		
+<h2 class='bitcoin page_title'>Help</h2>
+	            
+
+<div class='full_width_wrapper'>
 			
 	
 	<div class="accordion" id="accordionHelp" style='margin: 20px; margin-top: 35px;'> <!-- Accordion START -->
@@ -1142,7 +1141,7 @@ CRON-DESIGNATED PLUGINS (PLUGINS FLAGGED TO RUN DURING CRON JOBS) DO RUN #LAST# 
 	
 			    
 			    
-</div> <!-- max_1200px_wrapper END -->
+</div> <!-- full_width_wrapper END -->
 
 
 

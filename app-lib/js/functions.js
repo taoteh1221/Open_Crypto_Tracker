@@ -241,6 +241,9 @@ $('.collapse.in').toggleClass('in');
 // in our CSS
 $('a[aria-expanded="true"]').attr('aria-expanded', 'false');
 
+// Scroll left, if we are wider than the page (for UX)
+scroll_start();
+
 }
 
 
@@ -651,30 +654,20 @@ function set_admin_security(obj) {
 /////////////////////////////////////////////////////////////
 
 
-function isScrolledIntoView(elem, emulate_sticky=0) {
+function emulate_sticky(elm) {
 
 var docViewTop = $(window).scrollTop();
 var docViewBottom = docViewTop + $(window).height();
 
-var elemTop = $(elem).offset().top;
-var elemBottom = elemTop + $(elem).height();
+var elmTop = $(elm).offset().top;
+var elmBottom = elmTop + $(elm).height();
 
-var result = ((elemBottom <= docViewBottom) && (elemTop >= docViewTop));
+var result = ((elmBottom <= docViewBottom) && (elmTop >= docViewTop));
 
 var top = Math.round(docViewTop);
 
-     
-     // Emulating sticky CSS positioning
-     if ( emulate_sticky == 1 ) {
-     $(elem).css({ "top": top + 'px' });
-     }
-     // If element isnt in scrolled view, AND we are NOT emulating sticky CSS positioning
-     else if ( result == false ) {
-     // Do something here
-     }
-     
-
-//console.log(top);
+// Emulating sticky CSS positioning
+$(elm).css({ "top": top + 'px' });
     
 }
 
@@ -868,6 +861,47 @@ quoteContainer.html( ajax_placeholder(15, 'left') );
    });  
 
 
+}
+
+
+/////////////////////////////////////////////////////////////
+
+
+// !!! WARNING !!!
+// NEEDS overflow: auto; CSS ***UNLESS USING 'defaults'***, which DISABLES sticky elements in the container we are scrolling
+// (so we MUST emulate sticky positioning with emulate_sticky() in containers using scrollLeft|Top)
+function scroll_start(direction='defaults', elm=false) {  
+       
+       
+     if ( elm != false ) {
+     var scroll_width = $(elm).width();
+     var scroll_height = $(elm).height();
+     }
+
+
+     setTimeout(function() {
+     
+     
+        if ( direction == 'defaults' || typeof scroll_width == 'undefined' || typeof scroll_height == 'undefined' ) {
+        scroll(0,0); // Defaults
+        console.log('Scroll defaults used.');
+        }
+        else if ( direction == 'left' ) {
+        $(elm).scrollLeft(0);
+        }
+        else if ( direction == 'right' ) {
+        $(elm).scrollLeft(scroll_width);
+        }
+        else if ( direction == 'top' ) {
+        $(elm).scrollTop(0);
+        }
+        else if ( direction == 'bottom' ) {
+        $(elm).scrollTop(scroll_height);
+        }
+        
+     
+     }, 250);
+     
 }
    
 
@@ -1107,16 +1141,16 @@ function background_tasks_check() {
     		get_scroll_position('charts'); 
     		}
     	
-    	background_tasks_status = 'done';
-    	
-    	clearTimeout(background_tasks_recheck);
+         	background_tasks_status = 'done';
+         	
+         	clearTimeout(background_tasks_recheck);
 		
 		}
 		else {
 		    
 		background_tasks_recheck = setTimeout(background_tasks_check, 1000); // Re-check every 1 seconds (in milliseconds)
 	
-    	background_tasks_status = 'wait';
+    	     background_tasks_status = 'wait';
     
 		}
 		
@@ -1693,7 +1727,7 @@ function auto_reload() {
 				
 				$("#use_cookies").val(1);
 				
-				document.getElementById("reload_countdown").innerHTML = "(reloading app, please wait...)";
+				document.getElementById("reload_notice").innerHTML = "(reloading app, please wait...)";
 				
 					setTimeout(function () {
 						$("#coin_amnts").submit();
@@ -1728,13 +1762,13 @@ function auto_reload() {
                     	round_min = Math.floor(int_time / 60);
                     	sec = ( int_time - (round_min * 60) );
                     
-                   	    $("#reload_countdown").html("<b>(" + round_min + " minutes " + sec + " seconds)</b>"); // Portfolio page
-                   	    $("span.countdown_notice").html("<b>(auto-reload in " + round_min + " minutes " + sec + " seconds)</b>"); // Secondary pages
+                   	     $("span.countdown_notice").html("<b>(auto-reload in " + round_min + " minutes " + sec + " seconds)</b>"); // Main pages
+                   	     $("span.countdown_notice_modal").html("<b>(auto-reload in " + round_min + " minutes " + sec + " seconds)</b>"); // Modal pages
                       
                     	}
                     	else {
-                    	$("#reload_countdown").html("<b>(" + int_time + " seconds)</b>"); // Portfolio page
-                    	$("span.countdown_notice").html("<b>(auto-reload in " + int_time + " seconds)</b>"); // Secondary pages
+                    	$("span.countdown_notice").html("<b>(auto-reload in " + int_time + " seconds)</b>"); // Main pages
+                    	$("span.countdown_notice_modal").html("<b>(auto-reload in " + int_time + " seconds)</b>"); // Modal pages
                     	}
             				
             				if ( int_time == 0 ) {
@@ -1756,8 +1790,8 @@ function auto_reload() {
 		}
 		else {
 		set_cookie("coin_reload", '', 365);
-		$("#reload_countdown").html(""); // Portfolio page
-		$("span.countdown_notice").html(""); // Secondary pages
+		$("span.countdown_notice").html(""); // Main pages
+		$("span.countdown_notice_modal").html(""); // Modal pages
 		}
 	
 	
@@ -1869,6 +1903,14 @@ function nav_menu($chosen_menu) {
                    
      	    // Prevent the anchor's default click action
      	    e.preventDefault();
+     	    
+              // Scroll left, if we are wider than the page (for UX)
+              scroll_start();
+     	    
+     	    
+     	    // Do any textarea autoresizes, now that this content is showing
+     	    // (since it may not have been showing on app load)
+     	    autoresize_update(); 
      	    
      	    });
      	  

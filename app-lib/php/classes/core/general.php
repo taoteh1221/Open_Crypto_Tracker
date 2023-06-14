@@ -2407,6 +2407,10 @@ var $ct_array = array();
       
       // Reset feed fetch telemetry 
       $_SESSION[$fetched_feeds] = false;
+        	
+      $header = '<html><head> <style> li {margin: 8px;} fieldset, legend {color: #dd7c0d;} </style> </head><body>' . "\n\n" . '<div style="padding: 15px;">' . "\n\n";
+      
+      $footer = "\n\n" . '</div>' . "\n\n" . '</body></html>';
         
         
         	// NEW RSS feed posts
@@ -2418,33 +2422,38 @@ var $ct_array = array();
         		$result = $ct_api->rss($feed_item["url"], false, $ct_conf['comms']['news_feed_email_entries_show'], false, true);
         		
         		  if ( trim($result) != '<ul></ul>' ) {
-        		  $html .= '<div style="padding: 30px;"><fieldset><legend style="font-weight: bold; color: #00b6db;"> ' . $feed_item["title"] . ' </legend>' . "\n\n";
-        	 	  $html .= $result . "\n\n";
-        		  $html .= '</fieldset></div>' . "\n\n";
+        		  $content .= '<div style="padding: 40px;"><fieldset><legend style="font-weight: bold;"> ' . $feed_item["title"] . ' </legend>' . "\n\n";
+        	 	  $content .= $result . "\n\n";
+        		  $content .= '</fieldset></div>' . "\n\n";
         	 	  $num_posts++;  
         		  }
         		  
         	 	}
         	 	
-        	}         
-               
-        	
-      $top .= '<h2 style="color: #00b6db;">' . $num_posts . ' Updated RSS Feeds (over ' . $ct_conf['comms']['news_feed_email_freq'] . ' days)</h3>' . "\n\n";
+        	}      
+      
+      
+      // Render summary after determining the content
+      $summary .= '<h2 style="color: black;">' . $num_posts . ' Updated RSS Feeds (over ' . $ct_conf['comms']['news_feed_email_freq'] . ' days)</h3>' . "\n\n";
         	
         	if ( $app_edition == 'server' ) {
-            $top .= '<p><a style="color: #00b6db;" title="View the news feeds page in the Open Crypto Tracker app here." target="_blank" href="' . $base_url . 'index.php?start_page=news#news">View All News Feeds Here</a></p>' . "\n\n";
+          $summary .= '<p><a style="color: #00b6db;" title="View the news feeds page in the Open Crypto Tracker app here." target="_blank" href="' . $base_url . 'index.php?start_page=news#news">View All News Feeds Here</a></p>' . "\n\n";
         	}
 	
-	  $top .= '<p style="color: #dd7c0d;">You can disable receiving news feed emails in the Admin Config "Communications" section.</p>' . "\n\n";
+	 $summary .= '<p>You can disable receiving news feed emails in the Admin Config "Communications" section.</p>' . "\n\n";
 	
-	  $top .= '<p style="color: #dd7c0d;">You can edit this list in the Admin Config "Power User" section.</p>' . "\n\n";
+	 $summary .= '<p>You can edit this list in the Admin Config "Power User" section.</p>' . "\n\n";
 	
-	  $top .= '<p>To see the date / time an entry was published, hover over it.</p>' . "\n\n";
+	 $summary .= '<p>To see the date / time an entry was published, hover over it.</p>' . "\n\n";
 	
-	  $top .= '<p>Entries are sorted newest to oldest.</p>' . "\n\n";
+	 $summary .= '<p>Entries are sorted newest to oldest.</p>' . "\n\n";
       
       
-      $email_body = '<div style="padding: 15px;">' . $top . $html . '</div>';
+      // Package HTML / text into the message body
+      $email_body = $header . $summary . $content . $footer;
+      
+      // Convert any CSS for red coloring (without a class) on feed error messages, AND create a large margin around it
+      $email_body = preg_replace("/class=\"red\"/i", "style=\"margin: 15px; color: red;\"", $email_body); 
       
                
       $send_params = array(
@@ -2452,7 +2461,7 @@ var $ct_array = array();
                            'email' => array(
                                             'content_type' => 'text/html', // Have email sent as HTML content type
                                             'subject' => $num_posts . ' Updated RSS Feeds (over ' . $ct_conf['comms']['news_feed_email_freq'] . ' days)',
-                                            'message' => $email_body // Add emoji here, so it's not sent with alexa alerts
+                                            'message' => $email_body
                                            )
                                                        
                           );

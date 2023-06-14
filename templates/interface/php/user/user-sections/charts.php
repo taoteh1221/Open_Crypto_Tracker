@@ -5,13 +5,14 @@
 
 ?>
 
+
+<h2 class='bitcoin page_title'>Price Charts</h2>
+	            
+
 <div class='full_width_wrapper'>
-	
-	
-				<span class='red countdown_notice'></span>
 			
 	
-	<p style='margin-top: 15px; margin-bottom: 15px;'><?=$ct_gen->start_page_html('charts')?></p>		
+	<p style='margin-top: 35px; margin-bottom: 15px;'><?=$ct_gen->start_page_html('charts')?></p>		
 			
 	  
 	<p style='margin-top: 25px;'><a style='font-weight: bold;' class='red' href='javascript: show_more("chartsnotice");' title='Click to show notices about how charts run within this app.'><b>Charts Notices / Information</b></a></p>
@@ -132,7 +133,7 @@
 		
 		<h4 style='display: inline;'>Select Charts</h4>
 	
-				<span style='z-index: 99999;' class='red countdown_notice'></span>
+				<span style='z-index: 99999;' class='red countdown_notice_modal'></span>
 	
 	<br clear='all' />
 	<br clear='all' />
@@ -379,7 +380,7 @@
 				
 				
 				
-</div> <!-- charts_page_wrapper END -->
+</div> <!-- full_width_wrapper END -->
 
 
 

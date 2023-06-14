@@ -6079,11 +6079,9 @@ v6.00.2 AND HIGHER RESETS LIGHT (TIME PERIOD) CHARTS FROM ARCHIVAL DATA, ONE-TIM
 
 -New settings for adjusting font sizes (default size in admin config GENERAL section / user-adjustable size at top of new side bar)
 
--New upgrades to the page templates system, to a RESPONSIVE layout (auto-adjusts to ANY screen size, including mobile / tablet)
-
 -New config setting for using ANY google font ( https://fonts.google.com ) as the interface font
 
--Arch Linux support (UNSTABLE) for auto-installer
+-Added Redhat / Fedora support to the PHP binary auto-build script (for Linux Desktop Editions)
 
 -"Rolling Release" support for auto-installer
 
@@ -6091,17 +6089,15 @@ v6.00.2 AND HIGHER RESETS LIGHT (TIME PERIOD) CHARTS FROM ARCHIVAL DATA, ONE-TIM
 
 -Added Twilio texting (SMS) API support
 
--Kali Linux support for auto-installer
-
--Optimized default configuration
-
--Code cleanup / optimization
-
 -Upgraded to jQuery v3.6.3
 
 -Upgraded to BootStrap v5
 
 -Upgraded TextLocal API
+
+-Cleanup / optimizations 
+
+-New navigation system
 
 -Revised documentation
 

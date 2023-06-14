@@ -210,6 +210,8 @@ header('Access-Control-Allow-Origin: ' . $app_host_address);
 	
 	cookies_notice_storage = storage_app_id("cookies_notice");
 	
+	refresh_cache_upgrade_notice_storage = storage_app_id("refresh_cache_upgrade_notice_storage");
+	
 	notes_storage = storage_app_id("notes");
 	
 	<?php
@@ -458,7 +460,7 @@ if ( $is_iframe ) {
 }
 else {
 ?>
-<body onscroll="isScrolledIntoView( document.getElementById('alert_bell_area'), 1 )">
+<body>
 
 
 <audio preload="metadata" id="audio_alert">
@@ -546,7 +548,7 @@ else {
      
           <ul class="user-nav all-nav dropdown-menu" style="">
           
-           <li><a class="dropdown-item" href='index.php#portfolio' title='View your portfolio.'>Show Portfolio</a></li>
+           <li><a class="dropdown-item" href='index.php#portfolio' title='View your portfolio.'>My Portfolio</a></li>
            
            <li class='update_portfolio_link'><a class="dropdown-item update_portfolio_link" id='update_link_1' href='index.php#update' title='Update your portfolio data.'>Update Portfolio</a></li>
 
@@ -564,11 +566,11 @@ else {
            
            <li><a class="dropdown-item" href='index.php#tools' title='Use various crypto tools.'>Tools</a></li>
 
-           <li><a class="dropdown-item" href='index.php#mining' title='Calculate coin mining profits.'>Coin Staking / Mining</a></li>
+           <li><a class="dropdown-item" href='index.php#mining' title='Calculate coin mining profits.'>Staking / Mining</a></li>
 
-           <li><a class="dropdown-item" href='index.php#resources' title='View 3rd party resources.'>Third Party Resources</a></li>
+           <li><a class="dropdown-item" href='index.php#resources' title='View 3rd party resources.'>Other Resources</a></li>
 
-           <li><a class="dropdown-item" href='index.php#help' title='Get help using this app.'>FAQ / Help?</a></li>
+           <li><a class="dropdown-item" href='index.php#help' title='Get help with running and setting up this app.'>Help</a></li>
            
           </ul>
       
@@ -578,10 +580,7 @@ else {
    <div class="smallnav_spacer"></div>
    
    
-   <div class="align_center"><img src='templates/interface/media/images/auto-preloaded/icons8-questions-100-<?=$sel_opt['theme_selected']?>.png' width='45' border='0' title='FAQ / Help?' /></div>
-
-   
-   <div class="smallnav_spacer"></div>
+   <div class="align_center"><img src='templates/interface/media/images/auto-preloaded/icons8-questions-100-<?=$sel_opt['theme_selected']?>.png' width='45' border='0' title='Get help with running and setting up this app.' /></div>
 
         
    <?php
@@ -624,7 +623,7 @@ else {
         <div class="sidebar-top">
         
              <div class="plus_minus">
-              <div class="input-group">
+              <div class="input-group" style='width: 120px;'>
                     <span class="input-group-btn">
                        <button type="button" class="btn btn-danger btn-number"  data-type="minus" data-field="quant_font_percent" title='Decrease text size.'>
                           <span class="plus_minus_buttons"> - </span>
@@ -652,7 +651,7 @@ else {
                	}
                     
                     '>
-                    <label class='pl_mn_lab' for="quant_font_percent">Text Size %</label>
+                    <label class='pl_mn_lab' for="quant_font_percent">Text %</label>
                     
                     </div>
                    
@@ -675,7 +674,7 @@ else {
         
 
         <div class="sidebar-header">
-            <h3 class='align_center' style='margin-bottom: 5px;'>Open Crypto Tracker</h3>
+            <h4 class='align_center' style='margin-bottom: 0px;'>Open Crypto Tracker</h4>
         </div>
         
         <div class="sidebar-slogan align_center">
@@ -759,7 +758,7 @@ else {
                 
                 <ul class="user-nav all-nav collapse list-unstyled" id="userSubmenu">
           
-                <li class='sidebar-item'><a href='index.php#portfolio' title='View your portfolio.'>Show Portfolio</a></li>
+                <li class='sidebar-item'><a href='index.php#portfolio' title='View your portfolio.'>My Portfolio</a></li>
                 
                 <li class='sidebar-item update_portfolio_link'><a class='update_portfolio_link' id='update_link_2' href='index.php#update' title='Update your portfolio data.'>Update Portfolio</a></li>
      
@@ -777,18 +776,22 @@ else {
                 
                 <li class='sidebar-item'><a href='index.php#tools' title='Use various crypto tools.'>Tools</a></li>
      
-                <li class='sidebar-item'><a href='index.php#mining' title='Calculate coin mining profits.'>Coin Staking / Mining</a></li>
+                <li class='sidebar-item'><a href='index.php#mining' title='Calculate coin mining profits.'>Staking / Mining</a></li>
      
-                <li class='sidebar-item'><a href='index.php#resources' title='View 3rd party resources.'>Third Party Resources</a></li>
+                <li class='sidebar-item'><a href='index.php#resources' title='View 3rd party resources.'>Other Resources</a></li>
      
-                <li class='sidebar-item'><a href='index.php#help' title='Get help using this app.'>FAQ / Help?</a></li>
+                <li class='sidebar-item'><a href='index.php#help' title='Get help with running and setting up this app.'>Help</a></li>
                 
                 </ul>
                 
             </li>
             
             <li class='sidebar-item'>
-                <a href="#12">FAQ / Help?</a>
+                <a href="#12" title='Get help with running and setting up this app.'>Help</a>
+            </li>
+
+            <li class='sidebar-item'>
+                <a href='javascript:' title='Return to the top of the menu.'>Back To Top</a>
             </li>
             
         </ul>
@@ -798,8 +801,11 @@ else {
 
     
     <!-- content body -->
-    <div class='align_center' id='secondary_wrapper' style='<?=( $login_template == 1 ? 'min-width: 720px; max-width: 800px;' : '' )?>'>
+    <div class='align_center' id='secondary_wrapper'>
+
     
+    <span class='red countdown_notice'></span>
+				
 
     <script>
     
@@ -918,44 +924,79 @@ else {
 				
 				<?php
 
-                // If we are queued to run a UI alert that an upgrade is available
-                // VAR MUST BE SET RIGHT BEFORE CHECK ON DATA FROM THIS CACHE FILE, AS IT CAN BE UPDATED #AFTER# APP INIT!
-                if ( file_exists($base_dir . '/cache/events/ui_upgrade_alert.dat') ) {
-                $ui_upgrade_alert = json_decode( file_get_contents($base_dir . '/cache/events/ui_upgrade_alert.dat') , true);
-                }
+                     // If we are queued to run a UI alert that an upgrade is available
+                     // VAR MUST BE SET RIGHT BEFORE CHECK ON DATA FROM THIS CACHE FILE, AS IT CAN BE UPDATED #AFTER# APP INIT!
+                     if ( file_exists($base_dir . '/cache/events/ui_upgrade_alert.dat') ) {
+                     $ui_upgrade_alert = json_decode( file_get_contents($base_dir . '/cache/events/ui_upgrade_alert.dat') , true);
+                     }
                 
                 
-			    // show the upgrade notice one time until the next reminder period, IF ADMIN LOGGED IN
-				if ( isset($ui_upgrade_alert) && $ui_upgrade_alert['run'] == 'yes' && $ct_gen->admin_logged_in() ) {
+			      // show the upgrade notice one time until the next reminder period, IF ADMIN LOGGED IN
+				 if ( isset($ui_upgrade_alert) && $ui_upgrade_alert['run'] == 'yes' && $ct_gen->admin_logged_in() ) {
 				    
-                // Workaround for #VERY ODD# PHP v8.0.1 BUG, WHEN TRYING TO ECHO $ui_upgrade_alert['message'] IN HEADER.PHP
-                // (so we render it in footer.php, near the end of rendering)
-    			$display_upgrade_alert = true;
+                     // Workaround for #VERY ODD# PHP v8.0.1 BUG, WHEN TRYING TO ECHO $ui_upgrade_alert['message'] IN HEADER.PHP
+                     // (so we render it in footer.php, near the end of rendering)
+         			 $display_upgrade_alert = true;
     			
 				?>
 				    
-                <script>
-                // Render after page loads
-                $(document).ready(function(){
-                $('#ui_upgrade_message').html( $('#app_upgrade_alert').html() );
-                });
-                </script>
-	
-    			<div class="alert alert-warning" role="alert">
-      				<button type="button" class="close" data-dismiss="alert" aria-label="Close">
-        				<span aria-hidden="true">&times;</span>
-      				</button>
-    			  	<div id='ui_upgrade_message'></div>
-    			</div>
+                     <script>
+                     // Render after page loads
+                     $(document).ready(function(){
+                     $('#ui_upgrade_message').html( $('#app_upgrade_alert').html() );
+                     });
+                     </script>
+     	
+         			<div class="alert alert-warning" role="alert">
+           				<button type="button" class="close" data-bs-dismiss="alert" aria-label="Close">
+             				<span aria-hidden="true">&times;</span>
+           				</button>
+         			  	<div id='ui_upgrade_message'></div>
+         			</div>
 				
 			    <?php
 				
-    			// Set back to 'run' => 'no' 
-    			// (will automatically re-activate in upgrade-check.php at a later date, if another reminder is needed after X days)
-    			$ui_upgrade_alert['run'] = 'no';
-    						
-    			$ct_cache->save_file($base_dir . '/cache/events/ui_upgrade_alert.dat', json_encode($ui_upgrade_alert, JSON_PRETTY_PRINT) );
-					
+         			 // Set back to 'run' => 'no' 
+         			 // (will automatically re-activate in upgrade-check.php at a later date, if another reminder is needed after X days)
+         			 $ui_upgrade_alert['run'] = 'no';
+         						
+         			 $ct_cache->save_file($base_dir . '/cache/events/ui_upgrade_alert.dat', json_encode($ui_upgrade_alert, JSON_PRETTY_PRINT) );
+     					
+				 }
+				 // Otherwise, IF we just upgraded to a new version, show an alert to user that they may need to
+				 // refresh the page or clear the browser cache for any upgraded JS / CSS files to load properly
+				 elseif ( isset($cached_app_version) && trim($cached_app_version) != '' && trim($cached_app_version) != $app_version ) {
+				 ?>
+				 
+                     <script>
+                     // Render after page loads
+                     $(document).ready(function(){
+                     
+                     // Make sure local storage data is parsed as an integer (for javascript to run math on it)
+                     var upgrade_cache_refresh_last_notice = parseInt( localStorage.getItem(refresh_cache_upgrade_notice_storage) , 10);
+                     
+                         // If it's been 3 days since last notice (or never), then show it    
+                         if ( Date.now() > ( upgrade_cache_refresh_last_notice + 259200000 ) ) {
+                         $('#refresh_cache_upgrade_message').show();
+                         localStorage.setItem(refresh_cache_upgrade_notice_storage, Date.now() );
+                         }
+                     
+                     });
+                     </script>
+     	
+     	
+         			<div id='refresh_cache_upgrade_message' class="alert alert-warning" role="alert" style='display: none;'>
+           				<button type="button" class="close" data-bs-dismiss="alert" aria-label="Close">
+             				<span aria-hidden="true">&times;</span>
+           				</button>
+         			  	<div>
+         			  	
+         			  	It appears you recently upgraded Open Crypto Tracker. You MAY need to refresh / reload this page (with the recycle arrow button at the top of your browser), OR clear your browser temporary files cache within it's settings area, so any UPGRADED Javascript / CSS files can properly display and run this app's interface. Otherwise, you MAY encounter errors (until your browser cache refreshes on it's own).
+         			  	
+         			  	</div>
+         			</div>
+				
+			     <?php
 				}
 				
 				?>

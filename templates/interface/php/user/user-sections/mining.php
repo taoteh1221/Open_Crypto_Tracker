@@ -6,14 +6,14 @@
 
 ?>
 
+	
+<h2 class='bitcoin page_title'>Staking / Mining</h2>
+	            
+
 <div class='full_width_wrapper'>
-
-			
-				
-				<span class='red countdown_notice'></span>
 			
 
-			<p style='margin-top: 15px; margin-bottom: 15px;'><?=$ct_gen->start_page_html('mining')?></p>	
+			<p style='margin-top: 35px; margin-bottom: 15px;'><?=$ct_gen->start_page_html('mining')?></p>	
 	
     		
    <ul style='margin-top: 25px; font-weight: bold;'>
@@ -48,6 +48,6 @@
 			</fieldset>
 		    
 		    
-</div> <!-- max_1200px_wrapper END -->
+</div> <!-- full_width_wrapper END -->
 
 

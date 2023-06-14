@@ -6,9 +6,13 @@
 
 ?>
 
+	
+<h2 class='bitcoin page_title'>My Portfolio</h2>
+
+
 <div class='full_width_wrapper align_center'>
 
-
+<div style='min-height: 25px;'></div>
     
 			<span id='pm_link' class='bitcoin' onclick='privacy_mode(true);' title='Turn privacy mode ON. This encrypts / hides RENDERED personal portfolio data with the PIN you setup (BUT DOES #NOT# encrypt RAW source code). It ALSO disables opposite-clicking / data submission, and logs out any active admin login.'>Privacy Mode Is Off</span> 
 			<?php
@@ -66,7 +70,7 @@
 				<option value='600' <?=( $_COOKIE['coin_reload'] == '600' ? 'selected' : '' )?>> Every 10 Minutes </option>
 				<option value='900' <?=( $_COOKIE['coin_reload'] == '900' ? 'selected' : '' )?>> Every 15 Minutes </option>
 				<option value='1800' <?=( $_COOKIE['coin_reload'] == '1800' ? 'selected' : '' )?>> Every 30 Minutes </option>
-			</select> &nbsp;<span id='reload_countdown' class='red'></span>
+			</select> &nbsp;<span id='reload_notice' class='red'></span>
 					
 			<p>
                             
@@ -434,7 +438,12 @@ $altcoin_dominance = $ct_var->max_100($altcoin_dominance);
 	
 		
 ?>
-<div class="portfolio_footer align_left show_asset_vals bold_1 blue"><!-- Summary START -->
+
+<!-- .portfolio_footer START -->
+<div class="portfolio_footer">
+
+<!-- Summary START -->
+<div class="align_left show_asset_vals bold_1 blue">
 <?php
 		
 		// Run BEFORE output of BTC / PAIR portfolio values, to include any margin / leverage summaries in parentheses NEXT TO THEM (NOT in the actual BTC / PAIR amounts, for UX's sake)
@@ -600,7 +609,7 @@ var fiat_val_content = '<h5 class="yellow tooltip_title">Primary Currency (<?=st
 			
 			+'<p class="coin_info" style="max-width: 600px; white-space: normal;">The value of your ENTIRE portfolio, based off your selected primary currency (<?=strtoupper($ct_conf['gen']['btc_prim_currency_pair'])?>), in the "Primary Currency Market" setting, on the Settings page.</p>'
 			
-			+'<p class="coin_info" style="max-width: 600px; white-space: normal;">Selected Primary Currency Market: <span class="yellow">BTC / <?=strtoupper($ct_conf['gen']['btc_prim_currency_pair'])?> @ <?=$ct_gen->key_to_name($ct_conf['gen']['btc_prim_exchange'])?> (<?=$ct_conf['power']['btc_currency_mrkts'][ $ct_conf['gen']['btc_prim_currency_pair'] ]?><?=number_format( $sel_opt['sel_btc_prim_currency_val'], 0, '.', ',')?>)</span></p>'
+			+'<p class="coin_info" style="max-width: 600px; white-space: normal;">Selected Primary Currency Market: <span class="bitcoin">BTC / <?=strtoupper($ct_conf['gen']['btc_prim_currency_pair'])?> @ <?=$ct_gen->key_to_name($ct_conf['gen']['btc_prim_exchange'])?> (<?=$ct_conf['power']['btc_currency_mrkts'][ $ct_conf['gen']['btc_prim_currency_pair'] ]?><?=number_format( $sel_opt['sel_btc_prim_currency_val'], 0, '.', ',')?>)</span></p>'
 		
 			+'<?=$lvrg_text2?>';
 		
@@ -698,7 +707,7 @@ var fiat_val_content = '<h5 class="yellow tooltip_title">Primary Currency (<?=st
 				          
 				          ?>
 				          
-			+'<p class="coin_info"><span class="yellow"><?=$val['coin_symb']?>:</span> <span class="<?=( $val['gain_loss_total'] >= 0 ? 'green">+' : 'red">-' )?><?=$ct_conf['power']['btc_currency_mrkts'][ $ct_conf['gen']['btc_prim_currency_pair'] ]?><?=$parsed_gain_loss?> (<?=( $val['gain_loss_total'] >= 0 ? '+' : '' )?><?=number_format($val['gain_loss_percent_total'], $thres_dec_2['max_dec'], '.', ',')?>%<?=( $val['coin_lvrg'] >= 2 ? ', ' . $val['coin_lvrg'] . 'x ' . $val['selected_mrgntyp'] : '' )?>)</span></p>'
+			+'<p class="coin_info"><span class="bitcoin"><?=$val['coin_symb']?>:</span> <span class="<?=( $val['gain_loss_total'] >= 0 ? 'green">+' : 'red">-' )?><?=$ct_conf['power']['btc_currency_mrkts'][ $ct_conf['gen']['btc_prim_currency_pair'] ]?><?=$parsed_gain_loss?> (<?=( $val['gain_loss_total'] >= 0 ? '+' : '' )?><?=number_format($val['gain_loss_percent_total'], $thres_dec_2['max_dec'], '.', ',')?>%<?=( $val['coin_lvrg'] >= 2 ? ', ' . $val['coin_lvrg'] . 'x ' . $val['selected_mrgntyp'] : '' )?>)</span></p>'
 			
 			    <?php
 						}
@@ -873,7 +882,7 @@ var fiat_val_content = '<h5 class="yellow tooltip_title">Primary Currency (<?=st
 		
 		<h3 style='display: inline;'>More Portfolio Stats</h3>
 	
-				<span style='z-index: 99999; margin-right: 55px;' class='red countdown_notice'></span>
+				<span style='z-index: 99999; margin-right: 55px;' class='red countdown_notice_modal'></span>
 	
 	<br clear='all' />
 	
@@ -1452,7 +1461,8 @@ zingchart.bind('marketcap_chart', 'label_click', function(e){
 		?>
 		
 		
-</div><!-- Summary END -->
+</div>
+<!-- Summary END -->
 
 
 
@@ -1486,6 +1496,9 @@ zingchart.bind('marketcap_chart', 'label_click', function(e){
 
 	</div>
 <br class='clear_both' />
+
+</div>
+<!-- .portfolio_footer END -->
 
 
 	<?php	
@@ -1570,7 +1583,7 @@ zingchart.bind('marketcap_chart', 'label_click', function(e){
 		
 		<h3 style='display: inline;'>System Stats</h3>
 	
-				<span style='z-index: 99999; margin-right: 55px;' class='red countdown_notice'></span>
+				<span style='z-index: 99999; margin-right: 55px;' class='red countdown_notice_modal'></span>
 	
 	<br clear='all' />
 	<br clear='all' />
@@ -1827,7 +1840,7 @@ var server_header_defaults_content = '<h5 class="yellow tooltip_title">Average S
 		
 		<h3 style='display: inline;'>Access Stats</h3>
 	
-				<span style='z-index: 99999; margin-right: 55px;' class='red countdown_notice'></span>
+				<span style='z-index: 99999; margin-right: 55px;' class='red countdown_notice_modal'></span>
 	
 	<br clear='all' />
 	<br clear='all' />
@@ -1896,7 +1909,7 @@ var server_header_defaults_content = '<h5 class="yellow tooltip_title">Average S
 		
 		<h3 style='display: inline;'>App Logs</h3>
 	
-				<span style='z-index: 99999; margin-right: 55px;' class='red countdown_notice'></span>
+				<span style='z-index: 99999; margin-right: 55px;' class='red countdown_notice_modal'></span>
 	
 	<br clear='all' />
 	<br clear='all' />
@@ -2055,7 +2068,7 @@ var server_header_defaults_content = '<h5 class="yellow tooltip_title">Average S
 				
 				
 				
-</div> <!-- portfolio_page_wrapper END -->
+</div> <!-- full_width_wrapper END -->
 
 
 

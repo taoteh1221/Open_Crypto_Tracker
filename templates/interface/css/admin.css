@@ -23,21 +23,6 @@ padding-top: 20px;
 }
 
 
-.admin_title {
-    text-align: center;
-    display: inline;
-    position: sticky;
-    position: -webkit-sticky;
-    top: 20px;
-    z-index: 5;
-    border-radius: 8px;
-    padding-top: 8px;
-    padding-left: 35px;
-    padding-right: 35px;
-    padding-bottom: 8px;
-}
-
-
 .tab-content {
     float: left;
     width: 85%;

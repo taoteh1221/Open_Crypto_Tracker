@@ -36,10 +36,6 @@ $(".chart_wrapper").css({ "border": '2px solid ' + charts_border });
 $("span.btc_prim_currency_pair").html(btc_prim_currency_pair); 
 
 
-// Random tips on the update page 
-// https://codepen.io/kkoutoup/pen/zxmGLE
-random_tips(); 
-
 // Show UTC time count in logs UI sections
 start_utc_time(); 
 	
@@ -47,6 +43,11 @@ start_utc_time();
 background_tasks_check();
 
 
+// Random tips on the update page 
+// https://codepen.io/kkoutoup/pen/zxmGLE
+random_tips(); 
+
+	
 
 	/////////////////////////////////////////////////////////////////////////////////////////////////////
 	
@@ -60,8 +61,8 @@ background_tasks_check();
 	/////////////////////////////////////////////////////////////////////////////////////////////////////
 	
 	
-    // Monitor admin iframes for auto-height adjustment WHEN THEY SHOW
-    reset_iframe_heights();
+     // Monitor admin iframes for auto-height adjustment WHEN THEY SHOW
+     reset_iframe_heights();
 
 	/////////////////////////////////////////////////////////////////////////////////////////////////////
 	
@@ -121,6 +122,23 @@ background_tasks_check();
 	/////////////////////////////////////////////////////////////////////////////////////////////////////
 	
 	
+	// Emulate sticky-positioned elements in #secondary_wrapper,
+	// IF we set overflow: auto; CSS to automate controlling scroll positioning
+	// (which DISABLES a container from having functional sticky-positioned elements within it)
+     window.addEventListener('scroll', function (e) {
+
+     emulate_sticky('#alert_bell_area');
+
+     emulate_sticky('.page_title');
+
+     emulate_sticky('.countdown_notice');
+     
+     });
+
+
+	/////////////////////////////////////////////////////////////////////////////////////////////////////
+	
+	
     $('.toggle_alerts').on('click', function () {
              // open or close alerts
              $('#alert_bell_area').toggleClass('hidden');
@@ -153,24 +171,6 @@ background_tasks_check();
         return false;
         }
         
-    });
-
-
-	/////////////////////////////////////////////////////////////////////////////////////////////////////
-	
-	
-    // Dynamically adjust admin tab content width
-    $('.admin_change_width').click(function() {
-  
-      	if ( $(this).data('width') == 'full' ) {
-      	$("#admin_wrapper").css('max-width','100%');
-      	$("#admin_tab_content").css('max-width','100%');
-      	}
-      	else {
-      	$("#admin_wrapper").css('max-width','1200px');
-      	$("#admin_tab_content").css('max-width','1200px');
-      	}
-  
     });
 
 
@@ -218,6 +218,31 @@ background_tasks_check();
         $("#reset_username").filter(':visible').focus();
     	}, 1000);
     }
+	
+
+	/////////////////////////////////////////////////////////////////////////////////////////////////////
+	
+	
+    // Monitor admin iframes for load / unload events
+    const admin_iframe_load = document.querySelectorAll('.admin_iframe');
+    ////
+    admin_iframe_load.forEach(function(iframe) {
+       
+          // When admin iframe loads
+          iframe.addEventListener('load', function() {
+    
+          iframe_height_adjust(iframe);
+          $("#"+iframe.id+"_loading").fadeOut(250);
+          
+              // Before admin iframe unloads
+              // (MUST BE NESTED IN 'load', AND USE contentWindow)
+              iframe.contentWindow.addEventListener('beforeunload', function() {
+              $("#"+iframe.id+"_loading").fadeIn(250);
+              });
+          
+          });
+      
+    });
 
 
 	/////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -256,31 +281,6 @@ background_tasks_check();
      	});
 	
 	}
-	
-
-	/////////////////////////////////////////////////////////////////////////////////////////////////////
-	
-	
-    // Monitor admin iframes for load / unload events
-    const admin_iframe_load = document.querySelectorAll('.admin_iframe');
-    ////
-    admin_iframe_load.forEach(function(iframe) {
-       
-          // When admin iframe loads
-          iframe.addEventListener('load', function() {
-    
-          iframe_height_adjust(iframe);
-          $("#"+iframe.id+"_loading").fadeOut(250);
-          
-              // Before admin iframe unloads
-              // (MUST BE NESTED IN 'load', AND USE contentWindow)
-              iframe.contentWindow.addEventListener('beforeunload', function() {
-              $("#"+iframe.id+"_loading").fadeIn(250);
-              });
-          
-          });
-      
-    });
 
 
 	/////////////////////////////////////////////////////////////////////////////////////////////////////
