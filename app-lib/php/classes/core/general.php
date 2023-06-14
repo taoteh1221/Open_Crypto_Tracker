@@ -2418,9 +2418,9 @@ var $ct_array = array();
         		$result = $ct_api->rss($feed_item["url"], false, $ct_conf['comms']['news_feed_email_entries_show'], false, true);
         		
         		  if ( trim($result) != '<ul></ul>' ) {
-        		  $html .= '<div style="padding: 30px;"><fieldset><legend style="font-weight: bold; color: black;"> ' . $feed_item["title"] . ' </legend>' . "\n\n";
-        	 	  $html .= $result . "\n\n";
-        		  $html .= '</fieldset></div>' . "\n\n";
+        		  $content_html .= '<div style="padding: 40px; color: #dd7c0d;"><fieldset><legend style="font-weight: bold; color: #dd7c0d;"> ' . $feed_item["title"] . ' </legend>' . "\n\n";
+        	 	  $content_html .= $result . "\n\n";
+        		  $content_html .= '</fieldset></div>' . "\n\n";
         	 	  $num_posts++;  
         		  }
         		  
@@ -2429,25 +2429,27 @@ var $ct_array = array();
         	}         
                
         	
+      $top .= '<style> li {margin: 8px;} </style>' . "\n\n";
+      
       $top .= '<h2 style="color: black;">' . $num_posts . ' Updated RSS Feeds (over ' . $ct_conf['comms']['news_feed_email_freq'] . ' days)</h3>' . "\n\n";
         	
         	if ( $app_edition == 'server' ) {
             $top .= '<p><a style="color: #00b6db;" title="View the news feeds page in the Open Crypto Tracker app here." target="_blank" href="' . $base_url . 'index.php?start_page=news#news">View All News Feeds Here</a></p>' . "\n\n";
         	}
 	
-	  $top .= '<p style="color: #dd7c0d;">You can disable receiving news feed emails in the Admin Config "Communications" section.</p>' . "\n\n";
+	  $top .= '<p>You can disable receiving news feed emails in the Admin Config "Communications" section.</p>' . "\n\n";
 	
-	  $top .= '<p style="color: #dd7c0d;">You can edit this list in the Admin Config "Power User" section.</p>' . "\n\n";
+	  $top .= '<p>You can edit this list in the Admin Config "Power User" section.</p>' . "\n\n";
 	
 	  $top .= '<p>To see the date / time an entry was published, hover over it.</p>' . "\n\n";
 	
 	  $top .= '<p>Entries are sorted newest to oldest.</p>' . "\n\n";
       
       
-      $email_body = '<div style="padding: 15px;">' . $top . $html . '</div>';
+      $email_html = '<div style="padding: 15px;">' . $top . $content_html . '</div>';
       
       // Convert any CSS for red coloring (without a class)
-      $email_body = preg_replace("/class=\"red\"/i", "style=\"color: red;\"", $email_body); 
+      $email_html = preg_replace("/class=\"red\"/i", "style=\"color: red;\"", $email_html); 
       
                
       $send_params = array(
@@ -2455,7 +2457,7 @@ var $ct_array = array();
                            'email' => array(
                                             'content_type' => 'text/html', // Have email sent as HTML content type
                                             'subject' => $num_posts . ' Updated RSS Feeds (over ' . $ct_conf['comms']['news_feed_email_freq'] . ' days)',
-                                            'message' => $email_body // Add emoji here, so it's not sent with alexa alerts
+                                            'message' => $email_html
                                            )
                                                        
                           );
