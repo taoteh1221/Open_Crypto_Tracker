@@ -115,7 +115,7 @@ var emulated_cron_enabled = false;
 // Register as no-action-needed (if cron is enabled in header.php, this will reset properly in init.js)
 var cron_already_ran = true; 
 
-var custom_3deep_menu_on = false;
+var custom_3deep_menu_open = false;
 
 var is_admin = false;
 

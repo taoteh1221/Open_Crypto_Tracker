@@ -1510,9 +1510,9 @@ zingchart.bind('marketcap_chart', 'label_click', function(e){
 	
 	<style>
 	.show_asset_vals, #admin_conf_quick_links, #coins_table {
-	display: block;
-	width: fit-content;
-	margin: auto;
+	display: block !important;
+	width: fit-content !important;
+	margin: auto !important;
 	}
 	</style>
 	

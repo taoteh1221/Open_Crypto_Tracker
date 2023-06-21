@@ -509,8 +509,89 @@ else {
                         <a <?=$content_toggle?> class="dropdown-item admin_change_width" data-width="fixed_max" role="tab" aria-controls="admin_general" href="admin.php#admin_general">General</a>
                     </li>
 
+
                     <li>
                         <a <?=$content_toggle?> class="dropdown-item admin_change_width" data-width="fixed_max" role="tab" aria-controls="admin_comms" href="admin.php#admin_comms">Communications</a>
+                    </li>
+
+
+                    <li>
+                        <a <?=$content_toggle?> class="dropdown-item admin_change_width" data-width="fixed_max" role="tab" aria-controls="admin_other_api" href="admin.php#admin_other_api">Other APIs</a>
+                    </li>
+
+
+                    <li>
+                        <a <?=$content_toggle?> class="dropdown-item admin_change_width" data-width="fixed_max" role="tab" aria-controls="admin_proxy" href="admin.php#admin_proxy">Proxies</a>
+                    </li>
+
+
+                    <li>
+                        <a <?=$content_toggle?> class="dropdown-item admin_change_width" data-width="fixed_max" role="tab" aria-controls="admin_security" href="admin.php#admin_security">Security</a>
+                    </li>
+
+
+                    <li>
+                        <a <?=$content_toggle?> class="dropdown-item admin_change_width" data-width="fixed_max" role="tab" aria-controls="admin_portfolio_assets" href="admin.php#admin_portfolio_assets">Portfolio Assets</a>
+                    </li>
+
+
+                    <li>
+                        <a <?=$content_toggle?> class="dropdown-item admin_change_width" data-width="fixed_max" role="tab" aria-controls="admin_charts_alerts" href="admin.php#admin_charts_alerts"><?=( $ct_conf['gen']['asset_charts_toggle'] == 'on' ? 'Charts and ' : 'Price ' )?>Alerts</a>
+                    </li>
+
+
+                    <li>
+                        <a <?=$content_toggle?> class="dropdown-item admin_change_width" data-width="fixed_max" role="tab" aria-controls="admin_plugins" href="admin.php#admin_plugins">Plugins</a>
+                    </li>
+
+
+                    <li>
+                        <a <?=$content_toggle?> class="dropdown-item admin_change_width" data-width="fixed_max" role="tab" aria-controls="admin_power_user" href="admin.php#admin_power_user">Power User</a>
+                    </li>
+
+
+                    <li>
+                        <a <?=$content_toggle?> class="dropdown-item admin_change_width" data-width="fixed_max" role="tab" aria-controls="admin_int_api" href="admin.php#admin_int_api">Internal API</a>
+                    </li>
+
+
+                    <li>
+                        <a <?=$content_toggle?> class="dropdown-item admin_change_width" data-width="fixed_max" role="tab" aria-controls="admin_webhook" href="admin.php#admin_webhook">Webhook</a>
+                    </li>
+
+
+                    <li>
+                        <a <?=$content_toggle?> class="dropdown-item admin_change_width" data-width="fixed_max" role="tab" aria-controls="admin_text_gateways" href="admin.php#admin_text_gateways">Text Gateways</a>
+                    </li>
+
+
+                    <li>
+                        <a <?=$content_toggle?> class="dropdown-item admin_change_width" data-width="fixed_max" role="tab" aria-controls="admin_developer_only" href="admin.php#admin_developer_only">Developer Only</a>
+                    </li>
+
+
+                    <li class='sys_stats_admin_link'>
+                        <a <?=$content_toggle?> class="dropdown-item admin_change_width" data-width="fixed_max" role="tab" aria-controls="admin_system_stats" href="admin.php#admin_system_stats">System Stats<img class='sys_stats_admin_link_info' src='templates/interface/media/images/info-red.png' alt='' width='30' style='position: relative;' /></a>
+                    </li>
+
+
+                    <li>
+                        <a <?=$content_toggle?> class="dropdown-item admin_change_width" data-width="fixed_max" role="tab" aria-controls="admin_access_stats" href="admin.php#admin_access_stats">Access Stats</a>
+                    </li>
+
+
+                    <li>
+                        <a <?=$content_toggle?> class="dropdown-item admin_change_width" data-width="fixed_max" role="tab" aria-controls="admin_logs" href="admin.php#admin_logs">App Logs</a>
+                    </li>
+
+
+                    <li>
+                        <a <?=$content_toggle?> class="dropdown-item admin_change_width" data-width="fixed_max" role="tab" aria-controls="admin_backup_restore" href="admin.php#admin_backup_restore">Backup / Restore</a>
+                    </li>
+
+
+                    <li>
+                        <a <?=$content_toggle?> class="dropdown-item admin_change_width" data-width="fixed_max" role="tab" aria-controls="admin_reset" href="admin.php#admin_reset">Reset</a>
                     </li>
                     
                     
@@ -707,24 +788,152 @@ else {
                         <a <?=$content_toggle?> class="nav-link admin_change_width" data-width="fixed_max" role="tab" aria-controls="admin_general" href="admin.php#admin_general">General</a>
                     </li>
 
+
                     <li class='sidebar-item nav-item'>
                         <a <?=$content_toggle?> class="nav-link admin_change_width" data-width="fixed_max" role="tab" aria-controls="admin_comms" href="admin.php#admin_comms">Communications</a>
                     </li>
+
+
+                    <li class='sidebar-item nav-item'>
+                        <a <?=$content_toggle?> class="nav-link admin_change_width" data-width="fixed_max" role="tab" aria-controls="admin_other_api" href="admin.php#admin_other_api">Other APIs</a>
+                    </li>
+
+
+                    <li class='sidebar-item nav-item'>
+                        <a <?=$content_toggle?> class="nav-link admin_change_width" data-width="fixed_max" role="tab" aria-controls="admin_proxy" href="admin.php#admin_proxy">Proxies</a>
+                    </li>
+
+
+                    <li class='sidebar-item nav-item'>
+                        <a <?=$content_toggle?> class="nav-link admin_change_width" data-width="fixed_max" role="tab" aria-controls="admin_security" href="admin.php#admin_security">Security</a>
+                    </li>
+
+
+                    <li class='sidebar-item nav-item'>
+                        <a <?=$content_toggle?> class="nav-link admin_change_width" data-width="fixed_max" role="tab" aria-controls="admin_portfolio_assets" href="admin.php#admin_portfolio_assets">Portfolio Assets</a>
+                    </li>
+
+
+                    <li class='sidebar-item nav-item'>
+                        <a <?=$content_toggle?> class="nav-link admin_change_width" data-width="fixed_max" role="tab" aria-controls="admin_charts_alerts" href="admin.php#admin_charts_alerts"><?=( $ct_conf['gen']['asset_charts_toggle'] == 'on' ? 'Charts and ' : 'Price ' )?>Alerts</a>
+                    </li>
                     
+                    
+                        <?php
+                        
+                        // Plugin link(s)
+                        $navbar_plugins = array();
+
+                        foreach ( $activated_plugins['ui'] as $plugin_key => $unused ) {
+                        $navbar_plugins[$plugin_key] = 1;
+                        }
+
+                        foreach ( $activated_plugins['cron'] as $plugin_key => $unused ) {
+                        $navbar_plugins[$plugin_key] = 1;
+                        }
+
+                        foreach ( $activated_plugins['webhook'] as $plugin_key => $unused ) {
+                        $navbar_plugins[$plugin_key] = 1;
+                        }
+                        
+                        if ( sizeof($navbar_plugins) > 0 ) {
+                        ksort($navbar_plugins); // Alphabetical order (for admin UI)
+                    ?>
                     
                     <!-- START custom 3-deep config -->
                     <li class="nav-item dropdown custom-3deep open-first">
-                        <a class="nav-link dropdown-toggle" href="#4" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                          Dropdown
-                        </a>
+                        
+                        <a class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown" aria-expanded="false" href="admin.php#admin_plugins">Plugins</a>
+                        
                         <ul class="dropdown-menu">
-                          <li><a class="dropdown-item" href="#5">Action</a></li>
-                          <li><a class="dropdown-item" href="#6">Another action</a></li>
+                        
+                    <?php
+                        }
+
+                        foreach ( $navbar_plugins as $plugin_key => $unused ) {
+                        ?>
+                        
+                        <li>
+                        
+                        <a class="dropdown-item" href="admin.php#admin_plugins" onclick='javascript:load_iframe("iframe_plugins", "admin.php?iframe=<?=$ct_gen->admin_hashed_nonce('iframe_' . $plugin_key)?>&plugin=<?=$plugin_key?>")'><?=$plug_conf[$plugin_key]['ui_name']?></a>
+                        
+                        </li>
                           <!-- <li><hr class="dropdown-divider"></li> -->
-                    
+                          
+                        <?php
+                        }
+                        
+                        if ( sizeof($navbar_plugins) > 0 ) {
+                        ?>
+                        
                         </ul>
+                        
                     </li>
                     <!-- END custom 3-deep config -->
+                    
+                    <?php
+                        }
+                        else {
+                    ?>
+                    
+                    <!-- NO PLUGINS activated -->
+                    <li class='sidebar-item nav-item'>
+                        <a <?=$content_toggle?> class="nav-link admin_change_width" data-width="fixed_max" role="tab" aria-controls="admin_plugins" href="admin.php#admin_plugins">Plugins</a>
+                    </li>
+
+                    <?php
+                    }
+                    ?>
+
+
+                    <li class='sidebar-item nav-item'>
+                        <a <?=$content_toggle?> class="nav-link admin_change_width" data-width="fixed_max" role="tab" aria-controls="admin_power_user" href="admin.php#admin_power_user">Power User</a>
+                    </li>
+
+
+                    <li class='sidebar-item nav-item'>
+                        <a <?=$content_toggle?> class="nav-link admin_change_width" data-width="fixed_max" role="tab" aria-controls="admin_int_api" href="admin.php#admin_int_api">Internal API</a>
+                    </li>
+
+
+                    <li class='sidebar-item nav-item'>
+                        <a <?=$content_toggle?> class="nav-link admin_change_width" data-width="fixed_max" role="tab" aria-controls="admin_webhook" href="admin.php#admin_webhook">Webhook</a>
+                    </li>
+
+
+                    <li class='sidebar-item nav-item'>
+                        <a <?=$content_toggle?> class="nav-link admin_change_width" data-width="fixed_max" role="tab" aria-controls="admin_text_gateways" href="admin.php#admin_text_gateways">Text Gateways</a>
+                    </li>
+
+
+                    <li class='sidebar-item nav-item'>
+                        <a <?=$content_toggle?> class="nav-link admin_change_width" data-width="fixed_max" role="tab" aria-controls="admin_developer_only" href="admin.php#admin_developer_only">Developer Only</a>
+                    </li>
+
+
+                    <li class='sidebar-item nav-item sys_stats_admin_link'>
+                        <a <?=$content_toggle?> class="nav-link admin_change_width" data-width="fixed_max" role="tab" aria-controls="admin_system_stats" href="admin.php#admin_system_stats">System Stats<img class='sys_stats_admin_link_info' src='templates/interface/media/images/info-red.png' alt='' width='30' style='position: relative;' /></a>
+                    </li>
+
+
+                    <li class='sidebar-item nav-item'>
+                        <a <?=$content_toggle?> class="nav-link admin_change_width" data-width="fixed_max" role="tab" aria-controls="admin_access_stats" href="admin.php#admin_access_stats">Access Stats</a>
+                    </li>
+
+
+                    <li class='sidebar-item nav-item'>
+                        <a <?=$content_toggle?> class="nav-link admin_change_width" data-width="fixed_max" role="tab" aria-controls="admin_logs" href="admin.php#admin_logs">App Logs</a>
+                    </li>
+
+
+                    <li class='sidebar-item nav-item'>
+                        <a <?=$content_toggle?> class="nav-link admin_change_width" data-width="fixed_max" role="tab" aria-controls="admin_backup_restore" href="admin.php#admin_backup_restore">Backup / Restore</a>
+                    </li>
+
+
+                    <li class='sidebar-item nav-item'>
+                        <a <?=$content_toggle?> class="nav-link admin_change_width" data-width="fixed_max" role="tab" aria-controls="admin_reset" href="admin.php#admin_reset">Reset</a>
+                    </li>
                     
                     
                     <li class='sidebar-item'>
@@ -965,7 +1174,14 @@ else {
 				 }
 				 // Otherwise, IF we just upgraded to a new version, show an alert to user that they may need to
 				 // refresh the page or clear the browser cache for any upgraded JS / CSS files to load properly
-				 elseif ( isset($cached_app_version) && trim($cached_app_version) != '' && trim($cached_app_version) != $app_version ) {
+				 // (as long as this page visit isn't a major search engine, crawling the app pages)
+				 elseif (
+				 isset($cached_app_version)
+				 && trim($cached_app_version) != ''
+				 && trim($cached_app_version) != $app_version
+				 && stristr($_SERVER['HTTP_USER_AGENT'], 'googlebot') == false
+				 && stristr($_SERVER['HTTP_USER_AGENT'], 'bingbot') == false
+				 ) {
 				 ?>
 				 
                      <script>

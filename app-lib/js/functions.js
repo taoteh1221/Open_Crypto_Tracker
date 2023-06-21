@@ -80,6 +80,23 @@ return Number.isInteger( parseFloat(value) );
 /////////////////////////////////////////////////////////////
 
 
+function load_iframe(id, url) {
+
+var $iframe = $('#' + id);
+    
+    if ($iframe.length) {
+    $iframe.attr('src',url);
+    return false;
+    }
+    
+return true;
+
+}
+
+
+/////////////////////////////////////////////////////////////
+
+
 function get_url_param($key) {
 
 var queryString = window.location.search;
@@ -122,18 +139,6 @@ const all_autosize_textareas = document.querySelectorAll("[data-autoresize]");
 /////////////////////////////////////////////////////////////
 
 
-function set_cookie(cname, cvalue, exdays) {
-d = new Date();
-d.setTime(d.getTime() + (exdays*24*60*60*1000));
-is_secure = app_edition == 'server' ? ' Secure' : '';
-expires = "expires="+d.toUTCString();
-document.cookie = cname + "=" + cvalue + "; " + expires + "; SameSite=Strict;" + is_secure;
-}
-
-
-/////////////////////////////////////////////////////////////
-
-
 function store_scroll_position() {
 
 // IN CASE we are loading / POSTING DATA ON a different start page than the portfolio page,
@@ -154,6 +159,22 @@ sort_target = $(node).find(".app_sort_filter").text();
 
 // Remove any commas from number sorting
 return sort_target.replace(/,/g, '');
+
+}
+
+
+/////////////////////////////////////////////////////////////
+
+
+function set_cookie(cname, cvalue, exdays) {
+     
+d = new Date();
+d.setTime(d.getTime() + (exdays*24*60*60*1000));
+
+is_secure = app_edition == 'server' ? ' Secure' : '';
+expires = "expires="+d.toUTCString();
+
+document.cookie = cname + "=" + cvalue + "; " + expires + "; SameSite=Strict;" + is_secure;
 
 }
 
@@ -202,7 +223,8 @@ $(topElement).addClass(CssClass);
             function() {
                  $(this).addClass(CssClass);
                  add_css_class_recursively($(this), CssClass);
-            });
+            }
+    );
             
 }
 
@@ -220,6 +242,122 @@ $("#coins_table").find("th:eq("+col+")").trigger("sort");
     // Reverse the sort, if it's decending (1)
     if ( priv_pmode != 'on' && sorted_asc_desc > 0 ) {
     $("#coins_table").find("th:eq("+col+")").trigger("sort");
+    }
+
+}
+
+	
+/////////////////////////////////////////////////////////////
+
+
+function app_reloading_check(form_submission=0, new_location=0) {
+        
+    // Disable form updating in privacy mode
+    if ( get_cookie('priv_toggle') == 'on' && form_submission == 1 ) {
+    alert('Submitting data is not allowed in privacy mode.');
+    return 'no'; // WE NORMALLY DON'T RETURN DATA HERE BECAUSE WE ARE REFRESHING OR SUBMITTING, SO WE CANNOT USE RETURN FALSE RELIABLY
+    }
+    else {
+    app_reload(form_submission, new_location);
+    }
+
+}
+
+
+/////////////////////////////////////////////////////////////
+
+
+function cron_run_check() {
+	
+//console.log('loaded charts = ' + charts_loaded.length + ', all charts = ' + charts_num);
+
+	if ( cron_already_ran == true ) {
+	return 'done';
+	}
+	else {
+	background_loading_notices("Checking / Running Scheduled Tasks...");
+	$("#background_loading").show(250); // 0.25 seconds
+	return 'active';
+	}
+
+}
+
+
+/////////////////////////////////////////////////////////////
+
+
+function validate_form(form_id, field) {
+	
+x = document.forms[form_id][field].value;
+
+  if (x == "") {
+  alert(field + " must be populated.");
+  return false;
+  }
+  else {
+  $("#" + form_id).submit();
+  }
+  
+}
+
+
+/////////////////////////////////////////////////////////////
+
+
+function charts_loading_check() {
+	
+//console.log('loaded charts = ' + charts_loaded.length + ', all charts = ' + charts_num);
+
+    // NOT IN ADMIN AREA (UNLIKE CRON EMULATION)
+	if ( charts_loaded.length >= charts_num || is_admin == true ) {
+	return 'done';
+	}
+	else {
+	background_loading_notices("Loading Charts...");
+	$("#background_loading").show(250); // 0.25 seconds
+	return 'active';
+	}
+
+}
+
+
+/////////////////////////////////////////////////////////////
+
+
+function feeds_loading_check() {
+	
+//console.log('loaded feeds = ' + feeds_loaded.length + ', all feeds = ' + feeds_num);
+
+    // NOT IN ADMIN AREA (UNLIKE CRON EMULATION)
+	if ( feeds_loaded.length >= feeds_num || is_admin == true ) {
+	return 'done';
+	}
+	else {
+	background_loading_notices("Loading News Feeds...");
+	$("#background_loading").show(250); // 0.25 seconds
+	return 'active';
+	}
+
+}
+
+
+/////////////////////////////////////////////////////////////
+
+
+function get_scroll_position(tracing) {
+
+	// If we are using a different start page than the portfolio page,
+	// RETRIEVE any stored scroll position we were at before the page reload
+    if ( $(location).attr('hash') != '' && !isNaN( localStorage.getItem(scroll_position_storage) ) ) {
+        
+    	$('html, body').animate({
+       	scrollTop: localStorage.getItem(scroll_position_storage)
+    	}, 'slow');
+    		
+    }
+    // Reset if we're NOT starting on a secondary page
+    else {
+	localStorage.setItem(scroll_position_storage, 0);
     }
 
 }
@@ -274,24 +412,6 @@ function reset_iframe_heights() {
     });
     
 
-}
-
-
-/////////////////////////////////////////////////////////////
-
-
-function validate_form(form_id, field) {
-	
-x = document.forms[form_id][field].value;
-
-  if (x == "") {
-  alert(field + " must be populated.");
-  return false;
-  }
-  else {
-  $("#" + form_id).submit();
-  }
-  
 }
 
 
@@ -425,104 +545,6 @@ ca = document.cookie.split(';');
     }
     
 return false;
-
-}
-
-	
-/////////////////////////////////////////////////////////////
-
-
-function app_reloading_check(form_submission=0, new_location=0) {
-        
-    // Disable form updating in privacy mode
-    if ( get_cookie('priv_toggle') == 'on' && form_submission == 1 ) {
-    alert('Submitting data is not allowed in privacy mode.');
-    return 'no'; // WE NORMALLY DON'T RETURN DATA HERE BECAUSE WE ARE REFRESHING OR SUBMITTING, SO WE CANNOT USE RETURN FALSE RELIABLY
-    }
-    else {
-    app_reload(form_submission, new_location);
-    }
-
-}
-
-
-/////////////////////////////////////////////////////////////
-
-
-function cron_run_check() {
-	
-//console.log('loaded charts = ' + charts_loaded.length + ', all charts = ' + charts_num);
-
-	if ( cron_already_ran == true ) {
-	return 'done';
-	}
-	else {
-	background_loading_notices("Checking / Running Scheduled Tasks...");
-	$("#background_loading").show(250); // 0.25 seconds
-	return 'active';
-	}
-
-}
-
-
-/////////////////////////////////////////////////////////////
-
-
-function charts_loading_check() {
-	
-//console.log('loaded charts = ' + charts_loaded.length + ', all charts = ' + charts_num);
-
-    // NOT IN ADMIN AREA (UNLIKE CRON EMULATION)
-	if ( charts_loaded.length >= charts_num || is_admin == true ) {
-	return 'done';
-	}
-	else {
-	background_loading_notices("Loading Charts...");
-	$("#background_loading").show(250); // 0.25 seconds
-	return 'active';
-	}
-
-}
-
-
-/////////////////////////////////////////////////////////////
-
-
-function feeds_loading_check() {
-	
-//console.log('loaded feeds = ' + feeds_loaded.length + ', all feeds = ' + feeds_num);
-
-    // NOT IN ADMIN AREA (UNLIKE CRON EMULATION)
-	if ( feeds_loaded.length >= feeds_num || is_admin == true ) {
-	return 'done';
-	}
-	else {
-	background_loading_notices("Loading News Feeds...");
-	$("#background_loading").show(250); // 0.25 seconds
-	return 'active';
-	}
-
-}
-
-
-/////////////////////////////////////////////////////////////
-
-
-function get_scroll_position(tracing) {
-
-	// If we are using a different start page than the portfolio page,
-	// RETRIEVE any stored scroll position we were at before the page reload
-    if ( $(location).attr('hash') != '' && !isNaN( localStorage.getItem(scroll_position_storage) ) ) {
-        
-    	$('html, body').animate({
-       	scrollTop: localStorage.getItem(scroll_position_storage)
-    	}, 'slow');
-    		
-    }
-    // Reset if we're NOT starting on a secondary page
-    else {
-	localStorage.setItem(scroll_position_storage, 0);
-    }
 
 }
 
@@ -667,7 +689,7 @@ var result = ((elmBottom <= docViewBottom) && (elmTop >= docViewTop));
 var top = Math.round(docViewTop);
 
 // Emulating sticky CSS positioning
-$(elm).css({ "top": top + 'px' });
+$(elm).attr('style', 'top: ' + top + 'px !important');
     
 }
 
@@ -1038,9 +1060,9 @@ function app_reload(form_submission, new_location) {
     clearTimeout(reload_recheck);
     
     
-        if ( form_submission == 0 || new_location == 1 || form_submit_queued == true ) {
+        if ( form_submission == 0 || new_location != 0 || form_submit_queued == true ) {
              
-        var loading_message = new_location == 1 ? 'Loading...' : 'Reloading...';
+        var loading_message = new_location != 0 ? 'Loading...' : 'Reloading...';
             
         $("#app_loading").show(250, 'linear'); // 0.25 seconds
         $("#app_loading_span").html(loading_message);
@@ -1058,8 +1080,8 @@ function app_reload(form_submission, new_location) {
     
         // Reload, ONLY IF WE ARE NOT #ALREADY RELOADING# VIA SUBMITTING DATA (so we don't cancel data submission!),
         // OR IF WE ARE LOADING A #NEW# LOCATION
-        if ( form_submission == 0 && new_location == 1 ) {
-        // Do nothing, as we are already loading a new location
+        if ( form_submission == 0 && new_location != 0 ) {
+        window.location = new_location;
         }
         else if ( form_submission == 0 ) {
         window.location.reload(true); // Reload same location
@@ -1320,7 +1342,7 @@ function sorting_portfolio_table() {
     			theme : theme_selected, // theme "jui" and "bootstrap" override the uitheme widget option in v2.7+
     			textExtraction: sort_extraction,
     			widgets: ['zebra'],
-    		    headers: {
+    		     headers: {
     				
             			// disable sorting (we can use column number or the header class name)
             			'.no-sort' : {
@@ -1338,19 +1360,24 @@ function sorting_portfolio_table() {
 		
 		
 		// add parser through the tablesorter addParser method 
-		$.tablesorter.addParser({ 
+		$.tablesorter.addParser({
+		     
 			// set a unique id 
 			id: 'sortprices', 
-			is: function(s) { 
+			
 			// return false so this parser is not auto detected 
+			is: function(s) { 
 			return false; 
 			}, 
-			format: function(s) { 
+			
 			// format your data for normalization 
+			format: function(s) { 
 			return s.toLowerCase().replace(/\,/,'').replace(/ggggg/,'').replace(/\W+/,''); 
 			}, 
+			
 			// set type, either numeric or text 
-			type: 'numeric' 
+			type: 'numeric',
+			
 		}); 
 	
 	
@@ -1818,11 +1845,18 @@ function nav_menu($chosen_menu) {
      	// If the location.hash matches one of the links, use that as the active nav item.
      	// If no match is found, use the first link as the initial active nav item.
      	
-     	$active = $($links.filter('[href="' + $area_file + location.hash + '"]')[0] || $links[0]);
+     	$active = $($links.filter('[href="' + $area_file + window.location.hash + '"]')[0] || $links[0]);
+     	  
+     	    
+     	    // Show INITIAL nav element (IF NO MATCHING CONTENT FOR URL HASH FOUND)
+     	    if ( typeof $curr_content_id == 'undefined' ) {
+     	    $active.addClass('active');
+     	    }
      	
-     	$active.addClass('active'); // Show INITIAL nav element
      
      	$content = $($active[0].hash);
+     	
+     	//console.log('hash = ' + $active[0].hash)
      
          
      	    // Hide all other content
@@ -1913,7 +1947,7 @@ function nav_menu($chosen_menu) {
      	    autoresize_update(); 
      	    
      	    });
-     	  
+     	    
      	
      	});
      	

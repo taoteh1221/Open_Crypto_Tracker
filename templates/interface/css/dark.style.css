@@ -293,7 +293,7 @@ border: 1px solid #10d602;
 #admin_nav .dropdown-menu, #sidebar, #collapsed_sidebar {
 background: #545353 !important;
 border: 3px solid #808080 !important;
-color: white;
+color: white !important;
 }
 
 
@@ -303,7 +303,7 @@ border-left: 0px solid #545353 !important;
 border-top: 3px solid #808080 !important;
 border-right: 3px solid #808080 !important;
 border-bottom: 3px solid #808080 !important;
-color: white;
+color: white !important;
 }
 
 
@@ -320,17 +320,18 @@ border-left: 0px solid #686767 !important;
 #sidebar ul p,
 #sidebar p
 {
-color: white;
+color: white !important;
 }
 
 
 #sidebar ul li.sidebar-item a.active,
 .user-nav a.active,
-.admin-nav a.active
+.admin-nav a.active,
+#sidebar ul li.active a.nav-link.active
 {
 background-color: #cecccc !important;
 color: black !important;
-border-radius: 3px;
+border-radius: 3px !important;
 }
 
 
@@ -339,7 +340,7 @@ border-radius: 3px;
 #collapsed_sidebar div.active,
 #sidebar a[aria-expanded="true"]
 {
-    background: #686767;
+    background: #686767 !important;
 }
 
 
@@ -362,7 +363,8 @@ border: 3px solid #808080 !important;
 #sidebar ul ul a:hover,
 #sidebar ul li.active a:hover,
 #sidebar ul li a:hover,
-#collapsed_sidebar .dropdown-menu a:hover
+#collapsed_sidebar .dropdown-menu a:hover,
+#sidebar ul li.active ul.dropdown-menu a.dropdown-item.secondary-select
 {
     background: #777777 !important;
 }

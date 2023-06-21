@@ -9,69 +9,10 @@
 <div class='full_width_wrapper align_center'>
 
 	<div id='admin_wrapper' class='align_center' style='margin: auto;'>
-	
-
-		<!-- set data-width="full", to have the tab width be 100% of the screen -->
-		<ul class="nav nav-tabs-vertical align_center" id="admin_tabs" role="tablist">
-		  <li class="nav-item">
-			<a class="nav-link admin_change_width" data-bs-toggle="tab" data-width="fixed_max" href="#admin_general" role="tab" aria-controls="admin_general">General</a>
-		  </li>
-		  <li class="nav-item">
-			<a class="nav-link admin_change_width" data-bs-toggle="tab" data-width="fixed_max" href="#admin_comms" role="tab" aria-controls="admin_comms">Communications</a>
-		  </li>
-		  <li class="nav-item">
-			<a class="nav-link admin_change_width" data-bs-toggle="tab" data-width="fixed_max" href="#admin_other_api" role="tab" aria-controls="admin_other_api">Other APIs</a>
-		  </li>
-		  <li class="nav-item">
-			<a class="nav-link admin_change_width" data-bs-toggle="tab" data-width="fixed_max" href="#admin_proxy" role="tab" aria-controls="admin_proxy">Proxies</a>
-		  </li>
-		  <li class="nav-item">
-			<a class="nav-link admin_change_width" data-bs-toggle="tab" data-width="fixed_max" href="#admin_security" role="tab" aria-controls="admin_security">Security</a>
-		  </li>
-		  <li class="nav-item">
-			<a class="nav-link admin_change_width" data-bs-toggle="tab" data-width="fixed_max" href="#admin_portfolio_assets" role="tab" aria-controls="admin_portfolio_assets">Portfolio Assets</a>
-		  </li>
-		  <li class="nav-item">
-			<a class="nav-link admin_change_width" data-bs-toggle="tab" data-width="fixed_max" href="#admin_charts_alerts" role="tab" aria-controls="admin_charts_alerts"><?=( $ct_conf['gen']['asset_charts_toggle'] == 'on' ? 'Charts and ' : 'Price ' )?>Alerts</a>
-		  </li>
-		  <li class="nav-item">
-			<a class="nav-link admin_change_width" data-bs-toggle="tab" data-width="fixed_max" href="#admin_plugins" role="tab" aria-controls="admin_plugins">Plugins</a>
-		  </li>
-		  <li class="nav-item">
-			<a class="nav-link admin_change_width" data-bs-toggle="tab" data-width="fixed_max" href="#admin_power_user" role="tab" aria-controls="admin_power_user">Power User</a>
-		  </li>
-		  <li class="nav-item">
-			<a class="nav-link admin_change_width" data-bs-toggle="tab" data-width="fixed_max" href="#admin_int_api" role="tab" aria-controls="admin_int_api">Internal API</a>
-		  </li>
-		  <li class="nav-item">
-			<a class="nav-link admin_change_width" data-bs-toggle="tab" data-width="fixed_max" href="#admin_webhook" role="tab" aria-controls="admin_webhook">Webhook</a>
-		  </li>
-		  <li class="nav-item">
-			<a class="nav-link admin_change_width" data-bs-toggle="tab" data-width="fixed_max" href="#admin_text_gateways" role="tab" aria-controls="admin_text_gateways">Text Gateways</a>
-		  </li>
-		  <li class="nav-item">
-			<a class="nav-link admin_change_width" data-bs-toggle="tab" data-width="fixed_max" href="#admin_developer_only" role="tab" aria-controls="admin_developer_only">Developer Only</a>
-		  </li>
-		  <li class="nav-item" id="sys_stats_admin_link">
-			<a class="nav-link admin_change_width" data-bs-toggle="tab" data-width="full" href="#admin_system_stats" role="tab" aria-controls="admin_system_stats">System Stats<img id='sys_stats_admin_link_info' src='templates/interface/media/images/info-red.png' alt='' width='30' style='position: relative;' /></a>
-		  </li>
-		  <li class="nav-item">
-			<a class="nav-link admin_change_width" data-bs-toggle="tab" data-width="full" href="#admin_access_stats" role="tab" aria-controls="admin_access_stats">Access Stats</a>
-		  </li>
-		  <li class="nav-item">
-			<a class="nav-link admin_change_width" data-bs-toggle="tab" data-width="full" href="#admin_logs" role="tab" aria-controls="admin_logs">App Logs</a>
-		  </li>
-		  <li class="nav-item">
-			<a class="nav-link admin_change_width" data-bs-toggle="tab" data-width="fixed_max" href="#admin_backup_restore" role="tab" aria-controls="admin_backup_restore">Backup / Restore</a>
-		  </li>
-		  <li class="nav-item">
-			<a class="nav-link admin_change_width" data-bs-toggle="tab" data-width="fixed_max" href="#admin_reset" role="tab" aria-controls="admin_reset">Reset</a>
-		  </li>
-		</ul>
 		
 		
 		<!-- #admin_tab_content START -->
-		<div id='admin_tab_content' class="tab-content align_left">
+		<div id='admin_tab_content' class="tab-content">
 		  
 		  
 		  <div class="tab-pane" id="admin_general" role="tabpanel">
