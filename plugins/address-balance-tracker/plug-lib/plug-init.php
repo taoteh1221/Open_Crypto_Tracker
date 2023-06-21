@@ -80,9 +80,6 @@ $pair_btc_val = $ct_asset->pair_btc_val($asset);
 	elseif ( $asset == 'sol' ) {
 	$address_balance = $plug_class[$this_plug]->sol_addr_bal($address);
 	}
-	elseif ( $asset == 'hnt' ) {
-	$address_balance = $plug_class[$this_plug]->hnt_addr_bal($address);
-	}
 	elseif ( $chain == 'eth' ) {
 	$address_balance = $plug_class[$this_plug]->eth_addr_bal($address, $asset);
 	}

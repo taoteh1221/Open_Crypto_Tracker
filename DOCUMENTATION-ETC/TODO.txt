@@ -13,6 +13,9 @@ NEXT SCHEDULED WORK SESSION (DEBUGGING AND / OR INFRASTRUCTURE)
 Test in desktop editions.
 
 
+Remove HNT donation links (on project page too).
+
+
 Help / FAQ page link should be moved to bottom of sidebar, with a questionmark icon next to it. It ALSO should be a MODAL WINDOW (like 'more stats'), that is hidden in footer.php, so it can be opened in the user and admin areas just as easily. 
 
 

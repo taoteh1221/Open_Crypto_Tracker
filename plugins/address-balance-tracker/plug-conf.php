@@ -63,14 +63,6 @@ $plug_conf[$this_plug]['tracking'] = array(
 													),
 																			
 												
-											    // HNT EXAMPLE
-												array(
-													'asset' => 'hnt', // Ticker Key (LOWERCASE)
-													'address' => '13xs559435FGkh39qD9kXasaAnB8JRF8KowqPeUmKHWU46VYG1h', // HNT address
-													'label' => 'Crypto Tracker HNT Donations' // Description of address
-													),
-																			
-												
 											    // SOL EXAMPLE
 												array(
 													'asset' => 'sol', // Ticker Key (LOWERCASE)
