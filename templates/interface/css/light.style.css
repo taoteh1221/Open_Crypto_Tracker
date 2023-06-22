@@ -394,7 +394,10 @@ color: black;
 ----------------------------------------------------- */
 
 
-.disable_click{
+#sidebar ul li.active a.nav-link.active.disable_click,
+#sidebar ul ul a.disable_click,
+.disable_click 
+{
 background: #ea6b1c !important;
 }
 

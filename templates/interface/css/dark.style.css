@@ -327,7 +327,7 @@ color: white !important;
 #sidebar ul li.sidebar-item a.active,
 .user-nav a.active,
 .admin-nav a.active,
-#sidebar ul li.active a.nav-link.active:not(.disable_click)
+#sidebar ul li.active a.nav-link.active
 {
 background-color: #cecccc !important;
 color: black !important;
@@ -335,7 +335,7 @@ border-radius: 3px !important;
 }
 
 
-#sidebar ul ul a:not(.disable_click),
+#sidebar ul ul a,
 #sidebar ul li.active > a,
 #collapsed_sidebar div.active,
 #sidebar a[aria-expanded="true"]
@@ -385,7 +385,10 @@ color: white;
 ----------------------------------------------------- */
 
 
-.disable_click{
+#sidebar ul li.active a.nav-link.active.disable_click,
+#sidebar ul ul a.disable_click,
+.disable_click 
+{
 background: #ce7039 !important;
 }
 
