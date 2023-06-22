@@ -94,15 +94,15 @@ this.top.location !== this.location && (this.top.location = this.location);
 var admin_cookies = '<h5 class="align_center bitcoin tooltip_title">Admin Login Requires Browser Cookies</h5>'
 			
 			
-			+'<p class="coin_info extra_margins" style="white-space: normal; max-width: 600px;"><span class="bitcoin">For greater security after a SUCCESSFUL admin login (with the correct username and password), a 32-byte random key is saved inside a cookie in your web browser. A DIFFERENT 32-byte random key is saved on the app server in temporary session data, along with the result of concatenating the two 32-byte keys together and getting a digest (fingerprint) hash, which is your login authorization.</span></p>'
+			+'<p class="coin_info extra_margins" style="white-space: normal; max-width: 500px;"><span class="bitcoin">For greater security after a SUCCESSFUL admin login (with the correct username and password), a 32-byte random key is saved inside a cookie in your web browser. A DIFFERENT 32-byte random key is saved on the app server in temporary session data, along with the result of concatenating the two 32-byte keys together and getting a digest (fingerprint) hash, which is your login authorization.</span></p>'
 			
-			+'<p class="coin_info extra_margins" style="white-space: normal; max-width: 600px;"><span class="bitcoin">Whenever you visit the Admin Config page / view the "Admin Config - Quick Links" on the Portfolio page / etc, the app asks your browser for it\s 32-byte key to prove you are logged in.</span></p>'
+			+'<p class="coin_info extra_margins" style="white-space: normal; max-width: 500px;"><span class="bitcoin">Whenever you visit the Admin Config page / view the "Admin Config - Quick Links" on the Portfolio page / etc, the app asks your browser for it\s 32-byte key to prove you are logged in.</span></p>'
 			
-			+'<p class="coin_info extra_margins" style="white-space: normal; max-width: 600px;"><span class="bitcoin">By splitting the secured login credentials between your web browser cookie data and the app server\'s temporary session data, it makes it a bit harder for a hacker to view your login area, at least if your app server automatically clears all it\'s temporary session data a few times per day (this app attempts to clear your session data EVERY 6 HOURS).</span></p>'
+			+'<p class="coin_info extra_margins" style="white-space: normal; max-width: 500px;"><span class="bitcoin">By splitting the secured login credentials between your web browser cookie data and the app server\'s temporary session data, it makes it a bit harder for a hacker to view your login area, at least if your app server automatically clears all it\'s temporary session data a few times per day (this app attempts to clear your session data EVERY 6 HOURS).</span></p>'
 			
-			+'<p class="coin_info extra_margins" style="white-space: normal; max-width: 600px;"><span class="bitcoin">REGARDLESS as to whether your particular app server automatically clears it\'s temporary session data or not, whenever you logout the 32-byte key in your browser is deleted, along with all the session data on the app server.</span></p>'
+			+'<p class="coin_info extra_margins" style="white-space: normal; max-width: 500px;"><span class="bitcoin">REGARDLESS as to whether your particular app server automatically clears it\'s temporary session data or not, whenever you logout the 32-byte key in your browser is deleted, along with all the session data on the app server.</span></p>'
 			
-			+'<p class="coin_info extra_margins" style="white-space: normal; max-width: 600px;"><span class="bitcoin">If your app server DOES automatically clears session data often, you will also be logged out AUTOMATICALLY at that time. ADDITIONALLY, the 32-byte random key that is saved inside a cookie in your web browser EXPIRES (automatically deletes itself) AFTER <?=$ct_conf['sec']['admin_cookie_expire']?> HOURS (adjustable in the Admin Config SECURITY section).</span></p>'
+			+'<p class="coin_info extra_margins" style="white-space: normal; max-width: 500px;"><span class="bitcoin">If your app server DOES automatically clears session data often, you will also be logged out AUTOMATICALLY at that time. ADDITIONALLY, the 32-byte random key that is saved inside a cookie in your web browser EXPIRES (automatically deletes itself) AFTER <?=$ct_conf['sec']['admin_cookie_expire']?> HOURS (adjustable in the Admin Config SECURITY section).</span></p>'
 			
 			
 			+'<p> </p>';
@@ -111,7 +111,7 @@ var admin_cookies = '<h5 class="align_center bitcoin tooltip_title">Admin Login 
 		var username_notes = '<h5 class="align_center red tooltip_title">Username Format Requirements</h5>'
 			
 			
-			+'<p class="coin_info extra_margins" style="white-space: normal; max-width: 600px;"><span class="red">All lower case<br />Starts with a letter<br />Numbers allowed <br />No symbols <br />No spaces <br />Between 4 - 30 characters <br /></span></p>'
+			+'<p class="coin_info extra_margins" style="white-space: normal; max-width: 500px;"><span class="red">All lower case<br />Starts with a letter<br />Numbers allowed <br />No symbols <br />No spaces <br />Between 4 - 30 characters <br /></span></p>'
 			
 			+'<p> </p>';
 
@@ -119,7 +119,7 @@ var admin_cookies = '<h5 class="align_center bitcoin tooltip_title">Admin Login 
 
 		var password_notes = '<h5 class="align_center red tooltip_title">Password Format Requirements</h5>'
 			
-			+'<p class="coin_info extra_margins" style="white-space: normal; max-width: 600px;"><span class="red">At least one upper case letter<br />At least one lower case letter<br />At least one number <br />At least one symbol <br />No spaces <br />Between 12 - 40 characters <br /></span></p>'
+			+'<p class="coin_info extra_margins" style="white-space: normal; max-width: 500px;"><span class="red">At least one upper case letter<br />At least one lower case letter<br />At least one number <br />At least one symbol <br />No spaces <br />Between 12 - 40 characters <br /></span></p>'
 			
 			+'<p> </p>';
 
@@ -218,7 +218,7 @@ if ( !$_POST['submit_registration'] || is_array($register_result['error']) && si
 <form name='set_admin' id='set_admin' action='' method='post'>
 
 
-    <div style="display: inline-block; text-align: right; width: 400px;">
+    <div style="display: inline-block; text-align: right; width: 500px;">
     
 	 <p>
 	 
@@ -274,7 +274,7 @@ Google Fonts is supported (fonts.google.com).'>Get A Different Image</a>
   	 <br clear='all' />
 
 
-  	 <div style="display: inline-block; text-align: right; width: 400px;">
+  	 <div style="display: inline-block; text-align: right; width: 500px;">
   
   	 <p><b>Enter Image Text:</b> <input type='text' name='captcha_code' id='captcha_code' value='' style='<?=( $captcha_field_color ? 'background: ' . $captcha_field_color : '' )?>' /></p>
 	
