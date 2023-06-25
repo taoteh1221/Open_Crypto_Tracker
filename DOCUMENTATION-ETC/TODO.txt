@@ -16,6 +16,12 @@ Test in desktop editions.
 Remove HNT donation links (on project page too).
 
 
+In the light theme, lighten the content area background slightly, so text shows better.
+
+
+Fix things so "Reloading..." INSTANTLY shows when clicking between admin / user areas (like it used to...broke it last work session somehow, while fixing other things).
+
+
 Add title tags with tooltip descriptions to admin nav links, like we already have for user area nav links.
 
 
