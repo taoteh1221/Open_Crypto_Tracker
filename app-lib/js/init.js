@@ -692,14 +692,15 @@ random_tips();
          $('.all-nav a').on({
               "click":function(e){
               
-              var scan_href = $(this).attr('href');
-              scan_href = scan_href.split('/').pop();         
+              var click_href = $(this).attr('href');   
+              
+              var scan_href = click_href.split('/').pop();   
               
               
                   if (scan_href.indexOf("#") > 0) {
                   scan_href = scan_href.substring(0, scan_href.indexOf("#"));
                   }
-              
+                  
                   
                   // IF we are not ALREADY in the CORRISPONDING user / admin area
                   if ( is_admin && scan_href != 'admin.php' || !is_admin && scan_href == 'admin.php' ) {

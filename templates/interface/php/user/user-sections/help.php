@@ -154,7 +154,7 @@ THE 'SERVER EDITION' IS CURRENTLY MORE RELIABLE THAN THE 'DESKTOP EDITION' ON WI
 	       
 
 	    <br /><br />
-<pre class='rounded' style='display: inline-block;<?=( $ct_gen->is_msie() == false ? ' padding-top: 1em !important;' : '' )?>'><code class='hide-x-scroll less' style='white-space: nowrap; width: auto; display: inline-block;'>wget --no-cache -O FOLIO-INSTALL.bash https://tinyurl.com/install-crypto-tracker;chmod +x FOLIO-INSTALL.bash;sudo ./FOLIO-INSTALL.bash</code></pre>
+<pre class='rounded' style='display: inline-block; padding-top: 1em !important;'><code class='hide-x-scroll less' style='white-space: nowrap; width: auto; display: inline-block;'>wget --no-cache -O FOLIO-INSTALL.bash https://tinyurl.com/install-crypto-tracker;chmod +x FOLIO-INSTALL.bash;sudo ./FOLIO-INSTALL.bash</code></pre>
 
 
 	    <br /><br />
@@ -253,7 +253,7 @@ FOR WINDOWS 10 / 11 USERS, just click and run the file 'ADD-WIN10-SCHEDULER-JOB.
 FOR LINUX / MAC USERS, here is an example cron job command line for reference below (NOT including any cron parameters your host interface may require), to setup as the "command" within a cron job. Replace system paths in the example with the correct ones for your server (TIP - A very common path to PHP on a server is /usr/bin/php):
 	    <br /><br />
 	    
-<pre class='rounded' style='display: inline-block;<?=( $ct_gen->is_msie() == false ? ' padding-top: 1em !important;' : '' )?>'><code class='hide-x-scroll less' style='white-space: nowrap; width: auto; display: inline-block;'>/path/to/php -q /home/username/path/to/website/this_app/cron.php</code></pre>
+<pre class='rounded' style='display: inline-block; padding-top: 1em !important;'><code class='hide-x-scroll less' style='white-space: nowrap; width: auto; display: inline-block;'>/path/to/php -q /home/username/path/to/website/this_app/cron.php</code></pre>
 
 
 	    <br /><br />
@@ -262,7 +262,7 @@ FOR LINUX (if you have systemd), here is another example of a COMPLETE cron comm
 	    <br /><br />
 
 	    
-<pre class='rounded' style='display: inline-block;<?=( $ct_gen->is_msie() == false ? ' padding-top: 1em !important;' : '' )?>'><code class='hide-x-scroll less' style='white-space: nowrap; width: auto; display: inline-block;'>*/20 * * * * WEBSITE_USERNAME_GOES_HERE /usr/bin/php -q /var/www/html/cron.php > /dev/null 2>&1</code></pre>
+<pre class='rounded' style='display: inline-block; padding-top: 1em !important;'><code class='hide-x-scroll less' style='white-space: nowrap; width: auto; display: inline-block;'>*/20 * * * * WEBSITE_USERNAME_GOES_HERE /usr/bin/php -q /var/www/html/cron.php > /dev/null 2>&1</code></pre>
 
 
 	    <br /><br />
@@ -271,7 +271,7 @@ FOR LINUX / MAC, if your system DOES NOT have the directory /etc/cron.d/ on it, 
 	    <br /><br />
 
 	    
-<pre class='rounded' style='display: inline-block;<?=( $ct_gen->is_msie() == false ? ' padding-top: 1em !important;' : '' )?>'><code class='hide-x-scroll less' style='white-space: nowrap; width: auto; display: inline-block;'>*/20 * * * * /usr/bin/php -q /var/www/html/cron.php > /dev/null 2>&1</code></pre>
+<pre class='rounded' style='display: inline-block; padding-top: 1em !important;'><code class='hide-x-scroll less' style='white-space: nowrap; width: auto; display: inline-block;'>*/20 * * * * /usr/bin/php -q /var/www/html/cron.php > /dev/null 2>&1</code></pre>
 
 
 
@@ -677,7 +677,7 @@ SMTP email sending is REQUIRED if you are running this app on a home network, or
 <br /><br />
 If you already have plenty of disk space quota freed up / your cache folder permissions are readable / writable, and you still have file write issues on linux-based operating systems, you MAY need to setup a higher "open files" limit for your website user account (ESPECIALLY if your app server is running MUTIPLE APPS SIMULTANEOUSLY). If you have shell access you can login and run this command to check your current limits:
 <br /><br />
-<pre class='rounded' style='display: inline-block;<?=( $ct_gen->is_msie() == false ? ' padding-top: 1em !important;' : '' )?>'><code class='hide-x-scroll less' style='white-space: nowrap; width: auto; display: inline-block;'>ulimit -n</code></pre>
+<pre class='rounded' style='display: inline-block; padding-top: 1em !important;'><code class='hide-x-scroll less' style='white-space: nowrap; width: auto; display: inline-block;'>ulimit -n</code></pre>
 
 <br /><br />
 If it's a low number like 1024, this MAY be the cause of your file write error issue (especially if you run multiple web apps that write a lot of data on the same account). If you are running a dedicated or VPS server, you can easily change this limit. 
@@ -789,13 +789,13 @@ Luckily EVEN ON SHARED HOSTING some web host companies allow you to set the PHP 
              If you are using the LINUX Desktop Edition, and you get an error at startup like "CGI program sent malformed or too big", you probably need to compile a custom "php-cgi" binary file on the system you are using, and replace the "php-cgi-custom" binary in the Desktop Edition main folder. Sometimes compiled PHP binaries aren't very portable between different linux systems. To see if this is really the problem by command-line, open a terminal and use the "cd" (change directory) command to go to the main directory of the Desktop Edition, and then type this command:
 	    <br /><br />
 
-<pre class='rounded' style='display: inline-block;<?=( $ct_gen->is_msie() == false ? ' padding-top: 1em !important;' : '' )?>'><code class='hide-x-scroll less' style='white-space: nowrap; width: auto; display: inline-block;'>./php-cgi-custom INSTALL_CRYPTO_TRACKER_HERE/index.php</code></pre>
+<pre class='rounded' style='display: inline-block; padding-top: 1em !important;'><code class='hide-x-scroll less' style='white-space: nowrap; width: auto; display: inline-block;'>./php-cgi-custom INSTALL_CRYPTO_TRACKER_HERE/index.php</code></pre>
 	    <br /><br />
 
 If you see an error like this below, you system is NOT compatible with the included "php-cgi-custom" PHP binary, and you'll need to build a new one for your system:
 	    <br /><br />
 
-<pre class='rounded' style='display: inline-block;<?=( $ct_gen->is_msie() == false ? ' padding-top: 1em !important;' : '' )?>'><code class='hide-x-scroll less' style='white-space: nowrap; width: auto; display: inline-block;'>./php-cgi-custom: error while loading shared libraries: XXXXX.so.X: cannot open shared object file: No such file or directory</code></pre>
+<pre class='rounded' style='display: inline-block; padding-top: 1em !important;'><code class='hide-x-scroll less' style='white-space: nowrap; width: auto; display: inline-block;'>./php-cgi-custom: error while loading shared libraries: XXXXX.so.X: cannot open shared object file: No such file or directory</code></pre>
 	    <br /><br />
 
 Try running the script "BUILD-PHP-FOR-LINUX-DESKTOP.bash" in the Desktop Edition main folder, which should fix things automatically for you. Just make sure it's file permissions are set to "executable" (chmod +x, OR chmod 755 should do that). <span class='red'>IMPORTANT NOTE:</span> YOU *MUST* SHUT DOWN THE DESKTOP EDITION OF THIS APP *BEFOREHAND*, OTHERWISE THIS SCRIPT *CANNOT* INSTALL THE CREATED PHP BINARY IT BUILDS!
@@ -804,7 +804,7 @@ Try running the script "BUILD-PHP-FOR-LINUX-DESKTOP.bash" in the Desktop Edition
 Open a terminal and use the "cd" (change directory) command to go to the main directory of the Desktop Edition, and then type this command:
 	    <br /><br />
 
-<pre class='rounded' style='display: inline-block;<?=( $ct_gen->is_msie() == false ? ' padding-top: 1em !important;' : '' )?>'><code class='hide-x-scroll less' style='white-space: nowrap; width: auto; display: inline-block;'>./BUILD-PHP-FOR-LINUX-DESKTOP.bash</code></pre>
+<pre class='rounded' style='display: inline-block; padding-top: 1em !important;'><code class='hide-x-scroll less' style='white-space: nowrap; width: auto; display: inline-block;'>./BUILD-PHP-FOR-LINUX-DESKTOP.bash</code></pre>
 	    <br /><br />
 
 If this automated script gives you issues, see manual PHP build instructions below...
@@ -985,7 +985,7 @@ $plug_conf[$this_plug]['SETTING_NAME_HERE'] = array('mysetting1', 'mysetting2');
 <span class='blue'>8)</span> The "plug-conf.php" PLUGIN CONFIG SETTING 'runtime_mode' IS MANDATORY (plugin WILL NOT be allowed to activate if invalid / blank), to determine WHEN the plugin should run (as a webhook / during cron jobs / user interface loading / all runtimes / etc).
 <br /><br />
 
-<pre class='rounded' style='display: inline-block;<?=( $ct_gen->is_msie() == false ? ' padding-top: 1em !important;' : '' )?>'><code class='hide-x-scroll less' style='white-space: nowrap; width: auto; display: inline-block;'>$plug_conf[$this_plug]['runtime_mode'] = 'cron'; // 'cron', 'webhook', 'ui', 'all'</code></pre>
+<pre class='rounded' style='display: inline-block; padding-top: 1em !important;'><code class='hide-x-scroll less' style='white-space: nowrap; width: auto; display: inline-block;'>$plug_conf[$this_plug]['runtime_mode'] = 'cron'; // 'cron', 'webhook', 'ui', 'all'</code></pre>
 <br /><br />
 
 When 'runtime_mode' is set to 'webhook', you can pass ADDITIONAL parameters (forwardslash-delimited) *AFTER* THE WEBHOOK KEY in the webhook URL:
@@ -1005,7 +1005,7 @@ The webhook key is also available, in the auto-created variable: $webhook_key
 <span class='blue'>9)</span> The "plug-conf.php" PLUGIN CONFIG SETTING 'ui_location' IS OPTIONAL, to determine WHERE the plugin should run (on the tools page, in the 'more stats' section, etc...defaults to 'tools' if not set).
 <br /><br />
 
-<pre class='rounded' style='display: inline-block;<?=( $ct_gen->is_msie() == false ? ' padding-top: 1em !important;' : '' )?>'><code class='hide-x-scroll less' style='white-space: nowrap; width: auto; display: inline-block;'>$plug_conf[$this_plug]['ui_location'] = 'tools'; // 'tools', 'more_stats'</code></pre>
+<pre class='rounded' style='display: inline-block; padding-top: 1em !important;'><code class='hide-x-scroll less' style='white-space: nowrap; width: auto; display: inline-block;'>$plug_conf[$this_plug]['ui_location'] = 'tools'; // 'tools', 'more_stats'</code></pre>
 <br /><br /><br />
 
 
@@ -1013,7 +1013,7 @@ The webhook key is also available, in the auto-created variable: $webhook_key
 <span class='blue'>10)</span> The "plug-conf.php" PLUGIN CONFIG SETTING 'ui_name' IS OPTIONAL, to determine THE NAME the plugin should as to end-users (defaults to $this_plug if not set).
 <br /><br />
 
-<pre class='rounded' style='display: inline-block;<?=( $ct_gen->is_msie() == false ? ' padding-top: 1em !important;' : '' )?>'><code class='hide-x-scroll less' style='white-space: nowrap; width: auto; display: inline-block;'>$plug_conf[$this_plug]['ui_name'] = 'My Plugin Name';</code></pre>
+<pre class='rounded' style='display: inline-block; padding-top: 1em !important;'><code class='hide-x-scroll less' style='white-space: nowrap; width: auto; display: inline-block;'>$plug_conf[$this_plug]['ui_name'] = 'My Plugin Name';</code></pre>
 <br /><br /><br />
 
 
@@ -1060,7 +1060,7 @@ Example: "/plugins/my-app-plugin/plug-templates/plug-docs.php" (must be lowercas
 <span class='blue'>16)</span> To add / activate your new plugin, add your plugin MAIN FOLDER name (example: 'my-app-plugin') as a new value within 'activate_plugins', and set to 'on'...ALSO INCLUDE A COMMA AT THE END.
 <br /><br />
 
-<pre class='rounded' style='display: inline-block;<?=( $ct_gen->is_msie() == false ? ' padding-top: 1em !important;' : '' )?>'><code class='hide-x-scroll less' style='white-space: nowrap; width: auto; display: inline-block;'>'my-app-plugin' => 'on',</code></pre>
+<pre class='rounded' style='display: inline-block; padding-top: 1em !important;'><code class='hide-x-scroll less' style='white-space: nowrap; width: auto; display: inline-block;'>'my-app-plugin' => 'on',</code></pre>
 <br /><br /><br />
 
 

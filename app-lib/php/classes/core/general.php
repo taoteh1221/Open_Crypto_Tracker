@@ -131,22 +131,6 @@ var $ct_array = array();
    ////////////////////////////////////////////////////////
    
    
-   function is_msie() {
-   
-      if ( preg_match("/msie/i", $_SERVER['HTTP_USER_AGENT']) || preg_match("/trident/i", $_SERVER['HTTP_USER_AGENT']) ) {
-      return true;
-      }
-      else {
-      return false;
-      }
-   
-   }
-   
-   
-   ////////////////////////////////////////////////////////
-   ////////////////////////////////////////////////////////
-   
-   
    function dir_size($dir) {
    
    $size = 0;

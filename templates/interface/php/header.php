@@ -244,6 +244,8 @@ header('Access-Control-Allow-Origin: ' . $app_host_address);
 	
 	logs_csrf_sec_token = '<?=base64_encode( $ct_gen->admin_hashed_nonce('logs_csrf_security') )?>';
 	
+	admin_iframe_url = storage_app_id("admin_iframe_url");
+	
 	<?php
 	}
 	?>
@@ -843,7 +845,7 @@ else {
                     <!-- START custom 3-deep config -->
                     <li class="nav-item dropdown custom-3deep open-first">
                         
-                        <a class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown" aria-expanded="false" href="admin.php#admin_plugins">Plugins</a>
+                        <a class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown" aria-expanded="false" href="admin.php#admin_plugins" onclick='javascript:load_iframe("iframe_plugins")'>Plugins</a>
                         
                         <ul class="dropdown-menu">
                         
@@ -855,7 +857,7 @@ else {
                         
                         <li>
                         
-                        <a class="dropdown-item" href="admin.php#admin_plugins" onclick='javascript:load_iframe("iframe_plugins", "admin.php?iframe=<?=$ct_gen->admin_hashed_nonce('iframe_' . $plugin_key)?>&plugin=<?=$plugin_key?>")'><?=$plug_conf[$plugin_key]['ui_name']?></a>
+                        <a class="dropdown-item" href="admin.php#admin_plugins" submenu-id="admin_plugins_<?=$plugin_key?>" onclick='javascript:load_iframe("iframe_plugins", "admin.php?iframe=<?=$ct_gen->admin_hashed_nonce('iframe_' . $plugin_key)?>&plugin=<?=$plugin_key?>")'><?=$plug_conf[$plugin_key]['ui_name']?></a>
                         
                         </li>
                           <!-- <li><hr class="dropdown-divider"></li> -->

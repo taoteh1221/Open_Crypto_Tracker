@@ -32,6 +32,8 @@ var limited_apis = new Array();
 
 var secondary_mrkt_currencies = new Array();
 
+var orig_iframe_src = new Array();
+
 // Strings
 
 var ct_id; // Install ID (derived from this app's server path)
@@ -69,6 +71,8 @@ var notes_storage;
 var watch_only_flag_val;
 
 var cookies_size_warning;
+	
+var admin_iframe_url;
 	
 var logs_csrf_sec_token;
 

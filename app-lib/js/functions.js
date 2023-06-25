@@ -4,6 +4,7 @@
 
 /////////////////////////////////////////////////////////////
 
+
 function force_2_digits(num) {
 return ("0" + num).slice(-2);
 }
@@ -80,23 +81,6 @@ return Number.isInteger( parseFloat(value) );
 /////////////////////////////////////////////////////////////
 
 
-function load_iframe(id, url) {
-
-var $iframe = $('#' + id);
-    
-    if ($iframe.length) {
-    $iframe.attr('src',url);
-    return false;
-    }
-    
-return true;
-
-}
-
-
-/////////////////////////////////////////////////////////////
-
-
 function get_url_param($key) {
 
 var queryString = window.location.search;
@@ -159,6 +143,24 @@ sort_target = $(node).find(".app_sort_filter").text();
 
 // Remove any commas from number sorting
 return sort_target.replace(/,/g, '');
+
+}
+
+
+/////////////////////////////////////////////////////////////
+
+
+function iframe_url(name, val=null, mode='get') {
+
+     if ( mode == 'get' ) {
+     return localStorage.getItem(name);
+     }
+     else if ( mode == 'set' ) {
+     localStorage.setItem(name, val);
+     }
+     else if ( mode == 'delete' ) {
+     localStorage.removeItem(name);
+     }
 
 }
 
@@ -242,23 +244,6 @@ $("#coins_table").find("th:eq("+col+")").trigger("sort");
     // Reverse the sort, if it's decending (1)
     if ( priv_pmode != 'on' && sorted_asc_desc > 0 ) {
     $("#coins_table").find("th:eq("+col+")").trigger("sort");
-    }
-
-}
-
-	
-/////////////////////////////////////////////////////////////
-
-
-function app_reloading_check(form_submission=0, new_location=0) {
-        
-    // Disable form updating in privacy mode
-    if ( get_cookie('priv_toggle') == 'on' && form_submission == 1 ) {
-    alert('Submitting data is not allowed in privacy mode.');
-    return 'no'; // WE NORMALLY DON'T RETURN DATA HERE BECAUSE WE ARE REFRESHING OR SUBMITTING, SO WE CANNOT USE RETURN FALSE RELIABLY
-    }
-    else {
-    app_reload(form_submission, new_location);
     }
 
 }
@@ -381,6 +366,32 @@ $('a[aria-expanded="true"]').attr('aria-expanded', 'false');
 
 // Scroll left, if we are wider than the page (for UX)
 scroll_start();
+
+}
+
+	
+/////////////////////////////////////////////////////////////
+
+
+function app_reloading_check(form_submission=0, new_location=0) {
+        
+    // Disable form updating in privacy mode
+    if ( get_cookie('priv_toggle') == 'on' && form_submission == 1 ) {
+    alert('Submitting data is not allowed in privacy mode.');
+    return 'no'; // WE NORMALLY DON'T RETURN DATA HERE BECAUSE WE ARE REFRESHING OR SUBMITTING, SO WE CANNOT USE RETURN FALSE RELIABLY
+    }
+    else if ( new_location != 0 ) {
+    
+       // If this is an ADMIN submenu section, AND we are NOT in the admin area,
+       // AND no iframe URL has been set yet, don't reload / load new page yet (we want to show the submenu options first)
+       if ( !is_admin && new_location.split('#')[1] == 'admin_plugins' && iframe_url(admin_iframe_url) == null ) {
+       return;
+       }
+    
+    }
+    else {
+    app_reload(form_submission, new_location);
+    }
 
 }
 
@@ -546,33 +557,6 @@ ca = document.cookie.split(';');
     
 return false;
 
-}
-
-
-/////////////////////////////////////////////////////////////
-
-
-function is_msie() {
-
-// MSIE 10 AND UNDER
-ua = window.navigator.userAgent;
-msie = ua.indexOf('MSIE');
-
-	if (msie > 0) {
-   return true;
-   }
-
-// MSIE 11
-ua = window.navigator.userAgent;
-trident = ua.indexOf('Trident');
-
-	if (trident > 0) {
-   return true;
-   }
-
-// If we get this far, return false
-return false;
-	
 }
 
 
@@ -924,6 +908,54 @@ function scroll_start(direction='defaults', elm=false) {
      
      }, 250);
      
+}
+
+
+/////////////////////////////////////////////////////////////
+
+
+function load_iframe(id, url=null) {
+
+var $iframe = $('#' + id);
+    
+    
+    // If the iframe exists in the current main page
+    if ($iframe.length) {
+         
+         
+         // Save the original frame src if not done yet
+         if ( !orig_iframe_src[id] ) {
+         orig_iframe_src[id] = $iframe.attr('src');
+         }
+         
+         
+         // If no URL set, AND current iframe src is not ALREADY the original src,
+         // then load it...otherwise skip
+         if ( url == null && $iframe.attr('src') != orig_iframe_src[id] ) {
+         url = orig_iframe_src[id];
+         }
+         else if ( url == null ) {
+         return;
+         }
+         
+         
+    $iframe.attr('src',url);
+    
+    // Reset any stored value (not needed after setting it)
+    iframe_url(admin_iframe_url, null, 'delete');
+
+    return false;
+
+    }
+    // Otherwise save the iframe data to use once the section loads
+    // (unless it's a null value [used on index links etc])
+    else if ( url != null ) {
+    iframe_url(admin_iframe_url, url, 'set');
+    }
+    
+    
+return true;
+
 }
    
 
@@ -1523,15 +1555,9 @@ not_whole_num = (log_lines - Math.floor(log_lines)) !== 0;
       	// Finished looping
     		if (loop == data_length) {
    		
-   			// Wait 4 seconds for it to fully load in the html element, then set scroll to bottom	
+   			     // Wait 4 seconds for it to fully load in the html element, then set scroll to bottom	
 				setTimeout(function(){
 				log_area.scrollTop(log_area[0].scrollHeight);
-					
-					// MSIE doesn't like highlightjs
-					if ( is_msie() == false ) {
-   				log_area.each(function(i, e) {hljs.highlightBlock(e)}); // Re-initialize highlighting text
-					}
-   			
 				$('#' + elm_id + '_alert').text('');
 				}, 4000);
 	
@@ -1921,9 +1947,13 @@ function nav_menu($chosen_menu) {
                                // Saves current page (if BROWSER closed BUT TAB still open),
                                // ONLY IF NO START PAGE IS EXPLICITLY SET!
                                if ( get_url_param('start_page') == null ) {
-                               window.location = $area_file + $curr_content_id; 
-                               // MAIN submit form too (also stores and updates chosen charts / news feeds / etc)
+                               
+                               // MAIN submit form (also stores and updates chosen charts / news feeds / etc)
                                $("#coin_amnts").attr('action', $area_file + $curr_content_id);
+                               
+                               // Page URL
+                               window.location = $area_file + $curr_content_id; 
+                               
                                }
                                   
                          }

@@ -83,6 +83,22 @@ $header_link = $plug_conf[$this_plug]['ui_name'];
         }
 
 
-// DON'T LEAVE ANY WHITESPACE AFTER THE CLOSING PHP TAG!
+?>
+
+<script>
+
+// Highlight corrisponding sidebar menu entry
+
+var section_id = window.parent.location.href.split('#')[1];
+
+//console.log('parent doc location hash = ' + section_id);
+
+$("a.dropdown-item", window.parent.document).removeClass("secondary-select");
+          
+$('a[submenu-id="' + section_id + '_<?=$this_plug?>"]', window.parent.document).addClass("secondary-select");
+
+</script>
+
+<?php
 unset($this_plug);
 ?>

@@ -284,6 +284,26 @@
 		  </div>
 		  
 		  
+                	<script>
+                	
+                	// IF a specific subsection page was flagged to show, show it instead of the index
+                	if ( iframe_url(admin_iframe_url) != null ) {
+                	     
+                	var section_id = window.location.href.split('#')[1];
+                	
+                	var iframe_section_id = $("#" + section_id + " iframe").attr('id');
+                	
+                	//console.log('iframe ID = ' + iframe_section_id);
+     
+                    //console.log('iframe URL = ' + iframe_url(admin_iframe_url) );
+                	     
+                	load_iframe( iframe_section_id, iframe_url(admin_iframe_url) );
+                	
+                	}
+                	
+                	</script>  
+                	
+		  
 		</div><!-- #admin_tab_content END -->
 
 
