@@ -12,7 +12,7 @@
 <div class='full_width_wrapper'>
 			
 	
-	<p style='margin-top: 35px; margin-bottom: 15px;'><?=$ct_gen->start_page_html('charts')?></p>		
+	<p style='margin-top: 25px; margin-bottom: 15px;'><?=$ct_gen->start_page_html('charts')?></p>		
 			
 	  
 	<p style='margin-top: 25px;'><a style='font-weight: bold;' class='red' href='javascript: show_more("chartsnotice");' title='Click to show notices about how charts run within this app.'><b>Charts Notices / Information</b></a></p>

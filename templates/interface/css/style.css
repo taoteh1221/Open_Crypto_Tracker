@@ -719,7 +719,7 @@ margin-right: 6px;
 position: relative;
 display: none;
 padding: 6px;
-width: 100%;
+width: 90%;
 font-size: 21px;
 min-height: 23px; 
 margin: auto;
@@ -732,7 +732,7 @@ z-index: 3;
 #app_loading {
 display: block;
 padding: 13px;
-width: 100%; 
+width: 90%; 
 white-space: nowrap;
 font-size: 60px;
 margin: auto;

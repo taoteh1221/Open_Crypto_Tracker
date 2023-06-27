@@ -120,7 +120,7 @@
 				
 				
 				
-	<p style='margin-top: 20px;'><a style='font-weight: bold; font-size: 25px;' class='red clear_both' href='javascript: show_more("disclaimer");' title='Click to show disclaimer.'>Disclaimer!</a> &nbsp; 👈 </p>
+	<p style='margin-top: 10px;'><a style='font-weight: bold; font-size: 25px;' class='red clear_both' href='javascript: show_more("disclaimer");' title='Click to show disclaimer.'>Disclaimer!</a> &nbsp; 👈 </p>
 	    
 	    
 	    

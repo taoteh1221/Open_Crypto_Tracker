@@ -34,9 +34,6 @@ Privacy mode toggle should also be moved to bottom of sidebar.
 On admin login on safari browser, have a alert (like the cookies notice) saying safari is not supported in the admin interface.
 
 
-Investing.com cryptocurrency news feed is titled incorrectly (wrong feed), AND Etheruem solidity feed is throwing errors.
-
-
 Add Linux desktop notes for building PHP binary in general documentation.
 
 
@@ -181,8 +178,6 @@ DEBUGGING / TESTS / UX / QA / OTHER
 ===> Test in a WebKit-based browser [Epiphany|Safari|Midori], and Firefox / Chromium.
 !!!!
 ===> Think over what other "FAQ page / TROUBLESHOOTING.txt" entries would be helpful.
-!!!!
-===> Zingchart UPGRADES ARE FROZEN @ v2.9.10, DUE TO AN INTRODUCED RENDERING BUG
 !!!!
 ===> Try to do tests / UX / QA / debugging before adding new infrastructure
 ===> (find every flaming turd before we start a dumpster fire!).

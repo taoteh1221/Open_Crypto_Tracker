@@ -13,7 +13,7 @@
 <div class='full_width_wrapper'>
 			
 
-			<p style='margin-top: 35px; margin-bottom: 15px;'><?=$ct_gen->start_page_html('news')?></p>			
+			<p style='margin-top: 25px; margin-bottom: 15px;'><?=$ct_gen->start_page_html('news')?></p>			
 			<?php
 			$news_feed_cache_min_max = explode(',', $ct_conf['power']['news_feed_cache_min_max']);
 			?>

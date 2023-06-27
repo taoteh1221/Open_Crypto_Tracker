@@ -617,7 +617,7 @@ $ct_conf['charts_alerts']['tracked_mrkts'] = array(
 					
 					
 					// HNT
-					'hnt-2' => 'binance_us||usd||both',
+					'hnt-2' => 'gateio||usdt||both',
 					'hnt-3' => 'gateio||eth||none',
 					
 					
@@ -3316,13 +3316,7 @@ $ct_conf['assets'] = array(
                                                     ),
 
                                                     
-                                    'usd' => array(
-                                    	 'binance_us' => 'HNTUSD',
-                                                    ),
-
-                                                    
                                     'usdt' => array(
-                                    	'binance_us' => 'HNTUSDT',
                                         'hotbit' => 'HNT_USDT',
                                         'gateio' => 'HNT_USDT',
                                         'wazirx' => 'hntusdt',
