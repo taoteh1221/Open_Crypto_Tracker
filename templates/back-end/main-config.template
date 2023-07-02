@@ -888,7 +888,6 @@ $ct_conf['power']['crypto_pair_pref_mrkts'] = array(
                							'uni' => 'binance',  // WAY MORE volume , WAY BETTER price discovery than ALL alternatives
                							'mkr' => 'binance',  // WAY MORE volume , WAY BETTER price discovery than ALL alternatives
                							'ray' => 'coingecko_btc',  // coingecko global average price IN BTC
-               							'hnt' => 'coingecko_btc',  // coingecko global average price IN BTC
 							               );
 
 

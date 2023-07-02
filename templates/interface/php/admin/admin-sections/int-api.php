@@ -377,8 +377,6 @@ var_dump($api_data_array);
             "binance-eth-usdc",
             "binance-eth-usdt",
             "binance-hive-btc",
-            "binance-hnt-btc",
-            "binance-hnt-usdt",
             "binance-mana-btc",
             "binance-mana-eth",
             "binance-mkr-btc",

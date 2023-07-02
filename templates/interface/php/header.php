@@ -508,97 +508,97 @@ else {
 
 
                     <li>
-                        <a <?=$content_toggle?> class="dropdown-item admin_change_width" data-width="fixed_max" role="tab" aria-controls="admin_general" href="admin.php#admin_general">General</a>
+                        <a <?=$content_toggle?> class="dropdown-item admin_change_width" data-width="fixed_max" role="tab" aria-controls="admin_general" href="admin.php#admin_general" title='General admin settings.'>General</a>
                     </li>
 
 
                     <li>
-                        <a <?=$content_toggle?> class="dropdown-item admin_change_width" data-width="fixed_max" role="tab" aria-controls="admin_comms" href="admin.php#admin_comms">Communications</a>
+                        <a <?=$content_toggle?> class="dropdown-item admin_change_width" data-width="fixed_max" role="tab" aria-controls="admin_comms" href="admin.php#admin_comms" title='Configure email / text / Alexa / Telegram communications, and more.'>Communications</a>
                     </li>
 
 
                     <li>
-                        <a <?=$content_toggle?> class="dropdown-item admin_change_width" data-width="fixed_max" role="tab" aria-controls="admin_other_api" href="admin.php#admin_other_api">Other APIs</a>
+                        <a <?=$content_toggle?> class="dropdown-item admin_change_width" data-width="fixed_max" role="tab" aria-controls="admin_other_api" href="admin.php#admin_other_api" title='Configure options for external third party APIs.'>Other APIs</a>
                     </li>
 
 
                     <li>
-                        <a <?=$content_toggle?> class="dropdown-item admin_change_width" data-width="fixed_max" role="tab" aria-controls="admin_proxy" href="admin.php#admin_proxy">Proxies</a>
+                        <a <?=$content_toggle?> class="dropdown-item admin_change_width" data-width="fixed_max" role="tab" aria-controls="admin_proxy" href="admin.php#admin_proxy" title='Enable / disable proxy services (for privacy connecting to third party APIs).'>Proxies</a>
                     </li>
 
 
                     <li>
-                        <a <?=$content_toggle?> class="dropdown-item admin_change_width" data-width="fixed_max" role="tab" aria-controls="admin_security" href="admin.php#admin_security">Security</a>
+                        <a <?=$content_toggle?> class="dropdown-item admin_change_width" data-width="fixed_max" role="tab" aria-controls="admin_security" href="admin.php#admin_security" title='Admin area for all security-related settings.'>Security</a>
                     </li>
 
 
                     <li>
-                        <a <?=$content_toggle?> class="dropdown-item admin_change_width" data-width="fixed_max" role="tab" aria-controls="admin_portfolio_assets" href="admin.php#admin_portfolio_assets">Portfolio Assets</a>
+                        <a <?=$content_toggle?> class="dropdown-item admin_change_width" data-width="fixed_max" role="tab" aria-controls="admin_portfolio_assets" href="admin.php#admin_portfolio_assets" title='Add / remove / update the available assets for portfolio tracking.'>Portfolio Assets</a>
                     </li>
 
 
                     <li>
-                        <a <?=$content_toggle?> class="dropdown-item admin_change_width" data-width="fixed_max" role="tab" aria-controls="admin_charts_alerts" href="admin.php#admin_charts_alerts"><?=( $ct_conf['gen']['asset_charts_toggle'] == 'on' ? 'Charts and ' : 'Price ' )?>Alerts</a>
+                        <a <?=$content_toggle?> class="dropdown-item admin_change_width" data-width="fixed_max" role="tab" aria-controls="admin_charts_alerts" href="admin.php#admin_charts_alerts" title='Configure <?=( $ct_conf['gen']['asset_charts_toggle'] == 'on' ? 'Charts / Price' : 'Price' )?> Alerts'><?=( $ct_conf['gen']['asset_charts_toggle'] == 'on' ? 'Charts / Price' : 'Price' )?> Alerts</a>
                     </li>
 
 
                     <li>
-                        <a <?=$content_toggle?> class="dropdown-item admin_change_width" data-width="fixed_max" role="tab" aria-controls="admin_plugins" href="admin.php#admin_plugins">Plugins</a>
+                        <a <?=$content_toggle?> class="dropdown-item admin_change_width" data-width="fixed_max" role="tab" aria-controls="admin_plugins" href="admin.php#admin_plugins" title='Manage plugin addons for this app.'>Plugins</a>
                     </li>
 
 
                     <li>
-                        <a <?=$content_toggle?> class="dropdown-item admin_change_width" data-width="fixed_max" role="tab" aria-controls="admin_power_user" href="admin.php#admin_power_user">Power User</a>
+                        <a <?=$content_toggle?> class="dropdown-item admin_change_width" data-width="fixed_max" role="tab" aria-controls="admin_power_user" href="admin.php#admin_power_user" title='Power user settings (for advanced users).'>Power User</a>
                     </li>
 
 
                     <li>
-                        <a <?=$content_toggle?> class="dropdown-item admin_change_width" data-width="fixed_max" role="tab" aria-controls="admin_int_api" href="admin.php#admin_int_api">Internal API</a>
+                        <a <?=$content_toggle?> class="dropdown-item admin_change_width" data-width="fixed_max" role="tab" aria-controls="admin_int_api" href="admin.php#admin_int_api" title='Documentation / keys for using the built-in API to connect to other apps.'>Internal API</a>
                     </li>
 
 
                     <li>
-                        <a <?=$content_toggle?> class="dropdown-item admin_change_width" data-width="fixed_max" role="tab" aria-controls="admin_webhook" href="admin.php#admin_webhook">Webhook</a>
+                        <a <?=$content_toggle?> class="dropdown-item admin_change_width" data-width="fixed_max" role="tab" aria-controls="admin_webhook" href="admin.php#admin_webhook" title='Webhooks available to connect to other apps.'>Webhook</a>
                     </li>
 
 
                     <li>
-                        <a <?=$content_toggle?> class="dropdown-item admin_change_width" data-width="fixed_max" role="tab" aria-controls="admin_text_gateways" href="admin.php#admin_text_gateways">Text Gateways</a>
+                        <a <?=$content_toggle?> class="dropdown-item admin_change_width" data-width="fixed_max" role="tab" aria-controls="admin_text_gateways" href="admin.php#admin_text_gateways" title='Add / remove / update the mobile text gateways available, to use for mobile text communications.'>Text Gateways</a>
                     </li>
 
 
                     <li>
-                        <a <?=$content_toggle?> class="dropdown-item admin_change_width" data-width="fixed_max" role="tab" aria-controls="admin_developer_only" href="admin.php#admin_developer_only">Developer Only</a>
+                        <a <?=$content_toggle?> class="dropdown-item admin_change_width" data-width="fixed_max" role="tab" aria-controls="admin_developer_only" href="admin.php#admin_developer_only" title='Developer settings (for advanced users).'>Developer Only</a>
                     </li>
 
 
                     <li class='sys_stats_admin_link'>
-                        <a <?=$content_toggle?> class="dropdown-item admin_change_width" data-width="fixed_max" role="tab" aria-controls="admin_system_stats" href="admin.php#admin_system_stats">System Stats<img class='sys_stats_admin_link_info' src='templates/interface/media/images/info-red.png' alt='' width='30' style='position: relative;' /></a>
+                        <a <?=$content_toggle?> class="dropdown-item admin_change_width" data-width="fixed_max" role="tab" aria-controls="admin_system_stats" href="admin.php#admin_system_stats" title='View system stats, to keep track of your app server system health.'>System Stats<img class='sys_stats_admin_link_info' src='templates/interface/media/images/info-red.png' alt='' width='30' style='position: relative;' /></a>
                     </li>
 
 
                     <li>
-                        <a <?=$content_toggle?> class="dropdown-item admin_change_width" data-width="fixed_max" role="tab" aria-controls="admin_access_stats" href="admin.php#admin_access_stats">Access Stats</a>
+                        <a <?=$content_toggle?> class="dropdown-item admin_change_width" data-width="fixed_max" role="tab" aria-controls="admin_access_stats" href="admin.php#admin_access_stats" title='View user access stats, to track IP addresses / Browser versions of who has been using your app.'>Access Stats</a>
                     </li>
 
 
                     <li>
-                        <a <?=$content_toggle?> class="dropdown-item admin_change_width" data-width="fixed_max" role="tab" aria-controls="admin_logs" href="admin.php#admin_logs">App Logs</a>
+                        <a <?=$content_toggle?> class="dropdown-item admin_change_width" data-width="fixed_max" role="tab" aria-controls="admin_logs" href="admin.php#admin_logs" title='View app logs, to check for potential issues with your app configuration.'>App Logs</a>
                     </li>
 
 
                     <li>
-                        <a <?=$content_toggle?> class="dropdown-item admin_change_width" data-width="fixed_max" role="tab" aria-controls="admin_backup_restore" href="admin.php#admin_backup_restore">Backup / Restore</a>
+                        <a <?=$content_toggle?> class="dropdown-item admin_change_width" data-width="fixed_max" role="tab" aria-controls="admin_backup_restore" href="admin.php#admin_backup_restore" title='Backup or restore your app configuration settings / chart data / etc.'>Backup / Restore</a>
                     </li>
 
 
                     <li>
-                        <a <?=$content_toggle?> class="dropdown-item admin_change_width" data-width="fixed_max" role="tab" aria-controls="admin_reset" href="admin.php#admin_reset">Reset</a>
+                        <a <?=$content_toggle?> class="dropdown-item admin_change_width" data-width="fixed_max" role="tab" aria-controls="admin_reset" href="admin.php#admin_reset" title='Reset different configurations in this app.'>Reset</a>
                     </li>
                     
                     
                     <li>
-                    <a class="dropdown-item" href="?logout=1&admin_hashed_nonce=<?=$ct_gen->admin_hashed_nonce('logout')?>">Logout</a>
+                    <a class="dropdown-item" href="?logout=1&admin_hashed_nonce=<?=$ct_gen->admin_hashed_nonce('logout')?>" title='Logout from the admin area.'>Logout</a>
                     </li>
 
 
@@ -608,7 +608,7 @@ else {
                     ?>
                     
                     <li>
-                    <a class="dropdown-item" href="admin.php">Admin Login</a>
+                    <a class="dropdown-item" href="admin.php"title='Login to the admin area.'>Admin Login</a>
                     </li>
 
                     <?php
@@ -787,37 +787,37 @@ else {
 
 
                     <li class='sidebar-item nav-item'>
-                        <a <?=$content_toggle?> class="nav-link admin_change_width" data-width="fixed_max" role="tab" aria-controls="admin_general" href="admin.php#admin_general">General</a>
+                        <a <?=$content_toggle?> class="nav-link admin_change_width" data-width="fixed_max" role="tab" aria-controls="admin_general" href="admin.php#admin_general" title='General admin settings.'>General</a>
                     </li>
 
 
                     <li class='sidebar-item nav-item'>
-                        <a <?=$content_toggle?> class="nav-link admin_change_width" data-width="fixed_max" role="tab" aria-controls="admin_comms" href="admin.php#admin_comms">Communications</a>
+                        <a <?=$content_toggle?> class="nav-link admin_change_width" data-width="fixed_max" role="tab" aria-controls="admin_comms" href="admin.php#admin_comms" title='Configure email / text / Alexa / Telegram communications, and more.'>Communications</a>
                     </li>
 
 
                     <li class='sidebar-item nav-item'>
-                        <a <?=$content_toggle?> class="nav-link admin_change_width" data-width="fixed_max" role="tab" aria-controls="admin_other_api" href="admin.php#admin_other_api">Other APIs</a>
+                        <a <?=$content_toggle?> class="nav-link admin_change_width" data-width="fixed_max" role="tab" aria-controls="admin_other_api" href="admin.php#admin_other_api" title='Configure options for external third party APIs.'>Other APIs</a>
                     </li>
 
 
                     <li class='sidebar-item nav-item'>
-                        <a <?=$content_toggle?> class="nav-link admin_change_width" data-width="fixed_max" role="tab" aria-controls="admin_proxy" href="admin.php#admin_proxy">Proxies</a>
+                        <a <?=$content_toggle?> class="nav-link admin_change_width" data-width="fixed_max" role="tab" aria-controls="admin_proxy" href="admin.php#admin_proxy" title='Enable / disable proxy services (for privacy connecting to third party APIs).'>Proxies</a>
                     </li>
 
 
                     <li class='sidebar-item nav-item'>
-                        <a <?=$content_toggle?> class="nav-link admin_change_width" data-width="fixed_max" role="tab" aria-controls="admin_security" href="admin.php#admin_security">Security</a>
+                        <a <?=$content_toggle?> class="nav-link admin_change_width" data-width="fixed_max" role="tab" aria-controls="admin_security" href="admin.php#admin_security" title='Admin area for all security-related settings.'>Security</a>
                     </li>
 
 
                     <li class='sidebar-item nav-item'>
-                        <a <?=$content_toggle?> class="nav-link admin_change_width" data-width="fixed_max" role="tab" aria-controls="admin_portfolio_assets" href="admin.php#admin_portfolio_assets">Portfolio Assets</a>
+                        <a <?=$content_toggle?> class="nav-link admin_change_width" data-width="fixed_max" role="tab" aria-controls="admin_portfolio_assets" href="admin.php#admin_portfolio_assets" title='Add / remove / update the available assets for portfolio tracking.'>Portfolio Assets</a>
                     </li>
 
 
                     <li class='sidebar-item nav-item'>
-                        <a <?=$content_toggle?> class="nav-link admin_change_width" data-width="fixed_max" role="tab" aria-controls="admin_charts_alerts" href="admin.php#admin_charts_alerts"><?=( $ct_conf['gen']['asset_charts_toggle'] == 'on' ? 'Charts and ' : 'Price ' )?>Alerts</a>
+                        <a <?=$content_toggle?> class="nav-link admin_change_width" data-width="fixed_max" role="tab" aria-controls="admin_charts_alerts" href="admin.php#admin_charts_alerts" title='Configure <?=( $ct_conf['gen']['asset_charts_toggle'] == 'on' ? 'Charts / Price' : 'Price' )?> Alerts'><?=( $ct_conf['gen']['asset_charts_toggle'] == 'on' ? 'Charts / Price' : 'Price' )?> Alerts</a>
                     </li>
                     
                     
@@ -845,7 +845,7 @@ else {
                     <!-- START custom 3-deep config -->
                     <li class="nav-item dropdown custom-3deep open-first">
                         
-                        <a class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown" aria-expanded="false" href="admin.php#admin_plugins" onclick='javascript:load_iframe("iframe_plugins")'>Plugins</a>
+                        <a class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown" aria-expanded="false" href="admin.php#admin_plugins" onclick='javascript:load_iframe("iframe_plugins")' title='Manage plugin addons for this app.'>Plugins</a>
                         
                         <ul class="dropdown-menu">
                         
@@ -857,7 +857,7 @@ else {
                         
                         <li>
                         
-                        <a class="dropdown-item" href="admin.php#admin_plugins" submenu-id="admin_plugins_<?=$plugin_key?>" onclick='javascript:load_iframe("iframe_plugins", "admin.php?iframe=<?=$ct_gen->admin_hashed_nonce('iframe_' . $plugin_key)?>&plugin=<?=$plugin_key?>")'><?=$plug_conf[$plugin_key]['ui_name']?></a>
+                        <a class="dropdown-item" href="admin.php#admin_plugins" submenu-id="admin_plugins_<?=$plugin_key?>" onclick='javascript:load_iframe("iframe_plugins", "admin.php?iframe=<?=$ct_gen->admin_hashed_nonce('iframe_' . $plugin_key)?>&plugin=<?=$plugin_key?>")' title='<?=$plug_conf[$plugin_key]['ui_name']?> plugin settings and documentation.'><?=$plug_conf[$plugin_key]['ui_name']?></a>
                         
                         </li>
                           <!-- <li><hr class="dropdown-divider"></li> -->
@@ -880,7 +880,7 @@ else {
                     
                     <!-- NO PLUGINS activated -->
                     <li class='sidebar-item nav-item'>
-                        <a <?=$content_toggle?> class="nav-link admin_change_width" data-width="fixed_max" role="tab" aria-controls="admin_plugins" href="admin.php#admin_plugins">Plugins</a>
+                        <a <?=$content_toggle?> class="nav-link admin_change_width" data-width="fixed_max" role="tab" aria-controls="admin_plugins" href="admin.php#admin_plugins" title='Manage plugin addons for this app.'>Plugins</a>
                     </li>
 
                     <?php
@@ -889,57 +889,57 @@ else {
 
 
                     <li class='sidebar-item nav-item'>
-                        <a <?=$content_toggle?> class="nav-link admin_change_width" data-width="fixed_max" role="tab" aria-controls="admin_power_user" href="admin.php#admin_power_user">Power User</a>
+                        <a <?=$content_toggle?> class="nav-link admin_change_width" data-width="fixed_max" role="tab" aria-controls="admin_power_user" href="admin.php#admin_power_user" title='Power user settings (for advanced users).'>Power User</a>
                     </li>
 
 
                     <li class='sidebar-item nav-item'>
-                        <a <?=$content_toggle?> class="nav-link admin_change_width" data-width="fixed_max" role="tab" aria-controls="admin_int_api" href="admin.php#admin_int_api">Internal API</a>
+                        <a <?=$content_toggle?> class="nav-link admin_change_width" data-width="fixed_max" role="tab" aria-controls="admin_int_api" href="admin.php#admin_int_api" title='Documentation / keys for using the built-in API to connect to other apps.'>Internal API</a>
                     </li>
 
 
                     <li class='sidebar-item nav-item'>
-                        <a <?=$content_toggle?> class="nav-link admin_change_width" data-width="fixed_max" role="tab" aria-controls="admin_webhook" href="admin.php#admin_webhook">Webhook</a>
+                        <a <?=$content_toggle?> class="nav-link admin_change_width" data-width="fixed_max" role="tab" aria-controls="admin_webhook" href="admin.php#admin_webhook" title='Webhooks available to connect to other apps.'>Webhook</a>
                     </li>
 
 
                     <li class='sidebar-item nav-item'>
-                        <a <?=$content_toggle?> class="nav-link admin_change_width" data-width="fixed_max" role="tab" aria-controls="admin_text_gateways" href="admin.php#admin_text_gateways">Text Gateways</a>
+                        <a <?=$content_toggle?> class="nav-link admin_change_width" data-width="fixed_max" role="tab" aria-controls="admin_text_gateways" href="admin.php#admin_text_gateways" title='Add / remove / update the mobile text gateways available, to use for mobile text communications.'>Text Gateways</a>
                     </li>
 
 
                     <li class='sidebar-item nav-item'>
-                        <a <?=$content_toggle?> class="nav-link admin_change_width" data-width="fixed_max" role="tab" aria-controls="admin_developer_only" href="admin.php#admin_developer_only">Developer Only</a>
+                        <a <?=$content_toggle?> class="nav-link admin_change_width" data-width="fixed_max" role="tab" aria-controls="admin_developer_only" href="admin.php#admin_developer_only" title='Developer settings (for advanced users).'>Developer Only</a>
                     </li>
 
 
                     <li class='sidebar-item nav-item sys_stats_admin_link'>
-                        <a <?=$content_toggle?> class="nav-link admin_change_width" data-width="fixed_max" role="tab" aria-controls="admin_system_stats" href="admin.php#admin_system_stats">System Stats<img class='sys_stats_admin_link_info' src='templates/interface/media/images/info-red.png' alt='' width='30' style='position: relative;' /></a>
+                        <a <?=$content_toggle?> class="nav-link admin_change_width" data-width="fixed_max" role="tab" aria-controls="admin_system_stats" href="admin.php#admin_system_stats" title='View system stats, to keep track of your app server system health.'>System Stats<img class='sys_stats_admin_link_info' src='templates/interface/media/images/info-red.png' alt='' width='30' style='position: relative;' /></a>
                     </li>
 
 
                     <li class='sidebar-item nav-item'>
-                        <a <?=$content_toggle?> class="nav-link admin_change_width" data-width="fixed_max" role="tab" aria-controls="admin_access_stats" href="admin.php#admin_access_stats">Access Stats</a>
+                        <a <?=$content_toggle?> class="nav-link admin_change_width" data-width="fixed_max" role="tab" aria-controls="admin_access_stats" href="admin.php#admin_access_stats" title='View user access stats, to track IP addresses / Browser versions of who has been using your app.'>Access Stats</a>
                     </li>
 
 
                     <li class='sidebar-item nav-item'>
-                        <a <?=$content_toggle?> class="nav-link admin_change_width" data-width="fixed_max" role="tab" aria-controls="admin_logs" href="admin.php#admin_logs">App Logs</a>
+                        <a <?=$content_toggle?> class="nav-link admin_change_width" data-width="fixed_max" role="tab" aria-controls="admin_logs" href="admin.php#admin_logs" title='View app logs, to check for potential issues with your app configuration.'>App Logs</a>
                     </li>
 
 
                     <li class='sidebar-item nav-item'>
-                        <a <?=$content_toggle?> class="nav-link admin_change_width" data-width="fixed_max" role="tab" aria-controls="admin_backup_restore" href="admin.php#admin_backup_restore">Backup / Restore</a>
+                        <a <?=$content_toggle?> class="nav-link admin_change_width" data-width="fixed_max" role="tab" aria-controls="admin_backup_restore" href="admin.php#admin_backup_restore" title='Backup or restore your app configuration settings / chart data / etc.'>Backup / Restore</a>
                     </li>
 
 
                     <li class='sidebar-item nav-item'>
-                        <a <?=$content_toggle?> class="nav-link admin_change_width" data-width="fixed_max" role="tab" aria-controls="admin_reset" href="admin.php#admin_reset">Reset</a>
+                        <a <?=$content_toggle?> class="nav-link admin_change_width" data-width="fixed_max" role="tab" aria-controls="admin_reset" href="admin.php#admin_reset" title='Reset different configurations in this app.'>Reset</a>
                     </li>
                     
                     
                     <li class='sidebar-item'>
-                        <a href="?logout=1&admin_hashed_nonce=<?=$ct_gen->admin_hashed_nonce('logout')?>">Logout</a>
+                        <a href="?logout=1&admin_hashed_nonce=<?=$ct_gen->admin_hashed_nonce('logout')?>" title='Logout from the admin area.'>Logout</a>
                     </li>
 
 
@@ -949,7 +949,7 @@ else {
                     ?>
                     
                     <li class='sidebar-item'>
-                        <a href="admin.php">Login</a>
+                        <a href="admin.php" title='Login to the admin area.'>Login</a>
                     </li>
 
                     <?php

@@ -13,16 +13,7 @@ NEXT SCHEDULED WORK SESSION (DEBUGGING AND / OR INFRASTRUCTURE)
 Test in desktop editions.
 
 
-Remove HNT donation links (on project page too).
-
-
-In the light theme, lighten the content area background slightly, so text shows better.
-
-
-Fix things so "Reloading..." INSTANTLY shows when clicking between admin / user areas (like it used to...broke it last work session somehow, while fixing other things).
-
-
-Add title tags with tooltip descriptions to admin nav links, like we already have for user area nav links.
+Fix how the new sidebar nav system looks on mobile devices.
 
 
 Help / FAQ page link should be moved to bottom of sidebar, with a questionmark icon next to it. It ALSO should be a MODAL WINDOW (like 'more stats'), that is hidden in footer.php, so it can be opened in the user and admin areas just as easily. 
@@ -35,9 +26,6 @@ On admin login on safari browser, have a alert (like the cookies notice) saying 
 
 
 Add Linux desktop notes for building PHP binary in general documentation.
-
-
-Fix how the new sidebar nav system looks on mobile devices.
 
 
 Color coding for log entries and code examples has broken after the heavy upgrades. Figure out why, and fix it.

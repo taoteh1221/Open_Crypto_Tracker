@@ -374,20 +374,17 @@ scroll_start();
 
 
 function app_reloading_check(form_submission=0, new_location=0) {
+
         
     // Disable form updating in privacy mode
     if ( get_cookie('priv_toggle') == 'on' && form_submission == 1 ) {
     alert('Submitting data is not allowed in privacy mode.');
     return 'no'; // WE NORMALLY DON'T RETURN DATA HERE BECAUSE WE ARE REFRESHING OR SUBMITTING, SO WE CANNOT USE RETURN FALSE RELIABLY
     }
-    else if ( new_location != 0 ) {
-    
-       // If this is an ADMIN submenu section, AND we are NOT in the admin area,
-       // AND no iframe URL has been set yet, don't reload / load new page yet (we want to show the submenu options first)
-       if ( !is_admin && new_location.split('#')[1] == 'admin_plugins' && iframe_url(admin_iframe_url) == null ) {
-       return;
-       }
-    
+    // If this is an ADMIN submenu section, AND we are NOT in the admin area,
+    // AND no iframe URL has been set yet, don't reload / load new page yet (we want to show the submenu options first)
+    else if ( new_location != 0 && !is_admin && new_location.split('#')[1] == 'admin_plugins' && iframe_url(admin_iframe_url) == null ) {
+    return;
     }
     else {
     app_reload(form_submission, new_location);
@@ -1073,7 +1070,7 @@ setTimeout(emulated_cron, 60000); // Re-check every minute (in milliseconds...cr
 
 
 function app_reload(form_submission, new_location) {
-    
+
     
     // Wait if anything is running in the background
     // (emulated cron / charts / news feeds / etc)
@@ -1090,7 +1087,6 @@ function app_reload(form_submission, new_location) {
     else if ( background_tasks_status == 'done' ) {
     
     clearTimeout(reload_recheck);
-    
     
         if ( form_submission == 0 || new_location != 0 || form_submit_queued == true ) {
              
@@ -1803,25 +1799,40 @@ function auto_reload() {
                 }
                 else {
                    
-               	set_cookie("coin_reload", time, 365);
+                set_cookie("coin_reload", time, 365);
                	
-    				int_time = time - 1; // Remove a second for the 1000 millisecond (1 second) recheck interval
+    			 int_time = time - 1; // Remove a second for the 1000 millisecond (1 second) recheck interval
+    			
     			
                 	reload_countdown = setInterval(function () {
+                    
+                    round_min = Math.floor(int_time / 60);
+                    	
+                    sec = ( int_time - (round_min * 60) );
+                    	
+                    	
+                    	// "00:00" formatting...
+                    	
+                         if ( round_min < 10 ) {
+                         round_min = '0' + round_min;
+                         }
+                    	
+                    	
+                         if ( sec < 10 ) {
+                         sec = '0' + sec;
+                         }
                           
                     
                     	if ( int_time >= 60 ) {
+                              
                     
-                    	round_min = Math.floor(int_time / 60);
-                    	sec = ( int_time - (round_min * 60) );
-                    
-                   	     $("span.countdown_notice").html("<b>(auto-reload in " + round_min + " minutes " + sec + " seconds)</b>"); // Main pages
-                   	     $("span.countdown_notice_modal").html("<b>(auto-reload in " + round_min + " minutes " + sec + " seconds)</b>"); // Modal pages
+                   	     $("span.countdown_notice").html("<b>(auto-reload: " + round_min + ":" + sec + ")</b>"); // Main pages
+                   	     $("span.countdown_notice_modal").html("<b>(auto-reload: " + round_min + ":" + sec + ")</b>"); // Modal pages
                       
                     	}
                     	else {
-                    	$("span.countdown_notice").html("<b>(auto-reload in " + int_time + " seconds)</b>"); // Main pages
-                    	$("span.countdown_notice_modal").html("<b>(auto-reload in " + int_time + " seconds)</b>"); // Modal pages
+                    	$("span.countdown_notice").html("<b>(auto-reload: 00:" + sec + ")</b>"); // Main pages
+                    	$("span.countdown_notice_modal").html("<b>(auto-reload: 00:" + sec + ")</b>"); // Modal pages
                     	}
             				
             				if ( int_time == 0 ) {
