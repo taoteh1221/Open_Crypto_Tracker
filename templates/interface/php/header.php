@@ -442,7 +442,6 @@ header('Access-Control-Allow-Origin: ' . $app_host_address);
 	<script>
 	// Highlightjs configs
 	hljs.configure({useBR: false}); // Don't use  <br /> between lines
-	hljs.initHighlightingOnLoad(); // Load on page load
 	</script>
 	
 

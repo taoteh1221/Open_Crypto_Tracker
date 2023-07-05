@@ -62,7 +62,7 @@ random_tips();
 	
 	
      // Monitor admin iframes for auto-height adjustment WHEN THEY SHOW
-     reset_iframe_heights();
+     monitor_iframe_heights();
 
 	/////////////////////////////////////////////////////////////////////////////////////////////////////
 	
@@ -783,6 +783,9 @@ privacy_mode();
 
 // Sort the portfolio AFTER checking for privacy mode
 sorting_portfolio_table();
+
+// Highlightjs
+load_highlightjs();
 
 
 	/////////////////////////////////////////////////////////////////////////////////////////////////////

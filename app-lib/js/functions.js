@@ -289,6 +289,24 @@ x = document.forms[form_id][field].value;
 /////////////////////////////////////////////////////////////
 
 
+function load_highlightjs(id=false) {
+
+     if ( id == false ) {
+       document.querySelectorAll('pre code').forEach((elm) => {
+         hljs.highlightElement(elm);
+       });
+     }
+     else {
+     hljs.highlightElement( document.getElementById(id) );
+     //hljs.highlightBlock();
+     }
+
+}
+
+
+/////////////////////////////////////////////////////////////
+
+
 function charts_loading_check() {
 	
 //console.log('loaded charts = ' + charts_loaded.length + ', all charts = ' + charts_num);
@@ -389,36 +407,6 @@ function app_reloading_check(form_submission=0, new_location=0) {
     else {
     app_reload(form_submission, new_location);
     }
-
-}
-
-
-/////////////////////////////////////////////////////////////
-
-
-function reset_iframe_heights() {
-
-
-     iframe_height_adjuster = new IntersectionObserver(entries => {
-         
-         entries.forEach(entry => {
-           
-         const intersecting = entry.isIntersecting;
-           
-             if ( intersecting ) {
-             iframe_height_adjust(entry.target);
-             //console.log(entry.target.id + ' showing.');
-             }
-             
-         });
-     
-     });
-     
-     
-    $(".admin_iframe").each(function(){
-    iframe_height_adjuster.observe(this);
-    });
-    
 
 }
 
@@ -905,6 +893,48 @@ function scroll_start(direction='defaults', elm=false) {
      
      }, 250);
      
+}
+
+
+/////////////////////////////////////////////////////////////
+
+
+function monitor_iframe_heights() {
+
+
+     iframe_height_adjuster = new IntersectionObserver(entries => {
+         
+         entries.forEach(entry => {
+           
+         const is_intersecting = entry.isIntersecting;
+           
+             // If this element has an ID attribute set, AND IS SHOWING IN BROWSER VIEWPORT
+             if ( is_intersecting && typeof entry.target.id != 'undefined' ) {
+                  
+                  // On iframe load
+                  document.getElementById(entry.target.id).addEventListener("load", function() {
+                       
+                       // Wait 1 second AFTER iframe load, then adjust height	
+                       // (to let iframe top / height 'register' with browser)
+     			   setTimeout(function(){
+                       iframe_height_adjust(entry.target);
+                       //console.log(entry.target.id + ' showing.');
+     		        }, 1000);
+     		        
+                  });
+				
+             }
+             
+         });
+     
+     });
+     
+     
+    $(".admin_iframe").each(function(){
+    iframe_height_adjuster.observe(this);
+    });
+    
+
 }
 
 
@@ -1553,8 +1583,13 @@ not_whole_num = (log_lines - Math.floor(log_lines)) !== 0;
    		
    			     // Wait 4 seconds for it to fully load in the html element, then set scroll to bottom	
 				setTimeout(function(){
+				     
 				log_area.scrollTop(log_area[0].scrollHeight);
+
+                    load_highlightjs(elm_id);
+				
 				$('#' + elm_id + '_alert').text('');
+
 				}, 4000);
 	
     		}

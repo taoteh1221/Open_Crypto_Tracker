@@ -13,7 +13,7 @@ NEXT SCHEDULED WORK SESSION (DEBUGGING AND / OR INFRASTRUCTURE)
 Test in desktop editions.
 
 
-Fix how the new sidebar nav system looks on mobile devices.
+On admin login on safari browser, have a alert (like the cookies notice) saying safari is not supported in the admin interface.
 
 
 Help / FAQ page link should be moved to bottom of sidebar, with a questionmark icon next to it. It ALSO should be a MODAL WINDOW (like 'more stats'), that is hidden in footer.php, so it can be opened in the user and admin areas just as easily. 
@@ -22,16 +22,10 @@ Help / FAQ page link should be moved to bottom of sidebar, with a questionmark i
 Privacy mode toggle should also be moved to bottom of sidebar.
 
 
-On admin login on safari browser, have a alert (like the cookies notice) saying safari is not supported in the admin interface.
-
-
 Add Linux desktop notes for building PHP binary in general documentation.
 
 
-Color coding for log entries and code examples has broken after the heavy upgrades. Figure out why, and fix it.
-
-
-For the domain header spoofing check, try writing the test file AS EARLY AS POSSIBLE in the runtime, and check it at the last second when inits / configs are done (and feature logic is about to run). Besides what we already have planned to fix the header domain spoofing attack check, since we never run the check more than once every 24 hours, add a 5 second sleep RIGHT BEFORE WE CHECK THE FILE WE WROTE. Set a var with the full file path when creating the check file, and delete it in the footer logic (since w only run this check in UI runtimes).
+Fix how the new sidebar nav system looks on mobile devices.
 
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
