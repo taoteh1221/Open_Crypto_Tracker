@@ -94,44 +94,6 @@ var $array1 = array();
 	////////////////////////////////////////////////////////////////////////////////////////////////
 		
 		
-	function hnt_addr_bal($address) {
-		 
-	global $this_plug, $ct_conf, $plug_conf, $ct_gen, $ct_var, $ct_cache;
-		
-	// Take into account previous runtime (over start of runtime), and give 3 minutes wiggle room
-	$recache = ( $plug_conf[$this_plug]['alerts_freq_max'] >= 3 ? ($plug_conf[$this_plug]['alerts_freq_max'] - 3) : $plug_conf[$this_plug]['alerts_freq_max'] );
-		
-	$url = 'https://api.helium.io/v1/accounts/'.$address;
-			 
-	$response = @$ct_cache->ext_data('url', $url, $recache);
-			 
-	$data = json_decode($response, true);
-			 
-	$data = $data['data'];
-		   
-		   
-		if ( isset($data['balance']) ) {
-		return $ct_var->num_to_str( $data['balance'] / 100000000 ); // Convert bones to HNT
-		}
-		elseif ( !isset($data['address']) ) {
-			
-    	     $ct_gen->log(
-    				'ext_data_error',
-    				'HNT address balance retrieval failed in the "' . $this_plug . '" plugin, no API data received'
-    				);
-    	
-		return 'error';
-		
-		}
-		
-		
-	}
-		
-		
-	////////////////////////////////////////////////////////////////////////////////////////////////
-	////////////////////////////////////////////////////////////////////////////////////////////////
-		
-		
 	function sol_addr_bal($address, $spl_token=false) {
 		 
 	global $this_plug, $ct_conf, $plug_conf, $ct_gen, $ct_var, $ct_cache;

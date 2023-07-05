@@ -4,6 +4,7 @@
 
 /////////////////////////////////////////////////////////////
 
+
 function force_2_digits(num) {
 return ("0" + num).slice(-2);
 }
@@ -122,18 +123,6 @@ const all_autosize_textareas = document.querySelectorAll("[data-autoresize]");
 /////////////////////////////////////////////////////////////
 
 
-function set_cookie(cname, cvalue, exdays) {
-d = new Date();
-d.setTime(d.getTime() + (exdays*24*60*60*1000));
-is_secure = app_edition == 'server' ? ' Secure' : '';
-expires = "expires="+d.toUTCString();
-document.cookie = cname + "=" + cvalue + "; " + expires + "; SameSite=Strict;" + is_secure;
-}
-
-
-/////////////////////////////////////////////////////////////
-
-
 function store_scroll_position() {
 
 // IN CASE we are loading / POSTING DATA ON a different start page than the portfolio page,
@@ -154,6 +143,40 @@ sort_target = $(node).find(".app_sort_filter").text();
 
 // Remove any commas from number sorting
 return sort_target.replace(/,/g, '');
+
+}
+
+
+/////////////////////////////////////////////////////////////
+
+
+function iframe_url(name, val=null, mode='get') {
+
+     if ( mode == 'get' ) {
+     return localStorage.getItem(name);
+     }
+     else if ( mode == 'set' ) {
+     localStorage.setItem(name, val);
+     }
+     else if ( mode == 'delete' ) {
+     localStorage.removeItem(name);
+     }
+
+}
+
+
+/////////////////////////////////////////////////////////////
+
+
+function set_cookie(cname, cvalue, exdays) {
+     
+d = new Date();
+d.setTime(d.getTime() + (exdays*24*60*60*1000));
+
+is_secure = app_edition == 'server' ? ' Secure' : '';
+expires = "expires="+d.toUTCString();
+
+document.cookie = cname + "=" + cvalue + "; " + expires + "; SameSite=Strict;" + is_secure;
 
 }
 
@@ -202,7 +225,8 @@ $(topElement).addClass(CssClass);
             function() {
                  $(this).addClass(CssClass);
                  add_css_class_recursively($(this), CssClass);
-            });
+            }
+    );
             
 }
 
@@ -220,6 +244,123 @@ $("#coins_table").find("th:eq("+col+")").trigger("sort");
     // Reverse the sort, if it's decending (1)
     if ( priv_pmode != 'on' && sorted_asc_desc > 0 ) {
     $("#coins_table").find("th:eq("+col+")").trigger("sort");
+    }
+
+}
+
+
+/////////////////////////////////////////////////////////////
+
+
+function cron_run_check() {
+	
+//console.log('loaded charts = ' + charts_loaded.length + ', all charts = ' + charts_num);
+
+	if ( cron_already_ran == true ) {
+	return 'done';
+	}
+	else {
+	background_loading_notices("Checking / Running Scheduled Tasks...");
+	$("#background_loading").show(250); // 0.25 seconds
+	return 'active';
+	}
+
+}
+
+
+/////////////////////////////////////////////////////////////
+
+
+function validate_form(form_id, field) {
+	
+x = document.forms[form_id][field].value;
+
+  if (x == "") {
+  alert(field + " must be populated.");
+  return false;
+  }
+  else {
+  $("#" + form_id).submit();
+  }
+  
+}
+
+
+/////////////////////////////////////////////////////////////
+
+
+function load_highlightjs(id=false) {
+
+     if ( id == false ) {
+       document.querySelectorAll('pre code').forEach((elm) => {
+         hljs.highlightElement(elm);
+       });
+     }
+     else {
+     hljs.highlightElement( document.getElementById(id) );
+     //hljs.highlightBlock();
+     }
+
+}
+
+
+/////////////////////////////////////////////////////////////
+
+
+function charts_loading_check() {
+	
+//console.log('loaded charts = ' + charts_loaded.length + ', all charts = ' + charts_num);
+
+    // NOT IN ADMIN AREA (UNLIKE CRON EMULATION)
+	if ( charts_loaded.length >= charts_num || is_admin == true ) {
+	return 'done';
+	}
+	else {
+	background_loading_notices("Loading Charts...");
+	$("#background_loading").show(250); // 0.25 seconds
+	return 'active';
+	}
+
+}
+
+
+/////////////////////////////////////////////////////////////
+
+
+function feeds_loading_check() {
+	
+//console.log('loaded feeds = ' + feeds_loaded.length + ', all feeds = ' + feeds_num);
+
+    // NOT IN ADMIN AREA (UNLIKE CRON EMULATION)
+	if ( feeds_loaded.length >= feeds_num || is_admin == true ) {
+	return 'done';
+	}
+	else {
+	background_loading_notices("Loading News Feeds...");
+	$("#background_loading").show(250); // 0.25 seconds
+	return 'active';
+	}
+
+}
+
+
+/////////////////////////////////////////////////////////////
+
+
+function get_scroll_position(tracing) {
+
+	// If we are using a different start page than the portfolio page,
+	// RETRIEVE any stored scroll position we were at before the page reload
+    if ( $(location).attr('hash') != '' && !isNaN( localStorage.getItem(scroll_position_storage) ) ) {
+        
+    	$('html, body').animate({
+       	scrollTop: localStorage.getItem(scroll_position_storage)
+    	}, 'slow');
+    		
+    }
+    // Reset if we're NOT starting on a secondary page
+    else {
+	localStorage.setItem(scroll_position_storage, 0);
     }
 
 }
@@ -246,52 +387,27 @@ scroll_start();
 
 }
 
-
-/////////////////////////////////////////////////////////////
-
-
-function reset_iframe_heights() {
-
-
-     iframe_height_adjuster = new IntersectionObserver(entries => {
-         
-         entries.forEach(entry => {
-           
-         const intersecting = entry.isIntersecting;
-           
-             if ( intersecting ) {
-             iframe_height_adjust(entry.target);
-             //console.log(entry.target.id + ' showing.');
-             }
-             
-         });
-     
-     });
-     
-     
-    $(".admin_iframe").each(function(){
-    iframe_height_adjuster.observe(this);
-    });
-    
-
-}
-
-
-/////////////////////////////////////////////////////////////
-
-
-function validate_form(form_id, field) {
 	
-x = document.forms[form_id][field].value;
+/////////////////////////////////////////////////////////////
 
-  if (x == "") {
-  alert(field + " must be populated.");
-  return false;
-  }
-  else {
-  $("#" + form_id).submit();
-  }
-  
+
+function app_reloading_check(form_submission=0, new_location=0) {
+
+        
+    // Disable form updating in privacy mode
+    if ( get_cookie('priv_toggle') == 'on' && form_submission == 1 ) {
+    alert('Submitting data is not allowed in privacy mode.');
+    return 'no'; // WE NORMALLY DON'T RETURN DATA HERE BECAUSE WE ARE REFRESHING OR SUBMITTING, SO WE CANNOT USE RETURN FALSE RELIABLY
+    }
+    // If this is an ADMIN submenu section, AND we are NOT in the admin area,
+    // AND no iframe URL has been set yet, don't reload / load new page yet (we want to show the submenu options first)
+    else if ( new_location != 0 && !is_admin && new_location.split('#')[1] == 'admin_plugins' && iframe_url(admin_iframe_url) == null ) {
+    return;
+    }
+    else {
+    app_reload(form_submission, new_location);
+    }
+
 }
 
 
@@ -428,131 +544,6 @@ return false;
 
 }
 
-	
-/////////////////////////////////////////////////////////////
-
-
-function app_reloading_check(form_submission=0, new_location=0) {
-        
-    // Disable form updating in privacy mode
-    if ( get_cookie('priv_toggle') == 'on' && form_submission == 1 ) {
-    alert('Submitting data is not allowed in privacy mode.');
-    return 'no'; // WE NORMALLY DON'T RETURN DATA HERE BECAUSE WE ARE REFRESHING OR SUBMITTING, SO WE CANNOT USE RETURN FALSE RELIABLY
-    }
-    else {
-    app_reload(form_submission, new_location);
-    }
-
-}
-
-
-/////////////////////////////////////////////////////////////
-
-
-function cron_run_check() {
-	
-//console.log('loaded charts = ' + charts_loaded.length + ', all charts = ' + charts_num);
-
-	if ( cron_already_ran == true ) {
-	return 'done';
-	}
-	else {
-	background_loading_notices("Checking / Running Scheduled Tasks...");
-	$("#background_loading").show(250); // 0.25 seconds
-	return 'active';
-	}
-
-}
-
-
-/////////////////////////////////////////////////////////////
-
-
-function charts_loading_check() {
-	
-//console.log('loaded charts = ' + charts_loaded.length + ', all charts = ' + charts_num);
-
-    // NOT IN ADMIN AREA (UNLIKE CRON EMULATION)
-	if ( charts_loaded.length >= charts_num || is_admin == true ) {
-	return 'done';
-	}
-	else {
-	background_loading_notices("Loading Charts...");
-	$("#background_loading").show(250); // 0.25 seconds
-	return 'active';
-	}
-
-}
-
-
-/////////////////////////////////////////////////////////////
-
-
-function feeds_loading_check() {
-	
-//console.log('loaded feeds = ' + feeds_loaded.length + ', all feeds = ' + feeds_num);
-
-    // NOT IN ADMIN AREA (UNLIKE CRON EMULATION)
-	if ( feeds_loaded.length >= feeds_num || is_admin == true ) {
-	return 'done';
-	}
-	else {
-	background_loading_notices("Loading News Feeds...");
-	$("#background_loading").show(250); // 0.25 seconds
-	return 'active';
-	}
-
-}
-
-
-/////////////////////////////////////////////////////////////
-
-
-function get_scroll_position(tracing) {
-
-	// If we are using a different start page than the portfolio page,
-	// RETRIEVE any stored scroll position we were at before the page reload
-    if ( $(location).attr('hash') != '' && !isNaN( localStorage.getItem(scroll_position_storage) ) ) {
-        
-    	$('html, body').animate({
-       	scrollTop: localStorage.getItem(scroll_position_storage)
-    	}, 'slow');
-    		
-    }
-    // Reset if we're NOT starting on a secondary page
-    else {
-	localStorage.setItem(scroll_position_storage, 0);
-    }
-
-}
-
-
-/////////////////////////////////////////////////////////////
-
-
-function is_msie() {
-
-// MSIE 10 AND UNDER
-ua = window.navigator.userAgent;
-msie = ua.indexOf('MSIE');
-
-	if (msie > 0) {
-   return true;
-   }
-
-// MSIE 11
-ua = window.navigator.userAgent;
-trident = ua.indexOf('Trident');
-
-	if (trident > 0) {
-   return true;
-   }
-
-// If we get this far, return false
-return false;
-	
-}
-
 
 /////////////////////////////////////////////////////////////
 
@@ -667,7 +658,7 @@ var result = ((elmBottom <= docViewBottom) && (elmTop >= docViewTop));
 var top = Math.round(docViewTop);
 
 // Emulating sticky CSS positioning
-$(elm).css({ "top": top + 'px' });
+$(elm).attr('style', 'top: ' + top + 'px !important');
     
 }
 
@@ -903,6 +894,96 @@ function scroll_start(direction='defaults', elm=false) {
      }, 250);
      
 }
+
+
+/////////////////////////////////////////////////////////////
+
+
+function monitor_iframe_heights() {
+
+
+     iframe_height_adjuster = new IntersectionObserver(entries => {
+         
+         entries.forEach(entry => {
+           
+         const is_intersecting = entry.isIntersecting;
+           
+             // If this element has an ID attribute set, AND IS SHOWING IN BROWSER VIEWPORT
+             if ( is_intersecting && typeof entry.target.id != 'undefined' ) {
+                  
+                  // On iframe load
+                  document.getElementById(entry.target.id).addEventListener("load", function() {
+                       
+                       // Wait 1 second AFTER iframe load, then adjust height	
+                       // (to let iframe top / height 'register' with browser)
+     			   setTimeout(function(){
+                       iframe_height_adjust(entry.target);
+                       //console.log(entry.target.id + ' showing.');
+     		        }, 1000);
+     		        
+                  });
+				
+             }
+             
+         });
+     
+     });
+     
+     
+    $(".admin_iframe").each(function(){
+    iframe_height_adjuster.observe(this);
+    });
+    
+
+}
+
+
+/////////////////////////////////////////////////////////////
+
+
+function load_iframe(id, url=null) {
+
+var $iframe = $('#' + id);
+    
+    
+    // If the iframe exists in the current main page
+    if ($iframe.length) {
+         
+         
+         // Save the original frame src if not done yet
+         if ( !orig_iframe_src[id] ) {
+         orig_iframe_src[id] = $iframe.attr('src');
+         }
+         
+         
+         // If no URL set, AND current iframe src is not ALREADY the original src,
+         // then load it...otherwise skip
+         if ( url == null && $iframe.attr('src') != orig_iframe_src[id] ) {
+         url = orig_iframe_src[id];
+         }
+         else if ( url == null ) {
+         return;
+         }
+         
+         
+    $iframe.attr('src',url);
+    
+    // Reset any stored value (not needed after setting it)
+    iframe_url(admin_iframe_url, null, 'delete');
+
+    return false;
+
+    }
+    // Otherwise save the iframe data to use once the section loads
+    // (unless it's a null value [used on index links etc])
+    else if ( url != null ) {
+    iframe_url(admin_iframe_url, url, 'set');
+    }
+    
+    
+return true;
+
+}
    
 
 /////////////////////////////////////////////////////////////
@@ -1019,7 +1100,7 @@ setTimeout(emulated_cron, 60000); // Re-check every minute (in milliseconds...cr
 
 
 function app_reload(form_submission, new_location) {
-    
+
     
     // Wait if anything is running in the background
     // (emulated cron / charts / news feeds / etc)
@@ -1037,10 +1118,9 @@ function app_reload(form_submission, new_location) {
     
     clearTimeout(reload_recheck);
     
-    
-        if ( form_submission == 0 || new_location == 1 || form_submit_queued == true ) {
+        if ( form_submission == 0 || new_location != 0 || form_submit_queued == true ) {
              
-        var loading_message = new_location == 1 ? 'Loading...' : 'Reloading...';
+        var loading_message = new_location != 0 ? 'Loading...' : 'Reloading...';
             
         $("#app_loading").show(250, 'linear'); // 0.25 seconds
         $("#app_loading_span").html(loading_message);
@@ -1058,8 +1138,8 @@ function app_reload(form_submission, new_location) {
     
         // Reload, ONLY IF WE ARE NOT #ALREADY RELOADING# VIA SUBMITTING DATA (so we don't cancel data submission!),
         // OR IF WE ARE LOADING A #NEW# LOCATION
-        if ( form_submission == 0 && new_location == 1 ) {
-        // Do nothing, as we are already loading a new location
+        if ( form_submission == 0 && new_location != 0 ) {
+        window.location = new_location;
         }
         else if ( form_submission == 0 ) {
         window.location.reload(true); // Reload same location
@@ -1320,7 +1400,7 @@ function sorting_portfolio_table() {
     			theme : theme_selected, // theme "jui" and "bootstrap" override the uitheme widget option in v2.7+
     			textExtraction: sort_extraction,
     			widgets: ['zebra'],
-    		    headers: {
+    		     headers: {
     				
             			// disable sorting (we can use column number or the header class name)
             			'.no-sort' : {
@@ -1338,19 +1418,24 @@ function sorting_portfolio_table() {
 		
 		
 		// add parser through the tablesorter addParser method 
-		$.tablesorter.addParser({ 
+		$.tablesorter.addParser({
+		     
 			// set a unique id 
 			id: 'sortprices', 
-			is: function(s) { 
+			
 			// return false so this parser is not auto detected 
+			is: function(s) { 
 			return false; 
 			}, 
-			format: function(s) { 
+			
 			// format your data for normalization 
+			format: function(s) { 
 			return s.toLowerCase().replace(/\,/,'').replace(/ggggg/,'').replace(/\W+/,''); 
 			}, 
+			
 			// set type, either numeric or text 
-			type: 'numeric' 
+			type: 'numeric',
+			
 		}); 
 	
 	
@@ -1496,16 +1581,15 @@ not_whole_num = (log_lines - Math.floor(log_lines)) !== 0;
       	// Finished looping
     		if (loop == data_length) {
    		
-   			// Wait 4 seconds for it to fully load in the html element, then set scroll to bottom	
+   			     // Wait 4 seconds for it to fully load in the html element, then set scroll to bottom	
 				setTimeout(function(){
+				     
 				log_area.scrollTop(log_area[0].scrollHeight);
-					
-					// MSIE doesn't like highlightjs
-					if ( is_msie() == false ) {
-   				log_area.each(function(i, e) {hljs.highlightBlock(e)}); // Re-initialize highlighting text
-					}
-   			
+
+                    load_highlightjs(elm_id);
+				
 				$('#' + elm_id + '_alert').text('');
+
 				}, 4000);
 	
     		}
@@ -1750,25 +1834,40 @@ function auto_reload() {
                 }
                 else {
                    
-               	set_cookie("coin_reload", time, 365);
+                set_cookie("coin_reload", time, 365);
                	
-    				int_time = time - 1; // Remove a second for the 1000 millisecond (1 second) recheck interval
+    			 int_time = time - 1; // Remove a second for the 1000 millisecond (1 second) recheck interval
+    			
     			
                 	reload_countdown = setInterval(function () {
+                    
+                    round_min = Math.floor(int_time / 60);
+                    	
+                    sec = ( int_time - (round_min * 60) );
+                    	
+                    	
+                    	// "00:00" formatting...
+                    	
+                         if ( round_min < 10 ) {
+                         round_min = '0' + round_min;
+                         }
+                    	
+                    	
+                         if ( sec < 10 ) {
+                         sec = '0' + sec;
+                         }
                           
                     
                     	if ( int_time >= 60 ) {
+                              
                     
-                    	round_min = Math.floor(int_time / 60);
-                    	sec = ( int_time - (round_min * 60) );
-                    
-                   	     $("span.countdown_notice").html("<b>(auto-reload in " + round_min + " minutes " + sec + " seconds)</b>"); // Main pages
-                   	     $("span.countdown_notice_modal").html("<b>(auto-reload in " + round_min + " minutes " + sec + " seconds)</b>"); // Modal pages
+                   	     $("span.countdown_notice").html("<b>(auto-reload: " + round_min + ":" + sec + ")</b>"); // Main pages
+                   	     $("span.countdown_notice_modal").html("<b>(auto-reload: " + round_min + ":" + sec + ")</b>"); // Modal pages
                       
                     	}
                     	else {
-                    	$("span.countdown_notice").html("<b>(auto-reload in " + int_time + " seconds)</b>"); // Main pages
-                    	$("span.countdown_notice_modal").html("<b>(auto-reload in " + int_time + " seconds)</b>"); // Modal pages
+                    	$("span.countdown_notice").html("<b>(auto-reload: 00:" + sec + ")</b>"); // Main pages
+                    	$("span.countdown_notice_modal").html("<b>(auto-reload: 00:" + sec + ")</b>"); // Modal pages
                     	}
             				
             				if ( int_time == 0 ) {
@@ -1818,11 +1917,18 @@ function nav_menu($chosen_menu) {
      	// If the location.hash matches one of the links, use that as the active nav item.
      	// If no match is found, use the first link as the initial active nav item.
      	
-     	$active = $($links.filter('[href="' + $area_file + location.hash + '"]')[0] || $links[0]);
+     	$active = $($links.filter('[href="' + $area_file + window.location.hash + '"]')[0] || $links[0]);
+     	  
+     	    
+     	    // Show INITIAL nav element (IF NO MATCHING CONTENT FOR URL HASH FOUND)
+     	    if ( typeof $curr_content_id == 'undefined' ) {
+     	    $active.addClass('active');
+     	    }
      	
-     	$active.addClass('active'); // Show INITIAL nav element
      
      	$content = $($active[0].hash);
+     	
+     	//console.log('hash = ' + $active[0].hash)
      
          
      	    // Hide all other content
@@ -1887,9 +1993,13 @@ function nav_menu($chosen_menu) {
                                // Saves current page (if BROWSER closed BUT TAB still open),
                                // ONLY IF NO START PAGE IS EXPLICITLY SET!
                                if ( get_url_param('start_page') == null ) {
-                               window.location = $area_file + $curr_content_id; 
-                               // MAIN submit form too (also stores and updates chosen charts / news feeds / etc)
+                               
+                               // MAIN submit form (also stores and updates chosen charts / news feeds / etc)
                                $("#coin_amnts").attr('action', $area_file + $curr_content_id);
+                               
+                               // Page URL
+                               window.location = $area_file + $curr_content_id; 
+                               
                                }
                                   
                          }
@@ -1913,7 +2023,7 @@ function nav_menu($chosen_menu) {
      	    autoresize_update(); 
      	    
      	    });
-     	  
+     	    
      	
      	});
      	

@@ -9,7 +9,7 @@ ELEMENTS
 
 
 body, table, .long_list_even, div.tabdiv {
-background-color: #f2f2f2;
+background-color: #f7f7f7;
 color: #000;
 }
 
@@ -93,7 +93,7 @@ CLASSES
 /* Light theme drop-downs (in table data only) off white */
 td .custom-select {
 background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 4 5'%3e%3cpath fill='%231a1696' d='M2 0L0 2h4zm0 5L0 3h4z'/%3e%3c/svg%3e") no-repeat right .5rem center/8px 10px !important;
-background-color: #f2f2f2 !important;
+background-color: #f7f7f7 !important;
 width: 100% !important;
 }
 
@@ -230,7 +230,7 @@ border: 2px solid #606060;
 
 
 .countdown_notice, .countdown_notice_modal {
-background: #f2f2f2;
+background: #f7f7f7;
 }
 
 
@@ -301,7 +301,7 @@ border: 1px solid #066000;
 #admin_nav .dropdown-menu, #sidebar, #collapsed_sidebar {
 background: #ccc7c7 !important;
 border: 3px solid #808080 !important;
-color: black;
+color: black !important;
 }
 
 
@@ -311,7 +311,7 @@ border-left: 0px solid #ccc7c7 !important;
 border-top: 3px solid #808080 !important;
 border-right: 3px solid #808080 !important;
 border-bottom: 3px solid #808080 !important;
-color: black;
+color: black !important;
 }
 
 
@@ -328,17 +328,18 @@ border-left: 0px solid #bcafaf !important;
 #sidebar ul p,
 #sidebar p
 {
-color: black;
+color: black !important;
 }
 
 
 #sidebar ul li.sidebar-item a.active,
 .user-nav a.active,
-.admin-nav a.active
+.admin-nav a.active,
+#sidebar ul li.active a.nav-link.active
 {
 background-color: #606060 !important;
 color: white !important;
-border-radius: 3px;
+border-radius: 3px !important;
 }
 
 
@@ -347,16 +348,7 @@ border-radius: 3px;
 #collapsed_sidebar div.active,
 #sidebar a[aria-expanded="true"]
 {
-    background: #bcafaf;
-}
-
-
-#sidebar ul ul a:hover,
-#sidebar ul li.active a:hover,
-#sidebar ul li a:hover,
-#collapsed_sidebar .dropdown-menu a:hover
-{
-    background: #aaa2a2 !important;
+    background: #bcafaf !important;
 }
 
 
@@ -376,6 +368,16 @@ border: 3px solid #808080 !important;
 }
 
 
+#sidebar ul ul a:hover,
+#sidebar ul li.active a:hover,
+#sidebar ul li a:hover,
+#collapsed_sidebar .dropdown-menu a:hover,
+#sidebar ul li.active ul.dropdown-menu a.dropdown-item.secondary-select
+{
+    background: #aaa2a2 !important;
+}
+
+
 /* ---------------------------------------------------
     *COLLAPSED* SIDEBAR STYLE
 ----------------------------------------------------- */
@@ -392,7 +394,10 @@ color: black;
 ----------------------------------------------------- */
 
 
-.disable_click{
+#sidebar ul li.active a.nav-link.active.disable_click,
+#sidebar ul ul a.disable_click,
+.disable_click 
+{
 background: #ea6b1c !important;
 }
 

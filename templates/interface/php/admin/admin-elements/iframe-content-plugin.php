@@ -15,7 +15,7 @@ $header_link = $plug_conf[$this_plug]['ui_name'];
 
 ?>
         
-        <h3 style='padding-bottom: 10px;' class='bitcoin align_center'><a class='bitcoin' href='admin.php?iframe=<?=$ct_gen->admin_hashed_nonce('iframe_plugins')?>&section=plugins'>Plugins</a>: <?=$header_link?></h3>
+        <h3 style='padding-bottom: 10px;' class='bitcoin align_center'><a class='bitcoin custom-unstyle-dropdown-item' href='admin.php?iframe=<?=$ct_gen->admin_hashed_nonce('iframe_plugins')?>&section=plugins'>Plugins</a>: <?=$header_link?></h3>
         
         
         <?php
@@ -83,6 +83,22 @@ $header_link = $plug_conf[$this_plug]['ui_name'];
         }
 
 
-// DON'T LEAVE ANY WHITESPACE AFTER THE CLOSING PHP TAG!
+?>
+
+<script>
+
+// Highlight corrisponding sidebar menu entry
+
+var section_id = window.parent.location.href.split('#')[1];
+
+//console.log('parent doc location hash = ' + section_id);
+
+$("a.dropdown-item", window.parent.document).removeClass("secondary-select");
+          
+$('a[submenu-id="' + section_id + '_<?=$this_plug?>"]', window.parent.document).addClass("secondary-select");
+
+</script>
+
+<?php
 unset($this_plug);
 ?>

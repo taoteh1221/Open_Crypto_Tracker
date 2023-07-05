@@ -198,8 +198,6 @@ else {
             	
             	<br /><br /><b>Ethereum:</b> <br /><span class='underline_pointer' id='eth_donate' title='Click to show / hide address copying details.'>0x644343e8D0A4cF33eee3E54fE5d5B8BFD0285EF8</span>
             	
-            	<br /><br /><b>Helium:</b> <br /><span class='underline_pointer' id='hnt_donate' title='Click to show / hide address copying details.'>13xs559435FGkh39qD9kXasaAnB8JRF8KowqPeUmKHWU46VYG1h</span>
-            	
             	<br /><br /><b>Solana:</b> <br /><span class='underline_pointer' id='sol_donate' title='Click to show / hide address copying details.'>GvX4AU4V9atTBof9dT9oBnLPmPiz3mhoXBdqcxyRuQnU</span>
             	
             	<br /><br /><b>Github:</b> <br /><a href='https://github.com/sponsors/taoteh1221' target='_blank'>https://github.com/sponsors/taoteh1221</a>
@@ -344,74 +342,6 @@ else {
 			 	});
 			 	
             eth_shown = !eth_shown;
-            
-          }).hideBalloon();
-	
-	
-			
-			 // Info ballon only opens / closes when clicked (for a different UX on certain elements)
-	
-			var hnt_donate_content = '<h5 class="align_center yellow tooltip_title">Helium (HNT) Donation Address</h5>'
-			
-			+'<p id="copy_hnt_address" class="coin_info align_center pointer" style="white-space: nowrap;" onclick="copy_text(\'copy_hnt_address\', \'copy_hnt_address_alert\')">13xs559435FGkh39qD9kXasaAnB8JRF8KowqPeUmKHWU46VYG1h</p>'
-			
-			+'<p id="copy_hnt_address_alert" class="coin_info align_center bitcoin">(click address above, to copy to clipboard)</p>'
-			
-			+'<p class="coin_info align_center"><b>QR Code For Phones:</b></p>'
-			
-			+'<p class="coin_info align_center"><img src="templates/interface/media/images/auto-preloaded/hnt-donations.png" width="200" title="Helium (HNT) Donation Address" /></p>'
-			
-			+'<p> </p>';
-			
-			
-			// If the target of the click doesn't have the 'leave_open' class (clicking elsewhere on page)
-			$(document).click(function(e) {
-				
-				if ( hnt_shown ) {
-			
-    		 	var hnt_container = $("#hnt_donate");
-    		 	
-    		 	// Add 'leave_open' class to parent / all child elements reursively
-    		 	add_css_class_recursively( $(".hnt_click_to_open") , 'hnt_leave_open');
-
-    		 		if ( !hnt_container.is(e.target) && hnt_container.has(e.target).length === 0 && $(e.target).hasClass('hnt_leave_open') == false ) {
-        	 		hnt_container.hideBalloon();
-        	 		hnt_shown = false;
-    		 		}
-    		 		
-        	 	}
-    		 	
-			});
-			
-			
-			// Open / close via target element
-			 var hnt_shown = false;
-			 
-          $("#hnt_donate").on("click", function(e) {
-          	
-            hnt_shown ? $(this).hideBalloon() : $(this).showBalloon({
-            	
-			html: true,
-			position: "top",
-  			classname: 'hnt_click_to_open',
-			contents: hnt_donate_content,
-			css: {
-					fontSize: "<?=$default_font_size?>em",
-					minWidth: "450px",
-					padding: ".3rem .7rem",
-					border: "2px solid rgba(212, 212, 212, .4)",
-					borderRadius: "6px",
-					boxShadow: "3px 3px 6px #555",
-					color: "#eee",
-					backgroundColor: "#111",
-					opacity: "0.99",
-					zIndex: "999",
-					textAlign: "left"
-					}
-					
-			 	});
-			 	
-            hnt_shown = !hnt_shown;
             
           }).hideBalloon();
 	

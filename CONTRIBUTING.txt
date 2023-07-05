@@ -114,8 +114,6 @@ CONTRIBUTION GUIDELINES (FOR DEVELOPERS):
 !!!!
 ===> Think over what other "FAQ page / TROUBLESHOOTING.txt" entries would be helpful.
 !!!!
-===> Zingchart UPGRADES ARE FROZEN @ v2.9.10, DUR TO AN INTRODUCED RENDERING BUG
-!!!!
 ===> Try to do tests / UX / QA / debugging before adding new infrastructure
 ===> (find every flaming turd before we start a dumpster fire!).
 !!!!

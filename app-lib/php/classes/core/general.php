@@ -131,22 +131,6 @@ var $ct_array = array();
    ////////////////////////////////////////////////////////
    
    
-   function is_msie() {
-   
-      if ( preg_match("/msie/i", $_SERVER['HTTP_USER_AGENT']) || preg_match("/trident/i", $_SERVER['HTTP_USER_AGENT']) ) {
-      return true;
-      }
-      else {
-      return false;
-      }
-   
-   }
-   
-   
-   ////////////////////////////////////////////////////////
-   ////////////////////////////////////////////////////////
-   
-   
    function dir_size($dir) {
    
    $size = 0;
@@ -2556,11 +2540,11 @@ var $ct_array = array();
         // domain check
         $domain_check_test_url = $set_url . $domain_check_filename;
         
-        sleep(1); // Sleep 1 second, to complete the FILE WRITE for the check afterwards
+        sleep(4); // Sleep 4 seconds, to complete the FILE WRITE before the check afterwards
         
         $domain_check_test = @$ct_cache->ext_data('url', $domain_check_test_url, 0);
        
-        sleep(1); // Sleep 1 second, to complete the CHECK before deleting afterwards
+        sleep(4); // Sleep 4 seconds, to complete the CHECK before deleting afterwards
         
         // Delete domain check test file
         unlink($base_dir . '/' . $domain_check_filename);

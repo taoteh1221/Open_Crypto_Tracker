@@ -617,7 +617,7 @@ $ct_conf['charts_alerts']['tracked_mrkts'] = array(
 					
 					
 					// HNT
-					'hnt-2' => 'binance_us||usd||both',
+					'hnt-2' => 'gateio||usdt||both',
 					'hnt-3' => 'gateio||eth||none',
 					
 					
@@ -888,7 +888,6 @@ $ct_conf['power']['crypto_pair_pref_mrkts'] = array(
                							'uni' => 'binance',  // WAY MORE volume , WAY BETTER price discovery than ALL alternatives
                							'mkr' => 'binance',  // WAY MORE volume , WAY BETTER price discovery than ALL alternatives
                							'ray' => 'coingecko_btc',  // coingecko global average price IN BTC
-               							'hnt' => 'coingecko_btc',  // coingecko global average price IN BTC
 							               );
 
 
@@ -3316,13 +3315,7 @@ $ct_conf['assets'] = array(
                                                     ),
 
                                                     
-                                    'usd' => array(
-                                    	 'binance_us' => 'HNTUSD',
-                                                    ),
-
-                                                    
                                     'usdt' => array(
-                                    	'binance_us' => 'HNTUSDT',
                                         'hotbit' => 'HNT_USDT',
                                         'gateio' => 'HNT_USDT',
                                         'wazirx' => 'hntusdt',

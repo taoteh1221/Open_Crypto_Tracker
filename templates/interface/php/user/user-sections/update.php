@@ -22,11 +22,11 @@
 		var average_paid_notes = '<h5 class="align_center yellow tooltip_title">Calculating Average <?=strtoupper($ct_conf['gen']['btc_prim_currency_pair'])?> Price Paid Per Token</h5>'
 			
 			
-			+'<p class="coin_info extra_margins" style="white-space: normal; max-width: 600px;"><span class="green">Total <?=strtoupper($ct_conf['gen']['btc_prim_currency_pair'])?> Paid For All Tokens</span> <span class="blue">&#247;</span> <span class="bitcoin">Total Tokens Purchased</span> <span class="blue">=</span> <span class="bitcoin">Average <?=strtoupper($ct_conf['gen']['btc_prim_currency_pair'])?> Price Paid Per Token</span></p>'
+			+'<p class="coin_info extra_margins" style="white-space: normal; max-width: 600px;"><span class="green">Total <?=strtoupper($ct_conf['gen']['btc_prim_currency_pair'])?> Paid For All Tokens</span> <span class="blue">&#247;</span> <span class="yellow">Total Tokens Purchased</span> <span class="blue">=</span> <span class="bitcoin">Average <?=strtoupper($ct_conf['gen']['btc_prim_currency_pair'])?> Price Paid Per Token</span></p>'
 			
 			+'<p class="coin_info extra_margins" style="white-space: normal; max-width: 600px;">The RESULT of the above calculation <i>remains the same even AFTER you sell ANY amount, ONLY if you don\'t buy more between sells</i>. Everytime you buy more <i>after selling some</i>, re-calculate your Average <?=strtoupper($ct_conf['gen']['btc_prim_currency_pair'])?> Price Paid Per Token with this formula:</p>'
 			
-			+'<p class="coin_info extra_margins" style="white-space: normal; max-width: 600px;">(<span class="green">Total <?=strtoupper($ct_conf['gen']['btc_prim_currency_pair'])?> Paid For All Tokens</span> <span class="blue">-</span> <span class="red">Total <?=strtoupper($ct_conf['gen']['btc_prim_currency_pair'])?> Received From All Sold Tokens</span>) <span class="blue">&#247;</span> <span class="bitcoin">Total Remaining Tokens Still Held</span> <span class="blue">=</span> <span class="bitcoin">Average <?=strtoupper($ct_conf['gen']['btc_prim_currency_pair'])?> Price Paid Per Token</span></p>'
+			+'<p class="coin_info extra_margins" style="white-space: normal; max-width: 600px;">(<span class="green">Total <?=strtoupper($ct_conf['gen']['btc_prim_currency_pair'])?> Paid For All Tokens</span> <span class="blue">-</span> <span class="red">Total <?=strtoupper($ct_conf['gen']['btc_prim_currency_pair'])?> Received From All Sold Tokens</span>) <span class="blue">&#247;</span> <span class="yellow">Total Remaining Tokens Still Held</span> <span class="blue">=</span> <span class="bitcoin">Average <?=strtoupper($ct_conf['gen']['btc_prim_currency_pair'])?> Price Paid Per Token</span></p>'
 			
 			+'<p class="coin_info extra_margins" style="white-space: normal; max-width: 600px;"><span class="bitcoin">PRO TIP:</span> <br /> When buying / selling, keep quick and dirty (yet clear) textual records of... <br />a) How much you bought / sold of what<br />b) What you paid / received in <?=strtoupper($ct_conf['gen']['btc_prim_currency_pair'])?> value<br />c) What / where you traded <br />d) Backup to USB Stick / NAS / DropBox / GoogleDrive / OneDrive / AmazonBucket <br />e) Now you\'re ready for tax season, to create spreadsheets from this data</p>'
 			
@@ -120,7 +120,7 @@
 				
 				
 				
-	<p style='margin-top: 20px;'><a style='font-weight: bold; font-size: 25px;' class='red clear_both' href='javascript: show_more("disclaimer");' title='Click to show disclaimer.'>Disclaimer!</a> &nbsp; 👈 </p>
+	<p style='margin-top: 10px;'><a style='font-weight: bold; font-size: 25px;' class='red clear_both' href='javascript: show_more("disclaimer");' title='Click to show disclaimer.'>Disclaimer!</a> &nbsp; 👈 </p>
 	    
 	    
 	    

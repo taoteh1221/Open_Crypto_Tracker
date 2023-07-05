@@ -12,9 +12,13 @@
 
 <div class='full_width_wrapper align_center'>
 
-<div style='min-height: 25px;'></div>
+
+     <div style='min-height: 5px;'></div>
     
-			<span id='pm_link' class='bitcoin' onclick='privacy_mode(true);' title='Turn privacy mode ON. This encrypts / hides RENDERED personal portfolio data with the PIN you setup (BUT DOES #NOT# encrypt RAW source code). It ALSO disables opposite-clicking / data submission, and logs out any active admin login.'>Privacy Mode Is Off</span> 
+    
+	<span id='pm_link' class='bitcoin' onclick='privacy_mode(true);' title='Turn privacy mode ON. This encrypts / hides RENDERED personal portfolio data with the PIN you setup (BUT DOES #NOT# encrypt RAW source code). It ALSO disables opposite-clicking / data submission, and logs out any active admin login.'>Privacy Mode Is Off</span> 
+	
+	
 			<?php
 			if ( is_array($sel_opt['alert_percent']) && sizeof($sel_opt['alert_percent']) > 4 ) { // Backwards compatibility (reset if user data is not this many array values)
 				
@@ -59,7 +63,11 @@
 			$refresh_link_title = 'The current real-time exchange data re-cache (refresh from live data instead of cached data) setting in the Admin Config GENERAL section is set to '. $ct_conf['power']['last_trade_cache_time'] . ' minute(s).';
 			}
 			
-			?>  &nbsp; &nbsp; &nbsp; <a href='javascript:app_reloading_check();' class='bitcoin' style='font-weight: bold;' title='<?=$refresh_link_title?>'>Refresh</a> <span><b>(<?=$ct_conf['power']['last_trade_cache_time']?> minute cache)</b></span>
+			?>  
+			
+			
+			&nbsp; &nbsp; &nbsp; <a href='javascript:app_reloading_check();' class='bitcoin' style='font-weight: bold;' title='<?=$refresh_link_title?>'>Refresh</a> <span><b>(<?=$ct_conf['power']['last_trade_cache_time']?> minute cache)</b></span>
+			
 			
 			 &nbsp;<select title='Auto-Refresh MAY NOT WORK properly on mobile devices (phone / laptop / tablet / etc), or inactive tabs.' class='browser-default custom-select' name='select_auto_refresh' id='select_auto_refresh' onchange='
 			 reload_time = this.value;
@@ -70,9 +78,14 @@
 				<option value='600' <?=( $_COOKIE['coin_reload'] == '600' ? 'selected' : '' )?>> Every 10 Minutes </option>
 				<option value='900' <?=( $_COOKIE['coin_reload'] == '900' ? 'selected' : '' )?>> Every 15 Minutes </option>
 				<option value='1800' <?=( $_COOKIE['coin_reload'] == '1800' ? 'selected' : '' )?>> Every 30 Minutes </option>
-			</select> &nbsp;<span id='reload_notice' class='red'></span>
+			</select> 
+			
+			
+			&nbsp;<span id='reload_notice' class='red'></span>
+					
 					
 			<p>
+                 
                             
 <?php
 // Start outputting results
@@ -97,7 +110,8 @@ if ( $_POST['submit_check'] == 1 || $run_csv_import || $ui_cookies ) {
     </tr>
   </thead>
  <tbody>
- 
+
+
 <?php
 
 	if ( $_POST['submit_check'] == 1 ) {
@@ -110,69 +124,70 @@ if ( $_POST['submit_check'] == 1 || $run_csv_import || $ui_cookies ) {
     		    if ( $_POST['btc_mrkt'] > 0 ) {
     		    $btc_mrkt = ($_POST['btc_mrkt'] - 1);
     		    }
-    			else {
-    			$btc_mrkt = 0;
-    			}
+    		    else {
+    		    $btc_mrkt = 0;
+    		    }
 		
-									
-									foreach ( $_POST as $key => $val ) {
+              
+              foreach ( $_POST as $key => $val ) {
 								
-										if ( preg_match("/_amnt/i", $key) ) {
-										
-										$held_amnt = $ct_var->rem_num_format($val);
-										$asset_symb = strtoupper(preg_replace("/_amnt/i", "", $key));
-										$sel_pair = ($_POST[strtolower($asset_symb).'_pair']);
-										
-										   // Avoided possible null equivelent issue by upping post value +1 in case zero, so -1 here
+               	if ( preg_match("/_amnt/i", $key) ) {
+               	
+               	$held_amnt = $ct_var->rem_num_format($val);
+               	$asset_symb = strtoupper(preg_replace("/_amnt/i", "", $key));
+               	$sel_pair = ($_POST[strtolower($asset_symb).'_pair']);
+               	
+               	   // Avoided possible null equivelent issue by upping post value +1 in case zero, so -1 here
     	                                   // (we go by array index number here, rather than 1 or higher for html form values)
-										   if ( $_POST[strtolower($asset_symb).'_mrkt'] > 0 ) {
-										   $sel_mrkt = ($_POST[strtolower($asset_symb).'_mrkt'] - 1); 
-										   }
-										   else {
-										   $sel_mrkt = 0;
-										   }
-										
-										$purchase_price = $ct_var->rem_num_format($_POST[strtolower($asset_symb).'_paid']);
-										$lvrg_level = $_POST[strtolower($asset_symb).'_lvrg'];
-										$sel_mrgntyp = $_POST[strtolower($asset_symb).'_mrgntyp'];
-												
+               	   if ( $_POST[strtolower($asset_symb).'_mrkt'] > 0 ) {
+               	   $sel_mrkt = ($_POST[strtolower($asset_symb).'_mrkt'] - 1); 
+               	   }
+               	   else {
+               	   $sel_mrkt = 0;
+               	   }
+               	
+               	$purchase_price = $ct_var->rem_num_format($_POST[strtolower($asset_symb).'_paid']);
+               	$lvrg_level = $_POST[strtolower($asset_symb).'_lvrg'];
+               	$sel_mrgntyp = $_POST[strtolower($asset_symb).'_mrgntyp'];
+               			
 						
-										// Render the row of coin data in the UI
-										$ct_asset->ui_asset_row($ct_conf['assets'][$asset_symb]['name'], $asset_symb, $held_amnt, $ct_conf['assets'][$asset_symb]['pair'][$sel_pair], $sel_pair, $sel_mrkt, $purchase_price, $lvrg_level, $sel_mrgntyp);
-										
-										
-										
-											if ( $held_amnt >= $min_crypto_val_test ) {
-												
-											$assets_added = 1;
-											
-											
-												if ( $purchase_price >= $min_fiat_val_test ) {
-												$purchase_price_added = 1;
-												}
-												
-												if ( $lvrg_level >= 2 ) {
-												$lvrg_added = 1;
-												}
-												
-												if ( $lvrg_level >= 2 && $sel_mrgntyp == 'short' ) {
-												$short_added = 1;
-												}
-											
-											
-											}
-											elseif ( $held_amnt > 0.00000000 ) { // Show even if decimal is off the map, just for UX purposes tracking token price only
-											$assets_watched = 1;
-											}
-										
-											if ( $held_amnt > 0.00000000 ) {
-											$asset_tracking[] = $asset_symb; // For only showing chosen assets in chart stats etc
-											}
-										
-										}
-									
-									
-									}
+               	// Render the row of coin data in the UI
+               	$ct_asset->ui_asset_row($ct_conf['assets'][$asset_symb]['name'], $asset_symb, $held_amnt, $ct_conf['assets'][$asset_symb]['pair'][$sel_pair], $sel_pair, $sel_mrkt, $purchase_price, $lvrg_level, $sel_mrgntyp);
+               	
+               	
+               	
+               		if ( $held_amnt >= $min_crypto_val_test ) {
+               			
+               		$assets_added = 1;
+               		
+               		
+               			if ( $purchase_price >= $min_fiat_val_test ) {
+               			$purchase_price_added = 1;
+               			}
+               			
+               			if ( $lvrg_level >= 2 ) {
+               			$lvrg_added = 1;
+               			}
+               			
+               			if ( $lvrg_level >= 2 && $sel_mrgntyp == 'short' ) {
+               			$short_added = 1;
+               			}
+               		
+               		
+               		}
+               		elseif ( $held_amnt > 0.00000000 ) { // Show even if decimal is off the map, just for UX purposes tracking token price only
+               		$assets_watched = 1;
+               		}
+               	
+               		if ( $held_amnt > 0.00000000 ) {
+               		$asset_tracking[] = $asset_symb; // For only showing chosen assets in chart stats etc
+               		}
+               	
+               	}
+               
+               
+              }						
+              
 		
 		}
 	
@@ -191,75 +206,75 @@ if ( $_POST['submit_check'] == 1 || $run_csv_import || $ui_cookies ) {
 	        			$val[5] = ( $ct_var->whole_int( trim($val[5]) ) != false ? trim($val[5]) : 1 ); // If market ID input is corrupt, default to 1
 	        			$val[3] = ( $ct_var->whole_int( trim($val[3]) ) != false ? trim($val[3]) : 0 ); // If leverage amount input is corrupt, default to 0
 	        			
-										$held_amnt = $ct_var->rem_num_format( trim($val[1]) );
-										$asset_symb = strtoupper( trim($val[0]) );
-										$sel_pair = strtolower( trim($val[6]) );
-										// Avoided possible null equivelent issue by upping post value +1 in case zero, so -1 here
+	        			$held_amnt = $ct_var->rem_num_format( trim($val[1]) );
+	        			$asset_symb = strtoupper( trim($val[0]) );
+	        			$sel_pair = strtolower( trim($val[6]) );
+	        			// Avoided possible null equivelent issue by upping post value +1 in case zero, so -1 here
     	                                // (we go by array index number here, rather than 1 or higher for html form values)
-										$sel_mrkt = ( $val[5] > 0 ? $val[5] - 1 : 0 ); 
-										$purchase_price = $ct_var->rem_num_format($val[2]);
-										$lvrg_level = $val[3];
-										$sel_mrgntyp = $val[4];
-										
-											
-											// Check pair value
-											foreach ( $ct_conf['assets'][$asset_symb]['pair'] as $pair_key => $unused ) {
-					 						$ploop = 0;
+	        			$sel_mrkt = ( $val[5] > 0 ? $val[5] - 1 : 0 ); 
+	        			$purchase_price = $ct_var->rem_num_format($val[2]);
+	        			$lvrg_level = $val[3];
+	        			$sel_mrgntyp = $val[4];
+	        			
+	        				
+	        				// Check pair value
+	        				foreach ( $ct_conf['assets'][$asset_symb]['pair'] as $pair_key => $unused ) {
+					 	
+					 	$ploop = 0;
 					 						
-					 							// Use first pair key from coins config for this asset, if no pair value was set properly in the spreadsheet
-					 							if ( $ploop == 0 ) {
+					 			// Use first pair key from coins config for this asset, if no pair value was set properly in the spreadsheet
+					 			if ( $ploop == 0 ) {
 					 								
-					 								if ( $sel_pair == null || !$ct_conf['assets'][$asset_symb]['pair'][$sel_pair] ) {
-					 								$sel_pair = $pair_key;
-					 								}
+					 					if ( $sel_pair == null || !$ct_conf['assets'][$asset_symb]['pair'][$sel_pair] ) {
+					 					$sel_pair = $pair_key;
+					 					}
 					 							
-					 							}
-											
-											$ploop = $ploop + 1;
-											}
-											
-											
-											// Check margin type value
-											if ( $sel_mrgntyp != 'long' && $sel_mrgntyp != 'short' ) {
-											$sel_mrgntyp = 'long';
-											}
-											
+					 			}
+	        				
+	        				$ploop = $ploop + 1;
+	        				
+	        				}
+	        				
+	        				
+	        				// Check margin type value
+	        				if ( $sel_mrgntyp != 'long' && $sel_mrgntyp != 'short' ) {
+	        				$sel_mrgntyp = 'long';
+	        				}
+	        				
 						
 						
-										// Render the row of coin data in the UI
-										$ct_asset->ui_asset_row($ct_conf['assets'][$asset_symb]['name'], $asset_symb, $held_amnt, $ct_conf['assets'][$asset_symb]['pair'][$sel_pair], $sel_pair, $sel_mrkt, $purchase_price, $lvrg_level, $sel_mrgntyp);
-										
-										
-										
-											if ( $held_amnt >= $min_crypto_val_test ) {
-												
-											$assets_added = 1;
-											
-											
-												if ( $purchase_price >= $min_fiat_val_test ) {
-												$purchase_price_added = 1;
-												}
-												
-												if ( $lvrg_level >= 2 ) {
-												$lvrg_added = 1;
-												}
-												
-												if ( $lvrg_level >= 2 && $sel_mrgntyp == 'short' ) {
-												$short_added = 1;
-												}
-											
-											
-											}
-											elseif ( $held_amnt > 0.00000000 ) { // Show even if decimal is off the map, just for UX purposes tracking token price only
-											$assets_watched = 1;
-											}
-										
-											if ( $held_amnt > 0.00000000 ) {
-											$asset_tracking[] = $asset_symb; // For only showing chosen assets in chart stats etc
-											}
-											
-										
-										
+	        			// Render the row of coin data in the UI
+	        			$ct_asset->ui_asset_row($ct_conf['assets'][$asset_symb]['name'], $asset_symb, $held_amnt, $ct_conf['assets'][$asset_symb]['pair'][$sel_pair], $sel_pair, $sel_mrkt, $purchase_price, $lvrg_level, $sel_mrgntyp);
+	        			
+	        			
+	        			
+	        				if ( $held_amnt >= $min_crypto_val_test ) {
+	        					
+	        				$assets_added = 1;
+	        				
+	        				
+	        					if ( $purchase_price >= $min_fiat_val_test ) {
+	        					$purchase_price_added = 1;
+	        					}
+	        					
+	        					if ( $lvrg_level >= 2 ) {
+	        					$lvrg_added = 1;
+	        					}
+	        					
+	        					if ( $lvrg_level >= 2 && $sel_mrgntyp == 'short' ) {
+	        					$short_added = 1;
+	        					}
+	        				
+	        				
+	        				}
+	        				elseif ( $held_amnt > 0.00000000 ) { // Show even if decimal is off the map, just for UX purposes tracking token price only
+	        				$assets_watched = 1;
+	        				}
+	        			
+	        				if ( $held_amnt > 0.00000000 ) {
+	        				$asset_tracking[] = $asset_symb; // For only showing chosen assets in chart stats etc
+	        				}
+	        				
 										
 	       		 	}
 									
@@ -347,7 +362,7 @@ if ( $_POST['submit_check'] == 1 || $run_csv_import || $ui_cookies ) {
     												
     			if ( $lvrg_level >= 2 && $sel_mrgntyp == 'short' ) {
     			$short_added = 1;
-    		    }
+    		     }
     						
     						
     		}
@@ -439,11 +454,15 @@ $altcoin_dominance = $ct_var->max_100($altcoin_dominance);
 		
 ?>
 
+
 <!-- .portfolio_footer START -->
 <div class="portfolio_footer">
 
+
 <!-- Summary START -->
 <div class="align_left show_asset_vals bold_1 blue">
+
+
 <?php
 		
 		// Run BEFORE output of BTC / PAIR portfolio values, to include any margin / leverage summaries in parentheses NEXT TO THEM (NOT in the actual BTC / PAIR amounts, for UX's sake)
@@ -591,6 +610,7 @@ $altcoin_dominance = $ct_var->max_100($altcoin_dominance);
 			
 			<div class="portfolio_summary">
 			
+			
 			<?php
 			
 		
@@ -600,7 +620,9 @@ $altcoin_dominance = $ct_var->max_100($altcoin_dominance);
 		
 		?>
 		
+		
 			<img id="fiat_val" src="templates/interface/media/images/info.png" alt="" width="30" style="position: relative; left: -5px;" /> 
+
 
 <script>
 
@@ -644,6 +666,7 @@ var fiat_val_content = '<h5 class="yellow tooltip_title">Primary Currency (<?=st
 		
 			</div>
 		
+		
 		<?php
 		
 		// If using margin leverege anywhere
@@ -671,16 +694,19 @@ var fiat_val_content = '<h5 class="yellow tooltip_title">Primary Currency (<?=st
         $thres_dec = $ct_gen->thres_dec($percent_difference_total, 'p'); // Percentage mode
 		echo '<span class="black">' . ( $gain_loss_total >= 0 ? 'Gain:</span> <span class="green private_data">+' . $ct_conf['power']['btc_currency_mrkts'][ $ct_conf['gen']['btc_prim_currency_pair'] ] : 'Loss:</span> <span class="red private_data">' ) . $parsed_gain_loss_total . ' (' . ( $gain_loss_total >= 0 ? '+' : '-' ) . number_format($percent_difference_total, $thres_dec['max_dec'], '.', ',') . '%' . ')</span>';
 		
-		?> 
+	?> 
+		
 		
 			<img id='portfolio_gain_loss' src='templates/interface/media/images/info.png' alt='' width='30' style='position: relative; left: -5px;' /> 
+		
 			
 	 <script>
 	 
 		var doc_title_stats = '<?=( $gain_loss_total >= 0 ? '+' . $ct_conf['power']['btc_currency_mrkts'][ $ct_conf['gen']['btc_prim_currency_pair'] ] : '' )?><?=$parsed_gain_loss_total?> (<?=( $gain_loss_total >= 0 ? '+' : '-' )?><?=number_format($percent_difference_total, $thres_dec['max_dec'], '.', ',')?>%)';
 	
 		
-			var gain_loss_content = '<h5 class="yellow tooltip_title">Gain / Loss Stats</h5>'
+		var gain_loss_content = '<h5 class="yellow tooltip_title">Gain / Loss Stats</h5>'
+			
 			
 			<?php
 					
@@ -743,6 +769,7 @@ var fiat_val_content = '<h5 class="yellow tooltip_title">Primary Currency (<?=st
 		 </script>
 			
 			</div>
+		 
 		 
 		<?php
 		}
@@ -1510,9 +1537,9 @@ zingchart.bind('marketcap_chart', 'label_click', function(e){
 	
 	<style>
 	.show_asset_vals, #admin_conf_quick_links, #coins_table {
-	display: block;
-	width: fit-content;
-	margin: auto;
+	display: block !important;
+	width: fit-content !important;
+	margin: auto !important;
 	}
 	</style>
 	
@@ -1929,7 +1956,7 @@ var server_header_defaults_content = '<h5 class="yellow tooltip_title">Average S
 		<p class='red' style='font-weight: bold;'>*Log format: </p>
 		
 	   <!-- Looks good highlighted as: less, yaml  -->
-	   <pre class='rounded' style='display: inline-block;<?=( $ct_gen->is_msie() == false ? ' padding-top: 1em !important;' : '' )?>'><code class='hide-x-scroll less' style='white-space: nowrap; width: auto; display: inline-block;'>[UTC timestamp] runtime_mode => error_type: error_msg; [ (tracing if log verbosity set to verbose) ]</code></pre>
+	   <pre class='rounded' style='display: inline-block; padding-top: 1em !important;'><code class='hide-x-scroll less' style='white-space: nowrap; width: auto; display: inline-block;'>[UTC timestamp] runtime_mode => error_type: error_msg; [ (tracing if log verbosity set to verbose) ]</code></pre>
 	
 	
 	    <fieldset class='subsection_fieldset'><legend class='subsection_legend'> Error Log </legend>

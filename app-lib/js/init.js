@@ -62,7 +62,7 @@ random_tips();
 	
 	
      // Monitor admin iframes for auto-height adjustment WHEN THEY SHOW
-     reset_iframe_heights();
+     monitor_iframe_heights();
 
 	/////////////////////////////////////////////////////////////////////////////////////////////////////
 	
@@ -534,7 +534,20 @@ random_tips();
 
 	/////////////////////////////////////////////////////////////////////////////////////////////////////
 	
-
+          
+    // UNstyle sidebar on-click (REGULAR sidebar 3-deep (last) sub-menu)
+    // (EVEN IN IFRAMES)
+    $('a.custom-unstyle-dropdown-item').on('click', function() {
+               
+    $("a.dropdown-item").removeClass("secondary-select");
+          
+          if ( is_iframe ) {
+          $("a.dropdown-item", window.parent.document).removeClass("secondary-select");
+          }
+               
+    });
+          
+          
     // Init sidebar (IF NOT IFRAME)
     if ( !is_iframe ) {
     
@@ -543,7 +556,7 @@ random_tips();
          // RESET OPEN ON CLICK REGULAR sidebar 3-deep (last) sub-menu
          $('.sidebar-item :not(.custom-3deep)').on({
               "click":function(e){
-              custom_3deep_menu_on = false;
+              custom_3deep_menu_open = false;
               }
           });
          
@@ -562,7 +575,7 @@ random_tips();
          // ALSO RESET OPEN ON CLICK Custom 3-deep (last) sub-menu
          $('#sidebar_menu .dropdown-menu').on({
               "click":function(e){
-              custom_3deep_menu_on = false;
+              custom_3deep_menu_open = false;
               e.stopPropagation();
               }
           });
@@ -575,9 +588,9 @@ random_tips();
          $("#sidebar").mCustomScrollbar({
               
               theme: "minimal",
-              scrollInertia: 100,
+              scrollInertia: 200,
               mouseWheel:{
-                          scrollAmount: 50,
+                          scrollAmount: 100,
                           normalizeDelta: true
                           },
                           
@@ -645,26 +658,32 @@ random_tips();
           // OPEN MAIN LINK ON CLICK (REGULAR sidebar 3-deep (last) sub-menu),
           // #ONLY AFTER# IT HAS OPENED THE SUBMENU AT LEAST ONCE
           $('li.custom-3deep').on('click', function() {
-           
-           var $cust_men_el = $(this);
-           
-              if ( $cust_men_el.hasClass('open-first') ) {
               
-              var $cust_men_a = $cust_men_el.children('a.dropdown-toggle');
+              if ( $(this).hasClass('open-first') ) {
               
-                  if ( $cust_men_a.length && $cust_men_a.attr('href') && custom_3deep_menu_on != false ) {
-                  custom_3deep_menu_on = false;
+              var $cust_men_a = $(this).children('a.dropdown-toggle');
+              
+                  if ( $cust_men_a.length && $cust_men_a.attr('href') && custom_3deep_menu_open != false ) {
+                  custom_3deep_menu_open = false; // Reset
                   location.href = $cust_men_a.attr('href');
                   }
                   else if ( $cust_men_a.length && $cust_men_a.attr('href') ) {
-                  custom_3deep_menu_on = true;
+                  custom_3deep_menu_open = true;
                   }
                   else if ( !$cust_men_a.hasClass('show') ) {
-                  custom_3deep_menu_on = false;
+                  custom_3deep_menu_open = false;
                   }
                   
               }
               
+          });
+          
+          
+          
+          // Style on-click (REGULAR sidebar 3-deep (last) sub-menu)
+          $('a.dropdown-item').on('click', function() {
+          $("a.dropdown-item").removeClass("secondary-select");
+          $(this).addClass("secondary-select");
           });
 
          
@@ -673,20 +692,19 @@ random_tips();
          $('.all-nav a').on({
               "click":function(e){
               
-              var scan_href = $(this).attr('href');
-              scan_href = scan_href.split('/').pop();         
+              var click_href = $(this).attr('href');   
+              
+              var scan_href = click_href.split('/').pop();   
               
               
                   if (scan_href.indexOf("#") > 0) {
                   scan_href = scan_href.substring(0, scan_href.indexOf("#"));
                   }
-              
-              
-                  if (
-                  is_admin && scan_href != 'admin.php'
-                  || !is_admin && scan_href == 'admin.php'
-                  ) {
-                  app_reloading_check(0, 1);
+                  
+                  
+                  // IF we are not ALREADY in the CORRISPONDING user / admin area
+                  if ( is_admin && scan_href != 'admin.php' || !is_admin && scan_href == 'admin.php' ) {
+                  app_reloading_check( 0, $(this).attr('href') );
                   }
               
               
@@ -765,6 +783,9 @@ privacy_mode();
 
 // Sort the portfolio AFTER checking for privacy mode
 sorting_portfolio_table();
+
+// Highlightjs
+load_highlightjs();
 
 
 	/////////////////////////////////////////////////////////////////////////////////////////////////////
