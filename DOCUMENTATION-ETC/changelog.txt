@@ -6071,6 +6071,8 @@ v6.00.2 AND HIGHER RESETS LIGHT (TIME PERIOD) CHARTS FROM ARCHIVAL DATA, ONE-TIM
 
 -BUG FIX: Fixed issue with system resource alerts not sending messages by Telegram / phone text
 
+-BUG FIX: Fixed issue with false positive security alerts on domain security check
+
 -BUG FIX: Fixed issue with activation of proxies crashing the app
 
 -BUG FIX: Miscellaneous (small) fixes

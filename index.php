@@ -24,7 +24,7 @@ require("templates/interface/php/admin/admin-login/register.php");
 exit;
 }
 else {
-require("templates/interface/php/header.php");
+require("templates/interface/php/wrap/header.php");
 }
 
 ?>
@@ -74,15 +74,10 @@ require("templates/interface/php/header.php");
 		<div id='resources' class='tabdiv'>
 			<?php require("templates/interface/php/user/user-sections/resources.php"); ?>
 		</div>
-		
-		
-		<div id='help' class='tabdiv'>
-			<?php require("templates/interface/php/user/user-sections/help.php"); ?>
-		</div>
 
     
 <?php
-require("templates/interface/php/footer.php");
+require("templates/interface/php/wrap/footer.php");
 
 // DON'T LEAVE ANY WHITESPACE AFTER THE CLOSING PHP TAG!
 

@@ -102,7 +102,7 @@ If you did NOT request this password reset (originating from ip address ".$remot
 
 
 $login_template = 1;
-require("templates/interface/php/header.php");
+require("templates/interface/php/wrap/header.php");
 
 ?>
 
@@ -312,5 +312,5 @@ Google Fonts is supported (fonts.google.com).'>Get A Different Image</a>
 
 
 <?php
-require("templates/interface/php/footer.php");
+require("templates/interface/php/wrap/footer.php");
 ?>

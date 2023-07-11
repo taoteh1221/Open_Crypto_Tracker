@@ -79,7 +79,7 @@ if ( $_POST['admin_submit_register'] ) {
 
 
 $login_template = 1;
-require("templates/interface/php/header.php");
+require("templates/interface/php/wrap/header.php");
 
 ?>
 
@@ -405,5 +405,5 @@ return false;
 
 
 <?php
-require("templates/interface/php/footer.php");
+require("templates/interface/php/wrap/footer.php");
 ?>

@@ -46,9 +46,9 @@ exit;
 
 // Main admin page
 if ( !isset($_GET['plugin']) && !isset($_GET['iframe']) ) {
-require("templates/interface/php/header.php");
+require("templates/interface/php/wrap/header.php");
 require("templates/interface/php/admin/admin-elements/admin-page-main.php");
-require("templates/interface/php/footer.php");
+require("templates/interface/php/wrap/footer.php");
 }
 // Iframe admin pages
 elseif (

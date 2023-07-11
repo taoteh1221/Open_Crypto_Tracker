@@ -10,7 +10,7 @@ NEXT SCHEDULED WORK SESSION (DEBUGGING AND / OR INFRASTRUCTURE)
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
-Help / FAQ page link should be moved to bottom of sidebar, with a questionmark icon next to it. It ALSO should be a MODAL WINDOW (like 'more stats'), that is hidden in footer.php, so it can be opened in the user and admin areas just as easily. 
+The COMPACT side menu should close when tapping in an admin area iframe, just like it does for the NON-iframe user area pages.
 
 
 Privacy mode toggle should also be moved to bottom of sidebar.
@@ -304,6 +304,9 @@ https://stackoverflow.com/questions/tagged/sonata
 
 
 On smaller screens (mobile etc), the COMPACT sidebar should be transformed into a top bar (horizontal across top, instead of vertical down the side, with DROP-downs OR SLIDE-downs for secondary submenus [like my biz site on mobile...whichever has a better 'feel']). Have each menu category be an icon that when clicked does a drop-down menu below it, THAT IS THE ENTIRE WIDTH OF THE SCREEN. Skip supporting 3-deep subnav here, unless we can make it work using the entire screen width for 2-deep subnav entries (for small screen tapping UX / less confusion). When each main drop-down is clicked, any other main drop-down should close automatically.
+
+
+The BITdao token will be switching it's name / ticker symbol to mantle / MNT.
 
 
 Remove localbitcoins support (they are closing shop).

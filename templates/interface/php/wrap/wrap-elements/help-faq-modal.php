@@ -1,16 +1,17 @@
-<?php
-/*
- * Copyright 2014-2023 GPLv3, Open Crypto Tracker by Mike Kilday: Mike@DragonFrugal.com
- */
-
-
-?>
 
 	
-<h2 class='bitcoin page_title'>Help</h2>
-	            
-
-<div class='full_width_wrapper'>
+<!-- START help modal -->
+<div id="show_help_faq">
+	
+		
+		<h3 style='display: inline;'>Help / FAQ</h3>
+	
+				<span style='z-index: 99999; margin-right: 55px;' class='red countdown_notice_modal'></span>
+	
+	<br clear='all' />
+	<br clear='all' />
+			
+	
 			
 	
 	<div class="accordion" id="accordionHelp" style='margin: 20px; margin-top: 35px;'> <!-- Accordion START -->
@@ -1139,11 +1140,20 @@ CRON-DESIGNATED PLUGINS (PLUGINS FLAGGED TO RUN DURING CRON JOBS) DO RUN #LAST# 
 	</div> <!-- Accordion END -->
 	
 	
-			    
-			    
-</div> <!-- full_width_wrapper END -->
+</div>
+<!-- END help modal -->
+	
+	
+	<script>
+	
+	modal_windows.push('.show_help_faq'); // Add to modal window tracking (for closing all dynaimically on app reloads) 
+	
+	$('.show_help_faq').modaal({
+	fullscreen: true,
+	content_source: '#show_help_faq'
+	});
+	</script>
+	
+	
 
-
-
-
-		    
+	</script>
