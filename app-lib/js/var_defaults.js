@@ -127,5 +127,7 @@ var is_iframe = false;
 
 var form_submit_queued = false;
 	
+var gen_csrf_sec_token = Base64.encode('none');
+	
 var background_tasks_status = 'wait';
 

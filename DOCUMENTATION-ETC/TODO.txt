@@ -10,10 +10,10 @@ NEXT SCHEDULED WORK SESSION (DEBUGGING AND / OR INFRASTRUCTURE)
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
+Style the new Help / FAQ page, including correct highlighting of FAQ titles when clicked on.
+
+
 The COMPACT side menu should close when tapping in an admin area iframe, just like it does for the NON-iframe user area pages.
-
-
-Privacy mode toggle should also be moved to bottom of sidebar.
 
 
 On admin login on safari browser, have a alert (like the cookies notice) saying safari is not supported in the admin interface.

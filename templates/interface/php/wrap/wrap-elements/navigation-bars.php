@@ -14,6 +14,12 @@
 
    
    <div class="smallnav_spacer"></div>
+
+   
+   <div class="align_center" id='pm_link_icon_div'><a id='pm_link2' class='bitcoin' onclick='privacy_mode(true);' title='Turn privacy mode ON. This encrypts / hides RENDERED personal portfolio data with the PIN you setup (BUT DOES #NOT# encrypt RAW source code). It ALSO disables opposite-clicking / data submission, and logs out any active admin login.'><img src='templates/interface/media/images/auto-preloaded/icons8-eye-100-<?=$sel_opt['theme_selected']?>.png' width='45' border='0' /></a></div>
+
+   
+   <div class="smallnav_spacer"></div>
    
    
    <!-- Admin area -->
@@ -294,6 +300,11 @@
 
         <ul id='sidebar_menu' class="list-unstyled components">
         
+            
+            <li class='sidebar-item'>
+                <a id='pm_link' class='bitcoin pm_link' onclick='privacy_mode(true);' title='Turn privacy mode ON. This encrypts / hides RENDERED personal portfolio data with the PIN you setup (BUT DOES #NOT# encrypt RAW source code). It ALSO disables opposite-clicking / data submission, and logs out any active admin login.'>Privacy Mode Is Off</a>
+            </li>
+            
             <!-- Admin area -->
             <li class="admin-nav-wrapper">
                 
@@ -519,6 +530,18 @@
                 </ul>
                 
             </li>
+            
+            <?php
+            if ( $ct_gen->admin_logged_in() ) {
+            ?>
+   
+            <li class='sidebar-item'>
+                <a href="?logout=1&admin_hashed_nonce=<?=$ct_gen->admin_hashed_nonce('logout')?>" title='Logout from the admin area.'>Logout</a>
+            </li>
+            
+            <?php
+            }
+            ?>
             
             <li class='sidebar-item'>
                 <a href="javascript: return false;" class="show_help_faq bitcoin" title='Get help with running and setting up this app.'>Help</a>

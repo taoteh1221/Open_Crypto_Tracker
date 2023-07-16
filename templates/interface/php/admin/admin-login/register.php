@@ -202,7 +202,7 @@ document.write("<p class='red align_center' style='font-size: 19px; font-weight:
 
 + "PRIVACY MODE MUST BE DISABLED to submit data: "
 
-+ "<span id='pm_link' class='bitcoin' onclick='privacy_mode(true);' title=''>Disable Privacy Mode</span>"
++ "<span id='pm_link3' class='bitcoin' onclick='privacy_mode(true);' title='' style='cursor: pointer;'>Disable Privacy Mode</span>"
 
 + "</p>");
 	 

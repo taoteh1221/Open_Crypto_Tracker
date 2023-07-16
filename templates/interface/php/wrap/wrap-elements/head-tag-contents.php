@@ -213,6 +213,8 @@
 	if ( $ct_gen->admin_logged_in() == true ) {
 	?>
 	
+	gen_csrf_sec_token = '<?=base64_encode( $ct_gen->admin_hashed_nonce('general_csrf_security') )?>';
+	
 	logs_csrf_sec_token = '<?=base64_encode( $ct_gen->admin_hashed_nonce('logs_csrf_security') )?>';
 	
 	admin_iframe_url = storage_app_id("admin_iframe_url");

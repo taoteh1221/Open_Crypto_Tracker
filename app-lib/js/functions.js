@@ -1138,7 +1138,7 @@ function app_reload(form_submission, new_location) {
     
         // Reload, ONLY IF WE ARE NOT #ALREADY RELOADING# VIA SUBMITTING DATA (so we don't cancel data submission!),
         // OR IF WE ARE LOADING A #NEW# LOCATION
-        if ( form_submission == 0 && new_location != 0 ) {
+        if ( form_submission == 0 && typeof new_location != 'undefined' && new_location != 0 ) {
         window.location = new_location;
         }
         else if ( form_submission == 0 ) {
@@ -1871,7 +1871,7 @@ function auto_reload() {
                     	}
             				
             				if ( int_time == 0 ) {
-                 		    app_reloading_check();
+                 		     app_reloading_check();
             				}
                 
                 
@@ -2108,8 +2108,22 @@ private_data = document.getElementsByClassName('private_data');
                     safe_add_remove_class('green', 'pm_link', 'remove');
                     safe_add_remove_class('bitcoin', 'pm_link', 'add');
                     
+                    safe_add_remove_class('green', 'pm_link2', 'remove');
+                    safe_add_remove_class('bitcoin', 'pm_link2', 'add');
+                    
+                    safe_add_remove_class('green', 'pm_link3', 'remove');
+                    safe_add_remove_class('bitcoin', 'pm_link3', 'add');
+                    
                         if ( document.getElementById("pm_link") ) {
                         document.getElementById("pm_link").setAttribute('title', 'Turn privacy mode ON. This encrypts / hides RENDERED personal portfolio data with the PIN you setup (BUT DOES #NOT# encrypt RAW source code). It ALSO disables opposite-clicking.');
+                        }
+                    
+                        if ( document.getElementById("pm_link2") ) {
+                        document.getElementById("pm_link2").setAttribute('title', 'Turn privacy mode ON. This encrypts / hides RENDERED personal portfolio data with the PIN you setup (BUT DOES #NOT# encrypt RAW source code). It ALSO disables opposite-clicking.');
+                        }
+                    
+                        if ( document.getElementById("pm_link3") ) {
+                        document.getElementById("pm_link3").setAttribute('title', 'Turn privacy mode ON. This encrypts / hides RENDERED personal portfolio data with the PIN you setup (BUT DOES #NOT# encrypt RAW source code). It ALSO disables opposite-clicking.');
                         }
                     
                     safe_add_remove_class('disable_click', 'update_link_1', 'remove');
@@ -2147,6 +2161,8 @@ private_data = document.getElementsByClassName('private_data');
                     autoresize_update();
         
                     $("#pm_link").text('Privacy Mode Is Off');
+                    $("#pm_link_icon_div").css("background", "#dd7c0d");
+                    $("#pm_link3").text('Privacy Mode Is Off');
                                 
                     }
                     else {
@@ -2255,9 +2271,23 @@ private_data = document.getElementsByClassName('private_data');
             		
         safe_add_remove_class('bitcoin', 'pm_link', 'remove');
         safe_add_remove_class('green', 'pm_link', 'add');
+            		
+        safe_add_remove_class('bitcoin', 'pm_link2', 'remove');
+        safe_add_remove_class('green', 'pm_link2', 'add');
+            		
+        safe_add_remove_class('bitcoin', 'pm_link3', 'remove');
+        safe_add_remove_class('green', 'pm_link3', 'add');
                     
             if ( document.getElementById("pm_link") ) {
             document.getElementById("pm_link").setAttribute('title', 'Turn privacy mode OFF. This reveals your personal portfolio data, using the PIN you setup. It ALSO re-enables opposite-clicking / data submission, and allows admin logins.');
+            }
+                    
+            if ( document.getElementById("pm_link2") ) {
+            document.getElementById("pm_link2").setAttribute('title', 'Turn privacy mode OFF. This reveals your personal portfolio data, using the PIN you setup. It ALSO re-enables opposite-clicking / data submission, and allows admin logins.');
+            }
+                    
+            if ( document.getElementById("pm_link3") ) {
+            document.getElementById("pm_link3").setAttribute('title', 'Turn privacy mode OFF. This reveals your personal portfolio data, using the PIN you setup. It ALSO re-enables opposite-clicking / data submission, and allows admin logins.');
             }
                     
         safe_add_remove_class('disable_click', 'update_link_1', 'add');
@@ -2292,11 +2322,21 @@ private_data = document.getElementsByClassName('private_data');
         document.oncontextmenu = document.body.oncontextmenu = function() {return false;};    
         
         $("#pm_link").text('Privacy Mode Is On');
+        $("#pm_link_icon_div").css("background", "#10d602");
+        $("#pm_link3").text('Privacy Mode Is On');
+                                
         
         // Delete any existing admin auth (login) cookie
         // (we force admin logout when privacy mode is on)
         delete_cookie( 'admin_auth_' + Base64.decode(ct_id) ); 
-            
+             
+             // If we are LOGGED IN the admin area , AND CURRENTLY IN THE ADMIN AREA, redirect to the user area
+             // (as we just forced admin logout, because privacy mode is now enabled)
+             if ( is_admin && Base64.decode(gen_csrf_sec_token) != 'none' ) {
+             $("#app_loading").show(250, 'linear'); // 0.25 seconds
+             $("#app_loading_span").html("Please wait, logging out for privacy mode...").css("color", "#ff4747", "important");
+             window.location.href = "index.php";
+             }
         
         }
         else {
