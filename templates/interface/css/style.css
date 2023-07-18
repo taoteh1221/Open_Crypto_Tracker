@@ -470,7 +470,7 @@ color: #ffb83f !important;
 }
 
 
-.bitcoin, .btc {
+.bitcoin, .btc, #sidebar ul.list-unstyled li a.bitcoin:link {
 color: #dd7c0d !important;
 }
 
