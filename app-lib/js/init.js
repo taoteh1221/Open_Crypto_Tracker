@@ -770,10 +770,26 @@ random_tips();
               }
           });
          
+          
+          // Clicks INSIDE IFRAMES should close COLLAPSED SIDEBAR OPEN SUBNAV menus
+          $("iframe").on("load", function(){
+               
+              $(this).contents().on("mousedown, mouseup, click", function(){
+                   
+              $('#collapsed_sidebar a[aria-expanded]').removeClass("active");
+              
+              $('#collapsed_sidebar a[aria-expanded]').removeClass("show");
+              
+              $('#collapsed_sidebar ul').removeClass("show");
+
+              $('#collapsed_sidebar a[aria-expanded="true"]').attr('aria-expanded', 'false');
+              
+              });
+              
+          });
     
     
     }
-    
 
 	/////////////////////////////////////////////////////////////////////////////////////////////////////
     

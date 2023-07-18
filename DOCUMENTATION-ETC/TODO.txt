@@ -13,18 +13,6 @@ NEXT SCHEDULED WORK SESSION (DEBUGGING AND / OR INFRASTRUCTURE)
 Style the new Help / FAQ page, including correct highlighting of FAQ titles when clicked on.
 
 
-The COMPACT side menu should close when tapping in an admin area iframe, just like it does for the NON-iframe user area pages.
-
-
-On admin login on safari browser, have a alert (like the cookies notice) saying safari is not supported in the admin interface.
-
-
-Add Linux desktop notes for building PHP binary in general documentation.
-
-
-Fix how the new sidebar nav system looks on mobile devices (even though we are NOT adding decent mobile support just yet).
-
-
 Test in desktop editions.
 
 

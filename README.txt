@@ -188,6 +188,11 @@ IMPORTANT NOTES FOR WINDOWS 10 / 11 USERS:
 THE 'SERVER EDITION' IS CURRENTLY MORE RELIABLE THAN THE 'DESKTOP EDITION' ON WINDOWS MACHINES. CONSIDER READING THE "Manual Installation For 'Server Edition'" SECTION FURTHER DOWN IN THIS README, IF YOU HAVE ISSUES WITH THE WINDOWS 'DESKTOP EDITION'. WE RELY ON ANOTHER OPEN SOURCE PROJECT CALLED 'PHPdesktop' FOR THE DESKTOP EDITIONS ( https://github.com/cztomczak/phpdesktop ), AND THE WINDOWS VERSION IS CURRENTLY VERY OUT-DATED.
 
 
+IMPORTANT NOTES FOR LINUX USERS: 
+
+IF YOU GET THE ERROR: "CGI program sent malformed or too big", YOU LIKELY NEED TO BUILD A PHP BINARY THAT IS COMPATIBLE WITH YOUR UNIQUE SYSTEM SETUP. Try running the script "BUILD-PHP-FOR-LINUX-DESKTOP.bash" in the Desktop Edition main folder, which should fix things automatically for you. Just make sure it's file permissions are set to "executable" (chmod +x, OR chmod 755 should do that). IMPORTANT NOTE: YOU *MUST* SHUT DOWN THE DESKTOP EDITION OF THIS APP *BEFOREHAND*, OTHERWISE THIS SCRIPT *CANNOT* INSTALL THE CREATED PHP BINARY IT BUILDS!
+
+
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 Automatic Setup For 'Server Edition' On Debian / Ubuntu / DietPi OS / RaspberryPi OS / Armbian, On Home / Internal Network (recommended way to PRIVATELY / CHEAPLY use this app)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

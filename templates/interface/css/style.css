@@ -224,6 +224,15 @@ margin-left: 5px;
 }
 
 
+.pw_prompt .close_prompt {
+position: absolute;
+top: -1px;
+right: 3px;
+font-weight: bold;
+cursor: pointer;
+}
+
+
 .alert-warning a {
 color: black !important; /* Force black a href in bootstrap warning modal (our upgrade alerts, etc) */
 }
@@ -663,6 +672,40 @@ margin-top: 30px !important;
 }
 
 
+/*  https://jsfiddle.net/TheAL/ednxgwrj/  */
+.footer_banner_button {
+    background: none;
+    padding: 0;
+    border: none;
+}
+.footer_banner_button:hover {
+    text-decoration: underline;
+    cursor: pointer;
+}
+.footer_banner {
+    font-size: 15px;
+    line-height: 30px;
+    padding: 10px 5px;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    display: none;
+    width: 100%;
+    text-align: center;
+    color: #000;
+    background: #efc551;
+    z-index: 9999;
+}
+.footer_banner .footer_banner_button {
+    display: inline-block;
+    line-height: 30px;
+    margin-left: 10px;
+    padding: 0 15px;
+    color: #000;
+    background: #b9ff35;
+}
+
+
 /* //////////////////////////////
 IDs
 ////////////////////////////// */
@@ -712,11 +755,9 @@ margin-bottom: 15px;
 }
 
 
-#pm_link {
-font-weight: bold;
+#pm_link, #pm_link3 {
 text-decoration: underline;
 cursor: pointer;
-margin-right: 6px;
 }
 
 
@@ -889,6 +930,7 @@ display: none !important;
     height: 100vh;
     z-index: 999;
     transition: all 0.3s;
+    min-height: 100%;
 }
 
 
@@ -1097,7 +1139,7 @@ top: 0px;
 left: 0px; 
 z-index: 5;
 padding-bottom: 25px;
-height: 100%;
+min-height: 100%;
 }
 
 

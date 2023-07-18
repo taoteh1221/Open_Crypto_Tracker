@@ -239,64 +239,18 @@ echo nl2br($ui_upgrade_alert['message']);
 </div>
 
 
-<!-- https://jsfiddle.net/TheAL/ednxgwrj/ -->
-
-<style>
-
-.cookies_button {
-    background: none;
-    padding: 0;
-    border: none;
-}
-.cookies_button:hover {
-    text-decoration: underline;
-    cursor: pointer;
-}
-.cookie-notice {
-    font-size: 15px;
-    line-height: 30px;
-    padding: 10px 5px;
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    display: none;
-    width: 100%;
-    text-align: center;
-    color: #000;
-    background: #efc551;
-    z-index: 9999;
-}
-.cookie-notice .cookies_button {
-    display: inline-block;
-    line-height: 30px;
-    margin-left: 10px;
-    padding: 0 15px;
-    color: #000;
-    background: #b9ff35;
-}
-
-</style>
-
-<div class="cookie-notice">This web app requires cookies for admin logins (browser cookie / server session). The option to ENABLE ADDITIONAL FEATURES requiring cookies is also available on the SETTINGS page.<button class='cookies_button'>I Understand</button></div>
-
 <script>
 
-/**
- * Creates Cookie notice
- */
+// Creates Cookie notice footer banner
+footer_banner(cookies_notice_storage, 'This web app requires cookies for admin logins (browser cookie / server session). The option to ENABLE ADDITIONAL FEATURES requiring cookies is also available on the SETTINGS page.');
 
-var cookies_notice = $('.cookie-notice');
-
-if ( localStorage.getItem(cookies_notice_storage) != "agreed" ) {
-    cookies_notice.slideDown(500);
+// Creates Safari notice footer banner (if user has ALREADY ACKNOWLEDGED the cookie banner)
+if ( is_safari && localStorage.getItem(cookies_notice_storage) == "understood" ) {
+footer_banner(safari_notice_storage, 'This web app MAY NOT WORK PROPERLY on the Apple Safari web browser. FireFox OR Chromium-based browsers (Chrome / Edge / Brave / Opera, etc) are highly recommended for the best user experience.');
 }
 
-$('.cookie-notice .cookies_button').click(function () {
-    cookies_notice.slideUp(500);
-    localStorage.setItem(cookies_notice_storage, "agreed");
-});
-
 </script>
+
 
 <?php
 } // END of NOT iframe
@@ -306,12 +260,15 @@ $('.cookie-notice .cookies_button').click(function () {
 <!-- https://getbootstrap.com/docs/5.3/getting-started/download/ -->
 <script src="app-lib/js/bootstrap/bootstrap.min.js"></script>
 
+
 </body>
 </html>
+
 
 <!-- /*
  * Copyright 2014-2023 GPLv3, Open Crypto Tracker by Mike Kilday: Mike@DragonFrugal.com
  */ -->
+
  
  <?php
  

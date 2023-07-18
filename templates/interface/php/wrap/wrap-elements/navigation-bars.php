@@ -546,10 +546,6 @@
             <li class='sidebar-item'>
                 <a href="javascript: return false;" class="show_help_faq bitcoin" title='Get help with running and setting up this app.'>Help</a>
             </li>
-
-            <li class='sidebar-item'>
-                <a href='javascript:' title='Return to the top of the menu.'>Back To Top</a>
-            </li>
             
         </ul>
 

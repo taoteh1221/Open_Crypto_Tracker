@@ -347,6 +347,28 @@ function feeds_loading_check() {
 /////////////////////////////////////////////////////////////
 
 
+// https://jsfiddle.net/TheAL/ednxgwrj/ 
+function footer_banner(js_storage, notice_html) {
+     
+document.write('<div class="footer_banner">' + notice_html + '<button class="footer_banner_button">I Understand</button></div>');
+
+var footer_notice = $('.footer_banner');
+
+     if ( localStorage.getItem(js_storage) != "understood" ) {
+         footer_notice.slideDown(500);
+     }
+     
+     $('.footer_banner .footer_banner_button').click(function () {
+         footer_notice.slideUp(500);
+         localStorage.setItem(js_storage, "understood");
+     });
+
+}
+
+
+/////////////////////////////////////////////////////////////
+
+
 function get_scroll_position(tracing) {
 
 	// If we are using a different start page than the portfolio page,
@@ -1261,6 +1283,18 @@ promptCount = 0;
         document.body.removeChild(prompt);
     };
 
+    var close_modal = document.createElement("span");
+    close_modal.innerHTML = "X";
+    close_modal.title = "Close";
+    close_modal.className = "close_prompt";
+    
+       close_modal.onclick = function() {
+       prompt.remove();
+       return;
+       };
+    
+    prompt.appendChild(close_modal);
+
     var label = document.createElement("label");
     label.innerHTML = lm;
     label.for = "pw_prompt_input" + (++promptCount);
@@ -2067,29 +2101,31 @@ private_data = document.getElementsByClassName('private_data');
                     	// Put configged markets into a multi-dimensional array, calculate number of markets total
                     	Object.keys(private_data).forEach(function(element) {
                     	    
-                        //console.log( private_data[element].nodeName );
+                         //console.log( private_data[element].nodeName );
+                    		
                     		
                     		if ( private_data[element].nodeName == "INPUT" || private_data[element].nodeName == "TEXTAREA" ) {
                     		    
-                            //console.log( private_data[element].nodeName + ': ' + private_data[element].value );
+                              //console.log( private_data[element].nodeName + ': ' + private_data[element].value );
                             
-                            decrypted = CryptoJS.AES.decrypt(private_data[element].value, pin_check);
+                              decrypted = CryptoJS.AES.decrypt(private_data[element].value, pin_check);
             	    
-            	            private_data[element].value = decrypted.toString(CryptoJS.enc.Utf8);
+            	               private_data[element].value = decrypted.toString(CryptoJS.enc.Utf8);
         
                     		}
                     		else if ( private_data[element].nodeName == "DIV" || private_data[element].nodeName == "SPAN" ) {
         
-                            //console.log( private_data[element].nodeName + ': ' + private_data[element].innerHTML );
+                              //console.log( private_data[element].nodeName + ': ' + private_data[element].innerHTML );
         
-                            decrypted = CryptoJS.AES.decrypt(private_data[element].innerHTML, pin_check);
+                              decrypted = CryptoJS.AES.decrypt(private_data[element].innerHTML, pin_check);
         
-                    	    private_data[element].innerHTML = decrypted.toString(CryptoJS.enc.Utf8);
+                    	     private_data[element].innerHTML = decrypted.toString(CryptoJS.enc.Utf8);
         
                     		}
                         
-                        // Show
-                        private_data[element].classList.remove("obfuscated");
+                        
+                         // Show
+                         private_data[element].classList.remove("obfuscated");
                     			
                     	});
                 
@@ -2189,7 +2225,7 @@ private_data = document.getElementsByClassName('private_data');
 
             pw_prompt({
                 
-                lm:"Create PIN <span style='font-weight: bold;' class='bitcoin'>(requires / uses cookies)</span>:", 
+                lm:"Create PIN:<br /><span style='font-weight: bold;' class='bitcoin'>(requires / uses cookies)</span>", 
                 callback: function(pin) {
                     
                     

@@ -181,6 +181,8 @@
 	
 	cookies_notice_storage = storage_app_id("cookies_notice");
 	
+	safari_notice_storage = storage_app_id("safari_notice");
+	
 	refresh_cache_upgrade_notice_storage = storage_app_id("refresh_cache_upgrade_notice_storage");
 	
 	notes_storage = storage_app_id("notes");
