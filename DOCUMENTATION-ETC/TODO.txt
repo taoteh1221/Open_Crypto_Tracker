@@ -10,6 +10,9 @@ NEXT SCHEDULED WORK SESSION (DEBUGGING AND / OR INFRASTRUCTURE)
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
+Tighten up the portfolio table data spacing / padding in firefox, it WAAAY more then chrome.
+
+
 Remove localbitcoins support (they are closing shop).
 
 

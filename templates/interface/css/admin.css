@@ -19,7 +19,7 @@ CLASSES
 overflow: hidden;
 width: 100%; 
 position: relative;
-padding-top: 20px;
+padding-top: 30px;
 }
 
 
@@ -97,7 +97,7 @@ IDs
 
 /* admin area titles */
 #admin_tab_content .page_title {
-left: -75px !important;
+left: -47px !important;
 }
 
 

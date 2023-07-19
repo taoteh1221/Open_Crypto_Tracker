@@ -187,7 +187,7 @@ color: #ce7039 !important;
 }
 
 
-.blue, td.blue, td.blue span.blue, td select, .btn-link, .btn-link a, .btn-link:hover {
+.blue, td.blue, td.blue span.blue, td select, .btn-link, .btn-link a, .btn-link:hover, #sidebar ul.list-unstyled li a.blue:link {
 color: #28b2ed !important;
 }
 

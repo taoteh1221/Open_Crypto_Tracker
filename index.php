@@ -29,7 +29,6 @@ require("templates/interface/php/wrap/header.php");
 
 ?>
 
-
 		<div id='portfolio' class='tabdiv'>
 			<?php require("templates/interface/php/user/user-sections/portfolio.php"); ?>
 		</div>

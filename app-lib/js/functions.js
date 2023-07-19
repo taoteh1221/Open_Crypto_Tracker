@@ -608,7 +608,7 @@ function iframe_height_adjust(elm) {
     extra = 1000;
     }
     else {
-    extra = 100;
+    extra = 120;
     }
 
 

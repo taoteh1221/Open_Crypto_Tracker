@@ -9,7 +9,7 @@
 	
     <fieldset class='subsection_fieldset'><legend class='subsection_legend'> <strong>Currently Activated Plugins</strong> </legend>
     
-    <div class='bitcoin' style='padding: 10px;'>Graphical Interface Plugins<br />
+    <div class='bitcoin'>Graphical Interface Plugins<br />
     <ul>
 	<?php
 	if ( !isset($activated_plugins['ui']) ) {

@@ -305,6 +305,23 @@
                 <a id='pm_link' class='bitcoin pm_link' onclick='privacy_mode(true);' title='Turn privacy mode ON. This encrypts / hides RENDERED personal portfolio data with the PIN you setup (BUT DOES #NOT# encrypt RAW source code). It ALSO disables opposite-clicking / data submission, and logs out any active admin login.'>Privacy Mode Is Off</a>
             </li>
             
+            <?php
+            if ( $ct_gen->admin_logged_in() ) {
+            ?>
+   
+            <li class='sidebar-item'>
+                <a href="?logout=1&admin_hashed_nonce=<?=$ct_gen->admin_hashed_nonce('logout')?>" class="blue" title='Logout from the admin area.'>Logout</a>
+            </li>
+            
+            <?php
+            }
+            ?>
+            
+            <li class='sidebar-item'>
+                <a href="javascript: return false;" class="show_help_faq blue" title='Get help with running and setting up this app.'>Help?</a>
+            </li>
+            
+            
             <!-- Admin area -->
             <li class="admin-nav-wrapper">
                 
@@ -531,21 +548,6 @@
                 
             </li>
             
-            <?php
-            if ( $ct_gen->admin_logged_in() ) {
-            ?>
-   
-            <li class='sidebar-item'>
-                <a href="?logout=1&admin_hashed_nonce=<?=$ct_gen->admin_hashed_nonce('logout')?>" title='Logout from the admin area.'>Logout</a>
-            </li>
-            
-            <?php
-            }
-            ?>
-            
-            <li class='sidebar-item'>
-                <a href="javascript: return false;" class="show_help_faq bitcoin" title='Get help with running and setting up this app.'>Help?</a>
-            </li>
             
         </ul>
 

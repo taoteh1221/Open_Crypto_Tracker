@@ -396,7 +396,6 @@ padding: 8px;
 
 .subsection_fieldset {
 border: 1px solid #808080;
-margin: 25px;
 margin-bottom: 50px;
 }
 
@@ -501,6 +500,9 @@ margin-bottom: 2px;
 
 
 div.tabdiv {
+padding-top: 10px;
+padding-left: 30px;
+padding-right: 9px;
 min-height: 150px;
 display: none;
 min-width: 100%;
@@ -550,8 +552,8 @@ text-decoration: none;
 .full_width_wrapper {
 position: relative;
 width: 100%;
-padding-left: 60px;
-padding-right: 18px;
+padding-left: 30px;
+padding-right: 9px;
 }
 
 
@@ -735,7 +737,7 @@ margin: 0px;
      margin: auto;
     min-height: 100vh;
      padding: 20px;
-     padding-top: 10px;
+     padding-top: 0px;
     transition: all 0.3s;
     width: calc(100% - 258px);
     left: 258px !important;
@@ -776,8 +778,8 @@ width: 90%;
 font-size: 21px;
 min-height: 23px; 
 margin: auto;
-margin-top: 3px;
-margin-bottom: 13px;
+margin-top: 20px;
+margin-bottom: 0px;
 z-index: 3;
 }
 
@@ -789,6 +791,8 @@ width: 90%;
 white-space: nowrap;
 font-size: 60px;
 margin: auto;
+margin-top: 20px;
+margin-bottom: 0px;
 }
 
 
