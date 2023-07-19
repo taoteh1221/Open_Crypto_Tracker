@@ -182,7 +182,7 @@ color: #ea6b1c !important;
 }
 
 
-.blue, td.blue, td.blue span.blue, td select, .btn-link, .btn-link a, .btn-link:hover {
+.blue, td.blue, td.blue span.blue, td select, .btn-link, .btn-link a, .btn-link:hover, #sidebar ul.list-unstyled li a.blue:link {
 color: #1a1696 !important;
 }
 
@@ -208,14 +208,19 @@ border-top: 2px solid black;
 }
 
 
-.card-body, .faq_bg {
+.accordion-item {
     color: #000 !important;
     background: #fff !important;
 }
 
 
-.card-header {
-    background: #eaeaea !important;
+.accordion-button {
+    background: #848484 !important;
+}
+
+
+.accordion-button:not(.collapsed) {
+    background: #69787f !important;
 }
 
 

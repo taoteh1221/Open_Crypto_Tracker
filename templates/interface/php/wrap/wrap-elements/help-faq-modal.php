@@ -1,16 +1,17 @@
-<?php
-/*
- * Copyright 2014-2023 GPLv3, Open Crypto Tracker by Mike Kilday: Mike@DragonFrugal.com
- */
-
-
-?>
 
 	
-<h2 class='bitcoin page_title'>Help</h2>
-	            
-
-<div class='full_width_wrapper'>
+<!-- START help modal -->
+<div id="show_help_faq">
+	
+		
+		<h3 style='display: inline;'>Help / FAQ</h3>
+	
+				<span style='z-index: 99999; margin-right: 55px;' class='red countdown_notice_modal'></span>
+	
+	<br clear='all' />
+	<br clear='all' />
+			
+	
 			
 	
 	<div class="accordion" id="accordionHelp" style='margin: 20px; margin-top: 35px;'> <!-- Accordion START -->
@@ -23,13 +24,13 @@
   
 	  <div class="accordion-item">
          <h2 class="accordion-header" id="heading_<?=$accord_var?>">
-           <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapse_<?=$accord_var?>" aria-expanded="true" aria-controls="#collapse_<?=$accord_var?>">
+           <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse_<?=$accord_var?>" aria-expanded="false" aria-controls="#collapse_<?=$accord_var?>">
              
             Feature Requests / Reporting Issues / Help
             
            </button>
          </h2>
-         <div id="collapse_<?=$accord_var?>" class="accordion-collapse collapse show" aria-labelledby="heading_<?=$accord_var?>" data-bs-parent="#accordionHelp">
+         <div id="collapse_<?=$accord_var?>" class="accordion-collapse collapse" aria-labelledby="heading_<?=$accord_var?>" data-bs-parent="#accordionHelp">
            <div class="accordion-body">
            
            
@@ -84,9 +85,9 @@
   
 	  <div class="accordion-item">
          <h2 class="accordion-header" id="heading_<?=$accord_var?>">
-           <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapse_<?=$accord_var?>" aria-expanded="true" aria-controls="#collapse_<?=$accord_var?>">
+           <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse_<?=$accord_var?>" aria-expanded="true" aria-controls="#collapse_<?=$accord_var?>">
              
-            Setting Up The 'Desktop Edition' <span class='bitcoin'>(runs very easily, like any other normally-downloaded native app)</span>
+            Setting Up The 'Desktop Edition' &nbsp; <span class='bitcoin'>(runs very easily, like any other normally-downloaded native app)</span>
             
            </button>
          </h2>
@@ -109,6 +110,12 @@ After downloading, unzip the contents of the download to your desktop or other p
 
 	    <br /><br />
 THE 'SERVER EDITION' IS CURRENTLY MORE RELIABLE THAN THE 'DESKTOP EDITION' ON WINDOWS MACHINES. CONSIDER READING THE 'Installing On A Web Server / Manual Installation' SECTION FURTHER DOWN HERE, IF YOU HAVE ISSUES WITH THE WINDOWS 'DESKTOP EDITION'. WE RELY ON ANOTHER OPEN SOURCE PROJECT CALLED '<a href='https://github.com/cztomczak/phpdesktop' target='_blank'>PHPdesktop</a>' FOR THE DESKTOP EDITIONS, AND THE WINDOWS VERSION IS CURRENTLY VERY OUT-DATED.
+
+	    <br /><br />
+<span class='bitcoin'>IMPORTANT NOTE FOR LINUX USERS:</span> 
+
+	    <br /><br />
+IF YOU GET THE ERROR: "CGI program sent malformed or too big", YOU LIKELY NEED TO BUILD A PHP BINARY THAT IS COMPATIBLE WITH YOUR UNIQUE SYSTEM SETUP. Try running the script "<a href='https://raw.githubusercontent.com/taoteh1221/Open_Crypto_Tracker/main/BUILD-PHP-FOR-LINUX-DESKTOP.bash' target='_blank'>BUILD-PHP-FOR-LINUX-DESKTOP.bash</a>" in the Desktop Edition main folder, which should fix things automatically for you. Just make sure it's file permissions are set to "executable" (chmod +x, OR chmod 755 should do that). IMPORTANT STEP: YOU *MUST* SHUT DOWN THE DESKTOP EDITION OF THIS APP *BEFOREHAND*, OTHERWISE THIS SCRIPT *CANNOT* INSTALL THE CREATED PHP BINARY IT BUILDS!
 	        
 	        
 	      </div>
@@ -125,9 +132,9 @@ THE 'SERVER EDITION' IS CURRENTLY MORE RELIABLE THAN THE 'DESKTOP EDITION' ON WI
   
 	  <div class="accordion-item">
          <h2 class="accordion-header" id="heading_<?=$accord_var?>">
-           <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapse_<?=$accord_var?>" aria-expanded="true" aria-controls="#collapse_<?=$accord_var?>">
+           <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse_<?=$accord_var?>" aria-expanded="true" aria-controls="#collapse_<?=$accord_var?>">
              
-            Automatic Setup For 'Server Edition' With Debian / Ubuntu / DietPi OS / RaspberryPi OS / Armbian, On Home / Internal Network <span class='red' style="display: block;">(recommended way to PRIVATELY / CHEAPLY use this app)</span>
+            Automatic Setup For 'Server Edition' With Debian / Ubuntu / DietPi OS / RaspberryPi OS / Armbian, On Home / Internal Network &nbsp; <span class='red'>(recommended way to PRIVATELY / CHEAPLY use this app)</span>
             
            </button>
          </h2>
@@ -181,9 +188,9 @@ SEE <a href='https://github.com/taoteh1221/Open_Crypto_Tracker/tree/main/DOCUMEN
   
 	  <div class="accordion-item">
          <h2 class="accordion-header" id="heading_<?=$accord_var?>">
-           <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapse_<?=$accord_var?>" aria-expanded="true" aria-controls="#collapse_<?=$accord_var?>">
+           <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse_<?=$accord_var?>" aria-expanded="true" aria-controls="#collapse_<?=$accord_var?>">
              
-            Installing On A Web Server / Manual Installation <span class='bitcoin'>('Server Edition')</span>
+            Installing On A Web Server / Manual Installation &nbsp; <span class='bitcoin'>('Server Edition')</span>
             
            </button>
          </h2>
@@ -217,7 +224,7 @@ See "<span class='bitcoin'>Setting Up Price Charts And Email / Text / Telegram /
   
 	  <div class="accordion-item">
          <h2 class="accordion-header" id="heading_<?=$accord_var?>">
-           <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapse_<?=$accord_var?>" aria-expanded="true" aria-controls="#collapse_<?=$accord_var?>">
+           <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse_<?=$accord_var?>" aria-expanded="true" aria-controls="#collapse_<?=$accord_var?>">
              
             Setting Up Price Charts And Email / Text / Telegram / Alexa Price Alerts
             
@@ -295,7 +302,7 @@ MAKE SURE YOU ONLY USE EITHER /etc/cron.d/, or 'crontab -e', NOT BOTH...ANY OLD 
   
 	  <div class="accordion-item">
          <h2 class="accordion-header" id="heading_<?=$accord_var?>">
-           <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapse_<?=$accord_var?>" aria-expanded="true" aria-controls="#collapse_<?=$accord_var?>">
+           <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse_<?=$accord_var?>" aria-expanded="true" aria-controls="#collapse_<?=$accord_var?>">
              
             Adding Your Own Coins
             
@@ -490,7 +497,7 @@ Ethereum ICO subtoken support (pre-exchange listing) has been built in (values a
   
 	  <div class="accordion-item">
          <h2 class="accordion-header" id="heading_<?=$accord_var?>">
-           <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapse_<?=$accord_var?>" aria-expanded="true" aria-controls="#collapse_<?=$accord_var?>">
+           <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse_<?=$accord_var?>" aria-expanded="true" aria-controls="#collapse_<?=$accord_var?>">
              
             Layout / Functions / Assets Not Running Properly, After Reconfiguring Or Upgrading
             
@@ -524,7 +531,7 @@ Ethereum ICO subtoken support (pre-exchange listing) has been built in (values a
   
 	  <div class="accordion-item">
          <h2 class="accordion-header" id="heading_<?=$accord_var?>">
-           <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapse_<?=$accord_var?>" aria-expanded="true" aria-controls="#collapse_<?=$accord_var?>">
+           <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse_<?=$accord_var?>" aria-expanded="true" aria-controls="#collapse_<?=$accord_var?>">
              
             Coinmarketcap.com / Coingecko.com Data Not Available For An Asset
             
@@ -550,7 +557,7 @@ Ethereum ICO subtoken support (pre-exchange listing) has been built in (values a
   
 	  <div class="accordion-item">
          <h2 class="accordion-header" id="heading_<?=$accord_var?>">
-           <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapse_<?=$accord_var?>" aria-expanded="true" aria-controls="#collapse_<?=$accord_var?>">
+           <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse_<?=$accord_var?>" aria-expanded="true" aria-controls="#collapse_<?=$accord_var?>">
              
             SMTP Email Sending Doesn't Work
             
@@ -585,7 +592,7 @@ SMTP email sending is REQUIRED if you are running this app on a home network, or
   
 	  <div class="accordion-item">
          <h2 class="accordion-header" id="heading_<?=$accord_var?>">
-           <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapse_<?=$accord_var?>" aria-expanded="true" aria-controls="#collapse_<?=$accord_var?>">
+           <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse_<?=$accord_var?>" aria-expanded="true" aria-controls="#collapse_<?=$accord_var?>">
              
             Page Loads Slowly Or Throws Errors With Proxies Enabled
             
@@ -615,7 +622,7 @@ SMTP email sending is REQUIRED if you are running this app on a home network, or
   
 	  <div class="accordion-item">
          <h2 class="accordion-header" id="heading_<?=$accord_var?>">
-           <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapse_<?=$accord_var?>" aria-expanded="true" aria-controls="#collapse_<?=$accord_var?>">
+           <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse_<?=$accord_var?>" aria-expanded="true" aria-controls="#collapse_<?=$accord_var?>">
              
             Backup Archives Don't Work
             
@@ -639,7 +646,7 @@ SMTP email sending is REQUIRED if you are running this app on a home network, or
   
 	  <div class="accordion-item">
          <h2 class="accordion-header" id="heading_<?=$accord_var?>">
-           <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapse_<?=$accord_var?>" aria-expanded="true" aria-controls="#collapse_<?=$accord_var?>">
+           <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse_<?=$accord_var?>" aria-expanded="true" aria-controls="#collapse_<?=$accord_var?>">
              
             Binance Markets Do Not Work
             
@@ -663,7 +670,7 @@ SMTP email sending is REQUIRED if you are running this app on a home network, or
   
 	  <div class="accordion-item">
          <h2 class="accordion-header" id="heading_<?=$accord_var?>">
-           <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapse_<?=$accord_var?>" aria-expanded="true" aria-controls="#collapse_<?=$accord_var?>">
+           <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse_<?=$accord_var?>" aria-expanded="true" aria-controls="#collapse_<?=$accord_var?>">
              
             Write Errors In Error Log For Charts / Other Data
             
@@ -698,7 +705,7 @@ Running a google search for "set permanently ulimit -n linux", you'll find tons 
   
 	  <div class="accordion-item">
          <h2 class="accordion-header" id="heading_<?=$accord_var?>">
-           <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapse_<?=$accord_var?>" aria-expanded="true" aria-controls="#collapse_<?=$accord_var?>">
+           <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse_<?=$accord_var?>" aria-expanded="true" aria-controls="#collapse_<?=$accord_var?>">
              
             Partial API Data Failure, When Running Behind Slow Internet Connections
             
@@ -725,7 +732,7 @@ Running a google search for "set permanently ulimit -n linux", you'll find tons 
   
 	  <div class="accordion-item">
          <h2 class="accordion-header" id="heading_<?=$accord_var?>">
-           <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapse_<?=$accord_var?>" aria-expanded="true" aria-controls="#collapse_<?=$accord_var?>">
+           <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse_<?=$accord_var?>" aria-expanded="true" aria-controls="#collapse_<?=$accord_var?>">
              
             Data Errors, Data Not Updating
             
@@ -749,7 +756,7 @@ Running a google search for "set permanently ulimit -n linux", you'll find tons 
   
 	  <div class="accordion-item">
          <h2 class="accordion-header" id="heading_<?=$accord_var?>">
-           <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapse_<?=$accord_var?>" aria-expanded="true" aria-controls="#collapse_<?=$accord_var?>">
+           <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse_<?=$accord_var?>" aria-expanded="true" aria-controls="#collapse_<?=$accord_var?>">
              
             Server Edition Error: "Captcha image code was not correct"
             
@@ -776,7 +783,7 @@ Luckily EVEN ON SHARED HOSTING some web host companies allow you to set the PHP 
   
 	  <div class="accordion-item">
          <h2 class="accordion-header" id="heading_<?=$accord_var?>">
-           <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapse_<?=$accord_var?>" aria-expanded="true" aria-controls="#collapse_<?=$accord_var?>">
+           <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse_<?=$accord_var?>" aria-expanded="true" aria-controls="#collapse_<?=$accord_var?>">
              
             LINUX Desktop Edition Error: "CGI program sent malformed or too big"
             
@@ -860,7 +867,7 @@ After using the above configuration, and then running "make", when you then run 
   
 	  <div class="accordion-item">
          <h2 class="accordion-header" id="heading_<?=$accord_var?>">
-           <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapse_<?=$accord_var?>" aria-expanded="true" aria-controls="#collapse_<?=$accord_var?>">
+           <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse_<?=$accord_var?>" aria-expanded="true" aria-controls="#collapse_<?=$accord_var?>">
              
             Creating A Custom Plugin For This App
             
@@ -1099,7 +1106,7 @@ CRON-DESIGNATED PLUGINS (PLUGINS FLAGGED TO RUN DURING CRON JOBS) DO RUN #LAST# 
   
 	  <div class="accordion-item">
          <h2 class="accordion-header" id="heading_<?=$accord_var?>">
-           <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapse_<?=$accord_var?>" aria-expanded="true" aria-controls="#collapse_<?=$accord_var?>">
+           <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse_<?=$accord_var?>" aria-expanded="true" aria-controls="#collapse_<?=$accord_var?>">
              
             About Open Crypto Tracker
             
@@ -1124,6 +1131,8 @@ CRON-DESIGNATED PLUGINS (PLUGINS FLAGGED TO RUN DURING CRON JOBS) DO RUN #LAST# 
 	       <br /><br />Anybody can FULLY audit the security of this app's codebase (or hire someone to do so for them), and report or fix any issues found, or contribute new features. You can even 'fork' your own version of the codebase, as long as you leave licensing / attribution in place within your fork. More information on project ethos and contributing to this project can be found in <a href='CONTRIBUTING.txt' target='_blank'>CONTRIBUTING.txt</a> (in the app's main directory).
 	       
 	       </div>
+	       
+	       <br clear='all' />
 	        
 	        
 	      </div>
@@ -1139,11 +1148,20 @@ CRON-DESIGNATED PLUGINS (PLUGINS FLAGGED TO RUN DURING CRON JOBS) DO RUN #LAST# 
 	</div> <!-- Accordion END -->
 	
 	
-			    
-			    
-</div> <!-- full_width_wrapper END -->
+</div>
+<!-- END help modal -->
+	
+	
+	<script>
+	
+	modal_windows.push('.show_help_faq'); // Add to modal window tracking (for closing all dynaimically on app reloads) 
+	
+	$('.show_help_faq').modaal({
+	fullscreen: true,
+	content_source: '#show_help_faq'
+	});
+	</script>
+	
+	
 
-
-
-
-		    
+	</script>

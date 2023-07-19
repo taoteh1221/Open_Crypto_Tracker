@@ -10,22 +10,36 @@ NEXT SCHEDULED WORK SESSION (DEBUGGING AND / OR INFRASTRUCTURE)
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
-Test in desktop editions.
+Tighten up the portfolio table data spacing / padding in firefox, it WAAAY more then chrome.
 
 
-On admin login on safari browser, have a alert (like the cookies notice) saying safari is not supported in the admin interface.
+Remove localbitcoins support (they are closing shop).
 
 
-Help / FAQ page link should be moved to bottom of sidebar, with a questionmark icon next to it. It ALSO should be a MODAL WINDOW (like 'more stats'), that is hidden in footer.php, so it can be opened in the user and admin areas just as easily. 
+Add Bitcoin NFT support.
 
 
-Privacy mode toggle should also be moved to bottom of sidebar.
+Convert Arch linux support in auto-installer over to redhat (yum), as Arch does NOT have much package / setup support for libraries we use. WE ALREADY CONVERTED "BUILD-PHP-FOR-LINUX-DESKTOP.bash" OVER TO BE REDHAT COMPATIBLE, so use it as a template to integrate into FOLIO-INSTALL.bash. ALSO REMOVE ARCH DOCUMENTATION AND REPLACE WITH FEDORA DOCS.
 
 
-Add Linux desktop notes for building PHP binary in general documentation.
+Integrate google authenticator / microsoft authenticator / authy / etc BEING REQUIRED TO CHANGE THE ADMIN SECURITY LEVEL (and also make it OPTIONAL for login security):
+
+https://www.google.com/search?q=php+one+time+password+google+authenticator
+
+https://www.rafaelwendel.com/en/2021/05/two-step-verification-with-php-and-google-authenticator/
+
+https://github.com/sonata-project/GoogleAuthenticator
+
+https://stackoverflow.com/questions/tagged/sonata
 
 
-Fix how the new sidebar nav system looks on mobile devices.
+On smaller screens (mobile etc), the COMPACT sidebar should be transformed into a top bar (horizontal across top, instead of vertical down the side, with DROP-downs OR SLIDE-downs for secondary submenus [like my biz site on mobile...whichever has a better 'feel']). Have each menu category be an icon that when clicked does a drop-down menu below it, THAT IS THE ENTIRE WIDTH OF THE SCREEN. Skip supporting 3-deep subnav here, unless we can make it work using the entire screen width for 2-deep subnav entries (for small screen tapping UX / less confusion). When each main drop-down is clicked, any other main drop-down should close automatically.
+
+
+Move remaining font-size / line-height logic in style.css AND ELSEWHERE into our dynamic CSS header logic.
+
+
+Add feature to address balance tracker plugin to set minimum time to wait before re-sending the same address alert (in hours). Default it to a high number like 8 hours, so any shitty API servers don't send endless alerts as they send bs results (like helium network API).
 
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -179,9 +193,6 @@ DEBUGGING / TESTS / UX / QA / OTHER
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
 
-Make the app look a bit nicer in firefox if possible (WITHOUT FF-specific code).
-
-
 Change semantic naming of 'coin_amnts' form id, as it now also handles charts / news feeds / etc.
 
 
@@ -289,33 +300,7 @@ FEATURES / NEW INFRASTRUCTURE / RESEARCH
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
-Convert Arch linux support in auto-installer over to redhat (yum), as Arch does NOT have much package / setup support for libraries we use. WE ALREADY CONVERTED "BUILD-PHP-FOR-LINUX-DESKTOP.bash" OVER TO BE REDHAT COMPATIBLE, so use it as a template to integrate into FOLIO-INSTALL.bash. ALSO REMOVE ARCH DOCUMENTATION AND REPLACE WITH FEDORA DOCS.
-
-
-Integrate google authenticator / microsoft authenticator / authy / etc BEING REQUIRED TO CHANGE THE ADMIN SECURITY LEVEL FROM HIGH TO A LOWER LEVEL (and also make it OPTIONAL for login security):
-
-https://www.google.com/search?q=php+one+time+password+google+authenticator
-
-https://www.rafaelwendel.com/en/2021/05/two-step-verification-with-php-and-google-authenticator/
-
-https://github.com/sonata-project/GoogleAuthenticator
-
-https://stackoverflow.com/questions/tagged/sonata
-
-
-On smaller screens (mobile etc), the COMPACT sidebar should be transformed into a top bar (horizontal across top, instead of vertical down the side, with DROP-downs OR SLIDE-downs for secondary submenus [like my biz site on mobile...whichever has a better 'feel']). Have each menu category be an icon that when clicked does a drop-down menu below it, THAT IS THE ENTIRE WIDTH OF THE SCREEN. Skip supporting 3-deep subnav here, unless we can make it work using the entire screen width for 2-deep subnav entries (for small screen tapping UX / less confusion). When each main drop-down is clicked, any other main drop-down should close automatically.
-
-
-Remove localbitcoins support (they are closing shop).
-
-
-Add Bitcoin NFT support.
-
-
-Move remaining font-size / line-height logic in style.css AND ELSEWHERE into our dynamic CSS header logic.
-
-
-Add feature to address balance tracker plugin to set minimum time to wait before re-sending the same address alert (in hours). Default it to a high number like 8 hours, so any shitty API servers don't send endless alerts as they send bs results (like helium network API).
+The BITdao token will be switching it's name / ticker symbol to mantle / MNT.
 
 
 MIGRATION TO BOOTSTRAP V5:

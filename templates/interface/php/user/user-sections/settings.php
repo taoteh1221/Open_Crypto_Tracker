@@ -142,7 +142,7 @@
 				    
 		 <script>
 
-					if ( get_cookie('priv_toggle') == 'on' ) {
+				    if ( get_cookie('priv_toggle') == 'on' ) {
 				    $("#sorting_alert").html("Sorting by the Holdings / Holdings Value / Subtotal columns is currently disabled, as Privacy Mode is turned ON.");
 				    $("#sorting_alert").show(250, "linear"); // 0.25 seconds
 				    }
@@ -411,18 +411,18 @@
 			    update_alert_percent();
 			    
 			    if ( this.value == "yes" ) {
-			    document.getElementById("alert_source").style.display = "inline";
-			    document.getElementById("percent_change_amnt").style.display = "inline";
-			    document.getElementById("percent_change_filter").style.display = "inline";
-			    document.getElementById("percent_change_time").style.display = "inline";
-			    document.getElementById("percent_change_alert_type").style.display = "inline";
+			    $("#alert_source").css("display", "inline");
+			    $("#percent_change_amnt").css("display", "inline");
+			    $("#percent_change_filter").css("display", "inline");
+			    $("#percent_change_time").css("display", "inline");
+			    $("#percent_change_alert_type").css("display", "inline");
 			    }
 			    else {
-			    document.getElementById("alert_source").style.display = "none";
-			    document.getElementById("percent_change_amnt").style.display = "none";
-			    document.getElementById("percent_change_filter").style.display = "none";
-			    document.getElementById("percent_change_time").style.display = "none";
-			    document.getElementById("percent_change_alert_type").style.display = "none";
+			    $("#alert_source").css("display", "none");
+			    $("#percent_change_amnt").css("display", "none");
+			    $("#percent_change_filter").css("display", "none");
+			    $("#percent_change_time").css("display", "none");
+			    $("#percent_change_alert_type").css("display", "none");
 			    }
 			    
 			    '>

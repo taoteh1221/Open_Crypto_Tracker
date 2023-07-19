@@ -62,6 +62,8 @@ var sidebar_toggle_storage;
 
 var cookies_notice_storage;
 
+var safari_notice_storage;
+
 var refresh_cache_upgrade_notice_storage;
 
 var scroll_position_storage;
@@ -93,6 +95,8 @@ var alert_color_gain;
 var alert_color_loss;
 
 var audio_alert_played;
+
+var admin_iframe_load;
 
 var iframe_font_val;
 
@@ -127,5 +131,10 @@ var is_iframe = false;
 
 var form_submit_queued = false;
 	
+var gen_csrf_sec_token = Base64.encode('none');
+	
 var background_tasks_status = 'wait';
+
+var is_safari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent);
+
 

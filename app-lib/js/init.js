@@ -47,6 +47,9 @@ background_tasks_check();
 // https://codepen.io/kkoutoup/pen/zxmGLE
 random_tips(); 
 
+
+// Monitor admin iframes for load / unload events
+admin_iframe_load = document.querySelectorAll('.admin_iframe');
 	
 
 	/////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -223,9 +226,6 @@ random_tips();
 	/////////////////////////////////////////////////////////////////////////////////////////////////////
 	
 	
-    // Monitor admin iframes for load / unload events
-    const admin_iframe_load = document.querySelectorAll('.admin_iframe');
-    ////
     admin_iframe_load.forEach(function(iframe) {
        
           // When admin iframe loads
@@ -770,10 +770,26 @@ random_tips();
               }
           });
          
+          
+          // Clicks INSIDE IFRAMES should close COLLAPSED SIDEBAR OPEN SUBNAV menus
+          $("iframe").on("load", function(){
+               
+              $(this).contents().on("mousedown, mouseup, click", function(){
+                   
+              $('#collapsed_sidebar a[aria-expanded]').removeClass("active");
+              
+              $('#collapsed_sidebar a[aria-expanded]').removeClass("show");
+              
+              $('#collapsed_sidebar ul').removeClass("show");
+
+              $('#collapsed_sidebar a[aria-expanded="true"]').attr('aria-expanded', 'false');
+              
+              });
+              
+          });
     
     
     }
-    
 
 	/////////////////////////////////////////////////////////////////////////////////////////////////////
     

@@ -4,7 +4,7 @@
  */
  
  
-require("templates/interface/php/header.php");
+require("templates/interface/php/wrap/header.php");
 
 
 // Admin template to use    
@@ -19,6 +19,6 @@ require("templates/interface/php/admin/admin-elements/iframe-content-plugin.php"
 }
     		
 
-require("templates/interface/php/footer.php");
+require("templates/interface/php/wrap/footer.php");
 
 ?>

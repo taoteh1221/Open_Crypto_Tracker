@@ -1,6 +1,6 @@
 
 
-Add to /templates/interface/php/footer.php when testing unicode mobile text support:
+Add to /templates/interface/php/wrap/footer.php when testing unicode mobile text support:
 
 
       ////START DEBUGGING ///////////////////////////////////////////////////////////////

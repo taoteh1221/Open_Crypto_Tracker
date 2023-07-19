@@ -404,7 +404,7 @@
 	        
 	        <li class='links_list'><a href='https://www.reddit.com/r/ethereum/' target='_blank'>Ethereum Subreddit</a></li>
 	        
-	        <li class='links_list'><a href='https://HaveFunStayingBored.com/' target='_blank'>HaveFunStayingBored.com</a> <span class='yellow'>(Open Crypto Tracker website shortcut)</span></li>
+	        <li class='links_list'><a href='http://OpenCryptoTracker.org/' target='_blank'>OpenCryptoTracker.org</a> <span class='yellow'>(Open Crypto Tracker website shortcut)</span></li>
 	        
 	        <li class='links_list'><a href='https://nakamotoinstitute.org/' target='_blank'>Nakamotoinstitute.org</a> <span class='yellow'>(Bitcoin educational resources)</span></li>
 	        
@@ -445,8 +445,6 @@
 	        <li class='links_list'><a href='https://www.youtube.com/user/CoinDesk/featured' target='_blank'>CoinDesk</a></li>
 	        
 	        <li class='links_list'><a href='https://www.youtube.com/user/cointelegraph/featured' target='_blank'>Cointelegraph</a></li>
-	        
-	        <li class='links_list'><a href='https://www.youtube.com/channel/UCCatR7nWbYrkVXdxXb4cGXw/featured' target='_blank'>DataDash</a></li>
 	        
 	        <li class='links_list'><a href='https://www.youtube.com/channel/UCu7Sre5A1NMV8J3s2FhluCw' target='_blank'>Crypto Love</a></li>
 	        

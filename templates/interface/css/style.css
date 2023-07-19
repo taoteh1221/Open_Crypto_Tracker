@@ -18,6 +18,7 @@ padding: 0px;
 body {
 margin: 0px;
 width: auto;
+font-weight: 400 !important;
 }
 
 
@@ -112,7 +113,7 @@ height: 15px !important;
 
 
 button, input[type=submit], input[type=button], .force_button_style {
-  color: white;
+  color: white !important;
   padding: 5px 10px;
   text-align: center;
   font-weight: bold;
@@ -221,6 +222,15 @@ pointer-events: none !important;
 
 .pw_prompt button {    
 margin-left: 5px;
+}
+
+
+.pw_prompt .close_prompt {
+position: absolute;
+top: -1px;
+right: 3px;
+font-weight: bold;
+cursor: pointer;
 }
 
 
@@ -386,7 +396,6 @@ padding: 8px;
 
 .subsection_fieldset {
 border: 1px solid #808080;
-margin: 25px;
 margin-bottom: 50px;
 }
 
@@ -461,7 +470,7 @@ color: #ffb83f !important;
 }
 
 
-.bitcoin, .btc {
+.bitcoin, .btc, #sidebar ul.list-unstyled li a.bitcoin:link {
 color: #dd7c0d !important;
 }
 
@@ -491,6 +500,9 @@ margin-bottom: 2px;
 
 
 div.tabdiv {
+padding-top: 10px;
+padding-left: 30px;
+padding-right: 9px;
 min-height: 150px;
 display: none;
 min-width: 100%;
@@ -540,8 +552,8 @@ text-decoration: none;
 .full_width_wrapper {
 position: relative;
 width: 100%;
-padding-left: 60px;
-padding-right: 18px;
+padding-left: 30px;
+padding-right: 9px;
 }
 
 
@@ -663,9 +675,49 @@ margin-top: 30px !important;
 }
 
 
+/*  https://jsfiddle.net/TheAL/ednxgwrj/  */
+.footer_banner_button {
+    background: none !important;
+    padding: 0 !important;
+    border: none !important;
+}
+.footer_banner_button:hover {
+    text-decoration: underline !important;
+    cursor: pointer !important;
+}
+.footer_banner {
+    font-size: 15px !important;   
+    font-weight: 400 !important;
+    line-height: 30px !important;
+    padding: 10px 5px !important;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    display: none;
+    width: 100% !important;
+    text-align: center !important;
+    color: #000 !important;
+    background: #efc551 !important;
+    z-index: 9999 !important;
+}
+.footer_banner .footer_banner_button {
+    display: inline-block !important;
+    line-height: 30px;
+    margin-left: 10px;
+    padding: 0 15px !important;
+    color: #000 !important;
+    background: #b9ff35 !important;
+}
+
+
 /* //////////////////////////////
 IDs
 ////////////////////////////// */
+
+
+#pm_link_icon_div {
+background: #dd7c0d;
+}
 
 
 #primary_wrapper.wrapper {
@@ -685,7 +737,7 @@ margin: 0px;
      margin: auto;
     min-height: 100vh;
      padding: 20px;
-     padding-top: 10px;
+     padding-top: 0px;
     transition: all 0.3s;
     width: calc(100% - 258px);
     left: 258px !important;
@@ -698,6 +750,11 @@ margin: 0px;
 }
 
 
+#secondary_wrapper ul > li {
+margin: 10px;
+}
+
+
 #watch_only {
 display: inline-block; 
 padding: 7px; 
@@ -707,11 +764,9 @@ margin-bottom: 15px;
 }
 
 
-#pm_link {
-font-weight: bold;
+#pm_link, #pm_link3 {
 text-decoration: underline;
 cursor: pointer;
-margin-right: 6px;
 }
 
 
@@ -723,8 +778,8 @@ width: 90%;
 font-size: 21px;
 min-height: 23px; 
 margin: auto;
-margin-top: 3px;
-margin-bottom: 13px;
+margin-top: 20px;
+margin-bottom: 0px;
 z-index: 3;
 }
 
@@ -736,6 +791,8 @@ width: 90%;
 white-space: nowrap;
 font-size: 60px;
 margin: auto;
+margin-top: 20px;
+margin-bottom: 0px;
 }
 
 
@@ -859,11 +916,6 @@ cursor: pointer;
 }
 
 
-#alert_source, #percent_change_amnt, #percent_change_filter, #percent_change_time, #percent_change_alert_type, #show_chart_settings, #show_feed_settings, #show_portfolio_stats, #show_system_stats, #show_access_stats, #show_logs, #coins_table, #sys_stats_quick_link_info, .sys_stats_admin_link_info, #header_size_warning, .hidden {
-display: none !important;
-}
-
-
 /* ---------------------------------------------------
     SIDEBAR STYLE
 ----------------------------------------------------- */
@@ -884,6 +936,7 @@ display: none !important;
     height: 100vh;
     z-index: 999;
     transition: all 0.3s;
+    min-height: 100%;
 }
 
 
@@ -1092,7 +1145,7 @@ top: 0px;
 left: 0px; 
 z-index: 5;
 padding-bottom: 25px;
-height: 100%;
+min-height: 100%;
 }
 
 
@@ -1138,6 +1191,11 @@ border-radius: 0px !important;
 /* Remove caret icon from drop-down menu items */
 #collapsed_sidebar .dropdown-toggle::after {
  display: none !important;
+}
+
+
+#alert_source, #percent_change_amnt, #percent_change_filter, #percent_change_time, #percent_change_alert_type, #show_chart_settings, #show_feed_settings, #show_portfolio_stats, #show_help_faq, #show_system_stats, #show_access_stats, #show_logs, #coins_table, #sys_stats_quick_link_info, .sys_stats_admin_link_info, #header_size_warning, .hidden {
+display: none;
 }
 
 

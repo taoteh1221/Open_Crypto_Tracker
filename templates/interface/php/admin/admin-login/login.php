@@ -34,7 +34,7 @@ if ( $_POST['admin_submit_login'] ) {
 
 
 $login_template = 1;
-require("templates/interface/php/header.php");
+require("templates/interface/php/wrap/header.php");
 
 ?>
 
@@ -82,7 +82,7 @@ document.write("<p class='red align_center' style='font-size: 19px; font-weight:
 
 + "PRIVACY MODE MUST BE DISABLED to submit data: "
 
-+ "<span id='pm_link' class='bitcoin' onclick='privacy_mode(true);' title=''>Disable Privacy Mode</span>"
++ "<span id='pm_link3' class='bitcoin' onclick='privacy_mode(true);' title=''>Disable Privacy Mode</span>"
 
 + "</p>");
 	 
@@ -203,5 +203,5 @@ Google Fonts is supported (fonts.google.com).'>Get A Different Image</a>
 
 
 <?php
-require("templates/interface/php/footer.php");
+require("templates/interface/php/wrap/footer.php");
 ?>
