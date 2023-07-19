@@ -47,6 +47,9 @@ background_tasks_check();
 // https://codepen.io/kkoutoup/pen/zxmGLE
 random_tips(); 
 
+
+// Monitor admin iframes for load / unload events
+admin_iframe_load = document.querySelectorAll('.admin_iframe');
 	
 
 	/////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -223,9 +226,6 @@ random_tips();
 	/////////////////////////////////////////////////////////////////////////////////////////////////////
 	
 	
-    // Monitor admin iframes for load / unload events
-    const admin_iframe_load = document.querySelectorAll('.admin_iframe');
-    ////
     admin_iframe_load.forEach(function(iframe) {
        
           // When admin iframe loads

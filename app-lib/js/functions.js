@@ -2051,10 +2051,17 @@ function nav_menu($chosen_menu) {
               // Scroll left, if we are wider than the page (for UX)
               scroll_start();
      	    
-     	    
      	    // Do any textarea autoresizes, now that this content is showing
      	    // (since it may not have been showing on app load)
      	    autoresize_update(); 
+     	    
+     	       // Make sure admin iframe heights are adjusted
+                 if ( is_admin == true ) {
+                     admin_iframe_load.forEach(function(iframe) {
+                     iframe_height_adjust(iframe);
+                     });
+                 }
+                 
      	    
      	    });
      	    

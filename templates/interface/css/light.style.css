@@ -208,14 +208,19 @@ border-top: 2px solid black;
 }
 
 
-.card-body, .faq_bg {
+.accordion-item {
     color: #000 !important;
     background: #fff !important;
 }
 
 
-.card-header {
-    background: #eaeaea !important;
+.accordion-button {
+    background: #848484 !important;
+}
+
+
+.accordion-button:not(.collapsed) {
+    background: #69787f !important;
 }
 
 

@@ -146,10 +146,10 @@ $ct_conf['comms']['upgrade_alert_reminder'] = 7; // (only used if upgrade check 
 
 // Every X days email a list of #NEW# RSS feed posts. 
 // 0 to disable. Email to / from !MUST BE SET IN COMMS CHANNELS SETUP!
-$ct_conf['comms']['news_feed_email_freq'] = 1; // (default = 1)
+$ct_conf['comms']['news_feed_email_freq'] = 2; // (default = 2)
 ////
-// MAXIMUM #NEW# RSS feed entries to include (per-feed) in news feed EMAIL (less then 'news_feed_email_freq' days old)
-$ct_conf['comms']['news_feed_email_entries_show'] = 15; // (default = 15)
+// MAXIMUM #NEW# RSS feed entries to include (per-feed) in news feed EMAIL (that are less then 'news_feed_email_freq' days old)
+$ct_conf['comms']['news_feed_email_entries_show'] = 20; // (default = 20)
 
 
 // PRICE ALERTS SETUP REQUIRES A CRON JOB / SCHEDULED TASK RUNNING ON YOUR WEB SERVER (see README.txt for setup information) 
@@ -677,10 +677,10 @@ $ct_conf['power']['activate_plugins'] = array(
 
 // NEWS FEED SETTINGS (ATOM / RSS formats supported)
 // RSS feed entries to show (per-feed) on News page (without needing to click the "show more / less" link)
-$ct_conf['power']['news_feed_entries_show'] = 15; // (default = 15)
+$ct_conf['power']['news_feed_entries_show'] = 10; // (default = 10)
 ////
 // RSS feed entries under X DAYS old are marked as 'new' on the news page
-$ct_conf['power']['news_feed_entries_new'] = 1; // (default = 1)
+$ct_conf['power']['news_feed_entries_new'] = 2; // (default = 2)
 ////
 // Minutes to cache RSS feeds for News page
 // Randomly cache each RSS feed between the minimum and maximum MINUTES set here (so they don't refresh all at once, for faster runtimes)
@@ -1095,26 +1095,8 @@ $ct_conf['power']['news_feed'] = array(
         
         
         				array(
-            			"title" => "Blog - Coinbase",
-            			"url" => "https://medium.com/feed/the-coinbase-blog"
-        						),
-        
-        
-        				array(
             			"title" => "Blog - Ethereum.org (community-driven on-chain smart contracts)",
             			"url" => "https://blog.ethereum.org/feed.xml"
-        						),
-        
-        
-        				array(
-            			"title" => "Blog - Ethereum Solidity (smart contract programming language)",
-            			"url" => "https://solidity.ethereum.org/feed.xml"
-        						),
-        
-        
-        				array(
-            			"title" => "Blog - Grape Protocol (tokenized community access on Solana)",
-            			"url" => "https://medium.com/feed/great-ape"
         						),
         
         
@@ -1133,12 +1115,6 @@ $ct_conf['power']['news_feed'] = array(
         				array(
             			"title" => "Blog - OkCoin",
             			"url" => "https://blog.okcoin.com/feed/"
-        						),
-        
-        
-        				array(
-            			"title" => "Blog - Portals (NFT-based metaverse on Solana)",
-            			"url" => "https://medium.com/@portals_/feed"
         						),
         
         
@@ -1383,12 +1359,6 @@ $ct_conf['power']['news_feed'] = array(
     
     
         				array(
-            			"title" => "Youtube - DataDash",
-            			"url" => "https://www.youtube.com/feeds/videos.xml?channel_id=UCCatR7nWbYrkVXdxXb4cGXw"
-        						),
-    
-    
-        				array(
             			"title" => "Youtube - Epicenter Podcast",
             			"url" => "https://www.youtube.com/feeds/videos.xml?channel_id=UCh-0T48JrvvmKDX41aWB_Vg"
         						),
@@ -1397,12 +1367,6 @@ $ct_conf['power']['news_feed'] = array(
         				array(
             			"title" => "Youtube - Ethereum Foundation",
             			"url" => "https://www.youtube.com/feeds/videos.xml?channel_id=UCNOfzGXD_C9YMYmnefmPH0g"
-        						),
-    
-    
-        				array(
-            			"title" => "Youtube - Grape Network",
-            			"url" => "https://www.youtube.com/feeds/videos.xml?channel_id=UC58byjI3u8KaehHumP3AXrQ"
         						),
     
     

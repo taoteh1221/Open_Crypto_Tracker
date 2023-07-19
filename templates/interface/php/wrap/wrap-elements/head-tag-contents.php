@@ -377,18 +377,21 @@
      <?=$font_size_css_selector?> {
      font-size: <?=$default_font_size?>em !important;
      line-height: <?=$default_font_line_height?>em !important;
+     font-weight: 400 !important;
      }
 
      /* medium font size CSS selector (we skip sidebar HEADER area) */
      <?=$medium_font_size_css_selector?> {
      font-size: <?=$default_medium_font_size?>em !important;
      line-height: <?=$default_medium_font_line_height?>em !important;
+     font-weight: 400 !important;
      }
 
      /* small font size CSS selector (we skip sidebar HEADER area) */
      <?=$small_font_size_css_selector?> {
      font-size: <?=$default_tiny_font_size?>em !important;
      line-height: <?=$default_tiny_font_line_height?>em !important;
+     font-weight: 400 !important;
      }
      
 	

@@ -6091,6 +6091,8 @@ v6.00.2 AND HIGHER RESETS LIGHT (TIME PERIOD) CHARTS FROM ARCHIVAL DATA, ONE-TIM
 
 -Added Twilio texting (SMS) API support
 
+-Firefox font rendering improvements
+
 -Upgraded to Highlightjs v11.7.0
 
 -Upgraded to zingchart v2.9.11

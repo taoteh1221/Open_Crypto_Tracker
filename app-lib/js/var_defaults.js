@@ -96,6 +96,8 @@ var alert_color_loss;
 
 var audio_alert_played;
 
+var admin_iframe_load;
+
 var iframe_font_val;
 
 var iframe_height_adjuster;
