@@ -10,6 +10,9 @@ NEXT SCHEDULED WORK SESSION (DEBUGGING AND / OR INFRASTRUCTURE)
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
+Privacy mode should also hide COMPLETELY the gain / loss summary at the bottom of the portfolio page (including the title description [which says whether it's a gain or loss]).
+
+
 Fix issues on Desktop Editions. Zoom, sidebar scrolling, titles showing properly, and text increase / decrease features are not running well at all with the big overhaul done for v6.00.19. Find out why.
 
 
