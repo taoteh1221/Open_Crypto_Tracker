@@ -506,7 +506,7 @@ $altcoin_dominance = $ct_var->max_100($altcoin_dominance);
 			
 			<div class="portfolio_summary">
 			
-			<span class="black">Crypto Value:</span> 
+			<span class="black private_data">Crypto Value:</span> 
 			
 			<span class='private_data'>
 			<?php
@@ -613,7 +613,7 @@ $altcoin_dominance = $ct_var->max_100($altcoin_dominance);
 		
         $thres_dec = $ct_gen->thres_dec($total_prim_currency_worth, 'u', 'fiat'); // Units mode
 		// Fiat value of portfolio
-		echo '<span class="black">' . strtoupper($ct_conf['gen']['btc_prim_currency_pair']) . ' Value:</span> <span class="private_data">' . $ct_conf['power']['btc_currency_mrkts'][ $ct_conf['gen']['btc_prim_currency_pair'] ] . $ct_var->num_pretty($total_prim_currency_worth, $thres_dec['max_dec'], false, $thres_dec['min_dec']) . '</span>';
+		echo '<span class="black private_data">' . strtoupper($ct_conf['gen']['btc_prim_currency_pair']) . ' Value:</span> <span class="private_data">' . $ct_conf['power']['btc_currency_mrkts'][ $ct_conf['gen']['btc_prim_currency_pair'] ] . $ct_var->num_pretty($total_prim_currency_worth, $thres_dec['max_dec'], false, $thres_dec['min_dec']) . '</span>';
 		
 		?>
 		
@@ -667,7 +667,7 @@ var fiat_val_content = '<h5 class="yellow tooltip_title">Primary Currency (<?=st
 		<?php
 		
 		// If using margin leverege anywhere
-		echo ( $purchase_price_added == 1 && $lvrg_added == 1 && is_numeric($gain_loss_total) == TRUE ? '<div class="portfolio_summary"><span class="black">Leverage Included: </span>' . ( $total_prim_currency_worth_inc_lvrg >= 0 ? '<span class="green private_data">' : '<span class="red private_data">-' ) . $ct_conf['power']['btc_currency_mrkts'][ $ct_conf['gen']['btc_prim_currency_pair'] ] . $parsed_total_prim_currency_worth_inc_lvrg . '</span></div>' : '' );
+		echo ( $purchase_price_added == 1 && $lvrg_added == 1 && is_numeric($gain_loss_total) == TRUE ? '<div class="portfolio_summary"><span class="black private_data">Leverage Included: </span>' . ( $total_prim_currency_worth_inc_lvrg >= 0 ? '<span class="green private_data">' : '<span class="red private_data">-' ) . $ct_conf['power']['btc_currency_mrkts'][ $ct_conf['gen']['btc_prim_currency_pair'] ] . $parsed_total_prim_currency_worth_inc_lvrg . '</span></div>' : '' );
 	
 
 		// Now that BTC / PAIR summaries have margin leverage stats NEXT TO THEM (NOT in the actual BTC / PAIR amounts, for UX's sake), 
@@ -689,7 +689,7 @@ var fiat_val_content = '<h5 class="yellow tooltip_title">Primary Currency (<?=st
 	<?php
 		
         $thres_dec = $ct_gen->thres_dec($percent_difference_total, 'p'); // Percentage mode
-		echo '<span class="black">' . ( $gain_loss_total >= 0 ? 'Gain:</span> <span class="green private_data">+' . $ct_conf['power']['btc_currency_mrkts'][ $ct_conf['gen']['btc_prim_currency_pair'] ] : 'Loss:</span> <span class="red private_data">' ) . $parsed_gain_loss_total . ' (' . ( $gain_loss_total >= 0 ? '+' : '-' ) . number_format($percent_difference_total, $thres_dec['max_dec'], '.', ',') . '%' . ')</span>';
+		echo '<span class="black private_data">' . ( $gain_loss_total >= 0 ? 'Gain:</span> <span class="green private_data">+' . $ct_conf['power']['btc_currency_mrkts'][ $ct_conf['gen']['btc_prim_currency_pair'] ] : 'Loss:</span> <span class="red private_data">' ) . $parsed_gain_loss_total . ' (' . ( $gain_loss_total >= 0 ? '+' : '-' ) . number_format($percent_difference_total, $thres_dec['max_dec'], '.', ',') . '%' . ')</span>';
 		
 	?> 
 		
@@ -819,7 +819,7 @@ var fiat_val_content = '<h5 class="yellow tooltip_title">Primary Currency (<?=st
 		
 		<?php
 			
-			echo '<span class="black">Balance:</span>  <span class="private_data">' . $bitcoin_dominance_text . $seperator_btc . $ethereum_dominance_text . $seperator_eth . $solana_dominance_text . $seperator_sol . $miscassets_dominance_text . $seperator_miscassets . $ethnfts_dominance_text . $seperator_ethnfts . $solnfts_dominance_text . $seperator_solnfts . $stocks_dominance_text . $seperator_stocks . $altcoin_dominance_text . '</span>';
+			echo '<span class="black private_data">Balance:</span>  <span class="private_data">' . $bitcoin_dominance_text . $seperator_btc . $ethereum_dominance_text . $seperator_eth . $solana_dominance_text . $seperator_sol . $miscassets_dominance_text . $seperator_miscassets . $ethnfts_dominance_text . $seperator_ethnfts . $solnfts_dominance_text . $seperator_solnfts . $stocks_dominance_text . $seperator_stocks . $altcoin_dominance_text . '</span>';
 			
 			
 		?>
@@ -1492,7 +1492,7 @@ zingchart.bind('marketcap_chart', 'label_click', function(e){
 
 		
 	<!-- Admin Config - Quick Links (if we are admin logged in) -->
-	<div id='admin_conf_quick_links' class='align_left'>
+	<div id='admin_conf_quick_links' class='align_left private_data'>
 	
 	<?php
 			// If hardware / software stats are enabled, display the os / hardware / load avg / temperature / free partition space / free memory [mb/percent] / portfolio cache size / software stats

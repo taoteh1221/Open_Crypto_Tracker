@@ -10,6 +10,12 @@ NEXT SCHEDULED WORK SESSION (DEBUGGING AND / OR INFRASTRUCTURE)
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
+Look for a good alternative to PHPdesktop, or at least a simple / redistributable binary to run a PHP server.
+
+
+Fix issues on Desktop Editions. Sidebar scrolling only partially / sometimes enables in REGULAR sidebar, doesn't work at all on COMPACT sidebar, and titles scrolling sticky properly are not running well at all with the big overhaul done for v6.00.19. Find out why.
+
+
 Tighten up the portfolio table data spacing / padding in firefox, it WAAAY more then chrome.
 
 

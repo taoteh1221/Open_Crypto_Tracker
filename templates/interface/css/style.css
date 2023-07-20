@@ -641,7 +641,8 @@ min-width: 1150px !important;
 .obfuscated {    
     display: none !important;
     line-height: 0px !important;
-    min-width: 0px !important;
+    max-width: 0px !important;
+    max-height: 0px !important;
     width: 0px !important;
     overflow: hidden !important;
     white-space: nowrap !important;
@@ -921,6 +922,15 @@ cursor: pointer;
 ----------------------------------------------------- */
 
 
+/* Scrollbar width for REGULAR sidebar */
+.mCSB_dragger_bar{
+    width:13px!important;
+ }
+ .mCSB_draggerRail{
+    width:13px!important;
+}
+
+
 #sidebar_hamburger {
     -webkit-transition: all 0.3s;
     -o-transition: all 0.3s;
@@ -1142,14 +1152,36 @@ max-width: 242px;
 position: fixed; 
 text-align: center;
 top: 0px; 
+bottom: 0px; /* lets fixed pos / 100% height elements scroll overflow */
 left: 0px; 
 z-index: 5;
 padding-bottom: 25px;
 min-height: 100%;
+overflow-x: hidden;
+overflow-y: auto;
 }
 
 
-#collapsed_sidebar img {
+/* COMPACT sidebar scrollbar styling */
+/* width */
+#collapsed_sidebar::-webkit-scrollbar {
+  width: 5px;
+}
+/* Track */
+#collapsed_sidebar::-webkit-scrollbar-track {
+  background: #888; 
+}
+/* Handle */
+#collapsed_sidebar::-webkit-scrollbar-thumb {
+  background: #f1f1f1; 
+}
+/* Handle on hover */
+#collapsed_sidebar::-webkit-scrollbar-thumb:hover {
+  background: #555; 
+}
+
+
+#collapsed_sidebar .nav-image {
 display: block;
 cursor: pointer; 
 width: 45px;
