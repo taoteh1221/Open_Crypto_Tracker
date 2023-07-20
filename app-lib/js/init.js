@@ -38,7 +38,8 @@ $("span.btc_prim_currency_pair").html(btc_prim_currency_pair);
 
 // Show UTC time count in logs UI sections
 start_utc_time(); 
-	
+
+
 // 'Loading X...' UI notices
 background_tasks_check();
 
@@ -112,7 +113,7 @@ admin_iframe_load = document.querySelectorAll('.admin_iframe');
 	/////////////////////////////////////////////////////////////////////////////////////////////////////
 	
 	
-	if ( emulated_cron_enabled ) {
+	if ( emulated_cron_enabled && !is_iframe ) {
 	
      // Emulate a cron job every X minutes...
      cron_already_ran = false;
@@ -128,15 +129,19 @@ admin_iframe_load = document.querySelectorAll('.admin_iframe');
 	// Emulate sticky-positioned elements in #secondary_wrapper,
 	// IF we set overflow: auto; CSS to automate controlling scroll positioning
 	// (which DISABLES a container from having functional sticky-positioned elements within it)
-     window.addEventListener('scroll', function (e) {
-
-     emulate_sticky('#alert_bell_area');
-
-     emulate_sticky('.page_title');
-
-     emulate_sticky('.countdown_notice');
+	if ( !is_iframe ) {
+	     
+          window.addEventListener('scroll', function (e) {
      
-     });
+          emulate_sticky('#alert_bell_area');
+     
+          emulate_sticky('.page_title');
+     
+          emulate_sticky('.countdown_notice');
+          
+          });
+     
+     }
 
 
 	/////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -171,6 +176,7 @@ admin_iframe_load = document.querySelectorAll('.admin_iframe');
         // We have to run app_reloading_check(1) here, 
         if ( app_reloading_check(1) == 'no' ) {
         event.preventDefault();
+        console.log('Default action stopped for: submit');
         return false;
         }
         
@@ -184,7 +190,7 @@ admin_iframe_load = document.querySelectorAll('.admin_iframe');
     if ( app_edition == 'desktop' ) {
         
          // Page zoom logic
-         if ( localStorage.getItem(desktop_zoom_storage) ) {
+         if ( localStorage.getItem(desktop_zoom_storage) && localStorage.getItem(desktop_zoom_storage) > 0 ) {
          currzoom = localStorage.getItem(desktop_zoom_storage);
          }
          else {
@@ -307,6 +313,9 @@ admin_iframe_load = document.querySelectorAll('.admin_iframe');
         $("#background_loading_span").html("Please wait, finishing background tasks...").css("color", "#ff4747", "important");
         
         event.preventDefault();
+        
+        console.log('Default action stopped for: beforeunload');
+        
         e.returnValue = '';
         
         }
@@ -534,6 +543,21 @@ admin_iframe_load = document.querySelectorAll('.admin_iframe');
 
 	/////////////////////////////////////////////////////////////////////////////////////////////////////
 	
+         
+         // https://manos.malihu.gr/jquery-custom-content-scroller/
+         // https://github.com/malihu/malihu-custom-scrollbar-plugin/issues/329
+         // (SCROLLING FOR COLLAPSED SIDEBAR [WHEN IT IS LONGER THAN THE SCREEN HEIGHT])
+         $("#sidebar").mCustomScrollbar({
+              
+              theme: "minimal",
+              scrollInertia: 200,
+              mouseWheel:{
+                          scrollAmount: 200,
+                          normalizeDelta: true
+                          },
+                          
+         });
+          
           
     // UNstyle sidebar on-click (REGULAR sidebar 3-deep (last) sub-menu)
     // (EVEN IN IFRAMES)
@@ -562,6 +586,31 @@ admin_iframe_load = document.querySelectorAll('.admin_iframe');
          
 
          
+         // ACTIVATE / DEACTIVATE CSS FOR SHOWING SUBMENUS: COMPACT sidebar 2-deep (last) sub-menu
+         // (so we can have sidebar be scrollable when we are not showing a submenu)
+         $('#collapsed_sidebar .dropdown-toggle').on({
+              "click":function(e){
+              
+                   if ( $(this).hasClass("show") == true ) {
+                   $("#collapsed_sidebar").css('overflow-x','revert');
+                   $("#collapsed_sidebar").css('overflow-y','revert');
+                   }
+                   else {
+                   $("#collapsed_sidebar").css('overflow-x','hidden');
+                   $("#collapsed_sidebar").css('overflow-y','auto');
+                   }
+                  
+              }
+          });
+          
+          
+          // Reset COMPACT sidebar CSS on hiding of dropdown menu
+          // (allows vertical scrolling AFTER being closed)
+          $('#collapsed_sidebar .dropdown-toggle').on('hidden.bs.dropdown', function () {
+          close_compact_submenu();
+          });
+
+         
          // KEEP OPEN ON CLICK: COMPACT sidebar 2-deep (last) sub-menu
          $('#collapsed_sidebar .dropdown-menu').on({
               "click":function(e){
@@ -579,22 +628,6 @@ admin_iframe_load = document.querySelectorAll('.admin_iframe');
               e.stopPropagation();
               }
           });
-         
-         
-         
-         // https://manos.malihu.gr/jquery-custom-content-scroller/
-         // https://github.com/malihu/malihu-custom-scrollbar-plugin/issues/329
-         // (SCROLLING FOR WIDE SIDEBAR [WHEN A SUBMENU IS LONGER THAN THE SCREEN HEIGHT])
-         $("#sidebar").mCustomScrollbar({
-              
-              theme: "minimal",
-              scrollInertia: 200,
-              mouseWheel:{
-                          scrollAmount: 100,
-                          normalizeDelta: true
-                          },
-                          
-         });
        
          
          
@@ -773,17 +806,10 @@ admin_iframe_load = document.querySelectorAll('.admin_iframe');
           
           // Clicks INSIDE IFRAMES should close COLLAPSED SIDEBAR OPEN SUBNAV menus
           $("iframe").on("load", function(){
-               
+              
+              // The workaround for equivelent of onclick event for inside iframe contents
               $(this).contents().on("mousedown, mouseup, click", function(){
-                   
-              $('#collapsed_sidebar a[aria-expanded]').removeClass("active");
-              
-              $('#collapsed_sidebar a[aria-expanded]').removeClass("show");
-              
-              $('#collapsed_sidebar ul').removeClass("show");
-
-              $('#collapsed_sidebar a[aria-expanded="true"]').attr('aria-expanded', 'false');
-              
+              close_compact_submenu();
               });
               
           });

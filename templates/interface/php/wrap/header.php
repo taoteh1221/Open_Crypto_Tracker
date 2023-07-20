@@ -160,7 +160,7 @@ require("templates/interface/php/wrap/wrap-elements/navigation-bars.php");
         if ( app_edition == 'desktop' ) {
             
              // Page zoom logic
-             if ( localStorage.getItem(desktop_zoom_storage) ) {
+             if ( localStorage.getItem(desktop_zoom_storage) && localStorage.getItem(desktop_zoom_storage) > 0 ) {
              currzoom = localStorage.getItem(desktop_zoom_storage);
              }
              else {

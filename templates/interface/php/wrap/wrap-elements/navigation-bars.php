@@ -4,28 +4,45 @@
 <div id="collapsed_sidebar">
    
    
-   <div class="align_center"><img src='templates/interface/media/images/auto-preloaded/icons8-hamburger-menu-96-<?=$sel_opt['theme_selected']?>.png' width='45' class='sidebar_toggle' id="sidebar_hamburger" title='Show FULL SIZED side bar.' /></div>
+   <div class="align_center"><img src='templates/interface/media/images/auto-preloaded/icons8-hamburger-menu-96-<?=$sel_opt['theme_selected']?>.png' width='45' class='nav-image sidebar_toggle' id="sidebar_hamburger" title='Show FULL SIZED side bar.' /></div>
    
    
    <div class="smallnav_spacer"></div>
 
    
-   <div class="align_center"><img src='templates/interface/media/images/auto-preloaded/notification-<?=$sel_opt['theme_selected']?>-line.png' width='45' border='0' class='toggle_alerts' title='View app alerts.' /></div>
+   <div class="align_center"><img src='templates/interface/media/images/auto-preloaded/notification-<?=$sel_opt['theme_selected']?>-line.png' width='45' border='0' class='nav-image toggle_alerts' title='View app alerts.' /></div>
+
+        
+   <?php
+   if ( $ct_gen->admin_logged_in() ) {
+   ?>
+
+   
+   <div class="smallnav_spacer"></div>
+   
+   <div class="align_center"><a href="?logout=1&admin_hashed_nonce=<?=$ct_gen->admin_hashed_nonce('logout')?>"><img src='templates/interface/media/images/auto-preloaded/icons8-logout-58-<?=$sel_opt['theme_selected']?>.png' class='nav-image' width='45' border='0' title='Logout of Admin Config area.' /></a></div>
+   
+   <?php
+   }
+   ?>
 
    
    <div class="smallnav_spacer"></div>
 
    
-   <div class="align_center" id='pm_link_icon_div'><a id='pm_link2' class='bitcoin' onclick='privacy_mode(true);' title='Turn privacy mode ON. This encrypts / hides RENDERED personal portfolio data with the PIN you setup (BUT DOES #NOT# encrypt RAW source code). It ALSO disables opposite-clicking / data submission, and logs out any active admin login.'><img src='templates/interface/media/images/auto-preloaded/icons8-eye-100-<?=$sel_opt['theme_selected']?>.png' width='45' border='0' /></a></div>
+   <div class="align_center" id='pm_link_icon_div'><a id='pm_link2' class='bitcoin' onclick='privacy_mode(true);' title='Turn privacy mode ON. This encrypts / hides RENDERED personal portfolio data with the PIN you setup (BUT DOES #NOT# encrypt RAW source code). It ALSO disables opposite-clicking / data submission, and logs out any active admin login.'><img src='templates/interface/media/images/auto-preloaded/icons8-eye-100-<?=$sel_opt['theme_selected']?>.png' class='nav-image' width='45' border='0' /></a></div>
 
    
    <div class="smallnav_spacer"></div>
+   
+   
+   <div class="align_center"><a href="javascript: return false;" class="show_help_faq" title='Get help with running and setting up this app.'><img src='templates/interface/media/images/auto-preloaded/icons8-questions-100-<?=$sel_opt['theme_selected']?>.png' class='nav-image' width='45' border='0' title='Get help with running and setting up this app.' /></a></div>
    
    
    <!-- Admin area -->
      <div class="admin-nav-wrapper btn-group dropend">
      
-          <a href="admin.php" class="dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false"><img src='templates/interface/media/images/auto-preloaded/icons8-services-100-<?=$sel_opt['theme_selected']?>.png' width='45' border='0' title='Admin Config area.' /></a>
+          <a href="admin.php" class="dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false"><img src='templates/interface/media/images/auto-preloaded/icons8-services-100-<?=$sel_opt['theme_selected']?>.png' class='nav-image' width='45' border='0' title='Admin Config area.' /></a>
      
           <ul class="admin-nav all-nav dropdown-menu" style="" role="tablist">
 
@@ -127,11 +144,6 @@
                     <li>
                         <a <?=$content_toggle?> class="dropdown-item admin_change_width" data-width="fixed_max" role="tab" aria-controls="admin_reset" href="admin.php#admin_reset" title='Reset different configurations in this app.'>Reset</a>
                     </li>
-                    
-                    
-                    <li>
-                    <a class="dropdown-item" href="?logout=1&admin_hashed_nonce=<?=$ct_gen->admin_hashed_nonce('logout')?>" title='Logout from the admin area.'>Logout</a>
-                    </li>
 
 
                     <?php
@@ -140,7 +152,7 @@
                     ?>
                     
                     <li>
-                    <a class="dropdown-item" href="admin.php"title='Login to the admin area.'>Admin Login</a>
+                    <a class="dropdown-item" href="admin.php"title='Login to the admin area.'>Login</a>
                     </li>
 
                     <?php
@@ -159,7 +171,7 @@
    <!-- User area -->
      <div class="user-nav-wrapper btn-group dropend">
      
-          <a href="index.php" class="dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false"><img src='templates/interface/media/images/auto-preloaded/icons8-user-96-<?=$sel_opt['theme_selected']?>.png' width='45' border='0' title='User area.' /></a>
+          <a href="index.php" class="dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false"><img src='templates/interface/media/images/auto-preloaded/icons8-user-96-<?=$sel_opt['theme_selected']?>.png' class='nav-image' width='45' border='0' title='User area.' /></a>
      
           <ul class="user-nav all-nav dropdown-menu" style="">
           
@@ -193,31 +205,15 @@
    <div class="smallnav_spacer"></div>
    
    
-   <div class="align_center"><a href="javascript: return false;" class="show_help_faq" title='Get help with running and setting up this app.'><img src='templates/interface/media/images/auto-preloaded/icons8-questions-100-<?=$sel_opt['theme_selected']?>.png' width='45' border='0' title='Get help with running and setting up this app.' /></a></div>
-
-        
-   <?php
-   if ( $ct_gen->admin_logged_in() ) {
-   ?>
-   
-   <div class="align_center"><a href="?logout=1&admin_hashed_nonce=<?=$ct_gen->admin_hashed_nonce('logout')?>"><img src='templates/interface/media/images/auto-preloaded/icons8-logout-58-<?=$sel_opt['theme_selected']?>.png' width='45' border='0' title='Logout of Admin Config area.' /></a></div>
-
-   
-   <div class="smallnav_spacer"></div>
-   
-   <?php
-   }
-   ?>
-   
-   
-   <div class="align_center"><img src='templates/interface/media/images/auto-preloaded/icons8-add-96.png' width='45' border='0' id='' class='btn-number' data-type="plus" data-field="quant_font_percent" title='Increase text size.' /></div>
+   <div class="align_center"><img src='templates/interface/media/images/auto-preloaded/icons8-add-96.png' width='45' border='0' id='' class='nav-image btn-number' data-type="plus" data-field="quant_font_percent" title='Increase text size.' /></div>
 
    
    <div class="smallnav_spacer"></div>
    
    
-   <div class="align_center"><img src='templates/interface/media/images/auto-preloaded/icons8-minus-96.png' width='45' border='0' id='' class='btn-number' data-type="minus" data-field="quant_font_percent" title='Decrease text size.' /></div>
+   <div class="align_center"><img src='templates/interface/media/images/auto-preloaded/icons8-minus-96.png' width='45' border='0' id='' class='nav-image btn-number' data-type="minus" data-field="quant_font_percent" title='Decrease text size.' /></div>
    
+   <br clear='all' />
 
 </div>
 <!-- END collapsed sidebar -->
@@ -228,10 +224,10 @@
     
     
         <!-- alerts toggle icon -->
-        <img src='templates/interface/media/images/auto-preloaded/notification-<?=$sel_opt['theme_selected']?>-line.png' height='45' border='0' id='sb_alerts' class='toggle_alerts' title='View app alerts.' />
+        <img src='templates/interface/media/images/auto-preloaded/notification-<?=$sel_opt['theme_selected']?>-line.png' height='45' border='0' id='sb_alerts' class='nav-image toggle_alerts' title='View app alerts.' />
         
         <!-- close sidebar toggle icon -->
-        <img src='templates/interface/media/images/auto-preloaded/icons8-close-window-50-<?=$sel_opt['theme_selected']?>.png' class='sidebar_toggle' id="dismiss" title='Show COMPACT side bar.' />
+        <img src='templates/interface/media/images/auto-preloaded/icons8-close-window-50-<?=$sel_opt['theme_selected']?>.png' class='nav-image sidebar_toggle' id="dismiss" title='Show COMPACT side bar.' />
 
 
         <div class="sidebar-top">
@@ -299,26 +295,28 @@
 
 
         <ul id='sidebar_menu' class="list-unstyled components">
-        
             
-            <li class='sidebar-item'>
-                <a id='pm_link' class='bitcoin pm_link' onclick='privacy_mode(true);' title='Turn privacy mode ON. This encrypts / hides RENDERED personal portfolio data with the PIN you setup (BUT DOES #NOT# encrypt RAW source code). It ALSO disables opposite-clicking / data submission, and logs out any active admin login.'>Privacy Mode Is Off</a>
-            </li>
             
             <?php
             if ( $ct_gen->admin_logged_in() ) {
             ?>
    
             <li class='sidebar-item'>
-                <a href="?logout=1&admin_hashed_nonce=<?=$ct_gen->admin_hashed_nonce('logout')?>" class="blue" title='Logout from the admin area.'>Logout</a>
+                <a href="?logout=1&admin_hashed_nonce=<?=$ct_gen->admin_hashed_nonce('logout')?>" class="bitcoin" title='Logout from the admin area.'>Admin Logout</a>
             </li>
             
             <?php
             }
             ?>
+        
             
             <li class='sidebar-item'>
-                <a href="javascript: return false;" class="show_help_faq blue" title='Get help with running and setting up this app.'>Help?</a>
+                <a id='pm_link' class='bitcoin pm_link' onclick='privacy_mode(true);' title='Turn privacy mode ON. This encrypts / hides RENDERED personal portfolio data with the PIN you setup (BUT DOES #NOT# encrypt RAW source code). It ALSO disables opposite-clicking / data submission, and logs out any active admin login.'>Privacy Mode Is Off</a>
+            </li>
+            
+            
+            <li class='sidebar-item'>
+                <a href="javascript: return false;" class="show_help_faq blue" title='Get help with running and setting up this app.'>Help Using This App?</a>
             </li>
             
             
@@ -488,11 +486,6 @@
 
                     <li class='sidebar-item nav-item'>
                         <a <?=$content_toggle?> class="nav-link admin_change_width" data-width="fixed_max" role="tab" aria-controls="admin_reset" href="admin.php#admin_reset" title='Reset different configurations in this app.'>Reset</a>
-                    </li>
-                    
-                    
-                    <li class='sidebar-item'>
-                        <a href="?logout=1&admin_hashed_nonce=<?=$ct_gen->admin_hashed_nonce('logout')?>" title='Logout from the admin area.'>Logout</a>
                     </li>
 
 

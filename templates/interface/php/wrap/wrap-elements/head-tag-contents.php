@@ -197,13 +197,20 @@
      
           <?php
           // DON'T SHOW ON LOGIN FORMS!
-          if ( !$is_login_form ) {
+          if ( $is_login_form ) {
+          ?>
+          
+          is_login_form = true;
+     	
+          <?php
+          }
+          else {
           ?>
           
      	admin_area_sec_level = '<?=base64_encode( $admin_area_sec_level )?>';
           
      	enhanced_sec_token = "<?=base64_encode( $ct_gen->admin_hashed_nonce('enhanced_security_mode') )?>";
-     	
+          
           <?php
           }
           ?>
@@ -292,7 +299,10 @@
      
 	<?php
 	}
-	elseif ( $app_edition == 'desktop' ) {
+	
+	
+	// User AND admin area Desktop Edition vars
+	if ( $app_edition == 'desktop' ) {
 	?>
 	
 	desktop_zoom_storage = storage_app_id("zoom");

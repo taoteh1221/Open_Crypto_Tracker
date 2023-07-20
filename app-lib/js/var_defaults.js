@@ -127,6 +127,8 @@ var custom_3deep_menu_open = false;
 
 var is_admin = false;
 
+var is_login_form = false;
+
 var is_iframe = false;
 
 var form_submit_queued = false;

@@ -391,6 +391,28 @@ function get_scroll_position(tracing) {
 /////////////////////////////////////////////////////////////
 
 
+function close_compact_submenu() {
+     
+console.log('closing COMPACT submenu');
+                   
+$('#collapsed_sidebar a[aria-expanded]').removeClass("active");
+              
+$('#collapsed_sidebar a[aria-expanded]').removeClass("show");
+              
+$('#collapsed_sidebar ul').removeClass("show");
+
+$('#collapsed_sidebar a[aria-expanded="true"]').attr('aria-expanded', 'false');
+          
+$("#collapsed_sidebar").css('overflow-x','hidden');
+              
+$("#collapsed_sidebar").css('overflow-y','auto');
+              
+}
+
+
+/////////////////////////////////////////////////////////////
+
+
 function toggle_sidebar() {
 
 // open or close navbar
@@ -1986,6 +2008,12 @@ function nav_menu($chosen_menu) {
      	// Show INITIAL content element
      	$($curr_content_id).addClass('active');
      	$($curr_content_id).show();
+              
+              
+              // Set the page's title to top of page
+              if ( !is_login_form ) {
+              emulate_sticky('.page_title');
+              }
      
      
      	    // Bind the click event handling for clicking different nav item's 'a' tags
@@ -2054,13 +2082,20 @@ function nav_menu($chosen_menu) {
      	    // Do any textarea autoresizes, now that this content is showing
      	    // (since it may not have been showing on app load)
      	    autoresize_update(); 
+              
+              
+                   // Set the page's title to top of page
+                   if ( !is_login_form ) {
+                   emulate_sticky('.page_title');
+                   }
      	    
-     	       // Make sure admin iframe heights are adjusted
-                 if ( is_admin == true ) {
-                     admin_iframe_load.forEach(function(iframe) {
-                     iframe_height_adjust(iframe);
-                     });
-                 }
+     	    
+     	         // Make sure admin iframe heights are adjusted
+                   if ( is_admin == true ) {
+                       admin_iframe_load.forEach(function(iframe) {
+                       iframe_height_adjust(iframe);
+                       });
+                   }
                  
      	    
      	    });
