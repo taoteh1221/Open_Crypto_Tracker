@@ -393,7 +393,7 @@ function get_scroll_position(tracing) {
 
 function close_compact_submenu() {
      
-console.log('closing COMPACT submenu');
+//console.log('closing COMPACT submenu');
                    
 $('#collapsed_sidebar a[aria-expanded]').removeClass("active");
               
