@@ -10,6 +10,9 @@ NEXT SCHEDULED WORK SESSION (DEBUGGING AND / OR INFRASTRUCTURE)
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
+When importing bootstrap price chart data in on XAMMP for Windows, SETUP FOR 15 MINUTE TASK SCHEDULER INTERVALS INSTEAD OF THE DEFAULT 20 MINUTE INTERVALS, all chart data seemed correct except for 2 week data. Try and replicate this on other setups, and review the auto-reset trigger / directory deletion logic for any possible issues, as well as the light chart creation logic. I SUSPECT THE LATTER.
+
+
 Look for a good alternative to PHPdesktop, or at least a simple / redistributable binary to run a PHP server.
 
 
@@ -87,6 +90,9 @@ On smaller screens (mobile etc), the COMPACT sidebar should be transformed into 
 
 
 Remove all forced line breaks in FOLIO-INSTALL.bash dialogue
+
+
+On the portfolio page, have a drop-down html select menu, with options 'compact' (for current portfolio layout), and 'responsive' (for a mobile / tablet friendly layout). Have 'responsive' be auto-selected on smaller screens. Also consider doing the same for the 'update portfolio' page.
 
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
