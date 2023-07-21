@@ -16,7 +16,39 @@ Look for a good alternative to PHPdesktop, or at least a simple / redistributabl
 Fix issues on Desktop Editions. Sidebar scrolling only partially / sometimes enables in REGULAR sidebar, doesn't work at all on COMPACT sidebar, and titles scrolling sticky properly are not running well at all with the big overhaul done for v6.00.19. Find out why.
 
 
+Update screenshots, since we overhauled everything in the interface.
+
+
+Add to resources page: 
+
+https://solana.sec3.dev/
+
+https://solana.fm/
+
+https://squads.so/
+
+https://stakewiz.com/
+
+https://solanacompass.com/
+
+https://analytics.step.finance/
+
+
+Add to news feeds:
+
+https://stepdata.substack.com/
+
+
+Add feature to address balance tracker plugin to set minimum time to wait before re-sending the same address alert (in hours). Default it to a high number like 8 hours, so any shitty API servers don't send endless alerts as they send bs results (like helium network API).
+
+
 Tighten up the portfolio table data spacing / padding in firefox, it WAAAY more then chrome.
+
+
+Move remaining font-size / line-height logic in style.css AND ELSEWHERE into our dynamic CSS header logic.
+
+
+The tags 'h1' through 'h6' should be made to user-adjust text size too (could be a bit tricky, be careful).
 
 
 Remove localbitcoins support (they are closing shop).
@@ -25,7 +57,10 @@ Remove localbitcoins support (they are closing shop).
 Add Bitcoin NFT support.
 
 
-Convert Arch linux support in auto-installer over to redhat (yum), as Arch does NOT have much package / setup support for libraries we use. WE ALREADY CONVERTED "BUILD-PHP-FOR-LINUX-DESKTOP.bash" OVER TO BE REDHAT COMPATIBLE, so use it as a template to integrate into FOLIO-INSTALL.bash. ALSO REMOVE ARCH DOCUMENTATION AND REPLACE WITH FEDORA DOCS.
+New FAQ entry "my text alerts aren't working, or are delayed"
+
+
+The Bitmex U20 / Z20 markets are not marked as a 'limited api' IN THE INTERFACE SETTINGS PAGE, UNDER 'PRIMARY CURRENCY MARKET'.
 
 
 Integrate google authenticator / microsoft authenticator / authy / etc BEING REQUIRED TO CHANGE THE ADMIN SECURITY LEVEL (and also make it OPTIONAL for login security):
@@ -39,13 +74,13 @@ https://github.com/sonata-project/GoogleAuthenticator
 https://stackoverflow.com/questions/tagged/sonata
 
 
+Convert Arch linux support in auto-installer over to redhat (yum), as Arch does NOT have much package / setup support for libraries we use. WE ALREADY CONVERTED "BUILD-PHP-FOR-LINUX-DESKTOP.bash" OVER TO BE REDHAT COMPATIBLE, so use it as a template to integrate into FOLIO-INSTALL.bash. ALSO REMOVE ARCH DOCUMENTATION AND REPLACE WITH FEDORA DOCS.
+
+
 On smaller screens (mobile etc), the COMPACT sidebar should be transformed into a top bar (horizontal across top, instead of vertical down the side, with DROP-downs OR SLIDE-downs for secondary submenus [like my biz site on mobile...whichever has a better 'feel']). Have each menu category be an icon that when clicked does a drop-down menu below it, THAT IS THE ENTIRE WIDTH OF THE SCREEN. Skip supporting 3-deep subnav here, unless we can make it work using the entire screen width for 2-deep subnav entries (for small screen tapping UX / less confusion). When each main drop-down is clicked, any other main drop-down should close automatically.
 
 
-Move remaining font-size / line-height logic in style.css AND ELSEWHERE into our dynamic CSS header logic.
-
-
-Add feature to address balance tracker plugin to set minimum time to wait before re-sending the same address alert (in hours). Default it to a high number like 8 hours, so any shitty API servers don't send endless alerts as they send bs results (like helium network API).
+Remove all forced line breaks in FOLIO-INSTALL.bash dialogue
 
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -77,8 +112,7 @@ API INTEGRATION
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
-https://aptos.dev/nodes/aptos-deployments/
-https://fullnode.devnet.aptoslabs.com/v1/spec#/
+Add OPTIONAL Coingecko PRO API support: https://apiguide.coingecko.com/exclusive-endpoints/pro-api
 
 
 For transaction fees plugin (the solana data):
@@ -110,9 +144,6 @@ Check out cryptocompare.com API.
 
 
 Add localcryptos API support whenever their API is out of private testing.
-
-
-Build tool that finds localbitcoins markets not added yet
 
 
 Add clicksend.com mobile text messaging support
@@ -235,22 +266,7 @@ Setup XAMPP on Win10 on the DVR server, and run server edition of tracker on it 
 Write notes in TODO.txt debugging section, on setting up / viewing PHP error logging in XAMPP on Windows.
 
 
-Remove all forced line breaks in FOLIO-INSTALL.bash dialogue
-
-
-New FAQ entry "my text alerts aren't working, or are delayed"
-
-
-The Bitmex U20 / Z20 markets are not marked as a 'limited api' IN THE INTERFACE SETTINGS PAGE, UNDER 'PRIMARY CURRENCY MARKET'.
-
-
-Update Portfolio page screenshots, since we added the 'Rank' column AND REBRANDED app name.
-
-
 Add more checks / auto-corrects to config-auto-adjust.php (we've added alot more config settings since it's creation)
-
-
-Code review ENTIRE INIT / CONFIG RUNTIME SECTION, and cleanup / optimize where needed
 
 
 Overhaul / optimize config checks.
@@ -331,32 +347,6 @@ font-family: sans-serif !important;
 font-size: 15px !important;
 }
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-
-The tags 'h1' through 'h6' should be made to user-adjust text size too (could be a bit tricky, be careful).
-
-
-Add to resources page: 
-
-https://solana.sec3.dev/
-
-https://solana.fm/
-
-https://squads.so/
-
-https://stakewiz.com/
-
-https://solanacompass.com/
-
-https://analytics.step.finance/
-
-
-Add to news feeds:
-
-https://stepdata.substack.com/
-
-
-Add OPTIONAL Coingecko PRO API support: https://apiguide.coingecko.com/exclusive-endpoints/pro-api
 
 
 All NON-GLOBAL variables inside JAVASCRIPT functions should be started as 'var my_var_name': 
