@@ -133,11 +133,11 @@ admin_iframe_load = document.querySelectorAll('.admin_iframe');
 	     
           window.addEventListener('scroll', function (e) {
      
-          emulate_sticky('#alert_bell_area');
+          dynamic_position('#alert_bell_area', 'emulate_sticky');
      
-          emulate_sticky('.page_title');
+          dynamic_position('.page_title', 'emulate_sticky');
      
-          emulate_sticky('.countdown_notice');
+          dynamic_position('.countdown_notice', 'emulate_sticky');
           
           });
      
@@ -590,16 +590,7 @@ admin_iframe_load = document.querySelectorAll('.admin_iframe');
          // (so we can have sidebar be scrollable when we are not showing a submenu)
          $('#collapsed_sidebar .dropdown-toggle').on({
               "click":function(e){
-              
-                   if ( $(this).hasClass("show") == true ) {
-                   $("#collapsed_sidebar").css('overflow-x','revert');
-                   $("#collapsed_sidebar").css('overflow-y','revert');
-                   }
-                   else {
-                   $("#collapsed_sidebar").css('overflow-x','hidden');
-                   $("#collapsed_sidebar").css('overflow-y','auto');
-                   }
-                  
+              compact_submenu(this);
               }
           });
           
@@ -607,7 +598,7 @@ admin_iframe_load = document.querySelectorAll('.admin_iframe');
           // Reset COMPACT sidebar CSS on hiding of dropdown menu
           // (allows vertical scrolling AFTER being closed)
           $('#collapsed_sidebar .dropdown-toggle').on('hidden.bs.dropdown', function () {
-          close_compact_submenu();
+          compact_submenu();
           });
 
          
@@ -617,7 +608,14 @@ admin_iframe_load = document.querySelectorAll('.admin_iframe');
               e.stopPropagation();
               }
           });
-         
+          
+          
+          // UNUSED, BUT KEEP FOR NOW
+          const coll_sb = document.querySelector('#collapsed_sidebar');
+          coll_sb.addEventListener('scroll', () => {
+          collapsed_sidebar_scroll_position = coll_sb.scrollTop; // reuse `coll_sb` innstead of querying the DOM again
+          //console.log('#collapsed_sidebar scroll position = ' + collapsed_sidebar_scroll_position);
+          }, {passive: true});
          
          
          // KEEP OPEN ON CLICK REGULAR sidebar 3-deep (last) sub-menu
@@ -809,7 +807,7 @@ admin_iframe_load = document.querySelectorAll('.admin_iframe');
               
               // The workaround for equivelent of onclick event for inside iframe contents
               $(this).contents().on("mousedown, mouseup, click", function(){
-              close_compact_submenu();
+              compact_submenu();
               });
               
           });

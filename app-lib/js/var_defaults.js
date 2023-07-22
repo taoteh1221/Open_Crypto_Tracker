@@ -116,6 +116,8 @@ var btc_prim_currency_val;
 
 var btc_prim_currency_pair;
 
+var collapsed_sidebar_scroll_position;
+
 // With defaults
 
 var emulated_cron_enabled = false;

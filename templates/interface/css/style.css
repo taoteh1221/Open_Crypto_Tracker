@@ -751,7 +751,7 @@ margin: 0px;
 }
 
 
-#secondary_wrapper ul > li {
+#secondary_wrapper ul > li, .iframe_wrapper ul > li {
 margin: 10px;
 }
 
