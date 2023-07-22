@@ -18,7 +18,7 @@ exit;
 
 
 // Application version
-$app_version = '6.00.19';  // 2023/JANUARY/27TH
+$app_version = '6.00.20';  // 2023/JULY/22ND
 
 
 // standard font size CSS selector (we skip sidebar HEADER area)

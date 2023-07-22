@@ -1649,8 +1649,15 @@ small_font_elements.attr('style', function(i,s) { return (s || '') + "line-heigh
           });
           
      
-     // Reset iframe heights after 3.5 seconds (to give above loops time to finish)
-     setTimeout(reset_iframe_heights, 3500);
+          // Reset iframe heights after 3.5 seconds (to give above loops time to finish)
+          setTimeout(function() {
+               
+              admin_iframe_load.forEach(function(iframe) {
+              iframe_height_adjust(iframe);
+              });
+              
+          }, 3500);
+          
      
      }
      // We don't want to re-set the cookie everytime an iframe is processed,
@@ -2166,6 +2173,7 @@ function nav_menu($chosen_menu) {
      	    
      	    
      	         // Make sure admin iframe heights are adjusted
+     	         // (even if viewing again, AFTER initial load / view)
                    if ( is_admin == true ) {
                        admin_iframe_load.forEach(function(iframe) {
                        iframe_height_adjust(iframe);

@@ -234,7 +234,7 @@ admin_iframe_load = document.querySelectorAll('.admin_iframe');
 	
     admin_iframe_load.forEach(function(iframe) {
        
-          // When admin iframe loads
+          // When admin iframe loads / reloads
           iframe.addEventListener('load', function() {
     
           iframe_height_adjust(iframe);
@@ -376,6 +376,7 @@ admin_iframe_load = document.querySelectorAll('.admin_iframe');
         $("#zoom_show_ui").html(currzoom + '%');
         //console.log(currzoom);
         
+            // Adjust iframe heights after changing zoom level
             if ( is_admin == true ) {
                 admin_iframe_load.forEach(function(iframe) {
                 iframe_height_adjust(iframe);
@@ -395,6 +396,7 @@ admin_iframe_load = document.querySelectorAll('.admin_iframe');
         $("#zoom_show_ui").html(currzoom + '%');
         //console.log(currzoom);
         
+            // Adjust iframe heights after changing zoom level
             if ( is_admin == true ) {
                 admin_iframe_load.forEach(function(iframe) {
                 iframe_height_adjust(iframe);
