@@ -7,7 +7,7 @@
 // Charts library
  
 
-header('Content-type: text/html; charset=' . $ct_conf['dev']['charset_default']);
+header('Content-type: text/html; charset=' . $ct_conf['power']['charset_default']);
 
 header('Access-Control-Allow-Headers: *'); // Allow ALL headers
 
@@ -19,10 +19,6 @@ header('Access-Control-Allow-Origin: *');
 else {
 header('Access-Control-Allow-Origin: ' . $app_host_address);
 }
-
-
-$font_width = 9; // NOT MONOSPACE, SO WE GUESS AN AVERAGE
-$link_spacer = 65; // Space beetween light chart links
 
 
 // ASSET PRICE CHARTS

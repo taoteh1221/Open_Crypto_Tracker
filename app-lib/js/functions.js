@@ -150,6 +150,22 @@ return sort_target.replace(/,/g, '');
 /////////////////////////////////////////////////////////////
 
 
+function responsive_menu_override() {
+
+     if ( localStorage.getItem(sidebar_toggle_storage) == "closed" ) {
+     $('link[title=responsive-menus]')[0].disabled=true;
+     console.log('Overriding responsive menu CSS (user explicitly chose the COMPACT sidebar)...');
+     }
+     else {
+     $('link[title=responsive-menus]')[0].disabled=false;
+     }
+
+}
+
+
+/////////////////////////////////////////////////////////////
+
+
 function iframe_url(name, val=null, mode='get') {
 
      if ( mode == 'get' ) {
@@ -627,7 +643,7 @@ function safe_add_remove_class(class_name, element, mode) {
 /////////////////////////////////////////////////////////////
 
 
-function iframe_height_adjust(elm) {
+function iframe_size_adjust(elm) {
 
 
     // Set proper page zoom on the iframe
@@ -638,15 +654,19 @@ function iframe_height_adjust(elm) {
 
     // Now that we've set any required zoom level, adjust the height
     if ( elm.id == 'iframe_system_stats' || elm.id == 'iframe_security' ) {
-    extra = 1000;
+    var extra_height = 1000;
     }
     else {
-    extra = 120;
+    var extra_height = 120;
     }
+    
+    
+var extra_width = 2;
 
+$(elm).css( 'min-height' , (elm.contentWindow.document.body.scrollHeight + extra_height) + "px" );
 
-elm.height = (elm.contentWindow.document.body.scrollHeight + extra) + "px";
-              
+$(elm).css( 'min-width' , (elm.contentWindow.document.body.scrollWidth + extra_width) + "px" );
+
 }
 
 
@@ -955,7 +975,7 @@ function scroll_start(direction='defaults', elm=false) {
 /////////////////////////////////////////////////////////////
 
 
-function monitor_iframe_heights() {
+function monitor_iframe_sizes() {
 
 
      iframe_height_adjuster = new IntersectionObserver(entries => {
@@ -973,7 +993,7 @@ function monitor_iframe_heights() {
                        // Wait 1 second AFTER iframe load, then adjust height	
                        // (to let iframe top / height 'register' with browser)
      			   setTimeout(function(){
-                       iframe_height_adjust(entry.target);
+                       iframe_size_adjust(entry.target);
                        //console.log(entry.target.id + ' showing.');
      		        }, 1000);
      		        
@@ -1653,7 +1673,7 @@ small_font_elements.attr('style', function(i,s) { return (s || '') + "line-heigh
           setTimeout(function() {
                
               admin_iframe_load.forEach(function(iframe) {
-              iframe_height_adjust(iframe);
+              iframe_size_adjust(iframe);
               });
               
           }, 3500);
@@ -2176,7 +2196,7 @@ function nav_menu($chosen_menu) {
      	         // (even if viewing again, AFTER initial load / view)
                    if ( is_admin == true ) {
                        admin_iframe_load.forEach(function(iframe) {
-                       iframe_height_adjust(iframe);
+                       iframe_size_adjust(iframe);
                        });
                    }
                  

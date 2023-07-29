@@ -30,28 +30,28 @@ require_once('app-lib/php/classes/3rd-party-classes-loader.php');
 
 // PHP error logging on / off, VIA END-USER CONFIG SETTING, *ONLY IF* THE HARD-CODED DEV PHP DEBUGGING IN INIT.PHP IS OFF
 if ( $dev_debug_php_errors == 0 ) {
-error_reporting($ct_conf['dev']['php_error_reporting']); 
+error_reporting($ct_conf['power']['php_error_reporting']); 
 }
 
 
 // Set a max execution time (if the system lets us), TO AVOID RUNAWAY PROCESSES FREEZING THE SERVER
-if ( $ct_conf['dev']['debug_mode'] != 'off' ) {
+if ( $ct_conf['power']['debug_mode'] != 'off' ) {
 $max_exec_time = 1320; // 22 minutes in debug mode
 }
 elseif ( $runtime_mode == 'ui' ) {
-$max_exec_time = $ct_conf['dev']['ui_max_exec_time'];
+$max_exec_time = $ct_conf['power']['ui_max_exec_time'];
 }
 elseif ( $runtime_mode == 'ajax' ) {
-$max_exec_time = $ct_conf['dev']['ajax_max_exec_time'];
+$max_exec_time = $ct_conf['power']['ajax_max_exec_time'];
 }
 elseif ( $runtime_mode == 'cron' ) {
-$max_exec_time = $ct_conf['dev']['cron_max_exec_time'];
+$max_exec_time = $ct_conf['power']['cron_max_exec_time'];
 }
 elseif ( $runtime_mode == 'int_api' ) {
-$max_exec_time = $ct_conf['dev']['int_api_max_exec_time'];
+$max_exec_time = $ct_conf['power']['int_api_max_exec_time'];
 }
 elseif ( $runtime_mode == 'webhook' ) {
-$max_exec_time = $ct_conf['dev']['webhook_max_exec_time'];
+$max_exec_time = $ct_conf['power']['webhook_max_exec_time'];
 }
 
 
@@ -73,8 +73,8 @@ $htaccess_password = $interface_login_array[1];
 
 // User agent (MUST BE SET VERY EARLY [AFTER primary-init / CONFIG-AUTO-ADJUST], 
 // FOR ANY CURL-BASED API CALLS WHERE USER AGENT IS REQUIRED BY THE API SERVER)
-if ( trim($ct_conf['dev']['override_curl_user_agent']) != '' ) {
-$curl_user_agent = $ct_conf['dev']['override_curl_user_agent'];  // Custom user agent
+if ( trim($ct_conf['power']['override_curl_user_agent']) != '' ) {
+$curl_user_agent = $ct_conf['power']['override_curl_user_agent'];  // Custom user agent
 }
 elseif ( is_array($ct_conf['proxy']['proxy_list']) && sizeof($ct_conf['proxy']['proxy_list']) > 0 ) {
 $curl_user_agent = 'Curl/' .$curl_setup["version"]. ' ('.PHP_OS.'; compatible;)';  // If proxies in use, preserve some privacy
@@ -85,7 +85,7 @@ $curl_user_agent = 'Curl/' .$curl_setup["version"]. ' ('.PHP_OS.'; ' . $system_i
 
 
 // #GUI# PHP TIMEOUT tracking / updating (checking for changes to the config value)
-$conf_php_timeout = $ct_conf['dev']['ui_max_exec_time'];
+$conf_php_timeout = $ct_conf['power']['ui_max_exec_time'];
 
 if ( !file_exists($base_dir . '/cache/vars/php_timeout.dat') ) {
 $ct_cache->save_file($base_dir . '/cache/vars/php_timeout.dat', $conf_php_timeout);

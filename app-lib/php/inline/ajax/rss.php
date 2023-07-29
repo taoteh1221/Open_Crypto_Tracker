@@ -7,7 +7,7 @@
 // RSS feeds library
  
 
-header('Content-type: text/html; charset=' . $ct_conf['dev']['charset_default']);
+header('Content-type: text/html; charset=' . $ct_conf['power']['charset_default']);
 
 header('Access-Control-Allow-Headers: *'); // Allow ALL headers
 
@@ -33,7 +33,7 @@ $all_feeds_array[$feed_id] = $feed;
 
 
 // Mitigate DOS attack leverage, since we recieve extrenal calls in ajax.php
-if ( is_array($batched_feed_hashes_array) && sizeof($batched_feed_hashes_array) <= $ct_conf['dev']['news_feed_batched_max'] ) {
+if ( is_array($batched_feed_hashes_array) && sizeof($batched_feed_hashes_array) <= $ct_conf['power']['news_feed_batched_max'] ) {
     	
 // Reset feed fetch telemetry 
 $_SESSION[$fetched_feeds] = false;

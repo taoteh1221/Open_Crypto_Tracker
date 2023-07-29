@@ -13,51 +13,19 @@ NEXT SCHEDULED WORK SESSIONS (*BOTH* DEBUGGING AND / OR INFRASTRUCTURE)
 When importing bootstrap price chart data in on XAMMP for Windows, WHEN SETUP FOR 15 MINUTE TASK SCHEDULER INTERVALS INSTEAD OF THE DEFAULT 20 MINUTE INTERVALS, all chart data seemed correct EXCEPT for 2 week data. Try and replicate this on other setups, and review the auto-reset trigger / directory deletion logic for any possible issues, as well as the light chart creation logic. I SUSPECT THE LATTER.
 
 
-The drop-down menu "show X page first" should be at the top of EVERY PAGE of the user area.
-
-
-Change the light them scrollbar colors for the sidebars.
-
-
-Move remaining font-size / line-height logic in style.css AND ELSEWHERE into our dynamic CSS header logic.
-
-
-The tags 'h1' through 'h6' should be made to user-adjust text size too (could be a bit tricky, be careful).
-
-
-Tighten up the portfolio table data spacing / padding in firefox, it WAAAY more then chrome.
-
-
-Add to resources page: 
-
-https://solana.sec3.dev/
-
-https://solana.fm/
-
-https://squads.so/
-
-https://stakewiz.com/
-
-https://solanacompass.com/
-
-https://analytics.step.finance/
-
-
-Add to news feeds:
-
-https://stepdata.substack.com/
-
-
-The Bitmex U20 / Z20 markets are not marked as a 'limited api' IN THE INTERFACE SETTINGS PAGE, UNDER 'PRIMARY CURRENCY MARKET'.
-
-
-Add feature to address balance tracker plugin to set minimum time to wait before re-sending the same address alert (in hours). Default it to a high number like 8 hours, so any shitty API servers don't send endless alerts as they send bs results (like helium network API).
+Add feature to address balance tracker plugin to set minimum time to wait before re-sending the same address alert (in hours). Default it to a high number like 8 hours, so any poorly running / configured API servers don't send endless alerts as they send bs 'zero' results.
 
 
 Remove localbitcoins support (they are closing shop).
 
 
 Add Bitcoin NFT support.
+
+
+New FAQ entry "my text alerts aren't working, or are delayed"
+
+
+Tighten up the portfolio table data spacing / padding in firefox, it WAAAY more then chrome.
 
 
 Integrate google authenticator / microsoft authenticator / authy / etc BEING REQUIRED TO CHANGE THE ADMIN SECURITY LEVEL (and also make it OPTIONAL for login security):
@@ -74,7 +42,13 @@ https://stackoverflow.com/questions/tagged/sonata
 Update screenshots, since we overhauled everything in the interface.
 
 
-New FAQ entry "my text alerts aren't working, or are delayed"
+Merge System stats / access stats / app logs into one area called: System & App Monitoring
+
+
+Move remaining font-size / line-height logic in style.css AND ELSEWHERE into our dynamic CSS header logic.
+
+
+The tags 'h1' through 'h6' should be made to user-adjust text size too (could be a bit tricky, be careful).
 
 
 Remove all forced line breaks in FOLIO-INSTALL.bash dialogue

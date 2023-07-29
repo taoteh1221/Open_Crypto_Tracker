@@ -47,6 +47,8 @@ var medium_font_size_css_selector;
 var small_font_size_css_selector;
 	
 var theme_selected;
+
+var scrollbar_theme;
 	
 var sorted_by_col;
 

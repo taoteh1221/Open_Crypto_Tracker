@@ -58,14 +58,14 @@ var $ct_array1 = array();
       
    
       // Batched / multiple API calls, if 'mcap_ranks_max' is greater than 'coingecko_api_batched_max'
-      if ( $ct_conf['power']['mcap_ranks_max'] > $ct_conf['dev']['coingecko_api_batched_max'] ) {
+      if ( $ct_conf['power']['mcap_ranks_max'] > $ct_conf['power']['coingecko_api_batched_max'] ) {
       
           $loop = 0;
-          $calls = ceil($ct_conf['power']['mcap_ranks_max'] / $ct_conf['dev']['coingecko_api_batched_max']);
+          $calls = ceil($ct_conf['power']['mcap_ranks_max'] / $ct_conf['power']['coingecko_api_batched_max']);
          
           while ( $loop < $calls ) {
          
-          $url = 'https://api.coingecko.com/api/v3/coins/markets?per_page=' . $ct_conf['dev']['coingecko_api_batched_max'] . '&page=' . ($loop + 1) . '&vs_currency=' . $coingecko_prim_currency . '&price_change_percentage=1h,24h,7d,14d,30d,200d,1y';
+          $url = 'https://api.coingecko.com/api/v3/coins/markets?per_page=' . $ct_conf['power']['coingecko_api_batched_max'] . '&page=' . ($loop + 1) . '&vs_currency=' . $coingecko_prim_currency . '&price_change_percentage=1h,24h,7d,14d,30d,200d,1y';
             
               // Wait 6.55 seconds between consecutive calls, to avoid being blocked / throttled by external server
               // (coingecko #ABSOLUTELY HATES# DATA CENTER IPS [DEDICATED / VPS SERVERS], BUT GOES EASY ON RESIDENTIAL IPS)
@@ -337,11 +337,11 @@ var $ct_array1 = array();
       }
       // Never re-cache FROM LIVE more than 'news_feed_batched_max' (EXCEPT for cron runtimes pre-caching), 
       // to avoid overloading low resource devices (raspi / pine64 / etc) and creating long feed load times
-      elseif ( $_SESSION[$fetched_feeds]['all'] >= $ct_conf['dev']['news_feed_batched_max'] && $cache_only == false && $runtime_mode != 'cron' ) {
+      elseif ( $_SESSION[$fetched_feeds]['all'] >= $ct_conf['power']['news_feed_batched_max'] && $cache_only == false && $runtime_mode != 'cron' ) {
       return '<span class="red">Live data fetching limit reached (' . $_SESSION[$fetched_feeds]['all'] . ').</span>';
       }
       // Avoid overloading low power devices with the precache hard limit
-      elseif ( $cache_only == true && $precache_feeds_count >= $ct_conf['dev']['news_feed_precache_hard_limit'] ) {
+      elseif ( $cache_only == true && $precache_feeds_count >= $ct_conf['power']['news_feed_precache_hard_limit'] ) {
       return false;
       }
       
@@ -368,7 +368,7 @@ var $ct_array1 = array();
       $endpoint_tld_or_ip = $ct_gen->get_tld_or_ip($url);
    
          
-          if ( $ct_conf['dev']['debug_mode'] == 'all' || $ct_conf['dev']['debug_mode'] == 'all_telemetry' || $ct_conf['dev']['debug_mode'] == 'memory_usage_telemetry' ) {
+          if ( $ct_conf['power']['debug_mode'] == 'all' || $ct_conf['power']['debug_mode'] == 'all_telemetry' || $ct_conf['power']['debug_mode'] == 'memory_usage_telemetry' ) {
          	
           $ct_gen->log(
          			  'system_debug',

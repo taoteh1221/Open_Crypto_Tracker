@@ -59,8 +59,6 @@
 
 <span class='bitcoin'>Ethereum:</span>  0x644343e8D0A4cF33eee3E54fE5d5B8BFD0285EF8<br /><br />
 
-<span class='bitcoin'>Helium:</span>  13xs559435FGkh39qD9kXasaAnB8JRF8KowqPeUmKHWU46VYG1h<br /><br />
-
 <span class='bitcoin'>Solana:</span>  GvX4AU4V9atTBof9dT9oBnLPmPiz3mhoXBdqcxyRuQnU<br /><br />
 
 <span class='bitcoin'>Github Sponsors:</span>  <a href='https://github.com/sponsors/taoteh1221' target='_blank'>https://github.com/sponsors/taoteh1221</a><br /><br />

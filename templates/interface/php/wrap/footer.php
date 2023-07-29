@@ -28,7 +28,7 @@ $total_runtime = round( ($time - $start_runtime) , 3);
 
 
 // If debug mode is 'all' / 'all_telemetry' / 'stats'
-if ( $ct_conf['dev']['debug_mode'] == 'all' || $ct_conf['dev']['debug_mode'] == 'all_telemetry' || $ct_conf['dev']['debug_mode'] == 'stats' ) {
+if ( $ct_conf['power']['debug_mode'] == 'all' || $ct_conf['power']['debug_mode'] == 'all_telemetry' || $ct_conf['power']['debug_mode'] == 'stats' ) {
 
 
 	foreach ( $system_info as $key => $val ) {
@@ -69,7 +69,7 @@ if ( $is_iframe ) {
      <?php
      }
      		
-     if ( $ct_conf['dev']['debug_mode'] != 'off' && $debug_log != true ) {
+     if ( $ct_conf['power']['debug_mode'] != 'off' && $debug_log != true ) {
      ?>
      <div class="red" style='font-weight: bold;'><?=$debug_log?></div>
      <?php
@@ -114,14 +114,11 @@ $(document).ready(function() {
                                      'iframe_power_user',
                                      'iframe_text_gateways',
                                      'iframe_proxy',
-                                     'iframe_developer',
-                                     'iframe_int_api',
-                                     'iframe_webhook',
+                                     'iframe_webhook_int_api',
                                      'iframe_system_stats',
                                      'iframe_access_stats',
                                      'iframe_logs',
-                                     'iframe_backup_restore',
-                                     'iframe_reset',
+                                     'iframe_reset_backup_restore',
                                     );
                                     
              }
@@ -202,7 +199,7 @@ require("templates/interface/php/wrap/wrap-elements/help-faq-modal.php");
 		<?php
 		}
 		
-		if ( $ct_conf['dev']['debug_mode'] != 'off' && $debug_log != true ) {
+		if ( $ct_conf['power']['debug_mode'] != 'off' && $debug_log != true ) {
 		?>
 		<div class="red" style='font-weight: bold;'><?=$debug_log?></div>
 		<?php

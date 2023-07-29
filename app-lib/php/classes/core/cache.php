@@ -61,7 +61,7 @@ var $ct_array1 = array();
    
   global $ct_conf, $ct_var;
   
-  $ui_exec_time = $ct_conf['dev']['ui_max_exec_time']; // Don't overwrite globals
+  $ui_exec_time = $ct_conf['power']['ui_max_exec_time']; // Don't overwrite globals
   
     // If the UI timeout var wasn't set properly / is not a whole number 3600 or less
     if ( !$ct_var->whole_int($ui_exec_time) || $ui_exec_time > 3600 ) {
@@ -554,7 +554,7 @@ var $ct_array1 = array();
      // Normal email
      if ( isset($send_params['email']['message']) && $send_params['email']['message'] != '' && $valid_to_email ) {
      
-     $email_array = array('subject' => $send_params['email']['subject'], 'message' => $send_params['email']['message'], 'content_type' => ( $send_params['email']['content_type'] ? $send_params['email']['content_type'] : 'text/plain' ), 'charset' => ( $send_params['email']['charset'] ? $send_params['email']['charset'] : $ct_conf['dev']['charset_default'] ) );
+     $email_array = array('subject' => $send_params['email']['subject'], 'message' => $send_params['email']['message'], 'content_type' => ( $send_params['email']['content_type'] ? $send_params['email']['content_type'] : 'text/plain' ), 'charset' => ( $send_params['email']['charset'] ? $send_params['email']['charset'] : $ct_conf['power']['charset_default'] ) );
      
       	// json_encode() only accepts UTF-8, SO TEMPORARILY CONVERT TO THAT FOR MESSAGE QUEUE STORAGE
       	if ( strtolower($send_params['email']['charset']) != 'utf-8' ) {
@@ -978,7 +978,7 @@ var $ct_array1 = array();
   global $runtime_mode, $base_dir, $ct_conf, $ct_gen, $log_debugging, $alerts_gui_debugging;
   
   
-      if ( $ct_conf['dev']['debug_mode'] == 'off' ) {
+      if ( $ct_conf['power']['debug_mode'] == 'off' ) {
       return false;
       }
     
@@ -1066,7 +1066,7 @@ var $ct_array1 = array();
           return 'Debugging logs write error for "' . $base_dir . '/cache/logs/debug.log" (MAKE SURE YOUR DISK ISN\'T FULL), data_size_bytes: ' . strlen($debug_log) . ' bytes';
           }
           // DEBUGGING ONLY (rules out issues other than full disk)
-          elseif ( $ct_conf['dev']['debug_mode'] == 'all' || $ct_conf['dev']['debug_mode'] == 'all_telemetry' ) {
+          elseif ( $ct_conf['power']['debug_mode'] == 'all' || $ct_conf['power']['debug_mode'] == 'all_telemetry' ) {
           return 'Debugging logs write success for "' . $base_dir . '/cache/logs/debug.log", data_size_bytes: ' . strlen($debug_log) . ' bytes';
           }
         
@@ -1172,7 +1172,7 @@ var $ct_array1 = array();
           return 'Error logs write error for "' . $base_dir . '/cache/logs/error.log" (MAKE SURE YOUR DISK ISN\'T FULL), data_size_bytes: ' . strlen($error_log) . ' bytes';
           }
           // DEBUGGING ONLY (rules out issues other than full disk)
-          elseif ( $ct_conf['dev']['debug_mode'] == 'all' || $ct_conf['dev']['debug_mode'] == 'all_telemetry' ) {
+          elseif ( $ct_conf['power']['debug_mode'] == 'all' || $ct_conf['power']['debug_mode'] == 'all_telemetry' ) {
           return 'Error logs write success for "' . $base_dir . '/cache/logs/error.log", data_size_bytes: ' . strlen($error_log) . ' bytes';
           }
       
@@ -1207,7 +1207,7 @@ var $ct_array1 = array();
      $ct_gen->log(
      			'ext_data_error',
      								
-     			'POSSIBLE api timeout' . ( $ct_conf['sec']['remote_api_strict_ssl'] == 'on' ? ' or strict_ssl' : '' ) . ' issue for cache file "' . $ct_gen->obfusc_path_data($file) . '" (IF ISSUE PERSISTS, TRY INCREASING "remote_api_timeout" IN Admin Config POWER USER SECTION' . ( $ct_conf['sec']['remote_api_strict_ssl'] == 'on' ? ', OR SETTING "remote_api_strict_ssl" to "off" IN Admin Config DEVELOPER SECTION' : '' ) . ')',
+     			'POSSIBLE api timeout' . ( $ct_conf['sec']['remote_api_strict_ssl'] == 'on' ? ' or strict_ssl' : '' ) . ' issue for cache file "' . $ct_gen->obfusc_path_data($file) . '" (IF ISSUE PERSISTS, TRY INCREASING "remote_api_timeout" IN Admin Config POWER USER SECTION' . ( $ct_conf['sec']['remote_api_strict_ssl'] == 'on' ? ', OR SETTING "remote_api_strict_ssl" to "off" IN Admin Config POWER USER SECTION' : '' ) . ')',
      								
      			'remote_api_timeout: '.$ct_conf['power']['remote_api_timeout'].' seconds; remote_api_strict_ssl: ' . $ct_conf['sec']['remote_api_strict_ssl'] . ';'
      			);
@@ -1297,7 +1297,7 @@ var $ct_array1 = array();
     // Hash of light path, AND random X hours update threshold, to spread out and event-track 'all' chart rebuilding
     if ( $days_span == 'all' ) {
     $light_path_hash = md5($light_path);
-    $thres_range = explode(',', $ct_conf['dev']['all_chart_rebuild_min_max']);
+    $thres_range = explode(',', $ct_conf['power']['all_chart_rebuild_min_max']);
     $all_chart_rebuild_thres = rand($thres_range[0], $thres_range[1]); // Randomly within the min/max range, to spead the load across multiple runtimes
     }
    
@@ -1480,11 +1480,11 @@ var $ct_array1 = array();
       // [less cores == lower hard limit == NOT OVERLOADING SLOW DEVICES]
       // [more cores == higher hard limit == FASTER ON FAST DEVICES]
       if ( isset($system_info['cpu_threads']) && $system_info['cpu_threads'] > 1 ) {
-      $scaled_first_build_hard_limit = ($ct_conf['dev']['light_chart_first_build_hard_limit'] * $system_info['cpu_threads']);
+      $scaled_first_build_hard_limit = ($ct_conf['power']['light_chart_first_build_hard_limit'] * $system_info['cpu_threads']);
       }
       // Doubles as failsafe (if number of threads not detected on this system, eg: windows devices)
       else {
-      $scaled_first_build_hard_limit = $ct_conf['dev']['light_chart_first_build_hard_limit'];
+      $scaled_first_build_hard_limit = $ct_conf['power']['light_chart_first_build_hard_limit'];
       }
       
       
@@ -1616,9 +1616,9 @@ var $ct_array1 = array();
     $_SESSION['light_charts_updated'] = $_SESSION['light_charts_updated'] + 1;
       
       if ( 
-      $ct_conf['dev']['debug_mode'] == 'all'
-      || $ct_conf['dev']['debug_mode'] == 'all_telemetry'
-      || $ct_conf['dev']['debug_mode'] == 'light_chart_telemetry' 
+      $ct_conf['power']['debug_mode'] == 'all'
+      || $ct_conf['power']['debug_mode'] == 'all_telemetry'
+      || $ct_conf['power']['debug_mode'] == 'light_chart_telemetry' 
       ) {
       	
       $ct_gen->log(
@@ -1629,9 +1629,9 @@ var $ct_array1 = array();
       }
        
       if ( 
-      $ct_conf['dev']['debug_mode'] == 'all'
-      || $ct_conf['dev']['debug_mode'] == 'all_telemetry'
-      || $ct_conf['dev']['debug_mode'] == 'memory_usage_telemetry' 
+      $ct_conf['power']['debug_mode'] == 'all'
+      || $ct_conf['power']['debug_mode'] == 'all_telemetry'
+      || $ct_conf['power']['debug_mode'] == 'memory_usage_telemetry' 
       ) {
       	
       $ct_gen->log(
@@ -1820,7 +1820,7 @@ var $ct_array1 = array();
                    
                    $this->save_file($base_dir . '/cache/events/throttling/notifyme-alerts-sent.dat', $processed_msgs['notifyme_count']); 
                    
-                     if ( $ct_conf['dev']['debug_mode'] == 'all' || $ct_conf['dev']['debug_mode'] == 'all_telemetry' || $ct_conf['dev']['debug_mode'] == 'api_comms_telemetry' ) {
+                     if ( $ct_conf['power']['debug_mode'] == 'all' || $ct_conf['power']['debug_mode'] == 'all_telemetry' || $ct_conf['power']['debug_mode'] == 'api_comms_telemetry' ) {
                      $this->save_file($base_dir . '/cache/logs/debug/external_data/last-response-notifyme.log', $notifyme_response);
                      }
                    
@@ -1856,7 +1856,7 @@ var $ct_array1 = array();
                   }
                    
                  
-                  if ( $ct_conf['dev']['debug_mode'] == 'all' || $ct_conf['dev']['debug_mode'] == 'all_telemetry' || $ct_conf['dev']['debug_mode'] == 'api_comms_telemetry' ) {
+                  if ( $ct_conf['power']['debug_mode'] == 'all' || $ct_conf['power']['debug_mode'] == 'all_telemetry' || $ct_conf['power']['debug_mode'] == 'api_comms_telemetry' ) {
                   $this->save_file($base_dir . '/cache/logs/debug/external_data/last-response-telegram.log', $telegram_response);
                   }
                
@@ -1880,7 +1880,7 @@ var $ct_array1 = array();
                
                $msg_sent = 1;
                  
-                 if ( $ct_conf['dev']['debug_mode'] == 'all' || $ct_conf['dev']['debug_mode'] == 'all_telemetry' || $ct_conf['dev']['debug_mode'] == 'api_comms_telemetry' ) {
+                 if ( $ct_conf['power']['debug_mode'] == 'all' || $ct_conf['power']['debug_mode'] == 'all_telemetry' || $ct_conf['power']['debug_mode'] == 'api_comms_telemetry' ) {
                  $this->save_file($base_dir . '/cache/logs/debug/external_data/last-response-twilio.log', $twilio_response);
                  }
                
@@ -1905,7 +1905,7 @@ var $ct_array1 = array();
                
                $msg_sent = 1;
                  
-                 if ( $ct_conf['dev']['debug_mode'] == 'all' || $ct_conf['dev']['debug_mode'] == 'all_telemetry' || $ct_conf['dev']['debug_mode'] == 'api_comms_telemetry' ) {
+                 if ( $ct_conf['power']['debug_mode'] == 'all' || $ct_conf['power']['debug_mode'] == 'all_telemetry' || $ct_conf['power']['debug_mode'] == 'api_comms_telemetry' ) {
                  $this->save_file($base_dir . '/cache/logs/debug/external_data/last-response-textbelt.log', $textbelt_response);
                  }
                
@@ -1930,7 +1930,7 @@ var $ct_array1 = array();
                
                $msg_sent = 1;
                  
-                 if ( $ct_conf['dev']['debug_mode'] == 'all' || $ct_conf['dev']['debug_mode'] == 'all_telemetry' || $ct_conf['dev']['debug_mode'] == 'api_comms_telemetry' ) {
+                 if ( $ct_conf['power']['debug_mode'] == 'all' || $ct_conf['power']['debug_mode'] == 'all_telemetry' || $ct_conf['power']['debug_mode'] == 'api_comms_telemetry' ) {
                  $this->save_file($base_dir . '/cache/logs/debug/external_data/last-response-textlocal.log', $textlocal_response);
                  }
                
@@ -2175,7 +2175,7 @@ var $ct_array1 = array();
       			);
        
       }
-      elseif ( $ct_conf['dev']['debug_mode'] == 'all' || $ct_conf['dev']['debug_mode'] == 'all_telemetry' || $ct_conf['dev']['debug_mode'] == 'ext_data_cache_telemetry' ) {
+      elseif ( $ct_conf['power']['debug_mode'] == 'all' || $ct_conf['power']['debug_mode'] == 'all_telemetry' || $ct_conf['power']['debug_mode'] == 'ext_data_cache_telemetry' ) {
       
       
         if ( !$log_debugging['debug_duplicates'][$hash_check] ) {
@@ -2218,7 +2218,7 @@ var $ct_array1 = array();
       
       // Servers requiring TRACKED THROTTLE-LIMITING, due to limited-allowed minute / hour / daily requests
       // (are processed by this->api_throttling(), to avoid using up daily request limits)
-      if ( in_array($endpoint_tld_or_ip, $ct_conf['dev']['tracked_throttle_limited_servers']) && $this->api_throttling($endpoint_tld_or_ip) == true ) {
+      if ( in_array($endpoint_tld_or_ip, $ct_conf['power']['tracked_throttle_limited_servers']) && $this->api_throttling($endpoint_tld_or_ip) == true ) {
               
             
       // Set $data var with any cached value (null / false result is OK), as we don't want to cache any PROBABLE error response
@@ -2254,7 +2254,7 @@ var $ct_array1 = array();
               
       
       // Servers with STRICT CONSECUTIVE CONNECT limits (we add 0.11 seconds to the wait between consecutive connections)
-      if ( in_array($endpoint_tld_or_ip, $ct_conf['dev']['strict_cosecutive_connect_servers']) ) {
+      if ( in_array($endpoint_tld_or_ip, $ct_conf['power']['strict_consecutive_connect_servers']) ) {
         
       $api_connections[$tld_session_prefix] = $api_connections[$tld_session_prefix] + 1;
       
@@ -2265,10 +2265,10 @@ var $ct_array1 = array();
       }
     
     
-      // Throttled endpoints in $ct_conf['dev']['limited_apis']
+      // Throttled endpoints in $ct_conf['power']['limited_apis']
       // If this is an API service that requires multiple calls (for each market), 
       // and a request to it has been made consecutively, we throttle it to avoid being blocked / throttled by external server
-      if ( in_array($endpoint_tld_or_ip, $ct_conf['dev']['limited_apis']) ) {
+      if ( in_array($endpoint_tld_or_ip, $ct_conf['power']['limited_apis']) ) {
       
         if ( !$limited_api_calls[$tld_session_prefix . '_calls'] ) {
         $limited_api_calls[$tld_session_prefix . '_calls'] = 1;
@@ -2361,7 +2361,7 @@ var $ct_array1 = array();
               
      
       // RSS feed services that are a bit funky with allowed user agents, so we need to let them know this is a real feed parser (not just a spammy bot)
-      if ( in_array($endpoint_tld_or_ip, $ct_conf['dev']['strict_news_feed_servers']) ) {
+      if ( in_array($endpoint_tld_or_ip, $ct_conf['power']['strict_news_feed_servers']) ) {
       curl_setopt($ch, CURLOPT_USERAGENT, 'Custom_Feed_Parser/1.0 (compatible; Open_Crypto_Tracker/' . $app_version . '; +https://github.com/taoteh1221/Open_Crypto_Tracker)');
       }
       else {
@@ -2519,7 +2519,7 @@ var $ct_array1 = array();
       			
         // Servers which are known to block API access by location / jurasdiction
         // (we alert end-users in error logs, when a corrisponding API server connection fails [one-time notice per-runtime])
-        if ( in_array($endpoint_tld_or_ip, $ct_conf['dev']['location_blocked_servers']) ) {
+        if ( in_array($endpoint_tld_or_ip, $ct_conf['power']['location_blocked_servers']) ) {
 
              
              if ( is_array($ct_conf['proxy']['proxy_list']) && sizeof($ct_conf['proxy']['proxy_list']) > 0 ) {
@@ -2682,7 +2682,7 @@ var $ct_array1 = array();
       
       
         // Data debugging telemetry
-        if ( $ct_conf['dev']['debug_mode'] == 'all' || $ct_conf['dev']['debug_mode'] == 'all_telemetry' || $ct_conf['dev']['debug_mode'] == 'ext_data_live_telemetry' ) {
+        if ( $ct_conf['power']['debug_mode'] == 'all' || $ct_conf['power']['debug_mode'] == 'all_telemetry' || $ct_conf['power']['debug_mode'] == 'ext_data_live_telemetry' ) {
          
         // LOG-SAFE VERSION (no post data with API keys etc)
         $ct_gen->log(
@@ -2826,7 +2826,7 @@ var $ct_array1 = array();
       			);
        
       }
-      elseif ( $ct_conf['dev']['debug_mode'] == 'all' || $ct_conf['dev']['debug_mode'] == 'all_telemetry' || $ct_conf['dev']['debug_mode'] == 'ext_data_cache_telemetry' ) {
+      elseif ( $ct_conf['power']['debug_mode'] == 'all' || $ct_conf['power']['debug_mode'] == 'all_telemetry' || $ct_conf['power']['debug_mode'] == 'ext_data_cache_telemetry' ) {
       
         if ( !$log_debugging['debug_duplicates'][$hash_check] ) {
         $log_debugging['debug_duplicates'][$hash_check] = 1; 

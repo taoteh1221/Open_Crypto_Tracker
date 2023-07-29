@@ -14,11 +14,11 @@
 
 // Cleaning lowercase alphanumeric string values, and auto-correct minor errors
 $ct_conf['comms']['to_email'] = $ct_var->auto_correct_str($ct_conf['comms']['to_email'], 'lower');
-$ct_conf['dev']['debug_mode'] = $ct_var->auto_correct_str($ct_conf['dev']['debug_mode'], 'lower');
+$ct_conf['power']['debug_mode'] = $ct_var->auto_correct_str($ct_conf['power']['debug_mode'], 'lower');
 $ct_conf['comms']['upgrade_alert'] = $ct_var->auto_correct_str($ct_conf['comms']['upgrade_alert'], 'lower');
 $ct_conf['gen']['btc_prim_currency_pair'] = $ct_var->auto_correct_str($ct_conf['gen']['btc_prim_currency_pair'], 'lower');
 $ct_conf['gen']['btc_prim_exchange'] = $ct_var->auto_correct_str($ct_conf['gen']['btc_prim_exchange'], 'lower');
-$ct_conf['dev']['log_verb'] = $ct_var->auto_correct_str($ct_conf['dev']['log_verb'], 'lower');
+$ct_conf['power']['log_verb'] = $ct_var->auto_correct_str($ct_conf['power']['log_verb'], 'lower');
 $ct_conf['gen']['default_theme'] = $ct_var->auto_correct_str($ct_conf['gen']['default_theme'], 'lower');
 $ct_conf['gen']['prim_mcap_site'] = $ct_var->auto_correct_str($ct_conf['gen']['prim_mcap_site'], 'lower');
 $ct_conf['comms']['price_alert_block_vol_error'] = $ct_var->auto_correct_str($ct_conf['comms']['price_alert_block_vol_error'], 'lower');

@@ -11,9 +11,10 @@
 
 
 <div class='full_width_wrapper align_center'>
+			
+	
+	<div style='display: inline;'><?=$ct_gen->start_page_html('portfolio')?></div>		
 
-
-     <div style='min-height: 5px;'></div>
      
 	
 			<?php
@@ -1796,7 +1797,7 @@ var server_header_defaults_content = '<h5 class="yellow tooltip_title">Average S
    
 	
 	<?php
-	$all_chart_rebuild_min_max = explode(',', $ct_conf['dev']['all_chart_rebuild_min_max']);
+	$all_chart_rebuild_min_max = explode(',', $ct_conf['power']['all_chart_rebuild_min_max']);
 	?>
 	
 	<p class='sys_stats red' style='font-weight: bold;'>*The "Server Cookies Size" telemetry data above <i>is not tracked in the system charts, because it's ONLY available in the user interface runtime (NOT the cron job runtime)</i>.</p>				
@@ -1982,7 +1983,7 @@ var server_header_defaults_content = '<h5 class="yellow tooltip_title">Average S
 	    </fieldset>
 				
 	<?php
-	if ( $ct_conf['dev']['debug_mode'] != 'off' || is_readable($base_dir . '/cache/logs/debug.log') ) {
+	if ( $ct_conf['power']['debug_mode'] != 'off' || is_readable($base_dir . '/cache/logs/debug.log') ) {
 	?>
 	    <fieldset class='subsection_fieldset'><legend class='subsection_legend'> Debugging Log </legend>
 	        

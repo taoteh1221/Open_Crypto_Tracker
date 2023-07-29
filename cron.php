@@ -33,7 +33,7 @@ require("app-lib/php/init.php");
 if ( $run_cron == true ) {
      
 
-    if ( $ct_conf['dev']['debug_mode'] == 'all' || $ct_conf['dev']['debug_mode'] == 'all_telemetry' || $ct_conf['dev']['debug_mode'] == 'cron_telemetry' ) {
+    if ( $ct_conf['power']['debug_mode'] == 'all' || $ct_conf['power']['debug_mode'] == 'all_telemetry' || $ct_conf['power']['debug_mode'] == 'cron_telemetry' ) {
 
     $cron_runtime_id = $ct_gen->rand_hash(8);         
          
@@ -50,7 +50,7 @@ $cron_run_lock_file = $base_dir . '/cache/events/emulated-cron-lock.dat';
     // (we don't want Desktop Editions to run multiple cron runtimes at the same time, if they are also
     // viewing in a regular browser on localhost port 22345, OR duplicates on Server Edition from taking
     // very long to finish running on low power hardware)
-    if ( $ct_cache->update_cache($cron_run_lock_file, ceil($ct_conf['dev']['cron_max_exec_time'] / 60) ) == true ) {
+    if ( $ct_cache->update_cache($cron_run_lock_file, ceil($ct_conf['power']['cron_max_exec_time'] / 60) ) == true ) {
     
     // Re-save new file lock
     $ct_cache->save_file($cron_run_lock_file, $ct_gen->time_date_format(false, 'pretty_date_time') );
@@ -267,7 +267,7 @@ $cron_run_lock_file = $base_dir . '/cache/events/emulated-cron-lock.dat';
         
         // If debug mode is on
         // RUN BEFORE plugins (in case custom plugin crashes)
-        if ( $ct_conf['dev']['debug_mode'] == 'all' || $ct_conf['dev']['debug_mode'] == 'all_telemetry' || $ct_conf['dev']['debug_mode'] == 'stats' ) {
+        if ( $ct_conf['power']['debug_mode'] == 'all' || $ct_conf['power']['debug_mode'] == 'all_telemetry' || $ct_conf['power']['debug_mode'] == 'stats' ) {
         		
         	foreach ( $system_info as $key => $val ) {
         	$system_telemetry .= $key . ': ' . $val . '; ';
@@ -373,7 +373,7 @@ gc_collect_cycles(); // Clean memory cache
     echo json_encode($exit_result, JSON_PRETTY_PRINT);
     }
 
-    if ( $ct_conf['dev']['debug_mode'] == 'all' || $ct_conf['dev']['debug_mode'] == 'all_telemetry' || $ct_conf['dev']['debug_mode'] == 'cron_telemetry' ) {
+    if ( $ct_conf['power']['debug_mode'] == 'all' || $ct_conf['power']['debug_mode'] == 'all_telemetry' || $ct_conf['power']['debug_mode'] == 'cron_telemetry' ) {
     // WITH newline (UNLOCKED file write)
     $ct_cache->save_file($base_dir . '/cache/logs/debug/cron/cron_runtime_telemetry.log', 'FULLY COMPLETED cron.php runtime (runtime_id = ' . $cron_runtime_id . ') on: ' . $ct_gen->time_date_format(false, 'pretty_date_time') . ' (UTC) ' . "\n\n\n\n", "append", false);     
     }

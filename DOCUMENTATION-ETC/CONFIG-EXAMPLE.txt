@@ -73,7 +73,7 @@ $ct_conf['gen']['btc_prim_currency_pair'] = 'usd'; // PUT INSIDE SINGLE QUOTES (
 // localbitcoins / loopring_amm / luno / okcoin / okex / southxchange / unocoin / upbit / wazirx
 // SEE THE $ct_conf['assets']['BTC'] CONFIGURATION NEAR THE BOTTOM OF THIS CONFIG FILE, FOR THE PROPER (CORRESPONDING)
 // 'BTC' EXCHANGE VALUE NEEDED FOR YOUR CHOSEN MARKET PAIR (set in $ct_conf['gen']['btc_prim_currency_pair'] directly above)
-// SEE THE $ct_conf['dev']['limited_apis'] SETTING FURTHER DOWN IN THE DEVELOPER SECTION, FOR EXCHANGES !NOT RECOMMENDED FOR USAGE HERE!
+// SEE THE $ct_conf['power']['limited_apis'] SETTING FURTHER DOWN IN THE DEVELOPER SECTION, FOR EXCHANGES !NOT RECOMMENDED FOR USAGE HERE!
 $ct_conf['gen']['btc_prim_exchange'] = 'kraken';  // PUT INSIDE SINGLE QUOTES ('selection')
 
 
@@ -315,7 +315,7 @@ $ct_conf['other_api']['alphavantage_key'] = '';
 // The requests-per-MINUTE limit on your Alpha Vantage API key (varies depending on you free / paid member level)
 $ct_conf['other_api']['alphavantage_per_minute_limit'] = 5; // (default = 5 [FOR FREE SERVICE])
 // The requests-per-DAY limit on your Alpha Vantage API key (varies depending on you free / paid member level)
-$ct_conf['other_api']['alphavantage_per_day_limit'] = 500; // (default = 500 [FOR FREE SERVICE])
+$ct_conf['other_api']['alphavantage_per_day_limit'] = 100; // (default = 100 [FOR FREE SERVICE])
 
 
 ////////////////////////////////////////
@@ -747,6 +747,12 @@ $ct_conf['power']['light_chart_day_intervals'] = array(14, 30, 90, 180, 365, 730
 // The maximum number of data points allowed in each light chart 
 // (saves on disk storage / speeds up chart loading times SIGNIFICANTLY #WITH A NUMBER OF 875 OR LESS#)
 $ct_conf['power']['light_chart_data_points_max'] = 875; // (default = 875), ADJUST WITH CARE!!!
+////
+// The space between light chart links inside the chart interface
+$ct_conf['power']['light_chart_link_spacing'] = 50; // (default = 50), ADJUST WITH CARE!!!
+////
+// The GUESSED offset (width) for light chart link fonts inside the chart interface (NOT MONOSPACE, SO WE GUESS AN AVERAGE)
+$ct_conf['power']['light_chart_link_font_offset'] = 4; // (default = 4), ADJUST WITH CARE!!!
 
 
 // Default settings for Asset Performance chart height / menu size (in the 'View More Stats' modal window, linked at bottom of Portfolio page)
@@ -1203,6 +1209,12 @@ $ct_conf['power']['news_feed'] = array(
     
     
         				array(
+            			"title" => "Newsletter - Step Data Insights (for Solana)",
+            			"url" => "https://stepdata.substack.com/feed"
+        						),
+    
+    
+        				array(
             			"title" => "Newsletter - Week In Ethereum",
             			"url" => "https://weekinethereumnews.com/feed/"
         						),
@@ -1401,24 +1413,17 @@ $ct_conf['power']['news_feed'] = array(
         
         
     				);
-				
-
-////////////////////////////////////////
-// !END! POWER USER CONFIGURATION
-////////////////////////////////////////
 
 
-/////////////////////////////////////////////////////////////////////////////
-// !START! DEVELOPER-ONLY CONFIGURATION, !CHANGE WITH #EXTREME# CARE, OR YOU CAN BREAK THE APP!
-/////////////////////////////////////////////////////////////////////////////
+// DEVELOPER-RELATED, !CHANGE WITH #EXTREME# CARE, OR YOU CAN BREAK THE APP!
 
 
 // Enable / disable PHP error reporting (to error logs on the web server)
 // https://www.php.net/manual/en/function.error-reporting.php
-$ct_conf['dev']['php_error_reporting'] = 0; // 0 == off / -1 == on
+$ct_conf['power']['php_error_reporting'] = 0; // 0 == off / -1 == on
 
 
-// $ct_conf['dev']['debug_mode'] enabled runs unit tests during ui runtimes (during webpage load),
+// $ct_conf['power']['debug_mode'] enabled runs unit tests during ui runtimes (during webpage load),
 // errors detected are error-logged and printed as alerts in header alert bell area
 // It also logs ui / cron runtime telemetry to /cache/logs/debug.log, AND /cache/logs/debug/
 ////////////////////////////////////////////////////////////////////////////////////////////
@@ -1456,50 +1461,50 @@ $ct_conf['dev']['php_error_reporting'] = 0; // 0 == off / -1 == on
 // IF YOU GET AN ERROR 500, TRY RUNNING ONE DEBUG MODE AT A TIME, TO AVOID GOING OVER THE PHP EXECUTION TIME LIMIT
 // DON'T LEAVE DEBUGGING ENABLED AFTER USING IT, THE /cache/logs/debug.log AND /cache/logs/debug/
 // LOG FILES !CAN GROW VERY QUICKLY IN SIZE! EVEN AFTER JUST A FEW RUNTIMES!
-$ct_conf['dev']['debug_mode'] = 'off'; 
+$ct_conf['power']['debug_mode'] = 'off'; 
 
 
 // Level of detail / verbosity in log files. 'normal' logs minimal details (basic information), 
 // 'verbose' logs maximum details (additional information IF AVAILABLE, for heavy debugging / tracing / etc)
 // IF DEBUGGING IS ENABLED ABOVE, LOGS ARE AUTOMATICALLY VERBOSE #WITHOUT THE NEED TO ADJUST THIS SETTING#
-$ct_conf['dev']['log_verb'] = 'normal'; // 'normal' / 'verbose'
+$ct_conf['power']['log_verb'] = 'normal'; // 'normal' / 'verbose'
 
 
 // Maximum number of BATCHED coingecko marketcap data results to fetch, per API call (during multiple / paginated calls) 
 // (coingecko #ABSOLUTELY HATES# DATA CENTER IPS [DEDICATED / VPS SERVERS], BUT GOES EASY ON RESIDENTIAL IPS)
-$ct_conf['dev']['coingecko_api_batched_max'] = 100; // (default = 100), ADJUST WITH CARE!!!
+$ct_conf['power']['coingecko_api_batched_max'] = 100; // (default = 100), ADJUST WITH CARE!!!
 
 
 // Maximum number of BATCHED news feed fetches / re-caches per ajax OR cron runtime 
 // (#TO HELP PREVENT RUNTIME CRASHES# ON LOW POWER DEVICES OR HIGH TRAFFIC INSTALLS, USE A LOW NUMBER OF 20 OR LESS)
-$ct_conf['dev']['news_feed_batched_max'] = 20; // (default = 20), ADJUST WITH CARE!!!
+$ct_conf['power']['news_feed_batched_max'] = 20; // (default = 20), ADJUST WITH CARE!!!
 ////
 // Maximum number of news feeds allowed to be pre-cached during background tasks (to avoid overloading low power devices)
-$ct_conf['dev']['news_feed_precache_hard_limit'] = 45; // (default = 45), ADJUST WITH CARE!!!
+$ct_conf['power']['news_feed_precache_hard_limit'] = 45; // (default = 45), ADJUST WITH CARE!!!
 
 
 // Randomly rebuild the 'ALL' chart between the minimum and maximum HOURS set here  (so they don't refresh all at once, for faster runtimes)
 // LARGER AVERAGE TIME SPREAD IS EASIER ON LOW POWER DEVICES (TO ONLY UPDATE A FEW AT A TIME), FOR A MORE CONSISTANT CRON JOB RUNTIME SPEED!!
-$ct_conf['dev']['all_chart_rebuild_min_max'] = '4,8'; // 'min,max' (default = '4,8'), ADJUST WITH CARE!!!
+$ct_conf['power']['all_chart_rebuild_min_max'] = '4,8'; // 'min,max' (default = '4,8'), ADJUST WITH CARE!!!
 ////
 // Maximum number of light chart NEW BUILDS allowed during background tasks, PER CPU CORE (only reset / new, NOT the 'all' chart REbuilds)
 // (THIS IS MULTIPLIED BY THE NUMBER OF CPU CORES [if detected], avoids overloading low power devices / still builds fast on multi-core)
-$ct_conf['dev']['light_chart_first_build_hard_limit'] = 20; // (default = 20), ADJUST WITH CARE!!!
+$ct_conf['power']['light_chart_first_build_hard_limit'] = 20; // (default = 20), ADJUST WITH CARE!!!
 
 
 // If you want to override the default CURL user agent string (sent with API requests, etc)
 // Adding a string here automatically enables that as the custom curl user agent
 // LEAVING BLANK '' USES THE DEFAULT CURL USER AGENT LOGIC BUILT-IN TO THIS APP (WHICH INCLUDES ONLY BASIC SYSTEM CONFIGURATION STATS)
-$ct_conf['dev']['override_curl_user_agent'] = ''; 
+$ct_conf['power']['override_curl_user_agent'] = ''; 
 
 
 // Default charset used
-$ct_conf['dev']['charset_default'] = 'UTF-8'; 
+$ct_conf['power']['charset_default'] = 'UTF-8'; 
 ////
 // Unicode charset used (if needed)
 // UCS-2 is outdated as it only covers 65536 characters of Unicode
 // UTF-16BE / UTF-16LE / UTF-16 / UCS-2BE can represent ALL Unicode characters
-$ct_conf['dev']['charset_unicode'] = 'UTF-16'; 
+$ct_conf['power']['charset_unicode'] = 'UTF-16'; 
 			
 									
 // !!!!! BE #VERY CAREFUL# LOWERING MAXIMUM EXECUTION TIMES BELOW, #OR YOU MAY CRASH THE RUNNING PROCESSES EARLY, 
@@ -1507,49 +1512,49 @@ $ct_conf['dev']['charset_unicode'] = 'UTF-16';
 // (ALL maximum execution times are automatically 900 seconds [15 minutes] IN DEBUG MODE)
 ////
 // Maximum execution time for interface runtime in seconds (how long it's allowed to run before automatically killing the process)
-$ct_conf['dev']['ui_max_exec_time'] = 250; // (default = 250)
+$ct_conf['power']['ui_max_exec_time'] = 250; // (default = 250)
 ////
 // Maximum execution time for ajax runtime in seconds (how long it's allowed to run before automatically killing the process)
-$ct_conf['dev']['ajax_max_exec_time'] = 250; // (default = 250)
+$ct_conf['power']['ajax_max_exec_time'] = 250; // (default = 250)
 ////
 // Maximum execution time for cron job runtime in seconds (how long it's allowed to run before automatically killing the process)
-$ct_conf['dev']['cron_max_exec_time'] = 1320; // (default = 1320)
+$ct_conf['power']['cron_max_exec_time'] = 1320; // (default = 1320)
 ////
 // Maximum execution time for internal API runtime in seconds (how long it's allowed to run before automatically killing the process)
-$ct_conf['dev']['int_api_max_exec_time'] = 120; // (default = 120)
+$ct_conf['power']['int_api_max_exec_time'] = 120; // (default = 120)
 ////
 // Maximum execution time for webhook runtime in seconds (how long it's allowed to run before automatically killing the process)
-$ct_conf['dev']['webhook_max_exec_time'] = 120; // (default = 120)
+$ct_conf['power']['webhook_max_exec_time'] = 120; // (default = 120)
      
      
 // Servers with STRICT CONSECUTIVE CONNECT limits (we add 0.11 seconds to the wait between consecutive connections)
-$ct_conf['dev']['strict_cosecutive_connect_servers'] = array(
-                                      						'test654321.com',
-                                      						);
+$ct_conf['power']['strict_consecutive_connect_servers'] = array(
+                                      					 'test654321.com',
+                                      					);
      
      
 // Servers which are known to block API access by location / jurasdiction
 // (we alert end-users in error logs, when a corrisponding API server connection fails [one-time notice per-runtime])
-$ct_conf['dev']['location_blocked_servers'] = array(
-                                      				'binance.com',
-                                      				);
+$ct_conf['power']['location_blocked_servers'] = array(
+                                      			  'binance.com',
+                                      			 );
      
      
 // Servers requiring TRACKED THROTTLE-LIMITING, due to limited-allowed minute / hour / daily requests
 // (are processed by ct_cache->api_throttling(), to avoid using up daily request limits)
-$ct_conf['dev']['tracked_throttle_limited_servers'] = array(
-                                      						'alphavantage.co',
-                                      						);
+$ct_conf['power']['tracked_throttle_limited_servers'] = array(
+                                      					'alphavantage.co',
+                                      				    );
     
      
 // RSS feed services that are a bit funky with allowed user agents, so we need to let them know this is a real feed parser (not just a spammy bot)
 // (user agent string is EXPLICITLY SET AS A CUSTOM FEED PARSER)
-$ct_conf['dev']['strict_news_feed_servers'] = array(
-                                                  'medium.com',
-                                                  'reddit.com',
-                                                  'whatbitcoindid.com',
-                                                  'simplecast.com',
-                                                  );
+$ct_conf['power']['strict_news_feed_servers'] = array(
+                                                    'medium.com',
+                                                    'reddit.com',
+                                                    'whatbitcoindid.com',
+                                                    'simplecast.com',
+                                                   );
 							
 
 // TLD-only (Top Level Domain only, NO SUBDOMAINS) for each API service that UN-EFFICIENTLY requires multiple calls (for each market / data set)
@@ -1559,7 +1564,7 @@ $ct_conf['dev']['strict_news_feed_servers'] = array(
 // !MUST BE LOWERCASE!
 // #DON'T ADD ANY WEIRD TLD HERE LIKE 'xxxxx.co.il'#, AS DETECTING TLD DOMAINS WITH MORE THAN ONE PERIOD IN THEM ISN'T SUPPORTED
 // WE DON'T WANT THE REQUIRED EXTRA LOGIC TO PARSE THESE DOUBLE-PERIOD TLDs BOGGING DOWN / CLUTTERING APP CODE, FOR JUST ONE TINY FEATURE
-$ct_conf['dev']['limited_apis'] = array(
+$ct_conf['power']['limited_apis'] = array(
                 						'alphavantage.co',
                 						'bitforex.com',
                 						'bitflyer.com',
@@ -1578,7 +1583,7 @@ $ct_conf['dev']['limited_apis'] = array(
 				
 
 ////////////////////////////////////////
-// !END! DEVELOPER-ONLY CONFIGURATION
+// !END! POWER USER CONFIGURATION
 ////////////////////////////////////////
 
 

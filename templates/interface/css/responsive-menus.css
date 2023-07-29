@@ -1,0 +1,28 @@
+
+
+@media (max-width: 768px) {
+     
+    #sidebar {
+        margin-left: -258px;
+    }
+    #sidebar.active {
+        margin-left: 0;
+    }
+    
+    
+    #secondary_wrapper {
+        width: calc(100% - 60px);
+        left: 60px !important;
+    }
+    #secondary_wrapper.active {
+        width: calc(100% - 258px);
+        left: 258px !important;
+    }
+    
+    
+    #sidebarCollapse span {
+        display: none;
+    }
+    
+    
+}

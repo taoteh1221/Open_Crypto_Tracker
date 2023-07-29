@@ -2,7 +2,7 @@
 	<title>Open Crypto Tracker<?=( $is_admin ? ' - Admin Config' : '' )?></title>
     
 
-     <meta charset="<?=$ct_conf['dev']['charset_default']?>">
+     <meta charset="<?=$ct_conf['power']['charset_default']?>">
    
      <meta name="viewport" content="width=device-width"> <!-- Mobile compatibility -->
    
@@ -29,6 +29,8 @@
 	<link rel="preload" href="templates/interface/css/jquery.mCustomScrollbar.min.css" as="style" />
 	
 	<link rel="preload" href="templates/interface/css/style.css" as="style" />
+	
+	<link rel="preload" href="templates/interface/css/responsive-menus.css" as="style" />
 	
 	<link rel="preload" href="templates/interface/css/<?=$sel_opt['theme_selected']?>.style.css" as="style" />
 
@@ -138,6 +140,9 @@
 	app_edition = '<?=$app_edition?>';
 	
 	theme_selected = '<?=$sel_opt['theme_selected']?>';
+	
+	// Opposite of app theme, for better contrast
+     scrollbar_theme = theme_selected == 'dark' ? 'minimal' : 'minimal-dark';
 	
 	min_fiat_val_test = '<?=$min_fiat_val_test?>';
 	
@@ -259,7 +264,7 @@
 	
 	
 	<?php
-	foreach ( $ct_conf['dev']['limited_apis'] as $api ) {
+	foreach ( $ct_conf['power']['limited_apis'] as $api ) {
 	$js_limited_apis .= '"'.strtolower( preg_replace("/\.(.*)/i", "", $api) ).'", ';
 	}
 	$js_limited_apis = trim($js_limited_apis);
@@ -269,6 +274,10 @@
 	?>
 
 	limited_apis = <?=$js_limited_apis?>;
+	
+	// Add secondary bitmex perp markets (as we just derive from TLD domains for the base names)
+	limited_apis.push("bitmex_u20");
+	limited_apis.push("bitmex_z20");
 	
 	<?php
 	foreach ( $ct_conf['power']['crypto_pair_pref_mrkts'] as $key => $unused ) {
@@ -331,6 +340,8 @@
 	
 	<!-- Load theme styling last to over rule -->
 	<link rel="stylesheet" href="templates/interface/css/style.css" type="text/css" />
+	
+	<link rel="stylesheet" href="templates/interface/css/responsive-menus.css" type="text/css" title="responsive-menus" />
 	
 	<link rel="stylesheet" href="templates/interface/css/<?=$sel_opt['theme_selected']?>.style.css" type="text/css" />
 	

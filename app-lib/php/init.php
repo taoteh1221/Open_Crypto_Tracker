@@ -61,7 +61,7 @@ require_once('app-lib/php/inline/maintenance/scheduled-maintenance.php');
 
 
 // Unit tests to run in debug mode (MUST RUN AT THE VERY END OF INIT.PHP)
-if ( $ct_conf['dev']['debug_mode'] != 'off' ) {
+if ( $ct_conf['power']['debug_mode'] != 'off' ) {
 require_once('app-lib/php/inline/debugging/tests.php');
 require_once('app-lib/php/inline/debugging/exchange-and-pair-info.php');
 }

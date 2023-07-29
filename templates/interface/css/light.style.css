@@ -392,6 +392,20 @@ border: 3px solid #808080 !important;
 color: black;
 }
 
+/* COMPACT sidebar scrollbar styling */
+/* Track */
+#collapsed_sidebar::-webkit-scrollbar-track {
+  background: #e8e3e3; 
+}
+/* Handle */
+#collapsed_sidebar::-webkit-scrollbar-thumb {
+  background: #141414; 
+}
+/* Handle on hover */
+#collapsed_sidebar::-webkit-scrollbar-thumb:hover {
+  background: #6d6d6d; 
+}
+
 
 
 /* ---------------------------------------------------
