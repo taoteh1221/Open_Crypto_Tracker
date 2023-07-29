@@ -4,7 +4,6 @@
  */
  
 
-
 	// Have this script not load any code if asset charts are not turned on
 	if ( $ct_conf['gen']['asset_charts_toggle'] != 'on' ) {
 	exit;
@@ -134,11 +133,8 @@ gui: {
 	
 		// Account for more / less digits with absolute positioning
 		// Take into account INCREASE OR DECREASE of characters in $light_chart_text
-		if ( isset($last_light_chart_text) > 0 && strlen($last_light_chart_text) != strlen($light_chart_text) ) {
-		$difference = $difference + ( strlen($light_chart_text) - strlen($last_light_chart_text) ); 
-		$x_coord = $x_coord + ( $difference * $ct_conf['power']['light_chart_link_font_offset'] ); 
-		}
-		elseif ( isset($difference) ) {
+		if ( isset($last_light_chart_text) && strlen($last_light_chart_text) != strlen($light_chart_text) ) {
+		$difference = $difference + ( strlen($light_chart_text) - strlen($last_light_chart_text) );  
 		$x_coord = $x_coord + ( $difference * $ct_conf['power']['light_chart_link_font_offset'] ); 
 		}
 	
@@ -353,11 +349,8 @@ graphset:[
 	
 		// Account for more / less digits with absolute positioning
 		// Take into account INCREASE OR DECREASE of characters in $light_chart_text
-		if ( isset($last_light_chart_text) > 0 && strlen($last_light_chart_text) != strlen($light_chart_text) ) {
+		if ( isset($last_light_chart_text) && strlen($last_light_chart_text) != strlen($light_chart_text) ) {
 		$difference = $difference + ( strlen($light_chart_text) - strlen($last_light_chart_text) ); 
-		$x_coord = $x_coord + ( $difference * $ct_conf['power']['light_chart_link_font_offset'] ); 
-		}
-		elseif ( isset($difference) ) {
 		$x_coord = $x_coord + ( $difference * $ct_conf['power']['light_chart_link_font_offset'] ); 
 		}
 	

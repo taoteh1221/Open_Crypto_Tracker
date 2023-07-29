@@ -1966,7 +1966,7 @@ var $ct_array = array();
       $("#coin_amnts").submit();
       
       '>
-         <option value='index.php'> Show Portfolio Page First </option>
+         <option value='index.php'> Show Last-Visted Page First </option>
          <?php
          if ( isset($_GET['start_page']) && $_GET['start_page'] != '' && $_GET['start_page'] != $page ) {
          $another_set = 1;
@@ -1983,14 +1983,12 @@ var $ct_array = array();
       <?php
       if ( $another_set == 1 ) {
       ?>
-      <span class='red'>&nbsp;(this other secondary page is currently the start page)</span>
-       <br class='clear_both' />
+      <span class='red'>&nbsp;(other page is start page)</span>
       <?php
       }
       elseif ( $_GET['start_page'] == $page ) {
       ?>
-      <span class='red'>&nbsp;(this page is currently the start page)</span>
-       <br class='clear_both' />
+      <span class='red'>&nbsp;(current page is start page)</span>
       <?php
       }
       

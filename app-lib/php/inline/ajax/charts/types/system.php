@@ -206,11 +206,8 @@ gui: {
 	
 		// Account for more / less digits with absolute positioning
 		// Take into account INCREASE OR DECREASE of characters in $light_chart_text
-		if ( isset($last_light_chart_text) > 0 && strlen($last_light_chart_text) != strlen($light_chart_text) ) {
+		if ( isset($last_light_chart_text) && strlen($last_light_chart_text) != strlen($light_chart_text) ) {
 		$difference = $difference + ( strlen($light_chart_text) - strlen($last_light_chart_text) ); 
-		$x_coord = $x_coord + ( $difference * $ct_conf['power']['light_chart_link_font_offset'] ); 
-		}
-		elseif ( isset($difference) ) {
 		$x_coord = $x_coord + ( $difference * $ct_conf['power']['light_chart_link_font_offset'] ); 
 		}
 	
@@ -551,15 +548,12 @@ gui: {
 	
 		// Account for more / less digits with absolute positioning
 		// Take into account INCREASE OR DECREASE of characters in $light_chart_text
-		if ( isset($last_light_chart_text) > 0 && strlen($last_light_chart_text) != strlen($light_chart_text) ) {
+		if ( isset($last_light_chart_text) && strlen($last_light_chart_text) != strlen($light_chart_text) ) {
 		$difference = $difference + ( strlen($light_chart_text) - strlen($last_light_chart_text) ); 
 		$x_coord = $x_coord + ( $difference * $ct_conf['power']['light_chart_link_font_offset'] ); 
 		}
-		elseif ( isset($difference) ) {
-		$x_coord = $x_coord + ( $difference * $ct_conf['power']['light_chart_link_font_offset'] ); 
-		}
 	
-	$x_coord = $x_coord + $link_spacer;
+	$x_coord = $x_coord + $ct_conf['power']['light_chart_link_spacing'];
 	$last_light_chart_text = $light_chart_text;
 	}
 	?>
@@ -762,11 +756,8 @@ gui: {
 	
 		// Account for more / less digits with absolute positioning
 		// Take into account INCREASE OR DECREASE of characters in $light_chart_text
-		if ( isset($last_light_chart_text) > 0 && strlen($last_light_chart_text) != strlen($light_chart_text) ) {
+		if ( isset($last_light_chart_text) && strlen($last_light_chart_text) != strlen($light_chart_text) ) {
 		$difference = $difference + ( strlen($light_chart_text) - strlen($last_light_chart_text) ); 
-		$x_coord = $x_coord + ( $difference * $ct_conf['power']['light_chart_link_font_offset'] ); 
-		}
-		elseif ( isset($difference) ) {
 		$x_coord = $x_coord + ( $difference * $ct_conf['power']['light_chart_link_font_offset'] ); 
 		}
 	

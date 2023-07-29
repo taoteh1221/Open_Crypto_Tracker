@@ -12,9 +12,6 @@
 	            
 
 <div class='full_width_wrapper'>
-			
-	
-	<p style='margin-top: 25px; margin-bottom: 25px;'><?=$ct_gen->start_page_html('update')?></p>
 
     
 <!--  !START! RE-USED INFO BUBBLE DATA  -->
