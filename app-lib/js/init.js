@@ -49,6 +49,10 @@ background_tasks_check();
 random_tips(); 
 
 
+// If overriding any responsive menu CSS is needed
+responsive_menu_override();
+
+
 // Monitor admin iframes for load / unload events
 admin_iframe_load = document.querySelectorAll('.admin_iframe');
 	
@@ -66,7 +70,7 @@ admin_iframe_load = document.querySelectorAll('.admin_iframe');
 	
 	
      // Monitor admin iframes for auto-height adjustment WHEN THEY SHOW
-     monitor_iframe_heights();
+     monitor_iframe_sizes();
 
 	/////////////////////////////////////////////////////////////////////////////////////////////////////
 	
@@ -80,7 +84,7 @@ admin_iframe_load = document.querySelectorAll('.admin_iframe');
 	/////////////////////////////////////////////////////////////////////////////////////////////////////
 	
 	
-    // We only want to load our vertical scroll position on secondary start pages that are't background-loading AFTER page load
+    // We only want to load our vertical scroll position on secondary start pages AFTER any background-loading
     // (WE ALREADY LOAD get_scroll_position() in charts_loading_check() AND feeds_loading_check() FOR THE DYNAMIC PAGE LOADING)
     if ( $(location).attr('hash') != '' && $(location).attr('hash') != '#news' && $(location).attr('hash') != '#charts' ) {
     get_scroll_position('init'); // Run AFTER showing content
@@ -121,6 +125,16 @@ admin_iframe_load = document.querySelectorAll('.admin_iframe');
      emulated_cron(); // Initial load (RELOADS from WITHIN it's OWN logic every minute AFTER)
 	
 	}
+	
+	
+	/////////////////////////////////////////////////////////////////////////////////////////////////////
+	
+	
+	// On resize of browser viewport
+	addEventListener("resize", (event) => {
+     // If overriding any responsive menu CSS is needed
+     responsive_menu_override();
+	});
 
 
 	/////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -133,11 +147,11 @@ admin_iframe_load = document.querySelectorAll('.admin_iframe');
 	     
           window.addEventListener('scroll', function (e) {
      
-          emulate_sticky('#alert_bell_area');
+          dynamic_position('#alert_bell_area', 'emulate_sticky');
      
-          emulate_sticky('.page_title');
+          dynamic_position('.page_title', 'emulate_sticky');
      
-          emulate_sticky('.countdown_notice');
+          dynamic_position('.countdown_notice', 'emulate_sticky');
           
           });
      
@@ -186,31 +200,6 @@ admin_iframe_load = document.querySelectorAll('.admin_iframe');
 	/////////////////////////////////////////////////////////////////////////////////////////////////////
 	
 	
-    // Set proper body zoom for desktop editions
-    if ( app_edition == 'desktop' ) {
-        
-         // Page zoom logic
-         if ( localStorage.getItem(desktop_zoom_storage) && localStorage.getItem(desktop_zoom_storage) > 0 ) {
-         currzoom = localStorage.getItem(desktop_zoom_storage);
-         }
-         else {
-         currzoom = 100;
-         }
-        
-    // Just zoom body / show new zoom level in GUI,
-    // and reset #app_loading and #change_font_size to 100% beforehand
-    // (iframes zoom onload in other init logic)
-    $('#change_font_size').css('zoom', ' ' + 100 + '%');
-    $('#app_loading').css('zoom', ' ' + 100 + '%');
-    $('body').css('zoom', ' ' + currzoom + '%');
-    $("#zoom_show_ui").html(currzoom + '%');
-                     
-    }
-
-
-	/////////////////////////////////////////////////////////////////////////////////////////////////////
-	
-	
     // Auto-focus admin authentication form's username feild
     if ( $("#admin_login").length ) {
     	setTimeout(function(){
@@ -234,10 +223,10 @@ admin_iframe_load = document.querySelectorAll('.admin_iframe');
 	
     admin_iframe_load.forEach(function(iframe) {
        
-          // When admin iframe loads
+          // When admin iframe loads / reloads
           iframe.addEventListener('load', function() {
     
-          iframe_height_adjust(iframe);
+          iframe_size_adjust(iframe);
           $("#"+iframe.id+"_loading").fadeOut(250);
           
               // Before admin iframe unloads
@@ -357,53 +346,6 @@ admin_iframe_load = document.querySelectorAll('.admin_iframe');
     $('#alert_bell_area', window.parent.document).html( "<span class='bitcoin'>Current UTC time:</span> <span class='utc_timestamp red'></span><br />" + $('#app_error_alert', window.parent.document).html() );
         
     }
-
-
-	/////////////////////////////////////////////////////////////////////////////////////////////////////
-	
-	
-     // Plus-minus elements (DESKTOP EDITION'S zoom in / out interface ONLY)
-    if ( app_edition == 'desktop' ) {
-    
-        // Plus button
-        $('#plusBtn').on('click',function(){
-        
-        var step = 2;
-        currzoom = parseFloat(currzoom) + step; 
-        $('body').css('zoom', ' ' + currzoom + '%');
-        
-        localStorage.setItem(desktop_zoom_storage, currzoom);
-        $("#zoom_show_ui").html(currzoom + '%');
-        //console.log(currzoom);
-        
-            if ( is_admin == true ) {
-                admin_iframe_load.forEach(function(iframe) {
-                iframe_height_adjust(iframe);
-                });
-            }
-        
-        });
-    
-        // Minus button
-        $('#minusBtn').on('click',function(){
-        
-        var step = 2;
-        currzoom = parseFloat(currzoom) - step; 
-        $('body').css('zoom', ' ' + currzoom + '%');
-        
-        localStorage.setItem(desktop_zoom_storage, currzoom);
-        $("#zoom_show_ui").html(currzoom + '%');
-        //console.log(currzoom);
-        
-            if ( is_admin == true ) {
-                admin_iframe_load.forEach(function(iframe) {
-                iframe_height_adjust(iframe);
-                });
-            }
-        
-        });
-        
-    } // END page zoom logic
 
 
 	/////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -544,19 +486,19 @@ admin_iframe_load = document.querySelectorAll('.admin_iframe');
 	/////////////////////////////////////////////////////////////////////////////////////////////////////
 	
          
-         // https://manos.malihu.gr/jquery-custom-content-scroller/
-         // https://github.com/malihu/malihu-custom-scrollbar-plugin/issues/329
-         // (SCROLLING FOR COLLAPSED SIDEBAR [WHEN IT IS LONGER THAN THE SCREEN HEIGHT])
-         $("#sidebar").mCustomScrollbar({
+    // https://manos.malihu.gr/jquery-custom-content-scroller/
+    // https://github.com/malihu/malihu-custom-scrollbar-plugin/issues/329
+    // (SCROLLING FOR COLLAPSED SIDEBAR [WHEN IT IS LONGER THAN THE SCREEN HEIGHT])
+    $("#sidebar").mCustomScrollbar({
               
-              theme: "minimal",
+              theme: scrollbar_theme,
               scrollInertia: 200,
               mouseWheel:{
                           scrollAmount: 200,
                           normalizeDelta: true
                           },
                           
-         });
+    });
           
           
     // UNstyle sidebar on-click (REGULAR sidebar 3-deep (last) sub-menu)
@@ -590,16 +532,7 @@ admin_iframe_load = document.querySelectorAll('.admin_iframe');
          // (so we can have sidebar be scrollable when we are not showing a submenu)
          $('#collapsed_sidebar .dropdown-toggle').on({
               "click":function(e){
-              
-                   if ( $(this).hasClass("show") == true ) {
-                   $("#collapsed_sidebar").css('overflow-x','revert');
-                   $("#collapsed_sidebar").css('overflow-y','revert');
-                   }
-                   else {
-                   $("#collapsed_sidebar").css('overflow-x','hidden');
-                   $("#collapsed_sidebar").css('overflow-y','auto');
-                   }
-                  
+              compact_submenu(this);
               }
           });
           
@@ -607,7 +540,7 @@ admin_iframe_load = document.querySelectorAll('.admin_iframe');
           // Reset COMPACT sidebar CSS on hiding of dropdown menu
           // (allows vertical scrolling AFTER being closed)
           $('#collapsed_sidebar .dropdown-toggle').on('hidden.bs.dropdown', function () {
-          close_compact_submenu();
+          compact_submenu();
           });
 
          
@@ -617,7 +550,14 @@ admin_iframe_load = document.querySelectorAll('.admin_iframe');
               e.stopPropagation();
               }
           });
-         
+          
+          
+          // UNUSED, BUT KEEP FOR NOW
+          const coll_sb = document.querySelector('#collapsed_sidebar');
+          coll_sb.addEventListener('scroll', () => {
+          collapsed_sidebar_scroll_position = coll_sb.scrollTop; // reuse `coll_sb` innstead of querying the DOM again
+          //console.log('#collapsed_sidebar scroll position = ' + collapsed_sidebar_scroll_position);
+          }, {passive: true});
          
          
          // KEEP OPEN ON CLICK REGULAR sidebar 3-deep (last) sub-menu
@@ -653,7 +593,7 @@ admin_iframe_load = document.querySelectorAll('.admin_iframe');
           // Toggle sidebar
          $('.sidebar_toggle').on('click', function () {
                
-          toggle_sidebar();
+         toggle_sidebar();
                
           // Save user's last preferred sidebar mode (for next app load)
           var sidebar_check = $('#sidebar').css('margin-left');
@@ -809,7 +749,7 @@ admin_iframe_load = document.querySelectorAll('.admin_iframe');
               
               // The workaround for equivelent of onclick event for inside iframe contents
               $(this).contents().on("mousedown, mouseup, click", function(){
-              close_compact_submenu();
+              compact_submenu();
               });
               
           });

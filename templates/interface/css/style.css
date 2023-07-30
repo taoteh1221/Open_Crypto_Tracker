@@ -57,7 +57,7 @@ margin-bottom: 15px;
 
 
 select {
-appearance: none !important;  /* for hiding default arrow */
+-webkit-appearance: none !important;  /* for hiding default arrow...use webkit version for compatibility with desktop editions */
 line-height: 15px !important;
 height: 25px !important;
 min-width: 95px !important;
@@ -384,13 +384,8 @@ line-height: 25px;
 }
 
 
-.start_page_menu {
-padding: 5px;
-}
-
-
-.start_page_menu_red {
-padding: 8px;
+.start_page_menu, .start_page_menu_red {
+padding: 8px !important;
 }
 
 
@@ -583,11 +578,6 @@ padding: 2px;
 }
 
 
-.start_page_menu {
-padding: 8px;
-}
-
-
 .loading {
 width: 100%; 
 font-weight: bold;
@@ -751,7 +741,7 @@ margin: 0px;
 }
 
 
-#secondary_wrapper ul > li {
+#secondary_wrapper ul > li, .iframe_wrapper ul > li {
 margin: 10px;
 }
 
@@ -1115,34 +1105,6 @@ max-width: 242px;
 }
 
 
-@media (max-width: 768px) {
-     
-    #sidebar {
-        margin-left: -258px;
-    }
-    #sidebar.active {
-        margin-left: 0;
-    }
-    
-    
-    #secondary_wrapper {
-        width: calc(100% - 60px);
-        left: 60px !important;
-    }
-    #secondary_wrapper.active {
-        width: calc(100% - 258px);
-        left: 258px !important;
-    }
-    
-    
-    #sidebarCollapse span {
-        display: none;
-    }
-    
-    
-}
-
-
 /* ---------------------------------------------------
     *COLLAPSED* SIDEBAR STYLE
 ----------------------------------------------------- */
@@ -1166,18 +1128,6 @@ overflow-y: auto;
 /* width */
 #collapsed_sidebar::-webkit-scrollbar {
   width: 5px;
-}
-/* Track */
-#collapsed_sidebar::-webkit-scrollbar-track {
-  background: #888; 
-}
-/* Handle */
-#collapsed_sidebar::-webkit-scrollbar-thumb {
-  background: #f1f1f1; 
-}
-/* Handle on hover */
-#collapsed_sidebar::-webkit-scrollbar-thumb:hover {
-  background: #555; 
 }
 
 

@@ -2,7 +2,7 @@
 	<title>Open Crypto Tracker<?=( $is_admin ? ' - Admin Config' : '' )?></title>
     
 
-     <meta charset="<?=$ct_conf['dev']['charset_default']?>">
+     <meta charset="<?=$ct_conf['power']['charset_default']?>">
    
      <meta name="viewport" content="width=device-width"> <!-- Mobile compatibility -->
    
@@ -29,6 +29,8 @@
 	<link rel="preload" href="templates/interface/css/jquery.mCustomScrollbar.min.css" as="style" />
 	
 	<link rel="preload" href="templates/interface/css/style.css" as="style" />
+	
+	<link rel="preload" href="templates/interface/css/responsive-menus.css" as="style" />
 	
 	<link rel="preload" href="templates/interface/css/<?=$sel_opt['theme_selected']?>.style.css" as="style" />
 
@@ -139,6 +141,9 @@
 	
 	theme_selected = '<?=$sel_opt['theme_selected']?>';
 	
+	// Opposite of app theme, for better contrast
+     scrollbar_theme = theme_selected == 'dark' ? 'minimal' : 'minimal-dark';
+	
 	min_fiat_val_test = '<?=$min_fiat_val_test?>';
 	
 	min_crypto_val_test = '<?=$min_crypto_val_test?>';
@@ -242,6 +247,7 @@
 	// Preload /images/auto-preloaded/ images VIA JAVASCRIPT TOO (WAY MORE RELIABLE THAN META TAG PRELOAD)
 	
 	<?php
+	
 	$preloaded_files_dir = 'templates/interface/media/images/auto-preloaded';
 	$preloaded_files = $ct_gen->list_files($preloaded_files_dir);
 	
@@ -255,32 +261,44 @@
 	<?php
 	$loop = $loop + 1;
 	}
+	
 	?>
 	
 	
 	<?php
-	foreach ( $ct_conf['dev']['limited_apis'] as $api ) {
+	
+	foreach ( $ct_conf['power']['limited_apis'] as $api ) {
 	$js_limited_apis .= '"'.strtolower( preg_replace("/\.(.*)/i", "", $api) ).'", ';
 	}
+
 	$js_limited_apis = trim($js_limited_apis);
 	$js_limited_apis = rtrim($js_limited_apis,',');
 	$js_limited_apis = trim($js_limited_apis);
 	$js_limited_apis = '['.$js_limited_apis.']';
+
 	?>
 
 	limited_apis = <?=$js_limited_apis?>;
 	
+	// Add secondary bitmex perp markets (as we just derive from TLD domains for the base names)
+	limited_apis.push("bitmex_u20");
+	limited_apis.push("bitmex_z20");
+	
 	<?php
+	
 	foreach ( $ct_conf['power']['crypto_pair_pref_mrkts'] as $key => $unused ) {
 	$secondary_mrkt_currencies .= '"'.strtolower($key).'", ';
 	}
+	
 	foreach ( $ct_conf['power']['btc_currency_mrkts'] as $key => $unused ) {
 	$secondary_mrkt_currencies .= '"'.strtolower($key).'", ';
 	}
+	
 	$secondary_mrkt_currencies = trim($secondary_mrkt_currencies);
 	$secondary_mrkt_currencies = rtrim($secondary_mrkt_currencies,',');
 	$secondary_mrkt_currencies = trim($secondary_mrkt_currencies);
 	$secondary_mrkt_currencies = '['.$secondary_mrkt_currencies.']';
+	
 	?>
 
 	secondary_mrkt_currencies = <?=$secondary_mrkt_currencies?>;
@@ -288,25 +306,18 @@
 	<?php
 	foreach ( $ct_conf['power']['btc_pref_currency_mrkts'] as $pref_bitcoin_mrkts_key => $pref_bitcoin_mrkts_val ) {
 	?>
+
 	pref_bitcoin_mrkts["<?=strtolower( $pref_bitcoin_mrkts_key )?>"] = "<?=strtolower( $pref_bitcoin_mrkts_val )?>";
+	
 	<?php
 	}
+	
 	// If desktop edition, cron emulation is enabled, and NOT on login form submission pages, run emulated cron
 	if ( $app_edition == 'desktop' && $ct_conf['power']['desktop_cron_interval'] > 0 && !$is_login_form ) {
 	?>	
 	
      emulated_cron_enabled = true;
      
-	<?php
-	}
-	
-	
-	// User AND admin area Desktop Edition vars
-	if ( $app_edition == 'desktop' ) {
-	?>
-	
-	desktop_zoom_storage = storage_app_id("zoom");
-	
 	<?php
 	}
 	?>
@@ -331,6 +342,8 @@
 	
 	<!-- Load theme styling last to over rule -->
 	<link rel="stylesheet" href="templates/interface/css/style.css" type="text/css" />
+	
+	<link rel="stylesheet" href="templates/interface/css/responsive-menus.css" type="text/css" title="responsive-menus" />
 	
 	<link rel="stylesheet" href="templates/interface/css/<?=$sel_opt['theme_selected']?>.style.css" type="text/css" />
 	
@@ -435,3 +448,4 @@
 
 	<link rel="shortcut icon" href="templates/interface/media/images/favicon.png">
 	<link rel="icon" href="templates/interface/media/images/favicon.png">
+

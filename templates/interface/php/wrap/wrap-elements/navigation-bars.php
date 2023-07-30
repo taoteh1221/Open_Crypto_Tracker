@@ -102,22 +102,12 @@
 
 
                     <li>
-                        <a <?=$content_toggle?> class="dropdown-item admin_change_width" data-width="fixed_max" role="tab" aria-controls="admin_int_api" href="admin.php#admin_int_api" title='Documentation / keys for using the built-in API to connect to other apps.'>Internal API</a>
-                    </li>
-
-
-                    <li>
-                        <a <?=$content_toggle?> class="dropdown-item admin_change_width" data-width="fixed_max" role="tab" aria-controls="admin_webhook" href="admin.php#admin_webhook" title='Webhooks available to connect to other apps.'>Webhook</a>
+                        <a <?=$content_toggle?> class="dropdown-item admin_change_width" data-width="fixed_max" role="tab" aria-controls="admin_webhook_int_api" href="admin.php#admin_webhook_int_api" title='Documentation / keys for using the built-in API to connect to other apps.'>Webhook / Internal API</a>
                     </li>
 
 
                     <li>
                         <a <?=$content_toggle?> class="dropdown-item admin_change_width" data-width="fixed_max" role="tab" aria-controls="admin_text_gateways" href="admin.php#admin_text_gateways" title='Add / remove / update the mobile text gateways available, to use for mobile text communications.'>Text Gateways</a>
-                    </li>
-
-
-                    <li>
-                        <a <?=$content_toggle?> class="dropdown-item admin_change_width" data-width="fixed_max" role="tab" aria-controls="admin_developer_only" href="admin.php#admin_developer_only" title='Developer settings (for advanced users).'>Developer Only</a>
                     </li>
 
 
@@ -137,12 +127,7 @@
 
 
                     <li>
-                        <a <?=$content_toggle?> class="dropdown-item admin_change_width" data-width="fixed_max" role="tab" aria-controls="admin_backup_restore" href="admin.php#admin_backup_restore" title='Backup or restore your app configuration settings / chart data / etc.'>Backup / Restore</a>
-                    </li>
-
-
-                    <li>
-                        <a <?=$content_toggle?> class="dropdown-item admin_change_width" data-width="fixed_max" role="tab" aria-controls="admin_reset" href="admin.php#admin_reset" title='Reset different configurations in this app.'>Reset</a>
+                        <a <?=$content_toggle?> class="dropdown-item admin_change_width" data-width="fixed_max" role="tab" aria-controls="admin_reset_backup_restore" href="admin.php#admin_reset_backup_restore" title='Reset, backup, or restore your app configuration settings / chart data / etc.'>Reset / Backup & Restore</a>
                     </li>
 
 
@@ -445,22 +430,12 @@
 
 
                     <li class='sidebar-item nav-item'>
-                        <a <?=$content_toggle?> class="nav-link admin_change_width" data-width="fixed_max" role="tab" aria-controls="admin_int_api" href="admin.php#admin_int_api" title='Documentation / keys for using the built-in API to connect to other apps.'>Internal API</a>
-                    </li>
-
-
-                    <li class='sidebar-item nav-item'>
-                        <a <?=$content_toggle?> class="nav-link admin_change_width" data-width="fixed_max" role="tab" aria-controls="admin_webhook" href="admin.php#admin_webhook" title='Webhooks available to connect to other apps.'>Webhook</a>
+                        <a <?=$content_toggle?> class="nav-link admin_change_width" data-width="fixed_max" role="tab" aria-controls="admin_webhook_int_api" href="admin.php#admin_webhook_int_api" title='Documentation / keys for using the built-in API to connect to other apps.'>Webhook / Internal API</a>
                     </li>
 
 
                     <li class='sidebar-item nav-item'>
                         <a <?=$content_toggle?> class="nav-link admin_change_width" data-width="fixed_max" role="tab" aria-controls="admin_text_gateways" href="admin.php#admin_text_gateways" title='Add / remove / update the mobile text gateways available, to use for mobile text communications.'>Text Gateways</a>
-                    </li>
-
-
-                    <li class='sidebar-item nav-item'>
-                        <a <?=$content_toggle?> class="nav-link admin_change_width" data-width="fixed_max" role="tab" aria-controls="admin_developer_only" href="admin.php#admin_developer_only" title='Developer settings (for advanced users).'>Developer Only</a>
                     </li>
 
 
@@ -480,12 +455,7 @@
 
 
                     <li class='sidebar-item nav-item'>
-                        <a <?=$content_toggle?> class="nav-link admin_change_width" data-width="fixed_max" role="tab" aria-controls="admin_backup_restore" href="admin.php#admin_backup_restore" title='Backup or restore your app configuration settings / chart data / etc.'>Backup / Restore</a>
-                    </li>
-
-
-                    <li class='sidebar-item nav-item'>
-                        <a <?=$content_toggle?> class="nav-link admin_change_width" data-width="fixed_max" role="tab" aria-controls="admin_reset" href="admin.php#admin_reset" title='Reset different configurations in this app.'>Reset</a>
+                        <a <?=$content_toggle?> class="nav-link admin_change_width" data-width="fixed_max" role="tab" aria-controls="admin_reset_backup_restore" href="admin.php#admin_reset_backup_restore" title='Reset, backup, or restore your app configuration settings / chart data / etc.'>Reset / Backup & Restore</a>
                     </li>
 
 

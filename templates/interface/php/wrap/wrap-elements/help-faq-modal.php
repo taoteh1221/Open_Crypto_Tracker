@@ -59,8 +59,6 @@
 
 <span class='bitcoin'>Ethereum:</span>  0x644343e8D0A4cF33eee3E54fE5d5B8BFD0285EF8<br /><br />
 
-<span class='bitcoin'>Helium:</span>  13xs559435FGkh39qD9kXasaAnB8JRF8KowqPeUmKHWU46VYG1h<br /><br />
-
 <span class='bitcoin'>Solana:</span>  GvX4AU4V9atTBof9dT9oBnLPmPiz3mhoXBdqcxyRuQnU<br /><br />
 
 <span class='bitcoin'>Github Sponsors:</span>  <a href='https://github.com/sponsors/taoteh1221' target='_blank'>https://github.com/sponsors/taoteh1221</a><br /><br />
@@ -334,7 +332,7 @@ Support for over 80 trading pairs (country fiat currency or secondary crypto, co
 Support for over 40 exchanges (contact me to request more): 
 	    <br /><br />
 
-<span class='blue'>alphavantage_stock / binance / binance_us / bit2c / bitbns / bitfinex / bitflyer / bitmart / bitmex / bitmex_u20 / bitmex_z20 / bitpanda / bitso / bitstamp / bittrex / bittrex_global / btcmarkets / btcturk / buyucoin / bybit / cex / coinbase / coindcx / coinex / coingecko_btc / coingecko_eth / coingecko_eur / coingecko_gbp / coingecko_sgd / coingecko_twd / coingecko_usd / coinspot / crypto.com / ethfinex / gateio / gemini / hitbtc / hotbit / huobi / korbit / kraken / kucoin / liquid / localbitcoins / localbitcoins / loopring_amm / luno / okcoin / okex / poloniex / southxchange / unocoin / upbit / wazirx / zebpay</span>
+<span class='blue'>alphavantage_stock / binance / binance_us / bit2c / bitbns / bitfinex / bitflyer / bitmart / bitmex / bitmex_u20 / bitmex_z20 / bitpanda / bitso / bitstamp / bittrex / bittrex_global / btcmarkets / btcturk / buyucoin / bybit / cex / coinbase / coindcx / coinex / coingecko_btc / coingecko_eth / coingecko_eur / coingecko_gbp / coingecko_sgd / coingecko_twd / coingecko_usd / coinspot / crypto.com / ethfinex / gateio / gemini / hitbtc / huobi / korbit / kraken / kucoin / liquid / localbitcoins / localbitcoins / loopring_amm / luno / okcoin / okex / poloniex / southxchange / unocoin / upbit / wazirx / zebpay</span>
 	    <br /><br />
 
 

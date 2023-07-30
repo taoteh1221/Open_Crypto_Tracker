@@ -34,14 +34,8 @@
     elseif ( $_GET['section'] == 'proxy' ) {
     require("templates/interface/php/admin/admin-sections/proxy.php");
     }
-    elseif ( $_GET['section'] == 'developer' ) {
-    require("templates/interface/php/admin/admin-sections/developer.php");
-    }
-    elseif ( $_GET['section'] == 'int_api' ) {
-    require("templates/interface/php/admin/admin-sections/int-api.php");
-    }
-    elseif ( $_GET['section'] == 'webhook' ) {
-    require("templates/interface/php/admin/admin-sections/webhook.php");
+    elseif ( $_GET['section'] == 'webhook_int_api' ) {
+    require("templates/interface/php/admin/admin-sections/webhook-int-api.php");
     }
     elseif ( $_GET['section'] == 'system_stats' ) {
     require("templates/interface/php/admin/admin-sections/system-stats.php");
@@ -52,11 +46,8 @@
     elseif ( $_GET['section'] == 'logs' ) {
     require("templates/interface/php/admin/admin-sections/app-logs.php");
     }
-    elseif ( $_GET['section'] == 'backup_restore' ) {
-    require("templates/interface/php/admin/admin-sections/backup-restore.php");
-    }
-    elseif ( $_GET['section'] == 'reset' ) {
-    require("templates/interface/php/admin/admin-sections/reset.php");
+    elseif ( $_GET['section'] == 'reset_backup_restore' ) {
+    require("templates/interface/php/admin/admin-sections/reset-backup-restore.php");
     }
 
 ?>

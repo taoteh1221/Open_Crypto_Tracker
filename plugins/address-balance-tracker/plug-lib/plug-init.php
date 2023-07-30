@@ -206,9 +206,6 @@ $pair_btc_val = $ct_asset->pair_btc_val($asset);
     		elseif ( $asset == 'sol' || $chain == 'sol' ) {
     		$email_msg = $base_msg . " https://solscan.io/account/" . $address;
     		}
-    		elseif ( $asset == 'hnt' ) {
-    		$email_msg = $base_msg . " https://explorer.helium.com/accounts/" . $address;
-    		}
 		
 	    
         }

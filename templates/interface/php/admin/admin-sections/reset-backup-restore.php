@@ -11,7 +11,7 @@
 
 <fieldset class='subsection_fieldset'>
 
-<legend class='subsection_legend'> General </legend>
+<legend class='subsection_legend'> General Reset </legend>
 
 	<!-- RESET internal API key START -->
 
@@ -112,13 +112,13 @@
 
 <fieldset class='subsection_fieldset'>
 
-<legend class='subsection_legend'> Webhook Keys </legend>
+<legend class='subsection_legend'> Webhook Keys Reset </legend>
 
 	<!-- RESET webhook MASTER key START -->
 
 	<div style='margin: 25px;'>
 	
-	<form name='reset_webhook_master' id='reset_webhook_master' action='admin.php?iframe=<?=$ct_gen->admin_hashed_nonce('iframe_reset')?>&section=reset&refresh=iframe_webhook' method='post'>
+	<form name='reset_webhook_master' id='reset_webhook_master' action='admin.php?iframe=<?=$ct_gen->admin_hashed_nonce('iframe_reset')?>&section=reset&refresh=iframe_webhook_int_api' method='post'>
 	
 	<input type='hidden' name='admin_hashed_nonce' value='<?=$ct_gen->admin_hashed_nonce('reset_webhook_master_key')?>' />
 	
@@ -158,7 +158,7 @@
 
 	<div style='margin: 25px;'>
 	
-	<form name='<?=$webhook_plug?>_webhook' id='<?=$webhook_plug?>_webhook' action='admin.php?iframe=<?=$ct_gen->admin_hashed_nonce('iframe_reset')?>&section=reset&refresh=iframe_webhook' method='post'>
+	<form name='<?=$webhook_plug?>_webhook' id='<?=$webhook_plug?>_webhook' action='admin.php?iframe=<?=$ct_gen->admin_hashed_nonce('iframe_reset')?>&section=reset&refresh=iframe_webhook_int_api' method='post'>
 	
 	<input type='hidden' name='admin_hashed_nonce' value='<?=$ct_gen->admin_hashed_nonce('reset_' . $webhook_plug . '_webhook_key')?>' />
 	
@@ -197,6 +197,11 @@
 
 <!-- RESET DIFFERENT webhook keys END -->
 
+		    
+
+	<p> Backup & Restore: Coming Soon&trade; </p>
+	
+			    
 
 
 		    

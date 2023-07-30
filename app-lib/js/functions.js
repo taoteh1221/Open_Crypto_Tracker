@@ -150,6 +150,22 @@ return sort_target.replace(/,/g, '');
 /////////////////////////////////////////////////////////////
 
 
+function responsive_menu_override() {
+
+     if ( localStorage.getItem(sidebar_toggle_storage) == "closed" ) {
+     $('link[title=responsive-menus]')[0].disabled=true;
+     console.log('Overriding responsive menu CSS (user explicitly chose the COMPACT sidebar)...');
+     }
+     else {
+     $('link[title=responsive-menus]')[0].disabled=false;
+     }
+
+}
+
+
+/////////////////////////////////////////////////////////////
+
+
 function iframe_url(name, val=null, mode='get') {
 
      if ( mode == 'get' ) {
@@ -391,21 +407,32 @@ function get_scroll_position(tracing) {
 /////////////////////////////////////////////////////////////
 
 
-function close_compact_submenu() {
+function compact_submenu(elm=false) {
      
-console.log('closing COMPACT submenu');
-                   
-$('#collapsed_sidebar a[aria-expanded]').removeClass("active");
-              
-$('#collapsed_sidebar a[aria-expanded]').removeClass("show");
-              
-$('#collapsed_sidebar ul').removeClass("show");
+//console.log('closing COMPACT submenu');
 
-$('#collapsed_sidebar a[aria-expanded="true"]').attr('aria-expanded', 'false');
-          
-$("#collapsed_sidebar").css('overflow-x','hidden');
-              
-$("#collapsed_sidebar").css('overflow-y','auto');
+     if ( elm && $(elm).hasClass("show") == true ) {
+     
+     $("#collapsed_sidebar").css('overflow','unset');
+     
+     dynamic_position( $('#collapsed_sidebar .dropdown-menu.show'), false, true );
+     
+     }
+     else {
+                   
+     $('#collapsed_sidebar a[aria-expanded]').removeClass("active");
+                   
+     $('#collapsed_sidebar a[aria-expanded]').removeClass("show");
+                   
+     $('#collapsed_sidebar ul').removeClass("show");
+     
+     $('#collapsed_sidebar a[aria-expanded="true"]').attr('aria-expanded', 'false');
+               
+     $("#collapsed_sidebar").css('overflow-x','hidden');
+                   
+     $("#collapsed_sidebar").css('overflow-y','auto');
+
+     }
               
 }
 
@@ -616,26 +643,24 @@ function safe_add_remove_class(class_name, element, mode) {
 /////////////////////////////////////////////////////////////
 
 
-function iframe_height_adjust(elm) {
-
-
-    // Set proper page zoom on the iframe
-    if ( app_edition == 'desktop' ) {
-    elm.contentWindow.document.body.style.zoom = currzoom + '%';
-    }
+function iframe_size_adjust(elm) {
 
 
     // Now that we've set any required zoom level, adjust the height
     if ( elm.id == 'iframe_system_stats' || elm.id == 'iframe_security' ) {
-    extra = 1000;
+    var extra_height = 1000;
     }
     else {
-    extra = 120;
+    var extra_height = 120;
     }
+    
+    
+var extra_width = 2;
 
+$(elm).css( 'min-height' , (elm.contentWindow.document.body.scrollHeight + extra_height) + "px" );
 
-elm.height = (elm.contentWindow.document.body.scrollHeight + extra) + "px";
-              
+$(elm).css( 'min-width' , (elm.contentWindow.document.body.scrollWidth + extra_width) + "px" );
+
 }
 
 
@@ -666,6 +691,28 @@ function ajax_placeholder(px_size, align, message=null, display_mode=null){
 /////////////////////////////////////////////////////////////
 
 
+function get_coords(elem) { // crossbrowser version
+    var box = elem.getBoundingClientRect();
+
+    var body = document.body;
+    var docEl = document.documentElement;
+
+    var scrollTop = window.pageYOffset || docEl.scrollTop || body.scrollTop;
+    var scrollLeft = window.pageXOffset || docEl.scrollLeft || body.scrollLeft;
+
+    var clientTop = docEl.clientTop || body.clientTop || 0;
+    var clientLeft = docEl.clientLeft || body.clientLeft || 0;
+
+    var top  = box.top +  scrollTop - clientTop;
+    var left = box.left + scrollLeft - clientLeft;
+
+    return { top: Math.round(top), left: Math.round(left) };
+}
+
+
+/////////////////////////////////////////////////////////////
+
+
 function set_admin_security(obj) {
 
 		if ( obj.value == "normal" || obj.value == "enhanced" ) {
@@ -683,27 +730,6 @@ function set_admin_security(obj) {
 		$('#opt_admin_sec_' + $("#sel_admin_sec").val() ).prop('checked',true);
 		}
 
-}
-
-
-/////////////////////////////////////////////////////////////
-
-
-function emulate_sticky(elm) {
-
-var docViewTop = $(window).scrollTop();
-var docViewBottom = docViewTop + $(window).height();
-
-var elmTop = $(elm).offset().top;
-var elmBottom = elmTop + $(elm).height();
-
-var result = ((elmBottom <= docViewBottom) && (elmTop >= docViewTop));
-
-var top = Math.round(docViewTop);
-
-// Emulating sticky CSS positioning
-$(elm).attr('style', 'top: ' + top + 'px !important');
-    
 }
 
 
@@ -904,7 +930,7 @@ quoteContainer.html( ajax_placeholder(15, 'left') );
 
 // !!! WARNING !!!
 // NEEDS overflow: auto; CSS ***UNLESS USING 'defaults'***, which DISABLES sticky elements in the container we are scrolling
-// (so we MUST emulate sticky positioning with emulate_sticky() in containers using scrollLeft|Top)
+// (so we MUST emulate sticky positioning with dynamic_position() in containers that use scrollLeft|Top)
 function scroll_start(direction='defaults', elm=false) {  
        
        
@@ -943,7 +969,7 @@ function scroll_start(direction='defaults', elm=false) {
 /////////////////////////////////////////////////////////////
 
 
-function monitor_iframe_heights() {
+function monitor_iframe_sizes() {
 
 
      iframe_height_adjuster = new IntersectionObserver(entries => {
@@ -961,7 +987,7 @@ function monitor_iframe_heights() {
                        // Wait 1 second AFTER iframe load, then adjust height	
                        // (to let iframe top / height 'register' with browser)
      			   setTimeout(function(){
-                       iframe_height_adjust(entry.target);
+                       iframe_size_adjust(entry.target);
                        //console.log(entry.target.id + ' showing.');
      		        }, 1000);
      		        
@@ -1439,6 +1465,69 @@ badColor = "#ff4747";
 /////////////////////////////////////////////////////////////
 
 
+function dynamic_position(elm, mode=false, compact_sidebar=false) {
+
+var docViewTop = $(window).scrollTop();
+var docViewBottom = docViewTop + $(window).height();
+
+var elmTop = $(elm).offset().top;
+var elmBottom = elmTop + $(elm).height();
+
+var is_showing = ( (elmBottom <= docViewBottom) && (elmTop >= docViewTop) );
+
+     
+     // IF compact sidebar, we tweak things differently
+     if ( compact_sidebar == true ) {
+     var elmTopParent = get_coords($(elm)[0].parentElement)['top'];
+     var elmBottomParent = elmTopParent + $(elm).height();
+     }
+
+
+     // Emulate 'sticky' CSS mode
+     if ( mode == 'emulate_sticky' ) {
+     $(elm).css("top", Math.round(docViewTop) + "px", "important");
+     }
+     // If element isn't fully showing on page, try to make it show as fully as possible
+     else if( !is_showing ) {
+     
+     console.log('A page element is not FULLY showing on the screen, attempting to auto-adjust now (as best as we can)...');
+          
+     
+          // IF compact sidebar, we tweak things differently
+          if ( compact_sidebar == true ) {
+     
+          var extra_top_up = $(elm).height() > $(window).height() ? 0 : 25;
+          
+          var top_val = Math.round(elmBottomParent - docViewBottom + extra_top_up);
+          
+          // HERE WE NEED TO COMPLETELY REWRITE ENTIRE STYLE FOR ELEMENT, TO FORCE CSS STYLE CHANGES
+          $(elm).attr('style', 'top: -' + top_val + 'px !important; left: 55px !important;'); 
+          
+          console.log('Page element auto-adjusted to CSS "top" value of: -' + top_val);
+          
+          }
+          // Everything else
+          else {
+               
+          var top_val = Math.round(elmBottom - docViewBottom);
+
+          $(elm).css("top", top_val + "px", "important");
+
+          console.log('Page element auto-adjusted to CSS "top" value of: ' + top_val);
+
+          }
+          
+     
+     
+     }
+
+    
+}
+
+
+/////////////////////////////////////////////////////////////
+
+
 function sorting_portfolio_table() {
 
 	
@@ -1574,8 +1663,15 @@ small_font_elements.attr('style', function(i,s) { return (s || '') + "line-heigh
           });
           
      
-     // Reset iframe heights after 3.5 seconds (to give above loops time to finish)
-     setTimeout(reset_iframe_heights, 3500);
+          // Reset iframe heights after 3.5 seconds (to give above loops time to finish)
+          setTimeout(function() {
+               
+              admin_iframe_load.forEach(function(iframe) {
+              iframe_size_adjust(iframe);
+              });
+              
+          }, 3500);
+          
      
      }
      // We don't want to re-set the cookie everytime an iframe is processed,
@@ -2012,7 +2108,7 @@ function nav_menu($chosen_menu) {
               
               // Set the page's title to top of page
               if ( !is_login_form ) {
-              emulate_sticky('.page_title');
+              dynamic_position('.page_title', 'emulate_sticky');
               }
      
      
@@ -2086,14 +2182,15 @@ function nav_menu($chosen_menu) {
               
                    // Set the page's title to top of page
                    if ( !is_login_form ) {
-                   emulate_sticky('.page_title');
+                   dynamic_position('.page_title', 'emulate_sticky');
                    }
      	    
      	    
      	         // Make sure admin iframe heights are adjusted
+     	         // (even if viewing again, AFTER initial load / view)
                    if ( is_admin == true ) {
                        admin_iframe_load.forEach(function(iframe) {
-                       iframe_height_adjust(iframe);
+                       iframe_size_adjust(iframe);
                        });
                    }
                  

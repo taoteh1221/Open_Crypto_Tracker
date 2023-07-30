@@ -6,26 +6,20 @@ TO-DO NOTES
 
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-NEXT SCHEDULED WORK SESSION (DEBUGGING AND / OR INFRASTRUCTURE)
+NEXT SCHEDULED WORK SESSIONS (*BOTH* DEBUGGING AND / OR INFRASTRUCTURE)
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
-Look for a good alternative to PHPdesktop, or at least a simple / redistributable binary to run a PHP server.
+Update screenshots, since we overhauled everything in the interface.
 
 
-Fix issues on Desktop Editions. Sidebar scrolling only partially / sometimes enables in REGULAR sidebar, doesn't work at all on COMPACT sidebar, and titles scrolling sticky properly are not running well at all with the big overhaul done for v6.00.19. Find out why.
+When importing bootstrap price chart data in on XAMMP for Windows, WHEN SETUP FOR 15 MINUTE TASK SCHEDULER INTERVALS INSTEAD OF THE DEFAULT 20 MINUTE INTERVALS, all chart data seemed correct EXCEPT for 2 week data. Try and replicate this on other setups, and review the auto-reset trigger / directory deletion logic for any possible issues, as well as the light chart creation logic. I SUSPECT THE LATTER.
 
 
-Tighten up the portfolio table data spacing / padding in firefox, it WAAAY more then chrome.
+Add feature to address balance tracker plugin to set minimum time to wait before re-sending the same address alert (in hours). Default it to a high number like 8 hours, so any poorly running / configured API servers don't send endless alerts as they send bs 'zero' results.
 
 
-Remove localbitcoins support (they are closing shop).
-
-
-Add Bitcoin NFT support.
-
-
-Convert Arch linux support in auto-installer over to redhat (yum), as Arch does NOT have much package / setup support for libraries we use. WE ALREADY CONVERTED "BUILD-PHP-FOR-LINUX-DESKTOP.bash" OVER TO BE REDHAT COMPATIBLE, so use it as a template to integrate into FOLIO-INSTALL.bash. ALSO REMOVE ARCH DOCUMENTATION AND REPLACE WITH FEDORA DOCS.
+Merge System stats / access stats / app logs into one area called: System & App Monitoring. Add horizontal tabs a top of this area, for each subsection.
 
 
 Integrate google authenticator / microsoft authenticator / authy / etc BEING REQUIRED TO CHANGE THE ADMIN SECURITY LEVEL (and also make it OPTIONAL for login security):
@@ -39,13 +33,40 @@ https://github.com/sonata-project/GoogleAuthenticator
 https://stackoverflow.com/questions/tagged/sonata
 
 
-On smaller screens (mobile etc), the COMPACT sidebar should be transformed into a top bar (horizontal across top, instead of vertical down the side, with DROP-downs OR SLIDE-downs for secondary submenus [like my biz site on mobile...whichever has a better 'feel']). Have each menu category be an icon that when clicked does a drop-down menu below it, THAT IS THE ENTIRE WIDTH OF THE SCREEN. Skip supporting 3-deep subnav here, unless we can make it work using the entire screen width for 2-deep subnav entries (for small screen tapping UX / less confusion). When each main drop-down is clicked, any other main drop-down should close automatically.
+Remove localbitcoins support (they are closing shop).
+
+
+Add Bitcoin NFT support.
+
+
+New FAQ entry "my text alerts aren't working, or are delayed"
+
+
+Tighten up the portfolio table data spacing / padding in firefox, it WAAAY more then chrome.
 
 
 Move remaining font-size / line-height logic in style.css AND ELSEWHERE into our dynamic CSS header logic.
 
 
-Add feature to address balance tracker plugin to set minimum time to wait before re-sending the same address alert (in hours). Default it to a high number like 8 hours, so any shitty API servers don't send endless alerts as they send bs results (like helium network API).
+The tags 'h1' through 'h6' should be made to user-adjust text size too (could be a bit tricky, be careful).
+
+
+Remove all forced line breaks in FOLIO-INSTALL.bash dialogue
+
+
+Convert Arch linux support in auto-installer over to redhat (yum), as Arch does NOT have much package / setup support for libraries we use. WE ALREADY CONVERTED "BUILD-PHP-FOR-LINUX-DESKTOP.bash" OVER TO BE REDHAT COMPATIBLE, so use it as a template to integrate into FOLIO-INSTALL.bash. ALSO REMOVE ARCH DOCUMENTATION AND REPLACE WITH FEDORA DOCS.
+
+
+Look for a good alternative to PHPdesktop, or at least a simple / redistributable binary to run a PHP server.
+
+
+Fix issues on Desktop Editions. Sidebar scrolling only partially / sometimes enables in REGULAR sidebar, doesn't work at all on COMPACT sidebar, and titles scrolling sticky properly are not running well at all with the big overhaul done for v6.00.19. Find out why.
+
+
+On the portfolio page, have a drop-down html select menu, with options 'compact' (for current portfolio layout), and 'responsive' (for a mobile / tablet friendly layout). Have 'responsive' be auto-selected on smaller screens. Also consider doing the same for the 'update portfolio' page.
+
+
+On smaller screens (mobile etc), the COMPACT sidebar should be transformed into a top bar (horizontal across top, instead of vertical down the side, with DROP-downs OR SLIDE-downs for secondary submenus [like my biz site on mobile...whichever has a better 'feel']). Have each menu category be an icon that when clicked does a drop-down menu below it, THAT IS THE ENTIRE WIDTH OF THE SCREEN. Skip supporting 3-deep subnav here, unless we can make it work using the entire screen width for 2-deep subnav entries (for small screen tapping UX / less confusion). When each main drop-down is clicked, any other main drop-down should close automatically.
 
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -77,8 +98,7 @@ API INTEGRATION
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
-https://aptos.dev/nodes/aptos-deployments/
-https://fullnode.devnet.aptoslabs.com/v1/spec#/
+Add OPTIONAL Coingecko PRO API support: https://apiguide.coingecko.com/exclusive-endpoints/pro-api
 
 
 For transaction fees plugin (the solana data):
@@ -110,9 +130,6 @@ Check out cryptocompare.com API.
 
 
 Add localcryptos API support whenever their API is out of private testing.
-
-
-Build tool that finds localbitcoins markets not added yet
 
 
 Add clicksend.com mobile text messaging support
@@ -235,22 +252,7 @@ Setup XAMPP on Win10 on the DVR server, and run server edition of tracker on it 
 Write notes in TODO.txt debugging section, on setting up / viewing PHP error logging in XAMPP on Windows.
 
 
-Remove all forced line breaks in FOLIO-INSTALL.bash dialogue
-
-
-New FAQ entry "my text alerts aren't working, or are delayed"
-
-
-The Bitmex U20 / Z20 markets are not marked as a 'limited api' IN THE INTERFACE SETTINGS PAGE, UNDER 'PRIMARY CURRENCY MARKET'.
-
-
-Update Portfolio page screenshots, since we added the 'Rank' column AND REBRANDED app name.
-
-
 Add more checks / auto-corrects to config-auto-adjust.php (we've added alot more config settings since it's creation)
-
-
-Code review ENTIRE INIT / CONFIG RUNTIME SECTION, and cleanup / optimize where needed
 
 
 Overhaul / optimize config checks.
@@ -306,9 +308,6 @@ FEATURES / NEW INFRASTRUCTURE / RESEARCH
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
-The BITdao token will be switching it's name / ticker symbol to mantle / MNT.
-
-
 MIGRATION TO BOOTSTRAP V5:
 
 https://getbootstrap.com/docs/5.0/migration/
@@ -333,32 +332,6 @@ font-size: 15px !important;
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 
-The tags 'h1' through 'h6' should be made to user-adjust text size too (could be a bit tricky, be careful).
-
-
-Add to resources page: 
-
-https://solana.sec3.dev/
-
-https://solana.fm/
-
-https://squads.so/
-
-https://stakewiz.com/
-
-https://solanacompass.com/
-
-https://analytics.step.finance/
-
-
-Add to news feeds:
-
-https://stepdata.substack.com/
-
-
-Add OPTIONAL Coingecko PRO API support: https://apiguide.coingecko.com/exclusive-endpoints/pro-api
-
-
 All NON-GLOBAL variables inside JAVASCRIPT functions should be started as 'var my_var_name': 
 
 https://stackoverflow.com/questions/10872006/how-do-i-change-the-value-of-a-global-variable-inside-of-a-function/10874509#10874509
@@ -374,7 +347,7 @@ Add new plugin standard config 'ui_display_mode':
 
 $plug_conf[$this_plug]['ui_display_mode'] = 'inline'; // 'inline', 'modal_iframe'
 
-'modal_iframe' still only displays in 'more_stats' / 'tools' sections (like 'inline' already does), BUT as a link that opens a FULL SCREEN modal window (like our 'quick links' already do), AND runs inside a FULL WIDTH / AUTO-ADJUSTING HEIGHT iframe (like the admin sections)
+Create 'modal_iframe' for plugin UI, that still only displays in 'more_stats' / 'tools' sections (like 'inline' already does), BUT as a link that opens a FULL SCREEN modal window (like our 'system monitoring admin quick links' already do), AND runs inside a FULL WIDTH / AUTO-ADJUSTING HEIGHT iframe (like the admin sections)
 
 Defaults to 'inline' if not set.
 
@@ -410,9 +383,6 @@ Research whether POST data size affects header size like cookie data size does.
 
 
 Change the 'eth_erc20_icos' => 'ico_erc20_value' config settings to 'token_presales' => 'presale_value', AND support any base pair as the pairing (NOT just 'ETH').
-
-
-Look into Aptos support for the 'address-balance-tracker' plugin (see the API notes section for public endpoints REST API docs).
 
 
 Add additional ability to do telegram / discord webhooks in the new "crypto-info-bot" plugin, to query asset prices at different exchanges through telegram chat with the chat bot. Example: "/price btc-usd-coinbase"

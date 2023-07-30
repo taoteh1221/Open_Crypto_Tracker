@@ -11,9 +11,10 @@
 
 
 <div class='full_width_wrapper align_center'>
+			
+	
+	<div style='display: inline;'><?=$ct_gen->start_page_html('portfolio')?></div>		
 
-
-     <div style='min-height: 5px;'></div>
      
 	
 			<?php
@@ -1491,7 +1492,7 @@ zingchart.bind('marketcap_chart', 'label_click', function(e){
 
 
 		
-	<!-- Admin Config - Quick Links (if we are admin logged in) -->
+	<!-- Admin Config - System monitoring quick Links (if we are admin logged in) -->
 	<div id='admin_conf_quick_links' class='align_left private_data'>
 	
 	<?php
@@ -1499,7 +1500,7 @@ zingchart.bind('marketcap_chart', 'label_click', function(e){
     		if ( $ct_gen->admin_logged_in() ) {
     ?>
 	
-		<fieldset><legend> <strong class="bitcoin">Admin Config - Quick Links</strong> </legend>
+		<fieldset><legend> <strong class="bitcoin">System Monitoring</strong> </legend>
     		
     		
     		<b><a id="sys_stats_quick_link" href="javascript: return false;" class="show_system_stats blue" title="View System Statistics">System Stats</a></b><img id='sys_stats_quick_link_info' src='templates/interface/media/images/info-red.png' alt='' width='30' style='position: relative;' />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
@@ -1796,7 +1797,7 @@ var server_header_defaults_content = '<h5 class="yellow tooltip_title">Average S
    
 	
 	<?php
-	$all_chart_rebuild_min_max = explode(',', $ct_conf['dev']['all_chart_rebuild_min_max']);
+	$all_chart_rebuild_min_max = explode(',', $ct_conf['power']['all_chart_rebuild_min_max']);
 	?>
 	
 	<p class='sys_stats red' style='font-weight: bold;'>*The "Server Cookies Size" telemetry data above <i>is not tracked in the system charts, because it's ONLY available in the user interface runtime (NOT the cron job runtime)</i>.</p>				
@@ -1982,7 +1983,7 @@ var server_header_defaults_content = '<h5 class="yellow tooltip_title">Average S
 	    </fieldset>
 				
 	<?php
-	if ( $ct_conf['dev']['debug_mode'] != 'off' || is_readable($base_dir . '/cache/logs/debug.log') ) {
+	if ( $ct_conf['power']['debug_mode'] != 'off' || is_readable($base_dir . '/cache/logs/debug.log') ) {
 	?>
 	    <fieldset class='subsection_fieldset'><legend class='subsection_legend'> Debugging Log </legend>
 	        

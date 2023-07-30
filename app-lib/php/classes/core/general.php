@@ -962,7 +962,7 @@ var $ct_array = array();
    global $ct_conf;
    
    // Changs only if non-UTF-8 / non-ASCII characters are detected further down in this function
-   $set_charset = $ct_conf['dev']['charset_default'];
+   $set_charset = $ct_conf['power']['charset_default'];
    
    $words = explode(" ", $content);
       
@@ -972,8 +972,8 @@ var $ct_array = array();
       $scan_val = trim($scan_val);
       $scan_charset = ( mb_detect_encoding($scan_val, 'auto') != false ? mb_detect_encoding($scan_val, 'auto') : null );
       
-         if ( isset($scan_charset) && !preg_match("/" . $ct_conf['dev']['charset_default'] . "/i", $scan_charset) && !preg_match("/ASCII/i", $scan_charset) ) {
-         $set_charset = $ct_conf['dev']['charset_unicode'];
+         if ( isset($scan_charset) && !preg_match("/" . $ct_conf['power']['charset_default'] . "/i", $scan_charset) && !preg_match("/ASCII/i", $scan_charset) ) {
+         $set_charset = $ct_conf['power']['charset_unicode'];
          }
       
       }
@@ -1181,11 +1181,11 @@ var $ct_array = array();
    
    global $ct_conf;
    
-       if ( mb_strlen($username, $ct_conf['dev']['charset_default']) < 4 ) {
+       if ( mb_strlen($username, $ct_conf['power']['charset_default']) < 4 ) {
        $error .= "requires 4 minimum characters; ";
        }
        
-       if ( mb_strlen($username, $ct_conf['dev']['charset_default']) > 30 ) {
+       if ( mb_strlen($username, $ct_conf['power']['charset_default']) > 30 ) {
        $error .= "requires 30 maximum characters; ";
        }
        
@@ -1218,7 +1218,7 @@ var $ct_array = array();
    global $ct_conf, $smtp;
    
       if ( $charset == null ) {
-      $charset = $ct_conf['dev']['charset_default'];
+      $charset = $ct_conf['power']['charset_default'];
       }
       
       
@@ -1486,7 +1486,7 @@ var $ct_array = array();
    
    
       // Disable logging any included verbose tracing, if log verbosity level config is set to normal
-      if ( $ct_conf['dev']['log_verb'] == 'normal' ) {
+      if ( $ct_conf['power']['log_verb'] == 'normal' ) {
       $verbose_tracing = false;
       }
       
@@ -1639,7 +1639,7 @@ var $ct_array = array();
    $type = pathinfo($save_as, PATHINFO_EXTENSION);
    
       if ( $type == 'csv' ) {
-      $content_type = 'Content-type: text/csv; charset=' . $ct_conf['dev']['charset_default'];
+      $content_type = 'Content-type: text/csv; charset=' . $ct_conf['power']['charset_default'];
       }
       else {
       $content_type = 'Content-type: application/octet-stream';
@@ -1872,7 +1872,7 @@ var $ct_array = array();
    $vars['cfg_secure']   = $smtp_secure;
    $vars['cfg_username'] = $smtp_user;
    $vars['cfg_password'] = $smtp_password;
-   $vars['cfg_debug_mode'] = $ct_conf['dev']['debug_mode']; // Open Crypto Tracker debug mode setting
+   $vars['cfg_debug_mode'] = $ct_conf['power']['debug_mode']; // Open Crypto Tracker debug mode setting
    $vars['cfg_strict_ssl'] = $ct_conf['sec']['smtp_strict_ssl']; // Open Crypto Tracker strict SSL setting
    $vars['cfg_app_version'] = $app_version; // Open Crypto Tracker version
    
@@ -1957,7 +1957,7 @@ var $ct_array = array();
          }
          else {
          var anchor = "";
-         sessionStorage["scroll_position"] = 0;
+         //localStorage.setItem(scroll_position_storage, 0); // May be bad UX, with new nav system, disabled for now
          }
       
       // This start page method saves portfolio data during the session, even without cookie data enabled
@@ -1966,7 +1966,7 @@ var $ct_array = array();
       $("#coin_amnts").submit();
       
       '>
-         <option value='index.php'> Show Portfolio Page First </option>
+         <option value='index.php'> Show Last-Visted Page First </option>
          <?php
          if ( isset($_GET['start_page']) && $_GET['start_page'] != '' && $_GET['start_page'] != $page ) {
          $another_set = 1;
@@ -1983,14 +1983,12 @@ var $ct_array = array();
       <?php
       if ( $another_set == 1 ) {
       ?>
-      <span class='red'>&nbsp;(this other secondary page is currently the start page)</span>
-       <br class='clear_both' />
+      <span class='red'>&nbsp;(other page is start page)</span>
       <?php
       }
       elseif ( $_GET['start_page'] == $page ) {
       ?>
-      <span class='red'>&nbsp;(this page is currently the start page)</span>
-       <br class='clear_both' />
+      <span class='red'>&nbsp;(current page is start page)</span>
       <?php
       }
       
@@ -2652,13 +2650,13 @@ var $ct_array = array();
        }
    
    
-       if ( $min_length == $max_length && mb_strlen($password, $ct_conf['dev']['charset_default']) != $min_length ) {
+       if ( $min_length == $max_length && mb_strlen($password, $ct_conf['power']['charset_default']) != $min_length ) {
        $error .= "MUST BE EXACTLY ".$min_length." characters; ";
        }
-       elseif ( mb_strlen($password, $ct_conf['dev']['charset_default']) < $min_length ) {
+       elseif ( mb_strlen($password, $ct_conf['power']['charset_default']) < $min_length ) {
        $error .= "requires AT LEAST ".$min_length." characters; ";
        }
-       elseif ( mb_strlen($password, $ct_conf['dev']['charset_default']) > $max_length ) {
+       elseif ( mb_strlen($password, $ct_conf['power']['charset_default']) > $max_length ) {
        $error .= "requires NO MORE THAN ".$max_length." characters; ";
        }
        
@@ -3294,7 +3292,7 @@ var $ct_array = array();
    global $ct_conf, $system_info;
    
       if ( $charset == null ) {
-      $charset = $ct_conf['dev']['charset_default'];
+      $charset = $ct_conf['power']['charset_default'];
       }
    
    // Stop injection vulnerability

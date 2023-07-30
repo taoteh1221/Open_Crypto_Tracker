@@ -80,11 +80,11 @@
                         
 			<?php
 			}
-			if ( $ct_conf['dev']['debug_mode'] != 'off' ) {
+			if ( $ct_conf['power']['debug_mode'] != 'off' ) {
           ?>
           	<p class='settings_sections'><b>Debug Mode</b> is <i>enabled</i> in the configuration file.
           	
-          		<br /><span class='bitcoin'>Debug Mode: <?=$ct_conf['dev']['debug_mode']?></span>
+          		<br /><span class='bitcoin'>Debug Mode: <?=$ct_conf['power']['debug_mode']?></span>
           	
           	</p>  
                         
@@ -181,7 +181,7 @@
 				    
 				    exchange_name_check = exchange_name.replace(" ", "_");
 				    
-				    if ( limited_apis.indexOf(exchange_name) != -1 ) { // MSIE-compatible
+				    if ( limited_apis.indexOf(exchange_name_check) != -1 ) { // MSIE-compatible
 				    $("#prim_currency_mrkts_alert").html("The " + exchange_name_ui + " exchange API is less reliable than some others (by NOT consolidating enough API requests into one single call per session). It is recommended to use the " + render_names(pref_bitcoin_mrkts[btc_prim_currency]) + " marketplace, as there MAY be occasional issues with other BTC / " + btc_prim_currency.toUpperCase() + " marketplaces.<br /><br />If you experience issues with primary currency values NOT displaying in this app when using the " + exchange_name_ui + " marketplace, try a different exchange for your preferred primary currency market, and the issue should go away.");
 				    $("#prim_currency_mrkts_alert").show(250, "linear"); // 0.25 seconds
 				    }
@@ -269,7 +269,7 @@
 				    btc_prim_currency = $("#btc_prim_currency").val();
 					 prim_currency_mrkt = this.value;
 				    
-				    if ( limited_apis.indexOf(exchange_name) != -1 ) { // MSIE-compatible
+				    if ( limited_apis.indexOf(exchange_name_check) != -1 ) { // MSIE-compatible
 				    $("#prim_currency_mrkts_alert").html("The " + exchange_name_ui + " exchange API is less reliable than some others (by NOT consolidating enough API requests into one single call per session). It is recommended to use the " + render_names(pref_bitcoin_mrkts[btc_prim_currency]) + " marketplace, as there MAY be occasional issues with other BTC / " + btc_prim_currency.toUpperCase() + " marketplaces.<br /><br />If you experience issues with primary currency values NOT displaying in this app when using the " + exchange_name_ui + " marketplace, try a different exchange for your preferred primary currency market, and the issue should go away.");
 				    $("#prim_currency_mrkts_alert").show(250, "linear"); // 0.25 seconds
 				    }
@@ -380,7 +380,7 @@
 			btc_prim_currency = btc_prim_currency_pair.toLowerCase();
 			
 
-				    if ( limited_apis.indexOf(exchange_name) != -1 ) { // MSIE-compatible
+				    if ( limited_apis.indexOf(exchange_name_check) != -1 ) { // MSIE-compatible
 				    $('#prim_currency_mrkts_alert').html("The " + exchange_name_ui + " exchange API is less reliable than some others (by NOT consolidating enough API requests into one single call per session). It is recommended to use the " + render_names(pref_bitcoin_mrkts[btc_prim_currency]) + " marketplace, as there MAY be occasional issues with other BTC / " + btc_prim_currency.toUpperCase() + " marketplaces.<br /><br />If you experience issues with primary currency values NOT displaying in this app when using the " + exchange_name_ui + " marketplace, try a different exchange for your preferred primary currency market, and the issue should go away.");
 				    $("#prim_currency_mrkts_alert").show(250, "linear"); // 0.25 seconds
 				    }

@@ -3,7 +3,7 @@
  * Copyright 2014-2023 GPLv3, Open Crypto Tracker by Mike Kilday: Mike@DragonFrugal.com
  */
  
-header('Content-type: text/html; charset=' . $ct_conf['dev']['charset_default']);
+header('Content-type: text/html; charset=' . $ct_conf['power']['charset_default']);
 
 header('Access-Control-Allow-Headers: *'); // Allow ALL headers
 
@@ -75,65 +75,6 @@ require("templates/interface/php/wrap/wrap-elements/navigation-bars.php");
     }    
     
     </script>
-    
-
-        <?php
-        if ( $app_edition == 'desktop' ) {
-        ?>
-        
-        <div class='blue' id='change_font_size'>
-        
-        <img id="zoom_info" src="templates/interface/media/images/info-red.png" alt="" width="30" style="position: relative; right: -5px;" />
-        
-        Zoom (<span id='zoom_show_ui'></span>): <span id='minusBtn' class='red'>-</span> <span id='plusBtn' class='green'>+</span>
-        
-        </div>
-  
-        
-        <script>
-        
-        
-        		
-        			var zoom_info_content = '<h5 class="yellow tooltip_title">Desktop Edition Page Zoom</h5>'
-        			
-        			+'<p class="coin_info" style="max-width: 600px; white-space: normal;">This zoom feature allows Desktop Editions to zoom the app interface to be larger or smaller.</p>'
-        			
-        			+'<p class="coin_info bitcoin" style="max-width: 600px; white-space: normal;">Chart crosshairs and tooltip windows may be significantly off-center, if you go too far above or below the 100% zoom level. Hopefully someday we will have a fix for this, but for now just be aware of what effects the current zoom feature has on the app.</p>'
-        			
-        			+'<p class="coin_info red" style="max-width: 600px; white-space: normal;">We depend on the 3rd-party Open Source project <a href="https://github.com/cztomczak/phpdesktop" target="_blank">PHPdesktop</a>, for the Desktop Editions.</p>'
-        			
-        			+'<?=( $app_platform == 'windows' ? '<p class="coin_info red" style="max-width: 600px; white-space: normal;">The Windows Desktop Edition depends on a very outdated (March 2017) version of <a href="https://github.com/cztomczak/phpdesktop" target="_blank">PHPdesktop</a>. It is HIGHLY RECOMMENDED to install <a href="https://www.apachefriends.org/" target="_blank">XAMPP for Windows</a> INSTEAD, and then unzip the <a href="https://github.com/taoteh1221/Open_Crypto_Tracker/releases/" target="_blank">Server Edition of Open Crypto Tracker</a> into "C\:/xampp/htdocs" (and visit "https://localhost" in your web browser). <br /><br />Additionally, if you double-click the file located at "C\:/xampp/htdocs/ADD-WIN10-SCHEDULER-JOB.bat", you can automatically setup a scheduled task to enable price charts / price alerts (see <a href="README.txt" target="_blank">README.txt</a> OR the Help section of this app for more information).</p>' : '' )?>';
-        			
-        		
-        			$('#zoom_info').balloon({
-        			html: true,
-        			position: "left",
-          			classname: 'balloon-tooltips',
-        			contents: zoom_info_content,
-        			css: {
-        					fontSize: "<?=$default_font_size?>em",
-        					minWidth: "450px",
-        					padding: ".3rem .7rem",
-        					border: "2px solid rgba(212, 212, 212, .4)",
-        					borderRadius: "6px",
-        					boxShadow: "3px 3px 6px #555",
-        					color: "#eee",
-        					backgroundColor: "#111",
-        					opacity: "0.99",
-        					zIndex: "32767",
-        					textAlign: "left"
-        					}
-        			});
-        		
-        
-        
-        </script>
-
-
-        
-        <?php
-        }
-        ?>
         
         
         <div id='header_size_warning'></div>
@@ -152,30 +93,6 @@ require("templates/interface/php/wrap/wrap-elements/navigation-bars.php");
 	 	<div class='align_center loading bitcoin' id='app_loading'>
 	 	<img src="templates/interface/media/images/auto-preloaded/loader.gif" height='57' alt="" style='vertical-align: middle;' /> <span id='app_loading_span'>Loading...</span>
 	 	</div>
-	 	
-	 	<script>
-	 	
-        // For UX, set proper page zoom for 'loading...' and zoom GUI on desktop editions
-        // (we can't set body zoom until it's fully loaded, which we do via init.js)
-        if ( app_edition == 'desktop' ) {
-            
-             // Page zoom logic
-             if ( localStorage.getItem(desktop_zoom_storage) && localStorage.getItem(desktop_zoom_storage) > 0 ) {
-             currzoom = localStorage.getItem(desktop_zoom_storage);
-             }
-             else {
-             currzoom = 100;
-             }
-            
-        // Just zoom #app_loading and #change_font_size / show zoom level in GUI
-        // (we'll reset them to 100% before we zoom the whole body in init.js)
-        $('#change_font_size').css('zoom', ' ' + currzoom + '%');
-        $('#app_loading').css('zoom', ' ' + currzoom + '%');
-        $("#zoom_show_ui").html(currzoom + '%');
-                         
-        }
-    
-	 	</script>
 	 
 		
 		<div class='align_left' id='content_wrapper'>

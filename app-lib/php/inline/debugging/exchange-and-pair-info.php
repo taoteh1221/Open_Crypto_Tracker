@@ -12,7 +12,7 @@ $exchange_count = 0;
 $currency_count = 0;
 
 	// Print out all market configurations
-	if ( $ct_conf['dev']['debug_mode'] == 'all' || $ct_conf['dev']['debug_mode'] == 'markets_conf' ) {
+	if ( $ct_conf['power']['debug_mode'] == 'all' || $ct_conf['power']['debug_mode'] == 'markets_conf' ) {
 		
 		
 		foreach ( $ct_conf['power']['btc_currency_mrkts'] as $key => $unused ) {

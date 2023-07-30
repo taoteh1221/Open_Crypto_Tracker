@@ -12,7 +12,7 @@
 
 $key = $_GET['key'];
 
-$x_coord = 70; // Start position (absolute) for light chart links
+$x_coord = 55; // Start position (absolute) for light chart links
 			
 		
 // Have this script send the UI alert messages, and not load any chart code (to not leave the page endlessly loading) if cache data is not present
@@ -206,15 +206,12 @@ gui: {
 	
 		// Account for more / less digits with absolute positioning
 		// Take into account INCREASE OR DECREASE of characters in $light_chart_text
-		if ( strlen($last_light_chart_text) > 0 && strlen($last_light_chart_text) != strlen($light_chart_text) ) {
+		if ( isset($last_light_chart_text) && strlen($last_light_chart_text) != strlen($light_chart_text) ) {
 		$difference = $difference + ( strlen($light_chart_text) - strlen($last_light_chart_text) ); 
-		$x_coord = $x_coord + ( $difference * $font_width ); 
-		}
-		elseif ( isset($difference) ) {
-		$x_coord = $x_coord + ( $difference * $font_width ); 
+		$x_coord = $x_coord + ( $difference * $ct_conf['power']['light_chart_link_font_offset'] ); 
 		}
 	
-	$x_coord = $x_coord + $link_spacer;
+	$x_coord = $x_coord + $ct_conf['power']['light_chart_link_spacing'];
 	$last_light_chart_text = $light_chart_text;
 	}
 	?>
@@ -551,15 +548,12 @@ gui: {
 	
 		// Account for more / less digits with absolute positioning
 		// Take into account INCREASE OR DECREASE of characters in $light_chart_text
-		if ( strlen($last_light_chart_text) > 0 && strlen($last_light_chart_text) != strlen($light_chart_text) ) {
+		if ( isset($last_light_chart_text) && strlen($last_light_chart_text) != strlen($light_chart_text) ) {
 		$difference = $difference + ( strlen($light_chart_text) - strlen($last_light_chart_text) ); 
-		$x_coord = $x_coord + ( $difference * $font_width ); 
-		}
-		elseif ( isset($difference) ) {
-		$x_coord = $x_coord + ( $difference * $font_width ); 
+		$x_coord = $x_coord + ( $difference * $ct_conf['power']['light_chart_link_font_offset'] ); 
 		}
 	
-	$x_coord = $x_coord + $link_spacer;
+	$x_coord = $x_coord + $ct_conf['power']['light_chart_link_spacing'];
 	$last_light_chart_text = $light_chart_text;
 	}
 	?>
@@ -762,15 +756,12 @@ gui: {
 	
 		// Account for more / less digits with absolute positioning
 		// Take into account INCREASE OR DECREASE of characters in $light_chart_text
-		if ( strlen($last_light_chart_text) > 0 && strlen($last_light_chart_text) != strlen($light_chart_text) ) {
+		if ( isset($last_light_chart_text) && strlen($last_light_chart_text) != strlen($light_chart_text) ) {
 		$difference = $difference + ( strlen($light_chart_text) - strlen($last_light_chart_text) ); 
-		$x_coord = $x_coord + ( $difference * $font_width ); 
-		}
-		elseif ( isset($difference) ) {
-		$x_coord = $x_coord + ( $difference * $font_width ); 
+		$x_coord = $x_coord + ( $difference * $ct_conf['power']['light_chart_link_font_offset'] ); 
 		}
 	
-	$x_coord = $x_coord + $link_spacer;
+	$x_coord = $x_coord + $ct_conf['power']['light_chart_link_spacing'];
 	$last_light_chart_text = $light_chart_text;
 	}
 	?>

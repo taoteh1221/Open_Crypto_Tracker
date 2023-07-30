@@ -12,6 +12,9 @@
 
 <div class='full_width_wrapper'>
 			
+	
+	<p style='margin-top: 25px; margin-bottom: 25px;'><?=$ct_gen->start_page_html('resources')?></p>		
+			
 			
 	    <fieldset class='subsection_fieldset'><legend class='subsection_legend'> <strong>Marketcap Stats</strong> </legend>
 	        
@@ -47,6 +50,8 @@
 	        <li class='links_list'><a href='https://studio.glassnode.com/' target='_blank'>GlassNode</a></li>
 	        
 	        <li class='links_list'><a href='https://messari.io/onchainfx' target='_blank'>OnChainFX</a></li>
+	        
+	        <li class='links_list'><a href='https://analytics.step.finance/' target='_blank'>Step Finance's Solana Dapp Stats</a></li>
 	        
 	        <li class='links_list'><a href='https://bitcoinvisuals.com/lightning' target='_blank'>Lightning Network Stats</a> <span class='yellow'>(Bitcoin Layer 2 Network)</span></li>
 	        
@@ -129,19 +134,17 @@
 	    <ul>
 	        
 	        
-	        <li class='links_list'><a href='https://explorer.aptoslabs.com/' target='_blank'>Aptos Explorer</a></li>
-	        
 	        <li class='links_list'><a href='https://beaconscan.com/' target='_blank'>BeaconScan.io - Ethereum Staking Explorer</a></li>
 	        
 	        <li class='links_list'><a href='https://www.blockchain.com/explorer?view=btc' target='_blank'>Blockchain.com - Bitcoin Explorer</a></li>
 	        
 	        <li class='links_list'><a href='https://etherscan.io/' target='_blank'>EtherScan.io - Ethereum Explorer</a></li>
 	        
+	        <li class='links_list'><a href='https://solana.fm/' target='_blank'>SolanaFM - Solana Explorer</a></li>
+	        
 	        <li class='links_list'><a href='https://solscan.io/' target='_blank'>SolScan.io - Solana Explorer</a></li>
 	        
 	        <li class='links_list'><a href='https://zkscan.io/' target='_blank'>ZKscan.io - ZKsync Explorer</a> <span class='yellow'>(Ethereum layer 2)</span></li>
-	        
-	        
 	        
 	        
 	    </ul>
@@ -186,9 +189,9 @@
 	        
 	        <li class='links_list'><a href='https://solflare.com/' target='_blank'>Solflare Wallet App</a>   <span class='yellow'>(Solana software wallet browser extension, with hardware wallet support)</span></li>
 	        
-	        <li class='links_list'><a href='https://aptos.dev/guides/install-petra-wallet-extension/' target='_blank'>Petra Wallet App</a>   <span class='yellow'>(Aptos software wallet browser extension, NO HARDWARE WALLET SUPPORT as of 10/20/2022)</span></li>
-	        
 	        <li class='links_list'><a href='https://specter.solutions/' target='_blank'>Specter Desktop</a>   <span class='yellow'>(Bitcoin software for hardware wallets)</span></li>
+	        
+	        <li class='links_list'><a href='https://squads.so/' target='_blank'>Squads Multisig</a>   <span class='yellow'>(Solana high security wallet)</span></li>
 	        
 	        <li class='links_list'><a href='https://strike.me/' target='_blank'>Strike</a>    <span class='yellow'>(Bitcoin lightning network wallet services)</span></li>
 	        
@@ -293,9 +296,11 @@
 	        
 	        <li class='links_list'><a href='https://hiveon.com/' target='_blank'>HiveOS</a></li>
 	        
-	        <li class='links_list'><a href='https://www.rocketpool.net/' target='_blank'>RocketPool Ethereum v2 Staking</a></li>
+	        <li class='links_list'><a href='https://www.rocketpool.net/' target='_blank'>RocketPool Ethereum Staking</a></li>
 	        
 	        <li class='links_list'><a href='https://simplemining.net/' target='_blank'>Simplemining.net</a></li>
+	        
+	        <li class='links_list'><a href='https://stakewiz.com/' target='_blank'>Stakewiz Solana Staking</a></li>
 	        
 	        <li class='links_list'><a href='https://whattomine.com/' target='_blank'>Whattomine.com</a>  <span class='yellow'>(profit calculations)</span></li>
 	        
@@ -324,9 +329,6 @@
 	
 	    <fieldset class='subsection_fieldset'><legend class='subsection_legend'> <strong>Blockchain Developer Resources</strong> </legend>
 	    <ul>
-	        
-	        
-	        <li class='links_list'><a href='https://aptos.dev/' target='_blank'>Aptos Developer Documentation</a></li>
 	        
 	        <li class='links_list'><a href='https://book.anchor-lang.com/' target='_blank'>Anchor</a>   <span class='yellow'>(Solana program development tools)</span></li>
 	        
@@ -357,7 +359,6 @@
 	        <li class='links_list'><a href='https://thegraph.com/' target='_blank'>The Graph</a>    <span class='yellow'>(multiple GraphQL APIs)</span></li>
 	        
 	        <li class='links_list'><a href='https://trufflesuite.com/' target='_blank'>Truffle</a>   <span class='yellow'>(Ethereum program development tools)</span></li>
-	        
 	        
 	        
 	    </ul>
@@ -412,11 +413,11 @@
 	        
 	        <li class='links_list'><a href='https://sourceforge.net/projects/dfd-crypto-ticker/' target='_blank'>Raspberry PI Real-Time / Multi-Crypto Slideshow Price Ticker</a> <span class='yellow'>(a side project of mine)</span></li>
 	        
+	        <li class='links_list'><a href='https://solana.sec3.dev/' target='_blank'>Sec3 Audit of Public Solana Dapps</a> <span class='yellow'>(security overview)</span></li>
+	        
 	        <li class='links_list'><a href='https://www.reddit.com/r/solana/' target='_blank'>Solana Subreddit</a></li>
 	        
 	        <li class='links_list'><a href='https://txstreet.com/' target='_blank'>TxStreet.com</a> <span class='yellow'>(Blockchain Transaction Visualizer)</span></li>
-	        
-	        <li class='links_list'><a href='https://usdsat.com/' target='_blank'>USDsat.com</a> <span class='yellow'>(US Dollar vs Bitcoin's smallest unit of measure)</span></li>
 	        
 	        <li class='links_list'><a href='https://whale-alert.io/' target='_blank'>Whale Alert</a> <span class='yellow'>(cryptocurrency transaction alerts)</span></li>
 	        

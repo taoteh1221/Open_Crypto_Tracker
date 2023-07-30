@@ -47,6 +47,8 @@ var medium_font_size_css_selector;
 var small_font_size_css_selector;
 	
 var theme_selected;
+
+var scrollbar_theme;
 	
 var sorted_by_col;
 
@@ -55,8 +57,6 @@ var sorted_asc_desc;
 var charts_background;
 
 var charts_border;
-
-var desktop_zoom_storage; // Desktop edition zoom level
 
 var sidebar_toggle_storage;
 
@@ -115,6 +115,8 @@ var charts_num;
 var btc_prim_currency_val;
 
 var btc_prim_currency_pair;
+
+var collapsed_sidebar_scroll_position;
 
 // With defaults
 

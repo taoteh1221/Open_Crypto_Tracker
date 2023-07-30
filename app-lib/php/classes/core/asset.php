@@ -1031,7 +1031,7 @@ var $ct_array1 = array();
 			            if ( stristr($mrkt_key, 'bitmex_') == false && $btc_pair_mrkts[$pair.'_btc'] >= $min_crypto_val_test ) {
 			              
 				              // Data debugging telemetry
-				              if ( $ct_conf['dev']['debug_mode'] == 'all' || $ct_conf['dev']['debug_mode'] == 'all_telemetry' ) {
+				              if ( $ct_conf['power']['debug_mode'] == 'all' || $ct_conf['power']['debug_mode'] == 'all_telemetry' ) {
 				              	
 				              $ct_gen->log(
 				              			  'market_debug',
@@ -1139,7 +1139,7 @@ var $ct_array1 = array();
 			            if ( stristr($mrkt_key, 'bitmex_') == false && $btc_pair_mrkts[$pair.'_btc'] >= $min_crypto_val_test ) {
 			                  
 				              // Data debugging telemetry
-				              if ( $ct_conf['dev']['debug_mode'] == 'all' || $ct_conf['dev']['debug_mode'] == 'all_telemetry' ) {
+				              if ( $ct_conf['power']['debug_mode'] == 'all' || $ct_conf['power']['debug_mode'] == 'all_telemetry' ) {
 				              	
 				              $ct_gen->log(
 				              			  'market_debug',

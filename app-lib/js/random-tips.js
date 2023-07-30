@@ -81,6 +81,10 @@ var quoteSource=[
 	    	name:"taoteh1221 (lead dev of this app)"
 	    },
 	    {
+	    	quote:"<i>WATCH OUT FOR</i> <a href='https://www.google.com/search?q=pig+butchering+scams' target='_BLANK'>\"Pig Butchering\"</a> / <a href='https://www.google.com/search?q=catfishing+scams' target='_BLANK'>\"Catfishing\"</a> scams, and <i>NEVER</i> tell <i>ANYBODY</i> about your investment portfolio details. You would be surprised at how many people will take advantage of others for money. 😮 <i>KEEP THIS INFORMATION PRIVATE</i>!",
+	    	name:"taoteh1221 (lead dev of this app)"
+	    },
+	    {
 	    	quote:"For privacy / security, ALWAYS round your STORED portfolio balances to as few decimal points as is feasible (AND preferably buy / transfer cryptocurrency in nice rounded amounts too). Then hackers / snoopers cannot as easily guess and potentially follow your transaction history in block explorers online.",
 	    	name:"taoteh1221 (lead dev of this app)"
 	    },

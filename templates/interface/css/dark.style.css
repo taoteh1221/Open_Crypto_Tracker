@@ -384,6 +384,20 @@ border: 3px solid #808080 !important;
 color: white;
 }
 
+/* COMPACT sidebar scrollbar styling */
+/* Track */
+#collapsed_sidebar::-webkit-scrollbar-track {
+  background: #888; 
+}
+/* Handle */
+#collapsed_sidebar::-webkit-scrollbar-thumb {
+  background: #f1f1f1; 
+}
+/* Handle on hover */
+#collapsed_sidebar::-webkit-scrollbar-thumb:hover {
+  background: #c4c4c4; 
+}
+
 
 /* ---------------------------------------------------
     FORCE OVERRIDE (BY RUNNING AT END OF THIS STYLESHEET)
