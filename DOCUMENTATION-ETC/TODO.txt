@@ -13,13 +13,16 @@ NEXT SCHEDULED WORK SESSIONS (*BOTH* DEBUGGING AND / OR INFRASTRUCTURE)
 Update screenshots, since we overhauled everything in the interface.
 
 
-When importing bootstrap price chart data in on XAMMP for Windows, WHEN SETUP FOR 15 MINUTE TASK SCHEDULER INTERVALS INSTEAD OF THE DEFAULT 20 MINUTE INTERVALS, all chart data seemed correct EXCEPT for 2 week data. Try and replicate this on other setups, and review the auto-reset trigger / directory deletion logic for any possible issues, as well as the light chart creation logic. I SUSPECT THE LATTER.
-
-
 Add feature to address balance tracker plugin to set minimum time to wait before re-sending the same address alert (in hours). Default it to a high number like 8 hours, so any poorly running / configured API servers don't send endless alerts as they send bs 'zero' results.
 
 
 Merge System stats / access stats / app logs into one area called: System & App Monitoring. Add horizontal tabs a top of this area, for each subsection.
+
+
+Remove localbitcoins support (they are closing shop). ADD AS MANY COUNTRY CURRENCY MARKETS AS POSSIBLE TO REPLACE MULTI-CUURENCY CAPABILITY THAT LOCALBITCOINS GAVE THE APP.
+
+
+Add Bitcoin NFT support.
 
 
 Integrate google authenticator / microsoft authenticator / authy / etc BEING REQUIRED TO CHANGE THE ADMIN SECURITY LEVEL (and also make it OPTIONAL for login security):
@@ -33,10 +36,10 @@ https://github.com/sonata-project/GoogleAuthenticator
 https://stackoverflow.com/questions/tagged/sonata
 
 
-Remove localbitcoins support (they are closing shop).
+When importing bootstrap price chart data in on XAMMP for Windows, WHEN SETUP FOR 15 MINUTE TASK SCHEDULER INTERVALS INSTEAD OF THE DEFAULT 20 MINUTE INTERVALS, all chart data seemed correct EXCEPT for 2 week data. Try and replicate this on other setups, and review the auto-reset trigger / directory deletion logic for any possible issues, as well as the light chart creation logic. I SUSPECT THE LATTER.
 
 
-Add Bitcoin NFT support.
+Convert Arch linux support in auto-installer over to redhat (yum), as Arch does NOT have much package / setup support for libraries we use. WE ALREADY CONVERTED "BUILD-PHP-FOR-LINUX-DESKTOP.bash" OVER TO BE REDHAT COMPATIBLE, so use it as a template to integrate into FOLIO-INSTALL.bash. ALSO REMOVE ARCH DOCUMENTATION AND REPLACE WITH FEDORA DOCS.
 
 
 New FAQ entry "my text alerts aren't working, or are delayed"
@@ -52,9 +55,6 @@ The tags 'h1' through 'h6' should be made to user-adjust text size too (could be
 
 
 Remove all forced line breaks in FOLIO-INSTALL.bash dialogue
-
-
-Convert Arch linux support in auto-installer over to redhat (yum), as Arch does NOT have much package / setup support for libraries we use. WE ALREADY CONVERTED "BUILD-PHP-FOR-LINUX-DESKTOP.bash" OVER TO BE REDHAT COMPATIBLE, so use it as a template to integrate into FOLIO-INSTALL.bash. ALSO REMOVE ARCH DOCUMENTATION AND REPLACE WITH FEDORA DOCS.
 
 
 Look for a good alternative to PHPdesktop, or at least a simple / redistributable binary to run a PHP server.
