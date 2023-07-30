@@ -139,6 +139,8 @@
 	
 	app_edition = '<?=$app_edition?>';
 	
+	app_platform = '<?=$app_platform?>';
+	
 	theme_selected = '<?=$sel_opt['theme_selected']?>';
 	
 	// Opposite of app theme, for better contrast
@@ -187,6 +189,8 @@
 	cookies_notice_storage = storage_app_id("cookies_notice");
 	
 	safari_notice_storage = storage_app_id("safari_notice");
+	
+	desktop_windows_notice_storage = storage_app_id("desktop_windows_notice");
 	
 	refresh_cache_upgrade_notice_storage = storage_app_id("refresh_cache_upgrade_notice_storage");
 	

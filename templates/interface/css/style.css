@@ -699,6 +699,9 @@ margin-top: 30px !important;
     color: #000 !important;
     background: #b9ff35 !important;
 }
+.footer_banner a:link, .footer_banner a:visited, .footer_banner a:hover, .footer_banner a:active {
+    color: black !important;
+}
 
 
 /* //////////////////////////////

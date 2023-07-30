@@ -40,6 +40,8 @@ var ct_id; // Install ID (derived from this app's server path)
 	
 var app_edition;
 
+var app_platform;
+
 var font_size_css_selector;
 
 var medium_font_size_css_selector;
@@ -63,6 +65,8 @@ var sidebar_toggle_storage;
 var cookies_notice_storage;
 
 var safari_notice_storage;
+
+var desktop_windows_notice_storage;
 
 var refresh_cache_upgrade_notice_storage;
 
