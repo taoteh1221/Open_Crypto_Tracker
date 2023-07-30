@@ -6122,9 +6122,15 @@ v6.00.2 AND HIGHER RESETS LIGHT (TIME PERIOD) CHARTS FROM ARCHIVAL DATA, ONE-TIM
 -------------------------------------------------------------------
 6.00.20:
 
+-BUG FIX: Alphavantage Stock prices API default parameters upgraded to function smoothly for the free level
+
+-BUG FIX: Desktop Edition support has been fixed
+
 -BUG FIX: Miscellaneous fixes
 
 -Many fixes / improvements to the new sidebar navigation / main content areas
+
+-Removed HotBit market support (they shut down)
 
 -Miscellaneous user experience improvements
 

@@ -10,22 +10,16 @@ NEXT SCHEDULED WORK SESSIONS (*BOTH* DEBUGGING AND / OR INFRASTRUCTURE)
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
+Update screenshots, since we overhauled everything in the interface.
+
+
 When importing bootstrap price chart data in on XAMMP for Windows, WHEN SETUP FOR 15 MINUTE TASK SCHEDULER INTERVALS INSTEAD OF THE DEFAULT 20 MINUTE INTERVALS, all chart data seemed correct EXCEPT for 2 week data. Try and replicate this on other setups, and review the auto-reset trigger / directory deletion logic for any possible issues, as well as the light chart creation logic. I SUSPECT THE LATTER.
 
 
 Add feature to address balance tracker plugin to set minimum time to wait before re-sending the same address alert (in hours). Default it to a high number like 8 hours, so any poorly running / configured API servers don't send endless alerts as they send bs 'zero' results.
 
 
-Remove localbitcoins support (they are closing shop).
-
-
-Add Bitcoin NFT support.
-
-
-New FAQ entry "my text alerts aren't working, or are delayed"
-
-
-Tighten up the portfolio table data spacing / padding in firefox, it WAAAY more then chrome.
+Merge System stats / access stats / app logs into one area called: System & App Monitoring. Add horizontal tabs a top of this area, for each subsection.
 
 
 Integrate google authenticator / microsoft authenticator / authy / etc BEING REQUIRED TO CHANGE THE ADMIN SECURITY LEVEL (and also make it OPTIONAL for login security):
@@ -39,10 +33,16 @@ https://github.com/sonata-project/GoogleAuthenticator
 https://stackoverflow.com/questions/tagged/sonata
 
 
-Update screenshots, since we overhauled everything in the interface.
+Remove localbitcoins support (they are closing shop).
 
 
-Merge System stats / access stats / app logs into one area called: System & App Monitoring
+Add Bitcoin NFT support.
+
+
+New FAQ entry "my text alerts aren't working, or are delayed"
+
+
+Tighten up the portfolio table data spacing / padding in firefox, it WAAAY more then chrome.
 
 
 Move remaining font-size / line-height logic in style.css AND ELSEWHERE into our dynamic CSS header logic.
@@ -308,9 +308,6 @@ FEATURES / NEW INFRASTRUCTURE / RESEARCH
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
-The BITdao token will be switching it's name / ticker symbol to mantle / MNT.
-
-
 MIGRATION TO BOOTSTRAP V5:
 
 https://getbootstrap.com/docs/5.0/migration/
@@ -350,7 +347,7 @@ Add new plugin standard config 'ui_display_mode':
 
 $plug_conf[$this_plug]['ui_display_mode'] = 'inline'; // 'inline', 'modal_iframe'
 
-'modal_iframe' still only displays in 'more_stats' / 'tools' sections (like 'inline' already does), BUT as a link that opens a FULL SCREEN modal window (like our 'quick links' already do), AND runs inside a FULL WIDTH / AUTO-ADJUSTING HEIGHT iframe (like the admin sections)
+Create 'modal_iframe' for plugin UI, that still only displays in 'more_stats' / 'tools' sections (like 'inline' already does), BUT as a link that opens a FULL SCREEN modal window (like our 'system monitoring admin quick links' already do), AND runs inside a FULL WIDTH / AUTO-ADJUSTING HEIGHT iframe (like the admin sections)
 
 Defaults to 'inline' if not set.
 
@@ -386,9 +383,6 @@ Research whether POST data size affects header size like cookie data size does.
 
 
 Change the 'eth_erc20_icos' => 'ico_erc20_value' config settings to 'token_presales' => 'presale_value', AND support any base pair as the pairing (NOT just 'ETH').
-
-
-Look into Aptos support for the 'address-balance-tracker' plugin (see the API notes section for public endpoints REST API docs).
 
 
 Add additional ability to do telegram / discord webhooks in the new "crypto-info-bot" plugin, to query asset prices at different exchanges through telegram chat with the chat bot. Example: "/price btc-usd-coinbase"

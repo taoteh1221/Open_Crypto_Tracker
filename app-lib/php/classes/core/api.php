@@ -1638,44 +1638,6 @@ var $ct_array1 = array();
     
     
     
-      elseif ( strtolower($sel_exchange) == 'hotbit' ) {
-    
-      $url = 'https://api.hotbit.io/api/v1/allticker';
-         
-      $response = @$ct_cache->ext_data('url', $url, $ct_conf['power']['last_trade_cache_time']);
-         
-      $data = json_decode($response, true);
-       
-      $data = $data['ticker'];
-      
-      
-          if ( is_array($data) ) {
-      
-            foreach ($data as $key => $val) {
-              
-              if ( isset($val["symbol"]) && $val["symbol"] == $mrkt_id ) {
-               
-              $result = array(
-                              'last_trade' => $val["last"],
-                              '24hr_asset_vol' => $val["vol"],
-                              '24hr_pair_vol' => null // Unavailable, set null
-                              );
-               
-              }
-          
-            }
-          
-          }
-      
-      
-      }
-     
-     
-     
-     ////////////////////////////////////////////////////////////////////////////////////////////////
-    
-    
-    
       elseif ( strtolower($sel_exchange) == 'huobi' ) {
          
       $url = 'https://api.huobi.pro/market/tickers';

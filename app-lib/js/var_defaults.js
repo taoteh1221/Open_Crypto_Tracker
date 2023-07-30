@@ -58,8 +58,6 @@ var charts_background;
 
 var charts_border;
 
-var desktop_zoom_storage; // Desktop edition zoom level
-
 var sidebar_toggle_storage;
 
 var cookies_notice_storage;

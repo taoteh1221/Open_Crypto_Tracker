@@ -1492,7 +1492,7 @@ zingchart.bind('marketcap_chart', 'label_click', function(e){
 
 
 		
-	<!-- Admin Config - Quick Links (if we are admin logged in) -->
+	<!-- Admin Config - System monitoring quick Links (if we are admin logged in) -->
 	<div id='admin_conf_quick_links' class='align_left private_data'>
 	
 	<?php
@@ -1500,7 +1500,7 @@ zingchart.bind('marketcap_chart', 'label_click', function(e){
     		if ( $ct_gen->admin_logged_in() ) {
     ?>
 	
-		<fieldset><legend> <strong class="bitcoin">Admin Config - Quick Links</strong> </legend>
+		<fieldset><legend> <strong class="bitcoin">System Monitoring</strong> </legend>
     		
     		
     		<b><a id="sys_stats_quick_link" href="javascript: return false;" class="show_system_stats blue" title="View System Statistics">System Stats</a></b><img id='sys_stats_quick_link_info' src='templates/interface/media/images/info-red.png' alt='' width='30' style='position: relative;' />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 

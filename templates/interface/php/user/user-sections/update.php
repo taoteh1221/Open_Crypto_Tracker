@@ -191,6 +191,10 @@
 								<i>ALWAYS <u>buy low</u> AND <u>sell high</u></i>. (NOT the other way around!), *UNLESS* you CAREFULLY decide you've accidentally bought an asset that will probably go nowhere in value long term, relative to other assets you are interested in.
 							</li>
 							
+							<li class='bitcoin disclaimer'>
+								<i>WATCH OUT FOR</i> <a href='https://www.google.com/search?q=pig+butchering+scams' target='_BLANK'>"Pig Butchering"</a> / <a href='https://www.google.com/search?q=catfishing+scams' target='_BLANK'>"Catfishing"</a> scams, and <i>NEVER</i> tell <i>ANYBODY</i> about your investment portfolio details. You would be surprised at how many people will take advantage of others for money. 😮 <i>KEEP THIS INFORMATION PRIVATE</i>!
+							</li>
+							
 							 <li class='bitcoin disclaimer'>
 								"Fully research" does NOT include *BLINDLY* believing some CEO / founder / influencer sweet talking their own token, telling you how competing systems suck and their system is better, or explaining how them owning over 50% of the total coin supply is not out of greed.
 							</li>

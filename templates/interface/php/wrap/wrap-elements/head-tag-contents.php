@@ -247,6 +247,7 @@
 	// Preload /images/auto-preloaded/ images VIA JAVASCRIPT TOO (WAY MORE RELIABLE THAN META TAG PRELOAD)
 	
 	<?php
+	
 	$preloaded_files_dir = 'templates/interface/media/images/auto-preloaded';
 	$preloaded_files = $ct_gen->list_files($preloaded_files_dir);
 	
@@ -260,17 +261,21 @@
 	<?php
 	$loop = $loop + 1;
 	}
+	
 	?>
 	
 	
 	<?php
+	
 	foreach ( $ct_conf['power']['limited_apis'] as $api ) {
 	$js_limited_apis .= '"'.strtolower( preg_replace("/\.(.*)/i", "", $api) ).'", ';
 	}
+
 	$js_limited_apis = trim($js_limited_apis);
 	$js_limited_apis = rtrim($js_limited_apis,',');
 	$js_limited_apis = trim($js_limited_apis);
 	$js_limited_apis = '['.$js_limited_apis.']';
+
 	?>
 
 	limited_apis = <?=$js_limited_apis?>;
@@ -280,16 +285,20 @@
 	limited_apis.push("bitmex_z20");
 	
 	<?php
+	
 	foreach ( $ct_conf['power']['crypto_pair_pref_mrkts'] as $key => $unused ) {
 	$secondary_mrkt_currencies .= '"'.strtolower($key).'", ';
 	}
+	
 	foreach ( $ct_conf['power']['btc_currency_mrkts'] as $key => $unused ) {
 	$secondary_mrkt_currencies .= '"'.strtolower($key).'", ';
 	}
+	
 	$secondary_mrkt_currencies = trim($secondary_mrkt_currencies);
 	$secondary_mrkt_currencies = rtrim($secondary_mrkt_currencies,',');
 	$secondary_mrkt_currencies = trim($secondary_mrkt_currencies);
 	$secondary_mrkt_currencies = '['.$secondary_mrkt_currencies.']';
+	
 	?>
 
 	secondary_mrkt_currencies = <?=$secondary_mrkt_currencies?>;
@@ -297,25 +306,18 @@
 	<?php
 	foreach ( $ct_conf['power']['btc_pref_currency_mrkts'] as $pref_bitcoin_mrkts_key => $pref_bitcoin_mrkts_val ) {
 	?>
+
 	pref_bitcoin_mrkts["<?=strtolower( $pref_bitcoin_mrkts_key )?>"] = "<?=strtolower( $pref_bitcoin_mrkts_val )?>";
+	
 	<?php
 	}
+	
 	// If desktop edition, cron emulation is enabled, and NOT on login form submission pages, run emulated cron
 	if ( $app_edition == 'desktop' && $ct_conf['power']['desktop_cron_interval'] > 0 && !$is_login_form ) {
 	?>	
 	
      emulated_cron_enabled = true;
      
-	<?php
-	}
-	
-	
-	// User AND admin area Desktop Edition vars
-	if ( $app_edition == 'desktop' ) {
-	?>
-	
-	desktop_zoom_storage = storage_app_id("zoom");
-	
 	<?php
 	}
 	?>
@@ -446,3 +448,4 @@
 
 	<link rel="shortcut icon" href="templates/interface/media/images/favicon.png">
 	<link rel="icon" href="templates/interface/media/images/favicon.png">
+

@@ -646,12 +646,6 @@ function safe_add_remove_class(class_name, element, mode) {
 function iframe_size_adjust(elm) {
 
 
-    // Set proper page zoom on the iframe
-    if ( app_edition == 'desktop' ) {
-    elm.contentWindow.document.body.style.zoom = currzoom + '%';
-    }
-
-
     // Now that we've set any required zoom level, adjust the height
     if ( elm.id == 'iframe_system_stats' || elm.id == 'iframe_security' ) {
     var extra_height = 1000;

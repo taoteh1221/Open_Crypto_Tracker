@@ -200,31 +200,6 @@ admin_iframe_load = document.querySelectorAll('.admin_iframe');
 	/////////////////////////////////////////////////////////////////////////////////////////////////////
 	
 	
-    // Set proper body zoom for desktop editions
-    if ( app_edition == 'desktop' ) {
-        
-         // Page zoom logic
-         if ( localStorage.getItem(desktop_zoom_storage) && localStorage.getItem(desktop_zoom_storage) > 0 ) {
-         currzoom = localStorage.getItem(desktop_zoom_storage);
-         }
-         else {
-         currzoom = 100;
-         }
-        
-    // Just zoom body / show new zoom level in GUI,
-    // and reset #app_loading and #change_font_size to 100% beforehand
-    // (iframes zoom onload in other init logic)
-    $('#change_font_size').css('zoom', ' ' + 100 + '%');
-    $('#app_loading').css('zoom', ' ' + 100 + '%');
-    $('body').css('zoom', ' ' + currzoom + '%');
-    $("#zoom_show_ui").html(currzoom + '%');
-                     
-    }
-
-
-	/////////////////////////////////////////////////////////////////////////////////////////////////////
-	
-	
     // Auto-focus admin authentication form's username feild
     if ( $("#admin_login").length ) {
     	setTimeout(function(){
@@ -371,55 +346,6 @@ admin_iframe_load = document.querySelectorAll('.admin_iframe');
     $('#alert_bell_area', window.parent.document).html( "<span class='bitcoin'>Current UTC time:</span> <span class='utc_timestamp red'></span><br />" + $('#app_error_alert', window.parent.document).html() );
         
     }
-
-
-	/////////////////////////////////////////////////////////////////////////////////////////////////////
-	
-	
-     // Plus-minus elements (DESKTOP EDITION'S zoom in / out interface ONLY)
-    if ( app_edition == 'desktop' ) {
-    
-        // Plus button
-        $('#plusBtn').on('click',function(){
-        
-        var step = 2;
-        currzoom = parseFloat(currzoom) + step; 
-        $('body').css('zoom', ' ' + currzoom + '%');
-        
-        localStorage.setItem(desktop_zoom_storage, currzoom);
-        $("#zoom_show_ui").html(currzoom + '%');
-        //console.log(currzoom);
-        
-            // Adjust iframe heights after changing zoom level
-            if ( is_admin == true ) {
-                admin_iframe_load.forEach(function(iframe) {
-                iframe_size_adjust(iframe);
-                });
-            }
-        
-        });
-    
-        // Minus button
-        $('#minusBtn').on('click',function(){
-        
-        var step = 2;
-        currzoom = parseFloat(currzoom) - step; 
-        $('body').css('zoom', ' ' + currzoom + '%');
-        
-        localStorage.setItem(desktop_zoom_storage, currzoom);
-        $("#zoom_show_ui").html(currzoom + '%');
-        //console.log(currzoom);
-        
-            // Adjust iframe heights after changing zoom level
-            if ( is_admin == true ) {
-                admin_iframe_load.forEach(function(iframe) {
-                iframe_size_adjust(iframe);
-                });
-            }
-        
-        });
-        
-    } // END page zoom logic
 
 
 	/////////////////////////////////////////////////////////////////////////////////////////////////////

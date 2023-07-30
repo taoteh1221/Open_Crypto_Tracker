@@ -595,9 +595,9 @@ $ct_conf['charts_alerts']['tracked_mrkts'] = array(
 					'hive' => 'bittrex||btc||both',
 					
 					
-					// BIT
-					'bit' => 'gateio||usdt||both',
-					'bit-2' => 'coingecko_btc||btc||chart',
+					// MNT
+					'mnt' => 'coingecko_usd||usd||both',
+					'mnt-2' => 'coingecko_btc||btc||chart',
 					
 					
 					// ZBC
@@ -1542,6 +1542,7 @@ $ct_conf['power']['strict_consecutive_connect_servers'] = array(
 // (we alert end-users in error logs, when a corrisponding API server connection fails [one-time notice per-runtime])
 $ct_conf['power']['location_blocked_servers'] = array(
                                       			  'binance.com',
+                                      			  'bybit.com',
                                       			 );
      
      
@@ -2517,7 +2518,6 @@ $ct_conf['assets'] = array(
                                         'okex' => 'SOL-BTC',
                                     	'crypto.com' => 'SOL_BTC',
                                         'hitbtc' => 'SOLBTC',
-                                        'hotbit' => 'SOL_BTC',
                                         'coinex' => 'SOLBTC',
                                                     ),
 
@@ -2574,7 +2574,6 @@ $ct_conf['assets'] = array(
                                     	'crypto.com' => 'SOL_USDT',
                                         'kucoin' => 'SOL-USDT',
                                         'coinex' => 'SOLUSDT',
-                                        'hotbit' => 'SOL_USDT',
                                         'gateio' => 'SOL_USDT',
                                         'bitmart' => 'SOL_USDT',
                                         'wazirx' => 'solusdt',
@@ -3034,7 +3033,6 @@ $ct_conf['assets'] = array(
                                     'usdt' => array(
                                         'gateio' => 'POLIS_USDT',
                                         'coinex' => 'POLISUSDT',
-                                        'hotbit' => 'POLIS_USDT',
                                         'bitmart' => 'ATLAS_USDT',
                                                     ),
 
@@ -3075,7 +3073,6 @@ $ct_conf['assets'] = array(
                                     'usdt' => array(
                                         'gateio' => 'ATLAS_USDT',
                                         'coinex' => 'ATLASUSDT',
-                                        'hotbit' => 'ATLAS_USDT',
                                         'bitmart' => 'ATLAS_USDT',
                                                     ),
 
@@ -3099,13 +3096,11 @@ $ct_conf['assets'] = array(
                                     'btc' => array(
                                         'binance' => 'HIVEBTC',
                                         'bittrex' => 'HIVE-BTC',
-                                        'hotbit' => 'HIVE_BTC',
                                                     ),
 
                         
                                     'usdt' => array(
                                         'huobi' => 'hiveusdt',
-                                        'hotbit' => 'HIVE_USDT',
                                         'wazirx' => 'hiveusdt',
                                                     ),
 
@@ -3118,29 +3113,28 @@ $ct_conf['assets'] = array(
                     ////////////////////////////////////////////////////////////////////
                     
                     
-                    // BIT
-                    'BIT' => array(
+                    // MNT
+                    'MNT' => array(
                         
-                        'name' => 'BitDAO',
-                        'mcap_slug' => 'bitdao',
+                        'name' => 'Mantle',
+                        'mcap_slug' => 'mantle',
                         'pair' => array(
 
                                                     
                                     'btc' => array(
-                                        'coingecko_btc' => 'bitdao',
+                                        'coingecko_btc' => 'mantle',
                                                     ),
 
                                                     
                                     'usd' => array(
-                                        'bybit' => 'BITUSD',
+                                        'coingecko_usd' => 'mantle',
+                                        'bybit' => 'MNTUSD',
                                                     ),
 
                                                     
                                     'usdt' => array(
-                                        'bybit' => 'BITUSDT',
-                                        'gateio' => 'BIT_USDT',
-                                        'bitmart' => 'BIT_USDT',
-                                        'hotbit' => 'BIT_USDT',
+                                        'bybit' => 'MNTUSDT',
+                                        'gateio' => 'MNT_USDT',
                                                     ),
 
                                                     
@@ -3247,7 +3241,6 @@ $ct_conf['assets'] = array(
                                         'huobi' => 'rndrusdt',
                                         'gateio' => 'RNDR_USDT',
                                         'kucoin' => 'RNDR-USDT',
-                                        'hotbit' => 'RNDR_USDT',
                                         'coinex' => 'RNDRUSDT',
                                                     ),
 
@@ -3270,7 +3263,6 @@ $ct_conf['assets'] = array(
                         
                                     'btc' => array(
                                         'coingecko_btc' => 'helium',
-                                        'hotbit' => 'HNT_BTC',
                                                     ),
 
                                                     
@@ -3285,7 +3277,6 @@ $ct_conf['assets'] = array(
 
                                                     
                                     'usdt' => array(
-                                        'hotbit' => 'HNT_USDT',
                                         'gateio' => 'HNT_USDT',
                                         'wazirx' => 'hntusdt',
                                                     ),
@@ -3369,7 +3360,6 @@ $ct_conf['assets'] = array(
                                         'gateio' => 'BONK_USDT',
                                         'bitmart' => 'BONK_USDT',
                                         'coinex' => 'BONKUSDT',
-                                        'hotbit' => 'BONK_USDT',
                                         'bitforex' => 'coin-usdt-bonk',
                                                     ),
 

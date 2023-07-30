@@ -57,7 +57,7 @@ margin-bottom: 15px;
 
 
 select {
-appearance: none !important;  /* for hiding default arrow */
+-webkit-appearance: none !important;  /* for hiding default arrow...use webkit version for compatibility with desktop editions */
 line-height: 15px !important;
 height: 25px !important;
 min-width: 95px !important;
