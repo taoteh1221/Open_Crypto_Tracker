@@ -11,7 +11,21 @@
 	<br clear='all' />
 	<br clear='all' />
 			
+	<?php
+	if ( $app_edition == 'desktop' && $app_platform == 'windows' ) {
+	?>
 	
+	<div class='red red_dotted'>
+	
+	This web app *SOMETIMES* MAY NOT WORK PROPERLY for the WINDOWS DESKTOP EDITION (INCLUDING THIS HELP / FAQ PAGE...Linux Desktop Edition and Server Edition work fine).<br /><br />
+	
+	Try installing <a href="https://www.apachefriends.org" target="_BLANK">XAMPP for Windows</a>, and then installing the <a href="https://github.com/taoteh1221/Open_Crypto_Tracker/releases" target="_BLANK">Server Edition of this app</a> inside the XAMPP "htdocs" folder (delete any pre-existing index.html file in htdocs...SEE the "Manual Installation For Server Edition" section in the <a href="README.txt" target="_BLANK">README.txt documentation file</a>).
+	
+	</div>
+	
+	<?php
+	}
+	?>
 			
 	
 	<div class="accordion" id="accordionHelp" style='margin: 20px; margin-top: 35px;'> <!-- Accordion START -->
