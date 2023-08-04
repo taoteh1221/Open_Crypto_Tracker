@@ -35,6 +35,8 @@ https://github.com/sonata-project/GoogleAuthenticator
 
 https://stackoverflow.com/questions/tagged/sonata
 
+Require activating and using 2FA to even VIEW the security settings page.
+
 
 When importing bootstrap price chart data in on XAMMP for Windows, WHEN SETUP FOR 15 MINUTE TASK SCHEDULER INTERVALS INSTEAD OF THE DEFAULT 20 MINUTE INTERVALS, all chart data seemed correct EXCEPT for 2 week data. Try and replicate this on other setups, and review the auto-reset trigger / directory deletion logic for any possible issues, as well as the light chart creation logic. I SUSPECT THE LATTER.
 
