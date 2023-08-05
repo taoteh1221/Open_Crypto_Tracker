@@ -91,7 +91,7 @@ if ( $_POST['submit_check'] == 1 || $run_csv_import || $ui_cookies ) {
 ?>
 
 
-<table border='0' cellpadding='10' cellspacing='0' id="coins_table" class="align_center">
+<table border='0' cellpadding='0' cellspacing='0' id="coins_table" class="align_center">
  <thead>
     <tr>
 <th class='border_lt num-sort'>Rank</th>

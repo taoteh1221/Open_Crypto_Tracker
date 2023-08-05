@@ -3,6 +3,11 @@
  * Copyright 2014-2023 GPLv3, Open Crypto Tracker by Mike Kilday: Mike@DragonFrugal.com
  */
 
+
+// Application version
+$app_version = '6.00.21';  // 2023/AUGUST/5TH
+
+
 // Calculate script runtime length
 $time = microtime();
 $time = explode(' ', $time);
@@ -15,10 +20,6 @@ if ( isset($_SERVER['REQUEST_METHOD']) && realpath(__FILE__) == realpath($_SERVE
 header('HTTP/1.0 403 Forbidden', TRUE, 403);
 exit;
 }
-
-
-// Application version
-$app_version = '6.00.20';  // 2023/JULY/22ND
 
 
 // standard font size CSS selector (we skip sidebar HEADER area)

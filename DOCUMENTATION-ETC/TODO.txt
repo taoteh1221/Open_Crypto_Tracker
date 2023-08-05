@@ -47,9 +47,6 @@ Convert Arch linux support in auto-installer over to redhat (yum), as Arch does 
 New FAQ entry "my text alerts aren't working, or are delayed"
 
 
-Tighten up the portfolio table data spacing / padding in firefox, it WAAAY more then chrome.
-
-
 Move remaining font-size / line-height logic in style.css AND ELSEWHERE into our dynamic CSS header logic.
 
 
