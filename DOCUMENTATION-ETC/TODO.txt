@@ -10,6 +10,19 @@ NEXT SCHEDULED WORK SESSIONS (*BOTH* DEBUGGING AND / OR INFRASTRUCTURE)
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
+These elements DO NOT RESIZE with the text size buttons:
+
+1) Select charts / news feeds modals
+
+2) Radio buttons / select drop-down menus
+
+3) Footer notices
+
+4) ...and the 'system monitoring' section on bottom-right of the portfolio page seems to multiply it's size (really small or really large)
+
+5) ...and SMALL TEXT resizes disproportionately (eventually is LARGER than normal text if you resize to 190%)
+
+
 Update screenshots, since we overhauled everything in the interface.
 
 

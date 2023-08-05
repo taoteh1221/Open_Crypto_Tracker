@@ -447,8 +447,6 @@
 	        
 	        <li class='links_list'><a href='https://www.youtube.com/user/cointelegraph/featured' target='_blank'>Cointelegraph</a></li>
 	        
-	        <li class='links_list'><a href='https://www.youtube.com/channel/UCu7Sre5A1NMV8J3s2FhluCw' target='_blank'>Crypto Love</a></li>
-	        
 	        <li class='links_list'><a href='https://www.youtube.com/user/PrisonOrFreedom/featured' target='_blank'>Cryptocurrency Market</a></li>
 	        
 	        <li class='links_list'><a href='https://www.youtube.com/channel/UCavTvSwEoRABvnPtLg0e6LQ/featured' target='_blank'>Crypto Tips</a></li>
