@@ -10,6 +10,9 @@ NEXT SCHEDULED WORK SESSIONS (*BOTH* DEBUGGING AND / OR INFRASTRUCTURE)
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
+.attr('style') ALWAYS OVERWRITES *ALL* PREVIOUS VALUES, SO WHEN USING IT IN interface_font_percent(), we need to combine the 'font-size' AND 'line-height' attributes INTO ONE INSTANCE OF .attr('style'). ALSO DOUBLE-CHECK FOR OTHER USAGE IN ALL APPS BEING CORRECT.
+
+
 Make chart text RESIZE with the text size buttons.
 
 
