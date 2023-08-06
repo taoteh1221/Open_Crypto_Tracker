@@ -82,7 +82,7 @@
 				
 	<p style='margin-top: 25px;'>
 	
-	<button class="show_chart_settings force_button_style">Select Charts</button>
+	<button class="modal_style_control show_chart_settings force_button_style">Select Charts</button>
 	
 	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 	
@@ -128,7 +128,7 @@
 	<br clear='all' />
 	
 	
-	<div id="show_chart_settings">
+	<div class='' id="show_chart_settings">
 	
 		
 		<h4 style='display: inline;'>Select Charts</h4>

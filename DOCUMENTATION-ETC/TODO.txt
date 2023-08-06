@@ -10,17 +10,10 @@ NEXT SCHEDULED WORK SESSIONS (*BOTH* DEBUGGING AND / OR INFRASTRUCTURE)
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
-These elements DO NOT RESIZE with the text size buttons:
+Make chart text RESIZE with the text size buttons.
 
-1) Select charts / news feeds modals
 
-2) Radio buttons / select drop-down menus
-
-3) Footer notices
-
-4) ...and the 'system monitoring' section on bottom-right of the portfolio page seems to multiply it's size (really small or really large)
-
-5) ...and SMALL TEXT resizes disproportionately (eventually is LARGER than normal text if you resize to 190%)
+The tags 'h1' through 'h6' should be made to user-adjust text size too?? (could be a bit tricky, be careful).
 
 
 Update screenshots, since we overhauled everything in the interface.
@@ -61,9 +54,6 @@ New FAQ entry "my text alerts aren't working, or are delayed"
 
 
 Move remaining font-size / line-height logic in style.css AND ELSEWHERE into our dynamic CSS header logic.
-
-
-The tags 'h1' through 'h6' should be made to user-adjust text size too (could be a bit tricky, be careful).
 
 
 Remove all forced line breaks in FOLIO-INSTALL.bash dialogue

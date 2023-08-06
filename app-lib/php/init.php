@@ -4,10 +4,6 @@
  */
 
 
-// Application version
-$app_version = '6.00.21';  // 2023/AUGUST/5TH
-
-
 // Calculate script runtime length
 $time = microtime();
 $time = explode(' ', $time);
@@ -15,21 +11,38 @@ $time = $time[1] + $time[0];
 $start_runtime = $time;
 
 
+// Application version
+$app_version = '6.00.21';  // 2023/AUGUST/5TH
+
+
+// min / max font RESIZE percentages allowed (as decimal representing 100% @ 1.00)
+$min_font_resize = 0.5; // 50%
+////
+$max_font_resize = 2; // 200%
+
+
+// standard font size CSS configs (we skip sidebar HEADER area)
+$font_size_css_selector = "#sidebar_menu, #secondary_wrapper, select, radio, td.data, .iframe_wrapper, .footer_banner, .extra_data, .countdown_notice";
+
+// medium font size CSS configs (we skip sidebar HEADER area)
+$medium_font_size_css_selector = "#admin_conf_quick_links a:link, #admin_conf_quick_links legend, #header_size_warning, .balloon_notation";
+////
+// PERCENT of STANDARD font size (as a decimal)
+$medium_font_size_css_percent = 0.80; // 80% of $default_font_size
+
+
+// small font size CSS configs (we skip sidebar HEADER area)
+$small_font_size_css_selector = ".gain, .loss, .crypto_worth, .accordion-button";
+////
+// PERCENT of STANDARD font size (as a decimal)
+$small_font_size_css_percent = 0.65; // 65% of $default_font_size
+
+
 // Forbid direct INTERNET access to this file
 if ( isset($_SERVER['REQUEST_METHOD']) && realpath(__FILE__) == realpath($_SERVER['SCRIPT_FILENAME']) ) {
 header('HTTP/1.0 403 Forbidden', TRUE, 403);
 exit;
 }
-
-
-// standard font size CSS selector (we skip sidebar HEADER area)
-$font_size_css_selector = "#secondary_wrapper, #sidebar_menu, #admin_wrapper, .iframe_wrapper";
-
-// medium font size CSS selector (we skip sidebar HEADER area)
-$medium_font_size_css_selector = ".balloon_notation, #change_font_size, #header_size_warning, #admin_conf_quick_links fieldset legend, #admin_conf_quick_links fieldset, #admin_conf_quick_links, .extra_data, td.data span.extra_data, td.data div.extra_data span, .extra_data span, td.data div.extra_data span, .loss, td.data span.loss, td.data div.loss span, .short, td.data span.short, td.data div.short span";
-
-// small font size CSS selector (we skip sidebar HEADER area)
-$small_font_size_css_selector = ".gain, td.data span.gain, td.data div.gain span, .crypto_worth, .crypto_worth span, td.data div.crypto_worth span";
 
 
 // #PHP# ERROR LOGGING

@@ -1,7 +1,7 @@
 
 	
 <!-- START help modal -->
-<div id="show_help_faq">
+<div class='' id="show_help_faq">
 	
 		
 		<h3 style='display: inline;'>Help / FAQ</h3>

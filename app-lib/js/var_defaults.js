@@ -42,11 +42,17 @@ var app_edition;
 
 var app_platform;
 
+var default_font_size;
+
 var font_size_css_selector;
 
 var medium_font_size_css_selector;
 
+var medium_font_size_css_percent;
+
 var small_font_size_css_selector;
+
+var small_font_size_css_percent;
 	
 var theme_selected;
 

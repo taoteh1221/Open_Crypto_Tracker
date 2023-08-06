@@ -61,10 +61,11 @@ margin-bottom: 15px;
 
 select {
 -webkit-appearance: none !important;  /* for hiding default arrow...use webkit version for compatibility with desktop editions */
-line-height: 15px !important;
-height: 25px !important;
-min-width: 95px !important;
 padding: .07rem 1.4rem .07rem .5rem !important;
+}
+
+td .custom-select {
+min-width: 100%;
 }
 
 
@@ -164,6 +165,12 @@ margin: 0px;
 /* //////////////////////////////
 CLASSES
 ////////////////////////////// */
+
+
+.tablesorter-header {
+margin-left: 2px;
+margin-right: 2px;
+}
 
 
 .page_title {
@@ -388,7 +395,7 @@ line-height: 25px;
 }
 
 
-.start_page_menu, .start_page_menu_red {
+.start_page_menu_red {
 padding: 8px !important;
 }
 
@@ -579,6 +586,7 @@ position: sticky;
 position: -webkit-sticky;
 border-radius: 5px;
 padding: 2px;
+font-weight: bold;
 }
 
 
@@ -653,7 +661,7 @@ font-size: 21px;
 }
 
 
-.bitcoin_dotted, .green_dotted, .red_dotted, .start_page_menu, .start_page_menu_red, #watch_only, #charts_error, #system_charts_error, .admin_login_alerts {
+.bitcoin_dotted, .green_dotted, .red_dotted, .start_page_menu_red, #watch_only, #charts_error, #system_charts_error, .admin_login_alerts {
 border-radius: 6px !important;
 }
 
@@ -888,15 +896,6 @@ position: absolute;
     left: 5px;
     font-weight: bold;
     max-width: 90vw;
-}
-
-
-#change_font_size {
-position: absolute;
-    top: 3px;
-    right: 5px;
-    font-weight: bold;
-    z-index: 999999999;
 }
 
 

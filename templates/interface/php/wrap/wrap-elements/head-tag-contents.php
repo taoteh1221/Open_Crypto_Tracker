@@ -241,11 +241,17 @@
 	}
 	?>
 	
+	default_font_size = "<?=$default_font_size?>";
+	
 	font_size_css_selector = "<?=$font_size_css_selector?>";
 	
 	medium_font_size_css_selector = "<?=$medium_font_size_css_selector?>";
 	
+	medium_font_size_css_percent = <?=$medium_font_size_css_percent?>;
+	
 	small_font_size_css_selector = "<?=$small_font_size_css_selector?>";
+	
+	small_font_size_css_percent = <?=$small_font_size_css_percent?>;
 	
 	
 	// Preload /images/auto-preloaded/ images VIA JAVASCRIPT TOO (WAY MORE RELIABLE THAN META TAG PRELOAD)

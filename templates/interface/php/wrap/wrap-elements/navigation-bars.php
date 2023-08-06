@@ -36,7 +36,7 @@
    <div class="smallnav_spacer"></div>
    
    
-   <div class="align_center"><a href="javascript: return false;" class="show_help_faq" title='Get help with running and setting up this app.'><img src='templates/interface/media/images/auto-preloaded/icons8-questions-100-<?=$sel_opt['theme_selected']?>.png' class='nav-image' width='45' border='0' title='Get help with running and setting up this app.' /></a></div>
+   <div class="align_center"><a href="javascript: return false;" class="modal_style_control show_help_faq" title='Get help with running and setting up this app.'><img src='templates/interface/media/images/auto-preloaded/icons8-questions-100-<?=$sel_opt['theme_selected']?>.png' class='nav-image' width='45' border='0' title='Get help with running and setting up this app.' /></a></div>
    
    
    <!-- Admin area -->
@@ -228,7 +228,7 @@
                     
                     <div class="form-floating">
                     
-                    <input type="text" name="quant_font_percent" id="quant_font_percent" class="form-control input-number" value="<?=($default_font_size * 100)?>" min="30" max="300" onchange='
+                    <input type="text" name="quant_font_percent" id="quant_font_percent" class="form-control input-number" value="<?=($default_font_size * 100)?>" min="<?=($min_font_resize * 100)?>" max="<?=($max_font_resize * 100)?>" onchange='
                     
                	if ( !get_cookie("font_size") ) {
                	font_size_cookie = confirm("This feature requires using cookie data.");
@@ -237,7 +237,7 @@
                	font_size_cookie = true;
                	}
                			
-               	if ( font_size_cookie == true && is_int(this.value) != false && this.value >= 30 && this.value <= 300 ) {
+               	if ( font_size_cookie == true && is_int(this.value) != false && this.value >= 50 && this.value <= 200 ) {
                     interface_font_percent(this.value);
                	}
                	else {
@@ -301,7 +301,7 @@
             
             
             <li class='sidebar-item'>
-                <a href="javascript: return false;" class="show_help_faq blue" title='Get help with running and setting up this app.'>Help Using This App?</a>
+                <a href="javascript: return false;" class="modal_style_control show_help_faq blue" title='Get help with running and setting up this app.'>Help Using This App?</a>
             </li>
             
             
