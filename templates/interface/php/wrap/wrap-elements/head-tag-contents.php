@@ -2,7 +2,7 @@
 	<title>Open Crypto Tracker<?=( $is_admin ? ' - Admin Config' : '' )?></title>
     
 
-     <meta charset="<?=$ct_conf['power']['charset_default']?>">
+     <meta charset="<?=$charset_default?>">
    
      <meta name="viewport" content="width=device-width"> <!-- Mobile compatibility -->
    
@@ -277,7 +277,7 @@
 	
 	<?php
 	
-	foreach ( $ct_conf['power']['limited_apis'] as $api ) {
+	foreach ( $limited_apis as $api ) {
 	$js_limited_apis .= '"'.strtolower( preg_replace("/\.(.*)/i", "", $api) ).'", ';
 	}
 

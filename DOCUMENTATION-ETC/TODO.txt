@@ -10,16 +10,13 @@ NEXT SCHEDULED WORK SESSIONS (*BOTH* DEBUGGING AND / OR INFRASTRUCTURE)
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
-.attr('style') ALWAYS OVERWRITES *ALL* PREVIOUS VALUES, SO WHEN USING IT IN interface_font_percent(), we need to combine the 'font-size' AND 'line-height' attributes INTO ONE INSTANCE OF .attr('style'). ALSO DOUBLE-CHECK FOR OTHER USAGE IN ALL APPS BEING CORRECT.
+Update screenshots, since we overhauled everything in the interface.
 
 
-Make chart text RESIZE with the text size buttons.
+Make chart text RESIZE with the text size buttons if possible. Try multiplying the font size by the 'em' CSS font size? If that's not reliable, forget it.
 
 
 The tags 'h1' through 'h6' should be made to user-adjust text size too?? (could be a bit tricky, be careful).
-
-
-Update screenshots, since we overhauled everything in the interface.
 
 
 Add feature to address balance tracker plugin to set minimum time to wait before re-sending the same address alert (in hours). Default it to a high number like 8 hours, so any poorly running / configured API servers don't send endless alerts as they send bs 'zero' results.
@@ -214,6 +211,8 @@ DEBUGGING / TESTS / UX / QA / OTHER
 !!!!
 ===> Try to break up larger changes into smaller milestones,
 ===> then plenty of time is spent on UX / testing / debugging.
+!!!!
+===> "app-lib/php/init.php" contains MANY developer-only configs at the top
 !!!!
 ===> Don't require any higher than PHP v7.2 until PHP v9.
 !!!!                                                            

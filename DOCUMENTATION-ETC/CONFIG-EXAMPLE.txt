@@ -73,7 +73,6 @@ $ct_conf['gen']['btc_prim_currency_pair'] = 'usd'; // PUT INSIDE SINGLE QUOTES (
 // localbitcoins / loopring_amm / luno / okcoin / okex / southxchange / unocoin / upbit / wazirx
 // SEE THE $ct_conf['assets']['BTC'] CONFIGURATION NEAR THE BOTTOM OF THIS CONFIG FILE, FOR THE PROPER (CORRESPONDING)
 // 'BTC' EXCHANGE VALUE NEEDED FOR YOUR CHOSEN MARKET PAIR (set in $ct_conf['gen']['btc_prim_currency_pair'] directly above)
-// SEE THE $ct_conf['power']['limited_apis'] SETTING FURTHER DOWN IN THE DEVELOPER SECTION, FOR EXCHANGES !NOT RECOMMENDED FOR USAGE HERE!
 $ct_conf['gen']['btc_prim_exchange'] = 'kraken';  // PUT INSIDE SINGLE QUOTES ('selection')
 
 
@@ -1496,15 +1495,6 @@ $ct_conf['power']['light_chart_first_build_hard_limit'] = 20; // (default = 20),
 // Adding a string here automatically enables that as the custom curl user agent
 // LEAVING BLANK '' USES THE DEFAULT CURL USER AGENT LOGIC BUILT-IN TO THIS APP (WHICH INCLUDES ONLY BASIC SYSTEM CONFIGURATION STATS)
 $ct_conf['power']['override_curl_user_agent'] = ''; 
-
-
-// Default charset used
-$ct_conf['power']['charset_default'] = 'UTF-8'; 
-////
-// Unicode charset used (if needed)
-// UCS-2 is outdated as it only covers 65536 characters of Unicode
-// UTF-16BE / UTF-16LE / UTF-16 / UCS-2BE can represent ALL Unicode characters
-$ct_conf['power']['charset_unicode'] = 'UTF-16'; 
 			
 									
 // !!!!! BE #VERY CAREFUL# LOWERING MAXIMUM EXECUTION TIMES BELOW, #OR YOU MAY CRASH THE RUNNING PROCESSES EARLY, 
@@ -1525,62 +1515,22 @@ $ct_conf['power']['int_api_max_exec_time'] = 120; // (default = 120)
 ////
 // Maximum execution time for webhook runtime in seconds (how long it's allowed to run before automatically killing the process)
 $ct_conf['power']['webhook_max_exec_time'] = 120; // (default = 120)
-     
-     
-// Servers with STRICT CONSECUTIVE CONNECT limits (we add 0.11 seconds to the wait between consecutive connections)
-$ct_conf['power']['strict_consecutive_connect_servers'] = array(
-                                      					 'test654321.com',
-                                      					);
-     
-     
-// Servers which are known to block API access by location / jurasdiction
-// (we alert end-users in error logs, when a corrisponding API server connection fails [one-time notice per-runtime])
-$ct_conf['power']['location_blocked_servers'] = array(
-                                      			  'binance.com',
-                                      			  'bybit.com',
-                                      			 );
-     
-     
-// Servers requiring TRACKED THROTTLE-LIMITING, due to limited-allowed minute / hour / daily requests
-// (are processed by ct_cache->api_throttling(), to avoid using up daily request limits)
-$ct_conf['power']['tracked_throttle_limited_servers'] = array(
-                                      					'alphavantage.co',
-                                      				    );
     
      
 // RSS feed services that are a bit funky with allowed user agents, so we need to let them know this is a real feed parser (not just a spammy bot)
 // (user agent string is EXPLICITLY SET AS A CUSTOM FEED PARSER)
 $ct_conf['power']['strict_news_feed_servers'] = array(
-                                                    'medium.com',
-                                                    'reddit.com',
-                                                    'whatbitcoindid.com',
-                                                    'simplecast.com',
-                                                   );
-							
-
-// TLD-only (Top Level Domain only, NO SUBDOMAINS) for each API service that UN-EFFICIENTLY requires multiple calls (for each market / data set)
-// Used to throttle these market calls a tiny bit (0.15 seconds), so we don't get easily blocked / throttled by external APIs etc
-// (ANY EXCHANGES LISTED HERE ARE !NOT! RECOMMENDED TO BE USED AS THE PRIMARY CURRENCY MARKET IN THIS APP,
-// AS ON OCCASION THEY CAN BE !UNRELIABLE! IF HIT WITH TOO MANY SEPARATE API CALLS FOR MULTIPLE COINS / ASSETS)
-// !MUST BE LOWERCASE!
-// #DON'T ADD ANY WEIRD TLD HERE LIKE 'xxxxx.co.il'#, AS DETECTING TLD DOMAINS WITH MORE THAN ONE PERIOD IN THEM ISN'T SUPPORTED
-// WE DON'T WANT THE REQUIRED EXTRA LOGIC TO PARSE THESE DOUBLE-PERIOD TLDs BOGGING DOWN / CLUTTERING APP CODE, FOR JUST ONE TINY FEATURE
-$ct_conf['power']['limited_apis'] = array(
-                						'alphavantage.co',
-                						'bitforex.com',
-                						'bitflyer.com',
-                						'bitmex.com',
-                						'bitso.com',
-                						'bitstamp.net',
-                						'blockchain.info',
-                						'btcmarkets.net',
-                						'coinbase.com',
-                						// (coingecko #ABSOLUTELY HATES# DATA CENTER IPS [DEDICATED / VPS SERVERS], BUT GOES EASY ON RESIDENTIAL IPS)
-                						'coingecko.com',
-                						'etherscan.io',
-                						'gemini.com',
-                						'jup.ag',
-							            );
+                                                      'medium.com',
+                                                      'reddit.com',
+                                                      'whatbitcoindid.com',
+                                                      'simplecast.com',
+                                                     );
+     
+     
+// Servers with STRICT CONSECUTIVE CONNECT limits (we add 0.11 seconds to the wait between consecutive connections)
+$ct_conf['power']['strict_consecutive_connect_servers'] = array(
+                                      					    'test654321.com',
+                                      					   );
 				
 
 ////////////////////////////////////////

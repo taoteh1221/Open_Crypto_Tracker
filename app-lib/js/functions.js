@@ -1886,32 +1886,21 @@ var small_line_height = small_line_height.toFixed(3);
      }
 
 
-     if ( specific_elm != false && specific_size != false ) {
-          
      // Specific
-     specific_elements.attr('style', function(i,s) { return (s || '') + "font-size: " + spec_font_size + "em !important;" });
-     ////
-     specific_elements.attr('style', function(i,s) { return (s || '') + "line-height : " + spec_line_height + "em !important;" });
-     
+     if ( specific_elm != false && specific_size != false ) {
+     specific_elements.attr('style', function(i,s) { return (s || '') + "font-size: " + spec_font_size + "em !important; line-height : " + spec_line_height + "em !important;" });
      }
+     // All
      else {
           
      // Standard (we skip sidebar HEADER area)
-     font_elements.attr('style', function(i,s) { return (s || '') + "font-size: " + font_size + "em !important;" });
-     ////
-     font_elements.attr('style', function(i,s) { return (s || '') + "line-height : " + line_height + "em !important;" });
-     
+     font_elements.attr('style', function(i,s) { return (s || '') + "font-size: " + font_size + "em !important; line-height : " + line_height + "em !important;" });
      
      // Medium
-     medium_font_elements.attr('style', function(i,s) { return (s || '') + "font-size: " + medium_font_size + "em !important;" });
-     ////
-     medium_font_elements.attr('style', function(i,s) { return (s || '') + "line-height : " + medium_line_height + "em !important;" });
-     
+     medium_font_elements.attr('style', function(i,s) { return (s || '') + "font-size: " + medium_font_size + "em !important; line-height : " + medium_line_height + "em !important;" });
      
      // Small
-     small_font_elements.attr('style', function(i,s) { return (s || '') + "font-size: " + small_font_size + "em !important;" });
-     ////
-     small_font_elements.attr('style', function(i,s) { return (s || '') + "line-height : " + small_line_height + "em !important;" });
+     small_font_elements.attr('style', function(i,s) { return (s || '') + "font-size: " + small_font_size + "em !important; line-height : " + small_line_height + "em !important;" });
      
      }
 
