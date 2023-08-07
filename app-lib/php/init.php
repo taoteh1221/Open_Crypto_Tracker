@@ -24,7 +24,7 @@ $start_runtime = $time;
 
 
 // Application version
-$app_version = '6.00.21';  // 2023/AUGUST/5TH
+$app_version = '6.00.22';  // 2023/AUGUST/7TH
 
 
 // #PHP# ERROR LOGGING
