@@ -165,7 +165,7 @@ else {
 ?>
 
 <p class='red' style='font-size: 19px; font-weight: bold;'>Cookies MUST be ENABLED in your browser to login.
-	 <img id='admin_cookies' src='templates/interface/media/images/info-red.png' alt='' width='30' style='position: relative;' /> 
+	 <img class='tooltip_style_control' id='admin_cookies' src='templates/interface/media/images/info-red.png' alt='' width='30' style='position: relative;' /> 
 	 </p>
 
 	 <script>
@@ -222,7 +222,7 @@ if ( !$_POST['submit_registration'] || is_array($register_result['error']) && si
     
 	 <p>
 	 
-	 <img id='username_notes' src='templates/interface/media/images/info-red.png' alt='' width='30' style='position: relative; left: 5px;' />  
+	 <img class='tooltip_style_control' id='username_notes' src='templates/interface/media/images/info-red.png' alt='' width='30' style='position: relative; left: 5px;' />  
 	 
 	 <b>Username:</b> 
 	 
@@ -232,7 +232,7 @@ if ( !$_POST['submit_registration'] || is_array($register_result['error']) && si
 
 	 <p>
 	 
-	 <img id='password_notes' src='templates/interface/media/images/info-red.png' alt='' width='30' style='position: relative; left: 5px;' /> 
+	 <img class='tooltip_style_control' id='password_notes' src='templates/interface/media/images/info-red.png' alt='' width='30' style='position: relative; left: 5px;' /> 
 	 
 	 <b>Password:</b> 
 	 	 

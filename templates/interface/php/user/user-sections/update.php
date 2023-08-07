@@ -237,7 +237,7 @@
 		
 	<p style='margin-top: 20px;'><span style='font-weight: bold;' class='bitcoin'>How is my data stored by this app?</span> 
 	     
-		<img id='portfolio_data_privacy' src='templates/interface/media/images/info-orange.png' alt='' width='30' style='position: relative; left: -5px;' /> </p>
+		<img class='tooltip_style_control' id='portfolio_data_privacy' src='templates/interface/media/images/info-orange.png' alt='' width='30' style='position: relative; left: -5px;' /> </p>
 		
 	 <script>
 		
@@ -269,7 +269,7 @@
 	
 		<p>
 	
-			<b>Random Tip:</b><img id='random_tip_disclaimer' src='templates/interface/media/images/info-orange.png' alt='' width='30' style='position: relative; padding: 0px; margin: 0px; vertical-align: middle;' />  <a href='javascript: random_tips();'>Show Another Tip</a>
+			<b>Random Tip:</b><img class='tooltip_style_control' id='random_tip_disclaimer' src='templates/interface/media/images/info-orange.png' alt='' width='30' style='position: relative; padding: 0px; margin: 0px; vertical-align: middle;' />  <a href='javascript: random_tips();'>Show Another Tip</a>
 	
 		</p>
 	
@@ -338,7 +338,7 @@
 		
 		<a style='margin-left: 40px; text-decoration: none;' class='force_button_style' href="download.php?token=<?=$ct_gen->nonce_digest('download')?>&csv_export=1&example_template=1" target="_blank">Example CSV File</a>
 	     
-		<img id='spreadsheet_import_export' src='templates/interface/media/images/info.png' alt='' width='30' style='position: relative; left: 5px;' /> 
+		<img class='tooltip_style_control' id='spreadsheet_import_export' src='templates/interface/media/images/info.png' alt='' width='30' style='position: relative; left: 5px;' /> 
 		
 	 <script>
 		
@@ -655,7 +655,7 @@
 	     <b>Average Paid (per-token):</b> <?=$ct_conf['power']['btc_currency_mrkts'][ $ct_conf['gen']['btc_prim_currency_pair'] ]?><input class='private_data' type='text' size='10' id='<?=$field_var_paid?>' name='<?=$field_var_paid?>' value='<?=$asset_paid_val?>' <?=$disable_fields?> /> 
 	     
 	     
-		<img id='average_paid_notes_<?=$rand_id?>' src='templates/interface/media/images/info.png' alt='' width='30' style='position: relative; left: -5px;' /> 
+		<img class='tooltip_style_control' id='average_paid_notes_<?=$rand_id?>' src='templates/interface/media/images/info.png' alt='' width='30' style='position: relative; left: -5px;' /> 
 	 <script>
 	
 			$('#average_paid_notes_<?=$rand_id?>').balloon({
@@ -727,7 +727,7 @@
 	     </select> 
 	     
 	     
-		<img id='lvrg_trading_notes_<?=$rand_id?>' src='templates/interface/media/images/info.png' alt='' width='30' style='position: relative; left: -5px;' /> 
+		<img class='tooltip_style_control' id='lvrg_trading_notes_<?=$rand_id?>' src='templates/interface/media/images/info.png' alt='' width='30' style='position: relative; left: -5px;' /> 
 	 <script>
 		
 			$('#lvrg_trading_notes_<?=$rand_id?>').balloon({

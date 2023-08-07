@@ -70,7 +70,7 @@ echo '?';
  	
  		?>
  		
- <a href='https://<?=$asset_pagebase?><?=$mkcap_render_data?>' target='_blank' class='blue app_sort_filter' title='View Information Page For <?=$asset_symb?>'><?=$asset_name?></a> <img id='<?=preg_replace("/\:/", "", $mkcap_render_data)?>' src='templates/interface/media/images/<?=$info_icon?>' alt='' style='position: relative; vertical-align:middle; height: 30px; width: 30px;' /> 
+ <a href='https://<?=$asset_pagebase?><?=$mkcap_render_data?>' target='_blank' class='blue app_sort_filter' title='View Information Page For <?=$asset_symb?>'><?=$asset_name?></a> <img class='tooltip_style_control' id='<?=preg_replace("/\:/", "", $mkcap_render_data)?>' src='templates/interface/media/images/<?=$info_icon?>' alt='' style='position: relative; vertical-align:middle; height: 30px; width: 30px;' /> 
  <script>
 
 		<?php
@@ -703,7 +703,7 @@ echo '<span class="private_data ' . ( $purchase_price >= $min_fiat_val_test && $
   		$gain_loss_prim_currency = ( $gain_loss >= 0 ? '+' . $ct_conf['power']['btc_currency_mrkts'][ $ct_conf['gen']['btc_prim_currency_pair'] ] : '' );
   		
 		?> 
-		<img class='lvrg_info' id='<?=$rand_id?>_lvrg' src='templates/interface/media/images/info.png' alt='' width='30' style='position: relative; left: -5px;' />
+		<img class='tooltip_style_control lvrg_info' id='<?=$rand_id?>_lvrg' src='templates/interface/media/images/info.png' alt='' width='30' style='position: relative; left: -5px;' />
 	 <script>
 	
 			var lvrg_content = '<h5 class="yellow tooltip_title"><?=$lvrg_level?>x <?=ucfirst($sel_mrgntyp)?> For <?=$asset_name?> (<?=$asset_symb?>)</h5>'

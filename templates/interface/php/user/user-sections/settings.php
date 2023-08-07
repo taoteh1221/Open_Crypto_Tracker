@@ -302,7 +302,7 @@
 				    $btc_mrkt_list = NULL;
 				    ?>
 				    
-				    </span> <img id='currency_info' src='templates/interface/media/images/info.png' alt='' width='30' style='position: relative; left: -5px;' /> <input type='checkbox' id='standalone_prim_currency_enabled' name='standalone_prim_currency_enabled' value='1' onchange='
+				    </span> <img class='tooltip_style_control' id='currency_info' src='templates/interface/media/images/info.png' alt='' width='30' style='position: relative; left: -5px;' /> <input type='checkbox' id='standalone_prim_currency_enabled' name='standalone_prim_currency_enabled' value='1' onchange='
 				    
 				    btc_prim_currency = $("#btc_prim_currency").val() ? $("#btc_prim_currency").val() : "<?=$ct_conf['gen']['btc_prim_currency_pair']?>";
 				    prim_currency_mrkt = $("#prim_currency_mrkt_id").val() ? $("#prim_currency_mrkt_id").val() : <?=$ct_asset->btc_mrkt($ct_conf['gen']['btc_prim_exchange'])?>;
@@ -514,7 +514,7 @@
 			$loop = $loop + 1;
 			}
 			?> 
-			     <img id="setting_crypto_val" src="templates/interface/media/images/info.png" alt="" width="30" style="position: relative; left: -5px;" />
+			     <img class='tooltip_style_control' id="setting_crypto_val" src="templates/interface/media/images/info.png" alt="" width="30" style="position: relative; left: -5px;" />
          </p>
 			
 
@@ -578,7 +578,7 @@
 			?> 
 			</select>
 			
-			     <img id="setting_secondary_trade_val" src="templates/interface/media/images/info.png" alt="" width="30" style="position: relative; left: -5px;" />
+			     <img class='tooltip_style_control' id="setting_secondary_trade_val" src="templates/interface/media/images/info.png" alt="" width="30" style="position: relative; left: -5px;" />
 			     
          </p>
 			

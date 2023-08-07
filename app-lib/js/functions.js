@@ -647,11 +647,11 @@ function iframe_size_adjust(elm) {
 
 
     // Now that we've set any required zoom level, adjust the height
-    if ( elm.id == 'iframe_system_stats' ) {
-    var extra_height = 100;
+    if ( elm.id == 'iframe_security' ) {
+    var extra_height = 1500;
     }
     else {
-    var extra_height = 100;
+    var extra_height = 150;
     }
     
     

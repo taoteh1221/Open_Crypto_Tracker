@@ -561,7 +561,7 @@ $altcoin_dominance = $ct_var->max_100($altcoin_dominance);
 				}
 				?>
 				
-			<img id="crypto_val" src="templates/interface/media/images/info.png" alt="" width="30" style="position: relative;" />
+			<img class='tooltip_style_control' id="crypto_val" src="templates/interface/media/images/info.png" alt="" width="30" style="position: relative;" />
 			
 <script>
 		
@@ -619,7 +619,7 @@ $altcoin_dominance = $ct_var->max_100($altcoin_dominance);
 		?>
 		
 		
-			<img id="fiat_val" src="templates/interface/media/images/info.png" alt="" width="30" style="position: relative; left: -5px;" /> 
+			<img class='tooltip_style_control' id="fiat_val" src="templates/interface/media/images/info.png" alt="" width="30" style="position: relative; left: -5px;" /> 
 
 
 <script>
@@ -695,7 +695,7 @@ var fiat_val_content = '<h5 class="yellow tooltip_title">Primary Currency (<?=st
 	?> 
 		
 		
-			<img id='portfolio_gain_loss' src='templates/interface/media/images/info.png' alt='' width='30' style='position: relative; left: -5px;' /> 
+			<img class='tooltip_style_control' id='portfolio_gain_loss' src='templates/interface/media/images/info.png' alt='' width='30' style='position: relative; left: -5px;' /> 
 		
 			
 	 <script>
@@ -825,7 +825,7 @@ var fiat_val_content = '<h5 class="yellow tooltip_title">Primary Currency (<?=st
 			
 		?>
 		
-			<img id='balance_stats' src='templates/interface/media/images/info.png' alt='' width='30' style='position: relative;' /> 
+			<img class='tooltip_style_control' id='balance_stats' src='templates/interface/media/images/info.png' alt='' width='30' style='position: relative;' /> 
 		
 	 <script>
 	
@@ -1071,7 +1071,7 @@ var fiat_val_content = '<h5 class="yellow tooltip_title">Primary Currency (<?=st
     
     " /> 
     
-    &nbsp; <img class="performance_chart_defaults" src="templates/interface/media/images/info.png" alt="" width="30" style="position: relative; left: -5px;" />
+    &nbsp; <img class="tooltip_style_control performance_chart_defaults" src="templates/interface/media/images/info.png" alt="" width="30" style="position: relative; left: -5px;" />
     
     
     </div>
@@ -1315,7 +1315,7 @@ zingchart.bind('performance_chart', 'label_click', function(e){
     
     " /> 
     
-    &nbsp; <img class="marketcap_chart_defaults" src="templates/interface/media/images/info.png" alt="" width="30" style="position: relative; left: -5px;" />
+    &nbsp; <img class="tooltip_style_control marketcap_chart_defaults" src="templates/interface/media/images/info.png" alt="" width="30" style="position: relative; left: -5px;" />
     
 <script>
 
@@ -1503,7 +1503,7 @@ zingchart.bind('marketcap_chart', 'label_click', function(e){
 		<fieldset><legend> <strong class="bitcoin">System Monitoring</strong> </legend>
     		
     		
-    		<b><a id="sys_stats_quick_link" href="javascript: return false;" class="modal_style_control show_system_stats blue" title="View System Statistics">System Stats</a></b><img id='sys_stats_quick_link_info' src='templates/interface/media/images/info-red.png' alt='' width='30' style='position: relative;' />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+    		<b><a id="sys_stats_quick_link" href="javascript: return false;" class="modal_style_control show_system_stats blue" title="View System Statistics">System Stats</a></b><img class='tooltip_style_control' id='sys_stats_quick_link_info' src='templates/interface/media/images/info-red.png' alt='' width='30' style='position: relative;' />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
     		
 
     		<b><a href="javascript: return false;" class="modal_style_control show_access_stats blue" title="View Access Statistics">Access Stats</a></b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
@@ -1699,7 +1699,7 @@ zingchart.bind('marketcap_chart', 'label_click', function(e){
     		}
     		
     		if ( isset($system_info['portfolio_cookies']) ) {
-    		echo '<div class="sys_stats"><span class="bitcoin"><b>Server Cookies Size:</b></span> <span class="'.( isset($system_warnings['portfolio_cookies_size']) ? 'red' : 'green' ).'"> '.$ct_var->num_pretty( ($system_info['portfolio_cookies'] / 1000) , 2).' Kilobytes</span> <span class="black">(~'.round( abs( ($system_info['portfolio_cookies'] / 1000) / abs(8.00) * 100 ) , 2).'% of <i>average</i> server header size limit [8 kilobytes])</span></span> &nbsp;<img class="server_header_defaults" src="templates/interface/media/images/info.png" alt="" width="30" style="position: relative; left: -5px;" /> </div>';
+    		echo '<div class="sys_stats"><span class="bitcoin"><b>Server Cookies Size:</b></span> <span class="'.( isset($system_warnings['portfolio_cookies_size']) ? 'red' : 'green' ).'"> '.$ct_var->num_pretty( ($system_info['portfolio_cookies'] / 1000) , 2).' Kilobytes</span> <span class="black">(~'.round( abs( ($system_info['portfolio_cookies'] / 1000) / abs(8.00) * 100 ) , 2).'% of <i>average</i> server header size limit [8 kilobytes])</span></span> &nbsp;<img class="tooltip_style_control server_header_defaults" src="templates/interface/media/images/info.png" alt="" width="30" style="position: relative; left: -5px;" /> </div>';
     		}
     		
     		if ( isset($system_info['uptime']) ) {

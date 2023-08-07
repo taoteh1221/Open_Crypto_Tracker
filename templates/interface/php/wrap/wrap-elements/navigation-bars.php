@@ -12,6 +12,24 @@
    
    <div class="align_center"><img src='templates/interface/media/images/auto-preloaded/notification-<?=$sel_opt['theme_selected']?>-line.png' width='45' border='0' class='nav-image toggle_alerts' title='View app alerts.' /></div>
 
+   
+   <div class="smallnav_spacer"></div>
+   
+   
+   <div class="align_center"><img src='templates/interface/media/images/auto-preloaded/icons8-add-96.png' width='45' border='0' id='' class='nav-image btn-number' data-type="plus" data-field="quant_font_percent" title='Increase text size.' /></div>
+
+   
+   <div class="smallnav_spacer"></div>
+   
+   
+   <div class="align_center"><img src='templates/interface/media/images/auto-preloaded/icons8-minus-96.png' width='45' border='0' id='' class='nav-image btn-number' data-type="minus" data-field="quant_font_percent" title='Decrease text size.' /></div>
+
+   
+   <div class="smallnav_spacer"></div>
+
+   
+   <div class="align_center" id='pm_link_icon_div'><a id='pm_link2' class='bitcoin' onclick='privacy_mode(true);' title='Turn privacy mode ON. This encrypts / hides RENDERED personal portfolio data with the PIN you setup (BUT DOES #NOT# encrypt RAW source code). It ALSO disables opposite-clicking / data submission, and logs out any active admin login.'><img src='templates/interface/media/images/auto-preloaded/icons8-eye-100-<?=$sel_opt['theme_selected']?>.png' class='nav-image' width='45' border='0' /></a></div>
+        
         
    <?php
    if ( $ct_gen->admin_logged_in() ) {
@@ -28,15 +46,6 @@
 
    
    <div class="smallnav_spacer"></div>
-
-   
-   <div class="align_center" id='pm_link_icon_div'><a id='pm_link2' class='bitcoin' onclick='privacy_mode(true);' title='Turn privacy mode ON. This encrypts / hides RENDERED personal portfolio data with the PIN you setup (BUT DOES #NOT# encrypt RAW source code). It ALSO disables opposite-clicking / data submission, and logs out any active admin login.'><img src='templates/interface/media/images/auto-preloaded/icons8-eye-100-<?=$sel_opt['theme_selected']?>.png' class='nav-image' width='45' border='0' /></a></div>
-
-   
-   <div class="smallnav_spacer"></div>
-   
-   
-   <div class="align_center"><a href="javascript: return false;" class="modal_style_control show_help_faq" title='Get help with running and setting up this app.'><img src='templates/interface/media/images/auto-preloaded/icons8-questions-100-<?=$sel_opt['theme_selected']?>.png' class='nav-image' width='45' border='0' title='Get help with running and setting up this app.' /></a></div>
    
    
    <!-- Admin area -->
@@ -112,7 +121,7 @@
 
 
                     <li class='sys_stats_admin_link'>
-                        <a <?=$content_toggle?> class="dropdown-item admin_change_width" data-width="fixed_max" role="tab" aria-controls="admin_system_stats" href="admin.php#admin_system_stats" title='View system stats, to keep track of your app server system health.'>System Stats<img class='sys_stats_admin_link_info' src='templates/interface/media/images/info-red.png' alt='' width='30' style='position: relative;' /></a>
+                        <a <?=$content_toggle?> class="dropdown-item admin_change_width" data-width="fixed_max" role="tab" aria-controls="admin_system_stats" href="admin.php#admin_system_stats" title='View system stats, to keep track of your app server system health.'>System Stats<img class='tooltip_style_control sys_stats_admin_link_info' src='templates/interface/media/images/info-red.png' alt='' width='30' style='position: relative;' /></a>
                     </li>
 
 
@@ -185,19 +194,14 @@
           </ul>
       
      </div>
-
+   
    
    <div class="smallnav_spacer"></div>
    
    
-   <div class="align_center"><img src='templates/interface/media/images/auto-preloaded/icons8-add-96.png' width='45' border='0' id='' class='nav-image btn-number' data-type="plus" data-field="quant_font_percent" title='Increase text size.' /></div>
+   <div class="align_center"><a href="javascript: return false;" class="modal_style_control show_help_faq" title='Get help with running and setting up this app.'><img src='templates/interface/media/images/auto-preloaded/icons8-questions-100-<?=$sel_opt['theme_selected']?>.png' class='nav-image' width='45' border='0' title='Get help with running and setting up this app.' /></a></div>
 
-   
-   <div class="smallnav_spacer"></div>
-   
-   
-   <div class="align_center"><img src='templates/interface/media/images/auto-preloaded/icons8-minus-96.png' width='45' border='0' id='' class='nav-image btn-number' data-type="minus" data-field="quant_font_percent" title='Decrease text size.' /></div>
-   
+
    <br clear='all' />
 
 </div>
@@ -280,6 +284,11 @@
 
 
         <ul id='sidebar_menu' class="list-unstyled components">
+        
+            
+            <li class='sidebar-item'>
+                <a id='pm_link' class='bitcoin pm_link' onclick='privacy_mode(true);' title='Turn privacy mode ON. This encrypts / hides RENDERED personal portfolio data with the PIN you setup (BUT DOES #NOT# encrypt RAW source code). It ALSO disables opposite-clicking / data submission, and logs out any active admin login.'>Privacy Mode Is Off</a>
+            </li>
             
             
             <?php
@@ -293,16 +302,6 @@
             <?php
             }
             ?>
-        
-            
-            <li class='sidebar-item'>
-                <a id='pm_link' class='bitcoin pm_link' onclick='privacy_mode(true);' title='Turn privacy mode ON. This encrypts / hides RENDERED personal portfolio data with the PIN you setup (BUT DOES #NOT# encrypt RAW source code). It ALSO disables opposite-clicking / data submission, and logs out any active admin login.'>Privacy Mode Is Off</a>
-            </li>
-            
-            
-            <li class='sidebar-item'>
-                <a href="javascript: return false;" class="modal_style_control show_help_faq blue" title='Get help with running and setting up this app.'>Help Using This App?</a>
-            </li>
             
             
             <!-- Admin area -->
@@ -440,7 +439,7 @@
 
 
                     <li class='sidebar-item nav-item sys_stats_admin_link'>
-                        <a <?=$content_toggle?> class="nav-link admin_change_width" data-width="fixed_max" role="tab" aria-controls="admin_system_stats" href="admin.php#admin_system_stats" title='View system stats, to keep track of your app server system health.'>System Stats<img class='sys_stats_admin_link_info' src='templates/interface/media/images/info-red.png' alt='' width='30' style='position: relative;' /></a>
+                        <a <?=$content_toggle?> class="nav-link admin_change_width" data-width="fixed_max" role="tab" aria-controls="admin_system_stats" href="admin.php#admin_system_stats" title='View system stats, to keep track of your app server system health.'>System Stats<img class='tooltip_style_control sys_stats_admin_link_info' src='templates/interface/media/images/info-red.png' alt='' width='30' style='position: relative;' /></a>
                     </li>
 
 
@@ -509,6 +508,11 @@
                 
                 </ul>
                 
+            </li>
+            
+            
+            <li class='sidebar-item'>
+                <a href="javascript: return false;" class="modal_style_control show_help_faq blue" title='Get help with running and setting up this app.'>Help Using This App?</a>
             </li>
             
             
