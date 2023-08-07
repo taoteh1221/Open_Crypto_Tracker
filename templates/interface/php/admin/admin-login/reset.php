@@ -147,7 +147,7 @@ var admin_cookies = '<h5 class="align_center bitcoin tooltip_title">Admin Login 
 <h3 class='bitcoin'>Reset Admin Account</h3>
 
 <p class='bitcoin' style='font-size: 19px; font-weight: bold;'>Cookies MUST be enabled in your browser to login.
-	 <img id='admin_cookies' src='templates/interface/media/images/info-orange.png' alt='' width='30' style='position: relative;' /> 
+	 <img class='tooltip_style_control' id='admin_cookies' src='templates/interface/media/images/info-orange.png' alt='' width='30' style='position: relative;' /> 
 	 </p>
 
 
@@ -222,7 +222,7 @@ if (
 
 	 <p>			
 	 
-	 <img id='reset_notes' src='templates/interface/media/images/info-red.png' alt='' width='30' style='position: relative; left: 5px;' />  
+	 <img class='tooltip_style_control' id='reset_notes' src='templates/interface/media/images/info-red.png' alt='' width='30' style='position: relative; left: 5px;' />  
 	 
 	 <b>CURRENT Username:</b> <input type='text' name='reset_username' id='reset_username' value='<?=trim($_POST['reset_username'])?>' style='<?=( $username_field_color ? 'background: ' . $username_field_color : '' )?>' />
 	 

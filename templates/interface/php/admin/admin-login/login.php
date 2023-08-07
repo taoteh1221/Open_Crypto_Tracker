@@ -70,7 +70,7 @@ var admin_cookies = '<h5 class="align_center bitcoin tooltip_title">Admin Login 
 <h3 class='bitcoin'>Admin Login</h3>
 
 <p class='bitcoin' style='font-size: 19px; font-weight: bold;'>Cookies MUST be enabled in your browser to login.
-	 <img id='admin_cookies' src='templates/interface/media/images/info-orange.png' alt='' width='30' style='position: relative;' /> 
+	 <img class='tooltip_style_control' id='admin_cookies' src='templates/interface/media/images/info-orange.png' alt='' width='30' style='position: relative;' /> 
 	 </p>
 
 

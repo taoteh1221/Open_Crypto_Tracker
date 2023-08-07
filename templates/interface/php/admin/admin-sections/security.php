@@ -17,7 +17,7 @@
 	
 	<input type='hidden' name='sel_admin_sec' id='sel_admin_sec' value='<?=$admin_area_sec_level?>' />
 	
-	<b>Admin Interface Security Level</b> &nbsp;<img class="admin_security_settings" src="templates/interface/media/images/info.png" alt="" width="30" style="position: relative; left: -5px;" />
+	<b>Admin Interface Security Level</b> &nbsp;<img class="tooltip_style_control admin_security_settings" src="templates/interface/media/images/info.png" alt="" width="30" style="position: relative; left: -5px;" />
 	
 	<br /> <input type='radio' name='opt_admin_sec' id='opt_admin_sec_high' value='high' onclick='set_admin_security(this);' <?=( $admin_area_sec_level == 'normal' ? '' : 'checked' )?> /> High &nbsp; <input type='radio' name='opt_admin_sec' id='opt_admin_sec_enhanced' value='enhanced' onclick='set_admin_security(this);' <?=( $admin_area_sec_level == 'enhanced' ? 'checked' : '' )?> /> Enhanced &nbsp; <input type='radio' name='opt_admin_sec' id='opt_admin_sec_normal' value='normal' onclick='set_admin_security(this);' <?=( $admin_area_sec_level == 'normal' ? 'checked' : '' )?> /> Normal
 	

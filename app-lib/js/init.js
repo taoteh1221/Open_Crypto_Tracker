@@ -247,7 +247,7 @@ admin_iframe_load = document.querySelectorAll('.admin_iframe');
      $('.modal_style_control').on({
         "click":function(e){
              
-             // Wait 0.5 seconds
+             // Wait 0.1 seconds
              setTimeout(function(){
                   
                   if ( get_cookie("font_size") ) {
@@ -257,9 +257,30 @@ admin_iframe_load = document.querySelectorAll('.admin_iframe');
      	        interface_font_percent( (default_font_size * 100), false, '.modaal-content-container', 'reg' );
                   }
                   
-     	   }, 500);
+     	   }, 100);
               
          }
+     });
+	
+
+	/////////////////////////////////////////////////////////////////////////////////////////////////////
+	
+     
+     // Dynamically style balloon tooltips AFTER THEY OPEN (AFTER the dynamically-created elements are created)
+     $('.tooltip_style_control').hover(function(){
+             
+             // Wait 0.1 seconds
+             setTimeout(function(){
+                  
+                  if ( get_cookie("font_size") ) {
+     	        interface_font_percent( ( get_cookie("font_size") * 100 ), false, '.balloon-tooltips', 'reg' );
+                  }
+                  else {
+     	        interface_font_percent( (default_font_size * 100), false, '.balloon-tooltips', 'reg' );
+                  }
+                  
+     	   }, 100);
+           
      });
 
 
