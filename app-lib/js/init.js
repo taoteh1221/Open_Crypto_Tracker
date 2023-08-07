@@ -55,11 +55,11 @@ responsive_menu_override();
 
 // Monitor admin iframes for load / unload events
 admin_iframe_load = document.querySelectorAll('.admin_iframe');
-	
+
 
 	/////////////////////////////////////////////////////////////////////////////////////////////////////
 	
-	
+
 	// Activate auto-reload
 	if ( get_cookie("coin_reload") ) {
 	auto_reload();
@@ -238,6 +238,29 @@ admin_iframe_load = document.querySelectorAll('.admin_iframe');
           });
       
     });
+	
+
+	/////////////////////////////////////////////////////////////////////////////////////////////////////
+	
+     
+     // Dynamically style modals AFTER THEY OPEN (AFTER the dynamically-created elements are created)
+     $('.modal_style_control').on({
+        "click":function(e){
+             
+             // Wait 0.5 seconds
+             setTimeout(function(){
+                  
+                  if ( get_cookie("font_size") ) {
+     	        interface_font_percent( ( get_cookie("font_size") * 100 ), false, '.modaal-content-container', 'reg' );
+                  }
+                  else {
+     	        interface_font_percent( (default_font_size * 100), false, '.modaal-content-container', 'reg' );
+                  }
+                  
+     	   }, 500);
+              
+         }
+     });
 
 
 	/////////////////////////////////////////////////////////////////////////////////////////////////////

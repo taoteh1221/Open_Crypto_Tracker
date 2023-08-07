@@ -243,20 +243,20 @@ $default_font_size = 1; // 'em' scale format
 
 // Enforce min / max allowed values on the default font size
 // (IN 'em' CSS-COMPATIBLE SCALING WE SWITCHED TO ABOVE)
-if ( $default_font_size > 3 ) {
-$default_font_size = 3;
+if ( $default_font_size > $max_font_resize ) {
+$default_font_size = $max_font_resize;
 }
-elseif ( $default_font_size < 0.3 ) {
-$default_font_size = 0.3;
+elseif ( $default_font_size < $min_font_resize ) {
+$default_font_size = $min_font_resize;
 }
 
 
 $default_font_line_height = round( ($default_font_size * 1.35) , 3); // 135% of $default_font_size
      
-$default_medium_font_size = round( ($default_font_size * 0.75) , 3); // 75% of $default_font_size
+$default_medium_font_size = round( ($default_font_size * $medium_font_size_css_percent) , 3);
 $default_medium_font_line_height = round( ($default_medium_font_size * 1.35) , 3); // 135% of $default_medium_font_size
      
-$default_tiny_font_size = round( ($default_font_size * 0.55) , 3); // 55% of $default_font_size
+$default_tiny_font_size = round( ($default_font_size * $small_font_size_css_percent) , 3);
 $default_tiny_font_line_height = round( ($default_tiny_font_size * 1.35) , 3); // 135% of $default_tiny_font_size
 
 

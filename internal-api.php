@@ -12,7 +12,7 @@ $runtime_mode = 'int_api';
 require("app-lib/php/init.php");
 
 
-header('Content-type: text/html; charset=' . $ct_conf['power']['charset_default']);
+header('Content-type: text/html; charset=' . $charset_default);
 
 header('Access-Control-Allow-Headers: *'); // Allow ALL headers
 

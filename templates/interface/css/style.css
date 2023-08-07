@@ -29,7 +29,10 @@ border-collapse: separate;
 
 td {
 margin: 0px;
-padding: 4px;
+padding-top: 2px;
+padding-bottom: 2px;
+padding-left: 4px;
+padding-right: 4px;
 white-space: nowrap;
 vertical-align: middle !important;
 line-height: 1.15 !important;
@@ -58,10 +61,11 @@ margin-bottom: 15px;
 
 select {
 -webkit-appearance: none !important;  /* for hiding default arrow...use webkit version for compatibility with desktop editions */
-line-height: 15px !important;
-height: 25px !important;
-min-width: 95px !important;
 padding: .07rem 1.4rem .07rem .5rem !important;
+}
+
+td .custom-select {
+min-width: 100%;
 }
 
 
@@ -163,6 +167,12 @@ CLASSES
 ////////////////////////////// */
 
 
+.tablesorter-header {
+margin-left: 2px;
+margin-right: 2px;
+}
+
+
 .page_title {
 text-transform: uppercase;
 writing-mode: vertical-lr;
@@ -182,6 +192,7 @@ white-space: nowrap;
 
 .alert-warning {
 margin: 15px !important;
+z-index: 999999999 !important;
 }
 
 
@@ -384,7 +395,7 @@ line-height: 25px;
 }
 
 
-.start_page_menu, .start_page_menu_red {
+.start_page_menu_red {
 padding: 8px !important;
 }
 
@@ -575,6 +586,7 @@ position: sticky;
 position: -webkit-sticky;
 border-radius: 5px;
 padding: 2px;
+font-weight: bold;
 }
 
 
@@ -649,20 +661,20 @@ font-size: 21px;
 }
 
 
-.bitcoin_dotted, .green_dotted, .red_dotted, .start_page_menu, .start_page_menu_red, #watch_only, #charts_error, #system_charts_error, .admin_login_alerts {
+.bitcoin_dotted, .green_dotted, .red_dotted, .start_page_menu_red, #watch_only, #charts_error, #system_charts_error, .admin_login_alerts {
 border-radius: 6px !important;
 }
 
 
 .sidebar_secondary_link {
-    text-decoration: underline !important;
+text-decoration: underline !important;
 }
 
 
 .portfolio_footer {
-     text-align: left;
-     margin: auto;
-margin-top: 30px !important;
+text-align: left;
+margin: auto;
+margin-top: 10px !important;
 }
 
 
@@ -884,15 +896,6 @@ position: absolute;
     left: 5px;
     font-weight: bold;
     max-width: 90vw;
-}
-
-
-#change_font_size {
-position: absolute;
-    top: 3px;
-    right: 5px;
-    font-weight: bold;
-    z-index: 999999999;
 }
 
 

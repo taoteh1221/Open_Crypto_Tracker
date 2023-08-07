@@ -91,7 +91,7 @@ if ( $_POST['submit_check'] == 1 || $run_csv_import || $ui_cookies ) {
 ?>
 
 
-<table border='0' cellpadding='10' cellspacing='0' id="coins_table" class="align_center">
+<table border='0' cellpadding='0' cellspacing='0' id="coins_table" class="align_center">
  <thead>
     <tr>
 <th class='border_lt num-sort'>Rank</th>
@@ -100,11 +100,11 @@ if ( $_POST['submit_check'] == 1 || $run_csv_import || $ui_cookies ) {
 <th class='border_lt blue'>Exchange</th>
 <th class='border_t al_right num-sort'>Trade Value</th>
 <th class='border_t blue'>Market</th>
-<th class='border_t num-sort'>24 Hour Volume</th>
+<th class='border_t num-sort'>24hr Volume</th>
 <th class='border_lt blue al_right num-sort'>Holdings</th>
 <th class='border_t'>Ticker</th>
-<th class='border_t blue num-sort'>Holdings Value</th>
-<th class='border_rt blue num-sort'>Subtotal</th>
+<th class='border_t blue num-sort'>Value</th>
+<th class='border_rt blue num-sort'>(<?=strtoupper($ct_conf['gen']['btc_prim_currency_pair'])?>)</th>
     </tr>
   </thead>
  <tbody>
@@ -887,13 +887,13 @@ var fiat_val_content = '<h5 class="yellow tooltip_title">Primary Currency (<?=st
 
 	<div class="portfolio_summary">
 
-			<b><a href="javascript: return false;" class="show_portfolio_stats blue" title="View More Portfolio Stats">View More Stats</a></b>
+			<b><a href="javascript: return false;" class="modal_style_control show_portfolio_stats blue" title="View More Portfolio Stats">View More Stats</a></b>
 
 	</div>
 		
 
 	<!-- START MORE PORTFOLIO STATS MODAL -->
-	<div id="show_portfolio_stats">
+	<div class='' id="show_portfolio_stats">
 	
 	<?php
 	
@@ -1503,13 +1503,13 @@ zingchart.bind('marketcap_chart', 'label_click', function(e){
 		<fieldset><legend> <strong class="bitcoin">System Monitoring</strong> </legend>
     		
     		
-    		<b><a id="sys_stats_quick_link" href="javascript: return false;" class="show_system_stats blue" title="View System Statistics">System Stats</a></b><img id='sys_stats_quick_link_info' src='templates/interface/media/images/info-red.png' alt='' width='30' style='position: relative;' />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+    		<b><a id="sys_stats_quick_link" href="javascript: return false;" class="modal_style_control show_system_stats blue" title="View System Statistics">System Stats</a></b><img id='sys_stats_quick_link_info' src='templates/interface/media/images/info-red.png' alt='' width='30' style='position: relative;' />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
     		
 
-    		<b><a href="javascript: return false;" class="show_access_stats blue" title="View Access Statistics">Access Stats</a></b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+    		<b><a href="javascript: return false;" class="modal_style_control show_access_stats blue" title="View Access Statistics">Access Stats</a></b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
     		
 
-    		<b><a href="javascript: return false;" class="show_logs blue" title="View App Logs">App Logs</a></b>
+    		<b><a href="javascript: return false;" class="modal_style_control show_logs blue" title="View App Logs">App Logs</a></b>
  
     		
 		</fieldset>
@@ -1603,7 +1603,7 @@ zingchart.bind('marketcap_chart', 'label_click', function(e){
     	if ( $ct_gen->admin_logged_in() ) {
     ?>
 	
-	<div id="show_system_stats">
+	<div class='' id="show_system_stats">
 	
 		
 		<h3 style='display: inline;'>System Stats</h3>
@@ -1860,7 +1860,7 @@ var server_header_defaults_content = '<h5 class="yellow tooltip_title">Average S
 	</script>
 	
 	
-	<div id="show_access_stats">
+	<div class='' id="show_access_stats">
 	
 		
 		<h3 style='display: inline;'>Access Stats</h3>
@@ -1929,7 +1929,7 @@ var server_header_defaults_content = '<h5 class="yellow tooltip_title">Average S
 	
 	
 	
-	<div id="show_logs">
+	<div class='' id="show_logs">
 	
 		
 		<h3 style='display: inline;'>App Logs</h3>

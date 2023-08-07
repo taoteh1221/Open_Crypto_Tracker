@@ -959,10 +959,10 @@ var $ct_array = array();
    
    function detect_unicode($content) {
       
-   global $ct_conf;
+   global $charset_default, $charset_unicode;
    
    // Changs only if non-UTF-8 / non-ASCII characters are detected further down in this function
-   $set_charset = $ct_conf['power']['charset_default'];
+   $set_charset = $charset_default;
    
    $words = explode(" ", $content);
       
@@ -972,8 +972,8 @@ var $ct_array = array();
       $scan_val = trim($scan_val);
       $scan_charset = ( mb_detect_encoding($scan_val, 'auto') != false ? mb_detect_encoding($scan_val, 'auto') : null );
       
-         if ( isset($scan_charset) && !preg_match("/" . $ct_conf['power']['charset_default'] . "/i", $scan_charset) && !preg_match("/ASCII/i", $scan_charset) ) {
-         $set_charset = $ct_conf['power']['charset_unicode'];
+         if ( isset($scan_charset) && !preg_match("/" . $charset_default . "/i", $scan_charset) && !preg_match("/ASCII/i", $scan_charset) ) {
+         $set_charset = $charset_unicode;
          }
       
       }
@@ -1179,13 +1179,13 @@ var $ct_array = array();
    
    function valid_username($username) {
    
-   global $ct_conf;
+   global $charset_default;
    
-       if ( mb_strlen($username, $ct_conf['power']['charset_default']) < 4 ) {
+       if ( mb_strlen($username, $charset_default) < 4 ) {
        $error .= "requires 4 minimum characters; ";
        }
        
-       if ( mb_strlen($username, $ct_conf['power']['charset_default']) > 30 ) {
+       if ( mb_strlen($username, $charset_default) > 30 ) {
        $error .= "requires 30 maximum characters; ";
        }
        
@@ -1215,10 +1215,10 @@ var $ct_array = array();
    function smtp_mail($to, $subj, $msg, $content_type='text/plain', $charset=null) {
    
    // Using 3rd party SMTP class, initiated already as global var $smtp
-   global $ct_conf, $smtp;
+   global $ct_conf, $smtp, $charset_default;
    
       if ( $charset == null ) {
-      $charset = $ct_conf['power']['charset_default'];
+      $charset = $charset_default;
       }
       
       
@@ -1634,12 +1634,12 @@ var $ct_array = array();
    
    function file_download($file, $save_as, $delete=true) {
       
-   global $ct_conf;
+   global $charset_default;
    
    $type = pathinfo($save_as, PATHINFO_EXTENSION);
    
       if ( $type == 'csv' ) {
-      $content_type = 'Content-type: text/csv; charset=' . $ct_conf['power']['charset_default'];
+      $content_type = 'Content-type: text/csv; charset=' . $charset_default;
       }
       else {
       $content_type = 'Content-type: application/octet-stream';
@@ -2640,7 +2640,7 @@ var $ct_array = array();
    
    function pass_strength($password, $min_length, $max_length) {
    
-   global $ct_conf;
+   global $charset_default;
    
        
        // If our request sanitizer flags the input as containing a programming code phrase,
@@ -2650,13 +2650,13 @@ var $ct_array = array();
        }
    
    
-       if ( $min_length == $max_length && mb_strlen($password, $ct_conf['power']['charset_default']) != $min_length ) {
+       if ( $min_length == $max_length && mb_strlen($password, $charset_default) != $min_length ) {
        $error .= "MUST BE EXACTLY ".$min_length." characters; ";
        }
-       elseif ( mb_strlen($password, $ct_conf['power']['charset_default']) < $min_length ) {
+       elseif ( mb_strlen($password, $charset_default) < $min_length ) {
        $error .= "requires AT LEAST ".$min_length." characters; ";
        }
-       elseif ( mb_strlen($password, $ct_conf['power']['charset_default']) > $max_length ) {
+       elseif ( mb_strlen($password, $charset_default) > $max_length ) {
        $error .= "requires NO MORE THAN ".$max_length." characters; ";
        }
        
@@ -3289,10 +3289,10 @@ var $ct_array = array();
    
    function safe_mail($to, $subj, $msg, $content_type='text/plain', $charset=null) {
       
-   global $ct_conf, $system_info;
+   global $ct_conf, $system_info, $charset_default;
    
       if ( $charset == null ) {
-      $charset = $ct_conf['power']['charset_default'];
+      $charset = $charset_default;
       }
    
    // Stop injection vulnerability

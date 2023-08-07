@@ -33,10 +33,10 @@
 			
 
 
-	<p style='margin-top: 25px;'><button class="show_feed_settings force_button_style">Select News Feeds</button></p>
+	<p style='margin-top: 25px;'><button class="modal_style_control show_feed_settings force_button_style">Select News Feeds</button></p>
 	
 	
-	<div id="show_feed_settings">
+	<div class='' id="show_feed_settings">
 	
 		
 		<h4 style='display: inline;'>Select News Feeds</h4>

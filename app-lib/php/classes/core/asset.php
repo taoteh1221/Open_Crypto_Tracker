@@ -401,7 +401,7 @@ var $ct_array1 = array();
        </ul>
    
      <p><b>A Power Down Weekly Payout <i>Started At This Time</i> Would Be (rounded to nearest cent):</b></p>
-           <table border='1' cellpadding='10' cellspacing='0'>
+           <table border='5' cellpadding='20' cellspacing='20'>
                <tr>
            <th class='normal'> Purchased </th>
            <th class='normal'> Earned </th>

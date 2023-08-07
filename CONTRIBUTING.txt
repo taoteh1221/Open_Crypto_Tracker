@@ -120,6 +120,8 @@ CONTRIBUTION GUIDELINES (FOR DEVELOPERS):
 ===> Try to break up larger changes into smaller milestones,
 ===> then plenty of time is spent on UX / testing / debugging.
 !!!!
+===> "app-lib/php/init.php" contains MANY developer-only configs at the top
+!!!!
 ===> Don't require any higher than PHP v7.2 until PHP v9.
 !!!!                                                            
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!

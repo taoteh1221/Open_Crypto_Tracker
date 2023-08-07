@@ -94,7 +94,6 @@ CLASSES
 td .custom-select {
 background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 4 5'%3e%3cpath fill='%231a1696' d='M2 0L0 2h4zm0 5L0 3h4z'/%3e%3c/svg%3e") no-repeat right .5rem center/8px 10px !important;
 background-color: #f7f7f7 !important;
-width: 100% !important;
 }
 
 
@@ -184,11 +183,6 @@ color: #ea6b1c !important;
 
 .blue, td.blue, td.blue span.blue, td select, .btn-link, .btn-link a, .btn-link:hover, #sidebar ul.list-unstyled li a.blue:link {
 color: #1a1696 !important;
-}
-
-
-.start_page_menu {
-border: 3px dotted black; 
 }
 
 

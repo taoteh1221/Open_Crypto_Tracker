@@ -495,7 +495,7 @@ var $ct_array1 = array();
   
   function queue_notify($send_params) {
   
-  global $base_dir, $ct_conf, $ct_gen, $valid_to_email, $telegram_activated, $notifyme_activated, $sms_service;
+  global $base_dir, $ct_conf, $ct_gen, $valid_to_email, $telegram_activated, $notifyme_activated, $sms_service, $charset_default;
   
      
      // Abort queueing comms for sending out notifications, if allowing comms is disabled
@@ -554,7 +554,7 @@ var $ct_array1 = array();
      // Normal email
      if ( isset($send_params['email']['message']) && $send_params['email']['message'] != '' && $valid_to_email ) {
      
-     $email_array = array('subject' => $send_params['email']['subject'], 'message' => $send_params['email']['message'], 'content_type' => ( $send_params['email']['content_type'] ? $send_params['email']['content_type'] : 'text/plain' ), 'charset' => ( $send_params['email']['charset'] ? $send_params['email']['charset'] : $ct_conf['power']['charset_default'] ) );
+     $email_array = array('subject' => $send_params['email']['subject'], 'message' => $send_params['email']['message'], 'content_type' => ( $send_params['email']['content_type'] ? $send_params['email']['content_type'] : 'text/plain' ), 'charset' => ( $send_params['email']['charset'] ? $send_params['email']['charset'] : $charset_default ) );
      
       	// json_encode() only accepts UTF-8, SO TEMPORARILY CONVERT TO THAT FOR MESSAGE QUEUE STORAGE
       	if ( strtolower($send_params['email']['charset']) != 'utf-8' ) {
@@ -2098,7 +2098,7 @@ var $ct_array1 = array();
   
   // $ct_conf['gen']['btc_prim_currency_pair'] / $ct_conf['gen']['btc_prim_exchange'] / $sel_opt['sel_btc_prim_currency_val'] USED FOR TRACE DEBUGGING (TRACING)
   
-  global $app_version, $base_dir, $base_url, $ct_conf, $ct_var, $ct_gen, $sel_opt, $proxy_checkup, $log_errors, $log_debugging, $limited_api_calls, $api_runtime_cache, $curl_user_agent, $api_connections, $htaccess_username, $htaccess_password;
+  global $app_version, $base_dir, $base_url, $ct_conf, $ct_var, $ct_gen, $sel_opt, $proxy_checkup, $log_errors, $log_debugging, $limited_api_calls, $api_runtime_cache, $curl_user_agent, $api_connections, $htaccess_username, $htaccess_password, $location_blocked_servers, $tracked_throttle_limited_servers, $limited_apis;
   
   $cookie_jar = tempnam('/tmp','cookie');
    
@@ -2218,7 +2218,7 @@ var $ct_array1 = array();
       
       // Servers requiring TRACKED THROTTLE-LIMITING, due to limited-allowed minute / hour / daily requests
       // (are processed by this->api_throttling(), to avoid using up daily request limits)
-      if ( in_array($endpoint_tld_or_ip, $ct_conf['power']['tracked_throttle_limited_servers']) && $this->api_throttling($endpoint_tld_or_ip) == true ) {
+      if ( in_array($endpoint_tld_or_ip, $tracked_throttle_limited_servers) && $this->api_throttling($endpoint_tld_or_ip) == true ) {
               
             
       // Set $data var with any cached value (null / false result is OK), as we don't want to cache any PROBABLE error response
@@ -2265,10 +2265,10 @@ var $ct_array1 = array();
       }
     
     
-      // Throttled endpoints in $ct_conf['power']['limited_apis']
+      // Throttled endpoints in $limited_apis
       // If this is an API service that requires multiple calls (for each market), 
       // and a request to it has been made consecutively, we throttle it to avoid being blocked / throttled by external server
-      if ( in_array($endpoint_tld_or_ip, $ct_conf['power']['limited_apis']) ) {
+      if ( in_array($endpoint_tld_or_ip, $limited_apis) ) {
       
         if ( !$limited_api_calls[$tld_session_prefix . '_calls'] ) {
         $limited_api_calls[$tld_session_prefix . '_calls'] = 1;
@@ -2519,7 +2519,7 @@ var $ct_array1 = array();
       			
         // Servers which are known to block API access by location / jurasdiction
         // (we alert end-users in error logs, when a corrisponding API server connection fails [one-time notice per-runtime])
-        if ( in_array($endpoint_tld_or_ip, $ct_conf['power']['location_blocked_servers']) ) {
+        if ( in_array($endpoint_tld_or_ip, $location_blocked_servers) ) {
 
              
              if ( is_array($ct_conf['proxy']['proxy_list']) && sizeof($ct_conf['proxy']['proxy_list']) > 0 ) {

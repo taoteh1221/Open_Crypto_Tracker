@@ -36,7 +36,6 @@ padding: 0px !important;
 .tab-content>.active {
     text-align: center;
     display: block;
-    min-height: 1225px; /* IF ADMIN SIDE-MENU LINKS ARE ADDED, THIS MUST BE INCREASED */
 }
 
 

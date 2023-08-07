@@ -3,12 +3,6 @@
  * Copyright 2014-2023 GPLv3, Open Crypto Tracker by Mike Kilday: Mike@DragonFrugal.com
  */
 
-// Calculate script runtime length
-$time = microtime();
-$time = explode(' ', $time);
-$time = $time[1] + $time[0];
-$start_runtime = $time;
-
 
 // Forbid direct INTERNET access to this file
 if ( isset($_SERVER['REQUEST_METHOD']) && realpath(__FILE__) == realpath($_SERVER['SCRIPT_FILENAME']) ) {
@@ -17,18 +11,20 @@ exit;
 }
 
 
+// Calculate script runtime length
+$time = microtime();
+$time = explode(' ', $time);
+$time = $time[1] + $time[0];
+$start_runtime = $time;
+
+
+///////////////////////////////////////////////////
+// **START** DEVELOPER-ONLY CONFIGS
+///////////////////////////////////////////////////
+
+
 // Application version
-$app_version = '6.00.20';  // 2023/JULY/22ND
-
-
-// standard font size CSS selector (we skip sidebar HEADER area)
-$font_size_css_selector = "#secondary_wrapper, #sidebar_menu, #admin_wrapper, .iframe_wrapper";
-
-// medium font size CSS selector (we skip sidebar HEADER area)
-$medium_font_size_css_selector = ".balloon_notation, #change_font_size, #header_size_warning, #admin_conf_quick_links fieldset legend, #admin_conf_quick_links fieldset, #admin_conf_quick_links, .extra_data, td.data span.extra_data, td.data div.extra_data span, .extra_data span, td.data div.extra_data span, .loss, td.data span.loss, td.data div.loss span, .short, td.data span.short, td.data div.short span";
-
-// small font size CSS selector (we skip sidebar HEADER area)
-$small_font_size_css_selector = ".gain, td.data span.gain, td.data div.gain span, .crypto_worth, .crypto_worth span, td.data div.crypto_worth span";
+$app_version = '6.00.21';  // 2023/AUGUST/5TH
 
 
 // #PHP# ERROR LOGGING
@@ -36,6 +32,83 @@ $small_font_size_css_selector = ".gain, td.data span.gain, td.data div.gain span
 // 0 = off, -1 = on (IF *NOT* SET TO ZERO HERE, THIS #OVERRIDES# PHP ERROR DEBUG SETTINGS IN THE APP'S USER CONFIG SETTINGS)
 // WRAP VALUE(S) IN PARENTHESIS, SO MUTIPLE VALUES CAN BE USED: (0) / (-1) / (E_ERROR | E_PARSE)
 $dev_debug_php_errors = (0); 
+
+
+// min / max font RESIZE percentages allowed (as decimal representing 100% @ 1.00)
+$min_font_resize = 0.5; // 50%
+////
+$max_font_resize = 2; // 200%
+
+
+// standard font size CSS configs (we skip sidebar HEADER area)
+$font_size_css_selector = "#sidebar_menu, #secondary_wrapper, select, radio, td.data, .iframe_wrapper, .footer_banner, .extra_data, .countdown_notice";
+
+// medium font size CSS configs (we skip sidebar HEADER area)
+$medium_font_size_css_selector = "#admin_conf_quick_links a:link, #admin_conf_quick_links legend, #header_size_warning, .balloon_notation";
+////
+// PERCENT of STANDARD font size (as a decimal)
+$medium_font_size_css_percent = 0.80; // 80% of $default_font_size
+
+
+// small font size CSS configs (we skip sidebar HEADER area)
+$small_font_size_css_selector = ".gain, .loss, .crypto_worth, .accordion-button";
+////
+// PERCENT of STANDARD font size (as a decimal)
+$small_font_size_css_percent = 0.70; // 70% of $default_font_size
+
+
+// Default charset used
+$charset_default = 'UTF-8'; 
+////
+// Unicode charset used (if needed)
+// UCS-2 is outdated as it only covers 65536 characters of Unicode
+// UTF-16BE / UTF-16LE / UTF-16 / UCS-2BE can represent ALL Unicode characters
+$charset_unicode = 'UTF-16'; 
+     
+     
+// Servers which are known to block API access by location / jurasdiction
+// (we alert end-users in error logs, when a corrisponding API server connection fails [one-time notice per-runtime])
+$location_blocked_servers = array(
+                                  'binance.com',
+                                  'bybit.com',
+                                 );
+     
+     
+// Servers requiring TRACKED THROTTLE-LIMITING, due to limited-allowed minute / hour / daily requests
+// (are processed by ct_cache->api_throttling(), to avoid using up daily request limits)
+$tracked_throttle_limited_servers = array(
+                                      	  'alphavantage.co',
+                                         );
+							
+
+// TLD-only (Top Level Domain only, NO SUBDOMAINS) for each API service that UN-EFFICIENTLY requires multiple calls (for each market / data set)
+// Used to throttle these market calls a tiny bit (0.15 seconds), so we don't get easily blocked / throttled by external APIs etc
+// (ANY EXCHANGES LISTED HERE ARE !NOT! RECOMMENDED TO BE USED AS THE PRIMARY CURRENCY MARKET IN THIS APP,
+// AS ON OCCASION THEY CAN BE !UNRELIABLE! IF HIT WITH TOO MANY SEPARATE API CALLS FOR MULTIPLE COINS / ASSETS)
+// !MUST BE LOWERCASE!
+// #DON'T ADD ANY WEIRD TLD HERE LIKE 'xxxxx.co.il'#, AS DETECTING TLD DOMAINS WITH MORE THAN ONE PERIOD IN THEM ISN'T SUPPORTED
+// WE DON'T WANT THE REQUIRED EXTRA LOGIC TO PARSE THESE DOUBLE-PERIOD TLDs BOGGING DOWN / CLUTTERING APP CODE, FOR JUST ONE TINY FEATURE
+$limited_apis = array(
+                		'alphavantage.co',
+                		'bitforex.com',
+                		'bitflyer.com',
+                		'bitmex.com',
+                		'bitso.com',
+                		'bitstamp.net',
+                		'blockchain.info',
+                		'btcmarkets.net',
+                		'coinbase.com',
+                		// (coingecko #ABSOLUTELY HATES# DATA CENTER IPS [DEDICATED / VPS SERVERS], BUT GOES EASY ON RESIDENTIAL IPS)
+                	     'coingecko.com',
+                		'etherscan.io',
+                		'gemini.com',
+                	     'jup.ag',
+				  );
+
+
+///////////////////////////////////////////////////
+// **END** DEVELOPER-ONLY CONFIGS
+///////////////////////////////////////////////////
 
 
 // App init libraries...
