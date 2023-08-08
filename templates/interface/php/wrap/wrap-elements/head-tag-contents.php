@@ -242,6 +242,8 @@
 	?>
 	
 	default_font_size = "<?=$default_font_size?>";
+                  
+     set_font_size = get_cookie("font_size") ? get_cookie("font_size") : default_font_size;
 	
 	font_size_css_selector = "<?=$font_size_css_selector?>";
 	

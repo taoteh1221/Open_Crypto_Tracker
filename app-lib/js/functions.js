@@ -1937,10 +1937,11 @@ var small_line_height = small_line_height.toFixed(3);
      }
      
      
-     // We don't want to re-set the cookie everytime an iframe is processed,
-     // So just set when adjusting the main document
+     // We don't want to re-set the set font size and it's cookie everytime an iframe is processed,
+     // so just set when adjusting the main document
      if ( iframe_elm == false && specific_elm == false && specific_size == false ) {
      set_cookie("font_size", font_size, 365);
+     set_font_size = font_size; // Update the global var
      }
      
 
