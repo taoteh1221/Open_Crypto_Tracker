@@ -496,8 +496,8 @@ $altcoin_dominance = $ct_var->max_100($altcoin_dominance);
 	  
 	  // Notice that margin leverage is NOT included !!WITHIN!! BTC / PAIR TOTALS EVER (for UX's sake, too confusing to included in anything other than gain / loss stats)
 	  // We only include data in parenthesis NEXT TO THE BTC / PAIR PORTFOLIO SUMMARIES
-	  $lvrg_text1 = ( $purchase_price_added == 1 && $lvrg_added == 1 && is_numeric($gain_loss_total) == TRUE ? ' <p class="coin_info balloon_notation bitcoin" style="max-width: 600px; white-space: normal;"> *Includes adjusted long deposits, <i><u>not</u></i> leverage.</p>' : '' );
-	  $lvrg_text2 = ( $purchase_price_added == 1 && $lvrg_added == 1 && is_numeric($gain_loss_total) == TRUE ? ' <p class="coin_info balloon_notation bitcoin" style="max-width: 600px; white-space: normal;"> *Includes adjusted short / long deposits, <i><u>not</u></i> leverage.</p>' : '' );
+	  $lvrg_text1 = ( $purchase_price_added == 1 && $lvrg_added == 1 && is_numeric($gain_loss_total) == TRUE ? ' <p class="coin_info balloon_notation bitcoin" style="max-width: 600px; white-space: normal;"> *Includes adjusted long (*NOT* short) deposits, BUT <i><u>leverage is NOT included</u></i>.</p>' : '' );
+	  $lvrg_text2 = ( $purchase_price_added == 1 && $lvrg_added == 1 && is_numeric($gain_loss_total) == TRUE ? ' <p class="coin_info balloon_notation bitcoin" style="max-width: 600px; white-space: normal;"> *Includes adjusted long AND short deposits, BUT <i><u>leverage is NOT included</u></i>.</p>' : '' );
 
 
 
@@ -1479,7 +1479,7 @@ zingchart.bind('marketcap_chart', 'label_click', function(e){
 		if ( $short_added == 1 ) {
 		?>	
 		<div class="portfolio_summary" style='margin-top: 15px;'>
-		<span class="short private_data">★ Adjusted short trade deposit(s) (leverage <u>not</u> included)</span>
+		<span class="short private_data">★ Adjusted short trade deposit(s) (leverage is <u>NOT</u> included)</span>
 		</div>		
 		<?php
 		}

@@ -272,12 +272,9 @@ admin_iframe_load = document.querySelectorAll('.admin_iframe');
              // Wait 0.1 seconds
              setTimeout(function(){
                   
-                  if ( get_cookie("font_size") ) {
-     	        interface_font_percent( ( get_cookie("font_size") * 100 ), false, '.balloon-tooltips', 'reg' );
-                  }
-                  else {
-     	        interface_font_percent( (default_font_size * 100), false, '.balloon-tooltips', 'reg' );
-                  }
+             $(".balloon-tooltips").css({ "min-width": Math.round(450 * set_font_size) + 'px' });
+                  
+             interface_font_percent( (set_font_size * 100), false, '.balloon-tooltips', 'reg' );
                   
      	   }, 100);
            
