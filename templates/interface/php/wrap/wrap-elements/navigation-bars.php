@@ -235,7 +235,7 @@
                     <input type="text" name="quant_font_percent" id="quant_font_percent" class="form-control input-number" value="<?=($default_font_size * 100)?>" min="<?=($min_font_resize * 100)?>" max="<?=($max_font_resize * 100)?>" onchange='
                     
                	if ( !get_cookie("font_size") ) {
-               	font_size_cookie = confirm("This feature requires using cookie data.");
+               	font_size_cookie = confirm("This feature requires using cookie data.\n\nPRO TIP: If your web browser has a \"zoom\" feature, try that first for better results.");
                	}
                	else {
                	font_size_cookie = true;

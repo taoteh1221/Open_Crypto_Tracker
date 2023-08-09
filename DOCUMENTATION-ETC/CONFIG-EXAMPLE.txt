@@ -401,34 +401,6 @@ $ct_conf['sec']['captcha_text_contrast'] = -8; // example: -5 or 5 (default = -8
 ////
 // MAX OFF-ANGLE DEGREES (tilted backward / forward) of CAPTCHA IMAGE text characters (MAXIMUM OF 35)
 $ct_conf['sec']['captcha_text_angle'] = 35; // (default = 35)
-////
-$ct_conf['sec']['captcha_text_size'] = 50; // Text size (default = 50)
-////
-$ct_conf['sec']['captcha_chars_length'] = 7; // Number of characters in captcha image (default = 7)
-////
-// Configuration for advanced CAPTCHA image settings on all admin login / reset pages
-$ct_conf['sec']['captcha_image_width'] = 525; // Image width (default = 525)
-////
-$ct_conf['sec']['captcha_image_height'] = 135; // Image height (default = 135)
-////
-$ct_conf['sec']['captcha_text_margin'] = 10; // MINIMUM margin of text from edge of image (approximate / average) (default = 10)
-////		
-// Only allow the MOST READABLE characters for use in captcha image 
-// (DON'T SET TOO LOW, OR BOTS CAN GUESS THE CAPTCHA CODE EASIER)
-$ct_conf['sec']['captcha_permitted_chars'] = 'ABCDEFHJKMNPRSTUVWXYZ23456789'; // (default = 'ABCDEFHJKMNPRSTUVWXYZ23456789')
-
-
-// Cache directories / files and .htaccess / index.php files permissions (CHANGE WITH #EXTREME# CARE, to adjust security for your PARTICULAR setup)
-// THESE PERMISSIONS ARE !ALREADY! CALLED THROUGH THE octdec() FUNCTION *WITHIN THE APP WHEN USED*
-////
-// Cache directories permissions
-$ct_conf['sec']['chmod_cache_dir'] = '0770'; // (default = '0770' [owner/group read/write/exec])
-////
-// Cache files permissions
-$ct_conf['sec']['chmod_cache_file'] = '0660'; // (default = '0660' [owner/group read/write])
-////
-// .htaccess / index.php index security files permissions
-$ct_conf['sec']['chmod_index_sec'] = '0660'; // (default = '0660' [owner/group read/write])
 
 
 ////////////////////////////////////////
@@ -640,10 +612,9 @@ $ct_conf['charts_alerts']['tracked_mrkts'] = array(
 ////////////////////////////////////////
 
 
-/////////////////////////////////////////////////////////////////////////////
-// !START! POWER USER CONFIGURATION (ADJUST WITH CARE, OR YOU CAN BREAK THE APP!)
-/////////////////////////////////////////////////////////////////////////////
-
+////////////////////////////////////////
+// !START! PLUGINS CONFIG
+////////////////////////////////////////
 
 
 // Activate any built-in included plugins / custom plugins you've created (that run from the /plugins/ directory)
@@ -654,24 +625,96 @@ $ct_conf['charts_alerts']['tracked_mrkts'] = array(
 // PLUGINS *MAY REQUIRE* A CRON JOB / SCHEDULED TASK RUNNING ON YOUR WEB SERVER (if built for cron jobs...see README.txt for setup information)
 // PLUGIN CONFIGS are in the /plugins/ directory associated with that plugin
 // CHANGE 'off' to 'on' FOR THE PLUGIN YOU WANT ACTIVATED 
-$ct_conf['power']['activate_plugins'] = array(
+$ct_conf['plugins']['status'] = array(
 
-            								  //'plugin-folder-name' => 'on', // (disabled example...your LOWERCASE plugin folder name in the folder: /plugins/)
+            						//'plugin-folder-name' => 'on', // (disabled example...your LOWERCASE plugin folder name in the folder: /plugins/)
             								  
-            								  'debt-interest-tracker' => 'on',  // Track how much you pay in TOTAL interest MONTHLY on ALL your debt (credit cards, auto / personal / mortgage loan, etc)
+            						'debt-interest-tracker' => 'on',  // Track how much you pay in TOTAL interest MONTHLY on ALL your debt (credit cards, auto / personal / mortgage loan, etc)
 
-            								  'recurring-reminder' => 'off',  // Recurring Reminder plugin (alert yourself every X days to do something)
+            						'recurring-reminder' => 'off',  // Recurring Reminder plugin (alert yourself every X days to do something)
 
-            								  'price-target-alert' => 'off',  // Price target alert plugin (alert yourself when an asset's price target is reached)
+            						'price-target-alert' => 'off',  // Price target alert plugin (alert yourself when an asset's price target is reached)
 
-            								  'address-balance-tracker' => 'off',  // Alerts for BTC / ETH / [SOL|SPL Token] / HNT address balance changes (when coins are sent / recieved)
+            						'address-balance-tracker' => 'off',  // Alerts for BTC / ETH / [SOL|SPL Token] / HNT address balance changes (when coins are sent / recieved)
 
-            								  'crypto-info-bot' => 'off', // WORK-IN-PROGRESS, NOT FUNTIONAL YET!
+            						'crypto-info-bot' => 'off', // WORK-IN-PROGRESS, NOT FUNTIONAL YET!
 
-            								  'on-chain-stats' => 'off', // WORK-IN-PROGRESS, NOT FUNTIONAL YET!
+            						'on-chain-stats' => 'off', // WORK-IN-PROGRESS, NOT FUNTIONAL YET!
 
-            								  );
+            					   );
 
+
+////////////////////////////////////////
+// !END! PLUGINS CONFIG
+////////////////////////////////////////
+
+
+/////////////////////////////////////////////////////////////////////////////
+// !START! POWER USER CONFIGURATION (ADJUST WITH CARE, OR YOU CAN BREAK THE APP!)
+/////////////////////////////////////////////////////////////////////////////
+
+
+// Enable / disable PHP error reporting (to error logs on the web server)
+// https://www.php.net/manual/en/function.error-reporting.php
+$ct_conf['power']['php_error_reporting'] = 0; // 0 == off / -1 == on
+
+
+// $ct_conf['power']['debug_mode'] enabled runs unit tests during ui runtimes (during webpage load),
+// errors detected are error-logged and printed as alerts in header alert bell area
+// It also logs ui / cron runtime telemetry to /cache/logs/debug.log, AND /cache/logs/debug/
+////////////////////////////////////////////////////////////////////////////////////////////
+////
+// ### GENERAL ###
+////
+// 'off' (disables), 
+// 'all' (all debugging), 
+////
+// ### TELEMETRY ###
+////
+// 'all_telemetry' (ALL in-app telemetry), 
+// 'light_chart_telemetry' (light chart caching),
+// 'memory_usage_telemetry' (PHP system memory usage),
+// 'ext_data_live_telemetry' (external API requests from server),
+// 'ext_data_cache_telemetry' (external API requests from cache),
+// 'smtp_telemetry' (smtp server responses to: /cache/logs/smtp_debug.log),
+// 'api_comms_telemetry' (API comms responses to: /cache/logs/debug/external_data/last-response-[service].log),
+// 'cron_telemetry' (cron runtime telemetry to: /cache/logs/debug/cron/cron_runtime_telemetry.log),
+////
+// ### CHECKS ###
+////
+// 'markets' (asset market checks),
+// 'texts' (mobile texting gateway checks), 
+// 'alerts_charts' (price chart / price alert checks),
+////
+// ### SUMMARIES ###
+////
+// 'stats' (hardware / software / runtime summary),
+// 'markets_conf' (outputs a markets configuration summary),
+////
+////////////////////////////////////////////////////////////////////////////////////////////
+// UNIT TESTS ('CHECKS' SECTION) WILL ONLY RUN DURING WEB PAGE INTERFACE RUNTIMES
+// PHP MAX EXECUTION TIME *SHOULD* AUTO-SET TO 1320 SECONDS (22 MINUTES) IN *ANY* DEBUG MODE (EXCEPT 'off')
+// IF YOU GET AN ERROR 500, TRY RUNNING ONE DEBUG MODE AT A TIME, TO AVOID GOING OVER THE PHP EXECUTION TIME LIMIT
+// DON'T LEAVE DEBUGGING ENABLED AFTER USING IT, THE /cache/logs/debug.log AND /cache/logs/debug/
+// LOG FILES !CAN GROW VERY QUICKLY IN SIZE! EVEN AFTER JUST A FEW RUNTIMES!
+$ct_conf['power']['debug_mode'] = 'off'; 
+
+
+// Level of detail / verbosity in log files. 'normal' logs minimal details (basic information), 
+// 'verbose' logs maximum details (additional information IF AVAILABLE, for heavy debugging / tracing / etc)
+// IF DEBUGGING IS ENABLED ABOVE, LOGS ARE AUTOMATICALLY VERBOSE #WITHOUT THE NEED TO ADJUST THIS SETTING#
+$ct_conf['power']['log_verb'] = 'normal'; // 'normal' / 'verbose'
+
+
+// If you want to override the default CURL user agent string (sent with API requests, etc)
+// Adding a string here automatically enables that as the custom curl user agent
+// LEAVING BLANK '' USES THE DEFAULT CURL USER AGENT LOGIC BUILT-IN TO THIS APP (WHICH INCLUDES ONLY BASIC SYSTEM CONFIGURATION STATS)
+$ct_conf['power']['override_curl_user_agent'] = ''; 
+
+
+// Maximum number of BATCHED coingecko marketcap data results to fetch, per API call (during multiple / paginated calls) 
+// (coingecko #ABSOLUTELY HATES# DATA CENTER IPS [DEDICATED / VPS SERVERS], BUT GOES EASY ON RESIDENTIAL IPS)
+$ct_conf['power']['coingecko_api_batched_max'] = 100; // (default = 100), ADJUST WITH CARE!!!
 
 
 // NEWS FEED SETTINGS (ATOM / RSS formats supported)
@@ -685,6 +728,13 @@ $ct_conf['power']['news_feed_entries_new'] = 2; // (default = 2)
 // Randomly cache each RSS feed between the minimum and maximum MINUTES set here (so they don't refresh all at once, for faster runtimes)
 // THE WIDER THE GAP BETWEEN THE NUMBERS, MORE SPLIT UP / FASTER THE FEEDS WILL LOAD IN THE INTERFACE #CONSISTANTLY#
 $ct_conf['power']['news_feed_cache_min_max'] = '100,200'; // 'min,max' (default = '100,200'), ADJUST WITH CARE!!!
+////
+// Maximum number of BATCHED news feed fetches / re-caches per ajax OR cron runtime 
+// (#TO HELP PREVENT RUNTIME CRASHES# ON LOW POWER DEVICES OR HIGH TRAFFIC INSTALLS, USE A LOW NUMBER OF 20 OR LESS)
+$ct_conf['power']['news_feed_batched_max'] = 20; // (default = 20), ADJUST WITH CARE!!!
+////
+// Maximum number of news feeds allowed to be pre-cached during background tasks (to avoid overloading low power devices)
+$ct_conf['power']['news_feed_precache_hard_limit'] = 45; // (default = 45), ADJUST WITH CARE!!!
 							
 							
 // MINUTES to wait until running consecutive desktop edition emulated cron jobs
@@ -752,6 +802,14 @@ $ct_conf['power']['light_chart_link_spacing'] = 50; // (default = 50), ADJUST WI
 ////
 // The GUESSED offset (width) for light chart link fonts inside the chart interface (NOT MONOSPACE, SO WE GUESS AN AVERAGE)
 $ct_conf['power']['light_chart_link_font_offset'] = 4; // (default = 4), ADJUST WITH CARE!!!
+////
+// Maximum number of light chart NEW BUILDS allowed during background tasks, PER CPU CORE (only reset / new, NOT the 'all' chart REbuilds)
+// (THIS IS MULTIPLIED BY THE NUMBER OF CPU CORES [if detected], avoids overloading low power devices / still builds fast on multi-core)
+$ct_conf['power']['light_chart_first_build_hard_limit'] = 20; // (default = 20), ADJUST WITH CARE!!!
+////
+// Randomly rebuild the 'ALL' light chart between the minimum and maximum HOURS set here  (so they don't refresh all at once, for faster runtimes)
+// LARGER AVERAGE TIME SPREAD IS EASIER ON LOW POWER DEVICES (TO ONLY UPDATE A FEW AT A TIME), FOR A MORE CONSISTANT CRON JOB RUNTIME SPEED!!
+$ct_conf['power']['light_chart_all_rebuild_min_max'] = '4,8'; // 'min,max' (default = '4,8'), ADJUST WITH CARE!!!
 
 
 // Default settings for Asset Performance chart height / menu size (in the 'View More Stats' modal window, linked at bottom of Portfolio page)
@@ -851,6 +909,22 @@ $ct_conf['power']['local_api_mrkt_limit'] = 35; // (default = 35)
 ////
 // Local / internal REST API cache time (MINUTES that previous requests are cached for)
 $ct_conf['power']['local_api_cache_time'] = 1; // (default = 1)
+    
+     
+// RSS feed services that are a bit funky with allowed user agents, so we need to let them know this is a real feed parser (not just a spammy bot)
+// (user agent string is EXPLICITLY SET AS A CUSTOM FEED PARSER)
+$ct_conf['power']['strict_news_feed_servers'] = array(
+                                                      'medium.com',
+                                                      'reddit.com',
+                                                      'whatbitcoindid.com',
+                                                      'simplecast.com',
+                                                     );
+     
+     
+// Servers with STRICT CONSECUTIVE CONNECT limits (we add 0.11 seconds to the wait between consecutive connections)
+$ct_conf['power']['strict_consecutive_connect_servers'] = array(
+                                      					    'test654321.com',
+                                      					   );
 							
 
 // Auto-activate support for ALTCOIN PAIRED MARKETS (like glm/eth or mkr/eth, etc...markets where the base pair is an altcoin)
@@ -1412,125 +1486,6 @@ $ct_conf['power']['news_feed'] = array(
         
         
     				);
-
-
-// DEVELOPER-RELATED, !CHANGE WITH #EXTREME# CARE, OR YOU CAN BREAK THE APP!
-
-
-// Enable / disable PHP error reporting (to error logs on the web server)
-// https://www.php.net/manual/en/function.error-reporting.php
-$ct_conf['power']['php_error_reporting'] = 0; // 0 == off / -1 == on
-
-
-// $ct_conf['power']['debug_mode'] enabled runs unit tests during ui runtimes (during webpage load),
-// errors detected are error-logged and printed as alerts in header alert bell area
-// It also logs ui / cron runtime telemetry to /cache/logs/debug.log, AND /cache/logs/debug/
-////////////////////////////////////////////////////////////////////////////////////////////
-////
-// ### GENERAL ###
-////
-// 'off' (disables), 
-// 'all' (all debugging), 
-////
-// ### TELEMETRY ###
-////
-// 'all_telemetry' (ALL in-app telemetry), 
-// 'light_chart_telemetry' (light chart caching),
-// 'memory_usage_telemetry' (PHP system memory usage),
-// 'ext_data_live_telemetry' (external API requests from server),
-// 'ext_data_cache_telemetry' (external API requests from cache),
-// 'smtp_telemetry' (smtp server responses to: /cache/logs/smtp_debug.log),
-// 'api_comms_telemetry' (API comms responses to: /cache/logs/debug/external_data/last-response-[service].log),
-// 'cron_telemetry' (cron runtime telemetry to: /cache/logs/debug/cron/cron_runtime_telemetry.log),
-////
-// ### CHECKS ###
-////
-// 'markets' (asset market checks),
-// 'texts' (mobile texting gateway checks), 
-// 'alerts_charts' (price chart / price alert checks),
-////
-// ### SUMMARIES ###
-////
-// 'stats' (hardware / software / runtime summary),
-// 'markets_conf' (outputs a markets configuration summary),
-////
-////////////////////////////////////////////////////////////////////////////////////////////
-// UNIT TESTS ('CHECKS' SECTION) WILL ONLY RUN DURING WEB PAGE INTERFACE RUNTIMES
-// PHP MAX EXECUTION TIME *SHOULD* AUTO-SET TO 1320 SECONDS (22 MINUTES) IN *ANY* DEBUG MODE (EXCEPT 'off')
-// IF YOU GET AN ERROR 500, TRY RUNNING ONE DEBUG MODE AT A TIME, TO AVOID GOING OVER THE PHP EXECUTION TIME LIMIT
-// DON'T LEAVE DEBUGGING ENABLED AFTER USING IT, THE /cache/logs/debug.log AND /cache/logs/debug/
-// LOG FILES !CAN GROW VERY QUICKLY IN SIZE! EVEN AFTER JUST A FEW RUNTIMES!
-$ct_conf['power']['debug_mode'] = 'off'; 
-
-
-// Level of detail / verbosity in log files. 'normal' logs minimal details (basic information), 
-// 'verbose' logs maximum details (additional information IF AVAILABLE, for heavy debugging / tracing / etc)
-// IF DEBUGGING IS ENABLED ABOVE, LOGS ARE AUTOMATICALLY VERBOSE #WITHOUT THE NEED TO ADJUST THIS SETTING#
-$ct_conf['power']['log_verb'] = 'normal'; // 'normal' / 'verbose'
-
-
-// Maximum number of BATCHED coingecko marketcap data results to fetch, per API call (during multiple / paginated calls) 
-// (coingecko #ABSOLUTELY HATES# DATA CENTER IPS [DEDICATED / VPS SERVERS], BUT GOES EASY ON RESIDENTIAL IPS)
-$ct_conf['power']['coingecko_api_batched_max'] = 100; // (default = 100), ADJUST WITH CARE!!!
-
-
-// Maximum number of BATCHED news feed fetches / re-caches per ajax OR cron runtime 
-// (#TO HELP PREVENT RUNTIME CRASHES# ON LOW POWER DEVICES OR HIGH TRAFFIC INSTALLS, USE A LOW NUMBER OF 20 OR LESS)
-$ct_conf['power']['news_feed_batched_max'] = 20; // (default = 20), ADJUST WITH CARE!!!
-////
-// Maximum number of news feeds allowed to be pre-cached during background tasks (to avoid overloading low power devices)
-$ct_conf['power']['news_feed_precache_hard_limit'] = 45; // (default = 45), ADJUST WITH CARE!!!
-
-
-// Randomly rebuild the 'ALL' chart between the minimum and maximum HOURS set here  (so they don't refresh all at once, for faster runtimes)
-// LARGER AVERAGE TIME SPREAD IS EASIER ON LOW POWER DEVICES (TO ONLY UPDATE A FEW AT A TIME), FOR A MORE CONSISTANT CRON JOB RUNTIME SPEED!!
-$ct_conf['power']['all_chart_rebuild_min_max'] = '4,8'; // 'min,max' (default = '4,8'), ADJUST WITH CARE!!!
-////
-// Maximum number of light chart NEW BUILDS allowed during background tasks, PER CPU CORE (only reset / new, NOT the 'all' chart REbuilds)
-// (THIS IS MULTIPLIED BY THE NUMBER OF CPU CORES [if detected], avoids overloading low power devices / still builds fast on multi-core)
-$ct_conf['power']['light_chart_first_build_hard_limit'] = 20; // (default = 20), ADJUST WITH CARE!!!
-
-
-// If you want to override the default CURL user agent string (sent with API requests, etc)
-// Adding a string here automatically enables that as the custom curl user agent
-// LEAVING BLANK '' USES THE DEFAULT CURL USER AGENT LOGIC BUILT-IN TO THIS APP (WHICH INCLUDES ONLY BASIC SYSTEM CONFIGURATION STATS)
-$ct_conf['power']['override_curl_user_agent'] = ''; 
-			
-									
-// !!!!! BE #VERY CAREFUL# LOWERING MAXIMUM EXECUTION TIMES BELOW, #OR YOU MAY CRASH THE RUNNING PROCESSES EARLY, 
-// OR CAUSE MEMORY LEAKS THAT ALSO CRASH YOUR !ENTIRE SYSTEM!#
-// (ALL maximum execution times are automatically 900 seconds [15 minutes] IN DEBUG MODE)
-////
-// Maximum execution time for interface runtime in seconds (how long it's allowed to run before automatically killing the process)
-$ct_conf['power']['ui_max_exec_time'] = 250; // (default = 250)
-////
-// Maximum execution time for ajax runtime in seconds (how long it's allowed to run before automatically killing the process)
-$ct_conf['power']['ajax_max_exec_time'] = 250; // (default = 250)
-////
-// Maximum execution time for cron job runtime in seconds (how long it's allowed to run before automatically killing the process)
-$ct_conf['power']['cron_max_exec_time'] = 1320; // (default = 1320)
-////
-// Maximum execution time for internal API runtime in seconds (how long it's allowed to run before automatically killing the process)
-$ct_conf['power']['int_api_max_exec_time'] = 120; // (default = 120)
-////
-// Maximum execution time for webhook runtime in seconds (how long it's allowed to run before automatically killing the process)
-$ct_conf['power']['webhook_max_exec_time'] = 120; // (default = 120)
-    
-     
-// RSS feed services that are a bit funky with allowed user agents, so we need to let them know this is a real feed parser (not just a spammy bot)
-// (user agent string is EXPLICITLY SET AS A CUSTOM FEED PARSER)
-$ct_conf['power']['strict_news_feed_servers'] = array(
-                                                      'medium.com',
-                                                      'reddit.com',
-                                                      'whatbitcoindid.com',
-                                                      'simplecast.com',
-                                                     );
-     
-     
-// Servers with STRICT CONSECUTIVE CONNECT limits (we add 0.11 seconds to the wait between consecutive connections)
-$ct_conf['power']['strict_consecutive_connect_servers'] = array(
-                                      					    'test654321.com',
-                                      					   );
 				
 
 ////////////////////////////////////////

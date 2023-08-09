@@ -135,11 +135,11 @@ Example: "/plugins/my-app-plugin/plug-templates/plug-docs.php" (must be lowercas
 
 
 
-15) We are done setting up the plugin files / folders, so now we need to activate the new plugin. IN THE "Admin Config" POWER USER section, locate the configuration variable named: 'activate_plugins'
+15) We are done setting up the plugin files / folders, so now we need to activate the new plugin. IN THE "Admin Config" PLUGINS section, locate the plugins list.
 
 
 
-16) To add / activate your new plugin, add your plugin MAIN FOLDER name (example: 'my-app-plugin') as a new value within 'activate_plugins', and set to 'on'...ALSO INCLUDE A COMMA AT THE END.
+16) To add / activate your new plugin, add your plugin MAIN FOLDER name (example: 'my-app-plugin') as a new value within the plugins list, and set to 'on'...ALSO INCLUDE A COMMA AT THE END.
 
 Example: 'my-app-plugin' => 'on',
 

@@ -39,19 +39,19 @@ if ( $ct_conf['power']['debug_mode'] != 'off' ) {
 $max_exec_time = 1320; // 22 minutes in debug mode
 }
 elseif ( $runtime_mode == 'ui' ) {
-$max_exec_time = $ct_conf['power']['ui_max_exec_time'];
+$max_exec_time = $ui_max_exec_time;
 }
 elseif ( $runtime_mode == 'ajax' ) {
-$max_exec_time = $ct_conf['power']['ajax_max_exec_time'];
+$max_exec_time = $ajax_max_exec_time;
 }
 elseif ( $runtime_mode == 'cron' ) {
-$max_exec_time = $ct_conf['power']['cron_max_exec_time'];
+$max_exec_time = $cron_max_exec_time;
 }
 elseif ( $runtime_mode == 'int_api' ) {
-$max_exec_time = $ct_conf['power']['int_api_max_exec_time'];
+$max_exec_time = $int_api_max_exec_time;
 }
 elseif ( $runtime_mode == 'webhook' ) {
-$max_exec_time = $ct_conf['power']['webhook_max_exec_time'];
+$max_exec_time = $webhook_max_exec_time;
 }
 
 
@@ -85,7 +85,7 @@ $curl_user_agent = 'Curl/' .$curl_setup["version"]. ' ('.PHP_OS.'; ' . $system_i
 
 
 // #GUI# PHP TIMEOUT tracking / updating (checking for changes to the config value)
-$conf_php_timeout = $ct_conf['power']['ui_max_exec_time'];
+$conf_php_timeout = $ui_max_exec_time;
 
 if ( !file_exists($base_dir . '/cache/vars/php_timeout.dat') ) {
 $ct_cache->save_file($base_dir . '/cache/vars/php_timeout.dat', $conf_php_timeout);

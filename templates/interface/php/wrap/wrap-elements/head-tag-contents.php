@@ -141,6 +141,14 @@
 	
 	app_platform = '<?=$app_platform?>';
 	
+	<?php
+    if ( isset($app_container) ) {
+    ?>
+	app_container = '<?=$app_container?>';
+    <?php
+    }
+	?>
+	
 	theme_selected = '<?=$sel_opt['theme_selected']?>';
 	
 	// Opposite of app theme, for better contrast

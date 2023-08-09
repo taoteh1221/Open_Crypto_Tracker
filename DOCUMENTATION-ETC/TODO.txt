@@ -10,6 +10,11 @@ NEXT SCHEDULED WORK SESSIONS (*BOTH* DEBUGGING AND / OR INFRASTRUCTURE)
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
+Setup PHPbrowserBox as the new Windows Desktop Edition container (it's waaaaaay better than PHPdesktop):
+
+https://github.com/dhtml/phpbrowserbox/wiki/Knowledge-Base
+
+
 Update screenshots, since we overhauled everything in the interface.
 
 

@@ -27,7 +27,7 @@ $header_link = $plug_conf[$this_plug]['ui_name'];
         echo '<p class="red">' . $system_error . '</p>';
         }
         // If requested plugin is not activated, log / warn
-        elseif ( $ct_conf['power']['activate_plugins'][$this_plug] != 'on' ) {
+        elseif ( $ct_conf['plugins']['status'][$this_plug] != 'on' ) {
         $system_error = "Admin area for plugin '" . $this_plug . "' (requested from ".$remote_ip.") is not enabled (plugin not activated yet).";
         $ct_gen->log('system_error', $system_error);
         echo '<p class="red">' . $system_error . '</p>';

@@ -468,10 +468,9 @@ $altcoin_dominance = $ct_var->max_100($altcoin_dominance);
 		    
 		$gain_loss_total = $ct_asset->coin_stats_data('gain_loss_total');
 		
-		
-        $thres_dec = $ct_gen->thres_dec($gain_loss_total, 'u'); // Units mode
+          $thres_dec = $ct_gen->thres_dec($gain_loss_total, 'u'); // Units mode
+          
 		$parsed_gain_loss_total = preg_replace("/-/", "-" . $ct_conf['power']['btc_currency_mrkts'][ $ct_conf['gen']['btc_prim_currency_pair'] ], number_format($gain_loss_total, $thres_dec['max_dec'], '.', ',' ) );
-		
 		
 		$original_worth = $ct_asset->coin_stats_data('coin_paid_total');
 		
@@ -480,7 +479,8 @@ $altcoin_dominance = $ct_var->max_100($altcoin_dominance);
 		$total_prim_currency_worth_inc_lvrg = $total_prim_currency_worth + $lvrg_only_gain_loss;
 		
 		
-        $thres_dec = $ct_gen->thres_dec($total_prim_currency_worth_inc_lvrg, 'u'); // Units mode
+          $thres_dec = $ct_gen->thres_dec($total_prim_currency_worth_inc_lvrg, 'u'); // Units mode
+          
   		// Here we can go negative 'total worth' with the margin leverage (unlike with the margin deposit)
   		// We only want a negative sign here in the UI for 'total worth' clarity (if applicable), NEVER a plus sign
   		// (plus sign would indicate a gain, NOT 'total worth')
@@ -493,17 +493,10 @@ $altcoin_dominance = $ct_var->max_100($altcoin_dominance);
 		}
 		
 	  
-	  
-	  // Notice that margin leverage is NOT included !!WITHIN!! BTC / PAIR TOTALS EVER (for UX's sake, too confusing to included in anything other than gain / loss stats)
-	  // We only include data in parenthesis NEXT TO THE BTC / PAIR PORTFOLIO SUMMARIES
-	  $lvrg_text1 = ( $purchase_price_added == 1 && $lvrg_added == 1 && is_numeric($gain_loss_total) == TRUE ? ' <p class="coin_info balloon_notation bitcoin" style="max-width: 600px; white-space: normal;"> *Includes adjusted long (*NOT* short) deposits, BUT <i><u>leverage is NOT included</u></i>.</p>' : '' );
-	  $lvrg_text2 = ( $purchase_price_added == 1 && $lvrg_added == 1 && is_numeric($gain_loss_total) == TRUE ? ' <p class="coin_info balloon_notation bitcoin" style="max-width: 600px; white-space: normal;"> *Includes adjusted long AND short deposits, BUT <i><u>leverage is NOT included</u></i>.</p>' : '' );
 
-
-
-			// Crypto value(s) of portfolio
-			if ( $sel_opt['show_crypto_val'][0] ) {
-			?>
+	     // Crypto value(s) of portfolio
+		if ( $sel_opt['show_crypto_val'][0] ) {
+		?>
 			
 			<div class="portfolio_summary">
 			
@@ -573,7 +566,7 @@ $altcoin_dominance = $ct_var->max_100($altcoin_dominance);
 			
 			+'<p class="coin_info red_bright" style="max-width: 600px; white-space: normal;">It\'s HIGHLY RECOMMENDED to only add Bluechip / relatively lower risk crypto assets here! Remember, the <a href="https://www.google.com/search?q=barbell+portfolio+strategy" target="_blank">Barbell Portfolio Strategy</a> works VERY WELL for MANY investors that use it!</p>'
 		
-			+'<?=$lvrg_text1?>';
+			+'<p class="coin_info balloon_notation bitcoin" style="max-width: 600px; white-space: normal;"> *Includes any adjusted long (*NOT* short) deposits, BUT <i><u>any leverage is NOT included</u></i>.</p>';
 		
 		
 			$('#crypto_val').balloon({
@@ -601,9 +594,9 @@ $altcoin_dominance = $ct_var->max_100($altcoin_dominance);
 			
 			</div>
 			
-			<?php
-			}
-			?>
+		<?php
+		}
+		?>
 			
 			
 			<div class="portfolio_summary">
@@ -631,7 +624,7 @@ var fiat_val_content = '<h5 class="yellow tooltip_title">Primary Currency (<?=st
 			
 			+'<p class="coin_info" style="max-width: 600px; white-space: normal;">Selected Primary Currency Market: <span class="bitcoin">BTC / <?=strtoupper($ct_conf['gen']['btc_prim_currency_pair'])?> @ <?=$ct_gen->key_to_name($ct_conf['gen']['btc_prim_exchange'])?> (<?=$ct_conf['power']['btc_currency_mrkts'][ $ct_conf['gen']['btc_prim_currency_pair'] ]?><?=number_format( $sel_opt['sel_btc_prim_currency_val'], 0, '.', ',')?>)</span></p>'
 		
-			+'<?=$lvrg_text2?>';
+			+'<p class="coin_info balloon_notation bitcoin" style="max-width: 600px; white-space: normal;"> *Includes any adjusted long AND short deposits, BUT <i><u>any leverage is NOT included</u></i>.</p>';
 		
 		
 		
@@ -675,24 +668,20 @@ var fiat_val_content = '<h5 class="yellow tooltip_title">Primary Currency (<?=st
 		// we move on to the gain / loss stats WHERE IT IS FEASIBLE ENOUGH TO INCLUDE !BASIC! MARGIN LEVERAGE DATA SUMMARY (where applicable)
 		if ( $purchase_price_added == 1 && is_numeric($gain_loss_total) == TRUE ) {
 			
-			
      	// Gain / loss percent (!MUST BE! absolute value)
-        $percent_difference_total = abs( ($total_prim_currency_worth_if_purchase_price - $original_worth) / abs($original_worth) * 100 );
-          
-		
-		// Notice that we include margin leverage in gain / loss stats (for UX's sake, too confusing to included in anything other than gain / loss stats)
-		$lvrg_text3 = ( $lvrg_added == 1 ? '<p class="coin_info balloon_notation bitcoin" style="max-width: 600px; white-space: normal;"> *Includes leverage.</p>' : '' );
+          $percent_difference_total = abs( ($total_prim_currency_worth_if_purchase_price - $original_worth) / abs($original_worth) * 100 );
 	
-	?>
+	     ?>
 	
 			<div class="portfolio_summary">
 	
-	<?php
+	     <?php
 		
-        $thres_dec = $ct_gen->thres_dec($percent_difference_total, 'p'); // Percentage mode
+          $thres_dec = $ct_gen->thres_dec($percent_difference_total, 'p'); // Percentage mode
+          
 		echo '<span class="black private_data">' . ( $gain_loss_total >= 0 ? 'Gain:</span> <span class="green private_data">+' . $ct_conf['power']['btc_currency_mrkts'][ $ct_conf['gen']['btc_prim_currency_pair'] ] : 'Loss:</span> <span class="red private_data">' ) . $parsed_gain_loss_total . ' (' . ( $gain_loss_total >= 0 ? '+' : '-' ) . number_format($percent_difference_total, $thres_dec['max_dec'], '.', ',') . '%' . ')</span>';
 		
-	?> 
+	     ?> 
 		
 		
 			<img class='tooltip_style_control' id='portfolio_gain_loss' src='templates/interface/media/images/info.png' alt='' width='30' style='position: relative; left: -5px;' /> 
@@ -739,7 +728,7 @@ var fiat_val_content = '<h5 class="yellow tooltip_title">Primary Currency (<?=st
 				}
 			    ?>
 		
-			+'<?=$lvrg_text3?>'
+			+'<p class="coin_info balloon_notation bitcoin" style="max-width: 600px; white-space: normal;"> *Includes any leverage.</p>'
 				
 			+'<p class="coin_info balloon_notation bitcoin">*<?=( $lvrg_added == 1 ? 'Leverage / ' : '' )?>Gain / Loss stats only include assets where you have set the<br />"Average Paid (per-token)" value on the Update page.</p>';
 		
@@ -1479,7 +1468,7 @@ zingchart.bind('marketcap_chart', 'label_click', function(e){
 		if ( $short_added == 1 ) {
 		?>	
 		<div class="portfolio_summary" style='margin-top: 15px;'>
-		<span class="short private_data">★ Adjusted short trade deposit(s) (leverage is <u>NOT</u> included)</span>
+		<span class="short private_data">★ Adjusted short trade deposit(s) (any leverage is <u>NOT</u> included)</span>
 		</div>		
 		<?php
 		}
@@ -1797,7 +1786,7 @@ var server_header_defaults_content = '<h5 class="yellow tooltip_title">Average S
    
 	
 	<?php
-	$all_chart_rebuild_min_max = explode(',', $ct_conf['power']['all_chart_rebuild_min_max']);
+	$all_chart_rebuild_min_max = explode(',', $ct_conf['power']['light_chart_all_rebuild_min_max']);
 	?>
 	
 	<p class='sys_stats red' style='font-weight: bold;'>*The "Server Cookies Size" telemetry data above <i>is not tracked in the system charts, because it's ONLY available in the user interface runtime (NOT the cron job runtime)</i>.</p>				

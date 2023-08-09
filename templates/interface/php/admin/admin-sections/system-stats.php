@@ -194,7 +194,7 @@
 	
 	
 	<?php
-	$all_chart_rebuild_min_max = explode(',', $ct_conf['power']['all_chart_rebuild_min_max']);
+	$all_chart_rebuild_min_max = explode(',', $ct_conf['power']['light_chart_all_rebuild_min_max']);
 	?>
 	
 	<p class='sys_stats red' style='font-weight: bold;'>*The "Server Cookies Size" telemetry data above <i>is not tracked in the system charts, because it's ONLY available in the user interface runtime (NOT the cron job runtime)</i>.</p>			

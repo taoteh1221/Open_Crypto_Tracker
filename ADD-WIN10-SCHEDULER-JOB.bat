@@ -23,14 +23,24 @@ echo:
 
 
 if exist %~p0%..\php\php-win.exe (
-set "php_cli_binary_default=%~dp0%..\php\php-win.exe"
+set "php_cli_binary_default=%~p0%..\php\php-win.exe"
 echo PHP CLI binary detected at:
-echo %~dp0%..\php\php-win.exe
+echo %~p0%..\php\php-win.exe
 echo:
 ) else if exist %~p0%php\php-win.exe (
 set "php_cli_binary_default=%~p0%php\php-win.exe"
 echo PHP CLI binary detected at:
 echo %~p0%php\php-win.exe
+echo:
+) else if exist %~p0%..\bin\php\php-win.exe (
+set "php_cli_binary_default=%~p0%..\bin\php\php-win.exe"
+echo PHP CLI binary detected at:
+echo %~p0%..\bin\php\php-win.exe
+echo:
+) else if exist %~p0%bin\php\php-win.exe (
+set "php_cli_binary_default=%~p0%bin\php\php-win.exe"
+echo PHP CLI binary detected at:
+echo %~p0%bin\php\php-win.exe
 echo:
 ) else (
 set "php_cli_binary_default=C:\php\php-win.exe"
@@ -56,14 +66,19 @@ echo:
 
 
 if exist %~p0%cron.php (
-set "cron_php_default=%~dp0%cron.php"
+set "cron_php_default=%~p0%cron.php"
 echo cron.php detected at:
-echo %~dp0%cron.php
+echo %~p0%cron.php
 echo:
 ) else if exist %~p0%INSTALL_CRYPTO_TRACKER_HERE\cron.php (
 set "cron_php_default=%~p0%INSTALL_CRYPTO_TRACKER_HERE\cron.php"
 echo cron.php detected at:
 echo %~p0%INSTALL_CRYPTO_TRACKER_HERE\cron.php
+echo:
+) else if exist %~p0%www\cron.php (
+set "cron_php_default=%~p0%www\cron.php"
+echo cron.php detected at:
+echo %~p0%www\cron.php
 echo:
 ) else (
 set "cron_php_default=C:\php\cron.php"

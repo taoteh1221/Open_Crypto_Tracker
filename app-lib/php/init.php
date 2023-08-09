@@ -24,7 +24,7 @@ $start_runtime = $time;
 
 
 // Application version
-$app_version = '6.00.22';  // 2023/AUGUST/7TH
+$app_version = '6.00.23';  // 2023/AUGUST/9TH
 
 
 // #PHP# ERROR LOGGING
@@ -38,6 +38,28 @@ $dev_debug_php_errors = (0);
 $min_font_resize = 0.5; // 50%
 ////
 $max_font_resize = 2; // 200%
+
+
+// Default charset used
+$charset_default = 'UTF-8'; 
+////
+// Unicode charset used (if needed)
+// UCS-2 is outdated as it only covers 65536 characters of Unicode
+// UTF-16BE / UTF-16LE / UTF-16 / UCS-2BE can represent ALL Unicode characters
+$charset_unicode = 'UTF-16'; 
+
+
+// Cache directories / files and .htaccess / index.php files permissions (CHANGE WITH #EXTREME# CARE, to adjust security for your PARTICULAR setup)
+// THESE PERMISSIONS ARE !ALREADY! CALLED THROUGH THE octdec() FUNCTION *WITHIN THE APP WHEN USED*
+////
+// Cache directories permissions
+$chmod_cache_dir = '0770'; // (default = '0770' [owner/group read/write/exec])
+////
+// Cache files permissions
+$chmod_cache_file = '0660'; // (default = '0660' [owner/group read/write])
+////
+// .htaccess / index.php index security files permissions
+$chmod_index_sec = '0660'; // (default = '0660' [owner/group read/write])
 
 
 // standard font size CSS configs (we skip sidebar HEADER area)
@@ -55,15 +77,45 @@ $small_font_size_css_selector = ".gain, .loss, .crypto_worth, .accordion-button"
 ////
 // PERCENT of STANDARD font size (as a decimal)
 $small_font_size_css_percent = 0.70; // 70% of $default_font_size
-
-
-// Default charset used
-$charset_default = 'UTF-8'; 
+			
+									
+// !!!!! BE #VERY CAREFUL# LOWERING MAXIMUM EXECUTION TIMES BELOW, #OR YOU MAY CRASH THE RUNNING PROCESSES EARLY, 
+// OR CAUSE MEMORY LEAKS THAT ALSO CRASH YOUR !ENTIRE SYSTEM!#
+// (ALL maximum execution times are automatically 900 seconds [15 minutes] IN DEBUG MODE)
 ////
-// Unicode charset used (if needed)
-// UCS-2 is outdated as it only covers 65536 characters of Unicode
-// UTF-16BE / UTF-16LE / UTF-16 / UCS-2BE can represent ALL Unicode characters
-$charset_unicode = 'UTF-16'; 
+// Maximum execution time for interface runtime in seconds (how long it's allowed to run before automatically killing the process)
+$ui_max_exec_time = 250; // (default = 250)
+////
+// Maximum execution time for ajax runtime in seconds (how long it's allowed to run before automatically killing the process)
+$ajax_max_exec_time = 250; // (default = 250)
+////
+// Maximum execution time for cron job runtime in seconds (how long it's allowed to run before automatically killing the process)
+$cron_max_exec_time = 1320; // (default = 1320)
+////
+// Maximum execution time for internal API runtime in seconds (how long it's allowed to run before automatically killing the process)
+$int_api_max_exec_time = 120; // (default = 120)
+////
+// Maximum execution time for webhook runtime in seconds (how long it's allowed to run before automatically killing the process)
+$webhook_max_exec_time = 120; // (default = 120)
+
+
+// CAPTCHA text settings...
+// Text size
+$captcha_text_size = 50; // Text size (default = 50)
+////
+// Number of characters
+$captcha_chars_length = 7; // Number of characters in captcha image (default = 7)
+////
+// Configuration for advanced CAPTCHA image settings on all admin login / reset pages
+$captcha_image_width = 525; // Image width (default = 525)
+////
+$captcha_image_height = 135; // Image height (default = 135)
+////
+$captcha_text_margin = 10; // MINIMUM margin of text from edge of image (approximate / average) (default = 10)
+////		
+// Only allow the MOST READABLE characters for use in captcha image 
+// (DON'T SET TOO LOW, OR BOTS CAN GUESS THE CAPTCHA CODE EASIER)
+$captcha_permitted_chars = 'ABCDEFHJKMNPRSTUVWXYZ23456789'; // (default = 'ABCDEFHJKMNPRSTUVWXYZ23456789')
      
      
 // Servers which are known to block API access by location / jurasdiction

@@ -18,13 +18,31 @@ if ( file_exists('../libcef.so') ) {
 $app_edition = 'desktop';  // 'desktop' (LOWERCASE)
 $app_platform = 'linux';
 }
-else if ( file_exists('../libcef.dll') ) {
+else if ( file_exists('../libcef.dll') || file_exists('../bbcpanel.exe') ) {
 $app_edition = 'desktop';  // 'desktop' (LOWERCASE)
 $app_platform = 'windows';
 }
 else {
 $app_edition = 'server';  // 'server' (LOWERCASE)
 $app_platform = 'web';
+}
+
+
+if ( file_exists('../libcef.dll') ) {
+$app_container = 'phpdesktop';
+}
+else if ( file_exists('../bbcpanel.exe') ) {
+$app_container = 'phpbrowserbox';
+}
+
+
+// Get any detected php.ini (for informative error messages)
+$php_ini_path = php_ini_loaded_file();
+
+
+// PHPbrowserBox loads from a different ini file than PHP reports (no idea why)
+if ( $app_container == 'phpbrowserbox' ) {
+$php_ini_path = preg_replace("/php\.ini/", "php-tpl.ini", $php_ini_path);
 }
 
 
@@ -36,7 +54,10 @@ $ct_conf = array();
 // Load the hard-coded (default) config BEFORE #ANYTHING AT ALL#
 require_once("config.php");
 
-// Load app classes VERY EARLY (before loading cached conf, after config.php)
+// Basic system checks (MUST RUN *BEFORE* LOADING CLASSES [TO CHECK FOR REQUIRED PHP EXTENSIONS])
+require_once('app-lib/php/inline/system/system-checks.php');
+
+// Load app classes AFTER SYSTEM CHECKS (before loading cached conf, after config.php)
 require_once('app-lib/php/classes/extended-classes-loader.php');
 require_once('app-lib/php/classes/core-classes-loader.php');
 
@@ -90,11 +111,8 @@ $cached_app_version = trim( file_get_contents('cache/vars/app_version.dat') );
 
 // Create cache directories AS EARLY AS POSSIBLE
 // (#MUST# RUN BEFORE load-config-by-security-level.php
-// Uses HARD-CODED $ct_conf['sec']['chmod_cache_dir'], BUT IF THE DIRECTORIES DON'T EXIST YET, A CACHED CONFIG PROBABLY DOESN'T EXIST EITHER
+// Uses HARD-CODED $chmod_cache_dir dev config at top of init.php
 require_once('app-lib/php/inline/other/cache-directories.php');
-
-// Basic system checks (MUST RUN *FIRST* IN ESSENTIAL INIT LOGIC *AFTER* CACHE DIRECTORIES [FOR ERROR LOGGING])
-require_once('app-lib/php/inline/system/system-checks.php');
 
 // Early security logic
 // #MUST# run BEFORE any heavy init logic (for good security), #AFTER# directory creation (for error logging), and AFTER system checks
