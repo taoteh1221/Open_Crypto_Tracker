@@ -12,9 +12,9 @@
 // DEBUGGING ONLY (checking logging capability)
 //$ct_cache->check_log('plugins/' . $this_plug . '/plug-lib/plug-init.php:start');
 
-$int_api_base_endpoint = ( $app_edition == 'server' ? 'api/' : 'internal-api.php?data_set=' );
+$int_api_base_endpoint = ( $app_edition == 'server' || $app_container == 'phpbrowserbox' ? 'api/' : 'internal-api.php?data_set=' );
 
-$int_webhook_base_endpoint = ( $app_edition == 'server' ? 'hook/' : 'web-hook.php?webhook_params=' );
+$int_webhook_base_endpoint = ( $app_edition == 'server' || $app_container == 'phpbrowserbox' ? 'hook/' : 'web-hook.php?webhook_params=' );
 
 
 $test_params = array('api_key' => $int_api_key);

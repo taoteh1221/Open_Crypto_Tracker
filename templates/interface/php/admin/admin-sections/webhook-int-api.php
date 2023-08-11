@@ -3,9 +3,9 @@
  * Copyright 2014-2023 GPLv3, Open Crypto Tracker by Mike Kilday: Mike@DragonFrugal.com
  */
 
-$webhook_base_endpoint = ( $app_edition == 'server' ? 'hook/' : 'web-hook.php?webhook_params=' );
+$webhook_base_endpoint = ( $app_edition == 'server' || $app_container == 'phpbrowserbox' ? 'hook/' : 'web-hook.php?webhook_params=' );
 
-$api_base_endpoint = ( $app_edition == 'server' ? 'api/' : 'internal-api.php?data_set=' );
+$api_base_endpoint = ( $app_edition == 'server' || $app_container == 'phpbrowserbox' ? 'api/' : 'internal-api.php?data_set=' );
 
 ?>
 

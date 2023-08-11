@@ -10,9 +10,10 @@ NEXT SCHEDULED WORK SESSIONS (*BOTH* DEBUGGING AND / OR INFRASTRUCTURE)
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
-Setup PHPbrowserBox as the new Windows Desktop Edition container (it's waaaaaay better than PHPdesktop):
+Change the footer / help page notices for PHPdesktop on Windows, so they recommend the PHPbrowserBox version instead of XAMPP.
 
-https://github.com/dhtml/phpbrowserbox/wiki/Knowledge-Base
+
+Have the background tasks "loading" element be fixed (like the titles), but also still create the extra space at the top (when running), to nest into when viewing the top of the page.
 
 
 Update screenshots, since we overhauled everything in the interface.
@@ -216,6 +217,10 @@ DEBUGGING / TESTS / UX / QA / OTHER
 !!!!
 ===> Try to break up larger changes into smaller milestones,
 ===> then plenty of time is spent on UX / testing / debugging.
+!!!!
+===> PHPbrowserBox (used for Windows Desktop Editions) Shortcut Keys:
+===> Reload / refresh browser : Control + R
+===> Open devtools : Control + Shift + I
 !!!!
 ===> "app-lib/php/init.php" contains MANY developer-only configs at the top
 !!!!

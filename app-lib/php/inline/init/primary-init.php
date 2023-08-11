@@ -18,7 +18,7 @@ if ( file_exists('../libcef.so') ) {
 $app_edition = 'desktop';  // 'desktop' (LOWERCASE)
 $app_platform = 'linux';
 }
-else if ( file_exists('../libcef.dll') || file_exists('../bbcpanel.exe') ) {
+else if ( file_exists('../libcef.dll') || file_exists('../bin/bbserver.exe') ) {
 $app_edition = 'desktop';  // 'desktop' (LOWERCASE)
 $app_platform = 'windows';
 }
@@ -31,8 +31,11 @@ $app_platform = 'web';
 if ( file_exists('../libcef.dll') ) {
 $app_container = 'phpdesktop';
 }
-else if ( file_exists('../bbcpanel.exe') ) {
+else if ( file_exists('../bin/bbserver.exe') ) {
 $app_container = 'phpbrowserbox';
+}
+else {
+$app_container = 'browser';
 }
 
 
@@ -40,7 +43,9 @@ $app_container = 'phpbrowserbox';
 $php_ini_path = php_ini_loaded_file();
 
 
-// PHPbrowserBox loads from a different ini file than PHP reports (no idea why)
+// PHPbrowserBox BUILDS *FROM* from a SEPERATE ini file *TO* the
+// one that PHP uses (https://github.com/dhtml/phpbrowserbox/wiki/Tweaks)
+// (so we want people to edit that ini file instead, which updates PHP's used ini file)
 if ( $app_container == 'phpbrowserbox' ) {
 $php_ini_path = preg_replace("/php\.ini/", "php-tpl.ini", $php_ini_path);
 }

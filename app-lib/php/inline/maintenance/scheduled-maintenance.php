@@ -114,11 +114,12 @@ $ct_cache->delete_old_files($logs_cache_cleanup, $ct_conf['power']['logs_purge']
     }
     
     
-    // Get root CA certificates for windows desktop edition if we haven't yet, as we need them...
+    // Get root CA certificates for PHPdesktop windows desktop edition if we haven't yet, as we need them...
+    // (IF app container is PHPdesktop, it does NOT have CURL certs installed)
     
     $save_file = $base_dir . '/cache/other/win_curl_cacert.pem';
     
-    if ( $app_platform == 'windows' && !file_exists($save_file) ) {
+    if ( $app_container == 'phpdesktop' && !file_exists($save_file) ) {
     
     $get_file = 'https://curl.se/ca/cacert.pem';
     
