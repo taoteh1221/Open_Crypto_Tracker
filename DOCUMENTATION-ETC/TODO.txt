@@ -10,6 +10,15 @@ NEXT SCHEDULED WORK SESSIONS (*BOTH* DEBUGGING AND / OR INFRASTRUCTURE)
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
+In firefox, there is A TON of margin / padding in each portfolio data row's data cells. Reduce it to match chrome.
+
+
+On LINUX DESKTOP EDITION, when importing a spreadsheet, it imports OK (shows in the interface after importing), BUT does NOT save as cookie data (gets lost if you visit the admin area etc), UNLESS YOU CLICK "SAVE UPDATED PORTFOLIO" ON THE UPDATE PAGE IMMEADIATELY *AFTER* IMPORTING IT. Check to see if this is also an issue in the Server Edition.
+
+
+"CSV import suceeded" has a 'dismiss' link...remove it.
+
+
 Update screenshots, since we overhauled everything in the interface.
 
 
@@ -284,16 +293,13 @@ Test turning htaccess password protection on/off on the interface, I messed with
 Change "portfolio cache size gigabytes" system chart telemetry name to "tracker cache size gigabytes".
 
 
-In firefox, there is A TON of margin / padding in each portfolio data row's data cells. Reduce it to match chrome.
-
-
 Remove all linebreaks in javascript alert / confirm dialogue boxes, except for new paragraphs. Let the browser choose the max width on it's own (like they do nowadays)
 
 
 Look into doing bootstrap modals instead of the current library we use. Maybe it's better?
 
 
-Setup XAMPP on Win10 on the DVR server, and run server edition of tracker on it for a week with PHP debug logging on.
+Setup XAMPP on Win10 on the NUC, and run server edition of tracker on it for a week with PHP debug logging on.
 
 
 Write notes in TODO.txt debugging section, on setting up / viewing PHP error logging in XAMPP on Windows.
@@ -333,12 +339,6 @@ Look into using docker images for cross-platform compatibility (Windows / Mac / 
 
 Find out why days has 2 decimals RANDOMLY IN TEXT MESSAGES (text notify, email and telegram are fine):
 "SHDW / BTC @ Generic BTC decreased -9.27% in USD value to $0.68269 over 1..04 days. 24 Hour USD Volume: $1,064,959 (-1.54% pair volume)"
-
-
-When importing a CSV spreadsheet in linux desktop edition with cookies enabled, UNLESS we manually save the portflio data on the update page AFTER importing, the portfolio data is lost when we close the app. See if this also affects windows desktop edition, and server edition.
-
-
-"CSV import suceeded" has a 'dismiss' link that doesn't work...when clicked, it reloads a blank portfolio page. But when the normal 'refresh' link is used INSTEAD atop the portfolio page, the imported data stays just fine. Funny thing is the "CSV import suceeded" message ALSO PERSISTS THIS WAY. Figure out whats going on there. Also check the "Your CSV import upload failed." logic. Start tests with Windows Desktop Edition.
 
 
 Cross-browser test RTL (right to left) effects from middle eastern currency symbols being injected into the interface output for those currencies

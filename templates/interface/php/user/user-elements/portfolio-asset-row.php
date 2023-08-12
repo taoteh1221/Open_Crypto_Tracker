@@ -81,7 +81,7 @@ echo '?';
 
 			var cmc_content = '<h5 class="yellow align_center tooltip_title"><?=$asset_name?> (<?=$asset_symb?>)</h5>'
     
-        +'<p class="coin_info" style="white-space: normal; max-width: 600px;"><span class="bitcoin">Stock market data is provided with <a href="https://www.alphavantage.co/" target="_blank">Alpha Vantage\'s API</a>.</span></p>';
+        +'<p class="coin_info" style="white-space: normal; "><span class="bitcoin">Stock market data is provided with <a href="https://www.alphavantage.co/" target="_blank">Alpha Vantage\'s API</a>.</span></p>';
 	
 			<?php
 			}
@@ -95,9 +95,9 @@ echo '?';
 			else {
 			?>
 
-			var cmc_content = '<p class="coin_info" style="white-space: normal; max-width: 600px;"><span class="red"><?=ucfirst($ct_conf['gen']['prim_mcap_site'])?> API may be offline / under heavy load, marketcap range not set high enough (current range is top <?=$ct_conf['power']['mcap_ranks_max']?> marketcaps), or API timeout set too low (current timeout is <?=$ct_conf['power']['remote_api_timeout']?> seconds). Configuration adjustments can be made in the Admin Config POWER USER section.</span></p>'
+			var cmc_content = '<p class="coin_info" style="white-space: normal; "><span class="red"><?=ucfirst($ct_conf['gen']['prim_mcap_site'])?> API may be offline / under heavy load, marketcap range not set high enough (current range is top <?=$ct_conf['power']['mcap_ranks_max']?> marketcaps), or API timeout set too low (current timeout is <?=$ct_conf['power']['remote_api_timeout']?> seconds). Configuration adjustments can be made in the Admin Config POWER USER section.</span></p>'
             
-            +'<p class="coin_info bitcoin" style="white-space: normal; max-width: 600px;">Please check back in awhile, OR <i>switch to an alternate marketcap data provider</i> in the Admin Config GENERAL section, AND in the Portfolio area\'s SETTINGS section.</p>';
+            +'<p class="coin_info bitcoin" style="white-space: normal; ">Please check back in awhile, OR <i>switch to an alternate marketcap data provider</i> in the Admin Config GENERAL section, AND in the Portfolio area\'s SETTINGS section.</p>';
 	
 			<?php
 			}
@@ -224,7 +224,7 @@ echo '?';
         contents: cmc_content,
         css: {
                 fontSize: "<?=$default_font_size?>em",
-                minWidth: "450px",
+                minWidth: "350px",
                 padding: ".3rem .7rem",
                 border: "2px solid rgba(212, 212, 212, .4)",
                 borderRadius: "6px",
@@ -301,11 +301,11 @@ echo '?';
 
 			var cmc_content = '<h5 class="yellow align_center tooltip_title"><?=$asset_name?> (<?=$asset_symb?>)</h5>'
     
-        +'<p class="coin_info" style="white-space: normal; max-width: 600px;"><span class="bitcoin">Miscellaneous <?=strtoupper($ct_conf['gen']['btc_prim_currency_pair'])?> value can be included in you portfolio stats, by entering it under the "MISCASSETS" asset on the "Update" page.</span></p>'
+        +'<p class="coin_info" style="white-space: normal; "><span class="bitcoin">Miscellaneous <?=strtoupper($ct_conf['gen']['btc_prim_currency_pair'])?> value can be included in you portfolio stats, by entering it under the "MISCASSETS" asset on the "Update" page.</span></p>'
         
-        +'<p class="coin_info" style="white-space: normal; max-width: 600px;"><span class="bitcoin">This can be useful for including <?=strtoupper($ct_conf['gen']['btc_prim_currency_pair'])?> Checking / Savings accounts at banks, stable coin holdings, etc.</span></p>'
+        +'<p class="coin_info" style="white-space: normal; "><span class="bitcoin">This can be useful for including <?=strtoupper($ct_conf['gen']['btc_prim_currency_pair'])?> Checking / Savings accounts at banks, stable coin holdings, etc.</span></p>'
         
-        +'<p class="coin_info" style="white-space: normal; max-width: 600px;"><span class="bitcoin">Additionally, you can see it\'s potential market value in another asset by changing the "Market" value on the "Portfolio" page to an asset other than <?=strtoupper($ct_conf['gen']['btc_prim_currency_pair'])?>.</span></p>';
+        +'<p class="coin_info" style="white-space: normal; "><span class="bitcoin">Additionally, you can see it\'s potential market value in another asset by changing the "Market" value on the "Portfolio" page to an asset other than <?=strtoupper($ct_conf['gen']['btc_prim_currency_pair'])?>.</span></p>';
 	
 			<?php
 			}
@@ -314,11 +314,11 @@ echo '?';
 
 			var cmc_content = '<h5 class="yellow align_center tooltip_title"><?=$asset_name?> (<?=$asset_symb?>)</h5>'
     
-        +'<p class="coin_info" style="white-space: normal; max-width: 600px;"><span class="bitcoin">ETH value of NFTS can be included in you portfolio stats, by entering it under the "ETHNFTS" asset on the "Update" page.</span></p>'
+        +'<p class="coin_info" style="white-space: normal; "><span class="bitcoin">ETH value of NFTS can be included in you portfolio stats, by entering it under the "ETHNFTS" asset on the "Update" page.</span></p>'
     
-        +'<p class="coin_info" style="white-space: normal; max-width: 600px;"><span class="bitcoin">If you are unsure of the value of any of your NFTs, you can use the \'Floor Price\' (if available) for that NFT collection found on NFT marketplace(s).</span></p>'
+        +'<p class="coin_info" style="white-space: normal; "><span class="bitcoin">If you are unsure of the value of any of your NFTs, you can use the \'Floor Price\' (if available) for that NFT collection found on NFT marketplace(s).</span></p>'
         
-        +'<p class="coin_info" style="white-space: normal; max-width: 600px;"><span class="bitcoin">Additionally, you can see it\'s potential market value in another asset by changing the "Market" value on the "Portfolio" page to an asset other than <?=strtoupper($ct_conf['gen']['btc_prim_currency_pair'])?>.</span></p>';
+        +'<p class="coin_info" style="white-space: normal; "><span class="bitcoin">Additionally, you can see it\'s potential market value in another asset by changing the "Market" value on the "Portfolio" page to an asset other than <?=strtoupper($ct_conf['gen']['btc_prim_currency_pair'])?>.</span></p>';
 	
 			<?php
 			}
@@ -327,11 +327,11 @@ echo '?';
 
 			var cmc_content = '<h5 class="yellow align_center tooltip_title"><?=$asset_name?> (<?=$asset_symb?>)</h5>'
     
-        +'<p class="coin_info" style="white-space: normal; max-width: 600px;"><span class="bitcoin">SOL value of NFTS can be included in you portfolio stats, by entering it under the "SOLNFTS" asset on the "Update" page.</span></p>'
+        +'<p class="coin_info" style="white-space: normal; "><span class="bitcoin">SOL value of NFTS can be included in you portfolio stats, by entering it under the "SOLNFTS" asset on the "Update" page.</span></p>'
     
-        +'<p class="coin_info" style="white-space: normal; max-width: 600px;"><span class="bitcoin">If you are unsure of the value of any of your NFTs, you can use the \'Floor Price\' (if available) for that NFT collection found on NFT marketplace(s).</span></p>'
+        +'<p class="coin_info" style="white-space: normal; "><span class="bitcoin">If you are unsure of the value of any of your NFTs, you can use the \'Floor Price\' (if available) for that NFT collection found on NFT marketplace(s).</span></p>'
         
-        +'<p class="coin_info" style="white-space: normal; max-width: 600px;"><span class="bitcoin">Additionally, you can see it\'s potential market value in another asset by changing the "Market" value on the "Portfolio" page to an asset other than <?=strtoupper($ct_conf['gen']['btc_prim_currency_pair'])?>.</span></p>';
+        +'<p class="coin_info" style="white-space: normal; "><span class="bitcoin">Additionally, you can see it\'s potential market value in another asset by changing the "Market" value on the "Portfolio" page to an asset other than <?=strtoupper($ct_conf['gen']['btc_prim_currency_pair'])?>.</span></p>';
 	
 			<?php
 			}
@@ -351,7 +351,7 @@ echo '?';
   contents: cmc_content,
 			css: {
 					fontSize: "<?=$default_font_size?>em",
-					minWidth: "450px",
+					minWidth: "350px",
 					padding: ".3rem .7rem",
 					border: "2px solid rgba(212, 212, 212, .4)",
 					borderRadius: "6px",
@@ -725,7 +725,7 @@ echo '<span class="private_data ' . ( $purchase_price >= $min_fiat_val_test && $
 			contents: lvrg_content,
 			css: {
 					fontSize: "<?=$default_font_size?>em",
-					minWidth: "450px",
+					minWidth: "350px",
 					padding: ".3rem .7rem",
 					border: "2px solid rgba(212, 212, 212, .4)",
 					borderRadius: "6px",

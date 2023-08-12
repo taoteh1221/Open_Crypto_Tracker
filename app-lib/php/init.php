@@ -106,7 +106,7 @@ $larger_font_selector_adjusted = ", #admin_conf_quick_links a:link, #admin_conf_
 $smaller_font_selector_adjusted = ", .gain, .loss, .crypto_worth, .extra_data";
 
 // standard font size CSS configs
-$font_size_css_selector = "#sidebar_menu, #header_size_warning, #alert_bell_area, #background_loading, radio, .full_width_wrapper:not(.custom-select), .iframe_wrapper:not(.custom-select), .footer_banner, .countdown_notice, .sidebar-slogan";
+$font_size_css_selector = "#sidebar_menu, #header_size_warning, #alert_bell_area, #background_loading, radio, .full_width_wrapper:not(.custom-select), .iframe_wrapper:not(.custom-select), .footer_content, .footer_banner, .countdown_notice, .sidebar-slogan";
 
 // medium font size CSS configs
 $medium_font_size_css_selector = ".accordion-button";

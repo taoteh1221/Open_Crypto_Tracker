@@ -251,11 +251,13 @@ admin_iframe_load = document.querySelectorAll('.admin_iframe');
              // Wait 0.1 seconds
              setTimeout(function(){
              
-             $(".balloon-tooltips").css({ "min-width": Math.round(450 * set_font_size) + 'px' });
+             // Set min-max widths
+             $(".balloon-tooltips").css({ "min-width": Math.round(350 * set_font_size) + 'px' });
+             $(".balloon-tooltips").css({ "max-width": Math.round(650 * set_font_size) + 'px' });
 
                   // iframe info balloon text sizes are wonky for some reason in LINUX PHPDESKTOP (but works fine in modern browsers)
                   if ( app_container == 'phpdesktop' ) {
-                  var adjusted_font_size_percent = is_iframe ? 65 : 100;
+                  var adjusted_font_size_percent = is_iframe ? 70 : 100;
                   }
                   else {
                   var adjusted_font_size_percent = 100;

@@ -1897,7 +1897,7 @@ var small_line_height = small_line_height.toFixed(3);
           
           // iframe info icon sizes are wonky for some reason in LINUX PHPDESKTOP (but works fine in modern browsers)
           if ( app_container == 'phpdesktop' ) {
-          var info_icon_size = is_iframe ? (font_size * 1.2) : (font_size * 1.1);
+          var info_icon_size = font_size * 1.3;
           }
           else {
           var info_icon_size = font_size * 1.7;

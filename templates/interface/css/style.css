@@ -108,8 +108,8 @@ border-radius: .25rem !important;
 input[type=checkbox], input[type=radio] {
 position: relative;
 top: 3px;
-width: 15px !important;
-height: 15px !important;    
+width: 1em !important;
+height: 1em !important;    
 }
 
 
@@ -680,15 +680,6 @@ margin-top: 10px !important;
 
 
 /*  https://jsfiddle.net/TheAL/ednxgwrj/  */
-.footer_banner_button {
-    background: none !important;
-    padding: 0 !important;
-    border: none !important;
-}
-.footer_banner_button:hover {
-    text-decoration: underline !important;
-    cursor: pointer !important;
-}
 .footer_banner {
     font-size: 15px !important;   
     font-weight: 400 !important;
@@ -704,16 +695,25 @@ margin-top: 10px !important;
     background: #efc551 !important;
     z-index: 9999 !important;
 }
-.footer_banner .footer_banner_button {
-    display: inline-block !important;
-    line-height: 30px;
-    margin-left: 10px;
-    padding: 0 15px !important;
+.footer_banner a:link, .footer_banner a:visited, .footer_banner a:hover, .footer_banner a:active {
+    color: black !important;
+}
+.footer_banner_button {
+    background: none !important;
+    padding: 0 !important;
+    border: none !important;
+    display: block !important;
+    line-height: 1.3em;
+    margin: auto;
+    margin-top: 0.2em;
+    margin-bottom: 0.2em;
+    padding: 0.3em !important;
     color: #000 !important;
     background: #b9ff35 !important;
 }
-.footer_banner a:link, .footer_banner a:visited, .footer_banner a:hover, .footer_banner a:active {
-    color: black !important;
+.footer_banner_button:hover {
+    text-decoration: underline !important;
+    cursor: pointer !important;
 }
 
 

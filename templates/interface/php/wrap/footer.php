@@ -178,6 +178,8 @@ else {
     
     <br class='clear_both' />
     
+           <div class='footer_content'>
+    
     <p class='align_center' style='margin: 15px;'><a href='javascript:scroll(0,0);' title='Return to the top of the page.'>Back To Top</a></p>
             	
     <div id="app_error_alert" style='display: none;'><?php echo $alerts_gui_errors . ( isset($alerts_gui_debugging) && $alerts_gui_debugging != '' ? '============<br />DEBUGGING:<br />============<br />' . $alerts_gui_debugging : '' ); ?></div>
@@ -210,6 +212,9 @@ require("templates/interface/php/wrap/wrap-elements/help-faq-modal.php");
     ?>
         
         
+        
+   		 </div> <!-- .footer_content -->
+   		 
         
    		 </div>
    		 
