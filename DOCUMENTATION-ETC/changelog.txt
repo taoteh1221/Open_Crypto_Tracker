@@ -6183,13 +6183,15 @@ v6.00.2 AND HIGHER RESETS LIGHT (TIME PERIOD) CHARTS FROM ARCHIVAL DATA, ONE-TIM
 
 -BUG FIX: Miscellaneous fixes
 
--Support for PHPbrowserBox (more reliable app container for Windows Desktop Editions)
+-Support for PHPbrowserBox (new / more reliable app container for Windows Desktop Editions)
 
 -More reliable system checks (during preflight checks) for missing PHP extensions
 
 -Miscellaneous user experience improvements
 
 -Better Desktop Editions support
+
+-More reliable text resizing
 
 -Code optimization / cleanup
 
