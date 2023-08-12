@@ -51,12 +51,7 @@ To install as a normal native app on your laptop / desktop, download the "Deskto
 https://github.com/taoteh1221/Open_Crypto_Tracker/releases
 
 
-After downloading, unzip the contents of the download to your desktop or other preferred file location (it doesn't matter, put it wherever you want to). Now use your operating system's file browser to enter the app's main directory, and click on "RUN_CRYPTO_TRACKER" to launch the app. TO USE PRICE CHARTS AND PRICE ALERTS TO EMAIL / TEXT / ALEXA / TELEGRAM, YOU #MUST# LEAVE THE APP RUNNING UNLESS YOU SETUP A CRON JOB / SCHEDULED TASK! (see: "Setting Up Price Charts And Email / Text / Telegram / Alexa Price Alerts")
-
-
-IMPORTANT NOTES FOR WINDOWS 10 / 11 USERS: 
-
-THE 'SERVER EDITION' IS CURRENTLY MORE RELIABLE THAN THE 'DESKTOP EDITION' ON WINDOWS MACHINES. CONSIDER READING THE 'Installing On A Web Server / Manual Installation' SECTION FURTHER DOWN HERE, IF YOU HAVE ISSUES WITH THE WINDOWS 'DESKTOP EDITION'. WE RELY ON ANOTHER OPEN SOURCE PROJECT CALLED 'PHPdesktop' FOR THE DESKTOP EDITIONS ( https://github.com/cztomczak/phpdesktop ), AND THE WINDOWS VERSION IS CURRENTLY VERY OUT-DATED.
+After downloading, unzip the contents of the download to your desktop or other preferred file location (it doesn't matter, put it wherever you want to). Now use your operating system's file browser to enter the app's main directory, and click on "RUN_CRYPTO_TRACKER" to launch the app (in Windows Desktop Edition, click "INSTALL_WEB_SERVER_FIRST" beforehand). TO USE PRICE CHARTS AND PRICE ALERTS TO EMAIL / TEXT / ALEXA / TELEGRAM, YOU #MUST# LEAVE THE APP RUNNING UNLESS YOU SETUP A CRON JOB / SCHEDULED TASK! (see: "Setting Up Price Charts And Email / Text / Telegram / Alexa Price Alerts")
 
 
 IMPORTANT NOTES FOR LINUX USERS: 
@@ -682,11 +677,11 @@ Example: "/plugins/my-app-plugin/plug-templates/plug-docs.php" (must be lowercas
 
 
 
-15) We are done setting up the plugin files / folders, so now we need to activate the new plugin. IN THE "Admin Config" POWER USER section, locate the configuration variable named: 'activate_plugins'
+15) We are done setting up the plugin files / folders, so now we need to activate the new plugin. IN THE "Admin Config" PLUGINS section, locate the plugins list.
 
 
 
-16) To add / activate your new plugin, add your plugin MAIN FOLDER name (example: 'my-app-plugin') as a new value within 'activate_plugins', and set to 'on'...ALSO INCLUDE A COMMA AT THE END.
+16) To add / activate your new plugin, add your plugin MAIN FOLDER name (example: 'my-app-plugin') as a new value within the plugins list, and set to 'on'...ALSO INCLUDE A COMMA AT THE END.
 
 Example: 'my-app-plugin' => 'on',
 

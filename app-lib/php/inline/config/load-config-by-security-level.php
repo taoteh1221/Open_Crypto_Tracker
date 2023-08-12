@@ -33,7 +33,7 @@ $ct_cache->load_cached_config();
 
 
 // Configs for any plugins activated in ct_conf
-foreach ( $ct_conf['power']['activate_plugins'] as $key => $val ) {
+foreach ( $ct_conf['plugins']['status'] as $key => $val ) {
 			
 $this_plug = $key;
 

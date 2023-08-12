@@ -1,3 +1,14 @@
+<?php
+			
+// Warning (minimal, just as link title on the 'refresh' link) if price data caching set too low
+if ( $ct_conf['power']['last_trade_cache_time'] < 4 ) {
+$refresh_link_documentation = 'Use this to Refresh / Reload the app data. Refreshing data too frequently may cause API request refusals, especially if request caching settings are too low. It is recommended to use this refresh feature sparingly with lower or disabled cache settings. The current real-time exchange data re-cache (refresh from live data instead of cached data) setting in the Admin Config GENERAL section is set to '. $ct_conf['power']['last_trade_cache_time'] . ' minute(s). A setting of 4 or higher assists in avoiding temporary IP blocking / throttling by exchanges.';
+}
+else {
+$refresh_link_documentation = 'The current real-time exchange data re-cache (refresh from live data instead of cached data) setting in the Admin Config GENERAL section is set to '. $ct_conf['power']['last_trade_cache_time'] . ' minute(s).';
+}
+			
+?>  
 
 
 <!-- collapsed sidebar -->
@@ -23,6 +34,12 @@
    
    
    <div class="align_center"><img src='templates/interface/media/images/auto-preloaded/icons8-minus-96.png' width='45' border='0' id='' class='nav-image btn-number' data-type="minus" data-field="quant_font_percent" title='Decrease text size.' /></div>
+
+   
+   <div class="smallnav_spacer"></div>
+
+   
+   <div class="align_center"><a href='javascript:app_reloading_check();' class='bitcoin' style='font-weight: bold;' title='Use this to Refresh / Reload the app data. <?=$refresh_link_documentation?>'><img src='templates/interface/media/images/auto-preloaded/icons8-refresh-64-<?=$sel_opt['theme_selected']?>.png' class='nav-image' width='45' border='0' /></a></div>
 
    
    <div class="smallnav_spacer"></div>
@@ -235,7 +252,7 @@
                     <input type="text" name="quant_font_percent" id="quant_font_percent" class="form-control input-number" value="<?=($default_font_size * 100)?>" min="<?=($min_font_resize * 100)?>" max="<?=($max_font_resize * 100)?>" onchange='
                     
                	if ( !get_cookie("font_size") ) {
-               	font_size_cookie = confirm("This feature requires using cookie data.");
+               	font_size_cookie = confirm("This feature requires using cookie data.\n\nPRO TIP: If your web browser has a \"zoom\" feature, try that first for better results.");
                	}
                	else {
                	font_size_cookie = true;
@@ -273,7 +290,7 @@
         
 
         <div class="sidebar-header">
-            <h4 class='align_center' style='margin-bottom: 0px;'>Open Crypto Tracker</h4>
+            <h1 class='align_center' style='margin: 0px;'>Open Crypto Tracker</h1>
         </div>
         
         <div class="sidebar-slogan align_center">
@@ -287,7 +304,12 @@
         
             
             <li class='sidebar-item'>
-                <a id='pm_link' class='bitcoin pm_link' onclick='privacy_mode(true);' title='Turn privacy mode ON. This encrypts / hides RENDERED personal portfolio data with the PIN you setup (BUT DOES #NOT# encrypt RAW source code). It ALSO disables opposite-clicking / data submission, and logs out any active admin login.'>Privacy Mode Is Off</a>
+                <a href='javascript:app_reloading_check();' class='bitcoin' title='Use this to Refresh / Reload the app data. <?=$refresh_link_documentation?>'>Refresh Data</a>
+            </li>
+        
+            
+            <li class='sidebar-item'>
+                <a id='pm_link' class='bitcoin pm_link' onclick='privacy_mode(true);' title='Turn privacy mode ON. This encrypts / hides RENDERED personal portfolio data with the PIN you setup (BUT DOES #NOT# encrypt RAW source code). It ALSO disables opposite-clicking / data submission, and logs out any active admin login.'>Privacy Mode: Off</a>
             </li>
             
             
@@ -512,7 +534,7 @@
             
             
             <li class='sidebar-item'>
-                <a href="javascript: return false;" class="modal_style_control show_help_faq blue" title='Get help with running and setting up this app.'>Help Using This App?</a>
+                <a href="javascript: return false;" class="modal_style_control show_help_faq blue" title='Get help with running and setting up this app.'>Help? / FAQ</a>
             </li>
             
             

@@ -178,6 +178,8 @@ else {
     
     <br class='clear_both' />
     
+           <div class='footer_content'>
+    
     <p class='align_center' style='margin: 15px;'><a href='javascript:scroll(0,0);' title='Return to the top of the page.'>Back To Top</a></p>
             	
     <div id="app_error_alert" style='display: none;'><?php echo $alerts_gui_errors . ( isset($alerts_gui_debugging) && $alerts_gui_debugging != '' ? '============<br />DEBUGGING:<br />============<br />' . $alerts_gui_debugging : '' ); ?></div>
@@ -210,6 +212,9 @@ require("templates/interface/php/wrap/wrap-elements/help-faq-modal.php");
     ?>
         
         
+        
+   		 </div> <!-- .footer_content -->
+   		 
         
    		 </div>
    		 
@@ -246,8 +251,8 @@ if ( is_safari && localStorage.getItem(cookies_notice_storage) == "understood" )
 footer_banner(safari_notice_storage, 'This web app MAY NOT WORK PROPERLY on the Apple Safari web browser. FireFox OR Chromium-based browsers (Chrome / Edge / Brave / Opera, etc) are highly recommended for the best user experience.');
 }
 // Creates 'Desktop on Windows has issues' notice footer banner (if using Desktop on Windows / has ALREADY ACKNOWLEDGED the cookie banner)
-else if ( app_edition == 'desktop' && app_platform == 'windows' && localStorage.getItem(cookies_notice_storage) == "understood" ) {
-footer_banner(desktop_windows_notice_storage, 'This web app *SOMETIMES* MAY NOT WORK PROPERLY for the WINDOWS DESKTOP EDITION (Linux Desktop Edition and Server Edition work fine). Try installing <a href="https://www.apachefriends.org" target="_BLANK">XAMPP for Windows</a>, and then installing the <a href="https://github.com/taoteh1221/Open_Crypto_Tracker/releases" target="_BLANK">Server Edition of this app</a> inside the XAMPP "htdocs" folder (delete any pre-existing index.html file in htdocs...SEE the "Manual Installation For Server Edition" section in the <a href="README.txt" target="_BLANK">README.txt documentation file</a>).');
+else if ( app_edition == 'desktop' && app_platform == 'windows' && app_container == 'phpdesktop' && localStorage.getItem(cookies_notice_storage) == "understood" ) {
+footer_banner(desktop_windows_notice_storage, 'This web app *SOMETIMES* MAY NOT WORK PROPERLY for this "PHPdesktop"-based WINDOWS DESKTOP EDITION (all other Editions work fine). Try installing the <a href="https://github.com/taoteh1221/Open_Crypto_Tracker/releases" target="_BLANK">Newest Windows Desktop Edition of this app</a>, as we now use "PHPbrowserBox" instead of "PHPdesktop", which makes the Windows Edition RUN WAY BETTER.');
 }
 
 </script>

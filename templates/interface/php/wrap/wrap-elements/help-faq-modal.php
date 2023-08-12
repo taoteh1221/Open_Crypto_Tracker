@@ -4,7 +4,7 @@
 <div class='' id="show_help_faq">
 	
 		
-		<h3 style='display: inline;'>Help / FAQ</h3>
+		<h3 style='display: inline;'>Help? / FAQ</h3>
 	
 				<span style='z-index: 99999; margin-right: 55px;' class='red countdown_notice_modal'></span>
 	
@@ -12,14 +12,16 @@
 	<br clear='all' />
 			
 	<?php
-	if ( $app_edition == 'desktop' && $app_platform == 'windows' ) {
+	if ( $app_edition == 'desktop' && $app_platform == 'windows' && $app_container == 'phpdesktop' ) {
 	?>
 	
 	<div class='red red_dotted'>
 	
-	This web app *SOMETIMES* MAY NOT WORK PROPERLY for the WINDOWS DESKTOP EDITION (INCLUDING THIS HELP / FAQ PAGE...Linux Desktop Edition and Server Edition work fine).<br /><br />
+	This web app *SOMETIMES* MAY NOT WORK PROPERLY for this "PHPdesktop"-based WINDOWS DESKTOP EDITION (all other Editions work fine).<br /><br />
 	
-	Try installing <a href="https://www.apachefriends.org" target="_BLANK">XAMPP for Windows</a>, and then installing the <a href="https://github.com/taoteh1221/Open_Crypto_Tracker/releases" target="_BLANK">Server Edition of this app</a> inside the XAMPP "htdocs" folder (delete any pre-existing index.html file in htdocs...SEE the "Manual Installation For Server Edition" section in the <a href="README.txt" target="_BLANK">README.txt documentation file</a>).
+	Try installing the <a href="https://github.com/taoteh1221/Open_Crypto_Tracker/releases" target="_BLANK">Newest Windows Desktop Edition of this app</a>, as we now use "PHPbrowserBox" instead of "PHPdesktop", which makes the Windows Edition RUN WAY BETTER.<br /><br />
+	
+	You can still view the contents of this Help / FAQ page here: <a href='TROUBLESHOOTING.txt' target='_blank'>TROUBLESHOOTING.txt</a>
 	
 	</div>
 	
@@ -114,17 +116,11 @@
 
 	    <br /><br />
 
-After downloading, unzip the contents of the download to your desktop or other preferred file location (it doesn't matter, put it wherever you want to). Now use your operating system's file browser to enter the app's main directory, and click on "RUN_CRYPTO_TRACKER" to launch the app. <span class='red'>TO USE PRICE CHARTS AND PRICE ALERTS TO EMAIL / TEXT / ALEXA / TELEGRAM, YOU #MUST# LEAVE THE APP RUNNING UNLESS YOU MANUALLY SETUP A CRON JOB / SCHEDULED TASK! (see: "Setting Up Price Charts And Email / Text / Telegram / Alexa Price Alerts")</span>
+After downloading, unzip the contents of the download to your desktop or other preferred file location (it doesn't matter, put it wherever you want to). Now use your operating system's file browser to enter the app's main directory, and click on "RUN_CRYPTO_TRACKER" to launch the app (in Windows Desktop Edition, click "INSTALL_WEB_SERVER_FIRST" beforehand). <span class='red'>TO USE PRICE CHARTS AND PRICE ALERTS TO EMAIL / TEXT / ALEXA / TELEGRAM, YOU #MUST# LEAVE THE APP RUNNING UNLESS YOU MANUALLY SETUP A CRON JOB / SCHEDULED TASK! (see: "Setting Up Price Charts And Email / Text / Telegram / Alexa Price Alerts")</span>
 
+	    
 	    <br /><br />
-
-<span class='bitcoin'>IMPORTANT NOTE FOR WINDOWS 10 / 11 USERS:</span> 
-
-	    <br /><br />
-THE 'SERVER EDITION' IS CURRENTLY MORE RELIABLE THAN THE 'DESKTOP EDITION' ON WINDOWS MACHINES. CONSIDER READING THE 'Installing On A Web Server / Manual Installation' SECTION FURTHER DOWN HERE, IF YOU HAVE ISSUES WITH THE WINDOWS 'DESKTOP EDITION'. WE RELY ON ANOTHER OPEN SOURCE PROJECT CALLED '<a href='https://github.com/cztomczak/phpdesktop' target='_blank'>PHPdesktop</a>' FOR THE DESKTOP EDITIONS, AND THE WINDOWS VERSION IS CURRENTLY VERY OUT-DATED.
-
-	    <br /><br />
-<span class='bitcoin'>IMPORTANT NOTE FOR LINUX USERS:</span> 
+<span class='bitcoin'>IMPORTANT NOTES FOR LINUX USERS:</span> 
 
 	    <br /><br />
 IF YOU GET THE ERROR: "CGI program sent malformed or too big", YOU LIKELY NEED TO BUILD A PHP BINARY THAT IS COMPATIBLE WITH YOUR UNIQUE SYSTEM SETUP. Try running the script "<a href='https://raw.githubusercontent.com/taoteh1221/Open_Crypto_Tracker/main/BUILD-PHP-FOR-LINUX-DESKTOP.bash' target='_blank'>BUILD-PHP-FOR-LINUX-DESKTOP.bash</a>" in the Desktop Edition main folder, which should fix things automatically for you. Just make sure it's file permissions are set to "executable" (chmod +x, OR chmod 755 should do that). IMPORTANT STEP: YOU *MUST* SHUT DOWN THE DESKTOP EDITION OF THIS APP *BEFOREHAND*, OTHERWISE THIS SCRIPT *CANNOT* INSTALL THE CREATED PHP BINARY IT BUILDS!
@@ -1072,11 +1068,11 @@ Example: "/plugins/my-app-plugin/plug-templates/plug-docs.php" (must be lowercas
 
 
 
-<span class='blue'>15)</span> We are done setting up the plugin files / folders, so now we need to activate the new plugin. IN THE "Admin Config" POWER USER section, locate the configuration variable named: 'activate_plugins'
+<span class='blue'>15)</span> We are done setting up the plugin files / folders, so now we need to activate the new plugin. IN THE "Admin Config" PLUGINS section, locate the plugins list.
 <br /><br /><br />
 
 
-<span class='blue'>16)</span> To add / activate your new plugin, add your plugin MAIN FOLDER name (example: 'my-app-plugin') as a new value within 'activate_plugins', and set to 'on'...ALSO INCLUDE A COMMA AT THE END.
+<span class='blue'>16)</span> To add / activate your new plugin, add your plugin MAIN FOLDER name (example: 'my-app-plugin') as a new value within the plugins list, and set to 'on'...ALSO INCLUDE A COMMA AT THE END.
 <br /><br />
 
 <pre class='rounded' style='display: inline-block; padding-top: 1em !important;'><code class='hide-x-scroll less' style='white-space: nowrap; width: auto; display: inline-block;'>'my-app-plugin' => 'on',</code></pre>

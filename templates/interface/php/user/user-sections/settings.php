@@ -337,21 +337,21 @@
 	
 			var currency_content = '<h5 class="align_center yellow tooltip_title">Primary Currency Market</h5>'
 			
-			+'<p class="coin_info extra_margins" style="white-space: normal; max-width: 600px;">The Primary Currency Market setting allows you to change your default primary currency (conversion) for the portfolio interface (the price charts / price alerts primary currency market <i>must be changed separately in the Admin Config GENERAL section</i>).</p>'
+			+'<p class="coin_info extra_margins" style="white-space: normal; ">The Primary Currency Market setting allows you to change your default primary currency (conversion) for the portfolio interface (the price charts / price alerts primary currency market <i>must be changed separately in the Admin Config GENERAL section</i>).</p>'
 			
-			+'<p class="coin_info extra_margins" style="white-space: normal; max-width: 600px;">Additionally, if you check off "Stand-Alone Mode", your chosen Bitcoin market on the "Update" page <i>will NOT be automatically changed to match your chosen Primary Currency Market on this "Settings" page</i>. This is useful if you\'d like to browse through different Bitcoin markets, BUT don\'t want your default primary currency to change in the app.</p>'
+			+'<p class="coin_info extra_margins" style="white-space: normal; ">Additionally, if you check off "Stand-Alone Mode", your chosen Bitcoin market on the "Update" page <i>will NOT be automatically changed to match your chosen Primary Currency Market on this "Settings" page</i>. This is useful if you\'d like to browse through different Bitcoin markets, BUT don\'t want your default primary currency to change in the app.</p>'
 			
 			+'<p> </p>';
 		
 		
 			$('#currency_info').balloon({
 			html: true,
-			position: "right",
+			position: "top",
   			classname: 'balloon-tooltips',
 			contents: currency_content,
 			css: {
 					fontSize: "<?=$default_font_size?>em",
-					minWidth: "450px",
+					minWidth: "350px",
 					padding: ".3rem .7rem",
 					border: "2px solid rgba(212, 212, 212, .4)",
 					borderRadius: "6px",
@@ -524,11 +524,11 @@
 		
 			var setting_crypto_val_content = '<h5 class="yellow tooltip_title">Show Crypto Value Of ENTIRE Portfolio In</h5>'
 			
-			+'<p class="coin_info" style="max-width: 600px; white-space: normal;">Shows the value of your ENTIRE portfolio, in cryptocurrencies selected here, at the bottom of the Portfolio page.</p>'
+			+'<p class="coin_info" style=" white-space: normal;">Shows the value of your ENTIRE portfolio, in cryptocurrencies selected here, at the bottom of the Portfolio page.</p>'
 			
-			+'<p class="coin_info" style="max-width: 600px; white-space: normal;">You can edit this list (except for BTC) with the "crypto_pair" setting, in the Admin Config POWER USER section.</p>'
+			+'<p class="coin_info" style=" white-space: normal;">You can edit this list (except for BTC) with the "crypto_pair" setting, in the Admin Config POWER USER section.</p>'
 			
-			+'<p class="coin_info red_bright" style="max-width: 600px; white-space: normal;">It\'s HIGHLY RECOMMENDED to only add Bluechip / relatively lower risk crypto assets here! Remember, the <a href="https://www.google.com/search?q=barbell+portfolio+strategy" target="_blank">Barbell Portfolio Strategy</a> works VERY WELL for MANY investors that use it!</p>';
+			+'<p class="coin_info red_bright" style=" white-space: normal;">It\'s HIGHLY RECOMMENDED to only add Bluechip / relatively lower risk crypto assets here! Remember, the <a href="https://www.google.com/search?q=barbell+portfolio+strategy" target="_blank">Barbell Portfolio Strategy</a> works VERY WELL for MANY investors that use it!</p>';
 			
 		
 			$('#setting_crypto_val').balloon({
@@ -538,7 +538,7 @@
 			contents: setting_crypto_val_content,
 			css: {
 					fontSize: "<?=$default_font_size?>em",
-					minWidth: "450px",
+					minWidth: "350px",
 					padding: ".3rem .7rem",
 					border: "2px solid rgba(212, 212, 212, .4)",
 					borderRadius: "6px",
@@ -589,21 +589,21 @@
 		
 			var setting_secondary_trade_val_content = '<h5 class="yellow tooltip_title">Show Secondary Trade / Holdings Values In</h5>'
 			
-			+'<p class="coin_info" style="max-width: 600px; white-space: normal;">Choose showing secondary trade / holdings values in another asset, see example screenshot below:</p>'
+			+'<p class="coin_info" style=" white-space: normal;">Choose showing secondary trade / holdings values in another asset, see example screenshot below:</p>'
 			
-			+'<p class="coin_info" style="max-width: 600px; white-space: normal;"><img src="templates/interface/media/images/auto-preloaded/secondary-value-example.png" width="590" title="Secondary Trade / Holdings Value" /></p>'
+			+'<p class="coin_info" style=" white-space: normal;"><img src="templates/interface/media/images/auto-preloaded/secondary-value-example.png" width="590" title="Secondary Trade / Holdings Value" /></p>'
 			
-			+'<p class="coin_info" style="max-width: 600px; white-space: normal;">You can edit this list (except for BTC) with the "crypto_pair" setting, in the Admin Config POWER USER section.</p>';
+			+'<p class="coin_info" style=" white-space: normal;">You can edit this list (except for BTC) with the "crypto_pair" setting, in the Admin Config POWER USER section.</p>';
 			
 		
 			$('#setting_secondary_trade_val').balloon({
 			html: true,
-			position: "right",
+			position: "top",
   			classname: 'balloon-tooltips',
 			contents: setting_secondary_trade_val_content,
 			css: {
 					fontSize: "<?=$default_font_size?>em",
-					minWidth: "450px",
+					minWidth: "350px",
 					padding: ".3rem .7rem",
 					border: "2px solid rgba(212, 212, 212, .4)",
 					borderRadius: "6px",

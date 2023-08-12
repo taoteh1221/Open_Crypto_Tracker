@@ -59,9 +59,9 @@ var $ct_array1 = array();
   
   function php_timeout_defaults($dir_var) {
    
-  global $ct_conf, $ct_var;
+  global $ct_var, $ui_max_exec_time;
   
-  $ui_exec_time = $ct_conf['power']['ui_max_exec_time']; // Don't overwrite globals
+  $ui_exec_time = $ui_max_exec_time; // Don't overwrite globals
   
     // If the UI timeout var wasn't set properly / is not a whole number 3600 or less
     if ( !$ct_var->whole_int($ui_exec_time) || $ui_exec_time > 3600 ) {
@@ -1190,7 +1190,7 @@ var $ct_array1 = array();
   
   function save_file($file, $data, $mode=false, $lock=true) {
   
-  global $ct_conf, $ct_var, $ct_gen, $current_runtime_user, $possible_http_users, $http_runtime_user;
+  global $ct_conf, $ct_var, $ct_gen, $current_runtime_user, $possible_http_users, $http_runtime_user, $chmod_cache_file, $chmod_index_sec;
   
   
     // If no data was passed on to write to file, log it and return false early for runtime speed sake
@@ -1219,12 +1219,12 @@ var $ct_array1 = array();
     }
    
    
-    // We ALWAYS set .htaccess files to a more secure $ct_conf['sec']['chmod_index_sec'] permission AFTER EDITING, 
-    // so we TEMPORARILY set .htaccess to $ct_conf['sec']['chmod_cache_file'] for NEW EDITING...
+    // We ALWAYS set .htaccess files to a more secure $chmod_index_sec permission AFTER EDITING, 
+    // so we TEMPORARILY set .htaccess to $chmod_cache_file for NEW EDITING...
     // (anything else stays weaker write security permissions, for UX)
     if ( strstr($file, '.dat') != false || strstr($file, '.htaccess') != false || strstr($file, '.user.ini') != false || strstr($file, 'index.php') != false ) {
      
-    $chmod_setting = octdec($ct_conf['sec']['chmod_cache_file']);
+    $chmod_setting = octdec($chmod_cache_file);
     
          // Run chmod compatibility on certain PHP setups (if we can because we are running as the file owner)
          // In this case only if the file exists, as we are chmod BEFORE editing it (.htaccess files)
@@ -1264,11 +1264,11 @@ var $ct_array1 = array();
     
     // For security, NEVER make an .htaccess file writable by any user not in the group
     if ( strstr($file, '.htaccess') != false || strstr($file, '.user.ini') != false || strstr($file, 'index.php') != false ) {
-    $chmod_setting = octdec($ct_conf['sec']['chmod_index_sec']);
+    $chmod_setting = octdec($chmod_index_sec);
     }
     // All other files
     else {
-    $chmod_setting = octdec($ct_conf['sec']['chmod_cache_file']);
+    $chmod_setting = octdec($chmod_cache_file);
     }
    
     $ct_gen->ct_chmod($file, $chmod_setting);
@@ -1297,7 +1297,7 @@ var $ct_array1 = array();
     // Hash of light path, AND random X hours update threshold, to spread out and event-track 'all' chart rebuilding
     if ( $days_span == 'all' ) {
     $light_path_hash = md5($light_path);
-    $thres_range = explode(',', $ct_conf['power']['all_chart_rebuild_min_max']);
+    $thres_range = explode(',', $ct_conf['power']['light_chart_all_rebuild_min_max']);
     $all_chart_rebuild_thres = rand($thres_range[0], $thres_range[1]); // Randomly within the min/max range, to spead the load across multiple runtimes
     }
    

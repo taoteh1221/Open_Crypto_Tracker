@@ -13,8 +13,22 @@
 <div class='full_width_wrapper align_center'>
 			
 	
-	<div style='display: inline;'><?=$ct_gen->start_page_html('portfolio')?></div>		
-
+	<div style='display: inline;'><?=$ct_gen->start_page_html('portfolio')?></div>
+			
+			
+			 &nbsp; <select title='Auto-Refresh MAY NOT WORK properly on mobile devices (phone / laptop / tablet / etc), or inactive tabs.' class='browser-default custom-select' name='select_auto_refresh' id='select_auto_refresh' onchange='
+			 reload_time = this.value;
+			 auto_reload();
+			 '>
+				<option value='0'> Reload Data Manually </option>
+				<option value='300' <?=( $_COOKIE['coin_reload'] == '300' ? 'selected' : '' )?>> Auto-Reload: 5 Minutes </option>
+				<option value='600' <?=( $_COOKIE['coin_reload'] == '600' ? 'selected' : '' )?>> Auto-Reload: 10 Minutes </option>
+				<option value='900' <?=( $_COOKIE['coin_reload'] == '900' ? 'selected' : '' )?>> Auto-Reload: 15 Minutes </option>
+				<option value='1800' <?=( $_COOKIE['coin_reload'] == '1800' ? 'selected' : '' )?>> Auto-Reload: 30 Minutes </option>
+			</select> 
+			
+			
+			&nbsp; <span class='bitcoin'><b>(<?=$ct_conf['power']['last_trade_cache_time']?> minute prices cache)</b></span>
      
 	
 			<?php
@@ -49,37 +63,15 @@
 				
 				
 			?>
-			  &nbsp; &nbsp; <span class='<?=$alert_filter_css?>' style='font-weight: bold;'><?=$visual_audio_alerts?> Alerts (<?=ucfirst($ct_conf['gen']['prim_mcap_site'])?> <?=$text_mcap_trend?> <?=$alert_filter?><?=$sel_opt['alert_percent'][1]?>%)</span>
+			
+			&nbsp; <span class='<?=$alert_filter_css?>' style='font-weight: bold;'><?=$visual_audio_alerts?> Alerts (<?=ucfirst($ct_conf['gen']['prim_mcap_site'])?> <?=$text_mcap_trend?> <?=$alert_filter?><?=$sel_opt['alert_percent'][1]?>%)</span>
+			
 			<?php
 			}
-			
-			// Warning (minimal, just as link title on the 'refresh' link) if price data caching set too low
-			if ( $ct_conf['power']['last_trade_cache_time'] < 4 ) {
-			$refresh_link_title = 'Refreshing data too frequently may cause API request refusals, especially if request caching settings are too low. It is recommended to use this refresh feature sparingly with lower or disabled cache settings. The current real-time exchange data re-cache (refresh from live data instead of cached data) setting in the Admin Config GENERAL section is set to '. $ct_conf['power']['last_trade_cache_time'] . ' minute(s). A setting of 4 or higher assists in avoiding temporary IP blocking / throttling by exchanges.';
-			}
-			else {
-			$refresh_link_title = 'The current real-time exchange data re-cache (refresh from live data instead of cached data) setting in the Admin Config GENERAL section is set to '. $ct_conf['power']['last_trade_cache_time'] . ' minute(s).';
-			}
-			
 			?>  
 			
 			
-			&nbsp; &nbsp; &nbsp; <a href='javascript:app_reloading_check();' class='bitcoin' style='font-weight: bold;' title='<?=$refresh_link_title?>'>Refresh</a> <span><b>(<?=$ct_conf['power']['last_trade_cache_time']?> minute cache)</b></span>
-			
-			
-			 &nbsp;<select title='Auto-Refresh MAY NOT WORK properly on mobile devices (phone / laptop / tablet / etc), or inactive tabs.' class='browser-default custom-select' name='select_auto_refresh' id='select_auto_refresh' onchange='
-			 reload_time = this.value;
-			 auto_reload();
-			 '>
-				<option value='0'> Manually </option>
-				<option value='300' <?=( $_COOKIE['coin_reload'] == '300' ? 'selected' : '' )?>> Every 5 Minutes </option>
-				<option value='600' <?=( $_COOKIE['coin_reload'] == '600' ? 'selected' : '' )?>> Every 10 Minutes </option>
-				<option value='900' <?=( $_COOKIE['coin_reload'] == '900' ? 'selected' : '' )?>> Every 15 Minutes </option>
-				<option value='1800' <?=( $_COOKIE['coin_reload'] == '1800' ? 'selected' : '' )?>> Every 30 Minutes </option>
-			</select> 
-			
-			
-			&nbsp;<span id='reload_notice' class='red'></span>
+			&nbsp; <span id='reload_notice' class='red'></span>		
 					
 					
 			<p>
@@ -468,10 +460,9 @@ $altcoin_dominance = $ct_var->max_100($altcoin_dominance);
 		    
 		$gain_loss_total = $ct_asset->coin_stats_data('gain_loss_total');
 		
-		
-        $thres_dec = $ct_gen->thres_dec($gain_loss_total, 'u'); // Units mode
+          $thres_dec = $ct_gen->thres_dec($gain_loss_total, 'u'); // Units mode
+          
 		$parsed_gain_loss_total = preg_replace("/-/", "-" . $ct_conf['power']['btc_currency_mrkts'][ $ct_conf['gen']['btc_prim_currency_pair'] ], number_format($gain_loss_total, $thres_dec['max_dec'], '.', ',' ) );
-		
 		
 		$original_worth = $ct_asset->coin_stats_data('coin_paid_total');
 		
@@ -480,7 +471,8 @@ $altcoin_dominance = $ct_var->max_100($altcoin_dominance);
 		$total_prim_currency_worth_inc_lvrg = $total_prim_currency_worth + $lvrg_only_gain_loss;
 		
 		
-        $thres_dec = $ct_gen->thres_dec($total_prim_currency_worth_inc_lvrg, 'u'); // Units mode
+          $thres_dec = $ct_gen->thres_dec($total_prim_currency_worth_inc_lvrg, 'u'); // Units mode
+          
   		// Here we can go negative 'total worth' with the margin leverage (unlike with the margin deposit)
   		// We only want a negative sign here in the UI for 'total worth' clarity (if applicable), NEVER a plus sign
   		// (plus sign would indicate a gain, NOT 'total worth')
@@ -493,17 +485,10 @@ $altcoin_dominance = $ct_var->max_100($altcoin_dominance);
 		}
 		
 	  
-	  
-	  // Notice that margin leverage is NOT included !!WITHIN!! BTC / PAIR TOTALS EVER (for UX's sake, too confusing to included in anything other than gain / loss stats)
-	  // We only include data in parenthesis NEXT TO THE BTC / PAIR PORTFOLIO SUMMARIES
-	  $lvrg_text1 = ( $purchase_price_added == 1 && $lvrg_added == 1 && is_numeric($gain_loss_total) == TRUE ? ' <p class="coin_info balloon_notation bitcoin" style="max-width: 600px; white-space: normal;"> *Includes adjusted long (*NOT* short) deposits, BUT <i><u>leverage is NOT included</u></i>.</p>' : '' );
-	  $lvrg_text2 = ( $purchase_price_added == 1 && $lvrg_added == 1 && is_numeric($gain_loss_total) == TRUE ? ' <p class="coin_info balloon_notation bitcoin" style="max-width: 600px; white-space: normal;"> *Includes adjusted long AND short deposits, BUT <i><u>leverage is NOT included</u></i>.</p>' : '' );
 
-
-
-			// Crypto value(s) of portfolio
-			if ( $sel_opt['show_crypto_val'][0] ) {
-			?>
+	     // Crypto value(s) of portfolio
+		if ( $sel_opt['show_crypto_val'][0] ) {
+		?>
 			
 			<div class="portfolio_summary">
 			
@@ -567,13 +552,13 @@ $altcoin_dominance = $ct_var->max_100($altcoin_dominance);
 		
 			var crypto_val_content = '<h5 class="yellow tooltip_title">Crypto Value</h5>'
 			
-			+'<p class="coin_info" style="max-width: 600px; white-space: normal;">The value of your ENTIRE portfolio, in the cryptocurrencies you selected in the "Show Crypto Value Of ENTIRE Portfolio In" setting, on the Settings page.</p>'
+			+'<p class="coin_info" style=" white-space: normal;">The value of your ENTIRE portfolio, in the cryptocurrencies you selected in the "Show Crypto Value Of ENTIRE Portfolio In" setting, on the Settings page.</p>'
 			
-			+'<p class="coin_info bitcoin" style="max-width: 600px; white-space: normal;">If these values are skewed often, it\'s because the market(s) being used to determine the values are trading at different prices compared to the markets you chose in this interface. You can force certain markets to be used for this calculation with the "crypto_pair_pref_mrkts" setting, in the Admin Config POWER USER section.</p>'
+			+'<p class="coin_info bitcoin" style=" white-space: normal;">If these values are skewed often, it\'s because the market(s) being used to determine the values are trading at different prices compared to the markets you chose in this interface. You can force certain markets to be used for this calculation with the "crypto_pair_pref_mrkts" setting, in the Admin Config POWER USER section.</p>'
 			
-			+'<p class="coin_info red_bright" style="max-width: 600px; white-space: normal;">It\'s HIGHLY RECOMMENDED to only add Bluechip / relatively lower risk crypto assets here! Remember, the <a href="https://www.google.com/search?q=barbell+portfolio+strategy" target="_blank">Barbell Portfolio Strategy</a> works VERY WELL for MANY investors that use it!</p>'
+			+'<p class="coin_info red_bright" style=" white-space: normal;">It\'s HIGHLY RECOMMENDED to only add Bluechip / relatively lower risk crypto assets here! Remember, the <a href="https://www.google.com/search?q=barbell+portfolio+strategy" target="_blank">Barbell Portfolio Strategy</a> works VERY WELL for MANY investors that use it!</p>'
 		
-			+'<?=$lvrg_text1?>';
+			+'<p class="coin_info balloon_notation bitcoin" style=" white-space: normal;"> *Includes any adjusted long (*NOT* short) deposits, BUT <i><u>any leverage is NOT included</u></i>.</p>';
 		
 		
 			$('#crypto_val').balloon({
@@ -583,7 +568,7 @@ $altcoin_dominance = $ct_var->max_100($altcoin_dominance);
 			contents: crypto_val_content,
 			css: {
 					fontSize: "<?=$default_font_size?>em",
-					minWidth: "450px",
+					minWidth: "350px",
 					padding: ".3rem .7rem",
 					border: "2px solid rgba(212, 212, 212, .4)",
 					borderRadius: "6px",
@@ -601,9 +586,9 @@ $altcoin_dominance = $ct_var->max_100($altcoin_dominance);
 			
 			</div>
 			
-			<?php
-			}
-			?>
+		<?php
+		}
+		?>
 			
 			
 			<div class="portfolio_summary">
@@ -627,11 +612,11 @@ $altcoin_dominance = $ct_var->max_100($altcoin_dominance);
 
 var fiat_val_content = '<h5 class="yellow tooltip_title">Primary Currency (<?=strtoupper($ct_conf['gen']['btc_prim_currency_pair'])?>) Value</h5>'
 			
-			+'<p class="coin_info" style="max-width: 600px; white-space: normal;">The value of your ENTIRE portfolio, based off your selected primary currency (<?=strtoupper($ct_conf['gen']['btc_prim_currency_pair'])?>), in the "Primary Currency Market" setting, on the Settings page.</p>'
+			+'<p class="coin_info" style=" white-space: normal;">The value of your ENTIRE portfolio, based off your selected primary currency (<?=strtoupper($ct_conf['gen']['btc_prim_currency_pair'])?>), in the "Primary Currency Market" setting, on the Settings page.</p>'
 			
-			+'<p class="coin_info" style="max-width: 600px; white-space: normal;">Selected Primary Currency Market: <span class="bitcoin">BTC / <?=strtoupper($ct_conf['gen']['btc_prim_currency_pair'])?> @ <?=$ct_gen->key_to_name($ct_conf['gen']['btc_prim_exchange'])?> (<?=$ct_conf['power']['btc_currency_mrkts'][ $ct_conf['gen']['btc_prim_currency_pair'] ]?><?=number_format( $sel_opt['sel_btc_prim_currency_val'], 0, '.', ',')?>)</span></p>'
+			+'<p class="coin_info" style=" white-space: normal;">Selected Primary Currency Market: <span class="bitcoin">BTC / <?=strtoupper($ct_conf['gen']['btc_prim_currency_pair'])?> @ <?=$ct_gen->key_to_name($ct_conf['gen']['btc_prim_exchange'])?> (<?=$ct_conf['power']['btc_currency_mrkts'][ $ct_conf['gen']['btc_prim_currency_pair'] ]?><?=number_format( $sel_opt['sel_btc_prim_currency_val'], 0, '.', ',')?>)</span></p>'
 		
-			+'<?=$lvrg_text2?>';
+			+'<p class="coin_info balloon_notation bitcoin" style=" white-space: normal;"> *Includes any adjusted long AND short deposits, BUT <i><u>any leverage is NOT included</u></i>.</p>';
 		
 		
 		
@@ -642,7 +627,7 @@ var fiat_val_content = '<h5 class="yellow tooltip_title">Primary Currency (<?=st
 			contents: fiat_val_content,
 			css: {
 					fontSize: "<?=$default_font_size?>em",
-					minWidth: "450px",
+					minWidth: "350px",
 					padding: ".3rem .7rem",
 					border: "2px solid rgba(212, 212, 212, .4)",
 					borderRadius: "6px",
@@ -675,24 +660,20 @@ var fiat_val_content = '<h5 class="yellow tooltip_title">Primary Currency (<?=st
 		// we move on to the gain / loss stats WHERE IT IS FEASIBLE ENOUGH TO INCLUDE !BASIC! MARGIN LEVERAGE DATA SUMMARY (where applicable)
 		if ( $purchase_price_added == 1 && is_numeric($gain_loss_total) == TRUE ) {
 			
-			
      	// Gain / loss percent (!MUST BE! absolute value)
-        $percent_difference_total = abs( ($total_prim_currency_worth_if_purchase_price - $original_worth) / abs($original_worth) * 100 );
-          
-		
-		// Notice that we include margin leverage in gain / loss stats (for UX's sake, too confusing to included in anything other than gain / loss stats)
-		$lvrg_text3 = ( $lvrg_added == 1 ? '<p class="coin_info balloon_notation bitcoin" style="max-width: 600px; white-space: normal;"> *Includes leverage.</p>' : '' );
+          $percent_difference_total = abs( ($total_prim_currency_worth_if_purchase_price - $original_worth) / abs($original_worth) * 100 );
 	
-	?>
+	     ?>
 	
 			<div class="portfolio_summary">
 	
-	<?php
+	     <?php
 		
-        $thres_dec = $ct_gen->thres_dec($percent_difference_total, 'p'); // Percentage mode
+          $thres_dec = $ct_gen->thres_dec($percent_difference_total, 'p'); // Percentage mode
+          
 		echo '<span class="black private_data">' . ( $gain_loss_total >= 0 ? 'Gain:</span> <span class="green private_data">+' . $ct_conf['power']['btc_currency_mrkts'][ $ct_conf['gen']['btc_prim_currency_pair'] ] : 'Loss:</span> <span class="red private_data">' ) . $parsed_gain_loss_total . ' (' . ( $gain_loss_total >= 0 ? '+' : '-' ) . number_format($percent_difference_total, $thres_dec['max_dec'], '.', ',') . '%' . ')</span>';
 		
-	?> 
+	     ?> 
 		
 		
 			<img class='tooltip_style_control' id='portfolio_gain_loss' src='templates/interface/media/images/info.png' alt='' width='30' style='position: relative; left: -5px;' /> 
@@ -739,7 +720,7 @@ var fiat_val_content = '<h5 class="yellow tooltip_title">Primary Currency (<?=st
 				}
 			    ?>
 		
-			+'<?=$lvrg_text3?>'
+			+'<p class="coin_info balloon_notation bitcoin" style=" white-space: normal;"> *Includes any leverage.</p>'
 				
 			+'<p class="coin_info balloon_notation bitcoin">*<?=( $lvrg_added == 1 ? 'Leverage / ' : '' )?>Gain / Loss stats only include assets where you have set the<br />"Average Paid (per-token)" value on the Update page.</p>';
 		
@@ -751,7 +732,7 @@ var fiat_val_content = '<h5 class="yellow tooltip_title">Primary Currency (<?=st
 			contents: gain_loss_content,
 			css: {
 					fontSize: "<?=$default_font_size?>em",
-					minWidth: "450px",
+					minWidth: "350px",
 					padding: ".3rem .7rem",
 					border: "2px solid rgba(212, 212, 212, .4)",
 					borderRadius: "6px",
@@ -860,7 +841,7 @@ var fiat_val_content = '<h5 class="yellow tooltip_title">Primary Currency (<?=st
   			url: 'ajax.php?type=chart&mode=asset_balance&lvrg_added=<?=$lvrg_added?>&short_added=<?=$short_added?><?=$balance_stats_encoded?>',
 			css: {
 					fontSize: "<?=$default_font_size?>em",
-					minWidth: "450px",
+					minWidth: "350px",
 					padding: ".3rem .7rem",
 					border: "2px solid rgba(212, 212, 212, .4)",
 					borderRadius: "6px",
@@ -1082,11 +1063,11 @@ var fiat_val_content = '<h5 class="yellow tooltip_title">Primary Currency (<?=st
 
 var performance_chart_defaults_content = '<h5 class="yellow tooltip_title">Settings For Asset Performance Comparison Chart</h5>'
 
-			+'<p class="coin_info extra_margins" style="max-width: 600px; white-space: normal;">Select the Time Period, to get finer grain details for smaller time periods.</p>'
+			+'<p class="coin_info extra_margins" style=" white-space: normal;">Select the Time Period, to get finer grain details for smaller time periods.</p>'
 			
-			+'<p class="coin_info extra_margins" style="max-width: 600px; white-space: normal;">The "Custom Start Date" is OPTIONAL, for choosing a custom date in time the asset performance comparisions begin, starting at 0&#37; <?=strtoupper($default_btc_prim_currency_pair)?> value increase / decrease. The Custom Start Date can only go back in time as far back as you have <?=strtoupper($default_btc_prim_currency_pair)?> Value price charts (per asset) for the "All" chart, and only as far back as the beginning date of smaller time period charts.</p>'
+			+'<p class="coin_info extra_margins" style=" white-space: normal;">The "Custom Start Date" is OPTIONAL, for choosing a custom date in time the asset performance comparisions begin, starting at 0&#37; <?=strtoupper($default_btc_prim_currency_pair)?> value increase / decrease. The Custom Start Date can only go back in time as far back as you have <?=strtoupper($default_btc_prim_currency_pair)?> Value price charts (per asset) for the "All" chart, and only as far back as the beginning date of smaller time period charts.</p>'
 			
-			+'<p class="coin_info extra_margins" style="max-width: 600px; white-space: normal;">Adjust the chart height and menu size, depending on your preferences. The defaults for these two settings can be changed in the Admin Config POWER USER section, under \'asset_perf_chart_defaults\'.</p>';
+			+'<p class="coin_info extra_margins" style=" white-space: normal;">Adjust the chart height and menu size, depending on your preferences. The defaults for these two settings can be changed in the Admin Config POWER USER section, under \'asset_perf_chart_defaults\'.</p>';
 		
 		
 		
@@ -1097,7 +1078,7 @@ var performance_chart_defaults_content = '<h5 class="yellow tooltip_title">Setti
 			contents: performance_chart_defaults_content,
 			css: {
 					fontSize: "<?=$default_font_size?>em",
-					minWidth: "450px",
+					minWidth: "350px",
 					padding: ".3rem .7rem",
 					border: "2px solid rgba(212, 212, 212, .4)",
 					borderRadius: "6px",
@@ -1322,9 +1303,9 @@ zingchart.bind('performance_chart', 'label_click', function(e){
 
 var marketcap_chart_defaults_content = '<h5 class="yellow tooltip_title">Settings For USD Marketcap Comparison Chart</h5>'
 
-			+'<p class="coin_info extra_margins" style="max-width: 600px; white-space: normal;">Marketcap Type: The \'circulating\' marketcap ONLY includes coins that are IN CIRCULATION (publicly available to transfer / trade), while the \'total\' marketcap includes ALL COINS (even those not mined yet / held by VIPs or Treasuries / etc).</p>'
+			+'<p class="coin_info extra_margins" style=" white-space: normal;">Marketcap Type: The \'circulating\' marketcap ONLY includes coins that are IN CIRCULATION (publicly available to transfer / trade), while the \'total\' marketcap includes ALL COINS (even those not mined yet / held by VIPs or Treasuries / etc).</p>'
 
-			+'<p class="coin_info extra_margins" style="max-width: 600px; white-space: normal;">Adjust the chart height and menu size, depending on your preferences. The defaults for these two settings can be changed in the Admin Config POWER USER section, under \'asset_mcap_chart_defaults\'.</p>';
+			+'<p class="coin_info extra_margins" style=" white-space: normal;">Adjust the chart height and menu size, depending on your preferences. The defaults for these two settings can be changed in the Admin Config POWER USER section, under \'asset_mcap_chart_defaults\'.</p>';
 		
 		
 		
@@ -1335,7 +1316,7 @@ var marketcap_chart_defaults_content = '<h5 class="yellow tooltip_title">Setting
 			contents: marketcap_chart_defaults_content,
 			css: {
 					fontSize: "<?=$default_font_size?>em",
-					minWidth: "450px",
+					minWidth: "350px",
 					padding: ".3rem .7rem",
 					border: "2px solid rgba(212, 212, 212, .4)",
 					borderRadius: "6px",
@@ -1479,7 +1460,7 @@ zingchart.bind('marketcap_chart', 'label_click', function(e){
 		if ( $short_added == 1 ) {
 		?>	
 		<div class="portfolio_summary" style='margin-top: 15px;'>
-		<span class="short private_data">★ Adjusted short trade deposit(s) (leverage is <u>NOT</u> included)</span>
+		<span class="short private_data">★ Adjusted short trade deposit(s) (any leverage is <u>NOT</u> included)</span>
 		</div>		
 		<?php
 		}
@@ -1503,10 +1484,14 @@ zingchart.bind('marketcap_chart', 'label_click', function(e){
 		<fieldset><legend> <strong class="bitcoin">System Monitoring</strong> </legend>
     		
     		
-    		<b><a id="sys_stats_quick_link" href="javascript: return false;" class="modal_style_control show_system_stats blue" title="View System Statistics">System Stats</a></b><img class='tooltip_style_control' id='sys_stats_quick_link_info' src='templates/interface/media/images/info-red.png' alt='' width='30' style='position: relative;' />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+    		<b><a id="sys_stats_quick_link" href="javascript: return false;" class="modal_style_control show_system_stats blue" title="View System Statistics">System Stats</a></b><img class='tooltip_style_control' id='sys_stats_quick_link_info' src='templates/interface/media/images/info-red.png' alt='' width='30' style='position: relative;' />
+    		
+    		<div style='min-height: 0.4em;'></div>
     		
 
-    		<b><a href="javascript: return false;" class="modal_style_control show_access_stats blue" title="View Access Statistics">Access Stats</a></b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+    		<b><a href="javascript: return false;" class="modal_style_control show_access_stats blue" title="View Access Statistics">Access Stats</a></b>
+    		
+    		<div style='min-height: 0.4em;'></div>    		
     		
 
     		<b><a href="javascript: return false;" class="modal_style_control show_logs blue" title="View App Logs">App Logs</a></b>
@@ -1633,7 +1618,7 @@ zingchart.bind('marketcap_chart', 'label_click', function(e){
 			<?php
 			foreach ( $system_warnings as $alert_key => $alert_val ) {
 			?>
-			+'<p class="coin_info" style="max-width: 600px; white-space: normal;"><span class="red"><?=$ct_gen->key_to_name($alert_key)?>:</span> <?=$alert_val?></p>'
+			+'<p class="coin_info" style=" white-space: normal;"><span class="red"><?=$ct_gen->key_to_name($alert_key)?>:</span> <?=$alert_val?></p>'
 			<?php
 			}
 			?>
@@ -1648,7 +1633,7 @@ zingchart.bind('marketcap_chart', 'label_click', function(e){
 			contents: sys_stats_quick_link_info_content,
 			css: {
 					fontSize: "<?=$default_font_size?>em",
-					minWidth: "450px",
+					minWidth: "350px",
 					padding: ".3rem .7rem",
 					border: "2px solid rgba(212, 212, 212, .4)",
 					borderRadius: "6px",
@@ -1735,12 +1720,12 @@ zingchart.bind('marketcap_chart', 'label_click', function(e){
 
 var server_header_defaults_content = '<h5 class="yellow tooltip_title">Average Server Header Size Limits</h5>'
             
-            			+'<p class="coin_info extra_margins" style="max-width: 600px; white-space: normal;">Web servers have a pre-set header size limit (which can be adjusted within it\'s own server configuration), which varies depending on the server software you are using.</p>'
+            			+'<p class="coin_info extra_margins" style=" white-space: normal;">Web servers have a pre-set header size limit (which can be adjusted within it\'s own server configuration), which varies depending on the server software you are using.</p>'
             
-            			+'<p class="coin_info extra_margins" style="max-width: 600px; white-space: normal;"><span class="bitcoin">IF THIS APP GOES OVER THOSE HEADER SIZE LIMITS, IT WILL CRASH!</span></p>'
+            			+'<p class="coin_info extra_margins" style=" white-space: normal;"><span class="bitcoin">IF THIS APP GOES OVER THOSE HEADER SIZE LIMITS, IT WILL CRASH!</span></p>'
             
 
-			+'<p class="coin_info extra_margins" style="max-width: 600px; white-space: normal;"><span class="bitcoin">STANDARD SERVER HEADER SIZE LIMITS (IN KILOBYTES)...</span><br />Apache: 8kb<br />NGINX: 4kb - 8kb<br />IIS: 8kb - 16kb<br />Tomcat: 8kb - 48kb</p>';
+			+'<p class="coin_info extra_margins" style=" white-space: normal;"><span class="bitcoin">STANDARD SERVER HEADER SIZE LIMITS (IN KILOBYTES)...</span><br />Apache: 8kb<br />NGINX: 4kb - 8kb<br />IIS: 8kb - 16kb<br />Tomcat: 8kb - 48kb</p>';
 		
 		
 			$('.server_header_defaults').balloon({
@@ -1750,7 +1735,7 @@ var server_header_defaults_content = '<h5 class="yellow tooltip_title">Average S
 			contents: server_header_defaults_content,
 			css: {
 					fontSize: "<?=$default_font_size?>em",
-					minWidth: "450px",
+					minWidth: "350px",
 					padding: ".3rem .7rem",
 					border: "2px solid rgba(212, 212, 212, .4)",
 					borderRadius: "6px",
@@ -1797,7 +1782,7 @@ var server_header_defaults_content = '<h5 class="yellow tooltip_title">Average S
    
 	
 	<?php
-	$all_chart_rebuild_min_max = explode(',', $ct_conf['power']['all_chart_rebuild_min_max']);
+	$all_chart_rebuild_min_max = explode(',', $ct_conf['power']['light_chart_all_rebuild_min_max']);
 	?>
 	
 	<p class='sys_stats red' style='font-weight: bold;'>*The "Server Cookies Size" telemetry data above <i>is not tracked in the system charts, because it's ONLY available in the user interface runtime (NOT the cron job runtime)</i>.</p>				

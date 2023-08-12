@@ -27,7 +27,7 @@ $php_sess_secure = ( $app_edition == 'server' ? true : false );
                                      'path' => $app_path,
                                      'domain' => '',  // LEAVE DOMAIN BLANK, SO session_set_cookie_params AUTO-SETS PROPERLY (IN CASE OF EDGE-CASE REDIRECTS)
                                      'secure' => $php_sess_secure,
-                                     'httponly' => false,
+                                     'httponly' => false, // (false keeps cookies accessible to browser scripting languages such as JavaScript)
                                      'samesite' => 'Strict',
                          	       ]);
      
@@ -39,7 +39,7 @@ $php_sess_secure = ( $app_edition == 'server' ? true : false );
                                      $app_path . '; samesite=Strict',
                                      '',  // LEAVE DOMAIN BLANK, SO session_set_cookie_params AUTO-SETS PROPERLY (IN CASE OF EDGE-CASE REDIRECTS)
                                      $php_sess_secure, // secure
-                                     false, //httponly
+                                     false, // httponly (false keeps cookies accessible to browser scripting languages such as JavaScript)
                                    ]);
      
      }

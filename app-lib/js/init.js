@@ -140,27 +140,6 @@ admin_iframe_load = document.querySelectorAll('.admin_iframe');
 	/////////////////////////////////////////////////////////////////////////////////////////////////////
 	
 	
-	// Emulate sticky-positioned elements in #secondary_wrapper,
-	// IF we set overflow: auto; CSS to automate controlling scroll positioning
-	// (which DISABLES a container from having functional sticky-positioned elements within it)
-	if ( !is_iframe ) {
-	     
-          window.addEventListener('scroll', function (e) {
-     
-          dynamic_position('#alert_bell_area', 'emulate_sticky');
-     
-          dynamic_position('.page_title', 'emulate_sticky');
-     
-          dynamic_position('.countdown_notice', 'emulate_sticky');
-          
-          });
-     
-     }
-
-
-	/////////////////////////////////////////////////////////////////////////////////////////////////////
-	
-	
     $('.toggle_alerts').on('click', function () {
              // open or close alerts
              $('#alert_bell_area').toggleClass('hidden');
@@ -271,14 +250,47 @@ admin_iframe_load = document.querySelectorAll('.admin_iframe');
              
              // Wait 0.1 seconds
              setTimeout(function(){
-                  
-             $(".balloon-tooltips").css({ "min-width": Math.round(450 * set_font_size) + 'px' });
-                  
-             interface_font_percent( (set_font_size * 100), false, '.balloon-tooltips', 'reg' );
+             
+             // Set min-max widths
+             $(".balloon-tooltips").css({ "min-width": Math.round(350 * set_font_size) + 'px' });
+             $(".balloon-tooltips").css({ "max-width": Math.round(750 * set_font_size) + 'px' });
+
+                  // iframe info balloon text sizes are wonky for some reason in LINUX PHPDESKTOP (but works fine in modern browsers)
+                  if ( app_container == 'phpdesktop' ) {
+                  var adjusted_font_size_percent = is_iframe ? 70 : 100;
+                  }
+                  else {
+                  var adjusted_font_size_percent = 100;
+                  }
+                    
+             interface_font_percent( (set_font_size * adjusted_font_size_percent), false, '.balloon-tooltips', 'reg' );
                   
      	   }, 100);
            
      });
+
+
+	/////////////////////////////////////////////////////////////////////////////////////////////////////
+	
+	
+	// Emulate sticky-positioned elements in #secondary_wrapper,
+	// IF we set overflow: auto; CSS to automate controlling scroll positioning
+	// (which DISABLES a container from having functional sticky-positioned elements within it)
+	if ( !is_iframe ) {
+	     
+          window.addEventListener('scroll', function (e) {
+     
+          dynamic_position('#alert_bell_area', 'emulate_sticky');
+     
+          dynamic_position('#background_loading', 'emulate_sticky');
+     
+          dynamic_position('.page_title', 'emulate_sticky');
+     
+          dynamic_position('.countdown_notice', 'emulate_sticky');
+          
+          });
+     
+     }
 
 
 	/////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -369,7 +381,7 @@ admin_iframe_load = document.querySelectorAll('.admin_iframe');
         $(".toggle_alerts").attr("src","templates/interface/media/images/auto-preloaded/notification-" + theme_selected + "-fill.png");
         }
         
-    $('#alert_bell_area').html( "<span class='bitcoin'>Current UTC time:</span> <span class='utc_timestamp red'></span><br />" + $('#app_error_alert').html() );
+    $('#alert_bell_area').html( "<span class='bitcoin'>Current UTC time:</span> <span class='utc_timestamp red'></span><div style='min-height: 0.7em;'></div>" + $('#app_error_alert').html() );
     
     }
     // IS IFRAME
@@ -384,7 +396,7 @@ admin_iframe_load = document.querySelectorAll('.admin_iframe');
         $(".toggle_alerts", window.parent.document).attr("src","templates/interface/media/images/auto-preloaded/notification-" + theme_selected + "-fill.png");
         }
         
-    $('#alert_bell_area', window.parent.document).html( "<span class='bitcoin'>Current UTC time:</span> <span class='utc_timestamp red'></span><br />" + $('#app_error_alert', window.parent.document).html() );
+    $('#alert_bell_area', window.parent.document).html( "<span class='bitcoin'>Current UTC time:</span> <span class='utc_timestamp red'></span><div style='min-height: 0.7em;'></div>" + $('#app_error_alert', window.parent.document).html() );
         
     }
 
@@ -450,14 +462,14 @@ admin_iframe_load = document.querySelectorAll('.admin_iframe');
          fieldName = $(this).attr('data-field');
          type      = $(this).attr('data-type');
          var input = $("input[name='"+fieldName+"']");
-         var currentVal = parseInt(input.val());
+         var currentVal = Number(input.val());
          if (!isNaN(currentVal)) {
              if(type == 'minus') {
                  
                  if(currentVal > input.attr('min')) {
                      input.val(currentVal - 1).change();
                  } 
-                 if(parseInt(input.val()) == input.attr('min')) {
+                 if(Number(input.val()) == input.attr('min')) {
                      $(this).attr('disabled', true);
                  }
      
@@ -466,7 +478,7 @@ admin_iframe_load = document.querySelectorAll('.admin_iframe');
                  if(currentVal < input.attr('max')) {
                      input.val(currentVal + 1).change();
                  }
-                 if(parseInt(input.val()) == input.attr('max')) {
+                 if(Number(input.val()) == input.attr('max')) {
                      $(this).attr('disabled', true);
                  }
      
@@ -484,9 +496,9 @@ admin_iframe_load = document.querySelectorAll('.admin_iframe');
      ////
      $('.input-number').change(function() {
          
-         minValue =  parseInt($(this).attr('min'));
-         maxValue =  parseInt($(this).attr('max'));
-         valueCurrent = parseInt($(this).val());
+         minValue =  Number($(this).attr('min'));
+         maxValue =  Number($(this).attr('max'));
+         valueCurrent = Number($(this).val());
          
          name = $(this).attr('name');
          if(valueCurrent >= minValue) {

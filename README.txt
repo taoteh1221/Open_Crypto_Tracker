@@ -178,12 +178,7 @@ To install as a normal native app on your laptop / desktop, download the "Deskto
 https://github.com/taoteh1221/Open_Crypto_Tracker/releases
 
 
-After downloading, unzip the contents of the download to your desktop or other preferred file location (it doesn't matter, put it wherever you want to). Now use your operating system's file browser to enter the app's main directory, and click on "RUN_CRYPTO_TRACKER" to launch the app. TO USE PRICE CHARTS AND PRICE ALERTS TO EMAIL / TEXT / ALEXA / TELEGRAM, YOU #MUST# LEAVE THE APP RUNNING UNLESS YOU MANUALLY SETUP A CRON JOB! (see: "Setting Up Price Charts And Email / Text / Telegram / Alexa Price Alerts")
-
-
-IMPORTANT NOTES FOR WINDOWS 10 / 11 USERS: 
-
-THE 'SERVER EDITION' IS CURRENTLY MORE RELIABLE THAN THE 'DESKTOP EDITION' ON WINDOWS MACHINES. CONSIDER READING THE "Manual Installation For 'Server Edition'" SECTION FURTHER DOWN IN THIS README, IF YOU HAVE ISSUES WITH THE WINDOWS 'DESKTOP EDITION'. WE RELY ON ANOTHER OPEN SOURCE PROJECT CALLED 'PHPdesktop' FOR THE DESKTOP EDITIONS ( https://github.com/cztomczak/phpdesktop ), AND THE WINDOWS VERSION IS CURRENTLY VERY OUT-DATED.
+After downloading, unzip the contents of the download to your desktop or other preferred file location (it doesn't matter, put it wherever you want to). Now use your operating system's file browser to enter the app's main directory, and click on "RUN_CRYPTO_TRACKER" to launch the app (in Windows Desktop Edition, click "INSTALL_WEB_SERVER_FIRST" beforehand). TO USE PRICE CHARTS AND PRICE ALERTS TO EMAIL / TEXT / ALEXA / TELEGRAM, YOU #MUST# LEAVE THE APP RUNNING UNLESS YOU MANUALLY SETUP A CRON JOB! (see: "Setting Up Price Charts And Email / Text / Telegram / Alexa Price Alerts")
 
 
 IMPORTANT NOTES FOR LINUX USERS: 

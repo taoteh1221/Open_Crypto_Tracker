@@ -10,13 +10,61 @@ NEXT SCHEDULED WORK SESSIONS (*BOTH* DEBUGGING AND / OR INFRASTRUCTURE)
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
+On LINUX DESKTOP EDITION, when importing a spreadsheet, it imports OK (shows in the interface after importing), BUT does NOT save as cookie data (gets lost if you visit the admin area etc), UNLESS YOU CLICK "SAVE UPDATED PORTFOLIO" ON THE UPDATE PAGE IMMEADIATELY *AFTER* IMPORTING IT. Check to see if this is also an issue in the Server Edition.
+
+
+"CSV import suceeded" has a 'dismiss' link...remove it.
+
+
 Update screenshots, since we overhauled everything in the interface.
 
 
-Make chart text RESIZE with the text size buttons if possible. Try multiplying the font size by the 'em' CSS font size? If that's not reliable, forget it.
+LOOK INTO WHICH OF THESE MARKETS ARE JUST BLOCKED IN THE USA, AND WHICH NO LONGER EXIST:
+
+[2023-08-12 00:21:33.979] ui => market: No market price data available for BTC / USD @ OkCoin;  
+
+[2023-08-12 00:21:40.715] ui => market: No market price data available for ETH / DAI @ LoopRing AMM;
+
+[2023-08-12 00:21:44.806] ui => market: No market price data available for ETH / USD @ OkCoin;  
+
+[2023-08-12 00:21:44.967] ui => market: No market price data available for ETH / USDT @ LoopRing AMM; 
+
+[2023-08-12 00:21:45.016] ui => market: No market price data available for SOL / AUD @ Binance;  
+
+[2023-08-12 00:21:46.946] ui => market: No market price data available for SOL / ETH @ Huobi;  
+
+[2023-08-12 00:21:47.502] ui => market: No market price data available for SOL / USD @ Gate.io;  
+
+[2023-08-12 00:21:49.038] ui => market: No market price data available for DAI / ETH @ BitFinex;  
+
+[2023-08-12 00:21:49.696] ui => market: No market price data available for UNI / ETH @ LoopRing AMM; 
+
+[2023-08-12 00:21:50.925] ui => market: No market price data available for RAY / USD @ Gate.io;  
+
+[2023-08-12 00:21:51.005] ui => market: No market price data available for RAY / USDT @ Wazirx;  
+
+[2023-08-12 00:21:51.009] ui => market: No market price data available for DTGSTOCK / EUR @ AlphaVantage Stock;  
+
+[2023-08-12 00:21:51.394] ui => market: No market price data available for MANA / BTC @ Bitso;  
+
+[2023-08-12 00:21:52.737] ui => market: No market price data available for MNT / USD @ Bybit;  
+
+[2023-08-12 00:21:52.739] ui => market: No market price data available for MNT / USDT @ Bybit;  
+
+[2023-08-12 00:21:52.876] ui => market: No market price data available for RNDR / BTC @ Huobi;  
+
+[2023-08-12 00:21:52.919] ui => market: No market price data available for RNDR / ETH @ Huobi;  
+
+[2023-08-12 00:21:53.518] ui => market: No market price data available for BONK / USDT @ Bybit;  
 
 
-The tags 'h1' through 'h6' should be made to user-adjust text size too?? (could be a bit tricky, be careful).
+If a primary currency market (BTC / FIAT) is unavailable for an asset in the $ct_conf['power']['btc_currency_mrkts'] list (returns no trade value), then DYNAMICALLY REMOVE IT IN config-auto-adjust.php
+
+
+The tags 'h1' through 'h6' should be made to user-adjust text size too. (could be a bit tricky, be careful...ISOLATE BASED ON OUR TEMPLATE WRAPPER CSS ELEMENTS).
+
+
+Move remaining font-size / line-height logic in style.css AND ELSEWHERE into our dynamic CSS header logic.
 
 
 Add feature to address balance tracker plugin to set minimum time to wait before re-sending the same address alert (in hours). Default it to a high number like 8 hours, so any poorly running / configured API servers don't send endless alerts as they send bs 'zero' results.
@@ -51,9 +99,6 @@ Convert Arch linux support in auto-installer over to redhat (yum), as Arch does 
 
 
 New FAQ entry "my text alerts aren't working, or are delayed"
-
-
-Move remaining font-size / line-height logic in style.css AND ELSEWHERE into our dynamic CSS header logic.
 
 
 Remove all forced line breaks in FOLIO-INSTALL.bash dialogue
@@ -212,6 +257,10 @@ DEBUGGING / TESTS / UX / QA / OTHER
 ===> Try to break up larger changes into smaller milestones,
 ===> then plenty of time is spent on UX / testing / debugging.
 !!!!
+===> PHPbrowserBox (used for Windows Desktop Editions) Shortcut Keys:
+===> Reload / refresh browser : Shift + F5 (Mac: Command + R)
+===> Open devtools : F12 (Mac: Fn + F12)
+!!!!
 ===> "app-lib/php/init.php" contains MANY developer-only configs at the top
 !!!!
 ===> Don't require any higher than PHP v7.2 until PHP v9.
@@ -241,16 +290,13 @@ Test turning htaccess password protection on/off on the interface, I messed with
 Change "portfolio cache size gigabytes" system chart telemetry name to "tracker cache size gigabytes".
 
 
-In firefox, there is A TON of margin / padding in each portfolio data row's data cells. Reduce it to match chrome.
-
-
 Remove all linebreaks in javascript alert / confirm dialogue boxes, except for new paragraphs. Let the browser choose the max width on it's own (like they do nowadays)
 
 
 Look into doing bootstrap modals instead of the current library we use. Maybe it's better?
 
 
-Setup XAMPP on Win10 on the DVR server, and run server edition of tracker on it for a week with PHP debug logging on.
+Setup XAMPP on Win10 on the NUC, and run server edition of tracker on it for a week with PHP debug logging on.
 
 
 Write notes in TODO.txt debugging section, on setting up / viewing PHP error logging in XAMPP on Windows.
@@ -290,12 +336,6 @@ Look into using docker images for cross-platform compatibility (Windows / Mac / 
 
 Find out why days has 2 decimals RANDOMLY IN TEXT MESSAGES (text notify, email and telegram are fine):
 "SHDW / BTC @ Generic BTC decreased -9.27% in USD value to $0.68269 over 1..04 days. 24 Hour USD Volume: $1,064,959 (-1.54% pair volume)"
-
-
-When importing a CSV spreadsheet in linux desktop edition with cookies enabled, UNLESS we manually save the portflio data on the update page AFTER importing, the portfolio data is lost when we close the app. See if this also affects windows desktop edition, and server edition.
-
-
-"CSV import suceeded" has a 'dismiss' link that doesn't work...when clicked, it reloads a blank portfolio page. But when the normal 'refresh' link is used INSTEAD atop the portfolio page, the imported data stays just fine. Funny thing is the "CSV import suceeded" message ALSO PERSISTS THIS WAY. Figure out whats going on there. Also check the "Your CSV import upload failed." logic. Start tests with Windows Desktop Edition.
 
 
 Cross-browser test RTL (right to left) effects from middle eastern currency symbols being injected into the interface output for those currencies

@@ -19,7 +19,7 @@ $sanitized = preg_replace("/[\s\W]+/", "FLAG", $sanitized);
 $sanitized = preg_replace("/[^A-Za-z0-9 ]/", "FLAG", $sanitized);
 
 // Remove HTML
-$sanitized = filter_var($sanitized, FILTER_SANITIZE_STRING);
+$sanitized = strip_tags($sanitized);
 
 include('../../../../app-lib/php/classes/3rd-party/phpqrcode/qrlib.php'); 
 

@@ -22,15 +22,15 @@
 		var average_paid_notes = '<h5 class="align_center yellow tooltip_title">Calculating Average <?=strtoupper($ct_conf['gen']['btc_prim_currency_pair'])?> Price Paid Per Token</h5>'
 			
 			
-			+'<p class="coin_info extra_margins" style="white-space: normal; max-width: 600px;"><span class="green">Total <?=strtoupper($ct_conf['gen']['btc_prim_currency_pair'])?> Paid For All Tokens</span> <span class="blue">&#247;</span> <span class="yellow">Total Tokens Purchased</span> <span class="blue">=</span> <span class="bitcoin">Average <?=strtoupper($ct_conf['gen']['btc_prim_currency_pair'])?> Price Paid Per Token</span></p>'
+			+'<p class="coin_info extra_margins" style="white-space: normal; "><span class="green">Total <?=strtoupper($ct_conf['gen']['btc_prim_currency_pair'])?> Paid For All Tokens</span> <span class="blue">&#247;</span> <span class="yellow">Total Tokens Purchased</span> <span class="blue">=</span> <span class="bitcoin">Average <?=strtoupper($ct_conf['gen']['btc_prim_currency_pair'])?> Price Paid Per Token</span></p>'
 			
-			+'<p class="coin_info extra_margins" style="white-space: normal; max-width: 600px;">The RESULT of the above calculation <i>remains the same even AFTER you sell ANY amount, ONLY if you don\'t buy more between sells</i>. Everytime you buy more <i>after selling some</i>, re-calculate your Average <?=strtoupper($ct_conf['gen']['btc_prim_currency_pair'])?> Price Paid Per Token with this formula:</p>'
+			+'<p class="coin_info extra_margins" style="white-space: normal; ">The RESULT of the above calculation <i>remains the same even AFTER you sell ANY amount, ONLY if you don\'t buy more between sells</i>. Everytime you buy more <i>after selling some</i>, re-calculate your Average <?=strtoupper($ct_conf['gen']['btc_prim_currency_pair'])?> Price Paid Per Token with this formula:</p>'
 			
-			+'<p class="coin_info extra_margins" style="white-space: normal; max-width: 600px;">(<span class="green">Total <?=strtoupper($ct_conf['gen']['btc_prim_currency_pair'])?> Paid For All Tokens</span> <span class="blue">-</span> <span class="red">Total <?=strtoupper($ct_conf['gen']['btc_prim_currency_pair'])?> Received From All Sold Tokens</span>) <span class="blue">&#247;</span> <span class="yellow">Total Remaining Tokens Still Held</span> <span class="blue">=</span> <span class="bitcoin">Average <?=strtoupper($ct_conf['gen']['btc_prim_currency_pair'])?> Price Paid Per Token</span></p>'
+			+'<p class="coin_info extra_margins" style="white-space: normal; ">(<span class="green">Total <?=strtoupper($ct_conf['gen']['btc_prim_currency_pair'])?> Paid For All Tokens</span> <span class="blue">-</span> <span class="red">Total <?=strtoupper($ct_conf['gen']['btc_prim_currency_pair'])?> Received From All Sold Tokens</span>) <span class="blue">&#247;</span> <span class="yellow">Total Remaining Tokens Still Held</span> <span class="blue">=</span> <span class="bitcoin">Average <?=strtoupper($ct_conf['gen']['btc_prim_currency_pair'])?> Price Paid Per Token</span></p>'
 			
-			+'<p class="coin_info extra_margins" style="white-space: normal; max-width: 600px;"><span class="bitcoin">PRO TIP:</span> <br /> When buying / selling, keep quick and dirty (yet clear) textual records of... <br />a) How much you bought / sold of what<br />b) What you paid / received in <?=strtoupper($ct_conf['gen']['btc_prim_currency_pair'])?> value<br />c) What / where you traded <br />d) Backup to USB Stick / NAS / DropBox / GoogleDrive / OneDrive / AmazonBucket <br />e) Now you\'re ready for tax season, to create spreadsheets from this data</p>'
+			+'<p class="coin_info extra_margins" style="white-space: normal; "><span class="bitcoin">PRO TIP:</span> <br /> When buying / selling, keep quick and dirty (yet clear) textual records of... <br />a) How much you bought / sold of what<br />b) What you paid / received in <?=strtoupper($ct_conf['gen']['btc_prim_currency_pair'])?> value<br />c) What / where you traded <br />d) Backup to USB Stick / NAS / DropBox / GoogleDrive / OneDrive / AmazonBucket <br />e) Now you\'re ready for tax season, to create spreadsheets from this data</p>'
 			
-			+'<p class="coin_info extra_margins yellow" style="white-space: normal; max-width: 600px;">There is also an <i>open source / free</i> app called <a href="https://rotki.com" target="_blank">Rotki</a> that can help you <i>PRIVATELY</i> track your tax data.</p>'
+			+'<p class="coin_info extra_margins yellow" style="white-space: normal; ">There is also an <i>open source / free</i> app called <a href="https://rotki.com" target="_blank">Rotki</a> that can help you <i>PRIVATELY</i> track your tax data.</p>'
 			
 			+'<p> </p>';
 
@@ -39,15 +39,15 @@
 			var lvrg_trading_notes = '<h5 class="align_center yellow tooltip_title">Tracking Long / Short Margin Leverage Trades</h5>'
 			
 			
-			+'<p class="coin_info extra_margins red" style="white-space: normal; max-width: 600px;"><b>*Leverage trading is <u>EXTREMELY RISKY</u> (and even more so in crypto markets). Never put more than ~5% of your total investment worth into leverage trades, or you will <u>RISK LOSING EVERYTHING</u>!</b></p>'
+			+'<p class="coin_info extra_margins red" style="white-space: normal; "><b>*Leverage trading is <u>EXTREMELY RISKY</u> (and even more so in crypto markets). Never put more than ~5% of your total investment worth into leverage trades, or you will <u>RISK LOSING EVERYTHING</u>!</b></p>'
 			
-			+'<p class="coin_info extra_margins" style="white-space: normal; max-width: 600px;">Set the "Asset / Pair @ Exchange" drop-down menus for the asset to any markets you prefer. It doesn\'t matter which ones you choose, as long as the price discovery closely matches the exchange where you are margin trading this asset.</p>'
+			+'<p class="coin_info extra_margins" style="white-space: normal; ">Set the "Asset / Pair @ Exchange" drop-down menus for the asset to any markets you prefer. It doesn\'t matter which ones you choose, as long as the price discovery closely matches the exchange where you are margin trading this asset.</p>'
 			
-			+'<p class="coin_info extra_margins" style="white-space: normal; max-width: 600px;">Set the "Holdings" field to match your margin leverage deposit (example: buying 1 BTC @ 5x leverage would be 0.2 BTC in the "Holdings" field in this app). You\'ll also need to fill in the "Average Paid (per-token)" field with the average price paid in <?=strtoupper($ct_conf['gen']['btc_prim_currency_pair'])?> per-token. Finally, set the "Margin Leverage" fields to match your leverage and whether you are long or short. When you are done, click "Save Updated Portfolio".</p>'
+			+'<p class="coin_info extra_margins" style="white-space: normal; ">Set the "Holdings" field to match your margin leverage deposit (example: buying 1 BTC @ 5x leverage would be 0.2 BTC in the "Holdings" field in this app). You\'ll also need to fill in the "Average Paid (per-token)" field with the average price paid in <?=strtoupper($ct_conf['gen']['btc_prim_currency_pair'])?> per-token. Finally, set the "Margin Leverage" fields to match your leverage and whether you are long or short. When you are done, click "Save Updated Portfolio".</p>'
 			
-			+'<p class="coin_info extra_margins" style="white-space: normal; max-width: 600px;">To see your margin leverage stats after updating your portfolio, go to the bottom of the Portfolio page, where you\'ll find a summary section. Hovering over the "I" icon next to the Gain / Loss summary will display any margin leverage stats per-asset. There is also an "I" icon in the far right-side data table column "(<?=strtoupper($ct_conf['gen']['btc_prim_currency_pair'])?>)" per-asset, which you can also hover over for margin leverage stats.</p>'
+			+'<p class="coin_info extra_margins" style="white-space: normal; ">To see your margin leverage stats after updating your portfolio, go to the bottom of the Portfolio page, where you\'ll find a summary section. Hovering over the "I" icon next to the Gain / Loss summary will display any margin leverage stats per-asset. There is also an "I" icon in the far right-side data table column "(<?=strtoupper($ct_conf['gen']['btc_prim_currency_pair'])?>)" per-asset, which you can also hover over for margin leverage stats.</p>'
 			
-			+'<p class="coin_info balloon_notation extra_margins yellow" style="white-space: normal; max-width: 600px;">*Current maximum margin leverage setting of <?=$ct_conf['power']['margin_lvrg_max']?>x can be adjusted in the Admin Config POWER USER section.</p>'
+			+'<p class="coin_info balloon_notation extra_margins yellow" style="white-space: normal; ">*Current maximum margin leverage setting of <?=$ct_conf['power']['margin_lvrg_max']?>x can be adjusted in the Admin Config POWER USER section.</p>'
 			
 			+'<p> </p>';
 
@@ -56,29 +56,29 @@
 			var portfolio_data_privacy = '<h5 class="align_center bitcoin tooltip_title">How is my data stored by this app?</h5>'
 			
 			
-			+'<p class="coin_info extra_margins" style="white-space: normal; max-width: 600px;"><i class="bitcoin">TLDR: <u>NOBODY EXCEPT YOU ON YOUR COMPUTER</u> CAN SEE THE PORTFOLIO DATA YOU ENTER IN THIS APP (<u>NO PORTFOLIO DATA</u> IS STORED REMOTELY).</i></p>'
+			+'<p class="coin_info extra_margins" style="white-space: normal; "><i class="bitcoin">TLDR: <u>NOBODY EXCEPT YOU ON YOUR COMPUTER</u> CAN SEE THE PORTFOLIO DATA YOU ENTER IN THIS APP (<u>NO PORTFOLIO DATA</u> IS STORED REMOTELY).</i></p>'
 			
 			
-			+'<p class="coin_info extra_margins" style="white-space: normal; max-width: 600px;"><i class="bitcoin"><u>ADMIN AND PLUGIN CONFIG SETTINGS are the only data stored in the app</u></i>, everything else is stored temporarily or semi-permanently in the web browser on your computer that you use to access the app with (even the "Desktop Edition" is an embedded web browser).</p>'
+			+'<p class="coin_info extra_margins" style="white-space: normal; "><i class="bitcoin"><u>ADMIN AND PLUGIN CONFIG SETTINGS are the only data stored in the app</u></i>, everything else is stored temporarily or semi-permanently in the web browser on your computer that you use to access the app with (even the "Desktop Edition" is an embedded web browser).</p>'
 			
 			
-			+'<p class="coin_info extra_margins" style="white-space: normal; max-width: 600px;"><i class="bitcoin"><u>TRADING NOTES are kept in LOCAL STORAGE</u></i> within your web browser, which is saved PERMANENTLY between browser sessions. Soon user-selected price chart / news feed options will be kept in local storage too (instead of in cookie data).</p>'
+			+'<p class="coin_info extra_margins" style="white-space: normal; "><i class="bitcoin"><u>TRADING NOTES are kept in LOCAL STORAGE</u></i> within your web browser, which is saved PERMANENTLY between browser sessions. Soon user-selected price chart / news feed options will be kept in local storage too (instead of in cookie data).</p>'
 			
 			
-			+'<p class="coin_info extra_margins" style="white-space: normal; max-width: 600px;"><i class="bitcoin"><u>IMPORTED SPREADSHEETS are DELETED AFTER THE IMPORT HAS COMPLETED</u></i> processing your portfolio data, and nothing related to the imported data remains anywhere other than in your web browser afterwards.</p>'
+			+'<p class="coin_info extra_margins" style="white-space: normal; "><i class="bitcoin"><u>IMPORTED SPREADSHEETS are DELETED AFTER THE IMPORT HAS COMPLETED</u></i> processing your portfolio data, and nothing related to the imported data remains anywhere other than in your web browser afterwards.</p>'
 			
 			
-			+'<p class="coin_info extra_margins" style="white-space: normal; max-width: 600px;"><i class="bitcoin"><u>YOUR PORTFOLIO DATA is NEVER stored in the app</u></i>, it is ONLY stored on your computer in the web browser used to access it (either temporarily in the web browser temporary files cache, or semi-permanently in web browser cookies IF YOU MANUALLY ENABLE COOKIES ON THE SETTINGS PAGE).</p>'
+			+'<p class="coin_info extra_margins" style="white-space: normal; "><i class="bitcoin"><u>YOUR PORTFOLIO DATA is NEVER stored in the app</u></i>, it is ONLY stored on your computer in the web browser used to access it (either temporarily in the web browser temporary files cache, or semi-permanently in web browser cookies IF YOU MANUALLY ENABLE COOKIES ON THE SETTINGS PAGE).</p>'
 			
 			
 			
-			+'<p class="coin_info extra_margins" style="white-space: normal; max-width: 600px;"><i class="bitcoin"><u>By default</u></i>, your portfolio data needs to be re-entered to calculate your portfolio value, <i class="bitcoin">every time you close / re-open the app\'s tab in your web browser</i>.</p>'
+			+'<p class="coin_info extra_margins" style="white-space: normal; "><i class="bitcoin"><u>By default</u></i>, your portfolio data needs to be re-entered to calculate your portfolio value, <i class="bitcoin">every time you close / re-open the app\'s tab in your web browser</i>.</p>'
 			
 			
-			+'<p class="coin_info extra_margins" style="white-space: normal; max-width: 600px;"><i class="bitcoin"><u>By default</u></i>, your portfolio data is only saved <i class="bitcoin">temporarily on your computer within your web browser</i> (a default behavior of all modern web browsers), for re-submitting / refreshing / reloading app price data <i class="bitcoin">until you close the app\'s tab in your web browser</i>.</p>'
+			+'<p class="coin_info extra_margins" style="white-space: normal; "><i class="bitcoin"><u>By default</u></i>, your portfolio data is only saved <i class="bitcoin">temporarily on your computer within your web browser</i> (a default behavior of all modern web browsers), for re-submitting / refreshing / reloading app price data <i class="bitcoin">until you close the app\'s tab in your web browser</i>.</p>'
 			
 			
-			+'<p class="coin_info extra_margins" style="white-space: normal; max-width: 600px;">If you prefer to store your portfolio data <i class="bitcoin">semi-permanently on your computer within your web browser as cookie data (to save between browser sessions)</i>, <i class="bitcoin"><u>you must manually enable</u></i> "Use cookies to save data" on the Settings page. </p>'
+			+'<p class="coin_info extra_margins" style="white-space: normal; ">If you prefer to store your portfolio data <i class="bitcoin">semi-permanently on your computer within your web browser as cookie data (to save between browser sessions)</i>, <i class="bitcoin"><u>you must manually enable</u></i> "Use cookies to save data" on the Settings page. </p>'
 			
 			
 			+'<p> </p>';
@@ -88,9 +88,9 @@
 			var random_tip_disclaimer = '<h5 class="align_center bitcoin tooltip_title">Random Tips Disclaimer</h5>'
 			
 			
-			+'<p class="coin_info extra_margins bitcoin" style="white-space: normal; max-width: 600px;">This "Random Tips" section SHOULD NEVER TAKE THE PLACE OF ADVICE FROM A PROFESSIONAL FINANCIAL ADVISER!</p>'
+			+'<p class="coin_info extra_margins bitcoin" style="white-space: normal; ">This "Random Tips" section SHOULD NEVER TAKE THE PLACE OF ADVICE FROM A PROFESSIONAL FINANCIAL ADVISER!</p>'
 			
-			+'<p class="coin_info extra_margins bitcoin" style="white-space: normal; max-width: 600px;">"Random Tips" are only designed to provide VERY BASIC INSIGHT for people new to cryptocurrency, AND DOES NOT / CANNOT TAKE INTO ACCOUNT UNIQUE SITUATIONS INVESTORS MAY BE IN. ALWAYS CONSULT A FINANCIAL ADVISER IF YOU ARE UNAWARE OF ALL RISKS FOR YOUR PARTICULAR SITUATION!</p>'
+			+'<p class="coin_info extra_margins bitcoin" style="white-space: normal; ">"Random Tips" are only designed to provide VERY BASIC INSIGHT for people new to cryptocurrency, AND DOES NOT / CANNOT TAKE INTO ACCOUNT UNIQUE SITUATIONS INVESTORS MAY BE IN. ALWAYS CONSULT A FINANCIAL ADVISER IF YOU ARE UNAWARE OF ALL RISKS FOR YOUR PARTICULAR SITUATION!</p>'
 			
 			
 			+'<p> </p>';
@@ -100,15 +100,15 @@
 			var spreadsheet_import_export = '<h5 class="align_center yellow tooltip_title">Spreadsheet Import / Export</h5>'
 			
 			
-			+'<p class="coin_info" style="white-space: normal; max-width: 600px;">You can import / export your portfolio as a CSV spreadsheet saved on your computer, for portfolio backup / editing offline:</p>'
+			+'<p class="coin_info" style="white-space: normal; ">You can import / export your portfolio as a CSV spreadsheet saved on your computer, for portfolio backup / editing offline:</p>'
 			
-			+'<p class="coin_info" style="max-width: 600px; white-space: normal;"><img src="templates/interface/media/images/auto-preloaded/csv-spreadsheet-example.png" width="590" title="CSV spreadsheet of portfolio holdings" /></p>'
+			+'<p class="coin_info" style=" white-space: normal;"><img src="templates/interface/media/images/auto-preloaded/csv-spreadsheet-example.png" width="590" title="CSV spreadsheet of portfolio holdings" /></p>'
 			
-			+'<p class="coin_info" style="max-width: 600px; white-space: normal;"><span class="bitcoin">FORMATTING:</span> <br /> The spreadsheet format is custom, and DOES NOT support importing CSV spreadsheets provided by any particular exchange. The only required entries for CSV spreadsheet import are Ticker Key / Holdings / Market Pair. The other fields are optional, and can be left blank if desired:</p>'
+			+'<p class="coin_info" style=" white-space: normal;"><span class="bitcoin">FORMATTING:</span> <br /> The spreadsheet format is custom, and DOES NOT support importing CSV spreadsheets provided by any particular exchange. The only required entries for CSV spreadsheet import are Ticker Key / Holdings / Market Pair. The other fields are optional, and can be left blank if desired:</p>'
 			
-			+'<p class="coin_info" style="max-width: 600px; white-space: normal;"><img src="templates/interface/media/images/auto-preloaded/csv-spreadsheet-example-minimal.png" width="590" title="MINIMUM requirements to import a CSV spreadsheet" /></p>'
+			+'<p class="coin_info" style=" white-space: normal;"><img src="templates/interface/media/images/auto-preloaded/csv-spreadsheet-example-minimal.png" width="590" title="MINIMUM requirements to import a CSV spreadsheet" /></p>'
 			
-			+'<p class="coin_info" style="max-width: 600px; white-space: normal;"><span class="bitcoin">PRO TIPS:</span> <br /><br /> To easily display different portfolio setups SEPERATELY in this app (long term holdings / short term holdings / etc), save each of your different portfolio setups to seperate spreadsheet backup files. Then import whichever spreadsheet you wish into this app for portfolio tracking.<br /><br /> To have an asset designated as a stock (not crypto / fiat), it\'s "Ticker Key" must have "STOCK" appended to it like: TICKERSTOCK (all one word). Otherwise it won\'t import correctly.</p>'
+			+'<p class="coin_info" style=" white-space: normal;"><span class="bitcoin">PRO TIPS:</span> <br /><br /> To easily display different portfolio setups SEPERATELY in this app (long term holdings / short term holdings / etc), save each of your different portfolio setups to seperate spreadsheet backup files. Then import whichever spreadsheet you wish into this app for portfolio tracking.<br /><br /> To have an asset designated as a stock (not crypto / fiat), it\'s "Ticker Key" must have "STOCK" appended to it like: TICKERSTOCK (all one word). Otherwise it won\'t import correctly.</p>'
 			
 			
 			+'<p> </p>';
@@ -248,7 +248,7 @@
 			contents: portfolio_data_privacy,
 			css: {
 					fontSize: "<?=$default_font_size?>em",
-					minWidth: "450px",
+					minWidth: "350px",
 					padding: ".3rem .7rem",
 					border: "2px solid rgba(212, 212, 212, .4)",
 					borderRadius: "6px",
@@ -287,7 +287,7 @@
 			contents: random_tip_disclaimer,
 			css: {
 					fontSize: "<?=$default_font_size?>em",
-					minWidth: "450px",
+					minWidth: "350px",
 					padding: ".3rem .7rem",
 					border: "2px solid rgba(212, 212, 212, .4)",
 					borderRadius: "6px",
@@ -349,7 +349,7 @@
 			contents: spreadsheet_import_export,
 			css: {
 					fontSize: "<?=$default_font_size?>em",
-					minWidth: "450px",
+					minWidth: "350px",
 					padding: ".3rem .7rem",
 					border: "2px solid rgba(212, 212, 212, .4)",
 					borderRadius: "6px",
@@ -665,7 +665,7 @@
 			contents: average_paid_notes,
 			css: {
 					fontSize: "<?=$default_font_size?>em",
-					minWidth: "450px",
+					minWidth: "350px",
 					padding: ".3rem .7rem",
 					border: "2px solid rgba(212, 212, 212, .4)",
 					borderRadius: "6px",
@@ -737,7 +737,7 @@
 			contents: lvrg_trading_notes,
 			css: {
 					fontSize: "<?=$default_font_size?>em",
-					minWidth: "450px",
+					minWidth: "350px",
 					padding: ".3rem .7rem",
 					border: "2px solid rgba(212, 212, 212, .4)",
 					borderRadius: "6px",

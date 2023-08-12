@@ -6178,6 +6178,25 @@ v6.00.2 AND HIGHER RESETS LIGHT (TIME PERIOD) CHARTS FROM ARCHIVAL DATA, ONE-TIM
 
 
 
+-------------------------------------------------------------------
+6.00.23:
+
+-BUG FIX: Miscellaneous fixes
+
+-Support for PHPbrowserBox (more reliable app container for Windows Desktop Editions)
+
+-More reliable system checks (during preflight checks) for missing PHP extensions
+
+-Miscellaneous user experience improvements
+
+-Better Desktop Editions support
+
+-Code optimization / cleanup
+
+-------------------------------------------------------------------
+
+
+
 
 
 

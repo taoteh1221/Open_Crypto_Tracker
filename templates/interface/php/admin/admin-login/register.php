@@ -84,6 +84,8 @@ require("templates/interface/php/wrap/header.php");
 ?>
 
 
+<div class='full_width_wrapper'>
+
 
 <script>
 
@@ -94,15 +96,15 @@ this.top.location !== this.location && (this.top.location = this.location);
 var admin_cookies = '<h5 class="align_center bitcoin tooltip_title">Admin Login Requires Browser Cookies</h5>'
 			
 			
-			+'<p class="coin_info extra_margins" style="white-space: normal; max-width: 500px;"><span class="bitcoin">For greater security after a SUCCESSFUL admin login (with the correct username and password), a 32-byte random key is saved inside a cookie in your web browser. A DIFFERENT 32-byte random key is saved on the app server in temporary session data, along with the result of concatenating the two 32-byte keys together and getting a digest (fingerprint) hash, which is your login authorization.</span></p>'
+			+'<p class="coin_info extra_margins" style="white-space: normal; "><span class="bitcoin">For greater security after a SUCCESSFUL admin login (with the correct username and password), a 32-byte random key is saved inside a cookie in your web browser. A DIFFERENT 32-byte random key is saved on the app server in temporary session data, along with the result of concatenating the two 32-byte keys together and getting a digest (fingerprint) hash, which is your login authorization.</span></p>'
 			
-			+'<p class="coin_info extra_margins" style="white-space: normal; max-width: 500px;"><span class="bitcoin">Whenever you visit the Admin Config pages, the app asks your browser for it\s 32-byte key to prove you are logged in.</span></p>'
+			+'<p class="coin_info extra_margins" style="white-space: normal; "><span class="bitcoin">Whenever you visit the Admin Config pages, the app asks your browser for it\s 32-byte key to prove you are logged in.</span></p>'
 			
-			+'<p class="coin_info extra_margins" style="white-space: normal; max-width: 500px;"><span class="bitcoin">By splitting the secured login credentials between your web browser cookie data and the app server\'s temporary session data, it makes it a bit harder for a hacker to view your login area, at least if your app server automatically clears all it\'s temporary session data a few times per day (this app attempts to clear your session data EVERY 6 HOURS).</span></p>'
+			+'<p class="coin_info extra_margins" style="white-space: normal; "><span class="bitcoin">By splitting the secured login credentials between your web browser cookie data and the app server\'s temporary session data, it makes it a bit harder for a hacker to view your login area, at least if your app server automatically clears all it\'s temporary session data a few times per day (this app attempts to clear your session data EVERY 6 HOURS).</span></p>'
 			
-			+'<p class="coin_info extra_margins" style="white-space: normal; max-width: 500px;"><span class="bitcoin">REGARDLESS as to whether your particular app server automatically clears it\'s temporary session data or not, whenever you logout the 32-byte key in your browser is deleted, along with all the session data on the app server.</span></p>'
+			+'<p class="coin_info extra_margins" style="white-space: normal; "><span class="bitcoin">REGARDLESS as to whether your particular app server automatically clears it\'s temporary session data or not, whenever you logout the 32-byte key in your browser is deleted, along with all the session data on the app server.</span></p>'
 			
-			+'<p class="coin_info extra_margins" style="white-space: normal; max-width: 500px;"><span class="bitcoin">If your app server DOES automatically clears session data often, you will also be logged out AUTOMATICALLY at that time. ADDITIONALLY, the 32-byte random key that is saved inside a cookie in your web browser EXPIRES (automatically deletes itself) AFTER <?=$ct_conf['sec']['admin_cookie_expire']?> HOURS (adjustable in the Admin Config SECURITY section).</span></p>'
+			+'<p class="coin_info extra_margins" style="white-space: normal; "><span class="bitcoin">If your app server DOES automatically clears session data often, you will also be logged out AUTOMATICALLY at that time. ADDITIONALLY, the 32-byte random key that is saved inside a cookie in your web browser EXPIRES (automatically deletes itself) AFTER <?=$ct_conf['sec']['admin_cookie_expire']?> HOURS (adjustable in the Admin Config SECURITY section).</span></p>'
 			
 			
 			+'<p> </p>';
@@ -111,7 +113,7 @@ var admin_cookies = '<h5 class="align_center bitcoin tooltip_title">Admin Login 
 		var username_notes = '<h5 class="align_center red tooltip_title">Username Format Requirements</h5>'
 			
 			
-			+'<p class="coin_info extra_margins" style="white-space: normal; max-width: 500px;"><span class="red">All lower case<br />Starts with a letter<br />Numbers allowed <br />No symbols <br />No spaces <br />Between 4 - 30 characters <br /></span></p>'
+			+'<p class="coin_info extra_margins" style="white-space: normal; "><span class="red">All lower case<br />Starts with a letter<br />Numbers allowed <br />No symbols <br />No spaces <br />Between 4 - 30 characters <br /></span></p>'
 			
 			+'<p> </p>';
 
@@ -119,7 +121,7 @@ var admin_cookies = '<h5 class="align_center bitcoin tooltip_title">Admin Login 
 
 		var password_notes = '<h5 class="align_center red tooltip_title">Password Format Requirements</h5>'
 			
-			+'<p class="coin_info extra_margins" style="white-space: normal; max-width: 500px;"><span class="red">At least one upper case letter<br />At least one lower case letter<br />At least one number <br />At least one symbol <br />No spaces <br />Between 12 - 40 characters <br /></span></p>'
+			+'<p class="coin_info extra_margins" style="white-space: normal; "><span class="red">At least one upper case letter<br />At least one lower case letter<br />At least one number <br />At least one symbol <br />No spaces <br />Between 12 - 40 characters <br /></span></p>'
 			
 			+'<p> </p>';
 
@@ -141,7 +143,7 @@ var admin_cookies = '<h5 class="align_center bitcoin tooltip_title">Admin Login 
 ?>
 	</div>
 	
-	<div class='green_bright' style='display: none; font-weight: bold; padding: 15px; margin: 15px; font-size: 21px; border: 4px dotted #10d602;' id='submit_alert'></div>
+	<div class='green_bright' style='display: none; font-weight: bold; padding: 15px; margin: 15px; border: 4px dotted #10d602;' id='submit_alert'></div>
 
 <?php
 if ( $_GET['new_reset_key'] ) {
@@ -149,7 +151,7 @@ if ( $_GET['new_reset_key'] ) {
 
 <h3 class='bitcoin'>Admin Login Reset</h3>
 
-<p class='red' style='font-size: 19px; font-weight: bold;'>Reset your username / password for the Admin Config area.</p>
+<p class='red' style='font-weight: bold;'>Reset your username / password for the Admin Config area.</p>
 
 <?php
 }
@@ -158,13 +160,13 @@ else {
 
 <h3 class='bitcoin'>Admin Login Creation</h3>
 
-<p class='red' style='font-size: 19px; font-weight: bold;'>Create a username / password to secure the Admin Config area.</p>
+<p class='red' style='font-weight: bold;'>Create a username / password to secure the Admin Config area.</p>
 
 <?php
 }
 ?>
 
-<p class='red' style='font-size: 19px; font-weight: bold;'>Cookies MUST be ENABLED in your browser to login.
+<p class='red' style='font-weight: bold;'>Cookies MUST be ENABLED in your browser to login.
 	 <img class='tooltip_style_control' id='admin_cookies' src='templates/interface/media/images/info-red.png' alt='' width='30' style='position: relative;' /> 
 	 </p>
 
@@ -177,7 +179,7 @@ else {
 			contents: admin_cookies,
 			css: {
 					fontSize: "<?=$default_font_size?>em",
-					minWidth: "450px",
+					minWidth: "350px",
 					padding: ".3rem .7rem",
 					border: "2px solid rgba(212, 212, 212, .4)",
 					borderRadius: "6px",
@@ -198,7 +200,7 @@ else {
 
 if ( get_cookie('priv_toggle') == 'on' ) {
 
-document.write("<p class='red align_center' style='font-size: 19px; font-weight: bold;'>"
+document.write("<p class='red align_center' style='font-weight: bold;'>"
 
 + "PRIVACY MODE MUST BE DISABLED to submit data: "
 
@@ -218,7 +220,7 @@ if ( !$_POST['submit_registration'] || is_array($register_result['error']) && si
 <form name='set_admin' id='set_admin' action='' method='post'>
 
 
-    <div style="display: inline-block; text-align: right; width: 500px;">
+    <div style="display: inline-block; padding-top: 1em; text-align: right; width: 650px;">
     
 	 <p>
 	 
@@ -243,9 +245,9 @@ if ( !$_POST['submit_registration'] || is_array($register_result['error']) && si
 	 <p><b>Repeat Password:</b> <input type='password' id='set_password2' name='set_password2' value='<?=$_POST['set_password2']?>' style='<?=( $password2_field_color ? 'background: ' . $password2_field_color : '' )?>' /></p>
     	
     	
-		<p class='align_left' style='font-size: 19px; font-weight: bold; color: #ff4747;' id='user_alert'></p>
+		<p class='align_left' style='font-weight: bold; color: #ff4747;' id='user_alert'></p>
 	
-		<p class='align_left' style='font-size: 19px; font-weight: bold; color: #ff4747;' id='pass_alert'></p>
+		<p class='align_left' style='font-weight: bold; color: #ff4747;' id='pass_alert'></p>
 		
     </div>
   	 
@@ -253,7 +255,7 @@ if ( !$_POST['submit_registration'] || is_array($register_result['error']) && si
   	 <br clear='all' />
   
   
-  	 <div class='align_center' style='display: inline-block;'>
+  	 <div class='align_center' style='display: inline-block; padding-top: 1em;'>
   	 
   	 <p><img id='captcha_image' src='templates/interface/media/images/captcha.php' alt='' title='CAPTCHA image text contrast / maximum angle can be adjusted in Admin Config, within the "Security" section.
 
@@ -274,11 +276,11 @@ Google Fonts is supported (fonts.google.com).'>Get A Different Image</a>
   	 <br clear='all' />
 
 
-  	 <div style="display: inline-block; text-align: right; width: 500px;">
+  	 <div style="display: inline-block; text-align: right; width: 650px;">
   
   	 <p><b>Enter Image Text:</b> <input type='text' name='captcha_code' id='captcha_code' value='' style='<?=( $captcha_field_color ? 'background: ' . $captcha_field_color : '' )?>' /></p>
 	
-	<p class='align_left' style='font-size: 19px; font-weight: bold; color: #ff4747;' id='captcha_alert'></p>
+	<p class='align_left' style='font-weight: bold; color: #ff4747;' id='captcha_alert'></p>
   
   	 </div>
   	 
@@ -356,7 +358,7 @@ return false;
 			contents: username_notes,
 			css: {
 					fontSize: "<?=$default_font_size?>em",
-					minWidth: "450px",
+					minWidth: "350px",
 					padding: ".3rem .7rem",
 					border: "2px solid rgba(212, 212, 212, .4)",
 					borderRadius: "6px",
@@ -377,7 +379,7 @@ return false;
 			contents: password_notes,
 			css: {
 					fontSize: "<?=$default_font_size?>em",
-					minWidth: "450px",
+					minWidth: "350px",
 					padding: ".3rem .7rem",
 					border: "2px solid rgba(212, 212, 212, .4)",
 					borderRadius: "6px",
@@ -402,6 +404,9 @@ return false;
 
 
 </div>
+
+
+</div> <!-- END .full_width_wrapper -->
 
 
 <?php

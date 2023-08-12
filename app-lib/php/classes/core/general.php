@@ -639,7 +639,7 @@ var $ct_array = array();
    
    function dir_struct($path) {
    
-   global $ct_conf, $possible_http_users, $http_runtime_user;
+   global $chmod_cache_dir, $possible_http_users, $http_runtime_user;
 
    
       // If path does not exist
@@ -648,19 +648,19 @@ var $ct_array = array();
          // Run cache compatibility on certain PHP setups
          if ( !$http_runtime_user || in_array($http_runtime_user, $possible_http_users) ) {
          $oldmask = umask(0);
-         $result = mkdir($path, octdec($ct_conf['sec']['chmod_cache_dir']), true); // Recursively create whatever path depth desired if non-existent
+         $result = mkdir($path, octdec($chmod_cache_dir), true); // Recursively create whatever path depth desired if non-existent
          umask($oldmask);
          return $result;
          }
          else {
-         return  mkdir($path, octdec($ct_conf['sec']['chmod_cache_dir']), true); // Recursively create whatever path depth desired if non-existent
+         return  mkdir($path, octdec($chmod_cache_dir), true); // Recursively create whatever path depth desired if non-existent
          }
       
       }
       // If path is not writable, AND the chmod setting is not the app's default,
       // ATTEMPT TO CHMOD TO PROPER PERMISSIONS (IT'S OK IF IT DOESN'T WORK, WE'LL GET WRITE ERROR LOGS IF ANY REAL ISSUES EXIST)
-      elseif ( !is_writable($path) && substr( sprintf( '%o' , fileperms($path) ) , -4 ) != $ct_conf['sec']['chmod_cache_dir'] ) {
-      $this->chmod_path($path, $ct_conf['sec']['chmod_cache_dir']);
+      elseif ( !is_writable($path) && substr( sprintf( '%o' , fileperms($path) ) , -4 ) != $chmod_cache_dir ) {
+      $this->chmod_path($path, $chmod_cache_dir);
       }
       
       
@@ -1983,12 +1983,12 @@ var $ct_array = array();
       <?php
       if ( $another_set == 1 ) {
       ?>
-      <span class='red'>&nbsp;(other page is start page)</span>
+      <span class='red'>&nbsp;(other page shows first)</span>
       <?php
       }
       elseif ( $_GET['start_page'] == $page ) {
       ?>
-      <span class='red'>&nbsp;(current page is start page)</span>
+      <span class='red'>&nbsp;(current page shows first)</span>
       <?php
       }
       

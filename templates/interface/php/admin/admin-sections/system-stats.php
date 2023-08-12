@@ -28,7 +28,7 @@
 			<?php
 			foreach ( $system_warnings as $alert_key => $alert_val ) {
 			?>
-			+'<p class="coin_info" style="max-width: 600px; white-space: normal;"><span class="red"><?=$ct_gen->key_to_name($alert_key)?>:</span> <?=$alert_val?></p>'
+			+'<p class="coin_info" style=" white-space: normal;"><span class="red"><?=$ct_gen->key_to_name($alert_key)?>:</span> <?=$alert_val?></p>'
 			<?php
 			}
 			?>
@@ -43,7 +43,7 @@
 			contents: sys_stats_admin_link_info_content,
 			css: {
 					fontSize: "<?=$default_font_size?>em",
-					minWidth: "450px",
+					minWidth: "350px",
 					padding: ".3rem .7rem",
 					border: "2px solid rgba(212, 212, 212, .4)",
 					borderRadius: "6px",
@@ -131,12 +131,12 @@
             
             var server_header_defaults_content = '<h5 class="yellow tooltip_title">Average Server Header Size Limits</h5>'
             
-            			+'<p class="coin_info extra_margins" style="max-width: 600px; white-space: normal;">Web servers have a pre-set header size limit (which can be adjusted within it\'s own server configuration), which varies depending on the server software you are using.</p>'
+            			+'<p class="coin_info extra_margins" style=" white-space: normal;">Web servers have a pre-set header size limit (which can be adjusted within it\'s own server configuration), which varies depending on the server software you are using.</p>'
             
-            			+'<p class="coin_info extra_margins" style="max-width: 600px; white-space: normal;"><span class="bitcoin">IF THIS APP GOES OVER THOSE HEADER SIZE LIMITS, IT WILL CRASH!</span></p>'
+            			+'<p class="coin_info extra_margins" style=" white-space: normal;"><span class="bitcoin">IF THIS APP GOES OVER THOSE HEADER SIZE LIMITS, IT WILL CRASH!</span></p>'
             
             
-            			+'<p class="coin_info extra_margins" style="max-width: 600px; white-space: normal;"><span class="bitcoin">STANDARD SERVER HEADER SIZE LIMITS (IN KILOBYTES)...</span><br />Apache: 8kb<br />NGINX: 4kb - 8kb<br />IIS: 8kb - 16kb<br />Tomcat: 8kb - 48kb</p>';
+            			+'<p class="coin_info extra_margins" style=" white-space: normal;"><span class="bitcoin">STANDARD SERVER HEADER SIZE LIMITS (IN KILOBYTES)...</span><br />Apache: 8kb<br />NGINX: 4kb - 8kb<br />IIS: 8kb - 16kb<br />Tomcat: 8kb - 48kb</p>';
             		
             		
             		
@@ -147,7 +147,7 @@
             			contents: server_header_defaults_content,
             			css: {
             					fontSize: "<?=$default_font_size?>em",
-            					minWidth: "450px",
+            					minWidth: "350px",
             					padding: ".3rem .7rem",
             					border: "2px solid rgba(212, 212, 212, .4)",
             					borderRadius: "6px",
@@ -194,7 +194,7 @@
 	
 	
 	<?php
-	$all_chart_rebuild_min_max = explode(',', $ct_conf['power']['all_chart_rebuild_min_max']);
+	$all_chart_rebuild_min_max = explode(',', $ct_conf['power']['light_chart_all_rebuild_min_max']);
 	?>
 	
 	<p class='sys_stats red' style='font-weight: bold;'>*The "Server Cookies Size" telemetry data above <i>is not tracked in the system charts, because it's ONLY available in the user interface runtime (NOT the cron job runtime)</i>.</p>			
