@@ -2,6 +2,23 @@
 /*
  * Copyright 2014-2023 GPLv3, Open Crypto Tracker by Mike Kilday: Mike@DragonFrugal.com
  */
+ 
+ 
+// IMPORTANT NOTICE: DEVELOPER-ONLY APP CONFIGS ARE BELOW INITIAL LOGIC *FURTHER DOWN IN THIS FILE*
+
+
+// Application version
+$app_version = '6.00.23';  // 2023/AUGUST/9TH
+
+
+// #PHP# ERROR LOGGING
+// Can take any setting shown here: https://www.php.net/manual/en/function.error-reporting.php
+// 0 = off, -1 = on (IF *NOT* SET TO ZERO HERE, THIS #OVERRIDES# PHP ERROR DEBUG SETTINGS IN THE APP'S USER CONFIG SETTINGS)
+// WRAP VALUE(S) IN PARENTHESIS, SO MUTIPLE VALUES CAN BE USED: (0) / (-1) / (E_ERROR | E_PARSE)
+$dev_debug_php_errors = (0); 
+
+
+error_reporting($dev_debug_php_errors); // PHP error reporting
 
 
 // Forbid direct INTERNET access to this file
@@ -18,26 +35,38 @@ $time = $time[1] + $time[0];
 $start_runtime = $time;
 
 
+// Detect the edition / platform we are running in
+// (MUST BE SET #AFTER# APP VERSION NUMBER, AND #BEFORE# EVERYTHING ELSE!)
+if ( file_exists('../libcef.so') ) {
+$app_edition = 'desktop';  // 'desktop' (LOWERCASE)
+$app_platform = 'linux';
+}
+else if ( file_exists('../libcef.dll') || file_exists('../bin/bbserver.exe') ) {
+$app_edition = 'desktop';  // 'desktop' (LOWERCASE)
+$app_platform = 'windows';
+}
+else {
+$app_edition = 'server';  // 'server' (LOWERCASE)
+$app_platform = 'web';
+}
+
+
+// Detect the container we are running in
+// (MUST BE SET #AFTER# APP VERSION NUMBER, AND #BEFORE# EVERYTHING ELSE!)
+if ( file_exists('../libcef.dll') || file_exists('../libcef.so') ) {
+$app_container = 'phpdesktop';
+}
+else if ( file_exists('../bin/bbserver.exe') ) {
+$app_container = 'phpbrowserbox';
+}
+else {
+$app_container = 'browser';
+}
+
+
 ///////////////////////////////////////////////////
 // **START** DEVELOPER-ONLY CONFIGS
 ///////////////////////////////////////////////////
-
-
-// Application version
-$app_version = '6.00.23';  // 2023/AUGUST/9TH
-
-
-// #PHP# ERROR LOGGING
-// Can take any setting shown here: https://www.php.net/manual/en/function.error-reporting.php
-// 0 = off, -1 = on (IF *NOT* SET TO ZERO HERE, THIS #OVERRIDES# PHP ERROR DEBUG SETTINGS IN THE APP'S USER CONFIG SETTINGS)
-// WRAP VALUE(S) IN PARENTHESIS, SO MUTIPLE VALUES CAN BE USED: (0) / (-1) / (E_ERROR | E_PARSE)
-$dev_debug_php_errors = (0); 
-
-
-// min / max font RESIZE percentages allowed (as decimal representing 100% @ 1.00)
-$min_font_resize = 0.5; // 50%
-////
-$max_font_resize = 2; // 200%
 
 
 // Default charset used
@@ -62,6 +91,12 @@ $chmod_cache_file = '0660'; // (default = '0660' [owner/group read/write])
 $chmod_index_sec = '0660'; // (default = '0660' [owner/group read/write])
 
 
+// min / max font RESIZE percentages allowed (as decimal representing 100% @ 1.00)
+$min_font_resize = 0.5; // 50%
+////
+$max_font_resize = 2; // 200%
+
+
 // info icon size CSS configs
 $info_icon_size_css_selector = "img.tooltip_style_control";
 
@@ -75,7 +110,6 @@ $font_size_css_selector = "#sidebar_menu, #header_size_warning, #alert_bell_area
 
 // medium font size CSS configs
 $medium_font_size_css_selector = ".accordion-button";
-
 
 // small font size CSS configs (we skip sidebar HEADER area)
 $small_font_size_css_selector = ".unused_for_appending";
@@ -97,9 +131,6 @@ $medium_font_size_css_percent = 0.70; // 70% of $default_font_size
 ////
 // PERCENT of STANDARD font size (as a decimal)
 $small_font_size_css_percent = 0.45; // 45% of $default_font_size
-
-
-
 			
 									
 // !!!!! BE #VERY CAREFUL# LOWERING MAXIMUM EXECUTION TIMES BELOW, #OR YOU MAY CRASH THE RUNNING PROCESSES EARLY, 

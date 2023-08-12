@@ -9,36 +9,6 @@
 //////////////////////////////////////////////////////////////////
 
 
-error_reporting($dev_debug_php_errors); // PHP error reporting
-
-
-// Detect if we are running the desktop or server edition
-// (MUST BE SET #AFTER# APP VERSION NUMBER, AND #BEFORE# EVERYTHING ELSE!)
-if ( file_exists('../libcef.so') ) {
-$app_edition = 'desktop';  // 'desktop' (LOWERCASE)
-$app_platform = 'linux';
-}
-else if ( file_exists('../libcef.dll') || file_exists('../bin/bbserver.exe') ) {
-$app_edition = 'desktop';  // 'desktop' (LOWERCASE)
-$app_platform = 'windows';
-}
-else {
-$app_edition = 'server';  // 'server' (LOWERCASE)
-$app_platform = 'web';
-}
-
-
-if ( file_exists('../libcef.dll') ) {
-$app_container = 'phpdesktop';
-}
-else if ( file_exists('../bin/bbserver.exe') ) {
-$app_container = 'phpbrowserbox';
-}
-else {
-$app_container = 'browser';
-}
-
-
 // Get any detected php.ini (for informative error messages)
 $php_ini_path = php_ini_loaded_file();
 
