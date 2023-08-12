@@ -253,7 +253,7 @@ admin_iframe_load = document.querySelectorAll('.admin_iframe');
              
              // Set min-max widths
              $(".balloon-tooltips").css({ "min-width": Math.round(350 * set_font_size) + 'px' });
-             $(".balloon-tooltips").css({ "max-width": Math.round(750 * set_font_size) + 'px' });
+             $(".balloon-tooltips").css({ "max-width": Math.round(800 * set_font_size) + 'px' });
 
                   // iframe info balloon text sizes are wonky for some reason in LINUX PHPDESKTOP (but works fine in modern browsers)
                   if ( app_container == 'phpdesktop' ) {
