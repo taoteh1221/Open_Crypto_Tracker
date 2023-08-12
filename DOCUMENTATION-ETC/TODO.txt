@@ -10,9 +10,6 @@ NEXT SCHEDULED WORK SESSIONS (*BOTH* DEBUGGING AND / OR INFRASTRUCTURE)
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
-In firefox, there is A TON of margin / padding in each portfolio data row's data cells. Reduce it to match chrome.
-
-
 On LINUX DESKTOP EDITION, when importing a spreadsheet, it imports OK (shows in the interface after importing), BUT does NOT save as cookie data (gets lost if you visit the admin area etc), UNLESS YOU CLICK "SAVE UPDATED PORTFOLIO" ON THE UPDATE PAGE IMMEADIATELY *AFTER* IMPORTING IT. Check to see if this is also an issue in the Server Edition.
 
 

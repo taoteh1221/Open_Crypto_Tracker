@@ -346,7 +346,7 @@
 		
 			$('#currency_info').balloon({
 			html: true,
-			position: "right",
+			position: "top",
   			classname: 'balloon-tooltips',
 			contents: currency_content,
 			css: {
@@ -598,7 +598,7 @@
 		
 			$('#setting_secondary_trade_val').balloon({
 			html: true,
-			position: "right",
+			position: "top",
   			classname: 'balloon-tooltips',
 			contents: setting_secondary_trade_val_content,
 			css: {
