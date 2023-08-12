@@ -119,7 +119,7 @@ $ct_cache->delete_old_files($logs_cache_cleanup, $ct_conf['power']['logs_purge']
     
     $save_file = $base_dir . '/cache/other/win_curl_cacert.pem';
     
-    if ( $app_container == 'phpdesktop' && !file_exists($save_file) ) {
+    if ( $app_platform == 'windows' && $app_container == 'phpdesktop' && !file_exists($save_file) ) {
     
     $get_file = 'https://curl.se/ca/cacert.pem';
     

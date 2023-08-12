@@ -62,7 +62,6 @@ padding: .07rem 1.4rem .07rem .5rem !important;
 
 td .custom-select {
 min-width: 100% !important;
-line-height: 1.3em !important;
 }
 
 
@@ -97,7 +96,7 @@ textarea[data-autoresize] {
 
 input, select, textarea {
 border: 1px solid #808080 !important;
-line-height: normal !important;
+line-height: 1.3em !important;
 }
 
 

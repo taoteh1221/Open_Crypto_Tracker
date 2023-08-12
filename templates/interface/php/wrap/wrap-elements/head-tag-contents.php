@@ -249,9 +249,11 @@
 	}
 	?>
 	
+	
 	default_font_size = Number("<?=$default_font_size?>");
                   
      set_font_size = Number( get_cookie("font_size") ) ? Number( get_cookie("font_size") ) : default_font_size;
+	
 	
 	info_icon_size_css_selector = "<?=$info_icon_size_css_selector?>";
 	
@@ -259,9 +261,10 @@
 	
 	medium_font_size_css_selector = "<?=$medium_font_size_css_selector?>";
 	
-	medium_font_size_css_percent = Number(<?=$medium_font_size_css_percent?>);
-	
 	small_font_size_css_selector = "<?=$small_font_size_css_selector?>";
+	
+	
+	medium_font_size_css_percent = Number(<?=$medium_font_size_css_percent?>);
 	
 	small_font_size_css_percent = Number(<?=$small_font_size_css_percent?>);
 	
@@ -422,14 +425,14 @@
      <?php
      // iframe info icon sizes are wonky for some reason in LINUX PHPDESKTOP (but works fine in modern browsers)
      if ( $app_container == 'phpdesktop' ) {
-     $defualt_info_icon_size = $default_font_size * ( $is_iframe ? 1.2 : 1.1 );
+     $default_info_icon_size = $default_font_size * ( $is_iframe ? 1.2 : 1.1 );
      }
      else {
-     $defualt_info_icon_size = $default_font_size * 1.7;
+     $default_info_icon_size = $default_font_size * 1.7;
      }
      ?>
      <?=$info_icon_size_css_selector?> {
-     height: <?=round($defualt_info_icon_size, 3)?>em !important;
+     height: <?=round($default_info_icon_size, 3)?>em !important;
      width: auto !important;
      }
      
