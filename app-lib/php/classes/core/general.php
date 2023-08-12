@@ -1983,12 +1983,12 @@ var $ct_array = array();
       <?php
       if ( $another_set == 1 ) {
       ?>
-      <span class='red'>&nbsp;(other page is start page)</span>
+      <span class='red'>&nbsp;(other page shows first)</span>
       <?php
       }
       elseif ( $_GET['start_page'] == $page ) {
       ?>
-      <span class='red'>&nbsp;(current page is start page)</span>
+      <span class='red'>&nbsp;(current page shows first)</span>
       <?php
       }
       

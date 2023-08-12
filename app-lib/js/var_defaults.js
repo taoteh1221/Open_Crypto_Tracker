@@ -46,6 +46,8 @@ var app_container;
 
 var default_font_size;
 
+var info_icon_size_css_selector;
+
 var font_size_css_selector;
 
 var medium_font_size_css_selector;

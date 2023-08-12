@@ -9,7 +9,7 @@
 
 	<!-- ADMIN PAGES SECURITY LEVEL START -->
 
-	<div class='red red_dotted' style='font-size: 20px; margin-bottom: 20px;'>
+	<div class='red red_dotted' style='margin-bottom: 20px;'>
 	
 	<form name='toggle_admin_security' id='toggle_admin_security' action='admin.php?iframe=<?=$ct_gen->admin_hashed_nonce('iframe_security')?>&section=security&refresh=all' method='post'>
 	

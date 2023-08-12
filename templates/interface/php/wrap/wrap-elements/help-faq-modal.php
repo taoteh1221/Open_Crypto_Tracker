@@ -4,7 +4,7 @@
 <div class='' id="show_help_faq">
 	
 		
-		<h3 style='display: inline;'>Help / FAQ</h3>
+		<h3 style='display: inline;'>Help? / FAQ</h3>
 	
 				<span style='z-index: 99999; margin-right: 55px;' class='red countdown_notice_modal'></span>
 	
@@ -17,9 +17,9 @@
 	
 	<div class='red red_dotted'>
 	
-	This web app *SOMETIMES* MAY NOT WORK PROPERLY for this "PHPdesktop" WINDOWS DESKTOP EDITION (INCLUDING THIS HELP / FAQ PAGE...all other Editions work fine).<br /><br />
+	This web app *SOMETIMES* MAY NOT WORK PROPERLY for this "PHPdesktop"-based WINDOWS DESKTOP EDITION (all other Editions work fine).<br /><br />
 	
-	Try installing <a href="https://www.apachefriends.org" target="_BLANK">XAMPP for Windows</a>, and then installing the <a href="https://github.com/taoteh1221/Open_Crypto_Tracker/releases" target="_BLANK">Server Edition of this app</a> inside the XAMPP "htdocs" folder (delete any pre-existing index.html file in htdocs...SEE the "Manual Installation For Server Edition" section in the <a href="README.txt" target="_BLANK">README.txt documentation file</a>).<br /><br />
+	Try installing the <a href="https://github.com/taoteh1221/Open_Crypto_Tracker/releases" target="_BLANK">Newest Windows Desktop Edition of this app</a>, as we now use "PHPbrowserBox" instead of "PHPdesktop", which makes the Windows Edition RUN WAY BETTER.<br /><br />
 	
 	You can still view the contents of this Help / FAQ page here: <a href='TROUBLESHOOTING.txt' target='_blank'>TROUBLESHOOTING.txt</a>
 	
@@ -116,7 +116,7 @@
 
 	    <br /><br />
 
-After downloading, unzip the contents of the download to your desktop or other preferred file location (it doesn't matter, put it wherever you want to). Now use your operating system's file browser to enter the app's main directory, and click on "RUN_CRYPTO_TRACKER" to launch the app. <span class='red'>TO USE PRICE CHARTS AND PRICE ALERTS TO EMAIL / TEXT / ALEXA / TELEGRAM, YOU #MUST# LEAVE THE APP RUNNING UNLESS YOU MANUALLY SETUP A CRON JOB / SCHEDULED TASK! (see: "Setting Up Price Charts And Email / Text / Telegram / Alexa Price Alerts")</span>
+After downloading, unzip the contents of the download to your desktop or other preferred file location (it doesn't matter, put it wherever you want to). Now use your operating system's file browser to enter the app's main directory, and click on "RUN_CRYPTO_TRACKER" to launch the app (in Windows Desktop Edition, click "INSTALL_WEB_SERVER_FIRST" beforehand). <span class='red'>TO USE PRICE CHARTS AND PRICE ALERTS TO EMAIL / TEXT / ALEXA / TELEGRAM, YOU #MUST# LEAVE THE APP RUNNING UNLESS YOU MANUALLY SETUP A CRON JOB / SCHEDULED TASK! (see: "Setting Up Price Charts And Email / Text / Telegram / Alexa Price Alerts")</span>
 
 	    
 	    <br /><br />

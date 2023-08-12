@@ -62,21 +62,44 @@ $chmod_cache_file = '0660'; // (default = '0660' [owner/group read/write])
 $chmod_index_sec = '0660'; // (default = '0660' [owner/group read/write])
 
 
-// standard font size CSS configs (we skip sidebar HEADER area)
-$font_size_css_selector = "#sidebar_menu, #secondary_wrapper, select, radio, td.data, .iframe_wrapper, .footer_banner, .extra_data, .countdown_notice";
+// info icon size CSS configs
+$info_icon_size_css_selector = "img.tooltip_style_control";
 
-// medium font size CSS configs (we skip sidebar HEADER area)
-$medium_font_size_css_selector = "#admin_conf_quick_links a:link, #admin_conf_quick_links legend, #header_size_warning, .balloon_notation";
+// These selector(s) are wonky for some reason in LINUX PHPDESKTOP (but works fine in modern browsers)
+$larger_font_selector_adjusted = ", #admin_conf_quick_links a:link, #admin_conf_quick_links legend, td.data";
 ////
-// PERCENT of STANDARD font size (as a decimal)
-$medium_font_size_css_percent = 0.80; // 80% of $default_font_size
+$smaller_font_selector_adjusted = ", .gain, .loss, .crypto_worth, .extra_data";
+
+// standard font size CSS configs
+$font_size_css_selector = "#sidebar_menu, #header_size_warning, #alert_bell_area, #background_loading, radio, .full_width_wrapper:not(.custom-select), .iframe_wrapper:not(.custom-select), .footer_banner, .countdown_notice, .sidebar-slogan";
+
+// medium font size CSS configs
+$medium_font_size_css_selector = ".accordion-button";
 
 
 // small font size CSS configs (we skip sidebar HEADER area)
-$small_font_size_css_selector = ".gain, .loss, .crypto_worth, .accordion-button";
+$small_font_size_css_selector = ".unused_for_appending";
+     
+     
+     // adjust for LINUX PHPDESKTOP or modern browsers
+     if ( $app_container == 'phpdesktop' ) {
+     $medium_font_size_css_selector = $medium_font_size_css_selector . $larger_font_selector_adjusted;
+     $small_font_size_css_selector = $small_font_size_css_selector . $smaller_font_selector_adjusted;
+     }
+     else {
+     $font_size_css_selector = $font_size_css_selector . $larger_font_selector_adjusted;
+     $medium_font_size_css_selector = $medium_font_size_css_selector . $smaller_font_selector_adjusted;
+     }
+
+
+// PERCENT of STANDARD font size (as a decimal)
+$medium_font_size_css_percent = 0.70; // 70% of $default_font_size
 ////
 // PERCENT of STANDARD font size (as a decimal)
-$small_font_size_css_percent = 0.70; // 70% of $default_font_size
+$small_font_size_css_percent = 0.45; // 45% of $default_font_size
+
+
+
 			
 									
 // !!!!! BE #VERY CAREFUL# LOWERING MAXIMUM EXECUTION TIMES BELOW, #OR YOU MAY CRASH THE RUNNING PROCESSES EARLY, 

@@ -13,8 +13,22 @@
 <div class='full_width_wrapper align_center'>
 			
 	
-	<div style='display: inline;'><?=$ct_gen->start_page_html('portfolio')?></div>		
-
+	<div style='display: inline;'><?=$ct_gen->start_page_html('portfolio')?></div>
+			
+			
+			 &nbsp; <select title='Auto-Refresh MAY NOT WORK properly on mobile devices (phone / laptop / tablet / etc), or inactive tabs.' class='browser-default custom-select' name='select_auto_refresh' id='select_auto_refresh' onchange='
+			 reload_time = this.value;
+			 auto_reload();
+			 '>
+				<option value='0'> Reload Data Manually </option>
+				<option value='300' <?=( $_COOKIE['coin_reload'] == '300' ? 'selected' : '' )?>> Auto-Reload: 5 Minutes </option>
+				<option value='600' <?=( $_COOKIE['coin_reload'] == '600' ? 'selected' : '' )?>> Auto-Reload: 10 Minutes </option>
+				<option value='900' <?=( $_COOKIE['coin_reload'] == '900' ? 'selected' : '' )?>> Auto-Reload: 15 Minutes </option>
+				<option value='1800' <?=( $_COOKIE['coin_reload'] == '1800' ? 'selected' : '' )?>> Auto-Reload: 30 Minutes </option>
+			</select> 
+			
+			
+			&nbsp; <span class='bitcoin'><b>(<?=$ct_conf['power']['last_trade_cache_time']?> minute prices cache)</b></span>
      
 	
 			<?php
@@ -49,37 +63,15 @@
 				
 				
 			?>
-			  &nbsp; &nbsp; <span class='<?=$alert_filter_css?>' style='font-weight: bold;'><?=$visual_audio_alerts?> Alerts (<?=ucfirst($ct_conf['gen']['prim_mcap_site'])?> <?=$text_mcap_trend?> <?=$alert_filter?><?=$sel_opt['alert_percent'][1]?>%)</span>
+			
+			&nbsp; <span class='<?=$alert_filter_css?>' style='font-weight: bold;'><?=$visual_audio_alerts?> Alerts (<?=ucfirst($ct_conf['gen']['prim_mcap_site'])?> <?=$text_mcap_trend?> <?=$alert_filter?><?=$sel_opt['alert_percent'][1]?>%)</span>
+			
 			<?php
 			}
-			
-			// Warning (minimal, just as link title on the 'refresh' link) if price data caching set too low
-			if ( $ct_conf['power']['last_trade_cache_time'] < 4 ) {
-			$refresh_link_title = 'Refreshing data too frequently may cause API request refusals, especially if request caching settings are too low. It is recommended to use this refresh feature sparingly with lower or disabled cache settings. The current real-time exchange data re-cache (refresh from live data instead of cached data) setting in the Admin Config GENERAL section is set to '. $ct_conf['power']['last_trade_cache_time'] . ' minute(s). A setting of 4 or higher assists in avoiding temporary IP blocking / throttling by exchanges.';
-			}
-			else {
-			$refresh_link_title = 'The current real-time exchange data re-cache (refresh from live data instead of cached data) setting in the Admin Config GENERAL section is set to '. $ct_conf['power']['last_trade_cache_time'] . ' minute(s).';
-			}
-			
 			?>  
 			
 			
-			&nbsp; &nbsp; &nbsp; <a href='javascript:app_reloading_check();' class='bitcoin' style='font-weight: bold;' title='<?=$refresh_link_title?>'>Refresh</a> <span><b>(<?=$ct_conf['power']['last_trade_cache_time']?> minute cache)</b></span>
-			
-			
-			 &nbsp;<select title='Auto-Refresh MAY NOT WORK properly on mobile devices (phone / laptop / tablet / etc), or inactive tabs.' class='browser-default custom-select' name='select_auto_refresh' id='select_auto_refresh' onchange='
-			 reload_time = this.value;
-			 auto_reload();
-			 '>
-				<option value='0'> Manually </option>
-				<option value='300' <?=( $_COOKIE['coin_reload'] == '300' ? 'selected' : '' )?>> Every 5 Minutes </option>
-				<option value='600' <?=( $_COOKIE['coin_reload'] == '600' ? 'selected' : '' )?>> Every 10 Minutes </option>
-				<option value='900' <?=( $_COOKIE['coin_reload'] == '900' ? 'selected' : '' )?>> Every 15 Minutes </option>
-				<option value='1800' <?=( $_COOKIE['coin_reload'] == '1800' ? 'selected' : '' )?>> Every 30 Minutes </option>
-			</select> 
-			
-			
-			&nbsp;<span id='reload_notice' class='red'></span>
+			&nbsp; <span id='reload_notice' class='red'></span>		
 					
 					
 			<p>
@@ -1492,10 +1484,14 @@ zingchart.bind('marketcap_chart', 'label_click', function(e){
 		<fieldset><legend> <strong class="bitcoin">System Monitoring</strong> </legend>
     		
     		
-    		<b><a id="sys_stats_quick_link" href="javascript: return false;" class="modal_style_control show_system_stats blue" title="View System Statistics">System Stats</a></b><img class='tooltip_style_control' id='sys_stats_quick_link_info' src='templates/interface/media/images/info-red.png' alt='' width='30' style='position: relative;' />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+    		<b><a id="sys_stats_quick_link" href="javascript: return false;" class="modal_style_control show_system_stats blue" title="View System Statistics">System Stats</a></b><img class='tooltip_style_control' id='sys_stats_quick_link_info' src='templates/interface/media/images/info-red.png' alt='' width='30' style='position: relative;' />
+    		
+    		<div style='min-height: 0.4em;'></div>
     		
 
-    		<b><a href="javascript: return false;" class="modal_style_control show_access_stats blue" title="View Access Statistics">Access Stats</a></b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+    		<b><a href="javascript: return false;" class="modal_style_control show_access_stats blue" title="View Access Statistics">Access Stats</a></b>
+    		
+    		<div style='min-height: 0.4em;'></div>    		
     		
 
     		<b><a href="javascript: return false;" class="modal_style_control show_logs blue" title="View App Logs">App Logs</a></b>

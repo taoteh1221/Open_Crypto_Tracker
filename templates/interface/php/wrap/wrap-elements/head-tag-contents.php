@@ -249,19 +249,21 @@
 	}
 	?>
 	
-	default_font_size = "<?=$default_font_size?>";
+	default_font_size = Number("<?=$default_font_size?>");
                   
-     set_font_size = get_cookie("font_size") ? get_cookie("font_size") : default_font_size;
+     set_font_size = Number( get_cookie("font_size") ) ? Number( get_cookie("font_size") ) : default_font_size;
+	
+	info_icon_size_css_selector = "<?=$info_icon_size_css_selector?>";
 	
 	font_size_css_selector = "<?=$font_size_css_selector?>";
 	
 	medium_font_size_css_selector = "<?=$medium_font_size_css_selector?>";
 	
-	medium_font_size_css_percent = <?=$medium_font_size_css_percent?>;
+	medium_font_size_css_percent = Number(<?=$medium_font_size_css_percent?>);
 	
 	small_font_size_css_selector = "<?=$small_font_size_css_selector?>";
 	
-	small_font_size_css_percent = <?=$small_font_size_css_percent?>;
+	small_font_size_css_percent = Number(<?=$small_font_size_css_percent?>);
 	
 	
 	// Preload /images/auto-preloaded/ images VIA JAVASCRIPT TOO (WAY MORE RELIABLE THAN META TAG PRELOAD)
@@ -416,21 +418,36 @@
      }
      ?>
      
-     /* standard font size CSS selector (we skip sidebar HEADER area) */
+     /* info icon size CSS selector */
+     <?php
+     // iframe info icon sizes are wonky for some reason in LINUX PHPDESKTOP (but works fine in modern browsers)
+     if ( $app_container == 'phpdesktop' ) {
+     $defualt_info_icon_size = $default_font_size * ( $is_iframe ? 1.2 : 1.1 );
+     }
+     else {
+     $defualt_info_icon_size = $default_font_size * 1.7;
+     }
+     ?>
+     <?=$info_icon_size_css_selector?> {
+     height: <?=round($defualt_info_icon_size, 3)?>em !important;
+     width: auto !important;
+     }
+     
+     /* standard font size CSS selector */
      <?=$font_size_css_selector?> {
      font-size: <?=$default_font_size?>em !important;
      line-height: <?=$default_font_line_height?>em !important;
      font-weight: 400 !important;
      }
 
-     /* medium font size CSS selector (we skip sidebar HEADER area) */
+     /* medium font size CSS selector */
      <?=$medium_font_size_css_selector?> {
      font-size: <?=$default_medium_font_size?>em !important;
      line-height: <?=$default_medium_font_line_height?>em !important;
      font-weight: 400 !important;
      }
 
-     /* small font size CSS selector (we skip sidebar HEADER area) */
+     /* small font size CSS selector */
      <?=$small_font_size_css_selector?> {
      font-size: <?=$default_tiny_font_size?>em !important;
      line-height: <?=$default_tiny_font_line_height?>em !important;

@@ -121,8 +121,8 @@ CONTRIBUTION GUIDELINES (FOR DEVELOPERS):
 ===> then plenty of time is spent on UX / testing / debugging.
 !!!!
 ===> PHPbrowserBox (used for Windows Desktop Editions) Shortcut Keys:
-===> Reload / refresh browser : Control + R
-===> Open devtools : Control + Shift + I
+===> Reload / refresh browser : Shift + F5 (Mac: Command + R)
+===> Open devtools : F12 (Mac: Fn + F12)
 !!!!
 ===> "app-lib/php/init.php" contains MANY developer-only configs at the top
 !!!!

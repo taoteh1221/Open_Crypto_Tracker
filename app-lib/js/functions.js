@@ -1837,22 +1837,22 @@ function row_alert(tr_id, alert_type, color, theme) {
 
 function interface_font_percent(font_val, iframe_elm=false, specific_elm=false, specific_size=false) {
      
-var font_size = font_val * 0.01;
+var font_size = Number(font_val) * 0.01;
 var font_size = font_size.toFixed(3);
      
-var line_height = font_size * 1.35;
+var line_height = font_size * 1.15; // 115% line height
 var line_height = line_height.toFixed(3);
      
 var medium_font_size = font_size * medium_font_size_css_percent;
 var medium_font_size = medium_font_size.toFixed(3);
      
-var medium_line_height = medium_font_size * 1.35;
+var medium_line_height = medium_font_size * 1.15; // 115% line height
 var medium_line_height = medium_line_height.toFixed(3);
      
 var small_font_size = font_size * small_font_size_css_percent;
 var small_font_size = small_font_size.toFixed(3);
      
-var small_line_height = small_font_size * 1.35;
+var small_line_height = small_font_size * 1.15; // 115% line height
 var small_line_height = small_line_height.toFixed(3);
 
 
@@ -1860,26 +1860,28 @@ var small_line_height = small_line_height.toFixed(3);
           
      var specific_elements = $(specific_elm);
      
-          if ( specific_size = 'reg' ) {
+          if ( specific_size == 'reg' ) {
           var spec_font_size = font_size;
           var spec_line_height = line_height;
           }
-          else if ( specific_size = 'med' ) {
+          else if ( specific_size == 'med' ) {
           var spec_font_size = medium_font_size;
           var spec_line_height = medium_line_height;
           }
-          else if ( specific_size = 'sm' ) {
+          else if ( specific_size == 'sm' ) {
           var spec_font_size = small_font_size;
           var spec_line_height = small_line_height;
           }
      
      }
      else if ( iframe_elm != false ) {
+     var info_icon_elements = $(info_icon_size_css_selector, iframe_elm.contentWindow.document);
      var font_elements = $(font_size_css_selector, iframe_elm.contentWindow.document);
      var medium_font_elements = $(medium_font_size_css_selector, iframe_elm.contentWindow.document);
      var small_font_elements = $(small_font_size_css_selector, iframe_elm.contentWindow.document);
      }
      else {
+     var info_icon_elements = $(info_icon_size_css_selector);
      var font_elements = $(font_size_css_selector);
      var medium_font_elements = $(medium_font_size_css_selector);
      var small_font_elements = $(small_font_size_css_selector);
@@ -1893,13 +1895,26 @@ var small_line_height = small_line_height.toFixed(3);
      // All
      else {
           
-     // Standard (we skip sidebar HEADER area)
+          // iframe info icon sizes are wonky for some reason in LINUX PHPDESKTOP (but works fine in modern browsers)
+          if ( app_container == 'phpdesktop' ) {
+          var info_icon_size = is_iframe ? (font_size * 1.2) : (font_size * 1.1);
+          }
+          else {
+          var info_icon_size = font_size * 1.7;
+          }
+          
+     var info_icon_size = info_icon_size.toFixed(3);
+          
+     // Info icons
+     info_icon_elements.attr('style', function(i,s) { return (s || '') + "height: " + info_icon_size + "em !important; width : auto !important;" });
+          
+     // Standard font
      font_elements.attr('style', function(i,s) { return (s || '') + "font-size: " + font_size + "em !important; line-height : " + line_height + "em !important;" });
      
-     // Medium
+     // Medium font
      medium_font_elements.attr('style', function(i,s) { return (s || '') + "font-size: " + medium_font_size + "em !important; line-height : " + medium_line_height + "em !important;" });
      
-     // Small
+     // Small font
      small_font_elements.attr('style', function(i,s) { return (s || '') + "font-size: " + small_font_size + "em !important; line-height : " + small_line_height + "em !important;" });
      
      }
@@ -2360,9 +2375,9 @@ private_data = document.getElementsByClassName('private_data');
                     
                     autoresize_update();
         
-                    $("#pm_link").text('Privacy Mode Is Off');
+                    $("#pm_link").text('Privacy Mode: Off');
                     $("#pm_link_icon_div").css("background", "#dd7c0d");
-                    $("#pm_link3").text('Privacy Mode Is Off');
+                    $("#pm_link3").text('Privacy Mode: Off');
                                 
                     }
                     else {
@@ -2523,9 +2538,9 @@ private_data = document.getElementsByClassName('private_data');
              
         document.oncontextmenu = document.body.oncontextmenu = function() {return false;};    
         
-        $("#pm_link").text('Privacy Mode Is On');
+        $("#pm_link").text('Privacy Mode: On');
         $("#pm_link_icon_div").css("background", "#10d602");
-        $("#pm_link3").text('Privacy Mode Is On');
+        $("#pm_link3").text('Privacy Mode: On');
                                 
         
         // Delete any existing admin auth (login) cookie

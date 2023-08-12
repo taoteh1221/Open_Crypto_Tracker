@@ -291,7 +291,7 @@ echo '?';
 		
   ?>
   
-  <span class='blue app_sort_filter'><?=$asset_name?></span> <img id='<?=$rand_id?>' src='templates/interface/media/images/<?=$info_icon?>' alt='' style='position: relative; vertical-align:middle; height: 30px; width: 30px;' /> 
+  <span class='blue app_sort_filter'><?=$asset_name?></span> <img id='<?=$rand_id?>' class='tooltip_style_control' src='templates/interface/media/images/<?=$info_icon?>' alt='' style='position: relative; vertical-align:middle; height: 30px; width: 30px;' /> 
   
  <script>
  
