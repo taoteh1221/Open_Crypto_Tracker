@@ -10,7 +10,12 @@ NEXT SCHEDULED WORK SESSIONS (*BOTH* DEBUGGING AND / OR INFRASTRUCTURE)
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
-https://www.coingecko.com/en/coins/aurory#markets
+Line-height should be a little more in the windows desktop edition.
+
+
+https://www.coingecko.com/en/coins/aurory
+
+https://www.coingecko.com/en/coins/cosmos-hub
 
 
 Move the font line height logic into init.php too (and have it also control JavaScript based line height).
