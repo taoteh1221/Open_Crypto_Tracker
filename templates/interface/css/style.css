@@ -27,18 +27,6 @@ border-collapse: separate;
 }
 
 
-th, td.data {
-margin: 0px !important;
-padding-top: 0.25em !important;
-padding-bottom: 0.25em !important;
-padding-left: 0.75em !important;
-padding-right: 0.75em !important;
-white-space: nowrap !important;
-vertical-align: middle !important;
-line-height: 1.15 !important;
-}
-
-
 img { 
 border: 0; 
 }
@@ -365,6 +353,11 @@ font-weight: normal;
 .coin_info {
 margin: 13px;
 white-space: nowrap;
+}
+
+
+.balloon-tooltips {
+max-width: 800px;
 }
 
 
@@ -720,6 +713,18 @@ margin-top: 10px !important;
 /* //////////////////////////////
 IDs
 ////////////////////////////// */
+
+
+#coins_table th, #coins_table  td.data {
+margin: 0px !important;
+padding-top: 0.25em !important;
+padding-bottom: 0.25em !important;
+padding-left: 0.75em !important;
+padding-right: 1.1em !important;   
+white-space: nowrap !important;
+vertical-align: middle !important;
+line-height: 1.15 !important;
+}
 
 
 #pm_link_icon_div {

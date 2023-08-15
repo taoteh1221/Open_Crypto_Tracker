@@ -10,10 +10,22 @@ NEXT SCHEDULED WORK SESSIONS (*BOTH* DEBUGGING AND / OR INFRASTRUCTURE)
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
-On LINUX DESKTOP EDITION, when importing a spreadsheet, it imports OK (shows in the interface after importing), BUT does NOT save as cookie data (gets lost if you visit the admin area etc), UNLESS YOU CLICK "SAVE UPDATED PORTFOLIO" ON THE UPDATE PAGE IMMEADIATELY *AFTER* IMPORTING IT. Check to see if this is also an issue in the Server Edition.
+https://www.coingecko.com/en/coins/aurory#markets
 
 
-"CSV import suceeded" has a 'dismiss' link...remove it.
+Move the font line height logic into init.php too (and have it also control JavaScript based line height).
+
+
+The compact side menu doesn't work on Linux desktop Edition.
+
+
+For alphavantage to get more stock prices, we need to count the total amount of stocks listed during init of the app, and if it goes over our hourly or by-the-minute max counts (that we are have built-in to meter / throttle with), then we somehow need to prioritize in a way that gets all stock prices evenly refreshed, without going over our DAILY limit EVER.
+
+
+On LINUX DESKTOP EDITION, when importing a spreadsheet, it imports OK (shows in the interface after importing), BUT does NOT save as cookie data (gets lost if you visit the admin area etc), UNLESS YOU CLICK "SAVE UPDATED PORTFOLIO" ON THE UPDATE PAGE IMMEADIATELY *AFTER* IMPORTING IT. THIS IS NOT AN ISSUE IN SERVER EDITION, find out why.
+
+
+"CSV import suceeded" has a 'dismiss' link...remove it? 
 
 
 Update screenshots, since we overhauled everything in the interface.
