@@ -425,10 +425,10 @@
      <?php
      // iframe info icon sizes are wonky for some reason in LINUX PHPDESKTOP (but works fine in modern browsers)
      if ( $app_container == 'phpdesktop' ) {
-     $default_info_icon_size = $default_font_size * 1.3;
+     $default_info_icon_size = $default_font_size * 1.6;
      }
      else {
-     $default_info_icon_size = $default_font_size * 1.7;
+     $default_info_icon_size = $default_font_size * 2.0;
      }
      ?>
      <?=$info_icon_size_css_selector?> {

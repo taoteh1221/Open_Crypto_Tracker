@@ -30,7 +30,7 @@ $("#content_wrapper").css('display','inline'); // MUST display inline to center 
 // Charts background / border
 $(".chart_wrapper").css({ "background-color": charts_background });
 $(".chart_wrapper").css({ "border": '2px solid ' + charts_border });
-
+             
 
 // Dynamic table header updating
 $("span.btc_prim_currency_pair").html(btc_prim_currency_pair); 
@@ -245,26 +245,25 @@ admin_iframe_load = document.querySelectorAll('.admin_iframe');
 	/////////////////////////////////////////////////////////////////////////////////////////////////////
 	
      
+     // iframe info balloon text sizes are wonky for some reason in LINUX PHPDESKTOP (but works fine in modern browsers)
+     if ( app_container == 'phpdesktop' ) {
+     var adjusted_font_size_percent = is_iframe ? 70 : 100;
+     }
+     else {
+     var adjusted_font_size_percent = 100;
+     }
+               
+                    
+     // Dynamically style balloon tooltips ON DOCUMENT LOADED
+     interface_font_percent( (set_font_size * adjusted_font_size_percent), false, '.balloon-tooltips', 'reg' );
+
+
      // Dynamically style balloon tooltips AFTER THEY OPEN (AFTER the dynamically-created elements are created)
      $('.tooltip_style_control').hover(function(){
              
              // Wait 0.1 seconds
              setTimeout(function(){
-             
-             // Set min-max widths
-             $(".balloon-tooltips").css({ "min-width": Math.round(350 * set_font_size) + 'px' });
-             $(".balloon-tooltips").css({ "max-width": Math.round(800 * set_font_size) + 'px' });
-
-                  // iframe info balloon text sizes are wonky for some reason in LINUX PHPDESKTOP (but works fine in modern browsers)
-                  if ( app_container == 'phpdesktop' ) {
-                  var adjusted_font_size_percent = is_iframe ? 70 : 100;
-                  }
-                  else {
-                  var adjusted_font_size_percent = 100;
-                  }
-                    
              interface_font_percent( (set_font_size * adjusted_font_size_percent), false, '.balloon-tooltips', 'reg' );
-                  
      	   }, 100);
            
      });
