@@ -135,6 +135,22 @@ admin_iframe_load = document.querySelectorAll('.admin_iframe');
      // If overriding any responsive menu CSS is needed
      responsive_menu_override();
 	});
+	
+
+	/////////////////////////////////////////////////////////////////////////////////////////////////////
+	
+     
+     // Dynamically style modals AFTER THEY OPEN (AFTER the dynamically-created elements are created)
+     $('.modal_style_control').on({
+        "click":function(e){
+             
+             // Wait 0.1 seconds
+             setTimeout(function(){
+             interface_font_percent( (set_font_size * 100), false, '.modaal-content-container', 'reg' );
+     	   }, 100);
+              
+         }
+     });
 
 
 	/////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -217,29 +233,6 @@ admin_iframe_load = document.querySelectorAll('.admin_iframe');
           });
       
     });
-	
-
-	/////////////////////////////////////////////////////////////////////////////////////////////////////
-	
-     
-     // Dynamically style modals AFTER THEY OPEN (AFTER the dynamically-created elements are created)
-     $('.modal_style_control').on({
-        "click":function(e){
-             
-             // Wait 0.1 seconds
-             setTimeout(function(){
-                  
-                  if ( get_cookie("font_size") ) {
-     	        interface_font_percent( ( get_cookie("font_size") * 100 ), false, '.modaal-content-container', 'reg' );
-                  }
-                  else {
-     	        interface_font_percent( (default_font_size * 100), false, '.modaal-content-container', 'reg' );
-                  }
-                  
-     	   }, 100);
-              
-         }
-     });
 	
 
 	/////////////////////////////////////////////////////////////////////////////////////////////////////

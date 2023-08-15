@@ -1320,12 +1320,15 @@ promptCount = 0;
     
     var lm = options.lm || "Password:",
         bm = options.bm || "Submit";
+        
     if(!options.callback) { 
         alert("No callback function provided! Please provide one.") 
     };
                    
     var prompt = document.createElement("div");
     prompt.className = "pw_prompt";
+    prompt.style.setProperty("font-size", set_font_size + 'em', "important");
+    prompt.style.width = Math.round(330 * set_font_size) + 'px';
     
     var submit = function() {
         options.callback(input.value);
@@ -1365,7 +1368,7 @@ promptCount = 0;
     document.body.appendChild(prompt);
     
 	setTimeout(function(){
-    $(input).filter(':visible').focus();
+     $(input).filter(':visible').focus();
 	}, 1000);
     
 };
