@@ -250,6 +250,9 @@
 	?>
 	
 	
+	global_line_height_percent = Number("<?=$global_line_height_percent?>");
+	
+	
 	default_font_size = Number("<?=$default_font_size?>");
                   
      set_font_size = Number( get_cookie("font_size") ) ? Number( get_cookie("font_size") ) : default_font_size;

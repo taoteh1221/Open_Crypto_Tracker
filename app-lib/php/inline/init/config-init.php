@@ -251,13 +251,13 @@ $default_font_size = $min_font_resize;
 }
 
 
-$default_font_line_height = round( ($default_font_size * 1.15) , 3); // 115% of $default_font_size
+$default_font_line_height = round( ($default_font_size * $global_line_height_percent) , 3);
      
 $default_medium_font_size = round( ($default_font_size * $medium_font_size_css_percent) , 3);
-$default_medium_font_line_height = round( ($default_medium_font_size * 1.15) , 3); // 115% of $default_medium_font_size
+$default_medium_font_line_height = round( ($default_medium_font_size * $global_line_height_percent) , 3);
      
 $default_tiny_font_size = round( ($default_font_size * $small_font_size_css_percent) , 3);
-$default_tiny_font_line_height = round( ($default_tiny_font_size * 1.15) , 3); // 115% of $default_tiny_font_size
+$default_tiny_font_line_height = round( ($default_tiny_font_size * $global_line_height_percent) , 3); 
 
 
 // Alphabetically sort news feeds

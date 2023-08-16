@@ -79,7 +79,7 @@ CLASSES
 
 
 .pw_prompt {
-    border: 3px solid black;
+    border: 0.2em solid black;
     background: #777575 !important;
 }
 

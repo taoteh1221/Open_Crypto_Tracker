@@ -1843,19 +1843,19 @@ function interface_font_percent(font_val, iframe_elm=false, specific_elm=false, 
 var font_size = Number(font_val) * 0.01;
 var font_size = font_size.toFixed(3);
      
-var line_height = font_size * 1.15; // 115% line height
+var line_height = font_size * global_line_height_percent; 
 var line_height = line_height.toFixed(3);
      
 var medium_font_size = font_size * medium_font_size_css_percent;
 var medium_font_size = medium_font_size.toFixed(3);
      
-var medium_line_height = medium_font_size * 1.15; // 115% line height
+var medium_line_height = medium_font_size * global_line_height_percent; 
 var medium_line_height = medium_line_height.toFixed(3);
      
 var small_font_size = font_size * small_font_size_css_percent;
 var small_font_size = small_font_size.toFixed(3);
      
-var small_line_height = small_font_size * 1.15; // 115% line height
+var small_line_height = small_font_size * global_line_height_percent; 
 var small_line_height = small_line_height.toFixed(3);
 
 

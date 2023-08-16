@@ -10,15 +10,12 @@ NEXT SCHEDULED WORK SESSIONS (*BOTH* DEBUGGING AND / OR INFRASTRUCTURE)
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
-Line-height should be a little more in the windows desktop edition.
+On the plugins admin page, add an info balloon next to a title "How can I make sure 3rd-party plugins are safe?"
 
 
 https://www.coingecko.com/en/coins/aurory
 
 https://www.coingecko.com/en/coins/cosmos-hub
-
-
-Move the font line height logic into init.php too (and have it also control JavaScript based line height).
 
 
 The compact side menu doesn't work on Linux desktop Edition.

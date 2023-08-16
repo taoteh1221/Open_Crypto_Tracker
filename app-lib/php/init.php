@@ -8,7 +8,7 @@
 
 
 // Application version
-$app_version = '6.00.23';  // 2023/AUGUST/9TH
+$app_version = '6.00.24';  // 2023/AUGUST/16TH
 
 
 // #PHP# ERROR LOGGING
@@ -95,6 +95,10 @@ $chmod_index_sec = '0660'; // (default = '0660' [owner/group read/write])
 $min_font_resize = 0.5; // 50%
 ////
 $max_font_resize = 2; // 200%
+
+
+// LINE HEIGHT PERCENTAGE for ALL text in app (as a decimal)
+$global_line_height_percent = 1.30; // 130% line height for ANY font size
 
 
 // info icon size CSS configs

@@ -223,8 +223,8 @@ margin-left: 5px;
 
 .pw_prompt .close_prompt {
 position: absolute;
-top: -1px;
-right: 3px;
+top: 0.15em;
+right: 0.25em;
 font-weight: bold;
 cursor: pointer;
 }
