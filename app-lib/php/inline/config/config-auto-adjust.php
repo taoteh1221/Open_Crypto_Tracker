@@ -55,7 +55,7 @@ $ct_conf['mob_net_txt_gateways'] = $cleaned_mobile_networks;
 // Dynamically reconfigure / configure where needed
 
 
-// Default BTC CRYPTO/CRYPTO market pair support, BEFORE GENERATING MISCASSETS / ETHNFTS / SOLNFTS ARRAYS
+// Default BTC CRYPTO/CRYPTO market pair support, BEFORE GENERATING MISCASSETS / BTCNFTS / ETHNFTS / SOLNFTS ARRAYS
 // (so we activate it here instead of in Admin Config, for good UX adding ONLY altcoin markets dynamically there)
 $ct_conf['power']['crypto_pair'] = array('btc' => 'Ƀ ') + $ct_conf['power']['crypto_pair']; // ADD TO #BEGINNING# OF ARRAY, FOR UX
 
@@ -78,12 +78,44 @@ $ct_conf['sec']['captcha_text_angle'] = 35;
 }
 
 
+
+// Remove SECONDARY crypto pairs that have no configged markets
+// (EXCEPT BTC, AS ITS **THE PRIMARY CRYPTO MARKET** [WE ADD ABOVE IN THIS FILE])
+foreach ( $ct_conf['power']['crypto_pair'] as $pair_key => $pair_unused ) {
+
+     foreach ( $ct_conf['assets'] as $asset_key => $asset_unused ) {
+     
+          if ( $asset_key == 'BTC' || isset($ct_conf['assets'][strtoupper($pair_key)]['pair']['btc']) ) {
+          $check_crypto_pair[$pair_key] = true;
+          }
+     
+     }
+     
+     if ( !isset($check_crypto_pair[$pair_key]) ) {
+     unset($ct_conf['power']['crypto_pair'][$pair_key]);
+     }
+
+}
+
+
+// Remove primary currency pairs that have no configged markets
+foreach ( $ct_conf['power']['btc_currency_mrkts'] as $pair_key => $pair_unused ) {
+
+     if ( !isset($ct_conf['assets']['BTC']['pair'][$pair_key]) ) {
+     unset($ct_conf['power']['btc_currency_mrkts'][$pair_key]);
+     }
+
+}
+
+
 // Dynamically add MISCASSETS to $ct_conf['assets'] BEFORE ALPHABETICAL SORTING
 // ONLY IF USER HASN'T MESSED UP $ct_conf['assets'], AS WE DON'T WANT TO CANCEL OUT ANY
 // CONFIG CHECKS CREATING ERROR LOG ENTRIES / UI ALERTS INFORMING THEM OF THAT
-// ALSO ADDING ETHNFTS / SOLNFTS DYNAMICALLY HERE
+// ALSO ADDING BTCNFTS / ETHNFTS / SOLNFTS DYNAMICALLY HERE
 if ( is_array($ct_conf['assets']) ) {
     
+    
+    // MISCASSETS
     $ct_conf['assets']['MISCASSETS'] = array(
                                         'name' => 'Misc. '.strtoupper($ct_conf['gen']['btc_prim_currency_pair']).' Value',
                                         'mcap_slug' => '',
@@ -95,16 +127,41 @@ if ( is_array($ct_conf['assets']) ) {
             $ct_conf['assets']['MISCASSETS']['pair'][$pair_key] = array('misc_assets' => $pair_key);
             }
             
+            
             foreach ( $ct_conf['power']['btc_currency_mrkts'] as $pair_key => $pair_unused ) {
             	
             	// WE HAVE A COUPLE CRYPTOS SUPPORTED HERE, BUT WE ONLY WANT DESIGNATED FIAT-EQIV HERE (cryptos are added via 'crypto_to_crypto_pair')
-            	if ( !array_key_exists($pair_key, $ct_conf['power']['crypto_pair']) ) {
+            	if ( !array_key_exists($pair_key, $ct_conf['assets']['MISCASSETS']['pair']) ) {
             	$ct_conf['assets']['MISCASSETS']['pair'][$pair_key] = array('misc_assets' => $pair_key);
             	}
             
             }
     
     
+    // BTCNFTS
+    $ct_conf['assets']['BTCNFTS'] = array(
+                                        'name' => 'Bitcoin NFTs',
+                                        'mcap_slug' => '',
+                                        'pair' => array()
+                                        );
+            
+            
+            foreach ( $ct_conf['power']['crypto_pair'] as $pair_key => $pair_unused ) {
+            $ct_conf['assets']['BTCNFTS']['pair'][$pair_key] = array('btc_nfts' => $pair_key);
+            }
+            
+            
+            foreach ( $ct_conf['power']['btc_currency_mrkts'] as $pair_key => $pair_unused ) {
+            	
+            	// WE HAVE A COUPLE CRYPTOS SUPPORTED HERE, BUT WE ONLY WANT DESIGNATED FIAT-EQIV HERE (cryptos are added via 'crypto_to_crypto_pair')
+            	if ( !array_key_exists($pair_key, $ct_conf['assets']['BTCNFTS']['pair']) ) {
+            	$ct_conf['assets']['BTCNFTS']['pair'][$pair_key] = array('btc_nfts' => $pair_key);
+            	}
+            
+            }
+    
+    
+    // ETHNFTS
     $ct_conf['assets']['ETHNFTS'] = array(
                                         'name' => 'Ethereum NFTs',
                                         'mcap_slug' => '',
@@ -116,16 +173,18 @@ if ( is_array($ct_conf['assets']) ) {
             $ct_conf['assets']['ETHNFTS']['pair'][$pair_key] = array('eth_nfts' => $pair_key);
             }
             
+            
             foreach ( $ct_conf['power']['btc_currency_mrkts'] as $pair_key => $pair_unused ) {
             	
             	// WE HAVE A COUPLE CRYPTOS SUPPORTED HERE, BUT WE ONLY WANT DESIGNATED FIAT-EQIV HERE (cryptos are added via 'crypto_to_crypto_pair')
-            	if ( !array_key_exists($pair_key, $ct_conf['power']['crypto_pair']) ) {
+            	if ( !array_key_exists($pair_key, $ct_conf['assets']['ETHNFTS']['pair']) ) {
             	$ct_conf['assets']['ETHNFTS']['pair'][$pair_key] = array('eth_nfts' => $pair_key);
             	}
             
             }
     
     
+    // SOLNFTS
     $ct_conf['assets']['SOLNFTS'] = array(
                                         'name' => 'Solana NFTs',
                                         'mcap_slug' => '',
@@ -137,10 +196,11 @@ if ( is_array($ct_conf['assets']) ) {
             $ct_conf['assets']['SOLNFTS']['pair'][$pair_key] = array('sol_nfts' => $pair_key);
             }
             
+            
             foreach ( $ct_conf['power']['btc_currency_mrkts'] as $pair_key => $pair_unused ) {
             	
             	// WE HAVE A COUPLE CRYPTOS SUPPORTED HERE, BUT WE ONLY WANT DESIGNATED FIAT-EQIV HERE (cryptos are added via 'crypto_to_crypto_pair')
-            	if ( !array_key_exists($pair_key, $ct_conf['power']['crypto_pair']) ) {
+            	if ( !array_key_exists($pair_key, $ct_conf['assets']['SOLNFTS']['pair']) ) {
             	$ct_conf['assets']['SOLNFTS']['pair'][$pair_key] = array('sol_nfts' => $pair_key);
             	}
             
@@ -154,17 +214,23 @@ if ( is_array($ct_conf['assets']) ) {
     
     foreach ( $ct_conf['assets'] as $symbol_key => $symbol_unused ) {
             
+            
             if ( $ct_conf['assets'][$symbol_key] == 'MISCASSETS' ) {
             asort($ct_conf['assets'][$symbol_key]['pair']); // Sort maintaining indices
             }
-            else {
+            else if ( is_array($ct_conf['assets'][$symbol_key]['pair']) ) {
             ksort($ct_conf['assets'][$symbol_key]['pair']); // Sort by key name
             }
             
             
             foreach ( $ct_conf['assets'][$symbol_key]['pair'] as $pair_key => $pair_unused ) {
-            ksort($ct_conf['assets'][$symbol_key]['pair'][$pair_key]);
+                 
+                 if ( is_array($ct_conf['assets'][$symbol_key]['pair'][$pair_key]) ) {
+                 ksort($ct_conf['assets'][$symbol_key]['pair'][$pair_key]);
+                 }
+            
             }
+            
         
     }
     

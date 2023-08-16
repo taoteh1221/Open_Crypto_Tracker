@@ -105,7 +105,7 @@ var $ct_array1 = array();
    
      foreach ( $ct_conf['assets'] as $key => $unused ) {
        
-         if ( strtolower($key) != 'miscassets' && strtolower($key) != 'ethnfts' && strtolower($key) != 'solnfts' ) {
+         if ( strtolower($key) != 'miscassets' && strtolower($key) != 'btcnfts' && strtolower($key) != 'ethnfts' && strtolower($key) != 'solnfts' ) {
          $result[] = strtolower($key);
          }
        
@@ -183,7 +183,7 @@ var $ct_array1 = array();
              
          foreach ( $ct_conf['assets'][$asset_key]['pair'][$pair_key] as $exchange_key => $unused ) {
              
-           if( !in_array(strtolower($exchange_key), $result) && !preg_match("/misc_assets/i", $exchange_key) && !preg_match("/eth_nfts/i", $exchange_key) && !preg_match("/sol_nfts/i", $exchange_key) ) {
+           if( !in_array(strtolower($exchange_key), $result) && !preg_match("/misc_assets/i", $exchange_key) && !preg_match("/btc_nfts/i", $exchange_key) && !preg_match("/eth_nfts/i", $exchange_key) && !preg_match("/sol_nfts/i", $exchange_key) ) {
            $result[] = strtolower($exchange_key);
            }
          

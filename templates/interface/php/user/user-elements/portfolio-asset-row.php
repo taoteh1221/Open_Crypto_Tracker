@@ -51,7 +51,7 @@ echo '?';
  
  $mkcap_render_data = trim($ct_conf['assets'][$asset_symb]['mcap_slug']);
  
- $info_icon = ( !$mcap_data['rank'] && $asset_symb != 'MISCASSETS' && $asset_symb != 'ETHNFTS' && $asset_symb != 'SOLNFTS' && !preg_match("/stock/i", $asset_symb) ? 'info-red.png' : 'info.png' );
+ $info_icon = ( !$mcap_data['rank'] && $asset_symb != 'MISCASSETS' && $asset_symb != 'BTCNFTS' && $asset_symb != 'ETHNFTS' && $asset_symb != 'SOLNFTS' && !preg_match("/stock/i", $asset_symb) ? 'info-red.png' : 'info.png' );
  
  
 	if ( isset($mkcap_render_data) && $mkcap_render_data != '' ) {
@@ -304,6 +304,19 @@ echo '?';
         +'<p class="coin_info" style="white-space: normal; "><span class="bitcoin">Miscellaneous <?=strtoupper($ct_conf['gen']['btc_prim_currency_pair'])?> value can be included in you portfolio stats, by entering it under the "MISCASSETS" asset on the "Update" page.</span></p>'
         
         +'<p class="coin_info" style="white-space: normal; "><span class="bitcoin">This can be useful for including <?=strtoupper($ct_conf['gen']['btc_prim_currency_pair'])?> Checking / Savings accounts at banks, stable coin holdings, etc.</span></p>'
+        
+        +'<p class="coin_info" style="white-space: normal; "><span class="bitcoin">Additionally, you can see it\'s potential market value in another asset by changing the "Market" value on the "Portfolio" page to an asset other than <?=strtoupper($ct_conf['gen']['btc_prim_currency_pair'])?>.</span></p>';
+	
+			<?php
+			}
+			elseif ( $asset_symb == 'BTCNFTS' ) {
+			?>
+
+			var cmc_content = '<h5 class="yellow align_center tooltip_title"><?=$asset_name?> (<?=$asset_symb?>)</h5>'
+    
+        +'<p class="coin_info" style="white-space: normal; "><span class="bitcoin">BTC value of NFTS can be included in you portfolio stats, by entering it under the "BTCNFTS" asset on the "Update" page.</span></p>'
+    
+        +'<p class="coin_info" style="white-space: normal; "><span class="bitcoin">If you are unsure of the value of any of your NFTs, you can use the \'Floor Price\' (if available) for that NFT collection found on NFT marketplace(s).</span></p>'
         
         +'<p class="coin_info" style="white-space: normal; "><span class="bitcoin">Additionally, you can see it\'s potential market value in another asset by changing the "Market" value on the "Portfolio" page to an asset other than <?=strtoupper($ct_conf['gen']['btc_prim_currency_pair'])?>.</span></p>';
 	

@@ -6204,7 +6204,15 @@ v6.00.2 AND HIGHER RESETS LIGHT (TIME PERIOD) CHARTS FROM ARCHIVAL DATA, ONE-TIM
 
 -BUG FIX: Miscellaneous fixes
 
+-Auto-pruning of bitcoin (primary) currency / (secondary) crypto pairing markets user configs, IF markets don't exist in assets config
+
+-Added more fiat currency markets (to offset localbitcoins shutting down)
+
+-Removed localbitcoins support (they went out of business)
+
 -Miscellaneous user experience improvements
+
+-Added Bitcoin NFT tracking support
 
 -------------------------------------------------------------------
 

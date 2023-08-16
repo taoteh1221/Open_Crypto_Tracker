@@ -90,6 +90,9 @@ header('Access-Control-Allow-Origin: *'); // Allow ALL origins, since we don't l
       	$misc_array = explode("__", $asset_key);
       	$asset_key = strtoupper($misc_array[1]);
       	}
+      	elseif ( stristr($asset_key, 'BTCNFTS') != false ) {
+      	$asset_key = 'BTC NFTs';
+      	}
       	elseif ( stristr($asset_key, 'ETHNFTS') != false ) {
       	$asset_key = 'ETH NFTs';
       	}

@@ -402,6 +402,8 @@ $total_prim_currency_worth = $ct_asset->coin_stats_data('coin_worth_total');
 
     $miscassets_dominance = $ct_var->num_to_str( ( $btc_worth_array['MISCASSETS'] / $total_btc_worth_raw ) * 100 );
 
+    $btcnfts_dominance = $ct_var->num_to_str( ( $btc_worth_array['BTCNFTS'] / $total_btc_worth_raw ) * 100 );
+
     $ethnfts_dominance = $ct_var->num_to_str( ( $btc_worth_array['ETHNFTS'] / $total_btc_worth_raw ) * 100 );
 
     $solnfts_dominance = $ct_var->num_to_str( ( $btc_worth_array['SOLNFTS'] / $total_btc_worth_raw ) * 100 );
@@ -419,6 +421,8 @@ $total_prim_currency_worth = $ct_asset->coin_stats_data('coin_worth_total');
 
     $miscassets_dominance = 0;
 
+    $btcnfts_dominance = 0;
+
     $ethnfts_dominance = 0;
 
     $solnfts_dominance = 0;
@@ -428,7 +432,7 @@ $total_prim_currency_worth = $ct_asset->coin_stats_data('coin_worth_total');
     }
 
 
-$altcoin_dominance = ( $total_btc_worth_raw >= $min_crypto_val_test ? $ct_var->num_to_str( 100 - $bitcoin_dominance - $ethereum_dominance - $solana_dominance - $miscassets_dominance - $ethnfts_dominance - $solnfts_dominance - $stocks_dominance ) : 0.00 );
+$altcoin_dominance = ( $total_btc_worth_raw >= $min_crypto_val_test ? $ct_var->num_to_str( 100 - $bitcoin_dominance - $ethereum_dominance - $solana_dominance - $miscassets_dominance - $btcnfts_dominance - $ethnfts_dominance - $solnfts_dominance - $stocks_dominance ) : 0.00 );
 
 
 // Remove any slight decimal over 100 (100.01 etc)
@@ -436,6 +440,7 @@ $bitcoin_dominance = $ct_var->max_100($bitcoin_dominance);
 $ethereum_dominance = $ct_var->max_100($ethereum_dominance);
 $solana_dominance = $ct_var->max_100($solana_dominance);
 $miscassets_dominance = $ct_var->max_100($miscassets_dominance);
+$btcnfts_dominance = $ct_var->max_100($btcnfts_dominance);
 $ethnfts_dominance = $ct_var->max_100($ethnfts_dominance);
 $solnfts_dominance = $ct_var->max_100($solnfts_dominance);
 $stocks_dominance = $ct_var->max_100($stocks_dominance);
@@ -776,19 +781,24 @@ var fiat_val_content = '<h5 class="yellow tooltip_title">Primary Currency (<?=st
 			$seperator_miscassets = ( $ct_var->num_to_str($bitcoin_dominance) + $ct_var->num_to_str($ethereum_dominance) + $ct_var->num_to_str($solana_dominance) + $ct_var->num_to_str($miscassets_dominance) <= 99.99 ? ' &nbsp;/&nbsp; ' : '' );
 			}
 			
+			if ( $ct_var->num_to_str($btcnfts_dominance) >= 0.01 ) {
+			$btcnfts_dominance_text = number_format($btcnfts_dominance, 2, '.', ',') . '% BTC NFTs';
+			$seperator_btcnfts = ( $ct_var->num_to_str($bitcoin_dominance) + $ct_var->num_to_str($ethereum_dominance) + $ct_var->num_to_str($solana_dominance) + $ct_var->num_to_str($miscassets_dominance) + $ct_var->num_to_str($btcnfts_dominance) <= 99.99 ? ' &nbsp;/&nbsp; ' : '' );
+			}
+			
 			if ( $ct_var->num_to_str($ethnfts_dominance) >= 0.01 ) {
 			$ethnfts_dominance_text = number_format($ethnfts_dominance, 2, '.', ',') . '% ETH NFTs';
-			$seperator_ethnfts = ( $ct_var->num_to_str($bitcoin_dominance) + $ct_var->num_to_str($ethereum_dominance) + $ct_var->num_to_str($solana_dominance) + $ct_var->num_to_str($miscassets_dominance) + $ct_var->num_to_str($ethnfts_dominance) <= 99.99 ? ' &nbsp;/&nbsp; ' : '' );
+			$seperator_ethnfts = ( $ct_var->num_to_str($bitcoin_dominance) + $ct_var->num_to_str($ethereum_dominance) + $ct_var->num_to_str($solana_dominance) + $ct_var->num_to_str($miscassets_dominance) + $ct_var->num_to_str($btcnfts_dominance) + $ct_var->num_to_str($ethnfts_dominance) <= 99.99 ? ' &nbsp;/&nbsp; ' : '' );
 			}
 			
 			if ( $ct_var->num_to_str($solnfts_dominance) >= 0.01 ) {
 			$solnfts_dominance_text = number_format($solnfts_dominance, 2, '.', ',') . '% SOL NFTs';
-			$seperator_solnfts = ( $ct_var->num_to_str($bitcoin_dominance) + $ct_var->num_to_str($ethereum_dominance) + $ct_var->num_to_str($solana_dominance) + $ct_var->num_to_str($miscassets_dominance) + $ct_var->num_to_str($ethnfts_dominance) + $ct_var->num_to_str($solnfts_dominance) <= 99.99 ? ' &nbsp;/&nbsp; ' : '' );
+			$seperator_solnfts = ( $ct_var->num_to_str($bitcoin_dominance) + $ct_var->num_to_str($ethereum_dominance) + $ct_var->num_to_str($solana_dominance) + $ct_var->num_to_str($miscassets_dominance) + $ct_var->num_to_str($btcnfts_dominance) + $ct_var->num_to_str($ethnfts_dominance) + $ct_var->num_to_str($solnfts_dominance) <= 99.99 ? ' &nbsp;/&nbsp; ' : '' );
 			}
 			
 			if ( $ct_var->num_to_str($stocks_dominance) >= 0.01 ) {
 			$stocks_dominance_text = number_format($stocks_dominance, 2, '.', ',') . '% Stocks';
-			$seperator_stocks = ( $ct_var->num_to_str($bitcoin_dominance) + $ct_var->num_to_str($ethereum_dominance) + $ct_var->num_to_str($solana_dominance) + $ct_var->num_to_str($miscassets_dominance) + $ct_var->num_to_str($ethnfts_dominance) + $ct_var->num_to_str($solnfts_dominance) + $ct_var->num_to_str($stocks_dominance) <= 99.99 ? ' &nbsp;/&nbsp; ' : '' );
+			$seperator_stocks = ( $ct_var->num_to_str($bitcoin_dominance) + $ct_var->num_to_str($ethereum_dominance) + $ct_var->num_to_str($solana_dominance) + $ct_var->num_to_str($miscassets_dominance) + $ct_var->num_to_str($btcnfts_dominance) + $ct_var->num_to_str($ethnfts_dominance) + $ct_var->num_to_str($solnfts_dominance) + $ct_var->num_to_str($stocks_dominance) <= 99.99 ? ' &nbsp;/&nbsp; ' : '' );
 			}
 			
 			if ( $ct_var->num_to_str($altcoin_dominance) >= 0.01 ) {
@@ -801,7 +811,7 @@ var fiat_val_content = '<h5 class="yellow tooltip_title">Primary Currency (<?=st
 		
 		<?php
 			
-			echo '<span class="black private_data">Balance:</span>  <span class="private_data">' . $bitcoin_dominance_text . $seperator_btc . $ethereum_dominance_text . $seperator_eth . $solana_dominance_text . $seperator_sol . $miscassets_dominance_text . $seperator_miscassets . $ethnfts_dominance_text . $seperator_ethnfts . $solnfts_dominance_text . $seperator_solnfts . $stocks_dominance_text . $seperator_stocks . $altcoin_dominance_text . '</span>';
+			echo '<span class="black private_data">Balance:</span>  <span class="private_data">' . $bitcoin_dominance_text . $seperator_btc . $ethereum_dominance_text . $seperator_eth . $solana_dominance_text . $seperator_sol . $miscassets_dominance_text . $seperator_miscassets . $btcnfts_dominance_text . $seperator_btcnfts . $ethnfts_dominance_text . $seperator_ethnfts . $solnfts_dominance_text . $seperator_solnfts . $stocks_dominance_text . $seperator_stocks . $altcoin_dominance_text . '</span>';
 			
 			
 		?>
