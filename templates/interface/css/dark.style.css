@@ -26,7 +26,7 @@ background-color: #dbd9d9 !important;
 
 
 button, input[type=submit], input[type=button], .force_button_style {
-  border: 1px solid #999999;
+  border: 0.2em solid #999999;
   background-color: #42484e;
 }
 
@@ -74,7 +74,7 @@ CLASSES
 
 .page_title {
     background: #202020;
-    border: 4px dotted #3f3838 !important;
+    border: 0.17em dotted #3f3838 !important;
 }
 
 
@@ -98,55 +98,55 @@ background-color: #3a3a3a !important;
 
 
 .result {
-border: 2px solid white; 
+border: 0.3em solid white; 
 }
 
 
 .border_lt {
-border-top: 2px solid #808080;
-border-left: 2px solid #808080;
+border-top: 0.17em solid #808080;
+border-left: 0.17em solid #808080;
 }
 
 
 .border_rt {
-border-top: 2px solid #808080;
-border-right: 2px solid #808080;
+border-top: 0.17em solid #808080;
+border-right: 0.17em solid #808080;
 }
 
 
 .border_lrt {
-border-top: 2px solid #808080;
-border-left: 2px solid #808080;
-border-right: 2px solid #808080;
+border-top: 0.17em solid #808080;
+border-left: 0.17em solid #808080;
+border-right: 0.17em solid #808080;
 }
 
 
 .border_lb {
-border-bottom: 2px solid #808080;
-border-left: 2px solid #808080;
+border-bottom: 0.17em solid #808080;
+border-left: 0.17em solid #808080;
 }
 
 
 .border_rb {
-border-bottom: 2px solid #808080;
-border-right: 2px solid #808080;
+border-bottom: 0.17em solid #808080;
+border-right: 0.17em solid #808080;
 }
 
 
 .border_lrb {
-border-bottom: 2px solid #808080;
-border-left: 2px solid #808080;
-border-right: 2px solid #808080;
+border-bottom: 0.17em solid #808080;
+border-left: 0.17em solid #808080;
+border-right: 0.17em solid #808080;
 }
 
 
 .border_t {
-border-top: 2px solid #808080;
+border-top: 0.17em solid #808080;
 }
 
 
 .border_b {
-border-bottom: 2px solid #808080;
+border-bottom: 0.17em solid #808080;
 }
 
 
@@ -161,12 +161,12 @@ background: #343f49;
 
 
 .list_start_black {
-border-bottom: 2px solid white;
+border-bottom: 0.2em solid white;
 }
 
 
 .list_end_black {
-border-top: 2px solid white;
+border-top: 0.2em solid white;
 }
 
 
@@ -177,7 +177,7 @@ color: #10d602 !important;
 
 .green_dotted {
 padding: 10px;
-border: 3px dotted #10d602 !important;
+border: 0.4em dotted #10d602 !important;
 }
 
 
@@ -192,12 +192,12 @@ color: #28b2ed !important;
 
 
 .start_page_menu_red {
-border: 3px dotted #ff4747; 
+border: 0.2em dotted #ff4747; 
 }
 
 
 .activate_chart_sections {
-border-top: 2px solid white;
+border-top: 0.3em solid white;
 }
 
 
@@ -224,12 +224,12 @@ border-top: 2px solid white;
 
 
 .rounded {
-border: 1px solid #d4d8d3; 
+border: 0.2em solid #d4d8d3; 
 }
 
 
 .image_border {
-border: 2px solid #d4d8d3; 
+border: 0.3em solid #d4d8d3; 
 }
 
 
@@ -245,7 +245,7 @@ background-color: #ff4747 !important;
 
 .red_dotted {
 padding: 10px;
-border: 3px dotted #ff4747 !important;
+border: 0.4em dotted #ff4747 !important;
 }
 
 
@@ -265,12 +265,12 @@ IDs
 
 
 #watch_only {
-border: 3px dotted white;
+border: 0.4em dotted white;
 }
 
 
 #charts_error, #system_charts_error {
-border: 4px dotted #ff4747;
+border: 0.5em dotted #ff4747;
 }
 
 

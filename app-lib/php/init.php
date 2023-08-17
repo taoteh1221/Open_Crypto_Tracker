@@ -104,6 +104,9 @@ $global_line_height_percent = 1.30; // 130% line height for ANY font size
 // info icon size CSS configs
 $info_icon_size_css_selector = "img.tooltip_style_control";
 
+// ajax loading size CSS configs
+$ajax_loading_size_css_selector = "img.ajax_loader_image";
+
 // These selector(s) are wonky for some reason in LINUX PHPDESKTOP (but works fine in modern browsers)
 $larger_font_selector_adjusted = ", #admin_conf_quick_links a:link, #admin_conf_quick_links legend, td.data";
 ////
@@ -131,10 +134,10 @@ $small_font_size_css_selector = ".unused_for_appending";
 
 
 // PERCENT of STANDARD font size (as a decimal)
-$medium_font_size_css_percent = 0.70; // 70% of $default_font_size
+$medium_font_size_css_percent = 0.75; // 75% of $default_font_size
 ////
 // PERCENT of STANDARD font size (as a decimal)
-$small_font_size_css_percent = 0.45; // 45% of $default_font_size
+$small_font_size_css_percent = 0.50; // 50% of $default_font_size
 			
 									
 // !!!!! BE #VERY CAREFUL# LOWERING MAXIMUM EXECUTION TIMES BELOW, #OR YOU MAY CRASH THE RUNNING PROCESSES EARLY, 

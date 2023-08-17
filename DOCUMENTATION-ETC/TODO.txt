@@ -10,13 +10,16 @@ NEXT SCHEDULED WORK SESSIONS (*BOTH* DEBUGGING AND / OR INFRASTRUCTURE)
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
-The tags 'h1' through 'h6' should be made to user-adjust text size too. (could be a bit tricky, be careful...ISOLATE BASED ON OUR TEMPLATE WRAPPER CSS ELEMENTS).
+The tags 'h1' through 'h6' should be made to user-adjust text size too. (CONFIRMED IT WILL be a bit tricky, be careful (set them via 'em' like bootstrap does)...ISOLATE BASED ON OUR TEMPLATE WRAPPER CSS ELEMENTS).
 
 
 Move remaining font-size / line-height logic in style.css AND ELSEWHERE into our dynamic CSS header logic.
 
 
 On the plugins admin page, add an info balloon next to a title "How can I make sure 3rd-party plugins are safe?"
+
+
+On the plugins admin page, add a title "How to make your own custom plugin", with a link to the plugin documentation on github.
 
 
 https://www.coingecko.com/en/coins/aurory

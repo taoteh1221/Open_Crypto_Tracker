@@ -52,6 +52,8 @@ var set_font_size;
 
 var info_icon_size_css_selector;
 
+var ajax_loading_size_css_selector;
+
 var font_size_css_selector;
 
 var medium_font_size_css_selector;
@@ -158,5 +160,7 @@ var gen_csrf_sec_token = Base64.encode('none');
 var background_tasks_status = 'wait';
 
 var is_safari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent);
+
+var is_firefox = navigator.userAgent.toLowerCase().indexOf('firefox') > -1;
 
 

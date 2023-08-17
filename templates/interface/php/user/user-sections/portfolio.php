@@ -16,6 +16,11 @@
 	<div style='display: inline;'><?=$ct_gen->start_page_html('portfolio')?></div>
 			
 			
+			 &nbsp; <select title='Select which view format you prefer.' class='browser-default custom-select' name='select_portfolio_view' id='select_portfolio_view' onchange=''>
+				<option value='0'> Portfolio View: Compact </option>
+			</select> 
+			
+			
 			 &nbsp; <select title='Auto-Refresh MAY NOT WORK properly on mobile devices (phone / laptop / tablet / etc), or inactive tabs.' class='browser-default custom-select' name='select_auto_refresh' id='select_auto_refresh' onchange='
 			 reload_time = this.value;
 			 auto_reload();
@@ -74,8 +79,6 @@
 			&nbsp; <span id='reload_notice' class='red'></span>		
 					
 					
-			<p>
-                 
                             
 <?php
 // Start outputting results
@@ -83,7 +86,7 @@ if ( $_POST['submit_check'] == 1 || $run_csv_import || $ui_cookies ) {
 ?>
 
 
-<table border='0' cellpadding='0' cellspacing='0' id="coins_table" class="align_center">
+<table border='0' cellpadding='0' cellspacing='0' id="coins_table" class="align_center" style='margin-top: 10px !important;'>
  <thead>
     <tr>
 <th class='border_lt num-sort'>Rank</th>
@@ -1129,14 +1132,14 @@ var performance_chart_defaults_content = '<h5 class="yellow tooltip_title">Setti
 	
 	<span class='chart_loading' style='color: <?=$ct_conf['power']['charts_text']?>;'> &nbsp; Loading Asset Performance Chart...</span>
 	
-	<div style='z-index: 99999; margin-top: 7px;' class='chart_reload align_center absolute_centered loading bitcoin'><img src="templates/interface/media/images/auto-preloaded/loader.gif" height='17' alt="" style='vertical-align: middle;' /> <div class='chart_reload_msg'></div></div>
+	<div style='z-index: 99999; margin-top: 7px;' class='chart_reload align_center absolute_centered loading bitcoin'><img class='ajax_loader_image' src="templates/interface/media/images/auto-preloaded/loader.gif" height='17' alt="" style='vertical-align: middle;' /> <div class='chart_reload_msg'></div></div>
 		
 	</div>
 	
 	
   <script>
 
-$("#performance_chart span.chart_loading").html(' &nbsp; <img src="templates/interface/media/images/auto-preloaded/loader.gif" height="16" alt="" style="vertical-align: middle;" /> Loading Asset Performance Chart...');
+$("#performance_chart span.chart_loading").html(' &nbsp; <img class="ajax_loader_image" src="templates/interface/media/images/auto-preloaded/loader.gif" height="16" alt="" style="vertical-align: middle;" /> Loading Asset Performance Chart...');
 	
   
 zingchart.bind('performance_chart', 'load', function() {
@@ -1354,14 +1357,14 @@ var marketcap_chart_defaults_content = '<h5 class="yellow tooltip_title">Setting
 	
 	<span class='chart_loading' style='color: <?=$ct_conf['power']['charts_text']?>;'> &nbsp; Loading USD Marketcap Comparison Chart...</span>
 	
-	<div style='z-index: 99999; margin-top: 7px;' class='chart_reload align_center absolute_centered loading bitcoin'><img src="templates/interface/media/images/auto-preloaded/loader.gif" height='17' alt="" style='vertical-align: middle;' /> <div class='chart_reload_msg'></div></div>
+	<div style='z-index: 99999; margin-top: 7px;' class='chart_reload align_center absolute_centered loading bitcoin'><img class='ajax_loader_image' src="templates/interface/media/images/auto-preloaded/loader.gif" height='17' alt="" style='vertical-align: middle;' /> <div class='chart_reload_msg'></div></div>
 		
 	</div>
 	
 	
   <script>
 
-$("#marketcap_chart span.chart_loading").html(' &nbsp; <img src="templates/interface/media/images/auto-preloaded/loader.gif" height="16" alt="" style="vertical-align: middle;" /> Loading USD Marketcap Comparison Chart...');
+$("#marketcap_chart span.chart_loading").html(' &nbsp; <img class="ajax_loader_image" src="templates/interface/media/images/auto-preloaded/loader.gif" height="16" alt="" style="vertical-align: middle;" /> Loading USD Marketcap Comparison Chart...');
 	
   
 zingchart.bind('marketcap_chart', 'load', function() {
@@ -1806,7 +1809,7 @@ var server_header_defaults_content = '<h5 class="yellow tooltip_title">Average S
 	
 	<span class='chart_loading' style='color: <?=$ct_conf['power']['charts_text']?>;'> &nbsp; Loading chart #1 for system data...</span>
 	
-	<div style='z-index: 99999; margin-top: 7px;' class='chart_reload align_center absolute_centered loading bitcoin'><img src="templates/interface/media/images/auto-preloaded/loader.gif" height='17' alt="" style='vertical-align: middle;' /> <div class='chart_reload_msg'></div></div>
+	<div style='z-index: 99999; margin-top: 7px;' class='chart_reload align_center absolute_centered loading bitcoin'><img class='ajax_loader_image' src="templates/interface/media/images/auto-preloaded/loader.gif" height='17' alt="" style='vertical-align: middle;' /> <div class='chart_reload_msg'></div></div>
 	
 	</div>
 	
@@ -1827,7 +1830,7 @@ var server_header_defaults_content = '<h5 class="yellow tooltip_title">Average S
 	
 	<span class='chart_loading' style='color: <?=$ct_conf['power']['charts_text']?>;'> &nbsp; Loading chart #2 for system data...</span>
 	
-	<div style='z-index: 99999; margin-top: 7px;' class='chart_reload align_center absolute_centered loading bitcoin'><img src="templates/interface/media/images/auto-preloaded/loader.gif" height='17' alt="" style='vertical-align: middle;' /> <div class='chart_reload_msg'></div></div>
+	<div style='z-index: 99999; margin-top: 7px;' class='chart_reload align_center absolute_centered loading bitcoin'><img class='ajax_loader_image' src="templates/interface/media/images/auto-preloaded/loader.gif" height='17' alt="" style='vertical-align: middle;' /> <div class='chart_reload_msg'></div></div>
 	
 	</div>
 	

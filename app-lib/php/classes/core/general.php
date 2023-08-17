@@ -1966,16 +1966,16 @@ var $ct_array = array();
       $("#coin_amnts").submit();
       
       '>
-         <option value='index.php'> Show Last-Visted Page First </option>
+         <option value='index.php'> Show First: Last-Visited </option>
          <?php
          if ( isset($_GET['start_page']) && $_GET['start_page'] != '' && $_GET['start_page'] != $page ) {
          $another_set = 1;
          ?>
-         <option value='index.php?start_page=<?=$_GET['start_page']?>' selected > Show <?=ucwords( preg_replace("/_/i", " ", $_GET['start_page']) )?> Page First </option>
+         <option value='index.php?start_page=<?=$_GET['start_page']?>' selected > Show First: <?=ucwords( preg_replace("/_/i", " ", $_GET['start_page']) )?> </option>
          <?php
          }
          ?>
-         <option value='index.php?start_page=<?=$page?>' <?=( $_GET['start_page'] == $page ? 'selected' : '' )?> > Show <?=ucwords( preg_replace("/_/i", " ", $page) )?> Page First </option>
+         <option value='index.php?start_page=<?=$page?>' <?=( $_GET['start_page'] == $page ? 'selected' : '' )?> > Show First: <?=ucwords( preg_replace("/_/i", " ", $page) )?> </option>
       </select> 
       
    </span>
@@ -1983,12 +1983,12 @@ var $ct_array = array();
       <?php
       if ( $another_set == 1 ) {
       ?>
-      <span class='red'>&nbsp;(other page shows first)</span>
+      <span class='red'>&nbsp;(other shows first)</span>
       <?php
       }
       elseif ( $_GET['start_page'] == $page ) {
       ?>
-      <span class='red'>&nbsp;(current page shows first)</span>
+      <span class='red'>&nbsp;(current shows first)</span>
       <?php
       }
       

@@ -39,7 +39,7 @@ text-decoration: underline;
 
 p, h3 { 
 word-break: normal;
-margin-bottom: 15px;
+margin-bottom: 1.6em;
 }
 
 
@@ -47,6 +47,7 @@ select {
 -webkit-appearance: none !important;  /* for hiding default arrow...use webkit version for compatibility with desktop editions */
 padding: .07rem 1.4rem .07rem .5rem !important;
 }
+
 
 td .custom-select {
 min-width: 100% !important;
@@ -56,12 +57,12 @@ min-width: 100% !important;
 textarea {
 box-sizing: border-box;
 resize: none;
-border: 1px solid #808080;
+border: 0.2em solid #808080;
 }
 
 
 textarea[data-autoresize] {
-	border: 1px solid #808080;
+	border: 0.2em solid #808080;
 	width:100%;
 	box-sizing:border-box;
 	display:block;
@@ -83,13 +84,9 @@ textarea[data-autoresize] {
 
 
 input, select, textarea {
-border: 1px solid #808080 !important;
-line-height: 1.3em !important;
-}
-
-
-input[type=text], input[type=select] {
+border: 0.15em solid #808080 !important;
 border-radius: .25rem !important;
+line-height: 1.3em !important;
 }
 
 
@@ -118,6 +115,7 @@ fieldset {
     padding: 25px; /* To give a bit of padding on the left and right */
   border-radius: 8px;
 }
+
 
 legend {
     float: none !important;
@@ -152,12 +150,6 @@ CLASSES
 ////////////////////////////// */
 
 
-.tablesorter-header {
-margin-left: 2px;
-margin-right: 2px;
-}
-
-
 .page_title {
 text-transform: uppercase;
 writing-mode: vertical-lr;
@@ -170,7 +162,7 @@ white-space: nowrap;
     margin-top: 3px;
     left: 3px;
     z-index: 2;
-    border-radius: 9px;
+    border-radius: 0.3em;
     padding: 0px;
 }
 
@@ -198,26 +190,26 @@ pointer-events: none !important;
     left: 50%;
     top: 50%;
     margin-left: -100px;
-    padding: 15px;
+    padding: 1.6em;
     width: 330px;
     z-index: 99999;
-    border-radius: 5px;
+    border-radius: 0.6em;
 }
 
 
 .pw_prompt label {
     display:block; 
-    margin-bottom:5px;
+    margin-bottom: 0.6em;
 }
 
 
 .pw_prompt input {
-    margin-bottom:10px;
+    margin-bottom: 1.1em;
 }
 
 
 .pw_prompt button {    
-margin-left: 5px;
+margin-left: 0.6em;
 }
 
 
@@ -277,20 +269,20 @@ margin: 7px;
 
 
 .card {
-border: 1px solid #808080 !important;
+border: 0.2em solid #808080 !important;
 }
 
 
 .chart_wrapper {
 position: relative;
-border-radius: 8px;
+border-radius: 0.9em;
 }
 
 
 .chart_wrapper span.chart_loading {
 font-weight: bold;
-font-size: 21px;
-line-height: 26px;
+font-size: 2.0em;
+line-height: 2.5em;
 }
 
 
@@ -315,12 +307,12 @@ text-align: right;
 
 
 .rounded {
-border-radius: 8px;
+border-radius: 0.9em;
 }
 
 
 .image_border {
-border-radius: 15px;
+border-radius: 1.6em;
 }
 
 
@@ -330,18 +322,18 @@ text-align: right;
 
 
 .al_right span {
-padding-right: 5px;
+padding-right: 0.6em;
 }
 
 
 .extra_margins {
-padding: 5px;
+padding: 0.6em;
 }
 
 
 .result {
-margin: 7px; 
-padding: 7px;
+margin: 0.8em; 
+padding: 0.8em;
 }
     
     
@@ -351,7 +343,7 @@ font-weight: normal;
 
 
 .coin_info {
-margin: 13px;
+margin: 1.4em;
 white-space: nowrap;
 }
 
@@ -363,7 +355,7 @@ max-width: 800px;
 
 .balloon_notation {
 white-space: normal; 
-margin-top: 15px;
+margin-top: 1.6em;
 }
 
 
@@ -374,39 +366,39 @@ float: left;
 }
 
 .border_t {
-padding-right: 25px;
+padding-right: 2.6em;
 }
 
 
 .bold_1 {
 font-weight: bold;
-padding: 5px;
-line-height: 25px;
+padding: 0.6em;
+line-height: 2.6em;
 }
 
 
 .start_page_menu_red {
-padding: 8px !important;
+padding: 0.4em !important;
 }
 
 
 .subsection_fieldset {
-border: 1px solid #808080;
-margin-bottom: 50px;
+border: 0.2em solid #808080;
+margin-bottom: 5.1em;
 }
 
 
 .help_section {
-border: 1px solid #808080;
-padding: 15px;
-margin: 10px;
-margin-bottom: 50px;
+border: 0.2em solid #808080;
+padding: 1.6em;
+margin: 1.1em;
+margin-bottom: 5.1em;
 }
 
 
 .links_list {
 font-weight: bold;
-margin: 20px;
+margin: 2.1em;
 }
 
 
@@ -425,29 +417,29 @@ text-align: center;
 
 
 .settings_sections {
-margin: 25px;
+margin: 2.6em;
 }
 
 
 .long_list {
-padding: 15px;
+padding: 1.6em;
 margin: 0px;
 }
 
 
 .long_list_taller {
-padding: 20px;
+padding: 2.1em;
 margin: 0px;
 }
 
 
 .long_list_start {
-margin-top: 10px;
+margin-top: 1.1em;
 }
 
 
 .long_list_end {
-margin-bottom: 10px;
+margin-bottom: 1.1em;
 }
 
 
@@ -472,8 +464,8 @@ color: #dd7c0d !important;
 
 
 .bitcoin_dotted {
-padding: 10px;
-border: 3px dotted #dd7c0d !important;
+padding: 1.1em;
+border: 0.4em dotted #dd7c0d !important;
 }
 
 
@@ -490,7 +482,7 @@ text-align:center;
 
 
 .portfolio_summary {
-margin: 0.85em;
+margin: 0.15em;
 }
 
 
@@ -515,16 +507,7 @@ white-space: nowrap;
 }
 
 
-.extra_data, td.data span.extra_data, td.data div.extra_data span, .extra_data span, td.data div.extra_data span {
-margin: 0px;
-padding: 0px;
-border: 0px;
-background: none;
-white-space: nowrap;
-}
-
-
-.gain, td.data span.gain, td.data div.gain span, .crypto_worth, .crypto_worth span, td.data div.crypto_worth span {
+.extra_data, td.data span.extra_data, td.data div.extra_data span, .extra_data span, td.data div.extra_data span, .gain, td.data span.gain, td.data div.gain span, .crypto_worth, .crypto_worth span, td.data div.crypto_worth span, .loss, td.data span.loss, td.data div.loss span, .short, td.data span.short, td.data div.short span {
 margin: 0px;
 padding: 0px;
 border: 0px;
@@ -534,12 +517,7 @@ white-space: nowrap;
 
 
 .loss, td.data span.loss, td.data div.loss span, .short, td.data span.short, td.data div.short span {
-margin: 0px;
-padding: 0px;
 color: #af1700; /* slightly darker red than normal */
-border: 0px;
-background: none;
-white-space: nowrap;
 }
 
 
@@ -562,10 +540,10 @@ display: inline;
 float: right;
 position: absolute; /* To set top / right below, AND backwards compatibility (if browser doesn't support 'sticky') */
 top: 0px;
-right: 5px;
+right: 0.6em;
 z-index: 5;
-border-radius: 5px;
-padding: 2px;
+border-radius: 0.6em;
+padding: 0.3em;
 }
 
 
@@ -574,12 +552,12 @@ display: inline;
 float: right;
 position: absolute; /* To set top / right below, AND backwards compatibility (if browser doesn't support 'sticky') */
 top: 0px;
-right: 5px;
+right: 0.6em;
 z-index: 5;
 position: sticky;
 position: -webkit-sticky;
 border-radius: 5px;
-padding: 2px;
+padding: 0.3em;
 font-weight: bold;
 }
 
@@ -589,7 +567,7 @@ width: 100%;
 font-weight: bold;
 background-color: #5b5b5b;
 opacity: 0.75;
-border: 3px dotted #dd7c0d;
+border: 0.2em dotted #dd7c0d;
 border-radius: 30px;
 padding: 5px;
 margin: auto;
@@ -625,7 +603,7 @@ cursor: pointer;
 
 
 .sys_stats {
-margin-top: 5px;
+margin-top: 0.6em;
 }
 
 
@@ -650,13 +628,13 @@ min-width: 1150px !important;
 display: inline-block;
 font-weight: bold;
 padding: 15px;
-margin: 15px;
-font-size: 21px; 
+margin: 1.6em;
+font-size: 2.2em; 
 }
 
 
 .bitcoin_dotted, .green_dotted, .red_dotted, .start_page_menu_red, #watch_only, #charts_error, #system_charts_error, .admin_login_alerts {
-border-radius: 6px !important;
+border-radius: 0.7em !important;
 }
 
 
@@ -668,16 +646,16 @@ text-decoration: underline !important;
 .portfolio_footer {
 text-align: left;
 margin: auto;
-margin-top: 10px !important;
+margin-top: 1.1em !important;
 }
 
 
 /*  https://jsfiddle.net/TheAL/ednxgwrj/  */
 .footer_banner {
-    font-size: 15px !important;   
+    font-size: 1.6em !important;   
     font-weight: 400 !important;
-    line-height: 30px !important;
-    padding: 10px 5px !important;
+    line-height: 3.1em !important;
+    padding: 0.6em 0em !important;
     position: fixed;
     bottom: 0;
     left: 0;
@@ -698,9 +676,9 @@ margin-top: 10px !important;
     display: block !important;
     line-height: 1.3em;
     margin: auto;
-    margin-top: 0.2em;
-    margin-bottom: 0.2em;
-    padding: 0.3em !important;
+    margin-top: 0.6em;
+    margin-bottom: 0.6em;
+    padding: 0.6em !important;
     color: #000 !important;
     background: #b9ff35 !important;
 }
@@ -723,7 +701,32 @@ padding-left: 0.75em !important;
 padding-right: 1.1em !important;   
 white-space: nowrap !important;
 vertical-align: middle !important;
-line-height: 1.15 !important;
+line-height: 1.15em !important;
+}
+
+
+#coins_table thead tr th.border_lt:first-child {
+border-top-left-radius: 0.6em;
+}
+
+
+#coins_table thead tr th.border_rt:last-child {
+border-top-right-radius: 0.6em;
+}
+
+
+#coins_table tbody tr:last-child td.border_lb:first-child {
+border-bottom-left-radius: 0.6em;
+}
+
+
+#coins_table tbody tr:last-child td.border_rb:last-child {
+border-bottom-right-radius: 0.6em;
+}
+
+
+#coins_table select {
+border: 0.1em solid #808080 !important;
 }
 
 
@@ -762,17 +765,17 @@ margin: 0px;
 }
 
 
-#secondary_wrapper ul > li, .iframe_wrapper ul > li {
-margin: 10px;
+#secondary_wrapper ul > li, .iframe_wrapper ul > li, .modaal-content-container ul > li  {
+margin: 1.1em;
 }
 
 
 #watch_only {
 display: inline-block; 
-padding: 7px; 
+padding: 0.8em; 
 margin-left: 0px; 
-margin-top: 15px; 
-margin-bottom: 15px;
+margin-top: 1.6em; 
+margin-bottom: 1.6em;
 }
 
 
@@ -785,10 +788,11 @@ cursor: pointer;
 #background_loading, .chart_reload {
 position: relative;
 display: none;
-padding: 6px;
+padding: 0.7em;
 width: 90%;
-font-size: 21px;
-min-height: 23px; 
+font-size: 2.5em;
+font-weight: bold !important;
+min-height: 2.6em; 
 margin: auto;
 margin-top: 20px;
 margin-bottom: 0px;
@@ -798,10 +802,10 @@ z-index: 3;
 
 #app_loading {
 display: block;
-padding: 13px;
+padding: 0.1em;
 width: 90%; 
 white-space: nowrap;
-font-size: 60px;
+font-size: 4.1em;
 margin: auto;
 margin-top: 20px;
 margin-bottom: 0px;
@@ -814,21 +818,21 @@ position: relative;
 float: right;
 max-width: 30%;
 margin: 0px;
-margin-right: 5px !important;
+margin-right: 0.6em !important;
 }
 
 
 #admin_conf_quick_links fieldset {
 padding-top: 0px;
-padding-bottom: 12px;
-padding-left: 18px;
-padding-right: 18px;
-border: 1px solid #dd7c0d; 
+padding-bottom: 1.3em;
+padding-left: 1.9em;
+padding-right: 1.9em;
+border: 0.2em solid #dd7c0d; 
 }
 
 
 #admin_conf_quick_links fieldset legend {
-padding: 4px;
+padding: 0.5em;
 }
 
 
@@ -836,7 +840,7 @@ padding: 4px;
 display: none;
 font-weight: bold;
 padding: 9px;
-margin: 20px;
+margin: 2.1em;
 }
 
 
@@ -856,7 +860,7 @@ position: relative;
 
 #app_error_alert {
 font-weight: bold; 
-padding: 6px;
+padding: 0.7em;
 }
 
 
@@ -871,15 +875,15 @@ z-index: 9999999;
     width: calc(100% - 30px);
     text-align: left;
     min-height: 45px;
-    margin: 15px;
-    padding: 15px;
+    margin: 1.6em;
+    padding: 1.6em;
 font-weight: bold; 
-line-height: 35px;
+line-height: 3.6em;
 white-space: normal;
 word-wrap: break-word;
 background: #ededa6 !important;
-border: 2px solid #dd7c0d !important; 
-border-radius: 6px;
+border: 0.3em solid #dd7c0d !important; 
+border-radius: 0.7em;
 color: #ff4747;
 }
 
@@ -887,7 +891,7 @@ color: #ff4747;
 #prim_currency_mrkts_alert, #percent_change_alert_type_alert, #sorting_alert {
 display: none;
 font-weight: bold;
-margin: 20px;
+margin: 2.1em;
 }
 
 
@@ -898,8 +902,8 @@ table-layout:fixed;
 
 #header_size_warning {
 position: absolute;
-    top: 3px;
-    left: 5px;
+    top: 0.4em;
+    left: 0.6em;
     font-weight: bold;
     max-width: 90vw;
 }
@@ -937,6 +941,17 @@ cursor: pointer;
     -webkit-transition: all 0.3s;
     -o-transition: all 0.3s;
     transition: all 0.3s;
+}
+
+
+#sidebar .form-floating > label {
+width: 100px !important;
+}
+
+
+#sidebar .input-group > .form-floating {
+margin-left: 1px !important;
+margin-right: 2px !important;
 }
 
 
@@ -992,7 +1007,7 @@ cursor: pointer;
 
 #sidebar label.pl_mn_lab {
 color: red;
-transform: scale(.85) translateY(0rem) translateX(0.5rem);
+transform: scale(.75) translateY(0rem) translateX(0.65rem);
 padding: 0rem;
 }
 

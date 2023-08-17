@@ -37,7 +37,7 @@ var light_state_<?=$chart_mode?> = {
 };
  
 
-$("#sys_stats_chart_<?=$chart_mode?> span.chart_loading").html(' &nbsp; <img src="templates/interface/media/images/auto-preloaded/loader.gif" height="16" alt="" style="vertical-align: middle;" /> Loading <?=$ct_gen->light_chart_time_period($first_light_chart, 'long')?> chart for System Chart #<?=$chart_mode?>...');
+$("#sys_stats_chart_<?=$chart_mode?> span.chart_loading").html(' &nbsp; <img class="ajax_loader_image" src="templates/interface/media/images/auto-preloaded/loader.gif" height="16" alt="" style="vertical-align: middle;" /> Loading <?=$ct_gen->light_chart_time_period($first_light_chart, 'long')?> chart for System Chart #<?=$chart_mode?>...');
 	
   
 zingchart.bind('sys_stats_chart_<?=$chart_mode?>', 'load', function() {

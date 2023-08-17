@@ -26,7 +26,7 @@ background-color: white !important;
 
 
 button, input[type=submit], input[type=button], .force_button_style {
-  border: 1px solid black;
+  border: 0.2em solid black;
   background-color: #808080;
 }
 
@@ -74,7 +74,7 @@ CLASSES
 
 .page_title {
     background: #fff;
-    border: 4px dotted #dbd9d9 !important;
+    border: 0.17em dotted #dbd9d9 !important;
 }
 
 
@@ -98,55 +98,55 @@ background-color: #f7f7f7 !important;
 
 
 .result {
-border: 2px solid black; 
+border: 0.3em solid black; 
 }
 
 
 .border_lt {
-border-top: 2px solid #ccc;
-border-left: 2px solid #ccc;
+border-top: 0.17em solid #ccc;
+border-left: 0.17em solid #ccc;
 }
 
 
 .border_rt {
-border-top: 2px solid #ccc;
-border-right: 2px solid #ccc;
+border-top: 0.17em solid #ccc;
+border-right: 0.17em solid #ccc;
 }
 
 
 .border_lrt {
-border-top: 2px solid #ccc;
-border-left: 2px solid #ccc;
-border-right: 2px solid #ccc;
+border-top: 0.17em solid #ccc;
+border-left: 0.17em solid #ccc;
+border-right: 0.17em solid #ccc;
 }
 
 
 .border_lb {
-border-bottom: 2px solid #ccc;
-border-left: 2px solid #ccc;
+border-bottom: 0.17em solid #ccc;
+border-left: 0.17em solid #ccc;
 }
 
 
 .border_rb {
-border-bottom: 2px solid #ccc;
-border-right: 2px solid #ccc;
+border-bottom: 0.17em solid #ccc;
+border-right: 0.17em solid #ccc;
 }
 
 
 .border_lrb {
-border-bottom: 2px solid #ccc;
-border-left: 2px solid #ccc;
-border-right: 2px solid #ccc;
+border-bottom: 0.17em solid #ccc;
+border-left: 0.17em solid #ccc;
+border-right: 0.17em solid #ccc;
 }
 
 
 .border_t {
-border-top: 2px solid #ccc;
+border-top: 0.17em solid #ccc;
 }
 
 
 .border_b {
-border-bottom: 2px solid #ccc;
+border-bottom: 0.17em solid #ccc;
 }
 
 
@@ -156,12 +156,12 @@ background: #d6d4d4;
 
 
 .list_start_black {
-border-bottom: 2px solid black;
+border-bottom: 0.2em solid black;
 }
 
 
 .list_end_black {
-border-top: 2px solid black;
+border-top: 0.2em solid black;
 }
 
 
@@ -172,7 +172,7 @@ color: #066000 !important;
 
 .green_dotted {
 padding: 10px;
-border: 3px dotted #066000 !important;
+border: 0.4em dotted #066000 !important;
 }
 
 
@@ -187,12 +187,12 @@ color: #1a1696 !important;
 
 
 .start_page_menu_red {
-border: 3px dotted #D61F00; 
+border: 0.2em dotted #D61F00; 
 }
 
 
 .activate_chart_sections {
-border-top: 2px solid black;
+border-top: 0.3em solid black;
 }
 
 
@@ -219,12 +219,12 @@ border-top: 2px solid black;
 
 
 .rounded {
-border: 1px solid #606060; 
+border: 0.2em solid #606060; 
 }
 
 
 .image_border {
-border: 2px solid #606060; 
+border: 0.3em solid #606060; 
 }
 
 
@@ -253,7 +253,7 @@ background-color: #D61F00 !important;
 
 .red_dotted {
 padding: 10px;
-border: 3px dotted #D61F00 !important;
+border: 0.4em dotted #D61F00 !important;
 }
 
 
@@ -273,12 +273,12 @@ IDs
 
 
 #watch_only {
-border: 3px dotted black;
+border: 0.4em dotted black;
 }
 
 
 #charts_error, #system_charts_error {
-border: 4px dotted #D61F00;
+border: 0.5em dotted #D61F00;
 }
 
 

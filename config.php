@@ -1067,9 +1067,9 @@ $ct_conf['power']['btc_pref_currency_mrkts'] = array(
 							'dai' => 'kraken',  // WAY MORE reputable than ALL alternatives
 							'eur' => 'kraken',  // WAY BETTER api than ALL alternatives
 							'gbp' => 'kraken',  // WAY BETTER api than ALL alternatives
-							'inr' => 'localbitcoins',  // WAY MORE volume / price discovery than ALL alternatives
 							'jpy' => 'kraken',  // WAY MORE reputable than ALL alternatives
-							'rub' => 'localbitcoins',  // WAY MORE volume / price discovery than ALL alternatives
+							'inr' => 'wazirx',  // One of the biggest exchanges in India (should be good price discovery)
+							'rub' => 'binance',  // WAY MORE volume / price discovery than ALL alternatives
 							'usd' => 'kraken',  // WAY BETTER api than ALL alternatives
 							);
 
