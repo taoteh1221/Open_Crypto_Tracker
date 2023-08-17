@@ -2636,7 +2636,6 @@ var $ct_array1 = array();
             || preg_match("/\"reason\":\"Maintenance\"/i", $data) // Gemini.com / generic
             // API-specific
             || $endpoint_tld_or_ip == 'coingecko.com' && preg_match("/error code: /i", $data)
-            || $endpoint_tld_or_ip == 'localbitcoins.com' && !preg_match("/volume_btc/i", $data)
             || $endpoint_tld_or_ip == 'coinmarketcap.com' && !preg_match("/last_updated/i", $data) 
             ) {
               

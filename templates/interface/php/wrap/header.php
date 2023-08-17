@@ -91,7 +91,7 @@ require("templates/interface/php/wrap/wrap-elements/navigation-bars.php");
 		
     
 	 	<div class='align_center loading bitcoin' id='app_loading'>
-	 	<img src="templates/interface/media/images/auto-preloaded/loader.gif" height='57' alt="" style='vertical-align: middle;' /> <span id='app_loading_span'>Loading...</span>
+	 	<img src="templates/interface/media/images/auto-preloaded/loader.gif" height='<?=round($default_ajax_loading_size * 50)?>' alt="" style='vertical-align: middle;' /> <span id='app_loading_span'>Loading...</span>
 	 	</div>
 	 
 		
@@ -183,7 +183,7 @@ require("templates/interface/php/wrap/wrap-elements/navigation-bars.php");
 				
 				?>
 		 
-				<div id='background_loading' class='align_center loading bitcoin'><img src="templates/interface/media/images/auto-preloaded/loader.gif" height='17' alt="" style='vertical-align: middle;' /> <span id='background_loading_span'></span></div>
+				<div id='background_loading' class='align_center loading bitcoin'><img src="templates/interface/media/images/auto-preloaded/loader.gif" height='17' alt="" style='vertical-align: middle;' /> <span id='background_loading_span' style='font-weight: bold !important;'></span></div>
 		
 					
 <!-- PRIMARY header.php END -->

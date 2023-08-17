@@ -250,12 +250,17 @@
 	?>
 	
 	
+	global_line_height_percent = Number("<?=$global_line_height_percent?>");
+	
+	
 	default_font_size = Number("<?=$default_font_size?>");
                   
      set_font_size = Number( get_cookie("font_size") ) ? Number( get_cookie("font_size") ) : default_font_size;
 	
 	
 	info_icon_size_css_selector = "<?=$info_icon_size_css_selector?>";
+	
+	ajax_loading_size_css_selector = "<?=$ajax_loading_size_css_selector?>";
 	
 	font_size_css_selector = "<?=$font_size_css_selector?>";
 	
@@ -433,6 +438,16 @@
      ?>
      <?=$info_icon_size_css_selector?> {
      height: <?=round($default_info_icon_size, 3)?>em !important;
+     width: auto !important;
+     }
+     
+     /* ajax loading size CSS selector */
+     <?php
+     // Run a multiplier, to slightly increase image size
+     $default_ajax_loading_size = $default_font_size * 1.3;
+     ?>
+     <?=$ajax_loading_size_css_selector?> {
+     height: <?=round($default_ajax_loading_size, 3)?>em !important;
      width: auto !important;
      }
      

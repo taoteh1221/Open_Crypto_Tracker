@@ -1916,42 +1916,6 @@ var $ct_array1 = array();
      ////////////////////////////////////////////////////////////////////////////////////////////////
     
     
-    
-      elseif ( strtolower($sel_exchange) == 'localbitcoins' ) {
-         
-      $url = 'https://localbitcoins.com/bitcoinaverage/ticker-all-currencies/';
-         
-      $response = @$ct_cache->ext_data('url', $url, $ct_conf['power']['last_trade_cache_time']);
-         
-      $data = json_decode($response, true);
-         
-      
-          if ( is_array($data) ) {
-      
-            foreach ($data as $key => $val) {
-              
-              if ( $key == $mrkt_id ) {
-               
-              $result = array(
-                              'last_trade' => $ct_var->num_to_str($val["rates"]["last"]), // Handle large / small values better with $ct_var->num_to_str()
-                              '24hr_asset_vol' => $val["volume_btc"],
-                              '24hr_pair_vol' => null // Unavailable, set null
-                              );
-     
-              }
-          
-            }
-          
-          }
-      
-      
-      }
-     
-     
-     
-     ////////////////////////////////////////////////////////////////////////////////////////////////
-    
-    
      // https://github.com/Loopring/protocols/wiki/Loopring-Exchange-Data-API
      
       elseif ( strtolower($sel_exchange) == 'loopring' || strtolower($sel_exchange) == 'loopring_amm' ) {
@@ -2447,6 +2411,58 @@ var $ct_array1 = array();
     
     
     
+      elseif ( strtolower($sel_exchange) == 'btc_nfts' ) {
+      
+      // BTC value of 1 unit of BTC
+      $currency_to_btc = 1;	
+      
+         // BTC pair
+         if ( $mrkt_id == 'btc' ) {
+         $result = array(
+     		            'last_trade' => $currency_to_btc
+     		            );
+         }
+         // All other pair
+         else {
+     		        
+         $pair_btc_val = $ct_asset->pair_btc_val($mrkt_id);
+     		      
+     		      
+          	if ( $pair_btc_val == null ) {
+          				          	
+          	$ct_gen->log(
+          				'market_error',
+          				'ct_asset->pair_btc_val() returned null',
+          				'market_id: ' . $mrkt_id
+          				);
+          				          
+            }
+     		      
+           
+            if ( $ct_var->num_to_str($pair_btc_val) > 0 && $ct_var->num_to_str($currency_to_btc) > 0 ) {
+            $calc = ( 1 / $ct_var->num_to_str($pair_btc_val / $currency_to_btc) );
+            }
+            else {
+            $calc = 0;
+            }     		      
+     
+     			      
+         $result = array(
+     		            'last_trade' => $calc
+     		            );
+     		                  		
+         }
+      
+      
+      
+      }
+     
+     
+     
+     ////////////////////////////////////////////////////////////////////////////////////////////////
+    
+    
+    
       elseif ( strtolower($sel_exchange) == 'eth_nfts' ) {
       
       // BTC value of 1 unit of ETH
@@ -2459,7 +2475,7 @@ var $ct_array1 = array();
      		            );
          }
          // All other pair
-     	 else {
+         else {
      		        
          $pair_btc_val = $ct_asset->pair_btc_val($mrkt_id);
      		      
@@ -2511,7 +2527,7 @@ var $ct_array1 = array();
      		            );
          }
          // All other pair
-     	 else {
+         else {
      		        
          $pair_btc_val = $ct_asset->pair_btc_val($mrkt_id);
      		      
@@ -2631,7 +2647,7 @@ var $ct_array1 = array();
      ////////////////////////////////////////////////////////////////////////////////////////////////
     
     
-      if ( strtolower($sel_exchange) != 'misc_assets' && strtolower($sel_exchange) != 'eth_nfts' && strtolower($sel_exchange) != 'sol_nfts' ) {
+      if ( strtolower($sel_exchange) != 'misc_assets' && strtolower($sel_exchange) != 'btc_nfts' && strtolower($sel_exchange) != 'eth_nfts' && strtolower($sel_exchange) != 'sol_nfts' ) {
         
       // Better large / small number support
       $result['last_trade'] = $ct_var->num_to_str($result['last_trade']);

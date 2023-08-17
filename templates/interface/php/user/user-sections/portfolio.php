@@ -16,6 +16,11 @@
 	<div style='display: inline;'><?=$ct_gen->start_page_html('portfolio')?></div>
 			
 			
+			 &nbsp; <select title='Select which view format you prefer.' class='browser-default custom-select' name='select_portfolio_view' id='select_portfolio_view' onchange=''>
+				<option value='0'> Portfolio View: Compact </option>
+			</select> 
+			
+			
 			 &nbsp; <select title='Auto-Refresh MAY NOT WORK properly on mobile devices (phone / laptop / tablet / etc), or inactive tabs.' class='browser-default custom-select' name='select_auto_refresh' id='select_auto_refresh' onchange='
 			 reload_time = this.value;
 			 auto_reload();
@@ -74,8 +79,6 @@
 			&nbsp; <span id='reload_notice' class='red'></span>		
 					
 					
-			<p>
-                 
                             
 <?php
 // Start outputting results
@@ -83,7 +86,7 @@ if ( $_POST['submit_check'] == 1 || $run_csv_import || $ui_cookies ) {
 ?>
 
 
-<table border='0' cellpadding='0' cellspacing='0' id="coins_table" class="align_center">
+<table border='0' cellpadding='0' cellspacing='0' id="coins_table" class="align_center" style='margin-top: 10px !important;'>
  <thead>
     <tr>
 <th class='border_lt num-sort'>Rank</th>
@@ -402,6 +405,8 @@ $total_prim_currency_worth = $ct_asset->coin_stats_data('coin_worth_total');
 
     $miscassets_dominance = $ct_var->num_to_str( ( $btc_worth_array['MISCASSETS'] / $total_btc_worth_raw ) * 100 );
 
+    $btcnfts_dominance = $ct_var->num_to_str( ( $btc_worth_array['BTCNFTS'] / $total_btc_worth_raw ) * 100 );
+
     $ethnfts_dominance = $ct_var->num_to_str( ( $btc_worth_array['ETHNFTS'] / $total_btc_worth_raw ) * 100 );
 
     $solnfts_dominance = $ct_var->num_to_str( ( $btc_worth_array['SOLNFTS'] / $total_btc_worth_raw ) * 100 );
@@ -419,6 +424,8 @@ $total_prim_currency_worth = $ct_asset->coin_stats_data('coin_worth_total');
 
     $miscassets_dominance = 0;
 
+    $btcnfts_dominance = 0;
+
     $ethnfts_dominance = 0;
 
     $solnfts_dominance = 0;
@@ -428,7 +435,7 @@ $total_prim_currency_worth = $ct_asset->coin_stats_data('coin_worth_total');
     }
 
 
-$altcoin_dominance = ( $total_btc_worth_raw >= $min_crypto_val_test ? $ct_var->num_to_str( 100 - $bitcoin_dominance - $ethereum_dominance - $solana_dominance - $miscassets_dominance - $ethnfts_dominance - $solnfts_dominance - $stocks_dominance ) : 0.00 );
+$altcoin_dominance = ( $total_btc_worth_raw >= $min_crypto_val_test ? $ct_var->num_to_str( 100 - $bitcoin_dominance - $ethereum_dominance - $solana_dominance - $miscassets_dominance - $btcnfts_dominance - $ethnfts_dominance - $solnfts_dominance - $stocks_dominance ) : 0.00 );
 
 
 // Remove any slight decimal over 100 (100.01 etc)
@@ -436,6 +443,7 @@ $bitcoin_dominance = $ct_var->max_100($bitcoin_dominance);
 $ethereum_dominance = $ct_var->max_100($ethereum_dominance);
 $solana_dominance = $ct_var->max_100($solana_dominance);
 $miscassets_dominance = $ct_var->max_100($miscassets_dominance);
+$btcnfts_dominance = $ct_var->max_100($btcnfts_dominance);
 $ethnfts_dominance = $ct_var->max_100($ethnfts_dominance);
 $solnfts_dominance = $ct_var->max_100($solnfts_dominance);
 $stocks_dominance = $ct_var->max_100($stocks_dominance);
@@ -776,19 +784,24 @@ var fiat_val_content = '<h5 class="yellow tooltip_title">Primary Currency (<?=st
 			$seperator_miscassets = ( $ct_var->num_to_str($bitcoin_dominance) + $ct_var->num_to_str($ethereum_dominance) + $ct_var->num_to_str($solana_dominance) + $ct_var->num_to_str($miscassets_dominance) <= 99.99 ? ' &nbsp;/&nbsp; ' : '' );
 			}
 			
+			if ( $ct_var->num_to_str($btcnfts_dominance) >= 0.01 ) {
+			$btcnfts_dominance_text = number_format($btcnfts_dominance, 2, '.', ',') . '% BTC NFTs';
+			$seperator_btcnfts = ( $ct_var->num_to_str($bitcoin_dominance) + $ct_var->num_to_str($ethereum_dominance) + $ct_var->num_to_str($solana_dominance) + $ct_var->num_to_str($miscassets_dominance) + $ct_var->num_to_str($btcnfts_dominance) <= 99.99 ? ' &nbsp;/&nbsp; ' : '' );
+			}
+			
 			if ( $ct_var->num_to_str($ethnfts_dominance) >= 0.01 ) {
 			$ethnfts_dominance_text = number_format($ethnfts_dominance, 2, '.', ',') . '% ETH NFTs';
-			$seperator_ethnfts = ( $ct_var->num_to_str($bitcoin_dominance) + $ct_var->num_to_str($ethereum_dominance) + $ct_var->num_to_str($solana_dominance) + $ct_var->num_to_str($miscassets_dominance) + $ct_var->num_to_str($ethnfts_dominance) <= 99.99 ? ' &nbsp;/&nbsp; ' : '' );
+			$seperator_ethnfts = ( $ct_var->num_to_str($bitcoin_dominance) + $ct_var->num_to_str($ethereum_dominance) + $ct_var->num_to_str($solana_dominance) + $ct_var->num_to_str($miscassets_dominance) + $ct_var->num_to_str($btcnfts_dominance) + $ct_var->num_to_str($ethnfts_dominance) <= 99.99 ? ' &nbsp;/&nbsp; ' : '' );
 			}
 			
 			if ( $ct_var->num_to_str($solnfts_dominance) >= 0.01 ) {
 			$solnfts_dominance_text = number_format($solnfts_dominance, 2, '.', ',') . '% SOL NFTs';
-			$seperator_solnfts = ( $ct_var->num_to_str($bitcoin_dominance) + $ct_var->num_to_str($ethereum_dominance) + $ct_var->num_to_str($solana_dominance) + $ct_var->num_to_str($miscassets_dominance) + $ct_var->num_to_str($ethnfts_dominance) + $ct_var->num_to_str($solnfts_dominance) <= 99.99 ? ' &nbsp;/&nbsp; ' : '' );
+			$seperator_solnfts = ( $ct_var->num_to_str($bitcoin_dominance) + $ct_var->num_to_str($ethereum_dominance) + $ct_var->num_to_str($solana_dominance) + $ct_var->num_to_str($miscassets_dominance) + $ct_var->num_to_str($btcnfts_dominance) + $ct_var->num_to_str($ethnfts_dominance) + $ct_var->num_to_str($solnfts_dominance) <= 99.99 ? ' &nbsp;/&nbsp; ' : '' );
 			}
 			
 			if ( $ct_var->num_to_str($stocks_dominance) >= 0.01 ) {
 			$stocks_dominance_text = number_format($stocks_dominance, 2, '.', ',') . '% Stocks';
-			$seperator_stocks = ( $ct_var->num_to_str($bitcoin_dominance) + $ct_var->num_to_str($ethereum_dominance) + $ct_var->num_to_str($solana_dominance) + $ct_var->num_to_str($miscassets_dominance) + $ct_var->num_to_str($ethnfts_dominance) + $ct_var->num_to_str($solnfts_dominance) + $ct_var->num_to_str($stocks_dominance) <= 99.99 ? ' &nbsp;/&nbsp; ' : '' );
+			$seperator_stocks = ( $ct_var->num_to_str($bitcoin_dominance) + $ct_var->num_to_str($ethereum_dominance) + $ct_var->num_to_str($solana_dominance) + $ct_var->num_to_str($miscassets_dominance) + $ct_var->num_to_str($btcnfts_dominance) + $ct_var->num_to_str($ethnfts_dominance) + $ct_var->num_to_str($solnfts_dominance) + $ct_var->num_to_str($stocks_dominance) <= 99.99 ? ' &nbsp;/&nbsp; ' : '' );
 			}
 			
 			if ( $ct_var->num_to_str($altcoin_dominance) >= 0.01 ) {
@@ -801,7 +814,7 @@ var fiat_val_content = '<h5 class="yellow tooltip_title">Primary Currency (<?=st
 		
 		<?php
 			
-			echo '<span class="black private_data">Balance:</span>  <span class="private_data">' . $bitcoin_dominance_text . $seperator_btc . $ethereum_dominance_text . $seperator_eth . $solana_dominance_text . $seperator_sol . $miscassets_dominance_text . $seperator_miscassets . $ethnfts_dominance_text . $seperator_ethnfts . $solnfts_dominance_text . $seperator_solnfts . $stocks_dominance_text . $seperator_stocks . $altcoin_dominance_text . '</span>';
+			echo '<span class="black private_data">Balance:</span>  <span class="private_data">' . $bitcoin_dominance_text . $seperator_btc . $ethereum_dominance_text . $seperator_eth . $solana_dominance_text . $seperator_sol . $miscassets_dominance_text . $seperator_miscassets . $btcnfts_dominance_text . $seperator_btcnfts . $ethnfts_dominance_text . $seperator_ethnfts . $solnfts_dominance_text . $seperator_solnfts . $stocks_dominance_text . $seperator_stocks . $altcoin_dominance_text . '</span>';
 			
 			
 		?>
@@ -1119,14 +1132,14 @@ var performance_chart_defaults_content = '<h5 class="yellow tooltip_title">Setti
 	
 	<span class='chart_loading' style='color: <?=$ct_conf['power']['charts_text']?>;'> &nbsp; Loading Asset Performance Chart...</span>
 	
-	<div style='z-index: 99999; margin-top: 7px;' class='chart_reload align_center absolute_centered loading bitcoin'><img src="templates/interface/media/images/auto-preloaded/loader.gif" height='17' alt="" style='vertical-align: middle;' /> <div class='chart_reload_msg'></div></div>
+	<div style='z-index: 99999; margin-top: 7px;' class='chart_reload align_center absolute_centered loading bitcoin'><img class='ajax_loader_image' src="templates/interface/media/images/auto-preloaded/loader.gif" height='17' alt="" style='vertical-align: middle;' /> <div class='chart_reload_msg'></div></div>
 		
 	</div>
 	
 	
   <script>
 
-$("#performance_chart span.chart_loading").html(' &nbsp; <img src="templates/interface/media/images/auto-preloaded/loader.gif" height="16" alt="" style="vertical-align: middle;" /> Loading Asset Performance Chart...');
+$("#performance_chart span.chart_loading").html(' &nbsp; <img class="ajax_loader_image" src="templates/interface/media/images/auto-preloaded/loader.gif" height="16" alt="" style="vertical-align: middle;" /> Loading Asset Performance Chart...');
 	
   
 zingchart.bind('performance_chart', 'load', function() {
@@ -1344,14 +1357,14 @@ var marketcap_chart_defaults_content = '<h5 class="yellow tooltip_title">Setting
 	
 	<span class='chart_loading' style='color: <?=$ct_conf['power']['charts_text']?>;'> &nbsp; Loading USD Marketcap Comparison Chart...</span>
 	
-	<div style='z-index: 99999; margin-top: 7px;' class='chart_reload align_center absolute_centered loading bitcoin'><img src="templates/interface/media/images/auto-preloaded/loader.gif" height='17' alt="" style='vertical-align: middle;' /> <div class='chart_reload_msg'></div></div>
+	<div style='z-index: 99999; margin-top: 7px;' class='chart_reload align_center absolute_centered loading bitcoin'><img class='ajax_loader_image' src="templates/interface/media/images/auto-preloaded/loader.gif" height='17' alt="" style='vertical-align: middle;' /> <div class='chart_reload_msg'></div></div>
 		
 	</div>
 	
 	
   <script>
 
-$("#marketcap_chart span.chart_loading").html(' &nbsp; <img src="templates/interface/media/images/auto-preloaded/loader.gif" height="16" alt="" style="vertical-align: middle;" /> Loading USD Marketcap Comparison Chart...');
+$("#marketcap_chart span.chart_loading").html(' &nbsp; <img class="ajax_loader_image" src="templates/interface/media/images/auto-preloaded/loader.gif" height="16" alt="" style="vertical-align: middle;" /> Loading USD Marketcap Comparison Chart...');
 	
   
 zingchart.bind('marketcap_chart', 'load', function() {
@@ -1796,7 +1809,7 @@ var server_header_defaults_content = '<h5 class="yellow tooltip_title">Average S
 	
 	<span class='chart_loading' style='color: <?=$ct_conf['power']['charts_text']?>;'> &nbsp; Loading chart #1 for system data...</span>
 	
-	<div style='z-index: 99999; margin-top: 7px;' class='chart_reload align_center absolute_centered loading bitcoin'><img src="templates/interface/media/images/auto-preloaded/loader.gif" height='17' alt="" style='vertical-align: middle;' /> <div class='chart_reload_msg'></div></div>
+	<div style='z-index: 99999; margin-top: 7px;' class='chart_reload align_center absolute_centered loading bitcoin'><img class='ajax_loader_image' src="templates/interface/media/images/auto-preloaded/loader.gif" height='17' alt="" style='vertical-align: middle;' /> <div class='chart_reload_msg'></div></div>
 	
 	</div>
 	
@@ -1817,7 +1830,7 @@ var server_header_defaults_content = '<h5 class="yellow tooltip_title">Average S
 	
 	<span class='chart_loading' style='color: <?=$ct_conf['power']['charts_text']?>;'> &nbsp; Loading chart #2 for system data...</span>
 	
-	<div style='z-index: 99999; margin-top: 7px;' class='chart_reload align_center absolute_centered loading bitcoin'><img src="templates/interface/media/images/auto-preloaded/loader.gif" height='17' alt="" style='vertical-align: middle;' /> <div class='chart_reload_msg'></div></div>
+	<div style='z-index: 99999; margin-top: 7px;' class='chart_reload align_center absolute_centered loading bitcoin'><img class='ajax_loader_image' src="templates/interface/media/images/auto-preloaded/loader.gif" height='17' alt="" style='vertical-align: middle;' /> <div class='chart_reload_msg'></div></div>
 	
 	</div>
 	

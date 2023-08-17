@@ -335,14 +335,14 @@ Below is an example for editing your assets / markets in the file config.php (lo
 Contact any supported exchange's help desk if you are unaware of the correct formatting of the trading pair naming you are adding in the configuration file (examples: Kraken has arbitrary Xs inserted in SOME older pair names, HitBTC sometimes has tether pairs without the "T" in the symbol name, and bybit can prepend "1000" to low-unit-value coin's market IDs).
 
 
-Support for over 80 trading pairs (country fiat currency or secondary crypto, contact me to request more): 
+Support for over 20 trading pairs (country fiat currency or secondary crypto, contact me to request more): 
 
-AED / APT / ARS / AUD / BAM / BDT / BOB / BRL / BTC / BWP / BYN / CAD / CHF / CLP / CNY / COP / CRC / CZK / DAI / DKK / DOP / EGP / ETH / EUR / GBP / GEL / GHS / GTQ / HKD / HUF / IDR / ILS / INR / IRR / JMD / JOD / JPY / KES / KRW / KWD / KZT / LKR / MAD / MKR / MUR / MWK / MXN / MYR / NGN / NIS / NOK / NZD / PAB / PEN / PHP / PKR / PLN / PYG / QAR / RAY / RON / RSD / RUB / RWF / SAR / SEK / SGD / SOL / THB / TRY / TUSD / TWD / TZS / UAH / UGX / UNI / USD / USDC / USDT / UYU / VES / VND / XAF / XOF / ZAR / ZMW
+AUD / BRL / CAD / CHF / DAI / ETH / EUR / GBP / HKD / INR / JPY / KRW / MKR / MXN / NIS / RAY / RUB / SGD / SOL / TRY / TWD / UNI / USD / USDC / USDT / ZAR
 
 
 Support for over 40 exchanges (contact me to request more): 
 
-alphavantage_stock / binance / binance_us / bit2c / bitbns / bitfinex / bitflyer / bitmart / bitmex / bitmex_u20 / bitmex_z20 / bitpanda / bitso / bitstamp / bittrex / bittrex_global / btcmarkets / btcturk / buyucoin / bybit / cex / coinbase / coindcx / coinex / coingecko_btc / coingecko_eth / coingecko_eur / coingecko_gbp / coingecko_sgd / coingecko_twd / coingecko_usd / coinspot / crypto.com / ethfinex / gateio / gemini / hitbtc / huobi / korbit / kraken / kucoin / liquid / localbitcoins / localbitcoins / loopring_amm / luno / okcoin / okex / poloniex / southxchange / unocoin / upbit / wazirx / zebpay
+alphavantage_stock / binance / binance_us / bit2c / bitbns / bitfinex / bitflyer / bitforex / bitmart / bitmex / bitmex_u20 / bitmex_z20 / bitpanda / bitso / bitstamp / bittrex / bittrex_global / btcmarkets / btcmarkets / btcturk / buyucoin / bybit / cex / coinbase / coindcx / coinex / coingecko_btc / coingecko_eth / coingecko_eur / coingecko_gbp / coingecko_sgd / coingecko_twd / coingecko_usd / coinspot / crypto.com / ethfinex / gateio / gemini / hitbtc / huobi / korbit / kraken / kucoin / liquid / loopring_amm / luno / okcoin / okex / poloniex / southxchange / unocoin / upbit / wazirx / zebpay
 
 
 Nearly Unlimited Assets Supported (whatever assets exist on supported exchanges).

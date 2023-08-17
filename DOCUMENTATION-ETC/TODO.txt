@@ -10,10 +10,21 @@ NEXT SCHEDULED WORK SESSIONS (*BOTH* DEBUGGING AND / OR INFRASTRUCTURE)
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
-https://www.coingecko.com/en/coins/aurory#markets
+The tags 'h1' through 'h6' should be made to user-adjust text size too. (CONFIRMED IT WILL be a bit tricky, be careful (set them via 'em' like bootstrap does)...ISOLATE BASED ON OUR TEMPLATE WRAPPER CSS ELEMENTS).
 
 
-Move the font line height logic into init.php too (and have it also control JavaScript based line height).
+Move remaining font-size / line-height logic in style.css AND ELSEWHERE into our dynamic CSS header logic.
+
+
+On the plugins admin page, add an info balloon next to a title "How can I make sure 3rd-party plugins are safe?"
+
+
+On the plugins admin page, add a title "How to make your own custom plugin", with a link to the plugin documentation on github.
+
+
+https://www.coingecko.com/en/coins/aurory
+
+https://www.coingecko.com/en/coins/cosmos-hub
 
 
 The compact side menu doesn't work on Linux desktop Edition.
@@ -70,25 +81,10 @@ LOOK INTO WHICH OF THESE MARKETS ARE JUST BLOCKED IN THE USA, AND WHICH NO LONGE
 [2023-08-12 00:21:53.518] ui => market: No market price data available for BONK / USDT @ Bybit;  
 
 
-If a primary currency market (BTC / FIAT) is unavailable for an asset in the $ct_conf['power']['btc_currency_mrkts'] list (returns no trade value), then DYNAMICALLY REMOVE IT IN config-auto-adjust.php
-
-
-The tags 'h1' through 'h6' should be made to user-adjust text size too. (could be a bit tricky, be careful...ISOLATE BASED ON OUR TEMPLATE WRAPPER CSS ELEMENTS).
-
-
-Move remaining font-size / line-height logic in style.css AND ELSEWHERE into our dynamic CSS header logic.
-
-
 Add feature to address balance tracker plugin to set minimum time to wait before re-sending the same address alert (in hours). Default it to a high number like 8 hours, so any poorly running / configured API servers don't send endless alerts as they send bs 'zero' results.
 
 
 Merge System stats / access stats / app logs into one area called: System & App Monitoring. Add horizontal tabs a top of this area, for each subsection.
-
-
-Remove localbitcoins support (they are closing shop). ADD AS MANY COUNTRY CURRENCY MARKETS AS POSSIBLE TO REPLACE MULTI-CUURENCY CAPABILITY THAT LOCALBITCOINS GAVE THE APP.
-
-
-Add Bitcoin NFT support.
 
 
 Integrate google authenticator / microsoft authenticator / authy / etc BEING REQUIRED TO CHANGE THE ADMIN SECURITY LEVEL (and also make it OPTIONAL for login security):
@@ -116,7 +112,7 @@ New FAQ entry "my text alerts aren't working, or are delayed"
 Remove all forced line breaks in FOLIO-INSTALL.bash dialogue
 
 
-Look for a good alternative to PHPdesktop, or at least a simple / redistributable binary to run a PHP server.
+Look for a good alternative to PHPdesktop FOR LINUX DESKTOP, or at least a simple / redistributable binary to run a PHP server.
 
 
 Fix issues on Desktop Editions. Sidebar scrolling only partially / sometimes enables in REGULAR sidebar, doesn't work at all on COMPACT sidebar, and titles scrolling sticky properly are not running well at all with the big overhaul done for v6.00.19. Find out why.
@@ -420,7 +416,7 @@ Defaults to 'standard' if not set.
 Document the ABOVE new plugin settings, and fully test before public release.
 
 
-Build a plugin (for the tools page, defaults to activated already), that lets you quickly calculate unlimited nft values (using text field form library used for debt interest tracker) in sol or eth value from any currency (including sol or eth, like miscassets market field), with option to populate ethnfts / solnfts portfolio fields on update page, and save updates to them.
+Build a plugin (for the tools page, defaults to activated already), that lets you quickly calculate unlimited nft values (using text field form library used for debt interest tracker) in btc , sol or eth value from any currency (including sol or eth, like miscassets market field), with option to populate btcnfts / ethnfts / solnfts portfolio fields on update page, and save updates to them.
 
 
 Remove the requirement for a secondary crypto market needing a BTC market, by allowing a secondary crypto market if it at least has a pairing that is the same as one of Bitcoin's pairings (like USD). Then have the BTC pairing value function look for that if there is no BTC market for the asset. Within the BTC pairing function, all we then need to do is multiply this backup conversion pairing value by the last trade value of the secondary crypto market (with a recursive call in the function to get say for instance the BTC/USD trade value). Also include a new config setting "pref_backup_conversion_pair", so when we check what pairings the asset has available, we use this pairing first (like USD).

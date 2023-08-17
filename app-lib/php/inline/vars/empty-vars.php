@@ -7,6 +7,8 @@
 
 // Initial BLANK arrays
 
+$check_crypto_pair = array();
+
 $log_errors = array();
 
 $log_debugging = array();
