@@ -97,15 +97,15 @@ height: 1em !important;
 }
 
 
-button, input[type=submit], input[type=button], .force_button_style {
+button, input[type=submit], input[type=button], input::file-selector-button, .force_button_style {
   color: white !important;
   padding: 5px 10px;
   text-align: center;
   font-weight: bold;
   text-decoration: none;
   display: inline-block;
-  cursor: pointer;
-  border-radius: 6px;
+  cursor: pointer !important;
+  border-radius: 6px !important;
 }
 
 

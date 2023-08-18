@@ -408,7 +408,7 @@
 
      html, body {	
          font-family: '<?=$google_font_name?>', sans-serif !important;	
-         font-weight: 300 !important;
+         font-weight: <?=$global_font_weight?> !important;
      }
      
      <?php
@@ -418,7 +418,7 @@
      
      html, body {	
          font-family: sans-serif !important;	
-         font-weight: 300 !important;
+         font-weight: <?=$global_font_weight?> !important;
      }
      
      <?php
@@ -454,28 +454,28 @@
      <?=$font_size_css_selector?> {
      font-size: <?=$set_font_size?>em !important;
      line-height: <?=$set_font_line_height?>em !important;
-     font-weight: 400 !important;
+     font-weight: <?=$global_font_weight?> !important;
      }
 
      /* medium font size CSS selector */
      <?=$medium_font_size_css_selector?> {
      font-size: <?=$set_medium_font_size?>em !important;
      line-height: <?=$set_medium_font_line_height?>em !important;
-     font-weight: 400 !important;
+     font-weight: <?=$global_font_weight?> !important;
      }
 
      /* small font size CSS selector */
      <?=$small_font_size_css_selector?> {
      font-size: <?=$set_small_font_size?>em !important;
      line-height: <?=$set_small_font_line_height?>em !important;
-     font-weight: 400 !important;
+     font-weight: <?=$global_font_weight?> !important;
      }
 
      /* tiny font size CSS selector */
      <?=$tiny_font_size_css_selector?> {
      font-size: <?=$set_tiny_font_size?>em !important;
      line-height: <?=$set_tiny_font_line_height?>em !important;
-     font-weight: 400 !important;
+     font-weight: <?=$global_font_weight?> !important;
      }
      
 	

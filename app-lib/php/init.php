@@ -75,6 +75,10 @@ $min_font_resize = 0.5; // 50%
 $max_font_resize = 2.0; // 200%
 
 
+// FONT WEIGHT for ALL text in app (as a CSS value)
+$global_font_weight = 400; // 400 for ANY font size
+
+
 // LINE HEIGHT PERCENTAGE for ALL text in app (as a decimal)
 $global_line_height_percent = 1.30; // 130% line height for ANY font size
 
