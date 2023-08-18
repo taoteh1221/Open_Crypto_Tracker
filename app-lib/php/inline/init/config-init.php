@@ -294,7 +294,27 @@ unset($loop);
 
 // Set "watch only" flag amount (sets portfolio amount one decimal MORE than allowed min value)
 $watch_only_flag_val = preg_replace("/1/", "01", $min_crypto_val_test); // Set to 0.XXXXX01 instead of 0.XXXXX1
-
+        
+        
+// Figure out what our throttled cache time has to be for alphavantage stock asset API calls
+foreach ( $ct_conf['assets'] as $markets ) {
+              
+    foreach ( $markets['pair'] as $exchange_pairs ) {
+         	            
+       if ( isset($exchange_pairs['alphavantage_stock']) && $exchange_pairs['alphavantage_stock'] != '' ) { // In case user messes up Admin Config, this helps
+       $alphavantage_pairs = $alphavantage_pairs + 1;
+       }
+         	            
+    }
+                
+}
+              
+$alphavantage_max_daily_requests_per_asset = floor($ct_conf['other_api']['alphavantage_per_day_limit'] / $alphavantage_pairs);
+          
+$alphavantage_cache_time_per_asset = floor( ( 24 / $alphavantage_max_daily_requests_per_asset ) * 60 );
+          
+$alphavantage_api_cache_time = ( $alphavantage_cache_time_per_asset >  $ct_conf['power']['last_trade_cache_time'] ? $alphavantage_cache_time_per_asset : $ct_conf['power']['last_trade_cache_time'] );
+            
 
 // Primary Bitcoin markets (MUST RUN AFTER app config auto-adjust)
 require_once('app-lib/php/inline/config/primary-bitcoin-markets-config.php');

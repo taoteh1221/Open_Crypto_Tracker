@@ -637,7 +637,7 @@ var $ct_array1 = array();
    // We only need $pair data if our function call needs 24hr trade volumes, so it's optional overhead
    function market($asset_symb, $sel_exchange, $mrkt_id, $pair=false) {
    
-   global $ct_conf, $ct_var, $ct_cache, $ct_gen, $ct_asset, $sel_opt, $kraken_pairs, $upbit_pairs, $coingecko_pairs, $coingecko_assets;
+   global $ct_conf, $ct_var, $ct_cache, $ct_gen, $ct_asset, $sel_opt, $kraken_pairs, $upbit_pairs, $coingecko_pairs, $coingecko_assets, $alphavantage_api_cache_time;
     
     
     ////////////////////////////////////////////////////////////////////////////////////////////////
@@ -663,7 +663,7 @@ var $ct_array1 = array();
          
       $url = 'https://www.alphavantage.co/query?function=GLOBAL_QUOTE&symbol=' . $mrkt_id . '&apikey=' . $ct_conf['other_api']['alphavantage_key'];
          
-      $response = @$ct_cache->ext_data('url', $url, $ct_conf['power']['last_trade_cache_time']);
+      $response = @$ct_cache->ext_data('url', $url, $alphavantage_api_cache_time);
          
       $data = json_decode($response, true);
       

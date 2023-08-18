@@ -847,7 +847,7 @@ var fiat_val_content = '<h5 class="yellow tooltip_title">Primary Currency (<?=st
 			html: true,
 			position: "top",
   			classname: 'balloon-tooltips',
-			contents: ajax_placeholder(17, 'center', 'Loading Data...'),
+			contents: ajax_placeholder(15, 'center', 'Loading Data...'),
   			url: 'ajax.php?type=chart&mode=asset_balance&lvrg_added=<?=$lvrg_added?>&short_added=<?=$short_added?><?=$balance_stats_encoded?>',
 			css: {
 					fontSize: "<?=$set_font_size?>em",
@@ -1578,7 +1578,7 @@ zingchart.bind('marketcap_chart', 'label_click', function(e){
 		
 		localStorage.setItem(notes_storage, document.getElementById("notes").value);
 		
-		document.getElementById("notes_save_result").innerHTML = ajax_placeholder(18, "left", "Saving notes...", "inline");
+		document.getElementById("notes_save_result").innerHTML = ajax_placeholder(15, "left", "Saving notes...", "inline");
 		
 		   setTimeout(
              function() {

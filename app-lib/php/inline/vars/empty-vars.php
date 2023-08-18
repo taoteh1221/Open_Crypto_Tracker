@@ -103,9 +103,13 @@ $coingecko_assets = null;
 $restore_conf_path = null;
 
 $sms_service = null;
+        
+$alphavantage_api_cache_time = null;
 
 
 // Initial zero-set strings
+        
+$alphavantage_pairs = 0;
 
 $precache_feeds_count = 0; 
 

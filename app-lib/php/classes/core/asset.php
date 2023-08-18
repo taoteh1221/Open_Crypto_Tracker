@@ -1657,7 +1657,7 @@ var $ct_array1 = array();
       
       $ct_gen->log(
           	    'notify_error',
-          	    'skipping "'.$exchange.'" chart storage, it was rate-limited to avoid going over it\'s API limits (it used cache-only data)',
+          	    'skipping "'.$exchange.'" chart storage, it was rate-limited / throttled to avoid going over it\'s API limits (it used cache-only data)',
           	    false,
                    $exchange . '_skip_charts'
           	   );

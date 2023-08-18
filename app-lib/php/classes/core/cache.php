@@ -344,9 +344,9 @@ var $ct_array1 = array();
   ////////////////////////////////////////////////////////
   
   
-  function api_throttling($tld_or_ip) {
+  function api_throttling($tld_or_ip, $cached_path=false) {
   
-  global $ct_conf, $ct_gen, $base_dir, $api_throttle_count, $api_throttle_flag;
+  global $ct_conf, $ct_gen, $base_dir, $api_throttle_count, $api_throttle_flag, $alphavantage_api_cache_time;
   
   // We wait until we are in this function, to grab any cached data at the last minute,
   // to assure we get anything written recently by other runtimes
@@ -386,16 +386,35 @@ var $ct_array1 = array();
      if (
      $tld_or_ip == 'alphavantage.co' && $api_throttle_count[$tld_or_ip]['minute_count']['count'] >= $ct_conf['other_api']['alphavantage_per_minute_limit']
      || $tld_or_ip == 'alphavantage.co' && $api_throttle_count[$tld_or_ip]['hour_count']['count'] >= floor($ct_conf['other_api']['alphavantage_per_day_limit'] / 24)
+     || $tld_or_ip == 'alphavantage.co' && $cached_path != false && $this->update_cache($cached_path, $alphavantage_api_cache_time) == false
      ) {
          
      $api_throttle_flag[$tld_or_ip] = true;
+     
+     
+          if ( $tld_or_ip == 'alphavantage.co' && $cached_path != false && $this->update_cache($cached_path, $alphavantage_api_cache_time) == false ) {
+               
+          $minutes_old = round( ( time() - filemtime($cached_path) ) / 60 );
           
-     $ct_gen->log(
+          $ct_gen->log(
+          		  'notify_error',
+          		  'throttling threshold met for API server "' . $tld_or_ip . '" (minutes_cached='.$minutes_old.',minimum_cache_minutes='.$alphavantage_api_cache_time.')',
+          		  false,
+          		  md5($tld_or_ip) . '_throttle_flagged' // unique key with no symbols
+          		  );
+          		  
+          }
+          else {
+          
+          $ct_gen->log(
           		  'notify_error',
           		  'throttling threshold met for API server "' . $tld_or_ip . '" (minute_requests='.$api_throttle_count[$tld_or_ip]['minute_count']['count'].',hour_requests='.$api_throttle_count[$tld_or_ip]['hour_count']['count'].')',
           		  false,
           		  md5($tld_or_ip) . '_throttle_flagged' // unique key with no symbols
           		  );
+          		  
+          }
+          
                   
      $store_api_throttle_count = json_encode($api_throttle_count, JSON_PRETTY_PRINT);
      $store_file_contents = $this->save_file($base_dir . '/cache/events/throttling/' . $tld_or_ip . '.dat', $store_api_throttle_count);
@@ -2218,7 +2237,7 @@ var $ct_array1 = array();
       
       // Servers requiring TRACKED THROTTLE-LIMITING, due to limited-allowed minute / hour / daily requests
       // (are processed by this->api_throttling(), to avoid using up daily request limits)
-      if ( in_array($endpoint_tld_or_ip, $tracked_throttle_limited_servers) && $this->api_throttling($endpoint_tld_or_ip) == true ) {
+      if ( in_array($endpoint_tld_or_ip, $tracked_throttle_limited_servers) && $this->api_throttling($endpoint_tld_or_ip, $base_dir . '/cache/secured/external_data/'.$hash_check.'.dat') == true ) {
               
             
       // Set $data var with any cached value (null / false result is OK), as we don't want to cache any PROBABLE error response
