@@ -46,8 +46,6 @@ var app_container;
 
 var global_line_height_percent;
 
-var default_font_size;
-
 var set_font_size;
 
 var info_icon_size_css_selector;
@@ -58,11 +56,15 @@ var font_size_css_selector;
 
 var medium_font_size_css_selector;
 
-var medium_font_size_css_percent;
-
 var small_font_size_css_selector;
 
+var tiny_font_size_css_selector;
+
+var medium_font_size_css_percent;
+
 var small_font_size_css_percent;
+
+var tiny_font_size_css_percent;
 	
 var theme_selected;
 

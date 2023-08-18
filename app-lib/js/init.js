@@ -69,7 +69,7 @@ admin_iframe_load = document.querySelectorAll('.admin_iframe');
 	
 
 	// Activate auto-reload
-	if ( get_cookie("coin_reload") ) {
+	if ( get_cookie("coin_reload") && !is_admin ) {
 	auto_reload();
 	}
 
@@ -114,7 +114,7 @@ admin_iframe_load = document.querySelectorAll('.admin_iframe');
 	
 	// For ALL nav menus (normal / compact sidebars, mobile top nav bar), we want to keep track of which
 	// nav item is active and it's associated content, and display it / mark nav links as active in interface
-	if ( is_admin == true ) {
+	if ( is_admin ) {
 	nav_menu('.admin-nav');
 	}
 	else {
@@ -297,7 +297,7 @@ admin_iframe_load = document.querySelectorAll('.admin_iframe');
 	
 	
 	// Mark correct nav wrapper as active in interface
-	if ( is_admin == true && !is_iframe ) {
+	if ( is_admin && !is_iframe ) {
 
 	var nav_selector = $('.admin-nav-wrapper');
 

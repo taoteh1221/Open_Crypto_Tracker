@@ -252,11 +252,7 @@
 	
 	global_line_height_percent = Number("<?=$global_line_height_percent?>");
 	
-	
-	default_font_size = Number("<?=$default_font_size?>");
-                  
-     set_font_size = Number( get_cookie("font_size") ) ? Number( get_cookie("font_size") ) : default_font_size;
-	
+	set_font_size = Number("<?=$set_font_size?>");
 	
 	info_icon_size_css_selector = "<?=$info_icon_size_css_selector?>";
 	
@@ -268,10 +264,13 @@
 	
 	small_font_size_css_selector = "<?=$small_font_size_css_selector?>";
 	
+	tiny_font_size_css_selector = "<?=$tiny_font_size_css_selector?>";
 	
 	medium_font_size_css_percent = Number(<?=$medium_font_size_css_percent?>);
 	
 	small_font_size_css_percent = Number(<?=$small_font_size_css_percent?>);
+	
+	tiny_font_size_css_percent = Number(<?=$tiny_font_size_css_percent?>);
 	
 	
 	// Preload /images/auto-preloaded/ images VIA JAVASCRIPT TOO (WAY MORE RELIABLE THAN META TAG PRELOAD)
@@ -430,45 +429,52 @@
      <?php
      // iframe info icon sizes are wonky for some reason in LINUX PHPDESKTOP (but works fine in modern browsers)
      if ( $app_container == 'phpdesktop' ) {
-     $default_info_icon_size = $default_font_size * 1.6;
+     $set_info_icon_size = $set_font_size * 1.6;
      }
      else {
-     $default_info_icon_size = $default_font_size * 2.0;
+     $set_info_icon_size = $set_font_size * 2.0;
      }
      ?>
      <?=$info_icon_size_css_selector?> {
-     height: <?=round($default_info_icon_size, 3)?>em !important;
+     height: <?=round($set_info_icon_size, 3)?>em !important;
      width: auto !important;
      }
      
      /* ajax loading size CSS selector */
      <?php
      // Run a multiplier, to slightly increase image size
-     $default_ajax_loading_size = $default_font_size * 1.3;
+     $set_ajax_loading_size = $set_font_size * 1.3;
      ?>
      <?=$ajax_loading_size_css_selector?> {
-     height: <?=round($default_ajax_loading_size, 3)?>em !important;
+     height: <?=round($set_ajax_loading_size, 3)?>em !important;
      width: auto !important;
      }
      
      /* standard font size CSS selector */
      <?=$font_size_css_selector?> {
-     font-size: <?=$default_font_size?>em !important;
-     line-height: <?=$default_font_line_height?>em !important;
+     font-size: <?=$set_font_size?>em !important;
+     line-height: <?=$set_font_line_height?>em !important;
      font-weight: 400 !important;
      }
 
      /* medium font size CSS selector */
      <?=$medium_font_size_css_selector?> {
-     font-size: <?=$default_medium_font_size?>em !important;
-     line-height: <?=$default_medium_font_line_height?>em !important;
+     font-size: <?=$set_medium_font_size?>em !important;
+     line-height: <?=$set_medium_font_line_height?>em !important;
      font-weight: 400 !important;
      }
 
      /* small font size CSS selector */
      <?=$small_font_size_css_selector?> {
-     font-size: <?=$default_tiny_font_size?>em !important;
-     line-height: <?=$default_tiny_font_line_height?>em !important;
+     font-size: <?=$set_small_font_size?>em !important;
+     line-height: <?=$set_small_font_line_height?>em !important;
+     font-weight: 400 !important;
+     }
+
+     /* tiny font size CSS selector */
+     <?=$tiny_font_size_css_selector?> {
+     font-size: <?=$set_tiny_font_size?>em !important;
+     line-height: <?=$set_tiny_font_line_height?>em !important;
      font-weight: 400 !important;
      }
      

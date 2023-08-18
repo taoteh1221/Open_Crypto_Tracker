@@ -16,8 +16,8 @@
 	<div style='display: inline;'><?=$ct_gen->start_page_html('portfolio')?></div>
 			
 			
-			 &nbsp; <select title='Select which view format you prefer.' class='browser-default custom-select' name='select_portfolio_view' id='select_portfolio_view' onchange=''>
-				<option value='0'> Portfolio View: Compact </option>
+			 &nbsp; <select title='Select which portfolio view format you prefer.' class='browser-default custom-select' name='select_portfolio_view' id='select_portfolio_view' onchange=''>
+				<option value='0'> View: Compact </option>
 			</select> 
 			
 			
@@ -31,9 +31,6 @@
 				<option value='900' <?=( $_COOKIE['coin_reload'] == '900' ? 'selected' : '' )?>> Auto-Reload: 15 Minutes </option>
 				<option value='1800' <?=( $_COOKIE['coin_reload'] == '1800' ? 'selected' : '' )?>> Auto-Reload: 30 Minutes </option>
 			</select> 
-			
-			
-			&nbsp; <span class='bitcoin'><b>(<?=$ct_conf['power']['last_trade_cache_time']?> minute prices cache)</b></span>
      
 	
 			<?php
@@ -575,7 +572,7 @@ $altcoin_dominance = $ct_var->max_100($altcoin_dominance);
   			classname: 'balloon-tooltips',
 			contents: crypto_val_content,
 			css: {
-					fontSize: "<?=$default_font_size?>em",
+					fontSize: "<?=$set_font_size?>em",
 					minWidth: "350px",
 					padding: ".3rem .7rem",
 					border: "2px solid rgba(212, 212, 212, .4)",
@@ -634,7 +631,7 @@ var fiat_val_content = '<h5 class="yellow tooltip_title">Primary Currency (<?=st
   			classname: 'balloon-tooltips',
 			contents: fiat_val_content,
 			css: {
-					fontSize: "<?=$default_font_size?>em",
+					fontSize: "<?=$set_font_size?>em",
 					minWidth: "350px",
 					padding: ".3rem .7rem",
 					border: "2px solid rgba(212, 212, 212, .4)",
@@ -739,7 +736,7 @@ var fiat_val_content = '<h5 class="yellow tooltip_title">Primary Currency (<?=st
   			classname: 'balloon-tooltips',
 			contents: gain_loss_content,
 			css: {
-					fontSize: "<?=$default_font_size?>em",
+					fontSize: "<?=$set_font_size?>em",
 					minWidth: "350px",
 					padding: ".3rem .7rem",
 					border: "2px solid rgba(212, 212, 212, .4)",
@@ -850,10 +847,10 @@ var fiat_val_content = '<h5 class="yellow tooltip_title">Primary Currency (<?=st
 			html: true,
 			position: "top",
   			classname: 'balloon-tooltips',
-			contents: ajax_placeholder(30, 'center', 'Loading Data...'),
+			contents: ajax_placeholder(17, 'center', 'Loading Data...'),
   			url: 'ajax.php?type=chart&mode=asset_balance&lvrg_added=<?=$lvrg_added?>&short_added=<?=$short_added?><?=$balance_stats_encoded?>',
 			css: {
-					fontSize: "<?=$default_font_size?>em",
+					fontSize: "<?=$set_font_size?>em",
 					minWidth: "350px",
 					padding: ".3rem .7rem",
 					border: "2px solid rgba(212, 212, 212, .4)",
@@ -1090,7 +1087,7 @@ var performance_chart_defaults_content = '<h5 class="yellow tooltip_title">Setti
   			classname: 'balloon-tooltips',
 			contents: performance_chart_defaults_content,
 			css: {
-					fontSize: "<?=$default_font_size?>em",
+					fontSize: "<?=$set_font_size?>em",
 					minWidth: "350px",
 					padding: ".3rem .7rem",
 					border: "2px solid rgba(212, 212, 212, .4)",
@@ -1328,7 +1325,7 @@ var marketcap_chart_defaults_content = '<h5 class="yellow tooltip_title">Setting
   			classname: 'balloon-tooltips',
 			contents: marketcap_chart_defaults_content,
 			css: {
-					fontSize: "<?=$default_font_size?>em",
+					fontSize: "<?=$set_font_size?>em",
 					minWidth: "350px",
 					padding: ".3rem .7rem",
 					border: "2px solid rgba(212, 212, 212, .4)",
@@ -1645,7 +1642,7 @@ zingchart.bind('marketcap_chart', 'label_click', function(e){
   			classname: 'balloon-tooltips',
 			contents: sys_stats_quick_link_info_content,
 			css: {
-					fontSize: "<?=$default_font_size?>em",
+					fontSize: "<?=$set_font_size?>em",
 					minWidth: "350px",
 					padding: ".3rem .7rem",
 					border: "2px solid rgba(212, 212, 212, .4)",
@@ -1747,7 +1744,7 @@ var server_header_defaults_content = '<h5 class="yellow tooltip_title">Average S
   			classname: 'balloon-tooltips',
 			contents: server_header_defaults_content,
 			css: {
-					fontSize: "<?=$default_font_size?>em",
+					fontSize: "<?=$set_font_size?>em",
 					minWidth: "350px",
 					padding: ".3rem .7rem",
 					border: "2px solid rgba(212, 212, 212, .4)",

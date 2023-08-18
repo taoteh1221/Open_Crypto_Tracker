@@ -37,9 +37,8 @@ text-decoration: underline;
 }
 
 
-p, h3 { 
+p, h1, h2, h3, h4, h5, h6 { 
 word-break: normal;
-margin-bottom: 1.6em;
 }
 
 
@@ -343,7 +342,6 @@ font-weight: normal;
 
 
 .coin_info {
-margin: 1.4em;
 white-space: nowrap;
 }
 
@@ -482,7 +480,8 @@ text-align:center;
 
 
 .portfolio_summary {
-margin: 0.15em;
+margin: 0em;
+padding: 0em;
 }
 
 
@@ -539,8 +538,8 @@ padding-right: 9px;
 display: inline;
 float: right;
 position: absolute; /* To set top / right below, AND backwards compatibility (if browser doesn't support 'sticky') */
-top: 0px;
-right: 0.6em;
+top: -0.3em;
+right: 0.1em;
 z-index: 5;
 border-radius: 0.6em;
 padding: 0.3em;
@@ -695,13 +694,13 @@ IDs
 
 #coins_table th, #coins_table  td.data {
 margin: 0px !important;
-padding-top: 0.25em !important;
-padding-bottom: 0.25em !important;
-padding-left: 0.75em !important;
-padding-right: 1.1em !important;   
+padding-top: 0.2em !important;
+padding-bottom: 0.2em !important;
+padding-left: 0.2em !important;
+padding-right: 1.05em !important;   
 white-space: nowrap !important;
 vertical-align: middle !important;
-line-height: 1.15em !important;
+line-height: 1em !important;
 }
 
 
@@ -794,7 +793,7 @@ font-size: 2.5em;
 font-weight: bold !important;
 min-height: 2.6em; 
 margin: auto;
-margin-top: 20px;
+margin-top: 10px;
 margin-bottom: 0px;
 z-index: 3;
 }
@@ -805,7 +804,7 @@ display: block;
 padding: 0.1em;
 width: 90%; 
 white-space: nowrap;
-font-size: 4.1em;
+font-size: 1.5em;
 margin: auto;
 margin-top: 20px;
 margin-bottom: 0px;

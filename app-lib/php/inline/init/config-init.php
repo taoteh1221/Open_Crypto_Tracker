@@ -231,33 +231,36 @@ $font_name_url_formatting = preg_replace("/ /", "+", $font_name_url_formatting);
 
 // Configged font size
 if ( isset($_COOKIE['font_size']) ) {
-$default_font_size = $_COOKIE['font_size']; // Already 'em' scale format
+$set_font_size = $_COOKIE['font_size']; // Already 'em' scale format
 }
 elseif ( $ct_var->whole_int($ct_conf['gen']['default_font_size']) ) {
-$default_font_size = round( ($ct_conf['gen']['default_font_size'] * 0.01) , 3);
+$set_font_size = round( ($ct_conf['gen']['default_font_size'] * 0.01) , 3);
 }
 else {
-$default_font_size = 1; // 'em' scale format
+$set_font_size = 1; // 'em' scale format
 }
 
 
 // Enforce min / max allowed values on the default font size
 // (IN 'em' CSS-COMPATIBLE SCALING WE SWITCHED TO ABOVE)
-if ( $default_font_size > $max_font_resize ) {
-$default_font_size = $max_font_resize;
+if ( $set_font_size > $max_font_resize ) {
+$set_font_size = $max_font_resize;
 }
-elseif ( $default_font_size < $min_font_resize ) {
-$default_font_size = $min_font_resize;
+elseif ( $set_font_size < $min_font_resize ) {
+$set_font_size = $min_font_resize;
 }
 
 
-$default_font_line_height = round( ($default_font_size * $global_line_height_percent) , 3);
+$set_font_line_height = round( ($set_font_size * $global_line_height_percent) , 3);
      
-$default_medium_font_size = round( ($default_font_size * $medium_font_size_css_percent) , 3);
-$default_medium_font_line_height = round( ($default_medium_font_size * $global_line_height_percent) , 3);
+$set_medium_font_size = round( ($set_font_size * $medium_font_size_css_percent) , 3);
+$set_medium_font_line_height = round( ($set_medium_font_size * $global_line_height_percent) , 3);
      
-$default_tiny_font_size = round( ($default_font_size * $small_font_size_css_percent) , 3);
-$default_tiny_font_line_height = round( ($default_tiny_font_size * $global_line_height_percent) , 3); 
+$set_small_font_size = round( ($set_font_size * $small_font_size_css_percent) , 3);
+$set_small_font_line_height = round( ($set_small_font_size * $global_line_height_percent) , 3); 
+     
+$set_tiny_font_size = round( ($set_font_size * $tiny_font_size_css_percent) , 3);
+$set_tiny_font_line_height = round( ($set_tiny_font_size * $global_line_height_percent) , 3); 
 
 
 // Alphabetically sort news feeds

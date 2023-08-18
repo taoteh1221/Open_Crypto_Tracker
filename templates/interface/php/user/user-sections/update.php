@@ -247,7 +247,7 @@
   			classname: 'balloon-tooltips',
 			contents: portfolio_data_privacy,
 			css: {
-					fontSize: "<?=$default_font_size?>em",
+					fontSize: "<?=$set_font_size?>em",
 					minWidth: "350px",
 					padding: ".3rem .7rem",
 					border: "2px solid rgba(212, 212, 212, .4)",
@@ -286,7 +286,7 @@
   			classname: 'balloon-tooltips',
 			contents: random_tip_disclaimer,
 			css: {
-					fontSize: "<?=$default_font_size?>em",
+					fontSize: "<?=$set_font_size?>em",
 					minWidth: "350px",
 					padding: ".3rem .7rem",
 					border: "2px solid rgba(212, 212, 212, .4)",
@@ -348,7 +348,7 @@
   			classname: 'balloon-tooltips',
 			contents: spreadsheet_import_export,
 			css: {
-					fontSize: "<?=$default_font_size?>em",
+					fontSize: "<?=$set_font_size?>em",
 					minWidth: "350px",
 					padding: ".3rem .7rem",
 					border: "2px solid rgba(212, 212, 212, .4)",
@@ -664,7 +664,7 @@
   			classname: 'balloon-tooltips',
 			contents: average_paid_notes,
 			css: {
-					fontSize: "<?=$default_font_size?>em",
+					fontSize: "<?=$set_font_size?>em",
 					minWidth: "350px",
 					padding: ".3rem .7rem",
 					border: "2px solid rgba(212, 212, 212, .4)",
@@ -736,7 +736,7 @@
   			classname: 'balloon-tooltips',
 			contents: lvrg_trading_notes,
 			css: {
-					fontSize: "<?=$default_font_size?>em",
+					fontSize: "<?=$set_font_size?>em",
 					minWidth: "350px",
 					padding: ".3rem .7rem",
 					border: "2px solid rgba(212, 212, 212, .4)",

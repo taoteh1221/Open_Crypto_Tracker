@@ -10,6 +10,15 @@ NEXT SCHEDULED WORK SESSIONS (*BOTH* DEBUGGING AND / OR INFRASTRUCTURE)
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
+For alphavantage to get more stock prices, we need to count the total amount of stocks listed during init of the app, and DYNAMICALLY SET CACHE TIME FOR DATA TO THIS FORMULA: 
+
+$max_daily_requests = floor( $ct_conf['other_api']['alphavantage_per_day_limit'] / [number of assets] );
+
+$cache_time_per_asset = floor( ( 24 / $max_daily_requests ) * 60 );
+
+Then we just pull cached data, until we are allowed to update each asset. This should also work fine with our minute / hourly throttling limits, BUT KEEP AN EYE ON IT AFTER IMPLEMENTATION [preferred to keep it simple this way if it handles a lot of assets ok].
+
+
 The tags 'h1' through 'h6' should be made to user-adjust text size too. (CONFIRMED IT WILL be a bit tricky, be careful (set them via 'em' like bootstrap does)...ISOLATE BASED ON OUR TEMPLATE WRAPPER CSS ELEMENTS).
 
 
@@ -28,9 +37,6 @@ https://www.coingecko.com/en/coins/cosmos-hub
 
 
 The compact side menu doesn't work on Linux desktop Edition.
-
-
-For alphavantage to get more stock prices, we need to count the total amount of stocks listed during init of the app, and if it goes over our hourly or by-the-minute max counts (that we are have built-in to meter / throttle with), then we somehow need to prioritize in a way that gets all stock prices evenly refreshed, without going over our DAILY limit EVER.
 
 
 On LINUX DESKTOP EDITION, when importing a spreadsheet, it imports OK (shows in the interface after importing), BUT does NOT save as cookie data (gets lost if you visit the admin area etc), UNLESS YOU CLICK "SAVE UPDATED PORTFOLIO" ON THE UPDATE PAGE IMMEADIATELY *AFTER* IMPORTING IT. THIS IS NOT AN ISSUE IN SERVER EDITION, find out why.

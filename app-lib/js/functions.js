@@ -1860,6 +1860,12 @@ var small_font_size = small_font_size.toFixed(3);
      
 var small_line_height = small_font_size * global_line_height_percent; 
 var small_line_height = small_line_height.toFixed(3);
+     
+var tiny_font_size = font_size * tiny_font_size_css_percent;
+var tiny_font_size = tiny_font_size.toFixed(3);
+     
+var tiny_line_height = tiny_font_size * global_line_height_percent; 
+var tiny_line_height = tiny_line_height.toFixed(3);
 
 
      if ( specific_elm != false && specific_size != false ) {
@@ -1878,6 +1884,10 @@ var small_line_height = small_line_height.toFixed(3);
           var spec_font_size = small_font_size;
           var spec_line_height = small_line_height;
           }
+          else if ( specific_size == 'tny' ) {
+          var spec_font_size = tiny_font_size;
+          var spec_line_height = tiny_line_height;
+          }
      
      }
      else if ( iframe_elm != false ) {
@@ -1886,6 +1896,7 @@ var small_line_height = small_line_height.toFixed(3);
      var font_elements = $(font_size_css_selector, iframe_elm.contentWindow.document);
      var medium_font_elements = $(medium_font_size_css_selector, iframe_elm.contentWindow.document);
      var small_font_elements = $(small_font_size_css_selector, iframe_elm.contentWindow.document);
+     var tiny_font_elements = $(tiny_font_size_css_selector, iframe_elm.contentWindow.document);
      }
      else {
      var info_icon_elements = $(info_icon_size_css_selector);
@@ -1893,6 +1904,7 @@ var small_line_height = small_line_height.toFixed(3);
      var font_elements = $(font_size_css_selector);
      var medium_font_elements = $(medium_font_size_css_selector);
      var small_font_elements = $(small_font_size_css_selector);
+     var tiny_font_elements = $(tiny_font_size_css_selector);
      }
 
 
@@ -1935,6 +1947,9 @@ var small_line_height = small_line_height.toFixed(3);
      
      // Small font
      small_font_elements.attr('style', function(i,s) { return (s || '') + "font-size: " + small_font_size + "em !important; line-height : " + small_line_height + "em !important;" });
+     
+     // Tiny font
+     tiny_font_elements.attr('style', function(i,s) { return (s || '') + "font-size: " + tiny_font_size + "em !important; line-height : " + tiny_line_height + "em !important;" });
      
      }
 
@@ -2196,10 +2211,10 @@ function nav_menu($chosen_menu) {
           	    if ( typeof $content.attr('id') !== 'undefined' ) {
           	    $curr_content_id = '#' + $content.attr('id');
           	    }
-          	    // Otherwise, CLEANLY force values as undefined
+          	    // Otherwise, redirect to the clicked link (if no content id was found on the page)
           	    else {
-          	    $curr_content_id = (function () { return; })();
-          	    console.log('could not find NEW content id!');
+          	    console.log('could not find NEW content id, redirecting to clicked link!');
+                   window.location = $(this).attr('href');
           	    }
      
      	         

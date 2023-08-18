@@ -72,7 +72,7 @@
   			classname: 'balloon-tooltips',
 			contents: news_raspi_crash,
 			css: {
-					fontSize: "<?=$default_font_size?>em",
+					fontSize: "<?=$set_font_size?>em",
 					minWidth: "350px",
 					padding: ".3rem .7rem",
 					border: "2px solid rgba(212, 212, 212, .4)",
@@ -207,7 +207,7 @@
 						<fieldset class='subsection_fieldset'>
 						
 						<legend class='subsection_legend'> <strong>Batch-loading <?=$batched_feeds_added?> news feeds...</strong> </legend>
-							<img class='' src="templates/interface/media/images/auto-preloaded/loader.gif" height='<?=round($default_ajax_loading_size * 50)?>' alt="" style='vertical-align: middle;' />
+							<img class='' src="templates/interface/media/images/auto-preloaded/loader.gif" height='<?=round($set_ajax_loading_size * 50)?>' alt="" style='vertical-align: middle;' />
 						</fieldset>
 					
 					</div>

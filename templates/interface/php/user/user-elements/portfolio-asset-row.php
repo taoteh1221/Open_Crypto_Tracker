@@ -223,7 +223,7 @@ echo '?';
   		  classname: 'balloon-tooltips',
         contents: cmc_content,
         css: {
-                fontSize: "<?=$default_font_size?>em",
+                fontSize: "<?=$set_font_size?>em",
                 minWidth: "350px",
                 padding: ".3rem .7rem",
                 border: "2px solid rgba(212, 212, 212, .4)",
@@ -363,7 +363,7 @@ echo '?';
   classname: 'balloon-tooltips',
   contents: cmc_content,
 			css: {
-					fontSize: "<?=$default_font_size?>em",
+					fontSize: "<?=$set_font_size?>em",
 					minWidth: "350px",
 					padding: ".3rem .7rem",
 					border: "2px solid rgba(212, 212, 212, .4)",
@@ -737,7 +737,7 @@ echo '<span class="private_data ' . ( $purchase_price >= $min_fiat_val_test && $
   			classname: 'balloon-tooltips',
 			contents: lvrg_content,
 			css: {
-					fontSize: "<?=$default_font_size?>em",
+					fontSize: "<?=$set_font_size?>em",
 					minWidth: "350px",
 					padding: ".3rem .7rem",
 					border: "2px solid rgba(212, 212, 212, .4)",
