@@ -15,7 +15,7 @@ $ct_conf = array();
      
 // Adjust CSS for LINUX PHPDESKTOP or ALL OTHER browsers
 if ( $app_container == 'phpdesktop' ) {
-$medium_font_size_css_selector .= $font_size_css_selector_adjusted;
+$small_font_size_css_selector .= $font_size_css_selector_adjusted;
 }
 else {
 $font_size_css_selector .= $font_size_css_selector_adjusted;
