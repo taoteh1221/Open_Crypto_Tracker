@@ -97,7 +97,7 @@ height: 1em !important;
 }
 
 
-button, input[type=submit], input[type=button], input::file-selector-button, .force_button_style {
+button, input[type=submit], input[type=button], .force_button_style {
   color: white !important;
   padding: 5px 10px;
   text-align: center;
@@ -874,8 +874,8 @@ z-index: 9999999;
     width: calc(100% - 30px);
     text-align: left;
     min-height: 45px;
-    margin: 1.6em;
-    padding: 1.6em;
+    margin: 0.8em;
+    padding: 1em;
 font-weight: bold; 
 line-height: 3.6em;
 white-space: normal;
