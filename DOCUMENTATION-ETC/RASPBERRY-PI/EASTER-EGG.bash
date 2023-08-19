@@ -3,7 +3,7 @@
 COPYRIGHT_YEARS="2022-2023"
 
 # Version of this script
-APP_VERSION="1.07.0" # 2023/JANUARY/28TH
+APP_VERSION="1.09.0" # 2023/AUGUST/18TH
 
 ########################################################################################################################
 ########################################################################################################################
@@ -278,13 +278,51 @@ fi
 ######################################
 
 
-# apt_clear_update function START
-apt_clear_update () {
+# clean_system_update function START
+clean_system_update () {
+
+
+     if [ -z "$ALLOW_FULL_UPGRADE" ]; then
+     
+     echo " "
+     echo "${yellow}Does the Operating System on this device update using the \"Rolling Release\" model (Kali, Manjaro, Ubuntu Rolling Rhino, Debian Unstable, etc), or the \"Long-Term Release\" model (Ubuntu, Raspberry Pi OS, Armbian Stable, Diet Pi, etc)?"
+     echo " "
+     echo "${red}(You can SEVERLY MESS UP a \"Rolling Release\" Operating System IF YOU DO NOT CHOOSE CORRECTLY HERE! In that case, you can SAFELY choose \"I don't know\".)${reset}"
+     echo " "
+     
+     echo "Enter the NUMBER next to your chosen option.${reset}"
+     
+     echo " "
+     
+          OPTIONS="rolling long_term i_dont_know"
+          
+          select opt in $OPTIONS; do
+                  if [ "$opt" = "long_term" ]; then
+                  ALLOW_FULL_UPGRADE="yes"
+                  echo " "
+                  echo "${green}Allowing system-wide updates before installs.${reset}"
+                  break
+                 else
+                  ALLOW_FULL_UPGRADE="no"
+                  echo " "
+                  echo "${green}Disabling system-wide updates before installs.${reset}"
+                  break
+                 fi
+          done
+            
+     echo " "
+     
+     fi
+
 
      if [ "$APT_CACHE_CLEARED" != "1" ]; then
+
+     echo "${cyan}Making sure your APT sources list is updated before installations, please wait...${reset}"
+     
+     echo " "
      
      # In case package list was ever corrupted (since we are about to rebuild it anyway...avoids possible errors)
-     sudo rm -rf /var/lib/apt/lists/* -vf
+     sudo rm -rf /var/lib/apt/lists/* -vf > /dev/null 2>&1
      
      APT_CACHE_CLEARED=1
      
@@ -294,10 +332,35 @@ apt_clear_update () {
      
      sleep 2
      
+     echo " "
+
+     echo "${cyan}APT sources list update complete.${reset}"
+     
+     echo " "
+     
+          if [ "$ALLOW_APT_UPGRADE" == "yes" ]; then
+
+          echo "${cyan}Making sure your system is updated before installations, please wait...${reset}"
+          
+          echo " "
+          
+          #DO NOT RUN dist-upgrade, bad things can happen, lol
+          sudo apt upgrade -y
+          				
+          sleep 2
+          
+          echo " "
+          				
+          echo "${cyan}System updated.${reset}"
+          				
+          echo " "
+          
+          fi
+     
      fi
 
 }
-# apt_clear_update function END
+# clean_system_update function END
 
 
 ######################################
@@ -312,8 +375,8 @@ PYTHON_PATH=$(which python3)
 
 if [ -z "$PYTHON_PATH" ]; then
 
-# Clears AND updates apt cache (IF it wasn't already this runtime session)
-apt_clear_update
+# Clears / updates cache, then upgrades (if NOT a rolling release)
+clean_system_update
 
 echo " "
 echo "${cyan}Installing required component python3, please wait...${reset}"
@@ -329,8 +392,8 @@ XDGUSER_PATH=$(which xdg-user-dir)
 
 if [ -z "$XDGUSER_PATH" ]; then
 
-# Clears AND updates apt cache (IF it wasn't already this runtime session)
-apt_clear_update
+# Clears / updates cache, then upgrades (if NOT a rolling release)
+clean_system_update
 
 echo " "
 echo "${cyan}Installing required component xdg-user-dirs, please wait...${reset}"
@@ -346,8 +409,8 @@ SYSLOG_PATH=$(which rsyslogd)
 
 if [ -z "$SYSLOG_PATH" ]; then
 
-# Clears AND updates apt cache (IF it wasn't already this runtime session)
-apt_clear_update
+# Clears / updates cache, then upgrades (if NOT a rolling release)
+clean_system_update
 
 echo " "
 echo "${cyan}Installing required component rsyslog, please wait...${reset}"
@@ -363,8 +426,8 @@ GIT_PATH=$(which git)
 
 if [ -z "$GIT_PATH" ]; then
 
-# Clears AND updates apt cache (IF it wasn't already this runtime session)
-apt_clear_update
+# Clears / updates cache, then upgrades (if NOT a rolling release)
+clean_system_update
 
 echo " "
 echo "${cyan}Installing required component git, please wait...${reset}"
@@ -380,8 +443,8 @@ CURL_PATH=$(which curl)
 
 if [ -z "$CURL_PATH" ]; then
 
-# Clears AND updates apt cache (IF it wasn't already this runtime session)
-apt_clear_update
+# Clears / updates cache, then upgrades (if NOT a rolling release)
+clean_system_update
 
 echo " "
 echo "${cyan}Installing required component curl, please wait...${reset}"
@@ -397,8 +460,8 @@ JQ_PATH=$(which jq)
 
 if [ -z "$JQ_PATH" ]; then
 
-# Clears AND updates apt cache (IF it wasn't already this runtime session)
-apt_clear_update
+# Clears / updates cache, then upgrades (if NOT a rolling release)
+clean_system_update
 
 echo " "
 echo "${cyan}Installing required component jq, please wait...${reset}"
@@ -414,8 +477,8 @@ WGET_PATH=$(which wget)
 
 if [ -z "$WGET_PATH" ]; then
 
-# Clears AND updates apt cache (IF it wasn't already this runtime session)
-apt_clear_update
+# Clears / updates cache, then upgrades (if NOT a rolling release)
+clean_system_update
 
 echo " "
 echo "${cyan}Installing required component wget, please wait...${reset}"
@@ -431,8 +494,8 @@ SED_PATH=$(which sed)
 
 if [ -z "$SED_PATH" ]; then
 
-# Clears AND updates apt cache (IF it wasn't already this runtime session)
-apt_clear_update
+# Clears / updates cache, then upgrades (if NOT a rolling release)
+clean_system_update
 
 echo " "
 echo "${cyan}Installing required component sed, please wait...${reset}"
@@ -448,8 +511,8 @@ LESS_PATH=$(which less)
 				
 if [ -z "$LESS_PATH" ]; then
 
-# Clears AND updates apt cache (IF it wasn't already this runtime session)
-apt_clear_update
+# Clears / updates cache, then upgrades (if NOT a rolling release)
+clean_system_update
 
 echo " "
 echo "${cyan}Installing required component less, please wait...${reset}"
@@ -465,8 +528,8 @@ EXPECT_PATH=$(which expect)
 				
 if [ -z "$EXPECT_PATH" ]; then
 
-# Clears AND updates apt cache (IF it wasn't already this runtime session)
-apt_clear_update
+# Clears / updates cache, then upgrades (if NOT a rolling release)
+clean_system_update
 
 echo " "
 echo "${cyan}Installing required component expect, please wait...${reset}"
@@ -482,8 +545,8 @@ AVAHID_PATH=$(which avahi-daemon)
 
 if [ -z "$AVAHID_PATH" ]; then
 
-# Clears AND updates apt cache (IF it wasn't already this runtime session)
-apt_clear_update
+# Clears / updates cache, then upgrades (if NOT a rolling release)
+clean_system_update
 
 echo " "
 echo "${cyan}Installing required component avahi-daemon, please wait...${reset}"
@@ -499,8 +562,8 @@ BC_PATH=$(which bc)
 
 if [ -z "$BC_PATH" ]; then
 
-# Clears AND updates apt cache (IF it wasn't already this runtime session)
-apt_clear_update
+# Clears / updates cache, then upgrades (if NOT a rolling release)
+clean_system_update
 
 echo " "
 echo "${cyan}Installing required component bc, please wait...${reset}"
@@ -531,8 +594,8 @@ bt_autoconnect_install () {
     # Install bluetooth-autoconnect.py if needed (AND we are #NOT# running as sudo)
     if [ ! -f "$BT_AUTOCONNECT_PATH" ] && [ "$EUID" != 0 ]; then
 
-    # Clears AND updates apt cache (IF it wasn't already this runtime session)
-    apt_clear_update
+    # Clears / updates cache, then upgrades (if NOT a rolling release)
+    clean_system_update
     
     echo " "
     echo "${cyan}Installing required component bluetooth-autoconnect and dependencies, please wait...${reset}"
@@ -866,11 +929,8 @@ select opt in $OPTIONS; do
         
         echo " "
 
-        # Clears AND updates apt cache (IF it wasn't already this runtime session)
-        apt_clear_update
-        
-        #DO NOT RUN dist-upgrade, bad things can happen, lol
-        apt upgrade -y
+        # Clears / updates cache, then upgrades (if NOT a rolling release)
+        clean_system_update
         
         echo " "
         				
@@ -933,8 +993,8 @@ select opt in $OPTIONS; do
 				fi
         
 
-        # Clears AND updates apt cache (IF it wasn't already this runtime session)
-        apt_clear_update
+        # Clears / updates cache, then upgrades (if NOT a rolling release)
+        clean_system_update
         				
         echo " "
         
@@ -1257,8 +1317,8 @@ select opt in $OPTIONS; do
         
         # https://github.com/coderholic/pyradio/blob/master/build.md
 
-        # Clears AND updates apt cache (IF it wasn't already this runtime session)
-        apt_clear_update
+        # Clears / updates cache, then upgrades (if NOT a rolling release)
+        clean_system_update
         
         echo " "
         echo "${green}Installing pyradio and required components, please wait...${reset}"
@@ -1282,7 +1342,7 @@ select opt in $OPTIONS; do
         sleep 1
         
         # Install pyradio python3 dependencies
-        sudo apt install python3-setuptools python3-wheel python3-pip python3-requests python3-dnspython python3-psutil -y
+        sudo apt install python3-setuptools python3-wheel python3-pip python3-requests python3-dnspython python3-psutil python3-rich -y
         
         sleep 3
         
@@ -1350,8 +1410,8 @@ select opt in $OPTIONS; do
                 break
                elif [ "$opt" = "system_freezes" ]; then
 
-                # Clears AND updates apt cache (IF it wasn't already this runtime session)
-                apt_clear_update
+                # Clears / updates cache, then upgrades (if NOT a rolling release)
+                clean_system_update
                 
                 sudo apt install mplayer -y
                 
@@ -1748,12 +1808,12 @@ select opt in $OPTIONS; do
         bluetoothctl power on
         echo " "
         
-        echo "${cyan}Scanning for device $BLU_MAC, ${red}please wait 60 seconds or longer${cyan}...${reset}"
+        echo "${cyan}Scanning for device $BLU_MAC, ${red}please wait up to a few minutes${cyan}...${reset}"
         echo " "
         
         
         expect -c "
-        set timeout 20
+        set timeout 100
         spawn bluetoothctl
         send -- \"scan on\r\"
         expect \"$BLU_MAC\"

@@ -76,6 +76,12 @@ $activated_plugins =  array();
 $int_webhooks =  array();
 
 $activated_sms_services =  array();
+        
+$throttled_api_cache_time =  array();
+        
+$throttled_api_per_day_limit =  array();
+        
+$throttled_api_per_minute_limit =  array();
 
 
 // Initial BLANK strings
@@ -103,8 +109,6 @@ $coingecko_assets = null;
 $restore_conf_path = null;
 
 $sms_service = null;
-        
-$alphavantage_api_cache_time = null;
 
 
 // Initial zero-set strings

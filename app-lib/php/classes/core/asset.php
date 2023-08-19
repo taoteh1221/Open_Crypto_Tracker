@@ -1655,12 +1655,16 @@ var $ct_array1 = array();
           
       $halt_chart_storage = true;
       
-      $ct_gen->log(
-          	    'notify_error',
-          	    'skipping "'.$exchange.'" chart storage, it was rate-limited / throttled to avoid going over it\'s API limits (it used cache-only data)',
-          	    false,
-                   $exchange . '_skip_charts'
-          	   );
+          if ( $ct_conf['power']['debug_mode'] == 'all' || $ct_conf['power']['debug_mode'] == 'api_throttling' ) {
+          
+           $ct_gen->log(
+               	    'notify_debug',
+               	    'skipping "'.$exchange.'" chart storage, it was rate-limited / throttled to avoid going over it\'s API limits (it used cache-only data)',
+               	    false,
+                        $exchange . '_skip_charts'
+               	   );
+          	   
+          }
           		  
       }
       else {
