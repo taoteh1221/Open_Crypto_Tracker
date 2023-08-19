@@ -10,6 +10,11 @@ NEXT SCHEDULED WORK SESSIONS (*BOTH* DEBUGGING AND / OR INFRASTRUCTURE)
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
+Add to news feeds:
+
+https://sundaymorningmarkets.substack.com/
+
+
 KEEP AN EYE ON the new alphavantage throttling logic, make sure we can sucessfully have a large amount of assets being updated daily now.
 
 
