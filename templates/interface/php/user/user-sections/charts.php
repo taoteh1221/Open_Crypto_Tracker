@@ -164,7 +164,7 @@
   			classname: 'balloon-tooltips',
 			contents: charts_raspi_crash,
 			css: {
-					fontSize: "<?=$default_font_size?>em",
+					fontSize: "<?=$set_font_size?>em",
 					minWidth: "350px",
 					padding: ".3rem .7rem",
 					border: "2px solid rgba(212, 212, 212, .4)",

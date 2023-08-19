@@ -178,7 +178,7 @@ else {
   			classname: 'balloon-tooltips',
 			contents: admin_cookies,
 			css: {
-					fontSize: "<?=$default_font_size?>em",
+					fontSize: "<?=$set_font_size?>em",
 					minWidth: "350px",
 					padding: ".3rem .7rem",
 					border: "2px solid rgba(212, 212, 212, .4)",
@@ -357,7 +357,7 @@ return false;
   			classname: 'balloon-tooltips',
 			contents: username_notes,
 			css: {
-					fontSize: "<?=$default_font_size?>em",
+					fontSize: "<?=$set_font_size?>em",
 					minWidth: "350px",
 					padding: ".3rem .7rem",
 					border: "2px solid rgba(212, 212, 212, .4)",
@@ -378,7 +378,7 @@ return false;
   			classname: 'balloon-tooltips',
 			contents: password_notes,
 			css: {
-					fontSize: "<?=$default_font_size?>em",
+					fontSize: "<?=$set_font_size?>em",
 					minWidth: "350px",
 					padding: ".3rem .7rem",
 					border: "2px solid rgba(212, 212, 212, .4)",

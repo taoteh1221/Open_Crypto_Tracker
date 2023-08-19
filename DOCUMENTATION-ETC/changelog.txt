@@ -6204,7 +6204,11 @@ v6.00.2 AND HIGHER RESETS LIGHT (TIME PERIOD) CHARTS FROM ARCHIVAL DATA, ONE-TIM
 
 -BUG FIX: Miscellaneous fixes
 
+-Improvements to the Alphavantage Stock API rate-limiting, to support many more stock assets in the portfolio assets config (without going over the free plan's rate limits)
+
 -Auto-pruning of bitcoin (primary) currency / (secondary) crypto pairing markets user configs, IF markets don't exist in assets config
+
+-Less clutter in error logs, and new debugging mode for API rate-limiting / throttling
 
 -Added more fiat currency markets (to offset localbitcoins shutting down)
 

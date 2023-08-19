@@ -25,9 +25,13 @@ background-color: white !important;
 }
 
 
-button, input[type=submit], input[type=button], .force_button_style {
-  border: 0.2em solid black;
-  background-color: #808080;
+button:not(.btn-number), input[type=submit], input[type=button], input::file-selector-button, .force_button_style {
+  background-color: #808080 !important;
+}
+
+
+button:not(.modaal-close):not(.accordion-button):not(.btn-number), input[type=submit], input[type=button], input::file-selector-button, .force_button_style {
+  border: 0.2em solid black !important;
 }
 
 

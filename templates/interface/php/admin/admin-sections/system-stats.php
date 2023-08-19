@@ -42,7 +42,7 @@
   			classname: 'balloon-tooltips',
 			contents: sys_stats_admin_link_info_content,
 			css: {
-					fontSize: "<?=$default_font_size?>em",
+					fontSize: "<?=$set_font_size?>em",
 					minWidth: "350px",
 					padding: ".3rem .7rem",
 					border: "2px solid rgba(212, 212, 212, .4)",
@@ -146,7 +146,7 @@
               			classname: 'balloon-tooltips',
             			contents: server_header_defaults_content,
             			css: {
-            					fontSize: "<?=$default_font_size?>em",
+            					fontSize: "<?=$set_font_size?>em",
             					minWidth: "350px",
             					padding: ".3rem .7rem",
             					border: "2px solid rgba(212, 212, 212, .4)",

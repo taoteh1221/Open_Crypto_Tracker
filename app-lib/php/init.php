@@ -69,6 +69,53 @@ $app_container = 'browser';
 ///////////////////////////////////////////////////
 
 
+// min / max font RESIZE percentages allowed (as decimal representing 100% @ 1.00)
+$min_font_resize = 0.5; // 50%
+////
+$max_font_resize = 2.0; // 200%
+
+
+// FONT WEIGHT for ALL text in app (as a CSS value)
+$global_font_weight = 400; // 400 for ANY font size
+
+
+// LINE HEIGHT PERCENTAGE for ALL text in app (as a decimal)
+$global_line_height_percent = 1.30; // 130% line height for ANY font size
+
+
+// info icon size CSS configs
+$info_icon_size_css_selector = "img.tooltip_style_control";
+
+// ajax loading size CSS configs
+$ajax_loading_size_css_selector = "img.ajax_loader_image";
+
+// standard font size CSS configs
+$font_size_css_selector = "#sidebar_menu, #header_size_warning, #alert_bell_area, #background_loading, radio, .full_width_wrapper:not(.custom-select), .iframe_wrapper:not(.custom-select), .footer_content, .footer_banner, .countdown_notice, .sidebar-slogan, .pw_prompt";
+
+// These selector(s) are wonky for some reason in LINUX PHPDESKTOP (but work fine in all modern browsers)
+// (dynamically appended conditionally in primary-init.php)
+$font_size_css_selector_adjusted = ", #admin_conf_quick_links a:link, #admin_conf_quick_links legend, td.data";
+
+// medium font size CSS configs
+$medium_font_size_css_selector = ".unused_for_appending";
+
+// small font size CSS configs
+$small_font_size_css_selector = ".unused_for_appending, .gain, .loss, .crypto_worth, .extra_data";
+
+// small font size CSS configs
+$tiny_font_size_css_selector = ".accordion-button";
+
+
+// PERCENT of STANDARD font size (as a decimal)
+$medium_font_size_css_percent = 0.90; // 90% of $set_font_size
+////
+// PERCENT of STANDARD font size (as a decimal)
+$small_font_size_css_percent = 0.75; // 75% of $set_font_size
+////
+// PERCENT of STANDARD font size (as a decimal)
+$tiny_font_size_css_percent = 0.60; // 60% of $set_font_size
+
+
 // Default charset used
 $charset_default = 'UTF-8'; 
 ////
@@ -89,55 +136,6 @@ $chmod_cache_file = '0660'; // (default = '0660' [owner/group read/write])
 ////
 // .htaccess / index.php index security files permissions
 $chmod_index_sec = '0660'; // (default = '0660' [owner/group read/write])
-
-
-// min / max font RESIZE percentages allowed (as decimal representing 100% @ 1.00)
-$min_font_resize = 0.5; // 50%
-////
-$max_font_resize = 2; // 200%
-
-
-// LINE HEIGHT PERCENTAGE for ALL text in app (as a decimal)
-$global_line_height_percent = 1.30; // 130% line height for ANY font size
-
-
-// info icon size CSS configs
-$info_icon_size_css_selector = "img.tooltip_style_control";
-
-// ajax loading size CSS configs
-$ajax_loading_size_css_selector = "img.ajax_loader_image";
-
-// These selector(s) are wonky for some reason in LINUX PHPDESKTOP (but works fine in modern browsers)
-$larger_font_selector_adjusted = ", #admin_conf_quick_links a:link, #admin_conf_quick_links legend, td.data";
-////
-$smaller_font_selector_adjusted = ", .gain, .loss, .crypto_worth, .extra_data";
-
-// standard font size CSS configs
-$font_size_css_selector = "#sidebar_menu, #header_size_warning, #alert_bell_area, #background_loading, radio, .full_width_wrapper:not(.custom-select), .iframe_wrapper:not(.custom-select), .footer_content, .footer_banner, .countdown_notice, .sidebar-slogan, .pw_prompt";
-
-// medium font size CSS configs
-$medium_font_size_css_selector = ".accordion-button";
-
-// small font size CSS configs (we skip sidebar HEADER area)
-$small_font_size_css_selector = ".unused_for_appending";
-     
-     
-     // adjust for LINUX PHPDESKTOP or modern browsers
-     if ( $app_container == 'phpdesktop' ) {
-     $medium_font_size_css_selector = $medium_font_size_css_selector . $larger_font_selector_adjusted;
-     $small_font_size_css_selector = $small_font_size_css_selector . $smaller_font_selector_adjusted;
-     }
-     else {
-     $font_size_css_selector = $font_size_css_selector . $larger_font_selector_adjusted;
-     $medium_font_size_css_selector = $medium_font_size_css_selector . $smaller_font_selector_adjusted;
-     }
-
-
-// PERCENT of STANDARD font size (as a decimal)
-$medium_font_size_css_percent = 0.75; // 75% of $default_font_size
-////
-// PERCENT of STANDARD font size (as a decimal)
-$small_font_size_css_percent = 0.50; // 50% of $default_font_size
 			
 									
 // !!!!! BE #VERY CAREFUL# LOWERING MAXIMUM EXECUTION TIMES BELOW, #OR YOU MAY CRASH THE RUNNING PROCESSES EARLY, 

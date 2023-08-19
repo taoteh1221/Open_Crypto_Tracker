@@ -524,6 +524,14 @@ $ct_conf['charts_alerts']['tracked_mrkts'] = array(
 					'googlstock' => 'alphavantage_stock||usd||both',
 					
 					
+					// MSFTSTOCK (Microsoft stock)
+					'msftstock' => 'alphavantage_stock||usd||both',
+					
+					
+					// NFLXSTOCK (Netflix stock)
+					'nflxstock' => 'alphavantage_stock||usd||both',
+					
+					
 					// GPVSTOCK (GreenPower Motor Company stock)
 					'gpvstock' => 'alphavantage_stock||cad||both',
 					
@@ -679,6 +687,7 @@ $ct_conf['power']['php_error_reporting'] = 0; // 0 == off / -1 == on
 // 'markets' (asset market checks),
 // 'texts' (mobile texting gateway checks), 
 // 'alerts_charts' (price chart / price alert checks),
+// 'api_throttling' (API throttling checks),
 ////
 // ### SUMMARIES ###
 ////
@@ -915,9 +924,9 @@ $ct_conf['power']['strict_news_feed_servers'] = array(
                                                      );
      
      
-// Servers with STRICT CONSECUTIVE CONNECT limits (we add 0.11 seconds to the wait between consecutive connections)
+// Servers with STRICT CONSECUTIVE CONNECT limits (we add 1.11 seconds to the wait between consecutive connections)
 $ct_conf['power']['strict_consecutive_connect_servers'] = array(
-                                      					    'test654321.com',
+                                      					    'alphavantage.co',
                                       					   );
 							
 
@@ -2510,6 +2519,48 @@ $ct_conf['assets'] = array(
                         
                                     'usd' => array(
                                         'alphavantage_stock' => 'GOOGL',
+                                                    ),
+
+                                                    
+                        ) // pair END
+                        
+                    ), // Asset END
+                    
+                    
+                    ////////////////////////////////////////////////////////////////////
+                    
+                    
+                    // MSFTSTOCK
+                    'MSFTSTOCK' => array(
+                        
+                        'name' => 'Microsoft Corp',
+                        'mcap_slug' => 'MSFT:NASDAQ',
+                        'pair' => array(
+
+                        
+                                    'usd' => array(
+                                        'alphavantage_stock' => 'MSFT',
+                                                    ),
+
+                                                    
+                        ) // pair END
+                        
+                    ), // Asset END
+                    
+                    
+                    ////////////////////////////////////////////////////////////////////
+                    
+                    
+                    // NFLXSTOCK
+                    'NFLXSTOCK' => array(
+                        
+                        'name' => 'Netflix Inc',
+                        'mcap_slug' => 'NFLX:NASDAQ',
+                        'pair' => array(
+
+                        
+                                    'usd' => array(
+                                        'alphavantage_stock' => 'NFLX',
                                                     ),
 
                                                     

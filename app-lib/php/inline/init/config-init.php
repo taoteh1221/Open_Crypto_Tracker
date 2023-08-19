@@ -231,33 +231,36 @@ $font_name_url_formatting = preg_replace("/ /", "+", $font_name_url_formatting);
 
 // Configged font size
 if ( isset($_COOKIE['font_size']) ) {
-$default_font_size = $_COOKIE['font_size']; // Already 'em' scale format
+$set_font_size = $_COOKIE['font_size']; // Already 'em' scale format
 }
 elseif ( $ct_var->whole_int($ct_conf['gen']['default_font_size']) ) {
-$default_font_size = round( ($ct_conf['gen']['default_font_size'] * 0.01) , 3);
+$set_font_size = round( ($ct_conf['gen']['default_font_size'] * 0.01) , 3);
 }
 else {
-$default_font_size = 1; // 'em' scale format
+$set_font_size = 1; // 'em' scale format
 }
 
 
 // Enforce min / max allowed values on the default font size
 // (IN 'em' CSS-COMPATIBLE SCALING WE SWITCHED TO ABOVE)
-if ( $default_font_size > $max_font_resize ) {
-$default_font_size = $max_font_resize;
+if ( $set_font_size > $max_font_resize ) {
+$set_font_size = $max_font_resize;
 }
-elseif ( $default_font_size < $min_font_resize ) {
-$default_font_size = $min_font_resize;
+elseif ( $set_font_size < $min_font_resize ) {
+$set_font_size = $min_font_resize;
 }
 
 
-$default_font_line_height = round( ($default_font_size * $global_line_height_percent) , 3);
+$set_font_line_height = round( ($set_font_size * $global_line_height_percent) , 3);
      
-$default_medium_font_size = round( ($default_font_size * $medium_font_size_css_percent) , 3);
-$default_medium_font_line_height = round( ($default_medium_font_size * $global_line_height_percent) , 3);
+$set_medium_font_size = round( ($set_font_size * $medium_font_size_css_percent) , 3);
+$set_medium_font_line_height = round( ($set_medium_font_size * $global_line_height_percent) , 3);
      
-$default_tiny_font_size = round( ($default_font_size * $small_font_size_css_percent) , 3);
-$default_tiny_font_line_height = round( ($default_tiny_font_size * $global_line_height_percent) , 3); 
+$set_small_font_size = round( ($set_font_size * $small_font_size_css_percent) , 3);
+$set_small_font_line_height = round( ($set_small_font_size * $global_line_height_percent) , 3); 
+     
+$set_tiny_font_size = round( ($set_font_size * $tiny_font_size_css_percent) , 3);
+$set_tiny_font_line_height = round( ($set_tiny_font_size * $global_line_height_percent) , 3); 
 
 
 // Alphabetically sort news feeds
@@ -291,6 +294,34 @@ unset($loop);
 
 // Set "watch only" flag amount (sets portfolio amount one decimal MORE than allowed min value)
 $watch_only_flag_val = preg_replace("/1/", "01", $min_crypto_val_test); // Set to 0.XXXXX01 instead of 0.XXXXX1
+        
+
+// THROTTLE ALPHAVANTAGE - START
+
+// Figure out what our throttled cache time has to be for alphavantage stock asset API calls
+foreach ( $ct_conf['assets'] as $markets ) {
+              
+    foreach ( $markets['pair'] as $exchange_pairs ) {
+         	            
+       if ( isset($exchange_pairs['alphavantage_stock']) && $exchange_pairs['alphavantage_stock'] != '' ) { // In case user messes up Admin Config, this helps
+       $alphavantage_pairs = $alphavantage_pairs + 1;
+       }
+         	            
+    }
+                
+}
+              
+$alphavantage_max_daily_requests_per_asset = floor($ct_conf['other_api']['alphavantage_per_day_limit'] / $alphavantage_pairs);
+          
+$alphavantage_cache_time_per_asset = floor( ( 24 / $alphavantage_max_daily_requests_per_asset ) * 60 );
+
+// Throttled based on how many times a day each asset can get LIVE data, AND STILL NOT GO OVER THE DAILY LIMIT
+$throttled_api_cache_time['alphavantage.co'] = ( $alphavantage_cache_time_per_asset >  $ct_conf['power']['last_trade_cache_time'] ? $alphavantage_cache_time_per_asset : $ct_conf['power']['last_trade_cache_time'] );
+
+// We still do per minute too, because Alphavantage has a per-minute restriction
+$throttled_api_per_minute_limit['alphavantage.co'] = $ct_conf['other_api']['alphavantage_per_minute_limit'];
+
+// THROTTLE ALPHAVANTAGE - END
 
 
 // Primary Bitcoin markets (MUST RUN AFTER app config auto-adjust)

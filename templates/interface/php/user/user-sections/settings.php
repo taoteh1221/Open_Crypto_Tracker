@@ -350,7 +350,7 @@
   			classname: 'balloon-tooltips',
 			contents: currency_content,
 			css: {
-					fontSize: "<?=$default_font_size?>em",
+					fontSize: "<?=$set_font_size?>em",
 					minWidth: "350px",
 					padding: ".3rem .7rem",
 					border: "2px solid rgba(212, 212, 212, .4)",
@@ -537,7 +537,7 @@
   			classname: 'balloon-tooltips',
 			contents: setting_crypto_val_content,
 			css: {
-					fontSize: "<?=$default_font_size?>em",
+					fontSize: "<?=$set_font_size?>em",
 					minWidth: "350px",
 					padding: ".3rem .7rem",
 					border: "2px solid rgba(212, 212, 212, .4)",
@@ -602,7 +602,7 @@
   			classname: 'balloon-tooltips',
 			contents: setting_secondary_trade_val_content,
 			css: {
-					fontSize: "<?=$default_font_size?>em",
+					fontSize: "<?=$set_font_size?>em",
 					minWidth: "350px",
 					padding: ".3rem .7rem",
 					border: "2px solid rgba(212, 212, 212, .4)",

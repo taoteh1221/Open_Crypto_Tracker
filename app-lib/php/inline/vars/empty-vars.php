@@ -76,6 +76,12 @@ $activated_plugins =  array();
 $int_webhooks =  array();
 
 $activated_sms_services =  array();
+        
+$throttled_api_cache_time =  array();
+        
+$throttled_api_per_day_limit =  array();
+        
+$throttled_api_per_minute_limit =  array();
 
 
 // Initial BLANK strings
@@ -106,6 +112,8 @@ $sms_service = null;
 
 
 // Initial zero-set strings
+        
+$alphavantage_pairs = 0;
 
 $precache_feeds_count = 0; 
 

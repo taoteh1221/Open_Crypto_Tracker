@@ -9,6 +9,19 @@
 //////////////////////////////////////////////////////////////////
 
 
+// REQUIRED #BEFORE# config.php
+$ct_conf = array(); 
+
+     
+// Adjust CSS for LINUX PHPDESKTOP or ALL OTHER browsers
+if ( $app_container == 'phpdesktop' ) {
+$medium_font_size_css_selector .= $font_size_css_selector_adjusted;
+}
+else {
+$font_size_css_selector .= $font_size_css_selector_adjusted;
+}
+     
+
 // Get any detected php.ini (for informative error messages)
 $php_ini_path = php_ini_loaded_file();
 
@@ -22,9 +35,6 @@ $php_ini_path = preg_replace("/php\.ini/", "php-tpl.ini", $php_ini_path);
 
 
 // ESSENTIAL REQUIRED LIB FILES...
-
-// REQUIRED #BEFORE# config.php
-$ct_conf = array(); 
 
 // Load the hard-coded (default) config BEFORE #ANYTHING AT ALL#
 require_once("config.php");

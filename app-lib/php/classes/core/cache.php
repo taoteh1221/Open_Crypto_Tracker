@@ -344,27 +344,30 @@ var $ct_array1 = array();
   ////////////////////////////////////////////////////////
   
   
-  function api_throttling($tld_or_ip) {
+  function api_throttling($tld_or_ip, $cached_path=false) {
   
-  global $ct_conf, $ct_gen, $base_dir, $api_throttle_count, $api_throttle_flag;
+  global $ct_conf, $ct_gen, $base_dir, $api_throttle_count, $api_throttle_flag, $throttled_api_cache_time, $throttled_api_per_minute_limit, $throttled_api_per_day_limit;
   
   // We wait until we are in this function, to grab any cached data at the last minute,
   // to assure we get anything written recently by other runtimes
-  $api_throttle_count_check = json_decode( trim( file_get_contents($base_dir . '/cache/events/throttling/' . $tld_or_ip . '.dat') ) , TRUE);
+  
+  $file_save_path = $base_dir . '/cache/events/throttling/' . $tld_or_ip . '.dat';
+  
+  $api_throttle_count_check = json_decode( trim( file_get_contents($file_save_path) ) , TRUE);
   
   
      // If we haven't initiated yet this runtime, AND there is ALREADY valid data cached, import it as the $api_throttle_count array
-     if ( !isset($api_throttle_flag['init']) && $api_throttle_count_check != false && $api_throttle_count_check != null && $api_throttle_count_check != "null" ) {
-     $api_throttle_count = $api_throttle_count_check;
+     if ( !isset($api_throttle_flag['init'][$tld_or_ip]) && $api_throttle_count_check != false && $api_throttle_count_check != null && $api_throttle_count_check != "null" ) {
+     $api_throttle_count[$tld_or_ip] = $api_throttle_count_check;
      }
      
      
-     $api_throttle_flag['init'] = true; // Flag as initiated this runtime (AFTER above logic)
+     $api_throttle_flag['init'][$tld_or_ip] = true; // Flag as initiated this runtime (AFTER above logic)
 
      
      // Set OR reset MINUTE start time / counts, if needed
      if (
-     !isset($api_throttle_count[$tld_or_ip]['minute_count']['start'])
+     !$cached_path && isset($throttled_api_per_minute_limit[$tld_or_ip]) && !isset($api_throttle_count[$tld_or_ip]['minute_count']['start'])
      || isset($api_throttle_count[$tld_or_ip]['minute_count']['start']) && $api_throttle_count[$tld_or_ip]['minute_count']['start'] <= ( time() - 60 )
      ) {
      $api_throttle_count[$tld_or_ip]['minute_count']['start'] = time();
@@ -373,8 +376,9 @@ var $ct_array1 = array();
      
      
      // Set OR reset HOUR start time / counts, if needed
+     // AS OF NOW, WE NEED THE DAY LIMIT TO DETERMINE AN HOURLY LIMIT
      if (
-     !isset($api_throttle_count[$tld_or_ip]['hour_count']['start'])
+     !$cached_path && isset($throttled_api_per_day_limit[$tld_or_ip]) && !isset($api_throttle_count[$tld_or_ip]['hour_count']['start'])
      || isset($api_throttle_count[$tld_or_ip]['hour_count']['start']) && $api_throttle_count[$tld_or_ip]['hour_count']['start'] <= ( time() - 3600 )
      ) {
      $api_throttle_count[$tld_or_ip]['hour_count']['start'] = time();
@@ -382,36 +386,84 @@ var $ct_array1 = array();
      }
      
      
-     // Thresholds for API servers (we throttle-limit, to have reliable LIVE data EVERY HOUR OF THE DAY)
-     if (
-     $tld_or_ip == 'alphavantage.co' && $api_throttle_count[$tld_or_ip]['minute_count']['count'] >= $ct_conf['other_api']['alphavantage_per_minute_limit']
-     || $tld_or_ip == 'alphavantage.co' && $api_throttle_count[$tld_or_ip]['hour_count']['count'] >= floor($ct_conf['other_api']['alphavantage_per_day_limit'] / 24)
-     ) {
+     // Thresholds for API servers (we throttle-limit, to have reliable LIVE data EVERY HOUR OF THE DAY) 
+     // (ALL WE DO HERE BESIDES CACHING JSON RESULTS, IS RETURN TRUE / FALSE FOR $api_throttle_flag[$tld_or_ip] *AND* THE FUNCTION CALL)
+     
+     
+     // CACHE TIME BASED
+     if ( $cached_path && isset($throttled_api_cache_time[$tld_or_ip]) && $this->update_cache($cached_path, $throttled_api_cache_time[$tld_or_ip]) == false ) {
+     
+     $minutes_old = round( ( time() - filemtime($cached_path) ) / 60 );
+     
+     $cache_file_name = preg_replace("/(.*)external_data\//", "", $cached_path);
+     
+          if ( $ct_conf['power']['debug_mode'] == 'all' || $ct_conf['power']['debug_mode'] == 'api_throttling' ) {
+               
+          $ct_gen->log(
+                       'notify_debug',
+                       'throttling threshold met for API server "' . $tld_or_ip . '" (file_name='.$cache_file_name.',minutes_cached='.$minutes_old.',minimum_cache_minutes='.$throttled_api_cache_time[$tld_or_ip].')',
+               	   false,
+               	   md5($cache_file_name) . '_throttle_flagged' // unique key with no symbols
+               	  );
+          	  
+          }
+     
+     // For dev-notes ONLY (so it's realized IN THIS INSTANCE we throttle this API server by cache time, instead of API request counts)
+     $api_throttle_count[$tld_or_ip]['cache_time_based'][$cache_file_name] = array(
+                                                                             'minutes_cached' => $minutes_old,
+                                                                             'minimum_cache_minutes' => $throttled_api_cache_time[$tld_or_ip],
+                                                                            );
+                  
+     $store_api_throttle_count = json_encode($api_throttle_count[$tld_or_ip], JSON_PRETTY_PRINT);
+     $store_file_contents = $this->save_file($file_save_path, $store_api_throttle_count);
          
      $api_throttle_flag[$tld_or_ip] = true;
-          
-     $ct_gen->log(
-          		  'notify_error',
-          		  'throttling threshold met for API server "' . $tld_or_ip . '" (minute_requests='.$api_throttle_count[$tld_or_ip]['minute_count']['count'].',hour_requests='.$api_throttle_count[$tld_or_ip]['hour_count']['count'].')',
-          		  false,
-          		  md5($tld_or_ip) . '_throttle_flagged' // unique key with no symbols
-          		  );
-                  
-     $store_api_throttle_count = json_encode($api_throttle_count, JSON_PRETTY_PRINT);
-     $store_file_contents = $this->save_file($base_dir . '/cache/events/throttling/' . $tld_or_ip . '.dat', $store_api_throttle_count);
      
      return true;
      
      }
-     else {
+     // API REQUEST COUNTING BASED
+     // AS OF NOW, WE NEED THE DAY LIMIT TO DETERMINE AN HOURLY LIMIT
+     elseif (
+     !$cached_path && isset($throttled_api_per_minute_limit[$tld_or_ip]) && $api_throttle_count[$tld_or_ip]['minute_count']['count'] >= $throttled_api_per_minute_limit[$tld_or_ip]
+     || !$cached_path && isset($throttled_api_per_day_limit[$tld_or_ip]) && $api_throttle_count[$tld_or_ip]['hour_count']['count'] >= floor($throttled_api_per_day_limit[$tld_or_ip] / 24)
+     ) {
+          
+          
+          if ( $ct_conf['power']['debug_mode'] == 'all' || $ct_conf['power']['debug_mode'] == 'api_throttling' ) {
+               
+          $ct_gen->log(
+                       'notify_debug',
+                       'throttling threshold met for API server "' . $tld_or_ip . '" (minute_requests='.$api_throttle_count[$tld_or_ip]['minute_count']['count'].',hour_requests='.$api_throttle_count[$tld_or_ip]['hour_count']['count'].')',
+               	   false,
+               	   md5($tld_or_ip) . '_throttle_flagged' // unique key with no symbols
+               	  );
+          
+          }
+                  
+     $store_api_throttle_count = json_encode($api_throttle_count[$tld_or_ip], JSON_PRETTY_PRINT);
+     $store_file_contents = $this->save_file($file_save_path, $store_api_throttle_count);
+         
+     $api_throttle_flag[$tld_or_ip] = true;
+     
+     return true;
+     
+     }
+     elseif ( !$cached_path && isset($throttled_api_per_minute_limit[$tld_or_ip]) || !$cached_path && isset($throttled_api_per_day_limit[$tld_or_ip]) ) {
+         
+         if ( isset($throttled_api_per_minute_limit[$tld_or_ip]) ) {
+         $api_throttle_count[$tld_or_ip]['minute_count']['count'] = $api_throttle_count[$tld_or_ip]['minute_count']['count'] + 1;
+         }
+         
+         // AS OF NOW, WE NEED THE DAY LIMIT TO DETERMINE AN HOURLY LIMIT
+         if ( isset($throttled_api_per_day_limit[$tld_or_ip]) ) {
+         $api_throttle_count[$tld_or_ip]['hour_count']['count'] = $api_throttle_count[$tld_or_ip]['hour_count']['count'] + 1;
+         }
+                  
+     $store_api_throttle_count = json_encode($api_throttle_count[$tld_or_ip], JSON_PRETTY_PRINT);
+     $store_file_contents = $this->save_file($file_save_path, $store_api_throttle_count);
          
      unset($api_throttle_flag[$tld_or_ip]);
-         
-     $api_throttle_count[$tld_or_ip]['minute_count']['count'] = $api_throttle_count[$tld_or_ip]['minute_count']['count'] + 1;
-     $api_throttle_count[$tld_or_ip]['hour_count']['count'] = $api_throttle_count[$tld_or_ip]['hour_count']['count'] + 1;
-                  
-     $store_api_throttle_count = json_encode($api_throttle_count, JSON_PRETTY_PRINT);
-     $store_file_contents = $this->save_file($base_dir . '/cache/events/throttling/' . $tld_or_ip . '.dat', $store_api_throttle_count);
      
      return false;
      
@@ -2175,7 +2227,9 @@ var $ct_array1 = array();
       			);
        
       }
-      elseif ( $ct_conf['power']['debug_mode'] == 'all' || $ct_conf['power']['debug_mode'] == 'all_telemetry' || $ct_conf['power']['debug_mode'] == 'ext_data_cache_telemetry' ) {
+      
+      
+      if ( $ct_conf['power']['debug_mode'] == 'all' || $ct_conf['power']['debug_mode'] == 'all_telemetry' || $ct_conf['power']['debug_mode'] == 'ext_data_cache_telemetry' ) {
       
       
         if ( !$log_debugging['debug_duplicates'][$hash_check] ) {
@@ -2216,8 +2270,8 @@ var $ct_array1 = array();
     $api_start_time = $api_time;
               
       
-      // Servers requiring TRACKED THROTTLE-LIMITING, due to limited-allowed minute / hour / daily requests
-      // (are processed by this->api_throttling(), to avoid using up daily request limits)
+      // Servers requiring TRACKED THROTTLE-LIMITING ******BASED OFF API REQUEST COUNT******, due to limited-allowed minute / hour / daily requests
+      // (are processed by this->api_throttling(), to avoid using up daily request limits getting LIVE DATA)
       if ( in_array($endpoint_tld_or_ip, $tracked_throttle_limited_servers) && $this->api_throttling($endpoint_tld_or_ip) == true ) {
               
             
@@ -2236,11 +2290,7 @@ var $ct_array1 = array();
           
       
           // Fallback just needs 'modified time' updated with touch()
-          if ( isset($fallback_cache_data) ) {
-          $store_file_contents = touch($base_dir . '/cache/secured/external_data/'.$hash_check.'.dat');
-          $ct_gen->log('ext_data_error', 'cache fallback SUCCEEDED during throttling of API for: ' . $endpoint_tld_or_ip);
-          }
-          else {
+          if ( !isset($fallback_cache_data) ) {
           $store_file_contents = $this->save_file($base_dir . '/cache/secured/external_data/'.$hash_check.'.dat', $api_runtime_cache[$hash_check]);
           $ct_gen->log('ext_data_error', 'cache fallback FAILED during throttling of API for: ' . $endpoint_tld_or_ip);
           }
@@ -2253,13 +2303,13 @@ var $ct_array1 = array();
       }
               
       
-      // Servers with STRICT CONSECUTIVE CONNECT limits (we add 0.11 seconds to the wait between consecutive connections)
+      // Servers with STRICT CONSECUTIVE CONNECT limits (we add 1.11 seconds to the wait between consecutive connections)
       if ( in_array($endpoint_tld_or_ip, $ct_conf['power']['strict_consecutive_connect_servers']) ) {
         
       $api_connections[$tld_session_prefix] = $api_connections[$tld_session_prefix] + 1;
       
         if ( $api_connections[$tld_session_prefix] > 1 ) {
-        usleep(110000); // Throttle 0.11 seconds
+        usleep(1110000); // Throttle 1.11 seconds
         }
        
       }
@@ -2634,6 +2684,8 @@ var $ct_array1 = array();
             || preg_match("/\"success\":false/i", $data) // BTCturk.com / Bittrex.com / generic
             || preg_match("/\"error\":\"timeout/i", $data) // generic
             || preg_match("/\"reason\":\"Maintenance\"/i", $data) // Gemini.com / generic
+            || preg_match("/not found/i", $data)  // Generic
+            || preg_match("/if you would like to target a higher API call/i", $data)  // Alphavantage
             // API-specific
             || $endpoint_tld_or_ip == 'coingecko.com' && preg_match("/error code: /i", $data)
             || $endpoint_tld_or_ip == 'coinmarketcap.com' && !preg_match("/last_updated/i", $data) 
@@ -2770,7 +2822,7 @@ var $ct_array1 = array();
     //////////////////////////////////////////////////////////////////////
     //////////////////////////////////////////////////////////////////////
     else {
-    
+      
     
       // Use runtime cache if it exists. Remember file cache doesn't update until session is nearly over because of file locking, so only reliable for persisting a cache long term
       // If no API data was received, add error notices to UI / error logs (we don't try fetching the data again until cache TTL expiration, so as to NOT hang the app)
@@ -2788,6 +2840,19 @@ var $ct_array1 = array();
         $fallback_cache_data = true;
         }
        
+      }
+    
+    
+      // Servers requiring TRACKED THROTTLE-LIMITING ******BASED OFF API CACHED TIME******, due to limited-allowed daily requests
+      if ( in_array($endpoint_tld_or_ip, $tracked_throttle_limited_servers) && $this->api_throttling($endpoint_tld_or_ip, $base_dir . '/cache/secured/external_data/'.$hash_check.'.dat') == true ) {
+      
+          // (we're deleting the cache file here, ONLY IF IT FAILS TO FALLBACK ON VALID API DATA,
+          // SO IT CAN "GET TO THE FRONT OF THE THROTTLED LINE" THE NEXT TIME IT'S REQUESTED)
+          if ( !isset($fallback_cache_data) ) {
+          $ct_gen->log('ext_data_error', 'cached data call FAILED during throttling of API for: ' . $endpoint_tld_or_ip);
+          unlink($base_dir . '/cache/secured/external_data/'.$hash_check.'.dat');
+          }
+                
       }
     
     
@@ -2825,7 +2890,9 @@ var $ct_array1 = array();
       			);
        
       }
-      elseif ( $ct_conf['power']['debug_mode'] == 'all' || $ct_conf['power']['debug_mode'] == 'all_telemetry' || $ct_conf['power']['debug_mode'] == 'ext_data_cache_telemetry' ) {
+      
+      
+      if ( $ct_conf['power']['debug_mode'] == 'all' || $ct_conf['power']['debug_mode'] == 'all_telemetry' || $ct_conf['power']['debug_mode'] == 'ext_data_cache_telemetry' ) {
       
         if ( !$log_debugging['debug_duplicates'][$hash_check] ) {
         $log_debugging['debug_duplicates'][$hash_check] = 1; 
