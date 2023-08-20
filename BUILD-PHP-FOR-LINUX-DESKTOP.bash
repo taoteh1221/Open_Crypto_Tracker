@@ -559,6 +559,11 @@ fi
 echo "PLEASE REPORT ANY ISSUES HERE: https://github.com/taoteh1221/Open_Crypto_Tracker/issues"
 echo " "
 
+
+echo "${red}PLEASE ***SHUT DOWN THE DESKTOP EDITION*** BEFORE CONTINUING, ***OTHERWISE WE CANNOT AUTOMATICALLY UPDATE*** THE PHP LIBRARY!"
+echo "${reset} "
+
+
 echo "${yellow} "
 read -n1 -s -r -p $"Press y to continue (or press n to exit)..." key
 echo "${reset} "
