@@ -6224,6 +6224,17 @@ v6.00.2 AND HIGHER RESETS LIGHT (TIME PERIOD) CHARTS FROM ARCHIVAL DATA, ONE-TIM
 
 
 
+-------------------------------------------------------------------
+6.00.25:
+
+-BUG FIX: TBD
+
+-Added styling, so printing out the portfolio page automatically looks good / fits on printer paper
+
+-------------------------------------------------------------------
+
+
+
 
 
 

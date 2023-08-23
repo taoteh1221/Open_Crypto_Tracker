@@ -477,6 +477,50 @@
      line-height: <?=$set_tiny_font_line_height?>em !important;
      font-weight: <?=$global_font_weight?> !important;
      }
+	
+
+     /* When printing the page from a browser, make it look good and fit nicely */
+     @media print {
+     
+     
+        #sidebar, #collapsed_sidebar, #background_loading, .countdown_notice, .page_title {
+        display: none;
+        }
+        
+        
+        @page {
+        size: landscape;
+        }
+        
+        
+        #coins_table, #secondary_wrapper, #secondary_wrapper, #secondary_wrapper.active, .full_width_wrapper {
+        padding: 0px !important;
+        margin: 0px !important;
+              left: 0px !important;
+              text-align: left !important;
+        }
+     
+     
+        #secondary_wrapper, #secondary_wrapper.active {
+              width: unset;
+        }
+        
+        #coins_table th, #coins_table td.data span, #secondary_wrapper, #secondary_wrapper.active, .crypto_worth {
+              color: black;
+        }
+        
+        
+        .blue, td.blue, td.blue span.blue, td select, .btn-link, .btn-link a, .btn-link:hover, #sidebar ul.list-unstyled li a.blue:link {
+        color: blue !important;
+        }
+        
+        
+        .black {
+        color: black !important;
+        }
+        
+      
+     }
      
 	
 	<?php
@@ -492,7 +536,8 @@
 	<?php
 	}
 	?>
-	
+     
+     
      </style>
      
      
