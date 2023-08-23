@@ -10,6 +10,20 @@ NEXT SCHEDULED WORK SESSIONS (*BOTH* DEBUGGING AND / OR INFRASTRUCTURE)
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
+Fix or remove 'the block' news feed.
+
+Add podcast: https://linktr.ee/unlayeredpod
+
+
+Looks like we have to switch to using the snap package manager for
+ubuntu in the install bash scripts FOR ALL MY APPS. Some pre-requisite
+libraries are no longer available using apt, and are only available as
+'snap install X'.
+
+
+Check for "whitespace in paths" support in bash scripting (like we had to do for the BT radio script)
+
+
 Add to news feeds:
 
 https://sundaymorningmarkets.substack.com/

@@ -3,7 +3,7 @@
 COPYRIGHT_YEARS="2022-2023"
 
 # Version of this script
-APP_VERSION="1.09.0" # 2023/AUGUST/18TH
+APP_VERSION="1.09.2" # 2023/AUGUST/23RD
 
 ########################################################################################################################
 ########################################################################################################################
@@ -613,7 +613,7 @@ bt_autoconnect_install () {
     
     sleep 2
     
-    mv -v --force TEMP-BT-AUTO-CONN.py $BT_AUTOCONNECT_PATH
+    mv -v --force TEMP-BT-AUTO-CONN.py "$BT_AUTOCONNECT_PATH"
     
     sleep 2
     
@@ -636,7 +636,7 @@ After=pulseaudio.service
 [Service]
 Type=simple
 \r
-ExecStart=python3 $BT_AUTOCONNECT_PATH
+ExecStart=python3 "$BT_AUTOCONNECT_PATH"
 [Install]
 WantedBy=pulseaudio.service
 \r
@@ -668,7 +668,7 @@ EOF
 
     # Run bluetooth-autoconnect.py (IF we are #NOT# running as sudo, AND no systemd startup service is installed)
     if [ -f "$BT_AUTOCONNECT_PATH" ] && [ "$EUID" != 0 ] && [ ! -f $HOME/.local/share/systemd/user/btautoconnect.service ]; then
-    python3 $BT_AUTOCONNECT_PATH
+    python3 "$BT_AUTOCONNECT_PATH"
     fi
 
 }
@@ -684,7 +684,7 @@ bt_autoconnect_check () {
         
 # Make sure we are connected to the bluetooth receiver (NOT just paired)
 # (SOME DEVICES MAY DISCONNECT AGAIN IF WHEN YOU LOGIN, YOU DON'T #QUICKLY# START A SOUND / RADIO STREAM)
-CONNECT_STATUS=$(python3 $BT_AUTOCONNECT_PATH)
+CONNECT_STATUS=$(python3 "$BT_AUTOCONNECT_PATH")
         
      if [ -n "$CONNECT_STATUS" ]; then
      echo " "
@@ -697,7 +697,7 @@ CONNECT_STATUS=$(python3 $BT_AUTOCONNECT_PATH)
 
 if [ ! -f ~/radio ]; then 
 
-ln -s $SCRIPT_LOCATION ~/radio
+ln -s "$SCRIPT_LOCATION" ~/radio
 
 echo " "
 echo "${red}IMPORTANT INFORMATION:"
@@ -840,11 +840,11 @@ select opt in $OPTIONS; do
                     # Remove system link, to reset automatically after upgrade (in case script location changed)
                     rm ~/radio > /dev/null 2>&1
                     
-                    mv -v --force BT-TEMP.bash $SCRIPT_LOCATION
+                    mv -v --force BT-TEMP.bash "$SCRIPT_LOCATION"
                     
                     sleep 3
                 
-                    chmod +x $SCRIPT_LOCATION
+                    chmod +x "$SCRIPT_LOCATION"
                     				
                     sleep 1
                     				
@@ -1133,7 +1133,7 @@ select opt in $OPTIONS; do
     		
     		rm $HOME/.local/share/systemd/user/btautoconnect.service > /dev/null 2>&1
     		
-    		rm $BT_AUTOCONNECT_PATH
+    		rm "$BT_AUTOCONNECT_PATH"
     		
     		sleep 2
     		
