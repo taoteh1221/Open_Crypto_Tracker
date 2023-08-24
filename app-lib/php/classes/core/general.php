@@ -2079,6 +2079,9 @@ var $ct_array = array();
          if ( $val == 'Us' ) {
          $words[$key] = strtoupper($val); // All uppercase US
          }
+         elseif ( $val == 'Ag' ) {
+         $words[$key] = 'Aggregator'; // Ag to Aggregator
+         }
       
       $pretty_str .= $words[$key] . ' ';
       

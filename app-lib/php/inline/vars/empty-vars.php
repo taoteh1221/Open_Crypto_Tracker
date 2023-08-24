@@ -83,6 +83,8 @@ $throttled_api_per_day_limit =  array();
         
 $throttled_api_per_minute_limit =  array();
 
+$jupiter_ag_pairs =  array();
+
 
 // Initial BLANK strings
 

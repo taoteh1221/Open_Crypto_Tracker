@@ -8,7 +8,7 @@
 
 
 // Application version
-$app_version = '6.00.24';  // 2023/AUGUST/16TH
+$app_version = '6.00.25';  // 2023/AUGUST/23RD
 
 
 // #PHP# ERROR LOGGING
@@ -213,7 +213,6 @@ $limited_apis = array(
                 	     'coingecko.com',
                 		'etherscan.io',
                 		'gemini.com',
-                	     'jup.ag',
 				  );
 
 

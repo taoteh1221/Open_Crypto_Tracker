@@ -10,7 +10,19 @@ NEXT SCHEDULED WORK SESSIONS (*BOTH* DEBUGGING AND / OR INFRASTRUCTURE)
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
+Update screenshots, since we overhauled everything in the interface.
+
+
 KEEP AN EYE ON the new alphavantage throttling logic, make sure we can sucessfully have a large amount of assets being updated daily now.
+
+
+Looks like we have to switch to using the snap package manager for
+ubuntu in the install bash scripts FOR ALL MY APPS. Some pre-requisite
+libraries are no longer available using apt ("Unable to locate package X"), and are only available as
+'snap install X'.
+
+
+Check for "whitespace in paths" support in bash scripting (like we had to do for the BT radio script)
 
 
 The tags 'h1' through 'h6' should be made to user-adjust text size too. (CONFIRMED IT WILL be a bit tricky, be careful (set them via 'em' like bootstrap does)...ISOLATE BASED ON OUR TEMPLATE WRAPPER CSS ELEMENTS).
@@ -25,11 +37,6 @@ On the plugins admin page, add an info balloon next to a title "How can I make s
 On the plugins admin page, add a title "How to make your own custom plugin", with a link to the plugin documentation on github.
 
 
-https://www.coingecko.com/en/coins/aurory
-
-https://www.coingecko.com/en/coins/cosmos-hub
-
-
 The compact side menu doesn't work on Linux desktop Edition.
 
 
@@ -37,9 +44,6 @@ On LINUX DESKTOP EDITION, when importing a spreadsheet, it imports OK (shows in 
 
 
 "CSV import suceeded" has a 'dismiss' link...remove it? 
-
-
-Update screenshots, since we overhauled everything in the interface.
 
 
 LOOK INTO WHICH OF THESE MARKETS ARE JUST BLOCKED IN THE USA, AND WHICH NO LONGER EXIST:
