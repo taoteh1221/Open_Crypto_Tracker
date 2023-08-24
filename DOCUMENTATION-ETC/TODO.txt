@@ -10,6 +10,14 @@ NEXT SCHEDULED WORK SESSIONS (*BOTH* DEBUGGING AND / OR INFRASTRUCTURE)
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
+Add nvidia / mcdonalds stocks
+
+
+Add coincenter newsletter feed:
+
+https://www.newsletter.coincenter.org/feed
+
+
 Fix or remove 'the block' news feed.
 
 Add podcast: https://linktr.ee/unlayeredpod

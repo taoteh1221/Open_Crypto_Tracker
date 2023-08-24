@@ -4,6 +4,14 @@
 
 
 echo:
+echo IF YOU ARE RUNNING THE 'DESKTOP EDITION', the setting 'desktop_cron_interval' in the POWER USER Admin Config section MUST BE SET TO ZERO, before this Windows Task Scheduler job will be allowed to takeover running background tasks instead.
+
+echo:
+
+pause
+
+
+echo:
 echo Enter the time interval in minutes to run this scheduled task 
 set /p cron_interval="(5, 10, 15, 20, or 30...leave blank / hit enter for default of 20): "
 
