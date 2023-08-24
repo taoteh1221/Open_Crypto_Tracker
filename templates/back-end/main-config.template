@@ -529,12 +529,20 @@ $ct_conf['charts_alerts']['tracked_mrkts'] = array(
 					'googlstock' => 'alphavantage_stock||usd||both',
 					
 					
+					// NVDASTOCK (NVIDIA stock)
+					'nvdastock' => 'alphavantage_stock||usd||both',
+					
+					
 					// MSFTSTOCK (Microsoft stock)
 					'msftstock' => 'alphavantage_stock||usd||both',
 					
 					
 					// NFLXSTOCK (Netflix stock)
 					'nflxstock' => 'alphavantage_stock||usd||both',
+					
+					
+					// MCDSTOCK (McDonalds stock)
+					'mcdstock' => 'alphavantage_stock||usd||both',
 					
 					
 					// GPVSTOCK (GreenPower Motor Company stock)
@@ -562,6 +570,12 @@ $ct_conf['charts_alerts']['tracked_mrkts'] = array(
 					'atlas' => 'gateio||usdt||chart',
 					'atlas-2' => 'coingecko_btc||btc||chart',
 					'atlas-3' => 'kraken||usd||both',
+					
+					
+					// AURY
+					'aury' => 'kucoin||usdt||chart',
+					'aury-2' => 'coingecko_btc||btc||chart',
+					'aury-3' => 'jupiter_ag||sol||both',
 					
 					
 					// HIVE
@@ -1155,6 +1169,12 @@ $ct_conf['power']['news_feed'] = array(
     					/////////////////////////////////////////////////////
     					// STANDARD RSS #AND# ATOM FORMAT ARE SUPPORTED
     					/////////////////////////////////////////////////////
+    
+    
+        				array(
+            			"title" => "Blog - Aurory Project (web3 game with in-game NFTs)",
+            			"url" => "https://auroryproject.medium.com/feed"
+        						),
         
         
         				array(
@@ -1248,8 +1268,8 @@ $ct_conf['power']['news_feed'] = array(
     
     
         				array(
-            			"title" => "News - The Block",
-            			"url" => "https://www.theblockcrypto.com/rss.xml"
+            			"title" => "Newsletter - Aurory Project (web3 game with in-game NFTs)",
+            			"url" => "https://aurory.substack.com/feed"
         						),
     
     
@@ -1262,6 +1282,12 @@ $ct_conf['power']['news_feed'] = array(
         				array(
             			"title" => "Newsletter - Bitcoin Optech",
             			"url" => "https://bitcoinops.org/feed.xml"
+        						),
+    					
+    					
+        				array(
+            			"title" => "Newsletter - CoinCenter (D.C. non-profit crypto lobbying)",
+            			"url" => "https://www.newsletter.coincenter.org/feed"
         						),
     
     
@@ -1340,6 +1366,12 @@ $ct_conf['power']['news_feed'] = array(
         				array(
             			"title" => "Podcast - Unchained",
             			"url" => "https://unchained.libsyn.com/unchained"
+        						),
+
+    					
+        				array(
+            			"title" => "Podcast - Unlayered",
+            			"url" => "https://feeds.megaphone.fm/CON1529801782"
         						),
     
     
@@ -1430,6 +1462,12 @@ $ct_conf['power']['news_feed'] = array(
         				array(
             			"title" => "Stocks - Investing.com: News",
             			"url" => "https://www.investing.com/rss/news.rss"
+        						),
+    
+    
+        				array(
+            			"title" => "Stocks - Sunday Morning Markets",
+            			"url" => "https://sundaymorningmarkets.substack.com/feed"
         						),
     
     
@@ -2235,6 +2273,11 @@ $ct_conf['assets'] = array(
                                                     ),
 
                                                     
+                                    'sol' => array(
+                                    	 'jupiter_ag' => 'USDC/SOL',
+                                                    ),
+
+                                                    
                                     'usd' => array(
                                     	 'kraken' => 'USDCUSD',
                                     	 'binance_us' => 'USDCUSD',
@@ -2449,6 +2492,11 @@ $ct_conf['assets'] = array(
                                                     ),
 
                                                     
+                                    'sol' => array(
+                                    	 'jupiter_ag' => 'RAY/SOL',
+                                                    ),
+
+                                                    
                                     'usd' => array(
                                     	'kraken' => 'RAYUSD',
                                         'gateio' => 'RAY_USD',
@@ -2535,6 +2583,27 @@ $ct_conf['assets'] = array(
                     ////////////////////////////////////////////////////////////////////
                     
                     
+                    // NVDASTOCK
+                    'NVDASTOCK' => array(
+                        
+                        'name' => 'NVIDIA Corp',
+                        'mcap_slug' => 'NVDA:NASDAQ',
+                        'pair' => array(
+
+                        
+                                    'usd' => array(
+                                        'alphavantage_stock' => 'NVDA',
+                                                    ),
+
+                                                    
+                        ) // pair END
+                        
+                    ), // Asset END
+                    
+                    
+                    ////////////////////////////////////////////////////////////////////
+                    
+                    
                     // MSFTSTOCK
                     'MSFTSTOCK' => array(
                         
@@ -2566,6 +2635,27 @@ $ct_conf['assets'] = array(
                         
                                     'usd' => array(
                                         'alphavantage_stock' => 'NFLX',
+                                                    ),
+
+                                                    
+                        ) // pair END
+                        
+                    ), // Asset END
+                    
+                    
+                    ////////////////////////////////////////////////////////////////////
+                    
+                    
+                    // MCDSTOCK
+                    'MCDSTOCK' => array(
+                        
+                        'name' => 'McDonalds Corp',
+                        'mcap_slug' => 'MCD:NYSE',
+                        'pair' => array(
+
+                        
+                                    'usd' => array(
+                                        'alphavantage_stock' => 'MCD',
                                                     ),
 
                                                     
@@ -2695,6 +2785,11 @@ $ct_conf['assets'] = array(
                                                     ),
 
                                                     
+                                    'sol' => array(
+                                    	 'jupiter_ag' => 'POLIS/SOL',
+                                                    ),
+
+                                                    
                                     'usd' => array(
                                     	 'kraken' => 'POLISUSD',
                                     	 'bitfinex' => 'tPOLIS:USD',
@@ -2734,6 +2829,11 @@ $ct_conf['assets'] = array(
                                                     ),
 
                                                     
+                                    'sol' => array(
+                                    	 'jupiter_ag' => 'ATLAS/SOL',
+                                                    ),
+
+                                                    
                                     'usd' => array(
                                     	 'kraken' => 'ATLASUSD',
                                     	 'bitfinex' => 'tATLAS:USD',
@@ -2745,6 +2845,44 @@ $ct_conf['assets'] = array(
                                         'gateio' => 'ATLAS_USDT',
                                         'coinex' => 'ATLASUSDT',
                                         'bitmart' => 'ATLAS_USDT',
+                                                    ),
+
+                                                    
+                        ) // pair END
+                                        
+                    ), // Asset END
+                    
+                    
+                    ////////////////////////////////////////////////////////////////////
+                    
+                    
+                    // AURY
+                    'AURY' => array(
+                        
+                        'name' => 'Aurory',
+                        'mcap_slug' => 'aurory',
+                        'pair' => array(
+
+                                                    
+                                    'btc' => array(
+                                        'coingecko_btc' => 'aurory',
+                                                    ),
+
+                                                    
+                                    'sol' => array(
+                                    	 'jupiter_ag' => 'AURY/SOL',
+                                                    ),
+
+                                                    
+                                    'usd' => array(
+                                    	 'coingecko_usd' => 'aurory',
+                                                    ),
+
+                                                    
+                                    'usdt' => array(
+                                        'kucoin' => 'AURY-USDT',
+                                        'huobi' => 'auryusdt',
+                                        'coinex' => 'AURYUSDT',
                                                     ),
 
                                                     
@@ -2835,6 +2973,11 @@ $ct_conf['assets'] = array(
                                                     ),
 
                                                     
+                                    'sol' => array(
+                                    	 'jupiter_ag' => 'ZBC/SOL',
+                                                    ),
+
+                                                    
                                     'usdt' => array(
                                         'huobi' => 'zbcusdt',
                                         'gateio' => 'ZBC_USDT',
@@ -2861,6 +3004,11 @@ $ct_conf['assets'] = array(
                         
                                     'eth' => array(
                                         'gateio' => 'SLRS_ETH',
+                                                    ),
+
+                                                    
+                                    'sol' => array(
+                                    	 'jupiter_ag' => 'SLRS/SOL',
                                                     ),
 
                                                     
@@ -2903,6 +3051,11 @@ $ct_conf['assets'] = array(
                                                     ),
 
                                                     
+                                    'sol' => array(
+                                    	 'jupiter_ag' => 'RNDR/SOL',
+                                                    ),
+
+                                                    
                                     'usd' => array(
                                         'hitbtc' => 'RNDRUSD',
                                                     ),
@@ -2939,6 +3092,11 @@ $ct_conf['assets'] = array(
                                                     
                                     'eth' => array(
                                         'gateio' => 'HNT_ETH',
+                                                    ),
+
+                                                    
+                                    'sol' => array(
+                                    	 'jupiter_ag' => 'HNT/SOL',
                                                     ),
 
                                                     
@@ -2986,6 +3144,11 @@ $ct_conf['assets'] = array(
                                                     
                                     'gbp' => array(
                                           'coingecko_gbp' => 'grape-2',
+                                                    ),
+
+                                                    
+                                    'sol' => array(
+                                    	 'jupiter_ag' => 'GRAPE/SOL',
                                                     ),
 
                                                     

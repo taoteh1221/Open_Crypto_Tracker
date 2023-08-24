@@ -637,7 +637,7 @@ var $ct_array1 = array();
    // We only need $pair data if our function call needs 24hr trade volumes, so it's optional overhead
    function market($asset_symb, $sel_exchange, $mrkt_id, $pair=false) {
    
-   global $ct_conf, $ct_var, $ct_cache, $ct_gen, $ct_asset, $sel_opt, $kraken_pairs, $upbit_pairs, $coingecko_pairs, $coingecko_assets, $throttled_api_cache_time;
+   global $ct_conf, $ct_var, $ct_cache, $ct_gen, $ct_asset, $sel_opt, $jupiter_ag_pairs, $kraken_pairs, $upbit_pairs, $coingecko_pairs, $coingecko_assets, $throttled_api_cache_time;
     
     
     ////////////////////////////////////////////////////////////////////////////////////////////////
@@ -1716,21 +1716,65 @@ var $ct_array1 = array();
     
       elseif ( strtolower($sel_exchange) == 'jupiter_ag' ) {
           
+        
+            // If not set globally yet (for faster runtime / less API calls),
+            // set the $jupiter_ag_pairs var for jupiter_ag API calls
+            if ( sizeof($jupiter_ag_pairs) == 0 ) {
+                 
+        
+              foreach ( $ct_conf['assets'] as $markets ) {
+              
+         	         foreach ( $markets['pair'] as $exchange_pairs ) {
+         	            
+         		        if ( isset($exchange_pairs['jupiter_ag']) && $exchange_pairs['jupiter_ag'] != '' ) { // In case user messes up Admin Config, this helps
+         		        
+         		        $jup_pairs = explode('/', $exchange_pairs['jupiter_ag']);
+         		        
+         		        $jupiter_ag_pairs[ $jup_pairs[1] ] .= $jup_pairs[0] . ',';
+         		        
+         		        }
+         	            
+         	         }
+                
+              }
+            
+              
+              foreach ( $jupiter_ag_pairs as $key => $val ) {
+              $jupiter_ag_pairs[$key] = substr($val, 0, -1);
+              }
+            
+            
+            }
+            
+          
       $jup_pairs = explode('/', $mrkt_id);
       
-      $url = 'https://price.jup.ag/v1/price?id=' . $jup_pairs[0] . '&vsToken=' . $jup_pairs[1];
+      $url = 'https://price.jup.ag/v4/price?ids=' . $jupiter_ag_pairs[ $jup_pairs[1] ] . '&vsToken=' . $jup_pairs[1];
       
       $response = @$ct_cache->ext_data('url', $url, $ct_conf['power']['last_trade_cache_time']);
         
       $data = json_decode($response, true);
       
       $data = $data['data'];
-        
-      $result = array(
-                     'last_trade' => number_format( $data['price'], $ct_conf['gen']['crypto_dec_max'], '.', ''),
-                     '24hr_asset_vol' => 0, // Unavailable, set 0 to avoid 'price_alert_block_vol_error' supression
-                     '24hr_pair_vol' => null // Unavailable, set null
-      	            );
+      
+      
+          if ( is_array($data) ) {
+      
+            foreach ($data as $key => $val) {
+              
+              if ( $key == $jup_pairs[0] ) {
+               
+              $result = array(
+                              'last_trade' => number_format( $data[$key]['price'], $ct_conf['gen']['crypto_dec_max'], '.', ''),
+                              '24hr_asset_vol' => 0, // Unavailable, set 0 to avoid 'price_alert_block_vol_error' supression
+                              '24hr_pair_vol' => null // Unavailable, set null
+                    	      );
+               
+              }
+          
+            }
+          
+          }
         
       }
      

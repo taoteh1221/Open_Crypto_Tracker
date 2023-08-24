@@ -213,7 +213,6 @@ $limited_apis = array(
                 	     'coingecko.com',
                 		'etherscan.io',
                 		'gemini.com',
-                	     'jup.ag',
 				  );
 
 

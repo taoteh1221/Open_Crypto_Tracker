@@ -6229,7 +6229,13 @@ v6.00.2 AND HIGHER RESETS LIGHT (TIME PERIOD) CHARTS FROM ARCHIVAL DATA, ONE-TIM
 
 -BUG FIX: TBD
 
+-Upgraded to Jupiter Aggregator's v4 price API, allowing efficient API calls for multiple token prices
+
 -Added styling, so printing out the portfolio page automatically looks good / fits on printer paper
+
+-Updated the DEMO asset markets / news feeds
+
+-Miscellaneous user experience improvements
 
 -------------------------------------------------------------------
 
