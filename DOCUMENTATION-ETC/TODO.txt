@@ -25,7 +25,7 @@ Add podcast: https://linktr.ee/unlayeredpod
 
 Looks like we have to switch to using the snap package manager for
 ubuntu in the install bash scripts FOR ALL MY APPS. Some pre-requisite
-libraries are no longer available using apt, and are only available as
+libraries are no longer available using apt ("Unable to locate package X"), and are only available as
 'snap install X'.
 
 

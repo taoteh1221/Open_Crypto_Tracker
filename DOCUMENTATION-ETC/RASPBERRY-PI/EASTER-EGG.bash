@@ -3,7 +3,7 @@
 COPYRIGHT_YEARS="2022-2023"
 
 # Version of this script
-APP_VERSION="1.09.2" # 2023/AUGUST/23RD
+APP_VERSION="1.09.3" # 2023/AUGUST/24TH
 
 ########################################################################################################################
 ########################################################################################################################
@@ -103,9 +103,17 @@ convert=$(echo "$convert" | sed -r "s/connect/10/g")
 # remove
 convert=$(echo "$convert" | sed -r "s/remove/11/g")
 
-# Pipe it through
-printf "%s\n" $convert | ~/radio
-exit
+
+     if [ ! -f ~/radio ]; then
+     echo " "
+     echo "Setting up a few things first, PLEASE RUN WITH YOUR CLI PARAMETERS *AGAIN AFTER* THIS SETUP COMPLETES..."
+     echo " "
+     else
+     # Pipe it through
+     printf "%s\n" $convert | ~/radio
+     exit
+     fi
+
 
 fi
 
