@@ -6239,6 +6239,8 @@ v6.00.2 AND HIGHER RESETS LIGHT (TIME PERIOD) CHARTS FROM ARCHIVAL DATA, ONE-TIM
 
 -Miscellaneous user experience improvements
 
+-Code optimization / cleanup
+
 -------------------------------------------------------------------
 
 

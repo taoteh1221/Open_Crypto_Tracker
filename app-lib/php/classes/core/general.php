@@ -1484,6 +1484,12 @@ var $ct_array = array();
    $category = preg_replace("/_error/i", "", $category);
    $category = preg_replace("/_debug/i", "", $category);
    
+      
+      // 'notify' mode ALWAYS needs a hash check (even if we want multiple entries), to AVOID CORRUPTING log formatting
+      if ( $category == 'notify' && $hashcheck == false ) {
+      $hashcheck = md5($timestamp_milliseconds . $category . $log_msg);
+      }
+   
    
       // Disable logging any included verbose tracing, if log verbosity level config is set to normal
       if ( $ct_conf['power']['log_verb'] == 'normal' ) {

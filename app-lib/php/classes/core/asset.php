@@ -1661,19 +1661,24 @@ var $ct_array1 = array();
       // OTHERWISE IT COULD BE NEW PRICE DATA CACHED FROM INTERFACE USAGE ETC ETC, SO WE STILL WANT TO UPDATE CHARTS IN THIS CASE)
       foreach ( $tracked_throttle_limited_servers as $api_tld_or_ip => $api_exchange_id ) {
       
-           if ( isset($api_throttle_flag[$api_tld_or_ip]) && isset($throttled_api_cache_time[$api_tld_or_ip]) && $exchange == $api_exchange_id && $api_throttle_flag[$api_tld_or_ip] == true && $ct_cache->update_cache($prim_currency_chart_path, $throttled_api_cache_time[$api_tld_or_ip]) == false ) {
+           // Keep initial match check quick, for runtime speed
+           if ( $exchange == $api_exchange_id ) {
+                
+               if ( isset($api_throttle_flag[$api_tld_or_ip]) && $api_throttle_flag[$api_tld_or_ip] == true && isset($throttled_api_cache_time[$api_tld_or_ip]) && $ct_cache->update_cache($prim_currency_chart_path, $throttled_api_cache_time[$api_tld_or_ip]) == false ) {
                
-           $halt_chart_storage = true;
+               $halt_chart_storage = true;
            
-               if ( $ct_conf['power']['debug_mode'] == 'all' || $ct_conf['power']['debug_mode'] == 'api_throttling' ) {
-               
-                $ct_gen->log(
-                    	    'notify_debug',
-                    	    'skipping "' . $api_exchange_id . '" chart storage (for ' . $asset_data . '), it was throttled to avoid going over it\'s API limits (used cache-only data under it\'s ' . $throttled_api_cache_time[$api_tld_or_ip] . ' minute MINIMUM cache time)'
-                    	   );
-               	   
-               }
+                    if ( $ct_conf['power']['debug_mode'] == 'all' || $ct_conf['power']['debug_mode'] == 'api_throttling' ) {
+                    
+                     $ct_gen->log(
+                         	    'notify_debug',
+                         	    'skipping "' . $api_exchange_id . '" chart storage (for ' . $asset_data . '), it was throttled to avoid going over it\'s API limits (used cache-only data under it\'s ' . $throttled_api_cache_time[$api_tld_or_ip] . ' minute MINIMUM cache time)'
+                         	   );
+                    	   
+                    }
                		  
+               }
+           
            }
       
       }
