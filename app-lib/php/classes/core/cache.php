@@ -401,7 +401,7 @@ var $ct_array1 = array();
                
           $ct_gen->log(
                        'notify_debug',
-                       'throttling threshold met for API server "' . $tld_or_ip . '" (file_name='.$cache_file_name.',minutes_cached='.$minutes_old.',minimum_cache_minutes='.$throttled_api_cache_time[$tld_or_ip].')',
+                       'throttling threshold met for API server "' . $tld_or_ip . '" (file_name='.$cache_file_name.', minutes_cached='.$minutes_old.', minimum_cache_minutes='.$throttled_api_cache_time[$tld_or_ip].')',
                	   false,
                	   md5($cache_file_name) . '_throttle_flagged' // unique key with no symbols
                	  );
@@ -2272,7 +2272,7 @@ var $ct_array1 = array();
       
       // Servers requiring TRACKED THROTTLE-LIMITING ******BASED OFF API REQUEST COUNT******, due to limited-allowed minute / hour / daily requests
       // (are processed by this->api_throttling(), to avoid using up daily request limits getting LIVE DATA)
-      if ( in_array($endpoint_tld_or_ip, $tracked_throttle_limited_servers) && $this->api_throttling($endpoint_tld_or_ip) == true ) {
+      if ( isset($tracked_throttle_limited_servers[$endpoint_tld_or_ip]) && $this->api_throttling($endpoint_tld_or_ip) == true ) {
               
             
       // Set $data var with any cached value (null / false result is OK), as we don't want to cache any PROBABLE error response
@@ -2844,7 +2844,7 @@ var $ct_array1 = array();
     
     
       // Servers requiring TRACKED THROTTLE-LIMITING ******BASED OFF API CACHED TIME******, due to limited-allowed daily requests
-      if ( in_array($endpoint_tld_or_ip, $tracked_throttle_limited_servers) && $this->api_throttling($endpoint_tld_or_ip, $base_dir . '/cache/secured/external_data/'.$hash_check.'.dat') == true ) {
+      if ( isset($tracked_throttle_limited_servers[$endpoint_tld_or_ip]) && $this->api_throttling($endpoint_tld_or_ip, $base_dir . '/cache/secured/external_data/'.$hash_check.'.dat') == true ) {
       
           // (we're deleting the cache file here, ONLY IF IT FAILS TO FALLBACK ON VALID API DATA,
           // SO IT CAN "GET TO THE FRONT OF THE THROTTLED LINE" THE NEXT TIME IT'S REQUESTED)

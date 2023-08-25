@@ -1454,7 +1454,7 @@ var $ct_array1 = array();
    function charts_price_alerts($asset_data, $exchange, $pair, $mode) {
    
    // Globals
-   global $base_dir, $ct_conf, $ct_cache, $ct_var, $ct_gen, $ct_api, $min_fiat_val_test, $api_throttle_flag, $default_btc_prim_exchange, $default_btc_prim_currency_val, $default_btc_prim_currency_pair, $price_alert_fixed_reset_array;
+   global $base_dir, $ct_conf, $ct_cache, $ct_var, $ct_gen, $ct_api, $min_fiat_val_test, $tracked_throttle_limited_servers, $api_throttle_flag, $throttled_api_cache_time, $default_btc_prim_exchange, $default_btc_prim_currency_val, $default_btc_prim_currency_pair, $price_alert_fixed_reset_array;
    
       
       // Skip completely, if it's an alphavantage market, AND the end-user has NOT added an alphavantage API key
@@ -1646,29 +1646,38 @@ var $ct_array1 = array();
    $asset_prim_currency_val_raw = $ct_var->num_to_str($asset_prim_currency_val_raw); 
    $asset_pair_val_raw = $ct_var->num_to_str($asset_pair_val_raw); 
    
+
+   // ARCHIVAL chart paths   
+   $prim_currency_chart_path = $base_dir . '/cache/charts/spot_price_24hr_volume/archival/'.$asset.'/'.$asset_data.'_chart_'.strtolower($default_btc_prim_currency_pair).'.dat';
+   $crypto_secondary_currency_chart_path = $base_dir . '/cache/charts/spot_price_24hr_volume/archival/'.$asset.'/'.$asset_data.'_chart_'.$pair.'.dat';
+   
    
    /////////////////////////////////////////////////////////////////
    
    
-      // If we should skip storing chart data, because of API limits reached (to save on storage space / using same repetitive cached API price data)
-      if ( $exchange == 'alphavantage_stock' && $api_throttle_flag['alphavantage.co'] == true ) {
-          
-      $halt_chart_storage = true;
+      // Skip storing price chart data, IF API limits have been reached ON APIs REGISTERED IN: $tracked_throttle_limited_servers
+      // (to save on storage space / using same repetitive CACHED API price data)
+      // (ONLY IF THE *ARCHIVAL PRIMARY CURRENCY CHART* HAS BEEN UPDATED WITHIN THE PAST $throttled_api_cache_time[$api_tld_or_ip] MINUTES,
+      // OTHERWISE IT COULD BE NEW PRICE DATA CACHED FROM INTERFACE USAGE ETC ETC, SO WE STILL WANT TO UPDATE CHARTS IN THIS CASE)
+      foreach ( $tracked_throttle_limited_servers as $api_tld_or_ip => $api_exchange_id ) {
       
-          if ( $ct_conf['power']['debug_mode'] == 'all' || $ct_conf['power']['debug_mode'] == 'api_throttling' ) {
-          
-           $ct_gen->log(
-               	    'notify_debug',
-               	    'skipping "'.$exchange.'" chart storage, it was rate-limited / throttled to avoid going over it\'s API limits (it used cache-only data)',
-               	    false,
-                        $exchange . '_skip_charts'
-               	   );
-          	   
-          }
-          		  
-      }
-      else {
-      $halt_chart_storage = false;
+           if ( isset($api_throttle_flag[$api_tld_or_ip]) && isset($throttled_api_cache_time[$api_tld_or_ip]) && $exchange == $api_exchange_id && $api_throttle_flag[$api_tld_or_ip] == true && $ct_cache->update_cache($prim_currency_chart_path, $throttled_api_cache_time[$api_tld_or_ip]) == false ) {
+               
+           $halt_chart_storage = true;
+           
+               if ( $ct_conf['power']['debug_mode'] == 'all' || $ct_conf['power']['debug_mode'] == 'api_throttling' ) {
+               
+                $ct_gen->log(
+                    	    'notify_debug',
+                    	    'skipping "' . $api_exchange_id . '" chart storage, it was rate-limited to avoid going over API limits (used cache-only data under it\'s ' . $throttled_api_cache_time[$api_tld_or_ip] . ' minute MINIMUM cache time)',
+                    	    false,
+                             $api_exchange_id . '_skip_charts'
+                    	   );
+               	   
+               }
+               		  
+           }
+      
       }
      
    
@@ -1707,14 +1716,13 @@ var $ct_array1 = array();
       // PRIMARY CURRENCY CONFIG ARCHIVAL charts (CRYPTO/PRIMARY CURRENCY CONFIG markets, 
       // AND ALSO crypto-to-crypto pairs converted to PRIMARY CURRENCY CONFIG equiv value for PRIMARY CURRENCY CONFIG equiv charts)
       
-      $prim_currency_chart_path = $base_dir . '/cache/charts/spot_price_24hr_volume/archival/'.$asset.'/'.$asset_data.'_chart_'.strtolower($default_btc_prim_currency_pair).'.dat';
+      
       $prim_currency_chart_data = $now . '||' . $asset_prim_currency_val_raw . '||' . $vol_prim_currency_raw;
       $ct_cache->save_file($prim_currency_chart_path, $prim_currency_chart_data . "\n", "append", false);  // WITH newline (UNLOCKED file write)
         
         
          // Crypto / secondary currency pair ARCHIVAL charts, volume as pair (for UX)
          if ( $pair != strtolower($default_btc_prim_currency_pair) ) {
-         $crypto_secondary_currency_chart_path = $base_dir . '/cache/charts/spot_price_24hr_volume/archival/'.$asset.'/'.$asset_data.'_chart_'.$pair.'.dat';
          $crypto_secondary_currency_chart_data = $now . '||' . $asset_pair_val_raw . '||' . $pair_vol_raw;
          $ct_cache->save_file($crypto_secondary_currency_chart_path, $crypto_secondary_currency_chart_data . "\n", "append", false); // WITH newline (UNLOCKED file write)
          }

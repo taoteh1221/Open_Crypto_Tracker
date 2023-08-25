@@ -6229,6 +6229,8 @@ v6.00.2 AND HIGHER RESETS LIGHT (TIME PERIOD) CHARTS FROM ARCHIVAL DATA, ONE-TIM
 
 -BUG FIX: TBD
 
+-More efficient regular updating of price charts FOR THROTTLED / RATE-LIMITED APIs (Alphavantage stocks, etc)
+
 -Upgraded to Jupiter Aggregator's v4 price API, allowing efficient API calls for multiple token prices
 
 -Added styling, so printing out the portfolio page automatically looks good / fits on printer paper
