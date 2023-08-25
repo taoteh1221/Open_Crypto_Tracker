@@ -1672,7 +1672,7 @@ var $ct_array1 = array();
                     
                      $ct_gen->log(
                          	    'notify_debug',
-                         	    'skipping "' . $api_exchange_id . '" chart storage (for ' . $asset_data . '), it was throttled to avoid going over it\'s API limits (used cache-only data under it\'s ' . $throttled_api_cache_time[$api_tld_or_ip] . ' minute MINIMUM cache time)'
+                         	    'skipping "' . $api_exchange_id . '" price chart storage (for ' . strtoupper($asset_data) . '), to avoid exceeding API limits (' . $throttled_api_cache_time[$api_tld_or_ip] . ' minute MINIMUM cache OR archival chart time interval NOT met)'
                          	   );
                     	   
                     }
