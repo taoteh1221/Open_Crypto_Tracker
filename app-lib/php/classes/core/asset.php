@@ -1669,9 +1669,7 @@ var $ct_array1 = array();
                
                 $ct_gen->log(
                     	    'notify_debug',
-                    	    'skipping "' . $api_exchange_id . '" chart storage, it was rate-limited to avoid going over API limits (used cache-only data under it\'s ' . $throttled_api_cache_time[$api_tld_or_ip] . ' minute MINIMUM cache time)',
-                    	    false,
-                             $api_exchange_id . '_skip_charts'
+                    	    'skipping "' . $api_exchange_id . '" chart storage (for ' . $asset_data . '), it was throttled to avoid going over it\'s API limits (used cache-only data under it\'s ' . $throttled_api_cache_time[$api_tld_or_ip] . ' minute MINIMUM cache time)'
                     	   );
                	   
                }
