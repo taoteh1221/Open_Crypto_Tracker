@@ -10,6 +10,9 @@ NEXT SCHEDULED WORK SESSIONS (*BOTH* DEBUGGING AND / OR INFRASTRUCTURE)
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
+Add ALTNFTS asset, based on a user's primary currency (like MISCASSETS)
+
+
 Update screenshots, since we overhauled everything in the interface.
 
 

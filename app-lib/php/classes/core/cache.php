@@ -403,7 +403,7 @@ var $ct_array1 = array();
           // Log for each cache file's throttle
           $ct_gen->log(
                        'notify_debug',
-                       'throttling threshold(s) met for API server "' . $tld_or_ip . '" (file_name=' . $ct_var->obfusc_str($cache_file_name, 8) . ', minutes_cached=' . $minutes_old . ', minimum_cache_minutes=' . $throttled_api_cache_time[$tld_or_ip] . ')'
+                       'throttling (CACHE-TIME-BASED) threshold(s) met for API server "' . $tld_or_ip . '" (file_name=' . $ct_var->obfusc_str($cache_file_name, 8) . ', minutes_cached=' . $minutes_old . ', minimum_cache_minutes=' . $throttled_api_cache_time[$tld_or_ip] . ')'
                	  );
           	  
           }
@@ -436,7 +436,7 @@ var $ct_array1 = array();
           // Only log once, as it's the minute / hour thresholds met
           $ct_gen->log(
                        'notify_debug',
-                       'throttling threshold(s) met for API server "' . $tld_or_ip . '" (minute_requests='.$api_throttle_count[$tld_or_ip]['minute_count']['count'].', hour_requests='.$api_throttle_count[$tld_or_ip]['hour_count']['count'].')',
+                       'throttling (LIMITS-BASED) threshold(s) met for API server "' . $tld_or_ip . '" (minute_requests='.$api_throttle_count[$tld_or_ip]['minute_count']['count'].', hour_requests='.$api_throttle_count[$tld_or_ip]['hour_count']['count'].')',
                	   false,
                	   md5($tld_or_ip) . '_throttle_flagged' // unique key with no symbols
                	  );
@@ -2292,14 +2292,23 @@ var $ct_array1 = array();
           }
           
       
-          // Fallback just needs 'modified time' updated with touch()
+          // (we're deleting any pre-existing cache data here, AND RETURNING FALSE TO AVOID RE-SAVING ANY CACHE DATA, *ONLY IF* IT FAILS TO
+          // FALLBACK ON VALID API DATA, SO IT CAN "GET TO THE FRONT OF THE THROTTLED LINE" THE NEXT TIME IT'S REQUESTED)
           if ( !isset($fallback_cache_data) ) {
-          $store_file_contents = $this->save_file($base_dir . '/cache/secured/external_data/'.$hash_check.'.dat', $api_runtime_cache[$hash_check]);
-          $ct_gen->log('ext_data_error', 'cache fallback FAILED during throttling of API for: ' . $endpoint_tld_or_ip);
+               
+          $ct_gen->log('ext_data_error', 'cache fallback FAILED during (LIVE) throttling of API for: ' . $endpoint_tld_or_ip);
+          
+          unset($api_runtime_cache[$hash_check]);
+          
+          unlink($base_dir . '/cache/secured/external_data/'.$hash_check.'.dat');
+          
+          return false;
+          
           }
                 
                 
       gc_collect_cycles(); // Clean memory cache
+      
       return $data;
                 
                 
@@ -2849,11 +2858,18 @@ var $ct_array1 = array();
       // Servers requiring TRACKED THROTTLE-LIMITING ******BASED OFF API CACHED TIME******, due to limited-allowed daily requests
       if ( isset($tracked_throttle_limited_servers[$endpoint_tld_or_ip]) && $this->api_throttling($endpoint_tld_or_ip, $base_dir . '/cache/secured/external_data/'.$hash_check.'.dat') == true ) {
       
-          // (we're deleting the cache file here, ONLY IF IT FAILS TO FALLBACK ON VALID API DATA,
-          // SO IT CAN "GET TO THE FRONT OF THE THROTTLED LINE" THE NEXT TIME IT'S REQUESTED)
+          // (we're deleting any pre-existing cache data here, AND RETURNING FALSE TO AVOID RE-SAVING ANY CACHE DATA, *ONLY IF* IT FAILS TO
+          //  FALLBACK ON VALID API DATA, SO IT CAN "GET TO THE FRONT OF THE THROTTLED LINE" THE NEXT TIME IT'S REQUESTED)
           if ( !isset($fallback_cache_data) ) {
-          $ct_gen->log('ext_data_error', 'cached data call FAILED during throttling of API for: ' . $endpoint_tld_or_ip);
+               
+          $ct_gen->log('ext_data_error', 'cached fallback FAILED during (CACHE) throttling of API for: ' . $endpoint_tld_or_ip);
+          
+          unset($api_runtime_cache[$hash_check]);
+          
           unlink($base_dir . '/cache/secured/external_data/'.$hash_check.'.dat');
+          
+          return false;
+          
           }
                 
       }
