@@ -175,15 +175,6 @@ $sel_opt['sorted_asc_desc'] = $sort_array[1];
     ////////////////////////////////
     
     
-	// We can safely dismiss alerts with cookies enabled, without losing data
-	if ( isset($_COOKIE['coin_amnts']) ) {
-	$dismiss_alert = ' <br /><br /><a href="'.$ct_gen->start_page($_GET['start_page'], 'href').'">Dismiss Alert</a>';
-	}
-    
-    
-    ////////////////////////////////
-    
-    
 	if ( !$sel_opt['sorted_by_col'] ) {
 	$sel_opt['sorted_by_col'] = 0;
 	}
@@ -319,21 +310,18 @@ $sel_opt['sorted_asc_desc'] = $sort_array[1];
 		$csv_file_array = $ct_gen->csv_import_array($_FILES['csv_file']['tmp_name']);
        	}
        	else {
-       	$csv_import_fail_alert = 'Your CSV import upload failed (' . $ct_gen->upload_error($_FILES['csv_file']['error']) . ').';
+       	$csv_import_fail_alert = 'CSV import upload failed (' . $ct_gen->upload_error($_FILES['csv_file']['error']) . ')';
           $ct_gen->log('system_error', $csv_import_fail_alert);
-       	$csv_import_fail = $csv_import_fail_alert . $dismiss_alert;
        	}
        	
        	
-         	if ( !$csv_import_fail && !is_array($csv_file_array) ) {
-          $csv_import_fail = 'Your CSV import file does not appear to be formatted correctly.' . $dismiss_alert;
-          }
-         	elseif ( is_array($csv_file_array) ) {
-          $csv_import_succeed = 'Your CSV import succeeded.' . $dismiss_alert;
+         	if ( !$csv_import_fail_alert && !is_array($csv_file_array) ) {
+          $csv_import_fail_alert = 'CSV import file does not appear to be formatted correctly';
+          $ct_gen->log('other_error', $csv_import_fail_alert);
           }
        	
        	
-       	if ( !$csv_import_fail ) {
+       	if ( !$csv_import_fail_alert ) {
        	$post_csv_import = true;
        	}
    	

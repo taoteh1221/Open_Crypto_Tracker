@@ -43,12 +43,6 @@ On the plugins admin page, add a title "How to make your own custom plugin", wit
 The compact side menu doesn't work on Linux desktop Edition.
 
 
-On LINUX DESKTOP EDITION, when importing a spreadsheet, it imports OK (shows in the interface after importing), BUT does NOT save as cookie data (gets lost if you visit the admin area etc), UNLESS YOU CLICK "SAVE UPDATED PORTFOLIO" ON THE UPDATE PAGE IMMEADIATELY *AFTER* IMPORTING IT. THIS IS NOT AN ISSUE IN SERVER EDITION, find out why.
-
-
-"CSV import suceeded" has a 'dismiss' link...remove it? 
-
-
 LOOK INTO WHICH OF THESE MARKETS ARE JUST BLOCKED IN THE USA, AND WHICH NO LONGER EXIST:
 
 [2023-08-12 00:21:33.979] ui => market: No market price data available for BTC / USD @ OkCoin;  
