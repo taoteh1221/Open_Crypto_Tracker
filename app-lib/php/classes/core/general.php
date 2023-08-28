@@ -1484,6 +1484,12 @@ var $ct_array = array();
    $category = preg_replace("/_error/i", "", $category);
    $category = preg_replace("/_debug/i", "", $category);
    
+      
+      // 'notify' mode ALWAYS needs a hash check (even if we want multiple entries), to AVOID CORRUPTING log formatting
+      if ( $category == 'notify' && $hashcheck == false ) {
+      $hashcheck = md5($timestamp_milliseconds . $category . $log_msg);
+      }
+   
    
       // Disable logging any included verbose tracing, if log verbosity level config is set to normal
       if ( $ct_conf['power']['log_verb'] == 'normal' ) {
@@ -3282,6 +3288,8 @@ var $ct_array = array();
               
       }
               
+
+   usleep(100000); // Wait 0.10 seconds, to give cookies a chance to save, before any redirect
     
    }
    

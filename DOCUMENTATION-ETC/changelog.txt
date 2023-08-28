@@ -6227,7 +6227,9 @@ v6.00.2 AND HIGHER RESETS LIGHT (TIME PERIOD) CHARTS FROM ARCHIVAL DATA, ONE-TIM
 -------------------------------------------------------------------
 6.00.25:
 
--BUG FIX: TBD
+-BUG FIX: Miscellaneous fixes
+
+-More efficient regular updating of price charts FOR THROTTLED / RATE-LIMITED APIs (Alphavantage stocks, etc)
 
 -Upgraded to Jupiter Aggregator's v4 price API, allowing efficient API calls for multiple token prices
 
@@ -6236,6 +6238,8 @@ v6.00.2 AND HIGHER RESETS LIGHT (TIME PERIOD) CHARTS FROM ARCHIVAL DATA, ONE-TIM
 -Updated the DEMO asset markets / news feeds
 
 -Miscellaneous user experience improvements
+
+-Code optimization / cleanup
 
 -------------------------------------------------------------------
 

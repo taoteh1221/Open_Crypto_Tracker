@@ -10,6 +10,9 @@ NEXT SCHEDULED WORK SESSIONS (*BOTH* DEBUGGING AND / OR INFRASTRUCTURE)
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
+Add ALTNFTS asset, based on a user's primary currency (like MISCASSETS)
+
+
 Update screenshots, since we overhauled everything in the interface.
 
 
@@ -155,6 +158,14 @@ Keep github price chart bootstrap download updated weekly if not daily!
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 API INTEGRATION 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+Magic eden API:
+https://docs.magiceden.io/reference/solana-api-keys
+
+
+Helius NFT API:
+https://docs.helius.dev/compression-and-das-api/digital-asset-standard-das-api/get-assets-by-group
 
 
 Add OPTIONAL Coingecko PRO API support: https://apiguide.coingecko.com/exclusive-endpoints/pro-api

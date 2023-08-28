@@ -442,7 +442,7 @@
 	        $asset_lvrg_val = $_POST[$field_var_lvrg];
 	        $asset_mrgntyp_val = $_POST[$field_var_mrgntyp];
 	        }
-	        elseif ( $run_csv_import == 1 ) {
+	        elseif ( $post_csv_import ) {
 	        	
 	        
 	        	foreach( $csv_file_array as $key => $val ) {
@@ -463,7 +463,7 @@
 	        		
 	        
 	        }
-	    	// Cookies
+	    	   // Cookies
 	        elseif ( $ui_cookies ) {
 	
         	   foreach ( $all_cookies_data_array as $key => $unused ) {

@@ -180,6 +180,7 @@ $captcha_permitted_chars = 'ABCDEFHJKMNPRSTUVWXYZ23456789'; // (default = 'ABCDE
 // Servers which are known to block API access by location / jurasdiction
 // (we alert end-users in error logs, when a corrisponding API server connection fails [one-time notice per-runtime])
 $location_blocked_servers = array(
+                                  // 'tld_domain_name',
                                   'binance.com',
                                   'bybit.com',
                                  );
@@ -188,7 +189,8 @@ $location_blocked_servers = array(
 // Servers requiring TRACKED THROTTLE-LIMITING, due to limited-allowed minute / hour / daily requests
 // (are processed by ct_cache->api_throttling(), to avoid using up daily request limits)
 $tracked_throttle_limited_servers = array(
-                                      	  'alphavantage.co',
+                                          // 'tld_domain_name' => 'corrisponding_exchange_identifier_OR_BOOLEAN_TRUE',
+                                      	  'alphavantage.co' => 'alphavantage_stock',
                                          );
 							
 

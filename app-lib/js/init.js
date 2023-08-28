@@ -40,6 +40,14 @@ $("span.btc_prim_currency_pair").html(btc_prim_currency_pair);
 start_utc_time(); 
 
 
+// Highlightjs
+load_highlightjs();
+
+
+// Monitor admin iframes for auto-height adjustment WHEN THEY SHOW
+monitor_iframe_sizes();
+
+
 // 'Loading X...' UI notices
 background_tasks_check();
 
@@ -55,6 +63,12 @@ responsive_menu_override();
 
 // Monitor admin iframes for load / unload events
 admin_iframe_load = document.querySelectorAll('.admin_iframe');
+	     
+	
+// For ALL nav menus (normal / compact sidebars, mobile top nav bar), we want to keep track of which
+// nav item is active and it's associated content, and display it / mark nav links as active in interface
+nav_menu('.admin-nav');
+nav_menu('.user-nav');
 
 
      /////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -72,13 +86,7 @@ admin_iframe_load = document.querySelectorAll('.admin_iframe');
 	if ( get_cookie("coin_reload") && !is_admin ) {
 	auto_reload();
 	}
-
-
-	/////////////////////////////////////////////////////////////////////////////////////////////////////
 	
-	
-     // Monitor admin iframes for auto-height adjustment WHEN THEY SHOW
-     monitor_iframe_sizes();
 
 	/////////////////////////////////////////////////////////////////////////////////////////////////////
 	
@@ -110,28 +118,12 @@ admin_iframe_load = document.querySelectorAll('.admin_iframe');
 
 
 	/////////////////////////////////////////////////////////////////////////////////////////////////////
-	     
 	
-	// For ALL nav menus (normal / compact sidebars, mobile top nav bar), we want to keep track of which
-	// nav item is active and it's associated content, and display it / mark nav links as active in interface
-	if ( is_admin ) {
-	nav_menu('.admin-nav');
-	}
-	else {
-	nav_menu('.user-nav');
-	}
-
-
-	/////////////////////////////////////////////////////////////////////////////////////////////////////
-	
-	
-	if ( emulated_cron_enabled && !is_iframe ) {
 	
      // Emulate a cron job every X minutes...
+	if ( emulated_cron_enabled && !is_iframe ) {
      cron_already_ran = false;
-    
      emulated_cron(); // Initial load (RELOADS from WITHIN it's OWN logic every minute AFTER)
-	
 	}
 	
 	
@@ -164,15 +156,58 @@ admin_iframe_load = document.querySelectorAll('.admin_iframe');
 	/////////////////////////////////////////////////////////////////////////////////////////////////////
 	
 	
+    // open or close alerts
     $('.toggle_alerts').on('click', function () {
-             // open or close alerts
              $('#alert_bell_area').toggleClass('hidden');
     });
 	
 	
     $('#alert_bell_area').on('click', function () {
-             // open or close alerts
              $('#alert_bell_area').toggleClass('hidden');
+    });
+
+
+	/////////////////////////////////////////////////////////////////////////////////////////////////////
+	
+	
+    // Auto-focus admin authentication form's username feild
+    if ( $("#admin_login").length ) {
+    	setTimeout(function(){
+        $("#admin_username").filter(':visible').focus();
+    	}, 1000); 
+    }
+    else if ( $("#set_admin").length ) {
+    	setTimeout(function(){
+        $("#set_username").filter(':visible').focus();
+    	}, 1000);
+    }
+    else if ( $("#reset_admin").length ) {
+    	setTimeout(function(){
+        $("#reset_username").filter(':visible').focus();
+    	}, 1000);
+    }
+	
+
+	/////////////////////////////////////////////////////////////////////////////////////////////////////
+	
+
+    // Admin iframes
+    admin_iframe_load.forEach(function(iframe) {
+       
+          // When admin iframe loads / reloads
+          iframe.addEventListener('load', function() {
+    
+          iframe_size_adjust(iframe);
+          $("#"+iframe.id+"_loading").fadeOut(250);
+          
+              // Before admin iframe unloads
+              // (MUST BE NESTED IN 'load', AND USE contentWindow)
+              iframe.contentWindow.addEventListener('beforeunload', function() {
+              $("#"+iframe.id+"_loading").fadeIn(250);
+              });
+          
+          });
+      
     });
 
 
@@ -203,44 +238,24 @@ admin_iframe_load = document.querySelectorAll('.admin_iframe');
 	/////////////////////////////////////////////////////////////////////////////////////////////////////
 	
 	
-    // Auto-focus admin authentication form's username feild
-    if ( $("#admin_login").length ) {
-    	setTimeout(function(){
-        $("#admin_username").filter(':visible').focus();
-    	}, 1000); 
-    }
-    else if ( $("#set_admin").length ) {
-    	setTimeout(function(){
-        $("#set_username").filter(':visible').focus();
-    	}, 1000);
-    }
-    else if ( $("#reset_admin").length ) {
-    	setTimeout(function(){
-        $("#reset_username").filter(':visible').focus();
-    	}, 1000);
-    }
-	
-
-	/////////////////////////////////////////////////////////////////////////////////////////////////////
-	
-	
-    admin_iframe_load.forEach(function(iframe) {
-       
-          // When admin iframe loads / reloads
-          iframe.addEventListener('load', function() {
-    
-          iframe_size_adjust(iframe);
-          $("#"+iframe.id+"_loading").fadeOut(250);
-          
-              // Before admin iframe unloads
-              // (MUST BE NESTED IN 'load', AND USE contentWindow)
-              iframe.contentWindow.addEventListener('beforeunload', function() {
-              $("#"+iframe.id+"_loading").fadeIn(250);
-              });
+	// Emulate sticky-positioned elements in #secondary_wrapper,
+	// IF we set overflow: auto; CSS to automate controlling scroll positioning
+	// (which DISABLES a container from having functional sticky-positioned elements within it)
+	if ( !is_iframe ) {
+	     
+          window.addEventListener('scroll', function (e) {
+     
+          dynamic_position('#alert_bell_area', 'emulate_sticky');
+     
+          dynamic_position('#background_loading', 'emulate_sticky');
+     
+          dynamic_position('.page_title', 'emulate_sticky');
+     
+          dynamic_position('.countdown_notice', 'emulate_sticky');
           
           });
-      
-    });
+     
+     }
 	
 
 	/////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -273,24 +288,35 @@ admin_iframe_load = document.querySelectorAll('.admin_iframe');
 	/////////////////////////////////////////////////////////////////////////////////////////////////////
 	
 	
-	// Emulate sticky-positioned elements in #secondary_wrapper,
-	// IF we set overflow: auto; CSS to automate controlling scroll positioning
-	// (which DISABLES a container from having functional sticky-positioned elements within it)
-	if ( !is_iframe ) {
-	     
-          window.addEventListener('scroll', function (e) {
-     
-          dynamic_position('#alert_bell_area', 'emulate_sticky');
-     
-          dynamic_position('#background_loading', 'emulate_sticky');
-     
-          dynamic_position('.page_title', 'emulate_sticky');
-     
-          dynamic_position('.countdown_notice', 'emulate_sticky');
-          
-          });
-     
-     }
+    // Before page unload
+    window.addEventListener('beforeunload', function (e) {
+        
+    // (suppress the 'loading' subsection for iframes from showing, when leaving the admin area)
+    // (worse case is cancelled, and 'loading...' doesn't show for admin iframes again until parent page reload)
+    $("div#admin_tab_content div div.iframe_loading_placeholder").html('');
+    $("div#admin_tab_content div div.iframe_loading_placeholder").removeClass("loading");
+    
+    // Scroll position for secondary user area pages
+    store_scroll_position(); 
+        
+        // If background tasks are still running, force a browser confirmation to refresh / leave / close
+        if ( background_tasks_status == 'wait' ) {
+            
+            if ( form_submit_queued == true ) {
+            form_submit_queued = false;
+            }
+            
+        $("#background_loading_span").html("Please wait, finishing background tasks...").css("color", "#ff4747", "important");
+        
+        event.preventDefault();
+        
+        console.log('Default action stopped for: beforeunload');
+        
+        e.returnValue = '';
+        
+        }
+        
+    }); 
 
 
 	/////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -329,40 +355,6 @@ admin_iframe_load = document.querySelectorAll('.admin_iframe');
      	});
 	
 	}
-
-
-	/////////////////////////////////////////////////////////////////////////////////////////////////////
-	
-	
-    // Before page unload
-    window.addEventListener('beforeunload', function (e) {
-        
-    // (suppress the 'loading' subsection for iframes from showing, when leaving the admin area)
-    // (worse case is cancelled, and 'loading...' doesn't show for admin iframes again until parent page reload)
-    $("div#admin_tab_content div div.iframe_loading_placeholder").html('');
-    $("div#admin_tab_content div div.iframe_loading_placeholder").removeClass("loading");
-    
-    // Scroll position for secondary user area pages
-    store_scroll_position(); 
-        
-        // If background tasks are still running, force a browser confirmation to refresh / leave / close
-        if ( background_tasks_status == 'wait' ) {
-            
-            if ( form_submit_queued == true ) {
-            form_submit_queued = false;
-            }
-            
-        $("#background_loading_span").html("Please wait, finishing background tasks...").css("color", "#ff4747", "important");
-        
-        event.preventDefault();
-        
-        console.log('Default action stopped for: beforeunload');
-        
-        e.returnValue = '';
-        
-        }
-        
-    }); 
 
 
 	/////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -711,31 +703,6 @@ admin_iframe_load = document.querySelectorAll('.admin_iframe');
           $("a.dropdown-item").removeClass("secondary-select");
           $(this).addClass("secondary-select");
           });
-
-         
-         
-         // Reload placeholder when changing nav areas: ALL sidebars
-         $('.all-nav a').on({
-              "click":function(e){
-              
-              var click_href = $(this).attr('href');   
-              
-              var scan_href = click_href.split('/').pop();   
-              
-              
-                  if (scan_href.indexOf("#") > 0) {
-                  scan_href = scan_href.substring(0, scan_href.indexOf("#"));
-                  }
-                  
-                  
-                  // IF we are not ALREADY in the CORRISPONDING user / admin area
-                  if ( is_admin && scan_href != 'admin.php' || !is_admin && scan_href == 'admin.php' ) {
-                  app_reloading_check( 0, $(this).attr('href') );
-                  }
-              
-              
-              }
-          });
          
          
 
@@ -818,9 +785,6 @@ privacy_mode();
 
 // Sort the portfolio AFTER checking for privacy mode
 sorting_portfolio_table();
-
-// Highlightjs
-load_highlightjs();
 
 
 	/////////////////////////////////////////////////////////////////////////////////////////////////////
