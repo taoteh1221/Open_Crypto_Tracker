@@ -325,15 +325,16 @@ $sel_opt['sorted_asc_desc'] = $sort_array[1];
        	}
        	
        	
-    	if ( !$csv_import_fail && !is_array($csv_file_array) ) {
-     $csv_import_fail = 'Your CSV import file does not appear to be formatted correctly.' . $dismiss_alert;
-     }
-    	elseif ( is_array($csv_file_array) ) {
-     $csv_import_succeed = 'Your CSV import succeeded.' . $dismiss_alert;
-     }
+         	if ( !$csv_import_fail && !is_array($csv_file_array) ) {
+          $csv_import_fail = 'Your CSV import file does not appear to be formatted correctly.' . $dismiss_alert;
+          }
+         	elseif ( is_array($csv_file_array) ) {
+          $csv_import_succeed = 'Your CSV import succeeded.' . $dismiss_alert;
+          }
+       	
        	
        	if ( !$csv_import_fail ) {
-       	$run_csv_import = 1;
+       	$post_csv_import = true;
        	}
    	
    

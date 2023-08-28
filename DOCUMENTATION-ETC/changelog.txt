@@ -6227,7 +6227,7 @@ v6.00.2 AND HIGHER RESETS LIGHT (TIME PERIOD) CHARTS FROM ARCHIVAL DATA, ONE-TIM
 -------------------------------------------------------------------
 6.00.25:
 
--BUG FIX: TBD
+-BUG FIX: Miscellaneous fixes
 
 -More efficient regular updating of price charts FOR THROTTLED / RATE-LIMITED APIs (Alphavantage stocks, etc)
 

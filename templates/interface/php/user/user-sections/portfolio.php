@@ -79,7 +79,7 @@
                             
 <?php
 // Start outputting results
-if ( $_POST['submit_check'] == 1 || $run_csv_import || $ui_cookies ) {
+if ( $_POST['submit_check'] == 1 || $post_csv_import || $ui_cookies ) {
 ?>
 
 
@@ -182,7 +182,7 @@ if ( $_POST['submit_check'] == 1 || $run_csv_import || $ui_cookies ) {
 		}
 	
 	}
-	elseif ( $run_csv_import == 1 ) {
+	elseif ( $post_csv_import ) {
 	
 		
 		if ( is_array($csv_file_array) ) {

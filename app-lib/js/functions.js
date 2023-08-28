@@ -2191,86 +2191,105 @@ function nav_menu($chosen_menu) {
      
      	    // Bind the click event handling for clicking different nav item's 'a' tags
      	    $(this).on('click', 'a', function(e){
+              
+              var click_href = $(this).attr('href');   
+              
+              var scan_href = click_href.split('/').pop();   
+              
+              
+                  if (scan_href.indexOf("#") > 0) {
+                  scan_href = scan_href.substring(0, scan_href.indexOf("#"));
+                  }
+                  
+                  
+                  // IF we are not ALREADY in the CORRISPONDING user / admin area
+                  if ( scan_href != $area_file ) {
+                  app_reloading_check(0, click_href);
+                  }
+                  else {
        
-     	    // Update the variables with the new link and content
-     	    $active = $(this);
-     	    $content = $(this.hash);
-     
-         
-     	    // Hide all other content
-              $($chosen_menu + ' a').removeClass('active');
+          	    // Update the variables with the new link and content
+          	    $active = $(this);
+          	    $content = $(this.hash);
+          
               
-              
-          	    $links.not($active).each(function () {
-                   $(this).removeClass('active');
-          	    $(this.hash).hide();
-          	    });
-     	
-     	
-     	         // Get NEW content ID (if the attribute exists)
-          	    if ( typeof $content.attr('id') !== 'undefined' ) {
-          	    $curr_content_id = '#' + $content.attr('id');
-          	    }
-          	    // Otherwise, redirect to the clicked link (if no content id was found on the page)
-          	    else {
-          	    console.log('could not find NEW content id, redirecting to clicked link!');
-                   window.location = $(this).attr('href');
-          	    }
-     
-     	         
-            	    // Make the NEW content element / active nav items active IN ALL NAV MENUS, and show it
-                   $($chosen_menu + " a").each(function() {
-               	         
-               	     if ( $(this).attr('href') == $area_file + $curr_content_id ) {
-                                  
-                         $(this).addClass('active');
-                             
-                               // Saves current page (if BROWSER closed BUT TAB still open),
-                               // ONLY IF NO START PAGE IS EXPLICITLY SET!
-                               if ( get_url_param('start_page') == null ) {
-                               
-                               // MAIN submit form (also stores and updates chosen charts / news feeds / etc)
-                               $("#coin_amnts").attr('action', $area_file + $curr_content_id);
-                               
-                               // Page URL
-                               window.location = $area_file + $curr_content_id; 
-                               
-                               }
-                                  
-                         }
-                             
-                   });
-     
+          	    // Hide all other content
+                   $($chosen_menu + ' a').removeClass('active');
                    
-              // Show NEW content element
-              $($curr_content_id).addClass('active');
-              $($curr_content_id).show();
                    
-     	    // Prevent the anchor's default click action
-     	    e.preventDefault();
-     	    
-              // Scroll left, if we are wider than the page (for UX)
-              scroll_start();
-     	    
-     	    // Do any textarea autoresizes, now that this content is showing
-     	    // (since it may not have been showing on app load)
-     	    autoresize_update(); 
-              
-              
-                   // Set the page's title to top of page
-                   if ( !is_login_form ) {
-                   dynamic_position('.page_title', 'emulate_sticky');
-                   }
-     	    
-     	    
-     	         // Make sure admin iframe heights are adjusted
-     	         // (even if viewing again, AFTER initial load / view)
-                   if ( is_admin == true ) {
-                       admin_iframe_load.forEach(function(iframe) {
-                       iframe_size_adjust(iframe);
-                       });
-                   }
-                 
+               	    $links.not($active).each(function () {
+                        $(this).removeClass('active');
+               	    $(this.hash).hide();
+               	    });
+          	
+          	
+          	         // Get NEW content ID (if the attribute exists)
+               	    if ( typeof $content.attr('id') !== 'undefined' ) {
+               	    $curr_content_id = '#' + $content.attr('id');
+               	    }
+               	    // Otherwise, redirect to the clicked link (if no content id was found on the page)
+               	    else {
+               	    console.log('could not find NEW content id, redirecting to clicked link!');
+                        window.location = $(this).attr('href');
+               	    }
+          
+          	         
+                 	    // Make the NEW content element / active nav items active IN ALL NAV MENUS, and show it
+                        $($chosen_menu + " a").each(function() {
+                    	         
+                    	     if ( $(this).attr('href') == $area_file + $curr_content_id ) {
+                                       
+                              $(this).addClass('active');
+                                  
+                                    // Saves current page (if BROWSER closed BUT TAB still open),
+                                    // ONLY IF NO START PAGE IS EXPLICITLY SET!
+                                    if ( get_url_param('start_page') == null ) {
+                                    
+                                    // MAIN submit form (also stores and updates chosen charts / news feeds / etc)
+                                    $("#coin_amnts").attr('action', $area_file + $curr_content_id);
+                                    
+                                    // Page URL
+                                    window.location = $area_file + $curr_content_id; 
+                                    
+                                    }
+                                       
+                              }
+                                  
+                        });
+          
+                        
+                   // Show NEW content element
+                   $($curr_content_id).addClass('active');
+                   $($curr_content_id).show();
+                        
+          	    // Prevent the anchor's default click action
+          	    e.preventDefault();
+          	    
+                   // Scroll left, if we are wider than the page (for UX)
+                   scroll_start();
+          	    
+          	    // Do any textarea autoresizes, now that this content is showing
+          	    // (since it may not have been showing on app load)
+          	    autoresize_update(); 
+                   
+                   
+                        // Set the page's title to top of page
+                        if ( !is_login_form ) {
+                        dynamic_position('.page_title', 'emulate_sticky');
+                        }
+          	    
+          	    
+          	         // Make sure admin iframe heights are adjusted
+          	         // (even if viewing again, AFTER initial load / view)
+                        if ( is_admin == true ) {
+                            admin_iframe_load.forEach(function(iframe) {
+                            iframe_size_adjust(iframe);
+                            });
+                        }
+                        
+                  
+                  }
+                  
      	    
      	    });
      	    

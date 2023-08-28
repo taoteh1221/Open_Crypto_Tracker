@@ -160,6 +160,14 @@ API INTEGRATION
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
+Magic eden API:
+https://docs.magiceden.io/reference/solana-api-keys
+
+
+Helius NFT API:
+https://docs.helius.dev/compression-and-das-api/digital-asset-standard-das-api/get-assets-by-group
+
+
 Add OPTIONAL Coingecko PRO API support: https://apiguide.coingecko.com/exclusive-endpoints/pro-api
 
 
