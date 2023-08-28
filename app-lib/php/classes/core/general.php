@@ -3288,6 +3288,8 @@ var $ct_array = array();
               
       }
               
+
+   usleep(100000); // Wait 0.10 seconds, to give cookies a chance to save, before any redirect
     
    }
    

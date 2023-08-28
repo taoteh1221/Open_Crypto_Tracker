@@ -306,8 +306,6 @@ $cookie_params = array(
 
 $ct_gen->update_all_cookies($cookie_params);
 
-sleep(1); // Give cookies a chance to save, before redirect
-
 header("Location: " . $ct_gen->start_page($_GET['start_page'])); // Preserve any start page data
 exit;
  
