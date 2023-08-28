@@ -384,18 +384,10 @@
 	<br class='clear_both' />	
 	
 	 <?php
-	 if ( $csv_import_fail != NULL ) {
+	 if ( $csv_import_fail_alert != NULL ) {
 	 ?>
 	<br />	
-	 <div class='red red_dotted' style='font-weight: bold;'><?=$csv_import_fail?></div>
-	<br />	
-	<br />	
-	 <?php
-	 }
-	 if ( $csv_import_succeed != NULL ) {
-	 ?>
-	<br />	
-	 <div class='green green_dotted' style='font-weight: bold;'><?=$csv_import_succeed?></div>
+	 <div class='red red_dotted' style='font-weight: bold;'><?=$csv_import_fail_alert?></div>
 	<br />	
 	<br />	
 	 <?php
