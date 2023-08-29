@@ -1454,7 +1454,7 @@ var $ct_array1 = array();
    function charts_price_alerts($asset_data, $exchange, $pair, $mode) {
    
    // Globals
-   global $base_dir, $ct_conf, $ct_cache, $ct_var, $ct_gen, $ct_api, $min_fiat_val_test, $tracked_throttle_limited_servers, $api_throttle_flag, $throttled_api_cache_time, $default_btc_prim_exchange, $default_btc_prim_currency_val, $default_btc_prim_currency_pair, $price_alert_fixed_reset_array;
+   global $base_dir, $ct_conf, $ct_cache, $ct_var, $ct_gen, $ct_api, $min_fiat_val_test, $tracked_throttle_limited_servers, $api_throttle_flag, $throttled_api_cache_time, $default_btc_prim_exchange, $default_btc_prim_currency_val, $default_btc_prim_currency_pair, $price_alert_fixed_reset_array, $daily_tasks_offset;
    
       
       // Skip completely, if it's an alphavantage market, AND the end-user has NOT added an alphavantage API key
@@ -2072,10 +2072,10 @@ var $ct_array1 = array();
         	 $ct_cache->save_file($base_dir . '/cache/alerts/fiat_price/'.$asset_data.'.dat', $alert_cache_contents); 
         	 }
         	 // Config setting set to ALWAYS reset every X days (and X days threshold has been met)
-	      // 1439 minutes instead (minus 1 minute), to try keeping daily recurrences at same exact runtime (instead of moving up the runtime daily)
+	      // With offset, to try keeping daily recurrences at same exact runtime (instead of moving up the runtime daily)
         	 elseif ( 
         	 $ct_conf['power']['price_alert_fixed_reset'] >= 1 
-        	 && $ct_cache->update_cache('cache/alerts/fiat_price/'.$asset_data.'.dat', ( $ct_conf['power']['price_alert_fixed_reset'] * 1439 ) ) == true
+        	 && $ct_cache->update_cache('cache/alerts/fiat_price/'.$asset_data.'.dat', ( $ct_conf['power']['price_alert_fixed_reset'] * 1440 ) + $daily_tasks_offset ) == true
         	 ) {
           
         	 $ct_cache->save_file($base_dir . '/cache/alerts/fiat_price/'.$asset_data.'.dat', $alert_cache_contents); 

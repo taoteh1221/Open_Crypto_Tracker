@@ -59,8 +59,8 @@ $digest = md5($val['days'] . $val['message']);
 
 
 // Recurring reminder time in minutes
-// 1439 minutes instead (minus 1 minute), to try keeping daily recurrences at same exact runtime (instead of moving up the runtime daily)
-$in_minutes = round( $ct_var->num_to_str(1439 * $val['days']) );
+// With offset, to try keeping daily recurrences at same exact runtime (instead of moving up the runtime daily)
+$in_minutes = round( $ct_var->num_to_str(1440 * $val['days']) + $daily_tasks_offset );
 
 
 // Offset -1 anything 20 minutes or higher, so recurring reminder is triggered at same EXACT cron job interval consistently 

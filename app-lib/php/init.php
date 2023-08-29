@@ -8,7 +8,7 @@
 
 
 // Application version
-$app_version = '6.00.25';  // 2023/AUGUST/23RD
+$app_version = '6.00.26';  // 2023/AUGUST/29TH
 
 
 // #PHP# ERROR LOGGING
@@ -67,6 +67,11 @@ $app_container = 'browser';
 ///////////////////////////////////////////////////
 // **START** DEVELOPER-ONLY CONFIGS
 ///////////////////////////////////////////////////
+
+
+// Time offset (IN MINUTES) on daily background tasks 
+// (so they run at the same time everyday [without 'creeping' up / down for it's time-of-day run])
+$daily_tasks_offset = -4; // Auto-adjusts (higher) for systems with LOW CORE COUNTS in config-init.php
 
 
 // min / max font RESIZE percentages allowed (as decimal representing 100% @ 1.00)

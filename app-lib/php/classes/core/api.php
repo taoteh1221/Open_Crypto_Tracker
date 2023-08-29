@@ -329,7 +329,7 @@ var $ct_array1 = array();
    // Credit: https://www.alexkras.com/simple-rss-reader-in-85-lines-of-php/
    function rss($url, $theme_selected, $feed_size, $cache_only=false, $email_only=false) {
       
-   global $base_dir, $ct_conf, $ct_var, $ct_cache, $ct_gen, $fetched_feeds, $precache_feeds_count, $runtime_mode;
+   global $base_dir, $ct_conf, $ct_var, $ct_cache, $ct_gen, $fetched_feeds, $precache_feeds_count, $runtime_mode, $daily_tasks_offset;
    
    
       if ( !isset($_SESSION[$fetched_feeds]['all']) ) {
@@ -475,13 +475,13 @@ var $ct_array1 = array();
 			            
 			                  
 				     // If publish date is OVER 'news_feed_entries_new' days old, DONT mark as new
-				     // 86340 seconds == 1 day minus 1 minute, to try to catch any that would have been missed from runtime
-				     if ( $ct_var->num_to_str($now_timestamp) > $ct_var->num_to_str( strtotime($item_date) + ($ct_conf['power']['news_feed_entries_new'] * 86340) ) ) {
+				     // With offset, to try to catch any that would have been missed from runtime
+				     if ( $ct_var->num_to_str($now_timestamp) > $ct_var->num_to_str( strtotime($item_date) + ($ct_conf['power']['news_feed_entries_new'] * 86400) + $daily_tasks_offset ) ) {
 				     $mark_new = null;
 				     }
 				     // If running as $email_only, we only want 'new' posts anyway (less than 'news_feed_email_freq' days old)
-				     // 86340 seconds == 1 day minus 1 minute, to try to catch any that would have been missed from runtime
-				     elseif ( $email_only && $ct_var->num_to_str($now_timestamp) <= $ct_var->num_to_str( strtotime($item_date) + ($ct_conf['comms']['news_feed_email_freq'] * 86340) ) ) { 
+				     // With offset, to try to catch any that would have been missed from runtime
+				     elseif ( $email_only && $ct_var->num_to_str($now_timestamp) <= $ct_var->num_to_str( strtotime($item_date) + ($ct_conf['comms']['news_feed_email_freq'] * 86400) + $daily_tasks_offset ) ) { 
 				     
     				     if ($count < $ct_conf['comms']['news_feed_email_entries_show']) {
     				     $html .= '<li style="padding: 8px;"><a style="color: #00b6db;" href="'.htmlspecialchars($item_link).'" target="_blank" title="'.htmlspecialchars($date_ui).'">'.htmlspecialchars($item->title).'</a> </li>';
@@ -562,13 +562,13 @@ var $ct_array1 = array();
 		                  
 		                  
 			         // If publish date is OVER 'news_feed_entries_new' days old, DONT mark as new
-				     // 86340 seconds == 1 day minus 1 minute, to try to catch any that would have been missed from runtime
-			         if ( $ct_var->num_to_str($now_timestamp) > $ct_var->num_to_str( strtotime($item_date) + ($ct_conf['power']['news_feed_entries_new'] * 86340) ) ) {
+				     // With offset, to try to catch any that would have been missed from runtime
+			         if ( $ct_var->num_to_str($now_timestamp) > $ct_var->num_to_str( strtotime($item_date) + ($ct_conf['power']['news_feed_entries_new'] * 86400) + $daily_tasks_offset ) ) {
 			         $mark_new = null;
 			         }
 				     // If running as $email_only, we only want 'new' posts anyway (less than 'news_feed_email_freq' days old)
-				     // 86340 seconds == 1 day minus 1 minute, to try to catch any that would have been missed from runtime
-				     elseif ( $email_only && $ct_var->num_to_str($now_timestamp) <= $ct_var->num_to_str( strtotime($item_date) + ($ct_conf['comms']['news_feed_email_freq'] * 86340) ) ) {
+				     // With offset, to try to catch any that would have been missed from runtime
+				     elseif ( $email_only && $ct_var->num_to_str($now_timestamp) <= $ct_var->num_to_str( strtotime($item_date) + ($ct_conf['comms']['news_feed_email_freq'] * 86400) + $daily_tasks_offset ) ) {
     			     
     				     if ($count < $ct_conf['comms']['news_feed_email_entries_show']) {
     				     $html .= '<li style="padding: 8px;"><a style="color: #00b6db;" href="'.htmlspecialchars($item_link).'" target="_blank" title="'.htmlspecialchars($date_ui).'">'.htmlspecialchars($item->title).'</a> </li>';
