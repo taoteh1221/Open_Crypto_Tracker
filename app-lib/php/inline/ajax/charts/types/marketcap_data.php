@@ -280,7 +280,7 @@ gui: {
   		source: {
 	 		height: '13px',
   		   text: "Select height area to zoom in chart, to see smaller values better (only vertical axis zooming supported).",
-    		fontColor:"#dd7c0d",
+    		fontColor:"#F7931A",
 	      fontSize: "15",
     		fontFamily: "Open Sans",
     		offsetX: 140,

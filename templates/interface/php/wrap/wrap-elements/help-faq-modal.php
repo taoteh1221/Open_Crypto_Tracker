@@ -4,12 +4,16 @@
 <div class='' id="show_help_faq">
 	
 		
-		<h3 style='display: inline;'>Help? / FAQ</h3>
+		<h3 class='blue' style='display: inline;'>Help? / FAQ</h3>
 	
 				<span style='z-index: 99999; margin-right: 55px;' class='red countdown_notice_modal'></span>
 	
 	<br clear='all' />
 	<br clear='all' />
+	
+	
+	<div class='bitcoin_dotted bitcoin' style='font-weight: bold;'> Additional documentation can be found in <a href='README.txt' target='_blank'>README.txt</a></div>
+				    
 			
 	<?php
 	if ( $app_edition == 'desktop' && $app_platform == 'windows' && $app_container == 'phpdesktop' ) {

@@ -58,7 +58,7 @@ function to_timestamp(year,month,day,hour,minute,second) {
 function background_loading_notices(message) {
 
     if ( $("#background_loading_span").html() != 'Please wait, finishing background tasks...' ) {
-    $("#background_loading_span").html(message).css("color", "#dd7c0d", "important");
+    $("#background_loading_span").html(message).css("color", "#F7931A", "important");
     }
 
 }
@@ -2434,7 +2434,7 @@ private_data = document.getElementsByClassName('private_data');
                     autoresize_update();
         
                     $("#pm_link").text('Privacy Mode: Off');
-                    $("#pm_link_icon_div").css("background", "#dd7c0d");
+                    $("#pm_link_icon_div").css("background", "#F7931A");
                     $("#pm_link3").text('Privacy Mode: Off');
                                 
                     }

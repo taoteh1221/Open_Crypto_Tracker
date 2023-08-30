@@ -2399,7 +2399,7 @@ var $ct_array = array();
       // Reset feed fetch telemetry 
       $_SESSION[$fetched_feeds] = false;
         	
-      $header = '<html><head> <style> li {margin: 8px;} fieldset, legend {color: #dd7c0d;} </style> </head><body>' . "\n\n" . '<div style="padding: 15px;">' . "\n\n";
+      $header = '<html><head> <style> li {margin: 8px;} fieldset, legend {color: #F7931A;} </style> </head><body>' . "\n\n" . '<div style="padding: 15px;">' . "\n\n";
       
       $footer = "\n\n" . '</div>' . "\n\n" . '</body></html>';
         

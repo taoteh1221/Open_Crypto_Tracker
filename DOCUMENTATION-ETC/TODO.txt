@@ -10,6 +10,19 @@ NEXT SCHEDULED WORK SESSIONS (*BOTH* DEBUGGING AND / OR INFRASTRUCTURE)
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
+Move news feeds config into it's own section.
+
+
+Change the "other apis" section to "External APIs".
+
+
+Add to news feeds:
+https://www.youtube.com/channel/UCjsgQKPpR7ubPQhPqjf8kyA
+
+
+Add to new feeds: https://stepdata.substack.com/
+
+
 Add ALTNFTS asset, based on a user's primary currency (like MISCASSETS)
 
 

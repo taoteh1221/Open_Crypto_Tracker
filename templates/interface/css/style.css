@@ -243,7 +243,7 @@ overflow-x: hidden !important; /* Hide horizontal scrollbar */
 
 
 .random_tip a {
-color: #dd7c0d !important;
+color: #F7931A !important;
 text-decoration-style: dotted;
 }
 
@@ -458,18 +458,25 @@ color: #ffb83f !important;
 
 
 .bitcoin, .btc, #sidebar ul.list-unstyled li a.bitcoin:link {
-color: #dd7c0d !important;
+color: #F7931A !important;
 }
 
 
 .bitcoin_dotted {
 padding: 1.1em;
-border: 0.4em dotted #dd7c0d !important;
+border: 0.4em dotted #F7931A !important;
 }
 
 
 .eth {
-color: #939cbc !important;
+color: #8C8C8C !important;
+}
+
+
+.sol {
+  background: -webkit-linear-gradient(#16E9AC, #CF2CFA);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
 }
 
 
@@ -567,7 +574,7 @@ width: 100%;
 font-weight: bold;
 background-color: #5b5b5b;
 opacity: 0.75;
-border: 0.2em dotted #dd7c0d;
+border: 0.2em dotted #F7931A;
 border-radius: 30px;
 padding: 5px;
 margin: auto;
@@ -731,7 +738,7 @@ border: 0.1em solid #808080 !important;
 
 
 #pm_link_icon_div {
-background: #dd7c0d;
+background: #F7931A;
 }
 
 
@@ -827,7 +834,7 @@ padding-top: 0px;
 padding-bottom: 1.3em;
 padding-left: 1.9em;
 padding-right: 1.9em;
-border: 0.2em solid #dd7c0d; 
+border: 0.2em solid #F7931A; 
 }
 
 
@@ -882,7 +889,7 @@ line-height: 3.6em;
 white-space: normal;
 word-wrap: break-word;
 background: #ededa6 !important;
-border: 0.3em solid #dd7c0d !important; 
+border: 0.3em solid #F7931A !important; 
 border-radius: 0.7em;
 color: #ff4747;
 }
