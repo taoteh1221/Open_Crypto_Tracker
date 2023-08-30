@@ -468,8 +468,17 @@ border: 0.4em dotted #F7931A !important;
 }
 
 
+.btc {
+  background: -webkit-linear-gradient(#f27e02, #edb678);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+
 .eth {
-color: #8C8C8C !important;
+  background: -webkit-linear-gradient(#4c4b4b, #9e9c9c);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
 }
 
 
