@@ -110,6 +110,23 @@ $ct_cache->save_file($base_dir . '/cache/vars/admin_area_sec_level.dat', $admin_
 //////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
+// Toggle 2FA DEFAULTS (#MUST# BE SET IMMEADIATELY AFTER ADMIN SECURITY LEVEL)
+// (EXCEPT IF 'opt_admin_2fa' from authenticated admin is verified [that MUST be in 3rd-party-classes-loader.php])
+
+// If not updating, and cached var already exists
+if ( file_exists($base_dir . '/cache/vars/admin_area_2fa.dat') ) {
+$admin_area_2fa = trim( file_get_contents($base_dir . '/cache/vars/admin_area_2fa.dat') );
+}
+// Else, default to 2FA disabled
+else {
+$admin_area_2fa = 'off';
+$ct_cache->save_file($base_dir . '/cache/vars/admin_area_2fa.dat', $admin_area_2fa);
+}
+
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
 // IF NOT FAST RUNTIMES
 if ( !$is_fast_runtime ) {
      
@@ -120,6 +137,22 @@ if ( !$is_fast_runtime ) {
      // WE LOAD ct_conf WAY EARLIER, SO IT'S NOT INCLUDED HERE
      
      foreach( $secured_cache_files as $secured_file ) {
+     	
+     	
+     	// Secret var (for google authenticator etc)
+     	if ( preg_match("/secret_var_/i", $secured_file) ) {
+     		
+     		
+     		// If we already loaded the newest modified file, delete any stale ones
+     		if ( $auth_secret ) {
+     		unlink($base_dir . '/cache/secured/' . $secured_file);
+     		}
+     		else {
+     		$auth_secret = trim( file_get_contents($base_dir . '/cache/secured/' . $secured_file) );
+     		}
+     	
+     	
+     	}
      	
      	
      	// Pepper var (for secure hashed password storage)
@@ -248,6 +281,34 @@ if ( !$is_fast_runtime ) {
      	
      	}
      	
+     
+     }
+     
+     
+     //////////////////////////////////////////////////////////////////////////////////////////////////////////
+     
+     
+     // If no secret var
+     if ( !$auth_secret ) {
+     
+     $secure_128bit_hash = $ct_gen->rand_hash(16); // 128-bit (16-byte) hash converted to hexadecimal, used for suffix
+     $secure_256bit_hash = $ct_gen->rand_hash(32); // 256-bit (32-byte) hash converted to hexadecimal, used for var
+     	
+     	
+     	// Halt the process if an issue is detected safely creating a random hash
+     	if ( $secure_128bit_hash == false || $secure_256bit_hash == false ) {
+     		
+     	$ct_gen->log(
+     				'security_error',
+     				'Cryptographically secure pseudo-random bytes could not be generated for secret var (in secured cache storage), secret var creation aborted to preserve security'
+     				);
+     	
+     	}
+     	else {
+     	$ct_cache->save_file($base_dir . '/cache/secured/secret_var_'.$secure_128bit_hash.'.dat', $secure_256bit_hash);
+     	$auth_secret = $secure_256bit_hash;
+     	}
+     
      
      }
      

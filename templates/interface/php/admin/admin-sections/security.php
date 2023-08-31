@@ -11,6 +11,7 @@
 
 	<div class='red red_dotted' style='margin-bottom: 20px;'>
 	
+	
 	<form name='toggle_admin_security' id='toggle_admin_security' action='admin.php?iframe=<?=$ct_gen->admin_hashed_nonce('iframe_security')?>&section=security&refresh=all' method='post'>
 	
 	<input type='hidden' name='admin_hashed_nonce' value='<?=$ct_gen->admin_hashed_nonce('toggle_admin_security')?>' />
@@ -22,6 +23,37 @@
 	<br /> <input type='radio' name='opt_admin_sec' id='opt_admin_sec_high' value='high' onclick='set_admin_security(this);' <?=( $admin_area_sec_level == 'normal' ? '' : 'checked' )?> /> High &nbsp; <input type='radio' name='opt_admin_sec' id='opt_admin_sec_enhanced' value='enhanced' onclick='set_admin_security(this);' <?=( $admin_area_sec_level == 'enhanced' ? 'checked' : '' )?> /> Enhanced &nbsp; <input type='radio' name='opt_admin_sec' id='opt_admin_sec_normal' value='normal' onclick='set_admin_security(this);' <?=( $admin_area_sec_level == 'normal' ? 'checked' : '' )?> /> Normal
 	
 	</form>
+	
+	
+	<form name='toggle_admin_2fa' id='toggle_admin_2fa' action='admin.php?iframe=<?=$ct_gen->admin_hashed_nonce('iframe_security')?>&section=security&refresh=all' method='post'>
+	
+	<input type='hidden' name='admin_hashed_nonce' value='<?=$ct_gen->admin_hashed_nonce('toggle_admin_2fa')?>' />
+	
+	<input type='hidden' name='sel_admin_2fa' id='sel_admin_2fa' value='<?=$admin_area_2fa?>' />
+	
+	<b>Admin Two-Factor Authentication (ADDITIONAL one-time-password security)</b> &nbsp;<img class="tooltip_style_control admin_security_settings" src="templates/interface/media/images/info.png" alt="" width="30" style="position: relative; left: -5px;" />
+	
+	<br /> <input type='radio' name='opt_admin_2fa' id='opt_admin_2fa_off' value='off' onclick='set_admin_2fa(this);' <?=( $admin_area_2fa == 'off' ? '' : 'checked' )?> /> Off &nbsp; <input type='radio' name='opt_admin_2fa' id='opt_admin_2fa_on' value='on' onclick='set_admin_2fa(this);' <?=( $admin_area_2fa == 'on' ? 'checked' : '' )?> /> On
+
+	          <div class='show_2fa_verification'>
+
+			<p style='font-weight: bold;' class='bitcoin'>Scan this QR code with your authenticator app:</p>
+			
+			<p><img src='templates/interface/media/images/2fa_setup.php?2fa_setup=<?=$ct_gen->admin_hashed_nonce('2fa_setup')?>' /></p>
+			
+			<p class='red' style='font-weight: bold;'>--ENTER THE CODE IN YOUR AUTHENTICATOR APP BELOW-- TO ENABLE 2FA:</p>
+			
+			<p><input type='text' name='2fa_code_verify' id='2fa_code_verify' value='' /></p>
+
+			</div>
+	
+	</form>
+		
+		<!-- Submit button must be OUTSIDE form tags here, or it submits the target form improperly and loses data -->
+		<p class='show_2fa_verification'><button class='force_button_style' onclick='
+		$("#toggle_admin_2fa").submit();
+		'>Save Updated Portfolio</button></p>
+			
 	
 	</div>
 	

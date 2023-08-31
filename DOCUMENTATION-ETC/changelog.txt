@@ -6252,6 +6252,8 @@ v6.00.2 AND HIGHER RESETS LIGHT (TIME PERIOD) CHARTS FROM ARCHIVAL DATA, ONE-TIM
 
 -User experience on daily background tasks (should no longer 'creep' up / down for time-of-day run)
 
+-Added OPTIONAL Two-Factor Security feature for admin area (Google Authenticator / Microsoft Authenticator, Authy, etc)
+
 -------------------------------------------------------------------
 
 

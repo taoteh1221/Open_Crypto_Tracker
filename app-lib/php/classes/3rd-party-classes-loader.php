@@ -6,6 +6,38 @@
 
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// 2FA (Google Authenticator)
+
+// Credit to: https://www.rafaelwendel.com/en/2021/05/two-step-verification-with-php-and-google-authenticator/
+ 
+require_once($base_dir . '/app-lib/php/classes/3rd-party/google-authenticator/FixedBitNotation.php');
+require_once($base_dir . '/app-lib/php/classes/3rd-party/google-authenticator/GoogleAuthenticatorInterface.php');
+require_once($base_dir . '/app-lib/php/classes/3rd-party/google-authenticator/GoogleAuthenticator.php');
+require_once($base_dir . '/app-lib/php/classes/3rd-party/google-authenticator/GoogleQrUrl.php');
+ 
+$google_auth = new \Google\Authenticator\GoogleAuthenticator();
+
+
+// Toggle 2FA, if 'opt_admin_2fa' from authenticated admin is verified
+// (#MUST# BE SET AFTER LOADING THE GOOGLE AUTH CLASS)
+if ( isset($_POST['opt_admin_2fa']) && isset($_POST['2fa_code_verify']) && $ct_gen->pass_sec_check($_POST['admin_hashed_nonce'], 'toggle_admin_2fa') ) {
+
+     if ( $google_auth->checkCode($auth_secret, $_POST['2fa_code_verify']) ) {
+     $admin_area_2fa = $_POST['opt_admin_2fa'];
+     $ct_cache->save_file($base_dir . '/cache/vars/admin_area_2fa.dat', $_POST['opt_admin_2fa']);
+     }
+     else {
+     $ct_gen->log('security_error', '2FA Setup failed due to code verification mismatch, please try again');
+     }
+     
+}
+
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // SMTP email setup (if needed...MUST RUN AFTER dynamic app config auto-adjust)
 // To be safe, don't use trim() on certain strings with arbitrary non-alphanumeric characters here
 if ( $ct_conf['comms']['smtp_login'] != '' && $ct_conf['comms']['smtp_server'] != '' ) {

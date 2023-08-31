@@ -10,10 +10,19 @@ NEXT SCHEDULED WORK SESSIONS (*BOTH* DEBUGGING AND / OR INFRASTRUCTURE)
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
+Integrate google authenticator / microsoft authenticator / authy / etc BEING REQUIRED TO CHANGE THE ADMIN SECURITY LEVEL (and also make it OPTIONAL for login security):
+
+https://www.google.com/search?q=php+one+time+password+google+authenticator
+
+https://stackoverflow.com/questions/tagged/sonata
+
+Require activating and using 2FA to even VIEW the security settings page?
+
+
 Move news feeds config into it's own section.
 
 
-Change the "other apis" section to "External APIs".
+Change the "other apis" section to "External APIs", AND move comms APIs into it (but add a notice atop comms section about comms APIs moved over there).
 
 
 Add to news feeds:
@@ -99,19 +108,6 @@ Add feature to address balance tracker plugin to set minimum time to wait before
 
 
 Merge System stats / access stats / app logs into one area called: System & App Monitoring. Add horizontal tabs a top of this area, for each subsection.
-
-
-Integrate google authenticator / microsoft authenticator / authy / etc BEING REQUIRED TO CHANGE THE ADMIN SECURITY LEVEL (and also make it OPTIONAL for login security):
-
-https://www.google.com/search?q=php+one+time+password+google+authenticator
-
-https://www.rafaelwendel.com/en/2021/05/two-step-verification-with-php-and-google-authenticator/
-
-https://github.com/sonata-project/GoogleAuthenticator
-
-https://stackoverflow.com/questions/tagged/sonata
-
-Require activating and using 2FA to even VIEW the security settings page.
 
 
 When importing bootstrap price chart data in on XAMMP for Windows, WHEN SETUP FOR 15 MINUTE TASK SCHEDULER INTERVALS INSTEAD OF THE DEFAULT 20 MINUTE INTERVALS, all chart data seemed correct EXCEPT for 2 week data. Try and replicate this on other setups, and review the auto-reset trigger / directory deletion logic for any possible issues, as well as the light chart creation logic. I SUSPECT THE LATTER.
