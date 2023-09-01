@@ -10,7 +10,22 @@ NEXT SCHEDULED WORK SESSIONS (*BOTH* DEBUGGING AND / OR INFRASTRUCTURE)
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
+We still need to wrap the 2FA secret with md5 or some other digest (INSIDE the base32-encoding wrap), to hide the GLOBAL secret key (which otherwise could be base32-DECODED from the 2FA setup's QR code).
+
+
+Replace pepper var with new secret key var (it's exactly the same logic).
+
+
+Leaving ANY security mode should require enabling 2FA, AND send out an OPTIONAL comms alert once completed (like we do for logins).
+
+
+Medium security mode should require entering the 2FA code.
+
+
 Add 2FA to all admin login / reset / register forms
+
+
+Iframe reloads should NOT RESUBMIT DATA.
 
 
 Move news feeds config into it's own section.
