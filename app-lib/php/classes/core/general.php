@@ -2007,11 +2007,11 @@ var $ct_array = array();
    
    function throttled_warning_log($type) {
    
-   global $ct_conf, $ct_cache, $base_dir, $system_info, $system_warnings, $system_warnings_cron_interval;
+   global $ct_conf, $ct_cache, $base_dir, $system_info, $system_warnings, $system_warnings_cron_interval, $daily_tasks_offset;
    
    
-	  // Minus 1 minute, to try keeping daily / hourly recurrences at same exact runtime (instead of moving up the runtime daily / hourly)
-      if ( $ct_cache->update_cache($base_dir . '/cache/events/system/warning-' . $type . '.dat', ($system_warnings_cron_interval[$type] * 60) -1 ) == true ) {
+	  // With offset, to try keeping daily / hourly recurrences at same exact runtime (instead of moving up the runtime daily / hourly)
+      if ( $ct_cache->update_cache($base_dir . '/cache/events/system/warning-' . $type . '.dat', ($system_warnings_cron_interval[$type] * 60) + $daily_tasks_offset ) == true ) {
           
       $this->log('system_warning', $system_warnings[$type]);
       
@@ -2390,16 +2390,16 @@ var $ct_array = array();
   
    function news_feed_email($interval) {
   
-   global $ct_conf, $ct_cache, $ct_api, $app_edition, $base_dir, $base_url;
+   global $ct_conf, $ct_cache, $ct_api, $app_edition, $base_dir, $base_url, $daily_tasks_offset;
   
   
-	  // 1439 minutes instead (minus 1 minute), to try keeping daily recurrences at same exact runtime (instead of moving up the runtime daily)
-      if ( $ct_cache->update_cache($base_dir . '/cache/events/news-feed-email.dat', ($interval * 1439) ) == true ) {
+	  // With offset, to try keeping daily recurrences at same exact runtime (instead of moving up the runtime daily)
+      if ( $ct_cache->update_cache($base_dir . '/cache/events/news-feed-email.dat', ($interval * 1440) + $daily_tasks_offset ) == true ) {
       
       // Reset feed fetch telemetry 
       $_SESSION[$fetched_feeds] = false;
         	
-      $header = '<html><head> <style> li {margin: 8px;} fieldset, legend {color: #dd7c0d;} </style> </head><body>' . "\n\n" . '<div style="padding: 15px;">' . "\n\n";
+      $header = '<html><head> <style> li {margin: 8px;} fieldset, legend {color: #F7931A;} </style> </head><body>' . "\n\n" . '<div style="padding: 15px;">' . "\n\n";
       
       $footer = "\n\n" . '</div>' . "\n\n" . '</body></html>';
         

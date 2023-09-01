@@ -25,31 +25,31 @@ if ( $runtime_mode != 'cron' && $ct_cache->update_cache($base_dir . '/cache/even
 		}
     
     
-    	// If coinmarketcap API key is added, re-cache data for faster UI runtimes later
-    	if ( trim($ct_conf['other_api']['coinmarketcap_key']) != null ) {
-    	$coinmarketcap_api = $ct_api->coinmarketcap();
-    	}
+         	// If coinmarketcap API key is added, re-cache data for faster UI runtimes later
+         	if ( trim($ct_conf['other_api']['coinmarketcap_key']) != null ) {
+         	$coinmarketcap_api = $ct_api->coinmarketcap();
+         	}
     	 
     
-    // Re-cache marketcap data for faster UI runtimes later
-    $coingecko_api = $ct_api->coingecko();
+     // Re-cache marketcap data for faster UI runtimes later
+     $coingecko_api = $ct_api->coingecko();
     	 
     	 
-    // Re-cache chain data for faster UI runtimes later
+     // Re-cache chain data for faster UI runtimes later
     
-    // Bitcoin
-    $ct_api->bitcoin('height');
-    $ct_api->bitcoin('difficulty');
+     // Bitcoin
+     $ct_api->bitcoin('height');
+     $ct_api->bitcoin('difficulty');
     
-    // Ethereum
-    $ct_api->etherscan('number');
-    $ct_api->etherscan('difficulty');
-    $ct_api->etherscan('gasLimit');
+     // Ethereum
+     $ct_api->etherscan('number');
+     $ct_api->etherscan('difficulty');
+     $ct_api->etherscan('gasLimit');
     
-    // Hive
-    $ct_api->market('HIVE', 'bittrex', 'BTC-HIVE');
+     // Hive
+     $ct_api->market('HIVE', 'bittrex', 'BTC-HIVE');
     
-    // Chain data END
+     // Chain data END
    
 	}
 	////////////////////////////////////////////////////////////
@@ -127,9 +127,9 @@ $ct_cache->delete_old_files($logs_cache_cleanup, $ct_conf['power']['logs_purge']
         if ( !copy($get_file, $save_file) ) {
          
         $ct_gen->log(
-               		'system_error',
-               		'Error copying file "' . $get_file . '" into "' . $save_file . '"'
-               		);
+               	'system_error',
+               	'Error copying file "' . $get_file . '" into "' . $save_file . '"'
+               	);
                				
         }
 

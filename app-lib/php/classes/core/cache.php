@@ -482,11 +482,11 @@ var $ct_array1 = array();
   
   function backup_archive($backup_prefix, $backup_target, $interval, $password='no') {
   
-  global $ct_conf, $ct_gen, $ext_zip, $base_dir, $base_url;
+  global $ct_conf, $ct_gen, $ext_zip, $base_dir, $base_url, $daily_tasks_offset;
   
   
-	  // 1439 minutes instead (minus 1 minute), to try keeping daily recurrences at same exact runtime (instead of moving up the runtime daily)
-      if ( $this->update_cache($base_dir . '/cache/events/backup-'.$backup_prefix.'.dat', ( $interval * 1439 ) ) == true ) {
+	  // With offset, to try keeping daily recurrences at same exact runtime (instead of moving up the runtime daily)
+      if ( $this->update_cache($base_dir . '/cache/events/backup-'.$backup_prefix.'.dat', ( $interval * 1440 ) + $daily_tasks_offset ) == true ) {
      
       $secure_128bit_hash = $ct_gen->rand_hash(16); // 128-bit (16-byte) hash converted to hexadecimal, used for suffix
       
@@ -1030,7 +1030,7 @@ var $ct_array1 = array();
   
   function debug_log() {
   
-  global $runtime_mode, $base_dir, $ct_conf, $ct_gen, $log_debugging, $alerts_gui_debugging;
+  global $runtime_mode, $base_dir, $ct_conf, $ct_gen, $log_debugging, $alerts_gui_debugging, $daily_tasks_offset;
   
   
       if ( $ct_conf['power']['debug_mode'] == 'off' ) {
@@ -1075,8 +1075,8 @@ var $ct_array1 = array();
   
   
       // If it's time to email debugging logs...
-	  // 1439 minutes instead (minus 1 minute), to try keeping daily recurrences at same exact runtime (instead of moving up the runtime daily)
-      if ( $ct_conf['comms']['logs_email'] > 0 && $this->update_cache('cache/events/email-debugging-logs.dat', ( $ct_conf['comms']['logs_email'] * 1439 ) ) == true ) {
+	  // With offset, to try keeping daily recurrences at same exact runtime (instead of moving up the runtime daily)
+      if ( $ct_conf['comms']['logs_email'] > 0 && $this->update_cache('cache/events/email-debugging-logs.dat', ( $ct_conf['comms']['logs_email'] * 1440 ) + $daily_tasks_offset ) == true ) {
        
       $emailed_logs = "\n\n ------------------debug.log------------------ \n\n" . file_get_contents('cache/logs/debug.log') . "\n\n ------------------smtp_debug.log------------------ \n\n" . file_get_contents('cache/logs/smtp_debug.log');
        
@@ -1099,8 +1099,8 @@ var $ct_array1 = array();
       
       
       // Log debugging...Purge old logs before storing new logs, if it's time to...otherwise just append.
-	  // 1439 minutes instead (minus 1 minute), to try keeping daily recurrences at same exact runtime (instead of moving up the runtime daily)
-      if ( $this->update_cache('cache/events/purge-debugging-logs.dat', ( $ct_conf['power']['logs_purge'] * 1439 ) ) == true ) {
+	  // With offset, to try keeping daily recurrences at same exact runtime (instead of moving up the runtime daily)
+      if ( $this->update_cache('cache/events/purge-debugging-logs.dat', ( $ct_conf['power']['logs_purge'] * 1440 ) + $daily_tasks_offset ) == true ) {
       
       unlink($base_dir . '/cache/logs/smtp_debug.log');
       unlink($base_dir . '/cache/logs/debug.log');
@@ -1139,7 +1139,7 @@ var $ct_array1 = array();
   
   function error_log() {
   
-  global $runtime_mode, $base_dir, $ct_conf, $ct_gen, $log_errors, $alerts_gui_errors;
+  global $runtime_mode, $base_dir, $ct_conf, $ct_gen, $log_errors, $alerts_gui_errors, $daily_tasks_offset;
 
   
       foreach ( $log_errors['notify_error'] as $error ) {
@@ -1181,8 +1181,8 @@ var $ct_array1 = array();
     
     
       // If it's time to email error logs...
-	  // 1439 minutes instead (minus 1 minute), to try keeping daily recurrences at same exact runtime (instead of moving up the runtime daily)
-      if ( $ct_conf['comms']['logs_email'] > 0 && $this->update_cache('cache/events/email-error-logs.dat', ( $ct_conf['comms']['logs_email'] * 1439 ) ) == true ) {
+	  // With offset, to try keeping daily recurrences at same exact runtime (instead of moving up the runtime daily)
+      if ( $ct_conf['comms']['logs_email'] > 0 && $this->update_cache('cache/events/email-error-logs.dat', ( $ct_conf['comms']['logs_email'] * 1440 ) + $daily_tasks_offset ) == true ) {
        
       $emailed_logs = "\n\n ------------------error.log------------------ \n\n" . file_get_contents('cache/logs/error.log') . "\n\n ------------------smtp_error.log------------------ \n\n" . file_get_contents('cache/logs/smtp_error.log');
        
@@ -1205,8 +1205,8 @@ var $ct_array1 = array();
       
       
       // Log errors...Purge old logs before storing new logs, if it's time to...otherwise just append.
-	  // 1439 minutes instead (minus 1 minute), to try keeping daily recurrences at same exact runtime (instead of moving up the runtime daily)
-      if ( $this->update_cache('cache/events/purge-error-logs.dat', ( $ct_conf['power']['logs_purge'] * 1439 ) ) == true ) {
+	  // With offset, to try keeping daily recurrences at same exact runtime (instead of moving up the runtime daily)
+      if ( $this->update_cache('cache/events/purge-error-logs.dat', ( $ct_conf['power']['logs_purge'] * 1440 ) + $daily_tasks_offset ) == true ) {
       
       unlink($base_dir . '/cache/logs/smtp_error.log');
       unlink($base_dir . '/cache/logs/error.log');

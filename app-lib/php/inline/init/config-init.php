@@ -61,6 +61,12 @@ $max_exec_time = 250; // 250 seconds default
 }
 
 
+// Auto-increase time offset on daily background tasks for systems with low core counts
+if ( $system_info['cpu_threads'] < 4 ) {
+$daily_tasks_offset = ceil($daily_tasks_offset * 2);
+}
+
+
 // Maximum time script can run (may OR may not be overridden by operating system values, BUT we want this if the system allows it)
 set_time_limit($max_exec_time); // Doc suggest this may be more reliable than ini_set max_exec_time?
 
