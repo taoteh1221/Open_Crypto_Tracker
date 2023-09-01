@@ -109,6 +109,15 @@ nav_menu('.user-nav');
 
 	/////////////////////////////////////////////////////////////////////////////////////////////////////
 	
+
+    // INITIAL vertical scroll should always start at top for UX
+    $('html, body').animate({
+    scrollTop: 0
+    }, 'slow');
+
+
+	/////////////////////////////////////////////////////////////////////////////////////////////////////
+	
 	
     // If all cookie data is above threshold trigger, warn end-user in UI
     if ( typeof cookies_size_warning != 'undefined' && cookies_size_warning != 'none' ) {
@@ -196,6 +205,9 @@ nav_menu('.user-nav');
        
           // When admin iframe loads / reloads
           iframe.addEventListener('load', function() {
+          
+          // Always scroll to top left on load / reload for UX
+          iframe.contentWindow.scrollTo(0,0);
     
           iframe_size_adjust(iframe);
           $("#"+iframe.id+"_loading").fadeOut(250);

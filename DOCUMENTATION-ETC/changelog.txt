@@ -6254,6 +6254,8 @@ v6.00.2 AND HIGHER RESETS LIGHT (TIME PERIOD) CHARTS FROM ARCHIVAL DATA, ONE-TIM
 
 -Added OPTIONAL Two-Factor Security feature for admin area (Google Authenticator / Microsoft Authenticator, Authy, etc)
 
+-Miscellaneous user experience improvements
+
 -------------------------------------------------------------------
 
 

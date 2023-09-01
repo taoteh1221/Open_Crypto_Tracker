@@ -53,10 +53,11 @@ final class GoogleQrUrl
      *
      * @param string      $accountName The account name to show and identify
      * @param string      $secret      The secret is the generated secret unique to that user
+     * @param string      $data_only   Only return the data, so we can build our QR code locally (for privacy)
      * @param string|null $issuer      Where you log in to
      * @param int         $size        Image size in pixels, 200 will make it 200x200
      */
-    public static function generate(string $accountName, string $secret, ?string $issuer = null, int $size = 200): string
+    public static function generate(string $accountName, string $secret, string $data_only, ?string $issuer = null, int $size = 200): string
     {
         if ('' === $accountName || false !== strpos($accountName, ':')) {
             throw RuntimeException::InvalidAccountName($accountName);
@@ -76,16 +77,23 @@ final class GoogleQrUrl
 
             // use both the issuer parameter and label prefix as recommended by Google for BC reasons
             $label = $issuer.':'.$label;
-            $otpauthString .= '&issuer=%s';
+            $otpauthString .= ( $data_only ? '' : '&issuer=%s' );
         }
 
         $otpauthString = rawurlencode(sprintf($otpauthString, $label, $secret, $issuer));
-
-        return sprintf(
-            'https://api.qrserver.com/v1/create-qr-code/?size=%1$dx%1$d&data=%2$s&ecc=M',
-            $size,
-            $otpauthString
-        );
+        
+        if ( !$data_only ) {
+        
+             return sprintf(
+                 'https://api.qrserver.com/v1/create-qr-code/?size=%1$dx%1$d&data=%2$s&ecc=M',
+                 $size,
+                 $otpauthString
+             );
+             
+        }
+        else {
+        return 'otpauth://totp/Open%20Crypto%20Tracker:'.$accountName.'?secret=' . $secret . '&issuer=Open%20Crypto%20Tracker&digits=6&period=30';
+        }
     }
 }
 

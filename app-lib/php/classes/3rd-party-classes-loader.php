@@ -6,33 +6,8 @@
 
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-// 2FA (Google Authenticator)
-
-// Credit to: https://www.rafaelwendel.com/en/2021/05/two-step-verification-with-php-and-google-authenticator/
- 
-require_once($base_dir . '/app-lib/php/classes/3rd-party/google-authenticator/FixedBitNotation.php');
-require_once($base_dir . '/app-lib/php/classes/3rd-party/google-authenticator/GoogleAuthenticatorInterface.php');
-require_once($base_dir . '/app-lib/php/classes/3rd-party/google-authenticator/GoogleAuthenticator.php');
-require_once($base_dir . '/app-lib/php/classes/3rd-party/google-authenticator/GoogleQrUrl.php');
- 
-$google_auth = new \Google\Authenticator\GoogleAuthenticator();
-
-
-// Toggle 2FA, if 'opt_admin_2fa' from authenticated admin is verified
-// (#MUST# BE SET AFTER LOADING THE GOOGLE AUTH CLASS)
-if ( isset($_POST['opt_admin_2fa']) && isset($_POST['2fa_code_verify']) && $ct_gen->pass_sec_check($_POST['admin_hashed_nonce'], 'toggle_admin_2fa') ) {
-
-     if ( $google_auth->checkCode($auth_secret, $_POST['2fa_code_verify']) ) {
-     $admin_area_2fa = $_POST['opt_admin_2fa'];
-     $ct_cache->save_file($base_dir . '/cache/vars/admin_area_2fa.dat', $_POST['opt_admin_2fa']);
-     }
-     else {
-     $ct_gen->log('security_error', '2FA Setup failed due to code verification mismatch, please try again');
-     }
-     
-}
-
-
+// QR code images
+require_once($base_dir . '/app-lib/php/classes/3rd-party/phpqrcode/qrlib.php');
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
@@ -57,17 +32,58 @@ $smtp = new SMTPMailer();
 
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-// Sending yourself telegram messages (alerts etc), with a telegram bot (if needed...MUST RUN AFTER dynamic app config auto-adjust)
+// 2FA (TOTP...Google Authenticator / Microsoft Authenticator / Authy / etc)
 
-// https://core.telegram.org/bots/api
+// Credit to: https://www.rafaelwendel.com/en/2021/05/two-step-verification-with-php-and-google-authenticator/
+ 
+require_once($base_dir . '/app-lib/php/classes/3rd-party/google-authenticator/FixedBitNotation.php');
+require_once($base_dir . '/app-lib/php/classes/3rd-party/google-authenticator/GoogleAuthenticatorInterface.php');
+require_once($base_dir . '/app-lib/php/classes/3rd-party/google-authenticator/GoogleAuthenticator.php');
+require_once($base_dir . '/app-lib/php/classes/3rd-party/google-authenticator/GoogleQrUrl.php');
+ 
+$totp_auth = new \Google\Authenticator\GoogleAuthenticator();
 
-// https://core.telegram.org/bots/api#making-requests
+$totp_base32 = new \Google\Authenticator\FixedBitNotation(5, 'ABCDEFGHIJKLMNOPQRSTUVWXYZ234567', true, true);
 
-// https://api.telegram.org/bot{my_bot_token}/setWebhook?url={url_to_send_updates_to}
 
-// https://api.telegram.org/bot{my_bot_token}/deleteWebhook
+     // We don't want to expose the GLOBAL secret key during 2FA setup (via QR code), so we set the 2FA secret key off the
+     // base32 (totp required spec) digest from contcantenating the admin username, hostname, AND the GLOBAL secret key
+     if ( is_array($stored_admin_login) ) {
+     $auth_secret_2fa = $totp_base32->encode($stored_admin_login[0] . $app_host . $auth_secret);
+     }
 
-// https://api.telegram.org/bot{my_bot_token}/getWebhookInfo
+
+// Toggle 2FA on / off, if 'opt_admin_2fa' from authenticated admin is verified
+if ( isset($_POST['opt_admin_2fa']) && $ct_gen->pass_sec_check($_POST['admin_hashed_nonce'], 'toggle_admin_2fa') ) {
+
+     if ( $_POST['opt_admin_2fa'] == 'off' || $_POST['opt_admin_2fa'] == 'on' && isset($_POST['2fa_code_verify']) && $totp_auth->checkCode($auth_secret_2fa, $_POST['2fa_code_verify']) ) {
+          
+     $admin_area_2fa = $_POST['opt_admin_2fa'];
+     
+     $ct_cache->save_file($base_dir . '/cache/vars/admin_area_2fa.dat', $_POST['opt_admin_2fa']);
+     
+          if ( $_POST['opt_admin_2fa'] == 'on' ) {
+          $set_2fa_success = '2FA has been ENABLED successfully. You will need to use your authenticator app whenever you login now (along with your usual password).';
+          }
+          else {
+          $set_2fa_success = '2FA has been DISABLED successfully.';
+          }
+          
+     }
+     elseif ( $_POST['opt_admin_2fa'] == 'on' ) {
+     $set_2fa_error = '2FA Setup failed due to code verification mismatch, please try again';
+     $ct_gen->log('security_error', $set_2fa_error);
+     }
+     
+}
+
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// Telegram messages (alerts etc), with a telegram bot (if needed...MUST RUN AFTER dynamic app config auto-adjust)
 
 
 // To be safe, don't use trim() on certain strings with arbitrary non-alphanumeric characters here

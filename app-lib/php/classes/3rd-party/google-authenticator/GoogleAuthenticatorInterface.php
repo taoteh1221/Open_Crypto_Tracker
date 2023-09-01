@@ -29,16 +29,7 @@ interface GoogleAuthenticatorInterface
      */
     public function getCode($secret, /* \DateTimeInterface */ $time = null): string;
 
-    /**
-     * NEXT_MAJOR: Remove this method.
-     *
-     * @param string $user
-     * @param string $hostname
-     * @param string $secret
-     *
-     * @deprecated deprecated as of 2.1 and will be removed in 3.0. Use Sonata\GoogleAuthenticator\GoogleQrUrl::generate() instead.
-     */
-    public function getUrl($user, $hostname, $secret): string;
+    public function getUrl($user, $hostname, $secret, $data_only=false): string;
 
     public function generateSecret(): string;
 }

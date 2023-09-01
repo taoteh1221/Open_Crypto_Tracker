@@ -10,13 +10,7 @@ NEXT SCHEDULED WORK SESSIONS (*BOTH* DEBUGGING AND / OR INFRASTRUCTURE)
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
-Integrate google authenticator / microsoft authenticator / authy / etc BEING REQUIRED TO CHANGE THE ADMIN SECURITY LEVEL (and also make it OPTIONAL for login security):
-
-https://www.google.com/search?q=php+one+time+password+google+authenticator
-
-https://stackoverflow.com/questions/tagged/sonata
-
-Require activating and using 2FA to even VIEW the security settings page?
+Add 2FA to all admin login / reset / register forms
 
 
 Move news feeds config into it's own section.

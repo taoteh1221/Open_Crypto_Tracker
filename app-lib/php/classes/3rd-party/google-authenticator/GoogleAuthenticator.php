@@ -132,16 +132,8 @@ final class GoogleAuthenticator implements GoogleAuthenticatorInterface
         return str_pad((string) ($truncatedHash % $this->pinModulo), $this->passCodeLength, '0', \STR_PAD_LEFT);
     }
 
-    /**
-     * NEXT_MAJOR: Remove this method.
-     *
-     * @param string $user
-     * @param string $hostname
-     * @param string $secret
-     *
-     * @deprecated deprecated as of 2.1 and will be removed in 3.0. Use Sonata\GoogleAuthenticator\GoogleQrUrl::generate() instead.
-     */
-    public function getUrl($user, $hostname, $secret): string
+
+    public function getUrl($user, $hostname, $secret, $data_only=false): string
     {
         @trigger_error(sprintf(
             'Using %s() is deprecated as of 2.1 and will be removed in 3.0. '.
@@ -153,10 +145,10 @@ final class GoogleAuthenticator implements GoogleAuthenticatorInterface
         $accountName = sprintf('%s@%s', $user, $hostname);
 
         // manually concat the issuer to avoid a change in URL
-        $url = GoogleQrUrl::generate($accountName, $secret);
+        $url = GoogleQrUrl::generate($accountName, $secret, $data_only);
 
         if ($issuer) {
-            $url .= '%26issuer%3D'.$issuer;
+            $url .= ( $data_only ? '' : '%26issuer%3D'.$issuer );
         }
 
         return $url;
