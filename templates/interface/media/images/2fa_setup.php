@@ -15,9 +15,9 @@ require("app-lib/php/init.php");
 
 // Security checks
 if ( $admin_area_2fa == 'on' || $ct_gen->admin_logged_in() == false || !is_array($stored_admin_login) || !$app_host ||  !$ct_gen->pass_sec_check($_GET['2fa_setup'], '2fa_setup') ) {
-$security_error = '2FA Setup access invalid / expired (' . $remote_ip . '). Try reloading the app.';
+$security_error = '2FA Setup access invalid / expired (' . $remote_ip . '), try reloading the app';
 $ct_gen->log('security_error', $security_error);
-echo $security_error;
+echo $security_error . '.';
 // Log errors before exiting
 $ct_cache->error_log();
 exit;

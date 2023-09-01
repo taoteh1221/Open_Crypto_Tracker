@@ -43,7 +43,7 @@ exit;
 if ( $runtime_mode == 'download' && !isset($_GET['backup']) && $_GET['token'] != $ct_gen->nonce_digest('download') ) {
 $ct_gen->log('security_error', 'aborted, security token mis-match/stale from ' . $_SERVER['REMOTE_ADDR'] . ', for request: ' . $_SERVER['REQUEST_URI'] . ' (try reloading the app)');
 $ct_cache->error_log();
-echo "Aborted, security token mis-match/stale. Try reloading the app.";
+echo "Aborted, security token mis-match/stale, try reloading the app.";
 exit;
 }
 
