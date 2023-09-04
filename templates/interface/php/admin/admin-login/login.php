@@ -12,23 +12,38 @@ $login_result = array();
 		
 if ( $_POST['admin_submit_login'] ) {
 	
+	
 	if ( trim($_POST['captcha_code']) == '' || trim($_POST['captcha_code']) != '' && strtolower( trim($_POST['captcha_code']) ) != strtolower($_SESSION['captcha_code']) )	{
-	$login_result['error'][] = "Captcha image code was not correct.";
+	$login_result['error'][] = "Captcha image code was invalid.";
 	$captcha_field_color = '#ff4747';
 	}
-	else {
+		
+		
+	if ( !$ct_gen->valid_2fa() ) {
+     $login_result['error'][] = $check_2fa_error . '.';
+     }
+	
+	
+	// If no errors were logged above, check the user / pass
+	if ( !is_array($login_result['error']) ) {
 				
-				// To be safe, don't use trim() on certain strings with arbitrary non-alphanumeric characters here
-				if ( $ct_gen->id() != false && isset($_SESSION['nonce']) && trim($_POST['admin_username']) != '' && $_POST['admin_password'] != '' 
-				&& $_POST['admin_username'] == $stored_admin_login[0] && $ct_gen->check_pepper_hashed_pass($_POST['admin_password'], $stored_admin_login[1]) == true ) {
-                $ct_gen->do_admin_login();
-				}
-				else {
-				$login_result['error'][] = "Wrong username / password.";
-				}
-			
+		// To be safe, don't use trim() on certain strings with arbitrary non-alphanumeric characters here
+		if (
+		trim($_POST['admin_username']) != '' && $_POST['admin_password'] != '' 
+		&& $_POST['admin_username'] == $stored_admin_login[0]
+		&& $ct_gen->check_pepper_hashed_pass($_POST['admin_password'], $stored_admin_login[1]) == true
+		) {
+          $ct_gen->do_admin_login();
+		}
+		else {
+		$login_result['error'][] = "Wrong username / password.";
+		}
 
 	}
+	
+	
+
+	
 	
 }
 
@@ -171,9 +186,11 @@ Google Fonts is supported (fonts.google.com).'>Get A Different Image</a>
   	 <br clear='all' />
 
 
-  	 <div style="display: inline-block; text-align: right; width: 650px;">
+  	 <div style="display: inline-block; width: 650px;">
+ 
+  	 <p><b class='bitcoin'>Enter Image Text:</b></p>
   
-  	 <p><b>Enter Image Text:</b> <input type='text' name='captcha_code' id='captcha_code' value='' style='<?=( $captcha_field_color ? 'background: ' . $captcha_field_color : '' )?>' /></p>
+  	 <p><input type='text' name='captcha_code' id='captcha_code' value='' style='<?=( $captcha_field_color ? 'background: ' . $captcha_field_color : '' )?>' /></p>
 	
 	<p class='align_left' style='font-weight: bold; color: #ff4747;' id='captcha_alert'></p>
   
@@ -181,6 +198,9 @@ Google Fonts is supported (fonts.google.com).'>Get A Different Image</a>
   	 
   
   	 <br clear='all' />
+	
+	
+	<?=$ct_gen->input_2fa()?>
   	 
   
 <p style='padding: 20px;'><input type='submit' value='Login As Admin' /></p>

@@ -10,22 +10,19 @@ NEXT SCHEDULED WORK SESSIONS (*BOTH* DEBUGGING AND / OR INFRASTRUCTURE)
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
-We still need to wrap the 2FA secret with md5 or some other digest (INSIDE the base32-encoding wrap), to hide the GLOBAL secret key (which otherwise could be base32-DECODED from the 2FA setup's QR code).
+Torture test new 2FA logic ONE MORE TIME BEFORE RELEASE, and make sure UX (including UI alerts) is decent.
 
 
-Replace pepper var with new secret key var (it's exactly the same logic).
+Add help page entry for : 2FA passcode was invalid, please try again
 
 
-Leaving ANY security mode should require enabling 2FA, AND send out an OPTIONAL comms alert once completed (like we do for logins).
+Add an info icon next to 2FA fields, with info on what it is, usage, and how to MANUALLY disable it.
 
 
-Medium security mode should require entering the 2FA code.
+Send out an OPTIONAL comms alert when we change the admin security mode, OR when we enable / disable 2FA (like we do for logins).
 
 
-Add 2FA to all admin login / reset / register forms
-
-
-Iframe reloads should NOT RESUBMIT DATA.
+Iframe RELOADS / REFRESHES should NOT RESUBMIT DATA (we could have some endless loops, depending on $refresh_admin values in footer.php).
 
 
 Move news feeds config into it's own section.

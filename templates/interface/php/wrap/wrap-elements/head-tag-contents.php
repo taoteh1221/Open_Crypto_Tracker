@@ -547,8 +547,34 @@
 	<script src="app-lib/js/highlight.min.js"></script>
 	
 	<script>
-	// Highlightjs configs
-	hljs.configure({useBR: false}); // Don't use  <br /> between lines
+	
+     // Wait until the DOM has loaded before running DOM-related scripting
+     $(document).ready(function(){ 
+	
+	
+	<?php
+	// If a 2FA feild needs to be highlighted (due to invalid input)
+	if ( $check_2fa_id != null ) {
+	?>
+	
+	$("#<?=$check_2fa_id?>").css('background','#ff4747');
+	
+	    <?php
+	    // We already print out login form error alerts
+	    if ( $is_login_form == false ) {
+	    ?>
+	    
+	    $('#notice_<?=$check_2fa_id?>').removeClass("hidden");
+	
+	<?php
+	    }
+	    
+	}
+	?>
+	
+	 
+     });
+	
 	</script>
 	
 

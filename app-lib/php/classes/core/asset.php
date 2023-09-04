@@ -1854,7 +1854,16 @@ var $ct_array1 = array();
           // Crypto volume checks
                   
           // Crypto volume percent change (!MUST BE! absolute value)
-          $vol_percent_change = abs( ($pair_vol_raw - $cached_pair_vol) / abs($cached_pair_vol) * 100 );        
+          $divide_by_zero_check = abs($cached_pair_vol) * 100;
+          
+               if ( $divide_by_zero_check > 0 ) {
+               $vol_percent_change = abs( ($pair_vol_raw - $cached_pair_vol) / $divide_by_zero_check );  
+               }
+               // percent change is undefined when the starting value is 0
+               else {
+               $vol_percent_change = 0;
+               }    
+            
           $vol_percent_change = $ct_var->num_to_str($vol_percent_change); // Better decimal support
           
                   

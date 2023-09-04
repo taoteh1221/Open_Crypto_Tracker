@@ -46,17 +46,21 @@ if ( $_POST['admin_submit_reset'] && !$no_password_reset ) {
 	
 	
 	if ( trim($_POST['captcha_code']) == '' || trim($_POST['captcha_code']) != '' && strtolower( trim($_POST['captcha_code']) ) != strtolower($_SESSION['captcha_code']) )	{
-	$reset_result['error'][] = "Captcha image code was not correct.";
+	$reset_result['error'][] = "Captcha image code was invalid.";
 	$captcha_field_color = '#ff4747';
 	}
-	
-	
+		
+		
+	if ( !$ct_gen->valid_2fa() ) {
+     $reset_result['error'][] = $check_2fa_error . '.';
+     }
 	
 
 	// If checks clear, send email ////////
 	if ( 
-	!is_array($reset_result['error']) && trim($_POST['reset_username']) != '' && trim($_POST['reset_username']) == $stored_admin_login[0]
-	|| is_array($reset_result['error']) && sizeof($reset_result['error']) < 1 && trim($_POST['reset_username']) != '' && trim($_POST['reset_username']) == $stored_admin_login[0]
+	!is_array($reset_result['error'])
+	&& trim($_POST['reset_username']) != ''
+	&& trim($_POST['reset_username']) == $stored_admin_login[0]
 	) {
 
 	$new_reset_key = $ct_gen->rand_hash(32);
@@ -74,19 +78,20 @@ If you did NOT request this password reset (originating from ip address ".$remot
 
 ";
 	
+
   	// Message parameter added for desired comm methods (leave any comm method blank to skip sending via that method)
-   $send_params = array(
-          					'email' => array(
-          											'subject' => 'Open Crypto Tracker - Admin Password Reset',
-     													'message' => $msg
-          											)
-          					);
+     $send_params = array(
+          			'email' => array(
+          						  'subject' => 'Open Crypto Tracker - Admin Password Reset',
+     							  'message' => $msg
+          						 )
+          		    );
           	
-   // Send notifications
-   @$ct_cache->queue_notify($send_params);
+          	
+     // Send notifications
+     @$ct_cache->queue_notify($send_params);
           	
 	$ct_cache->save_file($base_dir . '/cache/secured/activation/password_reset_' . $ct_gen->rand_hash(16) . '.dat', $new_reset_key); // Store password reset activation code, to confirm via clicked email link later
-
 	
 	}
 
@@ -284,9 +289,11 @@ Google Fonts is supported (fonts.google.com).'>Get A Different Image</a>
   	 <br clear='all' />
 
 
-  	 <div style="display: inline-block; text-align: right; width: 650px;">
+  	 <div style="display: inline-block; width: 650px;">
   
-  	 <p><b>Enter Image Text:</b> <input type='text' name='captcha_code' id='captcha_code' value='' style='<?=( $captcha_field_color ? 'background: ' . $captcha_field_color : '' )?>' /></p>
+  	 <p><b class='bitcoin'>Enter Image Text:</b></p>
+  
+  	 <p><input type='text' name='captcha_code' id='captcha_code' value='' style='<?=( $captcha_field_color ? 'background: ' . $captcha_field_color : '' )?>' /></p>
 	
 	<p class='align_left' style='font-weight: bold; color: #ff4747;' id='captcha_alert'></p>
   
@@ -294,6 +301,10 @@ Google Fonts is supported (fonts.google.com).'>Get A Different Image</a>
   	 
   
   	 <br clear='all' />
+	
+
+	<?=$ct_gen->input_2fa()?>
+	
 				  
 				<p style='padding: 20px;'><input type='submit' value='Reset Admin Account' /></p>
 				

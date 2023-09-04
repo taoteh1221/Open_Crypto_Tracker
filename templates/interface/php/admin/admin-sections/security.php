@@ -24,7 +24,23 @@
 	
 	<br /> <input type='radio' name='opt_admin_sec' id='opt_admin_sec_high' value='high' onclick='set_admin_security(this);' <?=( $admin_area_sec_level == 'normal' ? '' : 'checked' )?> /> High &nbsp; <input type='radio' name='opt_admin_sec' id='opt_admin_sec_enhanced' value='enhanced' onclick='set_admin_security(this);' <?=( $admin_area_sec_level == 'enhanced' ? 'checked' : '' )?> /> Enhanced &nbsp; <input type='radio' name='opt_admin_sec' id='opt_admin_sec_normal' value='normal' onclick='set_admin_security(this);' <?=( $admin_area_sec_level == 'normal' ? 'checked' : '' )?> /> Normal
 	
+	
+	<?=$ct_gen->input_2fa()?>
+	
+	
 	</form>
+		
+	
+	 <?php
+	 if ( $setup_admin_sec_success != null ) {
+	 ?>
+	<div style='min-height: 1em;'></div>
+	 <div class='green green_dotted' style='font-weight: bold;'><?=$setup_admin_sec_success?></div>
+	 <?php
+	 }
+	 ?>
+			
+	
 	
 	<div style='min-height: 2em;'></div>
 	
@@ -36,25 +52,32 @@
 	
 	<b>Admin Two-Factor Authentication (ADDITIONAL time-based one-time password security)</b> &nbsp;<img class="tooltip_style_control admin_2fa_settings" src="templates/interface/media/images/info.png" alt="" width="30" style="position: relative; left: -5px;" />
 	
-	<br /> <input type='radio' name='opt_admin_2fa' id='opt_admin_2fa_off' value='off' onclick='set_admin_2fa(this);' <?=( $admin_area_2fa == 'off' ? 'checked' : '' )?> /> Off &nbsp; <input type='radio' name='opt_admin_2fa' id='opt_admin_2fa_on' value='on' onclick='set_admin_2fa(this);' <?=( $admin_area_2fa == 'on' ? 'checked' : '' )?> /> On
+	<br /> <input type='radio' name='opt_admin_2fa' id='opt_admin_2fa_off' value='off' onclick='set_admin_2fa(this);' <?=( $admin_area_2fa == 'off' && !$force_show_2fa_setup ? 'checked' : '' )?> /> Off &nbsp; <input type='radio' name='opt_admin_2fa' id='opt_admin_2fa_on' value='on' onclick='set_admin_2fa(this);' <?=( $admin_area_2fa == 'on' || $force_show_2fa_setup ? 'checked' : '' )?> /> On
+	
 
                <?php
                if ( $admin_area_2fa == 'off' ) {
+                    
                ?>
                
-	          <div class='show_2fa_verification'>
+	          <div class='show_2fa_verification' <?=$force_show_2fa_setup?>>
 
-			<p style='font-weight: bold; margin-top: 1.5em;' class='bitcoin'>Scan this QR code with your authenticator app:</p>
+			<p style='font-weight: bold; margin-top: 1.5em;' class='red'>Scan this QR code with your authenticator app:</p>
 			
 			<p><img src='templates/interface/media/images/2fa_setup.php?2fa_setup=<?=$ct_gen->admin_hashed_nonce('2fa_setup')?>' /></p>
 			
-			<p class='red' style='font-weight: bold;'>--ENTER THE CODE IN YOUR AUTHENTICATOR APP BELOW-- TO ENABLE 2FA:</p>
+			<p class='red' style='font-weight: bold;'>--ENTER THE CODE IN YOUR AUTHENTICATOR APP BELOW-- TO ENABLE 2FA...</p>
 			
-			<p><input type='text' name='2fa_code_verify' id='2fa_code_verify' value='' /></p>
-
+	
+	          <?=$ct_gen->input_2fa('force_show')?>
+	          
+	
 			</div>
 			
                <?php
+               }
+               else {
+               $ct_gen->input_2fa();
                }
                ?>
 	
@@ -65,7 +88,7 @@
                ?>
                
 		<!-- Submit button must be OUTSIDE form tags here, or it submits the target form improperly and loses data -->
-		<p class='show_2fa_verification'><button class='force_button_style' onclick='
+		<p class='show_2fa_verification' <?=$force_show_2fa_setup?>><button class='force_button_style' onclick='
 		set_admin_2fa(false, true);
 		'>Enable 2FA</button></p>
 		
@@ -75,16 +98,10 @@
 		
 	
 	 <?php
-	 if ( $set_2fa_success != NULL ) {
+	 if ( $setup_2fa_success != null ) {
 	 ?>
 	<div style='min-height: 1em;'></div>
-	 <div class='green green_dotted' style='font-weight: bold;'><?=$set_2fa_success?></div>
-	 <?php
-	 }
-	 elseif ( $set_2fa_error != NULL ) {
-	 ?>
-	<div style='min-height: 1em;'></div>
-	 <div class='red red_dotted' style='font-weight: bold;'><?=$set_2fa_error?>.</div>
+	 <div class='green green_dotted' style='font-weight: bold;'><?=$setup_2fa_success?></div>
 	 <?php
 	 }
 	 ?>

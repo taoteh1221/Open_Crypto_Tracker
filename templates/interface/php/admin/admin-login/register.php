@@ -70,9 +70,14 @@ if ( $_POST['admin_submit_register'] ) {
 	
 	
 	if ( trim($_POST['captcha_code']) == '' || trim($_POST['captcha_code']) != '' && strtolower( trim($_POST['captcha_code']) ) != strtolower($_SESSION['captcha_code']) ) {
-	$register_result['error'][] = "Captcha image code was not correct.";
+	$register_result['error'][] = "Captcha image code was invalid.";
 	$captcha_field_color = '#ff4747';
 	}
+		
+		
+	if ( !$ct_gen->valid_2fa() ) {
+     $register_result['error'][] = $check_2fa_error . '.';
+     }
 	
 
 }
@@ -214,7 +219,7 @@ document.write("<p class='red align_center' style='font-weight: bold;'>"
 
 
 <?php
-if ( !$_POST['submit_registration'] || is_array($register_result['error']) && sizeof($register_result['error']) > 0 ) {
+if ( !$_POST['submit_registration'] || is_array($register_result['error']) ) {
 ?>
 
 <form name='set_admin' id='set_admin' action='' method='post'>
@@ -276,9 +281,11 @@ Google Fonts is supported (fonts.google.com).'>Get A Different Image</a>
   	 <br clear='all' />
 
 
-  	 <div style="display: inline-block; text-align: right; width: 650px;">
+  	 <div style="display: inline-block; width: 650px;">
   
-  	 <p><b>Enter Image Text:</b> <input type='text' name='captcha_code' id='captcha_code' value='' style='<?=( $captcha_field_color ? 'background: ' . $captcha_field_color : '' )?>' /></p>
+  	 <p><b class='bitcoin'>Enter Image Text:</b></p>
+  
+  	 <p><input type='text' name='captcha_code' id='captcha_code' value='' style='<?=( $captcha_field_color ? 'background: ' . $captcha_field_color : '' )?>' /></p>
 	
 	<p class='align_left' style='font-weight: bold; color: #ff4747;' id='captcha_alert'></p>
   
@@ -286,6 +293,9 @@ Google Fonts is supported (fonts.google.com).'>Get A Different Image</a>
   	 
   
   	 <br clear='all' />
+	
+	
+	<?=$ct_gen->input_2fa()?>
   
   
 <input type='hidden' name='admin_submit_register' value='1' />

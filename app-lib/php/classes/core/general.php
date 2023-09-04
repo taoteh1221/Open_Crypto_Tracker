@@ -90,6 +90,74 @@ var $ct_array = array();
    return $ct_var->strip_non_alpha($str[0]);
    
    }
+
+
+   ////////////////////////////////////////////////////////
+   ////////////////////////////////////////////////////////
+   
+   
+   function passed_enhanced_security() {
+   
+   global $admin_area_sec_level;
+       
+       if ( $admin_area_sec_level != 'enhanced' || $admin_area_sec_level == 'enhanced' && $this->pass_sec_check($_POST['enhanced_security_nonce'], 'enhanced_security_mode') && $this->valid_2fa() ) {
+       return true;
+       }
+       else {
+       return false;
+       }
+   
+   }
+
+
+   ////////////////////////////////////////////////////////
+   ////////////////////////////////////////////////////////
+   
+   
+   function valid_2fa($force_check=false) {
+   
+   global $admin_area_2fa, $totp_auth, $auth_secret_2fa, $check_2fa_id, $check_2fa_error;
+       
+       if ( isset($_POST['2fa_code']) && $totp_auth->checkCode($auth_secret_2fa, $_POST['2fa_code']) || $force_check == false && $admin_area_2fa == 'off' ) {
+       return true;
+       }
+       else {
+       $check_2fa_id = $_POST['2fa_code_id'];
+       $check_2fa_error = '2FA passcode was invalid, please try again';
+       return false;
+       }
+   
+   }
+
+
+   ////////////////////////////////////////////////////////
+   ////////////////////////////////////////////////////////
+   
+   
+   function input_2fa($force_show=false) {
+   
+   global $admin_area_2fa, $check_2fa_error, $count_2fa_fields;
+       
+       if ( $admin_area_2fa == 'on' || $force_show != false ) {
+	  ?>
+	  
+	  <div style='margin-top: 2em; margin-bottom: 2em;'>
+	  
+	  <p class='<?=( $force_show != false ? 'red' : 'bitcoin' )?>' style='font-weight: bold;'>Enter 2FA Code (from phone app):</p>
+	  
+	  <input type='hidden' name='2fa_code_id' value='2fa_code_<?=$count_2fa_fields?>' />
+	  
+	  <p><input type='text' id='2fa_code_<?=$count_2fa_fields?>' name='2fa_code' value='' /></p>
+	  
+	  <p id='notice_2fa_code_<?=$count_2fa_fields?>' class='hidden red red_dotted' style='font-weight: bold;'><?=$check_2fa_error?>.</p>
+	  
+	  </div>
+	  
+	  <?php
+	  $count_2fa_fields = $count_2fa_fields + 1;
+	  }
+   
+   }
    
    
    ////////////////////////////////////////////////////////
@@ -857,15 +925,15 @@ var $ct_array = array();
    
    function pepper_hashed_pass($password) {
    
-   global $password_pepper;
+   global $auth_secret;
    
-      if ( !$password_pepper ) {
-      $this->log('conf_error', '$password_pepper not set properly');
+      if ( !$auth_secret ) {
+      $this->log('conf_error', 'auth_secret not set properly');
       return false;
       }
       else {
          
-      $password_pepper_hashed = hash_hmac("sha256", $password, $password_pepper);
+      $password_pepper_hashed = hash_hmac("sha256", $password, $auth_secret);
       
          if ( $password_pepper_hashed == false ) {
          $this->log('conf_error', 'hash_hmac() returned false in the ct_gen->pepper_hashed_pass() function');
@@ -1108,10 +1176,10 @@ var $ct_array = array();
    
    function check_pepper_hashed_pass($input_password, $stored_hashed_password) {
    
-   global $password_pepper, $stored_admin_login;
+   global $auth_secret, $stored_admin_login;
    
-      if ( !$password_pepper ) {
-      $this->log('conf_error', '$password_pepper not set properly');
+      if ( !$auth_secret ) {
+      $this->log('conf_error', 'auth_secret not set properly');
       return false;
       }
       elseif ( !is_array($stored_admin_login) ) {
@@ -1120,7 +1188,7 @@ var $ct_array = array();
       }
       else {
          
-      $input_password_pepper_hashed = hash_hmac("sha256", $input_password, $password_pepper);
+      $input_password_pepper_hashed = hash_hmac("sha256", $input_password, $auth_secret);
       
          if ( $input_password_pepper_hashed == false ) {
          $this->log('conf_error', 'hash_hmac() returned false in the ct_gen->check_pepper_hashed_pass() function');

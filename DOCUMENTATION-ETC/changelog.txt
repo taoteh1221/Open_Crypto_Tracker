@@ -6248,7 +6248,9 @@ v6.00.2 AND HIGHER RESETS LIGHT (TIME PERIOD) CHARTS FROM ARCHIVAL DATA, ONE-TIM
 -------------------------------------------------------------------
 6.00.26:
 
--BUG FIX: TBD
+-BUG FIX: Fixed chart storage / price alerts from crashing, when a market has no trade volume data available (sorry!)
+
+-BUG FIX: Miscellaneous fixes
 
 -User experience on daily background tasks (should no longer 'creep' up / down for time-of-day run)
 

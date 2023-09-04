@@ -112,14 +112,25 @@ $restore_conf_path = null;
 
 $sms_service = null;
 
+$check_2fa_id = null;
 
-// Initial zero-set strings
+$check_2fa_error = null;
+
+
+// Initial zero-set / false strings
+
+$is_login_form = false;
         
 $alphavantage_pairs = 0;
 
 $precache_feeds_count = 0; 
 
 $light_chart_first_build_count = 0; 
+
+$count_2fa_fields = 0;
+
+
+// INITIALLY defined
 
 
 // DON'T LEAVE ANY WHITESPACE AFTER THE CLOSING PHP TAG!

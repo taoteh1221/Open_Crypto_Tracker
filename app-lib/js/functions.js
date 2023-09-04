@@ -1504,6 +1504,10 @@ badColor = "#ff4747";
 
 
 function dynamic_position(elm, mode=false, compact_sidebar=false) {
+     
+     if ( typeof $(elm).offset() == 'undefined' ) {
+     return;
+     }
 
 var docViewTop = $(window).scrollTop();
 var docViewBottom = docViewTop + $(window).height();
