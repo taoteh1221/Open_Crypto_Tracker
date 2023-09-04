@@ -19,7 +19,13 @@ Add help page entry for : 2FA passcode was invalid, please try again
 Add an info icon next to 2FA fields, with info on what it is, usage, and how to MANUALLY disable it.
 
 
+Update all documentation for new 2FA integrations into existing security features. Don't forget to mention that changing the admin username / server domain will PURPOSEFULLY INVALIDATE THE CURRENT 2FA 'SECRET', and would then require deleting the 2fa var in the cache to disable 2FA (which can then be re-enabled after, with the new admin username / sever domain).
+
+
 Send out an OPTIONAL comms alert when we change the admin security mode, OR when we enable / disable 2FA (like we do for logins).
+
+
+When 2FA is enabled, it should be REQUIRED to save / update / delete / reset ANYTHING in the admin area.
 
 
 Iframe RELOADS / REFRESHES should NOT RESUBMIT DATA (we could have some endless loops, depending on $refresh_admin values in footer.php).

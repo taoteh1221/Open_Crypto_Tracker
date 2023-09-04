@@ -100,7 +100,7 @@
 	 <?php
 	 if ( $setup_2fa_success != null ) {
 	 ?>
-	<div style='min-height: 1em;'></div>
+	 <div style='min-height: 1em;'></div>
 	 <div class='green green_dotted' style='font-weight: bold;'><?=$setup_2fa_success?></div>
 	 <?php
 	 }
