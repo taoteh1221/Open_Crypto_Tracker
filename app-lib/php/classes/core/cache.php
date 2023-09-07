@@ -242,14 +242,15 @@ var $ct_array1 = array();
       }
       else {
       
-      $htaccess_password = crypt( $htaccess_password, base64_encode($htaccess_password) );
+      // WORKS IN LINUX ***AND WINDOWS TOO***
+      $htaccess_password = password_hash($htaccess_password, PASSWORD_DEFAULT);
       
       $password_set = $this->save_file($base_dir . '/cache/secured/.app_htpasswd', $htaccess_username . ':' . $htaccess_password);
       
        	if ( $password_set == true ) {
        
        	$htaccess_contents = $this->php_timeout_defaults($base_dir . '/templates/back-end/root-app-directory-htaccess.template') . 
-    		preg_replace("/\[BASE_DIR\]/i", $base_dir, file_get_contents($base_dir . '/templates/back-end/enable-password-htaccess.template') );
+        preg_replace("/\[BASE_DIR\]/i", $base_dir, file_get_contents($base_dir . '/templates/back-end/enable-password-htaccess.template') );
       
        	$htaccess_set = $this->save_file($base_dir . '/.htaccess', $htaccess_contents);
       

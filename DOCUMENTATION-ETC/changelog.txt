@@ -6248,6 +6248,8 @@ v6.00.2 AND HIGHER RESETS LIGHT (TIME PERIOD) CHARTS FROM ARCHIVAL DATA, ONE-TIM
 -------------------------------------------------------------------
 6.00.26:
 
+-BUG FIX: Fixed setting 'interface_login' in the Admin SECURITY Config (an issue in Windows 10 / 11 only...it now works when entering your login)
+
 -BUG FIX: Fixed chart storage / price alerts from crashing, when a market has no trade volume data available (sorry!)
 
 -BUG FIX: Miscellaneous fixes

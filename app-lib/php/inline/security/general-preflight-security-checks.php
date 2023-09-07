@@ -44,12 +44,12 @@ if ( isset($htaccess_username) && isset($htaccess_password) && $htaccess_usernam
 		
 	$password_protection_enabled = $ct_cache->htaccess_dir_protection();
 	
+		// Avoid error 500 if htaccess update fails
 		if ( !$password_protection_enabled ) {
 			
 		// Default htaccess root file, WITH NO PASSWORD PROTECTION
 		$restore_default_htaccess = $ct_cache->save_file($base_dir . '/.htaccess', $ct_cache->php_timeout_defaults($base_dir . '/templates/back-end/root-app-directory-htaccess.template') ); 
 			
-			// Avoid error 500 if htaccess update fails
 			if ( $restore_default_htaccess == true ) {
 			@unlink($base_dir . '/cache/secured/.app_htpasswd'); 
 			}

@@ -322,9 +322,6 @@ Try copy / paste bonk inu "unit value" from portfolio page over to "paid" field 
 Make sure everything STILL runs smoothly with the charts page turned off.
 
 
-Test turning htaccess password protection on/off on the interface, I messed with it BUT changed it back.
-
-
 Change "portfolio cache size gigabytes" system chart telemetry name to "tracker cache size gigabytes".
 
 
@@ -377,9 +374,6 @@ Find out why days has 2 decimals RANDOMLY IN TEXT MESSAGES (text notify, email a
 
 
 Cross-browser test RTL (right to left) effects from middle eastern currency symbols being injected into the interface output for those currencies
-
-
-Investigate / report to PHP devs (IF IT'S NOT A FILE READ ISSUE) the .htaccess password bug (/classes/core/cache.php, line 189) issue on Windows 10 / XAMPP 3.3.0 / PHP 7.4.24: $htaccess_password = crypt( $htaccess_password, base64_encode($htaccess_password) );
 
 
 Look into laptop touchscreen zingchart js error on Ubuntu 20.04 / Chrome, when hiding / showing assets in performance chart (but is fine on Ubuntu 20.04 / Chrome on desktop). IT DOESN'T SEEM TO BE MY CODE, SO REPORT IT TO THE ZINGCHART TEAM.
