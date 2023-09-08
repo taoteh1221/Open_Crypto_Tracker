@@ -51,7 +51,7 @@ echo '?';
  
  $mkcap_render_data = trim($ct_conf['assets'][$asset_symb]['mcap_slug']);
  
- $info_icon = ( !$mcap_data['rank'] && $asset_symb != 'MISCASSETS' && $asset_symb != 'BTCNFTS' && $asset_symb != 'ETHNFTS' && $asset_symb != 'SOLNFTS' && !preg_match("/stock/i", $asset_symb) ? 'info-red.png' : 'info.png' );
+ $info_icon = ( !$mcap_data['rank'] && $asset_symb != 'MISCASSETS' && $asset_symb != 'BTCNFTS' && $asset_symb != 'ETHNFTS' && $asset_symb != 'SOLNFTS' && $asset_symb != 'ALTNFTS' && !preg_match("/stock/i", $asset_symb) ? 'info-red.png' : 'info.png' );
  
  
 	if ( isset($mkcap_render_data) && $mkcap_render_data != '' ) {
@@ -85,7 +85,7 @@ echo '?';
 	
 			<?php
 			}
-			elseif ( $ct_conf['gen']['prim_mcap_site'] == 'coinmarketcap' && trim($ct_conf['other_api']['coinmarketcap_key']) == null ) {
+			elseif ( $ct_conf['gen']['prim_mcap_site'] == 'coinmarketcap' && trim($ct_conf['ext_apis']['coinmarketcap_key']) == null ) {
 			?>
 
 			var cmc_content = '<p class="coin_info"><span class="red"><?=ucfirst($ct_conf['gen']['prim_mcap_site'])?> API key is required. <br />Configuration adjustments can be made in the Admin Config GENERAL section.</span></p>';
@@ -341,6 +341,19 @@ echo '?';
 			var cmc_content = '<h5 class="yellow align_center tooltip_title"><?=$asset_name?> (<?=$asset_symb?>)</h5>'
     
         +'<p class="coin_info" style="white-space: normal; "><span class="bitcoin">SOL value of NFTS can be included in you portfolio stats, by entering it under the "SOLNFTS" asset on the "Update" page.</span></p>'
+    
+        +'<p class="coin_info" style="white-space: normal; "><span class="bitcoin">If you are unsure of the value of any of your NFTs, you can use the \'Floor Price\' (if available) for that NFT collection found on NFT marketplace(s).</span></p>'
+        
+        +'<p class="coin_info" style="white-space: normal; "><span class="bitcoin">Additionally, you can see it\'s potential market value in another asset by changing the "Market" value on the "Portfolio" page to an asset other than <?=strtoupper($ct_conf['gen']['btc_prim_currency_pair'])?>.</span></p>';
+	
+			<?php
+			}
+			elseif ( $asset_symb == 'ALTNFTS' ) {
+			?>
+
+			var cmc_content = '<h5 class="yellow align_center tooltip_title"><?=$asset_name?> (<?=$asset_symb?>)</h5>'
+    
+        +'<p class="coin_info" style="white-space: normal; "><span class="bitcoin"><?=strtoupper($ct_conf['gen']['btc_prim_currency_pair'])?> value of NFTS can be included in you portfolio stats, by entering it under the "ALTNFTS" asset on the "Update" page.</span></p>'
     
         +'<p class="coin_info" style="white-space: normal; "><span class="bitcoin">If you are unsure of the value of any of your NFTs, you can use the \'Floor Price\' (if available) for that NFT collection found on NFT marketplace(s).</span></p>'
         

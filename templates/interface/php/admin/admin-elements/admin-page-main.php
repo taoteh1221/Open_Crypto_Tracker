@@ -45,15 +45,15 @@
 		  </div>
 		  
 		  
-		  <div class="tab-pane" id="admin_other_api" role="tabpanel">
+		  <div class="tab-pane" id="admin_ext_apis" role="tabpanel">
 	
-	            <h2 class='bitcoin page_title'>Other APIs</h2>
+	            <h2 class='bitcoin page_title'>External APIs</h2>
 
                 <div class='full_width_wrapper'>
                 	
-                   <div id='iframe_other_api_loading' class='align_center loading iframe_loading_placeholder bitcoin'><img class='ajax_loader_image' src="templates/interface/media/images/auto-preloaded/loader.gif" height='17' alt="" style='vertical-align: middle;' /> Loading...<span id='background_loading_span'></span></div>
+                   <div id='iframe_ext_apis_loading' class='align_center loading iframe_loading_placeholder bitcoin'><img class='ajax_loader_image' src="templates/interface/media/images/auto-preloaded/loader.gif" height='17' alt="" style='vertical-align: middle;' /> Loading...<span id='background_loading_span'></span></div>
                 
-                	<iframe id="iframe_other_api" src="admin.php?iframe=<?=$ct_gen->admin_hashed_nonce('iframe_other_api')?>&section=other_api" loading="lazy" frameborder="0" class="admin_iframe"></iframe>
+                	<iframe id="iframe_ext_apis" src="admin.php?iframe=<?=$ct_gen->admin_hashed_nonce('iframe_ext_apis')?>&section=ext_apis" loading="lazy" frameborder="0" class="admin_iframe"></iframe>
                 	
                 </div> 
 		  
@@ -143,6 +143,21 @@
                    <div id='iframe_power_user_loading' class='align_center loading iframe_loading_placeholder bitcoin'><img class='ajax_loader_image' src="templates/interface/media/images/auto-preloaded/loader.gif" height='17' alt="" style='vertical-align: middle;' /> Loading...<span id='background_loading_span'></span></div>
                 
                 	<iframe id="iframe_power_user" src="admin.php?iframe=<?=$ct_gen->admin_hashed_nonce('iframe_power_user')?>&section=power_user" loading="lazy" frameborder="0" class="admin_iframe"></iframe>
+                	
+                </div> 
+		  
+		  </div>
+		  
+		  
+		  <div class="tab-pane" id="admin_news_feeds" role="tabpanel">
+	
+	            <h2 class='bitcoin page_title'>News Feeds</h2>
+
+                <div class='full_width_wrapper'>
+                	
+                   <div id='iframe_news_feeds_loading' class='align_center loading iframe_loading_placeholder bitcoin'><img class='ajax_loader_image' src="templates/interface/media/images/auto-preloaded/loader.gif" height='17' alt="" style='vertical-align: middle;' /> Loading...<span id='background_loading_span'></span></div>
+                
+                	<iframe id="iframe_news_feeds" src="admin.php?iframe=<?=$ct_gen->admin_hashed_nonce('iframe_news_feeds')?>&section=news_feeds" loading="lazy" frameborder="0" class="admin_iframe"></iframe>
                 	
                 </div> 
 		  

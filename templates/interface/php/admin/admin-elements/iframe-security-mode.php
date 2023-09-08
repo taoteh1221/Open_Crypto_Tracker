@@ -28,6 +28,8 @@ $loop_count = $loop_count + 1;
 	
 	<input type='hidden' name='enhanced_security_nonce' value='<?=$ct_gen->admin_hashed_nonce('enhanced_security_mode')?>' />
 	
+	<?=$ct_gen->input_2fa()?>
+	
 	</form>
 	
 	<!-- Submit button must be OUTSIDE form tags here, or it runs improperly -->

@@ -105,7 +105,7 @@ var $ct_array1 = array();
    
      foreach ( $ct_conf['assets'] as $key => $unused ) {
        
-         if ( strtolower($key) != 'miscassets' && strtolower($key) != 'btcnfts' && strtolower($key) != 'ethnfts' && strtolower($key) != 'solnfts' ) {
+         if ( strtolower($key) != 'miscassets' && strtolower($key) != 'btcnfts' && strtolower($key) != 'ethnfts' && strtolower($key) != 'solnfts' && strtolower($key) != 'altnfts' ) {
          $result[] = strtolower($key);
          }
        
@@ -183,7 +183,7 @@ var $ct_array1 = array();
              
          foreach ( $ct_conf['assets'][$asset_key]['pair'][$pair_key] as $exchange_key => $unused ) {
              
-           if( !in_array(strtolower($exchange_key), $result) && !preg_match("/misc_assets/i", $exchange_key) && !preg_match("/btc_nfts/i", $exchange_key) && !preg_match("/eth_nfts/i", $exchange_key) && !preg_match("/sol_nfts/i", $exchange_key) ) {
+           if( !in_array(strtolower($exchange_key), $result) && !preg_match("/misc_assets/i", $exchange_key) && !preg_match("/btc_nfts/i", $exchange_key) && !preg_match("/eth_nfts/i", $exchange_key) && !preg_match("/sol_nfts/i", $exchange_key) && !preg_match("/alt_nfts/i", $exchange_key) ) {
            $result[] = strtolower($exchange_key);
            }
          
@@ -1225,14 +1225,6 @@ var $ct_array1 = array();
 		               if ( !is_array($sel_opt['prim_currency_mrkt_standalone']) && strtolower($asset_name) == 'bitcoin' ) {
 		               $ct_conf['gen']['btc_prim_exchange'] = $key;
 		               $ct_conf['gen']['btc_prim_currency_pair'] = $sel_pair;
-		               
-		                      // Dynamically modify MISCASSETS in $ct_conf['assets']
-		                      // ONLY IF USER HASN'T MESSED UP $ct_conf['assets'], AS WE DON'T WANT TO CANCEL OUT ANY
-		                      // CONFIG CHECKS CREATING ERROR LOG ENTRIES / UI ALERTS INFORMING THEM OF THAT
-		                      if ( is_array($ct_conf['assets']) ) {
-		                      $ct_conf['assets']['MISCASSETS']['name'] = 'Misc. '.strtoupper($sel_pair).' Value';
-		                      }
-		          
 		               ?>
 		               
 		               <script>
@@ -1458,7 +1450,7 @@ var $ct_array1 = array();
    
       
       // Skip completely, if it's an alphavantage market, AND the end-user has NOT added an alphavantage API key
-      if ( $exchange == 'alphavantage_stock' && trim($ct_conf['other_api']['alphavantage_key']) == '' ) {
+      if ( $exchange == 'alphavantage_stock' && trim($ct_conf['ext_apis']['alphavantage_key']) == '' ) {
       return false;
       }
       
@@ -1854,7 +1846,16 @@ var $ct_array1 = array();
           // Crypto volume checks
                   
           // Crypto volume percent change (!MUST BE! absolute value)
-          $vol_percent_change = abs( ($pair_vol_raw - $cached_pair_vol) / abs($cached_pair_vol) * 100 );        
+          $divide_by_zero_check = abs($cached_pair_vol) * 100;
+          
+               if ( $divide_by_zero_check > 0 ) {
+               $vol_percent_change = abs( ($pair_vol_raw - $cached_pair_vol) / $divide_by_zero_check );  
+               }
+               // percent change is undefined when the starting value is 0
+               else {
+               $vol_percent_change = 0;
+               }    
+            
           $vol_percent_change = $ct_var->num_to_str($vol_percent_change); // Better decimal support
           
                   

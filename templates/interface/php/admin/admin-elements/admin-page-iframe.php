@@ -8,7 +8,7 @@ require("templates/interface/php/wrap/header.php");
 
 
 // Admin template to use    
-if ( $admin_area_sec_level == 'enhanced' && !$ct_gen->pass_sec_check($_POST['enhanced_security_nonce'], 'enhanced_security_mode') ) {
+if ( !$ct_gen->passed_enhanced_security() ) {
 require("templates/interface/php/admin/admin-elements/iframe-security-mode.php");
 }
 elseif ( isset($_GET['section']) ) {

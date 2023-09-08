@@ -35,6 +35,10 @@ $(".chart_wrapper").css({ "border": '2px solid ' + charts_border });
 // Dynamic table header updating
 $("span.btc_prim_currency_pair").html(btc_prim_currency_pair); 
 
+	
+// Highlightjs configs
+hljs.configure({useBR: false}); // Don't use  <br /> between lines
+	
 
 // Show UTC time count in logs UI sections
 start_utc_time(); 

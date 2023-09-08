@@ -9,6 +9,45 @@
 //////////////////////////////////////////////////////////////////
 
 
+// A bit of DOS / brute force login attack mitigation for bogus / bot login attempts
+// Speed up runtime SIGNIFICANTLY by checking EARLY for a bad / non-existent captcha code, and rendering the related form again...
+// A BIT STATEMENT-INTENSIVE ON PURPOSE, AS IT KEEPS RUNTIME SPEED MUCH HIGHER
+if ( $_POST['admin_submit_register'] || $_POST['admin_submit_login'] || $_POST['admin_submit_reset'] ) {
+
+
+	if (
+	!isset($_POST['captcha_code'])
+	|| isset($_POST['captcha_code']) && strtolower( trim($_POST['captcha_code']) ) != strtolower($_SESSION['captcha_code'])
+	) {
+	
+	    
+	    // WE RUN SECURITY CHECKS WITHIN THE REGISTRATION PAGE, SO NOT MUCH CHECKS ARE IN THIS INIT SECTION
+		if ( $_POST['admin_submit_register'] ) {
+		$sel_opt['theme_selected'] = ( $_COOKIE['theme_selected'] ? $_COOKIE['theme_selected'] : $ct_conf['gen']['default_theme'] );
+		require("templates/interface/php/admin/admin-login/register.php");
+		exit;
+		}
+		elseif ( $_POST['admin_submit_login'] ) {
+		$sel_opt['theme_selected'] = ( $_COOKIE['theme_selected'] ? $_COOKIE['theme_selected'] : $ct_conf['gen']['default_theme'] );
+		require("templates/interface/php/admin/admin-login/login.php");
+		exit;
+		}
+		elseif ( $_POST['admin_submit_reset'] ) {
+		$sel_opt['theme_selected'] = ( $_COOKIE['theme_selected'] ? $_COOKIE['theme_selected'] : $ct_conf['gen']['default_theme'] );
+		require("templates/interface/php/admin/admin-login/reset.php");
+		exit;
+		}
+	
+	
+	}
+	
+
+}
+
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
 // Activating an existing admin password reset session 
 // (MUST RUN #AFTER GETTING CACHED APP CONFIG)
 if ( isset($_GET['new_reset_key']) && trim($_GET['new_reset_key']) != '' ) {
@@ -56,7 +95,7 @@ $activation_files = $ct_gen->sort_files($base_dir . '/cache/secured/activation',
 }
      	
      
-// If no admin login or an activated reset, valid user / pass are submitted, AND CAPTCHA MATCHES, store the new admin login
+// If no admin login or an activated reset, valid user / pass are submitted, AND CAPTCHA / 2FA PASSES, store the new admin login
 if ( $password_reset_approved || !is_array($stored_admin_login) ) {
          
          
@@ -66,6 +105,7 @@ if ( $password_reset_approved || !is_array($stored_admin_login) ) {
      && $_POST['set_password'] == $_POST['set_password2'] 
      && trim($_POST['captcha_code']) != ''
      && strtolower( trim($_POST['captcha_code']) ) == strtolower($_SESSION['captcha_code'])
+     && $ct_gen->valid_2fa()
      ) {
      	
      	

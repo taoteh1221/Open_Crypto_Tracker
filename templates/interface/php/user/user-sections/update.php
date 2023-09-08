@@ -509,7 +509,7 @@
 	        }
 	        
 	    
-	    	if ( strtoupper($asset_array_key) == 'MISCASSETS' || strtoupper($asset_array_key) == 'BTCNFTS' || strtoupper($asset_array_key) == 'ETHNFTS' || strtoupper($asset_array_key) == 'SOLNFTS' ) {
+	    	if ( strtoupper($asset_array_key) == 'MISCASSETS' || strtoupper($asset_array_key) == 'BTCNFTS' || strtoupper($asset_array_key) == 'ETHNFTS' || strtoupper($asset_array_key) == 'SOLNFTS' || strtoupper($asset_array_key) == 'ALTNFTS' ) {
 	    	$asset_amnt_dec = 2;
 	    	$disable_fields = 'disabled';
 	    	}

@@ -226,11 +226,11 @@ $sel_opt['sorted_asc_desc'] = $sort_array[1];
     
     
     	// Alphabetically order AND remove stale feeds
-    	// (since we already alphabetically ordered $ct_conf['power']['news_feed'] in config-auto-adjust.php BEFOREHAND)
+    	// (since we already alphabetically ordered $ct_conf['news_feeds'] in config-auto-adjust.php BEFOREHAND)
     	$temp_show_feeds = array();
     	$scan_feeds = $sel_opt['show_feeds'];
     	$scan_feeds = array_map( array($ct_var, 'strip_brackets') , $scan_feeds); // Strip brackets
-    	foreach ($ct_conf['power']['news_feed'] as $feed) {
+    	foreach ($ct_conf['news_feeds'] as $feed) {
     	$feed_id = $ct_gen->digest($feed["title"], 5);
      if ( in_array($feed_id, $scan_feeds) ) {
      $temp_show_feeds[] = '[' . $feed_id . ']';

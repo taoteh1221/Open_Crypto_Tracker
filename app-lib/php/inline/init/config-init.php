@@ -26,7 +26,7 @@ require_once('app-lib/php/inline/config/config-auto-adjust.php');
 require_once('app-lib/php/classes/3rd-party-classes-loader.php');
 
 
-// Essential vars / arrays / inits that can only be dynamically set AFTER config-auto-adjust...
+// Essential vars / arrays / inits that can only be dynamically set AFTER config-auto-adjust / 3rd-party-classes-loader...
 
 // PHP error logging on / off, VIA END-USER CONFIG SETTING, *ONLY IF* THE HARD-CODED DEV PHP DEBUGGING IN INIT.PHP IS OFF
 if ( $dev_debug_php_errors == 0 ) {
@@ -57,8 +57,12 @@ $max_exec_time = $webhook_max_exec_time;
 
 // If the script timeout var wasn't set properly / is not a whole number 3600 or less
 if ( !$ct_var->whole_int($max_exec_time) || $max_exec_time > 3600 ) {
-$max_exec_time = 250; // 250 seconds default
+$max_exec_time = 600; // 600 seconds default
 }
+
+
+// Maximum time script can run (may OR may not be overridden by operating system values, BUT we want this if the system allows it)
+set_time_limit($max_exec_time); // Doc suggest this may be more reliable than ini_set max_exec_time?
 
 
 // Auto-increase time offset on daily background tasks for systems with low core counts
@@ -67,8 +71,50 @@ $daily_tasks_offset = ceil($daily_tasks_offset * 2);
 }
 
 
-// Maximum time script can run (may OR may not be overridden by operating system values, BUT we want this if the system allows it)
-set_time_limit($max_exec_time); // Doc suggest this may be more reliable than ini_set max_exec_time?
+// Toggle to set the admin interface security level, if 'opt_admin_sec' from authenticated admin is verified
+// (MUST run after 3rd-party-classes-loader.php)
+if ( isset($_POST['opt_admin_sec']) && $ct_gen->pass_sec_check($_POST['admin_hashed_nonce'], 'toggle_admin_security') ) {
+     
+     if ( $ct_gen->valid_2fa() ) {
+          
+     $admin_area_sec_level = $_POST['opt_admin_sec'];
+     
+     $ct_cache->save_file($base_dir . '/cache/vars/admin_area_sec_level.dat', $admin_area_sec_level);
+     
+     $setup_admin_sec_success = 'Admin Security Level changed to "'.$admin_area_sec_level.'" successfully.';
+          
+     }
+     
+}
+
+
+// Toggle 2FA setup on / off, if 'opt_admin_2fa' from authenticated admin is verified, AND 2FA check passes
+// (MUST run after 3rd-party-classes-loader.php)
+if ( isset($_POST['opt_admin_2fa']) && $ct_gen->pass_sec_check($_POST['admin_hashed_nonce'], 'toggle_admin_2fa') ) {
+     
+     // FORCE CHECK IF *ENABLING* THE 2FA ADMIN SETTING HERE
+     if ( $_POST['opt_admin_2fa'] == 'on' && $ct_gen->valid_2fa('force_check') || $_POST['opt_admin_2fa'] == 'off' && $ct_gen->valid_2fa() ) {
+          
+     $admin_area_2fa = $_POST['opt_admin_2fa'];
+     
+     $ct_cache->save_file($base_dir . '/cache/vars/admin_area_2fa.dat', $admin_area_2fa);
+     
+          if ( $_POST['opt_admin_2fa'] == 'on' ) {
+          $setup_2fa_success = '2FA has been ENABLED successfully. You will need to use your authenticator phone app whenever you login now (along with your usual password).';
+          }
+          else {
+          $setup_2fa_success = '2FA has been DISABLED successfully.';
+          }
+          
+     }
+     
+}
+                    
+
+// Force-show Admin 2FA setup, if it failed becuase of an invalid 2FA code
+if ( $_POST['admin_hashed_nonce'] == $ct_gen->admin_hashed_nonce('toggle_admin_2fa') && $check_2fa_error != null ) {
+$force_show_2fa_setup = ' style="display: block;"';
+}
 
 
 // htaccess login...SET BEFORE ui-preflight-security-checks.php
@@ -129,22 +175,22 @@ $valid_from_email = true;
 
 
 // Notifyme service check
-if ( isset($ct_conf['comms']['notifyme_accesscode']) && trim($ct_conf['comms']['notifyme_accesscode']) != '' ) {
+if ( isset($ct_conf['ext_apis']['notifyme_accesscode']) && trim($ct_conf['ext_apis']['notifyme_accesscode']) != '' ) {
 $notifyme_activated = true;
 }
 
 
 // Texting (SMS) services check
 // (if MORE THAN ONE is activated, keep ALL disabled to avoid a texting firestorm)
-if ( isset($ct_conf['comms']['textbelt_apikey']) && trim($ct_conf['comms']['textbelt_apikey']) != '' ) {
+if ( isset($ct_conf['ext_apis']['textbelt_apikey']) && trim($ct_conf['ext_apis']['textbelt_apikey']) != '' ) {
 $activated_sms_services[] = 'textbelt';
 }
 
 
 if (
-isset($ct_conf['comms']['twilio_number']) && trim($ct_conf['comms']['twilio_number']) != ''
-&& isset($ct_conf['comms']['twilio_sid']) && trim($ct_conf['comms']['twilio_sid']) != ''
-&& isset($ct_conf['comms']['twilio_token']) && trim($ct_conf['comms']['twilio_token']) != ''
+isset($ct_conf['ext_apis']['twilio_number']) && trim($ct_conf['ext_apis']['twilio_number']) != ''
+&& isset($ct_conf['ext_apis']['twilio_sid']) && trim($ct_conf['ext_apis']['twilio_sid']) != ''
+&& isset($ct_conf['ext_apis']['twilio_token']) && trim($ct_conf['ext_apis']['twilio_token']) != ''
 ) {
 $activated_sms_services[] = 'twilio';
 }
@@ -152,10 +198,10 @@ $activated_sms_services[] = 'twilio';
 
 // To be safe, don't use trim() on certain strings with arbitrary non-alphanumeric characters here
 if (
-isset($ct_conf['comms']['textlocal_sender'])
-&& trim($ct_conf['comms']['textlocal_sender']) != ''
-&& isset($ct_conf['comms']['textlocal_apikey'])
-&& $ct_conf['comms']['textlocal_apikey'] != ''
+isset($ct_conf['ext_apis']['textlocal_sender'])
+&& trim($ct_conf['ext_apis']['textlocal_sender']) != ''
+&& isset($ct_conf['ext_apis']['textlocal_apikey'])
+&& $ct_conf['ext_apis']['textlocal_apikey'] != ''
 ) {
 $activated_sms_services[] = 'textlocal';
 }
@@ -270,7 +316,7 @@ $set_tiny_font_line_height = round( ($set_tiny_font_size * $global_line_height_p
 
 
 // Alphabetically sort news feeds
-$usort_feeds_results = usort($ct_conf['power']['news_feed'], array($ct_gen, 'titles_usort_alpha') );
+$usort_feeds_results = usort($ct_conf['news_feeds'], array($ct_gen, 'titles_usort_alpha') );
    	
    	
 if ( !$usort_feeds_results ) {
@@ -317,7 +363,7 @@ foreach ( $ct_conf['assets'] as $markets ) {
                 
 }
               
-$alphavantage_max_daily_requests_per_asset = floor($ct_conf['other_api']['alphavantage_per_day_limit'] / $alphavantage_pairs);
+$alphavantage_max_daily_requests_per_asset = floor($ct_conf['ext_apis']['alphavantage_per_day_limit'] / $alphavantage_pairs);
           
 $alphavantage_cache_time_per_asset = floor( ( 24 / $alphavantage_max_daily_requests_per_asset ) * 60 );
 
@@ -325,7 +371,7 @@ $alphavantage_cache_time_per_asset = floor( ( 24 / $alphavantage_max_daily_reque
 $throttled_api_cache_time['alphavantage.co'] = ( $alphavantage_cache_time_per_asset >  $ct_conf['power']['last_trade_cache_time'] ? $alphavantage_cache_time_per_asset : $ct_conf['power']['last_trade_cache_time'] );
 
 // We still do per minute too, because Alphavantage has a per-minute restriction
-$throttled_api_per_minute_limit['alphavantage.co'] = $ct_conf['other_api']['alphavantage_per_minute_limit'];
+$throttled_api_per_minute_limit['alphavantage.co'] = $ct_conf['ext_apis']['alphavantage_per_minute_limit'];
 
 // THROTTLE ALPHAVANTAGE - END
 

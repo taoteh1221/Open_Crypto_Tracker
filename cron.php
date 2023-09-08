@@ -96,7 +96,7 @@ $cron_run_lock_file = $base_dir . '/cache/events/emulated-cron-lock.dat';
             if ( file_exists($base_dir . '/cache/events/charts-first-run.dat') ) {
             
             	// Re-cache RSS feeds for faster UI runtimes later
-            	foreach($ct_conf['power']['news_feed'] as $feed_item) {
+            	foreach($ct_conf['news_feeds'] as $feed_item) {
             	    
             		if ( isset($feed_item["url"]) && trim($feed_item["url"]) != '' ) {
             	 	$ct_api->rss($feed_item["url"], 'no_theme', 0, true);

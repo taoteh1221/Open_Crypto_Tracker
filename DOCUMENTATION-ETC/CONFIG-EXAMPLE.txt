@@ -76,7 +76,7 @@ $ct_conf['gen']['btc_prim_exchange'] = 'kraken';  // PUT INSIDE SINGLE QUOTES ('
 
 
 // Default marketcap data source: 'coingecko', or 'coinmarketcap'
-// (COINMARKETCAP REQUIRES A #FREE# API KEY, SEE $ct_conf['other_api']['coinmarketcap_key'] BELOW in the APIs section)
+// (COINMARKETCAP REQUIRES A #FREE# API KEY, SEE $ct_conf['ext_apis']['coinmarketcap_key'] BELOW in the APIs section)
 $ct_conf['gen']['prim_mcap_site'] = 'coingecko'; 
 
 
@@ -194,8 +194,6 @@ $ct_conf['comms']['proxy_alert_runtime'] = 'cron'; // (default = 'cron')
 $ct_conf['comms']['proxy_alert_checkup_ok'] = 'include'; // 'include' / 'ignore' 
 
 
-// ~~~~~~~~~~~~~~~  C O M M   C H A N N E L S   S E T U P   (email, text, alexa, telegram, etc)  ~~~~~~~~~~~~~~~
-
 // Use SMTP authentication TO SEND EMAIL, if your IP has no reverse lookup that matches the email domain name (on your home network etc)
 // #REQUIRED WHEN INSTALLED ON A HOME NETWORK#, OR ALL YOUR EMAIL ALERTS WILL BE BLACKHOLED / SEEN AS SPAM EMAIL BY EMAIL SERVERS!
 // If SMTP credentials / configuration is filled in, BUT not setup properly, APP EMAILING WILL FAIL!
@@ -221,52 +219,48 @@ $ct_conf['comms']['to_email'] = ''; // #MUST BE SET# for price alerts and other 
 // SEE FURTHER DOWN IN THIS CONFIG FILE, FOR A LIST OF SUPPORTED MOBILE TEXTING NETWORK PROVIDER NAMES 
 // IN THE EMAIL-TO-MOBILE-TEXT CONFIG SECTION (the "network name keys" in the $ct_conf['mob_net_txt_gateways'] variables array)
 // CAN BE BLANK. Country code format MAY NEED TO BE USED (depending on your mobile network)
-// skip_network_name SHOULD BE USED IF USING a texting (SMS) SERVICE FURTHER BELOW
+// skip_network_name SHOULD BE USED IF USING a texting (SMS) SERVICE (IN EXTERNAL APIS SECTION)
 // 'phone_number||network_name_key' (examples: '12223334444||virgin_us' / '12223334444||skip_network_name')
 $ct_conf['comms']['to_mobile_text'] = '';
 
 
-// Do NOT use MORE THAN ONE texting (SMS) service below. Only fill in settings for one, or it will DISABLE THEM ALL.
-// LEAVE ALL BLANK to use a mobile text gateway set ABOVE
+////////////////////////////////////////
+// !END! COMMUNICATIONS CONFIGURATION
+////////////////////////////////////////
 
 
-// CAN BE BLANK. For asset price alert twilio notifications. Setup: https://twilio.com/
-// YOU MUST SET $ct_conf['comms']['to_mobile_text'] ABOVE IN THE SERVICE PROVIDER AREA TO: skip_network_name
+////////////////////////////////////////
+// !START! EXTERNAL API SETTINGS CONFIGURATION
+////////////////////////////////////////
+
+
+// API key for coinmarketcap.com Pro API (required unfortunately, but a FREE level is available): https://coinmarketcap.com/api
+$ct_conf['ext_apis']['coinmarketcap_key'] = '';
+
+
+// API key for etherscan.io (required unfortunately, but a FREE level is available): https://etherscan.io/apis
+$ct_conf['ext_apis']['etherscan_key'] = '';
+
+
+// API key for Alpha Vantage (global stock APIs as well as foreign exchange rates (forex) and cryptocurrency data feeds)
+// (required unfortunately, but a FREE level is available [paid premium also available]): https://www.alphavantage.co/support/#api-key
+$ct_conf['ext_apis']['alphavantage_key'] = '';
 ////
-// Twilio acount phone number (Format: '12223334444' [no plus symbol])
-$ct_conf['comms']['twilio_number'] = '';
+// The below settings will automatically limit your API requests to NEVER go over your DAILY Alpha Vantage API requests limit
+// (CONTACT ALPHA VANTAGE SUPPORT, IF YOU ARE UNAWARE OF WHAT YOUR MINUTE / DAILY LIMITS ARE [IF you have a PAID PREMIUM plan])
 ////
-// Twilio account SID
-$ct_conf['comms']['twilio_sid'] = '';
+// The requests-per-MINUTE limit on your Alpha Vantage API key (varies depending on you free / paid member level)
+$ct_conf['ext_apis']['alphavantage_per_minute_limit'] = 5; // (default = 5 [FOR FREE SERVICE])
 ////
-// Twilio account auth token
-$ct_conf['comms']['twilio_token'] = '';
-
-
-
-// CAN BE BLANK. For asset price alert textbelt notifications. Setup: https://textbelt.com/
-// YOU MUST SET $ct_conf['comms']['to_mobile_text'] ABOVE IN THE SERVICE PROVIDER AREA TO: skip_network_name
-// CONTACT support@textbelt.com IF YOUR MESSAGES DON'T GO THROUGH, THEY ARE USUALLY *VERY* RESPONSIVE
-$ct_conf['comms']['textbelt_apikey'] = '';
-
-
-// CAN BE BLANK. For asset price alert textlocal notifications. Setup: https://www.textlocal.com/integrations/api/
-// DOES NOT SEEM TO WORK OUTSIDE THE UNITED KINGDOM! (account dashboard says it was sent, but it's NEVER recieved)
-// YOU MUST SET $ct_conf['comms']['to_mobile_text'] ABOVE IN THE SERVICE PROVIDER AREA TO: skip_network_name
-////
-// Textlocal human-readable sender name (eg: 'J. Smith'), REQUIRED IF USING TEXTLOCAL TO SEND TEXTS!
-// THIS SHOULD MATCH THE SENDER NAME YOU ALREADY SETUP IN YOUR TEXTLOCAL ACCOUNT
-$ct_conf['comms']['textlocal_sender'] = '';
-////
-// API Key
-$ct_conf['comms']['textlocal_apikey'] = '';
+// The requests-per-DAY limit on your Alpha Vantage API key (varies depending on you free / paid member level)
+$ct_conf['ext_apis']['alphavantage_per_day_limit'] = 100; // (default = 100 [FOR FREE SERVICE])
 
 
 // For notifyme / alexa notifications (sending Alexa devices notifications for free). 
 // CAN BE BLANK. Setup: http://www.thomptronics.com/notify-me
 // (NOTE: THIS APP'S BUILT-IN QUEUE SYSTEM THROTTLES / SENDS OUT ONLY 5 ALERTS EVERY 5 MINUTES MAXIMUM FOR NOTIFYME ALERTS,
 // TO STAY WITHIN NOTIFYME API MESSAGE LIMITS, SO YOU WILL ALWAYS #STILL GET ALL YOUR QUEUED NOTIFYME ALERTS#, JUST SLIGHTLY DELAYED)
-$ct_conf['comms']['notifyme_accesscode'] = '';
+$ct_conf['ext_apis']['notifyme_accesscode'] = '';
 
 
 // Sending alerts to your own telegram bot chatroom. 
@@ -277,47 +271,52 @@ $ct_conf['comms']['notifyme_accesscode'] = '';
 // VISIT THE BOT'S CHATROOM IN TELEGRAM APP, #SEND THE MESSAGE "/start" TO THIS CHATROOM# (THIS WILL CREATE USER CHAT DATA THIS APP NEEDS)
 // THE USER CHAT DATA #IS REQUIRED# FOR THIS APP TO DETERMINE / SECURELY SAVE YOUR TELEGRAM USER'S CHAT ID WITH THE BOT YOU CREATED
 // #DO NOT DELETE THE BOT CHATROOM IN THE TELEGRAM APP, OR YOU WILL STOP RECEIVING MESSAGES FROM THE BOT!#
-$ct_conf['comms']['telegram_your_username'] = ''; // Your telegram username (REQUIRED, setup in telegram app settings)
+$ct_conf['ext_apis']['telegram_your_username'] = ''; // Your telegram username (REQUIRED, setup in telegram app settings)
 ////
-$ct_conf['comms']['telegram_bot_username'] = '';  // Your bot's username
+$ct_conf['ext_apis']['telegram_bot_username'] = '';  // Your bot's username
 ////
-$ct_conf['comms']['telegram_bot_name'] = ''; // Your bot's human-readable name (example: 'My Alerts Bot')
+$ct_conf['ext_apis']['telegram_bot_name'] = ''; // Your bot's human-readable name (example: 'My Alerts Bot')
 ////
-$ct_conf['comms']['telegram_bot_token'] = '';  // Your bot's access token
+$ct_conf['ext_apis']['telegram_bot_token'] = '';  // Your bot's access token
 
 
-////////////////////////////////////////
-// !END! COMMUNICATIONS CONFIGURATION
-////////////////////////////////////////
+// Do NOT use MORE THAN ONE texting (SMS) service below. Only fill in settings for one, or it will DISABLE THEM ALL.
+// LEAVE ALL BLANK to use a mobile text gateway set ABOVE
 
 
-////////////////////////////////////////
-// !START! OTHER APIs CONFIGURATION
-////////////////////////////////////////
-
-
-// API key for etherscan.io (required unfortunately, but a FREE level is available): https://etherscan.io/apis
-$ct_conf['other_api']['etherscan_key'] = '';
-
-
-// API key for coinmarketcap.com Pro API (required unfortunately, but a FREE level is available): https://coinmarketcap.com/api
-$ct_conf['other_api']['coinmarketcap_key'] = '';
-
-
-// API key for Alpha Vantage (global stock APIs as well as foreign exchange rates (forex) and cryptocurrency data feeds)
-// (required unfortunately, but a FREE level is available [paid premium also available]): https://www.alphavantage.co/support/#api-key
-$ct_conf['other_api']['alphavantage_key'] = '';
+// CAN BE BLANK. For asset price alert twilio notifications. Setup: https://twilio.com/
+// YOU MUST SET $ct_conf['comms']['to_mobile_text'] ABOVE IN THE SERVICE PROVIDER AREA TO: skip_network_name
 ////
-// The below settings will automatically limit your API requests to NEVER go over your DAILY Alpha Vantage API requests limit
-// (CONTACT ALPHA VANTAGE SUPPORT, IF YOU ARE UNAWARE OF WHAT YOUR MINUTE / DAILY LIMITS ARE [IF you have a PAID PREMIUM plan])
-// The requests-per-MINUTE limit on your Alpha Vantage API key (varies depending on you free / paid member level)
-$ct_conf['other_api']['alphavantage_per_minute_limit'] = 5; // (default = 5 [FOR FREE SERVICE])
-// The requests-per-DAY limit on your Alpha Vantage API key (varies depending on you free / paid member level)
-$ct_conf['other_api']['alphavantage_per_day_limit'] = 100; // (default = 100 [FOR FREE SERVICE])
+// Twilio acount phone number (Format: '12223334444' [no plus symbol])
+$ct_conf['ext_apis']['twilio_number'] = '';
+////
+// Twilio account SID
+$ct_conf['ext_apis']['twilio_sid'] = '';
+////
+// Twilio account auth token
+$ct_conf['ext_apis']['twilio_token'] = '';
+
+
+// CAN BE BLANK. For asset price alert textbelt notifications. Setup: https://textbelt.com/
+// YOU MUST SET $ct_conf['comms']['to_mobile_text'] ABOVE IN THE SERVICE PROVIDER AREA TO: skip_network_name
+// CONTACT support@textbelt.com IF YOUR MESSAGES DON'T GO THROUGH, THEY ARE USUALLY *VERY* RESPONSIVE
+$ct_conf['ext_apis']['textbelt_apikey'] = '';
+
+
+// CAN BE BLANK. For asset price alert textlocal notifications. Setup: https://www.textlocal.com/integrations/api/
+// DOES NOT SEEM TO WORK OUTSIDE THE UNITED KINGDOM! (account dashboard says it was sent, but it's NEVER recieved)
+// YOU MUST SET $ct_conf['comms']['to_mobile_text'] ABOVE IN THE SERVICE PROVIDER AREA TO: skip_network_name
+////
+// Textlocal human-readable sender name (eg: 'J. Smith'), REQUIRED IF USING TEXTLOCAL TO SEND TEXTS!
+// THIS SHOULD MATCH THE SENDER NAME YOU ALREADY SETUP IN YOUR TEXTLOCAL ACCOUNT
+$ct_conf['ext_apis']['textlocal_sender'] = '';
+////
+// API Key
+$ct_conf['ext_apis']['textlocal_apikey'] = '';
 
 
 ////////////////////////////////////////
-// !END! OTHER APIs CONFIGURATION
+// !END! EXTERNAL API SETTINGS CONFIGURATION
 ////////////////////////////////////////
 
 
@@ -355,7 +354,7 @@ $ct_conf['proxy']['proxy_login'] = ''; // Use format: 'username||password'
 // (ENABLES / UPDATES automatically, when a valid username / password are filled in or updated here)
 // (DISABLES automatically, when username / password are blank '' OR invalid) 
 // (!ONLY #UPDATES OR DISABLES# AUTOMATICALLY #AFTER# LOGGING IN ONCE WITH YOUR #OLD LOGIN# [or if a cron job / scheduled task runs with the new config]!)
-// DOES #NOT# WORK ON #DESKTOP EDITIONS# (ONLY WORKS ON #SERVER EDITION#)
+// DOES #NOT# WORK ON #LINUX DESKTOP EDITION# (ONLY WORKS ON #SERVER EDITION AND WINDOWS DESKTOP EDITION#)
 // #IF THIS SETTING GIVES YOU ISSUES# ON YOUR SYSTEM, BLANK IT OUT TO '', AND DELETE '.htaccess' IN THE MAIN DIRECTORY OF 
 // THIS APP (TO RESTORE PAGE ACCESS), AND PLEASE REPORT IT HERE: https://github.com/taoteh1221/Open_Crypto_Tracker/issues
 $ct_conf['sec']['interface_login'] = ''; // Leave blank to disable requiring an interface login. This format MUST be used: 'username||password'
@@ -512,42 +511,6 @@ $ct_conf['charts_alerts']['tracked_mrkts'] = array(
 					'ray-2' => 'coingecko_btc||btc||chart',
 					
 					
-					// COINSTOCK (Coinbase stock)
-					'coinstock' => 'alphavantage_stock||usd||both',
-					
-					
-					// AMZNSTOCK (Amazon stock)
-					'amznstock' => 'alphavantage_stock||usd||both',
-					
-					
-					// GOOGLSTOCK (Google stock)
-					'googlstock' => 'alphavantage_stock||usd||both',
-					
-					
-					// NVDASTOCK (NVIDIA stock)
-					'nvdastock' => 'alphavantage_stock||usd||both',
-					
-					
-					// MSFTSTOCK (Microsoft stock)
-					'msftstock' => 'alphavantage_stock||usd||both',
-					
-					
-					// NFLXSTOCK (Netflix stock)
-					'nflxstock' => 'alphavantage_stock||usd||both',
-					
-					
-					// MCDSTOCK (McDonalds stock)
-					'mcdstock' => 'alphavantage_stock||usd||both',
-					
-					
-					// GPVSTOCK (GreenPower Motor Company stock)
-					'gpvstock' => 'alphavantage_stock||cad||both',
-					
-					
-					// DTGSTOCK (Daimler Truck Holding stock)
-					'dtgstock' => 'alphavantage_stock||eur||both',
-					
-					
 					// MANA
 					'mana' => 'bittrex||btc||chart',
 					'mana-2' => 'binance||btc||both',
@@ -611,11 +574,61 @@ $ct_conf['charts_alerts']['tracked_mrkts'] = array(
 					'grape-5' => 'coingecko_gbp||gbp||none',
 					
 					
+					// NANA
+					'nana' => 'jupiter_ag||sol||both',
+					'nana-2' => 'coingecko_btc||btc||chart',
+					'nana-3' => 'coingecko_eth||eth||chart',
+					
+					
 					// BONK
 					'bonk' => 'huobi||usdt||chart',
 					'bonk-2' => 'gateio||usdt||both',
 					'bonk-3' => 'coingecko_btc||btc||chart',
 					'bonk-4' => 'coingecko_eth||eth||chart',
+					
+					
+					// GPVSTOCK (GreenPower Motor Company stock)
+					'gpvstock' => 'alphavantage_stock||cad||both',
+					
+					
+					// DTGSTOCK (Daimler Truck Holding stock)
+					'dtgstock' => 'alphavantage_stock||eur||both',
+					
+					
+					// COINSTOCK (Coinbase stock)
+					'coinstock' => 'alphavantage_stock||usd||both',
+					
+					
+					// AMZNSTOCK (Amazon stock)
+					'amznstock' => 'alphavantage_stock||usd||both',
+					
+					
+					// GOOGLSTOCK (Google stock)
+					'googlstock' => 'alphavantage_stock||usd||both',
+					
+					
+					// MSFTSTOCK (Microsoft stock)
+					'msftstock' => 'alphavantage_stock||usd||both',
+					
+					
+					// NVDASTOCK (NVIDIA stock)
+					'nvdastock' => 'alphavantage_stock||usd||both',
+					
+					
+					// AMDSTOCK (Advanced Micro Devices stock)
+					'amdstock' => 'alphavantage_stock||usd||both',
+					
+					
+					// INTCSTOCK (Intel Corporation stock)
+					'intcstock' => 'alphavantage_stock||usd||both',
+					
+					
+					// NFLXSTOCK (Netflix stock)
+					'nflxstock' => 'alphavantage_stock||usd||both',
+					
+					
+					// MCDSTOCK (McDonalds stock)
+					'mcdstock' => 'alphavantage_stock||usd||both',
 					
 					
 					);
@@ -1154,11 +1167,20 @@ $ct_conf['power']['mining_calculators'] = array(
 					
 			
 ); // MINING CALCULATORS END
+				
+
+////////////////////////////////////////
+// !END! POWER USER CONFIGURATION
+////////////////////////////////////////
+				
+
+////////////////////////////////////////
+// !START! NEWS FEEDS CONFIGURATION
+////////////////////////////////////////
 			
 
-
 // RSS news feeds available on the News page
-$ct_conf['power']['news_feed'] = array(
+$ct_conf['news_feeds'] = array(
     
     
     					/////////////////////////////////////////////////////
@@ -1515,6 +1537,12 @@ $ct_conf['power']['news_feed'] = array(
     
     
         				array(
+            			"title" => "Youtube - Lightspeed (Solana / Alt L1 podcast)",
+            			"url" => "https://www.youtube.com/feeds/videos.xml?channel_id=UCjsgQKPpR7ubPQhPqjf8kyA"
+        						),
+    
+    
+        				array(
             			"title" => "Youtube - Solana Labs",
             			"url" => "https://www.youtube.com/feeds/videos.xml?channel_id=UC9AdQPUe4BdVJ8M9X7wxHUA"
         						),
@@ -1530,7 +1558,7 @@ $ct_conf['power']['news_feed'] = array(
 				
 
 ////////////////////////////////////////
-// !END! POWER USER CONFIGURATION
+// !END! NEWS FEEDS CONFIGURATION
 ////////////////////////////////////////
 
 
@@ -1791,6 +1819,16 @@ $ct_conf['assets'] = array(
                     // (KEY PLACED HERE FOR ORDERING ONLY, DYNAMICALLY POPULATED BY THE APP AT RUNTIME)
                     // (!!!!DO NOT DELETE, SOLNFTS IS *REQUIRED* TO RUN THIS APP!!!!)
                     'SOLNFTS' => array(), 
+                    // Asset END
+
+                    
+                    ////////////////////////////////////////////////////////////////////
+                    
+                    
+                    // ALTNFTS 
+                    // (KEY PLACED HERE FOR ORDERING ONLY, DYNAMICALLY POPULATED BY THE APP AT RUNTIME)
+                    // (!!!!DO NOT DELETE, ALTNFTS IS *REQUIRED* TO RUN THIS APP!!!!)
+                    'ALTNFTS' => array(), 
                     // Asset END
                     
                     
@@ -2515,195 +2553,6 @@ $ct_conf['assets'] = array(
                     ////////////////////////////////////////////////////////////////////
                     
                     
-                    // COINSTOCK
-                    'COINSTOCK' => array(
-                        
-                        'name' => 'Coinbase Global Inc',
-                        'mcap_slug' => 'COIN:NASDAQ',
-                        'pair' => array(
-
-                        
-                                    'usd' => array(
-                                        'alphavantage_stock' => 'COIN',
-                                                    ),
-
-                                                    
-                        ) // pair END
-                        
-                    ), // Asset END
-                    
-                    
-                    ////////////////////////////////////////////////////////////////////
-                    
-                    
-                    // AMZNSTOCK
-                    'AMZNSTOCK' => array(
-                        
-                        'name' => 'Amazon Inc',
-                        'mcap_slug' => 'AMZN:NASDAQ',
-                        'pair' => array(
-
-                        
-                                    'usd' => array(
-                                        'alphavantage_stock' => 'AMZN',
-                                                    ),
-
-                                                    
-                        ) // pair END
-                        
-                    ), // Asset END
-                    
-                    
-                    ////////////////////////////////////////////////////////////////////
-                    
-                    
-                    // GOOGLSTOCK
-                    'GOOGLSTOCK' => array(
-                        
-                        'name' => 'Alphabet Inc Class A',
-                        'mcap_slug' => 'GOOGL:NASDAQ',
-                        'pair' => array(
-
-                        
-                                    'usd' => array(
-                                        'alphavantage_stock' => 'GOOGL',
-                                                    ),
-
-                                                    
-                        ) // pair END
-                        
-                    ), // Asset END
-                    
-                    
-                    ////////////////////////////////////////////////////////////////////
-                    
-                    
-                    // NVDASTOCK
-                    'NVDASTOCK' => array(
-                        
-                        'name' => 'NVIDIA Corp',
-                        'mcap_slug' => 'NVDA:NASDAQ',
-                        'pair' => array(
-
-                        
-                                    'usd' => array(
-                                        'alphavantage_stock' => 'NVDA',
-                                                    ),
-
-                                                    
-                        ) // pair END
-                        
-                    ), // Asset END
-                    
-                    
-                    ////////////////////////////////////////////////////////////////////
-                    
-                    
-                    // MSFTSTOCK
-                    'MSFTSTOCK' => array(
-                        
-                        'name' => 'Microsoft Corp',
-                        'mcap_slug' => 'MSFT:NASDAQ',
-                        'pair' => array(
-
-                        
-                                    'usd' => array(
-                                        'alphavantage_stock' => 'MSFT',
-                                                    ),
-
-                                                    
-                        ) // pair END
-                        
-                    ), // Asset END
-                    
-                    
-                    ////////////////////////////////////////////////////////////////////
-                    
-                    
-                    // NFLXSTOCK
-                    'NFLXSTOCK' => array(
-                        
-                        'name' => 'Netflix Inc',
-                        'mcap_slug' => 'NFLX:NASDAQ',
-                        'pair' => array(
-
-                        
-                                    'usd' => array(
-                                        'alphavantage_stock' => 'NFLX',
-                                                    ),
-
-                                                    
-                        ) // pair END
-                        
-                    ), // Asset END
-                    
-                    
-                    ////////////////////////////////////////////////////////////////////
-                    
-                    
-                    // MCDSTOCK
-                    'MCDSTOCK' => array(
-                        
-                        'name' => 'McDonalds Corp',
-                        'mcap_slug' => 'MCD:NYSE',
-                        'pair' => array(
-
-                        
-                                    'usd' => array(
-                                        'alphavantage_stock' => 'MCD',
-                                                    ),
-
-                                                    
-                        ) // pair END
-                        
-                    ), // Asset END
-                    
-                    
-                    ////////////////////////////////////////////////////////////////////
-                    
-                    
-                    // GPVSTOCK
-                    'GPVSTOCK' => array(
-                        
-                        'name' => 'GreenPower Motor Company Inc',
-                        'mcap_slug' => 'GPV:CVE',
-                        'pair' => array(
-
-                        
-                                    'cad' => array(
-                                        'alphavantage_stock' => 'GPV.TRV',
-                                                    ),
-
-                                                    
-                        ) // pair END
-                        
-                    ), // Asset END
-                    
-                    
-                    ////////////////////////////////////////////////////////////////////
-                    
-                    
-                    // DTGSTOCK
-                    'DTGSTOCK' => array(
-                        
-                        'name' => 'Daimler Truck Holding AG',
-                        'mcap_slug' => 'DTG:ETR',
-                        'pair' => array(
-
-                        
-                                    'eur' => array(
-                                        'alphavantage_stock' => 'DTG.DEX',
-                                                    ),
-
-                                                    
-                        ) // pair END
-                        
-                    ), // Asset END
-                    
-                    
-                    ////////////////////////////////////////////////////////////////////
-                    
-                    
                     // MANA
                     'MANA' => array(
                         
@@ -3160,6 +3009,47 @@ $ct_conf['assets'] = array(
                     ////////////////////////////////////////////////////////////////////
                     
                     
+                    // NANA
+                    'NANA' => array(
+                        
+                        'name' => 'NANA Token',
+                        'mcap_slug' => 'nana-token',
+                        'pair' => array(
+
+                                                    
+                                    'btc' => array(
+                                        'coingecko_btc' => 'nana-token',
+                                                    ),
+
+                                                    
+                                    'eth' => array(
+                                        'coingecko_eth' => 'nana-token',
+                                                    ),
+
+                                                    
+                                    'sol' => array(
+                                    	 'jupiter_ag' => 'NANA/SOL',
+                                                    ),
+
+                                                    
+                                    'usd' => array(
+                                        'coingecko_usd' => 'nana-token',
+                                                    ),
+
+                                                    
+                                    'usdt' => array(
+                                        'coinex' => 'NANAUSDT',
+                                                    ),
+
+                                                    
+                        ) // pair END
+                        
+                    ), // Asset END
+                    
+                    
+                    ////////////////////////////////////////////////////////////////////
+                    
+                    
                     // BONK
                     'BONK' => array(
                         
@@ -3190,6 +3080,237 @@ $ct_conf['assets'] = array(
                                         'bitmart' => 'BONK_USDT',
                                         'coinex' => 'BONKUSDT',
                                         'bitforex' => 'coin-usdt-bonk',
+                                                    ),
+
+                                                    
+                        ) // pair END
+                        
+                    ), // Asset END
+                    
+                    
+                    ////////////////////////////////////////////////////////////////////
+                    
+                    
+                    // GPVSTOCK
+                    'GPVSTOCK' => array(
+                        
+                        'name' => 'GreenPower Motor Company Inc',
+                        'mcap_slug' => 'GPV:CVE',
+                        'pair' => array(
+
+                        
+                                    'cad' => array(
+                                        'alphavantage_stock' => 'GPV.TRV',
+                                                    ),
+
+                                                    
+                        ) // pair END
+                        
+                    ), // Asset END
+                    
+                    
+                    ////////////////////////////////////////////////////////////////////
+                    
+                    
+                    // DTGSTOCK
+                    'DTGSTOCK' => array(
+                        
+                        'name' => 'Daimler Truck Holding AG',
+                        'mcap_slug' => 'DTG:ETR',
+                        'pair' => array(
+
+                        
+                                    'eur' => array(
+                                        'alphavantage_stock' => 'DTG.DEX',
+                                                    ),
+
+                                                    
+                        ) // pair END
+                        
+                    ), // Asset END
+                    
+                    
+                    ////////////////////////////////////////////////////////////////////
+                    
+                    
+                    // COINSTOCK
+                    'COINSTOCK' => array(
+                        
+                        'name' => 'Coinbase Global Inc',
+                        'mcap_slug' => 'COIN:NASDAQ',
+                        'pair' => array(
+
+                        
+                                    'usd' => array(
+                                        'alphavantage_stock' => 'COIN',
+                                                    ),
+
+                                                    
+                        ) // pair END
+                        
+                    ), // Asset END
+                    
+                    
+                    ////////////////////////////////////////////////////////////////////
+                    
+                    
+                    // AMZNSTOCK
+                    'AMZNSTOCK' => array(
+                        
+                        'name' => 'Amazon Inc',
+                        'mcap_slug' => 'AMZN:NASDAQ',
+                        'pair' => array(
+
+                        
+                                    'usd' => array(
+                                        'alphavantage_stock' => 'AMZN',
+                                                    ),
+
+                                                    
+                        ) // pair END
+                        
+                    ), // Asset END
+                    
+                    
+                    ////////////////////////////////////////////////////////////////////
+                    
+                    
+                    // GOOGLSTOCK
+                    'GOOGLSTOCK' => array(
+                        
+                        'name' => 'Alphabet Inc Class A',
+                        'mcap_slug' => 'GOOGL:NASDAQ',
+                        'pair' => array(
+
+                        
+                                    'usd' => array(
+                                        'alphavantage_stock' => 'GOOGL',
+                                                    ),
+
+                                                    
+                        ) // pair END
+                        
+                    ), // Asset END
+                    
+                    
+                    ////////////////////////////////////////////////////////////////////
+                    
+                    
+                    // MSFTSTOCK
+                    'MSFTSTOCK' => array(
+                        
+                        'name' => 'Microsoft Corp',
+                        'mcap_slug' => 'MSFT:NASDAQ',
+                        'pair' => array(
+
+                        
+                                    'usd' => array(
+                                        'alphavantage_stock' => 'MSFT',
+                                                    ),
+
+                                                    
+                        ) // pair END
+                        
+                    ), // Asset END
+                    
+                    
+                    ////////////////////////////////////////////////////////////////////
+                    
+                    
+                    // NVDASTOCK
+                    'NVDASTOCK' => array(
+                        
+                        'name' => 'NVIDIA Corp',
+                        'mcap_slug' => 'NVDA:NASDAQ',
+                        'pair' => array(
+
+                        
+                                    'usd' => array(
+                                        'alphavantage_stock' => 'NVDA',
+                                                    ),
+
+                                                    
+                        ) // pair END
+                        
+                    ), // Asset END
+                    
+                    
+                    ////////////////////////////////////////////////////////////////////
+                    
+                    
+                    // AMDSTOCK
+                    'AMDSTOCK' => array(
+                        
+                        'name' => 'Advanced Micro Devices',
+                        'mcap_slug' => 'AMD:NASDAQ',
+                        'pair' => array(
+
+                        
+                                    'usd' => array(
+                                        'alphavantage_stock' => 'AMD',
+                                                    ),
+
+                                                    
+                        ) // pair END
+                        
+                    ), // Asset END
+                    
+                    
+                    ////////////////////////////////////////////////////////////////////
+                    
+                    
+                    // INTCSTOCK
+                    'INTCSTOCK' => array(
+                        
+                        'name' => 'Intel Corporation',
+                        'mcap_slug' => 'INTC:NASDAQ',
+                        'pair' => array(
+
+                        
+                                    'usd' => array(
+                                        'alphavantage_stock' => 'INTC',
+                                                    ),
+
+                                                    
+                        ) // pair END
+                        
+                    ), // Asset END
+                    
+                    
+                    ////////////////////////////////////////////////////////////////////
+                    
+                    
+                    // NFLXSTOCK
+                    'NFLXSTOCK' => array(
+                        
+                        'name' => 'Netflix Inc',
+                        'mcap_slug' => 'NFLX:NASDAQ',
+                        'pair' => array(
+
+                        
+                                    'usd' => array(
+                                        'alphavantage_stock' => 'NFLX',
+                                                    ),
+
+                                                    
+                        ) // pair END
+                        
+                    ), // Asset END
+                    
+                    
+                    ////////////////////////////////////////////////////////////////////
+                    
+                    
+                    // MCDSTOCK
+                    'MCDSTOCK' => array(
+                        
+                        'name' => 'McDonalds Corp',
+                        'mcap_slug' => 'MCD:NYSE',
+                        'pair' => array(
+
+                        
+                                    'usd' => array(
+                                        'alphavantage_stock' => 'MCD',
                                                     ),
 
                                                     

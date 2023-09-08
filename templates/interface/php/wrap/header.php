@@ -36,6 +36,7 @@ require("templates/interface/php/wrap/wrap-elements/head-tag-contents.php");
 if ( $is_iframe ) {
 ?>
 <body class='iframe_wrapper'>
+	      
 <!-- IFRAME header.php END -->
 <?php
 }

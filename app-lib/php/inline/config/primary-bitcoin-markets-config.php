@@ -148,8 +148,12 @@ else {
         }
     
     
+	   // Dynamically modify MISCASSETS / ALTNFTS in $ct_conf['assets']
+	   // ONLY IF USER HASN'T MESSED UP $ct_conf['assets'], AS WE DON'T WANT TO CANCEL OUT ANY
+	   // CONFIG CHECKS CREATING ERROR LOG ENTRIES / UI ALERTS INFORMING THEM OF THAT
         if ( is_array($ct_conf['assets']) ) {
-        $ct_conf['assets']['MISCASSETS']['name'] = 'Misc. '.strtoupper($ct_conf['gen']['btc_prim_currency_pair']).' Value';
+        $ct_conf['assets']['MISCASSETS']['name'] = 'Misc. Assets (' . strtoupper($ct_conf['gen']['btc_prim_currency_pair']) . ')';
+        $ct_conf['assets']['ALTNFTS']['name'] = 'Alternate NFTs (' . strtoupper($ct_conf['gen']['btc_prim_currency_pair']) . ')';
         }
                 
                 

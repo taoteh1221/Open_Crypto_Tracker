@@ -43,7 +43,7 @@ exit;
 if ( $runtime_mode == 'download' && !isset($_GET['backup']) && $_GET['token'] != $ct_gen->nonce_digest('download') ) {
 $ct_gen->log('security_error', 'aborted, security token mis-match/stale from ' . $_SERVER['REMOTE_ADDR'] . ', for request: ' . $_SERVER['REQUEST_URI'] . ' (try reloading the app)');
 $ct_cache->error_log();
-echo "Aborted, security token mis-match/stale. Try reloading the app.";
+echo "Aborted, security token mis-match/stale, try reloading the app.";
 exit;
 }
 
@@ -51,53 +51,11 @@ exit;
 //////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
-// A bit of DOS / brute force login attack mitigation for bogus / bot login attempts
-// Speed up runtime SIGNIFICANTLY by checking EARLY for a bad / non-existent captcha code, and rendering the related form again...
-// A BIT STATEMENT-INTENSIVE ON PURPOSE, AS IT KEEPS RUNTIME SPEED MUCH HIGHER
-if ( $_POST['admin_submit_register'] || $_POST['admin_submit_login'] || $_POST['admin_submit_reset'] ) {
+// Toggle ADMIN SECURITY LEVEL DEFAULTS (#MUST# BE SET BEFORE load-config-by-security-level.php)
+// (EXCEPT IF 'opt_admin_sec' from authenticated admin is verified [that MUST be in config-init.php])
 
-
-	if (
-	!isset($_POST['captcha_code'])
-	|| isset($_POST['captcha_code']) && strtolower( trim($_POST['captcha_code']) ) != strtolower($_SESSION['captcha_code'])
-	) {
-	
-	    
-	    // WE RUN SECURITY CHECKS WITHIN THE REGISTRATION PAGE, SO NOT MUCH CHECKS ARE IN THIS INIT SECTION
-		if ( $_POST['admin_submit_register'] ) {
-		$sel_opt['theme_selected'] = ( $_COOKIE['theme_selected'] ? $_COOKIE['theme_selected'] : $ct_conf['gen']['default_theme'] );
-		require("templates/interface/php/admin/admin-login/register.php");
-		exit;
-		}
-		elseif ( $_POST['admin_submit_login'] ) {
-		$sel_opt['theme_selected'] = ( $_COOKIE['theme_selected'] ? $_COOKIE['theme_selected'] : $ct_conf['gen']['default_theme'] );
-		require("templates/interface/php/admin/admin-login/login.php");
-		exit;
-		}
-		elseif ( $_POST['admin_submit_reset'] ) {
-		$sel_opt['theme_selected'] = ( $_COOKIE['theme_selected'] ? $_COOKIE['theme_selected'] : $ct_conf['gen']['default_theme'] );
-		require("templates/interface/php/admin/admin-login/reset.php");
-		exit;
-		}
-	
-	
-	}
-	
-
-}
-
-
-//////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-
-// Toggle to set the admin interface security level, if 'opt_admin_sec' from authenticated admin is verified
-// (#MUST# BE SET BEFORE load-config-by-security-level.php)
-if ( isset($_POST['opt_admin_sec']) && $ct_gen->pass_sec_check($_POST['admin_hashed_nonce'], 'toggle_admin_security') ) {
-$admin_area_sec_level = $_POST['opt_admin_sec'];
-$ct_cache->save_file($base_dir . '/cache/vars/admin_area_sec_level.dat', $_POST['opt_admin_sec']);
-}
 // If not updating, and cached var already exists
-elseif ( file_exists($base_dir . '/cache/vars/admin_area_sec_level.dat') ) {
+if ( file_exists($base_dir . '/cache/vars/admin_area_sec_level.dat') ) {
 $admin_area_sec_level = trim( file_get_contents($base_dir . '/cache/vars/admin_area_sec_level.dat') );
 }
 // Else, default to high admin security
@@ -111,7 +69,7 @@ $ct_cache->save_file($base_dir . '/cache/vars/admin_area_sec_level.dat', $admin_
 
 
 // Toggle 2FA DEFAULTS (#MUST# BE SET IMMEADIATELY AFTER ADMIN SECURITY LEVEL)
-// (EXCEPT IF 'opt_admin_2fa' from authenticated admin is verified [that MUST be in 3rd-party-classes-loader.php])
+// (EXCEPT IF 'opt_admin_2fa' from authenticated admin is verified [that MUST be in config-init.php])
 
 // If not updating, and cached var already exists
 if ( file_exists($base_dir . '/cache/vars/admin_area_2fa.dat') ) {
@@ -139,32 +97,33 @@ if ( !$is_fast_runtime ) {
      foreach( $secured_cache_files as $secured_file ) {
      	
      	
-     	// Secret var (for google authenticator etc)
-     	if ( preg_match("/secret_var_/i", $secured_file) ) {
+     	// MIGRATE PEPPER VAR TO NEW SECRET VAR (FOR V6.00.26 BACKWARDS COMPATIBILITY)
+     	if ( preg_match("/pepper_var_/i", $secured_file) ) {
      		
      		
      		// If we already loaded the newest modified file, delete any stale ones
-     		if ( $auth_secret ) {
+     		if ( $migrate_to_auth_secret ) {
      		unlink($base_dir . '/cache/secured/' . $secured_file);
      		}
      		else {
-     		$auth_secret = trim( file_get_contents($base_dir . '/cache/secured/' . $secured_file) );
+     		$migrate_to_auth_secret = trim( file_get_contents($base_dir . '/cache/secured/' . $secured_file) );
+     		unlink($base_dir . '/cache/secured/' . $secured_file); // DELETE BECAUSE WE ARE MIGRATING TO A NEW VAR NAME
      		}
      	
      	
      	}
      	
      	
-     	// Pepper var (for secure hashed password storage)
-     	if ( preg_match("/pepper_var_/i", $secured_file) ) {
+     	// Secret var (for google authenticator etc)
+     	if ( preg_match("/secret_var_/i", $secured_file) ) {
      		
      		
-     		// If we already loaded the newest modified file, delete any stale ones
-     		if ( $password_pepper ) {
+     		// If we already loaded the newest modified file (OR ARE MIGRATING), delete any stale ones
+     		if ( $auth_secret || $migrate_to_auth_secret ) {
      		unlink($base_dir . '/cache/secured/' . $secured_file);
      		}
      		else {
-     		$password_pepper = trim( file_get_contents($base_dir . '/cache/secured/' . $secured_file) );
+     		$auth_secret = trim( file_get_contents($base_dir . '/cache/secured/' . $secured_file) );
      		}
      	
      	
@@ -289,10 +248,17 @@ if ( !$is_fast_runtime ) {
      
      
      // If no secret var
-     if ( !$auth_secret ) {
+     if ( !$auth_secret || $migrate_to_auth_secret ) {
      
      $secure_128bit_hash = $ct_gen->rand_hash(16); // 128-bit (16-byte) hash converted to hexadecimal, used for suffix
-     $secure_256bit_hash = $ct_gen->rand_hash(32); // 256-bit (32-byte) hash converted to hexadecimal, used for var
+     
+     
+          if ( $migrate_to_auth_secret ) {
+          $secure_256bit_hash = $migrate_to_auth_secret;
+          }
+          else {
+          $secure_256bit_hash = $ct_gen->rand_hash(32); // 256-bit (32-byte) hash converted to hexadecimal, used for var
+          }
      	
      	
      	// Halt the process if an issue is detected safely creating a random hash
@@ -307,34 +273,6 @@ if ( !$is_fast_runtime ) {
      	else {
      	$ct_cache->save_file($base_dir . '/cache/secured/secret_var_'.$secure_128bit_hash.'.dat', $secure_256bit_hash);
      	$auth_secret = $secure_256bit_hash;
-     	}
-     
-     
-     }
-     
-     
-     //////////////////////////////////////////////////////////////////////////////////////////////////////////
-     
-     
-     // If no password pepper
-     if ( !$password_pepper ) {
-     	
-     $secure_128bit_hash = $ct_gen->rand_hash(16); // 128-bit (16-byte) hash converted to hexadecimal, used for suffix
-     $secure_256bit_hash = $ct_gen->rand_hash(32); // 256-bit (32-byte) hash converted to hexadecimal, used for var
-     	
-     	
-     	// Halt the process if an issue is detected safely creating a random hash
-     	if ( $secure_128bit_hash == false || $secure_256bit_hash == false ) {
-     		
-     	$ct_gen->log(
-     				'security_error',
-     				'Cryptographically secure pseudo-random bytes could not be generated for pepper var (in secured cache storage), pepper var creation aborted to preserve security'
-     				);
-     	
-     	}
-     	else {
-     	$ct_cache->save_file($base_dir . '/cache/secured/pepper_var_'.$secure_128bit_hash.'.dat', $secure_256bit_hash);
-     	$password_pepper = $secure_256bit_hash;
      	}
      
      

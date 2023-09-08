@@ -6248,13 +6248,23 @@ v6.00.2 AND HIGHER RESETS LIGHT (TIME PERIOD) CHARTS FROM ARCHIVAL DATA, ONE-TIM
 -------------------------------------------------------------------
 6.00.26:
 
--BUG FIX: TBD
+-BUG FIX: Fixed setting 'interface_login' in the Admin SECURITY Config (an issue in Windows 10 / 11 only...it now works when entering your login)
 
--User experience on daily background tasks (should no longer 'creep' up / down for time-of-day run)
+-BUG FIX: Fixed chart storage / price alerts from crashing, when a market has no trade volume data available (sorry!)
+
+-BUG FIX: Miscellaneous fixes
 
 -Added OPTIONAL Two-Factor Security feature for admin area (Google Authenticator / Microsoft Authenticator, Authy, etc)
 
+-User experience on daily background tasks (should no longer 'creep' up / down for time-of-day run)
+
+-Added 'ALTNFTS' asset, for tracking alternate NFTs in a user's selected currency
+
+-Updated the DEMO asset markets / news feeds
+
 -Miscellaneous user experience improvements
+
+-Code optimization / cleanup
 
 -------------------------------------------------------------------
 

@@ -871,7 +871,7 @@ num_val = num_val.replace(/,/g, '');
 		if ( obj_var.checked == true ) {
 			
 			// If there is a valid coin amount OR this is MISCASSETS, uncheck it
-			if ( num_val >= min_crypto_val_test || obj_var.value == 'miscassets' || obj_var.value == 'btcnfts' || obj_var.value == 'ethnfts' || obj_var.value == 'solnfts' ) {
+			if ( num_val >= min_crypto_val_test || obj_var.value == 'miscassets' || obj_var.value == 'btcnfts' || obj_var.value == 'ethnfts' || obj_var.value == 'solnfts' || obj_var.value == 'altnfts' ) {
 			obj_var.checked = false;
 			}
 			else {
@@ -1504,6 +1504,10 @@ badColor = "#ff4747";
 
 
 function dynamic_position(elm, mode=false, compact_sidebar=false) {
+     
+     if ( typeof $(elm).offset() == 'undefined' ) {
+     return;
+     }
 
 var docViewTop = $(window).scrollTop();
 var docViewBottom = docViewTop + $(window).height();

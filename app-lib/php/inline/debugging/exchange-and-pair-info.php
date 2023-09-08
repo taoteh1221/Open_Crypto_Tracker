@@ -74,7 +74,7 @@ $currency_count = 0;
 					foreach ( $ct_conf['assets'][$asset_key]['pair'][$pair_key] as $exchange_key => $unused ) {
 					
 						// Detects better with side space included
-						if ( stristr($all_exchanges_list, ' ' . $exchange_key . ' ') == false && $exchange_key != 'misc_assets' && $exchange_key != 'btc_nfts' && $exchange_key != 'eth_nfts' && $exchange_key != 'sol_nfts' ) {
+						if ( stristr($all_exchanges_list, ' ' . $exchange_key . ' ') == false && $exchange_key != 'misc_assets' && $exchange_key != 'btc_nfts' && $exchange_key != 'eth_nfts' && $exchange_key != 'sol_nfts' && $exchange_key != 'alt_nfts' ) {
 						$all_exchange_count = $all_exchange_count + 1;
 						$all_exchanges_list .= ' ' . $exchange_key . ' /';
 						}

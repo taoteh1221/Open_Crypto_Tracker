@@ -29,7 +29,7 @@ foreach ( $ct_conf['assets'] as $key => $unused ) {
 // Consolidate function calls for runtime speed improvement
 $mcap_data = $ct_asset->mcap_data($key, 'usd'); // For marketcap bar chart, we ALWAYS force using USD
 	
-	if ( $key != 'MISCASSETS' && $key != 'BTCNFTS' && $key != 'ETHNFTS' && $key != 'SOLNFTS' && isset($mcap_data['rank']) ) {
+	if ( $key != 'MISCASSETS' && $key != 'BTCNFTS' && $key != 'ETHNFTS' && $key != 'SOLNFTS' && $key != 'ALTNFTS' && isset($mcap_data['rank']) ) {
 	
 	
 		if ( $_GET['mcap_compare_diff'] == 'none' ) {

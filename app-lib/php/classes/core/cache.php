@@ -242,14 +242,15 @@ var $ct_array1 = array();
       }
       else {
       
-      $htaccess_password = crypt( $htaccess_password, base64_encode($htaccess_password) );
+      // WORKS IN LINUX ***AND WINDOWS TOO***
+      $htaccess_password = password_hash($htaccess_password, PASSWORD_DEFAULT);
       
       $password_set = $this->save_file($base_dir . '/cache/secured/.app_htpasswd', $htaccess_username . ':' . $htaccess_password);
       
        	if ( $password_set == true ) {
        
        	$htaccess_contents = $this->php_timeout_defaults($base_dir . '/templates/back-end/root-app-directory-htaccess.template') . 
-    		preg_replace("/\[BASE_DIR\]/i", $base_dir, file_get_contents($base_dir . '/templates/back-end/enable-password-htaccess.template') );
+        preg_replace("/\[BASE_DIR\]/i", $base_dir, file_get_contents($base_dir . '/templates/back-end/enable-password-htaccess.template') );
       
        	$htaccess_set = $this->save_file($base_dir . '/.htaccess', $htaccess_contents);
       
@@ -1800,7 +1801,7 @@ var $ct_array1 = array();
         
         $notifyme_params = array(
                                 'notification' => null, // Setting this right before sending
-                                'accessCode' => $ct_conf['comms']['notifyme_accesscode']
+                                'accessCode' => $ct_conf['ext_apis']['notifyme_accesscode']
                                 );
                 
         }
@@ -1812,7 +1813,7 @@ var $ct_array1 = array();
         $twilio_params = array(
                               'Body' => null, // Setting this right before sending
                               'To' => '+' . $ct_gen->mob_number($ct_conf['comms']['to_mobile_text']),
-                              'From' => '+' . $ct_conf['comms']['twilio_number']
+                              'From' => '+' . $ct_conf['ext_apis']['twilio_number']
                                );
                             
         }
@@ -1821,7 +1822,7 @@ var $ct_array1 = array();
         $textbelt_params = array(
                                   'message' => null, // Setting this right before sending
                                   'phone' => $ct_gen->mob_number($ct_conf['comms']['to_mobile_text']),
-                                  'key' => $ct_conf['comms']['textbelt_apikey']
+                                  'key' => $ct_conf['ext_apis']['textbelt_apikey']
                                  );
                             
         }
@@ -1829,8 +1830,8 @@ var $ct_array1 = array();
             
         $textlocal_params = array(
                                    'message' => null, // Setting this right before sending
-                                   'sender' => $ct_conf['comms']['textlocal_sender'],
-                                   'apikey' => $ct_conf['comms']['textlocal_apikey'],
+                                   'sender' => $ct_conf['ext_apis']['textlocal_sender'],
+                                   'apikey' => $ct_conf['ext_apis']['textlocal_apikey'],
                                    'numbers' => $ct_gen->mob_number($ct_conf['comms']['to_mobile_text'])
                                     );
                             
@@ -1929,7 +1930,7 @@ var $ct_array1 = array();
                sleep($text_sleep);
                usleep(500000); // Wait 0.5 seconds EXTRA, as standard twilio pay-as-you-go plans are 1 text per second (so play it safe)
                  
-               $twilio_response = @$this->ext_data('params', $twilio_params, 0, 'https://api.twilio.com/2010-04-01/Accounts/' . $ct_conf['comms']['twilio_sid'] . '/Messages.json', 2);
+               $twilio_response = @$this->ext_data('params', $twilio_params, 0, 'https://api.twilio.com/2010-04-01/Accounts/' . $ct_conf['ext_apis']['twilio_sid'] . '/Messages.json', 2);
                  
                $processed_msgs['text_count'] = $processed_msgs['text_count'] + 1;
                
@@ -2470,7 +2471,7 @@ var $ct_array1 = array();
         elseif ( $endpoint_tld_or_ip == 'twilio.com' ) {
         curl_setopt($ch, CURLOPT_HTTPAUTH, CURLAUTH_ANY);
         // DO NOT ENCAPSULATE PHP USER/PASS VARS IN QUOTES, IT BREAKS THE FEATURE
-        curl_setopt($ch, CURLOPT_USERPWD, $ct_conf['comms']['twilio_sid'] . ':' . $ct_conf['comms']['twilio_token']); 
+        curl_setopt($ch, CURLOPT_USERPWD, $ct_conf['ext_apis']['twilio_sid'] . ':' . $ct_conf['ext_apis']['twilio_token']); 
         }
        
       
