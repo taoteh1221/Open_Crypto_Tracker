@@ -93,7 +93,7 @@ $refresh_link_documentation = 'The current real-time exchange data re-cache (ref
 
 
                     <li>
-                        <a <?=$content_toggle?> class="dropdown-item admin_change_width" data-width="fixed_max" role="tab" aria-controls="admin_other_api" href="admin.php#admin_other_api" title='Configure options for external third party APIs.'>Other APIs</a>
+                        <a <?=$content_toggle?> class="dropdown-item admin_change_width" data-width="fixed_max" role="tab" aria-controls="admin_ext_apis" href="admin.php#admin_ext_apis" title='Configure options for external third party APIs.'>External APIs</a>
                     </li>
 
 
@@ -124,6 +124,11 @@ $refresh_link_documentation = 'The current real-time exchange data re-cache (ref
 
                     <li>
                         <a <?=$content_toggle?> class="dropdown-item admin_change_width" data-width="fixed_max" role="tab" aria-controls="admin_power_user" href="admin.php#admin_power_user" title='Power user settings (for advanced users).'>Power User</a>
+                    </li>
+
+
+                    <li>
+                        <a <?=$content_toggle?> class="dropdown-item admin_change_width" data-width="fixed_max" role="tab" aria-controls="admin_news_feeds" href="admin.php#admin_news_feeds" title='Edit the news feeds for the news page.'>News Feeds</a>
                     </li>
 
 
@@ -354,7 +359,7 @@ $refresh_link_documentation = 'The current real-time exchange data re-cache (ref
 
 
                     <li class='sidebar-item nav-item'>
-                        <a <?=$content_toggle?> class="nav-link admin_change_width" data-width="fixed_max" role="tab" aria-controls="admin_other_api" href="admin.php#admin_other_api" title='Configure options for external third party APIs.'>Other APIs</a>
+                        <a <?=$content_toggle?> class="nav-link admin_change_width" data-width="fixed_max" role="tab" aria-controls="admin_ext_apis" href="admin.php#admin_ext_apis" title='Configure options for external third party APIs.'>External APIs</a>
                     </li>
 
 
@@ -447,6 +452,11 @@ $refresh_link_documentation = 'The current real-time exchange data re-cache (ref
 
                     <li class='sidebar-item nav-item'>
                         <a <?=$content_toggle?> class="nav-link admin_change_width" data-width="fixed_max" role="tab" aria-controls="admin_power_user" href="admin.php#admin_power_user" title='Power user settings (for advanced users).'>Power User</a>
+                    </li>
+
+
+                    <li class='sidebar-item nav-item'>
+                        <a <?=$content_toggle?> class="nav-link admin_change_width" data-width="fixed_max" role="tab" aria-controls="admin_news_feeds" href="admin.php#admin_news_feeds" title='Edit the news feeds for the news page.'>News Feeds</a>
                     </li>
 
 

@@ -103,7 +103,7 @@ if ( $runtime_mode == 'ui' ) {
 			
 				foreach ( $pair_val as $key => $val ) {
 				
-					if ( $key != 'misc_assets' && $key != 'btc_nfts' && $key != 'eth_nfts' && $key != 'sol_nfts' ) {
+					if ( $key != 'misc_assets' && $key != 'btc_nfts' && $key != 'eth_nfts' && $key != 'sol_nfts' && $key != 'alt_nfts' ) {
 					
 					// Consolidate function calls for runtime speed improvement
 					$mrkts_test_data = $ct_api->market( strtoupper($asset_key) , $key, $val, $pair_key);

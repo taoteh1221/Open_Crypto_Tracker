@@ -106,7 +106,7 @@ $(document).ready(function() {
              
              $refresh_admin = array(
                                      'iframe_comms',
-                                     'iframe_other_api',
+                                     'iframe_ext_apis',
                                      'iframe_general',
                                      'iframe_portfolio_assets',
                                      'iframe_charts_alerts',

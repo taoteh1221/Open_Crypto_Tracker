@@ -99,6 +99,9 @@ header('Access-Control-Allow-Origin: *'); // Allow ALL origins, since we don't l
       	elseif ( stristr($asset_key, 'SOLNFTS') != false ) {
       	$asset_key = 'SOL NFTs';
       	}
+      	elseif ( stristr($asset_key, 'ALTNFTS') != false ) {
+      	$asset_key = 'ALT NFTs';
+      	}
       	else {
       	$asset_key = strtoupper($asset_key);
       	}
@@ -151,6 +154,9 @@ header('Access-Control-Allow-Origin: *'); // Allow ALL origins, since we don't l
                   	}
                   	elseif ( stristr($asset_key, 'SOLNFTS') != false ) {
                   	$asset_key = 'SOL NFTs';
+                  	}
+                  	elseif ( stristr($asset_key, 'ALTNFTS') != false ) {
+                  	$asset_key = 'ALT NFTs';
                   	}
                   	else {
                   	$asset_key = strtoupper($asset_key);

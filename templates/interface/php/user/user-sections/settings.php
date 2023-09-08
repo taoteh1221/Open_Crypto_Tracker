@@ -24,7 +24,7 @@
           		<?=( isset($price_change_conf_alert) && $price_change_conf_alert != '' ? '<br />' . $price_change_conf_alert : '' )?>
           		
           		<?php
-          		if ( preg_match("/text/i", $price_alert_type_text) && $ct_conf['comms']['smtp_login'] == '' && $ct_conf['comms']['smtp_server'] == '' && $ct_conf['comms']['textbelt_apikey'] == '' && $ct_conf['comms']['textlocal_apikey'] == '' ) {
+          		if ( preg_match("/text/i", $price_alert_type_text) && $ct_conf['comms']['smtp_login'] == '' && $ct_conf['comms']['smtp_server'] == '' && $ct_conf['ext_apis']['textbelt_apikey'] == '' && $ct_conf['ext_apis']['textlocal_apikey'] == '' ) {
           		?>
           		<br />
           		<span class='bitcoin'>Email-to-mobile-text service gateways *MAY* work more reliably (not filter out your messages) <i>if you enable SMTP email sending</i>.</span>

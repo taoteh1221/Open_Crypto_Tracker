@@ -26,7 +26,7 @@ $batched_feed_hashes_array = explode(',', $_GET['feeds']);
 $all_feeds_array = array();
     
     
-foreach($ct_conf['power']['news_feed'] as $feed) {
+foreach($ct_conf['news_feeds'] as $feed) {
 $feed_id = $ct_gen->digest($feed["title"], 5); // We avoid using array keys for end user config editing UX, BUT STILL UNIQUELY IDENTIFY EACH FEED
 $all_feeds_array[$feed_id] = $feed;
 }

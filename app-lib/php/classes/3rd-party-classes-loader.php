@@ -64,7 +64,7 @@ $totp_base32 = new \Google\Authenticator\FixedBitNotation(5, 'ABCDEFGHIJKLMNOPQR
 
 // To be safe, don't use trim() on certain strings with arbitrary non-alphanumeric characters here
 // MUST RUN #AS SOON AS POSSIBLE IN APP INIT#, SO TELEGRAM COMMS ARE ENABLED FOR #ALL# FOLLOWING LOGIC!
-if ( trim($ct_conf['comms']['telegram_your_username']) != '' && trim($ct_conf['comms']['telegram_bot_name']) != '' && trim($ct_conf['comms']['telegram_bot_username']) != '' && $ct_conf['comms']['telegram_bot_token'] != '' ) {
+if ( trim($ct_conf['ext_apis']['telegram_your_username']) != '' && trim($ct_conf['ext_apis']['telegram_bot_name']) != '' && trim($ct_conf['ext_apis']['telegram_bot_username']) != '' && $ct_conf['ext_apis']['telegram_bot_token'] != '' ) {
     
 $telegram_activated = true;
 
@@ -72,7 +72,7 @@ $telegram_activated = true;
 require_once($base_dir . '/app-lib/php/classes/3rd-party/telegram-php/src/Autoloader.php');
 
 // Initiate the bot for this chatroom
-$telegram_bot = new Telegram\Bot($ct_conf['comms']['telegram_bot_token'], $ct_conf['comms']['telegram_bot_username'], $ct_conf['comms']['telegram_bot_name']);
+$telegram_bot = new Telegram\Bot($ct_conf['ext_apis']['telegram_bot_token'], $ct_conf['ext_apis']['telegram_bot_username'], $ct_conf['ext_apis']['telegram_bot_name']);
 $telegram_messaging = new Telegram\Receiver($telegram_bot);
 
 

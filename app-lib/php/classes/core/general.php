@@ -961,15 +961,15 @@ var $ct_array = array();
    
       // Etherscan
       if ( preg_match("/etherscan/i", $url) ) {
-      $url = str_replace($ct_conf['other_api']['etherscan_key'], $ct_var->obfusc_str($ct_conf['other_api']['etherscan_key'], 2), $url);
+      $url = str_replace($ct_conf['ext_apis']['etherscan_key'], $ct_var->obfusc_str($ct_conf['ext_apis']['etherscan_key'], 2), $url);
       }
       // Telegram
       elseif ( preg_match("/telegram/i", $url) ) {
-      $url = str_replace($ct_conf['comms']['telegram_bot_token'], $ct_var->obfusc_str($ct_conf['comms']['telegram_bot_token'], 2), $url); 
+      $url = str_replace($ct_conf['ext_apis']['telegram_bot_token'], $ct_var->obfusc_str($ct_conf['ext_apis']['telegram_bot_token'], 2), $url); 
       }
       // AlphaVantage
       elseif ( preg_match("/alphavantage/i", $url) ) {
-      $url = str_replace($ct_conf['other_api']['alphavantage_key'], $ct_var->obfusc_str($ct_conf['other_api']['alphavantage_key'], 2), $url); 
+      $url = str_replace($ct_conf['ext_apis']['alphavantage_key'], $ct_var->obfusc_str($ct_conf['ext_apis']['alphavantage_key'], 2), $url); 
       }
    
    // Keep our color-coded logs in the admin UI pretty, remove '//' and put in parenthesis
@@ -2474,7 +2474,7 @@ var $ct_array = array();
         
         	// NEW RSS feed posts
         	$num_posts = 0;
-        	foreach($ct_conf['power']['news_feed'] as $feed_item) {
+        	foreach($ct_conf['news_feeds'] as $feed_item) {
         	    
         		if ( isset($feed_item["url"]) && trim($feed_item["url"]) != '' ) {
         		    

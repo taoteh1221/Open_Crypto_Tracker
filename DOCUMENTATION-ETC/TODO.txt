@@ -10,41 +10,37 @@ NEXT SCHEDULED WORK SESSIONS (*BOTH* DEBUGGING AND / OR INFRASTRUCTURE)
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
-Torture test new 2FA logic ONE MORE TIME BEFORE RELEASE, and make sure UX (including UI alerts) is decent.
+Add an info icon next to 2FA fields, with info on what it is, usage, and how to MANUALLY disable it.
+
+
+'Enahanced' admin security mode does NOT give a 2FA invalid alert, if you incorrectly enter the 2FA code.
+
+
+Torture test new 2FA logic ONE MORE TIME, and make sure UX (including UI alerts) is decent.
 
 
 Add help page entry for : 2FA passcode was invalid, please try again
 
 
-Add an info icon next to 2FA fields, with info on what it is, usage, and how to MANUALLY disable it.
+On the plugins admin page, add an info balloon next to a title "How can I make sure 3rd-party plugins are safe?"
+
+
+On the plugins admin page, add a title "How to make your own custom plugin", with a link to the plugin documentation on github.
 
 
 Update all documentation for new 2FA integrations into existing security features. Don't forget to mention that changing the admin username / server domain will PURPOSEFULLY INVALIDATE THE CURRENT 2FA 'SECRET', and would then require deleting the 2fa var in the cache to disable 2FA (which can then be re-enabled after, with the new admin username / sever domain).
 
 
+Add options to enable / disable requiring 2FA for updating ANYTHING in the admin area. This likely can be accomplished efficiently by adding a function parameter that defaults to 'standard', which can also be 'update_config', for the 2FA form rendering function. Then just have corresponding vars set like for Sec setting / 2fa, to create logic for when 2fa renders / is validated for this option.
+
+
 Send out an OPTIONAL comms alert when we change the admin security mode, OR when we enable / disable 2FA (like we do for logins).
-
-
-When 2FA is enabled, it should be REQUIRED to save / update / delete / reset ANYTHING in the admin area.
 
 
 Iframe RELOADS / REFRESHES should NOT RESUBMIT DATA (we could have some endless loops, depending on $refresh_admin values in footer.php).
 
 
-Move news feeds config into it's own section.
-
-
-Change the "other apis" section to "External APIs", AND move comms APIs into it (but add a notice atop comms section about comms APIs moved over there).
-
-
-Add to news feeds:
-https://www.youtube.com/channel/UCjsgQKPpR7ubPQhPqjf8kyA
-
-
-Add to new feeds: https://stepdata.substack.com/
-
-
-Add ALTNFTS asset, based on a user's primary currency (like MISCASSETS)
+Add ARM stock when they list in late September.
 
 
 Update screenshots, since we overhauled everything in the interface.
@@ -66,12 +62,6 @@ The tags 'h1' through 'h6' should be made to user-adjust text size too. (CONFIRM
 
 
 Move remaining font-size / line-height logic in style.css AND ELSEWHERE into our dynamic CSS header logic.
-
-
-On the plugins admin page, add an info balloon next to a title "How can I make sure 3rd-party plugins are safe?"
-
-
-On the plugins admin page, add a title "How to make your own custom plugin", with a link to the plugin documentation on github.
 
 
 The compact side menu doesn't work on Linux desktop Edition.
@@ -135,9 +125,6 @@ Remove all forced line breaks in FOLIO-INSTALL.bash dialogue
 
 
 Look for a good alternative to PHPdesktop FOR LINUX DESKTOP, or at least a simple / redistributable binary to run a PHP server.
-
-
-Fix issues on Desktop Editions. Sidebar scrolling only partially / sometimes enables in REGULAR sidebar, doesn't work at all on COMPACT sidebar, and titles scrolling sticky properly are not running well at all with the big overhaul done for v6.00.19. Find out why.
 
 
 On the portfolio page, have a drop-down html select menu, with options 'compact' (for current portfolio layout), and 'responsive' (for a mobile / tablet friendly layout). Have 'responsive' be auto-selected on smaller screens. Also consider doing the same for the 'update portfolio' page.

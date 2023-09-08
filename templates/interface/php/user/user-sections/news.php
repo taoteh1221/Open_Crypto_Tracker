@@ -118,7 +118,7 @@
 	<?php
 	
 	$zebra_stripe = 'long_list_odd';
-	foreach ( $ct_conf['power']['news_feed'] as $feed ) {
+	foreach ( $ct_conf['news_feeds'] as $feed ) {
 	
 	// We avoid using array keys for end user config editing UX, BUT STILL UNIQUELY IDENTIFY EACH FEED
 	$feed_id = $ct_gen->digest($feed['title'], 5);

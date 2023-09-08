@@ -175,22 +175,22 @@ $valid_from_email = true;
 
 
 // Notifyme service check
-if ( isset($ct_conf['comms']['notifyme_accesscode']) && trim($ct_conf['comms']['notifyme_accesscode']) != '' ) {
+if ( isset($ct_conf['ext_apis']['notifyme_accesscode']) && trim($ct_conf['ext_apis']['notifyme_accesscode']) != '' ) {
 $notifyme_activated = true;
 }
 
 
 // Texting (SMS) services check
 // (if MORE THAN ONE is activated, keep ALL disabled to avoid a texting firestorm)
-if ( isset($ct_conf['comms']['textbelt_apikey']) && trim($ct_conf['comms']['textbelt_apikey']) != '' ) {
+if ( isset($ct_conf['ext_apis']['textbelt_apikey']) && trim($ct_conf['ext_apis']['textbelt_apikey']) != '' ) {
 $activated_sms_services[] = 'textbelt';
 }
 
 
 if (
-isset($ct_conf['comms']['twilio_number']) && trim($ct_conf['comms']['twilio_number']) != ''
-&& isset($ct_conf['comms']['twilio_sid']) && trim($ct_conf['comms']['twilio_sid']) != ''
-&& isset($ct_conf['comms']['twilio_token']) && trim($ct_conf['comms']['twilio_token']) != ''
+isset($ct_conf['ext_apis']['twilio_number']) && trim($ct_conf['ext_apis']['twilio_number']) != ''
+&& isset($ct_conf['ext_apis']['twilio_sid']) && trim($ct_conf['ext_apis']['twilio_sid']) != ''
+&& isset($ct_conf['ext_apis']['twilio_token']) && trim($ct_conf['ext_apis']['twilio_token']) != ''
 ) {
 $activated_sms_services[] = 'twilio';
 }
@@ -198,10 +198,10 @@ $activated_sms_services[] = 'twilio';
 
 // To be safe, don't use trim() on certain strings with arbitrary non-alphanumeric characters here
 if (
-isset($ct_conf['comms']['textlocal_sender'])
-&& trim($ct_conf['comms']['textlocal_sender']) != ''
-&& isset($ct_conf['comms']['textlocal_apikey'])
-&& $ct_conf['comms']['textlocal_apikey'] != ''
+isset($ct_conf['ext_apis']['textlocal_sender'])
+&& trim($ct_conf['ext_apis']['textlocal_sender']) != ''
+&& isset($ct_conf['ext_apis']['textlocal_apikey'])
+&& $ct_conf['ext_apis']['textlocal_apikey'] != ''
 ) {
 $activated_sms_services[] = 'textlocal';
 }
@@ -316,7 +316,7 @@ $set_tiny_font_line_height = round( ($set_tiny_font_size * $global_line_height_p
 
 
 // Alphabetically sort news feeds
-$usort_feeds_results = usort($ct_conf['power']['news_feed'], array($ct_gen, 'titles_usort_alpha') );
+$usort_feeds_results = usort($ct_conf['news_feeds'], array($ct_gen, 'titles_usort_alpha') );
    	
    	
 if ( !$usort_feeds_results ) {
@@ -363,7 +363,7 @@ foreach ( $ct_conf['assets'] as $markets ) {
                 
 }
               
-$alphavantage_max_daily_requests_per_asset = floor($ct_conf['other_api']['alphavantage_per_day_limit'] / $alphavantage_pairs);
+$alphavantage_max_daily_requests_per_asset = floor($ct_conf['ext_apis']['alphavantage_per_day_limit'] / $alphavantage_pairs);
           
 $alphavantage_cache_time_per_asset = floor( ( 24 / $alphavantage_max_daily_requests_per_asset ) * 60 );
 
@@ -371,7 +371,7 @@ $alphavantage_cache_time_per_asset = floor( ( 24 / $alphavantage_max_daily_reque
 $throttled_api_cache_time['alphavantage.co'] = ( $alphavantage_cache_time_per_asset >  $ct_conf['power']['last_trade_cache_time'] ? $alphavantage_cache_time_per_asset : $ct_conf['power']['last_trade_cache_time'] );
 
 // We still do per minute too, because Alphavantage has a per-minute restriction
-$throttled_api_per_minute_limit['alphavantage.co'] = $ct_conf['other_api']['alphavantage_per_minute_limit'];
+$throttled_api_per_minute_limit['alphavantage.co'] = $ct_conf['ext_apis']['alphavantage_per_minute_limit'];
 
 // THROTTLE ALPHAVANTAGE - END
 

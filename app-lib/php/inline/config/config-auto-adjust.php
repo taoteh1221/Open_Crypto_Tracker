@@ -55,7 +55,7 @@ $ct_conf['mob_net_txt_gateways'] = $cleaned_mobile_networks;
 // Dynamically reconfigure / configure where needed
 
 
-// Default BTC CRYPTO/CRYPTO market pair support, BEFORE GENERATING MISCASSETS / BTCNFTS / ETHNFTS / SOLNFTS ARRAYS
+// Default BTC CRYPTO/CRYPTO market pair support, BEFORE GENERATING MISCASSETS / BTCNFTS / ETHNFTS / SOLNFTS / ALTNFTS ARRAYS
 // (so we activate it here instead of in Admin Config, for good UX adding ONLY altcoin markets dynamically there)
 $ct_conf['power']['crypto_pair'] = array('btc' => 'Ƀ ') + $ct_conf['power']['crypto_pair']; // ADD TO #BEGINNING# OF ARRAY, FOR UX
 
@@ -111,13 +111,13 @@ foreach ( $ct_conf['power']['btc_currency_mrkts'] as $pair_key => $pair_unused )
 // Dynamically add MISCASSETS to $ct_conf['assets'] BEFORE ALPHABETICAL SORTING
 // ONLY IF USER HASN'T MESSED UP $ct_conf['assets'], AS WE DON'T WANT TO CANCEL OUT ANY
 // CONFIG CHECKS CREATING ERROR LOG ENTRIES / UI ALERTS INFORMING THEM OF THAT
-// ALSO ADDING BTCNFTS / ETHNFTS / SOLNFTS DYNAMICALLY HERE
+// ALSO ADDING BTCNFTS / ETHNFTS / SOLNFTS / ALTNFTS DYNAMICALLY HERE
 if ( is_array($ct_conf['assets']) ) {
     
     
     // MISCASSETS
     $ct_conf['assets']['MISCASSETS'] = array(
-                                        'name' => 'Misc. '.strtoupper($ct_conf['gen']['btc_prim_currency_pair']).' Value',
+                                        'name' => '', // Filled in within primary-bitcoin-markets-config
                                         'mcap_slug' => '',
                                         'pair' => array()
                                         );
@@ -202,6 +202,29 @@ if ( is_array($ct_conf['assets']) ) {
             	// WE HAVE A COUPLE CRYPTOS SUPPORTED HERE, BUT WE ONLY WANT DESIGNATED FIAT-EQIV HERE (cryptos are added via 'crypto_to_crypto_pair')
             	if ( !array_key_exists($pair_key, $ct_conf['assets']['SOLNFTS']['pair']) ) {
             	$ct_conf['assets']['SOLNFTS']['pair'][$pair_key] = array('sol_nfts' => $pair_key);
+            	}
+            
+            }
+    
+    
+    // ALTNFTS
+    $ct_conf['assets']['ALTNFTS'] = array(
+                                        'name' => '', // Filled in within primary-bitcoin-markets-config
+                                        'mcap_slug' => '',
+                                        'pair' => array()
+                                        );
+            
+            
+            foreach ( $ct_conf['power']['crypto_pair'] as $pair_key => $pair_unused ) {
+            $ct_conf['assets']['ALTNFTS']['pair'][$pair_key] = array('alt_nfts' => $pair_key);
+            }
+            
+            
+            foreach ( $ct_conf['power']['btc_currency_mrkts'] as $pair_key => $pair_unused ) {
+            	
+            	// WE HAVE A COUPLE CRYPTOS SUPPORTED HERE, BUT WE ONLY WANT DESIGNATED FIAT-EQIV HERE (cryptos are added via 'crypto_to_crypto_pair')
+            	if ( !array_key_exists($pair_key, $ct_conf['assets']['ALTNFTS']['pair']) ) {
+            	$ct_conf['assets']['ALTNFTS']['pair'][$pair_key] = array('alt_nfts' => $pair_key);
             	}
             
             }
