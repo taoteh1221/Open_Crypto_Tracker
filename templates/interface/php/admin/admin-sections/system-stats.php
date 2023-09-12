@@ -28,7 +28,7 @@
 			<?php
 			foreach ( $system_warnings as $alert_key => $alert_val ) {
 			?>
-			+'<p class="coin_info" style=" white-space: normal;"><span class="red"><?=$ct_gen->key_to_name($alert_key)?>:</span> <?=$alert_val?></p>'
+			+'<p class="coin_info" style=" white-space: normal;"><span class="red"><?=$ct['gen']->key_to_name($alert_key)?>:</span> <?=$alert_val?></p>'
 			<?php
 			}
 			?>
@@ -64,61 +64,61 @@
 	
 	
     		// Output
-    		if ( isset($system_info['operating_system']) ) {
-    		echo '<div class="sys_stats"><span class="bitcoin"><b>Operating System:</b></span> <span class="blue"> '.$system_info['operating_system'].'</span> </div>';
+    		if ( isset($ct['system_info']['operating_system']) ) {
+    		echo '<div class="sys_stats"><span class="bitcoin"><b>Operating System:</b></span> <span class="blue"> '.$ct['system_info']['operating_system'].'</span> </div>';
     		}
     		
-    		if ( isset($system_info['distro_name']) ) {
-    		echo '<div class="sys_stats"><span class="bitcoin"><b>Distro:</b></span> <span class="blue"> '.$system_info['distro_name'].( isset($system_info['distro_version']) ? ' ' . $system_info['distro_version'] : '' ).'</span> </div>';
+    		if ( isset($ct['system_info']['distro_name']) ) {
+    		echo '<div class="sys_stats"><span class="bitcoin"><b>Distro:</b></span> <span class="blue"> '.$ct['system_info']['distro_name'].( isset($ct['system_info']['distro_version']) ? ' ' . $ct['system_info']['distro_version'] : '' ).'</span> </div>';
     		}
     		
-    		if ( isset($system_info['model']) || isset($system_info['hardware']) ) {
+    		if ( isset($ct['system_info']['model']) || isset($ct['system_info']['hardware']) ) {
     			
-    			if ( isset($system_info['model']) ) {
-    			echo '<div class="sys_stats"><span class="bitcoin"><b>Model:</b></span> <span class="blue"> '.$system_info['model'].( isset($system_info['hardware']) ? ' ('.$system_info['hardware'].')' : '' ).'</span> </div>';
+    			if ( isset($ct['system_info']['model']) ) {
+    			echo '<div class="sys_stats"><span class="bitcoin"><b>Model:</b></span> <span class="blue"> '.$ct['system_info']['model'].( isset($ct['system_info']['hardware']) ? ' ('.$ct['system_info']['hardware'].')' : '' ).'</span> </div>';
     			}
     			else {
-    			echo '<div class="sys_stats"><span class="bitcoin"><b>Hardware:</b></span> <span class="blue"> '.$system_info['hardware'].'</span> </div>';
+    			echo '<div class="sys_stats"><span class="bitcoin"><b>Hardware:</b></span> <span class="blue"> '.$ct['system_info']['hardware'].'</span> </div>';
     			}
     		
     		}
     		
-    		if ( isset($system_info['model_name']) ) {
-    		echo '<div class="sys_stats"><span class="bitcoin"><b>CPU:</b></span> <span class="blue"> '.$system_info['model_name'].'</span> ' . ( $system_info['cpu_threads'] > 0 ? '(' . $system_info['cpu_threads'] . ' threads)' : '' ) . ' </div>';
+    		if ( isset($ct['system_info']['model_name']) ) {
+    		echo '<div class="sys_stats"><span class="bitcoin"><b>CPU:</b></span> <span class="blue"> '.$ct['system_info']['model_name'].'</span> ' . ( $ct['system_info']['cpu_threads'] > 0 ? '(' . $ct['system_info']['cpu_threads'] . ' threads)' : '' ) . ' </div>';
     		}
-    		elseif ( isset($system_info['cpu_threads']) ) {
-    		echo '<div class="sys_stats"><span class="bitcoin"><b>CPU:</b></span> <span class="blue"> '.$system_info['cpu_threads'].' threads</span> </div>';
-    		}
-    		
-    		if ( isset($system_info['software']) ) {
-    		echo '<div class="sys_stats"><span class="bitcoin"><b>Server:</b></span> <span class="blue"> '.$system_info['software'].'</span> </div>';
+    		elseif ( isset($ct['system_info']['cpu_threads']) ) {
+    		echo '<div class="sys_stats"><span class="bitcoin"><b>CPU:</b></span> <span class="blue"> '.$ct['system_info']['cpu_threads'].' threads</span> </div>';
     		}
     		
-    		if ( isset($system_info['portfolio_cookies']) ) {
-    		echo '<div class="sys_stats"><span class="bitcoin"><b>Server Cookies Size:</b></span> <span class="'.( isset($system_warnings['portfolio_cookies_size']) ? 'red' : 'green' ).'"> '.$ct_var->num_pretty( ($system_info['portfolio_cookies'] / 1000) , 2).' Kilobytes</span> <span class="black">(~'.round( abs( ($system_info['portfolio_cookies'] / 1000) / abs(8.00) * 100 ) , 2).'% of <i>average</i> server header size limit [8 kilobytes])</span></span> &nbsp;<img class="tooltip_style_control server_header_defaults" src="templates/interface/media/images/info.png" alt="" width="30" style="position: relative; left: -5px;" /> </div>';
+    		if ( isset($ct['system_info']['software']) ) {
+    		echo '<div class="sys_stats"><span class="bitcoin"><b>Server:</b></span> <span class="blue"> '.$ct['system_info']['software'].'</span> </div>';
     		}
     		
-    		if ( isset($system_info['uptime']) ) {
-    		echo '<div class="sys_stats"><span class="bitcoin"><b>System Uptime:</b></span> <span class="'.( isset($system_warnings['uptime']) ? 'red' : 'green' ).'"> '.$system_info['uptime'].'</span> </div>';
+    		if ( isset($ct['system_info']['portfolio_cookies']) ) {
+    		echo '<div class="sys_stats"><span class="bitcoin"><b>Server Cookies Size:</b></span> <span class="'.( isset($system_warnings['portfolio_cookies_size']) ? 'red' : 'green' ).'"> '.$ct['var']->num_pretty( ($ct['system_info']['portfolio_cookies'] / 1000) , 2).' Kilobytes</span> <span class="black">(~'.round( abs( ($ct['system_info']['portfolio_cookies'] / 1000) / abs(8.00) * 100 ) , 2).'% of <i>average</i> server header size limit [8 kilobytes])</span></span> &nbsp;<img class="tooltip_style_control server_header_defaults" src="templates/interface/media/images/info.png" alt="" width="30" style="position: relative; left: -5px;" /> </div>';
     		}
     		
-    		if ( isset($system_info['system_load']) ) {
-    		echo '<div class="sys_stats"><span class="bitcoin"><b>System Load:</b></span> <span class="'.( isset($system_warnings['system_load']) ? 'red' : 'green' ).'"> '.$system_info['system_load'].'</span> </div>';
+    		if ( isset($ct['system_info']['uptime']) ) {
+    		echo '<div class="sys_stats"><span class="bitcoin"><b>System Uptime:</b></span> <span class="'.( isset($system_warnings['uptime']) ? 'red' : 'green' ).'"> '.$ct['system_info']['uptime'].'</span> </div>';
     		}
     		
-    		if ( isset($system_info['system_temp']) ) {
-    		echo '<div class="sys_stats"><span class="bitcoin"><b>System Temperature:</b></span> <span class="'.( isset($system_warnings['system_temp']) ? 'red' : 'green' ).'"> '.$system_info['system_temp'].' <span class="black">('.round( ($system_temp * 9 / 5 + 32), 2).'° Fahrenheit)</span></span> </div>';
+    		if ( isset($ct['system_info']['system_load']) ) {
+    		echo '<div class="sys_stats"><span class="bitcoin"><b>System Load:</b></span> <span class="'.( isset($system_warnings['system_load']) ? 'red' : 'green' ).'"> '.$ct['system_info']['system_load'].'</span> </div>';
     		}
     		
-    		if ( isset($system_info['memory_used_megabytes']) ) {
-    		echo '<div class="sys_stats"><span class="bitcoin"><b>USED Memory (*not* including buffers / cache):</b></span> <span class="'.( isset($system_warnings['memory_used_percent']) ? 'red' : 'green' ).'"> '.round($system_info['memory_used_megabytes'] / 1000, 4).' Gigabytes <span class="black">('.number_format($system_info['memory_used_megabytes'], 2, '.', ',').' Megabytes / '.$system_info['memory_used_percent'].'%)</span></span> </div>';
+    		if ( isset($ct['system_info']['system_temp']) ) {
+    		echo '<div class="sys_stats"><span class="bitcoin"><b>System Temperature:</b></span> <span class="'.( isset($system_warnings['system_temp']) ? 'red' : 'green' ).'"> '.$ct['system_info']['system_temp'].' <span class="black">('.round( ($system_temp * 9 / 5 + 32), 2).'° Fahrenheit)</span></span> </div>';
     		}
     		
-    		if ( isset($system_info['free_partition_space']) ) {
+    		if ( isset($ct['system_info']['memory_used_megabytes']) ) {
+    		echo '<div class="sys_stats"><span class="bitcoin"><b>USED Memory (*not* including buffers / cache):</b></span> <span class="'.( isset($system_warnings['memory_used_percent']) ? 'red' : 'green' ).'"> '.round($ct['system_info']['memory_used_megabytes'] / 1000, 4).' Gigabytes <span class="black">('.number_format($ct['system_info']['memory_used_megabytes'], 2, '.', ',').' Megabytes / '.$ct['system_info']['memory_used_percent'].'%)</span></span> </div>';
+    		}
+    		
+    		if ( isset($ct['system_info']['free_partition_space']) ) {
     		echo '<div class="sys_stats"><span class="bitcoin"><b>FREE Disk Space:</b></span> <span class="'.( isset($system_warnings['free_partition_space']) ? 'red' : 'green' ).'"> '.round($system_free_space_mb / 1000000, 4).' Terabytes <span class="black">('.number_format($system_free_space_mb / 1000, 2, '.', ',').' Gigabytes)</span></span> </div>';
     		}
     		
-    		if ( isset($system_info['portfolio_cache']) ) {
+    		if ( isset($ct['system_info']['portfolio_cache']) ) {
     		echo '<div class="sys_stats"><span class="bitcoin"><b>Open Crypto Tracker Cache Size:</b></span> <span class="'.( isset($system_warnings['portfolio_cache_size']) ? 'red' : 'green' ).'"> '.round($portfolio_cache_size_mb / 1000, 4).' Gigabytes <span class="black">('.number_format($portfolio_cache_size_mb, 2, '.', ',').' Megabytes)</span></span> </div>';
     		}
     		
@@ -174,7 +174,7 @@
    <ul>
 	
         <?php
-        if ( $app_edition == 'desktop' ) {
+        if ( $ct['app_edition'] == 'desktop' ) {
         ?>
 	<li class='red' style='font-weight: bold;'>Using 'zoom' (top right) can skew chart hovering mouse positions.</li>	
         <?php
@@ -194,7 +194,7 @@
 	
 	
 	<?php
-	$all_chart_rebuild_min_max = explode(',', $ct_conf['power']['light_chart_all_rebuild_min_max']);
+	$all_chart_rebuild_min_max = explode(',', $ct['conf']['power']['light_chart_all_rebuild_min_max']);
 	?>
 	
 	<p class='sys_stats red' style='font-weight: bold;'>*The "Server Cookies Size" telemetry data above <i>is not tracked in the system charts, because it's ONLY available in the user interface runtime (NOT the cron job runtime)</i>.</p>			
@@ -207,7 +207,7 @@
 	
 	<div style='display: flex; flex-flow: column wrap; overflow: hidden;' class='chart_wrapper' id='sys_stats_chart_1'>
 	
-	<span class='chart_loading' style='color: <?=$ct_conf['power']['charts_text']?>;'> &nbsp; Loading chart #1 for system data...</span>
+	<span class='chart_loading' style='color: <?=$ct['conf']['power']['charts_text']?>;'> &nbsp; Loading chart #1 for system data...</span>
 	
 	<div style='z-index: 99999; margin-top: 7px;' class='chart_reload align_center absolute_centered loading bitcoin'><img class='ajax_loader_image' src="templates/interface/media/images/auto-preloaded/loader.gif" height='17' alt="" style='vertical-align: middle;' /> <div class='chart_reload_msg'></div></div>
 	
@@ -228,7 +228,7 @@
 	
 	<div style='display: flex; flex-flow: column wrap; overflow: hidden;' class='chart_wrapper' id='sys_stats_chart_2'>
 	
-	<span class='chart_loading' style='color: <?=$ct_conf['power']['charts_text']?>;'> &nbsp; Loading chart #2 for system data...</span>
+	<span class='chart_loading' style='color: <?=$ct['conf']['power']['charts_text']?>;'> &nbsp; Loading chart #2 for system data...</span>
 	
 	<div style='z-index: 99999; margin-top: 7px;' class='chart_reload align_center absolute_centered loading bitcoin'><img class='ajax_loader_image' src="templates/interface/media/images/auto-preloaded/loader.gif" height='17' alt="" style='vertical-align: middle;' /> <div class='chart_reload_msg'></div></div>
 	

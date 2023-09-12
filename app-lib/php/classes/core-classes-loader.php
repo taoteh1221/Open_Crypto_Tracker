@@ -5,22 +5,22 @@
 
 
 require_once("app-lib/php/classes/core/general.php");
-$ct_gen = new ct_gen();
+$ct['gen'] = new ct_gen();
 
 require_once("app-lib/php/classes/core/var.php");
-$ct_var = new ct_var();
+$ct['var'] = new ct_var();
 
 require_once("app-lib/php/classes/core/cache.php");
-$ct_cache = new ct_cache();
+$ct['cache'] = new ct_cache();
 
 require_once("app-lib/php/classes/core/api.php");
-$ct_api = new ct_api();
+$ct['api'] = new ct_api();
 
 require_once("app-lib/php/classes/core/asset.php");
-$ct_asset = new ct_asset();
+$ct['asset'] = new ct_asset();
 
 require_once("app-lib/php/classes/core/plugin.php");
-$ct_plug = new ct_plug();
+$ct['plug'] = new ct_plug();
  
 // DON'T LEAVE ANY WHITESPACE AFTER THE CLOSING PHP TAG!
 

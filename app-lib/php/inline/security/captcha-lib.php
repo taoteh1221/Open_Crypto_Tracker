@@ -8,7 +8,7 @@
 // Credit to: https://code.tutsplus.com/tutorials/build-your-own-captcha-and-contact-form-in-php--net-5362
  
 
-$image = imagecreatetruecolor($captcha_image_width, $captcha_image_height);
+$image = imagecreatetruecolor($ct['dev']['captcha_image_width'], $ct['dev']['captcha_image_height']);
 imageantialias($image, true);
  
 $colors = [];
@@ -25,19 +25,19 @@ imagefill($image, 0, 0, $colors[0]);
 
 
 // Background noise pass #1
-for($i = 0; $i < round($captcha_text_size * 3.15); $i++) {
+for($i = 0; $i < round($ct['dev']['captcha_text_size'] * 3.15); $i++) {
   imagesetthickness($image, rand(2, 10));
   $line_color = $colors[rand(1, 4)];
-  imagerectangle($image, rand(0, $captcha_image_width), rand(0, $captcha_image_height), rand(0, $captcha_image_width), rand(40, 60), $line_color);
+  imagerectangle($image, rand(0, $ct['dev']['captcha_image_width']), rand(0, $ct['dev']['captcha_image_height']), rand(0, $ct['dev']['captcha_image_width']), rand(40, 60), $line_color);
 }
 
 // Background noise pass #2
-for ( $i = 0; $i < round($captcha_text_size / 1.35); $i++ ) {
-  imageline($image,mt_rand(0,$captcha_image_width),mt_rand(0,$captcha_image_height),mt_rand(0,$captcha_image_width),mt_rand(0,$captcha_image_height),imagecolorallocate($image,rand(50,85),rand(50,85),rand(50,85)));
+for ( $i = 0; $i < round($ct['dev']['captcha_text_size'] / 1.35); $i++ ) {
+  imageline($image,mt_rand(0,$ct['dev']['captcha_image_width']),mt_rand(0,$ct['dev']['captcha_image_height']),mt_rand(0,$ct['dev']['captcha_image_width']),mt_rand(0,$ct['dev']['captcha_image_height']),imagecolorallocate($image,rand(50,85),rand(50,85),rand(50,85)));
 }
 
 
-$font_dir = $base_dir . '/templates/interface/media/fonts/';
+$font_dir = $ct['base_dir'] . '/templates/interface/media/fonts/';
 $font_files = array_diff(scandir($font_dir), array('.', '..'));
 
 $fonts = array();
@@ -48,33 +48,33 @@ foreach( $font_files as $ttf_file ) {
 }
 
 
-$captcha_str = $ct_gen->captcha_str($captcha_permitted_chars, $captcha_chars_length);
+$captcha_str = $ct['gen']->captcha_str($ct['dev']['captcha_permitted_chars'], $ct['dev']['captcha_chars_length']);
  
 $_SESSION['captcha_code'] = strtolower($captcha_str);
  
  
-for($i = 0; $i < $captcha_chars_length; $i++) {
+for($i = 0; $i < $ct['dev']['captcha_chars_length']; $i++) {
 	
 	// Random off black/white, with contrast adjustment
-	if ( $ct_conf['sec']['captcha_text_contrast'] >= 0 ) {
-	$black_rand = rand( (37 - $ct_conf['sec']['captcha_text_contrast']) , (46 - $ct_conf['sec']['captcha_text_contrast']) );
-	$white_rand = rand( (173 + $ct_conf['sec']['captcha_text_contrast']) , (181 + $ct_conf['sec']['captcha_text_contrast']) );
+	if ( $ct['conf']['sec']['captcha_text_contrast'] >= 0 ) {
+	$black_rand = rand( (37 - $ct['conf']['sec']['captcha_text_contrast']) , (46 - $ct['conf']['sec']['captcha_text_contrast']) );
+	$white_rand = rand( (173 + $ct['conf']['sec']['captcha_text_contrast']) , (181 + $ct['conf']['sec']['captcha_text_contrast']) );
 	}
 	else {
-	$black_rand = rand( (37 + abs($ct_conf['sec']['captcha_text_contrast']) ) , (46 + abs($ct_conf['sec']['captcha_text_contrast']) ) );
-	$white_rand = rand( (173 - abs($ct_conf['sec']['captcha_text_contrast']) ) , (181 - abs($ct_conf['sec']['captcha_text_contrast']) ) );
+	$black_rand = rand( (37 + abs($ct['conf']['sec']['captcha_text_contrast']) ) , (46 + abs($ct['conf']['sec']['captcha_text_contrast']) ) );
+	$white_rand = rand( (173 - abs($ct['conf']['sec']['captcha_text_contrast']) ) , (181 - abs($ct['conf']['sec']['captcha_text_contrast']) ) );
 	}
  
 $black = imagecolorallocate($image, $black_rand, $black_rand, $black_rand);
 $white = imagecolorallocate($image, $white_rand, $white_rand, $white_rand);
 $textcolors = [$black, $white];
 	
-$letter_space = round( ( $captcha_image_width - ($captcha_text_margin * 2) ) / $captcha_chars_length ) + 2;
-$initial = rand($captcha_text_margin, ($captcha_text_margin * 2) ) + $captcha_text_margin + 4;
+$letter_space = round( ( $ct['dev']['captcha_image_width'] - ($ct['dev']['captcha_text_margin'] * 2) ) / $ct['dev']['captcha_chars_length'] ) + 2;
+$initial = rand($ct['dev']['captcha_text_margin'], ($ct['dev']['captcha_text_margin'] * 2) ) + $ct['dev']['captcha_text_margin'] + 4;
 
-$angle = random_int( (0 - $ct_conf['sec']['captcha_text_angle']) , $ct_conf['sec']['captcha_text_angle']);
+$angle = random_int( (0 - $ct['conf']['sec']['captcha_text_angle']) , $ct['conf']['sec']['captcha_text_angle']);
    
-imagettftext($image, $captcha_text_size, $angle, $initial + round($i * $letter_space), rand( ($captcha_text_size + ($captcha_text_margin * 4) ), ($captcha_image_height - ($captcha_text_margin * 5) ) ), $textcolors[rand(0, 1)], $fonts[array_rand($fonts)], $captcha_str[$i]);
+imagettftext($image, $ct['dev']['captcha_text_size'], $angle, $initial + round($i * $letter_space), rand( ($ct['dev']['captcha_text_size'] + ($ct['dev']['captcha_text_margin'] * 4) ), ($ct['dev']['captcha_image_height'] - ($ct['dev']['captcha_text_margin'] * 5) ) ), $textcolors[rand(0, 1)], $fonts[array_rand($fonts)], $captcha_str[$i]);
 
 }
 
@@ -84,19 +84,19 @@ header('Content-type: image/png');
 header('Access-Control-Allow-Headers: *'); // Allow ALL headers
 
 // Allow access from ANY SERVER (primarily in case the end-user has a server misconfiguration)
-if ( $ct_conf['sec']['access_control_origin'] == 'any' ) {
+if ( $ct['conf']['sec']['access_control_origin'] == 'any' ) {
 header('Access-Control-Allow-Origin: *');
 }
 // Strict access from THIS APP SERVER ONLY (provides tighter security)
 else {
-header('Access-Control-Allow-Origin: ' . $app_host_address);
+header('Access-Control-Allow-Origin: ' . $ct['app_host_address']);
 }
  
  
 // Log errors / debugging, send notifications
-$ct_cache->error_log();
-$ct_cache->debug_log();
-$ct_cache->send_notifications();
+$ct['cache']->error_log();
+$ct['cache']->debug_log();
+$ct['cache']->send_notifications();
 
 imagepng($image);
 imagedestroy($image);

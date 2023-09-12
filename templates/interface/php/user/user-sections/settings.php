@@ -15,16 +15,16 @@
 			
 			
 			<?php
-			if ( isset($price_alert_type_text) && $price_alert_type_text != '' && $ct_conf['comms']['price_alert_thres'] > 0 ) {
+			if ( isset($price_alert_type_text) && $price_alert_type_text != '' && $ct['conf']['comms']['price_alert_thres'] > 0 ) {
           ?>
-          	<p class='settings_sections'><b><?=$price_alert_type_text?> price alerts</b> are <i>enabled</i> in the configuration file (upon <?=$ct_conf['comms']['price_alert_thres']?>% or more <?=strtoupper($default_btc_prim_currency_pair)?> price change<?=( $ct_conf['comms']['price_alert_freq_max'] > 0 ? ' / max every ' . $ct_conf['comms']['price_alert_freq_max'] . ' hours per-alert' : '' )?><?=( $ct_conf['comms']['price_alert_min_vol'] > 0 ? ' / ' . $ct_conf['power']['btc_currency_mrkts'][$default_btc_prim_currency_pair] . number_format($ct_conf['comms']['price_alert_min_vol'], 0, '.', ',') . ' minumum volume filter enabled' : '' )?><?=( $ct_conf['power']['price_alert_fixed_reset'] > 0 ? ' / comparison price fixed-reset after ' . $ct_conf['power']['price_alert_fixed_reset'] . ' days' : '' )?>). 
+          	<p class='settings_sections'><b><?=$price_alert_type_text?> price alerts</b> are <i>enabled</i> in the configuration file (upon <?=$ct['conf']['comms']['price_alert_thres']?>% or more <?=strtoupper($default_btc_prim_currency_pair)?> price change<?=( $ct['conf']['comms']['price_alert_freq_max'] > 0 ? ' / max every ' . $ct['conf']['comms']['price_alert_freq_max'] . ' hours per-alert' : '' )?><?=( $ct['conf']['comms']['price_alert_min_vol'] > 0 ? ' / ' . $ct['conf']['power']['btc_currency_mrkts'][$default_btc_prim_currency_pair] . number_format($ct['conf']['comms']['price_alert_min_vol'], 0, '.', ',') . ' minumum volume filter enabled' : '' )?><?=( $ct['conf']['power']['price_alert_fixed_reset'] > 0 ? ' / comparison price fixed-reset after ' . $ct['conf']['power']['price_alert_fixed_reset'] . ' days' : '' )?>). 
           	
           	<br /><i>Enable <a href='README.txt' target='_blank'>a cron job / scheduled task on your web server</a>, or this feature will not work AT ALL.</i> 
           	
           		<?=( isset($price_change_conf_alert) && $price_change_conf_alert != '' ? '<br />' . $price_change_conf_alert : '' )?>
           		
           		<?php
-          		if ( preg_match("/text/i", $price_alert_type_text) && $ct_conf['comms']['smtp_login'] == '' && $ct_conf['comms']['smtp_server'] == '' && $ct_conf['ext_apis']['textbelt_apikey'] == '' && $ct_conf['ext_apis']['textlocal_apikey'] == '' ) {
+          		if ( preg_match("/text/i", $price_alert_type_text) && $ct['conf']['comms']['smtp_login'] == '' && $ct['conf']['comms']['smtp_server'] == '' && $ct['conf']['ext_apis']['textbelt_apikey'] == '' && $ct['conf']['ext_apis']['textlocal_apikey'] == '' ) {
           		?>
           		<br />
           		<span class='bitcoin'>Email-to-mobile-text service gateways *MAY* work more reliably (not filter out your messages) <i>if you enable SMTP email sending</i>.</span>
@@ -36,18 +36,18 @@
                         
 			<?php
 			}
-			if ( is_array($ct_conf['proxy']['proxy_list']) && sizeof($ct_conf['proxy']['proxy_list']) > 0 ) {
+			if ( is_array($ct['conf']['proxy']['proxy_list']) && sizeof($ct['conf']['proxy']['proxy_list']) > 0 ) {
 			?>
-          <p class='settings_sections'><b><?=( trim($ct_conf['proxy']['proxy_login']) != '' ? 'Password-based' : 'IP-athenticated' )?> proxy mode</b> is <i>enabled</i> in the configuration file for API connections (<?=sizeof($ct_conf['proxy']['proxy_list'])?> proxies randomly used<?=( $ct_conf['comms']['proxy_alert'] != 'off' ? ' / proxy alerts enabled for ' . $ct_conf['comms']['proxy_alert'] . ' alert method(s), every ' . $ct_conf['comms']['proxy_alert_freq_max'] . ' hours max per-proxy at ' . $ct_conf['comms']['proxy_alert_runtime'] . ' runtimes / ' .$ct_conf['comms']['proxy_alert_checkup_ok']. ' sending proxy alerts on proxy checks that tested OK after acting up' : '' )?>). 
+          <p class='settings_sections'><b><?=( trim($ct['conf']['proxy']['proxy_login']) != '' ? 'Password-based' : 'IP-athenticated' )?> proxy mode</b> is <i>enabled</i> in the configuration file for API connections (<?=sizeof($ct['conf']['proxy']['proxy_list'])?> proxies randomly used<?=( $ct['conf']['comms']['proxy_alert'] != 'off' ? ' / proxy alerts enabled for ' . $ct['conf']['comms']['proxy_alert'] . ' alert method(s), every ' . $ct['conf']['comms']['proxy_alert_freq_max'] . ' hours max per-proxy at ' . $ct['conf']['comms']['proxy_alert_runtime'] . ' runtimes / ' .$ct['conf']['comms']['proxy_alert_checkup_ok']. ' sending proxy alerts on proxy checks that tested OK after acting up' : '' )?>). 
           	
           		<?=( isset($proxy_conf_alert) && $proxy_conf_alert != '' ? '<br />' . $proxy_conf_alert : '' )?>
           	
           	</p>      
           <?php
           }
-			if ( $ct_conf['comms']['logs_email'] > 0 && trim($ct_conf['comms']['from_email']) != '' && trim($ct_conf['comms']['to_email']) != '' ) {
+			if ( $ct['conf']['comms']['logs_email'] > 0 && trim($ct['conf']['comms']['from_email']) != '' && trim($ct['conf']['comms']['to_email']) != '' ) {
           ?>
-          	<p class='settings_sections'><b>Emailing logs</b> is <i>enabled</i> in the configuration file (sent out every <?=$ct_conf['comms']['logs_email']?> days, log files purged every <?=$ct_conf['power']['logs_purge']?> days).
+          	<p class='settings_sections'><b>Emailing logs</b> is <i>enabled</i> in the configuration file (sent out every <?=$ct['conf']['comms']['logs_email']?> days, log files purged every <?=$ct['conf']['power']['logs_purge']?> days).
           	
           	<br /><i>Enable <a href='README.txt' target='_blank'>a cron job / scheduled task on your web server</a>, or this feature will not work RELIABLY.</i> 
           	
@@ -57,9 +57,9 @@
                         
 			<?php
 			}
-			if ( $ct_conf['gen']['asset_charts_toggle'] == 'on' && $ct_conf['gen']['charts_backup_freq'] > 0 && trim($ct_conf['comms']['from_email']) != '' && trim($ct_conf['comms']['to_email']) != '' ) {
+			if ( $ct['conf']['gen']['asset_charts_toggle'] == 'on' && $ct['conf']['gen']['charts_backup_freq'] > 0 && trim($ct['conf']['comms']['from_email']) != '' && trim($ct['conf']['comms']['to_email']) != '' ) {
           ?>
-          	<p class='settings_sections'><b>Chart Backups</b> are <i>enabled</i> in the configuration file (run every <?=$ct_conf['gen']['charts_backup_freq']?> days, purged after <?=$ct_conf['power']['backup_arch_del_old']?> days old).
+          	<p class='settings_sections'><b>Chart Backups</b> are <i>enabled</i> in the configuration file (run every <?=$ct['conf']['gen']['charts_backup_freq']?> days, purged after <?=$ct['conf']['power']['backup_arch_del_old']?> days old).
           	
           	<br /><i>Enable <a href='README.txt' target='_blank'>a cron job / scheduled task on your web server</a>, or this feature will not work AT ALL.</i> 
           	
@@ -70,7 +70,7 @@
 			<?php
 			}
 			// To be safe, don't use trim() on certain strings with arbitrary non-alphanumeric characters here
-			if ( $ct_conf['comms']['smtp_login'] != '' && $ct_conf['comms']['smtp_server'] != '' ) {
+			if ( $ct['conf']['comms']['smtp_login'] != '' && $ct['conf']['comms']['smtp_server'] != '' ) {
           ?>
           	<p class='settings_sections'><b>SMTP email sending</b> (by account login) is <i>enabled</i> in the configuration file.
           	
@@ -80,11 +80,11 @@
                         
 			<?php
 			}
-			if ( $ct_conf['power']['debug_mode'] != 'off' ) {
+			if ( $ct['conf']['power']['debug_mode'] != 'off' ) {
           ?>
           	<p class='settings_sections'><b>Debug Mode</b> is <i>enabled</i> in the configuration file.
           	
-          		<br /><span class='bitcoin'>Debug Mode: <?=$ct_conf['power']['debug_mode']?></span>
+          		<br /><span class='bitcoin'>Debug Mode: <?=$ct['conf']['power']['debug_mode']?></span>
           	
           	</p>  
                         
@@ -125,7 +125,7 @@
 				<option value='7' <?=( $sel_opt['sorted_by_col'] == 7 ? ' selected ' : '' )?>> Holdings </option>
 				<option value='8' <?=( $sel_opt['sorted_by_col'] == 8 ? ' selected ' : '' )?>> Ticker </option>
 				<option value='9' <?=( $sel_opt['sorted_by_col'] == 9 ? ' selected ' : '' )?>> Value </option>
-				<option value='10' <?=( $sel_opt['sorted_by_col'] == 10 ? ' selected ' : '' )?>> (<?=strtoupper($ct_conf['gen']['btc_prim_currency_pair'])?>) </option>
+				<option value='10' <?=( $sel_opt['sorted_by_col'] == 10 ? ' selected ' : '' )?>> (<?=strtoupper($ct['conf']['gen']['btc_prim_currency_pair'])?>) </option>
 			    </select> 
 			    
 			     <select class='browser-default custom-select' id='sorted_asc_desc' onchange='
@@ -156,7 +156,7 @@
 			    
 			
 			<?php
-			if ( is_array($ct_conf['assets']) ) {
+			if ( is_array($ct['conf']['assets']) ) {
 			    
 			    ?>
 			    
@@ -220,17 +220,17 @@
 					
 					<?php
 					
-					$exchange_field_id = $ct_asset->btc_mrkt($ct_conf['gen']['btc_prim_exchange']);
+					$exchange_field_id = $ct['asset']->btc_mrkt($ct['conf']['gen']['btc_prim_exchange']);
 					
-					foreach (  $ct_conf['assets']['BTC']['pair'] as $pair_key => $pair_id ) {
+					foreach (  $ct['conf']['assets']['BTC']['pair'] as $pair_key => $pair_id ) {
 					?>
-					<option value='<?=$pair_key?>' <?=( $ct_conf['gen']['btc_prim_currency_pair'] == $pair_key ? ' selected ' : '' )?>> <?=strtoupper(preg_replace("/_/i", " ", $pair_key))?> </option>
+					<option value='<?=$pair_key?>' <?=( $ct['conf']['gen']['btc_prim_currency_pair'] == $pair_key ? ' selected ' : '' )?>> <?=strtoupper(preg_replace("/_/i", " ", $pair_key))?> </option>
 					<?php
 					
 									
-									foreach ( $ct_conf['assets']['BTC']['pair'][$pair_key] as $mrkt_key => $mrkt_id ) {
+									foreach ( $ct['conf']['assets']['BTC']['pair'][$pair_key] as $mrkt_key => $mrkt_id ) {
 									$loop2 = $loop2 + 1;
-									$btc_mrkt_list[$pair_key] .= "\n<option value='".$loop2."'" . ( $exchange_field_id == $loop2 ? ' selected ' : '' ) . ">" . $ct_gen->key_to_name($mrkt_key) . "</option>\n";
+									$btc_mrkt_list[$pair_key] .= "\n<option value='".$loop2."'" . ( $exchange_field_id == $loop2 ? ' selected ' : '' ) . ">" . $ct['gen']->key_to_name($mrkt_key) . "</option>\n";
 									}
 									$loop2 = NULL;
 							
@@ -241,16 +241,16 @@
 				    
 				     @ 
 				    
-				    <input type='hidden' id='btc_prim_currency' name='btc_prim_currency' value='<?=$ct_conf['gen']['btc_prim_currency_pair']?>' />
+				    <input type='hidden' id='btc_prim_currency' name='btc_prim_currency' value='<?=$ct['conf']['gen']['btc_prim_currency_pair']?>' />
 				     
 				    <input type='hidden' id='prim_currency_mrkt_id' name='prim_currency_mrkt_id' value='<?=$exchange_field_id?>' />
 				     
 				     
 				     <span id='prim_currency_mrkt_id_lists' style='display: inline;'>
-				     <!-- Selected (or first if none selected) pair: <?=$ct_conf['gen']['btc_prim_currency_pair']?> -->
+				     <!-- Selected (or first if none selected) pair: <?=$ct['conf']['gen']['btc_prim_currency_pair']?> -->
 				     <!-- prim_currency_mrkt_standalone[1]: <?=$sel_opt['prim_currency_mrkt_standalone'][1]?> -->
 				     <!-- prim_currency_mrkt_standalone[0]: <?=$sel_opt['prim_currency_mrkt_standalone'][0]?> -->
-				     <!-- btc_prim_exchange: <?=$ct_conf['gen']['btc_prim_exchange']?> -->
+				     <!-- btc_prim_exchange: <?=$ct['conf']['gen']['btc_prim_exchange']?> -->
 				    <?php
 				    
 				    foreach ( $btc_mrkt_list as $key => $value ) {
@@ -291,7 +291,7 @@
 				    $("#prim_currency_mrkt_standalone").val( btc_prim_currency + "|" + prim_currency_mrkt );
 				    }
 				    
-				    ' id='<?=$key?>btc_currency_pairs' style='display: <?=( $ct_conf['gen']['btc_prim_currency_pair'] == $key ? 'inline' : 'none' )?>;'>
+				    ' id='<?=$key?>btc_currency_pairs' style='display: <?=( $ct['conf']['gen']['btc_prim_currency_pair'] == $key ? 'inline' : 'none' )?>;'>
 				    
 				    <?=$btc_mrkt_list[$key]?>
 				    
@@ -304,8 +304,8 @@
 				    
 				    </span> <img class='tooltip_style_control' id='currency_info' src='templates/interface/media/images/info.png' alt='' width='30' style='position: relative; left: -5px;' /> <input type='checkbox' id='standalone_prim_currency_enabled' name='standalone_prim_currency_enabled' value='1' onchange='
 				    
-				    btc_prim_currency = $("#btc_prim_currency").val() ? $("#btc_prim_currency").val() : "<?=$ct_conf['gen']['btc_prim_currency_pair']?>";
-				    prim_currency_mrkt = $("#prim_currency_mrkt_id").val() ? $("#prim_currency_mrkt_id").val() : <?=$ct_asset->btc_mrkt($ct_conf['gen']['btc_prim_exchange'])?>;
+				    btc_prim_currency = $("#btc_prim_currency").val() ? $("#btc_prim_currency").val() : "<?=$ct['conf']['gen']['btc_prim_currency_pair']?>";
+				    prim_currency_mrkt = $("#prim_currency_mrkt_id").val() ? $("#prim_currency_mrkt_id").val() : <?=$ct['asset']->btc_mrkt($ct['conf']['gen']['btc_prim_exchange'])?>;
 				    
 				    /////////////////////////////////////////////////////////
 				    
@@ -367,7 +367,7 @@
 		
 			// On page load / reload
 			
-			var settings_tab_prim_btc_exchange = document.getElementById("<?=$ct_conf['gen']['btc_prim_currency_pair']?>btc_currency_pairs");
+			var settings_tab_prim_btc_exchange = document.getElementById("<?=$ct['conf']['gen']['btc_prim_currency_pair']?>btc_currency_pairs");
 
 			exchange_name_ui = settings_tab_prim_btc_exchange.options[settings_tab_prim_btc_exchange.selectedIndex].text;
 
@@ -432,8 +432,8 @@
 			     
 			     
 			    <select class='browser-default custom-select' name='alert_source' id='alert_source' onchange='update_alert_percent();'>
-			    <option value='coingecko' <?=( $ct_conf['gen']['prim_mcap_site'] == 'coingecko' ? ' selected ' : '' )?>> Coingecko.com </option>
-			    <option value='coinmarketcap' <?=( $ct_conf['gen']['prim_mcap_site'] == 'coinmarketcap' ? ' selected ' : '' )?>> Coinmarketcap.com </option>
+			    <option value='coingecko' <?=( $ct['conf']['gen']['prim_mcap_site'] == 'coingecko' ? ' selected ' : '' )?>> Coingecko.com </option>
+			    <option value='coinmarketcap' <?=( $ct['conf']['gen']['prim_mcap_site'] == 'coinmarketcap' ? ' selected ' : '' )?>> Coinmarketcap.com </option>
 			    </select>  
 			    
 			    
@@ -468,7 +468,7 @@
 			    <select class='browser-default custom-select' name='percent_change_alert_type' id='percent_change_alert_type' onchange='
 			    update_alert_percent();
 			    if ( this.value == "visual_audio" ) {
-				 $("#percent_change_alert_type_alert").html("For security, some browsers may require occasional interaction to allow media auto-play (clicking on page etc), or changes to per-site auto-play preferences. <br /><br />Chrome users can open chrome://settings/content/sound, enable \"Sites can play sound\", and under \"Allowed to play sound\" add the address: <?=$app_host?>");
+				 $("#percent_change_alert_type_alert").html("For security, some browsers may require occasional interaction to allow media auto-play (clicking on page etc), or changes to per-site auto-play preferences. <br /><br />Chrome users can open chrome://settings/content/sound, enable \"Sites can play sound\", and under \"Allowed to play sound\" add the address: <?=$ct['app_host']?>");
 				 $("#percent_change_alert_type_alert").show(250, "linear"); // 0.25 seconds
 			    }
 			    else {
@@ -488,7 +488,7 @@
 		 <script>
 
 					if ( $("#percent_change_alert_type").val() == "visual_audio" ) {
-				    $("#percent_change_alert_type_alert").html("For security, some browsers may require occasional interaction to allow media auto-play (clicking on page etc), or changes to per-site auto-play preferences. <br /><br />Chrome users can open chrome://settings/content/sound, enable \"Sites can play sound\", and under \"Allowed to play sound\" add the address: <?=$app_host?>");
+				    $("#percent_change_alert_type_alert").html("For security, some browsers may require occasional interaction to allow media auto-play (clicking on page etc), or changes to per-site auto-play preferences. <br /><br />Chrome users can open chrome://settings/content/sound, enable \"Sites can play sound\", and under \"Allowed to play sound\" add the address: <?=$ct['app_host']?>");
 				    $("#percent_change_alert_type_alert").show(250, "linear"); // 0.25 seconds
 				    }
 				    else {
@@ -506,7 +506,7 @@
 			     
 			<?php
 			$loop = 0;
-			foreach ( $ct_conf['power']['crypto_pair'] as $key => $unused ) {
+			foreach ( $ct['conf']['power']['crypto_pair'] as $key => $unused ) {
 			?>
 			<?=( $loop > 0 ? ' &nbsp;/&nbsp; ' : '' )?> 
 			<input type='checkbox' value='<?=$key?>' onchange='crypto_val_toggle(this);' <?=( in_array("[".$key."]", $sel_opt['show_crypto_val']) ? 'checked' : '' )?> /> <?=strtoupper($key)?> 
@@ -570,7 +570,7 @@
 			'>
 			<option value=''> None </option>
 			<?php
-			foreach ( $ct_conf['power']['crypto_pair'] as $key => $unused ) {
+			foreach ( $ct['conf']['power']['crypto_pair'] as $key => $unused ) {
 			?>
 			<option value='<?=$key?>' <?=( $sel_opt['show_secondary_trade_val'] == $key ? 'selected' : '' )?>> <?=strtoupper($key)?> </option>
 			<?php

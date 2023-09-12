@@ -40,8 +40,8 @@ $plug_conf[$this_plug]['privacy_mode'] = 'on'; // 'on' / 'off' (Default: 'on')
 
 // Balance tracking array (add unlimited addresses as new subarray objects)
 // (ONLY BTC / ETH / HNT / SOL / SPL (SOL subtokens) SUPPORTED AS OF 2021/DEC/2)
-// ASSET #MUST EXIST# IN EITHER THE $ct_conf['power']['crypto_pair_pref_mrkts'] CONFIG,
-// OR THE $ct_conf['power']['btc_currency_mrkts'] CONFIG (BOTH LOCATED IN THE POWER USER SECTION)
+// ASSET #MUST EXIST# IN EITHER THE $ct['conf']['power']['crypto_pair_pref_mrkts'] CONFIG,
+// OR THE $ct['conf']['power']['btc_currency_mrkts'] CONFIG (BOTH LOCATED IN THE POWER USER SECTION)
 // SEE THOSE SECTIONS FOR MORE INFO ON ADDING NEW ASSETS TO THEM
 $plug_conf[$this_plug]['tracking'] = array(
 																	

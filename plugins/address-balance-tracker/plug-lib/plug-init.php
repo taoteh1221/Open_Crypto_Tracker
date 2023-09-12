@@ -10,13 +10,13 @@
 
 
 // DEBUGGING ONLY (checking logging capability)
-//$ct_cache->check_log('plugins/' . $this_plug . '/plug-lib/plug-init.php:start');
+//$ct['cache']->check_log('plugins/' . $this_plug . '/plug-lib/plug-init.php:start');
 
 
 // Remove any stale cache files
 $loop = ( is_array($plug_conf[$this_plug]['tracking']) ? sizeof($plug_conf[$this_plug]['tracking']) : 0 );
-while ( file_exists( $ct_plug->alert_cache($loop . '.dat') ) ) {
-unlink( $ct_plug->alert_cache($loop . '.dat') );
+while ( file_exists( $ct['plug']->alert_cache($loop . '.dat') ) ) {
+unlink( $ct['plug']->alert_cache($loop . '.dat') );
 $loop = $loop + 1;
 }
 $loop = null;
@@ -27,11 +27,11 @@ foreach ( $plug_conf[$this_plug]['tracking'] as $target_key => $target_val ) {
 // Clear any previous loop's $cache_reset var
 $cache_reset = false;
 	
-$balance_tracking_cache_file = $ct_plug->alert_cache($target_key . '.dat');
+$balance_tracking_cache_file = $ct['plug']->alert_cache($target_key . '.dat');
 
 
 	// If it's too early to re-send an alert again, skip this entry
-	if ( $ct_cache->update_cache($balance_tracking_cache_file, $plug_conf[$this_plug]['alerts_freq_max']) == false ) {
+	if ( $ct['cache']->update_cache($balance_tracking_cache_file, $plug_conf[$this_plug]['alerts_freq_max']) == false ) {
 	continue;
 	}
 
@@ -48,21 +48,21 @@ $address = trim($target_val['address']);
 $label = trim($target_val['label']);
 
 
-    // Add this altcoin to $ct_conf['power']['crypto_pair'] dynamically #IF# it doesn't exist there, #IF# it has a BTC market configured
-    // (For conversion of it's BTC value to the user's fiat value, set in $ct_conf['gen']['btc_prim_currency_pair'])
-    if ( $asset != 'btc' && !isset($ct_conf['power']['crypto_pair'][$asset]) && isset($ct_conf['assets'][strtoupper($asset)]['pair']['btc']) ) {
-    $ct_conf['power']['crypto_pair'][$asset] = strtoupper($asset) . ' ';
+    // Add this altcoin to $ct['conf']['power']['crypto_pair'] dynamically #IF# it doesn't exist there, #IF# it has a BTC market configured
+    // (For conversion of it's BTC value to the user's fiat value, set in $ct['conf']['gen']['btc_prim_currency_pair'])
+    if ( $asset != 'btc' && !isset($ct['conf']['power']['crypto_pair'][$asset]) && isset($ct['conf']['assets'][strtoupper($asset)]['pair']['btc']) ) {
+    $ct['conf']['power']['crypto_pair'][$asset] = strtoupper($asset) . ' ';
     }
 
 
 // Only getting BTC value for non-bitcoin assets is supported
-// SUPPORTED even for BTC ( $ct_asset->pair_btc_val('btc') ALWAYS = 1 )
-$pair_btc_val = $ct_asset->pair_btc_val($asset); 
+// SUPPORTED even for BTC ( $ct['asset']->pair_btc_val('btc') ALWAYS = 1 )
+$pair_btc_val = $ct['asset']->pair_btc_val($asset); 
   	 
   	 
 	if ( $pair_btc_val == null ) {
 		
-	$ct_gen->log(
+	$ct['gen']->log(
 				'market_error',
 				'ct_asset->pair_btc_val(\''.$asset.'\') returned null in the \''.$this_plug.'\' plugin, likely from exchange API request failure'
 				);
@@ -88,7 +88,7 @@ $pair_btc_val = $ct_asset->pair_btc_val($asset);
 	}
 	
 	
-	$address_balance = $ct_var->num_to_str($address_balance);
+	$address_balance = $ct['var']->num_to_str($address_balance);
 	
 	
 	// If we returned 'error' from a detected API error OR no address detected in config, skip this one for now
@@ -111,7 +111,7 @@ $pair_btc_val = $ct_asset->pair_btc_val($asset);
 	
 	$cached_address = trim($balance_tracking_cache_data[0]);
 	
-	$cached_address_balance = $ct_var->num_to_str($balance_tracking_cache_data[1]);
+	$cached_address_balance = $ct['var']->num_to_str($balance_tracking_cache_data[1]);
 	
 		// If user changed the address in the config OR no address detected in cache, flag a reset
 		if ( !$cached_address || $address != $cached_address ) {
@@ -125,7 +125,7 @@ $pair_btc_val = $ct_asset->pair_btc_val($asset);
 	
 	
 // DEBUGGING ONLY
-//$ct_cache->save_file( $ct_plug->alert_cache('debugging-' . $target_key . '.dat') , $cached_address_balance . '|' . $address_balance . '|' . $cache_reset );
+//$ct['cache']->save_file( $ct['plug']->alert_cache('debugging-' . $target_key . '.dat') , $cached_address_balance . '|' . $address_balance . '|' . $cache_reset );
 	
 	
 	// If a cache reset was flagged
@@ -133,7 +133,7 @@ $pair_btc_val = $ct_asset->pair_btc_val($asset);
 		
 	$new_cache_data = $address . '|' . $address_balance;
 	
-	$ct_cache->save_file($balance_tracking_cache_file, $new_cache_data);
+	$ct['cache']->save_file($balance_tracking_cache_file, $new_cache_data);
 	
      // Obfuscate any addresses in error / debug logs
      $plug_class[$this_plug]->obfusc_addr($address);
@@ -149,7 +149,7 @@ $pair_btc_val = $ct_asset->pair_btc_val($asset);
 		
 		
 	// Balance change amount
-	$difference_amnt = $ct_var->num_to_str( abs($cached_address_balance - $address_balance) );
+	$difference_amnt = $ct['var']->num_to_str( abs($cached_address_balance - $address_balance) );
 		
 		
 		if ( $address_balance > $cached_address_balance ) {
@@ -165,15 +165,15 @@ $pair_btc_val = $ct_asset->pair_btc_val($asset);
         if ( $plug_conf[$this_plug]['privacy_mode'] == 'on' ) {
 
         // Get primary currency value of the current address INCREASE / DECREASE amount only (for increased privacy in alerts)
-        $asset_prim_currency_worth_raw = $ct_var->num_to_str( ($difference_amnt * $pair_btc_val) * $sel_opt['sel_btc_prim_currency_val'] );
+        $asset_prim_currency_worth_raw = $ct['var']->num_to_str( ($difference_amnt * $pair_btc_val) * $sel_opt['sel_btc_prim_currency_val'] );
         
-        $pretty_prim_currency_worth = $ct_var->num_pretty($asset_prim_currency_worth_raw, ( $asset_prim_currency_worth_raw >= 1.00 ? 2 : $ct_conf['gen']['currency_dec_max'] ) );
+        $pretty_prim_currency_worth = $ct['var']->num_pretty($asset_prim_currency_worth_raw, ( $asset_prim_currency_worth_raw >= 1.00 ? 2 : $ct['conf']['gen']['currency_dec_max'] ) );
             
             
-	   $base_msg = "The " . $label . " address balance has " . $direction . "d: ". $plus_minus . $ct_conf['power']['btc_currency_mrkts'][ $ct_conf['gen']['btc_prim_currency_pair'] ] . $pretty_prim_currency_worth;
+	   $base_msg = "The " . $label . " address balance has " . $direction . "d: ". $plus_minus . $ct['conf']['power']['btc_currency_mrkts'][ $ct['conf']['gen']['btc_prim_currency_pair'] ] . $pretty_prim_currency_worth;
 	    
 	    
-        $text_msg = $label . " address balance " . $direction . ": ". $plus_minus . $ct_conf['power']['btc_currency_mrkts'][ $ct_conf['gen']['btc_prim_currency_pair'] ] . $pretty_prim_currency_worth;
+        $text_msg = $label . " address balance " . $direction . ": ". $plus_minus . $ct['conf']['power']['btc_currency_mrkts'][ $ct['conf']['gen']['btc_prim_currency_pair'] ] . $pretty_prim_currency_worth;
 	    
 	    
 	   $email_msg = $base_msg; // PRIVACY MODE (NO EXPLORER LINK APPENDED)
@@ -183,17 +183,17 @@ $pair_btc_val = $ct_asset->pair_btc_val($asset);
         else {
 
         // Get primary currency value of the current address TOTAL balance
-        $asset_prim_currency_worth_raw = $ct_var->num_to_str( ($address_balance * $pair_btc_val) * $sel_opt['sel_btc_prim_currency_val'] );
+        $asset_prim_currency_worth_raw = $ct['var']->num_to_str( ($address_balance * $pair_btc_val) * $sel_opt['sel_btc_prim_currency_val'] );
         
-        $pretty_prim_currency_worth = $ct_var->num_pretty($asset_prim_currency_worth_raw, ( $asset_prim_currency_worth_raw >= 1.00 ? 2 : $ct_conf['gen']['currency_dec_max'] ) );
+        $pretty_prim_currency_worth = $ct['var']->num_pretty($asset_prim_currency_worth_raw, ( $asset_prim_currency_worth_raw >= 1.00 ? 2 : $ct['conf']['gen']['currency_dec_max'] ) );
         
-        $pretty_asset_amnt = $ct_var->num_pretty($address_balance, $ct_conf['gen']['crypto_dec_max']);
+        $pretty_asset_amnt = $ct['var']->num_pretty($address_balance, $ct['conf']['gen']['crypto_dec_max']);
             
             
-	    $base_msg = "The " . $label . " address balance has " . $direction . "d (" . $plus_minus . $difference_amnt . " " . strtoupper($asset) . "), to a new balance of " . $pretty_asset_amnt . " " . strtoupper($asset) . " (". $ct_conf['power']['btc_currency_mrkts'][ $ct_conf['gen']['btc_prim_currency_pair'] ] . $pretty_prim_currency_worth . ").";
+	    $base_msg = "The " . $label . " address balance has " . $direction . "d (" . $plus_minus . $difference_amnt . " " . strtoupper($asset) . "), to a new balance of " . $pretty_asset_amnt . " " . strtoupper($asset) . " (". $ct['conf']['power']['btc_currency_mrkts'][ $ct['conf']['gen']['btc_prim_currency_pair'] ] . $pretty_prim_currency_worth . ").";
 	    
 	    
-        $text_msg = $label . " address balance " . $direction . " (" . $plus_minus . $difference_amnt . " " . strtoupper($asset) . "): " . $pretty_asset_amnt . " " . strtoupper($asset) . " (". $ct_conf['power']['btc_currency_mrkts'][ $ct_conf['gen']['btc_prim_currency_pair'] ] . $pretty_prim_currency_worth . ")";
+        $text_msg = $label . " address balance " . $direction . " (" . $plus_minus . $difference_amnt . " " . strtoupper($asset) . "): " . $pretty_asset_amnt . " " . strtoupper($asset) . " (". $ct['conf']['power']['btc_currency_mrkts'][ $ct['conf']['gen']['btc_prim_currency_pair'] ] . $pretty_prim_currency_worth . ")";
 	    
 
     		// Add blockchain explorer link to email message
@@ -213,13 +213,13 @@ $pair_btc_val = $ct_asset->pair_btc_val($asset);
               
     // Were're just adding a human-readable timestamp to smart home (audio) alerts
     // (add a period at end of message before timestamp if it's non-existant, so alexa pauses before speaking the timestamp)
-    $notifyme_msg = $base_msg . ( substr( trim($base_msg) , -1) != '.' ? '.' : '' ) . ' Timestamp: ' . $ct_gen->time_date_format($ct_conf['gen']['loc_time_offset'], 'pretty_time') . '.';
+    $notifyme_msg = $base_msg . ( substr( trim($base_msg) , -1) != '.' ? '.' : '' ) . ' Timestamp: ' . $ct['gen']->time_date_format($ct['conf']['gen']['loc_time_offset'], 'pretty_time') . '.';
 
 
   	// Message parameter added for desired comm methods (leave any comm method blank to skip sending via that method)
   				
   	// Minimize function calls
-  	$text_msg = $ct_gen->detect_unicode($text_msg); 
+  	$text_msg = $ct['gen']->detect_unicode($text_msg); 
   				
     $send_params = array(
    
@@ -242,12 +242,12 @@ $pair_btc_val = $ct_asset->pair_btc_val($asset);
           	
           	
 	// Send notifications
-	@$ct_cache->queue_notify($send_params);
+	@$ct['cache']->queue_notify($send_params);
 	
 	// Cache new data
 	$new_cache_data = $address . '|' . $address_balance;
 	
-	$ct_cache->save_file($balance_tracking_cache_file, $new_cache_data);
+	$ct['cache']->save_file($balance_tracking_cache_file, $new_cache_data);
 
 	}
 	// END notification
@@ -262,7 +262,7 @@ $plug_class[$this_plug]->obfusc_addr($address);
 
 
 // DEBUGGING ONLY (checking logging capability)
-//$ct_cache->check_log('plugins/' . $this_plug . '/plug-lib/plug-init.php:end');
+//$ct['cache']->check_log('plugins/' . $this_plug . '/plug-lib/plug-init.php:end');
 
 
 // DON'T LEAVE ANY WHITESPACE AFTER THE CLOSING PHP TAG!

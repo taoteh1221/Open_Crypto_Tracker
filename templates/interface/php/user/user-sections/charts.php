@@ -12,7 +12,7 @@
 <div class='full_width_wrapper'>
 			
 	
-	<p style='margin-top: 25px; margin-bottom: 15px;'><?=$ct_gen->start_page_html('charts')?></p>		
+	<p style='margin-top: 25px; margin-bottom: 15px;'><?=$ct['gen']->start_page_html('charts')?></p>		
 			
 	  
 	<p style='margin-top: 25px;'><a style='font-weight: bold;' class='red' href='javascript: show_more("chartsnotice");' title='Click to show notices about how charts run within this app.'><b>Charts Notices / Information</b></a></p>
@@ -22,7 +22,7 @@
 		
 		<?php
 		$supported_prim_currency_count = 0;
-		foreach ( $ct_conf['power']['btc_currency_mrkts'] as $key => $unused ) {
+		foreach ( $ct['conf']['power']['btc_currency_mrkts'] as $key => $unused ) {
 		$supported_prim_currency_list .= strtoupper($key) . ' / ';
 		$supported_prim_currency_count = $supported_prim_currency_count + 1;
 		}
@@ -30,10 +30,10 @@
 		$supported_prim_currency_list = rtrim($supported_prim_currency_list,'/');
 		$supported_prim_currency_list = trim($supported_prim_currency_list);
 		
-		foreach ( $ct_conf['assets']['BTC']['pair'][$default_btc_prim_currency_pair] as $key => $unused ) {
+		foreach ( $ct['conf']['assets']['BTC']['pair'][$default_btc_prim_currency_pair] as $key => $unused ) {
 		
 			if( stristr($key, 'bitmex_') == false ) { // Futures markets not allowed
-			$supported_exchange_list .= $ct_gen->key_to_name($key) . ' / ';
+			$supported_exchange_list .= $ct['gen']->key_to_name($key) . ' / ';
 			}
 			
 		}
@@ -48,7 +48,7 @@
 		 
 		<p class='bitcoin' style='font-weight: bold;'>A few crypto exchanges only provide asset volume data (with no pair volume data included). If 24 hour pair volume is NOT available for a market, it will be emulated via the asset volume multiplied by the <i>current</i> asset market value (which gives us the rough pair volume for a better chart user experience).</p>
 					
-		<p class='black' style='font-weight: bold;'>The administrator has set the <i>price charts primary currency market</i> (in the Admin Config GENERAL section) to: <span class='bitcoin'><?=strtoupper($default_btc_prim_currency_pair)?> @ <?=$ct_gen->key_to_name($default_btc_prim_exchange)?></span> &nbsp;(enables <i>additional</i> "<?=strtoupper($default_btc_prim_currency_pair)?> Value" charts)</p>
+		<p class='black' style='font-weight: bold;'>The administrator has set the <i>price charts primary currency market</i> (in the Admin Config GENERAL section) to: <span class='bitcoin'><?=strtoupper($default_btc_prim_currency_pair)?> @ <?=$ct['gen']->key_to_name($default_btc_prim_exchange)?></span> &nbsp;(enables <i>additional</i> "<?=strtoupper($default_btc_prim_currency_pair)?> Value" charts)</p>
 		
 		<p class='black' style='font-weight: bold;'><?=strtoupper($default_btc_prim_currency_pair)?>-paired BTC exchanges supported in this app are: <br /><span class='bitcoin'><?=$supported_exchange_list?></span></p>
 		
@@ -64,7 +64,7 @@
    <ul style='margin-top: 25px; font-weight: bold;'>
 	
         <?php
-        if ( $app_edition == 'desktop' ) {
+        if ( $ct['app_edition'] == 'desktop' ) {
         ?>
 	<li class='red' style='font-weight: bold;'>Using 'zoom' (top right) can skew chart hovering mouse positions.</li>	
         <?php
@@ -107,10 +107,10 @@
 	">
     <option value='all'> All </option>
     <?php
-    foreach ( $ct_conf['power']['light_chart_day_intervals'] as $days ) {
+    foreach ( $ct['conf']['power']['light_chart_day_intervals'] as $days ) {
        if ( $days != 'all' ) {
     ?>
-    <option value='<?=$days?>'<?=( $_COOKIE['pref_chart_time_period'] == $days ? ' selected' : '' )?>> <?=$ct_gen->light_chart_time_period($days, 'long')?> </option>
+    <option value='<?=$days?>'<?=( $_COOKIE['pref_chart_time_period'] == $days ? ' selected' : '' )?>> <?=$ct['gen']->light_chart_time_period($days, 'long')?> </option>
     <?php
        }
     }
@@ -211,7 +211,7 @@
 	<?php
 	
 	$zebra_stripe = 'long_list_odd';
-	foreach ( $ct_conf['charts_alerts']['tracked_mrkts'] as $key => $val ) {
+	foreach ( $ct['conf']['charts_alerts']['tracked_mrkts'] as $key => $val ) {
 		
 		// Remove any duplicate asset array key formatting, which allows multiple alerts per asset with different exchanges / trading pairs (keyed like SYMB, SYMB-1, SYMB-2, etc)
 		$show_asset = ( stristr($key, "-") == false ? $key : substr( $key, 0, mb_strpos($key, "-", 0, 'utf-8') ) );
@@ -221,13 +221,13 @@
 		
 				
 			// We also want to make sure this asset hasn't been removed from the 'assets' app config, for UX
-			if ( $show_asset_params[2] == 'chart' && isset($ct_conf['assets'][strtoupper($show_asset)]) 
-			|| $show_asset_params[2] == 'both' && isset($ct_conf['assets'][strtoupper($show_asset)]) ) {
+			if ( $show_asset_params[2] == 'chart' && isset($ct['conf']['assets'][strtoupper($show_asset)]) 
+			|| $show_asset_params[2] == 'both' && isset($ct['conf']['assets'][strtoupper($show_asset)]) ) {
 	?>
 	
 		<div class='<?=$zebra_stripe?> long_list <?=( $last_rendered != $show_asset ? 'activate_chart_sections' : '' )?>'>
 				
-				<input type='checkbox' value='<?=$key?>_<?=$show_asset_params[1]?>' onchange='chart_toggle(this);' <?=( in_array("[".$key . '_' . $show_asset_params[1]."]", $sel_opt['show_charts']) ? 'checked' : '' )?> /> <span class='blue'><?=$show_asset?></span> / <?=strtoupper($show_asset_params[1])?> @ <?=$ct_gen->key_to_name($show_asset_params[0])?>
+				<input type='checkbox' value='<?=$key?>_<?=$show_asset_params[1]?>' onchange='chart_toggle(this);' <?=( in_array("[".$key . '_' . $show_asset_params[1]."]", $sel_opt['show_charts']) ? 'checked' : '' )?> /> <span class='blue'><?=$show_asset?></span> / <?=strtoupper($show_asset_params[1])?> @ <?=$ct['gen']->key_to_name($show_asset_params[0])?>
 			
 				<?php
 				// Markets that are NOT the same as PRIMARY CURRENCY CONFIG get a secondary chart for PRIMARY CURRENCY CONFIG
@@ -287,7 +287,7 @@
 	<?php
 	
 	// Render the charts
-	foreach ( $ct_conf['charts_alerts']['tracked_mrkts'] as $key => $val ) {
+	foreach ( $ct['conf']['charts_alerts']['tracked_mrkts'] as $key => $val ) {
     
 	// Remove any duplicate asset array key formatting, which allows multiple alerts per asset with different exchanges / trading pairs (keyed like SYMB, SYMB-1, SYMB-2, etc)
 	$chart_asset = ( stristr($key, "-") == false ? $key : substr( $key, 0, mb_strpos($key, "-", 0, 'utf-8') ) );
@@ -297,7 +297,7 @@
 	$alerts_mrkt_parse = explode("||", $val );	
 		
 		// We also want to make sure this asset hasn't been removed from the 'assets' app config, for UX
-		if ( !isset($ct_conf['assets'][strtoupper($chart_asset)]) ) {
+		if ( !isset($ct['conf']['assets'][strtoupper($chart_asset)]) ) {
       continue;
     	}
 		
@@ -308,7 +308,7 @@
 	
 	<div style='display: flex; flex-flow: column wrap; overflow: hidden;' class='chart_wrapper' id='<?=$key?>_<?=$alerts_mrkt_parse[1]?>_chart'>
 	
-	<span class='chart_loading' style='color: <?=$ct_conf['power']['charts_text']?>;'> &nbsp; Loading chart for <?=strtoupper($chart_asset)?> / <?=strtoupper($alerts_mrkt_parse[1])?> @ <?=$ct_gen->key_to_name($alerts_mrkt_parse[0])?>...</span>
+	<span class='chart_loading' style='color: <?=$ct['conf']['power']['charts_text']?>;'> &nbsp; Loading chart for <?=strtoupper($chart_asset)?> / <?=strtoupper($alerts_mrkt_parse[1])?> @ <?=$ct['gen']->key_to_name($alerts_mrkt_parse[0])?>...</span>
 	
 	<div style='z-index: 99999; margin-top: 7px;' class='chart_reload align_center absolute_centered loading bitcoin'><img class='ajax_loader_image' src="templates/interface/media/images/auto-preloaded/loader.gif" height='17' alt="" style='vertical-align: middle;' /> <div class='chart_reload_msg'></div></div>
 		
@@ -342,7 +342,7 @@
 	
 	<div style='display: flex; flex-flow: column wrap; overflow: hidden;' class='chart_wrapper' id='<?=$key?>_<?=strtolower($default_btc_prim_currency_pair)?>_chart'>
 	
-	<span class='chart_loading' style='color: <?=$ct_conf['power']['charts_text']?>;'> &nbsp; Loading chart for <?=strtoupper($chart_asset)?> / <?=strtoupper($alerts_mrkt_parse[1])?> @ <?=$ct_gen->key_to_name($alerts_mrkt_parse[0])?> (<?=strtoupper($default_btc_prim_currency_pair)?> Value)...</span>
+	<span class='chart_loading' style='color: <?=$ct['conf']['power']['charts_text']?>;'> &nbsp; Loading chart for <?=strtoupper($chart_asset)?> / <?=strtoupper($alerts_mrkt_parse[1])?> @ <?=$ct['gen']->key_to_name($alerts_mrkt_parse[0])?> (<?=strtoupper($default_btc_prim_currency_pair)?> Value)...</span>
 	
 	<div style='z-index: 99999; margin-top: 7px;' class='chart_reload align_center absolute_centered loading bitcoin'><img class='ajax_loader_image' src="templates/interface/media/images/auto-preloaded/loader.gif" height='17' alt="" style='vertical-align: middle;' /> <div class='chart_reload_msg'></div></div>
 		

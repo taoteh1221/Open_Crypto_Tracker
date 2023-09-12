@@ -18,7 +18,7 @@
 	else {
 		foreach ( $activated_plugins['ui'] as $plugin_key => $unused ) {
     	?>
-        <li><a href='admin.php?iframe=<?=$ct_gen->admin_hashed_nonce('iframe_' . $plugin_key)?>&plugin=<?=$plugin_key?>'><?=$plug_conf[$plugin_key]['ui_name']?></a></li>
+        <li><a href='admin.php?iframe=<?=$ct['gen']->admin_hashed_nonce('iframe_' . $plugin_key)?>&plugin=<?=$plugin_key?>'><?=$plug_conf[$plugin_key]['ui_name']?></a></li>
     	<?php
     	}
 	}
@@ -36,7 +36,7 @@
 	     
 		foreach ( $activated_plugins['cron'] as $plugin_key => $unused ) {
     	     ?>
-          <li><a href='admin.php?iframe=<?=$ct_gen->admin_hashed_nonce('iframe_' . $plugin_key)?>&plugin=<?=$plugin_key?>'><?=$plug_conf[$plugin_key]['ui_name']?></a></li>
+          <li><a href='admin.php?iframe=<?=$ct['gen']->admin_hashed_nonce('iframe_' . $plugin_key)?>&plugin=<?=$plugin_key?>'><?=$plug_conf[$plugin_key]['ui_name']?></a></li>
     	     <?php
     	     }
     	     
@@ -54,7 +54,7 @@
 	else {
 		foreach ( $activated_plugins['webhook'] as $plugin_key => $unused ) {
     	?>
-        <li><a href='admin.php?iframe=<?=$ct_gen->admin_hashed_nonce('iframe_' . $plugin_key)?>&plugin=<?=$plugin_key?>'><?=$plug_conf[$plugin_key]['ui_name']?></a></li>
+        <li><a href='admin.php?iframe=<?=$ct['gen']->admin_hashed_nonce('iframe_' . $plugin_key)?>&plugin=<?=$plugin_key?>'><?=$plug_conf[$plugin_key]['ui_name']?></a></li>
     	<?php
     	}
 	}
@@ -75,7 +75,7 @@
     	
     	<p class='bitcoin bitcoin_dotted'>
     	
-    	YOU ARE IN HIGH SECURITY ADMIN MODE. <br /><br />Editing most admin config settings is <i>done manually</i> IN HIGH SECURITY ADMIN MODE, by updating the file config.php (in this app's main directory: <?=$base_dir?>) with a text editor.
+    	YOU ARE IN HIGH SECURITY ADMIN MODE. <br /><br />Editing most admin config settings is <i>done manually</i> IN HIGH SECURITY ADMIN MODE, by updating the file config.php (in this app's main directory: <?=$ct['base_dir']?>) with a text editor.
     	
     	</p>
     

@@ -8,17 +8,13 @@
 // PRIMARY INIT 
 //////////////////////////////////////////////////////////////////
 
-
-// REQUIRED #BEFORE# config.php
-$ct_conf = array(); 
-
      
 // Adjust CSS for LINUX PHPDESKTOP or ALL OTHER browsers
-if ( $app_container == 'phpdesktop' ) {
-$small_font_size_css_selector .= $font_size_css_selector_adjusted;
+if ( $ct['app_container'] == 'phpdesktop' ) {
+$ct['dev']['small_font_size_css_selector'] .= $ct['dev']['small_font_size_css_selector_adjusted'];
 }
 else {
-$font_size_css_selector .= $font_size_css_selector_adjusted;
+$ct['dev']['font_size_css_selector'] .= $ct['dev']['small_font_size_css_selector_adjusted'];
 }
      
 
@@ -29,7 +25,7 @@ $php_ini_path = php_ini_loaded_file();
 // PHPbrowserBox BUILDS *FROM* from a SEPERATE ini file *TO* the
 // one that PHP uses (https://github.com/dhtml/phpbrowserbox/wiki/Tweaks)
 // (so we want people to edit that ini file instead, which updates PHP's used ini file)
-if ( $app_container == 'phpbrowserbox' ) {
+if ( $ct['app_container'] == 'phpbrowserbox' ) {
 $php_ini_path = preg_replace("/php\.ini/", "php-tpl.ini", $php_ini_path);
 }
 
@@ -56,33 +52,33 @@ require_once('app-lib/php/inline/config/system-config.php');
 
 // ESSENTIAL VARS / ARRAYS / INITS SET #BEFORE# config-init.php...
 
-// Set $ct_app_id as a global (MUST BE SET AFTER system-config.php)
+// Set $ct['app_id'] as a global (MUST BE SET AFTER system-config.php)
 // (a 10 character install ID hash, created from the base URL or base dir [if cron])
-// AFTER THIS IS SET, WE CAN USE EITHER $ct_app_id OR $ct_gen->id() RELIABLY / EFFICIENTLY ANYWHERE
-// $ct_gen->id() can then be used in functions WITHOUT NEEDING ANY $ct_app_id GLOBAL DECLARED.
-$ct_app_id = $ct_gen->id();
+// AFTER THIS IS SET, WE CAN USE EITHER $ct['app_id'] OR $ct['gen']->id() RELIABLY / EFFICIENTLY ANYWHERE
+// $ct['gen']->id() can then be used in functions WITHOUT NEEDING ANY $ct['app_id'] GLOBAL DECLARED.
+$ct['app_id'] = $ct['gen']->id();
 
-// Sessions config (MUST RUN AFTER setting $ct_app_id)
+// Sessions config (MUST RUN AFTER setting $ct['app_id'])
 require_once('app-lib/php/inline/init/session-init.php');
 
 
 // Nonce (CSRF attack protection) for user GET links (downloads etc) / admin login session logic WHEN NOT RUNNING AS CRON
-if ( $runtime_mode != 'cron' && !isset( $_SESSION['nonce'] ) ) {
-$_SESSION['nonce'] = $ct_gen->rand_hash(32); // 32 byte
+if ( $ct['runtime_mode'] != 'cron' && !isset( $_SESSION['nonce'] ) ) {
+$_SESSION['nonce'] = $ct['gen']->rand_hash(32); // 32 byte
 }
 	
 	
 // Flag this as a fast runtime if it is, to skip certain logic later in the runtime
-// (among other things, skips setting $system_info / some secured cache vars, and skips doing system resource usage alerts)
-if ( $is_csv_export || $is_charts || $is_logs || $runtime_mode == 'captcha' ) {
+// (among other things, skips setting $ct['system_info'] / some secured cache vars, and skips doing system resource usage alerts)
+if ( $is_csv_export || $is_charts || $is_logs || $ct['runtime_mode'] == 'captcha' ) {
 $is_fast_runtime = true;
 }
 
 
 // Nonce for unique runtime logic (avoids potential clashes between multiple runtimes on the same machine)
-$runtime_nonce = $ct_gen->rand_hash(16); // 16 byte
+$ct['runtime_nonce'] = $ct['gen']->rand_hash(16); // 16 byte
 
-$fetched_feeds = 'fetched_feeds_' . $runtime_mode; // Unique feed fetch telemetry SESSION KEY (so related runtime BROWSER SESSION logic never accidentally clashes)
+$fetched_feeds = 'fetched_feeds_' . $ct['runtime_mode']; // Unique feed fetch telemetry SESSION KEY (so related runtime BROWSER SESSION logic never accidentally clashes)
 
 // If upgrade check enabled / cached var set, set the runtime var for any configured alerts
 $upgrade_check_latest_version = trim( file_get_contents('cache/vars/upgrade_check_latest_version.dat') );
@@ -96,7 +92,7 @@ $cached_app_version = trim( file_get_contents('cache/vars/app_version.dat') );
 
 // Create cache directories AS EARLY AS POSSIBLE
 // (#MUST# RUN BEFORE load-config-by-security-level.php
-// Uses HARD-CODED $chmod_cache_dir dev config at top of init.php
+// Uses HARD-CODED $ct['dev']['chmod_cache_dir'] dev config at top of init.php
 require_once('app-lib/php/inline/other/cache-directories.php');
 
 // Early security logic

@@ -19,7 +19,7 @@ if ( $_POST['admin_submit_login'] ) {
 	}
 		
 		
-	if ( !$ct_gen->valid_2fa() ) {
+	if ( !$ct['gen']->valid_2fa() ) {
      $login_result['error'][] = $check_2fa_error . '.';
      }
 	
@@ -31,9 +31,9 @@ if ( $_POST['admin_submit_login'] ) {
 		if (
 		trim($_POST['admin_username']) != '' && $_POST['admin_password'] != '' 
 		&& $_POST['admin_username'] == $stored_admin_login[0]
-		&& $ct_gen->check_pepper_hashed_pass($_POST['admin_password'], $stored_admin_login[1]) == true
+		&& $ct['gen']->check_pepper_hashed_pass($_POST['admin_password'], $stored_admin_login[1]) == true
 		) {
-          $ct_gen->do_admin_login();
+          $ct['gen']->do_admin_login();
 		}
 		else {
 		$login_result['error'][] = "Wrong username / password.";
@@ -74,7 +74,7 @@ var admin_cookies = '<h5 class="align_center bitcoin tooltip_title">Admin Login 
 			
 			+'<p class="coin_info extra_margins" style="white-space: normal; "><span class="bitcoin">REGARDLESS as to whether your particular app server automatically clears it\'s temporary session data or not, whenever you logout the 32-byte key in your browser is deleted, along with all the session data on the app server.</span></p>'
 			
-			+'<p class="coin_info extra_margins" style="white-space: normal; "><span class="bitcoin">If your app server DOES automatically clears session data often, you will also be logged out AUTOMATICALLY at that time. ADDITIONALLY, the 32-byte random key that is saved inside a cookie in your web browser EXPIRES (automatically deletes itself) AFTER <?=$ct_conf['sec']['admin_cookie_expire']?> HOURS (adjustable in the Admin Config SECURITY section).</span></p>'
+			+'<p class="coin_info extra_margins" style="white-space: normal; "><span class="bitcoin">If your app server DOES automatically clears session data often, you will also be logged out AUTOMATICALLY at that time. ADDITIONALLY, the 32-byte random key that is saved inside a cookie in your web browser EXPIRES (automatically deletes itself) AFTER <?=$ct['conf']['sec']['admin_cookie_expire']?> HOURS (adjustable in the Admin Config SECURITY section).</span></p>'
 			
 			
 			+'<p> </p>';
@@ -200,7 +200,7 @@ Google Fonts is supported (fonts.google.com).'>Get A Different Image</a>
   	 <br clear='all' />
 	
 	
-	<?=$ct_gen->input_2fa()?>
+	<?=$ct['gen']->input_2fa()?>
   	 
   
 <p style='padding: 20px;'><input type='submit' value='Login As Admin' /></p>
@@ -219,7 +219,7 @@ Google Fonts is supported (fonts.google.com).'>Get A Different Image</a>
 
 <p> &nbsp; </p>
 
-<p style='font-weight: bold;'> <a href='<?=$base_url?>'>Return To The Portfolio Main Page</a> </p>
+<p style='font-weight: bold;'> <a href='<?=$ct['base_url']?>'>Return To The Portfolio Main Page</a> </p>
 
 </div>
 

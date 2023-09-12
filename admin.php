@@ -36,7 +36,7 @@ require("templates/interface/php/admin/admin-login/register.php");
 exit;
 }
 // If NOT logged in
-elseif ( $ct_gen->admin_logged_in() == false ) {
+elseif ( $ct['gen']->admin_logged_in() == false ) {
 require("templates/interface/php/admin/admin-login/login.php");
 exit;
 }
@@ -52,18 +52,18 @@ require("templates/interface/php/wrap/footer.php");
 }
 // Iframe admin pages
 elseif (
-isset($_GET['section']) && trim($_GET['section']) != '' && $ct_gen->pass_sec_check($_GET['iframe'], 'iframe_' . $_GET['section'])
-|| isset($_GET['plugin']) && trim($_GET['plugin']) != '' && $ct_gen->pass_sec_check($_GET['iframe'], 'iframe_' . $_GET['plugin'])
+isset($_GET['section']) && trim($_GET['section']) != '' && $ct['gen']->pass_sec_check($_GET['iframe'], 'iframe_' . $_GET['section'])
+|| isset($_GET['plugin']) && trim($_GET['plugin']) != '' && $ct['gen']->pass_sec_check($_GET['iframe'], 'iframe_' . $_GET['plugin'])
 ) {
 require("templates/interface/php/admin/admin-elements/admin-page-iframe.php");
 }
 // Security monitoring
 else {
-$security_error = 'Admin nonce expired / incorrect (' . $remote_ip . '), try reloading the app';
-$ct_gen->log('security_error', $security_error);
+$security_error = 'Admin nonce expired / incorrect (' . $ct['remote_ip'] . '), try reloading the app';
+$ct['gen']->log('security_error', $security_error);
 echo $security_error . '.';
 // Log errors before exiting
-$ct_cache->error_log();
+$ct['cache']->error_log();
 exit;
 }
 

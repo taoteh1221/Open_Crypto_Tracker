@@ -724,7 +724,7 @@ class Sender {
 
 	private function Request($method, $parameters, $post = FALSE) {
 	
-	global $base_dir;
+	global $ct;
 	
 		if (!is_string($method)) {
 			error_log("Method name must be a string\n");
@@ -752,8 +752,8 @@ class Sender {
      
      
           // If this is a windows desktop edition
-          if ( file_exists($base_dir . '/cache/other/win_curl_cacert.pem') ) {
-          curl_setopt($handle, CURLOPT_CAINFO, $base_dir . '/cache/other/win_curl_cacert.pem');
+          if ( file_exists($ct['base_dir'] . '/cache/other/win_curl_cacert.pem') ) {
+          curl_setopt($handle, CURLOPT_CAINFO, $ct['base_dir'] . '/cache/other/win_curl_cacert.pem');
           }
       
       

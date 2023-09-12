@@ -17,14 +17,14 @@ ini_set('session.gc_maxlifetime', (6 * 3600) );
 // PHP session cookie defaults
 // each client should remember their session id for EXACTLY 6 hours
 $php_sess_time = (6 * 3600);
-$php_sess_secure = ( $app_edition == 'server' ? true : false );
+$php_sess_secure = ( $ct['app_edition'] == 'server' ? true : false );
 
 
      if ( PHP_VERSION_ID >= 70300 ) {
      	
      	session_set_cookie_params([
                                      'lifetime' => $php_sess_time,
-                                     'path' => $app_path,
+                                     'path' => $ct['cookie_path'],
                                      'domain' => '',  // LEAVE DOMAIN BLANK, SO session_set_cookie_params AUTO-SETS PROPERLY (IN CASE OF EDGE-CASE REDIRECTS)
                                      'secure' => $php_sess_secure,
                                      'httponly' => false, // (false keeps cookies accessible to browser scripting languages such as JavaScript)
@@ -36,7 +36,7 @@ $php_sess_secure = ( $app_edition == 'server' ? true : false );
      	
      	session_set_cookie_params([
                                      $php_sess_time,
-                                     $app_path . '; samesite=Strict',
+                                     $ct['cookie_path'] . '; samesite=Strict',
                                      '',  // LEAVE DOMAIN BLANK, SO session_set_cookie_params AUTO-SETS PROPERLY (IN CASE OF EDGE-CASE REDIRECTS)
                                      $php_sess_secure, // secure
                                      false, // httponly (false keeps cookies accessible to browser scripting languages such as JavaScript)
@@ -46,8 +46,8 @@ $php_sess_secure = ( $app_edition == 'server' ? true : false );
 
 
 // Give our session a unique name (TO SUPPORT MULTIPLE INSTALLS ON SAME DOMAIN HAVING SEPERATE SESSION DATA SETS)
-// MUST BE SET AFTER $ct_app_id, AND BEFORE session_start()
-session_name($ct_app_id);
+// MUST BE SET AFTER $ct['app_id'], AND BEFORE session_start()
+session_name($ct['app_id']);
 
 // Session start
 session_start(); // New session start

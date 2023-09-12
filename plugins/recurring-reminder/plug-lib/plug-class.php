@@ -43,7 +43,7 @@ var $array1 = array();
 		
    function time_dec_hours($var, $mode) {
    	
-   global $ct_var;
+   global $ct;
    
    
    	if ( $mode == 'to' ) {
@@ -55,14 +55,14 @@ var $array1 = array();
    
    	$minutes = intval($hours_minutes[1]);
    
-  	return $ct_var->num_to_str( $hours + round( ($minutes / 60) , 2 ) );
+  	return $ct['var']->num_to_str( $hours + round( ($minutes / 60) , 2 ) );
    	
    	}
    	else if ( $mode == 'from' ) {
    
    	$var = abs($var);
    	
-   	$dec = explode('.', $ct_var->num_to_str($var) );
+   	$dec = explode('.', $ct['var']->num_to_str($var) );
    	
     // PHP8 is strict with math here...convert str to int
    	$dec[0] = intval($dec[0]);

@@ -35,7 +35,7 @@ app_path_result=$(whereis -b $1)
 app_path_result="${app_path_result#*$1: }"
 app_path_result=${app_path_result%%[[:space:]]*}
 app_path_result="${app_path_result#*$1:}"
-echo "$app_path_result"
+echo "$cookie_path_result"
 }
 
 

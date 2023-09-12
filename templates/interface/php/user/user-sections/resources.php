@@ -13,7 +13,7 @@
 <div class='full_width_wrapper'>
 			
 	
-	<p style='margin-top: 25px; margin-bottom: 25px;'><?=$ct_gen->start_page_html('resources')?></p>		
+	<p style='margin-top: 25px; margin-bottom: 25px;'><?=$ct['gen']->start_page_html('resources')?></p>		
 			
 			
 	    <fieldset class='subsection_fieldset'><legend class='subsection_legend'> <strong>Marketcap Stats</strong> </legend>
@@ -46,6 +46,8 @@
 	    
 	    <fieldset class='subsection_fieldset'><legend class='subsection_legend'> <strong>Other Stats</strong> </legend>
 	    <ul>
+	        
+	        <li class='links_list'><a href='https://defillama.com/' target='_blank'>DefiLlama</a></li>
 	        
 	        <li class='links_list'><a href='https://studio.glassnode.com/' target='_blank'>GlassNode</a></li>
 	        

@@ -12,7 +12,7 @@ $runtime_mode = 'webhook';
 require("app-lib/php/init.php");
 
 
-header('Content-type: text/html; charset=' . $charset_default);
+header('Content-type: text/html; charset=' . $ct['dev']['charset_default']);
 
 header('Access-Control-Allow-Headers: *'); // Allow ALL headers
 
@@ -39,7 +39,7 @@ foreach ( $activated_plugins['webhook'] as $plugin_key => $plugin_init ) {
         		
 $this_plug = $plugin_key;
         	
-    if ( file_exists($plugin_init) && isset($int_webhooks[$this_plug]) && trim($int_webhooks[$this_plug]) != '' && $webhook_key == $ct_gen->nonce_digest($this_plug, $int_webhooks[$this_plug] . $webhook_master_key) ) {
+    if ( file_exists($plugin_init) && isset($int_webhooks[$this_plug]) && trim($int_webhooks[$this_plug]) != '' && $webhook_key == $ct['gen']->nonce_digest($this_plug, $int_webhooks[$this_plug] . $webhook_master_key) ) {
     
     $webhook_params = explode("/", $_GET['webhook_params']);
     unset($webhook_params[0]); // Remove webhook key
@@ -61,9 +61,9 @@ unset($this_plug);
 
 
 // Log errors / debugging, send notifications
-$ct_cache->error_log();
-$ct_cache->debug_log();
-$ct_cache->send_notifications();
+$ct['cache']->error_log();
+$ct['cache']->debug_log();
+$ct['cache']->send_notifications();
 
 flush(); // Clean memory output buffer for echo
 gc_collect_cycles(); // Clean memory cache

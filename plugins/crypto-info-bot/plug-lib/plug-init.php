@@ -10,11 +10,11 @@
 
 
 // DEBUGGING ONLY (checking logging capability)
-//$ct_cache->check_log('plugins/' . $this_plug . '/plug-lib/plug-init.php:start');
+//$ct['cache']->check_log('plugins/' . $this_plug . '/plug-lib/plug-init.php:start');
 
-$int_api_base_endpoint = ( $app_edition == 'server' || $app_container == 'phpbrowserbox' ? 'api/' : 'internal-api.php?data_set=' );
+$int_api_base_endpoint = ( $ct['app_edition'] == 'server' || $ct['app_container'] == 'phpbrowserbox' ? 'api/' : 'internal-api.php?data_set=' );
 
-$int_webhook_base_endpoint = ( $app_edition == 'server' || $app_container == 'phpbrowserbox' ? 'hook/' : 'web-hook.php?webhook_params=' );
+$int_webhook_base_endpoint = ( $ct['app_edition'] == 'server' || $ct['app_container'] == 'phpbrowserbox' ? 'hook/' : 'web-hook.php?webhook_params=' );
 
 
 $test_params = array('api_key' => $int_api_key);
@@ -37,7 +37,7 @@ echo json_encode($result, JSON_PRETTY_PRINT);
 
 
 // DEBUGGING ONLY (checking logging capability)
-//$ct_cache->check_log('plugins/' . $this_plug . '/plug-lib/plug-init.php:end');
+//$ct['cache']->check_log('plugins/' . $this_plug . '/plug-lib/plug-init.php:end');
 
 
 // DON'T LEAVE ANY WHITESPACE AFTER THE CLOSING PHP TAG!

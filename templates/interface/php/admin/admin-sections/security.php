@@ -14,9 +14,9 @@
 	
 	<div style='min-height: 1em;'></div>
 	
-	<form name='toggle_admin_security' id='toggle_admin_security' action='admin.php?iframe=<?=$ct_gen->admin_hashed_nonce('iframe_security')?>&section=security&refresh=all' method='post'>
+	<form name='toggle_admin_security' id='toggle_admin_security' action='admin.php?iframe=<?=$ct['gen']->admin_hashed_nonce('iframe_security')?>&section=security&refresh=all' method='post'>
 	
-	<input type='hidden' name='admin_hashed_nonce' value='<?=$ct_gen->admin_hashed_nonce('toggle_admin_security')?>' />
+	<input type='hidden' name='admin_hashed_nonce' value='<?=$ct['gen']->admin_hashed_nonce('toggle_admin_security')?>' />
 	
 	<input type='hidden' name='sel_admin_sec' id='sel_admin_sec' value='<?=$admin_area_sec_level?>' />
 	
@@ -25,7 +25,7 @@
 	<br /> <input type='radio' name='opt_admin_sec' id='opt_admin_sec_high' value='high' onclick='set_admin_security(this);' <?=( $admin_area_sec_level == 'normal' ? '' : 'checked' )?> /> High &nbsp; <input type='radio' name='opt_admin_sec' id='opt_admin_sec_enhanced' value='enhanced' onclick='set_admin_security(this);' <?=( $admin_area_sec_level == 'enhanced' ? 'checked' : '' )?> /> Enhanced &nbsp; <input type='radio' name='opt_admin_sec' id='opt_admin_sec_normal' value='normal' onclick='set_admin_security(this);' <?=( $admin_area_sec_level == 'normal' ? 'checked' : '' )?> /> Normal
 	
 	
-	<?=$ct_gen->input_2fa()?>
+	<?=$ct['gen']->input_2fa()?>
 	
 	
 	</form>
@@ -44,9 +44,9 @@
 	
 	<div style='min-height: 2em;'></div>
 	
-	<form name='toggle_admin_2fa' id='toggle_admin_2fa' action='admin.php?iframe=<?=$ct_gen->admin_hashed_nonce('iframe_security')?>&section=security&refresh=all' method='post'>
+	<form name='toggle_admin_2fa' id='toggle_admin_2fa' action='admin.php?iframe=<?=$ct['gen']->admin_hashed_nonce('iframe_security')?>&section=security&refresh=all' method='post'>
 	
-	<input type='hidden' name='admin_hashed_nonce' value='<?=$ct_gen->admin_hashed_nonce('toggle_admin_2fa')?>' />
+	<input type='hidden' name='admin_hashed_nonce' value='<?=$ct['gen']->admin_hashed_nonce('toggle_admin_2fa')?>' />
 	
 	<input type='hidden' name='sel_admin_2fa' id='sel_admin_2fa' value='<?=$admin_area_2fa?>' />
 	
@@ -64,12 +64,12 @@
 
 			<p style='font-weight: bold; margin-top: 1.5em;' class='red'>Scan this QR code with your authenticator app:</p>
 			
-			<p><img src='templates/interface/media/images/2fa_setup.php?2fa_setup=<?=$ct_gen->admin_hashed_nonce('2fa_setup')?>' /></p>
+			<p><img src='templates/interface/media/images/2fa_setup.php?2fa_setup=<?=$ct['gen']->admin_hashed_nonce('2fa_setup')?>' /></p>
 			
 			<p class='red' style='font-weight: bold;'>--ENTER THE CODE IN YOUR AUTHENTICATOR APP BELOW-- TO ENABLE 2FA...</p>
 			
 	
-	          <?=$ct_gen->input_2fa('force_show')?>
+	          <?=$ct['gen']->input_2fa('force_show')?>
 	          
 	
 			</div>
@@ -77,7 +77,7 @@
                <?php
                }
                else {
-               $ct_gen->input_2fa();
+               $ct['gen']->input_2fa();
                }
                ?>
 	
@@ -198,7 +198,7 @@ if ( $admin_area_sec_level == 'high' ) {
 	
 	<p class='bitcoin bitcoin_dotted'>
 	
-	YOU ARE IN HIGH SECURITY ADMIN MODE. <br /><br />Editing most admin config settings is <i>done manually</i> IN HIGH SECURITY ADMIN MODE, by updating the file config.php (in this app's main directory: <?=$base_dir?>) with a text editor.
+	YOU ARE IN HIGH SECURITY ADMIN MODE. <br /><br />Editing most admin config settings is <i>done manually</i> IN HIGH SECURITY ADMIN MODE, by updating the file config.php (in this app's main directory: <?=$ct['base_dir']?>) with a text editor.
 	
 	</p>
 

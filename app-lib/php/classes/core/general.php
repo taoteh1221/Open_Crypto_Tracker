@@ -83,11 +83,11 @@ var $ct_array = array();
    
    function mob_number($str) {
    	
-   global $ct_var;
+   global $ct;
    
    $str = explode("||",$str);
    
-   return $ct_var->strip_non_alpha($str[0]);
+   return $ct['var']->strip_non_alpha($str[0]);
    
    }
 
@@ -250,7 +250,7 @@ var $ct_array = array();
    
    function digest($str, $max_length=false) {
    
-      if ( $max_length > 0 ) {
+      if ( $max_length != false && $max_length > 0 ) {
       $result = substr( hash('ripemd160', $str) , 0, $max_length);
       }
       else {
@@ -329,7 +329,7 @@ var $ct_array = array();
    
    function upload_error($pointer) {
    
-   global $app_platform;
+   global $ct;
    
    $errors = array(
                     0 => 'uploaded success',
@@ -342,7 +342,7 @@ var $ct_array = array();
                     8 => 'PHP extension stopped upload',
                    );
 
-   return $errors[$pointer] . ( $app_platform == 'windows' ? ' [try running app as admin]' : '' );
+   return $errors[$pointer] . ( $ct['app_platform'] == 'windows' ? ' [try running app as admin]' : '' );
 
    }
    
@@ -536,17 +536,17 @@ var $ct_array = array();
    
    function text_email($str) {
    
-   global $ct_conf, $ct_var;
+   global $ct;
    
    $str = explode("||",$str);
    
-   $phone_number = $ct_var->strip_non_alpha($str[0]);
+   $phone_number = $ct['var']->strip_non_alpha($str[0]);
    
    $network_name = trim( strtolower($str[1]) ); // Force lowercase lookups for reliability / consistency
    
       // Set text domain
-      if ( isset($phone_number) && trim($phone_number) != '' && isset($ct_conf['mob_net_txt_gateways'][$network_name]) ) {
-      return trim($phone_number) . '@' . trim($ct_conf['mob_net_txt_gateways'][$network_name]); // Return formatted texting email address
+      if ( isset($phone_number) && trim($phone_number) != '' && isset($ct['conf']['mob_net_txt_gateways'][$network_name]) ) {
+      return trim($phone_number) . '@' . trim($ct['conf']['mob_net_txt_gateways'][$network_name]); // Return formatted texting email address
       }
       else {
       return false;
@@ -588,7 +588,7 @@ var $ct_array = array();
    
    function sanitize_requests($method, $ext_key, $data, $mysqli_connection=false) {
        
-   global $remote_ip;
+   global $ct;
    
    
         if ( is_array($data) ) {
@@ -621,15 +621,15 @@ var $ct_array = array();
    
    function rand_hash($num_bytes) {
    
-   global $base_dir;
+   global $ct;
    
       // Upgrade required
       if ( PHP_VERSION_ID < 70000 ) {
       	
       $this->log(
-      			'security_error',
-      			'Upgrade to PHP v7 or later to support cryptographically secure pseudo-random bytes in this application, or your application may not function properly'
-      			);
+      		'security_error',
+      		'Upgrade to PHP v7 or later to support cryptographically secure pseudo-random bytes in this application, or your application may not function properly'
+      		);
       
       }
       // >= PHP 7
@@ -653,7 +653,7 @@ var $ct_array = array();
    
    function valid_email($email) {
    
-   global $ct_var;
+   global $ct;
    
    // Trim whitespace off ends, since we do this before attempting to send anyways in our safe_mail function
    $email = trim($email);
@@ -667,7 +667,7 @@ var $ct_array = array();
       return "Please enter a valid email address.";
       }
       elseif ( function_exists("getmxrr") && !getmxrr($domain, $mxrecords) ) {
-      return "No mail server records found for domain '" . $ct_var->obfusc_str($domain) . "' [obfuscated]";
+      return "No mail server records found for domain '" . $ct['var']->obfusc_str($domain) . "' [obfuscated]";
       }
       else {
       return "valid";
@@ -707,7 +707,7 @@ var $ct_array = array();
    
    function dir_struct($path) {
    
-   global $chmod_cache_dir, $possible_http_users, $http_runtime_user;
+   global $ct, $possible_http_users, $http_runtime_user;
 
    
       // If path does not exist
@@ -716,19 +716,19 @@ var $ct_array = array();
          // Run cache compatibility on certain PHP setups
          if ( !$http_runtime_user || in_array($http_runtime_user, $possible_http_users) ) {
          $oldmask = umask(0);
-         $result = mkdir($path, octdec($chmod_cache_dir), true); // Recursively create whatever path depth desired if non-existent
+         $result = mkdir($path, octdec($ct['dev']['chmod_cache_dir']), true); // Recursively create whatever path depth desired if non-existent
          umask($oldmask);
          return $result;
          }
          else {
-         return  mkdir($path, octdec($chmod_cache_dir), true); // Recursively create whatever path depth desired if non-existent
+         return  mkdir($path, octdec($ct['dev']['chmod_cache_dir']), true); // Recursively create whatever path depth desired if non-existent
          }
       
       }
       // If path is not writable, AND the chmod setting is not the app's default,
       // ATTEMPT TO CHMOD TO PROPER PERMISSIONS (IT'S OK IF IT DOESN'T WORK, WE'LL GET WRITE ERROR LOGS IF ANY REAL ISSUES EXIST)
-      elseif ( !is_writable($path) && substr( sprintf( '%o' , fileperms($path) ) , -4 ) != $chmod_cache_dir ) {
-      $this->chmod_path($path, $chmod_cache_dir);
+      elseif ( !is_writable($path) && substr( sprintf( '%o' , fileperms($path) ) , -4 ) != $ct['dev']['chmod_cache_dir'] ) {
+      $this->chmod_path($path, $ct['dev']['chmod_cache_dir']);
       }
       
       
@@ -787,10 +787,10 @@ var $ct_array = array();
    // Install id (10 character hash, based off base url)
    function id() {
       
-   global $runtime_mode, $app_edition, $base_dir, $ct_app_id;
+   global $ct;
    
    
-      if ( isset($base_dir) && trim($base_dir) != '' ) {
+      if ( isset($ct['base_dir']) && trim($ct['base_dir']) != '' ) {
       // DO NOTHING
       }
       else {
@@ -800,28 +800,28 @@ var $ct_array = array();
    
       // ALWAYS BEGINS WITH 'SESSX_', SO SE CAN USE IT AS A VAR NAME IN PHP (MUST START WITH A LETTER)
       // ALREADY SET
-      if ( isset($ct_app_id) ) {
-      return $ct_app_id;
+      if ( isset($ct['app_id']) ) {
+      return $ct['app_id'];
       }
       // DIFFERENT APP ID FOR INTERNAL WEBHOOK / INTERNAL API RUNTIME SESSION NAMES, AS WE USE SAMESITE=STRICT COOKIES FOR
       // PHP SESSION COOKIE PARAMS, WHICH FOR SOME REASON CAUSES IN-BROWSER SESSION COOKIE RESETS EVERY RUNTIME FROM /api/ OR /hook/
       // (OTHERWISE WORKS FINE ACCESSING FILE URLS DIRECTLY *WITHOUT* THE RewriteRules /api/ OR /hook/)
       // (THIS KEEPS THE OTHER RUNTIME SESSIONS SEPERATED FROM THESE TWO, SO NO FORCED ADMIN LOGOUTS OR OTHER MISSING SESSION
       // DATA ISSUES WITH THE OTHER RUNTIMES, AFTER ACCESSING /api/ OR /hook/ ENDPOINTS WITH JAVASCRIPT OR DIRECTLY IN BROWSER)
-      elseif ( $runtime_mode == 'webhook' || $runtime_mode == 'int_api' ) {
-      return 'SESS2_'.substr( md5('secondary_session' . $base_dir) , 0, 10); // First 10 characters;
+      elseif ( $ct['runtime_mode'] == 'webhook' || $ct['runtime_mode'] == 'int_api' ) {
+      return 'SESS2_'.substr( md5('secondary_session' . $ct['base_dir']) , 0, 10); // First 10 characters;
       }
       // DESKTOP EDITION (when not running the above condition of webhook / internal api runtimes)
-      elseif ( $app_edition == 'desktop' ) {
-      return 'SESSD_'.substr( md5('desktop_session' . $base_dir) , 0, 10); // First 10 characters;
+      elseif ( $ct['app_edition'] == 'desktop' ) {
+      return 'SESSD_'.substr( md5('desktop_session' . $ct['base_dir']) , 0, 10); // First 10 characters;
       }
       // CRON
-      elseif ( $runtime_mode == 'cron' ) {
-      return 'SESSC_'.substr( md5('cron_session' . $base_dir) , 0, 10); // First 10 characters
+      elseif ( $ct['runtime_mode'] == 'cron' ) {
+      return 'SESSC_'.substr( md5('cron_session' . $ct['base_dir']) , 0, 10); // First 10 characters
       }
       // EVERYTHING ELSE
       else {
-      return 'SESS1_'.substr( md5('primary_session' . $base_dir) , 0, 10); // First 10 characters
+      return 'SESS1_'.substr( md5('primary_session' . $ct['base_dir']) , 0, 10); // First 10 characters
       }
       
    
@@ -867,12 +867,12 @@ var $ct_array = array();
           if ( !$did_chmod ) {
           	
           $this->log(
-          			'system_error',
+          		'system_error',
           							
-          			'Chmod failed for file "' . $file . '" (check permissions for the path "' . $path_parts['dirname'] . '", and the file "' . $path_parts['basename'] . '")',
+          		'Chmod failed for file "' . $file . '" (check permissions for the path "' . $path_parts['dirname'] . '", and the file "' . $path_parts['basename'] . '")',
           							
-          			'chmod_setting: ' . $chmod . '; current_runtime_user: ' . $current_runtime_user . '; file_owner: ' . $file_info['name'] . ';'
-          			);
+          		'chmod_setting: ' . $chmod . '; current_runtime_user: ' . $current_runtime_user . '; file_owner: ' . $file_info['name'] . ';'
+          		);
           
           }
           
@@ -954,22 +954,22 @@ var $ct_array = array();
    
    function obfusc_url_data($url) {
       
-   global $ct_conf, $ct_var;
+   global $ct;
    
    // Keep our color-coded logs in the admin UI pretty, remove '//' and put in parenthesis
    $url = preg_replace("/:\/\//i", ") ", $url);
    
       // Etherscan
       if ( preg_match("/etherscan/i", $url) ) {
-      $url = str_replace($ct_conf['ext_apis']['etherscan_key'], $ct_var->obfusc_str($ct_conf['ext_apis']['etherscan_key'], 2), $url);
+      $url = str_replace($ct['conf']['ext_apis']['etherscan_key'], $ct['var']->obfusc_str($ct['conf']['ext_apis']['etherscan_key'], 2), $url);
       }
       // Telegram
       elseif ( preg_match("/telegram/i", $url) ) {
-      $url = str_replace($ct_conf['ext_apis']['telegram_bot_token'], $ct_var->obfusc_str($ct_conf['ext_apis']['telegram_bot_token'], 2), $url); 
+      $url = str_replace($ct['conf']['ext_apis']['telegram_bot_token'], $ct['var']->obfusc_str($ct['conf']['ext_apis']['telegram_bot_token'], 2), $url); 
       }
       // AlphaVantage
       elseif ( preg_match("/alphavantage/i", $url) ) {
-      $url = str_replace($ct_conf['ext_apis']['alphavantage_key'], $ct_var->obfusc_str($ct_conf['ext_apis']['alphavantage_key'], 2), $url); 
+      $url = str_replace($ct['conf']['ext_apis']['alphavantage_key'], $ct['var']->obfusc_str($ct['conf']['ext_apis']['alphavantage_key'], 2), $url); 
       }
    
    // Keep our color-coded logs in the admin UI pretty, remove '//' and put in parenthesis
@@ -984,7 +984,7 @@ var $ct_array = array();
    
    function obfusc_path_data($path) {
       
-   global $ct_var;
+   global $ct;
    
    $basepath_array = explode("/", $path);
    
@@ -998,21 +998,21 @@ var $ct_array = array();
          
          // Subdirectories of /secured/
          if ( is_array($subpath_array) && sizeof($subpath_array) > 1 ) {
-         $path = str_replace($subpath_array[0], $ct_var->obfusc_str($subpath_array[0], 1), $path);
-         $path = str_replace($subpath_array[1], $ct_var->obfusc_str($subpath_array[1], 5), $path);
+         $path = str_replace($subpath_array[0], $ct['var']->obfusc_str($subpath_array[0], 1), $path);
+         $path = str_replace($subpath_array[1], $ct['var']->obfusc_str($subpath_array[1], 5), $path);
          }
          // Files directly in /secured/
          else {
-         $path = str_replace($subpath, $ct_var->obfusc_str($subpath, 5), $path);
+         $path = str_replace($subpath, $ct['var']->obfusc_str($subpath, 5), $path);
          }
             
-      //$path = str_replace('cache/secured', $ct_var->obfusc_str('cache', 0) . '/' . $ct_var->obfusc_str('secured', 0), $path);
+      //$path = str_replace('cache/secured', $ct['var']->obfusc_str('cache', 0) . '/' . $ct['var']->obfusc_str('secured', 0), $path);
       
       }
       // Everything else, obfuscate just the filename OR deepest directory (last part of the path)
       elseif ( is_array($basepath_array) && sizeof($basepath_array) > 0 ) {
       $filename = sizeof($basepath_array) - 1;
-      $path = str_replace($basepath_array[$filename], $ct_var->obfusc_str($basepath_array[$filename], 5), $path);
+      $path = str_replace($basepath_array[$filename], $ct['var']->obfusc_str($basepath_array[$filename], 5), $path);
       }
    
    
@@ -1027,10 +1027,10 @@ var $ct_array = array();
    
    function detect_unicode($content) {
       
-   global $charset_default, $charset_unicode;
+   global $ct;
    
    // Changs only if non-UTF-8 / non-ASCII characters are detected further down in this function
-   $set_charset = $charset_default;
+   $set_charset = $ct['dev']['charset_default'];
    
    $words = explode(" ", $content);
       
@@ -1040,8 +1040,8 @@ var $ct_array = array();
       $scan_val = trim($scan_val);
       $scan_charset = ( mb_detect_encoding($scan_val, 'auto') != false ? mb_detect_encoding($scan_val, 'auto') : null );
       
-         if ( isset($scan_charset) && !preg_match("/" . $charset_default . "/i", $scan_charset) && !preg_match("/ASCII/i", $scan_charset) ) {
-         $set_charset = $charset_unicode;
+         if ( isset($scan_charset) && !preg_match("/" . $ct['dev']['charset_default'] . "/i", $scan_charset) && !preg_match("/ASCII/i", $scan_charset) ) {
+         $set_charset = $ct['dev']['charset_unicode'];
          }
       
       }
@@ -1101,7 +1101,7 @@ var $ct_array = array();
    // Return the TLD only (no subdomain)
    function get_tld_or_ip($url) {
    
-   global $ct_conf;
+   global $ct;
    
    $urlData = parse_url($url);
       
@@ -1247,13 +1247,13 @@ var $ct_array = array();
    
    function valid_username($username) {
    
-   global $charset_default;
+   global $ct;
    
-       if ( mb_strlen($username, $charset_default) < 4 ) {
+       if ( mb_strlen($username, $ct['dev']['charset_default']) < 4 ) {
        $error .= "requires 4 minimum characters; ";
        }
        
-       if ( mb_strlen($username, $charset_default) > 30 ) {
+       if ( mb_strlen($username, $ct['dev']['charset_default']) > 30 ) {
        $error .= "requires 30 maximum characters; ";
        }
        
@@ -1283,19 +1283,19 @@ var $ct_array = array();
    function smtp_mail($to, $subj, $msg, $content_type='text/plain', $charset=null) {
    
    // Using 3rd party SMTP class, initiated already as global var $smtp
-   global $ct_conf, $smtp, $charset_default;
+   global $ct, $smtp;
    
       if ( $charset == null ) {
-      $charset = $charset_default;
+      $charset = $ct['dev']['charset_default'];
       }
       
       
       // Fallback, if no From email set in app config
-      if ( $this->valid_email($ct_conf['comms']['from_email']) == 'valid' ) {
-      $from_email = $ct_conf['comms']['from_email'];
+      if ( $this->valid_email($ct['conf']['comms']['from_email']) == 'valid' ) {
+      $from_email = $ct['conf']['comms']['from_email'];
       }
       else {
-      $temp_data = explode("||", $ct_conf['comms']['smtp_login']);
+      $temp_data = explode("||", $ct['conf']['comms']['smtp_login']);
       $from_email = $temp_data[0];
       }
    
@@ -1334,11 +1334,11 @@ var $ct_array = array();
    // (NO DECIMALS OVER 100 IN UNIT VALUE, MAX 2 DECIMALS OVER 1, #AND MIN 2 DECIMALS# UNDER, FOR INTERFACE UX)
    function thres_dec($num, $mode, $type=false) {
        
-   global $ct_conf, $ct_var, $min_fiat_val_test, $min_crypto_val_test;
+   global $ct, $min_fiat_val_test, $min_crypto_val_test;
    
    $result = array();
    
-   $num = $ct_var->num_to_str($num);
+   $num = $ct['var']->num_to_str($num);
    
       // Unit
       if ( $mode == 'u' && $type != false ) {
@@ -1350,7 +1350,7 @@ var $ct_array = array();
           if ( $num < $min_val ) {
           $result['min_dec'] = 0;
           }
-          elseif ( $ct_conf['gen']['price_round_fixed_decimals'] == 'on' ) {
+          elseif ( $ct['conf']['gen']['price_round_fixed_decimals'] == 'on' ) {
           $result['min_dec'] = $result['max_dec'];
           }
    		elseif ( $type == 'fiat' ) {
@@ -1433,21 +1433,21 @@ var $ct_array = array();
    
    function store_cookie($name, $val, $time) {
    
-   global $app_edition, $app_path;
+   global $ct;
    
-   $secure = ( $app_edition == 'server' ? true : false );
+   $secure = ( $ct['app_edition'] == 'server' ? true : false );
       
       
       if ( PHP_VERSION_ID >= 70300 ) {
         
       $arr_cookie_options = array (
                                     'expires' => $time,
-                                    'path' => $app_path,
+                                    'path' => $ct['cookie_path'],
                                     'domain' => '', // LEAVE DOMAIN BLANK, SO setcookie AUTO-SETS PROPERLY (IN CASE OF EDGE-CASE REDIRECTS)
                                     'secure' => $secure,
                                     'httponly' => false,
-                     	            'samesite' => 'Strict', // Strict for high privacy
-                                    );
+                     	           'samesite' => 'Strict', // Strict for high privacy
+                                  );
       
       $this->remove_cookie_before_v6008($name); // Backwards compatibility
       
@@ -1459,7 +1459,7 @@ var $ct_array = array();
       $this->remove_cookie_before_v6008($name); // Backwards compatibility
       
        // LEAVE DOMAIN BLANK, SO setcookie AUTO-SETS PROPERLY (IN CASE OF EDGE-CASE REDIRECTS)
-      $result = setcookie($name, $val, $time, $app_path . '; samesite=Strict', '', $secure, false);
+      $result = setcookie($name, $val, $time, $ct['cookie_path'] . '; samesite=Strict', '', $secure, false);
       
       }
    
@@ -1494,9 +1494,9 @@ var $ct_array = array();
    // DON'T USE unset($_COOKIE['namehere']) WITHIN THIS FUNCTION, AS IT DOESN'T REGISTER ANY RE-CREATING IT IMMEADIATELY AFTERWARDS FOR SOME REASON
    function remove_cookie_before_v6008($name) {
    
-   global $app_edition, $app_path, $app_host;
+   global $ct;
    
-   $secure = ( $app_edition == 'server' ? true : false );
+   $secure = ( $ct['app_edition'] == 'server' ? true : false );
    
    $time = (time()-3600);
       
@@ -1505,8 +1505,8 @@ var $ct_array = array();
         
       $arr_cookie_options = array (
                                     'expires' => $time,
-                                    'path' => $app_path,
-                                    'domain' => $app_host,
+                                    'path' => $ct['cookie_path'],
+                                    'domain' => $ct['app_host'],
                                     'secure' => $secure,
                                     'httponly' => false,
                      	            'samesite' => 'Strict', // Strict for high privacy
@@ -1517,7 +1517,7 @@ var $ct_array = array();
       
       }
       else {
-      $result = setcookie($name, '', $time, $app_path . '; samesite=Strict', $app_host, $secure, false);
+      $result = setcookie($name, '', $time, $ct['cookie_path'] . '; samesite=Strict', $ct['app_host'], $secure, false);
       }
       
       if ( $result == false ) {
@@ -1536,10 +1536,10 @@ var $ct_array = array();
    
    function log($log_type, $log_msg, $verbose_tracing=false, $hashcheck=false, $overwrite=false) {
    
-   global $runtime_mode, $ct_conf, $ct_var, $log_errors, $log_debugging, $is_iframe;
+   global $ct, $log_errors, $log_debugging, $is_iframe;
    
    // Since we sort by timestamp, we want millisecond accuracy (if possible), for ordering logs before output
-   $timestamp_milliseconds = $ct_var->num_to_str( floor(microtime(true) * 1000) );
+   $timestamp_milliseconds = $ct['var']->num_to_str( floor(microtime(true) * 1000) );
    
    // Get millisecond decimals for log human-readable timestamps
    $decimals_milliseconds = '.' . substr($timestamp_milliseconds, -3);
@@ -1560,7 +1560,7 @@ var $ct_array = array();
    
    
       // Disable logging any included verbose tracing, if log verbosity level config is set to normal
-      if ( $ct_conf['power']['log_verb'] == 'normal' ) {
+      if ( $ct['conf']['power']['log_verb'] == 'normal' ) {
       $verbose_tracing = false;
       }
       
@@ -1568,10 +1568,10 @@ var $ct_array = array();
       // Flag the runtime mode in logs if it's an iframe's runtime (for cleaner / less-confusing logs)
       // Change var name to avoid changing the GLOBAL value
       if ( $is_iframe ) {
-      $logged_runtime_mode = $runtime_mode . ' (iframe)';
+      $logged_runtime_mode = $ct['runtime_mode'] . ' (iframe)';
       }
       else {
-      $logged_runtime_mode = $runtime_mode;
+      $logged_runtime_mode = $ct['runtime_mode'];
       }
       
       
@@ -1708,12 +1708,12 @@ var $ct_array = array();
    
    function file_download($file, $save_as, $delete=true) {
       
-   global $charset_default;
+   global $ct;
    
    $type = pathinfo($save_as, PATHINFO_EXTENSION);
    
       if ( $type == 'csv' ) {
-      $content_type = 'Content-type: text/csv; charset=' . $charset_default;
+      $content_type = 'Content-type: text/csv; charset=' . $ct['dev']['charset_default'];
       }
       else {
       $content_type = 'Content-type: application/octet-stream';
@@ -1750,7 +1750,8 @@ var $ct_array = array();
    
    function csv_import_array($file) {
    
-   global $ct_conf;
+   global $ct;
+   
       
       $row = 0;
       if ( ( $handle = fopen($file, "r") ) != false ) {
@@ -1760,8 +1761,8 @@ var $ct_array = array();
          $num = count($data);
          $asset = strtoupper($data[0]);
          
-            // ONLY importing if it exists in $ct_conf['assets']
-            if ( is_array($ct_conf['assets'][$asset]) ) {
+            // ONLY importing if it exists in $ct['conf']['assets']
+            if ( is_array($ct['conf']['assets'][$asset]) ) {
          
                for ($c=0; $c < $num; $c++) {
                $check_csv_rows[$asset][] = $data[$c];
@@ -1784,6 +1785,7 @@ var $ct_array = array();
          gc_collect_cycles(); // Clean memory cache
          
       }
+   
    
    unlink($file); // Delete temp file
    
@@ -1850,14 +1852,14 @@ var $ct_array = array();
    /* Usage: 
    
    // HTML
-   $content = $ct_gen->txt_between_tags('a', $html);
+   $content = $ct['gen']->txt_between_tags('a', $html);
    
    foreach( $content as $item ) {
        echo $item.'<br />';
    }
    
    // XML
-   $content2 = $ct_gen->txt_between_tags('description', $xml, 1);
+   $content2 = $ct['gen']->txt_between_tags('description', $xml, 1);
    
    foreach( $content2 as $item ) {
        echo $item.'<br />';
@@ -1907,16 +1909,16 @@ var $ct_array = array();
    
    // To preserve SMTPMailer class upgrade structure, by creating a global var to be run in classes/smtp-mailer/conf/config_smtp.php
    
-   global $app_version, $base_dir, $ct_conf;
+   global $ct;
    
    $vars = array();
    
-   $log_file = $base_dir . "/cache/logs/smtp_error.log";
-   $log_file_debug = $base_dir . "/cache/logs/smtp_debug.log";
+   $log_file = $ct['base_dir'] . "/cache/logs/smtp_error.log";
+   $log_file_debug = $ct['base_dir'] . "/cache/logs/smtp_debug.log";
    
    // Don't overwrite globals
-   $temp_smtp_email_login = explode("||", $ct_conf['comms']['smtp_login'] );
-   $temp_smtp_email_server = explode(":", $ct_conf['comms']['smtp_server'] );
+   $temp_smtp_email_login = explode("||", $ct['conf']['comms']['smtp_login'] );
+   $temp_smtp_email_server = explode(":", $ct['conf']['comms']['smtp_server'] );
    
    // To be safe, don't use trim() on certain strings with arbitrary non-alphanumeric characters here
    $smtp_user = trim($temp_smtp_email_login[0]);
@@ -1946,9 +1948,9 @@ var $ct_array = array();
    $vars['cfg_secure']   = $smtp_secure;
    $vars['cfg_username'] = $smtp_user;
    $vars['cfg_password'] = $smtp_password;
-   $vars['cfg_debug_mode'] = $ct_conf['power']['debug_mode']; // Open Crypto Tracker debug mode setting
-   $vars['cfg_strict_ssl'] = $ct_conf['sec']['smtp_strict_ssl']; // Open Crypto Tracker strict SSL setting
-   $vars['cfg_app_version'] = $app_version; // Open Crypto Tracker version
+   $vars['cfg_debug_mode'] = $ct['conf']['power']['debug_mode']; // Open Crypto Tracker debug mode setting
+   $vars['cfg_strict_ssl'] = $ct['conf']['sec']['smtp_strict_ssl']; // Open Crypto Tracker strict SSL setting
+   $vars['cfg_app_version'] = $ct['app_version']; // Open Crypto Tracker version
    
    return $vars;
    
@@ -2073,24 +2075,24 @@ var $ct_array = array();
    ////////////////////////////////////////////////////////
    
    
-   function throttled_warning_log($type) {
+   function system_warning_log($type) {
    
-   global $ct_conf, $ct_cache, $base_dir, $system_info, $system_warnings, $system_warnings_cron_interval, $daily_tasks_offset;
+   global $ct, $system_warnings, $system_warnings_cron_interval;
    
    
 	  // With offset, to try keeping daily / hourly recurrences at same exact runtime (instead of moving up the runtime daily / hourly)
-      if ( $ct_cache->update_cache($base_dir . '/cache/events/system/warning-' . $type . '.dat', ($system_warnings_cron_interval[$type] * 60) + $daily_tasks_offset ) == true ) {
+      if ( $ct['cache']->update_cache($ct['base_dir'] . '/cache/events/system/warning-' . $type . '.dat', ($system_warnings_cron_interval[$type] * 60) + $ct['dev']['tasks_time_offset'] ) == true ) {
           
       $this->log('system_warning', $system_warnings[$type]);
       
-          if ( isset($system_info['distro_name']) ) {
-          $system_info_summary = "\n\nApp Server System Info: " . $system_info['distro_name'] . ( isset($system_info['distro_version']) ? ' ' . $system_info['distro_version'] : '' );
+          if ( isset($ct['system_info']['distro_name']) ) {
+          $system_info_summary = "\n\nApp Server System Info: " . $ct['system_info']['distro_name'] . ( isset($ct['system_info']['distro_version']) ? ' ' . $ct['system_info']['distro_version'] : '' );
           }
       
       $email_msg = 'Open Crypto Tracker detected an app server issue: ' . $system_warnings[$type] . '. (warning thresholds are adjustable in the Admin Config Power User section) ' . $system_info_summary;
                
       // Were're just adding a human-readable timestamp to smart home (audio) alerts
-      $notifyme_msg = $email_msg . ' Timestamp: ' . $this->time_date_format($ct_conf['gen']['loc_time_offset'], 'pretty_time') . '.';
+      $notifyme_msg = $email_msg . ' Timestamp: ' . $this->time_date_format($ct['conf']['gen']['loc_time_offset'], 'pretty_time') . '.';
       
       $text_msg = 'Open Crypto Tracker app server issue: ' . $system_warnings[$type] . '.';
                
@@ -2120,10 +2122,10 @@ var $ct_array = array();
                     
                     
       // Send notifications
-      @$ct_cache->queue_notify($send_params);
+      @$ct['cache']->queue_notify($send_params);
                         
       
-      $ct_cache->save_file($base_dir . '/cache/events/system/warning-' . $type . '.dat', $this->time_date_format(false, 'pretty_date_time') );
+      $ct['cache']->save_file($ct['base_dir'] . '/cache/events/system/warning-' . $type . '.dat', $this->time_date_format(false, 'pretty_date_time') );
       
       }
    
@@ -2137,7 +2139,7 @@ var $ct_array = array();
    
    function key_to_name($str) {
    
-   global $ct_conf;
+   global $ct;
    
    // Change coingecko_X to coingecko
    $str = preg_replace("/coingecko_(.*)/i", "coingecko", $str);
@@ -2163,11 +2165,11 @@ var $ct_array = array();
    
       
       // Pretty up all secondary asset market symbols
-      foreach($ct_conf['power']['crypto_pair_pref_mrkts'] as $key => $unused) {
+      foreach($ct['conf']['power']['crypto_pair_pref_mrkts'] as $key => $unused) {
       $pretty_str = preg_replace("/".strtolower($key)."/i", strtoupper($key), $pretty_str);
       }
    
-      foreach($ct_conf['power']['btc_currency_mrkts'] as $key => $unused) {
+      foreach($ct['conf']['power']['btc_currency_mrkts'] as $key => $unused) {
       $pretty_str = preg_replace("/".strtolower($key)."/i", strtoupper($key), $pretty_str);
       }
    
@@ -2212,7 +2214,7 @@ var $ct_array = array();
    
    function valid_csv_import_row($csv_row) {
       
-   global $ct_conf, $ct_var, $min_crypto_val_test;
+   global $ct, $min_crypto_val_test;
    
    // WE AUTO-CORRECT AS MUCH AS IS FEASIBLE, IF THE USER-INPUT IS CORRUPT / INVALID
    
@@ -2220,38 +2222,38 @@ var $ct_array = array();
       
    $csv_row[0] = strtoupper($csv_row[0]); // Asset to uppercase (we already validate it's existance in $this->csv_import_array())
           
-   $csv_row[1] = $ct_var->rem_num_format($csv_row[1]); // Remove any number formatting in held amount
+   $csv_row[1] = $ct['var']->rem_num_format($csv_row[1]); // Remove any number formatting in held amount
    
    // Remove any number formatting in paid amount, default paid amount to null if not a valid positive number
-   $csv_row[2] = ( $ct_var->rem_num_format($csv_row[2]) >= 0 ? $ct_var->rem_num_format($csv_row[2]) : null ); 
+   $csv_row[2] = ( $ct['var']->rem_num_format($csv_row[2]) >= 0 ? $ct['var']->rem_num_format($csv_row[2]) : null ); 
       
    // If leverage amount input is corrupt, default to 0 (ALSO simple auto-correct if negative)
-   $csv_row[3] = ( $ct_var->whole_int($csv_row[3]) != false && $csv_row[3] >= 0 ? $csv_row[3] : 0 ); 
+   $csv_row[3] = ( $ct['var']->whole_int($csv_row[3]) != false && $csv_row[3] >= 0 ? $csv_row[3] : 0 ); 
       
    // If leverage is ABOVE 'margin_lvrg_max', default to 'margin_lvrg_max'
-   $csv_row[3] = ( $csv_row[3] <= $ct_conf['power']['margin_lvrg_max'] ? $csv_row[3] : $ct_conf['power']['margin_lvrg_max'] ); 
+   $csv_row[3] = ( $csv_row[3] <= $ct['conf']['power']['margin_lvrg_max'] ? $csv_row[3] : $ct['conf']['power']['margin_lvrg_max'] ); 
    
    // Default to 'long', if not 'short' (set to lowercase...simple auto-correct, if set to anything other than 'short')
    $csv_row[4] = ( strtolower($csv_row[4]) == 'short' ? 'short' : 'long' );
    
    // If market ID input is corrupt, default to 1 (it's ALWAYS 1 OR GREATER)
-   $csv_row[5] = ( $ct_var->whole_int($csv_row[5]) != false && $csv_row[5] >= 1 ? $csv_row[5] : 1 ); 
+   $csv_row[5] = ( $ct['var']->whole_int($csv_row[5]) != false && $csv_row[5] >= 1 ? $csv_row[5] : 1 ); 
       
    $csv_row[6] = strtolower($csv_row[6]); // Pair to lowercase
       
       
       // Pair auto-correction (if invalid pair)
-      if ( $csv_row[6] == '' || !is_array($ct_conf['assets'][ $csv_row[0] ]['pair'][ $csv_row[6] ]) ) {
+      if ( $csv_row[6] == '' || !is_array($ct['conf']['assets'][ $csv_row[0] ]['pair'][ $csv_row[6] ]) ) {
          
       $csv_row[5] = 1; // We need to reset the market id to 1 (it's ALWAYS 1 OR GREATER), as the pair was not found
       
-      // First key in $ct_conf['assets'][ $csv_row[0] ]['pair']
-      reset($ct_conf['assets'][ $csv_row[0] ]['pair']);
-      $csv_row[6] = key($ct_conf['assets'][ $csv_row[0] ]['pair']);
+      // First key in $ct['conf']['assets'][ $csv_row[0] ]['pair']
+      reset($ct['conf']['assets'][ $csv_row[0] ]['pair']);
+      $csv_row[6] = key($ct['conf']['assets'][ $csv_row[0] ]['pair']);
       
       }
       // Market ID auto-correction (if invalid market ID)
-      elseif ( is_array($ct_conf['assets'][ $csv_row[0] ]['pair'][ $csv_row[6] ]) && sizeof($ct_conf['assets'][ $csv_row[0] ]['pair'][ $csv_row[6] ]) < $csv_row[5] ) {
+      elseif ( is_array($ct['conf']['assets'][ $csv_row[0] ]['pair'][ $csv_row[6] ]) && sizeof($ct['conf']['assets'][ $csv_row[0] ]['pair'][ $csv_row[6] ]) < $csv_row[5] ) {
       $csv_row[5] = 1; // We need to reset the market id to 1 (it's ALWAYS 1 OR GREATER), as the ID was higher than available markets count
       }
       
@@ -2274,7 +2276,7 @@ var $ct_array = array();
    
    function sanitize_string($method, $ext_key, $data, $mysqli_connection=false) {
    
-   global $remote_ip;
+   global $ct;
    
     
         // Strip ALL HTML tags
@@ -2321,7 +2323,7 @@ var $ct_array = array();
         
            // Exit function if html or scripting is detected
            if ( $count > 0 ) {
-           $this->log('security_error', 'Possible code injection blocked in request data (' . $remote_ip . '): ["' . $ext_key . '"]');
+           $this->log('security_error', 'Possible code injection blocked in request data (' . $ct['remote_ip'] . '): ["' . $ext_key . '"]');
            return 'code_not_allowed';
            }
            
@@ -2347,26 +2349,26 @@ var $ct_array = array();
 
    function dyn_max_decimals($price_raw, $type) {
        
-   global $ct_conf, $ct_var, $min_fiat_val_test, $min_crypto_val_test;
+   global $ct, $min_fiat_val_test, $min_crypto_val_test;
    
    $price_raw = abs($price_raw); // Assure no negative number used
    
         
-        if ( $ct_conf['gen']['price_round_percent'] == 'one' ) {
+        if ( $ct['conf']['gen']['price_round_percent'] == 'one' ) {
         $x = 1;
         }
-        else if ( $ct_conf['gen']['price_round_percent'] == 'tenth' ) {
+        else if ( $ct['conf']['gen']['price_round_percent'] == 'tenth' ) {
         $x = 0.1;
         }
-        else if ( $ct_conf['gen']['price_round_percent'] == 'hundredth' ) {
+        else if ( $ct['conf']['gen']['price_round_percent'] == 'hundredth' ) {
         $x = 0.01;
         }
-        else if ( $ct_conf['gen']['price_round_percent'] == 'thousandth' ) {
+        else if ( $ct['conf']['gen']['price_round_percent'] == 'thousandth' ) {
         $x = 0.001;
         }
         
         
-    $unit_percent = $ct_var->num_to_str( ($price_raw / 100) * $x );
+    $unit_percent = $ct['var']->num_to_str( ($price_raw / 100) * $x );
         
     
         if ( $type == 'fiat' ) {
@@ -2375,8 +2377,8 @@ var $ct_array = array();
         
         
              $loop = 0;
-             $track_decimals = $ct_conf['gen']['currency_dec_max'];
-             while ( !isset($decimals) && $loop < $ct_conf['gen']['currency_dec_max'] ) {
+             $track_decimals = $ct['conf']['gen']['currency_dec_max'];
+             while ( !isset($decimals) && $loop < $ct['conf']['gen']['currency_dec_max'] ) {
 
                   // $track_decimals decimals rounding
                   if ( !isset($decimals) && $unit_percent <= $track_target ) {
@@ -2388,7 +2390,7 @@ var $ct_array = array();
                   }
                   // Remove one decimal for any next try
                   else {
-                  $track_target = $ct_var->num_to_str($track_target * 10);
+                  $track_target = $ct['var']->num_to_str($track_target * 10);
                   $track_decimals = $track_decimals - 1; 
                   }
         
@@ -2399,8 +2401,8 @@ var $ct_array = array();
              
              
              // Force to max decimals if applicable
-             if ( $decimals > $ct_conf['gen']['currency_dec_max'] ) {
-             return $ct_conf['gen']['currency_dec_max'];
+             if ( $decimals > $ct['conf']['gen']['currency_dec_max'] ) {
+             return $ct['conf']['gen']['currency_dec_max'];
              }
              else {
              return $decimals;
@@ -2414,8 +2416,8 @@ var $ct_array = array();
         
         
              $loop = 0;
-             $track_decimals = $ct_conf['gen']['crypto_dec_max'];
-             while ( !isset($decimals) && $loop < $ct_conf['gen']['crypto_dec_max'] ) {
+             $track_decimals = $ct['conf']['gen']['crypto_dec_max'];
+             while ( !isset($decimals) && $loop < $ct['conf']['gen']['crypto_dec_max'] ) {
 
                   // $track_decimals decimals rounding
                   if ( !isset($decimals) && $unit_percent <= $track_target ) {
@@ -2427,7 +2429,7 @@ var $ct_array = array();
                   }
                   // Remove one decimal for any next try
                   else {
-                  $track_target = $ct_var->num_to_str($track_target * 10);
+                  $track_target = $ct['var']->num_to_str($track_target * 10);
                   $track_decimals = $track_decimals - 1; 
                   }
         
@@ -2438,8 +2440,8 @@ var $ct_array = array();
              
              
              // Force to max decimals if applicable
-             if ( $decimals > $ct_conf['gen']['crypto_dec_max'] ) {
-             return $ct_conf['gen']['crypto_dec_max'];
+             if ( $decimals > $ct['conf']['gen']['crypto_dec_max'] ) {
+             return $ct['conf']['gen']['crypto_dec_max'];
              }
              else {
              return $decimals;
@@ -2458,11 +2460,11 @@ var $ct_array = array();
   
    function news_feed_email($interval) {
   
-   global $ct_conf, $ct_cache, $ct_api, $app_edition, $base_dir, $base_url, $daily_tasks_offset;
+   global $ct;
   
   
 	  // With offset, to try keeping daily recurrences at same exact runtime (instead of moving up the runtime daily)
-      if ( $ct_cache->update_cache($base_dir . '/cache/events/news-feed-email.dat', ($interval * 1440) + $daily_tasks_offset ) == true ) {
+      if ( $ct['cache']->update_cache($ct['base_dir'] . '/cache/events/news-feed-email.dat', ($interval * 1440) + $ct['dev']['tasks_time_offset'] ) == true ) {
       
       // Reset feed fetch telemetry 
       $_SESSION[$fetched_feeds] = false;
@@ -2474,11 +2476,11 @@ var $ct_array = array();
         
         	// NEW RSS feed posts
         	$num_posts = 0;
-        	foreach($ct_conf['news_feeds'] as $feed_item) {
+        	foreach($ct['conf']['news_feeds'] as $feed_item) {
         	    
         		if ( isset($feed_item["url"]) && trim($feed_item["url"]) != '' ) {
         		    
-        		$result = $ct_api->rss($feed_item["url"], false, $ct_conf['comms']['news_feed_email_entries_show'], false, true);
+        		$result = $ct['api']->rss($feed_item["url"], false, $ct['conf']['comms']['news_feed_email_entries_show'], false, true);
         		
         		  if ( trim($result) != '<ul></ul>' ) {
         		  $content .= '<div style="padding: 40px;"><fieldset><legend style="font-weight: bold;"> ' . $feed_item["title"] . ' </legend>' . "\n\n";
@@ -2493,10 +2495,10 @@ var $ct_array = array();
       
       
       // Render summary after determining the content
-      $summary .= '<h2 style="color: black;">' . $num_posts . ' Updated RSS Feeds (over ' . $ct_conf['comms']['news_feed_email_freq'] . ' days)</h3>' . "\n\n";
+      $summary .= '<h2 style="color: black;">' . $num_posts . ' Updated RSS Feeds (over ' . $ct['conf']['comms']['news_feed_email_freq'] . ' days)</h3>' . "\n\n";
         	
-        	if ( $app_edition == 'server' ) {
-          $summary .= '<p><a style="color: #00b6db;" title="View the news feeds page in the Open Crypto Tracker app here." target="_blank" href="' . $base_url . 'index.php?start_page=news#news">View All News Feeds Here</a></p>' . "\n\n";
+        	if ( $ct['app_edition'] == 'server' ) {
+          $summary .= '<p><a style="color: #00b6db;" title="View the news feeds page in the Open Crypto Tracker app here." target="_blank" href="' . $ct['base_url'] . 'index.php?start_page=news#news">View All News Feeds Here</a></p>' . "\n\n";
         	}
 	
 	 $summary .= '<p>You can disable receiving news feed emails in the Admin Config "Communications" section.</p>' . "\n\n";
@@ -2519,7 +2521,7 @@ var $ct_array = array();
                                                     
                            'email' => array(
                                             'content_type' => 'text/html', // Have email sent as HTML content type
-                                            'subject' => $num_posts . ' Updated RSS Feeds (over ' . $ct_conf['comms']['news_feed_email_freq'] . ' days)',
+                                            'subject' => $num_posts . ' Updated RSS Feeds (over ' . $ct['conf']['comms']['news_feed_email_freq'] . ' days)',
                                             'message' => $email_body
                                            )
                                                        
@@ -2528,10 +2530,10 @@ var $ct_array = array();
                     
                     
       // Send notifications
-      @$ct_cache->queue_notify($send_params);
+      @$ct['cache']->queue_notify($send_params);
                         
       
-      $ct_cache->save_file($base_dir . '/cache/events/news-feed-email.dat', $this->time_date_format(false, 'pretty_date_time') );
+      $ct['cache']->save_file($ct['base_dir'] . '/cache/events/news-feed-email.dat', $this->time_date_format(false, 'pretty_date_time') );
       
       }
       
@@ -2545,7 +2547,7 @@ var $ct_array = array();
    
    function base_url($hostCheck=false, $atRoot=false, $atCore=false, $parse=false) {
        
-   global $ct_gen, $ct_cache, $base_dir;
+   global $ct;
       
    // WARNING: THIS ONLY WORKS WELL FOR HTTP-BASED RUNTIME, ----NOT CLI---!
    // CACHE IT TO FILE DURING UI RUNTIME FOR CLI TO USE LATER ;-)
@@ -2588,8 +2590,8 @@ var $ct_array = array();
         // https://expressionengine.com/blog/http-host-and-server-name-security-issues (HOSTNAME HEADER CAN BE SPOOFED FROM CLIENT)
         if ( $hostCheck == true ) {
 	
-        $set_128bit_hash = $ct_gen->rand_hash(16); // 128-bit (16-byte) hash converted to hexadecimal, used for suffix
-        $set_256bit_hash = $ct_gen->rand_hash(32); // 256-bit (32-byte) hash converted to hexadecimal, used for var
+        $set_128bit_hash = $ct['gen']->rand_hash(16); // 128-bit (16-byte) hash converted to hexadecimal, used for suffix
+        $set_256bit_hash = $ct['gen']->rand_hash(32); // 256-bit (32-byte) hash converted to hexadecimal, used for var
         
         $domain_check_filename = 'domain_check_' . $set_128bit_hash.'.dat';
         	
@@ -2597,7 +2599,7 @@ var $ct_array = array();
         	  // Halt the process if an issue is detected safely creating a random hash
         	  if ( $set_128bit_hash == false || $set_256bit_hash == false ) {
         		
-        	  $ct_gen->log(
+        	  $ct['gen']->log(
         				'security_error',
         				'Cryptographically secure pseudo-random bytes could not be generated for API key (in secured cache storage), API key creation aborted to preserve security'
         				);
@@ -2606,7 +2608,7 @@ var $ct_array = array();
         	
         	  }
         	  else {
-        	  $ct_cache->save_file($base_dir . '/' . $domain_check_filename, $set_256bit_hash);
+        	  $ct['cache']->save_file($ct['base_dir'] . '/' . $domain_check_filename, $set_256bit_hash);
         	  }
 
         		
@@ -2617,12 +2619,12 @@ var $ct_array = array();
         
         sleep(4); // Sleep 4 seconds, to complete the FILE WRITE before the check afterwards
         
-        $domain_check_test = @$ct_cache->ext_data('url', $domain_check_test_url, 0);
+        $domain_check_test = @$ct['cache']->ext_data('url', $domain_check_test_url, 0);
        
         sleep(4); // Sleep 4 seconds, to complete the CHECK before deleting afterwards
         
         // Delete domain check test file
-        unlink($base_dir . '/' . $domain_check_filename);
+        unlink($ct['base_dir'] . '/' . $domain_check_filename);
         
         	
         	  // If it's a possible hostname header attack
@@ -2717,7 +2719,7 @@ var $ct_array = array();
    
    function pass_strength($password, $min_length, $max_length) {
    
-   global $charset_default;
+   global $ct;
    
        
        // If our request sanitizer flags the input as containing a programming code phrase,
@@ -2727,13 +2729,13 @@ var $ct_array = array();
        }
    
    
-       if ( $min_length == $max_length && mb_strlen($password, $charset_default) != $min_length ) {
+       if ( $min_length == $max_length && mb_strlen($password, $ct['dev']['charset_default']) != $min_length ) {
        $error .= "MUST BE EXACTLY ".$min_length." characters; ";
        }
-       elseif ( mb_strlen($password, $charset_default) < $min_length ) {
+       elseif ( mb_strlen($password, $ct['dev']['charset_default']) < $min_length ) {
        $error .= "requires AT LEAST ".$min_length." characters; ";
        }
-       elseif ( mb_strlen($password, $charset_default) > $max_length ) {
+       elseif ( mb_strlen($password, $ct['dev']['charset_default']) > $max_length ) {
        $error .= "requires NO MORE THAN ".$max_length." characters; ";
        }
        
@@ -2784,7 +2786,7 @@ var $ct_array = array();
    
    function reset_price_alert_notice() {
    
-   global $ct_conf, $ct_cache, $price_alert_fixed_reset_array, $default_btc_prim_currency_pair;
+   global $ct, $price_alert_fixed_reset_array, $default_btc_prim_currency_pair;
    
    // Alphabetical asset sort, for message UX 
    ksort($price_alert_fixed_reset_array);
@@ -2817,9 +2819,9 @@ var $ct_array = array();
    
    $text_msg = $count . ' ' . strtoupper($default_btc_prim_currency_pair) . ' Price Alert Fixed Resets: ' . $reset_list;
    
-   $email_msg = 'The following ' . $count . ' ' . strtoupper($default_btc_prim_currency_pair) . ' price alert fixed resets (run every ' . $ct_conf['power']['price_alert_fixed_reset'] . ' days) have been processed, with the latest spot price data: ' . $reset_list;
+   $email_msg = 'The following ' . $count . ' ' . strtoupper($default_btc_prim_currency_pair) . ' price alert fixed resets (run every ' . $ct['conf']['power']['price_alert_fixed_reset'] . ' days) have been processed, with the latest spot price data: ' . $reset_list;
    
-   $notifyme_msg = $email_msg . ' Timestamp is ' . $this->time_date_format($ct_conf['gen']['loc_time_offset'], 'pretty_time') . '.';
+   $notifyme_msg = $email_msg . ' Timestamp is ' . $this->time_date_format($ct['conf']['gen']['loc_time_offset'], 'pretty_time') . '.';
    
    
    // Message parameter added for desired comm methods (leave any comm method blank to skip sending via that method)
@@ -2844,7 +2846,7 @@ var $ct_array = array();
                    
                    
    // Send notifications
-   @$ct_cache->queue_notify($send_params);
+   @$ct['cache']->queue_notify($send_params);
          
    
    }
@@ -2858,7 +2860,7 @@ var $ct_array = array();
    // THAT #MUST# BE DONE WITHIN THE LOGIC THAT CALLS THIS FUNCTION, #BEFORE# CALLING THIS FUNCTION!
    function do_admin_login() {
        
-   global $ct_conf, $ct_cache, $remote_ip, $system_info, $base_url, $app_edition;
+   global $ct;
    
    // Login now (set admin security cookie / 'auth_hash' session var), before redirect
 				
@@ -2866,26 +2868,26 @@ var $ct_array = array();
 				
    $cookie_nonce = $this->rand_hash(32); // 32 byte
 		
-   $this->store_cookie('admin_auth_' . $this->id(), $cookie_nonce, time() + ($ct_conf['sec']['admin_cookie_expire'] * 3600) );
+   $this->store_cookie('admin_auth_' . $this->id(), $cookie_nonce, time() + ($ct['conf']['sec']['admin_cookie_expire'] * 3600) );
 				
    $_SESSION['admin_logged_in']['auth_hash'] = $this->admin_hashed_nonce($cookie_nonce, 'force'); // Force set, as we're not logged in fully yet
    
    
        // If server edition, and admin login notifications are on
-       if ( $app_edition == 'server' && $ct_conf['sec']['login_alert'] != 'off' ) {
+       if ( $ct['app_edition'] == 'server' && $ct['conf']['sec']['login_alert'] != 'off' ) {
 
       
-            if ( isset($system_info['distro_name']) ) {
-            $system_info_summary = "\n\nApp Server System Info: " . $system_info['distro_name'] . ( isset($system_info['distro_version']) ? ' ' . $system_info['distro_version'] : '' );
+            if ( isset($ct['system_info']['distro_name']) ) {
+            $system_info_summary = "\n\nApp Server System Info: " . $ct['system_info']['distro_name'] . ( isset($ct['system_info']['distro_version']) ? ' ' . $ct['system_info']['distro_version'] : '' );
             }
               
                             
        // Build the different messages, configure comm methods, and send messages
                             
-       $email_msg = 'New admin login from: ' . $remote_ip . $system_info_summary;
+       $email_msg = 'New admin login from: ' . $ct['remote_ip'] . $system_info_summary;
                             
        // Were're just adding a human-readable timestamp to smart home (audio) alerts
-       $notifyme_msg = $email_msg . ' Timestamp: ' . $this->time_date_format($ct_conf['gen']['loc_time_offset'], 'pretty_time') . '.';
+       $notifyme_msg = $email_msg . ' Timestamp: ' . $this->time_date_format($ct['conf']['gen']['loc_time_offset'], 'pretty_time') . '.';
                             
        $text_msg = $email_msg;
                         
@@ -2902,25 +2904,25 @@ var $ct_array = array();
                                                        'charset' => $text_msg['charset']
                                                        ),
                                         'email' => array(
-                                                        'subject' => 'New Admin Login From ' . $remote_ip,
+                                                        'subject' => 'New Admin Login From ' . $ct['remote_ip'],
                                                         'message' => $email_msg
                                                         )
                                         );
     				
     		    
-       // Only send to comm channels the user prefers, based off the config setting $ct_conf['sec']['login_alert']
-       $preferred_comms = $this->preferred_comms($ct_conf['sec']['login_alert'], $admin_login_send_params);
+       // Only send to comm channels the user prefers, based off the config setting $ct['conf']['sec']['login_alert']
+       $preferred_comms = $this->preferred_comms($ct['conf']['sec']['login_alert'], $admin_login_send_params);
     			
        // Queue notifications
-       @$ct_cache->queue_notify($preferred_comms);
+       @$ct['cache']->queue_notify($preferred_comms);
         
         
        }
    
    
    // Log errors, send notifications BEFORE reload
-   $error_log = $ct_cache->error_log();
-   $ct_cache->send_notifications();
+   $error_log = $ct['cache']->error_log();
+   $ct['cache']->send_notifications();
 				
    header("Location: admin.php");
    exit;
@@ -3031,7 +3033,7 @@ var $ct_array = array();
    
    function light_chart_time_period($light_chart_days, $mode) {
        
-   global $ct_var;
+   global $ct;
       
    // Whole integer time periods only (otherwise UI shows "day[s]")
       
@@ -3040,13 +3042,13 @@ var $ct_array = array();
          if ( $light_chart_days == 'all' ) {
          $time_period_text = strtoupper($light_chart_days);
          }
-         elseif ( $light_chart_days >= 365 && $ct_var->whole_int($light_chart_days / 365) ) {
+         elseif ( $light_chart_days >= 365 && $ct['var']->whole_int($light_chart_days / 365) ) {
          $time_period_text = ($light_chart_days / 365) . 'Y';
          }
-         elseif ( $light_chart_days >= 30 && $ct_var->whole_int($light_chart_days / 30) ) {
+         elseif ( $light_chart_days >= 30 && $ct['var']->whole_int($light_chart_days / 30) ) {
          $time_period_text = ($light_chart_days / 30) . 'M';
          }
-         elseif ( $light_chart_days >= 7 && $ct_var->whole_int($light_chart_days / 7) ) {
+         elseif ( $light_chart_days >= 7 && $ct['var']->whole_int($light_chart_days / 7) ) {
          $time_period_text = ($light_chart_days / 7) . 'W';
          }
          else {
@@ -3059,15 +3061,15 @@ var $ct_array = array();
          if ( $light_chart_days == 'all' ) {
          $time_period_text = ucfirst($light_chart_days);
          }
-         elseif ( $light_chart_days >= 365 && $ct_var->whole_int($light_chart_days / 365) ) {
+         elseif ( $light_chart_days >= 365 && $ct['var']->whole_int($light_chart_days / 365) ) {
          $plural = ( ($light_chart_days / 365) > 1 ? 's' : '' );
          $time_period_text = ($light_chart_days / 365) . ' Year' . $plural;
          }
-         elseif ( $light_chart_days >= 30 && $ct_var->whole_int($light_chart_days / 30) ) {
+         elseif ( $light_chart_days >= 30 && $ct['var']->whole_int($light_chart_days / 30) ) {
          $plural = ( ($light_chart_days / 30) > 1 ? 's' : '' );
          $time_period_text = ($light_chart_days / 30) . ' Month' . $plural;
          }
-         elseif ( $light_chart_days >= 7 && $ct_var->whole_int($light_chart_days / 7) ) {
+         elseif ( $light_chart_days >= 7 && $ct['var']->whole_int($light_chart_days / 7) ) {
          $plural = ( ($light_chart_days / 7) > 1 ? 's' : '' );
          $time_period_text = ($light_chart_days / 7) . ' Week' . $plural;
          }
@@ -3090,12 +3092,12 @@ var $ct_array = array();
    
    function chart_data($file, $chart_format, $start_timestamp=0) {
    
-   global $ct_conf, $ct_var, $default_btc_prim_currency_pair, $runtime_nonce, $runtime_data, $last_valid_chart_data;
+   global $ct, $default_btc_prim_currency_pair, $runtime_data, $last_valid_chart_data;
    
    $data = array();
    
       // #FOR CLEAN CODE#, RUN CHECK TO MAKE SURE IT'S NOT A CRYPTO AS WELL...WE HAVE A COUPLE SUPPORTED, BUT WE ONLY WANT DESIGNATED FIAT-EQIV HERE
-      if ( array_key_exists($chart_format, $ct_conf['power']['btc_currency_mrkts']) && !array_key_exists($chart_format, $ct_conf['power']['crypto_pair']) ) {
+      if ( array_key_exists($chart_format, $ct['conf']['power']['btc_currency_mrkts']) && !array_key_exists($chart_format, $ct['conf']['power']['crypto_pair']) ) {
       $fiat_formatting = true;
       }
       elseif ( $chart_format == 'system' ) {
@@ -3210,7 +3212,7 @@ var $ct_array = array();
                // PRIMARY CURRENCY CONFIG price percent change (CAN BE NEGATIVE OR POSITIVE IN THIS INSTANCE)
                $percent_change = ($result[1] - $runtime_data['performance_stats'][$asset]['start_val']) / abs($runtime_data['performance_stats'][$asset]['start_val']) * 100;
                // Better decimal support
-               $percent_change = $ct_var->num_to_str($percent_change); 
+               $percent_change = $ct['var']->num_to_str($percent_change); 
                
                $data['percent'] .= round($percent_change, 2) . ',';
                $data['combined'] .= '[' . trim($result[0]) . '000' . ', ' . round($percent_change, 2) . '],';  // Zingchart wants 3 more zeros with unix time (milliseconds)
@@ -3222,13 +3224,13 @@ var $ct_array = array();
             
                // Format or round primary currency price depending on value (non-stablecoin crypto values are already stored in the format we want for the interface)
                if ( $fiat_formatting ) {
-               $data['spot'] .= $ct_var->num_to_str($result[1]) . ',';
+               $data['spot'] .= $ct['var']->num_to_str($result[1]) . ',';
                $data['volume'] .= round($result[2]) . ',';
                }
                // Non-stablecoin crypto
                else {
-               $data['spot'] .= $ct_var->num_to_str($result[1]) . ',';
-               $data['volume'] .= $ct_var->num_to_str( round($result[2], $ct_conf['gen']['chart_crypto_vol_dec']) ) . ',';
+               $data['spot'] .= $ct['var']->num_to_str($result[1]) . ',';
+               $data['volume'] .= $ct['var']->num_to_str( round($result[2], $ct['conf']['gen']['chart_crypto_vol_dec']) ) . ',';
                }
             
             }
@@ -3368,18 +3370,18 @@ var $ct_array = array();
    
    function safe_mail($to, $subj, $msg, $content_type='text/plain', $charset=null) {
       
-   global $ct_conf, $system_info, $charset_default;
+   global $ct;
    
       if ( $charset == null ) {
-      $charset = $charset_default;
+      $charset = $ct['dev']['charset_default'];
       }
    
    // Stop injection vulnerability
-   $ct_conf['comms']['from_email'] = str_replace("\r\n", "", $ct_conf['comms']['from_email']); // windows -> unix
-   $ct_conf['comms']['from_email'] = str_replace("\r", "", $ct_conf['comms']['from_email']);   // remaining -> unix
+   $ct['conf']['comms']['from_email'] = str_replace("\r\n", "", $ct['conf']['comms']['from_email']); // windows -> unix
+   $ct['conf']['comms']['from_email'] = str_replace("\r", "", $ct['conf']['comms']['from_email']);   // remaining -> unix
    
    // Trim any (remaining) whitespace off ends
-   $ct_conf['comms']['from_email'] = trim($ct_conf['comms']['from_email']);
+   $ct['conf']['comms']['from_email'] = trim($ct['conf']['comms']['from_email']);
    $to = trim($to);
          
          
@@ -3391,7 +3393,7 @@ var $ct_array = array();
       
       
       // SMTP mailing, or PHP's built-in mail() function
-      if ( $ct_conf['comms']['smtp_login'] != '' && $ct_conf['comms']['smtp_server'] != '' ) {
+      if ( $ct['conf']['comms']['smtp_login'] != '' && $ct['conf']['comms']['smtp_server'] != '' ) {
       return @$this->smtp_mail($to, $subj, $msg, $content_type, $charset); 
       }
       else {
@@ -3400,11 +3402,11 @@ var $ct_array = array();
          if ( PHP_VERSION_ID >= 70200 ) {
             
             // Fallback, if no From email set in app config
-            if ( $this->valid_email($ct_conf['comms']['from_email']) == 'valid' ) {
+            if ( $this->valid_email($ct['conf']['comms']['from_email']) == 'valid' ) {
             
             $headers = array(
-                        'From' => 'From: ' . $ct_conf['comms']['from_email'],
-                        'X-Mailer' => $system_info['software'],
+                        'From' => 'From: ' . $ct['conf']['comms']['from_email'],
+                        'X-Mailer' => $ct['system_info']['software'],
                         'Content-Type' => $content_type . '; charset=' . $charset
                            );
             
@@ -3412,7 +3414,7 @@ var $ct_array = array();
             else {
             
             $headers = array(
-                        'X-Mailer' => $system_info['software'],
+                        'X-Mailer' => $ct['system_info']['software'],
                         'Content-Type' => $content_type . '; charset=' . $charset
                            );
             
@@ -3422,16 +3424,16 @@ var $ct_array = array();
          else {
             
             // Fallback, if no From email set in app config
-            if ( $this->valid_email($ct_conf['comms']['from_email']) == 'valid' ) {
+            if ( $this->valid_email($ct['conf']['comms']['from_email']) == 'valid' ) {
             
-            $headers = 'From: ' . $ct_conf['comms']['from_email'] . "\r\n" .
-            'X-Mailer: ' . $system_info['software'] . "\r\n" .
+            $headers = 'From: ' . $ct['conf']['comms']['from_email'] . "\r\n" .
+            'X-Mailer: ' . $ct['system_info']['software'] . "\r\n" .
             'Content-Type: ' . $content_type . '; charset=' . $charset;
          
             }
             else {
             
-            $headers = 'X-Mailer: ' . $system_info['software'] . "\r\n" .
+            $headers = 'X-Mailer: ' . $ct['system_info']['software'] . "\r\n" .
             'Content-Type: ' . $content_type . '; charset=' . $charset;
          
             }
@@ -3536,7 +3538,7 @@ var $ct_array = array();
   
   function test_proxy($problem_proxy_array) {
   
-  global $base_dir, $ct_conf, $ct_cache, $runtime_mode, $proxies_checked;
+  global $ct, $proxies_checked;
   
   // Endpoint to test proxy connectivity: https://www.myip.com/api-docs/
   $proxy_test_url = 'https://api.myip.com/';
@@ -3566,13 +3568,13 @@ var $ct_array = array();
   $cache_filename = preg_replace("/:/", "_", $cache_filename);
   
   
-      if ( $ct_conf['comms']['proxy_alert_runtime'] == 'all' ) {
+      if ( $ct['conf']['comms']['proxy_alert_runtime'] == 'all' ) {
       $run_alerts = 1;
       }
-      elseif ( $ct_conf['comms']['proxy_alert_runtime'] == 'cron' && $runtime_mode == 'cron' ) {
+      elseif ( $ct['conf']['comms']['proxy_alert_runtime'] == 'cron' && $ct['runtime_mode'] == 'cron' ) {
       $run_alerts = 1;
       }
-      elseif ( $ct_conf['comms']['proxy_alert_runtime'] == 'ui' && $runtime_mode == 'ui' ) {
+      elseif ( $ct['conf']['comms']['proxy_alert_runtime'] == 'ui' && $ct['runtime_mode'] == 'ui' ) {
       $run_alerts = 1;
       }
       else {
@@ -3580,14 +3582,14 @@ var $ct_array = array();
       }
   
   
-      if ( $run_alerts == 1 && $ct_cache->update_cache('cache/alerts/proxy-check-'.$cache_filename.'.dat', ( $ct_conf['comms']['proxy_alert_freq_max'] * 60 ) ) == true
+      if ( $run_alerts == 1 && $ct['cache']->update_cache('cache/alerts/proxy-check-'.$cache_filename.'.dat', ( $ct['conf']['comms']['proxy_alert_freq_max'] * 60 ) ) == true
       && in_array($cache_filename, $proxies_checked) == false ) {
       
        
       // SESSION VAR first, to avoid duplicate alerts at runtime (and longer term cache file locked for writing further down, after logs creation)
       $proxies_checked[] = $cache_filename;
        
-      $response = @$ct_cache->ext_data('proxy-check', $proxy_test_url, 0, '', '', $problem_proxy);
+      $response = @$ct['cache']->ext_data('proxy-check', $proxy_test_url, 0, '', '', $problem_proxy);
       
       $data = json_decode($response, true);
       
@@ -3599,24 +3601,24 @@ var $ct_array = array();
              
             $misconfigured = 1;
             
-            $notifyme_alert = 'A checkup on proxy ' . $ip . ', port ' . $port . ' detected a misconfiguration. Remote address ' . $data['ip'] . ' does not match the proxy address. Runtime mode is ' . $runtime_mode . '.';
+            $notifyme_alert = 'A checkup on proxy ' . $ip . ', port ' . $port . ' detected a misconfiguration. Remote address ' . $data['ip'] . ' does not match the proxy address. Runtime mode is ' . $ct['runtime_mode'] . '.';
             
-            $text_alert = 'Proxy ' . $problem_proxy . ' remote address mismatch (detected as: ' . $data['ip'] . '). runtime: ' . $runtime_mode;
+            $text_alert = 'Proxy ' . $problem_proxy . ' remote address mismatch (detected as: ' . $data['ip'] . '). runtime: ' . $ct['runtime_mode'];
            
             }
           
-         $cached_logs = ( $misconfigured == 1 ? 'runtime: ' . $runtime_mode . "; \n " . 'Proxy ' . $problem_proxy . ' checkup status = MISCONFIGURED (test endpoint ' . $proxy_test_url . ' detected the incoming ip as: ' . $data['ip'] . ')' . "; \n " . 'Remote address DOES NOT match proxy address;' : 'runtime: ' . $runtime_mode . "; \n " . 'Proxy ' . $problem_proxy . ' checkup status = OK (test endpoint ' . $proxy_test_url . ' detected the incoming ip as: ' . $data['ip'] . ');' );
+         $cached_logs = ( $misconfigured == 1 ? 'runtime: ' . $ct['runtime_mode'] . "; \n " . 'Proxy ' . $problem_proxy . ' checkup status = MISCONFIGURED (test endpoint ' . $proxy_test_url . ' detected the incoming ip as: ' . $data['ip'] . ')' . "; \n " . 'Remote address DOES NOT match proxy address;' : 'runtime: ' . $ct['runtime_mode'] . "; \n " . 'Proxy ' . $problem_proxy . ' checkup status = OK (test endpoint ' . $proxy_test_url . ' detected the incoming ip as: ' . $data['ip'] . ');' );
          
          }
          else {
           
          $misconfigured = 1;
          
-         $notifyme_alert = 'A checkup on proxy ' . $ip . ', port ' . $port . ' resulted in a failed data request. No endpoint connection could be established. Runtime mode is ' . $runtime_mode . '.';
+         $notifyme_alert = 'A checkup on proxy ' . $ip . ', port ' . $port . ' resulted in a failed data request. No endpoint connection could be established. Runtime mode is ' . $ct['runtime_mode'] . '.';
           
-         $text_alert = 'Proxy ' . $problem_proxy . ' failed, no endpoint connection. runtime: ' . $runtime_mode;
+         $text_alert = 'Proxy ' . $problem_proxy . ' failed, no endpoint connection. runtime: ' . $ct['runtime_mode'];
          
-         $cached_logs = 'runtime: ' . $runtime_mode . "; \n " . 'Proxy ' . $problem_proxy . ' checkup status = DATA REQUEST FAILED' . "; \n " . 'No connection established at test endpoint ' . $proxy_test_url . ';';
+         $cached_logs = 'runtime: ' . $ct['runtime_mode'] . "; \n " . 'Proxy ' . $problem_proxy . ' checkup status = DATA REQUEST FAILED' . "; \n " . 'No connection established at test endpoint ' . $proxy_test_url . ';';
        
          }
        
@@ -3634,14 +3636,14 @@ var $ct_array = array();
       
      
       // Update alerts cache for this proxy (to prevent running alerts for this proxy too often)
-      $ct_cache->save_file($base_dir . '/cache/alerts/proxy-check-'.$cache_filename.'.dat', $cached_logs);
+      $ct['cache']->save_file($ct['base_dir'] . '/cache/alerts/proxy-check-'.$cache_filename.'.dat', $cached_logs);
         
            
       $email_alert = " The proxy " . $problem_proxy . " recently did not receive data when accessing this endpoint: \n " . $obfusc_url_data . " \n \n A check on this proxy was performed at " . $proxy_test_url . ", and results logged: \n ============================================================== \n " . $cached_logs . " \n ============================================================== \n \n ";
                          
        
          // Send out alerts
-         if ( $misconfigured == 1 || $ct_conf['comms']['proxy_alert_checkup_ok'] == 'include' ) {
+         if ( $misconfigured == 1 || $ct['conf']['comms']['proxy_alert_checkup_ok'] == 'include' ) {
              
          // Minimize function calls
          $text_alert = $this->detect_unicode($text_alert); 
@@ -3660,11 +3662,11 @@ var $ct_array = array();
                               );
                   
 		 
-		 // Only send to comm channels the user prefers, based off the config setting $ct_conf['comms']['proxy_alert']
-		 $preferred_comms = $this->preferred_comms($ct_conf['comms']['proxy_alert'], $send_params);			
+		 // Only send to comm channels the user prefers, based off the config setting $ct['conf']['comms']['proxy_alert']
+		 $preferred_comms = $this->preferred_comms($ct['conf']['comms']['proxy_alert'], $send_params);			
                   
          // Queue notifications
-         @$ct_cache->queue_notify($preferred_comms);
+         @$ct['cache']->queue_notify($preferred_comms);
                   
          }
                
@@ -3681,7 +3683,7 @@ var $ct_array = array();
    
    function system_info() {
    
-   global $runtime_mode, $app_version, $base_dir, $ct_var;
+   global $ct;
    
    $system = array();
    
@@ -3908,16 +3910,16 @@ var $ct_array = array();
    
    
    // Free space on this partition
-   $system['free_partition_space'] = $this->conv_bytes( disk_free_space($base_dir) , 3);
+   $system['free_partition_space'] = $this->conv_bytes( disk_free_space($ct['base_dir']) , 3);
    
    
    $system['portfolio_cookies'] = $this->all_cookies_size();
    
    
       // Portfolio cache size (cached for efficiency)
-      if ( file_exists($base_dir . '/cache/vars/cache_size.dat') ) {
-      $portfolio_cache = trim( file_get_contents($base_dir . '/cache/vars/cache_size.dat') );
-      $system['portfolio_cache'] = ( $ct_var->num_to_str($portfolio_cache) > 0 ? $portfolio_cache : 0 );
+      if ( file_exists($ct['base_dir'] . '/cache/vars/cache_size.dat') ) {
+      $portfolio_cache = trim( file_get_contents($ct['base_dir'] . '/cache/vars/cache_size.dat') );
+      $system['portfolio_cache'] = ( $ct['var']->num_to_str($portfolio_cache) > 0 ? $portfolio_cache : 0 );
       }
    
    
@@ -3970,7 +3972,7 @@ var $ct_array = array();
    
    
    // Software
-   $system['software'] = ( isset($server_soft) && $server_soft != '' ? $server_soft . ' - ' : '' ) . 'Open_Crypto_Tracker/' . $app_version;
+   $system['software'] = ( isset($server_soft) && $server_soft != '' ? $server_soft . ' - ' : '' ) . 'Open_Crypto_Tracker/' . $ct['app_version'];
       
    
    return $system;

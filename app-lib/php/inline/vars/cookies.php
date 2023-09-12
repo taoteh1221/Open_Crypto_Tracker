@@ -154,12 +154,12 @@ $all_asset_amnts_cookie_array = explode("#", $_COOKIE['coin_amnts']);
 // If cookies are enabled or not, update accordingly
 if ( $_POST['submit_check'] == 1 && $_POST['use_cookies'] != 1 || $reset_all_cookies ) {
     
-$ct_gen->delete_all_cookies(); // Delete any existing cookies, if cookies have been disabled / reset
+$ct['gen']->delete_all_cookies(); // Delete any existing cookies, if cookies have been disabled / reset
 
     // Reset cookies / populated form data cleanly, with a redirect back to the app after 1 second
     if ( $reset_all_cookies ) {
     sleep(1);
-    header("Location: " . $ct_gen->start_page($_GET['start_page'])); // Preserve any start page data
+    header("Location: " . $ct['gen']->start_page($_GET['start_page'])); // Preserve any start page data
     exit;
     }
     
@@ -179,8 +179,8 @@ elseif ( $_POST['submit_check'] == 1 && $_POST['use_cookies'] == 1 || $post_csv_
             
                 if ( preg_match("/_amnt/i", $key) ) {
                 
-                    if ( $ct_var->rem_num_format($_POST[$key]) >= $watch_only_flag_val ) {
-                    $set_asset_vals .= $key.'-'. $ct_var->rem_num_format($_POST[$key]) . '#';
+                    if ( $ct['var']->rem_num_format($_POST[$key]) >= $watch_only_flag_val ) {
+                    $set_asset_vals .= $key.'-'. $ct['var']->rem_num_format($_POST[$key]) . '#';
                     }
                 
                 }
@@ -188,7 +188,7 @@ elseif ( $_POST['submit_check'] == 1 && $_POST['use_cookies'] == 1 || $post_csv_
             
                 if ( preg_match("/_mrkt/i", $key) ) {
                         
-                    if ( $ct_var->rem_num_format($_POST[$asset_symb . '_amnt']) >= $watch_only_flag_val ) {
+                    if ( $ct['var']->rem_num_format($_POST[$asset_symb . '_amnt']) >= $watch_only_flag_val ) {
                     $set_mrkt_vals .= $key.'-'. $_POST[$key] . '#';
                     }
                 
@@ -197,7 +197,7 @@ elseif ( $_POST['submit_check'] == 1 && $_POST['use_cookies'] == 1 || $post_csv_
             
                 if ( preg_match("/_pair/i", $key) ) {
                         
-                    if ( $ct_var->rem_num_format($_POST[$asset_symb . '_amnt']) >= $watch_only_flag_val ) {
+                    if ( $ct['var']->rem_num_format($_POST[$asset_symb . '_amnt']) >= $watch_only_flag_val ) {
                     $set_pair_vals .= $key.'-'. $_POST[$key] . '#';
                     }
                 
@@ -209,10 +209,10 @@ elseif ( $_POST['submit_check'] == 1 && $_POST['use_cookies'] == 1 || $post_csv_
                 if ( preg_match("/_paid/i", $key) ) {
                         
                     if (
-                    $ct_var->rem_num_format($_POST[$key]) >= $min_fiat_val_test
-                    && $ct_var->rem_num_format($_POST[$asset_symb . '_amnt']) >= $min_crypto_val_test
+                    $ct['var']->rem_num_format($_POST[$key]) >= $min_fiat_val_test
+                    && $ct['var']->rem_num_format($_POST[$asset_symb . '_amnt']) >= $min_crypto_val_test
                     ) {
-                    $set_paid_vals .= $key.'-'. $ct_var->rem_num_format($_POST[$key]) . '#';
+                    $set_paid_vals .= $key.'-'. $ct['var']->rem_num_format($_POST[$key]) . '#';
                     }
                         
                }
@@ -221,8 +221,8 @@ elseif ( $_POST['submit_check'] == 1 && $_POST['use_cookies'] == 1 || $post_csv_
                            
                if ( preg_match("/_lvrg/i", $key) ) {
                                 
-                     if ( $ct_var->rem_num_format($_POST[$asset_symb . '_paid']) >= $min_fiat_val_test
-                     && $ct_var->rem_num_format($_POST[$asset_symb . '_amnt']) >= $min_crypto_val_test
+                     if ( $ct['var']->rem_num_format($_POST[$asset_symb . '_paid']) >= $min_fiat_val_test
+                     && $ct['var']->rem_num_format($_POST[$asset_symb . '_amnt']) >= $min_crypto_val_test
                      ) {
                      $set_lvrg_vals .= $key.'-'. $_POST[$key] . '#';
                      }
@@ -232,8 +232,8 @@ elseif ( $_POST['submit_check'] == 1 && $_POST['use_cookies'] == 1 || $post_csv_
                             
                if ( preg_match("/_mrgntyp/i", $key) ) {
                                 
-                     if ( $ct_var->rem_num_format($_POST[$asset_symb . '_paid']) >= $min_fiat_val_test
-                     && $ct_var->rem_num_format($_POST[$asset_symb . '_amnt']) >= $min_crypto_val_test
+                     if ( $ct['var']->rem_num_format($_POST[$asset_symb . '_paid']) >= $min_fiat_val_test
+                     && $ct['var']->rem_num_format($_POST[$asset_symb . '_amnt']) >= $min_crypto_val_test
                      ) {
                      // COMPRESS to save on cookie storage space
                      $set_mrgntyp_vals .= $key.'-'. ( $_POST[$key] == 'short' ? 'shrt' : 'lng' ) . '#';
@@ -259,9 +259,9 @@ elseif ( $_POST['submit_check'] == 1 && $_POST['use_cookies'] == 1 || $post_csv_
      	    $compat_key = strtolower($key);
      	    
      	     
-          	       if ( $ct_var->rem_num_format($val[1]) >= $watch_only_flag_val ) {
+          	       if ( $ct['var']->rem_num_format($val[1]) >= $watch_only_flag_val ) {
           	           
-          	       $set_asset_vals .= $compat_key . '_amnt-' . $ct_var->rem_num_format($val[1]) . '#';
+          	       $set_asset_vals .= $compat_key . '_amnt-' . $ct['var']->rem_num_format($val[1]) . '#';
           	       
               	       $set_mrkt_vals .= $compat_key . '_mrkt-' . $val[5] . '#';
               	     	
@@ -269,10 +269,10 @@ elseif ( $_POST['submit_check'] == 1 && $_POST['use_cookies'] == 1 || $post_csv_
           	     
                         		  // If purchased amount (not just watched), AND cost basis
                         	       if (
-                        	       $ct_var->rem_num_format($val[2]) >= $min_fiat_val_test
-                        	       && $ct_var->rem_num_format($val[1]) >= $min_crypto_val_test
+                        	       $ct['var']->rem_num_format($val[2]) >= $min_fiat_val_test
+                        	       && $ct['var']->rem_num_format($val[1]) >= $min_crypto_val_test
                         	       ) {
-                        	       $set_paid_vals .= $compat_key . '_paid-' . $ct_var->rem_num_format($val[2]) . '#';
+                        	       $set_paid_vals .= $compat_key . '_paid-' . $ct['var']->rem_num_format($val[2]) . '#';
                         	       $set_lvrg_vals .= $compat_key . '_lvrg-' . $val[3] . '#';
                                    // COMPRESS to save on cookie storage space
                         	       $set_mrgntyp_vals .= $compat_key . '_mrgntyp-' . ( $val[4] == 'short' ? 'shrt' : 'lng' ) . '#';
@@ -304,9 +304,9 @@ $cookie_params = array(
 				  );
 
 
-$ct_gen->update_all_cookies($cookie_params);
+$ct['gen']->update_all_cookies($cookie_params);
 
-header("Location: " . $ct_gen->start_page($_GET['start_page'])); // Preserve any start page data
+header("Location: " . $ct['gen']->start_page($_GET['start_page'])); // Preserve any start page data
 exit;
  
 }

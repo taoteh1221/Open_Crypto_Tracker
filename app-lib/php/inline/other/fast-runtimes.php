@@ -11,7 +11,7 @@
 
 
 // If we are just running a captcha image, ONLY run captcha library for runtime speed (exit after)
-if ( $runtime_mode == 'captcha' ) {
+if ( $ct['runtime_mode'] == 'captcha' ) {
 require_once('app-lib/php/inline/security/captcha-lib.php');
 exit;
 }

@@ -10,7 +10,7 @@ $ext_win_php_ini = ' (try enabling it in the file: ' . $php_ini_path . ')';
 
 
 // Check for runtime mode
-if ( !$runtime_mode )  {
+if ( !$ct['runtime_mode'] )  {
 $system_error = '<br />No runtime mode detected, running WITHOUT runtime mode set is forbidden. <br />';
 echo $system_error;
 $force_exit = 1;
@@ -83,7 +83,7 @@ $force_exit = 1;
 
 
 // IF WE ARE NOT RUNNING AS CRON, detect if we are running on a secure HTTPS (SSL) connection
-if ( $runtime_mode != 'cron' && $app_edition == 'server' ) {
+if ( $ct['runtime_mode'] != 'cron' && $ct['app_edition'] == 'server' ) {
 	
 	// Apache / etc
 	if ( isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] == 'on' ) {

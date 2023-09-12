@@ -26,9 +26,9 @@ $loop_count = $loop_count + 1;
 	
 	<form name='enhanced_security_check' id='enhanced_security_check' action='admin.php<?=$uri_params?>' method='post'>
 	
-	<input type='hidden' name='enhanced_security_nonce' value='<?=$ct_gen->admin_hashed_nonce('enhanced_security_mode')?>' />
+	<input type='hidden' name='enhanced_security_nonce' value='<?=$ct['gen']->admin_hashed_nonce('enhanced_security_mode')?>' />
 	
-	<?=$ct_gen->input_2fa()?>
+	<?=$ct['gen']->input_2fa()?>
 	
 	</form>
 	

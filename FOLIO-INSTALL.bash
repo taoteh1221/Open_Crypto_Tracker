@@ -43,7 +43,7 @@ app_path_result=$(whereis -b $1)
 app_path_result="${app_path_result#*$1: }"
 app_path_result=${app_path_result%%[[:space:]]*}
 app_path_result="${app_path_result#*$1:}"
-echo "$app_path_result"
+echo "$cookie_path_result"
 }
 
 
@@ -651,31 +651,27 @@ echo " "
 echo "${red}IF ANYTHING STOPS WORKING AFTER UPGRADING, CLEAR YOUR BROWSER CACHE (temporary files), AND RELOAD OR RESTART THE APP. This will load the latest Javascript / Style Sheet upgrades properly.${reset}"
 echo " "
 
-echo "${red}VERY IMPORTANT UPGRADE NOTES:${reset}"
+echo "${red}VERY IMPORTANT *UPGRADE* NOTES:${reset}"
 echo " "
 
-echo "v6.00.19 AND HIGHER RESETS LIGHT (TIME PERIOD) CHARTS FROM ARCHIVAL DATA,"
-echo "ONE-TIME DURING UPGRADES FROM V6.00.18 OR LOWER."
-echo " "
-echo " "
-
-echo "v6.00.8 AND HIGHER MIGRATES / UPGRADES ANY SET COOKIE DATA TO A MORE SECURE / RELIABLE FORMAT,"
-echo "ONE-TIME DURING UPGRADES FROM V6.00.7 OR LOWER."
-echo " "
+echo "v6.00.26 and higher renames the admin config array. ALL CONFIGURATION SETTING"
+echo "VARIABLE NAMES ARE NOW DIFFERENT, USE THE LATEST/UPGRADED CONFIG.PHP, AND"
+echo "MIGRATE YOUR EXISTING SETTINGS TO THE NEW FORMAT."
+echo "${reset} "
 echo " "
 
 
 fi
   				
 
-echo "${red}VERY IMPORTANT SECURITY NOTES:"
+echo "${red}VERY IMPORTANT *SECURITY* NOTES:"
 echo " "
 echo "YOU WILL BE PROMPTED TO CREATE AN ADMIN LOGIN (FOR SECURITY OF THE ADMIN AREA),"
 echo "#WHEN YOU FIRST RUN THIS APP AFTER INSTALLATION#. IT'S #HIGHLY RECOMMENDED TO DO THIS IMMEDIATELY#,"
 echo "ESPECIALLY ON PUBLIC FACING / KNOWN SERVERS, #OR SOMEBODY ELSE MAY BEAT YOU TO IT#."
 echo " "
 
-echo "!!VERY IMPORTANT INSTALL NOTICE!!:"
+echo "!!VERY IMPORTANT *HOSTING* NOTICE!!:"
 echo " "
 echo "This auto-install script is ONLY FOR SELF-HOSTED ENVIRONMENTS, THAT #DO NOT# ALREADY"
 echo "HAVE A WEB SERVER OR CONTROL PANEL INSTALLED ON THE SYSTEM. If this is a managed hosting"

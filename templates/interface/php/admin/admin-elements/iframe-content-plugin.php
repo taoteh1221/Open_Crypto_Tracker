@@ -7,7 +7,7 @@
 $this_plug = $_GET['plugin'];
 
 if ( isset($_GET['plugin_docs']) ) {
-$header_link = "<a class='bitcoin' href='admin.php?iframe=" . $ct_gen->admin_hashed_nonce('iframe_' . $this_plug) . "&plugin=" . $this_plug . "'>" . $plug_conf[$this_plug]['ui_name'] . "</a> -> Documentation";
+$header_link = "<a class='bitcoin' href='admin.php?iframe=" . $ct['gen']->admin_hashed_nonce('iframe_' . $this_plug) . "&plugin=" . $this_plug . "'>" . $plug_conf[$this_plug]['ui_name'] . "</a> -> Documentation";
 }
 else {
 $header_link = $plug_conf[$this_plug]['ui_name'];
@@ -15,21 +15,21 @@ $header_link = $plug_conf[$this_plug]['ui_name'];
 
 ?>
         
-        <h3 style='padding-bottom: 10px;' class='bitcoin align_center'><a class='bitcoin custom-unstyle-dropdown-item' href='admin.php?iframe=<?=$ct_gen->admin_hashed_nonce('iframe_plugins')?>&section=plugins'>Plugins</a>: <?=$header_link?></h3>
+        <h3 style='padding-bottom: 10px;' class='bitcoin align_center'><a class='bitcoin custom-unstyle-dropdown-item' href='admin.php?iframe=<?=$ct['gen']->admin_hashed_nonce('iframe_plugins')?>&section=plugins'>Plugins</a>: <?=$header_link?></h3>
         
         
         <?php
         
         // If requested plugin does not exist, log / warn
         if ( !file_exists("plugins/" . $this_plug . "/plug-conf.php") ) {
-        $system_error = "Admin area for plugin '" . $this_plug . "' (requested from ".$remote_ip.") does not exist (no config file found).";
-        $ct_gen->log('system_error', $system_error);
+        $system_error = "Admin area for plugin '" . $this_plug . "' (requested from ".$ct['remote_ip'].") does not exist (no config file found).";
+        $ct['gen']->log('system_error', $system_error);
         echo '<p class="red">' . $system_error . '</p>';
         }
         // If requested plugin is not activated, log / warn
-        elseif ( $ct_conf['plugins']['status'][$this_plug] != 'on' ) {
-        $system_error = "Admin area for plugin '" . $this_plug . "' (requested from ".$remote_ip.") is not enabled (plugin not activated yet).";
-        $ct_gen->log('system_error', $system_error);
+        elseif ( $ct['conf']['plugins']['status'][$this_plug] != 'on' ) {
+        $system_error = "Admin area for plugin '" . $this_plug . "' (requested from ".$ct['remote_ip'].") is not enabled (plugin not activated yet).";
+        $ct['gen']->log('system_error', $system_error);
         echo '<p class="red">' . $system_error . '</p>';
         }
         else {
@@ -40,7 +40,7 @@ $header_link = $plug_conf[$this_plug]['ui_name'];
         
         if ( !isset($_GET['plugin_docs']) && file_exists("plugins/" . $this_plug . "/plug-templates/plug-docs.php") ) {
         ?>
-	   <p><a style='font-weight: bold; font-size: 20px;' href='admin.php?iframe=<?=$ct_gen->admin_hashed_nonce('iframe_' . $this_plug)?>&plugin=<?=$this_plug?>&plugin_docs=1'>Usage / Documentation</a></p>
+	   <p><a style='font-weight: bold; font-size: 20px;' href='admin.php?iframe=<?=$ct['gen']->admin_hashed_nonce('iframe_' . $this_plug)?>&plugin=<?=$this_plug?>&plugin_docs=1'>Usage / Documentation</a></p>
         <?php
         }
 
@@ -55,7 +55,7 @@ $header_link = $plug_conf[$this_plug]['ui_name'];
         	
         	<p class='bitcoin bitcoin_dotted'>
         	
-        	YOU ARE IN HIGH SECURITY ADMIN MODE. <br /><br />Editing plugin config settings is <i>done manually</i> IN HIGH SECURITY ADMIN MODE, by updating the file plug-conf.php (in this plugin's directory: <?=$base_dir?>/plugins/<?=$this_plug?>) with a text editor.
+        	YOU ARE IN HIGH SECURITY ADMIN MODE. <br /><br />Editing plugin config settings is <i>done manually</i> IN HIGH SECURITY ADMIN MODE, by updating the file plug-conf.php (in this plugin's directory: <?=$ct['base_dir']?>/plugins/<?=$this_plug?>) with a text editor.
         	
         	</p>
         

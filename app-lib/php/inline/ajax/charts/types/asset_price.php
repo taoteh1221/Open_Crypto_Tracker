@@ -5,7 +5,7 @@
  
 
 	// Have this script not load any code if asset charts are not turned on
-	if ( $ct_conf['gen']['asset_charts_toggle'] != 'on' ) {
+	if ( $ct['conf']['gen']['asset_charts_toggle'] != 'on' ) {
 	exit;
 	}
 	
@@ -18,7 +18,7 @@
 $x_coord = 55; // Start position (absolute) for light chart links
 	
 
-	foreach ( $ct_conf['charts_alerts']['tracked_mrkts'] as $key => $val ) {
+	foreach ( $ct['conf']['charts_alerts']['tracked_mrkts'] as $key => $val ) {
 		
  
 		if ( $_GET['asset_data'] == $key ) {
@@ -41,13 +41,13 @@ $x_coord = 55; // Start position (absolute) for light chart links
 			
 			// Unicode symbols for an asset
 			// Crypto
-			if ( array_key_exists($charted_val, $ct_conf['power']['crypto_pair']) ) {
-			$currency_symb = $ct_conf['power']['crypto_pair'][$charted_val];
+			if ( array_key_exists($charted_val, $ct['conf']['power']['crypto_pair']) ) {
+			$currency_symb = $ct['conf']['power']['crypto_pair'][$charted_val];
 			}
 			// Fiat-equiv
 			// RUN AFTER CRYPTO MARKETS...WE HAVE A COUPLE CRYPTOS SUPPORTED HERE, BUT WE ONLY WANT DESIGNATED FIAT-EQIV HERE
-			elseif ( array_key_exists($charted_val, $ct_conf['power']['btc_currency_mrkts']) && !array_key_exists($charted_val, $ct_conf['power']['crypto_pair']) ) {
-			$currency_symb = $ct_conf['power']['btc_currency_mrkts'][$charted_val];
+			elseif ( array_key_exists($charted_val, $ct['conf']['power']['btc_currency_mrkts']) && !array_key_exists($charted_val, $ct['conf']['power']['crypto_pair']) ) {
+			$currency_symb = $ct['conf']['power']['btc_currency_mrkts'][$charted_val];
 			$fiat_equiv = 1;
 			}
 			// Fallback for currency symbol config errors
@@ -90,21 +90,21 @@ gui: {
 },
    type: "area",
    noData: {
-     text: "No data for this '<?=$ct_gen->light_chart_time_period($_GET['days'], 'long')?>' light chart yet, please check back in awhile.",
-  	fontColor: "<?=$ct_conf['power']['charts_text']?>",
+     text: "No data for this '<?=$ct['gen']->light_chart_time_period($_GET['days'], 'long')?>' light chart yet, please check back in awhile.",
+  	fontColor: "<?=$ct['conf']['power']['charts_text']?>",
      backgroundColor: "#808080",
      fontSize: 20,
      textAlpha: .9,
      alpha: .6,
      bold: true
    },
-  	backgroundColor: "<?=$ct_conf['power']['charts_background']?>",
+  	backgroundColor: "<?=$ct['conf']['power']['charts_background']?>",
   	height: 420,
   	x: 0, 
   	y: 0,
   	title: {
-  	  text: "<?=$chart_asset?> / <?=strtoupper($mrkt_parse[1])?> @ <?=$ct_gen->key_to_name($mrkt_parse[0])?> <?=( $_GET['charted_val'] != 'pair' ? '(' . strtoupper($charted_val) . ' Value)' : '' )?>",
-  	  fontColor: "<?=$ct_conf['power']['charts_text']?>",
+  	  text: "<?=$chart_asset?> / <?=strtoupper($mrkt_parse[1])?> @ <?=$ct['gen']->key_to_name($mrkt_parse[0])?> <?=( $_GET['charted_val'] != 'pair' ? '(' . strtoupper($charted_val) . ' Value)' : '' )?>",
+  	  fontColor: "<?=$ct['conf']['power']['charts_text']?>",
   	  fontFamily: 'Open Sans',
   	  fontSize: 25,
   	  align: 'right',
@@ -116,14 +116,14 @@ gui: {
    }],
 	labels: [
 	<?php
-	foreach ($ct_conf['power']['light_chart_day_intervals'] as $light_chart_days) {
-	$light_chart_text = $ct_gen->light_chart_time_period($light_chart_days, 'short');
+	foreach ($ct['conf']['power']['light_chart_day_intervals'] as $light_chart_days) {
+	$light_chart_text = $ct['gen']->light_chart_time_period($light_chart_days, 'short');
 	?>
 		{
 	    x: <?=$x_coord?>,
 	    y: 11,
 	    id: '<?=$light_chart_days?>',
-	    fontColor: "<?=($_GET['days'] == $light_chart_days ? $ct_conf['power']['charts_text'] : $ct_conf['power']['charts_link'] )?>",
+	    fontColor: "<?=($_GET['days'] == $light_chart_days ? $ct['conf']['power']['charts_text'] : $ct['conf']['power']['charts_link'] )?>",
 	    fontSize: "22",
 	    fontFamily: "Open Sans",
 	    cursor: "hand",
@@ -135,10 +135,10 @@ gui: {
 		// Take into account INCREASE OR DECREASE of characters in $light_chart_text
 		if ( isset($last_light_chart_text) && strlen($last_light_chart_text) != strlen($light_chart_text) ) {
 		$difference = $difference + ( strlen($light_chart_text) - strlen($last_light_chart_text) );  
-		$x_coord = $x_coord + ( $difference * $ct_conf['power']['light_chart_link_font_offset'] ); 
+		$x_coord = $x_coord + ( $difference * $ct['conf']['power']['light_chart_link_font_offset'] ); 
 		}
 	
-	$x_coord = $x_coord + $ct_conf['power']['light_chart_link_spacing'];
+	$x_coord = $x_coord + $ct['conf']['power']['light_chart_link_spacing'];
 	$last_light_chart_text = $light_chart_text;
 	}
 	?>
@@ -151,18 +151,18 @@ gui: {
 			}
 			
 		
-		$chart_data = $ct_gen->chart_data('cache/charts/spot_price_24hr_volume/light/' . $_GET['days'] . '_days/'.$chart_asset.'/'.$key.'_chart_'.$charted_val.'.dat', $mrkt_parse[1]);
+		$chart_data = $ct['gen']->chart_data('cache/charts/spot_price_24hr_volume/light/' . $_GET['days'] . '_days/'.$chart_asset.'/'.$key.'_chart_'.$charted_val.'.dat', $mrkt_parse[1]);
 		
 		
-		$price_sample_oldest = $ct_var->num_to_str( $ct_var->delimited_str_sample($chart_data['spot'], ',', 'first') );
+		$price_sample_oldest = $ct['var']->num_to_str( $ct['var']->delimited_str_sample($chart_data['spot'], ',', 'first') );
 		
-		$price_sample_newest = $ct_var->num_to_str( $ct_var->delimited_str_sample($chart_data['spot'], ',', 'last') );
+		$price_sample_newest = $ct['var']->num_to_str( $ct['var']->delimited_str_sample($chart_data['spot'], ',', 'last') );
 		
 		$price_sample_avg = ( $price_sample_oldest + $price_sample_newest ) / 2;
 		
 		
 		// Force decimals dynamically
-		$thres_dec_target = $ct_gen->thres_dec($price_sample_avg, 'u', ( $fiat_equiv == 1 ? 'fiat' : 'crypto' ) );		
+		$thres_dec_target = $ct['gen']->thres_dec($price_sample_avg, 'u', ( $fiat_equiv == 1 ? 'fiat' : 'crypto' ) );		
 		$force_dec = 'decimals: ' . $thres_dec_target['max_dec'] . ',';
 		
 
@@ -206,30 +206,30 @@ graphset:[
   type: 'area',
   "preview":{
   	  label: {
-          color: '<?=$ct_conf['power']['charts_text']?>',
+          color: '<?=$ct['conf']['power']['charts_text']?>',
           fontSize: '10px',
           lineWidth: '1px',
-          lineColor: '<?=$ct_conf['power']['charts_line']?>',
+          lineColor: '<?=$ct['conf']['power']['charts_line']?>',
        },
  	  live: true,
  	  "adjust-layout": true,
  	  "alpha-area": 0.5,
  	  height: 30
   },
-  backgroundColor: "<?=$ct_conf['power']['charts_background']?>",
+  backgroundColor: "<?=$ct['conf']['power']['charts_background']?>",
   height: 420,
   x: 0, 
   y: 0,
   globals: {
   	fontSize: 20,
-  	fontColor: "<?=$ct_conf['power']['charts_text']?>"
+  	fontColor: "<?=$ct['conf']['power']['charts_text']?>"
   },
   crosshairX:{
     shared: true,
     exact: true,
     plotLabel:{
-      backgroundColor: "<?=$ct_conf['power']['charts_tooltip_background']?>",
-      fontColor: "<?=$ct_conf['power']['charts_tooltip_text']?>",
+      backgroundColor: "<?=$ct['conf']['power']['charts_tooltip_background']?>",
+      fontColor: "<?=$ct['conf']['power']['charts_tooltip_text']?>",
       text: "Spot Price: <?=$currency_symb?>%v",
 	 fontSize: "20",
       fontFamily: "Open Sans",
@@ -240,18 +240,18 @@ graphset:[
     },
     scaleLabel:{
     	 alpha: 1.0,
-      fontColor: "<?=$ct_conf['power']['charts_tooltip_text']?>",
+      fontColor: "<?=$ct['conf']['power']['charts_tooltip_text']?>",
       fontSize: 20,
       fontFamily: "Open Sans",
-      backgroundColor: "<?=$ct_conf['power']['charts_tooltip_background']?>",
+      backgroundColor: "<?=$ct['conf']['power']['charts_tooltip_background']?>",
     }
   },
   crosshairY:{
     exact: true
   },
   title: {
-    text: "<?=$chart_asset?> / <?=strtoupper($mrkt_parse[1])?> @ <?=$ct_gen->key_to_name($mrkt_parse[0])?> <?=( $_GET['charted_val'] != 'pair' ? '(' . strtoupper($charted_val) . ' Value)' : '' )?>",
-    fontColor: "<?=$ct_conf['power']['charts_text']?>",
+    text: "<?=$chart_asset?> / <?=strtoupper($mrkt_parse[1])?> @ <?=$ct['gen']->key_to_name($mrkt_parse[0])?> <?=( $_GET['charted_val'] != 'pair' ? '(' . strtoupper($charted_val) . ' Value)' : '' )?>",
+    fontColor: "<?=$ct['conf']['power']['charts_text']?>",
     fontFamily: 'Open Sans',
     fontSize: 25,
     align: 'right',
@@ -260,7 +260,7 @@ graphset:[
   },
   source: {
     text: "Select area to zoom in chart, or use zoom grab bars in preview area (only horizontal axis zooming supported).",
-    fontColor:"<?=$ct_conf['power']['charts_text']?>",
+    fontColor:"<?=$ct['conf']['power']['charts_text']?>",
     fontSize: "13",
     fontFamily: "Open Sans",
     offsetX: 110,
@@ -290,10 +290,10 @@ graphset:[
     guide: {
       visible: true,
       lineStyle: 'solid',
-      lineColor: "<?=$ct_conf['power']['charts_line']?>"
+      lineColor: "<?=$ct['conf']['power']['charts_line']?>"
     },
     item: {
-      fontColor: "<?=$ct_conf['power']['charts_text']?>",
+      fontColor: "<?=$ct['conf']['power']['charts_text']?>",
       fontFamily: "Open Sans",
       fontSize: "14",
     }
@@ -302,7 +302,7 @@ graphset:[
     guide: {
       visible: true,
       lineStyle: 'solid',
-      lineColor: "<?=$ct_conf['power']['charts_line']?>"
+      lineColor: "<?=$ct['conf']['power']['charts_line']?>"
     },
     values: [<?=$chart_data['time']?>],
     transform: {
@@ -314,32 +314,32 @@ graphset:[
     },
     item: {
 	 fontSize: "14",
-      fontColor: "<?=$ct_conf['power']['charts_text']?>",
+      fontColor: "<?=$ct['conf']['power']['charts_text']?>",
       fontFamily: "Open Sans"
     }
   },
 	series : [
 		{
 			values: [<?=$chart_data['spot']?>],
-			lineColor: "<?=$ct_conf['power']['charts_text']?>",
+			lineColor: "<?=$ct['conf']['power']['charts_text']?>",
 			lineWidth: 1,
-			backgroundColor:"<?=$ct_conf['power']['charts_text']?> <?=$ct_conf['power']['charts_price_gradient']?>", /* background gradient on graphed price area in main chart (NOT the chart background) */
+			backgroundColor:"<?=$ct['conf']['power']['charts_text']?> <?=$ct['conf']['power']['charts_price_gradient']?>", /* background gradient on graphed price area in main chart (NOT the chart background) */
 			alpha: 0.5,
 			previewState: {
-      		   backgroundColor: "<?=$ct_conf['power']['charts_price_gradient']?>" /* background color on graphed price area in preview below chart (NOT the preview area background) */
+      		   backgroundColor: "<?=$ct['conf']['power']['charts_price_gradient']?>" /* background color on graphed price area in preview below chart (NOT the preview area background) */
 			}
 		}
 	],
 	labels: [
 	<?php
-	foreach ($ct_conf['power']['light_chart_day_intervals'] as $light_chart_days) {
-	$light_chart_text = $ct_gen->light_chart_time_period($light_chart_days, 'short');
+	foreach ($ct['conf']['power']['light_chart_day_intervals'] as $light_chart_days) {
+	$light_chart_text = $ct['gen']->light_chart_time_period($light_chart_days, 'short');
 	?>
 		{
 	    x: <?=$x_coord?>,
 	    y: 11,
 	    id: '<?=$light_chart_days?>',
-	    fontColor: "<?=($_GET['days'] == $light_chart_days ? $ct_conf['power']['charts_text'] : $ct_conf['power']['charts_link'] )?>",
+	    fontColor: "<?=($_GET['days'] == $light_chart_days ? $ct['conf']['power']['charts_text'] : $ct['conf']['power']['charts_link'] )?>",
 	    fontSize: "22",
 	    fontFamily: "Open Sans",
 	    cursor: "hand",
@@ -351,10 +351,10 @@ graphset:[
 		// Take into account INCREASE OR DECREASE of characters in $light_chart_text
 		if ( isset($last_light_chart_text) && strlen($last_light_chart_text) != strlen($light_chart_text) ) {
 		$difference = $difference + ( strlen($light_chart_text) - strlen($last_light_chart_text) ); 
-		$x_coord = $x_coord + ( $difference * $ct_conf['power']['light_chart_link_font_offset'] ); 
+		$x_coord = $x_coord + ( $difference * $ct['conf']['power']['light_chart_link_font_offset'] ); 
 		}
 	
-	$x_coord = $x_coord + $ct_conf['power']['light_chart_link_spacing'];
+	$x_coord = $x_coord + $ct['conf']['power']['light_chart_link_spacing'];
 	$last_light_chart_text = $light_chart_text;
 	}
 	?>
@@ -368,7 +368,7 @@ graphset:[
   height: 75,
   x: 0, 
   y: 400,
-  backgroundColor: "<?=$ct_conf['power']['charts_background']?>",
+  backgroundColor: "<?=$ct['conf']['power']['charts_background']?>",
   plotarea: {
     margin: "11 63 20 112"
   },
@@ -379,7 +379,7 @@ graphset:[
   },
   source: {
     text: "24 Hour Volume",
-    fontColor:"<?=$ct_conf['power']['charts_text']?>",
+    fontColor:"<?=$ct['conf']['power']['charts_text']?>",
     fontSize: "13",
     fontFamily: "Open Sans",
     offsetX: 106,
@@ -389,9 +389,9 @@ graphset:[
   tooltip:{
     visible: false,
     text: "24 Hour Volume: <?=$currency_symb?>%v",
-    fontColor: "<?=$ct_conf['power']['charts_tooltip_text']?>",
+    fontColor: "<?=$ct['conf']['power']['charts_tooltip_text']?>",
     fontSize: "20",
-    backgroundColor: "<?=$ct_conf['power']['charts_tooltip_background']?>",
+    backgroundColor: "<?=$ct['conf']['power']['charts_tooltip_background']?>",
     fontFamily: "Open Sans",
     "thousands-separator":","
   },
@@ -405,8 +405,8 @@ graphset:[
       visible: false
     },
     plotLabel:{
-      backgroundColor: "<?=$ct_conf['power']['charts_tooltip_background']?>",
-      fontColor: "<?=$ct_conf['power']['charts_tooltip_text']?>",
+      backgroundColor: "<?=$ct['conf']['power']['charts_tooltip_background']?>",
+      fontColor: "<?=$ct['conf']['power']['charts_tooltip_text']?>",
       fontFamily: "Open Sans",
       text: "24 Hour Volume: <?=$currency_symb?>%v",
 	 fontSize: "20",
@@ -427,10 +427,10 @@ graphset:[
     guide: {
       visible: true,
       lineStyle: 'solid',
-      lineColor: "<?=$ct_conf['power']['charts_line']?>"
+      lineColor: "<?=$ct['conf']['power']['charts_line']?>"
     },
     item: {
-      fontColor: "<?=$ct_conf['power']['charts_text']?>",
+      fontColor: "<?=$ct['conf']['power']['charts_text']?>",
       fontFamily: "Open Sans",
       fontSize: "12",
     }
@@ -439,7 +439,7 @@ graphset:[
 		{
 			values: [<?=$chart_data['volume']?>],
 			text: "24hr Volume",
-			backgroundColor: "<?=$ct_conf['power']['charts_text']?>",
+			backgroundColor: "<?=$ct['conf']['power']['charts_text']?>",
     		     offsetX: 0
 		}
 	]

@@ -1,11 +1,11 @@
 <?php
 			
 // Warning (minimal, just as link title on the 'refresh' link) if price data caching set too low
-if ( $ct_conf['power']['last_trade_cache_time'] < 4 ) {
-$refresh_link_documentation = 'Use this to Refresh / Reload the app data. Refreshing data too frequently may cause API request refusals, especially if request caching settings are too low. It is recommended to use this refresh feature sparingly with lower or disabled cache settings. The current real-time exchange data re-cache (refresh from live data instead of cached data) setting in the Admin Config GENERAL section is set to '. $ct_conf['power']['last_trade_cache_time'] . ' minute(s). A setting of 4 or higher assists in avoiding temporary IP blocking / throttling by exchanges.';
+if ( $ct['conf']['power']['last_trade_cache_time'] < 4 ) {
+$refresh_link_documentation = 'Use this to Refresh / Reload the app data. Refreshing data too frequently may cause API request refusals, especially if request caching settings are too low. It is recommended to use this refresh feature sparingly with lower or disabled cache settings. The current real-time exchange data re-cache (refresh from live data instead of cached data) setting in the Admin Config GENERAL section is set to '. $ct['conf']['power']['last_trade_cache_time'] . ' minute(s). A setting of 4 or higher assists in avoiding temporary IP blocking / throttling by exchanges.';
 }
 else {
-$refresh_link_documentation = 'The current real-time exchange data re-cache (refresh from live data instead of cached data) setting in the Admin Config GENERAL section is set to '. $ct_conf['power']['last_trade_cache_time'] . ' minute(s).';
+$refresh_link_documentation = 'The current real-time exchange data re-cache (refresh from live data instead of cached data) setting in the Admin Config GENERAL section is set to '. $ct['conf']['power']['last_trade_cache_time'] . ' minute(s).';
 }
 			
 ?>  
@@ -49,13 +49,13 @@ $refresh_link_documentation = 'The current real-time exchange data re-cache (ref
         
         
    <?php
-   if ( $ct_gen->admin_logged_in() ) {
+   if ( $ct['gen']->admin_logged_in() ) {
    ?>
 
    
    <div class="smallnav_spacer"></div>
    
-   <div class="align_center"><a href="?logout=1&admin_hashed_nonce=<?=$ct_gen->admin_hashed_nonce('logout')?>"><img src='templates/interface/media/images/auto-preloaded/icons8-logout-58-<?=$sel_opt['theme_selected']?>.png' class='nav-image' width='45' border='0' title='Logout of Admin Config area.' /></a></div>
+   <div class="align_center"><a href="?logout=1&admin_hashed_nonce=<?=$ct['gen']->admin_hashed_nonce('logout')?>"><img src='templates/interface/media/images/auto-preloaded/icons8-logout-58-<?=$sel_opt['theme_selected']?>.png' class='nav-image' width='45' border='0' title='Logout of Admin Config area.' /></a></div>
    
    <?php
    }
@@ -74,7 +74,7 @@ $refresh_link_documentation = 'The current real-time exchange data re-cache (ref
 
         
                     <?php
-                    if ( $ct_gen->admin_logged_in() ) {
+                    if ( $ct['gen']->admin_logged_in() ) {
                          
                     // Links won't work in NON-ADMIN AREAS without this logic
                     $content_toggle = ( preg_match("/admin\.php/i", $_SERVER['REQUEST_URI']) ? 'data-bs-toggle="tab"' : '' );
@@ -113,7 +113,7 @@ $refresh_link_documentation = 'The current real-time exchange data re-cache (ref
 
 
                     <li>
-                        <a <?=$content_toggle?> class="dropdown-item admin_change_width" data-width="fixed_max" role="tab" aria-controls="admin_charts_alerts" href="admin.php#admin_charts_alerts" title='Configure <?=( $ct_conf['gen']['asset_charts_toggle'] == 'on' ? 'Charts / Price' : 'Price' )?> Alerts'><?=( $ct_conf['gen']['asset_charts_toggle'] == 'on' ? 'Charts / Price' : 'Price' )?> Alerts</a>
+                        <a <?=$content_toggle?> class="dropdown-item admin_change_width" data-width="fixed_max" role="tab" aria-controls="admin_charts_alerts" href="admin.php#admin_charts_alerts" title='Configure <?=( $ct['conf']['gen']['asset_charts_toggle'] == 'on' ? 'Charts / Price' : 'Price' )?> Alerts'><?=( $ct['conf']['gen']['asset_charts_toggle'] == 'on' ? 'Charts / Price' : 'Price' )?> Alerts</a>
                     </li>
 
 
@@ -198,7 +198,7 @@ $refresh_link_documentation = 'The current real-time exchange data re-cache (ref
            <li><a class="dropdown-item" href='index.php#settings' title='Update your user settings.'>User Settings</a></li>			
            
            <?php
-		 if ( $ct_conf['gen']['asset_charts_toggle'] == 'on' ) {
+		 if ( $ct['conf']['gen']['asset_charts_toggle'] == 'on' ) {
 		 ?>
            <li><a class="dropdown-item" href='index.php#charts' title='View price charts.'>Price Charts</a></li>
 		 <?php
@@ -254,7 +254,7 @@ $refresh_link_documentation = 'The current real-time exchange data re-cache (ref
                     
                     <div class="form-floating">
                     
-                    <input type="text" name="quant_font_percent" id="quant_font_percent" class="form-control input-number" value="<?=($set_font_size * 100)?>" min="<?=($min_font_resize * 100)?>" max="<?=($max_font_resize * 100)?>" onchange='
+                    <input type="text" name="quant_font_percent" id="quant_font_percent" class="form-control input-number" value="<?=($set_font_size * 100)?>" min="<?=($ct['dev']['min_font_resize'] * 100)?>" max="<?=($ct['dev']['max_font_resize'] * 100)?>" onchange='
                     
                	if ( !get_cookie("font_size") ) {
                	font_size_cookie = confirm("This feature requires using cookie data.\n\nPRO TIP: If your web browser has a \"zoom\" feature, try that first for better results.");
@@ -319,11 +319,11 @@ $refresh_link_documentation = 'The current real-time exchange data re-cache (ref
             
             
             <?php
-            if ( $ct_gen->admin_logged_in() ) {
+            if ( $ct['gen']->admin_logged_in() ) {
             ?>
    
             <li class='sidebar-item'>
-                <a href="?logout=1&admin_hashed_nonce=<?=$ct_gen->admin_hashed_nonce('logout')?>" class="bitcoin" title='Logout from the admin area.'>Admin Logout</a>
+                <a href="?logout=1&admin_hashed_nonce=<?=$ct['gen']->admin_hashed_nonce('logout')?>" class="bitcoin" title='Logout from the admin area.'>Admin Logout</a>
             </li>
             
             <?php
@@ -340,7 +340,7 @@ $refresh_link_documentation = 'The current real-time exchange data re-cache (ref
                 
         
                     <?php
-                    if ( $ct_gen->admin_logged_in() ) {
+                    if ( $ct['gen']->admin_logged_in() ) {
                          
                     // Links won't work in NON-ADMIN AREAS without this logic
                     $content_toggle = ( preg_match("/admin\.php/i", $_SERVER['REQUEST_URI']) ? 'data-bs-toggle="tab"' : '' );
@@ -379,7 +379,7 @@ $refresh_link_documentation = 'The current real-time exchange data re-cache (ref
 
 
                     <li class='sidebar-item nav-item'>
-                        <a <?=$content_toggle?> class="nav-link admin_change_width" data-width="fixed_max" role="tab" aria-controls="admin_charts_alerts" href="admin.php#admin_charts_alerts" title='Configure <?=( $ct_conf['gen']['asset_charts_toggle'] == 'on' ? 'Charts / Price' : 'Price' )?> Alerts'><?=( $ct_conf['gen']['asset_charts_toggle'] == 'on' ? 'Charts / Price' : 'Price' )?> Alerts</a>
+                        <a <?=$content_toggle?> class="nav-link admin_change_width" data-width="fixed_max" role="tab" aria-controls="admin_charts_alerts" href="admin.php#admin_charts_alerts" title='Configure <?=( $ct['conf']['gen']['asset_charts_toggle'] == 'on' ? 'Charts / Price' : 'Price' )?> Alerts'><?=( $ct['conf']['gen']['asset_charts_toggle'] == 'on' ? 'Charts / Price' : 'Price' )?> Alerts</a>
                     </li>
                     
                     
@@ -419,7 +419,7 @@ $refresh_link_documentation = 'The current real-time exchange data re-cache (ref
                         
                         <li>
                         
-                        <a class="dropdown-item" href="admin.php#admin_plugins" submenu-id="admin_plugins_<?=$plugin_key?>" onclick='javascript:load_iframe("iframe_plugins", "admin.php?iframe=<?=$ct_gen->admin_hashed_nonce('iframe_' . $plugin_key)?>&plugin=<?=$plugin_key?>")' title='<?=$plug_conf[$plugin_key]['ui_name']?> plugin settings and documentation.'><?=$plug_conf[$plugin_key]['ui_name']?></a>
+                        <a class="dropdown-item" href="admin.php#admin_plugins" submenu-id="admin_plugins_<?=$plugin_key?>" onclick='javascript:load_iframe("iframe_plugins", "admin.php?iframe=<?=$ct['gen']->admin_hashed_nonce('iframe_' . $plugin_key)?>&plugin=<?=$plugin_key?>")' title='<?=$plug_conf[$plugin_key]['ui_name']?> plugin settings and documentation.'><?=$plug_conf[$plugin_key]['ui_name']?></a>
                         
                         </li>
                           <!-- <li><hr class="dropdown-divider"></li> -->
@@ -523,7 +523,7 @@ $refresh_link_documentation = 'The current real-time exchange data re-cache (ref
                 <li class='sidebar-item'><a href='index.php#settings' title='Update your user settings.'>User Settings</a></li>			
                 
                 <?php
-     		 if ( $ct_conf['gen']['asset_charts_toggle'] == 'on' ) {
+     		 if ( $ct['conf']['gen']['asset_charts_toggle'] == 'on' ) {
      		 ?>
                 <li class='sidebar-item'><a href='index.php#charts' title='View price charts.'>Price Charts</a></li>
      		 <?php

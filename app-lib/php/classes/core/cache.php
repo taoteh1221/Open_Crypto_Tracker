@@ -11,7 +11,8 @@ class ct_cache {
 var $ct_var1;
 var $ct_var2;
 var $ct_var3;
-var $ct_array1 = array();
+
+var $ct_array = array();
   
   
   ////////////////////////////////////////////////////////
@@ -37,9 +38,9 @@ var $ct_array1 = array();
   
   function check_log($loc) {
   
-  global $ct_gen;
+  global $ct;
       
-  $ct_gen->log(
+  $ct['gen']->log(
     		'other_error',
     		'CHECK ('.$loc.') for plugin error logs @ ' . time()
     		);
@@ -59,12 +60,12 @@ var $ct_array1 = array();
   
   function php_timeout_defaults($dir_var) {
    
-  global $ct_var, $ui_max_exec_time;
+  global $ct;
   
-  $ui_exec_time = $ui_max_exec_time; // Don't overwrite globals
+  $ui_exec_time = $ct['dev']['ui_max_exec_time']; // Don't overwrite globals
   
     // If the UI timeout var wasn't set properly / is not a whole number 3600 or less
-    if ( !$ct_var->whole_int($ui_exec_time) || $ui_exec_time > 3600 ) {
+    if ( !$ct['var']->whole_int($ui_exec_time) || $ui_exec_time > 3600 ) {
     $ui_exec_time = 250; // Default
     }
   
@@ -101,7 +102,7 @@ var $ct_array1 = array();
   
   function delete_old_files($dir_arr, $days, $ext) {
   
-  global $ct_gen;
+  global $ct;
    
       // Support for string OR array in the calls, for directory data
       if ( !is_array($dir_arr) ) {
@@ -124,7 +125,7 @@ var $ct_array1 = array();
               
                	if ( $result == false ) {
                		
-               	$ct_gen->log(
+               	$ct['gen']->log(
                				'system_error',
                				'File deletion failed for file "' . $file . '" (check permissions for "' . basename($file) . '")'
                				);
@@ -135,7 +136,7 @@ var $ct_array1 = array();
               
             }
             else {
-            $ct_gen->log('system_error', 'File deletion failed, file not found: "' . $file . '"');
+            $ct['gen']->log('system_error', 'File deletion failed, file not found: "' . $file . '"');
             }
             
           }
@@ -152,20 +153,20 @@ var $ct_array1 = array();
    
    function subarray_cached_ct_conf_upgrade($conf, $cat_key, $conf_key, $skip_upgrading) {
    
-   global $default_ct_conf, $ct_gen;
+   global $ct, $default_ct_conf;
    
       // Check for new variables, and add them
       foreach ( $default_ct_conf[$cat_key][$conf_key] as $setting_key => $setting_val ) {
       
          // Skip this array depth if it's yet another subarray, UNLESS this is the plugin configs
          if ( is_array($setting_val) && $cat_key != 'plug_conf' ) {
-         $ct_gen->log('conf_error', 'ct_conf[' .$cat_key . ']['. $conf_key . '][' . $setting_key . '] config upgrade not needed (skipping)');
+         $ct['gen']->log('conf_error', 'ct_conf[' .$cat_key . ']['. $conf_key . '][' . $setting_key . '] config upgrade not needed (skipping)');
          }
          elseif ( !in_array($setting_key, $skip_upgrading) && !isset($conf[$cat_key][$conf_key][$setting_key]) ) {
          	
          $conf[$cat_key][$conf_key][$setting_key] = $default_ct_conf[$cat_key][$conf_key][$setting_key];
          
-         $ct_gen->log(
+         $ct['gen']->log(
          			'conf_error',
          			'Outdated app config, upgraded parameter ct_conf[' . $cat_key . '][' . $conf_key . '][' . $setting_key . '] imported (default value: ' . $default_ct_conf[$cat_key][$conf_key][$setting_key] . ')'
          			);
@@ -181,13 +182,13 @@ var $ct_array1 = array();
       
          // Skip this array depth if it's yet another subarray, UNLESS this is the plugin configs
          if ( is_array($setting_val) && $cat_key != 'plug_conf' ) {
-         $ct_gen->log('conf_error', 'ct_conf[' .$cat_key . ']['. $conf_key . '][' . $setting_key . '] config upgrade not needed (skipping)');
+         $ct['gen']->log('conf_error', 'ct_conf[' .$cat_key . ']['. $conf_key . '][' . $setting_key . '] config upgrade not needed (skipping)');
          }
          elseif ( !in_array($setting_key, $skip_upgrading) && !isset($default_ct_conf[$cat_key][$conf_key][$setting_key]) ) {
          	
          unset($conf[$cat_key][$conf_key][$setting_key]);
          
-         $ct_gen->log(
+         $ct['gen']->log(
          			'conf_error',
          			'Depreciated app config, parameter ct_conf[' . $cat_key . '][' . $conf_key . '][' . $setting_key . '] removed'
          			);
@@ -207,12 +208,12 @@ var $ct_array1 = array();
   
   function htaccess_dir_protection() {
   
-  global $base_dir, $ct_conf, $ct_gen, $htaccess_username, $htaccess_password;
+  global $ct, $htaccess_username, $htaccess_password;
   
-  $valid_username = $ct_gen->valid_username($htaccess_username);
+  $valid_username = $ct['gen']->valid_username($htaccess_username);
   
   // Password must be exactly 8 characters long for good htaccess security (htaccess only checks the first 8 characters for a match)
-  $password_strength = $ct_gen->pass_strength($htaccess_password, 8, 8); 
+  $password_strength = $ct['gen']->pass_strength($htaccess_password, 8, 8); 
   
   
       if ( $htaccess_username == '' || $htaccess_password == '' ) {
@@ -220,7 +221,7 @@ var $ct_array1 = array();
       }
       elseif ( $valid_username != 'valid' ) {
       	
-      $ct_gen->log(
+      $ct['gen']->log(
       			'security_error',
       			'ct_conf\'s "interface_login" username value does not meet minimum valid username requirements',
       			$valid_username
@@ -231,7 +232,7 @@ var $ct_array1 = array();
       }
       elseif ( $password_strength != 'valid' ) {
       	
-      $ct_gen->log(
+      $ct['gen']->log(
       			'security_error',
       			'ct_conf\'s "interface_login" password value does not meet minimum password strength requirements',
       			$password_strength
@@ -245,14 +246,14 @@ var $ct_array1 = array();
       // WORKS IN LINUX ***AND WINDOWS TOO***
       $htaccess_password = password_hash($htaccess_password, PASSWORD_DEFAULT);
       
-      $password_set = $this->save_file($base_dir . '/cache/secured/.app_htpasswd', $htaccess_username . ':' . $htaccess_password);
+      $password_set = $this->save_file($ct['base_dir'] . '/cache/secured/.app_htpasswd', $htaccess_username . ':' . $htaccess_password);
       
        	if ( $password_set == true ) {
        
-       	$htaccess_contents = $this->php_timeout_defaults($base_dir . '/templates/back-end/root-app-directory-htaccess.template') . 
-        preg_replace("/\[BASE_DIR\]/i", $base_dir, file_get_contents($base_dir . '/templates/back-end/enable-password-htaccess.template') );
+       	$htaccess_contents = $this->php_timeout_defaults($ct['base_dir'] . '/templates/back-end/root-app-directory-htaccess.template') . 
+        preg_replace("/\[BASE_DIR\]/i", $ct['base_dir'], file_get_contents($ct['base_dir'] . '/templates/back-end/enable-password-htaccess.template') );
       
-       	$htaccess_set = $this->save_file($base_dir . '/.htaccess', $htaccess_contents);
+       	$htaccess_set = $this->save_file($ct['base_dir'] . '/.htaccess', $htaccess_contents);
       
        	return $htaccess_set;
        
@@ -276,7 +277,7 @@ var $ct_array1 = array();
     * @author Torleif Berger, Lorenzo Stanco
     * @link http://stackoverflow.com/a/15025877/995958
     * @license http://creativecommons.org/licenses/by/3.0/
-    Usage: $last_line = $ct_cache->tail_custom($file_path);
+    Usage: $last_line = $ct['cache']->tail_custom($file_path);
   */
   
   function tail_custom($filepath, $lines = 1, $adaptive = true) {
@@ -347,12 +348,12 @@ var $ct_array1 = array();
   
   function api_throttling($tld_or_ip, $cached_path=false) {
   
-  global $ct_conf, $ct_gen, $ct_var, $base_dir, $api_throttle_count, $api_throttle_flag, $throttled_api_cache_time, $throttled_api_per_minute_limit, $throttled_api_per_day_limit;
+  global $ct, $api_throttle_count, $api_throttle_flag, $throttled_api_cache_time, $throttled_api_per_minute_limit, $throttled_api_per_day_limit;
   
   // We wait until we are in this function, to grab any cached data at the last minute,
   // to assure we get anything written recently by other runtimes
   
-  $file_save_path = $base_dir . '/cache/events/throttling/' . $tld_or_ip . '.dat';
+  $file_save_path = $ct['base_dir'] . '/cache/events/throttling/' . $tld_or_ip . '.dat';
   
   $api_throttle_count_check = json_decode( trim( file_get_contents($file_save_path) ) , TRUE);
   
@@ -399,12 +400,12 @@ var $ct_array1 = array();
      $cache_file_name = preg_replace("/(.*)external_data\//", "", $cached_path);
      
      
-          if ( $ct_conf['power']['debug_mode'] == 'all' || $ct_conf['power']['debug_mode'] == 'api_throttling' ) {
+          if ( $ct['conf']['power']['debug_mode'] == 'all' || $ct['conf']['power']['debug_mode'] == 'api_throttling' ) {
           
           // Log for each cache file's throttle
-          $ct_gen->log(
+          $ct['gen']->log(
                        'notify_debug',
-                       'throttling (CACHE-TIME-BASED) threshold(s) met for API server "' . $tld_or_ip . '" (file_name=' . $ct_var->obfusc_str($cache_file_name, 8) . ', minutes_cached=' . $minutes_old . ', minimum_cache_minutes=' . $throttled_api_cache_time[$tld_or_ip] . ')'
+                       'throttling (CACHE-TIME-BASED) threshold(s) met for API server "' . $tld_or_ip . '" (file_name=' . $ct['var']->obfusc_str($cache_file_name, 8) . ', minutes_cached=' . $minutes_old . ', minimum_cache_minutes=' . $throttled_api_cache_time[$tld_or_ip] . ')'
                	  );
           	  
           }
@@ -432,10 +433,10 @@ var $ct_array1 = array();
      ) {
           
           
-          if ( $ct_conf['power']['debug_mode'] == 'all' || $ct_conf['power']['debug_mode'] == 'api_throttling' ) {
+          if ( $ct['conf']['power']['debug_mode'] == 'all' || $ct['conf']['power']['debug_mode'] == 'api_throttling' ) {
           
           // Only log once, as it's the minute / hour thresholds met
-          $ct_gen->log(
+          $ct['gen']->log(
                        'notify_debug',
                        'throttling (LIMITS-BASED) threshold(s) met for API server "' . $tld_or_ip . '" (minute_requests='.$api_throttle_count[$tld_or_ip]['minute_count']['count'].', hour_requests='.$api_throttle_count[$tld_or_ip]['hour_count']['count'].')',
                	   false,
@@ -483,20 +484,20 @@ var $ct_array1 = array();
   
   function backup_archive($backup_prefix, $backup_target, $interval, $password='no') {
   
-  global $ct_conf, $ct_gen, $ext_zip, $base_dir, $base_url, $daily_tasks_offset;
+  global $ct, $ext_zip;
   
   
 	  // With offset, to try keeping daily recurrences at same exact runtime (instead of moving up the runtime daily)
-      if ( $this->update_cache($base_dir . '/cache/events/backup-'.$backup_prefix.'.dat', ( $interval * 1440 ) + $daily_tasks_offset ) == true ) {
+      if ( $this->update_cache($ct['base_dir'] . '/cache/events/backup-'.$backup_prefix.'.dat', ( $interval * 1440 ) + $ct['dev']['tasks_time_offset'] ) == true ) {
      
-      $secure_128bit_hash = $ct_gen->rand_hash(16); // 128-bit (16-byte) hash converted to hexadecimal, used for suffix
+      $secure_128bit_hash = $ct['gen']->rand_hash(16); // 128-bit (16-byte) hash converted to hexadecimal, used for suffix
       
       
           // We only want to store backup files with suffixes that can't be guessed, 
           // otherwise halt the application if an issue is detected safely creating a random hash
           if ( $secure_128bit_hash == false ) {
           	
-          $ct_gen->log(
+          $ct['gen']->log(
           			'security_error',
           			'Cryptographically secure pseudo-random bytes could not be generated for ' . $backup_prefix . ' backup archive filename suffix, backup aborted to preserve backups directory privacy'
           			);
@@ -505,7 +506,7 @@ var $ct_array1 = array();
           else {
            
           $backup_file = $backup_prefix . '_'.date( "Y-M-d", time() ).'_'.$secure_128bit_hash.'.zip';
-          $backup_dest = $base_dir . '/cache/secured/backups/' . $backup_file;
+          $backup_dest = $ct['base_dir'] . '/cache/secured/backups/' . $backup_file;
            
           // Zip archive
           $backup_results = $ext_zip->zip_recursively($backup_target, $backup_dest, $password, ZipArchive::CREATE);
@@ -513,11 +514,11 @@ var $ct_array1 = array();
            
               if ( $backup_results == 'done' ) {
                
-              $this->save_file($base_dir . '/cache/events/backup-'.$backup_prefix.'.dat', $ct_gen->time_date_format(false, 'pretty_date_time') );
+              $this->save_file($ct['base_dir'] . '/cache/events/backup-'.$backup_prefix.'.dat', $ct['gen']->time_date_format(false, 'pretty_date_time') );
                
-              $backup_url = $base_url . 'download.php?backup=' . $backup_file;
+              $backup_url = $ct['base_url'] . 'download.php?backup=' . $backup_file;
               
-              $msg = "A backup archive has been created for: ".$backup_prefix."\n\nHere is a link to download the backup to your computer:\n\n" . $backup_url . "\n\n(backup archives are purged after " . $ct_conf['power']['backup_arch_del_old'] . " days)";
+              $msg = "A backup archive has been created for: ".$backup_prefix."\n\nHere is a link to download the backup to your computer:\n\n" . $backup_url . "\n\n(backup archives are purged after " . $ct['conf']['power']['backup_arch_del_old'] . " days)";
               
               // Message parameter added for desired comm methods (leave any comm method blank to skip sending via that method)
               $send_params = array(
@@ -532,7 +533,7 @@ var $ct_array1 = array();
               
               }
               else {
-              $ct_gen->log('system_error', 'Backup zip archive creation failed with ' . $backup_results);
+              $ct['gen']->log('system_error', 'Backup zip archive creation failed with ' . $backup_results);
               }
             
           
@@ -551,11 +552,11 @@ var $ct_array1 = array();
   
   function queue_notify($send_params) {
   
-  global $base_dir, $ct_conf, $ct_gen, $valid_to_email, $telegram_activated, $notifyme_activated, $sms_service, $charset_default;
+  global $ct, $valid_to_email, $telegram_activated, $notifyme_activated, $sms_service;
   
      
      // Abort queueing comms for sending out notifications, if allowing comms is disabled
-     if ( $ct_conf['comms']['allow_comms'] != 'on' ) {
+     if ( $ct['conf']['comms']['allow_comms'] != 'on' ) {
      return;
      }
   
@@ -567,25 +568,25 @@ var $ct_array1 = array();
    
      // Notifyme
      if ( isset($send_params['notifyme']) && $send_params['notifyme'] != '' && $notifyme_activated ) {
-   	 $this->save_file($base_dir . '/cache/secured/messages/notifyme-' . $ct_gen->rand_hash(8) . '.queue', $send_params['notifyme']);
+   	 $this->save_file($ct['base_dir'] . '/cache/secured/messages/notifyme-' . $ct['gen']->rand_hash(8) . '.queue', $send_params['notifyme']);
      }
 
    
      // Telegram
      if ( isset($send_params['telegram']) && $send_params['telegram'] != '' && $telegram_activated ) {
-     $this->save_file($base_dir . '/cache/secured/messages/telegram-' . $ct_gen->rand_hash(8) . '.queue', $send_params['telegram']);
+     $this->save_file($ct['base_dir'] . '/cache/secured/messages/telegram-' . $ct['gen']->rand_hash(8) . '.queue', $send_params['telegram']);
      }
     
     
      // SMS service
      if ( isset($send_params['text']['message']) && $send_params['text']['message'] != '' && $sms_service == 'twilio' ) { 
-     $this->save_file($base_dir . '/cache/secured/messages/twilio-' . $ct_gen->rand_hash(8) . '.queue', $send_params['text']['message']);
+     $this->save_file($ct['base_dir'] . '/cache/secured/messages/twilio-' . $ct['gen']->rand_hash(8) . '.queue', $send_params['text']['message']);
      }
      elseif ( isset($send_params['text']['message']) && $send_params['text']['message'] != '' && $sms_service == 'textbelt' ) { 
-     $this->save_file($base_dir . '/cache/secured/messages/textbelt-' . $ct_gen->rand_hash(8) . '.queue', $send_params['text']['message']);
+     $this->save_file($ct['base_dir'] . '/cache/secured/messages/textbelt-' . $ct['gen']->rand_hash(8) . '.queue', $send_params['text']['message']);
      }
      elseif ( isset($send_params['text']['message']) && $send_params['text']['message'] != '' && $sms_service == 'textlocal' ) { 
-     $this->save_file($base_dir . '/cache/secured/messages/textlocal-' . $ct_gen->rand_hash(8) . '.queue', $send_params['text']['message']);
+     $this->save_file($ct['base_dir'] . '/cache/secured/messages/textlocal-' . $ct['gen']->rand_hash(8) . '.queue', $send_params['text']['message']);
      }
      elseif ( isset($send_params['text']['message']) && $send_params['text']['message'] != '' && $sms_service == 'email_gateway' ) { 
      
@@ -602,7 +603,7 @@ var $ct_array1 = array();
       
       	}
      
-     $this->save_file($base_dir . '/cache/secured/messages/textemail-' . $ct_gen->rand_hash(8) . '.queue', json_encode($textemail_array) );
+     $this->save_file($ct['base_dir'] . '/cache/secured/messages/textemail-' . $ct['gen']->rand_hash(8) . '.queue', json_encode($textemail_array) );
    
      }
      
@@ -610,7 +611,7 @@ var $ct_array1 = array();
      // Normal email
      if ( isset($send_params['email']['message']) && $send_params['email']['message'] != '' && $valid_to_email ) {
      
-     $email_array = array('subject' => $send_params['email']['subject'], 'message' => $send_params['email']['message'], 'content_type' => ( $send_params['email']['content_type'] ? $send_params['email']['content_type'] : 'text/plain' ), 'charset' => ( $send_params['email']['charset'] ? $send_params['email']['charset'] : $charset_default ) );
+     $email_array = array('subject' => $send_params['email']['subject'], 'message' => $send_params['email']['message'], 'content_type' => ( $send_params['email']['content_type'] ? $send_params['email']['content_type'] : 'text/plain' ), 'charset' => ( $send_params['email']['charset'] ? $send_params['email']['charset'] : $ct['dev']['charset_default'] ) );
      
       	// json_encode() only accepts UTF-8, SO TEMPORARILY CONVERT TO THAT FOR MESSAGE QUEUE STORAGE
       	if ( strtolower($send_params['email']['charset']) != 'utf-8' ) {
@@ -621,7 +622,7 @@ var $ct_array1 = array();
       
       	}
      
-   	 $this->save_file($base_dir . '/cache/secured/messages/normalemail-' . $ct_gen->rand_hash(8) . '.queue', json_encode($email_array) );
+   	 $this->save_file($ct['base_dir'] . '/cache/secured/messages/normalemail-' . $ct['gen']->rand_hash(8) . '.queue', json_encode($email_array) );
    
      }
     
@@ -636,7 +637,7 @@ var $ct_array1 = array();
    // Check to see if we need to upgrade the app config (add new primary vars / remove depreciated primary vars)
    function upgrade_cached_ct_conf($conf) {
    
-   global $check_default_ct_conf, $default_ct_conf, $ct_gen;
+   global $ct, $check_default_ct_conf, $default_ct_conf;
    
    
    // WE LEAVE THE SUB-ARRAYS FOR PROXIES / CHARTS / TEXT GATEWAYS / PORTFOLIO ASSETS / ETC / ETC ALONE
@@ -677,7 +678,7 @@ var $ct_array1 = array();
                   	
                   $conf[$cat_key][$conf_key] = $default_ct_conf[$cat_key][$conf_key];
                   
-                  $ct_gen->log(
+                  $ct['gen']->log(
                   			'conf_error',
                   			'Outdated app config, upgraded parameter ct_conf[' . $cat_key . '][' . $conf_key . '] imported (default value: ' . $default_ct_conf[$cat_key][$conf_key] . ')'
                   			);
@@ -688,7 +689,7 @@ var $ct_array1 = array();
             
                }
                else {
-               $ct_gen->log('conf_error', 'ct_conf[' .$cat_key . ']['. $conf_key . '] config upgrade not needed (skipping)');
+               $ct['gen']->log('conf_error', 'ct_conf[' .$cat_key . ']['. $conf_key . '] config upgrade not needed (skipping)');
                }
             
             }
@@ -710,7 +711,7 @@ var $ct_array1 = array();
                   	
                   unset($conf[$cached_cat_key][$cached_conf_key]);
                   
-                  $ct_gen->log(
+                  $ct['gen']->log(
                   			'conf_error',
                   			'Depreciated app config parameter ct_conf[' . $cached_cat_key . '][' . $cached_conf_key . '] removed'
                   			);
@@ -721,7 +722,7 @@ var $ct_array1 = array();
                   
                }
                else {
-               $ct_gen->log('conf_error', 'ct_conf[' .$cat_key . ']['. $conf_key . '] config upgrade not needed (skipping)');
+               $ct['gen']->log('conf_error', 'ct_conf[' .$cat_key . ']['. $conf_key . '] config upgrade not needed (skipping)');
                }
                
             }
@@ -743,10 +744,10 @@ var $ct_array1 = array();
    
    function load_cached_config() {
    
-   global $ct_conf, $ct_gen, $ct_cache, $base_dir, $restore_conf_path, $telegram_user_data;
+   global $ct, $restore_conf_path, $telegram_user_data;
    
    // Secured cache files
-   $files = $ct_gen->sort_files($base_dir . '/cache/secured', 'dat', 'desc');
+   $files = $ct['gen']->sort_files($ct['base_dir'] . '/cache/secured', 'dat', 'desc');
         
         
         foreach( $files as $secured_file ) {
@@ -758,12 +759,12 @@ var $ct_array1 = array();
 		
         		// If we already loaded the newest modified file, delete any stale ones
         		if ( $newest_cached_restore_conf == 1 ) {
-        		unlink($base_dir . '/cache/secured/' . $secured_file);
-        		$ct_gen->log('conf_error', 'OLD CACHED restore_conf found, deleting');
+        		unlink($ct['base_dir'] . '/cache/secured/' . $secured_file);
+        		$ct['gen']->log('conf_error', 'OLD CACHED restore_conf found, deleting');
         		}
         		else {
         		$newest_cached_restore_conf = 1;
-	            $restore_conf_path = $base_dir . '/cache/secured/' . $secured_file;
+	            $restore_conf_path = $ct['base_dir'] . '/cache/secured/' . $secured_file;
         		}
 		
 	
@@ -775,13 +776,13 @@ var $ct_array1 = array();
         		// DON'T WORRY ABOUT REFRESHING TELEGRAM DATA WHEN APP CONFIG IS REFRESHING, AS WE CAN'T DO THAT RELIABLY IN THIS LOOP
         		// AND IT'S DONE AFTER THE LOOP ANYWAY (WE JUST CLEANUP ANY STALE TELEGRAM CONFIGS IN THIS LOOP)
         		if ( $newest_cached_telegram_user_data == 1 ) {
-        		unlink($base_dir . '/cache/secured/' . $secured_file);
+        		unlink($ct['base_dir'] . '/cache/secured/' . $secured_file);
         		}
         		else {
         		
         		$newest_cached_telegram_user_data = 1;
         		
-        		$cached_telegram_user_data = json_decode( trim( file_get_contents($base_dir . '/cache/secured/' . $secured_file) ) , TRUE);
+        		$cached_telegram_user_data = json_decode( trim( file_get_contents($ct['base_dir'] . '/cache/secured/' . $secured_file) ) , TRUE);
         			
         			
         			// "null" in quotes as the actual value is returned sometimes
@@ -789,8 +790,8 @@ var $ct_array1 = array();
         			$telegram_user_data = $cached_telegram_user_data;
         			}
         			else {
-        			$ct_gen->log('conf_error', 'Cached telegram_user_data non-existant or corrupted (refresh will happen automatically)');
-        			unlink($base_dir . '/cache/secured/' . $secured_file);
+        			$ct['gen']->log('conf_error', 'Cached telegram_user_data non-existant or corrupted (refresh will happen automatically)');
+        			unlink($ct['base_dir'] . '/cache/secured/' . $secured_file);
         			}
         		
         		
@@ -804,29 +805,29 @@ var $ct_array1 = array();
 		
         		// If we already loaded the newest modified file, delete any stale ones
         		if ( $newest_cached_ct_conf == 1 ) {
-        		unlink($base_dir . '/cache/secured/' . $secured_file);
-        		$ct_gen->log('conf_error', 'OLD CACHED ct_conf found, deleting');
+        		unlink($ct['base_dir'] . '/cache/secured/' . $secured_file);
+        		$ct['gen']->log('conf_error', 'OLD CACHED ct_conf found, deleting');
         		}
         		else {
         		
         		$newest_cached_ct_conf = 1;
         			
-        		$cached_ct_conf = json_decode( trim( file_get_contents($base_dir . '/cache/secured/' . $secured_file) ) , TRUE);
+        		$cached_ct_conf = json_decode( trim( file_get_contents($ct['base_dir'] . '/cache/secured/' . $secured_file) ) , TRUE);
         			
         		    // "null" in quotes as the actual value is returned sometimes
-        			if ( $ct_gen->admin_security_level_check() == true && $cached_ct_conf != false && $cached_ct_conf != null && $cached_ct_conf != "null" ) {
-        			$ct_conf = $cached_ct_conf; // Use cached ct_conf if it exists, seems intact, and DEFAULT Admin Config (in config.php) hasn't been revised since last check
-        			// $ct_gen->log('conf_error', 'CACHED ct_conf OK'); // DEBUGGING ONLY
+        			if ( $ct['gen']->admin_security_level_check() == true && $cached_ct_conf != false && $cached_ct_conf != null && $cached_ct_conf != "null" ) {
+        			$ct['conf'] = $cached_ct_conf; // Use cached ct_conf if it exists, seems intact, and DEFAULT Admin Config (in config.php) hasn't been revised since last check
+        			// $ct['gen']->log('conf_error', 'CACHED ct_conf OK'); // DEBUGGING ONLY
         			$config_ok = true;
         			}
         			elseif ( $cached_ct_conf != true ) {
-        			unlink($base_dir . '/cache/secured/' . $secured_file);
-        			$ct_gen->log('conf_error', 'CACHED ct_conf appears corrupt, refreshing from DEFAULT or RESTORE ct_conf');
+        			unlink($ct['base_dir'] . '/cache/secured/' . $secured_file);
+        			$ct['gen']->log('conf_error', 'CACHED ct_conf appears corrupt, refreshing from DEFAULT or RESTORE ct_conf');
         			$refresh_config = true;
         			}
-        			elseif ( $ct_gen->admin_security_level_check() == false ) {
-        			unlink($base_dir . '/cache/secured/' . $secured_file);
-        			$ct_gen->log('conf_error', 'CACHED ct_conf outdated (DEFAULT ct_conf updated), refreshing from DEFAULT ct_conf');
+        			elseif ( $ct['gen']->admin_security_level_check() == false ) {
+        			unlink($ct['base_dir'] . '/cache/secured/' . $secured_file);
+        			$ct['gen']->log('conf_error', 'CACHED ct_conf outdated (DEFAULT ct_conf updated), refreshing from DEFAULT ct_conf');
         			$refresh_config = true;
         			}
         			
@@ -841,7 +842,7 @@ var $ct_array1 = array();
         	
         	
         if ( !isset($newest_cached_ct_conf) ) {
-        $ct_gen->log('conf_error', 'CACHED ct_conf not found, refreshing from DEFAULT or RESTORE ct_conf');
+        $ct['gen']->log('conf_error', 'CACHED ct_conf not found, refreshing from DEFAULT or RESTORE ct_conf');
         $refresh_config = true;
         }			 
 
@@ -849,7 +850,7 @@ var $ct_array1 = array();
         // We use the $refresh_config flag, so we can wait for the GLOBAL $restore_conf_path which may be set above (if a restore file exists)
         // (allowing config restoration from last known working config)
         if ( $refresh_config == true ) {
-        $ct_conf = $this->refresh_cached_ct_conf(false);
+        $ct['conf'] = $this->refresh_cached_ct_conf(false);
         }
         
         
@@ -864,7 +865,7 @@ var $ct_array1 = array();
    
    function refresh_cached_ct_conf($passed_config, $upgrade_mode=false, $user_reset=false) {
    
-   global $ct_conf, $ct_gen, $ct_cache, $base_dir, $default_ct_conf, $restore_conf_path, $admin_area_sec_level, $telegram_activated, $telegram_user_data, $htaccess_username, $htaccess_password;
+   global $ct, $default_ct_conf, $restore_conf_path, $admin_area_sec_level, $telegram_activated, $telegram_user_data, $htaccess_username, $htaccess_password;
 
 
    // If no valid cached_ct_conf, or if DEFAULT Admin Config (in config.php) variables have been changed...
@@ -885,24 +886,24 @@ var $ct_array1 = array();
              // WE USE THE DEFAULT CT_CONF (FROM THE PHP CONFIGURATION FILES)
              if ( !$passed_config || $admin_area_sec_level == 'high' || $user_reset ) {
              $passed_config = $default_ct_conf;
-    		   $ct_gen->log('conf_error', 'CACHED ct_conf RESET, it will be refreshed using the DEFAULT ct_conf');
+    		   $ct['gen']->log('conf_error', 'CACHED ct_conf RESET, it will be refreshed using the DEFAULT ct_conf');
     		   }
              // All other conditions
              else {
-    		   $ct_gen->log('conf_error', 'CACHED ct_conf RESET, it will be restored using the LAST-KNOWN WORKING ct_conf');
+    		   $ct['gen']->log('conf_error', 'CACHED ct_conf RESET, it will be restored using the LAST-KNOWN WORKING ct_conf');
              }
              
         
         }
    
     	
-   $secure_128bit_hash = $ct_gen->rand_hash(16); // 128-bit (16-byte) hash converted to hexadecimal, used for suffix
+   $secure_128bit_hash = $ct['gen']->rand_hash(16); // 128-bit (16-byte) hash converted to hexadecimal, used for suffix
     	
     	
     	// Halt the process if an issue is detected safely creating a random hash
     	if ( $secure_128bit_hash == false ) {
     		
-    	$ct_gen->log(
+    	$ct['gen']->log(
     				'security_error', 
     				'Cryptographically secure pseudo-random bytes could not be generated for cached ct_conf array (secured cache storage) suffix, cached ct_conf array creation aborted to preserve security'
     				);
@@ -921,7 +922,7 @@ var $ct_array1 = array();
     	    }
         	// (REFRESHES CACHED APP CONFIG TO EXACTLY MIRROR THE HARD-CODED VARIABLES IN CONFIG.PHP, IF CONFIG.PHP IS CHANGED IN EVEN THE SLIGHTEST WAY)
     	    else {
-    	    $upgrade_cache_ct_conf = $ct_conf;
+    	    $upgrade_cache_ct_conf = $ct['conf'];
     	    }
     	
     	
@@ -933,7 +934,7 @@ var $ct_array1 = array();
     		// Need to check a few different possible results for no data found ("null" in quotes as the actual value is returned sometimes)
     		if ( $store_cached_ct_conf == false || $store_cached_ct_conf == null || $store_cached_ct_conf == "null" ) {
     		    
-    		$ct_gen->log('conf_error', 'updated ct_conf data could not be saved (to secured cache storage) in json format');
+    		$ct['gen']->log('conf_error', 'updated ct_conf data could not be saved (to secured cache storage) in json format');
     	
               // Attempt to restore last-known good config (if it exists)	
               if ( file_exists($restore_conf_path) ) {
@@ -965,26 +966,26 @@ var $ct_array1 = array();
             		// If there was an issue updating the cached app config
             		// Need to check a few different possible results for no data found ("null" in quotes as the actual value is returned sometimes)
             		if ( $store_cached_ct_conf == false || $store_cached_ct_conf == null || $store_cached_ct_conf == "null" ) {
-            		$ct_gen->log('conf_error', 'ct_conf data could not be restored from last-known working config');
+            		$ct['gen']->log('conf_error', 'ct_conf data could not be restored from last-known working config');
             		}
             		// If restoring last-known working config was successfull
             		else {
             		    
-            		$ct_gen->log('conf_error', 'ct_conf CACHE restore from last-known working config triggered, refreshed successfully'); 
-            		$ct_conf = $upgrade_cache_ct_conf;
-            		$ct_cache->save_file($base_dir . '/cache/secured/ct_conf_'.$secure_128bit_hash.'.dat', $store_cached_ct_conf);
+            		$ct['gen']->log('conf_error', 'ct_conf CACHE restore from last-known working config triggered, refreshed successfully'); 
+            		$ct['conf'] = $upgrade_cache_ct_conf;
+            		$ct['cache']->save_file($ct['base_dir'] . '/cache/secured/ct_conf_'.$secure_128bit_hash.'.dat', $store_cached_ct_conf);
             		
             		
                 		// For checking later, if DEFAULT Admin Config (in config.php) values are updated we save to json again
             		    if ( $admin_area_sec_level == 'high' ) {
-                		$ct_cache->save_file($base_dir . '/cache/vars/default_ct_conf_md5.dat', md5(serialize($default_ct_conf))); 
+                		$ct['cache']->save_file($ct['base_dir'] . '/cache/vars/default_ct_conf_md5.dat', md5(serialize($default_ct_conf))); 
             		    }
             		
             		
             		// Refresh any custom .htaccess / php.ini settings (deleting will trigger a restore)
-            		unlink($base_dir . '/.htaccess');
-            		unlink($base_dir . '/.user.ini');
-            		unlink($base_dir . '/cache/secured/.app_htpasswd');
+            		unlink($ct['base_dir'] . '/.htaccess');
+            		unlink($ct['base_dir'] . '/.user.ini');
+            		unlink($ct['base_dir'] . '/cache/secured/.app_htpasswd');
             		
             		}
             		
@@ -996,22 +997,22 @@ var $ct_array1 = array();
     		// If cached app config updated successfully
     		else {
     		    
-    		$ct_gen->log('conf_error', 'ct_conf CACHE update triggered, refreshed successfully');
-    		$ct_conf = $upgrade_cache_ct_conf;
-    		$ct_cache->save_file($base_dir . '/cache/secured/ct_conf_'.$secure_128bit_hash.'.dat', $store_cached_ct_conf);
-    		$ct_cache->save_file($base_dir . '/cache/secured/restore_conf_'.$secure_128bit_hash.'.dat', $store_cached_ct_conf);
+    		$ct['gen']->log('conf_error', 'ct_conf CACHE update triggered, refreshed successfully');
+    		$ct['conf'] = $upgrade_cache_ct_conf;
+    		$ct['cache']->save_file($ct['base_dir'] . '/cache/secured/ct_conf_'.$secure_128bit_hash.'.dat', $store_cached_ct_conf);
+    		$ct['cache']->save_file($ct['base_dir'] . '/cache/secured/restore_conf_'.$secure_128bit_hash.'.dat', $store_cached_ct_conf);
     		
     		
                  // For checking later, if DEFAULT Admin Config (in config.php) values are updated we save to json again
             	 if ( $admin_area_sec_level == 'high' ) {
-                 $ct_cache->save_file($base_dir . '/cache/vars/default_ct_conf_md5.dat', md5(serialize($default_ct_conf))); 
+                 $ct['cache']->save_file($ct['base_dir'] . '/cache/vars/default_ct_conf_md5.dat', md5(serialize($default_ct_conf))); 
     		     }
     		    
     		
             // Refresh any custom .htaccess / php.ini settings (deleting will trigger a restore)
-    		unlink($base_dir . '/.htaccess');
-    		unlink($base_dir . '/.user.ini');
-    		unlink($base_dir . '/cache/secured/.app_htpasswd');
+    		unlink($ct['base_dir'] . '/.htaccess');
+    		unlink($ct['base_dir'] . '/.user.ini');
+    		unlink($ct['base_dir'] . '/cache/secured/.app_htpasswd');
     		
     		}
     		
@@ -1019,8 +1020,8 @@ var $ct_array1 = array();
     	}
     	
    
-   // Return $ct_conf, EVEN THOUGH IT'S A GLOBAL, AS WE ARE SOMETIMES UPDATING IT MORE THAN ONCE IN load_cached_config()
-   return $ct_conf;
+   // Return $ct['conf'], EVEN THOUGH IT'S A GLOBAL, AS WE ARE SOMETIMES UPDATING IT MORE THAN ONCE IN load_cached_config()
+   return $ct['conf'];
    
    }
   
@@ -1031,10 +1032,10 @@ var $ct_array1 = array();
   
   function debug_log() {
   
-  global $runtime_mode, $base_dir, $ct_conf, $ct_gen, $log_debugging, $alerts_gui_debugging, $daily_tasks_offset;
+  global $ct, $log_debugging, $alerts_gui_debugging;
   
   
-      if ( $ct_conf['power']['debug_mode'] == 'off' ) {
+      if ( $ct['conf']['power']['debug_mode'] == 'off' ) {
       return false;
       }
     
@@ -1066,22 +1067,22 @@ var $ct_array1 = array();
       
   
   // Sort logs by timestamp
-  $debug_log = $ct_gen->sort_log($debug_log);
+  $debug_log = $ct['gen']->sort_log($debug_log);
       
       
       // Save a copy for interface alerts
-      if ( $runtime_mode == 'ui') {
+      if ( $ct['runtime_mode'] == 'ui') {
       $alerts_gui_debugging = nl2br($debug_log);
       }
   
   
       // If it's time to email debugging logs...
 	  // With offset, to try keeping daily recurrences at same exact runtime (instead of moving up the runtime daily)
-      if ( $ct_conf['comms']['logs_email'] > 0 && $this->update_cache('cache/events/email-debugging-logs.dat', ( $ct_conf['comms']['logs_email'] * 1440 ) + $daily_tasks_offset ) == true ) {
+      if ( $ct['conf']['comms']['logs_email'] > 0 && $this->update_cache('cache/events/email-debugging-logs.dat', ( $ct['conf']['comms']['logs_email'] * 1440 ) + $ct['dev']['tasks_time_offset'] ) == true ) {
        
       $emailed_logs = "\n\n ------------------debug.log------------------ \n\n" . file_get_contents('cache/logs/debug.log') . "\n\n ------------------smtp_debug.log------------------ \n\n" . file_get_contents('cache/logs/smtp_debug.log');
        
-      $msg = " Here are the current debugging logs from the " . $base_dir . "/cache/logs/ directory. \n\n You can disable / change receiving log emails (every " . $ct_conf['comms']['logs_email'] . " days) in the Admin Config \"Communications\" section. \n =========================================================================== \n \n"  . ( isset($emailed_logs) && $emailed_logs != '' ? $emailed_logs : 'No debugging logs currently.' );
+      $msg = " Here are the current debugging logs from the " . $ct['base_dir'] . "/cache/logs/ directory. \n\n You can disable / change receiving log emails (every " . $ct['conf']['comms']['logs_email'] . " days) in the Admin Config \"Communications\" section. \n =========================================================================== \n \n"  . ( isset($emailed_logs) && $emailed_logs != '' ? $emailed_logs : 'No debugging logs currently.' );
       
         // Message parameter added for desired comm methods (leave any comm method blank to skip sending via that method)
         $send_params = array(
@@ -1094,17 +1095,17 @@ var $ct_array1 = array();
       // Send notifications
       @$this->queue_notify($send_params);
                 
-      $this->save_file($base_dir . '/cache/events/email-debugging-logs.dat', date('Y-m-d H:i:s')); // Track this emailing event, to determine next time to email logs again.
+      $this->save_file($ct['base_dir'] . '/cache/events/email-debugging-logs.dat', date('Y-m-d H:i:s')); // Track this emailing event, to determine next time to email logs again.
       
       }
       
       
       // Log debugging...Purge old logs before storing new logs, if it's time to...otherwise just append.
 	  // With offset, to try keeping daily recurrences at same exact runtime (instead of moving up the runtime daily)
-      if ( $this->update_cache('cache/events/purge-debugging-logs.dat', ( $ct_conf['power']['logs_purge'] * 1440 ) + $daily_tasks_offset ) == true ) {
+      if ( $this->update_cache('cache/events/purge-debugging-logs.dat', ( $ct['conf']['power']['logs_purge'] * 1440 ) + $ct['dev']['tasks_time_offset'] ) == true ) {
       
-      unlink($base_dir . '/cache/logs/smtp_debug.log');
-      unlink($base_dir . '/cache/logs/debug.log');
+      unlink($ct['base_dir'] . '/cache/logs/smtp_debug.log');
+      unlink($ct['base_dir'] . '/cache/logs/debug.log');
       
       $this->save_file('cache/events/purge-debugging-logs.dat', date('Y-m-d H:i:s'));
       
@@ -1115,15 +1116,15 @@ var $ct_array1 = array();
       
       if ( $debug_log != null ) {
         
-      $store_file_contents = $this->save_file($base_dir . '/cache/logs/debug.log', $debug_log, "append");
+      $store_file_contents = $this->save_file($ct['base_dir'] . '/cache/logs/debug.log', $debug_log, "append");
       $log_debugging = array(); // RESET DEBUG LOGS ARRAY (clears logs from memory, that we just wrote to disk)
         
           if ( $store_file_contents != true ) {
-          return 'Debugging logs write error for "' . $base_dir . '/cache/logs/debug.log" (MAKE SURE YOUR DISK ISN\'T FULL), data_size_bytes: ' . strlen($debug_log) . ' bytes';
+          return 'Debugging logs write error for "' . $ct['base_dir'] . '/cache/logs/debug.log" (MAKE SURE YOUR DISK ISN\'T FULL), data_size_bytes: ' . strlen($debug_log) . ' bytes';
           }
           // DEBUGGING ONLY (rules out issues other than full disk)
-          elseif ( $ct_conf['power']['debug_mode'] == 'all' || $ct_conf['power']['debug_mode'] == 'all_telemetry' ) {
-          return 'Debugging logs write success for "' . $base_dir . '/cache/logs/debug.log", data_size_bytes: ' . strlen($debug_log) . ' bytes';
+          elseif ( $ct['conf']['power']['debug_mode'] == 'all' || $ct['conf']['power']['debug_mode'] == 'all_telemetry' ) {
+          return 'Debugging logs write success for "' . $ct['base_dir'] . '/cache/logs/debug.log", data_size_bytes: ' . strlen($debug_log) . ' bytes';
           }
         
       }
@@ -1140,7 +1141,7 @@ var $ct_array1 = array();
   
   function error_log() {
   
-  global $runtime_mode, $base_dir, $ct_conf, $ct_gen, $log_errors, $alerts_gui_errors, $daily_tasks_offset;
+  global $ct, $log_errors, $alerts_gui_errors;
 
   
       foreach ( $log_errors['notify_error'] as $error ) {
@@ -1172,22 +1173,22 @@ var $ct_array1 = array();
       
   
   // Sort logs by timestamp
-  $error_log = $ct_gen->sort_log($error_log);
+  $error_log = $ct['gen']->sort_log($error_log);
       
       
       // Save a copy for interface alerts
-      if ( $runtime_mode == 'ui') {
+      if ( $ct['runtime_mode'] == 'ui') {
       $alerts_gui_errors = nl2br($error_log);
       }
     
     
       // If it's time to email error logs...
 	  // With offset, to try keeping daily recurrences at same exact runtime (instead of moving up the runtime daily)
-      if ( $ct_conf['comms']['logs_email'] > 0 && $this->update_cache('cache/events/email-error-logs.dat', ( $ct_conf['comms']['logs_email'] * 1440 ) + $daily_tasks_offset ) == true ) {
+      if ( $ct['conf']['comms']['logs_email'] > 0 && $this->update_cache('cache/events/email-error-logs.dat', ( $ct['conf']['comms']['logs_email'] * 1440 ) + $ct['dev']['tasks_time_offset'] ) == true ) {
        
       $emailed_logs = "\n\n ------------------error.log------------------ \n\n" . file_get_contents('cache/logs/error.log') . "\n\n ------------------smtp_error.log------------------ \n\n" . file_get_contents('cache/logs/smtp_error.log');
        
-      $msg = " Here are the current error logs from the ".$base_dir."/cache/logs/ directory. \n\n You can disable / change receiving log emails (every " . $ct_conf['comms']['logs_email'] . " days) in the Admin Config \"Communications\" section. \n \n =========================================================================== \n \n"  . ( isset($emailed_logs) && $emailed_logs != '' ? $emailed_logs : 'No error logs currently.' );
+      $msg = " Here are the current error logs from the ".$ct['base_dir']."/cache/logs/ directory. \n\n You can disable / change receiving log emails (every " . $ct['conf']['comms']['logs_email'] . " days) in the Admin Config \"Communications\" section. \n \n =========================================================================== \n \n"  . ( isset($emailed_logs) && $emailed_logs != '' ? $emailed_logs : 'No error logs currently.' );
       
         // Message parameter added for desired comm methods (leave any comm method blank to skip sending via that method)
         $send_params = array(
@@ -1200,17 +1201,17 @@ var $ct_array1 = array();
       // Send notifications
       @$this->queue_notify($send_params);
                 
-      $this->save_file($base_dir . '/cache/events/email-error-logs.dat', date('Y-m-d H:i:s')); // Track this emailing event, to determine next time to email logs again.
+      $this->save_file($ct['base_dir'] . '/cache/events/email-error-logs.dat', date('Y-m-d H:i:s')); // Track this emailing event, to determine next time to email logs again.
       
       }
       
       
       // Log errors...Purge old logs before storing new logs, if it's time to...otherwise just append.
 	  // With offset, to try keeping daily recurrences at same exact runtime (instead of moving up the runtime daily)
-      if ( $this->update_cache('cache/events/purge-error-logs.dat', ( $ct_conf['power']['logs_purge'] * 1440 ) + $daily_tasks_offset ) == true ) {
+      if ( $this->update_cache('cache/events/purge-error-logs.dat', ( $ct['conf']['power']['logs_purge'] * 1440 ) + $ct['dev']['tasks_time_offset'] ) == true ) {
       
-      unlink($base_dir . '/cache/logs/smtp_error.log');
-      unlink($base_dir . '/cache/logs/error.log');
+      unlink($ct['base_dir'] . '/cache/logs/smtp_error.log');
+      unlink($ct['base_dir'] . '/cache/logs/error.log');
       
       $this->save_file('cache/events/purge-error-logs.dat', date('Y-m-d H:i:s'));
       
@@ -1221,15 +1222,15 @@ var $ct_array1 = array();
       
       if ( $error_log != null ) {
         
-      $store_file_contents = $this->save_file($base_dir . '/cache/logs/error.log', $error_log, "append");
+      $store_file_contents = $this->save_file($ct['base_dir'] . '/cache/logs/error.log', $error_log, "append");
       $log_errors = array(); // RESET ERROR LOGS ARRAY (clears logs from memory, that we just wrote to disk)
         
           if ( $store_file_contents != true ) {
-          return 'Error logs write error for "' . $base_dir . '/cache/logs/error.log" (MAKE SURE YOUR DISK ISN\'T FULL), data_size_bytes: ' . strlen($error_log) . ' bytes';
+          return 'Error logs write error for "' . $ct['base_dir'] . '/cache/logs/error.log" (MAKE SURE YOUR DISK ISN\'T FULL), data_size_bytes: ' . strlen($error_log) . ' bytes';
           }
           // DEBUGGING ONLY (rules out issues other than full disk)
-          elseif ( $ct_conf['power']['debug_mode'] == 'all' || $ct_conf['power']['debug_mode'] == 'all_telemetry' ) {
-          return 'Error logs write success for "' . $base_dir . '/cache/logs/error.log", data_size_bytes: ' . strlen($error_log) . ' bytes';
+          elseif ( $ct['conf']['power']['debug_mode'] == 'all' || $ct['conf']['power']['debug_mode'] == 'all_telemetry' ) {
+          return 'Error logs write success for "' . $ct['base_dir'] . '/cache/logs/error.log", data_size_bytes: ' . strlen($error_log) . ' bytes';
           }
       
       }
@@ -1246,26 +1247,26 @@ var $ct_array1 = array();
   
   function save_file($file, $data, $mode=false, $lock=true) {
   
-  global $ct_conf, $ct_var, $ct_gen, $current_runtime_user, $possible_http_users, $http_runtime_user, $chmod_cache_file, $chmod_index_sec;
+  global $ct, $current_runtime_user, $possible_http_users, $http_runtime_user;
   
   
     // If no data was passed on to write to file, log it and return false early for runtime speed sake
     if ( strlen($data) == 0 ) {
      
-    $ct_gen->log(
+    $ct['gen']->log(
     			'system_error',
-    			'No bytes of data received to write to file "' . $ct_gen->obfusc_path_data($file) . '" (aborting useless file write)'
+    			'No bytes of data received to write to file "' . $ct['gen']->obfusc_path_data($file) . '" (aborting useless file write)'
     			);
     
      // API timeouts are a confirmed cause for write errors of 0 bytes, so we want to alert end users that they may need to adjust their API timeout settings to get associated API data
      if ( preg_match("/cache\/secured\/apis/i", $file) ) {
        
-     $ct_gen->log(
+     $ct['gen']->log(
      			'ext_data_error',
      								
-     			'POSSIBLE api timeout' . ( $ct_conf['sec']['remote_api_strict_ssl'] == 'on' ? ' or strict_ssl' : '' ) . ' issue for cache file "' . $ct_gen->obfusc_path_data($file) . '" (IF ISSUE PERSISTS, TRY INCREASING "remote_api_timeout" IN Admin Config POWER USER SECTION' . ( $ct_conf['sec']['remote_api_strict_ssl'] == 'on' ? ', OR SETTING "remote_api_strict_ssl" to "off" IN Admin Config POWER USER SECTION' : '' ) . ')',
+     			'POSSIBLE api timeout' . ( $ct['conf']['sec']['remote_api_strict_ssl'] == 'on' ? ' or strict_ssl' : '' ) . ' issue for cache file "' . $ct['gen']->obfusc_path_data($file) . '" (IF ISSUE PERSISTS, TRY INCREASING "remote_api_timeout" IN Admin Config POWER USER SECTION' . ( $ct['conf']['sec']['remote_api_strict_ssl'] == 'on' ? ', OR SETTING "remote_api_strict_ssl" to "off" IN Admin Config POWER USER SECTION' : '' ) . ')',
      								
-     			'remote_api_timeout: '.$ct_conf['power']['remote_api_timeout'].' seconds; remote_api_strict_ssl: ' . $ct_conf['sec']['remote_api_strict_ssl'] . ';'
+     			'remote_api_timeout: '.$ct['conf']['power']['remote_api_timeout'].' seconds; remote_api_strict_ssl: ' . $ct['conf']['sec']['remote_api_strict_ssl'] . ';'
      			);
      
      }
@@ -1275,17 +1276,17 @@ var $ct_array1 = array();
     }
    
    
-    // We ALWAYS set .htaccess files to a more secure $chmod_index_sec permission AFTER EDITING, 
-    // so we TEMPORARILY set .htaccess to $chmod_cache_file for NEW EDITING...
+    // We ALWAYS set .htaccess files to a more secure $ct['dev']['chmod_index_sec'] permission AFTER EDITING, 
+    // so we TEMPORARILY set .htaccess to $ct['dev']['chmod_cache_file'] for NEW EDITING...
     // (anything else stays weaker write security permissions, for UX)
     if ( strstr($file, '.dat') != false || strstr($file, '.htaccess') != false || strstr($file, '.user.ini') != false || strstr($file, 'index.php') != false ) {
      
-    $chmod_setting = octdec($chmod_cache_file);
+    $chmod_setting = octdec($ct['dev']['chmod_cache_file']);
     
          // Run chmod compatibility on certain PHP setups (if we can because we are running as the file owner)
          // In this case only if the file exists, as we are chmod BEFORE editing it (.htaccess files)
          if ( file_exists($file) == true ) {
-         $ct_gen->ct_chmod($file, $chmod_setting);
+         $ct['gen']->ct_chmod($file, $chmod_setting);
          }
     
     }
@@ -1310,9 +1311,9 @@ var $ct_array1 = array();
     // Log any write error
     if ( $result == false ) {
     	
-    $ct_gen->log(
+    $ct['gen']->log(
     				'system_error',
-    				'File write failed storing '.strlen($data).' bytes of data to file "' . $ct_gen->obfusc_path_data($file) . '" (MAKE SURE YOUR DISK ISN\'T FULL. Check permissions for the path "' . $ct_gen->obfusc_path_data($path_parts['dirname']) . '", and the file "' . $ct_var->obfusc_str($path_parts['basename'], 5) . '")'
+    				'File write failed storing '.strlen($data).' bytes of data to file "' . $ct['gen']->obfusc_path_data($file) . '" (MAKE SURE YOUR DISK ISN\'T FULL. Check permissions for the path "' . $ct['gen']->obfusc_path_data($path_parts['dirname']) . '", and the file "' . $ct['var']->obfusc_str($path_parts['basename'], 5) . '")'
     				);
     
     }
@@ -1320,14 +1321,14 @@ var $ct_array1 = array();
     
     // For security, NEVER make an .htaccess file writable by any user not in the group
     if ( strstr($file, '.htaccess') != false || strstr($file, '.user.ini') != false || strstr($file, 'index.php') != false ) {
-    $chmod_setting = octdec($chmod_index_sec);
+    $chmod_setting = octdec($ct['dev']['chmod_index_sec']);
     }
     // All other files
     else {
-    $chmod_setting = octdec($chmod_cache_file);
+    $chmod_setting = octdec($ct['dev']['chmod_cache_file']);
     }
    
-    $ct_gen->ct_chmod($file, $chmod_setting);
+    $ct['gen']->ct_chmod($file, $chmod_setting);
    
   return $result;
   
@@ -1340,7 +1341,7 @@ var $ct_array1 = array();
   
   function update_light_chart($archive_path, $newest_arch_data=false, $days_span=1) {
   
-  global $ct_conf, $ct_var, $ct_gen, $base_dir, $system_info, $light_chart_first_build_count;
+  global $ct, $light_chart_first_build_count;
   
   $arch_data = array();
   $queued_arch_lines = array();
@@ -1353,7 +1354,7 @@ var $ct_array1 = array();
     // Hash of light path, AND random X hours update threshold, to spread out and event-track 'all' chart rebuilding
     if ( $days_span == 'all' ) {
     $light_path_hash = md5($light_path);
-    $thres_range = explode(',', $ct_conf['power']['light_chart_all_rebuild_min_max']);
+    $thres_range = explode(',', $ct['conf']['power']['light_chart_all_rebuild_min_max']);
     $all_chart_rebuild_thres = rand($thres_range[0], $thres_range[1]); // Randomly within the min/max range, to spead the load across multiple runtimes
     }
    
@@ -1362,19 +1363,19 @@ var $ct_array1 = array();
     if ( file_exists($light_path) ) {
     
     $oldest_light_array = explode("||", file($light_path)[0]);
-    $oldest_light_timestamp = $ct_var->num_to_str( $oldest_light_array[0] );
+    $oldest_light_timestamp = $ct['var']->num_to_str( $oldest_light_array[0] );
         
     $last_light_line = $this->tail_custom($light_path);
     $last_light_array = explode("||", $last_light_line);
-    $newest_light_timestamp = ( isset($last_light_array[0]) ? $ct_var->num_to_str($last_light_array[0]) : false );
+    $newest_light_timestamp = ( isset($last_light_array[0]) ? $ct['var']->num_to_str($last_light_array[0]) : false );
     
     gc_collect_cycles(); // Clean memory cache
     
     }
     else {
     
-        if ( $ct_gen->dir_struct( dirname($light_path) ) != true ) {
-        $ct_gen->log('system_error', 'Unable to create light chart directory structure ('.dirname($light_path).')');
+        if ( $ct['gen']->dir_struct( dirname($light_path) ) != true ) {
+        $ct['gen']->log('system_error', 'Unable to create light chart directory structure ('.dirname($light_path).')');
         return false;
         }
         
@@ -1390,20 +1391,20 @@ var $ct_array1 = array();
   // (determines newest archival timestamp)
   $last_arch_line = ( $newest_arch_data != false ? $newest_arch_data : $this->tail_custom($archive_path) );
   $last_arch_array = explode("||", $last_arch_line);
-  $newest_arch_timestamp = $ct_var->num_to_str($last_arch_array[0]);
+  $newest_arch_timestamp = $ct['var']->num_to_str($last_arch_array[0]);
   
   
     // Get FIRST line of archival chart data (determines oldest archival timestamp)
     if ( file_exists($archive_path) ) {
     $oldest_arch_array = explode("||", file($archive_path)[0]);
-    $oldest_arch_timestamp = $ct_var->num_to_str( $oldest_arch_array[0] );
+    $oldest_arch_timestamp = $ct['var']->num_to_str( $oldest_arch_array[0] );
     gc_collect_cycles(); // Clean memory cache
     }
     
     
     // If we don't have any valid archival data, return false
     if ( !$oldest_arch_timestamp ) {
-    $ct_gen->log('cache_error', 'Archival chart data not found ('.$archive_path.')');
+    $ct['gen']->log('cache_error', 'Archival chart data not found ('.$archive_path.')');
     return false;
     }
     // If we recently restored to OLDER / LARGER archival data sets, RESET ALL LIGHT CHARTS
@@ -1416,11 +1417,11 @@ var $ct_array1 = array();
     && $oldest_arch_timestamp != $oldest_light_timestamp
     ) {
         
-    $ct_gen->log('cache_error', 'Archival chart data appears recently restored, resetting ALL light charts');
+    $ct['gen']->log('cache_error', 'Archival chart data appears recently restored, resetting ALL light charts');
     
     // Delete ALL light charts (this will automatically trigger a re-build)
-    $this->remove_dir($base_dir . '/cache/charts/spot_price_24hr_volume/light');
-    $this->remove_dir($base_dir . '/cache/charts/system/light');
+    $this->remove_dir($ct['base_dir'] . '/cache/charts/spot_price_24hr_volume/light');
+    $this->remove_dir($ct['base_dir'] . '/cache/charts/system/light');
     
     return 'reset';
     
@@ -1429,7 +1430,7 @@ var $ct_array1 = array();
      
     // Oldest base timestamp we can use (only applies for x days charts, not 'all')
     if ( $days_span != 'all' ) {
-    $base_min_timestamp = $ct_var->num_to_str( strtotime('-'.$days_span.' day', $newest_arch_timestamp) );
+    $base_min_timestamp = $ct['var']->num_to_str( strtotime('-'.$days_span.' day', $newest_arch_timestamp) );
     }
     
     // If it's the 'all' light chart, OR the oldest archival timestamp is newer than oldest base timestamp we can use
@@ -1444,10 +1445,10 @@ var $ct_array1 = array();
    
     // Minimum time interval between data points in light chart
     if ( $days_span == 'all' ) {
-    $min_data_interval = round( ($newest_arch_timestamp - $oldest_arch_timestamp) / $ct_conf['power']['light_chart_data_points_max'] ); // Dynamic
+    $min_data_interval = round( ($newest_arch_timestamp - $oldest_arch_timestamp) / $ct['conf']['power']['light_chart_data_points_max'] ); // Dynamic
     }
     else {
-    $min_data_interval = round( ($days_span * 86400) / $ct_conf['power']['light_chart_data_points_max'] ); // Fixed X days (86400 seconds per day)
+    $min_data_interval = round( ($days_span * 86400) / $ct['conf']['power']['light_chart_data_points_max'] ); // Fixed X days (86400 seconds per day)
     }
   
   
@@ -1463,8 +1464,8 @@ var $ct_array1 = array();
   
   
   // Large number support (NOT scientific format), since we manipulated these
-  $min_data_interval = $ct_var->num_to_str($min_data_interval); 
-  $light_data_update_thres = $ct_var->num_to_str($light_data_update_thres); 
+  $min_data_interval = $ct['var']->num_to_str($min_data_interval); 
+  $light_data_update_thres = $ct['var']->num_to_str($light_data_update_thres); 
   
   
      // If we are queued to update an existing light chart, get the data points we want to add 
@@ -1475,7 +1476,7 @@ var $ct_array1 = array();
         // #we save BIGTIME on resource usage# (used EVERYTIME, other than very rare FALLBACKS)
         // CHECKS IF UPDATE THRESHOLD IS GREATER THAN NEWEST ARCHIVAL DATA POINT TIMESTAMP, 
         // #WHEN ADDING AN EXTRA# $min_data_interval (so we know to only add one data point)
-        if ( $ct_var->num_to_str($light_data_update_thres + $min_data_interval) > $newest_arch_timestamp ) {
+        if ( $ct['var']->num_to_str($light_data_update_thres + $min_data_interval) > $newest_arch_timestamp ) {
         $queued_arch_lines[] = $last_arch_line;
         }
        // If multiple light chart data points missing (from any very rare FALLBACK instances, like network / load / disk / runtime issues, etc)
@@ -1488,10 +1489,10 @@ var $ct_array1 = array();
          
           foreach( $tail_arch_lines_array as $arch_line ) {
           $arch_line_array = explode('||', $arch_line);
-          $arch_line_array[0] = $ct_var->num_to_str($arch_line_array[0]);
+          $arch_line_array[0] = $ct['var']->num_to_str($arch_line_array[0]);
            
              if ( !$added_arch_timestamp && $light_data_update_thres <= $arch_line_array[0]
-             || isset($added_arch_timestamp) && $ct_var->num_to_str($added_arch_timestamp + $min_data_interval) <= $arch_line_array[0] ) {
+             || isset($added_arch_timestamp) && $ct['var']->num_to_str($added_arch_timestamp + $min_data_interval) <= $arch_line_array[0] ) {
              $queued_arch_lines[] = $arch_line;
              $added_arch_timestamp = $arch_line_array[0];
              }
@@ -1527,7 +1528,7 @@ var $ct_array1 = array();
     ////////////////////////////////////////////////////////////////////////////////////////////////
     elseif (
     !$newest_light_timestamp
-    || $days_span == 'all' && is_array($queued_arch_lines) && sizeof($queued_arch_lines) > 0 && $this->update_cache($base_dir . '/cache/events/light_chart_rebuilds/all_days_chart_'.$light_path_hash.'.dat', (60 * $all_chart_rebuild_thres) ) == true
+    || $days_span == 'all' && is_array($queued_arch_lines) && sizeof($queued_arch_lines) > 0 && $this->update_cache($ct['base_dir'] . '/cache/events/light_chart_rebuilds/all_days_chart_'.$light_path_hash.'.dat', (60 * $all_chart_rebuild_thres) ) == true
     ) {
     
       
@@ -1535,12 +1536,12 @@ var $ct_array1 = array();
       // (multiplies the first build limit by the number of available CPU threads)
       // [less cores == lower hard limit == NOT OVERLOADING SLOW DEVICES]
       // [more cores == higher hard limit == FASTER ON FAST DEVICES]
-      if ( isset($system_info['cpu_threads']) && $system_info['cpu_threads'] > 1 ) {
-      $scaled_first_build_hard_limit = ($ct_conf['power']['light_chart_first_build_hard_limit'] * $system_info['cpu_threads']);
+      if ( isset($ct['system_info']['cpu_threads']) && $ct['system_info']['cpu_threads'] > 1 ) {
+      $scaled_first_build_hard_limit = ($ct['conf']['power']['light_chart_first_build_hard_limit'] * $ct['system_info']['cpu_threads']);
       }
       // Doubles as failsafe (if number of threads not detected on this system, eg: windows devices)
       else {
-      $scaled_first_build_hard_limit = $ct_conf['power']['light_chart_first_build_hard_limit'];
+      $scaled_first_build_hard_limit = $ct['conf']['power']['light_chart_first_build_hard_limit'];
       }
       
       
@@ -1560,7 +1561,7 @@ var $ct_array1 = array();
       foreach($archive_file_data as $line) {
       
       $line_array = explode("||", $line);
-      $line_array[0] = $ct_var->num_to_str($line_array[0]);
+      $line_array[0] = $ct['var']->num_to_str($line_array[0]);
      
         if ( $line_array[0] >= $oldest_allowed_timestamp ) {
         $arch_data[] = $line;
@@ -1573,10 +1574,10 @@ var $ct_array1 = array();
       $loop = 0;
       $data_points = 0;
       // $data_points <= is INTENTIONAL, as we can have max data points slightly under without it
-      while ( isset($arch_data[$loop]) && $data_points <= $ct_conf['power']['light_chart_data_points_max'] ) {
+      while ( isset($arch_data[$loop]) && $data_points <= $ct['conf']['power']['light_chart_data_points_max'] ) {
        
       $data_point_array = explode("||", $arch_data[$loop]);
-      $data_point_array[0] = $ct_var->num_to_str($data_point_array[0]);
+      $data_point_array[0] = $ct['var']->num_to_str($data_point_array[0]);
         
          if ( !$next_timestamp || isset($next_timestamp) && $data_point_array[0] <= $next_timestamp ) {
             
@@ -1614,7 +1615,7 @@ var $ct_array1 = array();
     
       // Update the 'all' light chart rebuild event tracking, IF THE LIGHT CHART UPDATED SUCESSFULLY
       if ( $days_span == 'all' && $result == true ) {
-      $this->save_file($base_dir . '/cache/events/light_chart_rebuilds/all_days_chart_'.$light_path_hash.'.dat', $ct_gen->time_date_format(false, 'pretty_date_time') );
+      $this->save_file($ct['base_dir'] . '/cache/events/light_chart_rebuilds/all_days_chart_'.$light_path_hash.'.dat', $ct['gen']->time_date_format(false, 'pretty_date_time') );
       }
     
    
@@ -1628,7 +1629,7 @@ var $ct_array1 = array();
     $queued_arch_data = implode("\n", $queued_arch_lines);
     
     // Current light chart lines, plus new archival lines queued to be added
-    $check_light_data_lines = $ct_gen->get_lines($light_path) + sizeof($queued_arch_lines);
+    $check_light_data_lines = $ct['gen']->get_lines($light_path) + sizeof($queued_arch_lines);
      
     // Get FIRST line of light chart data (determines oldest light timestamp)
     $fopen_light = fopen($light_path, 'r');
@@ -1641,13 +1642,13 @@ var $ct_array1 = array();
       }
        
     $first_light_array = explode("||", $first_light_line);
-    $oldest_light_timestamp = $ct_var->num_to_str($first_light_array[0]);
+    $oldest_light_timestamp = $ct['var']->num_to_str($first_light_array[0]);
      
       // If our oldest light timestamp is older than allowed, remove the stale data points
       if ( $oldest_light_timestamp < $oldest_allowed_timestamp ) {
-      $light_data_removed_outdated_lines = $ct_gen->prune_first_lines($light_path, 0, $oldest_allowed_timestamp);
+      $light_data_removed_outdated_lines = $ct['gen']->prune_first_lines($light_path, 0, $oldest_allowed_timestamp);
       
-      // ONLY APPEND A LINE BREAK TO THE NEW ARCHIVAL DATA, since $ct_gen->prune_first_lines() maintains the existing line breaks
+      // ONLY APPEND A LINE BREAK TO THE NEW ARCHIVAL DATA, since $ct['gen']->prune_first_lines() maintains the existing line breaks
       $result = $this->save_file($light_path, $light_data_removed_outdated_lines['data'] . $queued_arch_data . "\n");  // WITH newline for NEW data (file write)
       $light_mode_logging = 'OVERWRITE_' . $light_data_removed_outdated_lines['lines_removed'] . '_OUTDATED_PRUNED_' . $added_arch_mode;
       }
@@ -1672,12 +1673,12 @@ var $ct_array1 = array();
     $_SESSION['light_charts_updated'] = $_SESSION['light_charts_updated'] + 1;
       
       if ( 
-      $ct_conf['power']['debug_mode'] == 'all'
-      || $ct_conf['power']['debug_mode'] == 'all_telemetry'
-      || $ct_conf['power']['debug_mode'] == 'light_chart_telemetry' 
+      $ct['conf']['power']['debug_mode'] == 'all'
+      || $ct['conf']['power']['debug_mode'] == 'all_telemetry'
+      || $ct['conf']['power']['debug_mode'] == 'light_chart_telemetry' 
       ) {
       	
-      $ct_gen->log(
+      $ct['gen']->log(
       			'cache_debug',
       			'Light chart ' . $light_mode_logging . ' COMPLETED ('.$_SESSION['light_charts_updated'].') for ' . $light_path
       			);
@@ -1685,14 +1686,14 @@ var $ct_array1 = array();
       }
        
       if ( 
-      $ct_conf['power']['debug_mode'] == 'all'
-      || $ct_conf['power']['debug_mode'] == 'all_telemetry'
-      || $ct_conf['power']['debug_mode'] == 'memory_usage_telemetry' 
+      $ct['conf']['power']['debug_mode'] == 'all'
+      || $ct['conf']['power']['debug_mode'] == 'all_telemetry'
+      || $ct['conf']['power']['debug_mode'] == 'memory_usage_telemetry' 
       ) {
       	
-      $ct_gen->log(
+      $ct['gen']->log(
       			'system_debug',
-      			$_SESSION['light_charts_updated'] . ' light charts updated, CURRENT script memory usage is ' . $ct_gen->conv_bytes(memory_get_usage(), 1) . ', PEAK script memory usage is ' . $ct_gen->conv_bytes(memory_get_peak_usage(), 1) . ', php_sapi_name is "' . php_sapi_name() . '"'
+      			$_SESSION['light_charts_updated'] . ' light charts updated, CURRENT script memory usage is ' . $ct['gen']->conv_bytes(memory_get_usage(), 1) . ', PEAK script memory usage is ' . $ct['gen']->conv_bytes(memory_get_peak_usage(), 1) . ', php_sapi_name is "' . php_sapi_name() . '"'
       			);
      
       }
@@ -1701,10 +1702,10 @@ var $ct_array1 = array();
     elseif ( $result == false ) {
         
         if ( !is_readable($archive_path) ) {
-        $ct_gen->log( 'cache_error', 'Light chart ' . $light_mode_logging . ' FAILED, data from archive file ' . $archive_path . ' could not be read. Check file AND cache directory permissions');
+        $ct['gen']->log( 'cache_error', 'Light chart ' . $light_mode_logging . ' FAILED, data from archive file ' . $archive_path . ' could not be read. Check file AND cache directory permissions');
         }
         elseif ( !file_exists($archive_path) ) {
-        $ct_gen->log( 'cache_error', 'Light chart ' . $light_mode_logging . ' FAILED for ' . $light_path . ', archival data not created yet (for new installs please wait a few hours, then check cache directory permissions if this error continues beyond then)');
+        $ct['gen']->log( 'cache_error', 'Light chart ' . $light_mode_logging . ' FAILED for ' . $light_path . ', archival data not created yet (for new installs please wait a few hours, then check cache directory permissions if this error continues beyond then)');
         }
     
     }
@@ -1726,11 +1727,11 @@ var $ct_array1 = array();
   
   function send_notifications() {
   
-  global $base_dir, $ct_conf, $ct_var, $ct_gen, $processed_msgs, $possible_http_users, $http_runtime_user, $current_runtime_user, $telegram_user_data, $valid_to_email, $telegram_activated, $notifyme_activated, $sms_service;
+  global $ct, $processed_msgs, $possible_http_users, $http_runtime_user, $current_runtime_user, $telegram_user_data, $valid_to_email, $telegram_activated, $notifyme_activated, $sms_service;
   
   
   // Array of currently queued messages in the cache
-  $msgs_queue = $ct_gen->sort_files($base_dir . '/cache/secured/messages', 'queue', 'asc');
+  $msgs_queue = $ct['gen']->sort_files($ct['base_dir'] . '/cache/secured/messages', 'queue', 'asc');
    
   //var_dump($msgs_queue); // DEBUGGING ONLY
   //return false; // DEBUGGING ONLY
@@ -1750,13 +1751,13 @@ var $ct_array1 = array();
       // and no session count is set, set session count to zero
       // Don't update the file-cached count here, that will happen automatically from resetting the session count to zero 
       // (if there are notifyme messages queued to send)
-      if ( !isset($processed_msgs['notifyme_count']) && $this->update_cache($base_dir . '/cache/events/throttling/notifyme-alerts-sent.dat', 5) == true ) {
+      if ( !isset($processed_msgs['notifyme_count']) && $this->update_cache($ct['base_dir'] . '/cache/events/throttling/notifyme-alerts-sent.dat', 5) == true ) {
       $processed_msgs['notifyme_count'] = 0;
       }
       // If it hasn't been over 5 minutes since the last notifyme send, and there is no session count, 
       // use the file-cached count for the session count starting point
-      elseif ( !isset($processed_msgs['notifyme_count']) && $this->update_cache($base_dir . '/cache/events/throttling/notifyme-alerts-sent.dat', 5) == false ) {
-      $processed_msgs['notifyme_count'] = trim( file_get_contents($base_dir . '/cache/events/throttling/notifyme-alerts-sent.dat') );
+      elseif ( !isset($processed_msgs['notifyme_count']) && $this->update_cache($ct['base_dir'] . '/cache/events/throttling/notifyme-alerts-sent.dat', 5) == false ) {
+      $processed_msgs['notifyme_count'] = trim( file_get_contents($ct['base_dir'] . '/cache/events/throttling/notifyme-alerts-sent.dat') );
       }
       
       
@@ -1776,14 +1777,14 @@ var $ct_array1 = array();
      
     
     // ONLY process queued messages IF they are NOT already being processed by another runtime instance
-    $queued_msgs_processing_lock_file = $base_dir . '/cache/events/notifications-queue-processing-lock.dat';
+    $queued_msgs_processing_lock_file = $ct['base_dir'] . '/cache/events/notifications-queue-processing-lock.dat';
     
     
       // If we find no file lock (OR if there is a VERY stale file lock [OVER 9 MINUTES OLD]), we can proceed
       if ( $this->update_cache($queued_msgs_processing_lock_file, 9) == true ) {  
       
       // Re-save new file lock
-      $this->save_file($queued_msgs_processing_lock_file, $ct_gen->time_date_format(false, 'pretty_date_time') );
+      $this->save_file($queued_msgs_processing_lock_file, $ct['gen']->time_date_format(false, 'pretty_date_time') );
       
       /////////////////////////////////////////////////
       ////////////FILE-LOCKED START////////////////////
@@ -1801,7 +1802,7 @@ var $ct_array1 = array();
         
         $notifyme_params = array(
                                 'notification' => null, // Setting this right before sending
-                                'accessCode' => $ct_conf['ext_apis']['notifyme_accesscode']
+                                'accessCode' => $ct['conf']['ext_apis']['notifyme_accesscode']
                                 );
                 
         }
@@ -1812,8 +1813,8 @@ var $ct_array1 = array();
         
         $twilio_params = array(
                               'Body' => null, // Setting this right before sending
-                              'To' => '+' . $ct_gen->mob_number($ct_conf['comms']['to_mobile_text']),
-                              'From' => '+' . $ct_conf['ext_apis']['twilio_number']
+                              'To' => '+' . $ct['gen']->mob_number($ct['conf']['comms']['to_mobile_text']),
+                              'From' => '+' . $ct['conf']['ext_apis']['twilio_number']
                                );
                             
         }
@@ -1821,8 +1822,8 @@ var $ct_array1 = array();
             
         $textbelt_params = array(
                                   'message' => null, // Setting this right before sending
-                                  'phone' => $ct_gen->mob_number($ct_conf['comms']['to_mobile_text']),
-                                  'key' => $ct_conf['ext_apis']['textbelt_apikey']
+                                  'phone' => $ct['gen']->mob_number($ct['conf']['comms']['to_mobile_text']),
+                                  'key' => $ct['conf']['ext_apis']['textbelt_apikey']
                                  );
                             
         }
@@ -1830,9 +1831,9 @@ var $ct_array1 = array();
             
         $textlocal_params = array(
                                    'message' => null, // Setting this right before sending
-                                   'sender' => $ct_conf['ext_apis']['textlocal_sender'],
-                                   'apikey' => $ct_conf['ext_apis']['textlocal_apikey'],
-                                   'numbers' => $ct_gen->mob_number($ct_conf['comms']['to_mobile_text'])
+                                   'sender' => $ct['conf']['ext_apis']['textlocal_sender'],
+                                   'apikey' => $ct['conf']['ext_apis']['textlocal_apikey'],
+                                   'numbers' => $ct['gen']->mob_number($ct['conf']['comms']['to_mobile_text'])
                                     );
                             
         }
@@ -1843,15 +1844,15 @@ var $ct_array1 = array();
         foreach ( $msgs_queue as $queued_cache_file ) {
         
         
-        $msg_data = trim( file_get_contents($base_dir . '/cache/secured/messages/' . $queued_cache_file) );
+        $msg_data = trim( file_get_contents($ct['base_dir'] . '/cache/secured/messages/' . $queued_cache_file) );
         
         
           if ( isset($msg_data) && $msg_data != '' ) {
              
               
                // If 0 bytes from system / network issues, just delete it to keep the directory contents clean
-               if ( filesize($base_dir . '/cache/secured/messages/' . $queued_cache_file) == 0 ) {
-               unlink($base_dir . '/cache/secured/messages/' . $queued_cache_file);
+               if ( filesize($ct['base_dir'] . '/cache/secured/messages/' . $queued_cache_file) == 0 ) {
+               unlink($ct['base_dir'] . '/cache/secured/messages/' . $queued_cache_file);
                }
                
                
@@ -1874,13 +1875,13 @@ var $ct_array1 = array();
                    
                    $msg_sent = 1;
                    
-                   $this->save_file($base_dir . '/cache/events/throttling/notifyme-alerts-sent.dat', $processed_msgs['notifyme_count']); 
+                   $this->save_file($ct['base_dir'] . '/cache/events/throttling/notifyme-alerts-sent.dat', $processed_msgs['notifyme_count']); 
                    
-                     if ( $ct_conf['power']['debug_mode'] == 'all' || $ct_conf['power']['debug_mode'] == 'all_telemetry' || $ct_conf['power']['debug_mode'] == 'api_comms_telemetry' ) {
-                     $this->save_file($base_dir . '/cache/logs/debug/external_data/last-response-notifyme.log', $notifyme_response);
+                     if ( $ct['conf']['power']['debug_mode'] == 'all' || $ct['conf']['power']['debug_mode'] == 'all_telemetry' || $ct['conf']['power']['debug_mode'] == 'api_comms_telemetry' ) {
+                     $this->save_file($ct['base_dir'] . '/cache/logs/debug/external_data/last-response-notifyme.log', $notifyme_response);
                      }
                    
-                   unlink($base_dir . '/cache/secured/messages/' . $queued_cache_file);
+                   unlink($ct['base_dir'] . '/cache/secured/messages/' . $queued_cache_file);
                    
                    }
                
@@ -1896,7 +1897,7 @@ var $ct_array1 = array();
                $telegram_sleep = 1 * ( $processed_msgs['telegram_count'] > 0 ? $processed_msgs['telegram_count'] : 1 );
                sleep($telegram_sleep);
                  
-               $telegram_response = $ct_gen->telegram_msg($msg_data, $telegram_user_data['message']['chat']['id']);
+               $telegram_response = $ct['gen']->telegram_msg($msg_data, $telegram_user_data['message']['chat']['id']);
                
                   if ( $telegram_response != false ) {
                    
@@ -1904,16 +1905,16 @@ var $ct_array1 = array();
                   
                  $msg_sent = 1;
                 
-                 unlink($base_dir . '/cache/secured/messages/' . $queued_cache_file);
+                 unlink($ct['base_dir'] . '/cache/secured/messages/' . $queued_cache_file);
                    
                   }
                   else {
-                  $ct_gen->log( 'system_error', 'Telegram sending failed', $telegram_response);
+                  $ct['gen']->log( 'system_error', 'Telegram sending failed', $telegram_response);
                   }
                    
                  
-                  if ( $ct_conf['power']['debug_mode'] == 'all' || $ct_conf['power']['debug_mode'] == 'all_telemetry' || $ct_conf['power']['debug_mode'] == 'api_comms_telemetry' ) {
-                  $this->save_file($base_dir . '/cache/logs/debug/external_data/last-response-telegram.log', $telegram_response);
+                  if ( $ct['conf']['power']['debug_mode'] == 'all' || $ct['conf']['power']['debug_mode'] == 'all_telemetry' || $ct['conf']['power']['debug_mode'] == 'api_comms_telemetry' ) {
+                  $this->save_file($ct['base_dir'] . '/cache/logs/debug/external_data/last-response-telegram.log', $telegram_response);
                   }
                
                }
@@ -1930,17 +1931,17 @@ var $ct_array1 = array();
                sleep($text_sleep);
                usleep(500000); // Wait 0.5 seconds EXTRA, as standard twilio pay-as-you-go plans are 1 text per second (so play it safe)
                  
-               $twilio_response = @$this->ext_data('params', $twilio_params, 0, 'https://api.twilio.com/2010-04-01/Accounts/' . $ct_conf['ext_apis']['twilio_sid'] . '/Messages.json', 2);
+               $twilio_response = @$this->ext_data('params', $twilio_params, 0, 'https://api.twilio.com/2010-04-01/Accounts/' . $ct['conf']['ext_apis']['twilio_sid'] . '/Messages.json', 2);
                  
                $processed_msgs['text_count'] = $processed_msgs['text_count'] + 1;
                
                $msg_sent = 1;
                  
-                 if ( $ct_conf['power']['debug_mode'] == 'all' || $ct_conf['power']['debug_mode'] == 'all_telemetry' || $ct_conf['power']['debug_mode'] == 'api_comms_telemetry' ) {
-                 $this->save_file($base_dir . '/cache/logs/debug/external_data/last-response-twilio.log', $twilio_response);
+                 if ( $ct['conf']['power']['debug_mode'] == 'all' || $ct['conf']['power']['debug_mode'] == 'all_telemetry' || $ct['conf']['power']['debug_mode'] == 'api_comms_telemetry' ) {
+                 $this->save_file($ct['base_dir'] . '/cache/logs/debug/external_data/last-response-twilio.log', $twilio_response);
                  }
                
-               unlink($base_dir . '/cache/secured/messages/' . $queued_cache_file);
+               unlink($ct['base_dir'] . '/cache/secured/messages/' . $queued_cache_file);
                
                }
                
@@ -1961,11 +1962,11 @@ var $ct_array1 = array();
                
                $msg_sent = 1;
                  
-                 if ( $ct_conf['power']['debug_mode'] == 'all' || $ct_conf['power']['debug_mode'] == 'all_telemetry' || $ct_conf['power']['debug_mode'] == 'api_comms_telemetry' ) {
-                 $this->save_file($base_dir . '/cache/logs/debug/external_data/last-response-textbelt.log', $textbelt_response);
+                 if ( $ct['conf']['power']['debug_mode'] == 'all' || $ct['conf']['power']['debug_mode'] == 'all_telemetry' || $ct['conf']['power']['debug_mode'] == 'api_comms_telemetry' ) {
+                 $this->save_file($ct['base_dir'] . '/cache/logs/debug/external_data/last-response-textbelt.log', $textbelt_response);
                  }
                
-               unlink($base_dir . '/cache/secured/messages/' . $queued_cache_file);
+               unlink($ct['base_dir'] . '/cache/secured/messages/' . $queued_cache_file);
                
                }
                
@@ -1986,11 +1987,11 @@ var $ct_array1 = array();
                
                $msg_sent = 1;
                  
-                 if ( $ct_conf['power']['debug_mode'] == 'all' || $ct_conf['power']['debug_mode'] == 'all_telemetry' || $ct_conf['power']['debug_mode'] == 'api_comms_telemetry' ) {
-                 $this->save_file($base_dir . '/cache/logs/debug/external_data/last-response-textlocal.log', $textlocal_response);
+                 if ( $ct['conf']['power']['debug_mode'] == 'all' || $ct['conf']['power']['debug_mode'] == 'all_telemetry' || $ct['conf']['power']['debug_mode'] == 'api_comms_telemetry' ) {
+                 $this->save_file($ct['base_dir'] . '/cache/logs/debug/external_data/last-response-textlocal.log', $textlocal_response);
                  }
                
-               unlink($base_dir . '/cache/secured/messages/' . $queued_cache_file);
+               unlink($ct['base_dir'] . '/cache/secured/messages/' . $queued_cache_file);
                
                }
                 
@@ -2024,7 +2025,7 @@ var $ct_array1 = array();
                    $text_sleep = 1 * ( $processed_msgs['text_count'] > 0 ? $processed_msgs['text_count'] : 1 );
                    sleep($text_sleep);
                     
-                   $result = @$ct_gen->safe_mail( $ct_gen->text_email($ct_conf['comms']['to_mobile_text']) , $textemail_array['subject'], $textemail_array['message'], $textemail_array['content_type'], $textemail_array['charset']);
+                   $result = @$ct['gen']->safe_mail( $ct['gen']->text_email($ct['conf']['comms']['to_mobile_text']) , $textemail_array['subject'], $textemail_array['message'], $textemail_array['content_type'], $textemail_array['charset']);
                     
                       if ( $result == true ) {
                       
@@ -2032,15 +2033,15 @@ var $ct_array1 = array();
                      
                       $msg_sent = 1;
                    
-                      unlink($base_dir . '/cache/secured/messages/' . $queued_cache_file);
+                      unlink($ct['base_dir'] . '/cache/secured/messages/' . $queued_cache_file);
                       
                       }
                       else {
                       	
-                      $ct_gen->log(
+                      $ct['gen']->log(
                       			'system_error',
                       			'Email-to-mobile-text sending failed',
-                      			'to_text_email: ' . $ct_gen->text_email($ct_conf['comms']['to_mobile_text']) . '; from: ' . $ct_conf['comms']['from_email'] . '; subject: ' . $textemail_array['subject'] . '; function_response: ' . $result . ';'
+                      			'to_text_email: ' . $ct['gen']->text_email($ct['conf']['comms']['to_mobile_text']) . '; from: ' . $ct['conf']['comms']['from_email'] . '; subject: ' . $textemail_array['subject'] . '; function_response: ' . $result . ';'
                       			);
                       
                       }
@@ -2077,7 +2078,7 @@ var $ct_array1 = array();
                    $email_sleep = 1 * ( $processed_msgs['email_count'] > 0 ? $processed_msgs['email_count'] : 1 );
                    sleep($email_sleep);
                     
-                   $result = @$ct_gen->safe_mail($ct_conf['comms']['to_email'], $email_array['subject'], $email_array['message'], $email_array['content_type'], $email_array['charset']);
+                   $result = @$ct['gen']->safe_mail($ct['conf']['comms']['to_email'], $email_array['subject'], $email_array['message'], $email_array['content_type'], $email_array['charset']);
                     
                       if ( $result == true ) {
                       
@@ -2085,15 +2086,15 @@ var $ct_array1 = array();
                      
                       $msg_sent = 1;
                    
-                      unlink($base_dir . '/cache/secured/messages/' . $queued_cache_file);
+                      unlink($ct['base_dir'] . '/cache/secured/messages/' . $queued_cache_file);
                       
                       }
                       else {
                       	
-                      $ct_gen->log(
+                      $ct['gen']->log(
                       			'system_error',
                       			'Email sending failed',
-                      			'to_email: ' . $ct_conf['comms']['to_email'] . '; from: ' . $ct_conf['comms']['from_email'] . '; subject: ' . $email_array['subject'] . '; function_response: ' . $result . ';'
+                      			'to_email: ' . $ct['conf']['comms']['to_email'] . '; from: ' . $ct['conf']['comms']['from_email'] . '; subject: ' . $email_array['subject'] . '; function_response: ' . $result . ';'
                       			);
                       
                       }
@@ -2108,7 +2109,7 @@ var $ct_array1 = array();
           }
           // No data in message queue file
           else {
-          unlink($base_dir . '/cache/secured/messages/' . $queued_cache_file);
+          unlink($ct['base_dir'] . '/cache/secured/messages/' . $queued_cache_file);
           }
 
         
@@ -2152,9 +2153,9 @@ var $ct_array1 = array();
   
   function ext_data($mode, $request_params, $ttl, $api_server=null, $post_encoding=3, $test_proxy=null, $headers=null) { // Default to JSON encoding post requests (most used)
   
-  // $ct_conf['gen']['btc_prim_currency_pair'] / $ct_conf['gen']['btc_prim_exchange'] / $sel_opt['sel_btc_prim_currency_val'] USED FOR TRACE DEBUGGING (TRACING)
+  // $ct['conf']['gen']['btc_prim_currency_pair'] / $ct['conf']['gen']['btc_prim_exchange'] / $sel_opt['sel_btc_prim_currency_val'] USED FOR TRACE DEBUGGING (TRACING)
   
-  global $app_version, $base_dir, $base_url, $ct_conf, $ct_var, $ct_gen, $sel_opt, $proxy_checkup, $log_errors, $log_debugging, $limited_api_calls, $api_runtime_cache, $curl_user_agent, $api_connections, $htaccess_username, $htaccess_password, $location_blocked_servers, $tracked_throttle_limited_servers, $limited_apis;
+  global $ct, $sel_opt, $proxy_checkup, $log_errors, $log_debugging, $limited_api_calls, $api_runtime_cache, $api_connections, $htaccess_username, $htaccess_password;
   
   $cookie_jar = tempnam('/tmp','cookie');
    
@@ -2163,7 +2164,7 @@ var $ct_array1 = array();
   
   $api_endpoint = ( $mode == 'params' ? $api_server : $request_params );
      
-  $endpoint_tld_or_ip = $ct_gen->get_tld_or_ip($api_endpoint);
+  $endpoint_tld_or_ip = $ct['gen']->get_tld_or_ip($api_endpoint);
   
   $tld_session_prefix = preg_replace("/\./i", "_", $endpoint_tld_or_ip);
     
@@ -2188,7 +2189,7 @@ var $ct_array1 = array();
     //////////////////////////////////////////////////////////////////////
     //////////////////////////////////////////////////////////////////////
     if ( $ttl < 0 ) {
-    unlink($base_dir . '/cache/secured/external_data/'.$hash_check.'.dat');
+    unlink($ct['base_dir'] . '/cache/secured/external_data/'.$hash_check.'.dat');
     }
     //////////////////////////////////////////////////////////////////////
     //////////////////////////////////////////////////////////////////////
@@ -2202,7 +2203,7 @@ var $ct_array1 = array();
     
     // Size of data, for checks in error log UX logic
     $data_bytes = strlen($data);
-    $data_bytes_ux = $ct_gen->conv_bytes($data_bytes, 2);
+    $data_bytes_ux = $ct['gen']->conv_bytes($data_bytes, 2);
     
      
       if ( $data == 'none' ) {
@@ -2220,12 +2221,12 @@ var $ct_array1 = array();
        
       // Don't log this error again during THIS runtime, as it would be a duplicate...just overwrite same error message, BUT update the error count in it
       
-      $ct_gen->log(
+      $ct['gen']->log(
       			'cache_error',
       							
-      			'no RUNTIME CACHE data from failure with ' . ( $mode == 'params' ? 'server at ' : 'endpoint at ' ) . $ct_gen->obfusc_url_data($api_endpoint),
+      			'no RUNTIME CACHE data from failure with ' . ( $mode == 'params' ? 'server at ' : 'endpoint at ' ) . $ct['gen']->obfusc_url_data($api_endpoint),
       							
-      			'requested_from: cache ('.$log_errors['error_duplicates'][$hash_check].' runtime instances); mode: ' . $mode . '; received: ' . $data_bytes_ux . '; proxy: ' .( $current_proxy ? $current_proxy : 'none' ) . '; hash_check: ' . $ct_var->obfusc_str($hash_check, 4) . ';',
+      			'requested_from: cache ('.$log_errors['error_duplicates'][$hash_check].' runtime instances); mode: ' . $mode . '; received: ' . $data_bytes_ux . '; proxy: ' .( $current_proxy ? $current_proxy : 'none' ) . '; hash_check: ' . $ct['var']->obfusc_str($hash_check, 4) . ';',
       							
       			$hash_check
       			);
@@ -2233,7 +2234,7 @@ var $ct_array1 = array();
       }
       
       
-      if ( $ct_conf['power']['debug_mode'] == 'all' || $ct_conf['power']['debug_mode'] == 'all_telemetry' || $ct_conf['power']['debug_mode'] == 'ext_data_cache_telemetry' ) {
+      if ( $ct['conf']['power']['debug_mode'] == 'all' || $ct['conf']['power']['debug_mode'] == 'all_telemetry' || $ct['conf']['power']['debug_mode'] == 'ext_data_cache_telemetry' ) {
       
       
         if ( !$log_debugging['debug_duplicates'][$hash_check] ) {
@@ -2246,12 +2247,12 @@ var $ct_array1 = array();
        
       // Don't log this debugging again during THIS runtime, as it would be a duplicate...just overwrite same debugging message, BUT update the debugging count in it
       
-      $ct_gen->log(
+      $ct['gen']->log(
       			'cache_debug',
       							
-      			'RUNTIME CACHE request for ' . ( $mode == 'params' ? 'server at ' : 'endpoint at ' ) . $ct_gen->obfusc_url_data($api_endpoint),
+      			'RUNTIME CACHE request for ' . ( $mode == 'params' ? 'server at ' : 'endpoint at ' ) . $ct['gen']->obfusc_url_data($api_endpoint),
       							
-      			'requested_from: cache ('.$log_debugging['debug_duplicates'][$hash_check].' runtime instances); mode: ' . $mode . '; received: ' . $data_bytes_ux . '; proxy: ' .( $current_proxy ? $current_proxy : 'none' ) . '; hash_check: ' . $ct_var->obfusc_str($hash_check, 4) . ';',
+      			'requested_from: cache ('.$log_debugging['debug_duplicates'][$hash_check].' runtime instances); mode: ' . $mode . '; received: ' . $data_bytes_ux . '; proxy: ' .( $current_proxy ? $current_proxy : 'none' ) . '; hash_check: ' . $ct['var']->obfusc_str($hash_check, 4) . ';',
       							
       			$hash_check
       			);
@@ -2265,7 +2266,7 @@ var $ct_array1 = array();
     // Live data retrieval (if no runtime cache exists yet)
     //////////////////////////////////////////////////////////////////////
     //////////////////////////////////////////////////////////////////////
-    elseif ( !isset($api_runtime_cache[$hash_check]) && $this->update_cache($base_dir . '/cache/secured/external_data/'.$hash_check.'.dat', $ttl) == true || $ttl == 0 ) {
+    elseif ( !isset($api_runtime_cache[$hash_check]) && $this->update_cache($ct['base_dir'] . '/cache/secured/external_data/'.$hash_check.'.dat', $ttl) == true || $ttl == 0 ) {
     
     // Time the request
     $api_time = microtime();
@@ -2276,12 +2277,12 @@ var $ct_array1 = array();
       
       // Servers requiring TRACKED THROTTLE-LIMITING ******BASED OFF API REQUEST COUNT******, due to limited-allowed minute / hour / daily requests
       // (are processed by this->api_throttling(), to avoid using up daily request limits getting LIVE DATA)
-      if ( isset($tracked_throttle_limited_servers[$endpoint_tld_or_ip]) && $this->api_throttling($endpoint_tld_or_ip) == true ) {
+      if ( isset($ct['dev']['tracked_throttle_limited_servers'][$endpoint_tld_or_ip]) && $this->api_throttling($endpoint_tld_or_ip) == true ) {
               
             
       // Set $data var with any cached value (null / false result is OK), as we don't want to cache any PROBABLE error response
       // (will be set / reset as 'none' further down in the logic and cached / recached for a TTL cycle, if no cached data exists to fallback on)
-      $data = trim( file_get_contents($base_dir . '/cache/secured/external_data/'.$hash_check.'.dat') );
+      $data = trim( file_get_contents($ct['base_dir'] . '/cache/secured/external_data/'.$hash_check.'.dat') );
       
       // DON'T USE isset(), use != '' to store as 'none' reliably (so we don't keep hitting a server that may be throttling us, UNTIL cache TTL runs out)
       $api_runtime_cache[$hash_check] = ( isset($data) && $data != '' ? $data : 'none' ); 
@@ -2297,11 +2298,11 @@ var $ct_array1 = array();
           // FALLBACK ON VALID API DATA, SO IT CAN "GET TO THE FRONT OF THE THROTTLED LINE" THE NEXT TIME IT'S REQUESTED)
           if ( !isset($fallback_cache_data) ) {
                
-          $ct_gen->log('ext_data_error', 'cache fallback FAILED during (LIVE) throttling of API for: ' . $endpoint_tld_or_ip);
+          $ct['gen']->log('ext_data_error', 'cache fallback FAILED during (LIVE) throttling of API for: ' . $endpoint_tld_or_ip);
           
           unset($api_runtime_cache[$hash_check]);
           
-          unlink($base_dir . '/cache/secured/external_data/'.$hash_check.'.dat');
+          unlink($ct['base_dir'] . '/cache/secured/external_data/'.$hash_check.'.dat');
           
           return false;
           
@@ -2317,7 +2318,7 @@ var $ct_array1 = array();
               
       
       // Servers with STRICT CONSECUTIVE CONNECT limits (we add 1.11 seconds to the wait between consecutive connections)
-      if ( in_array($endpoint_tld_or_ip, $ct_conf['power']['strict_consecutive_connect_servers']) ) {
+      if ( in_array($endpoint_tld_or_ip, $ct['conf']['power']['strict_consecutive_connect_servers']) ) {
         
       $api_connections[$tld_session_prefix] = $api_connections[$tld_session_prefix] + 1;
       
@@ -2328,10 +2329,10 @@ var $ct_array1 = array();
       }
     
     
-      // Throttled endpoints in $limited_apis
+      // Throttled endpoints in $ct['dev']['limited_apis']
       // If this is an API service that requires multiple calls (for each market), 
       // and a request to it has been made consecutively, we throttle it to avoid being blocked / throttled by external server
-      if ( in_array($endpoint_tld_or_ip, $limited_apis) ) {
+      if ( in_array($endpoint_tld_or_ip, $ct['dev']['limited_apis']) ) {
       
         if ( !$limited_api_calls[$tld_session_prefix . '_calls'] ) {
         $limited_api_calls[$tld_session_prefix . '_calls'] = 1;
@@ -2348,8 +2349,8 @@ var $ct_array1 = array();
      
      
       // If this is a windows desktop edition
-      if ( file_exists($base_dir . '/cache/other/win_curl_cacert.pem') ) {
-      curl_setopt($ch, CURLOPT_CAINFO, $base_dir . '/cache/other/win_curl_cacert.pem');
+      if ( file_exists($ct['base_dir'] . '/cache/other/win_curl_cacert.pem') ) {
+      curl_setopt($ch, CURLOPT_CAINFO, $ct['base_dir'] . '/cache/other/win_curl_cacert.pem');
       }
      
      
@@ -2360,9 +2361,9 @@ var $ct_array1 = array();
       
       
       // If proxies are configured
-      if ( is_array($ct_conf['proxy']['proxy_list']) && sizeof($ct_conf['proxy']['proxy_list']) > 0 ) {
+      if ( is_array($ct['conf']['proxy']['proxy_list']) && sizeof($ct['conf']['proxy']['proxy_list']) > 0 ) {
        
-      $current_proxy = ( $mode == 'proxy-check' && $test_proxy != null ? $test_proxy : $ct_var->random_array_var($ct_conf['proxy']['proxy_list']) );
+      $current_proxy = ( $mode == 'proxy-check' && $test_proxy != null ? $test_proxy : $ct['var']->random_array_var($ct['conf']['proxy']['proxy_list']) );
       
       // Check for valid proxy config
       $ip_port = explode(':', $current_proxy);
@@ -2372,7 +2373,7 @@ var $ct_array1 = array();
     
         // If no ip/port detected in data string, cancel and continue runtime
         if ( !$ip || !$port ) {
-        $ct_gen->log('ext_data_error', 'proxy '.$current_proxy.' is not a valid format');
+        $ct['gen']->log('ext_data_error', 'proxy '.$current_proxy.' is not a valid format');
         return false;
         }
     
@@ -2381,9 +2382,9 @@ var $ct_array1 = array();
       curl_setopt($ch, CURLOPT_HTTPPROXYTUNNEL, true);  
       
         // To be safe, don't use trim() on certain strings with arbitrary non-alphanumeric characters here
-        if ( $ct_conf['proxy']['proxy_login'] != ''  ) {
+        if ( $ct['conf']['proxy']['proxy_login'] != ''  ) {
        
-        $user_pass = explode('||', $ct_conf['proxy']['proxy_login']);
+        $user_pass = explode('||', $ct['conf']['proxy']['proxy_login']);
          
         curl_setopt($ch, CURLOPT_HTTPAUTH, CURLAUTH_ANY);
         curl_setopt($ch, CURLOPT_PROXYUSERPWD, $user_pass[0] . ':' . $user_pass[1]); // DO NOT ENCAPSULATE PHP USER/PASS VARS IN QUOTES, IT BREAKS THE FEATURE
@@ -2419,29 +2420,29 @@ var $ct_array1 = array();
     curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
     curl_setopt($ch, CURLOPT_MAXREDIRS, 5);
-    curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, $ct_conf['power']['remote_api_timeout']);
-    curl_setopt($ch, CURLOPT_TIMEOUT, $ct_conf['power']['remote_api_timeout']);
+    curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, $ct['conf']['power']['remote_api_timeout']);
+    curl_setopt($ch, CURLOPT_TIMEOUT, $ct['conf']['power']['remote_api_timeout']);
               
      
       // RSS feed services that are a bit funky with allowed user agents, so we need to let them know this is a real feed parser (not just a spammy bot)
-      if ( in_array($endpoint_tld_or_ip, $ct_conf['power']['strict_news_feed_servers']) ) {
-      curl_setopt($ch, CURLOPT_USERAGENT, 'Custom_Feed_Parser/1.0 (compatible; Open_Crypto_Tracker/' . $app_version . '; +https://github.com/taoteh1221/Open_Crypto_Tracker)');
+      if ( in_array($endpoint_tld_or_ip, $ct['conf']['power']['strict_news_feed_servers']) ) {
+      curl_setopt($ch, CURLOPT_USERAGENT, 'Custom_Feed_Parser/1.0 (compatible; Open_Crypto_Tracker/' . $ct['app_version'] . '; +https://github.com/taoteh1221/Open_Crypto_Tracker)');
       }
       else {
-      curl_setopt($ch, CURLOPT_USERAGENT, $curl_user_agent);
+      curl_setopt($ch, CURLOPT_USERAGENT, $ct['curl_user_agent']);
       }
      
      
       // If this is an SSL connection, add SSL parameters
       if ( preg_match("/https:\/\//i", $api_endpoint) ) {
       
-      $remote_api_strict_ssl = $ct_conf['sec']['remote_api_strict_ssl']; // Default
+      $remote_api_strict_ssl = $ct['conf']['sec']['remote_api_strict_ssl']; // Default
       
-      $regex_base_url = $ct_gen->regex_compat_path($base_url);
+      $regex_base_url = $ct['gen']->regex_compat_path($ct['base_url']);
        
       // Secure random hash to nullify any preg_match() below (if $regex_base_url FAILS to set a value above),
       // as we may be submitting out htaccess user/pass (if setup)
-      $scan_base_url = ( isset($regex_base_url) && $regex_base_url != '' ? $regex_base_url : $ct_gen->rand_hash(8) );
+      $scan_base_url = ( isset($regex_base_url) && $regex_base_url != '' ? $regex_base_url : $ct['gen']->rand_hash(8) );
       
       
         // If we are making a request to our own base URL (self-security-checks / calls to internal API endpoints / etc)
@@ -2471,7 +2472,7 @@ var $ct_array1 = array();
         elseif ( $endpoint_tld_or_ip == 'twilio.com' ) {
         curl_setopt($ch, CURLOPT_HTTPAUTH, CURLAUTH_ANY);
         // DO NOT ENCAPSULATE PHP USER/PASS VARS IN QUOTES, IT BREAKS THE FEATURE
-        curl_setopt($ch, CURLOPT_USERPWD, $ct_conf['ext_apis']['twilio_sid'] . ':' . $ct_conf['ext_apis']['twilio_token']); 
+        curl_setopt($ch, CURLOPT_USERPWD, $ct['conf']['ext_apis']['twilio_sid'] . ':' . $ct['conf']['ext_apis']['twilio_token']); 
         }
        
       
@@ -2504,7 +2505,7 @@ var $ct_array1 = array();
     
     // Size of data, for checks in error log UX logic
     $data_bytes = strlen($data);
-    $data_bytes_ux = $ct_gen->conv_bytes($data_bytes, 2);
+    $data_bytes_ux = $ct['gen']->conv_bytes($data_bytes, 2);
     
     
       // IF DEBUGGING FOR PROBLEM ENDPOINT IS ENABLED
@@ -2518,7 +2519,7 @@ var $ct_array1 = array();
       // Debugging output
       $debug_data = "\n\n\n" . 'header_size: ' . $debug_header_size . ' bytes' . "\n\n\n" . 'header: ' . "\n\n\n" . $debug_header . "\n\n\n" . 'body: ' . "\n\n\n" . $debug_body . "\n\n\n";
       
-      $debug_response_log = $base_dir . '/cache/logs/debug/external_data/problem-endpoint-'.preg_replace("/\./", "_", $endpoint_tld_or_ip).'-hash-'.$hash_check.'-timestamp-'.time().'.log';
+      $debug_response_log = $ct['base_dir'] . '/cache/logs/debug/external_data/problem-endpoint-'.preg_replace("/\./", "_", $endpoint_tld_or_ip).'-hash-'.$hash_check.'-timestamp-'.time().'.log';
       
       // Store to file
       $this->save_file($debug_response_log, $debug_data);
@@ -2549,7 +2550,7 @@ var $ct_array1 = array();
       // FALLBACK TO FILE CACHE DATA, IF AVAILABLE (WE STILL LOG THE FAILURE, SO THIS OS OK)
       // (NO LOGIC NEEDED TO CHECK RUNTIME CACHE, AS WE ONLY ARE HERE IF THERE IS NONE)
        
-      $data = trim( file_get_contents($base_dir . '/cache/secured/external_data/'.$hash_check.'.dat') );
+      $data = trim( file_get_contents($ct['base_dir'] . '/cache/secured/external_data/'.$hash_check.'.dat') );
         
         
         // IF CACHE DATA EXISTS, flag cache fallback as succeeded, and IMMEADIATELY add data set to runtime cache / update the file cache timestamp
@@ -2558,7 +2559,7 @@ var $ct_array1 = array();
         $fallback_cache_data = true;
         // IMMEADIATELY RUN THIS LOGIC NOW, EVEN THOUGH IT RUNS AT END OF STATEMENT TOO, SINCE WE HAD A LIVE REQUEST FAILURE
         $api_runtime_cache[$hash_check] = $data;
-        touch($base_dir . '/cache/secured/external_data/'.$hash_check.'.dat'); // Update cache file time
+        touch($ct['base_dir'] . '/cache/secured/external_data/'.$hash_check.'.dat'); // Update cache file time
         }
         
         
@@ -2571,21 +2572,21 @@ var $ct_array1 = array();
      
       
       // LOG-SAFE VERSION (no post data with API keys etc)
-      $ct_gen->log(
+      $ct['gen']->log(
       			'ext_data_error',
       							
-      			'connection failed ('.$data_bytes_ux.' received) for ' . ( $mode == 'params' ? 'server at ' : 'endpoint at ' ) . $ct_gen->obfusc_url_data($api_endpoint) . $log_append,
+      			'connection failed ('.$data_bytes_ux.' received) for ' . ( $mode == 'params' ? 'server at ' : 'endpoint at ' ) . $ct['gen']->obfusc_url_data($api_endpoint) . $log_append,
       							
-      			'requested_from: server (' . $ct_conf['power']['remote_api_timeout'] . ' second timeout); live_request_time: ' . $api_total_time . ' seconds; mode: ' . $mode . '; received: ' . $data_bytes_ux . '; proxy: ' .( $current_proxy ? $current_proxy : 'none' ) . '; hash_check: ' . $ct_var->obfusc_str($hash_check, 4) . ';'
+      			'requested_from: server (' . $ct['conf']['power']['remote_api_timeout'] . ' second timeout); live_request_time: ' . $api_total_time . ' seconds; mode: ' . $mode . '; received: ' . $data_bytes_ux . '; proxy: ' .( $current_proxy ? $current_proxy : 'none' ) . '; hash_check: ' . $ct['var']->obfusc_str($hash_check, 4) . ';'
       			);
       			
       			
         // Servers which are known to block API access by location / jurasdiction
         // (we alert end-users in error logs, when a corrisponding API server connection fails [one-time notice per-runtime])
-        if ( in_array($endpoint_tld_or_ip, $location_blocked_servers) ) {
+        if ( in_array($endpoint_tld_or_ip, $ct['dev']['location_blocked_servers']) ) {
 
              
-             if ( is_array($ct_conf['proxy']['proxy_list']) && sizeof($ct_conf['proxy']['proxy_list']) > 0 ) {
+             if ( is_array($ct['conf']['proxy']['proxy_list']) && sizeof($ct['conf']['proxy']['proxy_list']) > 0 ) {
              $ip_description = 'PROXY';
              }
              else {
@@ -2593,7 +2594,7 @@ var $ct_array1 = array();
              }
 
             
-        $ct_gen->log(
+        $ct['gen']->log(
           		'notify_error',
           		'your ' . $ip_description . '\'S IP ADDRESS location / jurasdiction *MAY* be blocked from accessing the "'.$endpoint_tld_or_ip.'" API, *IF* THIS ERROR REPEATS *VERY OFTEN*',
           		false,
@@ -2603,10 +2604,10 @@ var $ct_array1 = array();
         }
       
       
-        if ( is_array($ct_conf['proxy']['proxy_list']) && sizeof($ct_conf['proxy']['proxy_list']) > 0 && isset($current_proxy) && $current_proxy != '' && $mode != 'proxy-check' ) { // Avoid infinite loops doing proxy checks
+        if ( is_array($ct['conf']['proxy']['proxy_list']) && sizeof($ct['conf']['proxy']['proxy_list']) > 0 && isset($current_proxy) && $current_proxy != '' && $mode != 'proxy-check' ) { // Avoid infinite loops doing proxy checks
      
         $proxy_checkup[] = array(
-                    			'endpoint' => ( $mode == 'params' ? 'server at ' : 'endpoint at ' ) . $ct_gen->obfusc_url_data($api_endpoint),
+                    			'endpoint' => ( $mode == 'params' ? 'server at ' : 'endpoint at ' ) . $ct['gen']->obfusc_url_data($api_endpoint),
                     			'proxy' => $current_proxy
                     			);
                     
@@ -2641,22 +2642,22 @@ var $ct_array1 = array();
             // MUST RUN BEFORE FALLBACK ATTEMPT TO CACHED DATA
             // If response seems to contain an error message ('error' only found once, no words containing 'error')
             // DON'T ADD TOO MANY CHECKS HERE, OR RUNTIME WILL SLOW SIGNIFICANTLY!!
-            if ( $ct_var->substri_count($data, 'error') > 0 && !preg_match("/terror/i", $data) ) {
+            if ( $ct['var']->substri_count($data, 'error') > 0 && !preg_match("/terror/i", $data) ) {
              
             // Log full results to file, WITH UNIQUE TIMESTAMP IN FILENAME TO AVOID OVERWRITES (FOR ADEQUATE DEBUGGING REVIEW)
             $error_response_log = '/cache/logs/error/external_data/error-response-'.preg_replace("/\./", "_", $endpoint_tld_or_ip).'-hash-'.$hash_check.'-timestamp-'.time().'.log';
             
             // LOG-SAFE VERSION (no post data with API keys etc)
-             $ct_gen->log(
+             $ct['gen']->log(
              			'ext_data_error',
              							
-             			'POSSIBLE error for ' . ( $mode == 'params' ? 'server at ' : 'endpoint at ' ) . $ct_gen->obfusc_url_data($api_endpoint),
+             			'POSSIBLE error for ' . ( $mode == 'params' ? 'server at ' : 'endpoint at ' ) . $ct['gen']->obfusc_url_data($api_endpoint),
              							
-             			'requested_from: server (' . $ct_conf['power']['remote_api_timeout'] . ' second timeout); live_request_time: ' . $api_total_time . ' seconds; mode: ' . $mode . '; received: ' . $data_bytes_ux . '; proxy: ' .( $current_proxy ? $current_proxy : 'none' ) . '; debug_file: ' . $error_response_log . '; btc_prim_currency_pair: ' . $ct_conf['gen']['btc_prim_currency_pair'] . '; btc_prim_exchange: ' . $ct_conf['gen']['btc_prim_exchange'] . '; sel_btc_prim_currency_val: ' . $ct_var->num_to_str($sel_opt['sel_btc_prim_currency_val']) . '; hash_check: ' . $ct_var->obfusc_str($hash_check, 4) . ';'
+             			'requested_from: server (' . $ct['conf']['power']['remote_api_timeout'] . ' second timeout); live_request_time: ' . $api_total_time . ' seconds; mode: ' . $mode . '; received: ' . $data_bytes_ux . '; proxy: ' .( $current_proxy ? $current_proxy : 'none' ) . '; debug_file: ' . $error_response_log . '; btc_prim_currency_pair: ' . $ct['conf']['gen']['btc_prim_currency_pair'] . '; btc_prim_exchange: ' . $ct['conf']['gen']['btc_prim_exchange'] . '; sel_btc_prim_currency_val: ' . $ct['var']->num_to_str($sel_opt['sel_btc_prim_currency_val']) . '; hash_check: ' . $ct['var']->obfusc_str($hash_check, 4) . ';'
              			);
             
             // Log this error response from this data request
-            $this->save_file($base_dir . $error_response_log, $data);
+            $this->save_file($ct['base_dir'] . $error_response_log, $data);
              
             }
         
@@ -2707,7 +2708,7 @@ var $ct_array1 = array();
             
             // Reset $data var with any cached value (null / false result is OK), as we don't want to cache a KNOWN error response
             // (will be set / reset as 'none' further down in the logic and cached / recached for a TTL cycle, if no cached data exists to fallback on)
-            $data = trim( file_get_contents($base_dir . '/cache/secured/external_data/'.$hash_check.'.dat') );
+            $data = trim( file_get_contents($ct['base_dir'] . '/cache/secured/external_data/'.$hash_check.'.dat') );
              
                 
                 // Flag if cache fallback succeeded
@@ -2725,12 +2726,12 @@ var $ct_array1 = array();
              
              
             // LOG-SAFE VERSION (no post data with API keys etc)
-            $ct_gen->log(
+            $ct['gen']->log(
             			'ext_data_error',
             							
-            			'CONFIRMED error for ' . ( $mode == 'params' ? 'server at ' : 'endpoint at ' ) . $ct_gen->obfusc_url_data($api_endpoint) . $log_append,
+            			'CONFIRMED error for ' . ( $mode == 'params' ? 'server at ' : 'endpoint at ' ) . $ct['gen']->obfusc_url_data($api_endpoint) . $log_append,
             							
-            			'requested_from: server (' . $ct_conf['power']['remote_api_timeout'] . ' second timeout); live_request_time: ' . $api_total_time . ' seconds; mode: ' . $mode . '; received: ' . $data_bytes_ux . '; proxy: ' .( $current_proxy ? $current_proxy : 'none' ) . '; btc_prim_currency_pair: ' . $ct_conf['gen']['btc_prim_currency_pair'] . '; btc_prim_exchange: ' . $ct_conf['gen']['btc_prim_exchange'] . '; sel_btc_prim_currency_val: ' . $ct_var->num_to_str($sel_opt['sel_btc_prim_currency_val']) . '; hash_check: ' . $ct_var->obfusc_str($hash_check, 4) . ';'
+            			'requested_from: server (' . $ct['conf']['power']['remote_api_timeout'] . ' second timeout); live_request_time: ' . $api_total_time . ' seconds; mode: ' . $mode . '; received: ' . $data_bytes_ux . '; proxy: ' .( $current_proxy ? $current_proxy : 'none' ) . '; btc_prim_currency_pair: ' . $ct['conf']['gen']['btc_prim_currency_pair'] . '; btc_prim_exchange: ' . $ct['conf']['gen']['btc_prim_exchange'] . '; sel_btc_prim_currency_val: ' . $ct['var']->num_to_str($sel_opt['sel_btc_prim_currency_val']) . '; hash_check: ' . $ct['var']->obfusc_str($hash_check, 4) . ';'
             			);
              
            
@@ -2746,19 +2747,19 @@ var $ct_array1 = array();
       
       
         // Data debugging telemetry
-        if ( $ct_conf['power']['debug_mode'] == 'all' || $ct_conf['power']['debug_mode'] == 'all_telemetry' || $ct_conf['power']['debug_mode'] == 'ext_data_live_telemetry' ) {
+        if ( $ct['conf']['power']['debug_mode'] == 'all' || $ct['conf']['power']['debug_mode'] == 'all_telemetry' || $ct['conf']['power']['debug_mode'] == 'ext_data_live_telemetry' ) {
          
         // LOG-SAFE VERSION (no post data with API keys etc)
-        $ct_gen->log(
+        $ct['gen']->log(
         			'ext_data_debug',
         								
-        			'LIVE request for ' . ( $mode == 'params' ? 'server at ' : 'endpoint at ' ) . $ct_gen->obfusc_url_data($api_endpoint),
+        			'LIVE request for ' . ( $mode == 'params' ? 'server at ' : 'endpoint at ' ) . $ct['gen']->obfusc_url_data($api_endpoint),
         								
-        			'requested_from: server (' . $ct_conf['power']['remote_api_timeout'] . ' second timeout); live_request_time: ' . $api_total_time . ' seconds; mode: ' . $mode . '; received: ' . $data_bytes_ux . '; proxy: ' .( $current_proxy ? $current_proxy : 'none' ) . '; hash_check: ' . $ct_var->obfusc_str($hash_check, 4) . ';'
+        			'requested_from: server (' . $ct['conf']['power']['remote_api_timeout'] . ' second timeout); live_request_time: ' . $api_total_time . ' seconds; mode: ' . $mode . '; received: ' . $data_bytes_ux . '; proxy: ' .( $current_proxy ? $current_proxy : 'none' ) . '; hash_check: ' . $ct['var']->obfusc_str($hash_check, 4) . ';'
         			);
         
         // Log this as the latest response from this data request
-        $this->save_file($base_dir . '/cache/logs/debug/external_data/last-response-'.preg_replace("/\./", "_", $endpoint_tld_or_ip).'-'.$hash_check.'.log', $data);
+        $this->save_file($ct['base_dir'] . '/cache/logs/debug/external_data/last-response-'.preg_replace("/\./", "_", $endpoint_tld_or_ip).'-'.$hash_check.'.log', $data);
         
         }
        
@@ -2778,27 +2779,27 @@ var $ct_array1 = array();
       
         // Fallback just needs 'modified time' updated with touch()
         if ( isset($fallback_cache_data) ) {
-        $store_file_contents = touch($base_dir . '/cache/secured/external_data/'.$hash_check.'.dat');
+        $store_file_contents = touch($ct['base_dir'] . '/cache/secured/external_data/'.$hash_check.'.dat');
         }
         else {
-        $store_file_contents = $this->save_file($base_dir . '/cache/secured/external_data/'.$hash_check.'.dat', $api_runtime_cache[$hash_check]);
+        $store_file_contents = $this->save_file($ct['base_dir'] . '/cache/secured/external_data/'.$hash_check.'.dat', $api_runtime_cache[$hash_check]);
         }
         
        
         if ( $store_file_contents == false && isset($fallback_cache_data) ) {
         	
-        $ct_gen->log(
+        $ct['gen']->log(
         			'ext_data_error',
-        			'Cache file touch() error for ' . ( $mode == 'params' ? 'server at ' : 'endpoint at ' ) . $ct_gen->obfusc_url_data($api_endpoint),
+        			'Cache file touch() error for ' . ( $mode == 'params' ? 'server at ' : 'endpoint at ' ) . $ct['gen']->obfusc_url_data($api_endpoint),
         			'data_size_bytes: ' . strlen($api_runtime_cache[$hash_check]) . ' bytes'
         			);
         
         }
         elseif ( $store_file_contents == false && !isset($fallback_cache_data) ) {
         	
-        $ct_gen->log(
+        $ct['gen']->log(
         			'ext_data_error',
-        			'Cache file write error for ' . ( $mode == 'params' ? 'server at ' : 'endpoint at ' ) . $ct_gen->obfusc_url_data($api_endpoint),
+        			'Cache file write error for ' . ( $mode == 'params' ? 'server at ' : 'endpoint at ' ) . $ct['gen']->obfusc_url_data($api_endpoint),
         			'data_size_bytes: ' . strlen($api_runtime_cache[$hash_check]) . ' bytes'
         			);
         
@@ -2813,14 +2814,14 @@ var $ct_array1 = array();
      
    
       // API timeout limit near / exceeded warning (ONLY IF THIS ISN'T A DATA FAILURE)
-      if ( $data_bytes > 0 && $ct_var->num_to_str($ct_conf['power']['remote_api_timeout'] - 1) <= $ct_var->num_to_str($api_total_time) ) {
+      if ( $data_bytes > 0 && $ct['var']->num_to_str($ct['conf']['power']['remote_api_timeout'] - 1) <= $ct['var']->num_to_str($api_total_time) ) {
       	
-      $ct_gen->log(
+      $ct['gen']->log(
       			'notify_error',
       							
-      			'Remote API timeout near OR exceeded for ' . ( $mode == 'params' ? 'server at ' : 'endpoint at ' ) . $ct_gen->obfusc_url_data($api_endpoint) . ' (' . $api_total_time . ' seconds / received ' . $data_bytes_ux . '), consider setting "remote_api_timeout" higher in POWER USER config *IF* this persists OFTEN',
+      			'Remote API timeout near OR exceeded for ' . ( $mode == 'params' ? 'server at ' : 'endpoint at ' ) . $ct['gen']->obfusc_url_data($api_endpoint) . ' (' . $api_total_time . ' seconds / received ' . $data_bytes_ux . '), consider setting "remote_api_timeout" higher in POWER USER config *IF* this persists OFTEN',
       							
-      			'remote_api_timeout: ' . $ct_conf['power']['remote_api_timeout'] . ' seconds; live_request_time: ' . $api_total_time . ' seconds; mode: ' . $mode . '; received: ' . $data_bytes_ux . ';',
+      			'remote_api_timeout: ' . $ct['conf']['power']['remote_api_timeout'] . ' seconds; live_request_time: ' . $api_total_time . ' seconds; mode: ' . $mode . '; received: ' . $data_bytes_ux . ';',
       							
       			$hash_check
       			);
@@ -2846,7 +2847,7 @@ var $ct_array1 = array();
       }
       else {
         
-      $data = trim( file_get_contents($base_dir . '/cache/secured/external_data/'.$hash_check.'.dat') );
+      $data = trim( file_get_contents($ct['base_dir'] . '/cache/secured/external_data/'.$hash_check.'.dat') );
       
         if ( isset($data) && $data != '' && $data != 'none' ) {
         $api_runtime_cache[$hash_check] = $data; // Create a runtime cache from the file cache, for any additional requests during runtime for this data set
@@ -2857,17 +2858,17 @@ var $ct_array1 = array();
     
     
       // Servers requiring TRACKED THROTTLE-LIMITING ******BASED OFF API CACHED TIME******, due to limited-allowed daily requests
-      if ( isset($tracked_throttle_limited_servers[$endpoint_tld_or_ip]) && $this->api_throttling($endpoint_tld_or_ip, $base_dir . '/cache/secured/external_data/'.$hash_check.'.dat') == true ) {
+      if ( isset($ct['dev']['tracked_throttle_limited_servers'][$endpoint_tld_or_ip]) && $this->api_throttling($endpoint_tld_or_ip, $ct['base_dir'] . '/cache/secured/external_data/'.$hash_check.'.dat') == true ) {
       
           // (we're deleting any pre-existing cache data here, AND RETURNING FALSE TO AVOID RE-SAVING ANY CACHE DATA, *ONLY IF* IT FAILS TO
           //  FALLBACK ON VALID API DATA, SO IT CAN "GET TO THE FRONT OF THE THROTTLED LINE" THE NEXT TIME IT'S REQUESTED)
           if ( !isset($fallback_cache_data) ) {
                
-          $ct_gen->log('ext_data_error', 'cached fallback FAILED during (CACHE) throttling of API for: ' . $endpoint_tld_or_ip);
+          $ct['gen']->log('ext_data_error', 'cached fallback FAILED during (CACHE) throttling of API for: ' . $endpoint_tld_or_ip);
           
           unset($api_runtime_cache[$hash_check]);
           
-          unlink($base_dir . '/cache/secured/external_data/'.$hash_check.'.dat');
+          unlink($ct['base_dir'] . '/cache/secured/external_data/'.$hash_check.'.dat');
           
           return false;
           
@@ -2882,7 +2883,7 @@ var $ct_array1 = array();
       }
       else {
       $data_bytes = strlen($data);
-      $data_bytes_ux = $ct_gen->conv_bytes($data_bytes, 2);
+      $data_bytes_ux = $ct['gen']->conv_bytes($data_bytes, 2);
       }
 
      
@@ -2899,12 +2900,12 @@ var $ct_array1 = array();
        
       // Don't log this error again during THIS runtime, as it would be a duplicate...just overwrite same error message, BUT update the error count in it
       
-      $ct_gen->log(
+      $ct['gen']->log(
       			'cache_error',
       							
-      			'no FILE CACHE data from recent failure with ' . ( $mode == 'params' ? 'server at ' : 'endpoint at ' ) . $ct_gen->obfusc_url_data($api_endpoint),
+      			'no FILE CACHE data from recent failure with ' . ( $mode == 'params' ? 'server at ' : 'endpoint at ' ) . $ct['gen']->obfusc_url_data($api_endpoint),
       							
-      			'requested_from: cache ('.$log_errors['error_duplicates'][$hash_check].' runtime instances); mode: ' . $mode . '; received: ' . $data_bytes_ux . '; proxy: ' .( $current_proxy ? $current_proxy : 'none' ) . '; hash_check: ' . $ct_var->obfusc_str($hash_check, 4) . ';',
+      			'requested_from: cache ('.$log_errors['error_duplicates'][$hash_check].' runtime instances); mode: ' . $mode . '; received: ' . $data_bytes_ux . '; proxy: ' .( $current_proxy ? $current_proxy : 'none' ) . '; hash_check: ' . $ct['var']->obfusc_str($hash_check, 4) . ';',
       							
       			$hash_check
       			);
@@ -2912,7 +2913,7 @@ var $ct_array1 = array();
       }
       
       
-      if ( $ct_conf['power']['debug_mode'] == 'all' || $ct_conf['power']['debug_mode'] == 'all_telemetry' || $ct_conf['power']['debug_mode'] == 'ext_data_cache_telemetry' ) {
+      if ( $ct['conf']['power']['debug_mode'] == 'all' || $ct['conf']['power']['debug_mode'] == 'all_telemetry' || $ct['conf']['power']['debug_mode'] == 'ext_data_cache_telemetry' ) {
       
         if ( !$log_debugging['debug_duplicates'][$hash_check] ) {
         $log_debugging['debug_duplicates'][$hash_check] = 1; 
@@ -2929,12 +2930,12 @@ var $ct_array1 = array();
         
       // Don't log this debugging again during THIS runtime, as it would be a duplicate...just overwrite same debugging message, BUT update the debugging count in it
       
-      $ct_gen->log(
+      $ct['gen']->log(
       			'cache_debug',
       							
-      			'FILE CACHE request for ' . ( $mode == 'params' ? 'server at ' : 'endpoint at ' ) . $ct_gen->obfusc_url_data($api_endpoint) . $log_append,
+      			'FILE CACHE request for ' . ( $mode == 'params' ? 'server at ' : 'endpoint at ' ) . $ct['gen']->obfusc_url_data($api_endpoint) . $log_append,
       							
-      			'requested_from: cache ('.$log_debugging['debug_duplicates'][$hash_check].' runtime instances); mode: ' . $mode . '; received: ' . $data_bytes_ux . '; proxy: ' .( $current_proxy ? $current_proxy : 'none' ) . '; hash_check: ' . $ct_var->obfusc_str($hash_check, 4) . ';',
+      			'requested_from: cache ('.$log_debugging['debug_duplicates'][$hash_check].' runtime instances); mode: ' . $mode . '; received: ' . $data_bytes_ux . '; proxy: ' .( $current_proxy ? $current_proxy : 'none' ) . '; hash_check: ' . $ct['var']->obfusc_str($hash_check, 4) . ';',
       							
       			$hash_check
       			);

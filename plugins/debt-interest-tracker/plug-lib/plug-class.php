@@ -25,7 +25,7 @@ var $array1 = array();
 	
    function apr_calc($account, $amount, $apr) {
        
-   global $ct_conf;
+   global $ct;
    
    $result = array();
    
@@ -37,7 +37,7 @@ var $array1 = array();
                                 
        $result['monthly_interest'] = round( ($result['yearly_interest'] / 12) , 2);
                                 
-       $result['summary'] = '<fieldset class="debt_results"><legend>' . $account . '</legend>Monthly Interest: ' . $ct_conf['power']['btc_currency_mrkts'][ $ct_conf['gen']['btc_prim_currency_pair'] ] . number_format($result['monthly_interest'], 2, '.', ',') . '<br />Yearly Interest: ' . $ct_conf['power']['btc_currency_mrkts'][ $ct_conf['gen']['btc_prim_currency_pair'] ] . number_format($result['yearly_interest'], 2, '.', ',') . '</fieldset>';
+       $result['summary'] = '<fieldset class="debt_results"><legend>' . $account . '</legend>Monthly Interest: ' . $ct['conf']['power']['btc_currency_mrkts'][ $ct['conf']['gen']['btc_prim_currency_pair'] ] . number_format($result['monthly_interest'], 2, '.', ',') . '<br />Yearly Interest: ' . $ct['conf']['power']['btc_currency_mrkts'][ $ct['conf']['gen']['btc_prim_currency_pair'] ] . number_format($result['yearly_interest'], 2, '.', ',') . '</fieldset>';
        
        return $result;
         

@@ -3,9 +3,9 @@
  * Copyright 2014-2023 GPLv3, Open Crypto Tracker by Mike Kilday: Mike@DragonFrugal.com
  */
 
-$webhook_base_endpoint = ( $app_edition == 'server' || $app_container == 'phpbrowserbox' ? 'hook/' : 'web-hook.php?webhook_params=' );
+$webhook_base_endpoint = ( $ct['app_edition'] == 'server' || $ct['app_container'] == 'phpbrowserbox' ? 'hook/' : 'web-hook.php?webhook_params=' );
 
-$api_base_endpoint = ( $app_edition == 'server' || $app_container == 'phpbrowserbox' ? 'api/' : 'internal-api.php?data_set=' );
+$api_base_endpoint = ( $ct['app_edition'] == 'server' || $ct['app_container'] == 'phpbrowserbox' ? 'api/' : 'internal-api.php?data_set=' );
 
 ?>
 
@@ -16,7 +16,7 @@ $api_base_endpoint = ( $app_edition == 'server' || $app_container == 'phpbrowser
 	Webhooks are added via the plugin system built into this app (when a specific plugin's "runtime_mode" is set to "webhook" OR "all"). See <a href='https://raw.githubusercontent.com/taoteh1221/Open_Crypto_Tracker/main/DOCUMENTATION-ETC/PLUGINS-README.txt' target='_blank'>/DOCUMENTATION-ETC/PLUGINS-README.txt</a> for more information on plugin creation / development.
 	<br /><br />
 	
-	You can include ADDITIONAL PARAMETERS *AFTER* THE WEBOOK KEY, USING FORWARD SLASHES TO DELIMIT THEM: <br /><?=$base_url?><?=$webhook_base_endpoint?>WEBHOOK_KEY/PARAM1/PARAM2/PARAM3/ETC
+	You can include ADDITIONAL PARAMETERS *AFTER* THE WEBOOK KEY, USING FORWARD SLASHES TO DELIMIT THEM: <br /><?=$ct['base_url']?><?=$webhook_base_endpoint?>WEBHOOK_KEY/PARAM1/PARAM2/PARAM3/ETC
 	<br /><br />
 
      These parameters are then automatically put into a PHP array named: $webhook_params
@@ -44,7 +44,7 @@ $webhook_plug = $plugin_key;
     if ( file_exists($plugin_init) && isset($int_webhooks[$webhook_plug]) ) {
     ?>
        
-     <p><b class='bitcoin'>Webhook endpoint for "<?=$plug_conf[$webhook_plug]['ui_name']?>" plugin:</b> <br /><?=$base_url?><?=$webhook_base_endpoint?><?=$ct_gen->nonce_digest($webhook_plug, $int_webhooks[$webhook_plug] . $webhook_master_key)?></p>
+     <p><b class='bitcoin'>Webhook endpoint for "<?=$plug_conf[$webhook_plug]['ui_name']?>" plugin:</b> <br /><?=$ct['base_url']?><?=$webhook_base_endpoint?><?=$ct['gen']->nonce_digest($webhook_plug, $int_webhooks[$webhook_plug] . $webhook_master_key)?></p>
      <br /> &nbsp; <br />
      
      <?php
@@ -92,7 +92,7 @@ unset($webhook_plug);
 # is SELF-SIGNED (not CA issued), #OR THE COMMAND WON'T WORK#
 # WINDOWS USERS: REMOVE THE "Invoke-WebRequest" CURL ALIAS FIRST: Remove-item alias:curl
 
-curl<?=( isset($htaccess_username) && isset($htaccess_password) && $htaccess_username != '' && $htaccess_password != '' ? ' -u "' . $htaccess_username . ':' . $htaccess_password . '"' : '' )?> -d "api_key=<?=$int_api_key?>" -X POST <?=$base_url?><?=$api_base_endpoint?>market_conversion/eur/kraken-btc-usd,coinbase-dai-usd,coinbase-eth-usd
+curl<?=( isset($htaccess_username) && isset($htaccess_password) && $htaccess_username != '' && $htaccess_password != '' ? ' -u "' . $htaccess_username . ':' . $htaccess_password . '"' : '' )?> -d "api_key=<?=$int_api_key?>" -X POST <?=$ct['base_url']?><?=$api_base_endpoint?>market_conversion/eur/kraken-btc-usd,coinbase-dai-usd,coinbase-eth-usd
 </code></pre>
 	        
 	        
@@ -109,7 +109,7 @@ if ( isset($htaccess_username) && isset($htaccess_password) && $htaccess_usernam
 
 var htaccess_login = new XMLHttpRequest();
 
-htaccess_login.open("GET", "<?=$base_url?><?=$api_base_endpoint?>market_conversion", true);
+htaccess_login.open("GET", "<?=$ct['base_url']?><?=$api_base_endpoint?>market_conversion", true);
 
 htaccess_login.withCredentials = true;
 htaccess_login.setRequestHeader("Authorization", 'Basic ' + btoa('<?=$htaccess_username?>:<?=$htaccess_password?>'));
@@ -127,7 +127,7 @@ htaccess_login.send();
 
 var api_request = new XMLHttpRequest();
 
-api_request.open("POST", "<?=$base_url?><?=$api_base_endpoint?>market_conversion/eur/kraken-btc-usd,coinbase-dai-usd,coinbase-eth-usd", true);
+api_request.open("POST", "<?=$ct['base_url']?><?=$api_base_endpoint?>market_conversion/eur/kraken-btc-usd,coinbase-dai-usd,coinbase-eth-usd", true);
 
 var params = "api_key=<?=$int_api_key?>";
 
@@ -140,10 +140,10 @@ api_request.setRequestHeader("Content-type", "application/x-www-form-urlencoded"
 <?php
 if ( isset($htaccess_username) && isset($htaccess_password) && $htaccess_username != '' && $htaccess_password != '' ) {
 ?>
-// Our API has a rate limit of once every <?=$ct_conf['power']['local_api_rate_limit']?> seconds,
-// so we must wait to reconnect after the htaccess authentication (<?=$ct_conf['power']['local_api_rate_limit']?> + 1 seconds)
+// Our API has a rate limit of once every <?=$ct['conf']['power']['local_api_rate_limit']?> seconds,
+// so we must wait to reconnect after the htaccess authentication (<?=$ct['conf']['power']['local_api_rate_limit']?> + 1 seconds)
 // ANY CONSECUTIVE CALLS #DON'T NEED# THE TIMEOUT (since htaccess is already logged in): api_request.send(params);
-setTimeout(function(){ api_request.send(params); }, <?=( ($ct_conf['power']['local_api_rate_limit'] + 1) * 1000)?>);
+setTimeout(function(){ api_request.send(params); }, <?=( ($ct['conf']['power']['local_api_rate_limit'] + 1) * 1000)?>);
 <?php
 }
 else {
@@ -177,7 +177,7 @@ exit;
 }
 
 // Initiate CURL
-$ch = curl_init('<?=$base_url?><?=$api_base_endpoint?>market_conversion/eur/kraken-btc-usd,coinbase-dai-usd,coinbase-eth-usd');
+$ch = curl_init('<?=$ct['base_url']?><?=$api_base_endpoint?>market_conversion/eur/kraken-btc-usd,coinbase-dai-usd,coinbase-eth-usd');
 
 $params = array('api_key' => '<?=$int_api_key?>');
 

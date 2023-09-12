@@ -18,7 +18,7 @@ require("app-lib/php/init.php");
 
 // Backups download
 if ( $_GET['backup'] != null ) {
-require_once( $base_dir . "/app-lib/php/inline/downloads/backups.php");
+require_once( $ct['base_dir'] . "/app-lib/php/inline/downloads/backups.php");
 }
 
 
