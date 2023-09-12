@@ -75,9 +75,6 @@ $is_fast_runtime = true;
 }
 
 
-// Nonce for unique runtime logic (avoids potential clashes between multiple runtimes on the same machine)
-$ct['runtime_nonce'] = $ct['gen']->rand_hash(16); // 16 byte
-
 $fetched_feeds = 'fetched_feeds_' . $ct['runtime_mode']; // Unique feed fetch telemetry SESSION KEY (so related runtime BROWSER SESSION logic never accidentally clashes)
 
 // If upgrade check enabled / cached var set, set the runtime var for any configured alerts

@@ -587,8 +587,6 @@ var $ct_array = array();
    
    
    function sanitize_requests($method, $ext_key, $data, $mysqli_connection=false) {
-       
-   global $ct;
    
    
         if ( is_array($data) ) {
@@ -620,8 +618,6 @@ var $ct_array = array();
    
    
    function rand_hash($num_bytes) {
-   
-   global $ct;
    
       // Upgrade required
       if ( PHP_VERSION_ID < 70000 ) {
@@ -1852,14 +1848,14 @@ var $ct_array = array();
    /* Usage: 
    
    // HTML
-   $content = $ct['gen']->txt_between_tags('a', $html);
+   $content = $this->txt_between_tags('a', $html);
    
    foreach( $content as $item ) {
        echo $item.'<br />';
    }
    
    // XML
-   $content2 = $ct['gen']->txt_between_tags('description', $xml, 1);
+   $content2 = $this->txt_between_tags('description', $xml, 1);
    
    foreach( $content2 as $item ) {
        echo $item.'<br />';
@@ -2590,8 +2586,8 @@ var $ct_array = array();
         // https://expressionengine.com/blog/http-host-and-server-name-security-issues (HOSTNAME HEADER CAN BE SPOOFED FROM CLIENT)
         if ( $hostCheck == true ) {
 	
-        $set_128bit_hash = $ct['gen']->rand_hash(16); // 128-bit (16-byte) hash converted to hexadecimal, used for suffix
-        $set_256bit_hash = $ct['gen']->rand_hash(32); // 256-bit (32-byte) hash converted to hexadecimal, used for var
+        $set_128bit_hash = $this->rand_hash(16); // 128-bit (16-byte) hash converted to hexadecimal, used for suffix
+        $set_256bit_hash = $this->rand_hash(32); // 256-bit (32-byte) hash converted to hexadecimal, used for var
         
         $domain_check_filename = 'domain_check_' . $set_128bit_hash.'.dat';
         	
@@ -2599,7 +2595,7 @@ var $ct_array = array();
         	  // Halt the process if an issue is detected safely creating a random hash
         	  if ( $set_128bit_hash == false || $set_256bit_hash == false ) {
         		
-        	  $ct['gen']->log(
+        	  $this->log(
         				'security_error',
         				'Cryptographically secure pseudo-random bytes could not be generated for API key (in secured cache storage), API key creation aborted to preserve security'
         				);

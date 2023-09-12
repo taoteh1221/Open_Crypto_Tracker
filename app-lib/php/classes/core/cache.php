@@ -277,7 +277,7 @@ var $ct_array = array();
     * @author Torleif Berger, Lorenzo Stanco
     * @link http://stackoverflow.com/a/15025877/995958
     * @license http://creativecommons.org/licenses/by/3.0/
-    Usage: $last_line = $ct['cache']->tail_custom($file_path);
+    Usage: $last_line = $this->tail_custom($file_path);
   */
   
   function tail_custom($filepath, $lines = 1, $adaptive = true) {
@@ -973,12 +973,12 @@ var $ct_array = array();
             		    
             		$ct['gen']->log('conf_error', 'ct_conf CACHE restore from last-known working config triggered, refreshed successfully'); 
             		$ct['conf'] = $upgrade_cache_ct_conf;
-            		$ct['cache']->save_file($ct['base_dir'] . '/cache/secured/ct_conf_'.$secure_128bit_hash.'.dat', $store_cached_ct_conf);
+            		$this->save_file($ct['base_dir'] . '/cache/secured/ct_conf_'.$secure_128bit_hash.'.dat', $store_cached_ct_conf);
             		
             		
                 		// For checking later, if DEFAULT Admin Config (in config.php) values are updated we save to json again
             		    if ( $admin_area_sec_level == 'high' ) {
-                		$ct['cache']->save_file($ct['base_dir'] . '/cache/vars/default_ct_conf_md5.dat', md5(serialize($default_ct_conf))); 
+                		$this->save_file($ct['base_dir'] . '/cache/vars/default_ct_conf_md5.dat', md5(serialize($default_ct_conf))); 
             		    }
             		
             		
@@ -999,13 +999,13 @@ var $ct_array = array();
     		    
     		$ct['gen']->log('conf_error', 'ct_conf CACHE update triggered, refreshed successfully');
     		$ct['conf'] = $upgrade_cache_ct_conf;
-    		$ct['cache']->save_file($ct['base_dir'] . '/cache/secured/ct_conf_'.$secure_128bit_hash.'.dat', $store_cached_ct_conf);
-    		$ct['cache']->save_file($ct['base_dir'] . '/cache/secured/restore_conf_'.$secure_128bit_hash.'.dat', $store_cached_ct_conf);
+    		$this->save_file($ct['base_dir'] . '/cache/secured/ct_conf_'.$secure_128bit_hash.'.dat', $store_cached_ct_conf);
+    		$this->save_file($ct['base_dir'] . '/cache/secured/restore_conf_'.$secure_128bit_hash.'.dat', $store_cached_ct_conf);
     		
     		
                  // For checking later, if DEFAULT Admin Config (in config.php) values are updated we save to json again
             	 if ( $admin_area_sec_level == 'high' ) {
-                 $ct['cache']->save_file($ct['base_dir'] . '/cache/vars/default_ct_conf_md5.dat', md5(serialize($default_ct_conf))); 
+                 $this->save_file($ct['base_dir'] . '/cache/vars/default_ct_conf_md5.dat', md5(serialize($default_ct_conf))); 
     		     }
     		    
     		

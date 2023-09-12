@@ -10,6 +10,9 @@ NEXT SCHEDULED WORK SESSIONS (*BOTH* DEBUGGING AND / OR INFRASTRUCTURE)
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
+Replace all tabs with spaces (for better cross-text-editor support).
+
+
 Create a 'ct_admin' PHP class, and move all admin-related functions into it.
 
 
