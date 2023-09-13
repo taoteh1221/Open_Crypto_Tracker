@@ -103,22 +103,18 @@ nav_menu('.user-nav');
 
 	/////////////////////////////////////////////////////////////////////////////////////////////////////
 	
-	
-    // We only want to load our vertical scroll position on secondary start pages AFTER any background-loading
-    // (WE ALREADY LOAD get_scroll_position() in charts_loading_check() AND feeds_loading_check() FOR THE DYNAMIC PAGE LOADING)
-    if ( $(location).attr('hash') != '' && $(location).attr('hash') != '#news' && $(location).attr('hash') != '#charts' ) {
-    get_scroll_position('init'); // Run AFTER showing content
-    }
-    
-
-	/////////////////////////////////////////////////////////////////////////////////////////////////////
-	
 
     // INITIAL vertical scroll should always start at top for UX
     $('html, body').animate({
     scrollTop: 0
     }, 'slow');
-
+	
+    // Load our vertical scroll position (if checks pass within the function's logic)
+    // (WE ALREADY LOAD set_scroll_position() in background_tasks_check() FOR NEWS / CHARTS PAGES [ONLY AFTER THEY ARE FULLY LOADED])
+    if ( $(location).attr('hash') != '' && $(location).attr('hash') != '#news' && $(location).attr('hash') != '#charts' ) {
+    set_scroll_position(); // Run AFTER showing content
+    }
+    
 
 	/////////////////////////////////////////////////////////////////////////////////////////////////////
 	

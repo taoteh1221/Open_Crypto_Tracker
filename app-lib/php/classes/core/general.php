@@ -1409,6 +1409,7 @@ var $ct_array = array();
    unset($_COOKIE['sort_by']);
    unset($_COOKIE['alert_percent']);
    unset($_COOKIE['prim_currency_mrkt_standalone']);
+   unset($_COOKIE['prim_currency_mrkt']);
    
    $this->store_cookie('coin_reload', '', time()-3600); // Delete
    $this->store_cookie('show_charts', '', time()-3600); // Delete
@@ -1419,6 +1420,7 @@ var $ct_array = array();
    $this->store_cookie('sort_by', '', time()-3600); // Delete
    $this->store_cookie('alert_percent', '', time()-3600); // Delete
    $this->store_cookie('prim_currency_mrkt_standalone', '', time()-3600); // Delete
+   $this->store_cookie('prim_currency_mrkt', '', time()-3600); // Delete
     
    }
    
@@ -3349,6 +3351,14 @@ var $ct_array = array();
             else {
             unset($_COOKIE['prim_currency_mrkt_standalone']);
             $this->store_cookie('prim_currency_mrkt_standalone', '', time()-3600); // Delete
+            }
+                 
+            if ( isset($_POST['prim_currency_mrkt']) ) {
+            $this->store_cookie("prim_currency_mrkt", $_POST['prim_currency_mrkt'], time()+31536000);
+            }
+            else {
+            unset($_COOKIE['prim_currency_mrkt']);
+            $this->store_cookie('prim_currency_mrkt', '', time()-3600); // Delete
             }
               
               

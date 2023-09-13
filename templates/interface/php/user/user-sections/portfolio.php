@@ -89,14 +89,14 @@ if ( $_POST['submit_check'] == 1 || $post_csv_import || $ui_cookies ) {
 <th class='border_lt num-sort'>Rank</th>
 <th class='border_lt blue al_right'><span>Asset Name</span></th>
 <th class='border_t num-sort'>Unit Value</th>
-<th class='border_lt blue'>Exchange</th>
-<th class='border_t al_right num-sort'>Trade Value</th>
+<th class='border_lt num-sort al_right'>Trade Value</th>
 <th class='border_t blue'>Market</th>
+<th class='border_t blue'>Exchange</th>
 <th class='border_t num-sort'>24hr Volume</th>
-<th class='border_lt blue al_right num-sort'>Holdings</th>
+<th class='border_lt blue num-sort al_right'>Holdings</th>
 <th class='border_t'>Ticker</th>
-<th class='border_t blue num-sort'>Value</th>
-<th class='border_rt blue num-sort'>(<?=strtoupper($ct['conf']['gen']['btc_prim_currency_pair'])?>)</th>
+<th class='border_t blue num-sort'>Holdings Value</th>
+<th class='border_rt blue num-sort'>(in <?=strtoupper($ct['conf']['gen']['btc_prim_currency_pair'])?>)</th>
     </tr>
   </thead>
  <tbody>
@@ -502,7 +502,7 @@ $altcoin_dominance = $ct['var']->max_100($altcoin_dominance);
 			
 			<div class="portfolio_summary">
 			
-			<span class="black private_data">Crypto Value:</span> 
+			<span class="black private_data">Portfolio Value (Crypto):</span> 
 			
 			<span class='private_data'>
 			<?php
@@ -560,7 +560,7 @@ $altcoin_dominance = $ct['var']->max_100($altcoin_dominance);
 			
 <script>
 		
-			var crypto_val_content = '<h5 class="yellow tooltip_title">Crypto Value</h5>'
+			var crypto_val_content = '<h5 class="yellow tooltip_title">Portfolio Value In Crypto</h5>'
 			
 			+'<p class="coin_info" style=" white-space: normal;">The value of your ENTIRE portfolio, in the cryptocurrencies you selected in the "Show Crypto Value Of ENTIRE Portfolio In" setting, on the Settings page.</p>'
 			
@@ -609,7 +609,7 @@ $altcoin_dominance = $ct['var']->max_100($altcoin_dominance);
 		
         $thres_dec = $ct['gen']->thres_dec($total_prim_currency_worth, 'u', 'fiat'); // Units mode
 		// Fiat value of portfolio
-		echo '<span class="black private_data">' . strtoupper($ct['conf']['gen']['btc_prim_currency_pair']) . ' Value:</span> <span class="private_data">' . $ct['conf']['power']['btc_currency_mrkts'][ $ct['conf']['gen']['btc_prim_currency_pair'] ] . $ct['var']->num_pretty($total_prim_currency_worth, $thres_dec['max_dec'], false, $thres_dec['min_dec']) . '</span>';
+		echo '<span class="black private_data">Portfolio Value (' . strtoupper($ct['conf']['gen']['btc_prim_currency_pair']) . '):</span> <span class="private_data">' . $ct['conf']['power']['btc_currency_mrkts'][ $ct['conf']['gen']['btc_prim_currency_pair'] ] . $ct['var']->num_pretty($total_prim_currency_worth, $thres_dec['max_dec'], false, $thres_dec['min_dec']) . '</span>';
 		
 		?>
 		
@@ -620,7 +620,7 @@ $altcoin_dominance = $ct['var']->max_100($altcoin_dominance);
 <script>
 
 
-var fiat_val_content = '<h5 class="yellow tooltip_title">Primary Currency (<?=strtoupper($ct['conf']['gen']['btc_prim_currency_pair'])?>) Value</h5>'
+var fiat_val_content = '<h5 class="yellow tooltip_title">Portfolio Value In <?=strtoupper($ct['conf']['gen']['btc_prim_currency_pair'])?></h5>'
 			
 			+'<p class="coin_info" style=" white-space: normal;">The value of your ENTIRE portfolio, based off your selected primary currency (<?=strtoupper($ct['conf']['gen']['btc_prim_currency_pair'])?>), in the "Primary Currency Market" setting, on the Settings page.</p>'
 			

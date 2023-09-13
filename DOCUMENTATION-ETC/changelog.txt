@@ -6250,6 +6250,8 @@ v6.00.2 AND HIGHER RESETS LIGHT (TIME PERIOD) CHARTS FROM ARCHIVAL DATA, ONE-TIM
 
 -BUG FIX: Fixed setting 'interface_login' in the Admin SECURITY Config (an issue in Windows 10 / 11 only...it now works when entering your login)
 
+-BUG FIX: Fixed issues with the primary currency registering as the asset used for the value of 'MISCASSETS' (on the portfolio page)
+
 -BUG FIX: Fixed chart storage / price alerts from crashing, when a market has no trade volume data available (sorry!)
 
 -BUG FIX: Miscellaneous fixes

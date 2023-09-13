@@ -118,14 +118,14 @@
 				<option value='0' <?=( $sel_opt['sorted_by_col'] == 0 ? ' selected ' : '' )?>> Rank </option>
 				<option value='1' <?=( $sel_opt['sorted_by_col'] == 1 ? ' selected ' : '' )?>> Asset Name </option>
 				<option value='2' <?=( $sel_opt['sorted_by_col'] == 2 ? ' selected ' : '' )?>> Unit Value </option>
-				<option value='3' <?=( $sel_opt['sorted_by_col'] == 3 ? ' selected ' : '' )?>> Exchange </option>
-				<option value='4' <?=( $sel_opt['sorted_by_col'] == 4 ? ' selected ' : '' )?>> Trade Value </option>
-				<option value='5' <?=( $sel_opt['sorted_by_col'] == 5 ? ' selected ' : '' )?>> Market </option>
+				<option value='3' <?=( $sel_opt['sorted_by_col'] == 3 ? ' selected ' : '' )?>> Trade Value </option>
+				<option value='4' <?=( $sel_opt['sorted_by_col'] == 4 ? ' selected ' : '' )?>> Market </option>
+				<option value='5' <?=( $sel_opt['sorted_by_col'] == 5 ? ' selected ' : '' )?>> Exchange </option>
 				<option value='6' <?=( $sel_opt['sorted_by_col'] == 6 ? ' selected ' : '' )?>> 24hr Volume </option>
 				<option value='7' <?=( $sel_opt['sorted_by_col'] == 7 ? ' selected ' : '' )?>> Holdings </option>
 				<option value='8' <?=( $sel_opt['sorted_by_col'] == 8 ? ' selected ' : '' )?>> Ticker </option>
-				<option value='9' <?=( $sel_opt['sorted_by_col'] == 9 ? ' selected ' : '' )?>> Value </option>
-				<option value='10' <?=( $sel_opt['sorted_by_col'] == 10 ? ' selected ' : '' )?>> (<?=strtoupper($ct['conf']['gen']['btc_prim_currency_pair'])?>) </option>
+				<option value='9' <?=( $sel_opt['sorted_by_col'] == 9 ? ' selected ' : '' )?>> Holdings Value </option>
+				<option value='10' <?=( $sel_opt['sorted_by_col'] == 10 ? ' selected ' : '' )?>> (in <?=strtoupper($ct['conf']['gen']['btc_prim_currency_pair'])?>) </option>
 			    </select> 
 			    
 			     <select class='browser-default custom-select' id='sorted_asc_desc' onchange='
@@ -211,6 +211,8 @@
 				    $("#btc_mrkt").val( prim_currency_mrkt ); // Set hidden field var
 				    $("#" + btc_prim_currency + "BTC_pairs").val( prim_currency_mrkt ); // Set selected drop down choice
 				    
+				    $("#prim_currency_mrkt").val( btc_prim_currency + "|" + prim_currency_mrkt );
+				    
 				    }
 				    else {
 				    $("#prim_currency_mrkt_standalone").val( btc_prim_currency + "|" + prim_currency_mrkt );
@@ -286,6 +288,7 @@
 				    if ( document.getElementById("standalone_prim_currency_enabled").checked == false ) {
 				    $("#btc_mrkt").val( prim_currency_mrkt ); // Set hidden field var
 				    $("#" + btc_prim_currency + "BTC_pairs").val( prim_currency_mrkt ); // Set selected drop down choice
+				    $("#prim_currency_mrkt").val( btc_prim_currency + "|" + prim_currency_mrkt );
 				    }
 				    else {
 				    $("#prim_currency_mrkt_standalone").val( btc_prim_currency + "|" + prim_currency_mrkt );
@@ -320,6 +323,8 @@
 				    	
 				    $("#btc_mrkt").val( prim_currency_mrkt ); // Set hidden field var
 				    $("#" + btc_prim_currency + "BTC_pairs").val( prim_currency_mrkt ); // Set selected drop down choice
+				    
+				    $("#prim_currency_mrkt").val( btc_prim_currency + "|" + prim_currency_mrkt );
 				    
 				    $("#prim_currency_mrkt_standalone").val("");
 				    

@@ -124,11 +124,23 @@ const all_autosize_textareas = document.querySelectorAll("[data-autoresize]");
 
 
 function store_scroll_position() {
+     
+     if ( is_iframe ) {
+     return;
+     }
+     
+     
+var hash_check = $(location).attr('hash');
 
-// IN CASE we are loading / POSTING DATA ON a different start page than the portfolio page,
-// STORE the current scroll position before the page reload
-// WE ONLY CALL THIS FUNCTION ONCE PER PAGE UNLOAD (body => onbeforeunload)
-localStorage.setItem(scroll_position_storage, window.scrollY);
+
+     // STORE the current scroll position before the page reload (IF CONDITIONS MET, OTHERWISE RESET)
+     // WE ONLY CALL THIS FUNCTION ONCE PER PAGE UNLOAD (body => onbeforeunload)
+     if ( !is_admin && typeof hash_check != 'undefined' && hash_check != 'update'  && hash_check != 'settings' && hash_check != 'portfolio' && !isNaN( localStorage.getItem(scroll_position_storage) ) ) {
+     localStorage.setItem(scroll_position_storage, window.scrollY);
+     }
+     else {
+     localStorage.setItem(scroll_position_storage, 0);
+     }
 
 }
 
@@ -385,20 +397,26 @@ var footer_notice = $('.footer_banner');
 /////////////////////////////////////////////////////////////
 
 
-function get_scroll_position(tracing) {
+function set_scroll_position() {
+     
+     if ( is_iframe ) {
+     return;
+     }
+     
      
 var hash_check = $(location).attr('hash');
 
+
 	// IF ther is a location hash, RETRIEVE any stored scroll position we were at before the page reload
-	// (EXCEPT FOR A FEW PAGES WE *ALWAYS* WANT SCROLLED BACK UP TO THE TOP)
-    if ( hash_check != '' && hash_check != 'admin_security' && hash_check != 'portfolio' && !isNaN( localStorage.getItem(scroll_position_storage) ) ) {
+	// (EXCEPT FOR ADMIN AREA, AND A FEW USER AREA PAGES WE *ALWAYS* WANT SCROLLED BACK UP TO THE TOP)
+    if ( !is_admin && typeof hash_check != 'undefined' && hash_check != 'update'  && hash_check != 'settings' && hash_check != 'portfolio' && !isNaN( localStorage.getItem(scroll_position_storage) ) ) {
     	     
          	$('html, body').animate({
          	scrollTop: localStorage.getItem(scroll_position_storage)
          	}, 'slow');
     		
     }
-    // Reset if we're NOT starting on a page with a location hash
+    // Reset if we're NOT starting on a page with a location hash we want vertical scroll position saved for
     else {
 	localStorage.setItem(scroll_position_storage, 0);
     }
@@ -736,6 +754,9 @@ function set_admin_security(obj) {
 		}
 
 }
+
+
+/////////////////////////////////////////////////////////////
 
 
 function set_admin_2fa(obj=false, submit=false) {
@@ -1314,21 +1335,16 @@ function background_tasks_check() {
 		) {
 		    
 		$("#background_loading").hide(250); // 0.25 seconds
-		
-    		// Run setting scroll position AGAIN if we are on the news page,
-    		// as we start out with no scroll height before the news feeds load
-    		if ( $(location).attr('hash') == '#news' ) {
-    		get_scroll_position('news'); 
-    		}
-    		// Run setting scroll position AGAIN if we are on the charts page,
-    		// as we start out with no scroll height before the charts load
-    		else if ( $(location).attr('hash') == '#charts' ) {
-    		get_scroll_position('charts'); 
-    		}
-    	
-         	background_tasks_status = 'done';
          	
          	clearTimeout(background_tasks_recheck);
+    	
+         	background_tasks_status = 'done';
+		
+         		// Run setting scroll position AGAIN if we are on the news / charts page,
+         		// as we start out with no scroll height before the news feeds / price charts load
+         		if ( $(location).attr('hash') == '#news' || $(location).attr('hash') == '#charts' ) {
+         		set_scroll_position(); 
+         		}
 		
 		}
 		else {

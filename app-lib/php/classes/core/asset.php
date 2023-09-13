@@ -1222,21 +1222,6 @@ var $ct_array = array();
            
 	            if ( $loop == $sel_exchange || $key == "ico_erc20_value" ) {
 	            $sel_exchange = $key;
-	             
-		               if ( !is_array($sel_opt['prim_currency_mrkt_standalone']) && strtolower($asset_name) == 'bitcoin' ) {
-		               $ct['conf']['gen']['btc_prim_exchange'] = $key;
-		               $ct['conf']['gen']['btc_prim_currency_pair'] = $sel_pair;
-		               ?>
-		               
-		               <script>
-		               btc_prim_currency_val = '<?=$ct['api']->market('BTC', $key, $ct['conf']['assets']['BTC']['pair'][$sel_pair][$key])['last_trade']?>';
-		               
-		               btc_prim_currency_pair = '<?=strtoupper($sel_pair)?>';
-		               </script>
-		               
-		               <?php
-		               }
-	             
 	            }
            
          $loop = $loop + 1;

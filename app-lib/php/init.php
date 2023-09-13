@@ -108,6 +108,7 @@ $ct['dev']['font_size_css_selector'] = "#sidebar_menu, #header_size_warning, #al
 // These selector(s) are wonky for some reason in LINUX PHPDESKTOP (but work fine in all modern browsers)
 // (dynamically appended conditionally in primary-init.php)
 $ct['dev']['small_font_size_css_selector_adjusted'] = ", #admin_conf_quick_links a:link, #admin_conf_quick_links legend, td.data";
+$ct['dev']['tiny_font_size_css_selector_adjusted'] = ", .crypto_worth";
 
 // medium font size CSS configs
 $ct['dev']['medium_font_size_css_selector'] = ".unused_for_appending";

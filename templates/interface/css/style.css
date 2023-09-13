@@ -317,12 +317,12 @@ margin: 2em;
 
 
 .al_right {
-text-align: right;
+text-align: right !important;
 }
 
 
 .al_right span {
-padding-right: 0.6em;
+padding-right: 0.6em !important;
 }
 
 
