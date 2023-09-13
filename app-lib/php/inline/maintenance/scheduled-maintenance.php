@@ -105,12 +105,12 @@ $logs_cache_cleanup = array(
 $ct['cache']->delete_old_files($logs_cache_cleanup, $ct['conf']['power']['logs_purge'], 'log'); // Purge app LOG cache files older than $ct['conf']['power']['logs_purge'] day(s)
 
 
-    // Purge any error logging in the desktop version every 6 hours
-    if ( $ct['app_edition'] == 'desktop' && $ct['cache']->update_cache($ct['base_dir'] . '/cache/events/desktop-logs-purge.dat', 360) == true ) {
+    // Purge any excessive logging in the PHPdesktop version every 48 hours
+    if ( $ct['app_container'] == 'phpdesktop' && $ct['cache']->update_cache($ct['base_dir'] . '/cache/events/phpdesktop-logs-purge.dat', 2880) == true ) {
     @unlink($ct['base_dir'] . '/../temp-other/php_errors.log');
     @unlink($ct['base_dir'] . '/../temp-other/debugging.log');
     @unlink($ct['base_dir'] . '/../temp-other/phpdesktop.log');
-    $ct['cache']->save_file($ct['base_dir'] . '/cache/events/desktop-logs-purge.dat', $ct['gen']->time_date_format(false, 'pretty_date_time') );
+    $ct['cache']->save_file($ct['base_dir'] . '/cache/events/phpdesktop-logs-purge.dat', $ct['gen']->time_date_format(false, 'pretty_date_time') );
     }
     
     

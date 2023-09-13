@@ -626,6 +626,9 @@ MAYBE SECTION
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
+Change "$this" in the core classes to use the "$ct['category']" format instead, AND of course make sure we have the "$ct" global.
+
+
 Some of our extra security automation options in FOLIO-INSTALL.bash may also be appropriate for my other auto-installer scripts (ticker / Bluetooth radio)?
 
 
