@@ -552,6 +552,8 @@
 				    
 				    $("#<?=$field_var_mrkt?>").val( $("#" + this.value + "<?=$asset_array_key?>_pairs option:selected").val() );
 				    
+				    $("#prim_currency_mrkt").val( this.value + "|" + $("#<?=$field_var_mrkt?>").val() );
+				    
 				    ' id='<?=$field_var_pair?>' name='<?=$field_var_pair?>'>
 					<?php
 					
@@ -603,7 +605,7 @@
 				     echo $ct['asset']->btc_mrkt($ct['conf']['gen']['btc_prim_exchange']);
 				     }
 				     else {
-						echo '1';
+					echo '1';
 				     }
 				     
 				     ?>'>
@@ -619,6 +621,8 @@
 				    <select class='browser-default custom-select' onchange ='
 				    
 				    $("#<?=$field_var_mrkt?>").val( this.value );
+				    
+				    $("#prim_currency_mrkt").val( $("#<?=$field_var_pair?>").val() + "|" + this.value );
 				    
 				    ' id='<?=$key.$asset_array_key?>_pairs' style='display: <?=( $sel_pair == $key ? 'inline' : 'none' )?>;'><?=$html_mrkt_list[$key]?>
 				    
@@ -762,11 +766,10 @@
 		 	}
 	    
 	    $asset_symb = NULL;
-	    
 	    $asset_pair_id = NULL;
 	    $asset_mrkt_id = NULL;
 	    $asset_amnt_val = NULL;
- 		 $asset_paid_val = NULL;
+ 	    $asset_paid_val = NULL;
 	    
 	    }
 	    
@@ -796,6 +799,8 @@
 	<input type='hidden' id='show_feeds' name='show_feeds' value='<?=( isset($_POST['show_feeds']) ? $_POST['show_feeds'] : $_COOKIE['show_feeds'] )?>' />
 	
 	<input type='hidden' id='prim_currency_mrkt_standalone' name='prim_currency_mrkt_standalone' value='<?=( isset($_POST['prim_currency_mrkt_standalone']) ? $_POST['prim_currency_mrkt_standalone'] : $_COOKIE['prim_currency_mrkt_standalone'] )?>' />
+	
+	<input type='hidden' id='prim_currency_mrkt' name='prim_currency_mrkt' value='<?=( isset($_POST['prim_currency_mrkt']) ? $_POST['prim_currency_mrkt'] : $_COOKIE['prim_currency_mrkt'] )?>' />
 			
 	<p><input type='submit' value='Save Updated Portfolio' /></p>
 	

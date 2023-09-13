@@ -433,35 +433,7 @@ echo '?';
 
 
 
-
-<td class='data border_lb'>
- 
-    <select class='browser-default custom-select' name='change_<?=strtolower($asset_symb)?>_mrkt' title='Choose which exchange or defi pool you want.' onchange='
-    $("#<?=strtolower($asset_symb)?>_mrkt").val(this.value);
-    $("#coin_amnts").submit();
-    '>
-        <?php
-        $loop = 0;
-        foreach ( $all_pair_mrkts as $mrkt_key => $mrkt_name ) {
-         $loop = $loop + 1;
-         	if ( $original_mrkt == ($loop - 1) ) {
-         	$ui_selected_mrkt = $ct['gen']->key_to_name($mrkt_key);
-         	}
-        ?>
-        <option value='<?=($loop)?>' <?=( $original_mrkt == ($loop - 1) ? ' selected ' : '' )?>> <?=$ct['gen']->key_to_name($mrkt_key)?> </option>
-        <?php
-        }
-        ?>
-    </select>
-    
-    <div class='app_sort_filter' style='display: none;'><?=$ui_selected_mrkt?></div>
-
-</td>
-
-
-
-
-<td class='data border_b' align='right'>
+<td class='data border_lb' align='right'>
 
 <span class='app_sort_filter'>
 
@@ -530,6 +502,7 @@ echo $ct['var']->num_pretty($asset_val_raw, $thres_dec['max_dec'], false, $thres
     <select class='browser-default custom-select' name='change_<?=strtolower($asset_symb)?>_pair' title='Choose which market you want.' onchange='
     $("#<?=strtolower($asset_symb)?>_pair").val(this.value); 
     $("#<?=strtolower($asset_symb)?>_mrkt").val(1); // Just reset to first listed market for this pair
+    $("#prim_currency_mrkt").val( this.value + "|1" ); // Just reset to first listed market for this pair
     $("#coin_amnts").submit();
     '>
     
@@ -558,6 +531,35 @@ echo $ct['var']->num_pretty($asset_val_raw, $thres_dec['max_dec'], false, $thres
     <div class='app_sort_filter' style='display: none;'><?=$ui_selected_pair?></div>
 
 </td>
+
+
+
+
+<td class='data border_b'>
+ 
+    <select class='browser-default custom-select' name='change_<?=strtolower($asset_symb)?>_mrkt' title='Choose which exchange or defi pool you want.' onchange='
+    $("#<?=strtolower($asset_symb)?>_mrkt").val(this.value);
+    $("#prim_currency_mrkt").val( $("#<?=strtolower($asset_symb)?>_pair").val() + "|" + this.value );
+    $("#coin_amnts").submit();
+    '>
+        <?php
+        $loop = 0;
+        foreach ( $all_pair_mrkts as $mrkt_key => $mrkt_name ) {
+         $loop = $loop + 1;
+         	if ( $original_mrkt == ($loop - 1) ) {
+         	$ui_selected_mrkt = $ct['gen']->key_to_name($mrkt_key);
+         	}
+        ?>
+        <option value='<?=($loop)?>' <?=( $original_mrkt == ($loop - 1) ? ' selected ' : '' )?>> <?=$ct['gen']->key_to_name($mrkt_key)?> </option>
+        <?php
+        }
+        ?>
+    </select>
+    
+    <div class='app_sort_filter' style='display: none;'><?=$ui_selected_mrkt?></div>
+
+</td>
+
 
 
 
