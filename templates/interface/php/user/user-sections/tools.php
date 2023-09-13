@@ -13,7 +13,7 @@
 <div class='full_width_wrapper'>
 			
 
-			<p style='margin-top: 25px; margin-bottom: 15px;'><?=$ct_gen->start_page_html('tools')?></p>	
+			<p style='margin-top: 25px; margin-bottom: 15px;'><?=$ct['gen']->start_page_html('tools')?></p>	
 			
 			
 			<p style='margin-top: 25px;' class='red'>Using tools on this page that submit data for processing <i><u>may need to set this page as the start page (to display the results on page reload)</u>, which you can reset afterwards at top left</i>. If you have portfolio data you don't want to lose, be sure you have enabled "Use cookies to save data" on the Settings page before using these tools.</p>
@@ -25,7 +25,7 @@
 			<p>If you need to safely / quickly copy an address to yours or someone else's phone / air-gapped machine / etc, with a QR Code scanner app. 
 			<br /><br />NOTE: Whitespace, carriage returns, HTML, and non-alphanumeric characters are not allowed.</p>
 
-			<form method='post' action='<?=$ct_gen->start_page('tools')?>'>
+			<form method='post' action='<?=$ct['gen']->start_page('tools')?>'>
 
 			<p><input type='text' name='qr-string' placeholder="Enter address to convert to QR code here..." value='<?=trim($_POST['qr-string'])?>' style='width: 100%;' /></p>
 
@@ -81,9 +81,9 @@
     				
     			</p>
     			
-    			<p class='green' style='font-weight: bold;'>Per-Token (<?=strtoupper($ct_conf['gen']['btc_prim_currency_pair'])?>): <?=$ct_conf['power']['btc_currency_mrkts'][ $ct_conf['gen']['btc_prim_currency_pair'] ]?><span id='target_prim_currency'>0.00</span> (<span id='target_btc'>0.00</span> BTC) </p>
+    			<p class='green' style='font-weight: bold;'>Per-Token (<?=strtoupper($ct['conf']['gen']['btc_prim_currency_pair'])?>): <?=$ct['conf']['power']['btc_currency_mrkts'][ $ct['conf']['gen']['btc_prim_currency_pair'] ]?><span id='target_prim_currency'>0.00</span> (<span id='target_btc'>0.00</span> BTC) </p>
     			
-    			<p class='green' style='font-weight: bold;'>Total: <?=$ct_conf['power']['btc_currency_mrkts'][ $ct_conf['gen']['btc_prim_currency_pair'] ]?><span id='target_total_prim_currency'>0.00</span> (<span id='target_total_btc'>0.00</span> BTC) </p>
+    			<p class='green' style='font-weight: bold;'>Total: <?=$ct['conf']['power']['btc_currency_mrkts'][ $ct['conf']['gen']['btc_prim_currency_pair'] ]?><span id='target_total_prim_currency'>0.00</span> (<span id='target_total_btc'>0.00</span> BTC) </p>
     			
     			<script>
     			

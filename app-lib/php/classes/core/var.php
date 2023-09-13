@@ -11,7 +11,8 @@ class ct_var {
 var $ct_var1;
 var $ct_var2;
 var $ct_var3;
-var $ct_array1 = array();
+
+var $ct_array = array();
 
    
    ////////////////////////////////////////////////////////
@@ -285,7 +286,7 @@ var $ct_array1 = array();
    // Also removes any leading and trailing zeros for efficient storage / UX / etc
    function num_to_str($val) {
         
-   global $ct_conf;
+   global $ct;
    
    // Trim any whitespace off the ends
    $val = trim($val);
@@ -307,11 +308,11 @@ var $ct_array1 = array();
       
       
       // Get max decimals from the config settings
-      if ( $ct_conf['gen']['crypto_dec_max'] >= $ct_conf['gen']['currency_dec_max'] ) {
-      $dec_max = $ct_conf['gen']['crypto_dec_max'];
+      if ( $ct['conf']['gen']['crypto_dec_max'] >= $ct['conf']['gen']['currency_dec_max'] ) {
+      $dec_max = $ct['conf']['gen']['crypto_dec_max'];
       }
       else {
-      $dec_max = $ct_conf['gen']['currency_dec_max'];
+      $dec_max = $ct['conf']['gen']['currency_dec_max'];
       }
       
       

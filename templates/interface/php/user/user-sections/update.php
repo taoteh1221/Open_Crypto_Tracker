@@ -19,16 +19,16 @@
 
 
 
-		var average_paid_notes = '<h5 class="align_center yellow tooltip_title">Calculating Average <?=strtoupper($ct_conf['gen']['btc_prim_currency_pair'])?> Price Paid Per Token</h5>'
+		var average_paid_notes = '<h5 class="align_center yellow tooltip_title">Calculating Average <?=strtoupper($ct['conf']['gen']['btc_prim_currency_pair'])?> Price Paid Per Token</h5>'
 			
 			
-			+'<p class="coin_info extra_margins" style="white-space: normal; "><span class="green">Total <?=strtoupper($ct_conf['gen']['btc_prim_currency_pair'])?> Paid For All Tokens</span> <span class="blue">&#247;</span> <span class="yellow">Total Tokens Purchased</span> <span class="blue">=</span> <span class="bitcoin">Average <?=strtoupper($ct_conf['gen']['btc_prim_currency_pair'])?> Price Paid Per Token</span></p>'
+			+'<p class="coin_info extra_margins" style="white-space: normal; "><span class="green">Total <?=strtoupper($ct['conf']['gen']['btc_prim_currency_pair'])?> Paid For All Tokens</span> <span class="blue">&#247;</span> <span class="yellow">Total Tokens Purchased</span> <span class="blue">=</span> <span class="bitcoin">Average <?=strtoupper($ct['conf']['gen']['btc_prim_currency_pair'])?> Price Paid Per Token</span></p>'
 			
-			+'<p class="coin_info extra_margins" style="white-space: normal; ">The RESULT of the above calculation <i>remains the same even AFTER you sell ANY amount, ONLY if you don\'t buy more between sells</i>. Everytime you buy more <i>after selling some</i>, re-calculate your Average <?=strtoupper($ct_conf['gen']['btc_prim_currency_pair'])?> Price Paid Per Token with this formula:</p>'
+			+'<p class="coin_info extra_margins" style="white-space: normal; ">The RESULT of the above calculation <i>remains the same even AFTER you sell ANY amount, ONLY if you don\'t buy more between sells</i>. Everytime you buy more <i>after selling some</i>, re-calculate your Average <?=strtoupper($ct['conf']['gen']['btc_prim_currency_pair'])?> Price Paid Per Token with this formula:</p>'
 			
-			+'<p class="coin_info extra_margins" style="white-space: normal; ">(<span class="green">Total <?=strtoupper($ct_conf['gen']['btc_prim_currency_pair'])?> Paid For All Tokens</span> <span class="blue">-</span> <span class="red">Total <?=strtoupper($ct_conf['gen']['btc_prim_currency_pair'])?> Received From All Sold Tokens</span>) <span class="blue">&#247;</span> <span class="yellow">Total Remaining Tokens Still Held</span> <span class="blue">=</span> <span class="bitcoin">Average <?=strtoupper($ct_conf['gen']['btc_prim_currency_pair'])?> Price Paid Per Token</span></p>'
+			+'<p class="coin_info extra_margins" style="white-space: normal; ">(<span class="green">Total <?=strtoupper($ct['conf']['gen']['btc_prim_currency_pair'])?> Paid For All Tokens</span> <span class="blue">-</span> <span class="red">Total <?=strtoupper($ct['conf']['gen']['btc_prim_currency_pair'])?> Received From All Sold Tokens</span>) <span class="blue">&#247;</span> <span class="yellow">Total Remaining Tokens Still Held</span> <span class="blue">=</span> <span class="bitcoin">Average <?=strtoupper($ct['conf']['gen']['btc_prim_currency_pair'])?> Price Paid Per Token</span></p>'
 			
-			+'<p class="coin_info extra_margins" style="white-space: normal; "><span class="bitcoin">PRO TIP:</span> <br /> When buying / selling, keep quick and dirty (yet clear) textual records of... <br />a) How much you bought / sold of what<br />b) What you paid / received in <?=strtoupper($ct_conf['gen']['btc_prim_currency_pair'])?> value<br />c) What / where you traded <br />d) Backup to USB Stick / NAS / DropBox / GoogleDrive / OneDrive / AmazonBucket <br />e) Now you\'re ready for tax season, to create spreadsheets from this data</p>'
+			+'<p class="coin_info extra_margins" style="white-space: normal; "><span class="bitcoin">PRO TIP:</span> <br /> When buying / selling, keep quick and dirty (yet clear) textual records of... <br />a) How much you bought / sold of what<br />b) What you paid / received in <?=strtoupper($ct['conf']['gen']['btc_prim_currency_pair'])?> value<br />c) What / where you traded <br />d) Backup to USB Stick / NAS / DropBox / GoogleDrive / OneDrive / AmazonBucket <br />e) Now you\'re ready for tax season, to create spreadsheets from this data</p>'
 			
 			+'<p class="coin_info extra_margins yellow" style="white-space: normal; ">There is also an <i>open source / free</i> app called <a href="https://rotki.com" target="_blank">Rotki</a> that can help you <i>PRIVATELY</i> track your tax data.</p>'
 			
@@ -43,11 +43,11 @@
 			
 			+'<p class="coin_info extra_margins" style="white-space: normal; ">Set the "Asset / Pair @ Exchange" drop-down menus for the asset to any markets you prefer. It doesn\'t matter which ones you choose, as long as the price discovery closely matches the exchange where you are margin trading this asset.</p>'
 			
-			+'<p class="coin_info extra_margins" style="white-space: normal; ">Set the "Holdings" field to match your margin leverage deposit (example: buying 1 BTC @ 5x leverage would be 0.2 BTC in the "Holdings" field in this app). You\'ll also need to fill in the "Average Paid (per-token)" field with the average price paid in <?=strtoupper($ct_conf['gen']['btc_prim_currency_pair'])?> per-token. Finally, set the "Margin Leverage" fields to match your leverage and whether you are long or short. When you are done, click "Save Updated Portfolio".</p>'
+			+'<p class="coin_info extra_margins" style="white-space: normal; ">Set the "Holdings" field to match your margin leverage deposit (example: buying 1 BTC @ 5x leverage would be 0.2 BTC in the "Holdings" field in this app). You\'ll also need to fill in the "Average Paid (per-token)" field with the average price paid in <?=strtoupper($ct['conf']['gen']['btc_prim_currency_pair'])?> per-token. Finally, set the "Margin Leverage" fields to match your leverage and whether you are long or short. When you are done, click "Save Updated Portfolio".</p>'
 			
-			+'<p class="coin_info extra_margins" style="white-space: normal; ">To see your margin leverage stats after updating your portfolio, go to the bottom of the Portfolio page, where you\'ll find a summary section. Hovering over the "I" icon next to the Gain / Loss summary will display any margin leverage stats per-asset. There is also an "I" icon in the far right-side data table column "(<?=strtoupper($ct_conf['gen']['btc_prim_currency_pair'])?>)" per-asset, which you can also hover over for margin leverage stats.</p>'
+			+'<p class="coin_info extra_margins" style="white-space: normal; ">To see your margin leverage stats after updating your portfolio, go to the bottom of the Portfolio page, where you\'ll find a summary section. Hovering over the "I" icon next to the Gain / Loss summary will display any margin leverage stats per-asset. There is also an "I" icon in the far right-side data table column "(<?=strtoupper($ct['conf']['gen']['btc_prim_currency_pair'])?>)" per-asset, which you can also hover over for margin leverage stats.</p>'
 			
-			+'<p class="coin_info balloon_notation extra_margins yellow" style="white-space: normal; ">*Current maximum margin leverage setting of <?=$ct_conf['power']['margin_lvrg_max']?>x can be adjusted in the Admin Config POWER USER section.</p>'
+			+'<p class="coin_info balloon_notation extra_margins yellow" style="white-space: normal; ">*Current maximum margin leverage setting of <?=$ct['conf']['power']['margin_lvrg_max']?>x can be adjusted in the Admin Config POWER USER section.</p>'
 			
 			+'<p> </p>';
 
@@ -317,7 +317,7 @@
 		$("#coin_amnts").submit();
 		'>Save Updated Portfolio</button>
 	
-		<form style='display: inline;' name='csv_import' id='csv_import' enctype="multipart/form-data" action="<?=$ct_gen->start_page($_GET['start_page'])?>" method="post">
+		<form style='display: inline;' name='csv_import' id='csv_import' enctype="multipart/form-data" action="<?=$ct['gen']->start_page($_GET['start_page'])?>" method="post">
 		
 	    <input type="hidden" name="csv_check" value="1" />
 	    
@@ -330,13 +330,13 @@
 		
 		<button style='margin-left: 40px;' class='force_button_style' onclick='
 		// HELP THWART CSRF ATTACKS VIA POST METHOD (IN COMBINATION WITH THE TOKEN HASH), DATA IS SENSITIVE!
-		set_target_action("coin_amnts", "_blank", "download.php?token=<?=$ct_gen->nonce_digest('download')?>&csv_export=1");
+		set_target_action("coin_amnts", "_blank", "download.php?token=<?=$ct['gen']->nonce_digest('download')?>&csv_export=1");
 		document.coin_amnts.submit(); // USE NON-JQUERY METHOD SO "APP LOADING..." DOES #NOT# SHOW
-		set_target_action("coin_amnts", "_self", "<?=$ct_gen->start_page($_GET['start_page'])?>");
+		set_target_action("coin_amnts", "_self", "<?=$ct['gen']->start_page($_GET['start_page'])?>");
 		'>Export Portfolio To CSV File</button>
 		
 		
-		<a style='margin-left: 40px; text-decoration: none;' class='force_button_style' href="download.php?token=<?=$ct_gen->nonce_digest('download')?>&csv_export=1&example_template=1" target="_blank">Example CSV File</a>
+		<a style='margin-left: 40px; text-decoration: none;' class='force_button_style' href="download.php?token=<?=$ct['gen']->nonce_digest('download')?>&csv_export=1&example_template=1" target="_blank">Example CSV File</a>
 	     
 		<img class='tooltip_style_control' id='spreadsheet_import_export' src='templates/interface/media/images/info.png' alt='' width='30' style='position: relative; left: 5px;' /> 
 		
@@ -396,23 +396,23 @@
 	
 	
 	
-	<form id='coin_amnts' name='coin_amnts' action='<?=$ct_gen->start_page($_GET['start_page'])?>' method='post'>
+	<form id='coin_amnts' name='coin_amnts' action='<?=$ct['gen']->start_page($_GET['start_page'])?>' method='post'>
 	
 		
 	<div class='long_list_start list_start_black'> &nbsp; </div>
 	
 	<?php
 	
-	if ( is_array($ct_conf['assets']) ) {
+	if ( is_array($ct['conf']['assets']) ) {
 
 	        
-	//var_dump($ct_conf['assets']);
+	//var_dump($ct['conf']['assets']);
 	        
 	//var_dump($all_cookies_data_array);
 	
 	    
 	    $zebra_stripe = 'long_list_odd';
-	    foreach ( $ct_conf['assets'] as $asset_array_key => $asset_array_val ) {
+	    foreach ( $ct['conf']['assets'] as $asset_array_key => $asset_array_val ) {
 		
 		$rand_id = rand(10000000,100000000);
 	    
@@ -429,8 +429,8 @@
 	        if ( $_POST['submit_check'] == 1 ) {
 	        $asset_pair_id = $_POST[$field_var_pair];
 	        $asset_mrkt_id = $_POST[$field_var_mrkt];
-	        $asset_amnt_val = $ct_var->rem_num_format($_POST[$field_var_amnt]);
-	        $asset_paid_val = $ct_var->rem_num_format($_POST[$field_var_paid]);
+	        $asset_amnt_val = $ct['var']->rem_num_format($_POST[$field_var_amnt]);
+	        $asset_paid_val = $ct['var']->rem_num_format($_POST[$field_var_paid]);
 	        $asset_lvrg_val = $_POST[$field_var_lvrg];
 	        $asset_mrgntyp_val = $_POST[$field_var_mrgntyp];
 	        }
@@ -468,8 +468,8 @@
         	            
         						
                 	// Bundle all required cookie data in this final cookies parsing loop for each coin, and render the coin's data
-                	// We don't need $ct_var->rem_num_format() for cookie data, because it was already done creating the cookies
-                	$asset_amnt_val_temp = $ct_var->num_to_str($all_cookies_data_array[$asset_symb.'_data'][$asset_symb.'_amnt']);
+                	// We don't need $ct['var']->rem_num_format() for cookie data, because it was already done creating the cookies
+                	$asset_amnt_val_temp = $ct['var']->num_to_str($all_cookies_data_array[$asset_symb.'_data'][$asset_symb.'_amnt']);
                 					
                 					
                 		if ( $asset_amnt_val_temp >= $watch_only_flag_val ) {
@@ -478,7 +478,7 @@
                     	$asset_mrkt_id = $all_cookies_data_array[$asset_symb.'_data'][$asset_symb.'_mrkt'];
                     	$asset_pair_id = $all_cookies_data_array[$asset_symb.'_data'][$asset_symb.'_pair'];
                 					       
-                		$purchase_price_temp = $ct_var->num_to_str($all_cookies_data_array[$asset_symb.'_data'][$asset_symb.'_paid']);
+                		$purchase_price_temp = $ct['var']->num_to_str($all_cookies_data_array[$asset_symb.'_data'][$asset_symb.'_paid']);
                 					   
     			            // If purchased amount (not just watched), AND cost basis
                     		if (
@@ -519,18 +519,18 @@
 	    	}
 	    
 	    
-	  	 $asset_amnt_val = $ct_var->num_pretty($asset_amnt_val, $asset_amnt_dec, TRUE); // TRUE = Show even if low value is off the map, just for UX purposes tracking token price only, etc
+	  	 $asset_amnt_val = $ct['var']->num_pretty($asset_amnt_val, $asset_amnt_dec, TRUE); // TRUE = Show even if low value is off the map, just for UX purposes tracking token price only, etc
 	    
 	    
     	    // Set any previously-used additional feilds to default, if 'watch only' now (no amount held)
-    	    if ( $ct_var->rem_num_format($asset_amnt_val) < $min_crypto_val_test ) {
+    	    if ( $ct['var']->rem_num_format($asset_amnt_val) < $min_crypto_val_test ) {
     	    $asset_paid_val = 0;
     	    $asset_lvrg_val = 0;
     	    $asset_mrgntyp_val = 'long';
     	    
     	    }
     	    else {
-    	    $asset_paid_val = ( $ct_var->num_to_str($asset_paid_val) >= 1 ? $ct_var->num_pretty($asset_paid_val, 2) : $ct_var->num_pretty($asset_paid_val, $ct_conf['gen']['currency_dec_max']) );
+    	    $asset_paid_val = ( $ct['var']->num_to_str($asset_paid_val) >= 1 ? $ct['var']->num_pretty($asset_paid_val, 2) : $ct['var']->num_pretty($asset_paid_val, $ct['conf']['gen']['currency_dec_max']) );
     	    }
 	    
 	    
@@ -539,7 +539,7 @@
 	    <div class='<?=$zebra_stripe?> long_list_taller' style='white-space: nowrap;'> 
 	       
 	       
-	       <input type='checkbox' value='<?=strtolower($asset_array_key)?>' id='<?=$field_var_watchonly?>' onchange='watch_toggle(this);' <?=( $ct_var->rem_num_format($asset_amnt_val) > 0 && $ct_var->rem_num_format($asset_amnt_val) <= $watch_only_flag_val ? 'checked' : '' )?> /> &nbsp;
+	       <input type='checkbox' value='<?=strtolower($asset_array_key)?>' id='<?=$field_var_watchonly?>' onchange='watch_toggle(this);' <?=( $ct['var']->rem_num_format($asset_amnt_val) > 0 && $ct['var']->rem_num_format($asset_amnt_val) <= $watch_only_flag_val ? 'checked' : '' )?> /> &nbsp;
 				    
 				    
 			<b class='blue'><?=$asset_array_val['name']?> (<?=strtoupper($asset_array_key)?>)</b> /  
@@ -557,7 +557,7 @@
 					
 					// Get default BITCOIN pair key for further down in the logic, if no $asset_pair_id value was set FOR BITCOIN
 					if ( strtolower($asset_array_val['name']) == 'bitcoin' ) {
-					$sel_pair = ( isset($asset_pair_id) ? $asset_pair_id : $ct_conf['gen']['btc_prim_currency_pair'] );
+					$sel_pair = ( isset($asset_pair_id) ? $asset_pair_id : $ct['conf']['gen']['btc_prim_currency_pair'] );
 					}
 					else {
 					$sel_pair = $asset_pair_id;
@@ -580,7 +580,7 @@
 							
 									$html_mrkt_list[$pair_key] .= "\n<option value='".$loop2."'" . ( 
 									isset($asset_mrkt_id) && ($asset_mrkt_id) == $loop2 
-									|| !isset($asset_mrkt_id) && strtolower($asset_array_val['name']) == 'bitcoin' && $loop2 == $ct_asset->btc_mrkt($ct_conf['gen']['btc_prim_exchange']) ? ' selected ' : '' ) . ">" . $ct_gen->key_to_name($mrkt_key) . " </option>\n";
+									|| !isset($asset_mrkt_id) && strtolower($asset_array_val['name']) == 'bitcoin' && $loop2 == $ct['asset']->btc_mrkt($ct['conf']['gen']['btc_prim_exchange']) ? ' selected ' : '' ) . ">" . $ct['gen']->key_to_name($mrkt_key) . " </option>\n";
 								
 									}
 									$loop2 = NULL;
@@ -600,7 +600,7 @@
 				     echo $asset_mrkt_id;
 				     }
 				     elseif ( !isset($asset_mrkt_id) && strtolower($asset_array_val['name']) == 'bitcoin' ) {
-				     echo $ct_asset->btc_mrkt($ct_conf['gen']['btc_prim_exchange']);
+				     echo $ct['asset']->btc_mrkt($ct['conf']['gen']['btc_prim_exchange']);
 				     }
 				     else {
 						echo '1';
@@ -641,10 +641,10 @@
 	     
 	     $("#<?=strtolower($asset_array_key)?>_restore").val( $("#<?=strtolower($asset_array_key)?>_amnt").val() );
 	     
-	     ' <?=( $ct_var->rem_num_format($asset_amnt_val) > 0 && $ct_var->rem_num_format($asset_amnt_val) <= $watch_only_flag_val ? 'readonly' : '' )?> /> <span class='blue'><?=strtoupper($asset_array_key)?></span>  &nbsp;  &nbsp; 
+	     ' <?=( $ct['var']->rem_num_format($asset_amnt_val) > 0 && $ct['var']->rem_num_format($asset_amnt_val) <= $watch_only_flag_val ? 'readonly' : '' )?> /> <span class='blue'><?=strtoupper($asset_array_key)?></span>  &nbsp;  &nbsp; 
 			    
 			
-	     <b>Average Paid (per-token):</b> <?=$ct_conf['power']['btc_currency_mrkts'][ $ct_conf['gen']['btc_prim_currency_pair'] ]?><input class='private_data' type='text' size='10' id='<?=$field_var_paid?>' name='<?=$field_var_paid?>' value='<?=$asset_paid_val?>' <?=$disable_fields?> /> 
+	     <b>Average Paid (per-token):</b> <?=$ct['conf']['power']['btc_currency_mrkts'][ $ct['conf']['gen']['btc_prim_currency_pair'] ]?><input class='private_data' type='text' size='10' id='<?=$field_var_paid?>' name='<?=$field_var_paid?>' value='<?=$asset_paid_val?>' <?=$disable_fields?> /> 
 	     
 	     
 		<img class='tooltip_style_control' id='average_paid_notes_<?=$rand_id?>' src='templates/interface/media/images/info.png' alt='' width='30' style='position: relative; left: -5px;' /> 
@@ -700,12 +700,12 @@
 	     }
 	     alert(" " + this.value + "x (" + mode + " Mode) \n Leverage trading in crypto assets is \n EXTREMELY RISKY. NEVER put more \n than ~5% of your crypto investments \n in leveraged trades EVER, OR YOU \n ###COULD LOSE EVERYTHING###. ");
 	     ' <?=$disable_fields?> >
-	     <option value='0' <?=( $asset_lvrg_val == 0 || $ct_var->rem_num_format($asset_paid_val) < $min_fiat_val_test ? 'selected' : '' )?>> None </option>
+	     <option value='0' <?=( $asset_lvrg_val == 0 || $ct['var']->rem_num_format($asset_paid_val) < $min_fiat_val_test ? 'selected' : '' )?>> None </option>
 	     <?php
 	     $lvrg_count = 2;
-	     while ( $ct_conf['power']['margin_lvrg_max'] > 1 && $lvrg_count <= $ct_conf['power']['margin_lvrg_max'] ) {
+	     while ( $ct['conf']['power']['margin_lvrg_max'] > 1 && $lvrg_count <= $ct['conf']['power']['margin_lvrg_max'] ) {
 	     ?>	     
-	     <option value='<?=$lvrg_count?>' <?=( $asset_lvrg_val == $lvrg_count && $ct_var->rem_num_format($asset_paid_val) >= $min_fiat_val_test ? 'selected' : '' )?>> <?=$lvrg_count?>x </option>
+	     <option value='<?=$lvrg_count?>' <?=( $asset_lvrg_val == $lvrg_count && $ct['var']->rem_num_format($asset_paid_val) >= $min_fiat_val_test ? 'selected' : '' )?>> <?=$lvrg_count?>x </option>
 	     <?php
 	     $lvrg_count = $lvrg_count + 1;
 	     }
@@ -746,7 +746,7 @@
 		 
 	     
 	     
-	     <input type='hidden' id='<?=$field_var_restore?>' name='<?=$field_var_restore?>' value='<?=( $ct_var->rem_num_format($asset_amnt_val) > 0 && $ct_var->rem_num_format($asset_amnt_val) <= $watch_only_flag_val ? '' : $asset_amnt_val )?>' />
+	     <input type='hidden' id='<?=$field_var_restore?>' name='<?=$field_var_restore?>' value='<?=( $ct['var']->rem_num_format($asset_amnt_val) > 0 && $ct['var']->rem_num_format($asset_amnt_val) <= $watch_only_flag_val ? '' : $asset_amnt_val )?>' />
 				
 				
 	    </div>

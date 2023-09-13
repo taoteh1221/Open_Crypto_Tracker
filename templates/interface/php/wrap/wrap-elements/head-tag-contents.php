@@ -2,7 +2,7 @@
 	<title>Open Crypto Tracker<?=( $is_admin ? ' - Admin Config' : '' )?></title>
     
 
-     <meta charset="<?=$charset_default?>">
+     <meta charset="<?=$ct['dev']['charset_default']?>">
    
      <meta name="viewport" content="width=device-width"> <!-- Mobile compatibility -->
    
@@ -135,16 +135,16 @@
 	
 	// Javascript var inits / configs
 	
-	ct_id = '<?=base64_encode( $ct_gen->id() )?>';
+	ct_id = '<?=base64_encode( $ct['gen']->id() )?>';
 	
-	app_edition = '<?=$app_edition?>';
+	app_edition = '<?=$ct['app_edition']?>';
 	
-	app_platform = '<?=$app_platform?>';
+	app_platform = '<?=$ct['app_platform']?>';
 	
 	<?php
-    if ( isset($app_container) ) {
+    if ( isset($ct['app_container']) ) {
     ?>
-	app_container = '<?=$app_container?>';
+	app_container = '<?=$ct['app_container']?>';
     <?php
     }
 	?>
@@ -160,13 +160,13 @@
 	
 	watch_only_flag_val = '<?=$watch_only_flag_val?>';
 	
-	charts_background = '<?=$ct_conf['power']['charts_background']?>';
+	charts_background = '<?=$ct['conf']['power']['charts_background']?>';
 	
-	charts_border = '<?=$ct_conf['power']['charts_border']?>';
+	charts_border = '<?=$ct['conf']['power']['charts_border']?>';
 	
 	btc_prim_currency_val = '<?=number_format( $sel_opt['sel_btc_prim_currency_val'], 2, '.', '' )?>';
 	
-	btc_prim_currency_pair = '<?=strtoupper($ct_conf['gen']['btc_prim_currency_pair'])?>';
+	btc_prim_currency_pair = '<?=strtoupper($ct['conf']['gen']['btc_prim_currency_pair'])?>';
 	
 	cookies_size_warning = '<?=( isset($system_warnings['portfolio_cookies_size']) ? $system_warnings['portfolio_cookies_size'] : 'none' )?>';
 	
@@ -226,7 +226,7 @@
           
      	admin_area_sec_level = '<?=base64_encode( $admin_area_sec_level )?>';
           
-     	enhanced_sec_token = "<?=base64_encode( $ct_gen->admin_hashed_nonce('enhanced_security_mode') )?>";
+     	enhanced_sec_token = "<?=base64_encode( $ct['gen']->admin_hashed_nonce('enhanced_security_mode') )?>";
           
           <?php
           }
@@ -236,12 +236,12 @@
 	}
 	
 	// Include any admin-logged-in stuff in ANY area
-	if ( $ct_gen->admin_logged_in() == true ) {
+	if ( $ct['gen']->admin_logged_in() == true ) {
 	?>
 	
-	gen_csrf_sec_token = '<?=base64_encode( $ct_gen->admin_hashed_nonce('general_csrf_security') )?>';
+	gen_csrf_sec_token = '<?=base64_encode( $ct['gen']->admin_hashed_nonce('general_csrf_security') )?>';
 	
-	logs_csrf_sec_token = '<?=base64_encode( $ct_gen->admin_hashed_nonce('logs_csrf_security') )?>';
+	logs_csrf_sec_token = '<?=base64_encode( $ct['gen']->admin_hashed_nonce('logs_csrf_security') )?>';
 	
 	admin_iframe_url = storage_app_id("admin_iframe_url");
 	
@@ -250,27 +250,27 @@
 	?>
 	
 	
-	global_line_height_percent = Number("<?=$global_line_height_percent?>");
+	global_line_height_percent = Number("<?=$ct['dev']['global_line_height_percent']?>");
 	
 	set_font_size = Number("<?=$set_font_size?>");
 	
-	info_icon_size_css_selector = "<?=$info_icon_size_css_selector?>";
+	info_icon_size_css_selector = "<?=$ct['dev']['info_icon_size_css_selector']?>";
 	
-	ajax_loading_size_css_selector = "<?=$ajax_loading_size_css_selector?>";
+	ajax_loading_size_css_selector = "<?=$ct['dev']['ajax_loading_size_css_selector']?>";
 	
-	font_size_css_selector = "<?=$font_size_css_selector?>";
+	font_size_css_selector = "<?=$ct['dev']['font_size_css_selector']?>";
 	
-	medium_font_size_css_selector = "<?=$medium_font_size_css_selector?>";
+	medium_font_size_css_selector = "<?=$ct['dev']['medium_font_size_css_selector']?>";
 	
-	small_font_size_css_selector = "<?=$small_font_size_css_selector?>";
+	small_font_size_css_selector = "<?=$ct['dev']['small_font_size_css_selector']?>";
 	
-	tiny_font_size_css_selector = "<?=$tiny_font_size_css_selector?>";
+	tiny_font_size_css_selector = "<?=$ct['dev']['tiny_font_size_css_selector']?>";
 	
-	medium_font_size_css_percent = Number(<?=$medium_font_size_css_percent?>);
+	medium_font_size_css_percent = Number(<?=$ct['dev']['medium_font_size_css_percent']?>);
 	
-	small_font_size_css_percent = Number(<?=$small_font_size_css_percent?>);
+	small_font_size_css_percent = Number(<?=$ct['dev']['small_font_size_css_percent']?>);
 	
-	tiny_font_size_css_percent = Number(<?=$tiny_font_size_css_percent?>);
+	tiny_font_size_css_percent = Number(<?=$ct['dev']['tiny_font_size_css_percent']?>);
 	
 	
 	// Preload /images/auto-preloaded/ images VIA JAVASCRIPT TOO (WAY MORE RELIABLE THAN META TAG PRELOAD)
@@ -278,7 +278,7 @@
 	<?php
 	
 	$preloaded_files_dir = 'templates/interface/media/images/auto-preloaded';
-	$preloaded_files = $ct_gen->list_files($preloaded_files_dir);
+	$preloaded_files = $ct['gen']->list_files($preloaded_files_dir);
 	
 	$loop = 0;
 	foreach ( $preloaded_files as $preload_file ) {
@@ -296,7 +296,7 @@
 	
 	<?php
 	
-	foreach ( $limited_apis as $api ) {
+	foreach ( $ct['dev']['limited_apis'] as $api ) {
 	$js_limited_apis .= '"'.strtolower( preg_replace("/\.(.*)/i", "", $api) ).'", ';
 	}
 
@@ -315,11 +315,11 @@
 	
 	<?php
 	
-	foreach ( $ct_conf['power']['crypto_pair_pref_mrkts'] as $key => $unused ) {
+	foreach ( $ct['conf']['power']['crypto_pair_pref_mrkts'] as $key => $unused ) {
 	$secondary_mrkt_currencies .= '"'.strtolower($key).'", ';
 	}
 	
-	foreach ( $ct_conf['power']['btc_currency_mrkts'] as $key => $unused ) {
+	foreach ( $ct['conf']['power']['btc_currency_mrkts'] as $key => $unused ) {
 	$secondary_mrkt_currencies .= '"'.strtolower($key).'", ';
 	}
 	
@@ -333,7 +333,7 @@
 	secondary_mrkt_currencies = <?=$secondary_mrkt_currencies?>;
 	
 	<?php
-	foreach ( $ct_conf['power']['btc_pref_currency_mrkts'] as $pref_bitcoin_mrkts_key => $pref_bitcoin_mrkts_val ) {
+	foreach ( $ct['conf']['power']['btc_pref_currency_mrkts'] as $pref_bitcoin_mrkts_key => $pref_bitcoin_mrkts_val ) {
 	?>
 
 	pref_bitcoin_mrkts["<?=strtolower( $pref_bitcoin_mrkts_key )?>"] = "<?=strtolower( $pref_bitcoin_mrkts_val )?>";
@@ -342,7 +342,7 @@
 	}
 	
 	// If desktop edition, cron emulation is enabled, and NOT on login form submission pages, run emulated cron
-	if ( $app_edition == 'desktop' && $ct_conf['power']['desktop_cron_interval'] > 0 && !$is_login_form ) {
+	if ( $ct['app_edition'] == 'desktop' && $ct['conf']['power']['desktop_cron_interval'] > 0 && !$is_login_form ) {
 	?>	
 	
      emulated_cron_enabled = true;
@@ -408,7 +408,7 @@
 
      html, body {	
          font-family: '<?=$google_font_name?>', sans-serif !important;	
-         font-weight: <?=$global_font_weight?> !important;
+         font-weight: <?=$ct['dev']['global_font_weight']?> !important;
      }
      
      <?php
@@ -418,7 +418,7 @@
      
      html, body {	
          font-family: sans-serif !important;	
-         font-weight: <?=$global_font_weight?> !important;
+         font-weight: <?=$ct['dev']['global_font_weight']?> !important;
      }
      
      <?php
@@ -428,14 +428,14 @@
      /* info icon size CSS selector */
      <?php
      // iframe info icon sizes are wonky for some reason in LINUX PHPDESKTOP (but works fine in modern browsers)
-     if ( $app_container == 'phpdesktop' ) {
+     if ( $ct['app_container'] == 'phpdesktop' ) {
      $set_info_icon_size = $set_font_size * 1.6;
      }
      else {
      $set_info_icon_size = $set_font_size * 2.0;
      }
      ?>
-     <?=$info_icon_size_css_selector?> {
+     <?=$ct['dev']['info_icon_size_css_selector']?> {
      height: <?=round($set_info_icon_size, 3)?>em !important;
      width: auto !important;
      }
@@ -445,37 +445,37 @@
      // Run a multiplier, to slightly increase image size
      $set_ajax_loading_size = $set_font_size * 1.3;
      ?>
-     <?=$ajax_loading_size_css_selector?> {
+     <?=$ct['dev']['ajax_loading_size_css_selector']?> {
      height: <?=round($set_ajax_loading_size, 3)?>em !important;
      width: auto !important;
      }
      
      /* standard font size CSS selector */
-     <?=$font_size_css_selector?> {
+     <?=$ct['dev']['font_size_css_selector']?> {
      font-size: <?=$set_font_size?>em !important;
      line-height: <?=$set_font_line_height?>em !important;
-     font-weight: <?=$global_font_weight?> !important;
+     font-weight: <?=$ct['dev']['global_font_weight']?> !important;
      }
 
      /* medium font size CSS selector */
-     <?=$medium_font_size_css_selector?> {
+     <?=$ct['dev']['medium_font_size_css_selector']?> {
      font-size: <?=$set_medium_font_size?>em !important;
      line-height: <?=$set_medium_font_line_height?>em !important;
-     font-weight: <?=$global_font_weight?> !important;
+     font-weight: <?=$ct['dev']['global_font_weight']?> !important;
      }
 
      /* small font size CSS selector */
-     <?=$small_font_size_css_selector?> {
+     <?=$ct['dev']['small_font_size_css_selector']?> {
      font-size: <?=$set_small_font_size?>em !important;
      line-height: <?=$set_small_font_line_height?>em !important;
-     font-weight: <?=$global_font_weight?> !important;
+     font-weight: <?=$ct['dev']['global_font_weight']?> !important;
      }
 
      /* tiny font size CSS selector */
-     <?=$tiny_font_size_css_selector?> {
+     <?=$ct['dev']['tiny_font_size_css_selector']?> {
      font-size: <?=$set_tiny_font_size?>em !important;
      line-height: <?=$set_tiny_font_line_height?>em !important;
-     font-weight: <?=$global_font_weight?> !important;
+     font-weight: <?=$ct['dev']['global_font_weight']?> !important;
      }
 	
 

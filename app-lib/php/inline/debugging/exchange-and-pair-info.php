@@ -6,16 +6,16 @@
 
 
 // RUN DURING 'ui' ONLY
-if ( $runtime_mode == 'ui' ) {
+if ( $ct['runtime_mode'] == 'ui' ) {
 
 $exchange_count = 0;
 $currency_count = 0;
 
 	// Print out all market configurations
-	if ( $ct_conf['power']['debug_mode'] == 'all' || $ct_conf['power']['debug_mode'] == 'markets_conf' ) {
+	if ( $ct['conf']['power']['debug_mode'] == 'all' || $ct['conf']['power']['debug_mode'] == 'markets_conf' ) {
 		
 		
-		foreach ( $ct_conf['power']['btc_currency_mrkts'] as $key => $unused ) {
+		foreach ( $ct['conf']['power']['btc_currency_mrkts'] as $key => $unused ) {
 			
 			// Detects better with side space included
 			if ( stristr($supported_prim_currency_list, ' ' . $key . ' ') == false ) {
@@ -30,7 +30,7 @@ $currency_count = 0;
 		$pairs_count = $currency_count;
 		$all_supported_pairs_list = $supported_prim_currency_list;
 		
-		foreach ( $ct_conf['power']['crypto_pair'] as $key => $unused ) {
+		foreach ( $ct['conf']['power']['crypto_pair'] as $key => $unused ) {
 			
 			// Detects better with side space included
 			if ( stristr($all_supported_pairs_list, ' ' . $key . ' ') == false ) {
@@ -44,13 +44,13 @@ $currency_count = 0;
 		
 		
 		// Alphabetical sorting
-		$supported_prim_currency_list = $ct_var->list_sort($supported_prim_currency_list, '/', 'sort', true);
-		$all_supported_pairs_list = $ct_var->list_sort($all_supported_pairs_list, '/', 'sort', true);
+		$supported_prim_currency_list = $ct['var']->list_sort($supported_prim_currency_list, '/', 'sort', true);
+		$all_supported_pairs_list = $ct['var']->list_sort($all_supported_pairs_list, '/', 'sort', true);
 		
 		
-		foreach ( $ct_conf['assets']['BTC']['pair'] as $pair_key => $unused ) {
+		foreach ( $ct['conf']['assets']['BTC']['pair'] as $pair_key => $unused ) {
 			
-				foreach ( $ct_conf['assets']['BTC']['pair'][$pair_key] as $exchange_key => $unused ) {
+				foreach ( $ct['conf']['assets']['BTC']['pair'][$pair_key] as $exchange_key => $unused ) {
 					
 					// Detects better with side space included
 					if ( stristr($supported_btc_exchange_list, ' ' . $exchange_key . ' ') == false && stristr($exchange_key, 'bitmex_') == false ) { // Futures markets not allowed
@@ -67,11 +67,11 @@ $currency_count = 0;
 		$all_exchange_count = $exchange_count;
 		$all_exchanges_list = $supported_btc_exchange_list;
 		
-		foreach ( $ct_conf['assets'] as $asset_key => $unused ) {
+		foreach ( $ct['conf']['assets'] as $asset_key => $unused ) {
 			
-				foreach ( $ct_conf['assets'][$asset_key]['pair'] as $pair_key => $unused ) {
+				foreach ( $ct['conf']['assets'][$asset_key]['pair'] as $pair_key => $unused ) {
 					
-					foreach ( $ct_conf['assets'][$asset_key]['pair'][$pair_key] as $exchange_key => $unused ) {
+					foreach ( $ct['conf']['assets'][$asset_key]['pair'][$pair_key] as $exchange_key => $unused ) {
 					
 						// Detects better with side space included
 						if ( stristr($all_exchanges_list, ' ' . $exchange_key . ' ') == false && $exchange_key != 'misc_assets' && $exchange_key != 'btc_nfts' && $exchange_key != 'eth_nfts' && $exchange_key != 'sol_nfts' && $exchange_key != 'alt_nfts' ) {
@@ -88,18 +88,18 @@ $currency_count = 0;
 		
 		
 		// Alphabetical sorting
-		$supported_btc_exchange_list = $ct_var->list_sort($supported_btc_exchange_list, '/', 'sort', true);
-		$all_exchanges_list = $ct_var->list_sort($all_exchanges_list, '/', 'sort', true);
+		$supported_btc_exchange_list = $ct['var']->list_sort($supported_btc_exchange_list, '/', 'sort', true);
+		$all_exchanges_list = $ct['var']->list_sort($all_exchanges_list, '/', 'sort', true);
 	
 	
-	$ct_gen->log(
+	$ct['gen']->log(
 				'conf_debug',
 				"\n\n" . 'Bitcoin markets configuration information (for Admin Config current documentation) supported_btc_prim_currencies_list['.$currency_count.']: ' . $supported_prim_currency_list . '; ' . "\n\n" . 'supported_btc_exchanges_list['.$exchange_count.']: ' . $supported_btc_exchange_list . "\n\n"
 				);
 	
 	
 	
-	$ct_gen->log(
+	$ct['gen']->log(
 				'conf_debug',
 				"\n\n" . 'ALL markets configuration information (for README.txt documentation) supported_all_pairs_list['.$pairs_count.']: ' . strtoupper($all_supported_pairs_list) . '; ' . "\n\n" . 'supported_all_exchanges_list['.$all_exchange_count.']: ' . strtolower($all_exchanges_list) . "\n\n"
 				);

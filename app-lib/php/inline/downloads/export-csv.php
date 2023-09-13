@@ -6,8 +6,8 @@
 
 // CSRF attack protection (REQUIRED #POST# VAR 'submit_check')
 if ( $_POST['submit_check'] != 1 ) {
-$ct_gen->log('security_error', 'Missing "submit_check" POST data (-possible- CSRF attack) for request: ' . $_SERVER['REQUEST_URI']);
-$ct_cache->error_log();
+$ct['gen']->log('security_error', 'Missing "submit_check" POST data (-possible- CSRF attack) for request: ' . $_SERVER['REQUEST_URI']);
+$ct['cache']->error_log();
 exit;
 }
 
@@ -27,10 +27,10 @@ $csv_download_array[] = array(
 	        				  );
 	    
 	    
-	foreach ( $ct_conf['assets'] as $asset_array_key => $asset_array_val ) {
+	foreach ( $ct['conf']['assets'] as $asset_array_key => $asset_array_val ) {
 		     
 		     
-		     if ( array_key_exists( strtolower($asset_array_key), $ct_conf['power']['btc_currency_mrkts']) && !array_key_exists( strtolower($asset_array_key), $ct_conf['power']['crypto_pair']) ) {
+		     if ( array_key_exists( strtolower($asset_array_key), $ct['conf']['power']['btc_currency_mrkts']) && !array_key_exists( strtolower($asset_array_key), $ct['conf']['power']['crypto_pair']) ) {
 			$fiat_equiv = true;
 			}
 			else {
@@ -60,13 +60,13 @@ $csv_download_array[] = array(
 	    $sel_pair = ( $asset_pair_id ? $asset_pair_id : NULL );
 	    
 	    
-			foreach ( $ct_conf['assets'][strtoupper($asset_array_key)]['pair'] as $pair_key => $unused ) {
+			foreach ( $ct['conf']['assets'][strtoupper($asset_array_key)]['pair'] as $pair_key => $unused ) {
 			$ploop = 0;
 					 						
 				// Use first pair key from coins config for this asset, if no pair value was set properly
 				if ( $ploop == 0 ) {
 				
-					if ( $sel_pair == NULL || !$ct_conf['assets'][strtoupper($asset_array_key)]['pair'][$sel_pair] ) {
+					if ( $sel_pair == NULL || !$ct['conf']['assets'][strtoupper($asset_array_key)]['pair'][$sel_pair] ) {
 					$sel_pair = $pair_key;
 					}
 				
@@ -76,15 +76,15 @@ $csv_download_array[] = array(
 			}
 											
 	    
-	    $asset_amnt_dec = ( $fiat_equiv ? $ct_conf['gen']['currency_dec_max'] : $ct_conf['gen']['crypto_dec_max'] );
+	    $asset_amnt_dec = ( $fiat_equiv ? $ct['conf']['gen']['currency_dec_max'] : $ct['conf']['gen']['crypto_dec_max'] );
 	    
-	    $asset_amnt_val = $ct_var->num_pretty($asset_amnt_val, $asset_amnt_dec);
+	    $asset_amnt_val = $ct['var']->num_pretty($asset_amnt_val, $asset_amnt_dec);
 	    
-	    $asset_paid_val = $ct_var->num_pretty($asset_paid_val, $ct_conf['gen']['currency_dec_max']);
+	    $asset_paid_val = $ct['var']->num_pretty($asset_paid_val, $ct['conf']['gen']['currency_dec_max']);
 	  	 
 	    
 	   	// Asset data to array for CSV export
-	      if ( isset($asset_array_key) && trim($asset_array_key) != '' && $ct_var->rem_num_format($asset_amnt_val) >= $min_crypto_val_test ) {
+	      if ( isset($asset_array_key) && trim($asset_array_key) != '' && $ct['var']->rem_num_format($asset_amnt_val) >= $min_crypto_val_test ) {
 	        	
 	        $csv_download_array[] = array(
 	        											strtoupper($asset_array_key),
@@ -107,7 +107,7 @@ $csv_download_array[] = array(
 
 
 // Run last, as it exits when completed
-$ct_gen->create_csv('temp', 'Crypto_Portfolio.csv', $csv_download_array); 
+$ct['gen']->create_csv('temp', 'Crypto_Portfolio.csv', $csv_download_array); 
 
 // DON'T LEAVE ANY WHITESPACE AFTER THE CLOSING PHP TAG!
 

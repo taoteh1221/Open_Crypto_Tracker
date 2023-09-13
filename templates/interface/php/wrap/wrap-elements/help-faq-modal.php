@@ -16,7 +16,7 @@
 				    
 			
 	<?php
-	if ( $app_edition == 'desktop' && $app_platform == 'windows' && $app_container == 'phpdesktop' ) {
+	if ( $ct['app_edition'] == 'desktop' && $ct['app_platform'] == 'windows' && $ct['app_container'] == 'phpdesktop' ) {
 	?>
 	
 	<div class='red red_dotted'>

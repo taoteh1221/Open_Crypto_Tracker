@@ -7,27 +7,27 @@
 if ( $_GET['mcap_compare_diff'] != 'none' ) {
 	
 // Consolidate function calls for runtime speed improvement
-$mcap_compare = $ct_asset->mcap_data($_GET['mcap_compare_diff'], 'usd'); // For marketcap bar chart, we ALWAYS force using USD
+$mcap_compare = $ct['asset']->mcap_data($_GET['mcap_compare_diff'], 'usd'); // For marketcap bar chart, we ALWAYS force using USD
 	
 		
 	if ( $_GET['mcap_type'] == 'circulating' && $mcap_compare['market_cap'] ) {
-	$mcap_compare_diff = $ct_var->rem_num_format($mcap_compare['market_cap']);
+	$mcap_compare_diff = $ct['var']->rem_num_format($mcap_compare['market_cap']);
 	}
 	elseif ( $_GET['mcap_type'] == 'total' && $mcap_compare['market_cap_total'] ) {
-	$mcap_compare_diff = ( $ct_var->rem_num_format($mcap_compare['market_cap_total']) ); 
+	$mcap_compare_diff = ( $ct['var']->rem_num_format($mcap_compare['market_cap_total']) ); 
 	}
 	// If circulating / total are same
 	elseif ( $_GET['mcap_type'] == 'total' && $mcap_compare['market_cap'] ) {
-	$mcap_compare_diff = ( $ct_var->rem_num_format($mcap_compare['market_cap']) ); 
+	$mcap_compare_diff = ( $ct['var']->rem_num_format($mcap_compare['market_cap']) ); 
 	}
 	
 }
 
 
-foreach ( $ct_conf['assets'] as $key => $unused ) {
+foreach ( $ct['conf']['assets'] as $key => $unused ) {
 		
 // Consolidate function calls for runtime speed improvement
-$mcap_data = $ct_asset->mcap_data($key, 'usd'); // For marketcap bar chart, we ALWAYS force using USD
+$mcap_data = $ct['asset']->mcap_data($key, 'usd'); // For marketcap bar chart, we ALWAYS force using USD
 	
 	if ( $key != 'MISCASSETS' && $key != 'BTCNFTS' && $key != 'ETHNFTS' && $key != 'SOLNFTS' && $key != 'ALTNFTS' && isset($mcap_data['rank']) ) {
 	
@@ -36,14 +36,14 @@ $mcap_data = $ct_asset->mcap_data($key, 'usd'); // For marketcap bar chart, we A
 		
 			
 			if ( $_GET['mcap_type'] == 'circulating' && $mcap_data['market_cap'] ) {
-			$runtime_data['marketcap_data'][$key] = $ct_var->rem_num_format($mcap_data['market_cap']);
+			$runtime_data['marketcap_data'][$key] = $ct['var']->rem_num_format($mcap_data['market_cap']);
 			}
 			elseif ( $_GET['mcap_type'] == 'total' && $mcap_data['market_cap_total'] ) {
-			$runtime_data['marketcap_data'][$key] = $ct_var->rem_num_format($mcap_data['market_cap_total']); 
+			$runtime_data['marketcap_data'][$key] = $ct['var']->rem_num_format($mcap_data['market_cap_total']); 
 			}
 			// If circulating / total are same
 			elseif ( $_GET['mcap_type'] == 'total' && $mcap_data['market_cap'] ) {
-			$runtime_data['marketcap_data'][$key] = $ct_var->rem_num_format($mcap_data['market_cap']); 
+			$runtime_data['marketcap_data'][$key] = $ct['var']->rem_num_format($mcap_data['market_cap']); 
 			}
 		
 		$mcap_asset_compare = 'USD';
@@ -55,14 +55,14 @@ $mcap_data = $ct_asset->mcap_data($key, 'usd'); // For marketcap bar chart, we A
 		
 			
 			if ( $_GET['mcap_type'] == 'circulating' && $mcap_data['market_cap'] ) {
-			$temp_mcap = $ct_var->rem_num_format($mcap_data['market_cap']);
+			$temp_mcap = $ct['var']->rem_num_format($mcap_data['market_cap']);
 			}
 			elseif ( $_GET['mcap_type'] == 'total' && $mcap_data['market_cap_total'] ) {
-			$temp_mcap = $ct_var->rem_num_format($mcap_data['market_cap_total']); 
+			$temp_mcap = $ct['var']->rem_num_format($mcap_data['market_cap_total']); 
 			}
 			// If circulating / total are same
 			elseif ( $_GET['mcap_type'] == 'total' && $mcap_data['market_cap'] ) {
-			$temp_mcap = $ct_var->rem_num_format($mcap_data['market_cap']); 
+			$temp_mcap = $ct['var']->rem_num_format($mcap_data['market_cap']); 
 			}
 			
 		
@@ -70,7 +70,7 @@ $mcap_data = $ct_asset->mcap_data($key, 'usd'); // For marketcap bar chart, we A
 		$mcap_chart_val = '%v% (of ' . $_GET['mcap_compare_diff'] . ' cap)';
 		$scale_y_format = '%v%';
 			
-		$mcap_diff_percent = $ct_var->num_to_str( 100 + ( ($temp_mcap - $mcap_compare_diff) / abs($mcap_compare_diff) * 100 ) );
+		$mcap_diff_percent = $ct['var']->num_to_str( 100 + ( ($temp_mcap - $mcap_compare_diff) / abs($mcap_compare_diff) * 100 ) );
 			
 			// Decimal amount
 			if ( $mcap_diff_percent >= 1 ) {
@@ -80,7 +80,7 @@ $mcap_data = $ct_asset->mcap_data($key, 'usd'); // For marketcap bar chart, we A
 			$mcap_diff_dec = 5;
 			}
 			
-		$runtime_data['marketcap_data'][$key] = $ct_var->num_pretty($mcap_diff_percent, $mcap_diff_dec);
+		$runtime_data['marketcap_data'][$key] = $ct['var']->num_pretty($mcap_diff_percent, $mcap_diff_dec);
 		
 		}
 	
@@ -167,7 +167,7 @@ $sorted_by_mcap_data = array();
 $loop = 0;
 foreach ( $runtime_data['marketcap_data'] as $mcap_key => $mcap_val ) {
   			
-$mcap_val = $ct_var->rem_num_format($mcap_val);
+$mcap_val = $ct['var']->rem_num_format($mcap_val);
 
 	// If percent value matches, and another (increasing) number to the end, to avoid overwriting keys (this data is only used as an array key anyway)
 	if ( !array_key_exists($mcap_val, $sorted_by_mcap_data) ) {
@@ -208,7 +208,7 @@ $plot_conf = explode('|', $_GET['plot_conf']);
 		
     $choose_rand = ( is_array($sorted_by_mcap_data) ? sizeof($sorted_by_mcap_data) : 0 );
     
-	$rand_color = '#' . $ct_gen->rand_color($choose_rand)['hex'];
+	$rand_color = '#' . $ct['gen']->rand_color($choose_rand)['hex'];
 		
 					
 				$mcap_conf = "{

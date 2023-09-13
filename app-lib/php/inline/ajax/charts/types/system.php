@@ -5,7 +5,7 @@
 
 
 	// Have this script not load any code if system stats are not turned on, or key GET request corrupt
-	if ( !$ct_gen->admin_logged_in() || !is_numeric($_GET['key']) ) {
+	if ( !$ct['gen']->admin_logged_in() || !is_numeric($_GET['key']) ) {
 	exit;
 	}
 
@@ -53,7 +53,7 @@ gui: {
     {
       type: 'line',
       noData: {
-         text: "No data exists for this '<?=$ct_gen->light_chart_time_period($_GET['days'], 'long')?>' light chart yet, please check back in awhile.",
+         text: "No data exists for this '<?=$ct['gen']->light_chart_time_period($_GET['days'], 'long')?>' light chart yet, please check back in awhile.",
       	  fontColor: "#e8e8e8",
          backgroundColor: "#808080",
          fontSize: 20,
@@ -130,7 +130,7 @@ gui: {
         zooming: true
       },
       scaleY: {
-      maxValue: <?=( $key == 1 ? $ct_conf['power']['sys_stats_first_chart_max_scale'] : $ct_conf['power']['sys_stats_second_chart_max_scale'] )?>,
+      maxValue: <?=( $key == 1 ? $ct['conf']['power']['sys_stats_first_chart_max_scale'] : $ct['conf']['power']['sys_stats_second_chart_max_scale'] )?>,
         guide: {
       	visible: true,
      		lineStyle: 'solid',
@@ -189,8 +189,8 @@ gui: {
         }],
 		labels: [
 	<?php
-	foreach ($ct_conf['power']['light_chart_day_intervals'] as $light_chart_days) {
-	$light_chart_text = $ct_gen->light_chart_time_period($light_chart_days, 'short');
+	foreach ($ct['conf']['power']['light_chart_day_intervals'] as $light_chart_days) {
+	$light_chart_text = $ct['gen']->light_chart_time_period($light_chart_days, 'short');
 	?>
 		{
 	    x: <?=$x_coord?>,
@@ -208,10 +208,10 @@ gui: {
 		// Take into account INCREASE OR DECREASE of characters in $light_chart_text
 		if ( isset($last_light_chart_text) && strlen($last_light_chart_text) != strlen($light_chart_text) ) {
 		$difference = $difference + ( strlen($light_chart_text) - strlen($last_light_chart_text) ); 
-		$x_coord = $x_coord + ( $difference * $ct_conf['power']['light_chart_link_font_offset'] ); 
+		$x_coord = $x_coord + ( $difference * $ct['conf']['power']['light_chart_link_font_offset'] ); 
 		}
 	
-	$x_coord = $x_coord + $ct_conf['power']['light_chart_link_spacing'];
+	$x_coord = $x_coord + $ct['conf']['power']['light_chart_link_spacing'];
 	$last_light_chart_text = $light_chart_text;
 	}
 	?>
@@ -227,7 +227,7 @@ exit;
 }
 			
 		
-$chart_data = $ct_gen->chart_data('cache/charts/system/light/' . $_GET['days'] . '_days/system_stats.dat', 'system');
+$chart_data = $ct['gen']->chart_data('cache/charts/system/light/' . $_GET['days'] . '_days/system_stats.dat', 'system');
 
 
 $sorted_by_last_chart_data = array();
@@ -238,11 +238,11 @@ $loop = 0;
 foreach ( $chart_data as $chart_key => $chart_val ) {
 
 // Check last value
-$check_chart_val = $ct_var->num_to_str( $ct_var->delimited_str_sample($chart_val, ',', 'last') );
+$check_chart_val = $ct['var']->num_to_str( $ct['var']->delimited_str_sample($chart_val, ',', 'last') );
 	
 	if ( $chart_key != 'time' && $check_chart_val > 0.0000000000 ) {
 		
-	$check_chart_val_key = $ct_var->num_to_str($check_chart_val * 100000000); // To RELIABLY sort integers AND decimals, via ksort()
+	$check_chart_val_key = $ct['var']->num_to_str($check_chart_val * 100000000); // To RELIABLY sort integers AND decimals, via ksort()
 	
 		// If value matches, and another (increasing) number to the end, to avoid overwriting keys (this data is only used as an array key anyway)
 		if ( !array_key_exists($check_chart_val_key, $sorted_by_last_chart_data) ) {
@@ -253,7 +253,7 @@ $check_chart_val = $ct_var->num_to_str( $ct_var->delimited_str_sample($chart_val
 		$loop = $loop + 1;
 		}
 		
-		if ( $check_chart_val <= $ct_var->num_to_str($ct_conf['power']['sys_stats_first_chart_max_scale']) ) {
+		if ( $check_chart_val <= $ct['var']->num_to_str($ct['conf']['power']['sys_stats_first_chart_max_scale']) ) {
 		$num_in_first_chart = $num_in_first_chart + 1;
 		//echo $check_chart_val . ' --- '; // DEBUGGING ONLY
 		}
@@ -286,10 +286,10 @@ if ( $key == 1 ) {
 			
             $choose_rand = ( is_array($sorted_by_last_chart_data) ? sizeof($sorted_by_last_chart_data) : 0 );
     
-			$rand_color = '#' . $ct_gen->rand_color($choose_rand)['hex'];
+			$rand_color = '#' . $ct['gen']->rand_color($choose_rand)['hex'];
 					
 			$chart_conf = "{
-			  text: '".$ct_gen->key_to_name($chart_key)."',
+			  text: '".$ct['gen']->key_to_name($chart_key)."',
 			  values: [".$chart_val."],
 			  lineColor: '".$rand_color."',
 				 marker: {
@@ -330,10 +330,10 @@ elseif ( $key == 2 ) {
 			
 			$choose_rand = ( is_array($sorted_by_last_chart_data) ? sizeof($sorted_by_last_chart_data) : 0 );
     
-			$rand_color = '#' . $ct_gen->rand_color($choose_rand)['hex'];
+			$rand_color = '#' . $ct['gen']->rand_color($choose_rand)['hex'];
 	
 			$chart_conf = "{
-			  text: '".$ct_gen->key_to_name($chart_key)."',
+			  text: '".$ct['gen']->key_to_name($chart_key)."',
 			  values: [".$chart_val."],
 			  lineColor: '".$rand_color."',
 				 marker: {
@@ -472,7 +472,7 @@ gui: {
         zooming: true
       },
       scaleY: {
-      maxValue: <?=( $key == 1 ? $ct_conf['power']['sys_stats_first_chart_max_scale'] : $ct_conf['power']['sys_stats_second_chart_max_scale'] )?>,
+      maxValue: <?=( $key == 1 ? $ct['conf']['power']['sys_stats_first_chart_max_scale'] : $ct['conf']['power']['sys_stats_second_chart_max_scale'] )?>,
         guide: {
       	visible: true,
      		lineStyle: 'solid',
@@ -531,8 +531,8 @@ gui: {
       ],
 		labels: [
 	<?php
-	foreach ($ct_conf['power']['light_chart_day_intervals'] as $light_chart_days) {
-	$light_chart_text = $ct_gen->light_chart_time_period($light_chart_days, 'short');
+	foreach ($ct['conf']['power']['light_chart_day_intervals'] as $light_chart_days) {
+	$light_chart_text = $ct['gen']->light_chart_time_period($light_chart_days, 'short');
 	?>
 		{
 	    x: <?=$x_coord?>,
@@ -550,10 +550,10 @@ gui: {
 		// Take into account INCREASE OR DECREASE of characters in $light_chart_text
 		if ( isset($last_light_chart_text) && strlen($last_light_chart_text) != strlen($light_chart_text) ) {
 		$difference = $difference + ( strlen($light_chart_text) - strlen($last_light_chart_text) ); 
-		$x_coord = $x_coord + ( $difference * $ct_conf['power']['light_chart_link_font_offset'] ); 
+		$x_coord = $x_coord + ( $difference * $ct['conf']['power']['light_chart_link_font_offset'] ); 
 		}
 	
-	$x_coord = $x_coord + $ct_conf['power']['light_chart_link_spacing'];
+	$x_coord = $x_coord + $ct['conf']['power']['light_chart_link_spacing'];
 	$last_light_chart_text = $light_chart_text;
 	}
 	?>
@@ -603,7 +603,7 @@ gui: {
     {
       type: 'line',
       noData: {
-         text: "No data exists for this '<?=$ct_gen->light_chart_time_period($_GET['days'], 'long')?>' light chart yet, please check back in awhile.",
+         text: "No data exists for this '<?=$ct['gen']->light_chart_time_period($_GET['days'], 'long')?>' light chart yet, please check back in awhile.",
       	  fontColor: "#e8e8e8",
          backgroundColor: "#808080",
          fontSize: 20,
@@ -680,7 +680,7 @@ gui: {
         zooming: true
       },
       scaleY: {
-      maxValue: <?=( $key == 1 ? $ct_conf['power']['sys_stats_first_chart_max_scale'] : $ct_conf['power']['sys_stats_second_chart_max_scale'] )?>,
+      maxValue: <?=( $key == 1 ? $ct['conf']['power']['sys_stats_first_chart_max_scale'] : $ct['conf']['power']['sys_stats_second_chart_max_scale'] )?>,
         guide: {
       	visible: true,
      		lineStyle: 'solid',
@@ -739,8 +739,8 @@ gui: {
         }],
 		labels: [
 	<?php
-	foreach ($ct_conf['power']['light_chart_day_intervals'] as $light_chart_days) {
-	$light_chart_text = $ct_gen->light_chart_time_period($light_chart_days, 'short');
+	foreach ($ct['conf']['power']['light_chart_day_intervals'] as $light_chart_days) {
+	$light_chart_text = $ct['gen']->light_chart_time_period($light_chart_days, 'short');
 	?>
 		{
 	    x: <?=$x_coord?>,
@@ -758,10 +758,10 @@ gui: {
 		// Take into account INCREASE OR DECREASE of characters in $light_chart_text
 		if ( isset($last_light_chart_text) && strlen($last_light_chart_text) != strlen($light_chart_text) ) {
 		$difference = $difference + ( strlen($light_chart_text) - strlen($last_light_chart_text) ); 
-		$x_coord = $x_coord + ( $difference * $ct_conf['power']['light_chart_link_font_offset'] ); 
+		$x_coord = $x_coord + ( $difference * $ct['conf']['power']['light_chart_link_font_offset'] ); 
 		}
 	
-	$x_coord = $x_coord + $ct_conf['power']['light_chart_link_spacing'];
+	$x_coord = $x_coord + $ct['conf']['power']['light_chart_link_spacing'];
 	$last_light_chart_text = $light_chart_text;
 	}
 	?>

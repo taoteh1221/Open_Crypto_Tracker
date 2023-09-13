@@ -9,11 +9,11 @@ Add to /templates/interface/php/wrap/footer.php when testing unicode mobile text
     	
     	//echo '<br /> ------ <br />';
     	
-    	//echo $ct_gen->unicode_to_utf8('x1f433', 'hexadecimal');
+    	//echo $ct['gen']->unicode_to_utf8('x1f433', 'hexadecimal');
     	
     	//echo '<br /> ------ <br />';
     	
-    	//echo $ct_gen->utf8_to_unicode('🐳', 'hexadecimal');
+    	//echo $ct['gen']->utf8_to_unicode('🐳', 'hexadecimal');
     	
     	//echo '<br /> ------ <br />';
     	
@@ -26,7 +26,7 @@ Add to /templates/interface/php/wrap/footer.php when testing unicode mobile text
   				// Message parameter added for desired comm methods (leave any comm method blank to skip sending via that method)
   				
   				// Minimize function calls
-  				//$text_msg = $ct_gen->detect_unicode($test_phrase); 
+  				//$text_msg = $ct['gen']->detect_unicode($test_phrase); 
   				
   				/*
           	$send_params = array(
@@ -47,7 +47,7 @@ Add to /templates/interface/php/wrap/footer.php when testing unicode mobile text
           	
           	
           	// Send notifications
-          	@$ct_cache->queue_notify($send_params);
+          	@$ct['cache']->queue_notify($send_params);
           	*/
     	
     	//var_dump($text_msg);

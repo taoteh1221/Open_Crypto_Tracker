@@ -33,41 +33,41 @@ require("app-lib/php/init.php");
 if ( $run_cron == true ) {
      
 
-    if ( $ct_conf['power']['debug_mode'] == 'all' || $ct_conf['power']['debug_mode'] == 'all_telemetry' || $ct_conf['power']['debug_mode'] == 'cron_telemetry' ) {
+    if ( $ct['conf']['power']['debug_mode'] == 'all' || $ct['conf']['power']['debug_mode'] == 'all_telemetry' || $ct['conf']['power']['debug_mode'] == 'cron_telemetry' ) {
 
-    $cron_runtime_id = $ct_gen->rand_hash(8);         
+    $cron_runtime_id = $ct['gen']->rand_hash(8);         
          
     // WITH newline (UNLOCKED file write)
-    $ct_cache->save_file($base_dir . '/cache/logs/debug/cron/cron_runtime_telemetry.log', 'STARTED cron.php runtime (runtime_id = ' . $cron_runtime_id . ') on: ' . $ct_gen->time_date_format(false, 'pretty_date_time') . ' (UTC) ' . "\n ........running........ \n", "append", false);     
+    $ct['cache']->save_file($ct['base_dir'] . '/cache/logs/debug/cron/cron_runtime_telemetry.log', 'STARTED cron.php runtime (runtime_id = ' . $cron_runtime_id . ') on: ' . $ct['gen']->time_date_format(false, 'pretty_date_time') . ' (UTC) ' . "\n ........running........ \n", "append", false);     
 
     }
     
      
-$cron_run_lock_file = $base_dir . '/cache/events/emulated-cron-lock.dat';
+$cron_run_lock_file = $ct['base_dir'] . '/cache/events/emulated-cron-lock.dat';
     
     
     // If we find no file lock (OR if there is a stale file lock [OVER 'cron_max_exec_time' SECONDS OLD]), we can proceed
     // (we don't want Desktop Editions to run multiple cron runtimes at the same time, if they are also
     // viewing in a regular browser on localhost port 22345, OR duplicates on Server Edition from taking
     // very long to finish running on low power hardware)
-    if ( $ct_cache->update_cache($cron_run_lock_file, ceil($cron_max_exec_time / 60) ) == true ) {
+    if ( $ct['cache']->update_cache($cron_run_lock_file, ceil($ct['dev']['cron_max_exec_time'] / 60) ) == true ) {
     
     // Re-save new file lock
-    $ct_cache->save_file($cron_run_lock_file, $ct_gen->time_date_format(false, 'pretty_date_time') );
+    $ct['cache']->save_file($cron_run_lock_file, $ct['gen']->time_date_format(false, 'pretty_date_time') );
     
     
         // If we are running EMULATED cron, we track when to run it with /cache/events/emulated-cron.dat
-        if ( isset($_GET['cron_emulate']) && $ct_conf['power']['desktop_cron_interval'] > 0 ) {
+        if ( isset($_GET['cron_emulate']) && $ct['conf']['power']['desktop_cron_interval'] > 0 ) {
             
             
-            if ( $ct_cache->update_cache($base_dir . '/cache/events/emulated-cron.dat', $ct_conf['power']['desktop_cron_interval']) == false ) {
+            if ( $ct['cache']->update_cache($ct['base_dir'] . '/cache/events/emulated-cron.dat', $ct['conf']['power']['desktop_cron_interval']) == false ) {
             
             $exit_result = array('result' => "Too early to re-run EMULATED cron job");
             
             // Log errors / debugging, send notifications
-            $ct_cache->error_log();
-            $ct_cache->debug_log();
-            $ct_cache->send_notifications();
+            $ct['cache']->error_log();
+            $ct['cache']->debug_log();
+            $ct['cache']->send_notifications();
             
             // We are done running cron, so we can release the lock
             unlink($cron_run_lock_file);
@@ -78,7 +78,7 @@ $cron_run_lock_file = $base_dir . '/cache/events/emulated-cron-lock.dat';
             }
             else {
             // We run this EARLY in the cron logic, so we have fairly consistant emulated cron job intervals
-            $ct_cache->save_file($base_dir . '/cache/events/emulated-cron.dat', $ct_gen->time_date_format(false, 'pretty_date_time') );
+            $ct['cache']->save_file($ct['base_dir'] . '/cache/events/emulated-cron.dat', $ct['gen']->time_date_format(false, 'pretty_date_time') );
             }
         
         
@@ -88,32 +88,32 @@ $cron_run_lock_file = $base_dir . '/cache/events/emulated-cron-lock.dat';
         ///////////////////////////////////////////////////////////////////////////////////////
         // Only run below logic if cron has run for the first time already (for better new install UX)
         ///////////////////////////////////////////////////////////////////////////////////////
-        if ( file_exists($base_dir . '/cache/events/cron-first-run.dat') ) {
+        if ( file_exists($ct['base_dir'] . '/cache/events/cron-first-run.dat') ) {
         
             
             // Only run if charts / alerts has run for the first time already (for better new install UX)
             // #MUST# BE ABOVE CHARTS / ALERTS LOGIC!
-            if ( file_exists($base_dir . '/cache/events/charts-first-run.dat') ) {
+            if ( file_exists($ct['base_dir'] . '/cache/events/charts-first-run.dat') ) {
             
             	// Re-cache RSS feeds for faster UI runtimes later
-            	foreach($ct_conf['news_feeds'] as $feed_item) {
+            	foreach($ct['conf']['news_feeds'] as $feed_item) {
             	    
             		if ( isset($feed_item["url"]) && trim($feed_item["url"]) != '' ) {
-            	 	$ct_api->rss($feed_item["url"], 'no_theme', 0, true);
+            	 	$ct['api']->rss($feed_item["url"], 'no_theme', 0, true);
             	 	}
             	 	
             	}
         	
             	// News feeds - new posts email
-            	if ( $ct_conf['comms']['news_feed_email_freq'] > 0 ) {
-            	$ct_gen->news_feed_email($ct_conf['comms']['news_feed_email_freq']);
+            	if ( $ct['conf']['comms']['news_feed_email_freq'] > 0 ) {
+            	$ct['gen']->news_feed_email($ct['conf']['comms']['news_feed_email_freq']);
             	}
         	
             }
         
         
             // Charts and price alerts
-            foreach ( $ct_conf['charts_alerts']['tracked_mrkts'] as $key => $val ) {
+            foreach ( $ct['conf']['charts_alerts']['tracked_mrkts'] as $key => $val ) {
             
             $val = explode("||",$val); // Convert $val into an array
             
@@ -124,30 +124,30 @@ $cron_run_lock_file = $base_dir . '/cache/events/emulated-cron-lock.dat';
             // ALWAYS RUN even if $mode != 'none' etc, as charts_price_alerts() is optimized to run UX logic scanning
             // (such as as removing STALE EXISTING ALERT CACHE FILES THAT WERE PREVIOUSLY-ENABLED,
             // THEN USER-DISABLED...IN CASE USER RE-ENABLES, THE ALERT STATS / ETC REMAIN UP-TO-DATE)
-            $ct_asset->charts_price_alerts($key, $exchange, $pair, $mode);
+            $ct['asset']->charts_price_alerts($key, $exchange, $pair, $mode);
             
             }
         
         
             // Flag if we have run the first alerts / charts job (for logic to improve speed of first time run of cron tasks, skipping uneeded pre-caching etc)
-            if ( !file_exists($base_dir . '/cache/events/charts-first-run.dat') ) {
-            $ct_cache->save_file($base_dir . '/cache/events/charts-first-run.dat', $ct_gen->time_date_format(false, 'pretty_date_time') );
+            if ( !file_exists($ct['base_dir'] . '/cache/events/charts-first-run.dat') ) {
+            $ct['cache']->save_file($ct['base_dir'] . '/cache/events/charts-first-run.dat', $ct['gen']->time_date_format(false, 'pretty_date_time') );
             }
         
         
             // Checkup on each failed proxy
-            if ( $ct_conf['comms']['proxy_alert'] != 'off' ) {
+            if ( $ct['conf']['comms']['proxy_alert'] != 'off' ) {
             	
             	foreach ( $proxy_checkup as $problem_proxy ) {
-            	$ct_gen->test_proxy($problem_proxy);
+            	$ct['gen']->test_proxy($problem_proxy);
             	sleep(1);
             	}
             
             }
             
         
-        // Queue notifications if there were any price alert resets, BEFORE $ct_cache->send_notifications() runs
-        $ct_gen->reset_price_alert_notice();
+        // Queue notifications if there were any price alert resets, BEFORE $ct['cache']->send_notifications() runs
+        $ct['gen']->reset_price_alert_notice();
         
         
         }
@@ -166,7 +166,7 @@ $cron_run_lock_file = $base_dir . '/cache/events/emulated-cron-lock.dat';
         // System stats, chart the 15 min load avg / temperature / free partition space / free memory [mb/percent] / portfolio cache size / runtime length
         // RUN BEFORE plugins (in case custom plugin crashes)
         
-        if ( isset($system_info['system_load']) ) {
+        if ( isset($ct['system_info']['system_load']) ) {
         $chart_data_set .= '||' . trim($system_load);
         }
         else {
@@ -174,7 +174,7 @@ $cron_run_lock_file = $base_dir . '/cache/events/emulated-cron-lock.dat';
         }
         
         
-        if ( isset($system_info['system_temp']) ) {
+        if ( isset($ct['system_info']['system_temp']) ) {
         $chart_data_set .= '||' . trim($system_temp);
         }
         else {
@@ -182,23 +182,23 @@ $cron_run_lock_file = $base_dir . '/cache/events/emulated-cron-lock.dat';
         }
         
         
-        if ( isset($system_info['memory_used_megabytes']) ) {
-        $chart_data_set .= '||' . round( $system_info['memory_used_megabytes'] / 1000 , 4); // Gigabytes, for chart UX
+        if ( isset($ct['system_info']['memory_used_megabytes']) ) {
+        $chart_data_set .= '||' . round( $ct['system_info']['memory_used_megabytes'] / 1000 , 4); // Gigabytes, for chart UX
         }
         else {
         $chart_data_set .= '||NO_DATA';
         }
         
         
-        if ( isset($system_info['memory_used_percent']) ) {
-        $chart_data_set .= '||' . $system_info['memory_used_percent'];
+        if ( isset($ct['system_info']['memory_used_percent']) ) {
+        $chart_data_set .= '||' . $ct['system_info']['memory_used_percent'];
         }
         else {
         $chart_data_set .= '||NO_DATA';
         }
         
         
-        if ( isset($system_info['free_partition_space']) ) {
+        if ( isset($ct['system_info']['free_partition_space']) ) {
         $chart_data_set .= '||' . round( trim($system_free_space_mb) / 1000000 , 4); // Terabytes, for chart stats UX
         }
         else {
@@ -206,7 +206,7 @@ $cron_run_lock_file = $base_dir . '/cache/events/emulated-cron-lock.dat';
         }
         
         
-        if ( isset($system_info['portfolio_cache']) ) {
+        if ( isset($ct['system_info']['portfolio_cache']) ) {
         $chart_data_set .= '||' . round( trim($portfolio_cache_size_mb) / 1000 , 4); // Gigabytes, for chart UX
         }
         else {
@@ -231,30 +231,30 @@ $cron_run_lock_file = $base_dir . '/cache/events/emulated-cron-lock.dat';
         if ( $now > 0 ) {
         
         // Store system data to archival / light charts
-        $sys_stats_path = $base_dir . '/cache/charts/system/archival/system_stats.dat';
+        $sys_stats_path = $ct['base_dir'] . '/cache/charts/system/archival/system_stats.dat';
         $sys_stats_data = $now . $chart_data_set;
         
-        $ct_cache->save_file($sys_stats_path, $sys_stats_data . "\n", "append", false); // WITH newline (UNLOCKED file write)
+        $ct['cache']->save_file($sys_stats_path, $sys_stats_data . "\n", "append", false); // WITH newline (UNLOCKED file write)
             		
-        // Light charts (update time dynamically determined in $ct_cache->update_light_chart() logic)
+        // Light charts (update time dynamically determined in $ct['cache']->update_light_chart() logic)
         // Try to assure file locking from archival chart updating has been released, wait 0.12 seconds before updating light charts
         usleep(120000); // Wait 0.12 seconds
         		
-        	foreach ( $ct_conf['power']['light_chart_day_intervals'] as $light_chart_days ) {
+        	foreach ( $ct['conf']['power']['light_chart_day_intervals'] as $light_chart_days ) {
         	    
         	    // If we reset light charts, just skip the rest of this update session
         	    if ( $system_light_chart_result == 'reset' ) {
         	    continue;
         	    }
         	           
-        	$system_light_chart_result = $ct_cache->update_light_chart($sys_stats_path, $sys_stats_data, $light_chart_days); // WITHOUT newline (var passing)
+        	$system_light_chart_result = $ct['cache']->update_light_chart($sys_stats_path, $sys_stats_data, $light_chart_days); // WITHOUT newline (var passing)
         	
         	}
         		
         }
         else {
         	
-        $ct_gen->log(
+        $ct['gen']->log(
         			'system_error',
         			'time() returned a corrupt value (from power outage / corrupt memory / etc), chart updating canceled',
         			'chart_type: system stats'
@@ -267,23 +267,23 @@ $cron_run_lock_file = $base_dir . '/cache/events/emulated-cron-lock.dat';
         
         // If debug mode is on
         // RUN BEFORE plugins (in case custom plugin crashes)
-        if ( $ct_conf['power']['debug_mode'] == 'all' || $ct_conf['power']['debug_mode'] == 'all_telemetry' || $ct_conf['power']['debug_mode'] == 'stats' ) {
+        if ( $ct['conf']['power']['debug_mode'] == 'all' || $ct['conf']['power']['debug_mode'] == 'all_telemetry' || $ct['conf']['power']['debug_mode'] == 'stats' ) {
         		
-        	foreach ( $system_info as $key => $val ) {
+        	foreach ( $ct['system_info'] as $key => $val ) {
         	$system_telemetry .= $key . ': ' . $val . '; ';
         	}
         			
         // Log system stats
-        $ct_gen->log(
+        $ct['gen']->log(
         			'system_debug',
         			'Hardware / software stats (requires log_verbosity set to verbose)',
         			$system_telemetry
         			);
         			
         // Log runtime stats
-        $ct_gen->log(
+        $ct['gen']->log(
         			'system_debug',
-        			strtoupper($runtime_mode).' runtime was ' . $total_runtime . ' seconds'
+        			strtoupper($ct['runtime_mode']).' runtime was ' . $total_runtime . ' seconds'
         			);
         
         }
@@ -291,9 +291,9 @@ $cron_run_lock_file = $base_dir . '/cache/events/emulated-cron-lock.dat';
         
         // Log errors / debugging, send notifications
         // RUN BEFORE any activated plugins (in case a custom plugin crashes)
-        $ct_cache->error_log();
-        $ct_cache->debug_log();
-        $ct_cache->send_notifications();
+        $ct['cache']->error_log();
+        $ct['cache']->debug_log();
+        $ct['cache']->send_notifications();
         
         
         // Give a bit of time for the "core runtime" error / debugging logs to 
@@ -304,7 +304,7 @@ $cron_run_lock_file = $base_dir . '/cache/events/emulated-cron-lock.dat';
         
         
         // DEBUGGING ONLY (checking logging capability)
-        //$ct_cache->check_log('cron.php:pre-plugin-runtime');
+        //$ct['cache']->check_log('cron.php:pre-plugin-runtime');
         
         
         // Run any cron-designated plugins activated in ct_conf
@@ -326,21 +326,21 @@ $cron_run_lock_file = $base_dir . '/cache/events/emulated-cron-lock.dat';
         
         
         // DEBUGGING ONLY (checking logging capability)
-        //$ct_cache->check_log('cron.php:post-plugin-runtime');
+        //$ct['cache']->check_log('cron.php:post-plugin-runtime');
         
         
         // Log errors / debugging, send notifications
         // (IF ANY PLUGINS ARE ACTIVATED, RAN AGAIN SEPERATELY FOR PLUGIN LOGGING / ALERTS ONLY)
         if ( is_array($activated_plugins['cron']) && sizeof($activated_plugins['cron']) > 0 ) {
-        $ct_cache->error_log();
-        $ct_cache->debug_log();
-        $ct_cache->send_notifications();
+        $ct['cache']->error_log();
+        $ct['cache']->debug_log();
+        $ct['cache']->send_notifications();
         }
         
         
         // Flag if we have run the first cron job (for logic to improve speed of first time run of cron tasks, skipping uneeded pre-caching etc)
-        if ( !file_exists($base_dir . '/cache/events/cron-first-run.dat') ) {
-        $ct_cache->save_file($base_dir . '/cache/events/cron-first-run.dat', $ct_gen->time_date_format(false, 'pretty_date_time') );
+        if ( !file_exists($ct['base_dir'] . '/cache/events/cron-first-run.dat') ) {
+        $ct['cache']->save_file($ct['base_dir'] . '/cache/events/cron-first-run.dat', $ct['gen']->time_date_format(false, 'pretty_date_time') );
         }
         
               
@@ -354,11 +354,11 @@ $cron_run_lock_file = $base_dir . '/cache/events/emulated-cron-lock.dat';
     
     $exit_result_text = 'another instance of cron is already running, skipping this additional instance';
     
-    $ct_gen->log('other_error', $exit_result_text);
+    $ct['gen']->log('other_error', $exit_result_text);
     
-    $ct_cache->error_log();
-    $ct_cache->debug_log();
-    $ct_cache->send_notifications();
+    $ct['cache']->error_log();
+    $ct['cache']->debug_log();
+    $ct['cache']->send_notifications();
     
     $exit_result = array('display_error' => 1, 'result' => $exit_result_text);
     
@@ -373,9 +373,9 @@ gc_collect_cycles(); // Clean memory cache
     echo json_encode($exit_result, JSON_PRETTY_PRINT);
     }
 
-    if ( $ct_conf['power']['debug_mode'] == 'all' || $ct_conf['power']['debug_mode'] == 'all_telemetry' || $ct_conf['power']['debug_mode'] == 'cron_telemetry' ) {
+    if ( $ct['conf']['power']['debug_mode'] == 'all' || $ct['conf']['power']['debug_mode'] == 'all_telemetry' || $ct['conf']['power']['debug_mode'] == 'cron_telemetry' ) {
     // WITH newline (UNLOCKED file write)
-    $ct_cache->save_file($base_dir . '/cache/logs/debug/cron/cron_runtime_telemetry.log', 'FULLY COMPLETED cron.php runtime (runtime_id = ' . $cron_runtime_id . ') on: ' . $ct_gen->time_date_format(false, 'pretty_date_time') . ' (UTC) ' . "\n\n\n\n", "append", false);     
+    $ct['cache']->save_file($ct['base_dir'] . '/cache/logs/debug/cron/cron_runtime_telemetry.log', 'FULLY COMPLETED cron.php runtime (runtime_id = ' . $cron_runtime_id . ') on: ' . $ct['gen']->time_date_format(false, 'pretty_date_time') . ' (UTC) ' . "\n\n\n\n", "append", false);     
     }
 
 exit; // For extra security, force exit at end of this script file

@@ -3,17 +3,17 @@
  * Copyright 2014-2023 GPLv3, Open Crypto Tracker by Mike Kilday: Mike@DragonFrugal.com
  */
  
-header('Content-type: text/html; charset=' . $charset_default);
+header('Content-type: text/html; charset=' . $ct['dev']['charset_default']);
 
 header('Access-Control-Allow-Headers: *'); // Allow ALL headers
 
 // Allow access from ANY SERVER (primarily in case the end-user has a server misconfiguration)
-if ( $ct_conf['sec']['access_control_origin'] == 'any' ) {
+if ( $ct['conf']['sec']['access_control_origin'] == 'any' ) {
 header('Access-Control-Allow-Origin: *');
 }
 // Strict access from THIS APP SERVER ONLY (provides tighter security)
 else {
-header('Access-Control-Allow-Origin: ' . $app_host_address);
+header('Access-Control-Allow-Origin: ' . $ct['app_host_address']);
 }
 
 ?><!DOCTYPE html>
@@ -24,7 +24,7 @@ header('Access-Control-Allow-Origin: ' . $app_host_address);
  * Copyright 2014-2023 GPLv3, Open Crypto Tracker by Mike Kilday: Mike@DragonFrugal.com
  */ -->
 
-<?=( isset($system_info['portfolio_cookies']) ? '<!-- CURRENT COOKIES SIZE TOTAL: ' . $ct_var->num_pretty( ($system_info['portfolio_cookies'] / 1000) , 2) . ' kilobytes -->' : '' )?>	
+<?=( isset($ct['system_info']['portfolio_cookies']) ? '<!-- CURRENT COOKIES SIZE TOTAL: ' . $ct['var']->num_pretty( ($ct['system_info']['portfolio_cookies'] / 1000) , 2) . ' kilobytes -->' : '' )?>	
 
 <head>
 <?php
@@ -102,13 +102,13 @@ require("templates/interface/php/wrap/wrap-elements/navigation-bars.php");
 
                      // If we are queued to run a UI alert that an upgrade is available
                      // VAR MUST BE SET RIGHT BEFORE CHECK ON DATA FROM THIS CACHE FILE, AS IT CAN BE UPDATED #AFTER# APP INIT!
-                     if ( file_exists($base_dir . '/cache/events/ui_upgrade_alert.dat') ) {
-                     $ui_upgrade_alert = json_decode( file_get_contents($base_dir . '/cache/events/ui_upgrade_alert.dat') , true);
+                     if ( file_exists($ct['base_dir'] . '/cache/events/ui_upgrade_alert.dat') ) {
+                     $ui_upgrade_alert = json_decode( file_get_contents($ct['base_dir'] . '/cache/events/ui_upgrade_alert.dat') , true);
                      }
                 
                 
 			      // show the upgrade notice one time until the next reminder period, IF ADMIN LOGGED IN
-				 if ( isset($ui_upgrade_alert) && $ui_upgrade_alert['run'] == 'yes' && $ct_gen->admin_logged_in() ) {
+				 if ( isset($ui_upgrade_alert) && $ui_upgrade_alert['run'] == 'yes' && $ct['gen']->admin_logged_in() ) {
 				    
                      // Workaround for #VERY ODD# PHP v8.0.1 BUG, WHEN TRYING TO ECHO $ui_upgrade_alert['message'] IN HEADER.PHP
                      // (so we render it in footer.php, near the end of rendering)
@@ -136,7 +136,7 @@ require("templates/interface/php/wrap/wrap-elements/navigation-bars.php");
          			 // (will automatically re-activate in upgrade-check.php at a later date, if another reminder is needed after X days)
          			 $ui_upgrade_alert['run'] = 'no';
          						
-         			 $ct_cache->save_file($base_dir . '/cache/events/ui_upgrade_alert.dat', json_encode($ui_upgrade_alert, JSON_PRETTY_PRINT) );
+         			 $ct['cache']->save_file($ct['base_dir'] . '/cache/events/ui_upgrade_alert.dat', json_encode($ui_upgrade_alert, JSON_PRETTY_PRINT) );
      					
 				 }
 				 // Otherwise, IF we just upgraded to a new version, show an alert to user that they may need to
@@ -145,7 +145,7 @@ require("templates/interface/php/wrap/wrap-elements/navigation-bars.php");
 				 elseif (
 				 isset($cached_app_version)
 				 && trim($cached_app_version) != ''
-				 && trim($cached_app_version) != $app_version
+				 && trim($cached_app_version) != $ct['app_version']
 				 && stristr($_SERVER['HTTP_USER_AGENT'], 'googlebot') == false
 				 && stristr($_SERVER['HTTP_USER_AGENT'], 'bingbot') == false
 				 ) {

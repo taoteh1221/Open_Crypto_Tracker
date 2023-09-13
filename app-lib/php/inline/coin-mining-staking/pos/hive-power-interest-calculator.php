@@ -7,21 +7,21 @@
 
 // Trim whitespace
 if ( $_POST['hive_submitted'] ) {
-$_POST = $ct_var->clean_array($_POST);
+$_POST = $ct['var']->clean_array($_POST);
 }
 
 // Get HIVE value
-$hive_mrkt = $ct_api->market('HIVE', 'bittrex', 'HIVE-BTC')['last_trade'];
+$hive_mrkt = $ct['api']->market('HIVE', 'bittrex', 'HIVE-BTC')['last_trade'];
 
 ?>
     
 
 <div>
-    <form action='<?=$ct_gen->start_page('mining')?>' method='post'>
+    <form action='<?=$ct['gen']->start_page('mining')?>' method='post'>
         
-        <p><b>Power Down Period:</b> <?=$ct_conf['power']['hive_powerdown_time']?> weeks</p>
+        <p><b>Power Down Period:</b> <?=$ct['conf']['power']['hive_powerdown_time']?> weeks</p>
 	
-        <p><b>HIVE Power Interest Rate:</b> <?=($ct_conf['power']['hivepower_yearly_interest'])?> percent annually (see Power User Config for yearly adjustments)</p>
+        <p><b>HIVE Power Interest Rate:</b> <?=($ct['conf']['power']['hivepower_yearly_interest'])?> percent annually (see Power User Config for yearly adjustments)</p>
 	
         <p><b>HIVE Power Purchased:</b> <input type='text' name='hp_purchased' value='<?=$_POST['hp_purchased']?>' placeholder="(from Bittrex trading etc)" size='45' /></p>
         
@@ -40,22 +40,22 @@ $hive_mrkt = $ct_api->market('HIVE', 'bittrex', 'HIVE-BTC')['last_trade'];
 if ( $_POST['hive_submitted'] ) {
 ?>
 
-<p class='red' style='font-weight: bold;'>Your <i>current</i> HIVE Power interest rate results (<i><u><?=strtoupper($ct_conf['gen']['btc_prim_currency_pair'])?> values may change significantly over long periods of time</u></i>):</p>
+<p class='red' style='font-weight: bold;'>Your <i>current</i> HIVE Power interest rate results (<i><u><?=strtoupper($ct['conf']['gen']['btc_prim_currency_pair'])?> values may change significantly over long periods of time</u></i>):</p>
 
 <?php
-$hive_val_raw = number_format( ( $hive_mrkt * $sel_opt['sel_btc_prim_currency_val'] ) , $ct_conf['gen']['crypto_dec_max'], '.', ',');
-$hive_val_raw = $ct_var->num_to_str($hive_val_raw); // Cleanup any trailing zeros
+$hive_val_raw = number_format( ( $hive_mrkt * $sel_opt['sel_btc_prim_currency_val'] ) , $ct['conf']['gen']['crypto_dec_max'], '.', ',');
+$hive_val_raw = $ct['var']->num_to_str($hive_val_raw); // Cleanup any trailing zeros
 ?>
 
 
-<p class='green' style='font-weight: bold;'>1 HIVE = <?=$ct_var->num_to_str($hive_mrkt)?> BTC (<?=$ct_conf['power']['btc_currency_mrkts'][ $ct_conf['gen']['btc_prim_currency_pair'] ]?><?php echo $hive_val_raw; ?>)</p>
+<p class='green' style='font-weight: bold;'>1 HIVE = <?=$ct['var']->num_to_str($hive_mrkt)?> BTC (<?=$ct['conf']['power']['btc_currency_mrkts'][ $ct['conf']['gen']['btc_prim_currency_pair'] ]?><?php echo $hive_val_raw; ?>)</p>
 
 
 <?php
 
-$ct_asset->hivepower_time('day');
-$ct_asset->hivepower_time('week');
-$ct_asset->hivepower_time('month');
+$ct['asset']->hivepower_time('day');
+$ct['asset']->hivepower_time('week');
+$ct['asset']->hivepower_time('month');
 
 
 }

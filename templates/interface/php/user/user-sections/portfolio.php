@@ -13,7 +13,7 @@
 <div class='full_width_wrapper align_center'>
 			
 	
-	<div style='display: inline;'><?=$ct_gen->start_page_html('portfolio')?></div>
+	<div style='display: inline;'><?=$ct['gen']->start_page_html('portfolio')?></div>
 			
 			
 			 &nbsp; <select title='Select which portfolio view format you prefer.' class='browser-default custom-select' name='select_portfolio_view' id='select_portfolio_view' onchange=''>
@@ -66,7 +66,7 @@
 				
 			?>
 			
-			&nbsp; <span class='<?=$alert_filter_css?>' style='font-weight: bold;'><?=$visual_audio_alerts?> Alerts (<?=ucfirst($ct_conf['gen']['prim_mcap_site'])?> <?=$text_mcap_trend?> <?=$alert_filter?><?=$sel_opt['alert_percent'][1]?>%)</span>
+			&nbsp; <span class='<?=$alert_filter_css?>' style='font-weight: bold;'><?=$visual_audio_alerts?> Alerts (<?=ucfirst($ct['conf']['gen']['prim_mcap_site'])?> <?=$text_mcap_trend?> <?=$alert_filter?><?=$sel_opt['alert_percent'][1]?>%)</span>
 			
 			<?php
 			}
@@ -96,7 +96,7 @@ if ( $_POST['submit_check'] == 1 || $post_csv_import || $ui_cookies ) {
 <th class='border_lt blue al_right num-sort'>Holdings</th>
 <th class='border_t'>Ticker</th>
 <th class='border_t blue num-sort'>Value</th>
-<th class='border_rt blue num-sort'>(<?=strtoupper($ct_conf['gen']['btc_prim_currency_pair'])?>)</th>
+<th class='border_rt blue num-sort'>(<?=strtoupper($ct['conf']['gen']['btc_prim_currency_pair'])?>)</th>
     </tr>
   </thead>
  <tbody>
@@ -123,7 +123,7 @@ if ( $_POST['submit_check'] == 1 || $post_csv_import || $ui_cookies ) {
 								
                	if ( preg_match("/_amnt/i", $key) ) {
                	
-               	$held_amnt = $ct_var->rem_num_format($val);
+               	$held_amnt = $ct['var']->rem_num_format($val);
                	$asset_symb = strtoupper(preg_replace("/_amnt/i", "", $key));
                	$sel_pair = ($_POST[strtolower($asset_symb).'_pair']);
                	
@@ -136,13 +136,13 @@ if ( $_POST['submit_check'] == 1 || $post_csv_import || $ui_cookies ) {
                	   $sel_mrkt = 0;
                	   }
                	
-               	$purchase_price = $ct_var->rem_num_format($_POST[strtolower($asset_symb).'_paid']);
+               	$purchase_price = $ct['var']->rem_num_format($_POST[strtolower($asset_symb).'_paid']);
                	$lvrg_level = $_POST[strtolower($asset_symb).'_lvrg'];
                	$sel_mrgntyp = $_POST[strtolower($asset_symb).'_mrgntyp'];
                			
 						
                	// Render the row of coin data in the UI
-               	$ct_asset->ui_asset_row($ct_conf['assets'][$asset_symb]['name'], $asset_symb, $held_amnt, $ct_conf['assets'][$asset_symb]['pair'][$sel_pair], $sel_pair, $sel_mrkt, $purchase_price, $lvrg_level, $sel_mrgntyp);
+               	$ct['asset']->ui_asset_row($ct['conf']['assets'][$asset_symb]['name'], $asset_symb, $held_amnt, $ct['conf']['assets'][$asset_symb]['pair'][$sel_pair], $sel_pair, $sel_mrkt, $purchase_price, $lvrg_level, $sel_mrgntyp);
                	
                	
                	
@@ -191,31 +191,31 @@ if ( $_POST['submit_check'] == 1 || $post_csv_import || $ui_cookies ) {
 				foreach( $csv_file_array as $key => $val ) {
 	        
 	        		
-	        			if ( $ct_var->rem_num_format($val[1]) > 0.00000000 ) {  // Show even if decimal is off the map, just for UX purposes tracking token price only
+	        			if ( $ct['var']->rem_num_format($val[1]) > 0.00000000 ) {  // Show even if decimal is off the map, just for UX purposes tracking token price only
 	        			
-	        			$val[5] = ( $ct_var->whole_int( trim($val[5]) ) != false ? trim($val[5]) : 1 ); // If market ID input is corrupt, default to 1
-	        			$val[3] = ( $ct_var->whole_int( trim($val[3]) ) != false ? trim($val[3]) : 0 ); // If leverage amount input is corrupt, default to 0
+	        			$val[5] = ( $ct['var']->whole_int( trim($val[5]) ) != false ? trim($val[5]) : 1 ); // If market ID input is corrupt, default to 1
+	        			$val[3] = ( $ct['var']->whole_int( trim($val[3]) ) != false ? trim($val[3]) : 0 ); // If leverage amount input is corrupt, default to 0
 	        			
-	        			$held_amnt = $ct_var->rem_num_format( trim($val[1]) );
+	        			$held_amnt = $ct['var']->rem_num_format( trim($val[1]) );
 	        			$asset_symb = strtoupper( trim($val[0]) );
 	        			$sel_pair = strtolower( trim($val[6]) );
 	        			// Avoided possible null equivelent issue by upping post value +1 in case zero, so -1 here
     	                                // (we go by array index number here, rather than 1 or higher for html form values)
 	        			$sel_mrkt = ( $val[5] > 0 ? $val[5] - 1 : 0 ); 
-	        			$purchase_price = $ct_var->rem_num_format($val[2]);
+	        			$purchase_price = $ct['var']->rem_num_format($val[2]);
 	        			$lvrg_level = $val[3];
 	        			$sel_mrgntyp = $val[4];
 	        			
 	        				
 	        				// Check pair value
-	        				foreach ( $ct_conf['assets'][$asset_symb]['pair'] as $pair_key => $unused ) {
+	        				foreach ( $ct['conf']['assets'][$asset_symb]['pair'] as $pair_key => $unused ) {
 					 	
 					 	$ploop = 0;
 					 						
 					 			// Use first pair key from coins config for this asset, if no pair value was set properly in the spreadsheet
 					 			if ( $ploop == 0 ) {
 					 								
-					 					if ( $sel_pair == null || !$ct_conf['assets'][$asset_symb]['pair'][$sel_pair] ) {
+					 					if ( $sel_pair == null || !$ct['conf']['assets'][$asset_symb]['pair'][$sel_pair] ) {
 					 					$sel_pair = $pair_key;
 					 					}
 					 							
@@ -234,7 +234,7 @@ if ( $_POST['submit_check'] == 1 || $post_csv_import || $ui_cookies ) {
 						
 						
 	        			// Render the row of coin data in the UI
-	        			$ct_asset->ui_asset_row($ct_conf['assets'][$asset_symb]['name'], $asset_symb, $held_amnt, $ct_conf['assets'][$asset_symb]['pair'][$sel_pair], $sel_pair, $sel_mrkt, $purchase_price, $lvrg_level, $sel_mrgntyp);
+	        			$ct['asset']->ui_asset_row($ct['conf']['assets'][$asset_symb]['name'], $asset_symb, $held_amnt, $ct['conf']['assets'][$asset_symb]['pair'][$sel_pair], $sel_pair, $sel_mrkt, $purchase_price, $lvrg_level, $sel_mrgntyp);
 	        			
 	        			
 	        			
@@ -285,8 +285,8 @@ if ( $_POST['submit_check'] == 1 || $post_csv_import || $ui_cookies ) {
 	   $asset_symb = substr($key, 0, strpos($key, "_"));
     		
     	// Bundle all required cookie data in this final cookies parsing loop for each coin, and render the coin's data
-    	// We don't need $ct_var->rem_num_format() for cookie data, because it was already done creating the cookies
-    	$held_temp = $ct_var->num_to_str($all_cookies_data_array[$asset_symb.'_data'][$asset_symb.'_amnt']);
+    	// We don't need $ct['var']->rem_num_format() for cookie data, because it was already done creating the cookies
+    	$held_temp = $ct['var']->num_to_str($all_cookies_data_array[$asset_symb.'_data'][$asset_symb.'_amnt']);
     					
           if ( $held_temp >= $watch_only_flag_val ) {
                 
@@ -303,7 +303,7 @@ if ( $_POST['submit_check'] == 1 || $post_csv_import || $ui_cookies ) {
         	
         	$sel_pair = $all_cookies_data_array[$asset_symb.'_data'][$asset_symb.'_pair'];
     					       
-    		$purchase_price_temp = $ct_var->num_to_str($all_cookies_data_array[$asset_symb.'_data'][$asset_symb.'_paid']);
+    		$purchase_price_temp = $ct['var']->num_to_str($all_cookies_data_array[$asset_symb.'_data'][$asset_symb.'_paid']);
     			
     			// If purchased amount (not just watched), AND cost basis
         		if (
@@ -333,7 +333,7 @@ if ( $_POST['submit_check'] == 1 || $post_csv_import || $ui_cookies ) {
     	//echo ' ' . $sel_mrkt . ' => ' .$sel_pair. ' ';
     					
     	// Render the row of coin data in the UI
-    	$ct_asset->ui_asset_row($ct_conf['assets'][$asset_symb]['name'], $asset_symb, $held_amnt, $ct_conf['assets'][$asset_symb]['pair'][$sel_pair], $sel_pair, $sel_mrkt, $purchase_price, $lvrg_level, $sel_mrgntyp);
+    	$ct['asset']->ui_asset_row($ct['conf']['assets'][$asset_symb]['name'], $asset_symb, $held_amnt, $ct['conf']['assets'][$asset_symb]['pair'][$sel_pair], $sel_pair, $sel_mrkt, $purchase_price, $lvrg_level, $sel_mrgntyp);
     					
     					
     						
@@ -383,34 +383,34 @@ if ( $_POST['submit_check'] == 1 || $post_csv_import || $ui_cookies ) {
 // Get portfolio summaries
 
 
-$total_btc_worth_raw = number_format($ct_asset->bitcoin_total(), $ct_conf['gen']['crypto_dec_max'], '.', '');
-$total_btc_worth_raw = $ct_var->num_to_str($total_btc_worth_raw); // Cleanup any trailing zeros
+$total_btc_worth_raw = number_format($ct['asset']->bitcoin_total(), $ct['conf']['gen']['crypto_dec_max'], '.', '');
+$total_btc_worth_raw = $ct['var']->num_to_str($total_btc_worth_raw); // Cleanup any trailing zeros
 
 // FOR UX-SAKE, WE CUT OFF EXTRA RIGHT SIDE ZERO DECIMALS IF VALUE IS AT LEAST A SATOSHI OR HIGHER (O.00000001),
 // #BUT# IF VALUE IS LITERALLY ZERO (WATCH-ONLY, ETC), WE WANT TO SHOW THAT #CLEARLY# TO THE END USER WITH 0.00000000
-$total_btc_worth = $ct_var->num_pretty($total_btc_worth_raw, $ct_conf['gen']['crypto_dec_max']);
+$total_btc_worth = $ct['var']->num_pretty($total_btc_worth_raw, $ct['conf']['gen']['crypto_dec_max']);
 
-$total_prim_currency_worth = $ct_asset->coin_stats_data('coin_worth_total');
+$total_prim_currency_worth = $ct['asset']->coin_stats_data('coin_worth_total');
 
     if ( $total_btc_worth_raw > 0 ) {
         
-    $bitcoin_dominance = $ct_var->num_to_str( ( $btc_worth_array['BTC'] / $total_btc_worth_raw ) * 100 );
+    $bitcoin_dominance = $ct['var']->num_to_str( ( $btc_worth_array['BTC'] / $total_btc_worth_raw ) * 100 );
 
-    $ethereum_dominance = $ct_var->num_to_str( ( $btc_worth_array['ETH'] / $total_btc_worth_raw ) * 100 );
+    $ethereum_dominance = $ct['var']->num_to_str( ( $btc_worth_array['ETH'] / $total_btc_worth_raw ) * 100 );
 
-    $solana_dominance = $ct_var->num_to_str( ( $btc_worth_array['SOL'] / $total_btc_worth_raw ) * 100 );
+    $solana_dominance = $ct['var']->num_to_str( ( $btc_worth_array['SOL'] / $total_btc_worth_raw ) * 100 );
 
-    $miscassets_dominance = $ct_var->num_to_str( ( $btc_worth_array['MISCASSETS'] / $total_btc_worth_raw ) * 100 );
+    $miscassets_dominance = $ct['var']->num_to_str( ( $btc_worth_array['MISCASSETS'] / $total_btc_worth_raw ) * 100 );
 
-    $btcnfts_dominance = $ct_var->num_to_str( ( $btc_worth_array['BTCNFTS'] / $total_btc_worth_raw ) * 100 );
+    $btcnfts_dominance = $ct['var']->num_to_str( ( $btc_worth_array['BTCNFTS'] / $total_btc_worth_raw ) * 100 );
 
-    $ethnfts_dominance = $ct_var->num_to_str( ( $btc_worth_array['ETHNFTS'] / $total_btc_worth_raw ) * 100 );
+    $ethnfts_dominance = $ct['var']->num_to_str( ( $btc_worth_array['ETHNFTS'] / $total_btc_worth_raw ) * 100 );
 
-    $solnfts_dominance = $ct_var->num_to_str( ( $btc_worth_array['SOLNFTS'] / $total_btc_worth_raw ) * 100 );
+    $solnfts_dominance = $ct['var']->num_to_str( ( $btc_worth_array['SOLNFTS'] / $total_btc_worth_raw ) * 100 );
 
-    $altnfts_dominance = $ct_var->num_to_str( ( $btc_worth_array['ALTNFTS'] / $total_btc_worth_raw ) * 100 );
+    $altnfts_dominance = $ct['var']->num_to_str( ( $btc_worth_array['ALTNFTS'] / $total_btc_worth_raw ) * 100 );
 
-    $stocks_dominance = $ct_var->num_to_str( ( number_format($ct_asset->stocks_bitcoin_total(), $ct_conf['gen']['crypto_dec_max'], '.', '') / $total_btc_worth_raw ) * 100 );
+    $stocks_dominance = $ct['var']->num_to_str( ( number_format($ct['asset']->stocks_bitcoin_total(), $ct['conf']['gen']['crypto_dec_max'], '.', '') / $total_btc_worth_raw ) * 100 );
 
     }
     else {
@@ -436,20 +436,20 @@ $total_prim_currency_worth = $ct_asset->coin_stats_data('coin_worth_total');
     }
 
 
-$altcoin_dominance = ( $total_btc_worth_raw >= $min_crypto_val_test ? $ct_var->num_to_str( 100 - $bitcoin_dominance - $ethereum_dominance - $solana_dominance - $miscassets_dominance - $btcnfts_dominance - $ethnfts_dominance - $solnfts_dominance - $altnfts_dominance - $stocks_dominance ) : 0.00 );
+$altcoin_dominance = ( $total_btc_worth_raw >= $min_crypto_val_test ? $ct['var']->num_to_str( 100 - $bitcoin_dominance - $ethereum_dominance - $solana_dominance - $miscassets_dominance - $btcnfts_dominance - $ethnfts_dominance - $solnfts_dominance - $altnfts_dominance - $stocks_dominance ) : 0.00 );
 
 
 // Remove any slight decimal over 100 (100.01 etc)
-$bitcoin_dominance = $ct_var->max_100($bitcoin_dominance);
-$ethereum_dominance = $ct_var->max_100($ethereum_dominance);
-$solana_dominance = $ct_var->max_100($solana_dominance);
-$miscassets_dominance = $ct_var->max_100($miscassets_dominance);
-$btcnfts_dominance = $ct_var->max_100($btcnfts_dominance);
-$ethnfts_dominance = $ct_var->max_100($ethnfts_dominance);
-$solnfts_dominance = $ct_var->max_100($solnfts_dominance);
-$altnfts_dominance = $ct_var->max_100($altnfts_dominance);
-$stocks_dominance = $ct_var->max_100($stocks_dominance);
-$altcoin_dominance = $ct_var->max_100($altcoin_dominance);
+$bitcoin_dominance = $ct['var']->max_100($bitcoin_dominance);
+$ethereum_dominance = $ct['var']->max_100($ethereum_dominance);
+$solana_dominance = $ct['var']->max_100($solana_dominance);
+$miscassets_dominance = $ct['var']->max_100($miscassets_dominance);
+$btcnfts_dominance = $ct['var']->max_100($btcnfts_dominance);
+$ethnfts_dominance = $ct['var']->max_100($ethnfts_dominance);
+$solnfts_dominance = $ct['var']->max_100($solnfts_dominance);
+$altnfts_dominance = $ct['var']->max_100($altnfts_dominance);
+$stocks_dominance = $ct['var']->max_100($stocks_dominance);
+$altcoin_dominance = $ct['var']->max_100($altcoin_dominance);
 	
 		
 ?>
@@ -468,27 +468,27 @@ $altcoin_dominance = $ct_var->max_100($altcoin_dominance);
 		// Run BEFORE output of BTC / PAIR portfolio values, to include any margin / leverage summaries in parentheses NEXT TO THEM (NOT in the actual BTC / PAIR amounts, for UX's sake)
 		if ( $purchase_price_added == 1 ) {
 		    
-		$gain_loss_total = $ct_asset->coin_stats_data('gain_loss_total');
+		$gain_loss_total = $ct['asset']->coin_stats_data('gain_loss_total');
 		
-          $thres_dec = $ct_gen->thres_dec($gain_loss_total, 'u'); // Units mode
+          $thres_dec = $ct['gen']->thres_dec($gain_loss_total, 'u'); // Units mode
           
-		$parsed_gain_loss_total = preg_replace("/-/", "-" . $ct_conf['power']['btc_currency_mrkts'][ $ct_conf['gen']['btc_prim_currency_pair'] ], number_format($gain_loss_total, $thres_dec['max_dec'], '.', ',' ) );
+		$parsed_gain_loss_total = preg_replace("/-/", "-" . $ct['conf']['power']['btc_currency_mrkts'][ $ct['conf']['gen']['btc_prim_currency_pair'] ], number_format($gain_loss_total, $thres_dec['max_dec'], '.', ',' ) );
 		
-		$original_worth = $ct_asset->coin_stats_data('coin_paid_total');
+		$original_worth = $ct['asset']->coin_stats_data('coin_paid_total');
 		
-		$lvrg_only_gain_loss = $ct_asset->coin_stats_data('gain_loss_only_lvrg');
+		$lvrg_only_gain_loss = $ct['asset']->coin_stats_data('gain_loss_only_lvrg');
   		
 		$total_prim_currency_worth_inc_lvrg = $total_prim_currency_worth + $lvrg_only_gain_loss;
 		
 		
-          $thres_dec = $ct_gen->thres_dec($total_prim_currency_worth_inc_lvrg, 'u'); // Units mode
+          $thres_dec = $ct['gen']->thres_dec($total_prim_currency_worth_inc_lvrg, 'u'); // Units mode
           
   		// Here we can go negative 'total worth' with the margin leverage (unlike with the margin deposit)
   		// We only want a negative sign here in the UI for 'total worth' clarity (if applicable), NEVER a plus sign
   		// (plus sign would indicate a gain, NOT 'total worth')
 		$parsed_total_prim_currency_worth_inc_lvrg = preg_replace("/-/", "", number_format($total_prim_currency_worth_inc_lvrg, $thres_dec['max_dec'], '.', ',' ) );
   		
-		$total_prim_currency_worth_if_purchase_price = $ct_asset->coin_stats_data('coin_total_worth_if_purchase_price') + $lvrg_only_gain_loss;
+		$total_prim_currency_worth_if_purchase_price = $ct['asset']->coin_stats_data('coin_total_worth_if_purchase_price') + $lvrg_only_gain_loss;
 		
 		$gain_loss_text = ( $gain_loss_total >= 0 ? 'gains' : 'losses' );
 		
@@ -507,26 +507,26 @@ $altcoin_dominance = $ct_var->max_100($altcoin_dominance);
 			<span class='private_data'>
 			<?php
 					
-			$scan_crypto_val = array_map( array($ct_var, 'strip_brackets') , $sel_opt['show_crypto_val']); // Strip brackets
+			$scan_crypto_val = array_map( array($ct['var'], 'strip_brackets') , $sel_opt['show_crypto_val']); // Strip brackets
 				
 				// Control the ordering with corrisponding app config array (which is already ordered properly), for UX
 				$loop = 0;
-				foreach ( $ct_conf['power']['crypto_pair'] as $key => $val ) {
+				foreach ( $ct['conf']['power']['crypto_pair'] as $key => $val ) {
 						
 						if ( in_array($key, $scan_crypto_val) ) {
 						
 						echo ( $loop > 0 ? ' &nbsp;/&nbsp; ' : '' );
 					
 							if ( $key == 'btc' ) {
-						    $thres_dec = $ct_gen->thres_dec($total_btc_worth, 'u', 'crypto'); // Units mode
-							echo '<span class="'.$key.'" title="'.strtoupper($key).'">'.$val.' ' . $ct_var->num_pretty($total_btc_worth, $thres_dec['max_dec'], false, $thres_dec['min_dec']) . '</span>';
+						    $thres_dec = $ct['gen']->thres_dec($total_btc_worth, 'u', 'crypto'); // Units mode
+							echo '<span class="'.$key.'" title="'.strtoupper($key).'">'.$val.' ' . $ct['var']->num_pretty($total_btc_worth, $thres_dec['max_dec'], false, $thres_dec['min_dec']) . '</span>';
 							}
 							else {
 							    
-							   if ( $ct_asset->pair_btc_val($key) > 0 ) {
-							   $total_crypto_worth = ( $total_btc_worth_raw / $ct_asset->pair_btc_val($key) );
-						       $thres_dec = $ct_gen->thres_dec($total_crypto_worth, 'u', 'crypto'); // Units mode
-							   echo '<span class="'.$key.'" title="'.strtoupper($key).'">'.$val.' ' . $ct_var->num_pretty($total_crypto_worth, $thres_dec['max_dec'], false, $thres_dec['min_dec']) . '</span>';
+							   if ( $ct['asset']->pair_btc_val($key) > 0 ) {
+							   $total_crypto_worth = ( $total_btc_worth_raw / $ct['asset']->pair_btc_val($key) );
+						       $thres_dec = $ct['gen']->thres_dec($total_crypto_worth, 'u', 'crypto'); // Units mode
+							   echo '<span class="'.$key.'" title="'.strtoupper($key).'">'.$val.' ' . $ct['var']->num_pretty($total_crypto_worth, $thres_dec['max_dec'], false, $thres_dec['min_dec']) . '</span>';
 							   }
 							   else {
 							   echo '<span class="'.$key.'" title="'.strtoupper($key).'">'.$val.' ' . number_format(0, 4) . '</span>';
@@ -607,9 +607,9 @@ $altcoin_dominance = $ct_var->max_100($altcoin_dominance);
 			<?php
 			
 		
-        $thres_dec = $ct_gen->thres_dec($total_prim_currency_worth, 'u', 'fiat'); // Units mode
+        $thres_dec = $ct['gen']->thres_dec($total_prim_currency_worth, 'u', 'fiat'); // Units mode
 		// Fiat value of portfolio
-		echo '<span class="black private_data">' . strtoupper($ct_conf['gen']['btc_prim_currency_pair']) . ' Value:</span> <span class="private_data">' . $ct_conf['power']['btc_currency_mrkts'][ $ct_conf['gen']['btc_prim_currency_pair'] ] . $ct_var->num_pretty($total_prim_currency_worth, $thres_dec['max_dec'], false, $thres_dec['min_dec']) . '</span>';
+		echo '<span class="black private_data">' . strtoupper($ct['conf']['gen']['btc_prim_currency_pair']) . ' Value:</span> <span class="private_data">' . $ct['conf']['power']['btc_currency_mrkts'][ $ct['conf']['gen']['btc_prim_currency_pair'] ] . $ct['var']->num_pretty($total_prim_currency_worth, $thres_dec['max_dec'], false, $thres_dec['min_dec']) . '</span>';
 		
 		?>
 		
@@ -620,11 +620,11 @@ $altcoin_dominance = $ct_var->max_100($altcoin_dominance);
 <script>
 
 
-var fiat_val_content = '<h5 class="yellow tooltip_title">Primary Currency (<?=strtoupper($ct_conf['gen']['btc_prim_currency_pair'])?>) Value</h5>'
+var fiat_val_content = '<h5 class="yellow tooltip_title">Primary Currency (<?=strtoupper($ct['conf']['gen']['btc_prim_currency_pair'])?>) Value</h5>'
 			
-			+'<p class="coin_info" style=" white-space: normal;">The value of your ENTIRE portfolio, based off your selected primary currency (<?=strtoupper($ct_conf['gen']['btc_prim_currency_pair'])?>), in the "Primary Currency Market" setting, on the Settings page.</p>'
+			+'<p class="coin_info" style=" white-space: normal;">The value of your ENTIRE portfolio, based off your selected primary currency (<?=strtoupper($ct['conf']['gen']['btc_prim_currency_pair'])?>), in the "Primary Currency Market" setting, on the Settings page.</p>'
 			
-			+'<p class="coin_info" style=" white-space: normal;">Selected Primary Currency Market: <span class="bitcoin">BTC / <?=strtoupper($ct_conf['gen']['btc_prim_currency_pair'])?> @ <?=$ct_gen->key_to_name($ct_conf['gen']['btc_prim_exchange'])?> (<?=$ct_conf['power']['btc_currency_mrkts'][ $ct_conf['gen']['btc_prim_currency_pair'] ]?><?=number_format( $sel_opt['sel_btc_prim_currency_val'], 0, '.', ',')?>)</span></p>'
+			+'<p class="coin_info" style=" white-space: normal;">Selected Primary Currency Market: <span class="bitcoin">BTC / <?=strtoupper($ct['conf']['gen']['btc_prim_currency_pair'])?> @ <?=$ct['gen']->key_to_name($ct['conf']['gen']['btc_prim_exchange'])?> (<?=$ct['conf']['power']['btc_currency_mrkts'][ $ct['conf']['gen']['btc_prim_currency_pair'] ]?><?=number_format( $sel_opt['sel_btc_prim_currency_val'], 0, '.', ',')?>)</span></p>'
 		
 			+'<p class="coin_info balloon_notation bitcoin" style=" white-space: normal;"> *Includes any adjusted long AND short deposits, BUT <i><u>any leverage is NOT included</u></i>.</p>';
 		
@@ -663,7 +663,7 @@ var fiat_val_content = '<h5 class="yellow tooltip_title">Primary Currency (<?=st
 		<?php
 		
 		// If using margin leverege anywhere
-		echo ( $purchase_price_added == 1 && $lvrg_added == 1 && is_numeric($gain_loss_total) == TRUE ? '<div class="portfolio_summary"><span class="black private_data">Leverage Included: </span>' . ( $total_prim_currency_worth_inc_lvrg >= 0 ? '<span class="green private_data">' : '<span class="red private_data">-' ) . $ct_conf['power']['btc_currency_mrkts'][ $ct_conf['gen']['btc_prim_currency_pair'] ] . $parsed_total_prim_currency_worth_inc_lvrg . '</span></div>' : '' );
+		echo ( $purchase_price_added == 1 && $lvrg_added == 1 && is_numeric($gain_loss_total) == TRUE ? '<div class="portfolio_summary"><span class="black private_data">Leverage Included: </span>' . ( $total_prim_currency_worth_inc_lvrg >= 0 ? '<span class="green private_data">' : '<span class="red private_data">-' ) . $ct['conf']['power']['btc_currency_mrkts'][ $ct['conf']['gen']['btc_prim_currency_pair'] ] . $parsed_total_prim_currency_worth_inc_lvrg . '</span></div>' : '' );
 	
 
 		// Now that BTC / PAIR summaries have margin leverage stats NEXT TO THEM (NOT in the actual BTC / PAIR amounts, for UX's sake), 
@@ -679,9 +679,9 @@ var fiat_val_content = '<h5 class="yellow tooltip_title">Primary Currency (<?=st
 	
 	     <?php
 		
-          $thres_dec = $ct_gen->thres_dec($percent_difference_total, 'p'); // Percentage mode
+          $thres_dec = $ct['gen']->thres_dec($percent_difference_total, 'p'); // Percentage mode
           
-		echo '<span class="black private_data">' . ( $gain_loss_total >= 0 ? 'Gain:</span> <span class="green private_data">+' . $ct_conf['power']['btc_currency_mrkts'][ $ct_conf['gen']['btc_prim_currency_pair'] ] : 'Loss:</span> <span class="red private_data">' ) . $parsed_gain_loss_total . ' (' . ( $gain_loss_total >= 0 ? '+' : '-' ) . number_format($percent_difference_total, $thres_dec['max_dec'], '.', ',') . '%' . ')</span>';
+		echo '<span class="black private_data">' . ( $gain_loss_total >= 0 ? 'Gain:</span> <span class="green private_data">+' . $ct['conf']['power']['btc_currency_mrkts'][ $ct['conf']['gen']['btc_prim_currency_pair'] ] : 'Loss:</span> <span class="red private_data">' ) . $parsed_gain_loss_total . ' (' . ( $gain_loss_total >= 0 ? '+' : '-' ) . number_format($percent_difference_total, $thres_dec['max_dec'], '.', ',') . '%' . ')</span>';
 		
 	     ?> 
 		
@@ -691,7 +691,7 @@ var fiat_val_content = '<h5 class="yellow tooltip_title">Primary Currency (<?=st
 			
 	 <script>
 	 
-		var doc_title_stats = '<?=( $gain_loss_total >= 0 ? '+' . $ct_conf['power']['btc_currency_mrkts'][ $ct_conf['gen']['btc_prim_currency_pair'] ] : '' )?><?=$parsed_gain_loss_total?> (<?=( $gain_loss_total >= 0 ? '+' : '-' )?><?=number_format($percent_difference_total, $thres_dec['max_dec'], '.', ',')?>%)';
+		var doc_title_stats = '<?=( $gain_loss_total >= 0 ? '+' . $ct['conf']['power']['btc_currency_mrkts'][ $ct['conf']['gen']['btc_prim_currency_pair'] ] : '' )?><?=$parsed_gain_loss_total?> (<?=( $gain_loss_total >= 0 ? '+' : '-' )?><?=number_format($percent_difference_total, $thres_dec['max_dec'], '.', ',')?>%)';
 	
 		
 		var gain_loss_content = '<h5 class="yellow tooltip_title">Gain / Loss Stats</h5>'
@@ -711,18 +711,18 @@ var fiat_val_content = '<h5 class="yellow tooltip_title">Primary Currency (<?=st
 						}
 						
 					
-						if ( $ct_var->num_to_str($val['coin_paid']) >= $min_fiat_val_test ) {
+						if ( $ct['var']->num_to_str($val['coin_paid']) >= $min_fiat_val_test ) {
 							
-                              $thres_dec_1 = $ct_gen->thres_dec($val['gain_loss_total'], 'u', 'fiat'); // Units mode
+                              $thres_dec_1 = $ct['gen']->thres_dec($val['gain_loss_total'], 'u', 'fiat'); // Units mode
                               
-						$parsed_gain_loss = preg_replace("/-/", "", $ct_var->num_pretty($val['gain_loss_total'], $thres_dec_1['max_dec'], false, $thres_dec_1['min_dec']) );
+						$parsed_gain_loss = preg_replace("/-/", "", $ct['var']->num_pretty($val['gain_loss_total'], $thres_dec_1['max_dec'], false, $thres_dec_1['min_dec']) );
 		
 		
-                              $thres_dec_2 = $ct_gen->thres_dec($val['gain_loss_percent_total'], 'p'); // Percentage mode
+                              $thres_dec_2 = $ct['gen']->thres_dec($val['gain_loss_percent_total'], 'p'); // Percentage mode
 				          
 				          ?>
 				          
-			+'<p class="coin_info"><span class="bitcoin"><?=$val['coin_symb']?>:</span> <span class="<?=( $val['gain_loss_total'] >= 0 ? 'green">+' : 'red">-' )?><?=$ct_conf['power']['btc_currency_mrkts'][ $ct_conf['gen']['btc_prim_currency_pair'] ]?><?=$parsed_gain_loss?> (<?=( $val['gain_loss_total'] >= 0 ? '+' : '' )?><?=number_format($val['gain_loss_percent_total'], $thres_dec_2['max_dec'], '.', ',')?>%<?=( $val['coin_lvrg'] >= 2 ? ', ' . $val['coin_lvrg'] . 'x ' . $val['selected_mrgntyp'] : '' )?>)</span></p>'
+			+'<p class="coin_info"><span class="bitcoin"><?=$val['coin_symb']?>:</span> <span class="<?=( $val['gain_loss_total'] >= 0 ? 'green">+' : 'red">-' )?><?=$ct['conf']['power']['btc_currency_mrkts'][ $ct['conf']['gen']['btc_prim_currency_pair'] ]?><?=$parsed_gain_loss?> (<?=( $val['gain_loss_total'] >= 0 ? '+' : '' )?><?=number_format($val['gain_loss_percent_total'], $thres_dec_2['max_dec'], '.', ',')?>%<?=( $val['coin_lvrg'] >= 2 ? ', ' . $val['coin_lvrg'] . 'x ' . $val['selected_mrgntyp'] : '' )?>)</span></p>'
 			
 			    <?php
 						}
@@ -763,55 +763,55 @@ var fiat_val_content = '<h5 class="yellow tooltip_title">Primary Currency (<?=st
 		<?php
 		}
 		
-		if ( $ct_var->num_to_str($bitcoin_dominance) >= 0.01 || $ct_var->num_to_str($ethereum_dominance) >= 0.01 || $ct_var->num_to_str($miscassets_dominance) >= 0.01 || $ct_var->num_to_str($altcoin_dominance) >= 0.01 ) {
+		if ( $ct['var']->num_to_str($bitcoin_dominance) >= 0.01 || $ct['var']->num_to_str($ethereum_dominance) >= 0.01 || $ct['var']->num_to_str($miscassets_dominance) >= 0.01 || $ct['var']->num_to_str($altcoin_dominance) >= 0.01 ) {
 
 			
-			if ( $ct_var->num_to_str($bitcoin_dominance) >= 0.01 ) {
+			if ( $ct['var']->num_to_str($bitcoin_dominance) >= 0.01 ) {
 			$bitcoin_dominance_text = '<span class="btc">' . number_format($bitcoin_dominance, 2, '.', ',') . '% BTC</span>';
-			$seperator_btc = ( $ct_var->num_to_str($bitcoin_dominance) <= 99.99 ? ' &nbsp;/&nbsp; ' : '' );
+			$seperator_btc = ( $ct['var']->num_to_str($bitcoin_dominance) <= 99.99 ? ' &nbsp;/&nbsp; ' : '' );
 			}
 			
-			if ( $ct_var->num_to_str($ethereum_dominance) >= 0.01 ) {
+			if ( $ct['var']->num_to_str($ethereum_dominance) >= 0.01 ) {
 			$ethereum_dominance_text = '<span class="eth">' . number_format($ethereum_dominance, 2, '.', ',') . '% ETH</span>';
-			$seperator_eth = ( $ct_var->num_to_str($bitcoin_dominance) + $ct_var->num_to_str($ethereum_dominance) <= 99.99 ? ' &nbsp;/&nbsp; ' : '' );
+			$seperator_eth = ( $ct['var']->num_to_str($bitcoin_dominance) + $ct['var']->num_to_str($ethereum_dominance) <= 99.99 ? ' &nbsp;/&nbsp; ' : '' );
 			}
 			
-			if ( $ct_var->num_to_str($solana_dominance) >= 0.01 ) {
+			if ( $ct['var']->num_to_str($solana_dominance) >= 0.01 ) {
 			$solana_dominance_text = '<span class="sol">' . number_format($solana_dominance, 2, '.', ',') . '% SOL</span>';
-			$seperator_sol = ( $ct_var->num_to_str($bitcoin_dominance) + $ct_var->num_to_str($ethereum_dominance) + $ct_var->num_to_str($solana_dominance) <= 99.99 ? ' &nbsp;/&nbsp; ' : '' );
+			$seperator_sol = ( $ct['var']->num_to_str($bitcoin_dominance) + $ct['var']->num_to_str($ethereum_dominance) + $ct['var']->num_to_str($solana_dominance) <= 99.99 ? ' &nbsp;/&nbsp; ' : '' );
 			}
 			
-			if ( $ct_var->num_to_str($miscassets_dominance) >= 0.01 ) {
-			$miscassets_dominance_text = number_format($miscassets_dominance, 2, '.', ',') . '% <span class="btc_prim_currency_pair">' . strtoupper($ct_conf['gen']['btc_prim_currency_pair']) . '</span>';
-			$seperator_miscassets = ( $ct_var->num_to_str($bitcoin_dominance) + $ct_var->num_to_str($ethereum_dominance) + $ct_var->num_to_str($solana_dominance) + $ct_var->num_to_str($miscassets_dominance) <= 99.99 ? ' &nbsp;/&nbsp; ' : '' );
+			if ( $ct['var']->num_to_str($miscassets_dominance) >= 0.01 ) {
+			$miscassets_dominance_text = number_format($miscassets_dominance, 2, '.', ',') . '% <span class="btc_prim_currency_pair">' . strtoupper($ct['conf']['gen']['btc_prim_currency_pair']) . '</span>';
+			$seperator_miscassets = ( $ct['var']->num_to_str($bitcoin_dominance) + $ct['var']->num_to_str($ethereum_dominance) + $ct['var']->num_to_str($solana_dominance) + $ct['var']->num_to_str($miscassets_dominance) <= 99.99 ? ' &nbsp;/&nbsp; ' : '' );
 			}
 			
-			if ( $ct_var->num_to_str($btcnfts_dominance) >= 0.01 ) {
+			if ( $ct['var']->num_to_str($btcnfts_dominance) >= 0.01 ) {
 			$btcnfts_dominance_text = '<span class="btc">' . number_format($btcnfts_dominance, 2, '.', ',') . '% BTC NFTs</span>';
-			$seperator_btcnfts = ( $ct_var->num_to_str($bitcoin_dominance) + $ct_var->num_to_str($ethereum_dominance) + $ct_var->num_to_str($solana_dominance) + $ct_var->num_to_str($miscassets_dominance) + $ct_var->num_to_str($btcnfts_dominance) <= 99.99 ? ' &nbsp;/&nbsp; ' : '' );
+			$seperator_btcnfts = ( $ct['var']->num_to_str($bitcoin_dominance) + $ct['var']->num_to_str($ethereum_dominance) + $ct['var']->num_to_str($solana_dominance) + $ct['var']->num_to_str($miscassets_dominance) + $ct['var']->num_to_str($btcnfts_dominance) <= 99.99 ? ' &nbsp;/&nbsp; ' : '' );
 			}
 			
-			if ( $ct_var->num_to_str($ethnfts_dominance) >= 0.01 ) {
+			if ( $ct['var']->num_to_str($ethnfts_dominance) >= 0.01 ) {
 			$ethnfts_dominance_text = '<span class="eth">' . number_format($ethnfts_dominance, 2, '.', ',') . '% ETH NFTs</span>';
-			$seperator_ethnfts = ( $ct_var->num_to_str($bitcoin_dominance) + $ct_var->num_to_str($ethereum_dominance) + $ct_var->num_to_str($solana_dominance) + $ct_var->num_to_str($miscassets_dominance) + $ct_var->num_to_str($btcnfts_dominance) + $ct_var->num_to_str($ethnfts_dominance) <= 99.99 ? ' &nbsp;/&nbsp; ' : '' );
+			$seperator_ethnfts = ( $ct['var']->num_to_str($bitcoin_dominance) + $ct['var']->num_to_str($ethereum_dominance) + $ct['var']->num_to_str($solana_dominance) + $ct['var']->num_to_str($miscassets_dominance) + $ct['var']->num_to_str($btcnfts_dominance) + $ct['var']->num_to_str($ethnfts_dominance) <= 99.99 ? ' &nbsp;/&nbsp; ' : '' );
 			}
 			
-			if ( $ct_var->num_to_str($solnfts_dominance) >= 0.01 ) {
+			if ( $ct['var']->num_to_str($solnfts_dominance) >= 0.01 ) {
 			$solnfts_dominance_text = '<span class="sol">' . number_format($solnfts_dominance, 2, '.', ',') . '% SOL NFTs</span>';
-			$seperator_solnfts = ( $ct_var->num_to_str($bitcoin_dominance) + $ct_var->num_to_str($ethereum_dominance) + $ct_var->num_to_str($solana_dominance) + $ct_var->num_to_str($miscassets_dominance) + $ct_var->num_to_str($btcnfts_dominance) + $ct_var->num_to_str($ethnfts_dominance) + $ct_var->num_to_str($solnfts_dominance) <= 99.99 ? ' &nbsp;/&nbsp; ' : '' );
+			$seperator_solnfts = ( $ct['var']->num_to_str($bitcoin_dominance) + $ct['var']->num_to_str($ethereum_dominance) + $ct['var']->num_to_str($solana_dominance) + $ct['var']->num_to_str($miscassets_dominance) + $ct['var']->num_to_str($btcnfts_dominance) + $ct['var']->num_to_str($ethnfts_dominance) + $ct['var']->num_to_str($solnfts_dominance) <= 99.99 ? ' &nbsp;/&nbsp; ' : '' );
 			}
 			
-			if ( $ct_var->num_to_str($altnfts_dominance) >= 0.01 ) {
+			if ( $ct['var']->num_to_str($altnfts_dominance) >= 0.01 ) {
 			$altnfts_dominance_text = '<span class="alt">' . number_format($altnfts_dominance, 2, '.', ',') . '% ALT NFTs</span>';
-			$seperator_altnfts = ( $ct_var->num_to_str($bitcoin_dominance) + $ct_var->num_to_str($ethereum_dominance) + $ct_var->num_to_str($solana_dominance) + $ct_var->num_to_str($miscassets_dominance) + $ct_var->num_to_str($btcnfts_dominance) + $ct_var->num_to_str($ethnfts_dominance) + $ct_var->num_to_str($solnfts_dominance) + $ct_var->num_to_str($altnfts_dominance) <= 99.99 ? ' &nbsp;/&nbsp; ' : '' );
+			$seperator_altnfts = ( $ct['var']->num_to_str($bitcoin_dominance) + $ct['var']->num_to_str($ethereum_dominance) + $ct['var']->num_to_str($solana_dominance) + $ct['var']->num_to_str($miscassets_dominance) + $ct['var']->num_to_str($btcnfts_dominance) + $ct['var']->num_to_str($ethnfts_dominance) + $ct['var']->num_to_str($solnfts_dominance) + $ct['var']->num_to_str($altnfts_dominance) <= 99.99 ? ' &nbsp;/&nbsp; ' : '' );
 			}
 			
-			if ( $ct_var->num_to_str($stocks_dominance) >= 0.01 ) {
+			if ( $ct['var']->num_to_str($stocks_dominance) >= 0.01 ) {
 			$stocks_dominance_text = number_format($stocks_dominance, 2, '.', ',') . '% Stocks';
-			$seperator_stocks = ( $ct_var->num_to_str($bitcoin_dominance) + $ct_var->num_to_str($ethereum_dominance) + $ct_var->num_to_str($solana_dominance) + $ct_var->num_to_str($miscassets_dominance) + $ct_var->num_to_str($btcnfts_dominance) + $ct_var->num_to_str($ethnfts_dominance) + $ct_var->num_to_str($solnfts_dominance) + $ct_var->num_to_str($altnfts_dominance) + $ct_var->num_to_str($stocks_dominance) <= 99.99 ? ' &nbsp;/&nbsp; ' : '' );
+			$seperator_stocks = ( $ct['var']->num_to_str($bitcoin_dominance) + $ct['var']->num_to_str($ethereum_dominance) + $ct['var']->num_to_str($solana_dominance) + $ct['var']->num_to_str($miscassets_dominance) + $ct['var']->num_to_str($btcnfts_dominance) + $ct['var']->num_to_str($ethnfts_dominance) + $ct['var']->num_to_str($solnfts_dominance) + $ct['var']->num_to_str($altnfts_dominance) + $ct['var']->num_to_str($stocks_dominance) <= 99.99 ? ' &nbsp;/&nbsp; ' : '' );
 			}
 			
-			if ( $ct_var->num_to_str($altcoin_dominance) >= 0.01 ) {
+			if ( $ct['var']->num_to_str($altcoin_dominance) >= 0.01 ) {
 			$altcoin_dominance_text = number_format($altcoin_dominance, 2, '.', ',') .'% Alt(s)';
 			}
 		
@@ -838,11 +838,11 @@ var fiat_val_content = '<h5 class="yellow tooltip_title">Primary Currency (<?=st
 				foreach ( $btc_worth_array as $key => $val ) {
 					
 					if ( $key == 'MISCASSETS' ) {
-					$key = 'MISC__' . strtoupper($ct_conf['gen']['btc_prim_currency_pair']);
+					$key = 'MISC__' . strtoupper($ct['conf']['gen']['btc_prim_currency_pair']);
 					}
 					
 			    // Remove any slight decimal over 100 (100.01 etc)
-				$balance_stats = $ct_var->max_100( ( $val / $total_btc_worth_raw ) * 100 );
+				$balance_stats = $ct['var']->max_100( ( $val / $total_btc_worth_raw ) * 100 );
 					
 					if ( $balance_stats >= 0.01 ) {
 					$balance_stats_encoded .= '&' . urlencode($key) . '=' . urlencode( number_format($balance_stats, 2, '.', ',') );
@@ -929,7 +929,7 @@ var fiat_val_content = '<h5 class="yellow tooltip_title">Primary Currency (<?=st
 	
   	<?php
   	// Performance chart START (requires price charts)
-	if ( $ct_conf['gen']['asset_charts_toggle'] == 'on' ) {
+	if ( $ct['conf']['gen']['asset_charts_toggle'] == 'on' ) {
 	?>
 	
 <fieldset class='subsection_fieldset'>
@@ -941,7 +941,7 @@ var fiat_val_content = '<h5 class="yellow tooltip_title">Primary Currency (<?=st
     
     <?php
     
-    $asset_perf_chart_defaults = explode("||", $ct_conf['power']['asset_perf_chart_defaults']);
+    $asset_perf_chart_defaults = explode("||", $ct['conf']['power']['asset_perf_chart_defaults']);
     
     	// Fallbacks
     	
@@ -976,9 +976,9 @@ var fiat_val_content = '<h5 class="yellow tooltip_title">Primary Currency (<?=st
     
     ">
 	<?php
-	foreach ($ct_conf['power']['light_chart_day_intervals'] as $light_chart_days) {
+	foreach ($ct['conf']['power']['light_chart_day_intervals'] as $light_chart_days) {
 	?>
-    <option value='<?=$light_chart_days?>' <?=( $light_chart_days == 'all' ? 'selected' : '' )?>> <?=$ct_gen->light_chart_time_period($light_chart_days, 'long')?> </option>
+    <option value='<?=$light_chart_days?>' <?=( $light_chart_days == 'all' ? 'selected' : '' )?>> <?=$ct['gen']->light_chart_time_period($light_chart_days, 'long')?> </option>
 	<?php
 	}
 	?>
@@ -1137,7 +1137,7 @@ var performance_chart_defaults_content = '<h5 class="yellow tooltip_title">Setti
  
   	<div style='min-width: 775px; width: 100%; min-height: 1px; background: #808080; border: 2px solid #918e8e; display: flex; flex-flow: column wrap; overflow: hidden;' class='chart_wrapper' id='performance_chart'>
 	
-	<span class='chart_loading' style='color: <?=$ct_conf['power']['charts_text']?>;'> &nbsp; Loading Asset Performance Chart...</span>
+	<span class='chart_loading' style='color: <?=$ct['conf']['power']['charts_text']?>;'> &nbsp; Loading Asset Performance Chart...</span>
 	
 	<div style='z-index: 99999; margin-top: 7px;' class='chart_reload align_center absolute_centered loading bitcoin'><img class='ajax_loader_image' src="templates/interface/media/images/auto-preloaded/loader.gif" height='17' alt="" style='vertical-align: middle;' /> <div class='chart_reload_msg'></div></div>
 		
@@ -1206,7 +1206,7 @@ zingchart.bind('performance_chart', 'label_click', function(e){
     
     <?php
     
-    $asset_mcap_chart_defaults = explode("||", $ct_conf['power']['asset_mcap_chart_defaults']);
+    $asset_mcap_chart_defaults = explode("||", $ct['conf']['power']['asset_mcap_chart_defaults']);
     
     	// Fallbacks
     	
@@ -1236,10 +1236,10 @@ zingchart.bind('performance_chart', 'label_click', function(e){
     Compare Against: <select class='browser-default custom-select' id='mcap_compare_diff' name='mcap_compare_diff'>
     <option value='none'> Nothing </option>
     <?php
-    foreach ( $ct_conf['assets'] as $key => $unused ) {
+    foreach ( $ct['conf']['assets'] as $key => $unused ) {
 		
 	// Consolidate function calls for runtime speed improvement
-	$mcap_data = $ct_asset->mcap_data($key, 'usd'); // For marketcap bar chart, we ALWAYS force using USD
+	$mcap_data = $ct['asset']->mcap_data($key, 'usd'); // For marketcap bar chart, we ALWAYS force using USD
     	
     	if ( $key != 'MISCASSETS' && isset($mcap_data['rank']) ) {
    	?>
@@ -1308,7 +1308,7 @@ zingchart.bind('performance_chart', 'label_click', function(e){
   
   // 'load'
   zingchart.exec('marketcap_chart', 'load', {
-  	dataurl: 'ajax.php?type=chart&mode=marketcap_data&mcap_type=' + document.getElementById('mcap_type').value + '&mcap_compare_diff=' + document.getElementById('mcap_compare_diff').value + '&chart_width=' + marketcap_chart_width + '&chart_height=' + document.getElementById('marketcap_data_height').value + '&menu_size=' + document.getElementById('marketcap_menu_size').value + '&marketcap_site=<?=$ct_conf['gen']['prim_mcap_site']?>&plot_conf=<?=$plot_conf?>' + zingchart_privacy,
+  	dataurl: 'ajax.php?type=chart&mode=marketcap_data&mcap_type=' + document.getElementById('mcap_type').value + '&mcap_compare_diff=' + document.getElementById('mcap_compare_diff').value + '&chart_width=' + marketcap_chart_width + '&chart_height=' + document.getElementById('marketcap_data_height').value + '&menu_size=' + document.getElementById('marketcap_menu_size').value + '&marketcap_site=<?=$ct['conf']['gen']['prim_mcap_site']?>&plot_conf=<?=$plot_conf?>' + zingchart_privacy,
     cache: {
         data: true
     }
@@ -1362,7 +1362,7 @@ var marketcap_chart_defaults_content = '<h5 class="yellow tooltip_title">Setting
  
   	<div style='min-width: 775px; width: 100%; min-height: 1px; background: #808080; border: 2px solid #918e8e; display: flex; flex-flow: column wrap; overflow: hidden;' class='chart_wrapper' id='marketcap_chart'>
 	
-	<span class='chart_loading' style='color: <?=$ct_conf['power']['charts_text']?>;'> &nbsp; Loading USD Marketcap Comparison Chart...</span>
+	<span class='chart_loading' style='color: <?=$ct['conf']['power']['charts_text']?>;'> &nbsp; Loading USD Marketcap Comparison Chart...</span>
 	
 	<div style='z-index: 99999; margin-top: 7px;' class='chart_reload align_center absolute_centered loading bitcoin'><img class='ajax_loader_image' src="templates/interface/media/images/auto-preloaded/loader.gif" height='17' alt="" style='vertical-align: middle;' /> <div class='chart_reload_msg'></div></div>
 		
@@ -1381,7 +1381,7 @@ $("#marketcap_chart span.chart_loading").hide(); // Hide "Loading chart X..." af
 
 zingchart.TOUCHZOOM = 'pinch'; /* mobile compatibility */
 
-$.get( "ajax.php?type=chart&mode=marketcap_data&mcap_type=circulating&mcap_compare_diff=none&chart_height=<?=$asset_mcap_chart_defaults[0]?>&menu_size=<?=$asset_mcap_chart_defaults[1]?>&marketcap_site=<?=$ct_conf['gen']['prim_mcap_site']?>&plot_conf=<?=$plot_conf?>" + zingchart_privacy, function( json_data ) {
+$.get( "ajax.php?type=chart&mode=marketcap_data&mcap_type=circulating&mcap_compare_diff=none&chart_height=<?=$asset_mcap_chart_defaults[0]?>&menu_size=<?=$asset_mcap_chart_defaults[1]?>&marketcap_site=<?=$ct['conf']['gen']['prim_mcap_site']?>&plot_conf=<?=$plot_conf?>" + zingchart_privacy, function( json_data ) {
  
 
 	// Mark chart as loaded after it has rendered
@@ -1448,7 +1448,7 @@ zingchart.bind('marketcap_chart', 'label_click', function(e){
   
   
   	<?php
-	if ( $ct_conf['gen']['asset_charts_toggle'] != 'on' ) {
+	if ( $ct['conf']['gen']['asset_charts_toggle'] != 'on' ) {
 	?>
 	<p class='yellow'>*Some stats are not available with price charts disabled.</p>
 	
@@ -1498,7 +1498,7 @@ zingchart.bind('marketcap_chart', 'label_click', function(e){
 	
 	<?php
 			// If hardware / software stats are enabled, display the os / hardware / load avg / temperature / free partition space / free memory [mb/percent] / portfolio cache size / software stats
-    		if ( $ct_gen->admin_logged_in() ) {
+    		if ( $ct['gen']->admin_logged_in() ) {
     ?>
 	
 		<fieldset><legend> <strong class="bitcoin">System Monitoring</strong> </legend>
@@ -1605,7 +1605,7 @@ zingchart.bind('marketcap_chart', 'label_click', function(e){
    
 	<?php
 		// If hardware / software stats are enabled, display the charts when designated link is clicked (in a modal)
-    	if ( $ct_gen->admin_logged_in() ) {
+    	if ( $ct['gen']->admin_logged_in() ) {
     ?>
 	
 	<div class='' id="show_system_stats">
@@ -1638,7 +1638,7 @@ zingchart.bind('marketcap_chart', 'label_click', function(e){
 			<?php
 			foreach ( $system_warnings as $alert_key => $alert_val ) {
 			?>
-			+'<p class="coin_info" style=" white-space: normal;"><span class="red"><?=$ct_gen->key_to_name($alert_key)?>:</span> <?=$alert_val?></p>'
+			+'<p class="coin_info" style=" white-space: normal;"><span class="red"><?=$ct['gen']->key_to_name($alert_key)?>:</span> <?=$alert_val?></p>'
 			<?php
 			}
 			?>
@@ -1673,61 +1673,61 @@ zingchart.bind('marketcap_chart', 'label_click', function(e){
 	
 	
     		// Output
-    		if ( isset($system_info['operating_system']) ) {
-    		echo '<div class="sys_stats"><span class="bitcoin"><b>Operating System:</b></span> <span class="blue"> '.$system_info['operating_system'].'</span> </div>';
+    		if ( isset($ct['system_info']['operating_system']) ) {
+    		echo '<div class="sys_stats"><span class="bitcoin"><b>Operating System:</b></span> <span class="blue"> '.$ct['system_info']['operating_system'].'</span> </div>';
     		}
     		
-    		if ( isset($system_info['distro_name']) ) {
-    		echo '<div class="sys_stats"><span class="bitcoin"><b>Distro:</b></span> <span class="blue"> '.$system_info['distro_name'].( isset($system_info['distro_version']) ? ' ' . $system_info['distro_version'] : '' ).'</span> </div>';
+    		if ( isset($ct['system_info']['distro_name']) ) {
+    		echo '<div class="sys_stats"><span class="bitcoin"><b>Distro:</b></span> <span class="blue"> '.$ct['system_info']['distro_name'].( isset($ct['system_info']['distro_version']) ? ' ' . $ct['system_info']['distro_version'] : '' ).'</span> </div>';
     		}
     		
-    		if ( isset($system_info['model']) || isset($system_info['hardware']) ) {
+    		if ( isset($ct['system_info']['model']) || isset($ct['system_info']['hardware']) ) {
     			
-    			if ( isset($system_info['model']) ) {
-    			echo '<div class="sys_stats"><span class="bitcoin"><b>Model:</b></span> <span class="blue"> '.$system_info['model'].( isset($system_info['hardware']) ? ' ('.$system_info['hardware'].')' : '' ).'</span> </div>';
+    			if ( isset($ct['system_info']['model']) ) {
+    			echo '<div class="sys_stats"><span class="bitcoin"><b>Model:</b></span> <span class="blue"> '.$ct['system_info']['model'].( isset($ct['system_info']['hardware']) ? ' ('.$ct['system_info']['hardware'].')' : '' ).'</span> </div>';
     			}
     			else {
-    			echo '<div class="sys_stats"><span class="bitcoin"><b>Hardware:</b></span> <span class="blue"> '.$system_info['hardware'].'</span> </div>';
+    			echo '<div class="sys_stats"><span class="bitcoin"><b>Hardware:</b></span> <span class="blue"> '.$ct['system_info']['hardware'].'</span> </div>';
     			}
     		
     		}
     		
-    		if ( isset($system_info['model_name']) ) {
-    		echo '<div class="sys_stats"><span class="bitcoin"><b>CPU:</b></span> <span class="blue"> '.$system_info['model_name'].'</span> ' . ( $system_info['cpu_threads'] > 0 ? '(' . $system_info['cpu_threads'] . ' threads)' : '' ) . ' </div>';
+    		if ( isset($ct['system_info']['model_name']) ) {
+    		echo '<div class="sys_stats"><span class="bitcoin"><b>CPU:</b></span> <span class="blue"> '.$ct['system_info']['model_name'].'</span> ' . ( $ct['system_info']['cpu_threads'] > 0 ? '(' . $ct['system_info']['cpu_threads'] . ' threads)' : '' ) . ' </div>';
     		}
-    		elseif ( isset($system_info['cpu_threads']) ) {
-    		echo '<div class="sys_stats"><span class="bitcoin"><b>CPU:</b></span> <span class="blue"> '.$system_info['cpu_threads'].' threads</span> </div>';
-    		}
-    		
-    		if ( isset($system_info['software']) ) {
-    		echo '<div class="sys_stats"><span class="bitcoin"><b>Server:</b></span> <span class="blue"> '.$system_info['software'].'</span> </div>';
+    		elseif ( isset($ct['system_info']['cpu_threads']) ) {
+    		echo '<div class="sys_stats"><span class="bitcoin"><b>CPU:</b></span> <span class="blue"> '.$ct['system_info']['cpu_threads'].' threads</span> </div>';
     		}
     		
-    		if ( isset($system_info['portfolio_cookies']) ) {
-    		echo '<div class="sys_stats"><span class="bitcoin"><b>Server Cookies Size:</b></span> <span class="'.( isset($system_warnings['portfolio_cookies_size']) ? 'red' : 'green' ).'"> '.$ct_var->num_pretty( ($system_info['portfolio_cookies'] / 1000) , 2).' Kilobytes</span> <span class="black">(~'.round( abs( ($system_info['portfolio_cookies'] / 1000) / abs(8.00) * 100 ) , 2).'% of <i>average</i> server header size limit [8 kilobytes])</span></span> &nbsp;<img class="tooltip_style_control server_header_defaults" src="templates/interface/media/images/info.png" alt="" width="30" style="position: relative; left: -5px;" /> </div>';
+    		if ( isset($ct['system_info']['software']) ) {
+    		echo '<div class="sys_stats"><span class="bitcoin"><b>Server:</b></span> <span class="blue"> '.$ct['system_info']['software'].'</span> </div>';
     		}
     		
-    		if ( isset($system_info['uptime']) ) {
-    		echo '<div class="sys_stats"><span class="bitcoin"><b>System Uptime:</b></span> <span class="'.( isset($system_warnings['uptime']) ? 'red' : 'green' ).'"> '.$system_info['uptime'].'</span> </div>';
+    		if ( isset($ct['system_info']['portfolio_cookies']) ) {
+    		echo '<div class="sys_stats"><span class="bitcoin"><b>Server Cookies Size:</b></span> <span class="'.( isset($system_warnings['portfolio_cookies_size']) ? 'red' : 'green' ).'"> '.$ct['var']->num_pretty( ($ct['system_info']['portfolio_cookies'] / 1000) , 2).' Kilobytes</span> <span class="black">(~'.round( abs( ($ct['system_info']['portfolio_cookies'] / 1000) / abs(8.00) * 100 ) , 2).'% of <i>average</i> server header size limit [8 kilobytes])</span></span> &nbsp;<img class="tooltip_style_control server_header_defaults" src="templates/interface/media/images/info.png" alt="" width="30" style="position: relative; left: -5px;" /> </div>';
     		}
     		
-    		if ( isset($system_info['system_load']) ) {
-    		echo '<div class="sys_stats"><span class="bitcoin"><b>System Load:</b></span> <span class="'.( isset($system_warnings['system_load']) ? 'red' : 'green' ).'"> '.$system_info['system_load'].'</span> </div>';
+    		if ( isset($ct['system_info']['uptime']) ) {
+    		echo '<div class="sys_stats"><span class="bitcoin"><b>System Uptime:</b></span> <span class="'.( isset($system_warnings['uptime']) ? 'red' : 'green' ).'"> '.$ct['system_info']['uptime'].'</span> </div>';
     		}
     		
-    		if ( isset($system_info['system_temp']) ) {
-    		echo '<div class="sys_stats"><span class="bitcoin"><b>System Temperature:</b></span> <span class="'.( isset($system_warnings['system_temp']) ? 'red' : 'green' ).'"> '.$system_info['system_temp'].' <span class="black">('.round( ($system_temp * 9 / 5 + 32), 2).'° Fahrenheit)</span></span> </div>';
+    		if ( isset($ct['system_info']['system_load']) ) {
+    		echo '<div class="sys_stats"><span class="bitcoin"><b>System Load:</b></span> <span class="'.( isset($system_warnings['system_load']) ? 'red' : 'green' ).'"> '.$ct['system_info']['system_load'].'</span> </div>';
     		}
     		
-    		if ( isset($system_info['memory_used_megabytes']) ) {
-    		echo '<div class="sys_stats"><span class="bitcoin"><b>USED Memory (*not* including buffers / cache):</b></span> <span class="'.( isset($system_warnings['memory_used_percent']) ? 'red' : 'green' ).'"> '.round($system_info['memory_used_megabytes'] / 1000, 4).' Gigabytes <span class="black">('.number_format($system_info['memory_used_megabytes'], 2, '.', ',').' Megabytes / '.$system_info['memory_used_percent'].'%)</span></span> </div>';
+    		if ( isset($ct['system_info']['system_temp']) ) {
+    		echo '<div class="sys_stats"><span class="bitcoin"><b>System Temperature:</b></span> <span class="'.( isset($system_warnings['system_temp']) ? 'red' : 'green' ).'"> '.$ct['system_info']['system_temp'].' <span class="black">('.round( ($system_temp * 9 / 5 + 32), 2).'° Fahrenheit)</span></span> </div>';
     		}
     		
-    		if ( isset($system_info['free_partition_space']) ) {
+    		if ( isset($ct['system_info']['memory_used_megabytes']) ) {
+    		echo '<div class="sys_stats"><span class="bitcoin"><b>USED Memory (*not* including buffers / cache):</b></span> <span class="'.( isset($system_warnings['memory_used_percent']) ? 'red' : 'green' ).'"> '.round($ct['system_info']['memory_used_megabytes'] / 1000, 4).' Gigabytes <span class="black">('.number_format($ct['system_info']['memory_used_megabytes'], 2, '.', ',').' Megabytes / '.$ct['system_info']['memory_used_percent'].'%)</span></span> </div>';
+    		}
+    		
+    		if ( isset($ct['system_info']['free_partition_space']) ) {
     		echo '<div class="sys_stats"><span class="bitcoin"><b>FREE Disk Space:</b></span> <span class="'.( isset($system_warnings['free_partition_space']) ? 'red' : 'green' ).'"> '.round($system_free_space_mb / 1000000, 4).' Terabytes <span class="black">('.number_format($system_free_space_mb / 1000, 2, '.', ',').' Gigabytes)</span></span> </div>';
     		}
     		
-    		if ( isset($system_info['portfolio_cache']) ) {
+    		if ( isset($ct['system_info']['portfolio_cache']) ) {
     		echo '<div class="sys_stats"><span class="bitcoin"><b>Open Crypto Tracker Cache Size:</b></span> <span class="'.( isset($system_warnings['portfolio_cache_size']) ? 'red' : 'green' ).'"> '.round($portfolio_cache_size_mb / 1000, 4).' Gigabytes <span class="black">('.number_format($portfolio_cache_size_mb, 2, '.', ',').' Megabytes)</span></span> </div>';
     		}
     		
@@ -1782,7 +1782,7 @@ var server_header_defaults_content = '<h5 class="yellow tooltip_title">Average S
    <ul>
 	
         <?php
-        if ( $app_edition == 'desktop' ) {
+        if ( $ct['app_edition'] == 'desktop' ) {
         ?>
 	<li class='red' style='font-weight: bold;'>Using 'zoom' (top right) can skew chart hovering mouse positions.</li>	
         <?php
@@ -1802,7 +1802,7 @@ var server_header_defaults_content = '<h5 class="yellow tooltip_title">Average S
    
 	
 	<?php
-	$all_chart_rebuild_min_max = explode(',', $ct_conf['power']['light_chart_all_rebuild_min_max']);
+	$all_chart_rebuild_min_max = explode(',', $ct['conf']['power']['light_chart_all_rebuild_min_max']);
 	?>
 	
 	<p class='sys_stats red' style='font-weight: bold;'>*The "Server Cookies Size" telemetry data above <i>is not tracked in the system charts, because it's ONLY available in the user interface runtime (NOT the cron job runtime)</i>.</p>				
@@ -1814,7 +1814,7 @@ var server_header_defaults_content = '<h5 class="yellow tooltip_title">Average S
 	
 	<div style='display: flex; flex-flow: column wrap; overflow: hidden;' class='chart_wrapper' id='sys_stats_chart_1'>
 	
-	<span class='chart_loading' style='color: <?=$ct_conf['power']['charts_text']?>;'> &nbsp; Loading chart #1 for system data...</span>
+	<span class='chart_loading' style='color: <?=$ct['conf']['power']['charts_text']?>;'> &nbsp; Loading chart #1 for system data...</span>
 	
 	<div style='z-index: 99999; margin-top: 7px;' class='chart_reload align_center absolute_centered loading bitcoin'><img class='ajax_loader_image' src="templates/interface/media/images/auto-preloaded/loader.gif" height='17' alt="" style='vertical-align: middle;' /> <div class='chart_reload_msg'></div></div>
 	
@@ -1835,7 +1835,7 @@ var server_header_defaults_content = '<h5 class="yellow tooltip_title">Average S
 	
 	<div style='display: flex; flex-flow: column wrap; overflow: hidden;' class='chart_wrapper' id='sys_stats_chart_2'>
 	
-	<span class='chart_loading' style='color: <?=$ct_conf['power']['charts_text']?>;'> &nbsp; Loading chart #2 for system data...</span>
+	<span class='chart_loading' style='color: <?=$ct['conf']['power']['charts_text']?>;'> &nbsp; Loading chart #2 for system data...</span>
 	
 	<div style='z-index: 99999; margin-top: 7px;' class='chart_reload align_center absolute_centered loading bitcoin'><img class='ajax_loader_image' src="templates/interface/media/images/auto-preloaded/loader.gif" height='17' alt="" style='vertical-align: middle;' /> <div class='chart_reload_msg'></div></div>
 	
@@ -1988,7 +1988,7 @@ var server_header_defaults_content = '<h5 class="yellow tooltip_title">Average S
 	    </fieldset>
 				
 	<?php
-	if ( $ct_conf['power']['debug_mode'] != 'off' || is_readable($base_dir . '/cache/logs/debug.log') ) {
+	if ( $ct['conf']['power']['debug_mode'] != 'off' || is_readable($ct['base_dir'] . '/cache/logs/debug.log') ) {
 	?>
 	    <fieldset class='subsection_fieldset'><legend class='subsection_legend'> Debugging Log </legend>
 	        
@@ -2017,7 +2017,7 @@ var server_header_defaults_content = '<h5 class="yellow tooltip_title">Average S
 	    
 	<?php
 	}
-	if ( is_readable($base_dir . '/cache/logs/smtp_error.log') ) {
+	if ( is_readable($ct['base_dir'] . '/cache/logs/smtp_error.log') ) {
 	?>
 	    <fieldset class='subsection_fieldset'><legend class='subsection_legend'> SMTP Error Log </legend>
 	        
@@ -2045,7 +2045,7 @@ var server_header_defaults_content = '<h5 class="yellow tooltip_title">Average S
 	    </fieldset>
 	<?php
 	}
-	if ( is_readable($base_dir . '/cache/logs/smtp_debug.log') ) {
+	if ( is_readable($ct['base_dir'] . '/cache/logs/smtp_debug.log') ) {
 	?>
 	    <fieldset class='subsection_fieldset'><legend class='subsection_legend'> SMTP Debugging Log </legend>
 	        

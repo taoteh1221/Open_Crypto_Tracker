@@ -10,13 +10,13 @@
 
 
 // DEBUGGING ONLY (checking logging capability)
-//$ct_cache->check_log('plugins/' . $this_plug . '/plug-lib/plug-init.php:start');
+//$ct['cache']->check_log('plugins/' . $this_plug . '/plug-lib/plug-init.php:start');
 
 
-$debt_form_action = $ct_gen->start_page($plug_conf[$this_plug]['ui_location']); // Make the page it's on the start page (for results UX)
+$debt_form_action = $ct['gen']->start_page($plug_conf[$this_plug]['ui_location']); // Make the page it's on the start page (for results UX)
 ?>
 
-<link rel="stylesheet" href="<?=$ct_plug->plug_dir(true)?>/plug-assets/style.css" type="text/css" />
+<link rel="stylesheet" href="<?=$ct['plug']->plug_dir(true)?>/plug-assets/style.css" type="text/css" />
 	
 
     <div class="container">
@@ -53,8 +53,8 @@ $debt_form_action = $ct_gen->start_page($plug_conf[$this_plug]['ui_location']); 
                                 
                             // Filter vars
                             $val['account'] = trim($val['account']);
-                            $val['amount'] = $ct_var->strip_formatting($val['amount']);
-                            $val['apr'] = $ct_var->strip_formatting($val['apr']);
+                            $val['amount'] = $ct['var']->strip_formatting($val['amount']);
+                            $val['apr'] = $ct['var']->strip_formatting($val['apr']);
                             
                                 
                                 if ( $val['account'] != '' && is_numeric($val['amount']) && is_numeric($val['apr']) ) {
@@ -73,7 +73,7 @@ $debt_form_action = $ct_gen->start_page($plug_conf[$this_plug]['ui_location']); 
                           			</div>
                           			
                           			<div class="extra_margins col-lg-2">
-                          			<label class='blue' for="amount_<?=$key?>">Debt Amount <?=$ct_conf['power']['btc_currency_mrkts'][ $ct_conf['gen']['btc_prim_currency_pair'] ]?></label>
+                          			<label class='blue' for="amount_<?=$key?>">Debt Amount <?=$ct['conf']['power']['btc_currency_mrkts'][ $ct['conf']['gen']['btc_prim_currency_pair'] ]?></label>
                           			<input type="text" class="span2 form-control" name="accounts_labels[<?=$key?>][amount]" value="<?=number_format($val['amount'], 2, '.', ',')?>" id="amount_<?=$key?>">
                         			</div>
                     			
@@ -147,8 +147,8 @@ $debt_form_action = $ct_gen->start_page($plug_conf[$this_plug]['ui_location']); 
 
         
         <p class='debt_results_total'>
-        Total Monthly Interest: <?=$ct_conf['power']['btc_currency_mrkts'][ $ct_conf['gen']['btc_prim_currency_pair'] ] . number_format($debt_monthly_interest_total, 2, '.', ',')?><br />
-        Total Yearly Interest: <?=$ct_conf['power']['btc_currency_mrkts'][ $ct_conf['gen']['btc_prim_currency_pair'] ] . number_format($debt_yearly_interest_total, 2, '.', ',')?>
+        Total Monthly Interest: <?=$ct['conf']['power']['btc_currency_mrkts'][ $ct['conf']['gen']['btc_prim_currency_pair'] ] . number_format($debt_monthly_interest_total, 2, '.', ',')?><br />
+        Total Yearly Interest: <?=$ct['conf']['power']['btc_currency_mrkts'][ $ct['conf']['gen']['btc_prim_currency_pair'] ] . number_format($debt_yearly_interest_total, 2, '.', ',')?>
         </p>
         
 
@@ -170,7 +170,7 @@ $debt_form_action = $ct_gen->start_page($plug_conf[$this_plug]['ui_location']); 
   			<input type="text" class="span6 form-control" name="accounts_labels[{?}][account]" value="{account}" id="account_{?}">
   			</div>
   			<div class="extra_margins col-lg-2">
-  			<label class='blue' for="amount_{?}">Debt Amount <?=$ct_conf['power']['btc_currency_mrkts'][ $ct_conf['gen']['btc_prim_currency_pair'] ]?></label>
+  			<label class='blue' for="amount_{?}">Debt Amount <?=$ct['conf']['power']['btc_currency_mrkts'][ $ct['conf']['gen']['btc_prim_currency_pair'] ]?></label>
   			<input type="text" class="span2 form-control" name="accounts_labels[{?}][amount]" value="{amount}" id="amount_{?}">
 			</div>
   			<div class="extra_margins col-lg-2">
@@ -205,7 +205,7 @@ $debt_form_action = $ct_gen->start_page($plug_conf[$this_plug]['ui_location']); 
 
 
 // DEBUGGING ONLY (checking logging capability)
-//$ct_cache->check_log('plugins/' . $this_plug . '/plug-lib/plug-init.php:end');
+//$ct['cache']->check_log('plugins/' . $this_plug . '/plug-lib/plug-init.php:end');
 
 
 // DON'T LEAVE ANY WHITESPACE AFTER THE CLOSING PHP TAG!

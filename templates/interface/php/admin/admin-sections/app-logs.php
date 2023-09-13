@@ -51,7 +51,7 @@
 	    </fieldset>
 				
 	<?php
-	if ( $ct_conf['power']['debug_mode'] != 'off' || is_readable($base_dir . '/cache/logs/debug.log') ) {
+	if ( $ct['conf']['power']['debug_mode'] != 'off' || is_readable($ct['base_dir'] . '/cache/logs/debug.log') ) {
 	?>
 	    <fieldset class='subsection_fieldset'><legend class='subsection_legend'> Debugging Log </legend>
 	        
@@ -80,7 +80,7 @@
 	    
 	<?php
 	}
-	if ( is_readable($base_dir . '/cache/logs/smtp_error.log') ) {
+	if ( is_readable($ct['base_dir'] . '/cache/logs/smtp_error.log') ) {
 	?>
 	    <fieldset class='subsection_fieldset'><legend class='subsection_legend'> SMTP Error Log </legend>
 	        
@@ -108,7 +108,7 @@
 	    </fieldset>
 	<?php
 	}
-	if ( is_readable($base_dir . '/cache/logs/smtp_debug.log') ) {
+	if ( is_readable($ct['base_dir'] . '/cache/logs/smtp_debug.log') ) {
 	?>
 	    <fieldset class='subsection_fieldset'><legend class='subsection_legend'> SMTP Debugging Log </legend>
 	        

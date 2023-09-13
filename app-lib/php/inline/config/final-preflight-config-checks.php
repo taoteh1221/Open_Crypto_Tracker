@@ -9,16 +9,16 @@
 
 
 // Proxy configuration check
-if ( is_array($ct_conf['proxy']['proxy_list']) && sizeof($ct_conf['proxy']['proxy_list']) > 0 ) {
+if ( is_array($ct['conf']['proxy']['proxy_list']) && sizeof($ct['conf']['proxy']['proxy_list']) > 0 ) {
 	
 
 $proxy_parse_errors = 0;
 	
 	
 	// Email for proxy alerts
-	if ( $ct_conf['comms']['proxy_alert'] == 'email' || $ct_conf['comms']['proxy_alert'] == 'all' ) {
+	if ( $ct['conf']['comms']['proxy_alert'] == 'email' || $ct['conf']['comms']['proxy_alert'] == 'all' ) {
 		
-          if ( trim($ct_conf['comms']['from_email']) != '' && trim($ct_conf['comms']['to_email']) != '' ) { 	
+          if ( trim($ct['conf']['comms']['from_email']) != '' && trim($ct['conf']['comms']['to_email']) != '' ) { 	
      					
      	    // Config error check(s)
               if ( $valid_from_email != 'valid' ) {
@@ -38,7 +38,7 @@ $proxy_parse_errors = 0;
 
 	
 	// Text for proxy alerts
-	if ( $ct_conf['comms']['proxy_alert'] == 'text' && $sms_service != null || $ct_conf['comms']['proxy_alert'] == 'all' && $sms_service != null ) {
+	if ( $ct['conf']['comms']['proxy_alert'] == 'text' && $sms_service != null || $ct['conf']['comms']['proxy_alert'] == 'all' && $sms_service != null ) {
     
 				
 	    // Config error check(s)
@@ -52,7 +52,7 @@ $proxy_parse_errors = 0;
          $proxy_parse_errors = $proxy_parse_errors + 1;
          }
           		
-         if ( isset($text_email_gateway_check[1]) && $text_email_gateway_check[1] != 'skip_network_name' && $ct_gen->valid_email( $ct_gen->text_email($ct_conf['comms']['to_mobile_text']) ) != 'valid' ) {
+         if ( isset($text_email_gateway_check[1]) && $text_email_gateway_check[1] != 'skip_network_name' && $ct['gen']->valid_email( $ct['gen']->text_email($ct['conf']['comms']['to_mobile_text']) ) != 'valid' ) {
          $conf_parse_error[] = 'Mobile text services carrier name (for email-to-text) not configured properly for proxy alerts.';
          $proxy_parse_errors = $proxy_parse_errors + 1;
          }
@@ -64,9 +64,9 @@ $proxy_parse_errors = 0;
 	// proxy login configuration check
 	
 	// To be safe, don't use trim() on certain strings with arbitrary non-alphanumeric characters here
-	if ( $ct_conf['proxy']['proxy_login'] != '' ) {
+	if ( $ct['conf']['proxy']['proxy_login'] != '' ) {
 		
-	$proxy_login_parse = explode("||", $ct_conf['proxy']['proxy_login'] );
+	$proxy_login_parse = explode("||", $ct['conf']['proxy']['proxy_login'] );
          
 		if ( is_array($proxy_login_parse) && sizeof($proxy_login_parse) < 2 || trim($proxy_login_parse[0]) == '' || $proxy_login_parse[1] == '' ) {
    	     $conf_parse_error[] = 'Proxy username / password not formatted properly.';
@@ -77,7 +77,7 @@ $proxy_parse_errors = 0;
 	
           	
 	// Check proxy config
-	foreach ( $ct_conf['proxy']['proxy_list'] as $proxy ) {
+	foreach ( $ct['conf']['proxy']['proxy_list'] as $proxy ) {
           		
 	$proxy_str = explode(":",$proxy);
           	
@@ -100,7 +100,7 @@ $proxy_parse_errors = 0;
      }
 
      if ( $proxy_conf_alert ) {
-     $ct_gen->log('conf_error', $proxy_conf_alert);
+     $ct['gen']->log('conf_error', $proxy_conf_alert);
      }
           		
      // Displaying if checks passed
@@ -119,24 +119,24 @@ $conf_parse_error = NULL; // Blank it out for any other config checks
 
 
 // Check default Bitcoin market/pair configs (used by charts/alerts)
-if ( !isset( $ct_conf['assets']['BTC']['pair'][$default_btc_prim_currency_pair] ) ) {
+if ( !isset( $ct['conf']['assets']['BTC']['pair'][$default_btc_prim_currency_pair] ) ) {
 
 
-	foreach ( $ct_conf['assets']['BTC']['pair'] as $pair_key => $unused ) {
+	foreach ( $ct['conf']['assets']['BTC']['pair'] as $pair_key => $unused ) {
 	$avialable_btc_pairs .= strtolower($pair_key) . ', ';
 	}
 	
 	$avialable_btc_pairs = trim($avialable_btc_pairs);
 	$avialable_btc_pairs = rtrim($avialable_btc_pairs,',');
 	
-$conf_parse_error[] = 'Charts and price alerts cannot run properly, because the "btc_prim_currency_pair" (default Bitcoin currency pair) value \''.$ct_conf['gen']['btc_prim_currency_pair'].'\' (in Admin Config GENERAL section) is not a valid Bitcoin pair option (valid Bitcoin pair options are: '.$avialable_btc_pairs.')';
+$conf_parse_error[] = 'Charts and price alerts cannot run properly, because the "btc_prim_currency_pair" (default Bitcoin currency pair) value \''.$ct['conf']['gen']['btc_prim_currency_pair'].'\' (in Admin Config GENERAL section) is not a valid Bitcoin pair option (valid Bitcoin pair options are: '.$avialable_btc_pairs.')';
 
 
 }
-elseif ( !isset( $ct_conf['assets']['BTC']['pair'][$default_btc_prim_currency_pair][$default_btc_prim_exchange] ) ) {
+elseif ( !isset( $ct['conf']['assets']['BTC']['pair'][$default_btc_prim_currency_pair][$default_btc_prim_exchange] ) ) {
 
 
-	foreach ( $ct_conf['assets']['BTC']['pair'][$default_btc_prim_currency_pair] as $pair_key => $unused ) {
+	foreach ( $ct['conf']['assets']['BTC']['pair'][$default_btc_prim_currency_pair] as $pair_key => $unused ) {
 		
 		if( stristr($pair_key, 'bitmex_') == false ) { // Futures markets not allowed
 		$avialable_btc_prim_exchanges .= strtolower($pair_key) . ', ';
@@ -157,11 +157,11 @@ $conf_parse_error[] = 'Charts and price alerts cannot run properly, because the 
 
           
 // Check other charts/price alerts configs
-if ( trim($ct_conf['comms']['from_email']) != '' || trim($ct_conf['comms']['to_email']) != '' || $sms_service != null || $notifyme_activated ) {
+if ( trim($ct['conf']['comms']['from_email']) != '' || trim($ct['conf']['comms']['to_email']) != '' || $sms_service != null || $notifyme_activated ) {
           
           
 	 // Email
-      if ( trim($ct_conf['comms']['from_email']) != '' || trim($ct_conf['comms']['to_email']) != '' ) {
+      if ( trim($ct['conf']['comms']['from_email']) != '' || trim($ct['conf']['comms']['to_email']) != '' ) {
       	
       $alerts_enabled_types[] = 'Email';
 					
@@ -192,7 +192,7 @@ if ( trim($ct_conf['comms']['from_email']) != '' || trim($ct_conf['comms']['to_e
          $conf_parse_error[] = 'Number for text email not configured properly for price alerts.';
          }
           		
-         if ( isset($text_email_gateway_check[1]) && $text_email_gateway_check[1] != 'skip_network_name' && $ct_gen->valid_email( $ct_gen->text_email($ct_conf['comms']['to_mobile_text']) ) != 'valid' ) {
+         if ( isset($text_email_gateway_check[1]) && $text_email_gateway_check[1] != 'skip_network_name' && $ct['gen']->valid_email( $ct['gen']->text_email($ct['conf']['comms']['to_mobile_text']) ) != 'valid' ) {
          $conf_parse_error[] = 'Mobile text services carrier name (for email-to-text) not configured properly for price alerts.';
          }
           	
@@ -222,13 +222,13 @@ if ( trim($ct_conf['comms']['from_email']) != '' || trim($ct_conf['comms']['to_e
           		
           		
 
-	    // Check $ct_conf['charts_alerts']['tracked_mrkts'] config
-	    if ( !is_array($ct_conf['charts_alerts']['tracked_mrkts']) ) {
+	    // Check $ct['conf']['charts_alerts']['tracked_mrkts'] config
+	    if ( !is_array($ct['conf']['charts_alerts']['tracked_mrkts']) ) {
 	    $conf_parse_error[] = 'The asset / exchange / pair price alert formatting is corrupt, or not configured yet.';
 	    }
 			
 			
-	    foreach ( $ct_conf['charts_alerts']['tracked_mrkts'] as $key => $val ) {
+	    foreach ( $ct['conf']['charts_alerts']['tracked_mrkts'] as $key => $val ) {
    		       		
 	    $alerts_str = explode("||", $val);
    		       	
@@ -252,7 +252,7 @@ if ( trim($ct_conf['comms']['from_email']) != '' || trim($ct_conf['comms']['to_e
           		
 
 	    if ( $price_change_conf_alert ) {
-	    $ct_gen->log('conf_error', $price_change_conf_alert);
+	    $ct['gen']->log('conf_error', $price_change_conf_alert);
 	    }
           		
          // Displaying if checks passed
@@ -273,12 +273,12 @@ if ( trim($ct_conf['comms']['from_email']) != '' || trim($ct_conf['comms']['to_e
 
 // Check SMTP configs
 // To be safe, don't use trim() on certain strings with arbitrary non-alphanumeric characters here
-if ( $ct_conf['comms']['smtp_login'] != '' && $ct_conf['comms']['smtp_server'] != '' ) {
+if ( $ct['conf']['comms']['smtp_login'] != '' && $ct['conf']['comms']['smtp_server'] != '' ) {
 	
 	
 // SMTP configuration check
-$smtp_email_login_parse = explode("||", $ct_conf['comms']['smtp_login'] );
-$smtp_email_server_parse = explode(":", $ct_conf['comms']['smtp_server'] );
+$smtp_email_login_parse = explode("||", $ct['conf']['comms']['smtp_login'] );
+$smtp_email_server_parse = explode(":", $ct['conf']['comms']['smtp_server'] );
 
 
    if ( is_array($smtp_email_login_parse) && sizeof($smtp_email_login_parse) < 2 || trim($smtp_email_login_parse[0]) == '' || $smtp_email_login_parse[1] == '' ) {
@@ -302,7 +302,7 @@ $smtp_email_server_parse = explode(":", $ct_conf['comms']['smtp_server'] );
           		
 
    if ( $smtp_conf_alert ) {
-   $ct_gen->log('conf_error', $smtp_conf_alert);
+   $ct['gen']->log('conf_error', $smtp_conf_alert);
    }
 
         
@@ -321,7 +321,7 @@ $conf_parse_error = NULL; // Blank it out for any other config checks
 
 
 // Email logs configs
-if ( $ct_conf['comms']['logs_email'] > 0 && trim($ct_conf['comms']['from_email']) != '' && trim($ct_conf['comms']['to_email']) != '' ) {
+if ( $ct['conf']['comms']['logs_email'] > 0 && trim($ct['conf']['comms']['from_email']) != '' && trim($ct['conf']['comms']['to_email']) != '' ) {
 					
 					
    // Config error check(s)
@@ -346,7 +346,7 @@ if ( $ct_conf['comms']['logs_email'] > 0 && trim($ct_conf['comms']['from_email']
           		
 
    if ( $logs_conf_alert ) {
-   $ct_gen->log('conf_error', $logs_conf_alert);
+   $ct['gen']->log('conf_error', $logs_conf_alert);
    }
 
         
@@ -364,7 +364,7 @@ $conf_parse_error = NULL; // Blank it out for any other config checks
 
 
 // Email backup archives configs
-if ( $ct_conf['gen']['asset_charts_toggle'] == 'on' && $ct_conf['gen']['charts_backup_freq'] > 0 && trim($ct_conf['comms']['from_email']) != '' && trim($ct_conf['comms']['to_email']) != '' ) {
+if ( $ct['conf']['gen']['asset_charts_toggle'] == 'on' && $ct['conf']['gen']['charts_backup_freq'] > 0 && trim($ct['conf']['comms']['from_email']) != '' && trim($ct['conf']['comms']['to_email']) != '' ) {
 					
    // Config error check(s)
    if ( $valid_from_email != 'valid' ) {
@@ -388,7 +388,7 @@ if ( $ct_conf['gen']['asset_charts_toggle'] == 'on' && $ct_conf['gen']['charts_b
           		
 
    if ( $backuparchive_conf_alert ) {
-   $ct_gen->log('conf_error', $backuparchive_conf_alert);
+   $ct['gen']->log('conf_error', $backuparchive_conf_alert);
    }
 
         
@@ -405,17 +405,17 @@ $conf_parse_error = NULL; // Blank it out for any other config checks
 
 
 
-// Check $ct_conf['assets'] config
-if ( !is_array($ct_conf['assets']) ) {
-$ct_gen->log('conf_error', 'The portfolio assets formatting is corrupt, or not configured yet');
+// Check $ct['conf']['assets'] config
+if ( !is_array($ct['conf']['assets']) ) {
+$ct['gen']->log('conf_error', 'The portfolio assets formatting is corrupt, or not configured yet');
 }
 
 
 // Check default / dynamic Bitcoin market/pair configs
-if ( !isset( $ct_conf['assets']['BTC']['pair'][ $ct_conf['gen']['btc_prim_currency_pair'] ] ) ) {
+if ( !isset( $ct['conf']['assets']['BTC']['pair'][ $ct['conf']['gen']['btc_prim_currency_pair'] ] ) ) {
 
 
-	foreach ( $ct_conf['assets']['BTC']['pair'] as $pair_key => $unused ) {
+	foreach ( $ct['conf']['assets']['BTC']['pair'] as $pair_key => $unused ) {
 	$avialable_btc_pairs .= strtolower($pair_key) . ', ';
 	}
 
@@ -424,17 +424,17 @@ $avialable_btc_pairs = trim($avialable_btc_pairs);
 $avialable_btc_pairs = rtrim($avialable_btc_pairs,',');
 
 
-$ct_gen->log(
+$ct['gen']->log(
 		  'conf_error',
-		  'Portfolio cannot run properly, because the "btc_prim_currency_pair" (Bitcoin primary currency pair) value \''.$ct_conf['gen']['btc_prim_currency_pair'].'\' is not a valid Bitcoin pair option (valid Bitcoin pair options are: '.$avialable_btc_pairs.')'
+		  'Portfolio cannot run properly, because the "btc_prim_currency_pair" (Bitcoin primary currency pair) value \''.$ct['conf']['gen']['btc_prim_currency_pair'].'\' is not a valid Bitcoin pair option (valid Bitcoin pair options are: '.$avialable_btc_pairs.')'
 		   );
 
 
 }
-elseif ( !isset( $ct_conf['assets']['BTC']['pair'][ $ct_conf['gen']['btc_prim_currency_pair'] ][ $ct_conf['gen']['btc_prim_exchange'] ] ) ) {
+elseif ( !isset( $ct['conf']['assets']['BTC']['pair'][ $ct['conf']['gen']['btc_prim_currency_pair'] ][ $ct['conf']['gen']['btc_prim_exchange'] ] ) ) {
 
 
-	foreach ( $ct_conf['assets']['BTC']['pair'][ $ct_conf['gen']['btc_prim_currency_pair'] ] as $pair_key => $unused ) {
+	foreach ( $ct['conf']['assets']['BTC']['pair'][ $ct['conf']['gen']['btc_prim_currency_pair'] ] as $pair_key => $unused ) {
 		
 		if( stristr($pair_key, 'bitmex_') == false ) { // Futures markets not allowed
 		$avialable_btc_prim_exchanges .= strtolower($pair_key) . ', ';
@@ -446,9 +446,9 @@ elseif ( !isset( $ct_conf['assets']['BTC']['pair'][ $ct_conf['gen']['btc_prim_cu
 $avialable_btc_prim_exchanges = trim($avialable_btc_prim_exchanges);
 $avialable_btc_prim_exchanges = rtrim($avialable_btc_prim_exchanges,',');
 
-$ct_gen->log(
+$ct['gen']->log(
 		  'conf_error',
-		  'Portfolio cannot run properly, because the "btc_prim_exchange" (Bitcoin exchange) value \''.$ct_conf['gen']['btc_prim_exchange'].'\' is not a valid option for \''.$ct_conf['gen']['btc_prim_currency_pair'].'\' Bitcoin pairs (valid \''.$ct_conf['gen']['btc_prim_currency_pair'].'\' Bitcoin pair options are: '.$avialable_btc_prim_exchanges.')'
+		  'Portfolio cannot run properly, because the "btc_prim_exchange" (Bitcoin exchange) value \''.$ct['conf']['gen']['btc_prim_exchange'].'\' is not a valid option for \''.$ct['conf']['gen']['btc_prim_currency_pair'].'\' Bitcoin pairs (valid \''.$ct['conf']['gen']['btc_prim_currency_pair'].'\' Bitcoin pair options are: '.$avialable_btc_prim_exchanges.')'
 		  );
 
 

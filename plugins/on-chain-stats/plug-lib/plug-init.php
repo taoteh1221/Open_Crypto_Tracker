@@ -10,12 +10,12 @@
 
 
 // DEBUGGING ONLY (checking logging capability)
-//$ct_cache->check_log('plugins/' . $this_plug . '/plug-lib/plug-init.php:start');
+//$ct['cache']->check_log('plugins/' . $this_plug . '/plug-lib/plug-init.php:start');
 
 
 ?>
 
-<link rel="stylesheet" href="<?=$ct_plug->plug_dir(true)?>/plug-assets/style.css" type="text/css" />
+<link rel="stylesheet" href="<?=$ct['plug']->plug_dir(true)?>/plug-assets/style.css" type="text/css" />
 	
 
     <div class="container">
@@ -30,7 +30,7 @@
 
 
 // DEBUGGING ONLY (checking logging capability)
-//$ct_cache->check_log('plugins/' . $this_plug . '/plug-lib/plug-init.php:end');
+//$ct['cache']->check_log('plugins/' . $this_plug . '/plug-lib/plug-init.php:end');
 
 
 // DON'T LEAVE ANY WHITESPACE AFTER THE CLOSING PHP TAG!

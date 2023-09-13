@@ -17,9 +17,9 @@
 
 	<div style='margin: 25px;'>
 	
-	<form name='reset_int_api' id='reset_int_api' action='admin.php?iframe=<?=$ct_gen->admin_hashed_nonce('iframe_reset_backup_restore')?>&section=reset_backup_restore&refresh=iframe_webhook_int_api' method='post'>
+	<form name='reset_int_api' id='reset_int_api' action='admin.php?iframe=<?=$ct['gen']->admin_hashed_nonce('iframe_reset_backup_restore')?>&section=reset_backup_restore&refresh=iframe_webhook_int_api' method='post'>
 	
-	<input type='hidden' name='admin_hashed_nonce' value='<?=$ct_gen->admin_hashed_nonce('reset_int_api_key')?>' />
+	<input type='hidden' name='admin_hashed_nonce' value='<?=$ct['gen']->admin_hashed_nonce('reset_int_api_key')?>' />
 	
 	<input type='hidden' name='reset_int_api_key' value='1' />
 	
@@ -47,9 +47,9 @@
 
 	<div style='margin: 25px;'>
 	
-	<form name='reset_light_charts' id='reset_light_charts' action='admin.php?iframe=<?=$ct_gen->admin_hashed_nonce('iframe_reset_backup_restore')?>&section=reset_backup_restore&refresh=iframe_charts_alerts' method='post'>
+	<form name='reset_light_charts' id='reset_light_charts' action='admin.php?iframe=<?=$ct['gen']->admin_hashed_nonce('iframe_reset_backup_restore')?>&section=reset_backup_restore&refresh=iframe_charts_alerts' method='post'>
 	
-	<input type='hidden' name='admin_hashed_nonce' value='<?=$ct_gen->admin_hashed_nonce('reset_light_charts')?>' />
+	<input type='hidden' name='admin_hashed_nonce' value='<?=$ct['gen']->admin_hashed_nonce('reset_light_charts')?>' />
 	
 	<input type='hidden' name='reset_light_charts' value='1' />
 	
@@ -77,9 +77,9 @@
 
 	<div style='margin: 25px;'>
 	
-	<form name='reset_ct_conf' id='reset_ct_conf' action='admin.php?iframe=<?=$ct_gen->admin_hashed_nonce('iframe_reset_backup_restore')?>&section=reset_backup_restore&refresh=all' method='post'>
+	<form name='reset_ct_conf' id='reset_ct_conf' action='admin.php?iframe=<?=$ct['gen']->admin_hashed_nonce('iframe_reset_backup_restore')?>&section=reset_backup_restore&refresh=all' method='post'>
 	
-	<input type='hidden' name='admin_hashed_nonce' value='<?=$ct_gen->admin_hashed_nonce('reset_ct_conf')?>' />
+	<input type='hidden' name='admin_hashed_nonce' value='<?=$ct['gen']->admin_hashed_nonce('reset_ct_conf')?>' />
 	
 	<input type='hidden' name='reset_ct_conf' value='1' />
 	
@@ -118,9 +118,9 @@
 
 	<div style='margin: 25px;'>
 	
-	<form name='reset_webhook_master' id='reset_webhook_master' action='admin.php?iframe=<?=$ct_gen->admin_hashed_nonce('iframe_reset_backup_restore')?>&section=reset_backup_restore&refresh=iframe_webhook_int_api' method='post'>
+	<form name='reset_webhook_master' id='reset_webhook_master' action='admin.php?iframe=<?=$ct['gen']->admin_hashed_nonce('iframe_reset_backup_restore')?>&section=reset_backup_restore&refresh=iframe_webhook_int_api' method='post'>
 	
-	<input type='hidden' name='admin_hashed_nonce' value='<?=$ct_gen->admin_hashed_nonce('reset_webhook_master_key')?>' />
+	<input type='hidden' name='admin_hashed_nonce' value='<?=$ct['gen']->admin_hashed_nonce('reset_webhook_master_key')?>' />
 	
 	<input type='hidden' name='reset_webhook_master_key' value='1' />
 	
@@ -158,9 +158,9 @@
 
 	<div style='margin: 25px;'>
 	
-	<form name='<?=$webhook_plug?>_webhook' id='<?=$webhook_plug?>_webhook' action='admin.php?iframe=<?=$ct_gen->admin_hashed_nonce('iframe_reset_backup_restore')?>&section=reset_backup_restore&refresh=iframe_webhook_int_api' method='post'>
+	<form name='<?=$webhook_plug?>_webhook' id='<?=$webhook_plug?>_webhook' action='admin.php?iframe=<?=$ct['gen']->admin_hashed_nonce('iframe_reset_backup_restore')?>&section=reset_backup_restore&refresh=iframe_webhook_int_api' method='post'>
 	
-	<input type='hidden' name='admin_hashed_nonce' value='<?=$ct_gen->admin_hashed_nonce('reset_' . $webhook_plug . '_webhook_key')?>' />
+	<input type='hidden' name='admin_hashed_nonce' value='<?=$ct['gen']->admin_hashed_nonce('reset_' . $webhook_plug . '_webhook_key')?>' />
 	
 	<input type='hidden' name='reset_<?=$webhook_plug?>_webhook_key' value='1' />
 	

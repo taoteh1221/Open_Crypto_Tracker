@@ -45,7 +45,7 @@ require("templates/interface/php/wrap/header.php");
 		
 		
 			<?php
-			if ( $ct_conf['gen']['asset_charts_toggle'] == 'on' ) {
+			if ( $ct['conf']['gen']['asset_charts_toggle'] == 'on' ) {
 			?>
 		<div id='charts' class='tabdiv container-fluid'>
 			<?php require("templates/interface/php/user/user-sections/charts.php"); ?>

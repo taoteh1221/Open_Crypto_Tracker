@@ -12,8 +12,8 @@ $is_login_form = true;
 
 // REGISTRATION SECURITY 
 if ( !isset($_GET['new_reset_key']) && is_array($stored_admin_login) ) {
-$ct_gen->log('security_error', 'aborted admin registration attempt ('.$_SERVER['REQUEST_URI'].'), admin account ALREADY EXISTS');
-$ct_cache->error_log();
+$ct['gen']->log('security_error', 'aborted admin registration attempt ('.$_SERVER['REQUEST_URI'].'), admin account ALREADY EXISTS');
+$ct['cache']->error_log();
 echo "Aborted, admin account ALREADY EXISTS.";
 exit;
 }
@@ -21,8 +21,8 @@ exit;
 
 // RESET SECURITY 
 if ( isset($_GET['new_reset_key']) && $password_reset_denied == 1 ) {
-$ct_gen->log('security_error', 'aborted password reset attempt ('.$_SERVER['REQUEST_URI'].'), verification MISMATCH / NOT APPROVED');
-$ct_cache->error_log();
+$ct['gen']->log('security_error', 'aborted password reset attempt ('.$_SERVER['REQUEST_URI'].'), verification MISMATCH / NOT APPROVED');
+$ct['cache']->error_log();
 echo "Aborted, password reset verification MISMATCH / NOT APPROVED.";
 exit;
 }
@@ -41,8 +41,8 @@ if ( $_POST['admin_submit_register'] ) {
 
 	// Run checks...
 	
-	if ( $ct_gen->valid_username( trim($_POST['set_username']) ) != 'valid' ) {
-	$register_result['error'][] = $ct_gen->valid_username( trim($_POST['set_username']) );
+	if ( $ct['gen']->valid_username( trim($_POST['set_username']) ) != 'valid' ) {
+	$register_result['error'][] = $ct['gen']->valid_username( trim($_POST['set_username']) );
 	$username_field_color = '#ff4747';
 	}
 	
@@ -51,8 +51,8 @@ if ( $_POST['admin_submit_register'] ) {
 	////////////////
 	
 	
-	if ( $ct_gen->pass_strength($_POST['set_password'], 12, 40) != 'valid'  ) {
-	$register_result['error'][] = $ct_gen->pass_strength($_POST['set_password'], 12, 40);
+	if ( $ct['gen']->pass_strength($_POST['set_password'], 12, 40) != 'valid'  ) {
+	$register_result['error'][] = $ct['gen']->pass_strength($_POST['set_password'], 12, 40);
 	$password_field_color = '#ff4747';
 	}
 	
@@ -75,7 +75,7 @@ if ( $_POST['admin_submit_register'] ) {
 	}
 		
 		
-	if ( !$ct_gen->valid_2fa() ) {
+	if ( !$ct['gen']->valid_2fa() ) {
      $register_result['error'][] = $check_2fa_error . '.';
      }
 	
@@ -109,7 +109,7 @@ var admin_cookies = '<h5 class="align_center bitcoin tooltip_title">Admin Login 
 			
 			+'<p class="coin_info extra_margins" style="white-space: normal; "><span class="bitcoin">REGARDLESS as to whether your particular app server automatically clears it\'s temporary session data or not, whenever you logout the 32-byte key in your browser is deleted, along with all the session data on the app server.</span></p>'
 			
-			+'<p class="coin_info extra_margins" style="white-space: normal; "><span class="bitcoin">If your app server DOES automatically clears session data often, you will also be logged out AUTOMATICALLY at that time. ADDITIONALLY, the 32-byte random key that is saved inside a cookie in your web browser EXPIRES (automatically deletes itself) AFTER <?=$ct_conf['sec']['admin_cookie_expire']?> HOURS (adjustable in the Admin Config SECURITY section).</span></p>'
+			+'<p class="coin_info extra_margins" style="white-space: normal; "><span class="bitcoin">If your app server DOES automatically clears session data often, you will also be logged out AUTOMATICALLY at that time. ADDITIONALLY, the 32-byte random key that is saved inside a cookie in your web browser EXPIRES (automatically deletes itself) AFTER <?=$ct['conf']['sec']['admin_cookie_expire']?> HOURS (adjustable in the Admin Config SECURITY section).</span></p>'
 			
 			
 			+'<p> </p>';
@@ -295,7 +295,7 @@ Google Fonts is supported (fonts.google.com).'>Get A Different Image</a>
   	 <br clear='all' />
 	
 	
-	<?=$ct_gen->input_2fa()?>
+	<?=$ct['gen']->input_2fa()?>
   
   
 <input type='hidden' name='admin_submit_register' value='1' />
@@ -410,7 +410,7 @@ return false;
 ?>
 
 
-<p style='font-weight: bold;'> <a href='<?=$base_url?>'>Return To The Portfolio Main Page</a> </p>
+<p style='font-weight: bold;'> <a href='<?=$ct['base_url']?>'>Return To The Portfolio Main Page</a> </p>
 
 
 </div>

@@ -6,7 +6,7 @@
 
 	
 // Have this script not load any code if asset charts are not turned on
-if ( $ct_conf['gen']['asset_charts_toggle'] == 'on' ) {
+if ( $ct['conf']['gen']['asset_charts_toggle'] == 'on' ) {
 
 $charted_val = ( $chart_mode == 'pair' ? $alerts_mrkt_parse[1] : $default_btc_prim_currency_pair );
 		
@@ -29,7 +29,7 @@ $pref_chart_time_period = ( isset($_COOKIE['pref_chart_time_period']) ? $_COOKIE
 	
 	?>
 			
-			$("#<?=$key?>_<?=$charted_val?>_chart span.chart_loading").html(' &nbsp; <?=$chart_error_notice?> <?=$chart_asset?> / <?=strtoupper($alerts_mrkt_parse[1])?> @ <?=$ct_gen->key_to_name($alerts_mrkt_parse[0])?><?=( $chart_mode != 'pair' ? ' \(' . strtoupper($charted_val) . ' Value\)' : '' )?>');
+			$("#<?=$key?>_<?=$charted_val?>_chart span.chart_loading").html(' &nbsp; <?=$chart_error_notice?> <?=$chart_asset?> / <?=strtoupper($alerts_mrkt_parse[1])?> @ <?=$ct['gen']->key_to_name($alerts_mrkt_parse[0])?><?=( $chart_mode != 'pair' ? ' \(' . strtoupper($charted_val) . ' Value\)' : '' )?>');
 			
 			$("#<?=$key?>_<?=$charted_val?>_chart span.chart_loading").css({ "background-color": "#9b4b26" });
 			
@@ -51,7 +51,7 @@ var light_state_<?=$js_key?> = {
 };
  
 
-$("#<?=$key?>_<?=$charted_val?>_chart span.chart_loading").html(' &nbsp; <img class="ajax_loader_image" src="templates/interface/media/images/auto-preloaded/loader.gif" height="16" alt="" style="vertical-align: middle;" /> Loading <?=$ct_gen->light_chart_time_period($pref_chart_time_period, 'long')?> chart for <?=$chart_asset?> / <?=strtoupper($alerts_mrkt_parse[1])?> @ <?=$ct_gen->key_to_name($alerts_mrkt_parse[0])?><?=( $chart_mode != 'pair' ? ' \(' . strtoupper($charted_val) . ' Value\)' : '' )?>...');
+$("#<?=$key?>_<?=$charted_val?>_chart span.chart_loading").html(' &nbsp; <img class="ajax_loader_image" src="templates/interface/media/images/auto-preloaded/loader.gif" height="16" alt="" style="vertical-align: middle;" /> Loading <?=$ct['gen']->light_chart_time_period($pref_chart_time_period, 'long')?> chart for <?=$chart_asset?> / <?=strtoupper($alerts_mrkt_parse[1])?> @ <?=$ct['gen']->key_to_name($alerts_mrkt_parse[0])?><?=( $chart_mode != 'pair' ? ' \(' . strtoupper($charted_val) . ' Value\)' : '' )?>...');
 	
   
 zingchart.bind('<?=strtolower($key)?>_<?=$charted_val?>_chart', 'load', function() {
@@ -100,7 +100,7 @@ store_scroll_position();
   switch(e.labelid) {
   	
   	<?php
-	foreach ($ct_conf['power']['light_chart_day_intervals'] as $light_chart_days) {
+	foreach ($ct['conf']['power']['light_chart_day_intervals'] as $light_chart_days) {
 	?>	
 	
     case '<?=$light_chart_days?>':
@@ -121,7 +121,7 @@ store_scroll_position();
   light_chart_text = light_chart_time_period(days, 'long');	
   
   
-  $("#<?=strtolower($key)?>_<?=$charted_val?>_chart div.chart_reload div.chart_reload_msg").html("Loading " + light_chart_text + " chart for <?=$chart_asset?> / <?=strtoupper($alerts_mrkt_parse[1])?> @ <?=$ct_gen->key_to_name($alerts_mrkt_parse[0])?><?=( $chart_mode != 'pair' ? ' \(' . strtoupper($charted_val) . ' Value\)' : '' )?>...");
+  $("#<?=strtolower($key)?>_<?=$charted_val?>_chart div.chart_reload div.chart_reload_msg").html("Loading " + light_chart_text + " chart for <?=$chart_asset?> / <?=strtoupper($alerts_mrkt_parse[1])?> @ <?=$ct['gen']->key_to_name($alerts_mrkt_parse[0])?><?=( $chart_mode != 'pair' ? ' \(' . strtoupper($charted_val) . ' Value\)' : '' )?>...");
   
 	$("#<?=strtolower($key)?>_<?=$charted_val?>_chart div.chart_reload").fadeIn(100); // 0.1 seconds
 	

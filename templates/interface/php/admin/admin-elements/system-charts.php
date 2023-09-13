@@ -5,12 +5,12 @@
 
 
 // Don't load any data if admin isn't logged in
-if ( $ct_gen->admin_logged_in() ) {
+if ( $ct['gen']->admin_logged_in() ) {
 
 
 
-// For system charts, we want the first $ct_conf['power']['light_chart_day_intervals'] value, not 'all'
-$first_light_chart = $ct_conf['power']['light_chart_day_intervals'][0];
+// For system charts, we want the first $ct['conf']['power']['light_chart_day_intervals'] value, not 'all'
+$first_light_chart = $ct['conf']['power']['light_chart_day_intervals'][0];
 		
 		
 	// Have this script send the UI alert messages, and not load any chart code (to not leave the page endlessly loading) if cache data is not present
@@ -37,7 +37,7 @@ var light_state_<?=$chart_mode?> = {
 };
  
 
-$("#sys_stats_chart_<?=$chart_mode?> span.chart_loading").html(' &nbsp; <img class="ajax_loader_image" src="templates/interface/media/images/auto-preloaded/loader.gif" height="16" alt="" style="vertical-align: middle;" /> Loading <?=$ct_gen->light_chart_time_period($first_light_chart, 'long')?> chart for System Chart #<?=$chart_mode?>...');
+$("#sys_stats_chart_<?=$chart_mode?> span.chart_loading").html(' &nbsp; <img class="ajax_loader_image" src="templates/interface/media/images/auto-preloaded/loader.gif" height="16" alt="" style="vertical-align: middle;" /> Loading <?=$ct['gen']->light_chart_time_period($first_light_chart, 'long')?> chart for System Chart #<?=$chart_mode?>...');
 	
   
 zingchart.bind('sys_stats_chart_<?=$chart_mode?>', 'load', function() {
@@ -73,7 +73,7 @@ zingchart.bind('sys_stats_chart_<?=$chart_mode?>', 'label_click', function(e){
   switch(e.labelid) {
   	
   	<?php
-	foreach ($ct_conf['power']['light_chart_day_intervals'] as $light_chart_days) {
+	foreach ($ct['conf']['power']['light_chart_day_intervals'] as $light_chart_days) {
 	?>	
 	
     case '<?=$light_chart_days?>':

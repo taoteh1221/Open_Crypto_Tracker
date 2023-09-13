@@ -10,6 +10,26 @@ NEXT SCHEDULED WORK SESSIONS (*BOTH* DEBUGGING AND / OR INFRASTRUCTURE)
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
+Replace all tabs with spaces (for better cross-text-editor support).
+
+
+Create a 'ct_admin' PHP class, and move all admin-related functions into it.
+
+
+The upcoming 'strict' mode for 2FA can be checked in the nounce check function, IF POST DATA IS PRESENT.
+
+
+Have 3 settings for 2FA:
+
+Off / Basic / Strict
+
+Basic: 2FA is added to login / reset / register forms only.
+
+Strict: 2FA is added to login / reset / register forms, AND updating ANYTHING in the admin area (including viewing settings in 'enhanced' security mode).
+
+The 2FA check and form rendering functions should have a mode parameter added, default set to 'basic', with option to change to 'strict' for checks / rendering related to updating admin settings.
+
+
 Add an info icon next to 2FA fields, with info on what it is, usage, and how to MANUALLY disable it.
 
 
@@ -31,10 +51,13 @@ On the plugins admin page, add a title "How to make your own custom plugin", wit
 Update all documentation for new 2FA integrations into existing security features. Don't forget to mention that changing the admin username / server domain will PURPOSEFULLY INVALIDATE THE CURRENT 2FA 'SECRET', and would then require deleting the 2fa var in the cache to disable 2FA (which can then be re-enabled after, with the new admin username / sever domain).
 
 
-Add options to enable / disable requiring 2FA for updating ANYTHING in the admin area. This likely can be accomplished efficiently by adding a function parameter that defaults to 'standard', which can also be 'update_config', for the 2FA form rendering function. Then just have corresponding vars set like for Sec setting / 2fa, to create logic for when 2fa renders / is validated for this option.
-
-
 Send out an OPTIONAL comms alert when we change the admin security mode, OR when we enable / disable 2FA (like we do for logins).
+
+
+Add more Jupiter agg markets to Solana coins in price target plugin.
+
+
+Add openserum markets support.
 
 
 Iframe RELOADS / REFRESHES should NOT RESUBMIT DATA (we could have some endless loops, depending on $refresh_admin values in footer.php).
@@ -333,7 +356,7 @@ Overhaul / optimize config checks.
 Add remote IP address data to ALL relevant security error logging everywhere in the app.
 
 
-$ct_conf = $ct_cache->refresh_cached_ct_conf($ct_conf, true); at the end of load-config-by-security-level.php is throwing this error (so it's commented-out for now):
+$ct['conf'] = $ct['cache']->refresh_cached_ct_conf($ct['conf'], true); at the end of load-config-by-security-level.php is throwing this error (so it's commented-out for now):
 [2022-08-03 03:30:40] ui => conf: updated ct_conf data could not be saved (to secured cache storage) in json format;  
 [2022-08-03 03:30:40] ui => conf: ct_conf data could not be restored from last-known working config; 
 
@@ -433,15 +456,6 @@ Build a plugin (for the tools page, defaults to activated already), that lets yo
 Remove the requirement for a secondary crypto market needing a BTC market, by allowing a secondary crypto market if it at least has a pairing that is the same as one of Bitcoin's pairings (like USD). Then have the BTC pairing value function look for that if there is no BTC market for the asset. Within the BTC pairing function, all we then need to do is multiply this backup conversion pairing value by the last trade value of the secondary crypto market (with a recursive call in the function to get say for instance the BTC/USD trade value). Also include a new config setting "pref_backup_conversion_pair", so when we check what pairings the asset has available, we use this pairing first (like USD).
 
 
-Add https://www.reddit.com/r/StarAtlas/ to resources page / news feeds.
-
-
-Add more Jupiter agg markets to Solana coins in demo config, and in price target plugin.
-
-
-Add openserum markets support.
-
-
 Research whether POST data size affects header size like cookie data size does.
 
 
@@ -473,7 +487,7 @@ To avoid having the "re-enter /start" telegram error message unless truly needed
 Auto-update feature like WordPress has (downloads a zip file upgrade from github, and exctracts it overwriting the old app files).
 
 
-Option to use new zip file encryption password feature to encrypt portfolio spreadsheet exports when downloading exported portfolio data (with password entered in the UI, #NOT# $ct_conf['sec']['backup_arch_pass']).
+Option to use new zip file encryption password feature to encrypt portfolio spreadsheet exports when downloading exported portfolio data (with password entered in the UI, #NOT# $ct['conf']['sec']['backup_arch_pass']).
 
 
 Create "Export your feeds" link on News page, to XML / JSON format file download (that can import into news readers), ONLY AVAILABLE IF ADMIN-LOGGED-IN (FOR SECURITY IF ANY FEDS ARE PRIVATE).
@@ -584,9 +598,6 @@ For the language translation cache (to avoid asking API for a translation if we 
 Simple trading bot, to run as a cron plugin (with web UI for configuration / stats / etc)
 
 
-Look into merging all our classes in the portfolio app like so: https://stackoverflow.com/questions/2374828/how-to-merge-two-class-in-php  Then it is more programmer-friendly, as all functions can then be called from something like $ct->my_object() for simplicity sake.
-
-
 MAY BE A GOOD WAY TO RE-RUN init.php IF USER CORRUPTS config.php (#AFTER# backing up / overwriting the corrupt config.php with /templates/back-end/main-config.template):
 https://stackoverflow.com/questions/17160851/is-there-any-way-to-skip-fatal-error-from-include-file-in-php
 https://www.php.net/manual/en/function.register-shutdown-function.php
@@ -601,7 +612,7 @@ Consolidate CSV import / post data importing that are near the top of the update
 Consider adding some SPECIFIC filenames that are sensitive data to obfusc_path_data() via the $file = basename($path) method. Not sure if needed for log security, BUT right now obfusc_path_data() DOES #NOT# OBFUSCATE THE FILENAME AT ALL (just path up to the file).
 
 
-Add a check (every X days with a config setting), to see if a market's trade value has NOT changed in a long time (assure accuracy with resetting a 'no_change' count [store delimited with market value] if change is detected). Add an alert threshold config setting (after no change has been detected X times), which sends comms alerts if the threshold has been met. This way end users can be informed if a market seems to have stale trade values from lack of trades / taken offline. HAVE THIS HAPPEN IN THE BACKGROUND #ONLY WHEN LIVE DATA IS FETCHED# WITHIN $ct_cache->ext_data(), VIA USER-INRTERACTION OR A BACKGROUND TASK (DOES NOT CHECK MARKETS THAT ARE NOT USED BY END USERS OR THE BACKGROUND TASKS).
+Add a check (every X days with a config setting), to see if a market's trade value has NOT changed in a long time (assure accuracy with resetting a 'no_change' count [store delimited with market value] if change is detected). Add an alert threshold config setting (after no change has been detected X times), which sends comms alerts if the threshold has been met. This way end users can be informed if a market seems to have stale trade values from lack of trades / taken offline. HAVE THIS HAPPEN IN THE BACKGROUND #ONLY WHEN LIVE DATA IS FETCHED# WITHIN $ct['cache']->ext_data(), VIA USER-INRTERACTION OR A BACKGROUND TASK (DOES NOT CHECK MARKETS THAT ARE NOT USED BY END USERS OR THE BACKGROUND TASKS).
 
 
 Have the light chart function create a cached var array in json (in cache/vars/ folder), and everytime a new chart system uses it, add it's BASE cache path as an array value. Then we just need to feed this array into a light charts reset function / logic that resets all KNOWN chart systems in the app that use the light charts system (including plugins)
@@ -613,6 +624,9 @@ Add logic to offer securing the computer in the auto-install. Add subsections "R
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 MAYBE SECTION
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+Change "$this" in the core classes to use the "$ct['category']" format instead, AND of course make sure we have the "$ct" global.
 
 
 Some of our extra security automation options in FOLIO-INSTALL.bash may also be appropriate for my other auto-installer scripts (ticker / Bluetooth radio)?

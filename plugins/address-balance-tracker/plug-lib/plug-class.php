@@ -24,24 +24,24 @@ var $array1 = array();
 		
 	function btc_addr_bal($address) {
 		 
-	global $this_plug, $ct_conf, $plug_conf, $ct_gen, $ct_var, $ct_cache;
+	global $ct, $this_plug, $plug_conf;
 		
 	// Take into account previous runtime (over start of runtime), and give 3 minutes wiggle room
-	$recache = ( $plug_conf[$this_plug]['alerts_freq_max'] >= 3 ? ($plug_conf[$this_plug]['alerts_freq_max'] - 3) : $plug_conf[$this_plug]['alerts_freq_max'] );
+	$recache = ( $plug_conf[$this_plug]['alerts_freq_max'] >= 3 ? ($plug_conf[$this_plug]['alerts_freq_max'] + $ct['dev']['tasks_time_offset']) : $plug_conf[$this_plug]['alerts_freq_max'] );
 		
 	$url = 'https://blockchain.info/rawaddr/' . $address;
 			 
-	$response = @$ct_cache->ext_data('url', $url, $recache);
+	$response = @$ct['cache']->ext_data('url', $url, $recache);
 			 
 	$data = json_decode($response, true);
 		   
 		   
 		if ( isset($data['final_balance']) ) {
-		return $ct_var->num_to_str( $data['final_balance'] / 100000000 ); // Convert sats to BTC
+		return $ct['var']->num_to_str( $data['final_balance'] / 100000000 ); // Convert sats to BTC
 		}
 		elseif ( !isset($data['address']) ) {
 			
-    	     $ct_gen->log(
+    	     $ct['gen']->log(
     				'ext_data_error',
     				'BTC address balance retrieval failed in the "' . $this_plug . '" plugin, no API data received'
     				);
@@ -60,24 +60,24 @@ var $array1 = array();
 		
 	function eth_addr_bal($address) {
 		 
-	global $this_plug, $ct_conf, $plug_conf, $ct_gen, $ct_var, $ct_cache;
+	global $ct, $this_plug, $plug_conf;
 		
 	// Take into account previous runtime (over start of runtime), and give 3 minutes wiggle room
-	$recache = ( $plug_conf[$this_plug]['alerts_freq_max'] >= 3 ? ($plug_conf[$this_plug]['alerts_freq_max'] - 3) : $plug_conf[$this_plug]['alerts_freq_max'] );
+	$recache = ( $plug_conf[$this_plug]['alerts_freq_max'] >= 3 ? ($plug_conf[$this_plug]['alerts_freq_max'] + $ct['dev']['tasks_time_offset']) : $plug_conf[$this_plug]['alerts_freq_max'] );
 		
-	$url = 'https://api.etherscan.io/api?module=account&action=balance&address='.$address.'&tag=latest&apikey=' . $ct_conf['ext_apis']['etherscan_key'];
+	$url = 'https://api.etherscan.io/api?module=account&action=balance&address='.$address.'&tag=latest&apikey=' . $ct['conf']['ext_apis']['etherscan_key'];
 			 
-	$response = @$ct_cache->ext_data('url', $url, $recache);
+	$response = @$ct['cache']->ext_data('url', $url, $recache);
 			 
 	$data = json_decode($response, true);
 		   
 		   
 		if ( isset($data['result']) ) {
-		return $ct_var->num_to_str( $data['result'] / 1000000000000000000 ); // Convert wei to ETH
+		return $ct['var']->num_to_str( $data['result'] / 1000000000000000000 ); // Convert wei to ETH
 		}
 		elseif ( !isset($data['message']) ) {
 			
-    	     $ct_gen->log(
+    	     $ct['gen']->log(
     				'ext_data_error',
     				'ETH address balance retrieval failed in the "' . $this_plug . '" plugin, no API data received'
     				);
@@ -96,10 +96,10 @@ var $array1 = array();
 		
 	function sol_addr_bal($address, $spl_token=false) {
 		 
-	global $this_plug, $ct_conf, $plug_conf, $ct_gen, $ct_var, $ct_cache;
+	global $ct, $this_plug, $plug_conf;
 		
 	// Take into account previous runtime (over start of runtime), and give 3 minutes wiggle room
-	$recache = ( $plug_conf[$this_plug]['alerts_freq_max'] >= 3 ? ($plug_conf[$this_plug]['alerts_freq_max'] - 3) : $plug_conf[$this_plug]['alerts_freq_max'] );
+	$recache = ( $plug_conf[$this_plug]['alerts_freq_max'] >= 3 ? ($plug_conf[$this_plug]['alerts_freq_max'] + $ct['dev']['tasks_time_offset']) : $plug_conf[$this_plug]['alerts_freq_max'] );
 	
         
     $headers = array(
@@ -115,7 +115,7 @@ var $array1 = array();
                            );
                     
                 
-	$response = @$ct_cache->ext_data('params', $request_params, $recache, 'https://api.mainnet-beta.solana.com', 3, null, $headers);
+	$response = @$ct['cache']->ext_data('params', $request_params, $recache, 'https://api.mainnet-beta.solana.com', 3, null, $headers);
 			 
 	$data = json_decode($response, true);
 			 
@@ -126,18 +126,18 @@ var $array1 = array();
 		    
 		    
 		    if ( $spl_token == false ) {
-		    return $ct_var->num_to_str( $data['value'] / 1000000000 ); // Convert lamports to SOL
+		    return $ct['var']->num_to_str( $data['value'] / 1000000000 ); // Convert lamports to SOL
 		    }
 		    else {
 		    $divide_by = str_pad(1, (1 + $data['value']['decimals']), "0");
-		    return $ct_var->num_to_str( $data['value']['amount'] / $divide_by ); // Convert to spl token's unit value
+		    return $ct['var']->num_to_str( $data['value']['amount'] / $divide_by ); // Convert to spl token's unit value
 		    }
 		
 		
 		}
 		elseif ( !isset($data['context']) ) {
 			
-    	     $ct_gen->log(
+    	     $ct['gen']->log(
     				'ext_data_error',
     				( $spl_token == false ? 'SOL' : strtoupper($spl_token) ) . ' address balance retrieval failed in the "' . $this_plug . '" plugin, no API data received'
     				);
@@ -156,10 +156,10 @@ var $array1 = array();
    
     function obfusc_addr($address) {
       
-    global $ct_var, $log_errors;
+    global $ct, $log_errors;
     
        foreach ( $log_errors as $key => $val ) {
-       $log_errors[$key] = str_replace($address, $ct_var->obfusc_str($address, 1), $log_errors[$key]);
+       $log_errors[$key] = str_replace($address, $ct['var']->obfusc_str($address, 1), $log_errors[$key]);
        }
    
     }
