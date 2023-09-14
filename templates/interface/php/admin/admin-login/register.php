@@ -133,7 +133,7 @@ var admin_cookies = '<h5 class="align_center bitcoin tooltip_title">Admin Login 
 
 </script>
 
-<div style="text-align: center;">
+<div style="text-align: center; margin-top: 1.5em;">
 
 	<div id='login_alert'>
 <?php
@@ -225,7 +225,7 @@ if ( !$_POST['submit_registration'] || is_array($register_result['error']) ) {
 <form name='set_admin' id='set_admin' action='' method='post'>
 
 
-    <div style="display: inline-block; padding-top: 1em; text-align: right; width: 650px;">
+    <div style="display: inline-block; padding-top: 1em; text-align: center; width: auto;">
     
 	 <p>
 	 

@@ -82,7 +82,7 @@ var admin_cookies = '<h5 class="align_center bitcoin tooltip_title">Admin Login 
 
 </script>
 
-<div style="text-align: center;">
+<div style="text-align: center; margin-top: 1.5em;">
 
 <h3 class='bitcoin'>Admin Login</h3>
 
@@ -153,7 +153,7 @@ if ( !$_POST['submit_login'] || is_array($login_result['error']) && sizeof($logi
 
 <form id='admin_login' action='admin.php' method='post'>
 
-    <div style="display: inline-block; padding-top: 1em; text-align: right; width: 650px;">
+    <div style="display: inline-block; padding-top: 1em; text-align: center; width: auto;">
 
 <p><b>Username:</b> <input type='text' name='admin_username' id='admin_username' value='<?=trim($_POST['admin_username'])?>' /></p>
 

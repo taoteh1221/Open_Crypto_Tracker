@@ -149,7 +149,7 @@ var admin_cookies = '<h5 class="align_center bitcoin tooltip_title">Admin Login 
 </script>
 
 								
-<div style="text-align: center;">
+<div style="text-align: center; margin-top: 1.5em;">
 
 <h3 class='bitcoin'>Reset Admin Account</h3>
 
@@ -225,7 +225,7 @@ if (
  
 	<form id='reset_admin' action='' method ='post'>
 				
-    <div style="display: inline-block; padding-top: 1em; text-align: right; width: 650px;">
+    <div style="display: inline-block; padding-top: 1em; text-align: center; width: auto;">
 
 	 <p>			
 	 
