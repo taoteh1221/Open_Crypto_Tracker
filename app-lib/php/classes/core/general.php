@@ -128,36 +128,6 @@ var $ct_array = array();
        }
    
    }
-
-
-   ////////////////////////////////////////////////////////
-   ////////////////////////////////////////////////////////
-   
-   
-   function input_2fa($force_show=false) {
-   
-   global $admin_area_2fa, $check_2fa_error, $count_2fa_fields;
-       
-       if ( $admin_area_2fa == 'on' || $force_show != false ) {
-	  ?>
-	  
-	  <div style='margin-top: 2em; margin-bottom: 2em;'>
-	  
-	  <p class='<?=( $force_show != false ? 'red' : 'bitcoin' )?>' style='font-weight: bold;'>Enter 2FA Code (from phone app):</p>
-	  
-	  <input type='hidden' name='2fa_code_id' value='2fa_code_<?=$count_2fa_fields?>' />
-	  
-	  <p><input type='text' id='2fa_code_<?=$count_2fa_fields?>' name='2fa_code' value='' /></p>
-	  
-	  <p id='notice_2fa_code_<?=$count_2fa_fields?>' class='hidden red red_dotted' style='font-weight: bold;'><?=$check_2fa_error?>.</p>
-	  
-	  </div>
-	  
-	  <?php
-	  $count_2fa_fields = $count_2fa_fields + 1;
-	  }
-   
-   }
    
    
    ////////////////////////////////////////////////////////
@@ -422,6 +392,36 @@ var $ct_array = array();
       return false;
       }
       
+   }
+
+
+   ////////////////////////////////////////////////////////
+   ////////////////////////////////////////////////////////
+   
+   
+   function input_2fa($force_show=false) {
+   
+   global $admin_area_2fa, $check_2fa_error, $count_2fa_fields;
+       
+       if ( $admin_area_2fa == 'on' || $force_show != false ) {
+	  ?>
+	  
+	  <div style='margin-top: 2em; margin-bottom: 2em;'>
+	  
+	  <p class='<?=( $force_show != false ? 'red' : 'bitcoin' )?>' style='font-weight: bold;'>Enter 2FA Code (from phone app):</p>
+	  
+	  <input type='hidden' name='2fa_code_id' value='2fa_code_<?=$count_2fa_fields?>' />
+	  
+	  <p><input type='text' id='2fa_code_<?=$count_2fa_fields?>' name='2fa_code' value='' /></p>
+	  
+	  <p id='notice_2fa_code_<?=$count_2fa_fields?>' class='hidden red red_dotted' style='font-weight: bold;'><?=$check_2fa_error?>.</p>
+	  
+	  </div>
+	  
+	  <?php
+	  $count_2fa_fields = $count_2fa_fields + 1;
+	  }
+   
    }
    
    
@@ -2871,8 +2871,8 @@ var $ct_array = array();
    $_SESSION['admin_logged_in']['auth_hash'] = $this->admin_hashed_nonce($cookie_nonce, 'force'); // Force set, as we're not logged in fully yet
    
    
-       // If server edition, and admin login notifications are on
-       if ( $ct['app_edition'] == 'server' && $ct['conf']['sec']['login_alert'] != 'off' ) {
+       // If admin login notifications are on
+       if ( $ct['conf']['sec']['login_alert'] != 'off' ) {
 
       
             if ( isset($ct['system_info']['distro_name']) ) {
