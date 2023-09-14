@@ -751,9 +751,9 @@ class Sender {
 		$handle = curl_init($url);
      
      
-          // If this is a windows desktop edition
-          if ( file_exists($ct['base_dir'] . '/cache/other/win_curl_cacert.pem') ) {
-          curl_setopt($handle, CURLOPT_CAINFO, $ct['base_dir'] . '/cache/other/win_curl_cacert.pem');
+          // If this is a windows desktop edition (to avoid invalid CA cert errors)
+          if ( $ct['app_edition'] == 'desktop' && $ct['app_platform'] == 'windows' && file_exists($ct['base_dir'] . '/cacert.pem') ) {
+          curl_setopt($handle, CURLOPT_CAINFO, $ct['base_dir'] . '/cacert.pem');
           }
       
       

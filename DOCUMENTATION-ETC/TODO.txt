@@ -309,6 +309,9 @@ DEBUGGING / TESTS / UX / QA / OTHER
 ===> Reload / refresh browser : Shift + F5 (Mac: Command + R)
 ===> Open devtools : F12 (Mac: Fn + F12)
 !!!!
+===> Ocassionally update cacert.pem in the main directory (for Windows Desktop Edition):
+===> https://curl.se/ca/cacert.pem
+!!!!
 ===> "app-lib/php/init.php" contains MANY developer-only configs at the top
 !!!!
 ===> Don't require any higher than PHP v7.2 until PHP v9.

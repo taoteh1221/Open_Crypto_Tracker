@@ -113,28 +113,6 @@ $ct['cache']->delete_old_files($logs_cache_cleanup, $ct['conf']['power']['logs_p
     $ct['cache']->save_file($ct['base_dir'] . '/cache/events/phpdesktop-logs-purge.dat', $ct['gen']->time_date_format(false, 'pretty_date_time') );
     }
     
-    
-    // Get root CA certificates for PHPdesktop windows desktop edition if we haven't yet, as we need them...
-    // (IF app container is PHPdesktop, it does NOT have CURL certs installed)
-    
-    $save_file = $ct['base_dir'] . '/cache/other/win_curl_cacert.pem';
-    
-    if ( $ct['app_platform'] == 'windows' && $ct['app_container'] == 'phpdesktop' && !file_exists($save_file) ) {
-    
-    $get_file = 'https://curl.se/ca/cacert.pem';
-    
-
-        if ( !copy($get_file, $save_file) ) {
-         
-        $ct['gen']->log(
-               	'system_error',
-               	'Error copying file "' . $get_file . '" into "' . $save_file . '"'
-               	);
-               				
-        }
-
-    }
-
 
 // Update the maintenance event tracking
 $ct['cache']->save_file($ct['base_dir'] . '/cache/events/scheduled-maintenance.dat', $ct['gen']->time_date_format(false, 'pretty_date_time') );
