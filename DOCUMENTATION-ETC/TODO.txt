@@ -10,6 +10,9 @@ NEXT SCHEDULED WORK SESSIONS (*BOTH* DEBUGGING AND / OR INFRASTRUCTURE)
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
+Add BTC to documentation om supported trading pairs (in help / faq, readme, troubleshooting, and project page).
+
+
 Go through all init / config / etc files, and add any primary vars to "$ct" that haven't been added yet, for consistent / clean code.
 
 
