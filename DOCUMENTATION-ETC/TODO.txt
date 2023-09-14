@@ -10,6 +10,12 @@ NEXT SCHEDULED WORK SESSIONS (*BOTH* DEBUGGING AND / OR INFRASTRUCTURE)
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
+Go through all init / config / etc files, and add any primary vars to "$ct" that haven't been added yet, for consistent / clean code.
+
+
+Move everything from the var class to the general class.
+
+
 Replace all tabs with spaces (for better cross-text-editor support).
 
 
