@@ -198,17 +198,6 @@ $sel_opt['sel_btc_prim_currency_val'] = $ct['api']->market('BTC', $ct['conf']['g
     }
     
     
-    if ( !isset($sel_opt['sel_btc_prim_currency_val']) || $sel_opt['sel_btc_prim_currency_val'] == 0 ) {
-    	
-    $ct['gen']->log(
-    			'market_error',
-    			'init.php Bitcoin primary currency market value not properly set',
-    			'btc_prim_currency_pair: ' . $ct['conf']['gen']['btc_prim_currency_pair'] . '; exchange: ' . $ct['conf']['gen']['btc_prim_exchange'] . '; pair_id: ' . $sel_opt['sel_btc_pair_id'] . '; value: ' . $sel_opt['sel_btc_prim_currency_val']
-    			);
-    
-    }
-    
-    
     // Dynamically modify MISCASSETS / ALTNFTS in $ct['conf']['assets']
     // ONLY IF USER HASN'T MESSED UP $ct['conf']['assets'], AS WE DON'T WANT TO CANCEL OUT ANY
     // CONFIG CHECKS CREATING ERROR LOG ENTRIES / UI ALERTS INFORMING THEM OF THAT
@@ -219,7 +208,21 @@ $sel_opt['sel_btc_prim_currency_val'] = $ct['api']->market('BTC', $ct['conf']['g
 
 
 }
-
+    
+    
+// Log an error if we have no minimum bitcoin primary currency value
+if ( isset($sel_opt['sel_btc_prim_currency_val']) && $ct['var']->num_to_str($sel_opt['sel_btc_prim_currency_val']) >= $min_crypto_val_test ) {
+// Continue
+}
+else {
+    	
+$ct['gen']->log(
+    			'market_error',
+    			'Minimum Bitcoin value of primary currency market value not met (' . $sel_opt['sel_btc_prim_currency_val'] . ')',
+    			'btc_prim_currency_pair: ' . $ct['conf']['gen']['btc_prim_currency_pair'] . '; exchange: ' . $ct['conf']['gen']['btc_prim_exchange'] . '; pair_id: ' . $sel_opt['sel_btc_pair_id'] . '; value: ' . $sel_opt['sel_btc_prim_currency_val']
+			);
+    
+}
 
 
 //////////////////////////////////////////////////////////////////

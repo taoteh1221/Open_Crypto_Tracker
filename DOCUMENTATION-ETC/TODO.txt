@@ -22,6 +22,9 @@ Move everything from the var class to the general class.
 Replace all tabs with spaces (for better cross-text-editor support).
 
 
+Code review all large functions, to make sure they are clean and optimized
+
+
 Create a 'ct_admin' PHP class, and move all admin-related functions into it.
 
 

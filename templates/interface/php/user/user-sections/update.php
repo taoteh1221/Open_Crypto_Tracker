@@ -490,7 +490,7 @@
                     		$asset_mrgntyp_val = $all_cookies_data_array[$asset_symb.'_data'][$asset_symb.'_mrgntyp'];
                     		}
                     		else {
-                		    $asset_paid_val = 0;
+                		     $asset_paid_val = 0;
                     		$asset_lvrg_val = 0;
                     		$asset_mrgntyp_val = 'long';
                     		}

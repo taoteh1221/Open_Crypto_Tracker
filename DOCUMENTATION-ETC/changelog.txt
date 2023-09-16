@@ -6284,6 +6284,23 @@ MIGRATE YOUR EXISTING SETTINGS TO THE NEW FORMAT.
 
 
 
+-------------------------------------------------------------------
+6.00.27:
+
+-BUG FIX: Miscellaneous fixes
+
+-Code optimization / cleanup
+
+IMPORTANT *UPGRADE* NOTICE:
+
+v6.00.26 and higher renames the admin config array. ALL CONFIGURATION SETTING
+VARIABLE NAMES ARE NOW DIFFERENT, USE THE LATEST/UPGRADED CONFIG.PHP, AND
+MIGRATE YOUR EXISTING SETTINGS TO THE NEW FORMAT.
+
+-------------------------------------------------------------------
+
+
+
 
 
 

@@ -12,7 +12,7 @@ $ct = array();
 
 
 // Application version
-$ct['app_version'] = '6.00.26';  // 2023/AUGUST/29TH
+$ct['app_version'] = '6.00.27';  // 2023/SEPTEMBER/16TH
 
 
 // #PHP# ERROR LOGGING
