@@ -79,7 +79,7 @@ $in_minutes_offset = ( $in_minutes >= 20 ? ($in_minutes - 1) : $in_minutes );
 	    ) {
 		
 		// Human-readable year-month-date for today, ADJUSTED FOR USER'S TIME ZONE OFFSET FROM APP CONFIG
-		$offset_date = $ct['gen']->time_date_format($ct['conf']['gen']['loc_time_offset'], 'standard_date');
+		$offset_date = $ct['gen']->time_date_format($ct['conf']['gen']['local_time_offset'], 'standard_date');
 		
 		// Time of day in decimals (as hours) for dnd on/off config settings
 		$dnd_on_dec = $plug_class[$this_plug]->time_dec_hours($plug_conf[$this_plug]['do_not_dist']['on'], 'to');
@@ -87,13 +87,13 @@ $in_minutes_offset = ( $in_minutes >= 20 ? ($in_minutes - 1) : $in_minutes );
 		
 			
 			// Time of day in hours:minutes for dnd on/off (IN UTC TIME), ADJUSTED FOR USER'S TIME ZONE OFFSET FROM APP CONFIG
-			if ( $ct['conf']['gen']['loc_time_offset'] < 0 ) {
-			$offset_dnd_on = $plug_class[$this_plug]->time_dec_hours( ( $dnd_on_dec + abs($ct['conf']['gen']['loc_time_offset']) ) , 'from');
-			$offset_dnd_off = $plug_class[$this_plug]->time_dec_hours( ( $dnd_off_dec + abs($ct['conf']['gen']['loc_time_offset']) ) , 'from');
+			if ( $ct['conf']['gen']['local_time_offset'] < 0 ) {
+			$offset_dnd_on = $plug_class[$this_plug]->time_dec_hours( ( $dnd_on_dec + abs($ct['conf']['gen']['local_time_offset']) ) , 'from');
+			$offset_dnd_off = $plug_class[$this_plug]->time_dec_hours( ( $dnd_off_dec + abs($ct['conf']['gen']['local_time_offset']) ) , 'from');
 			}
 			else {
-			$offset_dnd_on = $plug_class[$this_plug]->time_dec_hours( ( $dnd_on_dec - $ct['conf']['gen']['loc_time_offset'] ) , 'from');
-			$offset_dnd_off = $plug_class[$this_plug]->time_dec_hours( ( $dnd_off_dec - $ct['conf']['gen']['loc_time_offset'] ) , 'from');
+			$offset_dnd_on = $plug_class[$this_plug]->time_dec_hours( ( $dnd_on_dec - $ct['conf']['gen']['local_time_offset'] ) , 'from');
+			$offset_dnd_off = $plug_class[$this_plug]->time_dec_hours( ( $dnd_off_dec - $ct['conf']['gen']['local_time_offset'] ) , 'from');
 			}
 		
 		

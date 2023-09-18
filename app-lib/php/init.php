@@ -77,6 +77,13 @@ $ct['app_container'] = 'browser';
 ///////////////////////////////////////////////////
 
 
+// The DEFAULT (FREE PLAN) requests-per-DAY limit on the Alpha Vantage API key
+// WE AUTO-ADJUST TO UNLIMITED FOR PREMIUM PLANS IN CONFIG-INIT.PHP:
+// https://www.alphavantage.co/premium/
+// (they have been known to change this amount occassionally for the free plan, so we have this dev var)
+$ct['dev']['alphavantage_per_day_limit'] = 100; // (default = 100 [FOR FREE SERVICE])
+
+
 // Time offset (IN MINUTES) on daily background tasks 
 // (so they run at the same time everyday [without 'creeping' up / down for it's time-of-day run])
 $ct['dev']['tasks_time_offset'] = -4; // Auto-adjusts (higher) for systems with LOW CORE COUNTS in config-init.php

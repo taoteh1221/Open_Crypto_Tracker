@@ -65,7 +65,7 @@ var $array1 = array();
 	// Take into account previous runtime (over start of runtime), and give 3 minutes wiggle room
 	$recache = ( $plug_conf[$this_plug]['alerts_freq_max'] >= 3 ? ($plug_conf[$this_plug]['alerts_freq_max'] + $ct['dev']['tasks_time_offset']) : $plug_conf[$this_plug]['alerts_freq_max'] );
 		
-	$url = 'https://api.etherscan.io/api?module=account&action=balance&address='.$address.'&tag=latest&apikey=' . $ct['conf']['ext_apis']['etherscan_key'];
+	$url = 'https://api.etherscan.io/api?module=account&action=balance&address='.$address.'&tag=latest&apikey=' . $ct['conf']['ext_apis']['etherscan_api_key'];
 			 
 	$response = @$ct['cache']->ext_data('url', $url, $recache);
 			 

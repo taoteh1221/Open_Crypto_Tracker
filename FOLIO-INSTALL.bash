@@ -1770,7 +1770,7 @@ select opt in $OPTIONS; do
 				rm $DOC_ROOT/cache/vars/default_pt_conf_md5.dat > /dev/null 2>&1
 				rm $DOC_ROOT/cache/vars/default_oct_conf_md5.dat > /dev/null 2>&1
 				rm $DOC_ROOT/cache/vars/default_btc_prim_curr_pairing.dat > /dev/null 2>&1
-				rm $DOC_ROOT/cache/vars/default_btc_prim_currency_pairing.dat > /dev/null 2>&1
+				rm $DOC_ROOT/cache/vars/default_bitcoin_primary_currency_pairing.dat > /dev/null 2>&1
 				rm $DOC_ROOT/cache/vars/lite_chart_structure.dat > /dev/null 2>&1
 				rm $DOC_ROOT/cache/vars/lite_chart_struct.dat > /dev/null 2>&1
 				rm $DOC_ROOT/cache/vars/beta_v6_admin_pages.dat > /dev/null 2>&1

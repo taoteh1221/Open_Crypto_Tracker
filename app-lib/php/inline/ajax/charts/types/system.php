@@ -130,7 +130,7 @@ gui: {
         zooming: true
       },
       scaleY: {
-      maxValue: <?=( $key == 1 ? $ct['conf']['power']['sys_stats_first_chart_max_scale'] : $ct['conf']['power']['sys_stats_second_chart_max_scale'] )?>,
+      maxValue: <?=( $key == 1 ? $ct['conf']['power']['system_stats_first_chart_maximum_scale'] : $ct['conf']['power']['system_stats_second_chart_maximum_scale'] )?>,
         guide: {
       	visible: true,
      		lineStyle: 'solid',
@@ -253,7 +253,7 @@ $check_chart_val = $ct['var']->num_to_str( $ct['var']->delimited_str_sample($cha
 		$loop = $loop + 1;
 		}
 		
-		if ( $check_chart_val <= $ct['var']->num_to_str($ct['conf']['power']['sys_stats_first_chart_max_scale']) ) {
+		if ( $check_chart_val <= $ct['var']->num_to_str($ct['conf']['power']['system_stats_first_chart_maximum_scale']) ) {
 		$num_in_first_chart = $num_in_first_chart + 1;
 		//echo $check_chart_val . ' --- '; // DEBUGGING ONLY
 		}
@@ -472,7 +472,7 @@ gui: {
         zooming: true
       },
       scaleY: {
-      maxValue: <?=( $key == 1 ? $ct['conf']['power']['sys_stats_first_chart_max_scale'] : $ct['conf']['power']['sys_stats_second_chart_max_scale'] )?>,
+      maxValue: <?=( $key == 1 ? $ct['conf']['power']['system_stats_first_chart_maximum_scale'] : $ct['conf']['power']['system_stats_second_chart_maximum_scale'] )?>,
         guide: {
       	visible: true,
      		lineStyle: 'solid',
@@ -680,7 +680,7 @@ gui: {
         zooming: true
       },
       scaleY: {
-      maxValue: <?=( $key == 1 ? $ct['conf']['power']['sys_stats_first_chart_max_scale'] : $ct['conf']['power']['sys_stats_second_chart_max_scale'] )?>,
+      maxValue: <?=( $key == 1 ? $ct['conf']['power']['system_stats_first_chart_maximum_scale'] : $ct['conf']['power']['system_stats_second_chart_maximum_scale'] )?>,
         guide: {
       	visible: true,
      		lineStyle: 'solid',

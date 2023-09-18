@@ -15,7 +15,7 @@
 require_once('app-lib/php/inline/security/general-preflight-security-checks.php');
 
 
-$ct['conf']['gen']['prim_mcap_site'] = ( isset($sel_opt['alert_percent'][0]) && $sel_opt['alert_percent'][0] != '' ? $sel_opt['alert_percent'][0] : $ct['conf']['gen']['prim_mcap_site'] );
+$ct['conf']['gen']['primary_marketcap_site'] = ( isset($sel_opt['alert_percent'][0]) && $sel_opt['alert_percent'][0] != '' ? $sel_opt['alert_percent'][0] : $ct['conf']['gen']['primary_marketcap_site'] );
      
 
 if ( isset($_COOKIE['theme_selected']) ) {
@@ -266,14 +266,14 @@ $sel_opt['sorted_asc_desc'] = $sort_array[1];
      foreach ($scan_charts as $mrkt_key) {
      	
      	// IF asset exists in charts app config, AND $sel_opt['show_charts'] UI key format is latest iteration (fiat conversion charts USED TO have no underscore)
-     	if ( array_key_exists($mrkt_key, $ct['conf']['charts_alerts']['tracked_mrkts']) && stristr($sel_opt['show_charts'][$loop], '_') ) {
+     	if ( array_key_exists($mrkt_key, $ct['conf']['charts_alerts']['tracked_markets']) && stristr($sel_opt['show_charts'][$loop], '_') ) {
      		
      	$chart_params = explode('_', $ct['var']->strip_brackets($sel_opt['show_charts'][$loop]) );
      	
-     	$chart_conf_check = explode('||', $ct['conf']['charts_alerts']['tracked_mrkts'][$mrkt_key]);
+     	$chart_conf_check = explode('||', $ct['conf']['charts_alerts']['tracked_markets'][$mrkt_key]);
      		
      		// If pair properly matches OR it's a conversion chart, we're good to keep this $sel_opt['show_charts'] array value 
-     		if ( $chart_params[1] == $chart_conf_check[1] || $chart_params[1] == $default_btc_prim_currency_pair ) {
+     		if ( $chart_params[1] == $chart_conf_check[1] || $chart_params[1] == $default_bitcoin_primary_currency_pair ) {
      		$temp_show_charts[$loop] = $sel_opt['show_charts'][$loop];
      		}
      		

@@ -19,16 +19,16 @@
 
 
 
-		var average_paid_notes = '<h5 class="align_center yellow tooltip_title">Calculating Average <?=strtoupper($ct['conf']['gen']['btc_prim_currency_pair'])?> Price Paid Per Token</h5>'
+		var average_paid_notes = '<h5 class="align_center yellow tooltip_title">Calculating Average <?=strtoupper($ct['conf']['gen']['bitcoin_primary_currency_pair'])?> Price Paid Per Token</h5>'
 			
 			
-			+'<p class="coin_info extra_margins" style="white-space: normal; "><span class="green">Total <?=strtoupper($ct['conf']['gen']['btc_prim_currency_pair'])?> Paid For All Tokens</span> <span class="blue">&#247;</span> <span class="yellow">Total Tokens Purchased</span> <span class="blue">=</span> <span class="bitcoin">Average <?=strtoupper($ct['conf']['gen']['btc_prim_currency_pair'])?> Price Paid Per Token</span></p>'
+			+'<p class="coin_info extra_margins" style="white-space: normal; "><span class="green">Total <?=strtoupper($ct['conf']['gen']['bitcoin_primary_currency_pair'])?> Paid For All Tokens</span> <span class="blue">&#247;</span> <span class="yellow">Total Tokens Purchased</span> <span class="blue">=</span> <span class="bitcoin">Average <?=strtoupper($ct['conf']['gen']['bitcoin_primary_currency_pair'])?> Price Paid Per Token</span></p>'
 			
-			+'<p class="coin_info extra_margins" style="white-space: normal; ">The RESULT of the above calculation <i>remains the same even AFTER you sell ANY amount, ONLY if you don\'t buy more between sells</i>. Everytime you buy more <i>after selling some</i>, re-calculate your Average <?=strtoupper($ct['conf']['gen']['btc_prim_currency_pair'])?> Price Paid Per Token with this formula:</p>'
+			+'<p class="coin_info extra_margins" style="white-space: normal; ">The RESULT of the above calculation <i>remains the same even AFTER you sell ANY amount, ONLY if you don\'t buy more between sells</i>. Everytime you buy more <i>after selling some</i>, re-calculate your Average <?=strtoupper($ct['conf']['gen']['bitcoin_primary_currency_pair'])?> Price Paid Per Token with this formula:</p>'
 			
-			+'<p class="coin_info extra_margins" style="white-space: normal; ">(<span class="green">Total <?=strtoupper($ct['conf']['gen']['btc_prim_currency_pair'])?> Paid For All Tokens</span> <span class="blue">-</span> <span class="red">Total <?=strtoupper($ct['conf']['gen']['btc_prim_currency_pair'])?> Received From All Sold Tokens</span>) <span class="blue">&#247;</span> <span class="yellow">Total Remaining Tokens Still Held</span> <span class="blue">=</span> <span class="bitcoin">Average <?=strtoupper($ct['conf']['gen']['btc_prim_currency_pair'])?> Price Paid Per Token</span></p>'
+			+'<p class="coin_info extra_margins" style="white-space: normal; ">(<span class="green">Total <?=strtoupper($ct['conf']['gen']['bitcoin_primary_currency_pair'])?> Paid For All Tokens</span> <span class="blue">-</span> <span class="red">Total <?=strtoupper($ct['conf']['gen']['bitcoin_primary_currency_pair'])?> Received From All Sold Tokens</span>) <span class="blue">&#247;</span> <span class="yellow">Total Remaining Tokens Still Held</span> <span class="blue">=</span> <span class="bitcoin">Average <?=strtoupper($ct['conf']['gen']['bitcoin_primary_currency_pair'])?> Price Paid Per Token</span></p>'
 			
-			+'<p class="coin_info extra_margins" style="white-space: normal; "><span class="bitcoin">PRO TIP:</span> <br /> When buying / selling, keep quick and dirty (yet clear) textual records of... <br />a) How much you bought / sold of what<br />b) What you paid / received in <?=strtoupper($ct['conf']['gen']['btc_prim_currency_pair'])?> value<br />c) What / where you traded <br />d) Backup to USB Stick / NAS / DropBox / GoogleDrive / OneDrive / AmazonBucket <br />e) Now you\'re ready for tax season, to create spreadsheets from this data</p>'
+			+'<p class="coin_info extra_margins" style="white-space: normal; "><span class="bitcoin">PRO TIP:</span> <br /> When buying / selling, keep quick and dirty (yet clear) textual records of... <br />a) How much you bought / sold of what<br />b) What you paid / received in <?=strtoupper($ct['conf']['gen']['bitcoin_primary_currency_pair'])?> value<br />c) What / where you traded <br />d) Backup to USB Stick / NAS / DropBox / GoogleDrive / OneDrive / AmazonBucket <br />e) Now you\'re ready for tax season, to create spreadsheets from this data</p>'
 			
 			+'<p class="coin_info extra_margins yellow" style="white-space: normal; ">There is also an <i>open source / free</i> app called <a href="https://rotki.com" target="_blank">Rotki</a> that can help you <i>PRIVATELY</i> track your tax data.</p>'
 			
@@ -43,11 +43,11 @@
 			
 			+'<p class="coin_info extra_margins" style="white-space: normal; ">Set the "Asset / Pair @ Exchange" drop-down menus for the asset to any markets you prefer. It doesn\'t matter which ones you choose, as long as the price discovery closely matches the exchange where you are margin trading this asset.</p>'
 			
-			+'<p class="coin_info extra_margins" style="white-space: normal; ">Set the "Holdings" field to match your margin leverage deposit (example: buying 1 BTC @ 5x leverage would be 0.2 BTC in the "Holdings" field in this app). You\'ll also need to fill in the "Average Paid (per-token)" field with the average price paid in <?=strtoupper($ct['conf']['gen']['btc_prim_currency_pair'])?> per-token. Finally, set the "Margin Leverage" fields to match your leverage and whether you are long or short. When you are done, click "Save Updated Portfolio".</p>'
+			+'<p class="coin_info extra_margins" style="white-space: normal; ">Set the "Holdings" field to match your margin leverage deposit (example: buying 1 BTC @ 5x leverage would be 0.2 BTC in the "Holdings" field in this app). You\'ll also need to fill in the "Average Paid (per-token)" field with the average price paid in <?=strtoupper($ct['conf']['gen']['bitcoin_primary_currency_pair'])?> per-token. Finally, set the "Margin Leverage" fields to match your leverage and whether you are long or short. When you are done, click "Save Updated Portfolio".</p>'
 			
-			+'<p class="coin_info extra_margins" style="white-space: normal; ">To see your margin leverage stats after updating your portfolio, go to the bottom of the Portfolio page, where you\'ll find a summary section. Hovering over the "I" icon next to the Gain / Loss summary will display any margin leverage stats per-asset. There is also an "I" icon in the far right-side data table column "(<?=strtoupper($ct['conf']['gen']['btc_prim_currency_pair'])?>)" per-asset, which you can also hover over for margin leverage stats.</p>'
+			+'<p class="coin_info extra_margins" style="white-space: normal; ">To see your margin leverage stats after updating your portfolio, go to the bottom of the Portfolio page, where you\'ll find a summary section. Hovering over the "I" icon next to the Gain / Loss summary will display any margin leverage stats per-asset. There is also an "I" icon in the far right-side data table column "(<?=strtoupper($ct['conf']['gen']['bitcoin_primary_currency_pair'])?>)" per-asset, which you can also hover over for margin leverage stats.</p>'
 			
-			+'<p class="coin_info balloon_notation extra_margins yellow" style="white-space: normal; ">*Current maximum margin leverage setting of <?=$ct['conf']['power']['margin_lvrg_max']?>x can be adjusted in the Admin Config POWER USER section.</p>'
+			+'<p class="coin_info balloon_notation extra_margins yellow" style="white-space: normal; ">*Current maximum margin leverage setting of <?=$ct['conf']['power']['margin_leverage_maximum']?>x can be adjusted in the Admin Config POWER USER section.</p>'
 			
 			+'<p> </p>';
 
@@ -530,7 +530,7 @@
     	    
     	    }
     	    else {
-    	    $asset_paid_val = ( $ct['var']->num_to_str($asset_paid_val) >= 1 ? $ct['var']->num_pretty($asset_paid_val, 2) : $ct['var']->num_pretty($asset_paid_val, $ct['conf']['gen']['currency_dec_max']) );
+    	    $asset_paid_val = ( $ct['var']->num_to_str($asset_paid_val) >= 1 ? $ct['var']->num_pretty($asset_paid_val, 2) : $ct['var']->num_pretty($asset_paid_val, $ct['conf']['gen']['currency_decimals_max']) );
     	    }
 	    
 	    
@@ -559,7 +559,7 @@
 					
 					// Get default BITCOIN pair key for further down in the logic, if no $asset_pair_id value was set FOR BITCOIN
 					if ( strtolower($asset_array_val['name']) == 'bitcoin' ) {
-					$sel_pair = ( isset($asset_pair_id) ? $asset_pair_id : $ct['conf']['gen']['btc_prim_currency_pair'] );
+					$sel_pair = ( isset($asset_pair_id) ? $asset_pair_id : $ct['conf']['gen']['bitcoin_primary_currency_pair'] );
 					}
 					else {
 					$sel_pair = $asset_pair_id;
@@ -582,7 +582,7 @@
 							
 									$html_mrkt_list[$pair_key] .= "\n<option value='".$loop2."'" . ( 
 									isset($asset_mrkt_id) && ($asset_mrkt_id) == $loop2 
-									|| !isset($asset_mrkt_id) && strtolower($asset_array_val['name']) == 'bitcoin' && $loop2 == $ct['asset']->btc_mrkt($ct['conf']['gen']['btc_prim_exchange']) ? ' selected ' : '' ) . ">" . $ct['gen']->key_to_name($mrkt_key) . " </option>\n";
+									|| !isset($asset_mrkt_id) && strtolower($asset_array_val['name']) == 'bitcoin' && $loop2 == $ct['asset']->btc_mrkt($ct['conf']['gen']['bitcoin_primary_exchange']) ? ' selected ' : '' ) . ">" . $ct['gen']->key_to_name($mrkt_key) . " </option>\n";
 								
 									}
 									$loop2 = NULL;
@@ -602,7 +602,7 @@
 				     echo $asset_mrkt_id;
 				     }
 				     elseif ( !isset($asset_mrkt_id) && strtolower($asset_array_val['name']) == 'bitcoin' ) {
-				     echo $ct['asset']->btc_mrkt($ct['conf']['gen']['btc_prim_exchange']);
+				     echo $ct['asset']->btc_mrkt($ct['conf']['gen']['bitcoin_primary_exchange']);
 				     }
 				     else {
 					echo '1';
@@ -648,7 +648,7 @@
 	     ' <?=( $ct['var']->rem_num_format($asset_amnt_val) > 0 && $ct['var']->rem_num_format($asset_amnt_val) <= $watch_only_flag_val ? 'readonly' : '' )?> /> <span class='blue'><?=strtoupper($asset_array_key)?></span>  &nbsp;  &nbsp; 
 			    
 			
-	     <b>Average Paid (per-token):</b> <?=$ct['conf']['power']['btc_currency_mrkts'][ $ct['conf']['gen']['btc_prim_currency_pair'] ]?><input class='private_data' type='text' size='10' id='<?=$field_var_paid?>' name='<?=$field_var_paid?>' value='<?=$asset_paid_val?>' <?=$disable_fields?> /> 
+	     <b>Average Paid (per-token):</b> <?=$ct['conf']['power']['bitcoin_currency_markets'][ $ct['conf']['gen']['bitcoin_primary_currency_pair'] ]?><input class='private_data' type='text' size='10' id='<?=$field_var_paid?>' name='<?=$field_var_paid?>' value='<?=$asset_paid_val?>' <?=$disable_fields?> /> 
 	     
 	     
 		<img class='tooltip_style_control' id='average_paid_notes_<?=$rand_id?>' src='templates/interface/media/images/info.png' alt='' width='30' style='position: relative; left: -5px;' /> 
@@ -707,7 +707,7 @@
 	     <option value='0' <?=( $asset_lvrg_val == 0 || $ct['var']->rem_num_format($asset_paid_val) < $min_fiat_val_test ? 'selected' : '' )?>> None </option>
 	     <?php
 	     $lvrg_count = 2;
-	     while ( $ct['conf']['power']['margin_lvrg_max'] > 1 && $lvrg_count <= $ct['conf']['power']['margin_lvrg_max'] ) {
+	     while ( $ct['conf']['power']['margin_leverage_maximum'] > 1 && $lvrg_count <= $ct['conf']['power']['margin_leverage_maximum'] ) {
 	     ?>	     
 	     <option value='<?=$lvrg_count?>' <?=( $asset_lvrg_val == $lvrg_count && $ct['var']->rem_num_format($asset_paid_val) >= $min_fiat_val_test ? 'selected' : '' )?>> <?=$lvrg_count?>x </option>
 	     <?php

@@ -102,6 +102,8 @@ var logs_csrf_sec_token;
 
 var admin_area_sec_level;
 
+var admin_area_2fa;
+
 var enhanced_sec_token;
 
 var reload_time;
@@ -136,7 +138,7 @@ var charts_num;
 	
 var btc_prim_currency_val;
 
-var btc_prim_currency_pair;
+var bitcoin_primary_currency_pair;
 
 var collapsed_sidebar_scroll_position;
 

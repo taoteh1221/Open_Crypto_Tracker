@@ -9,7 +9,7 @@
 //////////////////////////////////////////////////////////////////
 
 
-// Set time as UTC for logs etc ('loc_time_offset' in Admin Config GENERAL section can adjust UI / UX timestamps as needed)
+// Set time as UTC for logs etc ('local_time_offset' in Admin Config GENERAL section can adjust UI / UX timestamps as needed)
 date_default_timezone_set('UTC'); 
 
 

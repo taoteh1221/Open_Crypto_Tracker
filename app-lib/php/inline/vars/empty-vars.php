@@ -7,6 +7,8 @@
 
 // Initial BLANK arrays
 
+$admin_render_settings = array();
+
 $check_crypto_pair = array();
 
 $log_errors = array();

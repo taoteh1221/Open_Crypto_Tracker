@@ -71,49 +71,75 @@ $ct['dev']['tasks_time_offset'] = ceil($ct['dev']['tasks_time_offset'] * 2);
 }
 
 
+// If we have an AlphaVantage UNLIMITED daily requests plan
+// https://www.alphavantage.co/premium/
+if ( $ct['conf']['ext_apis']['alphavantage_per_minute_limit'] >= 30 ) {
+$ct['dev']['alphavantage_per_day_limit'] = 0; // Unlimited
+}
+
+
+// Updating the admin config
+if ( isset($_POST['conf_id']) && isset($_POST['interface_id']) && $ct['gen']->pass_sec_check($_POST['admin_hashed_nonce'], $_POST['interface_id']) && $ct['gen']->valid_2fa('strict') ) {
+     
+$update_admin_conf_valid = $ct['admin']->update_config();
+     
+     if ( $update_admin_conf_valid ) {
+     $update_admin_conf_success = 'Updating of admin configuration "' . $ct['gen']->key_to_name($_POST['interface_id']) . '" SUCCEEDED.';
+     }
+     else {
+     $update_admin_conf_error = 'Updating of admin configuration "' . $ct['gen']->key_to_name($_POST['interface_id']) . '" FAILED.';
+     }
+          
+}
+
+
 // Toggle to set the admin interface security level, if 'opt_admin_sec' from authenticated admin is verified
 // (MUST run after 3rd-party-classes-loader.php)
-if ( isset($_POST['opt_admin_sec']) && $ct['gen']->pass_sec_check($_POST['admin_hashed_nonce'], 'toggle_admin_security') ) {
+if ( isset($_POST['opt_admin_sec']) && $ct['gen']->pass_sec_check($_POST['admin_hashed_nonce'], 'toggle_admin_security') && $ct['gen']->valid_2fa() ) {
      
-     if ( $ct['gen']->valid_2fa() ) {
+$admin_area_sec_level = $_POST['opt_admin_sec'];
+     
+$ct['cache']->save_file($ct['base_dir'] . '/cache/vars/admin_area_sec_level.dat', $admin_area_sec_level);
+     
+$setup_admin_sec_success = 'Admin Security Level changed to "'.$admin_area_sec_level.'" successfully.';
           
-     $admin_area_sec_level = $_POST['opt_admin_sec'];
-     
-     $ct['cache']->save_file($ct['base_dir'] . '/cache/vars/admin_area_sec_level.dat', $admin_area_sec_level);
-     
-     $setup_admin_sec_success = 'Admin Security Level changed to "'.$admin_area_sec_level.'" successfully.';
-          
-     }
-     
 }
 
 
-// Toggle 2FA setup on / off, if 'opt_admin_2fa' from authenticated admin is verified, AND 2FA check passes
+// Toggle 2FA setup off / on / scrict, if 'opt_admin_2fa' from authenticated admin is verified, AND 2FA check passes
 // (MUST run after 3rd-party-classes-loader.php)
-if ( isset($_POST['opt_admin_2fa']) && $ct['gen']->pass_sec_check($_POST['admin_hashed_nonce'], 'toggle_admin_2fa') ) {
+// *FORCE* CHECK 2FA, SINCE WE ARE RUNNING 2FA SETUP HERE
+if ( isset($_POST['opt_admin_2fa']) && $ct['gen']->pass_sec_check($_POST['admin_hashed_nonce'], 'toggle_admin_2fa') && $ct['gen']->valid_2fa('setup', 'force_check') ) {
      
-     // FORCE CHECK IF *ENABLING* THE 2FA ADMIN SETTING HERE
-     if ( $_POST['opt_admin_2fa'] == 'on' && $ct['gen']->valid_2fa('force_check') || $_POST['opt_admin_2fa'] == 'off' && $ct['gen']->valid_2fa() ) {
-          
-     $admin_area_2fa = $_POST['opt_admin_2fa'];
+$admin_area_2fa = $_POST['opt_admin_2fa'];
      
-     $ct['cache']->save_file($ct['base_dir'] . '/cache/vars/admin_area_2fa.dat', $admin_area_2fa);
+$ct['cache']->save_file($ct['base_dir'] . '/cache/vars/admin_area_2fa.dat', $admin_area_2fa);
      
-          if ( $_POST['opt_admin_2fa'] == 'on' ) {
-          $setup_2fa_success = '2FA has been ENABLED successfully. You will need to use your authenticator phone app whenever you login now (along with your usual password).';
+     
+     if ( $_POST['opt_admin_2fa'] != 'off' ) {
+               
+          if ( $_POST['opt_admin_2fa'] == 'strict' ) {
+          $setup_2fa_notice_mode = ' (strict mode)';
+          $setup_2fa_success_scrict = ', AND whenever you want to update ANYTHING in the admin area';
           }
           else {
-          $setup_2fa_success = '2FA has been DISABLED successfully.';
+          $setup_2fa_notice_mode = ' (standard mode)';
           }
-          
+               
+     $setup_2fa_success = '2FA' . $setup_2fa_notice_mode . ' has been ENABLED successfully. You will need to use your authenticator phone app whenever you login now (along with your usual password)' . $setup_2fa_success_scrict . '.';
+
+     }
+     else {
+     $setup_2fa_success = '2FA has been DISABLED successfully.';
      }
      
-}
                     
+     // Force-show Admin 2FA setup, if it failed because of an invalid 2FA code
+     if ( $check_2fa_error != null ) {
+     $force_show_2fa_setup = $_POST['opt_admin_2fa'];
+     }
 
-// Force-show Admin 2FA setup, if it failed becuase of an invalid 2FA code
-if ( $_POST['admin_hashed_nonce'] == $ct['gen']->admin_hashed_nonce('toggle_admin_2fa') && $check_2fa_error != null ) {
-$force_show_2fa_setup = ' style="display: block;"';
+
 }
 
 
@@ -175,14 +201,14 @@ $valid_from_email = true;
 
 
 // Notifyme service check
-if ( isset($ct['conf']['ext_apis']['notifyme_accesscode']) && trim($ct['conf']['ext_apis']['notifyme_accesscode']) != '' ) {
+if ( isset($ct['conf']['ext_apis']['notifyme_access_code']) && trim($ct['conf']['ext_apis']['notifyme_access_code']) != '' ) {
 $notifyme_activated = true;
 }
 
 
 // Texting (SMS) services check
 // (if MORE THAN ONE is activated, keep ALL disabled to avoid a texting firestorm)
-if ( isset($ct['conf']['ext_apis']['textbelt_apikey']) && trim($ct['conf']['ext_apis']['textbelt_apikey']) != '' ) {
+if ( isset($ct['conf']['ext_apis']['textbelt_api_key']) && trim($ct['conf']['ext_apis']['textbelt_api_key']) != '' ) {
 $activated_sms_services[] = 'textbelt';
 }
 
@@ -200,8 +226,8 @@ $activated_sms_services[] = 'twilio';
 if (
 isset($ct['conf']['ext_apis']['textlocal_sender'])
 && trim($ct['conf']['ext_apis']['textlocal_sender']) != ''
-&& isset($ct['conf']['ext_apis']['textlocal_apikey'])
-&& $ct['conf']['ext_apis']['textlocal_apikey'] != ''
+&& isset($ct['conf']['ext_apis']['textlocal_api_key'])
+&& $ct['conf']['ext_apis']['textlocal_api_key'] != ''
 ) {
 $activated_sms_services[] = 'textlocal';
 }
@@ -231,16 +257,16 @@ $ct['gen']->log( 'conf_error', 'only one SMS service is allowed, please deactiva
 
 
 // Backup archive password protection / encryption
-if ( $ct['conf']['sec']['backup_arch_pass'] != '' ) {
-$backup_arch_pass = $ct['conf']['sec']['backup_arch_pass'];
+if ( $ct['conf']['sec']['backup_archive_password'] != '' ) {
+$backup_archive_password = $ct['conf']['sec']['backup_archive_password'];
 }
 else {
-$backup_arch_pass = false;
+$backup_archive_password = false;
 }
 
 
 // Light chart config tracking / updating (checking for changes to light chart app config, to trigger light chart rebuilds)
-$conf_light_chart_struct = md5( serialize($ct['conf']['power']['light_chart_day_intervals']) . $ct['conf']['power']['light_chart_data_points_max'] );
+$conf_light_chart_struct = md5( serialize($ct['conf']['power']['light_chart_day_intervals']) . $ct['conf']['power']['light_chart_data_points_maximum'] );
 
 if ( !file_exists($ct['base_dir'] . '/cache/vars/light_chart_struct.dat') ) {
 $ct['cache']->save_file($ct['base_dir'] . '/cache/vars/light_chart_struct.dat', $conf_light_chart_struct);
@@ -327,9 +353,9 @@ $ct['gen']->log('other_error', 'RSS feeds failed to sort alphabetically');
 // Set minimum CURRENCY value used in the app
 $loop = 0;
 $min_fiat_val_test = "0.";
-while ( $loop < $ct['conf']['gen']['currency_dec_max'] ) {
+while ( $loop < $ct['conf']['gen']['currency_decimals_max'] ) {
 $loop = $loop + 1;
-$min_fiat_val_test .= ( $loop < $ct['conf']['gen']['currency_dec_max'] ? '0' : '1' );
+$min_fiat_val_test .= ( $loop < $ct['conf']['gen']['currency_decimals_max'] ? '0' : '1' );
 }
 unset($loop);
       
@@ -337,9 +363,9 @@ unset($loop);
 // Set minimum CRYPTO value used in the app (important for currency conversions on very low-value coins, like BONK etc)
 $loop = 0;
 $min_crypto_val_test = "0.";
-while ( $loop < $ct['conf']['gen']['crypto_dec_max'] ) {
+while ( $loop < $ct['conf']['gen']['crypto_decimals_max'] ) {
 $loop = $loop + 1;
-$min_crypto_val_test .= ( $loop < $ct['conf']['gen']['crypto_dec_max'] ? '0' : '1' );
+$min_crypto_val_test .= ( $loop < $ct['conf']['gen']['crypto_decimals_max'] ? '0' : '1' );
 }
 unset($loop);
 

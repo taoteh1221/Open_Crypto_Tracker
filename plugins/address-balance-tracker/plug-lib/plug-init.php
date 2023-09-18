@@ -49,7 +49,7 @@ $label = trim($target_val['label']);
 
 
     // Add this altcoin to $ct['conf']['power']['crypto_pair'] dynamically #IF# it doesn't exist there, #IF# it has a BTC market configured
-    // (For conversion of it's BTC value to the user's fiat value, set in $ct['conf']['gen']['btc_prim_currency_pair'])
+    // (For conversion of it's BTC value to the user's fiat value, set in $ct['conf']['gen']['bitcoin_primary_currency_pair'])
     if ( $asset != 'btc' && !isset($ct['conf']['power']['crypto_pair'][$asset]) && isset($ct['conf']['assets'][strtoupper($asset)]['pair']['btc']) ) {
     $ct['conf']['power']['crypto_pair'][$asset] = strtoupper($asset) . ' ';
     }
@@ -167,13 +167,13 @@ $pair_btc_val = $ct['asset']->pair_btc_val($asset);
         // Get primary currency value of the current address INCREASE / DECREASE amount only (for increased privacy in alerts)
         $asset_prim_currency_worth_raw = $ct['var']->num_to_str( ($difference_amnt * $pair_btc_val) * $sel_opt['sel_btc_prim_currency_val'] );
         
-        $pretty_prim_currency_worth = $ct['var']->num_pretty($asset_prim_currency_worth_raw, ( $asset_prim_currency_worth_raw >= 1.00 ? 2 : $ct['conf']['gen']['currency_dec_max'] ) );
+        $pretty_prim_currency_worth = $ct['var']->num_pretty($asset_prim_currency_worth_raw, ( $asset_prim_currency_worth_raw >= 1.00 ? 2 : $ct['conf']['gen']['currency_decimals_max'] ) );
             
             
-	   $base_msg = "The " . $label . " address balance has " . $direction . "d: ". $plus_minus . $ct['conf']['power']['btc_currency_mrkts'][ $ct['conf']['gen']['btc_prim_currency_pair'] ] . $pretty_prim_currency_worth;
+	   $base_msg = "The " . $label . " address balance has " . $direction . "d: ". $plus_minus . $ct['conf']['power']['bitcoin_currency_markets'][ $ct['conf']['gen']['bitcoin_primary_currency_pair'] ] . $pretty_prim_currency_worth;
 	    
 	    
-        $text_msg = $label . " address balance " . $direction . ": ". $plus_minus . $ct['conf']['power']['btc_currency_mrkts'][ $ct['conf']['gen']['btc_prim_currency_pair'] ] . $pretty_prim_currency_worth;
+        $text_msg = $label . " address balance " . $direction . ": ". $plus_minus . $ct['conf']['power']['bitcoin_currency_markets'][ $ct['conf']['gen']['bitcoin_primary_currency_pair'] ] . $pretty_prim_currency_worth;
 	    
 	    
 	   $email_msg = $base_msg; // PRIVACY MODE (NO EXPLORER LINK APPENDED)
@@ -185,15 +185,15 @@ $pair_btc_val = $ct['asset']->pair_btc_val($asset);
         // Get primary currency value of the current address TOTAL balance
         $asset_prim_currency_worth_raw = $ct['var']->num_to_str( ($address_balance * $pair_btc_val) * $sel_opt['sel_btc_prim_currency_val'] );
         
-        $pretty_prim_currency_worth = $ct['var']->num_pretty($asset_prim_currency_worth_raw, ( $asset_prim_currency_worth_raw >= 1.00 ? 2 : $ct['conf']['gen']['currency_dec_max'] ) );
+        $pretty_prim_currency_worth = $ct['var']->num_pretty($asset_prim_currency_worth_raw, ( $asset_prim_currency_worth_raw >= 1.00 ? 2 : $ct['conf']['gen']['currency_decimals_max'] ) );
         
-        $pretty_asset_amnt = $ct['var']->num_pretty($address_balance, $ct['conf']['gen']['crypto_dec_max']);
+        $pretty_asset_amnt = $ct['var']->num_pretty($address_balance, $ct['conf']['gen']['crypto_decimals_max']);
             
             
-	    $base_msg = "The " . $label . " address balance has " . $direction . "d (" . $plus_minus . $difference_amnt . " " . strtoupper($asset) . "), to a new balance of " . $pretty_asset_amnt . " " . strtoupper($asset) . " (". $ct['conf']['power']['btc_currency_mrkts'][ $ct['conf']['gen']['btc_prim_currency_pair'] ] . $pretty_prim_currency_worth . ").";
+	    $base_msg = "The " . $label . " address balance has " . $direction . "d (" . $plus_minus . $difference_amnt . " " . strtoupper($asset) . "), to a new balance of " . $pretty_asset_amnt . " " . strtoupper($asset) . " (". $ct['conf']['power']['bitcoin_currency_markets'][ $ct['conf']['gen']['bitcoin_primary_currency_pair'] ] . $pretty_prim_currency_worth . ").";
 	    
 	    
-        $text_msg = $label . " address balance " . $direction . " (" . $plus_minus . $difference_amnt . " " . strtoupper($asset) . "): " . $pretty_asset_amnt . " " . strtoupper($asset) . " (". $ct['conf']['power']['btc_currency_mrkts'][ $ct['conf']['gen']['btc_prim_currency_pair'] ] . $pretty_prim_currency_worth . ")";
+        $text_msg = $label . " address balance " . $direction . " (" . $plus_minus . $difference_amnt . " " . strtoupper($asset) . "): " . $pretty_asset_amnt . " " . strtoupper($asset) . " (". $ct['conf']['power']['bitcoin_currency_markets'][ $ct['conf']['gen']['bitcoin_primary_currency_pair'] ] . $pretty_prim_currency_worth . ")";
 	    
 
     		// Add blockchain explorer link to email message
@@ -213,7 +213,7 @@ $pair_btc_val = $ct['asset']->pair_btc_val($asset);
               
     // Were're just adding a human-readable timestamp to smart home (audio) alerts
     // (add a period at end of message before timestamp if it's non-existant, so alexa pauses before speaking the timestamp)
-    $notifyme_msg = $base_msg . ( substr( trim($base_msg) , -1) != '.' ? '.' : '' ) . ' Timestamp: ' . $ct['gen']->time_date_format($ct['conf']['gen']['loc_time_offset'], 'pretty_time') . '.';
+    $notifyme_msg = $base_msg . ( substr( trim($base_msg) , -1) != '.' ? '.' : '' ) . ' Timestamp: ' . $ct['gen']->time_date_format($ct['conf']['gen']['local_time_offset'], 'pretty_time') . '.';
 
 
   	// Message parameter added for desired comm methods (leave any comm method blank to skip sending via that method)

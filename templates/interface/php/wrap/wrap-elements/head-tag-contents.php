@@ -166,7 +166,7 @@
 	
 	btc_prim_currency_val = '<?=number_format( $sel_opt['sel_btc_prim_currency_val'], 2, '.', '' )?>';
 	
-	btc_prim_currency_pair = '<?=strtoupper($ct['conf']['gen']['btc_prim_currency_pair'])?>';
+	bitcoin_primary_currency_pair = '<?=strtoupper($ct['conf']['gen']['bitcoin_primary_currency_pair'])?>';
 	
 	cookies_size_warning = '<?=( isset($system_warnings['portfolio_cookies_size']) ? $system_warnings['portfolio_cookies_size'] : 'none' )?>';
 	
@@ -223,10 +223,12 @@
           }
           else {
           ?>
+	
+	     admin_area_2fa = '<?=base64_encode($admin_area_2fa)?>';
           
-     	admin_area_sec_level = '<?=base64_encode( $admin_area_sec_level )?>';
+     	admin_area_sec_level = '<?=base64_encode($admin_area_sec_level)?>';
           
-     	enhanced_sec_token = "<?=base64_encode( $ct['gen']->admin_hashed_nonce('enhanced_security_mode') )?>";
+     	enhanced_sec_token = "<?=base64_encode( $ct['gen']->admin_hashed_nonce('medium_security_mode') )?>";
           
           <?php
           }
@@ -315,11 +317,11 @@
 	
 	<?php
 	
-	foreach ( $ct['conf']['power']['crypto_pair_pref_mrkts'] as $key => $unused ) {
+	foreach ( $ct['conf']['power']['crypto_pair_preferred_markets'] as $key => $unused ) {
 	$secondary_mrkt_currencies .= '"'.strtolower($key).'", ';
 	}
 	
-	foreach ( $ct['conf']['power']['btc_currency_mrkts'] as $key => $unused ) {
+	foreach ( $ct['conf']['power']['bitcoin_currency_markets'] as $key => $unused ) {
 	$secondary_mrkt_currencies .= '"'.strtolower($key).'", ';
 	}
 	
@@ -333,7 +335,7 @@
 	secondary_mrkt_currencies = <?=$secondary_mrkt_currencies?>;
 	
 	<?php
-	foreach ( $ct['conf']['power']['btc_pref_currency_mrkts'] as $pref_bitcoin_mrkts_key => $pref_bitcoin_mrkts_val ) {
+	foreach ( $ct['conf']['power']['bitcoin_preferred_currency_markets'] as $pref_bitcoin_mrkts_key => $pref_bitcoin_mrkts_val ) {
 	?>
 
 	pref_bitcoin_mrkts["<?=strtolower( $pref_bitcoin_mrkts_key )?>"] = "<?=strtolower( $pref_bitcoin_mrkts_val )?>";

@@ -18,7 +18,7 @@
 $x_coord = 55; // Start position (absolute) for light chart links
 	
 
-	foreach ( $ct['conf']['charts_alerts']['tracked_mrkts'] as $key => $val ) {
+	foreach ( $ct['conf']['charts_alerts']['tracked_markets'] as $key => $val ) {
 		
  
 		if ( $_GET['asset_data'] == $key ) {
@@ -31,7 +31,7 @@ $x_coord = 55; // Start position (absolute) for light chart links
 		$mrkt_parse = explode("||", $val );
 
 
-		$charted_val = ( $_GET['charted_val'] == 'pair' ? $mrkt_parse[1] : $default_btc_prim_currency_pair );
+		$charted_val = ( $_GET['charted_val'] == 'pair' ? $mrkt_parse[1] : $default_bitcoin_primary_currency_pair );
 		
 		
 		// Strip non-alphanumeric characters to use in js vars, to isolate logic for each separate chart
@@ -46,8 +46,8 @@ $x_coord = 55; // Start position (absolute) for light chart links
 			}
 			// Fiat-equiv
 			// RUN AFTER CRYPTO MARKETS...WE HAVE A COUPLE CRYPTOS SUPPORTED HERE, BUT WE ONLY WANT DESIGNATED FIAT-EQIV HERE
-			elseif ( array_key_exists($charted_val, $ct['conf']['power']['btc_currency_mrkts']) && !array_key_exists($charted_val, $ct['conf']['power']['crypto_pair']) ) {
-			$currency_symb = $ct['conf']['power']['btc_currency_mrkts'][$charted_val];
+			elseif ( array_key_exists($charted_val, $ct['conf']['power']['bitcoin_currency_markets']) && !array_key_exists($charted_val, $ct['conf']['power']['crypto_pair']) ) {
+			$currency_symb = $ct['conf']['power']['bitcoin_currency_markets'][$charted_val];
 			$fiat_equiv = 1;
 			}
 			// Fallback for currency symbol config errors

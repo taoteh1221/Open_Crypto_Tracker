@@ -33,7 +33,7 @@ $(".chart_wrapper").css({ "border": '2px solid ' + charts_border });
              
 
 // Dynamic table header updating
-$("span.btc_prim_currency_pair").html(btc_prim_currency_pair); 
+$("span.bitcoin_primary_currency_pair").html(bitcoin_primary_currency_pair); 
 
 	
 // Highlightjs configs
@@ -412,34 +412,34 @@ nav_menu('.user-nav');
     if ( is_iframe && is_admin ) {
     
      
-         if ( Base64.decode(admin_area_sec_level) == 'enhanced' ) {
+         if ( Base64.decode(admin_area_sec_level) == 'medium' ) {
      
          var forms_array = document.getElementsByTagName("form");
          
          
              for (var form_count = 0; form_count < forms_array.length; form_count++) {
                      
-             has_enhanced_security_nonce = false;
+             has_medium_security_nonce = false;
                  
              inputs_array = forms_array[form_count].getElementsByTagName("input");
                  
                  
                  for (var input_count = 0; input_count < inputs_array.length; input_count++) {
                      
-                     if ( inputs_array[input_count].name == 'enhanced_security_nonce' ) {
-                     has_enhanced_security_nonce = true;
+                     if ( inputs_array[input_count].name == 'medium_security_nonce' ) {
+                     has_medium_security_nonce = true;
                      }
                  
                  }
                  
                  
-                 if ( has_enhanced_security_nonce == false ) {
+                 if ( has_medium_security_nonce == false ) {
                      
                  new_input = document.createElement("input");
              
                  new_input.setAttribute("type", "hidden");
                  
-                 new_input.setAttribute("name", "enhanced_security_nonce");
+                 new_input.setAttribute("name", "medium_security_nonce");
                  
                  new_input.setAttribute("value", Base64.decode(enhanced_sec_token) );
                  

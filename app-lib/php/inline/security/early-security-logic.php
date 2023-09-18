@@ -57,13 +57,18 @@ exit;
 // If not updating, and cached var already exists
 if ( file_exists($ct['base_dir'] . '/cache/vars/admin_area_sec_level.dat') ) {
 $admin_area_sec_level = trim( file_get_contents($ct['base_dir'] . '/cache/vars/admin_area_sec_level.dat') );
+
+     // Backwards compatibility (upgrades from < v6.00.27)
+     if ( $admin_area_sec_level == 'enhanced' ) {
+     $admin_area_sec_level = 'medium';
+     }
+     
 }
 // Else, default to high admin security
 else {
 $admin_area_sec_level = 'high';
 $ct['cache']->save_file($ct['base_dir'] . '/cache/vars/admin_area_sec_level.dat', $admin_area_sec_level);
 }
-
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////
 

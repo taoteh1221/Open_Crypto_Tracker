@@ -66,7 +66,7 @@
 				
 			?>
 			
-			&nbsp; <span class='<?=$alert_filter_css?>' style='font-weight: bold;'><?=$visual_audio_alerts?> Alerts (<?=ucfirst($ct['conf']['gen']['prim_mcap_site'])?> <?=$text_mcap_trend?> <?=$alert_filter?><?=$sel_opt['alert_percent'][1]?>%)</span>
+			&nbsp; <span class='<?=$alert_filter_css?>' style='font-weight: bold;'><?=$visual_audio_alerts?> Alerts (<?=ucfirst($ct['conf']['gen']['primary_marketcap_site'])?> <?=$text_mcap_trend?> <?=$alert_filter?><?=$sel_opt['alert_percent'][1]?>%)</span>
 			
 			<?php
 			}
@@ -96,7 +96,7 @@ if ( $_POST['submit_check'] == 1 || $post_csv_import || $ui_cookies ) {
 <th class='border_lt blue num-sort al_right'>Holdings</th>
 <th class='border_t'>Ticker</th>
 <th class='border_t blue num-sort'>Holdings Value</th>
-<th class='border_rt blue num-sort'>(in <?=strtoupper($ct['conf']['gen']['btc_prim_currency_pair'])?>)</th>
+<th class='border_rt blue num-sort'>(in <?=strtoupper($ct['conf']['gen']['bitcoin_primary_currency_pair'])?>)</th>
     </tr>
   </thead>
  <tbody>
@@ -383,12 +383,12 @@ if ( $_POST['submit_check'] == 1 || $post_csv_import || $ui_cookies ) {
 // Get portfolio summaries
 
 
-$total_btc_worth_raw = number_format($ct['asset']->bitcoin_total(), $ct['conf']['gen']['crypto_dec_max'], '.', '');
+$total_btc_worth_raw = number_format($ct['asset']->bitcoin_total(), $ct['conf']['gen']['crypto_decimals_max'], '.', '');
 $total_btc_worth_raw = $ct['var']->num_to_str($total_btc_worth_raw); // Cleanup any trailing zeros
 
 // FOR UX-SAKE, WE CUT OFF EXTRA RIGHT SIDE ZERO DECIMALS IF VALUE IS AT LEAST A SATOSHI OR HIGHER (O.00000001),
 // #BUT# IF VALUE IS LITERALLY ZERO (WATCH-ONLY, ETC), WE WANT TO SHOW THAT #CLEARLY# TO THE END USER WITH 0.00000000
-$total_btc_worth = $ct['var']->num_pretty($total_btc_worth_raw, $ct['conf']['gen']['crypto_dec_max']);
+$total_btc_worth = $ct['var']->num_pretty($total_btc_worth_raw, $ct['conf']['gen']['crypto_decimals_max']);
 
 $total_prim_currency_worth = $ct['asset']->coin_stats_data('coin_worth_total');
 
@@ -410,7 +410,7 @@ $total_prim_currency_worth = $ct['asset']->coin_stats_data('coin_worth_total');
 
     $altnfts_dominance = $ct['var']->num_to_str( ( $btc_worth_array['ALTNFTS'] / $total_btc_worth_raw ) * 100 );
 
-    $stocks_dominance = $ct['var']->num_to_str( ( number_format($ct['asset']->stocks_bitcoin_total(), $ct['conf']['gen']['crypto_dec_max'], '.', '') / $total_btc_worth_raw ) * 100 );
+    $stocks_dominance = $ct['var']->num_to_str( ( number_format($ct['asset']->stocks_bitcoin_total(), $ct['conf']['gen']['crypto_decimals_max'], '.', '') / $total_btc_worth_raw ) * 100 );
 
     }
     else {
@@ -472,7 +472,7 @@ $altcoin_dominance = $ct['var']->max_100($altcoin_dominance);
 		
           $thres_dec = $ct['gen']->thres_dec($gain_loss_total, 'u'); // Units mode
           
-		$parsed_gain_loss_total = preg_replace("/-/", "-" . $ct['conf']['power']['btc_currency_mrkts'][ $ct['conf']['gen']['btc_prim_currency_pair'] ], number_format($gain_loss_total, $thres_dec['max_dec'], '.', ',' ) );
+		$parsed_gain_loss_total = preg_replace("/-/", "-" . $ct['conf']['power']['bitcoin_currency_markets'][ $ct['conf']['gen']['bitcoin_primary_currency_pair'] ], number_format($gain_loss_total, $thres_dec['max_dec'], '.', ',' ) );
 		
 		$original_worth = $ct['asset']->coin_stats_data('coin_paid_total');
 		
@@ -564,7 +564,7 @@ $altcoin_dominance = $ct['var']->max_100($altcoin_dominance);
 			
 			+'<p class="coin_info" style=" white-space: normal;">The value of your ENTIRE portfolio, in the cryptocurrencies you selected in the "Show Crypto Value Of ENTIRE Portfolio In" setting, on the Settings page.</p>'
 			
-			+'<p class="coin_info bitcoin" style=" white-space: normal;">If these values are skewed often, it\'s because the market(s) being used to determine the values are trading at different prices compared to the markets you chose in this interface. You can force certain markets to be used for this calculation with the "crypto_pair_pref_mrkts" setting, in the Admin Config POWER USER section.</p>'
+			+'<p class="coin_info bitcoin" style=" white-space: normal;">If these values are skewed often, it\'s because the market(s) being used to determine the values are trading at different prices compared to the markets you chose in this interface. You can force certain markets to be used for this calculation with the "crypto_pair_preferred_markets" setting, in the Admin Config POWER USER section.</p>'
 			
 			+'<p class="coin_info red_bright" style=" white-space: normal;">It\'s HIGHLY RECOMMENDED to only add Bluechip / relatively lower risk crypto assets here! Remember, the <a href="https://www.google.com/search?q=barbell+portfolio+strategy" target="_blank">Barbell Portfolio Strategy</a> works VERY WELL for MANY investors that use it!</p>'
 		
@@ -609,7 +609,7 @@ $altcoin_dominance = $ct['var']->max_100($altcoin_dominance);
 		
         $thres_dec = $ct['gen']->thres_dec($total_prim_currency_worth, 'u', 'fiat'); // Units mode
 		// Fiat value of portfolio
-		echo '<span class="black private_data">Portfolio Value (' . strtoupper($ct['conf']['gen']['btc_prim_currency_pair']) . '):</span> <span class="private_data">' . $ct['conf']['power']['btc_currency_mrkts'][ $ct['conf']['gen']['btc_prim_currency_pair'] ] . $ct['var']->num_pretty($total_prim_currency_worth, $thres_dec['max_dec'], false, $thres_dec['min_dec']) . '</span>';
+		echo '<span class="black private_data">Portfolio Value (' . strtoupper($ct['conf']['gen']['bitcoin_primary_currency_pair']) . '):</span> <span class="private_data">' . $ct['conf']['power']['bitcoin_currency_markets'][ $ct['conf']['gen']['bitcoin_primary_currency_pair'] ] . $ct['var']->num_pretty($total_prim_currency_worth, $thres_dec['max_dec'], false, $thres_dec['min_dec']) . '</span>';
 		
 		?>
 		
@@ -620,11 +620,11 @@ $altcoin_dominance = $ct['var']->max_100($altcoin_dominance);
 <script>
 
 
-var fiat_val_content = '<h5 class="yellow tooltip_title">Portfolio Value In <?=strtoupper($ct['conf']['gen']['btc_prim_currency_pair'])?></h5>'
+var fiat_val_content = '<h5 class="yellow tooltip_title">Portfolio Value In <?=strtoupper($ct['conf']['gen']['bitcoin_primary_currency_pair'])?></h5>'
 			
-			+'<p class="coin_info" style=" white-space: normal;">The value of your ENTIRE portfolio, based off your selected primary currency (<?=strtoupper($ct['conf']['gen']['btc_prim_currency_pair'])?>), in the "Primary Currency Market" setting, on the Settings page.</p>'
+			+'<p class="coin_info" style=" white-space: normal;">The value of your ENTIRE portfolio, based off your selected primary currency (<?=strtoupper($ct['conf']['gen']['bitcoin_primary_currency_pair'])?>), in the "Primary Currency Market" setting, on the Settings page.</p>'
 			
-			+'<p class="coin_info" style=" white-space: normal;">Selected Primary Currency Market: <span class="bitcoin">BTC / <?=strtoupper($ct['conf']['gen']['btc_prim_currency_pair'])?> @ <?=$ct['gen']->key_to_name($ct['conf']['gen']['btc_prim_exchange'])?> (<?=$ct['conf']['power']['btc_currency_mrkts'][ $ct['conf']['gen']['btc_prim_currency_pair'] ]?><?=number_format( $sel_opt['sel_btc_prim_currency_val'], 0, '.', ',')?>)</span></p>'
+			+'<p class="coin_info" style=" white-space: normal;">Selected Primary Currency Market: <span class="bitcoin">BTC / <?=strtoupper($ct['conf']['gen']['bitcoin_primary_currency_pair'])?> @ <?=$ct['gen']->key_to_name($ct['conf']['gen']['bitcoin_primary_exchange'])?> (<?=$ct['conf']['power']['bitcoin_currency_markets'][ $ct['conf']['gen']['bitcoin_primary_currency_pair'] ]?><?=number_format( $sel_opt['sel_btc_prim_currency_val'], 0, '.', ',')?>)</span></p>'
 		
 			+'<p class="coin_info balloon_notation bitcoin" style=" white-space: normal;"> *Includes any adjusted long AND short deposits, BUT <i><u>any leverage is NOT included</u></i>.</p>';
 		
@@ -663,7 +663,7 @@ var fiat_val_content = '<h5 class="yellow tooltip_title">Portfolio Value In <?=s
 		<?php
 		
 		// If using margin leverege anywhere
-		echo ( $purchase_price_added == 1 && $lvrg_added == 1 && is_numeric($gain_loss_total) == TRUE ? '<div class="portfolio_summary"><span class="black private_data">Leverage Included: </span>' . ( $total_prim_currency_worth_inc_lvrg >= 0 ? '<span class="green private_data">' : '<span class="red private_data">-' ) . $ct['conf']['power']['btc_currency_mrkts'][ $ct['conf']['gen']['btc_prim_currency_pair'] ] . $parsed_total_prim_currency_worth_inc_lvrg . '</span></div>' : '' );
+		echo ( $purchase_price_added == 1 && $lvrg_added == 1 && is_numeric($gain_loss_total) == TRUE ? '<div class="portfolio_summary"><span class="black private_data">Leverage Included: </span>' . ( $total_prim_currency_worth_inc_lvrg >= 0 ? '<span class="green private_data">' : '<span class="red private_data">-' ) . $ct['conf']['power']['bitcoin_currency_markets'][ $ct['conf']['gen']['bitcoin_primary_currency_pair'] ] . $parsed_total_prim_currency_worth_inc_lvrg . '</span></div>' : '' );
 	
 
 		// Now that BTC / PAIR summaries have margin leverage stats NEXT TO THEM (NOT in the actual BTC / PAIR amounts, for UX's sake), 
@@ -681,7 +681,7 @@ var fiat_val_content = '<h5 class="yellow tooltip_title">Portfolio Value In <?=s
 		
           $thres_dec = $ct['gen']->thres_dec($percent_difference_total, 'p'); // Percentage mode
           
-		echo '<span class="black private_data">' . ( $gain_loss_total >= 0 ? 'Gain:</span> <span class="green private_data">+' . $ct['conf']['power']['btc_currency_mrkts'][ $ct['conf']['gen']['btc_prim_currency_pair'] ] : 'Loss:</span> <span class="red private_data">' ) . $parsed_gain_loss_total . ' (' . ( $gain_loss_total >= 0 ? '+' : '-' ) . number_format($percent_difference_total, $thres_dec['max_dec'], '.', ',') . '%' . ')</span>';
+		echo '<span class="black private_data">' . ( $gain_loss_total >= 0 ? 'Gain:</span> <span class="green private_data">+' . $ct['conf']['power']['bitcoin_currency_markets'][ $ct['conf']['gen']['bitcoin_primary_currency_pair'] ] : 'Loss:</span> <span class="red private_data">' ) . $parsed_gain_loss_total . ' (' . ( $gain_loss_total >= 0 ? '+' : '-' ) . number_format($percent_difference_total, $thres_dec['max_dec'], '.', ',') . '%' . ')</span>';
 		
 	     ?> 
 		
@@ -691,7 +691,7 @@ var fiat_val_content = '<h5 class="yellow tooltip_title">Portfolio Value In <?=s
 			
 	 <script>
 	 
-		var doc_title_stats = '<?=( $gain_loss_total >= 0 ? '+' . $ct['conf']['power']['btc_currency_mrkts'][ $ct['conf']['gen']['btc_prim_currency_pair'] ] : '' )?><?=$parsed_gain_loss_total?> (<?=( $gain_loss_total >= 0 ? '+' : '-' )?><?=number_format($percent_difference_total, $thres_dec['max_dec'], '.', ',')?>%)';
+		var doc_title_stats = '<?=( $gain_loss_total >= 0 ? '+' . $ct['conf']['power']['bitcoin_currency_markets'][ $ct['conf']['gen']['bitcoin_primary_currency_pair'] ] : '' )?><?=$parsed_gain_loss_total?> (<?=( $gain_loss_total >= 0 ? '+' : '-' )?><?=number_format($percent_difference_total, $thres_dec['max_dec'], '.', ',')?>%)';
 	
 		
 		var gain_loss_content = '<h5 class="yellow tooltip_title">Gain / Loss Stats</h5>'
@@ -722,7 +722,7 @@ var fiat_val_content = '<h5 class="yellow tooltip_title">Portfolio Value In <?=s
 				          
 				          ?>
 				          
-			+'<p class="coin_info"><span class="bitcoin"><?=$val['coin_symb']?>:</span> <span class="<?=( $val['gain_loss_total'] >= 0 ? 'green">+' : 'red">-' )?><?=$ct['conf']['power']['btc_currency_mrkts'][ $ct['conf']['gen']['btc_prim_currency_pair'] ]?><?=$parsed_gain_loss?> (<?=( $val['gain_loss_total'] >= 0 ? '+' : '' )?><?=number_format($val['gain_loss_percent_total'], $thres_dec_2['max_dec'], '.', ',')?>%<?=( $val['coin_lvrg'] >= 2 ? ', ' . $val['coin_lvrg'] . 'x ' . $val['selected_mrgntyp'] : '' )?>)</span></p>'
+			+'<p class="coin_info"><span class="bitcoin"><?=$val['coin_symb']?>:</span> <span class="<?=( $val['gain_loss_total'] >= 0 ? 'green">+' : 'red">-' )?><?=$ct['conf']['power']['bitcoin_currency_markets'][ $ct['conf']['gen']['bitcoin_primary_currency_pair'] ]?><?=$parsed_gain_loss?> (<?=( $val['gain_loss_total'] >= 0 ? '+' : '' )?><?=number_format($val['gain_loss_percent_total'], $thres_dec_2['max_dec'], '.', ',')?>%<?=( $val['coin_lvrg'] >= 2 ? ', ' . $val['coin_lvrg'] . 'x ' . $val['selected_mrgntyp'] : '' )?>)</span></p>'
 			
 			    <?php
 						}
@@ -782,7 +782,7 @@ var fiat_val_content = '<h5 class="yellow tooltip_title">Portfolio Value In <?=s
 			}
 			
 			if ( $ct['var']->num_to_str($miscassets_dominance) >= 0.01 ) {
-			$miscassets_dominance_text = number_format($miscassets_dominance, 2, '.', ',') . '% <span class="btc_prim_currency_pair">' . strtoupper($ct['conf']['gen']['btc_prim_currency_pair']) . '</span>';
+			$miscassets_dominance_text = number_format($miscassets_dominance, 2, '.', ',') . '% <span class="bitcoin_primary_currency_pair">' . strtoupper($ct['conf']['gen']['bitcoin_primary_currency_pair']) . '</span>';
 			$seperator_miscassets = ( $ct['var']->num_to_str($bitcoin_dominance) + $ct['var']->num_to_str($ethereum_dominance) + $ct['var']->num_to_str($solana_dominance) + $ct['var']->num_to_str($miscassets_dominance) <= 99.99 ? ' &nbsp;/&nbsp; ' : '' );
 			}
 			
@@ -838,7 +838,7 @@ var fiat_val_content = '<h5 class="yellow tooltip_title">Portfolio Value In <?=s
 				foreach ( $btc_worth_array as $key => $val ) {
 					
 					if ( $key == 'MISCASSETS' ) {
-					$key = 'MISC__' . strtoupper($ct['conf']['gen']['btc_prim_currency_pair']);
+					$key = 'MISC__' . strtoupper($ct['conf']['gen']['bitcoin_primary_currency_pair']);
 					}
 					
 			    // Remove any slight decimal over 100 (100.01 etc)
@@ -935,28 +935,28 @@ var fiat_val_content = '<h5 class="yellow tooltip_title">Portfolio Value In <?=s
 <fieldset class='subsection_fieldset'>
 	<legend class='subsection_legend'> <b>Asset Performance Comparison</b> </legend>
 		    
-	<p class='bitcoin' style='font-weight: bold;'>The Asset Performance Comparison chart <i>requires price charts to be enabled on the Charts page, and uses the price charts primary currency market</i> (<?=strtoupper($default_btc_prim_currency_pair)?>) for value comparisons.</p>	
+	<p class='bitcoin' style='font-weight: bold;'>The Asset Performance Comparison chart <i>requires price charts to be enabled on the Charts page, and uses the price charts primary currency market</i> (<?=strtoupper($default_bitcoin_primary_currency_pair)?>) for value comparisons.</p>	
 			
     <p>
     
     <?php
     
-    $asset_perf_chart_defaults = explode("||", $ct['conf']['power']['asset_perf_chart_defaults']);
+    $asset_performance_chart_defaults = explode("||", $ct['conf']['power']['asset_performance_chart_defaults']);
     
     	// Fallbacks
     	
-    	if ( $asset_perf_chart_defaults[0] >= 400 && $asset_perf_chart_defaults[0] <= 900 ) {
+    	if ( $asset_performance_chart_defaults[0] >= 400 && $asset_performance_chart_defaults[0] <= 900 ) {
 		// DO NOTHING    	
     	}
     	else {
-    	$asset_perf_chart_defaults[0] = 600;
+    	$asset_performance_chart_defaults[0] = 600;
     	}
     	
-    	if ( $asset_perf_chart_defaults[1] >= 7 && $asset_perf_chart_defaults[1] <= 16 ) {
+    	if ( $asset_performance_chart_defaults[1] >= 7 && $asset_performance_chart_defaults[1] <= 16 ) {
 		// DO NOTHING    	
     	}
     	else {
-    	$asset_perf_chart_defaults[1] = 15;
+    	$asset_performance_chart_defaults[1] = 15;
     	}
     
     ?>
@@ -995,7 +995,7 @@ var fiat_val_content = '<h5 class="yellow tooltip_title">Portfolio Value In <?=s
     $count = 400;
     while ( $count <= 900 ) {
     ?>
-    <option value='<?=$count?>' <?=( $count == $asset_perf_chart_defaults[0] ? 'selected' : '' )?>> <?=$count?> </option>
+    <option value='<?=$count?>' <?=( $count == $asset_performance_chart_defaults[0] ? 'selected' : '' )?>> <?=$count?> </option>
     <?php
     $count = $count + 100;
     }
@@ -1008,7 +1008,7 @@ var fiat_val_content = '<h5 class="yellow tooltip_title">Portfolio Value In <?=s
     $count = 7;
     while ( $count <= 16 ) {
     ?>
-    <option value='<?=$count?>' <?=( $count == $asset_perf_chart_defaults[1] ? 'selected' : '' )?>> <?=$count?> </option>
+    <option value='<?=$count?>' <?=( $count == $asset_performance_chart_defaults[1] ? 'selected' : '' )?>> <?=$count?> </option>
     <?php
     $count = $count + 1;
     }
@@ -1085,9 +1085,9 @@ var performance_chart_defaults_content = '<h5 class="yellow tooltip_title">Setti
 
 			+'<p class="coin_info extra_margins" style=" white-space: normal;">Select the Time Period, to get finer grain details for smaller time periods.</p>'
 			
-			+'<p class="coin_info extra_margins" style=" white-space: normal;">The "Custom Start Date" is OPTIONAL, for choosing a custom date in time the asset performance comparisions begin, starting at 0&#37; <?=strtoupper($default_btc_prim_currency_pair)?> value increase / decrease. The Custom Start Date can only go back in time as far back as you have <?=strtoupper($default_btc_prim_currency_pair)?> Value price charts (per asset) for the "All" chart, and only as far back as the beginning date of smaller time period charts.</p>'
+			+'<p class="coin_info extra_margins" style=" white-space: normal;">The "Custom Start Date" is OPTIONAL, for choosing a custom date in time the asset performance comparisions begin, starting at 0&#37; <?=strtoupper($default_bitcoin_primary_currency_pair)?> value increase / decrease. The Custom Start Date can only go back in time as far back as you have <?=strtoupper($default_bitcoin_primary_currency_pair)?> Value price charts (per asset) for the "All" chart, and only as far back as the beginning date of smaller time period charts.</p>'
 			
-			+'<p class="coin_info extra_margins" style=" white-space: normal;">Adjust the chart height and menu size, depending on your preferences. The defaults for these two settings can be changed in the Admin Config POWER USER section, under \'asset_perf_chart_defaults\'.</p>';
+			+'<p class="coin_info extra_margins" style=" white-space: normal;">Adjust the chart height and menu size, depending on your preferences. The defaults for these two settings can be changed in the Admin Config POWER USER section, under \'asset_performance_chart_defaults\'.</p>';
 		
 		
 		
@@ -1156,18 +1156,18 @@ $("#performance_chart span.chart_loading").hide(); // Hide "Loading chart X..." 
 
 zingchart.TOUCHZOOM = 'pinch'; /* mobile compatibility */
 
-$.get( "ajax.php?type=chart&mode=asset_performance&time_period=all&start_time=0&chart_height=<?=$asset_perf_chart_defaults[0]?>&menu_size=<?=$asset_perf_chart_defaults[1]?>&plot_conf=<?=$plot_conf?>" + zingchart_privacy, function( json_data ) {
+$.get( "ajax.php?type=chart&mode=asset_performance&time_period=all&start_time=0&chart_height=<?=$asset_performance_chart_defaults[0]?>&menu_size=<?=$asset_performance_chart_defaults[1]?>&plot_conf=<?=$plot_conf?>" + zingchart_privacy, function( json_data ) {
  
 
 	// Mark chart as loaded after it has rendered
 	zingchart.bind('performance_chart', 'complete', function() {
 	$("#performance_chart span.chart_loading").hide(); // Hide "Loading chart X..." after it loads
-	$('#performance_chart').css('height', '<?=$asset_perf_chart_defaults[0]?>px');
+	$('#performance_chart').css('height', '<?=$asset_performance_chart_defaults[0]?>px');
 	});
 
 	zingchart.render({
   	id: 'performance_chart',
-  	height: '<?=$asset_perf_chart_defaults[0]?>',
+  	height: '<?=$asset_performance_chart_defaults[0]?>',
   	width: "100%",
   	data: json_data
 	});
@@ -1206,22 +1206,22 @@ zingchart.bind('performance_chart', 'label_click', function(e){
     
     <?php
     
-    $asset_mcap_chart_defaults = explode("||", $ct['conf']['power']['asset_mcap_chart_defaults']);
+    $asset_marketcap_chart_defaults = explode("||", $ct['conf']['power']['asset_marketcap_chart_defaults']);
     
     	// Fallbacks
     	
-    	if ( $asset_mcap_chart_defaults[0] >= 400 && $asset_mcap_chart_defaults[0] <= 900 ) {
+    	if ( $asset_marketcap_chart_defaults[0] >= 400 && $asset_marketcap_chart_defaults[0] <= 900 ) {
 		// DO NOTHING    	
     	}
     	else {
-    	$asset_mcap_chart_defaults[0] = 600;
+    	$asset_marketcap_chart_defaults[0] = 600;
     	}
     	
-    	if ( $asset_mcap_chart_defaults[1] >= 7 && $asset_mcap_chart_defaults[1] <= 16 ) {
+    	if ( $asset_marketcap_chart_defaults[1] >= 7 && $asset_marketcap_chart_defaults[1] <= 16 ) {
 		// DO NOTHING    	
     	}
     	else {
-    	$asset_mcap_chart_defaults[1] = 15;
+    	$asset_marketcap_chart_defaults[1] = 15;
     	}
     
     ?>
@@ -1256,7 +1256,7 @@ zingchart.bind('performance_chart', 'label_click', function(e){
     $count = 400;
     while ( $count <= 900 ) {
     ?>
-    <option value='<?=$count?>' <?=( $count == $asset_mcap_chart_defaults[0] ? 'selected' : '' )?>> <?=$count?> </option>
+    <option value='<?=$count?>' <?=( $count == $asset_marketcap_chart_defaults[0] ? 'selected' : '' )?>> <?=$count?> </option>
     <?php
     $count = $count + 100;
     }
@@ -1269,7 +1269,7 @@ zingchart.bind('performance_chart', 'label_click', function(e){
     $count = 7;
     while ( $count <= 16 ) {
     ?>
-    <option value='<?=$count?>' <?=( $count == $asset_mcap_chart_defaults[1] ? 'selected' : '' )?>> <?=$count?> </option>
+    <option value='<?=$count?>' <?=( $count == $asset_marketcap_chart_defaults[1] ? 'selected' : '' )?>> <?=$count?> </option>
     <?php
     $count = $count + 1;
     }
@@ -1308,7 +1308,7 @@ zingchart.bind('performance_chart', 'label_click', function(e){
   
   // 'load'
   zingchart.exec('marketcap_chart', 'load', {
-  	dataurl: 'ajax.php?type=chart&mode=marketcap_data&mcap_type=' + document.getElementById('mcap_type').value + '&mcap_compare_diff=' + document.getElementById('mcap_compare_diff').value + '&chart_width=' + marketcap_chart_width + '&chart_height=' + document.getElementById('marketcap_data_height').value + '&menu_size=' + document.getElementById('marketcap_menu_size').value + '&marketcap_site=<?=$ct['conf']['gen']['prim_mcap_site']?>&plot_conf=<?=$plot_conf?>' + zingchart_privacy,
+  	dataurl: 'ajax.php?type=chart&mode=marketcap_data&mcap_type=' + document.getElementById('mcap_type').value + '&mcap_compare_diff=' + document.getElementById('mcap_compare_diff').value + '&chart_width=' + marketcap_chart_width + '&chart_height=' + document.getElementById('marketcap_data_height').value + '&menu_size=' + document.getElementById('marketcap_menu_size').value + '&marketcap_site=<?=$ct['conf']['gen']['primary_marketcap_site']?>&plot_conf=<?=$plot_conf?>' + zingchart_privacy,
     cache: {
         data: true
     }
@@ -1325,7 +1325,7 @@ var marketcap_chart_defaults_content = '<h5 class="yellow tooltip_title">Setting
 
 			+'<p class="coin_info extra_margins" style=" white-space: normal;">Marketcap Type: The \'circulating\' marketcap ONLY includes coins that are IN CIRCULATION (publicly available to transfer / trade), while the \'total\' marketcap includes ALL COINS (even those not mined yet / held by VIPs or Treasuries / etc).</p>'
 
-			+'<p class="coin_info extra_margins" style=" white-space: normal;">Adjust the chart height and menu size, depending on your preferences. The defaults for these two settings can be changed in the Admin Config POWER USER section, under \'asset_mcap_chart_defaults\'.</p>';
+			+'<p class="coin_info extra_margins" style=" white-space: normal;">Adjust the chart height and menu size, depending on your preferences. The defaults for these two settings can be changed in the Admin Config POWER USER section, under \'asset_marketcap_chart_defaults\'.</p>';
 		
 		
 		
@@ -1381,18 +1381,18 @@ $("#marketcap_chart span.chart_loading").hide(); // Hide "Loading chart X..." af
 
 zingchart.TOUCHZOOM = 'pinch'; /* mobile compatibility */
 
-$.get( "ajax.php?type=chart&mode=marketcap_data&mcap_type=circulating&mcap_compare_diff=none&chart_height=<?=$asset_mcap_chart_defaults[0]?>&menu_size=<?=$asset_mcap_chart_defaults[1]?>&marketcap_site=<?=$ct['conf']['gen']['prim_mcap_site']?>&plot_conf=<?=$plot_conf?>" + zingchart_privacy, function( json_data ) {
+$.get( "ajax.php?type=chart&mode=marketcap_data&mcap_type=circulating&mcap_compare_diff=none&chart_height=<?=$asset_marketcap_chart_defaults[0]?>&menu_size=<?=$asset_marketcap_chart_defaults[1]?>&marketcap_site=<?=$ct['conf']['gen']['primary_marketcap_site']?>&plot_conf=<?=$plot_conf?>" + zingchart_privacy, function( json_data ) {
  
 
 	// Mark chart as loaded after it has rendered
 	zingchart.bind('marketcap_chart', 'complete', function() {
 	$("#marketcap_chart span.chart_loading").hide(); // Hide "Loading chart X..." after it loads
-	$('#marketcap_chart').css('height', '<?=$asset_mcap_chart_defaults[0]?>px');
+	$('#marketcap_chart').css('height', '<?=$asset_marketcap_chart_defaults[0]?>px');
 	});
 
 	zingchart.render({
   	id: 'marketcap_chart',
-  	height: '<?=$asset_mcap_chart_defaults[0]?>',
+  	height: '<?=$asset_marketcap_chart_defaults[0]?>',
   	width: "100%",
   	data: json_data
 	});

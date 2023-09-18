@@ -30,7 +30,7 @@ $csv_download_array[] = array(
 	foreach ( $ct['conf']['assets'] as $asset_array_key => $asset_array_val ) {
 		     
 		     
-		     if ( array_key_exists( strtolower($asset_array_key), $ct['conf']['power']['btc_currency_mrkts']) && !array_key_exists( strtolower($asset_array_key), $ct['conf']['power']['crypto_pair']) ) {
+		     if ( array_key_exists( strtolower($asset_array_key), $ct['conf']['power']['bitcoin_currency_markets']) && !array_key_exists( strtolower($asset_array_key), $ct['conf']['power']['crypto_pair']) ) {
 			$fiat_equiv = true;
 			}
 			else {
@@ -76,11 +76,11 @@ $csv_download_array[] = array(
 			}
 											
 	    
-	    $asset_amnt_dec = ( $fiat_equiv ? $ct['conf']['gen']['currency_dec_max'] : $ct['conf']['gen']['crypto_dec_max'] );
+	    $asset_amnt_dec = ( $fiat_equiv ? $ct['conf']['gen']['currency_decimals_max'] : $ct['conf']['gen']['crypto_decimals_max'] );
 	    
 	    $asset_amnt_val = $ct['var']->num_pretty($asset_amnt_val, $asset_amnt_dec);
 	    
-	    $asset_paid_val = $ct['var']->num_pretty($asset_paid_val, $ct['conf']['gen']['currency_dec_max']);
+	    $asset_paid_val = $ct['var']->num_pretty($asset_paid_val, $ct['conf']['gen']['currency_decimals_max']);
 	  	 
 	    
 	   	// Asset data to array for CSV export

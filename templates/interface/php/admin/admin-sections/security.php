@@ -22,7 +22,7 @@
 	
 	<b>Admin Interface Security Level</b> &nbsp;<img class="tooltip_style_control admin_security_settings" src="templates/interface/media/images/info.png" alt="" width="30" style="position: relative; left: -5px;" />
 	
-	<br /> <input type='radio' name='opt_admin_sec' id='opt_admin_sec_high' value='high' onclick='set_admin_security(this);' <?=( $admin_area_sec_level == 'normal' ? '' : 'checked' )?> /> High &nbsp; <input type='radio' name='opt_admin_sec' id='opt_admin_sec_enhanced' value='enhanced' onclick='set_admin_security(this);' <?=( $admin_area_sec_level == 'enhanced' ? 'checked' : '' )?> /> Enhanced &nbsp; <input type='radio' name='opt_admin_sec' id='opt_admin_sec_normal' value='normal' onclick='set_admin_security(this);' <?=( $admin_area_sec_level == 'normal' ? 'checked' : '' )?> /> Normal
+	<br /> <input type='radio' name='opt_admin_sec' id='opt_admin_sec_normal' value='normal' onclick='set_admin_security(this);' <?=( $admin_area_sec_level == 'normal' ? 'checked' : '' )?> /> Normal &nbsp; <input type='radio' name='opt_admin_sec' id='opt_admin_sec_medium' value='medium' onclick='set_admin_security(this);' <?=( $admin_area_sec_level == 'medium' ? 'checked' : '' )?> /> Medium &nbsp; <input type='radio' name='opt_admin_sec' id='opt_admin_sec_high' value='high' onclick='set_admin_security(this);' <?=( $admin_area_sec_level == 'high' ? 'checked' : '' )?> /> High
 	
 	
 	<?=$ct['gen']->input_2fa()?>
@@ -52,7 +52,7 @@
 	
 	<b>Admin Two-Factor Authentication (ADDITIONAL time-based one-time password security)</b> &nbsp;<img class="tooltip_style_control admin_2fa_settings" src="templates/interface/media/images/info.png" alt="" width="30" style="position: relative; left: -5px;" />
 	
-	<br /> <input type='radio' name='opt_admin_2fa' id='opt_admin_2fa_off' value='off' onclick='set_admin_2fa(this);' <?=( $admin_area_2fa == 'off' && !$force_show_2fa_setup ? 'checked' : '' )?> /> Off &nbsp; <input type='radio' name='opt_admin_2fa' id='opt_admin_2fa_on' value='on' onclick='set_admin_2fa(this);' <?=( $admin_area_2fa == 'on' || $force_show_2fa_setup ? 'checked' : '' )?> /> On
+	<br /> <input type='radio' name='opt_admin_2fa' id='opt_admin_2fa_off' value='off' onclick='set_admin_2fa(this);' <?=( $admin_area_2fa == 'off' && !$force_show_2fa_setup ? 'checked' : '' )?> /> Off &nbsp; <input type='radio' name='opt_admin_2fa' id='opt_admin_2fa_on' value='on' onclick='set_admin_2fa(this);' <?=( $admin_area_2fa == 'on' || $force_show_2fa_setup == 'on' ? 'checked' : '' )?> /> On &nbsp; <input type='radio' name='opt_admin_2fa' id='opt_admin_2fa_scrict' value='strict' onclick='set_admin_2fa(this);' <?=( $admin_area_2fa == 'strict' || $force_show_2fa_setup == 'strict' ? 'checked' : '' )?> /> Strict
 	
 
                <?php
@@ -60,7 +60,7 @@
                     
                ?>
                
-	          <div class='show_2fa_verification' <?=$force_show_2fa_setup?>>
+	          <div class='show_2fa_verification' <?=( $force_show_2fa_setup ? ' style="display: block;"' : '' )?>>
 
 			<p style='font-weight: bold; margin-top: 1.5em;' class='red'>Scan this QR code with your authenticator app:</p>
 			
@@ -69,7 +69,7 @@
 			<p class='red' style='font-weight: bold;'>--ENTER THE CODE IN YOUR AUTHENTICATOR APP BELOW-- TO ENABLE 2FA...</p>
 			
 	
-	          <?=$ct['gen']->input_2fa('force_show')?>
+	          <?=$ct['gen']->input_2fa('setup', 'force_show')?>
 	          
 	
 			</div>
@@ -88,7 +88,7 @@
                ?>
                
 		<!-- Submit button must be OUTSIDE form tags here, or it submits the target form improperly and loses data -->
-		<p class='show_2fa_verification' <?=$force_show_2fa_setup?>><button class='force_button_style' onclick='
+		<p class='show_2fa_verification'  <?=( $force_show_2fa_setup ? ' style="display: block;"' : '' )?>><button class='force_button_style' onclick='
 		set_admin_2fa(false, true);
 		'>Enable 2FA</button></p>
 		
@@ -121,7 +121,7 @@
             
             			+'<p class="coin_info extra_margins" style=" white-space: normal;"><span class="bitcoin">High Security Mode:</span><br />In High Security Mode, END-USERS MUST EDIT THIS APP\'S CONFIGURATION SETTINGS MANUALLY USING A TEXT EDITOR, to open / edit the config.php file AND the "plugins" folder (plug-conf.php files) in the main directory of this app. Don\'t forget to click "Save" in the text editor, AFTER you update the configuration file(s), AND EDIT *VERY CAREFULLY* TO AVOID CORRUPTING THE DATA FORMATTING.</p>'
             
-            			+'<p class="coin_info extra_margins" style=" white-space: normal;"><span class="bitcoin">Enhanced Security Mode:</span><br />In Enhanced Security Mode, END-USERS MUST EDIT THIS APP\'S CONFIGURATION SETTINGS WITHIN THIS ADMIN INTERFACE AREA, BUT are required to click a "View Settings" button before each configuration section will load within this admin interface.<br /><br />Enhanced Security Mode is an extra security layer, that protects against CSRF attacks from "page scraping" sensitive user settings (a very rare / advanced attack, requiring the hacker to know your install\'s web address, AND they MUST trick YOU into visiting a malicious website which they control, AND you must be logged into the app\'s admin area).<br /><br />ALL ABOVE SAID, in my testing on protection against CSRF attacks, I found that the v6.00.8 upgrade (FIX) of this app to reliably using SAMESITE=STRICT COOKIES (in ALL Editions) AND SECURE COOKIES (in the Server Edition) TOTALLY BLOCKS ACCESS TO COOKIE DATA REMOTELY (so admin login access / user portfolio data access was NOT possible). This held true in my tests on google chrome / firefox. So PRACTICALLY speaking, "Enhanced" security mode is not needed, UNLESS you ADDITIONALLY want attack protection for <a href="https://en.wikipedia.org/wiki/Zero-day_(computing)" target="_blank">ZERO DAY</a> browser bugs.<br /><br />It\'s also worth noting here, that the COMPLETELY SEPERATE SETTING "access_control_origin" (further down in this "Security" configuration section), can COMPLETELY block all CSRF / XSS attacks on source files that use this setting (ajax / charts / portfolio and admin areas / etc), if set to \'strict\'. Just MAKE SURE YOU DO NOT have any domain redirects setup on your app server, OTHERWISE CHANGING THIS SETTING TO \'strict\' MAY BLOCK CHARTS / LOGS / NEW FEEDS / ADMIN SECTIONS FROM LOADING INSIDE THIS APP ITSELF.</p>'
+            			+'<p class="coin_info extra_margins" style=" white-space: normal;"><span class="bitcoin">Medium Security Mode:</span><br />In Medium Security Mode, END-USERS MUST EDIT THIS APP\'S CONFIGURATION SETTINGS WITHIN THIS ADMIN INTERFACE AREA, BUT are required to click a "View Settings" button before each configuration section will load within this admin interface.<br /><br />Medium Security Mode is an extra security layer, that protects against CSRF attacks from "page scraping" sensitive user settings (a very rare / advanced attack, requiring the hacker to know your install\'s web address, AND they MUST trick YOU into visiting a malicious website which they control, AND you must be logged into the app\'s admin area).<br /><br />ALL ABOVE SAID, in my testing on protection against CSRF attacks, I found that the v6.00.8 upgrade (FIX) of this app to reliably using SAMESITE=STRICT COOKIES (in ALL Editions) AND SECURE COOKIES (in the Server Edition) TOTALLY BLOCKS ACCESS TO COOKIE DATA REMOTELY (so admin login access / user portfolio data access was NOT possible). This held true in my tests on google chrome / firefox. So PRACTICALLY speaking, "Medium" security mode provides attack protection for <a href="https://en.wikipedia.org/wiki/Zero-day_(computing)" target="_blank">ZERO DAY</a> browser bugs.<br /><br />It\'s also worth noting here, that the COMPLETELY SEPERATE SETTING "access_control_origin" (further down in this "Security" configuration section), can COMPLETELY block all CSRF / XSS attacks on source files that use this setting (ajax / charts / portfolio and admin areas / etc), if set to \'strict\'. Just MAKE SURE YOU DO NOT have any domain redirects setup on your app server, OTHERWISE CHANGING THIS SETTING TO \'strict\' MAY BLOCK CHARTS / LOGS / NEW FEEDS / ADMIN SECTIONS FROM LOADING INSIDE THIS APP ITSELF.</p>'
             
             			+'<p class="coin_info extra_margins" style=" white-space: normal;"><span class="bitcoin">Normal Security Mode:</span><br />In Normal Security Mode, END-USERS MUST EDIT THIS APP\'S CONFIGURATION SETTINGS WITHIN THIS ADMIN INTERFACE AREA. There are no ADDITIONAL security features other than the standard username / password / captcha login being required, to access the admin area settings / logs / system and visitor stats / any other admin-related data.</p>'
             
@@ -205,17 +205,131 @@ if ( $admin_area_sec_level == 'high' ) {
 <?php
 }
 else {
-?>
-	
-	<p> Coming Soon&trade; </p>
-	
-	<p class='bitcoin bitcoin_dotted'>
-	
-	These sections / category pages will be INCREMENTALLY populated with the corrisponding admin configuration options, over a period of time AFTER the initial v6.00.x releases (versions 6.00.x will only test the back-end / under-the-hood stability of HIGH / ENHANCED / NORMAL MODES of the Admin Interface security levels). <br /><br />You may need to turn off "Enhanced" OR "Normal" mode of the Admin Interface security level (at the top of the "Security" section in this admin area), to edit any UNFINISHED SECTIONS by hand in the config files (config.php in the app install folder, and any plug-conf.php files in the plugins folders).
-	
-	</p>
-	
-<?php
+
+
+// Render config settings for this section...
+
+
+////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+$admin_render_settings['interface_login']['text_field_size'] = 25;
+
+$admin_render_settings['interface_login']['notes'] = 'This format MUST be used: username||password';
+
+
+////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+$admin_render_settings['login_alert']['select'] = array(
+                                                          'off',
+                                                          'email',
+                                                          'text',
+                                                          'notifyme',
+                                                          'telegram',
+                                                          'all',
+                                                         );
+
+$admin_render_settings['login_alert']['notes'] = 'See "External APIs" section for using any comms-related APIs.';
+                                                         
+                                                         
+////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+$admin_render_settings['admin_cookie_expires']['select']['assoc'] = array();
+
+$loop = 1;
+$loop_max = 6;
+while ( $loop <= $loop_max ) {
+     
+$admin_render_settings['admin_cookie_expires']['select']['assoc'][] = array(
+                                                                       'key' => $loop,
+                                                                       'val' => 'After ' . $loop . ' Hours',
+                                                                      );
+                                                                      
+$loop = $loop + 1;
+}
+
+
+////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+$admin_render_settings['smtp_strict_ssl']['radio'] = array(
+                                                          'off',
+                                                          'on',
+                                                         );
+
+$admin_render_settings['smtp_strict_ssl']['notes'] = 'Set to "off", if the SMTP server has an invalid certificate setup.';
+
+
+////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+$admin_render_settings['remote_api_strict_ssl']['radio'] = array(
+                                                          'off',
+                                                          'on',
+                                                         );
+
+$admin_render_settings['remote_api_strict_ssl']['notes'] = 'Set to "off", if some exchange\'s API servers have invalid certificates.';
+
+
+////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+$admin_render_settings['access_control_origin']['radio'] = array(
+                                                          'any',
+                                                          'strict',
+                                                         );
+
+$admin_render_settings['access_control_origin']['notes'] = '"strict" #CAN BREAK THINGS LOADING# ON SOME SETUPS!';
+
+
+////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+$admin_render_settings['captcha_text_contrast']['select']['assoc'] = array();
+
+$loop = -35;
+$loop_max = 35;
+while ( $loop <= $loop_max ) {
+     
+$loop_key = ( $loop >= 0 ? '+' . $loop : $loop );
+     
+$admin_render_settings['captcha_text_contrast']['select']['assoc'][] = array(
+                                                                       'key' => $loop,
+                                                                       'val' => $loop_key,
+                                                                      );
+                                                                      
+$loop = $loop + 1;
+unset($loop_key);
+}
+                                                         
+                                                         
+////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+$admin_render_settings['captcha_text_angle']['select']['assoc'] = array();
+
+$loop = 0;
+$loop_max = 35;
+while ( $loop <= $loop_max ) {
+     
+$admin_render_settings['captcha_text_angle']['select']['assoc'][] = array(
+                                                                       'key' => $loop,
+                                                                       'val' => $loop . ' degrees Maximum',
+                                                                      );
+                                                                      
+$loop = $loop + 1;
+}
+
+
+////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+// $ct['admin']->settings_form_fields($conf_id, $interface_id)
+$ct['admin']->settings_form_fields('sec', 'security', $admin_render_settings);
+
+
 }
 ?>	
 	

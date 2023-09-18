@@ -384,7 +384,7 @@ USAGE (ADDING / UPDATING COINS):
                                           'lowercase_exchange3' => 'ASSET-ETH',
                                           'lowercase_exchange4' => 'ASSET_ETH',
                                           'lowercase_exchange5' => 'ASSETETH',
-                                          // ETH ICOs...ETHSUBTOKENNAME MUST be defined in 'eth_erc20_icos' (Admin Config POWER USER section)
+                                          // ETH ICOs...ETHSUBTOKENNAME MUST be defined in 'ethereum_erc20_icos' (Admin Config POWER USER section)
                                           'ico_erc20_value' => 'ETHSUBTOKENNAME', 
                                           // GENERIC ETH PRICE (IF NO EXHANGE APIs AVAILABLE)
                                           // USE COINGECKO'S API ID FOR THIS ASSET (SEE COINGECKO ASSET PAGE'S INFO SECTION) 

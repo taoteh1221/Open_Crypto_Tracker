@@ -31,7 +31,7 @@ $plug_conf[$this_plug]['ui_name'] = 'Recurring Reminder'; // (defaults to $this_
 
 
 // Enable / disable "do not disturb" time (#24 HOUR FORMAT#, HOURS / MINUTES ONLY, SET EITHER TO BLANK '' TO DISABLE)
-// THIS TAKES INTO ACCOUNT YOUR TIME ZONE OFFSET, IN 'loc_time_offset' IN THE MAIN CONFIG OF THIS APP ('GENERAL' SECTION)
+// THIS TAKES INTO ACCOUNT YOUR TIME ZONE OFFSET, IN 'local_time_offset' IN THE MAIN CONFIG OF THIS APP ('GENERAL' SECTION)
 $plug_conf[$this_plug]['do_not_dist'] = array(
 											  // ALWAYS USE THIS FORMAT: '00:00', OR THIS FEATURE WON'T BE ENABLED!
 											  'on' => '17:30', // DND #START#, Default = '17:30' (5:30 AT NIGHT)
@@ -46,7 +46,7 @@ $plug_conf[$this_plug]['reminders'] = array(
 												// PORTFOLIO RE-BALANCE REVIEW REMINDER
 												array(
 													 'days' => 30.4167, // Decimals supported (30.4167 days is AVERAGE LENGTH of 1 month)
-													 'message' => "Review whether you should re-balance your portfolio (have individual assets take up a different precentage of your portfolio's total " . strtoupper($ct['conf']['gen']['btc_prim_currency_pair']) . " value)." // Reminder message
+													 'message' => "Review whether you should re-balance your portfolio (have individual assets take up a different precentage of your portfolio's total " . strtoupper($ct['conf']['gen']['bitcoin_primary_currency_pair']) . " value)." // Reminder message
 													 ),
 																			
 																			
