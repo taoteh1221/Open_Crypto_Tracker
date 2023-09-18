@@ -441,7 +441,7 @@ nav_menu('.user-nav');
                  
                  new_input.setAttribute("name", "medium_security_nonce");
                  
-                 new_input.setAttribute("value", Base64.decode(enhanced_sec_token) );
+                 new_input.setAttribute("value", Base64.decode(medium_sec_token) );
                  
                  forms_array[form_count].appendChild(new_input);
                  

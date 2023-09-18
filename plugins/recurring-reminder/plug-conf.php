@@ -32,7 +32,7 @@ $plug_conf[$this_plug]['ui_name'] = 'Recurring Reminder'; // (defaults to $this_
 
 // Enable / disable "do not disturb" time (#24 HOUR FORMAT#, HOURS / MINUTES ONLY, SET EITHER TO BLANK '' TO DISABLE)
 // THIS TAKES INTO ACCOUNT YOUR TIME ZONE OFFSET, IN 'local_time_offset' IN THE MAIN CONFIG OF THIS APP ('GENERAL' SECTION)
-$plug_conf[$this_plug]['do_not_dist'] = array(
+$plug_conf[$this_plug]['do_not_disturb'] = array(
 											  // ALWAYS USE THIS FORMAT: '00:00', OR THIS FEATURE WON'T BE ENABLED!
 											  'on' => '17:30', // DND #START#, Default = '17:30' (5:30 AT NIGHT)
 											  'off' => '9:30' // DND #END#, Default = '9:30' (9:30 IN MORNING)

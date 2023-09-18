@@ -31,7 +31,7 @@ $plug_conf[$this_plug]['ui_name'] = 'Address Balance Tracker'; // (defaults to $
 
 
 // Re-allow SAME address balance alert(s) messages after X minutes (per alert config)
-$plug_conf[$this_plug]['alerts_freq_max'] = 15; // Can be 0, to have no limits
+$plug_conf[$this_plug]['alerts_frequency_maximum'] = 15; // Can be 0, to have no limits
 
 
 // Privacy mode (restrict alerts from sending detailed data, only sends fiat increase / decrease in value when set to 'on')

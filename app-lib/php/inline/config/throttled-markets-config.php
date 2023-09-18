@@ -13,6 +13,7 @@
 // THROTTLE ALPHAVANTAGE - START
 
 // IF we don't have a PREMIUM PLAN (ALL premium plans are UNLIMITED daily requests)
+// (zero is the flag for UNLIMITED daily requests, auto-adjusted in config-init.php)
 if ( $ct['dev']['alphavantage_per_day_limit'] > 0 ) {
 
      // Figure out what our throttled cache time has to be for alphavantage stock asset API calls

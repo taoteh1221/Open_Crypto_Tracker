@@ -276,7 +276,7 @@ $cron_run_lock_file = $ct['base_dir'] . '/cache/events/emulated-cron-lock.dat';
         // Log system stats
         $ct['gen']->log(
         			'system_debug',
-        			'Hardware / software stats (requires log_verbosityosity set to verbose)',
+        			'Hardware / software stats (requires log_verbosity set to verbose)',
         			$system_telemetry
         			);
         			

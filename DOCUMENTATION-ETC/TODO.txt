@@ -10,6 +10,12 @@ NEXT SCHEDULED WORK SESSIONS (*BOTH* DEBUGGING AND / OR INFRASTRUCTURE)
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
+Double-check that everything resets to allow re-trying to enable 2FA, IF A USERS ENTERS THE WRONG 2FA TRYING TO TURN ON REGULAR OR STRICT MODE.
+
+
+The 'reset / backup restore' admin section does NOT have the optional 'strict' 2FA mode integrated yet.
+
+
 Sometimes an admin iframe loads / reloads scrolled down (with the content above NOT visible). Try and ALWAYS have admin iframes scroll to the top on load / reload. Try replicating it with 'strict' 2FA on with 'medium' security mode, AND purposefully type in the 2FA wrong when trying to update settings.
 
 

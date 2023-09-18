@@ -37,7 +37,7 @@ var $ct_array = array();
    // (refresh_cached_ct_conf() contains checks / fallbacks)
    $ct['conf'] = $ct['cache']->refresh_cached_ct_conf($ct['conf']);
    
-   return true; // TESTING ONLY!
+   return true; // If we got this far, we're good to go
    
    }
 

@@ -654,9 +654,14 @@ echo " "
 echo "${red}VERY IMPORTANT *UPGRADE* NOTES:${reset}"
 echo " "
 
-echo "v6.00.26 and higher renames the admin config array. ALL CONFIGURATION SETTING"
+echo "v6.00.26 / v6.00.27 and higher renames the admin config array variables. ALL CONFIGURATION SETTING"
 echo "VARIABLE NAMES ARE NOW DIFFERENT, USE THE LATEST/UPGRADED CONFIG.PHP, AND"
 echo "MIGRATE YOUR EXISTING SETTINGS TO THE NEW FORMAT."
+echo "${reset} "
+echo " "
+
+echo "v6.00.27 AND HIGHER RESETS LIGHT (TIME PERIOD) CHARTS FROM ARCHIVAL DATA, ONE-TIME DURING"
+echo "UPGRADES FROM V6.00.26 OR LOWER."
 echo "${reset} "
 echo " "
 
@@ -1770,7 +1775,7 @@ select opt in $OPTIONS; do
 				rm $DOC_ROOT/cache/vars/default_pt_conf_md5.dat > /dev/null 2>&1
 				rm $DOC_ROOT/cache/vars/default_oct_conf_md5.dat > /dev/null 2>&1
 				rm $DOC_ROOT/cache/vars/default_btc_prim_curr_pairing.dat > /dev/null 2>&1
-				rm $DOC_ROOT/cache/vars/default_bitcoin_primary_currency_pairing.dat > /dev/null 2>&1
+				rm $DOC_ROOT/cache/vars/default_btc_prim_currency_pairing.dat > /dev/null 2>&1
 				rm $DOC_ROOT/cache/vars/lite_chart_structure.dat > /dev/null 2>&1
 				rm $DOC_ROOT/cache/vars/lite_chart_struct.dat > /dev/null 2>&1
 				rm $DOC_ROOT/cache/vars/beta_v6_admin_pages.dat > /dev/null 2>&1

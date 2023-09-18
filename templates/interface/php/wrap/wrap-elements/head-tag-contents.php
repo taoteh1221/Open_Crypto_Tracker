@@ -228,7 +228,7 @@
           
      	admin_area_sec_level = '<?=base64_encode($admin_area_sec_level)?>';
           
-     	enhanced_sec_token = "<?=base64_encode( $ct['gen']->admin_hashed_nonce('medium_security_mode') )?>";
+     	medium_sec_token = "<?=base64_encode( $ct['gen']->admin_hashed_nonce('medium_security_mode') )?>";
           
           <?php
           }

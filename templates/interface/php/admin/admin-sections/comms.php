@@ -20,6 +20,15 @@ if ( $admin_area_sec_level == 'high' ) {
 <?php
 }
 else {
+?>
+
+	<div class='bitcoin bitcoin_dotted' style='margin-bottom: 20px;'>
+	
+	More comms-related settings can be found in the "External APIs" section (Telegram / Twilio / Amazon Alexa / etc).
+	
+	</div>
+
+<?php
 
 
 // Render config settings for this section...

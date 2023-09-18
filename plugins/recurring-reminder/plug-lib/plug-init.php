@@ -30,8 +30,8 @@ $run_reminder = false;
 $recurring_reminder_cache_file = $ct['plug']->event_cache('alert-' . $key . '.dat');
 
 // Remove any leading zeros in do-not-disturb time format
-$plug_conf[$this_plug]['do_not_dist']['on'] = ltrim($plug_conf[$this_plug]['do_not_dist']['on'], "0");
-$plug_conf[$this_plug]['do_not_dist']['off'] = ltrim($plug_conf[$this_plug]['do_not_dist']['off'], "0");
+$plug_conf[$this_plug]['do_not_disturb']['on'] = ltrim($plug_conf[$this_plug]['do_not_disturb']['on'], "0");
+$plug_conf[$this_plug]['do_not_disturb']['off'] = ltrim($plug_conf[$this_plug]['do_not_disturb']['off'], "0");
 
 // MD5 fingerprint digest of current settings / data of this reminder
 $digest = md5($val['days'] . $val['message']);
@@ -74,16 +74,16 @@ $in_minutes_offset = ( $in_minutes >= 20 ? ($in_minutes - 1) : $in_minutes );
 		
 		// If 'do not disturb' enabled with valid time fomats in plug conf
 		if (
-    	$plug_class[$this_plug]->valid_time_format($plug_conf[$this_plug]['do_not_dist']['on'])
-    	&& $plug_class[$this_plug]->valid_time_format($plug_conf[$this_plug]['do_not_dist']['off'])
+    	$plug_class[$this_plug]->valid_time_format($plug_conf[$this_plug]['do_not_disturb']['on'])
+    	&& $plug_class[$this_plug]->valid_time_format($plug_conf[$this_plug]['do_not_disturb']['off'])
 	    ) {
 		
 		// Human-readable year-month-date for today, ADJUSTED FOR USER'S TIME ZONE OFFSET FROM APP CONFIG
 		$offset_date = $ct['gen']->time_date_format($ct['conf']['gen']['local_time_offset'], 'standard_date');
 		
 		// Time of day in decimals (as hours) for dnd on/off config settings
-		$dnd_on_dec = $plug_class[$this_plug]->time_dec_hours($plug_conf[$this_plug]['do_not_dist']['on'], 'to');
-		$dnd_off_dec = $plug_class[$this_plug]->time_dec_hours($plug_conf[$this_plug]['do_not_dist']['off'], 'to');
+		$dnd_on_dec = $plug_class[$this_plug]->time_dec_hours($plug_conf[$this_plug]['do_not_disturb']['on'], 'to');
+		$dnd_off_dec = $plug_class[$this_plug]->time_dec_hours($plug_conf[$this_plug]['do_not_disturb']['off'], 'to');
 		
 			
 			// Time of day in hours:minutes for dnd on/off (IN UTC TIME), ADJUSTED FOR USER'S TIME ZONE OFFSET FROM APP CONFIG

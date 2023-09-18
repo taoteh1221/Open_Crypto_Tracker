@@ -9,7 +9,7 @@ $runtime_mode = '2fa_setup';
 // Change directory
 chdir("../../../../");
 
-// FOR SPEED, $ct['runtime_mode'] 'captcha' only gets app config vars, some init.php, then the captcha library
+
 require("app-lib/php/init.php");
  
 

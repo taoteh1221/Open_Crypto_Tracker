@@ -104,7 +104,7 @@ var admin_area_sec_level;
 
 var admin_area_2fa;
 
-var enhanced_sec_token;
+var medium_sec_token;
 
 var reload_time;
 
