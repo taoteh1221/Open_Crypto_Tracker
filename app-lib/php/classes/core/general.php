@@ -96,11 +96,11 @@ var $ct_array = array();
    ////////////////////////////////////////////////////////
    
    
-   function passed_enhanced_security() {
+   function passed_medium_security_check() {
    
    global $admin_area_sec_level;
        
-       if ( $admin_area_sec_level != 'enhanced' || $admin_area_sec_level == 'enhanced' && $this->pass_sec_check($_POST['enhanced_security_nonce'], 'enhanced_security_mode') && $this->valid_2fa() ) {
+       if ( $admin_area_sec_level != 'medium' || $admin_area_sec_level == 'medium' && $this->pass_sec_check($_POST['medium_security_nonce'], 'medium_security_mode') && $this->valid_2fa('strict') ) {
        return true;
        }
        else {
@@ -114,13 +114,15 @@ var $ct_array = array();
    ////////////////////////////////////////////////////////
    
    
-   function valid_2fa($force_check=false) {
+   function valid_2fa($alt_mode=false, $force_check=false) {
    
    global $admin_area_2fa, $totp_auth, $auth_secret_2fa, $check_2fa_id, $check_2fa_error;
-       
-       if ( isset($_POST['2fa_code']) && $totp_auth->checkCode($auth_secret_2fa, $_POST['2fa_code']) || $force_check == false && $admin_area_2fa == 'off' ) {
+   
+       // If 2FA is off, OR mode doesn't apply in this instance (AS LONG AS WE AREN'T *FORCE* CHECKING DURING 2FA SETUP)
+       if ( !$force_check && $admin_area_2fa == 'off' || !$force_check && $alt_mode && $admin_area_2fa != $alt_mode || isset($_POST['2fa_code']) && $totp_auth->checkCode($auth_secret_2fa, $_POST['2fa_code']) ) {
        return true;
        }
+       // Otherwise, alert end-user of the invalid 2FA code they entered
        else {
        $check_2fa_id = $_POST['2fa_code_id'];
        $check_2fa_error = '2FA passcode was invalid, please try again';
@@ -257,7 +259,7 @@ var $ct_array = array();
    
    function pass_sec_check($val, $hash_key) {
    
-      if ( isset($val) && trim($val) != '' && $this->admin_hashed_nonce($hash_key) != false && $val == $this->admin_hashed_nonce($hash_key) ) {
+      if ( $this->admin_logged_in() && isset($val) && trim($val) != '' && $this->admin_hashed_nonce($hash_key) != false && $val == $this->admin_hashed_nonce($hash_key) ) {
       return true;
       }
       else {
@@ -399,20 +401,24 @@ var $ct_array = array();
    ////////////////////////////////////////////////////////
    
    
-   function input_2fa($force_show=false) {
+   function input_2fa($alt_mode=false, $force_show=false) {
    
    global $admin_area_2fa, $check_2fa_error, $count_2fa_fields;
        
-       if ( $admin_area_2fa == 'on' || $force_show != false ) {
+       if ( $force_show || !$alt_mode && $admin_area_2fa != 'off' || $alt_mode && $admin_area_2fa == $alt_mode ) {
 	  ?>
 	  
 	  <div style='margin-top: 2em; margin-bottom: 2em;'>
 	  
-	  <p class='<?=( $force_show != false ? 'red' : 'bitcoin' )?>' style='font-weight: bold;'>Enter 2FA Code (from phone app):</p>
+	  <p>
+	  
+	  <span class='<?=( $force_show != false ? 'red' : 'bitcoin' )?>' style='font-weight: bold;'>Enter 2FA Code (from phone app):</span><br />
+	  
+	  <input style='margin-top: 0.5em;' type='text' id='2fa_code_<?=$count_2fa_fields?>' name='2fa_code' value='' size='10' />
+	  
+	  </p>
 	  
 	  <input type='hidden' name='2fa_code_id' value='2fa_code_<?=$count_2fa_fields?>' />
-	  
-	  <p><input type='text' id='2fa_code_<?=$count_2fa_fields?>' name='2fa_code' value='' /></p>
 	  
 	  <p id='notice_2fa_code_<?=$count_2fa_fields?>' class='hidden red red_dotted' style='font-weight: bold;'><?=$check_2fa_error?>.</p>
 	  
@@ -545,8 +551,8 @@ var $ct_array = array();
    $network_name = trim( strtolower($str[1]) ); // Force lowercase lookups for reliability / consistency
    
       // Set text domain
-      if ( isset($phone_number) && trim($phone_number) != '' && isset($ct['conf']['mob_net_txt_gateways'][$network_name]) ) {
-      return trim($phone_number) . '@' . trim($ct['conf']['mob_net_txt_gateways'][$network_name]); // Return formatted texting email address
+      if ( isset($phone_number) && trim($phone_number) != '' && isset($ct['conf']['mobile_network_text_gateways'][$network_name]) ) {
+      return trim($phone_number) . '@' . trim($ct['conf']['mobile_network_text_gateways'][$network_name]); // Return formatted texting email address
       }
       else {
       return false;
@@ -957,7 +963,7 @@ var $ct_array = array();
    
       // Etherscan
       if ( preg_match("/etherscan/i", $url) ) {
-      $url = str_replace($ct['conf']['ext_apis']['etherscan_key'], $ct['var']->obfusc_str($ct['conf']['ext_apis']['etherscan_key'], 2), $url);
+      $url = str_replace($ct['conf']['ext_apis']['etherscan_api_key'], $ct['var']->obfusc_str($ct['conf']['ext_apis']['etherscan_api_key'], 2), $url);
       }
       // Telegram
       elseif ( preg_match("/telegram/i", $url) ) {
@@ -965,7 +971,7 @@ var $ct_array = array();
       }
       // AlphaVantage
       elseif ( preg_match("/alphavantage/i", $url) ) {
-      $url = str_replace($ct['conf']['ext_apis']['alphavantage_key'], $ct['var']->obfusc_str($ct['conf']['ext_apis']['alphavantage_key'], 2), $url); 
+      $url = str_replace($ct['conf']['ext_apis']['alphavantage_api_key'], $ct['var']->obfusc_str($ct['conf']['ext_apis']['alphavantage_api_key'], 2), $url); 
       }
    
    // Keep our color-coded logs in the admin UI pretty, remove '//' and put in parenthesis
@@ -1558,7 +1564,7 @@ var $ct_array = array();
    
    
       // Disable logging any included verbose tracing, if log verbosity level config is set to normal
-      if ( $ct['conf']['power']['log_verb'] == 'normal' ) {
+      if ( $ct['conf']['power']['log_verbosity'] == 'normal' ) {
       $verbose_tracing = false;
       }
       
@@ -2090,7 +2096,7 @@ var $ct_array = array();
       $email_msg = 'Open Crypto Tracker detected an app server issue: ' . $system_warnings[$type] . '. (warning thresholds are adjustable in the Admin Config Power User section) ' . $system_info_summary;
                
       // Were're just adding a human-readable timestamp to smart home (audio) alerts
-      $notifyme_msg = $email_msg . ' Timestamp: ' . $this->time_date_format($ct['conf']['gen']['loc_time_offset'], 'pretty_time') . '.';
+      $notifyme_msg = $email_msg . ' Timestamp: ' . $this->time_date_format($ct['conf']['gen']['local_time_offset'], 'pretty_time') . '.';
       
       $text_msg = 'Open Crypto Tracker app server issue: ' . $system_warnings[$type] . '.';
                
@@ -2150,11 +2156,59 @@ var $ct_array = array();
       $words = explode(" ",$str);
       foreach($words as $key => $val) {
       
-         if ( $val == 'Us' ) {
+         if ( strtolower($val) == 'us' ) {
          $words[$key] = strtoupper($val); // All uppercase US
          }
-         elseif ( $val == 'Ag' ) {
+         elseif ( strtolower($val) == 'ag' ) {
          $words[$key] = 'Aggregator'; // Ag to Aggregator
+         }
+         elseif ( strtolower($val) == 'ico' ) {
+         $words[$key] = 'ICO'; // Ag to Aggregator
+         }
+         elseif ( strtolower($val) == 'icos' ) {
+         $words[$key] = 'ICOs'; // Ag to Aggregator
+         }
+         elseif ( strtolower($val) == 'ido' ) {
+         $words[$key] = 'IDO'; // Ag to Aggregator
+         }
+         elseif ( strtolower($val) == 'idos' ) {
+         $words[$key] = 'IDOs'; // Ag to Aggregator
+         }
+         elseif ( strtolower($val) == 'nft' ) {
+         $words[$key] = 'NFT'; // Ag to Aggregator
+         }
+         elseif ( strtolower($val) == 'nfts' ) {
+         $words[$key] = 'NFTs'; // Ag to Aggregator
+         }
+         elseif ( strtolower($val) == 'amm' ) {
+         $words[$key] = 'AMM'; // Ag to Aggregator
+         }
+         elseif ( strtolower($val) == 'amms' ) {
+         $words[$key] = 'AMMs'; // Ag to Aggregator
+         }
+         elseif ( strtolower($val) == 'dex' ) {
+         $words[$key] = 'DEX'; // Ag to Aggregator
+         }
+         elseif ( strtolower($val) == 'ui' ) {
+         $words[$key] = 'User Interface'; // Ag to Aggregator
+         }
+         elseif ( strtolower($val) == 'sid' ) {
+         $words[$key] = 'SID'; // Ag to Aggregator
+         }
+         elseif ( strtolower($val) == 'id' ) {
+         $words[$key] = 'ID'; // Ag to Aggregator
+         }
+         elseif ( strtolower($val) == 'ids' ) {
+         $words[$key] = 'IDs'; // Ag to Aggregator
+         }
+         elseif ( strtolower($val) == 'api' ) {
+         $words[$key] = 'API'; // Ag to Aggregator
+         }
+         elseif ( strtolower($val) == 'apis' ) {
+         $words[$key] = 'APIs'; // Ag to Aggregator
+         }
+         elseif ( strtolower($val) == 'ssl' ) {
+         $words[$key] = 'SSL'; // Ag to Aggregator
          }
       
       $pretty_str .= $words[$key] . ' ';
@@ -2163,16 +2217,18 @@ var $ct_array = array();
    
       
       // Pretty up all secondary asset market symbols
-      foreach($ct['conf']['power']['crypto_pair_pref_mrkts'] as $key => $unused) {
+      foreach($ct['conf']['power']['crypto_pair_preferred_markets'] as $key => $unused) {
       $pretty_str = preg_replace("/".strtolower($key)."/i", strtoupper($key), $pretty_str);
       }
    
-      foreach($ct['conf']['power']['btc_currency_mrkts'] as $key => $unused) {
+      foreach($ct['conf']['power']['bitcoin_currency_markets'] as $key => $unused) {
       $pretty_str = preg_replace("/".strtolower($key)."/i", strtoupper($key), $pretty_str);
       }
+   
    
    $pretty_str = preg_replace("/btc/i", 'BTC', $pretty_str);
-   $pretty_str = preg_replace("/nft/i", 'NFT', $pretty_str);
+   $pretty_str = preg_replace("/smtp/i", 'SMTP', $pretty_str);
+   $pretty_str = preg_replace("/mart/i", 'Mart', $pretty_str);
    $pretty_str = preg_replace("/coin/i", 'Coin', $pretty_str);
    $pretty_str = preg_replace("/bitcoin/i", 'Bitcoin', $pretty_str);
    $pretty_str = preg_replace("/exchange/i", 'Exchange', $pretty_str);
@@ -2189,16 +2245,17 @@ var $ct_array = array();
    $pretty_str = preg_replace("/pulse/i", 'Pulse', $pretty_str);
    $pretty_str = preg_replace("/defi/i", 'DeFi', $pretty_str);
    $pretty_str = preg_replace("/ring/i", 'Ring', $pretty_str);
-   $pretty_str = preg_replace("/amm/i", 'AMM', $pretty_str);
-   $pretty_str = preg_replace("/ico/i", 'ICO', $pretty_str);
    $pretty_str = preg_replace("/erc20/i", 'ERC-20', $pretty_str);
    $pretty_str = preg_replace("/okex/i", 'OKex', $pretty_str);
-   $pretty_str = preg_replace("/mart/i", 'Mart', $pretty_str);
    $pretty_str = preg_replace("/dcx/i", 'DCX', $pretty_str);
    $pretty_str = preg_replace("/gateio/i", 'Gate.io', $pretty_str);
-   $pretty_str = preg_replace("/dex/i", 'DEX', $pretty_str);
+   $pretty_str = preg_replace("/notifyme/i", 'NotifyMe', $pretty_str);
+   $pretty_str = preg_replace("/etherscan/i", 'EtherScan', $pretty_str);
+   $pretty_str = preg_replace("/precache/i", 'Pre-Cache', $pretty_str);
    $pretty_str = preg_replace("/coingecko/i", 'CoinGecko.com', $pretty_str);
-   $pretty_str = preg_replace("/alphavantage/i", 'AlphaVantage', $pretty_str);
+   $pretty_str = preg_replace("/coinmarketcap/i", 'CoinMarketCap.com', $pretty_str);
+   $pretty_str = preg_replace("/alphavantage/i", 'AlphaVantage.co', $pretty_str);
+   $pretty_str = preg_replace("/bitcoin/i", 'Bitcoin', $pretty_str);
    
    
    return trim($pretty_str);
@@ -2228,8 +2285,8 @@ var $ct_array = array();
    // If leverage amount input is corrupt, default to 0 (ALSO simple auto-correct if negative)
    $csv_row[3] = ( $ct['var']->whole_int($csv_row[3]) != false && $csv_row[3] >= 0 ? $csv_row[3] : 0 ); 
       
-   // If leverage is ABOVE 'margin_lvrg_max', default to 'margin_lvrg_max'
-   $csv_row[3] = ( $csv_row[3] <= $ct['conf']['power']['margin_lvrg_max'] ? $csv_row[3] : $ct['conf']['power']['margin_lvrg_max'] ); 
+   // If leverage is ABOVE 'margin_leverage_maximum', default to 'margin_leverage_maximum'
+   $csv_row[3] = ( $csv_row[3] <= $ct['conf']['power']['margin_leverage_maximum'] ? $csv_row[3] : $ct['conf']['power']['margin_leverage_maximum'] ); 
    
    // Default to 'long', if not 'short' (set to lowercase...simple auto-correct, if set to anything other than 'short')
    $csv_row[4] = ( strtolower($csv_row[4]) == 'short' ? 'short' : 'long' );
@@ -2375,8 +2432,8 @@ var $ct_array = array();
         
         
              $loop = 0;
-             $track_decimals = $ct['conf']['gen']['currency_dec_max'];
-             while ( !isset($decimals) && $loop < $ct['conf']['gen']['currency_dec_max'] ) {
+             $track_decimals = $ct['conf']['gen']['currency_decimals_max'];
+             while ( !isset($decimals) && $loop < $ct['conf']['gen']['currency_decimals_max'] ) {
 
                   // $track_decimals decimals rounding
                   if ( !isset($decimals) && $unit_percent <= $track_target ) {
@@ -2399,8 +2456,8 @@ var $ct_array = array();
              
              
              // Force to max decimals if applicable
-             if ( $decimals > $ct['conf']['gen']['currency_dec_max'] ) {
-             return $ct['conf']['gen']['currency_dec_max'];
+             if ( $decimals > $ct['conf']['gen']['currency_decimals_max'] ) {
+             return $ct['conf']['gen']['currency_decimals_max'];
              }
              else {
              return $decimals;
@@ -2414,8 +2471,8 @@ var $ct_array = array();
         
         
              $loop = 0;
-             $track_decimals = $ct['conf']['gen']['crypto_dec_max'];
-             while ( !isset($decimals) && $loop < $ct['conf']['gen']['crypto_dec_max'] ) {
+             $track_decimals = $ct['conf']['gen']['crypto_decimals_max'];
+             while ( !isset($decimals) && $loop < $ct['conf']['gen']['crypto_decimals_max'] ) {
 
                   // $track_decimals decimals rounding
                   if ( !isset($decimals) && $unit_percent <= $track_target ) {
@@ -2438,8 +2495,8 @@ var $ct_array = array();
              
              
              // Force to max decimals if applicable
-             if ( $decimals > $ct['conf']['gen']['crypto_dec_max'] ) {
-             return $ct['conf']['gen']['crypto_dec_max'];
+             if ( $decimals > $ct['conf']['gen']['crypto_decimals_max'] ) {
+             return $ct['conf']['gen']['crypto_decimals_max'];
              }
              else {
              return $decimals;
@@ -2493,7 +2550,7 @@ var $ct_array = array();
       
       
       // Render summary after determining the content
-      $summary .= '<h2 style="color: black;">' . $num_posts . ' Updated RSS Feeds (over ' . $ct['conf']['comms']['news_feed_email_freq'] . ' days)</h3>' . "\n\n";
+      $summary .= '<h2 style="color: black;">' . $num_posts . ' Updated RSS Feeds (over ' . $ct['conf']['comms']['news_feed_email_frequency'] . ' days)</h3>' . "\n\n";
         	
         	if ( $ct['app_edition'] == 'server' ) {
           $summary .= '<p><a style="color: #00b6db;" title="View the news feeds page in the Open Crypto Tracker app here." target="_blank" href="' . $ct['base_url'] . 'index.php?start_page=news#news">View All News Feeds Here</a></p>' . "\n\n";
@@ -2519,7 +2576,7 @@ var $ct_array = array();
                                                     
                            'email' => array(
                                             'content_type' => 'text/html', // Have email sent as HTML content type
-                                            'subject' => $num_posts . ' Updated RSS Feeds (over ' . $ct['conf']['comms']['news_feed_email_freq'] . ' days)',
+                                            'subject' => $num_posts . ' Updated RSS Feeds (over ' . $ct['conf']['comms']['news_feed_email_frequency'] . ' days)',
                                             'message' => $email_body
                                            )
                                                        
@@ -2784,7 +2841,7 @@ var $ct_array = array();
    
    function reset_price_alert_notice() {
    
-   global $ct, $price_alert_fixed_reset_array, $default_btc_prim_currency_pair;
+   global $ct, $price_alert_fixed_reset_array, $default_bitcoin_primary_currency_pair;
    
    // Alphabetical asset sort, for message UX 
    ksort($price_alert_fixed_reset_array);
@@ -2815,11 +2872,11 @@ var $ct_array = array();
       }
    
    
-   $text_msg = $count . ' ' . strtoupper($default_btc_prim_currency_pair) . ' Price Alert Fixed Resets: ' . $reset_list;
+   $text_msg = $count . ' ' . strtoupper($default_bitcoin_primary_currency_pair) . ' Price Alert Fixed Resets: ' . $reset_list;
    
-   $email_msg = 'The following ' . $count . ' ' . strtoupper($default_btc_prim_currency_pair) . ' price alert fixed resets (run every ' . $ct['conf']['power']['price_alert_fixed_reset'] . ' days) have been processed, with the latest spot price data: ' . $reset_list;
+   $email_msg = 'The following ' . $count . ' ' . strtoupper($default_bitcoin_primary_currency_pair) . ' price alert fixed resets (run every ' . $ct['conf']['power']['price_alert_fixed_reset'] . ' days) have been processed, with the latest spot price data: ' . $reset_list;
    
-   $notifyme_msg = $email_msg . ' Timestamp is ' . $this->time_date_format($ct['conf']['gen']['loc_time_offset'], 'pretty_time') . '.';
+   $notifyme_msg = $email_msg . ' Timestamp is ' . $this->time_date_format($ct['conf']['gen']['local_time_offset'], 'pretty_time') . '.';
    
    
    // Message parameter added for desired comm methods (leave any comm method blank to skip sending via that method)
@@ -2866,7 +2923,7 @@ var $ct_array = array();
 				
    $cookie_nonce = $this->rand_hash(32); // 32 byte
 		
-   $this->store_cookie('admin_auth_' . $this->id(), $cookie_nonce, time() + ($ct['conf']['sec']['admin_cookie_expire'] * 3600) );
+   $this->store_cookie('admin_auth_' . $this->id(), $cookie_nonce, time() + ($ct['conf']['sec']['admin_cookie_expires'] * 3600) );
 				
    $_SESSION['admin_logged_in']['auth_hash'] = $this->admin_hashed_nonce($cookie_nonce, 'force'); // Force set, as we're not logged in fully yet
    
@@ -2885,7 +2942,7 @@ var $ct_array = array();
        $email_msg = 'New admin login from: ' . $ct['remote_ip'] . $system_info_summary;
                             
        // Were're just adding a human-readable timestamp to smart home (audio) alerts
-       $notifyme_msg = $email_msg . ' Timestamp: ' . $this->time_date_format($ct['conf']['gen']['loc_time_offset'], 'pretty_time') . '.';
+       $notifyme_msg = $email_msg . ' Timestamp: ' . $this->time_date_format($ct['conf']['gen']['local_time_offset'], 'pretty_time') . '.';
                             
        $text_msg = $email_msg;
                         
@@ -3090,12 +3147,12 @@ var $ct_array = array();
    
    function chart_data($file, $chart_format, $start_timestamp=0) {
    
-   global $ct, $default_btc_prim_currency_pair, $runtime_data, $last_valid_chart_data;
+   global $ct, $default_bitcoin_primary_currency_pair, $runtime_data, $last_valid_chart_data;
    
    $data = array();
    
       // #FOR CLEAN CODE#, RUN CHECK TO MAKE SURE IT'S NOT A CRYPTO AS WELL...WE HAVE A COUPLE SUPPORTED, BUT WE ONLY WANT DESIGNATED FIAT-EQIV HERE
-      if ( array_key_exists($chart_format, $ct['conf']['power']['btc_currency_mrkts']) && !array_key_exists($chart_format, $ct['conf']['power']['crypto_pair']) ) {
+      if ( array_key_exists($chart_format, $ct['conf']['power']['bitcoin_currency_markets']) && !array_key_exists($chart_format, $ct['conf']['power']['crypto_pair']) ) {
       $fiat_formatting = true;
       }
       elseif ( $chart_format == 'system' ) {
@@ -3228,7 +3285,7 @@ var $ct_array = array();
                // Non-stablecoin crypto
                else {
                $data['spot'] .= $ct['var']->num_to_str($result[1]) . ',';
-               $data['volume'] .= $ct['var']->num_to_str( round($result[2], $ct['conf']['gen']['chart_crypto_vol_dec']) ) . ',';
+               $data['volume'] .= $ct['var']->num_to_str( round($result[2], $ct['conf']['gen']['chart_crypto_volume_decimals']) ) . ',';
                }
             
             }
@@ -3588,7 +3645,7 @@ var $ct_array = array();
       }
   
   
-      if ( $run_alerts == 1 && $ct['cache']->update_cache('cache/alerts/proxy-check-'.$cache_filename.'.dat', ( $ct['conf']['comms']['proxy_alert_freq_max'] * 60 ) ) == true
+      if ( $run_alerts == 1 && $ct['cache']->update_cache('cache/alerts/proxy-check-'.$cache_filename.'.dat', ( $ct['conf']['comms']['proxy_alert_frequency_maximum'] * 60 ) ) == true
       && in_array($cache_filename, $proxies_checked) == false ) {
       
        

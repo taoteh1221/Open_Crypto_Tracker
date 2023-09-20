@@ -11,7 +11,7 @@
     require("templates/interface/php/admin/admin-sections/comms.php");
     }
     elseif ( $_GET['section'] == 'ext_apis' ) {
-    require("templates/interface/php/admin/admin-sections/other-api.php");
+    require("templates/interface/php/admin/admin-sections/ext-apis.php");
     }
     elseif ( $_GET['section'] == 'proxy' ) {
     require("templates/interface/php/admin/admin-sections/proxy.php");

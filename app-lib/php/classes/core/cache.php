@@ -518,7 +518,7 @@ var $ct_array = array();
                
               $backup_url = $ct['base_url'] . 'download.php?backup=' . $backup_file;
               
-              $msg = "A backup archive has been created for: ".$backup_prefix."\n\nHere is a link to download the backup to your computer:\n\n" . $backup_url . "\n\n(backup archives are purged after " . $ct['conf']['power']['backup_arch_del_old'] . " days)";
+              $msg = "A backup archive has been created for: ".$backup_prefix."\n\nHere is a link to download the backup to your computer:\n\n" . $backup_url . "\n\n(backup archives are purged after " . $ct['conf']['power']['backup_archive_delete_old'] . " days)";
               
               // Message parameter added for desired comm methods (leave any comm method blank to skip sending via that method)
               $send_params = array(
@@ -644,13 +644,13 @@ var $ct_array = array();
    // (ANY SUB-ARRAY WHERE A USER ADDS / DELETES VARIABLES THEY WANTED DIFFERENT FROM DEFAULT VARS)
    $skip_upgrading = array(
                            'proxy',
-                           'tracked_mrkts',
+                           'tracked_markets',
                            'crypto_pair',
-                           'crypto_pair_pref_mrkts',
-                           'btc_currency_mrkts',
-                           'btc_pref_currency_mrkts',
-                           'eth_erc20_icos',
-                           'mob_net_txt_gateways',
+                           'crypto_pair_preferred_markets',
+                           'bitcoin_currency_markets',
+                           'bitcoin_preferred_currency_markets',
+                           'ethereum_erc20_icos',
+                           'mobile_network_text_gateways',
                            'assets',
                            'news_feed',
                            );
@@ -1445,10 +1445,10 @@ var $ct_array = array();
    
     // Minimum time interval between data points in light chart
     if ( $days_span == 'all' ) {
-    $min_data_interval = round( ($newest_arch_timestamp - $oldest_arch_timestamp) / $ct['conf']['power']['light_chart_data_points_max'] ); // Dynamic
+    $min_data_interval = round( ($newest_arch_timestamp - $oldest_arch_timestamp) / $ct['conf']['power']['light_chart_data_points_maximum'] ); // Dynamic
     }
     else {
-    $min_data_interval = round( ($days_span * 86400) / $ct['conf']['power']['light_chart_data_points_max'] ); // Fixed X days (86400 seconds per day)
+    $min_data_interval = round( ($days_span * 86400) / $ct['conf']['power']['light_chart_data_points_maximum'] ); // Fixed X days (86400 seconds per day)
     }
   
   
@@ -1574,7 +1574,7 @@ var $ct_array = array();
       $loop = 0;
       $data_points = 0;
       // $data_points <= is INTENTIONAL, as we can have max data points slightly under without it
-      while ( isset($arch_data[$loop]) && $data_points <= $ct['conf']['power']['light_chart_data_points_max'] ) {
+      while ( isset($arch_data[$loop]) && $data_points <= $ct['conf']['power']['light_chart_data_points_maximum'] ) {
        
       $data_point_array = explode("||", $arch_data[$loop]);
       $data_point_array[0] = $ct['var']->num_to_str($data_point_array[0]);
@@ -1802,7 +1802,7 @@ var $ct_array = array();
         
         $notifyme_params = array(
                                 'notification' => null, // Setting this right before sending
-                                'accessCode' => $ct['conf']['ext_apis']['notifyme_accesscode']
+                                'accessCode' => $ct['conf']['ext_apis']['notifyme_access_code']
                                 );
                 
         }
@@ -1823,7 +1823,7 @@ var $ct_array = array();
         $textbelt_params = array(
                                   'message' => null, // Setting this right before sending
                                   'phone' => $ct['gen']->mob_number($ct['conf']['comms']['to_mobile_text']),
-                                  'key' => $ct['conf']['ext_apis']['textbelt_apikey']
+                                  'key' => $ct['conf']['ext_apis']['textbelt_api_key']
                                  );
                             
         }
@@ -1832,7 +1832,7 @@ var $ct_array = array();
         $textlocal_params = array(
                                    'message' => null, // Setting this right before sending
                                    'sender' => $ct['conf']['ext_apis']['textlocal_sender'],
-                                   'apikey' => $ct['conf']['ext_apis']['textlocal_apikey'],
+                                   'apikey' => $ct['conf']['ext_apis']['textlocal_api_key'],
                                    'numbers' => $ct['gen']->mob_number($ct['conf']['comms']['to_mobile_text'])
                                     );
                             
@@ -2153,7 +2153,7 @@ var $ct_array = array();
   
   function ext_data($mode, $request_params, $ttl, $api_server=null, $post_encoding=3, $test_proxy=null, $headers=null) { // Default to JSON encoding post requests (most used)
   
-  // $ct['conf']['gen']['btc_prim_currency_pair'] / $ct['conf']['gen']['btc_prim_exchange'] / $sel_opt['sel_btc_prim_currency_val'] USED FOR TRACE DEBUGGING (TRACING)
+  // $ct['conf']['gen']['bitcoin_primary_currency_pair'] / $ct['conf']['gen']['bitcoin_primary_exchange'] / $sel_opt['sel_btc_prim_currency_val'] USED FOR TRACE DEBUGGING (TRACING)
   
   global $ct, $sel_opt, $proxy_checkup, $log_errors, $log_debugging, $limited_api_calls, $api_runtime_cache, $api_connections, $htaccess_username, $htaccess_password;
   
@@ -2653,7 +2653,7 @@ var $ct_array = array();
              							
              			'POSSIBLE error for ' . ( $mode == 'params' ? 'server at ' : 'endpoint at ' ) . $ct['gen']->obfusc_url_data($api_endpoint),
              							
-             			'requested_from: server (' . $ct['conf']['power']['remote_api_timeout'] . ' second timeout); live_request_time: ' . $api_total_time . ' seconds; mode: ' . $mode . '; received: ' . $data_bytes_ux . '; proxy: ' .( $current_proxy ? $current_proxy : 'none' ) . '; debug_file: ' . $error_response_log . '; btc_prim_currency_pair: ' . $ct['conf']['gen']['btc_prim_currency_pair'] . '; btc_prim_exchange: ' . $ct['conf']['gen']['btc_prim_exchange'] . '; sel_btc_prim_currency_val: ' . $ct['var']->num_to_str($sel_opt['sel_btc_prim_currency_val']) . '; hash_check: ' . $ct['var']->obfusc_str($hash_check, 4) . ';'
+             			'requested_from: server (' . $ct['conf']['power']['remote_api_timeout'] . ' second timeout); live_request_time: ' . $api_total_time . ' seconds; mode: ' . $mode . '; received: ' . $data_bytes_ux . '; proxy: ' .( $current_proxy ? $current_proxy : 'none' ) . '; debug_file: ' . $error_response_log . '; bitcoin_primary_currency_pair: ' . $ct['conf']['gen']['bitcoin_primary_currency_pair'] . '; bitcoin_primary_exchange: ' . $ct['conf']['gen']['bitcoin_primary_exchange'] . '; sel_btc_prim_currency_val: ' . $ct['var']->num_to_str($sel_opt['sel_btc_prim_currency_val']) . '; hash_check: ' . $ct['var']->obfusc_str($hash_check, 4) . ';'
              			);
             
             // Log this error response from this data request
@@ -2699,6 +2699,7 @@ var $ct_array = array();
             || preg_match("/\"error\":\"timeout/i", $data) // generic
             || preg_match("/\"reason\":\"Maintenance\"/i", $data) // Gemini.com / generic
             || preg_match("/not found/i", $data)  // Generic
+            || preg_match("/missing a valid API key/i", $data) // Google / generic
             || preg_match("/if you would like to target a higher API call/i", $data)  // Alphavantage
             // API-specific
             || $endpoint_tld_or_ip == 'coingecko.com' && preg_match("/error code: /i", $data)
@@ -2731,7 +2732,7 @@ var $ct_array = array();
             							
             			'CONFIRMED error for ' . ( $mode == 'params' ? 'server at ' : 'endpoint at ' ) . $ct['gen']->obfusc_url_data($api_endpoint) . $log_append,
             							
-            			'requested_from: server (' . $ct['conf']['power']['remote_api_timeout'] . ' second timeout); live_request_time: ' . $api_total_time . ' seconds; mode: ' . $mode . '; received: ' . $data_bytes_ux . '; proxy: ' .( $current_proxy ? $current_proxy : 'none' ) . '; btc_prim_currency_pair: ' . $ct['conf']['gen']['btc_prim_currency_pair'] . '; btc_prim_exchange: ' . $ct['conf']['gen']['btc_prim_exchange'] . '; sel_btc_prim_currency_val: ' . $ct['var']->num_to_str($sel_opt['sel_btc_prim_currency_val']) . '; hash_check: ' . $ct['var']->obfusc_str($hash_check, 4) . ';'
+            			'requested_from: server (' . $ct['conf']['power']['remote_api_timeout'] . ' second timeout); live_request_time: ' . $api_total_time . ' seconds; mode: ' . $mode . '; received: ' . $data_bytes_ux . '; proxy: ' .( $current_proxy ? $current_proxy : 'none' ) . '; bitcoin_primary_currency_pair: ' . $ct['conf']['gen']['bitcoin_primary_currency_pair'] . '; bitcoin_primary_exchange: ' . $ct['conf']['gen']['bitcoin_primary_exchange'] . '; sel_btc_prim_currency_val: ' . $ct['var']->num_to_str($sel_opt['sel_btc_prim_currency_val']) . '; hash_check: ' . $ct['var']->obfusc_str($hash_check, 4) . ';'
             			);
              
            

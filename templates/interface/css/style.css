@@ -659,6 +659,19 @@ text-decoration: underline !important;
 }
 
 
+.pretty_text_fields {
+text-align: right;
+width: fit-content;
+margin: auto;
+margin-left: 0px;
+}
+
+.pretty_text_fields p {
+white-space: nowrap;
+margin-top: 3.0em;
+}
+
+
 .portfolio_footer {
 text-align: left;
 margin: auto;

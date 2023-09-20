@@ -2311,7 +2311,7 @@ MAJOR IMPROVEMENTS TO THE USER EXPERIENCE HAVE BEEN MADE, WHICH ARE !NOT! BACKWA
 
 -Bug fixes for unicode support in mobile text messages (WORK IN PROGRESS)
 
--Changed config setting 'price_alert_freq_max' time units to hours (instead of minutes)
+-Changed config setting 'price_alert_frequency_maximum' time units to hours (instead of minutes)
 
 IMPORTANT NOTES: 
 
@@ -5869,7 +5869,7 @@ v6.00.2 AND HIGHER RESETS LIGHT (TIME PERIOD) CHARTS FROM ARCHIVAL DATA, ONE-TIM
 
 -BUG FIX: Fixed debug mode for running tests on price chart / alert user configurations
 
--New 'Enhanced' admin security mode, that still shows settings in the admin area so you can easily edit them, BUT additionally requires end-users to click a 'View Settings' button within each section to allow the display of settings, which protects against CSRF attacks from 'page scraping' sensitive user settings (a very rare / advanced attack requiring hacker knows your install's web address, AND must trick YOU into visiting a malicious website which they control, AND you must be logged into the app's admin area)
+-New 'Medium' admin security mode, that still shows settings in the admin area so you can easily edit them, BUT additionally requires end-users to click a 'View Settings' button within each section to allow the display of settings, which protects against CSRF attacks from 'page scraping' sensitive user settings (a very rare / advanced attack requiring hacker knows your install's web address, AND must trick YOU into visiting a malicious website which they control, AND you must be logged into the app's admin area)
 
 -Access-Control-Allow-Origin also added to main header (user / admin areas...for use with 'access_control_origin' setting in Admin Config security section)
 
@@ -6017,7 +6017,7 @@ v6.00.2 AND HIGHER RESETS LIGHT (TIME PERIOD) CHARTS FROM ARCHIVAL DATA, ONE-TIM
 
 -BUG FIX: Miscellaneous (small / medium) fixes
 
--New 'crypto_dec_max' admin config setting (in the GENERAL section...see notes next to setting)
+-New 'crypto_decimals_max' admin config setting (in the GENERAL section...see notes next to setting)
 
 -Optimized initiation logic to run faster in all runtime modes
 
@@ -6279,6 +6279,31 @@ IMPORTANT *UPGRADE* NOTICE:
 v6.00.26 and higher renames the admin config array. ALL CONFIGURATION SETTING
 VARIABLE NAMES ARE NOW DIFFERENT, USE THE LATEST/UPGRADED CONFIG.PHP, AND
 MIGRATE YOUR EXISTING SETTINGS TO THE NEW FORMAT.
+
+-------------------------------------------------------------------
+
+
+
+-------------------------------------------------------------------
+6.00.27:
+
+-BUG FIX: Fided an error (introduced in v6.00.26), which corrupts trade volume calculations for price alert messages (sorry!)
+
+-BUG FIX: Miscellaneous fixes
+
+-Added Admin Config settings into these admin interface sections (these config settings are now editable in the admin interface): General, Communications, Extenal APIs, and Security
+
+-New 'strict' mode available for admin area 2-factor authentication (requires entering a 2FA code when changing ANYTHING in the admin area)
+
+-Code optimization / cleanup
+
+IMPORTANT *UPGRADE* NOTICE:
+
+v6.00.26 / v6.00.27 and higher renames the admin config array variables. ALL CONFIGURATION SETTING
+VARIABLE NAMES ARE NOW DIFFERENT, USE THE LATEST/UPGRADED CONFIG.PHP, AND
+MIGRATE YOUR EXISTING SETTINGS TO THE NEW FORMAT.
+
+-v6.00.27 AND HIGHER RESETS LIGHT (TIME PERIOD) CHARTS FROM ARCHIVAL DATA, ONE-TIME DURING UPGRADES FROM V6.00.26 OR LOWER.
 
 -------------------------------------------------------------------
 

@@ -30,9 +30,62 @@ var $ct_array = array();
       $url = 'https://blockchain.info/q/getdifficulty';
       }
          
-   $response = @$ct['cache']->ext_data('url', $url, $ct['conf']['power']['chainstats_cache_time']);
+   $response = @$ct['cache']->ext_data('url', $url, $ct['conf']['power']['blockchain_stats_cache_time']);
        
    return (float)$response;
+     
+   }
+
+   
+   ////////////////////////////////////////////////////////
+   ////////////////////////////////////////////////////////
+   
+   
+   function google_fonts($request) {
+    
+   global $ct;
+   
+   
+      // API key check
+      if ( isset($ct['conf']['ext_apis']['google_fonts_api_key']) && $ct['conf']['ext_apis']['google_fonts_api_key'] != '' ) {
+      // CONTINUE
+      }
+      else {
+      return false;
+      }
+      
+   
+   $result = array();
+         
+       
+      if ( $request == 'list' ) {
+      $url = 'https://webfonts.googleapis.com/v1/webfonts?key=' . $ct['conf']['ext_apis']['google_fonts_api_key'];
+      }
+      
+         
+   $response = @$ct['cache']->ext_data('url', $url, $ct['conf']['power']['google_fonts_cache_time']);
+       
+   $data = json_decode($response, true);
+   
+   $data = $data['items'];
+   
+   
+      if ( is_array($data) ) {
+      
+          foreach( $data as $val ) {
+          
+              if ( isset($val['family']) ) {
+              $result[] = $val['family'];
+              }
+          
+          }
+      
+      sort($result);
+      
+      }
+      
+      	           
+   return $result;
      
    }
    
@@ -50,30 +103,30 @@ var $ct_array = array();
    $result = array();
    
    // Don't overwrite global
-   $coingecko_prim_currency = ( $force_prim_currency != null ? strtolower($force_prim_currency) : strtolower($ct['conf']['gen']['btc_prim_currency_pair']) );
+   $coingecko_prim_currency = ( $force_prim_currency != null ? strtolower($force_prim_currency) : strtolower($ct['conf']['gen']['bitcoin_primary_currency_pair']) );
    
          
    // DON'T ADD ANY ERROR CHECKS HERE, OR RUNTIME MAY SLOW SIGNIFICANTLY!!
       
    
-      // Batched / multiple API calls, if 'mcap_ranks_max' is greater than 'coingecko_api_batched_max'
-      if ( $ct['conf']['power']['mcap_ranks_max'] > $ct['conf']['power']['coingecko_api_batched_max'] ) {
+      // Batched / multiple API calls, if 'marketcap_ranks_max' is greater than 'coingecko_api_batched_maximum'
+      if ( $ct['conf']['power']['marketcap_ranks_max'] > $ct['conf']['power']['coingecko_api_batched_maximum'] ) {
       
           $loop = 0;
-          $calls = ceil($ct['conf']['power']['mcap_ranks_max'] / $ct['conf']['power']['coingecko_api_batched_max']);
+          $calls = ceil($ct['conf']['power']['marketcap_ranks_max'] / $ct['conf']['power']['coingecko_api_batched_maximum']);
          
           while ( $loop < $calls ) {
          
-          $url = 'https://api.coingecko.com/api/v3/coins/markets?per_page=' . $ct['conf']['power']['coingecko_api_batched_max'] . '&page=' . ($loop + 1) . '&vs_currency=' . $coingecko_prim_currency . '&price_change_percentage=1h,24h,7d,14d,30d,200d,1y';
+          $url = 'https://api.coingecko.com/api/v3/coins/markets?per_page=' . $ct['conf']['power']['coingecko_api_batched_maximum'] . '&page=' . ($loop + 1) . '&vs_currency=' . $coingecko_prim_currency . '&price_change_percentage=1h,24h,7d,14d,30d,200d,1y';
             
               // Wait 6.55 seconds between consecutive calls, to avoid being blocked / throttled by external server
               // (coingecko #ABSOLUTELY HATES# DATA CENTER IPS [DEDICATED / VPS SERVERS], BUT GOES EASY ON RESIDENTIAL IPS)
-              if ( $loop > 0 && $ct['cache']->update_cache($ct['base_dir'] . '/cache/secured/external_data/' . md5($url) . '.dat', $ct['conf']['power']['mcap_cache_time']) == true ) {
+              if ( $loop > 0 && $ct['cache']->update_cache($ct['base_dir'] . '/cache/secured/external_data/' . md5($url) . '.dat', $ct['conf']['power']['marketcap_cache_time']) == true ) {
               sleep(6);
               usleep(550000); 
               }
          
-          $response = @$ct['cache']->ext_data('url', $url, $ct['conf']['power']['mcap_cache_time']);
+          $response = @$ct['cache']->ext_data('url', $url, $ct['conf']['power']['marketcap_cache_time']);
    
           $sub_arrays[] = json_decode($response, true);
          
@@ -84,7 +137,7 @@ var $ct_array = array();
       }
       else {
       	
-      $response = @$ct['cache']->ext_data('url', 'https://api.coingecko.com/api/v3/coins/markets?per_page='.$ct['conf']['power']['mcap_ranks_max'].'&page=1&vs_currency='.$coingecko_prim_currency.'&price_change_percentage=1h,24h,7d,14d,30d,200d,1y', $ct['conf']['power']['mcap_cache_time']);
+      $response = @$ct['cache']->ext_data('url', 'https://api.coingecko.com/api/v3/coins/markets?per_page='.$ct['conf']['power']['marketcap_ranks_max'].'&page=1&vs_currency='.$coingecko_prim_currency.'&price_change_percentage=1h,24h,7d,14d,30d,200d,1y', $ct['conf']['power']['marketcap_cache_time']);
       
       $sub_arrays[] = json_decode($response, true);
       
@@ -184,13 +237,13 @@ var $ct_array = array();
     
    global $ct;
    
-      if ( trim($ct['conf']['ext_apis']['etherscan_key']) == '' ) {
+      if ( trim($ct['conf']['ext_apis']['etherscan_api_key']) == '' ) {
       return false;
       }
    
-   $url = 'https://api.etherscan.io/api?module=proxy&action=eth_blockNumber&apikey=' . $ct['conf']['ext_apis']['etherscan_key'];
+   $url = 'https://api.etherscan.io/api?module=proxy&action=eth_blockNumber&apikey=' . $ct['conf']['ext_apis']['etherscan_api_key'];
      
-   $response = @$ct['cache']->ext_data('url', $url, $ct['conf']['power']['chainstats_cache_time']);
+   $response = @$ct['cache']->ext_data('url', $url, $ct['conf']['power']['blockchain_stats_cache_time']);
        
    $data = json_decode($response, true);
      
@@ -203,9 +256,9 @@ var $ct_array = array();
       else {
             
           // Non-dynamic cache file name, because filename would change every recache and create cache bloat
-          if ( $ct['cache']->update_cache('cache/secured/external_data/eth-stats.dat', $ct['conf']['power']['chainstats_cache_time'] ) == true ) {
+          if ( $ct['cache']->update_cache('cache/secured/external_data/eth-stats.dat', $ct['conf']['power']['blockchain_stats_cache_time'] ) == true ) {
             
-          $url = 'https://api.etherscan.io/api?module=proxy&action=eth_getBlockByNumber&tag='.$block_number.'&boolean=true&apikey=' . $ct['conf']['ext_apis']['etherscan_key'];
+          $url = 'https://api.etherscan.io/api?module=proxy&action=eth_getBlockByNumber&tag='.$block_number.'&boolean=true&apikey=' . $ct['conf']['ext_apis']['etherscan_api_key'];
           $response = @$ct['cache']->ext_data('url', $url, 0); // ZERO TO NOT CACHE DATA (WOULD CREATE CACHE BLOAT)
             
           $ct['cache']->save_file($ct['base_dir'] . '/cache/secured/external_data/eth-stats.dat', $response);
@@ -242,13 +295,13 @@ var $ct_array = array();
    $result = array();
    
    
-      if ( trim($ct['conf']['ext_apis']['coinmarketcap_key']) == null ) {
+      if ( trim($ct['conf']['ext_apis']['coinmarketcap_api_key']) == null ) {
       	
       $ct['gen']->log(
       		    'notify_error',
-      		    '"coinmarketcap_key" (free API key) is not configured in Admin Config API section',
+      		    '"coinmarketcap_api_key" (free API key) is not configured in Admin Config API section',
       		    false,
-      		    'coinmarketcap_key'
+      		    'coinmarketcap_api_key'
       		    );
       
       return false;
@@ -257,7 +310,7 @@ var $ct_array = array();
       
    
    // Don't overwrite global
-   $coinmarketcap_prim_currency = strtoupper($ct['conf']['gen']['btc_prim_currency_pair']);
+   $coinmarketcap_prim_currency = strtoupper($ct['conf']['gen']['bitcoin_primary_currency_pair']);
       
          
       if ( $force_prim_currency != null ) {
@@ -278,13 +331,13 @@ var $ct_array = array();
       
    $headers = [
                'Accepts: application/json',
-               'X-CMC_PRO_API_KEY: ' . $ct['conf']['ext_apis']['coinmarketcap_key']
+               'X-CMC_PRO_API_KEY: ' . $ct['conf']['ext_apis']['coinmarketcap_api_key']
       	      ];
    
       
    $cmc_params = array(
                        'start' => '1',
-                       'limit' => $ct['conf']['power']['mcap_ranks_max'],
+                       'limit' => $ct['conf']['power']['marketcap_ranks_max'],
                        'convert' => $convert
                        );
    
@@ -334,9 +387,9 @@ var $ct_array = array();
       if ( !isset($_SESSION[$fetched_feeds]['all']) ) {
       $_SESSION[$fetched_feeds]['all'] = 0;
       }
-      // Never re-cache FROM LIVE more than 'news_feed_batched_max' (EXCEPT for cron runtimes pre-caching), 
+      // Never re-cache FROM LIVE more than 'news_feed_batched_maximum' (EXCEPT for cron runtimes pre-caching), 
       // to avoid overloading low resource devices (raspi / pine64 / etc) and creating long feed load times
-      elseif ( $_SESSION[$fetched_feeds]['all'] >= $ct['conf']['power']['news_feed_batched_max'] && $cache_only == false && $ct['runtime_mode'] != 'cron' ) {
+      elseif ( $_SESSION[$fetched_feeds]['all'] >= $ct['conf']['power']['news_feed_batched_maximum'] && $cache_only == false && $ct['runtime_mode'] != 'cron' ) {
       return '<span class="red">Live data fetching limit reached (' . $_SESSION[$fetched_feeds]['all'] . ').</span>';
       }
       // Avoid overloading low power devices with the precache hard limit
@@ -478,9 +531,9 @@ var $ct_array = array();
 				     if ( $ct['var']->num_to_str($now_timestamp) > $ct['var']->num_to_str( strtotime($item_date) + ($ct['conf']['power']['news_feed_entries_new'] * 86400) + $ct['dev']['tasks_time_offset'] ) ) {
 				     $mark_new = null;
 				     }
-				     // If running as $email_only, we only want 'new' posts anyway (less than 'news_feed_email_freq' days old)
+				     // If running as $email_only, we only want 'new' posts anyway (less than 'news_feed_email_frequency' days old)
 				     // With offset, to try to catch any that would have been missed from runtime
-				     elseif ( $email_only && $ct['var']->num_to_str($now_timestamp) <= $ct['var']->num_to_str( strtotime($item_date) + ($ct['conf']['comms']['news_feed_email_freq'] * 86400) + $ct['dev']['tasks_time_offset'] ) ) { 
+				     elseif ( $email_only && $ct['var']->num_to_str($now_timestamp) <= $ct['var']->num_to_str( strtotime($item_date) + ($ct['conf']['comms']['news_feed_email_frequency'] * 86400) + $ct['dev']['tasks_time_offset'] ) ) { 
 				     
     				     if ($count < $ct['conf']['comms']['news_feed_email_entries_show']) {
     				     $html .= '<li style="padding: 8px;"><a style="color: #00b6db;" href="'.htmlspecialchars($item_link).'" target="_blank" title="'.htmlspecialchars($date_ui).'">'.htmlspecialchars($item->title).'</a> </li>';
@@ -565,9 +618,9 @@ var $ct_array = array();
 			         if ( $ct['var']->num_to_str($now_timestamp) > $ct['var']->num_to_str( strtotime($item_date) + ($ct['conf']['power']['news_feed_entries_new'] * 86400) + $ct['dev']['tasks_time_offset'] ) ) {
 			         $mark_new = null;
 			         }
-				     // If running as $email_only, we only want 'new' posts anyway (less than 'news_feed_email_freq' days old)
+				     // If running as $email_only, we only want 'new' posts anyway (less than 'news_feed_email_frequency' days old)
 				     // With offset, to try to catch any that would have been missed from runtime
-				     elseif ( $email_only && $ct['var']->num_to_str($now_timestamp) <= $ct['var']->num_to_str( strtotime($item_date) + ($ct['conf']['comms']['news_feed_email_freq'] * 86400) + $ct['dev']['tasks_time_offset'] ) ) {
+				     elseif ( $email_only && $ct['var']->num_to_str($now_timestamp) <= $ct['var']->num_to_str( strtotime($item_date) + ($ct['conf']['comms']['news_feed_email_frequency'] * 86400) + $ct['dev']['tasks_time_offset'] ) ) {
     			     
     				     if ($count < $ct['conf']['comms']['news_feed_email_entries_show']) {
     				     $html .= '<li style="padding: 8px;"><a style="color: #00b6db;" href="'.htmlspecialchars($item_link).'" target="_blank" title="'.htmlspecialchars($date_ui).'">'.htmlspecialchars($item->title).'</a> </li>';
@@ -646,13 +699,13 @@ var $ct_array = array();
       if ( strtolower($sel_exchange) == 'alphavantage_stock' ) {
    
    
-          if ( trim($ct['conf']['ext_apis']['alphavantage_key']) == null ) {
+          if ( trim($ct['conf']['ext_apis']['alphavantage_api_key']) == null ) {
           	
           $ct['gen']->log(
           		    'notify_error',
-          		    '"alphavantage_key" (free API key) is not configured in Admin Config API section',
+          		    '"alphavantage_api_key" (free API key) is not configured in Admin Config API section',
           		    false,
-          		    'alphavantage_key'
+          		    'alphavantage_api_key'
           		    );
           
           return false;
@@ -660,7 +713,7 @@ var $ct_array = array();
           }
       
          
-      $url = 'https://www.alphavantage.co/query?function=GLOBAL_QUOTE&symbol=' . $mrkt_id . '&apikey=' . $ct['conf']['ext_apis']['alphavantage_key'];
+      $url = 'https://www.alphavantage.co/query?function=GLOBAL_QUOTE&symbol=' . $mrkt_id . '&apikey=' . $ct['conf']['ext_apis']['alphavantage_api_key'];
          
       $response = @$ct['cache']->ext_data('url', $url, $throttled_api_cache_time['alphavantage.co']);
          
@@ -1075,7 +1128,7 @@ var $ct_array = array();
       $data = json_decode($response, true);
         
       $result = array(
-                     'last_trade' => number_format( $data['last'], $ct['conf']['gen']['crypto_dec_max'], '.', ''),
+                     'last_trade' => number_format( $data['last'], $ct['conf']['gen']['crypto_decimals_max'], '.', ''),
                      '24hr_asset_vol' => $data["volume"],
                      '24hr_pair_vol' => null // Unavailable, set null
       	           );
@@ -1266,7 +1319,7 @@ var $ct_array = array();
 	               
 	              $result = array(
 	                              'last_trade' => $val["last_price"],
-	                              '24hr_asset_vol' => 0, // Unavailable, set 0 to avoid 'price_alert_block_vol_error' supression
+	                              '24hr_asset_vol' => 0, // Unavailable, set 0 to avoid 'price_alert_block_volume_error' supression
 	                              '24hr_pair_vol' => $val["volume_24h"] 
 	                     		  );
 	               
@@ -1366,7 +1419,7 @@ var $ct_array = array();
 	               
 	              $result = array(
 	                              'last_trade' => $val["last_price"],
-	                              '24hr_asset_vol' => 0, // Unavailable, set 0 to avoid 'price_alert_block_vol_error' supression
+	                              '24hr_asset_vol' => 0, // Unavailable, set 0 to avoid 'price_alert_block_volume_error' supression
 	                              '24hr_pair_vol' => $val["volume"]
 	                     		  );
 	     
@@ -1446,7 +1499,7 @@ var $ct_array = array();
 	               
 	              $result = array(
 	                              'last_trade' => $val["last"],
-	                              '24hr_asset_vol' => 0, // Unavailable, set 0 to avoid 'price_alert_block_vol_error' supression
+	                              '24hr_asset_vol' => 0, // Unavailable, set 0 to avoid 'price_alert_block_volume_error' supression
 	                              '24hr_pair_vol' => null // Unavailable, set null
 	                     		  );
 	     
@@ -1764,8 +1817,8 @@ var $ct_array = array();
               if ( $key == $jup_pairs[0] ) {
                
               $result = array(
-                              'last_trade' => number_format( $data[$key]['price'], $ct['conf']['gen']['crypto_dec_max'], '.', ''),
-                              '24hr_asset_vol' => 0, // Unavailable, set 0 to avoid 'price_alert_block_vol_error' supression
+                              'last_trade' => number_format( $data[$key]['price'], $ct['conf']['gen']['crypto_decimals_max'], '.', ''),
+                              '24hr_asset_vol' => 0, // Unavailable, set 0 to avoid 'price_alert_block_volume_error' supression
                               '24hr_pair_vol' => null // Unavailable, set null
                     	      );
                
@@ -2100,7 +2153,7 @@ var $ct_array = array();
                
               $result = array(
                               'last_trade' => $val["last"],
-                              '24hr_asset_vol' => 0, // Unavailable, set 0 to avoid 'price_alert_block_vol_error' supression
+                              '24hr_asset_vol' => 0, // Unavailable, set 0 to avoid 'price_alert_block_volume_error' supression
                               '24hr_pair_vol' => $val['volCcy24h']
                      		  );
      
@@ -2209,7 +2262,7 @@ var $ct_array = array();
                
               $result = array(
                               'last_trade' => $val[$mrkt_id]["price"],
-                              '24hr_asset_vol' => 0, // Unavailable, set 0 to avoid 'price_alert_block_vol_error' supression
+                              '24hr_asset_vol' => 0, // Unavailable, set 0 to avoid 'price_alert_block_volume_error' supression
                               '24hr_pair_vol' => $val[$mrkt_id]["volume"]
                      		  );
                
@@ -2246,7 +2299,7 @@ var $ct_array = array();
 	               
 	              $result = array(
 	                              'last_trade' => $val["average_price"],
-	                              '24hr_asset_vol' => 0, // Unavailable, set 0 to avoid 'price_alert_block_vol_error' supression
+	                              '24hr_asset_vol' => 0, // Unavailable, set 0 to avoid 'price_alert_block_volume_error' supression
 	                              '24hr_pair_vol' => null // Unavailable, set null
 	                     		  );
 	     
@@ -2676,7 +2729,7 @@ var $ct_array = array();
 	     
 	         $result = array(
 	                        'last_trade' => $ct['var']->num_to_str($data[$paired_with]),
-	                        '24hr_asset_vol' => 0, // Unavailable, set 0 to avoid 'price_alert_block_vol_error' supression
+	                        '24hr_asset_vol' => 0, // Unavailable, set 0 to avoid 'price_alert_block_volume_error' supression
 	                        '24hr_pair_vol' => $ct['var']->num_to_str($data[$paired_with . "_24h_vol"])
 	                        );
 	                     		  
@@ -2694,17 +2747,25 @@ var $ct_array = array();
         
       // Better large / small number support
       $result['last_trade'] = $ct['var']->num_to_str($result['last_trade']);
+      
+      
+    		if ( is_numeric($result['24hr_asset_vol']) ) {
+          $result['24hr_asset_vol'] = $ct['var']->num_to_str($result['24hr_asset_vol']); // Better large / small number support
+    		}
         
         
             // SET FIRST...emulate pair volume if non-existent
             // If no pair volume is available for this market, emulate it within reason with: asset value * asset volume
     		if ( is_numeric($result['24hr_pair_vol']) != true && is_numeric($result['last_trade']) == true && is_numeric($result['24hr_asset_vol']) == true ) {
-            $result['24hr_pair_vol'] = $ct['var']->num_to_str($result['last_trade'] * $result['24hr_asset_vol']);
+          $result['24hr_pair_vol'] = $ct['var']->num_to_str($result['last_trade'] * $result['24hr_asset_vol']);
+    		}
+    		elseif ( is_numeric($result['24hr_pair_vol']) ) {
+          $result['24hr_pair_vol'] = $ct['var']->num_to_str($result['24hr_pair_vol']); // Better large / small number support
     		}
 		      
 		      
     		// Set primary currency volume value
-    		if ( isset($pair) && $pair == $ct['conf']['gen']['btc_prim_currency_pair'] ) {
+    		if ( isset($pair) && $pair == $ct['conf']['gen']['bitcoin_primary_currency_pair'] ) {
     		$result['24hr_prim_currency_vol'] = $ct['var']->num_to_str($result['24hr_pair_vol']); // Save on runtime, if we don't need to compute the fiat value
     		}
     		else {
@@ -2714,11 +2775,6 @@ var $ct_array = array();
       
       }
    
-      
-   // Convert any scientific vals to string (so we can process correctly)
-   $result['last_trade'] = ( $result['last_trade'] != null ? $ct['var']->num_to_str($result['last_trade']) : null );
-   $result['24hr_asset_vol'] = ( $result['24hr_asset_vol'] != null ? $ct['var']->num_to_str($result['24hr_asset_vol']) : null );
-   $result['24hr_pair_vol'] = ( $result['24hr_pair_vol'] != null ? $ct['var']->num_to_str($result['24hr_pair_vol']) : null );
    
    return $result;
    

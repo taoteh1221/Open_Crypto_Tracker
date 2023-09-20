@@ -33,7 +33,7 @@ $all_feeds_array[$feed_id] = $feed;
 
 
 // Mitigate DOS attack leverage, since we recieve extrenal calls in ajax.php
-if ( is_array($batched_feed_hashes_array) && sizeof($batched_feed_hashes_array) <= $ct['conf']['power']['news_feed_batched_max'] ) {
+if ( is_array($batched_feed_hashes_array) && sizeof($batched_feed_hashes_array) <= $ct['conf']['power']['news_feed_batched_maximum'] ) {
     	
 // Reset feed fetch telemetry 
 $_SESSION[$fetched_feeds] = false;

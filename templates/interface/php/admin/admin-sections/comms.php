@@ -27,17 +27,285 @@ else {
 	More comms-related settings can be found in the "External APIs" section (Telegram / Twilio / Amazon Alexa / etc).
 	
 	</div>
-	
-	
-	<p> Coming Soon&trade; </p>
-	
-	<p class='bitcoin bitcoin_dotted'>
-	
-	These sections / category pages will be INCREMENTALLY populated with the corrisponding admin configuration options, over a period of time AFTER the initial v6.00.x releases (versions 6.00.x will only test the back-end / under-the-hood stability of HIGH / ENHANCED / NORMAL MODES of the Admin Interface security levels). <br /><br />You may need to turn off "Enhanced" OR "Normal" mode of the Admin Interface security level (at the top of the "Security" section in this admin area), to edit any UNFINISHED SECTIONS by hand in the config files (config.php in the app install folder, and any plug-conf.php files in the plugins folders).
-	
-	</p>
-	
-	
+
 <?php
+
+
+// Render config settings for this section...
+
+
+////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+$admin_render_settings['allow_comms']['radio'] = array(
+                                                          'off',
+                                                          'on',
+                                                         );
+
+
+////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+$admin_render_settings['upgrade_alert']['select'] = array(
+                                                          'off',
+                                                          'ui',
+                                                          'email',
+                                                          'text',
+                                                          'notifyme',
+                                                          'telegram',
+                                                          'all',
+                                                         );
+
+$admin_render_settings['upgrade_alert']['notes'] = 'See "External APIs" section for using any comms-related APIs.';
+                                                         
+                                                         
+////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+$admin_render_settings['upgrade_alert_reminder']['select']['assoc'] = array();
+
+$loop = 1;
+$loop_max = 90;
+while ( $loop <= $loop_max ) {
+     
+$admin_render_settings['upgrade_alert_reminder']['select']['assoc'][] = array(
+                                                                       'key' => $loop,
+                                                                       'val' => 'Every ' . $loop . ' Days',
+                                                                      );
+                                                                      
+$loop = $loop + 1;
+}
+
+
+////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+$admin_render_settings['news_feed_email_frequency']['select']['assoc'] = array();
+
+$loop = 0;
+$loop_max = 30;
+while ( $loop <= $loop_max ) {
+     
+$admin_render_settings['news_feed_email_frequency']['select']['assoc'][] = array(
+                                                                       'key' => $loop,
+                                                                       'val' => ( $loop == 0 ? 'Disabled' : 'Every ' . $loop . ' Days'),
+                                                                      );
+                                                                      
+$loop = $loop + 1;
+}
+
+
+////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+$admin_render_settings['news_feed_email_entries_show']['select'] = array();
+
+$loop = 1;
+$loop_max = 30;
+while ( $loop <= $loop_max ) {
+$admin_render_settings['news_feed_email_entries_show']['select'][] = $loop;
+$loop = $loop + 1;
+}
+
+
+////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+$admin_render_settings['price_alert']['select'] = array(
+                                                          'off',
+                                                          'email',
+                                                          'text',
+                                                          'notifyme',
+                                                          'telegram',
+                                                          'all',
+                                                         );
+
+$admin_render_settings['price_alert']['notes'] = 'See "External APIs" section for using any comms-related APIs.';
+                                                         
+                                                         
+////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+$admin_render_settings['price_alert_threshold']['select']['assoc'] = array();
+
+$loop = 0;
+$loop_max = 100;
+while ( $loop <= $loop_max ) {
+     
+$admin_render_settings['price_alert_threshold']['select']['assoc'][] = array(
+                                                                       'key' => $loop,
+                                                                       'val' => ( $loop == 0 ? 'Disabled' : $loop . '% Price Change'),
+                                                                      );
+                                                                      
+$loop = $loop + 0.25;
+}
+
+
+////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+$admin_render_settings['price_alert_frequency_maximum']['select']['assoc'] = array();
+
+$loop = 0;
+$loop_max = 72;
+while ( $loop <= $loop_max ) {
+     
+$admin_render_settings['price_alert_frequency_maximum']['select']['assoc'][] = array(
+                                                                       'key' => $loop,
+                                                                       'val' => ( $loop == 0 ? 'Unlimited' : 'Every ' . $loop . ' Hours'),
+                                                                      );
+                                                                      
+$loop = $loop + 1;
+}
+
+
+////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+$admin_render_settings['price_alert_block_volume_error']['radio'] = array(
+                                                          'off',
+                                                          'on',
+                                                         );
+
+
+////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+$admin_render_settings['price_alert_minimum_volume']['select']['assoc'] = array();
+
+$loop = 0;
+$loop_max = 500000;
+while ( $loop <= $loop_max ) {
+     
+$admin_render_settings['price_alert_minimum_volume']['select']['assoc'][] = array(
+                                                                       'key' => $loop,
+                                                                       'val' => ( $loop == 0 ? 'Disabled' : $ct['conf']['power']['bitcoin_currency_markets'][ $ct['conf']['gen']['bitcoin_primary_currency_pair'] ] . $ct['var']->num_pretty($loop, 0) . ' (' . strtoupper($ct['conf']['gen']['bitcoin_primary_currency_pair']) . ')'),
+                                                                      );
+                                                                      
+$loop = $loop + 1000;
+}
+
+
+////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+$admin_render_settings['logs_email']['select']['assoc'] = array();
+
+$loop = 0;
+$loop_max = 30;
+while ( $loop <= $loop_max ) {
+     
+$admin_render_settings['logs_email']['select']['assoc'][] = array(
+                                                                       'key' => $loop,
+                                                                       'val' => ( $loop == 0 ? 'Disabled' : 'Every ' . $loop . ' Days'),
+                                                                      );
+                                                                      
+$loop = $loop + 1;
+}
+
+
+////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+$admin_render_settings['proxy_alert']['select'] = array(
+                                                          'off',
+                                                          'email',
+                                                          'text',
+                                                          'notifyme',
+                                                          'telegram',
+                                                          'all',
+                                                         );
+
+$admin_render_settings['proxy_alert']['notes'] = 'See "External APIs" section for using any comms-related APIs.';
+                                                         
+                                                         
+////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+$admin_render_settings['proxy_alert_frequency_maximum']['select']['assoc'] = array();
+
+$loop = 0;
+$loop_max = 72;
+while ( $loop <= $loop_max ) {
+     
+$admin_render_settings['proxy_alert_frequency_maximum']['select']['assoc'][] = array(
+                                                                       'key' => $loop,
+                                                                       'val' => ( $loop == 0 ? 'Unlimited' : 'Every ' . $loop . ' Hours'),
+                                                                      );
+                                                                      
+$loop = $loop + 1;
+}
+
+
+////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+$admin_render_settings['proxy_alert_runtime']['radio'] = array(
+                                                          'cron',
+                                                          'ui',
+                                                          'all',
+                                                         );
+
+
+////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+$admin_render_settings['proxy_alert_checkup_ok']['radio'] = array(
+                                                          'ignore',
+                                                          'include',
+                                                         );
+
+
+////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+$admin_render_settings['smtp_login']['text_field_size'] = 40;
+
+$admin_render_settings['smtp_login']['notes'] = 'This format MUST be used: username||password';
+
+
+////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+$admin_render_settings['smtp_server']['text_field_size'] = 40;
+
+$admin_render_settings['smtp_server']['trim_value'] = true;
+
+$admin_render_settings['smtp_server']['notes'] = 'This format MUST be used: domain_or_ip:port_number';
+
+
+////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+$admin_render_settings['from_email']['text_field_size'] = 40;
+
+$admin_render_settings['from_email']['trim_value'] = true;
+
+
+////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+$admin_render_settings['to_email']['text_field_size'] = 40;
+
+$admin_render_settings['to_email']['trim_value'] = true;
+
+
+////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+$admin_render_settings['to_mobile_text']['text_field_size'] = 40;
+
+$admin_render_settings['to_mobile_text']['trim_value'] = true;
+
+$admin_render_settings['to_mobile_text']['notes'] = 'Examples: 12223334444||virgin_us / 12223334444||skip_network_name';
+
+
+////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+// $ct['admin']->settings_form_fields($conf_id, $interface_id)
+$ct['admin']->settings_form_fields('comms', 'comms', $admin_render_settings);
+
+
 }
 ?>	

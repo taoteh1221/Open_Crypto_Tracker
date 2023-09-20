@@ -15,7 +15,7 @@ $currency_count = 0;
 	if ( $ct['conf']['power']['debug_mode'] == 'all' || $ct['conf']['power']['debug_mode'] == 'markets_conf' ) {
 		
 		
-		foreach ( $ct['conf']['power']['btc_currency_mrkts'] as $key => $unused ) {
+		foreach ( $ct['conf']['power']['bitcoin_currency_markets'] as $key => $unused ) {
 			
 			// Detects better with side space included
 			if ( stristr($supported_prim_currency_list, ' ' . $key . ' ') == false ) {

@@ -6,7 +6,7 @@
 
 $analyzed_assets = array();
 
-foreach ( $ct['conf']['charts_alerts']['tracked_mrkts'] as $key => $val ) {
+foreach ( $ct['conf']['charts_alerts']['tracked_markets'] as $key => $val ) {
 
 $asset = preg_replace("/-(.*)/i", "", $key);
 
@@ -19,7 +19,7 @@ $attributes = explode("||", $val);
 			
 		$analyzed_assets[$asset] = $key;
 		
-		$chart_file = $ct['base_dir'] . '/cache/charts/spot_price_24hr_volume/light/' . $_GET['time_period'] . '_days/'.strtoupper($asset).'/'.$key.'_chart_'.$default_btc_prim_currency_pair.'.dat';
+		$chart_file = $ct['base_dir'] . '/cache/charts/spot_price_24hr_volume/light/' . $_GET['time_period'] . '_days/'.strtoupper($asset).'/'.$key.'_chart_'.$default_bitcoin_primary_currency_pair.'.dat';
 						
 			if ( file_exists($chart_file) ) {
 			$runtime_data['performance_stats'][strtoupper($asset)]['data'] = $ct['gen']->chart_data($chart_file, 'performance', $_GET['start_time']); // NO EARLIER THAN A CERTAIN TIMESTAMP
@@ -81,7 +81,7 @@ gui: {
   	x: 0, 
   	y: 0,
   	title: {
-        text: "Asset Performance Comparison (<?=strtoupper($default_btc_prim_currency_pair)?>)",
+        text: "Asset Performance Comparison (<?=strtoupper($default_bitcoin_primary_currency_pair)?>)",
         adjustLayout: true,
     	  align: 'center',
     	  offsetX: 0,
@@ -211,7 +211,7 @@ gui: {
       borderRadius: '8px',
       borderWidth: '2px',
       title: {
-        text: "Asset Performance Comparison (<?=strtoupper($default_btc_prim_currency_pair)?>)",
+        text: "Asset Performance Comparison (<?=strtoupper($default_bitcoin_primary_currency_pair)?>)",
         adjustLayout: true,
     	  align: 'center',
     	  offsetX: 0,
@@ -281,7 +281,7 @@ gui: {
       	lineColor: "#444444"
         },
         label: {
-          text: "<?=strtoupper($default_btc_prim_currency_pair)?> Value Percentage Change"
+          text: "<?=strtoupper($default_bitcoin_primary_currency_pair)?> Value Percentage Change"
         },
     	zooming: true
       },

@@ -5,7 +5,7 @@
 
 
 // https://stackoverflow.com/questions/1334613/how-to-recursively-zip-a-directory-in-php
-
+// (COMPATIBLE WITH BUILT-IN WINDOWS 10 / 11 ZIP ARCHIVE OPENER)
 
 class ext_zip extends ZipArchive {
 

@@ -99,7 +99,7 @@ $(document).ready(function() {
          
          <?php
          // If we need to refresh an admin iframe, to show the updated data
-         if ( $_GET['refresh'] ) {
+         if ( isset($_GET['refresh']) ) {
              
              
              if ( $_GET['refresh'] == 'all' ) {
@@ -122,6 +122,9 @@ $(document).ready(function() {
                                     );
                                     
              }
+             elseif ( $_GET['refresh'] == 'none' ) {
+             $refresh_admin = array(); // BLANK
+             }
              else {
              $refresh_admin = explode(',', $_GET['refresh']);
              }
@@ -132,7 +135,9 @@ $(document).ready(function() {
                  // DONT INCLUDE CURRENT PAGE (OR IT WILL *ENDLESS LOOP* RELOAD IT) 
                  if ( isset($refresh) && trim($refresh) != '' && $refresh != 'iframe_' . $_GET['section'] ) {
                  ?>
+                 
                  parent.document.getElementById('<?=$refresh?>').contentWindow.location.reload(true);
+                 
                  <?php
                  }
              

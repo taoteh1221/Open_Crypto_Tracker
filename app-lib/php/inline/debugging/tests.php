@@ -13,7 +13,7 @@ if ( $ct['runtime_mode'] == 'ui' ) {
 	// Check configured charts and price alerts
 	if ( $ct['conf']['power']['debug_mode'] == 'all' || $ct['conf']['power']['debug_mode'] == 'alerts_charts' ) {
 		
-		foreach ( $ct['conf']['charts_alerts']['tracked_mrkts'] as $key => $val ) {
+		foreach ( $ct['conf']['charts_alerts']['tracked_markets'] as $key => $val ) {
 				
 		// Remove any duplicate asset array key formatting, which allows multiple alerts per asset with different exchanges / trading pairs (keyed like SYMB, SYMB-1, SYMB-2, etc)
 		$check_asset = ( stristr($key, "-") == false ? $key : substr( $key, 0, mb_strpos($key, "-", 0, 'utf-8') ) );
@@ -67,7 +67,7 @@ if ( $ct['runtime_mode'] == 'ui' ) {
 	// Check configured email to mobile text gateways
 	if ( $ct['conf']['power']['debug_mode'] == 'all' || $ct['conf']['power']['debug_mode'] == 'texts' ) {
 	
-		foreach ( $ct['conf']['mob_net_txt_gateways'] as $key => $val ) {
+		foreach ( $ct['conf']['mobile_network_text_gateways'] as $key => $val ) {
 			
 			if ( $key != 'skip_network_name' ) {
 			

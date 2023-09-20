@@ -105,15 +105,15 @@ $cron_run_lock_file = $ct['base_dir'] . '/cache/events/emulated-cron-lock.dat';
             	}
         	
             	// News feeds - new posts email
-            	if ( $ct['conf']['comms']['news_feed_email_freq'] > 0 ) {
-            	$ct['gen']->news_feed_email($ct['conf']['comms']['news_feed_email_freq']);
+            	if ( $ct['conf']['comms']['news_feed_email_frequency'] > 0 ) {
+            	$ct['gen']->news_feed_email($ct['conf']['comms']['news_feed_email_frequency']);
             	}
         	
             }
         
         
             // Charts and price alerts
-            foreach ( $ct['conf']['charts_alerts']['tracked_mrkts'] as $key => $val ) {
+            foreach ( $ct['conf']['charts_alerts']['tracked_markets'] as $key => $val ) {
             
             $val = explode("||",$val); // Convert $val into an array
             

@@ -20,13 +20,13 @@ if ( $ct['runtime_mode'] != 'cron' && $ct['cache']->update_cache($ct['base_dir']
 	
 	
 		// Chart backups...run before any price checks to avoid any potential file lock issues
-		if ( $ct['conf']['gen']['asset_charts_toggle'] == 'on' && $ct['conf']['gen']['charts_backup_freq'] > 0 ) {
-		$ct['cache']->backup_archive('charts-data', $ct['base_dir'] . '/cache/charts/', $ct['conf']['gen']['charts_backup_freq']); // No $backup_arch_pass extra param here (waste of time / energy to encrypt charts data backups)
+		if ( $ct['conf']['gen']['asset_charts_toggle'] == 'on' && $ct['conf']['power']['charts_backup_frequency'] > 0 ) {
+		$ct['cache']->backup_archive('charts-data', $ct['base_dir'] . '/cache/charts/', $ct['conf']['power']['charts_backup_frequency']); // No $backup_archive_password extra param here (waste of time / energy to encrypt charts data backups)
 		}
     
     
          	// If coinmarketcap API key is added, re-cache data for faster UI runtimes later
-         	if ( trim($ct['conf']['ext_apis']['coinmarketcap_key']) != null ) {
+         	if ( trim($ct['conf']['ext_apis']['coinmarketcap_api_key']) != null ) {
          	$coinmarketcap_api = $ct['api']->coinmarketcap();
          	}
     	 
@@ -64,7 +64,7 @@ require($ct['base_dir'] . '/app-lib/php/inline/maintenance/upgrade-check.php');
 // Update cached vars...
 
 // Current default primary currency stored to flat file (for checking if we need to reconfigure things for a changed value here)
-$ct['cache']->save_file($ct['base_dir'] . '/cache/vars/default_btc_prim_currency_pair.dat', $default_btc_prim_currency_pair);
+$ct['cache']->save_file($ct['base_dir'] . '/cache/vars/default_bitcoin_primary_currency_pair.dat', $default_bitcoin_primary_currency_pair);
 	
 
 // Current app version stored to flat file (for the bash auto-install/upgrade script to easily determine the currently-installed version)
@@ -78,7 +78,7 @@ $ct['cache']->save_file($ct['base_dir'] . '/cache/vars/cache_size.dat', $ct['gen
 // Cache files cleanup...
 
 // Delete ANY old zip archive backups scheduled to be purged
-$ct['cache']->delete_old_files($ct['base_dir'] . '/cache/secured/backups', $ct['conf']['power']['backup_arch_del_old'], 'zip');
+$ct['cache']->delete_old_files($ct['base_dir'] . '/cache/secured/backups', $ct['conf']['power']['backup_archive_delete_old'], 'zip');
 
 
 // Stale cache files cleanup...

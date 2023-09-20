@@ -9,12 +9,12 @@ $runtime_mode = '2fa_setup';
 // Change directory
 chdir("../../../../");
 
-// FOR SPEED, $ct['runtime_mode'] 'captcha' only gets app config vars, some init.php, then the captcha library
+
 require("app-lib/php/init.php");
  
 
 // Security checks
-if ( $admin_area_2fa == 'on' || $ct['gen']->admin_logged_in() == false || !is_array($stored_admin_login) || !$ct['app_host'] ||  !$ct['gen']->pass_sec_check($_GET['2fa_setup'], '2fa_setup') ) {
+if ( $admin_area_2fa != 'off' || $ct['gen']->admin_logged_in() == false || !is_array($stored_admin_login) || !$ct['app_host'] || !$ct['gen']->pass_sec_check($_GET['2fa_setup'], '2fa_setup') ) {
 $security_error = '2FA Setup access invalid / expired (' . $ct['remote_ip'] . '), try reloading the app';
 $ct['gen']->log('security_error', $security_error);
 echo $security_error . '.';

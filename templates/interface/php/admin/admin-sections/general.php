@@ -20,16 +20,198 @@ if ( $admin_area_sec_level == 'high' ) {
 <?php
 }
 else {
-?>
-	
-	<p> Coming Soon&trade; </p>
-	
-	<p class='bitcoin bitcoin_dotted'>
-	
-	These sections / category pages will be INCREMENTALLY populated with the corrisponding admin configuration options, over a period of time AFTER the initial v6.00.x releases (versions 6.00.x will only test the back-end / under-the-hood stability of HIGH / ENHANCED / NORMAL MODES of the Admin Interface security levels). <br /><br />You may need to turn off "Enhanced" OR "Normal" mode of the Admin Interface security level (at the top of the "Security" section in this admin area), to edit any UNFINISHED SECTIONS by hand in the config files (config.php in the app install folder, and any plug-conf.php files in the plugins folders).
-	
-	</p>
-	
-<?php
+
+
+// Render config settings for this section...
+
+
+////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+$admin_render_settings['local_time_offset']['select']['assoc'] = array();
+
+$loop = -12;
+$loop_max = +14;
+while ( $loop <= $loop_max ) {
+     
+$loop_key = ( $loop >= 0 ? '+' . $loop : $loop );
+     
+$admin_render_settings['local_time_offset']['select']['assoc'][] = array(
+                                                                       'key' => $loop_key,
+                                                                       'val' => $loop_key . ' Hours UTC Time',
+                                                                      );
+                                                                      
+$loop = $loop + 0.25;
+}
+
+
+////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+$admin_render_settings['google_font']['select'] = array();
+
+// Fallback to just listing the default google font, IF the google font API is NOT configured
+if ( isset($ct['conf']['ext_apis']['google_fonts_api_key']) && $ct['conf']['ext_apis']['google_fonts_api_key'] != '' ) {
+$all_google_fonts = $ct['api']->google_fonts('list');
+}
+elseif ( isset($ct['conf']['gen']['google_font']) && $ct['conf']['gen']['google_font'] != '' ) {
+$all_google_fonts = array($ct['conf']['gen']['google_font']);
+}
+
+foreach ( $all_google_fonts as $font_name ) {
+$admin_render_settings['google_font']['select'][] = $font_name;
+}
+
+$admin_render_settings['google_font']['notes'] = '<a href="https://support.google.com/googleapi/answer/6158862?hl=en&ref_topic=7013279" target="_BLANK">Google Font API Key Required</a> to view list (in "External APIs" section).';
+
+
+////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+$admin_render_settings['default_font_size']['select']['assoc'] = array();
+
+$loop = round($ct['dev']['min_font_resize'] * 100);
+$loop_max = round($ct['dev']['max_font_resize'] * 100);
+while ( $loop <= $loop_max ) {
+     
+$admin_render_settings['default_font_size']['select']['assoc'][] = array(
+                                                                       'key' => $loop,
+                                                                       'val' => $loop . '%',
+                                                                      );
+                                                                      
+$loop = $loop + 1;
+}
+
+
+////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+$admin_render_settings['default_theme']['radio'] = array(
+                                                          'dark',
+                                                          'light',
+                                                         );
+
+
+////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+$admin_render_settings['asset_charts_toggle']['radio'] = array(
+                                                          'off',
+                                                          'on',
+                                                         );
+
+
+////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+$admin_render_settings['bitcoin_primary_currency_pair']['select'] = array();
+
+
+foreach ( $ct['conf']['power']['bitcoin_currency_markets'] as $pair_key => $unused ) {
+$admin_render_settings['bitcoin_primary_currency_pair']['select'][] = $pair_key;
+}
+
+
+////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+$admin_render_settings['bitcoin_primary_exchange']['select'] = array();
+
+
+foreach ( $ct['conf']['assets']['BTC']['pair'][ $ct['conf']['gen']['bitcoin_primary_currency_pair'] ] as $exchange_key => $unused ) {
+$admin_render_settings['bitcoin_primary_exchange']['select'][] = $exchange_key;
+}
+
+
+////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+$admin_render_settings['primary_marketcap_site']['radio'] = array(
+                                                          'coingecko',
+                                                          'coinmarketcap',
+                                                         );
+
+$admin_render_settings['primary_marketcap_site']['notes'] = '<a href="https://coinmarketcap.com/api" target="_BLANK">CoinMarketCap API Key Required</a> (in "External APIs" section)';
+
+
+////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+$admin_render_settings['currency_decimals_max']['select'] = array();
+
+$loop = 0;
+$loop_max = 15;
+while ( $loop <= $loop_max ) {
+$admin_render_settings['currency_decimals_max']['select'][] = $loop;
+$loop = $loop + 1;
+}
+
+
+////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+$admin_render_settings['crypto_decimals_max']['select'] = array();
+
+$loop = 0;
+$loop_max = 15;
+while ( $loop <= $loop_max ) {
+$admin_render_settings['crypto_decimals_max']['select'][] = $loop;
+$loop = $loop + 1;
+}
+
+
+////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+$admin_render_settings['chart_crypto_volume_decimals']['select'] = array();
+
+$loop = 0;
+$loop_max = 15;
+while ( $loop <= $loop_max ) {
+$admin_render_settings['chart_crypto_volume_decimals']['select'][] = $loop;
+$loop = $loop + 1;
+}
+
+
+////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+$admin_render_settings['price_round_percent']['select'] = array(
+                                                          'one',
+                                                          'tenth',
+                                                          'hundredth',
+                                                          'thousandth',
+                                                         );
+
+
+////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+$admin_render_settings['price_round_fixed_decimals']['radio'] = array(
+                                                          'off',
+                                                          'on',
+                                                         );
+
+
+////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+$admin_render_settings['charts_backup_frequency']['select'] = array();
+
+$loop = 0;
+$loop_max = 30;
+while ( $loop <= $loop_max ) {
+$admin_render_settings['charts_backup_frequency']['select'][] = $loop;
+$loop = $loop + 1;
+}
+
+
+////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+// $ct['admin']->settings_form_fields($conf_id, $interface_id)
+$ct['admin']->settings_form_fields('gen', 'general', $admin_render_settings);
+
+
 }
 ?>	

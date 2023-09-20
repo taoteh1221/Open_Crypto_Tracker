@@ -12,7 +12,7 @@ $ct = array();
 
 
 // Application version
-$ct['app_version'] = '6.00.26';  // 2023/AUGUST/29TH
+$ct['app_version'] = '6.00.27';  // 2023/SEPTEMBER/16TH
 
 
 // #PHP# ERROR LOGGING
@@ -75,6 +75,13 @@ $ct['app_container'] = 'browser';
 ///////////////////////////////////////////////////
 // **START** DEVELOPER-ONLY CONFIGS
 ///////////////////////////////////////////////////
+
+
+// The DEFAULT (FREE PLAN) requests-per-DAY limit on the Alpha Vantage API key
+// WE AUTO-ADJUST TO UNLIMITED FOR PREMIUM PLANS IN CONFIG-INIT.PHP:
+// https://www.alphavantage.co/premium/
+// (they have been known to change this amount occassionally for the free plan, so we have this dev var)
+$ct['dev']['alphavantage_per_day_limit'] = 100; // (default = 100 [FOR FREE SERVICE])
 
 
 // Time offset (IN MINUTES) on daily background tasks 

@@ -31,7 +31,7 @@ $plug_conf[$this_plug]['ui_name'] = 'Price Target Alert'; // (defaults to $this_
 
 
 // Re-allow SAME asset price target alert(s) messages after X MINUTES (per alert config)
-$plug_conf[$this_plug]['alerts_freq_max'] = 30; // Can be 0, to have no limits (Default = 30)
+$plug_conf[$this_plug]['alerts_frequency_maximum'] = 30; // Can be 0, to have no limits (Default = 30)
 
 
 // Price targets array (add unlimited price targets as new array objects)

@@ -63,12 +63,12 @@ $system_load_warning = explode('||', $ct['conf']['power']['system_load_warning']
      }
      
      	
-$system_temp_warning = explode('||', $ct['conf']['power']['system_temp_warning']);
+$system_temperature_warning = explode('||', $ct['conf']['power']['system_temperature_warning']);
      
 
-     if ( $system_temp >= $system_temp_warning[0] ) {
+     if ( $system_temp >= $system_temperature_warning[0] ) {
      $system_warnings['system_temp'] = 'High temperature (' . $system_temp . ' degrees celcius)';
-     $system_warnings_cron_interval['system_temp'] = $system_temp_warning[1];
+     $system_warnings_cron_interval['system_temp'] = $system_temperature_warning[1];
      }
 
 	

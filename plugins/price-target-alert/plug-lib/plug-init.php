@@ -39,7 +39,7 @@ $price_target_cache_file = $ct['plug']->alert_cache($target_key . '.dat');
 
 
 	// If it's too early to re-send an alert again, skip this entry
-	if ( $ct['cache']->update_cache($price_target_cache_file, $plug_conf[$this_plug]['alerts_freq_max']) == false ) {
+	if ( $ct['cache']->update_cache($price_target_cache_file, $plug_conf[$this_plug]['alerts_frequency_maximum']) == false ) {
 	continue;
 	}
 	
@@ -135,7 +135,7 @@ $mrkt_val = $ct['var']->num_to_str( $ct['api']->market($mrkt_asset, $mrkt_exchan
    	    // Pretty numbers UX on target / market values, for alert messages
    	    
    	    // Fiat-eqiv
-   	    if ( array_key_exists($mrkt_pair, $ct['conf']['power']['btc_currency_mrkts']) ) {
+   	    if ( array_key_exists($mrkt_pair, $ct['conf']['power']['bitcoin_currency_markets']) ) {
    		$thres_dec_target = $ct['gen']->thres_dec($target_val, 'u', 'fiat'); // Units mode
    		$thres_dec_market = $ct['gen']->thres_dec($mrkt_val, 'u', 'fiat'); // Units mode
 		}
@@ -159,7 +159,7 @@ $mrkt_val = $ct['var']->num_to_str( $ct['api']->market($mrkt_asset, $mrkt_exchan
               
               
     // Were're just adding a human-readable timestamp to smart home (audio) alerts
-    $notifyme_msg = $email_msg . ' Timestamp: ' . $ct['gen']->time_date_format($ct['conf']['gen']['loc_time_offset'], 'pretty_time') . '.';
+    $notifyme_msg = $email_msg . ' Timestamp: ' . $ct['gen']->time_date_format($ct['conf']['gen']['local_time_offset'], 'pretty_time') . '.';
 
 
   	// Message parameter added for desired comm methods (leave any comm method blank to skip sending via that method)
