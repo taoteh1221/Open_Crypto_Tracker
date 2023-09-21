@@ -274,7 +274,7 @@ $ct['conf']['sec']['admin_cookie_expires'] = 6;
 
 // Update dynamic mining calculator settings (DURING 'ui' ONLY), since we are running the app's main settings from a cache
 if ( $ct['runtime_mode'] == 'ui' && is_array($ct['conf']['power']['mining_calculators']) ) {
-require('dynamic-config-only.php');
+require('dynamic-config.php');
 }
 
 

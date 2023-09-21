@@ -151,27 +151,39 @@ var $ct_array = array();
    ////////////////////////////////////////////////////////
    
    
-   function subarray_cached_ct_conf_upgrade($conf, $cat_key, $conf_key, $skip_upgrading) {
+   function subarray_cached_ct_conf_upgrade($conf, $cat_key, $conf_key) {
    
-   global $ct, $default_ct_conf;
+   global $ct, $default_ct_conf, $conf_upgraded;
    
       // Check for new variables, and add them
       foreach ( $default_ct_conf[$cat_key][$conf_key] as $setting_key => $setting_val ) {
       
-         // Skip this array depth if it's yet another subarray, UNLESS this is the plugin configs
-         if ( is_array($setting_val) && $cat_key != 'plug_conf' ) {
-         $ct['gen']->log('conf_error', 'ct_conf[' .$cat_key . ']['. $conf_key . '][' . $setting_key . '] config upgrade not needed (skipping)');
-         }
-         elseif ( !in_array($setting_key, $skip_upgrading) && !isset($conf[$cat_key][$conf_key][$setting_key]) ) {
+         if ( !is_array($conf[$cat_key][$conf_key]) || is_array($conf[$cat_key][$conf_key]) && !array_key_exists($setting_key, $conf[$cat_key][$conf_key]) ) {
+         			
+         			
+              if ( !is_array($conf[$cat_key][$conf_key]) ) {
+                   
+              $conf[$cat_key][$conf_key] = array();
+              
+              $ct['gen']->log(
+              			'conf_error',
+              			'Outdated app config, upgraded PARENT ARRAY parameter ct[conf][' . $cat_key . '][' . $conf_key . '] imported'
+              			);
+              			
+              }
+              
          	
          $conf[$cat_key][$conf_key][$setting_key] = $default_ct_conf[$cat_key][$conf_key][$setting_key];
+               
+         $log_val_descr = ( $default_ct_conf[$cat_key][$conf_key][$setting_key] != null || $default_ct_conf[$cat_key][$conf_key][$setting_key] != false ? $default_ct_conf[$cat_key][$conf_key][$setting_key] : '[null or false]' );
          
          $ct['gen']->log(
          			'conf_error',
-         			'Outdated app config, upgraded parameter ct_conf[' . $cat_key . '][' . $conf_key . '][' . $setting_key . '] imported (default value: ' . $default_ct_conf[$cat_key][$conf_key][$setting_key] . ')'
+         			'Outdated app config, upgraded parameter ct[conf][' . $cat_key . '][' . $conf_key . '][' . $setting_key . '] imported (default value: ' . $log_val_descr . ')'
          			);
+              
          
-         $conf_upgraded = 1;
+         $conf_upgraded = true;
          
          }
             
@@ -180,24 +192,36 @@ var $ct_array = array();
       // Check for depreciated variables, and remove them
       foreach ( $conf[$cat_key][$conf_key] as $setting_key => $setting_val ) {
       
-         // Skip this array depth if it's yet another subarray, UNLESS this is the plugin configs
-         if ( is_array($setting_val) && $cat_key != 'plug_conf' ) {
-         $ct['gen']->log('conf_error', 'ct_conf[' .$cat_key . ']['. $conf_key . '][' . $setting_key . '] config upgrade not needed (skipping)');
-         }
-         elseif ( !in_array($setting_key, $skip_upgrading) && !isset($default_ct_conf[$cat_key][$conf_key][$setting_key]) ) {
+         if ( !is_array($default_ct_conf[$cat_key][$conf_key]) || is_array($default_ct_conf[$cat_key][$conf_key]) && !array_key_exists($setting_key, $default_ct_conf[$cat_key][$conf_key]) ) {
          	
          unset($conf[$cat_key][$conf_key][$setting_key]);
          
          $ct['gen']->log(
          			'conf_error',
-         			'Depreciated app config, parameter ct_conf[' . $cat_key . '][' . $conf_key . '][' . $setting_key . '] removed'
+         			'Depreciated app config, parameter ct[conf][' . $cat_key . '][' . $conf_key . '][' . $setting_key . '] removed'
          			);
+         			
+         			
+              if ( !is_array($default_ct_conf[$cat_key][$conf_key]) ) {
+                   
+              unset($conf[$cat_key][$conf_key]);
+              
+              $ct['gen']->log(
+              			'conf_error',
+              			'Depreciated app config, PARENT ARRAY parameter ct[conf][' . $cat_key . '][' . $conf_key . '] removed'
+              			);
+              			
+              }
          
-         $conf_upgraded = 1;
+         
+         $conf_upgraded = true;
          
          }
             
       }
+      
+      
+   return $conf;
       
    }
    
@@ -637,23 +661,7 @@ var $ct_array = array();
    // Check to see if we need to upgrade the app config (add new primary vars / remove depreciated primary vars)
    function upgrade_cached_ct_conf($conf) {
    
-   global $ct, $check_default_ct_conf, $default_ct_conf;
-   
-   
-   // WE LEAVE THE SUB-ARRAYS FOR PROXIES / CHARTS / TEXT GATEWAYS / PORTFOLIO ASSETS / ETC / ETC ALONE
-   // (ANY SUB-ARRAY WHERE A USER ADDS / DELETES VARIABLES THEY WANTED DIFFERENT FROM DEFAULT VARS)
-   $skip_upgrading = array(
-                           'proxy',
-                           'tracked_markets',
-                           'crypto_pair',
-                           'crypto_pair_preferred_markets',
-                           'bitcoin_currency_markets',
-                           'bitcoin_preferred_currency_markets',
-                           'ethereum_erc20_icos',
-                           'mobile_network_text_gateways',
-                           'assets',
-                           'news_feed',
-                           );
+   global $ct, $check_default_ct_conf, $default_ct_conf, $conf_upgraded, $subarray_allow_upgrading;
    
    
       // If no cached app config or it's corrupt, just use full default app config
@@ -669,27 +677,25 @@ var $ct_array = array();
             
             foreach ( $cat_val as $conf_key => $conf_val ) {
          
-               if ( !in_array($cat_key, $skip_upgrading) && !in_array($conf_key, $skip_upgrading) ) {
-                  
-                  if ( is_array($conf_val) ) {
-                  $this->subarray_cached_ct_conf_upgrade($conf, $cat_key, $conf_key, $skip_upgrading);
-                  }
-                  elseif ( !isset($conf[$cat_key][$conf_key]) ) {
+               if ( is_array($conf_val) && in_array($cat_key, $subarray_allow_upgrading) && in_array($conf_key, $subarray_allow_upgrading) ) {
+               $conf = $this->subarray_cached_ct_conf_upgrade($conf, $cat_key, $conf_key);
+               }
+               elseif ( !array_key_exists($conf_key, $conf[$cat_key]) ) {
                   	
-                  $conf[$cat_key][$conf_key] = $default_ct_conf[$cat_key][$conf_key];
+               $conf[$cat_key][$conf_key] = $default_ct_conf[$cat_key][$conf_key];
+               
+               $log_val_descr = ( $default_ct_conf[$cat_key][$conf_key] != null || $default_ct_conf[$cat_key][$conf_key] != false ? $default_ct_conf[$cat_key][$conf_key] : '[null or false]' );
                   
-                  $ct['gen']->log(
+               $ct['gen']->log(
                   			'conf_error',
-                  			'Outdated app config, upgraded parameter ct_conf[' . $cat_key . '][' . $conf_key . '] imported (default value: ' . $default_ct_conf[$cat_key][$conf_key] . ')'
+                  			'Outdated app config, upgraded parameter ct[conf][' . $cat_key . '][' . $conf_key . '] imported (default value: ' . $log_val_descr . ')'
                   			);
                   						
-                  $conf_upgraded = 1;
+               $conf_upgraded = true;
                   
-                  }
-            
                }
                else {
-               $ct['gen']->log('conf_error', 'ct_conf[' .$cat_key . ']['. $conf_key . '] config upgrade not needed (skipping)');
+               //$ct['gen']->log('conf_error', 'ct_conf[' .$cat_key . ']['. $conf_key . '] config upgrade not needed (skipping)');
                }
             
             }
@@ -702,27 +708,23 @@ var $ct_array = array();
             
             foreach ( $cached_cat_val as $cached_conf_key => $cached_conf_val ) {
          
-               if ( !in_array($cached_cat_key, $skip_upgrading) && !in_array($cached_conf_key, $skip_upgrading) ) {
-               
-                  if ( is_array($cached_conf_val) ) {
-                  $this->subarray_cached_ct_conf_upgrade($conf, $cached_cat_key, $cached_conf_key, $skip_upgrading);
-                  }
-                  elseif ( !isset($default_ct_conf[$cached_cat_key][$cached_conf_key]) ) {
+               if ( is_array($cached_conf_val) && in_array($cached_cat_key, $subarray_allow_upgrading) && in_array($cached_conf_key, $subarray_allow_upgrading) ) {
+               $conf = $this->subarray_cached_ct_conf_upgrade($conf, $cached_cat_key, $cached_conf_key);
+               }
+               elseif ( !array_key_exists($cached_conf_key, $default_ct_conf[$cached_cat_key]) ) {
                   	
-                  unset($conf[$cached_cat_key][$cached_conf_key]);
+               unset($conf[$cached_cat_key][$cached_conf_key]);
                   
-                  $ct['gen']->log(
-                  			'conf_error',
-                  			'Depreciated app config parameter ct_conf[' . $cached_cat_key . '][' . $cached_conf_key . '] removed'
+               $ct['gen']->log(
+               			'conf_error',
+               			'Depreciated app config parameter ct[conf][' . $cached_cat_key . '][' . $cached_conf_key . '] removed'
                   			);
                   
-                  $conf_upgraded = 1;
-                  
-                  }
+               $conf_upgraded = true;
                   
                }
                else {
-               $ct['gen']->log('conf_error', 'ct_conf[' .$cat_key . ']['. $conf_key . '] config upgrade not needed (skipping)');
+               //$ct['gen']->log('conf_error', 'ct_conf[' .$cat_key . ']['. $conf_key . '] config upgrade not needed (skipping)');
                }
                
             }
@@ -730,7 +732,7 @@ var $ct_array = array();
          }
          
       
-      return $conf;
+      return ( $conf_upgraded ? $conf : false );
       
       }
    
@@ -769,7 +771,7 @@ var $ct_array = array();
 		
 	
         	}
-        	// Telegram user data
+        	// REFRESH Telegram user data
         	elseif ( preg_match("/telegram_user_data_/i", $secured_file) ) {
         		
         		// If we already loaded the newest modified telegram SECURED CACHE config file
@@ -914,13 +916,21 @@ var $ct_array = array();
     	
         	// Check to see if we need to upgrade the CACHED app config (NEW / DEPRECIATED CORE VARIABLES ONLY, NOT OVERWRITING EXISTING CORE VARIABLES)
     	    if ( $admin_area_sec_level != 'high' && $upgrade_mode == true ) {
+    	         
     	    $upgrade_cache_ct_conf = $this->upgrade_cached_ct_conf($passed_config);
+    	    
+    	        // If no upgrades were needed in the cached config,
+    	        // we can just return the config that was passed in this function
+    	        if ( !$upgrade_cache_ct_conf ) {
+    	        return $passed_config;
+    	        }
+    	    
     	    }
-            // CACHED WITH NO UPGRADE FLAG
+         // CACHED WITH NO UPGRADE FLAG
     	    elseif ( $admin_area_sec_level != 'high' ) {
     	    $upgrade_cache_ct_conf = $passed_config;
     	    }
-        	// (REFRESHES CACHED APP CONFIG TO EXACTLY MIRROR THE HARD-CODED VARIABLES IN CONFIG.PHP, IF CONFIG.PHP IS CHANGED IN EVEN THE SLIGHTEST WAY)
+         // (REFRESHES CACHED APP CONFIG TO EXACTLY MIRROR THE HARD-CODED VARIABLES IN CONFIG.PHP, IF CONFIG.PHP IS CHANGED IN EVEN THE SLIGHTEST WAY)
     	    else {
     	    $upgrade_cache_ct_conf = $ct['conf'];
     	    }
@@ -945,12 +955,7 @@ var $ct_array = array();
     		    if ( $cached_restore_conf != false && $cached_restore_conf != null && $cached_restore_conf != "null" ) {
     	
     	
-                	// Check to see if we need to upgrade the CACHED app config (NEW / DEPRECIATED CORE VARIABLES ONLY, NOT OVERWRITING EXISTING CORE VARIABLES)
-            	    if ( $admin_area_sec_level != 'high' && $upgrade_mode == true ) {
-            	    $upgrade_cache_ct_conf = $this->upgrade_cached_ct_conf($cached_restore_conf);
-            	    }
-            	    // CACHED WITH NO UPGRADE FLAG
-            	    elseif ( $admin_area_sec_level != 'high' ) {
+                   if ( $admin_area_sec_level != 'high' ) {
             	    $upgrade_cache_ct_conf = $cached_restore_conf;
             	    }
                 	// (REFRESHES CACHED APP CONFIG TO EXACTLY MIRROR THE HARD-CODED VARIABLES IN CONFIG.PHP, IF CONFIG.PHP IS CHANGED IN EVEN THE SLIGHTEST WAY)
@@ -977,8 +982,8 @@ var $ct_array = array();
             		
             		
                 		// For checking later, if DEFAULT Admin Config (in config.php) values are updated we save to json again
-            		    if ( $admin_area_sec_level == 'high' ) {
-                		$this->save_file($ct['base_dir'] . '/cache/vars/default_ct_conf_md5.dat', md5(serialize($default_ct_conf))); 
+            		    if ( $admin_area_sec_level == 'high' || $user_reset ) {
+                		$this->save_file($ct['base_dir'] . '/cache/vars/default_ct_conf_md5.dat', md5( serialize($default_ct_conf) ) ); 
             		    }
             		
             		
@@ -1004,8 +1009,8 @@ var $ct_array = array();
     		
     		
                  // For checking later, if DEFAULT Admin Config (in config.php) values are updated we save to json again
-            	 if ( $admin_area_sec_level == 'high' ) {
-                 $this->save_file($ct['base_dir'] . '/cache/vars/default_ct_conf_md5.dat', md5(serialize($default_ct_conf))); 
+            	 if ( $admin_area_sec_level == 'high' || $user_reset ) {
+                 $this->save_file($ct['base_dir'] . '/cache/vars/default_ct_conf_md5.dat', md5( serialize($default_ct_conf) ) ); 
     		     }
     		    
     		

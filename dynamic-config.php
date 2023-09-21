@@ -33,6 +33,8 @@ $ct['conf']['power']['mining_calculators']['pow']['eth']['other_network_data'] =
 		// https://en.bitcoin.it/wiki/Difficulty (How soon might I expect to generate a block?)
 		$ct['conf']['power']['mining_calculators']['pow']['btc']['mining_time_formula'] = trim($_POST['network_measure']) * pow(2, 32) / $miner_hashrate;
 		}
+		
+		
 		/* // ETH (NO LONGER USED, BUT LEAVE AS EXAMPLE FOR FUTURE POW CALCS)
 		elseif ( $_POST['pow_calc'] == 'eth' ) {
 		$ct['conf']['power']['mining_calculators']['pow']['eth']['mining_time_formula'] = trim($_POST['network_measure']) / $miner_hashrate;

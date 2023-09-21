@@ -10,46 +10,40 @@ NEXT SCHEDULED WORK SESSIONS (*BOTH* DEBUGGING AND / OR INFRASTRUCTURE)
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
-Double-check that everything resets to allow re-trying to enable 2FA, IF A USERS ENTERS THE WRONG 2FA TRYING TO TURN ON REGULAR OR STRICT MODE.
+Public demo just went bat shit crazy, and now always redirects to the corrisponding download page on the biz website...no htaccess changes made, WFT kinda fruity bullshit is this?! FIX IT
 
 
-The 'reset / backup restore' admin section does NOT have the optional 'strict' 2FA mode integrated yet.
+Add support for ct['conf'] upgrades to BUNDLED (whitelisted) PLUGINS configs.
 
 
-Sometimes an admin iframe loads / reloads scrolled down (with the content above NOT visible). Try and ALWAYS have admin iframes scroll to the top on load / reload. Try replicating it with 'strict' 2FA on with 'medium' security mode, AND purposefully type in the 2FA wrong when trying to update settings.
+$subarray_allow_upgrading should be populated with subarray keys a user is ok with upgrading (news feeds, assets, whatever). Additionally, a user should be able to choose whether to: add only new vars, delete only removed vars, or replace their current settings with the latest default one.
 
 
-When submitting admin area setting changes, have the usual 'reloading... / Loading... show, like we already do for the user area. It's good UX to show immediately that it's begun updating.
+Add BTC to documentation om supported trading pairs (in help / faq, readme, troubleshooting, and project page).
+
+
+For config reset / turning on high admin security mode, add documentation in the JavaScript popup alerts and in the info icon bubbles that you will lose all your data that is not in the hard-coded config file.
 
 
 Add hide / show feature to admin settings that update passwords, default to hide.
 
 
-Add power user settings interface next.
+When submitting admin area setting changes, have the usual 'reloading... / Loading... show, like we already do for the user area, EXCEPT USE THE IFRAME 'loading..." notice above the iframe we already have working for normal iframe loads / reloads. It's good UX to show immediately that it's begun updating.
 
 
-Add an info icon next to admin config fields, with info on what it is, usage, etc.
-
-
-Add input validation / sanatization for the admin config setting fields in each interface section.
-
-
-Send out an OPTIONAL comms alert when we change the admin security mode, OR when we enable / disable 2FA (like we do for logins).
-
-
-Torture test new 2FA logic ONE MORE TIME, and make sure UX (including UI alerts) is decent.
+Sometimes an admin iframe loads / reloads scrolled down (with the content above NOT visible). Try and ALWAYS have admin iframes scroll to the top on load / reload. Try replicating it with 'strict' 2FA on with 'medium' security mode, AND purposefully type in the 2FA wrong when trying to update settings.
 
 
 Add an info icon next to 2FA fields, with info on what it is, usage, and how to MANUALLY disable it.
 
 
-Update all documentation for new 2FA integrations into existing security features. Don't forget to mention that changing the admin username / server domain will PURPOSEFULLY INVALIDATE THE CURRENT 2FA 'SECRET', and would then require deleting the 2fa var in the cache to disable 2FA (which can then be re-enabled after, with the new admin username / sever domain).
-
-
 Add help page entry for : 2FA passcode was invalid, please try again
 
 
-Add BTC to documentation om supported trading pairs (in help / faq, readme, troubleshooting, and project page).
+New FAQ entry "my text alerts aren't working, or are delayed"
+
+
+Update all documentation for new 2FA integrations into existing security features. Don't forget to mention that changing the admin username / server domain will PURPOSEFULLY INVALIDATE THE CURRENT 2FA 'SECRET', and would then require deleting the 2fa var in the cache to disable 2FA (which can then be re-enabled after, with the new admin username / sever domain).
 
 
 On the plugins admin page, add an info balloon next to a title "How can I make sure 3rd-party plugins are safe?"
@@ -58,7 +52,16 @@ On the plugins admin page, add an info balloon next to a title "How can I make s
 On the plugins admin page, add a title "How to make your own custom plugin", with a link to the plugin documentation on github.
 
 
-Security page should show the app version number, AND a version upgrade check alert (if available).
+Test that everything resets to allow re-trying to enable 2FA, IF A USERS ENTERS THE WRONG 2FA TRYING TO TURN ON REGULAR OR STRICT MODE.
+
+
+Test ALL 2FA logic ONE MORE TIME, and make sure UX (including UI alerts) is decent.
+
+
+Add input validation / sanatization for the admin config setting fields in each interface section (connected to config-init for the flag: $update_admin_conf_valid).
+
+
+Add an info icon next to admin config fields, with info on what it is, usage, etc.
 
 
 For stock asset info IN THE APP (like we do for coingecko / coinmarketcap), use data from this endpoint:
@@ -73,28 +76,55 @@ Try fitting all them into the info bubble toolip area for each stock asset, and 
 Add ARM stock.
 
 
-Update screenshots, since we overhauled everything in the interface.
-
-
-The compact side menu doesn't work on Linux desktop Edition.
-
-
 Move all admin-related functions into the new 'ct_admin' PHP class.
 
 
 Move everything from the var class to the general class.
 
 
-Go through all init / config / etc files, and add any primary vars to "$ct" that haven't been added yet, for consistent / clean code.
+Go through all init / config / etc files, and add any primary vars to "$ct" that haven't been added yet, for consistent / clean code. EVERYTHING IN empty-vars.php definately should be converted.
 
 
 Code review all large functions, to make sure they are clean and optimized
 
 
-Replace all tabs with spaces (for better cross-text-editor support).
+When importing bootstrap price chart data in on XAMMP for Windows, WHEN SETUP FOR 15 MINUTE TASK SCHEDULER INTERVALS INSTEAD OF THE DEFAULT 20 MINUTE INTERVALS, all chart data seemed correct EXCEPT for 2 week data. Try and replicate this on other setups, and review the auto-reset trigger / directory deletion logic for any possible issues, as well as the light chart creation logic. I SUSPECT THE LATTER.
+
+
+Looks like we have to switch to using the snap package manager for
+ubuntu in the install bash scripts FOR ALL MY APPS. Some pre-requisite
+libraries are no longer available using apt ("Unable to locate package X"), and are only available as
+'snap install X'.
+
+
+Convert Arch linux support in auto-installer over to redhat (yum), as Arch does NOT have much package / setup support for libraries we use. WE ALREADY CONVERTED "BUILD-PHP-FOR-LINUX-DESKTOP.bash" OVER TO BE REDHAT COMPATIBLE, so use it as a template to integrate into FOLIO-INSTALL.bash. ALSO REMOVE ARCH DOCUMENTATION AND REPLACE WITH FEDORA DOCS.
+
+
+Send out an OPTIONAL comms alert when we change the admin security mode, OR when we enable / disable 2FA (like we do for logins).
+
+
+Security page should show the app version number, AND a version upgrade check alert (if available).
 
 
 Add more Jupiter agg markets to Solana coins in price target plugin.
+
+
+Add feature to address balance tracker plugin to set minimum time to wait before re-sending the same address alert (in hours). Default it to a high number like 8 hours, so any poorly running / configured API servers don't send endless alerts as they send bs 'zero' results.
+
+
+Merge System stats / access stats / app logs into one area called: System & App Monitoring. Add horizontal tabs a top of this area, for each subsection.
+
+
+Replace all tabs with spaces (for better cross-text-editor support).
+
+
+The compact side menu doesn't work on Linux desktop Edition.
+
+
+Update screenshots, since we overhauled everything in the interface.
+
+
+Add power user settings interface next.
 
 
 Add openserum markets support.
@@ -105,12 +135,6 @@ https://www.webtrickshome.com/forum/how-to-stop-form-resubmission-on-page-refres
 https://developer.mozilla.org/en-US/docs/Web/API/History/replaceState
 
 
-Looks like we have to switch to using the snap package manager for
-ubuntu in the install bash scripts FOR ALL MY APPS. Some pre-requisite
-libraries are no longer available using apt ("Unable to locate package X"), and are only available as
-'snap install X'.
-
-
 Check for "whitespace in paths" support in bash scripting (like we had to do for the BT radio script)
 
 
@@ -118,21 +142,6 @@ The tags 'h1' through 'h6' should be made to user-adjust text size too. (CONFIRM
 
 
 Move remaining font-size / line-height logic in style.css AND ELSEWHERE into our dynamic CSS header logic.
-
-
-Add feature to address balance tracker plugin to set minimum time to wait before re-sending the same address alert (in hours). Default it to a high number like 8 hours, so any poorly running / configured API servers don't send endless alerts as they send bs 'zero' results.
-
-
-Merge System stats / access stats / app logs into one area called: System & App Monitoring. Add horizontal tabs a top of this area, for each subsection.
-
-
-When importing bootstrap price chart data in on XAMMP for Windows, WHEN SETUP FOR 15 MINUTE TASK SCHEDULER INTERVALS INSTEAD OF THE DEFAULT 20 MINUTE INTERVALS, all chart data seemed correct EXCEPT for 2 week data. Try and replicate this on other setups, and review the auto-reset trigger / directory deletion logic for any possible issues, as well as the light chart creation logic. I SUSPECT THE LATTER.
-
-
-Convert Arch linux support in auto-installer over to redhat (yum), as Arch does NOT have much package / setup support for libraries we use. WE ALREADY CONVERTED "BUILD-PHP-FOR-LINUX-DESKTOP.bash" OVER TO BE REDHAT COMPATIBLE, so use it as a template to integrate into FOLIO-INSTALL.bash. ALSO REMOVE ARCH DOCUMENTATION AND REPLACE WITH FEDORA DOCS.
-
-
-New FAQ entry "my text alerts aren't working, or are delayed"
 
 
 Remove all forced line breaks in FOLIO-INSTALL.bash dialogue
@@ -263,7 +272,7 @@ DEBUGGING / TESTS / UX / QA / OTHER
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 !!!!                                                                                    
-===> WHEN DEBUGGING / TESTING PHP, LEAVE "$dev_debug_php_errors" IN "app-lib/php/init.php" SET
+===> WHEN DEBUGGING / TESTING PHP, LEAVE "$dev_debug_php_errors" IN "developer-config.php" SET
 ===> LIKE SO, TO ALWAYS LOG ALL PARSE / FATAL PHP ERRORS DURING TESTING: (E_ERROR | E_PARSE)
 !!!!
 ===> Set PHP-CLI (for cron) "/etc/php/X.X/cli/php.ini": error_log = /var/log/php_errors.log
@@ -303,7 +312,7 @@ DEBUGGING / TESTS / UX / QA / OTHER
 ===> Ocassionally update cacert.pem in the main directory (for Windows Desktop Edition):
 ===> https://curl.se/ca/cacert.pem
 !!!!
-===> "app-lib/php/init.php" contains MANY developer-only configs at the top
+===> "developer-config.php" contains MANY developer-only configs at the top
 !!!!
 ===> Don't require any higher than PHP v7.2 until PHP v9.
 !!!!                                                            
@@ -348,11 +357,6 @@ Overhaul / optimize config checks.
 
 
 Add remote IP address data to ALL relevant security error logging everywhere in the app.
-
-
-$ct['conf'] = $ct['cache']->refresh_cached_ct_conf($ct['conf'], true); at the end of load-config-by-security-level.php is throwing this error (so it's commented-out for now):
-[2022-08-03 03:30:40] ui => conf: updated ct_conf data could not be saved (to secured cache storage) in json format;  
-[2022-08-03 03:30:40] ui => conf: ct_conf data could not be restored from last-known working config; 
 
 
 Make all coin configs (assets and price alerts / charts) CASE-INSENSITIVE. Most efficient way to do this would be by auto-correcting in other/config/config-auto-adjust.php, to be the correct case even if a user editing config.php used the wrong case.
@@ -457,9 +461,6 @@ Add additional ability to do telegram / discord webhooks in the new "crypto-info
 
 Convert all javascript functions into classes, for cleaner code:
 https://javascript.info/class
-
-
-Enable the app config upgrade logic (for enhanced / normal admin sec modes, already built, just enable / test it). SEE DEBUGGING SECTION, AS WE NEED TO FIX IT BEFORE ENABLING IT.
 
 
 Consider bundling all the TODO charts we want to add to the "more stats" page (arbitrage etc) into a "addon-chart-stats" plugin (UI name "Additional Chart Stats"). This will help to flesh out the plugin system, and give insight into any additional requirements that should be added to it.

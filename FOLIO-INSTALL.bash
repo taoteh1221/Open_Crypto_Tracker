@@ -1677,7 +1677,7 @@ select opt in $OPTIONS; do
 						chown $APP_USER:$APP_USER $DOC_ROOT$BACKUP_CONF.BACKUP.$DATE.$RAND_STRING > /dev/null 2>&1
 						
   						# Dynamic config
-  						BACKUP_CONF="/dynamic-config-only.php"
+  						BACKUP_CONF="/dynamic-config.php"
 						cp $DOC_ROOT$BACKUP_CONF $DOC_ROOT$BACKUP_CONF.BACKUP.$DATE.$RAND_STRING > /dev/null 2>&1
 						chown $APP_USER:$APP_USER $DOC_ROOT$BACKUP_CONF.BACKUP.$DATE.$RAND_STRING > /dev/null 2>&1
 
@@ -1764,6 +1764,7 @@ select opt in $OPTIONS; do
 				rm $DOC_ROOT/webhook.php > /dev/null 2>&1
 				rm $DOC_ROOT/rest-api.php > /dev/null 2>&1
 				rm $DOC_ROOT/logs.php > /dev/null 2>&1
+				rm $DOC_ROOT/dynamic-config-only.php > /dev/null 2>&1
 				rm $DOC_ROOT/cache/cacert.pem > /dev/null 2>&1
 				rm $DOC_ROOT/cache/events/notifications-queue-processing.dat > /dev/null 2>&1
 				rm $DOC_ROOT/cache/events/check-domain-security.dat > /dev/null 2>&1
@@ -2100,7 +2101,7 @@ echo "${reset} "
 
     if [ "$CONFIG_BACKUP" = "1" ]; then
     
-     echo "${green}The previously-installed configuration files $DOC_ROOT/config.php AND $DOC_ROOT/dynamic-config-only.php have been backed up to:"
+     echo "${green}The previously-installed configuration files $DOC_ROOT/config.php AND $DOC_ROOT/dynamic-config.php have been backed up to:"
 	echo " "
      echo "$DOC_ROOT/[filename].php.BACKUP.$DATE.$RAND_STRING"
 	echo " "

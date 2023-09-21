@@ -97,7 +97,10 @@ require_once('app-lib/php/inline/other/cache-directories.php');
 // #MUST# run BEFORE any heavy init logic (for good security), #AFTER# directory creation (for error logging), and AFTER system checks
 require_once('app-lib/php/inline/security/early-security-logic.php');
 
-// Get / check system info for debugging / stats (MUST run AFTER directory creation [for error logging], AND AFTER system checks)
+// Load any 3RD PARTY classes WITHOUT CONFIGS (MUST run after system-config / early-security-logic)
+require_once('app-lib/php/classes/3rd-party-classes-loader.php');
+
+// Get / check system info for debugging / stats (MUST run AFTER cache-directories [for error logging], AND AFTER system-checks)
 require_once('app-lib/php/inline/system/system-info.php');
 
 

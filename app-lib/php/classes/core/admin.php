@@ -19,33 +19,6 @@ var $ct_array = array();
    ////////////////////////////////////////////////////////
    
    
-   function update_config() {
-   
-   global $ct;
-   
-   
-       // Check validity of config array and name / admin hashed nonce / strict 2FA setup, return false if checks fail
-       if ( !isset($_POST['conf_id']) || !isset($_POST['interface_id']) || !is_array($_POST[ $_POST['conf_id'] ]) || !$ct['gen']->pass_sec_check($_POST['admin_hashed_nonce'], $_POST['interface_id']) || !$ct['gen']->valid_2fa('strict') ) {
-       return false;
-       }
-   
-   
-   // Update the corrisponding admin config section
-   $ct['conf'][ $_POST['conf_id'] ] = $_POST[ $_POST['conf_id'] ];
-   
-   // Refresh the cached config (save to disk, AND USE THE NEW CONFIG)
-   // (refresh_cached_ct_conf() contains checks / fallbacks)
-   $ct['conf'] = $ct['cache']->refresh_cached_ct_conf($ct['conf']);
-   
-   return true; // If we got this far, we're good to go
-   
-   }
-
-   
-   ////////////////////////////////////////////////////////
-   ////////////////////////////////////////////////////////
-   
-   
    function settings_form_fields($conf_id, $interface_id, $render_params=false) {
         
    global $ct, $update_admin_conf_success, $update_admin_conf_error;

@@ -33,7 +33,7 @@ $ct['cache']->load_cached_config();
 
 
 // Configs for any plugins activated in ct_conf
-foreach ( $ct['conf']['plugins']['status'] as $key => $val ) {
+foreach ( $ct['conf']['plugins']['plugin_status'] as $key => $val ) {
 			
 $this_plug = $key;
 
@@ -142,8 +142,12 @@ $this_plug = $key;
      			ksort($activated_plugins['webhook']); // Alphabetical order (for admin UI)
      
              	
-                  	     // If NOT A FAST RUNTIME, and we don't have webhook keys set yet for this webhook plugin
-                         if ( !$is_fast_runtime && !isset($int_webhooks[$this_plug]) ) {
+                  	     // If NOT A FAST RUNTIME, and we don't have webhook keys set yet for this webhook plugin,
+                  	     // OR a webhook secret key reset from authenticated admin is verified (STRICT 2FA MODE ONLY)
+                         if (
+                         !$is_fast_runtime && !isset($int_webhooks[$this_plug])
+                         || $_POST['reset_' . $this_plug . '_webhook_key'] == 1 && $ct['gen']->pass_sec_check($_POST['admin_hashed_nonce'], 'reset_' . $this_plug . '_webhook_key') && $ct['gen']->valid_2fa('strict')
+                         ) {
                     	
                          $secure_128bit_hash = $ct['gen']->rand_hash(16); // 128-bit (16-byte) hash converted to hexadecimal, used for suffix
                          $secure_256bit_hash = $ct['gen']->rand_hash(32); // 256-bit (32-byte) hash converted to hexadecimal, used for var
@@ -158,6 +162,7 @@ $this_plug = $key;
                          				);
                          	
                          	}
+                              // WE AUTOMATICALLY DELETE OUTDATED CACHE FILES SORTING BY DATE WHEN WE LOAD IT, SO NO NEED TO DELETE THE OLD ONE
                          	else {
                          	$ct['cache']->save_file($ct['base_dir'] . '/cache/secured/'.$this_plug.'_webhook_key_'.$secure_128bit_hash.'.dat', $secure_256bit_hash);
                          	$int_webhooks[$this_plug] = $secure_256bit_hash;
@@ -208,16 +213,17 @@ unset($this_plug);  // Reset
 // IF ADMIN-USER-INITIATED ct_conf CACHE RESET (ALSO LOADS CT_CONF [WITH ACTIVATED PLUGIN CONFIGS])
 if ( $reset_ct_conf ) {
 $ct['conf'] = $ct['cache']->refresh_cached_ct_conf(false, false, true); // Admin-user-initiated reset flag
-sleep(2); // Give recache file save a couple seconds breather, BEFORE load_cached_config() READS FROM IT
+sleep(5); // Give recache file save a few seconds breather, BEFORE load_cached_config() READS FROM IT
 }
 // We use the $refresh_config flag, to avoid multiple calls in the loop
-elseif ( $refresh_config == true ) {
+elseif ( $refresh_config ) {
 $ct['conf'] = $ct['cache']->refresh_cached_ct_conf($ct['conf']);
 unset($refresh_config); // Unset, since this is an inline global var
+sleep(1); // Chill for a second, since we just refreshed the conf
 }
 // Otherwise we are clear to check for and run any upgrades instead, on the CACHED ct_conf
 elseif ( $admin_area_sec_level != 'high' ) {
-//$ct['conf'] = $ct['cache']->refresh_cached_ct_conf($ct['conf'], true); // THROWS ERROR...SEE TODO.txt
+$ct['conf'] = $ct['cache']->refresh_cached_ct_conf($ct['conf'], true);
 }
 
 

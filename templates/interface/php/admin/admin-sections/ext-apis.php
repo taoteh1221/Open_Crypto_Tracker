@@ -21,6 +21,16 @@ if ( $admin_area_sec_level == 'high' ) {
 }
 else {
 
+?>
+
+	<div class='bitcoin bitcoin_dotted' style='margin-bottom: 20px;'>
+	
+	PRO TIP: An easy / reliable way to add your keys here is opposite-clicking over the key AFTER selecting all it's characters, and choosing "Copy". Then opposite-click inside the input field on this page, and choose "Paste". Alternatively, you can also do this with the keyboard combinations: Ctrl + C (copy) / Ctrl + V (paste)
+	
+	</div>
+
+<?php
+
 
 // Render config settings for this section...
 
@@ -39,6 +49,12 @@ $admin_render_settings['notifyme_access_code']['notes'] = '<a href="https://www.
 $admin_render_settings['telegram_bot_token']['text_field_size'] = 50;
 
 $admin_render_settings['telegram_bot_token']['notes'] = '<a href="https://core.telegram.org/bots/features#creating-a-new-bot" target="_BLANK">Get a FREE Telegram Bot API Key</a>';
+
+
+////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+$admin_render_settings['twilio_number']['notes'] = 'Format: "12223334444" (no plus symbol)';
 
 
 ////////////////////////////////////////////////////////////////////////////////////////////////
