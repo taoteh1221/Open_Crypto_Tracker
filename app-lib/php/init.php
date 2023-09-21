@@ -23,7 +23,7 @@ exit;
 }
 
 
-error_reporting($dev_debug_php_errors); // PHP error reporting
+error_reporting($ct['dev']['debug_php_errors']); // PHP error reporting
 
 
 // Calculate script runtime length

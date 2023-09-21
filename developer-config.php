@@ -21,7 +21,7 @@ $ct['app_version'] = '6.00.27';  // 2023/SEPTEMBER/16TH
 // Can take any setting shown here: https://www.php.net/manual/en/function.error-reporting.php
 // 0 = off, -1 = on (IF *NOT* SET TO ZERO HERE, THIS #OVERRIDES# PHP ERROR DEBUG SETTINGS IN THE APP'S USER CONFIG SETTINGS)
 // WRAP VALUE(S) IN PARENTHESIS, SO MUTIPLE VALUES CAN BE USED: (0) / (-1) / (E_ERROR | E_PARSE)
-$dev_debug_php_errors = (0); 
+$ct['dev']['debug_php_errors'] = (0); 
 
 
 // The DEFAULT (FREE PLAN) requests-per-DAY limit on the Alpha Vantage API key

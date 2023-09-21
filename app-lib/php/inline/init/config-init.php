@@ -130,7 +130,7 @@ require('developer-config.php');
 // Essential vars / arrays / inits that can only be dynamically set AFTER config-auto-adjust / 3rd-party-classes-loader...
 
 // PHP error logging on / off, VIA END-USER CONFIG SETTING, *ONLY IF* THE HARD-CODED DEV PHP DEBUGGING IN INIT.PHP IS OFF
-if ( $dev_debug_php_errors == 0 ) {
+if ( $ct['dev']['debug_php_errors'] == 0 ) {
 error_reporting($ct['conf']['power']['php_error_reporting']); 
 }
 
