@@ -24,8 +24,21 @@ var $ct_array = array();
    global $ct, $update_admin_conf_success, $update_admin_conf_error;
    
   
-   ?>
-   
+	 if ( $update_admin_conf_success != null ) {
+	 ?>
+	 <div style='min-height: 1em;'></div>
+	 <div class='green green_dotted' style='font-weight: bold;'><?=$update_admin_conf_success?></div>
+	 <?php
+	 }
+	 elseif ( $update_admin_conf_error != null ) {
+	 ?>
+	 <div style='min-height: 1em;'></div>
+	 <div class='red red_dotted' style='font-weight: bold;'><?=$update_admin_conf_error?></div>
+	 <?php
+	 }
+	 ?>
+	 
+	 
    <div class='pretty_text_fields'>
    
 	
@@ -189,22 +202,6 @@ var $ct_array = array();
 	<p><input type='submit' value='Save <?=$ct['gen']->key_to_name($interface_id)?> Settings' /></p>
 	
 	</form>
-	
-	
-	 <?php
-	 if ( $update_admin_conf_success != null ) {
-	 ?>
-	 <div style='min-height: 1em;'></div>
-	 <div class='green green_dotted' style='font-weight: bold;'><?=$update_admin_conf_success?></div>
-	 <?php
-	 }
-	 elseif ( $update_admin_conf_error != null ) {
-	 ?>
-	 <div style='min-height: 1em;'></div>
-	 <div class='red red_dotted' style='font-weight: bold;'><?=$update_admin_conf_error?></div>
-	 <?php
-	 }
-	 ?>
      
      
    </div>

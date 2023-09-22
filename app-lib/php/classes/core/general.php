@@ -167,8 +167,10 @@ var $ct_array = array();
    
    
    function pass_sec_check($val, $hash_key) {
+        
+   global $possible_input_injection;
    
-      if ( $this->admin_logged_in() && isset($val) && trim($val) != '' && $this->admin_hashed_nonce($hash_key) != false && $val == $this->admin_hashed_nonce($hash_key) ) {
+      if ( !$possible_input_injection && $this->admin_logged_in() && isset($val) && trim($val) != '' && $this->admin_hashed_nonce($hash_key) != false && $val == $this->admin_hashed_nonce($hash_key) ) {
       return true;
       }
       else {
@@ -2112,23 +2114,18 @@ var $ct_array = array();
    
    function sanitize_string($method, $ext_key, $data, $mysqli_connection=false) {
    
-   global $ct;
+   global $ct, $possible_input_injection;
    
-    
-        // Strip ALL HTML tags
-        $data = strip_tags($data);  
+   $original = $data;
+   
+   // Remove HTML
+   $sanitized = strip_tags($original);
         
+   // Scan for malicious content
+   $scan = strtolower($sanitized);
         
-        /////////// S C A N N I N G   -   S T A R T /////////////////////////////
-        
-        // Scan for malicious content
-        $scan = $data;
-        
-        // Scan lowercase
-        $scan = strtolower($scan);
-        
-        // Scan for potentially hidden code injection
-        $html_and_js_events = array(
+   // Looking for potentially hidden code injection
+   $script_check = array(
                                    "base64", // base64 PHP
                                    "btao", // base64 javascript
                                    "script",
@@ -2151,30 +2148,29 @@ var $ct_array = array();
                                    "onselect",
                                    "onsubmit",
                                    "onunload",
-                                   );
+                           );
                        
                            
-        $scan = str_replace($html_and_js_events, "", $scan, $count);
+   $scan = str_replace($script_check, "", $scan, $has_script);
         
         
-           // Exit function if html or scripting is detected
-           if ( $count > 0 ) {
-           $this->log('security_error', 'Possible code injection blocked in request data (' . $ct['remote_ip'] . '): ["' . $ext_key . '"]');
-           return 'code_not_allowed';
-           }
-           
-           
-        /////////// S C A N N I N G   -   E N D /////////////////////////////
+        // Wipe data value, if scripting / HTML detection flagged
+        if ( $has_script > 0 || $original != $sanitized ) {
+        $this->log('security_error', 'POSSIBLE code injection blocked in request data (from ' . $ct['remote_ip'] . '): _' . strtoupper($method) . '["' . $ext_key . '"]');
+        $data = 'code_not_allowed';
+        $possible_input_injection = true;
+        }
+        // a mySQLi connection is required before using this function
+        // Escapes special characters in a string for use in an SQL statement
+        elseif ( $mysqli_connection ) {
+        $data = mysqli_real_escape_string($mysqli_connection, $sanitized);
+        }
+        else {
+        $data = $sanitized;
+        }
         
         
-           // a mySQLi connection is required before using this function
-           // Escapes special characters in a string for use in an SQL statement
-           if ( $mysqli_connection ) {
-           $data = mysqli_real_escape_string($mysqli_connection, $data);
-           }
-        
-        
-        return $data;
+   return $data;
         
    }
 

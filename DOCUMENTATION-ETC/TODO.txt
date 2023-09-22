@@ -10,37 +10,45 @@ NEXT SCHEDULED WORK SESSIONS (*BOTH* DEBUGGING AND / OR INFRASTRUCTURE)
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
-Public demo just went bat shit crazy, and now always redirects to the corrisponding download page on the biz website...no htaccess changes made, WFT kinda fruity bullshit is this?! FIX IT
-
-
-Add support for ct['conf'] upgrades to BUNDLED (whitelisted) PLUGINS configs.
-
-
-$subarray_allow_upgrading should be populated with subarray keys a user is ok with upgrading (news feeds, assets, whatever). Additionally, a user should be able to choose whether to: add only new vars, delete only removed vars, or replace their current settings with the latest default one.
-
-
-Add BTC to documentation om supported trading pairs (in help / faq, readme, troubleshooting, and project page).
-
-
-For config reset / turning on high admin security mode, add documentation in the JavaScript popup alerts and in the info icon bubbles that you will lose all your data that is not in the hard-coded config file.
-
-
-Add hide / show feature to admin settings that update passwords, default to hide.
-
-
 When submitting admin area setting changes, have the usual 'reloading... / Loading... show, like we already do for the user area, EXCEPT USE THE IFRAME 'loading..." notice above the iframe we already have working for normal iframe loads / reloads. It's good UX to show immediately that it's begun updating.
 
 
 Sometimes an admin iframe loads / reloads scrolled down (with the content above NOT visible). Try and ALWAYS have admin iframes scroll to the top on load / reload. Try replicating it with 'strict' 2FA on with 'medium' security mode, AND purposefully type in the 2FA wrong when trying to update settings.
 
 
+Iframe RELOADS / REFRESHES should NOT RESUBMIT DATA (we could have some endless loops, depending on $refresh_admin values in footer.php). Look into adding this in footer.php:
+https://www.webtrickshome.com/forum/how-to-stop-form-resubmission-on-page-refresh
+https://developer.mozilla.org/en-US/docs/Web/API/History/replaceState
+
+
+Add support for ct['conf'] upgrades to BUNDLED (whitelisted) PLUGINS configs.
+
+
+Add input validation for the admin config setting fields in each interface section (connected to config-init for the flag: $update_admin_conf_valid).
+
+
+Test that everything resets to allow re-trying to enable 2FA, IF A USERS ENTERS THE WRONG 2FA TRYING TO TURN ON REGULAR OR STRICT MODE.
+
+
+Test ALL 2FA logic ONE MORE TIME, and make sure UX (including UI alerts) is decent.
+
+
+Update screenshots, since we overhauled everything in the interface.
+
+
+Test fully on PHP 7.4, by filling in all the settings with my personal ones on the public demo site. Import my charts there as well. Use it for at least a few weeks, with PHP error logging on. Blank out my settings on the local network install, so we don't get duplicate alerts.
+
+
 Add an info icon next to 2FA fields, with info on what it is, usage, and how to MANUALLY disable it.
 
 
-Add help page entry for : 2FA passcode was invalid, please try again
+Add an info icon next to admin config fields, with info on what it is, usage, etc.
 
 
-New FAQ entry "my text alerts aren't working, or are delayed"
+Add BTC to documentation om supported trading pairs (in help / faq, readme, troubleshooting, and project page).
+
+
+For config reset / turning on high admin security mode, add documentation in the JavaScript popup alerts and in the info icon bubbles that you will lose all your data that is not in the hard-coded config file.
 
 
 Update all documentation for new 2FA integrations into existing security features. Don't forget to mention that changing the admin username / server domain will PURPOSEFULLY INVALIDATE THE CURRENT 2FA 'SECRET', and would then require deleting the 2fa var in the cache to disable 2FA (which can then be re-enabled after, with the new admin username / sever domain).
@@ -52,16 +60,10 @@ On the plugins admin page, add an info balloon next to a title "How can I make s
 On the plugins admin page, add a title "How to make your own custom plugin", with a link to the plugin documentation on github.
 
 
-Test that everything resets to allow re-trying to enable 2FA, IF A USERS ENTERS THE WRONG 2FA TRYING TO TURN ON REGULAR OR STRICT MODE.
+Add help page entry for : 2FA passcode was invalid, please try again
 
 
-Test ALL 2FA logic ONE MORE TIME, and make sure UX (including UI alerts) is decent.
-
-
-Add input validation / sanatization for the admin config setting fields in each interface section (connected to config-init for the flag: $update_admin_conf_valid).
-
-
-Add an info icon next to admin config fields, with info on what it is, usage, etc.
+New FAQ entry "my text alerts aren't working, or are delayed"
 
 
 For stock asset info IN THE APP (like we do for coingecko / coinmarketcap), use data from this endpoint:
@@ -71,9 +73,6 @@ There are also endpoints available for income statement / balance sheet / cash f
 https://www.alphavantage.co/documentation/#fundamentals
 
 Try fitting all them into the info bubble toolip area for each stock asset, and see how it looks.
-
-
-Add ARM stock.
 
 
 Move all admin-related functions into the new 'ct_admin' PHP class.
@@ -88,6 +87,33 @@ Go through all init / config / etc files, and add any primary vars to "$ct" that
 Code review all large functions, to make sure they are clean and optimized
 
 
+Add ARM stock.
+
+
+Add more Jupiter agg markets to Solana coins in price target plugin.
+
+
+Add openserum markets support.
+
+
+Send out an OPTIONAL comms alert when we change the admin security mode, OR when we enable / disable 2FA (like we do for logins).
+
+
+Security page should show the app version number, AND a version upgrade check alert (if available).
+
+
+Merge System stats / access stats / app logs into one area called: System & App Monitoring. Add horizontal tabs a top of this area, for each subsection.
+
+
+Add feature to address balance tracker plugin to set minimum time to wait before re-sending the same address alert (in hours). Default it to a high number like 8 hours, so any poorly running / configured API servers don't send endless alerts as they send bs 'zero' results.
+
+
+$subarray_allow_upgrading should be populated with subarray keys a user is ok with upgrading (news feeds, assets, whatever). Additionally, a user should be able to choose whether to: add only new vars, delete only removed vars, or replace their current settings with the latest default one.
+
+
+Add power user settings interface next.
+
+
 When importing bootstrap price chart data in on XAMMP for Windows, WHEN SETUP FOR 15 MINUTE TASK SCHEDULER INTERVALS INSTEAD OF THE DEFAULT 20 MINUTE INTERVALS, all chart data seemed correct EXCEPT for 2 week data. Try and replicate this on other setups, and review the auto-reset trigger / directory deletion logic for any possible issues, as well as the light chart creation logic. I SUSPECT THE LATTER.
 
 
@@ -100,39 +126,10 @@ libraries are no longer available using apt ("Unable to locate package X"), and 
 Convert Arch linux support in auto-installer over to redhat (yum), as Arch does NOT have much package / setup support for libraries we use. WE ALREADY CONVERTED "BUILD-PHP-FOR-LINUX-DESKTOP.bash" OVER TO BE REDHAT COMPATIBLE, so use it as a template to integrate into FOLIO-INSTALL.bash. ALSO REMOVE ARCH DOCUMENTATION AND REPLACE WITH FEDORA DOCS.
 
 
-Send out an OPTIONAL comms alert when we change the admin security mode, OR when we enable / disable 2FA (like we do for logins).
-
-
-Security page should show the app version number, AND a version upgrade check alert (if available).
-
-
-Add more Jupiter agg markets to Solana coins in price target plugin.
-
-
-Add feature to address balance tracker plugin to set minimum time to wait before re-sending the same address alert (in hours). Default it to a high number like 8 hours, so any poorly running / configured API servers don't send endless alerts as they send bs 'zero' results.
-
-
-Merge System stats / access stats / app logs into one area called: System & App Monitoring. Add horizontal tabs a top of this area, for each subsection.
-
-
 Replace all tabs with spaces (for better cross-text-editor support).
 
 
 The compact side menu doesn't work on Linux desktop Edition.
-
-
-Update screenshots, since we overhauled everything in the interface.
-
-
-Add power user settings interface next.
-
-
-Add openserum markets support.
-
-
-Iframe RELOADS / REFRESHES should NOT RESUBMIT DATA (we could have some endless loops, depending on $refresh_admin values in footer.php). Look into adding this in footer.php:
-https://www.webtrickshome.com/forum/how-to-stop-form-resubmission-on-page-refresh
-https://developer.mozilla.org/en-US/docs/Web/API/History/replaceState
 
 
 Check for "whitespace in paths" support in bash scripting (like we had to do for the BT radio script)

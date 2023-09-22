@@ -8,9 +8,10 @@ exit;
 }
 
 $original = trim($_GET['data']);
-$sanitized = trim($_GET['data']);
 
 // Check if sanitized input matches original input (we want to use original input to play it safe or cancel the QR code output, since this is crypto-related)
+
+$sanitized = $original;
 
 // FLAG tabs, spaces, and new lines
 $sanitized = preg_replace("/[\s\W]+/", "FLAG", $sanitized);

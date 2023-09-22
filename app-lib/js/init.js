@@ -273,6 +273,30 @@ nav_menu('.user-nav');
 	/////////////////////////////////////////////////////////////////////////////////////////////////////
 	
      
+     // Show / hide password
+     $('.toggle-show-password').on({
+        "click":function(e){
+
+        $(this).toggleClass("gg-eye");
+
+        $(this).toggleClass("gg-eye-alt");
+       
+        var input_elm = $("input[name=" + $(this).attr('data-name') + "]");
+       
+            if ( input_elm.attr("type") === "password" ) {
+            input_elm.attr("type", "text");
+            }
+            else if ( input_elm.attr("type") === "text" ) {
+            input_elm.attr("type", "password");
+            }
+              
+         }
+     });
+	
+
+	/////////////////////////////////////////////////////////////////////////////////////////////////////
+	
+     
      // iframe info balloon text sizes are wonky for some reason in LINUX PHPDESKTOP (but works fine in modern browsers)
      if ( app_container == 'phpdesktop' ) {
      var adjusted_font_size_percent = is_iframe ? 70 : 100;

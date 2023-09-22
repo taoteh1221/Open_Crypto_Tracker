@@ -121,6 +121,8 @@ $check_2fa_error = null;
 
 // Initial zero-set / false strings
 
+$possible_input_injection = false;
+
 $conf_upgraded = false;
 
 $is_login_form = false;

@@ -6297,7 +6297,11 @@ MIGRATE YOUR EXISTING SETTINGS TO THE NEW FORMAT.
 
 -New 'strict' mode available for admin area 2-factor authentication (requires entering a 2FA code when changing ANYTHING in the admin area)
 
+-Enhanced user-input sanitization (to nullify code injection attacks), since we now have user-input in the admin area
+
 -More developer-friendly configurations that are 'developer-only' (easier to tweak dev-related values)
+
+-Miscellaneous user experience improvements
 
 -Code optimization / cleanup
 

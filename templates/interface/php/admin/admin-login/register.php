@@ -231,6 +231,7 @@ if ( !$_POST['submit_registration'] || is_array($register_result['error']) ) {
 	 
 	 <img class='tooltip_style_control' id='username_notes' src='templates/interface/media/images/info-red.png' alt='' width='30' style='position: relative; left: 5px;' />  
 	 
+	 
 	 <b>Username:</b> 
 	 
 	 <input type='text' id='set_username' name='set_username' value='<?=trim($_POST['set_username'])?>' style='<?=( $username_field_color ? 'background: ' . $username_field_color : '' )?>' />
@@ -239,15 +240,31 @@ if ( !$_POST['submit_registration'] || is_array($register_result['error']) ) {
 
 	 <p>
 	 
-	 <img class='tooltip_style_control' id='password_notes' src='templates/interface/media/images/info-red.png' alt='' width='30' style='position: relative; left: 5px;' /> 
+	     <img class='tooltip_style_control' id='password_notes' src='templates/interface/media/images/info-red.png' alt='' width='30' style='position: relative; left: 5px;' /> 
 	 
-	 <b>Password:</b> 
-	 	 
-	 <input type='password' id='set_password' name='set_password' value='<?=$_POST['set_password']?>' style='<?=( $password_field_color ? 'background: ' . $password_field_color : '' )?>' />
+
+          <div class="password-container">
+          
+	       <b>Password:</b> <input type='password' id='set_password' name='set_password' value='<?=$_POST['set_password']?>' style='<?=( $password_field_color ? 'background: ' . $password_field_color : '' )?>' />
+	       
+            <i class="gg-eye-alt toggle-show-password" data-name="set_password"></i>
+            
+          </div>
 	 
 	 </p>
+	 
 
-	 <p><b>Repeat Password:</b> <input type='password' id='set_password2' name='set_password2' value='<?=$_POST['set_password2']?>' style='<?=( $password2_field_color ? 'background: ' . $password2_field_color : '' )?>' /></p>
+	 <p>
+
+          <div class="password-container">
+          
+	       <b>Repeat Password:</b> <input type='password' id='set_password2' name='set_password2' value='<?=$_POST['set_password2']?>' style='<?=( $password2_field_color ? 'background: ' . $password2_field_color : '' )?>' />
+	       
+            <i class="gg-eye-alt toggle-show-password" data-name="set_password2"></i>
+            
+          </div>
+	 
+	 </p>
     	
     	
 		<p class='align_left' style='font-weight: bold; color: #ff4747;' id='user_alert'></p>
