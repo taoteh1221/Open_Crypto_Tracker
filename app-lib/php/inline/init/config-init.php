@@ -107,9 +107,23 @@ $refresh_config = true; // Triggers saving updated config to disk
      $update_admin_conf_success = 'Updating of admin configuration "' . $ct['gen']->key_to_name($_POST['interface_id']) . '" SUCCEEDED.';
      }
      else {
-     $update_admin_conf_error = 'Updating of admin configuration "' . $ct['gen']->key_to_name($_POST['interface_id']) . '" FAILED.';
+     $update_admin_conf_error = 'Invalid Entries (see below). Updating of admin configuration "' . $ct['gen']->key_to_name($_POST['interface_id']) . '" FAILED.';
      }
           
+}
+elseif ( isset($_POST['conf_id']) && isset($_POST['interface_id']) ) {
+
+     if ( $possible_input_injection ) {
+          
+     $ct['gen']->log('security_error', 'Possible code injection attack stopped (from ' . $ct['remote_ip'] . '), please DO NOT attempt to inject scripting / HTML into user inputs');
+     
+     $update_admin_conf_error = 'Possible code injection attack stopped, please DO NOT attempt to inject scripting or HTML into user inputs. Updating of admin configuration "' . $ct['gen']->key_to_name($_POST['interface_id']) . '" FAILED.';
+     
+     }
+     elseif ( $check_2fa_error ) {
+     $update_admin_conf_error = $check_2fa_error . '. Updating of admin configuration "' . $ct['gen']->key_to_name($_POST['interface_id']) . '" FAILED.';
+     }
+
 }
 
 

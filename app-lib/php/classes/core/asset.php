@@ -1850,13 +1850,16 @@ var $ct_array = array();
                      // IF PRIMARY CURRENCY CONFIG volume was 0 or -1 last alert / reset, for UX sake we let users know
                      if ( $cached_prim_currency_vol == 0 ) {
                      $vol_describe = '24 hour ' . strtoupper($default_bitcoin_primary_currency_pair) . ' volume was ' . $ct['conf']['power']['bitcoin_currency_markets'][$default_bitcoin_primary_currency_pair] . $cached_prim_currency_vol . ' last price ' . $desc_alert_type . ', and';
+                     $vol_describe_mobile = ', ' . strtoupper($default_bitcoin_primary_currency_pair) . ' volume was ' . $ct['conf']['power']['bitcoin_currency_markets'][$default_bitcoin_primary_currency_pair] . $cached_prim_currency_vol . ' last ' . $desc_alert_type;
                      }
                      // Best we can do feasibly for UX on volume reporting errors
                      elseif ( $cached_prim_currency_vol == -1 ) { // ONLY PRIMARY CURRENCY CONFIG VOLUME CALCULATION RETURNS -1 ON EXCHANGE VOLUME ERROR
                      $vol_describe = '24 hour ' . strtoupper($default_bitcoin_primary_currency_pair) . ' volume was NULL last price ' . $desc_alert_type . ', and';
+                     $vol_describe_mobile = ', ' . strtoupper($default_bitcoin_primary_currency_pair) . ' volume was NULL last ' . $desc_alert_type;
                      }
                      else {
-                     $vol_describe == '24 hour pair volume';
+                     $vol_describe = '24 hour pair volume';
+                     $vol_describe_mobile = ' pair volume';
                      }
                   
                   
@@ -1877,7 +1880,7 @@ var $ct_array = array();
                
                
                // Mobile text
-               $has_volume_data_text_mobile = '24hr Volume: ' . $vol_prim_currency_text . ' (' . $vol_change_symb . number_format($vol_percent_change, 2, '.', ',') . '%)';
+               $has_volume_data_text_mobile = '24hr Volume: ' . $vol_prim_currency_text . ' (' . $vol_change_symb . number_format($vol_percent_change, 2, '.', ',') . '%' . $vol_describe_mobile . ')';
                         
                $vol_change_text_mobile = ( $no_volume_history ? '' : $has_volume_data_text_mobile );
                         

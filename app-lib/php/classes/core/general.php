@@ -2128,6 +2128,7 @@ var $ct_array = array();
    $script_check = array(
                                    "base64", // base64 PHP
                                    "btao", // base64 javascript
+                                   "javascript",
                                    "script",
                                    "href",
                                    "src",
