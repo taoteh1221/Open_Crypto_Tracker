@@ -155,8 +155,10 @@ var $ct_array = array();
    
    global $ct, $default_ct_conf, $conf_upgraded;
    
+   
       // Check for new variables, and add them
       foreach ( $default_ct_conf[$cat_key][$conf_key] as $setting_key => $setting_val ) {
+      
       
          if ( !is_array($conf[$cat_key][$conf_key]) || is_array($conf[$cat_key][$conf_key]) && !array_key_exists($setting_key, $conf[$cat_key][$conf_key]) ) {
          			
@@ -169,40 +171,54 @@ var $ct_array = array();
               			'conf_error',
               			'Outdated app config, upgraded PARENT ARRAY parameter ct[conf][' . $cat_key . '][' . $conf_key . '] imported'
               			);
-              			
+              
+              $conf_upgraded = true;	
+              
               }
               
+              
+              if ( is_array($conf[$cat_key][$conf_key]) && !array_key_exists($setting_key, $conf[$cat_key][$conf_key]) ) {
          	
-         $conf[$cat_key][$conf_key][$setting_key] = $default_ct_conf[$cat_key][$conf_key][$setting_key];
-               
-         $log_val_descr = ( $default_ct_conf[$cat_key][$conf_key][$setting_key] != null || $default_ct_conf[$cat_key][$conf_key][$setting_key] != false ? $default_ct_conf[$cat_key][$conf_key][$setting_key] : '[null or false]' );
-         
-         $ct['gen']->log(
-         			'conf_error',
-         			'Outdated app config, upgraded parameter ct[conf][' . $cat_key . '][' . $conf_key . '][' . $setting_key . '] imported (default value: ' . $log_val_descr . ')'
-         			);
+              $conf[$cat_key][$conf_key][$setting_key] = $default_ct_conf[$cat_key][$conf_key][$setting_key];
+                    
+              $log_val_descr = ( $default_ct_conf[$cat_key][$conf_key][$setting_key] != null || $default_ct_conf[$cat_key][$conf_key][$setting_key] != false ? $default_ct_conf[$cat_key][$conf_key][$setting_key] : '[null or false]' );
+              
+              $ct['gen']->log(
+              			'conf_error',
+              			'Outdated app config, upgraded parameter ct[conf][' . $cat_key . '][' . $conf_key . '][' . $setting_key . '] imported (default value: ' . $log_val_descr . ')'
+              			);
+              
+              $conf_upgraded = true;
+              
+              }
               
          
-         $conf_upgraded = true;
-         
          }
+         
             
       }
       
+      
       // Check for depreciated variables, and remove them
       foreach ( $conf[$cat_key][$conf_key] as $setting_key => $setting_val ) {
+           
       
          if ( !is_array($default_ct_conf[$cat_key][$conf_key]) || is_array($default_ct_conf[$cat_key][$conf_key]) && !array_key_exists($setting_key, $default_ct_conf[$cat_key][$conf_key]) ) {
-         	
-         unset($conf[$cat_key][$conf_key][$setting_key]);
          
-         $ct['gen']->log(
-         			'conf_error',
-         			'Depreciated app config, parameter ct[conf][' . $cat_key . '][' . $conf_key . '][' . $setting_key . '] removed'
-         			);
+         
+              if ( is_array($default_ct_conf[$cat_key][$conf_key]) && !array_key_exists($setting_key, $default_ct_conf[$cat_key][$conf_key]) ) {
+              
+              unset($conf[$cat_key][$conf_key][$setting_key]);
+              
+              $ct['gen']->log(
+              			'conf_error',
+              			'Depreciated app config, parameter ct[conf][' . $cat_key . '][' . $conf_key . '][' . $setting_key . '] removed'
+              			);
+              			
+              }
          			
          			
-              if ( !is_array($default_ct_conf[$cat_key][$conf_key]) ) {
+              if ( !isset($default_ct_conf[$cat_key][$conf_key]) && isset($conf[$cat_key][$conf_key]) ) {
                    
               unset($conf[$cat_key][$conf_key]);
               
@@ -217,6 +233,7 @@ var $ct_array = array();
          $conf_upgraded = true;
          
          }
+            
             
       }
       
@@ -729,7 +746,7 @@ var $ct_array = array();
                }
                
                
-               if ( isset($conf[$cached_cat_key][$cached_conf_key]) && !is_array($cached_conf_val) && is_array($default_ct_conf[$cached_cat_key]) && !array_key_exists($cached_conf_key, $default_ct_conf[$cached_cat_key]) ) {
+               if ( !is_array($cached_conf_val) && is_array($default_ct_conf[$cached_cat_key]) && !array_key_exists($cached_conf_key, $default_ct_conf[$cached_cat_key]) && isset($conf[$cached_cat_key][$cached_conf_key]) ) {
                   	
                unset($conf[$cached_cat_key][$cached_conf_key]);
                   
@@ -743,7 +760,7 @@ var $ct_array = array();
                }
                
                
-               if ( isset($conf[$cached_cat_key]) && !is_array($cached_conf_val) && !is_array($default_ct_conf[$cached_cat_key]) ) {
+               if ( !is_array($cached_conf_val) && !isset($default_ct_conf[$cached_cat_key]) && isset($conf[$cached_cat_key]) ) {
                   	
                unset($conf[$cached_cat_key]);
                   
