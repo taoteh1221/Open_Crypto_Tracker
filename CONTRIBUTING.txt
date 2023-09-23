@@ -87,7 +87,7 @@ CONTRIBUTION GUIDELINES (FOR DEVELOPERS):
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 !!!!                                                                                    
-===> WHEN DEBUGGING / TESTING PHP, LEAVE "$dev_debug_php_errors" IN "app-lib/php/init.php" SET
+===> WHEN DEBUGGING / TESTING PHP, LEAVE "$ct['dev']['debug_php_errors']" IN "developer-config.php" SET
 ===> LIKE SO, TO ALWAYS LOG ALL PARSE / FATAL PHP ERRORS DURING TESTING: (E_ERROR | E_PARSE)
 !!!!
 ===> Set PHP-CLI (for cron) "/etc/php/X.X/cli/php.ini": error_log = /var/log/php_errors.log
@@ -127,7 +127,7 @@ CONTRIBUTION GUIDELINES (FOR DEVELOPERS):
 ===> Ocassionally update cacert.pem in the main directory (for Windows Desktop Edition):
 ===> https://curl.se/ca/cacert.pem
 !!!!
-===> "app-lib/php/init.php" contains MANY developer-only configs at the top
+===> "developer-config.php" contains MANY developer-only configs at the top
 !!!!
 ===> Don't require any higher than PHP v7.2 until PHP v9.
 !!!!                                                            

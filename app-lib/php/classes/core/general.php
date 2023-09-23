@@ -108,28 +108,6 @@ var $ct_array = array();
        }
    
    }
-
-
-   ////////////////////////////////////////////////////////
-   ////////////////////////////////////////////////////////
-   
-   
-   function valid_2fa($alt_mode=false, $force_check=false) {
-   
-   global $admin_area_2fa, $totp_auth, $auth_secret_2fa, $check_2fa_id, $check_2fa_error;
-   
-       // If 2FA is off, OR mode doesn't apply in this instance (AS LONG AS WE AREN'T *FORCE* CHECKING DURING 2FA SETUP)
-       if ( !$force_check && $admin_area_2fa == 'off' || !$force_check && $alt_mode && $admin_area_2fa != $alt_mode || isset($_POST['2fa_code']) && $totp_auth->checkCode($auth_secret_2fa, $_POST['2fa_code']) ) {
-       return true;
-       }
-       // Otherwise, alert end-user of the invalid 2FA code they entered
-       else {
-       $check_2fa_id = $_POST['2fa_code_id'];
-       $check_2fa_error = '2FA passcode was invalid, please try again';
-       return false;
-       }
-   
-   }
    
    
    ////////////////////////////////////////////////////////
@@ -182,6 +160,24 @@ var $ct_array = array();
    return $size;
    
    }
+
+
+   ////////////////////////////////////////////////////////
+   ////////////////////////////////////////////////////////
+   
+   
+   function pass_sec_check($val, $hash_key) {
+        
+   global $possible_input_injection;
+   
+      if ( !$possible_input_injection && $this->admin_logged_in() && isset($val) && trim($val) != '' && $this->admin_hashed_nonce($hash_key) != false && $val == $this->admin_hashed_nonce($hash_key) ) {
+      return true;
+      }
+      else {
+      return false;
+      }
+   
+   }
    
    
    ////////////////////////////////////////////////////////
@@ -220,6 +216,22 @@ var $ct_array = array();
    ////////////////////////////////////////////////////////
    
    
+   function hardy_sess_clear() {
+   
+   // This logic below helps assure session data is cleared
+   session_unset();
+   session_destroy();
+   session_write_close();
+   setcookie(session_name( $this->id() ),'',0,'/');
+   session_regenerate_id(true);
+   
+   }
+   
+   
+   ////////////////////////////////////////////////////////
+   ////////////////////////////////////////////////////////
+   
+   
    function digest($str, $max_length=false) {
    
       if ( $max_length != false && $max_length > 0 ) {
@@ -230,113 +242,6 @@ var $ct_array = array();
       }
       
    return $result;
-   
-   }
-   
-   
-   ////////////////////////////////////////////////////////
-   ////////////////////////////////////////////////////////
-   
-   
-   function nonce_digest($data, $custom_nonce=false) {
-      
-      if ( isset($data) && $custom_nonce != false ) {
-      return $this->digest( $data . $custom_nonce );
-      }
-      elseif ( isset($data) && isset($_SESSION['nonce']) ) {
-      return $this->digest( $data . $_SESSION['nonce'] );
-      }
-      else {
-      return false;
-      }
-   
-   }
-
-
-   ////////////////////////////////////////////////////////
-   ////////////////////////////////////////////////////////
-   
-   
-   function pass_sec_check($val, $hash_key) {
-   
-      if ( $this->admin_logged_in() && isset($val) && trim($val) != '' && $this->admin_hashed_nonce($hash_key) != false && $val == $this->admin_hashed_nonce($hash_key) ) {
-      return true;
-      }
-      else {
-      return false;
-      }
-   
-   }
-
-
-   ////////////////////////////////////////////////////////
-   ////////////////////////////////////////////////////////
-   
-   
-   function admin_security_level_check() {
-       
-   global $default_ct_conf, $check_default_ct_conf, $admin_area_sec_level;
-   
-      if ( $admin_area_sec_level == 'high' ) {
-      
-         if ( $check_default_ct_conf == md5(serialize($default_ct_conf)) ) {
-         return true;
-         }
-         else {
-         return false;
-         }
-      
-      }
-      // Enhanced / Normal security modes
-      else {
-      return true;
-      }
-   
-   }
-   
-   
-   ////////////////////////////////////////////////////////
-   ////////////////////////////////////////////////////////
-   
-   
-   function upload_error($pointer) {
-   
-   global $ct;
-   
-   $errors = array(
-                    0 => 'uploaded success',
-                    1 => 'file exceeds upload_max_filesize',
-                    2 => 'file exceeds MAX_FILE_SIZE',
-                    3 => 'file partially uploaded',
-                    4 => 'no file uploaded',
-                    6 => 'no temporary folder',
-                    7 => 'failed write to disk',
-                    8 => 'PHP extension stopped upload',
-                   );
-
-   return $errors[$pointer] . ( $ct['app_platform'] == 'windows' ? ' [try running app as admin]' : '' );
-
-   }
-   
-   
-   ////////////////////////////////////////////////////////
-   ////////////////////////////////////////////////////////
-   
-   
-   function admin_logged_in() {
-      
-      // IF REQUIRED DATA NOT SET, REFUSE ADMIN AUTHORIZATION
-      if (
-      !isset( $_COOKIE['admin_auth_' . $this->id()] )
-      || !isset( $_SESSION['nonce'] )
-      || !isset( $_SESSION['admin_logged_in']['auth_hash'] ) 
-      ) {
-      return false;
-      }
-      // WE SPLIT THE LOGIN AUTH BETWEEN COOKIE AND SESSION DATA (TO BETTER SECURE LOGIN AUTHORIZATION)
-      elseif ( $this->nonce_digest( $_COOKIE['admin_auth_' . $this->id()] ) == $_SESSION['admin_logged_in']['auth_hash'] ) {
-      return true;
-      }
    
    }
    
@@ -364,17 +269,17 @@ var $ct_array = array();
    ////////////////////////////////////////////////////////
    
    
-   function conv_bytes($bytes, $round) {
-   
-   $type = array("", "Kilo", "Mega", "Giga", "Tera", "Peta", "Exa", "Zetta", "Yotta");
-   
-     $index = 0;
-     while( $bytes >= 1000 ) { // new standard (not 1024 anymore)
-     $bytes/=1000; // new standard (not 1024 anymore)
-     $index++;
-     }
-     
-   return("".round($bytes, $round)." ".$type[$index]."bytes");
+   function nonce_digest($data, $custom_nonce=false) {
+      
+      if ( isset($data) && $custom_nonce != false ) {
+      return $this->digest( $data . $custom_nonce );
+      }
+      elseif ( isset($data) && isset($_SESSION['nonce']) ) {
+      return $this->digest( $data . $_SESSION['nonce'] );
+      }
+      else {
+      return false;
+      }
    
    }
    
@@ -395,38 +300,23 @@ var $ct_array = array();
       }
       
    }
-
-
+   
+   
    ////////////////////////////////////////////////////////
    ////////////////////////////////////////////////////////
    
    
-   function input_2fa($alt_mode=false, $force_show=false) {
+   function conv_bytes($bytes, $round) {
    
-   global $admin_area_2fa, $check_2fa_error, $count_2fa_fields;
-       
-       if ( $force_show || !$alt_mode && $admin_area_2fa != 'off' || $alt_mode && $admin_area_2fa == $alt_mode ) {
-	  ?>
-	  
-	  <div style='margin-top: 2em; margin-bottom: 2em;'>
-	  
-	  <p>
-	  
-	  <span class='<?=( $force_show != false ? 'red' : 'bitcoin' )?>' style='font-weight: bold;'>Enter 2FA Code (from phone app):</span><br />
-	  
-	  <input style='margin-top: 0.5em;' type='text' id='2fa_code_<?=$count_2fa_fields?>' name='2fa_code' value='' size='10' />
-	  
-	  </p>
-	  
-	  <input type='hidden' name='2fa_code_id' value='2fa_code_<?=$count_2fa_fields?>' />
-	  
-	  <p id='notice_2fa_code_<?=$count_2fa_fields?>' class='hidden red red_dotted' style='font-weight: bold;'><?=$check_2fa_error?>.</p>
-	  
-	  </div>
-	  
-	  <?php
-	  $count_2fa_fields = $count_2fa_fields + 1;
-	  }
+   $type = array("", "Kilo", "Mega", "Giga", "Tera", "Peta", "Exa", "Zetta", "Yotta");
+   
+     $index = 0;
+     while( $bytes >= 1000 ) { // new standard (not 1024 anymore)
+     $bytes/=1000; // new standard (not 1024 anymore)
+     $index++;
+     }
+     
+   return("".round($bytes, $round)." ".$type[$index]."bytes");
    
    }
    
@@ -457,38 +347,42 @@ var $ct_array = array();
    ////////////////////////////////////////////////////////
    
    
-   function timestamps_usort_newest($a, $b) {
+   function admin_logged_in() {
       
-      if ( isset($a->pubDate) && $a->pubDate != '' ) {
-      $a = $a->pubDate;
-      $b = $b->pubDate;
+      // IF REQUIRED DATA NOT SET, REFUSE ADMIN AUTHORIZATION
+      if (
+      !isset( $_COOKIE['admin_auth_' . $this->id()] )
+      || !isset( $_SESSION['nonce'] )
+      || !isset( $_SESSION['admin_logged_in']['auth_hash'] ) 
+      ) {
+      return false;
       }
-      elseif ( isset($a->published) && $a->published != '' ) {
-      $a = $a->published;
-      $b = $b->published;
-      }
-      elseif ( isset($a->updated) && $a->updated != '' ) {
-      $a = $a->updated;
-      $b = $b->updated;
+      // WE SPLIT THE LOGIN AUTH BETWEEN COOKIE AND SESSION DATA (TO BETTER SECURE LOGIN AUTHORIZATION)
+      elseif ( $this->nonce_digest( $_COOKIE['admin_auth_' . $this->id()] ) == $_SESSION['admin_logged_in']['auth_hash'] ) {
+      return true;
       }
    
-   return strtotime($b) - strtotime($a);
-      
    }
-   
-   
+
+
    ////////////////////////////////////////////////////////
    ////////////////////////////////////////////////////////
    
    
-   function hardy_sess_clear() {
+   function valid_2fa($alt_mode=false, $force_check=false) {
    
-   // This logic below helps assure session data is cleared
-   session_unset();
-   session_destroy();
-   session_write_close();
-   setcookie(session_name( $this->id() ),'',0,'/');
-   session_regenerate_id(true);
+   global $admin_area_2fa, $totp_auth, $auth_secret_2fa, $check_2fa_id, $check_2fa_error;
+   
+       // If 2FA is off, OR mode doesn't apply in this instance (AS LONG AS WE AREN'T *FORCE* CHECKING DURING 2FA SETUP)
+       if ( !$force_check && $admin_area_2fa == 'off' || !$force_check && $alt_mode && $admin_area_2fa != $alt_mode || isset($_POST['2fa_code']) && $totp_auth->checkCode($auth_secret_2fa, $_POST['2fa_code']) ) {
+       return true;
+       }
+       // Otherwise, alert end-user of the invalid 2FA code they entered
+       else {
+       $check_2fa_id = $_POST['2fa_code_id'];
+       $check_2fa_error = '2FA passcode was invalid, please try again';
+       return false;
+       }
    
    }
    
@@ -566,6 +460,56 @@ var $ct_array = array();
    ////////////////////////////////////////////////////////
    
    
+   function obfusc_url_data($url) {
+      
+   global $ct;
+   
+   // Keep our color-coded logs in the admin UI pretty, remove '//' (and put in parenthesis futher down when returning output)
+   $url = preg_replace("/:\/\//i", "", $url);
+   
+      foreach( $ct['dev']['url_obfuscating'] as $hide_key => $hide_val ) {
+           
+           if ( preg_match("/" . $hide_key . "/i", $url) ) {
+           $url = str_replace($hide_val, $ct['var']->obfusc_str($hide_val, 2), $url);
+           }
+           
+      }
+   
+   // Keep our color-coded logs in the admin UI pretty, remove '//' and put in parenthesis
+   return '(' . $url . ') ';
+   
+   }
+   
+   
+   ////////////////////////////////////////////////////////
+   ////////////////////////////////////////////////////////
+   
+   
+   function unicode_to_utf8($char, $format) {
+      
+       if ( $format == 'decimal' ) {
+       $pre = '';
+       }
+       elseif ( $format == 'hexadecimal' ) {
+       $pre = 'x';
+       }
+   
+   $char = trim($char);
+   $char = 'PREFIX' . $char;
+   $char = preg_replace('/PREFIXx/', 'PREFIX', $char);
+   $char = preg_replace('/PREFIXu/', 'PREFIX', $char);
+   $char = preg_replace('/PREFIX/', '', $char);
+   $char = '&#' . $pre . $char . ';';
+   
+   return html_entity_decode($char, ENT_COMPAT, 'UTF-8');
+   
+   }
+   
+   
+   ////////////////////////////////////////////////////////
+   ////////////////////////////////////////////////////////
+   
+   
    function start_page($page, $href_link=false) {
    
       // We want to force a page reload for href links, so technically we change the URL but location remains the same
@@ -585,6 +529,80 @@ var $ct_array = array();
       
    return $url;
    
+   }
+
+
+   ////////////////////////////////////////////////////////
+   ////////////////////////////////////////////////////////
+   
+   
+   function admin_security_level_check() {
+       
+   global $default_ct_conf, $check_default_ct_conf, $admin_area_sec_level;
+   
+      if ( $admin_area_sec_level == 'high' ) {
+      
+         if ( $check_default_ct_conf == md5(serialize($default_ct_conf)) ) {
+         return true;
+         }
+         else {
+         return false;
+         }
+      
+      }
+      // Enhanced / Normal security modes
+      else {
+      return true;
+      }
+   
+   }
+   
+   
+   ////////////////////////////////////////////////////////
+   ////////////////////////////////////////////////////////
+   
+   
+   function timestamps_usort_newest($a, $b) {
+      
+      if ( isset($a->pubDate) && $a->pubDate != '' ) {
+      $a = $a->pubDate;
+      $b = $b->pubDate;
+      }
+      elseif ( isset($a->published) && $a->published != '' ) {
+      $a = $a->published;
+      $b = $b->published;
+      }
+      elseif ( isset($a->updated) && $a->updated != '' ) {
+      $a = $a->updated;
+      $b = $b->updated;
+      }
+   
+   return strtotime($b) - strtotime($a);
+      
+   }
+   
+   
+   ////////////////////////////////////////////////////////
+   ////////////////////////////////////////////////////////
+   
+   
+   function upload_error($pointer) {
+   
+   global $ct;
+   
+   $errors = array(
+                    0 => 'uploaded success',
+                    1 => 'file exceeds upload_max_filesize',
+                    2 => 'file exceeds MAX_FILE_SIZE',
+                    3 => 'file partially uploaded',
+                    4 => 'no file uploaded',
+                    6 => 'no temporary folder',
+                    7 => 'failed write to disk',
+                    8 => 'PHP extension stopped upload',
+                   );
+
+   return $errors[$pointer] . ( $ct['app_platform'] == 'windows' ? ' [try running app as admin]' : '' );
+
    }
    
    
@@ -653,6 +671,35 @@ var $ct_array = array();
    ////////////////////////////////////////////////////////
    
    
+   function pepper_hashed_pass($password) {
+   
+   global $auth_secret;
+   
+      if ( !$auth_secret ) {
+      $this->log('conf_error', 'auth_secret not set properly');
+      return false;
+      }
+      else {
+         
+      $password_pepper_hashed = hash_hmac("sha256", $password, $auth_secret);
+      
+         if ( $password_pepper_hashed == false ) {
+         $this->log('conf_error', 'hash_hmac() returned false in the ct_gen->pepper_hashed_pass() function');
+         return false;
+         }
+         else {
+         return password_hash($password_pepper_hashed, PASSWORD_DEFAULT);
+         }
+      
+      }
+   
+   }
+   
+   
+   ////////////////////////////////////////////////////////
+   ////////////////////////////////////////////////////////
+   
+   
    function valid_email($email) {
    
    global $ct;
@@ -674,31 +721,6 @@ var $ct_array = array();
       else {
       return "valid";
       }
-   
-   }
-   
-   
-   ////////////////////////////////////////////////////////
-   ////////////////////////////////////////////////////////
-   
-   
-   function unicode_to_utf8($char, $format) {
-      
-       if ( $format == 'decimal' ) {
-       $pre = '';
-       }
-       elseif ( $format == 'hexadecimal' ) {
-       $pre = 'x';
-       }
-   
-   $char = trim($char);
-   $char = 'PREFIX' . $char;
-   $char = preg_replace('/PREFIXx/', 'PREFIX', $char);
-   $char = preg_replace('/PREFIXu/', 'PREFIX', $char);
-   $char = preg_replace('/PREFIX/', '', $char);
-   $char = '&#' . $pre . $char . ';';
-   
-   return html_entity_decode($char, ENT_COMPAT, 'UTF-8');
    
    }
    
@@ -735,151 +757,6 @@ var $ct_array = array();
       
       
    return true; // If we made it this far, we can safely return true
-   
-   }
-
-
-   ////////////////////////////////////////////////////////
-   ////////////////////////////////////////////////////////
-   
-   
-   function sort_log($log) {
-       
-      
-      if ( isset($log) && $log != '' ) {
-          
-      $result = null;
-      
-      $sortable_array = array();
-       
-      $log_array = explode("[LOG]", $log);
-       
-          // Put logs in an array we can sort by timestamp
-          foreach( $log_array as $entry ) {
-              
-              if ( stristr($entry, '[TIMESTAMP]') ) {
-              $entry_array = explode("[TIMESTAMP]", $entry);
-              $sortable_array[] = array('timestamp' => $entry_array[0], 'entry' => $entry_array[1]);
-              }
-
-          }
-       
-      // Sort by timestamp
-      usort($sortable_array, array($this, 'timestamps_usort_num') );
-       
-          // Return to normal string, after sorting logs by timestamp
-          foreach( $sortable_array as $val ) {
-          $result .= $val['entry'];
-          }
-       
-      return $result;
-      }
-      else {
-      return false;
-      }
-      
-   
-   }
-   
-   
-   ////////////////////////////////////////////////////////
-   ////////////////////////////////////////////////////////
-   
-   
-   // Install id (10 character hash, based off base url)
-   function id() {
-      
-   global $ct;
-   
-   
-      if ( isset($ct['base_dir']) && trim($ct['base_dir']) != '' ) {
-      // DO NOTHING
-      }
-      else {
-      return false;
-      }
-   
-   
-      // ALWAYS BEGINS WITH 'SESSX_', SO SE CAN USE IT AS A VAR NAME IN PHP (MUST START WITH A LETTER)
-      // ALREADY SET
-      if ( isset($ct['app_id']) ) {
-      return $ct['app_id'];
-      }
-      // DIFFERENT APP ID FOR INTERNAL WEBHOOK / INTERNAL API RUNTIME SESSION NAMES, AS WE USE SAMESITE=STRICT COOKIES FOR
-      // PHP SESSION COOKIE PARAMS, WHICH FOR SOME REASON CAUSES IN-BROWSER SESSION COOKIE RESETS EVERY RUNTIME FROM /api/ OR /hook/
-      // (OTHERWISE WORKS FINE ACCESSING FILE URLS DIRECTLY *WITHOUT* THE RewriteRules /api/ OR /hook/)
-      // (THIS KEEPS THE OTHER RUNTIME SESSIONS SEPERATED FROM THESE TWO, SO NO FORCED ADMIN LOGOUTS OR OTHER MISSING SESSION
-      // DATA ISSUES WITH THE OTHER RUNTIMES, AFTER ACCESSING /api/ OR /hook/ ENDPOINTS WITH JAVASCRIPT OR DIRECTLY IN BROWSER)
-      elseif ( $ct['runtime_mode'] == 'webhook' || $ct['runtime_mode'] == 'int_api' ) {
-      return 'SESS2_'.substr( md5('secondary_session' . $ct['base_dir']) , 0, 10); // First 10 characters;
-      }
-      // DESKTOP EDITION (when not running the above condition of webhook / internal api runtimes)
-      elseif ( $ct['app_edition'] == 'desktop' ) {
-      return 'SESSD_'.substr( md5('desktop_session' . $ct['base_dir']) , 0, 10); // First 10 characters;
-      }
-      // CRON
-      elseif ( $ct['runtime_mode'] == 'cron' ) {
-      return 'SESSC_'.substr( md5('cron_session' . $ct['base_dir']) , 0, 10); // First 10 characters
-      }
-      // EVERYTHING ELSE
-      else {
-      return 'SESS1_'.substr( md5('primary_session' . $ct['base_dir']) , 0, 10); // First 10 characters
-      }
-      
-   
-   }
-
-
-   ////////////////////////////////////////////////////////
-   ////////////////////////////////////////////////////////
-   
-   
-   function ct_chmod($file, $chmod) {
-   
-   global $current_runtime_user, $http_runtime_user, $possible_http_users;
-  
-  
-        if ( file_exists($file) && function_exists('posix_getpwuid') ) {
-        $file_info = posix_getpwuid(fileowner($file));
-        }
-  
-  
-        // Does the current runtime user own this file (or will they own it after creating a non-existent file)?
-        if ( file_exists($file) == false || isset($current_runtime_user) && isset($file_info['name']) && $current_runtime_user == $file_info['name'] ) {
-        $is_file_owner = 1;
-        }
-   
-   
-        if ( $is_file_owner == 1 && !$http_runtime_user 
-        || $is_file_owner == 1 && isset($http_runtime_user) && in_array($http_runtime_user, $possible_http_users) ) {
-        // Continue, all is good
-        }
-        else {
-        return false; // Not good, so we return false
-        }
-   
-   
-   $path_parts = pathinfo($file);
-   
-   $oldmask = umask(0);
-        
-   $did_chmod = chmod($file, $chmod);
-       
-       
-          if ( !$did_chmod ) {
-          	
-          $this->log(
-          		'system_error',
-          							
-          		'Chmod failed for file "' . $file . '" (check permissions for the path "' . $path_parts['dirname'] . '", and the file "' . $path_parts['basename'] . '")',
-          							
-          		'chmod_setting: ' . $chmod . '; current_runtime_user: ' . $current_runtime_user . '; file_owner: ' . $file_info['name'] . ';'
-          		);
-          
-          }
-          
-       
-   umask($oldmask);
    
    }
    
@@ -919,63 +796,38 @@ var $ct_array = array();
    return $files;
      
    }
-   
-   
+
+
    ////////////////////////////////////////////////////////
    ////////////////////////////////////////////////////////
    
    
-   function pepper_hashed_pass($password) {
+   function input_2fa($alt_mode=false, $force_show=false) {
    
-   global $auth_secret;
-   
-      if ( !$auth_secret ) {
-      $this->log('conf_error', 'auth_secret not set properly');
-      return false;
-      }
-      else {
-         
-      $password_pepper_hashed = hash_hmac("sha256", $password, $auth_secret);
-      
-         if ( $password_pepper_hashed == false ) {
-         $this->log('conf_error', 'hash_hmac() returned false in the ct_gen->pepper_hashed_pass() function');
-         return false;
-         }
-         else {
-         return password_hash($password_pepper_hashed, PASSWORD_DEFAULT);
-         }
-      
-      }
-   
-   }
-   
-   
-   ////////////////////////////////////////////////////////
-   ////////////////////////////////////////////////////////
-   
-   
-   function obfusc_url_data($url) {
-      
-   global $ct;
-   
-   // Keep our color-coded logs in the admin UI pretty, remove '//' and put in parenthesis
-   $url = preg_replace("/:\/\//i", ") ", $url);
-   
-      // Etherscan
-      if ( preg_match("/etherscan/i", $url) ) {
-      $url = str_replace($ct['conf']['ext_apis']['etherscan_api_key'], $ct['var']->obfusc_str($ct['conf']['ext_apis']['etherscan_api_key'], 2), $url);
-      }
-      // Telegram
-      elseif ( preg_match("/telegram/i", $url) ) {
-      $url = str_replace($ct['conf']['ext_apis']['telegram_bot_token'], $ct['var']->obfusc_str($ct['conf']['ext_apis']['telegram_bot_token'], 2), $url); 
-      }
-      // AlphaVantage
-      elseif ( preg_match("/alphavantage/i", $url) ) {
-      $url = str_replace($ct['conf']['ext_apis']['alphavantage_api_key'], $ct['var']->obfusc_str($ct['conf']['ext_apis']['alphavantage_api_key'], 2), $url); 
-      }
-   
-   // Keep our color-coded logs in the admin UI pretty, remove '//' and put in parenthesis
-   return '('.$url;
+   global $admin_area_2fa, $check_2fa_error, $count_2fa_fields;
+       
+       if ( $force_show || !$alt_mode && $admin_area_2fa != 'off' || $alt_mode && $admin_area_2fa == $alt_mode ) {
+	  ?>
+	  
+	  <div style='margin-top: 2em; margin-bottom: 2em;'>
+	  
+	  <p>
+	  
+	  <p id='notice_2fa_code_<?=$count_2fa_fields?>' class='hidden red red_dotted' style='font-weight: bold;'><?=$check_2fa_error?>.</p>
+	  
+	  <span class='<?=( $force_show != false ? 'red' : 'bitcoin' )?>' style='font-weight: bold;'>Enter 2FA Code (from phone app):</span><br />
+	  
+	  <input class='2fa_code_input' style='margin-top: 0.5em;' type='text' id='2fa_code_<?=$count_2fa_fields?>' name='2fa_code' value='' size='10' />
+	  
+	  </p>
+	  
+	  <input class='2fa_code_id_input' type='hidden' name='2fa_code_id' value='2fa_code_<?=$count_2fa_fields?>' />
+	  
+	  </div>
+	  
+	  <?php
+	  $count_2fa_fields = $count_2fa_fields + 1;
+	  }
    
    }
    
@@ -1276,6 +1128,151 @@ var $ct_array = array();
        }
    
    }
+
+
+   ////////////////////////////////////////////////////////
+   ////////////////////////////////////////////////////////
+   
+   
+   function sort_log($log) {
+       
+      
+      if ( isset($log) && $log != '' ) {
+          
+      $result = null;
+      
+      $sortable_array = array();
+       
+      $log_array = explode("[LOG]", $log);
+       
+          // Put logs in an array we can sort by timestamp
+          foreach( $log_array as $entry ) {
+              
+              if ( stristr($entry, '[TIMESTAMP]') ) {
+              $entry_array = explode("[TIMESTAMP]", $entry);
+              $sortable_array[] = array('timestamp' => $entry_array[0], 'entry' => $entry_array[1]);
+              }
+
+          }
+       
+      // Sort by timestamp
+      usort($sortable_array, array($this, 'timestamps_usort_num') );
+       
+          // Return to normal string, after sorting logs by timestamp
+          foreach( $sortable_array as $val ) {
+          $result .= $val['entry'];
+          }
+       
+      return $result;
+      }
+      else {
+      return false;
+      }
+      
+   
+   }
+   
+   
+   ////////////////////////////////////////////////////////
+   ////////////////////////////////////////////////////////
+   
+   
+   // Install id (10 character hash, based off base url)
+   function id() {
+      
+   global $ct;
+   
+   
+      if ( isset($ct['base_dir']) && trim($ct['base_dir']) != '' ) {
+      // DO NOTHING
+      }
+      else {
+      return false;
+      }
+   
+   
+      // ALWAYS BEGINS WITH 'SESSX_', SO SE CAN USE IT AS A VAR NAME IN PHP (MUST START WITH A LETTER)
+      // ALREADY SET
+      if ( isset($ct['app_id']) ) {
+      return $ct['app_id'];
+      }
+      // DIFFERENT APP ID FOR INTERNAL WEBHOOK / INTERNAL API RUNTIME SESSION NAMES, AS WE USE SAMESITE=STRICT COOKIES FOR
+      // PHP SESSION COOKIE PARAMS, WHICH FOR SOME REASON CAUSES IN-BROWSER SESSION COOKIE RESETS EVERY RUNTIME FROM /api/ OR /hook/
+      // (OTHERWISE WORKS FINE ACCESSING FILE URLS DIRECTLY *WITHOUT* THE RewriteRules /api/ OR /hook/)
+      // (THIS KEEPS THE OTHER RUNTIME SESSIONS SEPERATED FROM THESE TWO, SO NO FORCED ADMIN LOGOUTS OR OTHER MISSING SESSION
+      // DATA ISSUES WITH THE OTHER RUNTIMES, AFTER ACCESSING /api/ OR /hook/ ENDPOINTS WITH JAVASCRIPT OR DIRECTLY IN BROWSER)
+      elseif ( $ct['runtime_mode'] == 'webhook' || $ct['runtime_mode'] == 'int_api' ) {
+      return 'SESS2_'.substr( md5('secondary_session' . $ct['base_dir']) , 0, 10); // First 10 characters;
+      }
+      // DESKTOP EDITION (when not running the above condition of webhook / internal api runtimes)
+      elseif ( $ct['app_edition'] == 'desktop' ) {
+      return 'SESSD_'.substr( md5('desktop_session' . $ct['base_dir']) , 0, 10); // First 10 characters;
+      }
+      // CRON
+      elseif ( $ct['runtime_mode'] == 'cron' ) {
+      return 'SESSC_'.substr( md5('cron_session' . $ct['base_dir']) , 0, 10); // First 10 characters
+      }
+      // EVERYTHING ELSE
+      else {
+      return 'SESS1_'.substr( md5('primary_session' . $ct['base_dir']) , 0, 10); // First 10 characters
+      }
+      
+   
+   }
+
+
+   ////////////////////////////////////////////////////////
+   ////////////////////////////////////////////////////////
+   
+   
+   function ct_chmod($file, $chmod) {
+   
+   global $current_runtime_user, $http_runtime_user, $possible_http_users;
+  
+  
+        if ( file_exists($file) && function_exists('posix_getpwuid') ) {
+        $file_info = posix_getpwuid(fileowner($file));
+        }
+  
+  
+        // Does the current runtime user own this file (or will they own it after creating a non-existent file)?
+        if ( file_exists($file) == false || isset($current_runtime_user) && isset($file_info['name']) && $current_runtime_user == $file_info['name'] ) {
+        $is_file_owner = 1;
+        }
+   
+   
+        if ( $is_file_owner == 1 && !$http_runtime_user 
+        || $is_file_owner == 1 && isset($http_runtime_user) && in_array($http_runtime_user, $possible_http_users) ) {
+        // Continue, all is good
+        }
+        else {
+        return false; // Not good, so we return false
+        }
+   
+   
+   $path_parts = pathinfo($file);
+   
+   $oldmask = umask(0);
+        
+   $did_chmod = chmod($file, $chmod);
+       
+       
+          if ( !$did_chmod ) {
+          	
+          $this->log(
+          		'system_error',
+          							
+          		'Chmod failed for file "' . $file . '" (check permissions for the path "' . $path_parts['dirname'] . '", and the file "' . $path_parts['basename'] . '")',
+          							
+          		'chmod_setting: ' . $chmod . '; current_runtime_user: ' . $current_runtime_user . '; file_owner: ' . $file_info['name'] . ';'
+          		);
+          
+          }
+          
+       
+   umask($oldmask);
+   
+   }
    
    
    ////////////////////////////////////////////////////////
@@ -1530,94 +1527,6 @@ var $ct_array = array();
       
       
    return $result;
-   
-   }
-   
-   
-   ////////////////////////////////////////////////////////
-   ////////////////////////////////////////////////////////
-   
-   
-   function log($log_type, $log_msg, $verbose_tracing=false, $hashcheck=false, $overwrite=false) {
-   
-   global $ct, $log_errors, $log_debugging, $is_iframe;
-   
-   // Since we sort by timestamp, we want millisecond accuracy (if possible), for ordering logs before output
-   $timestamp_milliseconds = $ct['var']->num_to_str( floor(microtime(true) * 1000) );
-   
-   // Get millisecond decimals for log human-readable timestamps
-   $decimals_milliseconds = '.' . substr($timestamp_milliseconds, -3);
-   
-   $formatted_time = date('Y-m-d H:i:s') . $decimals_milliseconds;
-   
-   
-   // Less verbose log category
-   $category = $log_type;
-   $category = preg_replace("/_error/i", "", $category);
-   $category = preg_replace("/_debug/i", "", $category);
-   
-      
-      // 'notify' mode ALWAYS needs a hash check (even if we want multiple entries), to AVOID CORRUPTING log formatting
-      if ( $category == 'notify' && $hashcheck == false ) {
-      $hashcheck = md5($timestamp_milliseconds . $category . $log_msg);
-      }
-   
-   
-      // Disable logging any included verbose tracing, if log verbosity level config is set to normal
-      if ( $ct['conf']['power']['log_verbosity'] == 'normal' ) {
-      $verbose_tracing = false;
-      }
-      
-      
-      // Flag the runtime mode in logs if it's an iframe's runtime (for cleaner / less-confusing logs)
-      // Change var name to avoid changing the GLOBAL value
-      if ( $is_iframe ) {
-      $logged_runtime_mode = $ct['runtime_mode'] . ' (iframe)';
-      }
-      else {
-      $logged_runtime_mode = $ct['runtime_mode'];
-      }
-      
-      
-      if ( preg_match("/_debug/i", $log_type) ) {
-          
-   
-          if ( $hashcheck != false ) {
-          $log_debugging[$log_type][$hashcheck] = '[LOG]'.$timestamp_milliseconds.'[TIMESTAMP][' . $formatted_time . '] ' . $logged_runtime_mode . ' => ' . $category . ': ' . $log_msg . ( $verbose_tracing != false ? '; [ '  . $verbose_tracing . ' ]' : ';' ) . " <br /> \n";
-          }
-          // We parse cache errors as array entries (like when hashcheck is included, BUT NO ARRAY KEY)
-          elseif ( $category == 'cache' ) {
-          $log_debugging[$log_type][] = '[LOG]'.$timestamp_milliseconds.'[TIMESTAMP][' . $formatted_time . '] ' . $logged_runtime_mode . ' => ' . $category . ': ' . $log_msg . ( $verbose_tracing != false ? '; [ '  . $verbose_tracing . ' ]' : ';' ) . " <br /> \n";
-          }
-          elseif ( $overwrite != false ) {
-          $log_debugging[$log_type] = '[LOG]'.$timestamp_milliseconds.'[TIMESTAMP][' . $formatted_time . '] ' . $logged_runtime_mode . ' => ' . $category . ': ' . $log_msg . ( $verbose_tracing != false ? '; [ '  . $verbose_tracing . ' ]' : ';' ) . " <br /> \n";
-          }
-          else {
-          $log_debugging[$log_type] .= '[LOG]'.$timestamp_milliseconds.'[TIMESTAMP][' . $formatted_time . '] ' . $logged_runtime_mode . ' => ' . $category . ': ' . $log_msg . ( $verbose_tracing != false ? '; [ '  . $verbose_tracing . ' ]' : ';' ) . " <br /> \n";
-          }
-      
-      
-      }
-      else {
-          
-   
-          if ( $hashcheck != false ) {
-          $log_errors[$log_type][$hashcheck] = '[LOG]'.$timestamp_milliseconds.'[TIMESTAMP][' . $formatted_time . '] ' . $logged_runtime_mode . ' => ' . $category . ': ' . $log_msg . ( $verbose_tracing != false ? '; [ '  . $verbose_tracing . ' ]' : ';' ) . " <br /> \n";
-          }
-          // We parse cache errors as array entries (like when hashcheck is included, BUT NO ARRAY KEY)
-          elseif ( $category == 'cache' ) {
-          $log_errors[$log_type][] = '[LOG]'.$timestamp_milliseconds.'[TIMESTAMP][' . $formatted_time . '] ' . $logged_runtime_mode . ' => ' . $category . ': ' . $log_msg . ( $verbose_tracing != false ? '; [ '  . $verbose_tracing . ' ]' : ';' ) . " <br /> \n";
-          }
-          elseif ( $overwrite != false ) {
-          $log_errors[$log_type] = '[LOG]'.$timestamp_milliseconds.'[TIMESTAMP][' . $formatted_time . '] ' . $logged_runtime_mode . ' => ' . $category . ': ' . $log_msg . ( $verbose_tracing != false ? '; [ '  . $verbose_tracing . ' ]' : ';' ) . " <br /> \n";
-          }
-          else {
-          $log_errors[$log_type] .= '[LOG]'.$timestamp_milliseconds.'[TIMESTAMP][' . $formatted_time . '] ' . $logged_runtime_mode . ' => ' . $category . ': ' . $log_msg . ( $verbose_tracing != false ? '; [ '  . $verbose_tracing . ' ]' : ';' ) . " <br /> \n";
-          }
-      
-      
-      }
-   
    
    }
     
@@ -2135,6 +2044,335 @@ var $ct_array = array();
    
    
    }
+    
+    
+   ////////////////////////////////////////////////////////
+   ////////////////////////////////////////////////////////
+   
+   
+   function valid_csv_import_row($csv_row) {
+      
+   global $ct, $min_crypto_val_test;
+   
+   // WE AUTO-CORRECT AS MUCH AS IS FEASIBLE, IF THE USER-INPUT IS CORRUPT / INVALID
+   
+   $csv_row = array_map('trim', $csv_row); // Trim entire array
+      
+   $csv_row[0] = strtoupper($csv_row[0]); // Asset to uppercase (we already validate it's existance in $this->csv_import_array())
+          
+   $csv_row[1] = $ct['var']->rem_num_format($csv_row[1]); // Remove any number formatting in held amount
+   
+   // Remove any number formatting in paid amount, default paid amount to null if not a valid positive number
+   $csv_row[2] = ( $ct['var']->rem_num_format($csv_row[2]) >= 0 ? $ct['var']->rem_num_format($csv_row[2]) : null ); 
+      
+   // If leverage amount input is corrupt, default to 0 (ALSO simple auto-correct if negative)
+   $csv_row[3] = ( $ct['var']->whole_int($csv_row[3]) != false && $csv_row[3] >= 0 ? $csv_row[3] : 0 ); 
+      
+   // If leverage is ABOVE 'margin_leverage_maximum', default to 'margin_leverage_maximum'
+   $csv_row[3] = ( $csv_row[3] <= $ct['conf']['power']['margin_leverage_maximum'] ? $csv_row[3] : $ct['conf']['power']['margin_leverage_maximum'] ); 
+   
+   // Default to 'long', if not 'short' (set to lowercase...simple auto-correct, if set to anything other than 'short')
+   $csv_row[4] = ( strtolower($csv_row[4]) == 'short' ? 'short' : 'long' );
+   
+   // If market ID input is corrupt, default to 1 (it's ALWAYS 1 OR GREATER)
+   $csv_row[5] = ( $ct['var']->whole_int($csv_row[5]) != false && $csv_row[5] >= 1 ? $csv_row[5] : 1 ); 
+      
+   $csv_row[6] = strtolower($csv_row[6]); // Pair to lowercase
+      
+      
+      // Pair auto-correction (if invalid pair)
+      if ( $csv_row[6] == '' || !is_array($ct['conf']['assets'][ $csv_row[0] ]['pair'][ $csv_row[6] ]) ) {
+         
+      $csv_row[5] = 1; // We need to reset the market id to 1 (it's ALWAYS 1 OR GREATER), as the pair was not found
+      
+      // First key in $ct['conf']['assets'][ $csv_row[0] ]['pair']
+      reset($ct['conf']['assets'][ $csv_row[0] ]['pair']);
+      $csv_row[6] = key($ct['conf']['assets'][ $csv_row[0] ]['pair']);
+      
+      }
+      // Market ID auto-correction (if invalid market ID)
+      elseif ( is_array($ct['conf']['assets'][ $csv_row[0] ]['pair'][ $csv_row[6] ]) && sizeof($ct['conf']['assets'][ $csv_row[0] ]['pair'][ $csv_row[6] ]) < $csv_row[5] ) {
+      $csv_row[5] = 1; // We need to reset the market id to 1 (it's ALWAYS 1 OR GREATER), as the ID was higher than available markets count
+      }
+      
+      
+      // Return false if there is no valid held amount
+      if ( $csv_row[1] >= $min_crypto_val_test )  {
+      return $csv_row;
+      }
+      else {
+      return false;
+      }
+      
+   
+   }
+   
+   
+   ////////////////////////////////////////////////////////
+   ////////////////////////////////////////////////////////
+   
+   
+   function sanitize_string($method, $ext_key, $data, $mysqli_connection=false) {
+   
+   global $ct, $possible_input_injection;
+   
+   $original = $data;
+   
+   // Remove HTML
+   $sanitized = strip_tags($original);
+        
+   // Scan for malicious content
+   $scan = strtolower($sanitized);
+        
+   // Looking for potentially hidden code injection
+   $script_check = array(
+                                   "base64", // base64 PHP
+                                   "btao", // base64 javascript
+                                   "javascript",
+                                   "script",
+                                   "href",
+                                   "src",
+                                   "onclick",
+                                   "onmouse",
+                                   "onresize",
+                                   "onchange",
+                                   "onabort",
+                                   "onblur",
+                                   "ondblclick",
+                                   "ondragdrop",
+                                   "onerror",
+                                   "onfocus",
+                                   "onkey",
+                                   "onload",
+                                   "onmove",
+                                   "onreset",
+                                   "onselect",
+                                   "onsubmit",
+                                   "onunload",
+                           );
+                       
+                           
+   $scan = str_replace($script_check, "", $scan, $has_script);
+        
+        
+        // Wipe data value, if scripting / HTML detection flagged
+        if ( $has_script > 0 || $original != $sanitized ) {
+        $this->log('security_error', 'POSSIBLE code injection attack blocked in request data _' . strtoupper($method) . '["' . $ext_key . '"] (from ' . $ct['remote_ip'] . '), please DO NOT attempt to inject scripting / HTML into user inputs');
+        $data = 'code_not_allowed';
+        $possible_input_injection = true;
+        }
+        // a mySQLi connection is required before using this function
+        // Escapes special characters in a string for use in an SQL statement
+        elseif ( $mysqli_connection ) {
+        $data = mysqli_real_escape_string($mysqli_connection, $sanitized);
+        }
+        else {
+        $data = $sanitized;
+        }
+        
+        
+   return $data;
+        
+   }
+
+   
+   ////////////////////////////////////////////////////////
+   ////////////////////////////////////////////////////////
+   
+
+   function dyn_max_decimals($price_raw, $type) {
+       
+   global $ct, $min_fiat_val_test, $min_crypto_val_test;
+   
+   $price_raw = abs($price_raw); // Assure no negative number used
+   
+        
+        if ( $ct['conf']['gen']['price_round_percent'] == 'one' ) {
+        $x = 1;
+        }
+        else if ( $ct['conf']['gen']['price_round_percent'] == 'tenth' ) {
+        $x = 0.1;
+        }
+        else if ( $ct['conf']['gen']['price_round_percent'] == 'hundredth' ) {
+        $x = 0.01;
+        }
+        else if ( $ct['conf']['gen']['price_round_percent'] == 'thousandth' ) {
+        $x = 0.001;
+        }
+        
+        
+    $unit_percent = $ct['var']->num_to_str( ($price_raw / 100) * $x );
+        
+    
+        if ( $type == 'fiat' ) {
+             
+        $track_target = preg_replace("/1/", "5", $min_fiat_val_test); // Set to 0.XXXXX5 instead of 0.XXXXX1
+        
+        
+             $loop = 0;
+             $track_decimals = $ct['conf']['gen']['currency_decimals_max'];
+             while ( !isset($decimals) && $loop < $ct['conf']['gen']['currency_decimals_max'] ) {
+
+                  // $track_decimals decimals rounding
+                  if ( !isset($decimals) && $unit_percent <= $track_target ) {
+                  $decimals = $track_decimals;
+                  }
+                  // 0 decimals rounding
+                  elseif ( !isset($decimals) && $unit_percent > 0.5 ) {
+                  $decimals = 0;
+                  }
+                  // Remove one decimal for any next try
+                  else {
+                  $track_target = $ct['var']->num_to_str($track_target * 10);
+                  $track_decimals = $track_decimals - 1; 
+                  }
+        
+             $loop = $loop + 1;
+
+             }
+             unset($loop);
+             
+             
+             // Force to max decimals if applicable
+             if ( $decimals > $ct['conf']['gen']['currency_decimals_max'] ) {
+             return $ct['conf']['gen']['currency_decimals_max'];
+             }
+             else {
+             return $decimals;
+             }
+        
+        
+        }
+        else if ( $type == 'crypto' ) {
+             
+        $track_target = preg_replace("/1/", "5", $min_crypto_val_test); // Set to 0.XXXXX5 instead of 0.XXXXX1
+        
+        
+             $loop = 0;
+             $track_decimals = $ct['conf']['gen']['crypto_decimals_max'];
+             while ( !isset($decimals) && $loop < $ct['conf']['gen']['crypto_decimals_max'] ) {
+
+                  // $track_decimals decimals rounding
+                  if ( !isset($decimals) && $unit_percent <= $track_target ) {
+                  $decimals = $track_decimals;
+                  }
+                  // 0 decimals rounding
+                  elseif ( !isset($decimals) && $unit_percent > 0.5 ) {
+                  $decimals = 0;
+                  }
+                  // Remove one decimal for any next try
+                  else {
+                  $track_target = $ct['var']->num_to_str($track_target * 10);
+                  $track_decimals = $track_decimals - 1; 
+                  }
+        
+             $loop = $loop + 1;
+
+             }
+             unset($loop);
+             
+             
+             // Force to max decimals if applicable
+             if ( $decimals > $ct['conf']['gen']['crypto_decimals_max'] ) {
+             return $ct['conf']['gen']['crypto_decimals_max'];
+             }
+             else {
+             return $decimals;
+             }
+
+
+        }
+        
+    
+   }
+   
+   
+   ////////////////////////////////////////////////////////
+   ////////////////////////////////////////////////////////
+   
+   
+   function log($log_type, $log_msg, $verbose_tracing=false, $hashcheck=false, $overwrite=false) {
+   
+   global $ct, $log_errors, $log_debugging, $is_iframe;
+   
+   // Since we sort by timestamp, we want millisecond accuracy (if possible), for ordering logs before output
+   $timestamp_milliseconds = $ct['var']->num_to_str( floor(microtime(true) * 1000) );
+   
+   // Get millisecond decimals for log human-readable timestamps
+   $decimals_milliseconds = '.' . substr($timestamp_milliseconds, -3);
+   
+   $formatted_time = date('Y-m-d H:i:s') . $decimals_milliseconds;
+   
+   
+   // Less verbose log category
+   $category = $log_type;
+   $category = preg_replace("/_error/i", "", $category);
+   $category = preg_replace("/_debug/i", "", $category);
+   
+      
+      // 'notify' mode ALWAYS needs a hash check (even if we want multiple entries), to AVOID CORRUPTING log formatting
+      if ( $category == 'notify' && $hashcheck == false ) {
+      $hashcheck = md5($timestamp_milliseconds . $category . $log_msg);
+      }
+   
+   
+      // Disable logging any included verbose tracing, if log verbosity level config is set to normal
+      if ( $ct['conf']['power']['log_verbosity'] == 'normal' ) {
+      $verbose_tracing = false;
+      }
+      
+      
+      // Flag the runtime mode in logs if it's an iframe's runtime (for cleaner / less-confusing logs)
+      // Change var name to avoid changing the GLOBAL value
+      if ( $is_iframe ) {
+      $logged_runtime_mode = $ct['runtime_mode'] . ' (' . ( isset($_GET['section']) ? 'iframe=' . $_GET['section'] : 'iframe=unknown' ) . ')';
+      }
+      else {
+      $logged_runtime_mode = $ct['runtime_mode'];
+      }
+      
+      
+      if ( preg_match("/_debug/i", $log_type) ) {
+          
+   
+          if ( $hashcheck != false ) {
+          $log_debugging[$log_type][$hashcheck] = '[LOG]'.$timestamp_milliseconds.'[TIMESTAMP][' . $formatted_time . '] ' . $logged_runtime_mode . ' => ' . $category . ': ' . $log_msg . ( $verbose_tracing != false ? '; [ '  . $verbose_tracing . ' ]' : ';' ) . " <br /> \n";
+          }
+          // We parse cache errors as array entries (like when hashcheck is included, BUT NO ARRAY KEY)
+          elseif ( $category == 'cache' ) {
+          $log_debugging[$log_type][] = '[LOG]'.$timestamp_milliseconds.'[TIMESTAMP][' . $formatted_time . '] ' . $logged_runtime_mode . ' => ' . $category . ': ' . $log_msg . ( $verbose_tracing != false ? '; [ '  . $verbose_tracing . ' ]' : ';' ) . " <br /> \n";
+          }
+          elseif ( $overwrite != false ) {
+          $log_debugging[$log_type] = '[LOG]'.$timestamp_milliseconds.'[TIMESTAMP][' . $formatted_time . '] ' . $logged_runtime_mode . ' => ' . $category . ': ' . $log_msg . ( $verbose_tracing != false ? '; [ '  . $verbose_tracing . ' ]' : ';' ) . " <br /> \n";
+          }
+          else {
+          $log_debugging[$log_type] .= '[LOG]'.$timestamp_milliseconds.'[TIMESTAMP][' . $formatted_time . '] ' . $logged_runtime_mode . ' => ' . $category . ': ' . $log_msg . ( $verbose_tracing != false ? '; [ '  . $verbose_tracing . ' ]' : ';' ) . " <br /> \n";
+          }
+      
+      
+      }
+      else {
+          
+   
+          if ( $hashcheck != false ) {
+          $log_errors[$log_type][$hashcheck] = '[LOG]'.$timestamp_milliseconds.'[TIMESTAMP][' . $formatted_time . '] ' . $logged_runtime_mode . ' => ' . $category . ': ' . $log_msg . ( $verbose_tracing != false ? '; [ '  . $verbose_tracing . ' ]' : ';' ) . " <br /> \n";
+          }
+          // We parse cache errors as array entries (like when hashcheck is included, BUT NO ARRAY KEY)
+          elseif ( $category == 'cache' ) {
+          $log_errors[$log_type][] = '[LOG]'.$timestamp_milliseconds.'[TIMESTAMP][' . $formatted_time . '] ' . $logged_runtime_mode . ' => ' . $category . ': ' . $log_msg . ( $verbose_tracing != false ? '; [ '  . $verbose_tracing . ' ]' : ';' ) . " <br /> \n";
+          }
+          elseif ( $overwrite != false ) {
+          $log_errors[$log_type] = '[LOG]'.$timestamp_milliseconds.'[TIMESTAMP][' . $formatted_time . '] ' . $logged_runtime_mode . ' => ' . $category . ': ' . $log_msg . ( $verbose_tracing != false ? '; [ '  . $verbose_tracing . ' ]' : ';' ) . " <br /> \n";
+          }
+          else {
+          $log_errors[$log_type] .= '[LOG]'.$timestamp_milliseconds.'[TIMESTAMP][' . $formatted_time . '] ' . $logged_runtime_mode . ' => ' . $category . ': ' . $log_msg . ( $verbose_tracing != false ? '; [ '  . $verbose_tracing . ' ]' : ';' ) . " <br /> \n";
+          }
+      
+      
+      }
+   
+   
+   }
    
    
    ////////////////////////////////////////////////////////
@@ -2260,252 +2498,6 @@ var $ct_array = array();
    
    return trim($pretty_str);
    
-   }
-    
-    
-   ////////////////////////////////////////////////////////
-   ////////////////////////////////////////////////////////
-   
-   
-   function valid_csv_import_row($csv_row) {
-      
-   global $ct, $min_crypto_val_test;
-   
-   // WE AUTO-CORRECT AS MUCH AS IS FEASIBLE, IF THE USER-INPUT IS CORRUPT / INVALID
-   
-   $csv_row = array_map('trim', $csv_row); // Trim entire array
-      
-   $csv_row[0] = strtoupper($csv_row[0]); // Asset to uppercase (we already validate it's existance in $this->csv_import_array())
-          
-   $csv_row[1] = $ct['var']->rem_num_format($csv_row[1]); // Remove any number formatting in held amount
-   
-   // Remove any number formatting in paid amount, default paid amount to null if not a valid positive number
-   $csv_row[2] = ( $ct['var']->rem_num_format($csv_row[2]) >= 0 ? $ct['var']->rem_num_format($csv_row[2]) : null ); 
-      
-   // If leverage amount input is corrupt, default to 0 (ALSO simple auto-correct if negative)
-   $csv_row[3] = ( $ct['var']->whole_int($csv_row[3]) != false && $csv_row[3] >= 0 ? $csv_row[3] : 0 ); 
-      
-   // If leverage is ABOVE 'margin_leverage_maximum', default to 'margin_leverage_maximum'
-   $csv_row[3] = ( $csv_row[3] <= $ct['conf']['power']['margin_leverage_maximum'] ? $csv_row[3] : $ct['conf']['power']['margin_leverage_maximum'] ); 
-   
-   // Default to 'long', if not 'short' (set to lowercase...simple auto-correct, if set to anything other than 'short')
-   $csv_row[4] = ( strtolower($csv_row[4]) == 'short' ? 'short' : 'long' );
-   
-   // If market ID input is corrupt, default to 1 (it's ALWAYS 1 OR GREATER)
-   $csv_row[5] = ( $ct['var']->whole_int($csv_row[5]) != false && $csv_row[5] >= 1 ? $csv_row[5] : 1 ); 
-      
-   $csv_row[6] = strtolower($csv_row[6]); // Pair to lowercase
-      
-      
-      // Pair auto-correction (if invalid pair)
-      if ( $csv_row[6] == '' || !is_array($ct['conf']['assets'][ $csv_row[0] ]['pair'][ $csv_row[6] ]) ) {
-         
-      $csv_row[5] = 1; // We need to reset the market id to 1 (it's ALWAYS 1 OR GREATER), as the pair was not found
-      
-      // First key in $ct['conf']['assets'][ $csv_row[0] ]['pair']
-      reset($ct['conf']['assets'][ $csv_row[0] ]['pair']);
-      $csv_row[6] = key($ct['conf']['assets'][ $csv_row[0] ]['pair']);
-      
-      }
-      // Market ID auto-correction (if invalid market ID)
-      elseif ( is_array($ct['conf']['assets'][ $csv_row[0] ]['pair'][ $csv_row[6] ]) && sizeof($ct['conf']['assets'][ $csv_row[0] ]['pair'][ $csv_row[6] ]) < $csv_row[5] ) {
-      $csv_row[5] = 1; // We need to reset the market id to 1 (it's ALWAYS 1 OR GREATER), as the ID was higher than available markets count
-      }
-      
-      
-      // Return false if there is no valid held amount
-      if ( $csv_row[1] >= $min_crypto_val_test )  {
-      return $csv_row;
-      }
-      else {
-      return false;
-      }
-      
-   
-   }
-   
-   
-   ////////////////////////////////////////////////////////
-   ////////////////////////////////////////////////////////
-   
-   
-   function sanitize_string($method, $ext_key, $data, $mysqli_connection=false) {
-   
-   global $ct;
-   
-    
-        // Strip ALL HTML tags
-        $data = strip_tags($data);  
-        
-        
-        /////////// S C A N N I N G   -   S T A R T /////////////////////////////
-        
-        // Scan for malicious content
-        $scan = $data;
-        
-        // Scan lowercase
-        $scan = strtolower($scan);
-        
-        // Scan for potentially hidden code injection
-        $html_and_js_events = array(
-                                   "base64", // base64 PHP
-                                   "btao", // base64 javascript
-                                   "script",
-                                   "href",
-                                   "src",
-                                   "onclick",
-                                   "onmouse",
-                                   "onresize",
-                                   "onchange",
-                                   "onabort",
-                                   "onblur",
-                                   "ondblclick",
-                                   "ondragdrop",
-                                   "onerror",
-                                   "onfocus",
-                                   "onkey",
-                                   "onload",
-                                   "onmove",
-                                   "onreset",
-                                   "onselect",
-                                   "onsubmit",
-                                   "onunload",
-                                   );
-                       
-                           
-        $scan = str_replace($html_and_js_events, "", $scan, $count);
-        
-        
-           // Exit function if html or scripting is detected
-           if ( $count > 0 ) {
-           $this->log('security_error', 'Possible code injection blocked in request data (' . $ct['remote_ip'] . '): ["' . $ext_key . '"]');
-           return 'code_not_allowed';
-           }
-           
-           
-        /////////// S C A N N I N G   -   E N D /////////////////////////////
-        
-        
-           // a mySQLi connection is required before using this function
-           // Escapes special characters in a string for use in an SQL statement
-           if ( $mysqli_connection ) {
-           $data = mysqli_real_escape_string($mysqli_connection, $data);
-           }
-        
-        
-        return $data;
-        
-   }
-
-   
-   ////////////////////////////////////////////////////////
-   ////////////////////////////////////////////////////////
-   
-
-   function dyn_max_decimals($price_raw, $type) {
-       
-   global $ct, $min_fiat_val_test, $min_crypto_val_test;
-   
-   $price_raw = abs($price_raw); // Assure no negative number used
-   
-        
-        if ( $ct['conf']['gen']['price_round_percent'] == 'one' ) {
-        $x = 1;
-        }
-        else if ( $ct['conf']['gen']['price_round_percent'] == 'tenth' ) {
-        $x = 0.1;
-        }
-        else if ( $ct['conf']['gen']['price_round_percent'] == 'hundredth' ) {
-        $x = 0.01;
-        }
-        else if ( $ct['conf']['gen']['price_round_percent'] == 'thousandth' ) {
-        $x = 0.001;
-        }
-        
-        
-    $unit_percent = $ct['var']->num_to_str( ($price_raw / 100) * $x );
-        
-    
-        if ( $type == 'fiat' ) {
-             
-        $track_target = preg_replace("/1/", "5", $min_fiat_val_test); // Set to 0.XXXXX5 instead of 0.XXXXX1
-        
-        
-             $loop = 0;
-             $track_decimals = $ct['conf']['gen']['currency_decimals_max'];
-             while ( !isset($decimals) && $loop < $ct['conf']['gen']['currency_decimals_max'] ) {
-
-                  // $track_decimals decimals rounding
-                  if ( !isset($decimals) && $unit_percent <= $track_target ) {
-                  $decimals = $track_decimals;
-                  }
-                  // 0 decimals rounding
-                  elseif ( !isset($decimals) && $unit_percent > 0.5 ) {
-                  $decimals = 0;
-                  }
-                  // Remove one decimal for any next try
-                  else {
-                  $track_target = $ct['var']->num_to_str($track_target * 10);
-                  $track_decimals = $track_decimals - 1; 
-                  }
-        
-             $loop = $loop + 1;
-
-             }
-             unset($loop);
-             
-             
-             // Force to max decimals if applicable
-             if ( $decimals > $ct['conf']['gen']['currency_decimals_max'] ) {
-             return $ct['conf']['gen']['currency_decimals_max'];
-             }
-             else {
-             return $decimals;
-             }
-        
-        
-        }
-        else if ( $type == 'crypto' ) {
-             
-        $track_target = preg_replace("/1/", "5", $min_crypto_val_test); // Set to 0.XXXXX5 instead of 0.XXXXX1
-        
-        
-             $loop = 0;
-             $track_decimals = $ct['conf']['gen']['crypto_decimals_max'];
-             while ( !isset($decimals) && $loop < $ct['conf']['gen']['crypto_decimals_max'] ) {
-
-                  // $track_decimals decimals rounding
-                  if ( !isset($decimals) && $unit_percent <= $track_target ) {
-                  $decimals = $track_decimals;
-                  }
-                  // 0 decimals rounding
-                  elseif ( !isset($decimals) && $unit_percent > 0.5 ) {
-                  $decimals = 0;
-                  }
-                  // Remove one decimal for any next try
-                  else {
-                  $track_target = $ct['var']->num_to_str($track_target * 10);
-                  $track_decimals = $track_decimals - 1; 
-                  }
-        
-             $loop = $loop + 1;
-
-             }
-             unset($loop);
-             
-             
-             // Force to max decimals if applicable
-             if ( $decimals > $ct['conf']['gen']['crypto_decimals_max'] ) {
-             return $ct['conf']['gen']['crypto_decimals_max'];
-             }
-             else {
-             return $decimals;
-             }
-
-
-        }
-        
-    
    }
   
   

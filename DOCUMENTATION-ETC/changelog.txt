@@ -6052,7 +6052,7 @@ v6.00.2 AND HIGHER RESETS LIGHT (TIME PERIOD) CHARTS FROM ARCHIVAL DATA, ONE-TIM
 
 -Optimized plugin system user experience (error checks / correcting on primary configs, classes accessible from other plugins)
 
--"dynamic-config-only.php" added to the main directory (now houses the dynamic configs used for POW mining calculators, etc)
+-"dynamic-config.php" added to the main directory (now houses the dynamic configs used for POW mining calculators, etc)
 
 -Added admin / docs interface templates system for plugins (see /DOCUMENTATION-ETC/PLUGINS-README.txt)
 
@@ -6289,11 +6289,19 @@ MIGRATE YOUR EXISTING SETTINGS TO THE NEW FORMAT.
 
 -BUG FIX: Fided an error (introduced in v6.00.26), which corrupts trade volume calculations for price alert messages (sorry!)
 
+-BUG FIX: Fixed issue when changing EXISTING Telegram bot info in admin config (chatroom data now properly refreshes)
+
 -BUG FIX: Miscellaneous fixes
 
 -Added Admin Config settings into these admin interface sections (these config settings are now editable in the admin interface): General, Communications, Extenal APIs, and Security
 
+-Improved user-input sanitization (to nullify code injection attacks even better than before, since we now have user-input in the admin area)
+
 -New 'strict' mode available for admin area 2-factor authentication (requires entering a 2FA code when changing ANYTHING in the admin area)
+
+-More developer-friendly configurations that are 'developer-only' (easier to tweak dev-related values)
+
+-Miscellaneous user experience improvements
 
 -Code optimization / cleanup
 

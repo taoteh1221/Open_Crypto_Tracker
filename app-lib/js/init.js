@@ -76,8 +76,8 @@ nav_menu('.user-nav');
 
 
      /////////////////////////////////////////////////////////////////////////////////////////////////////
-
-
+     
+     
      if ( is_firefox ) {
      $("#sidebar label.pl_mn_lab").css('transform', 'scale(.75) translateY(0rem) translateX(0.25rem)', "important");
      }
@@ -195,32 +195,6 @@ nav_menu('.user-nav');
         $("#reset_username").filter(':visible').focus();
     	}, 1000);
     }
-	
-
-	/////////////////////////////////////////////////////////////////////////////////////////////////////
-	
-
-    // Admin iframes
-    admin_iframe_load.forEach(function(iframe) {
-       
-          // When admin iframe loads / reloads
-          iframe.addEventListener('load', function() {
-          
-          // Always scroll to top left on load / reload for UX
-          iframe.contentWindow.scrollTo(0,0);
-    
-          iframe_size_adjust(iframe);
-          $("#"+iframe.id+"_loading").fadeOut(250);
-          
-              // Before admin iframe unloads
-              // (MUST BE NESTED IN 'load', AND USE contentWindow)
-              iframe.contentWindow.addEventListener('beforeunload', function() {
-              $("#"+iframe.id+"_loading").fadeIn(250);
-              });
-          
-          });
-      
-    });
 
 
 	/////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -261,6 +235,8 @@ nav_menu('.user-nav');
      
           dynamic_position('#background_loading', 'emulate_sticky');
      
+          dynamic_position('.iframe_loading_placeholder', 'emulate_sticky');
+     
           dynamic_position('.page_title', 'emulate_sticky');
      
           dynamic_position('.countdown_notice', 'emulate_sticky');
@@ -268,6 +244,30 @@ nav_menu('.user-nav');
           });
      
      }
+	
+
+	/////////////////////////////////////////////////////////////////////////////////////////////////////
+	
+     
+     // Show / hide password
+     $('.toggle-show-password').on({
+        "click":function(e){
+
+        $(this).toggleClass("gg-eye");
+
+        $(this).toggleClass("gg-eye-alt");
+       
+        var input_elm = $("input[data-name=" + $(this).attr('data-name') + "]");
+       
+            if ( input_elm.attr("type") === "password" ) {
+            input_elm.attr("type", "text");
+            }
+            else if ( input_elm.attr("type") === "text" ) {
+            input_elm.attr("type", "password");
+            }
+              
+         }
+     });
 	
 
 	/////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -295,6 +295,40 @@ nav_menu('.user-nav');
      	   }, 100);
            
      });
+	
+
+	/////////////////////////////////////////////////////////////////////////////////////////////////////
+	
+
+    // Admin iframes LOADING
+    admin_iframe_load.forEach(function(iframe) {
+       
+          // When admin iframe loads / reloads
+          iframe.addEventListener('load', function() {
+          
+          // Always scroll to top left on load / reload for UX
+          iframe.contentWindow.scrollTo(0,0);
+    
+          iframe_size_adjust(iframe);
+          $("#"+iframe.id+"_loading").fadeOut(250);
+          $("#"+iframe.id).fadeIn(250);
+          
+              // Before admin iframe unloads
+              // (MUST BE NESTED IN 'load', AND USE contentWindow)
+              iframe.contentWindow.addEventListener('beforeunload', function() {
+              $("#"+iframe.id+"_loading").fadeIn(250);
+              $("#"+iframe.id).fadeOut(250);
+              });
+          
+              // Before admin iframe submits
+              // (MUST BE NESTED IN 'load', AND USE contentWindow)
+              iframe.contentWindow.addEventListener('submit', function() {
+                   // logic here if needed
+              });
+          
+          });
+      
+    });
 
 
 	/////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -453,6 +487,81 @@ nav_menu('.user-nav');
          
          }
          
+     }
+
+
+	/////////////////////////////////////////////////////////////////////////////////////////////////////
+	
+	
+    // 2FA field / ID info (for UX) inserted in admin iframe forms
+    // (so a value is propigated for each form, from the 2FA input field)
+    if ( is_iframe && is_admin ) {
+    
+     
+         if ( Base64.decode(admin_area_2fa) != 'off' ) {
+     
+         var forms_array = document.getElementsByTagName("form");
+         
+         
+             for (var form_count = 0; form_count < forms_array.length; form_count++) {
+                     
+             has_2fa_input = false;
+                 
+             inputs_array = forms_array[form_count].getElementsByTagName("input");
+                 
+                 
+                 for (var input_count = 0; input_count < inputs_array.length; input_count++) {
+                     
+                     if ( inputs_array[input_count].name == '2fa_code' ) {
+                     has_2fa_input = true;
+                     }
+                 
+                 }
+                 
+                 
+                 if ( has_2fa_input == false ) {
+                     
+                 new_input = document.createElement("input");
+             
+                 new_input.setAttribute("type", "hidden");
+                 
+                 new_input.setAttribute("name", "2fa_code");
+                 
+                 new_input.setAttribute("value", "");
+                 
+                 new_input.setAttribute("class","2fa_code_target");
+                 
+                 forms_array[form_count].appendChild(new_input);
+                 
+                 //////////////////////////////////////////////
+                     
+                 new_input = document.createElement("input");
+             
+                 new_input.setAttribute("type", "hidden");
+                 
+                 new_input.setAttribute("name", "2fa_code_id");
+                 
+                 new_input.setAttribute("value", "");
+                 
+                 new_input.setAttribute("class","2fa_code_id_target");
+                 
+                 forms_array[form_count].appendChild(new_input);
+                 
+                 }
+                 
+             
+             }
+         
+     
+             $( "input.2fa_code_input" ).on( "input", function() {
+             $('input.2fa_code_target').val( $(this).val() );
+             $('input.2fa_code_id_target').val( $(this).attr('id') );
+             });
+              
+         
+         }
+         
+
      }
 
 

@@ -7,6 +7,13 @@
 // MUST run BEFORE printing out header (for UX on 2FA alerts)
 $passed_medium_security_check = $ct['gen']->passed_medium_security_check();
  
+
+// Even if a 2FA error originated on the FULL page while displayed,
+// we ALWAYS only have 1 form on the MEDIUM SECURITY CHECK page
+if ( !$passed_medium_security_check && $check_2fa_error ) {
+$check_2fa_id = '2fa_code_0';
+}
+
  
 require("templates/interface/php/wrap/header.php");
 

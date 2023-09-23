@@ -1838,25 +1838,28 @@ var $ct_array = array();
               	// Message formatting for display to end user
               	
                $desc_alert_type = ( $ct['conf']['power']['price_alert_fixed_reset'] > 0 ? 'reset' : 'alert' );
+               
+               
+                     // Flag if there is no volume history AT ALL available for this market
+                     // (so we can skip the EXTRA volume details in the alerts [for UX])
+                     if ( $cached_pair_vol <= 0 && $pair_vol_raw <= 0 ) {
+                     $no_volume_history = true;
+                     }
                   
                     
-                     // IF PRIMARY CURRENCY CONFIG volume was between 0 and 1 last alert / reset, for UX sake 
-                     // we use current PRIMARY CURRENCY CONFIG volume instead of pair volume (for percent up, so it's not up 70,000% for altcoins lol)
-                     if ( $cached_prim_currency_vol >= 0 && $cached_prim_currency_vol <= 1 ) {
-                         
-                     $vol_describe = strtoupper($default_bitcoin_primary_currency_pair) . ' volume was ' . $ct['conf']['power']['bitcoin_currency_markets'][$default_bitcoin_primary_currency_pair] . $cached_prim_currency_vol . ' last price ' . $desc_alert_type . ', and ';
-                     
-                     $vol_describe_mobile = strtoupper($default_bitcoin_primary_currency_pair) . ' volume up from ' . $ct['conf']['power']['bitcoin_currency_markets'][$default_bitcoin_primary_currency_pair] . $cached_prim_currency_vol . ' last ' . $desc_alert_type;
-                     
+                     // IF PRIMARY CURRENCY CONFIG volume was 0 or -1 last alert / reset, for UX sake we let users know
+                     if ( $cached_prim_currency_vol == 0 ) {
+                     $vol_describe = '24 hour ' . strtoupper($default_bitcoin_primary_currency_pair) . ' volume was ' . $ct['conf']['power']['bitcoin_currency_markets'][$default_bitcoin_primary_currency_pair] . $cached_prim_currency_vol . ' last price ' . $desc_alert_type . ', and';
+                     $vol_describe_mobile = ', ' . strtoupper($default_bitcoin_primary_currency_pair) . ' volume was ' . $ct['conf']['power']['bitcoin_currency_markets'][$default_bitcoin_primary_currency_pair] . $cached_prim_currency_vol . ' last ' . $desc_alert_type;
                      }
                      // Best we can do feasibly for UX on volume reporting errors
                      elseif ( $cached_prim_currency_vol == -1 ) { // ONLY PRIMARY CURRENCY CONFIG VOLUME CALCULATION RETURNS -1 ON EXCHANGE VOLUME ERROR
-                     $vol_describe = strtoupper($default_bitcoin_primary_currency_pair) . ' volume was NULL last price ' . $desc_alert_type . ', and ';
-                     $vol_describe_mobile = strtoupper($default_bitcoin_primary_currency_pair) . ' volume up from NULL last ' . $desc_alert_type;
+                     $vol_describe = '24 hour ' . strtoupper($default_bitcoin_primary_currency_pair) . ' volume was NULL last price ' . $desc_alert_type . ', and';
+                     $vol_describe_mobile = ', ' . strtoupper($default_bitcoin_primary_currency_pair) . ' volume was NULL last ' . $desc_alert_type;
                      }
                      else {
-                     $vol_describe = 'pair volume ';
-                     $vol_describe_mobile = 'pair volume'; // no space
+                     $vol_describe = '24 hour pair volume';
+                     $vol_describe_mobile = ' pair volume';
                      }
                   
                   
@@ -1868,17 +1871,25 @@ var $ct_array = array();
                $asset_prim_currency_text = $ct['var']->num_pretty($asset_prim_currency_val_raw, $thres_dec['max_dec'], false, $thres_dec['min_dec']);
                         
                $vol_prim_currency_text = $ct['conf']['power']['bitcoin_currency_markets'][$default_bitcoin_primary_currency_pair] . number_format($vol_prim_currency_raw, 0, '.', ',');
+               
+               
+               // Email / telegram / etc
+               $has_volume_data_text = $vol_describe . ' has ' . ( $vol_change_symb == '+' ? 'increased ' : 'decreased ' ) . $vol_change_symb . number_format($vol_percent_change, 2, '.', ',') . '% to a ' . strtoupper($default_bitcoin_primary_currency_pair) . ' value of ' . $vol_prim_currency_text;
                         
-               $vol_change_text = 'has ' . ( $vol_change_symb == '+' ? 'increased ' : 'decreased ' ) . $vol_change_symb . number_format($vol_percent_change, 2, '.', ',') . '% to a ' . strtoupper($default_bitcoin_primary_currency_pair) . ' value of';
+               $vol_change_text = ( $no_volume_history ? '' : $has_volume_data_text );
+               
+               
+               // Mobile text
+               $has_volume_data_text_mobile = '24hr Volume: ' . $vol_prim_currency_text . ' (' . $vol_change_symb . number_format($vol_percent_change, 2, '.', ',') . '%' . $vol_describe_mobile . ')';
                         
-               $vol_change_text_mobile = '(' . $vol_change_symb . number_format($vol_percent_change, 2, '.', ',') . '% ' . $vol_describe_mobile . ')';
+               $vol_change_text_mobile = ( $no_volume_history ? '' : $has_volume_data_text_mobile );
                         
                         
                      // If -1 from exchange API error not reporting any volume data (not even zero)
                      // ONLY PRIMARY CURRENCY CONFIG VOLUME CALCULATION RETURNS -1 ON EXCHANGE VOLUME ERROR
                      if ( $cached_prim_currency_vol == -1 || $vol_prim_currency_raw == -1 ) {
-                     $vol_change_text = null;
-                     $vol_change_text_mobile = null;
+                     $vol_change_text = '24 hour volume not detected, due to exchange API error';
+                     $vol_change_text_mobile = '24hr Volume: Exchange API Error';
                      }
                     
                     
@@ -1888,27 +1899,15 @@ var $ct_array = array();
                      if ( $vol_prim_currency_raw == null && $ct['conf']['comms']['price_alert_minimum_volume'] > 0 || $vol_prim_currency_raw < 1 && $ct['conf']['comms']['price_alert_minimum_volume'] > 0 ) {
                      $vol_filter_skipped_text = ' (no trade volume detected, so volume filter was skipped)';
                      }
-                     else {
-                     $vol_filter_skipped_text = null;
-                     }
                      
                      
                      // Successfully received > 0 volume data, at or above an enabled volume filter
                      if ( $vol_prim_currency_raw > 0 && $ct['conf']['comms']['price_alert_minimum_volume'] > 0 && $vol_prim_currency_raw >= $ct['conf']['comms']['price_alert_minimum_volume'] ) {
-                     $email_vol_summary = '24 hour ' . $vol_describe . $vol_change_text . ' ' . $vol_prim_currency_text . ' (volume filter on).';
+                     $email_vol_summary = $vol_change_text . ' (volume filter on).';
                      }
-                     // NULL if not setup to get volume, negative number returned if no data received from API, therefore skipping any enabled volume filter
-                     // ONLY PRIMARY CURRENCY CONFIG VOLUME CALCULATION RETURNS -1 ON EXCHANGE VOLUME ERROR
-                     elseif ( $vol_prim_currency_raw == -1 ) { 
-                     $email_vol_summary = 'No data received for 24 hour volume' . $vol_filter_skipped_text . '.';
-                     $vol_prim_currency_text = 'No data';
-                     }
-                     // If volume is zero or greater in successfully received volume data, without an enabled volume filter (or filter skipped)
-                     // IF exchange PRIMARY CURRENCY CONFIG value price goes up/down and triggers alert, 
-                     // BUT current reported volume is zero (temporary error on exchange side etc, NOT on our app's side),
-                     // inform end-user of this probable volume discrepancy being detected.
-                     elseif ( $vol_prim_currency_raw >= 0 ) {
-                     $email_vol_summary = '24 hour ' . $vol_describe . $vol_change_text . ' ' . $vol_prim_currency_text . ( $vol_prim_currency_raw == 0 ? $vol_filter_skipped_text : '' ) . '.'; 
+                     // If volume is -1 or greater, without an enabled volume filter (or filter skipped)
+                     elseif ( $vol_prim_currency_raw >= -1 ) {
+                     $email_vol_summary = $vol_change_text . ( $vol_prim_currency_raw <= 0 ? $vol_filter_skipped_text : '' ) . '.'; 
                      }
                      
                      
@@ -1925,7 +1924,7 @@ var $ct_array = array();
                $notifyme_msg = $email_msg . ' Timestamp: ' . $ct['gen']->time_date_format($ct['conf']['gen']['local_time_offset'], 'pretty_time') . '.';
                         
                         
-               $text_msg = ( $whale_alert == 1 ? '🐳 ' : '' ) . $asset_text . ' / ' . strtoupper($pair) . ' @ ' . $exchange_text . ' ' . $increase_decrease . ' ' . $change_symb . $percent_change_text . '% in ' . strtoupper($default_bitcoin_primary_currency_pair) . ' value to ' . $ct['conf']['power']['bitcoin_currency_markets'][$default_bitcoin_primary_currency_pair] . $asset_prim_currency_text . ' over ' . $last_cached_time . '. 24 Hour ' . strtoupper($default_bitcoin_primary_currency_pair) . ' Volume: ' . $vol_prim_currency_text . ' ' . $vol_change_text_mobile;
+               $text_msg = ( $whale_alert == 1 ? '🐳 ' : '' ) . $asset_text . ' / ' . strtoupper($pair) . ' @ ' . $exchange_text . ' ' . $increase_decrease . ' ' . $change_symb . $percent_change_text . '% in ' . strtoupper($default_bitcoin_primary_currency_pair) . ' value to ' . $ct['conf']['power']['bitcoin_currency_markets'][$default_bitcoin_primary_currency_pair] . $asset_prim_currency_text . ' over ' . $last_cached_time . '. 24 Hour ' . strtoupper($default_bitcoin_primary_currency_pair) . ' ' . $vol_change_text_mobile;
                         
                     
                // Message parameter added for desired comm methods (leave any comm method blank to skip sending via that method)

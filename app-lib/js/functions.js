@@ -1950,6 +1950,7 @@ var tiny_line_height = tiny_line_height.toFixed(3);
      else if ( iframe_elm != false ) {
      var info_icon_elements = $(info_icon_size_css_selector, iframe_elm.contentWindow.document);
      var ajax_loading_elements = $(ajax_loading_size_css_selector, iframe_elm.contentWindow.document);
+     var password_eye_elements = $(password_eye_size_css_selector, iframe_elm.contentWindow.document);
      var font_elements = $(font_size_css_selector, iframe_elm.contentWindow.document);
      var medium_font_elements = $(medium_font_size_css_selector, iframe_elm.contentWindow.document);
      var small_font_elements = $(small_font_size_css_selector, iframe_elm.contentWindow.document);
@@ -1958,6 +1959,7 @@ var tiny_line_height = tiny_line_height.toFixed(3);
      else {
      var info_icon_elements = $(info_icon_size_css_selector);
      var ajax_loading_elements = $(ajax_loading_size_css_selector);
+     var password_eye_elements = $(password_eye_size_css_selector);
      var font_elements = $(font_size_css_selector);
      var medium_font_elements = $(medium_font_size_css_selector);
      var small_font_elements = $(small_font_size_css_selector);
@@ -1988,6 +1990,11 @@ var tiny_line_height = tiny_line_height.toFixed(3);
      var ajax_loading_size = font_size * 1.3;
           
      var ajax_loading_size = ajax_loading_size.toFixed(3);
+     
+     // Run a multiplier, to adjust password eye placement
+     var eye_top_right = line_height * 0.22;
+          
+     var eye_top_right = eye_top_right.toFixed(3);
           
           
      // Info icons
@@ -1995,6 +2002,9 @@ var tiny_line_height = tiny_line_height.toFixed(3);
           
      // ajax loading
      ajax_loading_elements.attr('style', function(i,s) { return (s || '') + "height: " + ajax_loading_size + "em !important; width : auto !important;" });
+          
+     // password eye
+     password_eye_elements.attr('style', function(i,s) { return (s || '') + "position: absolute; cursor: pointer; color: black; top: " + eye_top_right + "em; right: " + eye_top_right + "em; transform: scale(var(--ggs," + font_size + "));" });
           
      // Standard font
      font_elements.attr('style', function(i,s) { return (s || '') + "font-size: " + font_size + "em !important; line-height : " + line_height + "em !important;" });

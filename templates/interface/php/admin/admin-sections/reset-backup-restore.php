@@ -101,6 +101,9 @@
 	</div>
 				
 	<!-- RESET ct_conf key END -->
+
+	
+	<?=$ct['gen']->input_2fa('strict')?>
 	
 </fieldset>
 
@@ -192,11 +195,13 @@
              
      }
 	?>
+
+	
+	<?=$ct['gen']->input_2fa('strict')?>
 	
 </fieldset>
 
 <!-- RESET DIFFERENT webhook keys END -->
-
 		    
 
 	<p> Backup & Restore: Coming Soon&trade; </p>

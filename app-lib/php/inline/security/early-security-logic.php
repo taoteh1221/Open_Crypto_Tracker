@@ -144,21 +144,7 @@ if ( !$is_fast_runtime ) {
      		unlink($ct['base_dir'] . '/cache/secured/' . $secured_file);
      		}
      		else {
-     			
-     			// If an webhook secret key reset from authenticated admin is verified
-     			if ( $_POST['reset_webhook_master_key'] == 1 && $ct['gen']->pass_sec_check($_POST['admin_hashed_nonce'], 'reset_webhook_master_key') ) {
-     				
-     			unlink($ct['base_dir'] . '/cache/secured/' . $secured_file);
-     			
-     			// Reload to avoid quirky page reloads later on
-     			header("Location: " . $_SERVER['REQUEST_URI']);
-     			exit;
-     			
-     			}
-     			else {
-     			$webhook_master_key = trim( file_get_contents($ct['base_dir'] . '/cache/secured/' . $secured_file) );
-     			}
-     		
+               $webhook_master_key = trim( file_get_contents($ct['base_dir'] . '/cache/secured/' . $secured_file) );
      		}
      	
      	
@@ -176,21 +162,7 @@ if ( !$is_fast_runtime ) {
      		unlink($ct['base_dir'] . '/cache/secured/' . $secured_file);
      		}
      		else {
-     			
-     			// If an webhook secret key reset from authenticated admin is verified
-     			if ( $_POST['reset_' . $webhook_plug . '_webhook_key'] == 1 && $ct['gen']->pass_sec_check($_POST['admin_hashed_nonce'], 'reset_' . $webhook_plug . '_webhook_key') ) {
-     				
-     			unlink($ct['base_dir'] . '/cache/secured/' . $secured_file);
-     			
-     			// Reload to avoid quirky page reloads later on
-     			header("Location: " . $_SERVER['REQUEST_URI']);
-     			exit;
-     			
-     			}
-     			else {
-     			$int_webhooks[$webhook_plug] = trim( file_get_contents($ct['base_dir'] . '/cache/secured/' . $secured_file) );
-     			}
-     		
+     	     $int_webhooks[$webhook_plug] = trim( file_get_contents($ct['base_dir'] . '/cache/secured/' . $secured_file) );
      		}
      	
      	
@@ -208,21 +180,7 @@ if ( !$is_fast_runtime ) {
      		unlink($ct['base_dir'] . '/cache/secured/' . $secured_file);
      		}
      		else {
-     			
-     			// If an internal API key reset from authenticated admin is verified
-     			if ( $_POST['reset_int_api_key'] == 1 && $ct['gen']->pass_sec_check($_POST['admin_hashed_nonce'], 'reset_int_api_key') ) {
-     				
-     			unlink($ct['base_dir'] . '/cache/secured/' . $secured_file);
-     			
-     			// Reload to avoid quirky page reloads later on
-     			header("Location: " . $_SERVER['REQUEST_URI']);
-     			exit;
-     			
-     			}
-     			else {
-     			$int_api_key = trim( file_get_contents($ct['base_dir'] . '/cache/secured/' . $secured_file) );
-     			}
-     		
+     		$int_api_key = trim( file_get_contents($ct['base_dir'] . '/cache/secured/' . $secured_file) );
      		}
      	
      	
@@ -278,62 +236,6 @@ if ( !$is_fast_runtime ) {
      	else {
      	$ct['cache']->save_file($ct['base_dir'] . '/cache/secured/secret_var_'.$secure_128bit_hash.'.dat', $secure_256bit_hash);
      	$auth_secret = $secure_256bit_hash;
-     	}
-     
-     
-     }
-     
-     
-     //////////////////////////////////////////////////////////////////////////////////////////////////////////
-     
-     
-     // If no MASTER webhook key
-     if ( !$webhook_master_key ) {
-     	
-     $secure_128bit_hash = $ct['gen']->rand_hash(16); // 128-bit (16-byte) hash converted to hexadecimal, used for suffix
-     $secure_256bit_hash = $ct['gen']->rand_hash(32); // 256-bit (32-byte) hash converted to hexadecimal, used for var
-     	
-     	
-     	// Halt the process if an issue is detected safely creating a random hash
-     	if ( $secure_128bit_hash == false || $secure_256bit_hash == false ) {
-     		
-     	$ct['gen']->log(
-     				'security_error',
-     				'Cryptographically secure pseudo-random bytes could not be generated for webhook key (in secured cache storage), webhook key creation aborted to preserve security'
-     				);
-     	
-     	}
-     	else {
-     	$ct['cache']->save_file($ct['base_dir'] . '/cache/secured/webhook_master_key_'.$secure_128bit_hash.'.dat', $secure_256bit_hash);
-     	$webhook_master_key = $secure_256bit_hash;
-     	}
-     
-     
-     }
-     
-     
-     //////////////////////////////////////////////////////////////////////////////////////////////////////////
-     
-     
-     // If no internal API key
-     if ( !$int_api_key ) {
-     	
-     $secure_128bit_hash = $ct['gen']->rand_hash(16); // 128-bit (16-byte) hash converted to hexadecimal, used for suffix
-     $secure_256bit_hash = $ct['gen']->rand_hash(32); // 256-bit (32-byte) hash converted to hexadecimal, used for var
-     	
-     	
-     	// Halt the process if an issue is detected safely creating a random hash
-     	if ( $secure_128bit_hash == false || $secure_256bit_hash == false ) {
-     		
-     	$ct['gen']->log(
-     				'security_error',
-     				'Cryptographically secure pseudo-random bytes could not be generated for internal API key (in secured cache storage), key creation aborted to preserve security'
-     				);
-     	
-     	}
-     	else {
-     	$ct['cache']->save_file($ct['base_dir'] . '/cache/secured/int_api_key_'.$secure_128bit_hash.'.dat', $secure_256bit_hash);
-     	$int_api_key = $secure_256bit_hash;
      	}
      
      

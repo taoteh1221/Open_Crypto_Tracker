@@ -260,6 +260,8 @@
 	
 	ajax_loading_size_css_selector = "<?=$ct['dev']['ajax_loading_size_css_selector']?>";
 	
+	password_eye_size_css_selector = "<?=$ct['dev']['password_eye_size_css_selector']?>";
+	
 	font_size_css_selector = "<?=$ct['dev']['font_size_css_selector']?>";
 	
 	medium_font_size_css_selector = "<?=$ct['dev']['medium_font_size_css_selector']?>";
@@ -450,6 +452,17 @@
      <?=$ct['dev']['ajax_loading_size_css_selector']?> {
      height: <?=round($set_ajax_loading_size, 3)?>em !important;
      width: auto !important;
+     }
+
+     /* password eye icon selector */
+     <?php
+     // Run a multiplier, to adjust password eye placement
+     $eye_top_right = $set_font_line_height * 0.22;
+     ?>
+     <?=$ct['dev']['password_eye_size_css_selector']?> {
+     top: <?=round($eye_top_right, 3)?>em;
+     right: <?=round($eye_top_right, 3)?>em;
+     transform: scale(var(--ggs,<?=$set_font_size?>));
      }
      
      /* standard font size CSS selector */

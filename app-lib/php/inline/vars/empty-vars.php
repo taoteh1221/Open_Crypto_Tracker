@@ -7,6 +7,8 @@
 
 // Initial BLANK arrays
 
+$subarray_allow_upgrading = array();
+
 $admin_render_settings = array();
 
 $check_crypto_pair = array();
@@ -96,8 +98,6 @@ $alerts_gui_debugging = null;
 
 $cmc_notes = null;
 
-$conf_upgraded = null;
-
 $td_color_zebra = null;
 
 $mcap_data_force_usd = null;
@@ -120,6 +120,10 @@ $check_2fa_error = null;
 
 
 // Initial zero-set / false strings
+
+$possible_input_injection = false;
+
+$conf_upgraded = false;
 
 $is_login_form = false;
         
