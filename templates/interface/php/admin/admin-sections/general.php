@@ -111,6 +111,8 @@ foreach ( $ct['conf']['power']['bitcoin_currency_markets'] as $pair_key => $unus
 $admin_render_settings['bitcoin_primary_currency_pair']['is_select'][] = $pair_key;
 }
 
+$admin_render_settings['bitcoin_primary_currency_pair']['is_notes'] = 'MUST BE AVAILABLE ON THE CHOSEN "Bitcoin Primary Exchange" BELOW.';
+
 
 ////////////////////////////////////////////////////////////////////////////////////////////////
 

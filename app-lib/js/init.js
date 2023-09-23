@@ -35,6 +35,10 @@ $(".chart_wrapper").css({ "border": '2px solid ' + charts_border });
 // Dynamic table header updating
 $("span.bitcoin_primary_currency_pair").html(bitcoin_primary_currency_pair); 
 
+
+// Firefox doesn't like '1em' for this attibute value, so we emulate it (for ALL browsers)
+$('.password-container input[type="password"], .password-container input[type="text"]').css('padding-right', Math.round(set_font_size * 30) + 'px', "important");
+
 	
 // Highlightjs configs
 hljs.configure({useBR: false}); // Don't use  <br /> between lines
@@ -80,8 +84,10 @@ nav_menu('.user-nav');
      
      if ( is_firefox ) {
      $("#sidebar label.pl_mn_lab").css('transform', 'scale(.75) translateY(0rem) translateX(0.25rem)', "important");
+     $("#sidebar #quant_font_percent").css('padding-left', '0.35rem', "important");
+     $("#sidebar #quant_font_percent").css('padding-right', '0.1rem', "important");
      }
-
+      
 
 	/////////////////////////////////////////////////////////////////////////////////////////////////////
 	

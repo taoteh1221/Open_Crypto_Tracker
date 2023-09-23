@@ -9,10 +9,8 @@
 
 	<!-- ADMIN PAGES SECURITY LEVEL START -->
 
-	<div class='bitcoin bitcoin_dotted' style='margin-bottom: 20px;'>
+	<div class='bitcoin bitcoin_dotted'>
 	
-	
-	<div style='min-height: 1em;'></div>
 	
 	<form name='toggle_admin_security' id='toggle_admin_security' action='admin.php?iframe=<?=$ct['gen']->admin_hashed_nonce('iframe_security')?>&section=security&refresh=all' method='post'>
 	
@@ -34,25 +32,24 @@
 	 <?php
 	 if ( $setup_admin_sec_success != null ) {
 	 ?>
-	<div style='min-height: 1em;'></div>
+	 <div style='min-height: 1em;'></div>
 	 <div class='green green_dotted' style='font-weight: bold;'><?=$setup_admin_sec_success?></div>
 	 <?php
 	 }
 	 ?>
-			
+	 
+	 <div style='min-height: 1em;'></div>
 	
-	
-	<div style='min-height: 2em;'></div>
 	
 	<form name='toggle_admin_2fa' id='toggle_admin_2fa' action='admin.php?iframe=<?=$ct['gen']->admin_hashed_nonce('iframe_security')?>&section=security&refresh=all' method='post'>
 	
 	<input type='hidden' name='admin_hashed_nonce' value='<?=$ct['gen']->admin_hashed_nonce('toggle_admin_2fa')?>' />
 	
-	<input type='hidden' name='sel_admin_2fa' id='sel_admin_2fa' value='<?=$admin_area_2fa?>' />
+	<input type='hidden' name='sel_admin_2fa' id='sel_admin_2fa' value='<?=( $force_show_2fa_setup ? $force_show_2fa_setup : $admin_area_2fa )?>' />
 	
 	<b>Admin Two-Factor Authentication (ADDITIONAL time-based one-time password security)</b> &nbsp;<img class="tooltip_style_control admin_2fa_settings" src="templates/interface/media/images/info.png" alt="" width="30" style="position: relative; left: -5px;" />
 	
-	<br /> <input type='radio' name='opt_admin_2fa' id='opt_admin_2fa_off' value='off' onclick='set_admin_2fa(this);' <?=( $admin_area_2fa == 'off' && !$force_show_2fa_setup ? 'checked' : '' )?> /> Off &nbsp; <input type='radio' name='opt_admin_2fa' id='opt_admin_2fa_on' value='on' onclick='set_admin_2fa(this);' <?=( $admin_area_2fa == 'on' || $force_show_2fa_setup == 'on' ? 'checked' : '' )?> /> On &nbsp; <input type='radio' name='opt_admin_2fa' id='opt_admin_2fa_scrict' value='strict' onclick='set_admin_2fa(this);' <?=( $admin_area_2fa == 'strict' || $force_show_2fa_setup == 'strict' ? 'checked' : '' )?> /> Strict
+	<br /> <input type='radio' name='opt_admin_2fa' id='opt_admin_2fa_off' value='off' onclick='set_admin_2fa(this);' <?=( $admin_area_2fa == 'off' && !$force_show_2fa_setup || $force_show_2fa_setup == 'off' ? 'checked' : '' )?> /> Off &nbsp; <input type='radio' name='opt_admin_2fa' id='opt_admin_2fa_on' value='on' onclick='set_admin_2fa(this);' <?=( $admin_area_2fa == 'on' || $force_show_2fa_setup == 'on' ? 'checked' : '' )?> /> On &nbsp; <input type='radio' name='opt_admin_2fa' id='opt_admin_2fa_scrict' value='strict' onclick='set_admin_2fa(this);' <?=( $admin_area_2fa == 'strict' || $force_show_2fa_setup == 'strict' ? 'checked' : '' )?> /> Strict
 	
 
                <?php
@@ -60,7 +57,7 @@
                     
                ?>
                
-	          <div class='show_2fa_verification' <?=( $force_show_2fa_setup ? ' style="display: block;"' : '' )?>>
+	          <div class='show_2fa_verification' <?=( isset($force_show_2fa_setup) && $force_show_2fa_setup != 'off' ? ' style="display: block;"' : '' )?>>
 
 			<p style='font-weight: bold; margin-top: 1.5em;' class='red'>Scan this QR code with your authenticator app:</p>
 			
@@ -88,7 +85,7 @@
                ?>
                
 		<!-- Submit button must be OUTSIDE form tags here, or it submits the target form improperly and loses data -->
-		<p class='show_2fa_verification'  <?=( $force_show_2fa_setup ? ' style="display: block;"' : '' )?>><button class='force_button_style' onclick='
+		<p class='show_2fa_verification'  <?=( isset($force_show_2fa_setup) && $force_show_2fa_setup != 'off' ? ' style="display: block;"' : '' )?>><button class='force_button_style' onclick='
 		set_admin_2fa(false, true);
 		'>Enable 2FA</button></p>
 		
@@ -107,9 +104,10 @@
 	 ?>
 			
 	
-	<div style='min-height: 1em;'></div>
-	
 	</div>
+	
+	 
+	<div style='min-height: 1em;'></div>
 	
 	
     <script>

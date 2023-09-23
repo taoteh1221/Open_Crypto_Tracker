@@ -31,18 +31,32 @@ var $ct_array = array();
 	 else {
 	 $refresh_admin_sections = 'none';
 	 }
+	 ?>
+	 
+	
+	<p class='red red_dotted'>
+	
+	No input validation has been added yet (only input sanitization is active), SO BE CAREFUL TO ADD CORRECTLY-FORMATTED VALUES! If anything gets corrupted, delete the file '/cache/secured/ct_conf_XXXXXXXXXXXXX.dat' in the app directory, to RESET to defaults.
+	
+	</p>
+	
+	
+	<div style='min-height: 1em;'></div>
+
+	 
+	 <?php
 	 
   
 	 if ( $update_admin_conf_success != null ) {
 	 ?>
-	 <div style='min-height: 1em;'></div>
 	 <div class='green green_dotted' style='font-weight: bold;'><?=$update_admin_conf_success?></div>
+	 <div style='min-height: 1em;'></div>
 	 <?php
 	 }
 	 elseif ( $update_admin_conf_error != null ) {
 	 ?>
-	 <div style='min-height: 1em;'></div>
 	 <div class='red red_dotted' style='font-weight: bold;'><?=$update_admin_conf_error?></div>
+	 <div style='min-height: 1em;'></div>
 	 <?php
 	 }
 	 ?>
@@ -177,11 +191,6 @@ var $ct_array = array();
               }
               
          ?>
-     
-         <p>
-         
-         <b class='blue'><?=$ct['gen']->key_to_name($key)?>:</b> &nbsp; 
-         
               
               <?php
               if ( isset($render_params[$key]['is_password']) ) {
@@ -192,21 +201,12 @@ var $ct_array = array();
               <?php
               }
               ?>
+     
+         <p>
               
-              <input type='<?=( isset($render_params[$key]['is_password']) ? 'password' : 'text' )?>' data-name="<?=md5($conf_id . $key)?>" name='<?=$conf_id?>[<?=$key?>]' value='<?=$val?>' <?=( isset($render_params[$key]['text_field_size']) ? ' size="' . $render_params[$key]['text_field_size'] . '"' : '' )?> />
+              <b class='blue'><?=$ct['gen']->key_to_name($key)?>:</b> &nbsp; <input type='<?=( isset($render_params[$key]['is_password']) ? 'password' : 'text' )?>' data-name="<?=md5($conf_id . $key)?>" name='<?=$conf_id?>[<?=$key?>]' value='<?=$val?>' <?=( isset($render_params[$key]['text_field_size']) ? ' size="' . $render_params[$key]['text_field_size'] . '"' : '' )?> />
               
               <?php
-              if ( isset($render_params[$key]['is_password']) ) {
-              ?>
-                   
-                  <i class="gg-eye-alt toggle-show-password" data-name="<?=md5($conf_id . $key)?>"></i>
-                      
-              </div>
-                   
-              <?php
-              }
-                   
-                   
               if ( isset($render_params[$key]['is_notes']) ) {
               ?>
      
@@ -219,6 +219,17 @@ var $ct_array = array();
               </p>
          
          <?php   
+              if ( isset($render_params[$key]['is_password']) ) {
+              ?>
+                   
+                  <i class="gg-eye-alt toggle-show-password" data-name="<?=md5($conf_id . $key)?>"></i>
+                      
+              </div>
+                   
+              <?php
+              }
+                   
+                   
          }
          
      }

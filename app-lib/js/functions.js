@@ -2,6 +2,7 @@
 // Copyright 2014-2023 GPLv3, Open Crypto Tracker by Mike Kilday: Mike@DragonFrugal.com
 
 
+
 /////////////////////////////////////////////////////////////
 
 
@@ -397,6 +398,29 @@ var footer_notice = $('.footer_banner');
 /////////////////////////////////////////////////////////////
 
 
+// https://usefulangle.com/post/81/javascript-change-url-parameters
+function update_url_param(update_url, param, val) {
+
+var url = new URL(update_url);
+var search_params = url.searchParams;
+
+// new value of "param" is set to "val"
+search_params.set(param, val);
+
+// change the search property of the main url
+url.search = search_params.toString();
+
+// the new url string
+var new_url = url.toString();
+
+return new_url;
+
+}
+
+
+/////////////////////////////////////////////////////////////
+
+
 function set_scroll_position() {
      
      if ( is_iframe ) {
@@ -779,10 +803,11 @@ function set_admin_2fa(obj=false, submit=false) {
 		// Revert if cancelled
 		if ( obj && !admin_2fa_set ) {
 		$('input[name=opt_admin_2fa]:checked').prop('checked',false);
-		$('#opt_admin_2fa_' + $("#sel_admin_2fa").val() ).prop('checked',true);
+		$("input[name=opt_admin_2fa][value=" + $("#sel_admin_2fa").val() + "]").prop('checked', true);
 		}
 		// If turning 2FA on, show next step IF IT'S CURRENTLY OFF
 		else if ( obj && admin_2fa_set && obj.value != "off" && Base64.decode(admin_area_2fa) == 'off' ) {
+		$("#sel_admin_2fa").val( $('input[name=opt_admin_2fa]:radio:checked').val() );
           $(".show_2fa_verification").show(250, 'linear'); // 0.25 seconds
 		}
 		// We don't need to show 2FA setup if we are disabling 2FA, OR switching between 'on' / 'strict'

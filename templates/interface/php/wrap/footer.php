@@ -107,16 +107,18 @@ $(document).ready(function() {
              if ( $_GET['refresh'] == 'all' ) {
              
              $refresh_admin = array(
+                                     'iframe_general',
                                      'iframe_comms',
                                      'iframe_ext_apis',
-                                     'iframe_general',
+                                     'iframe_proxy',
+                                     'iframe_security',
                                      'iframe_portfolio_assets',
                                      'iframe_charts_alerts',
                                      'iframe_plugins',
                                      'iframe_power_user',
-                                     'iframe_text_gateways',
-                                     'iframe_proxy',
+                                     'iframe_news_feeds',
                                      'iframe_webhook_int_api',
+                                     'iframe_text_gateways',
                                      'iframe_system_stats',
                                      'iframe_access_stats',
                                      'iframe_logs',
@@ -124,7 +126,9 @@ $(document).ready(function() {
                                     );
                                     
              }
-             elseif ( $_GET['refresh'] == 'none' ) {
+             // 'auto' is the 'refresh' param value we set further down here in footer.php,
+             // so we never get stuck in endless loops with refresh=all when refreshing here
+             elseif ( $_GET['refresh'] == 'none' || $_GET['refresh'] == 'auto' ) {
              $refresh_admin = array(); // BLANK
              }
              else {
@@ -138,20 +142,23 @@ $(document).ready(function() {
                  if ( isset($refresh) && trim($refresh) != '' && $refresh != 'iframe_' . $_GET['section'] ) {
                  ?>
                  
-                 console.log('refreshing: ' + parent.document.getElementById('<?=$refresh?>').contentWindow.location.href)
+                 // Skip 'about:blank' pages (when an iframe has not 'lazy loaded' yet)
+                 if ( parent.document.getElementById('<?=$refresh?>').contentWindow.location.href != 'about:blank' ) {
+                      
+                 var refresh_url = update_url_param(parent.document.getElementById('<?=$refresh?>').contentWindow.location.href, 'refresh', 'auto');
+                 
+                 console.log('auto-refreshing: ' + refresh_url);
                  
                  // Remove any POST data (so we don't get endless loops under certain conditions)
-                 if ( parent.document.getElementById('<?=$refresh?>').contentWindow.history.replaceState ) {
-                 parent.document.getElementById('<?=$refresh?>').contentWindow.history.replaceState(null, null, parent.document.getElementById('<?=$refresh?>').contentWindow.location.href);
+                 parent.document.getElementById('<?=$refresh?>').contentWindow.location.replace(refresh_url);
+                 
+                      // Remove any POST data AGAIN, IN A DIFFERENT WAY (JUST TO BE SURE!)
+                      if ( parent.document.getElementById('<?=$refresh?>').contentWindow.history.replaceState ) {
+                      parent.document.getElementById('<?=$refresh?>').contentWindow.history.replaceState(null, null, refresh_url);
+                      }
+                 
                  }
                  
-                 // Remove any POST data AGAIN, IN A DIFFERENT WAY (JUST TO BE SURE!)
-                 parent.document.getElementById('<?=$refresh?>').contentWindow.location.replace(
-                 parent.document.getElementById('<?=$refresh?>').contentWindow.location.href,
-                 );
-                 
-                 // Now we can safely reload
-                 parent.document.getElementById('<?=$refresh?>').contentWindow.location.reload(true);
                  
                  <?php
                  }

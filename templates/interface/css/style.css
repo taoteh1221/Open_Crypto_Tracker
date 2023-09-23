@@ -668,7 +668,7 @@ margin-left: 0px;
 
 .pretty_text_fields p {
 white-space: nowrap;
-margin-top: 3.0em;
+margin-bottom: 3.0em;
 }
 
 
@@ -802,13 +802,14 @@ i.gg-eye, i.gg-eye-alt {
 
 
 .password-container{
-  width: fit-content;
+  width: auto;
   position: relative;
-  display: inline-block;
+  display: block;
+  text-align: right;
 }
 .password-container input[type="password"],
 .password-container input[type="text"]{
-padding-right: 1.0em;
+/* padding-right: 30px; */
 }
 
 

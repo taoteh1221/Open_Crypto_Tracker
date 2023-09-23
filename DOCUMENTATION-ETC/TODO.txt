@@ -19,12 +19,6 @@ Add support for ct['conf'] upgrades to BUNDLED (whitelisted) PLUGINS configs, vi
 Add input validation for the admin config setting fields in each interface section (connected to config-init for the flag: $update_admin_conf_valid).
 
 
-Test that everything resets to allow re-trying to enable 2FA, IF A USERS ENTERS THE WRONG 2FA TRYING TO TURN ON REGULAR OR STRICT MODE.
-
-
-Test ALL 2FA logic ONE MORE TIME, and make sure UX (including UI alerts) is decent.
-
-
 Update screenshots, since we overhauled everything in the interface.
 
 
