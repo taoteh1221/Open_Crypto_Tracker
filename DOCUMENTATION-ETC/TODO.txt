@@ -10,6 +10,9 @@ NEXT SCHEDULED WORK SESSIONS (*BOTH* DEBUGGING AND / OR INFRASTRUCTURE)
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
+Google Font select from a list in the interface does not seem to work?
+
+
 Try having a textarea behave like a password field with this CSS... -webkit-text-security : circle   
 
 
@@ -115,9 +118,6 @@ Convert Arch linux support in auto-installer over to redhat (yum), as Arch does 
 Replace all tabs with spaces (for better cross-text-editor support).
 
 
-The compact side menu doesn't work on Linux desktop Edition.
-
-
 Check for "whitespace in paths" support in bash scripting (like we had to do for the BT radio script)
 
 
@@ -128,9 +128,6 @@ Move remaining font-size / line-height logic in style.css AND ELSEWHERE into our
 
 
 Remove all forced line breaks in FOLIO-INSTALL.bash dialogue
-
-
-Look for a good alternative to PHPdesktop FOR LINUX DESKTOP, or at least a simple / redistributable binary to run a PHP server.
 
 
 On the portfolio page, have a drop-down html select menu, with options 'compact' (for current portfolio layout), and 'responsive' (for a mobile / tablet friendly layout). Have 'responsive' be auto-selected on smaller screens. Also consider doing the same for the 'update portfolio' page.
