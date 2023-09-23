@@ -267,7 +267,7 @@ $admin_render_settings['smtp_login']['is_password'] = true;
 
 $admin_render_settings['smtp_login']['text_field_size'] = 40;
 
-$admin_render_settings['smtp_login']['is_notes'] = 'This format MUST be used: username||password';
+$admin_render_settings['smtp_login']['is_notes'] = 'This format MUST be used: username||password<br />USE A THROW-AWAY EMAIL ACCOUNT HERE FOR SAFETY!';
 
 
 ////////////////////////////////////////////////////////////////////////////////////////////////

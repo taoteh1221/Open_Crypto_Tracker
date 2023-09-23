@@ -62,14 +62,6 @@
 	
     		
    <ul style='margin-top: 25px; font-weight: bold;'>
-	
-        <?php
-        if ( $ct['app_edition'] == 'desktop' ) {
-        ?>
-	<li class='red' style='font-weight: bold;'>Using 'zoom' (top right) can skew chart hovering mouse positions.</li>	
-        <?php
-        }
-        ?>
         
 	<li class='bitcoin' style='font-weight: bold;'>Setting this page as the 'start page' (top left) will save your vertical scroll position during reloads.</li>	
 	
