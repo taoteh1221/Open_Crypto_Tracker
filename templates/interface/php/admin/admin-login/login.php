@@ -155,19 +155,19 @@ if ( !$_POST['submit_login'] || is_array($login_result['error']) && sizeof($logi
 
     <div style="display: inline-block; padding-top: 1em; text-align: center; width: auto;">
 
-    <p><b>Username:</b> <input type='text' name='admin_username' id='admin_username' value='<?=trim($_POST['admin_username'])?>' /></p>
+         <p><b>Username:</b> <input type='text' name='admin_username' id='admin_username' value='<?=trim($_POST['admin_username'])?>' /></p>
 
-    <p>
-
-     <div class="password-container">
-       
-       <b>Password:</b> <input type='password' data-name="admin_password" name='admin_password' id='admin_password' value='<?=$_POST['admin_password']?>' />
-       
-       <i class="gg-eye-alt toggle-show-password" data-name="admin_password"></i>
-       
-     </div>
+         <div class="password-container">
      
-    </p>
+              <p>
+                 
+                 <b>Password:</b> <input type='password' data-name="admin_password" name='admin_password' id='admin_password' value='<?=$_POST['admin_password']?>' />
+                 
+                 <i class="gg-eye-alt toggle-show-password" data-name="admin_password"></i>
+               
+              </p>
+            
+         </div>
 
     </div>
   	 

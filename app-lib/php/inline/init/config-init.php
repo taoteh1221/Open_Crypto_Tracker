@@ -187,41 +187,52 @@ $ct['dev']['alphavantage_per_day_limit'] = 0; // Unlimited
 }
 
 
-// Toggle 2FA setup off / on / scrict, if 'opt_admin_2fa' from authenticated admin is verified, AND 2FA check passes
+// Toggle 2FA SETUP off / on / scrict, if 'opt_admin_2fa' from authenticated admin is verified, AND 2FA check passes
 // (MUST run after 3rd-party-classes-loader.php)
 // *FORCE* CHECK 2FA, SINCE WE ARE RUNNING 2FA SETUP HERE
-if ( isset($_POST['opt_admin_2fa']) && $ct['gen']->pass_sec_check($_POST['admin_hashed_nonce'], 'toggle_admin_2fa') && $ct['gen']->valid_2fa('setup', 'force_check') ) {
-     
-$admin_area_2fa = $_POST['opt_admin_2fa'];
-     
-$ct['cache']->save_file($ct['base_dir'] . '/cache/vars/admin_area_2fa.dat', $admin_area_2fa);
+if ( isset($_POST['opt_admin_2fa']) && $ct['gen']->pass_sec_check($_POST['admin_hashed_nonce'], 'toggle_admin_2fa') ) {
      
      
-     if ( $_POST['opt_admin_2fa'] != 'off' ) {
-               
-          if ( $_POST['opt_admin_2fa'] == 'strict' ) {
-          $setup_2fa_notice_mode = ' (strict mode)';
-          $setup_2fa_success_scrict = ', AND whenever you want to update ANYTHING in the admin area';
+     // If valid 2FA code
+     if ( $ct['gen']->valid_2fa('setup', 'force_check') ) {
+     
+     $admin_area_2fa = $_POST['opt_admin_2fa'];
+          
+     $ct['cache']->save_file($ct['base_dir'] . '/cache/vars/admin_area_2fa.dat', $admin_area_2fa);
+          
+          
+          if ( $_POST['opt_admin_2fa'] != 'off' ) {
+                    
+               if ( $_POST['opt_admin_2fa'] == 'strict' ) {
+               $setup_2fa_notice_mode = ' (strict mode)';
+               $setup_2fa_success_scrict = ', AND whenever you want to update ANYTHING in the admin area';
+               }
+               else {
+               $setup_2fa_notice_mode = ' (standard mode)';
+               }
+                    
+          $setup_2fa_success = '2FA' . $setup_2fa_notice_mode . ' has been ENABLED successfully. You will need to use your authenticator phone app whenever you login now (along with your usual password)' . $setup_2fa_success_scrict . '.';
+     
           }
           else {
-          $setup_2fa_notice_mode = ' (standard mode)';
+          $setup_2fa_success = '2FA has been DISABLED successfully.';
           }
-               
-     $setup_2fa_success = '2FA' . $setup_2fa_notice_mode . ' has been ENABLED successfully. You will need to use your authenticator phone app whenever you login now (along with your usual password)' . $setup_2fa_success_scrict . '.';
-
+          
+     
      }
+     // If NOT
      else {
-     $setup_2fa_success = '2FA has been DISABLED successfully.';
+                    
+          // Force-show Admin 2FA setup, if it failed because of an invalid 2FA code
+          if ( $check_2fa_error != null ) {
+          $force_show_2fa_setup = $_POST['opt_admin_2fa'];
+          }
+     
      }
      
-                    
-     // Force-show Admin 2FA setup, if it failed because of an invalid 2FA code
-     if ( $check_2fa_error != null ) {
-     $force_show_2fa_setup = $_POST['opt_admin_2fa'];
-     }
-
 
 }
+// END 2FA SETUP
 
 
 // htaccess login...SET BEFORE ui-preflight-security-checks.php

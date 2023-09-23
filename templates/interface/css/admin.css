@@ -19,7 +19,9 @@ CLASSES
 overflow: hidden;
 width: 100%; 
 position: relative;
-padding-top: 30px;
+padding: 0px;
+margin: 0px;
+margin-top: 2em;
 }
 
 
