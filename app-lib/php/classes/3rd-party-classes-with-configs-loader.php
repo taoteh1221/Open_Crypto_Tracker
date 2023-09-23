@@ -43,7 +43,7 @@ $telegram_messaging = new Telegram\Receiver($telegram_bot);
 
         // If telegram messaging is activated, OR user config has been reset / refreshed, attempt to refresh the bot chat room data via the telegram API
         // (ONLY IF RUNTIME MODE IS #NOT# AJAX [as it slows down chart / news feed rendering significantly])
-        if ( sizeof($telegram_user_data) < 1 && $ct['runtime_mode'] != 'ajax' || $reset_ct_conf || $refresh_config ) {
+        if ( sizeof($telegram_user_data) < 1 && $ct['runtime_mode'] != 'ajax' || $reset_config || $update_config ) {
         	
         $secure_128bit_hash = $ct['gen']->rand_hash(16); // 128-bit (16-byte) hash converted to hexadecimal, used for suffix
         	

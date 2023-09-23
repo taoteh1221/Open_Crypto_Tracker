@@ -67,7 +67,7 @@ require($ct['base_dir'] . '/app-lib/php/inline/maintenance/upgrade-check.php');
 $ct['cache']->save_file($ct['base_dir'] . '/cache/vars/default_bitcoin_primary_currency_pair.dat', $default_bitcoin_primary_currency_pair);
 	
 
-// Current app version stored to flat file (for the bash auto-install/upgrade script to easily determine the currently-installed version)
+// Current app version stored to flat file (for auto-install/upgrade scripts to easily determine the currently-installed version)
 $ct['cache']->save_file($ct['base_dir'] . '/cache/vars/app_version.dat', $ct['app_version']);
 
 

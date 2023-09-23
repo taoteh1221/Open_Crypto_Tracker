@@ -40,7 +40,7 @@ $restore_default_htaccess = $ct['cache']->save_file($ct['base_dir'] . '/.htacces
 if ( isset($htaccess_username) && isset($htaccess_password) && $htaccess_username != '' && $htaccess_password != '' ) {
 
 	// If NO SETUP password protection exists
-	if ( !preg_match("/Require valid-user/i", $htaccess_protection_check) || $refresh_cached_ct_conf == 1 ) {
+	if ( !preg_match("/Require valid-user/i", $htaccess_protection_check) ) {
 		
 	$password_protection_enabled = $ct['cache']->htaccess_dir_protection();
 	

@@ -19,9 +19,61 @@ var $ct_array = array();
    ////////////////////////////////////////////////////////
    
    
+   function queue_config_update() {
+        
+   global $ct, $app_was_upgraded, $update_config, $check_2fa_error, $update_config_error, $update_config_success;
+   
+   sleep(1); // CHILL
+   
+   
+        // Updating the admin config
+        // (MUST run after primary-init, BUT BEFORE load-config-by-security-level.php)
+        // (STRICT 2FA MODE ONLY)
+        if ( isset($_POST['conf_id']) && isset($_POST['interface_id']) && is_array($_POST[ $_POST['conf_id'] ]) && $ct['gen']->pass_sec_check($_POST['admin_hashed_nonce'], $_POST['interface_id']) && $ct['gen']->valid_2fa('strict') ) {
+          
+              if ( $app_was_upgraded ) {
+              $update_config_error = 'The CACHED config is currently in the process of UPGRADING. Please wait a minute, and then try updating again.';
+              }
+              else {
+               
+              // ADD VALIDATION CHECKS HERE, BEFORE ALLOWING UPDATE OF THIS CONFIG SECTION
+              $update_config_valid = true;
+                  
+              // Update the corrisponding admin config section
+              $ct['conf'][ $_POST['conf_id'] ] = $_POST[ $_POST['conf_id'] ];
+               
+              $update_config = true; // Triggers saving updated config to disk
+                    
+                   if ( $update_config_valid ) {
+                   $update_config_success = 'Updating of admin section "' . $ct['gen']->key_to_name($_POST['interface_id']) . '" SUCCEEDED.';
+                   }
+                   else {
+                   $update_config_error = 'Invalid Entries (see below). Updating of admin section "' . $ct['gen']->key_to_name($_POST['interface_id']) . '" FAILED.';
+                   }
+                    
+              }
+                    
+        }
+        // Error messages to display at top of page for UX
+        elseif ( isset($_POST['conf_id']) && isset($_POST['interface_id']) ) {
+          
+              if ( $check_2fa_error ) {
+              $update_config_error = $check_2fa_error . '. Updating of admin section "' . $ct['gen']->key_to_name($_POST['interface_id']) . '" FAILED.';
+              }
+          
+        }
+   
+   
+   }
+
+   
+   ////////////////////////////////////////////////////////
+   ////////////////////////////////////////////////////////
+   
+   
    function settings_form_fields($conf_id, $interface_id, $render_params=false) {
         
-   global $ct, $update_admin_conf_success, $update_admin_conf_error;
+   global $ct, $update_config_success, $update_config_error;
    
 	 
 	 // Set which OTHER admin pages should be refreshed AFTER submission of this section's setting changes
@@ -45,17 +97,15 @@ var $ct_array = array();
 
 	 
 	 <?php
-	 
-  
-	 if ( $update_admin_conf_success != null ) {
+	 if ( $update_config_success != null ) {
 	 ?>
-	 <div class='green green_dotted' style='font-weight: bold;'><?=$update_admin_conf_success?></div>
+	 <div class='green green_dotted' style='font-weight: bold;'><?=$update_config_success?></div>
 	 <div style='min-height: 1em;'></div>
 	 <?php
 	 }
-	 elseif ( $update_admin_conf_error != null ) {
+	 elseif ( $update_config_error != null ) {
 	 ?>
-	 <div class='red red_dotted' style='font-weight: bold;'><?=$update_admin_conf_error?></div>
+	 <div class='red red_dotted' style='font-weight: bold;'><?=$update_config_error?></div>
 	 <div style='min-height: 1em;'></div>
 	 <?php
 	 }

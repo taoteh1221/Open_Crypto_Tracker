@@ -7,6 +7,16 @@
 ?>
 
 
+	 <?php
+	 if ( $reset_config_error != null ) {
+	 ?>
+	 <div class='red red_dotted' style='font-weight: bold;'><?=$reset_config_error?></div>
+	 <div style='min-height: 1em;'></div>
+	 <?php
+	 }
+	 ?>
+	 
+
 <!-- RESET GENERAL settings START -->
 
 <fieldset class='subsection_fieldset'>
@@ -77,7 +87,7 @@
 
 	<div style='margin: 25px;'>
 	
-	<form name='reset_ct_conf' id='reset_ct_conf' action='admin.php?iframe=<?=$ct['gen']->admin_hashed_nonce('iframe_reset_backup_restore')?>&section=reset_backup_restore&refresh=all' method='post'>
+	<form id='reset_ct_conf' action='admin.php?iframe=<?=$ct['gen']->admin_hashed_nonce('iframe_reset_backup_restore')?>&section=reset_backup_restore&refresh=all' method='post'>
 	
 	<input type='hidden' name='admin_hashed_nonce' value='<?=$ct['gen']->admin_hashed_nonce('reset_ct_conf')?>' />
 	
