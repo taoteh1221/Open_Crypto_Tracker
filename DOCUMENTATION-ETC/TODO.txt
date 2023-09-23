@@ -16,7 +16,7 @@ Try having a textarea behave like a password field with this CSS... -webkit-text
 Add support for ct['conf'] upgrades to BUNDLED (whitelisted) PLUGINS configs, via the already-integrated "$subarray_allow_upgrading" var.
 
 
-Add input validation for the admin config setting fields in each interface section (connected to config-init for the flag: $update_admin_conf_valid).
+Add input validation for the admin config setting fields in each interface section (connected to config-init for the flag: $update_config_valid).
 
 
 Update screenshots, since we overhauled everything in the interface.

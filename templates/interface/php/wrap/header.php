@@ -142,13 +142,7 @@ require("templates/interface/php/wrap/wrap-elements/navigation-bars.php");
 				 // Otherwise, IF we just upgraded to a new version, show an alert to user that they may need to
 				 // refresh the page or clear the browser cache for any upgraded JS / CSS files to load properly
 				 // (as long as this page visit isn't a major search engine, crawling the app pages)
-				 elseif (
-				 isset($cached_app_version)
-				 && trim($cached_app_version) != ''
-				 && trim($cached_app_version) != $ct['app_version']
-				 && stristr($_SERVER['HTTP_USER_AGENT'], 'googlebot') == false
-				 && stristr($_SERVER['HTTP_USER_AGENT'], 'bingbot') == false
-				 ) {
+				 elseif ( $app_was_upgraded && stristr($_SERVER['HTTP_USER_AGENT'], 'googlebot') == false && stristr($_SERVER['HTTP_USER_AGENT'], 'bingbot') == false ) {
 				 ?>
 				 
                      <script>

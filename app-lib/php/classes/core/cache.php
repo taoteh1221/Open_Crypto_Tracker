@@ -793,7 +793,7 @@ var $ct_array = array();
    
    function load_cached_config() {
    
-   global $ct, $restore_conf_path, $telegram_user_data;
+   global $ct, $restore_conf_path, $telegram_user_data, $update_config;
    
    // Secured cache files
    $files = $ct['gen']->sort_files($ct['base_dir'] . '/cache/secured', 'dat', 'desc');
@@ -881,13 +881,13 @@ var $ct_array = array();
         			}
         			elseif ( $cached_ct_conf != true ) {
         			unlink($ct['base_dir'] . '/cache/secured/' . $secured_file);
-        			$ct['gen']->log('conf_error', 'CACHED ct_conf appears corrupt, refreshing from DEFAULT or RESTORE ct_conf');
-        			$refresh_config = true;
+        			$ct['gen']->log('conf_error', 'CACHED ct_conf appears corrupt, updating from DEFAULT or RESTORE ct_conf');
+        			$update_config = true;
         			}
         			elseif ( $ct['gen']->admin_security_level_check() == false ) {
         			unlink($ct['base_dir'] . '/cache/secured/' . $secured_file);
-        			$ct['gen']->log('conf_error', 'CACHED ct_conf outdated (DEFAULT ct_conf updated), refreshing from DEFAULT ct_conf');
-        			$refresh_config = true;
+        			$ct['gen']->log('conf_error', 'CACHED ct_conf outdated (DEFAULT ct_conf updated), updating from DEFAULT ct_conf');
+        			$update_config = true;
         			}
         			
         			
@@ -901,15 +901,16 @@ var $ct_array = array();
         	
         	
         if ( !isset($newest_cached_ct_conf) ) {
-        $ct['gen']->log('conf_error', 'CACHED ct_conf not found, refreshing from DEFAULT or RESTORE ct_conf');
-        $refresh_config = true;
+        $ct['gen']->log('conf_error', 'CACHED ct_conf not found, updating from DEFAULT or RESTORE ct_conf');
+        $update_config = true;
         }			 
 
 
-        // We use the $refresh_config flag, so we can wait for the GLOBAL $restore_conf_path which may be set above (if a restore file exists)
+        // We use the $update_config flag, so we can wait for the GLOBAL $restore_conf_path which may be set above (if a restore file exists)
         // (allowing config restoration from last known working config)
-        if ( $refresh_config == true ) {
-        $ct['conf'] = $this->refresh_cached_ct_conf(false);
+        if ( $update_config == true ) {
+        $ct['conf'] = $this->update_cached_config(false);
+        $update_config = false; // Set back to false, since this is a global var
         }
         
         
@@ -922,7 +923,7 @@ var $ct_array = array();
    ////////////////////////////////////////////////////////
    
    
-   function refresh_cached_ct_conf($passed_config, $upgrade_mode=false, $user_reset=false) {
+   function update_cached_config($passed_config, $upgrade_mode=false, $user_reset=false) {
    
    global $ct, $default_ct_conf, $restore_conf_path, $admin_area_sec_level, $telegram_activated, $telegram_user_data, $htaccess_username, $htaccess_password;
 
@@ -1038,7 +1039,7 @@ var $ct_array = array();
             		// If restoring last-known working config was successfull
             		else {
             		    
-            		$ct['gen']->log('conf_error', 'ct_conf CACHE restore from last-known working config triggered, refreshed successfully'); 
+            		$ct['gen']->log('conf_error', 'ct_conf CACHE restore from last-known working config triggered, updated successfully'); 
             		$ct['conf'] = $upgrade_cache_ct_conf;
             		$this->save_file($ct['base_dir'] . '/cache/secured/ct_conf_'.$secure_128bit_hash.'.dat', $store_cached_ct_conf);
             		
@@ -1079,7 +1080,7 @@ var $ct_array = array();
     		
     		
     		     if ( $ct['conf']['power']['debug_mode'] == 'all' || $ct['conf']['power']['debug_mode'] == 'all_telemetry' || $ct['conf']['power']['debug_mode'] == 'conf_telemetry' ) {
-    		     $ct['gen']->log('conf_debug', 'ct_conf CACHE update triggered, refreshed successfully');
+    		     $ct['gen']->log('conf_debug', 'ct_conf CACHE update triggered, updated successfully');
     		     }
     		    
     		
