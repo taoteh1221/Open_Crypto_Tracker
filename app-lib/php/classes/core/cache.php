@@ -677,10 +677,27 @@ var $ct_array = array();
             
             foreach ( $cat_val as $conf_key => $conf_val ) {
          
-               if ( is_array($conf_val) && in_array($cat_key, $subarray_allow_upgrading) && in_array($conf_key, $subarray_allow_upgrading) ) {
+         
+               if ( is_array($conf_val) && in_array($cat_key, $subarray_allow_upgrading) ) {
                $conf = $this->subarray_cached_ct_conf_upgrade($conf, $cat_key, $conf_key);
                }
-               elseif ( !array_key_exists($conf_key, $conf[$cat_key]) ) {
+               
+               
+               if ( !is_array($conf_val) && !is_array($conf[$cat_key]) ) {
+                  	
+               $conf[$cat_key] = $default_ct_conf[$cat_key];
+                  
+               $ct['gen']->log(
+                  			'conf_error',
+                  			'Upgraded app config CATEGORY ct[conf][' . $cat_key . '] imported (default array size: ' . sizeof($default_ct_conf[$cat_key]) . ')'
+                  			);
+                  						
+               $conf_upgraded = true;
+                  
+               }
+               
+               
+               if ( !is_array($conf_val) && is_array($conf[$cat_key]) && !array_key_exists($conf_key, $conf[$cat_key]) ) {
                   	
                $conf[$cat_key][$conf_key] = $default_ct_conf[$cat_key][$conf_key];
                
@@ -688,15 +705,13 @@ var $ct_array = array();
                   
                $ct['gen']->log(
                   			'conf_error',
-                  			'Outdated app config, upgraded parameter ct[conf][' . $cat_key . '][' . $conf_key . '] imported (default value: ' . $log_val_descr . ')'
+                  			'Upgraded app config ('.$cat_key.') PARAMETER ct[conf][' . $cat_key . '][' . $conf_key . '] imported (default value: ' . $log_val_descr . ')'
                   			);
                   						
                $conf_upgraded = true;
                   
                }
-               else {
-               //$ct['gen']->log('conf_error', 'ct_conf[' .$cat_key . ']['. $conf_key . '] config upgrade not needed (skipping)');
-               }
+               
             
             }
          
@@ -708,24 +723,39 @@ var $ct_array = array();
             
             foreach ( $cached_cat_val as $cached_conf_key => $cached_conf_val ) {
          
-               if ( is_array($cached_conf_val) && in_array($cached_cat_key, $subarray_allow_upgrading) && in_array($cached_conf_key, $subarray_allow_upgrading) ) {
+         
+               if ( is_array($cached_conf_val) && in_array($cached_cat_key, $subarray_allow_upgrading) ) {
                $conf = $this->subarray_cached_ct_conf_upgrade($conf, $cached_cat_key, $cached_conf_key);
                }
-               elseif ( !array_key_exists($cached_conf_key, $default_ct_conf[$cached_cat_key]) ) {
+               
+               
+               if ( isset($conf[$cached_cat_key][$cached_conf_key]) && !is_array($cached_conf_val) && is_array($default_ct_conf[$cached_cat_key]) && !array_key_exists($cached_conf_key, $default_ct_conf[$cached_cat_key]) ) {
                   	
                unset($conf[$cached_cat_key][$cached_conf_key]);
                   
                $ct['gen']->log(
                			'conf_error',
-               			'Depreciated app config parameter ct[conf][' . $cached_cat_key . '][' . $cached_conf_key . '] removed'
+               			'Depreciated app config ('.$cached_cat_key.') PARAMETER ct[conf][' . $cached_cat_key . '][' . $cached_conf_key . '] removed'
                   			);
                   
                $conf_upgraded = true;
                   
                }
-               else {
-               //$ct['gen']->log('conf_error', 'ct_conf[' .$cat_key . ']['. $conf_key . '] config upgrade not needed (skipping)');
+               
+               
+               if ( isset($conf[$cached_cat_key]) && !is_array($cached_conf_val) && !is_array($default_ct_conf[$cached_cat_key]) ) {
+                  	
+               unset($conf[$cached_cat_key]);
+                  
+               $ct['gen']->log(
+               			'conf_error',
+               			'Depreciated app config CATEGORY ct[conf][' . $cached_cat_key . '] removed'
+                  			);
+                  
+               $conf_upgraded = true;
+                  
                }
+               
                
             }
             
@@ -761,8 +791,13 @@ var $ct_array = array();
 		
         		// If we already loaded the newest modified file, delete any stale ones
         		if ( $newest_cached_restore_conf == 1 ) {
+        		     
         		unlink($ct['base_dir'] . '/cache/secured/' . $secured_file);
-        		$ct['gen']->log('conf_error', 'OLD CACHED restore_conf found, deleting');
+    		
+         		     if ( $ct['conf']['power']['debug_mode'] == 'all' || $ct['conf']['power']['debug_mode'] == 'all_telemetry' || $ct['conf']['power']['debug_mode'] == 'conf_telemetry' ) {
+        		     $ct['gen']->log('conf_debug', 'OLD CACHED restore_conf found, deleting');
+         		     }
+    		     
         		}
         		else {
         		$newest_cached_restore_conf = 1;
@@ -807,8 +842,13 @@ var $ct_array = array();
 		
         		// If we already loaded the newest modified file, delete any stale ones
         		if ( $newest_cached_ct_conf == 1 ) {
+        		     
         		unlink($ct['base_dir'] . '/cache/secured/' . $secured_file);
-        		$ct['gen']->log('conf_error', 'OLD CACHED ct_conf found, deleting');
+    		
+         		     if ( $ct['conf']['power']['debug_mode'] == 'all' || $ct['conf']['power']['debug_mode'] == 'all_telemetry' || $ct['conf']['power']['debug_mode'] == 'conf_telemetry' ) {
+        		     $ct['gen']->log('conf_debug', 'OLD CACHED ct_conf found, deleting');
+         		     }
+    		     
         		}
         		else {
         		
@@ -884,15 +924,20 @@ var $ct_array = array();
 	        }
 				
              
-             // If NO valid last working config, IS high security mode, IS a user-initiated reset to ct_conf defaults,
+             // If NO valid last working config / IS high security mode / IS a user-initiated reset to ct_conf defaults,
              // WE USE THE DEFAULT CT_CONF (FROM THE PHP CONFIGURATION FILES)
              if ( !$passed_config || $admin_area_sec_level == 'high' || $user_reset ) {
+                  
              $passed_config = $default_ct_conf;
-    		   $ct['gen']->log('conf_error', 'CACHED ct_conf RESET, it will be refreshed using the DEFAULT ct_conf');
+    		
+    		     if ( $ct['conf']['power']['debug_mode'] == 'all' || $ct['conf']['power']['debug_mode'] == 'all_telemetry' || $ct['conf']['power']['debug_mode'] == 'conf_telemetry' ) {
+    		     $ct['gen']->log('conf_debug', 'CACHED ct_conf RESET, it will be refreshed using the DEFAULT ct_conf');
+    		     }
+             
     		   }
              // All other conditions
-             else {
-    		   $ct['gen']->log('conf_error', 'CACHED ct_conf RESET, it will be restored using the LAST-KNOWN WORKING ct_conf');
+             elseif ( $ct['conf']['power']['debug_mode'] == 'all' || $ct['conf']['power']['debug_mode'] == 'all_telemetry' || $ct['conf']['power']['debug_mode'] == 'conf_telemetry' ) {
+    		   $ct['gen']->log('conf_debug', 'CACHED ct_conf RESET, it will be restored using the LAST-KNOWN WORKING ct_conf');
              }
              
         
@@ -1001,20 +1046,27 @@ var $ct_array = array();
     		}
     		// If cached app config updated successfully
     		else {
-    		    
-    		$ct['gen']->log('conf_error', 'ct_conf CACHE update triggered, refreshed successfully');
+    		
+    		
     		$ct['conf'] = $upgrade_cache_ct_conf;
+    		
     		$this->save_file($ct['base_dir'] . '/cache/secured/ct_conf_'.$secure_128bit_hash.'.dat', $store_cached_ct_conf);
+    		
     		$this->save_file($ct['base_dir'] . '/cache/secured/restore_conf_'.$secure_128bit_hash.'.dat', $store_cached_ct_conf);
     		
     		
-                 // For checking later, if DEFAULT Admin Config (in config.php) values are updated we save to json again
-            	 if ( $admin_area_sec_level == 'high' || $user_reset ) {
+               // For checking later, if DEFAULT Admin Config (in config.php) values are updated we save to json again
+            	if ( $admin_area_sec_level == 'high' || $user_reset ) {
                  $this->save_file($ct['base_dir'] . '/cache/vars/default_ct_conf_md5.dat', md5( serialize($default_ct_conf) ) ); 
+    		     }
+    		
+    		
+    		     if ( $ct['conf']['power']['debug_mode'] == 'all' || $ct['conf']['power']['debug_mode'] == 'all_telemetry' || $ct['conf']['power']['debug_mode'] == 'conf_telemetry' ) {
+    		     $ct['gen']->log('conf_debug', 'ct_conf CACHE update triggered, refreshed successfully');
     		     }
     		    
     		
-            // Refresh any custom .htaccess / php.ini settings (deleting will trigger a restore)
+          // Refresh any custom .htaccess / php.ini settings (deleting will trigger a restore)
     		unlink($ct['base_dir'] . '/.htaccess');
     		unlink($ct['base_dir'] . '/.user.ini');
     		unlink($ct['base_dir'] . '/cache/secured/.app_htpasswd');

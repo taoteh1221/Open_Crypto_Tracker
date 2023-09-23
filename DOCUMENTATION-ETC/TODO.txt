@@ -10,21 +10,16 @@ NEXT SCHEDULED WORK SESSIONS (*BOTH* DEBUGGING AND / OR INFRASTRUCTURE)
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
-When submitting admin area setting changes, have the usual 'reloading... / Loading... show, like we already do for the user area, EXCEPT USE THE IFRAME 'loading..." notice above the iframe we already have working for normal iframe loads / reloads. It's good UX to show immediately that it's begun updating.
+Try having a textarea behave like a password field with this CSS... -webkit-text-security : circle   
 
 
-Sometimes an admin iframe loads / reloads scrolled down (with the content above NOT visible). Try and ALWAYS have admin iframes scroll to the top on load / reload. Try replicating it with 'strict' 2FA on with 'medium' security mode, AND purposefully type in the 2FA wrong when trying to update settings.
-
-
-Iframe RELOADS / REFRESHES should NOT RESUBMIT DATA (we could have some endless loops, depending on $refresh_admin values in footer.php). Look into adding this in footer.php:
-https://www.webtrickshome.com/forum/how-to-stop-form-resubmission-on-page-refresh
-https://developer.mozilla.org/en-US/docs/Web/API/History/replaceState
-
-
-Add support for ct['conf'] upgrades to BUNDLED (whitelisted) PLUGINS configs.
+Add support for ct['conf'] upgrades to BUNDLED (whitelisted) PLUGINS configs, via the already-integrated "$subarray_allow_upgrading" var.
 
 
 Add input validation for the admin config setting fields in each interface section (connected to config-init for the flag: $update_admin_conf_valid).
+
+
+Test the improved user input sanitization logic.
 
 
 Test that everything resets to allow re-trying to enable 2FA, IF A USERS ENTERS THE WRONG 2FA TRYING TO TURN ON REGULAR OR STRICT MODE.
@@ -108,7 +103,7 @@ Merge System stats / access stats / app logs into one area called: System & App 
 Add feature to address balance tracker plugin to set minimum time to wait before re-sending the same address alert (in hours). Default it to a high number like 8 hours, so any poorly running / configured API servers don't send endless alerts as they send bs 'zero' results.
 
 
-$subarray_allow_upgrading should be populated with subarray keys a user is ok with upgrading (news feeds, assets, whatever). Additionally, a user should be able to choose whether to: add only new vars, delete only removed vars, or replace their current settings with the latest default one.
+"$subarray_allow_upgrading" should also be populated with subarray keys a user is ok with upgrading (news feeds, assets, whatever). Additionally, a user should be able to choose whether to: add only new vars, delete only removed vars, or replace their current settings with the latest default one.
 
 
 Add power user settings interface next.

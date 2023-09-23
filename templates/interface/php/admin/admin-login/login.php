@@ -161,7 +161,7 @@ if ( !$_POST['submit_login'] || is_array($login_result['error']) && sizeof($logi
 
      <div class="password-container">
        
-       <b>Password:</b> <input type='password' name='admin_password' id='admin_password' value='<?=$_POST['admin_password']?>' />
+       <b>Password:</b> <input type='password' data-name="admin_password" name='admin_password' id='admin_password' value='<?=$_POST['admin_password']?>' />
        
        <i class="gg-eye-alt toggle-show-password" data-name="admin_password"></i>
        

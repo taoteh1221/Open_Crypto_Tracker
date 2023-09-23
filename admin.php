@@ -58,13 +58,32 @@ isset($_GET['section']) && trim($_GET['section']) != '' && $ct['gen']->pass_sec_
 require("templates/interface/php/admin/admin-elements/admin-page-iframe.php");
 }
 // Security monitoring
+elseif ( $possible_input_injection ) {
+     
+$security_error_ui = 'Possible code injection attack stopped, please DO NOT attempt to inject scripting or HTML into user inputs.<br /><br />Updating of admin section "' . $ct['gen']->key_to_name($_POST['interface_id']) . '" FAILED.<br /><br /><a href="' . $base_url . $_SERVER['REQUEST_URI'] .'" style="font-weight: bold;">Return To The Previous Page</a>';
+
+echo '<style>html,body,a{color:red;}</style>' . $security_error_ui;
+
+// Log errors before exiting
+// WE ALREADY QUEUED THE ERROR LOG ENTRY FOR THIS ISSUE IN: $ct['gen']->sanitize_string()
+$ct['cache']->error_log();
+
+exit;
+
+}
 else {
-$security_error = 'Admin nonce expired / incorrect (' . $ct['remote_ip'] . '), try reloading the app';
+     
+$security_error = 'Admin nonce expired / incorrect (from ' . $ct['remote_ip'] . '), try reloading the app';
+
 $ct['gen']->log('security_error', $security_error);
-echo $security_error . '.';
+
+echo '<style>html,body,a{color:red;}</style>' . $security_error . '.';
+
 // Log errors before exiting
 $ct['cache']->error_log();
+
 exit;
+
 }
 
 

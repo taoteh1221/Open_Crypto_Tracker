@@ -195,32 +195,6 @@ nav_menu('.user-nav');
         $("#reset_username").filter(':visible').focus();
     	}, 1000);
     }
-	
-
-	/////////////////////////////////////////////////////////////////////////////////////////////////////
-	
-
-    // Admin iframes
-    admin_iframe_load.forEach(function(iframe) {
-       
-          // When admin iframe loads / reloads
-          iframe.addEventListener('load', function() {
-          
-          // Always scroll to top left on load / reload for UX
-          iframe.contentWindow.scrollTo(0,0);
-    
-          iframe_size_adjust(iframe);
-          $("#"+iframe.id+"_loading").fadeOut(250);
-          
-              // Before admin iframe unloads
-              // (MUST BE NESTED IN 'load', AND USE contentWindow)
-              iframe.contentWindow.addEventListener('beforeunload', function() {
-              $("#"+iframe.id+"_loading").fadeIn(250);
-              });
-          
-          });
-      
-    });
 
 
 	/////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -261,6 +235,8 @@ nav_menu('.user-nav');
      
           dynamic_position('#background_loading', 'emulate_sticky');
      
+          dynamic_position('.iframe_loading_placeholder', 'emulate_sticky');
+     
           dynamic_position('.page_title', 'emulate_sticky');
      
           dynamic_position('.countdown_notice', 'emulate_sticky');
@@ -281,7 +257,7 @@ nav_menu('.user-nav');
 
         $(this).toggleClass("gg-eye-alt");
        
-        var input_elm = $("input[name=" + $(this).attr('data-name') + "]");
+        var input_elm = $("input[data-name=" + $(this).attr('data-name') + "]");
        
             if ( input_elm.attr("type") === "password" ) {
             input_elm.attr("type", "text");
@@ -319,6 +295,40 @@ nav_menu('.user-nav');
      	   }, 100);
            
      });
+	
+
+	/////////////////////////////////////////////////////////////////////////////////////////////////////
+	
+
+    // Admin iframes LOADING
+    admin_iframe_load.forEach(function(iframe) {
+       
+          // When admin iframe loads / reloads
+          iframe.addEventListener('load', function() {
+          
+          // Always scroll to top left on load / reload for UX
+          iframe.contentWindow.scrollTo(0,0);
+    
+          iframe_size_adjust(iframe);
+          $("#"+iframe.id+"_loading").fadeOut(250);
+          $("#"+iframe.id).fadeIn(250);
+          
+              // Before admin iframe unloads
+              // (MUST BE NESTED IN 'load', AND USE contentWindow)
+              iframe.contentWindow.addEventListener('beforeunload', function() {
+              $("#"+iframe.id+"_loading").fadeIn(250);
+              $("#"+iframe.id).fadeOut(250);
+              });
+          
+              // Before admin iframe submits
+              // (MUST BE NESTED IN 'load', AND USE contentWindow)
+              iframe.contentWindow.addEventListener('submit', function() {
+                   // logic here if needed
+              });
+          
+          });
+      
+    });
 
 
 	/////////////////////////////////////////////////////////////////////////////////////////////////////

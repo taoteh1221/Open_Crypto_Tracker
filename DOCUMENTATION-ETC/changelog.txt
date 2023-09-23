@@ -6295,9 +6295,9 @@ MIGRATE YOUR EXISTING SETTINGS TO THE NEW FORMAT.
 
 -Added Admin Config settings into these admin interface sections (these config settings are now editable in the admin interface): General, Communications, Extenal APIs, and Security
 
--New 'strict' mode available for admin area 2-factor authentication (requires entering a 2FA code when changing ANYTHING in the admin area)
+-Improved user-input sanitization (to nullify code injection attacks even better than before, since we now have user-input in the admin area)
 
--Enhanced user-input sanitization (to nullify code injection attacks), since we now have user-input in the admin area
+-New 'strict' mode available for admin area 2-factor authentication (requires entering a 2FA code when changing ANYTHING in the admin area)
 
 -More developer-friendly configurations that are 'developer-only' (easier to tweak dev-related values)
 

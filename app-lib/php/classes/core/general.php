@@ -813,6 +813,8 @@ var $ct_array = array();
 	  
 	  <p>
 	  
+	  <p id='notice_2fa_code_<?=$count_2fa_fields?>' class='hidden red red_dotted' style='font-weight: bold;'><?=$check_2fa_error?>.</p>
+	  
 	  <span class='<?=( $force_show != false ? 'red' : 'bitcoin' )?>' style='font-weight: bold;'>Enter 2FA Code (from phone app):</span><br />
 	  
 	  <input class='2fa_code_input' style='margin-top: 0.5em;' type='text' id='2fa_code_<?=$count_2fa_fields?>' name='2fa_code' value='' size='10' />
@@ -820,8 +822,6 @@ var $ct_array = array();
 	  </p>
 	  
 	  <input class='2fa_code_id_input' type='hidden' name='2fa_code_id' value='2fa_code_<?=$count_2fa_fields?>' />
-	  
-	  <p id='notice_2fa_code_<?=$count_2fa_fields?>' class='hidden red red_dotted' style='font-weight: bold;'><?=$check_2fa_error?>.</p>
 	  
 	  </div>
 	  
@@ -2157,7 +2157,7 @@ var $ct_array = array();
         
         // Wipe data value, if scripting / HTML detection flagged
         if ( $has_script > 0 || $original != $sanitized ) {
-        $this->log('security_error', 'POSSIBLE code injection blocked in request data (from ' . $ct['remote_ip'] . '): _' . strtoupper($method) . '["' . $ext_key . '"]');
+        $this->log('security_error', 'POSSIBLE code injection attack blocked in request data _' . strtoupper($method) . '["' . $ext_key . '"] (from ' . $ct['remote_ip'] . '), please DO NOT attempt to inject scripting / HTML into user inputs');
         $data = 'code_not_allowed';
         $possible_input_injection = true;
         }
@@ -2325,7 +2325,7 @@ var $ct_array = array();
       // Flag the runtime mode in logs if it's an iframe's runtime (for cleaner / less-confusing logs)
       // Change var name to avoid changing the GLOBAL value
       if ( $is_iframe ) {
-      $logged_runtime_mode = $ct['runtime_mode'] . ' (iframe)';
+      $logged_runtime_mode = $ct['runtime_mode'] . ' (' . ( isset($_GET['section']) ? 'iframe=' . $_GET['section'] : 'iframe=unknown' ) . ')';
       }
       else {
       $logged_runtime_mode = $ct['runtime_mode'];

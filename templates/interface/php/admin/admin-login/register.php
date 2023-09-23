@@ -245,7 +245,7 @@ if ( !$_POST['submit_registration'] || is_array($register_result['error']) ) {
 
           <div class="password-container">
           
-	       <b>Password:</b> <input type='password' id='set_password' name='set_password' value='<?=$_POST['set_password']?>' style='<?=( $password_field_color ? 'background: ' . $password_field_color : '' )?>' />
+	       <b>Password:</b> <input type='password' id='set_password' data-name="set_password" name='set_password' value='<?=$_POST['set_password']?>' style='<?=( $password_field_color ? 'background: ' . $password_field_color : '' )?>' />
 	       
             <i class="gg-eye-alt toggle-show-password" data-name="set_password"></i>
             
@@ -258,7 +258,7 @@ if ( !$_POST['submit_registration'] || is_array($register_result['error']) ) {
 
           <div class="password-container">
           
-	       <b>Repeat Password:</b> <input type='password' id='set_password2' name='set_password2' value='<?=$_POST['set_password2']?>' style='<?=( $password2_field_color ? 'background: ' . $password2_field_color : '' )?>' />
+	       <b>Repeat Password:</b> <input type='password' id='set_password2' data-name="set_password2" name='set_password2' value='<?=$_POST['set_password2']?>' style='<?=( $password2_field_color ? 'background: ' . $password2_field_color : '' )?>' />
 	       
             <i class="gg-eye-alt toggle-show-password" data-name="set_password2"></i>
             

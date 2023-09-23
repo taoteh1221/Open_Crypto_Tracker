@@ -721,7 +721,6 @@ margin-top: 1.1em !important;
 .gg-eye {
     position: relative;
     display: block;
-    transform: scale(var(--ggs,1));
     width: 24px;
     height: 18px;
     border-bottom-right-radius: 100px;
@@ -758,7 +757,6 @@ margin-top: 1.1em !important;
 .gg-eye-alt {
     position: relative;
     display: block;
-    transform: scale(var(--ggs,1));
     width: 24px;
     height: 18px;
     border-bottom-right-radius: 100px;
@@ -796,10 +794,8 @@ margin-top: 1.1em !important;
 }
 
 
-i.gg-eye, i.gg-eye-alt{
+i.gg-eye, i.gg-eye-alt {
   position: absolute;
-  top: 0.2em;
-  right: 0.25em;
   cursor: pointer;
   color: black;
 }
@@ -812,7 +808,7 @@ i.gg-eye, i.gg-eye-alt{
 }
 .password-container input[type="password"],
 .password-container input[type="text"]{
-  /* padding: 0.25em 0.25em 0.25em 0.25em; */
+padding-right: 1.0em;
 }
 
 

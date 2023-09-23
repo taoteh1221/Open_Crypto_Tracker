@@ -702,6 +702,7 @@ $ct['conf']['power']['php_error_reporting'] = 0; // 0 == off / -1 == on
 // ### TELEMETRY ###
 ////
 // 'all_telemetry' (ALL in-app telemetry), 
+// 'conf_telemetry' (ct['conf'] caching),
 // 'light_chart_telemetry' (light chart caching),
 // 'memory_usage_telemetry' (PHP system memory usage),
 // 'ext_data_live_telemetry' (external API requests from server),

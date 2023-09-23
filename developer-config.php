@@ -56,6 +56,9 @@ $ct['dev']['info_icon_size_css_selector'] = "img.tooltip_style_control";
 // ajax loading size CSS configs
 $ct['dev']['ajax_loading_size_css_selector'] = "img.ajax_loader_image";
 
+// password eye icon size CSS configs
+$ct['dev']['password_eye_size_css_selector'] = "i.gg-eye, i.gg-eye-alt";
+
 // standard font size CSS configs
 $ct['dev']['font_size_css_selector'] = "#sidebar_menu, #header_size_warning, #alert_bell_area, #background_loading, radio, .full_width_wrapper:not(.custom-select), .iframe_wrapper:not(.custom-select), .footer_content, .footer_banner, .countdown_notice, .sidebar-slogan, .pw_prompt";
 

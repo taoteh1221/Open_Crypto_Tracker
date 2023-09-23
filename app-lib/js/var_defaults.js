@@ -52,6 +52,8 @@ var info_icon_size_css_selector;
 
 var ajax_loading_size_css_selector;
 
+var password_eye_size_css_selector;
+
 var font_size_css_selector;
 
 var medium_font_size_css_selector;

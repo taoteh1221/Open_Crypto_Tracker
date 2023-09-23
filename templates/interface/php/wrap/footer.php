@@ -97,6 +97,8 @@ $(document).ready(function() {
          
      function reload_iframes() {
          
+         if ( is_iframe ) {
+              
          <?php
          // If we need to refresh an admin iframe, to show the updated data
          if ( isset($_GET['refresh']) ) {
@@ -136,6 +138,19 @@ $(document).ready(function() {
                  if ( isset($refresh) && trim($refresh) != '' && $refresh != 'iframe_' . $_GET['section'] ) {
                  ?>
                  
+                 console.log('refreshing: ' + parent.document.getElementById('<?=$refresh?>').contentWindow.location.href)
+                 
+                 // Remove any POST data (so we don't get endless loops under certain conditions)
+                 if ( parent.document.getElementById('<?=$refresh?>').contentWindow.history.replaceState ) {
+                 parent.document.getElementById('<?=$refresh?>').contentWindow.history.replaceState(null, null, parent.document.getElementById('<?=$refresh?>').contentWindow.location.href);
+                 }
+                 
+                 // Remove any POST data AGAIN, IN A DIFFERENT WAY (JUST TO BE SURE!)
+                 parent.document.getElementById('<?=$refresh?>').contentWindow.location.replace(
+                 parent.document.getElementById('<?=$refresh?>').contentWindow.location.href,
+                 );
+                 
+                 // Now we can safely reload
                  parent.document.getElementById('<?=$refresh?>').contentWindow.location.reload(true);
                  
                  <?php
@@ -147,10 +162,12 @@ $(document).ready(function() {
          }
          ?>
          
+         }
+         
      }
      
-     // Reload all flagged iframes after 3.5 seconds (to give any newly-revised ct_conf time to re-cache)
-     setTimeout(reload_iframes, 3500); 
+     // Reload all flagged iframes after 2.5 seconds (to give any newly-revised ct_conf time to re-cache)
+     setTimeout(reload_iframes, 2500); 
      
      <?php
      } // END admin

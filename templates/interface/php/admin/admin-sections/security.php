@@ -213,15 +213,24 @@ else {
 ////////////////////////////////////////////////////////////////////////////////////////////////
 
 
+$admin_render_settings['interface_login']['is_password'] = true;
+
+
 $admin_render_settings['interface_login']['text_field_size'] = 25;
 
-$admin_render_settings['interface_login']['notes'] = 'This format MUST be used: username||password';
+$admin_render_settings['interface_login']['is_notes'] = 'This format MUST be used: username||password';
 
 
 ////////////////////////////////////////////////////////////////////////////////////////////////
 
 
-$admin_render_settings['login_alert']['select'] = array(
+$admin_render_settings['backup_archive_password']['is_password'] = true;
+
+
+////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+$admin_render_settings['login_alert']['is_select'] = array(
                                                           'off',
                                                           'email',
                                                           'text',
@@ -230,19 +239,19 @@ $admin_render_settings['login_alert']['select'] = array(
                                                           'all',
                                                          );
 
-$admin_render_settings['login_alert']['notes'] = 'See "External APIs" section for using any comms-related APIs.';
+$admin_render_settings['login_alert']['is_notes'] = 'See "External APIs" section for using any comms-related APIs.';
                                                          
                                                          
 ////////////////////////////////////////////////////////////////////////////////////////////////
 
 
-$admin_render_settings['admin_cookie_expires']['select']['assoc'] = array();
+$admin_render_settings['admin_cookie_expires']['is_select']['assoc'] = array();
 
 $loop = 1;
 $loop_max = 6;
 while ( $loop <= $loop_max ) {
      
-$admin_render_settings['admin_cookie_expires']['select']['assoc'][] = array(
+$admin_render_settings['admin_cookie_expires']['is_select']['assoc'][] = array(
                                                                        'key' => $loop,
                                                                        'val' => 'After ' . $loop . ' Hours',
                                                                       );
@@ -254,40 +263,40 @@ $loop = $loop + 1;
 ////////////////////////////////////////////////////////////////////////////////////////////////
 
 
-$admin_render_settings['smtp_strict_ssl']['radio'] = array(
+$admin_render_settings['smtp_strict_ssl']['is_radio'] = array(
                                                           'off',
                                                           'on',
                                                          );
 
-$admin_render_settings['smtp_strict_ssl']['notes'] = 'Set to "off", if the SMTP server has an invalid certificate setup.';
+$admin_render_settings['smtp_strict_ssl']['is_notes'] = 'Set to "off", if the SMTP server has an invalid certificate setup.';
 
 
 ////////////////////////////////////////////////////////////////////////////////////////////////
 
 
-$admin_render_settings['remote_api_strict_ssl']['radio'] = array(
+$admin_render_settings['remote_api_strict_ssl']['is_radio'] = array(
                                                           'off',
                                                           'on',
                                                          );
 
-$admin_render_settings['remote_api_strict_ssl']['notes'] = 'Set to "off", if some exchange\'s API servers have invalid certificates.';
+$admin_render_settings['remote_api_strict_ssl']['is_notes'] = 'Set to "off", if some exchange\'s API servers have invalid certificates.';
 
 
 ////////////////////////////////////////////////////////////////////////////////////////////////
 
 
-$admin_render_settings['access_control_origin']['radio'] = array(
+$admin_render_settings['access_control_origin']['is_radio'] = array(
                                                           'any',
                                                           'strict',
                                                          );
 
-$admin_render_settings['access_control_origin']['notes'] = '"strict" #CAN BREAK THINGS LOADING# ON SOME SETUPS!';
+$admin_render_settings['access_control_origin']['is_notes'] = '"strict" #CAN BREAK THINGS LOADING# ON SOME SETUPS!';
 
 
 ////////////////////////////////////////////////////////////////////////////////////////////////
 
 
-$admin_render_settings['captcha_text_contrast']['select']['assoc'] = array();
+$admin_render_settings['captcha_text_contrast']['is_select']['assoc'] = array();
 
 $loop = -35;
 $loop_max = 35;
@@ -295,7 +304,7 @@ while ( $loop <= $loop_max ) {
      
 $loop_key = ( $loop >= 0 ? '+' . $loop : $loop );
      
-$admin_render_settings['captcha_text_contrast']['select']['assoc'][] = array(
+$admin_render_settings['captcha_text_contrast']['is_select']['assoc'][] = array(
                                                                        'key' => $loop,
                                                                        'val' => $loop_key,
                                                                       );
@@ -308,13 +317,13 @@ unset($loop_key);
 ////////////////////////////////////////////////////////////////////////////////////////////////
 
 
-$admin_render_settings['captcha_text_angle']['select']['assoc'] = array();
+$admin_render_settings['captcha_text_angle']['is_select']['assoc'] = array();
 
 $loop = 0;
 $loop_max = 35;
 while ( $loop <= $loop_max ) {
      
-$admin_render_settings['captcha_text_angle']['select']['assoc'][] = array(
+$admin_render_settings['captcha_text_angle']['is_select']['assoc'][] = array(
                                                                        'key' => $loop,
                                                                        'val' => $loop . ' degrees Maximum',
                                                                       );
@@ -326,8 +335,15 @@ $loop = $loop + 1;
 ////////////////////////////////////////////////////////////////////////////////////////////////
 
 
+// What OTHER admin pages should be refreshed AFTER this settings update runs
+// (SEE $refresh_admin / $_GET['refresh'] in footer.php, for ALL possible values)
+$admin_render_settings['is_refresh_admin'] = 'all';
+
 // $ct['admin']->settings_form_fields($conf_id, $interface_id)
 $ct['admin']->settings_form_fields('sec', 'security', $admin_render_settings);
+
+
+////////////////////////////////////////////////////////////////////////////////////////////////
 
 
 }
