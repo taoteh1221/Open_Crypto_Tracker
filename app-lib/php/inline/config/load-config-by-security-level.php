@@ -15,7 +15,6 @@
 // (WE PROCESS IT AT THE BOTTOM OF THIS FILE [SAVE IT TO FILE STORAGE])
 if ( $admin_area_sec_level != 'high' && !$reset_config ) {
 $ct['cache']->load_cached_config();
-$ct['admin']->queue_config_update(); // MUST BE AFTER load_cached_config()
 }
 
 
@@ -46,16 +45,16 @@ $this_plug = $key;
      	    if ( !isset($ct['conf']['plug_conf'][$this_plug]) ) {
      		        
      	    $ct['conf']['plug_conf'][$this_plug] = $plug_conf[$this_plug]; // Add each plugin's config into the GLOBAL app config
-     		    
-     		   if ( $admin_area_sec_level != 'high' && !$reset_config ) {
-         		   $ct['gen']->log('conf_error', 'plugin "'.$this_plug.'" ADDED, updating CACHED ct_conf');
+     		   
+     		   // If were're not resetting, flag an update to occurr
+     		   if ( !$reset_config ) {
+         	        $ct['gen']->log('conf_error', 'plugin "'.$this_plug.'" ADDED, updating CACHED ct_conf');
                   $update_config = true;
-     		   }
+                  }
      		        
      	    }
      	    // WE *MUST* RESET $plug_conf[$this_plug] TO USE *CACHED* CONFIG DATA HERE,
      	    // AS IN THIS CASE WE ALREADY HAVE IT ACTIVATED IN THE *CACHED* CONFIG!
-		    // *RESET* SIMPLIFIED / MINIMIZED PLUG_CONF ONLY FOR USE *INSIDE* PLUGIN LOGIC / PLUGIN INIT LOOPS
      	    else {
      	    $plug_conf[$this_plug] = $ct['conf']['plug_conf'][$this_plug];
      	    }
@@ -80,10 +79,15 @@ $this_plug = $key;
 		
 		    // Check MANDATORY 'runtime_mode' plugin config setting		
 		    if ( !isset($plug_conf[$this_plug]['runtime_mode']) || isset($plug_conf[$this_plug]['runtime_mode']) && !in_array($plug_conf[$this_plug]['runtime_mode'], $plugin_runtime_mode_check) ) {
+     	    
      	    unset($plug_conf[$this_plug]);
+
      	    unset($ct['conf']['plug_conf'][$this_plug]);
+
      	    unset($default_ct_conf['plug_conf'][$this_plug]);
+
          	    $ct['gen']->log('conf_error', 'plugin "'.$this_plug.'" has an INVALID "runtime_mode" configuration setting (' . ( isset($plug_conf[$this_plug]['runtime_mode']) ? $plug_conf[$this_plug]['runtime_mode'] : 'NOT SET' ) . '), skipping activation until fixed');
+
 		    }
 		    // Cleared for takeoff
 		    else {
@@ -109,16 +113,24 @@ $this_plug = $key;
      		
      			// Add to activated cron plugins 
      			if ( $plug_conf[$this_plug]['runtime_mode'] == 'cron' || $plug_conf[$this_plug]['runtime_mode'] == 'all' ) {
+     			     
      			$activated_plugins['cron'][$this_plug] = $ct['base_dir'] . '/plugins/' . $this_plug . '/plug-lib/plug-init.php'; // Loaded LATER at bottom of cron.php (if cron runtime)
+     			
      			ksort($activated_plugins['cron']); // Alphabetical order (for admin UI)
+     			
      			$plugin_activated = true;
+     			
      			}
      			
      			// Add to activated UI plugins
      			if ( $plug_conf[$this_plug]['runtime_mode'] == 'ui' || $plug_conf[$this_plug]['runtime_mode'] == 'all' ) {
+     			     
      			$activated_plugins['ui'][$this_plug] = $ct['base_dir'] . '/plugins/' . $this_plug . '/plug-lib/plug-init.php';
+     			
      			ksort($activated_plugins['ui']); // Alphabetical order (for admin UI)
+
      			$plugin_activated = true;
+
      			}
      			
      			// Add to activated webhook plugins
@@ -155,7 +167,8 @@ $this_plug = $key;
                          	$int_webhooks[$this_plug] = $secure_256bit_hash;
                          	}
                          	
-                            	
+                         $admin_reset_success = 'The "' . $this_plug . '" webhook key was reset successfully.'; 
+                         
                          }
                          
      
@@ -176,12 +189,12 @@ $this_plug = $key;
 		
 		
 		}
-		// If plugin has been removed AND we are running the NORMAL SECURITY admin pages, then remove any ct_conf entry
-		// (THIS AUTOMATICALLY #CANNOT# HAPPEN IF WE ARE #NOT# IN NORMAL SECURITY ADMIN MODE)
-          // (if NO USER-INITIATED CT_CONF RESET)
-		elseif ( $admin_area_sec_level != 'high' && !$reset_config ) {
-		unset($ct['conf']['plug_conf'][$this_plug]);
+		// If plugin has been removed, then remove any ct_conf entry
+     	// If were're not resetting, flag an update to occurr
+		elseif ( !$reset_config ) {
 		unset($plug_conf[$this_plug]);
+		unset($ct['conf']['plug_conf'][$this_plug]);
+		unset($default_ct_conf['plug_conf'][$this_plug]);
     	     $ct['gen']->log('conf_error', 'plugin "'.$this_plug.'" REMOVED, updating CACHED ct_conf');
           $update_config = true;
 		}
@@ -197,12 +210,20 @@ unset($this_plug);  // Reset
 }
 
 
+// Queue up any user updates to the config (sets $update_config flag if there are any)
+// MUST RUN AFTER SCANNING PLUGIN CONFIGS
+if ( $admin_area_sec_level != 'high' && !$reset_config ) {
+$ct['admin']->queue_config_update();
+}
+
+
 // IF ADMIN-USER-INITIATED ct_conf CACHE RESET (ALSO LOADS CT_CONF [WITH ACTIVATED PLUGIN CONFIGS])
 if ( $reset_config ) {
 $ct['conf'] = $ct['cache']->update_cached_config(false, false, true); // Admin-user-initiated reset flag
 sleep(3); // Give recache file save a few seconds breather, BEFORE load_cached_config() READS FROM IT
 }
 // We use the $update_config flag, to avoid multiple calls in the loop
+// THIS CAN BE ANY SECURITY MODE
 elseif ( $update_config ) {
 $ct['conf'] = $ct['cache']->update_cached_config($ct['conf']);
 $update_config = false; // Set back to false, since this is a global var

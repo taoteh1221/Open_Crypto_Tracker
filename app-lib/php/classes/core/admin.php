@@ -25,7 +25,7 @@ var $ct_array = array();
    
    sleep(1); // CHILL
    
-   
+        
         // Updating the admin config
         // (MUST run after primary-init, BUT BEFORE load-config-by-security-level.php)
         // (STRICT 2FA MODE ONLY)

@@ -170,7 +170,7 @@ var $ct_array = array();
         
    global $possible_input_injection;
    
-      if ( !$possible_input_injection && $this->admin_logged_in() && isset($val) && trim($val) != '' && $this->admin_hashed_nonce($hash_key) != false && $val == $this->admin_hashed_nonce($hash_key) ) {
+      if ( !$possible_input_injection && $this->admin_logged_in() && isset($val) && trim($val) != '' && isset($hash_key) && trim($hash_key) != '' && $this->admin_hashed_nonce($hash_key) != false && $val == $this->admin_hashed_nonce($hash_key) ) {
       return true;
       }
       else {
