@@ -6320,7 +6320,9 @@ MIGRATE YOUR EXISTING SETTINGS TO THE NEW FORMAT.
 -------------------------------------------------------------------
 6.00.28:
 
--BUG FIX: TBD
+-BUG FIX: Fixed support for using Google Fonts (to change the text style used in the app)
+
+-BUG FIX: Fixed proper refreshing of plugin configs, when configs are updated
 
 -Miscellaneous user experience improvements
 

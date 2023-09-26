@@ -46,6 +46,8 @@ var app_container;
 
 var global_line_height_percent;
 
+var font_name_url_formatting;
+
 var set_font_size;
 
 var info_icon_size_css_selector;

@@ -158,14 +158,61 @@ var $ct_array = array();
    
       // Check for new variables, and add them
       foreach ( $default_ct_conf[$cat_key][$conf_key] as $setting_key => $setting_val ) {
+   
+         
+         // Check plugins FIRST
+         // Uses === for PHPv7.4 support
+         if ( $cat_key === 'plugins' && $conf_key === 'plugin_status' && !array_key_exists($setting_key, $ct['dev']['bundled_plugins']) ) {
+         continue; // Skip custom (NON-bundled) plugins
+         }
+         // Check $ct['conf']['plug_conf'][$setting_key]
+         else {
+              
+         			
+              if ( !isset($conf['plug_conf'][$setting_key]) ) {
+                   
+              $conf['plug_conf'][$setting_key] = $default_ct_conf['plug_conf'][$setting_key];
+              
+              $ct['gen']->log(
+              			'conf_error',
+              			'Outdated app config, upgraded PARENT ARRAY parameter ct[conf][plug_conf][' . $setting_key . '] imported'
+              			);
+              
+              $conf_upgraded = true;	
+              
+              }
+              
+              
+              foreach ( $default_ct_conf['plug_conf'][$setting_key] as $plug_setting_key => $plug_setting_val ) {
+              
+                 if ( !isset($conf['plug_conf'][$setting_key][$plug_setting_key]) ) {
+                 
+                 $conf['plug_conf'][$setting_key][$plug_setting_key] = $default_ct_conf['plug_conf'][$setting_key][$plug_setting_key];
+                    
+                 $log_val_descr = ( $default_ct_conf['plug_conf'][$setting_key][$plug_setting_key] != null || $default_ct_conf['plug_conf'][$setting_key][$plug_setting_key] != false ? $default_ct_conf['plug_conf'][$setting_key][$plug_setting_key] : '[null or false]' );
+              
+                 $ct['gen']->log(
+              			'conf_error',
+              			'Outdated app config, upgraded parameter ct[conf][plug_conf][' . $setting_key . '][' . $plug_setting_key . '] imported (default value: ' . $log_val_descr . ')'
+              			);
+              
+                 $conf_upgraded = true;
+              
+                 }
+              
+              }
+              
+         
+         }
       
       
+         // Check everything else
          if ( !is_array($conf[$cat_key][$conf_key]) || is_array($conf[$cat_key][$conf_key]) && !array_key_exists($setting_key, $conf[$cat_key][$conf_key]) ) {
          			
          			
               if ( !is_array($conf[$cat_key][$conf_key]) ) {
                    
-              $conf[$cat_key][$conf_key] = array();
+              $conf[$cat_key][$conf_key] = $default_ct_conf[$cat_key][$conf_key];
               
               $ct['gen']->log(
               			'conf_error',
@@ -201,8 +248,53 @@ var $ct_array = array();
       
       // Check for depreciated variables, and remove them
       foreach ( $conf[$cat_key][$conf_key] as $setting_key => $setting_val ) {
-           
+   
+         
+         // Check plugins FIRST
+         // Uses === for PHPv7.4 support
+         if ( $cat_key === 'plugins' && $conf_key === 'plugin_status' && !array_key_exists($setting_key, $ct['dev']['bundled_plugins']) ) {
+         continue; // Skip custom (NON-bundled) plugins
+         }
+         // Check $ct['conf']['plug_conf'][$setting_key]
+         else {
+              
+         			
+              if ( !isset($default_ct_conf['plug_conf'][$setting_key]) ) {
+                   
+              unset($conf['plug_conf'][$setting_key]);
+              
+              $ct['gen']->log(
+              			'conf_error',
+              			'Depreciated app config, parameter ct[conf][plug_conf][' . $setting_key . '] removed'
+              			);
+              
+              $conf_upgraded = true;	
+              
+              }
+              
+              
+              foreach ( $conf['plug_conf'][$setting_key] as $plug_setting_key => $plug_setting_val ) {
+              
+                 if ( !isset($default_ct_conf['plug_conf'][$setting_key][$plug_setting_key]) ) {
+                 
+                 unset($conf['plug_conf'][$setting_key][$plug_setting_key]);
+              
+                 $ct['gen']->log(
+              			'conf_error',
+              			'Depreciated app config, parameter ct[conf][plug_conf][' . $setting_key . '][' . $plug_setting_key . '] removed'
+              			);
+              
+                 $conf_upgraded = true;
+              
+                 }
+              
+              }
+              
+         
+         }
       
+      
+         // Check everything else
          if ( !is_array($default_ct_conf[$cat_key][$conf_key]) || is_array($default_ct_conf[$cat_key][$conf_key]) && !array_key_exists($setting_key, $default_ct_conf[$cat_key][$conf_key]) ) {
          
          
@@ -686,7 +778,7 @@ var $ct_array = array();
       return $default_ct_conf;
       }
       // If the default app config has changed since last check (from upgrades / end user editing)
-      elseif ( $check_default_ct_conf != md5(serialize($default_ct_conf)) ) {
+      elseif ( $check_default_ct_conf != md5( serialize($default_ct_conf) ) ) {
          
          
          // Check for new variables, and add them
@@ -695,7 +787,10 @@ var $ct_array = array();
             foreach ( $cat_val as $conf_key => $conf_val ) {
          
          
-               if ( is_array($conf_val) && in_array($cat_key, $subarray_allow_upgrading) ) {
+               if (
+               is_array($conf_val) && in_array($cat_key, $subarray_allow_upgrading)
+               || is_array($conf_val) && $cat_key == 'plugins' && $conf_key == 'plugin_status'
+               ) {
                $conf = $this->subarray_cached_ct_conf_upgrade($conf, $cat_key, $conf_key);
                }
                
@@ -741,7 +836,10 @@ var $ct_array = array();
             foreach ( $cached_cat_val as $cached_conf_key => $cached_conf_val ) {
          
          
-               if ( is_array($cached_conf_val) && in_array($cached_cat_key, $subarray_allow_upgrading) ) {
+               if ( 
+               is_array($cached_conf_val) && in_array($cached_cat_key, $subarray_allow_upgrading)
+               || is_array($conf_val) && $cached_cat_key == 'plugins' && $cached_conf_key == 'plugin_status'
+               ) {
                $conf = $this->subarray_cached_ct_conf_upgrade($conf, $cached_cat_key, $cached_conf_key);
                }
                
@@ -2235,7 +2333,7 @@ var $ct_array = array();
   $cookie_jar = tempnam('/tmp','cookie');
    
   // To cache duplicate requests based on a data hash, during runtime update session (AND persist cache to flat files)
-  $hash_check = ( $mode == 'params' ? md5(serialize($request_params)) : md5($request_params) );
+  $hash_check = ( $mode == 'params' ? md5( serialize($request_params) ) : md5($request_params) );
   
   $api_endpoint = ( $mode == 'params' ? $api_server : $request_params );
      

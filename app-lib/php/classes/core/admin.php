@@ -23,8 +23,6 @@ var $ct_array = array();
         
    global $ct, $app_was_upgraded, $update_config, $check_2fa_error, $update_config_error, $update_config_success;
    
-   sleep(1); // CHILL
-   
         
         // Updating the admin config
         // (MUST run after primary-init, BUT BEFORE load-config-by-security-level.php)

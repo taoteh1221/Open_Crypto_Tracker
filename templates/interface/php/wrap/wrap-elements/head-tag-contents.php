@@ -35,6 +35,8 @@
 	<link rel="preload" href="templates/interface/css/<?=$sel_opt['theme_selected']?>.style.css" as="style" />
 
 	<link rel="preload" href="templates/interface/css/highlightjs.min.css" as="style" />
+
+	<link rel="preload" href="https://fonts.googleapis.com/css?family=<?=$font_name_url_formatting?>&display=swap" as="style" />
 	
 	
 	<?php
@@ -251,6 +253,7 @@
 	}
 	?>
 	
+	font_name_url_formatting = "<?=$font_name_url_formatting?>";
 	
 	global_line_height_percent = Number("<?=$ct['dev']['global_line_height_percent']?>");
 	

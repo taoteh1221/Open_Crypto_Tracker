@@ -148,6 +148,18 @@ $ct['dev']['captcha_text_margin'] = 10; // MINIMUM margin of text from edge of i
 $ct['dev']['captcha_permitted_chars'] = 'ABCDEFHJKMNPRSTUVWXYZ23456789'; // (default = 'ABCDEFHJKMNPRSTUVWXYZ23456789')
      
      
+// List of BUNDLED plugins (that we allow config upgrades on)
+$ct['dev']['bundled_plugins'] = array(
+                                     // 'plugin-name-here',
+                                     'debt-interest-tracker',
+                                     'recurring-reminder',
+                                     'price-target-alert',
+                                     'address-balance-tracker',
+                                     'crypto-info-bot',
+                                     'on-chain-stats',
+                                     );
+     
+     
 // Servers which are known to block API access by location / jurasdiction
 // (we alert end-users in error logs, when a corrisponding API server connection fails [one-time notice per-runtime])
 $ct['dev']['location_blocked_servers'] = array(
