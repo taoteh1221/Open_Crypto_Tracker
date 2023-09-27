@@ -10,10 +10,7 @@ NEXT SCHEDULED WORK SESSIONS (*BOTH* DEBUGGING AND / OR INFRASTRUCTURE)
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
-Torture test the CACHED config upgrade logic, INCLUDING the recently-added bundled plugins config support.
-
-
-At top of general page, have a 'Scan For Database Upgrades", which simply triggers the "$app_was_upgraded" flag (set near top of config-init.php), to check if the CACHED config needs to be upgraded.
+Torture test the CACHED config upgrade logic (with the new "Scan For Database Upgrades" button at top of general section), INCLUDING the recently-added bundled plugins config support.
 
 
 Torture test the security level toggle, like we did for the 2fa toggle.

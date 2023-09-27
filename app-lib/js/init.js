@@ -26,10 +26,6 @@ $("#app_loading").hide(250, 'linear'); // 0.25 seconds
 $("#content_wrapper").show(250, 'linear'); // 0.25 seconds
 $("#content_wrapper").css('display','inline'); // MUST display inline to center itself cross-browser
 
-
-// Load external google font CSS file (AFTER page shows)
-load_google_font();
-
   
 // Charts background / border
 $(".chart_wrapper").css({ "background-color": charts_background });

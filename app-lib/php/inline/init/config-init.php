@@ -27,10 +27,20 @@ $check_default_ct_conf = null;
 
 // Flag any new upgrade, for UI alert, AND MORE IMPORTANTLY: avoiding conflicts with config reset / refresh / upgrade routines
 // (!!MUST RUN *BEFORE* $reset_config, AND *BEFORE* load-config-by-security-level.php)
-if ( isset($cached_app_version) && trim($cached_app_version) != '' && trim($cached_app_version) != $ct['app_version'] ) {
+if (
+isset($cached_app_version) && trim($cached_app_version) != '' && trim($cached_app_version) != $ct['app_version']
+||  $_POST['upgrade_ct_conf'] == 1 && $ct['gen']->pass_sec_check($_POST['admin_hashed_nonce'], 'upgrade_ct_conf') && $ct['gen']->valid_2fa('strict')
+) {
+     
 $app_was_upgraded = true;
+
 // Refresh current app version to flat file (for auto-install/upgrade scripts to easily determine the currently-installed version)
 $ct['cache']->save_file($ct['base_dir'] . '/cache/vars/app_version.dat', $ct['app_version']);
+
+     if ( isset($_POST['upgrade_ct_conf']) ) {
+     $admin_general_success = 'The app configuration database was scanned for upgrades successfully. Please see the alerts section (siren icon in the sidebar), to review if anything required upgrading.';
+     }
+
 }
 
 

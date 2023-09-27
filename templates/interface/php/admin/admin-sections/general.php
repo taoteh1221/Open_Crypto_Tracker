@@ -20,7 +20,58 @@ if ( $admin_area_sec_level == 'high' ) {
 <?php
 }
 else {
+?>
 
+	 <?php
+	 if ( $admin_general_error != null ) {
+	 ?>
+	 <div class='red red_dotted' style='font-weight: bold;'><?=$admin_general_error?></div>
+	 <div style='min-height: 1em;'></div>
+	 <?php
+	 }
+	 elseif ( $admin_general_success != null ) {
+	 ?>
+	 <div class='green green_dotted' style='font-weight: bold;'><?=$admin_general_success?></div>
+	 <div style='min-height: 1em;'></div>
+	 <?php
+	 }
+	 ?>
+	 
+
+	<!-- UPGRADE ct_conf key START -->
+
+	<div style='margin: 25px;'>
+	
+	<form id='upgrade_ct_conf' action='admin.php?iframe=<?=$ct['gen']->admin_hashed_nonce('iframe_general')?>&section=general&refresh=all' method='post'>
+	
+	<input type='hidden' name='admin_hashed_nonce' value='<?=$ct['gen']->admin_hashed_nonce('upgrade_ct_conf')?>' />
+	
+	<input type='hidden' name='upgrade_ct_conf' value='1' />
+	
+	</form>
+	
+	<!-- Submit button must be OUTSIDE form tags here, or it runs improperly -->
+	<button id='upgrade_ct_conf_button' class='force_button_style' onclick='
+	
+	var ct_conf_reset = confirm("Scans your configuration database for upgrades. Although this SHOULD happen automatically after upgrading this app, in some RARE edge-case scenarios beyond our control, it may not.\n\nIMPORTANT NOTE: If things act weird after an app upgrade, it is more likely due to OUTDATED JAVASCRIPT / CSS FILES in the web browser temporary files cache needing to be cleared.");
+	
+		if ( ct_conf_reset ) {
+		document.getElementById("upgrade_ct_conf_button").disable = true;
+		$("#upgrade_ct_conf").submit(); // Triggers "app reloading" sequence
+		document.getElementById("upgrade_ct_conf_button").innerHTML = ajax_placeholder(15, "center", "Submitting...");
+		}
+	
+	'>Scan For Database Upgrades</button>
+	
+	</div>
+				
+	<!-- UPGRADE ct_conf key END -->
+
+	
+	<?=$ct['gen']->input_2fa('strict')?>
+	
+
+<?php
 
 // Render config settings for this section...
 
@@ -62,7 +113,7 @@ foreach ( $all_google_fonts as $font_name ) {
 $admin_render_settings['google_font']['is_select'][] = $font_name;
 }
 
-$admin_render_settings['google_font']['is_notes'] = '<a href="https://support.google.com/googleapi/answer/6158862?hl=en&ref_topic=7013279" target="_BLANK">Google Font API Key Required</a> to view list (in "External APIs" section).';
+$admin_render_settings['google_font']['is_notes'] = '<a href="https://support.google.com/googleapi/answer/6158862?hl=en&ref_topic=7013279" target="_BLANK">Google Font API Key Required</a> to view list (in "External APIs" section)<br /><a href="javascript:app_reloading_check();" target="_PARENT">Reload the entire app</a>, to apply any changes to this setting.';
 
 
 ////////////////////////////////////////////////////////////////////////////////////////////////
