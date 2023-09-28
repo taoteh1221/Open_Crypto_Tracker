@@ -170,7 +170,7 @@ var $ct_array = array();
         
    global $possible_input_injection;
    
-      if ( !$possible_input_injection && $this->admin_logged_in() && isset($val) && trim($val) != '' && $this->admin_hashed_nonce($hash_key) != false && $val == $this->admin_hashed_nonce($hash_key) ) {
+      if ( !$possible_input_injection && $this->admin_logged_in() && isset($val) && trim($val) != '' && isset($hash_key) && trim($hash_key) != '' && $this->admin_hashed_nonce($hash_key) != false && $val == $this->admin_hashed_nonce($hash_key) ) {
       return true;
       }
       else {
@@ -2039,6 +2039,81 @@ var $ct_array = array();
                         
       
       $ct['cache']->save_file($ct['base_dir'] . '/cache/events/system/warning-' . $type . '.dat', $this->time_date_format(false, 'pretty_date_time') );
+      
+      }
+   
+   
+   }
+
+
+   ////////////////////////////////////////////////////////
+   ////////////////////////////////////////////////////////
+   
+   
+   function refresh_plugins_list() {
+        
+   global $ct, $reset_config, $update_config;
+   
+   $plugin_base = $ct['base_dir'] . '/plugins/';
+   
+   $dir = new DirectoryIterator($plugin_base);
+   
+      
+      // Add any plugins not already in plugin list (default to off)
+      foreach ($dir as $file_info) {
+           
+         if ( $file_info->isDir() && !$file_info->isDot() ) {
+              
+             if (
+             file_exists($plugin_base . $file_info->getFilename() . '/plug-conf.php')
+             && file_exists($plugin_base . $file_info->getFilename() . '/plug-lib/plug-init.php')
+             ) {
+             
+               if ( !isset($ct['conf']['plugins']['plugin_status'][ $file_info->getFilename() ]) ) {
+                    
+               $ct['conf']['plugins']['plugin_status'][ $file_info->getFilename() ] = 'off'; // Defaults to off
+	    
+     	          if ( !$reset_config ) {
+     	               
+         	          $update_config = true;
+     	               
+     	               if ( $ct['conf']['power']['debug_mode'] == 'all' || $ct['conf']['power']['debug_mode'] == 'all_telemetry' || $ct['conf']['power']['debug_mode'] == 'conf_telemetry' ) {
+         	               $ct['gen']->log('conf_debug', 'plugin "'.$file_info->getFilename().'" ADDED, updating CACHED ct_conf');
+         	               }
+         	          
+     	          }
+               
+               }
+             
+             }
+             
+         }
+         
+      }
+      
+      
+      // Remove any plugins that no longer exist / do not have proper file structure
+      foreach ( $ct['conf']['plugins']['plugin_status'] as $key => $unused ) {
+           
+         if (
+         !file_exists($plugin_base . $key . '/plug-conf.php')
+         || !file_exists($plugin_base . $key . '/plug-lib/plug-init.php')
+         ) {
+              
+         unset($ct['conf']['plugins']['plugin_status'][$key]);
+	    unset($ct['conf']['plug_conf'][$key]);
+	    
+	         if ( !$reset_config ) {
+	              
+    	         $update_config = true;
+    	         
+    	            if ( $ct['conf']['power']['debug_mode'] == 'all' || $ct['conf']['power']['debug_mode'] == 'all_telemetry' || $ct['conf']['power']['debug_mode'] == 'conf_telemetry' ) {
+    	            $ct['gen']->log('conf_debug', 'plugin "'.$key.'" REMOVED, updating CACHED ct_conf');
+    	            }
+    	         
+	         }
+	    
+         }
       
       }
    

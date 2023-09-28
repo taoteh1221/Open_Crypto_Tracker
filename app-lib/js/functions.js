@@ -2,7 +2,6 @@
 // Copyright 2014-2023 GPLv3, Open Crypto Tracker by Mike Kilday: Mike@DragonFrugal.com
 
 
-
 /////////////////////////////////////////////////////////////
 
 
@@ -414,6 +413,34 @@ url.search = search_params.toString();
 var new_url = url.toString();
 
 return new_url;
+
+}
+
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+function load_google_font() {
+	
+// Get HTML head element 
+head = document.getElementsByTagName('HEAD')[0];  
+  
+// Create new link Element 
+link = document.createElement('link'); 
+  
+// set the attributes for link element  
+link.rel = 'stylesheet';  
+      
+link.type = 'text/css'; 
+      
+link.href = '//fonts.googleapis.com/css?family=' + font_name_url_formatting + '&display=swap';  
+
+// Append link element to HTML head 
+head.appendChild(link); 
+
+// DEBUGGING
+//console.log("Formatted for CSS link: " + font_name_url_formatting);
+//console.log("Google font CSS href link set as: " + link.href);
 
 }
 

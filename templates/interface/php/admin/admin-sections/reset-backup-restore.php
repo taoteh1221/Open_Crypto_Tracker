@@ -8,9 +8,15 @@
 
 
 	 <?php
-	 if ( $reset_config_error != null ) {
+	 if ( $admin_reset_error != null ) {
 	 ?>
-	 <div class='red red_dotted' style='font-weight: bold;'><?=$reset_config_error?></div>
+	 <div class='red red_dotted' style='font-weight: bold;'><?=$admin_reset_error?></div>
+	 <div style='min-height: 1em;'></div>
+	 <?php
+	 }
+	 elseif ( $admin_reset_success != null ) {
+	 ?>
+	 <div class='green green_dotted' style='font-weight: bold;'><?=$admin_reset_success?></div>
 	 <div style='min-height: 1em;'></div>
 	 <?php
 	 }

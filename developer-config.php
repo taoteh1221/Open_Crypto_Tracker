@@ -14,7 +14,7 @@ if ( $dev_only_configs_mode == 'init' ) {
 
 
 // Application version
-$ct['app_version'] = '6.00.27';  // 2023/SEPTEMBER/16TH
+$ct['app_version'] = '6.00.28';  // 2023/SEPTEMBER/25TH
 
 
 // #PHP# ERROR LOGGING
@@ -146,6 +146,18 @@ $ct['dev']['captcha_text_margin'] = 10; // MINIMUM margin of text from edge of i
 // Only allow the MOST READABLE characters for use in captcha image 
 // (DON'T SET TOO LOW, OR BOTS CAN GUESS THE CAPTCHA CODE EASIER)
 $ct['dev']['captcha_permitted_chars'] = 'ABCDEFHJKMNPRSTUVWXYZ23456789'; // (default = 'ABCDEFHJKMNPRSTUVWXYZ23456789')
+     
+     
+// List of BUNDLED plugins (that we allow config upgrades on)
+$ct['dev']['bundled_plugins'] = array(
+                                     // 'plugin-name-here',
+                                     'debt-interest-tracker',
+                                     'recurring-reminder',
+                                     'price-target-alert',
+                                     'address-balance-tracker',
+                                     'crypto-info-bot',
+                                     'on-chain-stats',
+                                     );
      
      
 // Servers which are known to block API access by location / jurasdiction

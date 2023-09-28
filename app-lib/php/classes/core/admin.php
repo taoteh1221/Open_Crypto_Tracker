@@ -21,18 +21,19 @@ var $ct_array = array();
    
    function queue_config_update() {
         
-   global $ct, $app_was_upgraded, $update_config, $check_2fa_error, $update_config_error, $update_config_success;
+   global $ct, $app_upgrade_check, $reset_config, $update_config, $check_2fa_error, $update_config_error, $update_config_success;
    
-   sleep(1); // CHILL
-   
-   
+        
         // Updating the admin config
         // (MUST run after primary-init, BUT BEFORE load-config-by-security-level.php)
         // (STRICT 2FA MODE ONLY)
         if ( isset($_POST['conf_id']) && isset($_POST['interface_id']) && is_array($_POST[ $_POST['conf_id'] ]) && $ct['gen']->pass_sec_check($_POST['admin_hashed_nonce'], $_POST['interface_id']) && $ct['gen']->valid_2fa('strict') ) {
           
-              if ( $app_was_upgraded ) {
-              $update_config_error = 'The CACHED config is currently in the process of UPGRADING. Please wait a minute, and then try updating again.';
+              if ( $app_upgrade_check ) {
+              $update_config_error = 'The CACHED config is currently in the process of CHECKING FOR UPGRADES. Please wait a minute, and then try updating again.';
+              }
+              elseif ( $reset_config ) {
+              $update_config_error = 'The CACHED config is currently in the process of RESETTING. Please wait a minute, and then try updating again.';
               }
               else {
                

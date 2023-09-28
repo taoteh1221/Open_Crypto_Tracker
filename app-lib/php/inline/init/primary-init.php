@@ -78,11 +78,22 @@ $is_fast_runtime = true;
 
 $fetched_feeds = 'fetched_feeds_' . $ct['runtime_mode']; // Unique feed fetch telemetry SESSION KEY (so related runtime BROWSER SESSION logic never accidentally clashes)
 
+
 // If upgrade check enabled / cached var set, set the runtime var for any configured alerts
+if ( file_exists('cache/vars/upgrade_check_latest_version.dat') ) {
 $upgrade_check_latest_version = trim( file_get_contents('cache/vars/upgrade_check_latest_version.dat') );
+}
+
 
 // If CACHED app version set, set the runtime var for any configured alerts
+if ( file_exists('cache/vars/app_version.dat') ) {
 $cached_app_version = trim( file_get_contents('cache/vars/app_version.dat') );
+}
+// Otherwise save app version to flat file (for auto-install/upgrade scripts to easily determine the currently-installed version)
+else {
+$cached_app_version = $ct['app_version'];
+$ct['cache']->save_file($ct['base_dir'] . '/cache/vars/app_version.dat', $cached_app_version);
+}
 
 
 

@@ -139,9 +139,11 @@ Example: "/plugins/my-app-plugin/plug-templates/plug-docs.php" (must be lowercas
 
 
 
-16) To add / activate your new plugin, add your plugin MAIN FOLDER name (example: 'my-app-plugin') as a new value within the plugins list, and set to 'on'...ALSO INCLUDE A COMMA AT THE END.
+16) To add / activate your new plugin IN CONFIG.PHP (only required in high security admin mode), add your plugin MAIN FOLDER name (example: 'my-app-plugin') as a new value within the plugins list, and set to 'on'...ALSO INCLUDE A COMMA AT THE END.
 
 Example: 'my-app-plugin' => 'on',
+
+Otherwise, your new plugin should automatically show in the admin 'Plugins' section, defaulted to 'off'. Just enable it there.
 
 
 

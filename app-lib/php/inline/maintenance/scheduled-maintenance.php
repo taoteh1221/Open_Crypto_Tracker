@@ -65,10 +65,6 @@ require($ct['base_dir'] . '/app-lib/php/inline/maintenance/upgrade-check.php');
 
 // Current default primary currency stored to flat file (for checking if we need to reconfigure things for a changed value here)
 $ct['cache']->save_file($ct['base_dir'] . '/cache/vars/default_bitcoin_primary_currency_pair.dat', $default_bitcoin_primary_currency_pair);
-	
-
-// Current app version stored to flat file (for auto-install/upgrade scripts to easily determine the currently-installed version)
-$ct['cache']->save_file($ct['base_dir'] . '/cache/vars/app_version.dat', $ct['app_version']);
 
 
 // Determine / store portfolio cache size

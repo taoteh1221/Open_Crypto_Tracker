@@ -27,26 +27,105 @@ $check_default_ct_conf = null;
 
 // Flag any new upgrade, for UI alert, AND MORE IMPORTANTLY: avoiding conflicts with config reset / refresh / upgrade routines
 // (!!MUST RUN *BEFORE* $reset_config, AND *BEFORE* load-config-by-security-level.php)
-if ( isset($cached_app_version) && trim($cached_app_version) != '' && trim($cached_app_version) != $ct['app_version'] ) {
-$app_was_upgraded = true;
+if (
+isset($cached_app_version) && trim($cached_app_version) != '' && trim($cached_app_version) != $ct['app_version']
+||  $_POST['upgrade_ct_conf'] == 1 && $ct['gen']->pass_sec_check($_POST['admin_hashed_nonce'], 'upgrade_ct_conf') && $ct['gen']->valid_2fa('strict')
+) {
+     
+$app_upgrade_check = true;
+
 // Refresh current app version to flat file (for auto-install/upgrade scripts to easily determine the currently-installed version)
 $ct['cache']->save_file($ct['base_dir'] . '/cache/vars/app_version.dat', $ct['app_version']);
+
+     if ( isset($_POST['upgrade_ct_conf']) ) {
+     $admin_general_success = 'The app configuration database was scanned for upgrades successfully. Please see the alerts section (siren icon in the sidebar), to review if anything required upgrading.';
+     }
+
 }
 
 
 // If a ct_conf reset from authenticated admin is verified, refresh CACHED ct_conf with the DEFAULT ct_conf
-// (!!MUST RUN *AFTER* $app_was_upgraded, AN *BEFORE* load-config-by-security-level.php)
+// (!!MUST RUN *AFTER* $app_upgrade_check, AN *BEFORE* load-config-by-security-level.php)
 // (STRICT 2FA MODE ONLY)
 if ( $_POST['reset_ct_conf'] == 1 && $ct['gen']->pass_sec_check($_POST['admin_hashed_nonce'], 'reset_ct_conf') && $ct['gen']->valid_2fa('strict') ) {
 
-     if ( $app_was_upgraded ) {
-     $reset_config_error = 'The CACHED config is currently in the process of UPGRADING. Please wait a minute, and then try resetting again.';
+     if ( $app_upgrade_check ) {
+     $admin_reset_error = 'The CACHED config is currently in the process of UPGRADING. Please wait a minute, and then try resetting again.';
      }
      else {
      $reset_config = true;
+     $admin_reset_success = 'The app configuration was reset successfully.';
      }
 
 }	
+
+
+// Toggle to set the admin interface security level, if 'opt_admin_sec' from authenticated admin is verified
+// (MUST run after primary-init, BUT BEFORE load-config-by-security-level.php)
+// (CHECK 2FA UNDER ANY 2FA MODE)
+if ( isset($_POST['opt_admin_sec']) && $ct['gen']->pass_sec_check($_POST['admin_hashed_nonce'], 'toggle_admin_security') && $ct['gen']->valid_2fa() ) {
+     
+     // We want to load configs from the hard-coded config files if we just switched to 'high' security mode,
+     // so trigger a config reset to accomplish that
+     if ( $_POST['opt_admin_sec'] == 'high' ) {
+     $reset_config = true;
+     }
+     
+$admin_area_sec_level = $_POST['opt_admin_sec'];
+     
+$ct['cache']->save_file($ct['base_dir'] . '/cache/vars/admin_area_sec_level.dat', $admin_area_sec_level);
+     
+$setup_admin_sec_success = 'Admin Security Level changed to "'.$admin_area_sec_level.'" successfully.';
+          
+}
+
+
+// Toggle 2FA SETUP off / on / scrict, if 'opt_admin_2fa' from authenticated admin is verified, AND 2FA check passes
+// (MUST run after primary-init, BUT BEFORE load-config-by-security-level.php)
+// *FORCE* CHECK 2FA, SINCE WE ARE RUNNING 2FA SETUP HERE
+if ( isset($_POST['opt_admin_2fa']) && $ct['gen']->pass_sec_check($_POST['admin_hashed_nonce'], 'toggle_admin_2fa') ) {
+     
+     
+     // If valid 2FA code
+     if ( $ct['gen']->valid_2fa('setup', 'force_check') ) {
+     
+     $admin_area_2fa = $_POST['opt_admin_2fa'];
+          
+     $ct['cache']->save_file($ct['base_dir'] . '/cache/vars/admin_area_2fa.dat', $admin_area_2fa);
+          
+          
+          if ( $_POST['opt_admin_2fa'] != 'off' ) {
+                    
+               if ( $_POST['opt_admin_2fa'] == 'strict' ) {
+               $setup_2fa_notice_mode = ' (strict mode)';
+               $setup_2fa_success_scrict = ', AND whenever you want to update ANYTHING in the admin area';
+               }
+               else {
+               $setup_2fa_notice_mode = ' (standard mode)';
+               }
+                    
+          $setup_2fa_success = '2FA' . $setup_2fa_notice_mode . ' has been ENABLED successfully. You will need to use your authenticator phone app whenever you login now (along with your usual password)' . $setup_2fa_success_scrict . '.';
+     
+          }
+          else {
+          $setup_2fa_success = '2FA has been DISABLED successfully.';
+          }
+          
+     
+     }
+     // If NOT
+     else {
+                    
+          // Force-show Admin 2FA setup, if it failed because of an invalid 2FA code
+          if ( $check_2fa_error != null ) {
+          $force_show_2fa_setup = $_POST['opt_admin_2fa'];
+          }
+     
+     }
+     
+
+}
+// END 2FA SETUP
 
 
 // Load config type based on admin security level
@@ -100,44 +179,11 @@ $max_exec_time = 600; // 600 seconds default
 
 // Maximum time script can run (may OR may not be overridden by operating system values, BUT we want this if the system allows it)
 set_time_limit($max_exec_time); // Doc suggest this may be more reliable than ini_set max_exec_time?
-
-
-// Auto-increase time offset on daily background tasks for systems with low core counts
-if ( $ct['system_info']['cpu_threads'] < 4 ) {
-$ct['dev']['tasks_time_offset'] = ceil($ct['dev']['tasks_time_offset'] * 2);
-}
-
-
-// If we have an AlphaVantage UNLIMITED daily requests plan
-// https://www.alphavantage.co/premium/
-if ( $ct['conf']['ext_apis']['alphavantage_per_minute_limit'] >= 30 ) {
-$ct['dev']['alphavantage_per_day_limit'] = 0; // Unlimited
-}
-
-
-// Toggle to set the admin interface security level, if 'opt_admin_sec' from authenticated admin is verified
-// (MUST run after primary-init, BUT BEFORE load-config-by-security-level.php)
-// (CHECK 2FA UNDER ANY 2FA MODE)
-if ( isset($_POST['opt_admin_sec']) && $ct['gen']->pass_sec_check($_POST['admin_hashed_nonce'], 'toggle_admin_security') && $ct['gen']->valid_2fa() ) {
-     
-     // We want to load configs from the hard-coded config files if we just switched to 'high' security mode,
-     // so trigger a config reset to accomplish that
-     if ( $_POST['opt_admin_sec'] == 'high' ) {
-     $reset_config = true;
-     }
-     
-$admin_area_sec_level = $_POST['opt_admin_sec'];
-     
-$ct['cache']->save_file($ct['base_dir'] . '/cache/vars/admin_area_sec_level.dat', $admin_area_sec_level);
-     
-$setup_admin_sec_success = 'Admin Security Level changed to "'.$admin_area_sec_level.'" successfully.';
-          
-}
      			
      			
-// If no master webhook, or a webhook secret key reset from authenticated admin is verified
+// If no master webhook (AND not a fast runtime), or a webhook secret key reset from authenticated admin is verified
 // (STRICT 2FA MODE ONLY)
-if ( !$webhook_master_key || $_POST['reset_webhook_master_key'] == 1 && $ct['gen']->pass_sec_check($_POST['admin_hashed_nonce'], 'reset_webhook_master_key') && $ct['gen']->valid_2fa('strict') ) {
+if ( !$is_fast_runtime && !$webhook_master_key || $_POST['reset_webhook_master_key'] == 1 && $ct['gen']->pass_sec_check($_POST['admin_hashed_nonce'], 'reset_webhook_master_key') && $ct['gen']->valid_2fa('strict') ) {
      	
 $secure_128bit_hash = $ct['gen']->rand_hash(16); // 128-bit (16-byte) hash converted to hexadecimal, used for suffix
 $secure_256bit_hash = $ct['gen']->rand_hash(32); // 256-bit (32-byte) hash converted to hexadecimal, used for var
@@ -151,20 +197,23 @@ $secure_256bit_hash = $ct['gen']->rand_hash(32); // 256-bit (32-byte) hash conve
      			'Cryptographically secure pseudo-random bytes could not be generated for webhook key (in secured cache storage), webhook key creation aborted to preserve security'
      			);
      
+     $admin_reset_error = 'The master webhook key reset FAILED (see error logs).';
+
      }
      // WE AUTOMATICALLY DELETE OUTDATED CACHE FILES SORTING BY DATE WHEN WE LOAD IT, SO NO NEED TO DELETE THE OLD ONE
      else {
      $ct['cache']->save_file($ct['base_dir'] . '/cache/secured/webhook_master_key_'.$secure_128bit_hash.'.dat', $secure_256bit_hash);
      $webhook_master_key = $secure_256bit_hash;
+     $admin_reset_success = 'The master webhook key was reset successfully.';
      }
      
-     
+
 }
      			
 
-// If no internal API key, OR an internal API key reset from authenticated admin is verified
+// If no internal API key (AND not a fast runtime), OR an internal API key reset from authenticated admin is verified
 // (STRICT 2FA MODE ONLY)
-if ( !$int_api_key || $_POST['reset_int_api_key'] == 1 && $ct['gen']->pass_sec_check($_POST['admin_hashed_nonce'], 'reset_int_api_key') && $ct['gen']->valid_2fa('strict') ) {
+if ( !$is_fast_runtime && !$int_api_key || $_POST['reset_int_api_key'] == 1 && $ct['gen']->pass_sec_check($_POST['admin_hashed_nonce'], 'reset_int_api_key') && $ct['gen']->valid_2fa('strict') ) {
      				
 $secure_128bit_hash = $ct['gen']->rand_hash(16); // 128-bit (16-byte) hash converted to hexadecimal, used for suffix
 $secure_256bit_hash = $ct['gen']->rand_hash(32); // 256-bit (32-byte) hash converted to hexadecimal, used for var
@@ -177,63 +226,31 @@ $secure_256bit_hash = $ct['gen']->rand_hash(32); // 256-bit (32-byte) hash conve
      			'security_error',
      			'Cryptographically secure pseudo-random bytes could not be generated for internal API key (in secured cache storage), key creation aborted to preserve security'
      			);
+     
+     $admin_reset_error = 'The internal API key reset FAILED (see error logs).';
      	
      }
      // WE AUTOMATICALLY DELETE OUTDATED CACHE FILES SORTING BY DATE WHEN WE LOAD IT, SO NO NEED TO DELETE THE OLD ONE
      else {
      $ct['cache']->save_file($ct['base_dir'] . '/cache/secured/int_api_key_'.$secure_128bit_hash.'.dat', $secure_256bit_hash);
      $int_api_key = $secure_256bit_hash;
+     $admin_reset_success = 'The internal API key was reset successfully.';
      }
      	
 }
 
 
-// Toggle 2FA SETUP off / on / scrict, if 'opt_admin_2fa' from authenticated admin is verified, AND 2FA check passes
-// (MUST run after 3rd-party-classes-loader.php)
-// *FORCE* CHECK 2FA, SINCE WE ARE RUNNING 2FA SETUP HERE
-if ( isset($_POST['opt_admin_2fa']) && $ct['gen']->pass_sec_check($_POST['admin_hashed_nonce'], 'toggle_admin_2fa') ) {
-     
-     
-     // If valid 2FA code
-     if ( $ct['gen']->valid_2fa('setup', 'force_check') ) {
-     
-     $admin_area_2fa = $_POST['opt_admin_2fa'];
-          
-     $ct['cache']->save_file($ct['base_dir'] . '/cache/vars/admin_area_2fa.dat', $admin_area_2fa);
-          
-          
-          if ( $_POST['opt_admin_2fa'] != 'off' ) {
-                    
-               if ( $_POST['opt_admin_2fa'] == 'strict' ) {
-               $setup_2fa_notice_mode = ' (strict mode)';
-               $setup_2fa_success_scrict = ', AND whenever you want to update ANYTHING in the admin area';
-               }
-               else {
-               $setup_2fa_notice_mode = ' (standard mode)';
-               }
-                    
-          $setup_2fa_success = '2FA' . $setup_2fa_notice_mode . ' has been ENABLED successfully. You will need to use your authenticator phone app whenever you login now (along with your usual password)' . $setup_2fa_success_scrict . '.';
-     
-          }
-          else {
-          $setup_2fa_success = '2FA has been DISABLED successfully.';
-          }
-          
-     
-     }
-     // If NOT
-     else {
-                    
-          // Force-show Admin 2FA setup, if it failed because of an invalid 2FA code
-          if ( $check_2fa_error != null ) {
-          $force_show_2fa_setup = $_POST['opt_admin_2fa'];
-          }
-     
-     }
-     
-
+// Auto-increase time offset on daily background tasks for systems with low core counts
+if ( $ct['system_info']['cpu_threads'] < 4 ) {
+$ct['dev']['tasks_time_offset'] = ceil($ct['dev']['tasks_time_offset'] * 2);
 }
-// END 2FA SETUP
+
+
+// If we have an AlphaVantage UNLIMITED daily requests plan
+// https://www.alphavantage.co/premium/
+if ( $ct['conf']['ext_apis']['alphavantage_per_minute_limit'] >= 30 ) {
+$ct['dev']['alphavantage_per_day_limit'] = 0; // Unlimited
+}
 
 
 // htaccess login...SET BEFORE ui-preflight-security-checks.php
@@ -383,6 +400,8 @@ $ct['cache']->remove_dir($ct['base_dir'] . '/cache/charts/system/light');
 
 // Cache the new light chart structure
 $ct['cache']->save_file($ct['base_dir'] . '/cache/vars/light_chart_struct.dat', $conf_light_chart_struct);
+
+$admin_reset_success = 'The Light Charts were reset successfully.';
 
 }
 

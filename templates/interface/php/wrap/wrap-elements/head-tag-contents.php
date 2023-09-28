@@ -35,6 +35,8 @@
 	<link rel="preload" href="templates/interface/css/<?=$sel_opt['theme_selected']?>.style.css" as="style" />
 
 	<link rel="preload" href="templates/interface/css/highlightjs.min.css" as="style" />
+
+	<link rel="preload" href="//fonts.googleapis.com/css?family=<?=$font_name_url_formatting?>&display=swap" as="style" />
 	
 	
 	<?php
@@ -125,14 +127,6 @@
 	
 	<script>
 	
-
-	// Set the global JSON config to asynchronous 
-	// (so JSON requests run in the background, without pausing any of the page render scripting)
-	$.ajaxSetup({
-     async: true
-	});
-	
-	
 	// Javascript var inits / configs
 	
 	ct_id = '<?=base64_encode( $ct['gen']->id() )?>';
@@ -141,18 +135,36 @@
 	
 	app_platform = '<?=$ct['app_platform']?>';
 	
-	<?php
-    if ( isset($ct['app_container']) ) {
-    ?>
-	app_container = '<?=$ct['app_container']?>';
-    <?php
-    }
-	?>
-	
 	theme_selected = '<?=$sel_opt['theme_selected']?>';
 	
 	// Opposite of app theme, for better contrast
      scrollbar_theme = theme_selected == 'dark' ? 'minimal' : 'minimal-dark';
+	
+	font_name_url_formatting = "<?=$font_name_url_formatting?>";
+	
+	global_line_height_percent = Number("<?=$ct['dev']['global_line_height_percent']?>");
+	
+	set_font_size = Number("<?=$set_font_size?>");
+	
+	info_icon_size_css_selector = "<?=$ct['dev']['info_icon_size_css_selector']?>";
+	
+	ajax_loading_size_css_selector = "<?=$ct['dev']['ajax_loading_size_css_selector']?>";
+	
+	password_eye_size_css_selector = "<?=$ct['dev']['password_eye_size_css_selector']?>";
+	
+	font_size_css_selector = "<?=$ct['dev']['font_size_css_selector']?>";
+	
+	medium_font_size_css_selector = "<?=$ct['dev']['medium_font_size_css_selector']?>";
+	
+	small_font_size_css_selector = "<?=$ct['dev']['small_font_size_css_selector']?>";
+	
+	tiny_font_size_css_selector = "<?=$ct['dev']['tiny_font_size_css_selector']?>";
+	
+	medium_font_size_css_percent = Number(<?=$ct['dev']['medium_font_size_css_percent']?>);
+	
+	small_font_size_css_percent = Number(<?=$ct['dev']['small_font_size_css_percent']?>);
+	
+	tiny_font_size_css_percent = Number(<?=$ct['dev']['tiny_font_size_css_percent']?>);
 	
 	min_fiat_val_test = '<?=$min_fiat_val_test?>';
 	
@@ -180,6 +192,14 @@
 	
 	
 	<?php
+     if ( isset($ct['app_container']) ) {
+     ?>
+     
+	app_container = '<?=$ct['app_container']?>';
+	
+     <?php
+     }
+     
 	if ( $is_iframe ) {
 	?>
 	
@@ -206,6 +226,7 @@
 	
 	<?php
 	}
+	
 	
 	if ( $is_admin ) {
 	?>
@@ -237,6 +258,7 @@
 	<?php
 	}
 	
+	
 	// Include any admin-logged-in stuff in ANY area
 	if ( $ct['gen']->admin_logged_in() == true ) {
 	?>
@@ -249,37 +271,19 @@
 	
 	<?php
 	}
-	?>
 	
 	
-	global_line_height_percent = Number("<?=$ct['dev']['global_line_height_percent']?>");
+	// If desktop edition, cron emulation is enabled, and NOT on login form submission pages, run emulated cron
+	if ( $ct['app_edition'] == 'desktop' && $ct['conf']['power']['desktop_cron_interval'] > 0 && !$is_login_form ) {
+	?>	
 	
-	set_font_size = Number("<?=$set_font_size?>");
-	
-	info_icon_size_css_selector = "<?=$ct['dev']['info_icon_size_css_selector']?>";
-	
-	ajax_loading_size_css_selector = "<?=$ct['dev']['ajax_loading_size_css_selector']?>";
-	
-	password_eye_size_css_selector = "<?=$ct['dev']['password_eye_size_css_selector']?>";
-	
-	font_size_css_selector = "<?=$ct['dev']['font_size_css_selector']?>";
-	
-	medium_font_size_css_selector = "<?=$ct['dev']['medium_font_size_css_selector']?>";
-	
-	small_font_size_css_selector = "<?=$ct['dev']['small_font_size_css_selector']?>";
-	
-	tiny_font_size_css_selector = "<?=$ct['dev']['tiny_font_size_css_selector']?>";
-	
-	medium_font_size_css_percent = Number(<?=$ct['dev']['medium_font_size_css_percent']?>);
-	
-	small_font_size_css_percent = Number(<?=$ct['dev']['small_font_size_css_percent']?>);
-	
-	tiny_font_size_css_percent = Number(<?=$ct['dev']['tiny_font_size_css_percent']?>);
-	
-	
-	// Preload /images/auto-preloaded/ images VIA JAVASCRIPT TOO (WAY MORE RELIABLE THAN META TAG PRELOAD)
-	
+     emulated_cron_enabled = true;
+     
 	<?php
+	}
+
+
+     // Preload /images/auto-preloaded/ images VIA JAVASCRIPT TOO (WAY MORE RELIABLE THAN META TAG PRELOAD)
 	
 	$preloaded_files_dir = 'templates/interface/media/images/auto-preloaded';
 	$preloaded_files = $ct['gen']->list_files($preloaded_files_dir);
@@ -295,10 +299,6 @@
 	$loop = $loop + 1;
 	}
 	
-	?>
-	
-	
-	<?php
 	
 	foreach ( $ct['dev']['limited_apis'] as $api ) {
 	$js_limited_apis .= '"'.strtolower( preg_replace("/\.(.*)/i", "", $api) ).'", ';
@@ -344,16 +344,47 @@
 	
 	<?php
 	}
+	?>
 	
-	// If desktop edition, cron emulation is enabled, and NOT on login form submission pages, run emulated cron
-	if ( $ct['app_edition'] == 'desktop' && $ct['conf']['power']['desktop_cron_interval'] > 0 && !$is_login_form ) {
-	?>	
+
+	// Set the global JSON config to asynchronous 
+	// (so JSON requests run in the background, without pausing any of the page render scripting)
+	$.ajaxSetup({
+     async: true
+	});
 	
-     emulated_cron_enabled = true;
-     
+
+     // Load external google font CSS file
+     load_google_font();
+	
+	
+     // Wait until the DOM has loaded before running DOM-related scripting
+     $(document).ready(function(){ 
+	
+	
 	<?php
+	// If a 2FA feild needs to be highlighted (due to invalid input)
+	if ( $check_2fa_id != null ) {
+	?>
+	
+	$("#<?=$check_2fa_id?>").css('background','#ff4747');
+	
+	    <?php
+	    // We already print out login form error alerts
+	    if ( $is_login_form == false ) {
+	    ?>
+	    
+	    $('#notice_<?=$check_2fa_id?>').removeClass("hidden");
+	
+	<?php
+	    }
+	    
 	}
 	?>
+	
+	 
+     });
+	
     
 	</script>
 
@@ -408,7 +439,7 @@
      if ( isset($google_font_name) ) {
      ?>
      
-     @import "https://fonts.googleapis.com/css?family=<?=$font_name_url_formatting?>&display=swap";
+     @import "//fonts.googleapis.com/css?family=<?=$font_name_url_formatting?>&display=swap";
 
      html, body {	
          font-family: '<?=$google_font_name?>', sans-serif !important;	
@@ -560,37 +591,6 @@
 	<link rel="stylesheet" href="templates/interface/css/highlightjs.min.css" type="text/css" />
 	
 	<script src="app-lib/js/highlight.min.js"></script>
-	
-	<script>
-	
-     // Wait until the DOM has loaded before running DOM-related scripting
-     $(document).ready(function(){ 
-	
-	
-	<?php
-	// If a 2FA feild needs to be highlighted (due to invalid input)
-	if ( $check_2fa_id != null ) {
-	?>
-	
-	$("#<?=$check_2fa_id?>").css('background','#ff4747');
-	
-	    <?php
-	    // We already print out login form error alerts
-	    if ( $is_login_form == false ) {
-	    ?>
-	    
-	    $('#notice_<?=$check_2fa_id?>').removeClass("hidden");
-	
-	<?php
-	    }
-	    
-	}
-	?>
-	
-	 
-     });
-	
-	</script>
 	
 
 	<link rel="shortcut icon" href="templates/interface/media/images/favicon.png">

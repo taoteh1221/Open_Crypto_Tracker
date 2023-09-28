@@ -1076,10 +1076,13 @@ Example: "/plugins/my-app-plugin/plug-templates/plug-docs.php" (must be lowercas
 <br /><br /><br />
 
 
-<span class='blue'>16)</span> To add / activate your new plugin, add your plugin MAIN FOLDER name (example: 'my-app-plugin') as a new value within the plugins list, and set to 'on'...ALSO INCLUDE A COMMA AT THE END.
+<span class='blue'>16)</span> To add / activate your new plugin IN CONFIG.PHP (only required in high security admin mode), add your plugin MAIN FOLDER name (example: 'my-app-plugin') as a new value within the plugins list, and set to 'on'...ALSO INCLUDE A COMMA AT THE END.
 <br /><br />
 
 <pre class='rounded' style='display: inline-block; padding-top: 1em !important;'><code class='hide-x-scroll less' style='white-space: nowrap; width: auto; display: inline-block;'>'my-app-plugin' => 'on',</code></pre>
+<br /><br />
+
+Otherwise, your new plugin should automatically show in the admin 'Plugins' section, defaulted to 'off'. Just enable it there.
 <br /><br /><br />
 
 
