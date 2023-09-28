@@ -35,7 +35,7 @@ $ct['conf']['gen']['local_time_offset'] = -4; // example: -5 or 5, -5.5 or 5.75
 // Displays interface text in ANY google font found at: https://fonts.google.com
 // Set as '' (blank) for default bootstrap / system / browser font
 // 'font' OR 'font name' IN QUOTES for ANY google font, OR '' to skip
-$ct['conf']['gen']['google_font'] = 'Poppins'; // 'Poppins' / 'Varela Round' / etc any google font (default = 'Poppins')
+$ct['conf']['gen']['google_font'] = 'Exo 2'; // 'Exo 2' / 'Tektur' / etc any google font (default = 'Exo 2')
 
 
 // DEFAULT font size PERCENTAGE (*WITHOUT* THE PERCENT SYMBOL!)

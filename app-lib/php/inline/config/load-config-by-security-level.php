@@ -204,13 +204,18 @@ unset($this_plug);  // Reset
 
 // Queue up any user updates to the config (sets $update_config flag if there are any)
 // MUST RUN AFTER SCANNING PLUGIN CONFIGS
-if ( $admin_area_sec_level != 'high' && !$reset_config ) {
-$ct['admin']->queue_config_update();
+if ( $admin_area_sec_level != 'high' ) {
+$ct['admin']->queue_config_update(); // We check for $app_upgrade_check / $reset_config in-function
 }
 
 
+// Run any queued upgrade checks on the CACHED ct_conf (IF not high admin security level)
+if ( $admin_area_sec_level != 'high' && $app_upgrade_check ) {
+$ct['conf'] = $ct['cache']->update_cached_config($ct['conf'], true);
+sleep(1); // Chill for a second, since we just refreshed the conf
+}
 // IF ADMIN-USER-INITIATED ct_conf CACHE RESET (ALSO LOADS CT_CONF [WITH ACTIVATED PLUGIN CONFIGS])
-if ( $reset_config ) {
+elseif ( $reset_config ) {
 $ct['conf'] = $ct['cache']->update_cached_config(false, false, true); // Admin-user-initiated reset flag
 sleep(1); // Chill for a second, since we just refreshed the conf
 }
@@ -219,11 +224,6 @@ sleep(1); // Chill for a second, since we just refreshed the conf
 elseif ( $update_config ) {
 $ct['conf'] = $ct['cache']->update_cached_config($ct['conf']);
 $update_config = false; // Set back to false, since this is a global var
-sleep(1); // Chill for a second, since we just refreshed the conf
-}
-// Otherwise we are clear to run any queued upgrades instead, on the CACHED ct_conf
-elseif ( $admin_area_sec_level != 'high' && $app_was_upgraded ) {
-$ct['conf'] = $ct['cache']->update_cached_config($ct['conf'], true);
 sleep(1); // Chill for a second, since we just refreshed the conf
 }
 

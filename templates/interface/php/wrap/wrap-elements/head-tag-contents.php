@@ -36,7 +36,7 @@
 
 	<link rel="preload" href="templates/interface/css/highlightjs.min.css" as="style" />
 
-	<link rel="preload" href="https://fonts.googleapis.com/css?family=<?=$font_name_url_formatting?>&display=swap" as="style" />
+	<link rel="preload" href="//fonts.googleapis.com/css?family=<?=$font_name_url_formatting?>&display=swap" as="style" />
 	
 	
 	<?php

@@ -32,7 +32,7 @@ isset($cached_app_version) && trim($cached_app_version) != '' && trim($cached_ap
 ||  $_POST['upgrade_ct_conf'] == 1 && $ct['gen']->pass_sec_check($_POST['admin_hashed_nonce'], 'upgrade_ct_conf') && $ct['gen']->valid_2fa('strict')
 ) {
      
-$app_was_upgraded = true;
+$app_upgrade_check = true;
 
 // Refresh current app version to flat file (for auto-install/upgrade scripts to easily determine the currently-installed version)
 $ct['cache']->save_file($ct['base_dir'] . '/cache/vars/app_version.dat', $ct['app_version']);
@@ -45,11 +45,11 @@ $ct['cache']->save_file($ct['base_dir'] . '/cache/vars/app_version.dat', $ct['ap
 
 
 // If a ct_conf reset from authenticated admin is verified, refresh CACHED ct_conf with the DEFAULT ct_conf
-// (!!MUST RUN *AFTER* $app_was_upgraded, AN *BEFORE* load-config-by-security-level.php)
+// (!!MUST RUN *AFTER* $app_upgrade_check, AN *BEFORE* load-config-by-security-level.php)
 // (STRICT 2FA MODE ONLY)
 if ( $_POST['reset_ct_conf'] == 1 && $ct['gen']->pass_sec_check($_POST['admin_hashed_nonce'], 'reset_ct_conf') && $ct['gen']->valid_2fa('strict') ) {
 
-     if ( $app_was_upgraded ) {
+     if ( $app_upgrade_check ) {
      $admin_reset_error = 'The CACHED config is currently in the process of UPGRADING. Please wait a minute, and then try resetting again.';
      }
      else {

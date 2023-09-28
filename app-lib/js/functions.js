@@ -433,7 +433,7 @@ link.rel = 'stylesheet';
       
 link.type = 'text/css'; 
       
-link.href = 'https://fonts.googleapis.com/css?family=' + font_name_url_formatting + '&display=swap';  
+link.href = '//fonts.googleapis.com/css?family=' + font_name_url_formatting + '&display=swap';  
 
 // Append link element to HTML head 
 head.appendChild(link); 

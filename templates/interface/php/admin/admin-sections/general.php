@@ -53,7 +53,7 @@ else {
 	<!-- Submit button must be OUTSIDE form tags here, or it runs improperly -->
 	<button id='upgrade_ct_conf_button' class='force_button_style' onclick='
 	
-	var ct_conf_reset = confirm("Scans your configuration database for upgrades. Although this SHOULD happen automatically after upgrading this app, in some RARE edge-case scenarios beyond our control, it may not.\n\nIMPORTANT NOTE: If things act weird after an app upgrade, it is more likely due to OUTDATED JAVASCRIPT / CSS FILES in the web browser temporary files cache needing to be cleared.");
+	var ct_conf_reset = confirm("Scans your configuration database for upgrades. This will ALWAYS happen automatically after upgrading this app, but you can double-check here as well if you are having issues.\n\nIMPORTANT NOTE: If things act weird after an app upgrade, it is more likely due to OUTDATED JAVASCRIPT / CSS FILES in the web browser temporary files cache needing to be cleared.");
 	
 		if ( ct_conf_reset ) {
 		document.getElementById("upgrade_ct_conf_button").disable = true;
