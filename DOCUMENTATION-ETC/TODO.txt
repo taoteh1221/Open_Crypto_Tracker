@@ -10,10 +10,6 @@ NEXT SCHEDULED WORK SESSIONS (*BOTH* DEBUGGING AND / OR INFRASTRUCTURE)
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
-Fix error in new plugin config overhaul, when in high security mode:
-ui => conf: plugin "debt-interest-tracker" ADDED, updating CACHED ct_conf;
-
-
 Torture test the CACHED config upgrade logic (with the new "Scan For Database Upgrades" button at top of general section), INCLUDING the recently-added bundled plugins config support.
 
 

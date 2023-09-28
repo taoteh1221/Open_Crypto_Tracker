@@ -181,9 +181,9 @@ $max_exec_time = 600; // 600 seconds default
 set_time_limit($max_exec_time); // Doc suggest this may be more reliable than ini_set max_exec_time?
      			
      			
-// If no master webhook, or a webhook secret key reset from authenticated admin is verified
+// If no master webhook (AND not a fast runtime), or a webhook secret key reset from authenticated admin is verified
 // (STRICT 2FA MODE ONLY)
-if ( !$webhook_master_key || $_POST['reset_webhook_master_key'] == 1 && $ct['gen']->pass_sec_check($_POST['admin_hashed_nonce'], 'reset_webhook_master_key') && $ct['gen']->valid_2fa('strict') ) {
+if ( !$is_fast_runtime && !$webhook_master_key || $_POST['reset_webhook_master_key'] == 1 && $ct['gen']->pass_sec_check($_POST['admin_hashed_nonce'], 'reset_webhook_master_key') && $ct['gen']->valid_2fa('strict') ) {
      	
 $secure_128bit_hash = $ct['gen']->rand_hash(16); // 128-bit (16-byte) hash converted to hexadecimal, used for suffix
 $secure_256bit_hash = $ct['gen']->rand_hash(32); // 256-bit (32-byte) hash converted to hexadecimal, used for var
@@ -211,9 +211,9 @@ $secure_256bit_hash = $ct['gen']->rand_hash(32); // 256-bit (32-byte) hash conve
 }
      			
 
-// If no internal API key, OR an internal API key reset from authenticated admin is verified
+// If no internal API key (AND not a fast runtime), OR an internal API key reset from authenticated admin is verified
 // (STRICT 2FA MODE ONLY)
-if ( !$int_api_key || $_POST['reset_int_api_key'] == 1 && $ct['gen']->pass_sec_check($_POST['admin_hashed_nonce'], 'reset_int_api_key') && $ct['gen']->valid_2fa('strict') ) {
+if ( !$is_fast_runtime && !$int_api_key || $_POST['reset_int_api_key'] == 1 && $ct['gen']->pass_sec_check($_POST['admin_hashed_nonce'], 'reset_int_api_key') && $ct['gen']->valid_2fa('strict') ) {
      				
 $secure_128bit_hash = $ct['gen']->rand_hash(16); // 128-bit (16-byte) hash converted to hexadecimal, used for suffix
 $secure_256bit_hash = $ct['gen']->rand_hash(32); // 256-bit (32-byte) hash converted to hexadecimal, used for var

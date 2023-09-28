@@ -787,9 +787,10 @@ var $ct_array = array();
             foreach ( $cat_val as $conf_key => $conf_val ) {
          
          
+               // Uses === for PHPv7.4 support
                if (
                is_array($conf_val) && in_array($cat_key, $subarray_allow_upgrading)
-               || is_array($conf_val) && $cat_key == 'plugins' && $conf_key == 'plugin_status'
+               || is_array($conf_val) && $cat_key === 'plugins' && $conf_key === 'plugin_status'
                ) {
                $conf = $this->subarray_cached_ct_conf_upgrade($conf, $cat_key, $conf_key);
                }
@@ -836,9 +837,10 @@ var $ct_array = array();
             foreach ( $cached_cat_val as $cached_conf_key => $cached_conf_val ) {
          
          
+               // Uses === for PHPv7.4 support
                if ( 
                is_array($cached_conf_val) && in_array($cached_cat_key, $subarray_allow_upgrading)
-               || is_array($conf_val) && $cached_cat_key == 'plugins' && $cached_conf_key == 'plugin_status'
+               || is_array($conf_val) && $cached_cat_key === 'plugins' && $cached_conf_key === 'plugin_status'
                ) {
                $conf = $this->subarray_cached_ct_conf_upgrade($conf, $cached_cat_key, $cached_conf_key);
                }

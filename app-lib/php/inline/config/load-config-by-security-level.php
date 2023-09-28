@@ -49,7 +49,7 @@ $this_plug = $key;
      	$ct['conf']['plug_conf'][$this_plug] = $plug_conf[$this_plug]; // Add each plugin's config into the GLOBAL app config
      		   
      	    // If were're not resetting, flag an update to occurr
-     	    if ( !$reset_config ) {
+     	    if ( $admin_area_sec_level != 'high' && !$reset_config ) {
          	    $ct['gen']->log('conf_error', 'plugin "'.$this_plug.'" ADDED, updating CACHED ct_conf');
               $update_config = true;
               }
