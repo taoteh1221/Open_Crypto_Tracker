@@ -216,7 +216,7 @@ $admin_render_settings['interface_login']['is_password'] = true;
 
 $admin_render_settings['interface_login']['text_field_size'] = 25;
 
-$admin_render_settings['interface_login']['is_notes'] = 'This format MUST be used: username||password';
+$admin_render_settings['interface_login']['is_notes'] = 'This format MUST be used: username||password<br />SEE ANY ALERTS (sidebar siren icon), for weak username / password failures.';
 
 
 ////////////////////////////////////////////////////////////////////////////////////////////////
@@ -266,7 +266,7 @@ $admin_render_settings['smtp_strict_ssl']['is_radio'] = array(
                                                           'on',
                                                          );
 
-$admin_render_settings['smtp_strict_ssl']['is_notes'] = 'Set to "off", if the SMTP server has an invalid certificate setup.';
+$admin_render_settings['smtp_strict_ssl']['is_notes'] = 'Set to "off", if the SMTP server has an invalid certificate.<br />(for "SMTP Server" setting, in the "Communications" section)';
 
 
 ////////////////////////////////////////////////////////////////////////////////////////////////
@@ -277,7 +277,7 @@ $admin_render_settings['remote_api_strict_ssl']['is_radio'] = array(
                                                           'on',
                                                          );
 
-$admin_render_settings['remote_api_strict_ssl']['is_notes'] = 'Set to "off", if some exchange\'s API servers have invalid certificates.';
+$admin_render_settings['remote_api_strict_ssl']['is_notes'] = 'Set to "off", if any exchange\'s API servers have invalid certificates.';
 
 
 ////////////////////////////////////////////////////////////////////////////////////////////////

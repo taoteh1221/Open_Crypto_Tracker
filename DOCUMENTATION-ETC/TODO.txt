@@ -10,6 +10,9 @@ NEXT SCHEDULED WORK SESSIONS (*BOTH* DEBUGGING AND / OR INFRASTRUCTURE)
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
+On registration page IN PASSWORD RESET MODE, IF 2FA IS ENABLED, warn users that they need to keep the same username, or their 2FA passcodes in their phone app won't be valid anymore.
+
+
 Torture test the CACHED config upgrade logic (with the new "Scan For Database Upgrades" button at top of general section), INCLUDING the recently-added bundled plugins config support.
 
 
@@ -593,11 +596,11 @@ Add logic to offer securing the computer in the auto-install. Add subsections "R
 
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-MAYBE SECTION
+MAYBE SECTION (RESEARCH THESE)
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
-Change "$this" in the core classes to use the "$ct['category']" format instead, AND of course make sure we have the "$ct" global.
+Research the possibility of inter-linking the tracker app into the ticker app, for displaying one's portfolio worth for each coin. Maybe requiring the ticker app being installed in a subdirectory of the tracker app server main directory, so it easily could have access to cookie data?
 
 
 Some of our extra security automation options in FOLIO-INSTALL.bash may also be appropriate for my other auto-installer scripts (ticker / Bluetooth radio)?

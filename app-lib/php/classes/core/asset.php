@@ -1849,16 +1849,16 @@ var $ct_array = array();
                     
                      // IF PRIMARY CURRENCY CONFIG volume was 0 or -1 last alert / reset, for UX sake we let users know
                      if ( $cached_prim_currency_vol == 0 ) {
-                     $vol_describe = '24 hour ' . strtoupper($default_bitcoin_primary_currency_pair) . ' volume was ' . $ct['conf']['power']['bitcoin_currency_markets'][$default_bitcoin_primary_currency_pair] . $cached_prim_currency_vol . ' last price ' . $desc_alert_type . ', and';
+                     $vol_describe = ' 24 hour ' . strtoupper($default_bitcoin_primary_currency_pair) . ' volume was ' . $ct['conf']['power']['bitcoin_currency_markets'][$default_bitcoin_primary_currency_pair] . $cached_prim_currency_vol . ' last price ' . $desc_alert_type . ', and';
                      $vol_describe_mobile = ', ' . strtoupper($default_bitcoin_primary_currency_pair) . ' volume was ' . $ct['conf']['power']['bitcoin_currency_markets'][$default_bitcoin_primary_currency_pair] . $cached_prim_currency_vol . ' last ' . $desc_alert_type;
                      }
                      // Best we can do feasibly for UX on volume reporting errors
                      elseif ( $cached_prim_currency_vol == -1 ) { // ONLY PRIMARY CURRENCY CONFIG VOLUME CALCULATION RETURNS -1 ON EXCHANGE VOLUME ERROR
-                     $vol_describe = '24 hour ' . strtoupper($default_bitcoin_primary_currency_pair) . ' volume was NULL last price ' . $desc_alert_type . ', and';
+                     $vol_describe = ' 24 hour ' . strtoupper($default_bitcoin_primary_currency_pair) . ' volume was NULL last price ' . $desc_alert_type . ', and';
                      $vol_describe_mobile = ', ' . strtoupper($default_bitcoin_primary_currency_pair) . ' volume was NULL last ' . $desc_alert_type;
                      }
                      else {
-                     $vol_describe = '24 hour pair volume';
+                     $vol_describe = ' 24 hour pair volume';
                      $vol_describe_mobile = ' pair volume';
                      }
                   
@@ -1874,13 +1874,13 @@ var $ct_array = array();
                
                
                // Email / telegram / etc
-               $has_volume_data_text = $vol_describe . ' has ' . ( $vol_change_symb == '+' ? 'increased ' : 'decreased ' ) . $vol_change_symb . number_format($vol_percent_change, 2, '.', ',') . '% to a ' . strtoupper($default_bitcoin_primary_currency_pair) . ' value of ' . $vol_prim_currency_text;
+               $has_volume_data_text = $vol_describe . ' has ' . ( $vol_change_symb == '+' ? 'increased ' : 'decreased ' ) . $vol_change_symb . number_format($vol_percent_change, 2, '.', ',') . '% to a ' . strtoupper($default_bitcoin_primary_currency_pair) . ' value of ' . $vol_prim_currency_text . '.';
                         
                $vol_change_text = ( $no_volume_history ? '' : $has_volume_data_text );
                
                
                // Mobile text
-               $has_volume_data_text_mobile = '24hr Volume: ' . $vol_prim_currency_text . ' (' . $vol_change_symb . number_format($vol_percent_change, 2, '.', ',') . '%' . $vol_describe_mobile . ')';
+               $has_volume_data_text_mobile = ' 24hr Volume: ' . $vol_prim_currency_text . ' (' . $vol_change_symb . number_format($vol_percent_change, 2, '.', ',') . '%' . $vol_describe_mobile . ')';
                         
                $vol_change_text_mobile = ( $no_volume_history ? '' : $has_volume_data_text_mobile );
                         
@@ -1888,8 +1888,8 @@ var $ct_array = array();
                      // If -1 from exchange API error not reporting any volume data (not even zero)
                      // ONLY PRIMARY CURRENCY CONFIG VOLUME CALCULATION RETURNS -1 ON EXCHANGE VOLUME ERROR
                      if ( $cached_prim_currency_vol == -1 || $vol_prim_currency_raw == -1 ) {
-                     $vol_change_text = '24 hour volume not detected, due to exchange API error';
-                     $vol_change_text_mobile = '24hr Volume: Exchange API Error';
+                     $vol_change_text = ' 24 hour volume not detected, due to exchange API error.';
+                     $vol_change_text_mobile = ' 24hr Volume: Exchange API Error';
                      }
                     
                     
@@ -1903,11 +1903,11 @@ var $ct_array = array();
                      
                      // Successfully received > 0 volume data, at or above an enabled volume filter
                      if ( $vol_prim_currency_raw > 0 && $ct['conf']['comms']['price_alert_minimum_volume'] > 0 && $vol_prim_currency_raw >= $ct['conf']['comms']['price_alert_minimum_volume'] ) {
-                     $email_vol_summary = $vol_change_text . ' (volume filter on).';
+                     $email_vol_summary = $vol_change_text . ' (volume filter on)';
                      }
                      // If volume is -1 or greater, without an enabled volume filter (or filter skipped)
                      elseif ( $vol_prim_currency_raw >= -1 ) {
-                     $email_vol_summary = $vol_change_text . ( $vol_prim_currency_raw <= 0 ? $vol_filter_skipped_text : '' ) . '.'; 
+                     $email_vol_summary = $vol_change_text . ( isset($vol_filter_skipped_text) ? $vol_filter_skipped_text : '' ); 
                      }
                      
                      
@@ -1917,14 +1917,14 @@ var $ct_array = array();
                         
                // Build the different messages, configure comm methods, and send messages
                         
-               $email_msg = ( $whale_alert == 1 ? 'WHALE ALERT: ' : '' ) . 'The ' . $asset_text . ' trade value in the ' . strtoupper($pair) . ' market at the ' . $exchange_text . ' exchange has ' . $increase_decrease . ' ' . $change_symb . $percent_change_text . '% in ' . strtoupper($default_bitcoin_primary_currency_pair) . ' value to ' . $ct['conf']['power']['bitcoin_currency_markets'][$default_bitcoin_primary_currency_pair] . $asset_prim_currency_text . ' over the past ' . $last_cached_time . ' since the last price ' . $desc_alert_type . '. ' . $email_vol_summary;
+               $email_msg = ( $whale_alert == 1 ? 'WHALE ALERT: ' : '' ) . 'The ' . $asset_text . ' trade value in the ' . strtoupper($pair) . ' market at the ' . $exchange_text . ' exchange has ' . $increase_decrease . ' ' . $change_symb . $percent_change_text . '% in ' . strtoupper($default_bitcoin_primary_currency_pair) . ' value to ' . $ct['conf']['power']['bitcoin_currency_markets'][$default_bitcoin_primary_currency_pair] . $asset_prim_currency_text . ' over the past ' . $last_cached_time . ' since the last price ' . $desc_alert_type . '.' . $email_vol_summary;
                         
                         
                // Were're just adding a human-readable timestamp to smart home (audio) alerts
                $notifyme_msg = $email_msg . ' Timestamp: ' . $ct['gen']->time_date_format($ct['conf']['gen']['local_time_offset'], 'pretty_time') . '.';
                         
                         
-               $text_msg = ( $whale_alert == 1 ? '🐳 ' : '' ) . $asset_text . ' / ' . strtoupper($pair) . ' @ ' . $exchange_text . ' ' . $increase_decrease . ' ' . $change_symb . $percent_change_text . '% in ' . strtoupper($default_bitcoin_primary_currency_pair) . ' value to ' . $ct['conf']['power']['bitcoin_currency_markets'][$default_bitcoin_primary_currency_pair] . $asset_prim_currency_text . ' over ' . $last_cached_time . '. 24 Hour ' . strtoupper($default_bitcoin_primary_currency_pair) . ' ' . $vol_change_text_mobile;
+               $text_msg = ( $whale_alert == 1 ? '🐳 ' : '' ) . $asset_text . ' / ' . strtoupper($pair) . ' @ ' . $exchange_text . ' ' . $increase_decrease . ' ' . $change_symb . $percent_change_text . '% in ' . strtoupper($default_bitcoin_primary_currency_pair) . ' value to ' . $ct['conf']['power']['bitcoin_currency_markets'][$default_bitcoin_primary_currency_pair] . $asset_prim_currency_text . ' over ' . $last_cached_time . '.' . $vol_change_text_mobile;
                         
                     
                // Message parameter added for desired comm methods (leave any comm method blank to skip sending via that method)
