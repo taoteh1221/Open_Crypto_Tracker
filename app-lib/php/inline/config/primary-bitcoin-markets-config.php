@@ -92,8 +92,7 @@ $default_btc_prim_currency_val = $ct['api']->market('BTC', $default_bitcoin_prim
     	
     $ct['gen']->log(
     			'conf_error',
-    			'primary-bitcoin-markets-config.php Charts / alerts bitcoin_primary_currency_pair variable not properly set',
-    			'bitcoin_primary_currency_pair: ' . $default_bitcoin_primary_currency_pair . ';'
+    			'Charts / alerts bitcoin_primary_currency_pair variable not properly set: ' . $default_bitcoin_primary_currency_pair
     			);
     
     }
@@ -101,8 +100,7 @@ $default_btc_prim_currency_val = $ct['api']->market('BTC', $default_bitcoin_prim
     	
     $ct['gen']->log(
     			'conf_error',
-    			'primary-bitcoin-markets-config.php Charts / alerts bitcoin_primary_exchange variable not properly set',
-    			'bitcoin_primary_exchange: ' . $default_bitcoin_primary_exchange . ';'
+    			'Charts / alerts bitcoin_primary_exchange "' . $ct['gen']->key_to_name($default_bitcoin_primary_exchange) . '" does NOT have a "' . strtoupper($default_bitcoin_primary_currency_pair) . '" market'
     			);
     
     }
@@ -111,8 +109,7 @@ $default_btc_prim_currency_val = $ct['api']->market('BTC', $default_bitcoin_prim
     	
     $ct['gen']->log(
     			'market_error',
-    			'primary-bitcoin-markets-config.php Charts / alerts Bitcoin primary currency market value not properly set',
-    			'bitcoin_primary_currency_pair: ' . $default_bitcoin_primary_currency_pair . '; exchange: ' . $default_bitcoin_primary_exchange . '; pair_id: ' . $default_btc_pair_id . '; value: ' . $default_btc_prim_currency_val
+    			'Charts / alerts Bitcoin primary currency market value not properly set: ' . $default_btc_prim_currency_val
     			);
     
     }

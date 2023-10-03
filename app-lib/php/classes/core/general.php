@@ -707,16 +707,18 @@ var $ct_array = array();
    // Trim whitespace off ends, since we do this before attempting to send anyways in our safe_mail function
    $email = trim($email);
    
+   $email = strtolower($email);
+   
    $address = explode("@",$email);
       
    $domain = $address[1];
       
       // Validate "To" address
       if ( !$email || !preg_match("/^[_a-z0-9-]+(\.[_a-z0-9-]+)*@[a-z0-9-]+(\.[a-z0-9-]+)+$/", $email) ) {
-      return "Please enter a valid email address.";
+      return "please use a valid email address format";
       }
       elseif ( function_exists("getmxrr") && !getmxrr($domain, $mxrecords) ) {
-      return "No mail server records found for domain '" . $ct['var']->obfusc_str($domain) . "' [obfuscated]";
+      return "no mail server records found for domain '" . $ct['var']->obfusc_str($domain, 3) . "' [obfuscated]";
       }
       else {
       return "valid";
@@ -1121,7 +1123,7 @@ var $ct_array = array();
    
    
        if( $error ){
-       return 'valid_username_error: ' . $error;
+       return 'valid_username_errors: ' . $error;
        }
        else {
        return 'valid';
@@ -2458,9 +2460,6 @@ var $ct_array = array();
    
    global $ct;
    
-   // Change coingecko_X to coingecko
-   $str = preg_replace("/coingecko_(.*)/i", "coingecko", $str);
-   
    // Uppercase every word, and remove underscore between them
    $str = ucwords(preg_replace("/_/i", " ", $str));
    
@@ -2892,7 +2891,7 @@ var $ct_array = array();
        
        
        if( $error ){
-       return 'password_strength_error: ' . $error;
+       return 'password_strength_errors: ' . $error;
        }
        else {
        return 'valid';

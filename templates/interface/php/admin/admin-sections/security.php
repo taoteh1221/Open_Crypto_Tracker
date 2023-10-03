@@ -211,12 +211,20 @@ else {
 ////////////////////////////////////////////////////////////////////////////////////////////////
 
 
+if ( $ct['app_container'] == 'phpdesktop' ) {
+$admin_render_settings['interface_login']['is_disabled'] = 'Unavailable in PHPdesktop version';
+$admin_render_settings['interface_login']['text_field_size'] = 30;
+}
+else {
+
 $admin_render_settings['interface_login']['is_password'] = true;
 
 
 $admin_render_settings['interface_login']['text_field_size'] = 25;
 
 $admin_render_settings['interface_login']['is_notes'] = 'This format MUST be used: username||password<br />SEE ANY ALERTS (sidebar siren icon), for weak username / password failures.';
+
+}
 
 
 ////////////////////////////////////////////////////////////////////////////////////////////////

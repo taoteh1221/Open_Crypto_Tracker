@@ -311,7 +311,7 @@ $admin_render_settings['to_mobile_text']['is_trim'] = true;
 
 $admin_render_settings['to_mobile_text']['text_field_size'] = 40;
 
-$admin_render_settings['to_mobile_text']['is_notes'] = 'Examples: 12223334444||virgin_us / 12223334444||skip_network_name';
+$admin_render_settings['to_mobile_text']['is_notes'] = 'Examples: 12223334444||virgin_us / 12223334444||skip_network_name<br />Available gateways can be found in the "Text Gateways" section.';
 
 
 ////////////////////////////////////////////////////////////////////////////////////////////////

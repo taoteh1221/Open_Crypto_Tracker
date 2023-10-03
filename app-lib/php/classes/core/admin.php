@@ -37,29 +37,128 @@ var $ct_array = array();
               }
               else {
                
-              // ADD VALIDATION CHECKS HERE, BEFORE ALLOWING UPDATE OF THIS CONFIG SECTION
-              $update_config_valid = true;
-                  
-              // Update the corrisponding admin config section
-              $ct['conf'][ $_POST['conf_id'] ] = $_POST[ $_POST['conf_id'] ];
                
-              $update_config = true; // Triggers saving updated config to disk
+                   // ADD VALIDATION CHECKS HERE, BEFORE ALLOWING UPDATE OF THIS CONFIG SECTION
+                   if ( $_POST['conf_id'] === 'gen' ) { // PHP7.4 NEEDS === HERE INSTEAD OF ==
+                        
+                        
+                      // Make sure primary currency conversion params are set properly
+                      if ( !$ct['conf']['assets']['BTC']['pair'][ $_POST['gen']['bitcoin_primary_currency_pair'] ][ $_POST['gen']['bitcoin_primary_exchange'] ] ) {
+                      $update_config_error = 'Bitcoin Primary Exchange "' . $ct['gen']->key_to_name($_POST['gen']['bitcoin_primary_exchange']) . '" does NOT have a "' . strtoupper($_POST['gen']['bitcoin_primary_currency_pair']) . '" market';
+                      }
+                      // If we made it this far, we passed all checks
+                      else {
+                      $update_config_valid = true;
+                      }
+                   
+                   
+                   }
+                   elseif ( $_POST['conf_id'] === 'comms' ) { // PHP7.4 NEEDS === HERE INSTEAD OF ==
+                   
+                   $smtp_login_check = explode("||", $_POST['comms']['smtp_login']);
+                   
+                   $smtp_server_check = explode(":", $_POST['comms']['smtp_server']);
+                   
+                   $to_mobile_text_check = explode("||", $_POST['comms']['to_mobile_text']);
+                        
+                      // Make sure SMTP emailing params are set properly
+                      if ( isset($_POST['comms']['smtp_login']) && $_POST['comms']['smtp_login'] != '' && sizeof($smtp_login_check) < 2 ) {
+                      $update_config_error = 'SMTP Login formatting is NOT valid (format MUST be: username||password)';
+                      }
+                      elseif ( isset($_POST['comms']['smtp_server']) && $_POST['comms']['smtp_server'] != '' && sizeof($smtp_server_check) < 2 ) {
+                      $update_config_error = 'SMTP Server formatting is NOT valid (format MUST be: domain_or_ip:port_number)';
+                      }
+                      // Mobile text check
+                      elseif ( isset($_POST['comms']['to_mobile_text']) && $_POST['comms']['to_mobile_text'] != '' && sizeof($to_mobile_text_check) < 2 ) {
+                      $update_config_error = 'To Mobile Text formatting is NOT valid (format MUST be: mobile_number||network_name)';
+                      }
+                      // Email FROM service check
+                      elseif ( isset($_POST['comms']['from_email']) && $_POST['comms']['from_email'] != '' && $ct['gen']->valid_email($_POST['comms']['from_email']) != 'valid' ) {
+                      $update_config_error = 'FROM Email is NOT valid: ' . $_POST['comms']['from_email'] . ' (' . $ct['gen']->valid_email($_POST['comms']['from_email']) . ')';
+                      }
+                      // Email TO service check
+                      elseif ( isset($_POST['comms']['to_email']) && $_POST['comms']['to_email'] != '' && $ct['gen']->valid_email($_POST['comms']['to_email']) != 'valid' ) {
+                      $update_config_error = 'TO Email is NOT valid: ' . $_POST['comms']['to_email'] . ' (' . $ct['gen']->valid_email($_POST['comms']['to_email']) . ')';
+                      }
+                      // If we made it this far, we passed all checks
+                      else {
+                      $update_config_valid = true;
+                      }
+                   
+                   
+                   }
+                   elseif ( $_POST['conf_id'] === 'ext_apis' ) { // PHP7.4 NEEDS === HERE INSTEAD OF ==
+                        
+                      // Make sure Twilio number is set properly
+                      if ( isset($_POST['ext_apis']['twilio_number']) && $_POST['ext_apis']['twilio_number'] != '' && !preg_match("/^\\d+$/", $_POST['ext_apis']['twilio_number']) ) {
+                      $update_config_error = 'Twilio Number formatting is NOT valid: ' . $_POST['ext_apis']['twilio_number'] . ' (format MUST be ONLY NUMBERS)';
+                      }
+                      // If we made it this far, we passed all checks
+                      else {
+                      $update_config_valid = true;
+                      }
+                   
+                   
+                   }
+                   elseif ( $_POST['conf_id'] === 'sec' ) { // PHP7.4 NEEDS === HERE INSTEAD OF ==
+                   
+                   $interface_login_check = explode("||", $_POST['sec']['interface_login']);
                     
+                   $htaccess_username_check = $interface_login_check[0];
+                   $htaccess_password_check = $interface_login_check[1];
+                   
+                   $valid_username_check = $ct['gen']->valid_username($htaccess_username_check);
+                   
+                   // Password must be exactly 8 characters long for good htaccess security (htaccess only checks the first 8 characters for a match)
+                   $password_strength_check = $ct['gen']->pass_strength($htaccess_password_check, 8, 8);
+                   
+                        
+                      // Make sure interface login params are set properly
+                      if ( isset($_POST['sec']['interface_login']) && $_POST['sec']['interface_login'] != '' && sizeof($interface_login_check) < 2 ) {
+                      $update_config_error = 'Interface Login formatting is NOT valid (format MUST be: username||password)';
+                      }
+                      elseif ( $valid_username_check != 'valid' ) {
+                      $update_config_error = 'Interface Login USERNAME requirements NOT met  (' . $valid_username_check . ')';
+                      }
+                      elseif ( $password_strength_check != 'valid' ) {
+                      $update_config_error = 'Interface Login PASSWORD requirements NOT met  (' . $password_strength_check . ')';
+                      }
+                      // If we made it this far, we passed all checks
+                      else {
+                      $update_config_valid = true;
+                      }
+                   
+                   
+                   }
+                   // If we are NOT forcing a particular validation check, flag as passed
+                   else {
+                   $update_config_valid = true;
+                   }
+                    
+                    
+                   // Update the corrisponding admin config section
                    if ( $update_config_valid ) {
+                  
+                   $ct['conf'][ $_POST['conf_id'] ] = $_POST[ $_POST['conf_id'] ];
+                    
+                   $update_config = true; // Triggers saving updated config to disk
+                   
                    $update_config_success = 'Updating of admin section "' . $ct['gen']->key_to_name($_POST['interface_id']) . '" SUCCEEDED.';
+                   
                    }
                    else {
-                   $update_config_error = 'Invalid Entries (see below). Updating of admin section "' . $ct['gen']->key_to_name($_POST['interface_id']) . '" FAILED.';
+                   $update_config_error = 'Updating of admin section "' . $ct['gen']->key_to_name($_POST['interface_id']) . '" FAILED. ' . $update_config_error;
                    }
+                   
                     
               }
                     
         }
-        // Error messages to display at top of page for UX
+        // General error messages to display at top of page for UX
         elseif ( isset($_POST['conf_id']) && isset($_POST['interface_id']) ) {
           
               if ( $check_2fa_error ) {
-              $update_config_error = $check_2fa_error . '. Updating of admin section "' . $ct['gen']->key_to_name($_POST['interface_id']) . '" FAILED.';
+              $update_config_error =  'Updating of admin section "' . $ct['gen']->key_to_name($_POST['interface_id']) . '" FAILED. ' . $check_2fa_error . '.';
               }
           
         }
@@ -85,13 +184,6 @@ var $ct_array = array();
 	 $refresh_admin_sections = 'none';
 	 }
 	 ?>
-	 
-	
-	<p class='red red_dotted'>
-	
-	No input validation has been added yet (only input sanitization is active), SO BE CAREFUL TO ADD CORRECTLY-FORMATTED VALUES! If anything gets corrupted, delete the file '/cache/secured/ct_conf_XXXXXXXXXXXXX.dat' in the app directory, to RESET to defaults.
-	
-	</p>
 	
 	
 	<div style='min-height: 1em;'></div>
@@ -241,6 +333,10 @@ var $ct_array = array();
               $val = trim($val);
               }
               
+              if ( isset($render_params[$key]['is_disabled']) ) {
+              $val = '';
+              }
+              
          ?>
               
               <?php
@@ -255,7 +351,7 @@ var $ct_array = array();
      
          <p>
               
-              <b class='blue'><?=$ct['gen']->key_to_name($key)?>:</b> &nbsp; <input type='<?=( isset($render_params[$key]['is_password']) ? 'password' : 'text' )?>' data-name="<?=md5($conf_id . $key)?>" name='<?=$conf_id?>[<?=$key?>]' value='<?=$val?>' <?=( isset($render_params[$key]['text_field_size']) ? ' size="' . $render_params[$key]['text_field_size'] . '"' : '' )?> />
+              <b class='blue'><?=$ct['gen']->key_to_name($key)?>:</b> &nbsp; <input type='<?=( isset($render_params[$key]['is_password']) ? 'password' : 'text' )?>' data-name="<?=md5($conf_id . $key)?>" name='<?=$conf_id?>[<?=$key?>]' value='<?=$val?>' <?=( isset($render_params[$key]['text_field_size']) ? ' size="' . $render_params[$key]['text_field_size'] . '"' : '' )?> <?=( isset($render_params[$key]['is_disabled']) ? 'disabled="disabled" placeholder="' . $render_params[$key]['is_disabled'] . '"' : '' )?> />
               
               <?php
               if ( isset($render_params[$key]['is_notes']) ) {

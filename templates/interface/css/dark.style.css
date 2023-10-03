@@ -56,6 +56,11 @@ input[type=text]:disabled {
 }
 
 
+::placeholder { /* Most modern browsers support this now. */
+   color: black;
+}
+
+
 a, .black, td.data span, .subsection_legend, .crypto_worth, .crypto_worth span, td.data div.crypto_worth span {
 color: white;
 }

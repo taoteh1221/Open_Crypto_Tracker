@@ -356,8 +356,7 @@ var $ct_array = array();
       	
       $ct['gen']->log(
       			'security_error',
-      			'ct_conf\'s "interface_login" username value does not meet minimum valid username requirements',
-      			$valid_username
+      			'"interface_login" USERNAME does not meet minimum requirements: ' . $valid_username
       			);
       
       return false;
@@ -367,8 +366,7 @@ var $ct_array = array();
       	
       $ct['gen']->log(
       			'security_error',
-      			'ct_conf\'s "interface_login" password value does not meet minimum password strength requirements',
-      			$password_strength
+      			'"interface_login" PASSWORD does not meet minimum requirements: ' . $password_strength
       			);
       
       return false;

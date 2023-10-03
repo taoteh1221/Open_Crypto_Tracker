@@ -10,10 +10,10 @@ NEXT SCHEDULED WORK SESSIONS (*BOTH* DEBUGGING AND / OR INFRASTRUCTURE)
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
-On registration page IN PASSWORD RESET MODE, IF 2FA IS ENABLED, warn users that they need to keep the same username, or their 2FA passcodes in their phone app won't be valid anymore.
+Test fully on PHP 7.4, by filling in all the settings with my personal ones on the public demo site. Import my charts there as well. Use it for at least a few weeks, with PHP error logging on. Blank out my settings on the local network install, so we don't get duplicate alerts.
 
 
-Torture test the CACHED config upgrade logic (with the new "Scan For Database Upgrades" button at top of general section), INCLUDING the recently-added bundled plugins config support.
+Torture test the CACHED config upgrade logic (with the new "Scan For Database Upgrades" button at top of general section), INCLUDING the recently-added bundled plugins config support, AND INCLUDING MIRRORING TO THE CACHED CONFIG IN HIGH SECURITY MODE.
 
 
 Torture test the security level toggle, like we did for the 2fa toggle.
@@ -22,13 +22,7 @@ Torture test the security level toggle, like we did for the 2fa toggle.
 Try having a textarea behave like a password field with this CSS... -webkit-text-security : circle   
 
 
-Add input validation for the admin config setting fields in each interface section (connected to config-init for the flag: $update_config_valid).
-
-
 Update screenshots, since we overhauled everything in the interface.
-
-
-Test fully on PHP 7.4, by filling in all the settings with my personal ones on the public demo site. Import my charts there as well. Use it for at least a few weeks, with PHP error logging on. Blank out my settings on the local network install, so we don't get duplicate alerts.
 
 
 Add an info icon next to 2FA fields, with info on what it is, usage, and how to MANUALLY disable it.

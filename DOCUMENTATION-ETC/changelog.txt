@@ -6326,6 +6326,10 @@ MIGRATE YOUR EXISTING SETTINGS TO THE NEW FORMAT.
 
 -BUG FIX: Fixed proper refreshing of plugin configs, when configs are updated
 
+-BUG FIX: Miscellaneous fixes
+
+-Added input validation for admin interface sections
+
 -Miscellaneous user experience improvements
 
 -Code optimization / cleanup
