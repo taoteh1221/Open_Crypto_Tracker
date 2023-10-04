@@ -56,6 +56,11 @@ input[type=text]:disabled {
 }
 
 
+::placeholder { /* Most modern browsers support this now. */
+   color: black;
+}
+
+
 a, .black, td.data span, .subsection_legend, .crypto_worth, .crypto_worth span, td.data div.crypto_worth span {
 color: white;
 }
@@ -182,6 +187,12 @@ color: #10d602 !important;
 .green_dotted {
 padding: 10px;
 border: 0.4em dotted #10d602 !important;
+}
+
+
+.blue_dotted {
+padding: 10px;
+border: 0.4em dotted #28b2ed !important;
 }
 
 

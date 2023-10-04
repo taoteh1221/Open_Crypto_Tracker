@@ -23,7 +23,7 @@ else {
 
 ?>
 
-	<p class='bitcoin bitcoin_dotted'>
+	<p class='blue blue_dotted'>
 	
 	PRO TIP: An easy / reliable way to add your keys here is opposite-clicking over the key AFTER selecting all it's characters, and choosing "Copy". Then opposite-click inside the input field on this page, and choose "Paste". Alternatively, you can also do this with the keyboard combinations: Ctrl + C (copy) / Ctrl + V (paste)
 	

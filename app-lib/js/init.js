@@ -117,7 +117,7 @@ nav_menu('.user-nav');
 	
     // Load our vertical scroll position (if checks pass within the function's logic)
     // (WE ALREADY LOAD set_scroll_position() in background_tasks_check() FOR NEWS / CHARTS PAGES [ONLY AFTER THEY ARE FULLY LOADED])
-    if ( $(location).attr('hash') != '' && $(location).attr('hash') != '#news' && $(location).attr('hash') != '#charts' ) {
+    if ( !is_admin && $(location).attr('hash') != '' && $(location).attr('hash') != '#news' && $(location).attr('hash') != '#charts' ) {
     set_scroll_position(); // Run AFTER showing content
     }
     
@@ -449,7 +449,7 @@ nav_menu('.user-nav');
 	
 	
     // Admin hashed nonce inserted in admin iframe forms
-    if ( is_iframe && is_admin ) {
+    if ( is_iframe && is_admin && !is_login_form ) {
     
      
          if ( Base64.decode(admin_area_sec_level) == 'medium' ) {
@@ -501,10 +501,10 @@ nav_menu('.user-nav');
 	
     // 2FA field / ID info (for UX) inserted in admin iframe forms
     // (so a value is propigated for each form, from the 2FA input field)
-    if ( is_iframe && is_admin ) {
-    
+    if ( is_iframe && is_admin && !is_login_form ) {
+         
      
-         if ( Base64.decode(admin_area_2fa) != 'off' ) {
+         if ( Base64.decode(admin_area_2fa) != 'off' || $(window.parent.document.location).attr('hash') == '#admin_security' ) {
      
          var forms_array = document.getElementsByTagName("form");
          
@@ -547,7 +547,7 @@ nav_menu('.user-nav');
                  
                  new_input.setAttribute("name", "2fa_code_id");
                  
-                 new_input.setAttribute("value", "");
+                 new_input.setAttribute("value", "2fa_code_0"); // Default (still changes if user input is from another ID)
                  
                  new_input.setAttribute("class","2fa_code_id_target");
                  

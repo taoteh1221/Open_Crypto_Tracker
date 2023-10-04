@@ -707,16 +707,18 @@ var $ct_array = array();
    // Trim whitespace off ends, since we do this before attempting to send anyways in our safe_mail function
    $email = trim($email);
    
+   $email = strtolower($email);
+   
    $address = explode("@",$email);
       
    $domain = $address[1];
       
       // Validate "To" address
       if ( !$email || !preg_match("/^[_a-z0-9-]+(\.[_a-z0-9-]+)*@[a-z0-9-]+(\.[a-z0-9-]+)+$/", $email) ) {
-      return "Please enter a valid email address.";
+      return "please use a valid email address format";
       }
       elseif ( function_exists("getmxrr") && !getmxrr($domain, $mxrecords) ) {
-      return "No mail server records found for domain '" . $ct['var']->obfusc_str($domain) . "' [obfuscated]";
+      return "no mail server records found for domain '" . $ct['var']->obfusc_str($domain, 3) . "' [obfuscated]";
       }
       else {
       return "valid";
@@ -811,9 +813,9 @@ var $ct_array = array();
 	  
 	  <div style='margin-top: 2em; margin-bottom: 2em;'>
 	  
-	  <p>
-	  
 	  <p id='notice_2fa_code_<?=$count_2fa_fields?>' class='hidden red red_dotted' style='font-weight: bold;'><?=$check_2fa_error?>.</p>
+	  
+	  <p>
 	  
 	  <span class='<?=( $force_show != false ? 'red' : 'bitcoin' )?>' style='font-weight: bold;'>Enter 2FA Code (from phone app):</span><br />
 	  
@@ -1121,7 +1123,7 @@ var $ct_array = array();
    
    
        if( $error ){
-       return 'valid_username_error: ' . $error;
+       return 'valid_username_errors: ' . $error;
        }
        else {
        return 'valid';
@@ -2052,7 +2054,7 @@ var $ct_array = array();
    
    function refresh_plugins_list() {
         
-   global $ct, $reset_config, $update_config;
+   global $ct, $default_ct_conf, $reset_config, $update_config;
    
    $plugin_base = $ct['base_dir'] . '/plugins/';
    
@@ -2068,6 +2070,13 @@ var $ct_array = array();
              file_exists($plugin_base . $file_info->getFilename() . '/plug-conf.php')
              && file_exists($plugin_base . $file_info->getFilename() . '/plug-lib/plug-init.php')
              ) {
+                  
+               
+               // We also want to set any unset DEFAULT config (for existing plugins ONLY [no need to unset deleted further down])
+               if ( !isset($default_ct_conf['conf']['plugins']['plugin_status'][ $file_info->getFilename() ]) ) {
+               $default_ct_conf['conf']['plugins']['plugin_status'][ $file_info->getFilename() ] = 'off'; // Defaults to off
+               }
+               
              
                if ( !isset($ct['conf']['plugins']['plugin_status'][ $file_info->getFilename() ]) ) {
                     
@@ -2084,6 +2093,7 @@ var $ct_array = array();
      	          }
                
                }
+               
              
              }
              
@@ -2094,6 +2104,7 @@ var $ct_array = array();
       
       // Remove any plugins that no longer exist / do not have proper file structure
       foreach ( $ct['conf']['plugins']['plugin_status'] as $key => $unused ) {
+           
            
          if (
          !file_exists($plugin_base . $key . '/plug-conf.php')
@@ -2114,6 +2125,7 @@ var $ct_array = array();
 	         }
 	    
          }
+         
       
       }
    
@@ -2457,9 +2469,6 @@ var $ct_array = array();
    function key_to_name($str) {
    
    global $ct;
-   
-   // Change coingecko_X to coingecko
-   $str = preg_replace("/coingecko_(.*)/i", "coingecko", $str);
    
    // Uppercase every word, and remove underscore between them
    $str = ucwords(preg_replace("/_/i", " ", $str));
@@ -2892,7 +2901,7 @@ var $ct_array = array();
        
        
        if( $error ){
-       return 'password_strength_error: ' . $error;
+       return 'password_strength_errors: ' . $error;
        }
        else {
        return 'valid';

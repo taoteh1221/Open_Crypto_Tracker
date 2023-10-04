@@ -649,7 +649,7 @@ font-size: 1.5em;
 }
 
 
-.bitcoin_dotted, .green_dotted, .red_dotted, .start_page_menu_red, #watch_only, #charts_error, #system_charts_error, .admin_login_alerts {
+.bitcoin_dotted, .blue_dotted, .green_dotted, .red_dotted, .start_page_menu_red, #watch_only, #charts_error, #system_charts_error, .admin_login_alerts {
 border-radius: 0.7em !important;
 }
 

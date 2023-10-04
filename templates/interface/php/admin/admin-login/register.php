@@ -95,7 +95,7 @@ require("templates/interface/php/wrap/header.php");
 <script>
 
 // If we are in an iframe, break out of it
-this.top.location !== this.location && (this.top.location = this.location);
+this.top.location !== this.location && (this.top.location = 'admin.php');
 
 
 var admin_cookies = '<h5 class="align_center bitcoin tooltip_title">Admin Login Requires Browser Cookies</h5>'
@@ -219,6 +219,13 @@ document.write("<p class='red align_center' style='font-weight: bold;'>"
 
 
 <?php
+if ( $admin_area_2fa != 'off' ) {
+?>
+<p class='red align_center' style='font-weight: bold;'>YOU MUST *KEEP THE SAME ADMIN USERNAME*, OR 2-FACTOR AUTHENTICATION WITH YOUR AUTHENTICATOR APP WILL FAIL!!!<br />(in which case you would need to MANUALY delete /cache/vars/admin_area_2fa.dat to disable 2FA)</p>
+<?php
+}
+
+
 if ( !$_POST['submit_registration'] || is_array($register_result['error']) ) {
 ?>
 
@@ -234,7 +241,7 @@ if ( !$_POST['submit_registration'] || is_array($register_result['error']) ) {
      	 
      	 <b>Username:</b> 
      	 
-     	 <input type='text' id='set_username' name='set_username' value='<?=trim($_POST['set_username'])?>' style='<?=( $username_field_color ? 'background: ' . $username_field_color : '' )?>' />
+     	 <input type='text' id='set_username' name='set_username' value='<?=trim($_POST['set_username'])?>' <?=( $admin_area_2fa != 'off' ? 'placeholder="KEEP SAME FOR 2FA!!! ↑↑↑"' : '' )?> style='<?=( $username_field_color ? 'background: ' . $username_field_color : '' )?>' />
      		 
      	</p>
 	 

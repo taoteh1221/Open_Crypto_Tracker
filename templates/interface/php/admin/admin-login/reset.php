@@ -118,7 +118,7 @@ require("templates/interface/php/wrap/header.php");
 <script>
 
 // If we are in an iframe, break out of it
-this.top.location !== this.location && (this.top.location = this.location);
+this.top.location !== this.location && (this.top.location = 'admin.php');
 
 
 var admin_cookies = '<h5 class="align_center bitcoin tooltip_title">Admin Login Requires Browser Cookies</h5>'

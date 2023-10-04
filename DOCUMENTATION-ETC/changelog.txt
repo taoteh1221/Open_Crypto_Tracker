@@ -6320,9 +6320,19 @@ MIGRATE YOUR EXISTING SETTINGS TO THE NEW FORMAT.
 -------------------------------------------------------------------
 6.00.28:
 
+-BUG FIX: Fixed (second) issue when changing EXISTING Telegram bot info in admin config (chatroom data now properly refreshes)
+
+-BUG FIX: Fixed price alert formatting, for markets with no available trade volume history
+
 -BUG FIX: Fixed support for using Google Fonts (to change the text style used in the app)
 
 -BUG FIX: Fixed proper refreshing of plugin configs, when configs are updated
+
+-BUG FIX: Fixed config upgrading feature, and added BUNDLED plugins support
+
+-BUG FIX: Miscellaneous fixes
+
+-Added input validation for admin interface sections
 
 -Miscellaneous user experience improvements
 
