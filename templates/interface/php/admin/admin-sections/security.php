@@ -51,37 +51,6 @@
 	
 	</form>
 		
-               <?php
-               if ( $admin_area_2fa == 'off' ) {
-               ?>
-               
-               
-	          <div class='show_2fa_verification' <?=( isset($force_show_2fa_setup) && $force_show_2fa_setup != 'off' ? ' style="display: block;"' : '' )?>>
-
-			<p style='font-weight: bold; margin-top: 1.5em;' class='red'>Scan this QR code with your authenticator app:</p>
-			
-			<p><img src='templates/interface/media/images/2fa_setup.php?2fa_setup=<?=$ct['gen']->admin_hashed_nonce('2fa_setup')?>' /></p>
-			
-			<p class='red' style='font-weight: bold;'>--ENTER THE CODE IN YOUR AUTHENTICATOR APP BELOW-- TO ENABLE 2FA...</p>
-			
-	
-	          <?=$ct['gen']->input_2fa('setup', 'force_show')?>
-	          
-	
-			</div>
-			
-     		<!-- Submit button must be OUTSIDE form tags here, or it submits the target form improperly and loses data -->
-     		<p class='show_2fa_verification'  <?=( isset($force_show_2fa_setup) && $force_show_2fa_setup != 'off' ? ' style="display: block;"' : '' )?>><button class='force_button_style' onclick='
-     		set_admin_2fa(false, true);
-     		'>Enable 2FA</button></p>
-		
-               <?php
-               }
-               else {
-               $ct['gen']->input_2fa();
-               }
-               ?>
-		
 	
 	 <?php
 	 if ( $setup_2fa_success != null ) {
@@ -90,7 +59,36 @@
 	 <div class='green green_dotted' style='font-weight: bold;'><?=$setup_2fa_success?></div>
 	 <?php
 	 }
-	 ?>
+	 
+	 
+	 // Setup to enable 2FA
+	 if ( $admin_area_2fa == 'off' ) {
+      ?>
+               
+      <div class='show_2fa_verification' <?=( isset($force_show_2fa_setup) && $force_show_2fa_setup != 'off' ? ' style="display: block;"' : '' )?>>
+
+	 <p style='font-weight: bold; margin-top: 1.5em;' class='red'>Scan this QR code with your authenticator app:</p>
+			
+	 <p><img src='templates/interface/media/images/2fa_setup.php?2fa_setup=<?=$ct['gen']->admin_hashed_nonce('2fa_setup')?>' /></p>
+			
+	 <p class='red' style='font-weight: bold;'>--ENTER THE CODE IN YOUR AUTHENTICATOR APP BELOW-- TO ENABLE 2FA...</p>
+	
+	 <?=$ct['gen']->input_2fa('setup', 'force_show')?>
+			
+      <!-- Submit button must be OUTSIDE form tags here, or it submits the target form improperly and loses data -->
+      <p><button class='force_button_style' onclick='
+      set_admin_2fa(false, true);
+      '>Enable 2FA</button></p>
+	
+	 </div>
+		
+      <?php
+      }
+      // If 2FA is already enabled
+      else {
+      $ct['gen']->input_2fa();
+      }
+      ?>
 			
 	
 	</div>
