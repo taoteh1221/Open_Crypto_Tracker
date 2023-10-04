@@ -1599,12 +1599,13 @@ var is_showing = ( (elmBottom <= docViewBottom) && (elmTop >= docViewTop) );
      }
 
 
-     // Emulate 'sticky' CSS mode
-     if ( mode == 'emulate_sticky' ) {
+     // Emulate 'sticky' CSS mode, ONLY IF THE ELEMENT HEIGHT FITS IN THE VIEW PORT
+     // (otherwise we allow scrolling the elements contents to be fully viewable)
+     if ( mode == 'emulate_sticky' && $(elm).height() <= $(window).height() ) {
      $(elm).css("top", Math.round(docViewTop) + "px", "important");
      }
-     // If element isn't fully showing on page, try to make it show as fully as possible
-     else if( !is_showing ) {
+     // If element isn't fully showing on page (and we are NOT emulating sticky), try to make it show as fully as possible
+     else if( !is_showing && mode != 'emulate_sticky' ) {
      
      console.log('A page element is not FULLY showing on the screen, attempting to auto-adjust now (as best as we can)...');
           

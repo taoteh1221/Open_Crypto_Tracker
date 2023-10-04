@@ -9,7 +9,7 @@
 
 	<!-- ADMIN PAGES SECURITY LEVEL START -->
 
-	<div class='bitcoin bitcoin_dotted'>
+	<div class='blue_dotted'>
 	
 	
 	<form name='toggle_admin_security' id='toggle_admin_security' action='admin.php?iframe=<?=$ct['gen']->admin_hashed_nonce('iframe_security')?>&section=security&refresh=all' method='post'>
@@ -18,12 +18,9 @@
 	
 	<input type='hidden' name='sel_admin_sec' id='sel_admin_sec' value='<?=$admin_area_sec_level?>' />
 	
-	<b>Admin Interface Security Level</b> &nbsp;<img class="tooltip_style_control admin_security_settings" src="templates/interface/media/images/info.png" alt="" width="30" style="position: relative; left: -5px;" />
+	<b class='blue'>Admin Interface Security Level:</b> &nbsp;<img class="tooltip_style_control admin_security_settings" src="templates/interface/media/images/info.png" alt="" width="30" style="position: relative; left: -5px;" />
 	
 	<br /> <input type='radio' name='opt_admin_sec' id='opt_admin_sec_normal' value='normal' onclick='set_admin_security(this);' <?=( $admin_area_sec_level == 'normal' ? 'checked' : '' )?> /> Normal &nbsp; <input type='radio' name='opt_admin_sec' id='opt_admin_sec_medium' value='medium' onclick='set_admin_security(this);' <?=( $admin_area_sec_level == 'medium' ? 'checked' : '' )?> /> Medium &nbsp; <input type='radio' name='opt_admin_sec' id='opt_admin_sec_high' value='high' onclick='set_admin_security(this);' <?=( $admin_area_sec_level == 'high' ? 'checked' : '' )?> /> High
-	
-	
-	<?=$ct['gen']->input_2fa()?>
 	
 	
 	</form>
@@ -47,15 +44,17 @@
 	
 	<input type='hidden' name='sel_admin_2fa' id='sel_admin_2fa' value='<?=( $force_show_2fa_setup ? $force_show_2fa_setup : $admin_area_2fa )?>' />
 	
-	<b>Admin Two-Factor Authentication (ADDITIONAL time-based one-time password security)</b> &nbsp;<img class="tooltip_style_control admin_2fa_settings" src="templates/interface/media/images/info.png" alt="" width="30" style="position: relative; left: -5px;" />
+	<b class='blue'>Admin Two-Factor Authentication (ADDITIONAL time-based one-time password security):</b> &nbsp;<img class="tooltip_style_control admin_2fa_settings" src="templates/interface/media/images/info.png" alt="" width="30" style="position: relative; left: -5px;" />
 	
 	<br /> <input type='radio' name='opt_admin_2fa' id='opt_admin_2fa_off' value='off' onclick='set_admin_2fa(this);' <?=( $admin_area_2fa == 'off' && !$force_show_2fa_setup || $force_show_2fa_setup == 'off' ? 'checked' : '' )?> /> Off &nbsp; <input type='radio' name='opt_admin_2fa' id='opt_admin_2fa_on' value='on' onclick='set_admin_2fa(this);' <?=( $admin_area_2fa == 'on' || $force_show_2fa_setup == 'on' ? 'checked' : '' )?> /> On &nbsp; <input type='radio' name='opt_admin_2fa' id='opt_admin_2fa_scrict' value='strict' onclick='set_admin_2fa(this);' <?=( $admin_area_2fa == 'strict' || $force_show_2fa_setup == 'strict' ? 'checked' : '' )?> /> Strict
 	
-
+	
+	</form>
+		
                <?php
                if ( $admin_area_2fa == 'off' ) {
-                    
                ?>
+               
                
 	          <div class='show_2fa_verification' <?=( isset($force_show_2fa_setup) && $force_show_2fa_setup != 'off' ? ' style="display: block;"' : '' )?>>
 
@@ -71,25 +70,15 @@
 	
 			</div>
 			
+     		<!-- Submit button must be OUTSIDE form tags here, or it submits the target form improperly and loses data -->
+     		<p class='show_2fa_verification'  <?=( isset($force_show_2fa_setup) && $force_show_2fa_setup != 'off' ? ' style="display: block;"' : '' )?>><button class='force_button_style' onclick='
+     		set_admin_2fa(false, true);
+     		'>Enable 2FA</button></p>
+		
                <?php
                }
                else {
                $ct['gen']->input_2fa();
-               }
-               ?>
-	
-	</form>
-		
-               <?php
-               if ( $admin_area_2fa == 'off' ) {
-               ?>
-               
-		<!-- Submit button must be OUTSIDE form tags here, or it submits the target form improperly and loses data -->
-		<p class='show_2fa_verification'  <?=( isset($force_show_2fa_setup) && $force_show_2fa_setup != 'off' ? ' style="display: block;"' : '' )?>><button class='force_button_style' onclick='
-		set_admin_2fa(false, true);
-		'>Enable 2FA</button></p>
-		
-               <?php
                }
                ?>
 		
@@ -212,7 +201,7 @@ else {
 
 
 if ( $ct['app_container'] == 'phpdesktop' ) {
-$admin_render_settings['interface_login']['is_disabled'] = 'Unavailable in PHPdesktop version';
+$admin_render_settings['interface_login']['is_disabled'] = 'Unavailable in PHPdesktop container';
 $admin_render_settings['interface_login']['text_field_size'] = 30;
 }
 else {
@@ -274,7 +263,7 @@ $admin_render_settings['smtp_strict_ssl']['is_radio'] = array(
                                                           'on',
                                                          );
 
-$admin_render_settings['smtp_strict_ssl']['is_notes'] = 'Set to "off", if the SMTP server has an invalid certificate.<br />(for "SMTP Server" setting, in the "Communications" section)';
+$admin_render_settings['smtp_strict_ssl']['is_notes'] = 'Set to "Off", if the SMTP server has an invalid certificate.<br />(for "SMTP Server" setting, in the "Communications" section)';
 
 
 ////////////////////////////////////////////////////////////////////////////////////////////////
@@ -285,7 +274,7 @@ $admin_render_settings['remote_api_strict_ssl']['is_radio'] = array(
                                                           'on',
                                                          );
 
-$admin_render_settings['remote_api_strict_ssl']['is_notes'] = 'Set to "off", if any exchange\'s API servers have invalid certificates.';
+$admin_render_settings['remote_api_strict_ssl']['is_notes'] = 'Set to "Off", if any exchange\'s API servers have invalid certificates.';
 
 
 ////////////////////////////////////////////////////////////////////////////////////////////////
@@ -296,7 +285,7 @@ $admin_render_settings['access_control_origin']['is_radio'] = array(
                                                           'strict',
                                                          );
 
-$admin_render_settings['access_control_origin']['is_notes'] = '"strict" #CAN BREAK THINGS LOADING# ON SOME SETUPS!';
+$admin_render_settings['access_control_origin']['is_notes'] = '"Strict" #CAN BREAK THINGS LOADING# ON SOME SETUPS!';
 
 
 ////////////////////////////////////////////////////////////////////////////////////////////////

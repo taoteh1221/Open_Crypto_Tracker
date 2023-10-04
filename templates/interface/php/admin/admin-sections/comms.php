@@ -22,7 +22,7 @@ if ( $admin_area_sec_level == 'high' ) {
 else {
 ?>
 
-	<p class='bitcoin bitcoin_dotted'>
+	<p class='blue blue_dotted'>
 	
 	More comms-related settings can be found in the "External APIs" section (Telegram / Twilio / Amazon Alexa / etc).
 	

@@ -190,6 +190,12 @@ border: 0.4em dotted #10d602 !important;
 }
 
 
+.blue_dotted {
+padding: 10px;
+border: 0.4em dotted #28b2ed !important;
+}
+
+
 .orange {
 color: #ce7039 !important;
 }

@@ -202,6 +202,13 @@ unset($this_plug);  // Reset
 }
 
 
+// If no comparison digest of the default config yet, save it now to the cache
+if ( $check_default_ct_conf == null ) {
+$check_default_ct_conf = md5( serialize($default_ct_conf) );
+$ct['cache']->save_file($ct['base_dir'] . '/cache/vars/default_ct_conf_md5.dat', $check_default_ct_conf);
+sleep(1); // Chill for a second, since we just saved the default conf digest
+}
+
 // Queue up any user updates to the config (sets $update_config flag if there are any)
 // MUST RUN AFTER SCANNING PLUGIN CONFIGS
 if ( $admin_area_sec_level != 'high' ) {
@@ -214,9 +221,10 @@ if ( $admin_area_sec_level != 'high' && $app_upgrade_check ) {
 $ct['conf'] = $ct['cache']->update_cached_config($ct['conf'], true);
 sleep(1); // Chill for a second, since we just refreshed the conf
 }
-// IF ADMIN-USER-INITIATED ct_conf CACHE RESET (ALSO LOADS CT_CONF [WITH ACTIVATED PLUGIN CONFIGS])
-elseif ( $reset_config ) {
-$ct['conf'] = $ct['cache']->update_cached_config(false, false, true); // Admin-user-initiated reset flag
+// IF ct_conf CACHE RESET (ALSO LOADS CT_CONF [WITH ACTIVATED PLUGIN CONFIGS])
+// (ONLY IF A RESET WASN'T TRIGGERED AND RAN WITHIN load_cached_config() DURING CACHED CONFIG LOADING)
+elseif ( $reset_config && !$reset_config_onload ) {
+$ct['conf'] = $ct['cache']->update_cached_config(false, false, true); // Reset flag
 sleep(1); // Chill for a second, since we just refreshed the conf
 }
 // We use the $update_config flag, to avoid multiple calls in the loop

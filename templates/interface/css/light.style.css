@@ -185,6 +185,12 @@ border: 0.4em dotted #066000 !important;
 }
 
 
+.blue_dotted {
+padding: 10px;
+border: 0.4em dotted #1a1696 !important;
+}
+
+
 .orange {
 color: #ea6b1c !important;
 }
