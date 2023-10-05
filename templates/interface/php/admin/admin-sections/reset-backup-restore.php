@@ -104,7 +104,7 @@
 	<!-- Submit button must be OUTSIDE form tags here, or it runs improperly -->
 	<button id='reset_ct_conf_button' class='force_button_style' onclick='
 	
-	var ct_conf_reset = confirm("Resetting the ENTIRE Admin Config will erase ALL customized settings you revised in the admin interface, and reset them to the default settings (found in the hard-coded configuration files). \n\nPress OK to reset the ENTIRE Admin Config, or CANCEL to keep your current settings. ");
+	var ct_conf_reset = confirm("Resetting the ENTIRE Admin Config will erase ALL setting changes you made in normal / medium admin security modes, and reset them to the hard-coded default settings (found in the PHP configuration files). \n\nPress OK to reset the ENTIRE Admin Config, or CANCEL to keep your current settings. ");
 	
 		if ( ct_conf_reset ) {
 		document.getElementById("reset_ct_conf_button").disable = true;
