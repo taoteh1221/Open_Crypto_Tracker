@@ -10,9 +10,6 @@ NEXT SCHEDULED WORK SESSIONS (*BOTH* DEBUGGING AND / OR INFRASTRUCTURE)
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
-PHP Deprecated:  Implicit conversion from float 14.75 to int loses precision in /home/taoteh1221/Desktop/linux-test-2023-10-5/INSTALL_CRYPTO_TRACKER_HERE/app-lib/php/classes/3rd-party/phpqrcode/qrencode.php on line 144
-
-
 Try having a textarea behave like a password field with this CSS... -webkit-text-security : circle 
 
 

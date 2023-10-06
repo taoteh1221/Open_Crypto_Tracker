@@ -7,13 +7,6 @@
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
-// QR code images
-require_once($ct['base_dir'] . '/app-lib/php/classes/3rd-party/phpqrcode/qrlib.php');
-
-
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-
 // 2FA (TOTP...Google Authenticator / Microsoft Authenticator / Authy / etc)
 
 // Credit to: https://www.rafaelwendel.com/en/2021/05/two-step-verification-with-php-and-google-authenticator/
@@ -34,6 +27,48 @@ $totp_base32 = new \Google\Authenticator\FixedBitNotation(5, 'ABCDEFGHIJKLMNOPQR
      if ( is_array($stored_admin_login) ) {
      $auth_secret_2fa = $totp_base32->encode( $ct['gen']->digest($stored_admin_login[0] . $ct['app_host'] . $auth_secret) );
      }
+     
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+// QR code images
+if ( $ct['runtime_mode'] == '2fa_setup' || $ct['runtime_mode'] == 'qr_code' ) {
+
+require_once($ct['base_dir'] . '/app-lib/php/classes/3rd-party/php-settings-container/SettingsContainerInterface.php'); 
+require_once($ct['base_dir'] . '/app-lib/php/classes/3rd-party/php-settings-container/SettingsContainerAbstract.php'); 
+
+require_once($ct['base_dir'] . '/app-lib/php/classes/3rd-party/php-qrcode/Common/Version.php');  
+require_once($ct['base_dir'] . '/app-lib/php/classes/3rd-party/php-qrcode/Common/EccLevel.php'); 
+require_once($ct['base_dir'] . '/app-lib/php/classes/3rd-party/php-qrcode/Common/MaskPattern.php'); 
+require_once($ct['base_dir'] . '/app-lib/php/classes/3rd-party/php-qrcode/Common/Mode.php');  
+require_once($ct['base_dir'] . '/app-lib/php/classes/3rd-party/php-qrcode/Common/BitBuffer.php'); 
+require_once($ct['base_dir'] . '/app-lib/php/classes/3rd-party/php-qrcode/Common/ReedSolomonEncoder.php'); 
+require_once($ct['base_dir'] . '/app-lib/php/classes/3rd-party/php-qrcode/Common/GenericGFPoly.php'); 
+require_once($ct['base_dir'] . '/app-lib/php/classes/3rd-party/php-qrcode/Common/GF256.php'); 
+
+require_once($ct['base_dir'] . '/app-lib/php/classes/3rd-party/php-qrcode/QRCodeException.php');  
+require_once($ct['base_dir'] . '/app-lib/php/classes/3rd-party/php-qrcode/QROptionsTrait.php'); 
+require_once($ct['base_dir'] . '/app-lib/php/classes/3rd-party/php-qrcode/QRCode.php'); 
+require_once($ct['base_dir'] . '/app-lib/php/classes/3rd-party/php-qrcode/QROptions.php'); 
+
+require_once($ct['base_dir'] . '/app-lib/php/classes/3rd-party/php-qrcode/Data/QRMatrix.php');  
+require_once($ct['base_dir'] . '/app-lib/php/classes/3rd-party/php-qrcode/Data/QRDataModeInterface.php');
+require_once($ct['base_dir'] . '/app-lib/php/classes/3rd-party/php-qrcode/Data/QRDataModeAbstract.php');
+require_once($ct['base_dir'] . '/app-lib/php/classes/3rd-party/php-qrcode/Data/QRCodeDataException.php');
+require_once($ct['base_dir'] . '/app-lib/php/classes/3rd-party/php-qrcode/Data/Number.php'); 
+require_once($ct['base_dir'] . '/app-lib/php/classes/3rd-party/php-qrcode/Data/AlphaNum.php'); 
+require_once($ct['base_dir'] . '/app-lib/php/classes/3rd-party/php-qrcode/Data/Kanji.php'); 
+require_once($ct['base_dir'] . '/app-lib/php/classes/3rd-party/php-qrcode/Data/Hanzi.php'); 
+require_once($ct['base_dir'] . '/app-lib/php/classes/3rd-party/php-qrcode/Data/Byte.php'); 
+require_once($ct['base_dir'] . '/app-lib/php/classes/3rd-party/php-qrcode/Data/QRData.php'); 
+
+require_once($ct['base_dir'] . '/app-lib/php/classes/3rd-party/php-qrcode/Output/QRCodeOutputException.php');  
+require_once($ct['base_dir'] . '/app-lib/php/classes/3rd-party/php-qrcode/Output/QROutputInterface.php');   
+require_once($ct['base_dir'] . '/app-lib/php/classes/3rd-party/php-qrcode/Output/QROutputAbstract.php');   
+require_once($ct['base_dir'] . '/app-lib/php/classes/3rd-party/php-qrcode/Output/QRGdImage.php');  
+
+}
 
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
