@@ -150,6 +150,10 @@ var collapsed_sidebar_scroll_position;
 
 var emulated_cron_enabled = false;
 	
+var emulated_cron_task_only = false;
+	
+var all_tasks_initial_load = true;
+	
 // Register as no-action-needed (if cron is enabled in header.php, this will reset properly in init.js)
 var cron_already_ran = true; 
 

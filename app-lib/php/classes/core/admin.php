@@ -102,25 +102,32 @@ var $ct_array = array();
                    }
                    elseif ( $_POST['conf_id'] === 'sec' ) { // PHP7.4 NEEDS === HERE INSTEAD OF ==
                    
-                   $interface_login_check = explode("||", $_POST['sec']['interface_login']);
-                    
-                   $htaccess_username_check = $interface_login_check[0];
-                   $htaccess_password_check = $interface_login_check[1];
                    
-                   $valid_username_check = $ct['gen']->valid_username($htaccess_username_check);
+                      if ( isset($_POST['sec']['interface_login']) && $_POST['sec']['interface_login'] != '' ) {
+                           
+                      $is_interface_login = true;
                    
-                   // Password must be exactly 8 characters long for good htaccess security (htaccess only checks the first 8 characters for a match)
-                   $password_strength_check = $ct['gen']->pass_strength($htaccess_password_check, 8, 8);
+                      $interface_login_check = explode("||", $_POST['sec']['interface_login']);
+                         
+                      $htaccess_username_check = $interface_login_check[0];
+                      $htaccess_password_check = $interface_login_check[1];
+                        
+                      $valid_username_check = $ct['gen']->valid_username($htaccess_username_check);
+                        
+                      // Password must be exactly 8 characters long for good htaccess security (htaccess only checks the first 8 characters for a match)
+                      $password_strength_check = $ct['gen']->pass_strength($htaccess_password_check, 8, 8);
+                        
+                      }
                    
                         
                       // Make sure interface login params are set properly
-                      if ( isset($_POST['sec']['interface_login']) && $_POST['sec']['interface_login'] != '' && sizeof($interface_login_check) < 2 ) {
+                      if ( $is_interface_login && sizeof($interface_login_check) < 2 ) {
                       $update_config_error = 'Interface Login formatting is NOT valid (format MUST be: username||password)';
                       }
-                      elseif ( $valid_username_check != 'valid' ) {
+                      elseif ( $is_interface_login && $valid_username_check != 'valid' ) {
                       $update_config_error = 'Interface Login USERNAME requirements NOT met  (' . $valid_username_check . ')';
                       }
-                      elseif ( $password_strength_check != 'valid' ) {
+                      elseif ( $is_interface_login && $password_strength_check != 'valid' ) {
                       $update_config_error = 'Interface Login PASSWORD requirements NOT met  (' . $password_strength_check . ')';
                       }
                       // If we made it this far, we passed all checks
@@ -333,7 +340,7 @@ var $ct_array = array();
               $val = trim($val);
               }
               
-              if ( isset($render_params[$key]['is_disabled']) ) {
+              if ( isset($render_params[$key]['is_readonly']) ) {
               $val = '';
               }
               
@@ -351,7 +358,7 @@ var $ct_array = array();
      
          <p>
               
-              <b class='blue'><?=$ct['gen']->key_to_name($key)?>:</b> &nbsp; <input type='<?=( isset($render_params[$key]['is_password']) ? 'password' : 'text' )?>' data-name="<?=md5($conf_id . $key)?>" name='<?=$conf_id?>[<?=$key?>]' value='<?=$val?>' <?=( isset($render_params[$key]['text_field_size']) ? ' size="' . $render_params[$key]['text_field_size'] . '"' : '' )?> <?=( isset($render_params[$key]['is_disabled']) ? 'disabled="disabled" placeholder="' . $render_params[$key]['is_disabled'] . '"' : '' )?> />
+              <b class='blue'><?=$ct['gen']->key_to_name($key)?>:</b> &nbsp; <input type='<?=( isset($render_params[$key]['is_password']) ? 'password' : 'text' )?>' data-name="<?=md5($conf_id . $key)?>" name='<?=$conf_id?>[<?=$key?>]' value='<?=$val?>' <?=( isset($render_params[$key]['text_field_size']) ? ' size="' . $render_params[$key]['text_field_size'] . '"' : '' )?> <?=( isset($render_params[$key]['is_readonly']) ? 'readonly="readonly" placeholder="' . $render_params[$key]['is_readonly'] . '"' : '' )?> />
               
               <?php
               if ( isset($render_params[$key]['is_notes']) ) {

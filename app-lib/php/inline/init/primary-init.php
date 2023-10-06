@@ -71,12 +71,48 @@ $_SESSION['nonce'] = $ct['gen']->rand_hash(32); // 32 byte
 	
 // Flag this as a fast runtime if it is, to skip certain logic later in the runtime
 // (among other things, skips setting $ct['system_info'] / some secured cache vars, and skips doing system resource usage alerts)
-if ( $is_csv_export || $is_charts || $is_logs || $ct['runtime_mode'] == 'captcha' ) {
+if ( $is_csv_export || $is_charts || $is_logs || $ct['runtime_mode'] == 'captcha' || $ct['runtime_mode'] == 'qr_code' ) {
 $is_fast_runtime = true;
 }
 
 
+// Current runtime user (to determine how we want to set directory / file permissions)
+if ( function_exists('posix_getpwuid') && function_exists('posix_geteuid') ) {
+$current_runtime_user = posix_getpwuid(posix_geteuid())['name'];
+}
+elseif ( function_exists('get_current_user') ) {
+$current_runtime_user = get_current_user();
+}
+else {
+$current_runtime_user = null;
+}
+
+
+// Get WEBSERVER runtime user (from cache if currently running from CLI)
+// MUST BE SET BEFORE CACHE STRUCTURE CREATION, TO RUN IN COMPATIBILITY MODE (IF NEEDED) FOR THIS PARTICULAR SERVER'S SETUP
+// WE HAVE FALLBACKS IF THIS IS NULL IN $ct['cache']->save_file() WHEN WE STORE CACHE FILES, SO A BRAND NEW INTALL RUN FIRST VIA CRON IS #OK#
+$http_runtime_user = ( $ct['runtime_mode'] != 'cron' ? $current_runtime_user : trim( file_get_contents('cache/vars/http_runtime_user.dat') ) );
+
+					
+// HTTP SERVER setup detection variables (for cache compatibility auto-configuration)
+// MUST BE SET BEFORE CACHE STRUCTURE CREATION, TO RUN IN COMPATIBILITY MODE FOR THIS PARTICULAR SERVER'S SETUP
+$possible_http_users = array(
+    						'www-data',
+    						'apache',
+    						'apache2',
+    						'httpd',
+    						'httpd2',
+							);
+
+
 $fetched_feeds = 'fetched_feeds_' . $ct['runtime_mode']; // Unique feed fetch telemetry SESSION KEY (so related runtime BROWSER SESSION logic never accidentally clashes)
+
+
+// Create cache directories AS EARLY AS POSSIBLE
+// (#MUST# RUN AFTER $current_runtime_user / $http_runtime_user / $possible_http_users are set,
+// and BEFORE setting /cache/vars/app_version.dat)
+// Uses HARD-CODED $ct['dev']['chmod_cache_dir'] dev config at top of init.php
+require_once('app-lib/php/inline/other/cache-directories.php');
 
 
 // If upgrade check enabled / cached var set, set the runtime var for any configured alerts
@@ -91,18 +127,11 @@ $cached_app_version = trim( file_get_contents('cache/vars/app_version.dat') );
 }
 // Otherwise save app version to flat file (for auto-install/upgrade scripts to easily determine the currently-installed version)
 else {
+sleep(1); // In case it's a fresh install, and cache directory structure was just created
 $cached_app_version = $ct['app_version'];
 $ct['cache']->save_file($ct['base_dir'] . '/cache/vars/app_version.dat', $cached_app_version);
 }
 
-
-
-// ESSENTIAL INIT LOGIC...
-
-// Create cache directories AS EARLY AS POSSIBLE
-// (#MUST# RUN BEFORE load-config-by-security-level.php
-// Uses HARD-CODED $ct['dev']['chmod_cache_dir'] dev config at top of init.php
-require_once('app-lib/php/inline/other/cache-directories.php');
 
 // Early security logic
 // #MUST# run BEFORE any heavy init logic (for good security), #AFTER# directory creation (for error logging), and AFTER system checks
@@ -111,7 +140,7 @@ require_once('app-lib/php/inline/security/early-security-logic.php');
 // Load any 3RD PARTY classes WITHOUT CONFIGS (MUST run after system-config / early-security-logic)
 require_once('app-lib/php/classes/3rd-party-classes-loader.php');
 
-// Get / check system info for debugging / stats (MUST run AFTER cache-directories [for error logging], AND AFTER system-checks)
+// Get / check system info for debugging / stats (MUST run AFTER cache-directories [for error logging], AND AFTER core-classes-loader.php)
 require_once('app-lib/php/inline/system/system-info.php');
 
 

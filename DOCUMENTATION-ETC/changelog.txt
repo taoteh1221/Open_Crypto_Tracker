@@ -6338,6 +6338,8 @@ MIGRATE YOUR EXISTING SETTINGS TO THE NEW FORMAT.
 
 -Code optimization / cleanup
 
+-Upgraded QR Code generator
+
 IMPORTANT *UPGRADE* NOTICE:
 
 v6.00.26 / v6.00.27 and higher renames the admin config array variables. ALL CONFIGURATION SETTING

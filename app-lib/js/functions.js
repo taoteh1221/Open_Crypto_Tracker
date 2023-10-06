@@ -123,31 +123,6 @@ const all_autosize_textareas = document.querySelectorAll("[data-autoresize]");
 /////////////////////////////////////////////////////////////
 
 
-function store_scroll_position() {
-     
-     if ( is_iframe ) {
-     return;
-     }
-     
-     
-var hash_check = $(location).attr('hash');
-
-
-     // STORE the current scroll position before the page reload (IF CONDITIONS MET, OTHERWISE RESET)
-     // WE ONLY CALL THIS FUNCTION ONCE PER PAGE UNLOAD (body => onbeforeunload)
-     if ( !is_admin && typeof hash_check != 'undefined' && hash_check != 'update'  && hash_check != 'settings' && hash_check != 'portfolio' && !isNaN( localStorage.getItem(scroll_position_storage) ) ) {
-     localStorage.setItem(scroll_position_storage, window.scrollY);
-     }
-     else {
-     localStorage.setItem(scroll_position_storage, 0);
-     }
-
-}
-
-
-/////////////////////////////////////////////////////////////
-
-
 var sort_extraction = function(node) {
 
 // Sort with the .app_sort_filter CSS class as the primary sorter
@@ -341,6 +316,7 @@ function charts_loading_check() {
 
     // NOT IN ADMIN AREA (UNLIKE CRON EMULATION)
 	if ( charts_loaded.length >= charts_num || is_admin == true ) {
+	fix_zingchart_watermarks(set_font_size * 100);
 	return 'done';
 	}
 	else {
@@ -414,6 +390,55 @@ var new_url = url.toString();
 
 return new_url;
 
+}
+
+
+/////////////////////////////////////////////////////////////
+
+
+function store_scroll_position() {
+     
+     if ( is_iframe ) {
+     return;
+     }
+     
+     
+var hash_check = $(location).attr('hash');
+
+
+     // STORE the current scroll position before the page reload (IF CONDITIONS MET, OTHERWISE RESET)
+     // WE ONLY CALL THIS FUNCTION ONCE PER PAGE UNLOAD (body => onbeforeunload)
+     if ( !is_admin && typeof hash_check != 'undefined' && hash_check != 'update'  && hash_check != 'settings' && hash_check != 'portfolio' && !isNaN( localStorage.getItem(scroll_position_storage) ) ) {
+     localStorage.setItem(scroll_position_storage, window.scrollY);
+     }
+     else {
+     localStorage.setItem(scroll_position_storage, 0);
+     }
+
+}
+
+
+/////////////////////////////////////////////////////////////
+
+
+// Zingchart watermark does NOT always show at hi / low text zoom levels, so we adjust it's positioning dynamically,
+// so it ALWAYS shows no matter what zoom level (when using the sidebar zoom feature)
+function fix_zingchart_watermarks(font_size) {
+     
+    $('div.chart_wrapper a[title="JavaScript Charts by ZingChart"]').parent().each(function(){
+          
+    $(this).css('top', 'unset', "important");
+          
+    var font_measure = (font_size - 100);
+          
+    var adjust = (font_measure * 0.31);
+          
+    $(this).css('bottom', adjust + 'px', "important");
+          
+    //console.log( 'id = ' + $(this).attr("id") );
+          
+    });
+     
 }
 
 
@@ -796,7 +821,7 @@ function set_admin_security(obj) {
 	     var admin_sec_level_set = confirm("'Medium' and 'Normal' admin security modes are currently BETA (TEST) FEATURES, AND USING THEM MAY LEAD TO ISSUES UPDATING YOUR APP CONFIGURATION (editing from the PHP config files will be DISABLED).\n\nYou can RE-DISABLE these BETA features AFTER activating them (by setting the security mode back to 'High'), and you will be able to update your app configuration from the PHP config files again.");
 		}
 		else {
-	     var admin_sec_level_set = confirm("High security admin mode requires you to update your app configuration from the PHP config files.");
+	     var admin_sec_level_set = confirm("High security admin mode requires you to update your app configuration from the PHP config files (config.php in app main directory / plug-conf.php for each plugin in the plugins subdirectory).\n\nWARNING: IF YOU SWITCH TO HIGH SECURITY MODE, ANY SETTING CHANGES YOU MADE IN A LOWER SECURITY MODE *WILL BE LOST*!");
 		}
 		
 		if ( admin_sec_level_set ) {
@@ -1388,30 +1413,37 @@ return render;
 function background_tasks_check() {
         
         
-        if (
-		feeds_loading_check() == 'done' && charts_loading_check() == 'done' && cron_run_check() == 'done'
-		) {
+     if ( feeds_loading_check() == 'done' && charts_loading_check() == 'done' && cron_run_check() == 'done' ) {
+          
+     all_tasks_initial_load = false; // Unset initial bg tasks loading flag
 		    
-		$("#background_loading").hide(250); // 0.25 seconds
+	$("#background_loading").hide(250); // 0.25 seconds
          	
-         	clearTimeout(background_tasks_recheck);
+     clearTimeout(background_tasks_recheck);
     	
-         	background_tasks_status = 'done';
+     background_tasks_status = 'done';
 		
-         		// Run setting scroll position AGAIN if we are on the news / charts page,
-         		// as we start out with no scroll height before the news feeds / price charts load
-         		if ( $(location).attr('hash') == '#news' || $(location).attr('hash') == '#charts' ) {
-         		set_scroll_position(); 
-         		}
+         	// Run setting scroll position AGAIN if we are on the news / charts page,
+         	// as we start out with no scroll height before the news feeds / price charts load
+         	// SKIP IF THIS IS JUST THE EMULATED CRON CHECKING EVERY MINUTE (so we don't reset the scroll position every minute)
+         	if ( !emulated_cron_task_only && $(location).attr('hash') == '#news' || !emulated_cron_task_only && $(location).attr('hash') == '#charts' ) {
+         	set_scroll_position(); 
+         	}
 		
-		}
-		else {
+     }
+	else {
+	     
+	     // If only emulated cron background task is running AFTER initial page load, flag as such
+	     // (so we don't reset the scroll position every minute)
+	     if ( !all_tasks_initial_load && feeds_loading_check() == 'done' && charts_loading_check() == 'done' && cron_run_check() != 'done' ) {
+	     emulated_cron_task_only = true;
+	     }
 		    
-		background_tasks_recheck = setTimeout(background_tasks_check, 1000); // Re-check every 1 seconds (in milliseconds)
+	background_tasks_recheck = setTimeout(background_tasks_check, 1000); // Re-check every 1 seconds (in milliseconds)
 	
-    	     background_tasks_status = 'wait';
+    	background_tasks_status = 'wait';
     
-		}
+     }
 		
     	
 //console.log('background_tasks_check: ' + background_tasks_status);
@@ -1952,6 +1984,8 @@ function row_alert(tr_id, alert_type, color, theme) {
 
 
 function interface_font_percent(font_val, iframe_elm=false, specific_elm=false, specific_size=false) {
+     
+fix_zingchart_watermarks(font_val);
      
 var font_size = Number(font_val) * 0.01;
 var font_size = font_size.toFixed(3);
@@ -2580,7 +2614,7 @@ private_data = document.getElementsByClassName('private_data');
 
             pw_prompt({
                 
-                lm:"Create PIN:<br /><span style='font-weight: bold;' class='bitcoin'>(requires / uses cookies)</span>", 
+                lm:"Create 6-Digit PIN:<br /><span style='font-weight: bold;' class='bitcoin'>(requires / uses cookies)</span>", 
                 callback: function(pin) {
                     
                     

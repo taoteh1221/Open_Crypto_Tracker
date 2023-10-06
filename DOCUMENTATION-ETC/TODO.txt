@@ -28,9 +28,6 @@ Add an info icon next to admin config fields, with info on what it is, usage, et
 Add BTC to documentation om supported trading pairs (in help / faq, readme, troubleshooting, and project page).
 
 
-For config reset / turning on high admin security mode, add documentation in the JavaScript popup alerts and in the info icon bubbles that you will lose all your data that is not in the hard-coded config file.
-
-
 Update all documentation for new 2FA integrations into existing security features. Don't forget to mention that changing the admin username / server domain will PURPOSEFULLY INVALIDATE THE CURRENT 2FA 'SECRET', and would then require deleting the 2fa var in the cache to disable 2FA (which can then be re-enabled after, with the new admin username / sever domain).
 
 

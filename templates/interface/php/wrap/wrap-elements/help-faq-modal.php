@@ -12,7 +12,7 @@
 	<br clear='all' />
 	
 	
-	<div class='bitcoin_dotted bitcoin' style='font-weight: bold;'> Additional documentation can be found in <a href='README.txt' target='_blank'>README.txt</a></div>
+	<div class='blue_dotted blue' style='font-weight: bold;'> Additional documentation can be found in <a href='README.txt' target='_blank'>README.txt</a></div>
 				    
 			
 	<?php
@@ -255,7 +255,7 @@ See "<span class='bitcoin'>Setting Up Price Charts And Email / Text / Telegram /
 Running price charts or price alerts requires setting up a cron job or scheduled task on the Debian / Ubuntu / DietPi OS / RaspberryPi OS / Armbian / Windows 10 machine or website server (this is automated for Debian / Ubuntu / DietPi OS / RaspberryPi OS / Armbian users using the automated FOLIO-INSTALL.bash script / Windows 10 users who run the ADD-WIN10-SCHEDULER-JOB.bat file), otherwise charts / alerts will not work. Also see the related settings in Admin Config for charts / alerts. 
 	    <br /><br />
 
-Once a cron job or scheduled task is setup ON YOUR APP SERVER, there is no need to keep your PC / Laptop turned on. The price charts and price alerts run automatically from your Open Crypto Tracker app server installation. If you encounter errors or the charts / alerts don't work during setup, check the error logs file at /cache/logs/error.log for errors in your configuration setup. Basic checks are performed and errors are reported there, and on the Settings page. 
+Once a cron job or scheduled task is setup ON YOUR APP SERVER, there is no need to keep your PC / Laptop turned on (UNLESS you are running the app server on the same device). The price charts and price alerts run automatically from your Open Crypto Tracker app server installation. If you encounter errors or the charts / alerts don't work during setup, check the error logs file at /cache/logs/error.log for errors in your configuration setup. Basic checks are performed and errors are reported there, and on the Settings page. 
 	    <br /><br />
 
 If you decide to turn on cron job / scheduled task based features, then the file cron.php (located in the primary directory of this app) must be setup as a cron job or scheduled task on your Debian / Ubuntu / DietPi OS / RaspberryPi OS / Armbian / Windows 10 / website server device. 
@@ -277,7 +277,7 @@ FOR LINUX / MAC USERS, here is an example cron job command line for reference be
 
 	    <br /><br />
 
-FOR LINUX (if you have systemd), here is another example of a COMPLETE cron command that can be added by creating the following file (you'll need sudo/root permissions): /etc/cron.d/cryptocoin on a linux-based machine with systemd (to run every 20 minutes 24/7)...play it safe and add a newline after it as well if you install examples like these:
+FOR LINUX (if you have systemd), here is another example of a COMPLETE cron command that can be added by creating the following file (you'll need sudo/root permissions): /etc/cron.d/cryptocoin on a linux-based machine with systemd (to run every 20 minutes 24/7)...play it safe and add a newline after it as well if you install examples like these (must be owned by "root" / chmod permission set to 644):
 	    <br /><br />
 
 	    
