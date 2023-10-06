@@ -127,6 +127,7 @@
 	
 	<script>
 	
+	
 	// Javascript var inits / configs
 	
 	ct_id = '<?=base64_encode( $ct['gen']->id() )?>';
@@ -582,7 +583,6 @@
 	<?php
 	}
 	?>
-     
      
      </style>
      

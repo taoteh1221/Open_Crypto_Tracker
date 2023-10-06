@@ -199,7 +199,8 @@ else {
 
 
 if ( $ct['app_container'] == 'phpdesktop' ) {
-$admin_render_settings['interface_login']['is_disabled'] = 'Unavailable in PHPdesktop container';
+// We use readonly instead of disabled, so we don't accidentally delete the empty value from the cached config
+$admin_render_settings['interface_login']['is_readonly'] = 'Unavailable in PHPdesktop container';
 $admin_render_settings['interface_login']['text_field_size'] = 30;
 }
 else {

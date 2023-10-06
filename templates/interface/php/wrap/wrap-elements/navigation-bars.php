@@ -263,7 +263,7 @@ $refresh_link_documentation = 'The current real-time exchange data re-cache (ref
                	font_size_cookie = true;
                	}
                			
-               	if ( font_size_cookie == true && is_int(this.value) != false && this.value >= 50 && this.value <= 200 ) {
+               	if ( font_size_cookie == true && is_int(this.value) != false ) {
                     interface_font_percent(this.value);
                	}
                	else {
