@@ -11,18 +11,23 @@ $api_base_endpoint = ( $ct['app_edition'] == 'server' || $ct['app_container'] ==
 
 	<p>
 	
-	<b class='bitcoin'>WEBHOOK DOCUMENTATION / KEYS:</b> <br /><br />
+	<b class='blue'>WEBHOOK DOCUMENTATION / KEYS:</b> <br /><br />
 	
-	Webhooks are added via the plugin system built into this app (when a specific plugin's "runtime_mode" is set to "webhook" OR "all"). See <a href='https://raw.githubusercontent.com/taoteh1221/Open_Crypto_Tracker/main/DOCUMENTATION-ETC/PLUGINS-README.txt' target='_blank'>/DOCUMENTATION-ETC/PLUGINS-README.txt</a> for more information on plugin creation / development.
+	Webhooks are added via the plugin system built into this app (when a specific plugin's "runtime_mode" is set to "webhook" OR "all").
 	<br /><br />
 	
-	You can include ADDITIONAL PARAMETERS *AFTER* THE WEBOOK KEY, USING FORWARD SLASHES TO DELIMIT THEM: <br /><?=$ct['base_url']?><?=$webhook_base_endpoint?>WEBHOOK_KEY/PARAM1/PARAM2/PARAM3/ETC
+	See <a href='https://raw.githubusercontent.com/taoteh1221/Open_Crypto_Tracker/main/DOCUMENTATION-ETC/PLUGINS-README.txt' target='_blank'>/DOCUMENTATION-ETC/PLUGINS-README.txt</a> for more information on plugin creation / development.
+	<br /><br />
+	
+	You can include ADDITIONAL PARAMETERS *AFTER* THE WEBOOK KEY, USING FORWARD SLASHES TO DELIMIT THEM: <br /><br />
+	
+	<b class='bitcoin'><?=$ct['base_url']?><?=$webhook_base_endpoint?>WEBHOOK_KEY/PARAM1/PARAM2/PARAM3/ETC</b>
 	<br /><br />
 
-     These parameters are then automatically put into a PHP array named: $webhook_params
+     These parameters are then automatically put into a PHP array named: <b class='bitcoin'>$webhook_params</b>
      <br /><br />
      
-     The webhook key is also available, in the auto-created variable: $webhook_key
+     The webhook key is also available, in the auto-created variable: <b class='bitcoin'>$webhook_key</b>
      <br /><br />
      
      See the Plugins admin area, for additional settings / documentation related to each webhook plugin listed below.
@@ -44,7 +49,13 @@ $webhook_plug = $plugin_key;
     if ( file_exists($plugin_init) && isset($int_webhooks[$webhook_plug]) ) {
     ?>
        
-     <p><b class='bitcoin'>Webhook endpoint for "<?=$plug_conf[$webhook_plug]['ui_name']?>" plugin:</b> <br /><?=$ct['base_url']?><?=$webhook_base_endpoint?><?=$ct['gen']->nonce_digest($webhook_plug, $int_webhooks[$webhook_plug] . $webhook_master_key)?></p>
+     <p>
+     
+     <b class='blue'>Webhook endpoint for "<?=$plug_conf[$webhook_plug]['ui_name']?>" plugin:</b> <br /><br />
+     
+     <b class='bitcoin'><?=$ct['base_url']?><?=$webhook_base_endpoint?><?=$ct['gen']->nonce_digest($webhook_plug, $int_webhooks[$webhook_plug] . $webhook_master_key)?></b>
+     
+     </p>
      <br /> &nbsp; <br />
      
      <?php
@@ -62,21 +73,33 @@ unset($webhook_plug);
 
 		<p>
 	
-	<b class='bitcoin'>INTERNAL API DOCUMENTATION / KEYS:</b> <br /><br />
+	<b class='blue'>INTERNAL API DOCUMENTATION / KEYS:</b> <br /><br />
 	
 	This app has a built-in (internal) REST API available, so other external apps can connect to it and receive market data, including market conversion (converting the market values to their equivalent value in country fiat currencies and secondary cryptocurrency market pairs).</p>
 		
-		<p>To see a list of the supported assets in the API, use the endpoint: <br />"<span class='bitcoin'>/<?=$api_base_endpoint?>asset_list</span>"</p>
+		<p>To see a list of the supported assets in the API, use the endpoint: <br /><br />
 		
-		<p>To see a list of the supported exchanges in the API, use the endpoint: <br />"<span class='bitcoin'>/<?=$api_base_endpoint?>exchange_list</span>"</p>
+		<b class='bitcoin'>/<?=$api_base_endpoint?>asset_list</b></p>
 		
-		<p>To see a list of the supported markets for a particular exchange in the API, use the endpoint: <br />"<span class='bitcoin'>/<?=$api_base_endpoint?>market_list/[exchange name]</span>"</p>
+		<p>To see a list of the supported exchanges in the API, use the endpoint: <br /><br />
 		
-		<p>To see a list of the supported conversion currencies (market values converted to these currency values) in the API, use the endpoint: <br />"<span class='bitcoin'>/<?=$api_base_endpoint?>conversion_list</span>"</p>
+		<b class='bitcoin'>/<?=$api_base_endpoint?>exchange_list</b></p>
 		
-		<p>To get raw market values AND also get a market conversion to a supported conversion currency (see ALL requested market values also converted to values in this currency) in the API, use the endpoint: <br />"<span class='bitcoin'>/<?=$api_base_endpoint?>market_conversion/[conversion currency]/[exchange1-asset1-pair1],[exchange2-asset2-pair2],[exchange3-asset3-pair3]</span>"</p>
+		<p>To see a list of the supported markets for a particular exchange in the API, use the endpoint: <br /><br />
 		
-		<p><i>To skip conversions and just receive raw market values</i> in the API, you can use the endpoint: <br />"<span class='bitcoin'>/<?=$api_base_endpoint?>market_conversion/market_only/[exchange1-asset1-pair1],[exchange2-asset2-pair2],[exchange3-asset3-pair3]</span>"</p>
+		<b class='bitcoin'>/<?=$api_base_endpoint?>market_list/[exchange name]</b></p>
+		
+		<p>To see a list of the supported conversion currencies (market values converted to these currency values) in the API, use the endpoint: <br /><br />
+		
+		<b class='bitcoin'>/<?=$api_base_endpoint?>conversion_list</b></p>
+		
+		<p>To get raw market values AND also get a market conversion to a supported conversion currency (see ALL requested market values also converted to values in this currency) in the API, use the endpoint: <br /><br />
+		
+		<b class='bitcoin'>/<?=$api_base_endpoint?>market_conversion/[conversion currency]/[exchange1-asset1-pair1],[exchange2-asset2-pair2],[exchange3-asset3-pair3]</b></p>
+		
+		<p><i>To skip conversions and just receive raw market values</i> in the API, you can use the endpoint: <br /><br />
+		
+		<b class='bitcoin'>/<?=$api_base_endpoint?>market_conversion/market_only/[exchange1-asset1-pair1],[exchange2-asset2-pair2],[exchange3-asset3-pair3]</b></p>
 		
 		<p>For security, the API requires a key / token to access it. This key must be named "api_key", and must be sent with the "POST" data method.</p>
 	
