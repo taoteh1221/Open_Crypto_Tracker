@@ -464,8 +464,9 @@ var $ct_array = array();
       
    global $ct;
    
-   // Keep our color-coded logs in the admin UI pretty, remove '//' (and put in parenthesis futher down when returning output)
-   $url = preg_replace("/:\/\//i", "", $url);
+   // Keep our color-coded logs in the admin UI pretty, replace '://' with RIGHT parenthesis,
+   // and put in LEFT parenthesis futher down when returning output
+   $url = preg_replace("/:\/\//i", ") ", $url);
    
       foreach( $ct['dev']['url_obfuscating'] as $hide_key => $hide_val ) {
            
@@ -475,8 +476,8 @@ var $ct_array = array();
            
       }
    
-   // Keep our color-coded logs in the admin UI pretty, remove '//' and put in parenthesis
-   return '(' . $url . ') ';
+   // Keep our color-coded logs in the admin UI pretty (SEE NOTES ABOVE)
+   return '(' . $url;
    
    }
    
@@ -550,7 +551,7 @@ var $ct_array = array();
          }
       
       }
-      // Enhanced / Normal security modes
+      // Medium / Normal security modes
       else {
       return true;
       }

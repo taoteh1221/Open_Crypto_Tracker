@@ -61,7 +61,7 @@ $header_link = $plug_conf[$this_plug]['ui_name'];
         
         <?php
         }
-        // Admin (normal / enhanced security mode)
+        // Admin (normal / medium security mode)
         elseif ( $admin_area_sec_level != 'high' && !isset($_GET['plugin_docs']) && file_exists("plugins/" . $this_plug . "/plug-templates/plug-admin.php") ) {
         require("plugins/" . $this_plug . "/plug-templates/plug-admin.php");
         }

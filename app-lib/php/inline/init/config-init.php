@@ -116,8 +116,8 @@ if ( isset($_POST['opt_admin_2fa']) && $ct['gen']->pass_sec_check($_POST['admin_
      // If NOT
      else {
                     
-          // Force-show Admin 2FA setup, if it failed because of an invalid 2FA code
-          if ( $check_2fa_error != null ) {
+          // Force-show Admin 2FA setup (IF 2FA IS CURRENTLY OFF), if it failed because of an invalid 2FA code
+          if ( $check_2fa_error != null && $admin_area_2fa == 'off' ) {
           $force_show_2fa_setup = $_POST['opt_admin_2fa'];
           }
      
