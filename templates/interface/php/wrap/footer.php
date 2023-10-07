@@ -102,9 +102,25 @@ $(document).ready(function() {
          <?php
          // If we need to refresh an admin iframe, to show the updated data
          if ( isset($_GET['refresh']) ) {
+              
+              
+             // Flag as config NOT updated if it was halted (so we skip refreshing any other admin sections)
+             if ( !$app_upgrade_check && !$reset_config && !$update_config ) {
+             
+                 if ( $check_2fa_error != null || $update_config_error != null || $admin_general_error != null || $admin_reset_error != null ) {
+                 $halt_iframe_refreshing = true;
+                 }
+             
+             }
              
              
-             if ( $_GET['refresh'] == 'all' ) {
+             // 'auto' is the 'refresh' param value we set further down here in footer.php,
+             // so we never get stuck in endless loops with refresh=all when refreshing here
+             if ( $halt_iframe_refreshing || $_GET['refresh'] == 'none' || $_GET['refresh'] == 'auto' ) {
+             $refresh_admin = array(); // SET TO BLANK (no iframe refreshing)
+             }
+             // Refreshing ALL admin sections
+             elseif ( $_GET['refresh'] == 'all' ) {
              
              $refresh_admin = array(
                                      'iframe_general',
@@ -126,11 +142,7 @@ $(document).ready(function() {
                                     );
                                     
              }
-             // 'auto' is the 'refresh' param value we set further down here in footer.php,
-             // so we never get stuck in endless loops with refresh=all when refreshing here
-             elseif ( $_GET['refresh'] == 'none' || $_GET['refresh'] == 'auto' ) {
-             $refresh_admin = array(); // BLANK
-             }
+             // Refreshing the passed list of admin sections
              else {
              $refresh_admin = explode(',', $_GET['refresh']);
              }
@@ -173,8 +185,8 @@ $(document).ready(function() {
          
      }
      
-     // Reload all flagged iframes after 2.5 seconds (to give any newly-revised ct_conf time to re-cache)
-     setTimeout(reload_iframes, 2500); 
+     // Reload all flagged iframes after 3 seconds (to give any newly-revised ct_conf re-cache time to 'settle in')
+     setTimeout(reload_iframes, 3000); 
      
      <?php
      } // END admin

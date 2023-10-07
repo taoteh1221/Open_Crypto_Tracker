@@ -6352,6 +6352,27 @@ MIGRATE YOUR EXISTING SETTINGS TO THE NEW FORMAT.
 
 
 
+-------------------------------------------------------------------
+6.00.29:
+
+-BUG FIX: Miscellaneous fixes
+
+-Miscellaneous user experience improvements
+
+-Code optimization / cleanup
+
+IMPORTANT *UPGRADE* NOTICE:
+
+v6.00.26 / v6.00.27 and higher renames the admin config array variables. ALL CONFIGURATION SETTING
+VARIABLE NAMES ARE NOW DIFFERENT, USE THE LATEST/UPGRADED CONFIG.PHP, AND
+MIGRATE YOUR EXISTING SETTINGS TO THE NEW FORMAT.
+
+-v6.00.27 AND HIGHER RESETS LIGHT (TIME PERIOD) CHARTS FROM ARCHIVAL DATA, ONE-TIME DURING UPGRADES FROM V6.00.26 OR LOWER.
+
+-------------------------------------------------------------------
+
+
+
 
 
 
