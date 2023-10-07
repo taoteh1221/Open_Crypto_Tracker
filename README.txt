@@ -281,32 +281,32 @@ This app has a built-in (internal) REST API available, so other external apps ca
 
 To see a list of the supported assets in the API, use the endpoint:
 
-"/api/asset_list"
+/api/asset_list
 
 
 To see a list of the supported exchanges in the API, use the endpoint:
 
-"/api/exchange_list"
+/api/exchange_list
 
 
 To see a list of the supported markets for a particular exchange in the API, use the endpoint:
 
-"/api/market_list/[exchange name]"
+/api/market_list/[exchange name]
 
 
 To see a list of the supported conversion currencies (market values converted to these currency values) in the API, use the endpoint:
 
-"/api/conversion_list"
+/api/conversion_list
 
 
 To get raw market values AND also get a market conversion to a supported conversion currency (see ALL requested market values also converted to values in this currency) in the API, use the endpoint:
 
-"/api/market_conversion/[conversion currency]/[exchange1-asset1-pair1],[exchange2-asset2-pair2],[exchange3-asset3-pair3]"
+/api/market_conversion/[conversion currency]/[exchange1-asset1-pair1],[exchange2-asset2-pair2],[exchange3-asset3-pair3]
 
 
 To skip conversions and just receive raw market values in the API, you can use the endpoint:
 
-"/api/market_conversion/market_only/[exchange1-asset1-pair1],[exchange2-asset2-pair2],[exchange3-asset3-pair3]"
+/api/market_conversion/market_only/[exchange1-asset1-pair1],[exchange2-asset2-pair2],[exchange3-asset3-pair3]
 
 
 For security, the API requires a key / token to access it. This key must be named "api_key", and must be sent with the "POST" data method.
@@ -314,8 +314,7 @@ For security, the API requires a key / token to access it. This key must be name
 
 IMPORTANT REST API NOTES: 
 
-
-The 'Linux Desktop Edition' of this app has a slightly different endpoint format for the internal REST API (due to unavoidable feature restrictions). Login to your Admin Config area, and see the 'Webhook / Internal API' section, for the example code required to use the internal REST API.
+The 'Linux Desktop Edition' of this app has a slightly different endpoint format for the internal REST API (due to unavoidable feature restrictions). Login to your Admin Config area, and see the 'Webhook / Internal API' section, for the endpoint and example code required to use the internal REST API.
 
 
 SEE /DOCUMENTATION-ETC/REST-API-EXAMPLES.txt FOR EXAMPLES OF CALLING THE API WITH CURL, JAVASCRIPT, AND PHP
