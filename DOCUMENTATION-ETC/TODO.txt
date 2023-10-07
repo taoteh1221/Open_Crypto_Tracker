@@ -10,6 +10,13 @@ NEXT SCHEDULED WORK SESSIONS (*BOTH* DEBUGGING AND / OR INFRASTRUCTURE)
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
+Add to resources page:
+https://www.validators.app/
+
+
+For the admin interface "add new asset" multi step wizard, on page one type in the ticker symbol, which then loads page 2, where every exchange API is scanned and returns results for market pairings of that asset (as a checkbox list to choose the ones you want).
+
+
 Try having a textarea behave like a password field with this CSS... -webkit-text-security : circle 
 
 
