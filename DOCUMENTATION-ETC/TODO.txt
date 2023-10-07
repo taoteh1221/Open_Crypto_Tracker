@@ -10,6 +10,10 @@ NEXT SCHEDULED WORK SESSIONS (*BOTH* DEBUGGING AND / OR INFRASTRUCTURE)
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
+Add my venmo link to app footer and project page: 
+https://account.venmo.com/u/taoteh1221
+
+
 Add to resources page:
 https://www.validators.app/
 
