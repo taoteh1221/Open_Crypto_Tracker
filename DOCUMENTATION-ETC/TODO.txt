@@ -171,7 +171,7 @@ https://zksync.io/api/v0.1.html (KEEP AN EYE OUT FOR V2 DOCS AS WELL)
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
-Test out the new iframe-reloading HALT mechanism (if a halt was called on updating the cached admin config)
+Test out the new iframe-reloading HALT mechanism (if a halt was called on updating the cached admin config), AND iframe reloading in general.
 
 
 The tags 'h1' through 'h6' should be made to user-adjust text size too. (CONFIRMED IT WILL be a bit tricky, be careful (set them via 'em' like bootstrap does)...ISOLATE BASED ON OUR TEMPLATE WRAPPER CSS ELEMENTS).
