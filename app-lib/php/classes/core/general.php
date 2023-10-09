@@ -1622,6 +1622,46 @@ var $ct_array = array();
    ////////////////////////////////////////////////////////
    
    
+   function sanitize_string($method, $ext_key, $data, $mysqli_connection=false) {
+   
+   global $ct, $possible_input_injection;
+   
+   $original = $data;
+   
+   // Remove HTML
+   $sanitized = strip_tags($original);
+        
+   // Scan for malicious content
+   $scan = strtolower($sanitized);
+                           
+   $scan = str_replace($ct['dev']['script_injection_checks'], "", $scan, $has_script);
+        
+        
+        // Wipe data value, if scripting / HTML detection flagged
+        if ( $has_script > 0 || $original != $sanitized ) {
+        $this->log('security_error', 'POSSIBLE code injection attack blocked in request data (' . strtoupper($method) . ') "' . $ext_key . '" (from ' . $ct['remote_ip'] . '), please DO NOT attempt to inject scripting / HTML into user inputs');
+        $data = 'possible_scripting_blocked';
+        $possible_input_injection = true;
+        }
+        // a mySQLi connection is required before using this function
+        // Escapes special characters in a string for use in an SQL statement
+        elseif ( $mysqli_connection ) {
+        $data = mysqli_real_escape_string($mysqli_connection, $sanitized);
+        }
+        else {
+        $data = $sanitized;
+        }
+        
+        
+   return $data;
+        
+   }
+   
+   
+   ////////////////////////////////////////////////////////
+   ////////////////////////////////////////////////////////
+   
+   
    function file_download($file, $save_as, $delete=true) {
       
    global $ct;
@@ -2193,74 +2233,6 @@ var $ct_array = array();
       }
       
    
-   }
-   
-   
-   ////////////////////////////////////////////////////////
-   ////////////////////////////////////////////////////////
-   
-   
-   function sanitize_string($method, $ext_key, $data, $mysqli_connection=false) {
-   
-   global $ct, $possible_input_injection;
-   
-   $original = $data;
-   
-   // Remove HTML
-   $sanitized = strip_tags($original);
-        
-   // Scan for malicious content
-   $scan = strtolower($sanitized);
-        
-   // Looking for potentially hidden code injection
-   $script_check = array(
-                                   "base64", // base64 PHP
-                                   "btao", // base64 javascript
-                                   "javascript",
-                                   "script",
-                                   "href",
-                                   "src",
-                                   "onclick",
-                                   "onmouse",
-                                   "onresize",
-                                   "onchange",
-                                   "onabort",
-                                   "onblur",
-                                   "ondblclick",
-                                   "ondragdrop",
-                                   "onerror",
-                                   "onfocus",
-                                   "onkey",
-                                   "onload",
-                                   "onmove",
-                                   "onreset",
-                                   "onselect",
-                                   "onsubmit",
-                                   "onunload",
-                           );
-                       
-                           
-   $scan = str_replace($script_check, "", $scan, $has_script);
-        
-        
-        // Wipe data value, if scripting / HTML detection flagged
-        if ( $has_script > 0 || $original != $sanitized ) {
-        $this->log('security_error', 'POSSIBLE code injection attack blocked in request data _' . strtoupper($method) . '["' . $ext_key . '"] (from ' . $ct['remote_ip'] . '), please DO NOT attempt to inject scripting / HTML into user inputs');
-        $data = 'code_not_allowed';
-        $possible_input_injection = true;
-        }
-        // a mySQLi connection is required before using this function
-        // Escapes special characters in a string for use in an SQL statement
-        elseif ( $mysqli_connection ) {
-        $data = mysqli_real_escape_string($mysqli_connection, $sanitized);
-        }
-        else {
-        $data = $sanitized;
-        }
-        
-        
-   return $data;
-        
    }
 
    

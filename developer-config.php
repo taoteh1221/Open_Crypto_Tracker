@@ -14,7 +14,7 @@ if ( $dev_only_configs_mode == 'init' ) {
 
 
 // Application version
-$ct['app_version'] = '6.00.28';  // 2023/SEPTEMBER/25TH
+$ct['app_version'] = '6.00.29';  // 2023/OCTOBER/7TH
 
 
 // #PHP# ERROR LOGGING
@@ -148,40 +148,40 @@ $ct['dev']['captcha_text_margin'] = 10; // MINIMUM margin of text from edge of i
 $ct['dev']['captcha_permitted_chars'] = 'ABCDEFHJKMNPRSTUVWXYZ23456789'; // (default = 'ABCDEFHJKMNPRSTUVWXYZ23456789')
      
      
-// List of BUNDLED plugins (that we allow config upgrades on)
-$ct['dev']['bundled_plugins'] = array(
-                                     // 'plugin-name-here',
-                                     'debt-interest-tracker',
-                                     'recurring-reminder',
-                                     'price-target-alert',
-                                     'address-balance-tracker',
-                                     'crypto-info-bot',
-                                     'on-chain-stats',
-                                     );
+// Servers requiring TRACKED THROTTLE-LIMITING, due to limited-allowed minute / hour / daily requests
+// (are processed by ct_cache->api_throttling(), to avoid using up daily request limits)
+// ADDITIONAL (CORRISPONDING) LOGIC MUST BE ADDED IN /inline/config/throttled-markets-config.php
+$ct['dev']['tracked_throttle_limited_servers'] = array(
+                                                       // 'tld_domain_name' => 'corrisponding_exchange_identifier_OR_BOOLEAN_TRUE',
+                                                     	'alphavantage.co' => 'alphavantage_stock',
+                                                      );
      
      
 // Servers which are known to block API access by location / jurasdiction
 // (we alert end-users in error logs, when a corrisponding API server connection fails [one-time notice per-runtime])
 $ct['dev']['location_blocked_servers'] = array(
-                                                 // 'tld_domain_name',
-                                                 'binance.com',
-                                                 'bybit.com',
-                                                );
+                                               // 'tld_domain_name',
+                                               'binance.com',
+                                               'bybit.com',
+                                              );
      
      
-// Servers requiring TRACKED THROTTLE-LIMITING, due to limited-allowed minute / hour / daily requests
-// (are processed by ct_cache->api_throttling(), to avoid using up daily request limits)
-// ADDITIONAL (CORRISPONDING) LOGIC MUST BE ADDED IN throttled-markets-config.php
-$ct['dev']['tracked_throttle_limited_servers'] = array(
-                                                         // 'tld_domain_name' => 'corrisponding_exchange_identifier_OR_BOOLEAN_TRUE',
-                                                     	  'alphavantage.co' => 'alphavantage_stock',
-                                                        );
+// List of BUNDLED plugins (that we allow config upgrades on)
+$ct['dev']['bundled_plugins'] = array(
+                                      // 'plugin-name-here',
+                                      'debt-interest-tracker',
+                                      'recurring-reminder',
+                                      'price-target-alert',
+                                      'address-balance-tracker',
+                                      'crypto-info-bot',
+                                      'on-chain-stats',
+                                     );
 							
 
 // TLD-only (Top Level Domain only, NO SUBDOMAINS) for each API service that UN-EFFICIENTLY requires multiple calls (for each market / data set)
 // Used to throttle these market calls a tiny bit (0.15 seconds), so we don't get easily blocked / throttled by external APIs etc
-// (ANY EXCHANGES LISTED HERE ARE !NOT! RECOMMENDED TO BE USED AS THE PRIMARY CURRENCY MARKET IN THIS APP,
-// AS ON OCCASION THEY CAN BE !UNRELIABLE! IF HIT WITH TOO MANY SEPARATE API CALLS FOR MULTIPLE COINS / ASSETS)
+// (ANY EXCHANGES LISTED HERE ARE FLAGGED IN THE INTERFACE AS !NOT! RECOMMENDED TO BE USED AS THE PRIMARY CURRENCY MARKET IN THIS APP,
+// AS ON OCCASSION THEY CAN BE !UNRELIABLE! IF HIT WITH TOO MANY SEPARATE API CALLS FOR MULTIPLE COINS / ASSETS)
 // !MUST BE LOWERCASE!
 // #DON'T ADD ANY WEIRD TLD HERE LIKE 'xxxxx.co.il'#, AS DETECTING TLD DOMAINS WITH MORE THAN ONE PERIOD IN THEM ISN'T SUPPORTED
 // WE DON'T WANT THE REQUIRED EXTRA LOGIC TO PARSE THESE DOUBLE-PERIOD TLDs BOGGING DOWN / CLUTTERING APP CODE, FOR JUST ONE TINY FEATURE
@@ -201,6 +201,35 @@ $ct['dev']['limited_apis'] = array(
                           		'gemini.com',
           				  );
 
+        
+// Looking for potentially hidden script injection
+// (in $ct['gen']->sanitize_string(), when scanning user inputs)
+$ct['dev']['script_injection_checks'] = array(
+                                               "base64", // base64 PHP
+                                               "btao", // base64 javascript
+                                               "javascript",
+                                               "script",
+                                               "href",
+                                               "src",
+                                               "onclick",
+                                               "onmouse",
+                                               "onresize",
+                                               "onchange",
+                                               "onabort",
+                                               "onblur",
+                                               "ondblclick",
+                                               "ondragdrop",
+                                               "onerror",
+                                               "onfocus",
+                                               "onkey",
+                                               "onload",
+                                               "onmove",
+                                               "onreset",
+                                               "onselect",
+                                               "onsubmit",
+                                               "onunload",
+                                             );
+                           
 
 }
 // Runs in /app-lib/php/inline/init/config-init.php

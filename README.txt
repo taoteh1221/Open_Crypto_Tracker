@@ -76,6 +76,9 @@ FEATURES
 -Desktop / Server Editions available (see README.txt for differences / usage documentation)
 
 
+-Admin interface, to allow easily viewing / changing the app configuration (alerts / charts / markets / API / backups / logs / etc).
+
+
 -Automated and user-friendly installation / upgrade script for Debian device (Ubuntu / DietPi / RaspberryPi / Armbian / Etc) app setup (server edition), on your home / internal network or website.
 
 
@@ -85,10 +88,10 @@ FEATURES
 -Option to use proxies for external API requests, and SMTP authentication for email sending.
 
 
--Secure HTTPS (SSL), username / password protection, and privacy mode in the portfolio interface, for privacy and security.
+-Secure HTTPS / SSL web pages (for Server Edition), username / password protection, and privacy mode in the portfolio interface, for privacy and security.
 
 
--Support for over 40 exchanges (including DeFi), and over 80 market pairs (country fiat currency or secondary crypto).
+-Support for over 40 exchanges (including DeFi), and over 20 market pairs (country fiat currency or secondary crypto).
 
 
 -Price change alerts by email / text / Alexa / Telegram (configurable alert parameters available).
@@ -106,7 +109,7 @@ FEATURES
 -Cryptocurrency portfolio subtotal summaries, and total portfolio worth (in crypto and your local primary currency), including value gain / loss data (with tracking support for long / short margin leverages), portfolio balance data, and marketcap data.
 
 
--A news page with over 70 different cryptocurrency-related RSS feeds to select from, including company and organization blogs / news sites / podcasts / youtube channels / reddit and stackexchange forums, with ability to add / remove feeds in the app configuration.
+-A news page with over 60 different cryptocurrency-related RSS feeds to select from, including company and organization blogs / news sites / podcasts / youtube channels / reddit and stackexchange forums, with ability to add / remove feeds in the app configuration.
 
 
 -Newly added news feed posts, chart data backup archives, and app error / debugging logs sent to your email.
@@ -133,7 +136,7 @@ FEATURES
 -Help page in easy-to-use FAQ format, for common issues (with support / contact links if you need additional assistance).
 
 
--System stats / alerts in the interface, by text or email or other comms, and in the logs (uptime / load averages / temperature / free disk space / used system memory / portfolio cookies and cache sizes, if available on your device), to help keep your Raspberry Pi or other device running within healthy parameters.
+-System stats / alerts in the interface, by text or email or other comms, and in debugging logs (uptime / load averages / temperature / free disk space / used system memory / portfolio cookies and cache sizes, if available on your device), to help keep your Raspberry Pi or other device running within healthy parameters.
 
 
 -System / configuration checking, alerting, logging, and auto-correcting (where possible).
@@ -145,13 +148,10 @@ FEATURES
 -Plugin system, to use built-in / your own custom plugins for additional features.
 
 
--Internal restful API built-in, to allow other external apps to query real-time market data in over 80 country fiat currencies / secondary crypto pairs (raw data also available).
+-Internal restful API built-in, to allow other external apps to query real-time market data in over 20 country fiat currencies / secondary crypto pairs (raw data also available).
 
 
--Admin interface, to allow easily viewing / changing the app configuration (alerts / charts / markets / API / backups / logs / etc).
-
-
--Secure webhook capability, allowing other external apps to communicate in real-time safely (separate keys per service, without giving away the master webhook key).
+-Secure webhook capability (via the plugin system), allowing other external apps to communicate in real-time safely (separate keys per service, without giving away the master webhook key).
 
 
 ############################################################################################################################
@@ -281,32 +281,32 @@ This app has a built-in (internal) REST API available, so other external apps ca
 
 To see a list of the supported assets in the API, use the endpoint:
 
-"/api/asset_list"
+/api/asset_list
 
 
 To see a list of the supported exchanges in the API, use the endpoint:
 
-"/api/exchange_list"
+/api/exchange_list
 
 
 To see a list of the supported markets for a particular exchange in the API, use the endpoint:
 
-"/api/market_list/[exchange name]"
+/api/market_list/[exchange name]
 
 
 To see a list of the supported conversion currencies (market values converted to these currency values) in the API, use the endpoint:
 
-"/api/conversion_list"
+/api/conversion_list
 
 
 To get raw market values AND also get a market conversion to a supported conversion currency (see ALL requested market values also converted to values in this currency) in the API, use the endpoint:
 
-"/api/market_conversion/[conversion currency]/[exchange1-asset1-pair1],[exchange2-asset2-pair2],[exchange3-asset3-pair3]"
+/api/market_conversion/[conversion currency]/[exchange1-asset1-pair1],[exchange2-asset2-pair2],[exchange3-asset3-pair3]
 
 
 To skip conversions and just receive raw market values in the API, you can use the endpoint:
 
-"/api/market_conversion/market_only/[exchange1-asset1-pair1],[exchange2-asset2-pair2],[exchange3-asset3-pair3]"
+/api/market_conversion/market_only/[exchange1-asset1-pair1],[exchange2-asset2-pair2],[exchange3-asset3-pair3]
 
 
 For security, the API requires a key / token to access it. This key must be named "api_key", and must be sent with the "POST" data method.
@@ -314,8 +314,7 @@ For security, the API requires a key / token to access it. This key must be name
 
 IMPORTANT REST API NOTES: 
 
-
-The 'Desktop Edition' of this app has a slightly different endpoint format for the internal REST API (due to unavoidable feature restrictions). Login to your 'Desktop Edition' Admin Config area, and see the 'API' section, for the example code required to use the internal REST API.
+The 'Linux Desktop Edition' of this app has a slightly different endpoint format for the internal REST API (due to unavoidable feature restrictions). Login to your Admin Config area, and see the 'Webhook / Internal API' section, for the endpoint and example code required to use the internal REST API.
 
 
 SEE /DOCUMENTATION-ETC/REST-API-EXAMPLES.txt FOR EXAMPLES OF CALLING THE API WITH CURL, JAVASCRIPT, AND PHP

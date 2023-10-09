@@ -813,6 +813,11 @@ i.gg-eye, i.gg-eye-alt {
 }
 
 
+.textarea_password {
+-webkit-text-security : circle;
+}
+
+
 /* //////////////////////////////
 IDs
 ////////////////////////////// */
