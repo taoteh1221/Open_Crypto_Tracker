@@ -320,7 +320,7 @@ var $ct_array = array();
          
          <b class='blue'><?=$ct['gen']->key_to_name($key)?>:</b> <br /> 
          
-         <textarea data-autoresize name='<?=$conf_id?>[<?=$key?>]' style='height: auto; width: 100%;'><?=$val?></textarea>
+         <textarea data-autoresize name='<?=$conf_id?>[<?=$key?>]' style='height: auto; width: 100%;' <?=( isset($render_params[$key]['is_password']) ? 'class="textarea_password" onblur="$(this).toggleClass(\'textarea_password\');autoresize_update();" onfocus="$(this).toggleClass(\'textarea_password\');autoresize_update();"' : '' )?>><?=$val?></textarea>
          
               <?php
               if ( isset($render_params[$key]['is_notes']) ) {

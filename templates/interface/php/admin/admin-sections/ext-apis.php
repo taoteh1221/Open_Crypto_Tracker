@@ -44,6 +44,8 @@ else {
 
 $admin_render_settings['notifyme_access_code']['is_textarea'] = true;
 
+$admin_render_settings['notifyme_access_code']['is_password'] = true;
+
 $admin_render_settings['notifyme_access_code']['is_notes'] = '<a href="https://www.thomptronics.com/about/notify-me" target="_BLANK">Get a FREE NotifyMe (Amazon Alexa) API Key</a>';
 
 

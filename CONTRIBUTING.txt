@@ -107,14 +107,10 @@ CONTRIBUTION GUIDELINES (FOR DEVELOPERS):
 ===> https://stackoverflow.com/questions/861254/iterate-over-properties-of-a-php-class
 !!!!
 ===> Use SQLite for data storage that needs query capability (PHPdesktop supports SQLite).
-!!!!                    
-===> JS / CSS map file loading will timeout, if you load too many charts / news feeds.
 !!!!
 ===> Test in a WebKit-based browser [Epiphany|Safari|Midori], and Firefox / Chromium.
 !!!!
-===> Think over what other "FAQ page / TROUBLESHOOTING.txt" entries would be helpful.
-!!!!
-===> Try to do tests / UX / QA / debugging before adding new infrastructure
+===> Try to do tests / UX / QA / debugging before adding new architecture
 ===> (find every flaming turd before we start a dumpster fire!).
 !!!!
 ===> Try to break up larger changes into smaller milestones,

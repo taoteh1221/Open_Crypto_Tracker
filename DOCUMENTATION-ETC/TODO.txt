@@ -55,14 +55,10 @@ GENERAL REMINDERS
 ===> https://stackoverflow.com/questions/861254/iterate-over-properties-of-a-php-class
 !!!!
 ===> Use SQLite for data storage that needs query capability (PHPdesktop supports SQLite).
-!!!!                    
-===> JS / CSS map file loading will timeout, if you load too many charts / news feeds.
 !!!!
 ===> Test in a WebKit-based browser [Epiphany|Safari|Midori], and Firefox / Chromium.
 !!!!
-===> Think over what other "FAQ page / TROUBLESHOOTING.txt" entries would be helpful.
-!!!!
-===> Try to do tests / UX / QA / debugging before adding new infrastructure
+===> Try to do tests / UX / QA / debugging before adding new architecture
 ===> (find every flaming turd before we start a dumpster fire!).
 !!!!
 ===> Try to break up larger changes into smaller milestones,
@@ -83,7 +79,7 @@ GENERAL REMINDERS
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
 
-Always set bluefish to "5 spaces" as a tab indentation, and enabling indentation of selected text. THE AMOUNT OF INDENTED SPACING IN FILES #CHANGES AUTOMATICALLY# WHEN "BLUEFISH => PREFERENCES => INITIAL DOCUMENT SETTINGS => TAB WIDTH" IS CHANGED, SO BE CAREFUL WHEN ADJUSTING!!
+Always set bluefish to "5 spaces" as a tab indentation, and enable indentation of selected text. THE AMOUNT OF INDENTED SPACING IN FILES #CHANGES AUTOMATICALLY# WHEN "BLUEFISH => PREFERENCES => INITIAL DOCUMENT SETTINGS => TAB WIDTH" IS CHANGED, SO BE CAREFUL WHEN ADJUSTING!! PLEASE DO *NOT* USE REGULAR TAB INDENTATION (PLEASE ALWAYS USE MULTIPLE SPACES)!
 
 
 Try to prioritize building out the admin interface / responsive templates / language translation modules. Then it's the most useful for the maximum number of people as it can be going forward.
@@ -92,18 +88,24 @@ Try to prioritize building out the admin interface / responsive templates / lang
 Ocassionally re-run the debug mode that prints out all the btc / crypto exchanges and base pairs, and update the docs (project page / README / config file / etc).
 
 
-Post on Hive, Telegram, Discord, Twitter, and Facebook whenever there is a new release of the app.
+Please ALWAYS use snake case (var_name), as it's way harder to accidentally format incorrectly compared to camel case, and it is WAY EASIER TO CODE REVIEW!
 
 
 Ocassionally check Youtube channels on the resources page, and news feeds latest posts timestamp, to see any that MAY BE DYING.
 
 
-Keep github price chart bootstrap download updated weekly if not daily!
+Post on Hive, Telegram, Discord, Twitter, and Facebook whenever there is a new release of the app.
+
+
+Think over what other "FAQ page / TROUBLESHOOTING.txt" entries would be helpful.
+
+
+Keep github price chart bootstrap download updated weekly at the least.
 
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-API INTEGRATION INFORMATION
+API INTEGRATION
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -164,7 +166,7 @@ https://zksync.io/api/v0.1.html (KEEP AN EYE OUT FOR V2 DOCS AS WELL)
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-*PRIORITIZED* FOR NEXT SCHEDULED WORK SESSIONS (*BOTH* DEBUGGING AND / OR INFRASTRUCTURE)
+*PRIORITIZED* FOR NEXT SCHEDULED WORK SESSIONS (*BOTH* DEBUGGING AND / OR ARCHITECTURE)
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -172,19 +174,22 @@ https://zksync.io/api/v0.1.html (KEEP AN EYE OUT FOR V2 DOCS AS WELL)
 Test out the new iframe-reloading HALT mechanism (if a halt was called on updating the cached admin config)
 
 
-Try having a textarea behave like a password field with this CSS... -webkit-text-security : circle TRY USING ONBLUR / ONFOCUS $(this).css() TO TOGGLE THIS CSS ON / OFF.
+The tags 'h1' through 'h6' should be made to user-adjust text size too. (CONFIRMED IT WILL be a bit tricky, be careful (set them via 'em' like bootstrap does)...ISOLATE BASED ON OUR TEMPLATE WRAPPER CSS ELEMENTS).
+
+
+Update screenshots, since we overhauled everything in the interface.
 
 
 Add remote IP address data to ALL relevant security error logging everywhere in the app.
 
 
-Move the error log alerts for "email not configured" under the new "notify" category (which avoids duplicate messages).
-
-
-The tags 'h1' through 'h6' should be made to user-adjust text size too. (CONFIRMED IT WILL be a bit tricky, be careful (set them via 'em' like bootstrap does)...ISOLATE BASED ON OUR TEMPLATE WRAPPER CSS ELEMENTS).
-
-
 Go through all init / config / etc files, and add any primary vars to "$ct" that haven't been added yet, for consistent / clean code. EVERYTHING IN empty-vars.php definately should be converted.
+
+
+Change semantic naming of 'coin_amnts' form id, as it now also handles charts / news feeds / etc.
+
+
+Change the last option in the ext_data() function to a human-readable value, to save time on new API integrations (url_encode, json_encode, etc).
 
 
 Add new plugin standard config 'ui_display_mode':
@@ -233,9 +238,6 @@ New FAQ entry "my text alerts aren't working, or are delayed"
 
 
 Start creating github wiki with USER AND DEVELOPER documentation.
-
-
-Update screenshots, since we overhauled everything in the interface.
 
 
 Make sure everything STILL runs smoothly with the charts page turned off.
@@ -315,9 +317,6 @@ Security page should show the app version number, AND a version upgrade check al
 Add openserum markets support.
 
 
-Consolidate CSV import / post data importing that are near the top of the update and portfolio page UI rendering files, into just one subroutine BEFORE the UI is rendered...like we ALREADY DID for cookie data in those sections.
-
-
 For admin area pages / sections, consider doing subsections in a modal subwindow (like we do for "select charts" on the user area charts page), with iframes for loading through 'wizard' steps or opening different categories. It would possibly keep a native app 'feel' while also reducing admin page load times. Think it over, figure out the best solution here for a great UX.
 
 
@@ -336,10 +335,7 @@ libraries are no longer available using apt ("Unable to locate package X"), and 
 Convert Arch linux support in auto-installer over to redhat (yum), as Arch does NOT have much package / setup support for libraries we use. WE ALREADY CONVERTED "BUILD-PHP-FOR-LINUX-DESKTOP.bash" OVER TO BE REDHAT COMPATIBLE, so use it as a template to integrate into FOLIO-INSTALL.bash. ALSO REMOVE ARCH DOCUMENTATION AND REPLACE WITH FEDORA DOCS.
 
 
-Setup XAMPP on Win10 on the NUC, and run server edition of tracker on it for a week with PHP debug logging on.
-
-
-Write notes in TODO.txt debugging section, on setting up / viewing PHP error logging in XAMPP on Windows.
+Setup XAMPP on Win10 on the NUC, and run server edition of tracker on it for a week with PHP debug logging on. Write notes in TODO.txt debugging section, on setting up / viewing PHP error logging in XAMPP on Windows.
 
 
 Test fully on PHP 7.4, by filling in all the settings with my personal ones on the public demo site. Import my charts there as well. Use it for at least a few weeks, with PHP error logging on. Blank out my settings on the local network install, so we don't get duplicate alerts.  
@@ -352,6 +348,9 @@ DEBUGGING / TESTS / UX / QA / OTHER (*NOT* PRIORITIZED)
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
+Move the error log alerts for "email not configured" under the new "notify" category (which avoids duplicate messages).
+
+
 Consider adding some SPECIFIC filenames that are sensitive data to obfusc_path_data() via the $file = basename($path) method. Not sure if needed for log security, BUT right now obfusc_path_data() DOES #NOT# OBFUSCATE THE FILENAME AT ALL (just path up to the file).
 
 
@@ -359,6 +358,9 @@ Move all admin-related functions into the new 'ct_admin' PHP class.
 
 
 Move everything from the var class to the general class.
+
+
+Consolidate CSV import / post data importing that are near the top of the update and portfolio page UI rendering files, into just one subroutine BEFORE the UI is rendered...like we ALREADY DID for cookie data in those sections.
 
 
 Breakup numerous function call parameters for calls like ui_asset_row() into a param array, like we did for update_all_cookies(). Also do line breaks like we do for arrays on any large string inputs into function calls, like we did for log().
@@ -397,12 +399,6 @@ Replace all tabs with spaces (for better cross-text-editor support).
 Make all coin configs (assets and price alerts / charts) CASE-INSENSITIVE. Most efficient way to do this would be by auto-correcting in other/config/config-auto-adjust.php, to be the correct case even if a user editing config.php used the wrong case.
 
 
-Change semantic naming of 'coin_amnts' form id, as it now also handles charts / news feeds / etc.
-
-
-Change the last option in the ext_data() function to a human-readable value, to save time on new API integrations (url_encode, json_encode, etc).
-
-
 Have the light chart function create a cached var array in json (in cache/vars/ folder), and everytime a new chart system uses it, add it's BASE cache path as an array value. Then we just need to feed this array into a light charts reset function / logic that resets all KNOWN chart systems in the app that use the light charts system (including plugins)
 
 
@@ -432,9 +428,12 @@ Look into laptop touchscreen zingchart js error on Ubuntu 20.04 / Chrome ON SMAL
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-FEATURES / NEW INFRASTRUCTURE / RESEARCH (*NOT* PRIORITIZED)
+FEATURES / NEW ARCHITECTURE (*NOT* PRIORITIZED)
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+Add ability to set what decimal and thousands seperators to use, AUTOMATICALLY BASED OF JAVASCRIPT LOCALE like we do for the ticker app (by wrapping all numbers in a class, and converting on document load).
 
 
 HUGE 'TONS OF COOKIE DATA' ISSUE ON SERVERS ALREADY RUNNING #OTHER# WEB APPS (LIKE WORDPRESS) #AT THE SAME TIME / ON SAME DOMAIN# (AS IT CAN GO OVER THE SERVER HEADER LIMIT AND CRASH THE WEB APP LOADING BOTH APP'S COOKIES INTO THE HEADER): Since we already wait for the page to load for initiating batch-grabbing news feeds(?), maybe we can store the user-selected feeds in local storage, since the data set is potentially VERY large (to save alot on cookie header data)? Look over the batch loading logic, and see if we can do it more with JavaScript instead of PHP (except for the ajax calls to the server AFTER we know what was user-chosen). Same should generally go for price charts (as we ALSO load after the page has loaded), so look into that too.
@@ -513,7 +512,7 @@ Add a check (every X days with a config setting), to see if a market's trade val
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-MAYBE SECTION (RESEARCH THESE, *NOT* PRIORITIZED)
+RESEARCH / MAYBE SECTION (*NOT* PRIORITIZED)
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -523,13 +522,10 @@ https://stackoverflow.com/questions/17160851/is-there-any-way-to-skip-fatal-erro
 https://www.php.net/manual/en/function.register-shutdown-function.php
 
 
-Look into adding the infrastructure for "chrome push alerts".
+Look into adding the architecture for "chrome push alerts".
 
 
 Look into doing bootstrap modals instead of the current library we use. Maybe it's better?
-
-
-Add ability to choose what decimal and thousands seperators to use.
 
 
 Option to use new zip file encryption password feature to encrypt portfolio spreadsheet exports when downloading exported portfolio data (with password entered in the UI, #NOT# $ct['conf']['sec']['backup_archive_password']).
