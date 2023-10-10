@@ -34,6 +34,8 @@ var secondary_mrkt_currencies = new Array();
 
 var orig_iframe_src = new Array();
 
+var heading_tag_sizes = new Array();
+
 // Strings
 
 var ct_id; // Install ID (derived from this app's server path)
@@ -49,6 +51,8 @@ var global_line_height_percent;
 var font_name_url_formatting;
 
 var set_font_size;
+
+var heading_css_unit;
 
 var info_icon_size_css_selector;
 

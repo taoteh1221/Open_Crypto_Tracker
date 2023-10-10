@@ -6355,11 +6355,13 @@ MIGRATE YOUR EXISTING SETTINGS TO THE NEW FORMAT.
 -------------------------------------------------------------------
 6.00.29:
 
--BUG FIX: TBD
+-BUG FIX: Fixed heading title resizing (when using the font resizing feature in the sidebar), so they now resize with the other text
 
 -Miscellaneous user experience improvements
 
 -Code optimization / cleanup
+
+-Updated documentation
 
 IMPORTANT *UPGRADE* NOTICE:
 

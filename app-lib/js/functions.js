@@ -1811,6 +1811,99 @@ not_whole_num = (log_lines - Math.floor(log_lines)) !== 0;
 /////////////////////////////////////////////////////////////
 
 
+function update_heading_tag_sizes(font_size) {
+     
+var heading_adjust = font_size / 100; // Convert back to em
+          
+var heading_adjust = heading_adjust.toFixed(3);
+     
+var tabdiv_side_padding = 2.35 * heading_adjust;
+          
+var tabdiv_side_padding = tabdiv_side_padding.toFixed(3);
+
+     
+     // If heading tag data array not populated yet
+     if ( typeof heading_tag_sizes['h1'] == 'undefined' ) {
+     
+     // Get the default CSS values
+     heading_tag_sizes['h1'] = $("h1").css("font-size");
+     heading_tag_sizes['h2'] = $("h2").css("font-size");
+     heading_tag_sizes['h3'] = $("h3").css("font-size");
+     heading_tag_sizes['h4'] = $("h4").css("font-size");
+     heading_tag_sizes['h5'] = $("h5").css("font-size");
+     heading_tag_sizes['h6'] = $("h6").css("font-size");
+     
+          // Turn to numeric only, and note CSS unit type
+          for (var key in heading_tag_sizes) {
+               
+               // If a value is set, process it
+               if ( typeof heading_tag_sizes[key] != 'undefined' ) {
+               
+                    if ( heading_tag_sizes[key].search(/rem/i) != -1 ) {
+                    heading_tag_sizes[key] = heading_tag_sizes[key].replace("rem", "");
+                    heading_css_unit = 'rem';
+                    }
+                    else if ( heading_tag_sizes[key].search(/em/i) != -1 ) {
+                    heading_tag_sizes[key] = heading_tag_sizes[key].replace("em", "");
+                    heading_css_unit = 'em';
+                    }
+                    else if ( heading_tag_sizes[key].search(/vw/i) != -1 ) {
+                    heading_tag_sizes[key] = heading_tag_sizes[key].replace("vw", "");
+                    heading_css_unit = 'vw';
+                    }
+                    else if ( heading_tag_sizes[key].search(/vh/i) != -1 ) {
+                    heading_tag_sizes[key] = heading_tag_sizes[key].replace("vh", "");
+                    heading_css_unit = 'vh';
+                    }
+                    else if ( heading_tag_sizes[key].search(/px/i) != -1 ) {
+                    heading_tag_sizes[key] = heading_tag_sizes[key].replace("px", "");
+                    heading_css_unit = 'px';
+                    }
+                    
+               }
+               // If no value set, delete this array value
+               else {
+               delete heading_tag_sizes[key];
+               }
+               
+          }
+          
+     }
+     
+     
+     // Auto-adjusting header tags (h1 through h6 [if set in CSS, so it's included in the array])
+     for (var key in heading_tag_sizes) {
+          
+          // PX units
+          if ( heading_css_unit == 'px' ) {
+          var adjust_to = Math.round(heading_tag_sizes[key] * heading_adjust);
+          }
+          // Everything else (rem / em / vw / vh)
+          else {
+          var adjust_to = heading_tag_sizes[key] * heading_adjust;
+          var adjust_to = adjust_to.toFixed(3);
+          }
+          
+     $(key).css('font-size', adjust_to + heading_css_unit, "important");
+
+     //console.log(key + ', adjust_to = ' + adjust_to + heading_css_unit);
+
+     }
+     
+
+// Auto-adjusting tabdiv side padding (to accomodate smaller / larger page title [within an h2 tag])
+$('div.tabdiv').css('padding-left', tabdiv_side_padding + 'em', "important");
+$('div.tabdiv').css('padding-right', tabdiv_side_padding + 'em', "important");
+
+//console.log('tabdiv_side_padding = ' + tabdiv_side_padding);
+//console.log('heading_adjust = ' + heading_adjust);
+
+}
+
+
+/////////////////////////////////////////////////////////////
+
+
 function check_pass(doc_id_alert, doc_id_pass1, doc_id_pass2) {
 	
 pass1 = document.getElementById(doc_id_pass1);
@@ -1984,6 +2077,8 @@ function row_alert(tr_id, alert_type, color, theme) {
 
 
 function interface_font_percent(font_val, iframe_elm=false, specific_elm=false, specific_size=false) {
+     
+update_heading_tag_sizes(font_val);
      
 fix_zingchart_watermarks(font_val);
      
