@@ -169,8 +169,7 @@ $hash_check = md5($_GET['data_set']);
 echo $json_result;
 
 // Log errors / debugging, send notifications
-$ct['cache']->error_log();
-$ct['cache']->debug_log();
+$ct['cache']->app_log();
 $ct['cache']->send_notifications();
 
 flush(); // Clean memory output buffer for echo

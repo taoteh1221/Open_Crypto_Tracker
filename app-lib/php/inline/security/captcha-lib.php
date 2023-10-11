@@ -94,8 +94,7 @@ header('Access-Control-Allow-Origin: ' . $ct['app_host_address']);
  
  
 // Log errors / debugging, send notifications
-$ct['cache']->error_log();
-$ct['cache']->debug_log();
+$ct['cache']->app_log();
 $ct['cache']->send_notifications();
 
 imagepng($image);

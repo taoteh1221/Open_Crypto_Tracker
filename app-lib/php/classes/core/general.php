@@ -2095,7 +2095,7 @@ var $ct_array = array();
    
    function refresh_plugins_list() {
         
-   global $ct, $default_ct_conf, $reset_config, $update_config;
+   global $ct, $default_ct_conf, $admin_area_sec_level, $reset_config, $update_config;
    
    $plugin_base = $ct['base_dir'] . '/plugins/';
    
@@ -2123,7 +2123,9 @@ var $ct_array = array();
                     
                $ct['conf']['plugins']['plugin_status'][ $file_info->getFilename() ] = 'off'; // Defaults to off
 	    
-     	          if ( !$reset_config ) {
+	               // If no reset / high security mode 
+	               // (high security mode will auto-trigger a reset on plugin changes, FURTHER ALONG IN THE LOGIC)
+     	          if ( $admin_area_sec_level != 'high' && !$reset_config ) {
      	               
          	          $update_config = true;
      	               
@@ -2155,7 +2157,9 @@ var $ct_array = array();
          unset($ct['conf']['plugins']['plugin_status'][$key]);
 	    unset($ct['conf']['plug_conf'][$key]);
 	    
-	         if ( !$reset_config ) {
+	         // If no reset / high security mode 
+	         // (high security mode will auto-trigger a reset on plugin changes, FURTHER ALONG IN THE LOGIC)
+	         if ( $admin_area_sec_level != 'high' && !$reset_config ) {
 	              
     	         $update_config = true;
     	         
@@ -2364,15 +2368,16 @@ var $ct_array = array();
    $formatted_time = date('Y-m-d H:i:s') . $decimals_milliseconds;
    
    
-   // Less verbose log category
+   // UX on log category
    $category = $log_type;
-   $category = preg_replace("/_error/i", "", $category);
-   $category = preg_replace("/_debug/i", "", $category);
+   $category = preg_replace("/_error/i", "|error", $category);
+   $category = preg_replace("/_debug/i", "|debug", $category);
+   $category = explode('|', $category);
    
       
       // 'notify' mode ALWAYS needs a hash check (even if we want multiple entries), to AVOID CORRUPTING log formatting
-      if ( $category == 'notify' && $hashcheck == false ) {
-      $hashcheck = md5($timestamp_milliseconds . $category . $log_msg);
+      if ( $category[0] == 'notify' && $hashcheck == false ) {
+      $hashcheck = md5($timestamp_milliseconds . $category[0] . $log_msg);
       }
    
    
@@ -2392,21 +2397,21 @@ var $ct_array = array();
       }
       
       
-      if ( preg_match("/_debug/i", $log_type) ) {
+      if ( $category[1] == 'debug' ) {
           
    
           if ( $hashcheck != false ) {
-          $log_debugging[$log_type][$hashcheck] = '[LOG]'.$timestamp_milliseconds.'[TIMESTAMP][' . $formatted_time . '] ' . $logged_runtime_mode . ' => ' . $category . ': ' . $log_msg . ( $verbose_tracing != false ? '; [ '  . $verbose_tracing . ' ]' : ';' ) . " <br /> \n";
+          $log_debugging[$log_type][$hashcheck] = '[LOG]'.$timestamp_milliseconds.'[TIMESTAMP][' . $formatted_time . '] ' . $logged_runtime_mode . ' => ' . $category[0] . ' (' . $category[1] . '): ' . $log_msg . ( $verbose_tracing != false ? '; [ '  . $verbose_tracing . ' ]' : ';' ) . " <br /> \n";
           }
           // We parse cache errors as array entries (like when hashcheck is included, BUT NO ARRAY KEY)
-          elseif ( $category == 'cache' ) {
-          $log_debugging[$log_type][] = '[LOG]'.$timestamp_milliseconds.'[TIMESTAMP][' . $formatted_time . '] ' . $logged_runtime_mode . ' => ' . $category . ': ' . $log_msg . ( $verbose_tracing != false ? '; [ '  . $verbose_tracing . ' ]' : ';' ) . " <br /> \n";
+          elseif ( $category[0] == 'cache' ) {
+          $log_debugging[$log_type][] = '[LOG]'.$timestamp_milliseconds.'[TIMESTAMP][' . $formatted_time . '] ' . $logged_runtime_mode . ' => ' . $category[0] . ' (' . $category[1] . '): ' . $log_msg . ( $verbose_tracing != false ? '; [ '  . $verbose_tracing . ' ]' : ';' ) . " <br /> \n";
           }
           elseif ( $overwrite != false ) {
-          $log_debugging[$log_type] = '[LOG]'.$timestamp_milliseconds.'[TIMESTAMP][' . $formatted_time . '] ' . $logged_runtime_mode . ' => ' . $category . ': ' . $log_msg . ( $verbose_tracing != false ? '; [ '  . $verbose_tracing . ' ]' : ';' ) . " <br /> \n";
+          $log_debugging[$log_type] = '[LOG]'.$timestamp_milliseconds.'[TIMESTAMP][' . $formatted_time . '] ' . $logged_runtime_mode . ' => ' . $category[0] . ' (' . $category[1] . '): ' . $log_msg . ( $verbose_tracing != false ? '; [ '  . $verbose_tracing . ' ]' : ';' ) . " <br /> \n";
           }
           else {
-          $log_debugging[$log_type] .= '[LOG]'.$timestamp_milliseconds.'[TIMESTAMP][' . $formatted_time . '] ' . $logged_runtime_mode . ' => ' . $category . ': ' . $log_msg . ( $verbose_tracing != false ? '; [ '  . $verbose_tracing . ' ]' : ';' ) . " <br /> \n";
+          $log_debugging[$log_type] .= '[LOG]'.$timestamp_milliseconds.'[TIMESTAMP][' . $formatted_time . '] ' . $logged_runtime_mode . ' => ' . $category[0] . ' (' . $category[1] . '): ' . $log_msg . ( $verbose_tracing != false ? '; [ '  . $verbose_tracing . ' ]' : ';' ) . " <br /> \n";
           }
       
       
@@ -2415,17 +2420,17 @@ var $ct_array = array();
           
    
           if ( $hashcheck != false ) {
-          $log_errors[$log_type][$hashcheck] = '[LOG]'.$timestamp_milliseconds.'[TIMESTAMP][' . $formatted_time . '] ' . $logged_runtime_mode . ' => ' . $category . ': ' . $log_msg . ( $verbose_tracing != false ? '; [ '  . $verbose_tracing . ' ]' : ';' ) . " <br /> \n";
+          $log_errors[$log_type][$hashcheck] = '[LOG]'.$timestamp_milliseconds.'[TIMESTAMP][' . $formatted_time . '] ' . $logged_runtime_mode . ' => ' . $category[0] . ' (' . $category[1] . '): ' . $log_msg . ( $verbose_tracing != false ? '; [ '  . $verbose_tracing . ' ]' : ';' ) . " <br /> \n";
           }
           // We parse cache errors as array entries (like when hashcheck is included, BUT NO ARRAY KEY)
-          elseif ( $category == 'cache' ) {
-          $log_errors[$log_type][] = '[LOG]'.$timestamp_milliseconds.'[TIMESTAMP][' . $formatted_time . '] ' . $logged_runtime_mode . ' => ' . $category . ': ' . $log_msg . ( $verbose_tracing != false ? '; [ '  . $verbose_tracing . ' ]' : ';' ) . " <br /> \n";
+          elseif ( $category[0] == 'cache' ) {
+          $log_errors[$log_type][] = '[LOG]'.$timestamp_milliseconds.'[TIMESTAMP][' . $formatted_time . '] ' . $logged_runtime_mode . ' => ' . $category[0] . ' (' . $category[1] . '): ' . $log_msg . ( $verbose_tracing != false ? '; [ '  . $verbose_tracing . ' ]' : ';' ) . " <br /> \n";
           }
           elseif ( $overwrite != false ) {
-          $log_errors[$log_type] = '[LOG]'.$timestamp_milliseconds.'[TIMESTAMP][' . $formatted_time . '] ' . $logged_runtime_mode . ' => ' . $category . ': ' . $log_msg . ( $verbose_tracing != false ? '; [ '  . $verbose_tracing . ' ]' : ';' ) . " <br /> \n";
+          $log_errors[$log_type] = '[LOG]'.$timestamp_milliseconds.'[TIMESTAMP][' . $formatted_time . '] ' . $logged_runtime_mode . ' => ' . $category[0] . ' (' . $category[1] . '): ' . $log_msg . ( $verbose_tracing != false ? '; [ '  . $verbose_tracing . ' ]' : ';' ) . " <br /> \n";
           }
           else {
-          $log_errors[$log_type] .= '[LOG]'.$timestamp_milliseconds.'[TIMESTAMP][' . $formatted_time . '] ' . $logged_runtime_mode . ' => ' . $category . ': ' . $log_msg . ( $verbose_tracing != false ? '; [ '  . $verbose_tracing . ' ]' : ';' ) . " <br /> \n";
+          $log_errors[$log_type] .= '[LOG]'.$timestamp_milliseconds.'[TIMESTAMP][' . $formatted_time . '] ' . $logged_runtime_mode . ' => ' . $category[0] . ' (' . $category[1] . '): ' . $log_msg . ( $verbose_tracing != false ? '; [ '  . $verbose_tracing . ' ]' : ';' ) . " <br /> \n";
           }
       
       
@@ -2539,7 +2544,7 @@ var $ct_array = array();
    $pretty_str = preg_replace("/iearn/i", 'iEarn', $pretty_str);
    $pretty_str = preg_replace("/pulse/i", 'Pulse', $pretty_str);
    $pretty_str = preg_replace("/defi/i", 'DeFi', $pretty_str);
-   $pretty_str = preg_replace("/ring/i", 'Ring', $pretty_str);
+   $pretty_str = preg_replace("/loopring/i", 'LoopRing', $pretty_str);
    $pretty_str = preg_replace("/erc20/i", 'ERC-20', $pretty_str);
    $pretty_str = preg_replace("/okex/i", 'OKex', $pretty_str);
    $pretty_str = preg_replace("/dcx/i", 'DCX', $pretty_str);
@@ -3025,7 +3030,7 @@ var $ct_array = array();
    
    
    // Log errors, send notifications BEFORE reload
-   $error_log = $ct['cache']->error_log();
+   $ct['cache']->app_log();
    $ct['cache']->send_notifications();
 				
    header("Location: admin.php");

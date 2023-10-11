@@ -48,8 +48,7 @@ var $ct_array = array();
       
   sleep(1); 
   
-  $this->error_log();
-  $this->debug_log();
+  $this->app_log();
   
   }
   
@@ -917,7 +916,7 @@ var $ct_array = array();
    
    function load_cached_config() {
    
-   global $ct, $restore_conf_path, $telegram_user_data, $update_config, $reset_config, $reset_config_onload;
+   global $ct, $admin_area_sec_level, $restore_conf_path, $telegram_user_data, $update_config, $reset_config;
    
    // Secured cache files
    $files = $ct['gen']->sort_files($ct['base_dir'] . '/cache/secured', 'dat', 'desc');
@@ -950,9 +949,8 @@ var $ct_array = array();
         	// REFRESH Telegram user data
         	elseif ( preg_match("/telegram_user_data_/i", $secured_file) ) {
         		
-        		// If we already loaded the newest modified telegram SECURED CACHE config file
-        		// DON'T WORRY ABOUT REFRESHING TELEGRAM DATA WHEN APP CONFIG IS REFRESHING, AS WE CAN'T DO THAT RELIABLY IN THIS LOOP
-        		// AND IT'S DONE AFTER THE LOOP ANYWAY (WE JUST CLEANUP ANY STALE TELEGRAM CONFIGS IN THIS LOOP)
+        		// If we already loaded the newest modified telegram SECURED CACHE config file,
+        		// or we are updating / resetting the cached config
         		if ( $newest_cached_telegram_user_data == 1 || $reset_config || $update_config ) {
         		unlink($ct['base_dir'] . '/cache/secured/' . $secured_file);
         		}
@@ -1010,7 +1008,7 @@ var $ct_array = array();
         			}
         			elseif ( $ct['gen']->admin_security_level_check() == false ) {
         			unlink($ct['base_dir'] . '/cache/secured/' . $secured_file);
-        			$ct['gen']->log('conf_error', 'CACHED ct_conf outdated (DEFAULT ct_conf updated), resetting from DEFAULT ct_conf');
+        			$ct['gen']->log('conf_error', 'CACHED ct_conf outdated (DEFAULT ct_conf updated), RESETTING from DEFAULT ct_conf');
         			$reset_config = true;
         			}
         			
@@ -1027,15 +1025,13 @@ var $ct_array = array();
         if ( !isset($newest_cached_ct_conf) ) {
         $ct['gen']->log('conf_error', 'CACHED ct_conf not found, resetting from DEFAULT ct_conf');
         $reset_config = true;
-        }			 
-
-
-        // We use the $reset_config flag, so we can wait for the GLOBAL $restore_conf_path which may be set above (if a restore file exists)
-        // (allowing config restoration from last known working config)
-        if ( $reset_config && !$reset_config_onload ) {
+        }
+        
+        
+        // We need to reset the cached config here, IF admin security level is set to HIGH
+        // (as load_cached_config() LOADS AT END OF load-config-by-security-level.php IN HIGH SECURITY MODE)
+        if ( $admin_area_sec_level == 'high' && $reset_config ) {
         $ct['conf'] = $this->update_cached_config(false, false, true); // Reset flag
-        $reset_config_onload = true;
-        sleep(1); // Chill for a second, since we just refreshed the conf
         }
         
         
@@ -1050,7 +1046,7 @@ var $ct_array = array();
    
    function update_cached_config($passed_config, $upgrade_mode=false, $user_reset=false) {
    
-   global $ct, $default_ct_conf, $conf_upgraded, $restore_conf_path, $admin_area_sec_level, $telegram_activated, $telegram_user_data, $htaccess_username, $htaccess_password;
+   global $ct, $default_ct_conf, $conf_upgraded, $app_upgrade_check, $reset_config, $update_config, $restore_conf_path, $admin_area_sec_level, $telegram_activated, $telegram_user_data, $htaccess_username, $htaccess_password;
 
 
    // If no valid cached_ct_conf, or if DEFAULT Admin Config (in config.php) variables have been changed...
@@ -1074,13 +1070,13 @@ var $ct_array = array();
              $passed_config = $default_ct_conf;
     		
     		     if ( $ct['conf']['power']['debug_mode'] == 'all' || $ct['conf']['power']['debug_mode'] == 'all_telemetry' || $ct['conf']['power']['debug_mode'] == 'conf_telemetry' ) {
-    		     $ct['gen']->log('conf_debug', 'CACHED ct_conf RESET, it will be refreshed using the DEFAULT ct_conf');
+    		     $ct['gen']->log('conf_debug', 'ct_conf CACHE RESET, it will be RESET using the DEFAULT ct_conf');
     		     }
              
     		   }
              // All other conditions
              elseif ( $ct['conf']['power']['debug_mode'] == 'all' || $ct['conf']['power']['debug_mode'] == 'all_telemetry' || $ct['conf']['power']['debug_mode'] == 'conf_telemetry' ) {
-    		   $ct['gen']->log('conf_debug', 'CACHED ct_conf RESET, it will be restored using the LAST-KNOWN WORKING ct_conf');
+    		   $ct['gen']->log('conf_debug', 'ct_conf CACHE RESET, it will be RESTORED using the LAST-KNOWN WORKING ct_conf');
              }
              
         
@@ -1200,12 +1196,27 @@ var $ct_array = array();
     		
                // For checking later, if DEFAULT Admin Config (in config.php) values are updated we save to json again
             	if ( $admin_area_sec_level == 'high' || $user_reset || $conf_upgraded ) {
-                 $this->save_file($ct['base_dir'] . '/cache/vars/default_ct_conf_md5.dat', md5( serialize($default_ct_conf) ) ); 
+               $this->save_file($ct['base_dir'] . '/cache/vars/default_ct_conf_md5.dat', md5( serialize($default_ct_conf) ) ); 
     		     }
     		
     		
     		     if ( $ct['conf']['power']['debug_mode'] == 'all' || $ct['conf']['power']['debug_mode'] == 'all_telemetry' || $ct['conf']['power']['debug_mode'] == 'conf_telemetry' ) {
-    		     $ct['gen']->log('conf_debug', 'ct_conf CACHE update triggered, updated successfully');
+    		          
+    		          if ( $reset_config || $user_reset ) {
+    		          $update_desc = 'RESET';
+    		          }
+    		          elseif ( $admin_area_sec_level != 'high' && $app_upgrade_check ) {
+    		          $update_desc = 'UPGRADE';
+    		          }
+    		          elseif ( $update_config ) {
+    		          $update_desc = 'UPDATE';
+    		          }
+    		          else {
+    		          $update_desc = '(MODE UNKNOWN)';
+    		          }
+    		     
+    		     $ct['gen']->log('conf_debug', 'ct_conf CACHE ' . $update_desc . ' triggered, updated successfully');
+    		     
     		     }
     		    
     		
@@ -1230,119 +1241,11 @@ var $ct_array = array();
   ////////////////////////////////////////////////////////
   
   
-  function debug_log() {
+  function app_log() {
   
-  global $ct, $log_debugging, $alerts_gui_debugging;
-  
-  
-      if ( $ct['conf']['power']['debug_mode'] == 'off' ) {
-      return false;
-      }
-    
-    
-      foreach ( $log_debugging['notify_debug'] as $debugging ) {
-      $debug_log .= strip_tags($debugging); // Remove any HTML formatting used in UI alerts
-      }
-  
-  
-  // Combine all debugging logged
-  $debug_log .= strip_tags($log_debugging['security_debug']); // Remove any HTML formatting used in UI alerts
-  
-  $debug_log .= strip_tags($log_debugging['system_debug']); // Remove any HTML formatting used in UI alerts
-  
-  $debug_log .= strip_tags($log_debugging['conf_debug']); // Remove any HTML formatting used in UI alerts
-  
-  $debug_log .= strip_tags($log_debugging['ext_data_debug']); // Remove any HTML formatting used in UI alerts
-  
-  $debug_log .= strip_tags($log_debugging['int_api_debug']); // Remove any HTML formatting used in UI alerts
-  
-  $debug_log .= strip_tags($log_debugging['market_debug']); // Remove any HTML formatting used in UI alerts
-  
-  $debug_log .= strip_tags($log_debugging['other_debug']); // Remove any HTML formatting used in UI alerts
-  
-  
-      foreach ( $log_debugging['cache_debug'] as $debugging ) {
-      $debug_log .= strip_tags($debugging); // Remove any HTML formatting used in UI alerts
-      }
-      
-  
-  // Sort logs by timestamp
-  $debug_log = $ct['gen']->sort_log($debug_log);
-      
-      
-      // Save a copy for interface alerts
-      if ( $ct['runtime_mode'] == 'ui') {
-      $alerts_gui_debugging = nl2br($debug_log);
-      }
-  
-  
-      // If it's time to email debugging logs...
-	  // With offset, to try keeping daily recurrences at same exact runtime (instead of moving up the runtime daily)
-      if ( $ct['conf']['comms']['logs_email'] > 0 && $this->update_cache('cache/events/email-debugging-logs.dat', ( $ct['conf']['comms']['logs_email'] * 1440 ) + $ct['dev']['tasks_time_offset'] ) == true ) {
-       
-      $emailed_logs = "\n\n ------------------debug.log------------------ \n\n" . file_get_contents('cache/logs/debug.log') . "\n\n ------------------smtp_debug.log------------------ \n\n" . file_get_contents('cache/logs/smtp_debug.log');
-       
-      $msg = " Here are the current debugging logs from the " . $ct['base_dir'] . "/cache/logs/ directory. \n\n You can disable / change receiving log emails (every " . $ct['conf']['comms']['logs_email'] . " days) in the Admin Config \"Communications\" section. \n =========================================================================== \n \n"  . ( isset($emailed_logs) && $emailed_logs != '' ? $emailed_logs : 'No debugging logs currently.' );
-      
-        // Message parameter added for desired comm methods (leave any comm method blank to skip sending via that method)
-        $send_params = array(
-                            'email' => array(
-                                            'subject' => 'Open Crypto Tracker - Debugging Logs Report',
-                                            'message' => $msg
-                                            )
-                             );
-                
-      // Send notifications
-      @$this->queue_notify($send_params);
-                
-      $this->save_file($ct['base_dir'] . '/cache/events/email-debugging-logs.dat', date('Y-m-d H:i:s')); // Track this emailing event, to determine next time to email logs again.
-      
-      }
-      
-      
-      // Log debugging...Purge old logs before storing new logs, if it's time to...otherwise just append.
-	  // With offset, to try keeping daily recurrences at same exact runtime (instead of moving up the runtime daily)
-      if ( $this->update_cache('cache/events/purge-debugging-logs.dat', ( $ct['conf']['power']['logs_purge'] * 1440 ) + $ct['dev']['tasks_time_offset'] ) == true ) {
-      
-      unlink($ct['base_dir'] . '/cache/logs/smtp_debug.log');
-      unlink($ct['base_dir'] . '/cache/logs/debug.log');
-      
-      $this->save_file('cache/events/purge-debugging-logs.dat', date('Y-m-d H:i:s'));
-      
-      sleep(1);
-      
-      }
-      
-      
-      if ( $debug_log != null ) {
-        
-      $store_file_contents = $this->save_file($ct['base_dir'] . '/cache/logs/debug.log', $debug_log, "append");
-      $log_debugging = array(); // RESET DEBUG LOGS ARRAY (clears logs from memory, that we just wrote to disk)
-        
-          if ( $store_file_contents != true ) {
-          return 'Debugging logs write error for "' . $ct['base_dir'] . '/cache/logs/debug.log" (MAKE SURE YOUR DISK ISN\'T FULL), data_size_bytes: ' . strlen($debug_log) . ' bytes';
-          }
-          // DEBUGGING ONLY (rules out issues other than full disk)
-          elseif ( $ct['conf']['power']['debug_mode'] == 'all' || $ct['conf']['power']['debug_mode'] == 'all_telemetry' ) {
-          return 'Debugging logs write success for "' . $ct['base_dir'] . '/cache/logs/debug.log", data_size_bytes: ' . strlen($debug_log) . ' bytes';
-          }
-        
-      }
-   
-   
-  return true;
-  
-  }
-  
-  
-  ////////////////////////////////////////////////////////
-  ////////////////////////////////////////////////////////
-  
-  
-  function error_log() {
-  
-  global $ct, $log_errors, $alerts_gui_errors;
+  global $ct, $log_errors, $log_debugging, $alerts_gui_logs;
 
+  // ERRORS 
   
       foreach ( $log_errors['notify_error'] as $error ) {
       $error_log .= strip_tags($error); // Remove any HTML formatting used in UI alerts
@@ -1370,15 +1273,42 @@ var $ct_array = array();
       foreach ( $log_errors['cache_error'] as $error ) {
       $error_log .= strip_tags($error); // Remove any HTML formatting used in UI alerts
       }
+    
+  // DEBUGGING
+  
+      foreach ( $log_debugging['notify_debug'] as $debugging ) {
+      $debug_log .= strip_tags($debugging); // Remove any HTML formatting used in UI alerts
+      }
+  
+  
+  // Combine all debugging logged
+  $debug_log .= strip_tags($log_debugging['security_debug']); // Remove any HTML formatting used in UI alerts
+  
+  $debug_log .= strip_tags($log_debugging['system_debug']); // Remove any HTML formatting used in UI alerts
+  
+  $debug_log .= strip_tags($log_debugging['conf_debug']); // Remove any HTML formatting used in UI alerts
+  
+  $debug_log .= strip_tags($log_debugging['ext_data_debug']); // Remove any HTML formatting used in UI alerts
+  
+  $debug_log .= strip_tags($log_debugging['int_api_debug']); // Remove any HTML formatting used in UI alerts
+  
+  $debug_log .= strip_tags($log_debugging['market_debug']); // Remove any HTML formatting used in UI alerts
+  
+  $debug_log .= strip_tags($log_debugging['other_debug']); // Remove any HTML formatting used in UI alerts
+  
+  
+      foreach ( $log_debugging['cache_debug'] as $debugging ) {
+      $debug_log .= strip_tags($debugging); // Remove any HTML formatting used in UI alerts
+      }
       
   
-  // Sort logs by timestamp
-  $error_log = $ct['gen']->sort_log($error_log);
+  // Sort error / debug logs (combined) by timestamp
+  $app_log = $ct['gen']->sort_log($error_log . $debug_log);
       
       
       // Save a copy for interface alerts
       if ( $ct['runtime_mode'] == 'ui') {
-      $alerts_gui_errors = nl2br($error_log);
+      $alerts_gui_logs = nl2br($app_log);
       }
     
     
@@ -1386,7 +1316,7 @@ var $ct_array = array();
 	  // With offset, to try keeping daily recurrences at same exact runtime (instead of moving up the runtime daily)
       if ( $ct['conf']['comms']['logs_email'] > 0 && $this->update_cache('cache/events/email-error-logs.dat', ( $ct['conf']['comms']['logs_email'] * 1440 ) + $ct['dev']['tasks_time_offset'] ) == true ) {
        
-      $emailed_logs = "\n\n ------------------error.log------------------ \n\n" . file_get_contents('cache/logs/error.log') . "\n\n ------------------smtp_error.log------------------ \n\n" . file_get_contents('cache/logs/smtp_error.log');
+      $emailed_logs = "\n\n ------------------error.log------------------ \n\n" . file_get_contents('cache/logs/app_log.log') . "\n\n ------------------smtp_error.log------------------ \n\n" . file_get_contents('cache/logs/smtp_error.log');
        
       $msg = " Here are the current error logs from the ".$ct['base_dir']."/cache/logs/ directory. \n\n You can disable / change receiving log emails (every " . $ct['conf']['comms']['logs_email'] . " days) in the Admin Config \"Communications\" section. \n \n =========================================================================== \n \n"  . ( isset($emailed_logs) && $emailed_logs != '' ? $emailed_logs : 'No error logs currently.' );
       
@@ -1411,7 +1341,7 @@ var $ct_array = array();
       if ( $this->update_cache('cache/events/purge-error-logs.dat', ( $ct['conf']['power']['logs_purge'] * 1440 ) + $ct['dev']['tasks_time_offset'] ) == true ) {
       
       unlink($ct['base_dir'] . '/cache/logs/smtp_error.log');
-      unlink($ct['base_dir'] . '/cache/logs/error.log');
+      unlink($ct['base_dir'] . '/cache/logs/app_log.log');
       
       $this->save_file('cache/events/purge-error-logs.dat', date('Y-m-d H:i:s'));
       
@@ -1420,17 +1350,18 @@ var $ct_array = array();
       }
       
       
-      if ( $error_log != null ) {
+      if ( $app_log != null ) {
         
-      $store_file_contents = $this->save_file($ct['base_dir'] . '/cache/logs/error.log', $error_log, "append");
+      $store_file_contents = $this->save_file($ct['base_dir'] . '/cache/logs/app_log.log', $app_log, "append");
       $log_errors = array(); // RESET ERROR LOGS ARRAY (clears logs from memory, that we just wrote to disk)
+      $log_debugging = array(); // RESET DEBUG LOGS ARRAY (clears logs from memory, that we just wrote to disk)
         
           if ( $store_file_contents != true ) {
-          return 'Error logs write error for "' . $ct['base_dir'] . '/cache/logs/error.log" (MAKE SURE YOUR DISK ISN\'T FULL), data_size_bytes: ' . strlen($error_log) . ' bytes';
+          return 'Error logs write error for "' . $ct['base_dir'] . '/cache/logs/app_log.log" (MAKE SURE YOUR DISK ISN\'T FULL), data_size_bytes: ' . strlen($app_log) . ' bytes';
           }
           // DEBUGGING ONLY (rules out issues other than full disk)
           elseif ( $ct['conf']['power']['debug_mode'] == 'all' || $ct['conf']['power']['debug_mode'] == 'all_telemetry' ) {
-          return 'Error logs write success for "' . $ct['base_dir'] . '/cache/logs/error.log", data_size_bytes: ' . strlen($error_log) . ' bytes';
+          return 'Error logs write success for "' . $ct['base_dir'] . '/cache/logs/app_log.log", data_size_bytes: ' . strlen($app_log) . ' bytes';
           }
       
       }

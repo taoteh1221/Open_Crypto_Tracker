@@ -662,21 +662,21 @@ $ct['conf']['charts_alerts']['tracked_markets'] = array(
 // CHANGE 'off' to 'on' FOR THE PLUGIN YOU WANT ACTIVATED 
 $ct['conf']['plugins']['plugin_status'] = array(
 
-            						//'plugin-folder-name' => 'on', // (disabled example...your LOWERCASE plugin folder name in the folder: /plugins/)
-            								  
-            						'debt-interest-tracker' => 'on',  // Track how much you pay in TOTAL interest MONTHLY on ALL your debt (credit cards, auto / personal / mortgage loan, etc)
-
-            						'recurring-reminder' => 'off',  // Recurring Reminder plugin (alert yourself every X days to do something)
-
-            						'price-target-alert' => 'off',  // Price target alert plugin (alert yourself when an asset's price target is reached)
-
-            						'address-balance-tracker' => 'off',  // Alerts for BTC / ETH / [SOL|SPL Token] / HNT address balance changes (when coins are sent / recieved)
-
-            						'crypto-info-bot' => 'off', // WORK-IN-PROGRESS, NOT FUNTIONAL YET!
-
-            						'on-chain-stats' => 'off', // WORK-IN-PROGRESS, NOT FUNTIONAL YET!
-
-            					   );
+                      						//'plugin-folder-name' => 'on', // (disabled example...your LOWERCASE plugin folder name in the folder: /plugins/)
+                      								  
+                      						'debt-interest-tracker' => 'on',  // Track how much you pay in TOTAL interest MONTHLY on ALL your debt (credit cards, auto / personal / mortgage loan, etc)
+          
+                      						'recurring-reminder' => 'off',  // Recurring Reminder plugin (alert yourself every X days to do something)
+          
+                      						'price-target-alert' => 'off',  // Price target alert plugin (alert yourself when an asset's price target is reached)
+          
+                      						'address-balance-tracker' => 'off',  // Alerts for BTC / ETH / [SOL|SPL Token] / HNT address balance changes (when coins are sent / recieved)
+          
+                      						'crypto-info-bot' => 'off', // WORK-IN-PROGRESS, NOT FUNTIONAL YET!
+          
+                      						'on-chain-stats' => 'off', // WORK-IN-PROGRESS, NOT FUNTIONAL YET!
+          
+                      					   );
 
 
 ////////////////////////////////////////
@@ -696,7 +696,7 @@ $ct['conf']['power']['php_error_reporting'] = 0; // 0 == off / -1 == on
 
 // $ct['conf']['power']['debug_mode'] enabled runs unit tests during ui runtimes (during webpage load),
 // errors detected are error-logged and printed as alerts in header alert bell area
-// It also logs ui / cron runtime telemetry to /cache/logs/debug.log, AND /cache/logs/debug/
+// It also logs ui / cron runtime telemetry to /cache/logs/app_log.log, AND /cache/logs/debug/
 ////////////////////////////////////////////////////////////////////////////////////////////
 ////
 // ### GENERAL ###
@@ -732,7 +732,7 @@ $ct['conf']['power']['php_error_reporting'] = 0; // 0 == off / -1 == on
 // UNIT TESTS ('CHECKS' SECTION) WILL ONLY RUN DURING WEB PAGE INTERFACE RUNTIMES
 // PHP MAX EXECUTION TIME *SHOULD* AUTO-SET TO 1320 SECONDS (22 MINUTES) IN *ANY* DEBUG MODE (EXCEPT 'off')
 // IF YOU GET AN ERROR 500, TRY RUNNING ONE DEBUG MODE AT A TIME, TO AVOID GOING OVER THE PHP EXECUTION TIME LIMIT
-// DON'T LEAVE DEBUGGING ENABLED AFTER USING IT, THE /cache/logs/debug.log AND /cache/logs/debug/
+// DON'T LEAVE DEBUGGING ENABLED AFTER USING IT, THE /cache/logs/app_log.log AND /cache/logs/debug/
 // LOG FILES !CAN GROW VERY QUICKLY IN SIZE! EVEN AFTER JUST A FEW RUNTIMES!
 $ct['conf']['power']['debug_mode'] = 'off'; 
 
@@ -990,7 +990,7 @@ $ct['conf']['power']['crypto_pair'] = array(
                						'uni' => '🦄 ',
                						'mkr' => '𐌼 ',
                						'ray' => 'Ｒ ',
-     							     );
+     							    );
 
 
 
@@ -1001,13 +1001,13 @@ $ct['conf']['power']['crypto_pair'] = array(
 // AND #THE EXCHANGE NAME MUST BE IN THAT 'btc' LIST#
 // #USE LIBERALLY#, AS YOU WANT THE BEST PRICE DISCOVERY FOR THIS CRYPTO'S VALUE
 $ct['conf']['power']['crypto_pair_preferred_markets'] = array(
-                         						     //'lowercase_btc_mrkt_or_stablecoin_pair' => 'PREFERRED_MRKT',
-                         							'eth' => 'binance',  // WAY MORE volume , WAY BETTER price discovery than ALL alternatives
-                         							'sol' => 'binance',  // WAY MORE volume , WAY BETTER price discovery than ALL alternatives
-                         							'uni' => 'binance',  // WAY MORE volume , WAY BETTER price discovery than ALL alternatives
-                         							'mkr' => 'binance',  // WAY MORE volume , WAY BETTER price discovery than ALL alternatives
-                         							'ray' => 'coingecko_btc',  // coingecko global average price IN BTC
-          							               );
+                              						     //'lowercase_btc_mrkt_or_stablecoin_pair' => 'PREFERRED_MRKT',
+                              							'eth' => 'binance',  // WAY MORE volume , WAY BETTER price discovery than ALL alternatives
+                              							'sol' => 'binance',  // WAY MORE volume , WAY BETTER price discovery than ALL alternatives
+                              							'uni' => 'binance',  // WAY MORE volume , WAY BETTER price discovery than ALL alternatives
+                              							'mkr' => 'binance',  // WAY MORE volume , WAY BETTER price discovery than ALL alternatives
+                              							'ray' => 'coingecko_btc',  // coingecko global average price IN BTC
+               							           );
 
 
 
@@ -1017,88 +1017,88 @@ $ct['conf']['power']['crypto_pair_preferred_markets'] = array(
 // #CAN# BE A CRYPTO / HAVE A DUPLICATE IN $ct['conf']['power']['crypto_pair'], 
 // !AS LONG AS THERE IS A PAIR CONFIGURED WITHIN THE BITCOIN ASSET SETUP!
 $ct['conf']['power']['bitcoin_currency_markets'] = array(
-                         						//'lowercase_btc_mrkt_or_stablecoin_pair' => 'CURRENCY_SYMBOL',
-                         						'aed' => 'د.إ',
-                         						'ars' => 'ARS$',
-                         						'aud' => 'A$',
-                         						'bam' => 'KM ',
-                         						'bdt' => '৳',
-                         						'bob' => 'Bs ',
-                         						'brl' => 'R$',
-                         						'bwp' => 'P ',
-                         						'byn' => 'Br ',
-                         						'cad' => 'C$',
-                         						'chf' => 'CHf ',
-                         						'clp' => 'CLP$',
-                         						'cny' => 'C¥',
-                         						'cop' => 'Col$',
-                         						'crc' => '₡',
-                         						'czk' => 'Kč ',
-                         						'dai' => '◈ ',
-                         						'dkk' => 'Kr. ',
-                         						'dop' => 'RD$',
-                         						'egp' => 'ج.م',
-                         						'eth' => 'Ξ ',
-                         						'eur' => '€',
-                         						'gbp' => '£',
-                         						'gel' => 'ლ',
-                         						'ghs' => 'GH₵',
-                         						'gtq' => 'Q ',
-                         						'hkd' => 'HK$',
-                         						'huf' => 'Ft ',
-                         						'idr' => 'Rp ',
-                         						'ils' => '₪',
-                         						'inr' => '₹',
-                         						'irr' => '﷼',
-                         						'jmd' => 'JA$',
-                         						'jod' => 'د.ا',
-                         						'jpy' => 'J¥',
-                         						'kes' => 'Ksh ',
-                         						'krw' => '₩',
-                         						'kwd' => 'د.ك',
-                         						'kzt' => '₸',
-                         						'lkr' => 'රු, ரூ',
-                         						'mad' => 'د.م.',
-                         						'mur' => '₨ ',
-                         						'mwk' => 'MK ',
-                         						'mxn' => 'Mex$',
-                         						'myr' => 'RM ',
-                         						'ngn' => '₦',
-                         						'nis' => '₪',
-                         						'nok' => 'kr ',
-                         						'nzd' => 'NZ$',
-                         						'pab' => 'B/. ',
-                         						'pen' => 'S/ ',
-                         						'php' => '₱',
-                         						'pkr' => '₨ ',
-                         						'pln' => 'zł ',
-                         						'pyg' => '₲',
-                         						'qar' => 'ر.ق',
-                         						'ron' => 'lei ',
-                         						'rsd' => 'din ',
-                         						'rub' => '₽',
-                         						'rwf' => 'R₣ ',
-                         						'sar' => '﷼',
-                         						'sek' => 'kr ',
-                         						'sgd' => 'S$',
-                         						'thb' => '฿',
-                         						'try' => '₺',
-                         						'tusd' => 'Ⓢ ',
-                         						'twd' => 'NT$',
-                         						'tzs' => 'TSh ',
-                         						'uah' => '₴',
-                         						'ugx' => 'USh ',
-                         						'usd' => '$',
-                         						'usdc' => 'Ⓢ ',
-                         						'usdt' => '₮ ',
-                         						'uyu' => '$U ',
-                         						'vnd' => '₫',
-                         						'ves' => 'Bs ',
-                         						'xaf' => 'FCFA ',
-                         						'xof' => 'CFA ',
-                         						'zar' => 'R ',
-                         						'zmw' => 'ZK ',
-                         							);
+                              						//'lowercase_btc_mrkt_or_stablecoin_pair' => 'CURRENCY_SYMBOL',
+                              						'aed' => 'د.إ',
+                              						'ars' => 'ARS$',
+                              						'aud' => 'A$',
+                              						'bam' => 'KM ',
+                              						'bdt' => '৳',
+                              						'bob' => 'Bs ',
+                              						'brl' => 'R$',
+                              						'bwp' => 'P ',
+                              						'byn' => 'Br ',
+                              						'cad' => 'C$',
+                              						'chf' => 'CHf ',
+                              						'clp' => 'CLP$',
+                              						'cny' => 'C¥',
+                              						'cop' => 'Col$',
+                              						'crc' => '₡',
+                              						'czk' => 'Kč ',
+                              						'dai' => '◈ ',
+                              						'dkk' => 'Kr. ',
+                              						'dop' => 'RD$',
+                              						'egp' => 'ج.م',
+                              						'eth' => 'Ξ ',
+                              						'eur' => '€',
+                              						'gbp' => '£',
+                              						'gel' => 'ლ',
+                              						'ghs' => 'GH₵',
+                              						'gtq' => 'Q ',
+                              						'hkd' => 'HK$',
+                              						'huf' => 'Ft ',
+                              						'idr' => 'Rp ',
+                              						'ils' => '₪',
+                              						'inr' => '₹',
+                              						'irr' => '﷼',
+                              						'jmd' => 'JA$',
+                              						'jod' => 'د.ا',
+                              						'jpy' => 'J¥',
+                              						'kes' => 'Ksh ',
+                              						'krw' => '₩',
+                              						'kwd' => 'د.ك',
+                              						'kzt' => '₸',
+                              						'lkr' => 'රු, ரூ',
+                              						'mad' => 'د.م.',
+                              						'mur' => '₨ ',
+                              						'mwk' => 'MK ',
+                              						'mxn' => 'Mex$',
+                              						'myr' => 'RM ',
+                              						'ngn' => '₦',
+                              						'nis' => '₪',
+                              						'nok' => 'kr ',
+                              						'nzd' => 'NZ$',
+                              						'pab' => 'B/. ',
+                              						'pen' => 'S/ ',
+                              						'php' => '₱',
+                              						'pkr' => '₨ ',
+                              						'pln' => 'zł ',
+                              						'pyg' => '₲',
+                              						'qar' => 'ر.ق',
+                              						'ron' => 'lei ',
+                              						'rsd' => 'din ',
+                              						'rub' => '₽',
+                              						'rwf' => 'R₣ ',
+                              						'sar' => '﷼',
+                              						'sek' => 'kr ',
+                              						'sgd' => 'S$',
+                              						'thb' => '฿',
+                              						'try' => '₺',
+                              						'tusd' => 'Ⓢ ',
+                              						'twd' => 'NT$',
+                              						'tzs' => 'TSh ',
+                              						'uah' => '₴',
+                              						'ugx' => 'USh ',
+                              						'usd' => '$',
+                              						'usdc' => 'Ⓢ ',
+                              						'usdt' => '₮ ',
+                              						'uyu' => '$U ',
+                              						'vnd' => '₫',
+                              						'ves' => 'Bs ',
+                              						'xaf' => 'FCFA ',
+                              						'xof' => 'CFA ',
+                              						'zar' => 'R ',
+                              						'zmw' => 'ZK ',
+                         						);
 
 
 
@@ -1107,27 +1107,27 @@ $ct['conf']['power']['bitcoin_currency_markets'] = array(
 // EACH CURRENCY LISTED HERE MUST EXIST IN $ct['conf']['power']['bitcoin_currency_markets'] ABOVE
 // #USE LIBERALLY#, AS YOU WANT THE BEST PRICE DISCOVERY FOR THIS CURRENCY'S VALUE
 $ct['conf']['power']['bitcoin_preferred_currency_markets'] = array(
-						//'lowercase_btc_mrkt_or_stablecoin_pair' => 'PREFERRED_MRKT',
-							'aud' => 'kraken',  // WAY BETTER api than ALL alternatives
-							'chf' => 'kraken',  // WAY MORE reputable than ALL alternatives
-							'dai' => 'kraken',  // WAY MORE reputable than ALL alternatives
-							'eur' => 'kraken',  // WAY BETTER api than ALL alternatives
-							'gbp' => 'kraken',  // WAY BETTER api than ALL alternatives
-							'jpy' => 'kraken',  // WAY MORE reputable than ALL alternatives
-							'inr' => 'wazirx',  // One of the biggest exchanges in India (should be good price discovery)
-							'rub' => 'binance',  // WAY MORE volume / price discovery than ALL alternatives
-							'usd' => 'kraken',  // WAY BETTER api than ALL alternatives
-							);
+                                   						     //'lowercase_btc_mrkt_or_stablecoin_pair' => 'PREFERRED_MRKT',
+                                   							'aud' => 'kraken',  // WAY BETTER api than ALL alternatives
+                                   							'chf' => 'kraken',  // WAY MORE reputable than ALL alternatives
+                                   							'dai' => 'kraken',  // WAY MORE reputable than ALL alternatives
+                                   							'eur' => 'kraken',  // WAY BETTER api than ALL alternatives
+                                   							'gbp' => 'kraken',  // WAY BETTER api than ALL alternatives
+                                   							'jpy' => 'kraken',  // WAY MORE reputable than ALL alternatives
+                                   							'inr' => 'wazirx',  // One of the biggest exchanges in India (should be good price discovery)
+                                   							'rub' => 'binance',  // WAY MORE volume / price discovery than ALL alternatives
+                                   							'usd' => 'kraken',  // WAY BETTER api than ALL alternatives
+                                   					       );
 
 
 
 // Static values in ETH for Ethereum subtokens, like during crowdsale periods etc (before exchange listings)
 $ct['conf']['power']['ethereum_erc20_icos'] = array(
-                        'ETHSUBTOKENNAME' => '0.15',
-                        'GOLEM' => '0.001',
-                        'ARAGON' => '0.01',
-                        'DECENTRALAND' => '0.00008',
-                        );
+                                                      'ETHSUBTOKENNAME' => '0.15',
+                                                      'GOLEM' => '0.001',
+                                                      'ARAGON' => '0.01',
+                                                      'DECENTRALAND' => '0.00008',
+                                                   );
 						
 
 

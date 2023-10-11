@@ -63,7 +63,7 @@
 
 	<div style='margin: 25px;'>
 	
-	<form name='reset_light_charts' id='reset_light_charts' action='admin.php?iframe=<?=$ct['gen']->admin_hashed_nonce('iframe_reset_backup_restore')?>&section=reset_backup_restore&refresh=iframe_charts_alerts' method='post'>
+	<form name='reset_light_charts' id='reset_light_charts' action='admin.php?iframe=<?=$ct['gen']->admin_hashed_nonce('iframe_reset_backup_restore')?>&section=reset_backup_restore&refresh=none' method='post'>
 	
 	<input type='hidden' name='admin_hashed_nonce' value='<?=$ct['gen']->admin_hashed_nonce('reset_light_charts')?>' />
 	

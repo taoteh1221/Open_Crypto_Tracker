@@ -14,11 +14,6 @@ if ( $ct['conf']['comms']['proxy_alert'] != 'off' ) {
 
 }
           	
-          	
-// Log errors, send notifications BEFORE runtime stats
-$error_log = $ct['cache']->error_log();
-$ct['cache']->send_notifications();
-
 
 // Calculate script runtime length
 $time = microtime();
@@ -53,8 +48,9 @@ $ct['gen']->log('system_debug', strtoupper($ct['runtime_mode']).' runtime was ' 
 }
 
 
-// Process debugging logs AFTER runtime stats
-$debug_log = $ct['cache']->debug_log();
+// Process logs / notification AFTER runtime stats
+$app_log = $ct['cache']->app_log();
+$ct['cache']->send_notifications();
         
 
 // Iframe footer code
@@ -63,15 +59,9 @@ if ( $is_iframe ) {
      
      // IF WE HAVE A LOG WRITE ERROR FOR ANY LOGS, PRINT IT IN THE FOOTER HERE
      		
-     if ( $error_log != true ) {
+     if ( $app_log != true ) {
      ?>
-     <div class="red" style='font-weight: bold;'><?=$error_log?></div>
-     <?php
-     }
-     		
-     if ( $ct['conf']['power']['debug_mode'] != 'off' && $debug_log != true ) {
-     ?>
-     <div class="red" style='font-weight: bold;'><?=$debug_log?></div>
+     <div class="red" style='font-weight: bold;'><?=$app_log?></div>
      <?php
      }
      ?>
@@ -80,7 +70,7 @@ if ( $is_iframe ) {
 <!-- IFRAME footer.php START -->
     
 
-<div id="iframe_error_alert" style='display: none;'><?php echo $alerts_gui_errors . ( isset($alerts_gui_debugging) && $alerts_gui_debugging != '' ? '============<br />DEBUGGING:<br />============<br />' . $alerts_gui_debugging : '' ); ?></div>
+<div id="iframe_error_alert" style='display: none;'><?php echo $alerts_gui_logs; ?></div>
 
 	
 <script>
@@ -223,7 +213,7 @@ else {
     
     <p class='align_center' style='margin: 15px;'><a href='javascript:scroll(0,0);' title='Return to the top of the page.'>Back To Top</a></p>
             	
-    <div id="app_error_alert" style='display: none;'><?php echo $alerts_gui_errors . ( isset($alerts_gui_debugging) && $alerts_gui_debugging != '' ? '============<br />DEBUGGING:<br />============<br />' . $alerts_gui_debugging : '' ); ?></div>
+    <div id="app_error_alert" style='display: none;'><?php echo $alerts_gui_logs; ?></div>
             	
     <p class='align_center'><a href='https://taoteh1221.github.io' target='_blank' title='Check for upgrades to the latest version here.'>Running <?=ucfirst($ct['app_edition'])?> Edition<?=( $ct['gen']->admin_logged_in() ? ' v' . $ct['app_version'] : '' )?></a>
     
@@ -236,15 +226,9 @@ require("templates/interface/php/wrap/wrap-elements/help-faq-modal.php");
           
         // IF WE HAVE A LOG WRITE ERROR FOR ANY LOGS, PRINT IT IN THE FOOTER HERE
 		
-		if ( $error_log != true ) {
+		if ( $app_log != true ) {
 		?>
-		<div class="red" style='font-weight: bold;'><?=$error_log?></div>
-		<?php
-		}
-		
-		if ( $ct['conf']['power']['debug_mode'] != 'off' && $debug_log != true ) {
-		?>
-		<div class="red" style='font-weight: bold;'><?=$debug_log?></div>
+		<div class="red" style='font-weight: bold;'><?=$app_log?></div>
 		<?php
 		}
     		

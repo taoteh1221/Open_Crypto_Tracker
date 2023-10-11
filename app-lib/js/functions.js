@@ -756,7 +756,8 @@ function iframe_size_adjust(elm) {
     // If defined
     if ( typeof elm.contentWindow.document.body != 'undefined' && elm.contentWindow.document.body != null ) {
     $(elm).css( 'min-height' , (elm.contentWindow.document.body.scrollHeight + extra_height) + "px" );
-    $(elm).css( 'min-width' , (elm.contentWindow.document.body.scrollWidth + extra_width) + "px" );
+    //$(elm).css( 'min-width' , (elm.contentWindow.document.body.scrollWidth + extra_width) + "px" );
+    $(elm).css( 'min-width' , "100%" );
     }
     
 
@@ -1391,7 +1392,7 @@ render = render.replace(/swap/gi, "Swap");
 render = render.replace(/iearn/gi, "iEarn");
 render = render.replace(/pulse/gi, "Pulse");
 render = render.replace(/defi/gi, "DeFi");
-render = render.replace(/ring/gi, "Ring");
+render = render.replace(/loopring/gi, "LoopRing");
 render = render.replace(/amm/gi, "AMM");
 render = render.replace(/ico/gi, "ICO");
 render = render.replace(/erc20/gi, "ERC-20");
@@ -1751,7 +1752,7 @@ var log_area = $('#' + elm_id); // Needs to be set as a global var, for the init
 // Blank out existing logs that are showing
 log_area.text('');
     
-log_file = elm_id.replace(/_log/ig, '.log');
+log_file = elm_id + '.log';
         	
 log_lines = $('#' + elm_id + '_lines').val();
 

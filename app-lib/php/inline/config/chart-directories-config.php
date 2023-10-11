@@ -61,7 +61,7 @@ $ct['gen']->log('system_error', $system_error);
 
     if ( !$skip_exit ) {
     echo $system_error;
-    $ct['cache']->error_log(); // Log errors before exiting
+    $ct['cache']->app_log(); // Log errors before exiting
     exit;
     }
     

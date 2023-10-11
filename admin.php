@@ -66,7 +66,7 @@ echo '<style>html,body,a{color:red;}</style>' . $security_error_ui;
 
 // Log errors before exiting
 // WE ALREADY QUEUED THE ERROR LOG ENTRY FOR THIS ISSUE IN: $ct['gen']->sanitize_string()
-$ct['cache']->error_log();
+$ct['cache']->app_log();
 
 exit;
 
@@ -80,7 +80,7 @@ $ct['gen']->log('security_error', $security_error);
 echo '<style>html,body,a{color:red;}</style>' . $security_error . '.';
 
 // Log errors before exiting
-$ct['cache']->error_log();
+$ct['cache']->app_log();
 
 exit;
 

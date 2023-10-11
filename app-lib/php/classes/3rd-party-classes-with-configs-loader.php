@@ -69,7 +69,7 @@ $telegram_messaging = new Telegram\Receiver($telegram_bot);
              		  // Need to check a few different possible results for no data found ("null" in quotes as the actual value is returned sometimes)
              		  if ( $store_cached_telegram_user_data == false || $store_cached_telegram_user_data == null || $store_cached_telegram_user_data == "null" ) {
              		  // Keep var num at end of error log
-             		  $ct['gen']->log('conf_error', 'CURRENT telegram configuration could not be checked, PLEASE RE-ENTER "/start" IN THE BOT CHATROOM, IN THE TELEGRAM APP');
+             		  $ct['gen']->log('conf_error', 'telegram bot data unavailable, PLEASE RE-ENTER "/start" IN BOT CHATROOM (IN TELEGRAM APP)');
              		  }
              		  else {
              		  $ct['cache']->save_file($ct['base_dir'] . '/cache/secured/telegram_user_data_'.$secure_128bit_hash.'.dat', $store_cached_telegram_user_data);

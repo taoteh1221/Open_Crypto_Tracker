@@ -1769,7 +1769,9 @@ select opt in $OPTIONS; do
 				rm $DOC_ROOT/cache/events/notifications-queue-processing.dat > /dev/null 2>&1
 				rm $DOC_ROOT/cache/events/check-domain-security.dat > /dev/null 2>&1
 				rm $DOC_ROOT/cache/logs/errors.log > /dev/null 2>&1
+				rm $DOC_ROOT/cache/logs/error.log > /dev/null 2>&1
 				rm $DOC_ROOT/cache/logs/debugging.log > /dev/null 2>&1
+				rm $DOC_ROOT/cache/logs/debug.log > /dev/null 2>&1
 				rm $DOC_ROOT/cache/vars/app_config_md5.dat > /dev/null 2>&1
 				rm $DOC_ROOT/cache/vars/default_app_config_md5.dat > /dev/null 2>&1
 				rm $DOC_ROOT/cache/vars/default_ocpt_conf_md5.dat > /dev/null 2>&1

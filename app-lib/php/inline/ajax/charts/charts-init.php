@@ -44,8 +44,7 @@ require_once($ct['base_dir'] . '/app-lib/php/inline/ajax/charts/types/system.php
  
  
 // Log errors / debugging, send notifications
-$ct['cache']->error_log();
-$ct['cache']->debug_log();
+$ct['cache']->app_log();
 $ct['cache']->send_notifications();
 
 flush(); // Clean memory output buffer for echo

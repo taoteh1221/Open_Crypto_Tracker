@@ -42,7 +42,7 @@ exit;
 // CSRF attack protection for downloads EXCEPT backup downloads (which are secured by requiring the nonce)
 if ( $ct['runtime_mode'] == 'download' && !isset($_GET['backup']) && $_GET['token'] != $ct['gen']->nonce_digest('download') ) {
 $ct['gen']->log('security_error', 'aborted, security token mis-match/stale from ' . $_SERVER['REMOTE_ADDR'] . ', for request: ' . $_SERVER['REQUEST_URI'] . ' (try reloading the app)');
-$ct['cache']->error_log();
+$ct['cache']->app_log();
 echo "Aborted, security token mis-match/stale, try reloading the app.";
 exit;
 }

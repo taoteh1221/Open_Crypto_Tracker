@@ -13,7 +13,7 @@ $is_login_form = true;
 // REGISTRATION SECURITY 
 if ( !isset($_GET['new_reset_key']) && is_array($stored_admin_login) ) {
 $ct['gen']->log('security_error', 'aborted admin registration attempt ('.$_SERVER['REQUEST_URI'].'), admin account ALREADY EXISTS');
-$ct['cache']->error_log();
+$ct['cache']->app_log();
 echo "Aborted, admin account ALREADY EXISTS.";
 exit;
 }
@@ -22,7 +22,7 @@ exit;
 // RESET SECURITY 
 if ( isset($_GET['new_reset_key']) && $password_reset_denied == 1 ) {
 $ct['gen']->log('security_error', 'aborted password reset attempt ('.$_SERVER['REQUEST_URI'].'), verification MISMATCH / NOT APPROVED');
-$ct['cache']->error_log();
+$ct['cache']->app_log();
 echo "Aborted, password reset verification MISMATCH / NOT APPROVED.";
 exit;
 }

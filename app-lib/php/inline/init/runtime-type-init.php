@@ -39,8 +39,7 @@ $ct['gen']->log(
              );
 
 // Log errors / debugging, send notifications
-$ct['cache']->error_log();
-$ct['cache']->debug_log();
+$ct['cache']->app_log();
 $ct['cache']->send_notifications();
     
 flush(); // Clean memory output buffer for echo
@@ -87,7 +86,7 @@ $_SESSION['light_charts_updated'] = 0;
     // EXIT IF CRON IS NOT RUNNING IN THE PROPER CONFIGURATION
     if ( !isset($_GET['cron_emulate']) && php_sapi_name() != 'cli' || isset($_GET['cron_emulate']) && $ct['app_edition'] == 'server' ) {
     $ct['gen']->log('security_error', 'aborted cron job attempt ('.$_SERVER['REQUEST_URI'].'), INVALID CONFIG');
-    $ct['cache']->error_log();
+    $ct['cache']->app_log();
     echo "Aborted, INVALID CONFIG.";
     exit; // Force exit
     }
@@ -130,7 +129,7 @@ $_SESSION['light_charts_updated'] = 0;
     
     // If emulated cron and it's a no go, exit with a json response (for interface / console log)
     if ( $run_cron == false ) {
-    $ct['cache']->error_log();
+    $ct['cache']->app_log();
     echo json_encode($exit_result, JSON_PRETTY_PRINT);
     exit; // Force exit
     } 
