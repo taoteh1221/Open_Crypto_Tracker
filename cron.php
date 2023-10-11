@@ -65,8 +65,7 @@ $cron_run_lock_file = $ct['base_dir'] . '/cache/events/emulated-cron-lock.dat';
             $exit_result = array('result' => "Too early to re-run EMULATED cron job");
             
             // Log errors / debugging, send notifications
-            $ct['cache']->error_log();
-            $ct['cache']->debug_log();
+            $ct['cache']->app_log();
             $ct['cache']->send_notifications();
             
             // We are done running cron, so we can release the lock
@@ -291,8 +290,7 @@ $cron_run_lock_file = $ct['base_dir'] . '/cache/events/emulated-cron-lock.dat';
         
         // Log errors / debugging, send notifications
         // RUN BEFORE any activated plugins (in case a custom plugin crashes)
-        $ct['cache']->error_log();
-        $ct['cache']->debug_log();
+        $ct['cache']->app_log();
         $ct['cache']->send_notifications();
         
         
@@ -332,8 +330,7 @@ $cron_run_lock_file = $ct['base_dir'] . '/cache/events/emulated-cron-lock.dat';
         // Log errors / debugging, send notifications
         // (IF ANY PLUGINS ARE ACTIVATED, RAN AGAIN SEPERATELY FOR PLUGIN LOGGING / ALERTS ONLY)
         if ( is_array($activated_plugins['cron']) && sizeof($activated_plugins['cron']) > 0 ) {
-        $ct['cache']->error_log();
-        $ct['cache']->debug_log();
+        $ct['cache']->app_log();
         $ct['cache']->send_notifications();
         }
         
@@ -356,8 +353,7 @@ $cron_run_lock_file = $ct['base_dir'] . '/cache/events/emulated-cron-lock.dat';
     
     $ct['gen']->log('other_error', $exit_result_text);
     
-    $ct['cache']->error_log();
-    $ct['cache']->debug_log();
+    $ct['cache']->app_log();
     $ct['cache']->send_notifications();
     
     $exit_result = array('display_error' => 1, 'result' => $exit_result_text);

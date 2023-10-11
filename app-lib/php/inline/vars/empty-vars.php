@@ -92,9 +92,7 @@ $jupiter_ag_pairs =  array();
 
 // Initial BLANK strings
 
-$alerts_gui_errors = null;
-
-$alerts_gui_debugging = null;
+$alerts_gui_logs = null;
 
 $cmc_notes = null;
 
@@ -122,8 +120,6 @@ $check_2fa_error = null;
 // Initial zero-set / false strings
 
 $reset_config = false;
-
-$reset_config_onload = false;
 
 $update_config = false;
 

@@ -239,13 +239,13 @@ $admin_render_settings['login_alert']['is_notes'] = 'See "External APIs" section
 ////////////////////////////////////////////////////////////////////////////////////////////////
 
 
-$admin_render_settings['admin_cookie_expires']['is_select']['assoc'] = array();
+$admin_render_settings['admin_cookie_expires']['is_select']['is_assoc'] = array();
 
 $loop = 1;
 $loop_max = 6;
 while ( $loop <= $loop_max ) {
      
-$admin_render_settings['admin_cookie_expires']['is_select']['assoc'][] = array(
+$admin_render_settings['admin_cookie_expires']['is_select']['is_assoc'][] = array(
                                                                        'key' => $loop,
                                                                        'val' => 'After ' . $loop . ' Hours',
                                                                       );
@@ -290,7 +290,7 @@ $admin_render_settings['access_control_origin']['is_notes'] = '"Strict" #CAN BRE
 ////////////////////////////////////////////////////////////////////////////////////////////////
 
 
-$admin_render_settings['captcha_text_contrast']['is_select']['assoc'] = array();
+$admin_render_settings['captcha_text_contrast']['is_select']['is_assoc'] = array();
 
 $loop = -35;
 $loop_max = 35;
@@ -298,7 +298,7 @@ while ( $loop <= $loop_max ) {
      
 $loop_key = ( $loop >= 0 ? '+' . $loop : $loop );
      
-$admin_render_settings['captcha_text_contrast']['is_select']['assoc'][] = array(
+$admin_render_settings['captcha_text_contrast']['is_select']['is_assoc'][] = array(
                                                                        'key' => $loop,
                                                                        'val' => $loop_key,
                                                                       );
@@ -311,13 +311,13 @@ unset($loop_key);
 ////////////////////////////////////////////////////////////////////////////////////////////////
 
 
-$admin_render_settings['captcha_text_angle']['is_select']['assoc'] = array();
+$admin_render_settings['captcha_text_angle']['is_select']['is_assoc'] = array();
 
 $loop = 0;
 $loop_max = 35;
 while ( $loop <= $loop_max ) {
      
-$admin_render_settings['captcha_text_angle']['is_select']['assoc'][] = array(
+$admin_render_settings['captcha_text_angle']['is_select']['is_assoc'][] = array(
                                                                        'key' => $loop,
                                                                        'val' => $loop . ' degrees Maximum',
                                                                       );

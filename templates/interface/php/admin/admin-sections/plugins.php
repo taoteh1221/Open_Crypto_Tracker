@@ -5,8 +5,69 @@
 
 
 ?>
-
+	 <?php
+	 if ( $update_config_success != null ) {
+	 ?>
+	 <div class='bitcoin bitcoin_dotted' style='font-weight: bold;'><a href="javascript:app_reloading_check();" target="_PARENT">Reload this page</a>, to show your updated plugin settings below.</div>
+	 <div style='min-height: 1em;'></div>
+	 <?php
+	 }
+	 ?>
 	
+	
+    <fieldset class='subsection_fieldset'><legend class='subsection_legend'> <strong>Activate / Deactivate Installed Plugins</strong> </legend>
+
+
+    <?php
+    if ( $admin_area_sec_level == 'high' ) {
+    ?>
+    	
+    	<p class='bitcoin bitcoin_dotted'>
+    	
+    	YOU ARE IN HIGH SECURITY ADMIN MODE. <br /><br />Editing most admin config settings is <i>done manually</i> IN HIGH SECURITY ADMIN MODE, by updating the file config.php (in this app's main directory: <?=$ct['base_dir']?>) with a text editor.
+    	
+    	</p>
+    
+    <?php
+    }
+    else {
+
+     // Render config settings for this section...
+
+
+     ////////////////////////////////////////////////////////////////////////////////////////////////
+     
+     
+         foreach ( $ct['conf']['plugins']['plugin_status'] as $key => $val ) {
+         
+         $admin_render_settings['plugin_status']['is_radio']['is_subarray'][$key] = array(
+                                                                                          'off',
+                                                                                          'on',
+                                                                                         );
+                                                                      
+         }
+         
+
+     ////////////////////////////////////////////////////////////////////////////////////////////////
+     
+     
+     // What OTHER admin pages should be refreshed AFTER this settings update runs
+     // (SEE $refresh_admin / $_GET['refresh'] in footer.php, for ALL possible values)
+     $admin_render_settings['is_refresh_admin'] = 'all';
+     
+     // $ct['admin']->settings_form_fields($conf_id, $interface_id)
+     $ct['admin']->settings_form_fields('plugins', 'plugins', $admin_render_settings);
+     
+     
+     ////////////////////////////////////////////////////////////////////////////////////////////////
+     
+    }
+    ?>	
+				
+	
+	</fieldset>
+				    
+
     <fieldset class='subsection_fieldset'><legend class='subsection_legend'> <strong>Currently Activated Plugins</strong> </legend>
     
     <div class='bitcoin'>Graphical Interface Plugins<br />
@@ -16,11 +77,13 @@
 	echo '<li><span class="black">None</span></li>';
 	}
 	else {
+	     
 		foreach ( $activated_plugins['ui'] as $plugin_key => $unused ) {
     	?>
         <li><a href='admin.php?iframe=<?=$ct['gen']->admin_hashed_nonce('iframe_' . $plugin_key)?>&plugin=<?=$plugin_key?>'><?=$plug_conf[$plugin_key]['ui_name']?></a></li>
     	<?php
-    	}
+    	     }
+    	     
 	}
 	?>
 	</ul>
@@ -52,55 +115,18 @@
 	echo '<li><span class="black">None</span></li>';
 	}
 	else {
+	     
 		foreach ( $activated_plugins['webhook'] as $plugin_key => $unused ) {
     	?>
         <li><a href='admin.php?iframe=<?=$ct['gen']->admin_hashed_nonce('iframe_' . $plugin_key)?>&plugin=<?=$plugin_key?>'><?=$plug_conf[$plugin_key]['ui_name']?></a></li>
     	<?php
-    	}
+    	     }
+    	     
 	}
 	?>
 	</ul>
 	</div>
 	
 	</fieldset>
-				    
-
-	
-    <fieldset class='subsection_fieldset'><legend class='subsection_legend'> <strong>Activate / Deactivate Installed Plugins</strong> </legend>
-
-
-    <?php
-    if ( $admin_area_sec_level == 'high' ) {
-    ?>
-    	
-    	<p class='bitcoin bitcoin_dotted'>
-    	
-    	YOU ARE IN HIGH SECURITY ADMIN MODE. <br /><br />Editing most admin config settings is <i>done manually</i> IN HIGH SECURITY ADMIN MODE, by updating the file config.php (in this app's main directory: <?=$ct['base_dir']?>) with a text editor.
-    	
-    	</p>
-    
-    <?php
-    }
-    else {
-    ?>
-    	
-    	<p> Coming Soon&trade; </p>
-    	
-    	<p class='bitcoin bitcoin_dotted'>
-    	
-    	These sections / category pages will be INCREMENTALLY populated with the corrisponding admin configuration options, over a period of time AFTER the initial v6.00.x releases (versions 6.00.x will only test the back-end / under-the-hood stability of NORMAL / MEDIUM / HIGH MODES of the Admin Interface security levels). <br /><br />You may need to turn off "Normal" OR "Medium" mode of the Admin Interface security level (at the top of the "Security" section in this admin area), to edit any UNFINISHED SECTIONS by hand in the config files (config.php in the app install folder, and any plug-conf.php files in the plugins folders).
-    	
-    	</p>
-    	
-    <?php
-    }
-    ?>	
-				
-	
-	</fieldset>
-	
-			    
-
-
 
 		    

@@ -47,7 +47,7 @@ $ct['dev']['global_font_weight'] = 400; // 400 for ANY font size
 
 
 // LINE HEIGHT PERCENTAGE for ALL text in app (as a decimal)
-$ct['dev']['global_line_height_percent'] = 1.30; // 130% line height for ANY font size
+$ct['dev']['global_line_height_percent'] = 1.50; // 150% line height for ANY font size
 
 
 // info icon size CSS configs

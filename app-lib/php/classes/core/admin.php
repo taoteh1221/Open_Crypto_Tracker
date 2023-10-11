@@ -225,15 +225,47 @@ var $ct_array = array();
          
          <p>
          
-         <b class='blue'><?=$ct['gen']->key_to_name($key)?>:</b> &nbsp; 
+         <b class='<?=( isset($render_params[$key]['is_radio']['is_subarray']) ? 'orange' : 'blue' )?>'><?=$ct['gen']->key_to_name($key)?><?=( isset($render_params[$key]['is_radio']['is_subarray']) ? '' : ':' )?></b> &nbsp; 
          
               <?php
               foreach( $render_params[$key]['is_radio'] as $radio_key => $radio_val ) {
+                             
                    
-                   // If it's flagged as an associative array
-                   if ( $radio_key === 'assoc' ) { // PHP7.4 NEEDS === HERE INSTEAD OF ==
+                   // If THE CONFIG ITSELF flagged as a subarray
+                   // (WE DO THE LOOP ON THE SUBARRAY IN THE RENDER PARAMETERS PASSED INTO THIS FUNCTION)
+                   if ( $radio_key === 'is_subarray' ) { // PHP7.4 NEEDS === HERE INSTEAD OF ==
+                   
+                   //var_dump($render_params[$key]['is_radio']['is_subarray']);
+                   ?>
+                   
+                   <br /><br />
                         
-                        foreach( $render_params[$key]['is_radio']['assoc'] as $assoc_val ) {
+                        <?php
+                        foreach( $render_params[$key]['is_radio']['is_subarray'] as $sub_key => $sub_val ) {
+                        ?>
+                        
+                        <b class='blue'><?=$ct['gen']->key_to_name($sub_key)?>:</b> &nbsp; 
+                            
+                            <?php
+                            foreach( $sub_val as $setting_val ) {
+                            ?>
+                            
+                            <input type='radio' name='<?=$conf_id?>[<?=$key?>][<?=$sub_key?>]' value='<?=$setting_val?>' <?=( isset($val[$sub_key]) && $val[$sub_key] == $setting_val ? 'checked' : '' )?> /> <?=$ct['gen']->key_to_name($setting_val)?> &nbsp;
+                            
+                            <?php
+                            }
+                            ?>
+                            
+                        <br /><br />
+                        
+                        <?php
+                        }
+                        
+                   }
+                   // If it's flagged as an associative array
+                   elseif ( $radio_key === 'is_assoc' ) { // PHP7.4 NEEDS === HERE INSTEAD OF ==
+                        
+                        foreach( $render_params[$key]['is_radio']['is_assoc'] as $assoc_val ) {
                         ?>
                         
                         <input type='radio' name='<?=$conf_id?>[<?=$key?>]' value='<?=$assoc_val['key']?>' <?=( $val == $assoc_val['key'] ? 'checked' : '' )?> /> <?=$ct['gen']->key_to_name($assoc_val['val'])?> &nbsp;
@@ -242,6 +274,7 @@ var $ct_array = array();
                         }
                         
                    }
+                   // Everything else
                    else {
                    ?>
                    
@@ -277,9 +310,9 @@ var $ct_array = array();
               foreach( $render_params[$key]['is_select'] as $option_key => $option_val ) {
                    
                    // If it's flagged as an associative array
-                   if ( $option_key === 'assoc' ) { // PHP7.4 NEEDS === HERE INSTEAD OF ==
+                   if ( $option_key === 'is_assoc' ) { // PHP7.4 NEEDS === HERE INSTEAD OF ==
                         
-                        foreach( $render_params[$key]['is_select']['assoc'] as $assoc_val ) {
+                        foreach( $render_params[$key]['is_select']['is_assoc'] as $assoc_val ) {
                         ?>
                         
                         <option value='<?=$assoc_val['key']?>' <?=( $val == $assoc_val['key'] ? 'selected' : '' )?>> <?=$ct['gen']->key_to_name($assoc_val['val'])?> </option> 

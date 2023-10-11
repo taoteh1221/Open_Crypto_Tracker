@@ -54,7 +54,7 @@
 		
 		<p class='black' style='font-weight: bold;'><?=$supported_prim_currency_count?> primary currency pairs are supported for conversion charts (in the Admin Config GENERAL section, using the "bitcoin_primary_currency_pair" setting):<br /> <span class='bitcoin'><?=$supported_prim_currency_list?></span> </p>
 		 
-		<p class='red' style='font-weight: bold;'>!NOT! ALL EXCHANGES SUPPORT ALL CURRENCY PAIRS, double check any setting changes you make (and check the error log at /cache/logs/error.log for any reported issues).</p>
+		<p class='red' style='font-weight: bold;'>!NOT! ALL EXCHANGES SUPPORT ALL CURRENCY PAIRS, double check any setting changes you make (and check the error log at /cache/logs/app_log.log for any reported issues).</p>
 		 
 		<p class='red' style='font-weight: bold;'>v4.03.0 and higher charts are NOT backwards-compatible, as the 24 hour volume format was completely changed over to always be based off pair volume data only (24 hour asset volume is no longer supported).</p>
 	

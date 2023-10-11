@@ -19,7 +19,7 @@ $security_error = '2FA Setup access invalid / expired (' . $ct['remote_ip'] . ')
 $ct['gen']->log('security_error', $security_error);
 echo $security_error . '.';
 // Log errors before exiting
-$ct['cache']->error_log();
+$ct['cache']->app_log();
 exit;
 }
 
@@ -98,7 +98,7 @@ exit($e->getMessage());
 header('Content-type: image/png');
  
 // Log errors / debugging, send notifications
-$ct['cache']->debug_log();
+$ct['cache']->app_log();
 $ct['cache']->send_notifications();
 
 echo $image;

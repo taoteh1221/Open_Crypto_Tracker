@@ -6,4 +6,5 @@
 
 ?>
 
-Documentation page TEST
+<p class='bitcoin'>This plugin is NOT functional yet, as it's still in the early development phase.</p>
+

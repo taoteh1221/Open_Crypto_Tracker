@@ -171,10 +171,19 @@ https://zksync.io/api/v0.1.html (KEEP AN EYE OUT FOR V2 DOCS AS WELL)
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
-Test out the new iframe-reloading HALT mechanism (if a halt was called on updating the cached admin config)
+Test refactored logging system WITH DEBUGGING OFF.
 
 
-The tags 'h1' through 'h6' should be made to user-adjust text size too. (CONFIRMED IT WILL be a bit tricky, be careful (set them via 'em' like bootstrap does)...ISOLATE BASED ON OUR TEMPLATE WRAPPER CSS ELEMENTS).
+Triple-check the "load / reset / update / upgrade config by security level" logic.
+
+
+Triple-check cached config upgrading / downgrading logic, including bundled plugins.
+
+
+Triple-check adding / removing a plugin subdirectory, in regular AND high security mode, AND with plugin activation on AND off.
+
+
+Test out the new iframe-reloading HALT mechanism (if a halt was called on updating the cached admin config), AND iframe reloading in general.
 
 
 Update screenshots, since we overhauled everything in the interface.
@@ -183,7 +192,25 @@ Update screenshots, since we overhauled everything in the interface.
 Add remote IP address data to ALL relevant security error logging everywhere in the app.
 
 
-Go through all init / config / etc files, and add any primary vars to "$ct" that haven't been added yet, for consistent / clean code. EVERYTHING IN empty-vars.php definately should be converted.
+Go through all init / config / etc files, and add any primary vars to "$ct" that haven't been added yet, for consistent / clean code. EVERYTHING IN empty-vars.php definately should be converted. ALSO THESE VARS TOO:
+
+$admin_area_sec_level
+
+$admin_area_2fa
+
+$default_ct_conf
+
+$check_default_ct_conf
+
+$cached_app_version
+
+$app_upgrade_check
+
+$check_2fa_error
+
+$htaccess_username
+
+$htaccess_password
 
 
 Change semantic naming of 'coin_amnts' form id, as it now also handles charts / news feeds / etc.
@@ -273,9 +300,6 @@ There are also endpoints available for income statement / balance sheet / cash f
 https://www.alphavantage.co/documentation/#fundamentals
 
 Try fitting all them into the info bubble toolip area for each stock asset, and see how it looks. ALSO HAVE THIS ONLY UPDATE EVERY 24 HOURS, AND DELETE ONE DAILY LIVE *ASSET PRICE* DATA REQUEST LIMIT IN THE API THROTTLING LOGIC, TO ALLOW THIS *ASSET INFO* DATA REQUEST TO HAPPEN WITHOUT GOING OVER DAILY LIMITS FOR THE *FREE* LEVEL.
-
-
-To avoid having the "re-enter /start" telegram error message unless truly needed, take an md5 digest of all telegram CONFIG settings concatenated together, and save as a var in the vars cache folder. Only run a telegram setting update if this md5 digest ever changes.
 
 
 Admin iframes: Should have CSS position set as 'sticky' for the 'Save' button (like reload countdown on secondary user tabs)

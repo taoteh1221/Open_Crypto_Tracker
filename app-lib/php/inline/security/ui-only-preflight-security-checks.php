@@ -416,7 +416,7 @@ $ct['gen']->log('system_error', $system_error);
 echo $system_error;
 
 // Log errors / send any notifications before exiting
-$ct['cache']->error_log();
+$ct['cache']->app_log();
 $ct['cache']->send_notifications();
 
 exit;

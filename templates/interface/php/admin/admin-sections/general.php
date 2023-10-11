@@ -79,7 +79,7 @@ else {
 ////////////////////////////////////////////////////////////////////////////////////////////////
 
 
-$admin_render_settings['local_time_offset']['is_select']['assoc'] = array();
+$admin_render_settings['local_time_offset']['is_select']['is_assoc'] = array();
 
 $loop = -12;
 $loop_max = +14;
@@ -87,7 +87,7 @@ while ( $loop <= $loop_max ) {
      
 $loop_key = ( $loop >= 0 ? '+' . $loop : $loop );
      
-$admin_render_settings['local_time_offset']['is_select']['assoc'][] = array(
+$admin_render_settings['local_time_offset']['is_select']['is_assoc'][] = array(
                                                                        'key' => $loop_key,
                                                                        'val' => $loop_key . ' Hours UTC Time',
                                                                       );
@@ -119,16 +119,16 @@ $admin_render_settings['google_font']['is_notes'] = '<a href="https://support.go
 ////////////////////////////////////////////////////////////////////////////////////////////////
 
 
-$admin_render_settings['default_font_size']['is_select']['assoc'] = array();
+$admin_render_settings['default_font_size']['is_select']['is_assoc'] = array();
 
 $loop = round($ct['dev']['min_font_resize'] * 100);
 $loop_max = round($ct['dev']['max_font_resize'] * 100);
 while ( $loop <= $loop_max ) {
      
-$admin_render_settings['default_font_size']['is_select']['assoc'][] = array(
-                                                                       'key' => $loop,
-                                                                       'val' => $loop . '%',
-                                                                      );
+$admin_render_settings['default_font_size']['is_select']['is_assoc'][] = array(
+                                                                            'key' => $loop,
+                                                                            'val' => $loop . '%',
+                                                                           );
                                                                       
 $loop = $loop + 1;
 }
@@ -138,18 +138,18 @@ $loop = $loop + 1;
 
 
 $admin_render_settings['default_theme']['is_radio'] = array(
-                                                          'dark',
-                                                          'light',
-                                                         );
+                                                            'dark',
+                                                            'light',
+                                                           );
 
 
 ////////////////////////////////////////////////////////////////////////////////////////////////
 
 
 $admin_render_settings['asset_charts_toggle']['is_radio'] = array(
-                                                          'off',
-                                                          'on',
-                                                         );
+                                                                  'off',
+                                                                  'on',
+                                                                 );
 
 
 ////////////////////////////////////////////////////////////////////////////////////////////////

@@ -7,7 +7,7 @@
 // CSRF attack protection (REQUIRED #POST# VAR 'submit_check')
 if ( $_POST['submit_check'] != 1 ) {
 $ct['gen']->log('security_error', 'Missing "submit_check" POST data (-possible- CSRF attack) for request: ' . $_SERVER['REQUEST_URI']);
-$ct['cache']->error_log();
+$ct['cache']->app_log();
 exit;
 }
 

@@ -223,12 +223,11 @@ sleep(1); // Chill for a second, since we just refreshed the conf
 }
 // IF ct_conf CACHE RESET (ALSO LOADS CT_CONF [WITH ACTIVATED PLUGIN CONFIGS])
 // (ONLY IF A RESET WASN'T TRIGGERED AND RAN WITHIN load_cached_config() DURING CACHED CONFIG LOADING)
-elseif ( $reset_config && !$reset_config_onload ) {
+elseif ( $reset_config ) {
 $ct['conf'] = $ct['cache']->update_cached_config(false, false, true); // Reset flag
 sleep(1); // Chill for a second, since we just refreshed the conf
 }
-// We use the $update_config flag, to avoid multiple calls in the loop
-// THIS CAN BE ANY SECURITY MODE
+// Updating cached config (THIS CAN BE ANY SECURITY MODE)
 elseif ( $update_config ) {
 $ct['conf'] = $ct['cache']->update_cached_config($ct['conf']);
 $update_config = false; // Set back to false, since this is a global var
@@ -237,8 +236,8 @@ sleep(1); // Chill for a second, since we just refreshed the conf
 
 
 // load_cached_config() LOADS *AFTER* PLUGIN CONFIGS IN *HIGH* ADMIN SECURITY MODE
-// (AND IF THERE IS A USER-INITIATED CT_CONF RESET)
-if ( $admin_area_sec_level == 'high' || $reset_config ) {
+// (ONLY IF NO RESET WAS ALREADY TRIGGERED)
+if ( $admin_area_sec_level == 'high' && !$reset_config ) {
 $ct['cache']->load_cached_config();
 }
 

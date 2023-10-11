@@ -66,13 +66,13 @@ $admin_render_settings['upgrade_alert']['is_notes'] = 'See "External APIs" secti
 ////////////////////////////////////////////////////////////////////////////////////////////////
 
 
-$admin_render_settings['upgrade_alert_reminder']['is_select']['assoc'] = array();
+$admin_render_settings['upgrade_alert_reminder']['is_select']['is_assoc'] = array();
 
 $loop = 1;
 $loop_max = 90;
 while ( $loop <= $loop_max ) {
      
-$admin_render_settings['upgrade_alert_reminder']['is_select']['assoc'][] = array(
+$admin_render_settings['upgrade_alert_reminder']['is_select']['is_assoc'][] = array(
                                                                        'key' => $loop,
                                                                        'val' => 'Every ' . $loop . ' Days',
                                                                       );
@@ -84,13 +84,13 @@ $loop = $loop + 1;
 ////////////////////////////////////////////////////////////////////////////////////////////////
 
 
-$admin_render_settings['news_feed_email_frequency']['is_select']['assoc'] = array();
+$admin_render_settings['news_feed_email_frequency']['is_select']['is_assoc'] = array();
 
 $loop = 0;
 $loop_max = 30;
 while ( $loop <= $loop_max ) {
      
-$admin_render_settings['news_feed_email_frequency']['is_select']['assoc'][] = array(
+$admin_render_settings['news_feed_email_frequency']['is_select']['is_assoc'][] = array(
                                                                        'key' => $loop,
                                                                        'val' => ( $loop == 0 ? 'Disabled' : 'Every ' . $loop . ' Days'),
                                                                       );
@@ -130,13 +130,13 @@ $admin_render_settings['price_alert']['is_notes'] = 'See "External APIs" section
 ////////////////////////////////////////////////////////////////////////////////////////////////
 
 
-$admin_render_settings['price_alert_threshold']['is_select']['assoc'] = array();
+$admin_render_settings['price_alert_threshold']['is_select']['is_assoc'] = array();
 
 $loop = 0;
 $loop_max = 100;
 while ( $loop <= $loop_max ) {
      
-$admin_render_settings['price_alert_threshold']['is_select']['assoc'][] = array(
+$admin_render_settings['price_alert_threshold']['is_select']['is_assoc'][] = array(
                                                                        'key' => $loop,
                                                                        'val' => ( $loop == 0 ? 'Disabled' : $loop . '% Price Change'),
                                                                       );
@@ -148,13 +148,13 @@ $loop = $loop + 0.25;
 ////////////////////////////////////////////////////////////////////////////////////////////////
 
 
-$admin_render_settings['price_alert_frequency_maximum']['is_select']['assoc'] = array();
+$admin_render_settings['price_alert_frequency_maximum']['is_select']['is_assoc'] = array();
 
 $loop = 0;
 $loop_max = 72;
 while ( $loop <= $loop_max ) {
      
-$admin_render_settings['price_alert_frequency_maximum']['is_select']['assoc'][] = array(
+$admin_render_settings['price_alert_frequency_maximum']['is_select']['is_assoc'][] = array(
                                                                        'key' => $loop,
                                                                        'val' => ( $loop == 0 ? 'Unlimited' : 'Every ' . $loop . ' Hours'),
                                                                       );
@@ -175,13 +175,13 @@ $admin_render_settings['price_alert_block_volume_error']['is_radio'] = array(
 ////////////////////////////////////////////////////////////////////////////////////////////////
 
 
-$admin_render_settings['price_alert_minimum_volume']['is_select']['assoc'] = array();
+$admin_render_settings['price_alert_minimum_volume']['is_select']['is_assoc'] = array();
 
 $loop = 0;
 $loop_max = 500000;
 while ( $loop <= $loop_max ) {
      
-$admin_render_settings['price_alert_minimum_volume']['is_select']['assoc'][] = array(
+$admin_render_settings['price_alert_minimum_volume']['is_select']['is_assoc'][] = array(
                                                                        'key' => $loop,
                                                                        'val' => ( $loop == 0 ? 'Disabled' : $ct['conf']['power']['bitcoin_currency_markets'][ $ct['conf']['gen']['bitcoin_primary_currency_pair'] ] . $ct['var']->num_pretty($loop, 0) . ' (' . strtoupper($ct['conf']['gen']['bitcoin_primary_currency_pair']) . ')'),
                                                                       );
@@ -193,13 +193,13 @@ $loop = $loop + 1000;
 ////////////////////////////////////////////////////////////////////////////////////////////////
 
 
-$admin_render_settings['logs_email']['is_select']['assoc'] = array();
+$admin_render_settings['logs_email']['is_select']['is_assoc'] = array();
 
 $loop = 0;
 $loop_max = 30;
 while ( $loop <= $loop_max ) {
      
-$admin_render_settings['logs_email']['is_select']['assoc'][] = array(
+$admin_render_settings['logs_email']['is_select']['is_assoc'][] = array(
                                                                        'key' => $loop,
                                                                        'val' => ( $loop == 0 ? 'Disabled' : 'Every ' . $loop . ' Days'),
                                                                       );
@@ -226,13 +226,13 @@ $admin_render_settings['proxy_alert']['is_notes'] = 'See "External APIs" section
 ////////////////////////////////////////////////////////////////////////////////////////////////
 
 
-$admin_render_settings['proxy_alert_frequency_maximum']['is_select']['assoc'] = array();
+$admin_render_settings['proxy_alert_frequency_maximum']['is_select']['is_assoc'] = array();
 
 $loop = 0;
 $loop_max = 72;
 while ( $loop <= $loop_max ) {
      
-$admin_render_settings['proxy_alert_frequency_maximum']['is_select']['assoc'][] = array(
+$admin_render_settings['proxy_alert_frequency_maximum']['is_select']['is_assoc'][] = array(
                                                                        'key' => $loop,
                                                                        'val' => ( $loop == 0 ? 'Unlimited' : 'Every ' . $loop . ' Hours'),
                                                                       );
