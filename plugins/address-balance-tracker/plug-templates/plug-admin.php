@@ -20,24 +20,7 @@ if ( $admin_area_sec_level == 'high' ) {
 <?php
 }
 else {
-?>
 
-	 <?php
-	 if ( $admin_plugin_error != null ) {
-	 ?>
-	 <div class='red red_dotted' style='font-weight: bold;'><?=$admin_plugin_error?></div>
-	 <div style='min-height: 1em;'></div>
-	 <?php
-	 }
-	 elseif ( $admin_plugin_success != null ) {
-	 ?>
-	 <div class='green green_dotted' style='font-weight: bold;'><?=$admin_plugin_success?></div>
-	 <div style='min-height: 1em;'></div>
-	 <?php
-	 }
-	 ?>
-
-<?php
 
 // Render config settings for this plugin...
 

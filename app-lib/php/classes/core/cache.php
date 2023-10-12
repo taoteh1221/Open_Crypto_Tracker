@@ -949,7 +949,7 @@ var $ct_array = array();
         	// REFRESH Telegram user data
         	elseif ( preg_match("/telegram_user_data_/i", $secured_file) ) {
           
-          // If we trigger a mid-flight reset in this function, we need to delete this telegram data at that time
+          // If we trigger a cached config reset later, we need to delete this telegram data with this file path
           $telegram_user_data_path = $ct['base_dir'] . '/cache/secured/' . $secured_file;
         		
         		
