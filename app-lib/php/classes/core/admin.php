@@ -14,6 +14,447 @@ var $ct_var3;
 
 var $ct_array = array();
 
+
+   
+   ////////////////////////////////////////////////////////
+   ////////////////////////////////////////////////////////
+   
+   
+   function textarea_form_fields($conf_id, $passed_key, $passed_val, $render_params, $subarray_key=false, $subarray_val=false) {
+        
+   global $ct;
+        
+        
+        // If a regular text area
+        if ( isset($render_params[$passed_key]['is_textarea']) ) {
+        ?>
+         
+         <p>
+         
+         <b class='blue'><?=$ct['gen']->key_to_name($passed_key)?>:</b> <br /> 
+         
+         <textarea data-autoresize name='<?=$conf_id?>[<?=$passed_key?>]' style='height: auto; width: 100%;' <?=( isset($render_params[$passed_key]['is_password']) ? 'class="textarea_password" onblur="$(this).toggleClass(\'textarea_password\');autoresize_update();" onfocus="$(this).toggleClass(\'textarea_password\');autoresize_update();"' : '' )?>><?=$passed_val?></textarea>
+         
+              <?php
+              if ( isset($render_params[$passed_key]['is_notes']) ) {
+              ?>
+              <span class='bitcoin random_tip' style='line-height: 1.7em;'><?=$render_params[$passed_key]['is_notes']?></span>
+              <?php
+              }
+              ?>
+              
+         </p>
+         
+        <?php
+        }
+        
+        
+   }
+
+   
+   ////////////////////////////////////////////////////////
+   ////////////////////////////////////////////////////////
+   
+   
+   function text_form_fields($conf_id, $passed_key, $passed_val, $render_params, $subarray_key=false, $subarray_val=false) {
+        
+   global $ct;
+              
+              
+         if ( isset($render_params[$passed_key]['is_trim']) ) {
+         $passed_val = trim($passed_val);
+         }
+         
+         
+         // If a subarray text field
+         if ( is_array($render_params[$passed_key]['is_subarray'][$subarray_key]['is_text']) ) {
+
+
+             foreach( $render_params[$passed_key]['is_subarray'][$subarray_key]['is_text'] as $sub_key => $sub_val ) {
+             ?>
+             
+             <p>
+         
+                  <b class='blue'><?=$ct['gen']->key_to_name($sub_key)?>:</b> &nbsp; <input type='text' name='<?=$conf_id?>[<?=$passed_key?>][<?=$subarray_key?>][<?=$sub_key?>]' value='<?=( isset($passed_val[$subarray_key][$sub_key]) ? $passed_val[$subarray_key][$sub_key] : '' )?>' <?=( isset($render_params[$passed_key]['is_subarray'][$subarray_key]['text_field_size']) ? ' size="' . $render_params[$passed_key]['is_subarray'][$subarray_key]['text_field_size'] . '"' : '' )?> />
+
+             </p>
+             
+             <?php
+             }
+             ?>
+	
+	    <div style='min-height: 1em;'></div>
+	   
+         <?php
+         }
+         // If a regular text field
+         else {
+
+
+              if ( isset($render_params[$passed_key]['is_password']) ) {
+              ?>
+                   
+              <div class="password-container">
+                   
+              <?php
+              }
+              ?>
+          
+              <p>
+              
+              <b class='blue'><?=$ct['gen']->key_to_name($passed_key)?>:</b> &nbsp; <input type='<?=( isset($render_params[$passed_key]['is_password']) ? 'password' : 'text' )?>' data-name="<?=md5($conf_id . $passed_key)?>" name='<?=$conf_id?>[<?=$passed_key?>]' value='<?=$passed_val?>' <?=( isset($render_params[$passed_key]['text_field_size']) ? ' size="' . $render_params[$passed_key]['text_field_size'] . '"' : '' )?> <?=( isset($render_params[$passed_key]['is_readonly']) ? 'readonly="readonly" placeholder="' . $render_params[$passed_key]['is_readonly'] . '"' : '' )?> />
+              
+              <?php
+              if ( isset($render_params[$passed_key]['is_notes']) ) {
+              ?>
+          
+              <br /><span class='bitcoin random_tip' style='line-height: 1.7em;'><?=$render_params[$passed_key]['is_notes']?></span>
+                   
+              <?php
+              }
+              ?>
+              
+              </p>
+              
+              <?php   
+              if ( isset($render_params[$passed_key]['is_password']) ) {
+              ?>
+                   
+                  <i class="gg-eye-alt toggle-show-password" data-name="<?=md5($conf_id . $passed_key)?>"></i>
+                      
+              </div>
+                   
+              <?php
+              }
+                   
+                   
+         }
+         
+                     
+   }
+
+   
+   ////////////////////////////////////////////////////////
+   ////////////////////////////////////////////////////////
+   
+   
+   function select_form_fields($conf_id, $passed_key, $passed_val, $render_params, $subarray_key=false, $subarray_val=false) {
+        
+   global $ct;
+        
+        
+        // If a regular select field
+        if ( isset($render_params[$passed_key]['is_select']) ) {
+        ?>
+        
+        <p>
+        
+        <b class='blue'><?=$ct['gen']->key_to_name($passed_key)?>:</b> &nbsp; 
+        
+        <select name='<?=$conf_id?>[<?=$passed_key?>]'>
+        
+             <?php
+             foreach( $render_params[$passed_key]['is_select'] as $option_key => $option_val ) {
+            
+            // If it's flagged as an associative array
+            if ( $option_key === 'is_assoc' ) { // PHP7.4 NEEDS === HERE INSTEAD OF ==
+                 
+                 foreach( $render_params[$passed_key]['is_select']['is_assoc'] as $assoc_val ) {
+                 ?>
+                 
+                 <option value='<?=$assoc_val['key']?>' <?=( $passed_val == $assoc_val['key'] ? 'selected' : '' )?>> <?=$ct['gen']->key_to_name($assoc_val['val'])?> </option> 
+                 
+                 <?php
+                 }
+                 
+            }
+            else {
+            ?>
+            
+            <option value='<?=$option_val?>' <?=( $passed_val == $option_val ? 'selected' : '' )?>> <?=$ct['gen']->key_to_name($option_val)?> </option> 
+            
+            <?php
+            }
+            
+             }
+             ?>
+             
+        </select>
+        
+             <?php
+             if ( isset($render_params[$passed_key]['is_notes']) ) {
+             ?>
+             <br /><span class='bitcoin random_tip' style='line-height: 1.7em;'><?=$render_params[$passed_key]['is_notes']?></span>
+             <?php
+             }
+             ?>
+             
+             </p>
+        
+        <?php
+        }
+        // If subarray select
+        elseif ( is_array($render_params[$passed_key]['is_subarray'][$subarray_key]['is_select']) ) {
+        
+        
+             foreach( $render_params[$passed_key]['is_subarray'][$subarray_key]['is_select'] as $sub_key => $sub_val ) {
+             ?>
+        
+                  <p>
+        
+             
+                  <b class='blue'><?=$ct['gen']->key_to_name($sub_key)?>:</b> &nbsp; <select name='<?=$conf_id?>[<?=$passed_key?>][<?=$subarray_key?>][<?=$sub_key?>]'>
+                      
+                      <?php
+                      foreach( $sub_val as $setting_val ) {
+                      ?>
+                      
+                      <option value='<?=$setting_val?>' <?=( isset($passed_val[$subarray_key][$sub_key]) && $passed_val[$subarray_key][$sub_key] == $setting_val ? 'selected' : '' )?> > <?=$ct['gen']->key_to_name($setting_val)?> </option>
+                      
+                      <?php
+                      }
+                      ?>
+                  
+                  </select>
+                  
+                  </p>
+             
+             <?php
+             }
+             
+        }
+        
+        
+   }
+
+   
+   ////////////////////////////////////////////////////////
+   ////////////////////////////////////////////////////////
+   
+   
+   function radio_form_fields($conf_id, $passed_key, $passed_val, $render_params, $subarray_key=false, $subarray_val=false) {
+        
+   global $ct;
+        
+        
+        // If a regular radio button
+        if ( isset($render_params[$passed_key]['is_radio']) ) {
+        ?>
+         
+         <p>
+         
+         <b class='blue'><?=$ct['gen']->key_to_name($passed_key)?>:</b> &nbsp; 
+         
+              <?php
+              foreach( $render_params[$passed_key]['is_radio'] as $radio_key => $radio_val ) {
+                   
+                   
+                   // If it's flagged as an associative array
+                   if ( $radio_key === 'is_assoc' ) { // PHP7.4 NEEDS === HERE INSTEAD OF ==
+                        
+                        foreach( $render_params[$passed_key]['is_radio']['is_assoc'] as $assoc_val ) {
+                        ?>
+                        
+                        <input type='radio' name='<?=$conf_id?>[<?=$passed_key?>]' value='<?=$assoc_val['key']?>' <?=( $passed_val == $assoc_val['key'] ? 'checked' : '' )?> /> <?=$ct['gen']->key_to_name($assoc_val['val'])?> &nbsp;
+                        
+                        <?php
+                        }
+                        
+                   }
+                   // Everything else
+                   else {
+                   ?>
+                   
+                   <input type='radio' name='<?=$conf_id?>[<?=$passed_key?>]' value='<?=$radio_val?>' <?=( $passed_val == $radio_val ? 'checked' : '' )?> /> <?=$ct['gen']->key_to_name($radio_val)?> &nbsp;
+                   
+                   <?php
+                   }
+              
+              
+              }
+              
+              
+              if ( isset($render_params[$passed_key]['is_notes']) ) {
+              ?>
+              <br /><span class='bitcoin random_tip' style='line-height: 1.7em;'><?=$render_params[$passed_key]['is_notes']?></span>
+              <?php
+              }
+              ?>
+              
+              </p>
+         
+        <?php
+        }
+        // If subarray radio button
+        elseif ( is_array($render_params[$passed_key]['is_subarray'][$subarray_key]['is_radio']) ) {
+        ?>
+        
+        <p>
+        
+        <b class='blue'><?=$ct['gen']->key_to_name($subarray_key)?>:</b> &nbsp; 
+             
+             <?php
+             foreach( $render_params[$passed_key]['is_subarray'][$subarray_key]['is_radio'] as $sub_key => $sub_val ) {
+             ?>
+                 
+                 <input type='radio' name='<?=$conf_id?>[<?=$passed_key?>][<?=$subarray_key?>]' value='<?=$sub_val?>' <?=( isset($passed_val[$subarray_key]) && $passed_val[$subarray_key] == $sub_val ? 'checked' : '' )?> /> <?=$ct['gen']->key_to_name($sub_val)?> &nbsp;
+                 
+             <?php
+             }
+             ?>
+                 
+        </p>
+             
+        <?php 
+        }
+   
+        
+   }
+
+   
+   ////////////////////////////////////////////////////////
+   ////////////////////////////////////////////////////////
+   
+   
+   function settings_form_fields($conf_id, $interface_id, $render_params=false) {
+        
+   global $ct, $update_config_success, $update_config_error;
+   
+   
+      if ( !is_array($render_params) ) {
+      return false;
+      }
+      
+      
+      if ( preg_match('/plug_conf\|/', $conf_id) ) {
+           
+      $is_plugin_config = true;
+           
+      $parse_plugin_data = explode('|', $conf_id);
+      
+      $field_array_base = $parse_plugin_data[1];
+      
+      $config_array_base = $ct['conf']['plug_conf'][ $parse_plugin_data[1] ];
+      
+      }
+      else {
+      $field_array_base = $conf_id;
+      $config_array_base = $ct['conf'][$conf_id];
+      }
+
+	 
+	 // Set which OTHER admin pages should be refreshed AFTER submission of this section's setting changes
+	 if ( isset($render_params['is_refresh_admin']) ) {
+	 $refresh_admin_sections = $render_params['is_refresh_admin'];
+	 }
+	 else {
+	 $refresh_admin_sections = 'none';
+	 }
+	 
+	 ?>
+	
+	
+	<div style='min-height: 1em;'></div>
+
+	 
+	 <?php
+	 if ( $update_config_success != null ) {
+	 ?>
+	 <div class='green green_dotted' style='font-weight: bold;'><?=$update_config_success?></div>
+	 <div style='min-height: 1em;'></div>
+	 <?php
+	 }
+	 elseif ( $update_config_error != null ) {
+	 ?>
+	 <div class='red red_dotted' style='font-weight: bold;'><?=$update_config_error?></div>
+	 <div style='min-height: 1em;'></div>
+	 <?php
+	 }
+	 ?>
+	 
+	 
+   <div class='pretty_text_fields'>
+   
+	
+	<form name='update_config' id='update_config' action='admin.php?iframe=<?=$ct['gen']->admin_hashed_nonce('iframe_' . $interface_id)?>&<?=( $is_plugin_config ? 'plugin' : 'section' )?>=<?=$interface_id?>&refresh=<?=$refresh_admin_sections?>' method='post'>
+     
+     <?php
+     
+     //var_dump($config_array_base);
+     
+     foreach( $config_array_base as $key => $val ) {
+         
+         // Radio buttons
+         if ( is_array($render_params[$key]['is_radio']) ) {
+         $this->radio_form_fields($field_array_base, $key, $val, $render_params);
+         }
+         // Select dropdowns
+         elseif ( is_array($render_params[$key]['is_select']) ) {
+         $this->select_form_fields($field_array_base, $key, $val, $render_params);
+         }
+         // Textareas
+         elseif ( isset($render_params[$key]['is_textarea']) ) {
+         $this->textarea_form_fields($field_array_base, $key, $val, $render_params);
+         }
+         // Subarray of ANY form field types (can be mixed)
+         elseif ( is_array($render_params[$key]['is_subarray']) ) {
+         ?>
+         
+         <b class='bitcoin'><?=$ct['gen']->key_to_name($key)?></b> &nbsp; 
+         
+              <?php
+              
+              //var_dump($render_params[$key]['is_subarray']);
+              
+              foreach( $render_params[$key]['is_subarray'] as $subarray_key => $subarray_val ) {
+                   
+                   // Radio buttons in subarray
+                   if ( is_array($render_params[$key]['is_subarray'][$subarray_key]['is_radio']) ) {
+                   $this->radio_form_fields($field_array_base, $key, $val, $render_params, $subarray_key, $subarray_val);
+                   }
+                   
+                   // Select dropdowns in subarray
+                   if ( is_array($render_params[$key]['is_subarray'][$subarray_key]['is_select']) ) {
+                   $this->select_form_fields($field_array_base, $key, $val, $render_params, $subarray_key, $subarray_val);
+                   }
+                   
+                   // Regular text fields in subarray
+                   if ( is_array($render_params[$key]['is_subarray'][$subarray_key]['is_text']) ) {
+                   $this->text_form_fields($field_array_base, $key, $val, $render_params, $subarray_key, $subarray_val);
+                   }
+                   
+              }
+
+
+         }
+         // Everything else should just render as a text field
+         else {
+         $this->text_form_fields($field_array_base, $key, $val, $render_params);
+         }
+         
+     }
+     ?>
+     
+	<input type='hidden' name='conf_id' id='conf_id' value='<?=$conf_id?>' />
+     
+	<input type='hidden' name='interface_id' id='interface_id' value='<?=$interface_id?>' />
+	
+	<input type='hidden' name='admin_hashed_nonce' value='<?=$ct['gen']->admin_hashed_nonce($interface_id)?>' />
+	
+	<?=$ct['gen']->input_2fa('strict')?>
+			
+	<p><input type='submit' value='Save <?=$ct['gen']->key_to_name($interface_id)?> Settings' /></p>
+	
+	</form>
+     
+     
+   </div>
+   
+   <?php
+   
+   
+   }
+
    
    ////////////////////////////////////////////////////////
    ////////////////////////////////////////////////////////
@@ -23,11 +464,25 @@ var $ct_array = array();
         
    global $ct, $app_upgrade_check, $reset_config, $update_config, $check_2fa_error, $update_config_error, $update_config_success;
    
+      
+        if ( isset($_POST['conf_id']) && preg_match('/plug_conf\|/', $_POST['conf_id']) ) {
+           
+        $is_plugin_config = true;
+           
+        $parse_plugin_data = explode('|', $conf_id);
+      
+        $field_array_base = $_POST[ $parse_plugin_data[1] ];
+      
+        }
+        else {
+        $field_array_base = $_POST[ $_POST['conf_id'] ];
+        }
+      
         
         // Updating the admin config
         // (MUST run after primary-init, BUT BEFORE load-config-by-security-level.php)
         // (STRICT 2FA MODE ONLY)
-        if ( isset($_POST['conf_id']) && isset($_POST['interface_id']) && is_array($_POST[ $_POST['conf_id'] ]) && $ct['gen']->pass_sec_check($_POST['admin_hashed_nonce'], $_POST['interface_id']) && $ct['gen']->valid_2fa('strict') ) {
+        if ( isset($_POST['conf_id']) && isset($_POST['interface_id']) && is_array($field_array_base) && $ct['gen']->pass_sec_check($_POST['admin_hashed_nonce'], $_POST['interface_id']) && $ct['gen']->valid_2fa('strict') ) {
           
               if ( $app_upgrade_check ) {
               $update_config_error = 'The CACHED config is currently in the process of CHECKING FOR UPGRADES. Please wait a minute, and then try updating again.';
@@ -145,8 +600,13 @@ var $ct_array = array();
                     
                    // Update the corrisponding admin config section
                    if ( $update_config_valid ) {
-                  
-                   $ct['conf'][ $_POST['conf_id'] ] = $_POST[ $_POST['conf_id'] ];
+                       
+                       if ( $is_plugin_config ) {
+                       $ct['conf']['plug_conf'][ $parse_plugin_data[1] ] = $field_array_base;
+                       }
+                       else {
+                       $ct['conf'][ $_POST['conf_id'] ] = $field_array_base;
+                       }
                     
                    $update_config = true; // Triggers saving updated config to disk
                    
@@ -169,275 +629,6 @@ var $ct_array = array();
               }
           
         }
-   
-   
-   }
-
-   
-   ////////////////////////////////////////////////////////
-   ////////////////////////////////////////////////////////
-   
-   
-   function settings_form_fields($conf_id, $interface_id, $render_params=false) {
-        
-   global $ct, $update_config_success, $update_config_error;
-   
-	 
-	 // Set which OTHER admin pages should be refreshed AFTER submission of this section's setting changes
-	 if ( is_array($render_params) && isset($render_params['is_refresh_admin']) ) {
-	 $refresh_admin_sections = $render_params['is_refresh_admin'];
-	 }
-	 else {
-	 $refresh_admin_sections = 'none';
-	 }
-	 ?>
-	
-	
-	<div style='min-height: 1em;'></div>
-
-	 
-	 <?php
-	 if ( $update_config_success != null ) {
-	 ?>
-	 <div class='green green_dotted' style='font-weight: bold;'><?=$update_config_success?></div>
-	 <div style='min-height: 1em;'></div>
-	 <?php
-	 }
-	 elseif ( $update_config_error != null ) {
-	 ?>
-	 <div class='red red_dotted' style='font-weight: bold;'><?=$update_config_error?></div>
-	 <div style='min-height: 1em;'></div>
-	 <?php
-	 }
-	 ?>
-	 
-	 
-   <div class='pretty_text_fields'>
-   
-	
-	<form name='update_config' id='update_config' action='admin.php?iframe=<?=$ct['gen']->admin_hashed_nonce('iframe_' . $interface_id)?>&section=<?=$interface_id?>&refresh=<?=$refresh_admin_sections?>' method='post'>
-     
-     <?php
-     foreach( $ct['conf'][$conf_id] as $key => $val ) {
-   
-         if ( is_array($render_params) && is_array($render_params[$key]['is_radio']) ) {
-         ?>
-         
-         <p>
-         
-         <b class='<?=( isset($render_params[$key]['is_radio']['is_subarray']) ? 'orange' : 'blue' )?>'><?=$ct['gen']->key_to_name($key)?><?=( isset($render_params[$key]['is_radio']['is_subarray']) ? '' : ':' )?></b> &nbsp; 
-         
-              <?php
-              foreach( $render_params[$key]['is_radio'] as $radio_key => $radio_val ) {
-                             
-                   
-                   // If THE CONFIG ITSELF flagged as a subarray
-                   // (WE DO THE LOOP ON THE SUBARRAY IN THE RENDER PARAMETERS PASSED INTO THIS FUNCTION)
-                   if ( $radio_key === 'is_subarray' ) { // PHP7.4 NEEDS === HERE INSTEAD OF ==
-                   
-                   //var_dump($render_params[$key]['is_radio']['is_subarray']);
-                   ?>
-                   
-                   <br /><br />
-                        
-                        <?php
-                        foreach( $render_params[$key]['is_radio']['is_subarray'] as $sub_key => $sub_val ) {
-                        ?>
-                        
-                        <b class='blue'><?=$ct['gen']->key_to_name($sub_key)?>:</b> &nbsp; 
-                            
-                            <?php
-                            foreach( $sub_val as $setting_val ) {
-                            ?>
-                            
-                            <input type='radio' name='<?=$conf_id?>[<?=$key?>][<?=$sub_key?>]' value='<?=$setting_val?>' <?=( isset($val[$sub_key]) && $val[$sub_key] == $setting_val ? 'checked' : '' )?> /> <?=$ct['gen']->key_to_name($setting_val)?> &nbsp;
-                            
-                            <?php
-                            }
-                            ?>
-                            
-                        <br /><br />
-                        
-                        <?php
-                        }
-                        
-                   }
-                   // If it's flagged as an associative array
-                   elseif ( $radio_key === 'is_assoc' ) { // PHP7.4 NEEDS === HERE INSTEAD OF ==
-                        
-                        foreach( $render_params[$key]['is_radio']['is_assoc'] as $assoc_val ) {
-                        ?>
-                        
-                        <input type='radio' name='<?=$conf_id?>[<?=$key?>]' value='<?=$assoc_val['key']?>' <?=( $val == $assoc_val['key'] ? 'checked' : '' )?> /> <?=$ct['gen']->key_to_name($assoc_val['val'])?> &nbsp;
-                        
-                        <?php
-                        }
-                        
-                   }
-                   // Everything else
-                   else {
-                   ?>
-                   
-                   <input type='radio' name='<?=$conf_id?>[<?=$key?>]' value='<?=$radio_val?>' <?=( $val == $radio_val ? 'checked' : '' )?> /> <?=$ct['gen']->key_to_name($radio_val)?> &nbsp;
-                   
-                   <?php
-                   }
-              
-              }
-              
-              
-              if ( isset($render_params[$key]['is_notes']) ) {
-              ?>
-              <br /><span class='bitcoin random_tip' style='line-height: 1.7em;'><?=$render_params[$key]['is_notes']?></span>
-              <?php
-              }
-              ?>
-              
-              </p>
-         
-         <?php
-         }
-         elseif ( is_array($render_params) && is_array($render_params[$key]['is_select']) ) {
-         ?>
-         
-         <p>
-         
-         <b class='blue'><?=$ct['gen']->key_to_name($key)?>:</b> &nbsp; 
-         
-         <select name='<?=$conf_id?>[<?=$key?>]'>
-         
-              <?php
-              foreach( $render_params[$key]['is_select'] as $option_key => $option_val ) {
-                   
-                   // If it's flagged as an associative array
-                   if ( $option_key === 'is_assoc' ) { // PHP7.4 NEEDS === HERE INSTEAD OF ==
-                        
-                        foreach( $render_params[$key]['is_select']['is_assoc'] as $assoc_val ) {
-                        ?>
-                        
-                        <option value='<?=$assoc_val['key']?>' <?=( $val == $assoc_val['key'] ? 'selected' : '' )?>> <?=$ct['gen']->key_to_name($assoc_val['val'])?> </option> 
-                        
-                        <?php
-                        }
-                        
-                   }
-                   else {
-                   ?>
-                   
-                   <option value='<?=$option_val?>' <?=( $val == $option_val ? 'selected' : '' )?>> <?=$ct['gen']->key_to_name($option_val)?> </option> 
-                   
-                   <?php
-                   }
-                   
-              }
-              ?>
-              
-         </select>
-         
-              <?php
-              if ( isset($render_params[$key]['is_notes']) ) {
-              ?>
-              <br /><span class='bitcoin random_tip' style='line-height: 1.7em;'><?=$render_params[$key]['is_notes']?></span>
-              <?php
-              }
-              ?>
-              
-              </p>
-         
-         <?php
-         }
-         elseif ( is_array($render_params) && isset($render_params[$key]['is_textarea']) ) {
-         ?>
-         
-         <p>
-         
-         <b class='blue'><?=$ct['gen']->key_to_name($key)?>:</b> <br /> 
-         
-         <textarea data-autoresize name='<?=$conf_id?>[<?=$key?>]' style='height: auto; width: 100%;' <?=( isset($render_params[$key]['is_password']) ? 'class="textarea_password" onblur="$(this).toggleClass(\'textarea_password\');autoresize_update();" onfocus="$(this).toggleClass(\'textarea_password\');autoresize_update();"' : '' )?>><?=$val?></textarea>
-         
-              <?php
-              if ( isset($render_params[$key]['is_notes']) ) {
-              ?>
-              <span class='bitcoin random_tip' style='line-height: 1.7em;'><?=$render_params[$key]['is_notes']?></span>
-              <?php
-              }
-              ?>
-              
-              </p>
-         
-         <?php
-         }
-         else {
-              
-              if ( isset($render_params[$key]['is_trim']) ) {
-              $val = trim($val);
-              }
-              
-              if ( isset($render_params[$key]['is_readonly']) ) {
-              $val = '';
-              }
-              
-         ?>
-              
-              <?php
-              if ( isset($render_params[$key]['is_password']) ) {
-              ?>
-                   
-              <div class="password-container">
-                   
-              <?php
-              }
-              ?>
-     
-         <p>
-              
-              <b class='blue'><?=$ct['gen']->key_to_name($key)?>:</b> &nbsp; <input type='<?=( isset($render_params[$key]['is_password']) ? 'password' : 'text' )?>' data-name="<?=md5($conf_id . $key)?>" name='<?=$conf_id?>[<?=$key?>]' value='<?=$val?>' <?=( isset($render_params[$key]['text_field_size']) ? ' size="' . $render_params[$key]['text_field_size'] . '"' : '' )?> <?=( isset($render_params[$key]['is_readonly']) ? 'readonly="readonly" placeholder="' . $render_params[$key]['is_readonly'] . '"' : '' )?> />
-              
-              <?php
-              if ( isset($render_params[$key]['is_notes']) ) {
-              ?>
-     
-              <br /><span class='bitcoin random_tip' style='line-height: 1.7em;'><?=$render_params[$key]['is_notes']?></span>
-                   
-              <?php
-              }
-              ?>
-              
-              </p>
-         
-         <?php   
-              if ( isset($render_params[$key]['is_password']) ) {
-              ?>
-                   
-                  <i class="gg-eye-alt toggle-show-password" data-name="<?=md5($conf_id . $key)?>"></i>
-                      
-              </div>
-                   
-              <?php
-              }
-                   
-                   
-         }
-         
-     }
-     ?>
-     
-	<input type='hidden' name='conf_id' id='conf_id' value='<?=$conf_id?>' />
-     
-	<input type='hidden' name='interface_id' id='interface_id' value='<?=$interface_id?>' />
-	
-	<input type='hidden' name='admin_hashed_nonce' value='<?=$ct['gen']->admin_hashed_nonce($interface_id)?>' />
-	
-	<?=$ct['gen']->input_2fa('strict')?>
-			
-	<p><input type='submit' value='Save <?=$ct['gen']->key_to_name($interface_id)?> Settings' /></p>
-	
-	</form>
-     
-     
-   </div>
-   
-   <?php
    
    
    }

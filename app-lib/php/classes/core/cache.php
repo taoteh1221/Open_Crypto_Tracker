@@ -916,7 +916,7 @@ var $ct_array = array();
    
    function load_cached_config() {
    
-   global $ct, $admin_area_sec_level, $restore_conf_path, $telegram_user_data, $update_config, $reset_config;
+   global $ct, $admin_area_sec_level, $restore_conf_path, $telegram_user_data, $update_config, $reset_config, $telegram_user_data_path;
    
    // Secured cache files
    $files = $ct['gen']->sort_files($ct['base_dir'] . '/cache/secured', 'dat', 'desc');
@@ -941,13 +941,17 @@ var $ct_array = array();
         		}
         		else {
         		$newest_cached_restore_conf = 1;
-	            $restore_conf_path = $ct['base_dir'] . '/cache/secured/' . $secured_file;
+	          $restore_conf_path = $ct['base_dir'] . '/cache/secured/' . $secured_file;
         		}
 		
 	
         	}
         	// REFRESH Telegram user data
         	elseif ( preg_match("/telegram_user_data_/i", $secured_file) ) {
+          
+          // If we trigger a mid-flight reset in this function, we need to delete this telegram data at that time
+          $telegram_user_data_path = $ct['base_dir'] . '/cache/secured/' . $secured_file;
+        		
         		
         		// If we already loaded the newest modified telegram SECURED CACHE config file,
         		// or we are updating / resetting the cached config
@@ -1031,7 +1035,14 @@ var $ct_array = array();
         // We need to reset the cached config here, IF admin security level is set to HIGH
         // (as load_cached_config() LOADS AT END OF load-config-by-security-level.php IN HIGH SECURITY MODE)
         if ( $admin_area_sec_level == 'high' && $reset_config ) {
+             
+             // Since we are resetting the cached config, telegram chatroom data should be refreshed too
+             if ( $telegram_user_data_path != null ) {
+             unlink($telegram_user_data_path); 
+             }
+        
         $ct['conf'] = $this->update_cached_config(false, false, true); // Reset flag
+        
         }
         
         
@@ -1231,7 +1242,9 @@ var $ct_array = array();
     	}
     	
    
-   // Return $ct['conf'], EVEN THOUGH IT'S A GLOBAL, AS WE ARE SOMETIMES UPDATING IT MORE THAN ONCE IN load_cached_config()
+   sleep(1); // Chill for a second, since we just refreshed the conf on disk
+
+   // Return $ct['conf']
    return $ct['conf'];
    
    }

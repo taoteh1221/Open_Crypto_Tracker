@@ -171,6 +171,12 @@ https://zksync.io/api/v0.1.html (KEEP AN EYE OUT FOR V2 DOCS AS WELL)
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
+Add the same logic we use for the Debt Interest Tracker user interface, for adding / removing addresses in the Address Balance Tracker admin interface.
+
+
+RE-TEST ALL admin config interface settings, as we completely overhauled it to support subarrays and plugins. ALSO DO A CODE REVIEW OF settings_form_fields() AND IT'S CHILD FUNCTIONS.
+
+
 Test refactored logging system WITH DEBUGGING OFF.
 
 
@@ -205,6 +211,10 @@ $check_2fa_error
 $htaccess_username
 
 $htaccess_password
+
+$update_config_success
+
+$update_config_error
 
 
 Update screenshots, since we overhauled everything in the interface.

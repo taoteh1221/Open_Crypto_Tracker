@@ -40,7 +40,7 @@
      
          foreach ( $ct['conf']['plugins']['plugin_status'] as $key => $val ) {
          
-         $admin_render_settings['plugin_status']['is_radio']['is_subarray'][$key] = array(
+         $admin_render_settings['plugin_status']['is_subarray'][$key]['is_radio'] = array(
                                                                                           'off',
                                                                                           'on',
                                                                                          );

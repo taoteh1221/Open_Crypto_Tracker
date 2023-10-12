@@ -2726,11 +2726,11 @@ var $ct_array = array();
         // domain check
         $domain_check_test_url = $set_url . $domain_check_filename;
         
-        sleep(4); // Sleep 4 seconds, to complete the FILE WRITE before the check afterwards
+        sleep(5); // Sleep 5 seconds, to complete the FILE WRITE before the check afterwards
         
         $domain_check_test = @$ct['cache']->ext_data('url', $domain_check_test_url, 0);
        
-        sleep(4); // Sleep 4 seconds, to complete the CHECK before deleting afterwards
+        sleep(5); // Sleep 5 seconds, to complete the CHECK before deleting afterwards
         
         // Delete domain check test file
         unlink($ct['base_dir'] . '/' . $domain_check_filename);

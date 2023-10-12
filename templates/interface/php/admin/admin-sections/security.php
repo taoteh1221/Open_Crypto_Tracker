@@ -239,8 +239,6 @@ $admin_render_settings['login_alert']['is_notes'] = 'See "External APIs" section
 ////////////////////////////////////////////////////////////////////////////////////////////////
 
 
-$admin_render_settings['admin_cookie_expires']['is_select']['is_assoc'] = array();
-
 $loop = 1;
 $loop_max = 6;
 while ( $loop <= $loop_max ) {
@@ -258,9 +256,9 @@ $loop = $loop + 1;
 
 
 $admin_render_settings['smtp_strict_ssl']['is_radio'] = array(
-                                                          'off',
-                                                          'on',
-                                                         );
+                                                               'off',
+                                                               'on',
+                                                              );
 
 $admin_render_settings['smtp_strict_ssl']['is_notes'] = 'Set to "Off", if the SMTP server has an invalid certificate.<br />(for "SMTP Server" setting, in the "Communications" section)';
 
@@ -269,9 +267,9 @@ $admin_render_settings['smtp_strict_ssl']['is_notes'] = 'Set to "Off", if the SM
 
 
 $admin_render_settings['remote_api_strict_ssl']['is_radio'] = array(
-                                                          'off',
-                                                          'on',
-                                                         );
+                                                                    'off',
+                                                                    'on',
+                                                                   );
 
 $admin_render_settings['remote_api_strict_ssl']['is_notes'] = 'Set to "Off", if any exchange\'s API servers have invalid certificates.';
 
@@ -280,17 +278,15 @@ $admin_render_settings['remote_api_strict_ssl']['is_notes'] = 'Set to "Off", if 
 
 
 $admin_render_settings['access_control_origin']['is_radio'] = array(
-                                                          'any',
-                                                          'strict',
-                                                         );
+                                                                    'any',
+                                                                    'strict',
+                                                                   );
 
 $admin_render_settings['access_control_origin']['is_notes'] = '"Strict" #CAN BREAK THINGS LOADING# ON SOME SETUPS!';
 
 
 ////////////////////////////////////////////////////////////////////////////////////////////////
 
-
-$admin_render_settings['captcha_text_contrast']['is_select']['is_assoc'] = array();
 
 $loop = -35;
 $loop_max = 35;
@@ -310,8 +306,6 @@ unset($loop_key);
                                                          
 ////////////////////////////////////////////////////////////////////////////////////////////////
 
-
-$admin_render_settings['captcha_text_angle']['is_select']['is_assoc'] = array();
 
 $loop = 0;
 $loop_max = 35;

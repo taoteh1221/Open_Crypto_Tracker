@@ -116,6 +116,8 @@ $check_2fa_id = null;
 
 $check_2fa_error = null;
 
+$telegram_user_data_path = null;
+
 
 // Initial zero-set / false strings
 
