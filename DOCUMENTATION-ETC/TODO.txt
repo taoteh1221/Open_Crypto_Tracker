@@ -186,12 +186,6 @@ Triple-check adding / removing a plugin subdirectory, in regular AND high securi
 Test out the new iframe-reloading HALT mechanism (if a halt was called on updating the cached admin config), AND iframe reloading in general.
 
 
-Update screenshots, since we overhauled everything in the interface.
-
-
-Add remote IP address data to ALL relevant security error logging everywhere in the app.
-
-
 Go through all init / config / etc files, and add any primary vars to "$ct" that haven't been added yet, for consistent / clean code. EVERYTHING IN empty-vars.php definately should be converted. ALSO THESE VARS TOO:
 
 $admin_area_sec_level
@@ -211,6 +205,12 @@ $check_2fa_error
 $htaccess_username
 
 $htaccess_password
+
+
+Update screenshots, since we overhauled everything in the interface.
+
+
+Add remote IP address data to ALL relevant security error logging everywhere in the app.
 
 
 Change semantic naming of 'coin_amnts' form id, as it now also handles charts / news feeds / etc.
