@@ -159,8 +159,20 @@ $admin_render_settings['bitcoin_primary_currency_pair']['is_notes'] = 'MUST BE A
 ////////////////////////////////////////////////////////////////////////////////////////////////
 
 
-foreach ( $ct['conf']['assets']['BTC']['pair'][ $ct['conf']['gen']['bitcoin_primary_currency_pair'] ] as $exchange_key => $unused ) {
-$admin_render_settings['bitcoin_primary_exchange']['is_select'][] = $exchange_key;
+foreach ( $ct['conf']['assets']['BTC']['pair'] as $pair_key => $unused ) {
+			
+	foreach ( $ct['conf']['assets']['BTC']['pair'][$pair_key] as $exchange_key => $unused ) {
+					
+		// Detects better with side space included
+		if ( stristr($supported_btc_exchange_scan, ' ' . $exchange_key . ' ') == false && stristr($exchange_key, 'bitmex_') == false ) { // Futures markets not allowed
+          $admin_render_settings['bitcoin_primary_exchange']['is_select'][] = $exchange_key;
+		$supported_btc_exchange_scan .= ' ' . $exchange_key . ' /';
+		}
+				
+	}
+	
+sort($admin_render_settings['bitcoin_primary_exchange']['is_select']);
+				
 }
 
 
@@ -246,8 +258,8 @@ $loop = $loop + 1;
 // (SEE $refresh_admin / $_GET['refresh'] in footer.php, for ALL possible values)
 $admin_render_settings['is_refresh_admin'] = 'all';
 
-// $ct['admin']->settings_form_fields($conf_id, $interface_id)
-$ct['admin']->settings_form_fields('gen', 'general', $admin_render_settings);
+// $ct['admin']->admin_config_interface($conf_id, $interface_id)
+$ct['admin']->admin_config_interface('gen', 'general', $admin_render_settings);
 
 
 ////////////////////////////////////////////////////////////////////////////////////////////////

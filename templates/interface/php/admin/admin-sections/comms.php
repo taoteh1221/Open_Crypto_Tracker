@@ -305,8 +305,8 @@ $admin_render_settings['to_mobile_text']['is_notes'] = 'Examples: 12223334444||v
 // (SEE $refresh_admin / $_GET['refresh'] in footer.php, for ALL possible values)
 $admin_render_settings['is_refresh_admin'] = 'all';
 
-// $ct['admin']->settings_form_fields($conf_id, $interface_id)
-$ct['admin']->settings_form_fields('comms', 'comms', $admin_render_settings);
+// $ct['admin']->admin_config_interface($conf_id, $interface_id)
+$ct['admin']->admin_config_interface('comms', 'comms', $admin_render_settings);
 
 
 ////////////////////////////////////////////////////////////////////////////////////////////////

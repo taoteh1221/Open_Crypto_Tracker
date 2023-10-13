@@ -327,8 +327,8 @@ $loop = $loop + 1;
 // (SEE $refresh_admin / $_GET['refresh'] in footer.php, for ALL possible values)
 $admin_render_settings['is_refresh_admin'] = 'all';
 
-// $ct['admin']->settings_form_fields($conf_id, $interface_id)
-$ct['admin']->settings_form_fields('sec', 'security', $admin_render_settings);
+// $ct['admin']->admin_config_interface($conf_id, $interface_id)
+$ct['admin']->admin_config_interface('sec', 'security', $admin_render_settings);
 
 
 ////////////////////////////////////////////////////////////////////////////////////////////////

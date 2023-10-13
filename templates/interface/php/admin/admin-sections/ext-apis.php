@@ -192,8 +192,8 @@ $admin_render_settings['alphavantage_per_minute_limit']['is_notes'] = 'LEAVE SET
 // (SEE $refresh_admin / $_GET['refresh'] in footer.php, for ALL possible values)
 $admin_render_settings['is_refresh_admin'] = 'all';
 
-// $ct['admin']->settings_form_fields($conf_id, $interface_id)
-$ct['admin']->settings_form_fields('ext_apis', 'ext_apis', $admin_render_settings);
+// $ct['admin']->admin_config_interface($conf_id, $interface_id)
+$ct['admin']->admin_config_interface('ext_apis', 'ext_apis', $admin_render_settings);
 
 
 ////////////////////////////////////////////////////////////////////////////////////////////////

@@ -174,7 +174,10 @@ https://zksync.io/api/v0.1.html (KEEP AN EYE OUT FOR V2 DOCS AS WELL)
 Add the same logic we use for the Debt Interest Tracker user interface, for adding / removing addresses in the Address Balance Tracker admin interface.
 
 
-RE-TEST ALL admin config interface settings, as we completely overhauled it to support subarrays and plugins. ALSO DO A CODE REVIEW OF settings_form_fields() AND IT'S CHILD FUNCTIONS.
+CACHE an md5 hash of all telegram settings combined, and only delete the chatroom data / refresh it if this md5 hash changes (like we do for light chart config). Otherwise you get a bad UX from endlessly getting alerts to re-enter "/start" in the chatroom EVERYTIME YOU UPDATE *ANY* ADMIN SETTINGS.
+
+
+RE-TEST ALL admin config interface settings, as we completely overhauled it to support subarrays and plugins. ALSO DO A CODE REVIEW OF admin_config_interface() AND IT'S CHILD FUNCTIONS.
 
 
 Test refactored logging system WITH DEBUGGING OFF.
@@ -337,9 +340,6 @@ Look into adding temperature / CPU monitoring support for systems other than lin
 
 
 Send out an OPTIONAL comms alert when we change the admin security mode, OR when we enable / disable 2FA (like we do for logins).
-
-
-Add feature to address balance tracker plugin to set minimum time to wait before re-sending the same address alert (in hours). Default it to a high number like 8 hours, so any poorly running / configured API servers don't send endless alerts as they send bs 'zero' results.
 
 
 Add additional ability to do telegram / discord webhooks in the new "crypto-info-bot" plugin, to query asset prices at different exchanges through telegram chat with the chat bot. Example: "/price btc-usd-coinbase"

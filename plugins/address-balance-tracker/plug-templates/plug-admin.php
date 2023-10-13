@@ -46,12 +46,12 @@ $admin_render_settings['ui_name']['is_readonly'] = 'Developer setting only';
 ////////////////////////////////////////////////////////////////////////////////////////////////
 
 $loop = 0;
-$loop_max = 600;
+$loop_max = 72;
 while ( $loop <= $loop_max ) {
      
 $admin_render_settings['alerts_frequency_maximum']['is_select']['is_assoc'][] = array(
                                                                                       'key' => $loop,
-                                                                                      'val' => ( $loop == 0 ? 'Unlimited' : 'Every ' . $loop . ' Minutes'),
+                                                                                      'val' => ( $loop == 0 ? 'Unlimited' : 'Every ' . $loop . ' Hours'),
                                                                                      );
                                                                       
 $loop = $loop + 1;
@@ -68,8 +68,26 @@ $admin_render_settings['privacy_mode']['is_radio'] = array(
 
 
 ////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+$sol_subtokens = array();
      
-     
+foreach ( $ct['conf']['assets'] as $asset_key => $unused ) {
+
+   if ( 
+   array_key_exists('sol', $ct['conf']['assets'][$asset_key]['pair']) && isset($ct['conf']['assets'][$asset_key]['pair']['btc']) 
+   || array_key_exists('sol', $ct['conf']['assets'][$asset_key]['pair']) && isset($ct['conf']['assets']['BTC']['pair'][ strtolower($asset_key) ]) 
+   ) {
+        
+        if ( $asset_key != 'MISCASSETS' && $asset_key != 'BTCNFTS' && $asset_key != 'ETHNFTS' && $asset_key != 'SOLNFTS' && $asset_key != 'ALTNFTS' ) {
+        $sol_subtokens[] = strtolower($asset_key);
+        }
+        
+   }
+
+}
+
+
 foreach ( $ct['conf']['plug_conf'][$this_plug]['tracking'] as $key => $val ) {
          
      foreach ( $val as $tracked_key => $tracked_val ) {
@@ -80,9 +98,12 @@ foreach ( $ct['conf']['plug_conf'][$this_plug]['tracking'] as $key => $val ) {
                                                                                                       'btc',
                                                                                                       'eth',
                                                                                                       'sol',
-                                                                                                      'sol||usdc',
                                                                                                      );
-                                                                                                     
+          
+               foreach ( $sol_subtokens as $val ) {
+               $admin_render_settings['tracking']['is_subarray'][$key]['is_select'][$tracked_key][] = 'sol||' . $val;
+               }
+               
           }
           else {                                               
           $admin_render_settings['tracking']['is_subarray'][$key]['is_text'][$tracked_key] = true;
@@ -101,8 +122,8 @@ foreach ( $ct['conf']['plug_conf'][$this_plug]['tracking'] as $key => $val ) {
 // (SEE $refresh_admin / $_GET['refresh'] in footer.php, for ALL possible values)
 $admin_render_settings['is_refresh_admin'] = 'none';
 
-// $ct['admin']->settings_form_fields($conf_id, $interface_id)
-$ct['admin']->settings_form_fields('plug_conf|' . $this_plug, $this_plug, $admin_render_settings);
+// $ct['admin']->admin_config_interface($conf_id, $interface_id)
+$ct['admin']->admin_config_interface('plug_conf|' . $this_plug, $this_plug, $admin_render_settings);
 
 
 ////////////////////////////////////////////////////////////////////////////////////////////////

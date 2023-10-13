@@ -193,7 +193,7 @@ var $ct_array = array();
         
         <?php
         }
-        // If subarray select
+        // If subarray select field
         elseif ( is_array($render_params[$passed_key]['is_subarray'][$subarray_key]['is_select']) ) {
         
         
@@ -316,7 +316,7 @@ var $ct_array = array();
    ////////////////////////////////////////////////////////
    
    
-   function settings_form_fields($conf_id, $interface_id, $render_params=false) {
+   function admin_config_interface($conf_id, $interface_id, $render_params=false) {
         
    global $ct, $update_config_success, $update_config_error;
    
@@ -404,8 +404,7 @@ var $ct_array = array();
          
               <?php
               
-              //var_dump($render_params[$key]['is_subarray']);
-              
+              // Subarray data can be mixed types of form fields, SO ALL CHECKS ARE 'IF' STATEMENTS
               foreach( $render_params[$key]['is_subarray'] as $subarray_key => $subarray_val ) {
                    
                    // Radio buttons in subarray
@@ -469,13 +468,16 @@ var $ct_array = array();
            
         $is_plugin_config = true;
            
-        $parse_plugin_data = explode('|', $conf_id);
+        $parse_plugin_data = explode('|', $_POST['conf_id']);
       
         $field_array_base = $_POST[ $parse_plugin_data[1] ];
-      
+        
+        $update_desc = 'plugin';
+        
         }
         else {
         $field_array_base = $_POST[ $_POST['conf_id'] ];
+        $update_desc = 'admin';
         }
       
         
@@ -483,6 +485,7 @@ var $ct_array = array();
         // (MUST run after primary-init, BUT BEFORE load-config-by-security-level.php)
         // (STRICT 2FA MODE ONLY)
         if ( isset($_POST['conf_id']) && isset($_POST['interface_id']) && is_array($field_array_base) && $ct['gen']->pass_sec_check($_POST['admin_hashed_nonce'], $_POST['interface_id']) && $ct['gen']->valid_2fa('strict') ) {
+        
           
               if ( $app_upgrade_check ) {
               $update_config_error = 'The CACHED config is currently in the process of CHECKING FOR UPGRADES. Please wait a minute, and then try updating again.';
@@ -610,11 +613,11 @@ var $ct_array = array();
                     
                    $update_config = true; // Triggers saving updated config to disk
                    
-                   $update_config_success = 'Updating of admin section "' . $ct['gen']->key_to_name($_POST['interface_id']) . '" SUCCEEDED.';
+                   $update_config_success = 'Updating of "' . $ct['gen']->key_to_name($_POST['interface_id']) . '" ' . $update_desc . ' settings SUCCEEDED.';
                    
                    }
                    else {
-                   $update_config_error = 'Updating of admin section "' . $ct['gen']->key_to_name($_POST['interface_id']) . '" FAILED. ' . $update_config_error;
+                   $update_config_error = 'Updating of "' . $ct['gen']->key_to_name($_POST['interface_id']) . '" ' . $update_desc . ' settings FAILED. ' . $update_config_error;
                    }
                    
                     
@@ -625,7 +628,7 @@ var $ct_array = array();
         elseif ( isset($_POST['conf_id']) && isset($_POST['interface_id']) ) {
           
               if ( $check_2fa_error ) {
-              $update_config_error =  'Updating of admin section "' . $ct['gen']->key_to_name($_POST['interface_id']) . '" FAILED. ' . $check_2fa_error . '.';
+              $update_config_error =  'Updating of "' . $ct['gen']->key_to_name($_POST['interface_id']) . '" ' . $update_desc . ' settings FAILED. ' . $check_2fa_error . '.';
               }
           
         }

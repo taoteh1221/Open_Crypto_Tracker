@@ -2459,56 +2459,59 @@ var $ct_array = array();
          if ( strtolower($val) == 'us' ) {
          $words[$key] = strtoupper($val); // All uppercase US
          }
+         elseif ( strtolower($val) == 'ext' ) {
+         $words[$key] = 'External';
+         }
          elseif ( strtolower($val) == 'ag' ) {
-         $words[$key] = 'Aggregator'; // Ag to Aggregator
+         $words[$key] = 'Aggregator';
          }
          elseif ( strtolower($val) == 'ico' ) {
-         $words[$key] = 'ICO'; // Ag to Aggregator
+         $words[$key] = 'ICO';
          }
          elseif ( strtolower($val) == 'icos' ) {
-         $words[$key] = 'ICOs'; // Ag to Aggregator
+         $words[$key] = 'ICOs';
          }
          elseif ( strtolower($val) == 'ido' ) {
-         $words[$key] = 'IDO'; // Ag to Aggregator
+         $words[$key] = 'IDO';
          }
          elseif ( strtolower($val) == 'idos' ) {
-         $words[$key] = 'IDOs'; // Ag to Aggregator
+         $words[$key] = 'IDOs';
          }
          elseif ( strtolower($val) == 'nft' ) {
-         $words[$key] = 'NFT'; // Ag to Aggregator
+         $words[$key] = 'NFT';
          }
          elseif ( strtolower($val) == 'nfts' ) {
-         $words[$key] = 'NFTs'; // Ag to Aggregator
+         $words[$key] = 'NFTs';
          }
          elseif ( strtolower($val) == 'amm' ) {
-         $words[$key] = 'AMM'; // Ag to Aggregator
+         $words[$key] = 'AMM';
          }
          elseif ( strtolower($val) == 'amms' ) {
-         $words[$key] = 'AMMs'; // Ag to Aggregator
+         $words[$key] = 'AMMs';
          }
          elseif ( strtolower($val) == 'dex' ) {
-         $words[$key] = 'DEX'; // Ag to Aggregator
+         $words[$key] = 'DEX';
          }
          elseif ( strtolower($val) == 'ui' ) {
-         $words[$key] = 'User Interface'; // Ag to Aggregator
+         $words[$key] = 'User Interface';
          }
          elseif ( strtolower($val) == 'sid' ) {
-         $words[$key] = 'SID'; // Ag to Aggregator
+         $words[$key] = 'SID';
          }
          elseif ( strtolower($val) == 'id' ) {
-         $words[$key] = 'ID'; // Ag to Aggregator
+         $words[$key] = 'ID';
          }
          elseif ( strtolower($val) == 'ids' ) {
-         $words[$key] = 'IDs'; // Ag to Aggregator
+         $words[$key] = 'IDs';
          }
          elseif ( strtolower($val) == 'api' ) {
-         $words[$key] = 'API'; // Ag to Aggregator
+         $words[$key] = 'API';
          }
          elseif ( strtolower($val) == 'apis' ) {
-         $words[$key] = 'APIs'; // Ag to Aggregator
+         $words[$key] = 'APIs';
          }
          elseif ( strtolower($val) == 'ssl' ) {
-         $words[$key] = 'SSL'; // Ag to Aggregator
+         $words[$key] = 'SSL';
          }
       
       $pretty_str .= $words[$key] . ' ';
