@@ -20,7 +20,94 @@ var $ct_array = array();
    ////////////////////////////////////////////////////////
    
    
-   function textarea_form_fields($conf_id, $passed_key, $passed_val, $render_params, $subarray_key=false, $subarray_val=false) {
+   function repeatable_form_fields($field_array_base, $passed_key, $passed_val, $render_params) {
+        
+   global $ct;
+   
+        
+        // If an add / remove (repeatable) setup
+        if ( is_array($render_params[$passed_key]['is_subarray']['is_repeatable']) ) {
+        ?>
+        
+        <div class='subarray_<?=$field_array_base?>'>
+        
+             <?php
+             // Subarray data can be mixed types of form fields, SO ALL CHECKS ARE 'IF' STATEMENTS
+             foreach( $render_params[$passed_key]['is_subarray']['is_repeatable'] as $sub_key => $sub_val ) {
+             
+                  if ( $sub_key === 'is_radio' ) { // PHP7.4 NEEDS === HERE INSTEAD OF ==
+                  // Add radio button logic here
+                  }
+                  
+                  if ( $sub_key === 'is_select' ) { // PHP7.4 NEEDS === HERE INSTEAD OF ==
+                          
+        
+                       foreach( $render_params[$passed_key]['is_subarray']['is_repeatable']['is_select'] as $sub_key => $sub_val ) {
+                       ?>
+                  
+                            <p>
+                  
+                       
+                            <b class='blue'><?=$ct['gen']->key_to_name($sub_key)?>:</b> &nbsp; <select data-track-index='{?}' name='<?=$field_array_base?>[<?=$passed_key?>][{?}][<?=$sub_key?>]'>
+                                
+                                <?php
+                                foreach( $sub_val as $setting_val ) {
+                                ?>
+                                
+                                <option value='<?=$setting_val?>'> <?=$ct['gen']->key_to_name($setting_val)?> </option>
+                                
+                                <?php
+                                }
+                                ?>
+                            
+                            </select>
+                            
+                            </p>
+                       
+                       <?php
+                       }
+             
+                  }
+                  
+                  if ( $sub_key === 'is_text' ) { // PHP7.4 NEEDS === HERE INSTEAD OF ==
+                  
+
+                      foreach( $render_params[$passed_key]['is_subarray']['is_repeatable']['is_text'] as $sub_key => $unused ) {
+                      ?>
+                       
+                      <p>
+                   
+                           <b class='blue'><?=$ct['gen']->key_to_name($sub_key)?>:</b> &nbsp; <input data-track-index='{?}' type='text' name='<?=$field_array_base?>[<?=$passed_key?>][{?}][<?=$sub_key?>]' value='' <?=( isset($render_params[$passed_key]['is_subarray']['is_repeatable']['text_field_size']) ? ' size="' . $render_params[$passed_key]['is_subarray']['is_repeatable']['text_field_size'] . '"' : '' )?> />
+          
+                      </p>
+                       
+                      <?php
+                      }
+                      ?>
+          	
+          	   <div style='padding-bottom: 2em; border-bottom: 0.2em solid #808080;'><input type="button" class="btn btn-danger span-2 delete" value="Remove" /></div>
+          	   
+                  <?php
+                  }
+                  
+             }
+             ?>
+        
+        </div>
+        
+    <?php
+        }
+        
+        
+   }
+
+
+   
+   ////////////////////////////////////////////////////////
+   ////////////////////////////////////////////////////////
+   
+   
+   function textarea_form_fields($field_array_base, $passed_key, $passed_val, $render_params, $subarray_key=false) {
         
    global $ct;
         
@@ -33,7 +120,7 @@ var $ct_array = array();
          
          <b class='blue'><?=$ct['gen']->key_to_name($passed_key)?>:</b> <br /> 
          
-         <textarea data-autoresize name='<?=$conf_id?>[<?=$passed_key?>]' style='height: auto; width: 100%;' <?=( isset($render_params[$passed_key]['is_password']) ? 'class="textarea_password" onblur="$(this).toggleClass(\'textarea_password\');autoresize_update();" onfocus="$(this).toggleClass(\'textarea_password\');autoresize_update();"' : '' )?>><?=$passed_val?></textarea>
+         <textarea data-autoresize name='<?=$field_array_base?>[<?=$passed_key?>]' style='height: auto; width: 100%;' <?=( isset($render_params[$passed_key]['is_password']) ? 'class="textarea_password" onblur="$(this).toggleClass(\'textarea_password\');autoresize_update();" onfocus="$(this).toggleClass(\'textarea_password\');autoresize_update();"' : '' )?>><?=$passed_val?></textarea>
          
               <?php
               if ( isset($render_params[$passed_key]['is_notes']) ) {
@@ -56,7 +143,7 @@ var $ct_array = array();
    ////////////////////////////////////////////////////////
    
    
-   function text_form_fields($conf_id, $passed_key, $passed_val, $render_params, $subarray_key=false, $subarray_val=false) {
+   function text_form_fields($field_array_base, $passed_key, $passed_val, $render_params, $subarray_key=false) {
         
    global $ct;
               
@@ -66,29 +153,8 @@ var $ct_array = array();
          }
          
          
-         // If a subarray text field
-         if ( is_array($render_params[$passed_key]['is_subarray'][$subarray_key]['is_text']) ) {
-
-
-             foreach( $render_params[$passed_key]['is_subarray'][$subarray_key]['is_text'] as $sub_key => $sub_val ) {
-             ?>
-             
-             <p>
-         
-                  <b class='blue'><?=$ct['gen']->key_to_name($sub_key)?>:</b> &nbsp; <input type='text' name='<?=$conf_id?>[<?=$passed_key?>][<?=$subarray_key?>][<?=$sub_key?>]' value='<?=( isset($passed_val[$subarray_key][$sub_key]) ? $passed_val[$subarray_key][$sub_key] : '' )?>' <?=( isset($render_params[$passed_key]['is_subarray'][$subarray_key]['text_field_size']) ? ' size="' . $render_params[$passed_key]['is_subarray'][$subarray_key]['text_field_size'] . '"' : '' )?> />
-
-             </p>
-             
-             <?php
-             }
-             ?>
-	
-	    <div style='min-height: 1em;'></div>
-	   
-         <?php
-         }
-         // If a regular text field
-         else {
+         // If a regular text field (NOT a subarray)
+         if ( !isset($render_params[$passed_key]['is_subarray']) ) {
 
 
               if ( isset($render_params[$passed_key]['is_password']) ) {
@@ -102,7 +168,7 @@ var $ct_array = array();
           
               <p>
               
-              <b class='blue'><?=$ct['gen']->key_to_name($passed_key)?>:</b> &nbsp; <input type='<?=( isset($render_params[$passed_key]['is_password']) ? 'password' : 'text' )?>' data-name="<?=md5($conf_id . $passed_key)?>" name='<?=$conf_id?>[<?=$passed_key?>]' value='<?=$passed_val?>' <?=( isset($render_params[$passed_key]['text_field_size']) ? ' size="' . $render_params[$passed_key]['text_field_size'] . '"' : '' )?> <?=( isset($render_params[$passed_key]['is_readonly']) ? 'readonly="readonly" placeholder="' . $render_params[$passed_key]['is_readonly'] . '"' : '' )?> />
+              <b class='blue'><?=$ct['gen']->key_to_name($passed_key)?>:</b> &nbsp; <input type='<?=( isset($render_params[$passed_key]['is_password']) ? 'password' : 'text' )?>' data-name="<?=md5($conf_id . $passed_key)?>" name='<?=$field_array_base?>[<?=$passed_key?>]' value='<?=$passed_val?>' <?=( isset($render_params[$passed_key]['text_field_size']) ? ' size="' . $render_params[$passed_key]['text_field_size'] . '"' : '' )?> <?=( isset($render_params[$passed_key]['is_readonly']) ? 'readonly="readonly" placeholder="' . $render_params[$passed_key]['is_readonly'] . '"' : '' )?> />
               
               <?php
               if ( isset($render_params[$passed_key]['is_notes']) ) {
@@ -120,7 +186,7 @@ var $ct_array = array();
               if ( isset($render_params[$passed_key]['is_password']) ) {
               ?>
                    
-                  <i class="gg-eye-alt toggle-show-password" data-name="<?=md5($conf_id . $passed_key)?>"></i>
+                  <i class="gg-eye-alt toggle-show-password" data-name="<?=md5($field_array_base . $passed_key)?>"></i>
                       
               </div>
                    
@@ -128,6 +194,27 @@ var $ct_array = array();
               }
                    
                    
+         }
+         // If a subarray text field  // PHP7.4 NEEDS !== HERE INSTEAD OF !=
+         elseif ( $subarray_key !== 'is_repeatable' && is_array($render_params[$passed_key]['is_subarray'][$subarray_key]['is_text']) ) {
+
+
+             foreach( $render_params[$passed_key]['is_subarray'][$subarray_key]['is_text'] as $sub_key => $sub_val ) {
+             ?>
+             
+             <p>
+         
+                  <b class='blue'><?=$ct['gen']->key_to_name($sub_key)?>:</b> &nbsp; <input data-track-index='<?=$subarray_key?>' type='text' name='<?=$field_array_base?>[<?=$passed_key?>][<?=$subarray_key?>][<?=$sub_key?>]' value='<?=( isset($passed_val[$subarray_key][$sub_key]) ? $passed_val[$subarray_key][$sub_key] : '' )?>' <?=( isset($render_params[$passed_key]['is_subarray'][$subarray_key]['text_field_size']) ? ' size="' . $render_params[$passed_key]['is_subarray'][$subarray_key]['text_field_size'] . '"' : '' )?> />
+
+             </p>
+             
+             <?php
+             }
+             ?>
+	
+	    <div style='padding-bottom: 2em; border-bottom: 0.2em solid #808080;'><input type="button" class="btn btn-danger span-2 delete" value="Remove" /></div>
+	   
+         <?php
          }
          
                      
@@ -138,7 +225,7 @@ var $ct_array = array();
    ////////////////////////////////////////////////////////
    
    
-   function select_form_fields($conf_id, $passed_key, $passed_val, $render_params, $subarray_key=false, $subarray_val=false) {
+   function select_form_fields($field_array_base, $passed_key, $passed_val, $render_params, $subarray_key=false) {
         
    global $ct;
         
@@ -151,7 +238,7 @@ var $ct_array = array();
         
         <b class='blue'><?=$ct['gen']->key_to_name($passed_key)?>:</b> &nbsp; 
         
-        <select name='<?=$conf_id?>[<?=$passed_key?>]'>
+        <select name='<?=$field_array_base?>[<?=$passed_key?>]'>
         
              <?php
              foreach( $render_params[$passed_key]['is_select'] as $option_key => $option_val ) {
@@ -193,8 +280,8 @@ var $ct_array = array();
         
         <?php
         }
-        // If subarray select field
-        elseif ( is_array($render_params[$passed_key]['is_subarray'][$subarray_key]['is_select']) ) {
+        // If subarray select field // PHP7.4 NEEDS !== HERE INSTEAD OF !=
+        elseif ( $subarray_key !== 'is_repeatable' && is_array($render_params[$passed_key]['is_subarray'][$subarray_key]['is_select']) ) {
         
         
              foreach( $render_params[$passed_key]['is_subarray'][$subarray_key]['is_select'] as $sub_key => $sub_val ) {
@@ -203,7 +290,7 @@ var $ct_array = array();
                   <p>
         
              
-                  <b class='blue'><?=$ct['gen']->key_to_name($sub_key)?>:</b> &nbsp; <select name='<?=$conf_id?>[<?=$passed_key?>][<?=$subarray_key?>][<?=$sub_key?>]'>
+                  <b class='blue'><?=$ct['gen']->key_to_name($sub_key)?>:</b> &nbsp; <select data-track-index='<?=$subarray_key?>' name='<?=$field_array_base?>[<?=$passed_key?>][<?=$subarray_key?>][<?=$sub_key?>]'>
                       
                       <?php
                       foreach( $sub_val as $setting_val ) {
@@ -232,7 +319,7 @@ var $ct_array = array();
    ////////////////////////////////////////////////////////
    
    
-   function radio_form_fields($conf_id, $passed_key, $passed_val, $render_params, $subarray_key=false, $subarray_val=false) {
+   function radio_form_fields($field_array_base, $passed_key, $passed_val, $render_params, $subarray_key=false) {
         
    global $ct;
         
@@ -255,7 +342,7 @@ var $ct_array = array();
                         foreach( $render_params[$passed_key]['is_radio']['is_assoc'] as $assoc_val ) {
                         ?>
                         
-                        <input type='radio' name='<?=$conf_id?>[<?=$passed_key?>]' value='<?=$assoc_val['key']?>' <?=( $passed_val == $assoc_val['key'] ? 'checked' : '' )?> /> <?=$ct['gen']->key_to_name($assoc_val['val'])?> &nbsp;
+                        <input type='radio' name='<?=$field_array_base?>[<?=$passed_key?>]' value='<?=$assoc_val['key']?>' <?=( $passed_val == $assoc_val['key'] ? 'checked' : '' )?> /> <?=$ct['gen']->key_to_name($assoc_val['val'])?> &nbsp;
                         
                         <?php
                         }
@@ -265,7 +352,7 @@ var $ct_array = array();
                    else {
                    ?>
                    
-                   <input type='radio' name='<?=$conf_id?>[<?=$passed_key?>]' value='<?=$radio_val?>' <?=( $passed_val == $radio_val ? 'checked' : '' )?> /> <?=$ct['gen']->key_to_name($radio_val)?> &nbsp;
+                   <input type='radio' name='<?=$field_array_base?>[<?=$passed_key?>]' value='<?=$radio_val?>' <?=( $passed_val == $radio_val ? 'checked' : '' )?> /> <?=$ct['gen']->key_to_name($radio_val)?> &nbsp;
                    
                    <?php
                    }
@@ -285,8 +372,8 @@ var $ct_array = array();
          
         <?php
         }
-        // If subarray radio button
-        elseif ( is_array($render_params[$passed_key]['is_subarray'][$subarray_key]['is_radio']) ) {
+        // If subarray radio button // PHP7.4 NEEDS !== HERE INSTEAD OF !=
+        elseif ( $subarray_key !== 'is_repeatable' && is_array($render_params[$passed_key]['is_subarray'][$subarray_key]['is_radio']) ) {
         ?>
         
         <p>
@@ -297,7 +384,7 @@ var $ct_array = array();
              foreach( $render_params[$passed_key]['is_subarray'][$subarray_key]['is_radio'] as $sub_key => $sub_val ) {
              ?>
                  
-                 <input type='radio' name='<?=$conf_id?>[<?=$passed_key?>][<?=$subarray_key?>]' value='<?=$sub_val?>' <?=( isset($passed_val[$subarray_key]) && $passed_val[$subarray_key] == $sub_val ? 'checked' : '' )?> /> <?=$ct['gen']->key_to_name($sub_val)?> &nbsp;
+                 <input data-track-index='<?=$subarray_key?>' type='radio' name='<?=$field_array_base?>[<?=$passed_key?>][<?=$subarray_key?>]' value='<?=$sub_val?>' <?=( isset($passed_val[$subarray_key]) && $passed_val[$subarray_key] == $sub_val ? 'checked' : '' )?> /> <?=$ct['gen']->key_to_name($sub_val)?> &nbsp;
                  
              <?php
              }
@@ -380,8 +467,6 @@ var $ct_array = array();
      
      <?php
      
-     //var_dump($config_array_base);
-     
      foreach( $config_array_base as $key => $val ) {
          
          // Radio buttons
@@ -398,32 +483,129 @@ var $ct_array = array();
          }
          // Subarray of ANY form field types (can be mixed)
          elseif ( is_array($render_params[$key]['is_subarray']) ) {
-         ?>
-         
-         <b class='bitcoin'><?=$ct['gen']->key_to_name($key)?></b> &nbsp; 
-         
+
+
+              if ( is_array($render_params[$key]['is_subarray']['is_repeatable']) ) {
+                   
+                   // IF we need to reset the auto-indexing for this subarray,
+                   // so no duplicates overwrite each other with the add / remove javascript in the UI
+                   if ( isset($render_params[$key]['is_subarray']['is_repeatable']['reset_auto_index']) ) {
+                        
+                   $config_array_base[$key] = array_values($config_array_base[$key]);
+                   
+                   // If multidimensional PURE AUTO-INDEXING (NO ASSOCIATIVE SUBARRAYS), run this AFTER array_values()
+                   //$config_array_base[$key] = array_map('array_values', $config_array_base[$key]);
+                   
+                   }
+                   
+              ?>
+
+               <p class='<?=$field_array_base?>_add'><input type="button" value="<?=$render_params[$key]['is_subarray']['is_repeatable']['add_button']?>" class="btn btn-default add" align="center"></p>
+              
+     		<fieldset style='margin-bottom: 2em;' class="<?=$field_array_base?> subsection_fieldset"><legend class='subsection_legend'> <b class='bitcoin'><?=$ct['gen']->key_to_name($key)?></b> </legend>
+                          
+     		<div class="repeatable">
+              
               <?php
+              }
+              else {         
+              ?>
+         
+              <b class='bitcoin'><?=$ct['gen']->key_to_name($key)?></b> &nbsp; 
+
+              <?php
+              }
+         
               
               // Subarray data can be mixed types of form fields, SO ALL CHECKS ARE 'IF' STATEMENTS
-              foreach( $render_params[$key]['is_subarray'] as $subarray_key => $subarray_val ) {
+              foreach( $render_params[$key]['is_subarray'] as $subarray_key => $unused ) {
+              
+                   
+                   // If this is an actual setting (NOT creating a repeatable BLANK TEMPLATE)
+                   if ( $subarray_key !== 'is_repeatable' ) { // PHP7.4 NEEDS !== HERE INSTEAD OF !=
+                   ?>
+        
+                   <div class='subarray_<?=$field_array_base?>'>
+        
+                   <?php
+                   }
+                   
                    
                    // Radio buttons in subarray
                    if ( is_array($render_params[$key]['is_subarray'][$subarray_key]['is_radio']) ) {
-                   $this->radio_form_fields($field_array_base, $key, $val, $render_params, $subarray_key, $subarray_val);
+                   $this->radio_form_fields($field_array_base, $key, $val, $render_params, $subarray_key);
                    }
                    
                    // Select dropdowns in subarray
                    if ( is_array($render_params[$key]['is_subarray'][$subarray_key]['is_select']) ) {
-                   $this->select_form_fields($field_array_base, $key, $val, $render_params, $subarray_key, $subarray_val);
+                   $this->select_form_fields($field_array_base, $key, $val, $render_params, $subarray_key);
                    }
                    
                    // Regular text fields in subarray
                    if ( is_array($render_params[$key]['is_subarray'][$subarray_key]['is_text']) ) {
-                   $this->text_form_fields($field_array_base, $key, $val, $render_params, $subarray_key, $subarray_val);
+                   $this->text_form_fields($field_array_base, $key, $val, $render_params, $subarray_key);
                    }
                    
+                   
+                   // If this is an actual setting (NOT creating a repeatable BLANK TEMPLATE)
+                   if ( $subarray_key !== 'is_repeatable' ) { // PHP7.4 NEEDS !== HERE INSTEAD OF !=
+                   ?>
+        
+                   </div>
+        
+                   <?php
+                   }
+        
+              
               }
 
+
+              if ( is_array($render_params[$key]['is_subarray']['is_repeatable']) ) {
+                   
+              $repeat_id = 'repeat_' . $field_array_base;
+              
+              ?>
+              
+     	     </div>
+     
+     		</fieldset>
+
+               <p class='<?=$field_array_base?>_add'><input type="button" value="<?=$render_params[$key]['is_subarray']['is_repeatable']['add_button']?>" class="btn btn-default add" align="center"></p>
+
+          	<!-- Scripting to run the form manipulations -->
+          	
+          
+               <script type="text/template" id="<?=$repeat_id?>">
+	          
+	          <?php
+               // Add / remove (repeatable) form fields
+	          $this->repeatable_form_fields($field_array_base, $key, $val, $render_params);
+		     ?>
+         
+         
+          	</script>
+          
+          
+          	<script>
+          	
+          		$(document).ready(function(){ 
+          			$(".<?=$field_array_base?> .repeatable").repeatable({
+          			     prefix: '',
+          				addTrigger: ".<?=$field_array_base?>_add .add",
+          				deleteTrigger: ".<?=$field_array_base?> .delete",
+          				template: "#<?=$repeat_id?>",
+          				itemContainer: ".subarray_<?=$field_array_base?>",
+          				min: 1,
+          				max: 999
+          			});
+          		});
+          		
+          	</script>
+		
+         
+              <?php
+              }
+         
 
          }
          // Everything else should just render as a text field

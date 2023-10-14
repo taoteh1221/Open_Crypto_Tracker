@@ -8,7 +8,7 @@
 	 <?php
 	 if ( $update_config_success != null ) {
 	 ?>
-	 <div class='bitcoin bitcoin_dotted' style='font-weight: bold;'><a href="javascript:app_reloading_check();" target="_PARENT">Reload this page</a>, to show your updated plugin settings below.</div>
+	 <div class='red red_dotted' style='font-weight: bold;'><a href="javascript:app_reloading_check();" target="_PARENT">Reload this page</a>, to show your updated plugin settings below.</div>
 	 <div style='min-height: 1em;'></div>
 	 <?php
 	 }
@@ -68,63 +68,48 @@
 	</fieldset>
 				    
 
-    <fieldset class='subsection_fieldset'><legend class='subsection_legend'> <strong>Currently Activated Plugins</strong> </legend>
+    <fieldset class='subsection_fieldset'><legend class='subsection_legend'> <strong>Plugin Settings</strong> </legend>
     
-    <div class='bitcoin'>Graphical Interface Plugins<br />
-    <ul>
 	<?php
-	if ( !isset($activated_plugins['ui']) ) {
-	echo '<li><span class="black">None</span></li>';
-	}
-	else {
-	     
-		foreach ( $activated_plugins['ui'] as $plugin_key => $unused ) {
-    	?>
-        <li><a href='admin.php?iframe=<?=$ct['gen']->admin_hashed_nonce('iframe_' . $plugin_key)?>&plugin=<?=$plugin_key?>'><?=$plug_conf[$plugin_key]['ui_name']?></a></li>
-    	<?php
-    	     }
-    	     
-	}
-	?>
-	</ul>
-	</div>
 	
-    <div class='bitcoin' style='padding: 10px;'>Cron / Task Scheduler Plugins<br />
-    <ul>
-	<?php
-	if ( !isset($activated_plugins['cron']) ) {
-	echo '<li><span class="black">None</span></li>';
+	$currently_activated_plugins = array();
+	
+	foreach ( $activated_plugins['ui'] as $plugin_key => $unused ) {
+	$currently_activated_plugins[$plugin_key] = true;
+	}
+	
+	foreach ( $activated_plugins['cron'] as $plugin_key => $unused ) {
+	$currently_activated_plugins[$plugin_key] = true;
+	}
+	
+	foreach ( $activated_plugins['webhook'] as $plugin_key => $unused ) {
+	$currently_activated_plugins[$plugin_key] = true;
+	}
+	
+	if ( sizeof($currently_activated_plugins) < 1 ) {
+	echo '<span class="bitcoin">No plugins activated yet.</span>';
 	}
 	else {
-	     
-		foreach ( $activated_plugins['cron'] as $plugin_key => $unused ) {
+	?>
+	   
+    <ul>  
+    
+	     <?php
+		foreach ( $currently_activated_plugins as $plugin_key => $unused ) {
     	     ?>
-          <li><a href='admin.php?iframe=<?=$ct['gen']->admin_hashed_nonce('iframe_' . $plugin_key)?>&plugin=<?=$plugin_key?>'><?=$plug_conf[$plugin_key]['ui_name']?></a></li>
+    	     
+        <li><a href='admin.php?iframe=<?=$ct['gen']->admin_hashed_nonce('iframe_' . $plugin_key)?>&plugin=<?=$plugin_key?>'><?=$plug_conf[$plugin_key]['ui_name']?></a></li>
+        
     	     <?php
     	     }
+    	     ?>
     	     
-	}
-	?>
 	</ul>
-	</div>
-	
-    <div class='bitcoin' style='padding: 10px;'>Webhook Plugins<br />
-    <ul>
-	<?php
-	if ( !isset($activated_plugins['webhook']) ) {
-	echo '<li><span class="black">None</span></li>';
-	}
-	else {
-	     
-		foreach ( $activated_plugins['webhook'] as $plugin_key => $unused ) {
-    	?>
-        <li><a href='admin.php?iframe=<?=$ct['gen']->admin_hashed_nonce('iframe_' . $plugin_key)?>&plugin=<?=$plugin_key?>'><?=$plug_conf[$plugin_key]['ui_name']?></a></li>
+    	
     	<?php
-    	     }
-    	     
 	}
 	?>
-	</ul>
+	
 	</div>
 	
 	</fieldset>

@@ -2448,22 +2448,54 @@ var $ct_array = array();
    
    global $ct;
    
-   // Uppercase every word, and remove underscore between them
-   $str = ucwords(preg_replace("/_/i", " ", $str));
+   // Uppercase every word's first character, after removing a few different delimiters between them,
+   // and replacing with a space between words (and a placeholder where applicable)
+   $str = preg_replace("/_/i", " ", $str);
+   $str = preg_replace("/\|\|/i", " 123PLACEHOLDER123 ", $str); // Replaced with an arrow further down
+   $str = preg_replace("/\|/i", " 123PLACEHOLDER123 ", $str); // Replaced with an arrow further down
+   
+   $str = ucwords($str);
    
    
       // Pretty up the individual words as needed
       $words = explode(" ",$str);
+      
       foreach($words as $key => $val) {
+   
+   
+         // Pretty up all asset market symbols
+         foreach($ct['conf']['power']['bitcoin_currency_markets'] as $asset_key => $unused) {
+               
+             if ( strtolower($val) == strtolower($asset_key) ) {
+             $words[$key] = strtoupper($asset_key); // All uppercase
+             }
+             
+         }
+        
+        
+         foreach($ct['conf']['assets'] as $asset_key => $unused) {
+              
+             if ( strtolower($val) == strtolower($asset_key) ) {
+             $words[$key] = strtoupper($asset_key); // All uppercase
+             }
+             
+         }
+         
       
          if ( strtolower($val) == 'us' ) {
-         $words[$key] = strtoupper($val); // All uppercase US
+         $words[$key] = strtoupper($val); // All uppercase
+         }
+         elseif ( strtolower($val) == '123placeholder123' ) {
+         $words[$key] = '=>';
          }
          elseif ( strtolower($val) == 'ext' ) {
          $words[$key] = 'External';
          }
          elseif ( strtolower($val) == 'ag' ) {
          $words[$key] = 'Aggregator';
+         }
+         elseif ( strtolower($val) == 'comms' ) {
+         $words[$key] = 'Communications';
          }
          elseif ( strtolower($val) == 'ico' ) {
          $words[$key] = 'ICO';
@@ -2514,18 +2546,9 @@ var $ct_array = array();
          $words[$key] = 'SSL';
          }
       
+      
       $pretty_str .= $words[$key] . ' ';
       
-      }
-   
-      
-      // Pretty up all secondary asset market symbols
-      foreach($ct['conf']['power']['crypto_pair_preferred_markets'] as $key => $unused) {
-      $pretty_str = preg_replace("/".strtolower($key)."/i", strtoupper($key), $pretty_str);
-      }
-   
-      foreach($ct['conf']['power']['bitcoin_currency_markets'] as $key => $unused) {
-      $pretty_str = preg_replace("/".strtolower($key)."/i", strtoupper($key), $pretty_str);
       }
    
    

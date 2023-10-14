@@ -159,6 +159,7 @@ $admin_render_settings['bitcoin_primary_currency_pair']['is_notes'] = 'MUST BE A
 ////////////////////////////////////////////////////////////////////////////////////////////////
 
 
+// List all exchanges that have a Bitcoin market
 foreach ( $ct['conf']['assets']['BTC']['pair'] as $pair_key => $unused ) {
 			
 	foreach ( $ct['conf']['assets']['BTC']['pair'][$pair_key] as $exchange_key => $unused ) {

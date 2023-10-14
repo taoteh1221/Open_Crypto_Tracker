@@ -4,10 +4,6 @@
  */
 
 
-?>
-
-
-<?php
 if ( $admin_area_sec_level == 'high' ) {
 ?>
 	
@@ -71,9 +67,12 @@ $admin_render_settings['privacy_mode']['is_radio'] = array(
 
 
 $sol_subtokens = array();
-     
+
+// Get all the solana subtokens in asset config, which we can add as selection options
 foreach ( $ct['conf']['assets'] as $asset_key => $unused ) {
 
+   // If we can get the primary currency value conversion (in privacy mode) for added assets that are solana SPL tokens,
+   // then auto-add them to the asset selection dropdown menu
    if ( 
    array_key_exists('sol', $ct['conf']['assets'][$asset_key]['pair']) && isset($ct['conf']['assets'][$asset_key]['pair']['btc']) 
    || array_key_exists('sol', $ct['conf']['assets'][$asset_key]['pair']) && isset($ct['conf']['assets']['BTC']['pair'][ strtolower($asset_key) ]) 
@@ -86,6 +85,42 @@ foreach ( $ct['conf']['assets'] as $asset_key => $unused ) {
    }
 
 }
+
+
+// EMPTY add / remove (repeatable) fields TEMPLATE rendering
+
+$admin_render_settings['tracking']['is_subarray']['is_repeatable']['add_button'] = 'Add Address To Track';
+
+
+// We need to reset the auto-indexing for this $ct['conf'] subarray,
+// so no duplicates overwrite each other with the add / remove javascript in the UI
+$admin_render_settings['tracking']['is_subarray']['is_repeatable']['reset_auto_index'] = true;
+
+
+$admin_render_settings['tracking']['is_subarray']['is_repeatable']['is_select']['asset'] = array(
+                                                                                                 'btc',
+                                                                                                 'eth',
+                                                                                                 'sol',
+                                                                                                );
+          
+foreach ( $sol_subtokens as $val ) {
+$admin_render_settings['tracking']['is_subarray']['is_repeatable']['is_select']['asset'][] = 'sol||' . $val;
+}
+
+
+$admin_render_settings['tracking']['is_subarray']['is_repeatable']['is_text']['label'] = true;
+$admin_render_settings['tracking']['is_subarray']['is_repeatable']['is_text']['address'] = true;
+$admin_render_settings['tracking']['is_subarray']['is_repeatable']['text_field_size'] = 50;
+               
+
+// FILLED IN setting values
+
+// We need to reset the auto-indexing for this $ct['conf'] subarray,
+// so no duplicates overwrite each other with the add / remove javascript in the UI
+$ct['conf']['plug_conf'][$this_plug]['tracking'] = array_values($ct['conf']['plug_conf'][$this_plug]['tracking']);
+
+// If multidimensional PURE AUTO-INDEXING (NO ASSOCIATIVE SUBARRAYS), run this AFTER array_values()
+//$YOUR_ARRAY = array_map('array_values', $YOUR_ARRAY);
 
 
 foreach ( $ct['conf']['plug_conf'][$this_plug]['tracking'] as $key => $val ) {

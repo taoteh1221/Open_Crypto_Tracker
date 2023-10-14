@@ -792,7 +792,7 @@ var $ct_array = array();
       }
       // If the default app config has changed since last check (from upgrades / end user editing)
       elseif ( $check_default_ct_conf != md5( serialize($default_ct_conf) ) ) {
-         
+      
                    
          if ( $ct['conf']['power']['debug_mode'] == 'all' || $ct['conf']['power']['debug_mode'] == 'all_telemetry' || $ct['conf']['power']['debug_mode'] == 'conf_telemetry' ) {
                         
@@ -901,6 +901,11 @@ var $ct_array = array();
             
          }
          
+      
+      // Update the hash of the default config, before returning
+      $check_default_ct_conf = md5( serialize($default_ct_conf) );
+      $ct['cache']->save_file($ct['base_dir'] . '/cache/vars/default_ct_conf_md5.dat', $check_default_ct_conf);
+      sleep(1); // Chill for a second, since we just saved the default conf digest
       
       return ( $conf_upgraded ? $conf : false );
       

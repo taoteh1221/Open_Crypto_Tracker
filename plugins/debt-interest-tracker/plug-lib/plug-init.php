@@ -33,7 +33,7 @@ $debt_form_action = $ct['gen']->start_page($plug_conf[$this_plug]['ui_location']
 				<fieldset class="accounts_labels">
 
 
-					<p><input type="button" value="Add An Additional Credit / Loan Account" class="btn btn-default add" align="center"></p>
+					<p><input type="button" value="Add Credit / Loan Account" class="btn btn-default add" align="center"></p>
 
                      
 					<div class="repeatable">
@@ -69,22 +69,22 @@ $debt_form_action = $ct['gen']->start_page($plug_conf[$this_plug]['ui_location']
                             
                           			<div class="extra_margins col-lg-6">
                           			<label class='blue' for="account_<?=$key?>">Account Name</label>
-                          			<input type="text" class="span6 form-control" name="accounts_labels[<?=$key?>][account]" value="<?=$val['account']?>" id="account_<?=$key?>">
+                          			<input data-track-index='<?=$key?>' type="text" class="span6 form-control" name="accounts_labels[<?=$key?>][account]" value="<?=$val['account']?>" id="account_<?=$key?>">
                           			</div>
                           			
                           			<div class="extra_margins col-lg-2">
                           			<label class='blue' for="amount_<?=$key?>">Debt Amount <?=$ct['conf']['power']['bitcoin_currency_markets'][ $ct['conf']['gen']['bitcoin_primary_currency_pair'] ]?></label>
-                          			<input type="text" class="span2 form-control" name="accounts_labels[<?=$key?>][amount]" value="<?=number_format($val['amount'], 2, '.', ',')?>" id="amount_<?=$key?>">
+                          			<input data-track-index='<?=$key?>' type="text" class="span2 form-control" name="accounts_labels[<?=$key?>][amount]" value="<?=number_format($val['amount'], 2, '.', ',')?>" id="amount_<?=$key?>">
                         			</div>
                     			
                           			<div class="extra_margins col-lg-2">
                           			<label class='blue' for="apr_<?=$key?>">APR %</label>
-                          			<input type="text" class="span2 form-control" name="accounts_labels[<?=$key?>][apr]" value="<?=$val['apr']?>" id="apr_<?=$key?>">
+                          			<input data-track-index='<?=$key?>' type="text" class="span2 form-control" name="accounts_labels[<?=$key?>][apr]" value="<?=$val['apr']?>" id="apr_<?=$key?>">
                         			</div>
                     			
                             		<div class="extra_margins col-lg-2">
                             		<label for="">&nbsp;</label><br>
-                              		<input type="button" class="btn btn-danger span-2 delete" value="Remove" />
+                              		<input data-track-index='<?=$key?>' type="button" class="btn btn-danger span-2 delete" value="Remove" />
                             		</div>
                             		
                     			</div>
@@ -164,37 +164,40 @@ $debt_form_action = $ct['gen']->start_page($plug_conf[$this_plug]['ui_location']
 	
 
 	<script type="text/template" id="accounts_labels">
+	
       <div class="field-group row">
   			<div class="extra_margins col-lg-6">
   			<label class='blue' for="account_{?}">Account Name</label>
-  			<input type="text" class="span6 form-control" name="accounts_labels[{?}][account]" value="{account}" id="account_{?}">
+  			<input data-track-index='{?}' type="text" class="span6 form-control" name="accounts_labels[{?}][account]" value="{account}" id="account_{?}">
   			</div>
   			<div class="extra_margins col-lg-2">
   			<label class='blue' for="amount_{?}">Debt Amount <?=$ct['conf']['power']['bitcoin_currency_markets'][ $ct['conf']['gen']['bitcoin_primary_currency_pair'] ]?></label>
-  			<input type="text" class="span2 form-control" name="accounts_labels[{?}][amount]" value="{amount}" id="amount_{?}">
+  			<input data-track-index='{?}' type="text" class="span2 form-control" name="accounts_labels[{?}][amount]" value="{amount}" id="amount_{?}">
 			</div>
   			<div class="extra_margins col-lg-2">
   			<label class='blue' for="apr_{?}">APR %</label>
-  			<input type="text" class="span2 form-control" name="accounts_labels[{?}][apr]" value="{apr}" id="apr_{?}">
+  			<input data-track-index='{?}' type="text" class="span2 form-control" name="accounts_labels[{?}][apr]" value="{apr}" id="apr_{?}">
 			</div>
 			<div class="extra_margins col-lg-2">
 			<label for="">&nbsp;</label><br>
-  			<input type="button" class="btn btn-danger span-2 delete" value="Remove" />
+  			<input data-track-index='{?}' type="button" class="btn btn-danger span-2 delete" value="Remove" />
 			</div>
   		</div>
+  		
 	</script>
 
 
 	<script>
+	
 		$(document).ready(function(){ 
 			$(".accounts_labels .repeatable").repeatable({
+          		prefix: 'new',
 				addTrigger: ".accounts_labels .add",
 				deleteTrigger: ".accounts_labels .delete",
 				template: "#accounts_labels",
 				itemContainer: ".field-group",
-				//itemContainer: ".field-group",
 				min: 1,
-				max: 100
+				max: 99
 			});
 		});
 		

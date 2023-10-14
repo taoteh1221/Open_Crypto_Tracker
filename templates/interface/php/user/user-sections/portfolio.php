@@ -1954,7 +1954,7 @@ var server_header_defaults_content = '<h5 class="yellow tooltip_title">Average S
 	   <pre class='rounded' style='display: inline-block; padding-top: 1em !important;'><code class='hide-x-scroll less' style='white-space: nowrap; width: auto; display: inline-block;'>[UTC timestamp] runtime_mode => error_type: error_msg; [ (tracing if log verbosity set to verbose) ]</code></pre>
 	
 	
-	    <fieldset class='subsection_fieldset'><legend class='subsection_legend'> Error Log </legend>
+	    <fieldset class='subsection_fieldset'><legend class='subsection_legend'> App Log </legend>
 	        
 	        <p>
 	        
