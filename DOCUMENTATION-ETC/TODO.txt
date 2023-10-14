@@ -180,9 +180,6 @@ RE-TEST ALL admin config interface settings, as we completely overhauled it to s
 Test refactored logging system WITH DEBUGGING OFF.
 
 
-Triple-check the "load / reset / update / upgrade config by security level" logic.
-
-
 Triple-check cached config upgrading / downgrading logic, including bundled plugins.
 
 
