@@ -171,6 +171,12 @@ https://zksync.io/api/v0.1.html (KEEP AN EYE OUT FOR V2 DOCS AS WELL)
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
+CACHE an md5 hash of all telegram settings combined, and only delete the chatroom data / refresh it if this md5 hash changes (like we do for light chart config). Otherwise you get a bad UX from endlessly getting alerts to re-enter "/start" in the chatroom EVERYTIME YOU UPDATE *ANY* ADMIN SETTINGS.
+
+
+RE-TEST ALL admin config interface settings, as we completely overhauled it to support subarrays and plugins. TEST IN FIREFOX TOO. ALSO DO A CODE REVIEW OF THE ENTIRE ADMIN CLASS FUNCTIONS.
+
+
 Test refactored logging system WITH DEBUGGING OFF.
 
 
@@ -184,12 +190,6 @@ Triple-check adding / removing a plugin subdirectory, in regular AND high securi
 
 
 Test out the new iframe-reloading HALT mechanism (if a halt was called on updating the cached admin config), AND iframe reloading in general.
-
-
-Update screenshots, since we overhauled everything in the interface.
-
-
-Add remote IP address data to ALL relevant security error logging everywhere in the app.
 
 
 Go through all init / config / etc files, and add any primary vars to "$ct" that haven't been added yet, for consistent / clean code. EVERYTHING IN empty-vars.php definately should be converted. ALSO THESE VARS TOO:
@@ -211,6 +211,16 @@ $check_2fa_error
 $htaccess_username
 
 $htaccess_password
+
+$update_config_success
+
+$update_config_error
+
+
+Update screenshots, since we overhauled everything in the interface.
+
+
+Add remote IP address data to ALL relevant security error logging everywhere in the app.
 
 
 Change semantic naming of 'coin_amnts' form id, as it now also handles charts / news feeds / etc.
@@ -327,9 +337,6 @@ Look into adding temperature / CPU monitoring support for systems other than lin
 
 
 Send out an OPTIONAL comms alert when we change the admin security mode, OR when we enable / disable 2FA (like we do for logins).
-
-
-Add feature to address balance tracker plugin to set minimum time to wait before re-sending the same address alert (in hours). Default it to a high number like 8 hours, so any poorly running / configured API servers don't send endless alerts as they send bs 'zero' results.
 
 
 Add additional ability to do telegram / discord webhooks in the new "crypto-info-bot" plugin, to query asset prices at different exchanges through telegram chat with the chat bot. Example: "/price btc-usd-coinbase"

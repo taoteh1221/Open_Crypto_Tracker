@@ -30,8 +30,8 @@ $plug_conf[$this_plug]['ui_location'] = 'tools'; // 'tools', 'more_stats' (defau
 $plug_conf[$this_plug]['ui_name'] = 'Address Balance Tracker'; // (defaults to $this_plug if not set)
 
 
-// Re-allow SAME address balance alert(s) messages after X minutes (per alert config)
-$plug_conf[$this_plug]['alerts_frequency_maximum'] = 15; // Can be 0, to have no limits
+// Re-allow SAME address balance alert(s) messages after X HOURS (per alert config)
+$plug_conf[$this_plug]['alerts_frequency_maximum'] = 1; // Can be 0, to have no limits
 
 
 // Privacy mode (restrict alerts from sending detailed data, only sends fiat increase / decrease in value when set to 'on')
@@ -49,8 +49,8 @@ $plug_conf[$this_plug]['tracking'] = array(
 												// BTC EXAMPLE
 												array(
 													'asset' => 'btc', // Ticker Key (LOWERCASE)
+													'label' => 'Crypto Tracker BTC Donations', // Description of address
 													'address' => '3Nw6cvSgnLEFmQ1V4e8RSBG23G7pDjF3hW', // BTC address
-													'label' => 'Crypto Tracker BTC Donations' // Description of address
 													),
 																			
 																			
@@ -58,24 +58,24 @@ $plug_conf[$this_plug]['tracking'] = array(
 											    // (REQUIRES AN API KEY FOR ETHERSCAN!! [SETUP IN GENERAL SECTION OF ADMIN CONFIG])
 												array(
 													'asset' => 'eth', // Ticker Key (LOWERCASE)
+													'label' => 'Crypto Tracker ETH Donations', // Description of address
 													'address' => '0x644343e8D0A4cF33eee3E54fE5d5B8BFD0285EF8', // ETH address
-													'label' => 'Crypto Tracker ETH Donations' // Description of address
 													),
 																			
 												
 											    // SOL EXAMPLE
 												array(
 													'asset' => 'sol', // Ticker Key (LOWERCASE)
+													'label' => 'Crypto Tracker SOL Donations', // Description of address
 													'address' => 'GvX4AU4V9atTBof9dT9oBnLPmPiz3mhoXBdqcxyRuQnU', // SOL address
-													'label' => 'Crypto Tracker SOL Donations' // Description of address
 													),
 																			
 												
 											    // USDC (SPL token on Solana) TOKEN EXAMPLE
 												array(
 													'asset' => 'sol||usdc', // 'sol||spl_token_symbol' (LOWERCASE)
+													'label' => 'Crypto Tracker USDC Donations', // Description of address
 													'address' => '5G2GFz6HrmEtWYVZU85wb9WCVVg5zYypMCgxW2Vgkc9q', // SPL token address
-													'label' => 'Crypto Tracker USDC Donations' // Description of address
 													),
 																	
 																	

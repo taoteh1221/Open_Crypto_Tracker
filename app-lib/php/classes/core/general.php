@@ -2448,81 +2448,107 @@ var $ct_array = array();
    
    global $ct;
    
-   // Uppercase every word, and remove underscore between them
-   $str = ucwords(preg_replace("/_/i", " ", $str));
+   // Uppercase every word's first character, after removing a few different delimiters between them,
+   // and replacing with a space between words (and a placeholder where applicable)
+   $str = preg_replace("/_/i", " ", $str);
+   $str = preg_replace("/\|\|/i", " 123PLACEHOLDER123 ", $str); // Replaced with an arrow further down
+   $str = preg_replace("/\|/i", " 123PLACEHOLDER123 ", $str); // Replaced with an arrow further down
+   
+   $str = ucwords($str);
    
    
       // Pretty up the individual words as needed
       $words = explode(" ",$str);
+      
       foreach($words as $key => $val) {
+   
+   
+         // Pretty up all asset market symbols
+         foreach($ct['conf']['power']['bitcoin_currency_markets'] as $asset_key => $unused) {
+               
+             if ( strtolower($val) == strtolower($asset_key) ) {
+             $words[$key] = strtoupper($asset_key); // All uppercase
+             }
+             
+         }
+        
+        
+         foreach($ct['conf']['assets'] as $asset_key => $unused) {
+              
+             if ( strtolower($val) == strtolower($asset_key) ) {
+             $words[$key] = strtoupper($asset_key); // All uppercase
+             }
+             
+         }
+         
       
          if ( strtolower($val) == 'us' ) {
-         $words[$key] = strtoupper($val); // All uppercase US
+         $words[$key] = strtoupper($val); // All uppercase
+         }
+         elseif ( strtolower($val) == '123placeholder123' ) {
+         $words[$key] = '=>';
+         }
+         elseif ( strtolower($val) == 'ext' ) {
+         $words[$key] = 'External';
          }
          elseif ( strtolower($val) == 'ag' ) {
-         $words[$key] = 'Aggregator'; // Ag to Aggregator
+         $words[$key] = 'Aggregator';
+         }
+         elseif ( strtolower($val) == 'comms' ) {
+         $words[$key] = 'Communications';
          }
          elseif ( strtolower($val) == 'ico' ) {
-         $words[$key] = 'ICO'; // Ag to Aggregator
+         $words[$key] = 'ICO';
          }
          elseif ( strtolower($val) == 'icos' ) {
-         $words[$key] = 'ICOs'; // Ag to Aggregator
+         $words[$key] = 'ICOs';
          }
          elseif ( strtolower($val) == 'ido' ) {
-         $words[$key] = 'IDO'; // Ag to Aggregator
+         $words[$key] = 'IDO';
          }
          elseif ( strtolower($val) == 'idos' ) {
-         $words[$key] = 'IDOs'; // Ag to Aggregator
+         $words[$key] = 'IDOs';
          }
          elseif ( strtolower($val) == 'nft' ) {
-         $words[$key] = 'NFT'; // Ag to Aggregator
+         $words[$key] = 'NFT';
          }
          elseif ( strtolower($val) == 'nfts' ) {
-         $words[$key] = 'NFTs'; // Ag to Aggregator
+         $words[$key] = 'NFTs';
          }
          elseif ( strtolower($val) == 'amm' ) {
-         $words[$key] = 'AMM'; // Ag to Aggregator
+         $words[$key] = 'AMM';
          }
          elseif ( strtolower($val) == 'amms' ) {
-         $words[$key] = 'AMMs'; // Ag to Aggregator
+         $words[$key] = 'AMMs';
          }
          elseif ( strtolower($val) == 'dex' ) {
-         $words[$key] = 'DEX'; // Ag to Aggregator
+         $words[$key] = 'DEX';
          }
          elseif ( strtolower($val) == 'ui' ) {
-         $words[$key] = 'User Interface'; // Ag to Aggregator
+         $words[$key] = 'User Interface';
          }
          elseif ( strtolower($val) == 'sid' ) {
-         $words[$key] = 'SID'; // Ag to Aggregator
+         $words[$key] = 'SID';
          }
          elseif ( strtolower($val) == 'id' ) {
-         $words[$key] = 'ID'; // Ag to Aggregator
+         $words[$key] = 'ID';
          }
          elseif ( strtolower($val) == 'ids' ) {
-         $words[$key] = 'IDs'; // Ag to Aggregator
+         $words[$key] = 'IDs';
          }
          elseif ( strtolower($val) == 'api' ) {
-         $words[$key] = 'API'; // Ag to Aggregator
+         $words[$key] = 'API';
          }
          elseif ( strtolower($val) == 'apis' ) {
-         $words[$key] = 'APIs'; // Ag to Aggregator
+         $words[$key] = 'APIs';
          }
          elseif ( strtolower($val) == 'ssl' ) {
-         $words[$key] = 'SSL'; // Ag to Aggregator
+         $words[$key] = 'SSL';
          }
+      
       
       $pretty_str .= $words[$key] . ' ';
       
-      }
-   
-      
-      // Pretty up all secondary asset market symbols
-      foreach($ct['conf']['power']['crypto_pair_preferred_markets'] as $key => $unused) {
-      $pretty_str = preg_replace("/".strtolower($key)."/i", strtoupper($key), $pretty_str);
-      }
-   
-      foreach($ct['conf']['power']['bitcoin_currency_markets'] as $key => $unused) {
-      $pretty_str = preg_replace("/".strtolower($key)."/i", strtoupper($key), $pretty_str);
       }
    
    
@@ -2726,11 +2752,11 @@ var $ct_array = array();
         // domain check
         $domain_check_test_url = $set_url . $domain_check_filename;
         
-        sleep(4); // Sleep 4 seconds, to complete the FILE WRITE before the check afterwards
+        sleep(5); // Sleep 5 seconds, to complete the FILE WRITE before the check afterwards
         
         $domain_check_test = @$ct['cache']->ext_data('url', $domain_check_test_url, 0);
        
-        sleep(4); // Sleep 4 seconds, to complete the CHECK before deleting afterwards
+        sleep(5); // Sleep 5 seconds, to complete the CHECK before deleting afterwards
         
         // Delete domain check test file
         unlink($ct['base_dir'] . '/' . $domain_check_filename);

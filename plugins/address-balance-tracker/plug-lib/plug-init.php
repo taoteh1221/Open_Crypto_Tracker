@@ -31,7 +31,7 @@ $balance_tracking_cache_file = $ct['plug']->alert_cache($target_key . '.dat');
 
 
 	// If it's too early to re-send an alert again, skip this entry
-	if ( $ct['cache']->update_cache($balance_tracking_cache_file, $plug_conf[$this_plug]['alerts_frequency_maximum']) == false ) {
+	if ( $ct['cache']->update_cache($balance_tracking_cache_file, ($plug_conf[$this_plug]['alerts_frequency_maximum'] * 60) ) == false ) {
 	continue;
 	}
 

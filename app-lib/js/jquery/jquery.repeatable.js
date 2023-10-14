@@ -10,10 +10,11 @@
 		 * @type {Object}
 		 */
 		var defaults = {
+			prefix: "new",
 			addTrigger: ".add",
 			deleteTrigger: ".delete",
 			max: null,
-      min: 0,
+               min: 0,
 			template: null,
 			itemContainer: ".field-group",
 			beforeAdd: function () {},
@@ -30,7 +31,7 @@
 		var target = $(this);
 
 		/**
-		 * Blend passed user settings with defauly settings
+		 * Blend passed user settings with default settings
 		 * @type {array}
 		 */
 		var settings = $.extend({}, defaults, userSettings);
@@ -52,8 +53,6 @@
 		 * repeatable element unique
 		 * @type {Number}
 		 */
-		var i = total > 0 ? total : 0;
-
 
 		/**
 		 * Add an element to the target
@@ -76,7 +75,7 @@
 		 */
 		var deleteOne = function (e) {
 			e.preventDefault();
-			if (total === settings.min) return;
+			if (total === settings.min) { alert('Minimum allowed entries is ' + settings.min + ', please just delete the data inside the fields, and update / save the settings.'); return; }
 			var item = $(this).parents(settings.itemContainer).first();
 			settings.beforeDelete.call(this, item);
 			item.remove();
@@ -103,11 +102,31 @@
 		 * @return {jQuery object}
 		 */
 		var getUniqueTemplate = function () {
+		     
+		     while ( duplicateCheck() == 'yes' ) {
+		     total++;
+		     }
+		     
 			var template = $(settings.template).html();
-			i = i + 1;
-			template = template.replace(/{\?}/g, "new" + i); 	// {?} => iterated placeholder
+			template = template.replace(/{\?}/g, settings.prefix + total); 	// {?} => iterated placeholder
 			template = template.replace(/\{[^\?\}]*\}/g, ""); 	// {valuePlaceholder} => ""
 			return $(template);
+			
+		};
+
+		/**
+		 * Checks for duplicate indexes in form arrays
+		 */
+		var duplicateCheck = function () {
+
+			if ( 1 < $(settings.itemContainer + ' input[data-track-index=' + settings.prefix + total + ']').length || 1 < $(settings.itemContainer + ' select[data-track-index=' + settings.prefix + total + ']').length ) {
+			console.log('POTENTIAL duplicate form array index clash, upping count...')
+               return 'yes';
+               }
+               else {
+               return 'no';
+               }
+               
 		};
 
 		/**

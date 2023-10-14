@@ -792,7 +792,7 @@ var $ct_array = array();
       }
       // If the default app config has changed since last check (from upgrades / end user editing)
       elseif ( $check_default_ct_conf != md5( serialize($default_ct_conf) ) ) {
-         
+      
                    
          if ( $ct['conf']['power']['debug_mode'] == 'all' || $ct['conf']['power']['debug_mode'] == 'all_telemetry' || $ct['conf']['power']['debug_mode'] == 'conf_telemetry' ) {
                         
@@ -902,6 +902,11 @@ var $ct_array = array();
          }
          
       
+      // Update the hash of the default config, before returning
+      $check_default_ct_conf = md5( serialize($default_ct_conf) );
+      $ct['cache']->save_file($ct['base_dir'] . '/cache/vars/default_ct_conf_md5.dat', $check_default_ct_conf);
+      sleep(1); // Chill for a second, since we just saved the default conf digest
+      
       return ( $conf_upgraded ? $conf : false );
       
       }
@@ -916,7 +921,7 @@ var $ct_array = array();
    
    function load_cached_config() {
    
-   global $ct, $admin_area_sec_level, $restore_conf_path, $telegram_user_data, $update_config, $reset_config;
+   global $ct, $admin_area_sec_level, $restore_conf_path, $telegram_user_data, $update_config, $reset_config, $telegram_user_data_path;
    
    // Secured cache files
    $files = $ct['gen']->sort_files($ct['base_dir'] . '/cache/secured', 'dat', 'desc');
@@ -941,13 +946,17 @@ var $ct_array = array();
         		}
         		else {
         		$newest_cached_restore_conf = 1;
-	            $restore_conf_path = $ct['base_dir'] . '/cache/secured/' . $secured_file;
+	          $restore_conf_path = $ct['base_dir'] . '/cache/secured/' . $secured_file;
         		}
 		
 	
         	}
         	// REFRESH Telegram user data
         	elseif ( preg_match("/telegram_user_data_/i", $secured_file) ) {
+          
+          // If we trigger a cached config reset later, we need to delete this telegram data with this file path
+          $telegram_user_data_path = $ct['base_dir'] . '/cache/secured/' . $secured_file;
+        		
         		
         		// If we already loaded the newest modified telegram SECURED CACHE config file,
         		// or we are updating / resetting the cached config
@@ -1031,7 +1040,14 @@ var $ct_array = array();
         // We need to reset the cached config here, IF admin security level is set to HIGH
         // (as load_cached_config() LOADS AT END OF load-config-by-security-level.php IN HIGH SECURITY MODE)
         if ( $admin_area_sec_level == 'high' && $reset_config ) {
+             
+             // Since we are resetting the cached config, telegram chatroom data should be refreshed too
+             if ( $telegram_user_data_path != null ) {
+             unlink($telegram_user_data_path); 
+             }
+        
         $ct['conf'] = $this->update_cached_config(false, false, true); // Reset flag
+        
         }
         
         
@@ -1231,7 +1247,9 @@ var $ct_array = array();
     	}
     	
    
-   // Return $ct['conf'], EVEN THOUGH IT'S A GLOBAL, AS WE ARE SOMETIMES UPDATING IT MORE THAN ONCE IN load_cached_config()
+   sleep(1); // Chill for a second, since we just refreshed the conf on disk
+
+   // Return $ct['conf']
    return $ct['conf'];
    
    }

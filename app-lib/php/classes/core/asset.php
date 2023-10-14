@@ -531,7 +531,7 @@ var $ct_array = array();
            
                // Overwrite previous app notice and unset force usd flag, if this appears to be a data error rather than an unsupported language
                if ( !isset($coingecko_api_no_overwrite['btc']['market_cap_rank']) ) {
-           	$app_notice = 'Coingecko.com API data error, check the error logs for more information.';
+           	$app_notice = 'Coingecko.com API data error, check the app logs for more information.';
            	}
          
          }
@@ -546,7 +546,7 @@ var $ct_array = array();
            	// Overwrite previous app notice and unset force usd flag, if this appears to be a data error rather than an unsupported language
            	if ( !isset($coingecko_api['btc']['market_cap_rank']) ) {
            	$mcap_data_force_usd = null;
-           	$app_notice = 'Coingecko.com API data error, check the error logs for more information.';
+           	$app_notice = 'Coingecko.com API data error, check the app logs for more information.';
            	}
          
          }

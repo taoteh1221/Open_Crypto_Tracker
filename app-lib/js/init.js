@@ -68,25 +68,11 @@ random_tips();
 // If overriding any responsive menu CSS is needed
 responsive_menu_override();
 
-
-// Monitor admin iframes for load / unload events
-admin_iframe_load = document.querySelectorAll('.admin_iframe');
-	     
 	
 // For ALL nav menus (normal / compact sidebars, mobile top nav bar), we want to keep track of which
 // nav item is active and it's associated content, and display it / mark nav links as active in interface
 nav_menu('.admin-nav');
 nav_menu('.user-nav');
-
-
-     /////////////////////////////////////////////////////////////////////////////////////////////////////
-     
-     
-     if ( is_firefox ) {
-     $("#sidebar label.pl_mn_lab").css('transform', 'scale(.75) translateY(0rem) translateX(0.25rem)', "important");
-     $("#sidebar #quant_font_percent").css('padding-left', '0.35rem', "important");
-     $("#sidebar #quant_font_percent").css('padding-right', '0.1rem', "important");
-     }
       
 
 	/////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -105,6 +91,28 @@ nav_menu('.user-nav');
 	if ( typeof notes_storage != 'undefined' && localStorage.getItem(notes_storage) && $("#notes").length ) {
      $("#notes").val( localStorage.getItem(notes_storage) );
 	}
+     
+
+     /////////////////////////////////////////////////////////////////////////////////////////////////////
+     
+     
+     if ( is_firefox ) {
+     $("#sidebar label.pl_mn_lab").css('transform', 'scale(.75) translateY(0rem) translateX(0.25rem)', "important");
+     $("#sidebar #quant_font_percent").css('padding-left', '0.35rem', "important");
+     $("#sidebar #quant_font_percent").css('padding-right', '0.1rem', "important");
+     }
+
+
+     /////////////////////////////////////////////////////////////////////////////////////////////////////
+     
+
+     // Monitor admin iframes for load / unload events
+     if ( is_iframe ) {
+     admin_iframe_load = window.parent.document.querySelectorAll('.admin_iframe');
+     }
+     else {
+     admin_iframe_load = document.querySelectorAll('.admin_iframe');
+     }
 
 
 	/////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -150,6 +158,31 @@ nav_menu('.user-nav');
      // If overriding any responsive menu CSS is needed
      responsive_menu_override();
 	});
+
+
+	/////////////////////////////////////////////////////////////////////////////////////////////////////
+	
+	
+	// Monitor iframes for added 'repeatable' elements, so we can auto-adjust the height
+	// https://github.com/naugtur/insertionQuery
+	if ( is_iframe ) {
+	     
+          insertionQ('.repeatable div').every(function(element){
+               
+          console.log('repeatable element added, adjusting iframe height...');
+               
+               // Reset iframe heights after 1 second
+               setTimeout(function() {
+                    
+                   admin_iframe_load.forEach(function(iframe) {
+                   iframe_size_adjust(iframe);
+                   });
+                   
+               }, 1000);
+          
+          });
+
+     }
 	
 
 	/////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -201,7 +234,7 @@ nav_menu('.user-nav');
         $("#reset_username").filter(':visible').focus();
     	}, 1000);
     }
-
+     
 
 	/////////////////////////////////////////////////////////////////////////////////////////////////////
 	

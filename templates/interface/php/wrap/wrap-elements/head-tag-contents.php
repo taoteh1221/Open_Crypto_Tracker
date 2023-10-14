@@ -89,6 +89,8 @@
 	<link rel="preload" href="app-lib/js/init.js" as="script" />
 
 	<link rel="preload" href="app-lib/js/highlight.min.js" as="script" />
+
+	<link rel="preload" href="app-lib/js/insQ.min.js" as="script" />
 	
 	
 	<!-- END Preload a few UI-related files -->
@@ -117,6 +119,8 @@
 	<script src="app-lib/js/popper.min.js"></script>
 	
 	<script src="app-lib/js/zingchart.min.js"></script>
+	
+	<script src="app-lib/js/insQ.min.js"></script>
 	
 	<script src="app-lib/js/crypto-js.js"></script>
 

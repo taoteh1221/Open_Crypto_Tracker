@@ -6359,7 +6359,7 @@ MIGRATE YOUR EXISTING SETTINGS TO THE NEW FORMAT.
 
 -BUG FIX: Miscellaneous fixes
 
--Added Admin Config settings into these admin interface sections (these config settings are now editable in the admin interface): Plugins
+-Added Admin Config settings into these admin interface sections (these config settings are now editable in the admin interface): Plugins Main Category, Address Balance Tracker (plugin)
 
 -Consolidated error / debug logs into one log file, for clarified debugging output (whe debugging is enabled)
 

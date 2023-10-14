@@ -79,8 +79,6 @@ else {
 ////////////////////////////////////////////////////////////////////////////////////////////////
 
 
-$admin_render_settings['local_time_offset']['is_select']['is_assoc'] = array();
-
 $loop = -12;
 $loop_max = +14;
 while ( $loop <= $loop_max ) {
@@ -88,9 +86,9 @@ while ( $loop <= $loop_max ) {
 $loop_key = ( $loop >= 0 ? '+' . $loop : $loop );
      
 $admin_render_settings['local_time_offset']['is_select']['is_assoc'][] = array(
-                                                                       'key' => $loop_key,
-                                                                       'val' => $loop_key . ' Hours UTC Time',
-                                                                      );
+                                                                                 'key' => $loop_key,
+                                                                                 'val' => $loop_key . ' Hours UTC Time',
+                                                                              );
                                                                       
 $loop = $loop + 0.25;
 }
@@ -98,8 +96,6 @@ $loop = $loop + 0.25;
 
 ////////////////////////////////////////////////////////////////////////////////////////////////
 
-
-$admin_render_settings['google_font']['is_select'] = array();
 
 // Fallback to just listing the default google font, IF the google font API is NOT configured
 if ( isset($ct['conf']['ext_apis']['google_fonts_api_key']) && $ct['conf']['ext_apis']['google_fonts_api_key'] != '' ) {
@@ -118,8 +114,6 @@ $admin_render_settings['google_font']['is_notes'] = '<a href="https://support.go
 
 ////////////////////////////////////////////////////////////////////////////////////////////////
 
-
-$admin_render_settings['default_font_size']['is_select']['is_assoc'] = array();
 
 $loop = round($ct['dev']['min_font_resize'] * 100);
 $loop_max = round($ct['dev']['max_font_resize'] * 100);
@@ -155,9 +149,6 @@ $admin_render_settings['asset_charts_toggle']['is_radio'] = array(
 ////////////////////////////////////////////////////////////////////////////////////////////////
 
 
-$admin_render_settings['bitcoin_primary_currency_pair']['is_select'] = array();
-
-
 foreach ( $ct['conf']['power']['bitcoin_currency_markets'] as $pair_key => $unused ) {
 $admin_render_settings['bitcoin_primary_currency_pair']['is_select'][] = $pair_key;
 }
@@ -168,11 +159,21 @@ $admin_render_settings['bitcoin_primary_currency_pair']['is_notes'] = 'MUST BE A
 ////////////////////////////////////////////////////////////////////////////////////////////////
 
 
-$admin_render_settings['bitcoin_primary_exchange']['is_select'] = array();
-
-
-foreach ( $ct['conf']['assets']['BTC']['pair'][ $ct['conf']['gen']['bitcoin_primary_currency_pair'] ] as $exchange_key => $unused ) {
-$admin_render_settings['bitcoin_primary_exchange']['is_select'][] = $exchange_key;
+// List all exchanges that have a Bitcoin market
+foreach ( $ct['conf']['assets']['BTC']['pair'] as $pair_key => $unused ) {
+			
+	foreach ( $ct['conf']['assets']['BTC']['pair'][$pair_key] as $exchange_key => $unused ) {
+					
+		// Detects better with side space included
+		if ( stristr($supported_btc_exchange_scan, ' ' . $exchange_key . ' ') == false && stristr($exchange_key, 'bitmex_') == false ) { // Futures markets not allowed
+          $admin_render_settings['bitcoin_primary_exchange']['is_select'][] = $exchange_key;
+		$supported_btc_exchange_scan .= ' ' . $exchange_key . ' /';
+		}
+				
+	}
+	
+sort($admin_render_settings['bitcoin_primary_exchange']['is_select']);
+				
 }
 
 
@@ -190,8 +191,6 @@ $admin_render_settings['primary_marketcap_site']['is_notes'] = '<a href="https:/
 ////////////////////////////////////////////////////////////////////////////////////////////////
 
 
-$admin_render_settings['currency_decimals_max']['is_select'] = array();
-
 $loop = 0;
 $loop_max = 15;
 while ( $loop <= $loop_max ) {
@@ -203,8 +202,6 @@ $loop = $loop + 1;
 ////////////////////////////////////////////////////////////////////////////////////////////////
 
 
-$admin_render_settings['crypto_decimals_max']['is_select'] = array();
-
 $loop = 0;
 $loop_max = 15;
 while ( $loop <= $loop_max ) {
@@ -215,8 +212,6 @@ $loop = $loop + 1;
 
 ////////////////////////////////////////////////////////////////////////////////////////////////
 
-
-$admin_render_settings['chart_crypto_volume_decimals']['is_select'] = array();
 
 $loop = 0;
 $loop_max = 15;
@@ -230,26 +225,24 @@ $loop = $loop + 1;
 
 
 $admin_render_settings['price_round_percent']['is_select'] = array(
-                                                          'one',
-                                                          'tenth',
-                                                          'hundredth',
-                                                          'thousandth',
-                                                         );
+                                                                    'one',
+                                                                    'tenth',
+                                                                    'hundredth',
+                                                                    'thousandth',
+                                                                   );
 
 
 ////////////////////////////////////////////////////////////////////////////////////////////////
 
 
 $admin_render_settings['price_round_fixed_decimals']['is_radio'] = array(
-                                                          'off',
-                                                          'on',
-                                                         );
+                                                                         'off',
+                                                                         'on',
+                                                                        );
 
 
 ////////////////////////////////////////////////////////////////////////////////////////////////
 
-
-$admin_render_settings['charts_backup_frequency']['is_select'] = array();
 
 $loop = 0;
 $loop_max = 30;
@@ -266,8 +259,8 @@ $loop = $loop + 1;
 // (SEE $refresh_admin / $_GET['refresh'] in footer.php, for ALL possible values)
 $admin_render_settings['is_refresh_admin'] = 'all';
 
-// $ct['admin']->settings_form_fields($conf_id, $interface_id)
-$ct['admin']->settings_form_fields('gen', 'general', $admin_render_settings);
+// $ct['admin']->admin_config_interface($conf_id, $interface_id)
+$ct['admin']->admin_config_interface('gen', 'general', $admin_render_settings);
 
 
 ////////////////////////////////////////////////////////////////////////////////////////////////

@@ -173,14 +173,14 @@ $admin_render_settings['alphavantage_api_key']['is_notes'] = '<a href="https://w
 
 
 $admin_render_settings['alphavantage_per_minute_limit']['is_select'] = array(
-                                                                         '5',
-                                                                         '30',
-                                                                         '75',
-                                                                         '150',
-                                                                         '300',
-                                                                         '600',
-                                                                         '1200',
-                                                                        );
+                                                                              '5',
+                                                                              '30',
+                                                                              '75',
+                                                                              '150',
+                                                                              '300',
+                                                                              '600',
+                                                                              '1200',
+                                                                             );
 
 $admin_render_settings['alphavantage_per_minute_limit']['is_notes'] = 'LEAVE SET TO "5" IF YOU USE THE *FREE* PLAN, *OR YOU WILL ENCOUNTER ISSUES*.<br /><a href="https://www.alphavantage.co/premium/" target="_BLANK">See AlphaVantage\'s Premium Plans</a>, to increase your limits.';
 
@@ -192,8 +192,8 @@ $admin_render_settings['alphavantage_per_minute_limit']['is_notes'] = 'LEAVE SET
 // (SEE $refresh_admin / $_GET['refresh'] in footer.php, for ALL possible values)
 $admin_render_settings['is_refresh_admin'] = 'all';
 
-// $ct['admin']->settings_form_fields($conf_id, $interface_id)
-$ct['admin']->settings_form_fields('ext_apis', 'ext_apis', $admin_render_settings);
+// $ct['admin']->admin_config_interface($conf_id, $interface_id)
+$ct['admin']->admin_config_interface('ext_apis', 'ext_apis', $admin_render_settings);
 
 
 ////////////////////////////////////////////////////////////////////////////////////////////////

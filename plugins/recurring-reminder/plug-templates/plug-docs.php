@@ -6,4 +6,4 @@
 
 ?>
 
-Documentation page TEST
+<p> Coming Soon&trade; </p>
