@@ -1,12 +1,43 @@
 
-// version 0.40.2, 2022/JUNE/2ND
+/*
+
+version 0.40.3, 2023/OCTOBER/14TH
+
+MIT License
+
+Copyright (c) 2013-2018 Jennifer Wachter
+
+Copyright (c) 2022-2023 Michael Kilday (mike@dragonfrugal.com)
+
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+
+
+*/
+
 
 (function ($) {
 
-	$.fn.repeatable = function (userSettings) {
+	$.fn.repeatable = function (devConfig) {
 
 		/**
-		 * Default settings
+		 * Default config
 		 * @type {Object}
 		 */
 		var defaults = {
@@ -31,10 +62,10 @@
 		var target = $(this);
 
 		/**
-		 * Blend passed user settings with default settings
+		 * Blend passed user config with default config
 		 * @type {array}
 		 */
-		var settings = $.extend({}, defaults, userSettings);
+		var config = $.extend({}, defaults, devConfig);
 
 		/**
 		 * Total templated items found on the page
@@ -43,7 +74,7 @@
 		 * @return null
 		 */
 		var total = function () {
-		    calc_total = $(target).find(settings.itemContainer).length;
+		    calc_total = $(target).find(config.itemContainer).length;
 		    //console.log(calc_total); // DEBUGGING ONLY
 			return calc_total;
 		}();
@@ -62,9 +93,9 @@
 		 */
 		var addOne = function (e) {
 			e.preventDefault();
-			settings.beforeAdd.call(this);
+			config.beforeAdd.call(this);
 			var item = createOne();
-			settings.afterAdd.call(this, item);
+			config.afterAdd.call(this, item);
 		};
 
 		/**
@@ -75,13 +106,13 @@
 		 */
 		var deleteOne = function (e) {
 			e.preventDefault();
-			if (total === settings.min) { alert('Minimum allowed entries is ' + settings.min + ', please just delete the data inside the fields, and update / save the settings.'); return; }
-			var item = $(this).parents(settings.itemContainer).first();
-			settings.beforeDelete.call(this, item);
+			if (total === config.min) { alert('Minimum allowed entries is ' + config.min + ', please just delete the data inside the fields, and update / save the settings.'); return; }
+			var item = $(this).parents(config.itemContainer).first();
+			config.beforeDelete.call(this, item);
 			item.remove();
 			total--;
 			maintainAddBtn();
-			settings.afterDelete.call(this);
+			config.afterDelete.call(this);
 		};
 
 		/**
@@ -107,8 +138,8 @@
 		     total++;
 		     }
 		     
-			var template = $(settings.template).html();
-			template = template.replace(/{\?}/g, settings.prefix + total); 	// {?} => iterated placeholder
+			var template = $(config.template).html();
+			template = template.replace(/{\?}/g, config.prefix + total); 	// {?} => iterated placeholder
 			template = template.replace(/\{[^\?\}]*\}/g, ""); 	// {valuePlaceholder} => ""
 			return $(template);
 			
@@ -119,7 +150,7 @@
 		 */
 		var duplicateCheck = function () {
 
-			if ( 1 < $(settings.itemContainer + ' input[data-track-index=' + settings.prefix + total + ']').length || 1 < $(settings.itemContainer + ' select[data-track-index=' + settings.prefix + total + ']').length ) {
+			if ( 1 < $(config.itemContainer + ' input[data-track-index=' + config.prefix + total + ']').length || 1 < $(config.itemContainer + ' select[data-track-index=' + config.prefix + total + ']').length ) {
 			console.log('POTENTIAL duplicate form array index clash, upping count...')
                return 'yes';
                }
@@ -135,14 +166,14 @@
 		 * @return null
 		 */
 		var maintainAddBtn = function () {
-			if (!settings.max) {
+			if (!config.max) {
 				return;
 			}
 
-			if (total === settings.max) {
-				$(settings.addTrigger).attr("disabled", "disabled");
-			} else if (total < settings.max) {
-				$(settings.addTrigger).removeAttr("disabled");
+			if (total === config.max) {
+				$(config.addTrigger).attr("disabled", "disabled");
+			} else if (total < config.max) {
+				$(config.addTrigger).removeAttr("disabled");
 			}
 		};
 
@@ -151,11 +182,11 @@
 		 * @return null
 		 */
 		(function () {
-			$(settings.addTrigger).on("click", addOne);
-			$("form").on("click", settings.deleteTrigger, deleteOne);
+			$(config.addTrigger).on("click", addOne);
+			$("form").on("click", config.deleteTrigger, deleteOne);
 
 			if (!total) {
-				var toCreate = settings.min - total;
+				var toCreate = config.min - total;
 				for (var j = 0; j < toCreate; j++) {
 					createOne();
 				}
