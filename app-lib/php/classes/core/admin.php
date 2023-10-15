@@ -102,14 +102,7 @@ var $ct_array = array();
                        
                       <?php
                       }
-                      ?>
-          	   
-          	   123PLACEHOLDER_BOTTOM123
-          	
-          	
-          	   <div class='repeatable_seperator'></div>
-          	   
-                  <?php
+
                   }
                   
              }
@@ -677,6 +670,7 @@ var $ct_array = array();
 	                
 	                
 	                if ( $field_count > 1 ) {
+	                $repeatable_template = $ct['gen']->str_replace_last('</p>', "</p>\n\n" . $repeatable_seperator . "\n\n", $repeatable_template);
 	                $repeatable_template = preg_replace("/123PLACEHOLDER_BOTTOM123/i", $remove_button, $repeatable_template);
 	                $repeatable_template = preg_replace("/123PLACEHOLDER_RIGHT123/i", "", $repeatable_template);
 	                }
