@@ -11,6 +11,8 @@ $subarray_allow_upgrading = array();
 
 $admin_render_settings = array();
 
+$repeatable_fields_tracking = array();
+
 $check_crypto_pair = array();
 
 $log_errors = array();

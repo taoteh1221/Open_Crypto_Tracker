@@ -171,19 +171,22 @@ https://zksync.io/api/v0.1.html (KEEP AN EYE OUT FOR V2 DOCS AS WELL)
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
-Research whether POST data size affects header size like cookie data size does.
+Use a slider for number values, instead of dropdown select menus.
 
 
-Make sure everything STILL runs smoothly with the charts page turned off.
+Add a logout class to the logout link, and add an onclick event listener that does the same type of notice instantly like if we enable privacy mode while in the admin area.
 
 
-Change "portfolio cache size gigabytes" system chart telemetry name to "tracker cache size gigabytes".
+Alphabetically sort everything on the plugins main page, AND for admin interface lists like address balance tracker plugin addresses list (sorted by label name) / new feeds section list (sorted by title). Use the same logic we use to sort news feeds in the user area.
 
 
-Look for "0.0000" in app, for more instances we need to now be dynamic in the logic (base off new min decimal settings in the general section of the config).
+Add admin config interfaces for all funtional plugins, AND for new feeds section.
 
 
-Try copy / paste bonk inu "unit value" from portfolio page over to "paid" field on update page, to try to recreate a possible issue related to invisible whitespace causing "paid" value to set as zero on form submission.
+CACHE an md5 hash of all telegram settings combined, and only delete the chatroom data / refresh it if this md5 hash changes (like we do for light chart config). Otherwise you get a bad UX from endlessly getting alerts to re-enter "/start" in the chatroom EVERYTIME YOU UPDATE *ANY* ADMIN SETTINGS.
+
+
+Add onchange to every admin interface setting field, with a call to a function to update a hidden field in that section, which lets us know a user has updated the settings in that section. Then we can warn them they have unsaved changes if they go to leave that section. Maybe toggle it making a 'sticky' position save button in red show in a top corner of the iframe? Onblur of admin section (clicking another section link, etc) should pause click actions and warn IF CHANGES HAVE BEEN MADE TO SETTINGS WITHIN THE ADMIN SECTION. Include on exiting admin config area (returning to portfolio page / closing tab).
 
 
 Add my venmo link to app footer and project page: 
@@ -198,6 +201,21 @@ Add ARM stock.
 
 
 Add more Jupiter agg markets to Solana coins in price target plugin.
+
+
+Research whether POST data size affects header size like cookie data size does.
+
+
+Make sure everything STILL runs smoothly with the charts page turned off.
+
+
+Change "portfolio cache size gigabytes" system chart telemetry name to "tracker cache size gigabytes".
+
+
+Look for "0.0000" in app, for more instances we need to now be dynamic in the logic (base off new min decimal settings in the general section of the config).
+
+
+Try copy / paste bonk inu "unit value" from portfolio page over to "paid" field on update page, to try to recreate a possible issue related to invisible whitespace causing "paid" value to set as zero on form submission.
 
 
 Go through all init / config / etc files, and add any primary vars to "$ct" that haven't been added yet, for consistent / clean code. EVERYTHING IN empty-vars.php definately should be converted. ALSO THESE VARS TOO:
@@ -235,24 +253,6 @@ Change semantic naming of 'coin_amnts' form id, as it now also handles charts / 
 
 
 Change the last option in the ext_data() function to a human-readable value, to save time on new API integrations (url_encode, json_encode, etc).
-
-
-Use a slider for number values, instead of dropdown select menus.
-
-
-Add a logout class to the logout link, and add an onclick event listener that does the same type of notice instantly like if we enable privacy mode while in the admin area.
-
-
-Add a global array 'first item rendered', which we can populate with keys to know when the first item in an interface list has rendered. Then we can put a top border on any items rendered afterwards, to clarify seperation for end users. Use this for the seperator between addresses in the address balance tracker admin interface settings.
-
-
-Alphabetically sort everything on the plugins main page, AND for admin interface lists like address balance tracker plugin addresses list (sorted by label name) / new feeds section list (sorted by title). Use the same logic we use to sort news feeds in the user area.
-
-
-CACHE an md5 hash of all telegram settings combined, and only delete the chatroom data / refresh it if this md5 hash changes (like we do for light chart config). Otherwise you get a bad UX from endlessly getting alerts to re-enter "/start" in the chatroom EVERYTIME YOU UPDATE *ANY* ADMIN SETTINGS.
-
-
-Add onchange to every admin interface setting field, with a call to a function to update a hidden field in that section, which lets us know a user has updated the settings in that section. Then we can warn them they have unsaved changes if they go to leave that section. Maybe toggle it making a 'sticky' position save button in red show in a top corner of the iframe? Onblur of admin section (clicking another section link, etc) should pause click actions and warn IF CHANGES HAVE BEEN MADE TO SETTINGS WITHIN THE ADMIN SECTION. Include on exiting admin config area (returning to portfolio page / closing tab).
 
 
 Add BTC to documentation om supported trading pairs (in help / faq, readme, troubleshooting, and project page).

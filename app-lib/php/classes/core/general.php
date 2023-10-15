@@ -12,7 +12,7 @@ var $ct_var2;
 var $ct_var3;
 
 var $ct_array = array();
-
+   
 
    ////////////////////////////////////////////////////////
    ////////////////////////////////////////////////////////
@@ -74,6 +74,22 @@ var $ct_array = array();
       return $telegram_messaging->send->chat($chat_id)->text($msg)->send();
       }
    
+   }
+
+
+   ////////////////////////////////////////////////////////
+   ////////////////////////////////////////////////////////
+   
+   
+   function str_replace_last($search, $replace, $str) {
+        
+      if( ( $pos = strrpos($str, $search) ) !== false ) {
+      $search_length = strlen($search);
+      $str = substr_replace($str, $replace, $pos, $search_length);
+      }
+   
+   return $str;
+    
    }
    
    

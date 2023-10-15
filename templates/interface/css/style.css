@@ -819,6 +819,18 @@ i.gg-eye, i.gg-eye-alt {
 }
 
 
+div.repeatable > div {
+border-top: 0.2em solid #808080;
+padding-top: 1em;
+}
+
+
+div.repeatable div.repeatable_seperator {
+margin-top: 2em;
+margin-bottom: 2em;
+}
+
+
 /* //////////////////////////////
 IDs
 ////////////////////////////// */

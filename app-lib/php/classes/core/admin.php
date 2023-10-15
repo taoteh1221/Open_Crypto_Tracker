@@ -20,9 +20,9 @@ var $ct_array = array();
    ////////////////////////////////////////////////////////
    
    
-   function repeatable_form_fields($field_array_base, $passed_key, $passed_val, $render_params) {
+   function repeatable_fields_template($field_array_base, $passed_key, $passed_val, $render_params) {
         
-   global $ct;
+   global $ct, $repeatable_fields_tracking;
    
         
         // If an add / remove (repeatable) setup
@@ -34,12 +34,24 @@ var $ct_array = array();
              <?php
              // Subarray data can be mixed types of form fields, SO ALL CHECKS ARE 'IF' STATEMENTS
              foreach( $render_params[$passed_key]['is_subarray']['is_repeatable'] as $sub_key => $sub_val ) {
+
+             // Tracking for rendering remove button
+             $repeatable_fields_tracking[$passed_key][$sub_key] = 0;
+             
              
                   if ( $sub_key === 'is_radio' ) { // PHP7.4 NEEDS === HERE INSTEAD OF ==
-                  // Add radio button logic here
+                  
+                  // Tracking for rendering remove button
+                  $repeatable_fields_tracking[$passed_key][$sub_key] = $repeatable_fields_tracking[$passed_key][$sub_key] + 1;
+
+                  // Add radio button logic here   
+                  
                   }
                   
                   if ( $sub_key === 'is_select' ) { // PHP7.4 NEEDS === HERE INSTEAD OF ==
+                  
+                  // Tracking for rendering remove button
+                  $repeatable_fields_tracking[$passed_key][$sub_key] = $repeatable_fields_tracking[$passed_key][$sub_key] + 1;
                           
         
                        foreach( $render_params[$passed_key]['is_subarray']['is_repeatable']['is_select'] as $sub_key => $sub_val ) {
@@ -61,6 +73,8 @@ var $ct_array = array();
                                 ?>
                             
                             </select>
+                           
+                           123PLACEHOLDER_RIGHT123
                             
                             </p>
                        
@@ -71,21 +85,29 @@ var $ct_array = array();
                   
                   if ( $sub_key === 'is_text' ) { // PHP7.4 NEEDS === HERE INSTEAD OF ==
                   
+                  // Tracking for rendering remove button
+                  $repeatable_fields_tracking[$passed_key][$sub_key] = $repeatable_fields_tracking[$passed_key][$sub_key] + 1;
+                  
 
                       foreach( $render_params[$passed_key]['is_subarray']['is_repeatable']['is_text'] as $sub_key => $unused ) {
                       ?>
                        
                       <p>
                    
-                           <b class='blue'><?=$ct['gen']->key_to_name($sub_key)?>:</b> &nbsp; <input data-track-index='{?}' type='text' name='<?=$field_array_base?>[<?=$passed_key?>][{?}][<?=$sub_key?>]' value='' <?=( isset($render_params[$passed_key]['is_subarray']['is_repeatable']['text_field_size']) ? ' size="' . $render_params[$passed_key]['is_subarray']['is_repeatable']['text_field_size'] . '"' : '' )?> />
+                           <b class='blue'><?=$ct['gen']->key_to_name($sub_key)?>:</b> &nbsp; <input data-track-index='{?}' type='text' name='<?=$field_array_base?>[<?=$passed_key?>][{?}][<?=$sub_key?>]' value='' <?=( isset($render_params[$passed_key]['is_subarray']['is_repeatable']['text_field_size']) ? ' size="' . $render_params[$passed_key]['is_subarray']['is_repeatable']['text_field_size'] . '"' : '' )?> /> 
+                           
+                           123PLACEHOLDER_RIGHT123
           
                       </p>
                        
                       <?php
                       }
                       ?>
+          	   
+          	   123PLACEHOLDER_BOTTOM123
           	
-          	   <div style='padding-bottom: 2em; border-bottom: 0.2em solid #808080;'><input type="button" class="btn btn-danger span-2 delete" value="Remove" /></div>
+          	
+          	   <div class='repeatable_seperator'></div>
           	   
                   <?php
                   }
@@ -109,7 +131,9 @@ var $ct_array = array();
    
    function textarea_form_fields($field_array_base, $passed_key, $passed_val, $render_params, $subarray_key=false) {
         
-   global $ct;
+   global $ct, $repeatable_fields_tracking;
+   
+   $repeatable_fields_tracking[$passed_key]['is_textarea'] = 0;
         
         
         // If a regular text area
@@ -145,7 +169,9 @@ var $ct_array = array();
    
    function text_form_fields($field_array_base, $passed_key, $passed_val, $render_params, $subarray_key=false) {
         
-   global $ct;
+   global $ct, $repeatable_fields_tracking;
+   
+   $repeatable_fields_tracking[$passed_key]['is_text'] = 0;
               
               
          if ( isset($render_params[$passed_key]['is_trim']) ) {
@@ -205,16 +231,20 @@ var $ct_array = array();
              <p>
          
                   <b class='blue'><?=$ct['gen']->key_to_name($sub_key)?>:</b> &nbsp; <input data-track-index='<?=$subarray_key?>' type='text' name='<?=$field_array_base?>[<?=$passed_key?>][<?=$subarray_key?>][<?=$sub_key?>]' value='<?=( isset($passed_val[$subarray_key][$sub_key]) ? $passed_val[$subarray_key][$sub_key] : '' )?>' <?=( isset($render_params[$passed_key]['is_subarray'][$subarray_key]['text_field_size']) ? ' size="' . $render_params[$passed_key]['is_subarray'][$subarray_key]['text_field_size'] . '"' : '' )?> />
+                  
+                  <?php
+                  if ( isset($render_params[$passed_key]['is_subarray']['is_repeatable']['is_text']) ) {
+                  $repeatable_fields_tracking[$passed_key]['is_text'] = $repeatable_fields_tracking[$passed_key]['is_text'] + 1;
+                  echo '123PLACEHOLDER_RIGHT123';
+                  }
+                  ?>
 
              </p>
              
              <?php
              }
-             ?>
-	
-	    <div style='padding-bottom: 2em; border-bottom: 0.2em solid #808080;'><input type="button" class="btn btn-danger span-2 delete" value="Remove" /></div>
-	   
-         <?php
+        
+        
          }
          
                      
@@ -227,7 +257,9 @@ var $ct_array = array();
    
    function select_form_fields($field_array_base, $passed_key, $passed_val, $render_params, $subarray_key=false) {
         
-   global $ct;
+   global $ct, $repeatable_fields_tracking;
+   
+   $repeatable_fields_tracking[$passed_key]['is_select'] = 0;
         
         
         // If a regular select field
@@ -304,6 +336,13 @@ var $ct_array = array();
                   
                   </select>
                   
+                      <?php
+                      if ( isset($render_params[$passed_key]['is_subarray']['is_repeatable']['is_select']) ) {
+                      $repeatable_fields_tracking[$passed_key]['is_select'] = $repeatable_fields_tracking[$passed_key]['is_select'] + 1;
+                      echo '123PLACEHOLDER_RIGHT123';
+                      }
+                      ?>
+                  
                   </p>
              
              <?php
@@ -321,7 +360,9 @@ var $ct_array = array();
    
    function radio_form_fields($field_array_base, $passed_key, $passed_val, $render_params, $subarray_key=false) {
         
-   global $ct;
+   global $ct, $repeatable_fields_tracking;
+   
+   $repeatable_fields_tracking[$passed_key]['is_radio'] = 0;
         
         
         // If a regular radio button
@@ -384,7 +425,14 @@ var $ct_array = array();
              foreach( $render_params[$passed_key]['is_subarray'][$subarray_key]['is_radio'] as $sub_key => $sub_val ) {
              ?>
                  
-                 <input data-track-index='<?=$subarray_key?>' type='radio' name='<?=$field_array_base?>[<?=$passed_key?>][<?=$subarray_key?>]' value='<?=$sub_val?>' <?=( isset($passed_val[$subarray_key]) && $passed_val[$subarray_key] == $sub_val ? 'checked' : '' )?> /> <?=$ct['gen']->key_to_name($sub_val)?> &nbsp;
+                 <input data-track-index='<?=$subarray_key?>' type='radio' name='<?=$field_array_base?>[<?=$passed_key?>][<?=$subarray_key?>]' value='<?=$sub_val?>' <?=( isset($passed_val[$subarray_key]) && $passed_val[$subarray_key] == $sub_val ? 'checked' : '' )?> /> <?=$ct['gen']->key_to_name($sub_val)?> &nbsp; 
+                  
+                    <?php
+                    if ( isset($render_params[$passed_key]['is_subarray']['is_repeatable']['is_radio']) ) {
+                    $repeatable_fields_tracking[$passed_key]['is_radio'] = $repeatable_fields_tracking[$passed_key]['is_radio'] + 1;
+                    echo '123PLACEHOLDER_RIGHT123';
+                    }
+                    ?>
                  
              <?php
              }
@@ -405,7 +453,7 @@ var $ct_array = array();
    
    function admin_config_interface($conf_id, $interface_id, $render_params=false) {
         
-   global $ct, $update_config_success, $update_config_error;
+   global $ct, $repeatable_fields_tracking, $update_config_success, $update_config_error;
    
    
       if ( !is_array($render_params) ) {
@@ -487,6 +535,13 @@ var $ct_array = array();
 
               if ( is_array($render_params[$key]['is_subarray']['is_repeatable']) ) {
                    
+              $repeat_id = 'repeat_' . $field_array_base;
+	         
+	         $repeatable_seperator = "123PLACEHOLDER_BOTTOM123\n\n<div class='repeatable_seperator'></div>";
+	         
+	         $remove_button = '<input type="button" class="btn btn-danger span-2 delete" value="Remove" />';
+	         
+                   
                    // IF we need to reset the auto-indexing for this subarray,
                    // so no duplicates overwrite each other with the add / remove javascript in the UI
                    if ( isset($render_params[$key]['is_subarray']['is_repeatable']['reset_auto_index']) ) {
@@ -524,13 +579,17 @@ var $ct_array = array();
                    // If this is an actual setting (NOT creating a repeatable BLANK TEMPLATE)
                    if ( $subarray_key !== 'is_repeatable' ) { // PHP7.4 NEEDS !== HERE INSTEAD OF !=
                    ?>
-        
                    <div class='subarray_<?=$field_array_base?>'>
-        
                    <?php
                    }
-                   
-                   
+	         
+	         
+	         $field_count = 0;
+	         $repeatable_fields_tracking[$key] = array(); // Reset counts                   
+                                  
+              ob_start();
+               
+               
                    // Radio buttons in subarray
                    if ( is_array($render_params[$key]['is_subarray'][$subarray_key]['is_radio']) ) {
                    $this->radio_form_fields($field_array_base, $key, $val, $render_params, $subarray_key);
@@ -546,13 +605,35 @@ var $ct_array = array();
                    $this->text_form_fields($field_array_base, $key, $val, $render_params, $subarray_key);
                    }
                    
+	         
+	         $rendered_form_fields = ob_get_contents();
+
+	         ob_end_clean();
+	          
+	          
+	              foreach ( $repeatable_fields_tracking[$key] as $count_val ) {
+	              $field_count = $field_count + $count_val;
+	              }
+	                
+	                
+	              if ( $field_count > 1 ) {
+	              $rendered_form_fields = $ct['gen']->str_replace_last('</p>', "</p>\n\n" . $repeatable_seperator . "\n\n", $rendered_form_fields);
+	              $rendered_form_fields = preg_replace("/123PLACEHOLDER_BOTTOM123/i", $remove_button, $rendered_form_fields);
+	              $rendered_form_fields = preg_replace("/123PLACEHOLDER_RIGHT123/i", "", $rendered_form_fields);
+	              }
+	              else {
+	              $rendered_form_fields = preg_replace("/123PLACEHOLDER_RIGHT123/i", $remove_button, $rendered_form_fields);
+	              $rendered_form_fields = preg_replace("/123PLACEHOLDER_BOTTOM123/i", "", $rendered_form_fields);
+	              }
+	                
+	          
+	         echo $rendered_form_fields;
+	          
                    
                    // If this is an actual setting (NOT creating a repeatable BLANK TEMPLATE)
                    if ( $subarray_key !== 'is_repeatable' ) { // PHP7.4 NEEDS !== HERE INSTEAD OF !=
                    ?>
-        
                    </div>
-        
                    <?php
                    }
         
@@ -561,9 +642,6 @@ var $ct_array = array();
 
 
               if ( is_array($render_params[$key]['is_subarray']['is_repeatable']) ) {
-                   
-              $repeat_id = 'repeat_' . $field_array_base;
-              
               ?>
               
      	     </div>
@@ -578,8 +656,38 @@ var $ct_array = array();
                <script type="text/template" id="<?=$repeat_id?>">
 	          
 	          <?php
-               // Add / remove (repeatable) form fields
-	          $this->repeatable_form_fields($field_array_base, $key, $val, $render_params);
+	          
+               // Add / remove (repeatable) form fields template
+	          
+	          $field_count = 0;
+	          $repeatable_fields_tracking[$key] = array(); // Reset counts
+               
+               ob_start();
+               
+	          $this->repeatable_fields_template($field_array_base, $key, $val, $render_params);
+
+	          $repeatable_template = ob_get_contents();
+
+	          ob_end_clean();
+	          
+	          
+	                foreach ( $repeatable_fields_tracking[$key] as $count_val ) {
+	                $field_count = $field_count + $count_val;
+	                }
+	                
+	                
+	                if ( $field_count > 1 ) {
+	                $repeatable_template = preg_replace("/123PLACEHOLDER_BOTTOM123/i", $remove_button, $repeatable_template);
+	                $repeatable_template = preg_replace("/123PLACEHOLDER_RIGHT123/i", "", $repeatable_template);
+	                }
+	                else {
+	                $repeatable_template = preg_replace("/123PLACEHOLDER_RIGHT123/i", $remove_button, $repeatable_template);
+	                $repeatable_template = preg_replace("/123PLACEHOLDER_BOTTOM123/i", "", $repeatable_template);
+	                }
+	                
+	          
+	          echo $repeatable_template;
+	                
 		     ?>
          
          
@@ -595,6 +703,10 @@ var $ct_array = array();
           				deleteTrigger: ".<?=$field_array_base?> .delete",
           				template: "#<?=$repeat_id?>",
           				itemContainer: ".subarray_<?=$field_array_base?>",
+          				afterDelete: function () {
+                              $("div.repeatable > div:first-child").css("border-top", "0.0em solid #808080");
+                              $("div.repeatable > div:first-child").css("padding-top", "0.0em");
+          				},
           				min: 1,
           				max: 999
           			});
