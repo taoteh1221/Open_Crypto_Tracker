@@ -120,6 +120,8 @@ $check_2fa_error = null;
 
 $telegram_user_data_path = null;
 
+$usort_alpha = null;
+
 
 // Initial zero-set / false strings
 

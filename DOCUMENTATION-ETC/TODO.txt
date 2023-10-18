@@ -171,16 +171,22 @@ https://zksync.io/api/v0.1.html (KEEP AN EYE OUT FOR V2 DOCS AS WELL)
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
+UPGRADES TO THE CACHED CONFIG change the order in which NEW UPGRADE settings are saved in the CACHED config, which leads to undesireable ordering of settings in the interface. Look into adding an admin settings interface parameter, which allows us to specify the EXACT order we want settings to display in the interface.
+
+
+There were a few bugs in the cached config upgrade mechanism still (that I just fixed). Needs to be torture tested some more, to make sure the fixes are good.
+
+
+Validate news feeds settings interface input / all plugin settings interface inputs.
+
+
 Use a slider for number values, instead of dropdown select menus.
 
 
 Add a logout class to the logout link, and add an onclick event listener that does the same type of notice instantly like if we enable privacy mode while in the admin area.
 
 
-Alphabetically sort everything on the plugins main page, AND for admin interface lists like address balance tracker plugin addresses list (sorted by label name) / new feeds section list (sorted by title). Use the same logic we use to sort news feeds in the user area.
-
-
-Add admin config interfaces for all funtional plugins, AND for new feeds section.
+Add admin config interfaces for all funtional plugins.
 
 
 CACHE an md5 hash of all telegram settings combined, and only delete the chatroom data / refresh it if this md5 hash changes (like we do for light chart config). Otherwise you get a bad UX from endlessly getting alerts to re-enter "/start" in the chatroom EVERYTIME YOU UPDATE *ANY* ADMIN SETTINGS.

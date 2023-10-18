@@ -12,20 +12,19 @@ var $ct_var2;
 var $ct_var3;
 
 var $ct_array = array();
-   
+
 
    ////////////////////////////////////////////////////////
    ////////////////////////////////////////////////////////
    
    
-   function titles_usort_alpha($a, $b) {
-   return strcmp( strtolower($a["title"]) , strtolower($b["title"]) ); // Case-insensitive equivelent comparision via strtolower()
+   function has_string_keys($array) {
+   return count(array_filter(array_keys($array), 'is_string')) > 0;
    }
 
 
    ////////////////////////////////////////////////////////
    ////////////////////////////////////////////////////////
-   
    
    function timestamps_usort_num($a, $b) {
    return strcmp($a['timestamp'], $b['timestamp']); 
@@ -58,6 +57,19 @@ var $ct_array = array();
    function all_cookies_size() {
    $cookies = isset($_SERVER['HTTP_COOKIE']) ? $_SERVER['HTTP_COOKIE'] : null;
    return mb_strlen($cookies);
+   }
+   
+
+   ////////////////////////////////////////////////////////
+   ////////////////////////////////////////////////////////
+   
+   
+   function usort_alpha($a, $b) {
+   
+   global $usort_alpha;
+   
+   return strcmp( strtolower($a[$usort_alpha]) , strtolower($b[$usort_alpha]) ); // Case-insensitive equivelent comparision via strtolower()
+   
    }
    
    
@@ -1174,8 +1186,10 @@ var $ct_array = array();
 
           }
        
-      // Sort by timestamp
-      usort($sortable_array, array($this, 'timestamps_usort_num') );
+          // Sort by timestamp
+          if ( is_array($sortable_array) ) { 
+          usort($sortable_array, array($this, 'timestamps_usort_num') );
+          }
        
           // Return to normal string, after sorting logs by timestamp
           foreach( $sortable_array as $val ) {
@@ -2507,8 +2521,14 @@ var $ct_array = array();
          elseif ( strtolower($val) == 'ext' ) {
          $words[$key] = 'External';
          }
+         elseif ( strtolower($val) == 'precache' ) {
+         $words[$key] = 'PreCache';
+         }
          elseif ( strtolower($val) == 'ag' ) {
          $words[$key] = 'Aggregator';
+         }
+         elseif ( strtolower($val) == 'url' ) {
+         $words[$key] = 'URL';
          }
          elseif ( strtolower($val) == 'comms' ) {
          $words[$key] = 'Communications';
@@ -2627,7 +2647,7 @@ var $ct_array = array();
         
         	// NEW RSS feed posts
         	$num_posts = 0;
-        	foreach($ct['conf']['news_feeds'] as $feed_item) {
+        	foreach($ct['conf']['news']['feeds'] as $feed_item) {
         	    
         		if ( isset($feed_item["url"]) && trim($feed_item["url"]) != '' ) {
         		    

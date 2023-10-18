@@ -90,6 +90,9 @@
 	echo '<span class="bitcoin">No plugins activated yet.</span>';
 	}
 	else {
+	     
+	ksort($currently_activated_plugins);
+	
 	?>
 	   
     <ul>  

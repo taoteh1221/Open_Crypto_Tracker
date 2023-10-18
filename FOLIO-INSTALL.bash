@@ -654,6 +654,12 @@ echo " "
 echo "${red}VERY IMPORTANT *UPGRADE* NOTES:${reset}"
 echo " "
 
+echo "v6.00.29 and higher renames / restructures the News Feeds config. USE THE LATEST/UPGRADED CONFIG.PHP,"
+echo "AND MIGRATE YOUR EXISTING CUSTOM NEWS FEEDS TO THE NEW FORMAT."
+echo "${reset} "
+echo " "
+echo " "
+
 echo "v6.00.26 / v6.00.27 and higher renames the admin config array variables. ALL CONFIGURATION SETTING"
 echo "VARIABLE NAMES ARE NOW DIFFERENT, USE THE LATEST/UPGRADED CONFIG.PHP, AND"
 echo "MIGRATE YOUR EXISTING SETTINGS TO THE NEW FORMAT."

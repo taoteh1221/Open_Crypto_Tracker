@@ -389,16 +389,16 @@ var $ct_array = array();
       }
       // Never re-cache FROM LIVE more than 'news_feed_batched_maximum' (EXCEPT for cron runtimes pre-caching), 
       // to avoid overloading low resource devices (raspi / pine64 / etc) and creating long feed load times
-      elseif ( $_SESSION[$fetched_feeds]['all'] >= $ct['conf']['power']['news_feed_batched_maximum'] && $cache_only == false && $ct['runtime_mode'] != 'cron' ) {
+      elseif ( $_SESSION[$fetched_feeds]['all'] >= $ct['conf']['news']['news_feed_batched_maximum'] && $cache_only == false && $ct['runtime_mode'] != 'cron' ) {
       return '<span class="red">Live data fetching limit reached (' . $_SESSION[$fetched_feeds]['all'] . ').</span>';
       }
       // Avoid overloading low power devices with the precache hard limit
-      elseif ( $cache_only == true && $precache_feeds_count >= $ct['conf']['power']['news_feed_precache_hard_limit'] ) {
+      elseif ( $cache_only == true && $precache_feeds_count >= $ct['conf']['news']['news_feed_precache_maximum'] ) {
       return false;
       }
       
    
-   $news_feed_cache_min_max = explode(',', $ct['conf']['power']['news_feed_cache_min_max']);
+   $news_feed_cache_min_max = explode(',', $ct['conf']['news']['news_feed_cache_min_max']);
    // Cleanup
    $news_feed_cache_min_max = array_map('trim', $news_feed_cache_min_max);
       
@@ -475,7 +475,7 @@ var $ct_array = array();
       
       $html_hidden .= '<ul class="hidden" id="'.md5($url).'">';
       
-      $mark_new = ' &nbsp; <img alt="" src="templates/interface/media/images/auto-preloaded/twotone_fiber_new_' . $theme_selected . '_theme_48dp.png" height="25" title="New Article (under ' . $ct['conf']['power']['news_feed_entries_new'] . ' days old)" />';
+      $mark_new = ' &nbsp; <img alt="" src="templates/interface/media/images/auto-preloaded/twotone_fiber_new_' . $theme_selected . '_theme_48dp.png" height="25" title="New Article (under ' . $ct['conf']['news']['mark_as_new'] . ' days old)" />';
              
       $now_timestamp = time();
              
@@ -490,7 +490,9 @@ var $ct_array = array();
 		      $sortable_feed[] = $item;
 		      }
 		               
-		  $usort_results = usort($sortable_feed,  array($ct['gen'], 'timestamps_usort_newest') );
+                if ( is_array($sortable_feed) ) { 
+		      $usort_results = usort($sortable_feed,  array($ct['gen'], 'timestamps_usort_newest') );
+		      }
 		               
 		      if ( !$usort_results ) {
 		      $ct['gen']->log( 'other_error', 'RSS feed failed to sort by newest items (' . $url . ')');
@@ -528,7 +530,7 @@ var $ct_array = array();
 			                  
 				     // If publish date is OVER 'news_feed_entries_new' days old, DONT mark as new
 				     // With offset, to try to catch any that would have been missed from runtime
-				     if ( $ct['var']->num_to_str($now_timestamp) > $ct['var']->num_to_str( strtotime($item_date) + ($ct['conf']['power']['news_feed_entries_new'] * 86400) + $ct['dev']['tasks_time_offset'] ) ) {
+				     if ( $ct['var']->num_to_str($now_timestamp) > $ct['var']->num_to_str( strtotime($item_date) + ($ct['conf']['news']['mark_as_new'] * 86400) + $ct['dev']['tasks_time_offset'] ) ) {
 				     $mark_new = null;
 				     }
 				     // If running as $email_only, we only want 'new' posts anyway (less than 'news_feed_email_frequency' days old)
@@ -574,7 +576,9 @@ var $ct_array = array();
 	          $sortable_feed[] = $item;
 	          }
 	               
-	      $usort_results = usort($sortable_feed, array($ct['gen'], 'timestamps_usort_newest') );
+               if ( is_array($sortable_feed) ) { 
+	          $usort_results = usort($sortable_feed, array($ct['gen'], 'timestamps_usort_newest') );
+	          }
 	               
 	          if ( !$usort_results ) {
 	          $ct['gen']->log( 'other_error', 'RSS feed failed to sort by newest items (' . $url . ')');
@@ -615,7 +619,7 @@ var $ct_array = array();
 		                  
 			         // If publish date is OVER 'news_feed_entries_new' days old, DONT mark as new
 				     // With offset, to try to catch any that would have been missed from runtime
-			         if ( $ct['var']->num_to_str($now_timestamp) > $ct['var']->num_to_str( strtotime($item_date) + ($ct['conf']['power']['news_feed_entries_new'] * 86400) + $ct['dev']['tasks_time_offset'] ) ) {
+			         if ( $ct['var']->num_to_str($now_timestamp) > $ct['var']->num_to_str( strtotime($item_date) + ($ct['conf']['news']['mark_as_new'] * 86400) + $ct['dev']['tasks_time_offset'] ) ) {
 			         $mark_new = null;
 			         }
 				     // If running as $email_only, we only want 'new' posts anyway (less than 'news_feed_email_frequency' days old)

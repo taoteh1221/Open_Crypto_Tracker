@@ -63,7 +63,13 @@ $admin_render_settings['privacy_mode']['is_radio'] = array(
                                                           );
 
 
+$admin_render_settings['privacy_mode']['is_notes'] = 'In Privacy Mode, the current asset balance in converted to it\'s ' . strtoupper($default_bitcoin_primary_currency_pair) . ' value.';
+
+
 ////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+$admin_render_settings['tracking']['is_notes'] = 'Track address balance changes on popular blockchains.';
 
 
 $sol_subtokens = array();
@@ -89,38 +95,37 @@ foreach ( $ct['conf']['assets'] as $asset_key => $unused ) {
 
 // EMPTY add / remove (repeatable) fields TEMPLATE rendering
 
-$admin_render_settings['tracking']['is_subarray']['is_repeatable']['add_button'] = 'Add Address To Track';
+$admin_render_settings['tracking']['is_repeatable']['add_button'] = 'Add Address To Track (at bottom)';
 
 
-// We need to reset the auto-indexing for this $ct['conf'] subarray,
-// so no duplicates overwrite each other with the add / remove javascript in the UI
-$admin_render_settings['tracking']['is_subarray']['is_repeatable']['reset_auto_index'] = true;
-
-
-$admin_render_settings['tracking']['is_subarray']['is_repeatable']['is_select']['asset'] = array(
-                                                                                                 'btc',
-                                                                                                 'eth',
-                                                                                                 'sol',
-                                                                                                );
+$admin_render_settings['tracking']['is_repeatable']['is_select']['asset'] = array(
+                                                                                  'btc',
+                                                                                  'eth',
+                                                                                  'sol',
+                                                                                 );
           
 foreach ( $sol_subtokens as $val ) {
-$admin_render_settings['tracking']['is_subarray']['is_repeatable']['is_select']['asset'][] = 'sol||' . $val;
+$admin_render_settings['tracking']['is_repeatable']['is_select']['asset'][] = 'sol||' . $val;
 }
 
 
-$admin_render_settings['tracking']['is_subarray']['is_repeatable']['is_text']['label'] = true;
-$admin_render_settings['tracking']['is_subarray']['is_repeatable']['is_text']['address'] = true;
-$admin_render_settings['tracking']['is_subarray']['is_repeatable']['text_field_size'] = 50;
+$admin_render_settings['tracking']['is_repeatable']['is_text']['label'] = true;
+$admin_render_settings['tracking']['is_repeatable']['is_text']['address'] = true;
+$admin_render_settings['tracking']['is_repeatable']['text_field_size'] = 50;
                
 
 // FILLED IN setting values
 
-// We need to reset the auto-indexing for this $ct['conf'] subarray,
-// so no duplicates overwrite each other with the add / remove javascript in the UI
-$ct['conf']['plug_conf'][$this_plug]['tracking'] = array_values($ct['conf']['plug_conf'][$this_plug]['tracking']);
+// Alphabetically sort tracked addresses by 'label' key
+if ( is_array($ct['conf']['plug_conf'][$this_plug]['tracking']) ) { 
+$usort_alpha = 'label';
+$usort_tracking_results = usort($ct['conf']['plug_conf'][$this_plug]['tracking'], array($ct['gen'], 'usort_alpha') );
+}
 
-// If multidimensional PURE AUTO-INDEXING (NO ASSOCIATIVE SUBARRAYS), run this AFTER array_values()
-//$YOUR_ARRAY = array_map('array_values', $YOUR_ARRAY);
+
+if ( !$usort_tracking_results ) {
+$ct['gen']->log('other_error', 'plugin "' . $this_plug . '" tracking addresses failed to sort alphabetically');
+}
 
 
 foreach ( $ct['conf']['plug_conf'][$this_plug]['tracking'] as $key => $val ) {
@@ -129,20 +134,20 @@ foreach ( $ct['conf']['plug_conf'][$this_plug]['tracking'] as $key => $val ) {
      
           if ( $tracked_key === 'asset' ) {
                
-          $admin_render_settings['tracking']['is_subarray'][$key]['is_select'][$tracked_key] = array(
+          $admin_render_settings['tracking']['has_subarray'][$key]['is_select'][$tracked_key] = array(
                                                                                                       'btc',
                                                                                                       'eth',
                                                                                                       'sol',
                                                                                                      );
           
                foreach ( $sol_subtokens as $val ) {
-               $admin_render_settings['tracking']['is_subarray'][$key]['is_select'][$tracked_key][] = 'sol||' . $val;
+               $admin_render_settings['tracking']['has_subarray'][$key]['is_select'][$tracked_key][] = 'sol||' . $val;
                }
                
           }
           else {                                               
-          $admin_render_settings['tracking']['is_subarray'][$key]['is_text'][$tracked_key] = true;
-          $admin_render_settings['tracking']['is_subarray'][$key]['text_field_size'] = 50;
+          $admin_render_settings['tracking']['has_subarray'][$key]['is_text'][$tracked_key] = true;
+          $admin_render_settings['tracking']['has_subarray'][$key]['text_field_size'] = 50;
           }
 
      }

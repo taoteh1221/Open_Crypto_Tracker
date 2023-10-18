@@ -747,26 +747,6 @@ $ct['conf']['power']['override_curl_user_agent'] = '';
 // Maximum number of BATCHED coingecko marketcap data results to fetch, per API call (during multiple / paginated calls) 
 // (coingecko #ABSOLUTELY HATES# DATA CENTER IPS [DEDICATED / VPS SERVERS], BUT GOES EASY ON RESIDENTIAL IPS)
 $ct['conf']['power']['coingecko_api_batched_maximum'] = 100; // (default = 100), ADJUST WITH CARE!!!
-
-
-// NEWS FEED SETTINGS (ATOM / RSS formats supported)
-// RSS feed entries to show (per-feed) on News page (without needing to click the "show more / less" link)
-$ct['conf']['power']['news_feed_entries_show'] = 10; // (default = 10)
-////
-// RSS feed entries under X DAYS old are marked as 'new' on the news page
-$ct['conf']['power']['news_feed_entries_new'] = 2; // (default = 2)
-////
-// Minutes to cache RSS feeds for News page
-// Randomly cache each RSS feed between the minimum and maximum MINUTES set here (so they don't refresh all at once, for faster runtimes)
-// THE WIDER THE GAP BETWEEN THE NUMBERS, MORE SPLIT UP / FASTER THE FEEDS WILL LOAD IN THE INTERFACE #CONSISTANTLY#
-$ct['conf']['power']['news_feed_cache_min_max'] = '100,200'; // 'min,max' (default = '100,200'), ADJUST WITH CARE!!!
-////
-// Maximum number of BATCHED news feed fetches / re-caches per ajax OR cron runtime 
-// (#TO HELP PREVENT RUNTIME CRASHES# ON LOW POWER DEVICES OR HIGH TRAFFIC INSTALLS, USE A LOW NUMBER OF 20 OR LESS)
-$ct['conf']['power']['news_feed_batched_maximum'] = 20; // (default = 20), ADJUST WITH CARE!!!
-////
-// Maximum number of news feeds allowed to be pre-cached during background tasks (to avoid overloading low power devices)
-$ct['conf']['power']['news_feed_precache_hard_limit'] = 45; // (default = 45), ADJUST WITH CARE!!!
 							
 							
 // MINUTES to wait until running consecutive desktop edition emulated cron jobs
@@ -949,16 +929,6 @@ $ct['conf']['power']['local_api_markets_limit'] = 35; // (default = 35)
 ////
 // Local / internal REST API cache time (MINUTES that previous requests are cached for)
 $ct['conf']['power']['local_api_cache_time'] = 1; // (default = 1)
-    
-     
-// RSS feed services that are a bit funky with allowed user agents, so we need to let them know this is a real feed parser (not just a spammy bot)
-// (user agent string is EXPLICITLY SET AS A CUSTOM FEED PARSER)
-$ct['conf']['power']['strict_news_feed_servers'] = array(
-                                                      'medium.com',
-                                                      'reddit.com',
-                                                      'whatbitcoindid.com',
-                                                      'simplecast.com',
-                                                     );
      
      
 // Servers with STRICT CONSECUTIVE CONNECT limits (we add 1.11 seconds to the wait between consecutive connections)
@@ -1187,10 +1157,44 @@ $ct['conf']['power']['mining_calculators'] = array(
 ////////////////////////////////////////
 // !START! NEWS FEEDS CONFIGURATION
 ////////////////////////////////////////
-			
+
+
+// NEWS FEED SETTINGS (ATOM / RSS formats supported)
+// RSS feed entries to show (per-feed) on News page (without needing to click the "show more / less" link)
+$ct['conf']['news']['entries_to_show'] = 10; // (default = 10)
+
+
+// RSS feed entries under X DAYS old are marked as 'new' on the news page
+$ct['conf']['news']['mark_as_new'] = 2; // (default = 2)
+
+
+// Minutes to cache RSS feeds for News page
+// Randomly cache each RSS feed between the minimum and maximum MINUTES set here (so they don't refresh all at once, for faster runtimes)
+// THE WIDER THE GAP BETWEEN THE NUMBERS, MORE SPLIT UP / FASTER THE FEEDS WILL LOAD IN THE INTERFACE #CONSISTANTLY#
+$ct['conf']['news']['news_feed_cache_min_max'] = '100,200'; // 'min,max' (default = '100,200'), ADJUST WITH CARE!!!
+
+
+// Maximum number of BATCHED news feed fetches / re-caches per ajax OR cron runtime 
+// (#TO HELP PREVENT RUNTIME CRASHES# ON LOW POWER DEVICES OR HIGH TRAFFIC INSTALLS, USE A LOW NUMBER OF 20 OR LESS)
+$ct['conf']['news']['news_feed_batched_maximum'] = 20; // (default = 20), ADJUST WITH CARE!!!
+
+
+// Maximum number of news feeds allowed to be pre-cached during background tasks (to avoid overloading low power devices)
+$ct['conf']['news']['news_feed_precache_maximum'] = 45; // (default = 45), ADJUST WITH CARE!!!
+    
+     
+// RSS feed services that are a bit funky with allowed user agents, so we need to let them know this is a real feed parser (not just a spammy bot)
+// (user agent string is EXPLICITLY SET AS A CUSTOM FEED PARSER)
+$ct['conf']['news']['strict_news_feed_servers'] = array(
+                                                      'medium.com',
+                                                      'reddit.com',
+                                                      'whatbitcoindid.com',
+                                                      'simplecast.com',
+                                                     );
+
 
 // RSS news feeds available on the News page
-$ct['conf']['news_feeds'] = array(
+$ct['conf']['news']['feeds'] = array(
     
     
     					/////////////////////////////////////////////////////
