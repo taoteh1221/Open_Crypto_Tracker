@@ -55,6 +55,10 @@ $ct['conf']['mobile_network_text_gateways'] = $cleaned_mobile_networks;
 // Dynamically reconfigure / configure where needed
 
 
+// Alphabetically sort plugin status list
+ksort($ct['conf']['plugins']['plugin_status']);
+
+
 // Default BTC CRYPTO/CRYPTO market pair support, BEFORE GENERATING MISCASSETS / BTCNFTS / ETHNFTS / SOLNFTS / ALTNFTS ARRAYS
 // (so we activate it here instead of in Admin Config, for good UX adding ONLY altcoin markets dynamically there)
 $ct['conf']['power']['crypto_pair'] = array('btc' => 'Ƀ ') + $ct['conf']['power']['crypto_pair']; // ADD TO #BEGINNING# OF ARRAY, FOR UX

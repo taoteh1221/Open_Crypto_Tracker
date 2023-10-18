@@ -11,6 +11,8 @@ $subarray_allow_upgrading = array();
 
 $admin_render_settings = array();
 
+$repeatable_fields_tracking = array();
+
 $check_crypto_pair = array();
 
 $log_errors = array();
@@ -117,6 +119,8 @@ $check_2fa_id = null;
 $check_2fa_error = null;
 
 $telegram_user_data_path = null;
+
+$usort_alpha = null;
 
 
 // Initial zero-set / false strings

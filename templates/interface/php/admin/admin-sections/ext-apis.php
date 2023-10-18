@@ -54,11 +54,15 @@ $admin_render_settings['notifyme_access_code']['is_notes'] = '<a href="https://w
 
 $admin_render_settings['telegram_your_username']['is_password'] = true;
 
+$admin_render_settings['telegram_your_username']['is_notes'] = '(WITHOUT the "@" symbol)';
+
 
 ////////////////////////////////////////////////////////////////////////////////////////////////
 
 
 $admin_render_settings['telegram_bot_username']['is_password'] = true;
+
+$admin_render_settings['telegram_bot_username']['is_notes'] = '(WITHOUT the "@" symbol)';
 
 
 ////////////////////////////////////////////////////////////////////////////////////////////////

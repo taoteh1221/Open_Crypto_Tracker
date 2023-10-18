@@ -26,14 +26,14 @@ $batched_feed_hashes_array = explode(',', $_GET['feeds']);
 $all_feeds_array = array();
     
     
-foreach($ct['conf']['news_feeds'] as $feed) {
+foreach($ct['conf']['news']['feeds'] as $feed) {
 $feed_id = $ct['gen']->digest($feed["title"], 5); // We avoid using array keys for end user config editing UX, BUT STILL UNIQUELY IDENTIFY EACH FEED
 $all_feeds_array[$feed_id] = $feed;
 }
 
 
 // Mitigate DOS attack leverage, since we recieve extrenal calls in ajax.php
-if ( is_array($batched_feed_hashes_array) && sizeof($batched_feed_hashes_array) <= $ct['conf']['power']['news_feed_batched_maximum'] ) {
+if ( is_array($batched_feed_hashes_array) && sizeof($batched_feed_hashes_array) <= $ct['conf']['news']['news_feed_batched_maximum'] ) {
     	
 // Reset feed fetch telemetry 
 $_SESSION[$fetched_feeds] = false;
@@ -41,7 +41,7 @@ $_SESSION[$fetched_feeds] = false;
     	// We already alphabetically ordered / pruned before sending to ajax.php
     	foreach($batched_feed_hashes_array as $chosen_feed_hash) {
     	echo "<fieldset class='subsection_fieldset'><legend class='subsection_legend'> " .$all_feeds_array[$chosen_feed_hash]["title"]." </legend>";
-    	echo $ct['api']->rss($all_feeds_array[$chosen_feed_hash]["url"], $_GET['theme'], $ct['conf']['power']['news_feed_entries_show']);
+    	echo $ct['api']->rss($all_feeds_array[$chosen_feed_hash]["url"], $_GET['theme'], $ct['conf']['news']['entries_to_show']);
     	echo "</fieldset>"; 
     	}
 	

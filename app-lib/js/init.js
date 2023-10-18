@@ -30,6 +30,11 @@ $("#content_wrapper").css('display','inline'); // MUST display inline to center 
 // Charts background / border
 $(".chart_wrapper").css({ "background-color": charts_background });
 $(".chart_wrapper").css({ "border": '2px solid ' + charts_border });
+
+
+// Repeatable styling
+$("div.repeatable > div:first-child").css("border-top", "0.0em solid #808080");
+$("div.repeatable > div:first-child").css("padding-top", "0.0em");
              
 
 // Dynamic table header updating

@@ -812,14 +812,12 @@ var $ct_array = array();
          
                // Uses === for PHPv7.4 support
                if (
-               is_array($conf_val) && in_array($cat_key, $subarray_allow_upgrading)
+               is_array($conf_val) && isset($conf[$cat_key]) && in_array($cat_key, $subarray_allow_upgrading)
                || is_array($conf_val) && $cat_key === 'plugins' && $conf_key === 'plugin_status'
                ) {
                $conf = $this->subarray_cached_ct_conf_upgrade($conf, $cat_key, $conf_key, 'new');
                }
-               
-               
-               if ( !is_array($conf_val) && !is_array($conf[$cat_key]) ) {
+               elseif ( !isset($conf[$cat_key]) && isset($default_ct_conf[$cat_key]) ) {
                   	
                $conf[$cat_key] = $default_ct_conf[$cat_key];
                   
@@ -833,7 +831,7 @@ var $ct_array = array();
                }
                
                
-               if ( !is_array($conf_val) && is_array($conf[$cat_key]) && !array_key_exists($conf_key, $conf[$cat_key]) ) {
+               if ( !is_array($conf_val) && is_array($conf[$cat_key]) && !array_key_exists($conf_key, $conf[$cat_key]) && array_key_exists($conf_key, $default_ct_conf[$cat_key]) ) {
                   	
                $conf[$cat_key][$conf_key] = $default_ct_conf[$cat_key][$conf_key];
                
@@ -841,7 +839,7 @@ var $ct_array = array();
                   
                $ct['gen']->log(
                   			'conf_error',
-                  			'Upgraded app config ('.$cat_key.') PARAMETER ct[conf][' . $cat_key . '][' . $conf_key . '] imported (default value: ' . $log_val_descr . ')'
+                  			'Upgraded app config PARAMETER ct[conf][' . $cat_key . '][' . $conf_key . '] imported (default value: ' . $log_val_descr . ')'
                   			);
                   						
                $conf_upgraded = true;
@@ -862,20 +860,18 @@ var $ct_array = array();
          
                // Uses === for PHPv7.4 support
                if ( 
-               is_array($cached_conf_val) && in_array($cached_cat_key, $subarray_allow_upgrading)
+               is_array($cached_conf_val) && isset($default_ct_conf[$cached_cat_key]) && in_array($cached_cat_key, $subarray_allow_upgrading)
                || is_array($conf_val) && $cached_cat_key === 'plugins' && $cached_conf_key === 'plugin_status'
                ) {
                $conf = $this->subarray_cached_ct_conf_upgrade($conf, $cached_cat_key, $cached_conf_key, 'depreciated');
                }
-               
-               
-               if ( !is_array($cached_conf_val) && is_array($default_ct_conf[$cached_cat_key]) && !array_key_exists($cached_conf_key, $default_ct_conf[$cached_cat_key]) && isset($conf[$cached_cat_key][$cached_conf_key]) ) {
+               elseif ( !isset($default_ct_conf[$cached_cat_key]) && isset($conf[$cached_cat_key]) ) {
                   	
-               unset($conf[$cached_cat_key][$cached_conf_key]);
+               unset($conf[$cached_cat_key]);
                   
                $ct['gen']->log(
                			'conf_error',
-               			'Depreciated app config ('.$cached_cat_key.') PARAMETER ct[conf][' . $cached_cat_key . '][' . $cached_conf_key . '] removed'
+               			'Depreciated app config CATEGORY ct[conf][' . $cached_cat_key . '] removed'
                   			);
                   
                $conf_upgraded = true;
@@ -883,13 +879,13 @@ var $ct_array = array();
                }
                
                
-               if ( !is_array($cached_conf_val) && !isset($default_ct_conf[$cached_cat_key]) && isset($conf[$cached_cat_key]) ) {
+               if ( !is_array($cached_conf_val) && is_array($default_ct_conf[$cached_cat_key]) && !array_key_exists($cached_conf_key, $default_ct_conf[$cached_cat_key]) && array_key_exists($cached_conf_key, $conf[$cached_cat_key]) ) {
                   	
-               unset($conf[$cached_cat_key]);
+               unset($conf[$cached_cat_key][$cached_conf_key]);
                   
                $ct['gen']->log(
                			'conf_error',
-               			'Depreciated app config CATEGORY ct[conf][' . $cached_cat_key . '] removed'
+               			'Depreciated app config PARAMETER ct[conf][' . $cached_cat_key . '][' . $cached_conf_key . '] removed'
                   			);
                   
                $conf_upgraded = true;
@@ -2574,7 +2570,7 @@ var $ct_array = array();
               
      
       // RSS feed services that are a bit funky with allowed user agents, so we need to let them know this is a real feed parser (not just a spammy bot)
-      if ( in_array($endpoint_tld_or_ip, $ct['conf']['power']['strict_news_feed_servers']) ) {
+      if ( in_array($endpoint_tld_or_ip, $ct['conf']['news']['strict_news_feed_servers']) ) {
       curl_setopt($ch, CURLOPT_USERAGENT, 'Custom_Feed_Parser/1.0 (compatible; Open_Crypto_Tracker/' . $ct['app_version'] . '; +https://github.com/taoteh1221/Open_Crypto_Tracker)');
       }
       else {
