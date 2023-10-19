@@ -109,6 +109,10 @@ $admin_render_settings['tracking']['is_repeatable']['is_select']['asset'][] = 's
 }
 
 
+// Sort alphabetically
+sort($admin_render_settings['tracking']['is_repeatable']['is_select']['asset']);
+
+
 $admin_render_settings['tracking']['is_repeatable']['is_text']['label'] = true;
 $admin_render_settings['tracking']['is_repeatable']['is_text']['address'] = true;
 $admin_render_settings['tracking']['is_repeatable']['text_field_size'] = 50;
@@ -143,7 +147,10 @@ foreach ( $ct['conf']['plug_conf'][$this_plug]['tracking'] as $key => $val ) {
                foreach ( $sol_subtokens as $val ) {
                $admin_render_settings['tracking']['has_subarray'][$key]['is_select'][$tracked_key][] = 'sol||' . $val;
                }
-               
+          
+          // Sort alphabetically
+          sort($admin_render_settings['tracking']['has_subarray'][$key]['is_select'][$tracked_key]);
+          
           }
           else {                                               
           $admin_render_settings['tracking']['has_subarray'][$key]['is_text'][$tracked_key] = true;

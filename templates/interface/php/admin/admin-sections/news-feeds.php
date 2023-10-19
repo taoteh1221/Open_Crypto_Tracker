@@ -30,7 +30,7 @@ else {
 
 
 $loop = 5;
-$loop_max = 50;
+$loop_max = 30;
 while ( $loop <= $loop_max ) {
 $admin_render_settings['entries_to_show']['is_select'][] = $loop;
 $loop = $loop + 1;
@@ -78,13 +78,13 @@ $admin_render_settings['news_feed_batched_maximum']['is_notes'] = '(LOW POWER de
 
 
 $loop = 25;
-$loop_max = 75;
+$loop_max = 50;
 while ( $loop <= $loop_max ) {
 $admin_render_settings['news_feed_precache_maximum']['is_select'][] = $loop;
 $loop = $loop + 1;
 }
 
-$admin_render_settings['news_feed_precache_maximum']['is_notes'] = '(LOW POWER devices should pre-cache NO MORE THAN 45 feeds)';
+$admin_render_settings['news_feed_precache_maximum']['is_notes'] = '(per background tasks run, LOW POWER devices should pre-cache NO MORE THAN 45 feeds)';
 
 
 ////////////////////////////////////////////////////////////////////////////////////////////////
@@ -108,7 +108,7 @@ $admin_render_settings['strict_news_feed_servers']['is_subarray'][$key]['text_fi
 }
 
 
-$admin_render_settings['strict_news_feed_servers']['is_notes'] = '(servers that PREFER an explicit "News Feed" user agent, DOMAIN ONLY)';
+$admin_render_settings['strict_news_feed_servers']['is_notes'] = '(DOMAIN ONLY, servers that PREFER an explicit "News Feed" user agent)';
 
 
 ////////////////////////////////////////////////////////////////////////////////////////////////

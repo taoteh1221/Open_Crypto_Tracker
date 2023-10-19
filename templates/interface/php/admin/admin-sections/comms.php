@@ -60,7 +60,8 @@ $admin_render_settings['upgrade_alert']['is_select'] = array(
                                                                'all',
                                                              );
 
-$admin_render_settings['upgrade_alert']['is_notes'] = 'See "External APIs" section for using any comms-related APIs.';
+
+$admin_render_settings['upgrade_alert']['is_notes'] = 'Checks the <a href="https://api.github.com/repos/taoteh1221/Open_Crypto_Tracker/releases/latest" target="_BLANK">Github.com API</a> for the latest release\'s version number.<br />(see "External APIs" section for using any comms-related APIs)';
                                                          
                                                          
 ////////////////////////////////////////////////////////////////////////////////////////////////
@@ -118,7 +119,7 @@ $admin_render_settings['price_alert']['is_select'] = array(
                                                           'all',
                                                          );
 
-$admin_render_settings['price_alert']['is_notes'] = 'See "External APIs" section for using any comms-related APIs.';
+$admin_render_settings['price_alert']['is_notes'] = '(see "External APIs" section for using any comms-related APIs)';
                                                          
                                                          
 ////////////////////////////////////////////////////////////////////////////////////////////////
@@ -206,7 +207,7 @@ $admin_render_settings['proxy_alert']['is_select'] = array(
                                                           'all',
                                                          );
 
-$admin_render_settings['proxy_alert']['is_notes'] = 'See "External APIs" section for using any comms-related APIs.';
+$admin_render_settings['proxy_alert']['is_notes'] = '(see "External APIs" section for using any comms-related APIs)';
                                                          
                                                          
 ////////////////////////////////////////////////////////////////////////////////////////////////
@@ -295,7 +296,7 @@ $admin_render_settings['to_mobile_text']['is_trim'] = true;
 
 $admin_render_settings['to_mobile_text']['text_field_size'] = 40;
 
-$admin_render_settings['to_mobile_text']['is_notes'] = 'Examples: 12223334444||virgin_us / 12223334444||skip_network_name<br />Available gateways can be found in the "Text Gateways" section.';
+$admin_render_settings['to_mobile_text']['is_notes'] = 'Examples: 12223334444||virgin_us / 12223334444||skip_network_name<br />(available gateways can be found in the "Text Gateways" section)';
 
 
 ////////////////////////////////////////////////////////////////////////////////////////////////
