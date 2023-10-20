@@ -14,6 +14,38 @@ var $ct_var3;
 
 var $ct_array = array();
 
+   
+   ////////////////////////////////////////////////////////
+   ////////////////////////////////////////////////////////
+   
+   
+   function valid_secure_config_update_request() {
+        
+   global $ct;
+   
+      
+        if ( isset($_POST['conf_id']) && preg_match('/plug_conf\|/', $_POST['conf_id']) ) {
+        $parse_plugin_name = explode('|', $_POST['conf_id']);
+        $field_array_base = $_POST[ $parse_plugin_name[1] ];
+        }
+        elseif ( isset($_POST['conf_id']) ) {
+        $field_array_base = $_POST[ $_POST['conf_id'] ];
+        }
+        else {
+        return false;
+        }
+      
+        
+        // Make sure security checks pass / data seems valid for updating the admin config (STRICT 2FA MODE ONLY)
+        if ( isset($_POST['conf_id']) && isset($_POST['interface_id']) && is_array($field_array_base) && $ct['gen']->pass_sec_check($_POST['admin_hashed_nonce'], $_POST['interface_id']) && $ct['gen']->valid_2fa('strict') ) {
+        return $field_array_base;
+        }
+        else {
+        return false;
+        }
+        
+   
+   }
 
    
    ////////////////////////////////////////////////////////
@@ -897,28 +929,21 @@ var $ct_array = array();
         
    global $ct, $app_upgrade_check, $reset_config, $update_config, $check_2fa_error, $update_config_error, $update_config_success;
    
-      
-        if ( isset($_POST['conf_id']) && preg_match('/plug_conf\|/', $_POST['conf_id']) ) {
-           
-        $is_plugin_config = true;
-           
-        $parse_plugin_data = explode('|', $_POST['conf_id']);
-      
-        $field_array_base = $_POST[ $parse_plugin_data[1] ];
-        
-        $update_desc = 'plugin';
-        
-        }
-        else {
-        $field_array_base = $_POST[ $_POST['conf_id'] ];
-        $update_desc = 'admin';
-        }
+   // Check for VALIDATED / SECURE config updates IN PROGRESS
+   $field_array_base = $this->valid_secure_config_update_request();
       
         
-        // Updating the admin config
-        // (MUST run after primary-init, BUT BEFORE load-config-by-security-level.php)
-        // (STRICT 2FA MODE ONLY)
-        if ( isset($_POST['conf_id']) && isset($_POST['interface_id']) && is_array($field_array_base) && $ct['gen']->pass_sec_check($_POST['admin_hashed_nonce'], $_POST['interface_id']) && $ct['gen']->valid_2fa('strict') ) {
+        if ( $field_array_base ) {
+   
+      
+              if ( preg_match('/plug_conf\|/', $_POST['conf_id']) ) {
+              $parse_plugin_name = explode('|', $_POST['conf_id']);
+              $is_plugin_config = true;
+              $update_desc = 'plugin';
+              }
+              else {
+              $update_desc = 'admin';
+              }
         
           
               if ( $app_upgrade_check ) {
@@ -1039,7 +1064,7 @@ var $ct_array = array();
                    if ( $update_config_valid ) {
                        
                        if ( $is_plugin_config ) {
-                       $ct['conf']['plug_conf'][ $parse_plugin_data[1] ] = $field_array_base;
+                       $ct['conf']['plug_conf'][ $parse_plugin_name[1] ] = $field_array_base;
                        }
                        else {
                        $ct['conf'][ $_POST['conf_id'] ] = $field_array_base;

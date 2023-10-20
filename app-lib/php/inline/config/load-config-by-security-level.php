@@ -23,17 +23,25 @@ $ct['cache']->load_cached_config();
 $ct['gen']->refresh_plugins_list();
 
 
+// Check for VALIDATED / SECURE config updates IN PROGRESS
+$check_plugin_status = $ct['admin']->valid_secure_config_update_request();
+
+
 // Configs for any plugins activated in ct_conf
 foreach ( $ct['conf']['plugins']['plugin_status'] as $key => $val ) {
 			
-$this_plug = $key;
+$this_plug = trim($key);
 
+
+     // If we are mid-flight on activating / deactivating a plugin in the admin interface, then use that value instead
+     if ( $check_plugin_status && isset($check_plugin_status['plugin_status'][$this_plug]) ) {
+     $val = $check_plugin_status['plugin_status'][$this_plug];
+     }
+	
 	
 	if ( $val == 'on' ) {
-		
-	$key = trim($key);
 	
-	$plug_conf_file = $ct['base_dir'] . '/plugins/' . $key . '/plug-conf.php'; // Loaded NOW to have ready for any cached app config resets (for ANY runtime)
+	$plug_conf_file = $ct['base_dir'] . '/plugins/' . $this_plug . '/plug-conf.php'; // Loaded NOW to have ready for any cached app config resets (for ANY runtime)
 
      // SET SIMPLIFIED / MINIMIZED PLUG_CONF ONLY FOR USE *INSIDE* PLUGIN LOGIC / PLUGIN INIT LOOPS
 	$plug_conf[$this_plug] = array();

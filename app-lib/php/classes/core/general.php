@@ -136,6 +136,59 @@ var $ct_array = array();
        }
    
    }
+
+
+   ////////////////////////////////////////////////////////
+   ////////////////////////////////////////////////////////
+   
+   
+   function assoc_array_order_map($sorting_array) {
+   
+   $new_data = array();
+   
+      foreach ($sorting_array as $key => $unused) {
+      $new_data[] = $key;
+      }
+   
+   return $new_data;
+   
+   }
+
+
+   ////////////////////////////////////////////////////////
+   ////////////////////////////////////////////////////////
+   
+   
+   function assoc_array_order($target_array, $sorting_array) {
+   
+   $new_data = array();
+   
+      foreach ($sorting_array as $key) {
+      $new_data[$key] = $target_array[$key];
+      }
+   
+   return $new_data;
+   
+   }
+
+
+   ////////////////////////////////////////////////////////
+   ////////////////////////////////////////////////////////
+   
+   
+   function replace_key($array, $old_key, $new_key) {
+   
+   $keys = array_keys($array);
+       
+       if ( false === $index = array_search($old_key, $keys, true) ) {
+        throw new Exception(sprintf('Key "%s" does not exist', $old_key));
+       }
+       
+   $keys[$index] = $new_key;
+   
+   return array_combine($keys, array_values($array));
+   
+   }
    
    
    ////////////////////////////////////////////////////////

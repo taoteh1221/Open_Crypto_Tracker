@@ -216,9 +216,6 @@ Update screenshots, since we overhauled everything in the interface.
 Add onchange to every admin interface setting field, with a call to a function to update a hidden field in that section, which lets us know a user has updated the settings in that section. Then we can warn them they have unsaved changes if they go to leave that section. Maybe toggle it making a 'sticky' position save button in red show in a top corner of the iframe? Onblur of admin section (clicking another section link, etc) should pause click actions and warn IF CHANGES HAVE BEEN MADE TO SETTINGS WITHIN THE ADMIN SECTION. Include on exiting admin config area (returning to portfolio page / closing tab).
 
 
-UPGRADES TO THE CACHED CONFIG change the order in which NEW UPGRADE settings are saved in the CACHED config, which leads to undesireable ordering of settings in the interface. Look into adding an admin settings interface parameter, which allows us to specify the EXACT order we want settings to display in the interface.
-
-
 Add my venmo link to app footer and project page: 
 https://account.venmo.com/u/taoteh1221
 

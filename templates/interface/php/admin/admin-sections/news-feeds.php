@@ -136,7 +136,7 @@ foreach ( $ct['conf']['news']['feeds'] as $key => $val ) {
 }
 
 
-$admin_render_settings['feeds']['is_notes'] = 'Add RSS News Feeds here, to display in the USER AREA "News Feeds" section.<br />(Auto-sorted alphabetically by Title)';
+$admin_render_settings['feeds']['is_notes'] = 'Add RSS News Feeds here, to display in the USER AREA "News Feeds" section.<br />(auto-sorted alphabetically by title)';
 
 
 ////////////////////////////////////////////////////////////////////////////////////////////////
