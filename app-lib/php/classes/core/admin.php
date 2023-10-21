@@ -77,9 +77,11 @@ var $ct_array = array();
              
              
                   if ( $sub_key === 'is_radio' ) { // PHP7.4 NEEDS === HERE INSTEAD OF ==
+                  
+                  $is_string_keys = false; // RESET
                           
         
-                       foreach( $render_params[$passed_key]['is_repeatable']['is_select'] as $sub_key => $sub_val ) {
+                       foreach( $render_params[$passed_key]['is_repeatable']['is_select'] as $sub2_key => $sub2_val ) {
                   
                        // Tracking for rendering remove button
                        $repeatable_fields_tracking[$passed_key][$sub_key] = $repeatable_fields_tracking[$passed_key][$sub_key] + 1;
@@ -92,9 +94,100 @@ var $ct_array = array();
                   }
                   
                   if ( $sub_key === 'is_select' ) { // PHP7.4 NEEDS === HERE INSTEAD OF ==
+                  
+                  $is_string_keys = false; // RESET
                           
+                 
+                       // If it's flagged as an associative array
+                       if ( is_array($render_params[$passed_key]['is_repeatable']['is_select']['is_assoc']) ) {
+                           
+                           foreach( $render_params[$passed_key]['is_repeatable']['is_select']['is_assoc'] as $assoc_key => $assoc_val ) {
+                       
+                           // Tracking for rendering remove button
+                           $repeatable_fields_tracking[$passed_key][$sub_key] = $repeatable_fields_tracking[$passed_key][$sub_key] + 1;
+                            
+                           ?>
+                       
+                           <p>
+             
+                           <b class='blue'><?=$ct['gen']->key_to_name($assoc_key)?>:</b> &nbsp; <select data-track-index='{?}' name='<?=$field_array_base?>[<?=$passed_key?>][{?}][<?=$assoc_key?>]'>
+                           
+                                <?php
+                                foreach( $assoc_val as $setting_val ) {
+                                ?>
+                                
+                                <option value='<?=$setting_val['key']?>' <?=( isset($passed_val[$subarray_key][$assoc_key]) && $passed_val[$subarray_key][$assoc_key] == $setting_val['key'] ? 'selected' : '' )?> > <?=$setting_val['val']?> </option>
+                                     
+                                <?php
+                                }
+                                ?>
+                                 
+                                 </select>
+                                
+                                123PLACEHOLDER_RIGHT123
+                                 
+                                 </p>
+                                
+                           <?php
+                           }
+                           
+                       }
+                       else {
+                            
+                            foreach( $render_params[$passed_key]['is_repeatable']['is_select'] as $sub2_key => $sub2_val ) {
+                       
+                            // Tracking for rendering remove button
+                            $repeatable_fields_tracking[$passed_key][$sub_key] = $repeatable_fields_tracking[$passed_key][$sub_key] + 1;
+                           
+                            ?>
+                       
+                                 <p>
+                            
+                                 <b class='blue'><?=$ct['gen']->key_to_name($sub2_key)?>:</b> &nbsp; <select data-track-index='{?}' name='<?=$field_array_base?>[<?=$passed_key?>][{?}][<?=$sub2_key?>]'>
+                                     
+                                     <?php
+                                     foreach( $sub2_val as $setting_val ) {
+                                     ?>
+                                     
+                                     <option value='<?=$setting_val?>'> <?=$ct['gen']->key_to_name($setting_val)?> </option>
+                                     
+                                     <?php
+                                     }
+                                     ?>
+                                 
+                                 </select>
+                                
+                                123PLACEHOLDER_RIGHT123
+                                 
+                                 </p>
+                            
+                            <?php
+                            }
+                           
+                       }
+             
+                  }
+                  
+                  if ( $sub_key === 'is_textarea' ) { // PHP7.4 NEEDS === HERE INSTEAD OF ==
+                  
+                  $is_string_keys = false; // RESET
+                           
+                           
+                       // If string keyed array, show description from key value
+                       // (do scanning BEFORE loop, for speed)
+                       if ( $ct['gen']->has_string_keys($render_params[$passed_key]['is_repeatable']['is_textarea']) ) {
+                       $is_string_keys = true;
+                       }
+                           
         
-                       foreach( $render_params[$passed_key]['is_repeatable']['is_select'] as $sub_key => $sub_val ) {
+                       foreach( $render_params[$passed_key]['is_repeatable']['is_textarea'] as $sub2_key => $unused ) {
+
+                           
+                           // If string keyed array, show description from key value
+                           if ( $is_string_keys ) {
+                           $desc = '<b class="blue">' . $ct['gen']->key_to_name($sub2_key) . ':</b> &nbsp; ';
+                           }
+                  
                   
                        // Tracking for rendering remove button
                        $repeatable_fields_tracking[$passed_key][$sub_key] = $repeatable_fields_tracking[$passed_key][$sub_key] + 1;
@@ -104,19 +197,7 @@ var $ct_array = array();
                             <p>
                   
                        
-                            <b class='blue'><?=$ct['gen']->key_to_name($sub_key)?>:</b> &nbsp; <select data-track-index='{?}' name='<?=$field_array_base?>[<?=$passed_key?>][{?}][<?=$sub_key?>]'>
-                                
-                                <?php
-                                foreach( $sub_val as $setting_val ) {
-                                ?>
-                                
-                                <option value='<?=$setting_val?>'> <?=$ct['gen']->key_to_name($setting_val)?> </option>
-                                
-                                <?php
-                                }
-                                ?>
-                            
-                            </select>
+                            <?=$desc?> <textarea data-track-index='{?}' data-autoresize name='<?=$field_array_base?>[<?=$passed_key?>][{?}][<?=$sub2_key?>]' style='height: auto; width: 100%;' <?=( isset($render_params[$passed_key]['is_repeatable']['is_password']) ? 'class="textarea_password" onblur="$(this).toggleClass(\'textarea_password\');autoresize_update();" onfocus="$(this).toggleClass(\'textarea_password\');autoresize_update();"' : '' )?>></textarea>
                            
                            123PLACEHOLDER_RIGHT123
                             
@@ -128,6 +209,8 @@ var $ct_array = array();
                   }
                   
                   if ( $sub_key === 'is_text' ) { // PHP7.4 NEEDS === HERE INSTEAD OF ==
+                  
+                  $is_string_keys = false; // RESET
                   
                       // Array of values
                       if ( is_array($render_params[$passed_key]['is_repeatable']['is_text']) ) {
@@ -237,6 +320,69 @@ var $ct_array = array();
          
         <?php
         }
+         // If IS a subarray textarea
+         elseif ( isset($render_params[$passed_key]['is_subarray'][$subarray_key]['is_textarea']) ) {
+                           
+              // If string keyed array, show description from key value
+              if ( $ct['gen']->has_string_keys($render_params[$passed_key]['is_subarray']) ) {
+              $desc = '<b class="blue">' . $ct['gen']->key_to_name($subarray_key) . ':</b> &nbsp; ';
+              }
+              
+         ?>
+             
+             <p>
+         
+                  <?=$desc?> <textarea data-track-index='<?=$subarray_key?>' data-autoresize name='<?=$field_array_base?>[<?=$passed_key?>][<?=$subarray_key?>]' style='height: auto; width: 100%;' <?=( isset($render_params[$passed_key]['is_subarray'][$subarray_key]['is_password']) ? 'class="textarea_password" onblur="$(this).toggleClass(\'textarea_password\');autoresize_update();" onfocus="$(this).toggleClass(\'textarea_password\');autoresize_update();"' : '' )?>><?=( isset($passed_val[$subarray_key]) ? $passed_val[$subarray_key] : '' )?></textarea>
+                  
+                  <?php
+                  if ( isset($render_params[$passed_key]['is_repeatable']['is_textarea']) ) {
+                  $repeatable_fields_tracking[$passed_key]['is_textarea'] = $repeatable_fields_tracking[$passed_key]['is_textarea'] + 1;
+                  echo '123PLACEHOLDER_RIGHT123';
+                  }
+                  ?>
+              
+             </p>
+             
+         <?php
+         }
+         // If HAS a subarray textarea
+         elseif ( is_array($render_params[$passed_key]['has_subarray'][$subarray_key]['is_textarea']) ) {
+              
+                           
+             // If string keyed array, show description from key value
+             // (do scanning BEFORE any loops, for speed)
+             if ( $ct['gen']->has_string_keys($render_params[$passed_key]['has_subarray'][$subarray_key]['is_textarea']) ) {
+             $is_string_keys = true;
+             }
+              
+              
+             foreach( $render_params[$passed_key]['has_subarray'][$subarray_key]['is_textarea'] as $sub_key => $unused ) {
+                           
+                  // If string keyed array, show description from key value
+                  if ( $is_string_keys ) {
+                  $desc = '<b class="blue">' . $ct['gen']->key_to_name($sub_key) . ':</b> &nbsp; ';
+                  }
+                       
+             ?>
+             
+             <p>
+         
+                  <?=$desc?> <textarea data-track-index='<?=$subarray_key?>' data-autoresize name='<?=$field_array_base?>[<?=$passed_key?>][<?=$subarray_key?>][<?=$sub_key?>]' style='height: auto; width: 100%;' <?=( isset($render_params[$passed_key]['has_subarray'][$subarray_key]['is_password']) ? 'class="textarea_password" onblur="$(this).toggleClass(\'textarea_password\');autoresize_update();" onfocus="$(this).toggleClass(\'textarea_password\');autoresize_update();"' : '' )?>><?=( isset($passed_val[$subarray_key][$sub_key]) ? $passed_val[$subarray_key][$sub_key] : '' )?></textarea>
+                  
+                  <?php
+                  if ( isset($render_params[$passed_key]['is_repeatable']['is_textarea']) ) {
+                  $repeatable_fields_tracking[$passed_key]['is_textarea'] = $repeatable_fields_tracking[$passed_key]['is_textarea'] + 1;
+                  echo '123PLACEHOLDER_RIGHT123';
+                  }
+                  ?>
+
+             </p>
+             
+             <?php
+             }
+        
+        
+         }
         
         
    }
@@ -276,7 +422,7 @@ var $ct_array = array();
           
               <p>
               
-              <b class='blue'><?=$ct['gen']->key_to_name($passed_key)?>:</b> &nbsp; <input type='<?=( isset($render_params[$passed_key]['is_password']) ? 'password' : 'text' )?>' data-name="<?=md5($field_array_base . $passed_key)?>" name='<?=$field_array_base?>[<?=$passed_key?>]' value='<?=$passed_val?>' <?=( isset($render_params[$passed_key]['text_field_size']) ? ' size="' . $render_params[$passed_key]['text_field_size'] . '"' : '' )?> <?=( isset($render_params[$passed_key]['is_readonly']) ? 'readonly="readonly" placeholder="' . $render_params[$passed_key]['is_readonly'] . '"' : '' )?> />
+              <b class='blue'><?=$ct['gen']->key_to_name($passed_key)?>:</b> &nbsp; <input type='<?=( isset($render_params[$passed_key]['is_password']) ? 'password' : 'text' )?>' data-name="<?=md5($field_array_base . $passed_key)?>" name='<?=$field_array_base?>[<?=$passed_key?>]' value='<?=$passed_val?>' <?=( isset($render_params[$passed_key]['text_field_size']) ? ' size="' . $render_params[$passed_key]['text_field_size'] . '"' : '' )?> <?=( isset($render_params[$passed_key]['is_readonly']) ? 'readonly="readonly" placeholder="' . $render_params[$passed_key]['is_readonly'] . '" title="' . $render_params[$passed_key]['is_readonly'] . '"' : '' )?> />
               
               <?php
               if ( isset($render_params[$passed_key]['is_notes']) ) {
@@ -475,19 +621,59 @@ var $ct_array = array();
              ?>
         
                   <p>
+                  
+                 <?php
+                 // If it's flagged as an associative array
+                 if ( $sub_key === 'is_assoc' ) { // PHP7.4 NEEDS === HERE INSTEAD OF ==
+                      
+                      foreach( $render_params[$passed_key]['has_subarray'][$subarray_key]['is_select']['is_assoc'] as $assoc_key => $assoc_val ) {
+                           //var_dump($assoc_val);
+                      ?>
         
+                      <b class='blue'><?=$ct['gen']->key_to_name($assoc_key)?>:</b> &nbsp; <select data-track-index='<?=$subarray_key?>' name='<?=$field_array_base?>[<?=$passed_key?>][<?=$subarray_key?>][<?=$assoc_key?>]'>
+                      
+                           <?php
+                           foreach( $assoc_val as $setting_val ) {
+                           ?>
+                           
+                           <option value='<?=$setting_val['key']?>' <?=( isset($passed_val[$subarray_key][$assoc_key]) && $passed_val[$subarray_key][$assoc_key] == $setting_val['key'] ? 'selected' : '' )?> > <?=$setting_val['val']?> </option>
+                                
+                           <?php
+                           }
+                           ?>
+                  
+                       </select>
+                       
+                           <?php
+                           if ( isset($render_params[$passed_key]['is_repeatable']['is_select']) ) {
+                           $repeatable_fields_tracking[$passed_key]['is_select'] = $repeatable_fields_tracking[$passed_key]['is_select'] + 1;
+                           echo '123PLACEHOLDER_RIGHT123';
+                           }
+                           ?>
+                       
+                   </p>
              
-                  <b class='blue'><?=$ct['gen']->key_to_name($sub_key)?>:</b> &nbsp; <select data-track-index='<?=$subarray_key?>' name='<?=$field_array_base?>[<?=$passed_key?>][<?=$subarray_key?>][<?=$sub_key?>]'>
+                      
+                      <?php 
+                      }
+                      
+                 }
+                 else {
+                 ?>
+        
+                      <b class='blue'><?=$ct['gen']->key_to_name($sub_key)?>:</b> &nbsp; <select data-track-index='<?=$subarray_key?>' name='<?=$field_array_base?>[<?=$passed_key?>][<?=$subarray_key?>][<?=$sub_key?>]'>
                       
                       <?php
                       foreach( $sub_val as $setting_val ) {
                       ?>
                       
                       <option value='<?=$setting_val?>' <?=( isset($passed_val[$subarray_key][$sub_key]) && $passed_val[$subarray_key][$sub_key] == $setting_val ? 'selected' : '' )?> > <?=$ct['gen']->key_to_name($setting_val)?> </option>
-                      
+                           
                       <?php
                       }
-                      ?>
+                      
+                 }
+                 ?>
                   
                   </select>
                   
@@ -715,16 +901,16 @@ var $ct_array = array();
               
      		<fieldset style='margin-bottom: 2em;' class="<?=$repeat_class?> subsection_fieldset"><legend class='subsection_legend'> <b class='bitcoin'><?=$ct['gen']->key_to_name($key)?></b> </legend>
                    
-               <?php
-               // We render any notes at the TOP of subarray settings
-               if ( isset($render_params[$key]['is_notes']) ) {
-               ?>
-                    
-               <span class='bitcoin random_tip' style='line-height: 1.7em;'><?=$render_params[$key]['is_notes']?></span>
-                             
-               <?php
-               }
-               ?>
+                    <?php
+                    // We render any notes at the TOP of subarray settings
+                    if ( isset($render_params[$key]['is_notes']) ) {
+                    ?>
+                         
+                    <span class='bitcoin random_tip' style='line-height: 1.7em;'><?=$render_params[$key]['is_notes']?></span>
+                                  
+                    <?php
+                    }
+                    ?>
 
                <p class='<?=$repeat_class?>_add'><input type="button" value="<?=$render_params[$key]['is_repeatable']['add_button']?>" class="btn btn-default add" align="center"></p>
                           
@@ -737,7 +923,16 @@ var $ct_array = array();
          
               <b class='bitcoin'><?=$ct['gen']->key_to_name($key)?></b> &nbsp; 
 
-              <?php
+                    <?php
+                    // We render any notes at the TOP of subarray settings
+                    if ( isset($render_params[$key]['is_notes']) ) {
+                    ?>
+                         
+                    <br /><span class='bitcoin random_tip' style='line-height: 1.7em;'><?=$render_params[$key]['is_notes']?></span>
+                                  
+                    <?php
+                    }
+                    
               }
          
               
@@ -774,6 +969,11 @@ var $ct_array = array();
                    // Regular text fields in subarray
                    if ( isset($render_params[$key][$subarray_type][$subarray_key]['is_text']) ) {
                    $this->text_form_fields($field_array_base, $key, $val, $render_params, $subarray_key);
+                   }
+                   
+                   // Textarea fields in subarray
+                   if ( isset($render_params[$key][$subarray_type][$subarray_key]['is_textarea']) ) {
+                   $this->textarea_form_fields($field_array_base, $key, $val, $render_params, $subarray_key);
                    }
                    
 	         
@@ -875,7 +1075,12 @@ var $ct_array = array();
           				deleteTrigger: ".<?=$repeat_class?> .delete",
           				template: "#<?=$repeat_id?>",
           				itemContainer: ".subarray_<?=$repeat_class?>",
+          				afterAdd: function () {
+          				// Make any added textarea autosize
+                              autosize($('textarea'));
+          				},
           				afterDelete: function () {
+          				// Update seperators beetween repeatables
                               $("div.repeatable > div:first-child").css("border-top", "0.0em solid #808080");
                               $("div.repeatable > div:first-child").css("padding-top", "0.0em");
           				},

@@ -16,11 +16,7 @@ if ( $admin_area_sec_level == 'high' ) {
 <?php
 }
 else {
-?>
 
-<p> Coming Soon&trade; </p>
-
-<?php
 
 // Render config settings for this plugin...
 
@@ -54,10 +50,10 @@ $admin_render_settings['ui_name']['is_readonly'] = 'Developer setting only';
 
 // What OTHER admin pages should be refreshed AFTER this settings update runs
 // (SEE $refresh_admin / $_GET['refresh'] in footer.php, for ALL possible values)
-//$admin_render_settings['is_refresh_admin'] = 'none';
+$admin_render_settings['is_refresh_admin'] = 'none';
 
 // $ct['admin']->admin_config_interface($conf_id, $interface_id)
-//$ct['admin']->admin_config_interface('plug_conf|' . $this_plug, $this_plug, $admin_render_settings);
+$ct['admin']->admin_config_interface('plug_conf|' . $this_plug, $this_plug, $admin_render_settings);
 
 
 ////////////////////////////////////////////////////////////////////////////////////////////////

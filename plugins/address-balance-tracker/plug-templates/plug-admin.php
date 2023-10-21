@@ -136,7 +136,7 @@ foreach ( $ct['conf']['plug_conf'][$this_plug]['tracking'] as $key => $val ) {
          
      foreach ( $val as $tracked_key => $tracked_val ) {
      
-          if ( $tracked_key === 'asset' ) {
+          if ( $tracked_key === 'asset' ) { // PHP7.4 NEEDS === HERE INSTEAD OF ==
                
           $admin_render_settings['tracking']['has_subarray'][$key]['is_select'][$tracked_key] = array(
                                                                                                       'btc',

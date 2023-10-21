@@ -96,7 +96,7 @@ $admin_render_settings['strict_news_feed_servers']['is_repeatable']['is_text'] =
 
 $admin_render_settings['strict_news_feed_servers']['is_repeatable']['add_button'] = 'Add Strict News Server Domain (at bottom)';
 
-$admin_render_settings['strict_news_feed_servers']['is_repeatable']['text_field_size'] = 35;
+$admin_render_settings['strict_news_feed_servers']['is_repeatable']['text_field_size'] = 25;
                
 
 // FILLED IN setting values
@@ -104,7 +104,7 @@ $admin_render_settings['strict_news_feed_servers']['is_repeatable']['text_field_
 
 foreach ( $ct['conf']['news']['strict_news_feed_servers'] as $key => $val ) {
 $admin_render_settings['strict_news_feed_servers']['is_subarray'][$key]['is_text'] = true;
-$admin_render_settings['strict_news_feed_servers']['is_subarray'][$key]['text_field_size'] = 35;
+$admin_render_settings['strict_news_feed_servers']['is_subarray'][$key]['text_field_size'] = 25;
 }
 
 
