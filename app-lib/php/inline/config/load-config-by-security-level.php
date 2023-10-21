@@ -23,17 +23,26 @@ $ct['cache']->load_cached_config();
 $ct['gen']->refresh_plugins_list();
 
 
+// Check for VALIDATED / SECURE config updates IN PROGRESS
+$valid_secure_config_update_request = $ct['admin']->valid_secure_config_update_request();
+
+
 // Configs for any plugins activated in ct_conf
 foreach ( $ct['conf']['plugins']['plugin_status'] as $key => $val ) {
 			
-$this_plug = $key;
+$this_plug = trim($key);
 
+
+     // If we are mid-flight on activating / deactivating a plugin in the admin interface, then use that value instead
+     if ( $valid_secure_config_update_request && isset($valid_secure_config_update_request['plugin_status'][$this_plug]) ) {
+     $val = $valid_secure_config_update_request['plugin_status'][$this_plug];
+     $plugin_status_is_updating = true;
+     }
+	
 	
 	if ( $val == 'on' ) {
-		
-	$key = trim($key);
 	
-	$plug_conf_file = $ct['base_dir'] . '/plugins/' . $key . '/plug-conf.php'; // Loaded NOW to have ready for any cached app config resets (for ANY runtime)
+	$plug_conf_file = $ct['base_dir'] . '/plugins/' . $this_plug . '/plug-conf.php'; // Loaded NOW to have ready for any cached app config resets (for ANY runtime)
 
      // SET SIMPLIFIED / MINIMIZED PLUG_CONF ONLY FOR USE *INSIDE* PLUGIN LOGIC / PLUGIN INIT LOOPS
 	$plug_conf[$this_plug] = array();
@@ -48,8 +57,8 @@ $this_plug = $key;
      		        
      	$ct['conf']['plug_conf'][$this_plug] = $plug_conf[$this_plug]; // Add each plugin's config into the GLOBAL app config
      		   
-     	    // If were're not resetting, flag an update to occurr
-     	    if ( $admin_area_sec_level != 'high' && !$reset_config ) {
+     	    // If were're not high security mode / resetting / updating plugin status, flag a cached config update to occurr
+     	    if ( $admin_area_sec_level != 'high' && !$reset_config && !$plugin_status_is_updating ) {
          	    $ct['gen']->log('conf_error', 'plugin "'.$this_plug.'" ADDED, updating CACHED ct_conf');
               $update_config = true;
               }

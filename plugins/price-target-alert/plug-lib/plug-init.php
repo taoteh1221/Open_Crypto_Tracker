@@ -29,11 +29,16 @@ if ( is_array($plug_conf[$this_plug]['price_targets']) && sizeof($plug_conf[$thi
 
 
 // Check each configged price target alert
-foreach ( $plug_conf[$this_plug]['price_targets'] as $target_key => $target_val ) {
+foreach ( $plug_conf[$this_plug]['price_targets'] as $val ) {
 	
 // Clear any previous loop's $cache_reset var
 $cache_reset = false;
 
+$parse_attributes = explode('=', $val);
+
+$target_key = trim($parse_attributes[0]);
+
+$target_val = trim($parse_attributes[1]);
 
 $price_target_cache_file = $ct['plug']->alert_cache($target_key . '.dat');
 

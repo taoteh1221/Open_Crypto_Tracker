@@ -74,7 +74,7 @@ $plug_conf[$this_plug]['tracking'] = array(
 											    // USDC (SPL token on Solana) TOKEN EXAMPLE
 												array(
 													'asset' => 'sol||usdc', // 'sol||spl_token_symbol' (LOWERCASE)
-													'label' => 'Crypto Tracker USDC Donations', // Description of address
+													'label' => 'Crypto Tracker USDC Donations (on Solana)', // Description of address
 													'address' => '5G2GFz6HrmEtWYVZU85wb9WCVVg5zYypMCgxW2Vgkc9q', // SPL token address
 													),
 																	

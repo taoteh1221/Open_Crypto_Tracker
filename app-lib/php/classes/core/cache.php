@@ -183,22 +183,25 @@ var $ct_array = array();
                    
                    
               $this_plug = $setting_key;
-                   
+                           
                    
                    foreach ( $default_ct_conf['plug_conf'][$this_plug] as $plug_setting_key => $plug_setting_val ) {
                    
                       if ( !isset($conf['plug_conf'][$this_plug][$plug_setting_key]) ) {
                       
                       $conf['plug_conf'][$this_plug][$plug_setting_key] = $default_ct_conf['plug_conf'][$this_plug][$plug_setting_key];
+                  			
+                  	  // Use DEFAULT config for ordering the PARENT array IN THE ORIGINAL ORDER
+                      $conf['plug_conf'][$this_plug] = $ct['gen']->assoc_array_order( $conf['plug_conf'][$this_plug], $ct['gen']->assoc_array_order_map($default_ct_conf['plug_conf'][$this_plug]) );
+                   
+                      $conf_upgraded = true;
                          
                       $log_val_descr = ( $default_ct_conf['plug_conf'][$this_plug][$plug_setting_key] != null || $default_ct_conf['plug_conf'][$this_plug][$plug_setting_key] != false ? $default_ct_conf['plug_conf'][$this_plug][$plug_setting_key] : '[null or false]' );
                    
                       $ct['gen']->log(
-                   			'conf_error',
-                   			'Outdated app config, upgraded parameter ct[conf][plug_conf][' . $this_plug . '][' . $plug_setting_key . '] imported (default value: ' . $log_val_descr . ')'
-                   			);
-                   
-                      $conf_upgraded = true;
+                             			'conf_error',
+                             			'Outdated app config, upgraded parameter ct[conf][plug_conf][' . $this_plug . '][' . $plug_setting_key . '] imported (default value: ' . $log_val_descr . ')'
+                             			);
                    
                       }
                    
@@ -215,13 +218,16 @@ var $ct_array = array();
                    if ( !is_array($conf[$cat_key][$conf_key]) ) {
                         
                    $conf[$cat_key][$conf_key] = $default_ct_conf[$cat_key][$conf_key];
-                   
-                   $ct['gen']->log(
-                   			'conf_error',
-                   			'Outdated app config, upgraded PARENT ARRAY parameter ct[conf][' . $cat_key . '][' . $conf_key . '] imported'
-                   			);
+                  			
+                   // Use DEFAULT config for ordering the PARENT array IN THE ORIGINAL ORDER
+                   $conf[$cat_key] = $ct['gen']->assoc_array_order( $conf[$cat_key], $ct['gen']->assoc_array_order_map($default_ct_conf[$cat_key]) );
                    
                    $conf_upgraded = true;	
+                   
+                   $ct['gen']->log(
+                        			'conf_error',
+                        			'Outdated app config, upgraded PARENT ARRAY parameter ct[conf][' . $cat_key . '][' . $conf_key . '] imported'
+                        			);
                    
                    }
                    
@@ -229,15 +235,18 @@ var $ct_array = array();
                    if ( is_array($conf[$cat_key][$conf_key]) && !array_key_exists($setting_key, $conf[$cat_key][$conf_key]) ) {
               	
                    $conf[$cat_key][$conf_key][$setting_key] = $default_ct_conf[$cat_key][$conf_key][$setting_key];
+                  			
+                   // Use DEFAULT config for ordering the PARENT array IN THE ORIGINAL ORDER
+                   $conf[$cat_key][$conf_key] = $ct['gen']->assoc_array_order( $conf[$cat_key][$conf_key], $ct['gen']->assoc_array_order_map($default_ct_conf[$cat_key][$conf_key]) );
+                   
+                   $conf_upgraded = true;
                          
                    $log_val_descr = ( $default_ct_conf[$cat_key][$conf_key][$setting_key] != null || $default_ct_conf[$cat_key][$conf_key][$setting_key] != false ? $default_ct_conf[$cat_key][$conf_key][$setting_key] : '[null or false]' );
                    
                    $ct['gen']->log(
-                   			'conf_error',
-                   			'Outdated app config, upgraded parameter ct[conf][' . $cat_key . '][' . $conf_key . '][' . $setting_key . '] imported (default value: ' . $log_val_descr . ')'
-                   			);
-                   
-                   $conf_upgraded = true;
+                        			'conf_error',
+                        			'Outdated app config, upgraded parameter ct[conf][' . $cat_key . '][' . $conf_key . '][' . $setting_key . '] imported (default value: ' . $log_val_descr . ')'
+                        			);
                    
                    }
                    
@@ -274,12 +283,12 @@ var $ct_array = array();
                       
                       unset($conf['plug_conf'][$this_plug][$plug_setting_key]);
                    
-                      $ct['gen']->log(
-                   			'conf_error',
-                   			'Depreciated app config, parameter ct[conf][plug_conf][' . $this_plug . '][' . $plug_setting_key . '] removed'
-                   			);
-                   
                       $conf_upgraded = true;
+                   
+                      $ct['gen']->log(
+                             			'conf_error',
+                             			'Depreciated app config, parameter ct[conf][plug_conf][' . $this_plug . '][' . $plug_setting_key . '] removed'
+                             			);
                    
                       }
                    
@@ -297,10 +306,12 @@ var $ct_array = array();
                    
                    unset($conf[$cat_key][$conf_key][$setting_key]);
                    
+                   $conf_upgraded = true;
+                   
                    $ct['gen']->log(
-                   			'conf_error',
-                   			'Depreciated app config, parameter ct[conf][' . $cat_key . '][' . $conf_key . '][' . $setting_key . '] removed'
-                   			);
+                        			'conf_error',
+                        			'Depreciated app config, parameter ct[conf][' . $cat_key . '][' . $conf_key . '][' . $setting_key . '] removed'
+                        			);
                    			
                    }
               			
@@ -309,15 +320,15 @@ var $ct_array = array();
                         
                    unset($conf[$cat_key][$conf_key]);
                    
+                   $conf_upgraded = true;
+                   
                    $ct['gen']->log(
-                   			'conf_error',
-                   			'Depreciated app config, PARENT ARRAY parameter ct[conf][' . $cat_key . '][' . $conf_key . '] removed'
-                   			);
+                        			'conf_error',
+                        			'Depreciated app config, PARENT ARRAY parameter ct[conf][' . $cat_key . '][' . $conf_key . '] removed'
+                        			);
                    			
                    }
-              
-              
-              $conf_upgraded = true;
+                   
               
               }
                  
@@ -790,24 +801,13 @@ var $ct_array = array();
       return $default_ct_conf;
       
       }
-      // If the default app config has changed since last check (from upgrades / end user editing)
-      elseif ( $check_default_ct_conf != md5( serialize($default_ct_conf) ) ) {
-      
-                   
-         if ( $ct['conf']['power']['debug_mode'] == 'all' || $ct['conf']['power']['debug_mode'] == 'all_telemetry' || $ct['conf']['power']['debug_mode'] == 'conf_telemetry' ) {
-                        
-         $ct['gen']->log(
-                        	'conf_debug',
-                        	'DEFAULT config has changed since last check'
-                        	);
-                        			
-         }
                    	 
          
-         // Check for new variables, and add them
-         foreach ( $default_ct_conf as $cat_key => $cat_val ) {
+      // Check for new variables, and add them
+      foreach ( $default_ct_conf as $cat_key => $cat_val ) {
             
-            foreach ( $cat_val as $conf_key => $conf_val ) {
+            
+           foreach ( $cat_val as $conf_key => $conf_val ) {
                 
          
                // Uses === for PHPv7.4 support
@@ -820,13 +820,16 @@ var $ct_array = array();
                elseif ( !isset($conf[$cat_key]) && isset($default_ct_conf[$cat_key]) ) {
                   	
                $conf[$cat_key] = $default_ct_conf[$cat_key];
+                  			
+               // Use DEFAULT config for ordering the PARENT array IN THE ORIGINAL ORDER
+               $conf = $ct['gen']->assoc_array_order( $conf, $ct['gen']->assoc_array_order_map($default_ct_conf) );
+                  						
+               $conf_upgraded = true;
                   
                $ct['gen']->log(
                   			'conf_error',
                   			'Upgraded app config CATEGORY ct[conf][' . $cat_key . '] imported (default array size: ' . sizeof($default_ct_conf[$cat_key]) . ')'
                   			);
-                  						
-               $conf_upgraded = true;
                   
                }
                
@@ -834,6 +837,11 @@ var $ct_array = array();
                if ( !is_array($conf_val) && is_array($conf[$cat_key]) && !array_key_exists($conf_key, $conf[$cat_key]) && array_key_exists($conf_key, $default_ct_conf[$cat_key]) ) {
                   	
                $conf[$cat_key][$conf_key] = $default_ct_conf[$cat_key][$conf_key];
+                  			
+               // Use DEFAULT config for ordering the PARENT array IN THE ORIGINAL ORDER
+               $conf[$cat_key] = $ct['gen']->assoc_array_order( $conf[$cat_key], $ct['gen']->assoc_array_order_map($default_ct_conf[$cat_key]) );
+                  						
+               $conf_upgraded = true;
                
                $log_val_descr = ( $default_ct_conf[$cat_key][$conf_key] != null || $default_ct_conf[$cat_key][$conf_key] != false ? $default_ct_conf[$cat_key][$conf_key] : '[null or false]' );
                   
@@ -841,21 +849,21 @@ var $ct_array = array();
                   			'conf_error',
                   			'Upgraded app config PARAMETER ct[conf][' . $cat_key . '][' . $conf_key . '] imported (default value: ' . $log_val_descr . ')'
                   			);
-                  						
-               $conf_upgraded = true;
                   
                }
                
             
-            }
-         
-         }
-         
-         
-         // Check for depreciated variables, and remove them
-         foreach ( $conf as $cached_cat_key => $cached_cat_val ) {
+           }
             
-            foreach ( $cached_cat_val as $cached_conf_key => $cached_conf_val ) {
+         
+      }
+         
+         
+      // Check for depreciated variables, and remove them
+      foreach ( $conf as $cached_cat_key => $cached_cat_val ) {
+            
+            
+           foreach ( $cached_cat_val as $cached_conf_key => $cached_conf_val ) {
          
          
                // Uses === for PHPv7.4 support
@@ -869,12 +877,12 @@ var $ct_array = array();
                   	
                unset($conf[$cached_cat_key]);
                   
+               $conf_upgraded = true;
+                  
                $ct['gen']->log(
                			'conf_error',
                			'Depreciated app config CATEGORY ct[conf][' . $cached_cat_key . '] removed'
                   			);
-                  
-               $conf_upgraded = true;
                   
                }
                
@@ -883,30 +891,23 @@ var $ct_array = array();
                   	
                unset($conf[$cached_cat_key][$cached_conf_key]);
                   
+               $conf_upgraded = true;
+                  
                $ct['gen']->log(
                			'conf_error',
                			'Depreciated app config PARAMETER ct[conf][' . $cached_cat_key . '][' . $cached_conf_key . '] removed'
                   			);
                   
-               $conf_upgraded = true;
-                  
                }
                
                
-            }
+           }
+           
             
-         }
+      }
          
       
-      // Update the hash of the default config, before returning
-      $check_default_ct_conf = md5( serialize($default_ct_conf) );
-      $ct['cache']->save_file($ct['base_dir'] . '/cache/vars/default_ct_conf_md5.dat', $check_default_ct_conf);
-      sleep(1); // Chill for a second, since we just saved the default conf digest
-      
-      return ( $conf_upgraded ? $conf : false );
-      
-      }
-   
+   return ( $conf_upgraded ? $conf : false );
    
    }
 

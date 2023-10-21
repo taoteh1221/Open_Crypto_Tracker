@@ -552,11 +552,6 @@ $ct['conf']['charts_alerts']['tracked_markets'] = array(
 					'zbc-3' => 'gateio||usdt||both',
 					
 					
-					// SLRS
-					'slrs' => 'gateio||usdt||both',
-					'slrs-2' => 'gateio||eth||chart',
-					
-					
 					// RNDR
 					'rndr' => 'kucoin||btc||both',
 					'rndr-2' => 'gateio||usdt||none',
@@ -569,8 +564,6 @@ $ct['conf']['charts_alerts']['tracked_markets'] = array(
 					
 					// GRAPE
 					'grape' => 'coingecko_usd||usd||both',
-					'grape-2' => 'coingecko_btc||btc||chart',
-					'grape-3' => 'coingecko_eth||eth||chart',
 					'grape-4' => 'coingecko_eur||eur||none',
 					'grape-5' => 'coingecko_gbp||gbp||none',
 					
@@ -604,24 +597,8 @@ $ct['conf']['charts_alerts']['tracked_markets'] = array(
 					'amznstock' => 'alphavantage_stock||usd||both',
 					
 					
-					// GOOGLSTOCK (Google stock)
-					'googlstock' => 'alphavantage_stock||usd||both',
-					
-					
-					// MSFTSTOCK (Microsoft stock)
-					'msftstock' => 'alphavantage_stock||usd||both',
-					
-					
-					// NVDASTOCK (NVIDIA stock)
-					'nvdastock' => 'alphavantage_stock||usd||both',
-					
-					
 					// AMDSTOCK (Advanced Micro Devices stock)
 					'amdstock' => 'alphavantage_stock||usd||both',
-					
-					
-					// INTCSTOCK (Intel Corporation stock)
-					'intcstock' => 'alphavantage_stock||usd||both',
 					
 					
 					// NFLXSTOCK (Netflix stock)
@@ -2278,6 +2255,11 @@ $ct['conf']['assets'] = array(
                                                     ),
 
                                                     
+                                    'usdc' => array(
+                                    	 'jupiter_ag' => 'SOL/USDC',
+                                                    ),
+
+                                                    
                                     'usdt' => array(
                                     	'coinbase' => 'SOL-USDT',
                                         'bittrex' => 'SOL-USDT',
@@ -2852,42 +2834,6 @@ $ct['conf']['assets'] = array(
                     ////////////////////////////////////////////////////////////////////
                     
                     
-                    // SLRS
-                    'SLRS' => array(
-                        
-                        'name' => 'Solrise Finance',
-                        'mcap_slug' => 'solrise-finance',
-                        'pair' => array(
-
-                        
-                                    'eth' => array(
-                                        'gateio' => 'SLRS_ETH',
-                                                    ),
-
-                                                    
-                                    'sol' => array(
-                                    	 'jupiter_ag' => 'SLRS/SOL',
-                                                    ),
-
-                                                    
-                                    'usd' => array(
-                                        'coingecko_usd' => 'solrise-finance',
-                                                    ),
-
-                                                    
-                                    'usdt' => array(
-                                        'gateio' => 'SLRS_USDT',
-                                                    ),
-
-                                                    
-                        ) // pair END
-                        
-                    ), // Asset END
-                    
-                    
-                    ////////////////////////////////////////////////////////////////////
-                    
-                    
                     // RNDR
                     'RNDR' => array(
                         
@@ -2983,16 +2929,6 @@ $ct['conf']['assets'] = array(
                         'name' => 'Grape Protocol',
                         'mcap_slug' => 'grape-protocol',
                         'pair' => array(
-
-                                                    
-                                    'btc' => array(
-                                          'coingecko_btc' => 'grape-2',
-                                                    ),
-
-                        
-                                    'eth' => array(
-                                          'coingecko_eth' => 'grape-2',
-                                                    ),
 
                                                     
                                     'eur' => array(
@@ -3189,69 +3125,6 @@ $ct['conf']['assets'] = array(
                     ////////////////////////////////////////////////////////////////////
                     
                     
-                    // GOOGLSTOCK
-                    'GOOGLSTOCK' => array(
-                        
-                        'name' => 'Alphabet Inc Class A',
-                        'mcap_slug' => 'GOOGL:NASDAQ',
-                        'pair' => array(
-
-                        
-                                    'usd' => array(
-                                        'alphavantage_stock' => 'GOOGL',
-                                                    ),
-
-                                                    
-                        ) // pair END
-                        
-                    ), // Asset END
-                    
-                    
-                    ////////////////////////////////////////////////////////////////////
-                    
-                    
-                    // MSFTSTOCK
-                    'MSFTSTOCK' => array(
-                        
-                        'name' => 'Microsoft Corp',
-                        'mcap_slug' => 'MSFT:NASDAQ',
-                        'pair' => array(
-
-                        
-                                    'usd' => array(
-                                        'alphavantage_stock' => 'MSFT',
-                                                    ),
-
-                                                    
-                        ) // pair END
-                        
-                    ), // Asset END
-                    
-                    
-                    ////////////////////////////////////////////////////////////////////
-                    
-                    
-                    // NVDASTOCK
-                    'NVDASTOCK' => array(
-                        
-                        'name' => 'NVIDIA Corp',
-                        'mcap_slug' => 'NVDA:NASDAQ',
-                        'pair' => array(
-
-                        
-                                    'usd' => array(
-                                        'alphavantage_stock' => 'NVDA',
-                                                    ),
-
-                                                    
-                        ) // pair END
-                        
-                    ), // Asset END
-                    
-                    
-                    ////////////////////////////////////////////////////////////////////
-                    
-                    
                     // AMDSTOCK
                     'AMDSTOCK' => array(
                         
@@ -3262,27 +3135,6 @@ $ct['conf']['assets'] = array(
                         
                                     'usd' => array(
                                         'alphavantage_stock' => 'AMD',
-                                                    ),
-
-                                                    
-                        ) // pair END
-                        
-                    ), // Asset END
-                    
-                    
-                    ////////////////////////////////////////////////////////////////////
-                    
-                    
-                    // INTCSTOCK
-                    'INTCSTOCK' => array(
-                        
-                        'name' => 'Intel Corporation',
-                        'mcap_slug' => 'INTC:NASDAQ',
-                        'pair' => array(
-
-                        
-                                    'usd' => array(
-                                        'alphavantage_stock' => 'INTC',
                                                     ),
 
                                                     

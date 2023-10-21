@@ -233,7 +233,7 @@ $admin_render_settings['login_alert']['is_select'] = array(
                                                           'all',
                                                          );
 
-$admin_render_settings['login_alert']['is_notes'] = 'See "External APIs" section for using any comms-related APIs.';
+$admin_render_settings['login_alert']['is_notes'] = '(see "External APIs" section for using any comms-related APIs)';
                                                          
                                                          
 ////////////////////////////////////////////////////////////////////////////////////////////////

@@ -5,15 +5,6 @@
 
 
 ?>
-	 <?php
-	 if ( $update_config_success != null ) {
-	 ?>
-	 <div class='red red_dotted' style='font-weight: bold;'><a href="javascript:app_reloading_check();" target="_PARENT">Reload this page</a>, to show your updated plugin settings below.</div>
-	 <div style='min-height: 1em;'></div>
-	 <?php
-	 }
-	 ?>
-	
 	
     <fieldset class='subsection_fieldset'><legend class='subsection_legend'> <strong>Activate / Deactivate Installed Plugins</strong> </legend>
 

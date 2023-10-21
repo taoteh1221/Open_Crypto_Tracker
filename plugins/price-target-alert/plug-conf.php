@@ -31,21 +31,25 @@ $plug_conf[$this_plug]['ui_name'] = 'Price Target Alert'; // (defaults to $this_
 
 
 // Re-allow SAME asset price target alert(s) messages after X MINUTES (per alert config)
-$plug_conf[$this_plug]['alerts_frequency_maximum'] = 30; // Can be 0, to have no limits (Default = 30)
+$plug_conf[$this_plug]['alerts_frequency_maximum'] = 15; // Can be 0, to have no limits (Default = 15)
 
 
 // Price targets array (add unlimited price targets as new array objects)
 // MUST BE THE #EXACT# MARKETS, THERE IS NO LOCAL CURRENCY CONVERSION AVAILABLE IN THIS PLUGIN!
 $plug_conf[$this_plug]['price_targets'] = array(
-																	
-												// 'asset-pair-exchange' => '123.4567', // NO COMMAS ALLOWED IN PRICE, ONLY DECIMALS
-												'btc-usd-coinbase' => '45800',
-												'eth-btc-binance' => '0.08167',
-												'eth-usdt-binance' => '2280',
-												'sol-eth-binance' => '0.0225',
-												'sol-usd-coinbase' => '30.65',
-													
-												); // END price targets array
+
+						                    // NO COMMAS ALLOWED IN PRICE, ONLY DECIMALS
+						                    // USE EXCHANGE IDS USED IN CONFIG.PHP				
+										// 'asset-pair-exchange_id = 123.4567',
+										'btc-usd-coinbase = 30800',
+										'eth-btc-binance = 0.055',
+										'eth-usdt-binance = 1750',
+										'sol-eth-binance = 0.02',
+										'sol-usd-coinbase = 30.65',
+										'polis-sol-jupiter_ag = 0.00555',
+										'amdstock-usd-alphavantage_stock = 115.50',
+										
+							            ); // END price targets array
 
 
 
