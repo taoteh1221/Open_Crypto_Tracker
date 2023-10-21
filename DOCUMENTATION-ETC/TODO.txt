@@ -171,13 +171,13 @@ https://zksync.io/api/v0.1.html (KEEP AN EYE OUT FOR V2 DOCS AS WELL)
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
-Consider using the array ordering mapper logic we built for the cached config upgrades, also in the queue_config_update() function. Then not only do we GUARANTEE consistant ordering of settings in the admin area, BUT we ALSO would have consistant array ordering in the cached config "UNDER THE HOOD"...WHICH MAKES APP DEVELOPMENT A BIT EASIER IN THE TEST / REVIEW DEPARTMENT. Different SUBARRAY values in the cached config should be fine, as we are only mapping the ROOT array keys that ALWAYS EXIST (NOT EVER REMOVABLE BY A USER IN THE INTERFACE).
-
-
 Use a slider for number values, instead of dropdown select menus.
 
 
 Validate news feeds settings interface input / all plugin settings interface inputs.
+
+
+Consider using the array ordering mapper logic we built for the cached config upgrades, also in the queue_config_update() function. Then not only do we GUARANTEE consistant ordering of settings in the admin area, BUT we ALSO would have consistant array ordering in the cached config "UNDER THE HOOD"...WHICH MAKES APP DEVELOPMENT A BIT EASIER IN THE TEST / REVIEW DEPARTMENT. Different SUBARRAY values in the cached config should be fine, as we are only mapping the ROOT array keys that ALWAYS EXIST (NOT EVER REMOVABLE BY A USER IN THE INTERFACE).
 
 
 CACHE an md5 hash of all telegram settings combined, and only delete the chatroom data / refresh it if this md5 hash changes (like we do for light chart config). Otherwise you get a bad UX from endlessly getting alerts to re-enter "/start" in the chatroom EVERYTIME YOU UPDATE *ANY* ADMIN SETTINGS.
