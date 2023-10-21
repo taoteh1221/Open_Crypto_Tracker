@@ -59,12 +59,12 @@ $loop = $loop + 15;
 
 
 // EMPTY add / remove (repeatable) fields TEMPLATE rendering
+
+$admin_render_settings['price_targets']['is_repeatable']['add_button'] = 'Add Price Target Alert (at bottom)';
      
 $admin_render_settings['price_targets']['is_repeatable']['is_text'] = true; // SINGLE (NON array)
 
-$admin_render_settings['price_targets']['is_repeatable']['add_button'] = 'Add Price Target Alert (at bottom)';
-
-$admin_render_settings['price_targets']['is_repeatable']['text_field_size'] = 40;
+$admin_render_settings['price_targets']['is_repeatable']['text_field_size'] = 45;
 
 
 // FILLED IN setting values
@@ -75,11 +75,11 @@ sort($ct['conf']['plug_conf'][$this_plug]['price_targets']);
 
 foreach ( $ct['conf']['plug_conf'][$this_plug]['price_targets'] as $key => $val ) {
 $admin_render_settings['price_targets']['is_subarray'][$key]['is_text'] = true;
-$admin_render_settings['price_targets']['is_subarray'][$key]['text_field_size'] = 40;
+$admin_render_settings['price_targets']['is_subarray'][$key]['text_field_size'] = 45;
 }
 
 
-$admin_render_settings['price_targets']['is_notes'] = 'This format MUST be used: asset-pair-exchange_id = 123.4567';
+$admin_render_settings['price_targets']['is_notes'] = 'This format MUST be used (NO thousands seperator): asset-pair-exchange_id = 1234.5678';
          
 
 ////////////////////////////////////////////////////////////////////////////////////////////////
