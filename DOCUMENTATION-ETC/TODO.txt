@@ -224,12 +224,6 @@ Add to resources page:
 https://www.validators.app/
 
 
-Add ARM stock.
-
-
-Add more Jupiter agg markets to Solana coins in price target plugin.
-
-
 Research whether POST data size affects header size like cookie data size does.
 
 
@@ -489,6 +483,9 @@ Look into laptop touchscreen zingchart js error on Ubuntu 20.04 / Chrome ON SMAL
 FEATURES / NEW ARCHITECTURE (*NOT* PRIORITIZED)
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+On the backup / restore admin page, have all the backups (charts / configs) listed, with a dropdown menu next to each for restore / download.
 
 
 Add ability to set what decimal and thousands seperators to use, AUTOMATICALLY BASED OF JAVASCRIPT LOCALE like we do for the ticker app (by wrapping all numbers in a class, and converting on document load).

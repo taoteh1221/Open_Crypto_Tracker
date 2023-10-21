@@ -547,6 +547,7 @@ echo $ct['var']->num_pretty($asset_val_raw, $thres_dec['max_dec'], false, $thres
         foreach ( $all_pair_mrkts as $mrkt_key => $mrkt_name ) {
          $loop = $loop + 1;
          	if ( $original_mrkt == ($loop - 1) ) {
+         	$selected_mrkt = $mrkt_key;
          	$ui_selected_mrkt = $ct['gen']->key_to_name($mrkt_key);
          	}
         ?>
@@ -577,6 +578,14 @@ echo $ct['var']->num_pretty($asset_val_raw, $thres_dec['max_dec'], false, $thres
   }
 
 ?></span>
+
+<?php
+if ( in_array($selected_mrkt, $ct['dev']['no_trade_volume_api_data']) ) {
+?>
+ <span class='white'>(N/A)</span> 
+<?php
+}
+?>
 
 </td>
 

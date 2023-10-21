@@ -75,7 +75,17 @@ var $ct_array = array();
           foreach( $data as $val ) {
           
               if ( isset($val['family']) ) {
-              $result[] = $val['family'];
+              
+              // We don't want the word 'script' triggering a false positive result,
+              // when we scan for possible script injection attacks in user input
+              // (which could confuse / scare end users, IF they choose a font with 'script' in the name)
+              $scan = strtolower($val['family']);
+              $scan = str_replace($ct['dev']['script_injection_checks'], "", $scan, $has_script);
+              
+                 if ( $has_script == 0 ) {
+                 $result[] = $val['family'];
+                 }
+              
               }
           
           }

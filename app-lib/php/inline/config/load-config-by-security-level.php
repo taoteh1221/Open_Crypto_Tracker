@@ -24,7 +24,7 @@ $ct['gen']->refresh_plugins_list();
 
 
 // Check for VALIDATED / SECURE config updates IN PROGRESS
-$check_plugin_status = $ct['admin']->valid_secure_config_update_request();
+$valid_secure_config_update_request = $ct['admin']->valid_secure_config_update_request();
 
 
 // Configs for any plugins activated in ct_conf
@@ -34,8 +34,9 @@ $this_plug = trim($key);
 
 
      // If we are mid-flight on activating / deactivating a plugin in the admin interface, then use that value instead
-     if ( $check_plugin_status && isset($check_plugin_status['plugin_status'][$this_plug]) ) {
-     $val = $check_plugin_status['plugin_status'][$this_plug];
+     if ( $valid_secure_config_update_request && isset($valid_secure_config_update_request['plugin_status'][$this_plug]) ) {
+     $val = $valid_secure_config_update_request['plugin_status'][$this_plug];
+     $plugin_status_is_updating = true;
      }
 	
 	
@@ -56,8 +57,8 @@ $this_plug = trim($key);
      		        
      	$ct['conf']['plug_conf'][$this_plug] = $plug_conf[$this_plug]; // Add each plugin's config into the GLOBAL app config
      		   
-     	    // If were're not resetting, flag an update to occurr
-     	    if ( $admin_area_sec_level != 'high' && !$reset_config ) {
+     	    // If were're not high security mode / resetting / updating plugin status, flag a cached config update to occurr
+     	    if ( $admin_area_sec_level != 'high' && !$reset_config && !$plugin_status_is_updating ) {
          	    $ct['gen']->log('conf_error', 'plugin "'.$this_plug.'" ADDED, updating CACHED ct_conf');
               $update_config = true;
               }

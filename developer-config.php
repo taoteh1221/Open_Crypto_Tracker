@@ -176,6 +176,21 @@ $ct['dev']['bundled_plugins'] = array(
                                       'crypto-info-bot',
                                       'on-chain-stats',
                                      );
+     
+     
+// Exchange APIs that have NO TRADE VOLUME DATA
+// (for UX on trade volume data in interface)
+$ct['dev']['no_trade_volume_api_data'] = array(
+                                                // 'exchange-config-key-name-here',
+                                                'misc_assets',
+                                                'btc_nfts',
+                                                'eth_nfts',
+                                                'sol_nfts',
+                                                'alt_nfts',
+                                                'jupiter_ag',
+                                                'coinspot',
+                                                'unocoin',
+                                               );
 							
 
 // TLD-only (Top Level Domain only, NO SUBDOMAINS) for each API service that UN-EFFICIENTLY requires multiple calls (for each market / data set)
