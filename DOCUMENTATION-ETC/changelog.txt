@@ -6361,6 +6361,8 @@ MIGRATE YOUR EXISTING SETTINGS TO THE NEW FORMAT.
 
 -Added Admin Config settings into these admin interface sections (these config settings are now editable in the admin interface): News Feeds, Plugins, Address Balance Tracker (plugin), Price Target Alert (plugin), Recurring Reminder (plugin)
 
+-Added config file formatting error checks (if a significant error that would crash the app is discovered, you are notified, and the current config file is securely backed up / replaced with a 'factory reset' config)
+
 -Consolidated error / debug logs into one log file, for clarified debugging output (whe debugging is enabled)
 
 -Miscellaneous user experience improvements
