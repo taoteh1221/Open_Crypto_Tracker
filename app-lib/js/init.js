@@ -78,7 +78,7 @@ responsive_menu_override();
 // nav item is active and it's associated content, and display it / mark nav links as active in interface
 nav_menu('.admin-nav');
 nav_menu('.user-nav');
-      
+
 
 	/////////////////////////////////////////////////////////////////////////////////////////////////////
 	
@@ -692,7 +692,132 @@ nav_menu('.user-nav');
          });
 
 
+	/////////////////////////////////////////////////////////////////////////////////////////////////////
+	
 
+     // Range input styling / processing
+     // Modified from: https://css-tricks.com/value-bubbles-for-range-inputs/
+     
+     // Get array of all ranges to target
+     range_inputs = document.querySelectorAll('.range-wrap');
+     
+     
+     // Process all the ranges
+     range_inputs.forEach(function(range_wrap) {
+          
+     // Get elements inside range wrap
+    
+     var range = range_wrap.getElementsByTagName('input')[0];
+     
+     var rangeTooltip = range_wrap.getElementsByTagName('div')[0];
+     
+     var rangeMin = range_wrap.getElementsByTagName('div')[1];
+     
+     var rangeMax = range_wrap.getElementsByTagName('div')[2];
+     
+     var rangeValue = range_wrap.getElementsByTagName('div')[3];
+       
+     range.style.backgroundColor = 'lightseagreen';
+     
+     rangeValue.style.width = range.offsetWidth + 'px';
+     
+     rangeValue.style.right = rangeMax.offsetWidth + 4 + 'px';
+     
+     
+         // Styling / processing when setting the range value
+         // (done when document is loaded / range input value changes)
+         var setValue = ()=>{
+              
+         var spacing = -7;
+     
+         var totalRange = (range.max - range.min);
+          
+         var totalSteps = totalRange / range.step;
+         
+         var rangeIncrease = (range.value - range.min);
+         
+         var currentIncrement = rangeIncrease / range.step;
+         
+         var rawPosition = (range.offsetWidth / totalSteps) * currentIncrement;
+         
+         // Add some spacing, AND use font size as a multiplier 
+         // (CONFIRMED BOTH THESE STEPS center the tooltip above the range thumb better)
+         var refinedPosition = (rawPosition + spacing) * set_font_size;
+         
+         var positionOffset = (range.offsetWidth + rangeMax.offsetWidth);
+       
+         rangeTooltip.style.right = (positionOffset - refinedPosition) + 'px';
+       
+         rangeTooltip.innerHTML = `<span>${range.value}</span>`;
+       
+         rangeValue.innerHTML = `${range.value}`;
+       
+         range.style.backgroundColor = '#F7931A';
+         
+         rangeMin.classList.remove("light_sea_green");
+         rangeValue.classList.remove("light_sea_green");
+         rangeMax.classList.remove("light_sea_green");
+         
+         rangeMin.classList.add("bitcoin");
+         rangeValue.classList.add("bitcoin");
+         rangeMax.classList.add("bitcoin");
+       
+         };
+     
+         
+         // Styling / processing onblur (for UX)
+         var rangeOnblur = ()=>{
+              
+         rangeTooltip.innerHTML = ``;
+       
+         range.style.backgroundColor = 'lightseagreen';
+         
+         rangeMin.classList.toggle("bitcoin");
+         rangeValue.classList.toggle("bitcoin");
+         rangeMax.classList.toggle("bitcoin");
+         
+         rangeMin.classList.toggle("light_sea_green");
+         rangeValue.classList.toggle("light_sea_green");
+         rangeMax.classList.toggle("light_sea_green");
+         
+         };
+         
+      
+      // Event listeners
+      
+      document.addEventListener("DOMContentLoaded", setValue);
+     
+      range.addEventListener('input', setValue);
+     
+      range.addEventListener('blur', rangeOnblur);
+     
+      });
+     
+     
+     // Get array of all range sections to target
+     range_sections = document.querySelectorAll('.admin_range_fields');
+     
+     
+     // Process all the range sections title CSS / etc
+     range_sections.forEach(function(range_section) {
+      
+     var rangeTitle = range_section.getElementsByTagName('div')[0];
+      
+     var rangeWrap = range_section.getElementsByTagName('div')[1];
+      
+     var range = range_section.children[1].getElementsByTagName('input')[0];
+      
+     var rangeMin = range_section.children[1].getElementsByTagName('div')[1];
+      
+     var rangeMax = range_section.children[1].getElementsByTagName('div')[2];
+     
+     var contentWidth = range.offsetWidth + rangeMin.offsetWidth + rangeMax.offsetWidth;
+     
+     rangeTitle.style.left = (rangeWrap.offsetWidth - contentWidth) + 'px';
+     
+     });
+     
+     
 	/////////////////////////////////////////////////////////////////////////////////////////////////////
 	
          

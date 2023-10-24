@@ -71,6 +71,42 @@ else {
 	<?=$ct['gen']->input_2fa('strict')?>
 	
 
+<!-- START - STATIC DEMOING OF NEW SLIDER CODE -->
+<div class='pretty_text_fields'>
+
+
+  <div class='admin_range_fields'>
+
+  <div class="blue setting_title">Setting Title:</div>
+
+  <div class="range-wrap">
+    <div class="range-tooltip"></div>
+    <div class="range-min light_sea_green">0</div>
+    <input class='range-style' type="range" min="0" max="1000" value="200" step="10" />
+    <div class="range-max light_sea_green">1000</div>
+    <div class="range-value light_sea_green">200</div>
+  </div>
+  
+  </div>
+  
+  <div class='admin_range_fields'>
+
+  <div class="blue setting_title">Setting Title:</div>
+  
+  <div class="range-wrap">
+    <div class="range-tooltip"></div>
+    <div class="range-min light_sea_green">-1000</div>
+    <input class='range-style' type="range" min="-1000" max="1" value="-4" step="0.25" />
+    <div class="range-max light_sea_green">1</div>
+    <div class="range-value light_sea_green">-4</div>
+  </div>
+  
+  </div>
+  
+  
+</div>
+<!-- END - STATIC DEMOING OF NEW SLIDER CODE -->
+
 <?php
 
 // Render config settings for this section...
@@ -101,7 +137,11 @@ $loop = $loop + 0.25;
 if ( isset($ct['conf']['ext_apis']['google_fonts_api_key']) && $ct['conf']['ext_apis']['google_fonts_api_key'] != '' ) {
 $all_google_fonts = $ct['api']->google_fonts('list');
 }
-elseif ( isset($ct['conf']['gen']['google_font']) && $ct['conf']['gen']['google_font'] != '' ) {
+
+if (
+!is_array($all_google_fonts) && isset($ct['conf']['gen']['google_font']) && trim($ct['conf']['gen']['google_font']) != ''
+|| is_array($all_google_fonts) && sizeof($all_google_fonts) < 1 && isset($ct['conf']['gen']['google_font']) && trim($ct['conf']['gen']['google_font']) != ''
+) {
 $all_google_fonts = array($ct['conf']['gen']['google_font']);
 }
 

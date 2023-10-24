@@ -171,6 +171,12 @@ https://zksync.io/api/v0.1.html (KEEP AN EYE OUT FOR V2 DOCS AS WELL)
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
+Integrate sliders, instead of dropdown select menus.
+
+
+Modify the "app has been upgraded" interface alert, as we no longer wait AT ALL for scheduled maintenance to update the CACHED app version number (we update it instantly once a new app version is detected). Save a "show message" value to the vars cache, like we do for upgrade alerts (and mark as "don't show" after it has shown).
+
+
 CACHE an md5 hash of all telegram settings combined, and only delete the chatroom data / refresh it if this md5 hash changes (like we do for light chart config). Otherwise you get a bad UX from endlessly getting alerts to re-enter "/start" in the chatroom EVERYTIME YOU UPDATE *ANY* ADMIN SETTINGS.
 
 
@@ -190,9 +196,6 @@ Test out the new iframe-reloading HALT mechanism (if a halt was called on updati
 
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~DO AN APP RELEASE AT THIS POINT IN THIS LIST~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-
-Use a slider for number values, instead of dropdown select menus.
 
 
 Do the same thing for charts / alerts AND proxy config settings, that we did for the news feeds section. Move ALL relavent settings out of other sections into charts / alerts and proxy, AND if needed reformat any key => val formats to be interface-friendly (like we had to do for the price target alert plugin).

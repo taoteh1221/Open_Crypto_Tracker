@@ -864,11 +864,11 @@ var $ct_array = array();
      foreach( $config_array_base as $key => $val ) {
          
          // Radio buttons
-         if ( is_array($render_params[$key]['is_radio']) ) {
+         if ( isset($render_params[$key]['is_radio']) ) {
          $this->radio_form_fields($field_array_base, $key, $val, $render_params);
          }
          // Select dropdowns
-         elseif ( is_array($render_params[$key]['is_select']) ) {
+         elseif ( isset($render_params[$key]['is_select']) ) {
          $this->select_form_fields($field_array_base, $key, $val, $render_params);
          }
          // Textareas

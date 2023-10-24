@@ -6365,6 +6365,8 @@ MIGRATE YOUR EXISTING SETTINGS TO THE NEW FORMAT.
 
 -Consolidated error / debug logs into one log file, for clarified debugging output (whe debugging is enabled)
 
+-Added range sliders in place of all drop-down select menus (for numerical values) in the admin interface
+
 -Miscellaneous user experience improvements
 
 -Code optimization / cleanup

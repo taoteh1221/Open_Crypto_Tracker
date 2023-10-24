@@ -97,19 +97,34 @@ $config_file = $ct['base_dir'] . '/config.php';
      }
      
 
-echo '<br /><br />';
-echo 'YOUR APP\'S config.php FILE '.$desc.'.<br /><br />';
+?>
+
+<br /><br />
+
+YOUR APP'S config.php FILE <?=$desc?>.<br /><br />
+
+<?php
 
 $reset_config_file = copy($ct['base_dir'] . '/templates/back-end/main-config.template', $config_file);
 
 
      if ( $backup_config_file && $reset_config_file ) {
-     echo 'IT WAS '.$desc2.'REPLACED WITH A NEW DEFAULT CONFIG FILE.<br /><br />';
-     echo 'PLEASE RELOAD / RESTART THIS APP TO CONTINUE.<br /><br />';
+     ?>
+     
+     IT WAS <?=$desc2?>REPLACED WITH A NEW DEFAULT CONFIG FILE.<br /><br />
+     
+     PLEASE <a href='javascript:location.reload(true);'>RELOAD / RESTART THIS APP</a> TO CONTINUE.<br /><br />
+
+     <?php
      }
      else {
-     echo 'THERE WAS ALSO AN ERROR BACKING UP / REPLACING IT WITH A NEW DEFAULT CONFIG FILE.<br /><br />';
-     echo 'PLEASE COMPLETELY RE-INSTALL THIS APP TO CONTINUE.<br /><br />';
+     ?>
+     
+     THERE WAS ALSO AN ERROR BACKING UP / REPLACING IT WITH A NEW DEFAULT CONFIG FILE.<br /><br />
+     
+     PLEASE COMPLETELY RE-INSTALL THIS APP TO CONTINUE.<br /><br />
+     
+     <?php
      }
 
 

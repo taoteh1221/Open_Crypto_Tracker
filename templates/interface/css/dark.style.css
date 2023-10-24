@@ -14,7 +14,7 @@ color: white;
 }
 
 
-input, textarea {
+input:not(.range-style), textarea {
 background-color: #dbd9d9;
 }
 
@@ -53,6 +53,18 @@ input[type=text]:read-only {
 input[type=text]:disabled { 
   background-color: #6f6e6e;
   color: black;
+}
+
+
+/***** Chrome, Safari, Opera, and Edge Chromium *****/
+input[type=range]::-webkit-slider-thumb {
+  background: white !important;
+}
+
+
+/******** Firefox ********/
+input[type=range]::-moz-range-thumb {
+  background-color: white !important;
 }
 
 

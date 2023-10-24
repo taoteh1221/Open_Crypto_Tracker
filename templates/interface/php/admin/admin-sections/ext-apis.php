@@ -140,7 +140,7 @@ $admin_render_settings['google_fonts_api_key']['is_password'] = true;
 
 $admin_render_settings['google_fonts_api_key']['text_field_size'] = 40;
 
-$admin_render_settings['google_fonts_api_key']['is_notes'] = '<a href="https://support.google.com/googleapi/answer/6158862?hl=en&ref_topic=7013279" target="_BLANK">Get a FREE Google Fonts API Key</a> (Don\'t forget to ENABLE IT SEPERATELY, *AFTER* CREATION)';
+$admin_render_settings['google_fonts_api_key']['is_notes'] = '<a href="https://support.google.com/googleapi/answer/6158862?hl=en&ref_topic=7013279" target="_BLANK">Get a FREE Google Fonts API Key</a> (Don\'t forget to <a href="https://console.cloud.google.com/apis/credentials" target="_BLANK">REGISTER / ENABLE IT SEPERATELY</a>, *AFTER* CREATION)';
 
 
 ////////////////////////////////////////////////////////////////////////////////////////////////
