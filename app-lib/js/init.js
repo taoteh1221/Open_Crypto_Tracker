@@ -690,185 +690,8 @@ nav_menu('.user-nav');
                  e.preventDefault();
              }
          });
+         
 
-
-	/////////////////////////////////////////////////////////////////////////////////////////////////////
-	
-
-     // Range input styling / processing
-     // Modified from Max Globa's code snippet in the article: https://css-tricks.com/value-bubbles-for-range-inputs/
-     // Thanks Max! :)
-     
-     // Get array of all ranges to target
-     range_inputs = document.querySelectorAll('.range-wrap');
-     
-     
-     // Process all the ranges
-     range_inputs.forEach(function(range_wrap) {
-          
-     // Get elements inside range wrap
-    
-     var rangeField = range_wrap.getElementsByClassName('range-field')[0];
-     
-     var rangeTooltip = range_wrap.getElementsByClassName('range-tooltip')[0];
-     
-     var rangeMin = range_wrap.getElementsByClassName('range-min')[0];
-     
-     var rangeMax = range_wrap.getElementsByClassName('range-max')[0];
-     
-     var rangeValue = range_wrap.getElementsByClassName('range-value')[0];
-     
-     var rangePrefix = range_wrap.getElementsByClassName('range-ui-prefix')[0];
-     
-     var rangeSuffix = range_wrap.getElementsByClassName('range-ui-suffix')[0];
-     
-     var rangeUiMetaData = range_wrap.getElementsByClassName('range-ui-meta-data')[0];
-     
-     var metaDataToUi = (rangeUiMetaData.textContent).replace("zero_is_", "");
-     
-     var still_updating = false;
-       
-     rangeField.style.backgroundColor = 'lightseagreen';
-     
-     // UI value styling
-     rangeValue.style.width = rangeField.offsetWidth + 'px';
-     rangeValue.style.left = rangeMin.offsetWidth + 4 + 'px';
-     
-     // INITIAL: Setting of previous value var
-     var prev_value = rangeField.value;
-     
-     // INITIAL: If prefix content is a plus symbol, AND THE VALUE IS NEGATIVE, blank it out
-     var rangePrefixContent = Number(rangeField.value) < 0 && rangePrefix.textContent == '+' ? '' : rangePrefix.textContent;
-         
-     // INITIAL: Pretty numbers, with prefix / suffix added
-     var uiValue = rangePrefixContent + ( Number(rangeField.value) ).toLocaleString() + rangeSuffix.textContent;
-     
-     // INITIAL: Process some different meta data values (if they exist)
-     uiValue = Number(rangeField.value) == 0 && (rangeUiMetaData.textContent).search(/zero_is_/i) != -1 ? ucfirst(metaDataToUi) : uiValue;
-     
-     rangeValue.innerHTML = `${uiValue}`;
-     
-     
-         // Styling / processing when setting the range value
-         // (done when document is loaded / range input value changes)
-         var setValue = ()=>{
-              
-              
-              // So we don't do RE-ENTRY AND LOOP SLIGHTLY, just RESET the value and return
-              // (for UX...the 'still_updating' flag is reset at end of this function on a timer)
-              if ( still_updating ) {
-              rangeField.value = prev_value; // RESET HERE KEEPS SLIDER AND TOOLTIP IN-SYNC POSITION-WISE 
-              return;
-              }
-              
-         
-         // MUST be above conditional logic directly below
-         var totalRange = (rangeField.max - rangeField.min);
-              
-             
-             // If flagged as using custom steps (not every step is the same value)
-             if ( rangeUiMetaData.textContent == 'is_custom_steps' ) {
-             
-             // MUST BE ABOVE custom_range_steps()
-             still_updating = true;
-         
-             var customRangingResult = custom_range_steps(rangeField, prev_value);
-             
-             // MUST BE BELOW custom_range_steps()
-             var rangeIncrease = (rangeField.value - rangeField.min);
-             
-             var totalSteps = customRangingResult['steps_total'];
-             
-             var currentIncrement = customRangingResult['current_increment'];
-             
-             prev_value = customRangingResult['prev_val'];
-             
-             }
-             // If every step is the same value (regular HTML standards spec)
-             else {
-             var rangeIncrease = (rangeField.value - rangeField.min);
-             var totalSteps = totalRange / rangeField.step;
-             var currentIncrement = rangeIncrease / rangeField.step;
-             }
-         
-          
-         // Percentage of total range, from LEFT SIDE of wrapper div
-         var percentOf = (rangeIncrease / totalRange) * 100; 
-         
-         // Percentage of total range, AS A DECIMAL (where 1.00 == 100%)
-         var percentOfAsDecimal = (percentOf / 100).toFixed(3); 
-         
-         var rawPosition = (rangeField.offsetWidth * percentOfAsDecimal);
-         
-         // Use font size as a multiplier (CONFIRMED this centers the tooltip above the range thumb better [AT ANY WIDTHS])
-         var refinedPosition = rawPosition * set_font_size;
-         
-         // Take into account the range min UI value showing on the LEFT of the range field
-         rangeTooltip.style.left = (refinedPosition + rangeMin.offsetWidth) + 'px';
-         
-         // If prefix content is a plus symbol, AND THE VALUE IS NEGATIVE, blank it out
-         rangePrefixContent = Number(rangeField.value) < 0 && rangePrefix.textContent == '+' ? '' : rangePrefix.textContent;
-         
-         // Pretty numbers, with prefix / suffix added
-         uiValue = rangePrefixContent + ( Number(rangeField.value) ).toLocaleString() + rangeSuffix.textContent;
-     
-         // Process some different meta data values (if they exist)
-         uiValue = Number(rangeField.value) == 0 && (rangeUiMetaData.textContent).search(/zero_is_/i) != -1 ? ucfirst(metaDataToUi) : uiValue;
-       
-         rangeTooltip.innerHTML = `<span>${uiValue}</span>`;
-       
-         rangeValue.innerHTML = `${uiValue}`;
-       
-         rangeField.style.backgroundColor = '#F7931A';
-         
-         rangeMin.classList.remove("light_sea_green");
-         rangeValue.classList.remove("light_sea_green");
-         rangeMax.classList.remove("light_sea_green");
-         
-         rangeMin.classList.add("bitcoin");
-         rangeValue.classList.add("bitcoin");
-         rangeMax.classList.add("bitcoin");
-            	     
-            	     
-             // Wait 0.7 seconds before resetting as not recently updated
-             // (so we don't endlessly loop)
-		   setTimeout(function(){
-		   still_updating = false;
-		   }, 700);
-				
-         
-         };
-     
-         
-         // Styling / processing onblur (for UX)
-         var rangeOnblur = ()=>{
-              
-         rangeTooltip.innerHTML = ``;
-       
-         rangeField.style.backgroundColor = 'lightseagreen';
-         
-         rangeMin.classList.toggle("bitcoin");
-         rangeValue.classList.toggle("bitcoin");
-         rangeMax.classList.toggle("bitcoin");
-         
-         rangeMin.classList.toggle("light_sea_green");
-         rangeValue.classList.toggle("light_sea_green");
-         rangeMax.classList.toggle("light_sea_green");
-         
-         };
-         
-      
-      // Event listeners
-      
-      document.addEventListener("DOMContentLoaded", setValue);
-     
-      rangeField.addEventListener('input', setValue);
-     
-      rangeField.addEventListener('blur', rangeOnblur);
-     
-      });
-     
-     
 	/////////////////////////////////////////////////////////////////////////////////////////////////////
 	
          
@@ -1118,24 +941,30 @@ nav_menu('.user-nav');
     
     }
 
-	/////////////////////////////////////////////////////////////////////////////////////////////////////
-    
-	
-// Check if privacy mode for assets held is enabled (#MUST# RUN AFTER INIT.JS HAS SET ALL DYN VARS)
-privacy_mode(); 
-
-// Sort the portfolio AFTER checking for privacy mode
-sorting_portfolio_table();
-
 
 	/////////////////////////////////////////////////////////////////////////////////////////////////////
 	
 
     // #MUST# BE THE #LAST RUN LOGIC# IN INIT.JS!
+    
+	    // Check if privacy mode for assets held is enabled (#MUST# RUN AFTER INIT.JS HAS SET ALL DYN VARS)
+    privacy_mode(); 
+     
+    // Sort the portfolio AFTER checking for privacy mode
+    sorting_portfolio_table();
+
+    // Initiate the admin settings range sliders
+    init_range_sliders();
+    
+    
     $('textarea[data-autoresize]').each(function(){
       autosize(this);
     }).on('autosize:resized', function(){
-      //console.log('textarea height updated');
+    
+         admin_iframe_load.forEach(function(iframe) {
+         iframe_size_adjust(iframe);
+         });
+                                   
     });
 
 
