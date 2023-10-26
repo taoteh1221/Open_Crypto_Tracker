@@ -28,7 +28,7 @@ $ct['dev']['debug_php_errors'] = (0);
 // WE AUTO-ADJUST TO UNLIMITED FOR PREMIUM PLANS IN CONFIG-INIT.PHP:
 // https://www.alphavantage.co/premium/
 // (they have been known to change this amount occassionally for the free plan, so we have this dev var)
-$ct['dev']['alphavantage_per_day_limit'] = 100; // (default = 100 [FOR FREE SERVICE])
+$ct['dev']['alphavantage_per_day_limit'] = 25; // (default = 25 [FOR FREE SERVICE])
 
 
 // Time offset (IN MINUTES) on daily background tasks 
