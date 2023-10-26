@@ -28,31 +28,34 @@ else {
 
 ////////////////////////////////////////////////////////////////////////////////////////////////
 
+     
+$admin_render_settings['entries_to_show']['is_range'] = true;
 
-$loop = 5;
-$loop_max = 30;
-while ( $loop <= $loop_max ) {
-$admin_render_settings['entries_to_show']['is_select'][] = $loop;
-$loop = $loop + 1;
-}
+$admin_render_settings['entries_to_show']['range_min'] = 5;
+
+$admin_render_settings['entries_to_show']['range_max'] = 30;
+
+$admin_render_settings['entries_to_show']['range_step'] = 1;
+
+$admin_render_settings['entries_to_show']['range_ui_suffix'] = ' Entries Per-Feed';
 
 $admin_render_settings['entries_to_show']['is_notes'] = '(WITHOUT clicking "Show More" button)';
 
 
 ////////////////////////////////////////////////////////////////////////////////////////////////
 
-
-$loop = 1;
-$loop_max = 7;
-while ( $loop <= $loop_max ) {
      
-$admin_render_settings['mark_as_new']['is_select']['is_assoc'][] = array(
-                                                                            'key' => $loop,
-                                                                            'val' => 'Less Than ' . $loop . ' Days Old',
-                                                                           );
-                                                                      
-$loop = $loop + 1;
-}
+$admin_render_settings['mark_as_new']['is_range'] = true;
+
+$admin_render_settings['mark_as_new']['range_min'] = 1;
+
+$admin_render_settings['mark_as_new']['range_max'] = 7;
+
+$admin_render_settings['mark_as_new']['range_step'] = 1;
+
+$admin_render_settings['mark_as_new']['range_ui_prefix'] = 'Less Than ';
+
+$admin_render_settings['mark_as_new']['range_ui_suffix'] = ' Days Old';
 
 
 ////////////////////////////////////////////////////////////////////////////////////////////////
@@ -63,26 +66,32 @@ $admin_render_settings['news_feed_cache_min_max']['is_notes'] = 'IN MINUTES. Thi
 
 ////////////////////////////////////////////////////////////////////////////////////////////////
 
+     
+$admin_render_settings['news_feed_batched_maximum']['is_range'] = true;
 
-$loop = 15;
-$loop_max = 30;
-while ( $loop <= $loop_max ) {
-$admin_render_settings['news_feed_batched_maximum']['is_select'][] = $loop;
-$loop = $loop + 1;
-}
+$admin_render_settings['news_feed_batched_maximum']['range_min'] = 15;
+
+$admin_render_settings['news_feed_batched_maximum']['range_max'] = 30;
+
+$admin_render_settings['news_feed_batched_maximum']['range_step'] = 1;
+
+$admin_render_settings['news_feed_batched_maximum']['range_ui_suffix'] = ' Batched Feeds';
 
 $admin_render_settings['news_feed_batched_maximum']['is_notes'] = '(LOW POWER devices should batch-load NO MORE THAN 20 feeds)';
 
 
 ////////////////////////////////////////////////////////////////////////////////////////////////
 
+     
+$admin_render_settings['news_feed_precache_maximum']['is_range'] = true;
 
-$loop = 25;
-$loop_max = 50;
-while ( $loop <= $loop_max ) {
-$admin_render_settings['news_feed_precache_maximum']['is_select'][] = $loop;
-$loop = $loop + 1;
-}
+$admin_render_settings['news_feed_precache_maximum']['range_min'] = 25;
+
+$admin_render_settings['news_feed_precache_maximum']['range_max'] = 50;
+
+$admin_render_settings['news_feed_precache_maximum']['range_step'] = 1;
+
+$admin_render_settings['news_feed_precache_maximum']['range_ui_suffix'] = ' Pre-Caches Per-Run';
 
 $admin_render_settings['news_feed_precache_maximum']['is_notes'] = '(per background tasks run, LOW POWER devices should pre-cache NO MORE THAN 45 feeds)';
 

@@ -140,7 +140,7 @@ $admin_render_settings['google_fonts_api_key']['is_password'] = true;
 
 $admin_render_settings['google_fonts_api_key']['text_field_size'] = 40;
 
-$admin_render_settings['google_fonts_api_key']['is_notes'] = '<a href="https://support.google.com/googleapi/answer/6158862?hl=en&ref_topic=7013279" target="_BLANK">Get a FREE Google Fonts API Key</a> (Don\'t forget to ENABLE IT SEPERATELY, *AFTER* CREATION)';
+$admin_render_settings['google_fonts_api_key']['is_notes'] = '<a href="https://support.google.com/googleapi/answer/6158862?hl=en&ref_topic=7013279" target="_BLANK">Get a FREE Google Fonts API Key</a><br />(Don\'t forget to <a href="https://console.cloud.google.com/apis/credentials" target="_BLANK">REGISTER / ENABLE IT SEPERATELY</a>, *AFTER* CREATION)';
 
 
 ////////////////////////////////////////////////////////////////////////////////////////////////
@@ -175,16 +175,28 @@ $admin_render_settings['alphavantage_api_key']['is_notes'] = '<a href="https://w
 
 ////////////////////////////////////////////////////////////////////////////////////////////////
 
+     
+$admin_render_settings['alphavantage_per_minute_limit']['is_range'] = true;
 
-$admin_render_settings['alphavantage_per_minute_limit']['is_select'] = array(
-                                                                              '5',
-                                                                              '30',
-                                                                              '75',
-                                                                              '150',
-                                                                              '300',
-                                                                              '600',
-                                                                              '1200',
-                                                                             );
+$admin_render_settings['alphavantage_per_minute_limit']['range_min'] = 5;
+
+$admin_render_settings['alphavantage_per_minute_limit']['range_max'] = 1200;
+
+$admin_render_settings['alphavantage_per_minute_limit']['range_ui_meta_data'] = 'is_custom_steps';
+     
+$admin_render_settings['alphavantage_per_minute_limit']['is_custom_steps'] = array(
+                                                                                   '5',
+                                                                                   '30',
+                                                                                   '75',
+                                                                                   '150',
+                                                                                   '300',
+                                                                                   '600',
+                                                                                   '1200',
+                                                                                  );
+
+$admin_render_settings['alphavantage_per_minute_limit']['range_min'] = $admin_render_settings['alphavantage_per_minute_limit']['is_custom_steps'][0];
+
+$admin_render_settings['alphavantage_per_minute_limit']['range_max'] = $admin_render_settings['alphavantage_per_minute_limit']['is_custom_steps'][ sizeof($admin_render_settings['alphavantage_per_minute_limit']['is_custom_steps']) - 1 ];
 
 $admin_render_settings['alphavantage_per_minute_limit']['is_notes'] = 'LEAVE SET TO "5" IF YOU USE THE *FREE* PLAN, *OR YOU WILL ENCOUNTER ISSUES*.<br /><a href="https://www.alphavantage.co/premium/" target="_BLANK">See AlphaVantage\'s Premium Plans</a>, to increase your limits.';
 

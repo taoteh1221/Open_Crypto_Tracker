@@ -93,6 +93,7 @@ var $ct_array = array();
                   
                   }
                   
+                  
                   if ( $sub_key === 'is_select' ) { // PHP7.4 NEEDS === HERE INSTEAD OF ==
                   
                   $is_string_keys = false; // RESET
@@ -168,6 +169,7 @@ var $ct_array = array();
              
                   }
                   
+                  
                   if ( $sub_key === 'is_textarea' ) { // PHP7.4 NEEDS === HERE INSTEAD OF ==
                   
                   $is_string_keys = false; // RESET
@@ -207,6 +209,7 @@ var $ct_array = array();
                        }
              
                   }
+                  
                   
                   if ( $sub_key === 'is_text' ) { // PHP7.4 NEEDS === HERE INSTEAD OF ==
                   
@@ -271,6 +274,154 @@ var $ct_array = array();
 
                   }
                   
+                  
+                  if ( $sub_key === 'is_range' ) { // PHP7.4 NEEDS === HERE INSTEAD OF ==
+                  
+                  $is_string_keys = false; // RESET
+                  
+                      // Array of values
+                      if ( is_array($render_params[$passed_key]['is_repeatable']['is_range']) ) {
+
+                           
+                           // If string keyed array, show description from key value
+                           // (do scanning BEFORE loop, for speed)
+                           if ( $ct['gen']->has_string_keys($render_params[$passed_key]['is_repeatable']['is_range']) ) {
+                           $is_string_keys = true;
+                           }
+     
+     
+                           foreach( $render_params[$passed_key]['is_repeatable']['is_range'] as $sub_key2 => $unused ) {
+                           
+                                // If string keyed array, show description from key value
+                                if ( $is_string_keys ) {
+                                $desc = '<b class="blue">' . $ct['gen']->key_to_name($sub_key2) . ':</b> &nbsp; ';
+                                }
+                       
+                           // Tracking for rendering remove button
+                           $repeatable_fields_tracking[$passed_key][$sub_key] = $repeatable_fields_tracking[$passed_key][$sub_key] + 1;
+                           
+                           ?>
+          
+                          <div class='admin_range_fields'>
+          
+                        
+                             <div class="range-title blue setting_title"><?=$desc?>:</div>
+                           
+                             <div class="range-wrap">
+                           
+                               <div class="range-tooltip"></div>
+                             
+                               <div class="range-min light_sea_green"><?=$ct['var']->num_pretty($render_params[$passed_key]['is_repeatable']['range_min'], 0)?></div>
+                        
+                               <input data-track-index='{?}' type='range' class='range-field' min="<?=$render_params[$passed_key]['is_repeatable']['range_min']?>" max="<?=$render_params[$passed_key]['is_repeatable']['range_max']?>" step="<?=$render_params[$passed_key]['is_repeatable']['range_step']?>" name='<?=$field_array_base?>[<?=$passed_key?>][{?}][<?=$sub_key2?>]' value='' <?=( is_array($render_params[$passed_key]['is_repeatable']['is_custom_steps']) ? 'list="steplist_'. $field_array_base . '_' . $passed_key . '_{?}_' . $sub_key2 . '"' : '' )?> /> 
+         
+                               <div class="range-max light_sea_green"><?=$ct['var']->num_pretty($render_params[$passed_key]['is_repeatable']['range_max'], 0)?></div>
+                             
+                               <div class="range-value light_sea_green"></div>
+                             
+                               <div class="range-ui-prefix"><?=$render_params[$passed_key]['is_repeatable']['range_ui_prefix']?></div>
+                             
+                               <div class="range-ui-suffix"><?=$render_params[$passed_key]['is_repeatable']['range_ui_suffix']?></div>
+                             
+                               <div class="range-ui-meta-data"><?=$render_params[$passed_key]['is_repeatable']['range_ui_meta_data']?></div>
+                   
+                            </div>
+              
+                            <?php
+                            if ( is_array($render_params[$passed_key]['is_repeatable']['is_custom_steps']) ) {
+                            ?>
+                    
+                            <datalist id="steplist_<?=($field_array_base . '_' . $passed_key . '_{?}_' . $sub_key2)?>">
+                        
+                                <?php
+                                foreach ( $render_params[$passed_key]['is_repeatable']['is_custom_steps'] as $custom_step ) {
+                                ?>
+                                <option><?=$custom_step?></option>
+                                <?php
+                                }
+                                ?>
+                            
+                            </datalist>
+                        
+                            <?php
+                            }
+                            ?>
+              
+                                
+                                123PLACEHOLDER_RIGHT123
+               
+                          </div>
+                            
+                           <?php
+                           }
+                      
+                      
+                      }
+                      // Single value
+                      else {
+     
+                           // Tracking for rendering remove button
+                           $repeatable_fields_tracking[$passed_key][$sub_key] = $repeatable_fields_tracking[$passed_key][$sub_key] + 1;
+                           
+                           ?>
+          
+                          <div class='admin_range_fields'>
+          
+                        
+                             <div class="range-title blue setting_title"></div>
+                           
+                             <div class="range-wrap">
+                           
+                               <div class="range-tooltip"></div>
+                             
+                               <div class="range-min light_sea_green"><?=$ct['var']->num_pretty($render_params[$passed_key]['is_repeatable']['range_min'], 0)?></div>
+                         
+                               <input data-track-index='{?}' type='range' class='range-field' min="<?=$render_params[$passed_key]['is_repeatable']['range_min']?>" max="<?=$render_params[$passed_key]['is_repeatable']['range_max']?>" step="<?=$render_params[$passed_key]['is_repeatable']['range_step']?>" name='<?=$field_array_base?>[<?=$passed_key?>][{?}]' value='' <?=( is_array($render_params[$passed_key]['is_repeatable']['is_custom_steps']) ? 'list="steplist_'. $field_array_base . '_' . $passed_key . '_{?}"' : '' )?> /> 
+         
+                               <div class="range-max light_sea_green"><?=$ct['var']->num_pretty($render_params[$passed_key]['is_repeatable']['range_max'], 0)?></div>
+                             
+                               <div class="range-value light_sea_green"></div>
+                             
+                               <div class="range-ui-prefix"><?=$render_params[$passed_key]['is_repeatable']['range_ui_prefix']?></div>
+                             
+                               <div class="range-ui-suffix"><?=$render_params[$passed_key]['is_repeatable']['range_ui_suffix']?></div>
+                             
+                               <div class="range-ui-meta-data"><?=$render_params[$passed_key]['is_repeatable']['range_ui_meta_data']?></div>
+                   
+                            </div>
+              
+                            <?php
+                            if ( is_array($render_params[$passed_key]['is_repeatable']['is_custom_steps']) ) {
+                            ?>
+                    
+                            <datalist id="steplist_<?=($field_array_base . '_' . $passed_key . '_{?}')?>">
+                        
+                                <?php
+                                foreach ( $render_params[$passed_key]['is_repeatable']['is_custom_steps'] as $custom_step ) {
+                                ?>
+                                <option><?=$custom_step?></option>
+                                <?php
+                                }
+                                ?>
+                            
+                            </datalist>
+                        
+                            <?php
+                            }
+                            ?>
+              
+                                
+                                123PLACEHOLDER_RIGHT123
+               
+                          </div>
+                            
+                           <?php
+                      
+                      }
+                      
+
+                  }
+                  
              }
              ?>
         
@@ -311,7 +462,7 @@ var $ct_array = array();
               <?php
               if ( isset($render_params[$passed_key]['is_notes']) ) {
               ?>
-              <span class='bitcoin random_tip' style='line-height: 1.7em;'><?=$render_params[$passed_key]['is_notes']?></span>
+              <span class='admin_settings_notes bitcoin random_tip'><?=$render_params[$passed_key]['is_notes']?></span>
               <?php
               }
               ?>
@@ -392,6 +543,233 @@ var $ct_array = array();
    ////////////////////////////////////////////////////////
    
    
+   function range_form_fields($field_array_base, $passed_key, $passed_val, $render_params, $subarray_key=false) {
+        
+   global $ct, $repeatable_fields_tracking;
+   
+   
+         if ( !isset($repeatable_fields_tracking[$passed_key]['is_range']) ) {
+         $repeatable_fields_tracking[$passed_key]['is_range'] = 0;
+         }
+         
+         
+         // If a regular range field
+         if ( isset($render_params[$passed_key]['is_range']) ) {
+              
+              if ( $render_params[$passed_key]['range_ui_prefix'] == '+' ) {
+              }
+              
+         ?>
+          
+              <div class='admin_range_fields'>
+
+              
+                 <div class="range-title blue setting_title"><?=$ct['gen']->key_to_name($passed_key)?>:</div>
+                 
+                 <div class="range-wrap">
+                 
+                   <div class="range-tooltip"></div>
+                   
+                   <div class="range-min light_sea_green"><?=$ct['var']->num_pretty($render_params[$passed_key]['range_min'], 0)?></div>
+              
+                   <input type='range' class='range-field' min="<?=$render_params[$passed_key]['range_min']?>" max="<?=$render_params[$passed_key]['range_max']?>" step="<?=$render_params[$passed_key]['range_step']?>" data-name="<?=md5($field_array_base . $passed_key)?>" name='<?=$field_array_base?>[<?=$passed_key?>]' value='<?=$passed_val?>' <?=( isset($render_params[$passed_key]['is_readonly']) ? 'readonly="readonly" title="' . $render_params[$passed_key]['is_readonly'] . '"' : '' )?> <?=( is_array($render_params[$passed_key]['is_custom_steps']) ? 'list="steplist_'. $field_array_base . '_' . $passed_key . '"' : '' )?> />
+         
+                   <div class="range-max light_sea_green"><?=$ct['var']->num_pretty($render_params[$passed_key]['range_max'], 0)?></div>
+                   
+                   <div class="range-value light_sea_green"><?=$passed_val?></div>
+                   
+                   <div class="range-ui-prefix"><?=$render_params[$passed_key]['range_ui_prefix']?></div>
+                   
+                   <div class="range-ui-suffix"><?=$render_params[$passed_key]['range_ui_suffix']?></div>
+                   
+                   <div class="range-ui-meta-data"><?=$render_params[$passed_key]['range_ui_meta_data']?></div>
+         
+                 </div>
+              
+                 <?php
+                 if ( is_array($render_params[$passed_key]['is_custom_steps']) ) {
+                 ?>
+          
+                 <datalist id="steplist_<?=($field_array_base . '_' . $passed_key)?>">
+              
+                     <?php
+                     foreach ( $render_params[$passed_key]['is_custom_steps'] as $custom_step ) {
+                     ?>
+                     <option><?=$custom_step?></option>
+                     <?php
+                     }
+                     ?>
+                  
+                 </datalist>
+              
+                 <?php
+                 }
+
+
+                 if ( isset($render_params[$passed_key]['is_notes']) ) {
+                 ?>
+          
+                 <br /><span class='admin_settings_notes bitcoin random_tip'><?=$render_params[$passed_key]['is_notes']?></span>
+                   
+                 <?php
+                 }
+                 ?>
+              
+              </div>
+              
+         <?php   
+         }
+         // If IS a subarray range field 
+         elseif ( isset($render_params[$passed_key]['is_subarray'][$subarray_key]['is_range']) ) {
+                           
+              // If string keyed array, show description from key value
+              if ( $ct['gen']->has_string_keys($render_params[$passed_key]['is_subarray']) ) {
+              $desc = '<div class="range-title blue setting_title">' . $ct['gen']->key_to_name($subarray_key) . ':</div>';
+              }
+              
+         ?>
+             
+             <div class='admin_range_fields'>
+         
+                  <?=$desc?>
+                 
+                  <div class="range-wrap">
+                 
+                    <div class="range-tooltip"></div>
+                   
+                    <div class="range-min light_sea_green"><?=$ct['var']->num_pretty($render_params[$passed_key]['is_subarray'][$subarray_key]['range_min'], 0)?></div>
+                  
+                    <input data-track-index='<?=$subarray_key?>' type='range' class='range-field' min="<?=$render_params[$passed_key]['is_subarray'][$subarray_key]['range_min']?>" max="<?=$render_params[$passed_key]['is_subarray'][$subarray_key]['range_max']?>" step="<?=$render_params[$passed_key]['is_subarray'][$subarray_key]['range_step']?>" name='<?=$field_array_base?>[<?=$passed_key?>][<?=$subarray_key?>]' value='<?=( isset($passed_val[$subarray_key]) ? $passed_val[$subarray_key] : '' )?>' <?=( is_array($render_params[$passed_key]['is_subarray'][$subarray_key]['is_custom_steps']) ? 'list="steplist_'. $field_array_base . '_' . $passed_key . '_' . $subarray_key . '"' : '' )?> />
+         
+                    <div class="range-max light_sea_green"><?=$ct['var']->num_pretty($render_params[$passed_key]['is_subarray'][$subarray_key]['range_max'], 0)?></div>
+                   
+                    <div class="range-value light_sea_green"><?=( isset($passed_val[$subarray_key]) ? $passed_val[$subarray_key] : '' )?></div>
+                   
+                    <div class="range-ui-prefix"><?=$render_params[$passed_key]['is_subarray'][$subarray_key]['range_ui_prefix']?></div>
+                   
+                    <div class="range-ui-suffix"><?=$render_params[$passed_key]['is_subarray'][$subarray_key]['range_ui_suffix']?></div>
+                   
+                    <div class="range-ui-meta-data"><?=$render_params[$passed_key]['is_subarray'][$subarray_key]['range_ui_meta_data']?></div>
+         
+                  </div>
+              
+                  <?php
+                  if ( is_array($render_params[$passed_key]['is_subarray'][$subarray_key]['is_custom_steps']) ) {
+                  ?>
+          
+                  <datalist id="steplist_<?=($field_array_base . '_' . $passed_key . '_' . $subarray_key)?>">
+              
+                      <?php
+                      foreach ( $render_params[$passed_key]['is_subarray'][$subarray_key]['is_custom_steps'] as $custom_step ) {
+                      ?>
+                      <option><?=$custom_step?></option>
+                      <?php
+                      }
+                      ?>
+                  
+                  </datalist>
+              
+                  <?php
+                  }
+
+
+                  if ( isset($render_params[$passed_key]['is_repeatable']['is_range']) ) {
+                  $repeatable_fields_tracking[$passed_key]['is_range'] = $repeatable_fields_tracking[$passed_key]['is_range'] + 1;
+                  echo '123PLACEHOLDER_RIGHT123';
+                  }
+                  ?>
+              
+             </div>
+             
+         <?php
+         }
+         // If HAS a subarray range field 
+         elseif ( is_array($render_params[$passed_key]['has_subarray'][$subarray_key]['is_range']) ) {
+              
+                           
+             // If string keyed array, show description from key value
+             // (do scanning BEFORE any loops, for speed)
+             if ( $ct['gen']->has_string_keys($render_params[$passed_key]['has_subarray'][$subarray_key]['is_range']) ) {
+             $is_string_keys = true;
+             }
+              
+              
+             foreach( $render_params[$passed_key]['has_subarray'][$subarray_key]['is_range'] as $sub_key => $unused ) {
+                           
+                  // If string keyed array, show description from key value
+                  if ( $is_string_keys ) {
+                  $desc = '<div class="range-title blue setting_title">' . $ct['gen']->key_to_name($sub_key) . ':</div>';
+                  }
+              
+                       
+             ?>
+             
+             <div class='admin_range_fields'>
+         
+                  <?=$desc?>
+                 
+                  <div class="range-wrap">
+                 
+                    <div class="range-tooltip"></div>
+                   
+                    <div class="range-min light_sea_green"><?=$ct['var']->num_pretty($render_params[$passed_key]['has_subarray'][$subarray_key]['range_min'], 0)?></div>
+                  
+                    <input data-track-index='<?=$subarray_key?>' type='range' class='range-field' min="<?=$render_params[$passed_key]['has_subarray'][$subarray_key]['range_min']?>" max="<?=$render_params[$passed_key]['has_subarray'][$subarray_key]['range_max']?>" step="<?=$render_params[$passed_key]['has_subarray'][$subarray_key]['range_step']?>" name='<?=$field_array_base?>[<?=$passed_key?>][<?=$subarray_key?>][<?=$sub_key?>]' value='<?=( isset($passed_val[$subarray_key][$sub_key]) ? $passed_val[$subarray_key][$sub_key] : '' )?>' <?=( is_array($render_params[$passed_key]['has_subarray'][$subarray_key]['is_custom_steps']) ? 'list="steplist_'. $field_array_base . '_' . $passed_key . '_' . $subarray_key . '_' . $sub_key . '"' : '' )?>  />
+         
+                    <div class="range-max light_sea_green"><?=$ct['var']->num_pretty($render_params[$passed_key]['has_subarray'][$subarray_key]['range_max'], 0)?></div>
+                   
+                    <div class="range-value light_sea_green"><?=( isset($passed_val[$subarray_key][$sub_key]) ? $passed_val[$subarray_key][$sub_key] : '' )?></div>
+                   
+                    <div class="range-ui-prefix"><?=$render_params[$passed_key]['has_subarray'][$subarray_key]['range_ui_prefix']?></div>
+                   
+                    <div class="range-ui-suffix"><?=$render_params[$passed_key]['has_subarray'][$subarray_key]['range_ui_suffix']?></div>
+                   
+                    <div class="range-ui-meta-data"><?=$render_params[$passed_key]['has_subarray'][$subarray_key]['range_ui_meta_data']?></div>
+         
+                  </div>
+              
+                  <?php
+                  if ( is_array($render_params[$passed_key]['has_subarray'][$subarray_key]['is_custom_steps']) ) {
+                  ?>
+          
+                  <datalist id="steplist_<?=($field_array_base . '_' . $passed_key . '_' . $subarray_key . '_' . $sub_key)?>">
+              
+                      <?php
+                      foreach ( $render_params[$passed_key]['has_subarray'][$subarray_key]['is_custom_steps'] as $custom_step ) {
+                      ?>
+                      <option><?=$custom_step?></option>
+                      <?php
+                      }
+                      ?>
+                  
+                  </datalist>
+              
+                  <?php
+                  }
+
+
+                  if ( isset($render_params[$passed_key]['is_repeatable']['is_range']) ) {
+                  $repeatable_fields_tracking[$passed_key]['is_range'] = $repeatable_fields_tracking[$passed_key]['is_range'] + 1;
+                  echo '123PLACEHOLDER_RIGHT123';
+                  }
+                  ?>
+
+             </div>
+             
+             <?php
+             }
+        
+        
+         }
+         
+                     
+   }
+
+   
+   ////////////////////////////////////////////////////////
+   ////////////////////////////////////////////////////////
+   
+   
    function text_form_fields($field_array_base, $passed_key, $passed_val, $render_params, $subarray_key=false) {
         
    global $ct, $repeatable_fields_tracking;
@@ -408,7 +786,7 @@ var $ct_array = array();
          
          
          // If a regular text field (NOT a subarray)
-         if ( !isset($render_params[$passed_key]['is_subarray']) && !isset($render_params[$passed_key]['has_subarray']) ) {
+         if ( !isset($render_params[$passed_key]['is_subarray'][$subarray_key]['is_text']) && !isset($render_params[$passed_key]['has_subarray'][$subarray_key]['is_text']) ) {
 
 
               if ( isset($render_params[$passed_key]['is_password']) ) {
@@ -428,7 +806,7 @@ var $ct_array = array();
               if ( isset($render_params[$passed_key]['is_notes']) ) {
               ?>
           
-              <br /><span class='bitcoin random_tip' style='line-height: 1.7em;'><?=$render_params[$passed_key]['is_notes']?></span>
+              <br /><span class='admin_settings_notes bitcoin random_tip'><?=$render_params[$passed_key]['is_notes']?></span>
                    
               <?php
               }
@@ -572,7 +950,7 @@ var $ct_array = array();
              <?php
              if ( isset($render_params[$passed_key]['is_notes']) ) {
              ?>
-             <br /><span class='bitcoin random_tip' style='line-height: 1.7em;'><?=$render_params[$passed_key]['is_notes']?></span>
+             <br /><span class='admin_settings_notes bitcoin random_tip'><?=$render_params[$passed_key]['is_notes']?></span>
              <?php
              }
              ?>
@@ -748,7 +1126,7 @@ var $ct_array = array();
               
               if ( isset($render_params[$passed_key]['is_notes']) ) {
               ?>
-              <br /><span class='bitcoin random_tip' style='line-height: 1.7em;'><?=$render_params[$passed_key]['is_notes']?></span>
+              <br /><span class='admin_settings_notes bitcoin random_tip'><?=$render_params[$passed_key]['is_notes']?></span>
               <?php
               }
               ?>
@@ -864,16 +1242,20 @@ var $ct_array = array();
      foreach( $config_array_base as $key => $val ) {
          
          // Radio buttons
-         if ( is_array($render_params[$key]['is_radio']) ) {
+         if ( isset($render_params[$key]['is_radio']) ) {
          $this->radio_form_fields($field_array_base, $key, $val, $render_params);
          }
          // Select dropdowns
-         elseif ( is_array($render_params[$key]['is_select']) ) {
+         elseif ( isset($render_params[$key]['is_select']) ) {
          $this->select_form_fields($field_array_base, $key, $val, $render_params);
          }
          // Textareas
          elseif ( isset($render_params[$key]['is_textarea']) ) {
          $this->textarea_form_fields($field_array_base, $key, $val, $render_params);
+         }
+         // Ranges
+         elseif ( isset($render_params[$key]['is_range']) ) {
+         $this->range_form_fields($field_array_base, $key, $val, $render_params);
          }
          // Subarray of ANY form field types (can be mixed)
          elseif ( is_array($render_params[$key]['is_subarray']) || is_array($render_params[$key]['has_subarray']) ) {
@@ -906,7 +1288,7 @@ var $ct_array = array();
                     if ( isset($render_params[$key]['is_notes']) ) {
                     ?>
                          
-                    <span class='bitcoin random_tip' style='line-height: 1.7em;'><?=$render_params[$key]['is_notes']?></span>
+                    <span class='admin_settings_notes bitcoin random_tip'><?=$render_params[$key]['is_notes']?></span>
                                   
                     <?php
                     }
@@ -928,7 +1310,7 @@ var $ct_array = array();
                     if ( isset($render_params[$key]['is_notes']) ) {
                     ?>
                          
-                    <br /><span class='bitcoin random_tip' style='line-height: 1.7em;'><?=$render_params[$key]['is_notes']?></span>
+                    <br /><span class='admin_settings_notes bitcoin random_tip'><?=$render_params[$key]['is_notes']?></span>
                                   
                     <?php
                     }
@@ -955,6 +1337,11 @@ var $ct_array = array();
               
               // WE USE isset below, as some subarray RENDER PARAMS are NOT SUBARRAYS THEMSELVES
               // (SOME ARE JUST THE CONFIGS FOR SUBARRAYS)
+                   
+                   // Ranges in subarray
+                   if ( isset($render_params[$key][$subarray_type][$subarray_key]['is_range']) ) {
+                   $this->range_form_fields($field_array_base, $key, $val, $render_params, $subarray_key);
+                   }
                
                    // Radio buttons in subarray
                    if ( isset($render_params[$key][$subarray_type][$subarray_key]['is_radio']) ) {
@@ -1076,13 +1463,31 @@ var $ct_array = array();
           				template: "#<?=$repeat_id?>",
           				itemContainer: ".subarray_<?=$repeat_class?>",
           				afterAdd: function () {
-          				// Make any added textarea autosize
-                              autosize($('textarea'));
+
+          				    // Make any added textarea autosize
+                                  $('textarea[data-autoresize]').each(function(){
+                                  autosize(this);
+                                  }).on('autosize:resized', function(){
+                                   
+                                       // Resize admin iframes after resizing textareas
+                                       admin_iframe_load.forEach(function(iframe) {
+                                       iframe_size_adjust(iframe);
+                                       });
+                                   
+                                  });
+                              
+                              //autosize($('textarea'));
+                              
+                              // Initialize any addd range slider
+                              init_range_sliders();
+                              
           				},
           				afterDelete: function () {
+          				     
           				// Update seperators beetween repeatables
                               $("div.repeatable > div:first-child").css("border-top", "0.0em solid #808080");
                               $("div.repeatable > div:first-child").css("padding-top", "0.0em");
+                              
           				},
           				min: 1,
           				max: 999

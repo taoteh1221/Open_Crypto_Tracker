@@ -5,6 +5,14 @@
 /////////////////////////////////////////////////////////////
 
 
+function ucfirst(string) {
+    return string.charAt(0).toUpperCase() + string.slice(1);
+}
+
+
+/////////////////////////////////////////////////////////////
+
+
 function force_2_digits(num) {
 return ("0" + num).slice(-2);
 }
@@ -1411,113 +1419,6 @@ return render;
 /////////////////////////////////////////////////////////////
 
 
-function background_tasks_check() {
-        
-        
-     if ( feeds_loading_check() == 'done' && charts_loading_check() == 'done' && cron_run_check() == 'done' ) {
-          
-     all_tasks_initial_load = false; // Unset initial bg tasks loading flag
-		    
-	$("#background_loading").hide(250); // 0.25 seconds
-         	
-     clearTimeout(background_tasks_recheck);
-    	
-     background_tasks_status = 'done';
-		
-         	// Run setting scroll position AGAIN if we are on the news / charts page,
-         	// as we start out with no scroll height before the news feeds / price charts load
-         	// SKIP IF THIS IS JUST THE EMULATED CRON CHECKING EVERY MINUTE (so we don't reset the scroll position every minute)
-         	if ( !emulated_cron_task_only && $(location).attr('hash') == '#news' || !emulated_cron_task_only && $(location).attr('hash') == '#charts' ) {
-         	set_scroll_position(); 
-         	}
-		
-     }
-	else {
-	     
-	     // If only emulated cron background task is running AFTER initial page load, flag as such
-	     // (so we don't reset the scroll position every minute)
-	     if ( !all_tasks_initial_load && feeds_loading_check() == 'done' && charts_loading_check() == 'done' && cron_run_check() != 'done' ) {
-	     emulated_cron_task_only = true;
-	     }
-		    
-	background_tasks_recheck = setTimeout(background_tasks_check, 1000); // Re-check every 1 seconds (in milliseconds)
-	
-    	background_tasks_status = 'wait';
-    
-     }
-		
-    	
-//console.log('background_tasks_check: ' + background_tasks_status);
-
-}
-
-
-/////////////////////////////////////////////////////////////
-
-
-window.pw_prompt = function(options) {
-    
-promptCount = 0;
-    
-    var lm = options.lm || "Password:",
-        bm = options.bm || "Submit";
-        
-    if(!options.callback) { 
-        alert("No callback function provided! Please provide one.") 
-    };
-                   
-    var prompt = document.createElement("div");
-    prompt.className = "pw_prompt";
-    prompt.style.setProperty("font-size", set_font_size + 'em', "important");
-    prompt.style.width = Math.round(330 * set_font_size) + 'px';
-    
-    var submit = function() {
-        options.callback(input.value);
-        document.body.removeChild(prompt);
-    };
-
-    var close_modal = document.createElement("span");
-    close_modal.innerHTML = "X";
-    close_modal.title = "Close";
-    close_modal.className = "close_prompt";
-    
-       close_modal.onclick = function() {
-       prompt.remove();
-       return;
-       };
-    
-    prompt.appendChild(close_modal);
-
-    var label = document.createElement("label");
-    label.innerHTML = lm;
-    label.for = "pw_prompt_input" + (++promptCount);
-    prompt.appendChild(label);
-
-    var input = document.createElement("input");
-    input.id = "pw_prompt_input" + (promptCount);
-    input.type = "password";
-    input.addEventListener("keyup", function(e) {
-        if (e.keyCode == 13) submit();
-    }, false);
-    prompt.appendChild(input);
-
-    var button = document.createElement("button");
-    button.textContent = bm;
-    button.addEventListener("click", submit, false);
-    prompt.appendChild(button);
-
-    document.body.appendChild(prompt);
-    
-	setTimeout(function(){
-     $(input).filter(':visible').focus();
-	}, 1000);
-    
-};
-
-
-/////////////////////////////////////////////////////////////
-
-
 function sats_val(sat_increase) {
 
 to_trade_amnt = Number(document.getElementById("to_trade_amnt").value);
@@ -1605,6 +1506,175 @@ badColor = "#ff4747";
 	}
 
 }
+
+
+/////////////////////////////////////////////////////////////
+
+
+function background_tasks_check() {
+        
+        
+     if ( feeds_loading_check() == 'done' && charts_loading_check() == 'done' && cron_run_check() == 'done' ) {
+          
+     all_tasks_initial_load = false; // Unset initial bg tasks loading flag
+		    
+	$("#background_loading").hide(250); // 0.25 seconds
+         	
+     clearTimeout(background_tasks_recheck);
+    	
+     background_tasks_status = 'done';
+		
+         	// Run setting scroll position AGAIN if we are on the news / charts page,
+         	// as we start out with no scroll height before the news feeds / price charts load
+         	// SKIP IF THIS IS JUST THE EMULATED CRON CHECKING EVERY MINUTE (so we don't reset the scroll position every minute)
+         	if ( !emulated_cron_task_only && $(location).attr('hash') == '#news' || !emulated_cron_task_only && $(location).attr('hash') == '#charts' ) {
+         	set_scroll_position(); 
+         	}
+		
+     }
+	else {
+	     
+	     // If only emulated cron background task is running AFTER initial page load, flag as such
+	     // (so we don't reset the scroll position every minute)
+	     if ( !all_tasks_initial_load && feeds_loading_check() == 'done' && charts_loading_check() == 'done' && cron_run_check() != 'done' ) {
+	     emulated_cron_task_only = true;
+	     }
+		    
+	background_tasks_recheck = setTimeout(background_tasks_check, 1000); // Re-check every 1 seconds (in milliseconds)
+	
+    	background_tasks_status = 'wait';
+    
+     }
+		
+    	
+//console.log('background_tasks_check: ' + background_tasks_status);
+
+}
+
+
+/////////////////////////////////////////////////////////////
+
+
+function custom_range_steps(elm, prev_val) {
+
+// Remove any standard step attribute
+elm.removeAttribute('step');
+
+prev_val = Number(prev_val);
+
+elm.value = Number(elm.value);
+
+var datalist = document.getElementById( elm.getAttribute('list') ).options;
+
+var return_array = new Object();
+
+var step_array = [];
+
+
+  for(i=0; i<datalist.length;i++){
+  step_array.push( Number(datalist[i].value) );
+  }
+
+
+return_array['steps_total'] = step_array.length - 1; // Offset because of first position of zero
+
+
+  if ( prev_val < elm.value ) {
+  
+       for (custom_steps = 0; custom_steps < step_array.length; custom_steps++) {
+       
+           if ( step_array[custom_steps - 1] == prev_val && step_array[custom_steps] != prev_val || step_array[custom_steps] >= elm.value ) {
+           elm.value = Number(step_array[custom_steps]);
+           return_array['prev_val'] = step_array[custom_steps];
+           return_array['current_increment'] = custom_steps;
+           break; // We found our target, so stop the loop
+           }
+         
+       }
+  
+  }
+  else if ( prev_val > elm.value ) {
+  
+       for (custom_steps = step_array.length; custom_steps >= 0; custom_steps--) {
+       
+           if ( step_array[custom_steps + 1] == prev_val && step_array[custom_steps] != prev_val || step_array[custom_steps] <= elm.value ) {
+           elm.value = Number(step_array[custom_steps]);
+           return_array['prev_val'] = step_array[custom_steps];
+           return_array['current_increment'] = custom_steps;
+           break; // We found our target, so stop the loop
+           }
+         
+       }
+  
+  }
+ 
+  
+return return_array;
+
+}
+
+
+/////////////////////////////////////////////////////////////
+
+
+window.pw_prompt = function(options) {
+    
+promptCount = 0;
+    
+    var lm = options.lm || "Password:",
+        bm = options.bm || "Submit";
+        
+    if(!options.callback) { 
+        alert("No callback function provided! Please provide one.") 
+    };
+                   
+    var prompt = document.createElement("div");
+    prompt.className = "pw_prompt";
+    prompt.style.setProperty("font-size", set_font_size + 'em', "important");
+    prompt.style.width = Math.round(330 * set_font_size) + 'px';
+    
+    var submit = function() {
+        options.callback(input.value);
+        document.body.removeChild(prompt);
+    };
+
+    var close_modal = document.createElement("span");
+    close_modal.innerHTML = "X";
+    close_modal.title = "Close";
+    close_modal.className = "close_prompt";
+    
+       close_modal.onclick = function() {
+       prompt.remove();
+       return;
+       };
+    
+    prompt.appendChild(close_modal);
+
+    var label = document.createElement("label");
+    label.innerHTML = lm;
+    label.for = "pw_prompt_input" + (++promptCount);
+    prompt.appendChild(label);
+
+    var input = document.createElement("input");
+    input.id = "pw_prompt_input" + (promptCount);
+    input.type = "password";
+    input.addEventListener("keyup", function(e) {
+        if (e.keyCode == 13) submit();
+    }, false);
+    prompt.appendChild(input);
+
+    var button = document.createElement("button");
+    button.textContent = bm;
+    button.addEventListener("click", submit, false);
+    prompt.appendChild(button);
+
+    document.body.appendChild(prompt);
+    
+	setTimeout(function(){
+     $(input).filter(':visible').focus();
+	}, 1000);
+    
+};
 
 
 /////////////////////////////////////////////////////////////
@@ -2070,6 +2140,188 @@ function row_alert(tr_id, alert_type, color, theme) {
     
     });
     
+
+}
+
+
+/////////////////////////////////////////////////////////////
+
+
+function init_range_sliders() {
+
+// Range input styling / processing
+// Modified from Max Globa's code snippet in the article: https://css-tricks.com/value-bubbles-for-range-inputs/
+// Thanks Max! :)
+     
+// Get array of all ranges to target
+range_inputs = document.querySelectorAll('.range-wrap');
+     
+     
+     // Process all the ranges
+     range_inputs.forEach(function(range_wrap) {
+          
+     // Get elements inside range wrap
+    
+     var rangeField = range_wrap.getElementsByClassName('range-field')[0];
+     
+     var rangeTooltip = range_wrap.getElementsByClassName('range-tooltip')[0];
+     
+     var rangeMin = range_wrap.getElementsByClassName('range-min')[0];
+     
+     var rangeMax = range_wrap.getElementsByClassName('range-max')[0];
+     
+     var rangeValue = range_wrap.getElementsByClassName('range-value')[0];
+     
+     var rangePrefix = range_wrap.getElementsByClassName('range-ui-prefix')[0];
+     
+     var rangeSuffix = range_wrap.getElementsByClassName('range-ui-suffix')[0];
+     
+     var rangeUiMetaData = range_wrap.getElementsByClassName('range-ui-meta-data')[0];
+     
+     var metaDataToUi = (rangeUiMetaData.textContent).replace("zero_is_", "");
+     
+     var still_updating = false;
+       
+     rangeField.style.backgroundColor = 'lightseagreen';
+     
+     // UI value styling
+     rangeValue.style.width = rangeField.offsetWidth + 'px';
+     rangeValue.style.left = rangeMin.offsetWidth + 4 + 'px';
+     
+     // INITIAL: Setting of previous value var
+     var prev_value = rangeField.value;
+     
+     // INITIAL: If prefix content is a plus symbol, AND THE VALUE IS NEGATIVE, blank it out
+     var rangePrefixContent = Number(rangeField.value) < 0 && rangePrefix.textContent == '+' ? '' : rangePrefix.textContent;
+         
+     // INITIAL: Pretty numbers, with prefix / suffix added
+     var uiValue = rangePrefixContent + ( Number(rangeField.value) ).toLocaleString() + rangeSuffix.textContent;
+     
+     // INITIAL: Process some different meta data values (if they exist)
+     uiValue = Number(rangeField.value) == 0 && (rangeUiMetaData.textContent).search(/zero_is_/i) != -1 ? ucfirst(metaDataToUi) : uiValue;
+     
+     rangeValue.innerHTML = `${uiValue}`;
+     
+     
+         // Styling / processing when setting the range value
+         // (done when document is loaded / range input value changes)
+         var setValue = ()=>{
+              
+              
+              // So we don't do RE-ENTRY AND LOOP SLIGHTLY, just RESET the value and return
+              // (for UX...the 'still_updating' flag is reset at end of this function on a timer)
+              if ( still_updating ) {
+              rangeField.value = prev_value; // RESET HERE KEEPS SLIDER AND TOOLTIP IN-SYNC POSITION-WISE 
+              return;
+              }
+              
+         
+         // MUST be above conditional logic directly below
+         var totalRange = (rangeField.max - rangeField.min);
+              
+             
+             // If flagged as using custom steps (not every step is the same value)
+             if ( rangeUiMetaData.textContent == 'is_custom_steps' ) {
+             
+             // MUST BE ABOVE custom_range_steps()
+             still_updating = true;
+         
+             var customRangingResult = custom_range_steps(rangeField, prev_value);
+             
+             // MUST BE BELOW custom_range_steps()
+             var rangeIncrease = (rangeField.value - rangeField.min);
+             
+             var totalSteps = customRangingResult['steps_total'];
+             
+             var currentIncrement = customRangingResult['current_increment'];
+             
+             prev_value = customRangingResult['prev_val'];
+             
+             }
+             // If every step is the same value (regular HTML standards spec)
+             else {
+             var rangeIncrease = (rangeField.value - rangeField.min);
+             var totalSteps = totalRange / rangeField.step;
+             var currentIncrement = rangeIncrease / rangeField.step;
+             }
+         
+          
+         // Percentage of total range, from LEFT SIDE of wrapper div
+         var percentOf = (rangeIncrease / totalRange) * 100; 
+         
+         // Percentage of total range, AS A DECIMAL (where 1.00 == 100%)
+         var percentOfAsDecimal = (percentOf / 100).toFixed(3); 
+         
+         var rawPosition = (rangeField.offsetWidth * percentOfAsDecimal);
+         
+         // Use font size as a multiplier (CONFIRMED this centers the tooltip above the range thumb better [AT ANY WIDTHS])
+         var refinedPosition = rawPosition * set_font_size;
+         
+         // Take into account the range min UI value showing on the LEFT of the range field
+         rangeTooltip.style.left = (refinedPosition + rangeMin.offsetWidth) + 'px';
+         
+         // If prefix content is a plus symbol, AND THE VALUE IS NEGATIVE, blank it out
+         rangePrefixContent = Number(rangeField.value) < 0 && rangePrefix.textContent == '+' ? '' : rangePrefix.textContent;
+         
+         // Pretty numbers, with prefix / suffix added
+         uiValue = rangePrefixContent + ( Number(rangeField.value) ).toLocaleString() + rangeSuffix.textContent;
+     
+         // Process some different meta data values (if they exist)
+         uiValue = Number(rangeField.value) == 0 && (rangeUiMetaData.textContent).search(/zero_is_/i) != -1 ? ucfirst(metaDataToUi) : uiValue;
+       
+         rangeTooltip.innerHTML = `<span>${uiValue}</span>`;
+       
+         rangeValue.innerHTML = `${uiValue}`;
+       
+         rangeField.style.backgroundColor = '#F7931A';
+         
+         rangeMin.classList.remove("light_sea_green");
+         rangeValue.classList.remove("light_sea_green");
+         rangeMax.classList.remove("light_sea_green");
+         
+         rangeMin.classList.add("bitcoin");
+         rangeValue.classList.add("bitcoin");
+         rangeMax.classList.add("bitcoin");
+            	     
+            	     
+             // Wait 0.7 seconds before resetting as not recently updated
+             // (so we don't endlessly loop)
+		   setTimeout(function(){
+		   still_updating = false;
+		   }, 700);
+				
+         
+         };
+     
+         
+         // Styling / processing onblur (for UX)
+         var rangeOnblur = ()=>{
+              
+         rangeTooltip.innerHTML = ``;
+       
+         rangeField.style.backgroundColor = 'lightseagreen';
+         
+         rangeMin.classList.toggle("bitcoin");
+         rangeValue.classList.toggle("bitcoin");
+         rangeMax.classList.toggle("bitcoin");
+         
+         rangeMin.classList.toggle("light_sea_green");
+         rangeValue.classList.toggle("light_sea_green");
+         rangeMax.classList.toggle("light_sea_green");
+         
+         };
+         
+      
+      // Event listeners
+      
+      document.addEventListener("DOMContentLoaded", setValue);
+     
+      rangeField.addEventListener('input', setValue);
+     
+      rangeField.addEventListener('blur', rangeOnblur);
+     
+      });
+
 
 }
 

@@ -108,6 +108,54 @@ button, input[type=submit], input[type=button], .force_button_style {
   border-radius: 6px !important;
 }
 
+input[type=range] {
+display: inline;
+  -webkit-appearance: none;
+  margin-top: 1.5em;
+  min-width: 80%;
+    margin-left: 0px !important;
+    margin-right: 0px !important;
+    padding-left: 0px !important;
+    padding-right: 0px !important;
+}
+input[type=range]:focus {
+  outline: none;
+}
+/***** Chrome, Safari, Opera, and Edge Chromium *****/
+input[type=range]::-webkit-slider-runnable-track {
+  width: 100%;
+  height: 1.3em !important;
+  cursor: pointer;
+  animate: 0.2s;
+  border-radius: 1.5em;
+}
+/******** Firefox ********/
+input[type=range]::-moz-range-track {
+  width: 100%;
+  height: 1.3em !important;
+  cursor: pointer;
+  animate: 0.2s;
+  border-radius: 1.5em;
+}
+input[type=range]::-webkit-slider-thumb {
+  height: 2.35em;
+  width: 2.35em;
+  border-radius: 50%;
+  box-shadow: 0 0 0.4em 0 rgba(0,0,0, 1);
+  cursor: pointer;
+  -webkit-appearance: none;
+  margin-top: -0.55em;
+}
+input[type=range]::-moz-range-thumb {
+  height: 2.35em;
+  width: 2.35em;
+  border-radius: 50%;
+  box-shadow: 0 0 0.4em 0 rgba(0,0,0, 1);
+  cursor: pointer;
+  -webkit-appearance: none;
+  margin-top: -0.55em;
+}
+
 
 fieldset {
     width: auto;
@@ -147,6 +195,66 @@ margin: 0px;
 /* //////////////////////////////
 CLASSES
 ////////////////////////////// */
+
+
+.range-wrap{
+  font-weight: bold;
+  min-width: 100%;
+  position: relative;
+  margin: 0px !important;
+  padding: 0px !important;
+}
+.range-tooltip{
+  position: absolute;
+  top: -3.2em;
+}
+.range-tooltip span{
+  margin-left: 0.6em;
+  min-width: 2em;
+  width: auto;
+  height: 2em;
+  line-height: 2em;
+  padding-left: 0.3em;
+  padding-right: 0.3em;
+  text-align: center;
+  background: #F7931A;
+  color: #fff;
+  font-size: 1.5em;
+  display: block;
+  position: absolute;
+  left: 50%;
+  transform: translate(-50%, 0);
+  border-radius: 0.5em;
+}
+.range-tooltip span:before{
+  content: "";
+  position: absolute;
+  width: 0;
+  height: 0;
+  border-top: 1em solid #F7931A;
+  border-left: 0.5em solid transparent;
+  border-right: 0.5em solid transparent;
+  top: 100%;
+  left: 50%;
+  margin-left: -0.5em;
+  margin-top: -0.1em;
+}
+.range-min, .range-max{
+display: inline;
+  min-width: 10%;
+    margin-left: 0px !important;
+    margin-right: 0px !important;
+    padding-left: 0px !important;
+    padding-right: 0px !important;
+}
+.range-value {
+position: absolute;
+width: 100%;
+text-align: center;
+}
+.range-ui-prefix, .range-ui-suffix, .range-ui-meta-data{
+display: none;
+}
 
 
 .page_title {
@@ -457,6 +565,11 @@ color: #ffb83f !important;
 }
 
 
+.light_sea_green {
+color: lightseagreen;
+}
+
+
 .bitcoin, .btc, #sidebar ul.list-unstyled li a.bitcoin:link {
 color: #F7931A !important;
 }
@@ -660,16 +773,36 @@ text-decoration: underline !important;
 
 
 .pretty_text_fields {
-text-align: right;
+min-width: 550px;
+max-width: 95%;
+text-align: left;
 width: fit-content;
 margin: auto;
-margin-left: 0px;
+margin-left: 1.5em;
 }
 
 .pretty_text_fields p {
 white-space: nowrap;
-margin-top: 1.0em;
-margin-bottom: 2.0em;
+margin-top: 2.5em;
+margin-bottom: 2.5em;
+}
+
+.pretty_text_fields .admin_range_fields {
+white-space: nowrap;
+margin-top: 3.75em;
+margin-bottom: 3.75em;
+}
+
+.admin_range_fields {
+position: relative;
+min-width: 100%;
+max-width: 100%;
+}
+
+.admin_range_fields .setting_title {
+position: absolute;
+top: -1em;
+font-weight: bold;
 }
 
 
@@ -803,14 +936,24 @@ i.gg-eye, i.gg-eye-alt {
 
 
 .password-container{
-  width: auto;
+  width: fit-content;
   position: relative;
   display: block;
-  text-align: right;
+  text-align: left;
 }
 .password-container input[type="password"],
 .password-container input[type="text"]{
-/* padding-right: 30px; */
+padding-right: 50px !important;
+min-width: 300px !important;
+}
+
+
+.password-container .admin_settings_notes {
+     display: inline-block;
+   box-sizing: border-box;
+   max-width: 400px !important;
+white-space: normal !important;
+line-height: 1.7em;
 }
 
 

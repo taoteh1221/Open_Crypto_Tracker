@@ -6,4 +6,4 @@
 
 ?>
 
-<p> Coming Soon&trade; </p>
+<p> This plugin creates a new tool in the User Area "Tools" page, for tracking monthly / yearly interest paid on multiple credit accounts (auto / personal loans, mortgages, credit cards, etc). </p>

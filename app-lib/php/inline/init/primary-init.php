@@ -33,7 +33,10 @@ $php_ini_path = preg_replace("/php\.ini/", "php-tpl.ini", $php_ini_path);
 
 // ESSENTIAL REQUIRED LIB FILES...
 
-// Load the hard-coded (default) config BEFORE #ANYTHING AT ALL#
+// Config file check (MUST RUN *BEFORE* LOADING CONFIG.PHP [TO CHECK FOR PARSE / FATAL ERRORS])
+require_once('app-lib/php/inline/debugging/config-check.php');
+
+// Load the hard-coded (default) config BEFORE #ANYTHING ELSE#
 require_once("config.php");
 
 // Basic system checks (MUST RUN *BEFORE* LOADING CLASSES [TO CHECK FOR REQUIRED PHP EXTENSIONS])

@@ -78,7 +78,7 @@ responsive_menu_override();
 // nav item is active and it's associated content, and display it / mark nav links as active in interface
 nav_menu('.admin-nav');
 nav_menu('.user-nav');
-      
+
 
 	/////////////////////////////////////////////////////////////////////////////////////////////////////
 	
@@ -163,31 +163,6 @@ nav_menu('.user-nav');
      // If overriding any responsive menu CSS is needed
      responsive_menu_override();
 	});
-
-
-	/////////////////////////////////////////////////////////////////////////////////////////////////////
-	
-	
-	// Monitor iframes for added 'repeatable' elements, so we can auto-adjust the height
-	// https://github.com/naugtur/insertionQuery
-	if ( is_iframe ) {
-	     
-          insertionQ('.repeatable div').every(function(element){
-               
-          console.log('repeatable element added, adjusting iframe height...');
-               
-               // Reset iframe heights after 1 second
-               setTimeout(function() {
-                    
-                   admin_iframe_load.forEach(function(iframe) {
-                   iframe_size_adjust(iframe);
-                   });
-                   
-               }, 1000);
-          
-          });
-
-     }
 	
 
 	/////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -239,6 +214,31 @@ nav_menu('.user-nav');
         $("#reset_username").filter(':visible').focus();
     	}, 1000);
     }
+
+
+	/////////////////////////////////////////////////////////////////////////////////////////////////////
+	
+	
+	// Monitor iframes for added 'repeatable' elements, so we can auto-adjust the height
+	// https://github.com/naugtur/insertionQuery
+	if ( is_iframe ) {
+	     
+          insertionQ('.repeatable div').every(function(element){
+               
+          console.log('repeatable element added, adjusting iframe height...');
+               
+               // Reset iframe heights after 1 second
+               setTimeout(function() {
+                    
+                   admin_iframe_load.forEach(function(iframe) {
+                   iframe_size_adjust(iframe);
+                   });
+                   
+               }, 1000);
+          
+          });
+
+     }
      
 
 	/////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -690,8 +690,7 @@ nav_menu('.user-nav');
                  e.preventDefault();
              }
          });
-
-
+         
 
 	/////////////////////////////////////////////////////////////////////////////////////////////////////
 	
@@ -942,24 +941,30 @@ nav_menu('.user-nav');
     
     }
 
-	/////////////////////////////////////////////////////////////////////////////////////////////////////
-    
-	
-// Check if privacy mode for assets held is enabled (#MUST# RUN AFTER INIT.JS HAS SET ALL DYN VARS)
-privacy_mode(); 
-
-// Sort the portfolio AFTER checking for privacy mode
-sorting_portfolio_table();
-
 
 	/////////////////////////////////////////////////////////////////////////////////////////////////////
 	
 
     // #MUST# BE THE #LAST RUN LOGIC# IN INIT.JS!
+    
+	    // Check if privacy mode for assets held is enabled (#MUST# RUN AFTER INIT.JS HAS SET ALL DYN VARS)
+    privacy_mode(); 
+     
+    // Sort the portfolio AFTER checking for privacy mode
+    sorting_portfolio_table();
+
+    // Initiate the admin settings range sliders
+    init_range_sliders();
+    
+    
     $('textarea[data-autoresize]').each(function(){
       autosize(this);
     }).on('autosize:resized', function(){
-      //console.log('textarea height updated');
+    
+         admin_iframe_load.forEach(function(iframe) {
+         iframe_size_adjust(iframe);
+         });
+                                   
     });
 
 

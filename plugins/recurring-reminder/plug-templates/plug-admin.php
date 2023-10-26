@@ -61,19 +61,19 @@ $admin_render_settings['reminders']['is_notes'] = 'Remind yourself about importa
 // EMPTY add / remove (repeatable) fields TEMPLATE rendering
 
 $admin_render_settings['reminders']['is_repeatable']['add_button'] = 'Add Recurring Reminder (at bottom)';
-               
 
-$loop = 1;
-$loop_max = 365;
-while ( $loop <= $loop_max ) {
      
-$admin_render_settings['reminders']['is_repeatable']['is_select']['is_assoc']['days'][] = array(
-                                                                                      'key' => $loop,
-                                                                                      'val' => 'Every ' . $loop . ' Days',
-                                                                                     );
-                                                                      
-$loop = $loop + 1;
-}
+$admin_render_settings['reminders']['is_repeatable']['is_range']['days'] = true;
+
+$admin_render_settings['reminders']['is_repeatable']['range_min'] = 1;
+
+$admin_render_settings['reminders']['is_repeatable']['range_max'] = 365;
+
+$admin_render_settings['reminders']['is_repeatable']['range_step'] = 1;
+
+$admin_render_settings['reminders']['is_repeatable']['range_ui_prefix'] = 'Every ';
+
+$admin_render_settings['reminders']['is_repeatable']['range_ui_suffix'] = ' Days';
 
 
 $admin_render_settings['reminders']['is_repeatable']['is_textarea']['message'] = true;
@@ -88,15 +88,17 @@ foreach ( $ct['conf']['plug_conf'][$this_plug]['reminders'] as $key => $val ) {
      
           if ( $reminder_key === 'days' ) { // PHP7.4 NEEDS === HERE INSTEAD OF ==
                
-               $loop = 1;
-               $loop_max = 365;
-               while ( $loop <= $loop_max ) {
-               $admin_render_settings['reminders']['has_subarray'][$key]['is_select']['is_assoc'][$reminder_key][] = array(
-                                                                                      'key' => $loop,
-                                                                                      'val' => 'Every ' . $loop . ' Days',
-                                                                                     );
-               $loop = $loop + 1;
-               }
+          $admin_render_settings['reminders']['has_subarray'][$key]['is_range'][$reminder_key] = true;
+
+          $admin_render_settings['reminders']['has_subarray'][$key]['range_min'] = 1;
+               
+          $admin_render_settings['reminders']['has_subarray'][$key]['range_max'] = 365;
+               
+          $admin_render_settings['reminders']['has_subarray'][$key]['range_step'] = 1;
+               
+          $admin_render_settings['reminders']['has_subarray'][$key]['range_ui_prefix'] = 'Every ';
+               
+          $admin_render_settings['reminders']['has_subarray'][$key]['range_ui_suffix'] = ' Days';
           
           }
           else {                                               

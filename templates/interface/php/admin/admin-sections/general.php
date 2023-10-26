@@ -78,20 +78,18 @@ else {
 
 ////////////////////////////////////////////////////////////////////////////////////////////////
 
+     
+$admin_render_settings['local_time_offset']['is_range'] = true;
 
-$loop = -12;
-$loop_max = +14;
-while ( $loop <= $loop_max ) {
-     
-$loop_key = ( $loop >= 0 ? '+' . $loop : $loop );
-     
-$admin_render_settings['local_time_offset']['is_select']['is_assoc'][] = array(
-                                                                                 'key' => $loop_key,
-                                                                                 'val' => $loop_key . ' Hours UTC Time',
-                                                                              );
-                                                                      
-$loop = $loop + 0.25;
-}
+$admin_render_settings['local_time_offset']['range_min'] = -12;
+
+$admin_render_settings['local_time_offset']['range_max'] = 14;
+
+$admin_render_settings['local_time_offset']['range_step'] = 0.25;
+
+$admin_render_settings['local_time_offset']['range_ui_prefix'] = '+';
+
+$admin_render_settings['local_time_offset']['range_ui_suffix'] = ' Hours UTC Time';
 
 
 ////////////////////////////////////////////////////////////////////////////////////////////////
@@ -101,7 +99,11 @@ $loop = $loop + 0.25;
 if ( isset($ct['conf']['ext_apis']['google_fonts_api_key']) && $ct['conf']['ext_apis']['google_fonts_api_key'] != '' ) {
 $all_google_fonts = $ct['api']->google_fonts('list');
 }
-elseif ( isset($ct['conf']['gen']['google_font']) && $ct['conf']['gen']['google_font'] != '' ) {
+
+if (
+!is_array($all_google_fonts) && isset($ct['conf']['gen']['google_font']) && trim($ct['conf']['gen']['google_font']) != ''
+|| is_array($all_google_fonts) && sizeof($all_google_fonts) < 1 && isset($ct['conf']['gen']['google_font']) && trim($ct['conf']['gen']['google_font']) != ''
+) {
 $all_google_fonts = array($ct['conf']['gen']['google_font']);
 }
 
@@ -114,18 +116,16 @@ $admin_render_settings['google_font']['is_notes'] = '<a href="https://support.go
 
 ////////////////////////////////////////////////////////////////////////////////////////////////
 
-
-$loop = round($ct['dev']['min_font_resize'] * 100);
-$loop_max = round($ct['dev']['max_font_resize'] * 100);
-while ( $loop <= $loop_max ) {
      
-$admin_render_settings['default_font_size']['is_select']['is_assoc'][] = array(
-                                                                            'key' => $loop,
-                                                                            'val' => $loop . '%',
-                                                                           );
-                                                                      
-$loop = $loop + 1;
-}
+$admin_render_settings['default_font_size']['is_range'] = true;
+
+$admin_render_settings['default_font_size']['range_min'] = round($ct['dev']['min_font_resize'] * 100);
+
+$admin_render_settings['default_font_size']['range_max'] = round($ct['dev']['max_font_resize'] * 100);
+
+$admin_render_settings['default_font_size']['range_step'] = 1;
+
+$admin_render_settings['default_font_size']['range_ui_suffix'] = '%';
 
 
 ////////////////////////////////////////////////////////////////////////////////////////////////
@@ -190,35 +190,38 @@ $admin_render_settings['primary_marketcap_site']['is_notes'] = '<a href="https:/
 
 ////////////////////////////////////////////////////////////////////////////////////////////////
 
+     
+$admin_render_settings['currency_decimals_max']['is_range'] = true;
 
-$loop = 0;
-$loop_max = 15;
-while ( $loop <= $loop_max ) {
-$admin_render_settings['currency_decimals_max']['is_select'][] = $loop;
-$loop = $loop + 1;
-}
+$admin_render_settings['currency_decimals_max']['range_min'] = 0;
 
+$admin_render_settings['currency_decimals_max']['range_max'] = 15;
 
-////////////////////////////////////////////////////////////////////////////////////////////////
-
-
-$loop = 0;
-$loop_max = 15;
-while ( $loop <= $loop_max ) {
-$admin_render_settings['crypto_decimals_max']['is_select'][] = $loop;
-$loop = $loop + 1;
-}
+$admin_render_settings['currency_decimals_max']['range_step'] = 1;
 
 
 ////////////////////////////////////////////////////////////////////////////////////////////////
 
+     
+$admin_render_settings['crypto_decimals_max']['is_range'] = true;
 
-$loop = 0;
-$loop_max = 15;
-while ( $loop <= $loop_max ) {
-$admin_render_settings['chart_crypto_volume_decimals']['is_select'][] = $loop;
-$loop = $loop + 1;
-}
+$admin_render_settings['crypto_decimals_max']['range_min'] = 0;
+
+$admin_render_settings['crypto_decimals_max']['range_max'] = 15;
+
+$admin_render_settings['crypto_decimals_max']['range_step'] = 1;
+
+
+////////////////////////////////////////////////////////////////////////////////////////////////
+
+     
+$admin_render_settings['chart_crypto_volume_decimals']['is_range'] = true;
+
+$admin_render_settings['chart_crypto_volume_decimals']['range_min'] = 0;
+
+$admin_render_settings['chart_crypto_volume_decimals']['range_max'] = 10;
+
+$admin_render_settings['chart_crypto_volume_decimals']['range_step'] = 1;
 
 
 ////////////////////////////////////////////////////////////////////////////////////////////////

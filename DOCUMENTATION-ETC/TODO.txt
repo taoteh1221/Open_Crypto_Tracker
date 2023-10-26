@@ -171,16 +171,16 @@ https://zksync.io/api/v0.1.html (KEEP AN EYE OUT FOR V2 DOCS AS WELL)
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
-Consider using the array ordering mapper logic we built for the cached config upgrades, also in the queue_config_update() function. Then not only do we GUARANTEE consistant ordering of settings in the admin area, BUT we ALSO would have consistant array ordering in the cached config "UNDER THE HOOD"...WHICH MAKES APP DEVELOPMENT A BIT EASIER IN THE TEST / REVIEW DEPARTMENT. Different SUBARRAY values in the cached config should be fine, as we are only mapping the ROOT array keys that ALWAYS EXIST (NOT EVER REMOVABLE BY A USER IN THE INTERFACE).
+There are a few remaining settings in the comms section, which should be moved over to the news feeds section.
 
 
-Use a slider for number values, instead of dropdown select menus.
-
-
-Validate news feeds settings interface input / all plugin settings interface inputs.
+Modify the "app has been upgraded" interface alert, as we no longer wait AT ALL for scheduled maintenance to update the CACHED app version number (we update it instantly once a new app version is detected). Save a "show message" value to the vars cache, like we do for upgrade alerts (and mark as "don't show" after it has shown).
 
 
 CACHE an md5 hash of all telegram settings combined, and only delete the chatroom data / refresh it if this md5 hash changes (like we do for light chart config). Otherwise you get a bad UX from endlessly getting alerts to re-enter "/start" in the chatroom EVERYTIME YOU UPDATE *ANY* ADMIN SETTINGS.
+
+
+Validate news feeds settings interface input / all plugin settings interface inputs.
 
 
 There were a few bugs in the cached config upgrade / downgrade mechanism still (that I just fixed). Needs to be torture tested some more, to make sure the fixes are good, including bundled plugins.
@@ -196,6 +196,27 @@ Test out the new iframe-reloading HALT mechanism (if a halt was called on updati
 
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~DO AN APP RELEASE AT THIS POINT IN THIS LIST~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+Add a 24 hour time picker, in the recurring reminder plugin settings interface.
+
+
+Have an "Export To Slideshow Crypto Ticker" link on the update portfolio page, which saves a JavaScript array of a user's portfolio, that can be 'dropped into' the main directory of Slideshow Crypto Ticker. Output (in ticker app) should be where trade volume usually is (replacing that). Reuse the 'Export portfolio to spreadsheet' logic for this (obviously with somewhat different output to the file). Maybe also auto-add markets (right in the output file, so they do not need to be added seperately into config.js), ONLY IF THEY DON'T EXIST YET IN THE TICKER APP'S CONFIG.JS FILE.
+
+
+Do the same thing for charts / alerts AND proxy config settings, that we did for the news feeds section. Move ALL relavent settings out of other sections into charts / alerts and proxy (INLUDING EVERYTHING RELATED IN THE COMMS SECTION), AND if needed reformat any key => val formats to be interface-friendly (like we had to do for the price target alert plugin).
+
+
+Consider using the array ordering mapper logic we built for the cached config upgrades, also in the queue_config_update() function. Then not only do we GUARANTEE consistant ordering of settings in the admin area, BUT we ALSO would have consistant array ordering in the cached config "UNDER THE HOOD"...WHICH MAKES APP DEVELOPMENT A BIT EASIER IN THE TEST / REVIEW DEPARTMENT. Different SUBARRAY values in the cached config should be fine, as we are only mapping the ROOT array keys that ALWAYS EXIST (NOT EVER REMOVABLE BY A USER IN THE INTERFACE).
+
+
+Create / refresh a cache file with a key order mapping array (in json format) of the MAIN CONFIG TEMPLATE, which runs on new installs AND detected upgrades, by using include() to load /templates/back-end/main-config.template (BEFORE config.php is LOADED, SO WE DON'T OVERWRITE CUSTOMIZED USER SETTINGS). Then use this cache file's data for the array key ordering logic in the cached config upgrade AND update functions. THEN WE WILL ENCOUNTER LESS ARRAY KEY ORDERING ISSUES WHEN AN END-USER USES AN **OUTDATED CONFIG.PHP FILE**. ALSO USE THIS MAPPING DATA TO GET A HASH OF ALL SETTING KEYS (INCLUDING EACH SETTING WITHIN A SETTING CATEGORY) CONCATENATED TOGETHER, SO WE CAN COMPARE AGAINST THE LIVE HARD-CODED MAIN CONFIG, AND ALERT END USERS IF THEY HAVE AN OUTDATED MAIN CONFIG FILE. CACHE RESULTS FOR BOTH, AND ALSO ONLY RUN CACHING ON NEW INSTALLS / UPGRADES, BUT ALERT USERS EVERY RUNTIME IF THE CACHED HASHES DONT MATCH.
+
+
+Send out an OPTIONAL comms alert when we change the admin security mode, OR when we enable / disable 2FA (like we do for logins).
+
+
+Security page should show the app version number, AND a version upgrade check alert (if available).
 
 
 Add a logout class to the logout link, and add an onclick event listener that does the same type of notice instantly like if we enable privacy mode while in the admin area.
@@ -354,13 +375,7 @@ Merge System stats / access stats / app logs into one area called: System & App 
 Look into adding temperature / CPU monitoring support for systems other than linux devices: https://phoenixnap.com/kb/linux-cpu-temp
 
 
-Send out an OPTIONAL comms alert when we change the admin security mode, OR when we enable / disable 2FA (like we do for logins).
-
-
 Add additional ability to do telegram / discord webhooks in the new "crypto-info-bot" plugin, to query asset prices at different exchanges through telegram chat with the chat bot. Example: "/price btc-usd-coinbase"
-
-
-Security page should show the app version number, AND a version upgrade check alert (if available).
 
 
 Add openserum markets support.
@@ -482,7 +497,7 @@ FEATURES / NEW ARCHITECTURE (*NOT* PRIORITIZED)
 On the backup / restore admin page, have all the backups (charts / configs) listed, with a dropdown menu next to each for restore / download.
 
 
-Add ability to set what decimal and thousands seperators to use, AUTOMATICALLY BASED OF JAVASCRIPT LOCALE like we do for the ticker app (by wrapping all numbers in a class, and converting on document load).
+Add ability to set what decimal and thousands seperators to use, AUTOMATICALLY BASED OF JAVASCRIPT LOCALE like we do for the ticker app (by wrapping all numbers in a class, and converting on document load). Additionally, we can set what locale is used like so: toLocaleString('en')
 
 
 Wrap all interface English within a "placeholder" lang_translate() function call. Then from a developer perspective you can still fully see the interface logic, and build out translation logic over time later. 
@@ -564,11 +579,6 @@ Alerts if NOT admin ip address visiting (admin ip stored in config setting)?
 
 
 Research the possibility of inter-linking the tracker app into the ticker app, for displaying one's portfolio worth for each coin. Maybe requiring the ticker app being installed in a subdirectory of the tracker app server main directory, so it easily could have access to cookie data?
-
-
-MAY BE A GOOD WAY TO RE-RUN init.php IF USER CORRUPTS config.php (#AFTER# backing up / overwriting the corrupt config.php with /templates/back-end/main-config.template):
-https://stackoverflow.com/questions/17160851/is-there-any-way-to-skip-fatal-error-from-include-file-in-php
-https://www.php.net/manual/en/function.register-shutdown-function.php
 
 
 Look into doing bootstrap modals instead of the current library we use. Maybe it's better?

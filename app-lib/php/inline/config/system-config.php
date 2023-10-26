@@ -39,14 +39,6 @@ $apache_modules = apache_get_modules();
 }
 
 
-// Remote IP
-$ct['remote_ip'] = ( isset($_SERVER['REMOTE_ADDR']) ? $_SERVER['REMOTE_ADDR'] : 'localhost' );
-
-// Register the base directory of this app (MUST BE SET BEFORE !ANY! init logic calls)
-$ct['base_dir'] = str_replace('\\', '/', dirname(__FILE__) ); // Windows compatibility (convert backslashes)
-// WITH dirname(__FILE__), WE ONLY NEED TO COVER THE app-lib/php PATH (AS WE ALWAYS GET THE PATH TO THIS CURRENT FILE)
-$ct['base_dir'] = preg_replace("/\/app-lib\/php(.*)/i", "", $ct['base_dir']);
-////
 //!!!!!!!!!! IMPORTANT, ALWAYS LEAVE THIS HERE !!!!!!!!!!!!!!!
 if ( file_exists('cache/vars/base_url.dat') ) {
 $ct['base_url'] = trim( file_get_contents('cache/vars/base_url.dat') );
