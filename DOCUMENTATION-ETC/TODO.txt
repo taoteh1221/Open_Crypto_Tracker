@@ -171,7 +171,7 @@ https://zksync.io/api/v0.1.html (KEEP AN EYE OUT FOR V2 DOCS AS WELL)
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
-Integrate sliders, instead of dropdown select menus.
+There are a few remaining settings in the comms section, which should be moved over to the news feeds section.
 
 
 Modify the "app has been upgraded" interface alert, as we no longer wait AT ALL for scheduled maintenance to update the CACHED app version number (we update it instantly once a new app version is detected). Save a "show message" value to the vars cache, like we do for upgrade alerts (and mark as "don't show" after it has shown).
@@ -198,7 +198,10 @@ Test out the new iframe-reloading HALT mechanism (if a halt was called on updati
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~DO AN APP RELEASE AT THIS POINT IN THIS LIST~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 
-Do the same thing for charts / alerts AND proxy config settings, that we did for the news feeds section. Move ALL relavent settings out of other sections into charts / alerts and proxy, AND if needed reformat any key => val formats to be interface-friendly (like we had to do for the price target alert plugin).
+Have an "Export To Slideshow Crypto Ticker" link on the update portfolio page, which saves a JavaScript array of a user's portfolio, that can be 'dropped into' the main directory of Slideshow Crypto Ticker. Output (in ticker app) should be where trade volume usually is (replacing that). Reuse the 'Export portfolio to spreadsheet' logic for this (obviously with somewhat different output to the file). Maybe also auto-add markets (right in the output file, so they do not need to be added seperately into config.js), ONLY IF THEY DON'T EXIST YET IN THE TICKER APP'S CONFIG.JS FILE.
+
+
+Do the same thing for charts / alerts AND proxy config settings, that we did for the news feeds section. Move ALL relavent settings out of other sections into charts / alerts and proxy (INLUDING EVERYTHING RELATED IN THE COMMS SECTION), AND if needed reformat any key => val formats to be interface-friendly (like we had to do for the price target alert plugin).
 
 
 Consider using the array ordering mapper logic we built for the cached config upgrades, also in the queue_config_update() function. Then not only do we GUARANTEE consistant ordering of settings in the admin area, BUT we ALSO would have consistant array ordering in the cached config "UNDER THE HOOD"...WHICH MAKES APP DEVELOPMENT A BIT EASIER IN THE TEST / REVIEW DEPARTMENT. Different SUBARRAY values in the cached config should be fine, as we are only mapping the ROOT array keys that ALWAYS EXIST (NOT EVER REMOVABLE BY A USER IN THE INTERFACE).
@@ -491,7 +494,7 @@ FEATURES / NEW ARCHITECTURE (*NOT* PRIORITIZED)
 On the backup / restore admin page, have all the backups (charts / configs) listed, with a dropdown menu next to each for restore / download.
 
 
-Add ability to set what decimal and thousands seperators to use, AUTOMATICALLY BASED OF JAVASCRIPT LOCALE like we do for the ticker app (by wrapping all numbers in a class, and converting on document load).
+Add ability to set what decimal and thousands seperators to use, AUTOMATICALLY BASED OF JAVASCRIPT LOCALE like we do for the ticker app (by wrapping all numbers in a class, and converting on document load). Additionally, we can set what locale is used like so: toLocaleString('en')
 
 
 Wrap all interface English within a "placeholder" lang_translate() function call. Then from a developer perspective you can still fully see the interface logic, and build out translation logic over time later. 

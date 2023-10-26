@@ -75,6 +75,10 @@ $ct['base_dir'] = str_replace('\\', '/', dirname(__FILE__) ); // Windows compati
 $ct['base_dir'] = preg_replace("/\/app-lib\/php(.*)/i", "", $ct['base_dir']);
 
 
+// Date timestamp (for backup files etc)
+$ct['year_month_day'] = date( "Y-M-d", time() );
+
+
 // App init libraries...
 
 // Primary init logic (#MUST# RUN #BEFORE# #EVERYTHING# ELSE)

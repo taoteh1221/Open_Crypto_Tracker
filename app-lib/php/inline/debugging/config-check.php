@@ -82,12 +82,12 @@ $config_file = $ct['base_dir'] . '/config.php';
      
      $bytes = random_bytes(10);
      
-     $backup_config_file = copy( $config_file, $ct['base_dir'] . '/config.php.BACKUP-' . bin2hex($bytes) );
+     $backup_config_file = copy( $config_file, $ct['base_dir'] . '/config.php.BACKUP-' . $ct['year_month_day'] . '-' . bin2hex($bytes) );
      
      sleep(1);
      
      $desc = 'CONTAINS SIGNIFICANT ERRORS IN FORMATTING';
-     $desc2 = 'BACKED UP AS config.php.BACKUP-XXXXXXXXXXXX, AND ';
+     $desc2 = 'BACKED UP AS config.php.BACKUP-' . $ct['year_month_day'] . '-XXXXXXXXXXXX, AND ';
      
      }
      else {

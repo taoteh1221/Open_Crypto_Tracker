@@ -163,31 +163,6 @@ nav_menu('.user-nav');
      // If overriding any responsive menu CSS is needed
      responsive_menu_override();
 	});
-
-
-	/////////////////////////////////////////////////////////////////////////////////////////////////////
-	
-	
-	// Monitor iframes for added 'repeatable' elements, so we can auto-adjust the height
-	// https://github.com/naugtur/insertionQuery
-	if ( is_iframe ) {
-	     
-          insertionQ('.repeatable div').every(function(element){
-               
-          console.log('repeatable element added, adjusting iframe height...');
-               
-               // Reset iframe heights after 1 second
-               setTimeout(function() {
-                    
-                   admin_iframe_load.forEach(function(iframe) {
-                   iframe_size_adjust(iframe);
-                   });
-                   
-               }, 1000);
-          
-          });
-
-     }
 	
 
 	/////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -239,6 +214,31 @@ nav_menu('.user-nav');
         $("#reset_username").filter(':visible').focus();
     	}, 1000);
     }
+
+
+	/////////////////////////////////////////////////////////////////////////////////////////////////////
+	
+	
+	// Monitor iframes for added 'repeatable' elements, so we can auto-adjust the height
+	// https://github.com/naugtur/insertionQuery
+	if ( is_iframe ) {
+	     
+          insertionQ('.repeatable div').every(function(element){
+               
+          console.log('repeatable element added, adjusting iframe height...');
+               
+               // Reset iframe heights after 1 second
+               setTimeout(function() {
+                    
+                   admin_iframe_load.forEach(function(iframe) {
+                   iframe_size_adjust(iframe);
+                   });
+                   
+               }, 1000);
+          
+          });
+
+     }
      
 
 	/////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -696,7 +696,8 @@ nav_menu('.user-nav');
 	
 
      // Range input styling / processing
-     // Modified from: https://css-tricks.com/value-bubbles-for-range-inputs/
+     // Modified from Max Globa's code snippet in the article: https://css-tricks.com/value-bubbles-for-range-inputs/
+     // Thanks Max! :)
      
      // Get array of all ranges to target
      range_inputs = document.querySelectorAll('.range-wrap');
@@ -707,52 +708,118 @@ nav_menu('.user-nav');
           
      // Get elements inside range wrap
     
-     var range = range_wrap.getElementsByTagName('input')[0];
+     var rangeField = range_wrap.getElementsByClassName('range-field')[0];
      
-     var rangeTooltip = range_wrap.getElementsByTagName('div')[0];
+     var rangeTooltip = range_wrap.getElementsByClassName('range-tooltip')[0];
      
-     var rangeMin = range_wrap.getElementsByTagName('div')[1];
+     var rangeMin = range_wrap.getElementsByClassName('range-min')[0];
      
-     var rangeMax = range_wrap.getElementsByTagName('div')[2];
+     var rangeMax = range_wrap.getElementsByClassName('range-max')[0];
      
-     var rangeValue = range_wrap.getElementsByTagName('div')[3];
+     var rangeValue = range_wrap.getElementsByClassName('range-value')[0];
+     
+     var rangePrefix = range_wrap.getElementsByClassName('range-ui-prefix')[0];
+     
+     var rangeSuffix = range_wrap.getElementsByClassName('range-ui-suffix')[0];
+     
+     var rangeUiMetaData = range_wrap.getElementsByClassName('range-ui-meta-data')[0];
+     
+     var metaDataToUi = (rangeUiMetaData.textContent).replace("zero_is_", "");
+     
+     var still_updating = false;
        
-     range.style.backgroundColor = 'lightseagreen';
+     rangeField.style.backgroundColor = 'lightseagreen';
      
-     rangeValue.style.width = range.offsetWidth + 'px';
+     // UI value styling
+     rangeValue.style.width = rangeField.offsetWidth + 'px';
+     rangeValue.style.left = rangeMin.offsetWidth + 4 + 'px';
      
-     rangeValue.style.right = rangeMax.offsetWidth + 4 + 'px';
+     // INITIAL: Setting of previous value var
+     var prev_value = rangeField.value;
+     
+     // INITIAL: If prefix content is a plus symbol, AND THE VALUE IS NEGATIVE, blank it out
+     var rangePrefixContent = Number(rangeField.value) < 0 && rangePrefix.textContent == '+' ? '' : rangePrefix.textContent;
+         
+     // INITIAL: Pretty numbers, with prefix / suffix added
+     var uiValue = rangePrefixContent + ( Number(rangeField.value) ).toLocaleString() + rangeSuffix.textContent;
+     
+     // INITIAL: Process some different meta data values (if they exist)
+     uiValue = Number(rangeField.value) == 0 && (rangeUiMetaData.textContent).search(/zero_is_/i) != -1 ? ucfirst(metaDataToUi) : uiValue;
+     
+     rangeValue.innerHTML = `${uiValue}`;
      
      
          // Styling / processing when setting the range value
          // (done when document is loaded / range input value changes)
          var setValue = ()=>{
               
-         var spacing = -7;
-     
-         var totalRange = (range.max - range.min);
+              
+              // So we don't do RE-ENTRY AND LOOP SLIGHTLY, just RESET the value and return
+              // (for UX...the 'still_updating' flag is reset at end of this function on a timer)
+              if ( still_updating ) {
+              rangeField.value = prev_value; // RESET HERE KEEPS SLIDER AND TOOLTIP IN-SYNC POSITION-WISE 
+              return;
+              }
+              
+         
+         // MUST be above conditional logic directly below
+         var totalRange = (rangeField.max - rangeField.min);
+              
+             
+             // If flagged as using custom steps (not every step is the same value)
+             if ( rangeUiMetaData.textContent == 'is_custom_steps' ) {
+             
+             // MUST BE ABOVE custom_range_steps()
+             still_updating = true;
+         
+             var customRangingResult = custom_range_steps(rangeField, prev_value);
+             
+             // MUST BE BELOW custom_range_steps()
+             var rangeIncrease = (rangeField.value - rangeField.min);
+             
+             var totalSteps = customRangingResult['steps_total'];
+             
+             var currentIncrement = customRangingResult['current_increment'];
+             
+             prev_value = customRangingResult['prev_val'];
+             
+             }
+             // If every step is the same value (regular HTML standards spec)
+             else {
+             var rangeIncrease = (rangeField.value - rangeField.min);
+             var totalSteps = totalRange / rangeField.step;
+             var currentIncrement = rangeIncrease / rangeField.step;
+             }
+         
           
-         var totalSteps = totalRange / range.step;
+         // Percentage of total range, from LEFT SIDE of wrapper div
+         var percentOf = (rangeIncrease / totalRange) * 100; 
          
-         var rangeIncrease = (range.value - range.min);
+         // Percentage of total range, AS A DECIMAL (where 1.00 == 100%)
+         var percentOfAsDecimal = (percentOf / 100).toFixed(3); 
          
-         var currentIncrement = rangeIncrease / range.step;
+         var rawPosition = (rangeField.offsetWidth * percentOfAsDecimal);
          
-         var rawPosition = (range.offsetWidth / totalSteps) * currentIncrement;
+         // Use font size as a multiplier (CONFIRMED this centers the tooltip above the range thumb better [AT ANY WIDTHS])
+         var refinedPosition = rawPosition * set_font_size;
          
-         // Add some spacing, AND use font size as a multiplier 
-         // (CONFIRMED BOTH THESE STEPS center the tooltip above the range thumb better)
-         var refinedPosition = (rawPosition + spacing) * set_font_size;
+         // Take into account the range min UI value showing on the LEFT of the range field
+         rangeTooltip.style.left = (refinedPosition + rangeMin.offsetWidth) + 'px';
          
-         var positionOffset = (range.offsetWidth + rangeMax.offsetWidth);
+         // If prefix content is a plus symbol, AND THE VALUE IS NEGATIVE, blank it out
+         rangePrefixContent = Number(rangeField.value) < 0 && rangePrefix.textContent == '+' ? '' : rangePrefix.textContent;
+         
+         // Pretty numbers, with prefix / suffix added
+         uiValue = rangePrefixContent + ( Number(rangeField.value) ).toLocaleString() + rangeSuffix.textContent;
+     
+         // Process some different meta data values (if they exist)
+         uiValue = Number(rangeField.value) == 0 && (rangeUiMetaData.textContent).search(/zero_is_/i) != -1 ? ucfirst(metaDataToUi) : uiValue;
        
-         rangeTooltip.style.right = (positionOffset - refinedPosition) + 'px';
+         rangeTooltip.innerHTML = `<span>${uiValue}</span>`;
        
-         rangeTooltip.innerHTML = `<span>${range.value}</span>`;
+         rangeValue.innerHTML = `${uiValue}`;
        
-         rangeValue.innerHTML = `${range.value}`;
-       
-         range.style.backgroundColor = '#F7931A';
+         rangeField.style.backgroundColor = '#F7931A';
          
          rangeMin.classList.remove("light_sea_green");
          rangeValue.classList.remove("light_sea_green");
@@ -761,7 +828,15 @@ nav_menu('.user-nav');
          rangeMin.classList.add("bitcoin");
          rangeValue.classList.add("bitcoin");
          rangeMax.classList.add("bitcoin");
-       
+            	     
+            	     
+             // Wait 0.7 seconds before resetting as not recently updated
+             // (so we don't endlessly loop)
+		   setTimeout(function(){
+		   still_updating = false;
+		   }, 700);
+				
+         
          };
      
          
@@ -770,7 +845,7 @@ nav_menu('.user-nav');
               
          rangeTooltip.innerHTML = ``;
        
-         range.style.backgroundColor = 'lightseagreen';
+         rangeField.style.backgroundColor = 'lightseagreen';
          
          rangeMin.classList.toggle("bitcoin");
          rangeValue.classList.toggle("bitcoin");
@@ -787,35 +862,11 @@ nav_menu('.user-nav');
       
       document.addEventListener("DOMContentLoaded", setValue);
      
-      range.addEventListener('input', setValue);
+      rangeField.addEventListener('input', setValue);
      
-      range.addEventListener('blur', rangeOnblur);
+      rangeField.addEventListener('blur', rangeOnblur);
      
       });
-     
-     
-     // Get array of all range sections to target
-     range_sections = document.querySelectorAll('.admin_range_fields');
-     
-     
-     // Process all the range sections title CSS / etc
-     range_sections.forEach(function(range_section) {
-      
-     var rangeTitle = range_section.getElementsByTagName('div')[0];
-      
-     var rangeWrap = range_section.getElementsByTagName('div')[1];
-      
-     var range = range_section.children[1].getElementsByTagName('input')[0];
-      
-     var rangeMin = range_section.children[1].getElementsByTagName('div')[1];
-      
-     var rangeMax = range_section.children[1].getElementsByTagName('div')[2];
-     
-     var contentWidth = range.offsetWidth + rangeMin.offsetWidth + rangeMax.offsetWidth;
-     
-     rangeTitle.style.left = (rangeWrap.offsetWidth - contentWidth) + 'px';
-     
-     });
      
      
 	/////////////////////////////////////////////////////////////////////////////////////////////////////

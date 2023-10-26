@@ -132,8 +132,6 @@ var admin_iframe_load;
 
 var range_inputs;
 
-var range_sections;
-
 var iframe_font_val;
 
 var iframe_height_adjuster;

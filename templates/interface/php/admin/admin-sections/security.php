@@ -238,18 +238,18 @@ $admin_render_settings['login_alert']['is_notes'] = '(see "External APIs" sectio
                                                          
 ////////////////////////////////////////////////////////////////////////////////////////////////
 
-
-$loop = 1;
-$loop_max = 6;
-while ( $loop <= $loop_max ) {
      
-$admin_render_settings['admin_cookie_expires']['is_select']['is_assoc'][] = array(
-                                                                       'key' => $loop,
-                                                                       'val' => 'After ' . $loop . ' Hours',
-                                                                      );
-                                                                      
-$loop = $loop + 1;
-}
+$admin_render_settings['admin_cookie_expires']['is_range'] = true;
+
+$admin_render_settings['admin_cookie_expires']['range_min'] = 1;
+
+$admin_render_settings['admin_cookie_expires']['range_max'] = 6;
+
+$admin_render_settings['admin_cookie_expires']['range_step'] = 1;
+
+$admin_render_settings['admin_cookie_expires']['range_ui_prefix'] = 'After ';
+
+$admin_render_settings['admin_cookie_expires']['range_ui_suffix'] = ' Hours';
 
 
 ////////////////////////////////////////////////////////////////////////////////////////////////
@@ -287,37 +287,30 @@ $admin_render_settings['access_control_origin']['is_notes'] = '"Strict" #CAN BRE
 
 ////////////////////////////////////////////////////////////////////////////////////////////////
 
+     
+$admin_render_settings['captcha_text_contrast']['is_range'] = true;
 
-$loop = -35;
-$loop_max = 35;
-while ( $loop <= $loop_max ) {
-     
-$loop_key = ( $loop >= 0 ? '+' . $loop : $loop );
-     
-$admin_render_settings['captcha_text_contrast']['is_select']['is_assoc'][] = array(
-                                                                       'key' => $loop,
-                                                                       'val' => $loop_key,
-                                                                      );
-                                                                      
-$loop = $loop + 1;
-unset($loop_key);
-}
+$admin_render_settings['captcha_text_contrast']['range_min'] = -35;
+
+$admin_render_settings['captcha_text_contrast']['range_max'] = 35;
+
+$admin_render_settings['captcha_text_contrast']['range_step'] = 1;
+
+$admin_render_settings['captcha_text_contrast']['range_ui_prefix'] = '+';
                                                          
                                                          
 ////////////////////////////////////////////////////////////////////////////////////////////////
 
-
-$loop = 0;
-$loop_max = 35;
-while ( $loop <= $loop_max ) {
      
-$admin_render_settings['captcha_text_angle']['is_select']['is_assoc'][] = array(
-                                                                       'key' => $loop,
-                                                                       'val' => $loop . ' degrees Maximum',
-                                                                      );
-                                                                      
-$loop = $loop + 1;
-}
+$admin_render_settings['captcha_text_angle']['is_range'] = true;
+
+$admin_render_settings['captcha_text_angle']['range_min'] = 0;
+
+$admin_render_settings['captcha_text_angle']['range_max'] = 35;
+
+$admin_render_settings['captcha_text_angle']['range_step'] = 1;
+
+$admin_render_settings['captcha_text_angle']['range_ui_suffix'] = ' degrees Maximum';
 
 
 ////////////////////////////////////////////////////////////////////////////////////////////////

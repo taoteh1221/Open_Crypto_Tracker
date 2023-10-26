@@ -624,7 +624,7 @@ var $ct_array = array();
   
   function backup_archive($backup_prefix, $backup_target, $interval, $password='no') {
   
-  global $ct, $ext_zip;
+  global $ct;
   
   
 	  // With offset, to try keeping daily recurrences at same exact runtime (instead of moving up the runtime daily)
@@ -645,11 +645,11 @@ var $ct_array = array();
           }
           else {
            
-          $backup_file = $backup_prefix . '_'.date( "Y-M-d", time() ).'_'.$secure_128bit_hash.'.zip';
+          $backup_file = $backup_prefix . '_' . $ct['year_month_day'] . '_' . $secure_128bit_hash.'.zip';
           $backup_dest = $ct['base_dir'] . '/cache/secured/backups/' . $backup_file;
            
           // Zip archive
-          $backup_results = $ext_zip->zip_recursively($backup_target, $backup_dest, $password, ZipArchive::CREATE);
+          $backup_results = $ct['ext_zip']->zip_recursively($backup_target, $backup_dest, $password, ZipArchive::CREATE);
            
            
               if ( $backup_results == 'done' ) {

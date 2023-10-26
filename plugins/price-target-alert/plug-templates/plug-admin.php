@@ -41,18 +41,20 @@ $admin_render_settings['ui_name']['is_readonly'] = 'Developer setting only';
 
 ////////////////////////////////////////////////////////////////////////////////////////////////
 
-
-$loop = 0;
-$loop_max = 360;
-while ( $loop <= $loop_max ) {
      
-$admin_render_settings['alerts_frequency_maximum']['is_select']['is_assoc'][] = array(
-                                                                                      'key' => $loop,
-                                                                                      'val' => ( $loop == 0 ? 'Unlimited' : 'Every ' . $loop . ' Minutes'),
-                                                                                     );
-                                                                      
-$loop = $loop + 15;
-}
+$admin_render_settings['alerts_frequency_maximum']['is_range'] = true;
+
+$admin_render_settings['alerts_frequency_maximum']['range_ui_meta_data'] = 'zero_is_unlimited';
+
+$admin_render_settings['alerts_frequency_maximum']['range_min'] = 0;
+
+$admin_render_settings['alerts_frequency_maximum']['range_max'] = 360;
+
+$admin_render_settings['alerts_frequency_maximum']['range_step'] = 15;
+
+$admin_render_settings['alerts_frequency_maximum']['range_ui_prefix'] = 'Every ';
+
+$admin_render_settings['alerts_frequency_maximum']['range_ui_suffix'] = ' Minutes';
 
 
 ////////////////////////////////////////////////////////////////////////////////////////////////

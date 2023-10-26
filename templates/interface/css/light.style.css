@@ -14,7 +14,7 @@ color: #000;
 }
 
 
-input:not(.range-style), textarea {
+input:not(.range-field), textarea {
 background-color: white;
 }
 

@@ -5,6 +5,14 @@
 /////////////////////////////////////////////////////////////
 
 
+function ucfirst(string) {
+    return string.charAt(0).toUpperCase() + string.slice(1);
+}
+
+
+/////////////////////////////////////////////////////////////
+
+
 function force_2_digits(num) {
 return ("0" + num).slice(-2);
 }
@@ -1411,113 +1419,6 @@ return render;
 /////////////////////////////////////////////////////////////
 
 
-function background_tasks_check() {
-        
-        
-     if ( feeds_loading_check() == 'done' && charts_loading_check() == 'done' && cron_run_check() == 'done' ) {
-          
-     all_tasks_initial_load = false; // Unset initial bg tasks loading flag
-		    
-	$("#background_loading").hide(250); // 0.25 seconds
-         	
-     clearTimeout(background_tasks_recheck);
-    	
-     background_tasks_status = 'done';
-		
-         	// Run setting scroll position AGAIN if we are on the news / charts page,
-         	// as we start out with no scroll height before the news feeds / price charts load
-         	// SKIP IF THIS IS JUST THE EMULATED CRON CHECKING EVERY MINUTE (so we don't reset the scroll position every minute)
-         	if ( !emulated_cron_task_only && $(location).attr('hash') == '#news' || !emulated_cron_task_only && $(location).attr('hash') == '#charts' ) {
-         	set_scroll_position(); 
-         	}
-		
-     }
-	else {
-	     
-	     // If only emulated cron background task is running AFTER initial page load, flag as such
-	     // (so we don't reset the scroll position every minute)
-	     if ( !all_tasks_initial_load && feeds_loading_check() == 'done' && charts_loading_check() == 'done' && cron_run_check() != 'done' ) {
-	     emulated_cron_task_only = true;
-	     }
-		    
-	background_tasks_recheck = setTimeout(background_tasks_check, 1000); // Re-check every 1 seconds (in milliseconds)
-	
-    	background_tasks_status = 'wait';
-    
-     }
-		
-    	
-//console.log('background_tasks_check: ' + background_tasks_status);
-
-}
-
-
-/////////////////////////////////////////////////////////////
-
-
-window.pw_prompt = function(options) {
-    
-promptCount = 0;
-    
-    var lm = options.lm || "Password:",
-        bm = options.bm || "Submit";
-        
-    if(!options.callback) { 
-        alert("No callback function provided! Please provide one.") 
-    };
-                   
-    var prompt = document.createElement("div");
-    prompt.className = "pw_prompt";
-    prompt.style.setProperty("font-size", set_font_size + 'em', "important");
-    prompt.style.width = Math.round(330 * set_font_size) + 'px';
-    
-    var submit = function() {
-        options.callback(input.value);
-        document.body.removeChild(prompt);
-    };
-
-    var close_modal = document.createElement("span");
-    close_modal.innerHTML = "X";
-    close_modal.title = "Close";
-    close_modal.className = "close_prompt";
-    
-       close_modal.onclick = function() {
-       prompt.remove();
-       return;
-       };
-    
-    prompt.appendChild(close_modal);
-
-    var label = document.createElement("label");
-    label.innerHTML = lm;
-    label.for = "pw_prompt_input" + (++promptCount);
-    prompt.appendChild(label);
-
-    var input = document.createElement("input");
-    input.id = "pw_prompt_input" + (promptCount);
-    input.type = "password";
-    input.addEventListener("keyup", function(e) {
-        if (e.keyCode == 13) submit();
-    }, false);
-    prompt.appendChild(input);
-
-    var button = document.createElement("button");
-    button.textContent = bm;
-    button.addEventListener("click", submit, false);
-    prompt.appendChild(button);
-
-    document.body.appendChild(prompt);
-    
-	setTimeout(function(){
-     $(input).filter(':visible').focus();
-	}, 1000);
-    
-};
-
-
-/////////////////////////////////////////////////////////////
-
-
 function sats_val(sat_increase) {
 
 to_trade_amnt = Number(document.getElementById("to_trade_amnt").value);
@@ -1605,6 +1506,175 @@ badColor = "#ff4747";
 	}
 
 }
+
+
+/////////////////////////////////////////////////////////////
+
+
+function background_tasks_check() {
+        
+        
+     if ( feeds_loading_check() == 'done' && charts_loading_check() == 'done' && cron_run_check() == 'done' ) {
+          
+     all_tasks_initial_load = false; // Unset initial bg tasks loading flag
+		    
+	$("#background_loading").hide(250); // 0.25 seconds
+         	
+     clearTimeout(background_tasks_recheck);
+    	
+     background_tasks_status = 'done';
+		
+         	// Run setting scroll position AGAIN if we are on the news / charts page,
+         	// as we start out with no scroll height before the news feeds / price charts load
+         	// SKIP IF THIS IS JUST THE EMULATED CRON CHECKING EVERY MINUTE (so we don't reset the scroll position every minute)
+         	if ( !emulated_cron_task_only && $(location).attr('hash') == '#news' || !emulated_cron_task_only && $(location).attr('hash') == '#charts' ) {
+         	set_scroll_position(); 
+         	}
+		
+     }
+	else {
+	     
+	     // If only emulated cron background task is running AFTER initial page load, flag as such
+	     // (so we don't reset the scroll position every minute)
+	     if ( !all_tasks_initial_load && feeds_loading_check() == 'done' && charts_loading_check() == 'done' && cron_run_check() != 'done' ) {
+	     emulated_cron_task_only = true;
+	     }
+		    
+	background_tasks_recheck = setTimeout(background_tasks_check, 1000); // Re-check every 1 seconds (in milliseconds)
+	
+    	background_tasks_status = 'wait';
+    
+     }
+		
+    	
+//console.log('background_tasks_check: ' + background_tasks_status);
+
+}
+
+
+/////////////////////////////////////////////////////////////
+
+
+function custom_range_steps(elm, prev_val) {
+
+// Remove any standard step attribute
+elm.removeAttribute('step');
+
+prev_val = Number(prev_val);
+
+elm.value = Number(elm.value);
+
+var datalist = document.getElementById( elm.getAttribute('list') ).options;
+
+var return_array = new Object();
+
+var step_array = [];
+
+
+  for(i=0; i<datalist.length;i++){
+  step_array.push( Number(datalist[i].value) );
+  }
+
+
+return_array['steps_total'] = step_array.length - 1; // Offset because of first position of zero
+
+
+  if ( prev_val < elm.value ) {
+  
+       for (custom_steps = 0; custom_steps < step_array.length; custom_steps++) {
+       
+           if ( step_array[custom_steps - 1] == prev_val && step_array[custom_steps] != prev_val || step_array[custom_steps] >= elm.value ) {
+           elm.value = Number(step_array[custom_steps]);
+           return_array['prev_val'] = step_array[custom_steps];
+           return_array['current_increment'] = custom_steps;
+           break; // We found our target, so stop the loop
+           }
+         
+       }
+  
+  }
+  else if ( prev_val > elm.value ) {
+  
+       for (custom_steps = step_array.length; custom_steps >= 0; custom_steps--) {
+       
+           if ( step_array[custom_steps + 1] == prev_val && step_array[custom_steps] != prev_val || step_array[custom_steps] <= elm.value ) {
+           elm.value = Number(step_array[custom_steps]);
+           return_array['prev_val'] = step_array[custom_steps];
+           return_array['current_increment'] = custom_steps;
+           break; // We found our target, so stop the loop
+           }
+         
+       }
+  
+  }
+ 
+  
+return return_array;
+
+}
+
+
+/////////////////////////////////////////////////////////////
+
+
+window.pw_prompt = function(options) {
+    
+promptCount = 0;
+    
+    var lm = options.lm || "Password:",
+        bm = options.bm || "Submit";
+        
+    if(!options.callback) { 
+        alert("No callback function provided! Please provide one.") 
+    };
+                   
+    var prompt = document.createElement("div");
+    prompt.className = "pw_prompt";
+    prompt.style.setProperty("font-size", set_font_size + 'em', "important");
+    prompt.style.width = Math.round(330 * set_font_size) + 'px';
+    
+    var submit = function() {
+        options.callback(input.value);
+        document.body.removeChild(prompt);
+    };
+
+    var close_modal = document.createElement("span");
+    close_modal.innerHTML = "X";
+    close_modal.title = "Close";
+    close_modal.className = "close_prompt";
+    
+       close_modal.onclick = function() {
+       prompt.remove();
+       return;
+       };
+    
+    prompt.appendChild(close_modal);
+
+    var label = document.createElement("label");
+    label.innerHTML = lm;
+    label.for = "pw_prompt_input" + (++promptCount);
+    prompt.appendChild(label);
+
+    var input = document.createElement("input");
+    input.id = "pw_prompt_input" + (promptCount);
+    input.type = "password";
+    input.addEventListener("keyup", function(e) {
+        if (e.keyCode == 13) submit();
+    }, false);
+    prompt.appendChild(input);
+
+    var button = document.createElement("button");
+    button.textContent = bm;
+    button.addEventListener("click", submit, false);
+    prompt.appendChild(button);
+
+    document.body.appendChild(prompt);
+    
+	setTimeout(function(){
+     $(input).filter(':visible').focus();
+	}, 1000);
+    
+};
 
 
 /////////////////////////////////////////////////////////////

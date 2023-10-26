@@ -112,7 +112,7 @@ input[type=range] {
 display: inline;
   -webkit-appearance: none;
   margin-top: 1.5em;
-  min-width: 70%;
+  min-width: 80%;
     margin-left: 0px !important;
     margin-right: 0px !important;
     padding-left: 0px !important;
@@ -124,7 +124,7 @@ input[type=range]:focus {
 /***** Chrome, Safari, Opera, and Edge Chromium *****/
 input[type=range]::-webkit-slider-runnable-track {
   width: 100%;
-  height: 0.55em;
+  height: 1.3em !important;
   cursor: pointer;
   animate: 0.2s;
   border-radius: 1.5em;
@@ -132,14 +132,14 @@ input[type=range]::-webkit-slider-runnable-track {
 /******** Firefox ********/
 input[type=range]::-moz-range-track {
   width: 100%;
-  height: 0.90em;
+  height: 1.3em !important;
   cursor: pointer;
   animate: 0.2s;
   border-radius: 1.5em;
 }
 input[type=range]::-webkit-slider-thumb {
-  height: 1.5em;
-  width: 1.5em;
+  height: 2.35em;
+  width: 2.35em;
   border-radius: 50%;
   box-shadow: 0 0 0.4em 0 rgba(0,0,0, 1);
   cursor: pointer;
@@ -147,8 +147,8 @@ input[type=range]::-webkit-slider-thumb {
   margin-top: -0.55em;
 }
 input[type=range]::-moz-range-thumb {
-  height: 1.5em;
-  width: 1.5em;
+  height: 2.35em;
+  width: 2.35em;
   border-radius: 50%;
   box-shadow: 0 0 0.4em 0 rgba(0,0,0, 1);
   cursor: pointer;
@@ -241,7 +241,7 @@ CLASSES
 }
 .range-min, .range-max{
 display: inline;
-  min-width: 15%;
+  min-width: 10%;
     margin-left: 0px !important;
     margin-right: 0px !important;
     padding-left: 0px !important;
@@ -251,6 +251,9 @@ display: inline;
 position: absolute;
 width: 100%;
 text-align: center;
+}
+.range-ui-prefix, .range-ui-suffix, .range-ui-meta-data{
+display: none;
 }
 
 
@@ -770,28 +773,35 @@ text-decoration: underline !important;
 
 
 .pretty_text_fields {
-min-width: 500px;
+min-width: 550px;
 max-width: 95%;
-text-align: right;
+text-align: left;
 width: fit-content;
 margin: auto;
 margin-left: 1.5em;
 }
 
-.pretty_text_fields p, .pretty_text_fields .admin_range_fields {
+.pretty_text_fields p {
 white-space: nowrap;
-margin-top: 1.0em;
-margin-bottom: 2.0em;
+margin-top: 2.5em;
+margin-bottom: 2.5em;
+}
+
+.pretty_text_fields .admin_range_fields {
+white-space: nowrap;
+margin-top: 3.75em;
+margin-bottom: 3.75em;
 }
 
 .admin_range_fields {
-min-width: 500px;
+position: relative;
+min-width: 100%;
 max-width: 100%;
 }
 
 .admin_range_fields .setting_title {
 position: absolute;
-padding-left: 1em;
+top: -1em;
 font-weight: bold;
 }
 
@@ -926,14 +936,24 @@ i.gg-eye, i.gg-eye-alt {
 
 
 .password-container{
-  width: auto;
+  width: fit-content;
   position: relative;
   display: block;
-  text-align: right;
+  text-align: left;
 }
 .password-container input[type="password"],
 .password-container input[type="text"]{
-/* padding-right: 30px; */
+padding-right: 50px !important;
+min-width: 300px !important;
+}
+
+
+.password-container .admin_settings_notes {
+     display: inline-block;
+   box-sizing: border-box;
+   max-width: 400px !important;
+white-space: normal !important;
+line-height: 1.7em;
 }
 
 
