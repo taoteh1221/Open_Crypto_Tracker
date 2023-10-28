@@ -174,6 +174,12 @@ https://zksync.io/api/v0.1.html (KEEP AN EYE OUT FOR V2 DOCS AS WELL)
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
+Check json array structure is intact after MANY end user admin interface updates. Also re-test the upgrade button in general section.
+
+
+See why jup ag price charts are no longer saving data.
+
+
 Modify the "app has been upgraded" interface alert, as we no longer wait AT ALL for scheduled maintenance to update the CACHED app version number (we update it instantly once a new app version is detected). Save a "show message" value to the vars cache, like we do for upgrade alerts (and mark as "don't show" after it has shown).
 
 
@@ -193,6 +199,9 @@ Test out the new iframe-reloading HALT mechanism (if a halt was called on updati
 
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~DO AN APP RELEASE AT THIS POINT IN THIS LIST~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+We should not "default to" a text input in the admin area, as submitting updated data could corrupt certain settings under these circumstances. We should default to a NON FORM ELEMENT, like a large bright red span, saying that field name. That way we still never miss a setting by accident, and if it shows on the page, it should also DISABLE SUBMITTING THE FORM DATA.
 
 
 DO ANOTHER CODE REVIEW OF THE ENTIRE ADMIN CLASS FUNCTIONS.
