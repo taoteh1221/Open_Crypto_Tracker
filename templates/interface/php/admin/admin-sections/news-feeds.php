@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2014-2023 GPLv3, Open Crypto Tracker by Mike Kilday: Mike@DragonFrugal.com
+ * Copyright 2014-2024 GPLv3, Open Crypto Tracker by Mike Kilday: Mike@DragonFrugal.com (leave this copyright / attribution intact in ALL forks / copies!)
  */
 
 
@@ -35,7 +35,7 @@ $admin_render_settings['entries_to_show']['range_min'] = 5;
 
 $admin_render_settings['entries_to_show']['range_max'] = 30;
 
-$admin_render_settings['entries_to_show']['range_step'] = 1;
+$admin_render_settings['entries_to_show']['range_step'] = 5;
 
 $admin_render_settings['entries_to_show']['range_ui_suffix'] = ' Entries Per-Feed';
 
@@ -60,6 +60,42 @@ $admin_render_settings['mark_as_new']['range_ui_suffix'] = ' Days Old';
 
 ////////////////////////////////////////////////////////////////////////////////////////////////
 
+     
+$admin_render_settings['news_feed_email_frequency']['is_range'] = true;
+
+$admin_render_settings['news_feed_email_frequency']['range_ui_meta_data'] = 'zero_is_disabled';
+
+$admin_render_settings['news_feed_email_frequency']['range_min'] = 0;
+
+$admin_render_settings['news_feed_email_frequency']['range_max'] = 30;
+
+$admin_render_settings['news_feed_email_frequency']['range_step'] = 1;
+
+$admin_render_settings['news_feed_email_frequency']['range_ui_prefix'] = 'Every ';
+
+$admin_render_settings['news_feed_email_frequency']['range_ui_suffix'] = ' Days';
+
+
+////////////////////////////////////////////////////////////////////////////////////////////////
+
+     
+$admin_render_settings['news_feed_email_entries_include']['is_range'] = true;
+
+$admin_render_settings['news_feed_email_entries_include']['range_min'] = 5;
+
+$admin_render_settings['news_feed_email_entries_include']['range_max'] = 30;
+
+$admin_render_settings['news_feed_email_entries_include']['range_step'] = 5;
+
+$admin_render_settings['news_feed_email_entries_include']['range_ui_prefix'] = 'Include ';
+
+$admin_render_settings['news_feed_email_entries_include']['range_ui_suffix'] = ' Entries MAXIMUM Per-News-Feed';
+
+$admin_render_settings['news_feed_email_entries_include']['is_notes'] = '(only includes NEW entries since the previous email)';
+
+
+////////////////////////////////////////////////////////////////////////////////////////////////
+
 
 $admin_render_settings['news_feed_cache_min_max']['is_notes'] = 'IN MINUTES. This format MUST be used: number_min,number_max';
 
@@ -73,7 +109,7 @@ $admin_render_settings['news_feed_batched_maximum']['range_min'] = 15;
 
 $admin_render_settings['news_feed_batched_maximum']['range_max'] = 30;
 
-$admin_render_settings['news_feed_batched_maximum']['range_step'] = 1;
+$admin_render_settings['news_feed_batched_maximum']['range_step'] = 5;
 
 $admin_render_settings['news_feed_batched_maximum']['range_ui_suffix'] = ' Batched Feeds';
 
@@ -87,9 +123,9 @@ $admin_render_settings['news_feed_precache_maximum']['is_range'] = true;
 
 $admin_render_settings['news_feed_precache_maximum']['range_min'] = 25;
 
-$admin_render_settings['news_feed_precache_maximum']['range_max'] = 50;
+$admin_render_settings['news_feed_precache_maximum']['range_max'] = 75;
 
-$admin_render_settings['news_feed_precache_maximum']['range_step'] = 1;
+$admin_render_settings['news_feed_precache_maximum']['range_step'] = 5;
 
 $admin_render_settings['news_feed_precache_maximum']['range_ui_suffix'] = ' Pre-Caches Per-Run';
 

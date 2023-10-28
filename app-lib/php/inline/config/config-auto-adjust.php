@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2014-2023 GPLv3, Open Crypto Tracker by Mike Kilday: Mike@DragonFrugal.com
+ * Copyright 2014-2024 GPLv3, Open Crypto Tracker by Mike Kilday: Mike@DragonFrugal.com (leave this copyright / attribution intact in ALL forks / copies!)
  */
 
 
@@ -21,12 +21,12 @@ $ct['conf']['gen']['bitcoin_primary_exchange'] = $ct['var']->auto_correct_str($c
 $ct['conf']['power']['log_verbosity'] = $ct['var']->auto_correct_str($ct['conf']['power']['log_verbosity'], 'lower');
 $ct['conf']['gen']['default_theme'] = $ct['var']->auto_correct_str($ct['conf']['gen']['default_theme'], 'lower');
 $ct['conf']['gen']['primary_marketcap_site'] = $ct['var']->auto_correct_str($ct['conf']['gen']['primary_marketcap_site'], 'lower');
-$ct['conf']['comms']['price_alert_block_volume_error'] = $ct['var']->auto_correct_str($ct['conf']['comms']['price_alert_block_volume_error'], 'lower');
+$ct['conf']['charts_alerts']['price_alert_block_volume_error'] = $ct['var']->auto_correct_str($ct['conf']['charts_alerts']['price_alert_block_volume_error'], 'lower');
 $ct['conf']['sec']['remote_api_strict_ssl'] = $ct['var']->auto_correct_str($ct['conf']['sec']['remote_api_strict_ssl'], 'lower');
 $ct['conf']['gen']['asset_charts_toggle'] = $ct['var']->auto_correct_str($ct['conf']['gen']['asset_charts_toggle'], 'lower');
-$ct['conf']['comms']['proxy_alert'] = $ct['var']->auto_correct_str($ct['conf']['comms']['proxy_alert'], 'lower');
-$ct['conf']['comms']['proxy_alert_runtime'] = $ct['var']->auto_correct_str($ct['conf']['comms']['proxy_alert_runtime'], 'lower');
-$ct['conf']['comms']['proxy_alert_checkup_ok'] = $ct['var']->auto_correct_str($ct['conf']['comms']['proxy_alert_checkup_ok'], 'lower');
+$ct['conf']['proxy']['proxy_alert'] = $ct['var']->auto_correct_str($ct['conf']['proxy']['proxy_alert'], 'lower');
+$ct['conf']['proxy']['proxy_alert_runtime'] = $ct['var']->auto_correct_str($ct['conf']['proxy']['proxy_alert_runtime'], 'lower');
+$ct['conf']['proxy']['proxy_alert_checkup_ok'] = $ct['var']->auto_correct_str($ct['conf']['proxy']['proxy_alert_checkup_ok'], 'lower');
 
 
 // Cleaning charts/alerts array
@@ -266,7 +266,7 @@ if ( is_array($ct['conf']['assets']) ) {
 
 // Better decimal support for these vars...
 $ct['conf']['power']['system_stats_first_chart_maximum_scale'] = $ct['var']->num_to_str($ct['conf']['power']['system_stats_first_chart_maximum_scale']); 
-$ct['conf']['comms']['price_alert_threshold'] = $ct['var']->num_to_str($ct['conf']['comms']['price_alert_threshold']); 
+$ct['conf']['charts_alerts']['price_alert_threshold'] = $ct['var']->num_to_str($ct['conf']['charts_alerts']['price_alert_threshold']); 
 $ct['conf']['power']['hivepower_yearly_interest'] = $ct['var']->num_to_str($ct['conf']['power']['hivepower_yearly_interest']); 
 
 

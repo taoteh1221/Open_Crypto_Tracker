@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2014-2023 GPLv3, Open Crypto Tracker by Mike Kilday: Mike@DragonFrugal.com
+ * Copyright 2014-2024 GPLv3, Open Crypto Tracker by Mike Kilday: Mike@DragonFrugal.com (leave this copyright / attribution intact in ALL forks / copies!)
  */
 
 
@@ -71,191 +71,13 @@ $admin_render_settings['upgrade_alert_reminder']['is_range'] = true;
 
 $admin_render_settings['upgrade_alert_reminder']['range_min'] = 1;
 
-$admin_render_settings['upgrade_alert_reminder']['range_max'] = 90;
+$admin_render_settings['upgrade_alert_reminder']['range_max'] = 30;
 
 $admin_render_settings['upgrade_alert_reminder']['range_step'] = 1;
 
 $admin_render_settings['upgrade_alert_reminder']['range_ui_prefix'] = 'Every ';
 
 $admin_render_settings['upgrade_alert_reminder']['range_ui_suffix'] = ' Days';
-
-
-////////////////////////////////////////////////////////////////////////////////////////////////
-
-     
-$admin_render_settings['news_feed_email_frequency']['is_range'] = true;
-
-$admin_render_settings['news_feed_email_frequency']['range_ui_meta_data'] = 'zero_is_disabled';
-
-$admin_render_settings['news_feed_email_frequency']['range_min'] = 0;
-
-$admin_render_settings['news_feed_email_frequency']['range_max'] = 30;
-
-$admin_render_settings['news_feed_email_frequency']['range_step'] = 1;
-
-$admin_render_settings['news_feed_email_frequency']['range_ui_prefix'] = 'Every ';
-
-$admin_render_settings['news_feed_email_frequency']['range_ui_suffix'] = ' Days';
-
-
-////////////////////////////////////////////////////////////////////////////////////////////////
-
-     
-$admin_render_settings['news_feed_email_entries_show']['is_range'] = true;
-
-$admin_render_settings['news_feed_email_entries_show']['range_min'] = 1;
-
-$admin_render_settings['news_feed_email_entries_show']['range_max'] = 30;
-
-$admin_render_settings['news_feed_email_entries_show']['range_step'] = 1;
-
-$admin_render_settings['news_feed_email_entries_show']['range_ui_suffix'] = ' Entries Per-Feed';
-
-
-////////////////////////////////////////////////////////////////////////////////////////////////
-
-
-$admin_render_settings['price_alert']['is_select'] = array(
-                                                          'off',
-                                                          'email',
-                                                          'text',
-                                                          'notifyme',
-                                                          'telegram',
-                                                          'all',
-                                                         );
-
-$admin_render_settings['price_alert']['is_notes'] = '(see "External APIs" section for using any comms-related APIs)';
-                                                         
-                                                         
-////////////////////////////////////////////////////////////////////////////////////////////////
-
-     
-$admin_render_settings['price_alert_threshold']['is_range'] = true;
-
-$admin_render_settings['price_alert_threshold']['range_ui_meta_data'] = 'zero_is_disabled';
-
-$admin_render_settings['price_alert_threshold']['range_min'] = 0;
-
-$admin_render_settings['price_alert_threshold']['range_max'] = 100;
-
-$admin_render_settings['price_alert_threshold']['range_step'] = 0.25;
-
-$admin_render_settings['price_alert_threshold']['range_ui_suffix'] = '% Price Change';
-
-
-////////////////////////////////////////////////////////////////////////////////////////////////
-
-     
-$admin_render_settings['price_alert_frequency_maximum']['is_range'] = true;
-
-$admin_render_settings['price_alert_frequency_maximum']['range_ui_meta_data'] = 'zero_is_unlimited';
-
-$admin_render_settings['price_alert_frequency_maximum']['range_min'] = 0;
-
-$admin_render_settings['price_alert_frequency_maximum']['range_max'] = 72;
-
-$admin_render_settings['price_alert_frequency_maximum']['range_step'] = 1;
-
-$admin_render_settings['price_alert_frequency_maximum']['range_ui_prefix'] = 'Every ';
-
-$admin_render_settings['price_alert_frequency_maximum']['range_ui_suffix'] = ' Hours';
-
-
-////////////////////////////////////////////////////////////////////////////////////////////////
-
-
-$admin_render_settings['price_alert_block_volume_error']['is_radio'] = array(
-                                                                              'off',
-                                                                              'on',
-                                                                             );
-
-
-////////////////////////////////////////////////////////////////////////////////////////////////
-
-     
-$admin_render_settings['price_alert_minimum_volume']['is_range'] = true;
-
-$admin_render_settings['price_alert_minimum_volume']['range_ui_meta_data'] = 'zero_is_disabled';
-
-$admin_render_settings['price_alert_minimum_volume']['range_min'] = 0;
-
-$admin_render_settings['price_alert_minimum_volume']['range_max'] = 500000;
-
-$admin_render_settings['price_alert_minimum_volume']['range_step'] = 1000;
-
-$admin_render_settings['price_alert_minimum_volume']['range_ui_prefix'] = $ct['conf']['power']['bitcoin_currency_markets'][ $ct['conf']['gen']['bitcoin_primary_currency_pair'] ];
-
-$admin_render_settings['price_alert_minimum_volume']['range_ui_suffix'] = ' (' . strtoupper($ct['conf']['gen']['bitcoin_primary_currency_pair']) . ')';
-
-
-////////////////////////////////////////////////////////////////////////////////////////////////
-
-     
-$admin_render_settings['logs_email']['is_range'] = true;
-
-$admin_render_settings['logs_email']['range_ui_meta_data'] = 'zero_is_disabled';
-
-$admin_render_settings['logs_email']['range_min'] = 0;
-
-$admin_render_settings['logs_email']['range_max'] = 30;
-
-$admin_render_settings['logs_email']['range_step'] = 1;
-
-$admin_render_settings['logs_email']['range_ui_prefix'] = 'Every ';
-
-$admin_render_settings['logs_email']['range_ui_suffix'] = ' Days';
-
-
-////////////////////////////////////////////////////////////////////////////////////////////////
-
-
-$admin_render_settings['proxy_alert']['is_select'] = array(
-                                                          'off',
-                                                          'email',
-                                                          'text',
-                                                          'notifyme',
-                                                          'telegram',
-                                                          'all',
-                                                         );
-
-$admin_render_settings['proxy_alert']['is_notes'] = '(see "External APIs" section for using any comms-related APIs)';
-                                                         
-                                                         
-////////////////////////////////////////////////////////////////////////////////////////////////
-
-     
-$admin_render_settings['proxy_alert_frequency_maximum']['is_range'] = true;
-
-$admin_render_settings['proxy_alert_frequency_maximum']['range_ui_meta_data'] = 'zero_is_unlimited';
-
-$admin_render_settings['proxy_alert_frequency_maximum']['range_min'] = 0;
-
-$admin_render_settings['proxy_alert_frequency_maximum']['range_max'] = 72;
-
-$admin_render_settings['proxy_alert_frequency_maximum']['range_step'] = 1;
-
-$admin_render_settings['proxy_alert_frequency_maximum']['range_ui_prefix'] = 'Every ';
-
-$admin_render_settings['proxy_alert_frequency_maximum']['range_ui_suffix'] = ' Hours';
-
-
-////////////////////////////////////////////////////////////////////////////////////////////////
-
-
-$admin_render_settings['proxy_alert_runtime']['is_radio'] = array(
-                                                                    'cron',
-                                                                    'ui',
-                                                                    'all',
-                                                                   );
-
-
-////////////////////////////////////////////////////////////////////////////////////////////////
-
-
-$admin_render_settings['proxy_alert_checkup_ok']['is_radio'] = array(
-                                                                    'ignore',
-                                                                    'include',
-                                                                   );
 
 
 ////////////////////////////////////////////////////////////////////////////////////////////////
@@ -310,6 +132,24 @@ $admin_render_settings['to_mobile_text']['is_trim'] = true;
 $admin_render_settings['to_mobile_text']['text_field_size'] = 40;
 
 $admin_render_settings['to_mobile_text']['is_notes'] = 'Examples:<br />12223334444||virgin_us / 12223334444||skip_network_name<br />(available gateways can be found in the "Text Gateways" section)';
+
+
+////////////////////////////////////////////////////////////////////////////////////////////////
+
+     
+$admin_render_settings['logs_email']['is_range'] = true;
+
+$admin_render_settings['logs_email']['range_ui_meta_data'] = 'zero_is_disabled';
+
+$admin_render_settings['logs_email']['range_min'] = 0;
+
+$admin_render_settings['logs_email']['range_max'] = 30;
+
+$admin_render_settings['logs_email']['range_step'] = 1;
+
+$admin_render_settings['logs_email']['range_ui_prefix'] = 'Every ';
+
+$admin_render_settings['logs_email']['range_ui_suffix'] = ' Days';
 
 
 ////////////////////////////////////////////////////////////////////////////////////////////////

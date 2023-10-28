@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2014-2023 GPLv3, Open Crypto Tracker by Mike Kilday: Mike@DragonFrugal.com
+ * Copyright 2014-2024 GPLv3, Open Crypto Tracker by Mike Kilday: Mike@DragonFrugal.com (leave this copyright / attribution intact in ALL forks / copies!)
  */
 
 
@@ -47,6 +47,7 @@ $admin_render_settings['do_not_disturb']['is_notes'] = '(BLANK OUT TO DISABLE, 2
 
 
 foreach ( $ct['conf']['plug_conf'][$this_plug]['do_not_disturb'] as $key => $unused ) {
+$admin_render_settings['do_not_disturb']['is_subarray'][$key]['compact_margins'] = true;
 $admin_render_settings['do_not_disturb']['is_subarray'][$key]['is_text'] = true;
 $admin_render_settings['do_not_disturb']['is_subarray'][$key]['text_field_size'] = 6;
 }

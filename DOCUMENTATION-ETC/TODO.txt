@@ -82,6 +82,9 @@ GENERAL REMINDERS
 Always set bluefish to "5 spaces" as a tab indentation, and enable indentation of selected text. THE AMOUNT OF INDENTED SPACING IN FILES #CHANGES AUTOMATICALLY# WHEN "BLUEFISH => PREFERENCES => INITIAL DOCUMENT SETTINGS => TAB WIDTH" IS CHANGED, SO BE CAREFUL WHEN ADJUSTING!! PLEASE DO *NOT* USE REGULAR TAB INDENTATION (PLEASE ALWAYS USE MULTIPLE SPACES)!
 
 
+ALWAYS TEST UPGRADING on the previous release, TO ASSURE ANY REQUIRED CACHED CONFIG UPGRADING GOES SMOOTHLY!
+
+
 Try to prioritize building out the admin interface / responsive templates / language translation modules. Then it's the most useful for the maximum number of people as it can be going forward.
 
 
@@ -171,25 +174,19 @@ https://zksync.io/api/v0.1.html (KEEP AN EYE OUT FOR V2 DOCS AS WELL)
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
-There are a few remaining settings in the comms section, which should be moved over to the news feeds section.
-
-
-Validate news feeds settings interface input / all plugin settings interface inputs.
-
-
 Modify the "app has been upgraded" interface alert, as we no longer wait AT ALL for scheduled maintenance to update the CACHED app version number (we update it instantly once a new app version is detected). Save a "show message" value to the vars cache, like we do for upgrade alerts (and mark as "don't show" after it has shown).
 
 
 CACHE an md5 hash of all telegram settings combined, and only delete the chatroom data / refresh it if this md5 hash changes (like we do for light chart config). Otherwise you get a bad UX from endlessly getting alerts to re-enter "/start" in the chatroom EVERYTIME YOU UPDATE *ANY* ADMIN SETTINGS.
 
 
-There were a few bugs in the cached config upgrade / downgrade mechanism still (that I just fixed). Needs to be torture tested some more, to make sure the fixes are good, including bundled plugins.
+Validate news feeds settings interface input / all plugin settings interface inputs.
+
+
+Triple-check the cached config upgrade / downgrade mechanism with the bundled plugins.
 
 
 Triple-check adding / removing a plugin subdirectory, in regular AND high security mode, AND with plugin activation on AND off.
-
-
-RE-TEST ALL admin config interface settings, as we completely overhauled it to support subarrays and plugins. TEST IN FIREFOX TOO. ALSO DO A CODE REVIEW OF THE ENTIRE ADMIN CLASS FUNCTIONS.
 
 
 Test out the new iframe-reloading HALT mechanism (if a halt was called on updating the cached admin config), AND iframe reloading in general.
@@ -198,13 +195,13 @@ Test out the new iframe-reloading HALT mechanism (if a halt was called on updati
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~DO AN APP RELEASE AT THIS POINT IN THIS LIST~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 
+DO ANOTHER CODE REVIEW OF THE ENTIRE ADMIN CLASS FUNCTIONS.
+
+
 Add a 24 hour time picker, in the recurring reminder plugin settings interface.
 
 
 Have an "Export To Slideshow Crypto Ticker" link on the update portfolio page, which saves a JavaScript array of a user's portfolio, that can be 'dropped into' the main directory of Slideshow Crypto Ticker. Output (in ticker app) should be where trade volume usually is (replacing that). Reuse the 'Export portfolio to spreadsheet' logic for this (obviously with somewhat different output to the file). Maybe also auto-add markets (right in the output file, so they do not need to be added seperately into config.js), ONLY IF THEY DON'T EXIST YET IN THE TICKER APP'S CONFIG.JS FILE.
-
-
-Do the same thing for charts / alerts AND proxy config settings, that we did for the news feeds section. Move ALL relavent settings out of other sections into charts / alerts and proxy (INLUDING EVERYTHING RELATED IN THE COMMS SECTION), AND if needed reformat any key => val formats to be interface-friendly (like we had to do for the price target alert plugin).
 
 
 Consider using the array ordering mapper logic we built for the cached config upgrades, also in the queue_config_update() function. Then not only do we GUARANTEE consistant ordering of settings in the admin area, BUT we ALSO would have consistant array ordering in the cached config "UNDER THE HOOD"...WHICH MAKES APP DEVELOPMENT A BIT EASIER IN THE TEST / REVIEW DEPARTMENT. Different SUBARRAY values in the cached config should be fine, as we are only mapping the ROOT array keys that ALWAYS EXIST (NOT EVER REMOVABLE BY A USER IN THE INTERFACE).

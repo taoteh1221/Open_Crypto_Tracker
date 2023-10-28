@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2014-2023 GPLv3, Open Crypto Tracker by Mike Kilday: Mike@DragonFrugal.com
+ * Copyright 2014-2024 GPLv3, Open Crypto Tracker by Mike Kilday: Mike@DragonFrugal.com (leave this copyright / attribution intact in ALL forks / copies!)
  */
 
 
@@ -145,6 +145,38 @@ $admin_render_settings['google_fonts_api_key']['is_notes'] = '<a href="https://s
 
 ////////////////////////////////////////////////////////////////////////////////////////////////
 
+     
+$admin_render_settings['google_fonts_cache_time']['is_range'] = true;
+
+$admin_render_settings['google_fonts_cache_time']['range_min'] = 3;
+
+$admin_render_settings['google_fonts_cache_time']['range_max'] = 24;
+
+$admin_render_settings['google_fonts_cache_time']['range_step'] = 3;
+
+$admin_render_settings['google_fonts_cache_time']['range_ui_prefix'] = 'Refresh Font List Every ';
+
+$admin_render_settings['google_fonts_cache_time']['range_ui_suffix'] = ' Hours';
+
+
+////////////////////////////////////////////////////////////////////////////////////////////////
+
+     
+$admin_render_settings['coingecko_api_batched_maximum']['is_range'] = true;
+
+$admin_render_settings['coingecko_api_batched_maximum']['range_min'] = 25;
+
+$admin_render_settings['coingecko_api_batched_maximum']['range_max'] = 100;
+
+$admin_render_settings['coingecko_api_batched_maximum']['range_step'] = 25;
+
+$admin_render_settings['coingecko_api_batched_maximum']['range_ui_prefix'] = 'Batch-Request ';
+
+$admin_render_settings['coingecko_api_batched_maximum']['range_ui_suffix'] = ' Data Sets MAXIMUM';
+
+
+////////////////////////////////////////////////////////////////////////////////////////////////
+
 
 $admin_render_settings['coinmarketcap_api_key']['is_password'] = true;
 
@@ -182,6 +214,10 @@ $admin_render_settings['alphavantage_per_minute_limit']['range_min'] = 5;
 
 $admin_render_settings['alphavantage_per_minute_limit']['range_max'] = 1200;
 
+$admin_render_settings['alphavantage_per_minute_limit']['range_ui_prefix'] = 'MAXIMUM of ';
+
+$admin_render_settings['alphavantage_per_minute_limit']['range_ui_suffix'] = ' LIVE updates PER MINUTE';
+
 $admin_render_settings['alphavantage_per_minute_limit']['range_ui_meta_data'] = 'is_custom_steps';
      
 $admin_render_settings['alphavantage_per_minute_limit']['is_custom_steps'] = array(
@@ -198,7 +234,25 @@ $admin_render_settings['alphavantage_per_minute_limit']['range_min'] = $admin_re
 
 $admin_render_settings['alphavantage_per_minute_limit']['range_max'] = $admin_render_settings['alphavantage_per_minute_limit']['is_custom_steps'][ sizeof($admin_render_settings['alphavantage_per_minute_limit']['is_custom_steps']) - 1 ];
 
-$admin_render_settings['alphavantage_per_minute_limit']['is_notes'] = 'LEAVE SET TO "5" IF YOU USE THE *FREE* PLAN, *OR YOU WILL ENCOUNTER ISSUES*.<br /><a href="https://www.alphavantage.co/premium/" target="_BLANK">See AlphaVantage\'s Premium Plans</a>, to increase your limits.';
+$admin_render_settings['alphavantage_per_minute_limit']['is_notes'] = 'LEAVE SET TO "5" IF YOU USE THE *FREE* PLAN, *OR YOU WILL ENCOUNTER ISSUES*.<br /><a href="https://www.alphavantage.co/premium/" target="_BLANK">See AlphaVantage\'s PREMUIM Plans</a>, to increase your limits.';
+
+
+////////////////////////////////////////////////////////////////////////////////////////////////
+
+     
+$admin_render_settings['alphavantage_free_plan_daily_limit']['is_range'] = true;
+
+$admin_render_settings['alphavantage_free_plan_daily_limit']['range_min'] = 1;
+
+$admin_render_settings['alphavantage_free_plan_daily_limit']['range_max'] = 25;
+
+$admin_render_settings['alphavantage_free_plan_daily_limit']['range_step'] = 1;
+
+$admin_render_settings['alphavantage_free_plan_daily_limit']['range_ui_prefix'] = 'MAXIMUM of ';
+
+$admin_render_settings['alphavantage_free_plan_daily_limit']['range_ui_suffix'] = ' LIVE updates DAILY';
+
+$admin_render_settings['alphavantage_free_plan_daily_limit']['is_notes'] = 'If you have price update issues with a FREE PLAN, LOWER THIS NUMBER (and check their website, as they have been known to lower the FREE PLAN daily limits on ocassion).<br /><a href="https://www.alphavantage.co/premium/" target="_BLANK">See AlphaVantage\'s PREMUIM Plans</a>, to increase your limits (there are NO DAILY LIMITS ON PREMIUM PLANS).';
 
 
 ////////////////////////////////////////////////////////////////////////////////////////////////

@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2014-2023 GPLv3, Open Crypto Tracker by Mike Kilday: Mike@DragonFrugal.com
+ * Copyright 2014-2024 GPLv3, Open Crypto Tracker by Mike Kilday: Mike@DragonFrugal.com (leave this copyright / attribution intact in ALL forks / copies!)
  */
 
 
@@ -22,13 +22,6 @@ $ct['app_version'] = '6.00.29';  // 2023/OCTOBER/7TH
 // 0 = off, -1 = on (IF *NOT* SET TO ZERO HERE, THIS #OVERRIDES# PHP ERROR DEBUG SETTINGS IN THE APP'S USER CONFIG SETTINGS)
 // WRAP VALUE(S) IN PARENTHESIS, SO MUTIPLE VALUES CAN BE USED: (0) / (-1) / (E_ERROR | E_PARSE)
 $ct['dev']['debug_php_errors'] = (0); 
-
-
-// The DEFAULT (FREE PLAN) requests-per-DAY limit on the Alpha Vantage API key
-// WE AUTO-ADJUST TO UNLIMITED FOR PREMIUM PLANS IN CONFIG-INIT.PHP:
-// https://www.alphavantage.co/premium/
-// (they have been known to change this amount occassionally for the free plan, so we have this dev var)
-$ct['dev']['alphavantage_per_day_limit'] = 25; // (default = 25 [FOR FREE SERVICE])
 
 
 // Time offset (IN MINUTES) on daily background tasks 

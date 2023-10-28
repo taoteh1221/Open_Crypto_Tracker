@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2014-2023 GPLv3, Open Crypto Tracker by Mike Kilday: Mike@DragonFrugal.com
+ * Copyright 2014-2024 GPLv3, Open Crypto Tracker by Mike Kilday: Mike@DragonFrugal.com (leave this copyright / attribution intact in ALL forks / copies!)
  */
 
 
@@ -164,10 +164,10 @@ var $ct_array = array();
    $new_data = array();
    
       foreach ($sorting_array as $key) {
-      $new_data[$key] = $target_array[$key];
+      $target_array[$key] = $target_array[$key];
       }
    
-   return $new_data;
+   return $target_array;
    
    }
 
@@ -1435,7 +1435,7 @@ var $ct_array = array();
           if ( $num < $min_val ) {
           $result['min_dec'] = 0;
           }
-          elseif ( $ct['conf']['gen']['price_round_fixed_decimals'] == 'on' ) {
+          elseif ( $ct['conf']['gen']['price_rounding_fixed_decimals'] == 'on' ) {
           $result['min_dec'] = $result['max_dec'];
           }
    		elseif ( $type == 'fiat' ) {
@@ -2334,16 +2334,16 @@ var $ct_array = array();
    $price_raw = abs($price_raw); // Assure no negative number used
    
         
-        if ( $ct['conf']['gen']['price_round_percent'] == 'one' ) {
+        if ( $ct['conf']['gen']['price_rounding_percent'] == 'one' ) {
         $x = 1;
         }
-        else if ( $ct['conf']['gen']['price_round_percent'] == 'tenth' ) {
+        else if ( $ct['conf']['gen']['price_rounding_percent'] == 'tenth' ) {
         $x = 0.1;
         }
-        else if ( $ct['conf']['gen']['price_round_percent'] == 'hundredth' ) {
+        else if ( $ct['conf']['gen']['price_rounding_percent'] == 'hundredth' ) {
         $x = 0.01;
         }
-        else if ( $ct['conf']['gen']['price_round_percent'] == 'thousandth' ) {
+        else if ( $ct['conf']['gen']['price_rounding_percent'] == 'thousandth' ) {
         $x = 0.001;
         }
         
@@ -2704,7 +2704,7 @@ var $ct_array = array();
         	    
         		if ( isset($feed_item["url"]) && trim($feed_item["url"]) != '' ) {
         		    
-        		$result = $ct['api']->rss($feed_item["url"], false, $ct['conf']['comms']['news_feed_email_entries_show'], false, true);
+        		$result = $ct['api']->rss($feed_item["url"], false, $ct['conf']['news']['news_feed_email_entries_include'], false, true);
         		
         		  if ( trim($result) != '<ul></ul>' ) {
         		  $content .= '<div style="padding: 40px;"><fieldset><legend style="font-weight: bold;"> ' . $feed_item["title"] . ' </legend>' . "\n\n";
@@ -2719,7 +2719,7 @@ var $ct_array = array();
       
       
       // Render summary after determining the content
-      $summary .= '<h2 style="color: black;">' . $num_posts . ' Updated RSS Feeds (over ' . $ct['conf']['comms']['news_feed_email_frequency'] . ' days)</h3>' . "\n\n";
+      $summary .= '<h2 style="color: black;">' . $num_posts . ' Updated RSS Feeds (over ' . $ct['conf']['news']['news_feed_email_frequency'] . ' days)</h3>' . "\n\n";
         	
         	if ( $ct['app_edition'] == 'server' ) {
           $summary .= '<p><a style="color: #00b6db;" title="View the news feeds page in the Open Crypto Tracker app here." target="_blank" href="' . $ct['base_url'] . 'index.php?start_page=news#news">View All News Feeds Here</a></p>' . "\n\n";
@@ -2745,7 +2745,7 @@ var $ct_array = array();
                                                     
                            'email' => array(
                                             'content_type' => 'text/html', // Have email sent as HTML content type
-                                            'subject' => $num_posts . ' Updated RSS Feeds (over ' . $ct['conf']['comms']['news_feed_email_frequency'] . ' days)',
+                                            'subject' => $num_posts . ' Updated RSS Feeds (over ' . $ct['conf']['news']['news_feed_email_frequency'] . ' days)',
                                             'message' => $email_body
                                            )
                                                        
@@ -2832,31 +2832,30 @@ var $ct_array = array();
         	
         	  }
         	  else {
+        	       
         	  $ct['cache']->save_file($ct['base_dir'] . '/' . $domain_check_filename, $set_256bit_hash);
+        	  
+            sleep(5); // Sleep 5 seconds, to ASSURE COMPLETION of the FILE WRITE before the check afterwards
+             	
+            // domain check
+            $domain_check_test_url = $set_url . $domain_check_filename;
+             
+            $domain_check_test = @$ct['cache']->ext_data('url', $domain_check_test_url, 0);
+            
+            sleep(5); // Sleep 5 seconds, to ASSURE COMPLETION of the CHECK before deleting afterwards
+             
+            // Delete domain check test file
+            unlink($ct['base_dir'] . '/' . $domain_check_filename);
+             
+             	
+             	  // If it's a possible hostname header attack
+             	  if ( !preg_match("/" . $set_256bit_hash . "/i", $domain_check_test) ) {
+             	  return array('security_error' => true, 'checked_url' => $domain_check_test_url, 'response_output' => $domain_check_test);
+             	  }
+        	
+        
         	  }
-
-        		
-        // HTTPS CHECK ONLY (for security if htaccess user/pass activated), don't cache API data
-        	
-        // domain check
-        $domain_check_test_url = $set_url . $domain_check_filename;
-        
-        sleep(5); // Sleep 5 seconds, to complete the FILE WRITE before the check afterwards
-        
-        $domain_check_test = @$ct['cache']->ext_data('url', $domain_check_test_url, 0);
-       
-        sleep(5); // Sleep 5 seconds, to complete the CHECK before deleting afterwards
-        
-        // Delete domain check test file
-        unlink($ct['base_dir'] . '/' . $domain_check_filename);
-        
-        	
-        	  // If it's a possible hostname header attack
-        	  if ( !preg_match("/" . $set_256bit_hash . "/i", $domain_check_test) ) {
-        	  return array('security_error' => true, 'checked_url' => $domain_check_test_url, 'response_output' => $domain_check_test);
-        	  }
-        	
-        
+        	  
         }
    
    
@@ -3043,7 +3042,7 @@ var $ct_array = array();
    
    $text_msg = $count . ' ' . strtoupper($default_bitcoin_primary_currency_pair) . ' Price Alert Fixed Resets: ' . $reset_list;
    
-   $email_msg = 'The following ' . $count . ' ' . strtoupper($default_bitcoin_primary_currency_pair) . ' price alert fixed resets (run every ' . $ct['conf']['power']['price_alert_fixed_reset'] . ' days) have been processed, with the latest spot price data: ' . $reset_list;
+   $email_msg = 'The following ' . $count . ' ' . strtoupper($default_bitcoin_primary_currency_pair) . ' price alert fixed resets (run every ' . $ct['conf']['charts_alerts']['price_alert_fixed_reset'] . ' days) have been processed, with the latest spot price data: ' . $reset_list;
    
    $notifyme_msg = $email_msg . ' Timestamp is ' . $this->time_date_format($ct['conf']['gen']['local_time_offset'], 'pretty_time') . '.';
    
@@ -3800,13 +3799,13 @@ var $ct_array = array();
   $cache_filename = preg_replace("/:/", "_", $cache_filename);
   
   
-      if ( $ct['conf']['comms']['proxy_alert_runtime'] == 'all' ) {
+      if ( $ct['conf']['proxy']['proxy_alert_runtime'] == 'all' ) {
       $run_alerts = 1;
       }
-      elseif ( $ct['conf']['comms']['proxy_alert_runtime'] == 'cron' && $ct['runtime_mode'] == 'cron' ) {
+      elseif ( $ct['conf']['proxy']['proxy_alert_runtime'] == 'cron' && $ct['runtime_mode'] == 'cron' ) {
       $run_alerts = 1;
       }
-      elseif ( $ct['conf']['comms']['proxy_alert_runtime'] == 'ui' && $ct['runtime_mode'] == 'ui' ) {
+      elseif ( $ct['conf']['proxy']['proxy_alert_runtime'] == 'ui' && $ct['runtime_mode'] == 'ui' ) {
       $run_alerts = 1;
       }
       else {
@@ -3814,7 +3813,7 @@ var $ct_array = array();
       }
   
   
-      if ( $run_alerts == 1 && $ct['cache']->update_cache('cache/alerts/proxy-check-'.$cache_filename.'.dat', ( $ct['conf']['comms']['proxy_alert_frequency_maximum'] * 60 ) ) == true
+      if ( $run_alerts == 1 && $ct['cache']->update_cache('cache/alerts/proxy-check-'.$cache_filename.'.dat', ( $ct['conf']['proxy']['proxy_alert_frequency_maximum'] * 60 ) ) == true
       && in_array($cache_filename, $proxies_checked) == false ) {
       
        
@@ -3875,7 +3874,7 @@ var $ct_array = array();
                          
        
          // Send out alerts
-         if ( $misconfigured == 1 || $ct['conf']['comms']['proxy_alert_checkup_ok'] == 'include' ) {
+         if ( $misconfigured == 1 || $ct['conf']['proxy']['proxy_alert_checkup_ok'] == 'include' ) {
              
          // Minimize function calls
          $text_alert = $this->detect_unicode($text_alert); 
@@ -3894,8 +3893,8 @@ var $ct_array = array();
                               );
                   
 		 
-		 // Only send to comm channels the user prefers, based off the config setting $ct['conf']['comms']['proxy_alert']
-		 $preferred_comms = $this->preferred_comms($ct['conf']['comms']['proxy_alert'], $send_params);			
+		 // Only send to comm channels the user prefers, based off the config setting $ct['conf']['proxy']['proxy_alert']
+		 $preferred_comms = $this->preferred_comms($ct['conf']['proxy']['proxy_alert'], $send_params);			
                   
          // Queue notifications
          @$ct['cache']->queue_notify($preferred_comms);

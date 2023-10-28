@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2014-2023 GPLv3, Open Crypto Tracker by Mike Kilday: Mike@DragonFrugal.com
+ * Copyright 2014-2024 GPLv3, Open Crypto Tracker by Mike Kilday: Mike@DragonFrugal.com (leave this copyright / attribution intact in ALL forks / copies!)
  */
  
 
@@ -152,7 +152,7 @@ var $ct_array = array();
    
    function subarray_cached_ct_conf_upgrade($conf, $cat_key, $conf_key, $mode) {
    
-   global $ct, $default_ct_conf, $conf_upgraded;
+   global $ct, $default_ct_conf, $conf_upgraded, $active_plugins_registered;
                    
                    
         if ( $ct['conf']['power']['debug_mode'] == 'all' || $ct['conf']['power']['debug_mode'] == 'all_telemetry' || $ct['conf']['power']['debug_mode'] == 'conf_telemetry' ) {
@@ -179,7 +179,9 @@ var $ct_array = array();
               continue; // Skip custom (NON-bundled) plugins
               }
               // Check $ct['conf']['plug_conf'][$this_plug] (activated plugins)
-              elseif ( $cat_key === 'plugins' && $conf_key === 'plugin_status' && in_array($setting_key, $ct['dev']['bundled_plugins']) && $conf[$cat_key][$conf_key][$setting_key] == 'on' ) {
+              // If we haven't registered active plugins yet, AND this is the active plugins config, we have to skip it for now
+              // (in this case, we may be repairing a buggy cached config EARLY IN RUNTIME within load_cached_config() [in normal/medium security mode])
+              elseif ( $active_plugins_registered && $cat_key === 'plugins' && $conf_key === 'plugin_status' && in_array($setting_key, $ct['dev']['bundled_plugins']) && $conf[$cat_key][$conf_key][$setting_key] == 'on' ) {
                    
                    
               $this_plug = $setting_key;
@@ -196,7 +198,7 @@ var $ct_array = array();
                    
                       $conf_upgraded = true;
                          
-                      $log_val_descr = ( $default_ct_conf['plug_conf'][$this_plug][$plug_setting_key] != null || $default_ct_conf['plug_conf'][$this_plug][$plug_setting_key] != false ? $default_ct_conf['plug_conf'][$this_plug][$plug_setting_key] : '[null or false]' );
+                      $log_val_descr = ( $default_ct_conf['plug_conf'][$this_plug][$plug_setting_key] != null || $default_ct_conf['plug_conf'][$this_plug][$plug_setting_key] != false || $default_ct_conf['plug_conf'][$this_plug][$plug_setting_key] == 0 ? $default_ct_conf['plug_conf'][$this_plug][$plug_setting_key] : '[null or false]' );
                    
                       $ct['gen']->log(
                              			'conf_error',
@@ -241,7 +243,7 @@ var $ct_array = array();
                    
                    $conf_upgraded = true;
                          
-                   $log_val_descr = ( $default_ct_conf[$cat_key][$conf_key][$setting_key] != null || $default_ct_conf[$cat_key][$conf_key][$setting_key] != false ? $default_ct_conf[$cat_key][$conf_key][$setting_key] : '[null or false]' );
+                   $log_val_descr = ( $default_ct_conf[$cat_key][$conf_key][$setting_key] != null || $default_ct_conf[$cat_key][$conf_key][$setting_key] != false || $default_ct_conf[$cat_key][$conf_key][$setting_key] == 0 ? $default_ct_conf[$cat_key][$conf_key][$setting_key] : '[null or false]' );
                    
                    $ct['gen']->log(
                         			'conf_error',
@@ -272,7 +274,9 @@ var $ct_array = array();
               continue; // Skip custom (NON-bundled) plugins
               }
               // Check $ct['conf']['plug_conf'][$this_plug] (activated plugins)
-              elseif ( $cat_key === 'plugins' && $conf_key === 'plugin_status' && in_array($setting_key, $ct['dev']['bundled_plugins']) && $conf[$cat_key][$conf_key][$setting_key] == 'on' ) {
+              // If we haven't registered active plugins yet, AND this is the active plugins config, we have to skip it for now
+              // (in this case, we may be repairing a buggy cached config EARLY IN RUNTIME within load_cached_config() [in normal/medium security mode])
+              elseif ( $active_plugins_registered && $cat_key === 'plugins' && $conf_key === 'plugin_status' && in_array($setting_key, $ct['dev']['bundled_plugins']) && $conf[$cat_key][$conf_key][$setting_key] == 'on' ) {
                    
               $this_plug = $setting_key;
                    
@@ -777,8 +781,8 @@ var $ct_array = array();
    // Check to see if we need to upgrade the app config (add new primary vars / remove depreciated primary vars)
    function upgrade_cached_ct_conf($conf) {
    
-   global $ct, $check_default_ct_conf, $default_ct_conf, $conf_upgraded, $subarray_allow_upgrading;
-                   
+   global $ct, $check_default_ct_conf, $default_ct_conf, $conf_upgraded, $active_plugins_registered, $subarray_allow_upgrading;
+
                    
       if ( $ct['conf']['power']['debug_mode'] == 'all' || $ct['conf']['power']['debug_mode'] == 'all_telemetry' || $ct['conf']['power']['debug_mode'] == 'conf_telemetry' ) {
                    
@@ -806,9 +810,20 @@ var $ct_array = array();
       // Check for new variables, and add them
       foreach ( $default_ct_conf as $cat_key => $cat_val ) {
             
+                
+           // If we haven't registered active plugins yet, AND this is the active plugins config, we have to skip it for now
+           // (in this case, we may be repairing a buggy cached config EARLY IN RUNTIME within load_cached_config() [in normal/medium security mode])
+           if ( !$active_plugins_registered && $cat_key === 'plug_conf' ) { // Uses === for PHPv7.4 support
+           continue;
+           }
+                  	
             
            foreach ( $cat_val as $conf_key => $conf_val ) {
-                
+         
+               //$ct['gen']->log(
+               //			'conf_error',
+               //			'ct[conf][' . $cat_key . '][' . $conf_key . '] = ' .  $conf[$cat_key][$conf_key]
+                 // 			);
          
                // Uses === for PHPv7.4 support
                if (
@@ -818,7 +833,7 @@ var $ct_array = array();
                $conf = $this->subarray_cached_ct_conf_upgrade($conf, $cat_key, $conf_key, 'new');
                }
                elseif ( !isset($conf[$cat_key]) && isset($default_ct_conf[$cat_key]) ) {
-                  	
+                    
                $conf[$cat_key] = $default_ct_conf[$cat_key];
                   			
                // Use DEFAULT config for ordering the PARENT array IN THE ORIGINAL ORDER
@@ -834,7 +849,10 @@ var $ct_array = array();
                }
                
                
-               if ( !is_array($conf_val) && is_array($conf[$cat_key]) && !array_key_exists($conf_key, $conf[$cat_key]) && array_key_exists($conf_key, $default_ct_conf[$cat_key]) ) {
+               if (
+               !is_array($conf_val) && !isset($conf[$cat_key][$conf_key]) && isset($default_ct_conf[$cat_key][$conf_key]) 
+               || !is_array($conf_val) && isset($conf[$cat_key][$conf_key]) && $conf[$cat_key][$conf_key] == null && $default_ct_conf[$cat_key][$conf_key] != null // BUG FIX FOR V6.00.28
+               ) {
                   	
                $conf[$cat_key][$conf_key] = $default_ct_conf[$cat_key][$conf_key];
                   			
@@ -843,7 +861,7 @@ var $ct_array = array();
                   						
                $conf_upgraded = true;
                
-               $log_val_descr = ( $default_ct_conf[$cat_key][$conf_key] != null || $default_ct_conf[$cat_key][$conf_key] != false ? $default_ct_conf[$cat_key][$conf_key] : '[null or false]' );
+               $log_val_descr = ( $default_ct_conf[$cat_key][$conf_key] != null || $default_ct_conf[$cat_key][$conf_key] != false || $default_ct_conf[$cat_key][$conf_key] == 0 ? $default_ct_conf[$cat_key][$conf_key] : '[null or false]' );
                   
                $ct['gen']->log(
                   			'conf_error',
@@ -862,9 +880,20 @@ var $ct_array = array();
       // Check for depreciated variables, and remove them
       foreach ( $conf as $cached_cat_key => $cached_cat_val ) {
             
-            
+                
+           // If we haven't registered active plugins yet, AND this is the active plugins config, we have to skip it for now
+           // (in this case, we may be repairing a buggy cached config EARLY IN RUNTIME within load_cached_config() [in normal/medium security mode])
+           if ( !$active_plugins_registered && $cached_cat_key === 'plug_conf' ) { // Uses === for PHPv7.4 support
+           continue;
+           }
+                  	
+                  	
            foreach ( $cached_cat_val as $cached_conf_key => $cached_conf_val ) {
          
+               //$ct['gen']->log(
+               //			'conf_error',
+               //			'ct[conf][' . $cached_cat_key . '][' . $cached_conf_key . '] = ' .  $cached_conf_val
+                 // 			);
          
                // Uses === for PHPv7.4 support
                if ( 
@@ -887,7 +916,7 @@ var $ct_array = array();
                }
                
                
-               if ( !is_array($cached_conf_val) && is_array($default_ct_conf[$cached_cat_key]) && !array_key_exists($cached_conf_key, $default_ct_conf[$cached_cat_key]) && array_key_exists($cached_conf_key, $conf[$cached_cat_key]) ) {
+               if ( !is_array($cached_conf_val) && !isset($default_ct_conf[$cached_cat_key][$cached_conf_key]) && isset($conf[$cached_cat_key][$cached_conf_key]) ) {
                   	
                unset($conf[$cached_cat_key][$cached_conf_key]);
                   
@@ -906,7 +935,7 @@ var $ct_array = array();
             
       }
          
-      
+        //$ct['cache']->app_log();
    return ( $conf_upgraded ? $conf : false );
    
    }
@@ -918,7 +947,7 @@ var $ct_array = array();
    
    function load_cached_config() {
    
-   global $ct, $admin_area_sec_level, $restore_conf_path, $telegram_user_data, $update_config, $reset_config, $telegram_user_data_path;
+   global $ct, $admin_area_sec_level, $restore_conf_path, $telegram_user_data, $update_config, $reset_config, $app_upgrade_check, $telegram_user_data_path;
    
    // Secured cache files
    $files = $ct['gen']->sort_files($ct['base_dir'] . '/cache/secured', 'dat', 'desc');
@@ -1003,9 +1032,23 @@ var $ct_array = array();
         			
         		    // "null" in quotes as the actual value is returned sometimes
         			if ( $ct['gen']->admin_security_level_check() == true && $cached_ct_conf != false && $cached_ct_conf != null && $cached_ct_conf != "null" ) {
-        			$ct['conf'] = $cached_ct_conf; // Use cached ct_conf if it exists, seems intact, and DEFAULT Admin Config (in config.php) hasn't been revised since last check
-        			// $ct['gen']->log('conf_error', 'CACHED ct_conf OK'); // DEBUGGING ONLY
-        			$config_ok = true;
+
+        			// Use cached ct_conf if it exists, seems intact, BUT RUN A CHECK ON IT JUST IN CASE
+        			// (which triggers running it through the cached config upgrade mechanism, IF it seems wonky)
+        			$ct['conf'] = $cached_ct_conf; 
+
+                        // RUN UPGRADE CHECK MODE IF FLAGGED (AS NOT HIGH SECURITY MODE / IS UI OR CRON RUNTIME)
+                        // (RUNING IT EARLY HERE HELPS FIX ANY DATA CORRUPTION IN THE CACHED CONFIG, THAT MIGHT CRASH THE RUNTIME AT A LATER POINT!)
+        			    if ( $admin_area_sec_level != 'high' && $app_upgrade_check ) {
+        			         
+        			         if ( $ct['runtime_mode'] == 'ui' || $ct['runtime_mode'] == 'cron' ) {
+        			         $ct['conf'] = $ct['cache']->update_cached_config($ct['conf'], true); 
+        			         // !!!!!!!!! DO NOT RESET $app_upgrade_check HERE, AS WE WANT TO SEND THE FLAG INTO queue_config_update() AFTERWARDS,
+        			         // !!!!!!!!! WHERE IT WILL HALT ANY USER-UPDATING OF THE CACHED CONFIG (UNTIL THE NEXT RUNTIME)
+        			         }
+        			    
+        			    }
+        			
         			}
         			elseif ( $cached_ct_conf != true ) {
         			unlink($ct['base_dir'] . '/cache/secured/' . $secured_file);
@@ -1034,9 +1077,10 @@ var $ct_array = array();
         }
         
         
-        // We need to reset the cached config here, IF admin security level is set to HIGH
-        // (as load_cached_config() LOADS AT END OF load-config-by-security-level.php IN HIGH SECURITY MODE)
-        if ( $admin_area_sec_level == 'high' && $reset_config ) {
+        // We need to reset the cached config here, FOR TWO REASONS:
+        // 1) load_cached_config() LOADS AT END OF load-config-by-security-level.php IN HIGH SECURITY MODE
+        // 2) A corrupt / non-existant CACHED config should ALWAYS be REPLACED IMMEADIATELY (so runtime won't hang / freeze)
+        if ( $reset_config ) {
              
              // Since we are resetting the cached config, telegram chatroom data should be refreshed too
              if ( $telegram_user_data_path != null ) {
@@ -1044,6 +1088,8 @@ var $ct_array = array();
              }
         
         $ct['conf'] = $this->update_cached_config(false, false, true); // Reset flag
+        
+        $reset_config = false; // Reset the reset flag (lol) IMMEADIATELY, as it's a global var
         
         }
         
@@ -1059,7 +1105,7 @@ var $ct_array = array();
    
    function update_cached_config($passed_config, $upgrade_mode=false, $user_reset=false) {
    
-   global $ct, $default_ct_conf, $conf_upgraded, $app_upgrade_check, $reset_config, $update_config, $restore_conf_path, $admin_area_sec_level, $telegram_activated, $telegram_user_data, $htaccess_username, $htaccess_password;
+   global $ct, $default_ct_conf, $conf_upgraded, $app_upgrade_check, $update_config, $restore_conf_path, $admin_area_sec_level, $telegram_activated, $telegram_user_data, $htaccess_username, $htaccess_password;
 
 
    // If no valid cached_ct_conf, or if DEFAULT Admin Config (in config.php) variables have been changed...
@@ -1215,7 +1261,7 @@ var $ct_array = array();
     		
     		     if ( $ct['conf']['power']['debug_mode'] == 'all' || $ct['conf']['power']['debug_mode'] == 'all_telemetry' || $ct['conf']['power']['debug_mode'] == 'conf_telemetry' ) {
     		          
-    		          if ( $reset_config || $user_reset ) {
+    		          if ( $user_reset ) {
     		          $update_desc = 'RESET';
     		          }
     		          elseif ( $admin_area_sec_level != 'high' && $app_upgrade_check ) {

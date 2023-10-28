@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2014-2023 GPLv3, Open Crypto Tracker by Mike Kilday: Mike@DragonFrugal.com
+ * Copyright 2014-2024 GPLv3, Open Crypto Tracker by Mike Kilday: Mike@DragonFrugal.com (leave this copyright / attribution intact in ALL forks / copies!)
  */
 
 
@@ -15,9 +15,9 @@
 			
 			
 			<?php
-			if ( isset($price_alert_type_text) && $price_alert_type_text != '' && $ct['conf']['comms']['price_alert_threshold'] > 0 ) {
+			if ( isset($price_alert_type_text) && $price_alert_type_text != '' && $ct['conf']['charts_alerts']['price_alert_threshold'] > 0 ) {
           ?>
-          	<p class='settings_sections'><b><?=$price_alert_type_text?> price alerts</b> are <i>enabled</i> in the configuration file (upon <?=$ct['conf']['comms']['price_alert_threshold']?>% or more <?=strtoupper($default_bitcoin_primary_currency_pair)?> price change<?=( $ct['conf']['comms']['price_alert_frequency_maximum'] > 0 ? ' / max every ' . $ct['conf']['comms']['price_alert_frequency_maximum'] . ' hours per-alert' : '' )?><?=( $ct['conf']['comms']['price_alert_minimum_volume'] > 0 ? ' / ' . $ct['conf']['power']['bitcoin_currency_markets'][$default_bitcoin_primary_currency_pair] . number_format($ct['conf']['comms']['price_alert_minimum_volume'], 0, '.', ',') . ' minumum volume filter enabled' : '' )?><?=( $ct['conf']['power']['price_alert_fixed_reset'] > 0 ? ' / comparison price fixed-reset after ' . $ct['conf']['power']['price_alert_fixed_reset'] . ' days' : '' )?>). 
+          	<p class='settings_sections'><b><?=$price_alert_type_text?> price alerts</b> are <i>enabled</i> in the configuration file (upon <?=$ct['conf']['charts_alerts']['price_alert_threshold']?>% or more <?=strtoupper($default_bitcoin_primary_currency_pair)?> price change<?=( $ct['conf']['charts_alerts']['price_alert_frequency_maximum'] > 0 ? ' / max every ' . $ct['conf']['charts_alerts']['price_alert_frequency_maximum'] . ' hours per-alert' : '' )?><?=( $ct['conf']['charts_alerts']['price_alert_minimum_volume'] > 0 ? ' / ' . $ct['conf']['power']['bitcoin_currency_markets'][$default_bitcoin_primary_currency_pair] . number_format($ct['conf']['charts_alerts']['price_alert_minimum_volume'], 0, '.', ',') . ' minumum volume filter enabled' : '' )?><?=( $ct['conf']['charts_alerts']['price_alert_fixed_reset'] > 0 ? ' / comparison price fixed-reset after ' . $ct['conf']['charts_alerts']['price_alert_fixed_reset'] . ' days' : '' )?>). 
           	
           	<br /><i>Enable <a href='README.txt' target='_blank'>a cron job / scheduled task on your web server</a>, or this feature will not work AT ALL.</i> 
           	
@@ -38,7 +38,7 @@
 			}
 			if ( is_array($ct['conf']['proxy']['proxy_list']) && sizeof($ct['conf']['proxy']['proxy_list']) > 0 ) {
 			?>
-          <p class='settings_sections'><b><?=( trim($ct['conf']['proxy']['proxy_login']) != '' ? 'Password-based' : 'IP-athenticated' )?> proxy mode</b> is <i>enabled</i> in the configuration file for API connections (<?=sizeof($ct['conf']['proxy']['proxy_list'])?> proxies randomly used<?=( $ct['conf']['comms']['proxy_alert'] != 'off' ? ' / proxy alerts enabled for ' . $ct['conf']['comms']['proxy_alert'] . ' alert method(s), every ' . $ct['conf']['comms']['proxy_alert_frequency_maximum'] . ' hours max per-proxy at ' . $ct['conf']['comms']['proxy_alert_runtime'] . ' runtimes / ' .$ct['conf']['comms']['proxy_alert_checkup_ok']. ' sending proxy alerts on proxy checks that tested OK after acting up' : '' )?>). 
+          <p class='settings_sections'><b><?=( trim($ct['conf']['proxy']['proxy_login']) != '' ? 'Password-based' : 'IP-athenticated' )?> proxy mode</b> is <i>enabled</i> in the configuration file for API connections (<?=sizeof($ct['conf']['proxy']['proxy_list'])?> proxies randomly used<?=( $ct['conf']['proxy']['proxy_alert'] != 'off' ? ' / proxy alerts enabled for ' . $ct['conf']['proxy']['proxy_alert'] . ' alert method(s), every ' . $ct['conf']['proxy']['proxy_alert_frequency_maximum'] . ' hours max per-proxy at ' . $ct['conf']['proxy']['proxy_alert_runtime'] . ' runtimes / ' .$ct['conf']['proxy']['proxy_alert_checkup_ok']. ' sending proxy alerts on proxy checks that tested OK after acting up' : '' )?>). 
           	
           		<?=( isset($proxy_conf_alert) && $proxy_conf_alert != '' ? '<br />' . $proxy_conf_alert : '' )?>
           	

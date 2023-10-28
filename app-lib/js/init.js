@@ -1,5 +1,5 @@
 
-// Copyright 2014-2023 GPLv3, Open Crypto Tracker by Mike Kilday: Mike@DragonFrugal.com
+// Copyright 2014-2024 GPLv3, Open Crypto Tracker by Mike Kilday: Mike@DragonFrugal.com (leave this copyright / attribution intact in ALL forks / copies!)
 
 
 window.zingAlert= function(){
@@ -952,9 +952,15 @@ nav_menu('.user-nav');
      
     // Sort the portfolio AFTER checking for privacy mode
     sorting_portfolio_table();
+    
+    resize_password_notes();
 
-    // Initiate the admin settings range sliders
+            	     
+    // Wait 1 seconds before Initiating the admin settings range sliders
+    // (otherwise widths aren't always registered yet for CSS style manipulations)
+    setTimeout(function(){
     init_range_sliders();
+    }, 1000);
     
     
     $('textarea[data-autoresize]').each(function(){

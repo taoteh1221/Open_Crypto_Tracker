@@ -177,9 +177,9 @@
 	
 	watch_only_flag_val = '<?=$watch_only_flag_val?>';
 	
-	charts_background = '<?=$ct['conf']['power']['charts_background']?>';
+	charts_background = '<?=$ct['conf']['charts_alerts']['charts_background']?>';
 	
-	charts_border = '<?=$ct['conf']['power']['charts_border']?>';
+	charts_border = '<?=$ct['conf']['charts_alerts']['charts_border']?>';
 	
 	btc_prim_currency_val = '<?=number_format( $sel_opt['sel_btc_prim_currency_val'], 2, '.', '' )?>';
 	

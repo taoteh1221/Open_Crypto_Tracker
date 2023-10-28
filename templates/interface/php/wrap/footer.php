@@ -1,11 +1,11 @@
 <?php
 /*
- * Copyright 2014-2023 GPLv3, Open Crypto Tracker by Mike Kilday: Mike@DragonFrugal.com
+ * Copyright 2014-2024 GPLv3, Open Crypto Tracker by Mike Kilday: Mike@DragonFrugal.com (leave this copyright / attribution intact in ALL forks / copies!)
  */
 
 
 // Proxy alerts (if setup by user, and any of them failed, test the failed proxies and log/alert if they seem offline)
-if ( $ct['conf']['comms']['proxy_alert'] != 'off' ) {
+if ( $ct['conf']['proxy']['proxy_alert'] != 'off' ) {
 	
 	foreach ( $proxy_checkup as $problem_proxy ) {
 	$ct['gen']->test_proxy($problem_proxy);
@@ -297,7 +297,7 @@ footer_banner(desktop_windows_notice_storage, 'This web app *SOMETIMES* MAY NOT 
 
 
 <!-- /*
- * Copyright 2014-2023 GPLv3, Open Crypto Tracker by Mike Kilday: Mike@DragonFrugal.com
+ * Copyright 2014-2024 GPLv3, Open Crypto Tracker by Mike Kilday: Mike@DragonFrugal.com (leave this copyright / attribution intact in ALL forks / copies!)
  */ -->
 
  

@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2014-2023 GPLv3, Open Crypto Tracker by Mike Kilday: Mike@DragonFrugal.com
+ * Copyright 2014-2024 GPLv3, Open Crypto Tracker by Mike Kilday: Mike@DragonFrugal.com (leave this copyright / attribution intact in ALL forks / copies!)
  */
 
 
@@ -248,8 +248,11 @@ $ct['dev']['tasks_time_offset'] = ceil($ct['dev']['tasks_time_offset'] * 2);
 
 // If we have an AlphaVantage UNLIMITED daily requests plan
 // https://www.alphavantage.co/premium/
-if ( $ct['conf']['ext_apis']['alphavantage_per_minute_limit'] >= 30 ) {
-$ct['dev']['alphavantage_per_day_limit'] = 0; // Unlimited
+if ( $ct['conf']['ext_apis']['alphavantage_per_minute_limit'] > 5 ) {
+$alphavantage_per_day_limit = 0; // Unlimited
+}
+else {
+$alphavantage_per_day_limit = $ct['conf']['ext_apis']['alphavantage_free_plan_daily_limit'];
 }
 
 
