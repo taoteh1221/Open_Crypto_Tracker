@@ -1,5 +1,5 @@
 /*
- * Copyright 2014-2023 GPLv3, Open Crypto Tracker by Mike Kilday: Mike@DragonFrugal.com
+ * Copyright 2014-2024 GPLv3, Open Crypto Tracker by Mike Kilday: Mike@DragonFrugal.com (leave this copyright / attribution intact in ALL forks / copies!)
  */
 
 
@@ -491,7 +491,7 @@ padding: 0.4em !important;
 
 .subsection_fieldset {
 border: 0.2em solid #808080;
-margin-bottom: 5.1em;
+margin-bottom: 3.0em;
 }
 
 
@@ -781,13 +781,15 @@ margin: auto;
 margin-left: 1.5em;
 }
 
-.pretty_text_fields p {
+.pretty_text_fields form > p, .password-container, .subarray_item, .subarray_repeatable_add {
+     position: relative;
 white-space: nowrap;
 margin-top: 2.5em;
 margin-bottom: 2.5em;
 }
 
 .pretty_text_fields .admin_range_fields {
+     position: relative;
 white-space: nowrap;
 margin-top: 3.75em;
 margin-bottom: 3.75em;
@@ -803,6 +805,11 @@ max-width: 100%;
 position: absolute;
 top: -1em;
 font-weight: bold;
+}
+
+
+.subarray_item .admin_range_fields {
+margin-top: unset;
 }
 
 
@@ -943,19 +950,58 @@ i.gg-eye, i.gg-eye-alt {
 }
 .password-container input[type="password"],
 .password-container input[type="text"]{
-padding-right: 50px !important;
-min-width: 300px !important;
+
 }
 
 
-.password-container .admin_settings_notes {
+.measure-password-field {
+display: inline-block;
+position: relative;
+}
+
+
+.admin_settings_notes {
      display: inline-block;
    box-sizing: border-box;
-   max-width: 400px !important;
+   max-width: 600px !important;
 white-space: normal !important;
 line-height: 1.7em;
+border: 0.1em dotted #F7931A;
+    border-radius: 0.5em;
+    padding: 0.35em;    
+    margin: 0px;
+    position: relative;
+    top: -0.68em;
 }
 
+.notes_arrow {
+    border: dotted #F7931A;
+    border-width: 0 0.1em 0.1em 0;
+    display: inline-block;
+    padding: 5px;
+    position: relative;
+    left: 0.7em;
+}
+
+.arrow_right {
+  transform: rotate(-45deg);
+  -webkit-transform: rotate(-45deg);
+}
+
+.arrow_left {
+  transform: rotate(135deg);
+  -webkit-transform: rotate(135deg);
+}
+
+.arrow_up {
+  transform: rotate(-135deg);
+  -webkit-transform: rotate(-135deg);
+}
+
+.arrow_down {
+  transform: rotate(45deg);
+  -webkit-transform: rotate(45deg);
+}
 
 .textarea_password {
 -webkit-text-security : circle;
@@ -964,13 +1010,18 @@ line-height: 1.7em;
 
 div.repeatable > div {
 border-top: 0.2em solid #808080;
-padding-top: 1em;
+padding-top: 2.5em;
 }
 
 
 div.repeatable div.repeatable_seperator {
 margin-top: 2em;
 margin-bottom: 2em;
+}
+
+
+.compact_margins {
+margin: 1em;
 }
 
 

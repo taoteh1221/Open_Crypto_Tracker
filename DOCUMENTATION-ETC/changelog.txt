@@ -6363,6 +6363,8 @@ MIGRATE YOUR EXISTING SETTINGS TO THE NEW FORMAT.
 
 -Added config file formatting error checks (if a significant error that would crash the app is discovered, you are notified, and the current config file is securely backed up / replaced with a 'factory reset' config)
 
+-Updated the alphavantage.co stock exchange API daily FREE LEVEL to 25 requests per day (LIVE data will be auto-throttled, so you don't go over your FREE daily limit)
+
 -Consolidated error / debug logs into one log file, for clarified debugging output (whe debugging is enabled)
 
 -Added range sliders in place of all drop-down select menus (for numerical values) in the admin interface
@@ -6378,12 +6380,8 @@ IMPORTANT *UPGRADE* NOTICE:
 v6.00.29 and higher restructures the 'price-target-alert' plugin. USE THE LATEST/UPGRADED PLUG_CONF.PHP,
 AND MIGRATE YOUR EXISTING CUSTOM PRICE TARGET ALERTS TO THE NEW FORMAT.
 
-v6.00.29 and higher renames / restructures the News Feeds config. USE THE LATEST/UPGRADED CONFIG.PHP,
+v6.00.29 and higher renames / restructures MANY settings in the config. USE THE LATEST/UPGRADED CONFIG.PHP,
 AND MIGRATE YOUR EXISTING CUSTOM NEWS FEEDS TO THE NEW FORMAT.
-
-v6.00.26 / v6.00.27 and higher renames the admin config array variables. ALL CONFIGURATION SETTING
-VARIABLE NAMES ARE NOW DIFFERENT, USE THE LATEST/UPGRADED CONFIG.PHP, AND
-MIGRATE YOUR EXISTING SETTINGS TO THE NEW FORMAT.
 
 -v6.00.27 AND HIGHER RESETS LIGHT (TIME PERIOD) CHARTS FROM ARCHIVAL DATA, ONE-TIME DURING UPGRADES FROM V6.00.26 OR LOWER.
 

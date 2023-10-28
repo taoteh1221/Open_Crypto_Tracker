@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2014-2023 GPLv3, Open Crypto Tracker by Mike Kilday: Mike@DragonFrugal.com
+ * Copyright 2014-2024 GPLv3, Open Crypto Tracker by Mike Kilday: Mike@DragonFrugal.com (leave this copyright / attribution intact in ALL forks / copies!)
  */
 
 
@@ -63,7 +63,7 @@ var $ct_array = array();
       }
       
          
-   $response = @$ct['cache']->ext_data('url', $url, $ct['conf']['power']['google_fonts_cache_time']);
+   $response = @$ct['cache']->ext_data('url', $url, ($ct['conf']['ext_apis']['google_fonts_cache_time'] * 60)  );
        
    $data = json_decode($response, true);
    
@@ -120,14 +120,14 @@ var $ct_array = array();
       
    
       // Batched / multiple API calls, if 'marketcap_ranks_max' is greater than 'coingecko_api_batched_maximum'
-      if ( $ct['conf']['power']['marketcap_ranks_max'] > $ct['conf']['power']['coingecko_api_batched_maximum'] ) {
+      if ( $ct['conf']['power']['marketcap_ranks_max'] > $ct['conf']['ext_apis']['coingecko_api_batched_maximum'] ) {
       
           $loop = 0;
-          $calls = ceil($ct['conf']['power']['marketcap_ranks_max'] / $ct['conf']['power']['coingecko_api_batched_maximum']);
+          $calls = ceil($ct['conf']['power']['marketcap_ranks_max'] / $ct['conf']['ext_apis']['coingecko_api_batched_maximum']);
          
           while ( $loop < $calls ) {
          
-          $url = 'https://api.coingecko.com/api/v3/coins/markets?per_page=' . $ct['conf']['power']['coingecko_api_batched_maximum'] . '&page=' . ($loop + 1) . '&vs_currency=' . $coingecko_prim_currency . '&price_change_percentage=1h,24h,7d,14d,30d,200d,1y';
+          $url = 'https://api.coingecko.com/api/v3/coins/markets?per_page=' . $ct['conf']['ext_apis']['coingecko_api_batched_maximum'] . '&page=' . ($loop + 1) . '&vs_currency=' . $coingecko_prim_currency . '&price_change_percentage=1h,24h,7d,14d,30d,200d,1y';
             
               // Wait 6.55 seconds between consecutive calls, to avoid being blocked / throttled by external server
               // (coingecko #ABSOLUTELY HATES# DATA CENTER IPS [DEDICATED / VPS SERVERS], BUT GOES EASY ON RESIDENTIAL IPS)
@@ -545,9 +545,9 @@ var $ct_array = array();
 				     }
 				     // If running as $email_only, we only want 'new' posts anyway (less than 'news_feed_email_frequency' days old)
 				     // With offset, to try to catch any that would have been missed from runtime
-				     elseif ( $email_only && $ct['var']->num_to_str($now_timestamp) <= $ct['var']->num_to_str( strtotime($item_date) + ($ct['conf']['comms']['news_feed_email_frequency'] * 86400) + $ct['dev']['tasks_time_offset'] ) ) { 
+				     elseif ( $email_only && $ct['var']->num_to_str($now_timestamp) <= $ct['var']->num_to_str( strtotime($item_date) + ($ct['conf']['news']['news_feed_email_frequency'] * 86400) + $ct['dev']['tasks_time_offset'] ) ) { 
 				     
-    				     if ($count < $ct['conf']['comms']['news_feed_email_entries_show']) {
+    				     if ($count < $ct['conf']['news']['news_feed_email_entries_include']) {
     				     $html .= '<li style="padding: 8px;"><a style="color: #00b6db;" href="'.htmlspecialchars($item_link).'" target="_blank" title="'.htmlspecialchars($date_ui).'">'.htmlspecialchars($item->title).'</a> </li>';
     				     }
     				     
@@ -634,9 +634,9 @@ var $ct_array = array();
 			         }
 				     // If running as $email_only, we only want 'new' posts anyway (less than 'news_feed_email_frequency' days old)
 				     // With offset, to try to catch any that would have been missed from runtime
-				     elseif ( $email_only && $ct['var']->num_to_str($now_timestamp) <= $ct['var']->num_to_str( strtotime($item_date) + ($ct['conf']['comms']['news_feed_email_frequency'] * 86400) + $ct['dev']['tasks_time_offset'] ) ) {
+				     elseif ( $email_only && $ct['var']->num_to_str($now_timestamp) <= $ct['var']->num_to_str( strtotime($item_date) + ($ct['conf']['news']['news_feed_email_frequency'] * 86400) + $ct['dev']['tasks_time_offset'] ) ) {
     			     
-    				     if ($count < $ct['conf']['comms']['news_feed_email_entries_show']) {
+    				     if ($count < $ct['conf']['news']['news_feed_email_entries_include']) {
     				     $html .= '<li style="padding: 8px;"><a style="color: #00b6db;" href="'.htmlspecialchars($item_link).'" target="_blank" title="'.htmlspecialchars($date_ui).'">'.htmlspecialchars($item->title).'</a> </li>';
     				     }
     				     

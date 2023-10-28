@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2014-2023 GPLv3, Open Crypto Tracker by Mike Kilday: Mike@DragonFrugal.com
+ * Copyright 2014-2024 GPLv3, Open Crypto Tracker by Mike Kilday: Mike@DragonFrugal.com (leave this copyright / attribution intact in ALL forks / copies!)
  */
 
 
@@ -1429,7 +1429,7 @@ var $ct_array = array();
       
       // For UX, scan to remove any old stale price alert entries that are now disabled / disabled GLOBALLY 
       // Return false if there is no charting on this entry (to optimize runtime)
-      if ( $mode != 'alert' && $mode != 'both' || $ct['conf']['comms']['price_alert_threshold'] == 0 ) {
+      if ( $mode != 'alert' && $mode != 'both' || $ct['conf']['charts_alerts']['price_alert_threshold'] == 0 ) {
       
           // For UX, if this is an alert that has been enabled previously, then disabled later on, we remove stale data
           // (for correct and up-to-date time / price change percent stats, IN CASE the user RE-ENABLES this alert at a later date)
@@ -1687,7 +1687,7 @@ var $ct_array = array();
      
       // Alert checking START
       /////////////////////////////////////////////////////////////////
-      if ( $mode == 'alert' && $ct['conf']['comms']['price_alert_threshold'] > 0 || $mode == 'both' && $ct['conf']['comms']['price_alert_threshold'] > 0 ) {
+      if ( $mode == 'alert' && $ct['conf']['charts_alerts']['price_alert_threshold'] > 0 || $mode == 'both' && $ct['conf']['charts_alerts']['price_alert_threshold'] > 0 ) {
           
         
       // Grab any cached price alert data
@@ -1736,20 +1736,20 @@ var $ct_array = array();
 	     // Check whether we should send an alert
           // We disallow alerts where minimum 24 hour trade PRIMARY CURRENCY CONFIG volume IS ABOVE ZERO (as zero can be a 'no vol API' flag), 
           // AND price_alert_minimum_volume config has NOT been met, ONLY if volume API request doesn't fail to retrieve volume data (which is flagged as -1)
-          if ( $vol_prim_currency_raw > 0 && $vol_prim_currency_raw < $ct['conf']['comms']['price_alert_minimum_volume'] ) {
+          if ( $vol_prim_currency_raw > 0 && $vol_prim_currency_raw < $ct['conf']['charts_alerts']['price_alert_minimum_volume'] ) {
           $send_alert = false;
           }
           // We disallow alerts if they are not activated
           elseif ( $mode != 'both' && $mode != 'alert' ) {
           $send_alert = false;
           }
-          // We disallow alerts if $ct['conf']['comms']['price_alert_block_volume_error'] is ON, and there is
+          // We disallow alerts if $ct['conf']['charts_alerts']['price_alert_block_volume_error'] is ON, and there is
           // a volume retrieval error (flagged as -1) #NOT RELATED# TO LACK OF VOLUME API features (flagged as 0)
-          elseif ( $vol_prim_currency_raw == -1 && $ct['conf']['comms']['price_alert_block_volume_error'] == 'on' ) {
+          elseif ( $vol_prim_currency_raw == -1 && $ct['conf']['charts_alerts']['price_alert_block_volume_error'] == 'on' ) {
           $send_alert = false;
           }
           // If all passes check, flag to send alert
-	     elseif ( $percent_change >= $ct['conf']['comms']['price_alert_threshold'] ) {
+	     elseif ( $percent_change >= $ct['conf']['charts_alerts']['price_alert_threshold'] ) {
 	     $send_alert = true;
 	     }  
                   
@@ -1806,7 +1806,7 @@ var $ct_array = array();
                   
                   
                // Whale alert (price change average of X or greater over X day(s) or less, with X percent pair volume increase average that is at least a X primary currency volume increase average)
-               $whale_alert_thres = explode("||", $ct['conf']['power']['price_alert_whale_threshold']);
+               $whale_alert_thres = explode("||", $ct['conf']['charts_alerts']['price_alert_whale_threshold']);
                ////
                ////
                if ( trim($whale_alert_thres[0]) != '' && trim($whale_alert_thres[1]) != '' && trim($whale_alert_thres[2]) != '' && trim($whale_alert_thres[3]) != '' ) {
@@ -1833,11 +1833,11 @@ var $ct_array = array();
                   
                   
                // Sending the alerts (if it's within RESENDING LIMITS)
-               if ( $ct['cache']->update_cache('cache/alerts/fiat_price/'.$asset_data.'.dat', ( $ct['conf']['comms']['price_alert_frequency_maximum'] * 60 ) ) == true ) {
+               if ( $ct['cache']->update_cache('cache/alerts/fiat_price/'.$asset_data.'.dat', ( $ct['conf']['charts_alerts']['price_alert_frequency_maximum'] * 60 ) ) == true ) {
                   
               	// Message formatting for display to end user
               	
-               $desc_alert_type = ( $ct['conf']['power']['price_alert_fixed_reset'] > 0 ? 'reset' : 'alert' );
+               $desc_alert_type = ( $ct['conf']['charts_alerts']['price_alert_fixed_reset'] > 0 ? 'reset' : 'alert' );
                
                
                      // Flag if there is no volume history AT ALL available for this market
@@ -1896,13 +1896,13 @@ var $ct_array = array();
                      // Format trade volume data
                      
                      // Volume filter skipped message, only if filter is on and error getting trade volume data (otherwise is NULL)
-                     if ( $vol_prim_currency_raw == null && $ct['conf']['comms']['price_alert_minimum_volume'] > 0 || $vol_prim_currency_raw < 1 && $ct['conf']['comms']['price_alert_minimum_volume'] > 0 ) {
+                     if ( $vol_prim_currency_raw == null && $ct['conf']['charts_alerts']['price_alert_minimum_volume'] > 0 || $vol_prim_currency_raw < 1 && $ct['conf']['charts_alerts']['price_alert_minimum_volume'] > 0 ) {
                      $vol_filter_skipped_text = ' (no trade volume detected, so volume filter was skipped)';
                      }
                      
                      
                      // Successfully received > 0 volume data, at or above an enabled volume filter
-                     if ( $vol_prim_currency_raw > 0 && $ct['conf']['comms']['price_alert_minimum_volume'] > 0 && $vol_prim_currency_raw >= $ct['conf']['comms']['price_alert_minimum_volume'] ) {
+                     if ( $vol_prim_currency_raw > 0 && $ct['conf']['charts_alerts']['price_alert_minimum_volume'] > 0 && $vol_prim_currency_raw >= $ct['conf']['charts_alerts']['price_alert_minimum_volume'] ) {
                      $email_vol_summary = $vol_change_text . ' (volume filter on)';
                      }
                      // If volume is -1 or greater, without an enabled volume filter (or filter skipped)
@@ -1951,8 +1951,8 @@ var $ct_array = array();
                                      );
                     
                     
-               // Only send to comm channels the user prefers, based off the config setting $ct['conf']['comms']['price_alert']
-               $preferred_comms = $ct['gen']->preferred_comms($ct['conf']['comms']['price_alert'], $send_params);
+               // Only send to comm channels the user prefers, based off the config setting $ct['conf']['charts_alerts']['price_alert']
+               $preferred_comms = $ct['gen']->preferred_comms($ct['conf']['charts_alerts']['price_alert'], $send_params);
                     
                // Send notifications
                @$ct['cache']->queue_notify($preferred_comms);
@@ -1975,8 +1975,8 @@ var $ct_array = array();
              	 // Config setting set to ALWAYS reset every X days (and X days threshold has been met)
      	      // With offset, to try keeping daily recurrences at same exact runtime (instead of moving up the runtime daily)
              	 elseif ( 
-             	 $ct['conf']['power']['price_alert_fixed_reset'] >= 1 
-             	 && $ct['cache']->update_cache('cache/alerts/fiat_price/'.$asset_data.'.dat', ( $ct['conf']['power']['price_alert_fixed_reset'] * 1440 ) + $ct['dev']['tasks_time_offset'] ) == true
+             	 $ct['conf']['charts_alerts']['price_alert_fixed_reset'] >= 1 
+             	 && $ct['cache']->update_cache('cache/alerts/fiat_price/'.$asset_data.'.dat', ( $ct['conf']['charts_alerts']['price_alert_fixed_reset'] * 1440 ) + $ct['dev']['tasks_time_offset'] ) == true
              	 ) {
                
              	 $ct['cache']->save_file($ct['base_dir'] . '/cache/alerts/fiat_price/'.$asset_data.'.dat', $alert_cache_contents); 

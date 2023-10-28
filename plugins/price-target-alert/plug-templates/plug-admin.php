@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2014-2023 GPLv3, Open Crypto Tracker by Mike Kilday: Mike@DragonFrugal.com
+ * Copyright 2014-2024 GPLv3, Open Crypto Tracker by Mike Kilday: Mike@DragonFrugal.com (leave this copyright / attribution intact in ALL forks / copies!)
  */
 
 
@@ -81,7 +81,7 @@ $admin_render_settings['price_targets']['is_subarray'][$key]['text_field_size'] 
 }
 
 
-$admin_render_settings['price_targets']['is_notes'] = 'This format MUST be used (NO thousands seperator): asset-pair-exchange_id = 1234.5678';
+$admin_render_settings['price_targets']['is_notes'] = 'This format MUST be used (NO thousands seperator):<br />asset-pair-exchange_id = 1234.5678';
          
 
 ////////////////////////////////////////////////////////////////////////////////////////////////

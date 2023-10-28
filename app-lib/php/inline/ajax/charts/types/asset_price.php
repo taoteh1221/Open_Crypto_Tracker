@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2014-2023 GPLv3, Open Crypto Tracker by Mike Kilday: Mike@DragonFrugal.com
+ * Copyright 2014-2024 GPLv3, Open Crypto Tracker by Mike Kilday: Mike@DragonFrugal.com (leave this copyright / attribution intact in ALL forks / copies!)
  */
  
 
@@ -91,20 +91,20 @@ gui: {
    type: "area",
    noData: {
      text: "No data for this '<?=$ct['gen']->light_chart_time_period($_GET['days'], 'long')?>' light chart yet, please check back in awhile.",
-  	fontColor: "<?=$ct['conf']['power']['charts_text']?>",
+  	fontColor: "<?=$ct['conf']['charts_alerts']['charts_text']?>",
      backgroundColor: "#808080",
      fontSize: 20,
      textAlpha: .9,
      alpha: .6,
      bold: true
    },
-  	backgroundColor: "<?=$ct['conf']['power']['charts_background']?>",
+  	backgroundColor: "<?=$ct['conf']['charts_alerts']['charts_background']?>",
   	height: 420,
   	x: 0, 
   	y: 0,
   	title: {
   	  text: "<?=$chart_asset?> / <?=strtoupper($mrkt_parse[1])?> @ <?=$ct['gen']->key_to_name($mrkt_parse[0])?> <?=( $_GET['charted_val'] != 'pair' ? '(' . strtoupper($charted_val) . ' Value)' : '' )?>",
-  	  fontColor: "<?=$ct['conf']['power']['charts_text']?>",
+  	  fontColor: "<?=$ct['conf']['charts_alerts']['charts_text']?>",
   	  fontFamily: 'Open Sans',
   	  fontSize: 25,
   	  align: 'right',
@@ -123,7 +123,7 @@ gui: {
 	    x: <?=$x_coord?>,
 	    y: 11,
 	    id: '<?=$light_chart_days?>',
-	    fontColor: "<?=($_GET['days'] == $light_chart_days ? $ct['conf']['power']['charts_text'] : $ct['conf']['power']['charts_link'] )?>",
+	    fontColor: "<?=($_GET['days'] == $light_chart_days ? $ct['conf']['charts_alerts']['charts_text'] : $ct['conf']['charts_alerts']['charts_link'] )?>",
 	    fontSize: "22",
 	    fontFamily: "Open Sans",
 	    cursor: "hand",
@@ -206,30 +206,30 @@ graphset:[
   type: 'area',
   "preview":{
   	  label: {
-          color: '<?=$ct['conf']['power']['charts_text']?>',
+          color: '<?=$ct['conf']['charts_alerts']['charts_text']?>',
           fontSize: '10px',
           lineWidth: '1px',
-          lineColor: '<?=$ct['conf']['power']['charts_line']?>',
+          lineColor: '<?=$ct['conf']['charts_alerts']['charts_line']?>',
        },
  	  live: true,
  	  "adjust-layout": true,
  	  "alpha-area": 0.5,
  	  height: 30
   },
-  backgroundColor: "<?=$ct['conf']['power']['charts_background']?>",
+  backgroundColor: "<?=$ct['conf']['charts_alerts']['charts_background']?>",
   height: 420,
   x: 0, 
   y: 0,
   globals: {
   	fontSize: 20,
-  	fontColor: "<?=$ct['conf']['power']['charts_text']?>"
+  	fontColor: "<?=$ct['conf']['charts_alerts']['charts_text']?>"
   },
   crosshairX:{
     shared: true,
     exact: true,
     plotLabel:{
-      backgroundColor: "<?=$ct['conf']['power']['charts_tooltip_background']?>",
-      fontColor: "<?=$ct['conf']['power']['charts_tooltip_text']?>",
+      backgroundColor: "<?=$ct['conf']['charts_alerts']['charts_tooltip_background']?>",
+      fontColor: "<?=$ct['conf']['charts_alerts']['charts_tooltip_text']?>",
       text: "Spot Price: <?=$currency_symb?>%v",
 	 fontSize: "20",
       fontFamily: "Open Sans",
@@ -240,10 +240,10 @@ graphset:[
     },
     scaleLabel:{
     	 alpha: 1.0,
-      fontColor: "<?=$ct['conf']['power']['charts_tooltip_text']?>",
+      fontColor: "<?=$ct['conf']['charts_alerts']['charts_tooltip_text']?>",
       fontSize: 20,
       fontFamily: "Open Sans",
-      backgroundColor: "<?=$ct['conf']['power']['charts_tooltip_background']?>",
+      backgroundColor: "<?=$ct['conf']['charts_alerts']['charts_tooltip_background']?>",
     }
   },
   crosshairY:{
@@ -251,7 +251,7 @@ graphset:[
   },
   title: {
     text: "<?=$chart_asset?> / <?=strtoupper($mrkt_parse[1])?> @ <?=$ct['gen']->key_to_name($mrkt_parse[0])?> <?=( $_GET['charted_val'] != 'pair' ? '(' . strtoupper($charted_val) . ' Value)' : '' )?>",
-    fontColor: "<?=$ct['conf']['power']['charts_text']?>",
+    fontColor: "<?=$ct['conf']['charts_alerts']['charts_text']?>",
     fontFamily: 'Open Sans',
     fontSize: 25,
     align: 'right',
@@ -260,7 +260,7 @@ graphset:[
   },
   source: {
     text: "Select area to zoom in chart, or use zoom grab bars in preview area (only horizontal axis zooming supported).",
-    fontColor:"<?=$ct['conf']['power']['charts_text']?>",
+    fontColor:"<?=$ct['conf']['charts_alerts']['charts_text']?>",
     fontSize: "13",
     fontFamily: "Open Sans",
     offsetX: 110,
@@ -290,10 +290,10 @@ graphset:[
     guide: {
       visible: true,
       lineStyle: 'solid',
-      lineColor: "<?=$ct['conf']['power']['charts_line']?>"
+      lineColor: "<?=$ct['conf']['charts_alerts']['charts_line']?>"
     },
     item: {
-      fontColor: "<?=$ct['conf']['power']['charts_text']?>",
+      fontColor: "<?=$ct['conf']['charts_alerts']['charts_text']?>",
       fontFamily: "Open Sans",
       fontSize: "14",
     }
@@ -302,7 +302,7 @@ graphset:[
     guide: {
       visible: true,
       lineStyle: 'solid',
-      lineColor: "<?=$ct['conf']['power']['charts_line']?>"
+      lineColor: "<?=$ct['conf']['charts_alerts']['charts_line']?>"
     },
     values: [<?=$chart_data['time']?>],
     transform: {
@@ -314,19 +314,19 @@ graphset:[
     },
     item: {
 	 fontSize: "14",
-      fontColor: "<?=$ct['conf']['power']['charts_text']?>",
+      fontColor: "<?=$ct['conf']['charts_alerts']['charts_text']?>",
       fontFamily: "Open Sans"
     }
   },
 	series : [
 		{
 			values: [<?=$chart_data['spot']?>],
-			lineColor: "<?=$ct['conf']['power']['charts_text']?>",
+			lineColor: "<?=$ct['conf']['charts_alerts']['charts_text']?>",
 			lineWidth: 1,
-			backgroundColor:"<?=$ct['conf']['power']['charts_text']?> <?=$ct['conf']['power']['charts_price_gradient']?>", /* background gradient on graphed price area in main chart (NOT the chart background) */
+			backgroundColor:"<?=$ct['conf']['charts_alerts']['charts_text']?> <?=$ct['conf']['charts_alerts']['charts_price_gradient']?>", /* background gradient on graphed price area in main chart (NOT the chart background) */
 			alpha: 0.5,
 			previewState: {
-      		   backgroundColor: "<?=$ct['conf']['power']['charts_price_gradient']?>" /* background color on graphed price area in preview below chart (NOT the preview area background) */
+      		   backgroundColor: "<?=$ct['conf']['charts_alerts']['charts_price_gradient']?>" /* background color on graphed price area in preview below chart (NOT the preview area background) */
 			}
 		}
 	],
@@ -339,7 +339,7 @@ graphset:[
 	    x: <?=$x_coord?>,
 	    y: 11,
 	    id: '<?=$light_chart_days?>',
-	    fontColor: "<?=($_GET['days'] == $light_chart_days ? $ct['conf']['power']['charts_text'] : $ct['conf']['power']['charts_link'] )?>",
+	    fontColor: "<?=($_GET['days'] == $light_chart_days ? $ct['conf']['charts_alerts']['charts_text'] : $ct['conf']['charts_alerts']['charts_link'] )?>",
 	    fontSize: "22",
 	    fontFamily: "Open Sans",
 	    cursor: "hand",
@@ -368,7 +368,7 @@ graphset:[
   height: 75,
   x: 0, 
   y: 400,
-  backgroundColor: "<?=$ct['conf']['power']['charts_background']?>",
+  backgroundColor: "<?=$ct['conf']['charts_alerts']['charts_background']?>",
   plotarea: {
     margin: "11 63 20 112"
   },
@@ -379,7 +379,7 @@ graphset:[
   },
   source: {
     text: "24 Hour Volume",
-    fontColor:"<?=$ct['conf']['power']['charts_text']?>",
+    fontColor:"<?=$ct['conf']['charts_alerts']['charts_text']?>",
     fontSize: "13",
     fontFamily: "Open Sans",
     offsetX: 106,
@@ -389,9 +389,9 @@ graphset:[
   tooltip:{
     visible: false,
     text: "24 Hour Volume: <?=$currency_symb?>%v",
-    fontColor: "<?=$ct['conf']['power']['charts_tooltip_text']?>",
+    fontColor: "<?=$ct['conf']['charts_alerts']['charts_tooltip_text']?>",
     fontSize: "20",
-    backgroundColor: "<?=$ct['conf']['power']['charts_tooltip_background']?>",
+    backgroundColor: "<?=$ct['conf']['charts_alerts']['charts_tooltip_background']?>",
     fontFamily: "Open Sans",
     "thousands-separator":","
   },
@@ -405,8 +405,8 @@ graphset:[
       visible: false
     },
     plotLabel:{
-      backgroundColor: "<?=$ct['conf']['power']['charts_tooltip_background']?>",
-      fontColor: "<?=$ct['conf']['power']['charts_tooltip_text']?>",
+      backgroundColor: "<?=$ct['conf']['charts_alerts']['charts_tooltip_background']?>",
+      fontColor: "<?=$ct['conf']['charts_alerts']['charts_tooltip_text']?>",
       fontFamily: "Open Sans",
       text: "24 Hour Volume: <?=$currency_symb?>%v",
 	 fontSize: "20",
@@ -427,10 +427,10 @@ graphset:[
     guide: {
       visible: true,
       lineStyle: 'solid',
-      lineColor: "<?=$ct['conf']['power']['charts_line']?>"
+      lineColor: "<?=$ct['conf']['charts_alerts']['charts_line']?>"
     },
     item: {
-      fontColor: "<?=$ct['conf']['power']['charts_text']?>",
+      fontColor: "<?=$ct['conf']['charts_alerts']['charts_text']?>",
       fontFamily: "Open Sans",
       fontSize: "12",
     }
@@ -439,7 +439,7 @@ graphset:[
 		{
 			values: [<?=$chart_data['volume']?>],
 			text: "24hr Volume",
-			backgroundColor: "<?=$ct['conf']['power']['charts_text']?>",
+			backgroundColor: "<?=$ct['conf']['charts_alerts']['charts_text']?>",
     		     offsetX: 0
 		}
 	]

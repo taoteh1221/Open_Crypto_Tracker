@@ -1,10 +1,60 @@
 <?php
 /*
- * Copyright 2014-2023 GPLv3, Open Crypto Tracker by Mike Kilday: Mike@DragonFrugal.com
+ * Copyright 2014-2024 GPLv3, Open Crypto Tracker by Mike Kilday: Mike@DragonFrugal.com (leave this copyright / attribution intact in ALL forks / copies!)
  */
 
 
 ?>
+
+    <fieldset class='subsection_fieldset'><legend class='subsection_legend'> <strong>Plugin Settings</strong> </legend>
+    
+	<?php
+	
+	$currently_activated_plugins = array();
+	
+	foreach ( $activated_plugins['ui'] as $plugin_key => $unused ) {
+	$currently_activated_plugins[$plugin_key] = true;
+	}
+	
+	foreach ( $activated_plugins['cron'] as $plugin_key => $unused ) {
+	$currently_activated_plugins[$plugin_key] = true;
+	}
+	
+	foreach ( $activated_plugins['webhook'] as $plugin_key => $unused ) {
+	$currently_activated_plugins[$plugin_key] = true;
+	}
+	
+	if ( sizeof($currently_activated_plugins) < 1 ) {
+	echo '<span class="bitcoin">No plugins activated yet.</span>';
+	}
+	else {
+	     
+	ksort($currently_activated_plugins);
+	
+	?>
+	   
+    <ul>  
+    
+	     <?php
+		foreach ( $currently_activated_plugins as $plugin_key => $unused ) {
+    	     ?>
+    	     
+        <li><a href='admin.php?iframe=<?=$ct['gen']->admin_hashed_nonce('iframe_' . $plugin_key)?>&plugin=<?=$plugin_key?>'><?=$plug_conf[$plugin_key]['ui_name']?></a></li>
+        
+    	     <?php
+    	     }
+    	     ?>
+    	     
+	</ul>
+    	
+    	<?php
+	}
+	?>
+	
+	</div>
+	
+	</fieldset>
+
 	
     <fieldset class='subsection_fieldset'><legend class='subsection_legend'> <strong>Activate / Deactivate Installed Plugins</strong> </legend>
 
@@ -58,54 +108,4 @@
 	
 	</fieldset>
 				    
-
-    <fieldset class='subsection_fieldset'><legend class='subsection_legend'> <strong>Plugin Settings</strong> </legend>
-    
-	<?php
-	
-	$currently_activated_plugins = array();
-	
-	foreach ( $activated_plugins['ui'] as $plugin_key => $unused ) {
-	$currently_activated_plugins[$plugin_key] = true;
-	}
-	
-	foreach ( $activated_plugins['cron'] as $plugin_key => $unused ) {
-	$currently_activated_plugins[$plugin_key] = true;
-	}
-	
-	foreach ( $activated_plugins['webhook'] as $plugin_key => $unused ) {
-	$currently_activated_plugins[$plugin_key] = true;
-	}
-	
-	if ( sizeof($currently_activated_plugins) < 1 ) {
-	echo '<span class="bitcoin">No plugins activated yet.</span>';
-	}
-	else {
-	     
-	ksort($currently_activated_plugins);
-	
-	?>
-	   
-    <ul>  
-    
-	     <?php
-		foreach ( $currently_activated_plugins as $plugin_key => $unused ) {
-    	     ?>
-    	     
-        <li><a href='admin.php?iframe=<?=$ct['gen']->admin_hashed_nonce('iframe_' . $plugin_key)?>&plugin=<?=$plugin_key?>'><?=$plug_conf[$plugin_key]['ui_name']?></a></li>
-        
-    	     <?php
-    	     }
-    	     ?>
-    	     
-	</ul>
-    	
-    	<?php
-	}
-	?>
-	
-	</div>
-	
-	</fieldset>
-
-		    
+				    

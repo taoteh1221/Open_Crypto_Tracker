@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2014-2023 GPLv3, Open Crypto Tracker by Mike Kilday: Mike@DragonFrugal.com
+ * Copyright 2014-2024 GPLv3, Open Crypto Tracker by Mike Kilday: Mike@DragonFrugal.com (leave this copyright / attribution intact in ALL forks / copies!)
  */
 
 
@@ -53,7 +53,7 @@ else {
 	<!-- Submit button must be OUTSIDE form tags here, or it runs improperly -->
 	<button id='upgrade_ct_conf_button' class='force_button_style' onclick='
 	
-	var ct_conf_reset = confirm("Scans your configuration database for upgrades. This will ALWAYS happen automatically after upgrading / downgrading this app, but you can double-check here as well if you are having issues.\n\nIMPORTANT NOTE: If things act weird after an app upgrade, it is more likely due to OUTDATED JAVASCRIPT / CSS FILES in the web browser temporary files cache needing to be cleared.");
+	var ct_conf_reset = confirm("Scans your configuration database for upgrades. This will ALWAYS happen automatically after upgrading / downgrading this app, but you can double-check here as well if you are having issues.\n\nIMPORTANT NOTE: If things act weird after an app upgrade, it is more likely due to OUTDATED JAVASCRIPT / CSS FILES in the web browser temporary files cache needing to be cleared. IF NEITHER OF THESE POSSIBLE SOLUTIONS WORK, TRY RESETTING THE ENTIRE CONFIG ON THE RESET PAGE (which will reset ALL settings from the hard-coded PHP configuration files).");
 	
 		if ( ct_conf_reset ) {
 		document.getElementById("upgrade_ct_conf_button").disable = true;
@@ -123,7 +123,7 @@ $admin_render_settings['default_font_size']['range_min'] = round($ct['dev']['min
 
 $admin_render_settings['default_font_size']['range_max'] = round($ct['dev']['max_font_resize'] * 100);
 
-$admin_render_settings['default_font_size']['range_step'] = 1;
+$admin_render_settings['default_font_size']['range_step'] = 5;
 
 $admin_render_settings['default_font_size']['range_ui_suffix'] = '%';
 
@@ -227,7 +227,7 @@ $admin_render_settings['chart_crypto_volume_decimals']['range_step'] = 1;
 ////////////////////////////////////////////////////////////////////////////////////////////////
 
 
-$admin_render_settings['price_round_percent']['is_select'] = array(
+$admin_render_settings['price_rounding_percent']['is_select'] = array(
                                                                     'one',
                                                                     'tenth',
                                                                     'hundredth',
@@ -235,13 +235,19 @@ $admin_render_settings['price_round_percent']['is_select'] = array(
                                                                    );
 
 
+$admin_render_settings['price_rounding_percent']['is_notes'] = 'Example: one = 100, tenth = 100.9, hundredth = 100.09, thousandth = 100.009';
+
+
 ////////////////////////////////////////////////////////////////////////////////////////////////
 
 
-$admin_render_settings['price_round_fixed_decimals']['is_radio'] = array(
+$admin_render_settings['price_rounding_fixed_decimals']['is_radio'] = array(
                                                                          'off',
                                                                          'on',
                                                                         );
+
+
+$admin_render_settings['price_rounding_fixed_decimals']['is_notes'] = '(whether to keep trailing decimal zeros, or remove them)';
 
 
 ////////////////////////////////////////////////////////////////////////////////////////////////

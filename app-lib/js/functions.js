@@ -1,5 +1,5 @@
 
-// Copyright 2014-2023 GPLv3, Open Crypto Tracker by Mike Kilday: Mike@DragonFrugal.com
+// Copyright 2014-2024 GPLv3, Open Crypto Tracker by Mike Kilday: Mike@DragonFrugal.com (leave this copyright / attribution intact in ALL forks / copies!)
 
 
 /////////////////////////////////////////////////////////////
@@ -1151,6 +1151,50 @@ function monitor_iframe_sizes() {
     iframe_height_adjuster.observe(this);
     });
     
+
+}
+
+
+/////////////////////////////////////////////////////////////
+
+
+function resize_password_notes() {
+
+     if ( is_iframe && is_admin && !is_login_form ) {
+          
+     // Get array of all password fields to target
+     password_fields = document.querySelectorAll('.password-container');
+     
+          // Process all the password fields CSS styling
+          // (max-width on any documentation notes bubble, so hide/show password icon positions properly)
+          password_fields.forEach(function(pw_wrapper) {
+          
+          var pw_p = pw_wrapper.getElementsByTagName("p")[0];
+          
+          var pw_field = pw_p.getElementsByTagName("input")[0];
+          
+          var measure_pass = pw_p.getElementsByClassName('measure-password-field')[0];
+          
+               measure_pass.addEventListener("visibilitychange", () => {
+                    
+                 if (measure_pass.hidden) {
+                 // logic here
+                 } 
+                 else {
+                      
+                   // Wait 1.5 seconds before Initiating the admin settings password fields notes sizing
+                   // (otherwise widths aren't always registered yet for CSS style manipulations)
+                   setTimeout(function(){
+                   pw_p.style.maxWidth = measure_pass.offsetWidth + 'px';
+                   }, 1500);
+                   
+                 }
+                 
+               });
+    
+          });
+     
+     }
 
 }
 

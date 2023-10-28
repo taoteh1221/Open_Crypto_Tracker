@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2014-2023 GPLv3, Open Crypto Tracker by Mike Kilday: Mike@DragonFrugal.com
+ * Copyright 2014-2024 GPLv3, Open Crypto Tracker by Mike Kilday: Mike@DragonFrugal.com (leave this copyright / attribution intact in ALL forks / copies!)
  */
 
 
@@ -211,26 +211,29 @@ unset($this_plug);  // Reset
 }
 
 
+// Flag active plugins as checked / registered BEFORE ANYTHING ELSE
+$active_plugins_registered = true;
+
+
 // If no comparison digest of the default config yet, save it now to the cache
+// (MUST be done AFTER registering active plugins)
 if ( $check_default_ct_conf == null ) {
 $check_default_ct_conf = md5( serialize($default_ct_conf) );
 $ct['cache']->save_file($ct['base_dir'] . '/cache/vars/default_ct_conf_md5.dat', $check_default_ct_conf);
 sleep(1); // Chill for a second, since we just saved the default conf digest
 }
 
+
 // Queue up any user updates to the config (sets $update_config flag if there are any)
-// MUST RUN AFTER SCANNING PLUGIN CONFIGS
+// (MUST be done AFTER registering active plugins)
 if ( $admin_area_sec_level != 'high' ) {
-$ct['admin']->queue_config_update(); // We check for $app_upgrade_check / $reset_config in-function
+$ct['admin']->queue_config_update();
 }
 
 
-// Run any queued upgrade checks on the CACHED ct_conf (IF not high admin security level)
-if ( $admin_area_sec_level != 'high' && $app_upgrade_check ) {
-$ct['conf'] = $ct['cache']->update_cached_config($ct['conf'], true);
-}
-// IF ct_conf CACHE RESET (ALSO LOADS CT_CONF [WITH ACTIVATED PLUGIN CONFIGS])
-elseif ( $reset_config ) {
+// IF ct_conf CACHE RESET
+// (MUST be done AFTER registering active plugins / OVERRIDE ANY $update_config)
+if ( $reset_config ) {
              
     // Since we are resetting the cached config, telegram chatroom data should be refreshed too
     if ( $telegram_user_data_path != null ) {
@@ -240,15 +243,16 @@ elseif ( $reset_config ) {
 $ct['conf'] = $ct['cache']->update_cached_config(false, false, true); // Reset flag
 
 }
-// Updating cached config (THIS CAN BE ANY SECURITY MODE)
-elseif ( $update_config ) {
+// Updating cached config (APP OR USER INITIATED...SO THIS CAN BE ANY SECURITY MODE)
+else if ( $update_config ) {
 $ct['conf'] = $ct['cache']->update_cached_config($ct['conf']);
-$update_config = false; // Set back to false, since this is a global var
+$update_config = false; // Set back to false IMMEADIATELY, since this is a global var
 }
 
 
-// load_cached_config() LOADS *AFTER* PLUGIN CONFIGS IN *HIGH* ADMIN SECURITY MODE
-// (ONLY IF NO RESET WAS ALREADY TRIGGERED [IN WHICH CASE WE'D ALREADY HAVE THE CACHED CONFIG LOADED])
+// load_cached_config() IN *HIGH* ADMIN SECURITY MODE
+// (MUST be done AFTER registering active plugins / AFTER any $reset_config)
+// (ONLY IF NO $reset_config WAS ALREADY TRIGGERED [IN WHICH CASE WE'D ALREADY HAVE THE CACHED CONFIG LOADED])
 if ( $admin_area_sec_level == 'high' && !$reset_config ) {
 $ct['cache']->load_cached_config();
 }

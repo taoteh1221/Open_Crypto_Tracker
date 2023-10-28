@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2014-2023 GPLv3, Open Crypto Tracker by Mike Kilday: Mike@DragonFrugal.com
+ * Copyright 2014-2024 GPLv3, Open Crypto Tracker by Mike Kilday: Mike@DragonFrugal.com (leave this copyright / attribution intact in ALL forks / copies!)
  */
 
 
@@ -14,7 +14,8 @@
 
 // IF we don't have a PREMIUM PLAN (ALL premium plans are UNLIMITED daily requests)
 // (zero is the flag for UNLIMITED daily requests, auto-adjusted in config-init.php)
-if ( $ct['dev']['alphavantage_per_day_limit'] > 0 ) {
+if ( $alphavantage_per_day_limit > 0 ) {
+
 
      // Figure out what our throttled cache time has to be for alphavantage stock asset API calls
      foreach ( $ct['conf']['assets'] as $markets ) {
@@ -29,9 +30,14 @@ if ( $ct['dev']['alphavantage_per_day_limit'] > 0 ) {
                      
      }
 
-$alphavantage_max_daily_requests_per_asset = floor($ct['dev']['alphavantage_per_day_limit'] / $alphavantage_pairs);
-          
-$alphavantage_cache_time_per_asset = floor( ( 24 / $alphavantage_max_daily_requests_per_asset ) * 60 );
+
+     if ( $alphavantage_per_day_limit >= 1 ) {
+     $alphavantage_cache_time_per_asset =  floor( ( (24 / $alphavantage_per_day_limit) * 60 ) * $alphavantage_pairs);
+     }
+     else {
+     $alphavantage_cache_time_per_asset = 99999999999999999999; // Simple / effective "never runs" cache time
+     }
+
 
 // Throttled based on how many times a day each asset can get LIVE data, AND STILL NOT GO OVER THE DAILY LIMIT
 $throttled_api_cache_time['alphavantage.co'] = ( $alphavantage_cache_time_per_asset >  $ct['conf']['power']['last_trade_cache_time'] ? $alphavantage_cache_time_per_asset : $ct['conf']['power']['last_trade_cache_time'] );

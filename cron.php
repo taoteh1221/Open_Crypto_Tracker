@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2014-2023 GPLv3, Open Crypto Tracker by Mike Kilday: Mike@DragonFrugal.com
+ * Copyright 2014-2024 GPLv3, Open Crypto Tracker by Mike Kilday: Mike@DragonFrugal.com (leave this copyright / attribution intact in ALL forks / copies!)
  */
 
 
@@ -104,8 +104,8 @@ $cron_run_lock_file = $ct['base_dir'] . '/cache/events/emulated-cron-lock.dat';
             	}
         	
             	// News feeds - new posts email
-            	if ( $ct['conf']['comms']['news_feed_email_frequency'] > 0 ) {
-            	$ct['gen']->news_feed_email($ct['conf']['comms']['news_feed_email_frequency']);
+            	if ( $ct['conf']['news']['news_feed_email_frequency'] > 0 ) {
+            	$ct['gen']->news_feed_email($ct['conf']['news']['news_feed_email_frequency']);
             	}
         	
             }
@@ -135,7 +135,7 @@ $cron_run_lock_file = $ct['base_dir'] . '/cache/events/emulated-cron-lock.dat';
         
         
             // Checkup on each failed proxy
-            if ( $ct['conf']['comms']['proxy_alert'] != 'off' ) {
+            if ( $ct['conf']['proxy']['proxy_alert'] != 'off' ) {
             	
             	foreach ( $proxy_checkup as $problem_proxy ) {
             	$ct['gen']->test_proxy($problem_proxy);

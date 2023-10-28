@@ -1,6 +1,6 @@
 
 /*
- * Copyright 2014-2023 GPLv3, Open Crypto Tracker by Mike Kilday: Mike@DragonFrugal.com
+ * Copyright 2014-2024 GPLv3, Open Crypto Tracker by Mike Kilday: Mike@DragonFrugal.com (leave this copyright / attribution intact in ALL forks / copies!)
  */
  
  
@@ -27,7 +27,7 @@
 ////////////////////////////////////////
 
 
-// Your local time offset IN HOURS COMPARED TO UTC TIME (#CAN BE DECIMAL# TO SUPPORT 30 / 45 MINUTE TIME ZONES). Can be negative or positive.
+// Your local time offset IN HOURS COMPARED TO UTC TIME (#CAN BE DECIMAL# TO SUPPORT 15 / 30 / 45 MINUTE TIME ZONES). Can be negative or positive.
 // (Used for user experience 'pretty' timestamping in interface logic ONLY, WILL NOT change or screw up UTC log times etc if you change this)
 $ct['conf']['gen']['local_time_offset'] = -4; // example: -5 or 5, -5.5 or 5.75
 
@@ -107,11 +107,11 @@ $ct['conf']['gen']['chart_crypto_volume_decimals'] = 4;  // (default = 4)
 // #FIAT# CURRENCY VALUES UNDER 100 #ARE ALWAYS FORCED TO 2 DECIMALS MINUMUM#
 // #FIAT# CURRENCY VALUES UNDER 1 #ARE ALWAYS FORCED TO 'currency_decimals_max' DECIMALS MAXIMUM#
 // THIS SETTING ONLY AFFECTS INTERFACE / COMMS PRICE DISPLAY ROUNDING, IT DOES #NOT# AFFECT BACKGROUND CALCULATIONS
-$ct['conf']['gen']['price_round_percent'] = 'thousandth'; // (OF A PERCENT) 'one', 'tenth', 'hundredth', 'thousandth'
+$ct['conf']['gen']['price_rounding_percent'] = 'thousandth'; // (OF A PERCENT) 'one', 'tenth', 'hundredth', 'thousandth'
 ////
-// FORCE a FIXED MINIMUM amount of decimals on interface price, CALCULATED OFF ABOVE price_round_percent SETTING
+// FORCE a FIXED MINIMUM amount of decimals on interface price, CALCULATED OFF ABOVE price_rounding_percent SETTING
 // (ALWAYS SAME AMOUNT OF DECIMALS, #EVEN IF IT INCLUDES TRAILING ZEROS#) 
-$ct['conf']['gen']['price_round_fixed_decimals'] = 'on'; // 'off', 'on'
+$ct['conf']['gen']['price_rounding_fixed_decimals'] = 'on'; // 'off', 'on'
 
 
 ////////////////////////////////////////
@@ -137,58 +137,6 @@ $ct['conf']['comms']['upgrade_alert'] = 'all'; // 'off' (disabled) / 'all' / 'ui
 ////
 // Wait X days between upgrade reminders
 $ct['conf']['comms']['upgrade_alert_reminder'] = 7; // (only used if upgrade check is enabled above)
-
-
-// Every X days email a list of #NEW# RSS feed posts. 
-// 0 to disable. Email to / from !MUST BE SET IN COMMS CHANNELS SETUP!
-$ct['conf']['comms']['news_feed_email_frequency'] = 2; // (default = 2)
-////
-// MAXIMUM #NEW# RSS feed entries to include (per-feed) in news feed EMAIL (that are less then 'news_feed_email_frequency' days old)
-$ct['conf']['comms']['news_feed_email_entries_show'] = 20; // (default = 20)
-
-
-// PRICE ALERTS SETUP REQUIRES A CRON JOB / SCHEDULED TASK RUNNING ON YOUR WEB SERVER (see README.txt for setup information) 
-///
-// Enable / disable price alerts (DEFAULT: ALL USER-ACTIVATED COMM CHANNELS)
-// Choosing 'all' will send to all properly-configured communication channels, (and automatically skip any not properly setup)
-$ct['conf']['comms']['price_alert'] = 'all'; // 'off' (disabled) / 'all' / 'email' / 'text' / 'notifyme' / 'telegram'
-////
-// Price percent change to send alerts for (WITHOUT percent sign: 15.75 = 15.75%). Sends alerts when percent change reached (up or down)
-$ct['conf']['comms']['price_alert_threshold'] = 8.75; // CAN BE 0 TO DISABLE PRICE ALERTS
-////
-// Re-allow SAME asset price alert(s) messages after X HOURS (per alert config)
-// Set higher if sent to email junk folder / other comms APIs are blocking or throttling your alert messeges 
-$ct['conf']['comms']['price_alert_frequency_maximum'] = 1; // Can be 0, to have no limits
-////
-// Block an asset price alert if price retrieved, BUT failed retrieving pair volume (not even a zero was retrieved, nothing)
-// Good for BLOCKING QUESTIONABLE EXCHANGES from bugging you with price alerts, especially when used in combination with the minimum volume filter
-// (EXCHANGES WITH NO TRADE VOLUME API ARE EXCLUDED [VOLUME IS SET TO ZERO BEFORE THIS FILTER RUNS])
-$ct['conf']['comms']['price_alert_block_volume_error'] = 'off'; // 'on' / 'off' 
-////
-// Minimum 24 hour trade volume filter. Only allows sending price alerts if minimum 24 hour trade volume reached
-// CAN BE 0 TO DISABLE MINIMUM VOLUME FILTERING, NO DECIMALS OR SEPARATORS, NUMBERS ONLY, WITHOUT the [primary currency] prefix symbol
-// THIS FILTER WILL AUTO-DISABLE IF THERE IS ANY ERROR RETRIEVING VOLUME DATA ON A CERTAIN MARKET (NOT EVEN A ZERO IS RECEIVED ON VOLUME API)
-// !!WARNING!!: IF AN EXCHANGE DOES #NOT# PROVIDE TRADE VOLUME API DATA FOR MARKETS, SETTING THIS ABOVE 0 WILL 
-// #DISABLE ANY CONFIGURED PRICE ALERTS# FOR MARKETS ON THAT EXCHANGE, SO USE WITH CARE!
-$ct['conf']['comms']['price_alert_minimum_volume'] = 0; // (default = 0)
-
-
-// Email logs every X days. 
-// 0 to disable. Email to / from !MUST BE SET IN COMMS CHANNELS SETUP!, MAY NOT SEND IN TIMELY FASHION WITHOUT A CRON JOB / SCHEDULED TASK
-$ct['conf']['comms']['logs_email'] = 3; // (default = 3)
-
-
-// Alerts for failed proxy data connections (#ONLY USED# IF proxies are enabled further down in PROXY CONFIGURATION). 
-// Choosing 'all' will send to all properly-configured communication channels (and automatically skip any not properly setup)
-$ct['conf']['comms']['proxy_alert'] = 'email'; // 'off' (disabled) / 'all' / 'email' / 'text' / 'notifyme' / 'telegram'
-////
-$ct['conf']['comms']['proxy_alert_frequency_maximum'] = 1; // Re-allow same proxy alert(s) after X HOURS (per ip/port pair, can be 0)
-////
-// Which runtime mode should allow proxy alerts? Options: 'cron', 'ui', 'all' 
-$ct['conf']['comms']['proxy_alert_runtime'] = 'cron'; // (default = 'cron')
-////
-// Include or ignore proxy alerts if proxy checkup went OK? (after flagged, started working again when checked)
-$ct['conf']['comms']['proxy_alert_checkup_ok'] = 'include'; // 'include' / 'ignore' 
 
 
 // Use SMTP authentication TO SEND EMAIL, if your IP has no reverse lookup that matches the email domain name (on your home network etc)
@@ -219,6 +167,11 @@ $ct['conf']['comms']['to_email'] = ''; // #MUST BE SET# for price alerts and oth
 // skip_network_name SHOULD BE USED IF USING a texting (SMS) SERVICE (IN EXTERNAL APIS SECTION)
 // 'phone_number||network_name_key' (examples: '12223334444||virgin_us' / '12223334444||skip_network_name')
 $ct['conf']['comms']['to_mobile_text'] = '';
+
+
+// Email logs every X days. 
+// 0 to disable. Email to / from !MUST BE SET IN COMMS CHANNELS SETUP!, MAY NOT SEND IN TIMELY FASHION WITHOUT A CRON JOB / SCHEDULED TASK
+$ct['conf']['comms']['logs_email'] = 3; // (default = 3)
 
 
 ////////////////////////////////////////
@@ -296,6 +249,15 @@ $ct['conf']['ext_apis']['textlocal_api_key'] = '';
 $ct['conf']['ext_apis']['google_fonts_api_key'] = '';
 
 
+// HOURS to cache google font list (for admin interface). Set high, we rarely need it updated
+$ct['conf']['ext_apis']['google_fonts_cache_time'] = 24;  // (default = 24)
+
+
+// Maximum number of BATCHED coingecko marketcap data results to fetch, per API call (during multiple / paginated calls) 
+// (coingecko #ABSOLUTELY HATES# DATA CENTER IPS [DEDICATED / VPS SERVERS], BUT GOES EASY ON RESIDENTIAL IPS)
+$ct['conf']['ext_apis']['coingecko_api_batched_maximum'] = 100; // (default = 100), ADJUST WITH CARE!!!
+
+
 // API key for coinmarketcap.com Pro API (required unfortunately, but a FREE level is available): https://coinmarketcap.com/api
 $ct['conf']['ext_apis']['coinmarketcap_api_key'] = '';
 
@@ -314,6 +276,12 @@ $ct['conf']['ext_apis']['alphavantage_api_key'] = '';
 // Default = 5 [FOR FREE SERVICE], and 30,75,150,300,600,1200 [FOR PREMIUM PLANS]:
 // https://www.alphavantage.co/premium/
 $ct['conf']['ext_apis']['alphavantage_per_minute_limit'] = 5;
+////
+// The DEFAULT (FREE PLAN) requests-per-DAY limit on the Alpha Vantage API key
+// WE AUTO-ADJUST TO UNLIMITED FOR PREMIUM PLANS:
+// https://www.alphavantage.co/premium/
+// (they have been known to change this amount occassionally for the free plan, so we have this setting)
+$ct['conf']['ext_apis']['alphavantage_free_plan_daily_limit'] = 25;
 
 
 ////////////////////////////////////////
@@ -332,11 +300,29 @@ $ct['conf']['proxy']['proxy_list'] = array(
 					// 'ipaddress1:portnumber1',
 					// 'ipaddress2:portnumber2',
 					);
-////
+
+
 // If using proxies and login is required
 // Adding a user / pass here will automatically send login details for proxy connections
 // CAN BE BLANK. IF using ip address authentication instead, MUST BE LEFT BLANK
 $ct['conf']['proxy']['proxy_login'] = ''; // Use format: 'username||password'
+
+
+// Alerts for failed proxy data connections (#ONLY USED# IF proxies are enabled further down in PROXY CONFIGURATION). 
+// Choosing 'all' will send to all properly-configured communication channels (and automatically skip any not properly setup)
+$ct['conf']['proxy']['proxy_alert'] = 'email'; // 'off' (disabled) / 'all' / 'email' / 'text' / 'notifyme' / 'telegram'
+
+
+// Re-allow same proxy alert(s) after X HOURS (per ip/port pair, can be 0)
+$ct['conf']['proxy']['proxy_alert_frequency_maximum'] = 1; 
+
+
+// Which runtime mode should allow proxy alerts? Options: 'cron', 'ui', 'all' 
+$ct['conf']['proxy']['proxy_alert_runtime'] = 'cron'; // (default = 'cron')
+
+
+// Include or ignore proxy alerts if proxy checkup went OK? (after flagged, started working again when checked)
+$ct['conf']['proxy']['proxy_alert_checkup_ok'] = 'include'; // 'include' / 'ignore' 
 
 
 ////////////////////////////////////////
@@ -413,7 +399,76 @@ $ct['conf']['sec']['captcha_text_angle'] = 35; // (default = 35)
 
 
 // CHARTS / PRICE ALERTS SETUP REQUIRES A CRON JOB OR SCHEDULED TASK RUNNING ON YOUR WEB SERVER (see README.txt for setup information) 
+
+
+// Enable / disable price alerts (DEFAULT: ALL USER-ACTIVATED COMM CHANNELS)
+// Choosing 'all' will send to all properly-configured communication channels, (and automatically skip any not properly setup)
+$ct['conf']['charts_alerts']['price_alert'] = 'all'; // 'off' (disabled) / 'all' / 'email' / 'text' / 'notifyme' / 'telegram'
+
+
+// Price percent change to send alerts for (WITHOUT percent sign: 15.75 = 15.75%). Sends alerts when percent change reached (up or down)
+$ct['conf']['charts_alerts']['price_alert_threshold'] = 8.75; // CAN BE 0 TO DISABLE PRICE ALERTS
+
+
+// Re-allow SAME asset price alert(s) messages after X HOURS (per alert config)
+// Set higher if sent to email junk folder / other comms APIs are blocking or throttling your alert messeges 
+$ct['conf']['charts_alerts']['price_alert_frequency_maximum'] = 1; // Can be 0, to have no limits
+
+
+// Block an asset price alert if price retrieved, BUT failed retrieving pair volume (not even a zero was retrieved, nothing)
+// Good for BLOCKING QUESTIONABLE EXCHANGES from bugging you with price alerts, especially when used in combination with the minimum volume filter
+// (EXCHANGES WITH NO TRADE VOLUME API ARE EXCLUDED [VOLUME IS SET TO ZERO BEFORE THIS FILTER RUNS])
+$ct['conf']['charts_alerts']['price_alert_block_volume_error'] = 'off'; // 'on' / 'off' 
+
+
+// Minimum 24 hour trade volume filter. Only allows sending price alerts if minimum 24 hour trade volume reached
+// CAN BE 0 TO DISABLE MINIMUM VOLUME FILTERING, NO DECIMALS OR SEPARATORS, NUMBERS ONLY, WITHOUT the [primary currency] prefix symbol
+// THIS FILTER WILL AUTO-DISABLE IF THERE IS ANY ERROR RETRIEVING VOLUME DATA ON A CERTAIN MARKET (NOT EVEN A ZERO IS RECEIVED ON VOLUME API)
+// !!WARNING!!: IF AN EXCHANGE DOES #NOT# PROVIDE TRADE VOLUME API DATA FOR MARKETS, SETTING THIS ABOVE 0 WILL 
+// #DISABLE ANY CONFIGURED PRICE ALERTS# FOR MARKETS ON THAT EXCHANGE, SO USE WITH CARE!
+$ct['conf']['charts_alerts']['price_alert_minimum_volume'] = 0; // (default = 0)
+
+																		
+// Fixed time interval RESET of cached comparison asset prices every X days (since last price reset / alert), compared with the current latest spot prices
+// Helpful if you only want price alerts for a certain time window. Resets also send alerts that reset occurred, with summary of price changes since last reset
+// Can be 0 to disable fixed time interval resetting (IN WHICH CASE RESETS WILL ONLY OCCUR DYNAMICALLY when the next price alert is triggered / sent out)
+$ct['conf']['charts_alerts']['price_alert_fixed_reset'] = 0; // (default = 0)
+
+
+// Whale alert (adds "WHALE ALERT" to beginning of alexa / email / telegram alert text, and spouting whale emoji to email / text / telegram)
+// Format: 'max_days_to_24hr_avg_over||min_price_percent_change_24hr_avg||min_vol_percent_increase_24hr_avg||min_vol_currency_increase_24hr_avg'
+// ("min_price_percent_change_24hr_avg" should be the same value or higher as $ct['conf']['charts_alerts']['price_alert_threshold'] to work properly)
+// Leave BLANK '' TO DISABLE. DECIMALS ARE SUPPORTED, USE NUMBERS ONLY (NO CURRENCY SYMBOLS / COMMAS, ETC)
+$ct['conf']['charts_alerts']['price_alert_whale_threshold'] = '1.25||9.75||12.75||25000'; // (default: '1.25||9.75||12.75||25000')	
+
+
+// PRICE CHARTS colors (https://www.w3schools.com/colors/colors_picker.asp)
 ////
+// Charts border color
+$ct['conf']['charts_alerts']['charts_border'] = '#808080'; // (default: '#808080')
+////
+// Charts background color
+$ct['conf']['charts_alerts']['charts_background'] = '#515050';   // (default: '#515050')
+////
+// Charts line color
+$ct['conf']['charts_alerts']['charts_line'] = '#444444';   // (default: '#444444')
+////
+// Charts text color
+$ct['conf']['charts_alerts']['charts_text'] = '#e8e8e8';   // (default: '#e8e8e8')
+////
+// Charts link color
+$ct['conf']['charts_alerts']['charts_link'] = '#939393';   // (default: '#939393')
+////
+// Charts price (base) gradient color
+$ct['conf']['charts_alerts']['charts_price_gradient'] = '#000000';  // (default: '#000000')
+////
+// Charts tooltip background color
+$ct['conf']['charts_alerts']['charts_tooltip_background'] = '#bbbbbb'; // (default: '#bbbbbb')
+////
+// Charts tooltip text color
+$ct['conf']['charts_alerts']['charts_tooltip_text'] = '#222222'; // (default: '#222222')
+
+
 // Markets you want charts or asset price change alerts for (see the COMMUNICATIONS section for price alerts threshold settings) 
 // NOTE: This list must only contain assets / exchanges / trading pairs included in the primary portfolio assets list configuration further down in this config file
 // TO ADD MULTIPLE CHARTS / ALERTS FOR SAME ASSET (FOR DIFFERENT EXCHANGES / TRADE PAIRS), FORMAT LIKE SO: symbol, symbol-1, symbol-2, symbol-3, etc.
@@ -719,11 +774,6 @@ $ct['conf']['power']['log_verbosity'] = 'normal'; // 'normal' / 'verbose'
 // Adding a string here automatically enables that as the custom curl user agent
 // LEAVING BLANK '' USES THE DEFAULT CURL USER AGENT LOGIC BUILT-IN TO THIS APP (WHICH INCLUDES ONLY BASIC SYSTEM CONFIGURATION STATS)
 $ct['conf']['power']['override_curl_user_agent'] = ''; 
-
-
-// Maximum number of BATCHED coingecko marketcap data results to fetch, per API call (during multiple / paginated calls) 
-// (coingecko #ABSOLUTELY HATES# DATA CENTER IPS [DEDICATED / VPS SERVERS], BUT GOES EASY ON RESIDENTIAL IPS)
-$ct['conf']['power']['coingecko_api_batched_maximum'] = 100; // (default = 100), ADJUST WITH CARE!!!
 							
 							
 // MINUTES to wait until running consecutive desktop edition emulated cron jobs
@@ -750,10 +800,6 @@ $ct['conf']['power']['last_trade_cache_time'] = 4; // (default = 4)
 
 // MINUTES to cache blockchain stats (for mining calculators). Set high initially, it can be strict
 $ct['conf']['power']['blockchain_stats_cache_time'] = 60;  // (default = 60)
-
-
-// MINUTES to cache google font list (for admin interface). Set high, we rarely need it updated
-$ct['conf']['power']['google_fonts_cache_time'] = 1440;  // (default = 1440)
 
 
 // MINUTES to cache marketcap rankings...START HIGH and test lower, it can be STRICT
@@ -826,18 +872,6 @@ $ct['conf']['power']['system_stats_first_chart_maximum_scale'] = 3.25; // (defau
 // Highest allowed sensor value to scale vertical axis for, in the SECOND system information chart (out of two)
 // (to prevent anomaly results from scaling vertical axis TOO HIGH to read LESSER-VALUE sensor data...only used IF CRON JOB IS SETUP)
 $ct['conf']['power']['system_stats_second_chart_maximum_scale'] = 325; // (default = 325) 
-
-																		
-// Fixed time interval RESET of cached comparison asset prices every X days (since last price reset / alert), compared with the current latest spot prices
-// Helpful if you only want price alerts for a certain time window. Resets also send alerts that reset occurred, with summary of price changes since last reset
-// Can be 0 to disable fixed time interval resetting (IN WHICH CASE RESETS WILL ONLY OCCUR DYNAMICALLY when the next price alert is triggered / sent out)
-$ct['conf']['power']['price_alert_fixed_reset'] = 0; // (default = 0)
-////
-// Whale alert (adds "WHALE ALERT" to beginning of alexa / email / telegram alert text, and spouting whale emoji to email / text / telegram)
-// Format: 'max_days_to_24hr_avg_over||min_price_percent_change_24hr_avg||min_vol_percent_increase_24hr_avg||min_vol_currency_increase_24hr_avg'
-// ("min_price_percent_change_24hr_avg" should be the same value or higher as $ct['conf']['comms']['price_alert_threshold'] to work properly)
-// Leave BLANK '' TO DISABLE. DECIMALS ARE SUPPORTED, USE NUMBERS ONLY (NO CURRENCY SYMBOLS / COMMAS, ETC)
-$ct['conf']['power']['price_alert_whale_threshold'] = '1.25||9.75||12.75||25000'; // (default: '1.25||9.75||12.75||25000')	
 			
 			
 // Configuration for system resource warning thresholds (logs to error log, and sends comms alerts to any activated comms)
@@ -868,33 +902,6 @@ $ct['conf']['power']['portfolio_cache_warning'] = '2000||72'; // 'portfolio_cach
 // Because the header data MAY be approaching the server limit (WHICH CAN CRASH THIS APP!!)
 // STANDARD SERVER HEADER SIZE LIMITS (IN BYTES)...Apache: 8000, NGINX: 4000 - 8000, IIS: 8000 - 16000, Tomcat: 8000 - 48000
 $ct['conf']['power']['cookies_size_warning'] = '7000||6'; // 'cookies_size_bytes||hours_between_alerts' (default = '7000||6')
-
-
-// PRICE CHARTS colors (https://www.w3schools.com/colors/colors_picker.asp)
-////
-// Charts border color
-$ct['conf']['power']['charts_border'] = '#808080'; // (default: '#808080')
-////
-// Charts background color
-$ct['conf']['power']['charts_background'] = '#515050';   // (default: '#515050')
-////
-// Charts line color
-$ct['conf']['power']['charts_line'] = '#444444';   // (default: '#444444')
-////
-// Charts text color
-$ct['conf']['power']['charts_text'] = '#e8e8e8';   // (default: '#e8e8e8')
-////
-// Charts link color
-$ct['conf']['power']['charts_link'] = '#939393';   // (default: '#939393')
-////
-// Charts price (base) gradient color
-$ct['conf']['power']['charts_price_gradient'] = '#000000';  // (default: '#000000')
-////
-// Charts tooltip background color
-$ct['conf']['power']['charts_tooltip_background'] = '#bbbbbb'; // (default: '#bbbbbb')
-////
-// Charts tooltip text color
-$ct['conf']['power']['charts_tooltip_text'] = '#222222'; // (default: '#222222')
 
 
 // Local / internal REST API rate limit (maximum of once every X SECONDS, per ip address) for accepting remote requests
@@ -1143,6 +1150,15 @@ $ct['conf']['news']['entries_to_show'] = 10; // (default = 10)
 
 // RSS feed entries under X DAYS old are marked as 'new' on the news page
 $ct['conf']['news']['mark_as_new'] = 2; // (default = 2)
+
+
+// Every X days email a list of #NEW# RSS feed posts. 
+// 0 to disable. Email to / from !MUST BE SET IN COMMS CHANNELS SETUP!
+$ct['conf']['news']['news_feed_email_frequency'] = 2; // (default = 2)
+
+
+// MAXIMUM #NEW# RSS feed entries to include (per-feed) in news feed EMAIL (that are less then 'news_feed_email_frequency' days old)
+$ct['conf']['news']['news_feed_email_entries_include'] = 20; // (default = 20)
 
 
 // Minutes to cache RSS feeds for News page
