@@ -174,10 +174,13 @@ https://zksync.io/api/v0.1.html (KEEP AN EYE OUT FOR V2 DOCS AS WELL)
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
-Check json array structure is intact after MANY end user admin interface updates. Also re-test the upgrade button in general section.
+Triple-check the cached config upgrade / downgrade mechanism, ALSO INCLUDING the bundled plugins.
 
 
-See why jup ag price charts are no longer saving data.
+Use the app "Meld" to compare json config files from a fresh reset vs after many user customizations, to assure ordering / structure is not corrupted. Also re-test the upgrade button in general section.
+
+
+See why jup ag price charts are no longer saving data, guessing it's the no trade value available.
 
 
 Modify the "app has been upgraded" interface alert, as we no longer wait AT ALL for scheduled maintenance to update the CACHED app version number (we update it instantly once a new app version is detected). Save a "show message" value to the vars cache, like we do for upgrade alerts (and mark as "don't show" after it has shown).
@@ -189,9 +192,6 @@ CACHE an md5 hash of all telegram settings combined, and only delete the chatroo
 Validate news feeds settings interface input / all plugin settings interface inputs.
 
 
-Triple-check the cached config upgrade / downgrade mechanism with the bundled plugins.
-
-
 Triple-check adding / removing a plugin subdirectory, in regular AND high security mode, AND with plugin activation on AND off.
 
 
@@ -199,6 +199,9 @@ Test out the new iframe-reloading HALT mechanism (if a halt was called on updati
 
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~DO AN APP RELEASE AT THIS POINT IN THIS LIST~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+Below the config reset button, have an expandable tree list with a checkbox next to each entry (including 'all'), for each config subarray key name, including the plug_conf section. Then users can decide which sections to reset, and which to leave alone.
 
 
 We should not "default to" a text input in the admin area, as submitting updated data could corrupt certain settings under these circumstances. We should default to a NON FORM ELEMENT, like a large bright red span, saying that field name. That way we still never miss a setting by accident, and if it shows on the page, it should also DISABLE SUBMITTING THE FORM DATA.

@@ -6355,6 +6355,8 @@ MIGRATE YOUR EXISTING SETTINGS TO THE NEW FORMAT.
 -------------------------------------------------------------------
 6.00.29:
 
+-BUG FIX: Fixed the cached config upgrade mechanism from corrupting the cached config (AND added in checks to locate / repair any previously-corrupted values...sorry!)
+
 -BUG FIX: Fixed heading title resizing (when using the font resizing feature in the sidebar), so they now resize with the other text
 
 -BUG FIX: Miscellaneous fixes

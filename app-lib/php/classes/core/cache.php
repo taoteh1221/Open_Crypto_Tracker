@@ -189,7 +189,10 @@ var $ct_array = array();
                    
                    foreach ( $default_ct_conf['plug_conf'][$this_plug] as $plug_setting_key => $plug_setting_val ) {
                    
-                      if ( !isset($conf['plug_conf'][$this_plug][$plug_setting_key]) ) {
+                      if (
+                      !isset($conf['plug_conf'][$this_plug][$plug_setting_key])
+                      || isset($conf['plug_conf'][$this_plug][$plug_setting_key]) && $conf['plug_conf'][$this_plug][$plug_setting_key] == null && $default_ct_conf['plug_conf'][$this_plug][$plug_setting_key] != null // CHECKING FOR CORRUPTED VALUES
+                      ) {
                       
                       $conf['plug_conf'][$this_plug][$plug_setting_key] = $default_ct_conf['plug_conf'][$this_plug][$plug_setting_key];
                   			
@@ -214,10 +217,14 @@ var $ct_array = array();
            
            
               // Check everything else
-              if ( !is_array($conf[$cat_key][$conf_key]) || is_array($conf[$cat_key][$conf_key]) && !array_key_exists($setting_key, $conf[$cat_key][$conf_key]) ) {
+              // INCLUDES CONDITION TO CHECK FOR CORRUPTED VALUES
+              if (
+              !isset($conf[$cat_key][$conf_key])
+              || !isset($conf[$cat_key][$conf_key][$setting_key]) || isset($conf[$cat_key][$conf_key][$setting_key]) && $conf[$cat_key][$conf_key][$setting_key] == null && $default_ct_conf[$cat_key][$conf_key][$setting_key] != null
+              ) {
               			
               			
-                   if ( !is_array($conf[$cat_key][$conf_key]) ) {
+                   if ( !isset($conf[$cat_key][$conf_key]) ) {
                         
                    $conf[$cat_key][$conf_key] = $default_ct_conf[$cat_key][$conf_key];
                   			
@@ -232,9 +239,10 @@ var $ct_array = array();
                         			);
                    
                    }
-                   
-                   
-                   if ( is_array($conf[$cat_key][$conf_key]) && !array_key_exists($setting_key, $conf[$cat_key][$conf_key]) ) {
+                   else if (
+                   !isset($conf[$cat_key][$conf_key][$setting_key])
+                   || isset($conf[$cat_key][$conf_key][$setting_key]) && $conf[$cat_key][$conf_key][$setting_key] == null && $default_ct_conf[$cat_key][$conf_key][$setting_key] != null // CHECKING FOR CORRUPTED VALUES
+                   ) {
               	
                    $conf[$cat_key][$conf_key][$setting_key] = $default_ct_conf[$cat_key][$conf_key][$setting_key];
                   			
@@ -261,7 +269,7 @@ var $ct_array = array();
            
         }
         // Depreciated
-        elseif ( $mode == 'depreciated' ) {
+        else if ( $mode == 'depreciated' ) {
         
            
            // Check for depreciated variables, and remove them
@@ -303,24 +311,11 @@ var $ct_array = array();
            
            
               // Check everything else
-              if ( !is_array($default_ct_conf[$cat_key][$conf_key]) || is_array($default_ct_conf[$cat_key][$conf_key]) && !array_key_exists($setting_key, $default_ct_conf[$cat_key][$conf_key]) ) {
+              if ( !isset($default_ct_conf[$cat_key][$conf_key]) || !isset($default_ct_conf[$cat_key][$conf_key][$setting_key]) ) {
               
-              
-                   if ( is_array($default_ct_conf[$cat_key][$conf_key]) && !array_key_exists($setting_key, $default_ct_conf[$cat_key][$conf_key]) ) {
-                   
-                   unset($conf[$cat_key][$conf_key][$setting_key]);
-                   
-                   $conf_upgraded = true;
-                   
-                   $ct['gen']->log(
-                        			'conf_error',
-                        			'Depreciated app config, parameter ct[conf][' . $cat_key . '][' . $conf_key . '][' . $setting_key . '] removed'
-                        			);
-                   			
-                   }
               			
               			
-                   if ( !isset($default_ct_conf[$cat_key][$conf_key]) && isset($conf[$cat_key][$conf_key]) ) {
+                   if ( !isset($default_ct_conf[$cat_key][$conf_key]) ) {
                         
                    unset($conf[$cat_key][$conf_key]);
                    
@@ -329,6 +324,18 @@ var $ct_array = array();
                    $ct['gen']->log(
                         			'conf_error',
                         			'Depreciated app config, PARENT ARRAY parameter ct[conf][' . $cat_key . '][' . $conf_key . '] removed'
+                        			);
+                   			
+                   } 
+                   else if ( !isset($default_ct_conf[$cat_key][$conf_key][$setting_key]) ) {
+                   
+                   unset($conf[$cat_key][$conf_key][$setting_key]);
+                   
+                   $conf_upgraded = true;
+                   
+                   $ct['gen']->log(
+                        			'conf_error',
+                        			'Depreciated app config, parameter ct[conf][' . $cat_key . '][' . $conf_key . '][' . $setting_key . '] removed'
                         			);
                    			
                    }
@@ -825,14 +832,8 @@ var $ct_array = array();
                //			'ct[conf][' . $cat_key . '][' . $conf_key . '] = ' .  $conf[$cat_key][$conf_key]
                  // 			);
          
-               // Uses === for PHPv7.4 support
-               if (
-               is_array($conf_val) && isset($conf[$cat_key]) && in_array($cat_key, $subarray_allow_upgrading)
-               || is_array($conf_val) && $cat_key === 'plugins' && $conf_key === 'plugin_status'
-               ) {
-               $conf = $this->subarray_cached_ct_conf_upgrade($conf, $cat_key, $conf_key, 'new');
-               }
-               elseif ( !isset($conf[$cat_key]) && isset($default_ct_conf[$cat_key]) ) {
+         
+               if ( !isset($conf[$cat_key]) ) {
                     
                $conf[$cat_key] = $default_ct_conf[$cat_key];
                   			
@@ -847,11 +848,17 @@ var $ct_array = array();
                   			);
                   
                }
-               
-               
-               if (
-               !is_array($conf_val) && !isset($conf[$cat_key][$conf_key]) && isset($default_ct_conf[$cat_key][$conf_key]) 
-               || !is_array($conf_val) && isset($conf[$cat_key][$conf_key]) && $conf[$cat_key][$conf_key] == null && $default_ct_conf[$cat_key][$conf_key] != null // BUG FIX FOR V6.00.28
+               else if ( is_array($conf[$cat_key][$conf_key]) ) {
+                    
+                    // Uses === for PHPv7.4 support
+                    if ( in_array($cat_key, $subarray_allow_upgrading) || $cat_key === 'plugins' && $conf_key === 'plugin_status' ) {
+                    $conf = $this->subarray_cached_ct_conf_upgrade($conf, $cat_key, $conf_key, 'new');
+                    }
+                    
+               }
+               else if (
+               !isset($conf[$cat_key][$conf_key])
+               || isset($conf[$cat_key][$conf_key]) && $conf[$cat_key][$conf_key] == null && $default_ct_conf[$cat_key][$conf_key] != null // CHECKING FOR CORRUPTED VALUES
                ) {
                   	
                $conf[$cat_key][$conf_key] = $default_ct_conf[$cat_key][$conf_key];
@@ -895,14 +902,8 @@ var $ct_array = array();
                //			'ct[conf][' . $cached_cat_key . '][' . $cached_conf_key . '] = ' .  $cached_conf_val
                  // 			);
          
-               // Uses === for PHPv7.4 support
-               if ( 
-               is_array($cached_conf_val) && isset($default_ct_conf[$cached_cat_key]) && in_array($cached_cat_key, $subarray_allow_upgrading)
-               || is_array($conf_val) && $cached_cat_key === 'plugins' && $cached_conf_key === 'plugin_status'
-               ) {
-               $conf = $this->subarray_cached_ct_conf_upgrade($conf, $cached_cat_key, $cached_conf_key, 'depreciated');
-               }
-               elseif ( !isset($default_ct_conf[$cached_cat_key]) && isset($conf[$cached_cat_key]) ) {
+         
+               if ( !isset($default_ct_conf[$cached_cat_key]) ) {
                   	
                unset($conf[$cached_cat_key]);
                   
@@ -914,9 +915,15 @@ var $ct_array = array();
                   			);
                   
                }
-               
-               
-               if ( !is_array($cached_conf_val) && !isset($default_ct_conf[$cached_cat_key][$cached_conf_key]) && isset($conf[$cached_cat_key][$cached_conf_key]) ) {
+               else if ( is_array($default_ct_conf[$cached_cat_key][$cached_conf_key]) ) {
+                    
+                    // Uses === for PHPv7.4 support
+                    if ( in_array($cached_cat_key, $subarray_allow_upgrading) || $cached_cat_key === 'plugins' && $cached_conf_key === 'plugin_status' ) {
+                    $conf = $this->subarray_cached_ct_conf_upgrade($conf, $cached_cat_key, $cached_conf_key, 'depreciated');
+                    }
+                    
+               }
+               else if ( !isset($default_ct_conf[$cached_cat_key][$cached_conf_key]) ) {
                   	
                unset($conf[$cached_cat_key][$cached_conf_key]);
                   
@@ -935,7 +942,9 @@ var $ct_array = array();
             
       }
          
-        //$ct['cache']->app_log();
+   
+   //$ct['cache']->app_log(); // DEBUGGING
+   
    return ( $conf_upgraded ? $conf : false );
    
    }
