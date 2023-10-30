@@ -1096,14 +1096,14 @@ var $ct_array = array();
    ////////////////////////////////////////////////////////
    
    
-   function update_cached_config($passed_config, $upgrade_mode=false, $user_reset=false) {
+   function update_cached_config($passed_config, $upgrade_mode=false, $reset_flagged=false) {
    
    global $ct, $default_ct_conf, $conf_upgraded, $app_upgrade_check, $update_config, $restore_conf_path, $telegram_user_data_path, $telegram_user_data, $admin_area_sec_level, $htaccess_username, $htaccess_password;
 
              
         // Since we are resetting OR updating the cached config, telegram chatroom data should be refreshed too
         // (ONLY IF TELEGRAM SETTINGS HAVE CHANGED)
-        if ( $update_config && $telegram_user_data_path != null || $user_reset && $telegram_user_data_path != null ) {
+        if ( $update_config && $telegram_user_data_path != null || $reset_flagged && $telegram_user_data_path != null ) {
         
         $check_telegram_conf_md5 = trim( file_get_contents($ct['base_dir'] . '/cache/vars/state-tracking/telegram_conf_md5.dat') );
 
@@ -1127,14 +1127,14 @@ var $ct_array = array();
         
         
 	        // If no reset ct_conf flag, try loading last working config (if it exists, before falling back on default ct_conf)
-	        if ( !$user_reset && file_exists($restore_conf_path) ) {
+	        if ( !$reset_flagged && file_exists($restore_conf_path) ) {
              $passed_config = json_decode( trim( file_get_contents($restore_conf_path) ) , TRUE);
 	        }
 				
              
              // If NO valid last working config / IS high security mode / IS a user-initiated reset to ct_conf defaults,
              // WE USE THE DEFAULT CT_CONF (FROM THE PHP CONFIGURATION FILES)
-             if ( !$passed_config || $admin_area_sec_level == 'high' || $user_reset ) {
+             if ( !$passed_config || $admin_area_sec_level == 'high' || $reset_flagged ) {
                   
              $passed_config = $default_ct_conf;
     		
@@ -1235,7 +1235,7 @@ var $ct_array = array();
             		
             		
                 		// For checking later, if DEFAULT Admin Config (in config.php) values are updated we save to json again
-            		    if ( $admin_area_sec_level == 'high' || $user_reset ) {
+            		    if ( $admin_area_sec_level == 'high' || $reset_flagged ) {
                 		$this->save_file($ct['base_dir'] . '/cache/vars/state-tracking/default_ct_conf_md5.dat', md5( serialize($default_ct_conf) ) ); 
             		    }
             		
@@ -1264,14 +1264,14 @@ var $ct_array = array();
     		
     		
                // For checking later, if DEFAULT Admin Config (in config.php) values are updated we save to json again
-            	if ( $admin_area_sec_level == 'high' || $user_reset || $conf_upgraded ) {
+            	if ( $admin_area_sec_level == 'high' || $reset_flagged || $conf_upgraded ) {
                $this->save_file($ct['base_dir'] . '/cache/vars/state-tracking/default_ct_conf_md5.dat', md5( serialize($default_ct_conf) ) ); 
     		     }
     		
     		
     		     if ( $ct['conf']['power']['debug_mode'] == 'all' || $ct['conf']['power']['debug_mode'] == 'all_telemetry' || $ct['conf']['power']['debug_mode'] == 'conf_telemetry' ) {
     		          
-    		          if ( $user_reset ) {
+    		          if ( $reset_flagged ) {
     		          $update_desc = 'RESET';
     		          }
     		          elseif ( $admin_area_sec_level != 'high' && $app_upgrade_check ) {
