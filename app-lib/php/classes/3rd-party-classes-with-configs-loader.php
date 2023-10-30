@@ -41,9 +41,9 @@ $telegram_bot = new Telegram\Bot($ct['conf']['ext_apis']['telegram_bot_token'], 
 $telegram_messaging = new Telegram\Receiver($telegram_bot);
 
 
-        // If telegram messaging is activated, OR user config has been reset / refreshed, attempt to refresh the bot chat room data via the telegram API
+        // IF THE BOT CHATROOM DATA IS NOT STORED, attempt to refresh it via the telegram API
         // (ONLY IF RUNTIME MODE IS #NOT# AJAX [as it slows down chart / news feed rendering significantly])
-        if ( !is_array($telegram_user_data) || is_array($telegram_user_data) && sizeof($telegram_user_data) < 1 || $reset_config || $update_config ) {
+        if ( !is_array($telegram_user_data) || is_array($telegram_user_data) && sizeof($telegram_user_data) < 1 ) {
         
         
             if ( $ct['runtime_mode'] != 'ajax' ) {
@@ -68,11 +68,17 @@ $telegram_messaging = new Telegram\Receiver($telegram_bot);
              		
              		  // Need to check a few different possible results for no data found ("null" in quotes as the actual value is returned sometimes)
              		  if ( $store_cached_telegram_user_data == false || $store_cached_telegram_user_data == null || $store_cached_telegram_user_data == "null" ) {
-             		  // Keep var num at end of error log
              		  $ct['gen']->log('conf_error', 'telegram bot data unavailable, PLEASE RE-ENTER "/start" IN BOT CHATROOM (IN TELEGRAM APP)');
              		  }
+                      // If checks passed, update cache vars
              		  else {
+                         
+                      $telegram_conf_md5 = md5($ct['conf']['ext_apis']['telegram_your_username'] . $ct['conf']['ext_apis']['telegram_bot_username'] . $ct['conf']['ext_apis']['telegram_bot_name'] . $ct['conf']['ext_apis']['telegram_bot_token']);   
+                      
+                      $ct['cache']->save_file($ct['base_dir'] . '/cache/vars/state-tracking/telegram_conf_md5.dat', $telegram_conf_md5);
+                     
              		  $ct['cache']->save_file($ct['base_dir'] . '/cache/secured/telegram_user_data_'.$secure_128bit_hash.'.dat', $store_cached_telegram_user_data);
+             		  
              		  }
              	
              	  }

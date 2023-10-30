@@ -6361,13 +6361,17 @@ MIGRATE YOUR EXISTING SETTINGS TO THE NEW FORMAT.
 
 -BUG FIX: Fixed a bug that had the ADMIN AREA primary currency settings show the USER AREA settings instead...sorry!
 
+-BUG FIX: Fixed price charts showing properly for exchange APIs that have no trade volume data
+
 -BUG FIX: Miscellaneous fixes
 
 -Added Admin Config settings into these admin interface sections (these config settings are now editable in the admin interface): News Feeds, Plugins, Address Balance Tracker (plugin), Price Target Alert (plugin), Recurring Reminder (plugin)
 
 -Added config file formatting error checks (if a significant error that would crash the app is discovered, you are notified, and the current config file is securely backed up / replaced with a 'factory reset' config)
 
--Updated the alphavantage.co stock exchange API daily FREE LEVEL to 25 requests per day (LIVE data will be auto-throttled, so you don't go over your FREE daily limit)
+-Updated the alphavantage.co stock exchange API FREE LEVEL to use A MAXIMUM OF 25 LIVE data requests per day (this is their new free level limit they just revised AGAIN...this is auto-throttled by the app, so you don't go over your limits)
+
+-Added a setting for the alphavantage.co stock exchange API daily FREE LEVEL, to set your DAILY LIMIT lower than the REAL DAILY LIMIT (useful if they lower the limit AGAIN, or you have multiple installs using the same API key)
 
 -Consolidated error / debug logs into one log file, for clarified debugging output (whe debugging is enabled)
 
@@ -6387,7 +6391,7 @@ AND MIGRATE YOUR EXISTING CUSTOM PRICE TARGET ALERTS TO THE NEW FORMAT.
 v6.00.29 and higher renames / restructures MANY settings in the config. USE THE LATEST/UPGRADED CONFIG.PHP,
 AND MIGRATE YOUR EXISTING CUSTOM NEWS FEEDS TO THE NEW FORMAT.
 
--v6.00.27 AND HIGHER RESETS LIGHT (TIME PERIOD) CHARTS FROM ARCHIVAL DATA, ONE-TIME DURING UPGRADES FROM V6.00.26 OR LOWER.
+-v6.00.29 AND HIGHER RESETS LIGHT (TIME PERIOD) CHARTS FROM ARCHIVAL DATA, ONE-TIME DURING UPGRADES FROM V6.00.26 OR LOWER.
 
 -------------------------------------------------------------------
 

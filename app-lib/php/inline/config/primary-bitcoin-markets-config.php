@@ -44,12 +44,12 @@ $default_bitcoin_primary_currency_pair = $ct['conf']['gen']['bitcoin_primary_cur
 $default_bitcoin_primary_currency_exchange = $ct['conf']['gen']['bitcoin_primary_currency_exchange'];
 
 
-$check_default_bitcoin_primary_currency_pair = trim( file_get_contents($ct['base_dir'] . '/cache/vars/default_bitcoin_primary_currency_pair.dat') );
+$check_default_bitcoin_primary_currency_pair = trim( file_get_contents($ct['base_dir'] . '/cache/vars/state-tracking/default_bitcoin_primary_currency_pair.dat') );
 
 // RUN AFTER SETTING $default_bitcoin_primary_currency_pair ABOVE
 // If $default_bitcoin_primary_currency_pair has changed, or never been set in cache vars, delete all potentially mismatched data and set in cache vars
 if (
-!file_exists($ct['base_dir'] . '/cache/vars/default_bitcoin_primary_currency_pair.dat')
+!file_exists($ct['base_dir'] . '/cache/vars/state-tracking/default_bitcoin_primary_currency_pair.dat')
 || $default_bitcoin_primary_currency_pair != $check_default_bitcoin_primary_currency_pair
 ) {
 
@@ -93,7 +93,7 @@ $ct['cache']->remove_dir($ct['base_dir'] . '/cache/charts/spot_price_24hr_volume
 
 
 // Update cache var
-$ct['cache']->save_file($ct['base_dir'] . '/cache/vars/default_bitcoin_primary_currency_pair.dat', $default_bitcoin_primary_currency_pair);
+$ct['cache']->save_file($ct['base_dir'] . '/cache/vars/state-tracking/default_bitcoin_primary_currency_pair.dat', $default_bitcoin_primary_currency_pair);
 
 }
 

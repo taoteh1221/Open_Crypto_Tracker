@@ -17,8 +17,8 @@ $default_ct_conf = $ct['conf'];
 
 // Used for quickening runtimes on app config upgrading checks
 // (#MUST# BE SET AT VERY TOP OF CONFIG-INIT.PHP, AND BEFORE LOADING CACHED CONFIG)
-if ( file_exists($ct['base_dir'] . '/cache/vars/default_ct_conf_md5.dat') ) {
-$check_default_ct_conf = trim( file_get_contents($ct['base_dir'] . '/cache/vars/default_ct_conf_md5.dat') );
+if ( file_exists($ct['base_dir'] . '/cache/vars/state-tracking/default_ct_conf_md5.dat') ) {
+$check_default_ct_conf = trim( file_get_contents($ct['base_dir'] . '/cache/vars/state-tracking/default_ct_conf_md5.dat') );
 }
 else {
 $check_default_ct_conf = null;
@@ -35,7 +35,7 @@ isset($cached_app_version) && trim($cached_app_version) != '' && trim($cached_ap
 $app_upgrade_check = true;
 
 // Refresh current app version to flat file (for auto-install/upgrade scripts to easily determine the currently-installed version)
-$ct['cache']->save_file($ct['base_dir'] . '/cache/vars/app_version.dat', $ct['app_version']);
+$ct['cache']->save_file($ct['base_dir'] . '/cache/vars/state-tracking/app_version.dat', $ct['app_version']);
 
      if ( isset($_POST['upgrade_ct_conf']) ) {
      $admin_general_success = 'The app configuration database was scanned for upgrades successfully. Please see the alerts section (siren icon in the sidebar), to review if anything required upgrading.';
@@ -278,12 +278,12 @@ $ct['curl_user_agent'] = 'Curl/' .$curl_setup["version"]. ' ('.PHP_OS.'; ' . $ct
 // #GUI# PHP TIMEOUT tracking / updating (checking for changes to the config value)
 $conf_php_timeout = $ct['dev']['ui_max_exec_time'];
 
-if ( !file_exists($ct['base_dir'] . '/cache/vars/php_timeout.dat') ) {
-$ct['cache']->save_file($ct['base_dir'] . '/cache/vars/php_timeout.dat', $conf_php_timeout);
+if ( !file_exists($ct['base_dir'] . '/cache/vars/state-tracking/php_timeout.dat') ) {
+$ct['cache']->save_file($ct['base_dir'] . '/cache/vars/state-tracking/php_timeout.dat', $conf_php_timeout);
 $cached_php_timeout = $conf_php_timeout;
 }
 else {
-$cached_php_timeout = trim( file_get_contents($ct['base_dir'] . '/cache/vars/php_timeout.dat') );
+$cached_php_timeout = trim( file_get_contents($ct['base_dir'] . '/cache/vars/state-tracking/php_timeout.dat') );
 }
 
 
@@ -296,7 +296,7 @@ unlink($ct['base_dir'] . '/.user.ini');
 unlink($ct['base_dir'] . '/cache/secured/.app_htpasswd');
 
 // Cache the new PHP timeout
-$ct['cache']->save_file($ct['base_dir'] . '/cache/vars/php_timeout.dat', $conf_php_timeout);
+$ct['cache']->save_file($ct['base_dir'] . '/cache/vars/state-tracking/php_timeout.dat', $conf_php_timeout);
 
 }
 
@@ -381,12 +381,12 @@ $backup_archive_password = false;
 // Light chart config tracking / updating (checking for changes to light chart app config, to trigger light chart rebuilds)
 $conf_light_chart_struct = md5( serialize($ct['conf']['power']['light_chart_day_intervals']) . $ct['conf']['power']['light_chart_data_points_maximum'] );
 
-if ( !file_exists($ct['base_dir'] . '/cache/vars/light_chart_struct.dat') ) {
-$ct['cache']->save_file($ct['base_dir'] . '/cache/vars/light_chart_struct.dat', $conf_light_chart_struct);
+if ( !file_exists($ct['base_dir'] . '/cache/vars/state-tracking/light_chart_struct.dat') ) {
+$ct['cache']->save_file($ct['base_dir'] . '/cache/vars/state-tracking/light_chart_struct.dat', $conf_light_chart_struct);
 $cached_light_chart_struct = $conf_light_chart_struct;
 }
 else {
-$cached_light_chart_struct = trim( file_get_contents($ct['base_dir'] . '/cache/vars/light_chart_struct.dat') );
+$cached_light_chart_struct = trim( file_get_contents($ct['base_dir'] . '/cache/vars/state-tracking/light_chart_struct.dat') );
 }
 
 
@@ -402,7 +402,7 @@ $ct['cache']->remove_dir($ct['base_dir'] . '/cache/charts/spot_price_24hr_volume
 $ct['cache']->remove_dir($ct['base_dir'] . '/cache/charts/system/light');
 
 // Cache the new light chart structure
-$ct['cache']->save_file($ct['base_dir'] . '/cache/vars/light_chart_struct.dat', $conf_light_chart_struct);
+$ct['cache']->save_file($ct['base_dir'] . '/cache/vars/state-tracking/light_chart_struct.dat', $conf_light_chart_struct);
 
 $admin_reset_success = 'The Light Charts were reset successfully.';
 

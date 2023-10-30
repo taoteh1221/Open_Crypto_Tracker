@@ -22,8 +22,8 @@ if ( $ct['gen']->dir_struct('cache/alerts/fiat_price/') != true
 || $ct['gen']->dir_struct('cache/secured/backups/') != true
 || $ct['gen']->dir_struct('cache/secured/external_data/') != true
 || $ct['gen']->dir_struct('cache/secured/messages/') != true
+|| $ct['gen']->dir_struct('cache/vars/state-tracking/') != true
 || $ct['gen']->dir_struct('cache/other/') != true
-|| $ct['gen']->dir_struct('cache/vars/') != true
 || $ct['gen']->dir_struct('plugins/') != true ) {
     
     foreach ( $change_dir_perm as $dir ) {

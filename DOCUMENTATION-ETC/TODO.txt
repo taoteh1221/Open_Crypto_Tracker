@@ -174,22 +174,16 @@ https://zksync.io/api/v0.1.html (KEEP AN EYE OUT FOR V2 DOCS AS WELL)
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
-Triple-check the cached config upgrade / downgrade mechanism, ALSO INCLUDING the bundled plugins.
+Modify the "app has been upgraded" interface alert, as we no longer wait AT ALL for scheduled maintenance to update the CACHED app version number (we update it instantly once a new app version is detected). Save a "show message" value to the vars cache, like we do for upgrade alerts (and mark as "don't show" after it has shown).
+
+
+Validate news feeds settings interface input / all plugin settings interface inputs.
 
 
 Use the app "Meld" to compare json config files from a fresh reset vs after many user customizations, to assure ordering / structure is not corrupted. Also re-test the upgrade button in general section.
 
 
-See why jup ag price charts are no longer saving data, guessing it's the no trade value available.
-
-
-Modify the "app has been upgraded" interface alert, as we no longer wait AT ALL for scheduled maintenance to update the CACHED app version number (we update it instantly once a new app version is detected). Save a "show message" value to the vars cache, like we do for upgrade alerts (and mark as "don't show" after it has shown).
-
-
-CACHE an md5 hash of all telegram settings combined, and only delete the chatroom data / refresh it if this md5 hash changes (like we do for light chart config). Otherwise you get a bad UX from endlessly getting alerts to re-enter "/start" in the chatroom EVERYTIME YOU UPDATE *ANY* ADMIN SETTINGS.
-
-
-Validate news feeds settings interface input / all plugin settings interface inputs.
+Triple-check the cached config upgrade / downgrade mechanism, ALSO INCLUDING the bundled plugins.
 
 
 Triple-check adding / removing a plugin subdirectory, in regular AND high security mode, AND with plugin activation on AND off.

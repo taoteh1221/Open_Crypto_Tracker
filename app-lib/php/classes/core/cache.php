@@ -979,7 +979,7 @@ var $ct_array = array();
         		
         		// If we already loaded the newest modified telegram SECURED CACHE config file,
         		// or we are updating / resetting the cached config
-        		if ( $newest_cached_telegram_user_data == 1 || $reset_config || $update_config ) {
+        		if ( $newest_cached_telegram_user_data == 1 ) {
         		unlink($ct['base_dir'] . '/cache/secured/' . $secured_file);
         		}
         		else {
@@ -1082,16 +1082,8 @@ var $ct_array = array();
         // 1) load_cached_config() LOADS AT END OF load-config-by-security-level.php IN HIGH SECURITY MODE
         // 2) A corrupt / non-existant CACHED config should ALWAYS be REPLACED IMMEADIATELY (so runtime won't hang / freeze)
         if ( $reset_config ) {
-             
-             // Since we are resetting the cached config, telegram chatroom data should be refreshed too
-             if ( $telegram_user_data_path != null ) {
-             unlink($telegram_user_data_path); 
-             }
-        
         $ct['conf'] = $this->update_cached_config(false, false, true); // Reset flag
-        
         $reset_config = false; // Reset the reset flag (lol) IMMEADIATELY, as it's a global var
-        
         }
         
         
@@ -1106,8 +1098,25 @@ var $ct_array = array();
    
    function update_cached_config($passed_config, $upgrade_mode=false, $user_reset=false) {
    
-   global $ct, $default_ct_conf, $conf_upgraded, $app_upgrade_check, $update_config, $restore_conf_path, $admin_area_sec_level, $telegram_activated, $telegram_user_data, $htaccess_username, $htaccess_password;
+   global $ct, $default_ct_conf, $conf_upgraded, $app_upgrade_check, $update_config, $restore_conf_path, $telegram_user_data_path, $telegram_user_data, $admin_area_sec_level, $htaccess_username, $htaccess_password;
 
+             
+        // Since we are resetting OR updating the cached config, telegram chatroom data should be refreshed too
+        // (ONLY IF TELEGRAM SETTINGS HAVE CHANGED)
+        if ( $update_config && $telegram_user_data_path != null || $user_reset && $telegram_user_data_path != null ) {
+        
+        $check_telegram_conf_md5 = trim( file_get_contents($ct['base_dir'] . '/cache/vars/state-tracking/telegram_conf_md5.dat') );
+
+        $telegram_conf_md5 = md5($ct['conf']['ext_apis']['telegram_your_username'] . $ct['conf']['ext_apis']['telegram_bot_username'] . $ct['conf']['ext_apis']['telegram_bot_name'] . $ct['conf']['ext_apis']['telegram_bot_token']);       
+        
+             // Completely reset ALL telegram config data
+             if ( $check_telegram_conf_md5 != $telegram_conf_md5 )  {
+             $telegram_user_data = array();
+             unlink($telegram_user_data_path); 
+             }
+             
+        }
+        
 
    // If no valid cached_ct_conf, or if DEFAULT Admin Config (in config.php) variables have been changed...
    
@@ -1227,7 +1236,7 @@ var $ct_array = array();
             		
                 		// For checking later, if DEFAULT Admin Config (in config.php) values are updated we save to json again
             		    if ( $admin_area_sec_level == 'high' || $user_reset ) {
-                		$this->save_file($ct['base_dir'] . '/cache/vars/default_ct_conf_md5.dat', md5( serialize($default_ct_conf) ) ); 
+                		$this->save_file($ct['base_dir'] . '/cache/vars/state-tracking/default_ct_conf_md5.dat', md5( serialize($default_ct_conf) ) ); 
             		    }
             		
             		
@@ -1256,7 +1265,7 @@ var $ct_array = array();
     		
                // For checking later, if DEFAULT Admin Config (in config.php) values are updated we save to json again
             	if ( $admin_area_sec_level == 'high' || $user_reset || $conf_upgraded ) {
-               $this->save_file($ct['base_dir'] . '/cache/vars/default_ct_conf_md5.dat', md5( serialize($default_ct_conf) ) ); 
+               $this->save_file($ct['base_dir'] . '/cache/vars/state-tracking/default_ct_conf_md5.dat', md5( serialize($default_ct_conf) ) ); 
     		     }
     		
     		

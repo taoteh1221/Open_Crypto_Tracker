@@ -3448,7 +3448,12 @@ var $ct_array = array();
                }
             
             }
-            elseif ( isset($result[1]) && isset($result[2]) && trim($result[1]) != 'NO_DATA' && trim($result[2]) != 'NO_DATA' && trim($result[1]) != '' && trim($result[2]) != '' ) {
+            elseif ( isset($result[1]) && trim($result[1]) != 'NO_DATA' && trim($result[1]) != '' ) {
+                 
+               // Some APIs don't have trade volume data, so we just set trade volume to zero if none exists
+               if ( !isset($result[2]) || isset($result[2]) && $result[2] == 'NO_DATA' || isset($result[2]) && trim($result[2]) == '' ) {
+               $result[2] = 0;
+               }
             
                // Format or round primary currency price depending on value (non-stablecoin crypto values are already stored in the format we want for the interface)
                if ( $fiat_formatting ) {

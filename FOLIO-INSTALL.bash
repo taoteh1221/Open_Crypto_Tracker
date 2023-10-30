@@ -666,7 +666,7 @@ echo "${reset} "
 echo " "
 echo " "
 
-echo "v6.00.27 AND HIGHER RESETS LIGHT (TIME PERIOD) CHARTS FROM ARCHIVAL DATA, ONE-TIME DURING"
+echo "v6.00.29 AND HIGHER RESETS LIGHT (TIME PERIOD) CHARTS FROM ARCHIVAL DATA, ONE-TIME DURING"
 echo "UPGRADES FROM V6.00.26 OR LOWER."
 echo "${reset} "
 echo " "
@@ -1714,6 +1714,16 @@ select opt in $OPTIONS; do
 				echo " "
 				echo "${cyan}Making sure any previous install's DEPRECIATED directories / files are cleaned up, please wait...${reset}"
 				
+				
+				# Move to new locations
+				
+				mv $DOC_ROOT/cache/vars/app_version.dat $DOC_ROOT/cache/vars/state-tracking/app_version.dat > /dev/null 2>&1
+				mv $DOC_ROOT/cache/vars/default_bitcoin_primary_currency_pair.dat $DOC_ROOT/cache/vars/state-tracking/default_bitcoin_primary_currency_pair.dat > /dev/null 2>&1
+				mv $DOC_ROOT/cache/vars/default_ct_conf_md5.dat $DOC_ROOT/cache/vars/state-tracking/default_ct_conf_md5.dat > /dev/null 2>&1
+				mv $DOC_ROOT/cache/vars/light_chart_struct.dat $DOC_ROOT/cache/vars/state-tracking/light_chart_struct.dat > /dev/null 2>&1
+				mv $DOC_ROOT/cache/vars/php_timeout.dat $DOC_ROOT/cache/vars/state-tracking/php_timeout.dat > /dev/null 2>&1
+				mv $DOC_ROOT/cache/vars/upgrade_check_latest_version.dat $DOC_ROOT/cache/vars/state-tracking/upgrade_check_latest_version.dat > /dev/null 2>&1
+				
   				# Delete old directory / file structures
   				
   				# Directories
@@ -1785,6 +1795,7 @@ select opt in $OPTIONS; do
 				rm $DOC_ROOT/cache/vars/default_oct_conf_md5.dat > /dev/null 2>&1
 				rm $DOC_ROOT/cache/vars/default_btc_prim_curr_pairing.dat > /dev/null 2>&1
 				rm $DOC_ROOT/cache/vars/default_btc_prim_currency_pairing.dat > /dev/null 2>&1
+				rm $DOC_ROOT/cache/vars/default_btc_prim_currency_pair.dat > /dev/null 2>&1
 				rm $DOC_ROOT/cache/vars/lite_chart_structure.dat > /dev/null 2>&1
 				rm $DOC_ROOT/cache/vars/lite_chart_struct.dat > /dev/null 2>&1
 				rm $DOC_ROOT/cache/vars/beta_v6_admin_pages.dat > /dev/null 2>&1

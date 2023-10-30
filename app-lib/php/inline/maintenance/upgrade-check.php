@@ -9,7 +9,7 @@
 	// If upgrade check is enabled, check daily for upgrades
 	////////////////////////////////////////////////////////////
 	// With offset, to try keeping daily recurrences at same exact runtime (instead of moving up the runtime daily)
-	if ( isset($ct['conf']['comms']['upgrade_alert']) && $ct['conf']['comms']['upgrade_alert'] != 'off' && $ct['cache']->update_cache($ct['base_dir'] . '/cache/vars/upgrade_check_latest_version.dat', (1440 + $ct['dev']['tasks_time_offset']) ) == true ) {
+	if ( isset($ct['conf']['comms']['upgrade_alert']) && $ct['conf']['comms']['upgrade_alert'] != 'off' && $ct['cache']->update_cache($ct['base_dir'] . '/cache/vars/state-tracking/upgrade_check_latest_version.dat', (1440 + $ct['dev']['tasks_time_offset']) ) == true ) {
 	
 	
 	$upgrade_check_jsondata = @$ct['cache']->ext_data('url', 'https://api.github.com/repos/taoteh1221/Open_Crypto_Tracker/releases/latest', 0); // Don't cache API data
@@ -39,7 +39,7 @@
 	$upgrade_download = trim($upgrade_download);
 	$upgrade_download_html = trim($upgrade_download_html);
 	
-	$ct['cache']->save_file($ct['base_dir'] . '/cache/vars/upgrade_check_latest_version.dat', $upgrade_check_latest_version);
+	$ct['cache']->save_file($ct['base_dir'] . '/cache/vars/state-tracking/upgrade_check_latest_version.dat', $upgrade_check_latest_version);
 	
 	
 	// Parse latest version

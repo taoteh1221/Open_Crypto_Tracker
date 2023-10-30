@@ -219,7 +219,7 @@ $active_plugins_registered = true;
 // (MUST be done AFTER registering active plugins)
 if ( $check_default_ct_conf == null ) {
 $check_default_ct_conf = md5( serialize($default_ct_conf) );
-$ct['cache']->save_file($ct['base_dir'] . '/cache/vars/default_ct_conf_md5.dat', $check_default_ct_conf);
+$ct['cache']->save_file($ct['base_dir'] . '/cache/vars/state-tracking/default_ct_conf_md5.dat', $check_default_ct_conf);
 sleep(1); // Chill for a second, since we just saved the default conf digest
 }
 
@@ -234,14 +234,7 @@ $ct['admin']->queue_config_update();
 // IF ct_conf CACHE RESET
 // (MUST be done AFTER registering active plugins / OVERRIDE ANY $update_config)
 if ( $reset_config ) {
-             
-    // Since we are resetting the cached config, telegram chatroom data should be refreshed too
-    if ( $telegram_user_data_path != null ) {
-    unlink($telegram_user_data_path); 
-    }
-        
 $ct['conf'] = $ct['cache']->update_cached_config(false, false, true); // Reset flag
-
 }
 // Updating cached config (APP OR USER INITIATED...SO THIS CAN BE ANY SECURITY MODE)
 else if ( $update_config ) {

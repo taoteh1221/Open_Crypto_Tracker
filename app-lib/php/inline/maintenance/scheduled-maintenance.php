@@ -63,9 +63,6 @@ require($ct['base_dir'] . '/app-lib/php/inline/maintenance/upgrade-check.php');
 
 // Update cached vars...
 
-// Current default primary currency stored to flat file (for checking if we need to reconfigure things for a changed value here)
-$ct['cache']->save_file($ct['base_dir'] . '/cache/vars/default_bitcoin_primary_currency_pair.dat', $default_bitcoin_primary_currency_pair);
-
 
 // Determine / store portfolio cache size
 $ct['cache']->save_file($ct['base_dir'] . '/cache/vars/cache_size.dat', $ct['gen']->conv_bytes( $ct['gen']->dir_size($ct['base_dir'] . '/cache/') , 3) );
@@ -89,7 +86,7 @@ $ct['cache']->delete_old_files($ct['base_dir'] . '/cache/secured/activation', 1,
 
 $ct['cache']->delete_old_files($ct['base_dir'] . '/cache/secured/external_data', 1, 'dat'); // Delete external API cache files older than 1 day
 
-$ct['cache']->delete_old_files($ct['base_dir'] . '/internal-api', 1, 'dat'); // Delete internal API cache files older than 1 day
+$ct['cache']->delete_old_files($ct['base_dir'] . '/cache/internal_api', 1, 'dat'); // Delete internal API cache files older than 1 day
 
 
 // Secondary logs cleanup

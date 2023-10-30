@@ -113,26 +113,26 @@ $fetched_feeds = 'fetched_feeds_' . $ct['runtime_mode']; // Unique feed fetch te
 
 // Create cache directories AS EARLY AS POSSIBLE
 // (#MUST# RUN AFTER $current_runtime_user / $http_runtime_user / $possible_http_users are set,
-// and BEFORE setting /cache/vars/app_version.dat)
+// and BEFORE setting /cache/vars/state-tracking/app_version.dat)
 // Uses HARD-CODED $ct['dev']['chmod_cache_dir'] dev config at top of init.php
 require_once('app-lib/php/inline/other/cache-directories.php');
 
 
 // If upgrade check enabled / cached var set, set the runtime var for any configured alerts
-if ( file_exists('cache/vars/upgrade_check_latest_version.dat') ) {
-$upgrade_check_latest_version = trim( file_get_contents('cache/vars/upgrade_check_latest_version.dat') );
+if ( file_exists('cache/vars/state-tracking/upgrade_check_latest_version.dat') ) {
+$upgrade_check_latest_version = trim( file_get_contents('cache/vars/state-tracking/upgrade_check_latest_version.dat') );
 }
 
 
 // If CACHED app version set, set the runtime var for any configured alerts
-if ( file_exists('cache/vars/app_version.dat') ) {
-$cached_app_version = trim( file_get_contents('cache/vars/app_version.dat') );
+if ( file_exists('cache/vars/state-tracking/app_version.dat') ) {
+$cached_app_version = trim( file_get_contents('cache/vars/state-tracking/app_version.dat') );
 }
 // Otherwise save app version to flat file (for auto-install/upgrade scripts to easily determine the currently-installed version)
 else {
 sleep(1); // In case it's a fresh install, and cache directory structure was just created
 $cached_app_version = $ct['app_version'];
-$ct['cache']->save_file($ct['base_dir'] . '/cache/vars/app_version.dat', $cached_app_version);
+$ct['cache']->save_file($ct['base_dir'] . '/cache/vars/state-tracking/app_version.dat', $cached_app_version);
 }
 
 
