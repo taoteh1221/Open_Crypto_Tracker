@@ -63,7 +63,7 @@ $ct['conf']['gen']['asset_charts_toggle'] = 'on'; // 'on' / 'off'
 // aud / brl / cad / chf / dai / eth / eur / gbp / hkd / inr / jpy
 // krw / mxn / nis / rub / sgd / try / twd / usd / usdc / usdt / zar
 // SEE THE $ct['conf']['assets']['BTC'] CONFIGURATION NEAR THE BOTTOM OF THIS CONFIG FILE, FOR THE PROPER (CORRESPONDING)
-// MARKET PAIR VALUE NEEDED FOR YOUR CHOSEN 'BTC' EXCHANGE (set in $ct['conf']['gen']['bitcoin_primary_exchange'] directly below)
+// MARKET PAIR VALUE NEEDED FOR YOUR CHOSEN 'BTC' EXCHANGE (set in $ct['conf']['gen']['bitcoin_primary_currency_exchange'] directly below)
 $ct['conf']['gen']['bitcoin_primary_currency_pair'] = 'usd'; // PUT INSIDE SINGLE QUOTES ('selection')
 
 
@@ -77,7 +77,7 @@ $ct['conf']['gen']['bitcoin_primary_currency_pair'] = 'usd'; // PUT INSIDE SINGL
 // okex / southxchange / unocoin / upbit / wazirx
 // SEE THE $ct['conf']['assets']['BTC'] CONFIGURATION NEAR THE BOTTOM OF THIS CONFIG FILE, FOR THE PROPER (CORRESPONDING)
 // 'BTC' EXCHANGE VALUE NEEDED FOR YOUR CHOSEN MARKET PAIR (set in $ct['conf']['gen']['bitcoin_primary_currency_pair'] directly above)
-$ct['conf']['gen']['bitcoin_primary_exchange'] = 'kraken';  // PUT INSIDE SINGLE QUOTES ('selection')
+$ct['conf']['gen']['bitcoin_primary_currency_exchange'] = 'kraken';  // PUT INSIDE SINGLE QUOTES ('selection')
 
 
 // Default marketcap data source: 'coingecko', or 'coinmarketcap'
@@ -1617,7 +1617,7 @@ $ct['conf']['mobile_network_text_gateways'] = array(
                         
                         
                         // [NO NETWORK] (when using textbelt / textlocal API instead)
-                        'skip_network_name' => NULL,
+                        'skip_network_name' => '',
                         
                         
                         // [INTERNATIONAL]

@@ -48,7 +48,7 @@
 		 
 		<p class='bitcoin' style='font-weight: bold;'>A few crypto exchanges only provide asset volume data (with no pair volume data included). If 24 hour pair volume is NOT available for a market, it will be emulated via the asset volume multiplied by the <i>current</i> asset market value (which gives us the rough pair volume for a better chart user experience).</p>
 					
-		<p class='black' style='font-weight: bold;'>The administrator has set the <i>price charts primary currency market</i> (in the Admin Config GENERAL section) to: <span class='bitcoin'><?=strtoupper($default_bitcoin_primary_currency_pair)?> @ <?=$ct['gen']->key_to_name($default_bitcoin_primary_exchange)?></span> &nbsp;(enables <i>additional</i> "<?=strtoupper($default_bitcoin_primary_currency_pair)?> Value" charts)</p>
+		<p class='black' style='font-weight: bold;'>The administrator has set the <i>price charts primary currency market</i> (in the Admin Config GENERAL section) to: <span class='bitcoin'><?=strtoupper($default_bitcoin_primary_currency_pair)?> @ <?=$ct['gen']->key_to_name($default_bitcoin_primary_currency_exchange)?></span> &nbsp;(enables <i>additional</i> "<?=strtoupper($default_bitcoin_primary_currency_pair)?> Value" charts)</p>
 		
 		<p class='black' style='font-weight: bold;'><?=strtoupper($default_bitcoin_primary_currency_pair)?>-paired BTC exchanges supported in this app are: <br /><span class='bitcoin'><?=$supported_exchange_list?></span></p>
 		

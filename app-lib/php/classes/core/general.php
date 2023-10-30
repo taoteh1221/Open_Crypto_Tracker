@@ -144,13 +144,13 @@ var $ct_array = array();
    
    function assoc_array_order_map($sorting_array) {
    
-   $new_data = array();
+   $new_array = array();
    
       foreach ($sorting_array as $key => $unused) {
-      $new_data[] = $key;
+      $new_array[] = $key;
       }
    
-   return $new_data;
+   return $new_array;
    
    }
 
@@ -161,13 +161,18 @@ var $ct_array = array();
    
    function assoc_array_order($target_array, $sorting_array) {
    
-   $new_data = array();
+   $new_array = array();
    
+      // We want to preserve DEPRECIATED array keys, to remove AND LOG THE REMOVAL EVENT WITH DETAILS after this
+      // ($target_array will only contain DEPRECIATED keys after unsetting EXISTING values)
       foreach ($sorting_array as $key) {
-      $target_array[$key] = $target_array[$key];
+      $new_array[$key] = $target_array[$key];
+      unset($target_array[$key]);
       }
+      
+   $arrays_merged = array_merge($new_array, $target_array);
    
-   return $target_array;
+   return $arrays_merged;
    
    }
 

@@ -53,7 +53,7 @@ else {
 	<!-- Submit button must be OUTSIDE form tags here, or it runs improperly -->
 	<button id='upgrade_ct_conf_button' class='force_button_style' onclick='
 	
-	var ct_conf_reset = confirm("Scans your configuration database for upgrades. This will ALWAYS happen automatically after upgrading / downgrading this app, but you can double-check here as well if you are having issues.\n\nIMPORTANT NOTE: If things act weird after an app upgrade, it is more likely due to OUTDATED JAVASCRIPT / CSS FILES in the web browser temporary files cache needing to be cleared. IF NEITHER OF THESE POSSIBLE SOLUTIONS WORK, TRY RESETTING THE ENTIRE CONFIG ON THE RESET PAGE (which will reset ALL settings from the hard-coded PHP configuration files).");
+	var ct_conf_reset = confirm("Scans your CACHED configuration for upgrades. This happens automatically after upgrading / downgrading, but you can double-check with this if you are having issues.\n\nIf things act weird after upgrades, its more likely from OUTDATED JAVASCRIPT / CSS FILES in the web browser temporary files needing to be cleared. IF NEITHER SOLUTION WORKS, TRY RESETTING THE ENTIRE CONFIG ON THE RESET PAGE.");
 	
 		if ( ct_conf_reset ) {
 		document.getElementById("upgrade_ct_conf_button").disable = true;
@@ -149,6 +149,8 @@ $admin_render_settings['asset_charts_toggle']['is_radio'] = array(
 ////////////////////////////////////////////////////////////////////////////////////////////////
 
 
+$admin_render_settings['bitcoin_primary_currency_pair']['is_confirm'] = 'This will PERMANENTLY DELETE any ' . strtoupper($default_bitcoin_primary_currency_pair) . ' *CONVERSION* price charts (' . strtoupper($default_bitcoin_primary_currency_pair) . ' *BASE-PAIRED [MARKET]* price charts WILL *NOT* BE DELETED). Do you still wish to select a new primary currency pair?';
+
 foreach ( $ct['conf']['power']['bitcoin_currency_markets'] as $pair_key => $unused ) {
 $admin_render_settings['bitcoin_primary_currency_pair']['is_select'][] = $pair_key;
 }
@@ -166,13 +168,13 @@ foreach ( $ct['conf']['assets']['BTC']['pair'] as $pair_key => $unused ) {
 					
 		// Detects better with side space included
 		if ( stristr($supported_btc_exchange_scan, ' ' . $exchange_key . ' ') == false && stristr($exchange_key, 'bitmex_') == false ) { // Futures markets not allowed
-          $admin_render_settings['bitcoin_primary_exchange']['is_select'][] = $exchange_key;
+          $admin_render_settings['bitcoin_primary_currency_exchange']['is_select'][] = $exchange_key;
 		$supported_btc_exchange_scan .= ' ' . $exchange_key . ' /';
 		}
 				
 	}
 	
-sort($admin_render_settings['bitcoin_primary_exchange']['is_select']);
+sort($admin_render_settings['bitcoin_primary_currency_exchange']['is_select']);
 				
 }
 

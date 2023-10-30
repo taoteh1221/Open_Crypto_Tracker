@@ -359,6 +359,26 @@ function feeds_loading_check() {
 /////////////////////////////////////////////////////////////
 
 
+function select_confirm(id, message) {
+
+     var $sel = $('#'+id).on('change', function(){
+         if (confirm(message)) {
+             // store new value        
+             $sel.trigger('update');
+         } else {
+              // reset
+              $sel.val( $sel.data('currVal') );        
+         }
+     }).on('update', function(){
+         $(this).data('currVal', $(this).val());
+     }).trigger('update');
+
+}
+
+
+/////////////////////////////////////////////////////////////
+
+
 // https://jsfiddle.net/TheAL/ednxgwrj/ 
 function footer_banner(js_storage, notice_html) {
      

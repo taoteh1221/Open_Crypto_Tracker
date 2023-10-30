@@ -806,7 +806,7 @@ var $ct_array = array();
                  
                  // OVERWRITE SELECTED BITCOIN CURRENCY MARKET GLOBALS
                  $ct['conf']['gen']['bitcoin_primary_currency_pair'] = $mrkt_conversion;
-                 $ct['conf']['gen']['bitcoin_primary_exchange'] = $btc_exchange;
+                 $ct['conf']['gen']['bitcoin_primary_currency_exchange'] = $btc_exchange;
                  
                  // OVERWRITE #GLOBAL# BTC PRIMARY CURRENCY VALUE (so we get correct values for volume in currency etc)
                  $sel_opt['sel_btc_prim_currency_val'] = $mrkt_conv_btc_val;
@@ -1405,7 +1405,7 @@ var $ct_array = array();
    function charts_price_alerts($asset_data, $exchange, $pair, $mode) {
    
    // Globals
-   global $ct, $min_fiat_val_test, $min_crypto_val_test, $api_throttle_flag, $throttled_api_cache_time, $default_bitcoin_primary_exchange, $default_btc_prim_currency_val, $default_bitcoin_primary_currency_pair, $price_alert_fixed_reset_array;
+   global $ct, $min_fiat_val_test, $min_crypto_val_test, $api_throttle_flag, $throttled_api_cache_time, $default_bitcoin_primary_currency_exchange, $default_btc_prim_currency_val, $default_bitcoin_primary_currency_pair, $price_alert_fixed_reset_array;
       
    $pair = strtolower($pair);
    

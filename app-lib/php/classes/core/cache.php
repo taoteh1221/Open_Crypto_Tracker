@@ -786,30 +786,24 @@ var $ct_array = array();
    
    
    // Check to see if we need to upgrade the app config (add new primary vars / remove depreciated primary vars)
-   function upgrade_cached_ct_conf($conf) {
+   function upgrade_cached_ct_conf($conf=false) {
    
    global $ct, $check_default_ct_conf, $default_ct_conf, $conf_upgraded, $active_plugins_registered, $subarray_allow_upgrading;
-
-                   
-      if ( $ct['conf']['power']['debug_mode'] == 'all' || $ct['conf']['power']['debug_mode'] == 'all_telemetry' || $ct['conf']['power']['debug_mode'] == 'conf_telemetry' ) {
-                   
-      $ct['gen']->log(
-                   		'conf_debug',
-                   		'checking for upgrades'
-                   	  );
-                   			
-      }
    
-   
-      // If no cached app config or it's corrupt, just use full default app config
-      if ( $conf != true ) {
+   // Check that the config is valid / not corrupt FOR FUTURE JSON FILE STORAGE
+   $test_conf = json_encode($conf, JSON_PRETTY_PRINT);
+    	
+    	
+      // If there was an issue testing it converted to json format
+    	 // Need to check a few different possible results for no data found ("null" in quotes as the actual value is returned sometimes)
+      if ( $test_conf == '' || $test_conf == false || $test_conf == null || $test_conf == "null" ) {
       
       $ct['gen']->log(
                    	  'conf_error',
-                   	  'no valid config passed to upgrade_cached_ct_conf()'
+                   	  'no valid config passed to upgrade_cached_ct_conf(config)'
                    	 );
                    			
-      return $default_ct_conf;
+      return false;
       
       }
                    	 
@@ -826,11 +820,6 @@ var $ct_array = array();
                   	
             
            foreach ( $cat_val as $conf_key => $conf_val ) {
-         
-               //$ct['gen']->log(
-               //			'conf_error',
-               //			'ct[conf][' . $cat_key . '][' . $conf_key . '] = ' .  $conf[$cat_key][$conf_key]
-                 // 			);
          
          
                if ( !isset($conf[$cat_key]) ) {
@@ -897,11 +886,6 @@ var $ct_array = array();
                   	
            foreach ( $cached_cat_val as $cached_conf_key => $cached_conf_val ) {
          
-               //$ct['gen']->log(
-               //			'conf_error',
-               //			'ct[conf][' . $cached_cat_key . '][' . $cached_conf_key . '] = ' .  $cached_conf_val
-                 // 			);
-         
          
                if ( !isset($default_ct_conf[$cached_cat_key]) ) {
                   	
@@ -956,7 +940,7 @@ var $ct_array = array();
    
    function load_cached_config() {
    
-   global $ct, $admin_area_sec_level, $restore_conf_path, $telegram_user_data, $update_config, $reset_config, $app_upgrade_check, $telegram_user_data_path;
+   global $ct, $admin_area_sec_level, $restore_conf_path, $telegram_user_data, $update_config, $reset_config, $app_upgrade_check, $conf_upgraded, $telegram_user_data_path;
    
    // Secured cache files
    $files = $ct['gen']->sort_files($ct['base_dir'] . '/cache/secured', 'dat', 'desc');
@@ -1051,9 +1035,17 @@ var $ct_array = array();
         			    if ( $admin_area_sec_level != 'high' && $app_upgrade_check ) {
         			         
         			         if ( $ct['runtime_mode'] == 'ui' || $ct['runtime_mode'] == 'cron' ) {
+        			              
+        			         $ct['gen']->log('conf_error', 'CACHED config upgrade check flagged, checking now');
+        			         
         			         $ct['conf'] = $ct['cache']->update_cached_config($ct['conf'], true); 
         			         // !!!!!!!!! DO NOT RESET $app_upgrade_check HERE, AS WE WANT TO SEND THE FLAG INTO queue_config_update() AFTERWARDS,
         			         // !!!!!!!!! WHERE IT WILL HALT ANY USER-UPDATING OF THE CACHED CONFIG (UNTIL THE NEXT RUNTIME)
+        			         
+        			              if ( !$conf_upgraded ) {
+        			              $ct['gen']->log('conf_error', 'CACHED config upgrade check finished running, and did NOT find anything that needed an upgrade');
+        			              }
+        			         
         			         }
         			    
         			    }
@@ -1171,7 +1163,7 @@ var $ct_array = array();
     	         
     	    $upgrade_cache_ct_conf = $this->upgrade_cached_ct_conf($passed_config);
     	    
-    	        // If no upgrades were needed in the cached config,
+    	        // If no upgrades were needed in the cached config, OR IT FAILED JSON CONVERSION CHECKS,
     	        // we can just return the config that was passed in this function
     	        if ( !$upgrade_cache_ct_conf ) {
     	        return $passed_config;
@@ -2354,7 +2346,7 @@ var $ct_array = array();
   
   function ext_data($mode, $request_params, $ttl, $api_server=null, $post_encoding=3, $test_proxy=null, $headers=null) { // Default to JSON encoding post requests (most used)
   
-  // $ct['conf']['gen']['bitcoin_primary_currency_pair'] / $ct['conf']['gen']['bitcoin_primary_exchange'] / $sel_opt['sel_btc_prim_currency_val'] USED FOR TRACE DEBUGGING (TRACING)
+  // $ct['conf']['gen']['bitcoin_primary_currency_pair'] / $ct['conf']['gen']['bitcoin_primary_currency_exchange'] / $sel_opt['sel_btc_prim_currency_val'] USED FOR TRACE DEBUGGING (TRACING)
   
   global $ct, $sel_opt, $proxy_checkup, $log_errors, $log_debugging, $limited_api_calls, $api_runtime_cache, $api_connections, $htaccess_username, $htaccess_password;
   
@@ -2854,7 +2846,7 @@ var $ct_array = array();
              							
              			'POSSIBLE error for ' . ( $mode == 'params' ? 'server at ' : 'endpoint at ' ) . $ct['gen']->obfusc_url_data($api_endpoint),
              							
-             			'requested_from: server (' . $ct['conf']['power']['remote_api_timeout'] . ' second timeout); live_request_time: ' . $api_total_time . ' seconds; mode: ' . $mode . '; received: ' . $data_bytes_ux . '; proxy: ' .( $current_proxy ? $current_proxy : 'none' ) . '; debug_file: ' . $error_response_log . '; bitcoin_primary_currency_pair: ' . $ct['conf']['gen']['bitcoin_primary_currency_pair'] . '; bitcoin_primary_exchange: ' . $ct['conf']['gen']['bitcoin_primary_exchange'] . '; sel_btc_prim_currency_val: ' . $ct['var']->num_to_str($sel_opt['sel_btc_prim_currency_val']) . '; hash_check: ' . $ct['var']->obfusc_str($hash_check, 4) . ';'
+             			'requested_from: server (' . $ct['conf']['power']['remote_api_timeout'] . ' second timeout); live_request_time: ' . $api_total_time . ' seconds; mode: ' . $mode . '; received: ' . $data_bytes_ux . '; proxy: ' .( $current_proxy ? $current_proxy : 'none' ) . '; debug_file: ' . $error_response_log . '; bitcoin_primary_currency_pair: ' . $ct['conf']['gen']['bitcoin_primary_currency_pair'] . '; bitcoin_primary_currency_exchange: ' . $ct['conf']['gen']['bitcoin_primary_currency_exchange'] . '; sel_btc_prim_currency_val: ' . $ct['var']->num_to_str($sel_opt['sel_btc_prim_currency_val']) . '; hash_check: ' . $ct['var']->obfusc_str($hash_check, 4) . ';'
              			);
             
             // Log this error response from this data request
@@ -2933,7 +2925,7 @@ var $ct_array = array();
             							
             			'CONFIRMED error for ' . ( $mode == 'params' ? 'server at ' : 'endpoint at ' ) . $ct['gen']->obfusc_url_data($api_endpoint) . $log_append,
             							
-            			'requested_from: server (' . $ct['conf']['power']['remote_api_timeout'] . ' second timeout); live_request_time: ' . $api_total_time . ' seconds; mode: ' . $mode . '; received: ' . $data_bytes_ux . '; proxy: ' .( $current_proxy ? $current_proxy : 'none' ) . '; bitcoin_primary_currency_pair: ' . $ct['conf']['gen']['bitcoin_primary_currency_pair'] . '; bitcoin_primary_exchange: ' . $ct['conf']['gen']['bitcoin_primary_exchange'] . '; sel_btc_prim_currency_val: ' . $ct['var']->num_to_str($sel_opt['sel_btc_prim_currency_val']) . '; hash_check: ' . $ct['var']->obfusc_str($hash_check, 4) . ';'
+            			'requested_from: server (' . $ct['conf']['power']['remote_api_timeout'] . ' second timeout); live_request_time: ' . $api_total_time . ' seconds; mode: ' . $mode . '; received: ' . $data_bytes_ux . '; proxy: ' .( $current_proxy ? $current_proxy : 'none' ) . '; bitcoin_primary_currency_pair: ' . $ct['conf']['gen']['bitcoin_primary_currency_pair'] . '; bitcoin_primary_currency_exchange: ' . $ct['conf']['gen']['bitcoin_primary_currency_exchange'] . '; sel_btc_prim_currency_val: ' . $ct['var']->num_to_str($sel_opt['sel_btc_prim_currency_val']) . '; hash_check: ' . $ct['var']->obfusc_str($hash_check, 4) . ';'
             			);
              
            

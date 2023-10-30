@@ -927,13 +927,15 @@ var $ct_array = array();
         
         // If a regular select field
         if ( isset($render_params[$passed_key]['is_select']) ) {
+             
+             
         ?>
         
         <p>
         
         <b class='blue'><?=$ct['gen']->key_to_name($passed_key)?>:</b> &nbsp; 
         
-        <select name='<?=$field_array_base?>[<?=$passed_key?>]'>
+        <select id='id_<?=md5($field_array_base . $passed_key)?>' name='<?=$field_array_base?>[<?=$passed_key?>]' <?=$onchange?>>
         
              <?php
              foreach( $render_params[$passed_key]['is_select'] as $option_key => $option_val ) {
@@ -941,13 +943,13 @@ var $ct_array = array();
                  // If it's flagged as an associative array
                  if ( $option_key === 'is_assoc' ) { // PHP7.4 NEEDS === HERE INSTEAD OF ==
                  
-                 foreach( $render_params[$passed_key]['is_select']['is_assoc'] as $assoc_val ) {
-                 ?>
-                 
-                 <option value='<?=$assoc_val['key']?>' <?=( $passed_val == $assoc_val['key'] ? 'selected' : '' )?>> <?=$ct['gen']->key_to_name($assoc_val['val'])?> </option> 
-                 
-                 <?php
-                 }
+                      foreach( $render_params[$passed_key]['is_select']['is_assoc'] as $assoc_val ) {
+                      ?>
+                      
+                      <option value='<?=$assoc_val['key']?>' <?=( $passed_val == $assoc_val['key'] ? 'selected' : '' )?>> <?=$ct['gen']->key_to_name($assoc_val['val'])?> </option> 
+                      
+                      <?php
+                      }
                  
                  }
                  else {
@@ -964,6 +966,15 @@ var $ct_array = array();
         </select>
         
              <?php
+             if ( isset($render_params[$passed_key]['is_confirm']) ) {
+             ?>
+             <script>
+             select_confirm("id_<?=md5($field_array_base . $passed_key)?>", "<?=$render_params[$passed_key]['is_confirm']?>");
+             </script>
+             <?php
+             }
+             
+             
              if ( isset($render_params[$passed_key]['is_notes']) ) {
              ?>
              <br /><i class="notes_arrow arrow_up"></i><br /><span class='admin_settings_notes bitcoin random_tip'><?=$render_params[$passed_key]['is_notes']?></span>
@@ -1214,7 +1225,7 @@ var $ct_array = array();
       $field_array_base = $conf_id;
       $config_array_base = $ct['conf'][$conf_id];
       }
-
+      
 	 
 	 // Set which OTHER admin pages should be refreshed AFTER submission of this section's setting changes
 	 if ( isset($render_params['is_refresh_admin']) ) {
@@ -1594,8 +1605,8 @@ var $ct_array = array();
                    
                    
                  // Make sure primary currency conversion params are set properly
-                 if ( !$ct['conf']['assets']['BTC']['pair'][ $_POST['gen']['bitcoin_primary_currency_pair'] ][ $_POST['gen']['bitcoin_primary_exchange'] ] ) {
-                 $update_config_error = 'Bitcoin Primary Exchange "' . $ct['gen']->key_to_name($_POST['gen']['bitcoin_primary_exchange']) . '" does NOT have a "' . strtoupper($_POST['gen']['bitcoin_primary_currency_pair']) . '" market';
+                 if ( !$ct['conf']['assets']['BTC']['pair'][ $_POST['gen']['bitcoin_primary_currency_pair'] ][ $_POST['gen']['bitcoin_primary_currency_exchange'] ] ) {
+                 $update_config_error = 'Bitcoin Primary Exchange "' . $ct['gen']->key_to_name($_POST['gen']['bitcoin_primary_currency_exchange']) . '" does NOT have a "' . strtoupper($_POST['gen']['bitcoin_primary_currency_pair']) . '" market';
                  }
                  // If we made it this far, we passed all checks
                  else {

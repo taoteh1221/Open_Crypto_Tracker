@@ -6359,6 +6359,8 @@ MIGRATE YOUR EXISTING SETTINGS TO THE NEW FORMAT.
 
 -BUG FIX: Fixed heading title resizing (when using the font resizing feature in the sidebar), so they now resize with the other text
 
+-BUG FIX: Fixed a bug that had the ADMIN AREA primary currency settings show the USER AREA settings instead...sorry!
+
 -BUG FIX: Miscellaneous fixes
 
 -Added Admin Config settings into these admin interface sections (these config settings are now editable in the admin interface): News Feeds, Plugins, Address Balance Tracker (plugin), Price Target Alert (plugin), Recurring Reminder (plugin)
