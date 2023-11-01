@@ -174,19 +174,19 @@ https://zksync.io/api/v0.1.html (KEEP AN EYE OUT FOR V2 DOCS AS WELL)
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
-Test the 'address-balance-tracker' plugin's NEW AUTOMATED SOLANA SPL TOKEN PRIVACY MODE LOGIC.
-
-
 Use the app "Meld" to compare json config files from a fresh reset vs after many user customizations, to assure ordering / structure is not corrupted. Also re-test the upgrade button in general section.
+
+
+Test out the new iframe-reloading HALT mechanism (if a halt was called on updating the cached admin config), AND iframe reloading in general.
+
+
+Test the 'address-balance-tracker' plugin's NEW AUTOMATED SOLANA SPL TOKEN PRIVACY MODE LOGIC.
 
 
 Triple-check the cached config upgrade / downgrade mechanism, ALSO INCLUDING the bundled plugins.
 
 
 Triple-check adding / removing a plugin subdirectory, in regular AND high security mode, AND with plugin activation on AND off.
-
-
-Test out the new iframe-reloading HALT mechanism (if a halt was called on updating the cached admin config), AND iframe reloading in general.
 
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~DO AN APP RELEASE AT THIS POINT IN THIS LIST~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
