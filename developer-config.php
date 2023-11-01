@@ -187,7 +187,7 @@ $ct['dev']['no_trade_volume_api_data'] = array(
 							
 
 // TLD-only (Top Level Domain only, NO SUBDOMAINS) for each API service that UN-EFFICIENTLY requires multiple calls (for each market / data set)
-// Used to throttle these market calls a tiny bit (0.15 seconds), so we don't get easily blocked / throttled by external APIs etc
+// Used to throttle these market calls a tiny bit (0.35 seconds), so we don't get easily blocked / throttled by external APIs etc
 // (ANY EXCHANGES LISTED HERE ARE FLAGGED IN THE INTERFACE AS !NOT! RECOMMENDED TO BE USED AS THE PRIMARY CURRENCY MARKET IN THIS APP,
 // AS ON OCCASSION THEY CAN BE !UNRELIABLE! IF HIT WITH TOO MANY SEPARATE API CALLS FOR MULTIPLE COINS / ASSETS)
 // !MUST BE LOWERCASE!
@@ -247,12 +247,12 @@ elseif ( $dev_only_configs_mode == 'config-init' ) {
 // Obfuscate these matches in ALL error / debugging logs
 // (so API keys etc never show in logs)
 $ct['dev']['url_obfuscating'] = array(
-                                      // 'url_match' => 'hide_this',
-                                      'etherscan' => $ct['conf']['ext_apis']['etherscan_api_key'],
-                                      'telegram' => $ct['conf']['ext_apis']['telegram_bot_token'],
-                                      'alphavantage' => $ct['conf']['ext_apis']['alphavantage_api_key'],
-                                      'twilio' => $ct['conf']['ext_apis']['twilio_sid'],
-                                      'googleapis' => $ct['conf']['ext_apis']['google_fonts_api_key'],
+                                      // 'hide_this',
+                                      $ct['conf']['ext_apis']['etherscan_api_key'],
+                                      $ct['conf']['ext_apis']['telegram_bot_token'],
+                                      $ct['conf']['ext_apis']['alphavantage_api_key'],
+                                      $ct['conf']['ext_apis']['twilio_sid'],
+                                      $ct['conf']['ext_apis']['google_fonts_api_key'],
                                      );
                                      
                                      

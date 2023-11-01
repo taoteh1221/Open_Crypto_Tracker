@@ -35,10 +35,12 @@ foreach ( $plug_conf[$this_plug]['price_targets'] as $val ) {
 $cache_reset = false;
 
 $parse_attributes = explode('=', $val);
+// Cleanup
+$parse_attributes = array_map('trim', $parse_attributes);
 
-$target_key = trim($parse_attributes[0]);
+$target_key = $parse_attributes[0];
 
-$target_val = trim($parse_attributes[1]);
+$target_val = $parse_attributes[1];
 
 $price_target_cache_file = $ct['plug']->alert_cache($target_key . '.dat');
 
@@ -113,28 +115,36 @@ $mrkt_val = $ct['var']->num_to_str( $ct['api']->market($mrkt_asset, $mrkt_exchan
 	
 	// If price target met, send a notification...
 	if ( $mrkt_val <= $target_val && $target_direction == 'decrease' || $mrkt_val >= $target_val && $target_direction == 'increase' ) {
-        
+         
+     $divide_by = abs($cached_mrkt_val) * 100;
 
-    $percent_change = ($mrkt_val - $cached_mrkt_val) / abs($cached_mrkt_val) * 100;
-    $percent_change = number_format( $ct['var']->num_to_str($percent_change) , 2, '.', ','); // Better decimal support
+
+         if ( $divide_by > 0 ) {
+         $percent_change = ($mrkt_val - $cached_mrkt_val) / $divide_by;
+         $percent_change = number_format( $ct['var']->num_to_str($percent_change) , 2, '.', ','); // Better decimal support
+         }
+         // Percent change is undefined when the divide by value is 0
+         else {
+         $percent_change = 0;
+         }
 		
 		
-    $last_cached_days = ( time() - filemtime($price_target_cache_file) ) / 86400;
-    $last_cached_days = $ct['var']->num_to_str($last_cached_days); // Better decimal support
+     $last_cached_days = ( time() - filemtime($price_target_cache_file) ) / 86400;
+     $last_cached_days = $ct['var']->num_to_str($last_cached_days); // Better decimal support
        
        
    	    if ( $last_cached_days >= 365 ) {
-        $last_cached_time = number_format( ($last_cached_days / 365) , 2, '.', ',') . ' years';
-        }
-        elseif ( $last_cached_days >= 30 ) {
-        $last_cached_time = number_format( ($last_cached_days / 30) , 2, '.', ',') . ' months';
-        }
-        elseif ( $last_cached_days >= 7 ) {
-        $last_cached_time = number_format( ($last_cached_days / 7) , 2, '.', ',') . ' weeks';
-        }
-        else {
-        $last_cached_time = number_format($last_cached_days, 2, '.', ',') . ' days';
-        }
+         $last_cached_time = number_format( ($last_cached_days / 365) , 2, '.', ',') . ' years';
+         }
+         elseif ( $last_cached_days >= 30 ) {
+         $last_cached_time = number_format( ($last_cached_days / 30) , 2, '.', ',') . ' months';
+         }
+         elseif ( $last_cached_days >= 7 ) {
+         $last_cached_time = number_format( ($last_cached_days / 7) , 2, '.', ',') . ' weeks';
+         }
+         else {
+         $last_cached_time = number_format($last_cached_days, 2, '.', ',') . ' days';
+         }
    
    
    	    // Pretty numbers UX on target / market values, for alert messages

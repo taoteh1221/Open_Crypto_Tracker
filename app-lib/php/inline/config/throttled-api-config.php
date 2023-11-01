@@ -12,6 +12,16 @@
 
 // THROTTLE ALPHAVANTAGE - START
 
+// If we have an AlphaVantage UNLIMITED daily requests plan
+// https://www.alphavantage.co/premium/
+if ( $ct['conf']['ext_apis']['alphavantage_per_minute_limit'] > 5 ) {
+$alphavantage_per_day_limit = 0; // Unlimited
+}
+else {
+$alphavantage_per_day_limit = $ct['conf']['ext_apis']['alphavantage_free_plan_daily_limit'];
+}
+
+
 // IF we don't have a PREMIUM PLAN (ALL premium plans are UNLIMITED daily requests)
 // (zero is the flag for UNLIMITED daily requests, auto-adjusted in config-init.php)
 if ( $alphavantage_per_day_limit > 0 ) {

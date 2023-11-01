@@ -222,7 +222,7 @@
 					
 					<?php
 					
-					$exchange_field_id = $ct['asset']->btc_mrkt($ct['conf']['gen']['bitcoin_primary_exchange']);
+					$exchange_field_id = $ct['asset']->btc_mrkt($ct['conf']['gen']['bitcoin_primary_currency_exchange']);
 					
 					foreach (  $ct['conf']['assets']['BTC']['pair'] as $pair_key => $pair_id ) {
 					?>
@@ -252,7 +252,7 @@
 				     <!-- Selected (or first if none selected) pair: <?=$ct['conf']['gen']['bitcoin_primary_currency_pair']?> -->
 				     <!-- prim_currency_mrkt_standalone[1]: <?=$sel_opt['prim_currency_mrkt_standalone'][1]?> -->
 				     <!-- prim_currency_mrkt_standalone[0]: <?=$sel_opt['prim_currency_mrkt_standalone'][0]?> -->
-				     <!-- bitcoin_primary_exchange: <?=$ct['conf']['gen']['bitcoin_primary_exchange']?> -->
+				     <!-- bitcoin_primary_currency_exchange: <?=$ct['conf']['gen']['bitcoin_primary_currency_exchange']?> -->
 				    <?php
 				    
 				    foreach ( $btc_mrkt_list as $key => $value ) {
@@ -308,7 +308,7 @@
 				    </span> <img class='tooltip_style_control' id='currency_info' src='templates/interface/media/images/info.png' alt='' width='30' style='position: relative; left: -5px;' /> <input type='checkbox' id='standalone_prim_currency_enabled' name='standalone_prim_currency_enabled' value='1' onchange='
 				    
 				    btc_prim_currency = $("#btc_prim_currency").val() ? $("#btc_prim_currency").val() : "<?=$ct['conf']['gen']['bitcoin_primary_currency_pair']?>";
-				    prim_currency_mrkt = $("#prim_currency_mrkt_id").val() ? $("#prim_currency_mrkt_id").val() : <?=$ct['asset']->btc_mrkt($ct['conf']['gen']['bitcoin_primary_exchange'])?>;
+				    prim_currency_mrkt = $("#prim_currency_mrkt_id").val() ? $("#prim_currency_mrkt_id").val() : <?=$ct['asset']->btc_mrkt($ct['conf']['gen']['bitcoin_primary_currency_exchange'])?>;
 				    
 				    /////////////////////////////////////////////////////////
 				    

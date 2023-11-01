@@ -63,7 +63,7 @@ $ct['conf']['gen']['asset_charts_toggle'] = 'on'; // 'on' / 'off'
 // aud / brl / cad / chf / dai / eth / eur / gbp / hkd / inr / jpy
 // krw / mxn / nis / rub / sgd / try / twd / usd / usdc / usdt / zar
 // SEE THE $ct['conf']['assets']['BTC'] CONFIGURATION NEAR THE BOTTOM OF THIS CONFIG FILE, FOR THE PROPER (CORRESPONDING)
-// MARKET PAIR VALUE NEEDED FOR YOUR CHOSEN 'BTC' EXCHANGE (set in $ct['conf']['gen']['bitcoin_primary_exchange'] directly below)
+// MARKET PAIR VALUE NEEDED FOR YOUR CHOSEN 'BTC' EXCHANGE (set in $ct['conf']['gen']['bitcoin_primary_currency_exchange'] directly below)
 $ct['conf']['gen']['bitcoin_primary_currency_pair'] = 'usd'; // PUT INSIDE SINGLE QUOTES ('selection')
 
 
@@ -77,7 +77,7 @@ $ct['conf']['gen']['bitcoin_primary_currency_pair'] = 'usd'; // PUT INSIDE SINGL
 // okex / southxchange / unocoin / upbit / wazirx
 // SEE THE $ct['conf']['assets']['BTC'] CONFIGURATION NEAR THE BOTTOM OF THIS CONFIG FILE, FOR THE PROPER (CORRESPONDING)
 // 'BTC' EXCHANGE VALUE NEEDED FOR YOUR CHOSEN MARKET PAIR (set in $ct['conf']['gen']['bitcoin_primary_currency_pair'] directly above)
-$ct['conf']['gen']['bitcoin_primary_exchange'] = 'kraken';  // PUT INSIDE SINGLE QUOTES ('selection')
+$ct['conf']['gen']['bitcoin_primary_currency_exchange'] = 'kraken';  // PUT INSIDE SINGLE QUOTES ('selection')
 
 
 // Default marketcap data source: 'coingecko', or 'coinmarketcap'
@@ -1617,7 +1617,7 @@ $ct['conf']['mobile_network_text_gateways'] = array(
                         
                         
                         // [NO NETWORK] (when using textbelt / textlocal API instead)
-                        'skip_network_name' => NULL,
+                        'skip_network_name' => '',
                         
                         
                         // [INTERNATIONAL]
@@ -2553,6 +2553,11 @@ $ct['conf']['assets'] = array(
                                                     ),
 
                                                     
+                                    'usdc' => array(
+                                    	 'jupiter_ag' => 'RAY/USDC',
+                                                    ),
+
+                                                    
                                     'usdt' => array(
                                         'binance' => 'RAYUSDT',
                                         'coinex' => 'RAYUSDT',
@@ -2657,6 +2662,11 @@ $ct['conf']['assets'] = array(
                                                     ),
 
                                                     
+                                    'usdc' => array(
+                                    	 'jupiter_ag' => 'POLIS/USDC',
+                                                    ),
+
+                                                    
                                     'usdt' => array(
                                         'gateio' => 'POLIS_USDT',
                                         'coinex' => 'POLISUSDT',
@@ -2702,6 +2712,11 @@ $ct['conf']['assets'] = array(
                                                     ),
 
                                                     
+                                    'usdc' => array(
+                                    	 'jupiter_ag' => 'ATLAS/USDC',
+                                                    ),
+
+                                                    
                                     'usdt' => array(
                                         'gateio' => 'ATLAS_USDT',
                                         'coinex' => 'ATLASUSDT',
@@ -2737,6 +2752,11 @@ $ct['conf']['assets'] = array(
                                                     
                                     'usd' => array(
                                     	 'coingecko_usd' => 'aurory',
+                                                    ),
+
+                                                    
+                                    'usdc' => array(
+                                    	 'jupiter_ag' => 'AURY/USDC',
                                                     ),
 
                                                     
@@ -2839,6 +2859,11 @@ $ct['conf']['assets'] = array(
                                                     ),
 
                                                     
+                                    'usdc' => array(
+                                    	 'jupiter_ag' => 'ZBC/USDC',
+                                                    ),
+
+                                                    
                                     'usdt' => array(
                                         'huobi' => 'zbcusdt',
                                         'gateio' => 'ZBC_USDT',
@@ -2886,6 +2911,11 @@ $ct['conf']['assets'] = array(
                                                     ),
 
                                                     
+                                    'usdc' => array(
+                                    	 'jupiter_ag' => 'RNDR/USDC',
+                                                    ),
+
+                                                    
                                     'usdt' => array(
                                         'huobi' => 'rndrusdt',
                                         'gateio' => 'RNDR_USDT',
@@ -2930,6 +2960,11 @@ $ct['conf']['assets'] = array(
                                                     ),
 
                                                     
+                                    'usdc' => array(
+                                    	 'jupiter_ag' => 'HNT/USDC',
+                                                    ),
+
+                                                    
                                     'usdt' => array(
                                         'gateio' => 'HNT_USDT',
                                         'wazirx' => 'hntusdt',
@@ -2964,6 +2999,11 @@ $ct['conf']['assets'] = array(
                                                     
                                     'sol' => array(
                                     	 'jupiter_ag' => 'GRAPE/SOL',
+                                                    ),
+
+                                                    
+                                    'usdc' => array(
+                                    	 'jupiter_ag' => 'GRAPE/USDC',
                                                     ),
 
                                                     
@@ -3005,6 +3045,11 @@ $ct['conf']['assets'] = array(
                                                     
                                     'usd' => array(
                                         'coingecko_usd' => 'nana-token',
+                                                    ),
+
+                                                    
+                                    'usdc' => array(
+                                    	 'jupiter_ag' => 'NANA/USDC',
                                                     ),
 
                                                     

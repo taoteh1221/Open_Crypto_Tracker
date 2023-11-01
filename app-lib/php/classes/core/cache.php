@@ -189,7 +189,10 @@ var $ct_array = array();
                    
                    foreach ( $default_ct_conf['plug_conf'][$this_plug] as $plug_setting_key => $plug_setting_val ) {
                    
-                      if ( !isset($conf['plug_conf'][$this_plug][$plug_setting_key]) ) {
+                      if (
+                      !isset($conf['plug_conf'][$this_plug][$plug_setting_key])
+                      || isset($conf['plug_conf'][$this_plug][$plug_setting_key]) && $conf['plug_conf'][$this_plug][$plug_setting_key] == null && $default_ct_conf['plug_conf'][$this_plug][$plug_setting_key] != null // CHECKING FOR CORRUPTED VALUES
+                      ) {
                       
                       $conf['plug_conf'][$this_plug][$plug_setting_key] = $default_ct_conf['plug_conf'][$this_plug][$plug_setting_key];
                   			
@@ -214,10 +217,14 @@ var $ct_array = array();
            
            
               // Check everything else
-              if ( !is_array($conf[$cat_key][$conf_key]) || is_array($conf[$cat_key][$conf_key]) && !array_key_exists($setting_key, $conf[$cat_key][$conf_key]) ) {
+              // INCLUDES CONDITION TO CHECK FOR CORRUPTED VALUES
+              if (
+              !isset($conf[$cat_key][$conf_key])
+              || !isset($conf[$cat_key][$conf_key][$setting_key]) || isset($conf[$cat_key][$conf_key][$setting_key]) && $conf[$cat_key][$conf_key][$setting_key] == null && $default_ct_conf[$cat_key][$conf_key][$setting_key] != null
+              ) {
               			
               			
-                   if ( !is_array($conf[$cat_key][$conf_key]) ) {
+                   if ( !isset($conf[$cat_key][$conf_key]) ) {
                         
                    $conf[$cat_key][$conf_key] = $default_ct_conf[$cat_key][$conf_key];
                   			
@@ -232,9 +239,10 @@ var $ct_array = array();
                         			);
                    
                    }
-                   
-                   
-                   if ( is_array($conf[$cat_key][$conf_key]) && !array_key_exists($setting_key, $conf[$cat_key][$conf_key]) ) {
+                   else if (
+                   !isset($conf[$cat_key][$conf_key][$setting_key])
+                   || isset($conf[$cat_key][$conf_key][$setting_key]) && $conf[$cat_key][$conf_key][$setting_key] == null && $default_ct_conf[$cat_key][$conf_key][$setting_key] != null // CHECKING FOR CORRUPTED VALUES
+                   ) {
               	
                    $conf[$cat_key][$conf_key][$setting_key] = $default_ct_conf[$cat_key][$conf_key][$setting_key];
                   			
@@ -261,7 +269,7 @@ var $ct_array = array();
            
         }
         // Depreciated
-        elseif ( $mode == 'depreciated' ) {
+        else if ( $mode == 'depreciated' ) {
         
            
            // Check for depreciated variables, and remove them
@@ -303,24 +311,11 @@ var $ct_array = array();
            
            
               // Check everything else
-              if ( !is_array($default_ct_conf[$cat_key][$conf_key]) || is_array($default_ct_conf[$cat_key][$conf_key]) && !array_key_exists($setting_key, $default_ct_conf[$cat_key][$conf_key]) ) {
+              if ( !isset($default_ct_conf[$cat_key][$conf_key]) || !isset($default_ct_conf[$cat_key][$conf_key][$setting_key]) ) {
               
-              
-                   if ( is_array($default_ct_conf[$cat_key][$conf_key]) && !array_key_exists($setting_key, $default_ct_conf[$cat_key][$conf_key]) ) {
-                   
-                   unset($conf[$cat_key][$conf_key][$setting_key]);
-                   
-                   $conf_upgraded = true;
-                   
-                   $ct['gen']->log(
-                        			'conf_error',
-                        			'Depreciated app config, parameter ct[conf][' . $cat_key . '][' . $conf_key . '][' . $setting_key . '] removed'
-                        			);
-                   			
-                   }
               			
               			
-                   if ( !isset($default_ct_conf[$cat_key][$conf_key]) && isset($conf[$cat_key][$conf_key]) ) {
+                   if ( !isset($default_ct_conf[$cat_key][$conf_key]) ) {
                         
                    unset($conf[$cat_key][$conf_key]);
                    
@@ -329,6 +324,18 @@ var $ct_array = array();
                    $ct['gen']->log(
                         			'conf_error',
                         			'Depreciated app config, PARENT ARRAY parameter ct[conf][' . $cat_key . '][' . $conf_key . '] removed'
+                        			);
+                   			
+                   } 
+                   else if ( !isset($default_ct_conf[$cat_key][$conf_key][$setting_key]) ) {
+                   
+                   unset($conf[$cat_key][$conf_key][$setting_key]);
+                   
+                   $conf_upgraded = true;
+                   
+                   $ct['gen']->log(
+                        			'conf_error',
+                        			'Depreciated app config, parameter ct[conf][' . $cat_key . '][' . $conf_key . '][' . $setting_key . '] removed'
                         			);
                    			
                    }
@@ -779,30 +786,24 @@ var $ct_array = array();
    
    
    // Check to see if we need to upgrade the app config (add new primary vars / remove depreciated primary vars)
-   function upgrade_cached_ct_conf($conf) {
+   function upgrade_cached_ct_conf($conf=false) {
    
    global $ct, $check_default_ct_conf, $default_ct_conf, $conf_upgraded, $active_plugins_registered, $subarray_allow_upgrading;
-
-                   
-      if ( $ct['conf']['power']['debug_mode'] == 'all' || $ct['conf']['power']['debug_mode'] == 'all_telemetry' || $ct['conf']['power']['debug_mode'] == 'conf_telemetry' ) {
-                   
-      $ct['gen']->log(
-                   		'conf_debug',
-                   		'checking for upgrades'
-                   	  );
-                   			
-      }
    
-   
-      // If no cached app config or it's corrupt, just use full default app config
-      if ( $conf != true ) {
+   // Check that the config is valid / not corrupt FOR FUTURE JSON FILE STORAGE
+   $test_conf = json_encode($conf, JSON_PRETTY_PRINT);
+    	
+    	
+      // If there was an issue testing it converted to json format
+    	 // Need to check a few different possible results for no data found ("null" in quotes as the actual value is returned sometimes)
+      if ( $test_conf == '' || $test_conf == false || $test_conf == null || $test_conf == "null" ) {
       
       $ct['gen']->log(
                    	  'conf_error',
-                   	  'no valid config passed to upgrade_cached_ct_conf()'
+                   	  'no valid config passed to upgrade_cached_ct_conf(config)'
                    	 );
                    			
-      return $default_ct_conf;
+      return false;
       
       }
                    	 
@@ -820,19 +821,8 @@ var $ct_array = array();
             
            foreach ( $cat_val as $conf_key => $conf_val ) {
          
-               //$ct['gen']->log(
-               //			'conf_error',
-               //			'ct[conf][' . $cat_key . '][' . $conf_key . '] = ' .  $conf[$cat_key][$conf_key]
-                 // 			);
          
-               // Uses === for PHPv7.4 support
-               if (
-               is_array($conf_val) && isset($conf[$cat_key]) && in_array($cat_key, $subarray_allow_upgrading)
-               || is_array($conf_val) && $cat_key === 'plugins' && $conf_key === 'plugin_status'
-               ) {
-               $conf = $this->subarray_cached_ct_conf_upgrade($conf, $cat_key, $conf_key, 'new');
-               }
-               elseif ( !isset($conf[$cat_key]) && isset($default_ct_conf[$cat_key]) ) {
+               if ( !isset($conf[$cat_key]) ) {
                     
                $conf[$cat_key] = $default_ct_conf[$cat_key];
                   			
@@ -847,11 +837,17 @@ var $ct_array = array();
                   			);
                   
                }
-               
-               
-               if (
-               !is_array($conf_val) && !isset($conf[$cat_key][$conf_key]) && isset($default_ct_conf[$cat_key][$conf_key]) 
-               || !is_array($conf_val) && isset($conf[$cat_key][$conf_key]) && $conf[$cat_key][$conf_key] == null && $default_ct_conf[$cat_key][$conf_key] != null // BUG FIX FOR V6.00.28
+               else if ( is_array($conf[$cat_key][$conf_key]) ) {
+                    
+                    // Uses === for PHPv7.4 support
+                    if ( in_array($cat_key, $subarray_allow_upgrading) || $cat_key === 'plugins' && $conf_key === 'plugin_status' ) {
+                    $conf = $this->subarray_cached_ct_conf_upgrade($conf, $cat_key, $conf_key, 'new');
+                    }
+                    
+               }
+               else if (
+               !isset($conf[$cat_key][$conf_key])
+               || isset($conf[$cat_key][$conf_key]) && $conf[$cat_key][$conf_key] == null && $default_ct_conf[$cat_key][$conf_key] != null // CHECKING FOR CORRUPTED VALUES
                ) {
                   	
                $conf[$cat_key][$conf_key] = $default_ct_conf[$cat_key][$conf_key];
@@ -890,19 +886,8 @@ var $ct_array = array();
                   	
            foreach ( $cached_cat_val as $cached_conf_key => $cached_conf_val ) {
          
-               //$ct['gen']->log(
-               //			'conf_error',
-               //			'ct[conf][' . $cached_cat_key . '][' . $cached_conf_key . '] = ' .  $cached_conf_val
-                 // 			);
          
-               // Uses === for PHPv7.4 support
-               if ( 
-               is_array($cached_conf_val) && isset($default_ct_conf[$cached_cat_key]) && in_array($cached_cat_key, $subarray_allow_upgrading)
-               || is_array($conf_val) && $cached_cat_key === 'plugins' && $cached_conf_key === 'plugin_status'
-               ) {
-               $conf = $this->subarray_cached_ct_conf_upgrade($conf, $cached_cat_key, $cached_conf_key, 'depreciated');
-               }
-               elseif ( !isset($default_ct_conf[$cached_cat_key]) && isset($conf[$cached_cat_key]) ) {
+               if ( !isset($default_ct_conf[$cached_cat_key]) ) {
                   	
                unset($conf[$cached_cat_key]);
                   
@@ -914,9 +899,15 @@ var $ct_array = array();
                   			);
                   
                }
-               
-               
-               if ( !is_array($cached_conf_val) && !isset($default_ct_conf[$cached_cat_key][$cached_conf_key]) && isset($conf[$cached_cat_key][$cached_conf_key]) ) {
+               else if ( is_array($default_ct_conf[$cached_cat_key][$cached_conf_key]) ) {
+                    
+                    // Uses === for PHPv7.4 support
+                    if ( in_array($cached_cat_key, $subarray_allow_upgrading) || $cached_cat_key === 'plugins' && $cached_conf_key === 'plugin_status' ) {
+                    $conf = $this->subarray_cached_ct_conf_upgrade($conf, $cached_cat_key, $cached_conf_key, 'depreciated');
+                    }
+                    
+               }
+               else if ( !isset($default_ct_conf[$cached_cat_key][$cached_conf_key]) ) {
                   	
                unset($conf[$cached_cat_key][$cached_conf_key]);
                   
@@ -935,7 +926,9 @@ var $ct_array = array();
             
       }
          
-        //$ct['cache']->app_log();
+   
+   //$ct['cache']->app_log(); // DEBUGGING
+   
    return ( $conf_upgraded ? $conf : false );
    
    }
@@ -947,7 +940,7 @@ var $ct_array = array();
    
    function load_cached_config() {
    
-   global $ct, $admin_area_sec_level, $restore_conf_path, $telegram_user_data, $update_config, $reset_config, $app_upgrade_check, $telegram_user_data_path;
+   global $ct, $admin_area_sec_level, $restore_conf_path, $telegram_user_data, $update_config, $reset_config, $app_upgrade_check, $conf_upgraded, $telegram_user_data_path;
    
    // Secured cache files
    $files = $ct['gen']->sort_files($ct['base_dir'] . '/cache/secured', 'dat', 'desc');
@@ -986,7 +979,7 @@ var $ct_array = array();
         		
         		// If we already loaded the newest modified telegram SECURED CACHE config file,
         		// or we are updating / resetting the cached config
-        		if ( $newest_cached_telegram_user_data == 1 || $reset_config || $update_config ) {
+        		if ( $newest_cached_telegram_user_data == 1 ) {
         		unlink($ct['base_dir'] . '/cache/secured/' . $secured_file);
         		}
         		else {
@@ -1042,9 +1035,17 @@ var $ct_array = array();
         			    if ( $admin_area_sec_level != 'high' && $app_upgrade_check ) {
         			         
         			         if ( $ct['runtime_mode'] == 'ui' || $ct['runtime_mode'] == 'cron' ) {
+        			              
+        			         $ct['gen']->log('conf_error', 'CACHED config upgrade check flagged, checking now');
+        			         
         			         $ct['conf'] = $ct['cache']->update_cached_config($ct['conf'], true); 
         			         // !!!!!!!!! DO NOT RESET $app_upgrade_check HERE, AS WE WANT TO SEND THE FLAG INTO queue_config_update() AFTERWARDS,
         			         // !!!!!!!!! WHERE IT WILL HALT ANY USER-UPDATING OF THE CACHED CONFIG (UNTIL THE NEXT RUNTIME)
+        			         
+        			              if ( !$conf_upgraded ) {
+        			              $ct['gen']->log('conf_error', 'CACHED config upgrade check finished running, and did NOT find anything that needed an upgrade');
+        			              }
+        			         
         			         }
         			    
         			    }
@@ -1081,16 +1082,8 @@ var $ct_array = array();
         // 1) load_cached_config() LOADS AT END OF load-config-by-security-level.php IN HIGH SECURITY MODE
         // 2) A corrupt / non-existant CACHED config should ALWAYS be REPLACED IMMEADIATELY (so runtime won't hang / freeze)
         if ( $reset_config ) {
-             
-             // Since we are resetting the cached config, telegram chatroom data should be refreshed too
-             if ( $telegram_user_data_path != null ) {
-             unlink($telegram_user_data_path); 
-             }
-        
         $ct['conf'] = $this->update_cached_config(false, false, true); // Reset flag
-        
         $reset_config = false; // Reset the reset flag (lol) IMMEADIATELY, as it's a global var
-        
         }
         
         
@@ -1103,43 +1096,43 @@ var $ct_array = array();
    ////////////////////////////////////////////////////////
    
    
-   function update_cached_config($passed_config, $upgrade_mode=false, $user_reset=false) {
+   function update_cached_config($passed_config, $upgrade_mode=false, $reset_flagged=false) {
    
-   global $ct, $default_ct_conf, $conf_upgraded, $app_upgrade_check, $update_config, $restore_conf_path, $admin_area_sec_level, $telegram_activated, $telegram_user_data, $htaccess_username, $htaccess_password;
-
+   global $ct, $default_ct_conf, $conf_upgraded, $app_upgrade_check, $update_config, $restore_conf_path, $telegram_user_data_path, $telegram_user_data, $admin_area_sec_level, $htaccess_username, $htaccess_password;
+        
 
    // If no valid cached_ct_conf, or if DEFAULT Admin Config (in config.php) variables have been changed...
    
    
-        // If no ct_conf (IN PHP ARRAY FORM) was passed into this function, to use for this refresh
-        // (VALUE false WAS EXPLICITLY PASSED TO TRIGGER A RESET)
-        if ( !$passed_config ) {
+     // If no ct_conf (IN PHP ARRAY FORM) was passed into this function, to use for this refresh
+     // (VALUE false WAS EXPLICITLY PASSED TO TRIGGER A RESET)
+     if ( !$passed_config ) {
         
         
-	        // If no reset ct_conf flag, try loading last working config (if it exists, before falling back on default ct_conf)
-	        if ( !$user_reset && file_exists($restore_conf_path) ) {
-             $passed_config = json_decode( trim( file_get_contents($restore_conf_path) ) , TRUE);
-	        }
+	     // If no reset ct_conf flag, try loading last working config (if it exists, before falling back on default ct_conf)
+	     if ( !$reset_flagged && file_exists($restore_conf_path) ) {
+          $passed_config = json_decode( trim( file_get_contents($restore_conf_path) ) , TRUE);
+	     }
 				
              
-             // If NO valid last working config / IS high security mode / IS a user-initiated reset to ct_conf defaults,
-             // WE USE THE DEFAULT CT_CONF (FROM THE PHP CONFIGURATION FILES)
-             if ( !$passed_config || $admin_area_sec_level == 'high' || $user_reset ) {
+          // If NO valid last working config / IS high security mode / IS a user-initiated reset to ct_conf defaults,
+          // WE USE THE DEFAULT CT_CONF (FROM THE PHP CONFIGURATION FILES)
+          if ( !$passed_config || $admin_area_sec_level == 'high' || $reset_flagged ) {
                   
-             $passed_config = $default_ct_conf;
+          $passed_config = $default_ct_conf;
     		
     		     if ( $ct['conf']['power']['debug_mode'] == 'all' || $ct['conf']['power']['debug_mode'] == 'all_telemetry' || $ct['conf']['power']['debug_mode'] == 'conf_telemetry' ) {
     		     $ct['gen']->log('conf_debug', 'ct_conf CACHE RESET, it will be RESET using the DEFAULT ct_conf');
     		     }
              
-    		   }
-             // All other conditions
-             elseif ( $ct['conf']['power']['debug_mode'] == 'all' || $ct['conf']['power']['debug_mode'] == 'all_telemetry' || $ct['conf']['power']['debug_mode'] == 'conf_telemetry' ) {
-    		   $ct['gen']->log('conf_debug', 'ct_conf CACHE RESET, it will be RESTORED using the LAST-KNOWN WORKING ct_conf');
-             }
+    		}
+          // All other conditions
+          elseif ( $ct['conf']['power']['debug_mode'] == 'all' || $ct['conf']['power']['debug_mode'] == 'all_telemetry' || $ct['conf']['power']['debug_mode'] == 'conf_telemetry' ) {
+    		$ct['gen']->log('conf_debug', 'ct_conf CACHE RESET, it will be RESTORED using the LAST-KNOWN WORKING ct_conf');
+          }
              
         
-        }
+     }
    
     	
    $secure_128bit_hash = $ct['gen']->rand_hash(16); // 128-bit (16-byte) hash converted to hexadecimal, used for suffix
@@ -1160,27 +1153,27 @@ var $ct_array = array();
         	// Check to see if we need to upgrade the CACHED app config (NEW / DEPRECIATED CORE VARIABLES ONLY, NOT OVERWRITING EXISTING CORE VARIABLES)
     	    if ( $admin_area_sec_level != 'high' && $upgrade_mode == true ) {
     	         
-    	    $upgrade_cache_ct_conf = $this->upgrade_cached_ct_conf($passed_config);
+    	    $updated_cache_ct_conf = $this->upgrade_cached_ct_conf($passed_config);
     	    
-    	        // If no upgrades were needed in the cached config,
+    	        // If no upgrades were needed in the cached config, OR IT FAILED JSON CONVERSION CHECKS,
     	        // we can just return the config that was passed in this function
-    	        if ( !$upgrade_cache_ct_conf ) {
+    	        if ( !$updated_cache_ct_conf ) {
     	        return $passed_config;
     	        }
     	    
     	    }
          // CACHED WITH NO UPGRADE FLAG
     	    elseif ( $admin_area_sec_level != 'high' ) {
-    	    $upgrade_cache_ct_conf = $passed_config;
+    	    $updated_cache_ct_conf = $passed_config;
     	    }
          // (REFRESHES CACHED APP CONFIG TO EXACTLY MIRROR THE HARD-CODED VARIABLES IN CONFIG.PHP, IF CONFIG.PHP IS CHANGED IN EVEN THE SLIGHTEST WAY)
     	    else {
-    	    $upgrade_cache_ct_conf = $ct['conf'];
+    	    $updated_cache_ct_conf = $ct['conf'];
     	    }
     	
     	
     	// Check that the app config is valid / not corrupt
-    	$store_cached_ct_conf = json_encode($upgrade_cache_ct_conf, JSON_PRETTY_PRINT);
+    	$store_cached_ct_conf = json_encode($updated_cache_ct_conf, JSON_PRETTY_PRINT);
     	
     	
     		// If there was an issue updating the cached app config
@@ -1199,16 +1192,16 @@ var $ct_array = array();
     	
     	
                    if ( $admin_area_sec_level != 'high' ) {
-            	    $upgrade_cache_ct_conf = $cached_restore_conf;
+            	    $updated_cache_ct_conf = $cached_restore_conf;
             	    }
                 	// (REFRESHES CACHED APP CONFIG TO EXACTLY MIRROR THE HARD-CODED VARIABLES IN CONFIG.PHP, IF CONFIG.PHP IS CHANGED IN EVEN THE SLIGHTEST WAY)
             	    else {
-            	    $upgrade_cache_ct_conf = $cached_restore_conf;
+            	    $updated_cache_ct_conf = $cached_restore_conf;
             	    }
             	     
             	
             	// Check that the app config is valid / not corrupt
-            	$store_cached_ct_conf = json_encode($upgrade_cache_ct_conf, JSON_PRETTY_PRINT);
+            	$store_cached_ct_conf = json_encode($updated_cache_ct_conf, JSON_PRETTY_PRINT);
             	
             	
             		// If there was an issue updating the cached app config
@@ -1220,13 +1213,13 @@ var $ct_array = array();
             		else {
             		    
             		$ct['gen']->log('conf_error', 'ct_conf CACHE restore from last-known working config triggered, updated successfully'); 
-            		$ct['conf'] = $upgrade_cache_ct_conf;
+            		$ct['conf'] = $updated_cache_ct_conf;
             		$this->save_file($ct['base_dir'] . '/cache/secured/ct_conf_'.$secure_128bit_hash.'.dat', $store_cached_ct_conf);
             		
             		
                 		// For checking later, if DEFAULT Admin Config (in config.php) values are updated we save to json again
-            		    if ( $admin_area_sec_level == 'high' || $user_reset ) {
-                		$this->save_file($ct['base_dir'] . '/cache/vars/default_ct_conf_md5.dat', md5( serialize($default_ct_conf) ) ); 
+            		    if ( $admin_area_sec_level == 'high' || $reset_flagged ) {
+                		$this->save_file($ct['base_dir'] . '/cache/vars/state-tracking/default_ct_conf_md5.dat', md5( serialize($default_ct_conf) ) ); 
             		    }
             		
             		
@@ -1246,7 +1239,7 @@ var $ct_array = array();
     		else {
     		
     		
-    		$ct['conf'] = $upgrade_cache_ct_conf;
+    		$ct['conf'] = $updated_cache_ct_conf;
     		
     		$this->save_file($ct['base_dir'] . '/cache/secured/ct_conf_'.$secure_128bit_hash.'.dat', $store_cached_ct_conf);
     		
@@ -1254,14 +1247,14 @@ var $ct_array = array();
     		
     		
                // For checking later, if DEFAULT Admin Config (in config.php) values are updated we save to json again
-            	if ( $admin_area_sec_level == 'high' || $user_reset || $conf_upgraded ) {
-               $this->save_file($ct['base_dir'] . '/cache/vars/default_ct_conf_md5.dat', md5( serialize($default_ct_conf) ) ); 
+            	if ( $admin_area_sec_level == 'high' || $reset_flagged || $conf_upgraded ) {
+               $this->save_file($ct['base_dir'] . '/cache/vars/state-tracking/default_ct_conf_md5.dat', md5( serialize($default_ct_conf) ) ); 
     		     }
     		
     		
     		     if ( $ct['conf']['power']['debug_mode'] == 'all' || $ct['conf']['power']['debug_mode'] == 'all_telemetry' || $ct['conf']['power']['debug_mode'] == 'conf_telemetry' ) {
     		          
-    		          if ( $user_reset ) {
+    		          if ( $reset_flagged ) {
     		          $update_desc = 'RESET';
     		          }
     		          elseif ( $admin_area_sec_level != 'high' && $app_upgrade_check ) {
@@ -1291,6 +1284,24 @@ var $ct_array = array();
     	
    
    sleep(1); // Chill for a second, since we just refreshed the conf on disk
+
+             
+     // Since we are resetting OR updating the cached config, telegram chatroom data should be refreshed too
+     // (ONLY IF TELEGRAM SETTINGS HAVE CHANGED)
+     if ( $update_config && $telegram_user_data_path != null || $reset_flagged && $telegram_user_data_path != null ) {
+        
+     $check_telegram_conf_md5 = trim( file_get_contents($ct['base_dir'] . '/cache/vars/state-tracking/telegram_conf_md5.dat') );
+
+     $telegram_conf_md5 = md5($ct['conf']['ext_apis']['telegram_your_username'] . $ct['conf']['ext_apis']['telegram_bot_username'] . $ct['conf']['ext_apis']['telegram_bot_name'] . $ct['conf']['ext_apis']['telegram_bot_token']);       
+        
+          // Completely reset ALL telegram config data
+          if ( $check_telegram_conf_md5 != $telegram_conf_md5 )  {
+          $telegram_user_data = array();
+          unlink($telegram_user_data_path); 
+          }
+             
+     }
+     
 
    // Return $ct['conf']
    return $ct['conf'];
@@ -1375,7 +1386,7 @@ var $ct_array = array();
     
       // If it's time to email error logs...
 	  // With offset, to try keeping daily recurrences at same exact runtime (instead of moving up the runtime daily)
-      if ( $ct['conf']['comms']['logs_email'] > 0 && $this->update_cache('cache/events/email-error-logs.dat', ( $ct['conf']['comms']['logs_email'] * 1440 ) + $ct['dev']['tasks_time_offset'] ) == true ) {
+      if ( $ct['conf']['comms']['logs_email'] > 0 && $this->update_cache('cache/events/logging/email-app-logs.dat', ( $ct['conf']['comms']['logs_email'] * 1440 ) + $ct['dev']['tasks_time_offset'] ) == true ) {
        
       $emailed_logs = "\n\n ------------------error.log------------------ \n\n" . file_get_contents('cache/logs/app_log.log') . "\n\n ------------------smtp_error.log------------------ \n\n" . file_get_contents('cache/logs/smtp_error.log');
        
@@ -1392,19 +1403,19 @@ var $ct_array = array();
       // Send notifications
       @$this->queue_notify($send_params);
                 
-      $this->save_file($ct['base_dir'] . '/cache/events/email-error-logs.dat', date('Y-m-d H:i:s')); // Track this emailing event, to determine next time to email logs again.
+      $this->save_file($ct['base_dir'] . '/cache/events/logging/email-app-logs.dat', date('Y-m-d H:i:s')); // Track this emailing event, to determine next time to email logs again.
       
       }
       
       
       // Log errors...Purge old logs before storing new logs, if it's time to...otherwise just append.
 	  // With offset, to try keeping daily recurrences at same exact runtime (instead of moving up the runtime daily)
-      if ( $this->update_cache('cache/events/purge-error-logs.dat', ( $ct['conf']['power']['logs_purge'] * 1440 ) + $ct['dev']['tasks_time_offset'] ) == true ) {
+      if ( $this->update_cache('cache/events/logging/purge-app-logs.dat', ( $ct['conf']['power']['logs_purge'] * 1440 ) + $ct['dev']['tasks_time_offset'] ) == true ) {
       
       unlink($ct['base_dir'] . '/cache/logs/smtp_error.log');
       unlink($ct['base_dir'] . '/cache/logs/app_log.log');
       
-      $this->save_file('cache/events/purge-error-logs.dat', date('Y-m-d H:i:s'));
+      $this->save_file('cache/events/logging/purge-app-logs.dat', date('Y-m-d H:i:s'));
       
       sleep(1);
       
@@ -2345,7 +2356,7 @@ var $ct_array = array();
   
   function ext_data($mode, $request_params, $ttl, $api_server=null, $post_encoding=3, $test_proxy=null, $headers=null) { // Default to JSON encoding post requests (most used)
   
-  // $ct['conf']['gen']['bitcoin_primary_currency_pair'] / $ct['conf']['gen']['bitcoin_primary_exchange'] / $sel_opt['sel_btc_prim_currency_val'] USED FOR TRACE DEBUGGING (TRACING)
+  // $ct['conf']['gen']['bitcoin_primary_currency_pair'] / $ct['conf']['gen']['bitcoin_primary_currency_exchange'] / $sel_opt['sel_btc_prim_currency_val'] USED FOR TRACE DEBUGGING (TRACING)
   
   global $ct, $sel_opt, $proxy_checkup, $log_errors, $log_debugging, $limited_api_calls, $api_runtime_cache, $api_connections, $htaccess_username, $htaccess_password;
   
@@ -2530,7 +2541,7 @@ var $ct_array = array();
         $limited_api_calls[$tld_session_prefix . '_calls'] = 1;
         }
         elseif ( $limited_api_calls[$tld_session_prefix . '_calls'] == 1 ) {
-        usleep(150000); // Throttle 0.15 seconds
+        usleep(350000); // Throttle 0.35 seconds
         }
     
       }
@@ -2845,7 +2856,7 @@ var $ct_array = array();
              							
              			'POSSIBLE error for ' . ( $mode == 'params' ? 'server at ' : 'endpoint at ' ) . $ct['gen']->obfusc_url_data($api_endpoint),
              							
-             			'requested_from: server (' . $ct['conf']['power']['remote_api_timeout'] . ' second timeout); live_request_time: ' . $api_total_time . ' seconds; mode: ' . $mode . '; received: ' . $data_bytes_ux . '; proxy: ' .( $current_proxy ? $current_proxy : 'none' ) . '; debug_file: ' . $error_response_log . '; bitcoin_primary_currency_pair: ' . $ct['conf']['gen']['bitcoin_primary_currency_pair'] . '; bitcoin_primary_exchange: ' . $ct['conf']['gen']['bitcoin_primary_exchange'] . '; sel_btc_prim_currency_val: ' . $ct['var']->num_to_str($sel_opt['sel_btc_prim_currency_val']) . '; hash_check: ' . $ct['var']->obfusc_str($hash_check, 4) . ';'
+             			'requested_from: server (' . $ct['conf']['power']['remote_api_timeout'] . ' second timeout); live_request_time: ' . $api_total_time . ' seconds; mode: ' . $mode . '; received: ' . $data_bytes_ux . '; proxy: ' .( $current_proxy ? $current_proxy : 'none' ) . '; debug_file: ' . $error_response_log . '; bitcoin_primary_currency_pair: ' . $ct['conf']['gen']['bitcoin_primary_currency_pair'] . '; bitcoin_primary_currency_exchange: ' . $ct['conf']['gen']['bitcoin_primary_currency_exchange'] . '; sel_btc_prim_currency_val: ' . $ct['var']->num_to_str($sel_opt['sel_btc_prim_currency_val']) . '; hash_check: ' . $ct['var']->obfusc_str($hash_check, 4) . ';'
              			);
             
             // Log this error response from this data request
@@ -2924,7 +2935,7 @@ var $ct_array = array();
             							
             			'CONFIRMED error for ' . ( $mode == 'params' ? 'server at ' : 'endpoint at ' ) . $ct['gen']->obfusc_url_data($api_endpoint) . $log_append,
             							
-            			'requested_from: server (' . $ct['conf']['power']['remote_api_timeout'] . ' second timeout); live_request_time: ' . $api_total_time . ' seconds; mode: ' . $mode . '; received: ' . $data_bytes_ux . '; proxy: ' .( $current_proxy ? $current_proxy : 'none' ) . '; bitcoin_primary_currency_pair: ' . $ct['conf']['gen']['bitcoin_primary_currency_pair'] . '; bitcoin_primary_exchange: ' . $ct['conf']['gen']['bitcoin_primary_exchange'] . '; sel_btc_prim_currency_val: ' . $ct['var']->num_to_str($sel_opt['sel_btc_prim_currency_val']) . '; hash_check: ' . $ct['var']->obfusc_str($hash_check, 4) . ';'
+            			'requested_from: server (' . $ct['conf']['power']['remote_api_timeout'] . ' second timeout); live_request_time: ' . $api_total_time . ' seconds; mode: ' . $mode . '; received: ' . $data_bytes_ux . '; proxy: ' .( $current_proxy ? $current_proxy : 'none' ) . '; bitcoin_primary_currency_pair: ' . $ct['conf']['gen']['bitcoin_primary_currency_pair'] . '; bitcoin_primary_currency_exchange: ' . $ct['conf']['gen']['bitcoin_primary_currency_exchange'] . '; sel_btc_prim_currency_val: ' . $ct['var']->num_to_str($sel_opt['sel_btc_prim_currency_val']) . '; hash_check: ' . $ct['var']->obfusc_str($hash_check, 4) . ';'
             			);
              
            

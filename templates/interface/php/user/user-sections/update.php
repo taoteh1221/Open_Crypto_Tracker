@@ -582,7 +582,7 @@
 							
 									$html_mrkt_list[$pair_key] .= "\n<option value='".$loop2."'" . ( 
 									isset($asset_mrkt_id) && ($asset_mrkt_id) == $loop2 
-									|| !isset($asset_mrkt_id) && strtolower($asset_array_val['name']) == 'bitcoin' && $loop2 == $ct['asset']->btc_mrkt($ct['conf']['gen']['bitcoin_primary_exchange']) ? ' selected ' : '' ) . ">" . $ct['gen']->key_to_name($mrkt_key) . " </option>\n";
+									|| !isset($asset_mrkt_id) && strtolower($asset_array_val['name']) == 'bitcoin' && $loop2 == $ct['asset']->btc_mrkt($ct['conf']['gen']['bitcoin_primary_currency_exchange']) ? ' selected ' : '' ) . ">" . $ct['gen']->key_to_name($mrkt_key) . " </option>\n";
 								
 									}
 									$loop2 = NULL;
@@ -602,7 +602,7 @@
 				     echo $asset_mrkt_id;
 				     }
 				     elseif ( !isset($asset_mrkt_id) && strtolower($asset_array_val['name']) == 'bitcoin' ) {
-				     echo $ct['asset']->btc_mrkt($ct['conf']['gen']['bitcoin_primary_exchange']);
+				     echo $ct['asset']->btc_mrkt($ct['conf']['gen']['bitcoin_primary_currency_exchange']);
 				     }
 				     else {
 					echo '1';

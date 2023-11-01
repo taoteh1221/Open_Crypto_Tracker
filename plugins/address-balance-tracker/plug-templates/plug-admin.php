@@ -72,25 +72,22 @@ $admin_render_settings['privacy_mode']['is_notes'] = 'In Privacy Mode, the curre
 ////////////////////////////////////////////////////////////////////////////////////////////////
 
 
-$admin_render_settings['tracking']['is_notes'] = 'Track address balance changes on popular blockchains.';
+$admin_render_settings['tracking']['is_notes'] = 'Track address balance changes on popular blockchains.<br />(Solana SPL tokens MUST have a Jupiter Aggregator SOL market in the portfolio assets configuration, for "Privacy Mode" to work properly)';
 
 
 $sol_subtokens = array();
 
-// Get all the solana subtokens in asset config, which we can add as selection options
+// Get all the solana subtokens in asset config, WHICH HAVE A SOL PAIRING WITH JUPITER AGGREGATOR IN IT
+// (for privacy mode / primary currency value)
 foreach ( $ct['conf']['assets'] as $asset_key => $unused ) {
-
-   // If we can get the primary currency value conversion (in privacy mode) for added assets that are solana SPL tokens,
-   // then auto-add them to the asset selection dropdown menu
-   if ( 
-   array_key_exists('sol', $ct['conf']['assets'][$asset_key]['pair']) && isset($ct['conf']['assets'][$asset_key]['pair']['btc']) 
-   || array_key_exists('sol', $ct['conf']['assets'][$asset_key]['pair']) && isset($ct['conf']['assets']['BTC']['pair'][ strtolower($asset_key) ]) 
-   ) {
-        
-        if ( $asset_key != 'MISCASSETS' && $asset_key != 'BTCNFTS' && $asset_key != 'ETHNFTS' && $asset_key != 'SOLNFTS' && $asset_key != 'ALTNFTS' ) {
-        $sol_subtokens[] = strtolower($asset_key);
-        }
-        
+     
+   foreach ( $ct['conf']['assets'][$asset_key]['pair'] as $pair_key => $pair_val ) {
+      
+      // PHP7.4 NEEDS === HERE INSTEAD OF ==
+      if ( $pair_key === 'sol' && isset($ct['conf']['assets'][$asset_key]['pair'][$pair_key]['jupiter_ag']) ) { 
+      $sol_subtokens[] = strtolower($asset_key);
+      }
+   
    }
 
 }

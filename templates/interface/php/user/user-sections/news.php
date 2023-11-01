@@ -16,6 +16,8 @@
 			<p style='margin-top: 25px; margin-bottom: 15px;'><?=$ct['gen']->start_page_html('news')?></p>			
 			<?php
 			$news_feed_cache_min_max = explode(',', $ct['conf']['news']['news_feed_cache_min_max']);
+               // Cleanup
+               $news_feed_cache_min_max = array_map('trim', $news_feed_cache_min_max);
 			?>
 	
     		

@@ -144,13 +144,13 @@ var $ct_array = array();
    
    function assoc_array_order_map($sorting_array) {
    
-   $new_data = array();
+   $new_array = array();
    
       foreach ($sorting_array as $key => $unused) {
-      $new_data[] = $key;
+      $new_array[] = $key;
       }
    
-   return $new_data;
+   return $new_array;
    
    }
 
@@ -161,13 +161,18 @@ var $ct_array = array();
    
    function assoc_array_order($target_array, $sorting_array) {
    
-   $new_data = array();
+   $new_array = array();
    
+      // We want to preserve DEPRECIATED array keys, to remove AND LOG THE REMOVAL EVENT WITH DETAILS after this
+      // ($target_array will only contain DEPRECIATED keys after unsetting EXISTING values)
       foreach ($sorting_array as $key) {
-      $target_array[$key] = $target_array[$key];
+      $new_array[$key] = $target_array[$key];
+      unset($target_array[$key]);
       }
+      
+   $arrays_merged = array_merge($new_array, $target_array);
    
-   return $target_array;
+   return $arrays_merged;
    
    }
 
@@ -549,12 +554,8 @@ var $ct_array = array();
    // and put in LEFT parenthesis futher down when returning output
    $url = preg_replace("/:\/\//i", ") ", $url);
    
-      foreach( $ct['dev']['url_obfuscating'] as $hide_key => $hide_val ) {
-           
-           if ( preg_match("/" . $hide_key . "/i", $url) ) {
-           $url = str_replace($hide_val, $ct['var']->obfusc_str($hide_val, 2), $url);
-           }
-           
+      foreach( $ct['dev']['url_obfuscating'] as $hide_val ) {
+      $url = str_replace($hide_val, $ct['var']->obfusc_str($hide_val, 2), $url);
       }
    
    // Keep our color-coded logs in the admin UI pretty (SEE NOTES ABOVE)
@@ -3443,7 +3444,12 @@ var $ct_array = array();
                }
             
             }
-            elseif ( isset($result[1]) && isset($result[2]) && trim($result[1]) != 'NO_DATA' && trim($result[2]) != 'NO_DATA' && trim($result[1]) != '' && trim($result[2]) != '' ) {
+            elseif ( isset($result[1]) && trim($result[1]) != 'NO_DATA' && trim($result[1]) != '' ) {
+                 
+               // Some APIs don't have trade volume data, so we just set trade volume to zero if none exists
+               if ( !isset($result[2]) || isset($result[2]) && $result[2] == 'NO_DATA' || isset($result[2]) && trim($result[2]) == '' ) {
+               $result[2] = 0;
+               }
             
                // Format or round primary currency price depending on value (non-stablecoin crypto values are already stored in the format we want for the interface)
                if ( $fiat_formatting ) {

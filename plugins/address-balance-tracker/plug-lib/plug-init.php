@@ -48,16 +48,26 @@ $address = trim($target_val['address']);
 $label = trim($target_val['label']);
 
 
+// Add the address to the dev setting array 'url_obfuscating'
+// (so it's always obfuscated in any logs)
+$ct['dev']['url_obfuscating'][] = $address;
+
+
     // Add this altcoin to $ct['conf']['power']['crypto_pair'] DYNAMICALLY #IF# it doesn't exist there, #IF# it has a BTC market configured
     // (For conversion of it's BTC value to the user's fiat value, set in $ct['conf']['gen']['bitcoin_primary_currency_pair'])
-    if ( $asset != 'btc' && !isset($ct['conf']['power']['crypto_pair'][$asset]) && isset($ct['conf']['assets'][strtoupper($asset)]['pair']['btc']) ) {
+    // ONLY IF THIS COIN IS NOT ON SOLANA (as we can easily get solana SPL token value from on-chain data with the jupiter aggregator API)
+    if ( $asset != 'btc' && $chain != 'sol' && !isset($ct['conf']['power']['crypto_pair'][$asset]) && isset($ct['conf']['assets'][strtoupper($asset)]['pair']['btc']) ) {
     $ct['conf']['power']['crypto_pair'][$asset] = strtoupper($asset) . ' ';
     }
+    // Make sure we can get the SOL / BTC trade value (if user removed SOL from $ct['conf']['power']['crypto_pair'])
+    elseif ( $chain == 'sol' && !isset($ct['conf']['power']['crypto_pair']['sol']) ) {
+    $ct['conf']['power']['crypto_pair']['sol'] = '◎ ';
+    }  
 
 
 // Only getting BTC value for non-bitcoin assets is supported
 // SUPPORTED even for BTC ( $ct['asset']->pair_btc_val('btc') ALWAYS = 1 )
-$pair_btc_val = $ct['asset']->pair_btc_val($asset); 
+$pair_btc_val = ( $chain == 'sol' ? $ct['asset']->pair_btc_val('sol') : $ct['asset']->pair_btc_val($asset) ); 
   	 
   	 
 	if ( $pair_btc_val == null ) {
@@ -163,11 +173,24 @@ $pair_btc_val = $ct['asset']->pair_btc_val($asset);
 
         
         if ( $plug_conf[$this_plug]['privacy_mode'] == 'on' ) {
-
-        // Get primary currency value of the current address INCREASE / DECREASE amount only (for increased privacy in alerts)
-        $asset_prim_currency_worth_raw = $ct['var']->num_to_str( ($difference_amnt * $pair_btc_val) * $sel_opt['sel_btc_prim_currency_val'] );
         
-        $pretty_prim_currency_worth = $ct['var']->num_pretty($asset_prim_currency_worth_raw, ( $asset_prim_currency_worth_raw >= 1.00 ? 2 : $ct['conf']['gen']['currency_decimals_max'] ) );
+        
+            // Get primary currency value of the current address INCREASE / DECREASE amount only (for increased privacy in alerts)
+            if ( $chain == 'sol' ) {
+            
+            $sol_btc_val = $pair_btc_val;
+            
+            $spl_token_sol_worth_raw = $ct['var']->market( strtoupper($asset), 'jupiter_ag', strtoupper($asset) . '/SOL')['last_trade'];
+            
+            $asset_prim_currency_worth_raw = $ct['var']->num_to_str( ( $difference_amnt * ($spl_token_sol_worth_raw * $sol_btc_val) ) * $sel_opt['sel_btc_prim_currency_val'] );
+            
+            }
+            else {
+            $asset_prim_currency_worth_raw = $ct['var']->num_to_str( ($difference_amnt * $pair_btc_val) * $sel_opt['sel_btc_prim_currency_val'] );
+            }
+        
+        
+        $pretty_prim_currency_worth = $ct['var']->num_pretty($asset_prim_currency_worth_raw, $ct['conf']['gen']['currency_decimals_max']);
             
             
 	   $base_msg = "The " . $label . " address balance has " . $direction . "d: ". $plus_minus . $ct['conf']['power']['bitcoin_currency_markets'][ $ct['conf']['gen']['bitcoin_primary_currency_pair'] ] . $pretty_prim_currency_worth;
@@ -185,7 +208,7 @@ $pair_btc_val = $ct['asset']->pair_btc_val($asset);
         // Get primary currency value of the current address TOTAL balance
         $asset_prim_currency_worth_raw = $ct['var']->num_to_str( ($address_balance * $pair_btc_val) * $sel_opt['sel_btc_prim_currency_val'] );
         
-        $pretty_prim_currency_worth = $ct['var']->num_pretty($asset_prim_currency_worth_raw, ( $asset_prim_currency_worth_raw >= 1.00 ? 2 : $ct['conf']['gen']['currency_decimals_max'] ) );
+        $pretty_prim_currency_worth = $ct['var']->num_pretty($asset_prim_currency_worth_raw, $ct['conf']['gen']['crypto_decimals_max']);
         
         $pretty_asset_amnt = $ct['var']->num_pretty($address_balance, $ct['conf']['gen']['crypto_decimals_max']);
             
