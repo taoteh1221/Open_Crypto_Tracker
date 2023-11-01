@@ -247,12 +247,12 @@ elseif ( $dev_only_configs_mode == 'config-init' ) {
 // Obfuscate these matches in ALL error / debugging logs
 // (so API keys etc never show in logs)
 $ct['dev']['url_obfuscating'] = array(
-                                      // 'url_match' => 'hide_this',
-                                      'etherscan' => $ct['conf']['ext_apis']['etherscan_api_key'],
-                                      'telegram' => $ct['conf']['ext_apis']['telegram_bot_token'],
-                                      'alphavantage' => $ct['conf']['ext_apis']['alphavantage_api_key'],
-                                      'twilio' => $ct['conf']['ext_apis']['twilio_sid'],
-                                      'googleapis' => $ct['conf']['ext_apis']['google_fonts_api_key'],
+                                      // 'hide_this',
+                                      $ct['conf']['ext_apis']['etherscan_api_key'],
+                                      $ct['conf']['ext_apis']['telegram_bot_token'],
+                                      $ct['conf']['ext_apis']['alphavantage_api_key'],
+                                      $ct['conf']['ext_apis']['twilio_sid'],
+                                      $ct['conf']['ext_apis']['google_fonts_api_key'],
                                      );
                                      
                                      

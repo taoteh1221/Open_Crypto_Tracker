@@ -554,12 +554,8 @@ var $ct_array = array();
    // and put in LEFT parenthesis futher down when returning output
    $url = preg_replace("/:\/\//i", ") ", $url);
    
-      foreach( $ct['dev']['url_obfuscating'] as $hide_key => $hide_val ) {
-           
-           if ( preg_match("/" . $hide_key . "/i", $url) ) {
-           $url = str_replace($hide_val, $ct['var']->obfusc_str($hide_val, 2), $url);
-           }
-           
+      foreach( $ct['dev']['url_obfuscating'] as $hide_val ) {
+      $url = str_replace($hide_val, $ct['var']->obfusc_str($hide_val, 2), $url);
       }
    
    // Keep our color-coded logs in the admin UI pretty (SEE NOTES ABOVE)
