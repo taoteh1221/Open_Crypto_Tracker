@@ -116,11 +116,11 @@ $mrkt_val = $ct['var']->num_to_str( $ct['api']->market($mrkt_asset, $mrkt_exchan
 	// If price target met, send a notification...
 	if ( $mrkt_val <= $target_val && $target_direction == 'decrease' || $mrkt_val >= $target_val && $target_direction == 'increase' ) {
          
-     $divide_by = abs($cached_mrkt_val) * 100;
+     $divide_by = abs($cached_mrkt_val);
 
 
          if ( $divide_by > 0 ) {
-         $percent_change = ($mrkt_val - $cached_mrkt_val) / $divide_by;
+         $percent_change = ($mrkt_val - $cached_mrkt_val) / $divide_by * 100;
          $percent_change = number_format( $ct['var']->num_to_str($percent_change) , 2, '.', ','); // Better decimal support
          }
          // Percent change is undefined when the divide by value is 0
