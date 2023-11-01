@@ -41,11 +41,11 @@ $plug_conf[$this_plug]['price_targets'] = array(
 						                    // NO COMMAS ALLOWED IN PRICE, ONLY DECIMALS
 						                    // USE EXCHANGE IDS USED IN CONFIG.PHP				
 										// 'asset-pair-exchange_id = 123.4567',
-										'btc-usd-coinbase = 30800',
-										'eth-btc-binance = 0.055',
+										'btc-usd-kraken = 30800',
+										'eth-btc-kraken = 0.055',
 										'eth-usdt-binance = 1750',
 										'sol-eth-binance = 0.02',
-										'sol-usd-coinbase = 30.65',
+										'sol-usd-kraken = 30.65',
 										'polis-sol-jupiter_ag = 0.00555',
 										'amdstock-usd-alphavantage_stock = 115.50',
 										

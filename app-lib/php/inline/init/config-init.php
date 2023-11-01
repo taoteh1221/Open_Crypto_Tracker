@@ -33,6 +33,10 @@ isset($cached_app_version) && trim($cached_app_version) != '' && trim($cached_ap
 ) {
      
 $app_upgrade_check = true;
+						
+// Flag for UI alerts
+$ui_was_upgraded_alert_data = array( 'run' => 'yes', 'time' => time() );
+$ct['cache']->save_file($ct['base_dir'] . '/cache/events/upgrading/ui_was_upgraded_alert.dat', json_encode($ui_was_upgraded_alert_data, JSON_PRETTY_PRINT) );
 
 // Refresh current app version to flat file (for auto-install/upgrade scripts to easily determine the currently-installed version)
 $ct['cache']->save_file($ct['base_dir'] . '/cache/vars/state-tracking/app_version.dat', $ct['app_version']);
@@ -137,10 +141,6 @@ require_once('app-lib/php/inline/config/config-auto-adjust.php');
 // Load any activated 3RD PARTY classes WITH CONFIGS (MUST RUN AS EARLY AS POSSIBLE AFTER app config auto-adjust)
 require_once('app-lib/php/classes/3rd-party-classes-with-configs-loader.php');
 
-// Developer-only configs
-$dev_only_configs_mode = 'config-init'; // Flag to only run 'config-init' section
-require('developer-config.php');
-
 
 // Essential vars / arrays / inits that can only be dynamically set AFTER config-auto-adjust / 3rd-party-classes-loader...
 
@@ -243,16 +243,6 @@ $secure_256bit_hash = $ct['gen']->rand_hash(32); // 256-bit (32-byte) hash conve
 // Auto-increase time offset on daily background tasks for systems with low core counts
 if ( $ct['system_info']['cpu_threads'] < 4 ) {
 $ct['dev']['tasks_time_offset'] = ceil($ct['dev']['tasks_time_offset'] * 2);
-}
-
-
-// If we have an AlphaVantage UNLIMITED daily requests plan
-// https://www.alphavantage.co/premium/
-if ( $ct['conf']['ext_apis']['alphavantage_per_minute_limit'] > 5 ) {
-$alphavantage_per_day_limit = 0; // Unlimited
-}
-else {
-$alphavantage_per_day_limit = $ct['conf']['ext_apis']['alphavantage_free_plan_daily_limit'];
 }
 
 
@@ -491,9 +481,6 @@ unset($loop);
 // Set "watch only" flag amount (sets portfolio amount one decimal MORE than allowed min value)
 $watch_only_flag_val = preg_replace("/1/", "01", $min_crypto_val_test); // Set to 0.XXXXX01 instead of 0.XXXXX1
         
-
-// Throttled markets (MUST RUN AT END of config-init [AFTER config auto-adjust])
-require_once('app-lib/php/inline/config/throttled-markets-config.php');
 
 // Primary Bitcoin markets (MUST RUN AT END of config-init [AFTER config auto-adjust])
 require_once('app-lib/php/inline/config/primary-bitcoin-markets-config.php');

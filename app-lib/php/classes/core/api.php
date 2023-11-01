@@ -1781,38 +1781,7 @@ var $ct_array = array();
     
     
       elseif ( strtolower($sel_exchange) == 'jupiter_ag' ) {
-          
-        
-            // If not set globally yet (for faster runtime / less API calls),
-            // set the $jupiter_ag_pairs var for jupiter_ag API calls
-            if ( sizeof($jupiter_ag_pairs) == 0 ) {
-                 
-        
-              foreach ( $ct['conf']['assets'] as $markets ) {
-              
-         	         foreach ( $markets['pair'] as $exchange_pairs ) {
-         	            
-         		        if ( isset($exchange_pairs['jupiter_ag']) && $exchange_pairs['jupiter_ag'] != '' ) { // In case user messes up Admin Config, this helps
-         		        
-         		        $jup_pairs = explode('/', $exchange_pairs['jupiter_ag']);
-         		        
-         		        $jupiter_ag_pairs[ $jup_pairs[1] ] .= $jup_pairs[0] . ',';
-         		        
-         		        }
-         	            
-         	         }
-                
-              }
-            
-              
-              foreach ( $jupiter_ag_pairs as $key => $val ) {
-              $jupiter_ag_pairs[$key] = substr($val, 0, -1);
-              }
-            
-            
-            }
-            
-          
+           
       $jup_pairs = explode('/', $mrkt_id);
       
       $url = 'https://price.jup.ag/v4/price?ids=' . $jupiter_ag_pairs[ $jup_pairs[1] ] . '&vsToken=' . $jup_pairs[1];
@@ -1888,28 +1857,6 @@ var $ct_array = array();
     
     
       elseif ( strtolower($sel_exchange) == 'kraken' ) {
-          
-        
-            // If not set globally yet (for faster runtime / less API calls),
-            // set the $kraken_pairs var for kraken API calls
-            if ( $kraken_pairs == null ) {
-        
-              foreach ( $ct['conf']['assets'] as $markets ) {
-              
-    	         foreach ( $markets['pair'] as $exchange_pairs ) {
-    	            
-    		        if ( isset($exchange_pairs['kraken']) && $exchange_pairs['kraken'] != '' ) { // In case user messes up Admin Config, this helps
-    		        $kraken_pairs .= $exchange_pairs['kraken'] . ',';
-    		        }
-    	            
-    	         }
-                
-              }
-    
-            $kraken_pairs = substr($kraken_pairs, 0, -1);
-            
-            }
-            
        
       $url = 'https://api.kraken.com/0/public/Ticker?pair=' . $kraken_pairs;
       
@@ -2334,28 +2281,6 @@ var $ct_array = array();
     
     
       elseif ( strtolower($sel_exchange) == 'upbit' ) {
-          
-        
-            // If not set globally yet (for faster runtime / less API calls),
-            // set the $upbit_pairs var for upbit API calls
-            if ( $upbit_pairs == null ) {
-                
-              foreach ( $ct['conf']['assets'] as $markets ) {
-              
-    	         foreach ( $markets['pair'] as $exchange_pairs ) {
-    	            
-    		        if ( isset($exchange_pairs['upbit']) && $exchange_pairs['upbit'] != '' ) { // In case user messes up Admin Config, this helps
-    		        $upbit_pairs .= $exchange_pairs['upbit'] . ',';
-    		        }
-    	            
-    	         }
-                
-              }
-    
-            $upbit_pairs = substr($upbit_pairs, 0, -1);
-            
-            }
-            
     
       $url = 'https://api.upbit.com/v1/ticker?markets=' . $upbit_pairs;
          
@@ -2678,54 +2603,6 @@ var $ct_array = array();
     
     
       elseif ( stristr( strtolower($sel_exchange) , 'coingecko_') ) {
-          
-            
-            // If not set globally yet (for faster runtime / less API calls),
-            // set the $coingecko_pairs / $coingecko_assets vars for coingecko API calls
-            if ( $coingecko_pairs == null || $coingecko_assets == null ) {
-        
-            $coingecko_pairs = null;
-            $coingecko_assets = null;
-                
-            $check_pairs = array();
-            $check_assets = array();
-            
-                   
-                  foreach ( $ct['conf']['assets'] as $mrkts_conf ) {
-                  
-        	         foreach ( $mrkts_conf['pair'] as $pair_conf ) {
-                  
-            	         foreach ( $pair_conf as $exchange_key => $exchange_val ) {
-            	            
-            		        if ( stristr($exchange_key, 'coingecko_') != false && trim($exchange_val) != '' ) { // In case user messes up Admin Config, this helps
-            		        
-                            $paired_conf = explode('_', strtolower($exchange_key) );
-                            $paired_conf = $paired_conf[1];
-      
-            		           if ( !in_array($paired_conf, $check_pairs) ) {
-            		           $coingecko_pairs .= $paired_conf . ',';
-            		           $check_pairs[] = $paired_conf;
-            		           }
-      
-            		           if ( !in_array($exchange_val, $check_assets) ) {
-            		           $coingecko_assets .= $exchange_val . ',';
-            		           $check_assets[] = $exchange_val;
-            		           }
-            		        
-            		        }
-            	            
-            	         }
-        	         
-        	         }
-                    
-                  }
-            
-            
-             $coingecko_pairs = substr($coingecko_pairs, 0, -1);
-             $coingecko_assets = substr($coingecko_assets, 0, -1);
-             
-             }
-          
 	         
       $url = 'https://api.coingecko.com/api/v3/simple/price?ids=' . $coingecko_assets . '&vs_currencies='.$coingecko_pairs.'&include_24hr_vol=true';
          

@@ -187,7 +187,7 @@ $ct['dev']['no_trade_volume_api_data'] = array(
 							
 
 // TLD-only (Top Level Domain only, NO SUBDOMAINS) for each API service that UN-EFFICIENTLY requires multiple calls (for each market / data set)
-// Used to throttle these market calls a tiny bit (0.15 seconds), so we don't get easily blocked / throttled by external APIs etc
+// Used to throttle these market calls a tiny bit (0.35 seconds), so we don't get easily blocked / throttled by external APIs etc
 // (ANY EXCHANGES LISTED HERE ARE FLAGGED IN THE INTERFACE AS !NOT! RECOMMENDED TO BE USED AS THE PRIMARY CURRENCY MARKET IN THIS APP,
 // AS ON OCCASSION THEY CAN BE !UNRELIABLE! IF HIT WITH TOO MANY SEPARATE API CALLS FOR MULTIPLE COINS / ASSETS)
 // !MUST BE LOWERCASE!

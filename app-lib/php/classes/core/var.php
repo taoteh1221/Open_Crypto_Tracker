@@ -113,7 +113,12 @@ var $ct_array = array();
    $str = str_replace(",", "", $str);
    $str = trim($str);
    
-   return $this->num_to_str($str);
+      if ( is_numeric( $this->num_to_str($str) ) ) {
+      return $this->num_to_str($str);
+      }
+      else {
+      return false;
+      }
    
    }
 
@@ -288,8 +293,16 @@ var $ct_array = array();
         
    global $ct;
    
+   $orig_val = $val;
+   
    // Trim any whitespace off the ends
    $val = trim($val);
+   
+   
+      // If not numeric, return orig value
+      if ( !is_numeric($val) ) {
+      return $orig_val;
+      }
    
    
       // Covert scientific notation to a normal value / string

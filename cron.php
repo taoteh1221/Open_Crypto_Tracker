@@ -87,12 +87,12 @@ $cron_run_lock_file = $ct['base_dir'] . '/cache/events/emulated-cron-lock.dat';
         ///////////////////////////////////////////////////////////////////////////////////////
         // Only run below logic if cron has run for the first time already (for better new install UX)
         ///////////////////////////////////////////////////////////////////////////////////////
-        if ( file_exists($ct['base_dir'] . '/cache/events/cron-first-run.dat') ) {
+        if ( file_exists($ct['base_dir'] . '/cache/events/first_run/cron-first-run.dat') ) {
         
             
             // Only run if charts / alerts has run for the first time already (for better new install UX)
             // #MUST# BE ABOVE CHARTS / ALERTS LOGIC!
-            if ( file_exists($ct['base_dir'] . '/cache/events/charts-first-run.dat') ) {
+            if ( file_exists($ct['base_dir'] . '/cache/events/first_run/charts-first-run.dat') ) {
             
             	// Re-cache RSS feeds for faster UI runtimes later
             	foreach($ct['conf']['news']['feeds'] as $feed_item) {
@@ -129,8 +129,8 @@ $cron_run_lock_file = $ct['base_dir'] . '/cache/events/emulated-cron-lock.dat';
         
         
             // Flag if we have run the first alerts / charts job (for logic to improve speed of first time run of cron tasks, skipping uneeded pre-caching etc)
-            if ( !file_exists($ct['base_dir'] . '/cache/events/charts-first-run.dat') ) {
-            $ct['cache']->save_file($ct['base_dir'] . '/cache/events/charts-first-run.dat', $ct['gen']->time_date_format(false, 'pretty_date_time') );
+            if ( !file_exists($ct['base_dir'] . '/cache/events/first_run/charts-first-run.dat') ) {
+            $ct['cache']->save_file($ct['base_dir'] . '/cache/events/first_run/charts-first-run.dat', $ct['gen']->time_date_format(false, 'pretty_date_time') );
             }
         
         
@@ -336,8 +336,8 @@ $cron_run_lock_file = $ct['base_dir'] . '/cache/events/emulated-cron-lock.dat';
         
         
         // Flag if we have run the first cron job (for logic to improve speed of first time run of cron tasks, skipping uneeded pre-caching etc)
-        if ( !file_exists($ct['base_dir'] . '/cache/events/cron-first-run.dat') ) {
-        $ct['cache']->save_file($ct['base_dir'] . '/cache/events/cron-first-run.dat', $ct['gen']->time_date_format(false, 'pretty_date_time') );
+        if ( !file_exists($ct['base_dir'] . '/cache/events/first_run/cron-first-run.dat') ) {
+        $ct['cache']->save_file($ct['base_dir'] . '/cache/events/first_run/cron-first-run.dat', $ct['gen']->time_date_format(false, 'pretty_date_time') );
         }
         
               

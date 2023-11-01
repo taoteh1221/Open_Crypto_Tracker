@@ -76,10 +76,10 @@
 		
 			// Email / text / alexa notification reminders (if it's been $ct['conf']['comms']['upgrade_alert_reminder'] days since any previous reminder)
 			// With offset, to try keeping daily recurrences at same exact runtime (instead of moving up the runtime daily)
-			if ( $ct['cache']->update_cache($ct['base_dir'] . '/cache/events/upgrade_check_reminder.dat', ( $ct['conf']['comms']['upgrade_alert_reminder'] * 1440 ) + $ct['dev']['tasks_time_offset'] ) == true ) {
+			if ( $ct['cache']->update_cache($ct['base_dir'] . '/cache/events/upgrading/upgrade_check_reminder.dat', ( $ct['conf']['comms']['upgrade_alert_reminder'] * 1440 ) + $ct['dev']['tasks_time_offset'] ) == true ) {
 			
 			
-				if ( file_exists($ct['base_dir'] . '/cache/events/upgrade_check_reminder.dat') ) {
+				if ( file_exists($ct['base_dir'] . '/cache/events/upgrading/upgrade_check_reminder.dat') ) {
 				$another_reminder = 'Reminder: ';
 				}
 				
@@ -131,13 +131,13 @@
 											  'message' => $email_only_with_upgrade_command . $download_link_html . $changelog_link_html
 											  );
 						
-					$ct['cache']->save_file($ct['base_dir'] . '/cache/events/ui_upgrade_alert.dat', json_encode($ui_upgrade_alert_data, JSON_PRETTY_PRINT) );
+					$ct['cache']->save_file($ct['base_dir'] . '/cache/events/upgrading/ui_upgrade_alert.dat', json_encode($ui_upgrade_alert_data, JSON_PRETTY_PRINT) );
 					
 					}
 					
 			
 			// Track upgrade check reminder event occurrence			
-			$ct['cache']->save_file($ct['base_dir'] . '/cache/events/upgrade_check_reminder.dat', $ct['gen']->time_date_format(false, 'pretty_date_time') );
+			$ct['cache']->save_file($ct['base_dir'] . '/cache/events/upgrading/upgrade_check_reminder.dat', $ct['gen']->time_date_format(false, 'pretty_date_time') );
 			
 			} // END sending reminder (NEVER DELETE REMINDER EVENT, FOR UX NOT BUGGING ABOUT UPGRADES MORE THAN DESIRED IN THE SETTINGS)
 			

@@ -1,6 +1,6 @@
 #!/bin/bash
 
-COPYRIGHT_YEARS="2022-2023"
+COPYRIGHT_YEARS="2022-2024"
 
 # Version of this script
 APP_VERSION="1.09.3" # 2023/AUGUST/24TH
@@ -8,7 +8,7 @@ APP_VERSION="1.09.3" # 2023/AUGUST/24TH
 ########################################################################################################################
 ########################################################################################################################
 
-# Copyright 2022-2023 GPLv3, Bluetooth Internet Radio By Mike Kilday: Mike@DragonFrugal.com
+# Copyright 2022-2024 GPLv3, Bluetooth Internet Radio By Mike Kilday: Mike@DragonFrugal.com (leave this copyright / attribution intact in ALL forks / copies!)
 
 # https://github.com/taoteh1221/Bluetooth_Internet_Radio
 
@@ -31,7 +31,7 @@ APP_VERSION="1.09.3" # 2023/AUGUST/24TH
 
 # ~/radio
  
-# Auto-selecting single / multi sub-option examples (MULTI SUB-OPTIONS #MUST# BE IN QUOTES!):
+# Auto-selecting single / multi option examples (MULTI OPTIONS #MUST# BE IN QUOTES!):
  
 # ~/radio "1 y"
 # ~/radio "upgrade y"
@@ -729,7 +729,7 @@ echo "Running normally (displays options to choose from):"
 echo " "
 echo "${green}~/radio${cyan}"
 echo " "
-echo "Auto-selecting single / multi sub-option examples ${red}(MULTI SUB-OPTIONS #MUST# BE IN QUOTES!)${cyan}:"
+echo "Auto-selecting single / multi option examples ${red}(MULTI OPTIONS #MUST# BE IN QUOTES!)${cyan}:"
 echo " "
 echo "${green}~/radio \"1 y\""
 echo "${green}~/radio \"upgrade y\"${cyan}"
@@ -2276,7 +2276,7 @@ select opt in $OPTIONS; do
         elif [ "$opt" = "about_this_app" ]; then
        
         echo "${cyan} "
-        echo "Copyright $COPYRIGHT_YEARS GPLv3, Bluetooth Internet Radio By Mike Kilday: Mike@DragonFrugal.com"
+        echo "Copyright $COPYRIGHT_YEARS GPLv3, Bluetooth Internet Radio By Mike Kilday: Mike@DragonFrugal.com (leave this copyright / attribution intact in ALL forks / copies!)"
         
         echo " "
         echo "Version: ${APP_VERSION}"
@@ -2308,7 +2308,7 @@ select opt in $OPTIONS; do
         echo " "
         echo "${green}~/radio${cyan}"
         echo " "
-        echo "Auto-selecting single / multi sub-option examples ${red}(MULTI SUB-OPTIONS #MUST# BE IN QUOTES!)${cyan}:"
+        echo "Auto-selecting single / multi option examples ${red}(MULTI OPTIONS #MUST# BE IN QUOTES!)${cyan}:"
         echo " "
         echo "${green}~/radio \"1 y\""
         echo "${green}~/radio \"upgrade y\"${cyan}"
