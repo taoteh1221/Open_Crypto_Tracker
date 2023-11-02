@@ -152,7 +152,7 @@ var $ct_array = array();
    
    function subarray_cached_ct_conf_upgrade($conf, $cat_key, $conf_key, $mode) {
    
-   global $ct, $default_ct_conf, $conf_upgraded, $active_plugins_registered;
+   global $ct, $default_ct_conf, $conf_upgraded, $active_plugins_registered, $skipped_plugins_upgrade_check;
                    
                    
         if ( $ct['conf']['power']['debug_mode'] == 'all' || $ct['conf']['power']['debug_mode'] == 'all_telemetry' || $ct['conf']['power']['debug_mode'] == 'conf_telemetry' ) {
@@ -181,10 +181,17 @@ var $ct_array = array();
               // Check $ct['conf']['plug_conf'][$this_plug] (activated plugins)
               // If we haven't registered active plugins yet, AND this is the active plugins config, we have to skip it for now
               // (in this case, we may be repairing a buggy cached config EARLY IN RUNTIME within load_cached_config() [in normal/medium security mode])
-              elseif ( $active_plugins_registered && $cat_key === 'plugins' && $conf_key === 'plugin_status' && in_array($setting_key, $ct['dev']['bundled_plugins']) && $conf[$cat_key][$conf_key][$setting_key] == 'on' ) {
-                   
+              elseif ( $cat_key === 'plugins' && $conf_key === 'plugin_status' && in_array($setting_key, $ct['dev']['bundled_plugins']) && $conf[$cat_key][$conf_key][$setting_key] == 'on' ) {
                    
               $this_plug = $setting_key;
+              
+              
+                   // If we haven't registered active plugins yet,
+                   // flag this to process later and skip for now
+                   if ( !$active_plugins_registered ) {
+                   $skipped_plugins_upgrade_check = true;
+                   continue;
+                   }
                            
                    
                    foreach ( $default_ct_conf['plug_conf'][$this_plug] as $plug_setting_key => $plug_setting_val ) {
@@ -284,9 +291,17 @@ var $ct_array = array();
               // Check $ct['conf']['plug_conf'][$this_plug] (activated plugins)
               // If we haven't registered active plugins yet, AND this is the active plugins config, we have to skip it for now
               // (in this case, we may be repairing a buggy cached config EARLY IN RUNTIME within load_cached_config() [in normal/medium security mode])
-              elseif ( $active_plugins_registered && $cat_key === 'plugins' && $conf_key === 'plugin_status' && in_array($setting_key, $ct['dev']['bundled_plugins']) && $conf[$cat_key][$conf_key][$setting_key] == 'on' ) {
+              elseif ( $cat_key === 'plugins' && $conf_key === 'plugin_status' && in_array($setting_key, $ct['dev']['bundled_plugins']) && $conf[$cat_key][$conf_key][$setting_key] == 'on' ) {
                    
               $this_plug = $setting_key;
+              
+              
+                   // If we haven't registered active plugins yet,
+                   // flag this to process later and skip for now
+                   if ( !$active_plugins_registered ) {
+                   $skipped_plugins_upgrade_check = true;
+                   continue;
+                   }
                    
                    
                    foreach ( $conf['plug_conf'][$this_plug] as $plug_setting_key => $plug_setting_val ) {
@@ -788,7 +803,7 @@ var $ct_array = array();
    // Check to see if we need to upgrade the app config (add new primary vars / remove depreciated primary vars)
    function upgrade_cached_ct_conf($conf=false) {
    
-   global $ct, $check_default_ct_conf, $default_ct_conf, $conf_upgraded, $active_plugins_registered, $subarray_allow_upgrading;
+   global $ct, $check_default_ct_conf, $default_ct_conf, $conf_upgraded, $subarray_allow_upgrading;
    
    // Check that the config is valid / not corrupt FOR FUTURE JSON FILE STORAGE
    $test_conf = json_encode($conf, JSON_PRETTY_PRINT);
@@ -812,9 +827,8 @@ var $ct_array = array();
       foreach ( $default_ct_conf as $cat_key => $cat_val ) {
             
                 
-           // If we haven't registered active plugins yet, AND this is the active plugins config, we have to skip it for now
-           // (in this case, we may be repairing a buggy cached config EARLY IN RUNTIME within load_cached_config() [in normal/medium security mode])
-           if ( !$active_plugins_registered && $cat_key === 'plug_conf' ) { // Uses === for PHPv7.4 support
+           // We don't process anything in 'plug_conf' 
+           if ( $cat_key === 'plug_conf' ) { // Uses === for PHPv7.4 support
            continue;
            }
                   	
@@ -877,9 +891,8 @@ var $ct_array = array();
       foreach ( $conf as $cached_cat_key => $cached_cat_val ) {
             
                 
-           // If we haven't registered active plugins yet, AND this is the active plugins config, we have to skip it for now
-           // (in this case, we may be repairing a buggy cached config EARLY IN RUNTIME within load_cached_config() [in normal/medium security mode])
-           if ( !$active_plugins_registered && $cached_cat_key === 'plug_conf' ) { // Uses === for PHPv7.4 support
+           // We don't process anything in 'plug_conf' 
+           if ( $cached_cat_key === 'plug_conf' ) { // Uses === for PHPv7.4 support
            continue;
            }
                   	
@@ -940,7 +953,7 @@ var $ct_array = array();
    
    function load_cached_config() {
    
-   global $ct, $admin_area_sec_level, $restore_conf_path, $telegram_user_data, $update_config, $reset_config, $app_upgrade_check, $conf_upgraded, $telegram_user_data_path;
+   global $ct, $admin_area_sec_level, $restore_conf_path, $update_config, $reset_config, $app_upgrade_check, $skipped_plugins_upgrade_check, $conf_upgraded;
    
    // Secured cache files
    $files = $ct['gen']->sort_files($ct['base_dir'] . '/cache/secured', 'dat', 'desc');
@@ -970,39 +983,6 @@ var $ct_array = array();
 		
 	
         	}
-        	// REFRESH Telegram user data
-        	elseif ( preg_match("/telegram_user_data_/i", $secured_file) ) {
-          
-          // If we trigger a cached config reset later, we need to delete this telegram data with this file path
-          $telegram_user_data_path = $ct['base_dir'] . '/cache/secured/' . $secured_file;
-        		
-        		
-        		// If we already loaded the newest modified telegram SECURED CACHE config file,
-        		// or we are updating / resetting the cached config
-        		if ( $newest_cached_telegram_user_data == 1 ) {
-        		unlink($ct['base_dir'] . '/cache/secured/' . $secured_file);
-        		}
-        		else {
-        		
-        		$newest_cached_telegram_user_data = 1;
-        		
-        		$cached_telegram_user_data = json_decode( trim( file_get_contents($ct['base_dir'] . '/cache/secured/' . $secured_file) ) , TRUE);
-        			
-        			
-        			// "null" in quotes as the actual value is returned sometimes
-        			if ( $cached_telegram_user_data != false && $cached_telegram_user_data != null && $cached_telegram_user_data != "null" ) {
-        			$telegram_user_data = $cached_telegram_user_data;
-        			}
-        			else {
-        			$ct['gen']->log('conf_error', 'Cached telegram_user_data non-existant or corrupted (refresh will happen automatically)');
-        			unlink($ct['base_dir'] . '/cache/secured/' . $secured_file);
-        			}
-        		
-        		
-        		}
-        	
-        	
-        	}
         	// App config
         	elseif ( preg_match("/ct_conf_/i", $secured_file) ) {
 		
@@ -1030,13 +1010,13 @@ var $ct_array = array();
         			// (which triggers running it through the cached config upgrade mechanism, IF it seems wonky)
         			$ct['conf'] = $cached_ct_conf; 
 
-                        // RUN UPGRADE CHECK MODE IF FLAGGED (AS NOT HIGH SECURITY MODE / IS UI OR CRON RUNTIME)
+                        // RUN UPGRADE CHECK MODE IF FLAGGED (AND *NOT* HIGH SECURITY MODE / *IS* UI OR CRON RUNTIME)
                         // (RUNING IT EARLY HERE HELPS FIX ANY DATA CORRUPTION IN THE CACHED CONFIG, THAT MIGHT CRASH THE RUNTIME AT A LATER POINT!)
         			    if ( $admin_area_sec_level != 'high' && $app_upgrade_check ) {
         			         
         			         if ( $ct['runtime_mode'] == 'ui' || $ct['runtime_mode'] == 'cron' ) {
         			              
-        			         $ct['gen']->log('conf_error', 'CACHED config upgrade check flagged, checking now');
+        			         $ct['gen']->log('conf_error', 'CACHED config upgrade '.( $skipped_plugins_upgrade_check ? 'ACTIVE PLUGINS' : 'MAIN CONFIG' ).' check flagged, checking now');
         			         
         			         $ct['conf'] = $ct['cache']->update_cached_config($ct['conf'], true); 
         			         // !!!!!!!!! DO NOT RESET $app_upgrade_check HERE, AS WE WANT TO SEND THE FLAG INTO queue_config_update() AFTERWARDS,
@@ -1294,7 +1274,7 @@ var $ct_array = array();
 
      $telegram_conf_md5 = md5($ct['conf']['ext_apis']['telegram_your_username'] . $ct['conf']['ext_apis']['telegram_bot_username'] . $ct['conf']['ext_apis']['telegram_bot_name'] . $ct['conf']['ext_apis']['telegram_bot_token']);       
         
-          // Completely reset ALL telegram config data
+          // Completely reset ALL telegram config data IF IT'S BEEN REVISED
           if ( $check_telegram_conf_md5 != $telegram_conf_md5 )  {
           $telegram_user_data = array();
           unlink($telegram_user_data_path); 

@@ -2198,8 +2198,8 @@ var $ct_array = array();
                   
                
                // We also want to set any unset DEFAULT config (for existing plugins ONLY [no need to unset deleted further down])
-               if ( !isset($default_ct_conf['conf']['plugins']['plugin_status'][ $file_info->getFilename() ]) ) {
-               $default_ct_conf['conf']['plugins']['plugin_status'][ $file_info->getFilename() ] = 'off'; // Defaults to off
+               if ( !isset($default_ct_conf['plugins']['plugin_status'][ $file_info->getFilename() ]) ) {
+               $default_ct_conf['plugins']['plugin_status'][ $file_info->getFilename() ] = 'off'; // Defaults to off
                }
                
              

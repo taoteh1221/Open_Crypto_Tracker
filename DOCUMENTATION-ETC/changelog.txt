@@ -6373,6 +6373,8 @@ MIGRATE YOUR EXISTING SETTINGS TO THE NEW FORMAT.
 
 -Added a setting for the alphavantage.co stock exchange API daily FREE LEVEL, to set your DAILY LIMIT lower than the REAL DAILY LIMIT (useful if they lower the limit AGAIN, or you have multiple installs using the same API key)
 
+-Solana SPL tokens (subtokens on the Solana Network) in the asset config are now automatically added as tracking options in the 'address-balance-tracker' plugin, IF A JUPITER AGGREGATOR SOL MARKET IS FOUND
+
 -Obfuscated any crypto addresses added in the 'address-balance-tracker' plugin, from ever showing in any debug / error logging (only shows the first / last 2 characters for privacy)
 
 -Consolidated error / debug logs into one log file, for clarified debugging output (whe debugging is enabled)

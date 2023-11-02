@@ -70,6 +70,8 @@ $admin_render_settings['telegram_bot_username']['is_notes'] = '(WITHOUT the "@" 
 
 $admin_render_settings['telegram_bot_name']['is_password'] = true;
 
+$admin_render_settings['telegram_bot_name']['is_notes'] = '(any name, spaces allowed)';
+
 
 ////////////////////////////////////////////////////////////////////////////////////////////////
 

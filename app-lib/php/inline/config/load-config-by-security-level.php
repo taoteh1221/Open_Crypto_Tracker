@@ -15,7 +15,7 @@
 // (WE PROCESS IT AT THE BOTTOM OF THIS FILE [SAVE IT TO FILE STORAGE])
 if ( $admin_area_sec_level != 'high' && !$reset_config ) {
 $ct['cache']->load_cached_config();
-require_once('app-lib/php/inline/config/after-load-config.php'); // MUST BE IMMEADIATELY AFTER CACHED CONFIG LOADING
+require('app-lib/php/inline/config/after-load-config.php'); // MUST BE IMMEADIATELY AFTER CACHED CONFIG LOADING
 }
 
 
@@ -236,22 +236,24 @@ $ct['admin']->queue_config_update();
 // (MUST be done AFTER registering active plugins / OVERRIDE ANY $update_config)
 if ( $reset_config ) {
 $ct['conf'] = $ct['cache']->update_cached_config(false, false, true); // Reset flag
-require_once('app-lib/php/inline/config/after-load-config.php'); // MUST BE IMMEADIATELY AFTER CACHED CONFIG LOADING
+require('app-lib/php/inline/config/after-load-config.php'); // MUST BE IMMEADIATELY AFTER CACHED CONFIG LOADING
 }
 // Updating cached config (APP OR USER INITIATED...SO THIS CAN BE ANY SECURITY MODE)
 else if ( $update_config ) {
 $ct['conf'] = $ct['cache']->update_cached_config($ct['conf']);
 $update_config = false; // Set back to false IMMEADIATELY, since this is a global var
-require_once('app-lib/php/inline/config/after-load-config.php'); // MUST BE IMMEADIATELY AFTER CACHED CONFIG LOADING
+require('app-lib/php/inline/config/after-load-config.php'); // MUST BE IMMEADIATELY AFTER CACHED CONFIG LOADING
 }
 
 
-// load_cached_config() IN *HIGH* ADMIN SECURITY MODE
+// load_cached_config() IN *HIGH* ADMIN SECURITY MODE, OR FOR A *PLUGINS* UPGRADE CHECK (NOW THAT WE REGISTERED ANY ACTIVE PLUGINS)
 // (MUST be done AFTER registering active plugins / AFTER any $reset_config)
-// (ONLY IF NO $reset_config WAS ALREADY TRIGGERED [IN WHICH CASE WE'D ALREADY HAVE THE CACHED CONFIG LOADED])
-if ( $admin_area_sec_level == 'high' && !$reset_config ) {
+// (ONLY IF NO $reset_config WAS ALREADY TRIGGERED [IN WHICH CASE WE'D ALREADY HAVE THE CACHED CONFIG REFRESHED / LOADED])
+// WE DON'T COMBINE ALL UPGRADE CHECKS HERE, BECAUSE THE EARLIER WE RUN UPGRADES ON THE ***MAIN CONFIG***,
+// THE EARLIER WE CATCH / AUTO-REPAIR OR UPGRADE VALUES THAT PREVENT THE APP FROM CRASHING USING AN OUTDATED / CORRUPT CONFIG
+if ( $skipped_plugins_upgrade_check && !$reset_config || $admin_area_sec_level == 'high' && !$reset_config ) {
 $ct['cache']->load_cached_config();
-require_once('app-lib/php/inline/config/after-load-config.php'); // MUST BE IMMEADIATELY AFTER CACHED CONFIG LOADING
+require('app-lib/php/inline/config/after-load-config.php'); // MUST BE IMMEADIATELY AFTER CACHED CONFIG LOADING
 }
 
 

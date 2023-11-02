@@ -27,6 +27,9 @@ foreach ( $plug_conf[$this_plug]['tracking'] as $target_key => $target_val ) {
 // Clear any previous loop's $cache_reset var
 $cache_reset = false;
 	
+// Cleanup
+$target_val = array_map('trim', $target_val);
+
 $balance_tracking_cache_file = $ct['plug']->alert_cache($target_key . '.dat');
 
 
@@ -36,7 +39,7 @@ $balance_tracking_cache_file = $ct['plug']->alert_cache($target_key . '.dat');
 	}
 
 
-$asset = trim( strtolower($target_val['asset']) );
+$asset = strtolower($target_val['asset']);
 
     if ( stristr($asset, '||') != false ) {
     $sub_asset = explode('||', $asset);
@@ -44,8 +47,8 @@ $asset = trim( strtolower($target_val['asset']) );
     $asset = $sub_asset[1];
     }
 
-$address = trim($target_val['address']);
-$label = trim($target_val['label']);
+$address = $target_val['address'];
+$label = $target_val['label'];
 
 
 // Add the address to the dev setting array 'url_obfuscating'

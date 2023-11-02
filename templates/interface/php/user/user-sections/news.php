@@ -35,7 +35,7 @@
 			
 
 
-	<p style='margin-top: 25px;'><button class="modal_style_control show_feed_settings force_button_style">Select News Feeds</button></p>
+	<p style='margin: 25px;'><button class="modal_style_control show_feed_settings force_button_style">Select News Feeds</button></p>
 	
 	
 	<div class='' id="show_feed_settings">

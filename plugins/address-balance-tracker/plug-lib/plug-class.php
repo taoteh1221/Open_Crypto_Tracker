@@ -26,8 +26,8 @@ var $array1 = array();
 		 
 	global $ct, $this_plug, $plug_conf;
 		
-	// Take into account previous runtime (over start of runtime), and give 3 minutes wiggle room
-	$recache = ( $plug_conf[$this_plug]['alerts_frequency_maximum'] >= 3 ? ($plug_conf[$this_plug]['alerts_frequency_maximum'] + $ct['dev']['tasks_time_offset']) : $plug_conf[$this_plug]['alerts_frequency_maximum'] );
+	// Take into account previous runtime (over start of runtime), and gives wiggle room
+	$recache = $plug_conf[$this_plug]['alerts_frequency_maximum'] + $ct['dev']['tasks_time_offset'];
 		
 	$url = 'https://blockchain.info/rawaddr/' . $address;
 			 
@@ -43,7 +43,7 @@ var $array1 = array();
 			
     	     $ct['gen']->log(
     				'ext_data_error',
-    				'BTC address balance retrieval failed in the "' . $this_plug . '" plugin, no API data received'
+    				'BTC address balance retrieval failed in the "' . $this_plug . '" plugin, no API data received for address: ' . $address
     				);
     	
 		return 'error';
@@ -62,8 +62,8 @@ var $array1 = array();
 		 
 	global $ct, $this_plug, $plug_conf;
 		
-	// Take into account previous runtime (over start of runtime), and give 3 minutes wiggle room
-	$recache = ( $plug_conf[$this_plug]['alerts_frequency_maximum'] >= 3 ? ($plug_conf[$this_plug]['alerts_frequency_maximum'] + $ct['dev']['tasks_time_offset']) : $plug_conf[$this_plug]['alerts_frequency_maximum'] );
+	// Take into account previous runtime (over start of runtime), and gives wiggle room
+	$recache = $plug_conf[$this_plug]['alerts_frequency_maximum'] + $ct['dev']['tasks_time_offset'];
 		
 	$url = 'https://api.etherscan.io/api?module=account&action=balance&address='.$address.'&tag=latest&apikey=' . $ct['conf']['ext_apis']['etherscan_api_key'];
 			 
@@ -79,7 +79,7 @@ var $array1 = array();
 			
     	     $ct['gen']->log(
     				'ext_data_error',
-    				'ETH address balance retrieval failed in the "' . $this_plug . '" plugin, no API data received'
+    				'ETH address balance retrieval failed in the "' . $this_plug . '" plugin, no API data received for address: ' . $address
     				);
     	
 		return 'error';
@@ -98,8 +98,8 @@ var $array1 = array();
 		 
 	global $ct, $this_plug, $plug_conf;
 		
-	// Take into account previous runtime (over start of runtime), and give 3 minutes wiggle room
-	$recache = ( $plug_conf[$this_plug]['alerts_frequency_maximum'] >= 3 ? ($plug_conf[$this_plug]['alerts_frequency_maximum'] + $ct['dev']['tasks_time_offset']) : $plug_conf[$this_plug]['alerts_frequency_maximum'] );
+	// Take into account previous runtime (over start of runtime), and gives wiggle room
+	$recache = $plug_conf[$this_plug]['alerts_frequency_maximum'] + $ct['dev']['tasks_time_offset'];
 	
         
     $headers = array(
@@ -139,7 +139,7 @@ var $array1 = array();
 			
     	     $ct['gen']->log(
     				'ext_data_error',
-    				( $spl_token == false ? 'SOL' : strtoupper($spl_token) ) . ' address balance retrieval failed in the "' . $this_plug . '" plugin, no API data received'
+    				( $spl_token == false ? 'SOL' : strtoupper($spl_token) ) . ' address balance retrieval failed in the "' . $this_plug . '" plugin, no API data received for address: ' . $address
     				);
     	
 		return 'error';
