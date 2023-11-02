@@ -186,6 +186,9 @@ TEST UPGRADING on the previous release, TO ASSURE ANY REQUIRED CACHED CONFIG UPG
 Do a bitcoin timestamp of the final v6.00.29 public release.
 
 
+Hide dev-only plugin settings in the interface, as <input type='hidden' />
+
+
 Add a 24 hour time picker, in the recurring reminder plugin settings interface.
 
 
