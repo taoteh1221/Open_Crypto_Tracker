@@ -42,11 +42,11 @@ $telegram_messaging = new Telegram\Receiver($telegram_bot);
 
 
         // IF THE BOT CHATROOM DATA IS NOT STORED, attempt to refresh it via the telegram API
-        // (ONLY IF RUNTIME MODE IS #NOT# AJAX [as it slows down chart / news feed rendering significantly])
+        // (ONLY IF RUNTIME MODE IS UI / CRON [as this logic isn't compatible with any other runtimes])
         if ( !is_array($telegram_user_data) || is_array($telegram_user_data) && sizeof($telegram_user_data) < 1 ) {
         
         
-            if ( $ct['runtime_mode'] != 'ajax' ) {
+            if ( $ct['runtime_mode'] == 'ui' || $ct['runtime_mode'] == 'cron' ) {
             
             $secure_128bit_hash = $ct['gen']->rand_hash(16); // 128-bit (16-byte) hash converted to hexadecimal, used for suffix
              	

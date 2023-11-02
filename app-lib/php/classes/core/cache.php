@@ -953,7 +953,7 @@ var $ct_array = array();
    
    function load_cached_config() {
    
-   global $ct, $admin_area_sec_level, $restore_conf_path, $telegram_user_data, $update_config, $reset_config, $app_upgrade_check, $skipped_plugins_upgrade_check, $conf_upgraded, $telegram_user_data_path;
+   global $ct, $admin_area_sec_level, $restore_conf_path, $update_config, $reset_config, $app_upgrade_check, $skipped_plugins_upgrade_check, $conf_upgraded;
    
    // Secured cache files
    $files = $ct['gen']->sort_files($ct['base_dir'] . '/cache/secured', 'dat', 'desc');
@@ -982,39 +982,6 @@ var $ct_array = array();
         		}
 		
 	
-        	}
-        	// REFRESH Telegram user data
-        	elseif ( preg_match("/telegram_user_data_/i", $secured_file) ) {
-          
-          // If we trigger a cached config reset later, we need to delete this telegram data with this file path
-          $telegram_user_data_path = $ct['base_dir'] . '/cache/secured/' . $secured_file;
-        		
-        		
-        		// If we already loaded the newest modified telegram SECURED CACHE config file,
-        		// or we are updating / resetting the cached config
-        		if ( $newest_cached_telegram_user_data == 1 ) {
-        		unlink($ct['base_dir'] . '/cache/secured/' . $secured_file);
-        		}
-        		else {
-        		
-        		$newest_cached_telegram_user_data = 1;
-        		
-        		$cached_telegram_user_data = json_decode( trim( file_get_contents($ct['base_dir'] . '/cache/secured/' . $secured_file) ) , TRUE);
-        			
-        			
-        			// "null" in quotes as the actual value is returned sometimes
-        			if ( $cached_telegram_user_data != false && $cached_telegram_user_data != null && $cached_telegram_user_data != "null" ) {
-        			$telegram_user_data = $cached_telegram_user_data;
-        			}
-        			else {
-        			$ct['gen']->log('conf_error', 'Cached telegram_user_data non-existant or corrupted (refresh will happen automatically)');
-        			unlink($ct['base_dir'] . '/cache/secured/' . $secured_file);
-        			}
-        		
-        		
-        		}
-        	
-        	
         	}
         	// App config
         	elseif ( preg_match("/ct_conf_/i", $secured_file) ) {
@@ -1307,7 +1274,7 @@ var $ct_array = array();
 
      $telegram_conf_md5 = md5($ct['conf']['ext_apis']['telegram_your_username'] . $ct['conf']['ext_apis']['telegram_bot_username'] . $ct['conf']['ext_apis']['telegram_bot_name'] . $ct['conf']['ext_apis']['telegram_bot_token']);       
         
-          // Completely reset ALL telegram config data
+          // Completely reset ALL telegram config data IF IT'S BEEN REVISED
           if ( $check_telegram_conf_md5 != $telegram_conf_md5 )  {
           $telegram_user_data = array();
           unlink($telegram_user_data_path); 

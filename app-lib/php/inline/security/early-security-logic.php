@@ -203,6 +203,41 @@ if ( !$is_fast_runtime ) {
      	
      	}
      	
+     	
+        	// Telegram user data
+        	elseif ( preg_match("/telegram_user_data_/i", $secured_file) ) {
+          
+          // If we trigger a cached config reset later, we need to delete this telegram data with this file path
+          $telegram_user_data_path = $ct['base_dir'] . '/cache/secured/' . $secured_file;
+        		
+        		
+        		// If we already loaded the newest modified telegram SECURED CACHE config file,
+        		// or we are updating / resetting the cached config
+        		if ( $newest_cached_telegram_user_data == 1 ) {
+        		unlink($ct['base_dir'] . '/cache/secured/' . $secured_file);
+        		}
+        		else {
+        		
+        		$newest_cached_telegram_user_data = 1;
+        		
+        		$cached_telegram_user_data = json_decode( trim( file_get_contents($ct['base_dir'] . '/cache/secured/' . $secured_file) ) , TRUE);
+        			
+        			
+        			// "null" in quotes as the actual value is returned sometimes
+        			if ( $cached_telegram_user_data != false && $cached_telegram_user_data != null && $cached_telegram_user_data != "null" ) {
+        			$telegram_user_data = $cached_telegram_user_data;
+        			}
+        			else {
+        			$ct['gen']->log('conf_error', 'Cached telegram_user_data non-existant or corrupted (refresh will happen automatically)');
+        			unlink($ct['base_dir'] . '/cache/secured/' . $secured_file);
+        			}
+        		
+        		
+        		}
+        	
+        	
+        	}
+     	
      
      }
      
