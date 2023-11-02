@@ -177,13 +177,13 @@ https://zksync.io/api/v0.1.html (KEEP AN EYE OUT FOR V2 DOCS AS WELL)
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
-Test out the new iframe-reloading HALT mechanism (if a halt was called on updating the cached admin config), AND iframe reloading in general.
+Triple-check adding / removing a plugin subdirectory, in regular AND high security mode, AND with plugin activation on AND off.
 
 
 Test the 'address-balance-tracker' plugin's NEW AUTOMATED SOLANA SPL TOKEN PRIVACY MODE LOGIC.
 
 
-Triple-check adding / removing a plugin subdirectory, in regular AND high security mode, AND with plugin activation on AND off.
+Test out the new iframe-reloading HALT mechanism (if a halt was called on updating the cached admin config), AND iframe reloading in general.
 
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~DO AN APP RELEASE AT THIS POINT IN THIS LIST~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
