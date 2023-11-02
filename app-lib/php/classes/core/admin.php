@@ -271,26 +271,24 @@ var $ct_array = array();
         
         }
         elseif ( $_POST['conf_id'] === 'plug_conf|recurring-reminder' ) { // PHP7.4 NEEDS === HERE INSTEAD OF ==
-		
-        $do_not_disturb_on = explode(':', $_POST['recurring-reminder']['do_not_disturb']['on']);
-		
-        $do_not_disturb_off = explode(':', $_POST['recurring-reminder']['do_not_disturb']['off']);
              
             // Make sure do not disturb on/off is set properly (IF filled in, CAN BE BLANK TO DISABLE)
             
             if (
-            !isset($do_not_disturb_on[0]) || !$ct['var']->whole_int($do_not_disturb_on[0]) || $do_not_disturb_on[0] < 0 || $do_not_disturb_on[0] > 23 
-            || !isset($do_not_disturb_on[1]) || !$ct['var']->whole_int($do_not_disturb_on[1]) || $do_not_disturb_on[1] < 0 || $do_not_disturb_on[1] > 59
+            isset($_POST['recurring-reminder']['do_not_disturb']['on'])
+            && $_POST['recurring-reminder']['do_not_disturb']['on'] != ''
+            && !preg_match('/^([01][0-9]|2[0-3]):([0-5][0-9])$/', $_POST['recurring-reminder']['do_not_disturb']['on'])
             ) {
-            $update_config_error .= '"Do Not Disturb => On" values MUST be between 0:00 and 23:59';
+            $update_config_error .= '"Do Not Disturb => On" value MUST be between 00:00 and 23:59 (ALWAYS TWO DIGIT HOURS AND MINUTES)';
             $error_seperator = '; ';
             }
             
             if (
-            !isset($do_not_disturb_off[0]) || !$ct['var']->whole_int($do_not_disturb_off[0]) || $do_not_disturb_off[0] < 0 || $do_not_disturb_off[0] > 23 
-            || !isset($do_not_disturb_off[1]) || !$ct['var']->whole_int($do_not_disturb_off[1]) || $do_not_disturb_off[1] < 0 || $do_not_disturb_off[1] > 59
+            isset($_POST['recurring-reminder']['do_not_disturb']['off'])
+            && $_POST['recurring-reminder']['do_not_disturb']['off'] != ''
+            && !preg_match('/^([01][0-9]|2[0-3]):([0-5][0-9])$/', $_POST['recurring-reminder']['do_not_disturb']['off'])
             ) {
-            $update_config_error .= $error_seperator . '"Do Not Disturb => Off" values MUST be between 0:00 and 23:59';
+            $update_config_error .= $error_seperator . '"Do Not Disturb => Off" value MUST be between 00:00 and 23:59 (ALWAYS TWO DIGIT HOURS AND MINUTES)';
             }
         
         }
