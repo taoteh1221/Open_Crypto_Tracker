@@ -177,7 +177,7 @@ https://zksync.io/api/v0.1.html (KEEP AN EYE OUT FOR V2 DOCS AS WELL)
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
-Test the 'address-balance-tracker' plugin's NEW AUTOMATED SOLANA SPL TOKEN PRIVACY MODE LOGIC.
+TEST UPGRADING on the previous release, TO ASSURE ANY REQUIRED CACHED CONFIG UPGRADING GOES SMOOTHLY!
 
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~DO AN APP RELEASE AT THIS POINT IN THIS LIST~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

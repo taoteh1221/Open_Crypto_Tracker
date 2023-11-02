@@ -173,7 +173,7 @@ $pair_btc_val = ( $chain == 'sol' ? $ct['asset']->pair_btc_val('sol') : $ct['ass
             
             $sol_btc_val = $pair_btc_val;
             
-            $spl_token_sol_worth_raw = $ct['var']->market( strtoupper($asset), 'jupiter_ag', strtoupper($asset) . '/SOL')['last_trade'];
+            $spl_token_sol_worth_raw = $ct['api']->market( strtoupper($asset), 'jupiter_ag', strtoupper($asset) . '/SOL' )['last_trade'];
             
             $asset_prim_currency_worth_raw = $ct['var']->num_to_str( ( $difference_amnt * ($spl_token_sol_worth_raw * $sol_btc_val) ) * $sel_opt['sel_btc_prim_currency_val'] );
             
