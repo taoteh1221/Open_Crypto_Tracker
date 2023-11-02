@@ -106,14 +106,7 @@ $pair_btc_val = ( $chain == 'sol' ? $ct['asset']->pair_btc_val('sol') : $ct['ass
 	
 	// If we returned 'error' from a detected API error OR no address detected in config, skip this one for now
 	if ( !$address || $address_balance == 'error' ) {
-	    
-	    if ( $address != '' ) {
-         // Obfuscate any addresses in error / debug logs
-         $plug_class[$this_plug]->obfusc_addr($address);
-	    }
-	    
 	continue;
-	
 	}
 
 	
@@ -147,9 +140,6 @@ $pair_btc_val = ( $chain == 'sol' ? $ct['asset']->pair_btc_val('sol') : $ct['ass
 	$new_cache_data = $address . '|' . $address_balance;
 	
 	$ct['cache']->save_file($balance_tracking_cache_file, $new_cache_data);
-	
-     // Obfuscate any addresses in error / debug logs
-     $plug_class[$this_plug]->obfusc_addr($address);
 	
 	// Skip the rest, as this was setting / resetting cache data
 	continue;
@@ -278,11 +268,8 @@ $pair_btc_val = ( $chain == 'sol' ? $ct['asset']->pair_btc_val('sol') : $ct['ass
 	}
 	// END notification
 
+
 $chain = null;
-
-// Obfuscate any addresses in error / debug logs
-$plug_class[$this_plug]->obfusc_addr($address);
-
 
 }
 

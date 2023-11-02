@@ -2197,7 +2197,8 @@ var $ct_array = array();
              ) {
                   
                
-               // We also want to set any unset DEFAULT config (for existing plugins ONLY [no need to unset deleted further down])
+               // We also want to set any unset DEFAULT config
+               // (does NOT need $update_config flag)
                if ( !isset($default_ct_conf['plugins']['plugin_status'][ $file_info->getFilename() ]) ) {
                $default_ct_conf['plugins']['plugin_status'][ $file_info->getFilename() ] = 'off'; // Defaults to off
                }
@@ -2230,6 +2231,7 @@ var $ct_array = array();
       
       
       // Remove any plugins that no longer exist / do not have proper file structure
+      // MAIN CONFIG
       foreach ( $ct['conf']['plugins']['plugin_status'] as $key => $unused ) {
            
            
@@ -2255,6 +2257,21 @@ var $ct_array = array();
 	    
          }
          
+      
+      }
+      
+      
+      // Remove any plugins that no longer exist / do not have proper file structure
+      // DEFAULT CONFIG (does NOT need $update_config flag)
+      foreach ( $default_ct_conf['plugins']['plugin_status'] as $key => $unused ) {
+           
+         if (
+         !file_exists($plugin_base . $key . '/plug-conf.php')
+         || !file_exists($plugin_base . $key . '/plug-lib/plug-init.php')
+         ) {
+         unset($default_ct_conf['plugins']['plugin_status'][$key]);
+	    unset($default_ct_conf['plug_conf'][$key]);
+         }
       
       }
    
