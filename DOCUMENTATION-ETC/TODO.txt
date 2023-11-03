@@ -177,13 +177,7 @@ https://zksync.io/api/v0.1.html (KEEP AN EYE OUT FOR V2 DOCS AS WELL)
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
-Test out the new iframe-reloading HALT mechanism (if a halt was called on updating the cached admin config), AND iframe reloading in general.
-
-
-Test the 'address-balance-tracker' plugin's NEW AUTOMATED SOLANA SPL TOKEN PRIVACY MODE LOGIC.
-
-
-Triple-check adding / removing a plugin subdirectory, in regular AND high security mode, AND with plugin activation on AND off.
+TEST UPGRADING on the previous release, TO ASSURE ANY REQUIRED CACHED CONFIG UPGRADING GOES SMOOTHLY!
 
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~DO AN APP RELEASE AT THIS POINT IN THIS LIST~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -192,10 +186,16 @@ Triple-check adding / removing a plugin subdirectory, in regular AND high securi
 Do a bitcoin timestamp of the final v6.00.29 public release.
 
 
+Hide dev-only plugin settings in the interface, as <input type='hidden' />
+
+
 Add a 24 hour time picker, in the recurring reminder plugin settings interface.
 
 
-We should not "default to" a text input in the admin area, as submitting updated data could corrupt certain settings under these circumstances. We should default to a NON FORM ELEMENT, like a large bright red span, saying that field name. That way we still never miss a setting by accident, and if it shows on the page, it should also DISABLE SUBMITTING THE FORM DATA.
+Add a 'notify' category (on top of 'error' / 'debug'), for app logging.
+
+
+We should not "default to" a text input in the admin area, as submitting updated data could corrupt certain settings under these circumstances. We should default to <input type='hidden' />, BUT ALSO INCLUDE a large bright red span, saying that field name isn't properly configured for the interface. That way we still never miss a setting by accident, and if it shows on the page, it should also DISABLE SUBMITTING THE FORM DATA.
 
 
 Below the config reset button, have an expandable tree list with a checkbox next to each entry (including 'all'), for each config subarray key name, including the plug_conf section. Then users can decide which sections to reset, and which to leave alone.

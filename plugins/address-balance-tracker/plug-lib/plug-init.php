@@ -106,14 +106,7 @@ $pair_btc_val = ( $chain == 'sol' ? $ct['asset']->pair_btc_val('sol') : $ct['ass
 	
 	// If we returned 'error' from a detected API error OR no address detected in config, skip this one for now
 	if ( !$address || $address_balance == 'error' ) {
-	    
-	    if ( $address != '' ) {
-         // Obfuscate any addresses in error / debug logs
-         $plug_class[$this_plug]->obfusc_addr($address);
-	    }
-	    
 	continue;
-	
 	}
 
 	
@@ -148,9 +141,6 @@ $pair_btc_val = ( $chain == 'sol' ? $ct['asset']->pair_btc_val('sol') : $ct['ass
 	
 	$ct['cache']->save_file($balance_tracking_cache_file, $new_cache_data);
 	
-     // Obfuscate any addresses in error / debug logs
-     $plug_class[$this_plug]->obfusc_addr($address);
-	
 	// Skip the rest, as this was setting / resetting cache data
 	continue;
 	
@@ -183,7 +173,7 @@ $pair_btc_val = ( $chain == 'sol' ? $ct['asset']->pair_btc_val('sol') : $ct['ass
             
             $sol_btc_val = $pair_btc_val;
             
-            $spl_token_sol_worth_raw = $ct['var']->market( strtoupper($asset), 'jupiter_ag', strtoupper($asset) . '/SOL')['last_trade'];
+            $spl_token_sol_worth_raw = $ct['api']->market( strtoupper($asset), 'jupiter_ag', strtoupper($asset) . '/SOL' )['last_trade'];
             
             $asset_prim_currency_worth_raw = $ct['var']->num_to_str( ( $difference_amnt * ($spl_token_sol_worth_raw * $sol_btc_val) ) * $sel_opt['sel_btc_prim_currency_val'] );
             
@@ -278,11 +268,8 @@ $pair_btc_val = ( $chain == 'sol' ? $ct['asset']->pair_btc_val('sol') : $ct['ass
 	}
 	// END notification
 
+
 $chain = null;
-
-// Obfuscate any addresses in error / debug logs
-$plug_class[$this_plug]->obfusc_addr($address);
-
 
 }
 

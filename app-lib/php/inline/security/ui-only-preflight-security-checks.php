@@ -313,7 +313,7 @@ $base_url_check = $ct['gen']->base_url(true);
                      
      // Build the different messages, configure comm methods, and send messages
          
-     $log_error_message = 'Domain security check for "' . $base_url_check['checked_url'] . '" FAILED (' . $ct['remote_ip'] . '). POSSIBLE hostname header spoofing attack blocked, exiting app...';
+     $log_error_message = 'Domain security check for "' . $base_url_check['checked_url'] . '" FAILED (originating from ' . $ct['remote_ip'] . '). POSSIBLE hostname header spoofing attack blocked, exiting app...';
                      
      $email_msg = $log_error_message . ' ' . $system_info_summary . "\n\n" . ' Timestamp: ' . $ct['gen']->time_date_format($ct['conf']['gen']['local_time_offset'], 'pretty_time') . '.';
                      

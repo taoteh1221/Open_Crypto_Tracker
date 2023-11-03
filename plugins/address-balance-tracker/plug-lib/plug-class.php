@@ -27,7 +27,9 @@ var $array1 = array();
 	global $ct, $this_plug, $plug_conf;
 		
 	// Take into account previous runtime (over start of runtime), and gives wiggle room
-	$recache = $plug_conf[$this_plug]['alerts_frequency_maximum'] + $ct['dev']['tasks_time_offset'];
+	// (MUST BE minimum value of zero...NEGATIVE VALUES ONLY FLAG CACHE DELETION [RETURNS NO DATA])
+	$calc = ($plug_conf[$this_plug]['alerts_frequency_maximum'] * 60) + $ct['dev']['tasks_time_offset'];
+	$recache = ( $calc >= 0 ? $calc : 0 );
 		
 	$url = 'https://blockchain.info/rawaddr/' . $address;
 			 
@@ -63,7 +65,9 @@ var $array1 = array();
 	global $ct, $this_plug, $plug_conf;
 		
 	// Take into account previous runtime (over start of runtime), and gives wiggle room
-	$recache = $plug_conf[$this_plug]['alerts_frequency_maximum'] + $ct['dev']['tasks_time_offset'];
+	// (MUST BE minimum value of zero...NEGATIVE VALUES ONLY FLAG CACHE DELETION [RETURNS NO DATA])
+	$calc = ($plug_conf[$this_plug]['alerts_frequency_maximum'] * 60) + $ct['dev']['tasks_time_offset'];
+	$recache = ( $calc >= 0 ? $calc : 0 );
 		
 	$url = 'https://api.etherscan.io/api?module=account&action=balance&address='.$address.'&tag=latest&apikey=' . $ct['conf']['ext_apis']['etherscan_api_key'];
 			 
@@ -99,7 +103,9 @@ var $array1 = array();
 	global $ct, $this_plug, $plug_conf;
 		
 	// Take into account previous runtime (over start of runtime), and gives wiggle room
-	$recache = $plug_conf[$this_plug]['alerts_frequency_maximum'] + $ct['dev']['tasks_time_offset'];
+	// (MUST BE minimum value of zero...NEGATIVE VALUES ONLY FLAG CACHE DELETION [RETURNS NO DATA])
+	$calc = ($plug_conf[$this_plug]['alerts_frequency_maximum'] * 60) + $ct['dev']['tasks_time_offset'];
+	$recache = ( $calc >= 0 ? $calc : 0 );
 	
         
     $headers = array(
@@ -148,21 +154,6 @@ var $array1 = array();
 		
 		
 	}
-   
-   
-    ////////////////////////////////////////////////////////
-    ////////////////////////////////////////////////////////
-   
-   
-    function obfusc_addr($address) {
-      
-    global $ct, $log_errors;
-    
-       foreach ( $log_errors as $key => $val ) {
-       $log_errors[$key] = str_replace($address, $ct['var']->obfusc_str($address, 1), $log_errors[$key]);
-       }
-   
-    }
 		
 		
 	////////////////////////////////////////////////////////////////////////////////////////////////

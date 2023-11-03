@@ -165,16 +165,19 @@ $mrkt_val = $ct['var']->num_to_str( $ct['api']->market($mrkt_asset, $mrkt_exchan
    	$mrkt_val_text = $ct['var']->num_pretty($mrkt_val, $thres_dec_market['max_dec'], false, $thres_dec_market['min_dec']);
     
     
-    // Message formatting
+     // Message formatting
+               
+     // UX on stock symbols in alert messages (especially for alexa speaking alerts)
+     $mrkt_asset_text = preg_replace("/stock/i", " STOCK", $mrkt_asset);
 
-	$email_msg = "The " . $mrkt_asset . " price target of " . $target_val_text . " " . strtoupper($mrkt_pair) . " has been met at the " . $ct['gen']->key_to_name($mrkt_exchange) . " exchange, with a " . $percent_change . "% " . $target_direction . " over the past " . $last_cached_time . " in market value to " . $mrkt_val_text . " " . strtoupper($mrkt_pair) . ".";
+	$email_msg = "The " . $mrkt_asset_text . " price target of " . $target_val_text . " " . strtoupper($mrkt_pair) . " has been met at the " . $ct['gen']->key_to_name($mrkt_exchange) . " exchange, with a " . $percent_change . "% " . $target_direction . " over the past " . $last_cached_time . " in market value to " . $mrkt_val_text . " " . strtoupper($mrkt_pair) . ".";
 
 
-	$text_msg = $mrkt_asset . " price target of " . $target_val_text . " " . strtoupper($mrkt_pair) . " met @ " . $ct['gen']->key_to_name($mrkt_exchange) . " (" . $percent_change . "% " . $target_direction . " over " . $last_cached_time . "): " . $mrkt_val_text . " " . strtoupper($mrkt_pair);
+	$text_msg = $mrkt_asset_text . " price target of " . $target_val_text . " " . strtoupper($mrkt_pair) . " met @ " . $ct['gen']->key_to_name($mrkt_exchange) . " (" . $percent_change . "% " . $target_direction . " over " . $last_cached_time . "): " . $mrkt_val_text . " " . strtoupper($mrkt_pair);
               
               
-    // Were're just adding a human-readable timestamp to smart home (audio) alerts
-    $notifyme_msg = $email_msg . ' Timestamp: ' . $ct['gen']->time_date_format($ct['conf']['gen']['local_time_offset'], 'pretty_time') . '.';
+     // Were're just adding a human-readable timestamp to smart home (audio) alerts
+     $notifyme_msg = $email_msg . ' Timestamp: ' . $ct['gen']->time_date_format($ct['conf']['gen']['local_time_offset'], 'pretty_time') . '.';
 
 
   	// Message parameter added for desired comm methods (leave any comm method blank to skip sending via that method)
@@ -182,7 +185,7 @@ $mrkt_val = $ct['var']->num_to_str( $ct['api']->market($mrkt_asset, $mrkt_exchan
   	// Minimize function calls
   	$text_msg = $ct['gen']->detect_unicode($text_msg); 
   				
-    $send_params = array(
+     $send_params = array(
           					'notifyme' => $notifyme_msg,
           					'telegram' => $email_msg,
           					'text' => array(
@@ -190,7 +193,7 @@ $mrkt_val = $ct['var']->num_to_str( $ct['api']->market($mrkt_asset, $mrkt_exchan
           									'charset' => $text_msg['charset']
           									),
           					'email' => array(
-          									'subject' => $mrkt_asset . ' / ' . strtoupper($mrkt_pair) . ' Price Target Alert (' . $target_direction . ')',
+          									'subject' => $mrkt_asset_text . ' / ' . strtoupper($mrkt_pair) . ' Price Target Alert (' . $target_direction . ')',
           									'message' => $email_msg
           									)
           					);

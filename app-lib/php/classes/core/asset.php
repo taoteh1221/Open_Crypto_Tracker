@@ -1944,7 +1944,7 @@ var $ct_array = array();
                                                    ),
                                                     
                                     'email' => array(
-                                                     'subject' => $asset . ' Asset Value '.ucfirst($increase_decrease).' Alert' . ( $whale_alert == 1 ? ' (🐳 WHALE ALERT)' : '' ),
+                                                     'subject' => $asset_text . ' Asset Value '.ucfirst($increase_decrease).' Alert' . ( $whale_alert == 1 ? ' (🐳 WHALE ALERT)' : '' ),
                                                      'message' => ( $whale_alert == 1 ? '🐳 ' : '' ) . $email_msg // Add emoji here, so it's not sent with alexa alerts
                                                     )
                                                        
