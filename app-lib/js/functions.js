@@ -2384,6 +2384,10 @@ range_inputs = document.querySelectorAll('.range-wrap');
      
       rangeField.addEventListener('blur', rangeOnblur);
      
+      rangeField.addEventListener('mouseup', rangeOnblur);
+     
+      rangeField.addEventListener('touchend', rangeOnblur);
+      
       });
 
 

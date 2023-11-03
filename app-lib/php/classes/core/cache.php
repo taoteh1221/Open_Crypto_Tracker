@@ -2723,6 +2723,24 @@ var $ct_array = array();
     $api_time = explode(' ', $api_time);
     $api_time = $api_time[1] + $api_time[0];
     $api_total_time = round( ($api_time - $api_start_time) , 3);
+    
+      
+      // LIVE data debugging telemetry
+      if ( $ct['conf']['power']['debug_mode'] == 'all' || $ct['conf']['power']['debug_mode'] == 'all_telemetry' || $ct['conf']['power']['debug_mode'] == 'ext_data_live_telemetry' ) {
+         
+      // LOG-SAFE VERSION (no post data with API keys etc)
+      $ct['gen']->log(
+        			'ext_data_debug',
+        								
+        			'LIVE request for ' . ( $mode == 'params' ? 'server at ' : 'endpoint at ' ) . $ct['gen']->obfusc_url_data($api_endpoint),
+        								
+        			'requested_from: server (' . $ct['conf']['power']['remote_api_timeout'] . ' second timeout); live_request_time: ' . $api_total_time . ' seconds; mode: ' . $mode . '; received: ' . $data_bytes_ux . '; proxy: ' .( $current_proxy ? $current_proxy : 'none' ) . '; hash_check: ' . $ct['var']->obfusc_str($hash_check, 4) . ';'
+        			);
+        
+      // Log this as the latest response from this data request
+      $this->save_file($ct['base_dir'] . '/cache/logs/debug/external_data/last-response-'.preg_replace("/\./", "_", $endpoint_tld_or_ip).'-'.$hash_check.'.log', $data);
+        
+      }
      
      
       // No data error logging, ONLY IF THIS IS #NOT# A SELF SECURITY TEST
@@ -2798,7 +2816,7 @@ var $ct_array = array();
       
       
       }
-      // Log this latest live data response, 
+      // Scan this latest live data response for POSSIBLE errors, 
       // ONLY IF WE DETECT AN $endpoint_tld_or_ip, AND TTL IS !NOT! ZERO (TTL==0 usually means too many unique requests that would bloat the cache)
       elseif ( isset($data) && isset($endpoint_tld_or_ip) && $endpoint_tld_or_ip != '' && $ttl != 0 ) {
       
@@ -2925,29 +2943,6 @@ var $ct_array = array();
         }
        
        
-       
-        ////////////////////////////////////////////////////////////////
-       
-      
-      
-        // Data debugging telemetry
-        if ( $ct['conf']['power']['debug_mode'] == 'all' || $ct['conf']['power']['debug_mode'] == 'all_telemetry' || $ct['conf']['power']['debug_mode'] == 'ext_data_live_telemetry' ) {
-         
-        // LOG-SAFE VERSION (no post data with API keys etc)
-        $ct['gen']->log(
-        			'ext_data_debug',
-        								
-        			'LIVE request for ' . ( $mode == 'params' ? 'server at ' : 'endpoint at ' ) . $ct['gen']->obfusc_url_data($api_endpoint),
-        								
-        			'requested_from: server (' . $ct['conf']['power']['remote_api_timeout'] . ' second timeout); live_request_time: ' . $api_total_time . ' seconds; mode: ' . $mode . '; received: ' . $data_bytes_ux . '; proxy: ' .( $current_proxy ? $current_proxy : 'none' ) . '; hash_check: ' . $ct['var']->obfusc_str($hash_check, 4) . ';'
-        			);
-        
-        // Log this as the latest response from this data request
-        $this->save_file($ct['base_dir'] . '/cache/logs/debug/external_data/last-response-'.preg_replace("/\./", "_", $endpoint_tld_or_ip).'-'.$hash_check.'.log', $data);
-        
-        }
-       
-       
       }
     
      
@@ -2993,7 +2988,7 @@ var $ct_array = array();
       }
       // NEVER cache proxy checking data, OR TTL == 0
       elseif ( $mode == 'proxy-check' || $ttl == 0 ) {
-      $api_runtime_cache[$hash_check] = null; 
+      unset($api_runtime_cache[$hash_check]); 
       }
      
    
