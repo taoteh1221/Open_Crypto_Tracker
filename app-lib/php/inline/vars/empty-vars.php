@@ -7,8 +7,6 @@
 
 // Initial BLANK arrays
 
-$subarray_allow_upgrading = array();
-
 $admin_render_settings = array();
 
 $repeatable_fields_tracking = array();

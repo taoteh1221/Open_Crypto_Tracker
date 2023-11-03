@@ -158,7 +158,13 @@ gui: {
 		
 		$price_sample_newest = $ct['var']->num_to_str( $ct['var']->delimited_str_sample($chart_data['spot'], ',', 'last') );
 		
-		$price_sample_avg = ( $price_sample_oldest + $price_sample_newest ) / 2;
+		
+		     if ( !is_numeric($price_sample_oldest) || !is_numeric($price_sample_newest) ) {
+		     $price_sample_avg = 100; // Default (when install is new, and no data available yet)
+		     }
+		     else {
+		     $price_sample_avg = ($price_sample_oldest + $price_sample_newest) / 2;
+		     }
 		
 		
 		// Force decimals dynamically

@@ -121,13 +121,16 @@ var $ct_array = array();
    
       // Batched / multiple API calls, if 'marketcap_ranks_max' is greater than 'coingecko_api_batched_maximum'
       if ( $ct['conf']['power']['marketcap_ranks_max'] > $ct['conf']['ext_apis']['coingecko_api_batched_maximum'] ) {
+          
+          // FAILSAFE (< V6.00.29 UPGRADES, IF UPGRADE MECHANISM FAILS FOR WHATEVER REASON)
+          $batched_max = ( $ct['conf']['ext_apis']['coingecko_api_batched_maximum'] > 0 ? $ct['conf']['ext_apis']['coingecko_api_batched_maximum'] : 100 );
       
           $loop = 0;
-          $calls = ceil($ct['conf']['power']['marketcap_ranks_max'] / $ct['conf']['ext_apis']['coingecko_api_batched_maximum']);
+          $calls = ceil($ct['conf']['power']['marketcap_ranks_max'] / $batched_max);
          
           while ( $loop < $calls ) {
          
-          $url = 'https://api.coingecko.com/api/v3/coins/markets?per_page=' . $ct['conf']['ext_apis']['coingecko_api_batched_maximum'] . '&page=' . ($loop + 1) . '&vs_currency=' . $coingecko_prim_currency . '&price_change_percentage=1h,24h,7d,14d,30d,200d,1y';
+          $url = 'https://api.coingecko.com/api/v3/coins/markets?per_page=' . $batched_max . '&page=' . ($loop + 1) . '&vs_currency=' . $coingecko_prim_currency . '&price_change_percentage=1h,24h,7d,14d,30d,200d,1y';
             
               // Wait 6.55 seconds between consecutive calls, to avoid being blocked / throttled by external server
               // (coingecko #ABSOLUTELY HATES# DATA CENTER IPS [DEDICATED / VPS SERVERS], BUT GOES EASY ON RESIDENTIAL IPS)

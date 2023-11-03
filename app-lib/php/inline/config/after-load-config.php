@@ -14,7 +14,7 @@ require_once('app-lib/php/inline/config/batched-api-config.php');
 require_once('app-lib/php/inline/config/throttled-api-config.php');
 
 // Developer-only configs
-$dev_only_configs_mode = 'config-init'; // Flag to only run 'config-init' section
+$dev_only_configs_mode = 'after-load-config'; // Flag to only run 'after-load-config' section
 require('developer-config.php');
 
 
