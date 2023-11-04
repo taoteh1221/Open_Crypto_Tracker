@@ -339,6 +339,25 @@ function charts_loading_check() {
 /////////////////////////////////////////////////////////////
 
 
+// https://stackoverflow.com/questions/1462138/event-listener-for-when-element-becomes-visible
+listen_for_visibility = function(element, callback) {
+  var options = {
+    root: document.documentElement
+  }
+
+  var observer = new IntersectionObserver((entries, observer) => {
+    entries.forEach(entry => {
+      callback(entry.intersectionRatio > 0);
+    });
+  }, options);
+
+  observer.observe(element);
+}
+
+
+/////////////////////////////////////////////////////////////
+
+
 function feeds_loading_check() {
 	
 //console.log('loaded feeds = ' + feeds_loaded.length + ', all feeds = ' + feeds_num);
@@ -1649,7 +1668,7 @@ return_array['steps_total'] = step_array.length - 1; // Offset because of first 
        
            if ( step_array[custom_steps - 1] == prev_val && step_array[custom_steps] != prev_val || step_array[custom_steps] >= elm.value ) {
            elm.value = Number(step_array[custom_steps]);
-           return_array['prev_val'] = step_array[custom_steps];
+           return_array['prev_val'] = Number(step_array[custom_steps]);
            return_array['current_increment'] = custom_steps;
            break; // We found our target, so stop the loop
            }
@@ -1663,7 +1682,7 @@ return_array['steps_total'] = step_array.length - 1; // Offset because of first 
        
            if ( step_array[custom_steps + 1] == prev_val && step_array[custom_steps] != prev_val || step_array[custom_steps] <= elm.value ) {
            elm.value = Number(step_array[custom_steps]);
-           return_array['prev_val'] = step_array[custom_steps];
+           return_array['prev_val'] = Number(step_array[custom_steps]);
            return_array['current_increment'] = custom_steps;
            break; // We found our target, so stop the loop
            }
@@ -2253,7 +2272,7 @@ range_inputs = document.querySelectorAll('.range-wrap');
      rangeValue.style.left = rangeMin.offsetWidth + 4 + 'px';
      
      // INITIAL: Setting of previous value var
-     var prev_value = rangeField.value;
+     var prev_value = Number(rangeField.value);
      
      // INITIAL: If prefix content is a plus symbol, AND THE VALUE IS NEGATIVE, blank it out
      var rangePrefixContent = Number(rangeField.value) < 0 && rangePrefix.textContent == '+' ? '' : rangePrefix.textContent;
@@ -2281,7 +2300,7 @@ range_inputs = document.querySelectorAll('.range-wrap');
               
          
          // MUST be above conditional logic directly below
-         var totalRange = (rangeField.max - rangeField.min);
+         var totalRange = ( Number(rangeField.max) - Number(rangeField.min) );
               
              
              // If flagged as using custom steps (not every step is the same value)
@@ -2293,7 +2312,7 @@ range_inputs = document.querySelectorAll('.range-wrap');
              var customRangingResult = custom_range_steps(rangeField, prev_value);
              
              // MUST BE BELOW custom_range_steps()
-             var rangeIncrease = (rangeField.value - rangeField.min);
+             var rangeIncrease = ( Number(rangeField.value) - Number(rangeField.min) );
              
              var totalSteps = customRangingResult['steps_total'];
              
@@ -2304,7 +2323,7 @@ range_inputs = document.querySelectorAll('.range-wrap');
              }
              // If every step is the same value (regular HTML standards spec)
              else {
-             var rangeIncrease = (rangeField.value - rangeField.min);
+             var rangeIncrease = ( Number(rangeField.value) - Number(rangeField.min) );
              var totalSteps = totalRange / rangeField.step;
              var currentIncrement = rangeIncrease / rangeField.step;
              }
@@ -2318,11 +2337,11 @@ range_inputs = document.querySelectorAll('.range-wrap');
          
          var rawPosition = (rangeField.offsetWidth * percentOfAsDecimal);
          
-         // Use font size as a multiplier (CONFIRMED this centers the tooltip above the range thumb better [AT ANY WIDTHS])
-         var refinedPosition = rawPosition * set_font_size;
+         // Take into account the range min UI value showing on the LEFT of the range field,
+         // and some extra margin / padding that may not be detected
+         var refinedPosition = Math.round( (rawPosition - 5) + (rangeMin.offsetWidth - 5) );
          
-         // Take into account the range min UI value showing on the LEFT of the range field
-         rangeTooltip.style.left = (refinedPosition + rangeMin.offsetWidth) + 'px';
+         rangeTooltip.style.left = refinedPosition + 'px';
          
          // If prefix content is a plus symbol, AND THE VALUE IS NEGATIVE, blank it out
          rangePrefixContent = Number(rangeField.value) < 0 && rangePrefix.textContent == '+' ? '' : rangePrefix.textContent;
@@ -2332,10 +2351,26 @@ range_inputs = document.querySelectorAll('.range-wrap');
      
          // Process some different meta data values (if they exist)
          uiValue = Number(rangeField.value) == 0 && (rangeUiMetaData.textContent).search(/zero_is_/i) != -1 ? ucfirst(metaDataToUi) : uiValue;
-       
+              
          rangeTooltip.innerHTML = `<span>${uiValue}</span>`;
        
          rangeValue.innerHTML = `${uiValue}`;
+         
+         rangeOnfocus;
+         
+            	     
+             // Wait 0.7 seconds before resetting as not recently updated
+             // (so we don't endlessly loop)
+		   setTimeout(function(){
+		   still_updating = false;
+		   }, 700);
+				
+         
+         };
+     
+         
+         // Styling / processing onblur (for UX)
+         var rangeOnfocus = ()=>{
        
          rangeField.style.backgroundColor = '#F7931A';
          
@@ -2346,14 +2381,6 @@ range_inputs = document.querySelectorAll('.range-wrap');
          rangeMin.classList.add("bitcoin");
          rangeValue.classList.add("bitcoin");
          rangeMax.classList.add("bitcoin");
-            	     
-            	     
-             // Wait 0.7 seconds before resetting as not recently updated
-             // (so we don't endlessly loop)
-		   setTimeout(function(){
-		   still_updating = false;
-		   }, 700);
-				
          
          };
      
@@ -2378,11 +2405,24 @@ range_inputs = document.querySelectorAll('.range-wrap');
       
       // Event listeners
       
+           // When page becomes visible, center range value UI element below the slider
+           listen_for_visibility(rangeField, visible => {
+                
+                if ( visible ) {
+                var rangeField = range_wrap.getElementsByClassName('range-field')[0];
+                var rangeMin = range_wrap.getElementsByClassName('range-min')[0];
+                // UI value styling
+                rangeValue.style.width = rangeField.offsetWidth + 'px';
+                rangeValue.style.left = rangeMin.offsetWidth + 4 + 'px';
+                }
+                
+           });
+      
       document.addEventListener("DOMContentLoaded", setValue);
      
       rangeField.addEventListener('input', setValue);
      
-      rangeField.addEventListener('focus', setValue);
+      rangeField.addEventListener('focus', rangeOnfocus);
      
       rangeField.addEventListener('blur', rangeOnblur);
      
