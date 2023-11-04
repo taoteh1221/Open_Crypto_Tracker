@@ -842,7 +842,7 @@ var $ct_array = array();
          
                
                // If category not set yet, or reset on this category is flagged (and it's not the SECOND upgrade check for active registered plugins)
-               if ( !isset($conf[$cat_key]) || in_array($cat_key, $ct['dev']['upgrade_allow_resets']) && !isset($track_resets[$cat_key]) && !$active_plugins_registered ) {
+               if ( !isset($conf[$cat_key]) || in_array($cat_key, $ct['dev']['config_allow_resets']) && !isset($track_resets[$cat_key]) && !$active_plugins_registered ) {
                     
                     if ( !isset($conf[$cat_key]) ) {
                     $desc = 'UPGRADED';
@@ -868,14 +868,14 @@ var $ct_array = array();
                else if ( is_array($conf[$cat_key][$conf_key]) ) {
                     
                     // Uses === for PHPv7.4 support
-                    if ( !in_array($cat_key, $ct['dev']['upgrade_deny_additions']) || $cat_key === 'plugins' && $conf_key === 'plugin_status' ) {
+                    if ( !in_array($cat_key, $ct['dev']['config_deny_additions']) || $cat_key === 'plugins' && $conf_key === 'plugin_status' ) {
                     $conf = $this->subarray_cached_ct_conf_upgrade($conf, $cat_key, $conf_key, 'new');
                     }
                     
                }
                // Uses === / !== for PHPv7.4 support
                else if (
-               !in_array($cat_key, $ct['dev']['upgrade_deny_additions']) && !isset($conf[$cat_key][$conf_key])
+               !in_array($cat_key, $ct['dev']['config_deny_additions']) && !isset($conf[$cat_key][$conf_key])
                || isset($conf[$cat_key][$conf_key]) && $conf[$cat_key][$conf_key] === null && $default_ct_conf[$cat_key][$conf_key] !== null // CHECKING FOR CORRUPTED VALUES
                ) {
                   	
@@ -931,12 +931,12 @@ var $ct_array = array();
                else if ( is_array($default_ct_conf[$cached_cat_key][$cached_conf_key]) ) {
                     
                     // Uses === for PHPv7.4 support
-                    if ( !in_array($cached_cat_key, $ct['dev']['upgrade_deny_removals']) || $cached_cat_key === 'plugins' && $cached_conf_key === 'plugin_status' ) {
+                    if ( !in_array($cached_cat_key, $ct['dev']['config_deny_removals']) || $cached_cat_key === 'plugins' && $cached_conf_key === 'plugin_status' ) {
                     $conf = $this->subarray_cached_ct_conf_upgrade($conf, $cached_cat_key, $cached_conf_key, 'depreciated');
                     }
                     
                }
-               else if ( !in_array($cached_cat_key, $ct['dev']['upgrade_deny_removals']) && !isset($default_ct_conf[$cached_cat_key][$cached_conf_key]) ) {
+               else if ( !in_array($cached_cat_key, $ct['dev']['config_deny_removals']) && !isset($default_ct_conf[$cached_cat_key][$cached_conf_key]) ) {
                   	
                unset($conf[$cached_cat_key][$cached_conf_key]);
                   

@@ -143,17 +143,17 @@ $ct['dev']['captcha_permitted_chars'] = 'ABCDEFHJKMNPRSTUVWXYZ23456789'; // (def
 
 // Config category keys to ALLOW cached config RESETS on (during upgrades)
 // (can manipulate later on, by app version number / user input / etc)
-$ct['dev']['upgrade_allow_resets'] = array();
+$ct['dev']['config_allow_resets'] = array();
 
 
 // Config category keys to DENY cached config settings ADDITIONS on (during upgrades)
 // (can manipulate later on, by app version number / user input / etc)
-$ct['dev']['upgrade_deny_additions'] = array();
+$ct['dev']['config_deny_additions'] = array();
 
 
 // Config category keys to DENY cached config settings REMOVALS on (during upgrades)
 // (can manipulate later on, by app version number / user input / etc)
-$ct['dev']['upgrade_deny_removals'] = array(
+$ct['dev']['config_deny_removals'] = array(
                                         'assets',
                                        );
      
@@ -266,7 +266,7 @@ elseif ( $dev_only_configs_mode == 'config-init-upgrade-check' ) {
      // (as we have added jupiter aggregator markets, that assist tracking Solana (SPL) subtokens crypto address
      // balance's primary currency value (USD / EUR / etc), in the 'address-balance-tracker' plugin [when privacy mode is on])
      if ( $ct['app_version'] == '6.00.29' ) {
-     $ct['dev']['upgrade_allow_resets'][] = 'assets';
+     $ct['dev']['config_allow_resets'][] = 'assets';
      }
      
                                      

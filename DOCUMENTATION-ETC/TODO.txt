@@ -234,9 +234,6 @@ Add a 24 hour time picker, in the recurring reminder plugin settings interface.
 We should not "default to" a text input in the admin area, as submitting updated data could corrupt certain settings under these circumstances. We should default to <input type='hidden' />, BUT ALSO INCLUDE a large bright red span, saying that field name isn't properly configured for the interface. That way we still never miss a setting by accident, and if it shows on the page, it should also DISABLE SUBMITTING THE FORM DATA.
 
 
-Below the config reset button, have an expandable tree list with a checkbox next to each entry (including 'all'), for each config subarray key name, including the plug_conf section. Then users can decide which sections to reset, and which to leave alone.
-
-
 Have an "Export To Slideshow Crypto Ticker" link on the update portfolio page, which saves a JavaScript array of a user's portfolio, that can be 'dropped into' the main directory of Slideshow Crypto Ticker. Output (in ticker app) should be where trade volume usually is (replacing that). Reuse the 'Export portfolio to spreadsheet' logic for this (obviously with somewhat different output to the file). Maybe also auto-add markets (right in the output file, so they do not need to be added seperately into config.js), ONLY IF THEY DON'T EXIST YET IN THE TICKER APP'S CONFIG.JS FILE.
 
 
@@ -511,7 +508,7 @@ For the language translation cache (to avoid asking API for a translation if we 
 HUGE 'TONS OF COOKIE DATA' ISSUE ON SERVERS ALREADY RUNNING #OTHER# WEB APPS (LIKE WORDPRESS) #AT THE SAME TIME / ON SAME DOMAIN# (AS IT CAN GO OVER THE SERVER HEADER LIMIT AND CRASH THE WEB APP LOADING BOTH APP'S COOKIES INTO THE HEADER): Since we already wait for the page to load for initiating batch-grabbing news feeds(?), maybe we can store the user-selected feeds in local storage, since the data set is potentially VERY large (to save alot on cookie header data)? Look over the batch loading logic, and see if we can do it more with JavaScript instead of PHP (except for the ajax calls to the server AFTER we know what was user-chosen). Same should generally go for price charts (as we ALSO load after the page has loaded), so look into that too.
 
 
-An array should be populated with subarray keys a user is ok with upgrading (news feeds, assets, whatever). Additionally, a user should be able to choose whether to: add only new vars, delete only removed vars, or reset their current settings with the latest default one. WE CAN DO THIS BY DYNAMICALLY ADDING / REMOVING CATEGORY KEYS IN $ct['dev']['upgrade_allow_resets'] / $ct['dev']['upgrade_deny_additions'] / $ct['dev']['upgrade_deny_removals'].
+For config RESETS, a user should be able to choose whether to: add only new OPTIONAL (demo) vars, delete only removed OPTIONAL (demo) vars, or reset their current data set with AN EXACT COPY of the latest default OPTIONAL (demo) values. WE CAN DO THIS BY DYNAMICALLY ADDING / REMOVING CATEGORY KEYS IN $ct['dev']['config_allow_resets'] / $ct['dev']['config_deny_additions'] / $ct['dev']['config_deny_removals'] (in developer-config.php). Below the config reset button, have an expandable tree list with a DROP-DOWN MENU next to each entry (including an 'all' field at the top), for each config subarray key name, including the plug_conf section. Then users can decide which sections to reset, and which to leave alone.
 
 
 The 3 sections in each portfolio data row (asset, market, holdings) should each break onto a newline as screen width decreases, that is to say each entire section should remain wholly on one line, at least until very tiny scren sizes.

@@ -2365,13 +2365,13 @@ range_inputs = document.querySelectorAll('.range-wrap');
        
          rangeField.style.backgroundColor = 'lightseagreen';
          
-         rangeMin.classList.toggle("bitcoin");
-         rangeValue.classList.toggle("bitcoin");
-         rangeMax.classList.toggle("bitcoin");
+         rangeMin.classList.remove("bitcoin");
+         rangeValue.classList.remove("bitcoin");
+         rangeMax.classList.remove("bitcoin");
          
-         rangeMin.classList.toggle("light_sea_green");
-         rangeValue.classList.toggle("light_sea_green");
-         rangeMax.classList.toggle("light_sea_green");
+         rangeMin.classList.add("light_sea_green");
+         rangeValue.classList.add("light_sea_green");
+         rangeMax.classList.add("light_sea_green");
          
          };
          
@@ -2382,9 +2382,9 @@ range_inputs = document.querySelectorAll('.range-wrap');
      
       rangeField.addEventListener('input', setValue);
      
-      rangeField.addEventListener('blur', rangeOnblur);
+      rangeField.addEventListener('focus', setValue);
      
-      rangeField.addEventListener('mouseup', rangeOnblur);
+      rangeField.addEventListener('blur', rangeOnblur);
      
       rangeField.addEventListener('touchend', rangeOnblur);
       
