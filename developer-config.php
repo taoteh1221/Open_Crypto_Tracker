@@ -258,6 +258,19 @@ $ct['dev']['script_injection_checks'] = array(
                            
 
 }
+// Runs in /app-lib/php/inline/init/config-init.php, within the logic that runs during upgrade checks
+elseif ( $dev_only_configs_mode == 'config-init-upgrade-check' ) {
+
+
+     // v6.00.29 should RESET the 'assets' cached config category
+     // (as we have added jupiter aggregator markets, that assist tracking Solana (SPL) subtokens crypto address
+     // balance's primary currency value (USD / EUR / etc), in the 'address-balance-tracker' plugin [when privacy mode is on])
+     if ( $ct['app_version'] == '6.00.29' ) {
+     $ct['dev']['upgrade_allow_resets'][] = 'assets';
+     }
+     
+                                     
+}
 // Runs in /app-lib/php/inline/config/after-load-config.php (because user config values are used)
 elseif ( $dev_only_configs_mode == 'after-load-config' ) {
 

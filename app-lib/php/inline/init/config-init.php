@@ -36,12 +36,9 @@ if (
 
 $app_upgrade_check = true;
 
-     // v6.00.29 should RESET the 'assets' cached config category
-     // (as we have added jupiter aggregator markets, that assist tracking Solana (SPL) subtokens crypto address
-     // balance's primary currency value (USD / EUR / etc), in the 'address-balance-tracker' plugin [when privacy mode is on])
-     if ( $ct['app_version'] == '6.00.29' ) {
-     $ct['dev']['upgrade_allow_resets'][] = 'assets';
-     }
+// Developer-only configs
+$dev_only_configs_mode = 'config-init-upgrade-check'; // Flag to only run 'config-init-upgrade-check' section
+require('developer-config.php');
      
 }
 

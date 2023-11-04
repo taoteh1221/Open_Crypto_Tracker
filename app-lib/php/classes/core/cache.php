@@ -213,7 +213,7 @@ var $ct_array = array();
                       $log_val_descr = ( $default_ct_conf['plug_conf'][$this_plug][$plug_setting_key] !== null || $default_ct_conf['plug_conf'][$this_plug][$plug_setting_key] !== false || $default_ct_conf['plug_conf'][$this_plug][$plug_setting_key] === 0 ? $default_ct_conf['plug_conf'][$this_plug][$plug_setting_key] : '[null / false / zero]' );
                    
                       $ct['gen']->log(
-                             			'conf_error',
+                             			'notify_error',
                              			'Outdated app config, upgraded parameter ct[conf][plug_conf][' . $this_plug . '][' . $plug_setting_key . '] imported (default value: ' . $log_val_descr . ')'
                              			);
                    
@@ -243,7 +243,7 @@ var $ct_array = array();
                    $conf_upgraded = true;	
                    
                    $ct['gen']->log(
-                        			'conf_error',
+                        			'notify_error',
                         			'Outdated app config, upgraded PARENT ARRAY parameter ct[conf][' . $cat_key . '][' . $conf_key . '] imported'
                         			);
                    
@@ -265,7 +265,7 @@ var $ct_array = array();
                    $log_val_descr = ( $default_ct_conf[$cat_key][$conf_key][$setting_key] !== null || $default_ct_conf[$cat_key][$conf_key][$setting_key] !== false || $default_ct_conf[$cat_key][$conf_key][$setting_key] === 0 ? $default_ct_conf[$cat_key][$conf_key][$setting_key] : '[null / false / zero]' );
                    
                    $ct['gen']->log(
-                        			'conf_error',
+                        			'notify_error',
                         			'Outdated app config, upgraded parameter ct[conf][' . $cat_key . '][' . $conf_key . '][' . $setting_key . '] imported (default value: ' . $log_val_descr . ')'
                         			);
                    
@@ -317,7 +317,7 @@ var $ct_array = array();
                       $conf_upgraded = true;
                    
                       $ct['gen']->log(
-                             			'conf_error',
+                             			'notify_error',
                              			'Depreciated app config, parameter ct[conf][plug_conf][' . $this_plug . '][' . $plug_setting_key . '] removed'
                              			);
                    
@@ -341,7 +341,7 @@ var $ct_array = array();
                    $conf_upgraded = true;
                    
                    $ct['gen']->log(
-                        			'conf_error',
+                        			'notify_error',
                         			'Depreciated app config, PARENT ARRAY parameter ct[conf][' . $cat_key . '][' . $conf_key . '] removed'
                         			);
                    			
@@ -353,7 +353,7 @@ var $ct_array = array();
                    $conf_upgraded = true;
                    
                    $ct['gen']->log(
-                        			'conf_error',
+                        			'notify_error',
                         			'Depreciated app config, parameter ct[conf][' . $cat_key . '][' . $conf_key . '][' . $setting_key . '] removed'
                         			);
                    			
@@ -860,7 +860,7 @@ var $ct_array = array();
                $conf_upgraded = true;
                   
                $ct['gen']->log(
-                  			'conf_error',
+                  			'notify_error',
                   			$desc . ' app config CATEGORY ct[conf][' . $cat_key . '] imported (default array size: ' . sizeof($default_ct_conf[$cat_key]) . ')'
                   			);
                   
@@ -890,7 +890,7 @@ var $ct_array = array();
                $log_val_descr = ( $default_ct_conf[$cat_key][$conf_key] !== null || $default_ct_conf[$cat_key][$conf_key] !== false || $default_ct_conf[$cat_key][$conf_key] === 0 ? $default_ct_conf[$cat_key][$conf_key] : '[null / false / zero]' );
                   
                $ct['gen']->log(
-                  			'conf_error',
+                  			'notify_error',
                   			'Upgraded app config PARAMETER ct[conf][' . $cat_key . '][' . $conf_key . '] imported (default value: ' . $log_val_descr . ')'
                   			);
                   
@@ -923,7 +923,7 @@ var $ct_array = array();
                $conf_upgraded = true;
                   
                $ct['gen']->log(
-               			'conf_error',
+               			'notify_error',
                			'Depreciated app config CATEGORY ct[conf][' . $cached_cat_key . '] removed'
                   			);
                   
@@ -943,7 +943,7 @@ var $ct_array = array();
                $conf_upgraded = true;
                   
                $ct['gen']->log(
-               			'conf_error',
+               			'notify_error',
                			'Depreciated app config PARAMETER ct[conf][' . $cached_cat_key . '][' . $cached_conf_key . '] removed'
                   			);
                   
@@ -1032,14 +1032,15 @@ var $ct_array = array();
         			         
         			         if ( $ct['runtime_mode'] == 'ui' || $ct['runtime_mode'] == 'cron' ) {
         			              
-        			         $ct['gen']->log('conf_error', 'CACHED config upgrade '.( $skipped_plugins_upgrade_check ? 'ACTIVE PLUGINS' : 'MAIN CONFIG' ).' check flagged, checking now');
+        			         $ct['gen']->log('notify_error', 'CACHED config upgrade '.( $skipped_plugins_upgrade_check ? 'ACTIVE PLUGINS' : 'MAIN CONFIG' ).' check flagged, checking now');
         			         
         			         $ct['conf'] = $ct['cache']->update_cached_config($ct['conf'], true); 
         			         // !!!!!!!!! DO NOT RESET $app_upgrade_check HERE, AS WE WANT TO SEND THE FLAG INTO queue_config_update() AFTERWARDS,
         			         // !!!!!!!!! WHERE IT WILL HALT ANY USER-UPDATING OF THE CACHED CONFIG (UNTIL THE NEXT RUNTIME)
         			         
         			              if ( !$conf_upgraded ) {
-        			              $ct['gen']->log('conf_error', 'CACHED config upgrade check finished running, and did NOT find anything that needed an upgrade');
+        			                   
+        			              $ct['gen']->log('notify_error', 'CACHED config upgrade check finished running, and did NOT find anything that needed an upgrade');
         			              
                                        if ( isset($_POST['upgrade_ct_conf']) ) {
                                        $admin_general_success = 'The app configuration database was checked for upgrades. No upgrades were needed.';
@@ -1102,6 +1103,8 @@ var $ct_array = array();
         }
         
         
+   //$ct['cache']->app_log(); // DEBUGGING
+   
    gc_collect_cycles(); // Clean memory cache
 
    }
@@ -1317,6 +1320,8 @@ var $ct_array = array();
              
      }
      
+     
+   //$ct['cache']->app_log(); // DEBUGGING
 
    // Return $ct['conf']
    return $ct['conf'];
