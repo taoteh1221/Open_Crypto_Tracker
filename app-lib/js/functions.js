@@ -2405,8 +2405,8 @@ range_inputs = document.querySelectorAll('.range-wrap');
       
       // Event listeners
       
-           // When page becomes visible, center range value UI element below the slider
-           listen_for_visibility(rangeField, visible => {
+         // When page becomes visible, center range value UI element below the slider
+         listen_for_visibility(rangeField, visible => {
                 
                 if ( visible ) {
                 var rangeField = range_wrap.getElementsByClassName('range-field')[0];
@@ -2416,7 +2416,7 @@ range_inputs = document.querySelectorAll('.range-wrap');
                 rangeValue.style.left = rangeMin.offsetWidth + 4 + 'px';
                 }
                 
-           });
+         });
       
       document.addEventListener("DOMContentLoaded", setValue);
      
