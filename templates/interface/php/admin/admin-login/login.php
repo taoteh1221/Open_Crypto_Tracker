@@ -175,7 +175,7 @@ if ( !$_POST['submit_login'] || is_array($login_result['error']) && sizeof($logi
   	 <br clear='all' />
   
   
-  	 <div class='align_center' style='display: inline-block; padding-top: 1em;'>
+  	 <div class='align_center' style='display: inline-block;'>
   	 
   	 <p><img id='captcha_image' src='templates/interface/media/images/captcha.php' alt='' title='CAPTCHA image text contrast / maximum angle can be adjusted in Admin Config, within the "Security" section.
 

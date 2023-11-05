@@ -420,6 +420,10 @@ border-radius: 0.9em;
 
 .image_border {
 border-radius: 1.6em;
+}
+
+
+.image_border:not(#captcha_image) {
 margin: 2em;
 }
 
