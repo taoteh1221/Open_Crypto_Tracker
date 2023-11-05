@@ -159,7 +159,7 @@ var $ct_array = array();
                    
                    $ct['gen']->log(
                    			'conf_debug',
-                   			'checking for SUBARRAY ('.$mode.') upgrades'
+                   			'checking for SUBARRAY ('.$mode.') upgrades on: ct[conf][' . $cat_key . '][' . $conf_key . ']'
                    			);
                    			
         }
@@ -223,11 +223,9 @@ var $ct_array = array();
                    
               
               }
-           
-           
               // Check everything else
               // INCLUDES CONDITION TO CHECK FOR CORRUPTED VALUES
-              if (
+              else if (
               !isset($conf[$cat_key][$conf_key])
               || !isset($conf[$cat_key][$conf_key][$setting_key]) || isset($conf[$cat_key][$conf_key][$setting_key]) && $conf[$cat_key][$conf_key][$setting_key] == null && $default_ct_conf[$cat_key][$conf_key][$setting_key] != null
               ) {
@@ -327,11 +325,8 @@ var $ct_array = array();
                    
               
               }
-           
-           
               // Check everything else
-              if ( !isset($default_ct_conf[$cat_key][$conf_key]) || !isset($default_ct_conf[$cat_key][$conf_key][$setting_key]) ) {
-              
+              else if ( !isset($default_ct_conf[$cat_key][$conf_key]) || !isset($default_ct_conf[$cat_key][$conf_key][$setting_key]) ) {
               			
               			
                    if ( !isset($default_ct_conf[$cat_key][$conf_key]) ) {
@@ -868,7 +863,10 @@ var $ct_array = array();
                else if ( is_array($conf[$cat_key][$conf_key]) ) {
                     
                     // Uses === for PHPv7.4 support
-                    if ( !in_array($cat_key, $ct['dev']['config_deny_additions']) || $cat_key === 'plugins' && $conf_key === 'plugin_status' ) {
+                    if (
+                    !in_array($cat_key, $ct['dev']['config_deny_additions']) && !in_array($conf_key, $ct['dev']['config_deny_additions'])
+                    || $cat_key === 'plugins' && $conf_key === 'plugin_status'
+                    ) {
                     $conf = $this->subarray_cached_ct_conf_upgrade($conf, $cat_key, $conf_key, 'new');
                     }
                     
@@ -931,7 +929,10 @@ var $ct_array = array();
                else if ( is_array($default_ct_conf[$cached_cat_key][$cached_conf_key]) ) {
                     
                     // Uses === for PHPv7.4 support
-                    if ( !in_array($cached_cat_key, $ct['dev']['config_deny_removals']) || $cached_cat_key === 'plugins' && $cached_conf_key === 'plugin_status' ) {
+                    if (
+                    !in_array($cached_cat_key, $ct['dev']['config_deny_removals']) && !in_array($cached_conf_key, $ct['dev']['config_deny_removals'])
+                    || $cached_cat_key === 'plugins' && $cached_conf_key === 'plugin_status'
+                    ) {
                     $conf = $this->subarray_cached_ct_conf_upgrade($conf, $cached_cat_key, $cached_conf_key, 'depreciated');
                     }
                     
