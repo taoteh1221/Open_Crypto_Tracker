@@ -825,16 +825,14 @@ var $ct_array = array();
       // Check for new variables, and add them
       $track_resets = array();
       foreach ( $default_ct_conf as $cat_key => $cat_val ) {
-            
+           
                 
            // We don't process anything in 'plug_conf' 
            if ( $cat_key === 'plug_conf' ) { // Uses === for PHPv7.4 support
            continue;
-           }               
-           
-           
+           }   
            // If category not set yet, or reset on this category is flagged (and it's not the SECOND upgrade check for active registered plugins)
-           if ( !isset($conf[$cat_key]) || in_array($cat_key, $ct['dev']['config_allow_resets']) && !isset($track_resets[$cat_key]) && !$active_plugins_registered ) {
+           else if ( !isset($conf[$cat_key]) || in_array($cat_key, $ct['dev']['config_allow_resets']) && !isset($track_resets[$cat_key]) && !$active_plugins_registered ) {
                     
                 if ( !isset($conf[$cat_key]) ) {
                 $desc = 'UPGRADED';
@@ -855,11 +853,14 @@ var $ct_array = array();
                   	       'notify_error',
                   		  $desc . ' app config CATEGORY ct[conf][' . $cat_key . '] imported (default array size: ' . sizeof($default_ct_conf[$cat_key]) . ')'
                   		 );
-                  
+           
+           // Since we just overwrote the ENTIRE category's settings, we can safely skip per-setting checks
+           continue;
+           
            }
                   	
            
-           // Conf keys
+           // Setting keys
            foreach ( $cat_val as $conf_key => $conf_val ) {
          
                
@@ -906,16 +907,14 @@ var $ct_array = array();
          
       // Check for depreciated variables, and remove them
       foreach ( $conf as $cached_cat_key => $cached_cat_val ) {
-            
+           
                 
            // We don't process anything in 'plug_conf' 
            if ( $cached_cat_key === 'plug_conf' ) { // Uses === for PHPv7.4 support
            continue;
            }
-               
-           
            // If category is depreciated
-           if ( !isset($default_ct_conf[$cached_cat_key]) ) {
+           else if ( !isset($default_ct_conf[$cached_cat_key]) ) {
                   	
            unset($conf[$cached_cat_key]);
                   
@@ -925,11 +924,14 @@ var $ct_array = array();
                		  'notify_error',
                		  'Depreciated app config CATEGORY ct[conf][' . $cached_cat_key . '] removed'
                   		 );
-                  
+           
+           // Since we just deleted the ENTIRE category's settings, we can safely skip per-setting checks
+           continue;
+           
            }
                   	
            
-           // Conf keys
+           // Setting keys
            foreach ( $cached_cat_val as $cached_conf_key => $cached_conf_val ) {
          
          
